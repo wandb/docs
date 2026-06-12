@@ -2,18 +2,20 @@
 title: "Evaluation 벤치마크 카탈로그"
 description: >
   LLM Evaluation Jobs를 통해 제공되는 Evaluation 벤치마크를 살펴보세요
+mode: wide
+keywords: ["벤치마크 카탈로그", "task IDs", "Inspect Evals", "OpenAI Scorer", "제한된 Hugging Face 데이터셋"]
 ---
 
 import PreviewLink from '/snippets/ko/_includes/llm-eval-jobs/preview.mdx';
 
 <PreviewLink />
 
-이 페이지에는 [LLM Evaluation Jobs](/ko/models/launch)에서 제공하는 카테고리별 평가 벤치마크가 나열되어 있습니다.
+이 페이지에는 [LLM Evaluation Jobs](/ko/models/launch)를 통해 사용 가능한 Evaluation 벤치마크가 범주별로 정리되어 있습니다. 이 페이지를 사용해 실행할 수 있는 벤치마크를 찾고, 해당 Task ID를 파악하고, 벤치마크에 추가 자격 증명이 필요한지 확인하세요.
 
-특정 벤치마크를 실행하려면 팀 관리자가 필요한 API 키를 [team-scoped secrets](/ko/platform/secrets#add-a-secret)에 추가해야 합니다. 모든 팀 멤버는 평가 작업을 설정할 때 해당 secret을 지정할 수 있습니다.
+일부 벤치마크에는 추가 자격 증명이 필요합니다. 팀 관리자는 팀 멤버가 평가 작업에서 벤치마크를 사용하기 전에 이러한 자격 증명을 [team-scoped secrets](/ko/platform/secrets#add-a-secret)로 추가해야 합니다.
 
-* 벤치마크의 **OpenAI Model Scorer** 열에 `true`가 있으면 해당 벤치마크는 채점에 OpenAI 모델을 사용합니다. 조직 또는 팀 관리자는 OpenAI API 키를 팀 secret으로 추가해야 합니다. 이 요구 사항이 있는 벤치마크로 평가 작업을 설정할 때는 **Scorer API key** 필드에 해당 secret을 설정하세요.
-  * 벤치마크의 **제한된 Hugging Face 데이터셋** 열에 링크가 있으면 해당 벤치마크는 접근이 제한된 Hugging Face 데이터셋에 대한 액세스가 필요합니다. 조직 또는 팀 관리자는 Hugging Face에서 데이터셋에 대한 액세스를 요청하고, Hugging Face 사용자 액세스 토큰을 생성한 다음, 해당 액세스 키로 팀 secret을 구성해야 합니다. 이 요구 사항이 있는 벤치마크를 설정할 때는 **Hugging Face Token** 필드에 해당 secret을 설정하세요.
+* 벤치마크의 **OpenAI Scorer** 열에 `Yes`가 있으면 해당 벤치마크는 채점에 OpenAI 모델을 사용합니다. 조직 또는 팀 관리자는 OpenAI API 키를 팀 secret으로 추가해야 합니다. 이 요구 사항이 있는 벤치마크로 평가 작업을 설정할 때는 **Scorer API key** 필드에 해당 secret을 설정하세요.
+* 벤치마크의 **제한된 HF 데이터셋** 열에 링크가 있으면 해당 벤치마크는 제한된 Hugging Face 데이터셋에 대한 액세스가 필요합니다. 조직 또는 팀 관리자는 Hugging Face에서 해당 데이터셋에 대한 액세스를 요청해야 합니다. 그런 다음 관리자가 Hugging Face 사용자 액세스 토큰을 생성하고, 해당 토큰으로 팀 secret을 구성합니다. 이 요구 사항이 있는 벤치마크를 설정할 때는 **Hugging Face Token** 필드에 해당 secret을 설정하세요.
 
 {/*
     벤치마크 목록: https://github.com/wandb/launch-jobs/blob/main/jobs/inspect_ai_evals/api_model/sample-schema.json 
@@ -26,26 +28,26 @@ import PreviewLink from '/snippets/ko/_includes/llm-eval-jobs/preview.mdx';
 
 과학, 언어, 일반 추론 등 다양한 영역의 사실적 지식을 평가합니다.
 
-| 평가                                                                                            | Task ID             | <div className="!w-[100px]">OpenAI Scorer</div> | 제한된 Hugging Face 데이터셋 | 설명                             |
-| --------------------------------------------------------------------------------------------- | ------------------- | ----------------------------------------------- | ------------------------- | ------------------------------ |
-| [BoolQ](https://github.com/google-research-datasets/boolean-questions)                        | `boolq`             |                                                 |                           | 자연어 질의로 구성된 불리언 예/아니오 질문       |
-| [GPQA Diamond](https://arxiv.org/abs/2311.12022)                                              | `gpqa_diamond`      |                                                 |                           | 대학원 수준의 과학 문제(가장 품질이 높은 하위 집합) |
-| [HLE](https://arxiv.org/abs/2501.14249)                                                       | `hle`               |                                                 | 예                         | 인간 수준 평가 벤치마크                  |
-| [Lingoly](https://arxiv.org/abs/2406.06196)                                                   | `lingoly`           |                                                 | 예                         | 언어학 올림피아드 문제                   |
-| [Lingoly Too](https://arxiv.org/abs/2503.02972)                                               | `lingoly_too`       |                                                 | 예                         | 확장된 언어학 챌린지 문제                 |
-| [MMIU](https://arxiv.org/abs/2408.02718)                                                      | `mmiu`              |                                                 |                           | 대규모 멀티태스크 언어 이해 벤치마크           |
-| [MMLU (0-shot)](https://github.com/hendrycks/test)                                            | `mmlu_0_shot`       |                                                 |                           | 예시 없는 대규모 멀티태스크 언어 이해          |
-| [MMLU (5-shot)](https://github.com/hendrycks/test)                                            | `mmlu_5_shot`       |                                                 |                           | 예시 5개가 포함된 대규모 멀티태스크 언어 이해     |
-| [MMLU-Pro](https://arxiv.org/abs/2406.01574)                                                  | `mmlu_pro`          |                                                 |                           | MMLU의 더 어려운 버전                 |
-| [ONET M6](https://github.com/UKGovernmentBEIS/inspect_evals/tree/main/src/inspect_evals/onet) | `onet_m6`           |                                                 |                           | 직무 지식 벤치마크                     |
-| [PAWS](https://github.com/google-research-datasets/paws)                                      | `paws`              |                                                 |                           | 적대적 단어 치환 기반 패러프레이즈            |
-| [SevenLLM MCQ (English)](https://arxiv.org/abs/2405.03446)                                    | `sevenllm_mcq_en`   |                                                 |                           | 영어 객관식 문제                      |
-| [SevenLLM MCQ (Chinese)](https://arxiv.org/abs/2405.03446)                                    | `sevenllm_mcq_zh`   |                                                 |                           | 중국어 객관식 문제                     |
-| [SevenLLM QA (English)](https://arxiv.org/abs/2405.03446)                                     | `sevenllm_qa_en`    |                                                 |                           | 영어 질의응답                        |
-| [SevenLLM QA (Chinese)](https://arxiv.org/abs/2405.03446)                                     | `sevenllm_qa_zh`    |                                                 |                           | 중국어 질의응답                       |
-| [SimpleQA](https://openai.com/index/introducing-simpleqa/)                                    | `simpleqa`          | 예                                               |                           | 단순한 사실 기반 질의응답                 |
-| [SimpleQA Verified](https://openai.com/index/introducing-simpleqa/)                           | `simpleqa_verified` |                                                 |                           | 검증된 답변이 포함된 SimpleQA의 검증 하위 집합 |
-| [WorldSense](https://github.com/facebookresearch/worldsense)                                  | `worldsense`        |                                                 |                           | 세계 지식과 상식에 대한 이해를 평가           |
+| 평가                                                                                            | Task ID             | <div className="!w-[100px]">OpenAI Scorer</div> | 제한된 HF 데이터셋 | 설명                             |
+| --------------------------------------------------------------------------------------------- | ------------------- | ----------------------------------------------- | ----------- | ------------------------------ |
+| [BoolQ](https://github.com/google-research-datasets/boolean-questions)                        | `boolq`             |                                                 |             | 자연어 질의로 구성된 불리언 예/아니오 질문       |
+| [GPQA Diamond](https://arxiv.org/abs/2311.12022)                                              | `gpqa_diamond`      |                                                 |             | 대학원 수준의 과학 문제(가장 품질이 높은 하위 집합) |
+| [HLE](https://arxiv.org/abs/2501.14249)                                                       | `hle`               |                                                 | 예           | 인간 수준 평가 벤치마크                  |
+| [Lingoly](https://arxiv.org/abs/2406.06196)                                                   | `lingoly`           |                                                 | 예           | 언어학 올림피아드 문제                   |
+| [Lingoly Too](https://arxiv.org/abs/2503.02972)                                               | `lingoly_too`       |                                                 | 예           | 확장된 언어학 챌린지 문제                 |
+| [MMIU](https://arxiv.org/abs/2408.02718)                                                      | `mmiu`              |                                                 |             | 대규모 멀티태스크 언어 이해 벤치마크           |
+| [MMLU (0-shot)](https://github.com/hendrycks/test)                                            | `mmlu_0_shot`       |                                                 |             | 예시 없는 대규모 멀티태스크 언어 이해          |
+| [MMLU (5-shot)](https://github.com/hendrycks/test)                                            | `mmlu_5_shot`       |                                                 |             | 예시 5개가 포함된 대규모 멀티태스크 언어 이해     |
+| [MMLU-Pro](https://arxiv.org/abs/2406.01574)                                                  | `mmlu_pro`          |                                                 |             | MMLU의 더 어려운 버전                 |
+| [ONET M6](https://github.com/UKGovernmentBEIS/inspect_evals/tree/main/src/inspect_evals/onet) | `onet_m6`           |                                                 |             | 직무 지식 벤치마크                     |
+| [PAWS](https://github.com/google-research-datasets/paws)                                      | `paws`              |                                                 |             | 적대적 단어 치환 기반 패러프레이즈            |
+| [SevenLLM MCQ (English)](https://arxiv.org/abs/2405.03446)                                    | `sevenllm_mcq_en`   |                                                 |             | 영어 객관식 문제                      |
+| [SevenLLM MCQ (Chinese)](https://arxiv.org/abs/2405.03446)                                    | `sevenllm_mcq_zh`   |                                                 |             | 중국어 객관식 문제                     |
+| [SevenLLM QA (English)](https://arxiv.org/abs/2405.03446)                                     | `sevenllm_qa_en`    |                                                 |             | 영어 질의응답                        |
+| [SevenLLM QA (Chinese)](https://arxiv.org/abs/2405.03446)                                     | `sevenllm_qa_zh`    |                                                 |             | 중국어 질의응답                       |
+| [SimpleQA](https://openai.com/index/introducing-simpleqa/)                                    | `simpleqa`          | 예                                               |             | 단순한 사실 기반 질의응답                 |
+| [SimpleQA Verified](https://openai.com/index/introducing-simpleqa/)                           | `simpleqa_verified` |                                                 |             | 검증된 답변이 포함된 SimpleQA의 검증 하위 집합 |
+| [WorldSense](https://github.com/facebookresearch/worldsense)                                  | `worldsense`        |                                                 |             | 세계 지식과 상식에 대한 이해를 평가           |
 
 <div id="reasoning">
   ## 추론

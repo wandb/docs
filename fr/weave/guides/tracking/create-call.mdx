@@ -1,17 +1,24 @@
 ---
 title: "Tracez votre code"
-description: "Instrumentez votre code en cours d’exécution afin que celle-ci apparaisse sous forme de traces détaillées dans W&B Weave."
+description: "Instrumentez votre code en cours d’exécution afin que son exécution apparaisse sous forme de traces détaillées dans W&B Weave."
+keywords: ["weave.op", "Suivi des appels", "Traçage LLM", "ThreadPoolExecutor", "patching automatique"]
 ---
 
-Pour afficher votre code en cours d’exécution sous forme de traces détaillées dans Weave, créez des appels. Vous pouvez procéder de trois façons principales :
+Ce guide vous montre comment instrumenter votre application afin que son exécution apparaisse sous forme de traces détaillées dans W&amp;B Weave. Les traces vous aident à déboguer, évaluer et surveiller le code basé sur des LLM en capturant les entrées, les sorties et la structure de chaque opération sous forme d’Appel.
 
-<div id="1-automatic-tracking-of-llm-library-calls">
-  ## 1. Suivi automatique des appels de bibliothèques LLM
+Pour voir votre code en cours d’exécution sous forme de traces détaillées dans Weave, créez des Appels. Les sections suivantes décrivent les trois principales façons de procéder, de la plus automatisée à la plus manuelle :
+
+* Suivi automatique des appels de bibliothèques LLM.
+* Suivi des fonctions personnalisées avec `weave.op`.
+* Suivi manuel des Appels directement à l’aide de l’API.
+
+Choisissez l’approche qui correspond au niveau de contrôle dont vous avez besoin sur les éléments à tracer.
+
+<div id="automatic-tracking-of-llm-library-calls">
+  ## Suivi automatique des appels aux bibliothèques LLM
 </div>
 
-Weave s’intègre automatiquement à de nombreuses intégrations et frameworks courants, comme `openai`, `anthropic`, `cohere`, `mistral` et `LangChain`.
-Importez la bibliothèque LLM ou le framework, initialisez votre projet Weave, puis Weave trace automatiquement tous les appels effectués vers le LLM ou la plateforme dans votre projet,
-sans aucune modification de code supplémentaire. Pour obtenir la liste complète des intégrations de bibliothèques prises en charge, voir [Aperçu des intégrations](/fr/weave/guides/integrations/).
+Weave s’intègre automatiquement à de nombreuses bibliothèques et frameworks courants, tels que `openai`, `anthropic`, `cohere`, `mistral` et `LangChain`. Importez la bibliothèque LLM ou le framework, puis initialisez votre projet Weave. Weave trace ensuite automatiquement tous les appels adressés au LLM ou à la plateforme dans votre projet, sans nécessiter de modification de code supplémentaire. Pour obtenir la liste complète des intégrations de bibliothèques prises en charge, voir [Aperçu des intégrations](/fr/weave/guides/integrations/).
 
 <Tabs>
   <Tab title="Python">
@@ -63,17 +70,17 @@ sans aucune modification de code supplémentaire. Pour obtenir la liste complèt
     });
     ```
 
-    Pour obtenir un guide complet de configuration pour les projets JS / TS, voir le [SDK TypeScript : guide d’intégration tierce](/fr/weave/guides/integrations/js).
+    Pour obtenir un guide complet de configuration pour les projets JavaScript et TypeScript, voir le [SDK TypeScript : guide d’intégration de bibliothèques tierces](/fr/weave/guides/integrations/js).
   </Tab>
 </Tabs>
 
 Si vous souhaitez mieux contrôler le comportement automatique, voir [Configurer le suivi automatique des appels LLM](/fr/weave/guides/integrations/autopatching).
 
-<div id="2-tracking-of-custom-functions">
-  ## 2. Suivi des fonctions personnalisées
+<div id="track-custom-functions">
+  ## Suivi des fonctions personnalisées
 </div>
 
-Les applications LLM comportent souvent une logique supplémentaire (comme le prétraitement/post-traitement, les prompts, etc.) que vous souhaitez suivre.
+Les applications LLM comportent souvent une logique supplémentaire (comme le prétraitement/post-traitement, les prompts, etc.) que vous souhaitez suivre. Utilisez cette approche lorsque vous souhaitez que Weave capture vos propres fonctions en plus des appels LLM qu’il trace automatiquement.
 
 <Tabs>
   <Tab title="Python">
@@ -82,10 +89,10 @@ Les applications LLM comportent souvent une logique supplémentaire (comme le pr
     ```python lines
     import weave
 
-    # Initialiser Weave Tracing
+    # initialiser Weave Tracing
     weave.init('intro-example')
 
-    # Décorer votre fonction
+    # Décorez votre fonction
     @weave.op
     def my_function(name: str):
         return f"Hello, {name}!"
@@ -138,14 +145,14 @@ Les applications LLM comportent souvent une logique supplémentaire (comme le pr
   ### Suivre les méthodes de classe et d’instance
 </div>
 
-Vous pouvez également suivre les méthodes de classe et d’instance. Vous pouvez suivre n’importe quelle méthode d’une classe en la décorant avec `weave.op`.
+En plus des fonctions autonomes, vous pouvez également suivre les méthodes de classe et d’instance. Vous pouvez suivre n’importe quelle méthode d’une classe en la décorant avec `weave.op`.
 
 <Tabs>
   <Tab title="Python">
     ```python lines
     import weave
 
-    # Initialiser Weave Tracing
+    # initialiser Weave Tracing
     weave.init("intro-example")
 
     class MyClass:
@@ -199,7 +206,7 @@ Vous pouvez également suivre les méthodes de classe et d’instance. Vous pouv
   ### Tracer des appels de fonction parallèles (multithread)
 </div>
 
-Par défaut, les appels parallèles apparaissent tous dans Weave comme des appels racine distincts. Pour obtenir un imbriquement correct sous le même op parent, utilisez un `ThreadPoolExecutor`.
+Par défaut, les appels parallèles apparaissent tous dans Weave comme des appels racine distincts, ce qui rend la hiérarchie de trace difficile à suivre. Pour obtenir un imbriquement correct sous le même op parent, utilisez un `ThreadPoolExecutor`.
 
 <Tabs>
   <Tab title="Python">
@@ -226,21 +233,21 @@ Par défaut, les appels parallèles apparaissent tous dans Weave comme des appel
   </Tab>
 
   <Tab title="TypeScript">
-    ```plaintext
+    ```text
     Cette fonctionnalité n'est pas encore disponible dans le SDK TypeScript.
     ```
   </Tab>
 </Tabs>
 
-Dans la Weave UI, cela produit un seul appel parent avec cinq appels enfants imbriqués, ce qui vous permet d&#39;obtenir une trace entièrement hiérarchisée, même si les opérations d&#39;incrémentation s&#39;exécutent en parallèle.
+Dans la Weave UI, cela produit un seul appel parent avec cinq appels enfants imbriqués. Vous obtenez une trace entièrement hiérarchisée, même si les opérations d&#39;incrémentation s&#39;exécutent en parallèle.
 
 ![La Trace UI, montrant un seul appel parent pour outer, avec cinq appels enfants imbriqués.](/weave/guides/tracking/imgs/threadpoolexecutor.png)
 
-<div id="3-manual-call-tracking">
-  ## 3. Suivi manuel des appels
+<div id="manual-call-tracking">
+  ## Suivi manuel des appels
 </div>
 
-Vous pouvez également créer manuellement des appels directement via l&#39;API.
+Si ni l’intégration automatique ni le décorateur `weave.op` ne conviennent à votre flux de travail, vous pouvez créer manuellement des appels directement via l’API. Cette approche vous donne un contrôle complet sur le moment où un appel commence et se termine, au prix de davantage de code standard.
 
 <Tabs>
   <Tab title="Python">
@@ -254,7 +261,7 @@ Vous pouvez également créer manuellement des appels directement via l&#39;API.
         # Démarrer un appel
         call = client.create_call(op="my_function", inputs={"name": name})
 
-        # ... code de votre fonction ...
+        # ... le code de votre fonction ...
 
         # Terminer un appel
         client.finish_call(call, output="Hello, World!")
@@ -265,7 +272,7 @@ Vous pouvez également créer manuellement des appels directement via l&#39;API.
   </Tab>
 
   <Tab title="TypeScript">
-    ```plaintext
+    ```text
     Cette fonctionnalité n'est pas encore disponible dans le SDK TypeScript.
     ```
   </Tab>

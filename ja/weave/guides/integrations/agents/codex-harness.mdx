@@ -1,0 +1,203 @@
+---
+title: Codex プラグイン
+description: W&B Weave で、Codex のエージェント セッション、LLM Call、ツール実行をトレースします。
+keywords: ["OpenAI Codex", "OTEL", "agent tracing", "Stop フック", "rollout"]
+---
+
+import AgentsPreview from '/snippets/ja/_includes/agents-public-preview.mdx';
+
+<AgentsPreview />
+
+Weave Codex プラグインは、Codex の各ターンを自動的にトレースし、その構造化データを W&amp;B Weave に送信します。Codex のワークフローを変更することなく、すべてのモデル呼び出し、ツール実行、推論ステップがログされます。これらのトレースを使用して、セッションのデバッグ、ツール使用状況の監査、Runs 全体のコストとレイテンシの監視を行えます。
+
+このプラグインは、Codex 自身のロールアウトセッションファイル (`~/.codex/sessions/**/rollout-*.jsonl`) を読み取り、スパンを再構築します。fire-and-forget の Stop フック を通じて Codex のクリティカルパスとは完全に切り離して実行されるため、Codex がネットワークを待つことはありません。
+
+<Warning>
+  デフォルトでは、このプラグインはスパンの内容、つまりプロンプト、モデルの応答と推論、ツール呼び出しの引数、ツールの結果を取得します。ツールの結果には、シェルコマンド、コマンド出力、file の内容が含まれます。このデータは、お使いの Weave インスタンスに送信されます。
+
+  PII のスクラビングや機密データのマスクは実装されていません。構造、トークン使用量、モデル、タイミングのみを送信し、プロンプト、コード、出力を送信しないようにするには、`WEAVE_CODEX_CAPTURE_CONTENT=0` を設定してください。セキュリティまたはコンプライアンス要件上、このデータを Weave に送信できない場合は、このプラグインをインストールしないでください。
+</Warning>
+
+<div id="prerequisites">
+  ## 前提条件
+</div>
+
+* [Node.js](https://nodejs.org/) v20 以降。
+* hooks システムを備えた [OpenAI Codex CLI](https://github.com/openai/codex) 。
+* `WANDB_API_KEY` 環境変数として設定した [APIキー](https://wandb.ai/authorize) を持つ W&amp;B アカウント。
+* トレースの送信先となる Weave project (`[YOUR-TEAM]/[YOUR-PROJECT]`) 。
+
+<div id="install-the-plugin">
+  ## プラグインをインストールする
+</div>
+
+<Steps>
+  <Step title="パッケージをインストールします">
+    ```bash lines
+    npm install -g weave-codex
+    ```
+  </Step>
+
+  <Step title="認証情報と project を設定します">
+    ```bash lines
+    wandb login
+    export WEAVE_PROJECT="YOUR-TEAM/YOUR-PROJECT"
+    ```
+
+    `wandb login` を使う代わりに、`WANDB_API_KEY` を環境変数として直接設定することもできます。優先順位の詳細なルールについては、[認証情報の解決順序](#credential-resolution-order)を参照してください。
+  </Step>
+
+  <Step title="Stop フック をインストールします">
+    ```bash lines
+    weave-codex install
+    ```
+
+    これにより、Stop フック が `~/.codex/hooks.json` に追加されます。このフックは、Codex の各ターンが完了するたびにデタッチされたワーカーを起動し、セッションごとのカーソル以降の新しいロールアウト行を読み取り、スパン を再構築して Weave にエクスポートします。
+  </Step>
+
+  <Step title="Codex でフック を承認します">
+    Codex は新しく追加された フック を未信頼としてマークし、承認するまで実行しません。次回 `codex` を起動したときにプロンプトが表示されたら、`weave-codex` フック を承認してください。
+
+    または、`~/.codex/config.toml` で `bypass_hook_trust = true` を設定して、プロンプトをスキップすることもできます。
+
+    `weave-codex status` を実行して、すべてが正しく設定されていることを確認してください。
+  </Step>
+</Steps>
+
+これで Codex を通常どおり実行でき、完了した各ターンが約 1 秒以内に Weave に表示されます。
+
+<div id="view-codex-traces-in-weave">
+  ## Weave で Codex トレースを表示する
+</div>
+
+少なくとも 1 つの Codex セッションを実行したら、Weave UI で project を開きます。
+
+1. [https://wandb.ai](https://wandb.ai) にアクセスし、project を選択します。
+2. サイドバーで、複数ターンのチャットビューとエージェントごとのバージョンのグループ化を表示するには **Agents** を、生のスパンツリーを表示するには **Traces** を選択します。
+3. 会話を選択して、ターン階層全体を確認します。
+
+Agents ビューの詳細については、[エージェントのアクティビティを表示する](/ja/weave/guides/tracking/view-agent-activity) を参照してください。
+
+このプラグインは、[GenAI semantic conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/) に従って、Codex の各ターンについて 1 つの OTEL トレースを出力します。
+
+| スパン                   | 出力タイミング        | 主要な属性                                                                                                    |
+| --------------------- | -------------- | -------------------------------------------------------------------------------------------------------- |
+| `invoke_agent codex`  | ターンごと (ルートスパン) | エージェント名またはバージョン、`gen_ai.conversation.id`、モデル、合計 token 使用量、ユーザープロンプトと最終回答 (コンテンツ取得がオンの場合)                 |
+| `chat <model>`        | モデル Call ごと    | `gen_ai.usage.*` (入力、出力、キャッシュ済み、推論 token) 、終了理由、`server.address`、アシスタント出力 (コンテンツ取得がオンの場合)                |
+| `execute_tool <name>` | ツール実行ごと        | `gen_ai.tool.name`、`gen_ai.tool.call.id`、引数と結果 (コンテンツ取得がオンの場合) 、および MCP Call には `mcp.server.name` も含まれます |
+
+Weave は `gen_ai.conversation.id` を使用して、Agents ビューで複数のターンを 1 つの会話としてグループ化します。これは各スパンで Codex セッション ID に設定されます。スパンのタイムスタンプはロールアウト file のタイムスタンプに基づいて過去時刻へ補正されるため、継続時間には実際の実行時間が反映されます。
+
+すべての属性が GenAI semantic conventions に従っているため、トレースは OTEL 互換の任意のバックエンドでもレンダリングされます。
+
+<div id="known-limitations">
+  ### 既知の制限事項
+</div>
+
+* `codex` (対話型TUI) および `codex exec` コマンドはサポートされます。`codex mcp` と `app-server` コマンドはフックが発火しないため、対象外です。
+* 起動されたサブエージェントは、`spawn_agent` ツール Call としてのみ表示されます。サブエージェント自身のモデルの Call とツール実行は、取得されません。
+* Stop フックは中断されたターンやエラーが発生したターンでは発火しないため、それらは取得されません。
+
+<div id="configuration-reference">
+  ## 設定リファレンス
+</div>
+
+このセクションでは、プラグインの動作をカスタマイズするために使用できる設定を一覧で示します。設定ファイルと実行時ファイルは `~/.weave-codex/` に保存されます。これには、`settings.json`、hook shim、セッションごとのカーソル、`logs/collector.log` にあるログファイルが含まれます。
+
+| 設定            | 環境変数                          | `settings.json` キー | デフォルト                         |
+| ------------- | ----------------------------- | ------------------ | ----------------------------- |
+| W&amp;B APIキー | `WANDB_API_KEY`               | `wandb_api_key`    | `~/.netrc` (`wandb login` 経由) |
+| Weave project | `WEAVE_PROJECT`               | `weave_project`    | なし (必須、`entity/project`)      |
+| ベース URL       | `WANDB_BASE_URL`              | `wandb_base_url`   | `https://trace.wandb.ai`      |
+| コンテンツ取得       | `WEAVE_CODEX_CAPTURE_CONTENT` | `capture_content`  | `true`                        |
+| デバッグロギング      | `WEAVE_CODEX_DEBUG`           | `debug`            | オフ (エラーは常にログされます)             |
+
+<div id="credential-resolution-order">
+  ### 認証情報の解決順序
+</div>
+
+プラグインは認証情報を次の順序で参照します。
+
+1. 環境変数 (`WANDB_API_KEY`、`WEAVE_PROJECT`) 。
+2. `~/.weave-codex/settings.json`。
+3. Weave ホスト用の `~/.netrc` エントリ。
+
+<div id="wb-dedicated-cloud-or-self-hosted-instances">
+  ### W&amp;B 専用クラウドまたはセルフホスト型インスタンス
+</div>
+
+Codex を実行する前に、`WANDB_BASE_URL` をインストール先のホストに設定してください。
+
+```bash lines
+export WANDB_BASE_URL=https://YOUR-INSTANCE.wandb.io
+```
+
+<div id="check-plugin-status">
+  ## プラグインのステータスを確認する
+</div>
+
+これらのCLIコマンドを使用すると、プラグインのステータスを確認したり、問題のトラブルシューティングを行ったりできます。
+
+```bash lines
+weave-codex status
+```
+
+各行には `✓` (OK) 、`✗` (要対応) 、または `-` (まだ有効化されていませんが、エラーではありません) が表示されます。Weave にターンが表示されない場合は、collector のログを確認してください。
+
+```bash lines
+cat ~/.weave-codex/logs/collector.log
+```
+
+<div id="troubleshooting">
+  ## トラブルシューティング
+</div>
+
+以下のセクションでは、よくある問題とその解決方法について説明します。`~/.weave-codex/logs/collector.log` にある collector のログが、主な診断情報源です。エラーは、`debug` の設定にかかわらず常にログに記録されます。
+
+<div id="no-traces-appear-after-running-codex">
+  ### Codex を実行してもトレースが表示されない
+</div>
+
+1. `weave-codex status` を実行します。すべてのチェックにパスしていることを確認してください。
+2. フック が信頼済みであることを確認します。初回起動時の承認プロンプトをスキップした場合は、`codex` をもう一度実行し、プロンプトが表示されたら承認してください。あるいは、`~/.codex/config.toml` で `bypass_hook_trust = true` を設定してください。
+3. `WEAVE_PROJECT` が有効な `entity/project` スラッグに設定されていることを確認します。`weave-codex status` には、解決された project が表示されます。
+4. 認証ソースを確認します。`weave-codex status` には、解決された認証情報ソースが表示されます。`WANDB_API_KEY env` と表示されるのにキーを別の場所で設定している場合、プラグインは誤った値を読み取ります。
+
+<div id="turns-appear-but-inputoutput-text-is-empty">
+  ### ターンは表示されるが、入力/出力テキストが空です
+</div>
+
+コンテンツの取得が無効になっている可能性があります。`WEAVE_CODEX_CAPTURE_CONTENT` が `0` に設定されていないこと、および `~/.weave-codex/settings.json` で `capture_content` が `false` に設定されていないことを確認してください。
+
+<div id="errors-sending-traces-to-weave">
+  ### Weave へのトレース送信時のエラー
+</div>
+
+プラグインが有効で、Weave に表示されないスパンが生成されている場合は、collector ログでエクスポート エラーを確認し、この表と照らし合わせてください。
+
+| Symptom                          | Most likely cause             | Fix                                                                                                         |
+| -------------------------------- | ----------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `trace.wandb.ai` からの 401 または 403 | 無効な APIキー、またはスコープが制限された APIキー | キーが有効であること、およびチームが該当の entity と project を所有していることを確認してください。実際に使用されている認証情報のソースは `weave-codex status` で確認できます。 |
+| agents endpoint からの 404          | 誤った ベース URL                   | 専用クラウド環境では、`WANDB_BASE_URL` をご利用のインストール ホストに設定してください。                                                       |
+| 接続拒否または DNS エラー                  | DNS、プロキシ、またはファイアウォール          | ホストから `trace.wandb.ai` (クラウド) またはご利用のインストール ホスト (専用クラウド) のポート 443 に到達できることを確認してください。                        |
+
+<div id="hook-locked-environments">
+  ### フックが制限された環境
+</div>
+
+Codex の設定で `allow_managed_hooks_only` が有効になっている場合、カスタムフックを直接追加することはできません。代替のトリガーとして、Codex の `notify` プログラムを使用してください。
+
+```toml lines
+# ~/.codex/config.toml
+notify = ["sh", "/Users/you/.weave-codex/stop-hook.sh"]
+```
+
+<div id="uninstall">
+  ## アンインストール
+</div>
+
+```bash lines
+weave-codex uninstall
+```
+
+これにより、`~/.codex/hooks.json` から削除されるのは `weave-codex` のエントリのみです。

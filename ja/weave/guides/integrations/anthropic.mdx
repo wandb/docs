@@ -1,13 +1,15 @@
 ---
 title: "Anthropic"
-description: "Weave を使用して、Anthropic SDK 経由で行われる LLM 呼び出しを自動的にトラッキングしてログする"
+description: "Weave を使用して、Anthropic SDK 経由で行われる LLM Call を自動的にトラッキングしてログする"
 ---
 
 <a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_anthropic.ipynb" aria-label="Google Colab で開く">
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Colab で開く" />
 </a>
 
-Weave をコードに統合すると、[Python](https://github.com/anthropics/anthropic-sdk-python) と [TypeScript](https://github.com/anthropics/anthropic-sdk-typescript) の両方で、Anthropic SDK を使用した LLM 呼び出しが自動的にトラッキングされ、ログされます。Weave は、Anthropic の `Messages.create()` メソッドを自動的に呼び出すことでこれを実現します。
+Weave をコードに統合すると、[Python](https://github.com/anthropics/anthropic-sdk-python) と [TypeScript](https://github.com/anthropics/anthropic-sdk-typescript) の両方で、Anthropic SDK を使用した LLM Call が自動的にトラッキングされ、ログされます。Weave は、Anthropic の `Messages.create()` メソッドを自動的に呼び出すことでこれを実現します。
+
+このガイドでは、トレースを取得する方法、独自の関数を op としてラップする方法、実験向けに再利用可能な `Model` を構築する方法、さらに Anthropic SDK の使用時にツールの使用をトラッキングする方法を紹介します。これらのパターンを使用すると、カスタムのロギングコードを記述しなくても、Claude を活用したアプリケーションをデバッグし、比較し、改善を重ねられます。
 
 <div id="traces">
   ## トレース
@@ -77,11 +79,13 @@ Weave をコードに統合すると、[Python](https://github.com/anthropics/an
 
 [![anthropic\_trace.png](/weave/guides/integrations/imgs/anthropic_trace.png)](https://wandb.ai/capecape/anthropic_project/weave/calls)
 
-<div id="wrapping-with-your-own-ops">
-  ## 独自の ops でラップする
+<div id="wrap-with-your-own-ops">
+  ## 独自の op でラップする
 </div>
 
-Weave の ops は、実験を進める中でコードを自動的にバージョン管理し、入力と出力を取得します。[`Anthropic.messages.create()`](https://platform.claude.com/docs/en/build-with-claude/working-with-messages) を呼び出す関数を、Python では [`@weave.op()`](https://docs.wandb.ai/weave/guides/tracking/ops) でデコレートし、TypeScript では [`weave.op()`](/ja/weave/reference/typescript-sdk/functions/op) でラップすると、Weave がその入力と出力をトラッキングします。
+`weave.init()` だけでも Anthropic SDK の Call は取得できますが、独自の関数を op でデコレートすると、各 model call の前後にあるアプリケーション ロジックを含む、より豊富なトレースを取得できます。
+
+Weave の op は、実験を進める中でコードを自動的にバージョン管理し、入力と出力を取得します。[`Anthropic.messages.create()`](https://platform.claude.com/docs/en/build-with-claude/working-with-messages) を呼び出す関数を、Python では [`@weave.op()`](https://docs.wandb.ai/weave/guides/tracking/ops) でデコレートし、TypeScript では [`weave.op()`](/ja/weave/reference/typescript-sdk/functions/op) でラップすると、Weave がその入力と出力をトラッキングします。
 
 以下の例は、関数をトラッキングする方法を示しています。
 
@@ -94,30 +98,29 @@ Weave の ops は、実験を進める中でコードを自動的にバージョ
 
     weave.init("anthropic_project")
     client = Anthropic(
-    api_key=os.environ.get("ANTHROPIC_API_KEY"),
+        api_key=os.environ.get("ANTHROPIC_API_KEY"),
     )
 
     @weave.op()
     def call_anthropic(user_input:str, model:str) -> str:
-    message = client.messages.create(
-    max_tokens=1024,
-    messages=[
-    {
-    "role": "user",
-    "content": user_input,
-    }
-    ],
-    model=model,
-    )
-    return message.content[0].text
+        message = client.messages.create(
+        max_tokens=1024,
+        messages=[
+            {
+                "role": "user",
+                "content": user_input,
+            }
+            ],
+            model=model,
+        )
+        return message.content[0].text
 
     @weave.op()
     def generate_joke(topic: str) -> str:
-    return call_anthropic(f"Tell me a joke about {topic}", model="claude-3-haiku-20240307")
+        return call_anthropic(f"Tell me a joke about {topic}", model="claude-3-haiku-20240307")
 
     print(generate_joke("chickens"))
     print(generate_joke("cars"))
-
     ```
   </Tab>
 
@@ -160,7 +163,7 @@ Weave の ops は、実験を進める中でコードを自動的にバージョ
   </Tab>
 </Tabs>
 
-関数を `weave.op()` でデコレートまたはラップすると、Weave はその関数のコード、入力、出力を取得します。ops を使用すれば、ネストされた関数を含め、トラッキングしたい任意の関数をトラッキングできます。
+関数を `weave.op()` でデコレートすると、Weave はその関数のコード、入力、出力を取得します。op を使用すれば、ネストされた関数を含め、トラッキングしたい任意の関数をトラッキングできます。
 
 [![anthropic\_ops.png](/weave/guides/integrations/imgs/anthropic_ops.png)](https://docs.wandb.ai/weave/guides/tracking/ops)
 
@@ -168,16 +171,20 @@ Weave の ops は、実験を進める中でコードを自動的にバージョ
   ## 実験をしやすくするために `Model` を作成する
 </div>
 
-<Note>`weave.Model` クラスは Weave Python SDK でのみ利用できます。TypeScript では、`weave.op()` ラッパーを使用して、構造化されたパラメーターを持つ関数をトラッキングします。</Note>
+個々の Call をトレースしたら、次のステップは、関連するパラメーターをまとめて整理し、異なる設定を比較できるようにすることです。
 
-要素が多いと、実験を整理するのは難しくなります。[`Model`](/ja/weave/guides/core-types/models) クラスを使用すると、system prompt や使用しているモデルなど、アプリの実験に関する詳細を取得して整理できます。これにより、アプリの異なるイテレーションを整理して比較しやすくなります。
+<Note>
+  `weave.Model` クラスは Weave Python SDK でのみ利用できます。TypeScript では、`weave.op()` ラッパーを使用して、構造化されたパラメーターを持つ関数をトラッキングします。
+</Note>
 
-[`Model`](/ja/weave/guides/core-types/models) は、コードのバージョン管理や入力/出力の取得に加えて、アプリケーションの挙動を制御する構造化されたパラメーターも取得します。これにより、どのパラメーターが最も効果的かを検索しやすくなります。Weave Models は、`serve` や [`Evaluation`](/ja/weave/guides/core-types/evaluations) と組み合わせて使用することもできます。
+要素が多く動く状況では、実験を整理するのは難しくなります。[`Model`](/ja/weave/guides/core-types/models) クラスを使用すると、system prompt や使用しているモデルなど、アプリの実験に関する詳細を取得して整理できます。これにより、アプリの異なるイテレーションを整理して比較しやすくなります。
+
+コードのバージョン管理や入力と出力の取得に加えて、モデルはアプリケーションの動作を制御する構造化されたパラメーターも取得します。これにより、どのパラメーターが最も効果的かを検索しやすくなります。Weave モデルは、`serve` や [評価](/ja/weave/guides/core-types/evaluations) と組み合わせて使用することもできます。
 
 次の例では、`model` と `temperature` を使って実験できます。
 
 ```python lines
-import weave
+import weave    
 # anthropic ライブラリを通常通り使用する
 import os
 from anthropic import Anthropic
@@ -186,7 +193,7 @@ weave.init('joker-anthropic')
 class JokerModel(weave.Model): # `weave.Model` に変更する
   model: str
   temperature: float
-
+  
   @weave.op()
   def predict(self, topic): # `predict` に変更する
     client = Anthropic()
@@ -218,6 +225,8 @@ print(result)
 <div id="tools-function-calling">
   ## ツール (関数呼び出し)
 </div>
+
+標準のメッセージに加えて、Weave は Anthropic の tool use インターフェースも計装するため、エージェント型ワークフローをエンドツーエンドでトレースできます。
 
 Anthropic は、Claude が関数呼び出しをリクエストできる [tools](https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview) インターフェースを提供しています。Weave は、会話全体を通じて、ツール定義、ツール使用のリクエスト、ツールの実行結果を自動的にトラッキングします。
 

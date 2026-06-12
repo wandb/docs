@@ -182,13 +182,13 @@ Vous pouvez mettre à jour plusieurs valeurs à la fois :
 run.config.update({"lr": 0.1, "channels": 16})
 ```
 
-<div id="set-the-configuration-after-your-run-has-finished">
+<div id="set-the-configuration-after-your-run-finishes">
   ### Définissez la configuration une fois votre run terminé
 </div>
 
 Utilisez l’[API publique de W&amp;B](/fr/models/ref/python/public-api/) pour mettre à jour la configuration d’un run terminé.
 
-Vous devez fournir à l’API votre entité, le nom du projet et l’ID du run. Vous trouverez ces informations dans l’objet Run ou dans l’[application W&amp;B](/fr/models/track/workspaces/) :
+Vous devez fournir à l’API votre entité, le nom du projet et l’ID du run. Vous trouverez ces informations dans l’objet Run ou dans la [W&amp;B App](/fr/models/track/workspaces/) :
 
 ```python
 with wandb.init() as run:
@@ -296,6 +296,20 @@ config_dictionary = dict(
 with wandb.init(config=config_dictionary) as run:
     ...
 ```
+
+<div id="view-config-values-in-the-wb-app">
+  ## Afficher les valeurs de configuration dans la W&amp;B App
+</div>
+
+Consultez vos valeurs de configuration dans la section **Config** de l’onglet **Vue d’ensemble** d’un run. Elles sont également disponibles dans la section **References** si vous les épinglez.
+
+1. Accédez à votre projet dans la W&amp;B App.
+2. Cliquez sur le run dont vous souhaitez consulter les valeurs de configuration.
+3. Sélectionnez l’onglet **Vue d’ensemble**.
+4. Faites défiler jusqu’à la section **Config**.
+5. (Facultatif) Cliquez sur **View raw data** pour afficher les valeurs de configuration au format JSON.
+
+Le format JSON brut est utile lorsque vous écrivez des expressions pour créer ou transformer des graphiques en courbes à partir de valeurs de configuration, de métriques enregistrées ou de valeurs de synthèse. Voir [Expressions](/fr/models/app/features/panels/line-plot/reference#expressions) pour plus de détails.
 
 <div id="tensorflow-v1-flags">
   ## Flags de TensorFlow v1

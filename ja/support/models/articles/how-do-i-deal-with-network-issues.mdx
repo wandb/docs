@@ -1,21 +1,25 @@
 ---
 title: "ネットワークの問題にどう対処すればよいですか？"
-keywords: ["接続"]
+keywords: ["接続性"]
 ---
 
-`wandb: Network error (ConnectionError), entering retry loop` のような SSL またはネットワークエラーが発生した場合は、次の対処法を試してください。
+このページでは、W&amp;B がトレーニングデータを同期できなくなる SSL エラーやネットワークエラーを解消し、不安定なネットワーク環境や制限されたネットワーク環境でも実験を継続できるようにする方法を説明します。
 
-1. SSL 証明書を更新します。Ubuntu サーバーでは、`update-ca-certificates` を実行します。有効な SSL 証明書は、セキュリティリスクを軽減しながらトレーニングログを同期するために不可欠です。
-2. ネットワーク接続が不安定な場合は、[オプションの環境変数](/ja/models/track/environment-variables#optional-environment-variables) `WANDB_MODE` を `offline` に設定してオフラインモードで運用し、後でインターネットにアクセスできるデバイスからファイルを同期してください。
-3. ローカルで実行され、クラウドサーバーとの同期を避けられる [W&amp;B Private Hosting](/ja/platform/hosting/) の使用も検討してください。
+`wandb: Network error (ConnectionError), entering retry loop` のような SSL エラーまたはネットワークエラーが発生した場合は、次のいずれかの方法を使用してください。
 
-`SSL CERTIFICATE_VERIFY_FAILED` エラーは、社内ファイアウォールが原因の可能性があります。ローカル CA を設定し、次を実行してください。
+* SSL 証明書を更新します。Ubuntu サーバーでは `update-ca-certificates` を実行します。トレーニングログを安全に同期するには、有効な SSL 証明書が必須です。
+* ネットワーク接続が不安定な場合は、[オプションの環境変数](/ja/models/track/environment-variables#optional-environment-variables) `WANDB_MODE` を `offline` に設定してオフラインモードで運用し、後でインターネットにアクセスできるデバイスからファイルを同期します。
+* ローカルで実行でき、クラウドサーバーへの同期を回避できる [W&amp;B Private Hosting](/ja/platform/hosting/) の使用を検討してください。
 
-`export REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt`
+特に `SSL CERTIFICATE_VERIFY_FAILED` エラーが表示される場合は、社内のファイアウォールがトラフィックを傍受している可能性があります。W&amp;B がそのファイアウォールの証明書を信頼できるように、`requests` ライブラリがローカルの CA バンドルを参照するよう設定してください。
+
+```bash
+export REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
+```
 
 ***
 
-{/* 自動生成: タブバッジ */}
+{/* AUTO-GENERATED: tab badges */}
 
 <Badge stroke shape="pill" color="orange" size="md">[接続](/ja/support/models/tags/connectivity)</Badge>
 

@@ -1,28 +1,29 @@
 ---
-title: "Collecter et suivre les datasets"
-description: "Organisez, collectez, suivez et versionnez des exemples pour l’évaluation d’applications LLM"
+title: "Collecter et suivre des datasets"
+description: "Organiser, collecter, suivre et versionner des exemples pour l’évaluation d’applications LLM"
+keywords: ["données d’évaluation", "from_calls", "from_pandas", "from_hf", "exemples versionnés"]
 ---
 
-Les datasets Weave vous aident à organiser, collecter, suivre et versionner des exemples pour l’évaluation d’applications LLM, afin de faciliter les comparaisons. Vous pouvez créer des `Dataset` et interagir avec eux par programmation ou via l’interface utilisateur.
+Les datasets Weave vous aident à organiser, collecter, suivre et versionner des exemples pour l’évaluation d’applications LLM et la comparaison côte à côte. Cette page vous montre comment créer des collections d’exemples réutilisables et versionnées que vous et les membres de votre équipe pouvez utiliser pour évaluer, faire évoluer et comparer le comportement des applications LLM au fil du temps. Vous pouvez créer des `Dataset` et interagir avec eux par programmation ou via l’interface utilisateur.
 
-Cette page décrit :
+Cette page s’adresse aux ingénieurs et aux membres de l’équipe qui souhaitent gérer les données d’évaluation dans le code ou via l’interface Weave. Elle décrit :
 
-* Les opérations de base sur les `Dataset` en Python et TypeScript, ainsi que la façon de démarrer
-* Comment créer un `Dataset` en Python et TypeScript à partir d’objets tels que les [appels](../tracking/tracing) Weave
-* Les opérations disponibles sur un `Dataset` dans l’interface utilisateur
+* Les opérations de base sur les `Dataset` en Python et TypeScript, ainsi que la marche à suivre pour bien démarrer.
+* Comment créer un `Dataset` en Python et TypeScript à partir d’objets tels que les [appels](../tracking/tracing) Weave.
+* Les opérations disponibles sur un `Dataset` dans l’interface utilisateur.
 
 <div id="dataset-quickstart">
-  ## Démarrage rapide de `Dataset`
+  ## Démarrage rapide de Dataset
 </div>
 
-Les exemples de code suivants montrent comment effectuer les opérations de base sur un `Dataset` en Python et en TypeScript. Avec les SDK, vous pouvez :
+Les exemples de code suivants montrent comment effectuer les opérations de base sur `Dataset` avec Python et TypeScript. Avec les SDK, vous pouvez :
 
 * Créer un `Dataset`
 * Publier le `Dataset`
 * Récupérer le `Dataset`
-* Accéder à un exemple précis dans le `Dataset`
+* Accéder à un exemple spécifique du `Dataset`
 
-Sélectionnez un onglet pour afficher le code spécifique à Python et à TypeScript.
+Sélectionnez un onglet pour voir le code spécifique à Python et à TypeScript.
 
 <Tabs>
   <Tab title="Python">
@@ -32,7 +33,7 @@ Sélectionnez un onglet pour afficher le code spécifique à Python et à TypeSc
     # Initialiser Weave
     weave.init('intro-example')
 
-    # Créer un jeu de données
+    # Créer un dataset
     dataset = Dataset(
         name='grammar',
         rows=[
@@ -42,13 +43,13 @@ Sélectionnez un onglet pour afficher le code spécifique à Python et à TypeSc
         ]
     )
 
-    # Publier le jeu de données
+    # Publier le dataset
     weave.publish(dataset)
 
-    # Récupérer le jeu de données
+    # Récupérer le dataset
     dataset_ref = weave.ref('grammar').get()
 
-    # Accéder à un exemple précis
+    # Accéder à un exemple spécifique
     example_label = dataset_ref.rows[2]['sentence']
     ```
   </Tab>
@@ -60,7 +61,7 @@ Sélectionnez un onglet pour afficher le code spécifique à Python et à TypeSc
     // Initialiser Weave
     const client = await weave.init('intro-example');
 
-    // Créer un jeu de données
+    // Créer un dataset
     const dataset = new weave.Dataset({
         name: 'grammar',
         rows: [
@@ -70,10 +71,10 @@ Sélectionnez un onglet pour afficher le code spécifique à Python et à TypeSc
         ]
     });
 
-    // Publier le jeu de données
+    // Publier le dataset
     const ref = await dataset.save();
 
-    // Récupérer le jeu de données
+    // Récupérer le dataset
     const retrievedDataset = await client.get(ref);
 
     // Vous pouvez aussi le récupérer à l’aide d’une chaîne URI
@@ -81,23 +82,25 @@ Sélectionnez un onglet pour afficher le code spécifique à Python et à TypeSc
     const refFromUri = weave.ObjectRef.fromUri(datasetUri);
     const retrievedDatasetFromUri = await client.get(refFromUri);
 
-    // Accéder à un exemple précis
+    // Accéder à un exemple spécifique
     const exampleLabel = retrievedDataset.getRow(2).sentence;
     ```
   </Tab>
 </Tabs>
 
 <div id="create-a-dataset-from-other-objects">
-  ## Créer un `Dataset` à partir d&#39;autres objets
+  ## Créer un dataset à partir d&#39;autres objets
 </div>
+
+Cette section montre comment créer un `Dataset` à partir de données que vous possédez déjà, comme des appels Weave enregistrés ou des données tabulaires existantes, afin que vous n&#39;ayez pas à ressaisir manuellement les exemples.
 
 <Tabs>
   <Tab title="Python">
-    En Python, les `Dataset` peuvent également être créés à partir d&#39;objets Weave courants comme les [appel](../tracking/tracing), ainsi que d&#39;objets Python comme les `pandas.DataFrame`. Cette fonctionnalité est utile si vous souhaitez créer un `Dataset` d&#39;exemple à partir d&#39;exemples précis.
+    En Python, les `Dataset` peuvent également être créés à partir d&#39;objets Weave courants comme les [appels](../tracking/tracing), ainsi que d&#39;objets Python comme les `pandas.DataFrame`. Cette fonctionnalité est utile si vous souhaitez créer un `Dataset` d&#39;exemple à partir d&#39;exemples précis.
 
     ### Call Weave
 
-    Pour créer un `Dataset` à partir d&#39;un ou de plusieurs appel Weave, récupérez le ou les objets call, puis ajoutez-les à une liste dans la méthode `from_calls`.
+    Pour créer un `Dataset` à partir d&#39;un ou de plusieurs appels Weave, récupérez le ou les objets call, puis ajoutez-les à une liste dans la méthode `from_calls`.
 
     ```python lines
     @weave.op
@@ -108,14 +111,12 @@ Sélectionnez un onglet pour afficher le code spécifique à Python et à TypeSc
     res2, call2 = model.call(task="parse")
 
     dataset = Dataset.from_calls([call1, call2])
-    # Vous pouvez maintenant utiliser le jeu de données pour évaluer le modèle, etc.
+    # Vous pouvez maintenant utiliser le dataset pour évaluer le modèle, etc.
     ```
 
     ### DataFrame Pandas
 
-    Pour créer un `Dataset` à partir d&#39;un objet Pandas `DataFrame`, utilisez la méthode `from_pandas`.
-
-    Pour reconvertir le `Dataset`, utilisez `to_pandas`.
+    Pour créer un `Dataset` à partir d&#39;un objet Pandas `DataFrame`, utilisez la méthode `from_pandas`. Pour reconvertir le `Dataset`, utilisez `to_pandas`.
 
     ```python lines
     import pandas as pd
@@ -139,7 +140,7 @@ Sélectionnez un onglet pour afficher le code spécifique à Python et à TypeSc
     pip install weave[huggingface]
     ```
 
-    Ensuite, utilisez la méthode `from_hf`. Si vous fournissez un `DatasetDict` avec plusieurs splits (comme &#39;train&#39;, &#39;test&#39;, &#39;validation&#39;), Weave utilisera automatiquement le split &#39;train&#39; et émettra un avertissement. Si le split &#39;train&#39; n&#39;est pas présent, une erreur sera levée. Vous pouvez aussi fournir directement un split spécifique (par exemple, `hf_dataset_dict['test']`).
+    Ensuite, utilisez la méthode `from_hf`. Si vous fournissez un `DatasetDict` avec plusieurs splits (comme `train`, `test`, `validation`), Weave utilise automatiquement le split `train` et émet un avertissement. Si le split `train` n&#39;est pas présent, Weave lève une erreur. Vous pouvez aussi fournir directement un split spécifique (par exemple, `hf_dataset_dict['test']`).
 
     Pour reconvertir un `weave.Dataset` en `Dataset` Hugging Face, utilisez la méthode `to_hf`.
 
@@ -163,7 +164,7 @@ Sélectionnez un onglet pour afficher le code spécifique à Python et à TypeSc
         'train': HFDataset.from_list(hf_rows),
         'test': HFDataset.from_list([{'id': '2', 'sentence': "Test sentence", 'correction': "Test correction"}])
     })
-    # Cela émettra un avertissement et utilisera le split 'train'
+    # Cela émet un avertissement et utilise le split 'train'
     weave_ds_from_dict = Dataset.from_hf(hf_dict)
 
     # Fournir un split spécifique
@@ -173,20 +174,24 @@ Sélectionnez un onglet pour afficher le code spécifique à Python et à TypeSc
 
   <Tab title="TypeScript">
     ```plaintext
-     Cette fonctionnalité n'est pas encore disponible en TypeScript.
+     Cette fonctionnalité n'est actuellement pas disponible en TypeScript.
     ```
   </Tab>
 </Tabs>
 
 <div id="create-edit-and-delete-a-dataset-in-the-ui">
-  ## Créer, modifier et supprimer un `Dataset` dans l’interface utilisateur
+  ## Créer, modifier et supprimer un dataset dans l’interface utilisateur
 </div>
 
-Vous pouvez créer, modifier et supprimer des `Dataset` dans l’interface utilisateur. La création de jeux de données dans l’interface utilisateur Weave vous permet, ainsi qu’aux membres non techniques de votre équipe, de créer et de gérer des jeux de données partageables contenant des exemples, des questions et d’autres données de test pour les agents, sans modifier le code.
+Vous pouvez créer, modifier et supprimer des `Dataset` dans l’interface utilisateur. La création de datasets dans l’interface utilisateur Weave vous permet, ainsi qu’aux membres non techniques de votre équipe, de créer et de gérer des datasets partageables contenant des exemples, des questions et d’autres données de test pour les agents, sans modifier le code.
+
+Les procédures suivantes vous guident dans chacune de ces tâches dans l’interface utilisateur. Utilisez-les lorsque vous souhaitez gérer les données d’évaluation avec les traces dont elles sont issues, plutôt qu’à partir d’un notebook ou d’un script.
 
 <div id="create-a-new-dataset">
-  ### Créer un nouveau `Dataset`
+  ### Créer un nouveau dataset
 </div>
+
+La procédure suivante crée un nouveau `Dataset` à partir d’un ou de plusieurs appels existants dans votre projet Weave. Une fois l’opération terminée, vous disposez d’un `Dataset` publié que vous pouvez référencer dans des évaluations et partager avec votre équipe.
 
 1. Accédez au projet Weave que vous souhaitez modifier.
 
@@ -212,13 +217,15 @@ Vous pouvez créer, modifier et supprimer des `Dataset` dans l’interface utili
 
 9. (Facultatif) Cliquez sur l’un des champs modifiables de votre **Dataset** pour modifier l’entrée.
 
-10. Cliquez sur **Créer le dataset**. Votre nouveau jeu de données est créé.
+10. Cliquez sur **Créer le dataset**. Weave crée votre nouveau jeu de données.
 
 11. Dans la fenêtre contextuelle de confirmation, cliquez sur **Voir le dataset** pour afficher le nouveau `Dataset`. Vous pouvez aussi accéder à l’onglet **Datasets**.
 
 <div id="edit-a-dataset">
-  ### Modifier un `Dataset`
+  ### Modifier un dataset
 </div>
+
+Utilisez la procédure suivante pour ajouter de nouvelles lignes à un `Dataset` existant et publier une nouvelle version. La modification dans l’interface utilisateur est utile lorsque vous souhaitez étendre ou corriger des données d’évaluation sans modifier le code.
 
 1. Accédez au projet Weave contenant le `Dataset` que vous souhaitez modifier.
 
@@ -234,11 +241,11 @@ Vous pouvez créer, modifier et supprimer des `Dataset` dans l’interface utili
 
    ![UI de Dataset- Icône d’ajout de ligne](/weave/guides/core-types/imgs/datasetui-popout-edit.png)
 
-5. Cliquez sur **+ Add row**. Une ligne verte s’affiche au-dessus des lignes existantes de votre `Dataset`, indiquant que vous pouvez y ajouter une nouvelle ligne.
+5. Cliquez sur **+ Add row**. Une nouvelle ligne s’affiche au-dessus des lignes existantes de votre `Dataset`, indiquant que vous pouvez y ajouter une nouvelle ligne.
 
    ![UI de Dataset](/weave/guides/core-types/imgs/datasetui-popout-edit-green.png)
 
-6. Pour ajouter des données à une nouvelle ligne, cliquez sur la colonne souhaitée dans cette ligne. La colonne **id** par défaut d’une ligne de `Dataset` ne peut pas être modifiée, car Weave l’attribue automatiquement lors de la création. Une fenêtre modale d’édition s’affiche avec les options **Text**, **Code** et **Diff** pour la mise en forme.
+6. Pour ajouter des données à une nouvelle ligne, cliquez sur la colonne souhaitée dans cette ligne. Vous ne pouvez pas modifier la colonne **id** par défaut d’une ligne de `Dataset`, car Weave l’attribue automatiquement lors de la création. Une fenêtre modale d’édition s’affiche avec les options **Text**, **Code** et **Diff** pour la mise en forme.
 
    ![UI de Dataset - Ajouter des données à une colonne et les mettre en forme.](/weave/guides/core-types/imgs/datasetui-popout-edit-addcol.png)
 
@@ -258,8 +265,10 @@ Vous pouvez créer, modifier et supprimer des `Dataset` dans l’interface utili
    ![UI de Dataset - Lignes publiées.](/weave/guides/core-types/imgs/datasetui-popout-edit-published-rows.png)
 
 <div id="delete-a-dataset">
-  ### Supprimer un `Dataset`
+  ### Supprimer un dataset
 </div>
+
+Suivez la procédure ci-dessous lorsque vous souhaitez supprimer de votre projet Weave un `Dataset` dont vous n’avez plus besoin.
 
 1. Accédez au projet Weave contenant le `Dataset` que vous souhaitez modifier.
 
@@ -273,13 +282,39 @@ Vous pouvez créer, modifier et supprimer des `Dataset` dans l’interface utili
 
    ![Dataset UI - Fenêtre modale de confirmation de suppression.](/weave/guides/core-types/imgs/datasetui-delete-modal.png)
 
-5. Dans la fenêtre modale, cliquez sur le bouton rouge **Supprimer** pour supprimer le `Dataset`. Vous pouvez également cliquer sur **Annuler** si vous ne souhaitez pas supprimer le `Dataset`.
+5. Dans la fenêtre modale, cliquez sur **Supprimer** pour supprimer le `Dataset`. Vous pouvez également cliquer sur **Annuler** si vous ne souhaitez pas supprimer le `Dataset`.
 
-   Le `Dataset` est maintenant supprimé et n’est plus visible dans l’onglet **Datasets** de votre tableau de bord Weave.
+   Le `Dataset` est supprimé et n’est plus visible dans l’onglet **Datasets** de votre tableau de bord Weave.
 
-<div id="add-a-new-example-to-a-dataset">
-  ### Ajouter un nouvel exemple à un `Dataset`
+<div id="add-a-new-agent-trace-to-a-dataset">
+  ### Ajouter une nouvelle trace d’agent à un dataset
 </div>
+
+Pour ajouter des traces d’agent, comme des sessions, des tours de conversation et des appels d’outil, à un `Dataset` :
+
+1. Accédez à [wandb.ai](http://wandb.ai) et sélectionnez votre projet.
+
+2. Dans la barre latérale du projet Weave, cliquez sur **Agents**.
+
+3. Dans la barre d’onglets supérieure, cliquez sur **Conversations**.
+
+4. Dans le tableau **Conversations**, sélectionnez une ligne de conversation pour afficher le panneau latéral des détails de la conversation. Ce panneau comporte un en-tête avec le nom de l’agent et un UUID.
+
+5. Dans l’en-tête du panneau latéral des détails de la conversation, cliquez sur l’icône de tableau à droite pour ouvrir le volet latéral **Add example to dataset**.
+
+   ![En-tête du panneau des détails de la conversation de l’agent montrant l’icône de tableau pour ajouter des éléments à un dataset.](/weave/guides/core-types/imgs/agent-conversation-details-header-add-dataset.png)
+
+6. Dans **Choisir un dataset**, utilisez la liste déroulante pour choisir le dataset auquel vous souhaitez ajouter des traces.
+
+7. Dans **Select context**, sélectionnez les messages à ajouter au dataset. Cliquez sur **Next**.
+
+8. Vérifiez vos sélections, puis cliquez sur **Add to dataset**.
+
+<div id="add-a-new-trace-to-a-dataset">
+  ### Ajouter une nouvelle trace à un dataset
+</div>
+
+Pour ajouter à un `Dataset` des traces générées à partir d’opérations et d’appels :
 
 1. Accédez au projet Weave que vous souhaitez modifier.
 
@@ -291,31 +326,33 @@ Vous pouvez créer, modifier et supprimer des `Dataset` dans l’interface utili
 
 5. Dans le menu déroulant **Choisir un dataset**, sélectionnez le `Dataset` auquel vous souhaitez ajouter des exemples. Les options **Configure field mapping** s’affichent.
 
-6. (Facultatif) Dans **Configure field mapping**, vous pouvez ajuster le mappage des champs de vos appels vers les colonnes correspondantes du jeu de données.
+6. Facultatif : dans **Configure field mapping**, vous pouvez ajuster le mappage des champs de vos appels vers les colonnes correspondantes du jeu de données.
 
 7. Une fois le mappage des champs configuré, cliquez sur **Next**. Un aperçu de votre nouveau `Dataset` s’affiche.
 
-8. Dans la ligne vide (verte), ajoutez la ou les valeurs de votre nouvel exemple. Notez que le champ **id** n’est pas modifiable et qu’il est créé automatiquement par Weave.
+8. Dans la ligne vide (verte), ajoutez les valeurs de votre nouvel exemple. Le champ **id** n’est pas modifiable et Weave le crée automatiquement.
 
 9. Cliquez sur **Add to dataset**. Pour revenir à l’écran **Configure field mapping**, cliquez sur **Back**.
 
-10. Dans la fenêtre contextuelle de confirmation, cliquez sur **voir** pour voir les modifications. Vous pouvez aussi accéder à l’onglet **Datasets** pour voir les mises à jour apportées à votre `Dataset`.
+10. Dans la fenêtre contextuelle de confirmation, cliquez sur **Voir le dataset** pour voir les modifications. Vous pouvez aussi accéder à l’onglet **Datasets** pour voir les mises à jour apportées à votre `Dataset`.
 
 <div id="other-dataset-operations">
-  ## Autres opérations sur les jeux de données
+  ## Autres opérations sur les datasets
 </div>
+
+Cette section présente des opérations SDK supplémentaires utiles lorsque vous disposez déjà d’un `Dataset`.
 
 <Tabs>
   <Tab title="Python">
     ### Sélection de lignes
 
-    Vous pouvez sélectionner des lignes spécifiques d’un `Dataset` à partir de leur index à l’aide de la méthode `select`. C’est utile pour créer des sous-ensembles de vos données.
+    Vous pouvez sélectionner des lignes spécifiques d’un `Dataset` par leur index à l’aide de la méthode `select`. C’est utile pour créer des sous-ensembles de vos données, par exemple lorsque vous souhaitez évaluer sur un sous-ensemble plus restreint d’exemples.
 
     ```python lines
     import weave
     from weave import Dataset
 
-    # Créer un exemple de jeu de données
+    # Créer un jeu de données d’exemple
     dataset = Dataset(rows=[
         {'col_a': 1, 'col_b': 'x'},
         {'col_a': 2, 'col_b': 'y'},
@@ -328,7 +365,7 @@ Vous pouvez créer, modifier et supprimer des `Dataset` dans l’interface utili
 
     # subset_dataset contient maintenant uniquement la première et la troisième ligne
     # print(list(subset_dataset))
-    # Sortie : [{'col_a': 1, 'col_b': 'x'}, {'col_a': 3, 'col_b': 'z'}]
+    # Sortie : [{'col_a': 1, 'col_b': 'x'}, {'col_a': 3, 'col_b': 'z'}]
     ```
   </Tab>
 

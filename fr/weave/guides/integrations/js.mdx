@@ -3,24 +3,26 @@ title: "SDK TypeScript : guide d’intégration de bibliothèques tierces"
 description: "Intégrez des bibliothèques tierces au SDK TypeScript de Weave"
 ---
 
-Ce guide explique comment intégrer des bibliothèques tierces (par exemple OpenAI) au SDK TypeScript de Weave. Weave prend en charge l’instrumentation automatique, ce qui simplifie la configuration et réduit le besoin de configuration manuelle.
+Ce guide explique comment intégrer des bibliothèques tierces (par exemple OpenAI) au SDK TypeScript de Weave. Il s’adresse aux développeurs TypeScript qui souhaitent que Weave trace automatiquement les appels aux bibliothèques prises en charge dans leur application.
+
+Weave prend en charge l’instrumentation automatique, ce qui simplifie la configuration et réduit le besoin de configuration manuelle.
 
 <Warning>
   **Qu’est-ce qui a changé ?**
-  Depuis la [PR #4554](https://github.com/wandb/weave/pull/4554), les bibliothèques prises en charge, comme OpenAI, sont automatiquement patchées au chargement de Weave. Vous n’avez donc plus besoin de les encapsuler manuellement, comme c’était le cas auparavant :
+  Depuis la [PR #4554](https://github.com/wandb/weave/pull/4554), Weave effectue automatiquement le patching des bibliothèques prises en charge, comme OpenAI, lors de son chargement. Vous n’avez donc plus besoin de les encapsuler manuellement :
 
   ```ts lines
   weave.wrapOpenAI(new OpenAI());
   ```
 
-  Weave s’en charge généralement automatiquement. Cependant, il peut y avoir des [cas limites](#advanced-usage).
+  Weave s’en charge automatiquement dans la plupart des cas. Cependant, des [cas limites](#advanced-usage) peuvent survenir.
 </Warning>
 
 <div id="use-weave-integrations-with-your-typescript-project">
-  ## Utiliser les intégrations Weave avec votre projet TypeScript
+  ## Utilisez les intégrations Weave avec votre projet TypeScript
 </div>
 
-Les projets TypeScript peuvent utiliser le système de modules CommonJS ou ESM.
+Les sections suivantes expliquent comment déterminer le système de modules utilisé par votre projet, puis configurer ce projet afin que Weave puisse instrumenter automatiquement les bibliothèques tierces prises en charge. Les projets TypeScript peuvent utiliser le système de modules CommonJS ou ESM, et la configuration requise diffère légèrement selon le système utilisé.
 
 <div id="if-youre-unsure-which-type-of-project-you-have">
   ### Si vous ne savez pas quel type de projet vous avez
@@ -32,7 +34,7 @@ Si vous exécutez directement un fichier TypeScript avec un outil tel que :
 npx tsx test.ts
 ```
 
-le système de modules peut être déterminé implicitement par votre environnement. Pour garantir un comportement cohérent, nous vous recommandons de définir explicitement les fichiers `package.json` et `tsconfig.json`.
+le système de modules peut être déterminé implicitement par votre environnement. Pour garantir un comportement cohérent, définissez explicitement les fichiers `package.json` et `tsconfig.json`.
 
 Pour déterminer si un projet utilise CommonJS ou ESM, vérifiez le champ `type` dans `package.json` :
 
@@ -40,9 +42,8 @@ Pour déterminer si un projet utilise CommonJS ou ESM, vérifiez le champ `type`
 "type": "module"
 ```
 
-* Si `type` vaut `"module"`, le projet utilise **ESM**.
-* Si le champ `type` est absent ou défini sur `"commonjs"`, le projet utilise **CommonJS** par défaut.
-
+* Si `type` vaut `"module"`, le projet utilise ESM.
+* Si le champ `type` est absent ou défini sur `"commonjs"`, le projet utilise CommonJS par défaut.
 
 <div id="set-up-a-commonjs-project">
   ### Configurer un projet CommonJS
@@ -75,16 +76,16 @@ Pour configurer votre projet en CommonJS :
 
    Ces paramètres configurent TypeScript pour compiler en CommonJS :
 
-   * **`module: "CommonJS"`** — Compile les modules au format CommonJS (`require`/`module.exports`).
+   * `module: "CommonJS"`. Compile les modules au format CommonJS (`require` ou `module.exports`).
      Pour plus de détails sur cette option du compilateur, voir [TypeScript - Module](https://www.typescriptlang.org/tsconfig/#module).
 
-   * **`target: "es2022"`** *(Recommandé)* — Génère du JavaScript moderne compatible avec les versions récentes de Node.js.
+   * `target: "es2022"` (recommandé). Génère du JavaScript moderne compatible avec les versions récentes de Node.js.
      Pour plus de détails sur cette option du compilateur, voir [TypeScript - Target](https://www.typescriptlang.org/tsconfig/#target).
 
-   * **`rootDir: "."`** — Considère le répertoire contenant `tsconfig.json` comme la racine de vos fichiers d’entrée. TypeScript l’utilise avec `outDir` pour reproduire la structure de votre dossier source dans le résultat généré.
+   * `rootDir: "."`. Considère le répertoire contenant `tsconfig.json` comme la racine de vos fichiers d’entrée. TypeScript l’utilise avec `outDir` pour reproduire la structure de votre dossier source dans le résultat généré.
      Pour plus de détails sur cette option du compilateur, voir [TypeScript - Root Dir](https://www.typescriptlang.org/tsconfig/#rootDir).
 
-   * **`outDir: "dist"`** — Écrit le JavaScript généré (et les autres sorties du compilateur) dans le dossier `dist`.
+   * `outDir: "dist"`. Écrit le JavaScript généré et les autres sorties du compilateur dans le dossier `dist`.
      Pour plus de détails sur cette option du compilateur, voir [TypeScript - Out Dir](https://www.typescriptlang.org/tsconfig/#outDir).
 
 3. Installez Weave et toutes les autres bibliothèques requises :
@@ -109,7 +110,7 @@ Pour configurer votre projet en CommonJS :
    node dist/test.js
    ```
 
-Comme CommonJS utilise le chargeur de modules `require` de Node.js, Weave peut instrumenter automatiquement les bibliothèques prises en charge sans nécessiter l’option `--import` utilisée dans les projets ESM.
+Votre projet CommonJS est maintenant configuré pour que Weave instrumente automatiquement les bibliothèques prises en charge lors de l’exécution de votre code. Comme CommonJS utilise le chargeur de modules `require` de Node.js, Weave peut instrumenter automatiquement les bibliothèques prises en charge sans nécessiter l’option `--import` utilisée dans les projets ESM.
 
 <div id="set-up-an-esm-project">
   ### Configurer un projet ESM
@@ -184,11 +185,13 @@ L’option `--import` garantit que le module `weave/instrument` est chargé avan
 
 Weave doit être installé localement dans le projet que vous exécutez.
 
+Votre projet ESM est maintenant configuré pour que Weave précharge son instrumentation avant les autres modules et trace automatiquement les appels aux bibliothèques prises en charge.
+
 <div id="advanced-usage-and-troubleshooting">
   ## Utilisation avancée et dépannage
 </div>
 
-Cette section couvre les cas limites et les solutions de contournement lorsque le patching automatique du SDK TypeScript ne fonctionne pas comme prévu. Par exemple, des environnements ESM uniquement, des configurations de bundler comme Next.js ou des environnements d’exécution contraints peuvent entraîner des problèmes inattendus. Si vous constatez des traces manquantes ou des problèmes d’intégration, commencez ici.
+Les sections suivantes couvrent les cas limites et les solutions de contournement lorsque le patching automatique du SDK TypeScript ne fonctionne pas comme prévu. Par exemple, des environnements ESM uniquement, des configurations de bundler comme Next.js ou des environnements d’exécution contraints peuvent entraîner des problèmes. Si vous constatez des traces manquantes ou des problèmes d’intégration, commencez ici.
 
 <div id="use-node_options-only-for-esm">
   ### Utiliser `NODE_OPTIONS` (uniquement pour ESM)
@@ -204,18 +207,17 @@ Si vous utilisez un projet ESM et que vous ne pouvez pas passer d’options CLI 
 export NODE_OPTIONS="--import=weave/instrument"
 ```
 
-
 <div id="bundler-compatibility">
   ### Compatibilité des bundlers
 </div>
 
-Certains frameworks et bundlers, comme Next.js, peuvent intégrer des bibliothèques tierces au bundle d’une manière qui empêche Node.js de les patcher à l’exécution.
+Certains frameworks et bundlers, comme Next.js, peuvent intégrer des bibliothèques tierces au bundle d’une manière qui empêche Node.js d’effectuer leur patching à l’exécution.
 
 Si cela correspond à votre configuration, essayez les étapes suivantes :
 
-1. Marquez les bibliothèques LLM comme externes dans la configuration de votre bundler. Cela évite qu’elles soient intégrées au bundle, afin que Weave puisse les patcher correctement à l’exécution.
+1. Marquez les bibliothèques LLM comme externes dans la configuration de votre bundler. Cela évite que le bundler les intègre au bundle, afin que Weave puisse effectuer correctement leur patching à l’exécution.
 
-   L’exemple suivant montre comment marquer le package `openai` comme externe dans une configuration `next.config.js`, ce qui l’empêche d’être intégré au bundle. Le module est chargé à l’exécution, ce qui permet à Weave de le patcher automatiquement et de le suivre. Utilisez cette configuration lorsque vous travaillez avec des frameworks comme Next.js pour activer l’instrumentation automatique.
+   L’exemple suivant montre comment marquer le package `openai` comme externe dans une configuration `next.config.js`, ce qui évite que le bundler l’intègre au bundle. Le module se charge à l’exécution, ce qui permet à Weave d’effectuer automatiquement son patching et de le suivre. Utilisez cette configuration lorsque vous travaillez avec des frameworks comme Next.js pour activer l’instrumentation automatique.
 
    ```js
    externals: {
@@ -226,14 +228,14 @@ Si cela correspond à votre configuration, essayez les étapes suivantes :
 2. Si le patching échoue toujours, utilisez l’[instrumentation manuelle](#manual-patching-fallback-option).
 
 <div id="manual-patching-fallback-option">
-  ### Patch manuel (option de repli)
+  ### Patching manuel (option de repli)
 </div>
 
 <Warning>
-  Le patch manuel est l’approche historique. Utilisez-le uniquement lorsque le patching automatique ne fonctionne pas.
+  Le patching manuel est l’approche historique. Utilisez-le uniquement lorsque le patching automatique ne fonctionne pas.
 </Warning>
 
-Dans certains cas, vous devrez peut-être encore utiliser l’instrumentation manuelle :
+Parfois, vous devrez peut-être encore utiliser l’instrumentation manuelle :
 
 ```ts lines
 import { wrapOpenAI } from 'weave';

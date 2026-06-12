@@ -1,0 +1,116 @@
+---
+title: "Pi 확장"
+description: "Weave에서 Pi의 에이전트 기반 세션, LLM Call, 도구 실행을 트레이스합니다."
+keywords: ["Pi", "OpenTelemetry", "OTEL", "TypeScript", "코딩 에이전트"]
+---
+
+import AgentsPreview from '/snippets/ko/_includes/agents-public-preview.mdx';
+
+<AgentsPreview />
+
+[Pi](https://pi.dev/)는 터미널 기반 코딩 에이전트입니다. Weave는 [GenAI semantic conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/)을 준수하는 `createOtelExtension` 인테그레이션을 사용해 Pi 세션, LLM Call, 도구 실행을 자동으로 트레이스합니다. 이 페이지에서는 Pi 애플리케이션에서 Weave 트레이싱을 활성화하여 에이전트 동작을 관찰하고, run을 디버그하고, token 사용량과 비용을 분석하는 방법을 설명합니다.
+
+<Warning>
+  이 인테그레이션은 Pi 세션 데이터를 Weave로 전송합니다. 이 데이터에는 사용자 프롬프트, 모델 응답, 도구 입력과 출력, Pi 도구가 읽은 파일 내용, 셸 명령과 출력, 가져온 URL 및 페이지 콘텐츠가 포함될 수 있습니다.
+
+  이 인테그레이션은 PII 스크러빙이나 민감한 데이터 마스킹을 구현하지 않습니다. 보안 또는 규정 준수 요구 사항상 이 데이터를 Weave로 보낼 수 없다면 Pi 애플리케이션에서 Weave 트레이싱을 활성화하지 마세요.
+</Warning>
+
+<div id="prerequisites">
+  ## 사전 요구 사항
+</div>
+
+* [Node.js](https://nodejs.org/) (v18 이상).
+* `WANDB_API_KEY` 환경 변수로 설정한 W&amp;B 계정 및 [API 키](https://wandb.ai/authorize).
+
+<Note>
+  Pi는 Python 버전이 없는 TypeScript 및 Node.js 프레임워크입니다. Pi는 ESM 모듈 시스템이 필요하므로 프로젝트에서 `package.json`에 `"type": "module"`을 사용하거나 TypeScript를 ESM 출력으로 컴파일해야 합니다. CommonJS 프로젝트에서는 오류가 발생합니다. ESM 프로젝트 설정에 대한 자세한 내용은 [TypeScript SDK integration](/ko/weave/guides/integrations/js#set-up-an-esm-project)을 참조하세요.
+</Note>
+
+<div id="install-packages">
+  ## 패키지 설치
+</div>
+
+Weave, Pi 및 Node 타입 정의를 로컬 프로젝트 의존성으로 설치하세요:
+
+```bash lines
+npm install weave @earendil-works/pi-coding-agent
+npm install --save-dev @types/node tsx typescript
+```
+
+<div id="trace-a-pi-prompt-and-response">
+  ## Pi 프롬프트와 응답 트레이스하기
+</div>
+
+다음 예시는 단일 Pi 프롬프트와 응답을 트레이스하는 데 필요한 최소 설정을 보여줍니다. 에이전트 Session을 만들기 전에 `weave.init()`을 호출한 다음, `createOtelExtension()`을 확장 팩토리로 전달하세요. Weave는 Session, 각 프롬프트와 응답 사이클(`invoke_agent`), 개별 LLM Call(`chat`), 도구 실행(`execute_tool`)을 포함한 에이전트의 전체 라이프사이클을 트레이스합니다. `SessionManager.inMemory()`가 Session ID를 자동으로 생성합니다.
+
+```typescript lines
+import {init, createOtelExtension} from 'weave';
+
+import {
+  createAgentSession,
+  DefaultResourceLoader,
+  SessionManager,
+  getAgentDir,
+} from '@earendil-works/pi-coding-agent';
+
+async function main() {
+  // 1. Weave 초기화. 사용자의 Weave 프로젝트를 가리키는 OTEL TracerProvider를
+  //    설정합니다. createOtelExtension()으로 생성된 모든 span은
+  //    자동으로 여기에 내보내집니다.
+  await init('[YOUR-TEAM]/[YOUR-PROJECT]');
+
+  // 2. 리소스 로더를 생성하고 Weave OTEL 확장을 주입합니다.
+  //    리소스 로더는 에이전트 활동 트레이싱에 사용되는 Pi 런타임 환경과
+  //    확장 라이프사이클을 제공합니다.
+  const resourceLoader = new DefaultResourceLoader({
+    cwd: process.cwd(),
+    agentDir: getAgentDir(),
+    extensionFactories: [createOtelExtension({})],
+  });
+
+  await resourceLoader.reload();
+
+  // 3. 에이전트 Session 시작
+  const {session} = await createAgentSession({
+    resourceLoader,
+    sessionManager: SessionManager.inMemory(),
+  });
+
+  // 4. 확장 바인딩. session_start 이벤트를 트리거하여 OTEL 어댑터가
+  //    루트 Session span을 생성하고 대화 ID를 캡처합니다.
+  await session.bindExtensions({});
+
+  // 5. 어시스턴트 출력을 stdout으로 스트림
+  session.subscribe(event => {
+    if (
+      event.type === 'message_update' &&
+      event.assistantMessageEvent.type === 'text_delta'
+    ) {
+      process.stdout.write(event.assistantMessageEvent.delta);
+    }
+  });
+
+  // 6. 프롬프트 전송 후 전체 응답 대기
+  await session.prompt('What files are in the current directory?');
+  console.log();
+}
+
+main();
+```
+
+`tsx`를 사용해 스크립트를 컴파일하고 실행하세요. `[FILENAME]`은 TypeScript 파일 이름으로 바꾸세요:
+
+```bash
+npx tsx [FILENAME].ts
+```
+
+코드를 실행하면 Weave 프로젝트의 **Agents** 탭 `https://wandb.ai/[YOUR-TEAM]/[YOUR-PROJECT]/weave/agents`에 트레이스가 표시됩니다. Weave는 애플리케이션의 모든 run에 대해 Pi 세션, LLM Call, 도구 실행을 캡처합니다.
+
+<div id="next-steps">
+  ### 다음 단계
+</div>
+
+이 예제를 멀티턴 Session으로 전환하려면 프롬프트를 더 추가하세요. Weave는 `session.prompt()`를 호출할 때마다 각각 별도의 `invoke_agent` span으로 트레이스하며, 모두 하나의 루트 span 아래에 중첩됩니다. 에이전트는 프롬프트 간 컨텍스트를 자동으로 유지합니다.
+
+코드를 실행한 후 **Agents** 탭에서 중첩된 LLM calls, 도구 실행, token 사용량, 비용이 포함된 전체 멀티턴 타임라인을 확인할 수 있습니다.

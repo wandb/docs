@@ -1,0 +1,197 @@
+---
+title: Claude Code プラグイン
+description: 可観測性の向上とデバッグのため、W&B Weave で Claude Code のセッションをトラッキングします。
+keywords: ["Claude Code", "OTEL", "トレース", "エージェント", "プラグイン"]
+---
+
+import AgentsPreview from '/snippets/ja/_includes/agents-public-preview.mdx';
+
+<AgentsPreview />
+
+Weave Claude Code プラグインは、すべての Claude Code セッションを自動的にトレースし、構造化データを W&amp;B Weave に送信します。コードを変更しなくても、各ターン、ツール呼び出し、サブエージェントがログされます。これらのトレースを使用すると、セッションのデバッグ、ツール使用状況の監査、Runs 全体にわたるコストとレイテンシの監視を行えます。
+
+このガイドでは、プラグインのインストール、Weave での Claude Code トレースの表示、プラグインの設定、ライフサイクルの管理について説明します。
+
+<Warning>
+  このプラグインは、Claude Code のセッションデータを Weave に送信します。このデータには、ユーザーのプロンプト、Claude の応答、ツールの入力と出力、Claude Code ツールが読み取ったファイルの内容、シェルコマンドとその出力、取得した URL とページの内容が含まれる場合があります。
+
+  PII のスクラビングと機密データのマスク処理は実装されていません。セキュリティ要件またはコンプライアンス要件のためにこのデータを Weave に送信できない場合は、このプラグインをインストールしないでください。
+</Warning>
+
+<div id="prerequisites">
+  ## 前提条件
+</div>
+
+* [Node.js](https://nodejs.org/) v18 以降 (`npm` を含む) 。
+* [Claude Code](https://claude.ai/code) がインストール済みで、認証されていること。
+* W&amp;B アカウントを持ち、[APIキー](https://wandb.ai/authorize) が `WANDB_API_KEY` 環境変数として設定されていること。
+* トレースの送信先となる Weave プロジェクト (`[YOUR-TEAM]/[YOUR-PROJECT]`) 。
+
+<div id="install-the-plugin">
+  ## プラグインをインストールする
+</div>
+
+CLI をインストールし、インストーラーを実行してプラグインを Claude Code に登録してから、Claude Code セッションを開始してトレースを開始します。
+
+<Steps>
+  <Step title="CLI をインストールします">
+    ```bash lines
+    npm install -g weave-claude-code
+    ```
+  </Step>
+
+  <Step title="インストーラーを実行します">
+    ```bash lines
+    weave-claude-code install
+    ```
+
+    インストーラーは次の処理を行います。
+
+    * `~/.weave-claude-code/settings.json` を作成します。
+    * Claude Code にプラグインを登録します。
+    * Weave project (`[YOUR-TEAM]/[YOUR-PROJECT]`) と W&amp;B APIキー がまだ設定されていない場合は、入力を求めます。
+
+    CI、ブートストラップスクリプト、またはその他の自動化システムで入力を省略するには、実行前に環境変数を設定します。
+
+    ```bash lines
+    WEAVE_PROJECT=[YOUR-TEAM]/[YOUR-PROJECT] \
+    WANDB_API_KEY=[YOUR-API-KEY] \
+    weave-claude-code install --non-interactive
+    ```
+
+    非対話モードでも、インストーラーは設定ファイルを作成し、プラグインを登録します。環境から `WEAVE_PROJECT` と `WANDB_API_KEY` を使用し、どちらかが不足している場合は警告を表示します。
+  </Step>
+
+  <Step title="Claude Code を起動します">
+    ```bash lines
+    claude
+    ```
+
+    この時点から、プラグインはセッションを自動的にトレースします。いくつかプロンプトを実行したら、Weave project を開いてトレースが表示されることを確認してください。
+  </Step>
+</Steps>
+
+<div id="view-claude-code-traces-in-weave">
+  ## Weave で Claude Code のトレースを表示する
+</div>
+
+少なくとも 1 つの Claude Code セッションを実行した後、Weave UI で project を開いてください。
+
+1. [https://wandb.ai](https://wandb.ai) にアクセスし、project を選択します。
+2. サイドバーメニューで **Agents** を選択して、project に保存されているすべてのエージェントとの会話を表示します。
+3. 会話を選択して、セッションツリー全体を確認します。
+
+Agents ビューの詳細については、[エージェントアクティビティを表示する](/ja/weave/guides/tracking/view-agent-activity) を参照してください。
+
+各ユーザーのプロンプトごとに、[GenAI semantic conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/) に従った 1 つの OTEL トレースが生成されます。トレースには、ターン の階層全体が表示されます。
+
+```text
+invoke_agent claude-code               (ルート。ユーザープロンプトごとに1つのトレース。)
+├─ chat <model>                        (ターン内の各LLM呼び出し。)
+├─ execute_tool <tool_name>            (Read、Bash、Grep などの各ツール呼び出し。)
+└─ invoke_agent <subagent_type>        (Agent ツールを通じてディスパッチされるサブエージェント。)
+   ├─ chat <model>
+   └─ execute_tool <tool_name>
+```
+
+複数ターンの会話は、サーバー側でセッション ID によって関連付けられるため、複数のトレースにまたがって会話全体を追跡できます。各スパンには、トークン使用量、モデル名、tool の入力と出力、タイミング、およびプロンプトと応答のテキスト内容が含まれます。トレースされるデータの詳細については、GitHub の [What Gets Traced](https://github.com/wandb/weave-claude-code/blob/main/README.md#what-gets-traced) を参照してください。
+
+<div id="configure-the-plugin">
+  ## プラグインを設定する
+</div>
+
+インストール後は、`weave-claude-code config` コマンドを使用してプラグインの設定を表示または更新できます:
+
+```bash lines
+# 現在のすべての設定を表示します。
+weave-claude-code config show
+
+# Weave project を設定します。
+weave-claude-code config set weave_project [YOUR-TEAM]/[YOUR-PROJECT]
+
+# W&B APIキーを設定します。
+weave-claude-code config set wandb_api_key [YOUR-API-KEY]
+```
+
+環境変数は settings file より優先されます。
+
+```bash lines
+export WEAVE_PROJECT=[YOUR-TEAM]/[YOUR-PROJECT]
+export WANDB_API_KEY=[YOUR-API-KEY]
+```
+
+<div id="weave-skills">
+  ## Weave スキル
+</div>
+
+インストール後、Weave 専用の 3 つのスキルを、どの Claude Code セッションでも直接利用できます。
+
+| Skill   | Command                | Description                                                                                                  |
+| ------- | ---------------------- | ------------------------------------------------------------------------------------------------------------ |
+| Install | `/weave:weave-install` | インタラクティブに、インストールと設定の手順を順を追って案内します。新しいマシンでの使用時や、壊れたセットアップの診断に使用してください。                                        |
+| Status  | `/weave:weave-status`  | 現在のプラグインのステータスを確認し、問題があればその内容を説明します。`weave-claude-code status` を実行するのと同等ですが、Claude が出力を解釈して、修正すべき内容を教えてくれます。 |
+| Config  | `/weave:weave-config`  | Claude Code を離れることなく、プラグインの設定を確認または更新できます。                                                                   |
+
+Claude Code 内から Weave の設定値を設定するには、`weave:weave-config` スキルを使用できます。
+
+```text
+/weave:weave-config set weave_project [YOUR-TEAM]/[YOUR-PROJECT]
+/weave:weave-config set wandb_api_key [YOUR-API-KEY]
+```
+
+<div id="check-plugin-status">
+  ## プラグインのステータスを確認する
+</div>
+
+以下のCLIコマンドを使用すると、プラグインのステータスを確認したり、問題をトラブルシューティングしたりできます。
+
+```bash lines
+weave-claude-code status
+```
+
+各行には、`✓` (OK) 、`✗` (要対応) 、または `-` (まだ有効ではありませんが、エラーではありません) が表示されます。
+
+Weave にセッションが表示されない場合は、デーモン ログを確認してください。
+
+```bash lines
+weave-claude-code logs
+```
+
+ログをリアルタイムで確認するには:
+
+```bash lines
+weave-claude-code logs --follow
+```
+
+ログファイルは `~/.weave-claude-code/logs/daemon.log` にもあります。
+
+<div id="wb-dedicated-cloud-or-self-hosted-instances">
+  ### W&amp;B 専用クラウドまたはセルフホスト インスタンス
+</div>
+
+W&amp;B 専用クラウドまたはセルフホスト インスタンスを使用している場合は、Claude Code を起動する前に `WANDB_BASE_URL` を設定してください。
+
+```bash lines
+export WANDB_BASE_URL=https://[YOUR-INSTANCE].wandb.io
+```
+
+プラグインはバックグラウンド デーモンを実行し、起動時に `WANDB_BASE_URL` を読み取ります。変数を設定した時点ですでにデーモンが実行中の場合、変更は検出されません。デーモンを再起動するには、次の手順を実行してください。
+
+1. デーモンを停止します。
+   ```bash lines
+   printf '{"command":"shutdown"}' | nc -U -w1 ~/.weave-claude-code/daemon.sock
+   ```
+2. `WANDB_BASE_URL` を設定するか、`wandb login --host https://[YOUR-INSTANCE].wandb.io` を実行して、セッションをまたいで設定が保持されるようにします。
+3. Claude Code を再度起動します。デーモンは自動的に再起動し、正しい URL を使用します。
+
+<div id="uninstall">
+  ## アンインストール
+</div>
+
+Claude Code からプラグインを削除するには、以下を実行します。
+
+```bash lines
+weave-claude-code uninstall
+```
+
+ログディレクトリを保持するには、`--keep-logs` を指定します。

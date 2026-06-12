@@ -1,9 +1,12 @@
 ---
-title: "Obtenir une référence vers l'objet Call pendant l'exécution"
-description: "Accédez à l'objet Call de W&B Weave à l'exécution pour le feedback, les noms d'affichage et d'autres métadonnées"
+title: "Obtenir une référence à l’objet Call pendant l’exécution"
+description: "Accédez à l’objet W&B Weave `Call` à l’exécution pour le feedback, les noms d’affichage et d’autres métadonnées"
+keywords: [objet Call, op.call, métadonnées d’exécution, feedback, tracing]
 ---
 
-Dans Weave, lorsque vous utilisez un Op, vous pouvez appeler les fonctions directement, comme vous le feriez pour n&#39;importe quelle autre fonction :
+Ce guide explique comment obtenir une référence à l’objet Weave `Call` pendant l’exécution de votre code, afin d’inspecter les entrées et les sorties, de mettre à jour des métadonnées ou d’ajouter du feedback à l’exécution. Il s’adresse aux développeurs qui utilisent déjà les Ops de Weave et souhaitent interagir de manière programmatique avec l’objet `Call` sous-jacent.
+
+Lorsque vous utilisez une Op dans Weave, vous pouvez l’appeler directement comme n’importe quelle fonction :
 
 <CodeGroup>
   ```python Python lines
@@ -23,7 +26,7 @@ Dans Weave, lorsque vous utilisez un Op, vous pouvez appeler les fonctions direc
   ```
 </CodeGroup>
 
-Cependant, vous pouvez aussi accéder directement à l&#39;objet Call en invoquant la méthode `op.call`, qui renvoie à la fois le résultat et l&#39;objet `Call`.
+Pour accéder directement à l’objet `Call`, appelez la méthode `op.call`, qui renvoie à la fois le résultat et l’objet `Call` :
 
 <Tabs>
   <Tab title="Python">
@@ -35,9 +38,9 @@ Cependant, vous pouvez aussi accéder directement à l&#39;objet Call en invoqua
     output, call = my_op.call()
     ```
 
-    À ce stade, l&#39;objet `call` contient toutes les informations sur le `Call`, y compris les entrées, les sorties et d&#39;autres métadonnées. Vous pouvez utiliser `call` pour définir, mettre à jour, récupérer des propriétés supplémentaires ou ajouter du feedback.
+    L’objet `call` contient toutes les informations sur le `Call`, y compris les entrées, les sorties et d’autres métadonnées. Utilisez `call` pour définir, mettre à jour, récupérer des propriétés supplémentaires ou ajouter du feedback.
 
-    Si votre Op est une méthode d&#39;une classe, vous devez passer l&#39;instance de la classe comme premier argument à `call`. L&#39;exemple suivant montre comment obtenir une référence à un objet Call associé à une méthode d&#39;une classe :
+    Si votre Op est une méthode d’une classe, passez l’instance de classe comme premier argument à `call` :
 
     ```python lines
     import weave
@@ -59,8 +62,8 @@ Cependant, vous pouvez aussi accéder directement à l&#39;objet Call en invoqua
   </Tab>
 
   <Tab title="TypeScript">
-    ```plaintext
-    Cette fonctionnalité n'est pas encore disponible dans le SDK TypeScript.
+    ```text
+    Cette fonctionnalité n’est pas encore disponible dans le SDK TypeScript.
     ```
   </Tab>
 </Tabs>

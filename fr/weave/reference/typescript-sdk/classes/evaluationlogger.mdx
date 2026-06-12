@@ -5,10 +5,10 @@ description: "Référence du SDK TypeScript"
 
 [weave](../) / EvaluationLogger
 
-EvaluationLogger permet la journalisation incrémentielle des prédictions et des scores.
+EvaluationLogger permet la mise au journal incrémentielle des prédictions et des scores.
 
 Contrairement à la classe Evaluation traditionnelle, qui nécessite un jeu de données défini à l’avance et un traitement par lots,
-EvaluationLogger vous permet d’enregistrer les prédictions au fur et à mesure, avec une attribution flexible des scores.
+EvaluationLogger vous permet de mettre au journal les prédictions au fur et à mesure, avec une attribution flexible des scores.
 
 `Exemple`
 
@@ -27,7 +27,6 @@ for (const example of streamingData) {
 
 await ev.logSummary();
 ```
-
 
 <div id="table-of-contents">
   ## Table des matières
@@ -73,7 +72,7 @@ await ev.logSummary();
   #### Défini dans
 </div>
 
-[evaluationLogger.ts:554](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/evaluationLogger.ts#L554)
+[evaluationLogger.ts:570](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/evaluationLogger.ts#L570)
 
 ## Méthodes
 
@@ -115,12 +114,11 @@ scoreLogger.finish();
 await evalLogger.logSummary(); // Attend la fin de toutes les opérations
 ```
 
-
 <div id="defined-in">
   #### Défini dans
 </div>
 
-[evaluationLogger.ts:641](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/evaluationLogger.ts#L641)
+[evaluationLogger.ts:657](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/evaluationLogger.ts#L657)
 
 ***
 
@@ -154,18 +152,17 @@ Utilisez cette méthode si vous devez attendre l&#39;initialisation avant de con
 `Exemple`
 
 ```ts
-// Style awaitable
+// Style avec await
 const scoreLogger = await evalLogger.logPredictionAsync({input: 'test'}, 'output');
 await scoreLogger.logScore('accuracy', 0.95);
 await scoreLogger.finish();
 ```
 
-
 <div id="defined-in">
   #### Défini dans
 </div>
 
-[evaluationLogger.ts:666](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/evaluationLogger.ts#L666)
+[evaluationLogger.ts:682](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/evaluationLogger.ts#L682)
 
 ***
 
@@ -199,4 +196,4 @@ elle attendra que toutes les opérations en attente soient terminées.
   #### Défini dans
 </div>
 
-[evaluationLogger.ts:767](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/evaluationLogger.ts#L767)
+[evaluationLogger.ts:783](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/evaluationLogger.ts#L783)

@@ -30,17 +30,17 @@ Si vous voyez `Cuda out of memory` lors d’un sweep, refactorisez votre code po
 
 3. Initialisez le sweep avec la CLI :
 
-   ```shell
+   ```bash
    wandb sweep config.yaml
    ```
 
-4. Démarrez l&#39;agent de sweep avec la CLI, en remplaçant `sweep_ID` par l&#39;ID renvoyé à l&#39;étape précédente :
+4. Démarrez l&#39;agent de sweep avec la CLI. Remplacez `[SWEEP-ID]` par l&#39;ID renvoyé à l&#39;étape précédente :
 
-   ```shell
-   wandb agent sweep_ID
+   ```bash
+   wandb agent [SWEEP-ID]
    ```
 
-L&#39;utilisation de l&#39;agent via la CLI (`wandb agent`) au lieu du SDK Python (`wandb.agent`) garantit que chaque run s’exécute dans un processus distinct avec sa propre allocation mémoire, ce qui évite l’accumulation de mémoire CUDA entre les runs.
+L&#39;agent via la CLI (`wandb agent`) exécute chaque run dans un processus distinct avec sa propre allocation mémoire, ce qui évite l’accumulation de mémoire CUDA entre les runs. Le SDK Python (`wandb.agent`) n&#39;offre pas cette isolation des processus.
 
 Pour plus d&#39;informations, voir [dépannage de Sweeps](/fr/models/sweeps/troubleshoot-sweeps/).
 

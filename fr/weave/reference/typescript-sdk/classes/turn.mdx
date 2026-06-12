@@ -1,0 +1,309 @@
+---
+title: "Classe : tour de conversation"
+description: "Référence du SDK TypeScript"
+---
+
+[weave](../) / tour de conversation
+
+Une invocation d’agent. Elle encapsule généralement le travail nécessaire
+pour répondre à un seul message d’un utilisateur. Elle émet un span `invoke_agent` et sert de racine à la
+trace de ce tour de conversation : elle est toujours démarrée sous `ROOT_CONTEXT` afin de
+ne jamais hériter accidentellement d’un parent provenant d’une autre bibliothèque
+instrumentée avec OTel.
+
+Créé par `weave.startTurn()` (ou `session.startTurn()`) et
+terminé avec `end()`. Un seul tour de conversation peut être actif dans une chaîne asynchrone.
+Les enfants (LLM, Tool, SubAgent) s’y rattachent via les méthodes `startLLM`, `startTool`,
+`startSubagent`.
+
+`Exemple`
+
+```ts
+const turn = weave.startTurn({agentName: 'research-bot', model: MODEL});
+try {
+  const llm = turn.startLLM({model: MODEL, providerName: 'openai'});
+  // ...
+  llm.end();
+} finally {
+  turn.end();
+}
+```
+
+<div id="table-of-contents">
+  ## Table des matières
+</div>
+
+<div id="properties">
+  ### Propriétés
+</div>
+
+* [agentName](./turn#agentname)
+* [model](./turn#model)
+
+<div id="methods">
+  ### Méthodes
+</div>
+
+* [addEvent](./turn#addevent)
+* [end](./turn#end)
+* [setAttribute](./turn#setattribute)
+* [startLLM](./turn#startllm)
+* [startSubagent](./turn#startsubagent)
+* [startTool](./turn#starttool)
+* [create](./turn#create)
+
+## Propriétés
+
+<div id="agentname">
+  ### agentName
+</div>
+
+• `Readonly` **agentName**: `string`
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[genai/turn.ts:60](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L60)
+
+***
+
+<div id="model">
+  ### model
+</div>
+
+• `Readonly` **model**: `string`
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[genai/turn.ts:61](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L61)
+
+## Méthodes
+
+<div id="addevent">
+  ### addEvent
+</div>
+
+▸ **addEvent**(`name`, `attributes?`, `startTime?`): `this`
+
+Ajoutez un événement nommé au span tour de conversation. Utile pour marquer des moments qui ne correspondent pas à des spans,
+comme le compactage du contexte, la détection de boucles d&#39;outil ou le déclenchement de garde-fous.
+Sans effet après `end()`. Reproduit le comportement de `Span.addEvent` d’OTel.
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom           | Type         |
+| :------------ | :----------- |
+| `name`        | `string`     |
+| `attributes?` | `Attributes` |
+| `startTime?`  | `TimeInput`  |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`this`
+
+`Exemple`
+
+```ts
+turn.addEvent('context_compacted', {removedMessages: 12});
+```
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[genai/turn.ts:152](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L152)
+
+***
+
+<div id="end">
+  ### end
+</div>
+
+▸ **end**(`opts?`): `void`
+
+Ferme le span tour de conversation. Cette opération est idempotente. Passez `error` pour le marquer comme ayant échoué.
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom           | Type     |
+| :------------ | :------- |
+| `opts?`       | `Object` |
+| `opts.error?` | `Error`  |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`void`
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[genai/turn.ts:159](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L159)
+
+***
+
+<div id="setattribute">
+  ### setAttribute
+</div>
+
+▸ **setAttribute**(`key`, `value`): `this`
+
+Définit un seul attribut sur le span du tour de conversation. Utile pour consigner des
+totaux cumulés en cours d’exécution (par exemple, le coût cumulé ou l’utilisation de jetons) ou d’autres métadonnées qui ne deviennent
+connues qu’en cours de tour de conversation. N’a aucun effet après `end()`. Équivaut à `Span.setAttribute` d’OTel.
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom     | Type             |
+| :------ | :--------------- |
+| `key`   | `string`         |
+| `value` | `AttributeValue` |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`this`
+
+`Exemple`
+
+```ts
+turn.setAttribute('gen_ai.usage.input_tokens', totalInputTokens);
+```
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[genai/turn.ts:138](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L138)
+
+***
+
+<div id="startllm">
+  ### startLLM
+</div>
+
+▸ **startLLM**(`opts`): [`LLM`](./llm)
+
+Démarre un span LLM enfant dans ce tour de conversation.
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom    | Type                               |
+| :----- | :--------------------------------- |
+| `opts` | [`LLMInit`](../interfaces/llminit) |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+[`LLM`](./llm)
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[genai/turn.ts:104](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L104)
+
+***
+
+<div id="startsubagent">
+  ### startSubagent
+</div>
+
+▸ **startSubagent**(`opts`): [`SubAgent`](./subagent)
+
+Démarre un span SubAgent enfant au sein de ce tour de conversation.
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom    | Type                                         |
+| :----- | :------------------------------------------- |
+| `opts` | [`SubAgentInit`](../interfaces/subagentinit) |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+[`SubAgent`](./subagent)
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[genai/turn.ts:122](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L122)
+
+***
+
+<div id="starttool">
+  ### startTool
+</div>
+
+▸ **startTool**(`opts`): [`Tool`](./tool)
+
+Démarre un span enfant de Tool dans ce tour de conversation.
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom    | Type                                 |
+| :----- | :----------------------------------- |
+| `opts` | [`ToolInit`](../interfaces/toolinit) |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+[`Tool`](./tool)
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[genai/turn.ts:113](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L113)
+
+***
+
+<div id="create">
+  ### create
+</div>
+
+▸ **create**(`opts?`): [`tour de conversation`](./turn)
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom    | Type                                                                                  |
+| :----- | :------------------------------------------------------------------------------------ |
+| `opts` | [`TurnInit`](../interfaces/turninit) &amp; &#123; `conversationId?`: `string`  &#125; |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+[`tour de conversation`](./turn)
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[genai/turn.ts:64](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L64)
