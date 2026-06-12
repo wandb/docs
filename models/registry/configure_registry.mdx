@@ -22,7 +22,7 @@ Registry admins can add individual users or entire teams to a registry. To add a
     <img src="/images/registry/add_team_registry.gif" alt="Adding teams to registry"  />
 </Frame>
 
-Learn more about [configuring user roles in a registry](/models/registry/configure_registry/#configure-registry-roles), or [registry role permissions](/models/registry/configure_registry/#registry-role-permissions) . 
+Learn more about [configuring user roles in a registry](/models/registry/configure_registry/#configure-registry-roles), or [registry role permissions](/models/registry/configure_registry#role-permissions) . 
 
 ### Remove a user or team
 A registry admin can remove individual users or entire teams from a registry. To remove a user or team from a registry:
@@ -80,10 +80,27 @@ W&B automatically assigns a default **registry role** to a user or team when the
 | Service account (non admin)            | Member<sup><a href="#service_account_footnote">1</a></sup>                | Member<sup><a href="#service_account_footnote">1</a></sup> |
 | Org admin                              | Admin                                                       | Admin                                           |
 
-<a id="service_account_footnote">1</a>: Service accounts cannot have **Viewer** or **Restricted Viewer** roles.
+<a id="service_account_footnote">1</a>: Service accounts cannot have **Viewer** or **Restricted Viewer** roles. See [Service account access](#service-account-access) for how a service account's access is determined.
 
 A registry admin can assign or modify roles for users and teams in the registry.
 See [Configure user roles in a registry](/models/registry/configure_registry/#configure-registry-roles) for more information.
+
+### Service account access
+
+W&B assigns a default access level to a service account based on the registry's visibility and the service account's team role. A registry admin can modify a service account's access by [adding the service account to the registry with a Member or Admin role](/models/registry/configure_registry/#add-a-user-or-a-team-to-a-registry).
+
+The following describes the default access level for a service account:
+
+- **Registries with Organization visibility**: a service account automatically has **Member** access.
+- **Registries with Restricted visibility**: service acount access depends on the role assigned to the service account's team:
+  - If the team is added to the registry as a **Member** or **Admin**, the service account automatically receives **Member** access.
+  - If the team is a **Viewer** or **Restricted Viewer**, the service account does *not* receive access automatically.
+
+<Note>
+Service accounts cannot have **Viewer** or **Restricted Viewer** roles. 
+</Note>
+
+See [Visibility types](/models/registry/create_registry#visibility-types) for more information about registry visibility types.
 
 ### Role permissions
 The following table lists each Registry role, along with the permissions provided by each role:
