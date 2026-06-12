@@ -5,11 +5,13 @@ title: PaddleOCR
 
 import ApiKeyCreateStreamlined from "/snippets/_includes/api-key-create-streamlined.mdx";
 
-[PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR) aims to create multilingual, awesome, leading, and practical OCR tools that help users train better models and apply them into practice implemented in PaddlePaddle. PaddleOCR support a variety of cutting-edge algorithms related to OCR, and developed industrial solution. PaddleOCR now comes with a W&B integration for logging training and evaluation metrics along with model checkpoints with corresponding metadata.
+[PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR) provides multilingual, practical OCR tools that help users train models and apply them in production, implemented in PaddlePaddle. PaddleOCR supports a range of OCR algorithms and includes industrial solutions. PaddleOCR includes a W&B integration for logging training and evaluation metrics along with model checkpoints and corresponding metadata.
 
-## Example blog & Colab
+This page shows you how to enable the W&B integration in PaddleOCR so that your OCR training runs automatically stream metrics, validation results, and checkpoint metadata to a W&B dashboard. Use this integration to compare experiments, monitor training in real time, and keep a versioned history of your OCR models.
 
-[Read here](https://wandb.ai/manan-goel/text_detection/reports/Train-and-Debug-Your-OCR-Models-with-PaddleOCR-and-W-B--VmlldzoyMDUwMDIw) to see how to train a model with PaddleOCR on the ICDAR2015 dataset. This also comes with a [Google Colab](https://colab.research.google.com/drive/1id2VTIQ5-M1TElAkzjzobUCdGeJeW-nV?usp=sharing) and the corresponding live W&B dashboard is available [here](https://wandb.ai/manan-goel/text_detection). There is also a Chinese version of this blog here: [W&B对您的OCR模型进行训练和调试](https://wandb.ai/wandb_fc/chinese/reports/W-B-OCR---VmlldzoyMDk1NzE4)
+## Example blog and Colab
+
+See the [PaddleOCR and W&B training tutorial](https://wandb.ai/manan-goel/text_detection/reports/Train-and-Debug-Your-OCR-Models-with-PaddleOCR-and-W-B--VmlldzoyMDUwMDIw) for how to train a model with PaddleOCR on the ICDAR2015 dataset. This also comes with a [Google Colab](https://colab.research.google.com/drive/1id2VTIQ5-M1TElAkzjzobUCdGeJeW-nV?usp=sharing) and the corresponding live [W&B dashboard](https://wandb.ai/manan-goel/text_detection). A Chinese version of this blog is also available: [W&B对您的OCR模型进行训练和调试](https://wandb.ai/wandb_fc/chinese/reports/W-B-OCR---VmlldzoyMDk1NzE4).
 
 ## Sign up and create an API key
 
@@ -25,8 +27,8 @@ An API key authenticates your machine to W&B. You can generate an API key from y
 To install the `wandb` library locally and log in:
 
 <Tabs>
-<Tab title="Command Line">
-1. Set the `WANDB_API_KEY` [environment variable](/models/track/environment-variables/) to your API key.
+<Tab title="Command line">
+1. Set the `WANDB_API_KEY` [environment variable](/models/track/environment-variables/) to your API key. Replace values enclosed in `<>` with your own:
 
     ```bash
     export WANDB_API_KEY=<your_api_key>
@@ -36,7 +38,7 @@ To install the `wandb` library locally and log in:
 
 
 
-    ```shell
+    ```bash
     pip install wandb
 
     wandb login
@@ -52,7 +54,7 @@ wandb.login()
 ```
 </Tab>
 <Tab title="Python notebook">
-```notebook
+```python
 !pip install wandb
 
 import wandb
@@ -61,33 +63,33 @@ wandb.login()
 </Tab>
 </Tabs>
 
-## Add wandb to your `config.yml` file
+## Add `wandb` to your `config.yml` file
 
-PaddleOCR requires configuration variables to be provided using a yaml file. Adding the following snippet at the end of the configuration yaml file will automatically log all training and validation metrics to a W&B dashboard along with model checkpoints:
+PaddleOCR requires you to provide configuration variables using a YAML file. To enable W&B logging, add the following snippet at the end of the configuration YAML file. This setting configures PaddleOCR to automatically log all training and validation metrics to a W&B dashboard along with model checkpoints:
 
-```python
+```yaml
 Global:
     use_wandb: True
 ```
 
-Any additional, optional arguments that you might like to pass to [`wandb.init()`](/models/ref/python/functions/init) can also be added under the `wandb` header in the yaml file:
+You can also add any additional, optional arguments that you want to pass to [`wandb.init()`](/models/ref/python/functions/init) under the `wandb` header in the YAML file:
 
-```
-wandb:  
-    project: CoolOCR  # (optional) this is the wandb project name 
+```yaml
+wandb:
+    project: CoolOCR  # (optional) this is the wandb project name
     entity: my_team   # (optional) if you're using a wandb team, you can pass the team name here
     name: MyOCRModel  # (optional) this is the name of the wandb run
 ```
 
 ## Pass the `config.yml` file to `train.py`
 
-The yaml file is then provided as an argument to the [training script](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.5/tools/train.py) available in the PaddleOCR repository.
+With W&B logging configured, start training by passing the YAML file as an argument to the [training script](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.5/tools/train.py) available in the PaddleOCR repository.
 
 ```bash
 python tools/train.py -c config.yml
 ```
 
-Once you run your `train.py` file with W&B turned on, a link will be generated to bring you to your W&B dashboard:
+Once you run your `train.py` file with W&B enabled, PaddleOCR generates a link to your W&B dashboard, where you can monitor training and validation metrics in real time:
 
 <Frame>
     <img src="/images/integrations/paddleocr_wb_dashboard1.png" alt="PaddleOCR training dashboard"  />
@@ -98,7 +100,7 @@ Once you run your `train.py` file with W&B turned on, a link will be generated t
 </Frame>
 
 <Frame>
-    <img src="/images/integrations/paddleocr_wb_dashboard3.png" alt="Text Detection Model dashboard"  />
+    <img src="/images/integrations/paddleocr_wb_dashboard3.png" alt="Text detection model dashboard"  />
 </Frame>
 
 ## Feedback or issues

@@ -3,34 +3,33 @@ description: "Integrate W&B with Ray Tune to track hyperparameter tuning trials,
 title: Ray Tune
 ---
 
-W&B integrates with [Ray](https://github.com/ray-project/ray) by offering two lightweight integrations.
+This page describes how to use W&B with [Ray](https://github.com/ray-project/ray) Tune so you can track hyperparameter tuning trials, log metrics, and compare experiment results across runs. W&B offers two lightweight integrations with Ray, and you can choose the one that best fits your training workflow:
 
-- The`WandbLoggerCallback` function automatically logs metrics reported to Tune to the Wandb API.
-- The `setup_wandb()` function, which can be used with the function API,  automatically initializes the Wandb API with Tune's training information. You can use the Wandb API as usual. such as by using `run.log()` to log your training process.
+- The `WandbLoggerCallback` function automatically logs metrics reported to Tune to the W&B API.
+- The `setup_wandb()` function, which you can use with the function API, automatically initializes the W&B API with Tune's training information. You can use the W&B API as usual, such as by calling `run.log()` to log your training process.
 
 ## Configure the integration
+
+This section describes how to configure the `WandbLoggerCallback`, which is the most direct way to send Tune trial metrics to W&B.
 
 ```python
 from ray.air.integrations.wandb import WandbLoggerCallback
 ```
 
-Wandb configuration is done by passing a wandb key to the config parameter of `tune.run()` (see example below).
+To configure W&B, pass a wandb key to the config parameter of `tune.run()`. See the [example](#example) for usage.
 
-The content of the wandb config entry is passed to `wandb.init()` as keyword arguments. The exception are the following settings, which are used to configure the `WandbLoggerCallback` itself:
+The integration passes the content of the wandb config entry to `wandb.init()` as keyword arguments. The exceptions are the settings that configure the `WandbLoggerCallback` itself.
 
 ### Parameters
 
-`project (str)`: Name of the Wandb project. Mandatory.
+The `WandbLoggerCallback` accepts the following parameters:
 
-`api_key_file (str)`: Path to file containing the Wandb API KEY.
-
-`api_key (str)`: Wandb API Key. Alternative to setting `api_key_file`.
-
-`excludes (list)`: List of metrics to exclude from the log.
-
-`log_config (bool)`: Whether to log the config parameter of the results dictionary. Defaults to False.
-
-`upload_checkpoints (bool)`:  If True, model checkpoints are uploaded as artifacts. Defaults to False.
+- `project (str)`: Name of the W&B project. Required.
+- `api_key_file (str)`: Path to file containing the W&B API key.
+- `api_key (str)`: W&B API key. Alternative to setting `api_key_file`.
+- `excludes (list)`: List of metrics to exclude from the log.
+- `log_config (bool)`: Whether to log the config parameter of the results dictionary. Defaults to `False`.
+- `upload_checkpoints (bool)`: If `True`, uploads model checkpoints as artifacts. Defaults to `False`.
 
 ### Example
 
@@ -64,11 +63,13 @@ results = tuner.fit()
 
 ## setup_wandb
 
+Use `setup_wandb()` when you want direct control over W&B logging from inside your training function, for example, to call `run.log()` with custom metrics alongside Tune's reporting.
+
 ```python
 from ray.air.integrations.wandb import setup_wandb
 ```
 
-This utility function helps initialize Wandb for use with Ray Tune. For basic usage, call `setup_wandb()` in your training function:
+This utility function helps initialize W&B for use with Ray Tune. For basic usage, call `setup_wandb()` in your training function:
 
 ```python
 from ray.air.integrations.wandb import setup_wandb
@@ -104,7 +105,7 @@ results = tuner.fit()
 
 ## Example code
 
-We've created a few examples for you to see how the integration works:
+For end-to-end references, see the following examples that show how the integration works:
 
-* [Colab](https://wandb.me/raytune-colab): A simple demo to try the integration.
-* [Dashboard](https://wandb.ai/anmolmann/ray_tune): View dashboard generated from the example.
+* [Try the integration in Colab](https://wandb.me/raytune-colab): A demo to try the integration.
+* [View the example dashboard](https://wandb.ai/anmolmann/ray_tune): View the dashboard generated from the example.

@@ -6,11 +6,11 @@ import { ColabLink } from '/snippets/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/diffusers/lcm-diffusers.ipynb" />
 
-[Hugging Face Diffusers](https://huggingface.co/docs/diffusers/index) is the go-to library for state-of-the-art pre-trained diffusion models for generating images, audio, and even 3D structures of molecules. The W&B integration adds rich, flexible experiment tracking, media visualization, pipeline architecture, and configuration management to interactive centralized dashboards without compromising that ease of use.
+[Hugging Face Diffusers](https://huggingface.co/docs/diffusers/index) is a library of pre-trained diffusion models for generating images, audio, and 3D structures of molecules. The W&B integration adds experiment tracking, media visualization, pipeline architecture tracking, and configuration management to interactive centralized dashboards.
 
-## Next-level logging in just two lines
+## Log experiments in two lines
 
-Log all the prompts, negative prompts, generated media, and configs associated with your experiment by simply including 2 lines of code. Here are the 2 lines of code to begin logging:
+To log all the prompts, negative prompts, generated media, and configs associated with your experiment, add the following two lines of code:
 
 ```python
 # import the autolog function
@@ -30,7 +30,7 @@ autolog(init=dict(project="diffusers_logging"))
 
     - Command line:
 
-        ```shell
+        ```bash
         pip install --upgrade diffusers transformers accelerate wandb
         ```
 
@@ -41,26 +41,24 @@ autolog(init=dict(project="diffusers_logging"))
         ```
 
 
-2. Use `autolog` to initialize a W&B Run and automatically track the inputs and the outputs from [all supported pipeline calls](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72).
+2. Call `autolog()` with the `init` parameter, which accepts a dictionary of parameters required by [`wandb.init()`](/models/ref/python/functions/init). `autolog()` initializes a W&B run and automatically tracks the inputs and outputs from [all supported pipeline calls](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72):
 
-    You can call the `autolog()` function with the `init` parameter, which accepts a dictionary of parameters required by [`wandb.init()`](/models/ref/python/functions/init).
-
-    When you call `autolog()`, it initializes a W&B Run and automatically tracks the inputs and the outputs from [all supported pipeline calls](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72).
-
-    - Each pipeline call is tracked into its own [table](/models/tables/) in the workspace, and the configs associated with the pipeline call is appended to the list of workflows in the configs for that run.
-    - The prompts, negative prompts, and the generated media are logged in a [`wandb.Table`](/models/tables/).
-    - All other configs associated with the experiment including seed and the pipeline architecture are stored in the config section for the run.
+    - Each pipeline call is tracked into its own [table](/models/tables/) in the workspace, and the configs associated with the pipeline call are appended to the list of workflows in the configs for that run.
+    - The prompts, negative prompts, and generated media are logged in a [`wandb.Table`](/models/tables/).
+    - All other configs associated with the experiment, including seed and pipeline architecture, are stored in the config section for the run.
     - The generated media for each pipeline call are also logged in [media panels](/models/track/log/media/) in the run.
 
     <Note>
-    You can find a [list of supported pipeline calls](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72). In case, you want to request a new feature of this integration or report a bug associated with it, open an issue on the [W&B GitHub issues page](https://github.com/wandb/wandb/issues).
+    Find a [list of supported pipeline calls](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72). To request a new feature of this integration or report a bug, open an issue on the [W&B GitHub issues page](https://github.com/wandb/wandb/issues).
     </Note>
 
 ## Examples
 
-### Autologging
+The following examples show `autolog` in typical diffusion workflows so you can adapt them to your own pipelines.
 
-Here is a brief end-to-end example of the autolog in action:
+### Autolog example
+
+The following is an end-to-end example of `autolog`:
 
 <Tabs>
 <Tab title="Script">
@@ -132,6 +130,7 @@ run.finish()
 </Tab>
 </Tabs>
 
+The following images show what gets logged to W&B:
 
 - The results of a single experiment:
 
@@ -152,15 +151,15 @@ run.finish()
     </Frame>
 
 <Note>
-You need to explicitly call [`wandb.Run.finish()`](/models/ref/python/functions/finish) when executing the code in IPython notebook environments after calling the pipeline. This is not necessary when executing python scripts.
+You must explicitly call [`wandb.Run.finish()`](/models/ref/python/functions/finish) when you run the code in IPython notebook environments after calling the pipeline. This is not necessary when you run Python scripts.
 </Note>
 
-### Tracking multi-pipeline workflows
+### Track multi-pipeline workflows
 
-This section demonstrates the autolog with a typical [Stable Diffusion XL + Refiner](https://huggingface.co/docs/diffusers/using-diffusers/sdxl#base-to-refiner-model) workflow, in which the latents generated by the [`StableDiffusionXLPipeline`](https://huggingface.co/docs/diffusers/api/pipelines/stable_diffusion/stable_diffusion_xl) is refined by the corresponding refiner.
+The following example demonstrates `autolog` with a typical [Stable Diffusion XL + Refiner](https://huggingface.co/docs/diffusers/using-diffusers/sdxl#base-to-refiner-model) workflow, in which the refiner refines the latents generated by the [`StableDiffusionXLPipeline`](https://huggingface.co/docs/diffusers/api/pipelines/stable_diffusion/stable_diffusion_xl).
 
 <Tabs>
-<Tab title="Python Script">
+<Tab title="Script">
 ```python
 import torch
 from diffusers import StableDiffusionXLImg2ImgPipeline, StableDiffusionXLPipeline
@@ -285,10 +284,11 @@ run.finish()
 </Tab>
 </Tabs>
 
-- Example of a Stable Diffisuion XL + Refiner experiment:
-    <Frame>
-    <img src="/images/integrations/diffusers-autolog-6.gif" alt="Stable Diffusion XL experiment tracking"  />
-    </Frame>
+The following image shows an example of a Stable Diffusion XL + Refiner experiment:
+
+<Frame>
+<img src="/images/integrations/diffusers-autolog-6.gif" alt="Stable Diffusion XL experiment tracking"  />
+</Frame>
 
 ## More resources
 
