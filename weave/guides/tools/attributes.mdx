@@ -6,7 +6,7 @@ keywords: ["weave.attributes", "global_attributes", "trace metadata", "get_curre
 
 Attributes in Weave let you attach custom metadata to your traces and evaluations. This metadata can include information like environment names, model versions, experiment IDs, user IDs, or other contextual information to help you organize, filter, and analyze your Weave data.
 
-Attributes are especially helpful when you need to group or filter traces by:
+Attributes are especially helpful for grouping or filtering traces by:
 * Deployments
 * Tenants
 * Experiments
@@ -258,7 +258,7 @@ main().catch(console.error);
 
 ## Get attributes during execution
 
-At runtime, you can inspect the attributes currently in effect for a Call. This is useful when you want to debug which metadata Weave attaches, or when your code needs to branch on contextual information set by an outer caller.
+At runtime, you can inspect the attributes in effect for a Call. This is useful when you want to debug which metadata Weave attaches, or when your code needs to branch on contextual information set by an outer caller.
 
 <Tabs>
 <Tab title="Python">
