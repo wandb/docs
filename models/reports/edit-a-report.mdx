@@ -9,7 +9,7 @@ keywords: ["wandb-workspaces", "PanelGrid", "RunSet", "report blocks", "report f
 W&B Report and Workspace API is in Public Preview.
 </Note>
 
-This page describes how to edit a report interactively with the App UI or programmatically with the W&B SDK. It covers adding plots, run sets, code blocks, markdown, HTML elements, and rich media, as well as filtering and grouping run sets, organizing report layout, and visualizing multi-dimensional relationships.
+This page describes how to edit a report interactively with the App UI or programmatically with the W&B SDK. It covers adding plots, run sets, code blocks, markdown, HTML elements, and rich media. It also covers filtering and grouping run sets, organizing report layout, and visualizing multi-dimensional relationships.
 
 A report's body consists of _blocks_. Blocks contain text, images, embedded visualizations, plots from experiments and runs, and panel grids.
 
@@ -30,10 +30,10 @@ pip install wandb wandb-workspaces
 
 ## Add plots
 
-Plots let you visualize run data inside a report. Each panel grid has a set of run sets and a set of panels. The run sets at the bottom of the section control what data appears on the panels in the grid. Create a new panel grid if you want to add charts that pull data from a different set of runs.
+Plots let you visualize run data inside a report. Each panel grid has a set of run sets and a set of panels. The run sets in the panel grid control what data appears on the panels in the grid. Create a new panel grid if you want to add charts that pull data from a different set of runs.
 
 <Tabs>
-<Tab title="W&B App">
+<Tab title="App UI">
 Enter a forward slash (`/`) in the report to display a dropdown menu. Select **Add panel** to add a panel. You can add any panel that W&B supports, including a line plot, scatter plot, or parallel coordinates chart.
 
 <Frame>
@@ -41,7 +41,7 @@ Enter a forward slash (`/`) in the report to display a dropdown menu. Select **A
 </Frame>
 </Tab>
 <Tab title="Report and Workspace API">
-Add plots to a report programmatically with the SDK. Pass a list of one or more plot or chart objects to the `panels` parameter in the `PanelGrid` Public API Class. Create a plot or chart object with its associated Python Class.
+Add plots to a report programmatically with the SDK. Pass a list of one or more plot or chart objects to the `panels` parameter in the `PanelGrid` Public API class. Create a plot or chart object with its associated Python class.
 
 
 The following examples demonstrate how to create a line plot and scatter plot.
@@ -79,24 +79,24 @@ For more information about available plots and charts you can add to a report pr
 Add run sets from projects interactively with the App UI or the W&B SDK.
 
 <Tabs>
-<Tab title="W&B App">
+<Tab title="App UI">
 Enter a forward slash (`/`) in the report to display a dropdown menu. From the dropdown, choose **Panel Grid**. W&B automatically imports the run set from the project the report was created from.
 
-If you import a panel into a report, run names are inherited from the project. In the report, you can optionally [rename a run](/models/runs/#rename-a-run) to give the reader more context. The run is renamed only in the individual panel. If you clone the panel in the same report, the run is also renamed in the cloned panel.
+If you import a panel into a report, run names inherit from the project. In the report, you can optionally [rename a run](/models/runs/#rename-a-run) to give the reader more context. The rename applies only to the individual panel. If you clone the panel in the same report, the cloned panel also reflects the new name.
 
 1. In the report, click the pencil icon to open the report editor.
-1. In the run set, find the run to rename. Hover over the report name and click the **action (<Icon icon="ellipsis-vertical" iconType="solid"/>)** menu. Select one of the following choices, then submit the form.
+2. In the run set, find the run to rename. Hover over the run name and click the **action (<Icon icon="ellipsis-vertical" iconType="solid"/>)** menu. Select one of the following choices, then submit the form.
 
     - **Rename run for project**: Rename the run across the entire project. To generate a new random name, leave the field blank.
-    - **Rename run for panel grid**: Rename the run only in the report, preserving the existing name in other contexts. Generating a new random name is not supported.
+    - **Rename run for panel grid**: Rename the run only in the report, preserving the existing name in other contexts. You can't generate a new random name with this option.
 
-1. Click **Publish report**.
+3. Click **Publish report**.
 </Tab>
 <Tab title="Report and Workspace API">
-Add run sets from projects with the `wr.Runset()` and `wr.PanelGrid` Classes. To add a runset, follow these steps:
+Add run sets from projects with the `wr.Runset()` and `wr.PanelGrid` classes. To add a run set, follow these steps:
 
 1. Create a `wr.Runset()` object instance. Provide the name of the project that contains the run sets for the project parameter and the entity that owns the project for the entity parameter.
-2. Create a `wr.PanelGrid()` object instance. Pass a list of one or more runset objects to the `run sets` parameter.
+2. Create a `wr.PanelGrid()` object instance. Pass a list of one or more run set objects to the `runsets` parameter.
 3. Store one or more `wr.PanelGrid()` object instances in a list.
 4. Update the report instance blocks attribute with the list of panel grid instances.
 
@@ -186,7 +186,7 @@ report.save()
 
 ## Freeze a run set
 
-A report automatically updates run sets to show the latest data from the project. Freeze a run set when you want to preserve its state in a report at a point in time, so that later runs don't change what the report displays.
+A report automatically updates run sets to show the latest data from the project. Freeze a run set to preserve its state in a report at a specific time, so that later runs don't change what the report displays.
 
 To freeze a run set when viewing a report, click the snowflake icon in its panel grid near the **Filter** button.
 
@@ -196,7 +196,7 @@ To freeze a run set when viewing a report, click the snowflake icon in its panel
 
 ## Group a run set programmatically
 
-Group runs in a run set programmatically with the [Workspace and Reports API](/models/ref/wandb_workspaces/reports). Grouping organizes related runs together in panels, which makes it easier to compare configurations and results.
+Group runs in a run set programmatically with the [Workspace and Reports API](/models/ref/wandb_workspaces/reports). Grouping organizes related runs together in panels, which makes comparing configurations and results easier.
 
 You can group runs in a run set by config values, run metadata, or summary metrics. The following table lists the available grouping methods along with the available keys for each grouping method:
 
@@ -265,7 +265,7 @@ report.save()
 
 ### Group runs by run metadata
 
-Group runs by a run's name (`Name`), state (`State`), or job type (`JobType`).
+Group runs by metadata to organize them based on intrinsic run properties rather than logged values. You can group by a run's name (`Name`), state (`State`), or job type (`JobType`).
 
 Continuing from the previous example, you can group your runs by their name with the following code snippet:
 
@@ -339,13 +339,13 @@ In this expression, `[KEY]` is the name of the filter, `operation` is a comparis
 |`Tags('[KEY]')` | Filter by tags | Tag values that you add to your run (programmatically or with the W&B App). |
 |`Metric('[KEY]')` | Filter by run properties | `tags`, `state`, `displayName`, `jobType` |
 
-After you define your filters, you can create a report and pass the filtered run sets to `wr.PanelGrid(runsets=)`. See the **Report and Workspace API** tabs throughout this page for more information about how to add various elements to a report programmatically.
+After you define your filters, you can create a report and pass the filtered run sets to `wr.PanelGrid(runsets=)`. See the **Report and Workspace API** tabs throughout this page for more information about how to add different elements to a report programmatically.
 
 The following examples demonstrate how to filter run sets in a report. Replace values enclosed in brackets (for example, `[ENTITY]` and `[PROJECT]`) with your own values.
 
 ### Config filters
 
-Filter a runset by one or more config values. Config values are parameters you specify in your run configuration (`wandb.init(config=)`).
+Filter a run set by one or more config values. Config values are parameters you specify in your run configuration (`wandb.init(config=)`).
 
 For example, the following code snippet first initializes a run with a config value for `learning_rate` and `batch_size`, then filters runs in a report based on the `learning_rate` config value.
 
@@ -384,7 +384,7 @@ runset = wr.Runset(
 )
 ```
 
-Continuing from the previous example, you can create a report with the filtered runset as follows:
+Continuing from the previous example, you can create a report with the filtered run set as follows:
 
 ```python
 report = wr.Report(
@@ -446,7 +446,7 @@ runset = wr.Runset(
 You can find the name of the run in the **Overview** page of a run in the W&B App or programmatically with `Api.runs().run.name`.
 </Note>
 
-The following examples demonstrate how to filter a runset by the run's state (`finished`, `crashed`, or `running`):
+The following examples demonstrate how to filter a run set by the run's state (`finished`, `crashed`, or `running`):
 
 ```python
 runset = wr.Runset(
@@ -467,7 +467,7 @@ runset = wr.Runset(
 
 ### SummaryMetric filters
 
-The following examples demonstrate how to filter a run set by summary metrics. Summary metrics are the values you log to a run with `wandb.Run.log()`. After you log a run, you can find the names of your summary metrics in the W&B App under the **Summary** section of a run's **Overview** page.
+Filter a run set by summary metrics to focus on runs that meet specific outcome thresholds, such as accuracy or loss values. Summary metrics are the values you log to a run with `wandb.Run.log()`. After you log a run, you can find the names of your summary metrics in the W&B App under the **Summary** section of a run's **Overview** page.
 
 ```python
 runset = wr.Runset(
@@ -487,7 +487,7 @@ runset = wr.Runset(
 
 ### Tags filters
 
-The following code snippet shows how to filter a runs set by its tags. Tags are values you add to a run (programmatically or with the W&B App).
+Filter a run set by tags to show only runs that you've labeled with a particular tag. Tags are values you add to a run (programmatically or with the W&B App).
 
 ```python
 runset = wr.Runset(
@@ -499,16 +499,16 @@ runset = wr.Runset(
 
 ## Add code blocks
 
-Add code blocks to your report interactively with the App UI or with the W&B SDK.
+Add code blocks to share configuration, examples, or snippets alongside your results. You can add them interactively with the App UI or programmatically with the W&B SDK.
 
 <Tabs>
 <Tab title="App UI">
 Enter a forward slash (`/`) in the report to display a dropdown menu. From the dropdown, choose **Code**.
 
-Select the name of the programming language on the right side of the code block to expand a dropdown. From the dropdown, select your programming language syntax. You can choose from JavaScript, Python, CSS, JSON, HTML, Markdown, and YAML.
+Select the name of the programming language in the code block to expand a dropdown. From the dropdown, select your programming language syntax. You can choose from JavaScript, Python, CSS, JSON, HTML, Markdown, and YAML.
 </Tab>
 <Tab title="Report and Workspace API">
-Use the `wr.CodeBlock` Class to create a code block programmatically. Provide the name of the language and the code you want to display for the language and code parameters, respectively.
+Use the `wr.CodeBlock` class to create a code block programmatically. Provide the name of the language and the code you want to display for the language and code parameters, respectively.
 
 The following example demonstrates a list in a YAML file:
 
@@ -559,14 +559,14 @@ Hello, World!
 
 ## Add markdown
 
-Add markdown to your report interactively with the App UI or with the W&B SDK.
+Add markdown to format narrative text, headings, and inline emphasis in your report. You can add markdown interactively with the App UI or programmatically with the W&B SDK.
 
 <Tabs>
 <Tab title="App UI">
 Enter a forward slash (`/`) in the report to display a dropdown menu. From the dropdown, choose **Markdown**.
 </Tab>
 <Tab title="Report and Workspace API">
-Use the `wandb.apis.reports.MarkdownBlock` Class to create a markdown block programmatically. Pass a string to the `text` parameter:
+Use the `wr.MarkdownBlock` class to create a markdown block programmatically. Pass a string to the `text` parameter:
 
 ```python
 import wandb
@@ -590,14 +590,14 @@ This renders a markdown block similar to:
 
 ## Add HTML elements
 
-Add HTML elements to your report interactively with the App UI or with the W&B SDK.
+Add HTML elements such as headings and lists to structure your report. You can add them interactively with the App UI or programmatically with the W&B SDK.
 
 <Tabs>
 <Tab title="App UI">
 Enter a forward slash (`/`) in the report to display a dropdown menu. From the dropdown, select a type of text block. For example, to create an H2 heading block, select the `Heading 2` option.
 </Tab>
 <Tab title="Report and Workspace API">
-Pass a list of one or more HTML elements to `wandb.apis.reports.blocks` attribute. The following example demonstrates how to create an H1, H2, and an unordered list:
+Pass a list of one or more HTML elements to the report's `blocks` attribute. The following example demonstrates how to create an H1, H2, and an unordered list:
 
 ```python
 import wandb
@@ -625,7 +625,7 @@ This renders the HTML elements to the following:
 
 ## Embed rich media links
 
-Embed rich media within the report with the App UI or with the W&B SDK.
+Embed rich media such as tweets, videos, and audio to enrich your report with external context. You can embed rich media with the App UI or with the W&B SDK.
 
 <Tabs>
 <Tab title="App UI">
@@ -639,7 +639,7 @@ Copy and paste a Tweet link URL into a report to view the Tweet within the repor
     <img src="/images/reports/twitter.gif" alt="Embedding Twitter content"  />
 </Frame>
 
-### Youtube
+### YouTube
 
 Copy and paste a YouTube video URL link to embed a video in the report.
 
@@ -656,7 +656,7 @@ Copy and paste a SoundCloud link to embed an audio file into a report.
 </Frame>
 </Tab>
 <Tab title="Report and Workspace API">
-Pass a list of one or more embedded media objects to the `wandb.apis.reports.blocks` attribute. The following example demonstrates how to embed video and Twitter media into a report:
+Pass a list of one or more embedded media objects to the report's `blocks` attribute. The following example demonstrates how to embed video and Twitter media into a report:
 
 ```python
 import wandb
@@ -687,7 +687,7 @@ Highlight a whole panel grid section by selecting the drag handle in the upper r
 
 ## Delete panel grids
 
-Select a panel grid and press `delete` on your keyboard to delete a panel grid.
+Delete a panel grid when you no longer need its layout or content in the report. Select a panel grid and press `delete` on your keyboard to delete a panel grid.
 
 <Frame>
     <img src="/images/reports/delete_panel_grid.gif" alt="Deleting panel grids"  />
@@ -695,16 +695,16 @@ Select a panel grid and press `delete` on your keyboard to delete a panel grid.
 
 ## Collapse headers to organize reports
 
-Collapse headers in a report to hide content within a text block. When the report loads, only expanded headers show content. Collapsing headers in reports helps organize your content and prevents excessive data loading. The following gif demonstrates the process.
+Collapse headers in a report to hide content within a text block. When the report loads, only expanded headers show content. Collapsing headers in reports helps organize your content and prevents loading more data than you need. The following animation demonstrates the process.
 
 <Frame>
-    <img src="/images/reports/collapse_headers.gif" alt="Collapsing headers in a report."  />
+    <img src="/images/reports/collapse_headers.gif" alt="Collapsing headers in a report"  />
 </Frame>
 
 ## Visualize relationships across multiple dimensions
 
-To compare more variables than a 2D plot can show, you can use a color gradient as an additional dimension. Using a color gradient to represent one of the variables can make patterns easier to interpret.
+When you want to surface relationships between three or more variables in a single chart, a standard 2D plot can be limiting. To compare more variables than a 2D plot can show, you can use a color gradient as an additional dimension. Using a color gradient to represent one of the variables can make patterns easier to interpret.
 
-1. Choose a variable to represent with a color gradient, like penalty scores or learning rates. This provides a clearer understanding of how penalty (color) interacts with reward/side effects (y-axis) over training time (x-axis).
+1. Choose a variable to represent with a color gradient, like penalty scores or learning rates. This provides a clearer understanding of how penalty (color) interacts with reward or side effects (y-axis) over training time (x-axis).
 2. Highlight key trends. Hover over a specific group of runs to highlight them in the visualization.
 

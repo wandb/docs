@@ -8,10 +8,9 @@ keywords: ["create report", "wandb-workspaces", "Report API", "programmatic repo
 W&B Report and Workspace API is in Public Preview.
 </Note>
 
-Select a tab to learn how to create a report in the W&B App or programmatically with the Report and Workspace API.
+W&B Reports let you share findings, results, and visualizations from your runs with collaborators. Create a report from a project workspace, from the **Reports** tab, or programmatically with the Report and Workspace API. Select a tab to get started.
 
-For an example of how to programmatically create a report, see this [Google Colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb).
-
+For a programmatic example, see the [Report API Quickstart Google Colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb).
 
 <Tabs>
 <Tab title="W&B App">
@@ -22,13 +21,13 @@ For an example of how to programmatically create a report, see this [Google Cola
     <img src="/images/reports/create_a_report_button.png" alt="Create report button" />
     </Frame>
 
-3. A modal appears. Select the charts you want to start with. You can add or delete charts later from the report interface.
+3. A modal appears. Select the charts you want to start with. You can add or remove charts later from the report interface.
 
     <Frame>
-    <img src="/images/reports/create_a_report_modal.png" alt="Create report modal" />
+    <img src="/images/reports/create_a_report_modal.png" alt="Create report modal with chart selection options" />
     </Frame>
 
-4. Select the **Filter run sets** option to prevent new runs from being added to your report. You can toggle this option on or off. A draft report is saved automatically. Access it in the **Reports** tab.
+4. To prevent W&B from adding more runs to your report, select the **Filter run sets** option. W&B saves a draft report automatically. Access it in the **Reports** tab.
 </Tab>
 <Tab title="Report tab">
 1. Navigate to your project workspace in the W&B App.
@@ -42,21 +41,21 @@ For an example of how to programmatically create a report, see this [Google Cola
 <Tab title="Report and Workspace API">
 Create a report programmatically:
 
-1. Install W&B SDK (`wandb`) and Report and Workspace API (`wandb-workspaces`):
+1. Install the W&B SDK (`wandb`) and the Report and Workspace API (`wandb-workspaces`):
     ```bash
     pip install wandb wandb-workspaces
     ```
-2. Import the W&B Python SDK and the Report and Workspace API.
+2. Import the W&B Python SDK and the Report and Workspace API:
     ```python
     import wandb
     import wandb_workspaces.reports.v2 as wr
     ```
-3. Create a report with `wandb_workspaces.reports.v2.Report`. Create a report instance with the Report Class Public API ([`wandb.apis.reports`](/models/ref/python/public-api/api#reports)). Specify a name for the project.
+3. Create a report instance with `wandb_workspaces.reports.v2.Report` or with the Report Class Public API ([`wandb.apis.reports`](/models/ref/python/public-api/api#reports)). Specify a project name so W&B associates the report with the correct project:
     ```python
     report = wr.Report(project="report_standard")
     ```
 
-4. Save the report. Reports aren't uploaded to W&B until you call the `.save()` method:
+4. Save the report. W&B doesn't upload reports until you call the `.save()` method:
     ```python
     report.save()
     ```
