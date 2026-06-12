@@ -1,6 +1,6 @@
 ---
-description: Manage storage, memory allocation of W&B Artifacts.
-title: Manage artifact storage and memory allocation
+description: Manage where W&B stores artifact files and how to clean up the local artifact cache.
+title: Manage artifact storage
 ---
 
 W&B stores artifact files in a private Google Cloud Storage bucket located in the United States by default. All files are encrypted at rest and in transit.
@@ -20,15 +20,15 @@ During training, W&B locally saves logs, artifacts, and configuration files in t
 For a complete guide to using environment variables to configure W&B, see the [environment variables reference](/models/track/environment-variables/).
 
 <Warning>
-Depending on the machine on `wandb` is initialized on, these default folders may not be located in a writeable part of the file system. This might trigger an error.
+Depending on the machine where `wandb` is initialized, these default folders may not be located in a writable part of the file system. This might trigger an error.
 </Warning>
 
-### Clean up local artifact cache
+## Clean up local artifact cache
 
-W&B caches artifact files to speed up downloads across versions that share files in common. Over time this cache directory can become large. Run the [`wandb artifact cache cleanup`](/models/ref/cli/wandb-artifact/wandb-artifact-cache/) command to prune the cache and to remove any files that have not been used recently.
+W&B caches artifact files to speed up downloads across versions that share files in common. Over time this cache directory can become large. To prune the cache and remove any files you haven't used recently, run the [`wandb artifact cache cleanup`](/models/ref/cli/wandb-artifact/wandb-artifact-cache/) command.
 
-The following code snippet demonstrates how to limit the size of the cache to 1GB. Copy and paste the code snippet into your terminal:
+To limit the cache size to 1 GB, run:
 
 ```bash
-$ wandb artifact cache cleanup 1GB
+wandb artifact cache cleanup 1GB
 ```
