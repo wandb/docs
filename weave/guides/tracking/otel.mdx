@@ -55,7 +55,8 @@ tracer_provider = trace_sdk.TracerProvider(resource=Resource({
     "wandb.project": PROJECT,
 }))
 ```
-```typescript TypeScript lines
+```typescript twoslash TypeScript lines
+// @noErrors
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
 import { Resource } from "@opentelemetry/resources";
@@ -194,7 +195,8 @@ The TypeScript implementation of this example contains the following key differe
 
 Paste the following code into a TypeScript file such as `openinference_example.ts`:
 
-```typescript lines {11,12}
+```typescript twoslash lines {11,12}
+// @noErrors
 // IMPORTANT: Import OpenAI FIRST so instrumentation can patch it
 import OpenAI from "openai";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
@@ -365,7 +367,8 @@ python openllmetry_example.py
 
 Paste the following code into a TypeScript file such as `openllmetry_example.ts`. This uses the Traceloop OpenAI instrumentation package:
 
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 import OpenAI from "openai";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import { BatchSpanProcessor, ConsoleSpanExporter } from "@opentelemetry/sdk-trace-base";
@@ -553,7 +556,8 @@ python opentelemetry_example.py
 
 Paste the following code into a TypeScript file such as `opentelemetry_example.ts`:
 
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 import OpenAI from "openai";
 import { trace } from "@opentelemetry/api";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
@@ -744,7 +748,8 @@ def main():
 if __name__ == "__main__":
     main()
 ```
-```typescript TypeScript lines
+```typescript twoslash TypeScript lines
+// @noErrors
 import OpenAI from "openai";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base";
@@ -850,7 +855,8 @@ tracer = trace.get_tracer(__name__)
 </Tab>
 <Tab title="TypeScript">
 
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 import { trace, context } from "@opentelemetry/api";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import {
@@ -947,7 +953,8 @@ if __name__ == "__main__":
 </Tab>
 <Tab title="TypeScript">
 
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 function example_1_basic_thread_and_turn() {
   console.log("\n=== Example 1: Basic Thread and Turn ===");
 
@@ -1046,7 +1053,8 @@ if __name__ == "__main__":
 </Tab>
 <Tab title="TypeScript">
 
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 function example_2_multiple_turns() {
   console.log("\n=== Example 2: Multiple Turns in Thread ===");
 
@@ -1160,7 +1168,8 @@ if __name__ == "__main__":
 </Tab>
 <Tab title="TypeScript">
 
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 function example_3_complex_nested_structure() {
   console.log("\n=== Example 3: Complex Nested Structure ===");
 
@@ -1264,7 +1273,8 @@ if __name__ == "__main__":
 </Tab>
 <Tab title="TypeScript">
 
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 function example_4_non_turn_operations() {
   console.log("\n=== Example 4: Non-Turn Thread Operations ===");
 

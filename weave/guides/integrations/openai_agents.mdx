@@ -89,7 +89,8 @@ If you need help setting up your project or determining which type you're using,
 
 The following code sample creates an OpenAI Agent and integrates it with Weave for traceability. Replace `your-team-name/your-project-name` in the Weave project initialization with your entity and project. The sample defines a `get_weather` tool that returns a sample weather report, then configures an agent named `Hello world` with basic instructions and access to the weather tool. The `main` function runs the agent with a sample input (`What's the weather in Tokyo?`) and logs the final response.
 
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 import * as weave from "weave";
 import { Agent, run, tool } from "@openai/agents";
 import { z } from "zod";
@@ -137,7 +138,8 @@ You only need manual instrumentation in cases where the module loader hook can't
 
 In these cases, you can explicitly register the instrumentation with `instrumentOpenAIAgents()`:
 
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 import * as weave from "weave";
 
 await weave.init("openai-agents");
@@ -146,7 +148,8 @@ await weave.instrumentOpenAIAgents();
 
 For full control over the tracing processor, such as for custom processor configuration or conditional registration, create and register one manually:
 
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 import { addTraceProcessor } from "@openai/agents";
 import { createOpenAIAgentsTracingProcessor } from "weave";
 
