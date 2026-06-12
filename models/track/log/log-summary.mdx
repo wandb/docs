@@ -3,9 +3,9 @@ title: Log summary metrics
 description: "Track and customize single summary metrics like best accuracy or minimum loss on a W&B run using run.summary."
 ---
 
-In addition to values that change over time during training, it is often important to track a single value that summarizes a model or a preprocessing step. Log this information in a W&B Run's `summary` dictionary. A Run's summary dictionary can handle numpy arrays, PyTorch tensors or TensorFlow tensors. When a value is one of these types we persist the entire tensor in a binary file and store high level metrics in the summary object, such as min, mean, variance, percentiles, and more.
+In addition to values that change over time during training, it's often important to track a single value that summarizes a model or a preprocessing step. Log this information in a W&B run's `summary` dictionary. A run's summary dictionary can handle numpy arrays, PyTorch tensors, or TensorFlow tensors. When a value is one of these types, W&B persists the entire tensor in a binary file and stores high-level metrics in the summary object, such as min, mean, variance, and percentiles.
 
-The last value logged with `wandb.Run.log()` is automatically set as the summary dictionary in a W&B Run. If a summary metric dictionary is modified, the previous value is lost.
+The last value logged with `wandb.Run.log()` is automatically set as the summary dictionary in a W&B run. If you modify a summary metric dictionary, you lose the previous value.
 
 The following code snippet demonstrates how to provide a custom summary metric to W&B:
 
@@ -22,7 +22,7 @@ with wandb.init(config=args) as run:
           best_accuracy = test_accuracy
 ```
 
-You can update the summary attribute of an existing W&B Run after training has completed. Use the [W&B Public API](/models/ref/python/public-api/) to update the summary attribute:
+You can update the summary attribute of an existing W&B run after training completes. Use the [W&B Public API](/models/ref/python/public-api/) to update the summary attribute:
 
 ```python
 api = wandb.Api()
@@ -44,7 +44,7 @@ By default, the summary uses the final value from history. To customize summary 
 * `"last"`
 * `"none"`
 
-You can use `"best"` only when you also set the optional `objective` argument to `"minimize"` or `"maximize"`. 
+You can use `"best"` only when you also set the optional `objective` argument to `"minimize"` or `"maximize"`.
 
 The following example adds the min and max values of loss and accuracy to the summary:
 
@@ -73,7 +73,7 @@ with wandb.init() as run:
 
 ## View summary metrics
 
-View summary values in a run's **Overview** page or the project's runs table.
+After you log summary values, you can view them on a run's **Overview** page or in the project's runs table. The following tabs describe each option.
 
 <Tabs>
 <Tab title="Run Overview">
@@ -89,24 +89,26 @@ View summary values in a run's **Overview** page or the project's runs table.
 <Tab title="Run Table">
 1. Navigate to the W&B App.
 2. Select the **Runs** tab.
-3. Within the runs table, you can view the summary values within the columns based on the name of the summary value.
+3. In the runs table, view the summary values in the columns based on the name of the summary value.
 </Tab>
 <Tab title="W&B Public API">
-You can use the W&B Public API to fetch the summary values of a run. 
+You can use the W&B Public API to fetch the summary values of a run.
 
 The following code example demonstrates one way to retrieve the summary values logged to a specific run using the W&B Public API and pandas:
 
 ```python
 import wandb
-import pandas
+import pandas as pd
 
-entity = "<your-entity>"
-project = "<your-project>"
-run_name = "<your-run-name>" # Name of run with summary values
+entity = "[YOUR-ENTITY]"
+project = "[YOUR-PROJECT]"
+run_name = "[YOUR-RUN-NAME]" # Name of run with summary values
+
+api = wandb.Api()
 
 all_runs = []
 
-for run in api.runs(f"{entity}/{project_name}"):
+for run in api.runs(f"{entity}/{project}"):
     print("Fetching details for run: ", run.id, run.name)
     run_data = {
               "id": run.id,
@@ -137,9 +139,5 @@ df[df['name']==run_name].summary.reset_index(drop=True).to_dict()
 ```
 </Tab>
 </Tabs>
-
-
-
-
 
 
