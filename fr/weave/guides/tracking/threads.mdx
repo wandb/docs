@@ -393,9 +393,9 @@ if __name__ == "__main__":
   ### Reprendre une session précédente
 </div>
 
-Il est parfois nécessaire de reprendre une session déjà démarrée et de continuer à ajouter des Appels au même thread. Dans d’autres cas, il peut être impossible de reprendre une session existante et vous devez alors démarrer un nouveau thread.
+Vous devez parfois reprendre une session déjà démarrée et continuer à ajouter des Appels au même thread. Dans d’autres cas, il peut être impossible de reprendre une session existante et vous devez alors démarrer un nouveau thread.
 
-Lors de l’implémentation de la reprise facultative des threads, ne laissez jamais le paramètre `thread_id` à `None`, car cela désactive le regroupement des threads. À la place, fournissez toujours un ID de thread valide. Si vous devez créer un nouveau thread, générez un identifiant unique à l’aide d’une fonction comme `generate_id()`.
+Lors de l’implémentation de la reprise facultative des threads, ne laissez jamais le paramètre `thread_id` à `None`, car cela désactive le regroupement des threads. À la place, fournissez toujours un ID de thread valide. Pour créer un nouveau thread, générez un identifiant unique à l’aide d’une fonction comme `generate_id()`.
 
 Lorsqu’aucun `thread_id` n’est spécifié, l’implémentation interne de Weave génère automatiquement un UUID v7 aléatoire. Vous pouvez reproduire ce comportement dans votre propre fonction `generate_id()` ou utiliser n’importe quelle chaîne unique de votre choix.
 
