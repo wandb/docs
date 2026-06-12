@@ -889,6 +889,13 @@
             "pages": [
               "reference",
               {
+                "group" : "W&B Agent",
+                "pages": [
+                  "agent/agent_overview",
+                  "agent/governance"
+                ]
+              },
+              {
                 "group": "W&B Models",
                 "pages": [
                   "models/ref",
