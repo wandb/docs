@@ -1,23 +1,26 @@
 ---
-title: "Import From Csv"
+title: "Import from CSV"
 description: "Import datasets from CSV files into W&B Weave for use in evaluations, tracing, and model comparison workflows."
+keywords: ["CSV import", "trace import", "historical traces", "parent-child calls", "conversation traces"]
 ---
 
 <Note>
-This is an interactive notebook. You can run it locally or use the links below:
+This is an interactive notebook. You can run it locally or use the following links:
 - [Open in Google Colab](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/import_from_csv.ipynb)
 - [View source on GitHub](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/import_from_csv.ipynb)
 </Note>
 
-# Import Traces from 3rd Party Systems
+## Import traces from third-party systems
 
-In ocassion, it is not possible to instrument your Python or Javascript code with Weave's simple integration to obtain real-time traces of your GenAI application. It is often the case that these traces are later on available to you in `csv` or `json` format.
+This notebook shows you how to import historical conversation traces from a CSV file into W&B Weave so you can analyze them, compare model behavior, and run evaluations on data that was generated outside of a Weave-instrumented application.
 
-In this cookbook we explore the lower level Weave Python API to extract data from a CSV file and import it into Weave to drive insights and rigorous evaluations.
+Sometimes you can't instrument your Python or JavaScript code with the Weave integration to obtain real-time traces of your GenAI application. Often, these traces are available to you later in CSV or JSON format.
+
+This notebook uses the lower-level Weave Python API to extract data from a CSV file and import it into Weave so you can analyze and evaluate it.
 
 The sample dataset assumed in this cookbook has the following structure:
 
-```
+```text
 conversation_id,turn_index,start_time,user_input,ground_truth,answer_text
 1234,1,2024-09-04 13:05:39,This is the beginning, ['This was the beginning'], That was the beginning
 1235,1,2024-09-04 13:02:11,This is another trace,, That was another trace
@@ -28,22 +31,24 @@ conversation_id,turn_index,start_time,user_input,ground_truth,answer_text
 
 ```
 
-To understand the decisions for import in this cookbook, one should know that Weave traces have parent-child relationships that are 1:Many and continuous. Meaning a single parent may have multiple children, but that parent may itself be a children of another parent.
+To understand the decisions for import in this notebook, remember that Weave traces have parent-child relationships that are 1:Many and continuous. A single parent can have multiple children, and that parent can itself be a child of another parent.
 
-We therefore use `conversation_id` as the parent identifier, and the `turn_index` as the child identifier to provide us complete conversation logging.
+This notebook uses `conversation_id` as the parent identifier and `turn_index` as the child identifier to provide complete conversation logging.
 
-Ensure to modify the variables as needed.
+You must modify the variables in the following sections to match your own dataset, file paths, and W&B project.
 
-# Set up the environment
+## Set up the environment
 
-We install and import all needed packages.
-We set `WANDB_API_KEY` in our env so that we may easily login with `wandb.login()` (this should be given to the colab as a secret).
+Install and import all needed packages.
+Set `WANDB_API_KEY` in your environment so that you can log in with `wandb.login()` (provide this to Colab as a secret).
 
-We set the name of the file we upload to colab in `name_of_file` and set the project in W&B we want to log this into in `name_of_wandb_project`.
+Set the name of the file you upload to Colab in `name_of_file`, and set the W&B project you want to log into in `name_of_wandb_project`.
 
-**_NOTE:_** `name_of_wandb_project` may also be in the format of `{team_name}/{project_name}` to specify a team to log the traces into.
+<Note>
+`name_of_wandb_project` can also be in the format `[TEAM_NAME]/[PROJECT_NAME]` to specify a team to log the traces into.
+</Note>
 
-We then fetch a weave client by calling `weave.init()`
+Then, fetch a Weave client by calling `weave.init()`.
 
 ```python lines
 %pip install wandb weave pandas datetime --quiet
@@ -87,11 +92,13 @@ python
 weave_client = weave.init(name_of_wandb_project)
 ```
 
-# Data Loading
+## Load the data
 
-We load the data into a Pandas dataframe, and ensure we sort it by the `conversation_id` and `turn_index` to ensure the parents and childs are correctly ordered.
+With the environment ready, you can load and shape the CSV data so that it matches the parent-child structure that Weave expects.
 
-This will result in a two column pandas DF with our conversation turns as an array under `conversation_data`.
+Load the data into a pandas DataFrame, and sort it by `conversation_id` and `turn_index` to ensure the parents and children are correctly ordered.
+
+This results in a two-column pandas DataFrame with the conversation turns as an array under `conversation_data`.
 
 ```python lines
 ## Load data and shape it
@@ -115,18 +122,20 @@ result_df.columns = ["conversation_id", "conversation_data"]
 result_df.head()
 ```
 
-# Log the Traces to Weave
+## Log the traces to Weave
 
-We now iterate through our pandas DF:
-- We create a parent call for every `conversation_id`
-- We iterate through the turn array to create child calls sorted by their `turn_index`
+With the data shaped into conversations and turns, the next step is to write those records into Weave as parent and child calls.
 
-Important concepts of the lower level python API:
-- A Weave call is equivalent to a Weave trace, this call may have a parent or children associated with it
-- A Weave call may have other things associated with it: Feedback, Metadata, etc. We only associate inputs and outputs to it here, but you may want to add these things in your import if the data provides it.
-- A weave call is `created` and `finished` as these are meant to be tracked real time. Because this is an after-the-fact import, we create and finish once our objects are defined and tied to one another.
-- The `op` value of a call is how Weave categorizes calls of the same make up. In this example, all parent calls are of `Conversation` type, and all children calls are of `Turn` type. You may modify this as you see fit.
-- A call may have `inputs` and `output`. `inputs` are defined at creation an `output` is defined when the call is finished.
+Iterate through the pandas DataFrame:
+- Create a parent call for every `conversation_id`.
+- Iterate through the turn array to create child calls sorted by their `turn_index`.
+
+Important concepts of the lower-level Python API:
+- A Weave call is equivalent to a Weave trace. This call can have a parent or children associated with it.
+- A Weave call can have other things associated with it, such as feedback and metadata. This example only associates inputs and outputs, but you can add these other items in your import if the data provides them.
+- A Weave call is `created` and `finished` because these are meant to be tracked in real time. Because this is an after-the-fact import, you create and finish once the objects are defined and tied to one another.
+- The `op` value of a call is how Weave categorizes calls of the same makeup. In this example, all parent calls are of `Conversation` type, and all child calls are of `Turn` type. You can modify this as you see fit.
+- A call can have `inputs` and `output`. `inputs` are defined at creation, and `output` is defined when the call is finished.
 
 ```python lines
 # Log traces to weave
@@ -186,29 +195,31 @@ for _, row in result_df.iterrows():
     weave_client.finish_call(call=parent_call, output=parent_output)
 ```
 
-# Result: Traces are Logged to Weave
+## Result: traces logged to Weave
+
+At this point, your CSV data has been imported into Weave. You can now browse the conversations and their turns in the Weave UI, grouped under the `Conversation` and `Turn` operations you defined.
 
 Traces:
 
 <Frame>
-![image.png](/images/screenshots/csv-1.png)
+![Imported conversation traces in the Weave UI](/images/screenshots/csv-1.png)
 </Frame>
 
 Operations:
 
 <Frame>
-![image.png](/images/screenshots/csv-2.png)
+![Conversation and Turn operations in the Weave UI](/images/screenshots/csv-2.png)
 </Frame>
 
-# Bonus: Export your traces to run rigorous evaluations!
+## Optional: export your traces to run evaluations
 
-Once our traces are in Weave and we have an understanding on how the conversations are looking, we may want to later on export them to another process to run Weave Evaluations
+Once the traces are in Weave and you understand how the conversations look, you can export them to another process to run Weave Evaluations.
 
 <Frame>
-![image.png](/images/screenshots/csv-3.png)
+![Exporting traces from a Weave project](/images/screenshots/csv-3.png)
 </Frame>
 
-To do this, we fetch all conversations from W&B through our simple query API and create a dataset from it.
+To do this, fetch all conversations from W&B through the query API and create a dataset from them.
 
 ```python lines
 ## This cell does not run by default, comment the below line to execute this script
@@ -272,10 +283,12 @@ dset = weave.Dataset(name = "conv_traces_for_eval", rows=rows)
 weave.publish(dset)
 ```
 
-# Result
+## Result
+
+The exported dataset is now published back to Weave and is ready to use as input for an evaluation.
 
 <Frame>
-![image.png](/images/screenshots/csv-4.png)
+![Published dataset in the Weave UI, ready for use in an evaluation](/images/screenshots/csv-4.png)
 </Frame>
 
-To learn more about evaluations, check out our [Quickstart](/weave/tutorial-rag) on using your newly created dataset to evaluate your RAG application!
+To learn more about evaluations, see the [Quickstart](/weave/tutorial-rag) on using your newly created dataset to evaluate your RAG application.
