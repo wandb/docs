@@ -87,12 +87,18 @@ See [Configure user roles in a registry](/models/registry/configure_registry/#co
 
 ### Service account access
 
-Service accounts cannot have **Viewer** or **Restricted Viewer** roles. W&B determines a service account's access to a registry with the following rules:
+W&B assigns a default access level to a service account based on the registry's visibility and the service account's team role. A registry admin can modify a service account's access by [adding the service account to the registry with a Member or Admin role](/models/registry/configure_registry/#add-a-user-or-a-team-to-a-registry).
+
+The following describes the default access level for a service account:
 
 - **Registries with Organization visibility**: a service account automatically has **Member** access.
 - **Registries with Restricted visibility**: service acount access depends on the role assigned to the service account's team:
   - If the team is added to the registry as a **Member** or **Admin**, the service account automatically receives **Member** access.
-  - If the team is a **Viewer** or **Restricted Viewer**, the service account does *not* receive access automatically. A registry admin must [add the service account to the registry manually](/models/registry/configure_registry/#add-a-user-or-a-team).
+  - If the team is a **Viewer** or **Restricted Viewer**, the service account does *not* receive access automatically.
+
+<Note>
+Service accounts cannot have **Viewer** or **Restricted Viewer** roles. 
+</Note>
 
 See [Visibility types](/models/registry/create_registry#visibility-types) for more information about registry visibility types.
 
