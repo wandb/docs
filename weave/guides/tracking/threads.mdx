@@ -355,9 +355,9 @@ if __name__ == "__main__":
 
 ### Resume a previous session
 
-Sometimes you need to resume a previously started session and continue adding Calls to the same thread. In other cases, you may not be able to resume an existing session and must start a new thread instead.
+Sometimes you must resume a previously started session and continue adding Calls to the same thread. In other cases, you may not be able to resume an existing session and must start a new thread instead.
 
-When implementing optional thread resumption, never leave the `thread_id` parameter as `None`, as this disables thread grouping. Instead, always provide a valid thread ID. If you need to create a new thread, generate a unique identifier using a function like `generate_id()`.
+When implementing optional thread resumption, never leave the `thread_id` parameter as `None`, as this disables thread grouping. Instead, always provide a valid thread ID. To create a new thread, generate a unique identifier using a function like `generate_id()`.
 
 When no `thread_id` is specified, Weave's internal implementation automatically generates a random UUID v7. You can replicate this behavior in your own `generate_id()` function or use any unique string value you prefer.
 
