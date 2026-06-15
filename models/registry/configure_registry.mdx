@@ -22,10 +22,6 @@ Registry admins can add individual users or entire teams to a registry. To add a
 5. Specify one or more user names, emails, or team names in the **Include users and teams** field.
 6. Click **Add access**.
 
-<Frame>
-    <img src="/images/registry/add_team_registry.gif" alt="Adding teams to registry"  />
-</Frame>
-
 For more information, see [Role permissions](#role-permissions).
 
 ### Remove a user or team
@@ -87,12 +83,13 @@ W&B automatically assigns a default **registry role** to a user or team when you
 | Service account (non-admin)            | Member<sup><a href="#service_account_footnote">1</a></sup>                | Member<sup><a href="#service_account_footnote">1</a></sup> |
 | Org admin                              | Admin                                                       | Admin                                           |
 
-<a id="service_account_footnote">1</a>: Service accounts can't have **Viewer** or **Restricted Viewer** roles.
+<a id="service_account_footnote">1</a>: Service accounts can't have **Viewer** or **Restricted Viewer** roles. See [Service account access](#service-account-access) for how a service account's access is determined.
 
 A registry admin can assign or modify roles for users and teams in the registry. For more information, see [Configure registry roles](#configure-registry-roles).
 
 {/* Backward-compatibility anchor: external pages (for example, automations docs) and localized pages link to #registry-roles. Keep this anchor so those inbound links continue to resolve to the role definitions below. */}
 <a id="registry-roles"></a>
+
 
 ### Role permissions
 

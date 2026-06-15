@@ -1,13 +1,15 @@
 ---
 title: "What is Weave?"
 description: "Learn about W&B Weave and how it helps you build, evaluate, and improve LLM applications"
+keywords: ["LLM observability", "agent tracing", "prompt versioning", "Weave Ops"]
 ---
 
 W&B Weave is an observability and evaluation platform for building reliable LLM applications. Weave helps you understand what your AI application is doing, measure how well it performs, and systematically improve it over time.
 
 Building LLM applications is fundamentally different from traditional software development. LLM outputs are non-deterministic, making debugging harder. Quality is subjective and context-dependent. Small prompt changes can cause unexpected behavior changes. Traditional testing approaches fall short.
 
-## The main threads of Weave
+## Core capabilities
+
 Weave provides the following core functionality:
 
 - **Visibility** into agent sessions and multi-turn conversations, or into individual function calls and outputs in application code.
@@ -17,33 +19,31 @@ Weave provides the following core functionality:
 - **Feedback collection** to capture human judgments and annotations.
 - **Monitoring** in production using guardrails and scorers for LLM safety and quality.
 
-
 ### Agentic tracing
 
-Weave provides agentic observability for the full lifecycle of agent conversations including: sessions, LLM calls, and tool executions.
+Weave provides agentic observability for the full lifecycle of agent conversations, including sessions, LLM calls, and tool executions.
 
-If you're building an agent, follow the [agent tracing quickstart](weave/agents-quickstart.mdx) or learn to use the Weave SDK to [trace your agents](/weave/guides/tracking/trace-agents). 
+If you're building an agent, follow the [agent tracing quickstart](weave/agents-quickstart.mdx) or learn to use the Weave SDK to [trace your agents](/weave/guides/tracking/trace-agents).
 
 If you're using a supported third-party agent harness, such as Claude Code or OpenAI Agent SDK, Weave instruments it automatically with no additional code. See [Integrations](/weave/guides/integrations) for all supported frameworks.
 
+### Application tracing
 
-### Application Tracing
-If you want to trace individual function calls, application code, or custom logic, use Weave Ops and Calls. Add one line to any function to track inputs, outputs, cost, token count, and latency.
+To trace individual function calls, application code, or custom logic, use Weave Ops and Calls. Add one line to any function to track inputs, outputs, cost, token count, and latency.
 
 - Track end-to-end how data flows through your LLM application.
 - See source documents used to produce the LLM feedback.
 - Drill down into specific prompts and how answers are produced.
 
-To trace individual functions, follow the Weave [Op tracing quickstart](/weave/quickstart) or learn to use the Weave [Ops and Calls](/weave/guides/tracking/tracing). 
+To trace individual functions, follow the Weave [Op tracing quickstart](/weave/quickstart) or learn to use the Weave [Ops and Calls](/weave/guides/tracking/tracing).
 
 If you're using a supported third-party agent framework, such as Claude Code, Weave instruments it automatically with no additional code. See [Integrations](/weave/guides/integrations) for all supported frameworks.
 
-
-
 ### Evaluations
-Systematically benchmark and monitor your LLM application's performance with evaluations to iteratively improve quality and reliability.
 
-- Easily track which versions of model/prompt resulted in what performance.
+Benchmark and monitor your LLM application's performance with evaluations to iteratively improve quality and reliability.
+
+- Track which model and prompt versions resulted in what performance.
 - Define metrics to evaluate responses using one or more scoring functions.
 - Compare two or more different evaluations over multiple metrics. Contrast specific samples for their performance.
 
@@ -57,7 +57,7 @@ Weave tracks versions of your prompts, datasets, and model configurations. When 
 
 ### Experiment with prompts and models
 
-Bring your API keys and quickly test prompts and compare responses from various commercial models using the Playground.
+Bring your API keys to test prompts and compare responses from different commercial models using the Playground.
 
 [Experiment in the Weave Playground](/weave/guides/tools/playground)
 
@@ -73,12 +73,13 @@ Score production traffic with the same scorers you use in evaluation. Set up gua
 
 [Set up guardrails and monitors](/weave/guides/evaluation/monitors)
 
-## Get started using Weave
+## Get started with Weave
 
-Weave provides SDKs for Python and TypeScript. Both SDKs support tracing, evaluation, datasets, and the core Weave features. Some advanced features like class-based Models and Scorers are currently not available for the Weave TypeScript SDK.
+Weave provides SDKs for Python and TypeScript. Both SDKs support tracing, evaluation, datasets, and the core Weave features. Some advanced features, such as class-based Models and Scorers, aren't available in the Weave TypeScript SDK.
 
-To get started using Weave:
-1. Create a Weights & Biases account at [https://wandb.ai/site](https://wandb.ai/site/?utm_source=course&utm_medium=course&utm_campaign=weave) and get your API key from [https://wandb.ai/authorize](https://wandb.ai/authorize?utm_source=course&utm_medium=course&utm_campaign=weave)
+To get started with Weave:
+
+1. Create a W&B account at [https://wandb.ai/site](https://wandb.ai/site/?utm_source=course&utm_medium=course&utm_campaign=weave) and get your API key from [https://wandb.ai/authorize](https://wandb.ai/authorize?utm_source=course&utm_medium=course&utm_campaign=weave).
 2. Install Weave:
 
 <CodeGroup>
@@ -91,26 +92,18 @@ pip install weave
 npm install weave
 ```
 </CodeGroup>
-3. In your script, import Weave and initialize a project.
+3. In your script, import Weave and initialize a project. Replace `<your-team>` with your W&B team name and `<your-project>` with your W&B project name.
 
-Replace `[YOUR-TEAM]` with your W&B team name and `[YOUR-PROJECT]` with your W&B project name.
 <CodeGroup>
 ```Python Python
 import weave
-client = weave.init('[YOUR-TEAM]/[YOUR-PROJECT]')
+client = weave.init('<your-team>/<your-project>')
 ```
 
 ```TypeScript Typescript
 import * as weave from 'weave';
-const client = await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
+const client = await weave.init('<your-team>/<your-project>');
 ```
 </CodeGroup>
+
 You're now ready to use Weave.
-
-
-
-
-
-
-
-
