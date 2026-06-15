@@ -79,7 +79,8 @@ Commencez par calculer les embeddings des articles. En général, vous ne feriez
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     require('dotenv').config();
     import { OpenAI } from 'openai';
     import * as weave from 'weave';
@@ -132,7 +133,7 @@ Commencez par calculer les embeddings des articles. En général, vous ne feriez
 
 Une fois la base de connaissances en place, vous pouvez maintenant créer l&#39;application RAG elle-même. Cette section combine l&#39;étape de récupération avec un appel LLM et encapsule les deux avec Weave afin que chaque entrée et sortie soit automatiquement suivie.
 
-Ensuite, encapsulez la fonction de récupération `get_most_relevant_document` avec le décorateur `weave.op()`, puis créez une classe `Model`. Encapsuler la fonction de récupération avec `weave.op()` permet à Weave de capturer ses entrées et sorties pour chaque appel, ce qui rend l&#39;étape de récupération inspectable par la suite. Appelez `weave.init('<team-name>/rag-quickstart')` pour commencer à suivre toutes les entrées et sorties de vos fonctions afin de pouvoir les inspecter plus tard. Si vous ne spécifiez pas de nom de Team, Weave enregistre la sortie dans votre [Team ou entité W&amp;B par défaut](/fr/platform/app/settings-page/user-settings#default-team).
+Ensuite, encapsulez la fonction de récupération `get_most_relevant_document` avec le décorateur `weave.op()`, puis créez une classe `Model`. Encapsuler la fonction de récupération avec `weave.op()` permet à Weave de capturer ses entrées et sorties pour chaque appel, ce qui rend l&#39;étape de récupération inspectable par la suite. Appelez `weave.init('<team-name>/rag-quickstart')` pour commencer à suivre toutes les entrées et sorties de vos fonctions afin de pouvoir les inspecter plus tard. Si vous ne spécifiez pas de nom d&#39;équipe, Weave enregistre la sortie dans votre [équipe ou entité W&amp;B par défaut](/fr/platform/app/settings-page/user-settings#default-team).
 
 <Tabs>
   <Tab title="Python">
@@ -197,7 +198,8 @@ Ensuite, encapsulez la fonction de récupération `get_most_relevant_document` a
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     class RAGModel {
         private openai: OpenAI;
         private systemMessage: string;
@@ -221,7 +223,7 @@ Ensuite, encapsulez la fonction de récupération `get_most_relevant_document` a
             context: string;
         }> {
             const context = await this.getMostRelevantDocument(question);
-
+            
             const response = await this.openai.chat.completions.create({
                 model: this.modelName,
                 messages: [
@@ -310,7 +312,8 @@ Comme dans le tutoriel [Créer un pipeline d’Évaluation](/fr/weave/tutorial-e
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     const contextPrecisionScore = weave.op(async function(args: {
         datasetRow: QuestionRow;
         modelOutput: { answer: string; context: string; }
@@ -337,7 +340,7 @@ Comme dans le tutoriel [Créer un pipeline d’Évaluation](/fr/weave/tutorial-e
     });
 
     await evaluation.evaluate({
-        model: weave.op((args: { datasetRow: QuestionRow }) =>
+        model: weave.op((args: { datasetRow: QuestionRow }) => 
             model.predict(args.datasetRow.question)
         )
     });
@@ -606,7 +609,8 @@ Voici le code dans son intégralité.
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     require('dotenv').config();
     import { OpenAI } from 'openai';
     import * as weave from 'weave';

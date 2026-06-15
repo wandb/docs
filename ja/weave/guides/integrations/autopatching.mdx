@@ -102,7 +102,8 @@ keywords: ["autopatching", "patch_openai", "implicitly_patch_integrations", "PII
 
     自動パッチ適用が機能しないエッジケース (ESM、Next.js などのバンドラー) では、Weave が OpenAI クライアントを確実にトレースできるよう、明示的なラップを使用してください。
 
-    ```typescript
+    ```typescript twoslash
+    // @noErrors
     import OpenAI from 'openai'
     import * as weave from 'weave'
     import { wrapOpenAI } from 'weave'

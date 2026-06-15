@@ -50,7 +50,8 @@ Le gestionnaire de contexte `weave.attributes()` vous permet d’ajouter des mé
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     import {init, op, withAttributes} from 'weave';
 
     async function main() {
@@ -103,7 +104,8 @@ Vous pouvez également imbriquer des contextes `weave.attributes()`. Les context
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     import {init, op, withAttributes} from 'weave';
 
     async function main() {
@@ -177,7 +179,8 @@ Lorsque vous définissez des attributs globaux lors de l&#39;initialisation de W
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     import {init, op, withAttributes} from 'weave';
 
     async function main() {
@@ -237,7 +240,8 @@ Vous pouvez utiliser à la fois des attributs globaux et des attributs par appel
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     import {init, op, withAttributes} from 'weave';
 
     async function main() {
@@ -305,7 +309,7 @@ Au moment de l&#39;exécution, vous pouvez inspecter les attributs en vigueur po
             process_data("world")
     ```
 
-    Cela produit la sortie suivante :
+    Cela produit la sortie suivante :
 
     ```text
     Attributes: {'env': 'production', 'version': '1.0.0', 'region': 'us-west-2'}
@@ -320,7 +324,8 @@ Au moment de l&#39;exécution, vous pouvez inspecter les attributs en vigueur po
   <Tab title="TypeScript">
     Avec le SDK TypeScript de Weave, vous pouvez récupérer les attributs courants via `client.getCurrentAttributes()`. Contrairement au SDK Python de Weave, vous pouvez accéder aux attributs TypeScript dans un contexte `withAttributes()`, et pas uniquement à l&#39;intérieur d&#39;un op.
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     import * as weave from 'weave';
     import { withAttributes } from 'weave';
 
@@ -363,7 +368,7 @@ Au moment de l&#39;exécution, vous pouvez inspecter les attributs en vigueur po
     main().catch(console.error);
     ```
 
-    Cela produit la sortie suivante :
+    Cela produit la sortie suivante :
 
     ```text
     Current attributes: { env: 'production', version: '1.0.0', region: 'us-west-2' }

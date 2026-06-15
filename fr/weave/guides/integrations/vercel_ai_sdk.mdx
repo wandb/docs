@@ -45,7 +45,8 @@ Les applications Next.js utilisent un fichier `instrumentation.ts` pour configur
 
 Pour intégrer Weave à la fonctionnalité OTel de Vercel, créez un fichier `instrumentation.ts` à la racine de votre projet et ajoutez-y le code suivant, puis mettez à jour la fonction `resourceFromAttributes()` avec le nom de votre équipe et celui de votre projet :
 
-```typescript instrumentation.ts lines {17-19}
+```typescript twoslash instrumentation.ts lines {17-19}
+// @noErrors
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
@@ -81,7 +82,8 @@ Cela crée un exporter OTLP configuré pour envoyer des données de trace vers l
 
 Après avoir ajouté l’instrumentation, utilisez l’option `experimental_telemetry` de Vercel sur n’importe quel appel de fonction de l’AI SDK pour émettre des spans OTel :
 
-```typescript route.ts lines {10}
+```typescript twoslash route.ts lines {10}
+// @noErrors
 import { openai } from "@ai-sdk/openai";
 import { generateText } from "ai";
 
@@ -99,7 +101,7 @@ export async function POST(req: Request) {
 }
 ```
 
-Tous les appels `generateText` avec la télémétrie activée génèrent des spans OTel exportés vers Weave. Votre application Next.js est désormais configurée pour envoyer les traces du SDK d’IA Vercel vers Weave.
+Tous les appels `generateText` avec la télémétrie activée génèrent des spans OTel exportés vers Weave. Votre application Next.js est désormais configurée pour envoyer les traces du Vercel AI SDK vers Weave.
 
 <div id="configure-otel-tracing-for-nodejs">
   ## Configurer le traçage OTel pour Node.js
@@ -109,7 +111,8 @@ Si vous n’utilisez pas Next.js, vous pouvez configurer OTel directement dans u
 
 Une fois les prérequis remplis, vous pouvez exécuter l’exemple suivant et générer des spans sans configuration supplémentaire.
 
-```typescript lines {11-14,18-19,31} title="test-app.ts"
+```typescript twoslash lines {11-14,18-19,31} title="test-app.ts"
+// @noErrors
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";

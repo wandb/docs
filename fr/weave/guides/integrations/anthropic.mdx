@@ -15,7 +15,7 @@ Ce guide vous montre comment capturer les traces, encapsuler vos propres fonctio
   ## Traces
 </div>
 
-Weave capture automatiquement les traces du SDK Anthropic lorsque vous ajoutez `weave.init("your-team-name/your-project-name")` à votre code. Si vous ne spécifiez pas de nom d’équipe comme argument dans `weave.init()`, Weave envoie la sortie vers votre [entité W&amp;B par défaut](/fr/platform/app/settings-page/user-settings/#default-team). Si vous ne spécifiez pas de nom de projet, Weave ne parvient pas à s’initialiser.
+Weave capture automatiquement les traces du SDK Anthropic lorsque vous ajoutez `weave.init("your-team-name/your-project-name")` à votre code. Si vous ne spécifiez pas de nom d’équipe comme argument dans `weave.init()`, Weave journalise la sortie vers votre [entité W&amp;B par défaut](/fr/platform/app/settings-page/user-settings/#default-team). Si vous ne spécifiez pas de nom de projet, Weave ne parvient pas à s’initialiser.
 
 Les exemples suivants montrent comment intégrer Weave dans un appel simple à Anthropic :
 
@@ -30,33 +30,33 @@ Les exemples suivants montrent comment intégrer Weave dans un appel simple à A
     weave.init("anthropic_project")
 
     client = Anthropic(
-    api_key=os.environ.get("ANTHROPIC_API_KEY"),
+        api_key=os.environ.get("ANTHROPIC_API_KEY"),
     )
 
     message = client.messages.create(
-    max_tokens=1024,
-    messages=[
-    {
-    "role": "user",
-    "content": "Tell me a joke about a dog",
-    }
-    ],
-    model="claude-3-opus-20240229",
+        max_tokens=1024,
+        messages=[
+            {
+                "role": "user",
+                "content": "Tell me a joke about a dog",
+            }
+        ],
+        model="claude-3-opus-20240229",
     )
     print(message.content)
-
     ```
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript
+    ```typescript twoslash
+    // @noErrors
     import Anthropic from '@anthropic-ai/sdk';
     import * as weave from 'weave';
     import { wrapAnthropic } from 'weave';
 
     await weave.init('anthropic_project');
 
-    // Enveloppez le client Anthropic pour activer le tracing
+    // Encapsulez le client Anthropic pour activer le tracing
     const client = wrapAnthropic(new Anthropic());
 
     const message = await client.messages.create({
@@ -125,7 +125,8 @@ Les exemples suivants montrent comment suivre une fonction :
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript
+    ```typescript twoslash
+    // @noErrors
     import Anthropic from '@anthropic-ai/sdk';
     import * as weave from 'weave';
     import { wrapAnthropic } from 'weave';
@@ -267,7 +268,8 @@ Les exemples tronqués suivants montrent une configuration d’outil Anthropic 
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript
+    ```typescript twoslash
+    // @noErrors
     const message = await client.messages.create({
         max_tokens: 1024,
         messages: [

@@ -54,7 +54,8 @@ Importez les bibliothèques suivantes dans votre script :
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     import * as weave from 'weave';
     import OpenAI from 'openai';
     ```
@@ -101,7 +102,8 @@ Le modèle d’exemple suivant utilise OpenAI pour extraire les noms, les couleu
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines {9}
+    ```typescript twoslash lines {9}
+    // @noErrors
     // Remarque : weave.Model n'est pas encore pris en charge en TypeScript.
     // À la place, encapsulez votre fonction de type modèle avec weave.op
 
@@ -147,7 +149,8 @@ Vous pouvez instancier des objets `Model` comme ceci :
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript
+    ```typescript twoslash
+    // @noErrors
     await weave.init('eval_pipeline_quickstart');
 
     const sentence = "There are many fruits that were found on the recently discovered planet Goocrux. There are neoskizzles that grow there, which are purple and taste like candy.";
@@ -189,7 +192,8 @@ Cet exemple construit une liste d&#39;exemples dans le code, mais vous pouvez au
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript
+    ```typescript twoslash
+    // @noErrors
     const sentences = [
       "There are many fruits that were found on the recently discovered planet Goocrux. There are neoskizzles that grow there, which are purple and taste like candy.",
       "Pounits are a bright green color and are more savory than sweet.",
@@ -221,7 +225,8 @@ Créez ensuite votre jeu de données avec la classe `weave.Dataset()` et publiez
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines {3-6}
+    ```typescript twoslash lines {3-6}
+    // @noErrors
     import * as weave from 'weave';
     await weave.init('eval_pipeline_quickstart');
     const dataset = new weave.Dataset({
@@ -251,7 +256,8 @@ Lorsque vous utilisez les évaluations Weave, Weave s&#39;attend à recevoir une
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript
+    ```typescript twoslash
+    // @noErrors
     import * as weave from 'weave';
 
     const fruitNameScorer = weave.op(
@@ -268,12 +274,12 @@ Pour plus d’informations sur la création de votre propre fonction de score, c
 Dans certaines applications, vous souhaiterez peut-être créer des classes `Scorer` personnalisées. Par exemple, vous pouvez créer une classe `LLMJudge` standardisée avec des paramètres spécifiques (comme un modèle de chat ou un prompt), une logique de scoring par ligne spécifique et un calcul de score agrégé. Pour plus d&#39;informations, voir le tutoriel sur la définition d&#39;une classe `Scorer` dans [l&#39;évaluation des applications RAG basée sur des modèles](/fr/weave/tutorial-rag#optional-defining-a-scorer-class).
 
 <div id="use-a-built-in-scorer-and-run-the-evaluation">
-  ## Utiliser un scorer intégré et exécuter l’évaluation
+  ## Utiliser un évaluateur intégré et exécuter l’évaluation
 </div>
 
-Avec le modèle, le jeu de données et un scorer personnalisé en place, vous êtes prêt à tout intégrer dans un run d’évaluation.
+Avec le modèle, le jeu de données et un évaluateur personnalisé en place, vous êtes prêt à tout intégrer dans un run d’évaluation.
 
-En plus des fonctions de score personnalisées, vous pouvez aussi utiliser les [scorers intégrés de Weave](/fr/weave/guides/evaluation/builtin_scorers). Dans l’évaluation suivante, `weave.Evaluation()` utilise la fonction `fruit_name_score` définie dans la section précédente ainsi que le scorer intégré `MultiTaskBinaryClassificationF1`, qui calcule les [scores F1](https://en.wikipedia.org/wiki/F-score).
+En plus des fonctions de score personnalisées, vous pouvez aussi utiliser les [évaluateurs intégrés de Weave](/fr/weave/guides/evaluation/builtin_scorers). Dans l’évaluation suivante, `weave.Evaluation()` utilise la fonction `fruit_name_score` définie dans la section précédente ainsi que l’évaluateur intégré `MultiTaskBinaryClassificationF1`, qui calcule les [scores F1](https://en.wikipedia.org/wiki/F-score).
 
 L’exemple suivant exécute une évaluation de `ExtractFruitsModel` sur le jeu de données `fruits` à l’aide de ces deux fonctions de score et journalise les résultats dans Weave.
 
@@ -297,7 +303,8 @@ L’exemple suivant exécute une évaluation de `ExtractFruitsModel` sur le jeu 
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines {5-9}
+    ```typescript twoslash lines {5-9}
+    // @noErrors
     import * as weave from 'weave';
 
     await weave.init('eval_pipeline_quickstart');
@@ -394,7 +401,8 @@ L’exemple suivant exécute une évaluation de `ExtractFruitsModel` sur le jeu 
     </Tab>
 
     <Tab title="TypeScript">
-      ```typescript lines
+      ```typescript twoslash lines
+      // @noErrors
       import * as weave from 'weave';
       import OpenAI from 'openai';
 

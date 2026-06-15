@@ -238,7 +238,8 @@ Cette section explique comment les évaluateurs reçoivent les données de votre
 
     Vous pouvez accéder aux colonnes pertinentes de la ligne du jeu de données en ajoutant un argument nommé `datasetRow` à la définition de votre évaluateur.
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     const myScorer = weave.op(
         ({modelOutput, datasetRow}) => {
             return modelOutput * 2 === datasetRow.expectedOutputTimesTwo;
@@ -259,7 +260,8 @@ Cette section explique comment les évaluateurs reçoivent les données de votre
 
     Exemple :
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     const myScorer = weave.op(
         ({modelOutput, datasetRow}) => {
             return modelOutput * 2 === datasetRow.expectedOutputTimesTwo;

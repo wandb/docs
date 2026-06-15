@@ -11,7 +11,8 @@ Weave prend en charge l’instrumentation automatique, ce qui simplifie la confi
   **Qu’est-ce qui a changé ?**
   Depuis la [PR #4554](https://github.com/wandb/weave/pull/4554), Weave effectue automatiquement le patching des bibliothèques prises en charge, comme OpenAI, lors de son chargement. Vous n’avez donc plus besoin de les encapsuler manuellement :
 
-  ```ts lines
+  ```ts twoslash lines
+  // @noErrors
   weave.wrapOpenAI(new OpenAI());
   ```
 
@@ -237,7 +238,8 @@ Si cela correspond à votre configuration, essayez les étapes suivantes :
 
 Parfois, vous devrez peut-être encore utiliser l’instrumentation manuelle :
 
-```ts lines
+```ts twoslash lines
+// @noErrors
 import { wrapOpenAI } from 'weave';
 const client = wrapOpenAI(new OpenAI());
 ```

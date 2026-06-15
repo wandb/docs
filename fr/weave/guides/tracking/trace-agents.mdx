@@ -34,7 +34,7 @@ Pour commencer, installez le package `weave` et initialisez votre projet. Cette 
     weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
     ```
 
-    Appelez `weave.init()` avant tout appel à `start_session()`, `start_turn()`, `start_llm()` ou `start_tool()`. Toutes les fonctions de traçage d’agent ne font silencieusement rien lorsque le traçage est désactivé ou que l’appel à init est absent. Vous pouvez donc laisser l’instrumentation dans le code de production et la contrôler via la configuration.
+    Appelez `weave.init()` avant tout appel à `start_session()`, `start_turn()`, `start_llm()` ou `start_tool()`. Toutes les fonctions de traçage des agents ne font silencieusement rien lorsque le traçage est désactivé ou que l’appel à init est absent. Vous pouvez donc laisser l’instrumentation dans le code de production et la contrôler via la configuration.
   </Tab>
 
   <Tab title="TypeScript">
@@ -44,13 +44,14 @@ Pour commencer, installez le package `weave` et initialisez votre projet. Cette 
 
     Remplacez `[YOUR-TEAM]` par le nom de votre équipe W&amp;B et `[YOUR-PROJECT]` par le nom de votre projet W&amp;B.
 
-    ```typescript lines
+    ```typescript lines twoslash
+    // @noErrors
     import * as weave from 'weave';
 
     await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
     ```
 
-    Appelez `weave.init()` avant tout appel à `startSession()`, `startTurn()`, `startLLM()` ou `startTool()`. Toutes les fonctions de traçage d’agent ne font silencieusement rien lorsque le traçage est désactivé ou que l’appel à init est absent. Vous pouvez donc laisser l’instrumentation dans le code de production et la contrôler via la configuration.
+    Appelez `weave.init()` avant tout appel à `startSession()`, `startTurn()`, `startLLM()` ou `startTool()`. Toutes les fonctions de traçage des agents ne font silencieusement rien lorsque le traçage est désactivé ou que l’appel à init est absent. Vous pouvez donc laisser l’instrumentation dans le code de production et la contrôler via la configuration.
   </Tab>
 </Tabs>
 
@@ -142,7 +143,8 @@ La session active est stockée dans le contexte (un `ContextVar` en Python ou `A
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript lines twoslash
+    // @noErrors
     const session = weave.startSession({
       agentName: 'my-agent',  // Facultatif : identifie l’agent dans l’interface utilisateur.
       sessionId: '',          // Facultatif : ID stable pour regrouper les tours de conversation, généré automatiquement s’il est vide.
@@ -172,7 +174,8 @@ Lorsqu’elle est appelée comme fonction autonome, elle détermine la session a
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript lines twoslash
+    // @noErrors
     const turn = weave.startTurn({
       agentName: 'my-agent',  // Facultatif : redéfinit le nom de l’agent défini au niveau de la session.
       model: 'gpt-4o',        // Facultatif : modèle utilisé pour ce tour de conversation.
@@ -199,7 +202,8 @@ Lorsqu’elle est appelée comme fonction autonome, elle détermine la session a
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript lines twoslash
+    // @noErrors
     const llm = weave.startLLM({
       model: 'gpt-4o',          // L'ID du modèle.
       providerName: 'openai',   // Facultatif : nom du fournisseur, par exemple "openai", "anthropic".
@@ -225,7 +229,8 @@ Une fois l’appel LLM terminé, attribuez les données de réponse à l’objet
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript lines twoslash
+    // @noErrors
     const llm = weave.startLLM({ model: 'gpt-4o', providerName: 'openai' });
     try {
       const response = await openaiClient.chat.completions.create({ ... });
@@ -262,7 +267,8 @@ Passez `provider_name` / `providerName` explicitement. Weave ne le déduit pas d
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript lines twoslash
+    // @noErrors
     const tool = weave.startTool({
       name: 'get_weather',            // Nom de l’outil tel que déclaré au LLM.
       args: '{"city": "Tokyo"}',      // Facultatif : chaîne JSON des arguments de l’outil.
@@ -284,7 +290,8 @@ Attribuez le résultat de l’outil avant de le fermer :
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript lines twoslash
+    // @noErrors
     const tool = weave.startTool({ name: 'get_weather', args: '{"city": "Tokyo"}' });
     try {
       tool.result = await getWeatherApi('Tokyo');
@@ -355,7 +362,8 @@ Weave stocke la session active, le tour de conversation et l’appel LLM dans le
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines highlight="11,13,16,24,35"
+    ```typescript lines highlight="11,13,16,24,35" twoslash
+    // @noErrors
     import * as weave from 'weave';
     import type { Message, Usage } from 'weave';
 
@@ -442,7 +450,8 @@ Utilisez `.end()` explicitement lorsque vous ne pouvez pas recourir à des blocs
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines highlight="1,2,4,9,15"
+    ```typescript lines highlight="1,2,4,9,15" twoslash
+    // @noErrors
     const session = weave.startSession({ agentName: 'weather-bot' });
     const turn = session.startTurn({ agentName: 'weather-bot' });
 

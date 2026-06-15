@@ -105,7 +105,8 @@ Weave는 모든 Scorer 결과를 [Call](/ko/weave/guides/tracking/tracing#calls)
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript lines twoslash
+    // @noErrors
     import * as weave from 'weave';
     import OpenAI from 'openai';
 
@@ -145,7 +146,7 @@ Weave는 모든 Scorer 결과를 [Call](/ko/weave/guides/tracking/tracing#calls)
    * **오퍼레이션**: `generate_statement`를 선택합니다.
    * **Sampling rate**: 모든 call을 점수화하도록 `100%`로 설정합니다.
    * **Scorer name**: `truthfulness-scorer`
-   * **Judge model**: `o3-mini-2025-01-31`
+   * **평가 모델**: `o3-mini-2025-01-31`
    * **System prompt**: `당신은 공정한 AI 심사자입니다. 당신의 작업은 문장의 진실성을 평가하는 것입니다.`
    * **Response format**: `json_object`
    * **Scoring prompt**:
@@ -175,7 +176,8 @@ Weave는 모든 Scorer 결과를 [Call](/ko/weave/guides/tracking/tracing#calls)
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript lines twoslash
+    // @noErrors
     await generateStatement("The Earth revolves around the Sun.");
     await generateStatement("Water freezes at 0 degrees Celsius.");
     await generateStatement("The Great Wall of China was built over several centuries.");

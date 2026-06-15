@@ -31,7 +31,8 @@ Une op Weave est une fonction versionnée qui journalise automatiquement tous le
   <Tab title="TypeScript">
     Pour créer une op, enveloppez une fonction TypeScript avec `weave.op`.
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     import * as weave from 'weave'
 
     function trackMe(v: number) {

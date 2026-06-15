@@ -93,7 +93,8 @@ Python에서는 네 함수 모두 컨텍스트 관리자(`with weave.start_*(...
   weave.init(f"{TEAM}/{PROJECT}")
   ```
 
-  ```typescript lines highlight="4" TypeScript
+  ```typescript lines highlight="4" TypeScript twoslash
+  // @noErrors
   // 이 프로젝트를 실행하기 전에 환경에서 WANDB_API_KEY, OPENAI_API_KEY를 설정하세요
   import * as weave from 'weave';
 
@@ -137,7 +138,8 @@ Python에서는 네 함수 모두 컨텍스트 관리자(`with weave.start_*(...
   }
   ```
 
-  ```typescript lines TypeScript
+  ```typescript lines TypeScript twoslash
+  // @noErrors
   async function wikipediaSearch(query: string): Promise<string> {
     const url = new URL('https://en.wikipedia.org/w/api.php');
     url.search = new URLSearchParams({
@@ -249,7 +251,8 @@ Python에서는 네 함수 모두 컨텍스트 관리자(`with weave.start_*(...
           print(f"AGENT: {run_turn(history, question)}\n")
   ```
 
-  ```typescript lines highlight="10,13,39,54,76" TypeScript
+  ```typescript lines highlight="10,13,39,54,76" TypeScript twoslash
+  // @noErrors
   import OpenAI from 'openai';
 
   const openaiClient = new OpenAI();
@@ -281,12 +284,12 @@ Python에서는 네 함수 모두 컨텍스트 관리자(`with weave.start_*(...
         llm1.end();
       }
 
-      // If no tool was requested, the first LLM response is the answer.
+      // 도구가 요청되지 않은 경우, 첫 번째 LLM 응답이 최종 답변입니다.
       if (!msg.tool_calls?.length) {
         return msg.content ?? null;
       }
 
-      // Execute each requested tool call.
+      // 요청된 각 도구 Call을 실행합니다.
       for (const tc of msg.tool_calls) {
         const tool = weave.startTool({
           name: tc.function.name,

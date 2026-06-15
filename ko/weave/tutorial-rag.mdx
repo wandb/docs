@@ -79,7 +79,8 @@ import WeaveQuickstartPrereqs from "/snippets/ko/_includes/weave-quickstart-prer
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     require('dotenv').config();
     import { OpenAI } from 'openai';
     import * as weave from 'weave';
@@ -130,7 +131,7 @@ import WeaveQuickstartPrereqs from "/snippets/ko/_includes/weave-quickstart-prer
   ## RAG 앱 만들기
 </div>
 
-지식 베이스가 준비되었으므로 이제 RAG 애플리케이션 자체를 구축할 수 있습니다. 이 섹션에서는 검색 단계와 LLM Call을 결합하고, 둘 다 Weave로 래핑하여 모든 입력과 출력이 자동으로 추적되도록 합니다.
+지식 베이스가 준비되었으므로 이제 RAG 애플리케이션 자체를 구축할 수 있습니다. 이 섹션에서는 검색 step와 LLM Call을 결합하고, 둘 다 Weave로 래핑하여 모든 입력과 출력이 자동으로 추적되도록 합니다.
 
 다음으로, 검색 함수 `get_most_relevant_document`를 `weave.op()` 데코레이터로 래핑하고 `Model` 클래스를 만듭니다. 검색 함수를 `weave.op()`로 래핑하면 Weave가 모든 call에 대한 inputs와 outputs를 캡처할 수 있으며, 이로써 나중에 검색 step을 검사할 수 있게 됩니다. `weave.init('<team-name>/rag-quickstart')`를 호출해 나중에 확인할 수 있도록 함수의 모든 inputs와 outputs 추적을 시작합니다. 팀 이름을 지정하지 않으면 출력은 [W&amp;B 기본 team 또는 entity](/ko/platform/app/settings-page/user-settings#default-team)에 기록됩니다.
 
@@ -197,7 +198,8 @@ import WeaveQuickstartPrereqs from "/snippets/ko/_includes/weave-quickstart-prer
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     class RAGModel {
         private openai: OpenAI;
         private systemMessage: string;
@@ -310,7 +312,8 @@ import WeaveQuickstartPrereqs from "/snippets/ko/_includes/weave-quickstart-prer
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     const contextPrecisionScore = weave.op(async function(args: {
         datasetRow: QuestionRow;
         modelOutput: { answer: string; context: string; }
@@ -506,7 +509,7 @@ RAG 앱에서 동일한 결과를 얻으려면 다음을 수행하세요.
             document_embeddings.append(response)
         return document_embeddings
 
-    article_embeddings = docs_to_embeddings(articles) # 참고: 일반적으로는 아티클별로 이 작업을 한 번만 수행한 뒤 임베딩과 메타데이터를 데이터베이스에 저장합니다
+    article_embeddings = docs_to_embeddings(articles) # Note: you would typically do this once with your articles and put the embeddings &amp; metadata in a database
 
     # 검색 단계에 decorator 추가
     @weave.op()
@@ -532,7 +535,7 @@ RAG 앱에서 동일한 결과를 얻으려면 다음을 수행하세요.
         model_name: str = "gpt-3.5-turbo-1106"
 
         @weave.op()
-        def predict(self, question: str) -> dict: # 참고: `question`은 나중에 평가 행에서 데이터를 선택하는 데 사용됩니다
+        def predict(self, question: str) -> dict: # note: `question` will be used later to select data from our evaluation rows
             from openai import OpenAI
             context = get_most_relevant_document(question)
             client = OpenAI()
@@ -606,7 +609,8 @@ RAG 앱에서 동일한 결과를 얻으려면 다음을 수행하세요.
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     require('dotenv').config();
     import { OpenAI } from 'openai';
     import * as weave from 'weave';

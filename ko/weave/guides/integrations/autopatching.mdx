@@ -71,7 +71,7 @@ keywords: ["autopatching", "patch_openai", "implicitly_patch_integrations", "PII
 
     ### 입력 및 출력 후처리
 
-    패치를 켜거나 끄는 것 외에도, 각 호출에 대해 Weave가 기록하는 내용을 변환할 수 있습니다. 패치 함수에 설정을 전달하면 Weave가 입력과 출력을 기록하는 방식을 사용자 지정할 수 있습니다(예: PII 또는 시크릿 마스킹).
+    패치를 켜거나 끄는 것 외에도, 각 Call에 대해 Weave가 기록하는 내용을 변환할 수 있습니다. 패치 함수에 설정을 전달하면 Weave가 입력과 출력을 기록하는 방식을 사용자 지정할 수 있습니다(예: PII 또는 시크릿 마스킹).
 
     ```python lines
     import weave.integrations
@@ -102,7 +102,8 @@ keywords: ["autopatching", "patch_openai", "implicitly_patch_integrations", "PII
 
     자동 패치가 동작하지 않는 예외적인 경우(ESM, Next.js와 같은 번들러)에는 Weave가 OpenAI 클라이언트를 트레이스할 수 있도록 명시적 래핑을 사용하세요.
 
-    ```typescript
+    ```typescript twoslash
+    // @noErrors
     import OpenAI from 'openai'
     import * as weave from 'weave'
     import { wrapOpenAI } from 'weave'

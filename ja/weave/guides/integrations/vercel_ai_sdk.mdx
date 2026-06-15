@@ -45,7 +45,8 @@ Next.js アプリケーションでは、OTel を設定するために `instrume
 
 Weave を Vercel の OTel 機能と統合するには、project ルートに `instrumentation.ts` ファイルを作成し、次のコードを追加します。その際、`resourceFromAttributes()` 関数をご使用のチーム名とプロジェクト名に合わせて更新してください。
 
-```typescript instrumentation.ts lines {17-19}
+```typescript twoslash instrumentation.ts lines {17-19}
+// @noErrors
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
@@ -81,14 +82,15 @@ export function register() {
 
 インストルメンテーションを追加したら、任意の AI SDK の関数Callで Vercel の `experimental_telemetry` オプションを使用して、OTel スパンを出力します。
 
-```typescript route.ts lines {10}
+```typescript twoslash route.ts lines {10}
+// @noErrors
 import { openai } from "@ai-sdk/openai";
 import { generateText } from "ai";
 
 export async function POST(req: Request) {
   const { prompt } = await req.json();
 
-// function に experimental_telemetry フィールドを追加します。
+// 関数に experimental_telemetry フィールドを追加します。
   const result = await generateText({
     model: openai("gpt-4o-mini"),
     prompt,
@@ -109,7 +111,8 @@ Next.js を使用していない場合は、スタンドアロンの Node.js ア
 
 前提条件を満たしたら、追加の設定なしで次の例を実行し、スパンを生成できます。
 
-```typescript lines {11-14,18-19,31} title="test-app.ts"
+```typescript twoslash lines {11-14,18-19,31} title="test-app.ts"
+// @noErrors
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";

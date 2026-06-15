@@ -69,7 +69,7 @@ Weave stocke automatiquement tous les résultats des scorers dans le champ `feed
   ### Exemple : créer un moniteur de véracité
 </div>
 
-L’exemple complet suivant vous guide dans la création d’un moniteur qui évalue la véracité des énoncés générés. À la fin, vous disposerez d’un moniteur actif qui attribue un score à un exemple d’op dans votre projet Weave, avec des traces évaluées visibles dans l’interface W&amp;B.
+L’exemple complet suivant vous guide dans la création d’un moniteur qui évalue la véracité des énoncés générés. À la fin, vous disposerez d’un moniteur actif qui évalue un exemple d’op dans votre projet Weave, avec des traces évaluées visibles dans l’interface W&amp;B.
 
 1. Définissez une fonction qui génère des énoncés. Certains sont vrais, d’autres non :
 
@@ -105,7 +105,8 @@ L’exemple complet suivant vous guide dans la création d’un moniteur qui év
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript lines twoslash
+    // @noErrors
     import * as weave from 'weave';
     import OpenAI from 'openai';
 
@@ -139,16 +140,16 @@ L’exemple complet suivant vous guide dans la création d’un moniteur qui év
 3. Ouvrez votre projet Weave dans l’interface W&amp;B et sélectionnez **Monitors** dans la barre latérale. Sélectionnez ensuite **New Monitor**.
 
 4. Dans le menu **Create new monitor**, configurez les champs avec les valeurs suivantes :
-   * **Name** : `truthfulness-monitor`
-   * **Description** : `Evaluates the truthfulness of generated statements.`
-   * **Active monitor** : basculez sur **on**.
-   * **Operations** : sélectionnez `generate_statement`.
-   * **Sampling rate** : définissez `100%` pour attribuer un score à chaque appel.
-   * **Scorer name** : `truthfulness-scorer`
-   * **Judge model** : `o3-mini-2025-01-31`
-   * **System prompt** : `You are an impartial AI judge. Your task is to evaluate the truthfulness of statements.`
-   * **Response format** : `json_object`
-   * **Scoring prompt** :
+   * **Name**: `truthfulness-monitor`
+   * **Description**: `Evaluates the truthfulness of generated statements.`
+   * **Active monitor**: basculez sur **on**.
+   * **Operations**: sélectionnez `generate_statement`.
+   * **Sampling rate**: définissez `100%` pour évaluer chaque appel.
+   * **Scorer name**: `truthfulness-scorer`
+   * **Judge model**: `o3-mini-2025-01-31`
+   * **System prompt**: `You are an impartial AI judge. Your task is to evaluate the truthfulness of statements.`
+   * **Response format**: `json_object`
+   * **Scoring prompt**:
      ```text
      Evaluate whether the output statement is accurate based on the input statement.
 
@@ -163,7 +164,7 @@ L’exemple complet suivant vous guide dans la création d’un moniteur qui év
 
 5. Sélectionnez **Create monitor**. Cela ajoute le moniteur à votre projet Weave.
 
-6. Dans votre script, appelez votre fonction avec des énoncés présentant différents degrés de véracité afin de tester la fonction de score :
+6. Dans votre script, appelez votre fonction avec des énoncés présentant différents degrés de véracité afin de tester la fonction d’évaluation :
 
 <Tabs>
   <Tab title="Python">
@@ -175,7 +176,8 @@ L’exemple complet suivant vous guide dans la création d’un moniteur qui év
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript lines twoslash
+    // @noErrors
     await generateStatement("The Earth revolves around the Sun.");
     await generateStatement("Water freezes at 0 degrees Celsius.");
     await generateStatement("The Great Wall of China was built over several centuries.");
@@ -187,4 +189,4 @@ L’exemple complet suivant vous guide dans la création d’un moniteur qui év
 
 ![Trace du moniteur](/weave/guides/evaluation/img/monitors-4.png)
 
-Vous disposez maintenant d’un moniteur de véracité fonctionnel qui attribue un score à chaque appel de `generate_statement` et stocke les résultats aux côtés de la trace d’origine, prêts à être analysés et comparés dans l’interface Weave.
+Vous disposez maintenant d’un moniteur de véracité fonctionnel qui évalue chaque appel de `generate_statement` et stocke les résultats aux côtés de la trace d’origine, prêts à être analysés et comparés dans l’interface Weave.

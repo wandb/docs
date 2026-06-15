@@ -96,7 +96,8 @@ Vous pouvez ajouter des données personnalisées pendant votre Appel à l’aide
   <Tab title="TypeScript">
     En TypeScript, fournissez une fonction `summarize` en option à `op()`. Elle reçoit le résultat final et renvoie les données de synthèse une fois l’Appel terminé.
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     const myOp = weave.op(
       async (x: any) => {
         const result = await doWork(x);
@@ -145,7 +146,8 @@ Utilisez `getCall` pour récupérer un Appel unique par son ID, ou `getCalls` po
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     import * as weave from 'weave';
     const client = await weave.init('my-team/my-project');
 

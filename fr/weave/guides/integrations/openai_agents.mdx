@@ -89,7 +89,8 @@ Vous pouvez utiliser W&amp;B Weave avec le SDK OpenAI Agents pour tracer et surv
 
     L’exemple de code suivant crée un agent OpenAI et l’intègre à Weave pour assurer la traçabilité. Remplacez `your-team-name/your-project-name` dans l’initialisation du projet Weave par votre entité et votre projet. L’exemple définit un outil `get_weather` qui renvoie un exemple de bulletin météo, puis configure un agent nommé `Hello world` avec des instructions simples et un accès à l’outil météo. La fonction `main` exécute l’agent avec une entrée d’exemple (`What's the weather in Tokyo?`) et consigne la réponse finale.
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     import * as weave from "weave";
     import { Agent, run, tool } from "@openai/agents";
     import { z } from "zod";
@@ -136,7 +137,8 @@ Vous pouvez utiliser W&amp;B Weave avec le SDK OpenAI Agents pour tracer et surv
 
     Dans ces cas, vous pouvez enregistrer explicitement l’instrumentation à l’aide de `instrumentOpenAIAgents()` :
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     import * as weave from "weave";
 
     await weave.init("openai-agents");
@@ -145,7 +147,8 @@ Vous pouvez utiliser W&amp;B Weave avec le SDK OpenAI Agents pour tracer et surv
 
     Pour avoir un contrôle complet sur le processeur de Tracing, par exemple pour une configuration personnalisée du processeur ou un enregistrement conditionnel, créez-le et enregistrez-le manuellement :
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     import { addTraceProcessor } from "@openai/agents";
     import { createOpenAIAgentsTracingProcessor } from "weave";
 

@@ -33,7 +33,7 @@ import WeaveQuickstartPrereqs from "/snippets/ja/_includes/weave-quickstart-prer
   ## 新しいプロジェクトにトレースをログする
 </div>
 
-このセクションでは、Weave が入力、出力、コードを記録できるよう、小規模なアプリケーションにインストルメンテーションを施します。コードのトラッキングを開始し、Weave にトレースをログするには、以下の手順に従ってください。
+このセクションでは、Weave が入力、出力、コードを記録できるよう、小規模なアプリケーションをインストルメントします。コードのトラッキングを開始し、Weave にトレースをログするには、以下の手順に従ってください。
 
 1. `weave` ライブラリをコードにインポートします。
 2. コード内で `weave.init('your_wb_team/project_name')` を呼び出し、トラッキング情報を W&amp;B の[チーム](/ja/platform/app/settings-page/teams)および [project](/ja/platform/hosting/iam/org_team_struct#project) に送信します。チームを指定しない場合、Weave はトレースを[デフォルトチーム](/ja/platform/app/settings-page/user-settings/#default-team)に送信します。指定した project がチームに存在しない場合は、Weave が自動的に作成します。
@@ -85,7 +85,8 @@ import WeaveQuickstartPrereqs from "/snippets/ja/_includes/weave-quickstart-prer
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines {1-2,7-8,20,24-25}
+    ```typescript twoslash lines {1-2,7-8,20,24-25}
+    // @noErrors
     // Weave ライブラリをインポートする
     import * as weave from 'weave';
     import OpenAI from 'openai';

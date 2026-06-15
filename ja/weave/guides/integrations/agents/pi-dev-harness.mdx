@@ -44,7 +44,8 @@ npm install --save-dev @types/node tsx typescript
 
 以下の例は、単一の Pi のプロンプトと応答をトレースするために必要な最小限のセットアップを示しています。エージェントのセッションを作成する前に `weave.init()` を呼び出し、拡張機能ファクトリとして `createOtelExtension()` を渡します。Weave は、セッション、各プロンプト/応答サイクル (`invoke_agent`) 、個々の LLM Call (`chat`) 、およびツール実行 (`execute_tool`) を含む、エージェントのライフサイクル全体をトレースします。`SessionManager.inMemory()` はセッション ID を自動的に生成します。
 
-```typescript lines
+```typescript lines twoslash
+// @noErrors
 import {init, createOtelExtension} from 'weave';
 
 import {

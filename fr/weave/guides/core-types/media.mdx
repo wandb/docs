@@ -157,7 +157,8 @@ Les exemples suivants montrent comment générer et journaliser des images dans 
   <Tab title="TypeScript">
     L&#39;exemple suivant journalise une image à l&#39;aide de la fonction `weaveImage` :
 
-    ```typescript
+    ```typescript twoslash
+    // @noErrors
     import * as weave from 'weave';
     import * as fs from 'fs';
 
@@ -183,7 +184,8 @@ Les exemples suivants montrent comment générer et journaliser des images dans 
 
     L’exemple suivant journalise une image générée avec l’API DALL-E d’OpenAI à l’aide de la fonction `weaveImage` :
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     import {OpenAI} from 'openai';
     import * as weave from 'weave';
 
@@ -557,7 +559,8 @@ Les exemples suivants montrent comment journaliser de l’audio vers Weave.
   <Tab title="TypeScript">
     L’exemple suivant charge un fichier audio existant et le journalise dans Weave :
 
-    ```typescript
+    ```typescript twoslash
+    // @noErrors
     import * as weave from 'weave';
     import * as fs from 'fs';
 
@@ -581,7 +584,8 @@ Les exemples suivants montrent comment journaliser de l’audio vers Weave.
 
     L’exemple suivant génère de l’audio avec l’API TTS d’OpenAI et le journalise dans Weave :
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     import {OpenAI} from 'openai';
     import * as weave from 'weave';
 

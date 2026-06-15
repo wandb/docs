@@ -44,7 +44,8 @@ npm install --save-dev @types/node tsx typescript
 
 L’exemple suivant montre la configuration minimale nécessaire pour tracer un seul prompt et une seule réponse dans Pi. Appelez `weave.init()` avant de créer votre session d&#39;agent, puis transmettez `createOtelExtension()` en tant que fabrique d&#39;extensions. Weave trace l&#39;intégralité du cycle de vie de l&#39;agent : la session, chaque cycle prompt/réponse (`invoke_agent`), les appels LLM individuels (`chat`) et les exécutions d&#39;outils (`execute_tool`). `SessionManager.inMemory()` génère automatiquement l&#39;ID de session.
 
-```typescript lines
+```typescript lines twoslash
+// @noErrors
 import {init, createOtelExtension} from 'weave';
 
 import {
@@ -105,7 +106,7 @@ Compilez et exécutez le script avec `tsx`, en remplaçant `[FILENAME]` par le n
 npx tsx [FILENAME].ts
 ```
 
-Lorsque vous exécutez votre code, vos traces apparaissent dans l’onglet **Agents** de votre projet Weave à l’adresse `https://wandb.ai/[YOUR-TEAM]/[YOUR-PROJECT]/weave/agents`. Weave capture les sessions Pi, les appels LLM et les exécutions d’outils à chaque exécution de votre application.
+Lorsque vous exécutez votre code, vos traces apparaissent dans l’onglet **Agents** de votre projet Weave à l’adresse `https://wandb.ai/[YOUR-TEAM]/[YOUR-PROJECT]/weave/agents`. Weave capture les sessions Pi, les appels LLM et les exécutions d’outils à chaque run de votre application.
 
 <div id="next-steps">
   ### Étapes suivantes

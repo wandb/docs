@@ -132,7 +132,8 @@ keywords: ["EvaluationLogger", "log_prediction", "log_score", "점진적 평가"
 
     다음 예제는 fire-and-forget 패턴으로 모델 예측을 평가합니다. 평가 로거를 설정하고, 세 개의 테스트 샘플에 대해 모델을 실행한 다음, `await`를 사용하지 않고 예측을 로깅합니다:
 
-    ```typescript lines {36,50}
+    ```typescript twoslash lines {36,50}
+    // @noErrors
     import weave, {EvaluationLogger} from 'weave';
     import OpenAI from 'openai';
 
@@ -191,7 +192,8 @@ keywords: ["EvaluationLogger", "log_prediction", "log_score", "점진적 평가"
 
     다음 예제에서는 `await` 없이 `logPrediction()`을 호출하는 대신, 각 오퍼레이션이 완료된 후 다음 오퍼레이션으로 넘어가도록 `await`와 함께 `logPredictionAsync()`를 사용합니다:
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     // logPrediction 대신 logPredictionAsync 사용
     const scoreLogger = await evalLogger.logPredictionAsync(inputs, modelOutput);
 
@@ -266,7 +268,7 @@ pred.finish()
 
 * 컨텍스트를 벗어날 때 `finish()`가 자동으로 호출됨.
 * 중첩된 LLM Call에 대한 토큰 및 비용 추적 개선.
-* 예측 컨텍스트 내에서 모델 실행 후 output 설정 가능.
+* 예측 컨텍스트 내에서 모델 실행 후 출력 설정 가능.
 
 <Tabs>
   <Tab title="Python">
@@ -325,7 +327,8 @@ pred.finish()
 
     다음 예제에서는 예측을 로깅하고, 점수와 LLM judge 점수를 추가한 다음, `finish()`로 예측을 완료합니다.
 
-    ```typescript lines {43}
+    ```typescript twoslash lines {43}
+    // @noErrors
     import weave from 'weave';
     import OpenAI from 'openai';
     import {EvaluationLogger} from 'weave/evaluationLogger';
@@ -398,26 +401,24 @@ pred.finish()
     weave.init("your-team-name/your-project-name")
 
     # 데이터셋 게시(한 번만 수행하면 됨)
-
     dataset = weave.Dataset(
-    name="my_eval_dataset",
-    rows=[
-    {"question": "What is the capitol of France?", "expected": "Paris"},
-    {"question": "What U.S. state is Seattle in?", "expected": "Washington"},
-    {"question": "In what country is Mount Fuji located in?", "expected": "Japan"},
-    ],
+        name="my_eval_dataset",
+        rows=[
+          {"question": "What is the capitol of France?", "expected": "Paris"},
+          {"question": "What U.S. state is Seattle in?", "expected": "Washington"},
+          {"question": "In what country is Mount Fuji located in?", "expected": "Japan"},
+        ],
     )
     weave.publish(dataset)
 
     # 게시된 데이터셋 조회
-
     dataset = weave.ref("my_eval_dataset").get()
-
     ```
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript
+    ```typescript twoslash
+    // @noErrors
     import weave, {EvaluationLogger, Dataset} from 'weave';
 
     await weave.init('your-team-name/your-project-name');
@@ -471,7 +472,8 @@ pred.finish()
 
     다음 예제에서는 `EvaluationLogger`의 여러 동시 인스턴스를 생성해 평가를 병렬로 일괄 처리합니다.
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     // 토큰 추적을 위해 모델을 호출하기 전에 EvaluationLogger를 초기화합니다
     const ev = new EvaluationLogger({
       name: 'parallel-eval',
@@ -583,7 +585,8 @@ pred.finish()
   <Tab title="TypeScript">
     TypeScript SDK는 `weaveImage` 및 `weaveAudio` 함수를 사용해 이미지와 오디오를 로깅할 수 있도록 지원합니다. 다음 예제에서는 이미지와 오디오 파일을 로드하고, 이를 모델로 처리한 뒤, 점수와 함께 결과를 로깅합니다.
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     import weave, {EvaluationLogger} from 'weave';
     import * as fs from 'fs';
 
@@ -684,7 +687,8 @@ pred.finish()
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     import weave from 'weave';
     import {EvaluationLogger} from 'weave/evaluationLogger';
     import {WeaveObject} from 'weave/weaveObject';

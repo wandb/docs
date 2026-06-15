@@ -49,7 +49,8 @@ description: "Anthropic SDK를 통해 이루어지는 LLM Call를 Weave로 자�
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript
+    ```typescript twoslash
+    // @noErrors
     import Anthropic from '@anthropic-ai/sdk';
     import * as weave from 'weave';
     import { wrapAnthropic } from 'weave';
@@ -125,7 +126,8 @@ Weave ops는 실험하면서 코드를 자동으로 버전 관리하고 입력�
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript
+    ```typescript twoslash
+    // @noErrors
     import Anthropic from '@anthropic-ai/sdk';
     import * as weave from 'weave';
     import { wrapAnthropic } from 'weave';
@@ -267,7 +269,8 @@ Anthropic은 Claude가 함수 호출을 요청할 수 있도록 [tools](https://
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript
+    ```typescript twoslash
+    // @noErrors
     const message = await client.messages.create({
         max_tokens: 1024,
         messages: [

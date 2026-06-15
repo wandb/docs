@@ -49,7 +49,8 @@ Lorsque vous publiez un prompt avec `weave.publish`, il apparaît dans votre pro
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     import * as weave from 'weave';
     import OpenAI from 'openai';
 
@@ -93,7 +94,7 @@ Lorsque vous publiez un prompt avec `weave.publish`, il apparaît dans votre pro
   ## MessagesPrompt
 </div>
 
-`MessagesPrompt` vous permet de journaliser des conversations sur plusieurs tours et des prompts de type chat. Il stocke un tableau d&#39;objets de message (avec des rôles comme `system`, `user` et `assistant`) qui représentent un flux de conversation complet. Utilisez `MessagesPrompt` pour les LLM de type chat lorsque vous devez conserver le contexte sur plusieurs messages, définir des modèles de conversation spécifiques ou créer des modèles de conversation réutilisables.
+`MessagesPrompt` vous permet de journaliser des conversations sur plusieurs tours de conversation et des prompts de type chat. Il stocke un tableau d&#39;objets de message (avec des rôles comme `system`, `user` et `assistant`) qui représentent un flux de conversation complet. Utilisez `MessagesPrompt` pour les LLM de type chat lorsque vous devez conserver le contexte sur plusieurs messages, définir des modèles de conversation spécifiques ou créer des modèles de conversation réutilisables.
 
 <Tabs>
   <Tab title="Python">
@@ -124,7 +125,8 @@ Lorsque vous publiez un prompt avec `weave.publish`, il apparaît dans votre pro
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     import * as weave from 'weave';
     import OpenAI from 'openai';
 
@@ -193,7 +195,8 @@ Une fois que vous savez créer des prompts statiques, l’étape suivante consis
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines {8,23}
+    ```typescript twoslash lines {8,23}
+    // @noErrors
     import * as weave from 'weave';
     import OpenAI from 'openai';
 
@@ -258,7 +261,8 @@ Le même principe de paramétrage fonctionne aussi avec `MessagesPrompt` lorsque
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines {8,29}
+    ```typescript twoslash lines {8,29}
+    // @noErrors
     import * as weave from 'weave';
     import OpenAI from 'openai';
 

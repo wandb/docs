@@ -28,7 +28,7 @@ Les sections suivantes expliquent comment activer, désactiver ou effectuer le f
 
     Par défaut, Weave fournit un patching implicite automatique pour toutes les intégrations prises en charge.
 
-    Patching implicite (automatique) : Weave applique automatiquement des patchs aux bibliothèques, quel que soit le moment où vous les importez.
+    Patching implicite (automatique) : Weave patche automatiquement les bibliothèques, quel que soit le moment où vous les importez.
 
     ```python lines
     # Option 1: Importer avant weave.init()
@@ -55,7 +55,7 @@ Les sections suivantes expliquent comment activer, désactiver ou effectuer le f
 
     # Lorsque le patching implicite est désactivé, vous devez appliquer explicitement les patchs aux intégrations
     import openai
-    weave.patch_openai()  # Désormais requis pour le tracing OpenAI
+    weave.patch_openai()  # Désormais requis pour le traçage OpenAI
     ```
 
     Patching explicite (manuel) : vous pouvez appliquer explicitement des patchs aux intégrations pour un contrôle plus fin. C’est utile lorsque le patching implicite est désactivé ou lorsque vous souhaitez tracer seulement un sous-ensemble de fournisseurs.
@@ -63,8 +63,8 @@ Les sections suivantes expliquent comment activer, désactiver ou effectuer le f
     ```python lines
     import weave
     weave.init('your-team-name/your-project-name')
-    weave.integrations.patch_openai()  # Activer le tracing OpenAI
-    weave.integrations.patch_anthropic()  # Activer le tracing Anthropic
+    weave.integrations.patch_openai()  # Activer le traçage OpenAI
+    weave.integrations.patch_anthropic()  # Activer le traçage Anthropic
     ```
 
     Après avoir exécuté le code ci-dessus, Weave trace uniquement les fournisseurs que vous avez explicitement patchés.
@@ -102,7 +102,8 @@ Les sections suivantes expliquent comment activer, désactiver ou effectuer le f
 
     Pour les cas limites où le patching automatique ne fonctionne pas (ESM, bundlers comme Next.js), utilisez un encapsulage explicite pour vous assurer que Weave trace votre client OpenAI :
 
-    ```typescript
+    ```typescript twoslash
+    // @noErrors
     import OpenAI from 'openai'
     import * as weave from 'weave'
     import { wrapOpenAI } from 'weave'

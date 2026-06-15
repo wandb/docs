@@ -238,7 +238,8 @@ Weave에서 Scorer는 AI 출력을 평가하고 평가 메트릭을 반환합니
 
     Scorer 정의에 `datasetRow` 키워드 인수를 추가하면 데이터셋 행의 관련 열에 액세스할 수 있습니다.
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     const myScorer = weave.op(
         ({modelOutput, datasetRow}) => {
             return modelOutput * 2 === datasetRow.expectedOutputTimesTwo;
@@ -259,7 +260,8 @@ Weave에서 Scorer는 AI 출력을 평가하고 평가 메트릭을 반환합니
 
     예시:
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     const myScorer = weave.op(
         ({modelOutput, datasetRow}) => {
             return modelOutput * 2 === datasetRow.expectedOutputTimesTwo;

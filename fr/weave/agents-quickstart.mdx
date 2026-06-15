@@ -93,7 +93,8 @@ Installez les paquets suivants dans votre environnement de développement :
   weave.init(f"{TEAM}/{PROJECT}")
   ```
 
-  ```typescript lines highlight="4" TypeScript
+  ```typescript lines highlight="4" TypeScript twoslash
+  // @noErrors
   // Définissez WANDB_API_KEY et OPENAI_API_KEY dans votre environnement avant d’exécuter ce projet
   import * as weave from 'weave';
 
@@ -137,7 +138,8 @@ Le code suivant définit l&#39;outil de recherche Wikipédia de l&#39;agent, ain
   }
   ```
 
-  ```typescript lines TypeScript
+  ```typescript lines TypeScript twoslash
+  // @noErrors
   async function wikipediaSearch(query: string): Promise<string> {
     const url = new URL('https://en.wikipedia.org/w/api.php');
     url.search = new URLSearchParams({
@@ -208,11 +210,11 @@ L’exemple suivant exécute trois tours de conversation dans une même session.
               )
               history.append(msg.model_dump(exclude_none=True))
 
-          # If no tool was requested, the first LLM response is the answer.
+          # Si aucun outil n'a été demandé, la première réponse LLM est la réponse finale.
           if not msg.tool_calls:
               return msg.content
 
-          # Execute each requested tool call.
+          # Exécuter chaque appel d'outil demandé.
           for tc in msg.tool_calls:
               with weave.start_tool(
                   name=tc.function.name,
@@ -249,7 +251,8 @@ L’exemple suivant exécute trois tours de conversation dans une même session.
           print(f"AGENT: {run_turn(history, question)}\n")
   ```
 
-  ```typescript lines highlight="10,13,39,54,76" TypeScript
+  ```typescript lines highlight="10,13,39,54,76" TypeScript twoslash
+  // @noErrors
   import OpenAI from 'openai';
 
   const openaiClient = new OpenAI();
@@ -281,12 +284,12 @@ L’exemple suivant exécute trois tours de conversation dans une même session.
         llm1.end();
       }
 
-      // If no tool was requested, the first LLM response is the answer.
+      // Si aucun outil n'a été demandé, la première réponse du LLM est la réponse finale.
       if (!msg.tool_calls?.length) {
         return msg.content ?? null;
       }
 
-      // Execute each requested tool call.
+      // Exécuter chaque appel d'outil demandé.
       for (const tc of msg.tool_calls) {
         const tool = weave.startTool({
           name: tc.function.name,

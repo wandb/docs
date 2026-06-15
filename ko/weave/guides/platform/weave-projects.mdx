@@ -57,10 +57,10 @@ W&amp;B UI를 사용하거나 코드에서 새 프로젝트 경로를 설정해 
        * **Team**: 프로젝트를 연결할 기존 팀입니다.
        * **Name**: 프로젝트 이름입니다.
        * **Project visibility**: 프로젝트를 보고 편집할 수 있는 사용자 범위입니다.
-       * **Description**: (선택 사항) 프로젝트의 목적을 추적하고 정리하는 데 도움이 되는 짧은 설명입니다.
+       * **설명**: (선택 사항) 프로젝트의 목적을 추적하고 정리하는 데 도움이 되는 짧은 설명입니다.
     4. 필요한 필드를 설정한 후 **Create project**를 선택합니다. W&amp;B가 프로젝트를 생성하고 해당 워크스페이스를 엽니다.
 
-    새로 만든 프로젝트를 찾으려면 왼쪽 상단의 **Weights &amp; Biases logo**를 선택해 **Global navigation** 메뉴를 엽니다. 이 메뉴에는 최근 프로젝트와 자신이 속한 팀가 표시되므로 컨텍스트를 전환할 수 있습니다. 프로젝트를 선택하면 해당 프로젝트의 워크스페이스가 열립니다.
+    새로 만든 프로젝트를 찾으려면 왼쪽 상단의 **Weights &amp; Biases 로고**를 선택해 **Global navigation** 메뉴를 엽니다. 이 메뉴에는 최근 프로젝트와 자신이 속한 팀가 표시되므로 컨텍스트를 전환할 수 있습니다. 프로젝트를 선택하면 해당 프로젝트의 워크스페이스가 열립니다.
 
     또는 오른쪽 상단에서 이름 아래 메뉴의 **Profile**을 엽니다. **Projects** 탭에는 모든 프로젝트가 나열됩니다.
 
@@ -77,7 +77,8 @@ W&amp;B UI를 사용하거나 코드에서 새 프로젝트 경로를 설정해 
       weave.init('my-team/my-llm-app')
       ```
 
-      ```typescript
+      ```typescript twoslash
+      // @noErrors
       import * as weave from 'weave';
 
       await weave.init('my-team/my-llm-app');

@@ -62,7 +62,8 @@ L’exemple suivant montre comment configurer l’authentification et l’achemi
   }))
   ```
 
-  ```typescript TypeScript lines
+  ```typescript twoslash TypeScript lines
+  // @noErrors
   import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
   import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
   import { Resource } from "@opentelemetry/resources";
@@ -201,7 +202,8 @@ Installez d’abord les dépendances requises :
 
     Collez le code suivant dans un fichier TypeScript tel que `openinference_example.ts` :
 
-    ```typescript lines {11,12}
+    ```typescript twoslash lines {11,12}
+    // @noErrors
     // IMPORTANT : Importez OpenAI EN PREMIER pour que l'instrumentation puisse le patcher
     import OpenAI from "openai";
     import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
@@ -368,7 +370,8 @@ Installez d’abord les dépendances requises :
   <Tab title="TypeScript">
     Collez le code suivant dans un fichier TypeScript comme `openllmetry_example.ts`. Ce code utilise le package d’instrumentation OpenAI de Traceloop :
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     import OpenAI from "openai";
     import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
     import { BatchSpanProcessor, ConsoleSpanExporter } from "@opentelemetry/sdk-trace-base";
@@ -552,7 +555,8 @@ Installez d’abord les dépendances requises :
   <Tab title="TypeScript">
     Collez le code suivant dans un fichier TypeScript, par exemple `opentelemetry_example.ts` :
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     import OpenAI from "openai";
     import { trace } from "@opentelemetry/api";
     import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
@@ -748,7 +752,8 @@ Si vous définissez `wandb.entity` ou `wandb.project` comme attributs de ressour
       main()
   ```
 
-  ```typescript TypeScript lines
+  ```typescript twoslash TypeScript lines
+  // @noErrors
   import OpenAI from "openai";
   import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
   import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base";
@@ -800,12 +805,12 @@ Pour envoyer des traces vers des backends supplémentaires, ajoutez d’autres e
   ## Organiser les traces OTel en threads
 </div>
 
-Les [threads Weave](/fr/weave/guides/tracking/threads) vous permettent de regrouper des traces associées afin d’analyser des conversations sur plusieurs tours ou des sessions utilisateur comme une seule unité. Ajoutez des attributs de span spécifiques pour organiser vos traces OpenTelemetry en threads, puis utilisez l’interface Thread de Weave pour analyser les opérations associées, comme les conversations à plusieurs tours ou les sessions utilisateur.
+Les [threads Weave](/fr/weave/guides/tracking/threads) vous permettent de regrouper des traces associées afin d’analyser des conversations sur plusieurs tours de conversation ou des sessions utilisateur comme une seule unité. Ajoutez des attributs de span spécifiques pour organiser vos traces OpenTelemetry en threads, puis utilisez l’interface Thread de Weave pour analyser les opérations associées, comme les conversations à plusieurs tours de conversation ou les sessions utilisateur.
 
 Ajoutez les attributs suivants à vos spans OTel pour activer le regroupement en threads :
 
 * `wandb.thread_id` : regroupe les spans dans un thread donné.
-* `wandb.is_turn` : marque un span comme un tour de conversation (il apparaît comme une ligne dans la vue thread).
+* `wandb.is_turn` : marque un span comme un tour de conversation de conversation (il apparaît comme une ligne dans la vue thread).
 
 Les exemples suivants montrent comment organiser des traces OTel en threads Weave. Ils utilisent `wandb.thread_id` pour regrouper les opérations associées et `wandb.is_turn` pour marquer les opérations de haut niveau qui apparaissent comme des lignes dans la vue thread.
 
@@ -852,7 +857,8 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
     </Tab>
 
     <Tab title="TypeScript">
-      ```typescript lines
+      ```typescript twoslash lines
+      // @noErrors
       import { trace, context } from "@opentelemetry/api";
       import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
       import {
@@ -903,18 +909,18 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
   </Tabs>
 </Accordion>
 
-<Accordion title="Tracer un thread simple à un seul tour">
+<Accordion title="Tracer un thread simple à un seul tour de conversation">
   <Tabs>
     <Tab title="Python">
       ```python lines
       def example_1_basic_thread_and_turn():
-          """Exemple 1 : thread simple avec un seul tour"""
-          print("\n=== Exemple 1 : thread simple et tour ===")
+          """Exemple 1 : thread simple avec un seul tour de conversation"""
+          print("\n=== Exemple 1 : thread simple et tour de conversation ===")
 
           # Créer un contexte de thread
           thread_id = "thread_example_1"
 
-          # Ce span représente un tour (enfant direct du thread)
+          # Ce span représente un tour de conversation (enfant direct du thread)
           with tracer.start_as_current_span("process_user_message") as turn_span:
               # Définir les attributs du thread
               turn_span.set_attribute("wandb.thread_id", thread_id)
@@ -925,7 +931,7 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
 
               # Simuler du travail avec des spans imbriqués
               with tracer.start_as_current_span("generate_response") as nested_span:
-                  # Il s'agit d'un appel imbriqué dans le tour, donc is_turn doit être false ou non défini
+                  # Il s'agit d'un appel imbriqué dans le tour de conversation, donc is_turn doit être false ou non défini
                   nested_span.set_attribute("wandb.thread_id", thread_id)
                   # wandb.is_turn n'est pas défini ou est défini sur False pour les appels imbriqués
 
@@ -933,7 +939,7 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
                   nested_span.set_attribute("output.value", response)
 
               turn_span.set_attribute("output.value", response)
-              print(f"Tour terminé dans le thread : {thread_id}")
+              print(f"Tour de conversation terminé dans le thread : {thread_id}")
 
       def main():
           example_1_basic_thread_and_turn()
@@ -944,14 +950,15 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
     </Tab>
 
     <Tab title="TypeScript">
-      ```typescript lines
+      ```typescript twoslash lines
+      // @noErrors
       function example_1_basic_thread_and_turn() {
-        console.log("\n=== Exemple 1 : thread simple et tour ===");
+        console.log("\n=== Exemple 1 : thread simple et tour de conversation ===");
 
         // Créer un contexte de thread
         const threadId = "thread_example_1";
 
-        // Ce span représente un tour (enfant direct du thread)
+        // Ce span représente un tour de conversation (enfant direct du thread)
         tracer.startActiveSpan("process_user_message", (turnSpan) => {
           // Définir les attributs du thread
           turnSpan.setAttribute("wandb.thread_id", threadId);
@@ -964,7 +971,7 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
           
           // Simuler du travail avec des spans imbriqués
           tracer.startActiveSpan("generate_response", (nestedSpan) => {
-            // Il s'agit d'un appel imbriqué dans le tour, donc is_turn doit être false ou non défini
+            // Il s'agit d'un appel imbriqué dans le tour de conversation, donc is_turn doit être false ou non défini
             nestedSpan.setAttribute("wandb.thread_id", threadId);
             // wandb.is_turn n'est pas défini ou est défini sur false pour les appels imbriqués
 
@@ -974,7 +981,7 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
           });
           
           turnSpan.setAttribute("output.value", response!);
-          console.log(`Tour terminé dans le thread : ${threadId}`);
+          console.log(`Tour de conversation terminé dans le thread : ${threadId}`);
           turnSpan.end();
         });
       }
@@ -989,17 +996,17 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
   </Tabs>
 </Accordion>
 
-<Accordion title="Tracer une conversation à plusieurs tours partageant un même ID de thread">
+<Accordion title="Tracer une conversation à plusieurs tours de conversation partageant un même ID de thread">
   <Tabs>
     <Tab title="Python">
       ```python lines
       def example_2_multiple_turns():
-          """Exemple 2 : plusieurs tours dans un seul thread"""
-          print("\n=== Exemple 2 : plusieurs tours dans le thread ===")
+          """Exemple 2 : plusieurs tours de conversation dans un seul thread"""
+          print("\n=== Exemple 2 : plusieurs tours de conversation dans le thread ===")
 
           thread_id = "thread_conversation_123"
 
-          # Tour 1
+          # Tour de conversation 1
           with tracer.start_as_current_span("process_message_turn1") as turn1_span:
               turn1_span.set_attribute("wandb.thread_id", thread_id)
               turn1_span.set_attribute("wandb.is_turn", True)
@@ -1012,9 +1019,9 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
 
               response1 = "Je recommande Python pour les débutants et JavaScript pour le développement web."
               turn1_span.set_attribute("output.value", response1)
-              print(f"Tour 1 terminé dans le thread : {thread_id}")
+              print(f"Tour de conversation 1 terminé dans le thread : {thread_id}")
 
-          # Tour 2
+          # Tour de conversation 2
           with tracer.start_as_current_span("process_message_turn2") as turn2_span:
               turn2_span.set_attribute("wandb.thread_id", thread_id)
               turn2_span.set_attribute("wandb.is_turn", True)
@@ -1027,7 +1034,7 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
 
               response2 = "Python excelle en data science, tandis que JavaScript domine le développement web."
               turn2_span.set_attribute("output.value", response2)
-              print(f"Tour 2 terminé dans le thread : {thread_id}")
+              print(f"Tour de conversation 2 terminé dans le thread : {thread_id}")
 
       def main():
           example_2_multiple_turns()
@@ -1038,13 +1045,14 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
     </Tab>
 
     <Tab title="TypeScript">
-      ```typescript lines
+      ```typescript twoslash lines
+      // @noErrors
       function example_2_multiple_turns() {
-        console.log("\n=== Exemple 2 : plusieurs tours dans le thread ===");
+        console.log("\n=== Exemple 2 : plusieurs tours de conversation dans le thread ===");
 
         const threadId = "thread_conversation_123";
 
-        // Tour 1
+        // Tour de conversation 1
         tracer.startActiveSpan("process_message_turn1", (turn1Span) => {
           turn1Span.setAttribute("wandb.thread_id", threadId);
           turn1Span.setAttribute("wandb.is_turn", true);
@@ -1063,11 +1071,11 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
           const response1 =
             "Je recommande Python pour les débutants et JavaScript pour le développement web.";
           turn1Span.setAttribute("output.value", response1);
-          console.log(`Tour 1 terminé dans le thread : ${threadId}`);
+          console.log(`Tour de conversation 1 terminé dans le thread : ${threadId}`);
           turn1Span.end();
         });
 
-        // Tour 2
+        // Tour de conversation 2
         tracer.startActiveSpan("process_message_turn2", (turn2Span) => {
           turn2Span.setAttribute("wandb.thread_id", threadId);
           turn2Span.setAttribute("wandb.is_turn", true);
@@ -1083,7 +1091,7 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
           const response2 =
             "Python excelle en data science, tandis que JavaScript domine le développement web.";
           turn2Span.setAttribute("output.value", response2);
-          console.log(`Tour 2 terminé dans le thread : ${threadId}`);
+          console.log(`Tour de conversation 2 terminé dans le thread : ${threadId}`);
           turn2Span.end();
         });
       }
@@ -1098,7 +1106,7 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
   </Tabs>
 </Accordion>
 
-<Accordion title="Tracez des opérations profondément imbriquées et marquez uniquement le span le plus externe comme turn">
+<Accordion title="Tracez des opérations profondément imbriquées et marquez uniquement le span le plus externe comme tour de conversation">
   <Tabs>
     <Tab title="Python">
       ```python lines
@@ -1108,7 +1116,7 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
 
           thread_id = "thread_complex_456"
 
-          # Turn avec plusieurs niveaux d'imbrication
+          # Tour de conversation avec plusieurs niveaux d'imbrication
           with tracer.start_as_current_span("handle_complex_request") as turn_span:
               turn_span.set_attribute("wandb.thread_id", thread_id)
               turn_span.set_attribute("wandb.is_turn", True)
@@ -1136,7 +1144,7 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
                   suggest_span.set_attribute("suggestions", json.dumps(suggestions))
 
               turn_span.set_attribute("output.value", "Analysis complete with 2 improvement suggestions")
-              print(f"Complex turn completed in thread: {thread_id}")
+              print(f"Complex tour de conversation completed in thread: {thread_id}")
 
       def main():
           example_3_complex_nested_structure()
@@ -1147,13 +1155,14 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
     </Tab>
 
     <Tab title="TypeScript">
-      ```typescript lines
+      ```typescript twoslash lines
+      // @noErrors
       function example_3_complex_nested_structure() {
         console.log("\n=== Example 3: Complex Nested Structure ===");
 
         const threadId = "thread_complex_456";
 
-        // Turn avec plusieurs niveaux d'imbrication
+        // Tour de conversation avec plusieurs niveaux d'imbrication
         tracer.startActiveSpan("handle_complex_request", (turnSpan) => {
           turnSpan.setAttribute("wandb.thread_id", threadId);
           turnSpan.setAttribute("wandb.is_turn", true);
@@ -1196,7 +1205,7 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
             "output.value",
             "Analysis complete with 2 improvement suggestions"
           );
-          console.log(`Complex turn completed in thread: ${threadId}`);
+          console.log(`Complex tour de conversation completed in thread: ${threadId}`);
           turnSpan.end();
         });
       }
@@ -1211,7 +1220,7 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
   </Tabs>
 </Accordion>
 
-<Accordion title="Tracer les opérations d’arrière-plan appartenant à un thread mais qui ne sont pas des tours">
+<Accordion title="Tracer les opérations d’arrière-plan appartenant à un thread mais qui ne sont pas des tours de conversation">
   <Tabs>
     <Tab title="Python">
       ```python lines
@@ -1221,15 +1230,15 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
 
           thread_id = "thread_background_789"
 
-          # Opération d’arrière-plan faisant partie du thread, mais pas d’un tour
+          # Opération d’arrière-plan faisant partie du thread, mais pas d’un tour de conversation
           with tracer.start_as_current_span("background_indexing") as bg_span:
               bg_span.set_attribute("wandb.thread_id", thread_id)
-              # wandb.is_turn n'est pas défini ou vaut false - ce n'est pas un tour
+              # wandb.is_turn n'est pas défini ou vaut false - ce n'est pas un tour de conversation
               bg_span.set_attribute("wandb.is_turn", False)
               bg_span.set_attribute("operation", "Indexing conversation history")
               print(f"Background operation in thread: {thread_id}")
 
-          # Tour réel dans le même thread
+          # Tour de conversation réel dans le même thread
           with tracer.start_as_current_span("user_query") as turn_span:
               turn_span.set_attribute("wandb.thread_id", thread_id)
               turn_span.set_attribute("wandb.is_turn", True)
@@ -1246,23 +1255,24 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
     </Tab>
 
     <Tab title="TypeScript">
-      ```typescript lines
+      ```typescript twoslash lines
+      // @noErrors
       function example_4_non_turn_operations() {
         console.log("\n=== Example 4: Non-Turn Thread Operations ===");
 
         const threadId = "thread_background_789";
 
-        // Opération d’arrière-plan faisant partie du thread, mais pas d’un tour
+        // Opération d’arrière-plan faisant partie du thread, mais pas d’un tour de conversation
         tracer.startActiveSpan("background_indexing", (bgSpan) => {
           bgSpan.setAttribute("wandb.thread_id", threadId);
-          // wandb.is_turn n'est pas défini ou vaut false - ce n'est pas un tour
+          // wandb.is_turn n'est pas défini ou vaut false - ce n'est pas un tour de conversation
           bgSpan.setAttribute("wandb.is_turn", false);
           bgSpan.setAttribute("operation", "Indexing conversation history");
           console.log(`Background operation in thread: ${threadId}`);
           bgSpan.end();
         });
 
-        // Tour réel dans le même thread
+        // Tour de conversation réel dans le même thread
         tracer.startActiveSpan("user_query", (turnSpan) => {
           turnSpan.setAttribute("wandb.thread_id", threadId);
           turnSpan.setAttribute("wandb.is_turn", true);
@@ -1283,7 +1293,7 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
   </Tabs>
 </Accordion>
 
-Après l’envoi de ces traces, vous pouvez les consulter dans l’interface Weave, sous l’onglet **Threads** : elles y sont regroupées par `thread_id`, et chaque tour apparaît sur une ligne distincte.
+Après l’envoi de ces traces, vous pouvez les consulter dans l’interface Weave, sous l’onglet **Threads** : elles y sont regroupées par `thread_id`, et chaque tour de conversation apparaît sur une ligne distincte.
 
 <div id="attribute-mappings">
   ## Correspondance des attributs

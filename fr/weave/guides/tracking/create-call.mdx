@@ -15,10 +15,10 @@ Pour voir votre code en cours d’exécution sous forme de traces détaillées d
 Choisissez l’approche qui correspond au niveau de contrôle dont vous avez besoin sur les éléments à tracer.
 
 <div id="automatic-tracking-of-llm-library-calls">
-  ## Suivi automatique des appels aux bibliothèques LLM
+  ## Suivi automatique des Appels aux bibliothèques LLM
 </div>
 
-Weave s’intègre automatiquement à de nombreuses bibliothèques et frameworks courants, tels que `openai`, `anthropic`, `cohere`, `mistral` et `LangChain`. Importez la bibliothèque LLM ou le framework, puis initialisez votre projet Weave. Weave trace ensuite automatiquement tous les appels adressés au LLM ou à la plateforme dans votre projet, sans nécessiter de modification de code supplémentaire. Pour obtenir la liste complète des intégrations de bibliothèques prises en charge, voir [Aperçu des intégrations](/fr/weave/guides/integrations/).
+Weave s’intègre automatiquement à de nombreuses bibliothèques et frameworks courants, tels que `openai`, `anthropic`, `cohere`, `mistral` et `LangChain`. Importez la bibliothèque LLM ou le framework, puis initialisez votre projet Weave. Weave trace ensuite automatiquement tous les Appels adressés au LLM ou à la plateforme dans votre projet, sans nécessiter de modification de code supplémentaire. Pour obtenir la liste complète des intégrations de bibliothèques prises en charge, voir [Aperçu des intégrations](/fr/weave/guides/integrations/).
 
 <Tabs>
   <Tab title="Python">
@@ -47,7 +47,8 @@ Weave s’intègre automatiquement à de nombreuses bibliothèques et frameworks
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     import OpenAI from 'openai'
     import * as weave from 'weave'
 
@@ -74,17 +75,17 @@ Weave s’intègre automatiquement à de nombreuses bibliothèques et frameworks
   </Tab>
 </Tabs>
 
-Si vous souhaitez mieux contrôler le comportement automatique, voir [Configurer le suivi automatique des appels LLM](/fr/weave/guides/integrations/autopatching).
+Si vous souhaitez mieux contrôler le comportement automatique, voir [Configurer le suivi automatique des Appels LLM](/fr/weave/guides/integrations/autopatching).
 
 <div id="track-custom-functions">
   ## Suivi des fonctions personnalisées
 </div>
 
-Les applications LLM comportent souvent une logique supplémentaire (comme le prétraitement/post-traitement, les prompts, etc.) que vous souhaitez suivre. Utilisez cette approche lorsque vous souhaitez que Weave capture vos propres fonctions en plus des appels LLM qu’il trace automatiquement.
+Les applications LLM comportent souvent une logique supplémentaire (comme le prétraitement/post-traitement, les prompts, etc.) que vous souhaitez suivre. Utilisez cette approche lorsque vous souhaitez que Weave capture vos propres fonctions en plus des Appels LLM qu’il trace automatiquement.
 
 <Tabs>
   <Tab title="Python">
-    Weave vous permet de suivre manuellement ces appels à l’aide du décorateur [`@weave.op`](/fr/weave/reference/python-sdk/#function-op). Par exemple :
+    Weave vous permet de suivre manuellement ces Appels à l’aide du décorateur [`@weave.op`](/fr/weave/reference/python-sdk/#function-op). Par exemple :
 
     ```python lines
     import weave
@@ -105,9 +106,10 @@ Les applications LLM comportent souvent une logique supplémentaire (comme le pr
   </Tab>
 
   <Tab title="TypeScript">
-    Weave vous permet de suivre manuellement ces appels en enveloppant votre fonction avec [`weave.op`](/fr/weave/reference/typescript-sdk/functions/op). Par exemple :
+    Weave vous permet de suivre manuellement ces Appels en enveloppant votre fonction avec [`weave.op`](/fr/weave/reference/typescript-sdk/functions/op). Par exemple :
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     import * as weave from 'weave'
 
     await weave.init('intro-example')
@@ -121,13 +123,15 @@ Les applications LLM comportent souvent une logique supplémentaire (comme le pr
 
     Vous pouvez aussi le faire directement en ligne :
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     const myFunctionOp = weave.op((name: string) => `Hello, ${name}!`)
     ```
 
     Cela fonctionne aussi bien pour les fonctions que pour les méthodes de classe :
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     class MyClass {
         constructor() {
             this.myMethod = weave.op(this.myMethod)
@@ -180,7 +184,8 @@ En plus des fonctions autonomes, vous pouvez également suivre les méthodes de 
 
     Vous pouvez appliquer `@weave.op` aux méthodes d’instance pour le Tracing.
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     class Foo {
         @weave.op
         async predict(prompt: string) {
@@ -191,7 +196,8 @@ En plus des fonctions autonomes, vous pouvez également suivre les méthodes de 
 
     Vous pouvez également appliquer `@weave.op` aux méthodes statiques pour surveiller les fonctions utilitaires d’une classe.
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     class MathOps {
         @weave.op
         static square(n: number): number {

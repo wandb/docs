@@ -126,7 +126,7 @@ Call のプロパティとフィールドの詳細については、[Call スキ
   ## Call メトリクスをエクスポートする
 </div>
 
-基になる Call レコードではなく、コストやレイテンシの傾向などの集約されたインサイトが必要な場合は、このセクションで説明する metrics エンドポイント を使用します。
+基になる Call レコードではなく、コストやレイテンシの傾向などの集約されたインサイトが必要な場合は、このセクションで説明する メトリクス エンドポイント を使用します。
 
 また、Weave Service API の [POST `/calls/stats` エンドポイント](https://docs.wandb.ai/weave/reference/service-api/calls/call-stats) を使用すると、Call データ自体を取得せずに、Calls に関するメトリクスを取得できます。レイテンシやコストなどの Calls に関する情報を取得し、sum、average、minimum、maximum、count で集約できます。たとえば、次の情報を取得できます。
 
@@ -181,7 +181,8 @@ Call のプロパティとフィールドの詳細については、[Call スキ
   print(json.dumps(response.json(), indent=2))
   ```
 
-  ```typescript TypeScript lines {6-7,13-20}
+  ```typescript twoslash TypeScript lines {6-7,13-20}
+  // @noErrors
   const url = "https://trace.wandb.ai/calls/stats";
 
   const payload = {

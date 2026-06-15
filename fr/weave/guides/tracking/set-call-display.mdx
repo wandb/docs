@@ -94,7 +94,8 @@ Vous pouvez remplacer le nom d&#39;affichage de tous les Appels d&#39;un Op donn
   <Tab title="TypeScript">
     Pour remplacer le nom par défaut d&#39;un Appel, utilisez l&#39;option `callDisplayName` lors de l&#39;appel à `weave.op()`.
 
-    ```typescript lines {2}
+    ```typescript twoslash lines {2}
+    // @noErrors
     const extractDinosOp = weave.op(extractDinos, {
     callDisplayName: (input: string) => `Your New Display Name`
     });

@@ -181,7 +181,8 @@ L&#39;exemple suivant montre comment récupérer les appels générés à partir
   print(json.dumps(response.json(), indent=2))
   ```
 
-  ```typescript TypeScript lines {6-7,13-20}
+  ```typescript twoslash TypeScript lines {6-7,13-20}
+  // @noErrors
   const url = "https://trace.wandb.ai/calls/stats";
 
   const payload = {

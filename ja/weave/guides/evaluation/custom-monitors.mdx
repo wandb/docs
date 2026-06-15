@@ -105,7 +105,8 @@ Weave は、すべての Scorer の結果を [Call](/ja/weave/guides/tracking/tr
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript lines twoslash
+    // @noErrors
     import * as weave from 'weave';
     import OpenAI from 'openai';
 
@@ -143,12 +144,12 @@ Weave は、すべての Scorer の結果を [Call](/ja/weave/guides/tracking/tr
    * **Description**: `Evaluates the truthfulness of generated statements.`
    * **Active monitor**: **オン** に切り替えます。
    * **Operations**: `generate_statement` を選択します。
-   * **Sampling rate**: すべての call をスコアするため、`100%` に設定します。
+   * **サンプリング率**: すべての call をスコアするため、`100%` に設定します。
    * **Scorer name**: `truthfulness-scorer`
    * **Judge model**: `o3-mini-2025-01-31`
    * **System prompt**: `You are an impartial AI judge. Your task is to evaluate the truthfulness of statements.`
    * **Response format**: `json_object`
-   * **Scoring prompt**:
+   * **スコアリング プロンプト**:
      ```text
      出力文が入力文に基づいて正確かどうかを評価してください。
 
@@ -175,7 +176,8 @@ Weave は、すべての Scorer の結果を [Call](/ja/weave/guides/tracking/tr
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript lines twoslash
+    // @noErrors
     await generateStatement("The Earth revolves around the Sun.");
     await generateStatement("Water freezes at 0 degrees Celsius.");
     await generateStatement("The Great Wall of China was built over several centuries.");
