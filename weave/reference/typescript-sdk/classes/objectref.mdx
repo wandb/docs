@@ -16,7 +16,8 @@ a saved object in Weave's storage system.
 
 `Example`
 
-```ts
+```ts twoslash
+// @noErrors
 const ref = new ObjectRef('my-project', 'abc123', 'def456');
 const uri = ref.uri(); // weave:///my-project/object/abc123:def456
 ```
@@ -160,7 +161,8 @@ Error if the URI format is invalid or not an object ref
 
 `Example`
 
-```ts
+```ts twoslash
+// @noErrors
 const ref = ObjectRef.fromUri('weave:///my-entity/my-project/object/my-dataset:abc123');
 ```
 

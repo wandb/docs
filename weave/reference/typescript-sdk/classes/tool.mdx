@@ -16,7 +16,8 @@ calling `end()` to record the tool's output on the span.
 
 `Example`
 
-```ts
+```ts twoslash
+// @noErrors
 const tool = weave.startTool({
   name: tc.function.name,
   args: tc.function.arguments,

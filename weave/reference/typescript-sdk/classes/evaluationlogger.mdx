@@ -14,7 +14,8 @@ EvaluationLogger allows you to log predictions as they happen, with flexible sco
 
 `Example`
 
-```ts
+```ts twoslash
+// @noErrors
 const ev = new EvaluationLogger({name: 'my-eval', dataset: 'my-dataset'});
 
 for (const example of streamingData) {
@@ -88,7 +89,8 @@ ScoreLogger (logScore, finish) will be queued and executed when initialization c
 
 `Example`
 
-```ts
+```ts twoslash
+// @noErrors
 // Fire-and-forget style
 const scoreLogger = evalLogger.logPrediction({input: 'test'}, 'output');
 scoreLogger.logScore('accuracy', 0.95);
@@ -125,7 +127,8 @@ Use this if you need to await the initialization before proceeding.
 
 `Example`
 
-```ts
+```ts twoslash
+// @noErrors
 // Awaitable style
 const scoreLogger = await evalLogger.logPredictionAsync({input: 'test'}, 'output');
 await scoreLogger.logScore('accuracy', 0.95);

@@ -197,15 +197,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/agents/spans/stats": {
@@ -247,15 +239,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/agents/spans/custom-attrs/schema": {
@@ -297,15 +281,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/agents/query": {
@@ -346,15 +322,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/agents/agent-versions/query": {
@@ -395,15 +363,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/agents/search": {
@@ -444,15 +404,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/agents/traces/chat": {
@@ -493,15 +445,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/agents/conversations/chat": {
@@ -542,15 +486,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/call/start": {
@@ -591,15 +527,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/call/end": {
@@ -640,15 +568,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/call/upsert_batch": {
@@ -689,15 +609,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/calls/delete": {
@@ -738,15 +650,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/call/update": {
@@ -787,15 +691,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/call/read": {
@@ -836,15 +732,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/inference/catalog/models": {
@@ -1005,15 +893,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/trace/usage": {
@@ -1055,15 +935,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/calls/usage": {
@@ -1105,15 +977,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/calls/stream_query": {
@@ -1123,14 +987,6 @@
         ],
         "summary": "Calls Query Stream",
         "operationId": "calls_query_stream_calls_stream_query_post",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "accept",
@@ -1213,15 +1069,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/obj/read": {
@@ -1262,15 +1110,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/objs/query": {
@@ -1311,15 +1151,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/obj/delete": {
@@ -1360,15 +1192,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/objs/{object_id}/versions/{digest}/tags": {
@@ -1379,14 +1203,6 @@
         "summary": "Obj Add Tags",
         "description": "Add tags to an object version.",
         "operationId": "obj_add_tags_objs__object_id__versions__digest__tags_put",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "object_id",
@@ -1449,14 +1265,6 @@
         "summary": "Obj Remove Tags",
         "description": "Remove tags from an object version.",
         "operationId": "obj_remove_tags_objs__object_id__versions__digest__tags_remove_post",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "object_id",
@@ -1519,14 +1327,6 @@
         "summary": "Obj Set Aliases",
         "description": "Set aliases for an object version.",
         "operationId": "obj_set_aliases_objs__object_id__aliases_put",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "object_id",
@@ -1580,14 +1380,6 @@
         "summary": "Obj Remove Aliases",
         "description": "Remove aliases from an object.",
         "operationId": "obj_remove_aliases_objs__object_id__aliases_remove_post",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "object_id",
@@ -1641,14 +1433,6 @@
         "summary": "Tags List",
         "description": "List all tags in a project.",
         "operationId": "tags_list_tags_get",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "project_id",
@@ -1692,14 +1476,6 @@
         "summary": "Aliases List",
         "description": "List all aliases in a project.",
         "operationId": "aliases_list_aliases_get",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "project_id",
@@ -1773,15 +1549,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/table/update": {
@@ -1822,15 +1590,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/table/create_from_digests": {
@@ -1871,15 +1631,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/table/query": {
@@ -1920,15 +1672,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/table/query_stats": {
@@ -1969,15 +1713,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/table/query_stats_batch": {
@@ -2018,15 +1754,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/refs/read_batch": {
@@ -2067,15 +1795,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/file/create": {
@@ -2116,15 +1836,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/file/content": {
@@ -2163,15 +1875,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/files/query_stats": {
@@ -2212,15 +1916,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/cost/create": {
@@ -2261,15 +1957,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/cost/query": {
@@ -2310,15 +1998,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/cost/purge": {
@@ -2359,15 +2039,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/feedback/create": {
@@ -2409,15 +2081,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/feedback/batch/create": {
@@ -2459,15 +2123,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/feedback/query": {
@@ -2509,15 +2165,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/feedback/purge": {
@@ -2559,15 +2207,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/feedback/replace": {
@@ -2608,15 +2248,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/feedback/stats": {
@@ -2658,15 +2290,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/feedback/payload_schema": {
@@ -2708,15 +2332,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/service/projects_info": {
@@ -2761,15 +2377,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/threads/stream_query": {
@@ -2808,15 +2416,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/annotation_queues": {
@@ -2858,15 +2458,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/annotation_queues/query": {
@@ -2906,15 +2498,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/annotation_queues/{queue_id}": {
@@ -2925,14 +2509,6 @@
         "summary": "Annotation Queue Read",
         "description": "Read a specific annotation queue.",
         "operationId": "annotation_queue_read_annotation_queues__queue_id__get",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "queue_id",
@@ -2983,14 +2559,6 @@
         "summary": "Annotation Queue Delete",
         "description": "Delete (soft-delete) an annotation queue.",
         "operationId": "annotation_queue_delete_annotation_queues__queue_id__delete",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "queue_id",
@@ -3041,14 +2609,6 @@
         "summary": "Annotation Queue Update",
         "description": "Update an annotation queue's metadata (name, description, scorer_refs).",
         "operationId": "annotation_queue_update_annotation_queues__queue_id__put",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "queue_id",
@@ -3102,14 +2662,6 @@
         "summary": "Annotation Queue Add Calls",
         "description": "Add calls to an annotation queue.",
         "operationId": "annotation_queue_add_calls_annotation_queues__queue_id__items_post",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "queue_id",
@@ -3163,14 +2715,6 @@
         "summary": "Annotation Queue Items Query",
         "description": "Query items in an annotation queue with pagination and sorting.",
         "operationId": "annotation_queue_items_query_annotation_queues__queue_id__items_query_post",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "queue_id",
@@ -3255,15 +2799,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/annotation_queues/{queue_id}/items/{item_id}/progress": {
@@ -3274,14 +2810,6 @@
         "summary": "Annotation Queue Item Progress Update",
         "description": "Update the annotation state of a queue item for the current annotator.",
         "operationId": "annotation_queue_item_progress_update_annotation_queues__queue_id__items__item_id__progress_post",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "queue_id",
@@ -3374,15 +2902,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/evaluations/evaluate_model": {
@@ -3423,15 +2943,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/evaluations/status": {
@@ -3472,15 +2984,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/evaluations/rescore": {
@@ -3522,15 +3026,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/calls/score": {
@@ -3571,15 +3067,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/image/create": {
@@ -3620,15 +3108,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/link_to_registry": {
@@ -3669,15 +3149,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/v2/{entity}/{project}/ops": {
@@ -3688,14 +3160,6 @@
         "summary": "Op Create",
         "description": "Create an op object.",
         "operationId": "op_create_v2__entity___project__ops_post",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "entity",
@@ -3756,14 +3220,6 @@
         "summary": "Op List",
         "description": "List op objects.",
         "operationId": "op_list_v2__entity___project__ops_get",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "entity",
@@ -3850,14 +3306,6 @@
         "summary": "Op Read",
         "description": "Get an op object.",
         "operationId": "op_read_v2__entity___project__ops__object_id__versions__digest__get",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "entity",
@@ -3940,14 +3388,6 @@
         "summary": "Op Delete",
         "description": "Delete an op object. If digests are provided, only those versions are deleted. Otherwise, all versions are deleted.",
         "operationId": "op_delete_v2__entity___project__ops__object_id__delete",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "entity",
@@ -4030,14 +3470,6 @@
         "summary": "Dataset Create",
         "description": "Create a dataset object.",
         "operationId": "dataset_create_v2__entity___project__datasets_post",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "entity",
@@ -4098,14 +3530,6 @@
         "summary": "Dataset List",
         "description": "List dataset objects.",
         "operationId": "dataset_list_v2__entity___project__datasets_get",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "entity",
@@ -4192,14 +3616,6 @@
         "summary": "Dataset Read",
         "description": "Get a dataset object.",
         "operationId": "dataset_read_v2__entity___project__datasets__object_id__versions__digest__get",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "entity",
@@ -4270,14 +3686,6 @@
         "summary": "Dataset Delete",
         "description": "Delete a dataset object. If digests are provided, only those versions are deleted. Otherwise, all versions are deleted.",
         "operationId": "dataset_delete_v2__entity___project__datasets__object_id__delete",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "entity",
@@ -4360,14 +3768,6 @@
         "summary": "Scorer Create",
         "description": "Create a scorer object.",
         "operationId": "scorer_create_v2__entity___project__scorers_post",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "entity",
@@ -4428,14 +3828,6 @@
         "summary": "Scorer List",
         "description": "List scorer objects.",
         "operationId": "scorer_list_v2__entity___project__scorers_get",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "entity",
@@ -4486,14 +3878,6 @@
         "summary": "Scorer Read",
         "description": "Get a scorer object.",
         "operationId": "scorer_read_v2__entity___project__scorers__object_id__versions__digest__get",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "entity",
@@ -4564,14 +3948,6 @@
         "summary": "Scorer Delete",
         "description": "Delete a scorer object.",
         "operationId": "scorer_delete_v2__entity___project__scorers__object_id__delete",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "entity",
@@ -4654,14 +4030,6 @@
         "summary": "Evaluation Create",
         "description": "Create an evaluation object.",
         "operationId": "evaluation_create_v2__entity___project__evaluations_post",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "entity",
@@ -4722,14 +4090,6 @@
         "summary": "Evaluation List",
         "description": "List evaluation objects.",
         "operationId": "evaluation_list_v2__entity___project__evaluations_get",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "entity",
@@ -4780,14 +4140,6 @@
         "summary": "Evaluation Read",
         "description": "Get an evaluation object.",
         "operationId": "evaluation_read_v2__entity___project__evaluations__object_id__versions__digest__get",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "entity",
@@ -4858,14 +4210,6 @@
         "summary": "Evaluation Delete",
         "description": "Delete an evaluation object.",
         "operationId": "evaluation_delete_v2__entity___project__evaluations__object_id__delete",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "entity",
@@ -4948,14 +4292,6 @@
         "summary": "Model Create",
         "description": "Create a model object.",
         "operationId": "model_create_v2__entity___project__models_post",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "entity",
@@ -5016,14 +4352,6 @@
         "summary": "Model List",
         "description": "List model objects.",
         "operationId": "model_list_v2__entity___project__models_get",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "entity",
@@ -5110,14 +4438,6 @@
         "summary": "Model Read",
         "description": "Get a model object.",
         "operationId": "model_read_v2__entity___project__models__object_id__versions__digest__get",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "entity",
@@ -5188,14 +4508,6 @@
         "summary": "Model Delete",
         "description": "Delete a model object. If digests are provided, only those versions are deleted. Otherwise, all versions are deleted.",
         "operationId": "model_delete_v2__entity___project__models__object_id__delete",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "entity",
@@ -5278,14 +4590,6 @@
         "summary": "Evaluation Run Create",
         "description": "Create an evaluation run.",
         "operationId": "evaluation_run_create_v2__entity___project__evaluation_runs_post",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "entity",
@@ -5346,14 +4650,6 @@
         "summary": "Evaluation Run List",
         "description": "List evaluation runs.",
         "operationId": "evaluation_run_list_v2__entity___project__evaluation_runs_get",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "entity",
@@ -5506,14 +4802,6 @@
         "summary": "Evaluation Run Delete",
         "description": "Delete evaluation runs.",
         "operationId": "evaluation_run_delete_v2__entity___project__evaluation_runs_delete",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "entity",
@@ -5580,14 +4868,6 @@
         "summary": "Evaluation Run Read",
         "description": "Read an evaluation run.",
         "operationId": "evaluation_run_read_v2__entity___project__evaluation_runs__evaluation_run_id__get",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "entity",
@@ -5649,14 +4929,6 @@
         "summary": "Evaluation Run Finish",
         "description": "Finish an evaluation run.",
         "operationId": "evaluation_run_finish_v2__entity___project__evaluation_runs__evaluation_run_id__finish_post",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "entity",
@@ -5728,14 +5000,6 @@
         "summary": "Prediction Create",
         "description": "Create a prediction.",
         "operationId": "prediction_create_v2__entity___project__predictions_post",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "entity",
@@ -5796,14 +5060,6 @@
         "summary": "Prediction List",
         "description": "List predictions.",
         "operationId": "prediction_list_v2__entity___project__predictions_get",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "entity",
@@ -5911,14 +5167,6 @@
         "summary": "Prediction Delete",
         "description": "Delete predictions.",
         "operationId": "prediction_delete_v2__entity___project__predictions_delete",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "entity",
@@ -5985,14 +5233,6 @@
         "summary": "Prediction Read",
         "description": "Read a prediction.",
         "operationId": "prediction_read_v2__entity___project__predictions__prediction_id__get",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "entity",
@@ -6054,14 +5294,6 @@
         "summary": "Prediction Finish",
         "description": "Finish a prediction.",
         "operationId": "prediction_finish_v2__entity___project__predictions__prediction_id__finish_post",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "entity",
@@ -6123,14 +5355,6 @@
         "summary": "Score Create",
         "description": "Create a score.",
         "operationId": "score_create_v2__entity___project__scores_post",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "entity",
@@ -6191,14 +5415,6 @@
         "summary": "Score List",
         "description": "List scores.",
         "operationId": "score_list_v2__entity___project__scores_get",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "entity",
@@ -6306,14 +5522,6 @@
         "summary": "Score Delete",
         "description": "Delete scores.",
         "operationId": "score_delete_v2__entity___project__scores_delete",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "entity",
@@ -6380,14 +5588,6 @@
         "summary": "Score Read",
         "description": "Read a score.",
         "operationId": "score_read_v2__entity___project__scores__score_id__get",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "entity",
@@ -6449,14 +5649,6 @@
         "summary": "Eval Results Query",
         "description": "Read grouped evaluation result rows for one or more evaluations.",
         "operationId": "eval_results_query_v2__entity___project__eval_results_query_post",
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "entity",
@@ -14248,6 +13440,33 @@
               }
             ]
           },
+          "span_agent_name": {
+            "type": "string",
+            "title": "Span Agent Name",
+            "description": "Display name of the scored agent (from spans.agent_name)",
+            "default": "",
+            "examples": [
+              "midi-generator"
+            ]
+          },
+          "span_agent_version": {
+            "type": "string",
+            "title": "Span Agent Version",
+            "description": "Version of the scored agent (from spans.agent_version)",
+            "default": "",
+            "examples": [
+              "1.2.0"
+            ]
+          },
+          "span_status_code": {
+            "type": "string",
+            "title": "Span Status Code",
+            "description": "Status of the scored turn (from spans.status_code)",
+            "default": "UNSET",
+            "examples": [
+              "SUCCESS"
+            ]
+          },
           "wb_user_id": {
             "anyOf": [
               {
@@ -14796,6 +14015,33 @@
               {
                 "_rating_": 0.92
               }
+            ]
+          },
+          "span_agent_name": {
+            "type": "string",
+            "title": "Span Agent Name",
+            "description": "Display name of the scored agent (from spans.agent_name)",
+            "default": "",
+            "examples": [
+              "midi-generator"
+            ]
+          },
+          "span_agent_version": {
+            "type": "string",
+            "title": "Span Agent Version",
+            "description": "Version of the scored agent (from spans.agent_version)",
+            "default": "",
+            "examples": [
+              "1.2.0"
+            ]
+          },
+          "span_status_code": {
+            "type": "string",
+            "title": "Span Status Code",
+            "description": "Status of the scored turn (from spans.status_code)",
+            "default": "UNSET",
+            "examples": [
+              "SUCCESS"
             ]
           },
           "wb_user_id": {
@@ -19373,10 +18619,6 @@
       }
     },
     "securitySchemes": {
-      "HTTPBasic": {
-        "type": "http",
-        "scheme": "basic"
-      },
       "HTTPBearer": {
         "type": "http",
         "scheme": "bearer"

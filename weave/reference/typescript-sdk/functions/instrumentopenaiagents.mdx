@@ -26,7 +26,8 @@ throwing an error.
 
 `Example`
 
-```typescript
+```typescript twoslash
+// @noErrors
 // ✅ Recommended: Just import Weave - instrumentation happens automatically!
 import * as weave from 'weave';
 await weave.init('my-project');
@@ -39,7 +40,8 @@ await agent.run(input); // Automatically traced in Weave
 
 `Example`
 
-```typescript
+```typescript twoslash
+// @noErrors
 // ⚠️ Only needed for edge cases where automatic hooks don't work
 import { instrumentOpenAIAgents } from 'weave';
 
@@ -63,7 +65,8 @@ module to add Weave tracing. This happens transparently - no action required fro
 
 **Alternative for custom processor logic**: If you need custom tracing behavior,
 use `createOpenAIAgentsTracingProcessor()` and register it manually:
-```typescript
+```typescript twoslash
+// @noErrors
 import { addTraceProcessor } from '@openai/agents';
 import { createOpenAIAgentsTracingProcessor } from 'weave';
 

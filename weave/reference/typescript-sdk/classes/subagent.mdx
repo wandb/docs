@@ -17,7 +17,8 @@ Created by `weave.startSubagent()` (or `turn.startAgent()`, or
 
 `Example`
 
-```ts
+```ts twoslash
+// @noErrors
 const sub = weave.startSubagent({name: 'researcher', model: 'gpt-4o'});
 try {
   // ... orchestrate the sub-agent's LLM/Tool calls ...

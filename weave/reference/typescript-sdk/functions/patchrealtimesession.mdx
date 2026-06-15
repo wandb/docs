@@ -27,7 +27,8 @@ The function is idempotent — safe to call multiple times.
 
 `Example`
 
-```typescript
+```typescript twoslash
+// @noErrors
 import { patchRealtimeSession } from 'weave';
 await patchRealtimeSession();
 // Every new RealtimeSession(...) is now auto-instrumented

@@ -12,7 +12,8 @@ Returned from EvaluationLogger.logPrediction().
 
 `Example`
 
-```ts
+```ts twoslash
+// @noErrors
 const pred = await ev.logPrediction(example, output);
 await pred.logScore("accuracy", 0.95);
 await pred.logScore("relevance", 0.8);

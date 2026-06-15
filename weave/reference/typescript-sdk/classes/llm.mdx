@@ -20,7 +20,8 @@ All recorded data is flushed to the span at `end()`.
 
 `Example`
 
-```ts
+```ts twoslash
+// @noErrors
 const llm = weave.startLLM({model: 'gpt-4o-mini', providerName: 'openai'});
 try {
   llm.inputMessages = [{role: 'user', content: prompt}];

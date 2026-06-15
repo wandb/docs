@@ -20,7 +20,8 @@ Children (LLM, Tool, SubAgent) attach via the `startLLM`, `startTool`,
 
 `Example`
 
-```ts
+```ts twoslash
+// @noErrors
 const turn = weave.startTurn({agentName: 'research-bot', model: MODEL});
 try {
   const llm = turn.startLLM({model: MODEL, providerName: 'openai'});
@@ -92,7 +93,8 @@ No-op after `end()`. Mirrors OTel `Span.addEvent`.
 
 `Example`
 
-```ts
+```ts twoslash
+// @noErrors
 turn.addEvent('context_compacted', {removedMessages: 12});
 ```
 
@@ -146,7 +148,8 @@ known mid-turn. No-op after `end()`. Mirrors OTel `Span.setAttribute`.
 
 `Example`
 
-```ts
+```ts twoslash
+// @noErrors
 turn.setAttribute('gen_ai.usage.input_tokens', totalInputTokens);
 ```
 
