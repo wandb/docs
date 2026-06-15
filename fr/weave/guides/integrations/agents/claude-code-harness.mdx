@@ -94,6 +94,8 @@ invoke_agent claude-code               (Racine, une trace par prompt utilisateur
    └─ execute_tool <tool_name>
 ```
 
+Le span racine `invoke_agent claude-code` utilise le nom de l’agent de niveau supérieur, qui vaut par défaut `claude-code`. Vous pouvez le modifier à l’aide du paramètre `agent_name` ou de la variable d’environnement `WEAVE_AGENT_NAME` (voir [Configurer le plugin](#configure-the-plugin)). Les sous-agents conservent leurs propres noms de type.
+
 Les conversations comportant plusieurs tours de conversation sont associées côté serveur via l&#39;ID de session, afin que vous puissiez suivre une conversation à travers plusieurs traces. Chaque span inclut l&#39;utilisation des jetons, le nom du modèle, les entrées et sorties des outils, les informations de temporisation, ainsi que le contenu textuel des prompts et des réponses. Pour plus d’informations sur les données tracées, voir [Ce qui est tracé](https://github.com/wandb/weave-claude-code/blob/main/README.md#what-gets-traced) sur GitHub.
 
 <div id="configure-the-plugin">
@@ -103,21 +105,27 @@ Les conversations comportant plusieurs tours de conversation sont associées cô
 Utilisez les commandes `weave-claude-code config` pour afficher ou mettre à jour les paramètres du plugin après l’installation :
 
 ```bash lines
-# Afficher tous les paramètres actuels.
+# Show all current settings.
 weave-claude-code config show
 
-# Définir votre projet Weave.
+# Set your Weave project.
 weave-claude-code config set weave_project [YOUR-TEAM]/[YOUR-PROJECT]
 
-# Définir votre clé API W&B.
+# Set your W&B API key.
 weave-claude-code config set wandb_api_key [YOUR-API-KEY]
+
+# (Facultatif) Personnaliser le nom de l'agent affiché dans la vue Agents.
+weave-claude-code config set agent_name [YOUR-AGENT-NAME]
 ```
+
+Par défaut, les sessions apparaissent sous le nom d’agent `claude-code` dans la vue Agents. Définissez `agent_name` pour utiliser un autre nom, par exemple pour distinguer des équipes ou des projets. Le nom ne peut pas être vide, et les espaces blancs au début et à la fin sont supprimés.
 
 Les variables d’environnement priment sur le fichier de paramètres :
 
 ```bash lines
 export WEAVE_PROJECT=[YOUR-TEAM]/[YOUR-PROJECT]
 export WANDB_API_KEY=[YOUR-API-KEY]
+export WEAVE_AGENT_NAME=[YOUR-AGENT-NAME]
 ```
 
 <div id="weave-skills">
@@ -137,6 +145,7 @@ Vous pouvez utiliser la compétence `weave:weave-config` pour définir des valeu
 ```text
 /weave:weave-config set weave_project [YOUR-TEAM]/[YOUR-PROJECT]
 /weave:weave-config set wandb_api_key [YOUR-API-KEY]
+/weave:weave-config set agent_name [YOUR-AGENT-NAME]
 ```
 
 <div id="check-plugin-status">
