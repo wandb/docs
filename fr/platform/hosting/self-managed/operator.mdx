@@ -5,6 +5,7 @@ keywords: ["W&B Operator", "chart Helm", "CR Kubernetes", "installation de l’o
 ---
 
 import SelfManagedMysqlRequirements from "/snippets/fr/_includes/self-managed-mysql-requirements.mdx";
+import SelfManagedMysqlEolUpgrade from "/snippets/fr/_includes/self-managed-mysql-eol-upgrade.mdx";
 import SelfManagedRedisRequirements from "/snippets/fr/_includes/self-managed-redis-requirements.mdx";
 import SelfManagedObjectStorageRequirements from "/snippets/fr/_includes/self-managed-object-storage-requirements.mdx";
 import ByobProvisioningLink from "/snippets/fr/_includes/byob-provisioning-link.mdx";
@@ -40,9 +41,13 @@ Pour plus d’informations, voir la page de [l’architecture de référence](/f
   ### Base de données MySQL
 </div>
 
+<SelfManagedMysqlEolUpgrade />
+
 <SelfManagedMysqlRequirements />
 
 Pour des instructions complètes sur la configuration de MySQL, y compris les paramètres de configuration et la création de la base de données, voir la [section MySQL de la page des exigences](/fr/platform/hosting/self-managed/requirements/#mysql-database).
+
+Si vous effectuez une mise à niveau depuis MySQL 8.0.x, voir [Mettre MySQL à niveau vers 8.4.x](#upgrade-mysql-to-84x).
 
 <div id="redis">
   ### Redis
@@ -1261,6 +1266,30 @@ Copiez-collez les extraits de code suivants dans votre terminal.
 Vous n’avez plus besoin de mettre à jour l’application W&amp;B Server si vous utilisez l’opérateur Kubernetes W&amp;B.
 
 L’opérateur met automatiquement à jour votre application W&amp;B Server lorsqu’une nouvelle version du logiciel W&amp;B est publiée.
+
+<div id="upgrade-mysql-to-84x">
+  ## Mettre à niveau MySQL vers 8.4.x
+</div>
+
+MySQL 8.0.x est en fin de vie. Les déploiements autogérés doivent exécuter une version prise en charge de MySQL qui reçoit des correctifs de sécurité et des corrections de bugs critiques. Si vous exécutez MySQL Community, installez ou mettez à niveau **MySQL 8.4.x**. Si vous utilisez un service géré, exécutez une version du moteur que votre fournisseur indique comme prise en charge et corrigée (par exemple Amazon RDS for MySQL, Google Cloud SQL for MySQL ou Azure Database for MySQL). W&amp;B a validé la plateforme avec MySQL 8.4.0 et les versions 8.4.x actuelles.
+
+Ces étapes décrivent la séquence du point de vue de W&amp;B. Pour savoir comment mettre à niveau MySQL lui-même, y compris les sauvegardes et les chemins de mise à niveau entre versions, suivez la documentation de votre distribution MySQL ou de votre fournisseur de cloud. La même séquence s’applique aux déploiements Operator [standard](/fr/platform/hosting/self-managed/operator) et [isolés du réseau](/fr/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped). Dans les environnements isolés du réseau, obtenez le logiciel MySQL 8.4.x via votre processus de distribution interne avant de mettre à niveau la base de données.
+
+<Note>
+  Prévoyez une fenêtre de maintenance et notifiez les utilisateurs avant de commencer. Contactez l’[assistance client](mailto:support@wandb.com) ou votre équipe W&amp;B si vous avez des questions sur la compatibilité ou la topologie de votre déploiement.
+</Note>
+
+1. Consultez les notes de version et la documentation MySQL pour votre version cible, ainsi que pour toutes les versions intermédiaires, afin de connaître les exigences et autres détails.
+2. Préparez la maintenance.
+
+   Avant de commencer la mise à niveau, vous pouvez exécuter le [vérificateur de mise à niveau MySQL Shell](https://dev.mysql.com/doc/mysql-shell/8.4/en/mysql-shell-utilities-upgrade.html) sur votre base de données pour détecter et corriger les problèmes de compatibilité avec votre version cible. Résolvez toutes les erreurs et tous les avertissements signalés dans la sortie du vérificateur avant de continuer. Consultez la documentation de votre distribution MySQL.
+3. Arrêtez MySQL et effectuez une sauvegarde complète de votre base de données MySQL conformément à la documentation de votre distribution MySQL.
+
+   MySQL sera indisponible pendant la mise à niveau. Tant que la base de données est indisponible, les applications clientes W&amp;B ne peuvent pas se connecter et rencontreront des erreurs temporaires.
+4. Mettez à niveau MySQL vers 8.4.x conformément à la documentation de votre distribution MySQL.
+5. Redémarrez MySQL et vérifiez qu’il est opérationnel.
+6. Une fois MySQL opérationnel, exécutez `wandb verify` pour valider votre déploiement W&amp;B. La commande exécute une série de vérifications et affiche les résultats dans `STDOUT`. Si elle signale des problèmes, effectuez les ajustements nécessaires et exécutez-la de nouveau. Pour les étapes de configuration et de connexion, voir [Vérifiez l’installation](#verify-the-installation).
+7. Une fois la validation terminée, les utilisateurs peuvent reprendre les opérations normales.
 
 <div id="migrate-self-managed-instances-to-wb-operator">
   ## Migrer des instances Autogéré vers W&amp;B Operator
