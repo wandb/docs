@@ -74,7 +74,8 @@ First, compute the embeddings for the articles. You typically do this once with 
 
   </Tab>
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     require('dotenv').config();
     import { OpenAI } from 'openai';
     import * as weave from 'weave';
@@ -190,7 +191,8 @@ Next, wrap the retrieval function `get_most_relevant_document` with a `weave.op(
 
   </Tab>
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     class RAGModel {
         private openai: OpenAI;
         private systemMessage: string;
@@ -299,7 +301,8 @@ As in the [Build an Evaluation pipeline tutorial](/weave/tutorial-eval), define 
 
   </Tab>
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     const contextPrecisionScore = weave.op(async function(args: {
         datasetRow: QuestionRow;
         modelOutput: { answer: string; context: string; }
@@ -590,7 +593,8 @@ Here's the code in its entirety.
 
   </Tab>
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     require('dotenv').config();
     import { OpenAI } from 'openai';
     import * as weave from 'weave';

@@ -89,7 +89,8 @@ def my_op(x):
 
 In TypeScript, provide a `summarize` function as an option to `op()`. It receives the final result and returns summary data at Call completion.
 
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 const myOp = weave.op(
   async (x: any) => {
     const result = await doWork(x);
@@ -135,7 +136,8 @@ for call in client.get_calls(filter={"op_names": ["weave:///my-team/my-project/o
 ```
   </Tab>
   <Tab title="TypeScript">
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 import * as weave from 'weave';
 const client = await weave.init('my-team/my-project');
 
