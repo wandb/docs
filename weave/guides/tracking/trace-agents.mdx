@@ -44,7 +44,8 @@ npm install weave
 
 Replace `[YOUR-TEAM]` with your W&B team name and `[YOUR-PROJECT]` with your W&B project name.
 
-```typescript lines
+```typescript lines twoslash
+// @noErrors
 import * as weave from 'weave';
 
 await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
@@ -139,7 +140,8 @@ session = weave.start_session(
 </Tab>
 <Tab title="TypeScript">
 
-```typescript lines
+```typescript lines twoslash
+// @noErrors
 const session = weave.startSession({
   agentName: 'my-agent',  // Optional: identifies the agent in the UI.
   sessionId: '',          // Optional: stable ID to group turns, auto-generated when empty.
@@ -170,7 +172,8 @@ turn = weave.start_turn(
 </Tab>
 <Tab title="TypeScript">
 
-```typescript lines
+```typescript lines twoslash
+// @noErrors
 const turn = weave.startTurn({
   agentName: 'my-agent',  // Optional: overrides the session-level agent name.
   model: 'gpt-4o',        // Optional: model used for this turn.
@@ -198,7 +201,8 @@ llm = weave.start_llm(
 </Tab>
 <Tab title="TypeScript">
 
-```typescript lines
+```typescript lines twoslash
+// @noErrors
 const llm = weave.startLLM({
   model: 'gpt-4o',          // The model identifier.
   providerName: 'openai',   // Optional: provider name, for example "openai", "anthropic".
@@ -227,7 +231,8 @@ with weave.start_llm(model="gpt-4o", provider_name="openai") as llm:
 </Tab>
 <Tab title="TypeScript">
 
-```typescript lines
+```typescript lines twoslash
+// @noErrors
 const llm = weave.startLLM({ model: 'gpt-4o', providerName: 'openai' });
 try {
   const response = await openaiClient.chat.completions.create({ ... });
@@ -265,7 +270,8 @@ tool = weave.start_tool(
 </Tab>
 <Tab title="TypeScript">
 
-```typescript lines
+```typescript lines twoslash
+// @noErrors
 const tool = weave.startTool({
   name: 'get_weather',            // Tool name as declared to the LLM.
   args: '{"city": "Tokyo"}',      // Optional: JSON string of the tool arguments.
@@ -290,7 +296,8 @@ with weave.start_tool(name="get_weather", arguments='{"city": "Tokyo"}') as tool
 </Tab>
 <Tab title="TypeScript">
 
-```typescript lines
+```typescript lines twoslash
+// @noErrors
 const tool = weave.startTool({ name: 'get_weather', args: '{"city": "Tokyo"}' });
 try {
   tool.result = await getWeatherApi('Tokyo');
@@ -360,7 +367,8 @@ with weave.start_session(agent_name="weather-bot") as session:
 </Tab>
 <Tab title="TypeScript">
 
-```typescript lines highlight="11,13,16,24,35"
+```typescript lines highlight="11,13,16,24,35" twoslash
+// @noErrors
 import * as weave from 'weave';
 import type { Message, Usage } from 'weave';
 
@@ -448,7 +456,8 @@ session.end()
 </Tab>
 <Tab title="TypeScript">
 
-```typescript lines highlight="1,2,4,9,15"
+```typescript lines highlight="1,2,4,9,15" twoslash
+// @noErrors
 const session = weave.startSession({ agentName: 'weather-bot' });
 const turn = session.startTurn({ agentName: 'weather-bot' });
 

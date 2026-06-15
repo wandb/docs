@@ -6,7 +6,7 @@ keywords: ["weave.attributes", "global_attributes", "trace metadata", "get_curre
 
 Attributes in Weave let you attach custom metadata to your traces and evaluations. This metadata can include information like environment names, model versions, experiment IDs, user IDs, or other contextual information to help you organize, filter, and analyze your Weave data.
 
-Attributes are especially helpful when you need to group or filter traces by:
+Attributes are especially helpful for grouping or filtering traces by:
 * Deployments
 * Tenants
 * Experiments
@@ -46,7 +46,8 @@ with weave.attributes({'env': 'production', 'user_id': '12345'}):
 ```
 </Tab>
 <Tab title="TypeScript">
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 import {init, op, withAttributes} from 'weave';
 
 async function main() {
@@ -98,7 +99,8 @@ with weave.attributes({
 ```
 </Tab>
 <Tab title="TypeScript">
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 import {init, op, withAttributes} from 'weave';
 
 async function main() {
@@ -169,7 +171,8 @@ asyncio.run(evaluation.evaluate(model))  # Has all global attributes
 ```
 </Tab>
 <Tab title="TypeScript">
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 import {init, op, withAttributes} from 'weave';
 
 async function main() {
@@ -226,7 +229,8 @@ with weave.attributes({'env': 'staging', 'experiment': 'A'}):
 ```
 </Tab>
 <Tab title="TypeScript">
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 import {init, op, withAttributes} from 'weave';
 
 async function main() {
@@ -258,7 +262,7 @@ main().catch(console.error);
 
 ## Get attributes during execution
 
-At runtime, you can inspect the attributes currently in effect for a Call. This is useful when you want to debug which metadata Weave attaches, or when your code needs to branch on contextual information set by an outer caller.
+At runtime, you can inspect the attributes in effect for a Call. This is useful when you want to debug which metadata Weave attaches, or when your code needs to branch on contextual information set by an outer caller.
 
 <Tabs>
 <Tab title="Python">
@@ -307,7 +311,8 @@ Attributes: {'env': 'production', 'version': '1.1.0', 'region': 'us-west-2', 'ex
 
 With the Weave TypeScript SDK, you can get the current attributes with `client.getCurrentAttributes()`. Unlike the Weave Python SDK, you can access TypeScript attributes within a `withAttributes()` context, not just inside an op.
 
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 import * as weave from 'weave';
 import { withAttributes } from 'weave';
 

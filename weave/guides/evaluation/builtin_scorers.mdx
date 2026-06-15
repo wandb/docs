@@ -4,7 +4,7 @@ description: "Use Weave's predefined scorers for evaluating your AI applications
 keywords: [scorers, evaluation, hallucination, summarization, RAGAS]
 ---
 
-Weave offers several predefined scorers for evaluating your AI applications, such as [Hallucination detection](#hallucinationfreescorer) and [Summarization quality](#summarizationscorer). These can help you quickly define an evaluation and score your application's outputs. This page describes each built-in scorer, what it measures, and how to use it in an evaluation.
+W&B Weave offers several predefined scorers for evaluating your AI applications, such as [Hallucination detection](#hallucinationfreescorer) and [Summarization quality](#summarizationscorer). These can help you quickly define an evaluation and score your application's outputs. This page describes each built-in scorer, what it measures, and how to use it in an evaluation.
 
 <Note>
 Local scorers are only available for the Weave Python SDK. They aren't yet available for the Weave TypeScript SDK.
@@ -22,7 +22,7 @@ pip install weave[scorers]
 
 **LLM-evaluators**
 
-The predefined scorers that use LLMs integrate with litellm automatically. You don't need to pass an LLM client; set the `model_id` instead. See the [supported models](https://docs.litellm.ai/docs/providers).
+The predefined scorers that use LLMs integrate with litellm automatically. You don't need to pass an LLM client. Set the `model_id` instead. See the [supported models](https://docs.litellm.ai/docs/providers).
 
 ## `HallucinationFreeScorer`
 
@@ -340,7 +340,7 @@ pydantic_scorer = PydanticScorer(model=FinancialReport)
 
 ## RAGAS - `ContextEntityRecallScorer`
 
-The `ContextEntityRecallScorer` estimates context recall by extracting entities from both the AI system's output and the provided context, then computing the recall score. It's based on the [RAGAS](https://github.com/explodinggradients/ragas) evaluation library.
+The `ContextEntityRecallScorer` estimates context recall by extracting entities from both the AI system's output and the provided context, then computing the recall score. It's based on the Retrieval Augmented Generation Assessment ([RAGAS](https://github.com/explodinggradients/ragas)) evaluation library.
 
 ```python lines
 from weave.scorers import ContextEntityRecallScorer
@@ -364,7 +364,7 @@ entity_recall_scorer = ContextEntityRecallScorer(
 
 ## RAGAS - `ContextRelevancyScorer`
 
-The `ContextRelevancyScorer` evaluates the relevancy of the provided context to the AI system's output. It's based on the [RAGAS](https://github.com/explodinggradients/ragas) evaluation library.
+The `ContextRelevancyScorer` evaluates the relevancy of the provided context to the AI system's output. It's based on the RAGAS evaluation library.
 
 ```python lines
 from weave.scorers import ContextRelevancyScorer

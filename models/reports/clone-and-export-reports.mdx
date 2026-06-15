@@ -16,14 +16,14 @@ Export a report as a PDF or LaTeX file to share its contents outside of W&B or t
 
 ## Clone a report
 
-Clone a report to reuse an existing project's template and formatting as the basis for a new report. You can clone reports in the W&B App UI or programmatically with the Report and Workspace API.
+Clone a report to reuse an existing project's template and formatting as the basis for a new report. You can clone reports in the W&B App or programmatically with the Report and Workspace API.
 
 <Tabs>
 <Tab title="W&B App">
-In your report, select the **action (<Icon icon="ellipsis-vertical" iconType="solid"/>)** menu. Choose **Clone this report**. In the modal, pick a destination for your cloned report. Choose **Clone report**.
+In your report, select the **action (<Icon icon="ellipsis-vertical" iconType="solid"/>)** menu. Choose **Clone this report**. In the modal, select a destination for your cloned report. Choose **Clone report**.
 
 <Frame>
-    <img src="/images/reports/clone_reports.gif" alt="Cloning reports"  />
+    <img src="/images/reports/clone_reports.gif" alt="Cloning a report in the W&B App"  />
 </Frame>
 
 When you clone a report, you specify the destination. If you clone it to a team, all team members can view it. If you clone it to your personal account, only you can view it by default.
@@ -61,5 +61,7 @@ new_report.blocks = (
 )
 new_report.save()
 ```
+
+After you save, your new report appears in your W&B project.
 </Tab>
 </Tabs>

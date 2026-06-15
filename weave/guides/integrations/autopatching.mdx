@@ -98,7 +98,8 @@ Additionally, the TypeScript SDK doesn't support:
 
 For edge cases where automatic patching doesn't work (ESM, bundlers like Next.js), use explicit wrapping to ensure Weave traces your OpenAI client:
 
-```typescript
+```typescript twoslash
+// @noErrors
 import OpenAI from 'openai'
 import * as weave from 'weave'
 import { wrapOpenAI } from 'weave'

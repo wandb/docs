@@ -38,7 +38,8 @@ npm install --save-dev @types/node tsx typescript
 
 The following example shows the minimum setup needed to trace a single Pi prompt and response. Call `weave.init()` before you create your agent session, then pass `createOtelExtension()` as an extension factory. Weave traces the full agent lifecycle: the session, each prompt-and-response cycle (`invoke_agent`), individual LLM calls (`chat`), and tool executions (`execute_tool`). `SessionManager.inMemory()` generates the session ID automatically.
 
-```typescript lines
+```typescript lines twoslash
+// @noErrors
 import {init, createOtelExtension} from 'weave';
 
 import {
