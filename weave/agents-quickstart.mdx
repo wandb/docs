@@ -83,7 +83,8 @@ import weave
 weave.init(f"{TEAM}/{PROJECT}")
 ```
 
-```typescript lines highlight="4" TypeScript
+```typescript lines highlight="4" TypeScript twoslash
+// @noErrors
 // Set WANDB_API_KEY, OPENAI_API_KEY in your environment before running this project
 import * as weave from 'weave';
 
@@ -125,7 +126,8 @@ wikipedia_tool_schema = {
 }
 ```
 
-```typescript lines TypeScript
+```typescript lines TypeScript twoslash
+// @noErrors
 async function wikipediaSearch(query: string): Promise<string> {
   const url = new URL('https://en.wikipedia.org/w/api.php');
   url.search = new URLSearchParams({
@@ -235,7 +237,8 @@ with weave.start_session(agent_name="research-bot") as session:
         print(f"AGENT: {run_turn(history, question)}\n")
 ```
 
-```typescript lines highlight="10,13,39,54,76" TypeScript
+```typescript lines highlight="10,13,39,54,76" TypeScript twoslash
+// @noErrors
 import OpenAI from 'openai';
 
 const openaiClient = new OpenAI();
