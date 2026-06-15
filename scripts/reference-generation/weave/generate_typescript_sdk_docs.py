@@ -214,7 +214,16 @@ description: "TypeScript SDK reference"
         
         # Fix parameter tables
         content = re.sub(r'\|\s*:--\s*\|', '| --- |', content)
-        
+
+        # Enable Mintlify Twoslash on TS code blocks for IDE-style hover types.
+        # `// @noErrors` suppresses type errors from non-self-contained snippets.
+        content = re.sub(
+            r'^```(ts|typescript)([^\n]*)$',
+            r'```\1\2 twoslash\n// @noErrors',
+            content,
+            flags=re.MULTILINE,
+        )
+
         # Fix internal links to use relative paths with lowercase filenames
         # TypeDoc generates links like ../classes/WeaveObject.md which need fixing
         

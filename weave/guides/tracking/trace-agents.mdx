@@ -1,23 +1,22 @@
 ---
 title: Trace your agents
 description: Use the Weave SDK to instrument multi-turn agentic applications and view them in the Agents tab.
+keywords: ["multi-turn", "sessions", "OTel", "invoke_agent", "conversation_id"]
 ---
 
 import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
 
 <AgentsPreview />
 
-Learn how to instrument a multi-turn agentic application using the W&B Weave SDK so that you can view, debug, and evaluate your agent's behavior. This is intended for developers who are building or integrating agents and want structured visibility into sessions, turns, LLM calls, and tool executions.
+Learn how to instrument a multi-turn agentic application using the W&B Weave SDK so that you can view, debug, and evaluate your agent's behavior. This guide is intended for developers who build or integrate agents and want structured visibility into sessions, turns, LLM calls, and tool executions.
 
 The Weave SDK for Agents models the full lifecycle of a multi-turn agent conversation: the agent that owns many sessions, the session that groups turns together, each user-agent exchange (turn), the LLM calls within a turn, and the tool executions that an LLM triggers. Traces appear in the **Agents** tab of your Weave project. Each session shows a multi-turn timeline with nested tool calls, token usage, and feedback.
 
-If you are tracing individual functions as Ops with the `@weave.op` decorator, see [Trace LLM applications](/weave/guides/tracking/tracing) instead.
+If you're tracing individual functions as Ops with the `@weave.op` decorator, see [Trace LLM applications](/weave/guides/tracking/tracing) instead.
 
 ## Before you begin
 
-To get started, install the `weave` package and initialize your project. This makes Weave aware of your team and project so that spans are routed to the correct location in the UI.
-
-Install Weave and initialize your project:
+To get started, install the `weave` package and initialize your project. This step registers your team and project with Weave so that the SDK routes spans to the correct location in the UI.
 
 <Tabs>
 <Tab title="Python">
@@ -45,7 +44,8 @@ npm install weave
 
 Replace `[YOUR-TEAM]` with your W&B team name and `[YOUR-PROJECT]` with your W&B project name.
 
-```typescript lines
+```typescript lines twoslash
+// @noErrors
 import * as weave from 'weave';
 
 await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
@@ -62,11 +62,11 @@ Weave models agent behavior as a hierarchy of one-to-many relationships. Each ag
 
 | Concept | Weave SDK class | OTel span type | Description |
 |---|---|---|---|
-| Agent | *(no class)* | *(no span; grouped by `agent_name`)* | An agentic application in the Agents tab; contains one or more sessions |
-| Session | `Session` | *(no span; turns are grouped by `conversation_id`)* | A conversation or run that contains one or more turns |
-| Turn | `Turn` | `invoke_agent` | One user message and the agent's complete response |
-| LLM call | `LLM` | `chat` | One call to a language model API |
-| Tool call | `Tool` | `execute_tool` | One tool call triggered by an LLM response |
+| Agent | *(no class)* | *(no span, grouped by `agent_name`)* | An agentic application in the Agents tab that contains one or more sessions. |
+| Session | `Session` | *(no span, turns are grouped by `conversation_id`)* | A conversation or run that contains one or more turns. |
+| Turn | `Turn` | `invoke_agent` | One user message and the agent's complete response. |
+| LLM call | `LLM` | `chat` | One call to a language model API. |
+| Tool call | `Tool` | `execute_tool` | One tool call triggered by an LLM response. |
 
 The following diagram shows how one agent spans many sessions, one session spans many turns, and so on.
 
@@ -108,10 +108,12 @@ flowchart TB
 A session groups turns by a shared `conversation_id` attribute rather than a parent span, so each turn starts its own OTel trace. This design supports distributed tracing and parallel execution. The client sends spans directly to the OTel collector without any server-side aggregation.
 
 <Tip>
-If you are looking to integrate Weave with popular SDKs or harnesses, such as the Claude Agent SDK or Codex, see [Trace agent integrations](/weave/guides/tracking/trace-agent-integrations). Weave autopatches into several popular agent-building SDKs and agent harnesses for quick integration.
+To integrate Weave with SDKs or harnesses such as the Claude Agent SDK or Codex, see [Trace agent integrations](/weave/guides/tracking/trace-agent-integrations). Weave autopatches into several agent-building SDKs and agent harnesses for quick integration.
 </Tip>
 
 ## Agent tracing APIs
+
+The following sections describe each top-level tracing function and the arguments it accepts. Use them to instrument the session, turn, LLM call, and tool call layers of the data model described in the previous section.
 
 Weave exposes the following top-level functions. Each function returns an object that works as a context manager (using `with` in Python, or `try/finally` in TypeScript) or that you can close manually by calling `.end()`.
 
@@ -138,7 +140,8 @@ session = weave.start_session(
 </Tab>
 <Tab title="TypeScript">
 
-```typescript lines
+```typescript lines twoslash
+// @noErrors
 const session = weave.startSession({
   agentName: 'my-agent',  // Optional: identifies the agent in the UI.
   sessionId: '',          // Optional: stable ID to group turns, auto-generated when empty.
@@ -149,12 +152,11 @@ const session = weave.startSession({
 </Tab>
 </Tabs>
 
-
 ### Start a turn
 
 `start_turn()` / `startTurn()` creates a new `invoke_agent` span that becomes the root of a new OTel trace. Weave uses this span to represent one complete user-agent exchange in the timeline view.
 
-When called as a top-level function, it resolves the active session from context and inherits its conversation ID. If no session is active, the turn is created without a `conversation_id` and won't be grouped with other turns.
+When called as a top-level function, it resolves the active session from context and inherits its conversation ID. If no session is active, Weave creates the turn without a `conversation_id` and doesn't group it with other turns.
 
 <Tabs>
 <Tab title="Python">
@@ -170,7 +172,8 @@ turn = weave.start_turn(
 </Tab>
 <Tab title="TypeScript">
 
-```typescript lines
+```typescript lines twoslash
+// @noErrors
 const turn = weave.startTurn({
   agentName: 'my-agent',  // Optional: overrides the session-level agent name.
   model: 'gpt-4o',        // Optional: model used for this turn.
@@ -179,8 +182,6 @@ const turn = weave.startTurn({
 
 </Tab>
 </Tabs>
-
-
 
 ### Start an LLM call
 
@@ -200,7 +201,8 @@ llm = weave.start_llm(
 </Tab>
 <Tab title="TypeScript">
 
-```typescript lines
+```typescript lines twoslash
+// @noErrors
 const llm = weave.startLLM({
   model: 'gpt-4o',          // The model identifier.
   providerName: 'openai',   // Optional: provider name, for example "openai", "anthropic".
@@ -209,8 +211,6 @@ const llm = weave.startLLM({
 
 </Tab>
 </Tabs>
-
-
 
 After the LLM call completes, assign the response data to the `llm` object before it closes:
 
@@ -231,7 +231,8 @@ with weave.start_llm(model="gpt-4o", provider_name="openai") as llm:
 </Tab>
 <Tab title="TypeScript">
 
-```typescript lines
+```typescript lines twoslash
+// @noErrors
 const llm = weave.startLLM({ model: 'gpt-4o', providerName: 'openai' });
 try {
   const response = await openaiClient.chat.completions.create({ ... });
@@ -269,7 +270,8 @@ tool = weave.start_tool(
 </Tab>
 <Tab title="TypeScript">
 
-```typescript lines
+```typescript lines twoslash
+// @noErrors
 const tool = weave.startTool({
   name: 'get_weather',            // Tool name as declared to the LLM.
   args: '{"city": "Tokyo"}',      // Optional: JSON string of the tool arguments.
@@ -294,7 +296,8 @@ with weave.start_tool(name="get_weather", arguments='{"city": "Tokyo"}') as tool
 </Tab>
 <Tab title="TypeScript">
 
-```typescript lines
+```typescript lines twoslash
+// @noErrors
 const tool = weave.startTool({ name: 'get_weather', args: '{"city": "Tokyo"}' });
 try {
   tool.result = await getWeatherApi('Tokyo');
@@ -310,16 +313,16 @@ try {
 
 The following sections describe how to combine these functions depending on how your agent code is structured.
 
-The examples below use two types from the Weave SDK:
+The following examples use two types from the Weave SDK:
 
 - `Message` represents a single entry in a conversation: a user input, an assistant response, a system prompt, or a tool result. Assign to `llm.input_messages` / `llm.inputMessages` to record what the model received and produced.
 - `Usage` captures token counts from the LLM response and is assigned to `llm.usage`.
 
 Weave uses both to populate the Agents view with the inputs, outputs, and token usage of each LLM call. For all supported data types, see the API reference.
 
-### Context manager / try-finally pattern
+### Context manager or try-finally pattern
 
-The recommended approach for most agents is using a context manager pattern in Python or a try-finally pattern in TypeScript. The span closes and sends at the end of the block, even if an exception occurs.
+For most agents, use a context manager pattern in Python or a try-finally pattern in TypeScript. The span closes and sends at the end of the block, even if an exception occurs.
 
 Weave stores the active session, turn, and LLM call in context, so any function called within a block can call `start_llm()` / `startLLM()` or `start_tool()` / `startTool()` without holding an explicit reference to the parent. This works across module boundaries as long as the code runs in the same async context. To retrieve the active objects from anywhere in the call stack, use `weave.get_current_session()` / `weave.getCurrentSession()`, `weave.get_current_turn()` / `weave.getCurrentTurn()`, and `weave.get_current_llm()` / `weave.getCurrentLLM()`.
 
@@ -364,7 +367,8 @@ with weave.start_session(agent_name="weather-bot") as session:
 </Tab>
 <Tab title="TypeScript">
 
-```typescript lines highlight="11,13,16,24,35"
+```typescript lines highlight="11,13,16,24,35" twoslash
+// @noErrors
 import * as weave from 'weave';
 import type { Message, Usage } from 'weave';
 
@@ -420,7 +424,7 @@ try {
 
 ### Manual start and end pattern
 
-Use `.end()` explicitly when you can't use `with` blocks or `try/finally`. For example, when spans are opened and closed in different function calls, or when managing async lifecycle outside a coroutine.
+Use `.end()` explicitly when you can't use `with` blocks or `try/finally`. For example, when you open and close spans in different function calls, or when you manage async lifecycle outside a coroutine. You're responsible for calling `.end()` on every object you create, so that spans close and flush to the collector.
 
 <Tabs>
 <Tab title="Python">
@@ -452,7 +456,8 @@ session.end()
 </Tab>
 <Tab title="TypeScript">
 
-```typescript lines highlight="1,2,4,9,15"
+```typescript lines highlight="1,2,4,9,15" twoslash
+// @noErrors
 const session = weave.startSession({ agentName: 'weather-bot' });
 const turn = session.startTurn({ agentName: 'weather-bot' });
 
@@ -481,14 +486,14 @@ session.end();
 
 ## Semantic conventions
 
-The Weave SDK emits OTel spans that conform to the [GenAI semantic conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/) and [GenAI agent span conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans/). Any OTel span is accepted. Weave stores all attributes and makes them queryable. You can add arbitrary attributes to spans using the standard OTel span API alongside Weave's tracing objects.
+The Weave SDK emits OTel spans that conform to the [GenAI semantic conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/) and [GenAI agent span conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans/). Weave accepts any OTel span, stores all attributes, and makes them queryable. You can add arbitrary attributes to spans with the standard OTel span API alongside Weave's tracing objects.
 
 ## How spans appear in the Weave UI
 
-Once you run instrumented code, your traces appear in the **Agents** tab of your Weave project at `https://wandb.ai/[YOUR-TEAM]/[YOUR-PROJECT]/weave/agents`.
+After you instrument your agent with the preceding patterns and run it, your traces appear in the **Agents** tab of your Weave project at `https://wandb.ai/[YOUR-TEAM]/[YOUR-PROJECT]/weave/agents`.
 
 - The **Sessions list** shows all sessions with a minimap of turn activity.
-- Clicking a session opens the **multi-turn session view** showing each turn, its LLM calls, tool executions, token counts, and any attached feedback.
+- The **multi-turn session view** opens when you click a session and shows each turn, its LLM calls, tool executions, token counts, and any attached feedback.
 - Each `chat` span shows the input messages, output messages, model name, and usage.
 - Each `execute_tool` span shows the tool name, arguments, and result.
 

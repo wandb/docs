@@ -1,6 +1,6 @@
 ---
 title: "Anthropic"
-description: "Use Weave to automatically track and log LLM calls made via the Anthropic SDK"
+description: "Use Weave to automatically track and log LLM calls made with the Anthropic SDK"
 ---
 
 <a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_anthropic.ipynb" aria-label="Open in Google Colab">
@@ -8,6 +8,8 @@ description: "Use Weave to automatically track and log LLM calls made via the An
 </a>
 
 When you integrate Weave into your code, it automatically tracks and logs LLM calls made with the Anthropic SDK for both [Python](https://github.com/anthropics/anthropic-sdk-python) and [TypeScript](https://github.com/anthropics/anthropic-sdk-typescript). Weave does this by automatically invoking Anthropic's `Messages.create()` method.
+
+This guide shows you how to capture traces, wrap your own functions as ops, build a reusable `Model` for experimentation, and track tool use when working with the Anthropic SDK. Use these patterns to debug, compare, and iterate on Claude-powered applications without writing custom logging code.
 
 ## Traces
 
@@ -43,7 +45,8 @@ print(message.content)
 ```
   </Tab>
   <Tab title="TypeScript">
-```typescript
+```typescript twoslash
+// @noErrors
 import Anthropic from '@anthropic-ai/sdk';
 import * as weave from 'weave';
 import { wrapAnthropic } from 'weave';
@@ -73,9 +76,11 @@ By including `weave.init()` in the code, Weave automatically captures tracing in
 
 [![anthropic_trace.png](/weave/guides/integrations/imgs/anthropic_trace.png)](https://wandb.ai/capecape/anthropic_project/weave/calls)
 
-## Wrapping with your own ops
+## Wrap with your own ops
 
-Weave ops automatically version your code as you experiment, and capture its inputs and outputs. Decorated with [`@weave.op()`](https://docs.wandb.ai/weave/guides/tracking/ops) (Python) or wrapped with [`weave.op()`](/weave/reference/typescript-sdk/functions/op) (TypeScript) that calls into [`Anthropic.messages.create()`](https://platform.claude.com/docs/en/build-with-claude/working-with-messages) and Weave tracks the inputs and outputs for you. 
+While `weave.init()` alone captures Anthropic SDK calls, decorating your own functions with ops gives you richer traces that include your application logic around each model call.
+
+Weave ops automatically version your code as you experiment, and capture its inputs and outputs. Decorate a function with [`@weave.op()`](https://docs.wandb.ai/weave/guides/tracking/ops) in Python or wrap it with [`weave.op()`](/weave/reference/typescript-sdk/functions/op) in TypeScript to call [`Anthropic.messages.create()`](https://platform.claude.com/docs/en/build-with-claude/working-with-messages), and Weave tracks the inputs and outputs for you.
 
 The following examples show you how to track a function:
 
@@ -114,7 +119,8 @@ print(generate_joke("cars"))
 ```
   </Tab>
   <Tab title="TypeScript">
-```typescript
+```typescript twoslash
+// @noErrors
 import Anthropic from '@anthropic-ai/sdk';
 import * as weave from 'weave';
 import { wrapAnthropic } from 'weave';
@@ -152,19 +158,21 @@ console.log(await generateJoke('cars'));
   </Tab>
 </Tabs>
 
-By decorating or wrapping the function with `weave.op()`, Weave captures the function's code, input, and output. You can use ops to track any function you want, including nested functions.
+When you decorate a function with `weave.op()`, Weave captures the function's code, input, and output. You can use ops to track any function you want, including nested functions.
 
 [![anthropic_ops.png](/weave/guides/integrations/imgs/anthropic_ops.png)](https://docs.wandb.ai/weave/guides/tracking/ops)
 
 ## Create a `Model` for easier experimentation
 
+Once you're tracing individual calls, the next step is to organize related parameters together so you can compare different configurations.
+
 <Note>
 The `weave.Model` class is only available in the Weave Python SDK. For TypeScript, use the `weave.op()` wrapper to track functions with structured parameters.
 </Note>
 
-Organizing experimentation is difficult when there are many moving pieces. By using the [`Model`](/weave/guides/core-types/models) class, you can capture and organize the experimental details of your app like your system prompt or the model you're using. This helps organize and compare different iterations of your app. 
+Organizing experimentation is difficult when many pieces are moving. By using the [`Model`](/weave/guides/core-types/models) class, you can capture and organize the experimental details of your app like your system prompt or the model you're using. This helps you organize and compare different iterations of your app.
 
-In addition to versioning code and capturing inputs/outputs, [`Model`](/weave/guides/core-types/models)s capture structured parameters that control your application's behavior. This can help you find which parameters work best. You can also use Weave Models with `serve`, and [`Evaluation`](/weave/guides/core-types/evaluations)s.
+In addition to versioning code and capturing inputs and outputs, models capture structured parameters that control your application's behavior. This can help you find which parameters work best. You can also use Weave models with `serve` and [evaluations](/weave/guides/core-types/evaluations).
 
 In the following example, you can experiment with `model` and `temperature`:
 
@@ -203,13 +211,15 @@ result = joker.predict("Chickens and Robots")
 print(result)
 ```
 
-Every time you change one of these values, Weave creates and tracks a new version `JokerModel`. This allows you to associate trace data with your code changes and can help you determine which configurations work best for your use case.
+Every time you change one of these values, Weave creates and tracks a new version of `JokerModel`. This lets you associate trace data with your code changes and can help you determine which configurations work best for your use case.
 
 [![anthropic_model.png](/weave/guides/integrations/imgs/anthropic_model.png)](https://wandb.ai/capecape/anthropic_project/weave/calls)
 
 ## Tools (function calling)
 
-Anthropic provides a [tools](https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview) interface that allows Claude to request function calls. Weave automatically tracks tool definitions, tool use requests, and tool results throughout the conversation.
+In addition to standard messages, Weave instruments Anthropic's tool use interface so you can trace agentic workflows end-to-end.
+
+Anthropic provides a [tools](https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview) interface that lets Claude request function calls. Weave automatically tracks tool definitions, tool use requests, and tool results throughout the conversation.
 
 The following truncated examples demonstrate an Anthropic tool configuration:
 
@@ -247,7 +257,8 @@ print(message)
 ```
   </Tab>
   <Tab title="TypeScript">
-```typescript
+```typescript twoslash
+// @noErrors
 const message = await client.messages.create({
     max_tokens: 1024,
     messages: [
