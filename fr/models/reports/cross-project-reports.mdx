@@ -8,7 +8,9 @@ keywords: ["lien magique", "rapport en lecture seule", "ensemble d’exécutions
   Regardez une [vidéo montrant comment comparer des exécutions entre projets](https://www.youtube.com/watch?v=uD4if_nGrs4) (2 min).
 </Note>
 
-Les rapports inter-projets vous permettent de comparer côte à côte des exécutions provenant de deux projets différents, ce qui est utile lorsque vous souhaitez évaluer des expériences suivies dans des Projects W&amp;B distincts sans dupliquer les données. Utilisez le sélecteur de projet dans le tableau de l’ensemble d’exécutions pour choisir un projet.
+Les rapports inter-projets vous permettent de comparer côte à côte des exécutions provenant de deux projets différents. Cela est utile lorsque vous souhaitez évaluer des expériences suivies dans des Projects W&amp;B distincts sans dupliquer les données. Cette page explique comment récupérer des exécutions depuis un autre projet dans un rapport et comment partager ce rapport avec des collaborateurs qui n’ont pas de comptes W&amp;B.
+
+Pour comparer des exécutions entre projets, utilisez le sélecteur de projet dans le tableau de l’ensemble d’exécutions pour choisir un projet.
 
 <Frame>
   <img src="/images/reports/howto_pick_a_different_project_to_draw_runs_from.gif" alt="Comparer des exécutions entre différents projets" />
@@ -30,16 +32,16 @@ Lorsque vous devez partager un rapport avec une personne en dehors de votre proj
   <img src="/images/reports/magic-links.gif" alt="Liens de rapports en lecture seule" />
 </Frame>
 
-Les liens de rapports en lecture seule ajoutent un jeton d’accès secret à l’URL, afin que toute personne qui ouvre le lien puisse consulter la page. N’importe qui peut utiliser le lien magique pour consulter le rapport sans avoir à se connecter au préalable. Pour les clients qui utilisent [W&amp;B Local](/fr/platform/hosting/) dans des installations de cloud privé, ces liens restent derrière votre pare-feu. Ainsi, seuls les membres de votre équipe qui ont accès à votre instance privée *et* au lien en lecture seule peuvent consulter le rapport.
+Les liens de rapports en lecture seule ajoutent un jeton d’accès secret à l’URL, afin que toute personne qui ouvre le lien puisse consulter la page. N’importe qui peut utiliser le lien magique pour consulter le rapport sans avoir à se connecter au préalable. Pour les clients qui utilisent [W&amp;B Local](/fr/platform/hosting/) dans des installations de cloud privé, ces liens restent derrière votre pare-feu. Seuls les membres de l’équipe qui ont à la fois accès à votre instance privée et au lien en lecture seule peuvent consulter le rapport.
 
-En **mode lecture seule**, une personne non connectée peut voir les graphiques, les survoler pour afficher les infobulles des valeurs, zoomer et dézoomer sur les graphiques, et faire défiler les colonnes du tableau. En mode vue, elle ne peut pas créer de nouveaux graphiques ni de nouvelles requêtes de tableau pour explorer les données. Les visiteurs utilisant un lien de rapport en lecture seule ne peuvent pas cliquer sur une exécution pour accéder à sa page. De plus, ils ne peuvent pas voir la fenêtre modale de partage et voient à la place, au survol, une infobulle indiquant : `Sharing not available for view only access`.
+En mode lecture seule, une personne non connectée peut voir les graphiques, les survoler pour afficher les infobulles des valeurs, zoomer et dézoomer sur les graphiques, et faire défiler les colonnes du tableau. Elle ne peut pas créer de nouveaux graphiques ni de nouvelles requêtes de tableau pour explorer les données. Les visiteurs en lecture seule ne peuvent pas cliquer sur une exécution pour accéder à la page de l’exécution, et ils ne peuvent pas voir la fenêtre modale de partage. À la place, ils voient au survol une infobulle indiquant `Sharing not available for view only access`.
 
 <Info>
-  Les liens magiques sont disponibles uniquement pour les projets « Private » et « Team ». Pour les projets « Public » (tout le monde peut voir) ou « Open » (tout le monde peut voir et contribuer avec des exécutions), ces liens ne peuvent pas être activés ou désactivés, car le projet est public et déjà accessible à toute personne disposant du lien.
+  Les liens magiques sont disponibles uniquement pour les projets « Private » et « Team ». Pour les projets « Public » (tout le monde peut voir) ou « Open » (tout le monde peut voir et contribuer avec des exécutions), vous ne pouvez pas activer ou désactiver les liens. Le projet est déjà public, le rapport est donc déjà accessible à toute personne disposant du lien.
 </Info>
 
 <div id="send-a-graph-to-a-report">
-  ## Envoyer un graphique vers un rapport
+  ## Envoyer un graphique dans un rapport
 </div>
 
-Si vous souhaitez conserver un graphique d’un Workspace avec l’analyse associée, vous pouvez l’envoyer directement dans un rapport. Envoyez un graphique depuis votre Workspace vers un rapport pour suivre votre progression. Cliquez sur le menu déroulant du graphique ou du panneau que vous souhaitez copier dans un rapport, puis sur **Add to report** pour sélectionner un rapport comme destination.
+Vous pouvez également alimenter un rapport avec des graphiques que vous avez déjà créés dans un espace de travail, au lieu de les recréer. Pour conserver un graphique d’un espace de travail avec l’analyse associée, envoyez-le directement dans un rapport. Cliquez sur le menu déroulant du graphique ou du panneau que vous souhaitez copier, puis cliquez sur **Add to report** pour sélectionner le rapport de destination.

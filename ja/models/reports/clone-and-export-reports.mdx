@@ -20,14 +20,14 @@ W&amp;B の外部で内容を共有したり、分析の静的バージョンを
   ## report の複製
 </div>
 
-既存のプロジェクトのテンプレートと書式を新しい report のベースとして再利用するには、report を複製します。report は W&amp;B App UI で複製することも、Report and Workspace API を使用してプログラムから複製することもできます。
+既存のプロジェクトのテンプレートと書式を新しい report のベースとして再利用するには、report を複製します。report は W&amp;B App で複製することも、Report and Workspace API を使用してプログラムから複製することもできます。
 
 <Tabs>
   <Tab title="W&B App">
     report 内で **action (<Icon icon="ellipsis-vertical" iconType="solid" />)** メニューを選択します。**Clone this report** を選択します。モーダルで、複製した report の保存先を選びます。**Clone report** を選択します。
 
     <Frame>
-      <img src="/images/reports/clone_reports.gif" alt="Reports の複製" />
+      <img src="/images/reports/clone_reports.gif" alt="W&B App で report を複製" />
     </Frame>
 
     report を複製するときは、保存先を指定します。チームに複製した場合は、チームのすべてのメンバーがその report を表示できます。個人のアカウントに複製した場合は、デフォルトでは自分だけが表示できます。
@@ -66,5 +66,7 @@ W&amp;B の外部で内容を共有したり、分析の静的バージョンを
     )
     new_report.save()
     ```
+
+    保存すると、新しい report が W&amp;B のプロジェクトに表示されます。
   </Tab>
 </Tabs>

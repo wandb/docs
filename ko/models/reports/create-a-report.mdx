@@ -1,70 +1,70 @@
 ---
-description: W&B App 또는 프로그래밍 방식으로 W&B Report를 생성하세요.
-title: 보고서 만들기
-keywords: ["보고서 만들기", "wandb-workspaces", "Report API", "프로그래밍 방식 보고서"]
+description: W&B App 또는 프로그래밍 방식으로 W&B Report를 만드세요.
+title: 리포트 만들기
+keywords: ["리포트 만들기", "wandb-workspaces", "Report API", "프로그래밍 방식 리포트"]
 ---
 
 <Note>
   W&amp;B Report and Workspace API는 공개 프리뷰 상태입니다.
 </Note>
 
-탭을 선택하여 W&amp;B App에서 또는 Report and Workspace API를 사용해 프로그래밍 방식으로 보고서를 만드는 방법을 알아보세요.
+W&amp;B Reports를 사용하면 Runs의 인사이트, 결과, 시각화를 공동 작업자와 공유할 수 있습니다. 프로젝트 Workspace, **Reports** 탭 또는 Report and Workspace API를 사용해 프로그래밍 방식으로 리포트를 만드세요. 시작하려면 탭을 선택하세요.
 
-프로그래밍 방식으로 보고서를 만드는 방법에 대한 예시는 이 [Google Colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb)에서 확인하세요.
+프로그래밍 방식 예시는 [Report API 퀵스타트 Google Colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb)을 참조하세요.
 
 <Tabs>
   <Tab title="W&B App">
-    1. W&amp;B App에서 프로젝트 Workspace로 이동합니다.
+    1. W&amp;B App에서 프로젝트 Workspace로 이동하세요.
 
-    2. Workspace 오른쪽 상단에서 **Create report**를 클릭합니다.
-
-       <Frame>
-         <img src="/images/reports/create_a_report_button.png" alt="보고서 만들기 버튼" />
-       </Frame>
-
-    3. 모달이 나타나면 처음에 포함할 차트를 선택하세요. 차트는 나중에 보고서 인터페이스에서 추가하거나 삭제할 수 있습니다.
+    2. Workspace의 오른쪽 상단에서 **Create report**를 클릭하세요.
 
        <Frame>
-         <img src="/images/reports/create_a_report_modal.png" alt="보고서 만들기 모달" />
+         <img src="/images/reports/create_a_report_button.png" alt="리포트 만들기 버튼" />
        </Frame>
 
-    4. 새 Runs가 보고서에 추가되지 않도록 하려면 **Filter run sets** 옵션을 선택하세요. 이 옵션은 켜거나 끌 수 있습니다. 초안 보고서는 자동으로 저장되며, **Reports** 탭에서 확인할 수 있습니다.
+    3. 모달이 나타나면 처음에 포함할 차트를 선택하세요. 차트는 나중에 리포트 인터페이스에서 추가하거나 제거할 수 있습니다.
+
+       <Frame>
+         <img src="/images/reports/create_a_report_modal.png" alt="차트 선택 옵션이 있는 리포트 만들기 모달" />
+       </Frame>
+
+    4. W&amp;B가 리포트에 더 많은 Runs를 추가하지 않도록 하려면 **Filter run sets**를 선택하세요. W&amp;B는 리포트 초안을 자동으로 저장합니다. 저장된 초안은 **Reports** 탭에서 확인할 수 있습니다.
   </Tab>
 
-  <Tab title="Report 탭">
-    1. W&amp;B App에서 프로젝트 Workspace로 이동합니다.
-    2. 프로젝트에서 **Reports** 탭을 선택합니다.
-    3. **Create report**를 클릭합니다.
+  <Tab title="Report tab">
+    1. W&amp;B App에서 프로젝트 Workspace로 이동하세요.
+    2. 프로젝트에서 **Reports** 탭을 선택하세요.
+    3. **Create report**를 클릭하세요.
 
        <Frame>
-         <img src="/images/reports/create_report_button.png" alt="보고서 만들기 버튼" />
+         <img src="/images/reports/create_report_button.png" alt="리포트 만들기 버튼" />
        </Frame>
   </Tab>
 
   <Tab title="Report and Workspace API">
-    프로그래밍 방식으로 보고서를 만드세요:
+    프로그래밍 방식으로 리포트를 만드세요:
 
-    1. W&amp;B SDK(`wandb`)와 Report and Workspace API(`wandb-workspaces`)를 설치합니다.
+    1. W&amp;B SDK(`wandb`)와 Report and Workspace API(`wandb-workspaces`)를 설치하세요:
        ```bash
        pip install wandb wandb-workspaces
        ```
 
-    2. W&amp;B Python SDK와 Report and Workspace API를 임포트합니다.
+    2. W&amp;B Python SDK와 Report and Workspace API를 임포트하세요:
        ```python
        import wandb
        import wandb_workspaces.reports.v2 as wr
        ```
 
-    3. `wandb_workspaces.reports.v2.Report`를 사용해 보고서를 만듭니다. Report Class Public API([`wandb.apis.reports`](/ko/models/ref/python/public-api/api#reports))로 보고서 인스턴스를 생성합니다. 프로젝트 이름을 지정하세요.
+    3. `wandb_workspaces.reports.v2.Report` 또는 Report Class Public API([`wandb.apis.reports`](/ko/models/ref/python/public-api/api#reports))를 사용해 리포트 인스턴스를 만드세요. 리포트와 연결할 프로젝트를 지정하세요:
        ```python
        report = wr.Report(project="report_standard")
        ```
 
-    4. 보고서를 저장합니다. `.save()`를 호출하기 전까지 Reports는 W&amp;B에 업로드되지 않습니다.
+    4. 리포트를 저장하세요. W&amp;B는 `.save()` 메서드를 호출하기 전까지 리포트를 업로드하지 않습니다:
        ```python
        report.save()
        ```
 
-    자세한 내용은 [보고서 편집](/ko/models/reports/edit-a-report)을 참조하세요.
+    자세한 내용은 [리포트 편집](/ko/models/reports/edit-a-report)을 참조하세요.
   </Tab>
 </Tabs>
