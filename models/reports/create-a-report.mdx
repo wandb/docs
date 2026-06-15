@@ -27,7 +27,7 @@ For a programmatic example, see the [Report API Quickstart Google Colab](https:/
     <img src="/images/reports/create_a_report_modal.png" alt="Create report modal with chart selection options" />
     </Frame>
 
-4. To prevent W&B from adding more runs to your report, select the **Filter run sets** option. W&B saves a draft report automatically. Access it in the **Reports** tab.
+4. To prevent W&B from adding more runs to your report, select **Filter run sets**. W&B saves a draft report automatically. Access it in the **Reports** tab.
 </Tab>
 <Tab title="Report tab">
 1. Navigate to your project workspace in the W&B App.
@@ -45,12 +45,14 @@ Create a report programmatically:
     ```bash
     pip install wandb wandb-workspaces
     ```
+
 2. Import the W&B Python SDK and the Report and Workspace API:
     ```python
     import wandb
     import wandb_workspaces.reports.v2 as wr
     ```
-3. Create a report instance with `wandb_workspaces.reports.v2.Report` or with the Report Class Public API ([`wandb.apis.reports`](/models/ref/python/public-api/api#reports)). Specify a project name so W&B associates the report with the correct project:
+
+3. Create a report instance with `wandb_workspaces.reports.v2.Report` or with the Report Class Public API ([`wandb.apis.reports`](/models/ref/python/public-api/api#reports)). Specify the project to associate with the report:
     ```python
     report = wr.Report(project="report_standard")
     ```
