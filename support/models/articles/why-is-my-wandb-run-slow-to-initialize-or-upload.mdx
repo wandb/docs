@@ -17,11 +17,11 @@ Slow `wandb.init()` or sluggish metric uploads are usually caused by network lat
   os.environ["WANDB_INIT_TIMEOUT"] = "120"   # seconds
   ```
 
-- **Use offline mode during testing**: If you do not need live syncing while iterating, run offline and sync later:
+- **Use offline mode during testing**: If you do not need live syncing while iterating, run offline and sync later. Replace `[TIMESTAMP]` and `[ID]` with your run's timestamp and ID:
 
   ```bash
   WANDB_MODE=offline python train.py
-  wandb sync wandb/run-<timestamp>-<id>
+  wandb sync wandb/run-[TIMESTAMP]-[ID]
   ```
 
 ## Slow metric uploads during training
@@ -41,16 +41,6 @@ W&B uploads metrics asynchronously in background threads so your training loop i
 ## Run finalization is slow
 
 After your script calls `wandb.finish()` (or exits), W&B flushes any remaining buffered data. This can take time if a large backlog built up during training. Keep logging frequency reasonable throughout training rather than batching everything at the end.
-
-## Slow startup of `wandb-service` process
-
-Recent SDK versions use a separate service process (`wandb-service`) to handle uploads. On some machines, starting this process for the first time can be slow due to Python startup overhead. Subsequent runs on the same machine are faster. If the service process is consistently slow, you can disable it (reverts to the older thread-based backend):
-
-```bash
-WANDB_DISABLE_SERVICE=true python train.py
-```
-
-Disabling the service process removes some reliability improvements in newer SDK versions.
 
 ## Diagnosing with debug logs
 

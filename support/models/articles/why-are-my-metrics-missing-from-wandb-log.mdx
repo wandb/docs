@@ -5,59 +5,31 @@ keywords: ["Logs", "Metrics", "Experiments"]
 
 If metrics logged with `wandb.log()` are not appearing in the W&B UI, there are several common causes.
 
-**SDK version issue**
-
-Certain SDK versions have known bugs that cause logged metrics to be silently dropped. If you recently upgraded or installed W&B and are seeing missing metrics, check your SDK version:
-
-```bash
-pip show wandb
-```
-
-Update to the latest stable release:
-
-```bash
-pip install --upgrade wandb
-```
-
-If the issue started after a specific upgrade, you can pin to an earlier version while the bug is investigated. Check the [W&B release notes](https://github.com/wandb/wandb/releases) for known issues with your version.
-
-**Metrics logged before `wandb.init()`**
-
-Metrics logged before `wandb.init()` is called are silently discarded. Ensure `wandb.init()` is called before any `wandb.log()` calls:
-
-```python
-import wandb
-
-wandb.init(project="my-project")  # must come first
-
-for step in range(100):
-    wandb.log({"loss": loss, "accuracy": acc})
-```
-
-**Metrics logged after `wandb.finish()`**
-
-Any `wandb.log()` calls after `wandb.finish()` are also discarded. If you call `wandb.finish()` mid-script and then log more data, those metrics will not appear.
-
 **Offline mode without syncing**
 
-If `WANDB_MODE=offline` is set, metrics are saved locally but not uploaded until you run `wandb sync`. Check whether the run shows data locally in your `wandb/` directory and sync it:
+If `WANDB_MODE=offline` is set, metrics are saved locally but not uploaded until you run `wandb sync`. Check whether the run shows data locally in your `wandb/` directory and sync it. Replace `[TIMESTAMP]` and `[ID]` with your run's timestamp and ID:
 
 ```bash
-wandb sync wandb/run-<timestamp>-<run-id>
+wandb sync wandb/run-[TIMESTAMP]-[ID]
 ```
 
-**Non-deterministic drops in distributed training**
+**Uncoordinated logging in distributed training**
 
-In distributed training setups, only the process that called `wandb.init()` should call `wandb.log()`. If multiple processes log to the same run without coordination, metrics can overwrite each other or drop. Use rank checks to ensure only one process logs:
+In distributed training, a common pattern is to log from a single process only (typically rank 0). If multiple processes log to the same run without coordination, metrics can overwrite each other or drop. Use a rank check to log from one process:
 
 ```python
 import os
+import wandb
 
-if int(os.environ.get("RANK", 0)) == 0:
-    wandb.log({"loss": loss})
+with wandb.init(project="[YOUR-PROJECT]") as run:
+    if int(os.environ.get("RANK", 0)) == 0:
+        loss = ...  # your computed metric
+        run.log({"loss": loss})
 ```
 
-For distributed logging patterns, see [Log distributed experiments](/models/track/log/distributed-training). For offline sync, see [Environment variables](/models/track/environment-variables).
+W&B also supports logging to a single run from multiple processes in a coordinated way using [shared mode](/models/track/log/distributed-training). See that guide for both the rank-0 and multi-process patterns.
+
+For offline sync, see [Environment variables](/models/track/environment-variables).
 
 ---
 

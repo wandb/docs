@@ -3,13 +3,13 @@ title: "Why is console output not captured for my run?"
 keywords: ["Logs", "Runs"]
 ---
 
-W&B captures your script's stdout and stderr and stores it as `output.log` on the run's **Files** tab. By default, that file uploads *when the run finishes*, so an empty or missing log is often a timing issue, not failed capture.
+W&B captures your script's stdout and stderr and stores it as `output.log` on the run's **Files** tab. By default, that file uploads when the run finishes, so an empty or missing log is often a timing issue, not failed capture.
 
 For multipart uploads (`console_multipart`), chunk rollover, and when to enable them, see [Console logs](/models/app/console-logs) and [`wandb.Settings`](/models/ref/python/experiments/settings). To download logs, see [How do I download the console log file from a run?](/support/models/articles/how-do-i-download-the-console-log-file-from-a-run).
 
 ## Console capture is disabled
 
-Console capture can be turned off via settings or environment variable:
+Console capture can be turned off in settings or with an environment variable:
 
 ```python
 wandb.init(settings=wandb.Settings(console="off"))
@@ -23,35 +23,37 @@ Check whether either is set in your environment or launch configuration. To re-e
 
 ## Distributed training (DDP / multiprocessing)
 
-The **Logs** tab records output only from the process that owns the active W&B run. In Lightning/DDP, `print()` or `wandb.termlog()` from worker processes that do not own the run appear in the local terminal only. Initialize the run on rank 0 and use `console="wrap"`, which is more robust than the default under DDP:
+The **Logs** tab records output only from the process that owns the active W&B run. In Lightning/DDP, `print()` or `wandb.termlog()` from worker processes that do not own the run appear in the local terminal only. Initialize the run on rank 0 and use `console="wrap"`.
 
 ```python
+import wandb
+from lightning.pytorch import Trainer
 from lightning.pytorch.loggers import WandbLogger
 
 wandb_logger = WandbLogger(
     project="my_project",
     settings=wandb.Settings(console="wrap"),  # or WANDB_CONSOLE=wrap
 )
-trainer = Trainer(logger=wandb_logger, strategy="ddp", devices=..., accelerator="gpu")
+trainer = Trainer(logger=wandb_logger, strategy="ddp", devices=2, accelerator="gpu")
 ```
 
-If the **Logs** tab stays empty, try `console="redirect"` — output may appear in `output.log` on the **Files** tab even when it does not stream live. See [Log distributed experiments](/models/track/log/distributed-training) for rank-0 logging patterns.
+If the **Logs** tab stays empty, try `console="redirect"`. Output may appear in `output.log` on the **Files** tab even when it does not stream live. See [Log distributed experiments](/models/track/log/distributed-training) for rank-0 logging patterns.
 
 ## Run still active but no file on Files tab
 
-While a run is active, the **Logs** tab streams output, but `output.log` usually does not appear on **Files** until the run finishes unless you enabled [multipart console logging](/models/app/console-logs) at `wandb.init` time. Upload cadence cannot be changed after the run starts.
+While a run is active, the **Logs** tab streams output, but `output.log` usually does not appear on **Files** until the run finishes unless you enabled [multipart console logging](/models/app/console-logs) at `wandb.init()` time. Upload cadence cannot be changed after the run starts.
 
 ## Run crashed before flush
 
-Without multipart logging, a killed run (OOM, SIGKILL, and similar) may upload no `output.log` and show no download button. Enable `console_multipart` before the run starts so chunks uploaded before the crash remain on the server. A local copy is always written to `wandb/run-<timestamp>-<run-id>/logs/output.log`.
+Without multipart logging, a killed run (OOM, SIGKILL, and similar) may upload no `output.log` and show no download button. Enable `console_multipart` before the run starts so chunks uploaded before the crash remain on the server. A local copy is always written to `wandb/run-[TIMESTAMP]-[ID]/logs/output.log`.
 
 ## Resumed runs lose earlier console output
 
-On older SDKs, `wandb.init(resume="allow", id=...)` can overwrite a single `output.log`. From SDK v0.20.1+ with `console_multipart=True`, each session gets separate chunks under `logs/`. See [Console logs](/models/app/console-logs) for setup.
+On older SDKs, `wandb.init(resume="allow", id=...)` can overwrite a single `output.log`. With `console_multipart=True`, each session gets separate chunks under `logs/`. See [Console logs](/models/app/console-logs) for setup.
 
 ## Logs tab shows fewer lines than expected
 
-The **Logs** tab caps display for performance (latest 10,000 lines for runs under 100,000 total lines). The full log is in `output.log` or multipart chunks — download via the **Files** tab or API. See [How do I download the console log file from a run?](/support/models/articles/how-do-i-download-the-console-log-file-from-a-run).
+The **Logs** tab caps display for performance: a run stores up to 100,000 lines total, and the App displays up to 10,000 lines at once. Scroll through the logs to view older lines. The full log is in `output.log` or multipart chunks. Download it from the **Files** tab or through the API. See [How do I download the console log file from a run?](/support/models/articles/how-do-i-download-the-console-log-file-from-a-run).
 
 ---
 

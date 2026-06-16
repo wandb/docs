@@ -3,39 +3,35 @@ title: "Why does my API key fail with 'must be 40 characters long'?"
 keywords: ["API Keys", "Authentication", "SDK"]
 ---
 
-W&B issues API keys in the `wandb_v1_` format (about 92 characters). Older `wandb` SDK versions validate exactly 40 characters and reject the new format:
+W&B now issues longer API keys (about 86 characters). Older `wandb` SDK versions validate exactly 40 characters and reject the new format:
 
-`ValueError: API key must be 40 characters long, yours was 92`
+`ValueError: API key must be 40 characters long, yours was 86`
 
-On [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) or [Self-Managed](/platform/hosting/hosting-options/self-managed) instances, the message may instead be `ERROR API key must be 40 characters long, yours was 92`.
+On [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) or [Self-Managed](/platform/hosting/hosting-options/self-managed) instances, the message may instead be `ERROR API key must be 40 characters long, yours was 86`.
 
-For key formats and login steps, see [`wandb login`](/models/ref/cli/wandb-login).
 
 ## Upgrade the wandb SDK
+
+Support for longer API keys was added in `wandb` v0.22.3, so upgrading to that version or later resolves the error:
 
 ```bash
 pip install -U wandb
 wandb login --relogin
 ```
 
-## Save your API key at creation time
-
-Keys generated at [wandb.ai/authorize](https://wandb.ai/authorize) are shown *only once* at creation. Copy the key before you close the dialog. If you lose it, generate a new key.
-
 ## If you cannot upgrade the SDK
 
 - If a legacy 40-character key is still active on your account, keep using it. New-format keys do not automatically revoke legacy keys.
-- If you deleted the legacy key and cannot upgrade, contact [support@wandb.com](mailto:support@wandb.com). [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) and [Self-Managed](/platform/hosting/hosting-options/self-managed) deployments may be able to issue a legacy-format key.
-- As a workaround, set `WANDB_API_KEY` in the environment instead of `wandb login`. Some older SDK versions skip local length checks:
+- If you deleted the legacy key and cannot upgrade, contact [support@wandb.com](mailto:support@wandb.com). [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) and [Self-Managed](/platform/hosting/hosting-options/self-managed) deployments might be able to issue a legacy-format key.
+- As a workaround, set `WANDB_API_KEY` in the environment instead of using `wandb login`. Some older SDK versions skip local length checks. Replace `[API-KEY]` with your W&B API key:
 
     ```bash
-    export WANDB_API_KEY=<your-92-character-key>
-    python train.py
+    export WANDB_API_KEY=[API-KEY]
     ```
 
 ## Different error: key reported as too short
 
-`API key must have 40+ characters, has 20` can appear when calling `wandb.Api().viewer.generate_api_key()` in certain SDK versions. This is separate from the `wandb_v1_` format migration. Upgrade the SDK. If the error persists after upgrading, contact [support@wandb.com](mailto:support@wandb.com).
+`API key must have 40+ characters, has 20` can appear when calling `wandb.Api().viewer.generate_api_key()` in certain SDK versions. This is separate from the longer-key format migration. Upgrade the SDK. If the error persists after upgrading, contact [support@wandb.com](mailto:support@wandb.com).
 
 For more information, see [How do I find my API key?](/support/models/articles/how-do-i-find-my-api-key) and [SDK release notes](/release-notes/sdk-releases).
 
