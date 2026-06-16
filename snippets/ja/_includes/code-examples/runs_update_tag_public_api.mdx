@@ -8,10 +8,11 @@ title: Runs タグ更新 Public API
 
 runが終了した後、またはrunプロセスの外で作業している場合に、
 Public APIを使用して保存済みデータのタグを更新します。
+これは、runを遡って整理または分類する必要がある場合に便利です。
 
 runに新しいタグを追加するには、既存のタグと新しいタグを含む
-新しいリストで "tags" プロパティを更新してください。
-runのパスはentity/project/run_idで構成されます。
+新しいリストで `tags` プロパティを更新してください。
+runのパスは `entity/project/run_id` で構成されます。
 タグを更新した後、runの `update()` methodを呼び出して変更を保存してください。
 """
 import wandb

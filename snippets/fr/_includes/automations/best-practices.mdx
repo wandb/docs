@@ -3,5 +3,5 @@ title: Bonnes pratiques
 ---
 
 * **Commencez simple** : commencez par une ou deux automatisations pour des événements à fort impact (par exemple, des échecs de run ou des changements d&#39;alias de production). Vérifiez qu&#39;elles fonctionnent comme prévu avant d&#39;en ajouter d&#39;autres.
-* **Testez avant la mise en production** : créez d&#39;abord des automatisations dans un projet de test ou avec un webhook ou un salon Slack de test. Déclenchez manuellement l&#39;événement et vérifiez que l&#39;action s&#39;exécute et que la charge utile ou le message est correct.
+* **Testez avant la mise en production** : créez d&#39;abord des automatisations dans un projet de test ou avec un webhook ou un salon Slack de test. Déclenchez manuellement l&#39;événement, puis vérifiez que l&#39;action s&#39;exécute et que la charge utile ou le message est correct.
 * **Évitez la surcharge d&#39;alertes** : utilisez des filtres de run, des seuils de métrique ou des motifs d&#39;alias pour limiter la fréquence de déclenchement d&#39;une automatisation. Si vous avez plusieurs niveaux de gravité, acheminez-les vers différents canaux.
