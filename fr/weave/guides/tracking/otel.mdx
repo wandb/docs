@@ -12,13 +12,13 @@ Cette page présente les détails du point de terminaison, l’authentification,
   ## Détails du point de terminaison
 </div>
 
-**Chemin** : `/otel/v1/traces`
-**Méthode** : `POST`
-**Content-Type** : `application/x-protobuf`
-**URL de base** : l’URL de base du point de terminaison de trace OTel dépend de votre type de déploiement W&amp;B :
+* **Chemin** : `/otel/v1/traces`
+* **Méthode** : `POST`
+* **Content-Type** : `application/x-protobuf`
+* **URL de base** : l’URL de base du point de terminaison de trace OTel dépend de votre type de déploiement W&amp;B :
 
-* Cloud mutualisé : `https://trace.wandb.ai/otel/v1/traces`.
-* Instances Cloud dédié et Autogéré : `https://<your-subdomain>.wandb.io/traces/otel/v1/traces`.
+- Cloud mutualisé : `https://trace.wandb.ai/otel/v1/traces`.
+- Instances Cloud dédié et Autogéré : `https://<your-subdomain>.wandb.io/traces/otel/v1/traces`.
 
 Remplacez `<your-subdomain>` par le domaine W&amp;B unique de votre organisation, par exemple `acme.wandb.io`.
 
@@ -26,9 +26,7 @@ Remplacez `<your-subdomain>` par le domaine W&amp;B unique de votre organisation
   ## Authentification et acheminement
 </div>
 
-Weave utilise l’en-tête `wandb-api-key` pour authentifier les requêtes, ainsi que les attributs de ressource de votre `TracerProvider`, afin d’acheminer les spans vers l’entité et le projet appropriés.
-
-Incluez votre clé API W&amp;B dans l’en-tête `wandb-api-key`, puis spécifiez les clés suivantes comme attributs de ressource OpenTelemetry dans votre classe `TracerProvider` :
+Weave utilise l’en-tête `wandb-api-key` pour authentifier les requêtes, ainsi que les attributs de ressource de votre `TracerProvider`, afin d’acheminer les spans vers l’entité et le projet appropriés. Incluez votre clé API W&amp;B dans l’en-tête `wandb-api-key`, puis spécifiez les clés suivantes comme attributs de ressource OpenTelemetry dans votre classe `TracerProvider` :
 
 * `wandb.entity` : Le nom de votre équipe W&amp;B ou de votre utilisateur.
 * `wandb.project` : Le nom du projet vers lequel envoyer les traces.
@@ -62,8 +60,7 @@ L’exemple suivant montre comment configurer l’authentification et l’achemi
   }))
   ```
 
-  ```typescript twoslash TypeScript lines
-  // @noErrors
+  ```typescript TypeScript lines
   import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
   import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
   import { Resource } from "@opentelemetry/resources";
@@ -202,8 +199,7 @@ Installez d’abord les dépendances requises :
 
     Collez le code suivant dans un fichier TypeScript tel que `openinference_example.ts` :
 
-    ```typescript twoslash lines {11,12}
-    // @noErrors
+    ```typescript lines {11,12}
     // IMPORTANT : Importez OpenAI EN PREMIER pour que l'instrumentation puisse le patcher
     import OpenAI from "openai";
     import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
@@ -370,8 +366,7 @@ Installez d’abord les dépendances requises :
   <Tab title="TypeScript">
     Collez le code suivant dans un fichier TypeScript comme `openllmetry_example.ts`. Ce code utilise le package d’instrumentation OpenAI de Traceloop :
 
-    ```typescript twoslash lines
-    // @noErrors
+    ```typescript lines
     import OpenAI from "openai";
     import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
     import { BatchSpanProcessor, ConsoleSpanExporter } from "@opentelemetry/sdk-trace-base";
@@ -555,8 +550,7 @@ Installez d’abord les dépendances requises :
   <Tab title="TypeScript">
     Collez le code suivant dans un fichier TypeScript, par exemple `opentelemetry_example.ts` :
 
-    ```typescript twoslash lines
-    // @noErrors
+    ```typescript lines
     import OpenAI from "openai";
     import { trace } from "@opentelemetry/api";
     import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
@@ -752,8 +746,7 @@ Si vous définissez `wandb.entity` ou `wandb.project` comme attributs de ressour
       main()
   ```
 
-  ```typescript twoslash TypeScript lines
-  // @noErrors
+  ```typescript TypeScript lines
   import OpenAI from "openai";
   import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
   import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base";
@@ -857,8 +850,7 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
     </Tab>
 
     <Tab title="TypeScript">
-      ```typescript twoslash lines
-      // @noErrors
+      ```typescript lines
       import { trace, context } from "@opentelemetry/api";
       import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
       import {
