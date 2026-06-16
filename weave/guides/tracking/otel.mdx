@@ -1379,3 +1379,7 @@ Weave supports attribute conventions from the following observability frameworks
 | `wandb.is_turn`                   | `is_turn`                     | Marks span as conversation turn.            | Boolean                     | `true`                                         |
 | `langfuse.startTime`              | `start_time` (override)       | Override span start timestamp.              | Timestamp (ISO8601/unix ns) | `"2024-01-01T12:00:00Z"`                       |
 | `langfuse.endTime`                | `end_time` (override)         | Override span end timestamp.                | Timestamp (ISO8601/unix ns) | `"2024-01-01T12:00:01Z"`                       |
+
+## Limitations
+
+The Weave UI does not support rendering OTel trace tool calls in the Chat view. They appear as raw JSON instead.
