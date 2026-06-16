@@ -1,17 +1,18 @@
 ---
 title: "Vercel AI SDK"
 description: "Trace Vercel AI SDK calls in Weave using OpenTelemetry"
+keywords: ["OpenTelemetry", "Next.js", "experimental_telemetry", "OTLP exporter", "TypeScript tracing"]
 ---
 
-You can trace [Vercel AI SDK](https://ai-sdk.dev/) calls in Weave using [OpenTelemetry (OTel)](https://opentelemetry.io/). The Vercel AI SDK is a TypeScript toolkit for building AI-powered applications with framework support for Next.js, Nuxt, SvelteKit, and other frameworks. It has built-in OpenTelemetry support through its `experimental_telemetry` option.
+You can trace [Vercel AI SDK](https://ai-sdk.dev/) calls in Weave using [OpenTelemetry (OTel)](https://opentelemetry.io/). The Vercel AI SDK is a TypeScript toolkit for building AI-powered applications, with framework support for Next.js, Nuxt, SvelteKit, and others. It has built-in OpenTelemetry support through its `experimental_telemetry` option.
 
-This guide shows you how to configure OTel to send traces from the Vercel AI SDK to Weave. You can use the AI SDK with Next.js or as a standalone Node.js application.
+This guide shows you how to configure OTel to send traces from the Vercel AI SDK to Weave so that you can observe and debug your AI SDK calls in the Weave UI. You can use the AI SDK with Next.js or as a standalone Node.js application. This guide is intended for developers building AI-powered applications with the Vercel AI SDK who want to add tracing to an existing app.
 
-For more information on OTel tracing in Weave, see [Send OTel traces to Weave](../tracking/otel).
+For more information about OTel tracing in Weave, see [Send OTel traces to Weave](../tracking/otel).
 
-### Prerequisites
+## Prerequisites
 
-Both of the Next.js and Node.js examples in this guide require the same dependencies. To start:
+Before you begin, complete the following setup. Both the Next.js and Node.js examples in this guide require the same dependencies:
 
 1. Install the following Vercel and OTel libraries:
 
@@ -30,15 +31,16 @@ Both of the Next.js and Node.js examples in this guide require the same dependen
 
 ## Configure OTel tracing for Next.js
 
-This section demonstrates how to configure Weave in a Next.js app. The example does not contain a full app, just the instrumentation configuration and how to invoke the instrumentation on a Vercel AI SDK function, in this a case, a simple call to OpenAI.
+This section demonstrates how to configure Weave in a Next.js app. The example doesn't contain a full app, only the instrumentation configuration and how to invoke the instrumentation on a Vercel AI SDK function (in this case, a call to OpenAI).
 
 ### Configure instrumentation
 
 Next.js applications use an `instrumentation.ts` file to set up OTel. This file runs once when the server starts and configures the tracer provider that the AI SDK uses.
 
-To integrate Weave with Vercel's OTeL's functionality, create an `instrumentation.ts` file in your project root and add the following code to it, updating the `resourceFromAttributes()` function with your team and project names:
+To integrate Weave with Vercel's OTel functionality, create an `instrumentation.ts` file in your project root and add the following code to it, updating the `resourceFromAttributes()` function with your team and project names:
 
-```typescript instrumentation.ts lines {17-19}
+```typescript twoslash instrumentation.ts lines {17-19}
+// @noErrors
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
@@ -56,8 +58,8 @@ export function register() {
 // Configure your W&B credentials.
   const provider = new NodeTracerProvider({
     resource: resourceFromAttributes({
-      "wandb.entity": "<your-team-name>",
-      "wandb.project": "<your-project-name>",
+      "wandb.entity": "[YOUR-TEAM-NAME]",
+      "wandb.project": "[YOUR-PROJECT-NAME]",
     }),
     spanProcessors: [new BatchSpanProcessor(exporter)],
   });
@@ -70,9 +72,10 @@ This creates an OTLP exporter configured to send trace data to Weave's OTel endp
 
 ### Configure telemetry on a function
 
-Once you've added the instrumentation, use Vercel's `experimental_telemetry` option on any AI SDK function call to emit OTel spans:
+After you've added the instrumentation, use Vercel's `experimental_telemetry` option on any AI SDK function call to emit OTel spans:
 
-```typescript route.ts lines {10}
+```typescript twoslash route.ts lines {10}
+// @noErrors
 import { openai } from "@ai-sdk/openai";
 import { generateText } from "ai";
 
@@ -90,15 +93,16 @@ export async function POST(req: Request) {
 }
 ```
 
-All `generateText` calls with telemetry enabled produce OTel spans that are exported to Weave.
+All `generateText` calls with telemetry enabled produce OTel spans that are exported to Weave. Your Next.js app is now configured to send Vercel AI SDK traces to Weave.
 
 ## Configure OTel tracing for Node.js
 
-For standalone Node.js applications (without Next.js), configure the tracer provider at the top of your entry file before any AI SDK calls.
+If you're not using Next.js, you can configure OTel directly in a standalone Node.js application. For standalone Node.js applications, configure the tracer provider at the top of your entry file before any AI SDK calls so that subsequent AI SDK calls are captured.
 
-After meeting the prerequisites, you can run this example and generate spans without any additional configuration.
+After meeting the prerequisites, you can run the following example and generate spans without any additional configuration.
 
-```typescript lines {11-14,18-19,31} title="test-app.ts"
+```typescript twoslash lines {11-14,18-19,31} title="test-app.ts"
+// @noErrors
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
@@ -117,8 +121,8 @@ const exporter = new OTLPTraceExporter({
 // Configure your W&B credentials.
 const provider = new NodeTracerProvider({
   resource: resourceFromAttributes({
-    "wandb.entity": "<your-team-name>",
-    "wandb.project": "<your-project-name>",
+    "wandb.entity": "[YOUR-TEAM-NAME]",
+    "wandb.project": "[YOUR-PROJECT-NAME]",
   }),
   spanProcessors: [new BatchSpanProcessor(exporter)],
 });
@@ -141,4 +145,4 @@ async function main() {
 main();
 ```
 
-`BatchSpanProcessor` flushes spans asynchronously. In short-lived processes like standalone scripts, serverless functions, or CLI tools, call `provider.shutdown()` before the process exits to ensure all spans are sent to Weave. For long-running servers (like a Next.js dev server started through `instrumentation.ts`), this is not necessary.
+`BatchSpanProcessor` flushes spans asynchronously. In short-lived processes like standalone scripts, serverless functions, or CLI tools, call `provider.shutdown()` before the process exits to ensure all spans are sent to Weave. For long-running servers (like a Next.js dev server started through `instrumentation.ts`), this isn't necessary.

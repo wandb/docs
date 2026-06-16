@@ -29,9 +29,6 @@ Use the W&B App UI to add a tag to a collection:
 4. Within the collection card, click on the plus icon (**+**) next to the **Tags** field and type in the name of the tag.
 5. Press **Enter** on your keyboard.
 
-<Frame>
-    <img src="/images/registry/add_tag_collection.gif" alt="Adding tags to a Registry collection"  />
-</Frame>
 </Tab>
 <Tab title="Python SDK">
 ```python
@@ -99,7 +96,7 @@ If a collection has one or more tags, you can view those tags within the collect
 
 Tags added to a collection also appear next to the name of that collection.
 
-For example, in the following image, a tag called "tag1" was added to the "zoo-dataset-tensors" collection.
+For example, in the following image, a tag called "sample-tag-1" was added to the "zoo-dataset-tensors-split" collection.
 
 <Frame>
     <img src="/images/registry/tag_collection.png" alt="Tag management"  />
@@ -130,9 +127,6 @@ Add a tag to an artifact version linked to a collection with the W&B App UI or w
 6. Within the **Version** tab, click on the plus icon (**+**) next to the **Tags** field and type in the name of the tag.
 7. Press **Enter** on your keyboard.
 
-<Frame>
-    <img src="/images/registry/add_tag_linked_artifact_version.gif" alt="Adding tags to artifact versions"  />
-</Frame>
 </Tab>
 <Tab title="Python SDK">
 Fetch the artifact version you want to add or update a tag to. Once you have the artifact version, you can access the artifact object's `tag` attribute to add or modify tags to that artifact. Pass in one or more tags as list to the artifacts `tag` attribute. 
@@ -282,17 +276,13 @@ with wandb.init(entity = "<entity>", project="<project>") as run:
 6. Within the **Version** tab, hover your mouse over the name of the tag
 7. Click on the cancel button (**X** icon)
 
-## Search existing tags
+{/* ## Search existing tags
 
 Use the W&B App UI to search existing tags in collections and artifact versions:
 
 1. Navigate to the [W&B Registry](https://wandb.ai/registry).
 2. Click on a registry card.
-3. Within the search bar, type in the name of a tag.
-
-<Frame>
-    <img src="/images/registry/search_tags.gif" alt="Tag-based search"  />
-</Frame>
+3. Within the search bar, type in the name of a tag. */}
 
 
 ## Find artifact versions with a specific tag

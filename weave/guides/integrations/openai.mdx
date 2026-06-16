@@ -1,29 +1,32 @@
 ---
 title: "OpenAI"
 description: "Integrate OpenAI with Weave for tracing, evaluation, and monitoring"
+keywords: [GPT-4, Assistants API, Batch API, structured outputs, function calling]
 ---
 
 <a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_openai.ipynb" aria-label="Open in Google Colab">
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
 </a>
 
+This guide shows you how to integrate the OpenAI Python and TypeScript libraries with Weave so that you can trace, evaluate, and monitor your LLM application. It's intended for developers who already use OpenAI's SDKs and want visibility into their calls during development and in production.
+
 <Note>
-Do you want to experiment with OpenAI models on Weave without any set up? Try the [LLM Playground](../tools/playground).
+Experiment with OpenAI models on Weave without any setup using the [LLM Playground](../tools/playground).
 </Note>
 
 ## Tracing
 
-It's important to store traces of LLM applications in a central database, both during development and in production. You'll use these traces for debugging and to help build a dataset of tricky examples to evaluate against while improving your application.
+Storing traces of LLM applications in a central database is valuable both during development and in production. Use these traces for debugging and to help build a dataset of tricky examples to evaluate against while you improve your application.
 
-Weave can automatically capture traces for the [openai python library](https://developers.openai.com/api/docs/libraries).
+Weave can automatically capture traces for the [`openai` Python library](https://developers.openai.com/api/docs/libraries).
 
-Start capturing by calling `weave.init(<project-name>)` with a project name of your choice. OpenAI will be automatically patched regardless of when you import it.
+To start capturing, call `weave.init("[PROJECT_NAME]")` with a project name of your choice. Weave automatically patches OpenAI regardless of when you import it, so all subsequent OpenAI calls are traced.
 
-If you don't specify a W&B team when you call `weave.init()`, your default entity is used. To find or update your default entity, refer to [User Settings](https://docs.wandb.ai/platform/app/settings-page/user-settings/#default-team) in the W&B Models documentation.
+If you don't specify a W&B team when you call `weave.init()`, Weave uses your default entity. To find or update your default entity, refer to [User Settings](https://docs.wandb.ai/platform/app/settings-page/user-settings/#default-team) in the W&B Models documentation.
 
-**Automatic Patching**
+### Automatic patching
 
-Weave automatically patches OpenAI whether imported before or after `weave.init()`:
+Weave automatically patches OpenAI whether you import it before or after `weave.init()`. The following example shows the minimal setup you need to start tracing calls:
 
 <CodeGroup>
 ```python Python lines {4}
@@ -48,7 +51,8 @@ response = client.chat.completions.create(
 )
 ```
 
-```typescript TypeScript
+```typescript twoslash TypeScript
+// @noErrors
 import { OpenAI } from 'openai';
 import { wrapOpenAI } from '@wandb/weave';
 
@@ -73,9 +77,9 @@ openai.chat.completions.create(
 ```
 </CodeGroup>
 
-**Explicit Patching (Optional)**
+### Optional: Explicit patching
 
-You can still explicitly patch if you want fine-grained control:
+For fine-grained control over when patching takes effect, patch OpenAI explicitly instead of relying on the automatic behavior:
 
 ```python lines {3,4}
 import weave
@@ -96,12 +100,12 @@ response = client.chat.completions.create(
 [View a live trace](https://wandb.ai/capecape/emoji-bot/weave/calls/01928a78-6d8a-7e20-9b8c-0cbc8318a0c8)
 
 <Tip>
-We capture the function calling tools for [OpenAI Functions](https://platform.openai.com/docs/guides/function-calling) and [OpenAI Assistants](https://platform.openai.com/docs/assistants/overview) as well.
+Weave also captures the function calling tools for [OpenAI Functions](https://platform.openai.com/docs/guides/function-calling) and [OpenAI Assistants](https://platform.openai.com/docs/assistants/overview).
 </Tip>
 
 ## Structured outputs
 
-Weave also supports structured outputs with OpenAI. This is useful for ensuring that your LLM responses follow a specific format.
+Weave supports tracing OpenAI structured outputs, which are useful when you need to ensure your LLM responses follow a specific format. The following example traces a call that extracts a typed `UserDetail` object from a user message:
 
 <CodeGroup>
 ```python Python
@@ -132,7 +136,7 @@ print(user_detail)
 
 ## Async support
 
-Weave also supports async functions for OpenAI.
+Weave supports tracing async OpenAI calls, so applications that use `AsyncOpenAI` get the same visibility as synchronous applications.
 
 <CodeGroup>
 ```python Python
@@ -165,7 +169,7 @@ result = await call_openai()
 
 ## Streaming support
 
-Weave also supports streaming responses from OpenAI.
+Weave supports tracing streaming responses from OpenAI. The captured trace reflects the full streamed completion, so you can review the final output alongside the request parameters.
 
 <CodeGroup>
 ```python Python
@@ -197,7 +201,7 @@ for chunk in response:
 
 ## Tracing function calls
 
-Weave also traces function calls made by OpenAI when using tools.
+Weave traces function calls made by OpenAI when you use tools, which helps you understand how the model invoked each tool and with what arguments.
 
 <CodeGroup>
 ```python Python
@@ -249,7 +253,7 @@ print(response.choices[0].message.tool_calls)
 
 ## Batch API
 
-Weave also supports the OpenAI Batch API for processing multiple requests.
+Weave supports the OpenAI Batch API, which lets you process multiple requests asynchronously while Weave still captures each request in your traces.
 
 <CodeGroup>
 ```python Python
@@ -295,7 +299,7 @@ completed_batch = client.batches.retrieve(batch.id)
 
 ## Assistants API
 
-Weave also supports the OpenAI Assistants API for building conversational AI applications.
+Weave supports the OpenAI Assistants API, so you can trace conversational AI applications built around assistants, threads, and runs.
 
 <CodeGroup>
 ```python Python
@@ -335,15 +339,15 @@ messages = client.beta.threads.messages.list(thread_id=thread.id)
 
 ## Cost tracking
 
-Weave automatically tracks the cost of your OpenAI API calls. You can view the cost breakdown in the Weave UI.
+Weave automatically tracks the cost of your OpenAI API calls so that you can monitor spend alongside performance. You can view the cost breakdown in the Weave UI.
 
 <Note>
-Cost tracking is available for all OpenAI models and is calculated based on the latest OpenAI pricing.
+Cost tracking is available for all OpenAI models, and Weave calculates costs based on OpenAI's published pricing.
 </Note>
 
 ## Tracing custom functions
 
-You can also trace custom functions that use OpenAI by using the `@weave.op` decorator.
+To group OpenAI calls under your own application logic, trace custom functions that use OpenAI by applying the `@weave.op` decorator. This produces a parent trace for the function with the underlying OpenAI calls nested inside it.
 
 <CodeGroup>
 ```python Python
@@ -373,11 +377,11 @@ result = generate_response("Hello, how are you?")
 
 ## Next steps
 
-Now that you've set up tracing for OpenAI, you can:
+With tracing set up for OpenAI, your application's calls are now visible in Weave. From here, you can:
 
-1. **View traces in the Weave UI**: Go to your Weave project to see traces of your OpenAI calls
-2. **Create evaluations**: Use your traces to build evaluation datasets
-3. **Monitor performance**: Track latency, costs, and other metrics
-4. **Debug issues**: Use traces to understand what's happening in your LLM application
+- **View traces in the Weave UI**: Go to your Weave project to see traces of your OpenAI calls.
+- **Create evaluations**: Use your traces to build evaluation datasets.
+- **Monitor performance**: Track latency, costs, and other metrics.
+- **Debug issues**: Use traces to understand what's happening in your LLM application.
 
-For more information on these topics, check out our [evaluation guide](../evaluation/scorers) and [monitoring guide](../tracking).
+For more information about these topics, see the [evaluation guide](../evaluation/scorers) and [monitoring guide](../tracking).
