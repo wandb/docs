@@ -1,7 +1,7 @@
-Create a database and a user with the following SQL commands. Replace `<password>` with a secure password:
+Create a database and a user with the following SQL commands. Replace `[PASSWORD]` with a secure password:
 
 ```sql
-CREATE USER 'wandb_local'@'%' IDENTIFIED BY '<password>';
+CREATE USER 'wandb_local'@'%' IDENTIFIED BY '[PASSWORD]';
 CREATE DATABASE wandb_local CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 GRANT ALL ON wandb_local.* TO 'wandb_local'@'%' WITH GRANT OPTION;
 ```
