@@ -25,10 +25,6 @@ wandb agent [SWEEP-ID]
 
 Check the sweep status in the W&B UI (**Sweeps > your sweep > Status**). If the sweep was manually paused or stopped, agents will not receive new configurations until the sweep is resumed.
 
-**Multiple processes calling `wandb.agent()` on the same job**
-
-In distributed training setups, if every process on a node calls `wandb.agent()`, each process registers as a separate agent and consumes a run configuration. This leads to runs that crash immediately (because only one process was meant to drive the sweep) and a quickly exhausted configuration pool. Restrict `wandb.agent()` to rank 0 only. See [How do I run sweeps with distributed training on SLURM?](/support/models/articles/how-do-i-run-sweeps-with-distributed-training-on-slurm) for the recommended pattern.
-
 For more causes and fixes, see [Troubleshoot sweeps](/models/sweeps/troubleshoot-sweeps). For SLURM distributed jobs, see [How do I run sweeps with distributed training on SLURM?](/support/models/articles/how-do-i-run-sweeps-with-distributed-training-on-slurm).
 
 ---

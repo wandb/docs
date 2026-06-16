@@ -15,10 +15,11 @@ W&B marks a run as **Crashed** when it stops receiving heartbeats from the proce
 
 **How to debug**
 
-1. Open the run page and click the **Files** tab.
-2. Download `output.log` for stdout/stderr. This file usually contains the error that caused the crash.
-3. Download `debug.log` and `debug-internal.log` for W&B-level diagnostics (connectivity issues, upload errors).
-4. If the run was on a cluster, also check the scheduler's job log for preemption or OOM signals.
+1. In the project sidebar, click **Runs**.
+2. Click the name of your run and then click the **Files** tab.
+3. Download `output.log` for stdout/stderr. This file usually contains the error that caused the crash.
+4. Download `debug.log` and `debug-internal.log` for W&B-level diagnostics (connectivity issues, upload errors).
+5. If the run was on a cluster, also check the scheduler's job log for preemption or OOM signals.
 
 **Data from a crashed run**
 
