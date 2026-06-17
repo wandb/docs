@@ -5,14 +5,6 @@ generator: "knowledgebase-nav"
 template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 ---
 
-<Card title="Puis-je simplement journaliser des métriques, sans exemples de code ni de jeu de données ?" href="/fr/support/models/articles/can-i-just-log-metrics-no-code-or-datase" arrow="true" horizontal>
-  Par défaut, W&amp;B n&#39;effectue pas de journal d&#39;exemples de jeu de données. Par défaut, W&amp;B journalise le code et les métriques système. Il existe deux méthodes pour dé ...
-</Card>
-
-<Card title="Puis-je journaliser des métriques selon deux échelles de temps différentes ?" href="/fr/support/models/articles/can-i-log-metrics-on-two-different-time-" arrow="true" horizontal>
-  Par exemple, je veux journaliser l&#39;accuracy d&#39;entraînement par lot et l&#39;accuracy de validation par époque. Oui, journalisez des index comme batch et ...
-</Card>
-
 <Card title="Comment puis-je modifier la fréquence de journalisation des métriques système ?" href="/fr/support/models/articles/how-can-i-change-how-frequently-to-log-s" arrow="true" horizontal>
   Pour configurer la fréquence de journalisation des métriques système, définissez &#95;stats&#95;sampling&#95;interval sur un nombre de secondes, exprimé sous forme de fl ...
 </Card>
@@ -22,61 +14,69 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 </Card>
 
 <Card title="Comment puis-je journaliser des métriques supplémentaires une fois qu'un run est terminé ?" href="/fr/support/models/articles/how-can-i-log-additional-metrics-after-a" arrow="true" horizontal>
-  Il existe plusieurs façons de gérer les expériences. Pour les flux de travail complexes, utilisez plusieurs runs et définissez les paramètres de groupe dans w ...
+  Pour ajouter des métriques à un run déjà terminé, W&amp;B propose plusieurs approches selon la complexité de votre wor ...
 </Card>
 
-<Card title="Comment puis-je écraser les journaux des étapes précédentes ?" href="/fr/support/models/articles/how-can-i-overwrite-the-logs-from-previo" arrow="true" horizontal>
-  Pour écraser les journaux des étapes précédentes, utilisez le forking et rewind.
+<Card title="Comment puis-je remplacer les journaux des étapes précédentes ?" href="/fr/support/models/articles/how-can-i-overwrite-the-logs-from-previo" arrow="true" horizontal>
+  Pour remplacer les journaux des étapes précédentes, utilisez le forking et rewind. La possibilité de forker ou de rembobiner un run est en cours de dévelop ...
 </Card>
 
 <Card title="Comment puis-je corriger les erreurs `Rate limit exceeded` lors de la journalisation des métriques ?" href="/fr/support/models/articles/rate-limit-exceeded-on-metric-logging" arrow="true" horizontal>
-  Si vous recevez une erreur HTTP 429 Rate limit exceeded lors de l’appel à wandb.log(), vous dépassez le quota de limite de débit po ...
+  Si vous recevez une erreur HTTP 429 Rate limit exceeded lorsque vous appelez wandb.log(), vous dépassez le quota de limite de débit po ...
 </Card>
 
-<Card title="Comment puis-je corriger une `anaconda 400 error` pendant un sweep ?" href="/fr/support/models/articles/anaconda-400-error-during-a-sweep" arrow="true" horizontal>
-  L’erreur suivante se produit généralement lorsque vous ne journalisez pas la métrique que vous optimisez : pour corriger cela, assurez-vous de ...
+<Card title="Comment puis-je corriger une `anaconda 400 error` pendant un balayage ?" href="/fr/support/models/articles/anaconda-400-error-during-a-sweep" arrow="true" horizontal>
+  Une erreur anaconda 400 pendant un balayage signifie souvent que vous n&#39;avez pas journalisé la métrique que vous optimisez. Vous pourriez voir : The sweep c ...
+</Card>
+
+<Card title="Comment puis-je journaliser des métriques sur deux échelles de temps différentes ?" href="/fr/support/models/articles/how-do-i-log-metrics-on-two-time-scales" arrow="true" horizontal>
+  Pour journaliser des métriques sur deux échelles de temps différentes, journalisez des indices comme batch et époque avec vos métriques. Par exemple, vous p ...
+</Card>
+
+<Card title="Comment puis-je journaliser des métriques sans enregistrer mon code ?" href="/fr/support/models/articles/how-do-i-log-metrics-without-saving-code" arrow="true" horizontal>
+  Pour éviter que du code source propriétaire ou des données d&#39;entraînement ne soient envoyés à W&amp;B pour des raisons de confidentialité ou de conformité, limitez ce que W&amp;B capture s ...
+</Card>
+
+<Card title="Comment puis-je tracer le maximum d'une métrique ?" href="/fr/support/models/articles/how-do-i-plot-the-maximum-of-a-metric" arrow="true" horizontal>
+  Pour tracer le maximum cumulé d&#39;une métrique : 1. Créez un nuage de points de la métrique. 2. Ouvrez le menu Edit et sélectionnez Annota ...
 </Card>
 
 <Card title="À quelle fréquence les métriques système sont-elles collectées ?" href="/fr/support/models/articles/how-often-are-system-metrics-collected" arrow="true" horizontal>
-  Les métriques sont collectées par défaut toutes les 10 secondes. Pour des métriques à plus haute résolution, envoyez un e-mail à contact@wandb.com.
+  Par défaut, les métriques système sont collectées toutes les 10 secondes. Pour des métriques à plus haute résolution, envoyez un e-mail à contact@wandb.com.
 </Card>
 
-<Card title="Est-il possible de tracer le maximum d'une métrique plutôt que de l'afficher étape par étape ?" href="/fr/support/models/articles/is-it-possible-to-plot-the-max-of-a-metr" arrow="true" horizontal>
-  Créez un graphique de dispersion de la métrique. Ouvrez le menu Edit et sélectionnez Annotations. À partir de là, tracez le maximum cumulé de  ...
-</Card>
-
-<Card title="Est-il possible de journaliser des métriques hors ligne et de les synchroniser avec W&B plus tard ?" href="/fr/support/models/articles/is-it-possible-to-save-metrics-offline-a" arrow="true" horizontal>
-  Par défaut, wandb.init démarre un processus qui synchronise les métriques en temps réel avec le cloud. Pour une utilisation hors ligne, définissez deux environne ...
+<Card title="Est-il possible d'enregistrer des métriques hors ligne et de les synchroniser avec W&B plus tard ?" href="/fr/support/models/articles/is-it-possible-to-save-metrics-offline-a" arrow="true" horizontal>
+  Par défaut, wandb.init démarre un processus qui synchronise les métriques en temps réel vers le cloud. Si vous devez exécuter des Experiments ave ...
 </Card>
 
 <Card title="Optimisation de plusieurs métriques" href="/fr/support/models/articles/optimizing-multiple-metrics" arrow="true" horizontal>
-  Pour optimiser plusieurs métriques dans un seul run, utilisez une somme pondérée des métriques individuelles. Journalisez la nouvelle métrique combinée  ...
+  Les Sweeps W&amp;B optimisent une seule métrique objective. Pour optimiser plusieurs métriques dans un seul run, combinez-les en une pondé ...
 </Card>
 
 <Card title="Que se passe-t-il lorsque je journalise des millions d'étapes dans W&B ? Comment cela est-il affiché dans le navigateur ?" href="/fr/support/models/articles/what-happens-when-i-log-millions-of-step" arrow="true" horizontal>
-  Le nombre de points envoyés affecte le temps de chargement des graphiques dans l&#39;UI. Pour les lignes dépassant 1 000 points, le backend écha ...
+  Le nombre de points envoyés affecte le temps de chargement des graphiques dans l’interface utilisateur. Pour les lignes dépassant 1 000 points, le backend sa ...
 </Card>
 
-<Card title="Et si je veux journaliser certaines métriques par lot et d'autres uniquement par époque ?" href="/fr/support/models/articles/what-if-i-want-to-log-some-metrics-on-ba" arrow="true" horizontal>
-  Pour journaliser des métriques spécifiques à chaque lot et standardiser les graphiques, journalisez les valeurs souhaitées de l&#39;axe X en même temps que les métriques. Dans l ...
+<Card title="Que faire si je veux journaliser certaines métriques sur les batches et d'autres uniquement sur les époques ?" href="/fr/support/models/articles/what-if-i-want-to-log-some-metrics-on-ba" arrow="true" horizontal>
+  Pour journaliser des métriques spécifiques dans chaque batch et standardiser les graphiques, journalisez les valeurs souhaitées de l&#39;axe X avec les métriques. Dans le ...
 </Card>
 
-<Card title="Pourquoi est-ce que je vois moins de points de données que je n'en ai journalisés ?" href="/fr/support/models/articles/why-am-i-seeing-fewer-data-points-than-i" arrow="true" horizontal>
-  Lors de la visualisation des métriques par rapport à un axe X autre que Step, attendez-vous à voir moins de points de données. Les métriques doivent être journalisées au mêm ...
+<Card title="Pourquoi vois-je moins de points de données que je n’en ai enregistrés ?" href="/fr/support/models/articles/why-am-i-seeing-fewer-data-points-than-i" arrow="true" horizontal>
+  Lorsque vous visualisez des métriques avec un axe X autre que Étape, attendez-vous à voir moins de points de données. Vous devez consigner des métriques à t ...
 </Card>
 
 <Card title="Pourquoi ne puis-je pas trier ou filtrer les métriques contenant certains caractères ?" href="/fr/support/models/articles/why-cant-i-sort-or-filter-metrics-with-c" arrow="true" horizontal>
-  Les noms de métriques dans W&amp;B doivent respecter les conventions de nommage GraphQL afin de pouvoir être correctement triés et filtrés dans l&#39;UI. ...
+  Les noms de métriques dans W&amp;B doivent respecter les conventions de nommage GraphQL afin que vous puissiez les trier et les filtrer dans l’interface utilisateur. Les noms de métriques valides  ...
 </Card>
 
 <Card title="Pourquoi mon espace de travail se charge-t-il lentement ?" href="/fr/support/models/articles/workspace-loads-slowly-with-many-metric" arrow="true" horizontal>
-  Les espaces de travail peuvent se charger lentement lorsqu&#39;un projet comporte un grand nombre de métriques, de runs ou de panneaux. Voici les causes courantes et les correct ...
+  Les espaces de travail peuvent se charger lentement lorsqu’un projet comporte de nombreuses métriques, de nombreux runs ou de nombreux panneaux. Les causes courantes incluent un nombre élevé de métriques, e ...
 </Card>
 
-<Card title="Pourquoi rien ne s'affiche-t-il dans mes graphiques ?" href="/fr/support/models/articles/why-is-nothing-showing-up-in-my-graphs" arrow="true" horizontal>
-  Si le message &quot;No visualization data logged yet&quot; s&#39;affiche, le script n&#39;a pas exécuté le premier appel à wandb.log. Cela si ...
+<Card title="Pourquoi rien ne s’affiche-t-il dans mes graphiques ?" href="/fr/support/models/articles/why-is-nothing-showing-up-in-my-graphs" arrow="true" horizontal>
+  Si le message &quot;Aucune donnée de visualisation n’a encore été enregistrée&quot; apparaît, le script n’a pas encore exécuté le premier appel à wandb.log. Cela peut ...
 </Card>
 
-<Card title="Pourquoi la même métrique apparaît-elle plus d'une fois ?" href="/fr/support/models/articles/why-is-the-same-metric-appearing-more-th" arrow="true" horizontal>
-  Lorsque vous journalisez différents types de données sous la même clé, ils sont séparés dans la base de données. Cela entraîne plusieurs entrées de la  ...
+<Card title="Pourquoi la même métrique apparaît-elle plusieurs fois ?" href="/fr/support/models/articles/why-is-the-same-metric-appearing-more-th" arrow="true" horizontal>
+  Lorsque vous consignez plusieurs types de données sous la même clé, W&amp;B les sépare dans la base de données. Cela entraîne plusieurs entrées o ...
 </Card>

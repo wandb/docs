@@ -32,11 +32,10 @@ for sweep in sweeps:
 
 ```python
 __init__(
-    client: 'RetryingClient',
+    service_api: 'ServiceApi',
     entity: 'str',
     project: 'str',
-    per_page: 'int' = 50,
-    service_api: 'ServiceApi'
+    per_page: 'int' = 50
 ) → Sweeps
 ```
 
@@ -44,8 +43,7 @@ Une collection itérable d’objets `Sweep`.
 
 **Arguments :**
 
-* `client`:  Client GraphQL hérité conservé pour la compatibilité de l’API.
-* `service_api`:  Interface avec le service wandb-core qui effectue les appels à l’API W&amp;B pour cette collection.
+* `service_api`:  L’API de service utilisée pour interroger W&amp;B.
 * `entity`:  L’entité à laquelle appartiennent les Sweeps.
 * `project`:  Le projet qui contient les Sweeps.
 * `per_page`:  Le nombre de Sweeps à récupérer à chaque requête adressée à l’API.

@@ -1786,6 +1786,35 @@ global:
     GLOBAL_ENV: "example"
 ```
 
+### Set rate limits
+
+For Dedicated Cloud and Self-Managed deployments that use the Operator, optionally configure rate limits by setting environment variables in `spec.values.global.extraEnv`. For reference, this example explicitly sets each rate limit to its default. In practice, define a rate limit only to override the default.
+
+<Important>To enable rate limiting, you must set `GORILLA_LIMITER` to the address of your Redis server.</Important>
+
+```yaml
+spec:
+  values:
+    global:
+      extraEnv:
+        GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM: "5"
+        GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_COUNT: "5"
+        GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_PER_RUN_COUNT: "0.8"
+        GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_SIZE: "10"
+        GORILLA_DEFAULT_RATE_LIMITS_RUN_UPDATE_COUNT: "10"
+        GORILLA_LIMITER: "redis://$HOST:6379?ttlInSeconds=900"
+```
+
+Refer to the following table for more detail:
+
+| Environment variable | Default | Description |
+| --- | --- | --- |
+| `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM` | `5` | Default filestream requests. |
+| `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_COUNT` | `5` | Filestream requests per second. |
+| `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_PER_RUN_COUNT` | `0.8` | Filestream requests per per run per second. |
+| `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_SIZE` | `10` | Filestream ingestion limit in MB per second. |
+| `GORILLA_DEFAULT_RATE_LIMITS_RUN_UPDATE_COUNT` | `10` | Run metadata update requests per second. |
+
 ### Custom certificate authority
 `customCACerts` is a list and can take many certificates. Certificate authorities specified in `customCACerts` only apply to the W&B Server application.
 

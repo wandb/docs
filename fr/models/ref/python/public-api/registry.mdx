@@ -17,12 +17,11 @@ Un registre au sein du registre.
 
 ```python
 __init__(
-    client: 'RetryingClient',
+    service_api: 'ServiceApi',
     organization: 'str',
     entity: 'str',
     name: 'str',
-    attrs: 'RegistryFragment | None' = None,
-    service_api: 'ServiceApi | None' = None
+    attrs: 'RegistryFragment | None' = None
 )
 ```
 
@@ -233,13 +232,12 @@ Renvoie les collections du registre.
 
 ```python
 create(
-    client: 'RetryingClient',
+    api: 'Api',
     organization: 'str',
     name: 'str',
     visibility: "Literal['organization', 'restricted']",
     description: 'str | None' = None,
-    artifact_types: 'list[str] | None' = None,
-    service_api: 'ServiceApi | None' = None
+    artifact_types: 'list[str] | None' = None
 ) → Self
 ```
 
@@ -249,8 +247,7 @@ Le nom du registre doit être unique au sein de l’organisation. Cette fonction
 
 **Arguments :**
 
-* `client`:  Client GraphQL hérité conservé pour la compatibilité de l’API.
-* `service_api`:  Interface vers le service wandb-core qui effectue les appels d’API W&amp;B pour le registre créé.
+* `api`:  L’instance d’API W&amp;B.
 * `organization`:  Le nom de l’organisation.
 * `name`:  Le nom du registre (sans le préfixe `wandb-registry-`).
 * `visibility`:  Le niveau de visibilité (`'organization'` ou `'restricted'`).
@@ -259,7 +256,7 @@ Le nom du registre doit être unique au sein de l’organisation. Cette fonction
 
 **Retourne :**
 
-* `Registry`:  L’objet Registry nouvellement créé.
+* `Registre`:  L’objet Registre nouvellement créé.
 
 **Exceptions levées :**
 

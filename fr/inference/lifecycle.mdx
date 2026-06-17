@@ -2,12 +2,15 @@
 title: "Cycle de vie des modèles"
 linkTitle: "Cycle de vie"
 description: >
-  Découvrez le cycle de vie des modèles et leur retrait dans Serverless Inference
+  Découvrez le cycle de vie et le retrait des modèles de Serverless Inference
+keywords: ["obsolescence des modèles", "modèles obsolètes", "retirer un modèle", "guide de migration"]
 ---
 
-De nouveaux modèles sont fréquemment évalués et intégrés au catalogue Serverless Inference.
+Cette page explique comment les modèles du catalogue Serverless Inference évoluent au fil des différentes étapes de leur cycle de vie, comment W&amp;B vous informe des changements à venir, et quels modèles sont obsolètes ou retirés. Utilisez ces informations pour planifier la migration hors des modèles dont la suppression est prévue.
 
-Les modèles plus anciens sont régulièrement réexaminés et peuvent être retirés afin de privilégier les offres les plus demandées et de meilleure qualité.
+W&amp;B évalue et met en ligne en continu de nouveaux modèles dans le catalogue Serverless Inference.
+
+W&amp;B examine régulièrement les modèles plus anciens et peut les retirer afin de privilégier les offres les plus demandées et de la meilleure qualité.
 
 <div id="model-lifecycle-stages">
   ## Phases du cycle de vie des modèles
@@ -17,14 +20,14 @@ Dans Serverless Inference, les modèles utilisent la terminologie suivante pour 
 
 * **Expérimental** : Le modèle est disponible pour une expérimentation initiale, mais n’est pas couvert par notre SLA standard ni par notre processus de mise en obsolescence.
 * **Disponibilité générale** : Le modèle est entièrement pris en charge et son utilisation est recommandée.
-* **Obsolète** : Le modèle doit être supprimé prochainement. Les clients doivent passer à un modèle de remplacement recommandé dès que possible.
+* **Obsolète** : Le modèle doit être supprimé prochainement. Passez à un modèle de remplacement recommandé dès que possible.
 * **Retiré** : Le modèle n’est plus disponible. Toute requête envoyée à un modèle retiré échoue et renvoie un code d’état `HTTP 404`.
 
 <div id="deprecation-process">
   ## Processus d’obsolescence
 </div>
 
-Lorsqu’un modèle en disponibilité générale est déclaré obsolète, W&amp;B publie sur cette page un préavis d’au moins deux semaines avant que le modèle ne soit retiré.
+Lorsque W&amp;B déclare obsolète un modèle en disponibilité générale, nous publions sur cette page un préavis d’au moins deux semaines avant que le modèle ne soit retiré.
 
 Nous essayons également de notifier par e-mail les utilisateurs ayant récemment utilisé un modèle obsolète
 et de fournir des recommandations de modèles de remplacement.

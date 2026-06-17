@@ -1,0 +1,308 @@
+---
+title: "클래스: Turn"
+description: "TypeScript SDK 레퍼런스"
+---
+
+[weave](../) / Turn
+
+에이전트 호출입니다. 일반적으로 단일 사용자 메시지에 응답하는
+작업을 감쌉니다. `invoke_agent` span을 내보내며 해당 turn의
+트레이스 루트 역할을 합니다. 즉, 항상 `ROOT_CONTEXT` 아래에서 시작되므로
+다른 OTel로 계측된 라이브러리의 부모를 실수로 상속하지 않습니다.
+
+`weave.startTurn()`(또는 `session.startTurn()`)으로 생성되며
+`end()`로 종료됩니다. 비동기 chain에서는 한 번에 하나의 Turn만 활성 상태일 수 있습니다.
+하위 항목(LLM, Tool, SubAgent)은 `startLLM`, `startTool`,
+`startSubagent` 방법을 통해 연결됩니다.
+
+`예시`
+
+```ts
+const turn = weave.startTurn({agentName: 'research-bot', model: MODEL});
+try {
+  const llm = turn.startLLM({model: MODEL, providerName: 'openai'});
+  // ...
+  llm.end();
+} finally {
+  turn.end();
+}
+```
+
+<div id="table-of-contents">
+  ## 목차
+</div>
+
+<div id="properties">
+  ### 속성
+</div>
+
+* [agentName](./turn#agentname)
+* [model](./turn#model)
+
+<div id="methods">
+  ### 메서드
+</div>
+
+* [addEvent](./turn#addevent)
+* [end](./turn#end)
+* [setAttribute](./turn#setattribute)
+* [startLLM](./turn#startllm)
+* [startSubagent](./turn#startsubagent)
+* [startTool](./turn#starttool)
+* [create](./turn#create)
+
+## 속성
+
+<div id="agentname">
+  ### agentName
+</div>
+
+• `Readonly` **agentName**: `string`
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[genai/turn.ts:60](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L60)
+
+***
+
+<div id="model">
+  ### 모델
+</div>
+
+• `Readonly` **모델**: `string`
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[genai/turn.ts:61](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L61)
+
+## 메서드
+
+<div id="addevent">
+  ### addEvent
+</div>
+
+▸ **addEvent**(`name`, `attributes?`, `startTime?`): `this`
+
+이름이 지정된 event를 Turn span에 추가합니다. 컨텍스트 압축, 도구 루프 감지, 가드레일 트리거처럼
+span이 아닌 시점을 표시할 때 유용합니다.
+`end()` 호출 후에는 아무 동작도 하지 않습니다. OTel `Span.addEvent`와 동일하게 동작합니다.
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름            | 유형           |
+| :------------ | :----------- |
+| `name`        | `string`     |
+| `attributes?` | `Attributes` |
+| `startTime?`  | `TimeInput`  |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`this`
+
+`예시`
+
+```ts
+turn.addEvent('context_compacted', {removedMessages: 12});
+```
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[genai/turn.ts:152](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L152)
+
+***
+
+<div id="end">
+  ### end
+</div>
+
+▸ **end**(`opts?`): `void`
+
+Turn span을 종료합니다. 여러 번 호출해도 동일하게 동작합니다. 실패로 표시하려면 `error`를 전달하세요.
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름            | 유형       |
+| :------------ | :------- |
+| `opts?`       | `Object` |
+| `opts.error?` | `Error`  |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`void`
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[genai/turn.ts:159](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L159)
+
+***
+
+<div id="setattribute">
+  ### setAttribute
+</div>
+
+▸ **setAttribute**(`key`, `value`): `this`
+
+Turn span에 단일 속성을 설정합니다. 실행 중인 누적 합계(예: 누적 비용, token 사용량)나
+turn 중간에 알게 되는 기타 메타데이터를 기록할 때 유용합니다.
+`end()` 이후에는 아무 작업도 수행하지 않습니다. OTel `Span.setAttribute`와 동일하게 동작합니다.
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름      | 유형               |
+| :------ | :--------------- |
+| `key`   | `string`         |
+| `value` | `AttributeValue` |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`this`
+
+`예시`
+
+```ts
+turn.setAttribute('gen_ai.usage.input_tokens', totalInputTokens);
+```
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[genai/turn.ts:138](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L138)
+
+***
+
+<div id="startllm">
+  ### startLLM
+</div>
+
+▸ **startLLM**(`opts`): [`LLM`](./llm)
+
+이 Turn 하위에 LLM span을 시작합니다.
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름     | 유형                                 |
+| :----- | :--------------------------------- |
+| `opts` | [`LLMInit`](../interfaces/llminit) |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+[`LLM`](./llm)
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[genai/turn.ts:104](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L104)
+
+***
+
+<div id="startsubagent">
+  ### startSubagent
+</div>
+
+▸ **startSubagent**(`opts`): [`SubAgent`](./subagent)
+
+이 Turn 아래에 하위 SubAgent span을 시작합니다.
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름     | 유형                                           |
+| :----- | :------------------------------------------- |
+| `opts` | [`SubAgentInit`](../interfaces/subagentinit) |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+[`SubAgent`](./subagent)
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[genai/turn.ts:122](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L122)
+
+***
+
+<div id="starttool">
+  ### startTool
+</div>
+
+▸ **startTool**(`opts`): [`Tool`](./tool)
+
+이 Turn 아래에서 하위 Tool span을 시작합니다.
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름     | 유형                                   |
+| :----- | :----------------------------------- |
+| `opts` | [`ToolInit`](../interfaces/toolinit) |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+[`Tool`](./tool)
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[genai/turn.ts:113](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L113)
+
+***
+
+<div id="create">
+  ### create
+</div>
+
+▸ **create**(`opts?`): [`Turn`](./turn)
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름     | 유형                                                                                    |
+| :----- | :------------------------------------------------------------------------------------ |
+| `opts` | [`TurnInit`](../interfaces/turninit) &amp; &#123; `conversationId?`: `string`  &#125; |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+[`Turn`](./turn)
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[genai/turn.ts:64](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L64)

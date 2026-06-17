@@ -1,0 +1,117 @@
+---
+title: "Pi 拡張機能"
+description: "Weave で Pi のエージェント セッション、LLM Call、ツール実行をトレースします。"
+keywords: ["Pi", "OpenTelemetry", "OTEL", "TypeScript", "コーディングエージェント"]
+---
+
+import AgentsPreview from '/snippets/ja/_includes/agents-public-preview.mdx';
+
+<AgentsPreview />
+
+[Pi](https://pi.dev/) は、ターミナルベースのコーディングエージェントです。Weave は、[GenAI semantic conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/) に準拠した `createOtelExtension` インテグレーションを使用して、Pi のセッション、LLM Call、ツールの実行を自動的にトレースします。このページでは、Pi アプリケーションで Weave のトレースを有効にして、エージェントの動作を観察し、Runs をデバッグし、token の使用量とコストを分析する方法を説明します。
+
+<Warning>
+  このインテグレーションは、Pi のセッションデータを Weave に送信します。このデータには、ユーザーのプロンプト、モデルの応答、ツールの入力と出力、Pi ツールが読み取った file の内容、シェルコマンドとその出力、取得した URL やページの内容が含まれる場合があります。
+
+  このインテグレーションでは、PII の除去や機密データのマスキングは実装されていません。セキュリティ要件またはコンプライアンス要件のためにこのデータを Weave に送信できない場合は、Pi アプリケーションで Weave のトレースを有効にしないでください。
+</Warning>
+
+<div id="prerequisites">
+  ## 事前準備
+</div>
+
+* [Node.js](https://nodejs.org/) (v18 以降)。
+* W&amp;B アカウントと、`WANDB_API_KEY` 環境変数として設定された [APIキー](https://wandb.ai/authorize)。
+
+<Note>
+  Pi は TypeScript と Node.js のフレームワークで、Python に相当するものはありません。Pi では ESM モジュールシステムが必要です。`package.json` で `"type": "module"` を使用するか、TypeScript を ESM 出力にコンパイルする必要があります。CommonJS プロジェクトではエラーが発生します。ESM project の設定について詳しくは、[TypeScript SDK integration](/ja/weave/guides/integrations/js#set-up-an-esm-project) を参照してください。
+</Note>
+
+<div id="install-packages">
+  ## パッケージをインストール
+</div>
+
+Weave、Pi、Node のタイプ定義を、ローカルの project の依存関係としてインストールします。
+
+```bash lines
+npm install weave @earendil-works/pi-coding-agent
+npm install --save-dev @types/node tsx typescript
+```
+
+<div id="trace-a-pi-prompt-and-response">
+  ## Pi のプロンプトと応答をトレースする
+</div>
+
+以下の例は、単一の Pi のプロンプトと応答をトレースするために必要な最小限のセットアップを示しています。エージェントのセッションを作成する前に `weave.init()` を呼び出し、拡張機能ファクトリとして `createOtelExtension()` を渡します。Weave は、セッション、各プロンプト/応答サイクル (`invoke_agent`) 、個々の LLM Call (`chat`) 、およびツール実行 (`execute_tool`) を含む、エージェントのライフサイクル全体をトレースします。`SessionManager.inMemory()` はセッション ID を自動的に生成します。
+
+```typescript lines twoslash
+// @noErrors
+import {init, createOtelExtension} from 'weave';
+
+import {
+  createAgentSession,
+  DefaultResourceLoader,
+  SessionManager,
+  getAgentDir,
+} from '@earendil-works/pi-coding-agent';
+
+async function main() {
+  // 1. Weave を初期化します。OTEL TracerProvider を設定して Weave プロジェクトに向けます。
+  //    createOtelExtension() で作成されたすべての span は
+  //    自動的にここにエクスポートされます。
+  await init('[YOUR-TEAM]/[YOUR-PROJECT]');
+
+  // 2. リソースローダーを作成し、Weave OTEL 拡張機能を注入します。
+  //    リソースローダーは Pi ランタイム環境と、
+  //    エージェントアクティビティのトレースに使用する拡張機能のライフサイクルを提供します。
+  const resourceLoader = new DefaultResourceLoader({
+    cwd: process.cwd(),
+    agentDir: getAgentDir(),
+    extensionFactories: [createOtelExtension({})],
+  });
+
+  await resourceLoader.reload();
+
+  // 3. エージェントセッションを開始する
+  const {session} = await createAgentSession({
+    resourceLoader,
+    sessionManager: SessionManager.inMemory(),
+  });
+
+  // 4. 拡張機能をバインドします。session_start イベントをトリガーし、OTEL アダプターが
+  //    ルートセッション span を作成して会話 ID を取得します。
+  await session.bindExtensions({});
+
+  // 5. アシスタントの出力を stdout にストリーミングする
+  session.subscribe(event => {
+    if (
+      event.type === 'message_update' &&
+      event.assistantMessageEvent.type === 'text_delta'
+    ) {
+      process.stdout.write(event.assistantMessageEvent.delta);
+    }
+  });
+
+  // 6. プロンプトを送信し、応答が完了するまで待機する
+  await session.prompt('What files are in the current directory?');
+  console.log();
+}
+
+main();
+```
+
+`tsx` を使用してスクリプトをコンパイルし、実行します。`[FILENAME]` は TypeScript file の名に置き換えてください:
+
+```bash
+npx tsx [FILENAME].ts
+```
+
+コードを実行すると、トレースが Weave プロジェクトの **Agents** タブ (`https://wandb.ai/[YOUR-TEAM]/[YOUR-PROJECT]/weave/agents`) に表示されます。Weave は、アプリケーションの各 run について、Pi セッション、LLM Call、およびツール実行を取得します。
+
+<div id="next-steps">
+  ### 次のステップ
+</div>
+
+この例をマルチターンのセッションにするには、プロンプトを追加します。Weave は `session.prompt()` を呼び出すたびに、それぞれが単一のルート span の下にネストされた個別の `invoke_agent` span としてトレースします。エージェントはプロンプト間で自動的にコンテキストを保持します。
+
+コードを実行すると、**Agents** タブに、ネストされた LLM Call、ツール実行、token 使用量、コストを含む、マルチターンの完全なタイムラインが表示されます。

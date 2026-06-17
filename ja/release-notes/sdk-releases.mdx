@@ -6,6 +6,34 @@ rss: true
 
 このページには、W&amp;B Models で使用する W&amp;B Python SDK (`wandb` パッケージ) のリリースノートが含まれています。Weave Python SDK (`weave` パッケージ) については、[Weave SDK releases](/ja/release-notes/weave-sdk-releases)を参照してください。W&amp;B Server については、[W&amp;B Server release notes](/ja/release-notes/server-releases)を参照してください。
 
+<Update label="0.27.2" description="2026年6月6日">
+  ## 修正
+
+  * `Run.scan_history()` は、run の履歴を取得する際に、重複した step や欠落した step を返さなくなりました。
+</Update>
+
+<Update label="0.27.1" description="2026年6月4日">
+  ## 追加
+
+  * Automations API が、artifact タグ、コレクションタグ、および artifact のリンク解除イベントをサポートするようになりました。
+
+  ## 変更
+
+  * `wandb.Api` の GraphQL 操作は、従来の Python GraphQL クライアントではなく `wandb-core` 経由でルーティングされるようになりました。
+    * `wandb.Api` の GraphQL 操作で失敗した場合は、`requests` の HTTP 例外ではなく `WandbApiFailedError` が発生するようになりました。
+  * `Run.scan_history()` は、利用可能な場合はエクスポートされた parquet 履歴から読み取るようになり、履歴が大きい runs でスループットが大幅に向上する可能性があります。この機能は、SDK `v0.23.1` で `beta_scan_history` として導入されました。
+
+  ## 削除
+
+  * サポート対象外の `wandb.apis.importers` API を削除しました。
+  * OpenAI、Cohere、LangChain の古い LLM インテグレーション (従来の autologging およびトレース API を含む) を削除しました。
+  * 非推奨の Keras `WandbCallback` と従来の `wandb.integration.yolov8` コールバックパッケージを削除しました。
+
+  ## 修正
+
+  * `wandb.sandbox` は、placement、GPU、egress に対する無効な引数値を拒否するようになりました。
+</Update>
+
 <Update label="0.27.0" description="2026年5月13日">
   ## 主な変更
 

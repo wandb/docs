@@ -1,27 +1,28 @@
 ---
-description: Modifiez un rapport de manière interactive avec l'interface de l'application ou de manière programmatique avec
+description: Modifiez un rapport de manière interactive dans l’interface de l’application ou par programmation avec
   le SDK W&B.
 title: Modifier un rapport
+keywords: ["wandb-workspaces", "PanelGrid", "RunSet", "report blocks", "report filters"]
 ---
 
 <Note>
-  L&#39;API W&amp;B Report and Workspace est en préversion publique.
+  L’API Report and Workspace de W&amp;B est en préversion publique.
 </Note>
 
-Modifiez un rapport de manière interactive avec l&#39;interface de l&#39;application ou de manière programmatique avec le SDK W&amp;B.
+Cette page explique comment modifier un rapport de manière interactive dans l’interface de l’application ou par programmation avec le SDK W&amp;B. Elle couvre l’ajout de graphiques, d’ensemble de runs, de blocs de code, de markdown, d’éléments HTML et de médias enrichis. Elle couvre également le filtrage et le regroupement des ensemble de runs, l’organisation de la mise en page du rapport et la visualisation de relations multidimensionnelles.
 
-Les Reports se composent de *blocs*. Les blocs constituent le corps d&#39;un rapport. Dans ces blocs, vous pouvez ajouter du texte, des images, des visualisations intégrées, des graphiques issus d&#39;Experiments et de runs, ainsi que des grilles de panneaux.
+Le corps d’un rapport est constitué de *blocs*. Les blocs contiennent du texte, des images, des visualisations intégrées, des graphiques issus d’Experiments et de runs, ainsi que des grilles de panneaux.
 
-Les *grilles de panneaux* sont un type spécifique de bloc qui contient des panneaux et des *ensembles de runs*. Les ensembles de runs sont une collection de runs enregistrés dans un projet W&amp;B. Les panneaux sont des visualisations des données des ensembles de runs.
+Les *grilles de panneaux* sont un type spécifique de bloc qui contient des panneaux et des *ensemble de runs*. Les ensemble de runs constituent une collection de runs enregistrés dans un projet sur W&amp;B. Les panneaux sont des visualisations des données de run set.
 
 <Note>
-  Consultez le [notebook sur les Workspaces programmatiques](https://colab.research.google.com/github/wandb/wandb-workspaces/blob/Update-wandb-workspaces-tuturial/Workspace_tutorial.ipynb) pour un exemple étape par étape montrant comment créer et personnaliser une vue de Workspace enregistrée.
+  Exécutez le [notebook Programmatic workspaces](https://colab.research.google.com/github/wandb/wandb-workspaces/blob/Update-wandb-workspaces-tuturial/Workspace_tutorial.ipynb) pour suivre un tutoriel complet sur la création d’une vue de Workspace enregistrée et personnalisée.
 </Note>
 
 <Note>
-  Vérifiez que l&#39;API W&amp;B Report and Workspace `wandb-workspaces` est installée en plus du W&amp;B Python SDK si vous souhaitez modifier un rapport de manière programmatique :
+  Pour modifier un rapport par programmation, vous devez avoir installé l’API Report and Workspace de W&amp;B (`wandb-workspaces`) ainsi que le SDK Python W&amp;B :
 
-  ```pip
+  ```bash
   pip install wandb wandb-workspaces
   ```
 </Note>
@@ -30,10 +31,10 @@ Les *grilles de panneaux* sont un type spécifique de bloc qui contient des pann
   ## Ajouter des graphiques
 </div>
 
-Chaque grille de panneaux comporte un ensemble d’ensembles de runs et un ensemble de panneaux. Les ensembles de runs au bas de la section contrôlent les données affichées dans les panneaux de la grille. Créez une nouvelle grille de panneaux si vous souhaitez ajouter des graphiques qui récupèrent des données à partir d’un autre ensemble de runs.
+Les graphiques vous permettent de visualiser les données de run dans un rapport. Chaque grille de panneaux comporte un ensemble d’ensembles de runs et un ensemble de panneaux. Les ensembles de runs dans la grille de panneaux contrôlent les données affichées dans les panneaux de la grille. Créez une nouvelle grille de panneaux si vous souhaitez ajouter des graphiques qui récupèrent des données à partir d’un autre ensemble de runs.
 
 <Tabs>
-  <Tab title="W&B App">
+  <Tab title="interface de l’application">
     Saisissez une barre oblique (`/`) dans le rapport pour afficher un menu déroulant. Sélectionnez **Add panel** pour ajouter un panneau. Vous pouvez ajouter n’importe quel panneau pris en charge par W&amp;B, y compris un graphique en courbes, un nuage de points ou un graphique en coordonnées parallèles.
 
     <Frame>
@@ -52,8 +53,8 @@ Chaque grille de panneaux comporte un ensemble d’ensembles de runs et un ensem
 
     report = wr.Report(
         project="report-editing",
-        title="An amazing title",
-        description="A descriptive description.",
+        title="Report title",
+        description="Report description.",
     )
 
     blocks = [
@@ -77,31 +78,33 @@ Chaque grille de panneaux comporte un ensemble d’ensembles de runs et un ensem
   ## Ajouter des ensembles de runs
 </div>
 
-Ajoutez des ensembles de runs depuis des projets, de manière interactive dans l&#39;interface de l&#39;application ou avec le SDK W&amp;B.
+Ajoutez des ensembles de runs depuis des projets, de manière interactive dans l’interface de l’application ou avec le SDK W&amp;B.
 
 <Tabs>
-  <Tab title="W&B App">
-    Saisissez une barre oblique (`/`) dans le rapport pour afficher un menu déroulant. Dans ce menu, choisissez **Panel Grid**. Cela importera automatiquement l&#39;ensemble de runs du projet à partir duquel le rapport a été créé.
+  <Tab title="interface de l’application">
+    Saisissez une barre oblique (`/`) dans le rapport pour afficher un menu déroulant. Dans ce menu, choisissez **Panel Grid**. W&amp;B importe automatiquement l’ensemble de runs du projet à partir duquel le rapport a été créé.
 
-    Si vous importez un panneau dans un rapport, les noms des runs sont hérités du projet. Dans le rapport, vous pouvez éventuellement [renommer un run](/fr/models/runs/#rename-a-run) pour donner davantage de contexte au lecteur. Le run est renommé uniquement dans le panneau concerné. Si vous clonez le panneau dans le même rapport, le run est également renommé dans le panneau cloné.
+    Si vous importez un panneau dans un rapport, le rapport hérite des noms des runs du projet. Dans le rapport, vous pouvez éventuellement [renommer un run](/fr/models/runs/#rename-a-run) pour donner davantage de contexte au lecteur. Le renommage s’applique uniquement au panneau concerné. Si vous clonez le panneau dans le même rapport, le panneau cloné reflète également le nouveau nom.
 
-    1. Dans le rapport, cliquez sur l&#39;icône en forme de crayon pour ouvrir l&#39;éditeur de rapport.
+    1. Dans le rapport, cliquez sur l’icône en forme de crayon pour ouvrir l’éditeur de rapport.
 
-    2. Dans l&#39;ensemble de runs, recherchez le run à renommer. Survolez le nom du rapport, puis cliquez sur le menu **action (<Icon icon="ellipsis-vertical" iconType="solid" />)**. Sélectionnez l&#39;une des options suivantes, puis soumettez le formulaire.
+    2. Dans l’ensemble de runs, recherchez le run à renommer. Survolez le nom du run et cliquez sur le menu **action (<Icon icon="ellipsis-vertical" iconType="solid" />)**. Sélectionnez l’une des options suivantes, puis soumettez le formulaire.
 
-       * **Rename run for project** : renomme le run dans l&#39;ensemble du projet. Pour générer un nouveau nom aléatoire, laissez le champ vide.
-       * **Rename run for panel grid** renomme le run uniquement dans le rapport, tout en conservant le nom existant dans les autres contextes. La génération d&#39;un nouveau nom aléatoire n&#39;est pas prise en charge.
+       * **Rename run for project** : renomme le run dans l’ensemble du projet. Pour générer un nouveau nom aléatoire, laissez le champ vide.
+       * **Rename run for panel grid** : renomme le run uniquement dans le rapport, tout en conservant le nom existant dans les autres contextes. Vous ne pouvez pas générer un nouveau nom aléatoire avec cette option.
 
     3. Cliquez sur **Publish report**.
   </Tab>
 
   <Tab title="Report and Workspace API">
-    Ajoutez des ensembles de runs depuis des projets avec les classes `wr.Runset()` et `wr.PanelGrid`. La procédure suivante décrit comment ajouter un runset :
+    Ajoutez des ensembles de runs depuis des projets avec les classes `wr.Runset()` et `wr.PanelGrid`. Pour ajouter un ensemble de runs, suivez ces étapes :
 
-    1. Créez une instance de l&#39;objet `wr.Runset()`. Indiquez le nom du projet qui contient les ensembles de runs pour le paramètre project, ainsi que l&#39;entité propriétaire du projet pour le paramètre entity.
-    2. Créez une instance de l&#39;objet `wr.PanelGrid()`. Transmettez une liste d&#39;un ou plusieurs objets runset au paramètre `run sets`.
+    1. Créez une instance de l’objet `wr.Runset()`. Indiquez le nom du projet qui contient les ensembles de runs pour le paramètre project, ainsi que l’entité propriétaire du projet pour le paramètre entity.
+    2. Créez une instance de l’objet `wr.PanelGrid()`. Transmettez une liste d’un ou plusieurs objets d’ensemble de runs au paramètre `runsets`.
     3. Stockez une ou plusieurs instances de `wr.PanelGrid()` dans une liste.
-    4. Mettez à jour l&#39;attribut blocks de l&#39;instance du rapport avec la liste des instances de grille de panneaux.
+    4. Mettez à jour l’attribut blocks de l’instance du rapport avec la liste des instances de grille de panneaux.
+
+    Remplacez `[PROJECT-NAME]` par le nom de votre projet W&amp;B et `[ENTITY-NAME]` par le nom de votre entité W&amp;B dans l’exemple suivant :
 
     ```python
     import wandb
@@ -109,12 +112,12 @@ Ajoutez des ensembles de runs depuis des projets, de manière interactive dans l
 
     report = wr.Report(
         project="report-editing",
-        title="An amazing title",
-        description="A descriptive description.",
+        title="Report title",
+        description="Report description.",
     )
 
     panel_grids = wr.PanelGrid(
-        runsets=[wr.RunSet(project="<project-name>", entity="<entity-name>")]
+        runsets=[wr.RunSet(project="[PROJECT-NAME]", entity="[ENTITY-NAME]")]
     )
 
     report.blocks = [panel_grids]
@@ -128,8 +131,8 @@ Ajoutez des ensembles de runs depuis des projets, de manière interactive dans l
 
     report = wr.Report(
         project="report-editing",
-        title="An amazing title",
-        description="A descriptive description.",
+        title="Report title",
+        description="Report description.",
     )
 
     panel_grids = wr.PanelGrid(
@@ -174,7 +177,7 @@ Ajoutez des ensembles de runs depuis des projets, de manière interactive dans l
                 regression=True,
             ),
         ],
-        runsets=[wr.RunSet(project="<project-name>", entity="<entity-name>")],
+        runsets=[wr.RunSet(project="[PROJECT-NAME]", entity="[ENTITY-NAME]")],
     )
 
 
@@ -188,7 +191,7 @@ Ajoutez des ensembles de runs depuis des projets, de manière interactive dans l
   ## Figer un ensemble de runs
 </div>
 
-Un rapport met automatiquement à jour les ensembles de runs pour afficher les données les plus récentes du projet. Vous pouvez conserver un ensemble de runs dans un rapport en *figeant* cet ensemble de runs. Lorsque vous figez un ensemble de runs, vous en conservez l’état dans un rapport à un instant donné.
+Un rapport met automatiquement à jour les ensembles de runs pour afficher les données les plus récentes du projet. Figez un ensemble de runs pour en conserver l’état dans un rapport à un moment précis, afin que les runs ultérieurs ne modifient pas ce que le rapport affiche.
 
 Pour figer un ensemble de runs lors de l’affichage d’un rapport, cliquez sur l’icône en forme de flocon dans sa grille de panneaux, près du bouton **Filtre**.
 
@@ -200,7 +203,7 @@ Pour figer un ensemble de runs lors de l’affichage d’un rapport, cliquez sur
   ## Regrouper un ensemble de runs par programmation
 </div>
 
-Regroupez les runs d&#39;un ensemble de runs par programmation avec [l&#39;API Workspace and Reports](/fr/models/ref/wandb_workspaces/reports).
+Regroupez les runs d&#39;un ensemble de runs par programmation avec [l&#39;API Workspace and Reports](/fr/models/ref/wandb_workspaces/reports). Le regroupement organise les runs associés dans des panneaux, ce qui facilite la comparaison des configurations et des résultats.
 
 Vous pouvez regrouper les runs d&#39;un ensemble de runs selon des valeurs de configuration, des métadonnées de run ou des métriques de synthèse. Le tableau suivant répertorie les méthodes de regroupement disponibles ainsi que les clés disponibles pour chacune d&#39;elles :
 
@@ -208,27 +211,27 @@ Vous pouvez regrouper les runs d&#39;un ensemble de runs selon des valeurs de co
 | ------------------------ | ----------------------------------------------------- | ---------------------------------------------------------------------- |
 | Valeurs de configuration | Regrouper les runs selon des valeurs de configuration | Valeurs spécifiées dans le paramètre `config` de `wandb.init(config=)` |
 | Métadonnées du run       | Regrouper les runs selon les métadonnées du run       | `State`, `Name`, `JobType`                                             |
-| Métriques de synthèse    | Regrouper les runs selon les métriques de synthèse    | Valeurs que vous enregistrez dans un run avec `wandb.Run.log()`        |
+| Métriques de synthèse    | Regrouper les runs selon les métriques de synthèse    | Valeurs que vous journalisez dans un run avec `wandb.Run.log()`        |
 
 {/* Principales différences entre le regroupement des runs dans un rapport et le regroupement des runs dans un Workspace :
-  1. Chemins sous forme de chaînes vs objets : Reports utilise des chemins de chaîne comme `"config.group"` plutôt que des objets typés comme `ws.Config("group")`.
-  2. Notation par points : utilisez des points pour accéder aux valeurs imbriquées : `"config.model_type"`.
-  3. Champs prédéfinis : certains champs, comme `"Name"`, `"Tags"` et `"State"`, sont des champs spéciaux de métadonnées de run. */}
+      1. Chemins sous forme de chaînes vs objets : Reports utilise des chemins de chaîne comme `"config.group"` plutôt que des objets typés comme `ws.Config("group")`.
+      2. Notation par points : utilisez des points pour accéder aux valeurs imbriquées : `"config.model_type"`.
+      3. Champs prédéfinis : certains champs, comme `"Name"`, `"Tags"` et `"State"`, sont des champs spéciaux de métadonnées de run. */}
 
 <div id="group-runs-by-config-values">
   ### Regrouper les runs par valeurs de configuration
 </div>
 
-Regroupez les runs par valeurs de configuration pour comparer des runs ayant des configurations similaires. Les valeurs de configuration sont des paramètres que vous spécifiez dans la configuration de votre run `(wandb.init(config=))`. Pour regrouper les runs par valeurs de configuration, utilisez la syntaxe `config.<key>`, où `<key>` est le nom de la valeur de configuration à utiliser pour le regroupement.
+Regroupez les runs par valeurs de configuration pour comparer des runs ayant des configurations similaires. Les valeurs de configuration sont des paramètres que vous spécifiez dans la configuration de votre run `(wandb.init(config=))`. Pour regrouper les runs par valeurs de configuration, utilisez la syntaxe `config.[KEY]`, où `[KEY]` est le nom de la valeur de configuration à utiliser pour le regroupement.
 
-Par exemple, l’extrait de code suivant initialise d’abord un run avec une valeur de configuration pour `group`, puis regroupe des runs dans les rapports en fonction de la valeur de configuration `group`. Remplacez les valeurs de `<entity>` et `<project>` par les noms de votre entité et de votre projet W&amp;B.
+Par exemple, l’extrait de code suivant initialise d’abord un run avec une valeur de configuration pour `group`, puis regroupe des runs dans un rapport en fonction de la valeur de configuration `group`. Remplacez `[ENTITY]` et `[PROJECT]` par les noms de votre entité et de votre projet W&amp;B.
 
 ```python
 import wandb
 import wandb_workspaces.reports.v2 as wr
 
-entity = "<entity>"
-project = "<project>"
+entity = "[ENTITY]"
+project = "[PROJECT]"
 
 for group in ["control", "experiment_a", "experiment_b"]:
     for i in range(3):
@@ -273,7 +276,7 @@ report.save()
   ### Regrouper les runs par métadonnées de run
 </div>
 
-Regroupez les runs par le nom d’un run (`Name`), son état (`State`) ou son type de job (`JobType`).
+Regroupez les runs par métadonnées pour les organiser selon les propriétés intrinsèques du run plutôt que selon les valeurs enregistrées. Vous pouvez regrouper par le nom d’un run (`Name`), son état (`State`) ou son type de job (`JobType`).
 
 En reprenant l’exemple précédent, vous pouvez regrouper vos runs par leur nom à l’aide de l’extrait de code suivant :
 
@@ -297,16 +300,16 @@ runset = wr.Runset(
 
 Les exemples suivants montrent comment regrouper les runs par métriques de synthèse. Les métriques de synthèse sont les valeurs que vous consignez dans un run avec `wandb.Run.log()`. Après avoir consigné un run, vous pouvez retrouver les noms de vos métriques de synthèse dans la W&amp;B App, dans la section **Summary** de la page **Aperçu** d’un run.
 
-La syntaxe pour regrouper les runs par métriques de synthèse est `summary.<key>`, où `<key>` est le nom de la métrique de synthèse selon laquelle vous souhaitez regrouper.
+La syntaxe pour regrouper les runs par métriques de synthèse est `summary.[KEY]`, où `[KEY]` est le nom de la métrique de synthèse selon laquelle vous souhaitez regrouper.
 
-Par exemple, supposons que vous consigniez une métrique de synthèse appelée `acc` :
+Par exemple, supposons que vous consigniez une métrique de synthèse appelée `acc`. Remplacez `[ENTITY]` et `[PROJECT]` par les noms de votre entité et de votre projet W&amp;B :
 
 ```python
 import wandb
 import wandb_workspaces.reports.v2 as wr
 
-entity = "<entity>"
-project = "<project>"
+entity = "[ENTITY]"
+project = "[PROJECT]"
 
 for group in ["control", "experiment_a", "experiment_b"]:
     for i in range(3):
@@ -326,34 +329,34 @@ Vous pouvez ensuite regrouper les runs en fonction de la métrique summary `summ
 runset = wr.Runset(
   project=project,
   entity=entity,
-  groupby=["summary.acc"]  # Regrouper par valeurs de synthèse 
+  groupby=["summary.acc"]  # Regrouper par valeurs de synthèse
 )
 ```
 
 <div id="filter-a-run-set-programmatically">
-  ## Filtrer un ensemble de runs de manière programmatique
+  ## Filtrer un ensemble de runs par code
 </div>
 
-Filtrez des ensembles de runs de manière programmatique et ajoutez-les à un rapport avec l’[API Workspace and Reports](/fr/models/ref/wandb_workspaces/reports).
+Filtrez des ensembles de runs par code et ajoutez-les à un rapport à l’aide de l’[API Workspace and Reports](/fr/models/ref/wandb_workspaces/reports). Le filtrage permet de restreindre un ensemble de runs aux runs spécifiques que vous souhaitez afficher, en fonction des valeurs de configuration, des métriques, des tags ou des propriétés de run.
 
 La syntaxe générale d’une expression de filtre est :
 
 ```text
-Filter('key') operation <value>
+Filter('[KEY]') operation [VALUE]
 ```
 
-Où `key` est le nom du filtre, `operation` est un opérateur de comparaison (par exemple, `>`, `<`, `==`, `in`, `not in`, `or` et `and`), et `<value>` est la valeur de comparaison. `Filter` est un espace réservé pour le type de filtre que vous souhaitez appliquer. Le tableau suivant répertorie les filtres disponibles et leur description :
+Dans cette expression, `[KEY]` est le nom du filtre, `operation` est un opérateur de comparaison (par exemple, `>`, `<`, `==`, `in`, `not in`, `or` et `and`), et `[VALUE]` est la valeur de comparaison. `Filter` est un espace réservé pour le type de filtre que vous souhaitez appliquer. Le tableau suivant répertorie les filtres disponibles et leur description :
 
-| Filtre                 | Description                          | Clés disponibles                                                                              |
-| ---------------------- | ------------------------------------ | --------------------------------------------------------------------------------------------- |
-| `Config('key')`        | Filtrer par valeurs de configuration | Valeurs spécifiées dans le paramètre `config` de `wandb.init(config=)`.                       |
-| `SummaryMetric('key')` | Filtrer par métriques de synthèse    | Valeurs que vous consignez dans un run avec `wandb.Run.log()`.                                |
-| `Tags('key')`          | Filtrer par tags                     | Valeurs de tag que vous ajoutez à votre run (par programmation ou via l’application W&amp;B). |
-| `Metric('key')`        | Filtrer par propriétés du run        | `tags`, `state`, `displayName`, `jobType`                                                     |
+| Filter                   | Description                              | Clés disponibles                                                                        |
+| ------------------------ | ---------------------------------------- | --------------------------------------------------------------------------------------- |
+| `Config('[KEY]')`        | Filtrer par les valeurs de configuration | Valeurs spécifiées dans le paramètre `config` de `wandb.init(config=)`.                 |
+| `SummaryMetric('[KEY]')` | Filtrer par les métriques de synthèse    | Valeurs que vous enregistrez dans un run avec `wandb.Run.log()`.                        |
+| `Tags('[KEY]')`          | Filtrer par les tags                     | Valeurs de tag que vous ajoutez à votre run (par programmation ou avec la W&amp;B App). |
+| `Metric('[KEY]')`        | Filtrer par les propriétés du run        | `tags`, `state`, `displayName`, `jobType`                                               |
 
-Une fois vos filtres définis, vous pouvez créer un rapport et transmettre les ensembles de runs filtrés à `wr.PanelGrid(runsets=)`. Voir les onglets **Report and Workspace API** de cette page pour en savoir plus sur la manière d’ajouter par programmation différents éléments à un rapport.
+Après avoir défini vos filtres, vous pouvez créer un rapport et passer les ensembles de runs filtrés à `wr.PanelGrid(runsets=)`. Voir les onglets **Report and Workspace API** sur cette page pour plus d’informations sur la façon d’ajouter différents éléments à un rapport par programmation.
 
-Les exemples suivants montrent comment filtrer des ensembles de runs dans un rapport. Remplacez les valeurs entre `<>` par vos propres valeurs.
+Les exemples suivants montrent comment filtrer des ensembles de runs dans un rapport. Remplacez les valeurs entre crochets (par exemple, `[ENTITY]` et `[PROJECT]`) par vos propres valeurs.
 
 <div id="config-filters">
   ### Filtres de configuration
@@ -371,7 +374,7 @@ config = {
     "batch_size": 32,
 }
 
-with wandb.init(project="<project>", entity="<entity>", config=config) as run:
+with wandb.init(project="[PROJECT]", entity="[ENTITY]", config=config) as run:
     # Votre code d'entraînement ici
     pass
 ```
@@ -382,8 +385,8 @@ Dans votre script ou notebook Python, vous pouvez ensuite filtrer de manière pr
 import wandb_workspaces.reports.v2 as wr
 
 runset = wr.Runset(
-  entity="<entity>",
-  project="<project>",
+  entity="[ENTITY]",
+  project="[PROJECT]",
   filters="Config('learning_rate') > 0.01"
 )
 ```
@@ -392,18 +395,18 @@ Vous pouvez également filtrer sur plusieurs valeurs de configuration avec l’o
 
 ```python
 runset = wr.Runset(
-  entity="<entity>",
-  project="<project>",
+  entity="[ENTITY]",
+  project="[PROJECT]",
   filters="Config('learning_rate') > 0.01 and Config('batch_size') == 32"
 )
 ```
 
-En reprenant l’exemple précédent, vous pouvez créer un rapport à partir du runset filtré comme suit :
+En reprenant l’exemple précédent, vous pouvez créer un rapport à partir de l’ensemble de runs filtré comme suit :
 
 ```python
 report = wr.Report(
-  entity="<entity>",
-  project="<project>",
+  entity="[ENTITY]",
+  project="[PROJECT]",
   title="My Report"
 )
 
@@ -426,13 +429,13 @@ report.save()
   ### Filtres de métriques
 </div>
 
-Filtrez les ensembles de runs selon le tag (`tags`), l&#39;état (`state`), le nom de l&#39;exécution (`displayName`) ou le type de job (`jobType`) d&#39;un run.
+Filtrez les ensembles de runs selon le tag (`tags`), l&#39;état (`state`), le nom du run (`displayName`) ou le type de job (`jobType`) d&#39;un run.
 
 <Note>
-  Les filtres `Metric` utilisent une syntaxe différente. Passez une liste de valeurs sous forme de liste.
+  Les filtres `Metric` utilisent une syntaxe différente de celle des autres filtres. Vous devez passer les valeurs sous forme de liste.
 
   ```text
-  Metric('key') operation [<value>]
+  Metric('[KEY]') operation [VALUE]
   ```
 </Note>
 
@@ -441,7 +444,7 @@ Par exemple, prenons l&#39;extrait Python suivant, qui crée trois runs et attri
 ```python
 import wandb
 
-with wandb.init(project="<project>", entity="<entity>") as run:
+with wandb.init(project="[PROJECT]", entity="[ENTITY]") as run:
     for i in range(3):
         run.name = f"run{i+1}"
         # Votre code d'entraînement ici
@@ -452,8 +455,8 @@ Lorsque vous créez votre rapport, vous pouvez filtrer les runs en fonction de l
 
 ```python
 runset = wr.Runset(
-  entity="<entity>",
-  project="<project>",
+  entity="[ENTITY]",
+  project="[PROJECT]",
   filters="Metric('displayName') in ['run1', 'run2', 'run3']"
 )
 ```
@@ -462,20 +465,20 @@ runset = wr.Runset(
   Vous pouvez trouver le nom du run sur la page **Aperçu** d’un run dans la W&amp;B App, ou par code avec `Api.runs().run.name`.
 </Note>
 
-Les exemples suivants montrent comment filtrer un runset en fonction de l’état du run (`finished`, `crashed` ou `running`) :
+Les exemples suivants montrent comment filtrer un ensemble de runs en fonction de l’état du run (`finished`, `crashed` ou `running`) :
 
 ```python
 runset = wr.Runset(
-  entity="<entity>",
-  project="<project>",
+  entity="[ENTITY]",
+  project="[PROJECT]",
   filters="Metric('state') in ['finished']"
 )
 ```
 
 ```python
 runset = wr.Runset(
-  entity="<entity>",
-  project="<project>",
+  entity="[ENTITY]",
+  project="[PROJECT]",
   filters="Metric('state') not in ['crashed']"
 )
 ```
@@ -484,20 +487,20 @@ runset = wr.Runset(
   ### Filtres de SummaryMetric
 </div>
 
-Les exemples suivants montrent comment filtrer un ensemble de runs selon les métriques de synthèse. Les métriques de synthèse sont les valeurs que vous ajoutez au journal d’un run avec `wandb.Run.log()`. Après avoir alimenté le journal d’un run, vous pouvez trouver les noms de vos métriques de synthèse dans l’application W&amp;B, dans la section **Summary** de la page **Aperçu** d’un run.
+Filtrez un ensemble de runs selon les métriques de synthèse afin de vous concentrer sur les runs qui atteignent des seuils de résultat spécifiques, tels que des valeurs de précision ou de perte. Les métriques de synthèse sont les valeurs que vous ajoutez au journal d’un run avec `wandb.Run.log()`. Après avoir alimenté le journal d’un run, vous pouvez trouver les noms de vos métriques de synthèse dans la W&amp;B App, dans la section **Summary** de la page **Aperçu** d’un run.
 
 ```python
 runset = wr.Runset(
-  entity="<entity>",
-  project="<project>",
+  entity="[ENTITY]",
+  project="[PROJECT]",
   filters="SummaryMetric('accuracy') > 0.9"
 )
 ```
 
 ```python
 runset = wr.Runset(
-  entity="<entity>",
-  project="<project>",
+  entity="[ENTITY]",
+  project="[PROJECT]",
   filters="Metric('state') in ['finished'] and SummaryMetric('train/train_loss') < 0.5"
 )
 ```
@@ -506,12 +509,12 @@ runset = wr.Runset(
   ### Filtres de tags
 </div>
 
-L’extrait de code suivant montre comment filtrer un ensemble de runs en fonction de ses tags. Les tags sont des valeurs que vous ajoutez à un run (par programmation ou avec l’application W&amp;B).
+Filtrez un ensemble de runs par tag pour n’afficher que les runs auxquels vous avez attribué un tag particulier. Les tags sont des valeurs que vous ajoutez à un run (par programmation ou avec la W&amp;B App).
 
 ```python
 runset = wr.Runset(
-  entity="<entity>",
-  project="<project>",
+  entity="[ENTITY]",
+  project="[PROJECT]",
   filters="Tags('training') == 'training'"
 )
 ```
@@ -520,19 +523,19 @@ runset = wr.Runset(
   ## Ajouter des blocs de code
 </div>
 
-Ajoutez des blocs de code à votre rapport de manière interactive depuis l’interface de l’application ou avec le SDK W&amp;B.
+Ajoutez des blocs de code pour partager la configuration, des exemples ou des extraits avec vos résultats. Vous pouvez les ajouter de manière interactive depuis l’interface de l’application ou de manière programmatique avec le SDK W&amp;B.
 
 <Tabs>
   <Tab title="Interface de l’application">
     Tapez une barre oblique (`/`) dans le rapport pour afficher un menu déroulant. Dans ce menu, choisissez **Code**.
 
-    Sélectionnez le nom du langage de programmation à droite du bloc de code. Cela ouvre un menu déroulant. Dans ce menu, sélectionnez la syntaxe de votre langage de programmation. Vous pouvez choisir parmi JavaScript, Python, CSS, JSON, HTML, Markdown et YAML.
+    Sélectionnez le nom du langage de programmation dans le bloc de code pour ouvrir un menu déroulant. Dans ce menu, sélectionnez la syntaxe de votre langage de programmation. Vous pouvez choisir parmi JavaScript, Python, CSS, JSON, HTML, Markdown et YAML.
   </Tab>
 
   <Tab title="Report and Workspace API">
     Utilisez la classe `wr.CodeBlock` pour créer un bloc de code de manière programmatique. Indiquez le nom du langage et le code que vous souhaitez afficher dans les paramètres `language` et `code`, respectivement.
 
-    Par exemple, le code suivant montre une liste dans un fichier YAML :
+    L’exemple suivant montre une liste dans un fichier YAML :
 
     ```python
     import wandb
@@ -583,15 +586,15 @@ Ajoutez des blocs de code à votre rapport de manière interactive depuis l’in
   ## Ajouter du Markdown
 </div>
 
-Ajoutez du Markdown à votre rapport de manière interactive avec l’UI de l’application ou avec le SDK W&amp;B.
+Ajoutez du Markdown pour mettre en forme le texte narratif, les titres et l’emphase en ligne dans votre rapport. Vous pouvez ajouter du Markdown de manière interactive avec l’interface de l’application ou avec le SDK W&amp;B.
 
 <Tabs>
-  <Tab title="UI de l’application">
+  <Tab title="interface de l’application">
     Saisissez une barre oblique (`/`) dans le rapport pour afficher un menu déroulant. Dans ce menu, choisissez **Markdown**.
   </Tab>
 
   <Tab title="Report and Workspace API">
-    Utilisez la classe `wandb.apis.reports.MarkdownBlock` pour créer un bloc Markdown par code. Fournissez une chaîne au paramètre `text` :
+    Utilisez la classe `wr.MarkdownBlock` pour créer un bloc Markdown par code. Fournissez une chaîne au paramètre `text` :
 
     ```python
     import wandb
@@ -616,7 +619,7 @@ Ajoutez du Markdown à votre rapport de manière interactive avec l’UI de l’
   ## Ajouter des éléments HTML
 </div>
 
-Ajoutez des éléments HTML à votre rapport de manière interactive avec l’interface de l’application ou le SDK W&amp;B.
+Ajoutez à votre rapport des éléments HTML tels que des titres et des listes pour le structurer, de manière interactive avec l’interface de l’application ou le SDK W&amp;B.
 
 <Tabs>
   <Tab title="interface de l’application">
@@ -624,7 +627,7 @@ Ajoutez des éléments HTML à votre rapport de manière interactive avec l’in
   </Tab>
 
   <Tab title="Report and Workspace API">
-    Attribuez une liste d’un ou plusieurs éléments HTML à l’attribut `wandb.apis.reports.blocks`. L’exemple suivant montre comment créer un H1, un H2 et une liste non ordonnée :
+    Attribuez une liste d’un ou plusieurs éléments HTML à l’attribut `blocks` du rapport. L’exemple suivant montre comment créer un H1, un H2 et une liste non ordonnée :
 
     ```python
     import wandb
@@ -641,7 +644,7 @@ Ajoutez des éléments HTML à votre rapport de manière interactive avec l’in
     report.save()
     ```
 
-    Le rendu des éléments HTML sera le suivant :
+    Le rendu des éléments HTML est le suivant :
 
     <Frame>
       <img src="/images/reports/render_html.png" alt="Éléments HTML affichés" />
@@ -653,7 +656,7 @@ Ajoutez des éléments HTML à votre rapport de manière interactive avec l’in
   ## Intégrer des liens de médias enrichis
 </div>
 
-Intégrez des médias enrichis dans le rapport à l’aide de l’interface de l’application ou du SDK W&amp;B.
+Intégrez des médias enrichis tels que des tweets, des vidéos et de l’audio pour enrichir votre rapport avec un contexte externe. Vous pouvez intégrer des médias enrichis dans le rapport à l’aide de l’interface de l’application ou du SDK W&amp;B.
 
 <Tabs>
   <Tab title="interface de l’application">
@@ -667,7 +670,7 @@ Intégrez des médias enrichis dans le rapport à l’aide de l’interface de l
       <img src="/images/reports/twitter.gif" alt="Intégration de contenu Twitter" />
     </Frame>
 
-    ### Youtube
+    ### YouTube
 
     Copiez-collez l’URL d’une vidéo YouTube pour intégrer une vidéo dans le rapport.
 
@@ -685,7 +688,7 @@ Intégrez des médias enrichis dans le rapport à l’aide de l’interface de l
   </Tab>
 
   <Tab title="Report and Workspace API">
-    Passez une liste d’un ou plusieurs objets médias intégrés à l’attribut `wandb.apis.reports.blocks`. L’exemple suivant montre comment intégrer des médias vidéo et Twitter dans un rapport :
+    Passez une liste d’un ou plusieurs objets médias intégrés à l’attribut `blocks` du rapport. L’exemple suivant montre comment intégrer des médias vidéo et Twitter dans un rapport :
 
     ```python
     import wandb
@@ -704,11 +707,11 @@ Intégrez des médias enrichis dans le rapport à l’aide de l’interface de l
   </Tab>
 </Tabs>
 
-<div id="duplicate-and-delete-panel-grids">
-  ## Dupliquer et supprimer des grilles de panneaux
+<div id="duplicate-panel-grids">
+  ## Dupliquer des grilles de panneaux
 </div>
 
-Si vous avez une mise en page que vous souhaitez réutiliser, vous pouvez sélectionner une grille de panneaux et la copier-coller pour la dupliquer dans le même rapport, ou même la coller dans un autre rapport.
+Dupliquez une grille de panneaux pour réutiliser sa mise en page dans le même rapport ou dans un autre rapport. Sélectionnez une grille de panneaux et la copier-coller pour la dupliquer dans le même rapport, ou la coller dans un autre rapport.
 
 Sélectionnez toute une section de grille de panneaux à l’aide de la poignée de déplacement située dans le coin supérieur droit. Cliquez et faites glisser pour sélectionner une zone dans un rapport, comme des grilles de panneaux, du texte ou des titres.
 
@@ -716,27 +719,31 @@ Sélectionnez toute une section de grille de panneaux à l’aide de la poignée
   <img src="/images/reports/demo_copy_and_paste_a_panel_grid_section.gif" alt="Copie de grilles de panneaux" />
 </Frame>
 
-Sélectionnez une grille de panneaux, puis appuyez sur `delete` sur votre clavier pour la supprimer.
+<div id="delete-panel-grids">
+  ## Supprimer des grilles de panneaux
+</div>
+
+Supprimez une grille de panneaux lorsque vous n’avez plus besoin de sa mise en page ou de son contenu dans le rapport. Sélectionnez une grille de panneaux, puis appuyez sur `delete` sur votre clavier pour la supprimer.
 
 <Frame>
   <img src="/images/reports/delete_panel_grid.gif" alt="Suppression de grilles de panneaux" />
 </Frame>
 
 <div id="collapse-headers-to-organize-reports">
-  ## Replier les en-têtes pour organiser Reports
+  ## Replier les en-têtes pour organiser les rapports
 </div>
 
-Repliez les en-têtes dans un rapport pour masquer le contenu d’un bloc de texte. Lorsque le rapport se charge, seul le contenu des en-têtes dépliés s’affiche. Replier les en-têtes dans les rapports peut vous aider à organiser votre contenu et à éviter de charger trop de données. Le GIF suivant illustre la procédure.
+Repliez les en-têtes dans un rapport pour masquer le contenu d’un bloc de texte. Lorsque le rapport se charge, seul le contenu des en-têtes dépliés s’affiche. Replier les en-têtes dans les rapports aide à organiser votre contenu et évite de charger plus de données que nécessaire. L’animation suivante illustre la procédure.
 
 <Frame>
-  <img src="/images/reports/collapse_headers.gif" alt="Replier les en-têtes dans un rapport." />
+  <img src="/images/reports/collapse_headers.gif" alt="Replier les en-têtes dans un rapport" />
 </Frame>
 
 <div id="visualize-relationships-across-multiple-dimensions">
   ## Visualiser les relations sur plusieurs dimensions
 </div>
 
-Pour visualiser efficacement les relations entre plusieurs dimensions, utilisez un dégradé de couleurs pour représenter l’une des variables. Cela améliore la lisibilité et facilite l’interprétation des tendances.
+Lorsque vous souhaitez faire ressortir les relations entre trois variables ou plus dans un même graphique, un graphique 2D standard peut être limitant. Pour comparer plus de variables qu’un graphique 2D ne peut en afficher, vous pouvez utiliser un dégradé de couleurs comme dimension supplémentaire. Utiliser un dégradé de couleurs pour représenter l’une des variables peut faciliter l’interprétation des tendances.
 
-1. Choisissez une variable à représenter à l’aide d’un dégradé de couleurs (par exemple, les scores de pénalité, les taux d’apprentissage, etc.). Cela permet de mieux comprendre comment la pénalité (couleur) interagit avec la récompense/les effets secondaires (axe des y) au fil de l’entraînement (axe des x).
-2. Mettez en évidence les principales tendances. Lorsque vous survolez un groupe spécifique de runs, ceux-ci sont mis en évidence dans la visualisation.
+1. Choisissez une variable à représenter à l’aide d’un dégradé de couleurs, comme les scores de pénalité ou les taux d’apprentissage. Cela permet de mieux comprendre comment la pénalité (couleur) interagit avec la récompense ou les effets secondaires (axe des y) au fil de l’entraînement (axe des x).
+2. Mettez en évidence les principales tendances. Survolez un groupe spécifique de runs pour les mettre en évidence dans la visualisation.

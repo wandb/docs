@@ -1,0 +1,35 @@
+---
+title: "startTurn"
+description: "TypeScript SDK リファレンス"
+---
+
+<div id="startturn">
+  # startTurn
+</div>
+
+▸ **startTurn**(`opts?`): [`Turn`](../classes/turn)
+
+新しいターンを開始します。Session がアクティブな場合、ターンはその
+`conversationId` を引き継ぎます。アクティブでない場合、ターンには conversation ID がありません。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名      | タイプ                                  |
+| :----- | :----------------------------------- |
+| `opts` | [`TurnInit`](../interfaces/turninit) |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+[`Turn`](../classes/turn)
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[genai/api.ts:20](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/api.ts#L20)
+
+***

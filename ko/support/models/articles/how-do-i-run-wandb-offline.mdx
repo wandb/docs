@@ -1,0 +1,20 @@
+---
+title: "W&B를 오프라인으로 실행하려면 어떻게 해야 하나요?"
+keywords: ["Experiments", "환경 변수"]
+---
+
+인터넷에 액세스할 수 없는 머신에서 학습하고 나중에 결과를 W&amp;B에 업로드하려면 다음 단계를 따르세요:
+
+1. 인터넷 연결 없이 메트릭을 로컬에 저장하려면 환경 변수 `WANDB_MODE=offline`를 설정하세요.
+2. 업로드할 준비가 되면 디렉터리에서 `wandb init`를 실행해 프로젝트 이름을 설정하세요.
+3. `wandb sync [RUN-DIRECTORY]`를 실행해 메트릭을 W&amp;B로 전송하고 웹 앱에서 결과를 확인하세요. `[RUN-DIRECTORY]`를 로컬 run 디렉터리의 경로로 바꾸세요.
+
+run이 오프라인인지 확인하려면 `wandb.init()`를 호출한 후 `run.settings._offline` 또는 `run.settings.mode`를 확인하세요.
+
+***
+
+{/* 자동 생성: 탭 배지 */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[환경 변수](/ko/support/models/tags/environment-variables)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

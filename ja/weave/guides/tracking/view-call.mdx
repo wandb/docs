@@ -1,32 +1,33 @@
 ---
-title: "トレース表示を確認してカスタマイズする"
-description: "UIで call を表示し、トレースデータの表示方法をカスタマイズする"
+title: "トレース表示の確認とカスタマイズ"
+description: "UI で Call を表示し、トレースデータの表示方法をカスタマイズします"
+keywords: ["get_call", "postprocess_inputs", "postprocess_output", "weave.Markdown", "trace rendering"]
 ---
 
-W&amp;B Weave で Calls を作成したら、1 つの call を開いて、その入力、出力、メタデータを確認したいことがよくあります。このページでは、UI または SDK で call を表示する方法と、`weave.Markdown` を使用して UI でのトレースデータの表示方法をカスタマイズする方法を説明します。
+W&amp;B Weave で Call を作成した後は、入力、出力、メタデータを確認するために、個々の Call を開きたくなることがよくあります。このページでは、UI または SDK で Call を表示する方法と、`weave.Markdown` を使用して UI でのトレースデータのレンダリング方法を Weave でカスタマイズする方法を説明します。次のタブから、ワークフローに合ったインターフェースを選択してください。
 
 <Tabs>
   <Tab title="Web App">
-    UIで Call を表示するには:
+    UI で Call を表示するには、次の手順を実行します。
 
-    1. [wandb.ai](https://wandb.ai/) にアクセスし、プロジェクトを選択します。
-    2. Weave プロジェクトのサイドバーで、**Traces** をクリックします。
+    1. [wandb.ai](https://wandb.ai/) にアクセスし、project を選択します。
+    2. Weave のプロジェクトのサイドバーで **Traces** をクリックします。
     3. 表で表示したい Call を検索します。
     4. Call をクリックして詳細ページを開きます。
 
-    Trace view の詳細については、[Weave Trace view を操作する](/ja/weave/guides/tracking/trace-tree) を参照してください。
+    Trace view の詳細については、[Weave Trace view を操作する](/ja/weave/guides/tracking/trace-tree)を参照してください。
   </Tab>
 
   <Tab title="Python">
-    W&amp;B Weave Python SDK を使用して call を表示するには、[`get_call`](/ja/weave/reference/python-sdk/trace/weave_client#method-get_call) method を使用します。
+    W&amp;B Weave Python SDK を使用して Call を表示するには、[`get_call`](/ja/weave/reference/python-sdk/trace/weave_client#method-get_call) メソッドを使用します。
 
     ```python lines
     import weave
 
-    # クライアントを初期化する
+    # クライアントを初期化します
     client = weave.init("your-project-name")
 
-    # ID で特定の call を取得する
+    # ID で特定の Call を取得します
     call = client.get_call("call-uuid-here")
 
     print(call)
@@ -34,13 +35,14 @@ W&amp;B Weave で Calls を作成したら、1 つの call を開いて、その
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     import * as weave from 'weave'
 
-    // クライアントを初期化する
+    // クライアントを初期化します
     const client = await weave.init('intro-example')
 
-    // ID で特定の call を取得する
+    // ID で特定の Call を取得します
     const call = await client.getCall('call-uuid-here')
 
     console.log(call)
@@ -48,7 +50,7 @@ W&amp;B Weave で Calls を作成したら、1 つの call を開いて、その
   </Tab>
 
   <Tab title="HTTP API">
-    Service API を使用して call を表示するには、[`/call/read`](https://docs.wandb.ai/weave/reference/service-api/calls/call-read) エンドポイントにリクエストを送信します。
+    Service API を使用して Call を表示するには、[`/call/read`](https://docs.wandb.ai/weave/reference/service-api/calls/call-read) エンドポイントにリクエストを送信します。
 
     ```bash
     curl -L 'https://trace.wandb.ai/call/read' \
@@ -63,14 +65,14 @@ W&amp;B Weave で Calls を作成したら、1 つの call を開いて、その
 </Tabs>
 
 <div id="customize-rendered-traces-with-weavemarkdown">
-  ## `weave.Markdown` でレンダリングされるトレースをカスタマイズする
+  ## `weave.Markdown` を使ってレンダリングされたトレースをカスタマイズする
 </div>
 
-`weave.Markdown` を使用すると、元のデータを失うことなく、トレース情報の表示方法をカスタマイズできます。これにより、基になるデータ構造を保持したまま、入力と出力を読みやすく整形されたコンテンツブロックとして表示できます。
+Call を表示できるようになったら、次はその入力と出力を UI でどのように表示するかを調整したくなる場合があります。`weave.Markdown` を使用すると、元のデータを失うことなく、Weave でのトレース情報の表示方法をカスタマイズできます。これにより、基になるデータ構造を保持したまま、入力と出力を整形された読みやすいコンテンツブロックとして表示できます。
 
 <Tabs>
   <Tab title="Python">
-    `@weave.op` デコレータの `postprocess_inputs` 関数と `postprocess_output` 関数を使用して、トレースデータを整形します。次のコード例では、ポストプロセッサを使用して、Weave 上の call を絵文字付きのより読みやすい形式で表示します。
+    トレースデータを整形するには、`@weave.op` デコレータで `postprocess_inputs` 関数と `postprocess_output` 関数を使用します。次のコードサンプルでは、postprocessor を使って、より読みやすい形式で Weave に Call を表示します。
 
     ```python lines
     import weave
@@ -136,6 +138,6 @@ W&amp;B Weave で Calls を作成したら、1 つの call を開いて、その
   </Tab>
 </Tabs>
 
-次のスクリーンショットでは、未整形の出力と整形後の出力を並べて確認できます。
+op を実行すると、Weave は整形された Markdown を Call の詳細ページで元のデータと並べて表示します。次のスクリーンショットは、未整形の出力と整形済みの出力が横に並んで表示されている様子を示しています。
 
-![コード例を使用して Weave UI でレンダリングされた call。](/weave/guides/tracking/imgs/md-call-render.png)
+![コードサンプルを使用して Weave UI でレンダリングされた Call。](/weave/guides/tracking/imgs/md-call-render.png)
