@@ -7040,7 +7040,6 @@
       "canonical": "https://docs.wandb.ai"
     }
   },
-  "baseUrl": "https://docs.wandb.ai",
   "styling": {
     "eyebrows": "breadcrumbs",
     "stylesheet": "/css/styles.css"
