@@ -14,7 +14,7 @@ scorer 집합과 데이터셋을 포함하는 Evaluation을 설정합니다.
 `예시`
 
 ```ts
-// 예시를 데이터셋에 수집합니다
+// 예시를 데이터셋으로 수집합니다
 const dataset = new weave.Dataset({
   id: 'my-dataset',
   rows: [
@@ -24,7 +24,7 @@ const dataset = new weave.Dataset({
   ],
 });
 
-// 맞춤형 채점 함수를 정의합니다
+// 맞춤형 점수화 함수를 정의합니다
 const scoringFunction = weave.op(function isEqual({ modelOutput, datasetRow }) {
   return modelOutput == datasetRow.expected;
 });
@@ -43,7 +43,6 @@ const evaluation = new weave.Evaluation({
 
 const results = await evaluation.evaluate({ model });
 ```
-
 
 ## 타입 매개변수
 
@@ -134,7 +133,7 @@ const results = await evaluation.evaluate({ model });
   #### 정의 위치
 </div>
 
-[evaluation.ts:148](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/evaluation.ts#L148)
+[evaluation.ts:148](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/evaluation.ts#L148)
 
 ## 속성
 
@@ -154,7 +153,7 @@ const results = await evaluation.evaluate({ model });
   #### 정의 위치
 </div>
 
-[weaveObject.ts:73](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L73)
+[weaveObject.ts:73](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveObject.ts#L73)
 
 ## 접근자
 
@@ -180,7 +179,7 @@ WeaveObject.description
   #### 정의 위치
 </div>
 
-[weaveObject.ts:100](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L100)
+[weaveObject.ts:100](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveObject.ts#L100)
 
 ***
 
@@ -206,7 +205,7 @@ WeaveObject.name
   #### 정의 위치
 </div>
 
-[weaveObject.ts:96](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L96)
+[weaveObject.ts:96](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveObject.ts#L96)
 
 ## 메서드
 
@@ -237,7 +236,7 @@ WeaveObject.name
   #### 정의 위치
 </div>
 
-[evaluation.ts:163](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/evaluation.ts#L163)
+[evaluation.ts:163](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/evaluation.ts#L163)
 
 ***
 
@@ -268,7 +267,7 @@ WeaveObject.name
   #### 정의 위치
 </div>
 
-[evaluation.ts:231](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/evaluation.ts#L231)
+[evaluation.ts:231](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/evaluation.ts#L231)
 
 ***
 
@@ -294,4 +293,4 @@ WeaveObject.name
   #### 정의 위치
 </div>
 
-[weaveObject.ts:77](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L77)
+[weaveObject.ts:77](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveObject.ts#L77)

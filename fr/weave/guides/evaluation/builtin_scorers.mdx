@@ -1,9 +1,10 @@
 ---
 title: "Utiliser les évaluateurs intégrés"
 description: "Utilisez les évaluateurs prédéfinis de Weave pour évaluer vos applications d'IA"
+keywords: [évaluateurs, évaluation, hallucination, synthèse, RAGAS]
 ---
 
-Weave propose plusieurs évaluateurs prédéfinis pour évaluer vos applications d&#39;IA, comme la [détection des hallucinations](#hallucinationfreescorer) et la [qualité des résumés](#summarizationscorer). Ils peuvent être utiles pour définir rapidement une évaluation et attribuer un score aux résultats de votre application.
+W&amp;B Weave propose plusieurs évaluateurs prédéfinis pour évaluer vos applications d&#39;IA, comme la [détection des hallucinations](#hallucinationfreescorer) et la [qualité des résumés](#summarizationscorer). Ils peuvent être utiles pour définir rapidement une évaluation et attribuer un score aux sorties de votre application. Cette page décrit chaque évaluateur intégré, ce qu&#39;il mesure et comment l&#39;utiliser dans une évaluation.
 
 <Note>
   Les évaluateurs locaux sont disponibles uniquement pour le SDK Python de Weave. Ils ne sont pas encore disponibles pour le SDK TypeScript de Weave.
@@ -15,22 +16,21 @@ Weave propose plusieurs évaluateurs prédéfinis pour évaluer vos applications
   ## Installation
 </div>
 
-Pour utiliser les évaluateurs prédéfinis de Weave, vous devez installer certaines dépendances supplémentaires :
+Pour utiliser les évaluateurs prédéfinis de Weave, installez certaines dépendances supplémentaires :
 
 ```bash
 pip install weave[scorers]
 ```
 
 **Évaluateurs LLM**
-Mise à jour fév. 2025 : les évaluateurs prédéfinis qui exploitent des LLM s’intègrent désormais automatiquement à litellm.
-Vous n’avez plus besoin de passer un client LLM ; définissez simplement `model_id`.
-Voir les modèles pris en charge [ici](https://docs.litellm.ai/docs/providers).
+
+Les évaluateurs prédéfinis qui utilisent des LLM s’intègrent automatiquement à litellm. Vous n’avez pas besoin de passer un client LLM. Définissez plutôt `model_id`. Voir les [modèles pris en charge](https://docs.litellm.ai/docs/providers).
 
 <div id="hallucinationfreescorer">
   ## `HallucinationFreeScorer`
 </div>
 
-Ce scorer vérifie si la sortie de votre système d’IA contient des hallucinations au regard des données d’entrée.
+Ce scorer vérifie si la sortie de votre système d&#39;IA contient des hallucinations, sur la base des données d&#39;entrée.
 
 ```python lines
 from weave.scorers import HallucinationFreeScorer
@@ -38,28 +38,28 @@ from weave.scorers import HallucinationFreeScorer
 scorer = HallucinationFreeScorer()
 ```
 
-**Personnalisation :**
+**Personnalisation**
 
-* Personnalisez les champs `system_prompt` et `user_prompt` du scorer pour définir ce que signifie pour vous une « hallucination ».
+* Personnalisez les champs `system_prompt` et `user_prompt` du scorer pour définir ce que signifie « hallucination » dans votre cas.
 
-**Notes :**
+**Remarques**
 
-* La méthode `score` attend une colonne d’entrée nommée `context`. Si votre jeu de données utilise un autre nom, [utilisez l’attribut `column_map`](#use-column-mapping) pour associer `context` à la colonne du jeu de données.
+* La méthode `score` attend une colonne d&#39;entrée nommée `context`. Si votre dataset utilise un autre nom, [utilisez l&#39;attribut `column_map`](#use-column-mapping) pour associer `context` à la colonne du dataset.
 
-Voici un exemple dans le cadre d’une évaluation :
+L&#39;exemple suivant utilise `HallucinationFreeScorer` dans le cadre d&#39;une évaluation :
 
 ```python lines
 import asyncio
 import weave
 from weave.scorers import HallucinationFreeScorer
 
-# Initialiser le scorer avec un mappage de colonnes si nécessaire.
+# Initialisez le scorer avec un mappage de colonnes si nécessaire.
 hallucination_scorer = HallucinationFreeScorer(
     model_id="openai/gpt-4o", # ou tout autre modèle pris en charge par litellm
     column_map={"context": "input", "output": "other_col"}
 )
 
-# Créer le jeu de données
+# Créez le dataset
 dataset = [
     {"input": "John likes various types of cheese."},
     {"input": "Pepe likes various types of cheese."},
@@ -69,7 +69,7 @@ dataset = [
 def model(input: str) -> str:
     return "The person's favorite cheese is cheddar."
 
-# Lancer l'évaluation
+# Lancez l'évaluation
 evaluation = weave.Evaluation(
     dataset=dataset,
     scorers=[hallucination_scorer],
@@ -86,7 +86,7 @@ print(result)
   ## `SummarizationScorer`
 </div>
 
-Utilisez un LLM pour comparer un résumé au texte original et en évaluer la qualité.
+Utilisez un LLM pour comparer une synthèse au texte d’origine et en évaluer la qualité.
 
 ```python lines
 from weave.scorers import SummarizationScorer
@@ -96,23 +96,23 @@ scorer = SummarizationScorer(
 )
 ```
 
-**Fonctionnement :**
+**Fonctionnement**
 
-Ce scorer évalue les résumés de deux manières :
+Ce scorer évalue les synthèses de deux manières :
 
-1. **Densité d&#39;entités :** vérifie le ratio entre les entités uniques (comme des noms, des lieux ou des objets) mentionnées dans le résumé et le nombre total de mots qu&#39;il contient, afin d&#39;estimer sa « densité d&#39;information ». Il utilise un LLM pour extraire les entités. Cette approche est similaire à l&#39;utilisation de la densité d&#39;entités dans le [Chain of Density paper](https://arxiv.org/abs/2309.04269).
-2. **Évaluation de la qualité :** un évaluateur LLM classe le résumé comme `poor`, `ok` ou `excellent`. Ces appréciations sont ensuite converties en scores (0.0 pour poor, 0.5 pour ok et 1.0 pour excellent) pour l&#39;évaluation agrégée des performances.
+1. **Densité d&#39;entités :** vérifie le ratio entre les entités uniques (telles que des noms, des lieux ou des objets) mentionnées dans la synthèse et le nombre total de mots qu&#39;elle contient afin d&#39;estimer sa &quot;densité d&#39;information&quot;. Il utilise un LLM pour extraire les entités. Cette approche est similaire à la manière dont la densité d&#39;entités est utilisée dans l&#39;[article Chain of Density](https://arxiv.org/abs/2309.04269).
+2. **Évaluation de la qualité :** un évaluateur LLM classe la synthèse comme `poor`, `ok` ou `excellent`. Ces évaluations sont ensuite converties en scores (0.0 pour poor, 0.5 pour ok et 1.0 pour excellent) pour l&#39;évaluation agrégée des performances.
 
-**Personnalisation :**
+**Personnalisation**
 
-* Ajustez `summarization_evaluation_system_prompt` et `summarization_evaluation_prompt` pour adapter le processus d&#39;évaluation.
+* Ajustez `summarization_evaluation_system_prompt` et `summarization_evaluation_prompt` pour personnaliser le processus d&#39;évaluation.
 
-**Notes :**
+**Notes**
 
 * Le scorer utilise litellm en interne.
-* La méthode `score` attend que le texte original (celui qui est résumé) soit présent dans la colonne `input`. [Utilisez `column_map`](#use-column-mapping) si votre jeu de données utilise un autre nom.
+* La méthode `score` suppose que le texte original (le texte à synthétiser) est présent dans la colonne `input`. [Utilisez l&#39;attribut `column_map`](#use-column-mapping) si votre dataset utilise un autre nom.
 
-Voici un exemple d&#39;utilisation dans le cadre d&#39;une évaluation :
+L&#39;exemple suivant utilise `SummarizationScorer` dans le cadre d&#39;une évaluation :
 
 ```python lines
 import asyncio
@@ -126,9 +126,9 @@ class SummarizationModel(weave.Model):
 
 # Initialiser le scorer
 summarization_scorer = SummarizationScorer(
-    model_id="openai/gpt-4o"  # ou tout autre modèle pris en charge par litellm
+    model_id="openai/gpt-4o"  # or any other model supported by litellm
 )
-# Créer le jeu de données
+# Créer le dataset
 dataset = [
     {"input": "The quick brown fox jumps over the lazy dog."},
     {"input": "Artificial Intelligence is revolutionizing various industries."}
@@ -147,7 +147,7 @@ print(results)
   ## `OpenAIModerationScorer`
 </div>
 
-Le `OpenAIModerationScorer` utilise l’API de modération d’OpenAI pour vérifier si la sortie générée par le système d’IA contient du contenu interdit, comme des discours haineux ou du contenu explicite.
+Le `OpenAIModerationScorer` utilise l’API Moderation d’OpenAI pour vérifier si la sortie du système d’IA contient du contenu non autorisé, comme des discours haineux ou du contenu explicite.
 
 ```python lines
 from weave.scorers import OpenAIModerationScorer
@@ -155,12 +155,11 @@ from weave.scorers import OpenAIModerationScorer
 scorer = OpenAIModerationScorer()
 ```
 
-**Fonctionnement :**
+**Fonctionnement**
 
-* Envoie la sortie de l’IA à l’endpoint OpenAI Moderation et renvoie une réponse structurée indiquant si le contenu a été signalé.
+* Envoie la sortie de l’IA au point de terminaison OpenAI Moderation et renvoie une réponse structurée indiquant si le contenu a été signalé.
 
-**Notes :**
-Voici un exemple dans le contexte d’une évaluation :
+L’exemple suivant utilise `OpenAIModerationScorer` dans le cadre d’une évaluation :
 
 ```python lines
 import asyncio
@@ -175,7 +174,7 @@ class MyModel(weave.Model):
 # Initialiser le scorer
 moderation_scorer = OpenAIModerationScorer()
 
-# Créer le jeu de données
+# Créer le dataset
 dataset = [
     {"input": "I love puppies and kittens!"},
     {"input": "I hate everyone and want to hurt them."}
@@ -195,7 +194,7 @@ print(results)
   ## `EmbeddingSimilarityScorer`
 </div>
 
-Le `EmbeddingSimilarityScorer` calcule la similarité cosinus entre les embeddings de la sortie du système d’IA et ceux d’un texte cible issu de votre jeu de données. Il est utile pour mesurer dans quelle mesure la sortie de l’IA ressemble à un texte de référence.
+`EmbeddingSimilarityScorer` calcule la similarité cosinus entre les embeddings de la sortie du système d’IA et un texte cible de votre jeu de données. Utilisez-le pour mesurer le degré de similarité entre la sortie de l’IA et un texte de référence.
 
 ```python lines
 from weave.scorers import EmbeddingSimilarityScorer
@@ -206,13 +205,11 @@ similarity_scorer = EmbeddingSimilarityScorer(
 )
 ```
 
-**Paramètres :**
+**Paramètres**
 
 * `threshold` (float) : Le score minimal de similarité cosinus (entre -1 et 1) requis pour considérer que les deux textes sont similaires (valeur par défaut : `0.5`).
 
-**Exemple d’utilisation :**
-
-L’exemple suivant utilise `EmbeddingSimilarityScorer` dans le contexte d’une évaluation :
+L’exemple suivant utilise `EmbeddingSimilarityScorer` dans le cadre d’une évaluation :
 
 ```python lines
 import asyncio
@@ -224,7 +221,7 @@ similarity_scorer = EmbeddingSimilarityScorer(
     model_id="openai/text-embedding-3-small",  # ou tout autre modèle pris en charge par litellm
     threshold=0.7
 )
-# Créer le jeu de données
+# Créer le dataset
 dataset = [
     {
         "input": "He's name is John",
@@ -265,7 +262,7 @@ from weave.scorers import ValidJSONScorer
 json_scorer = ValidJSONScorer()
 ```
 
-Voici un exemple dans le cadre d’une évaluation :
+L’exemple suivant utilise `ValidJSONScorer` dans le cadre d’une évaluation :
 
 ```python lines
 import asyncio
@@ -275,7 +272,7 @@ from weave.scorers import ValidJSONScorer
 class JSONModel(weave.Model):
     @weave.op()
     async def predict(self, input: str) -> str:
-        # Ceci est un espace réservé.
+        # Il s'agit d'un espace réservé.
         # Dans un scénario réel, cela générerait du JSON.
         return '{"key": "value"}'
 
@@ -300,7 +297,7 @@ print(results)
   ## `ValidXMLScorer`
 </div>
 
-Le `ValidXMLScorer` vérifie si la sortie du système d’IA est du XML valide. Il est utile lorsque des sorties au format XML sont attendues.
+Le `ValidXMLScorer` vérifie si la sortie du système d’IA est un document XML valide. Utilisez-le lorsque vous attendez des sorties au format XML.
 
 ```python lines
 from weave.scorers import ValidXMLScorer
@@ -308,7 +305,7 @@ from weave.scorers import ValidXMLScorer
 xml_scorer = ValidXMLScorer()
 ```
 
-Voici un exemple dans le cadre d’une évaluation :
+L’exemple suivant utilise `ValidXMLScorer` dans le cadre d’une évaluation :
 
 ```python lines
 import asyncio
@@ -361,7 +358,7 @@ pydantic_scorer = PydanticScorer(model=FinancialReport)
   ## RAGAS - `ContextEntityRecallScorer`
 </div>
 
-Le `ContextEntityRecallScorer` estime le rappel du contexte en extrayant les entités à la fois de la sortie du système d’IA et du contexte fourni, puis en calculant le score de rappel. Il s’appuie sur la bibliothèque d’évaluation [RAGAS](https://github.com/explodinggradients/ragas).
+Le `ContextEntityRecallScorer` estime le rappel du contexte en extrayant les entités à la fois de la sortie du système d’IA et du contexte fourni, puis en calculant le score de rappel. Il s’appuie sur la bibliothèque d’évaluation Retrieval Augmented Generation Assessment ([RAGAS](https://github.com/explodinggradients/ragas)).
 
 ```python lines
 from weave.scorers import ContextEntityRecallScorer
@@ -371,15 +368,15 @@ entity_recall_scorer = ContextEntityRecallScorer(
 )
 ```
 
-**Fonctionnement :**
+**Fonctionnement**
 
 * Utilise un LLM pour extraire les entités uniques de la sortie et du contexte, puis calcule le rappel.
 * Le **rappel** indique la proportion d&#39;entités importantes du contexte présentes dans la sortie.
 * Renvoie un dictionnaire contenant le score de rappel.
 
-**Notes :**
+**Notes**
 
-* Nécessite une colonne `context` dans votre jeu de données. [Utilisez l&#39;attribut `column_map`](#use-column-mapping) si le nom de la colonne est différent.
+* Nécessite une colonne `context` dans votre dataset. [Utilisez l&#39;attribut `column_map`](#use-column-mapping) si le nom de la colonne est différent.
 
 ***
 
@@ -387,7 +384,7 @@ entity_recall_scorer = ContextEntityRecallScorer(
   ## RAGAS - `ContextRelevancyScorer`
 </div>
 
-Le `ContextRelevancyScorer` évalue la pertinence du contexte fourni par rapport à la sortie du système d’IA. Il s’appuie sur la bibliothèque d’évaluation [RAGAS](https://github.com/explodinggradients/ragas).
+Le `ContextRelevancyScorer` évalue la pertinence du contexte fourni par rapport à la sortie du système d’IA. Il est basé sur la bibliothèque d’évaluation RAGAS.
 
 ```python lines
 from weave.scorers import ContextRelevancyScorer
@@ -404,17 +401,17 @@ Relevancy Score (0-1):
 )
 ```
 
-**Fonctionnement :**
+**Fonctionnement**
 
 * Utilise un LLM pour évaluer la pertinence du contexte par rapport à la sortie sur une échelle de 0 à 1.
-* Renvoie un dictionnaire contenant `relevancy_score`.
+* Renvoie un dictionnaire contenant le `relevancy_score`.
 
-**Notes :**
+**Remarques**
 
-* Nécessite une colonne `context` dans votre jeu de données. [Utilisez l&#39;attribut `column_map`](#use-column-mapping) si le nom de la colonne est différent.
-* Personnalisez le `relevancy_prompt` pour définir comment la pertinence est évaluée.
+* Nécessite une colonne `context` dans votre dataset. [Utilisez l’attribut `column_map`](#use-column-mapping) si le nom de la colonne est différent.
+* Personnalisez `relevancy_prompt` pour définir la manière dont la pertinence est évaluée.
 
-Voici un exemple d’utilisation dans le cadre d’une évaluation :
+L’exemple suivant utilise `ContextEntityRecallScorer` et `ContextRelevancyScorer` ensemble dans le cadre d’une évaluation :
 
 ```python lines
 import asyncio
@@ -425,32 +422,32 @@ from weave.scorers import ContextEntityRecallScorer, ContextRelevancyScorer
 class RAGModel(weave.Model):
     @weave.op()
     async def predict(self, question: str) -> str:
-        "Récupérer le contexte pertinent"
+        "Retrieve relevant context"
         return "Paris is the capital of France."
 
 # Définir les prompts
 relevancy_prompt: str = dedent("""
-    Étant donné la question et le contexte suivants, évaluez la pertinence du contexte par rapport à la question sur une échelle de 0 à 1.
+    Given the following question and context, rate the relevancy of the context to the question on a scale from 0 to 1.
 
-    Question : {question}
-    Contexte : {context}
-    Score de pertinence (0-1) :
+    Question: {question}
+    Context: {context}
+    Relevancy Score (0-1):
     """)
 # Initialiser les évaluateurs
 entity_recall_scorer = ContextEntityRecallScorer()
 relevancy_scorer = ContextRelevancyScorer(relevancy_prompt=relevancy_prompt)
-# Créer le jeu de données
+# Créer le dataset
 dataset = [
     {
-        "question": "Quelle est la capitale de la France ?",
-        "context": "Paris est la capitale de la France."
+        "question": "What is the capital of France?",
+        "context": "Paris is the capital city of France."
     },
     {
-        "question": "Qui a écrit Roméo et Juliette ?",
-        "context": "William Shakespeare a écrit de nombreuses pièces célèbres."
+        "question": "Who wrote Romeo and Juliet?",
+        "context": "William Shakespeare wrote many famous plays."
     }
 ]
-# Exécuter l'évaluation
+# Lancer l'évaluation
 evaluation = weave.Evaluation(
     dataset=dataset,
     scorers=[entity_recall_scorer, relevancy_scorer]
@@ -463,7 +460,7 @@ print(results)
 # 'model_latency': {'mean': ...}}
 ```
 
-**Remarque :** Les évaluateurs intégrés ont été calibrés à l’aide de modèles OpenAI, tels que `openai/gpt-4o` et `openai/text-embedding-3-small`. Si vous souhaitez tester d’autres fournisseurs, vous pouvez modifier le champ `model_id` pour utiliser un autre modèle. Par exemple, pour utiliser un modèle Anthropic :
+**Remarque :** Les évaluateurs intégrés sont calibrés à l’aide de modèles OpenAI, tels que `openai/gpt-4o` et `openai/text-embedding-3-small`. Pour utiliser un autre fournisseur, mettez à jour le champ `model_id`. Par exemple, pour utiliser un modèle Anthropic :
 
 ```python lines
 from weave.scorers import SummarizationScorer

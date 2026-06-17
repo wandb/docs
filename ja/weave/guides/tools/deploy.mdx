@@ -1,24 +1,23 @@
 ---
 title: "Google Cloud へデプロイする"
-description: "Weave モデルと ops を、推論・サービング用の本番対応 API エンドポイントとしてクラウドプラットフォームにデプロイします。"
+description: "Weave モデルと ops をクラウド プラットフォームにデプロイし、推論とサービング向けの本番運用可能な API endpoint として提供します。"
+keywords: ["gcloud", "weave deploy", "model serving", "inference endpoint"]
 ---
 
-<div id="deploy-to-google-cloud">
-  ## Google Cloud へデプロイする
-</div>
+`weave deploy` コマンドを使用すると、Weave モデルを Google Cloud にデプロイし、推論用に呼び出し可能な本番運用向けの API endpoint として提供できます。
 
 <Note>
-  `weave deploy` を使用するには、マシンに `gcloud` がインストールされ、設定済みである必要があります。`weave deploy gcp` は、コマンドライン引数で明示的に指定しない場合、事前に設定された構成を使用します。
+  `weave deploy` を使用するには、使用しているマシンに `gcloud` がインストールされ、設定されている必要があります。`weave deploy gcp` では、コマンドライン引数で設定を直接指定しない場合、既存の `gcloud` 設定が使用されます。
 </Note>
 
 Weave モデルを Google Cloud にデプロイするには、次を実行します。
 
-```
-weave deploy gcp <ref>
+```bash
+weave deploy gcp [REF]
 ```
 
-デプロイが完了すると、ターミナルに次の形式の URL が表示されます。
+デプロイ後、コマンドは次の形式の URL を出力します。デプロイしたモデルを操作するには、その URL の `/docs` パスにアクセスしてください。
 
-```
-Service URL: <PATH_TO_MODEL>`. Visit `<PATH_TO_MODEL>/docs` to interact with your model!
+```text
+Service URL: <PATH_TO_MODEL>. Visit <PATH_TO_MODEL>/docs to interact with your model!
 ```

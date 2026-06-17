@@ -1,7 +1,10 @@
 ---
 title: Limites et comportements attendus
 description: Une liste des limites de Weave, des problèmes connus et des comportements attendus
+keywords: ["nouvelles tentatives", "expirations", "troncature de trace", "OpenTelemetry", "exceptions"]
 ---
+
+Cette page répertorie les limites de Weave, les problèmes connus et les comportements attendus. Utilisez-la comme référence lorsque vous obtenez des résultats inattendus ou souhaitez comprendre comment Weave gère les cas limites.
 
 * Pour les requêtes susceptibles d’être retentées, Weave réessaie à partir d’1 seconde après la première erreur, puis double le délai entre les tentatives jusqu’à 5 minutes. Les requêtes expirent après 36 heures.
 
@@ -12,9 +15,9 @@ description: Une liste des limites de Weave, des problèmes connus et des compor
   result, call = foo.call(__should_raise=True)
   ```
 
-* Les instances Dedicated Weave utilisent une URL d’ingress OpenTelemetry différente. Voir [Envoyer des traces OpenTelemetry](/fr/weave/guides/tracking/otel) pour obtenir les informations officielles sur le point de terminaison.
+* Les instances Dedicated Weave utilisent une URL d’ingress OpenTelemetry différente. Pour plus d’informations sur les points de terminaison officiels, voir [Envoyer des traces OpenTelemetry](/fr/weave/guides/tracking/otel).
 
-* Weave tronque parfois les objets de données de trace volumineux. Cela se produit parce que la sortie de trace par défaut est un objet Python personnalisé brut que Weave ne sait pas sérialiser. Pour renvoyer toutes vos données de trace, définissez un dictionnaire de chaînes, comme ceci :
+* Weave tronque parfois les objets de données de trace volumineux. Cela se produit parce que la sortie de trace par défaut est un objet Python personnalisé brut que Weave ne peut pas sérialiser automatiquement. Pour renvoyer toutes vos données de trace, définissez un dictionnaire de chaînes, comme ceci :
 
   ```python
   import weave

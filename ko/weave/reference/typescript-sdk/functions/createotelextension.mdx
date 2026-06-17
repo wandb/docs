@@ -1,0 +1,59 @@
+---
+title: "createOtelExtension"
+description: "TypeScript SDK 레퍼런스"
+---
+
+<div id="createotelextension">
+  # createOtelExtension
+</div>
+
+▸ **createOtelExtension**(`opts?`): (`pi`: `PiExtensionApi`) =&gt; `void`
+
+GenAI 시맨틱 컨벤션을 준수하며 전체
+에이전트 라이프사이클에 걸쳐 OTEL span을 생성하는 pi 코딩 에이전트용 확장을 만듭니다.
+
+`weave.init(...)`가 호출된 경우 span은 자동으로
+`/agents/otel/v1/traces`의 Weave trace server로 내보내집니다. 그렇지 않다면
+`opts`에 맞춤형 `tracer`를 전달하세요.
+
+#### 매개변수
+
+| 이름     | 유형                     |
+| :----- | :--------------------- |
+| `opts` | `OtelExtensionOptions` |
+
+#### 반환값
+
+`fn`
+
+▸ (`pi`): `void`
+
+<div id="parameters">
+  ##### 매개변수
+</div>
+
+| 이름   | 유형               |
+| :--- | :--------------- |
+| `pi` | `PiExtensionApi` |
+
+<div id="returns">
+  ##### 반환값
+</div>
+
+`void`
+
+`예시`
+
+```typescript
+const resourceLoader = new DefaultResourceLoader({
+  extensionFactories: [createOtelExtension()],
+});
+```
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[integrations/piCodingAgent.ts:644](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/integrations/piCodingAgent.ts#L644)
+
+***

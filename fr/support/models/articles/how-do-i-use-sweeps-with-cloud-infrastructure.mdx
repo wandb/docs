@@ -1,0 +1,16 @@
+---
+title: "Comment puis-je utiliser W&B Sweeps avec une infrastructure cloud ?"
+keywords: ["Sweeps", "AWS"]
+---
+
+Pour exécuter un balayage W&amp;B sur une infrastructure cloud comme AWS Batch ou ECS, publiez le `sweep_id` afin que tout agent de balayage W&amp;B puisse y accéder, et mettez en place une méthode permettant à ces agents de lire et d&#39;exécuter le `sweep_id`.
+
+Par exemple, lancez une instance Amazon EC2 et exécutez-y `wandb agent`. Utilisez une file d&#39;attente SQS pour diffuser le `sweep_id` à plusieurs instances EC2. Chaque instance lit ensuite le `sweep_id` depuis la file d&#39;attente et démarre le processus.
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/fr/support/models/tags/sweeps)</Badge><Badge stroke shape="pill" color="orange" size="md">[AWS](/fr/support/models/tags/aws)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

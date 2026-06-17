@@ -1,0 +1,309 @@
+---
+title: "クラス: Turn"
+description: "TypeScript SDK リファレンス"
+---
+
+[weave](../) / Turn
+
+エージェントの呼び出しです。通常は、単一の
+ユーザーメッセージに応答するための処理をラップします。`invoke_agent` スパンを生成し、その
+ターンのトレースのルートとして機能します。常に `ROOT_CONTEXT` の下で開始されるため、
+別の OTel でインストルメントされた
+ライブラリから誤って親を継承することはありません。
+
+`weave.startTurn()` (または `session.startTurn()`) で作成され、
+`end()` で終了します。非同期チェーンでアクティブにできる Turn は 1 つだけです。
+子要素 (LLM、Tool、SubAgent) は、`startLLM`、`startTool`、
+`startSubagent` メソッドを介して接続されます。
+
+`Example`
+
+```ts
+const turn = weave.startTurn({agentName: 'research-bot', model: MODEL});
+try {
+  const llm = turn.startLLM({model: MODEL, providerName: 'openai'});
+  // ...
+  llm.end();
+} finally {
+  turn.end();
+}
+```
+
+<div id="table-of-contents">
+  ## 目次
+</div>
+
+<div id="properties">
+  ### プロパティ
+</div>
+
+* [agentName](./turn#agentname)
+* [model](./turn#model)
+
+<div id="methods">
+  ### メソッド
+</div>
+
+* [addEvent](./turn#addevent)
+* [end](./turn#end)
+* [setAttribute](./turn#setattribute)
+* [startLLM](./turn#startllm)
+* [startSubagent](./turn#startsubagent)
+* [startTool](./turn#starttool)
+* [create](./turn#create)
+
+## プロパティ
+
+<div id="agentname">
+  ### agentName
+</div>
+
+• `Readonly` **agentName**: `string`
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[genai/turn.ts:60](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L60)
+
+***
+
+<div id="model">
+  ### model
+</div>
+
+• `Readonly` **model**: `string`
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[genai/turn.ts:61](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L61)
+
+## メソッド
+
+<div id="addevent">
+  ### addEvent
+</div>
+
+▸ **addEvent**(`name`, `attributes?`, `startTime?`): `this`
+
+Turn スパンに名前付きイベントを追加します。コンテキストの圧縮、
+ツールループの検出、ガードレールの作動など、スパンではない時点を示すのに便利です。
+`end()` の後に呼び出しても何も行いません。OTel の `Span.addEvent` に対応しています。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名             | タイプ          |
+| :------------ | :----------- |
+| `name`        | `string`     |
+| `attributes?` | `Attributes` |
+| `startTime?`  | `TimeInput`  |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`this`
+
+`例`
+
+```ts
+turn.addEvent('context_compacted', {removedMessages: 12});
+```
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[genai/turn.ts:152](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L152)
+
+***
+
+<div id="end">
+  ### end
+</div>
+
+▸ **end**(`opts?`): `void`
+
+Turn スパン を終了します。冪等です。失敗としてマークするには、`error` を渡します。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名             | タイプ      |
+| :------------ | :------- |
+| `opts?`       | `Object` |
+| `opts.error?` | `Error`  |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`void`
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[genai/turn.ts:159](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L159)
+
+***
+
+<div id="setattribute">
+  ### setAttribute
+</div>
+
+▸ **setAttribute**(`key`, `value`): `this`
+
+Turn スパン に単一の属性を設定します。実行中の
+累積値 (例: 累積コスト、token 使用量) や、Turn の途中で
+判明するその他のメタデータを記録する場合に便利です。`end()` の後は何も行いません。OTel の `Span.setAttribute` と同様の動作です。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名       | タイプ              |
+| :------ | :--------------- |
+| `key`   | `string`         |
+| `value` | `AttributeValue` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`this`
+
+`例`
+
+```ts
+turn.setAttribute('gen_ai.usage.input_tokens', totalInputTokens);
+```
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[genai/turn.ts:138](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L138)
+
+***
+
+<div id="startllm">
+  ### startLLM
+</div>
+
+▸ **startLLM**(`opts`): [`LLM`](./llm)
+
+この Turn 配下で子 LLM スパン を開始します。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名      | タイプ                                |
+| :----- | :--------------------------------- |
+| `opts` | [`LLMInit`](../interfaces/llminit) |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+[`LLM`](./llm)
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[genai/turn.ts:104](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L104)
+
+***
+
+<div id="startsubagent">
+  ### startSubagent
+</div>
+
+▸ **startSubagent**(`opts`): [`SubAgent`](./subagent)
+
+この Turn の配下に、子 SubAgent のスパンを開始します。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名      | タイプ                                          |
+| :----- | :------------------------------------------- |
+| `opts` | [`SubAgentInit`](../interfaces/subagentinit) |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+[`SubAgent`](./subagent)
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[genai/turn.ts:122](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L122)
+
+***
+
+<div id="starttool">
+  ### startTool
+</div>
+
+▸ **startTool**(`opts`): [`Tool`](./tool)
+
+この Turn 配下で子 Tool の スパン を開始します。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名      | タイプ                                  |
+| :----- | :----------------------------------- |
+| `opts` | [`ToolInit`](../interfaces/toolinit) |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+[`Tool`](./tool)
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[genai/turn.ts:113](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L113)
+
+***
+
+<div id="create">
+  ### create
+</div>
+
+▸ **create**(`opts?`): [`Turn`](./turn)
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名      | タイプ                                                                                   |
+| :----- | :------------------------------------------------------------------------------------ |
+| `opts` | [`TurnInit`](../interfaces/turninit) &amp; &#123; `conversationId?`: `string`  &#125; |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+[`Turn`](./turn)
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[genai/turn.ts:64](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L64)
