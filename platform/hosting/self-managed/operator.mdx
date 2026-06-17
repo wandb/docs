@@ -1804,20 +1804,21 @@ spec:
         GORILLA_DEFAULT_RATE_LIMITS_GRAPHQL: "50"
         GORILLA_DEFAULT_RATE_LIMITS_RUN_UPDATE_COUNT: "10"
         GORILLA_DEFAULT_RATE_LIMITS_SDK_GRAPHQL_QUERY_SECONDS: "1"
-        GORILLA_LIMITER: "redis://[redis-service-address]:6379?ttlInSeconds=900"
+        GORILLA_LIMITER: "redis://$HOST:6379?ttlInSeconds=900"
 ```
 
 Refer to the following table for more detail:
 
 | Environment variable | Default | Description |
 | --- | --- | --- |
-| `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM` | `5` | Default filestream requests. |
+| `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM` | `5` | Default filestream request limit. |
 | `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_COUNT` | `5` | Filestream requests per second. |
-| `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_PER_RUN_COUNT` | `0.8` | Filestream requests per per run per second. |
+| `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_PER_RUN_COUNT` | `0.8` | Filestream requests per run per second. |
 | `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_SIZE` | `10` | Filestream ingestion limit in MB per second. |
-| `GORILLA_DEFAULT_RATE_LIMITS_GRAPHQL` | `50` | GraphQL requests. |
+| `GORILLA_DEFAULT_RATE_LIMITS_GRAPHQL` | `50` | GraphQL request limit. |
 | `GORILLA_DEFAULT_RATE_LIMITS_RUN_UPDATE_COUNT` | `10` | Run metadata update requests per second. |
 | `GORILLA_DEFAULT_RATE_LIMITS_SDK_GRAPHQL_QUERY_SECONDS` | `1` | SDK GraphQL query seconds budget. |
+| `GORILLA_LIMITER` | `unset` | Redis connection string for the rate limiter (required to enable rate limiting). |
 
 ### Custom certificate authority
 `customCACerts` is a list and can take many certificates. Certificate authorities specified in `customCACerts` only apply to the W&B Server application.
