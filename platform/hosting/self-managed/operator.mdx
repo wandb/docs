@@ -1788,9 +1788,9 @@ global:
 
 ### Set rate limits
 
-For Dedicated Cloud and Self-Managed deployments that use the Operator, optionally configure rate limits by setting environment variables in `spec.values.global.extraEnv`. This example shows the default value when the variable is not set.
+For Dedicated Cloud and Self-Managed deployments that use the Operator, optionally configure rate limits by setting environment variables in `spec.values.global.extraEnv`. For reference, this example explicitly sets each rate limit to its default. In practice, define a rate limit only to override the default.
 
-<Important>You must set `GORILLA_LIMITER` to the address of your Redis server.</Important>
+<Important>To enable rate limiting, you must set `GORILLA_LIMITER` to the address of your Redis server.</Important>
 
 ```yaml
 spec:
@@ -1801,9 +1801,7 @@ spec:
         GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_COUNT: "5"
         GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_PER_RUN_COUNT: "0.8"
         GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_SIZE: "10"
-        GORILLA_DEFAULT_RATE_LIMITS_GRAPHQL: "50"
         GORILLA_DEFAULT_RATE_LIMITS_RUN_UPDATE_COUNT: "10"
-        GORILLA_DEFAULT_RATE_LIMITS_SDK_GRAPHQL_QUERY_SECONDS: "1"
         GORILLA_LIMITER: "redis://$HOST:6379?ttlInSeconds=900"
 ```
 
