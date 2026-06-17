@@ -227,7 +227,8 @@ This section explains how Scorers receive data from your evaluation, how to map 
 
     You can access relevant columns from the dataset row by adding a `datasetRow` keyword argument to your scorer definition.
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     const myScorer = weave.op(
         ({modelOutput, datasetRow}) => {
             return modelOutput * 2 === datasetRow.expectedOutputTimesTwo;
@@ -249,7 +250,8 @@ This section explains how Scorers receive data from your evaluation, how to map 
 
     Example:
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     const myScorer = weave.op(
         ({modelOutput, datasetRow}) => {
             return modelOutput * 2 === datasetRow.expectedOutputTimesTwo;

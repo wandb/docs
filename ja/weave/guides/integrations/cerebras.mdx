@@ -1,6 +1,7 @@
 ---
 title: "Cerebras"
 description: "Weave を使用して、Cerebras Cloud SDK 経由の LLM call をトレースしてログする"
+keywords: ["Cerebras 推論", "LLM 可観測性", "llama3.1", "weave ops"]
 ---
 
 Weave は、[Cerebras Cloud SDK](https://inference-docs.cerebras.ai/introduction) 経由の LLM call を自動的にトラッキングしてログします。
@@ -18,12 +19,12 @@ import os
 import weave
 from cerebras.cloud.sdk import Cerebras
 
-# weaveプロジェクトを初期化する
+# Weave プロジェクトを初期化する
 weave.init("cerebras_speedster")
 
-# Cerebras SDKを通常通り使用する
+# Cerebras SDK を通常通り使用する
 api_key = os.environ["CEREBRAS_API_KEY"]
-model = "llama3.1-8b"  # Cerebrasモデル
+model = "llama3.1-8b"  # Cerebras モデル
 
 client = Cerebras(api_key=api_key)
 
@@ -37,13 +38,13 @@ print(response.choices[0].message.content)
 
 Weave は、Cerebras SDK を介して行われるすべての LLM call をトラッキングしてログするようになりました。トークン使用量や応答時間などの詳細を含むトレースは、Weave の Web インターフェースで確認できます。
 
-[![cerebras\_calls.png](/weave/guides/integrations/imgs/cerebras_calls.png)](https://wandb.ai/capecape/cerebras_speedster/weave/traces)
+[![Cerebras の LLM call を表示する Weave のトレースビュー](/weave/guides/integrations/imgs/cerebras_calls.png)](https://wandb.ai/capecape/cerebras_speedster/weave/traces)
 
-<div id="wrapping-with-your-own-ops">
-  ## 独自のopsでラップする
+<div id="wrap-with-your-own-ops">
+  ## 独自の ops でラップする
 </div>
 
-Weave opsは、コードを自動でバージョン管理し、入力と出力を記録することで、実験の再現性と追跡性を高められる強力な手段です。以下は、Cerebras SDKでWeave opsを活用する方法の例です。
+Weave Ops は、コードを自動的にバージョン管理し、入力と出力を記録することで、実験の再現性とトレーサビリティを高めます。以下は、Cerebras SDK で Weave Ops を使用する際の例です。
 
 ```python lines
 import os
@@ -72,17 +73,17 @@ animal_speedster("human", "llama3.1-8b")
 ```
 
 <div id="create-a-model-for-easier-experimentation">
-  ## 試行錯誤しやすくするために `Model` を作成する
+  ## 実験しやすくするために `Model` を作成する
 </div>
 
-Weave の [Model](/ja/weave/guides/core-types/models) クラスを使うと、アプリのさまざまなバージョンを整理して比較できます。これは、Cerebras モデルを試す際に特に便利です。以下に例を示します。
+Weave の [Model](/ja/weave/guides/core-types/models) クラスを使うと、アプリのさまざまなバージョンを整理して比較できます。これは、Cerebras モデルを使って実験する際に便利です。以下に例を示します。
 
 ```python lines
 import os
 import weave
 from cerebras.cloud.sdk import Cerebras
 
-# weave プロジェクトを初期化する
+# Weave プロジェクトを初期化する
 weave.init("cerebras_speedster")
 
 client = Cerebras(api_key=os.environ["CEREBRAS_API_KEY"])
@@ -93,7 +94,7 @@ class AnimalSpeedModel(weave.Model):
 
     @weave.op
     def predict(self, animal: str) -> str:
-        "動物の最高速度を予測する"        
+        "Predict the top speed of an animal"        
 
         response = client.chat.completions.create(
             model=self.model,
@@ -110,6 +111,6 @@ result = speed_model.predict(animal="cheetah")
 print(result)
 ```
 
-この設定なら、Cerebras を活用した推論をトラッキングしながら、さまざまなモデルやパラメーターを手軽に試せます！
+この設定により、Cerebras を活用した推論をトラッキングしながら、さまざまなモデルやパラメーターを試せます。
 
-[![cerebras\_model.png](/weave/guides/integrations/imgs/cerebras_model.png)](https://wandb.ai/capecape/cerebras_speedster/weave/traces)
+[![Cerebras の実験における Weave Model トレース](/weave/guides/integrations/imgs/cerebras_model.png)](https://wandb.ai/capecape/cerebras_speedster/weave/traces)

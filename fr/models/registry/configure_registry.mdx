@@ -22,11 +22,7 @@ Les administrateurs du registre peuvent ajouter des Users individuels ou des Tea
 5. Saisissez un ou plusieurs noms d’utilisateur, adresses e-mail ou noms d’équipe dans le champ **Inclure des Users et des Teams**.
 6. Cliquez sur **Ajouter un accès**.
 
-<Frame>
-  <img src="/images/registry/add_team_registry.gif" alt="Ajout de Teams au registre" />
-</Frame>
-
-Pour en savoir plus, consultez [la configuration des rôles utilisateur dans un registre](/fr/models/registry/configure_registry/#configure-registry-roles) ou [les autorisations des rôles du registre](/fr/models/registry/configure_registry/#registry-role-permissions).
+Pour en savoir plus, consultez [la configuration des rôles utilisateur dans un registre](/fr/models/registry/configure_registry/#configure-registry-roles) ou [les autorisations des rôles du registre](/fr/models/registry/configure_registry#role-permissions).
 
 <div id="remove-a-user-or-team">
   ### Supprimer un User ou une Team
@@ -87,16 +83,16 @@ Les sections suivantes donnent plus d’informations sur les rôles du registre.
   ### Rôles par défaut
 </div>
 
-W&amp;B attribue automatiquement un **rôle de registre** par défaut aux Users ou aux Teams lorsqu’ils sont ajoutés à un registre. Ce rôle détermine ce qu’ils peuvent y faire.
+W&amp;B attribue automatiquement un **rôle du registre** par défaut aux Users ou aux Teams lorsqu’ils sont ajoutés à un registre. Ce rôle détermine ce qu’ils peuvent y faire.
 
-| Entité                                       | Rôle de registre par défaut<br />(Cloud dédié / Autogéré)                   | Rôle de registre par défaut<br />(Cloud mutualisé)         |
-| -------------------------------------------- | --------------------------------------------------------------------------- | ---------------------------------------------------------- |
-| Team                                         | Restricted Viewer (Server v0.75.0+) <br />Viewer (Server v0.74.x and below) | Restricted Viewer                                          |
-| User ou compte de service (non admin)        | Restricted Viewer (Server v0.75.0+) <br />Viewer (Server v0.74.x and below) | Restricted Viewer                                          |
-| Compte de service (non admin)                | Member<sup><a href="#service_account_footnote">1</a></sup>                  | Member<sup><a href="#service_account_footnote">1</a></sup> |
-| Administrateur de l’organisation             | Admin                                                                       | Admin                                                      |
+| Entité                                | Rôle du registre par défaut<br />(Cloud dédié / Autogéré)                   | Rôle du registre par défaut<br />(Cloud mutualisé)         |
+| ------------------------------------- | --------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| Team                                  | Restricted Viewer (Server v0.75.0+) <br />Viewer (Server v0.74.x and below) | Restricted Viewer                                          |
+| User ou compte de service (non admin) | Restricted Viewer (Server v0.75.0+) <br />Viewer (Server v0.74.x and below) | Restricted Viewer                                          |
+| Compte de service (non admin)         | membre<sup><a href="#service_account_footnote">1</a></sup>                  | membre<sup><a href="#service_account_footnote">1</a></sup> |
+| Administrateur de l’organisation      | Admin                                                                       | Admin                                                      |
 
-<a id="service_account_footnote">1</a> : Les comptes de service ne peuvent pas avoir les rôles **Viewer** ou **Restricted Viewer**.
+<a id="service_account_footnote">1</a> : Les comptes de service ne peuvent pas avoir les rôles **Viewer** ou **Restricted Viewer**. Voir [Accès des comptes de service](#service-account-access) pour savoir comment l’accès d’un compte de service est déterminé.
 
 Un administrateur du registre peut attribuer ou modifier les rôles des Users et des Teams dans le registre.
 Voir [Configurer les rôles des Users dans un registre](/fr/models/registry/configure_registry/#configure-registry-roles) pour en savoir plus.
@@ -196,7 +192,7 @@ Les méthodes suivantes se limitent aux métadonnées des artifacts :
   ### Autorisations entre registres
 </div>
 
-Un utilisateur peut avoir des rôles différents selon les registres. Par exemple, un utilisateur peut être **Restricted Viewer** dans le registre A, mais **Viewer** dans le registre B. Dans ce cas :
+Un utilisateur peut avoir des rôles différents selon les registres. Par exemple, un utilisateur peut être **Restricted Viewer** dans le registre A et **Viewer** dans le registre B. Dans ce cas :
 
 * Le même artifact lié aux deux registres aura des niveaux d&#39;accès différents
 * Dans le registre A, l&#39;utilisateur est **Restricted Viewer** et ne peut ni télécharger de fichiers ni utiliser l&#39;artifact

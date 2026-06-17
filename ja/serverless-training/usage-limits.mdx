@@ -1,0 +1,43 @@
+---
+title: 利用に関する情報と制限
+description: W&B Serverless Training の料金、利用制限、アカウント制限について説明します
+keywords: ["同時実行制限", "地理的制限", "LoRA アダプター チェックポイント ストレージ", "レート制限"]
+---
+
+このページでは、W&amp;B Serverless Training に適用される料金体系、同時実行制限、地理的制限について説明します。この情報を確認してコストを見積もり、トレーニングおよび推論ワークロードの実行に影響する制約を把握してください。
+
+<div id="pricing">
+  ## 料金
+</div>
+
+料金は、推論、トレーニング、ストレージの 3 つの要素で構成されています。具体的な請求料金については、[料金ページ](https://site.wandb.ai/pricing/training)をご覧ください。以下のセクションで、各要素について説明します。
+
+<div id="inference">
+  ### 推論
+</div>
+
+Serverless Training の推論リクエストの料金は、Serverless Inference の料金と同じです。[モデルごとの費用](https://site.wandb.ai/pricing/reinforcement-learning)を参照してください。クレジットの購入、アカウントのティア、使用量の上限について詳しくは、[Serverless Inference docs](/ja/inference/usage-limits#purchase-more-credits)を参照してください。
+
+<div id="training">
+  ### トレーニング
+</div>
+
+各トレーニング ステップで、Serverless Training は、エージェントの出力とそれに対応する報酬 (報酬関数によって計算) を含む軌跡のバッチを収集します。Serverless Training は、このバッチ化された軌跡を使用して、タスク向けにベースモデルを特化する LoRA アダプターの重みを更新します。これらの LoRA アダプターを更新するトレーニング ジョブは、Serverless Training が管理する専用の GPU クラスターで実行されます。
+
+トレーニングは、パブリックプレビュー期間中は無料です。
+
+<div id="model-storage">
+  ### モデル ストレージ
+</div>
+
+Serverless Training では、トレーニング済みの LoRA アダプターのチェックポイントが保存されるため、いつでもそれらを評価、サービング、または継続してトレーニングできます。W&amp;B では、チェックポイントの合計サイズと[料金プラン](https://wandb.ai/site/pricing)に基づいて、ストレージ料金が毎月課金されます。どのプランにも少なくとも 5 GB の無料ストレージが含まれており、これはおよそ 30 個の LoRA アダプターを保存できる容量です。容量を節約するには、パフォーマンスの低い LoRA アダプターを削除してください。手順については、[ART SDK](https://art.openpipe.ai/features/checkpoint-deletion)を参照してください。
+
+<div id="limits">
+  ## 制限
+</div>
+
+以下の制限は、Serverless Training の利用に適用されます。ワークロードのサイジングを行う場合や、新しいリージョンからサービスを利用する計画がある場合は、これらを確認してください。
+
+* **Inference の同時実行制限**: デフォルトでは、Serverless Training はユーザーごとに最大 2,000 件、project ごとに最大 6,000 件の同時リクエストをサポートします。レート制限を超えると、Inference API は `429 Concurrency limit reached for requests` レスポンスを返します。このエラーを回避するには、トレーニングジョブまたは本番ワークロードが同時に送信するリクエスト数を減らしてください。より高いレート制限が必要な場合は、support@wandb.com までリクエストしてください。
+
+* **地理的制限**: Serverless Training は、サポートされている地域でのみ利用できます。詳細は、[Terms of Service](https://site.wandb.ai/terms/) を参照してください。

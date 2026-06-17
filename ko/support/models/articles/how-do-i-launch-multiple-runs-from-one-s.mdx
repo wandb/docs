@@ -3,10 +3,15 @@ title: "하나의 스크립트에서 여러 run을 시작하려면 어떻게 하
 keywords: ["Experiments"]
 ---
 
-하나의 스크립트에서 여러 run을 로깅하려면, 새 run을 시작하기 전에 이전 run을 먼저 종료하세요.
+하나의 스크립트에서 여러 run을 로깅하려면, 새 run을 시작하기 전에 이전 run을 각각
+종료해야 합니다. 다음 섹션에서는 하나의 스크립트에서 run을 순차적으로 실행하는 두 가지 패턴과
+여러 run을 동시에 활성 상태로 유지하는 별도의 패턴을 설명합니다.
 
-권장되는 방법은 `wandb.init()`를 컨텍스트 관리자로 사용하는 것입니다.
-이렇게 하면 스크립트에서 예외가 발생할 경우 run이 종료되고 실패로 표시됩니다.
+<div id="use-a-context-manager">
+  ## 컨텍스트 관리자를 사용하세요
+</div>
+
+`wandb.init()`를 컨텍스트 관리자로 사용하세요. 이렇게 하면 스크립트에서 예외가 발생할 경우 run이 종료되고 실패로 표시됩니다:
 
 ```python
 import wandb
@@ -16,6 +21,10 @@ for x in range(10):
         for y in range(100):
             run.log({"metric": x + y})
 ```
+
+<div id="call-runfinish-explicitly">
+  ## `run.finish()`를 명시적으로 호출하기
+</div>
 
 `run.finish()`를 명시적으로 call할 수도 있습니다:
 
@@ -41,7 +50,8 @@ for x in range(10):
   ## 동시에 활성화된 여러 run
 </div>
 
-wandb 0.19.10부터는 `reinit` 설정을 `"create_new"`로 지정해
+`wandb` 0.19.10 이상에서는 run을 순차적으로 실행하는 대신 둘 이상의 run을
+동시에 활성화해야 하는 경우 `reinit` 설정을 `"create_new"`로 지정해
 동시에 활성화된 여러 run을 생성할 수 있습니다.
 
 ```python

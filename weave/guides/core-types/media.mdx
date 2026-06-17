@@ -155,7 +155,8 @@ Weave logs the resized image and returns a link to the trace where you can view 
 
 The following example logs an image using the `weaveImage` function:
 
-```typescript
+```typescript twoslash
+// @noErrors
 import * as weave from 'weave';
 import * as fs from 'fs';
 
@@ -181,7 +182,8 @@ Weave logs the image and returns a link to the trace where you can view the imag
 
 The following example logs an image generated with the OpenAI DALL-E API using the `weaveImage` function:
 
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 import {OpenAI} from 'openai';
 import * as weave from 'weave';
 
@@ -557,7 +559,8 @@ make_audio_file_streaming("Hello, how are you?")
 
 The following example loads an existing audio file and logs it to Weave:
 
-```typescript
+```typescript twoslash
+// @noErrors
 import * as weave from 'weave';
 import * as fs from 'fs';
 
@@ -581,7 +584,8 @@ main();
 
 The following example generates audio using OpenAI's text-to-speech (TTS) API and logs it to Weave:
 
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 import {OpenAI} from 'openai';
 import * as weave from 'weave';
 

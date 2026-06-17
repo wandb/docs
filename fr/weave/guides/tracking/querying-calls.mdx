@@ -1,16 +1,25 @@
 ---
 title: "Interroger et exporter des appels"
-description: "Filtrez, triez et exportez les données d’appels Weave à l’aide du SDK Python, de l’API REST ou de Weave UI pour une analyse personnalisée."
+description: "Filtrez, triez et exportez les données d’appels Weave à l’aide du SDK Python, de l’API REST ou de l’interface Weave pour une analyse personnalisée."
+keywords: ["exporter des traces", "stream_query", "métriques d’appels", "statistiques d’appels", "export de traces"]
 ---
 
-Dans Weave UI, vous pouvez exporter vos données dans plusieurs formats. Elle affiche également le code Python et cURL que vous pouvez utiliser pour exporter les lignes de manière programmatique.
+Cette page vous montre comment interroger et exporter des appels Weave afin d’analyser les données de trace en dehors de Weave. Par exemple, vous pouvez créer des tableaux de bord personnalisés, partager les résultats avec des collaborateurs ou effectuer une analyse hors ligne. Vous pouvez exporter des appels depuis l’interface Weave, les récupérer de manière programmatique avec les SDK Python ou TypeScript, ou les interroger directement à l’aide de l’API de service.
+
+<div id="export-calls-from-the-weave-ui">
+  ## Exporter des appels depuis l’interface Weave
+</div>
+
+Dans l’interface Weave, vous pouvez exporter vos données dans plusieurs formats. Elle affiche également le code Python et cURL que vous pouvez utiliser pour exporter les lignes de manière programmatique.
+
 Pour exporter des appels :
 
 1. Accédez à [wandb.ai](https://wandb.ai/) et sélectionnez votre projet.
 2. Dans la barre latérale du projet Weave, cliquez sur **Traces**.
-3. Sélectionnez plusieurs appels à exporter en cochant les lignes correspondantes.
-4. Dans la barre d’outils du tableau **Traces**, cliquez sur le bouton d’export/téléchargement.
-5. Dans la fenêtre modale **Export**, choisissez **Selected rows** ou **All rows**, puis cliquez sur **Export**.
+3. Sélectionnez plusieurs appels à exporter en cochant la ligne correspondante.
+4. Dans la barre d’outils du tableau **Traces**, cliquez sur le bouton d’exportation ou de téléchargement.
+5. Dans la fenêtre modale **Export**, choisissez **Selected rows** ou **All rows**.
+6. Cliquez sur **Export**.
 
 <Frame>
   ![Page Traces montrant des appels sélectionnés prêts à être exportés dans la fenêtre modale Export.](/weave/guides/tracking/imgs/trace_export_modal.png)
@@ -20,37 +29,39 @@ Pour exporter des appels :
   ## Récupérer les appels par programmation
 </div>
 
+Pour filtrer, trier ou traiter des appels en dehors de l’interface utilisateur, récupérez-les avec l’un des SDK Weave ou l’API de service. Choisissez l’interface qui correspond le mieux à votre flux de travail.
+
 <Tabs>
   <Tab title="Python">
-    Pour récupérer des appels avec l’API Python, vous pouvez utiliser la méthode [`client.get_calls`](/fr/weave/reference/python-sdk/trace/weave_client#method-get_calls) :
+    Pour récupérer des appels avec l’API Python, utilisez la méthode [`client.get_calls`](/fr/weave/reference/python-sdk/trace/weave_client#method-get_calls) :
 
     ```python lines
     import weave
 
-    # Initialiser le client
+    # Initialize the client
     client = weave.init("your-project-name")
 
-    # Récupérer les appels
+    # Fetch calls
     calls = client.get_calls(filter=...)
     ```
   </Tab>
 
   <Tab title="TypeScript">
-    Pour récupérer des appels avec l’API TypeScript, vous pouvez utiliser la méthode [`client.getCalls`](/fr/weave/reference/typescript-sdk/classes/weaveclient#getcalls).
+    Pour récupérer des appels avec l’API TypeScript, utilisez la méthode [`client.getCalls`](/fr/weave/reference/typescript-sdk/classes/weaveclient#getcalls) :
 
     ```typescript lines
     import * as weave from 'weave'
 
-    // Initialiser le client
+    // Initialize the client
     const client = await weave.init('intro-example')
 
-    // Récupérer les appels
+    // Fetch calls
     const calls = await client.getCalls(filter=...)
     ```
   </Tab>
 
   <Tab title="HTTP API">
-    La couche de requête la plus puissante se trouve dans la Service API. Pour récupérer des appels avec la Service API, vous pouvez envoyer une requête à l’endpoint [`/calls/stream_query`](https://docs.wandb.ai/weave/reference/service-api/calls/calls-query-stream).
+    L’API de service expose la couche de requête complète. Pour récupérer des appels avec l’API de service, envoyez une requête au point de terminaison [`/calls/stream_query`](https://docs.wandb.ai/weave/reference/service-api/calls/calls-query-stream) :
 
     ```bash
     curl -L 'https://trace.wandb.ai/calls/stream_query' \
@@ -112,25 +123,27 @@ Pour exporter des appels :
 Pour plus de détails sur les propriétés et les champs des appels, voir la [référence du schéma des appels](/fr/weave/guides/tracking/call-schema-reference).
 
 <div id="export-call-metrics">
-  ## Exporter les métriques d&#39;appel
+  ## Exporter les métriques des appels
 </div>
 
-Vous pouvez également utiliser l&#39;[endpoint `POST /calls/stats` de la Service API de Weave](https://docs.wandb.ai/weave/reference/service-api/calls/call-stats) pour récupérer des métriques sur vos Appels sans récupérer les données d&#39;Appel elles-mêmes. Cela vous permet de récupérer rapidement et efficacement des informations sur vos Appels, comme la latence et le coût, et de les agréger par somme, moyenne, minimum, maximum et nombre. Par exemple, vous pouvez récupérer :
+Lorsque vous avez besoin de données agrégées, comme des tendances de coût ou de latence, plutôt que des enregistrements d&#39;appels sous-jacents, utilisez le point de terminaison de métriques décrit dans cette section.
 
-* L&#39;utilisation totale des tokens
-* La latence moyenne
-* Le maximum de tokens utilisés
-* Le coût total
-* Le minimum de tokens d&#39;entrée
+Vous pouvez également utiliser le [point de terminaison POST `/calls/stats` de l&#39;API de service Weave](https://docs.wandb.ai/weave/reference/service-api/calls/call-stats) pour récupérer des métriques sur vos appels sans récupérer les données d&#39;appel elles-mêmes. Vous pouvez récupérer des informations sur vos appels, comme la latence et le coût, et les agréger par somme, moyenne, minimum, maximum et nombre. Par exemple, vous pouvez récupérer :
 
-L&#39;endpoint propose plusieurs options de filtrage qui vous permettent de cibler les Appels effectués sur des périodes données, ainsi qu&#39;en fonction d&#39;autres propriétés, telles que :
+* Utilisation totale des jetons
+* Latence moyenne
+* Nombre maximal de jetons utilisés
+* Coût total
+* Nombre minimal de jetons d&#39;entrée
+
+Le point de terminaison propose plusieurs options de filtrage afin de cibler les appels effectués sur des périodes spécifiées, ainsi que selon d&#39;autres propriétés, telles que :
 
 * Nom de l&#39;op
 * ID de trace
 * ID de thread
-* ID utilisateur
+* ID d&#39;utilisateur
 
-L&#39;exemple suivant montre comment récupérer les Appels générés à partir d&#39;une op nommée `web_app` sur une période de deux jours :
+L&#39;exemple suivant montre comment récupérer les appels générés à partir d&#39;une op nommée `web_app` sur deux jours. Remplacez `[YOUR-TEAM-NAME/YOUR-PROJECT-NAME]` par les noms de votre équipe et de votre projet :
 
 <CodeGroup>
   ```python Python lines {10-11,16-24}
@@ -141,7 +154,7 @@ L&#39;exemple suivant montre comment récupérer les Appels générés à partir
   url = "https://trace.wandb.ai/calls/stats"
 
   payload = {
-      "project_id": "<your-team-name/your-project-name>",
+      "project_id": "[YOUR-TEAM-NAME/YOUR-PROJECT-NAME]",
       "start": "2026-03-01T00:00:00Z",
   # Spécifiez la taille des buckets, en secondes.
       "granularity": 86400,
@@ -168,11 +181,12 @@ L&#39;exemple suivant montre comment récupérer les Appels générés à partir
   print(json.dumps(response.json(), indent=2))
   ```
 
-  ```typescript TypeScript lines {6-7,13-20}
+  ```typescript twoslash TypeScript lines {6-7,13-20}
+  // @noErrors
   const url = "https://trace.wandb.ai/calls/stats";
 
   const payload = {
-    project_id: "<your-team-name/your-project-name>",
+    project_id: "[YOUR-TEAM-NAME/YOUR-PROJECT-NAME]",
     start: "2026-03-01T00:00:00Z",
   // Spécifiez la taille des buckets, en secondes.
     granularity: 86400,
@@ -208,14 +222,14 @@ L&#39;exemple suivant montre comment récupérer les Appels générés à partir
   ```
 </CodeGroup>
 
-La requête précise également comment agréger les métriques. Vous pouvez agréger les métriques avec `sum`, `count`, `avg`, `min`, `max` et `count`.
+La requête précise également comment agréger les métriques. Vous pouvez agréger les métriques par `sum`, `count`, `avg`, `min`, `max` et `count`.
 
-L&#39;endpoint renvoie un objet JSON. L&#39;exemple de réponse suivant montre deux jours de métriques. Chaque jour (`bucket`) correspond à un objet distinct dans les tableaux `usage_buckets` et `call_buckets`. Chaque tableau ventile les métriques différemment :
+Le point de terminaison renvoie un objet JSON. L&#39;exemple de réponse suivant montre des métriques sur deux jours. Chaque jour (bucket) apparaît comme un objet distinct dans les tableaux `usage_buckets` et `call_buckets`. Chaque tableau répartit les métriques différemment :
 
-* `usage_buckets` : regroupe les métriques d&#39;Appel de chaque jour par modèle utilisé.
-* `call_buckets` : regroupe les métriques d&#39;Appel de chaque jour, quel que soit le modèle utilisé.
+* `usage_buckets` : regroupe les métriques d&#39;appel de chaque jour par modèle utilisé.
+* `call_buckets` : regroupe les métriques d&#39;appel de chaque jour, quel que soit le modèle utilisé.
 
-Définissez le champ `granularity` (en secondes) dans la requête pour modifier la taille des buckets.
+Définissez le champ granularity (en secondes) dans la requête pour modifier la taille des buckets.
 
 ```json lines
 {
@@ -290,4 +304,4 @@ Définissez le champ `granularity` (en secondes) dans la requête pour modifier 
 }
 ```
 
-Vous pouvez interroger les métriques sur une période maximale de 31 jours. Voir la [référence de la Service API](https://docs.wandb.ai/weave/reference/service-api/calls/call-stats) pour plus de détails et connaître les options disponibles.
+Vous pouvez interroger les métriques sur une période maximale de 31 jours. Pour plus d’informations sur les options disponibles, voir la [référence de l’API de service](https://docs.wandb.ai/weave/reference/service-api/calls/call-stats).

@@ -3,7 +3,7 @@ title: "Comment puis-je enregistrer le code ?‌"
 keywords: ["Artifacts"]
 ---
 
-Utilisez `save_code=True` dans `wandb.init` pour enregistrer le script principal ou le notebook qui lance le run. Pour enregistrer tout le code d’un run, gérez les versions du code avec Artifacts. L’exemple suivant montre ce processus :
+Enregistrer le code avec chaque run vous aide à reproduire les expériences et à suivre quelle version de votre code a produit un résultat donné. Utilisez `save_code=True` dans `wandb.init` pour enregistrer le script principal ou le notebook qui lance le run. Pour enregistrer tout le code d’un run, gérez les versions du code avec W&amp;B Artifacts. L’exemple suivant montre ce processus :
 
 ```python
 code_artifact = wandb.Artifact(type="code")

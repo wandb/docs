@@ -91,7 +91,8 @@ You can override the display name for all Calls of a given Op in several ways. C
   <Tab title="TypeScript">
   To override the default name of a Call, use the `callDisplayName` option when calling `weave.op()`.
 
-    ```typescript lines {2}
+    ```typescript twoslash lines {2}
+    // @noErrors
     const extractDinosOp = weave.op(extractDinos, {
     callDisplayName: (input: string) => `Your New Display Name`
     });

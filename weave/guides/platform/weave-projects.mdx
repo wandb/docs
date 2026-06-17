@@ -68,13 +68,14 @@ When you open the new project's workspace, the UI offers quickstarts for both W&
 To create a Weave project directly from your code, provide a new project path as an argument to `weave.init()`:
 
 <CodeGroup>
-```python
+```python Python
 import weave
 
 weave.init('my-team/my-llm-app')
 ```
 
-```typescript
+```typescript twoslash TypeScript
+// @noErrors
 import * as weave from 'weave';
 
 await weave.init('my-team/my-llm-app');
