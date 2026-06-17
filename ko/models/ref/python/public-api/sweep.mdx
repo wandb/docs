@@ -26,7 +26,7 @@ sweep에 연결된 run 집합입니다.
 
 ```python
 __init__(
-    client: 'RetryingClient',
+    service_api: 'ServiceApi',
     entity: 'str',
     project: 'str',
     sweep_id: 'str',
@@ -35,7 +35,6 @@ __init__(
 ```
 
 ***
-
 
 ### <kbd>속성</kbd> Sweep.config
 
@@ -144,30 +143,29 @@ best_run(order=None)
 
 ```python
 get(
-    client: 'RetryingClient',
+    api: 'Api',
     entity: 'str | None' = None,
     project: 'str | None' = None,
     sid: 'str | None' = None,
     order: 'str | None' = None,
-    query: 'Document | None' = None,
+    query: 'str | None' = None,
     **kwargs
 )
 ```
 
 클라우드 백엔드에 쿼리를 실행합니다.
 
-**매개변수:**
+**인수:**
 
-* `client`:  쿼리 실행에 사용할 클라이언트입니다.
+* `api`:  W&amp;B API 인스턴스입니다.
 * `entity`:  프로젝트를 소유한 entity(사용자 이름 또는 팀)입니다.
-* `project`:  sweep를 가져올 프로젝트 이름입니다.
-* `sid`:  쿼리할 sweep ID입니다.
-* `order`:  sweep의 run이 반환되는 순서입니다.
+* `project`:  스윕를 가져올 프로젝트 이름입니다.
+* `sid`:  쿼리할 스윕 ID입니다.
+* `order`:  스윕의 run이 반환되는 순서입니다.
 * `query`:  쿼리 실행에 사용할 쿼리입니다.
 * `**kwargs`:  쿼리에 전달할 추가 키워드 매개변수입니다.
 
 ***
-
 
 ### <kbd>방법</kbd> `Sweep.to_html`
 

@@ -26,7 +26,7 @@ L’ensemble des runs associés au balayage.
 
 ```python
 __init__(
-    client: 'RetryingClient',
+    service_api: 'ServiceApi',
     entity: 'str',
     project: 'str',
     sweep_id: 'str',
@@ -35,7 +35,6 @@ __init__(
 ```
 
 ***
-
 
 ### <kbd>propriété</kbd> Sweep.config
 
@@ -144,12 +143,12 @@ Retourne le meilleur run, trié selon la métrique définie dans la configuratio
 
 ```python
 get(
-    client: 'RetryingClient',
+    api: 'Api',
     entity: 'str | None' = None,
     project: 'str | None' = None,
     sid: 'str | None' = None,
     order: 'str | None' = None,
-    query: 'Document | None' = None,
+    query: 'str | None' = None,
     **kwargs
 )
 ```
@@ -158,7 +157,7 @@ Exécute une requête sur le backend cloud.
 
 **Arguments :**
 
-* `client`:  Le client à utiliser pour exécuter la requête.
+* `api`:  L’instance d’API W&amp;B.
 * `entity`:  L’entité (nom d’utilisateur ou équipe) propriétaire du projet.
 * `project`:  Le nom du projet depuis lequel récupérer le balayage.
 * `sid`:  L’ID du balayage à interroger.
@@ -167,7 +166,6 @@ Exécute une requête sur le backend cloud.
 * `**kwargs`:  Arguments nommés supplémentaires à transmettre à la requête.
 
 ***
-
 
 ### <kbd>méthode</kbd> `Sweep.to_html`
 

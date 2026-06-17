@@ -17,25 +17,25 @@ Un run individuel associé à une entité et à un projet.
 
 ```python
 __init__(
-    client: 'RetryingClient',
+    service_api: 'ServiceApi',
     entity: 'str',
     project: 'str',
     run_id: 'str',
     attrs: 'Mapping | None' = None,
     include_sweeps: 'bool' = True,
     lazy: 'bool' = True,
-    service_api: 'ServiceApi | None' = None
+    api_key: 'str | None' = None
 )
 ```
 
 **Arguments :**
 
-* `client`:  Le client de l&#39;API W&amp;B.
+* `service_api`:  Interface vers le service wandb-core qui effectue les appels à l&#39;API W&amp;B pour ce run.
 * `entity`:  L&#39;entité associée au run.
 * `project`:  Le projet associé au run.
 * `run_id`:  L&#39;identifiant unique du run.
 * `attrs`:  Les attributs du run.
-* `include_sweeps`:  Indique s&#39;il faut inclure les Sweeps dans le run.
+* `include_sweeps`:  Indique s&#39;il faut inclure les balayages dans le run.
 
 **Attributs :**
 
@@ -63,7 +63,6 @@ Initialise un objet Run.
 Run est toujours initialisé en appelant `api.runs()`, où `api` est une instance de `wandb.Api`.
 
 ***
-
 
 ### <kbd>propriété</kbd> Run.config
 
@@ -238,26 +237,10 @@ beta_scan_history(
     min_step: 'int' = 0,
     max_step: 'int | None' = None,
     use_cache: 'bool' = True
-) → public.BetaHistoryScan
+) → public.HistoryScan
 ```
 
-Renvoie une collection itérable de tous les enregistrements de l’historique d’un run.
-
-Cette fonction est encore en cours de développement et peut ne pas fonctionner comme prévu. Elle utilise wandb-core pour lire localement l’historique à partir de l’historique Parquet exporté d’un run.
-
-**Arguments :**
-
-* `keys`:  liste des métriques à lire dans l’historique du run. Si aucune clé n’est fournie, toutes les métriques sont renvoyées.
-* `page_size`:  le nombre d’enregistrements d’historique à lire à la fois.
-* `min_step`:  l’étape minimale à partir de laquelle commencer à lire l’historique (inclus).
-* `max_step`:  l’étape maximale jusqu’à laquelle lire l’historique (exclus).
-* `use_cache`:  lorsqu’il est défini sur True, vérifie si l’historique d’un run est présent dans WANDB&#95;CACHE&#95;DIR. Si l’historique du run n’est pas trouvé dans le cache, il sera téléchargé depuis le serveur. S’il est défini sur False, l’historique du run sera téléchargé à chaque fois.
-
-**Retourne :**
-Un objet BetaHistoryScan, sur lequel il est possible d’itérer pour obtenir les enregistrements de l’historique.
-
 ***
-
 
 ### <kbd>classmethod</kbd> `Run.create`
 
@@ -543,34 +526,26 @@ Enregistrez les modifications apportées à l’objet run sur le backend W&amp;B
 scan_history(
     keys: 'list[str] | None' = None,
     page_size: 'int' = 1000,
-    min_step: 'int | None' = None,
-    max_step: 'int | None' = None
-) → Iterator[dict[str, Any]]
+    min_step: 'int' = 0,
+    max_step: 'int | None' = None,
+    use_cache: 'bool' = True
+) → public.HistoryScan
 ```
 
 Renvoie une collection itérable de tous les enregistrements de l’historique d’un run.
 
 **Arguments :**
 
-* `keys` ([str], facultatif) : récupère uniquement ces clés, et uniquement les lignes pour lesquelles toutes ces clés sont définies.
-* `page_size` (int, facultatif) : taille des pages à récupérer depuis l’API.
-* `min_step` (int, facultatif) : nombre minimal de pages à analyser à la fois.
-* `max_step` (int, facultatif) : nombre maximal de pages à analyser à la fois.
+* `keys`:  liste des métriques à lire dans l’historique du run. Si aucune clé n’est fournie, toutes les métriques sont renvoyées.
+* `page_size`:  le nombre d’enregistrements d’historique à lire à la fois.
+* `min_step`:  l’étape minimale à partir de laquelle commencer à lire l’historique (inclus).
+* `max_step`:  l’étape maximale jusqu’à laquelle lire l’historique (exclus).
+* `use_cache`:  lorsqu’il est défini sur True, vérifie si l’historique d’un run est présent dans WANDB&#95;CACHE&#95;DIR. Si l’historique du run n’est pas trouvé dans le cache, il sera téléchargé depuis le serveur. S’il est défini sur False, l’historique du run sera téléchargé à chaque fois.
 
 **Retourne :**
-Une collection itérable d’enregistrements de l’historique (dict).
-
-**Exemple :**
-Exporter toutes les valeurs de perte d’un run d’exemple
-
-```python
-run = api.run("entity/project-name/run-id")
-history = run.scan_history(keys=["Loss"])
-losses = [row["Loss"] for row in history]
-```
+Un objet HistoryScan, sur lequel il est possible d’itérer pour obtenir les enregistrements de l’historique.
 
 ***
-
 
 ### <kbd>méthode</kbd> `Run.to_html`
 

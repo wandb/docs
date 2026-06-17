@@ -1,6 +1,7 @@
 ---
 title: "Evaluate RAG applications"
 description: "Build and evaluate RAG applications using Weave with LLM judges"
+keywords: [retrieval augmented generation, LLM judge, context precision, scorer, embeddings]
 ---
 
 import { ColabLink } from '/snippets/_includes/colab-link.mdx';
@@ -12,25 +13,29 @@ import WeaveQuickstartPrereqs from "/snippets/_includes/weave-quickstart-prereqs
 <GitHubLink url="https://github.com/wandb/docs/blob/main/weave/cookbooks/source/evaluate_rag_applications.ipynb" />
 </div>
 
-Retrieval Augmented Generation (RAG) is a common way of building Generative AI applications that have access to custom knowledge bases.
+Retrieval Augmented Generation (RAG) is a common way to build Generative AI applications that have access to custom knowledge bases. This tutorial walks you through building a RAG application and using Weave to track its retrieval steps and evaluate its responses with an LLM judge, so you can measure and improve the quality of the answers your application returns.
+
+This guide is for developers building RAG applications who want to add observability and systematic evaluation to their pipelines.
 
 ![Evals hero](/images/evals-hero.png)
 
-## What you'll learn:
+## What you'll learn
 
 This guide shows you how to:
 
-* Build a knowledge base
-* Create a RAG application with a retrieval step that finds relevant documents
-* Track retrieval steps with Weave
-* Evaluate RAG applications using an LLM judge to measure context precision
-* Define custom scoring functions
+* Build a knowledge base.
+* Create a RAG application with a retrieval step that finds relevant documents.
+* Track retrieval steps with Weave.
+* Evaluate RAG applications using an LLM judge to measure context precision.
+* Define custom scoring functions.
 
 <WeaveQuickstartPrereqs/>
 
 ## Build a knowledge base
 
-First, compute the embeddings for the articles. You would typically do this once with your articles and put the embeddings and metadata in a database, but here it's done every time the script runs for simplicity.
+The knowledge base is the corpus your RAG application searches at query time. In this section, you compute vector embeddings for a small set of articles so that you can later retrieve the most relevant article for a given question.
+
+First, compute the embeddings for the articles. You typically do this once with your articles and put the embeddings and metadata in a database, but here it's done every time the script runs for simplicity.
 
 <Tabs>
   <Tab title="Python">
@@ -69,7 +74,8 @@ First, compute the embeddings for the articles. You would typically do this once
 
   </Tab>
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     require('dotenv').config();
     import { OpenAI } from 'openai';
     import * as weave from 'weave';
@@ -118,7 +124,9 @@ First, compute the embeddings for the articles. You would typically do this once
 
 ## Create a RAG app
 
-Next, wrap the retrieval function `get_most_relevant_document` with a `weave.op()` decorator and create a `Model` class. Call `weave.init('<team-name>/rag-quickstart')` to begin tracking all the inputs and outputs of your functions for later inspection. If you do not specify a team name, the output is recorded to your [W&B default team or entity](/platform/app/settings-page/user-settings#default-team).
+With the knowledge base in place, you can now build the RAG application itself. This section combines the retrieval step with an LLM call and wraps both with Weave so that every input and output is tracked automatically.
+
+Next, wrap the retrieval function `get_most_relevant_document` with a `weave.op()` decorator and create a `Model` class. Wrapping the retrieval function with `weave.op()` lets Weave capture its inputs and outputs for every call, which is what makes the retrieval step inspectable later. Call `weave.init('<team-name>/rag-quickstart')` to begin tracking all the inputs and outputs of your functions for later inspection. If you don't specify a team name, Weave records the output to your [W&B default team or entity](/platform/app/settings-page/user-settings#default-team).
 
 <Tabs>
   <Tab title="Python">
@@ -183,7 +191,8 @@ Next, wrap the retrieval function `get_most_relevant_document` with a `weave.op(
 
   </Tab>
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     class RAGModel {
         private openai: OpenAI;
         private systemMessage: string;
@@ -232,13 +241,15 @@ Next, wrap the retrieval function `get_most_relevant_document` with a `weave.op(
   </Tab>
 </Tabs>
 
-## Evaluating with an LLM Judge
+## Evaluate with an LLM judge
 
-When there aren't simple ways to evaluate your application, one approach is to use an LLM to evaluate aspects of it. Here is an example of using an LLM judge to try to measure the context precision by prompting it to verify if the context was useful in arriving at the given answer. This prompt was augmented from the popular [RAGAS framework](https://docs.ragas.io/en/stable/).
+Now that your RAG application is running and being tracked by Weave, the next step is to evaluate how well it answers questions. This section shows how to use an LLM as an automatic judge so you can score your application's responses without writing labels by hand.
 
-### Defining a scoring function
+When there aren't simple ways to evaluate your application, one approach is to use an LLM to evaluate aspects of it. Here's an example of using an LLM judge to measure the context precision by prompting it to verify whether the context was useful in arriving at the given answer. This prompt was augmented from the popular [RAGAS framework](https://docs.ragas.io/en/stable/).
 
-As in the [Build an Evaluation pipeline tutorial](/weave/tutorial-eval), define a set of example rows to test your app against and a scoring function. The scoring function takes one row and evaluates it. The input arguments should match with the corresponding keys in your row, so `question` here is taken from the row dictionary. `output` is the output of the model. The input to the model is taken from the example based on its input argument, so `question` here too. This example uses `async` functions so they run fast in parallel. If you need a quick introduction to async, you can find one [here](https://docs.python.org/3/library/asyncio.html).
+### Define a scoring function
+
+As in the [Build an Evaluation pipeline tutorial](/weave/tutorial-eval), define a set of example rows to test your app against and a scoring function. The scoring function takes one row and evaluates it. The input arguments should match the corresponding keys in your row, so `question` here is taken from the row dictionary. `output` is the output of the model. The input to the model is taken from the example based on its input argument, so `question` here too. This example uses `async` functions so they run in parallel. For a quick introduction to async, see the [Python `asyncio` documentation](https://docs.python.org/3/library/asyncio.html).
 
 <Tabs>
   <Tab title="Python">
@@ -290,7 +301,8 @@ As in the [Build an Evaluation pipeline tutorial](/weave/tutorial-eval), define 
 
   </Tab>
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     const contextPrecisionScore = weave.op(async function(args: {
         datasetRow: QuestionRow;
         modelOutput: { answer: string; context: string; }
@@ -325,18 +337,20 @@ As in the [Build an Evaluation pipeline tutorial](/weave/tutorial-eval), define 
   </Tab>
 </Tabs>
 
-### Optional: Defining a `Scorer` class
+### Optional: Define a `Scorer` class
 
-In some applications you may want to create custom evaluation classes - where for example a standardized `LLMJudge` class should be created with specific parameters (e.g. chat model, prompt), specific scoring of each row, and specific calculation of an aggregate score. Weave defines a list of ready-to-use `Scorer` classes and also makes it easy to create a custom `Scorer` - the following example shows how to create a custom `class CorrectnessLLMJudge(Scorer)`.
+The scoring function in the previous section works well for simple cases, but a `Scorer` class is useful when you want to reuse the same judge across evaluations or customize how scores are aggregated. The following steps show when and how to define one.
 
-On a high-level the steps to create custom Scorer are quite simple:
+In some applications you may want to create custom evaluation classes (for example, a standardized `LLMJudge` class with parameters such as chat model and prompt), custom scoring of each row, and custom calculation of an aggregate score. Weave defines a list of ready-to-use `Scorer` classes and also makes it easy to create a custom `Scorer`. The following example shows how to create a custom `class CorrectnessLLMJudge(Scorer)`.
 
-1. Define a custom class that inherits from `weave.flow.scorer.Scorer`
-2. Overwrite the `score` function and add a `@weave.op()` if you want to track each call of the function
-   - this function has to define an `output` argument where the prediction of the model will be passed to. Define it as type `Optional[dict]` in case the model might return "None".
-   - the rest of the arguments can either be a general `Any` or `dict` or can select specific columns from the dataset that is used to evaluate the model using the `weave.Evaluate` class - they have to have the exact same names as the column names or keys of a single row after being passed to `preprocess_model_input` if that is used.
-3. _Optional:_ Overwrite the `summarize` function to customize the calculation of the aggregate score. By default Weave uses the `weave.flow.scorer.auto_summarize` function if you don't define a custom function.
-   - this function has to have a `@weave.op()` decorator.
+At a high level, the steps to create a custom Scorer are:
+
+1. Define a custom class that inherits from `weave.flow.scorer.Scorer`.
+2. Overwrite the `score` function and add a `@weave.op()` if you want to track each call of the function.
+   - This function has to define an `output` argument where the prediction of the model is passed. Define it as type `Optional[dict]` in case the model returns "None".
+   - The rest of the arguments can either be a general `Any` or `dict` or can select specific columns from the dataset that is used to evaluate the model using the `weave.Evaluate` class. They have to have the exact same names as the column names or keys of a single row after being passed to `preprocess_model_input` if that is used.
+3. Optional: Overwrite the `summarize` function to customize the calculation of the aggregate score. By default, Weave uses the `weave.flow.scorer.auto_summarize` function if you don't define a custom function.
+   - This function has to have a `@weave.op()` decorator.
 
 <Tabs>
   <Tab title="Python">
@@ -415,7 +429,7 @@ On a high-level the steps to create custom Scorer are quite simple:
   </Tab>
 </Tabs>
 
-To use this as a scorer, you would initialize it and pass it to `scorers` argument in your `Evaluation like this:
+To use this as a scorer, initialize it and pass it to the `scorers` argument in your `Evaluation` like this:
 
 <Tabs>
   <Tab title="Python">
@@ -430,19 +444,21 @@ To use this as a scorer, you would initialize it and pass it to `scorers` argume
   </Tab>
 </Tabs>
 
-## Pulling it all together
+## Put it all together
+
+This section consolidates everything from the previous steps into a single end-to-end example so you can see how the pieces fit together and adapt them to your own RAG application.
 
 To get the same result for your RAG apps:
 
-- Wrap LLM calls & retrieval step functions with `weave.op()`
-- (optional) Create a `Model` subclass with `predict` function and app details
-- Collect examples to evaluate
-- Create scoring functions that score one example
-- Use `Evaluation` class to run evaluations on your examples
+- Wrap LLM calls and retrieval step functions with `weave.op()`.
+- Optional: Create a `Model` subclass with `predict` function and app details.
+- Collect examples to evaluate.
+- Create scoring functions that score one example.
+- Use `Evaluation` class to run evaluations on your examples.
 
-**NOTE:** Sometimes the async execution of Evaluations will trigger a rate limit on the models of OpenAI, Anthropic, etc. To prevent that you can set an environment variable to limit the amount of parallel workers e.g. `WEAVE_PARALLELISM=3`.
+**NOTE:** Sometimes the async execution of Evaluations triggers a rate limit on the models of OpenAI, Anthropic, and others. To prevent that, you can set an environment variable to limit the number of parallel workers, for example, `WEAVE_PARALLELISM=3`.
 
-Here is the code in its entirety.
+Here's the code in its entirety.
 
 <Tabs>
   <Tab title="Python">
@@ -577,7 +593,8 @@ Here is the code in its entirety.
 
   </Tab>
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     require('dotenv').config();
     import { OpenAI } from 'openai';
     import * as weave from 'weave';
@@ -763,8 +780,8 @@ Here is the code in its entirety.
 
 ## Conclusion
 
-This tutorial showed how to build observability into different steps of your applications, like the retrieval step in this example. You also learned how to build more complex scoring functions, like an LLM judge, for automatic evaluation of application responses.
+This tutorial showed how to build observability into different steps of your applications, like the retrieval step in this example. You also learned how to build more complex scoring functions, such as an LLM judge, for automatic evaluation of application responses.
 
-## Next Steps
+## Next steps
 
-Check out the [RAG++ course](https://www.wandb.courses/courses/rag-in-production?utm_source=wandb_docs&utm_medium=code&utm_campaign=weave_docs) for a more advanced dive into practical RAG techniques for engineers, where you'll learn production-ready solutions from Weights & Biases, Cohere and Weaviate to optimize performance, cut costs, and enhance the accuracy and relevance of your applications.
+See the [RAG++ course](https://www.wandb.courses/courses/rag-in-production?utm_source=wandb_docs&utm_medium=code&utm_campaign=weave_docs) for a more advanced dive into practical RAG techniques for engineers, where you learn production-ready solutions from W&B, Cohere, and Weaviate to optimize performance, cut costs, and enhance the accuracy and relevance of your applications.

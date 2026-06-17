@@ -3,7 +3,7 @@ title: "How do I render Markdown in the UI?"
 keywords: ["UI Rendering"]
 ---
 
-Wrap your string with `weave.Markdown(...)` before saving, and use `weave.publish(...)` to store it. Weave uses the object’s type to determine rendering, and `weave.Markdown` maps to a known UI renderer.  The value will be shown as a formatted Markdown object in the UI. For a full code sample, see [Viewing calls](/weave/guides/tracking/tracing#viewing-calls).
+Before saving, wrap your string with `weave.Markdown(...)`, then use `weave.publish(...)` to store it. The object's type determines rendering, and `weave.Markdown` maps to a known UI renderer. The UI displays the value as a formatted Markdown object. For a full code sample, see [Viewing calls](/weave/guides/tracking/tracing#viewing-calls).
 
 ---
 

@@ -15,14 +15,93 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 <EolReminder />
 
 {/* リリースをアーカイブするには、server-releases.mdx からその <Update> エントリ（パッチを含む）を
-      この直下に移動します */}
+    この直下に移動します */}
+
+<Update label="v0.69.1" description="2025年6月10日">
+  ## 修正
+
+  * `state` パラメーターを `pending` または `running` に設定することで、`Run.create()` を使用して run を作成する際の初期状態を設定できるようになりました。
+  * **Action History** をクリックすると **Version** ビューが誤って読み込まれるバグを修正しました。
+  * Parquet store service のメモリ使用効率を改善しました。
+</Update>
+
+<Update label="v0.69.0" description="2025年5月28日">
+  ## サポートとサポート終了
+
+  * W&amp;B Server v0.56 はサポート終了しました。
+
+  ## Upgrading
+
+  W&amp;B v0.69.x に[アップグレード](/ja/platform/hosting/server-upgrade-process/#update-with-helm)するには、`operator-wandb` Helm chart の v0.31.4 以降を使用する必要があります。これを行わないと、アップグレード後に `weave-cache-clear` コンテナーが起動に失敗する場合があります。デプロイメントに以下の値が設定されていることを確認してください。
+
+  ```yaml
+  chart:
+    url: https://charts.wandb.ai
+    name: operator-wandb
+    version: 0.31.4
+  ```
+
+  アップグレードに関するご質問や問題が発生した場合は、[サポート](mailto:support@wandb.com)までお問い合わせください。
+
+  ## 機能
+
+  * Workspace で、run のカスタム表示名を直接設定できるようになりました。カスタマイズした run 名はすべてのプロットと表に表示されますが、反映されるのはご自身の Workspace 内のみで、チームメイトの表示には影響しません。これにより、Workspace をよりすっきり見やすく保てるようになり、すべての凡例やプロットに `*...v6-final-restart...`* のようなラベルが並ぶこともなくなります。
+  * run をフィルタリングまたはグループ化すると、カラーが重なって区別しにくくなることがあります。run セレクターに追加された新しい **Randomize Colors** オプションでは、現在選択している run またはグループに、デフォルトパレットからランダムにカラーを再割り当てできるため、カラーをより見分けやすくできます。
+  * 折れ線グラフで、線を **Cmd+Click** すると、新しいタブで単一 run ビューを開けるようになりました。
+  * 動画メディアパネルで、再生、一時停止、シーク、フルスクリーン表示、再生速度の調整など、より多くの再生コントロールを利用できるようになりました。
+  * すべての種類のメディアパネルの設定が整理・改善されました。
+  * ポイントクラウド パネルのポイントと背景のカラーをカスタマイズできるようになりました。
+  * チームレベルおよび組織レベルのサービスアカウントが、Registry を操作できるようになりました。
+  * 改良された指数加重移動平均 (EMA) スムージングにより、完全な未ビニングデータを扱う場合でも、より信頼性の高い[スムージング済みの線](/ja/models/app/features/panels/line-plot/smoothing)を表示できます。ほとんどの場合、パフォーマンス向上のため、スムージングはバックエンドで処理されます。この機能は v0.68.x ではプライベートプレビューでした。
+
+  ### プライベートプレビュー
+
+  プライベートプレビュー機能は招待制でのみご利用いただけます。プライベートプレビューへの参加をご希望の場合は、[サポート](mailto:support@wandb.com)またはAISEまでお問い合わせください。
+
+  * すべてのRunsを、損失やカスタムの効率メトリクスなどのセカンダリメトリクスに基づいて色分けできるようになりました。これにより、すべてのプロットでRuns全体にわたって明確なグラデーションの色分けが適用され、パターンをよりすばやく見つけられます。[動画デモを見る](https://www.loom.com/share/c6ed484899324de991ef7147fd73785d)。
+  * [個人用Workspaceテンプレート](/ja/models/track/workspaces/#workspace-templates){/* TODO change to a relref after workspace templates docs merge */}を使用すると、基本的な折れ線グラフの設定を保存し、新しいビューで自動的に再適用できます。これらの設定には、X軸キー、スムージングアルゴリズム、スムージング係数、表示する線の最大数、run セレクターの Grouping を使用するかどうか、適用する集約が含まれます。
+
+  ### Weave
+
+  * [保存済みビュー](/ja/weave/guides/tools/saved-views) を使うと、チームでの共同作業がしやすくなり、フィルターや列の設定を保存できます。
+  * PDF と一般的なファイルがサポートされるようになりました。
+  * 新しい[`EvaluationLogger` API](/ja/weave/guides/evaluation/evaluation_logger) では、命令型スタイルで柔軟に評価をログできます。
+  * これで、[人によるアノテーション](/ja/weave/guides/tracking/feedback#add-human-annotations) を Weave のデータセットにインポートできるようになりました
+  * [Playground](/ja/weave/guides/tools/playground) で、保存済みの設定とプロンプトがサポートされるようになりました。
+  * TypeScript でデコレーターがサポートされるようになりました。
+  * [ジェネレーター関数のトレース](/ja/weave/guides/tracking/tracing#trace-sync-%26-async-generator-functions) をサポートしました。
+  * 新しい[`dataset.add_rows`](/ja/weave/reference/python-sdk/#method-add-rows)ヘルパーにより、既存のデータセットへの行の追加がより効率的になります。
+  * 利用状況を把握しやすくするため、UI で trace と object のサイズを確認できるようになりました。
+
+  ## パフォーマンス
+
+  * [`wandb` SDK](/ja/models/quickstart/#install-the-wandb-library-and-log-in) v0.19.11 では、artifact のダウンロード速度が平均で 3〜5 倍向上しました。たとえば、以前は約 100 MB/秒 だった artifact でも、現在は 450 MB/秒 以上でダウンロードできる場合があります。実際のダウンロード速度は、ネットワークやストレージ インフラストラクチャーなどの要因によって異なります。
+  * [Project](/ja/models/track/project-page) ページと [User Settings](/ja/platform/app/settings-page/user-settings) ページでのキャッシュを改善しました。
+
+  ## 修正
+
+  * Python 仮想環境との互換性を確保できるよう、`weave-cache-clear` コンテナーの起動プロセスを改善しました。
+  * コンソールログをより密に表示するオプションを追加しました。
+  * Workspace の読み込み画面に表示される情報がより充実しました。
+  * Workspace から report にパネルを追加する際、宛先 report のリストでは、現在の project の report が先に表示されるようになりました。
+  * y 軸が過度に丸められ、その結果として重複した値が表示されるケースを多数修正しました。
+  * 無効なスムージングパラメーターを入力したときに発生するわかりにくい動作を修正しました。
+  * メディアパネルから **Partial Media** 警告を削除しました。これによって、メディアパネルの動作が変わることはありません。
+  * [tags に基づく run フィルター](/ja/models/runs/filter-runs/#filter-runs-with-tags)を追加すると、他のフィールドでフィルタリングする場合と同様に、そのフィルターがデフォルトで選択されるようになりました。
+  * run セレクターで、アクティブな Runs に表示されることがあった緑のベルアイコンを削除しました。
+  * 個別の Runs の System ページを削除しました。
+  * project の説明フィールドで改行が反映されるようになりました。
+  * レガシー model registry コレクションの URL を修正しました。
+  * Netron viewer がページ上の使用可能なスペース全体に広がらないバグを修正しました。
+  * project の **Delete** をクリックすると、確認モーダルにプロジェクト名が表示されるようになりました。
+</Update>
 
 <Update label="v0.68.2" description="2025年5月7日">
   ## 修正
 
   * `state` パラメーターを `pending` または `running` に設定することで、`Run.create()` を使用して run を作成する際の初期状態を設定できるようになりました。
   * **Action History** をクリックすると **Version** ビューが誤って読み込まれるバグを修正しました。
-  * Parquet Store サービス のメモリ使用効率を改善しました。
+  * Parquet store service のメモリ使用効率を改善しました。
 </Update>
 
 <Update label="v0.68.1" description="2025年5月2日">

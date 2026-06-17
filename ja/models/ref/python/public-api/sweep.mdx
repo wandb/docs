@@ -26,7 +26,7 @@ sweep に関連付けられた run のセット。
 
 ```python
 __init__(
-    client: 'RetryingClient',
+    service_api: 'ServiceApi',
     entity: 'str',
     project: 'str',
     sweep_id: 'str',
@@ -35,7 +35,6 @@ __init__(
 ```
 
 ***
-
 
 ### <kbd>プロパティ</kbd> Sweep.config
 
@@ -144,12 +143,12 @@ best_run(order=None)
 
 ```python
 get(
-    client: 'RetryingClient',
+    api: 'Api',
     entity: 'str | None' = None,
     project: 'str | None' = None,
     sid: 'str | None' = None,
     order: 'str | None' = None,
-    query: 'Document | None' = None,
+    query: 'str | None' = None,
     **kwargs
 )
 ```
@@ -158,7 +157,7 @@ get(
 
 **引数:**
 
-* `client`:  クエリの実行に使用するクライアント。
+* `api`:  W&amp;B API インスタンス。
 * `entity`:  プロジェクトを所有する entity (ユーザー名またはチーム) 。
 * `project`:  sweep を取得する元のプロジェクト名。
 * `sid`:  クエリ対象の sweep ID。
@@ -167,7 +166,6 @@ get(
 * `**kwargs`:  クエリに渡す追加のキーワード引数。
 
 ***
-
 
 ### <kbd>method</kbd> `Sweep.to_html`
 

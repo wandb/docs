@@ -2,10 +2,15 @@
 title: "Informations sur l’utilisation et les limites"
 linkTitle: "Utilisation et limites"
 description: >
-  Comprendre la tarification, les limites d’utilisation et les restrictions de compte pour Serverless Inference
+  Découvrez la tarification, les limites d’utilisation et les restrictions de compte applicables à Serverless Inference
+keywords: ["crédits", "limites de débit", "limites de concurrence", "erreur 429", "niveaux de compte"]
 ---
 
-Découvrez la tarification, les limites et d’autres informations importantes sur l’utilisation avant d’utiliser Serverless Inference.
+Cette page décrit la tarification, les limites d’utilisation et les restrictions de compte applicables à Serverless Inference. Utilisez ces informations pour planifier votre utilisation et éviter des frais imprévus ou des interruptions de service. Consultez-les avant d’envoyer du trafic de Production, en particulier si vous gérez la facturation ou utilisez des niveaux de concurrence élevés.
+
+<Info>
+  Si vous avez des questions sur la tarification, les limites ou votre compte auxquelles cette page ne répond pas, contactez l’[assistance](https://wandb.ai/site/contact) pour discuter de vos exigences.
+</Info>
 
 <div id="pricing">
   ## Tarification
@@ -19,9 +24,9 @@ Pour des informations détaillées sur la tarification des modèles, consultez [
 
 Les crédits Serverless Inference sont inclus pendant une durée limitée avec les plans Free, Pro et Academic. La disponibilité de l’offre Enterprise peut varier. Lorsque les crédits sont épuisés :
 
-* **Les comptes Free** doivent activer le paiement à l’usage pour Serverless Inference (dans l’onglet **Billing**), ou passer à un plan payant pour continuer à utiliser Serverless Inference. [Activer le paiement à l’usage ou passer à un plan supérieur](https://wandb.ai/subscriptions)
-* **Les utilisateurs du plan Pro** sont facturés mensuellement pour les dépassements, selon la [tarification propre à chaque modèle](https://wandb.ai/site/pricing/inference)
-* **Les comptes Enterprise** doivent contacter leur responsable de compte
+* **Les comptes Free** doivent activer le paiement à l’usage pour Serverless Inference dans l’onglet **Billing**, ou passer à un plan payant pour continuer à utiliser Serverless Inference. [Activer le paiement à l’usage ou passer à un plan supérieur](https://wandb.ai/subscriptions).
+* W&amp;B facture mensuellement les dépassements aux **utilisateurs du plan Pro**, selon la [tarification propre à chaque modèle](https://wandb.ai/site/pricing/inference).
+* **Les comptes Enterprise** doivent contacter leur responsable de compte.
 
 <div id="account-tiers-and-default-usage-caps">
   ## Niveaux de compte et plafonds d’utilisation par défaut
@@ -29,7 +34,7 @@ Les crédits Serverless Inference sont inclus pendant une durée limitée avec l
 
 Chaque niveau de compte comporte un plafond de dépenses par défaut pour vous aider à maîtriser les coûts et à éviter des frais imprévus. W&amp;B exige un prépaiement pour l’accès payant à l’Inférence.
 
-Si vous devez modifier votre plafond, contactez votre responsable de compte ou l’assistance pour ajuster votre limite.
+Le tableau suivant indique le plafond par défaut pour chaque niveau et explique comment demander une modification. Si vous devez modifier votre plafond, contactez votre responsable de compte ou [Support](https://wandb.ai/site/contact) pour ajuster votre limite.
 
 | Niveau de compte | Plafond par défaut | Comment modifier la limite                                                  |
 | ---------------- | ------------------ | --------------------------------------------------------------------------- |
@@ -41,9 +46,11 @@ Si vous devez modifier votre plafond, contactez votre responsable de compte ou l
   ## Limites de concurrence
 </div>
 
-Si vous dépassez la limite de débit, l&#39;API renvoie une réponse `429 Concurrency limit reached for requests`. Pour corriger cette erreur, réduisez le nombre de requêtes simultanées. Pour plus de détails sur la résolution de ce problème, voir [Limites de concurrence](#concurrency-limits).
+Les limites de concurrence protègent la qualité du service en plafonnant le nombre de requêtes qu’un projet ou un utilisateur peut avoir en cours à un moment donné. Si vous dépassez la limite de concurrence, l’API renvoie une réponse `429 Concurrency limit reached for requests`. Pour corriger cette erreur, réduisez le nombre de requêtes simultanées.
 
-W&amp;B applique des limites de débit par projet W&amp;B. Par exemple, si vous avez 3 projets dans une équipe, chaque projet dispose de son propre quota de limite de débit.
+W&amp;B applique des limites de concurrence par projet W&amp;B et par utilisateur. Par exemple, si vous avez 3 projets dans une équipe, chaque projet dispose de son propre quota de limite de concurrence.
+
+Si votre cas d’utilisation nécessite des limites plus élevées, contactez [Support](https://wandb.ai/site/contact) pour discuter de vos exigences.
 
 <div id="geographic-restrictions">
   ## Restrictions géographiques
@@ -54,6 +61,8 @@ Le service Inférence n&#39;est disponible que dans les zones géographiques pri
 <div id="next-steps">
   ## Étapes suivantes
 </div>
+
+Maintenant que vous comprenez la tarification, les plafonds et les limites de concurrence, poursuivez la configuration de votre compte :
 
 * Consultez les [prérequis](/fr/inference/prerequisites/) avant de commencer.
 * Consultez les [modèles disponibles](/fr/inference/models) et leur tarification respective.

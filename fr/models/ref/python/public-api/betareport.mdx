@@ -31,7 +31,7 @@ Elle fournit un accès aux attributs du rapport (nom, description, utilisateur, 
 
 ```python
 __init__(
-    client: 'RetryingClient',
+    service_api: 'ServiceApi',
     attrs: 'dict',
     entity: 'str | None' = None,
     project: 'str | None' = None
@@ -39,7 +39,6 @@ __init__(
 ```
 
 ***
-
 
 ### <kbd>propriété</kbd> BetaReport.created_at
 

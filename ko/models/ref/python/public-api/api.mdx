@@ -44,16 +44,6 @@ API를 초기화합니다.
 ***
 
 
-### <kbd>속성</kbd> Api.client
-
-클라이언트 객체를 반환합니다.
-
-**반환값:**
-
-* `RetryingClient`: 클라이언트 속성 값입니다.
-
-***
-
 ### <kbd>속성</kbd> Api.default_entity
 
 기본 W&amp;B entity를 반환합니다.
@@ -80,8 +70,8 @@ viewer 객체를 반환합니다.
 
 **예외:**
 
-* `ValueError`: W&amp;B에서 viewer 데이터를 가져올 수 없는 경우.
-* `requests.RequestException`: GraphQL 요청 중 오류가 발생한 경우.
+* `ValueError`:  W&amp;B에서 viewer 데이터를 가져올 수 없는 경우.
+* `WandbApiFailedError`:  GraphQL 요청 중 오류가 발생한 경우.
 
 **반환값:**
 
@@ -154,7 +144,7 @@ artifact_collection(type_name: 'str', name: 'str') → ArtifactCollection
 `ArtifactCollection` 객체입니다.
 
 **예시:**
-다음 코드 스니펫에서 &quot;type&quot;, &quot;entity&quot;, &quot;project&quot;, &quot;artifact&#95;name&quot;는 각각 컬렉션 유형, 사용자의 W&amp;B entity, 아티팩트가 속한 프로젝트 이름, 아티팩트 이름을 나타내는 플레이스홀더입니다.
+이어서 나오는 코드 스니펫에서 &quot;type&quot;, &quot;entity&quot;, &quot;project&quot;, &quot;artifact&#95;name&quot;는 각각 컬렉션 유형, 사용자의 W&amp;B entity, 아티팩트가 속한 프로젝트 이름, 아티팩트 이름을 나타내는 플레이스홀더입니다.
 
 ```python
 import wandb
@@ -163,10 +153,10 @@ collections = wandb.Api().artifact_collection(
     type_name="type", name="entity/project/artifact_name"
 )
 
-# 컬렉션의 첫 번째 artifact를 가져옵니다.
+# 컬렉션의 첫 번째 아티팩트를 가져옵니다.
 artifact_example = collections.artifacts()[0]
 
-# artifact의 내용을 지정된 루트 디렉터리에 다운로드합니다.
+# 아티팩트의 내용을 지정된 루트 디렉터리에 다운로드합니다.
 artifact_example.download()
 ```
 
@@ -180,16 +170,16 @@ artifact_collection_exists(name: 'str', type: 'str') → bool
 
 지정된 프로젝트와 entity 내에 아티팩트 컬렉션이 존재하는지 여부입니다.
 
-**매개변수:**
+**인수:**
 
-* `name`:  아티팩트 컬렉션 이름입니다. 선택적으로 아티팩트를 로깅한 entity를 접두사로 붙인 다음 슬래시(`/`)를 추가할 수 있습니다. entity 또는 프로젝트를 지정하지 않으면 override 매개변수가 있는 경우 이를 바탕으로 collection을 추론합니다. 그렇지 않으면 entity는 User Settings에서 가져오고 프로젝트는 기본적으로 &quot;uncategorized&quot;로 설정됩니다.
+* `name`:  아티팩트 컬렉션 이름입니다. 선택적으로 아티팩트를 로깅한 entity를 접두사로 붙인 다음 슬래시(`/`)를 추가할 수 있습니다. entity 또는 프로젝트를 지정하지 않으면 override 매개변수가 있는 경우 이를 바탕으로 컬렉션을 추론합니다. 그렇지 않으면 entity는 User Settings에서 가져오고 프로젝트는 기본적으로 &quot;uncategorized&quot;로 설정됩니다.
 * `type`:  아티팩트 컬렉션의 유형입니다.
 
 **반환값:**
 아티팩트 컬렉션이 존재하면 True, 그렇지 않으면 False를 반환합니다.
 
 **예시:**
-다음 코드 스니펫에서 &quot;type&quot;과 &quot;collection&#95;name&quot;은 각각 아티팩트 컬렉션의 유형과 collection의 이름을 의미합니다.
+이어지는 코드 스니펫에서 &quot;type&quot;과 &quot;collection&#95;name&quot;은 각각 아티팩트 컬렉션의 유형과 컬렉션의 이름을 의미합니다.
 
 ```python
 import wandb
@@ -232,7 +222,7 @@ artifact_exists(name: 'str', type: 'str | None' = None) → bool
 
 지정된 프로젝트와 entity 내에 아티팩트 버전이 존재하는지 여부입니다.
 
-**매개변수:**
+**인수:**
 
 * `name`:  아티팩트의 이름입니다. 아티팩트의 entity와 프로젝트를 접두사로 추가합니다. 아티팩트의 버전 또는 alias를 콜론(:)과 함께 뒤에 붙입니다. entity 또는 프로젝트를 지정하지 않으면, 값이 설정되어 있는 경우 W&amp;B가 override 매개변수를 사용합니다. 그렇지 않으면 entity는 User Settings에서 가져오고 프로젝트는 &quot;Uncategorized&quot;로 설정됩니다.
 * `type`:  아티팩트의 유형입니다.
@@ -241,7 +231,7 @@ artifact_exists(name: 'str', type: 'str | None' = None) → bool
 아티팩트 버전이 존재하면 True, 그렇지 않으면 False입니다.
 
 **예시:**
-다음 코드 스니펫에서 &quot;entity&quot;, &quot;project&quot;, &quot;artifact&quot;, &quot;version&quot;, &quot;alias&quot;는 각각 W&amp;B entity, 아티팩트가 속한 프로젝트 이름, 아티팩트 이름, 그리고 아티팩트 버전을 나타내는 플레이스홀더입니다.
+앞서 나온 코드 스니펫에서 &quot;entity&quot;, &quot;project&quot;, &quot;artifact&quot;, &quot;version&quot;, &quot;alias&quot;는 각각 W&amp;B entity, 아티팩트가 속한 프로젝트 이름, 아티팩트 이름, 그리고 아티팩트 버전을 나타내는 플레이스홀더입니다.
 
 ```python
 import wandb
@@ -317,7 +307,7 @@ artifacts(
 
 `Artifacts` 컬렉션을 반환합니다.
 
-**매개변수:**
+**인수:**
 
 * `type_name`: 가져올 아티팩트의 유형입니다.
 * `name`: 아티팩트의 컬렉션 이름입니다. 선택적으로 아티팩트를 로깅한 entity를 접두사로 추가하고 그 뒤에 슬래시를 붙일 수 있습니다.
@@ -329,7 +319,7 @@ artifacts(
 반복 가능한 `Artifacts` 객체입니다.
 
 **예시:**
-다음 코드 스니펫에서 &quot;type&quot;, &quot;entity&quot;, &quot;project&quot;, &quot;artifact&#95;name&quot;은 각각 아티팩트 유형, W&amp;B entity, 아티팩트가 로깅된 프로젝트 이름, 아티팩트 이름을 나타내는 플레이스홀더입니다.
+이어지는 코드 스니펫에서 &quot;type&quot;, &quot;entity&quot;, &quot;project&quot;, &quot;artifact&#95;name&quot;은 각각 아티팩트 유형, W&amp;B entity, 아티팩트가 로깅된 프로젝트 이름, 아티팩트 이름을 나타내는 플레이스홀더입니다.
 
 ```python
 import wandb
@@ -774,7 +764,7 @@ from_path(path: 'str')
 경로가 잘못되었거나 객체가 존재하지 않으면 `wandb.Error` 예외가 발생합니다.
 
 **예시:**
-다음 코드 스니펫에서 &quot;project&quot;, &quot;team&quot;, &quot;run&#95;id&quot;, &quot;sweep&#95;id&quot;, &quot;report&#95;name&quot;은 각각 프로젝트, 팀, run ID, 스윕 ID, 특정 리포트 이름을 나타내는 플레이스홀더입니다.
+앞의 코드 스니펫에서 &quot;project&quot;, &quot;team&quot;, &quot;run&#95;id&quot;, &quot;sweep&#95;id&quot;, &quot;report&#95;name&quot;은 각각 프로젝트, 팀, run ID, 스윕 ID, 특정 리포트 이름을 나타내는 플레이스홀더입니다.
 
 ```python
 import wandb

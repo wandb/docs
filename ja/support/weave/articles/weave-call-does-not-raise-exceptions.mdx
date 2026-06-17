@@ -11,7 +11,7 @@ keywords: ["Trace Data"]
 result, call = my_op.call(__should_raise=True)
 ```
 
-`__should_raise=True` がない場合、op の実行中に発生した例外はすべて、表に出されることなく取得されて保存されます。エラーを調べるには、`call.exception` を確認してください。
+`__should_raise=True` を設定しない場合、Weave は op の実行中に発生した例外をすべて表に出さずに取得して保存するため、エラーを調べるには `call.exception` を確認する必要があります。
 
 ```python
 result, call = my_op.call()

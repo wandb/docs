@@ -6,6 +6,54 @@ rss: true
 
 이 페이지에는 W&amp;B Models와 함께 사용되는 W&amp;B Python SDK(`wandb` 패키지)의 릴리스 노트가 포함되어 있습니다. Weave Python SDK(`weave` 패키지)에 대해서는 [Weave SDK 릴리스](/ko/release-notes/weave-sdk-releases)를 참조하세요. W&amp;B Server에 대해서는 [W&amp;B Server 릴리스 노트](/ko/release-notes/server-releases)를 참조하세요.
 
+<Update label="0.27.2" description="2026년 6월 6일">
+  ## 수정됨
+
+  * `Run.scan_history()`는 이제 run 이력을 가져올 때 step이 중복되거나 누락되어 반환되지 않습니다.
+</Update>
+
+<Update label="0.27.1" description="2026년 6월 4일">
+  ## 추가됨
+
+  * 이제 Automations API는 아티팩트 태그, 컬렉션 태그, 아티팩트 연결 해제 이벤트를 지원합니다.
+
+  ## 변경됨
+
+  * 이제 `wandb.Api` GraphQL 오퍼레이션은 레거시 Python GraphQL 클라이언트 대신 `wandb-core`를 통해 라우팅됩니다.
+    * 이제 `wandb.Api` GraphQL 오퍼레이션 실패 시 `requests` HTTP 예외 대신 `WandbApiFailedError`가 발생합니다.
+  * `Run.scan_history()`는 이제 사용 가능한 경우 내보낸 parquet 이력에서 조회하므로, 이력이 큰 run의 처리량을 크게 개선할 수 있습니다. 이 기능은 SDK `v0.23.1`에서 `beta_scan_history`로 도입되었습니다.
+
+  ## 제거됨
+
+  * 지원되지 않는 `wandb.apis.importers` API가 제거되었습니다.
+  * 레거시 autologging 및 Tracing API를 포함한 오래된 OpenAI, Cohere, LangChain LLM 인테그레이션이 제거되었습니다.
+  * 사용 중단된 Keras `WandbCallback`와 레거시 `wandb.integration.yolov8` 콜백 패키지가 제거되었습니다.
+
+  ## 수정됨
+
+  * 이제 `wandb.sandbox`는 placement, GPU, egress에 대해 잘못된 인수 값을 거부합니다.
+</Update>
+
+<Update label="0.27.0" description="2026년 5월 13일">
+  ## 주요 변경 사항
+
+  이 버전에서는 Python 3.9 및 Pydantic v1 지원이 중단됩니다. 이제 Pydantic v2.6 이상이 필요합니다.
+
+  ## 추가됨
+
+  * [Serverless Sandboxes](/ko/sandboxes)를 사용하기 위한 새 패키지 `wandb.sandbox`와 `wandb beta sandbox` CLI.
+  * 메트릭 업로드를 불가능하게 만드는 치명적 오류가 발생하면 run을 중지하는 새 설정 `stop_on_fatal_error` 및 환경 변수 `WANDB_STOP_ON_FATAL_ERROR`.
+  * 새 설정 `finish_timeout`과 해당 환경 변수 `WANDB_FINISH_TIMEOUT`을 사용하면 run 종료 시 데이터 업로드를 위해 몇 초 동안 대기할지 지정할 수 있습니다. run이 시간 초과되면 경고 메시지가 출력됩니다. 경고 메시지를 출력하는 것에 더해 오류를 발생시키려면 불리언 설정 `finish_timeout_raises` 또는 해당 환경 변수 `WANDB_FINISH_TIMEOUT_RAISES`를 사용하세요.
+  * 새 설정 `capture_loggers`를 사용하면 로거 이름에서 최소 로그 수준으로의 매핑을 사용해 run의 **Logs** 탭에 캡처할 Python 로거를 지정할 수 있습니다. 해당 로거에서 출력된 로그 레코드는 `stdout`/`stderr` 캡처와 비슷하게 run에 콘솔 출력으로 게시됩니다.
+  * 새 메서드 `run.write_logs()`는 `stdout`/`stderr`의 자동 캡처에 의존하지 않고 텍스트를 run의 **Logs** 탭에 직접 기록합니다.
+
+  ## 변경됨
+
+  * Linux 컨테이너의 run에 대한 시스템 메트릭은 이제 호스트 전체값 대신 컨테이너의 cgroup v2 limits를 기준으로 CPU 및 메모리 사용량을 보고합니다.
+  * Python 3.9는 더 이상 지원되지 않습니다.
+  * 이제 Pydantic 2.6 이상이 필요합니다. Pydantic v1은 더 이상 지원되지 않습니다.
+</Update>
+
 <Update label="0.26.1" description="2026년 4월 23일">
   ## 추가됨
 

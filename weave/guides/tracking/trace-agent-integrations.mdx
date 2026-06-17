@@ -1,0 +1,34 @@
+---
+title: Trace agent integrations
+description: Connect W&B Weave to agent SDKs, agent harnesses, and custom agents so sessions appear in the Agents view.
+keywords: ["agent harnesses", "autopatch", "OpenTelemetry", "GenAI semconv", "multi-agent"]
+---
+
+import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
+
+<AgentsPreview />
+
+W&B Weave can trace multi-turn agentic applications without hand-instrumenting every turn. For supported agent SDKs and harnesses, call `weave.init()` and Weave autopatches the framework. Weave captures sessions, turns, LLM calls, and tool calls, then renders them in the **Agents** view. This page links to integration guides for three categories: agent harnesses, agent SDKs, and custom agents (including those that emit OpenTelemetry spans).
+
+## Agent harnesses
+
+Agent harnesses are end-user agent runtimes (such as coding agents and developer tools) that produce spans Weave can capture. Install the appropriate plugin or extension, and Weave routes your harness sessions to the **Agents** view:
+
+- **[Claude Code plugin](/weave/guides/integrations/agents/claude-code-harness)**
+- **[Codex plugin](/weave/guides/integrations/agents/codex-harness)**
+- **[OpenClaw plugin](/weave/guides/integrations/agents/openclaw-harness)**
+- **[Pi extension](/weave/guides/integrations/agents/pi-dev-harness)**
+
+## Agent SDKs
+
+Agent SDKs are libraries for building agents and multi-agent workflows in your own application code. Weave autopatches the following SDKs:
+
+- **[OpenAI Agents SDK](/weave/guides/integrations/agents/openai-agents-sdk)**
+- **[Google Agent Development Kit (ADK)](/weave/guides/integrations/agents/google-adk)**
+- **[Claude Agent SDK](/weave/guides/integrations/agents/claude-agents-sdk)**
+
+## Custom agents and OpenTelemetry
+
+Use the Weave SDK directly to instrument custom agents, including any agent that emits OpenTelemetry spans. Weave accepts any OTel span and has special handling for [GenAI semantic-convention attributes](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans/) so your spans render in the **Agents** view.
+
+To learn how to instrument custom agents with the Weave SDK directly, see [Trace your agents](/weave/guides/tracking/trace-agents). For a walkthrough, see the [Trace an agent quickstart](/weave/agents-quickstart).

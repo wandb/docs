@@ -13,24 +13,24 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 엔티티 및 프로젝트와 연관된 단일 run입니다.
 
-### <kbd>method</kbd> `Run.__init__`
+### <kbd>방법</kbd> `Run.__init__`
 
 ```python
 __init__(
-    client: 'RetryingClient',
+    service_api: 'ServiceApi',
     entity: 'str',
     project: 'str',
     run_id: 'str',
     attrs: 'Mapping | None' = None,
     include_sweeps: 'bool' = True,
     lazy: 'bool' = True,
-    service_api: 'ServiceApi | None' = None
+    api_key: 'str | None' = None
 )
 ```
 
-**매개변수:**
+**인수:**
 
-* `client`:  W&amp;B API 클라이언트.
+* `service_api`:  이 run에 대해 W&amp;B API 호출을 수행하는 wandb-core 서비스 인터페이스입니다.
 * `entity`:  run과 연결된 entity.
 * `project`:  run과 연결된 프로젝트.
 * `run_id`:  run의 고유 식별자.
@@ -63,7 +63,6 @@ Run 객체를 초기화합니다.
 Run은 항상 wandb.Api 인스턴스인 api에서 api.runs()를 호출하여 초기화됩니다.
 
 ***
-
 
 ### <kbd>property</kbd> Run.config
 
@@ -226,7 +225,7 @@ run URL은 entity, 프로젝트, 그리고 run_id로부터 생성됩니다. SaaS
 
 ---
 
-### <kbd>method</kbd> `Run.beta_scan_history`
+### <kbd>방법</kbd> `Run.beta_scan_history`
 
 ```python
 beta_scan_history(
@@ -235,26 +234,10 @@ beta_scan_history(
     min_step: 'int' = 0,
     max_step: 'int | None' = None,
     use_cache: 'bool' = True
-) → public.BetaHistoryScan
+) → public.HistoryScan
 ```
 
-run의 모든 history 레코드를 담은 이터러블 컬렉션을 반환합니다.
-
-이 함수는 아직 개발 중인 기능이며, 예상대로 동작하지 않을 수 있습니다. 로컬에 내보낸 run의 parquet history를 읽기 위해 wandb-core를 사용합니다.
-
-**Args:**
-
-* `keys`:  run의 history에서 읽을 메트릭 목록입니다.  keys를 지정하지 않으면 모든 메트릭이 반환됩니다.
-* `page_size`:  한 번에 읽을 history 레코드 수입니다.
-* `min_step`:  history를 읽기 시작할 최소 step(포함)입니다.
-* `max_step`:  history를 읽을 최대 step(미포함)입니다.
-* `use_cache`:  True로 설정하면 WANDB&#95;CACHE&#95;DIR에서 run history를 확인합니다.  캐시에서 run history를 찾을 수 없으면 서버에서 다운로드합니다.  False로 설정하면 매번 run history를 서버에서 다운로드합니다.
-
-**Returns:**
-BetaHistoryScan object로, 이터레이터로 사용하여 history 레코드를 가져올 수 있습니다.
-
 ***
-
 
 ### <kbd>classmethod</kbd> `Run.create`
 
@@ -534,40 +517,32 @@ run 객체의 변경 내용을 W&amp;B 백엔드에 반영합니다.
 ***
 
 
-### <kbd>메서드</kbd> `Run.scan_history`
+### <kbd>방법</kbd> `Run.scan_history`
 
 ```python
 scan_history(
     keys: 'list[str] | None' = None,
     page_size: 'int' = 1000,
-    min_step: 'int | None' = None,
-    max_step: 'int | None' = None
-) → Iterator[dict[str, Any]]
+    min_step: 'int' = 0,
+    max_step: 'int | None' = None,
+    use_cache: 'bool' = True
+) → public.HistoryScan
 ```
 
-run의 모든 history 레코드에 대한 이터러블 컬렉션을 반환합니다.
+run의 모든 이력 레코드를 담은 이터러블 컬렉션을 반환합니다.
 
-**Args:**
+**인수:**
 
-* `keys` ([str], optional):  해당 키들만 가져오며, 지정된 모든 키가 정의된 행만 가져옵니다.
-* `page_size` (int, optional):  API에서 가져올 페이지의 크기입니다.
-* `min_step` (int, optional):  한 번에 스캔할 최소 페이지 수입니다.
-* `max_step` (int, optional):  한 번에 스캔할 최대 페이지 수입니다.
+* `keys`:  run의 이력에서 읽을 메트릭 목록입니다.  keys를 지정하지 않으면 모든 메트릭이 반환됩니다.
+* `page_size`:  한 번에 읽을 이력 레코드 수입니다.
+* `min_step`:  이력을 읽기 시작할 최소 step(포함)입니다.
+* `max_step`:  이력을 읽을 최대 step(미포함)입니다.
+* `use_cache`:  True로 설정하면 WANDB&#95;CACHE&#95;DIR에서 run 이력을 확인합니다.  캐시에서 run 이력을 찾을 수 없으면 서버에서 다운로드합니다.  False로 설정하면 매번 run 이력을 서버에서 다운로드합니다.
 
-**Returns:**
-history 레코드(dict)에 대한 이터러블 컬렉션.
-
-**Example:**
-예시 run에 대한 모든 loss 값을 내보냅니다.
-
-```python
-run = api.run("entity/project-name/run-id")
-history = run.scan_history(keys=["Loss"])
-losses = [row["Loss"] for row in history]
-```
+**반환값:**
+HistoryScan object로, 이터레이터로 사용하여 이력 레코드를 가져올 수 있습니다.
 
 ***
-
 
 ### <kbd>method</kbd> `Run.to_html`
 

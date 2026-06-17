@@ -1,17 +1,19 @@
 ---
 title: レート制限
 description: 専用クラウドのデフォルトのレート制限と変更をリクエストする方法
+keywords: ["API レート制限", "スループット制限", "SDK スロットリング", "429 エラー", "レート制限の引き上げ"]
 ---
 
 import RateLimitsDefaultsAndNotification from "/snippets/ja/_includes/rate-limits-defaults-and-notification.mdx";
 
-W&amp;B 専用クラウドでは、インスタンスの安定性を維持するためにレート制限を設けています。トレーニングを拡大する場合や、より高いスループットが必要な場合は、W&amp;B が制限を調整できます。
-
+W&amp;B 専用クラウドでは、インスタンスの安定性を維持するためにレート制限を設けています。トレーニングを拡大する場合や、より高いスループットが必要な場合は、W&amp;B が制限を調整できます。このページでは、お使いの専用クラウドインスタンスに適用されるデフォルトの制限と、ワークロードでより多くの容量が必要な場合に引き上げをリクエストする方法を説明します。
 
 <div id="default-limits-and-notification">
   ## デフォルトの制限と通知
 </div>
 
+次のセクションでは、デフォルトのレート制限を一覧表示し、制限を超えたときに W&amp;B SDK がどのように動作するかを説明します。
+
 <RateLimitsDefaultsAndNotification />
 
-これらのデフォルト値は、一般的な本番ワークロード向けの推奨値です。ワークロードが継続的にこれらの制限を超える場合は、上限の引き上げを依頼するため、[W&amp;B サポート](mailto:support@wandb.com) または担当の Account Solutions Engineer (AISE) にお問い合わせください。実験環境と利用パターンの詳細をお知らせください。
+W&amp;B は、一般的な本番ワークロード向けにこれらのデフォルト値を推奨しています。[レート制限を設定する](/ja/platform/hosting/self-managed/operator#set-rate-limits)を参照してください。ワークロードが継続的にこれらの制限を超える場合は、上限の引き上げを依頼するため、[W&amp;B サポート](mailto:support@wandb.com) または担当の Account Solutions Engineer (AISE) にお問い合わせください。W&amp;B が適切な調整範囲を判断できるよう、実験環境と利用パターンの詳細をお知らせください。

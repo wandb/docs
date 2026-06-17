@@ -37,15 +37,19 @@ init(
     sync_tensorboard: 'bool | None' = None,
     monitor_gym: 'bool | None' = None,
     settings: 'Settings | dict[str, Any] | None' = None,
-    anonymous: 'DoNotSet' = <object object at 0x107855240>
+    anonymous: 'DoNotSet' = <object object at 0x104fe52d0>
 ) → Run
 ```
 
-W&amp;B でトラッキングとログを行うための新しい run を開始します。
+W&amp;B でトラッキングし、ログするための新しい run を開始します。
 
 ML のトレーニングパイプラインでは、トレーニングスクリプトと評価スクリプトの先頭に `wandb.init()` を追加できます。すると、それぞれが W&amp;B で run としてトラッキングされます。
 
-`wandb.init()` は、run にデータをログするための新しいバックグラウンドプロセスを起動します。また、デフォルトでデータを [https://wandb.ai](https://wandb.ai) に Sync するため、結果をリアルタイムで確認できます。データのログが完了したら、`wandb.Run.finish()` を呼び出して run を終了します。`run.finish()` を呼び出さない場合、スクリプトの終了時に run も終了します。
+`wandb.init()` は、run にデータをログするための新しいバックグラウンドプロセスを起動します。また、デフォルトでデータを [https://wandb.ai](https://wandb.ai) に Sync するため、結果をリアルタイムで確認できます。データのログが完了したら、`run.finish()` を呼び出して run を終了するか、run をコンテキストマネージャーとして使用して自動的に呼び出します:
+
+with wandb.init() as run:  ...  # ブロックの最後で run.finish() が実行されます
+
+`run.finish()` を呼び出さない場合、スクリプトの終了時に run も終了します。
 
 run ID には、次の特殊文字を含めることはできません `/ \ # ? % :`
 

@@ -6,17 +6,65 @@ rss: true
 
 Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`) utilisé avec W&amp;B Models. Pour le SDK Python Weave (package `weave`), voir les [versions du SDK Weave](/fr/release-notes/weave-sdk-releases). Pour W&amp;B Server, voir les [notes de version de W&amp;B Server](/fr/release-notes/server-releases).
 
+<Update label="0.27.2" description="6 juin 2026">
+  ## Correctif
+
+  * `Run.scan_history()` ne renvoie plus d’étapes dupliquées ou manquantes lors de la récupération de l’historique du run.
+</Update>
+
+<Update label="0.27.1" description="4 juin 2026">
+  ## Ajouts
+
+  * L’API Automatisations prend désormais en charge les événements de marquage d’artifact, de marquage de collection et de dissociation d’artifact.
+
+  ## Modification
+
+  * Les opérations GraphQL de `wandb.Api` passent désormais par `wandb-core` au lieu de l’ancien client GraphQL Python.
+    * En cas d’échec, les opérations GraphQL de `wandb.Api` lèvent désormais `WandbApiFailedError` au lieu des exceptions HTTP `requests`.
+  * `Run.scan_history()` lit désormais l’historique exporté au format parquet lorsqu’il est disponible, ce qui peut considérablement améliorer le débit pour les runs dont l’historique est volumineux. Cette fonctionnalité a été introduite sous `beta_scan_history` dans le SDK `v0.23.1`.
+
+  ## Suppression
+
+  * Suppression de l’API `wandb.apis.importers` non prise en charge.
+  * Suppression des anciennes intégrations LLM OpenAI, Cohere et LangChain, y compris les anciennes API d’autologging et de Tracing.
+  * Suppression du `WandbCallback` Keras obsolète et de l’ancien package de callback `wandb.integration.yolov8`.
+
+  ## Correctif
+
+  * `wandb.sandbox` rejette désormais les valeurs d’argument invalides pour le placement, le GPU et l’egress.
+</Update>
+
+<Update label="0.27.0" description="13 mai 2026">
+  ## Changements notables
+
+  Cette version ne prend plus en charge Python 3.9 ni Pydantic v1. Pydantic v2.6 ou une version ultérieure est désormais requis.
+
+  ## Ajouts
+
+  * Le nouveau package `wandb.sandbox` et la CLI `wandb beta sandbox` pour utiliser [Serverless Sandboxes](/fr/sandboxes).
+  * Le nouveau paramètre `stop_on_fatal_error` et la variable d’environnement `WANDB_STOP_ON_FATAL_ERROR` arrêtent un run après une erreur fatale qui l’empêche de téléverser des métriques.
+  * Le nouveau paramètre `finish_timeout` et la variable d’environnement correspondante `WANDB_FINISH_TIMEOUT` vous permettent de spécifier le nombre de secondes à attendre pour le téléversement des données à la fin d’un run. Si un run expire, un message d’avertissement est affiché. Utilisez le paramètre booléen `finish_timeout_raises` ou la variable d’environnement correspondante `WANDB_FINISH_TIMEOUT_RAISES` pour lever une erreur en plus d’afficher un message d’avertissement.
+  * Le nouveau paramètre `capture_loggers` vous permet de spécifier les loggers Python à capturer dans l’onglet **Logs** du run, à l’aide d’une correspondance entre le nom du logger et le niveau de journalisation minimum. Les enregistrements émis par ces loggers sont publiés comme sortie de console dans le run, de façon similaire à la capture de `stdout`/`stderr`.
+  * La nouvelle méthode `run.write_logs()` écrit du texte directement dans l’onglet **Logs** du run au lieu de s’appuyer sur la capture automatique de `stdout`/`stderr`.
+
+  ## Modification
+
+  * Les métriques système des runs dans des conteneurs Linux signalent désormais l’utilisation du CPU et de la mémoire par rapport aux limites cgroup v2 du conteneur plutôt qu’aux totaux de l’hôte.
+  * Python 3.9 n’est plus pris en charge.
+  * Pydantic 2.6 ou version ultérieure est désormais requis. Pydantic v1 n’est plus pris en charge.
+</Update>
+
 <Update label="0.26.1" description="23 avril 2026">
   ## Ajouts
 
   * Les méthodes `wandb.Api` qui renvoient des artifacts, des registres, des automatisations et les paginateurs associés acceptent un argument `start` facultatif, ce qui vous permet de reprendre l’itération à partir d’un curseur enregistré.
   * Le paramètre `stop_fn` de `wandb.Settings` permet de personnaliser la façon dont le SDK demande au processus Python de s’arrêter lorsqu’un arrêt de run est demandé (par défaut, il envoie SIGINT). Transmettez ce paramètre avec `wandb.setup(settings=...)` ou `wandb.init(settings=...)`. Comme la valeur est un callable, elle ne peut pas être définie via une variable d’environnement.
 
-  ## Modifications
+  ## Modification
 
   * Dans `wandb beta leet`, les touches WASD et les touches fléchées sont interchangeables pour déplacer le focus dans chaque volet (grilles de graphiques, navigation dans les listes). Les touches **Home**, **End**, **Page Up** et **Page Down** fonctionnent de manière cohérente. Le volet multimédia utilise toujours les touches fléchées pour parcourir l’axe X et les touches WASD pour se déplacer entre les vignettes d’image.
 
-  ## Correctifs
+  ## Correctif
 
   * `wandb.init(id=run_id, reinit="create_new")` renvoie désormais une erreur si un autre run avec le même `run_id` est encore actif dans le même script.
   * `wandb.Api` ne renvoie plus d’erreur pour certaines opérations lorsque le mode hors ligne est activé avec la variable d’environnement `WANDB_MODE` ou le paramètre `mode`.

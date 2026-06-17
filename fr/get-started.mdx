@@ -9,13 +9,13 @@ description: Choisissez le produit W&B adapté à votre cas d’usage et apprene
 
 Bienvenue sur Weights &amp; Biases ! Avant de commencer à utiliser nos produits, il est important d’identifier ceux qui correspondent à votre cas d’usage.
 
-| Produit                                           | Idéal pour                                   | Fonctionnalités clés                                                                                                                        |
-| ------------------------------------------------- | -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| **[W&amp;B Models](#w%26b-models)**               | Entraîner des modèles de ML à partir de zéro | suivi des expériences, optimisation des hyperparamètres, registre de modèles, visualisations                                                |
-| **[W&amp;B Weave](#w%26b-weave)**                 | Créer des applications LLM                   | Tracing, gestion des prompts, évaluation, suivi des coûts pour les applications d’IA en production                                          |
-| **[Serverless Inference](#serverless-inference)** | Utiliser des modèles préentraînés            | modèles open source hébergés, accès à l’API, playground de modèles pour les tests                                                           |
-| **[Serverless RL](#serverless-rl)**               | Fine-tuning de modèles                       | Créer et déployer des LoRAs et des adaptations de modèles personnalisées à l’aide de l’apprentissage par renforcement                       |
-| **[Serverless Sandboxes](#serverless-sandboxes)** | Exécuter des environnements de calcul isolés | sandboxes à la demande et éphémères pour les tâches d’entraînement, l’utilisation d’outils par des agents et des expériences reproductibles |
+| Produit                                           | Idéal pour                                   | Fonctionnalités clés                                                                                                                                   |
+| ------------------------------------------------- | -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **[W&amp;B Models](#w%26b-models)**               | Entraîner des modèles de ML à partir de zéro | suivi des expériences, optimisation des hyperparamètres, registre de modèles, visualisations                                                           |
+| **[W&amp;B Weave](#w%26b-weave)**                 | Créer des applications LLM                   | Tracing, gestion des prompts, évaluation, suivi des coûts pour les applications d’IA en production                                                     |
+| **[Serverless Inference](#serverless-inference)** | Utiliser des modèles préentraînés            | modèles open source hébergés, accès à l’API, playground de modèles pour les tests                                                                      |
+| **[Serverless Training](#serverless-training)**   | Fine-tuning et post-entraînement de modèles  | Créer et déployer des LoRAs et des adaptations de modèles personnalisées avec l’apprentissage par renforcement (RL) et le supervised fine-tuning (SFT) |
+| **[Serverless Sandboxes](#serverless-sandboxes)** | Exécuter des environnements de calcul isolés | sandboxes à la demande et éphémères pour les tâches d’entraînement, l’utilisation d’outils par des agents et des expériences reproductibles            |
 
 <div id="wb-models">
   ## W&amp;B Models
@@ -34,7 +34,7 @@ Bienvenue sur Weights &amp; Biases ! Avant de commencer à utiliser nos produit
     Un cours vidéo axé sur le suivi des expériences, avec des quiz pour valider votre compréhension.
   </Card>
 
-  <Card title="Tutoriel YouTube" href="https://www.youtube.com/watch?v=tHAFujRhZLA">
+  <Card title="Tutoriel YouTube" href="https://www.youtube.com/watch?v=FkTwcxnSPes">
     Découvrez comment les modèles sont entraînés, évalués, développés et déployés, et comment utiliser wandb à chaque étape de ce cycle de vie pour créer plus rapidement des modèles plus performants.
   </Card>
 </Columns>
@@ -83,8 +83,8 @@ Bienvenue sur Weights &amp; Biases ! Avant de commencer à utiliser nos produit
   </Card>
 </Columns>
 
-<div id="serverless-rl">
-  ## Serverless RL
+<div id="serverless-training">
+  ## Serverless Training
 </div>
 
 <Columns cols={2}>
@@ -92,7 +92,7 @@ Bienvenue sur Weights &amp; Biases ! Avant de commencer à utiliser nos produit
     Utilisez Serverless RL avec la bibliothèque ART d&#39;OpenPipe pour entraîner un modèle afin qu&#39;il joue au 2048.
   </Card>
 
-  <Card title="Utiliser vos modèles entraînés" href="/fr/serverless-rl/use-trained-models">
+  <Card title="Utiliser vos modèles entraînés" href="/fr/serverless-training/use-trained-models">
     Une fois votre modèle entraîné, découvrez comment l&#39;utiliser dans votre code.
   </Card>
 </Columns>

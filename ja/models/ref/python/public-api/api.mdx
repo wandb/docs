@@ -44,16 +44,6 @@ API を初期化します。
 ***
 
 
-### <kbd>プロパティ</kbd> Api.client
-
-クライアントオブジェクトを返します。
-
-**戻り値:**
-
-* `RetryingClient`: `client` プロパティの値。
-
-***
-
 ### <kbd>プロパティ</kbd> Api.default_entity
 
 デフォルトの W&amp;B entity を返します。
@@ -81,7 +71,7 @@ viewer オブジェクトを返します。
 **発生する例外:**
 
 * `ValueError`:  W&amp;B から viewer データを取得できない場合。
-* `requests.RequestException`:  GraphQL リクエストの実行中にエラーが発生した場合。
+* `WandbApiFailedError`:  GraphQL リクエストの実行中にエラーが発生した場合。
 
 **戻り値:**
 
@@ -189,7 +179,7 @@ artifact_collection_exists(name: 'str', type: 'str') → bool
 artifact collectionが存在する場合はTrue、存在しない場合はFalse。
 
 **例:**
-次のコードスニペットでは、&quot;type&quot;と&quot;collection&#95;name&quot;はそれぞれartifact collectionのタイプとcollectionの名を指します。
+以降のコードスニペットでは、&quot;type&quot;と&quot;collection&#95;name&quot;はそれぞれartifact collectionのタイプとcollectionの名を指します。
 
 ```python
 import wandb
@@ -774,7 +764,7 @@ from_path(path: 'str')
 パスが無効であるか、オブジェクトが存在しない場合は `wandb.Error`。
 
 **Examples:**
-以下のコードスニペットでは、&quot;project&quot;、&quot;チーム&quot;、&quot;run&#95;id&quot;、&quot;sweep&#95;id&quot;、および &quot;report&#95;name&quot; は、それぞれproject、チーム、run ID、sweep ID、および特定の レポート 名を表すプレースホルダーです。
+以下に示すコードスニペットでは、&quot;project&quot;、&quot;チーム&quot;、&quot;run&#95;id&quot;、&quot;sweep&#95;id&quot;、および &quot;report&#95;name&quot; は、それぞれproject、チーム、run ID、sweep ID、および特定の レポート 名を表すプレースホルダーです。
 
 ```python
 import wandb

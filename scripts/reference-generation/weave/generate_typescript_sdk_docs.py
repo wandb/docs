@@ -144,6 +144,7 @@ def generate_typedoc(sdk_path, output_path):
     # Create typedoc config
     config = {
         "entryPoints": ["src/index.ts"],
+        "tsconfig": "./tsconfig.esm.json",
         "out": str(output_path),
         "plugin": ["typedoc-plugin-markdown"],
         "readme": "none",
@@ -213,7 +214,16 @@ description: "TypeScript SDK reference"
         
         # Fix parameter tables
         content = re.sub(r'\|\s*:--\s*\|', '| --- |', content)
-        
+
+        # Enable Mintlify Twoslash on TS code blocks for IDE-style hover types.
+        # `// @noErrors` suppresses type errors from non-self-contained snippets.
+        content = re.sub(
+            r'^```(ts|typescript)([^\n]*)$',
+            r'```\1\2 twoslash\n// @noErrors',
+            content,
+            flags=re.MULTILINE,
+        )
+
         # Fix internal links to use relative paths with lowercase filenames
         # TypeDoc generates links like ../classes/WeaveObject.md which need fixing
         
@@ -360,18 +370,18 @@ description: "TypeScript SDK reference"
             func_filename = func_name.lower()
             func_file = functions_dir / f"{func_filename}.mdx"
             func_file.write_text(func_file_content)
-            functions_found.append(func_filename)
+            functions_found.append((func_name, func_filename))
             print(f"    ✓ Extracted {func_filename}.mdx")
-        
+
         if functions_found:
             # Remove the detailed function documentation from index
             content = function_pattern.sub('', content)
-            
+
             # Update the Functions section with links (functions_found already has lowercase names)
             # The landing page is at typescript-sdk.mdx, so links need ./typescript-sdk/ prefix
             functions_section = "\n### Functions\n\n"
-            for func in functions_found:
-                functions_section += f"- [{func}](./typescript-sdk/functions/{func})\n"
+            for func_label, func_filename in functions_found:
+                functions_section += f"- [{func_label}](./typescript-sdk/functions/{func_filename})\n"
             
             # Replace existing Functions section with links
             content = re.sub(

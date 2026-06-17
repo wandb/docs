@@ -17,7 +17,7 @@ A project is a namespace for runs.
 
 ```python
 __init__(
-    client: 'RetryingClient',
+    service_api: 'ServiceApi',
     entity: 'str',
     project: 'str',
     attrs: 'Mapping[str, Any]'
@@ -26,7 +26,7 @@ __init__(
 
 **Args:**
  
- - `client`:  W&B API client instance. 
+ - `service_api`:  Interface to the wandb-core service that performs  W&B API calls for this project. 
  - `name` (str):  The name of the project. 
  - `entity` (str):  The entity name that owns the project. 
 
@@ -37,7 +37,7 @@ A single project associated with an entity.
 
 **Args:**
  
- - `client`:  The API client used to query W&B. 
+ - `service_api`:  The service API used to query W&B. 
  - `entity`:  The entity which owns the project. 
  - `project`:  The name of the project to query. 
  - `attrs`:  The attributes of the project. 

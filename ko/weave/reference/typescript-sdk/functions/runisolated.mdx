@@ -1,0 +1,56 @@
+---
+title: "runIsolated"
+description: "TypeScript SDK 레퍼런스"
+---
+
+<div id="runisolated">
+  # runIsolated
+</div>
+
+▸ **runIsolated**&lt;`T`&gt;(`fn`): `T`
+
+새롭고 격리된 GenAI 상태 프레임에서 `fn`을 실행합니다. `fn` 내부에서 시작된 모든 Session / Turn / LLM은
+이 프레임 안에서만 유지됩니다. 즉, 동시에 실행 중인 다른 `runIsolated` 프레임과 충돌하지 않으며,
+외부 비동기 체인으로 누출되지도 않습니다.
+
+병렬 GenAI 작업을 안전하게 실행할 때 사용하세요:
+
+```typescript
+  await Promise.all([
+    weave.runIsolated(async () => { ... }),
+    weave.runIsolated(async () => { ... }),
+  ]);
+```
+
+순차적인 single-flight 사용에는 이 래퍼가 필요하지 않습니다 —
+프로세스 전체의 기본 상태가 이를 처리합니다.
+
+<div id="type-parameters">
+  #### 유형 매개변수
+</div>
+
+| 이름  |
+| :-- |
+| `T` |
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름   | 유형           |
+| :--- | :----------- |
+| `fn` | () =&gt; `T` |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`T`
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[genai/context.ts:90](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/context.ts#L90)
+
+***
