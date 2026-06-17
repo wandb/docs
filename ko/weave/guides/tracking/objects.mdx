@@ -1,7 +1,10 @@
 ---
 title: "객체 추적 및 버전 관리"
 description: "W&B Weave에서 모든 JSON 직렬화 가능한 객체를 추적하고 버전 관리합니다"
+keywords: ["objects", "versioning", "refs", "weave.publish", "weave.ref"]
 ---
+
+이 페이지에서는 W&amp;B Weave에서 버전 관리되는 객체를 게시, 가져오기, 삭제, 참조하는 방법을 설명합니다. 여러 run과 시간의 흐름에 걸쳐 데이터셋, 모델 또는 prompt와 같은 구조화된 데이터를 추적해야 할 때 사용하세요.
 
 <div id="objects">
   ## 객체
@@ -25,8 +28,8 @@ weave.publish(dataset)
 ```
 
 
-<div id="publishing-an-object">
-  ## 객체 게시하기
+<div id="publish-an-object">
+  ## 객체 게시
 </div>
 
 Weave의 직렬화 계층은 객체를 저장하고 버전을 관리합니다.
@@ -42,9 +45,10 @@ Weave의 직렬화 계층은 객체를 저장하고 버전을 관리합니다.
   </Tab>
 
   <Tab title="TypeScript">
-    TypeScript에서의 게시 기능은 아직 초기 단계이므로 모든 객체를 완전히 지원하지는 않습니다.
+    TypeScript의 게시 기능 지원은 제한적입니다. 모든 객체가 지원되는 것은 아닙니다.
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     import * as weave from 'weave'
 
     const client = await weave.init("your-team-name/your-project-name")
@@ -60,6 +64,8 @@ Weave의 직렬화 계층은 객체를 저장하고 버전을 관리합니다.
 <div id="get-an-object-back">
   ## 객체 다시 가져오기
 </div>
+
+게시한 후에는 레퍼런스를 사용해 저장된 객체를 가져올 수 있습니다.
 
 <Tabs>
   <Tab title="Python">
@@ -84,9 +90,11 @@ Weave의 직렬화 계층은 객체를 저장하고 버전을 관리합니다.
   ## 객체 삭제
 </div>
 
+객체의 특정 버전이 더 이상 필요하지 않다면, 해당 ref를 사용해 제거할 수 있습니다.
+
 <Tabs>
   <Tab title="Python">
-    객체 버전을 삭제하려면 object ref에서 `.delete()`를 호출하세요.
+    객체 버전을 삭제하려면 객체의 ref에서 `.delete()`를 호출하세요.
 
     ```python lines
     weave.init("your-team-name/your-project-name")
@@ -94,7 +102,7 @@ Weave의 직렬화 계층은 객체를 저장하고 버전을 관리합니다.
     cat_names_ref.delete()
     ```
 
-    삭제된 객체에 접근하면 오류가 발생합니다. 삭제된 객체를 참조하는 레퍼런스가 있는 객체를 resolve하면, 삭제된 객체 대신 `DeletedRef`가 반환됩니다.
+    삭제된 객체에 접근하면 오류가 발생합니다. 삭제된 객체를 참조하는 객체를 resolve하면, 삭제된 객체 대신 `DeletedRef`가 반환됩니다.
   </Tab>
 
   <Tab title="TypeScript">
@@ -104,23 +112,25 @@ Weave의 직렬화 계층은 객체를 저장하고 버전을 관리합니다.
   </Tab>
 </Tabs>
 
-<div id="constructing-object-refs">
-  ## object ref 구성하기
+<div id="construct-object-refs">
+  ## 객체 ref 만들기
 </div>
 
-Weave에서 완전 수식된 object ref URI는 다음과 같습니다:
+ref는 저장된 객체와 버전을 고유하게 식별합니다. 다음 섹션에서는 URI 구조와 ref를 구성하는 방법을 설명합니다.
+
+Weave에서 완전 수식된 객체 ref URI는 다음과 같습니다.
 
 ```text
-weave:///<your-team-name>/<your-project-name>/object/<object_name>:<object_version>
+weave:///[YOUR-TEAM-NAME]/[YOUR-PROJECT-NAME]/object/[OBJECT-NAME]:[OBJECT-VERSION]
 ```
 
-* *your-team-name*: W&amp;B entity(사용자 이름 또는 팀 이름)
-* *your-project-name*: W&amp;B 프로젝트
-* *object&#95;name*: 객체 이름
-* *object&#95;version*: 버전 해시, `v0` 또는 `v1` 같은 문자열, 또는 `:latest` 같은 별칭 중 하나입니다. 모든 객체에는 `:latest` 별칭이 있습니다.
+* `[YOUR-TEAM-NAME]`: W&amp;B entity(사용자 이름 또는 팀 이름)
+* `[YOUR-PROJECT-NAME]`: W&amp;B 프로젝트
+* `[OBJECT-NAME]`: 객체 이름
+* `[OBJECT-VERSION]`: 버전 해시, `v0` 또는 `v1` 같은 string, 또는 `:latest` 같은 별칭입니다. 모든 객체에는 `:latest` 별칭이 있습니다.
 
-몇 가지 다른 스타일로 ref를 구성할 수 있습니다:
+몇 가지 방식으로 ref를 구성할 수 있습니다:
 
-* `weave.ref(<name>)`: 객체의 `:latest` 버전을 조회합니다. `weave.init(...)`를 호출해야 합니다.
-* `weave.ref(<name>:<version>)`: 객체의 지정된 버전을 조회합니다. `weave.init(...)`를 호출해야 합니다.
-* `weave.ref(<fully_qualified_ref_uri>)`: 지정된 완전 수식된 object ref URI에 있는 객체를 조회합니다. `weave.init()`를 호출할 필요가 없습니다.
+* `weave.ref([NAME])`: 객체의 `:latest` 버전을 가져옵니다. `weave.init(...)`를 호출해야 합니다.
+* `weave.ref([NAME]:[VERSION])`: 지정한 버전의 객체를 가져옵니다. `weave.init(...)`를 호출해야 합니다.
+* `weave.ref([FULLY-QUALIFIED-REF-URI])`: 지정한 정규화된 객체 ref URI에 있는 객체를 가져옵니다. `weave.init()`를 호출할 필요가 없습니다.

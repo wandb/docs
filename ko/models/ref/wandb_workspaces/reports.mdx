@@ -342,8 +342,13 @@ LaTeX 텍스트로 이루어진 블록입니다.
 * `legend_fields` (Optional[LList[str]]):  범례에 포함할 필드입니다.
 * `metric_regex` (Optional[str]):  y축 메트릭과 일치하는 정규식 패턴입니다. 백엔드는 이 패턴을 사용해 일치하는 메트릭을 선택합니다.
 * `point_visualization_method` (Optional[PointVizMethod]):  표시할 포인트가 너무 많을 때 포인트를 집계하는 데 사용하는 방법입니다. 옵션에는 &quot;bucketing-gorilla&quot;(데이터 포인트를 버킷으로 묶고 각 버킷의 min, max, avg를 표시해 이상치와 스파이크를 보존) 또는 &quot;sampling&quot;(더 빠르게 렌더링하기 위해 포인트를 무작위로 샘플링하지만 이상치를 놓칠 수 있음)이 있습니다.
+* `line_titles` (Optional[Dict[str, str]]):  각 시리즈의 표시 제목입니다. 키는 &quot;{runId}:{metricName}&quot; 형식입니다.
+* `line_colors` (Optional[Dict[str, Any]]):  각 시리즈의 색상입니다. 키는 &quot;{runId}:{metricName}&quot; 형식을 사용합니다.
+* `line_widths` (Optional[Dict[str, float]]):  시리즈별 선 두께입니다. 키는 &quot;{runId}:{metricName}&quot; 형식을 사용합니다.
+* `line_marks` (Optional[Dict[str, Mark]]):  시리즈별 대시 스타일입니다. 키는 &quot;{runId}:{metricName}&quot; 형식입니다.
+* `유효한 값`:  &quot;solid&quot;, &quot;dashed&quot;, &quot;dotted&quot;, &quot;dotdash&quot;, &quot;dotdotdash&quot;, &quot;points&quot;.
 
-***
+---
 
 ## <kbd>class</kbd> `Link`
 
@@ -656,27 +661,45 @@ to_html(height: int = 1024, hidden: bool = False) → str
 
 ***
 
-## <kbd>class</kbd> `Runset`
+## <kbd>클래스</kbd> `Runset`
 
 패널 그리드에 표시할 run 집합입니다.
 
 **속성:**
 
-* `entity` (str):  run이 저장된 프로젝트를 소유하거나 해당 프로젝트에 대한 적절한 권한이 있는 entity입니다.
-* `project` (str):  run이 저장된 프로젝트의 이름입니다.
-* `name` (str):  run 집합의 이름입니다. 기본값은 `Run set`입니다.
-* `query` (str):  run을 필터링하기 위한 쿼리 문자열입니다.
-* `filters` (Union[str, LList[expr.FilterExpr]]):  run에 적용할 필터입니다. 다음 중 하나일 수 있습니다:
+* `entity` (str): run이 저장된 프로젝트를 소유하거나 해당 프로젝트에 대한 적절한 권한이 있는 entity입니다.
+* `project` (str): run이 저장된 프로젝트의 이름입니다.
+* `name` (str): run 집합의 이름입니다. 기본값은 `Run set`입니다.
+* `query` (str): run을 필터링하기 위한 쿼리 문자열입니다.
+* `filters` (Union[str, LList[expr.FilterExpr]]): run에 적용할 필터입니다. 다음 중 하나일 수 있습니다:
   * 문자열 표현식: 예: &quot;Config(&#39;lr&#39;) = 0.001 and State = &#39;finished&#39;&quot;
-* `Supports operators`: `=`, `==`, `!=`, `<`, `>`, `<=`, `>=`, `in`, `not in`
-  * FilterExpr 객체의 목록: 예: [expr.Config(&#39;lr&#39;) == 0.001]
-* `groupby` (LList[str]):  그룹화 기준으로 사용할 메트릭 이름 목록입니다. 지원되는 형식은 다음과 같습니다:
+* `Supports operators`:  `=`, `==`, `!=`, `<`, `>`, `<=`, `>=`, `in`, `not in`, `and`, `or`
+  * FilterExpr 객체 목록: 예: [expr.Config(&#39;lr&#39;) == 0.001]
+* `groupby` (LList[str]): 그룹화 기준으로 사용할 메트릭 이름 목록입니다. 지원되는 형식은 다음과 같습니다:
   * run 속성으로 그룹화하려면 &quot;group&quot; 또는 &quot;run.group&quot;
   * config 파라미터로 그룹화하려면 &quot;config.param&quot;
   * summary 메트릭으로 그룹화하려면 &quot;summary.metric&quot;
-* `order` (LList[OrderBy]):  정렬 기준으로 사용할 `OrderBy` 객체 목록입니다.
-* `custom_run_colors` (dict):  run ID(또는 그룹화된 run의 경우 `RunsetGroup` 키)를 색상에 매핑하는 사전입니다. run별로 단순하게 색상을 지정할 때는 `run_settings` 사용을 권장합니다.
-* `run_settings` (Dict[str, RunSettings]):  run ID를 키로 하는 run별 표시 설정입니다. 이를 사용해 색상을 설정하거나 개별 run을 숨길 수 있습니다. `RunSettings`를 참조하세요.
+* `order` (LList[OrderBy]): 정렬 기준으로 사용할 `OrderBy` 객체 목록입니다.
+* `custom_run_colors` (dict): run ID(또는 그룹화된 run의 경우 `RunsetGroup` 키)를 색상에 매핑하는 사전입니다. run별로 단순하게 색상을 지정할 때는 `run_settings` 사용을 권장합니다.
+* `run_settings` (Dict[str, RunSettings]): run ID를 키로 하는 run별 표시 설정입니다. 이를 사용해 색상을 설정하거나 개별 run을 숨길 수 있습니다. `RunSettings`를 참조하세요.
+* `pinned_columns` (LList[str]): runs table의 왼쪽에 고정할 열 접근자입니다
+* `the runs table (e.g. `[&quot;summary`: accuracy", "config:lr.value"]`). `hidden_columns`에도 있는 열은 저장 시 제거됩니다.
+* `visible_columns` (LList[str]): 강제로 표시할 열 접근자입니다. 표시할 집합을 선별하려면 `lock_columns=True`와 함께 사용하세요. 다시 로드할 때는 `column_order`를 통해서만 설정된 열도 여기에 포함됩니다.
+* `hidden_columns` (LList[str]): 숨길 열 접근자입니다. `pinned_columns`, `visible_columns`, `column_order`보다 우선합니다. 다시 로드할 때는 서버에서 미리 채워 넣은 항목이 포함될 수 있습니다
+* `like `run`: name`.
+* `column_order` (LList[str]): 왼쪽에서 오른쪽으로의 열 순서입니다. `lock_columns=True`에서는 `pinned_columns` 또는 `visible_columns`에 없는 항목은 제외됩니다.
+* `column_widths` (Dict[str, int]): 열별 픽셀 너비입니다.
+* `lock_columns` (Optional[bool]): Runs table 열 집합에 대한 선택적 잠금입니다. `True`이면 `pinned_columns`와 `visible_columns`만 표시합니다. `False` 또는 `None`(기본값)이면 제한 없이 허용됩니다. Runs table 툴바의 잠금 아이콘과 일치합니다.
+
+열 형식:
+
+* 열은 `"<section>: <name>"` 형식으로 지정합니다:
+  * `run:<attr>`: 기본 제공 run 속성(예: `run:state`)
+  * `config:<key>.value`: config 키(`.value` 접미사에 유의하세요)
+  * `summary:<key>`: summary 메트릭
+  * `tags:__ALL__`: run 태그
+
+열 제한: FE Runs table은 최대 500개 열까지만 표시합니다. 표시 집합(고정 + 표시 + column&#95;order, hidden 제외)이 500개에 도달하거나 이를 초과하면 SDK는 저장 시 경고를 출력합니다. 숨겨진 열은 개수에 포함되지 않습니다. SDK는 잘라내지 않고 전체 집합을 전송하며, 프런트엔드가 렌더링 시 제한을 강제 적용합니다.
 
 **예시:**
 
@@ -698,17 +721,15 @@ to_html(height: int = 1024, hidden: bool = False) → str
 
 ***
 
-
 ### <kbd>방법</kbd> `convert_filterexpr_list_to_string`
 
 ```python
 convert_filterexpr_list_to_string()
 ```
 
-FilterExpr 목록을 내부 처리에 사용할 문자열 표현식으로 변환합니다.
+FilterExpr 목록을 string 표현식으로 변환합니다.
 
 ***
-
 
 ### <kbd>방법</kbd> `merge_custom_run_colors_into_run_settings`
 

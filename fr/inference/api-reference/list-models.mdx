@@ -1,13 +1,16 @@
 ---
 title: "Lister les modèles"
-description: "Récupérez la liste de tous les modèles Serverless Inference disponibles et de leurs ID via l'API endpoint models."
+description: "Récupérez la liste des modèles Serverless Inference disponibles et leurs ID à l’aide du point de terminaison models."
+keywords: ["point de terminaison /v1/models", "découvrir des modèles", "ID de modèle", "lister les modèles disponibles"]
 ---
 
-Obtenez la liste de tous les modèles disponibles et de leurs ID. Utilisez-la pour sélectionner des modèles dynamiquement ou vérifier ceux qui sont disponibles.
+Cette page explique comment récupérer tous les modèles disponibles via l’API Serverless Inference, ainsi que leurs ID. Utilisez ce point de terminaison pour découvrir les modèles disponibles par programmation, sélectionner dynamiquement un modèle à l’exécution ou vérifier quels modèles sont accessibles depuis votre compte.
 
 <div id="request-examples">
   ## Exemples de requêtes
 </div>
+
+Les exemples suivants montrent comment appeler le point de terminaison models depuis Python et en ligne de commande.
 
 <Tabs>
   <Tab title="Python">
@@ -16,8 +19,8 @@ Obtenez la liste de tous les modèles disponibles et de leurs ID. Utilisez-la po
 
     client = openai.OpenAI(
         base_url="https://api.inference.wandb.ai/v1",
-        api_key="<your-api-key>",
-        project="<your-team>/<your-project>"  # facultatif, pour le suivi de l’utilisation
+        api_key="[YOUR-API-KEY]",
+        project="[YOUR-TEAM]/[YOUR-PROJECT]"  # facultatif, pour le suivi de l’utilisation
     )
 
     response = client.models.list()
@@ -31,8 +34,8 @@ Obtenez la liste de tous les modèles disponibles et de leurs ID. Utilisez-la po
     ```bash
     curl https://api.inference.wandb.ai/v1/models \
       -H "Content-Type: application/json" \
-      -H "Authorization: Bearer <your-api-key>" \
-      -H "OpenAI-Project: <your-team>/<your-project>"
+      -H "Authorization: Bearer [YOUR-API-KEY]" \
+      -H "OpenAI-Project: [YOUR-TEAM]/[YOUR-PROJECT]"
     ```
   </Tab>
 </Tabs>
@@ -41,7 +44,7 @@ Obtenez la liste de tous les modèles disponibles et de leurs ID. Utilisez-la po
   ## Format de réponse
 </div>
 
-L&#39;API renvoie des réponses dans un format compatible avec OpenAI :
+Le point de terminaison renvoie une liste d’objets de modèle dans un format compatible avec OpenAI, afin que vous puissiez traiter la réponse à l’aide des bibliothèques clientes OpenAI standard. Chaque entrée inclut l’ID du modèle que vous fournissez à d’autres points de terminaison de l’API Inférence.
 
 ```json
 {

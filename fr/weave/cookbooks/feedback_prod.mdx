@@ -1,6 +1,7 @@
 ---
 title: "Feedback en production"
-description: "Collectez et analysez les retours utilisateur sur les résultats des LLM en production grâce aux fonctionnalités de suivi des retours de W&B Weave."
+description: "Collectez et analysez les feedback utilisateur sur les résultats des LLM en production grâce aux fonctionnalités de suivi des feedback de W&B Weave."
+keywords: ["feedback utilisateur", "pouce vers le haut pouce vers le bas", "chatbot Streamlit", "LLM en production", "call.feedback"]
 ---
 
 <Note>
@@ -10,16 +11,15 @@ description: "Collectez et analysez les retours utilisateur sur les résultats d
   * [Voir la source sur GitHub](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/feedback_prod.ipynb)
 </Note>
 
-##
+Évaluer automatiquement une réponse générée par un LLM peut être difficile. Pour mieux évaluer et améliorer les réponses, vous pouvez également recueillir directement les feedback des utilisateurs afin d’identifier les points problématiques.
 
-Il est souvent difficile d’évaluer automatiquement une réponse générée par un LLM. Selon votre tolérance au risque, vous pouvez donc recueillir directement les retours des utilisateurs afin de repérer les points à améliorer.
-
-Dans ce tutoriel, nous utiliserons comme exemple une application de chatbot personnalisée pour collecter les retours des utilisateurs.
-Nous utiliserons Streamlit pour créer l’interface et capturerons dans Weave les interactions avec le LLM ainsi que les retours.
+Ce notebook montre comment collecter les feedback des utilisateurs sur les réponses d’un chatbot personnalisé. Il utilise Streamlit pour créer l’interface et capturer les interactions avec le LLM ainsi que les feedback dans W&amp;B Weave. À la fin, vous disposerez d’un chatbot opérationnel qui journalise chaque réponse vers Weave, ainsi que les réactions positives ou négatives et les feedback en texte libre de vos utilisateurs, afin de pouvoir examiner les interactions en production et identifier les axes d’amélioration.
 
 <div id="setup">
   ## Configuration
 </div>
+
+Commencez par installer les packages requis et définir vos clés API OpenAI et W&amp;B afin que le chatbot puisse appeler l’API OpenAI et consigner les appels vers Weave.
 
 ```python lines
 !pip install weave openai streamlit wandb
@@ -32,8 +32,7 @@ _ = set_env("OPENAI_API_KEY")
 _ = set_env("WANDB_API_KEY")
 ```
 
-Ensuite, créez un fichier nommé `chatbot.py` contenant ce qui suit :
-
+Ensuite, créez un fichier nommé `chatbot.py` contenant ce qui suit. Ce fichier définit l’interface de chat Streamlit, encapsule l’appel à OpenAI dans une op Weave afin de suivre chaque réponse, et affiche les contrôles de feedback qui associent les réactions et les notes à l’appel Weave correspondant.
 
 ```python lines {13,15,27}
 # chatbot.py
@@ -54,7 +53,7 @@ weave_client = weave.init("feedback-example")
 oai_client = openai.OpenAI()
 
 def init_states():
-    """Configure les clés session_state si elles n'existent pas encore."""
+    """Configurer les clés session_state si elles n'existent pas encore."""
     if "messages" not in st.session_state:
         st.session_state["messages"] = []
     if "calls" not in st.session_state:
@@ -65,7 +64,7 @@ def init_states():
 @weave.op
 def chat_response(full_history):
     """
-    Appelle l'API OpenAI en mode streaming en tenant compte de l'intégralité de l'historique de conversation.
+    Appelle l'API OpenAI en mode streaming en tenant compte de l'intégralité de l'historique de conversation jusqu'à présent.
     full_history est une liste de dicts : [{"role":"user"|"assistant","content":...}, ...]
     """
     stream = oai_client.chat.completions.create(
@@ -82,13 +81,13 @@ def render_feedback_buttons(call_idx):
     with col1:
         if st.button("👍", key=f"thumbs_up_{call_idx}"):
             st.session_state.calls[call_idx].feedback.add_reaction("👍")
-            st.success("Merci pour votre feedback !")
+            st.success("Thanks for the feedback!")
 
     # Bouton pouce bas
     with col2:
         if st.button("👎", key=f"thumbs_down_{call_idx}"):
             st.session_state.calls[call_idx].feedback.add_reaction("👎")
-            st.success("Merci pour votre feedback !")
+            st.success("Thanks for the feedback!")
 
     # Feedback textuel
     with col3:
@@ -98,7 +97,7 @@ def render_feedback_buttons(call_idx):
             and feedback_text
         ):
             st.session_state.calls[call_idx].feedback.add_note(feedback_text)
-            st.success("Feedback envoyé !")
+            st.success("Feedback submitted!")
 
 def display_old_messages():
     """Affiche la conversation stockée dans st.session_state.messages avec les boutons de feedback"""
@@ -152,7 +151,7 @@ def display_chat_prompt():
                     {"role": "assistant", "content": result["response"]}
                 )
 
-                # Stocker l'objet d'appel Weave pour associer le feedback à la réponse spécifique
+                # Stocker l'objet d'appel Weave pour associer le feedback à la réponse concernée
                 st.session_state.calls.append(call)
 
                 # Afficher les boutons de feedback pour le nouveau message
@@ -183,14 +182,15 @@ if __name__ == "__main__":
 
 Vous pouvez lancer ceci avec `streamlit run chatbot.py`.
 
-Vous pouvez maintenant interagir avec cette application et cliquer sur les boutons de retour après chaque réponse.
-Rendez-vous dans la Weave UI pour voir les retours associés.
+Vous pouvez maintenant interagir avec cette application et cliquer sur les boutons de feedback après chaque réponse. Rendez-vous dans la Weave UI pour voir les feedback associés. Chaque échange dans le chat est enregistré en tant qu’appel Weave, et toutes les réactions ou notes que vous soumettez sont liées à l’appel qui a produit la réponse.
 
 <div id="explanation">
-  ## Explication
+  ## Explications
 </div>
 
-Si nous considérons notre fonction de prédiction décorée comme :
+La section suivante présente les principales API Weave utilisées dans le chatbot, afin que vous puissiez appliquer le même schéma à votre propre application.
+
+Considérez la fonction de prédiction décorée suivante :
 
 ```python lines {5}
 import weave
@@ -204,23 +204,24 @@ def predict(input_data):
     return some_result
 ```
 
-Nous pouvons l’utiliser comme d’habitude pour fournir à l’utilisateur une réponse du modèle :
+Vous pouvez l’utiliser comme d’habitude pour fournir à l’utilisateur une réponse générée par le modèle :
 
 ```python lines
 with weave.attributes(
     {"session": "123abc", "env": "prod"}
-):  # attacher des attributs arbitraires à l'appel avec les entrées et sorties
-    result = predict(input_data="your data here")  # question de l'utilisateur via l'UI de l'application
+):  # associer des attributs arbitraires à l'appel avec les entrées et sorties
+    result = predict(input_data="your data here")  # question de l'utilisateur via l'interface de l'application
 ```
 
-Pour associer un retour, vous avez besoin de l’objet `call`, que vous obtenez en utilisant la méthode `.call()` *au lieu d’appeler la fonction normalement* :
+Pour associer le feedback, vous avez besoin de l’objet `call`, que vous obtenez en utilisant la méthode `.call()` au lieu d’appeler la fonction normalement :
 
 ```python lines
 result, call = predict.call(input_data="your data here")
 ```
 
-Cet objet d’appel est nécessaire pour associer des retours à la réponse concernée.
-Après avoir effectué l’appel, le résultat de l’opération est accessible via `result` ci-dessus.
+Vous avez besoin de cet objet `call` pour associer un feedback à cette réponse précise. Après avoir effectué l&#39;appel, le résultat de l&#39;opération est disponible dans `result`.
+
+Une fois que vous avez l&#39;objet `call`, vous pouvez ensuite enregistrer le feedback de l&#39;utilisateur pour cette réponse précise :
 
 ```python lines
 call.feedback.add_reaction("👍")  # réaction de l'utilisateur via l'interface de l'application
@@ -230,4 +231,4 @@ call.feedback.add_reaction("👍")  # réaction de l'utilisateur via l'interface
   ## Conclusion
 </div>
 
-Dans ce tutoriel, nous avons créé une UI de chat avec Streamlit, dont les entrées et les sorties étaient enregistrées dans Weave, avec des boutons 👍👎 pour recueillir les retours des utilisateurs.
+Dans ce tutoriel, vous avez créé une interface de chat avec Streamlit qui enregistre les entrées et les sorties dans Weave, ainsi que des boutons de pouce levé et de pouce baissé pour recueillir les feedback des utilisateurs.

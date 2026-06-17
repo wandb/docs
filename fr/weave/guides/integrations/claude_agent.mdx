@@ -1,50 +1,53 @@
 ---
 title: "Claude Agent SDK"
-description: "Utilisez W&B Weave avec le Claude Agent SDK pour tracer les requêtes de votre agent, les appels d'outils et les conversations en plusieurs tours."
+description: "Utilisez W&B Weave avec le Claude Agent SDK pour tracer les requêtes de votre agent, les appels d'outils et les conversations sur plusieurs tours de conversation."
+keywords: ["Claude Agent SDK", "Anthropic", "MCP", "traçage des agents", "conversations sur plusieurs tours de conversation"]
 ---
 
-Le [Claude Agent SDK](https://github.com/anthropics/claude-agent-sdk-python) est un SDK Python d’Anthropic conçu pour créer des applications agentiques avec Claude. W&amp;B Weave trace automatiquement les appels du Claude Agent SDK lorsque vous appelez `weave.init()`, en capturant les requêtes, l’utilisation d’outils et les conversations en plusieurs tours.
+Le [Claude Agent SDK](https://github.com/anthropics/claude-agent-sdk-python) est un SDK Python d’Anthropic conçu pour créer des applications agentiques avec Claude. W&amp;B Weave trace automatiquement les appels du Claude Agent SDK lorsque vous appelez `weave.init()`, en capturant les requêtes, l’utilisation d’outils et les conversations sur plusieurs tours de conversation.
+
+Ce guide vous montre comment instrumenter une application Claude Agent SDK avec Weave afin d’inspecter chaque requête, chaque appel d’outil et chaque tour de conversation dans l’interface Weave. Il s’adresse aux développeurs qui créent des agents basés sur Claude et qui souhaitent une observabilité de bout en bout sans avoir à écrire de code de traçage personnalisé.
 
 <div id="prerequisites">
   ## Prérequis
 </div>
 
-Avant d’exécuter l’exemple de code :
+Avant d’exécuter l’exemple de code, effectuez la configuration suivante afin que Weave puisse s’authentifier et acheminer les traces vers votre projet :
 
-* Remplacez `your-team-name` par la valeur appropriée pour appeler `weave.init()` à la ligne 109 du code.
-* Définissez `WANDB_API_KEY` et `ANTHROPIC_API_KEY` dans votre environnement.
-  * Pour plus d’informations sur les clés API W&amp;B, voir [Clés API](/fr/platform/app/settings-page/user-settings#api-keys).
+* Remplacez `your-team-name` dans l’appel à `weave.init()` par le nom de votre équipe W&amp;B.
+* Définissez `WANDB_API_KEY` et `ANTHROPIC_API_KEY` dans votre environnement. Pour plus d’informations sur les clés API W&amp;B, voir [Clés API](/fr/platform/app/settings-page/user-settings#api-keys).
 
 <div id="installation">
   ## Installation
 </div>
 
-Installez les dépendances requises avec `pip` :
+Installez les dépendances requises avec `pip` afin que Weave et le Claude Agent SDK soient tous deux disponibles dans votre environnement :
 
 ```bash
 pip install weave claude-agent-sdk
 ```
 
 <div id="get-started">
-  ## Pour commencer
+  ## Premiers pas
 </div>
 
-Weave patche automatiquement le SDK et trace chaque requête lorsque `weave.init()` est appelé avant d’utiliser le Claude Agent SDK.
+Cette section présente un exemple complet montrant comment Weave trace différents modes d’utilisation du Claude Agent SDK dans une seule exécution.
 
-L’exemple suivant illustre trois fonctionnalités :
+Lorsque vous appelez `weave.init()` avant d’utiliser le Claude Agent SDK, Weave applique automatiquement un patch au SDK et trace chaque requête.
 
-* **Requêtes simples en un seul appel** à l’aide de la fonction `query()`, y compris les réponses du modèle et le coût.
-* **Utilisation d’outils MCP** avec `ClaudeSDKClient`. Le Claude Agent SDK prend en charge des outils personnalisés via des serveurs MCP en cours de processus.
-  * Weave trace les définitions des outils, leurs invocations et leurs résultats, en plus des requêtes de l’agent.
+L’exemple suivant met en évidence trois fonctionnalités :
+
+* **Requêtes ponctuelles simples** avec la fonction `query()`, y compris les réponses du modèle et le coût.
+* **Utilisation d’outils MCP** avec `ClaudeSDKClient`. Le Claude Agent SDK prend en charge les outils personnalisés via des serveurs MCP intégrés au processus.
+  * Weave trace les définitions d’outils, les invocations d’outils et les résultats, en plus des requêtes de l’agent.
   * La démo MCP définit deux outils MCP et exécute une requête qui les utilise.
-* **Conversations en plusieurs tours** regroupées dans une seule trace avec `weave.thread()`, afin que vous puissiez voir l’intégralité du déroulement de la conversation dans la Weave UI.
-  * Weave capture chaque tour comme enfant du thread, afin que vous puissiez voir l’intégralité du déroulement de la conversation dans la Weave UI.
+* **Conversations sur plusieurs tours de conversation** que `weave.thread()` regroupe dans une trace unique. Weave capture chaque tour de conversation comme élément enfant du thread, afin que vous puissiez voir le déroulement complet de la conversation dans l’interface Weave.
 
 ```python lines
-"""Weave + Claude Agent SDK : tracing des requêtes, outils et conversations.
+"""Weave + Claude Agent SDK: tracing queries, tools, and conversations.
 
-Appelez `weave.init()` pour patcher automatiquement le SDK — chaque requête, appel d'outil et
-conversation en plusieurs tours est enregistré comme une trace consultable dans la Weave UI.
+Call `weave.init()` to auto-patch the SDK — every query, tool call, and
+multi-turn conversation is recorded as a trace you can inspect in the Weave UI.
 """
 
 import anyio
@@ -78,7 +81,7 @@ math_server = create_sdk_mcp_server(
 )
 
 
-# --- 2. Requête simple en une seule passe ---
+# --- 2. Requête simple one-shot ---
 
 async def simple_query():
     from claude_agent_sdk import query
@@ -113,7 +116,7 @@ async def tool_query():
                 print(f"\ncost=${msg.total_cost_usd:.4f}")
 
 
-# --- 4. Conversation en plusieurs tours avec contexte de thread ---
+# --- 4. Conversation sur plusieurs tours de conversation avec contexte de thread ---
 
 async def threaded_conversation():
     with weave.thread("my-conversation") as t:
@@ -156,5 +159,7 @@ if __name__ == "__main__":
 <div id="view-traces">
   ## Voir les traces
 </div>
+
+Après avoir exécuté l’exemple, Weave enregistre un ensemble de traces dans votre projet, que vous pouvez utiliser pour déboguer et analyser le comportement de votre agent.
 
 Lorsque vous exécutez l’exemple, Weave affiche des liens vers le tableau de bord Weave. Suivez-les pour voir vos traces, notamment les entrées de requête, les réponses du modèle, les appels d’outils et les fils de conversation.

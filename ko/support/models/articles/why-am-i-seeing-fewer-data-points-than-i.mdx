@@ -3,11 +3,13 @@ title: "왜 로깅한 것보다 데이터 포인트가 적게 보이나요?"
 keywords: ["Experiments", "메트릭"]
 ---
 
-`Step`이 아닌 다른 X-axis를 기준으로 메트릭을 시각화하면 데이터 포인트가 더 적게 보일 수 있습니다. 메트릭이 동기화된 상태를 유지하려면 동일한 `Step`에 로깅되어야 합니다. 샘플 간을 보간할 때는 동일한 `Step`에 로깅된 메트릭만 샘플링됩니다.
+`Step`이 아닌 다른 X-axis를 기준으로 메트릭을 시각화하면 데이터 포인트가 더 적게 보일 수 있습니다. 메트릭이 동기화된 상태를 유지하려면 동일한 `Step`에 로깅되어야 합니다. W&amp;B는 샘플 간을 보간할 때 동일한 `Step`에 로깅된 메트릭만 샘플링합니다.
 
-**가이드라인**
+<div id="log-related-metrics-together">
+  ## 관련 메트릭 함께 로깅하기
+</div>
 
-메트릭을 하나의 `log()` call에 묶어 로깅하세요. 예를 들어, 다음과 같이 하지 말고:
+관련 메트릭이 동일한 `Step`에 맞춰지도록 하려면 메트릭을 하나의 `log()` call에 묶어 로깅하세요. 예를 들어, 다음과 같이 하지 말고:
 
 ```python
 import wandb
@@ -17,7 +19,7 @@ with wandb.init() as run:
     run.log({"Recall": recall})
 ```
 
-다음을 사용하세요:
+단일 Call을 사용하세요:
 
 ```python
 import wandb
@@ -25,16 +27,16 @@ with wandb.init() as run:
     run.log({"Precision": precision, "Recall": recall})
 ```
 
-step 파라미터를 수동으로 제어하려면 코드에서 메트릭을 다음과 같이 동기화하세요:
+`step` 파라미터를 수동으로 제어하려면 코드에서 메트릭을 동기화하세요:
 
 ```python
 with wandb.init() as run:
-    step = 100  # step 값 예시
-    # 동일한 step에서 Precision과 Recall을 기록
+    step = 100  # 예시 step 값
+    # 동일한 step에서 Precision과 Recall을 로깅
     run.log({"Precision": precision, "Recall": recall}, step=step)
 ```
 
-메트릭이 같은 `step`에 기록되고 함께 샘플링되도록, 두 `log()` 호출에서 `step` 값이 동일하게 유지되도록 하세요. `step` 값은 각 호출마다 단조롭게 증가해야 합니다. 그렇지 않으면 `step` 값은 무시됩니다.
+메트릭이 같은 `step`에 로깅되고 함께 샘플링되도록, 두 `log()` 호출에서 `step` 값이 동일하게 유지되도록 하세요. `step` 값은 각 호출마다 단조롭게 증가해야 합니다. 그렇지 않으면 W&amp;B가 `step` 값을 무시합니다.
 
 ***
 

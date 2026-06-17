@@ -1,0 +1,59 @@
+---
+title: "createOtelExtension"
+description: "Référence du SDK TypeScript"
+---
+
+<div id="createotelextension">
+  # createOtelExtension
+</div>
+
+▸ **createOtelExtension**(`opts?`): (`pi`: `PiExtensionApi`) =&gt; `void`
+
+Crée une extension pour l&#39;agent de code pi qui génère des spans OTEL sur
+l&#39;ensemble du cycle de vie de l&#39;agent, conformément aux conventions sémantiques GenAI.
+
+Lorsque `weave.init(...)` a été appelé, les spans sont automatiquement exportés
+vers le serveur de traces Weave à l&#39;adresse `/agents/otel/v1/traces`. Sinon, transmettez un
+`tracer` personnalisé dans `opts`.
+
+#### Paramètres
+
+| Nom    | Type                   |
+| :----- | :--------------------- |
+| `opts` | `OtelExtensionOptions` |
+
+#### Renvoie
+
+`fn`
+
+▸ (`pi`): `void`
+
+<div id="parameters">
+  ##### Paramètres
+</div>
+
+| Nom  | Type             |
+| :--- | :--------------- |
+| `pi` | `PiExtensionApi` |
+
+<div id="returns">
+  ##### Renvoie
+</div>
+
+`void`
+
+`Exemple`
+
+```typescript
+const resourceLoader = new DefaultResourceLoader({
+  extensionFactories: [createOtelExtension()],
+});
+```
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[integrations/piCodingAgent.ts:644](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/integrations/piCodingAgent.ts#L644)
+
+***
