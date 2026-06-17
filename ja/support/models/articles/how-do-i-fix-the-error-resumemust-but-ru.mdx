@@ -1,12 +1,12 @@
 ---
-title: "エラー `resume='must' but run (<run_id>) doesn't exist` を解消するにはどうすればよいですか？"
+title: "エラー `resume='must' but run ([RUN-ID]) doesn't exist` を解消するにはどうすればよいですか？"
 keywords: ["再開", "Runs"]
 ---
 
-`resume='must' but run (<run_id>) doesn't exist` というエラーが表示された場合、再開しようとしている run はそのプロジェクトまたは entity 内に存在しません。正しいインスタンスにログインしていて、プロジェクトと entity が設定されていることを確認してください。
+`resume='must' but run ([RUN-ID]) doesn't exist` というエラーが表示された場合、再開しようとしている run はそのプロジェクトまたは entity 内に存在しません。正しいインスタンスにログインしていて、プロジェクトと entity が設定されていることを確認してください。[ENTITY]、[PROJECT]、および [RUN-ID] を、ご自身の entity、project、および Run ID に置き換えてください。
 
 ```python
-wandb.init(entity=<entity>, project=<project>, id=<run-id>, resume='must')
+wandb.init(entity=[ENTITY], project=[PROJECT], id=[RUN-ID], resume='must')
 ```
 
 認証済みであることを確認するには、[`wandb login --relogin`](/ja/models/ref/cli/wandb-login) を実行します。

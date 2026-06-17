@@ -21,16 +21,16 @@ description: "TypeScript SDK リファレンス"
 
 `Promise`&lt;`boolean`&gt;
 
-Promise&lt;`boolean`&gt; - 登録に成功した場合は true、@openai/agents を利用できない場合は false
+`Promise<boolean>` - 登録に成功した場合は `true`、`@openai/agents` を利用できない場合は `false`
 
 `例`
 
 ```typescript
-// ✅ 推奨: Weave をインポートするだけで、インストルメンテーションが自動的に行われます！
+// ✅ 推奨: Weave を import するだけで、インストルメンテーションが自動的に行われます！
 import * as weave from 'weave';
 await weave.init('my-project');
 
-// OpenAI Agents はフック経由で既にインストルメンテーションされています。手動セットアップは不要です
+// OpenAI Agents はフック経由でインストルメントされているため、手動での setup は不要です
 import { Agent } from '@openai/agents';
 const agent = new Agent({ ... });
 await agent.run(input); // Weave で自動的にトレースされます
@@ -44,13 +44,13 @@ import { instrumentOpenAIAgents } from 'weave';
 
 const registered = await instrumentOpenAIAgents();
 if (!registered) {
-  console.log('OpenAI Agents が見つかりません - トレースを有効にするには @openai/agents をインストールしてください');
+  console.log('OpenAI Agents not found - install @openai/agents to enable tracing');
 }
 ```
 
 `Remarks`
 
-**自動インストルメンテーションの仕組み**: Weave を import すると、`addCJSInstrumentation()` と `addESMInstrumentation()` を通じてモジュールローダーのフックが登録されます。その後、コードで `@openai/agents` を import すると、これらのフックが import を捕捉し、Weave のトレースを追加するためのパッチをモジュールに自動的に適用します。これは透過的に行われるため、特別な対応は不要です。
+**自動インストルメンテーションの仕組み**: Weave を import すると、`addCJSInstrumentation()` と `addESMInstrumentation()` を通じてモジュールローダーフックが登録されます。その後、コードで `@openai/agents` を import すると、これらのフックが import を捕捉し、Weave のトレースを追加するためのパッチをモジュールに自動的に適用します。これは透過的に行われるため、特別な対応は不要です。
 
 **この関数を使用するタイミング**: 自動インストルメンテーションが機能しない場合にのみ使用してください。たとえば、次のようなケースです。
 
@@ -59,7 +59,7 @@ if (!registered) {
 * インストルメンテーションを実行するタイミングを明示的に制御する必要がある
 
 **カスタム processor ロジックの代替手段**: カスタムのトレース動作が必要な場合は、
-`createOpenAIAgentsTracingProcessor()` を使用して手動で登録してください。
+`createOpenAIAgentsTracingProcessor()` を使用して手動で登録してください：
 
 ```typescript
 import { addTraceProcessor } from '@openai/agents';
@@ -73,6 +73,6 @@ addTraceProcessor(processor);
   #### 定義元
 </div>
 
-[integrations/openai.agent.ts:674](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/integrations/openai.agent.ts#L674)
+[integrations/openai.agent.ts:727](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/integrations/openai.agent.ts#L727)
 
 ***

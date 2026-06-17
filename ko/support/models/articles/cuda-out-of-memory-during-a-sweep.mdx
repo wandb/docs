@@ -30,17 +30,17 @@ keywords: ["Sweeps", "Run 충돌"]
 
 3. CLI로 스윕을 초기화하세요.
 
-   ```shell
+   ```bash
    wandb sweep config.yaml
    ```
 
-4. CLI로 스윕 에이전트를 시작하세요. `sweep_ID`는 이전 단계에서 반환된 ID로 바꾸세요.
+4. CLI로 스윕 에이전트를 시작하세요. `[SWEEP-ID]`는 이전 단계에서 반환된 ID로 바꾸세요.
 
-   ```shell
-   wandb agent sweep_ID
+   ```bash
+   wandb agent [SWEEP-ID]
    ```
 
-CLI 기반 에이전트(`wandb agent`)를 Python SDK(`wandb.agent`) 대신 사용하면 각 run이 자체 메모리 할당을 갖는 별도의 프로세스로 실행되므로, run 간에 CUDA 메모리가 누적되는 것을 방지할 수 있습니다.
+CLI 기반 에이전트(`wandb agent`)는 각 run을 자체 메모리 할당을 갖는 별도의 프로세스로 실행하므로, run 간에 CUDA 메모리가 누적되는 것을 방지할 수 있습니다. Python SDK(`wandb.agent`)는 이러한 프로세스 격리를 제공하지 않습니다.
 
 자세한 내용은 [Sweeps troubleshooting](/ko/models/sweeps/troubleshoot-sweeps/)을 참조하세요.
 

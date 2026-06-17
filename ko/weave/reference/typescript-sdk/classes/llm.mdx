@@ -1,0 +1,432 @@
+---
+title: "클래스: LLM"
+description: "TypeScript SDK 레퍼런스"
+---
+
+[weave](../) / LLM
+
+LLM Call입니다. `gen_ai.*` 속성이 포함된 `chat` span을 생성합니다.
+
+`weave.startLLM()`(또는 `turn.startLLM()`)로 생성하며,
+`end()`로 종료합니다. 비동기 컨텍스트에서는 한 번에 하나의 LLM만 활성 상태일 수 있으므로,
+도구/하위 에이전트 Call은 `startTool` / `startSubagent`를 사용해 그 아래에 중첩하세요.
+
+`inputMessages` / `outputMessages` / `usage` / `reasoning`은 직접 채우거나,
+헬퍼 함수(`output`, `think`, `attachMedia`, `record`)를 사용해 채울 수 있습니다.
+
+기록된 모든 데이터는 `end()`에서 span으로 플러시됩니다.
+
+`예시`
+
+```ts
+const llm = weave.startLLM({model: 'gpt-4o-mini', providerName: 'openai'});
+try {
+  llm.inputMessages = [{role: 'user', content: prompt}];
+  const resp = await openai.chat.completions.create({...});
+  llm.output(resp.choices[0].message.content ?? '');
+  llm.record({usage: {inputTokens: resp.usage?.prompt_tokens}});
+} finally {
+  llm.end();
+}
+```
+
+<div id="table-of-contents">
+  ## 목차
+</div>
+
+<div id="properties">
+  ### 속성
+</div>
+
+* [inputMessages](./llm#inputmessages)
+* [model](./llm#model)
+* [outputMessages](./llm#outputmessages)
+* [providerName](./llm#providername)
+* [reasoning](./llm#reasoning)
+* [usage](./llm#usage)
+
+<div id="methods">
+  ### 메서드
+</div>
+
+* [attachMedia](./llm#attachmedia)
+* [attachMediaUrl](./llm#attachmediaurl)
+* [end](./llm#end)
+* [output](./llm#output)
+* [record](./llm#record)
+* [startSubagent](./llm#startsubagent)
+* [startTool](./llm#starttool)
+* [think](./llm#think)
+* [create](./llm#create)
+
+## 속성
+
+<div id="inputmessages">
+  ### inputMessages
+</div>
+
+• **inputMessages**: [`Message`](../interfaces/message)[] = `[]`
+
+모델에 전송되는 입력 메시지입니다. `end()`를 호출하면
+`gen_ai.input.messages`로 플러시됩니다.
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[genai/llm.ts:78](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/llm.ts#L78)
+
+***
+
+<div id="model">
+  ### model
+</div>
+
+• `Readonly` **model**: `string`
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[genai/llm.ts:98](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/llm.ts#L98)
+
+***
+
+<div id="outputmessages">
+  ### outputMessages
+</div>
+
+• **outputMessages**: [`Message`](../interfaces/message)[] = `[]`
+
+모델이 반환한 어시스턴트 메시지입니다. `end()`가 호출되면
+`gen_ai.output.messages`로 플러시됩니다.
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[genai/llm.ts:83](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/llm.ts#L83)
+
+***
+
+<div id="providername">
+  ### providerName
+</div>
+
+• `Readonly` **providerName**: `string`
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[genai/llm.ts:99](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/llm.ts#L99)
+
+***
+
+<div id="reasoning">
+  ### reasoning
+</div>
+
+• `선택` **reasoning**: [`Reasoning`](../interfaces/reasoning)
+
+추론 콘텐츠입니다. 직렬화 시 마지막 assistant 메시지에
+ReasoningPart로 병합됩니다.
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[genai/llm.ts:90](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/llm.ts#L90)
+
+***
+
+<div id="usage">
+  ### usage
+</div>
+
+• **usage**: [`Usage`](../interfaces/usage) = `{}`
+
+토큰 수와 캐시 통계입니다. `end()`가 호출되면 `gen_ai.usage.*`로 플러시됩니다.
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[genai/llm.ts:85](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/llm.ts#L85)
+
+## 메서드
+
+<div id="attachmedia">
+  ### attachMedia
+</div>
+
+▸ **attachMedia**(`opts`): `this`
+
+마지막 입력 메시지에 미디어 파트를 첨부합니다. `content`(인라인 base64 바이트), `uri`(URI 레퍼런스), 또는 `fileId`
+(미리 업로드한 파일 ID) 중 정확히 하나를 선택하세요.
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름     | 유형                |
+| :----- | :---------------- |
+| `opts` | `AttachMediaOpts` |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`this`
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[genai/llm.ts:168](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/llm.ts#L168)
+
+***
+
+<div id="attachmediaurl">
+  ### attachMediaUrl
+</div>
+
+▸ **attachMediaUrl**(`url`, `opts`): `this`
+
+`attachMedia({uri, modality})`를 간편하게 호출하는 메서드입니다.
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름              | 유형                         |
+| :-------------- | :------------------------- |
+| `url`           | `string`                   |
+| `opts`          | `Object`                   |
+| `opts.modality` | [`Modality`](../#modality) |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`this`
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[genai/llm.ts:186](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/llm.ts#L186)
+
+***
+
+<div id="end">
+  ### end
+</div>
+
+▸ **end**(`opts?`): `void`
+
+누적된 상태를 span에 플러시한 후 닫습니다. 멱등적입니다. span을 실패로 표시하려면
+`error`를 전달하세요.
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름            | 유형       |
+| :------------ | :------- |
+| `opts?`       | `Object` |
+| `opts.error?` | `Error`  |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`void`
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[genai/llm.ts:246](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/llm.ts#L246)
+
+***
+
+<div id="output">
+  ### 출력
+</div>
+
+▸ **output**(`content`): `this`
+
+응답에 assistant 메시지를 추가합니다.
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름        | 유형       |
+| :-------- | :------- |
+| `content` | `string` |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`this`
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[genai/llm.ts:141](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/llm.ts#L141)
+
+***
+
+<div id="record">
+  ### record
+</div>
+
+▸ **record**(`opts`): `this`
+
+변경 가능한 필드의 일부 또는 전체를 일괄 설정합니다. 병합하지 않고 덮어씁니다.
+공급자 호출이 반환된 후 모든 값을 한 번에 부여할 때 유용합니다.
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름     | 유형              |
+| :----- | :-------------- |
+| `opts` | `LLMRecordOpts` |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`this`
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[genai/llm.ts:197](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/llm.ts#L197)
+
+***
+
+<div id="startsubagent">
+  ### startSubagent
+</div>
+
+▸ **startSubagent**(`opts`): [`SubAgent`](./subagent)
+
+이 LLM에 중첩된 하위 SubAgent span을 시작합니다.
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름     | 유형                                           |
+| :----- | :------------------------------------------- |
+| `opts` | [`SubAgentInit`](../interfaces/subagentinit) |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+[`SubAgent`](./subagent)
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[genai/llm.ts:230](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/llm.ts#L230)
+
+***
+
+<div id="starttool">
+  ### startTool
+</div>
+
+▸ **startTool**(`opts`): [`Tool`](./tool)
+
+이 LLM 내에 중첩된 하위 Tool span을 시작합니다.
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름     | 유형                                   |
+| :----- | :----------------------------------- |
+| `opts` | [`ToolInit`](../interfaces/toolinit) |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+[`Tool`](./tool)
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[genai/llm.ts:221](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/llm.ts#L221)
+
+***
+
+<div id="think">
+  ### think
+</div>
+
+▸ **think**(`content`): `this`
+
+모델의 추론/사고 과정 내용을 설정하거나 확장합니다. `this.reasoning.content`에
+누적됩니다. 직렬화 시 마지막 `assistant` 메시지에 `ReasoningPart`로
+합쳐지며, Python SDK의
+on-the-wire 형식과 일치합니다.
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름        | 유형       |
+| :-------- | :------- |
+| `content` | `string` |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`this`
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[genai/llm.ts:153](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/llm.ts#L153)
+
+***
+
+<div id="create">
+  ### create
+</div>
+
+▸ **create**(`opts`): [`LLM`](./llm)
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름     | 유형                                                          |
+| :----- | :---------------------------------------------------------- |
+| `opts` | [`LLMInit`](../interfaces/llminit) &amp; `ChildSpanContext` |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+[`LLM`](./llm)
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[genai/llm.ts:102](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/llm.ts#L102)

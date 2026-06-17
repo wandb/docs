@@ -3,10 +3,10 @@ title: "値のリストをログするにはどうすればよいですか？"
 keywords: ["ログ", "Experiments"]
 ---
 
-これらの例では、[`wandb.Run.log()`](/ja/models/ref/python/experiments/run/#method-runlog/) を使用して、損失を複数の方法でログするやり方を示します。
+[`wandb.Run.log()`](/ja/models/ref/python/experiments/run/#method-runlog/) を使用すると、各 step の損失などの値のリストをログできます。以下の例では、一般的な 2 つの方法を示します。リストを辞書のエントリとしてログする方法と、分布を可視化するためにヒストグラムとしてログする方法です。
 
 <Tabs>
-  <Tab title="辞書を使用する">
+  <Tab title="辞書として">
     ```python
     import wandb
 
@@ -32,7 +32,7 @@ keywords: ["ログ", "Experiments"]
   </Tab>
 </Tabs>
 
-詳しくは、[logging に関するドキュメント](/ja/models/track/log/)を参照してください。
+詳細は、[オブジェクトとメディアをログする](/ja/models/track/log/)を参照してください。
 
 ***
 

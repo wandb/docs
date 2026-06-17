@@ -16,17 +16,16 @@ Un membre d’une équipe.
 ### <kbd>méthode</kbd> `Member.__init__`
 
 ```python
-__init__(client: 'RetryingClient', team: 'str', attrs: 'Mapping[str, Any]')
+__init__(service_api: 'ServiceApi', team: 'str', attrs: 'Mapping[str, Any]')
 ```
 
 **Arguments :**
 
-* `client` (`wandb.apis.internal.Api`) :  l’instance cliente à utiliser
+* `service_api` :  l’instance de l’API de service à utiliser pour interroger W&amp;B.
 * `team` (str) :  le nom de l’équipe à laquelle appartient ce membre
 * `attrs` (dict) :  les attributs du membre
 
 ***
-
 
 ### <kbd>méthode</kbd> `Member.delete`
 

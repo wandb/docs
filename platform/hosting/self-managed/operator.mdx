@@ -5,6 +5,7 @@ keywords: ["W&B operator", "Helm chart", "Kubernetes CR", "operator install", "c
 ---
 
 import SelfManagedMysqlRequirements from "/snippets/_includes/self-managed-mysql-requirements.mdx";
+import SelfManagedMysqlEolUpgrade from "/snippets/_includes/self-managed-mysql-eol-upgrade.mdx";
 import SelfManagedRedisRequirements from "/snippets/_includes/self-managed-redis-requirements.mdx";
 import SelfManagedObjectStorageRequirements from "/snippets/_includes/self-managed-object-storage-requirements.mdx";
 import ByobProvisioningLink from "/snippets/_includes/byob-provisioning-link.mdx";
@@ -31,9 +32,14 @@ Before deploying W&B with the Kubernetes Operator, ensure your infrastructure me
 For additional context, see the [reference architecture](/platform/hosting/self-managed/ref-arch/) page.
 
 ### MySQL database
+
+<SelfManagedMysqlEolUpgrade/>
+
 <SelfManagedMysqlRequirements/>
 
 For complete MySQL setup instructions including configuration parameters and database creation, see the [MySQL section in the requirements page](/platform/hosting/self-managed/requirements/#mysql-database).
+
+If you are upgrading from MySQL 8.0.x, see [Upgrade MySQL to 8.4.x](#upgrade-mysql-to-84x).
 
 ### Redis
 <SelfManagedRedisRequirements/>
@@ -1205,6 +1211,27 @@ You no longer need to update W&B Server application if you use the W&B Kubernete
 
 The operator automatically updates your W&B Server application when a new version of the software of W&B is released.
 
+## Upgrade MySQL to 8.4.x
+
+MySQL 8.0.x is end of life. Self-Managed deployments must run a supported MySQL version that receives security patches and critical bug fixes. If you run community MySQL, install or upgrade to **MySQL 8.4.x**. If you use a managed service, run an engine version your provider documents as supported and patched (for example Amazon RDS for MySQL, Google Cloud SQL for MySQL, or Azure Database for MySQL). W&B has validated the platform against MySQL 8.4.0 and current 8.4.x releases.
+
+These steps describe the sequence from W&B's perspective. For how to upgrade MySQL itself, including backups and version paths, follow your MySQL distribution's or cloud provider's documentation. The same sequence applies to [standard](/platform/hosting/self-managed/operator) and [air-gapped](/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped) Operator deployments. In air-gapped environments, obtain MySQL 8.4.x software through your internal distribution process before you upgrade the database.
+
+<Note>
+Plan a maintenance window and notify users before you begin. Contact [Customer Support](mailto:support@wandb.com) or your W&B team if you have questions about compatibility or your deployment topology.
+</Note>
+
+1. Review MySQL release notes and documentation for your target version and any intervening versions for requirements and other details.
+2. Prepare for maintenance.
+
+    Before you start the upgrade, you can run the [MySQL Shell upgrade checker](https://dev.mysql.com/doc/mysql-shell/8.4/en/mysql-shell-utilities-upgrade.html) against your database to surface and fix compatibility issues for your target version. Resolve any errors or warnings in the checker output before you proceed. Refer to the documentation for your MySQL distribution.
+3. Shut down MySQL and take a full backup of your MySQL database according to your MySQL distribution's documentation.
+
+    MySQL will be unavailable during the upgrade. While the database is unavailable, W&B client applications can't connect and will experience temporary errors.
+4. Upgrade MySQL to 8.4.x according to your MySQL distribution's documentation.
+5. Restart MySQL and verify that it is operational.
+6. When MySQL is up, run `wandb verify` to validate your W&B deployment. The command runs a series of checks and reports results to `STDOUT`. If it reports problems, make adjustments and run it again. For setup and login steps, see [Verify the installation](#verify-the-installation).
+7. After validation completes, users can resume normal operations.
 
 ## Migrate self-managed instances to W&B Operator
 
@@ -1758,6 +1785,35 @@ global:
   extraEnv:
     GLOBAL_ENV: "example"
 ```
+
+### Set rate limits
+
+For Dedicated Cloud and Self-Managed deployments that use the Operator, optionally configure rate limits by setting environment variables in `spec.values.global.extraEnv`. For reference, this example explicitly sets each rate limit to its default. In practice, define a rate limit only to override the default.
+
+<Important>To enable rate limiting, you must set `GORILLA_LIMITER` to the address of your Redis server.</Important>
+
+```yaml
+spec:
+  values:
+    global:
+      extraEnv:
+        GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM: "5"
+        GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_COUNT: "5"
+        GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_PER_RUN_COUNT: "0.8"
+        GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_SIZE: "10"
+        GORILLA_DEFAULT_RATE_LIMITS_RUN_UPDATE_COUNT: "10"
+        GORILLA_LIMITER: "redis://$HOST:6379?ttlInSeconds=900"
+```
+
+Refer to the following table for more detail:
+
+| Environment variable | Default | Description |
+| --- | --- | --- |
+| `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM` | `5` | Default filestream requests. |
+| `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_COUNT` | `5` | Filestream requests per second. |
+| `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_PER_RUN_COUNT` | `0.8` | Filestream requests per per run per second. |
+| `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_SIZE` | `10` | Filestream ingestion limit in MB per second. |
+| `GORILLA_DEFAULT_RATE_LIMITS_RUN_UPDATE_COUNT` | `10` | Run metadata update requests per second. |
 
 ### Custom certificate authority
 `customCACerts` is a list and can take many certificates. Certificate authorities specified in `customCACerts` only apply to the W&B Server application.
