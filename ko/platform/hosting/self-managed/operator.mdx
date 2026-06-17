@@ -1895,6 +1895,37 @@ global:
     GLOBAL_ENV: "example"
 ```
 
+<div id="set-rate-limits">
+  ### 요청 속도 제한 설정
+</div>
+
+Operator를 사용하는 Dedicated Cloud 및 Self-Managed 배포에서는 필요에 따라 `spec.values.global.extraEnv`에서 환경 변수를 설정해 요청 속도 제한을 구성하세요. 참고로 이 예시에서는 각 요청 속도 제한을 기본값으로 명시적으로 설정합니다. 실제로는 기본값을 재정의할 경우에만 요청 속도 제한을 정의하면 됩니다.
+
+<Important>요청 속도 제한을 활성화하려면 `GORILLA_LIMITER`를 Redis 서버 주소로 설정해야 합니다.</Important>
+
+```yaml
+spec:
+  values:
+    global:
+      extraEnv:
+        GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM: "5"
+        GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_COUNT: "5"
+        GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_PER_RUN_COUNT: "0.8"
+        GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_SIZE: "10"
+        GORILLA_DEFAULT_RATE_LIMITS_RUN_UPDATE_COUNT: "10"
+        GORILLA_LIMITER: "redis://$HOST:6379?ttlInSeconds=900"
+```
+
+자세한 내용은 다음 표를 참고하세요:
+
+| 환경 변수                                                  | 기본값   | 설명                          |
+| ------------------------------------------------------ | ----- | --------------------------- |
+| `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM`               | `5`   | 기본 Filestream 요청 수입니다.      |
+| `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_COUNT`         | `5`   | 초당 Filestream 요청 수입니다.      |
+| `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_PER_RUN_COUNT` | `0.8` | run별 초당 Filestream 요청 수입니다. |
+| `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_SIZE`          | `10`  | 초당 Filestream 수집 한도(MB)입니다. |
+| `GORILLA_DEFAULT_RATE_LIMITS_RUN_UPDATE_COUNT`         | `10`  | 초당 run 메타데이터 업데이트 요청 수입니다.  |
+
 <div id="custom-certificate-authority">
   ### 맞춤형 인증 기관
 </div>

@@ -1895,6 +1895,37 @@ global:
     GLOBAL_ENV: "example"
 ```
 
+<div id="set-rate-limits">
+  ### Définir les limites de débit
+</div>
+
+Pour les déploiements en Cloud dédié et Autogéré qui utilisent l’opérateur, vous pouvez aussi configurer des limites de débit en définissant des variables d’environnement dans `spec.values.global.extraEnv`. À titre indicatif, cet exemple définit explicitement chaque limite de débit sur sa valeur par défaut. En pratique, définissez une limite de débit uniquement pour redéfinir la valeur par défaut.
+
+<Important>Pour activer les limites de débit, vous devez définir `GORILLA_LIMITER` sur l’adresse de votre serveur Redis.</Important>
+
+```yaml
+spec:
+  values:
+    global:
+      extraEnv:
+        GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM: "5"
+        GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_COUNT: "5"
+        GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_PER_RUN_COUNT: "0.8"
+        GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_SIZE: "10"
+        GORILLA_DEFAULT_RATE_LIMITS_RUN_UPDATE_COUNT: "10"
+        GORILLA_LIMITER: "redis://$HOST:6379?ttlInSeconds=900"
+```
+
+Se référer au tableau suivant pour plus de détails :
+
+| Environment variable                                   | Default | Description                                                 |
+| ------------------------------------------------------ | ------- | ----------------------------------------------------------- |
+| `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM`               | `5`     | Nombre par défaut de requêtes filestream.                   |
+| `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_COUNT`         | `5`     | Requêtes filestream par seconde.                            |
+| `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_PER_RUN_COUNT` | `0.8`   | Requêtes filestream par run et par seconde.                 |
+| `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_SIZE`          | `10`    | Limite d&#39;ingestion filestream en Mo par seconde.        |
+| `GORILLA_DEFAULT_RATE_LIMITS_RUN_UPDATE_COUNT`         | `10`    | Requêtes de mise à jour des métadonnées de run par seconde. |
+
 <div id="custom-certificate-authority">
   ### Autorité de certification personnalisée
 </div>

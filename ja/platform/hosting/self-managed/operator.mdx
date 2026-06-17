@@ -1895,6 +1895,37 @@ global:
     GLOBAL_ENV: "example"
 ```
 
+<div id="set-rate-limits">
+  ### レート制限を設定する
+</div>
+
+Operator を使用する専用クラウドおよびセルフマネージド環境では、必要に応じて `spec.values.global.extraEnv` に環境変数を設定し、レート制限を構成できます。参考として、この例では各レート制限を明示的にデフォルト値に設定しています。実際には、デフォルト値を上書きする場合にのみレート制限を定義してください。
+
+<Important>レート制限を有効にするには、`GORILLA_LIMITER` を Redis サーバーのアドレスに設定する必要があります。</Important>
+
+```yaml
+spec:
+  values:
+    global:
+      extraEnv:
+        GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM: "5"
+        GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_COUNT: "5"
+        GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_PER_RUN_COUNT: "0.8"
+        GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_SIZE: "10"
+        GORILLA_DEFAULT_RATE_LIMITS_RUN_UPDATE_COUNT: "10"
+        GORILLA_LIMITER: "redis://$HOST:6379?ttlInSeconds=900"
+```
+
+詳細については、次の表を参照してください。
+
+| 環境変数                                                   | デフォルト | 説明                                 |
+| ------------------------------------------------------ | ----- | ---------------------------------- |
+| `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM`               | `5`   | filestream リクエストのデフォルト値。           |
+| `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_COUNT`         | `5`   | 1 秒あたりの filestream リクエスト数。         |
+| `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_PER_RUN_COUNT` | `0.8` | run ごとの 1 秒あたりの filestream リクエスト数。 |
+| `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_SIZE`          | `10`  | 1 秒あたりの filestream 取り込み上限 (MB) 。   |
+| `GORILLA_DEFAULT_RATE_LIMITS_RUN_UPDATE_COUNT`         | `10`  | 1 秒あたりの run メタデータ更新リクエスト数。         |
+
 <div id="custom-certificate-authority">
   ### カスタム認証局
 </div>
