@@ -19,3 +19,7 @@ node_modules/
 /package-lock.json
 /LICENSE
 /THIRD-PARTY-NOTICES.txt
+
+# DocEngine should not be published by Mintlify
+docengine/
+docengine-site/
