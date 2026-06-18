@@ -521,8 +521,7 @@
                     "group": "Get Started",
                     "pages": [
                       "weave/agent-integration-quickstart",
-                      "weave/agents-manual-quickstart",
-                      "weave/quickstart"
+                      "weave/custom-agents-quickstart"
                     ]
                   },
                   {
@@ -546,6 +545,7 @@
                           {
                             "group": "Tracing basics",
                             "pages": [
+                              "weave/quickstart",
                               "weave/guides/tracking/tracing",
                               "weave/guides/tracking/create-call",
                               "weave/guides/tracking/trace-tree",
