@@ -6,7 +6,7 @@ keywords: ["Sweeps", "Resuming"]
 Run resumption is not supported inside a W&B sweep. If you pass a `run_id` or use `wandb.init(resume=...)` while a sweep agent is running, W&B ignores the run ID and starts a fresh run instead. You will see the following warning:
 
 ```
-wandb: WARNING Ignoring run_id when running a sweep
+wandb: WARNING Ignoring run_id 'YOUR_RUN_ID' when running a sweep.
 ```
 
 This is expected behavior, not a bug. Sweep agents are designed to launch independent runs for each hyperparameter configuration. Resuming a specific run would conflict with the sweep controller's job scheduling.

@@ -27,7 +27,7 @@ For multipart runs, list and download individual files under `logs/` the same wa
 
 ## While the run is still running
 
-Enable [multipart console logging](/models/app/console-logs) at `wandb.init` time (SDK v0.22.3+). Chunks upload under `logs/` as they close so you can download them before the run finishes. Upload cadence cannot be changed after the run starts.
+Enable [multipart console logging](/models/app/console-logs) at `wandb.init` time. Use `wandb` **v0.22.3** or later so the SDK can write and upload timestamped chunks under `logs/` while the run is still active. Upload cadence cannot be changed after the run starts.
 
 ## If the run crashed
 
@@ -35,7 +35,7 @@ Without multipart logging, a crashed run may have no `output.log` on the server.
 
 ## Resuming a run
 
-Without multipart logging, `wandb.init(resume="allow", id=...)` can overwrite a single `output.log`. With SDK v0.20.1+ and `console_multipart=True`, each session keeps its own chunks. See [Console logs](/models/app/console-logs).
+Without multipart logging, `wandb.init(resume="allow", id=...)` can overwrite a single `output.log`. With `console_multipart=True` (requires `wandb` **v0.22.3** or later to enable multipart logging) and **`wandb` v0.20.1** or later for correct chunk uploads when you resume, each session keeps its own chunks. See [Console logs](/models/app/console-logs).
 
 ## More lines than the Logs tab shows
 

@@ -29,7 +29,7 @@ for step, batch in enumerate(dataloader):
 wandb.finish()
 ```
 
-Gradient histograms are logged every `log_freq` steps. They appear in the **Charts** tab under keys like `gradients/layer_name.weight`.
+Gradient histograms are logged every `log_freq` **batches** (the [`Run.watch()`](/models/ref/python/experiments/run) default is `log_freq=1000`; the example uses `100` for faster feedback). They appear in the **Charts** tab under keys like `gradients/layer_name.weight`.
 
 **`log` parameter options**
 
@@ -46,10 +46,10 @@ wandb.watch(model, log="all", log_freq=50)
 
 **Logging model graph topology**
 
-`wandb.watch()` also captures the model's computational graph and logs it as a summary. View the graph in the run's **Overview** tab under **Model**. This works even with `log=None`:
+Pass `log_graph=True` when you want the computational graph while histogram logging is off or minimal. View the graph in the run's **Overview** tab under **Model**. See [`Run.watch()`](/models/ref/python/experiments/run) for how `log`, `log_graph`, and `log_freq` interact.
 
 ```python
-wandb.watch(model, log=None)  # graph only, no histograms
+wandb.watch(model, log=None, log_graph=True)  # graph focus, no histograms
 ```
 
 **Watching multiple models**

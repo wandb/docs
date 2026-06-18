@@ -3,7 +3,7 @@ title: "API error code 404 - Model not found"
 keywords: ["Server Errors"]
 ---
 
-A 404 error with the message "Model not found" means the model identifier in your request does not match any model available through the W&B Inference API.
+A **404** response from the W&B Inference API means the server could not find the model or resource you asked for. The response body often includes a message such as **"The requested resource was not found"**, which usually indicates the model identifier in your request does not match any model available through the API.
 
 ## Why this happens
 
@@ -15,11 +15,11 @@ A 404 error with the message "Model not found" means the model identifier in you
 ## What you can do
 
 1. **Check the model ID**
-   - Verify the exact model identifier against the [W&B Inference supported models list](/inference/supported-models).
+   - Verify the exact model identifier against [Available models](/inference/models).
    - Model IDs are case-sensitive and typically use the format `provider/model-name` (for example, `meta-llama/Llama-3.3-70B-Instruct`).
 
 2. **Confirm the base URL**
-   - The W&B Inference base URL is `https://api.wandb.ai/v1`. Ensure your client is pointed at this URL and not another provider's endpoint.
+   - The W&B Inference base URL is `https://api.inference.wandb.ai/v1`. Ensure your client uses this host and not the Multi-tenant Cloud API host (`https://api.wandb.ai`) or another provider's endpoint. For usage tracking, some clients also send the optional `OpenAI-Project` header set to `team/project` as shown in the [list models API reference](/inference/api-reference/list-models).
 
 3. **Request access to a new model**
    - If the model you need is not currently supported, contact [W&B support](mailto:support@wandb.com) to request it be added.

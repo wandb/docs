@@ -3,28 +3,31 @@ title: "API error code 422 - Invalid request parameters"
 keywords: ["Server Errors"]
 ---
 
-A 422 error means the request was understood by the server but could not be processed because one or more parameters are invalid, missing, or out of range.
+Invalid parameters on chat completion requests often surface as **HTTP 422 (Unprocessable Entity)** or **HTTP 400 (Bad Request)** depending on where validation runs. In both cases, read the response body before changing your request.
 
 ## Why this happens
 
-- **Unsupported parameter for the model**: Some parameters (such as `frequency_penalty`, `logprobs`, or `response_format`) are not supported by all models. Passing an unsupported parameter returns a 422.
-- **Parameter value out of range**: Values like `temperature` must fall within a valid range (typically 0–2). Passing a value outside that range causes a 422.
-- **Malformed messages array**: The `messages` field must be a list of objects with `role` and `content` keys. Missing or incorrectly typed fields return a 422.
-- **Invalid `response_format`**: Requesting JSON mode (`response_format: {"type": "json_object"}`) with a model that does not support structured outputs causes a 422.
+- **Unsupported parameter for the model**: Some parameters (such as `frequency_penalty`, `logprobs`, or `response_format`) are not supported by all models. Passing an unsupported parameter can return **400** or **422**.
+- **Parameter value out of range**: Values like `temperature` must fall within a valid range for the model (often **0–2**). Out-of-range values are often rejected with **HTTP 400** and an `error.message` that names the parameter.
+- **Malformed `messages` payload**: The `messages` field must be a list of message objects. Wrong types or invalid structure typically return **HTTP 400** with a validation message in the response body.
+- **Invalid `response_format` or other structured-output settings**: Requesting a format the model does not support can return an error response. Treat the status code and body as authoritative for your model.
 
 ## What you can do
 
 1. **Check the error message body**
-   - The 422 response body contains a `detail` field that identifies which parameter is invalid and why. Read it before troubleshooting.
+   - Many responses use an `error` object with a `message` field (and sometimes `param` or `code`). Some layers return a `detail` field instead. Read whichever field the response includes before troubleshooting.
 
 2. **Verify parameter support for your model**
-   - Review the [W&B Inference supported models list](/inference/supported-models) for the specific parameters and ranges each model accepts.
+   - Review [Available models](/inference/models) for the specific parameters and ranges each model accepts.
 
 3. **Validate your messages array**
-   - Each message must have a `role` (`system`, `user`, or `assistant`) and a `content` string. Tool call messages require additional fields—consult the API reference for the correct schema.
+   - Each message must have a `role` (`system`, `user`, or `assistant`) and a `content` string. Tool call messages require additional fields. Consult the [chat completions API reference](/inference/api-reference/chat-completions) for the correct schema.
 
-4. **Remove unsupported parameters**
-   - If you are adapting code from another provider, remove any parameters that are not in the W&B Inference API reference. Extra parameters that the model does not support will trigger a 422.
+4. **Confirm the base URL**
+   - Point your OpenAI-compatible client at `https://api.inference.wandb.ai/v1`, not `https://api.wandb.ai`. The Multi-tenant Cloud API host does not serve Inference chat completions. For optional usage attribution, set the `OpenAI-Project` header to `team/project` as in the [list models API reference](/inference/api-reference/list-models).
+
+5. **Remove unsupported parameters**
+   - If you are adapting code from another provider, remove any parameters that are not in the W&B Inference API reference. Extra parameters that the model does not support can trigger **400** or **422** responses.
 
 For more information, see [Serverless Inference](/inference) and the [chat completions API reference](/inference/api-reference/chat-completions).
 
