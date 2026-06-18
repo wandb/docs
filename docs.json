@@ -520,7 +520,7 @@
                   {
                     "group": "Get Started",
                     "pages": [
-                      "weave/agent-intergration-quickstart",
+                      "weave/agent-integration-quickstart",
                       "weave/agents-manual-quickstart",
                       "weave/quickstart"
                     ]
@@ -1903,7 +1903,6 @@
                   {
                     "group": "Premiers pas",
                     "pages": [
-                      "fr/weave/agents-quickstart",
                       "fr/weave/quickstart"
                     ]
                   },
@@ -3285,7 +3284,6 @@
                   {
                     "group": "スタートガイド",
                     "pages": [
-                      "ja/weave/agents-quickstart",
                       "ja/weave/quickstart"
                     ]
                   },
@@ -4667,7 +4665,6 @@
                   {
                     "group": "시작하기",
                     "pages": [
-                      "ko/weave/agents-quickstart",
                       "ko/weave/quickstart"
                     ]
                   },
