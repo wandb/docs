@@ -1,9 +1,9 @@
 ---
-title: "How do I paginate through large API results in W&B?"
+title: "How do I page through large API results in W&B?"
 keywords: ["Runs", "Experiments", "API", "Artifacts"]
 ---
 
-The W&B Public API loads runs and artifacts in pages. For the standard lazy-iterator pattern and `per_page`, see the [Public API guide](/models/track/public-api-guide). This article covers checkpointing and bulk-download tips not spelled out in the main guide.
+You can page through API result using the [standard lazy-iterator pattern and `per_page` parameter](/models/track/public-api-guide). Additionally, you can use the following checkpointing and bulk-download tips to more effectively page through the results.
 
 ## Checkpoint processed run IDs
 
@@ -27,15 +27,6 @@ for run in api.runs("my-entity/my-project"):
 ```
 
 Avoid `list(api.runs(...))` on huge projects unless you need random access — it forces every page into memory.
-
-## Artifacts
-
-The same iterator pattern applies to `api.artifacts()`:
-
-```python
-for artifact in api.artifacts(type_name="model", project="my-entity/my-project", per_page=100):
-    print(artifact.name, artifact.version)
-```
 
 ## Rate limits on bulk downloads
 
