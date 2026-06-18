@@ -520,7 +520,8 @@
                   {
                     "group": "Get Started",
                     "pages": [
-                      "weave/agents-quickstart",
+                      "weave/agent-intergration-quickstart",
+                      "weave/agents-manual-quickstart",
                       "weave/quickstart"
                     ]
                   },
