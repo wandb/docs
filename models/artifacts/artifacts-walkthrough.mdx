@@ -4,7 +4,7 @@ description:
 title: "Tutorial: Create, track, and use a dataset artifact"
 ---
 
-This walkthrough demonstrates how to create, track, and use a dataset artifact with W&B. By the end, you've logged a dataset as a versioned artifact to W&B and downloaded it in a subsequent run. This lets you reproducibly share datasets across experiments and track them as inputs and outputs of your runs.
+This walkthrough shows you how to create, track, and use a dataset artifact with W&B. You log a dataset as a versioned artifact to W&B, then download it in a later run. This workflow helps you reproducibly share datasets across experiments and track them as inputs and outputs of your runs.
 
 ## Log in to W&B
 
@@ -31,7 +31,7 @@ with wandb.init(project="artifacts-example", job_type="upload-dataset") as run:
 
 Create an artifact object with [`wandb.Artifact()`](/models/ref/python/experiments/artifact). Provide a name for the artifact and a description of the file type for the `name` and `type` parameters, respectively.
 
-For example, the following code snippet demonstrates how to create an artifact called `'bicycle-dataset'` with a `'dataset'` label:
+For example, the following code snippet demonstrates how to create an artifact called `bicycle-dataset` with a `dataset` label:
 
 ```python
 artifact = wandb.Artifact(name="bicycle-dataset", type="dataset")
@@ -53,7 +53,7 @@ Replace the filename `dataset.h5` in the previous code snippet with the path to 
 
 ## Log the dataset
 
-Use the W&B run object's `wandb.Run.log_artifact()` method to both save your artifact version and declare the artifact as an [output of the run](/models/artifacts/explore-and-traverse-an-artifact-graph).
+Use the run object's `wandb.Run.log_artifact()` method to both save your artifact version and declare the artifact as an [output of the run](/models/artifacts/explore-and-traverse-an-artifact-graph).
 
 ```python
 # Save the artifact version to W&B and mark it
@@ -61,7 +61,7 @@ Use the W&B run object's `wandb.Run.log_artifact()` method to both save your art
 run.log_artifact(artifact)
 ```
 
-When you log an artifact, W&B creates a `'latest'` [alias](/models/artifacts/create-a-custom-alias) by default. For more information about artifact aliases and versions, see [Create a custom alias](./create-a-custom-alias) and [Create new artifact versions](./create-a-new-artifact-version), respectively.
+When you log an artifact, W&B creates a `latest` [alias](/models/artifacts/create-a-custom-alias) by default. For more information about artifact aliases and versions, see [Create a custom alias](./create-a-custom-alias) and [Create new artifact versions](./create-a-new-artifact-version), respectively.
 
 
 Putting this together, your script so far should look like this:
@@ -80,7 +80,7 @@ with wandb.init(project="artifacts-example", job_type="upload-dataset") as run:
 
 ## Download and use the artifact
 
-Now that the dataset is logged as an artifact, you can pull it into other runs as a tracked input. The following code example demonstrates the steps you can take to use an artifact you've logged and saved to the W&B servers:
+The following code example demonstrates the steps you can take to use an artifact you've logged and saved to the W&B servers:
 
 1. Initialize a new run object with `wandb.init()`.
 2. Use the run object's [`wandb.Run.use_artifact()`](/models/ref/python/experiments/run#use_artifact) method to specify which artifact to use. This returns an artifact object.
@@ -100,4 +100,4 @@ with wandb.init(project="artifacts-example", job_type="training") as run:
 
 Alternatively, you can use the Public API (`wandb.Api`) to export or update data already saved in W&B outside of a run. For more information, see [Track external files](./track-external-files).
 
-You now have a versioned dataset artifact logged to W&B and consumed by a downstream run. The artifact graph tracks both the upload and the download.
+You now have a versioned dataset artifact logged to W&B and consumed by a downstream run.

@@ -34,8 +34,8 @@ You can check an artifact's type on the [W&B platform](/models/artifacts/explore
 ```python
 import wandb
 
-with wandb.init(project="[MY-PROJECT-NAME]") as run:
-    artifact = run.use_artifact(artifact_or_name="[MY-ARTIFACT-NAME]")
+with wandb.init(project="<my-project-name>") as run:
+    artifact = run.use_artifact(artifact_or_name="<my-artifact-name>")
     print(artifact.type)
 ```
 
@@ -79,7 +79,7 @@ The steps are as follows:
 1. [Create an artifact](/models/artifacts/construct-an-artifact/).
 2. [Add content to the artifact](/models/artifacts/construct-an-artifact/#add-files-to-an-artifact) such as files, a directory, or a reference.
 3. Define a TTL time limit with the [`datetime.timedelta`](https://docs.python.org/3/library/datetime.html) data type that is part of Python's standard library.
-4. [Log the artifact](/models/artifacts/construct-an-artifact/#save-your-artifact-to-the-wb-server).
+4. [Log the artifact](/models/artifacts/construct-an-artifact/#save-your-artifact-to-the-w&b-server).
 
 The following code snippet demonstrates how to create an artifact and set a TTL policy. 
 
@@ -87,9 +87,9 @@ The following code snippet demonstrates how to create an artifact and set a TTL 
 import wandb
 from datetime import timedelta
 
-with wandb.init(project="[MY-PROJECT-NAME]", entity="[MY-ENTITY]") as run:
-    artifact = wandb.Artifact(name="[ARTIFACT-NAME]", type="[TYPE]")
-    artifact.add_file("[MY-FILE]")
+with wandb.init(project="<my-project-name>", entity="<my-entity>") as run:
+    artifact = wandb.Artifact(name="<artifact-name>", type="<type>")
+    artifact.add_file("<my-file>")
 
     artifact.ttl = timedelta(days=30)  # Set TTL policy
     run.log_artifact(artifact)
@@ -116,8 +116,8 @@ The following code snippet shows how to set a TTL policy for an artifact:
 import wandb
 from datetime import timedelta
 
-with wandb.init(project="[MY-PROJECT]") as run:
-    artifact = run.use_artifact("[MY-ENTITY]/[MY-PROJECT]/[MY-ARTIFACT]:[ALIAS]")
+with wandb.init(project="<my-project>") as run:
+    artifact = run.use_artifact("<my-entity>/<my-project>/<my-artifact>:<alias>")
     artifact.ttl = timedelta(days=365 * 2)  # Delete in two years
     artifact.save()
 ```
@@ -173,7 +173,7 @@ from datetime import timedelta
 
 api = wandb.Api()
 
-artifact = api.artifact("[ENTITY]/[PROJECT]/[ARTIFACT]:[ALIAS]")
+artifact = api.artifact("<entity>/<project>/<artifact>:<alias>")
 
 artifact.ttl = timedelta(days=365)  # Delete in one year
 
@@ -197,8 +197,8 @@ The following code snippet shows how to deactivate a TTL policy for an artifact:
 ```python
 import wandb
 
-with wandb.init(project="[MY-PROJECT]") as run:
-    artifact = run.use_artifact("[MY-ENTITY]/[MY-PROJECT]/[MY-ARTIFACT]:[ALIAS]")
+with wandb.init(project="<my-project>") as run:
+    artifact = run.use_artifact("<my-entity>/<my-project>/<my-artifact>:<alias>")
     artifact.ttl = None
     artifact.save()
 ```
@@ -231,8 +231,8 @@ Use a print statement to view an artifact's TTL policy. The following example sh
 ```python
 import wandb
 
-with wandb.init(project="[MY-PROJECT]") as run:
-    artifact = run.use_artifact("[MY-ENTITY]/[MY-PROJECT]/[MY-ARTIFACT]:[ALIAS]")
+with wandb.init(project="<my-project>") as run:
+    artifact = run.use_artifact("<my-entity>/<my-project>/<my-artifact>:<alias>")
     print(artifact.ttl)
 ```
 </Tab>

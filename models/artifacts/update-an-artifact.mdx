@@ -25,9 +25,9 @@ The following code example shows how to update the description of an artifact wi
 ```python
 import wandb
 
-with wandb.init(project="[EXAMPLE]") as run:
-    artifact = run.use_artifact("[ARTIFACT-NAME]:[ALIAS]")
-    artifact.description = "[DESCRIPTION]"
+with wandb.init(project="<example>") as run:
+    artifact = run.use_artifact("<artifact-name>:<alias>")
+    artifact.description = "<description>"
     artifact.save()
 ```
 </Tab>
@@ -70,11 +70,11 @@ You can also update an artifact collection the same way as a singular artifact. 
 
 ```python
 import wandb
-with wandb.init(project="[EXAMPLE]") as run:
+with wandb.init(project="<example>") as run:
     api = wandb.Api()
-    artifact = api.artifact_collection(type="[TYPE-NAME]", collection="[COLLECTION-NAME]")
-    artifact.name = "[NEW-COLLECTION-NAME]"
-    artifact.description = "[COLLECTION-DESCRIPTION]"
+    artifact = api.artifact_collection(type="<type-name>", collection="<collection-name>")
+    artifact.name = "<new-collection-name>"
+    artifact.description = "<collection-description>"
     artifact.save()
 ```
 For more information, see the [Artifacts Collection](/models/ref/python/public-api/api) reference.

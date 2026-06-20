@@ -4,7 +4,7 @@ description: Delete artifacts interactively with the App UI or programmatically 
 title: Delete an artifact
 ---
 
-This page shows you how to delete W&B artifacts so you can remove unneeded data, free up storage, and manage retention. Delete artifacts interactively with the W&B App or programmatically with the W&B Python SDK. When you delete an artifact, W&B marks that artifact as a *soft-delete*. In other words, W&B marks the artifact for deletion but doesn't immediately delete files from storage.
+Delete artifacts interactively with the W&B App or programmatically with the W&B Python SDK. When you delete an artifact, W&B marks that artifact as a *soft-delete*. In other words, W&B marks the artifact for deletion but doesn't immediately delete files from storage.
 
 The contents of the artifact remain as a soft-delete, or pending deletion state, until a regularly run garbage collection process reviews all artifacts marked for deletion. The garbage collection process deletes associated files from storage if a previous or subsequent artifact version doesn't use the artifact and its associated files.
 

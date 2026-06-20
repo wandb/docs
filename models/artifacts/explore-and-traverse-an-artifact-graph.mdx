@@ -35,7 +35,7 @@ The lineage graph is a visual representation of the relationships between artifa
 
 Nodes with green icons represent runs. Nodes with blue icons represent artifacts. Arrows between nodes indicate the input and output of a run or artifact.
 
-Artifact nodes display the artifact's name along with the version of the artifact in the form `[ARTIFACT_NAME]:[VERSION]`. The artifact's type appears above the name of the artifact.
+Artifact nodes display the artifact's name along with the version of the artifact in the form `<artifact_name>:<version>`. The artifact's type appears above the name of the artifact.
 
 <Note>
 You can view the type and the name of an artifact in both the left sidebar and in the lineage graph node.
@@ -96,7 +96,7 @@ To enable lineage graph tracking, you must mark artifacts as [inputs](/models/ar
 
 Mark an artifact as the input (or dependency) of a run with the [`wandb.Run.use_artifact()`](/models/ref/python/experiments/run#method-runuse_artifact)
 method. Specify the name of the artifact and an optional alias to reference a specific version of that artifact. The name of the
-artifact is in the format `[ARTIFACT_NAME]:[VERSION]` or `[ARTIFACT_NAME]:[ALIAS]`.
+artifact is in the format `<artifact_name>:<version>` or `<artifact_name>:<alias>`.
 
 Replace the bracketed placeholders with your values:
 
@@ -104,9 +104,9 @@ Replace the bracketed placeholders with your values:
 import wandb
 
 # Initialize a run
-with wandb.init(entity="[ENTITY]", project="[PROJECT]") as run:
+with wandb.init(entity="<entity>", project="<project>") as run:
   # Get artifact, mark it as a dependency
-  artifact = run.use_artifact(artifact_or_name="[NAME]:[ALIAS]")
+  artifact = run.use_artifact(artifact_or_name="<name>:<alias>")
 ```
 
 
@@ -122,11 +122,11 @@ Replace the bracketed placeholders with your values:
 import wandb
 
 # Initialize a run
-with wandb.init(entity="[ENTITY]", project="[PROJECT]") as run:
+with wandb.init(entity="<entity>", project="<project>") as run:
   
   # Create an artifact
-  artifact = wandb.Artifact(name = "[ARTIFACT_NAME]", type = "[ARTIFACT_TYPE]")
-  artifact.add_file(local_path = "[LOCAL_FILEPATH]", name="[OPTIONAL_NAME]")
+  artifact = wandb.Artifact(name = "<artifact_name>", type = "<artifact_type>")
+  artifact.add_file(local_path = "<local_filepath>", name="<optional_name>")
 
   # Log the artifact as an output of the run
   run.log_artifact(artifact_or_path = artifact)
