@@ -88,25 +88,27 @@ You can also specify a different directory by replacing `.` with the path to the
 
 ## View local changes
 
-View local changes in your project workspace. W&B saves the diff of unstaged changes across runs in a `diff.patch` or `diff_<sha>.patch` file in project workspace.
+View local changes in your project workspace. W&B generates diff files when you log code with staged or unstaged changes in your Git repository.
 
-W&B generates diff files when you log code with W&B and have unstaged changes in your git repository. To view the diff of unstaged changes across runs:
+W&B names the diff files `diff.patch` or `diff_<sha>.patch`. These files contain local code changes that are not yet committed to Git, relative to `HEAD`.
+
+To view diff files:
 
 1. Navigate to your project's workspace.
-2. Click on the **Workspace** tab in the left sidebar. 
-3. From the run list, select the run that you want to view the diff of unstaged changes for. This will open the run overview page.
-2. Select the **Files** tab.
-3. From the list of files, click on the `diff.patch` or the `diff_<sha>.patch` file.
-4. Select a file from the list to expand the diff of unstaged changes for that file.
+2. In the left sidebar, click **Workspace**.
+3. In the run selector, select the run whose diff you want to view.
+2. On the run **Overview** page, select the **Files** tab.
+3. From the list of files, select the `diff.patch` or `diff_<sha>.patch` file.
+4. Select a file from the list to expand the diff for that file.
 
-W&B supports two modes to view the diff of unstaged or unpushed changes across runs: *unified* and *split*.
+W&B supports two modes for viewing the diff across runs: *unified* and *split*.
 
-- Unified view shows the diff of unstaged changes in a single pane:
+- Unified view shows the diff in a single pane:
     <Frame>
         <img src="/images/app_ui/diff_unified_view.png" alt="Diff patch unified view"  />
     </Frame>
 
-- Split view shows the diff of unstaged changes in two panes side by side:
+- Split view shows the diff in two panes, side-by-side:
 
     <Frame>
         <img src="/images/app_ui/diff_split_view.png" alt="Diff patch split view"  />
