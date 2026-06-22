@@ -32,10 +32,6 @@ for run in api.runs("my-entity/my-project", filters={"sweep": "sweep_id_here"}):
 
 Each `update()` is a separate API call. For large sets, add a short sleep between calls to avoid rate limits.
 
-## What you cannot change after a run finishes
-
-You cannot add new logged metrics (summary or history) to a finished run via the Public API. To attach post-hoc metrics, start a new run (for example `job_type="evaluation"`), log there, and link via tags or artifact lineage.
-
 ---
 
 {/* AUTO-GENERATED: tab badges */}
