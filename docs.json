@@ -6307,6 +6307,10 @@
       "source": "/models/support/run_sweeps_slurm"
     },
     {
+      "destination": "/support/models/articles/how-should-i-run-sweeps-on-slurm",
+      "source": "/support/models/articles/how-do-i-run-sweeps-with-distributed-training-on-slurm"
+    },
+    {
       "destination": "/support/models/articles/can-i-run-wandb-offline",
       "source": "/models/support/run_wandb_offline"
     },
