@@ -3,11 +3,15 @@ title: "How do I use W&B with JAX?"
 keywords: ["Experiments", "Runs", "Metrics"]
 ---
 
-W&B has no JAX-specific integration. Use `wandb.log()` in your training loop like any other Python workflow. Convert JAX device arrays to Python scalars before logging so values serialize correctly.
+W&B has no JAX-specific integration. However, you can convert JAX device arrays to Python scalars and then use `wandb.log()` in your training loop like any other Python workflow. Converting the arrays before logging makes it so values serialize correctly.
 
 For experiment setup and logging patterns, see [Create an experiment](/models/track/create-an-experiment) and [Log objects and media](/models/track/log). For Flax checkpoints, see [Artifacts](/models/artifacts/).
 
+The sections below show the basic logging pattern for a JAX training loop, how to aggregate validation metrics, how to save JAX or Flax checkpoints as W&B artifacts, and how to surface NaN losses during training.
+
 ## Log metrics from a JAX training loop
+
+The following example runs a JIT-compiled JAX training loop that updates model parameters on each batch and logs the per-step training loss to a W&B run.
 
 ```python
 import jax
