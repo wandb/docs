@@ -1,0 +1,39 @@
+---
+title: "startTool"
+description: "TypeScript SDK リファレンス"
+---
+
+<div id="starttool">
+  # startTool
+</div>
+
+▸ **startTool**(`opts`): [`Tool`](../classes/tool)
+
+`Tool` の span を開始します。親の解決方法 (設計上の「デフォルトではフラット、ネストした場合は階層化」に対応) :
+
+* LLM がアクティブな場合、`Tool` はその配下にネストされます。
+* それ以外の場合、`Tool` は現在の Turn と同じ親の下に配置されます。
+
+Turn と LLM のどちらもアクティブでない場合は、例外をスローします。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名      | タイプ                                  |
+| :----- | :----------------------------------- |
+| `opts` | [`ToolInit`](../interfaces/toolinit) |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+[`Tool`](../classes/tool)
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[genai/api.ts:50](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/api.ts#L50)
+
+***

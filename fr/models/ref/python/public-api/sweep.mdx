@@ -26,12 +26,11 @@ L’ensemble des runs associés au balayage.
 
 ```python
 __init__(
-    client: 'RetryingClient',
+    service_api: 'ServiceApi',
     entity: 'str',
     project: 'str',
     sweep_id: 'str',
-    attrs: 'Mapping[str, Any] | None' = None,
-    service_api: 'ServiceApi'
+    attrs: 'Mapping[str, Any] | None' = None
 )
 ```
 
@@ -144,13 +143,12 @@ Retourne le meilleur run, trié selon la métrique définie dans la configuratio
 
 ```python
 get(
-    client: 'RetryingClient',
+    api: 'Api',
     entity: 'str | None' = None,
     project: 'str | None' = None,
     sid: 'str | None' = None,
     order: 'str | None' = None,
-    query: 'Document | None' = None,
-    service_api: 'ServiceApi',
+    query: 'str | None' = None,
     **kwargs
 )
 ```
@@ -159,8 +157,7 @@ Exécute une requête sur le backend cloud.
 
 **Arguments :**
 
-* `client`:  Client GraphQL hérité conservé pour la compatibilité de l’API.
-* `service_api`:  Interface vers le service wandb-core qui effectue les appels à l’API W&amp;B pour le balayage renvoyé.
+* `api`:  L’instance d’API W&amp;B.
 * `entity`:  L’entité (nom d’utilisateur ou équipe) propriétaire du projet.
 * `project`:  Le nom du projet depuis lequel récupérer le balayage.
 * `sid`:  L’ID du balayage à interroger.

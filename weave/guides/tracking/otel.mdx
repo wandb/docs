@@ -10,10 +10,10 @@ This page covers the endpoint details, authentication, end-to-end examples in Py
 
 ## Endpoint details
 
-**Path**: `/otel/v1/traces`
-**Method**: `POST`
-**Content-Type**: `application/x-protobuf`
-**Base URL**: The base URL for the OTel trace endpoint depends on your W&B deployment type:
+* **Path**: `/otel/v1/traces`
+* **Method**: `POST`
+* **Content-Type**: `application/x-protobuf`
+* **Base URL**: The base URL for the OTel trace endpoint depends on your W&B deployment type:
 
 - Multi-tenant Cloud: `https://trace.wandb.ai/otel/v1/traces`.
 - Dedicated Cloud and Self-Managed instances: `https://<your-subdomain>.wandb.io/traces/otel/v1/traces`.
@@ -947,7 +947,8 @@ if __name__ == "__main__":
 </Tab>
 <Tab title="TypeScript">
 
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 function example_1_basic_thread_and_turn() {
   console.log("\n=== Example 1: Basic Thread and Turn ===");
 
@@ -1046,7 +1047,8 @@ if __name__ == "__main__":
 </Tab>
 <Tab title="TypeScript">
 
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 function example_2_multiple_turns() {
   console.log("\n=== Example 2: Multiple Turns in Thread ===");
 
@@ -1160,7 +1162,8 @@ if __name__ == "__main__":
 </Tab>
 <Tab title="TypeScript">
 
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 function example_3_complex_nested_structure() {
   console.log("\n=== Example 3: Complex Nested Structure ===");
 
@@ -1264,7 +1267,8 @@ if __name__ == "__main__":
 </Tab>
 <Tab title="TypeScript">
 
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 function example_4_non_turn_operations() {
   console.log("\n=== Example 4: Non-Turn Thread Operations ===");
 
@@ -1375,7 +1379,6 @@ Weave supports attribute conventions from the following observability frameworks
 | `wandb.is_turn`                   | `is_turn`                     | Marks span as conversation turn.            | Boolean                     | `true`                                         |
 | `langfuse.startTime`              | `start_time` (override)       | Override span start timestamp.              | Timestamp (ISO8601/unix ns) | `"2024-01-01T12:00:00Z"`                       |
 | `langfuse.endTime`                | `end_time` (override)         | Override span end timestamp.                | Timestamp (ISO8601/unix ns) | `"2024-01-01T12:00:01Z"`                       |
-
 
 ## Limitations
 

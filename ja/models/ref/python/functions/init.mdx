@@ -37,11 +37,11 @@ init(
     sync_tensorboard: 'bool | None' = None,
     monitor_gym: 'bool | None' = None,
     settings: 'Settings | dict[str, Any] | None' = None,
-    anonymous: 'DoNotSet' = <object object at 0x10482d250>
+    anonymous: 'DoNotSet' = <object object at 0x104fe52d0>
 ) → Run
 ```
 
-W&amp;B でトラッキングとログを行うための新しい run を開始します。
+W&amp;B でトラッキングし、ログするための新しい run を開始します。
 
 ML のトレーニングパイプラインでは、トレーニングスクリプトと評価スクリプトの先頭に `wandb.init()` を追加できます。すると、それぞれが W&amp;B で run としてトラッキングされます。
 

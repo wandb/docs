@@ -1,6 +1,7 @@
 ---
 title: "Leaderboard クイックスタート"
 description: "W&B Weave で Leaderboard クイックスタート を使う方法を学びます"
+keywords: [leaderboard, モデル比較, Weave 評価, スコアリング関数]
 ---
 
 <Note>
@@ -14,18 +15,20 @@ description: "W&B Weave で Leaderboard クイックスタート を使う方法
   # Leaderboard クイックスタート
 </div>
 
-このノートブックでは、Weave の Leaderboard を使って、さまざまなデータセットと スコアリング関数 にわたるモデル性能を比較する方法を学びます。具体的には、次のことを行います。
+このクイックスタートでは、W&amp;B Weave Leaderboard を使って、複数のデータセットやスコアリング関数にまたがるモデル性能を比較する方法を紹介します。最後には、複数のモデルを共通の評価セットに対してランク付けした leaderboard を公開できるようになります。これにより、各メトリクスでどのモデルが最も優れているかを特定できます。このガイドは、Weave で評価を実行したことがあり、その結果を並べて比較したい開発者を対象としています。
 
-1. 架空の郵便番号データのデータセットを生成する
-2. スコアリング関数 をいくつか作成し、ベースラインモデルを評価する。
-3. これらの手法を使って、モデルと評価の組み合わせ行列を評価する。
-4. Weave UI で Leaderboard を確認する。
+具体的には、次のことを行います。
+
+1. 架空の郵便番号データのデータセットを生成します。
+2. スコアリング関数をいくつか作成し、ベースラインモデルを評価します。
+3. これらの手法を使って、複数のモデルと評価の組み合わせを評価します。
+4. Weave UI で leaderboard を確認します。
 
 <div id="step-1-generate-a-dataset-of-fake-zip-code-data">
   ## Step 1: ダミーの郵便番号データのデータセットを生成する
 </div>
 
-まず、ダミーの郵便番号データのリストを生成する関数 `generate_dataset_rows` を作成します。
+まず、ダミーの郵便番号データのリストを生成する関数 `generate_dataset_rows` を作成します。この合成データセットにより、leaderboard で各モデルをスコアリングする際に使用する、一貫した入力セットと期待値が得られます。
 
 ```python lines
 import json
@@ -75,12 +78,11 @@ import weave
 weave.init("leaderboard-demo")
 ```
 
-
 <div id="step-2-author-scoring-functions">
   ## Step 2: スコアリング関数を作成する
 </div>
 
-次に、3 つのスコアリング関数を作成します。
+次に、3 つのスコアリング関数を作成します。各 scorer はモデルの出力の異なる側面を評価するため、leaderboard では品質の異なる観点に基づいてモデルを順位付けできます。
 
 1. `check_concrete_fields`: モデルの出力が、想定される都市名と州に一致するかどうかを確認します。
 2. `check_value_fields`: モデルの出力が、想定される人口と世帯収入中央値の 10% 以内に収まっているかどうかを確認します。
@@ -133,11 +135,11 @@ def check_subjective_fields(zip_code: str, known_for: str, output: dict):
     return json.loads(completion.choices[0].message.content)
 ```
 
-<div id="step-3-create-a-simple-evaluation">
-  ## Step 3: シンプルな評価を作成する
+<div id="step-3-create-an-evaluation">
+  ## Step 3: 評価を作成する
 </div>
 
-次に、ダミーデータとスコアリング関数を使って、シンプルな評価を定義します。
+次に、ダミーデータとスコアリング関数を使って、評価を定義します。`Evaluation` オブジェクトはデータセットと scorers を組み合わせるため、同じベンチマークに対して任意のモデルを実行できます。
 
 ```python lines
 rows = generate_dataset_rows()
@@ -152,12 +154,11 @@ evaluation = weave.Evaluation(
 )
 ```
 
-
 <div id="step-4-evaluate-a-baseline-model">
-  ## Step 4: ベースラインモデルをEvaluateする
+  ## Step 4: ベースラインモデルを評価する
 </div>
 
-ここでは、静的なレスポンスを返すベースラインモデルをEvaluateします。
+ここでは、静的なレスポンスを返すベースラインモデルを評価します。ベースラインを確立すると、leaderboard上の基準点が得られるため、後続の各モデルが静的な実装からどれだけ改善したかを測定できます。
 
 ```python lines
 @weave.op
@@ -174,12 +175,11 @@ def baseline_model(zip_code: str):
 await evaluation.evaluate(baseline_model)
 ```
 
-
 <div id="step-5-create-more-models">
-  ## Step 5: Modelsをさらに作成する
+  ## Step 5: モデルをさらに作成する
 </div>
 
-次に、ベースラインと比較するために、さらに2つのモデルを作成します。
+次に、ベースラインと比較するために、さらに2つのモデルを作成します。1つのモデルには追加のプロンプトなしで郵便番号だけを与え、もう1つのモデルには構造化されたプロンプトを与えます。leaderboard でそれらを比較すると、回答品質に対するプロンプトのコンテキストの影響がわかります。
 
 ```python lines
 @weave.op
@@ -235,12 +235,11 @@ def gpt_4o_mini_with_context(zip_code: str):
 await evaluation.evaluate(gpt_4o_mini_with_context)
 ```
 
-
 <div id="step-6-create-more-evaluations">
   ## Step 6: さらに評価を作成する
 </div>
 
-ここでは、モデルと評価の組み合わせをマトリクスとして評価します。
+ここでは、モデルと評価の組み合わせをマトリクスとして評価します。各モデルを複数のデータセット (異なる地域や年) に対して実行すると、leaderboard が複数の条件にわたってモデルを順位付けするために必要なデータが生成されます。
 
 ```python lines
 scorers = [
@@ -286,12 +285,13 @@ for evaluation in evaluations:
         )
 ```
 
-
 <div id="step-7-review-the-leaderboard">
   ## ステップ 7: Leaderboard を確認する
 </div>
 
-UI の Leaderboard タブに移動し、&quot;Create Leaderboard&quot; をクリックすると、新しい Leaderboard を作成できます。
+評価結果を公開したら、それらを Leaderboard にまとめて、並べて比較できるようになります。
+
+UI の Leaderboard タブに移動し、**Create Leaderboard** をクリックすると、新しい Leaderboard を作成できます。
 
 Python から直接 Leaderboard を生成することもできます。
 
@@ -332,3 +332,5 @@ This leaderboard compares the performance of models in terms of world knowledge 
 
 ref = weave.publish(spec)
 ```
+
+これで、定義した 3 つの評価とスコアリング メトリクスに基づいて各モデルを順位付けする、公開済みの leaderboard が Weave に作成されました。Weave UI では、モデルごとのスコアを確認したり、個々の評価 run を詳しく確認したり、今後のモデルの反復を同じベースラインに対して比較したりできます。

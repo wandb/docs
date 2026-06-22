@@ -1,0 +1,166 @@
+---
+title: "클래스: Tool"
+description: "TypeScript SDK 레퍼런스"
+---
+
+[weave](../) / Tool
+
+도구 호출입니다. 도구 이름, JSON으로 인코딩된 인수, 도구 호출 ID, 결과를
+포함하는 `execute_tool` span을 생성합니다.
+
+`weave.startTool()`(또는 `turn.startTool()`, 또는
+`llm.startTool()`)로 생성되며 `end()`로 종료됩니다. span에 도구의 출력을 기록하려면
+`end()`를 호출하기 전에 `result`에 값을 부여하세요.
+
+`Example`
+
+```ts
+const tool = weave.startTool({
+  name: tc.function.name,
+  args: tc.function.arguments,
+  toolCallId: tc.id,
+});
+try {
+  tool.result = await wikipediaSearch(JSON.parse(tc.function.arguments));
+} finally {
+  tool.end();
+}
+```
+
+<div id="table-of-contents">
+  ## 목차
+</div>
+
+<div id="properties">
+  ### 속성
+</div>
+
+* [args](./tool#args)
+* [name](./tool#name)
+* [result](./tool#result)
+* [toolCallId](./tool#toolcallid)
+
+<div id="methods">
+  ### 방법
+</div>
+
+* [end](./tool#end)
+* [create](./tool#create)
+
+## 속성
+
+<div id="args">
+  ### args
+</div>
+
+• `Readonly` **args**: `string`
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[genai/tool.ts:52](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/tool.ts#L52)
+
+***
+
+<div id="name">
+  ### name
+</div>
+
+• `Readonly` **name**: `string`
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[genai/tool.ts:51](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/tool.ts#L51)
+
+***
+
+<div id="result">
+  ### result
+</div>
+
+• `선택` **result**: `string`
+
+도구의 출력을 string으로 나타낸 값입니다. `end()`에서 `gen_ai.tool.call.result`에 기록됩니다.
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[genai/tool.ts:45](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/tool.ts#L45)
+
+***
+
+<div id="toolcallid">
+  ### toolCallId
+</div>
+
+• `Readonly` **toolCallId**: `string`
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[genai/tool.ts:53](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/tool.ts#L53)
+
+## 방법
+
+<div id="end">
+  ### end
+</div>
+
+▸ **end**(`opts?`): `void`
+
+`result`를 span에 플러시한 후 닫습니다. 멱등성을 가집니다. span을 실패로 표시하려면
+`error`를 전달하세요.
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름            | 유형       |
+| :------------ | :------- |
+| `opts?`       | `Object` |
+| `opts.error?` | `Error`  |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`void`
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[genai/tool.ts:83](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/tool.ts#L83)
+
+***
+
+<div id="create">
+  ### create
+</div>
+
+▸ **create**(`opts`): [`Tool`](./tool)
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름     | 유형                                                            |
+| :----- | :------------------------------------------------------------ |
+| `opts` | [`ToolInit`](../interfaces/toolinit) &amp; `ChildSpanContext` |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+[`Tool`](./tool)
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[genai/tool.ts:56](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/tool.ts#L56)

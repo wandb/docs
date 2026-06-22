@@ -1,7 +1,10 @@
 ---
 title: "Suivre et versionner des objets"
 description: "Suivre et versionner tout objet sérialisable en JSON dans W&B Weave"
+keywords: ["objets", "gestion des versions", "refs", "weave.publish", "weave.ref"]
 ---
+
+Cette page explique comment publier, récupérer, supprimer et référencer des objets versionnés dans W&amp;B Weave. Utilisez-la lorsque vous devez suivre des données structurées telles que des jeux de données, des modèles ou des prompts d&#39;un run à l&#39;autre et au fil du temps.
 
 <div id="objects">
   ## Objets
@@ -25,7 +28,7 @@ weave.publish(dataset)
 ```
 
 
-<div id="publishing-an-object">
+<div id="publish-an-object">
   ## Publier un objet
 </div>
 
@@ -42,9 +45,10 @@ La couche de sérialisation de Weave enregistre les objets et en gère les versi
   </Tab>
 
   <Tab title="TypeScript">
-    La publication en TypeScript en est encore à ses débuts ; tous les objets ne sont donc pas encore entièrement pris en charge.
+    La prise en charge de la publication en TypeScript est limitée. Tous les objets ne sont pas pris en charge.
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     import * as weave from 'weave'
 
     const client = await weave.init("your-team-name/your-project-name")
@@ -61,11 +65,13 @@ Lorsque vous enregistrez un objet sous un nom, Weave en crée la première versi
   ## Récupérer un objet
 </div>
 
+Après publication, vous pouvez récupérer un objet stocké à l’aide de sa référence.
+
 <Tabs>
   <Tab title="Python">
-    `weave.publish()` renvoie une Ref. Vous pouvez appeler `.get()` sur n’importe quelle Ref pour récupérer l’objet.
+    `weave.publish()` renvoie une réf. Vous pouvez appeler `.get()` sur n’importe quelle réf. pour récupérer l’objet.
 
-    Vous pouvez créer une ref, puis récupérer l’objet.
+    Vous pouvez créer une réf., puis récupérer l’objet.
 
     ```python lines
     weave.init("your-team-name/your-project-name")
@@ -84,9 +90,11 @@ Lorsque vous enregistrez un objet sous un nom, Weave en crée la première versi
   ## Supprimer un objet
 </div>
 
+Si vous n’avez plus besoin d’une version spécifique d’un objet, vous pouvez la supprimer à l’aide de sa réf.
+
 <Tabs>
   <Tab title="Python">
-    Pour supprimer une version d&#39;un objet, appelez `.delete()` sur la réf. d&#39;objet.
+    Pour supprimer une version d&#39;un objet, appelez `.delete()` sur la réf. de l&#39;objet.
 
     ```python lines
     weave.init("your-team-name/your-project-name")
@@ -104,23 +112,25 @@ Lorsque vous enregistrez un objet sous un nom, Weave en crée la première versi
   </Tab>
 </Tabs>
 
-<div id="constructing-object-refs">
-  ## Construction des réf. d&#39;objet
+<div id="construct-object-refs">
+  ## Construire des réf. d&#39;objet
 </div>
 
-Dans Weave, une URI de réf. d&#39;objet pleinement qualifiée se présente ainsi :
+Les réf. permettent d&#39;identifier de manière unique un objet stocké et sa version. Les sections suivantes décrivent la structure de l&#39;URI et les différentes façons de construire une réf.
+
+Dans Weave, une URI de réf. d&#39;objet complète se présente comme suit :
 
 ```text
-weave:///<your-team-name>/<your-project-name>/object/<object_name>:<object_version>
+weave:///[YOUR-TEAM-NAME]/[YOUR-PROJECT-NAME]/object/[OBJECT-NAME]:[OBJECT-VERSION]
 ```
 
-* *your-team-name*: entité W&amp;B (nom d’utilisateur ou nom d’équipe)
-* *your-project-name*: projet W&amp;B
-* *object&#95;name*: nom de l’objet
-* *object&#95;version*: soit un hash de version, une chaîne comme `v0` ou `v1`, soit un alias comme `:latest`. Tous les objets ont l’alias `:latest`.
+* `[YOUR-TEAM-NAME]` : entité W&amp;B (nom d&#39;utilisateur ou nom d&#39;équipe)
+* `[YOUR-PROJECT-NAME]` : projet W&amp;B
+* `[OBJECT-NAME]` : nom de l&#39;objet
+* `[OBJECT-VERSION]` : soit un hachage de version, une chaîne comme `v0` ou `v1`, soit un alias comme `:latest`. Tous les objets ont l&#39;alias `:latest`.
 
-Vous pouvez construire des références de plusieurs façons :
+Vous pouvez construire des réf. de plusieurs manières :
 
-* `weave.ref(<name>)`: Récupère la version `:latest` d’un objet. Nécessite d’appeler `weave.init(...)`.
-* `weave.ref(<name>:<version>)`: Récupère la version spécifiée d’un objet. Nécessite d’appeler `weave.init(...)`.
-* `weave.ref(<fully_qualified_ref_uri>)`: Récupère l’objet situé à l’URI de référence d’objet pleinement qualifiée spécifiée. Ne nécessite pas d’appeler `weave.init()`.
+* `weave.ref([NAME])` : récupère la version `:latest` d&#39;un objet. Nécessite d&#39;appeler `weave.init(...)`.
+* `weave.ref([NAME]:[VERSION])` : récupère la version spécifiée d&#39;un objet. Nécessite d&#39;appeler `weave.init(...)`.
+* `weave.ref([FULLY-QUALIFIED-REF-URI])` : récupère l&#39;objet situé à l&#39;URI de réf. d&#39;objet complète indiquée. Ne nécessite pas d&#39;appeler `weave.init()`."

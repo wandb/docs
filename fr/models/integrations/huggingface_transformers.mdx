@@ -218,7 +218,7 @@ Tous les `Trainer` Transformers que vous initialisez à partir de maintenant té
   #### W&amp;B registre
 </div>
 
-Une fois vos checkpoints enregistrés dans Artifacts, vous pouvez enregistrer les checkpoints de vos meilleurs modèles et les centraliser au sein de votre équipe avec [registre](/fr/models/registry/). Avec le registre, vous pouvez organiser vos meilleurs modèles par tâche, gérer le cycle de vie des modèles, suivre et auditer l&#39;ensemble du cycle de vie du machine learning, et [automatiser](/fr/models/automations/) les actions en aval.
+Une fois vos point de contrôle du modèle enregistrés dans Artifacts, vous pouvez enregistrer les point de contrôle du modèle de vos meilleurs modèles et les centraliser au sein de votre équipe avec [registre](/fr/models/registry/). Avec le registre, vous pouvez organiser vos meilleurs modèles par tâche, gérer le cycle de vie des modèles, suivre et auditer l&#39;ensemble du cycle de vie du machine learning, et [automatiser](/fr/models/automations/) les actions en aval.
 
 Pour lier un Artifact de modèle, reportez-vous à [registre](/fr/models/registry/).
 
@@ -499,7 +499,7 @@ Vous pouvez affiner la configuration de ce qui est enregistré avec `Trainer` en
 
 Le `WandbCallback` utilisé par `Trainer` appelle `wandb.init()` en interne lors de l&#39;initialisation de `Trainer`. Vous pouvez aussi configurer vos runs manuellement en appelant `wandb.init()` avant l&#39;initialisation de `Trainer`. Cela vous donne un contrôle total sur la configuration de votre run W&amp;B.
 
-Voici un exemple de ce que vous pouvez passer à `init`. Pour plus de détails sur `wandb.init()`, voir la [`référence \`wandb.init()``](/fr/models/ref/python/functions/init).
+Voici un exemple de ce que vous pouvez passer à `init`. Pour plus de détails sur `wandb.init()`, voir la [`référence \`wandb.init()&#96;&#96;](/fr/models/ref/python/functions/init).
 
 ```python
 wandb.init(

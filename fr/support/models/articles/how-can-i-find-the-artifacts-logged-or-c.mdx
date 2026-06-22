@@ -1,27 +1,29 @@
 ---
-title: "Comment trouver les Artifacts enregistrés ou consommés par un run ? Comment trouver les runs qui ont produit ou consommé un artifact ?"
+title: "Comment trouver les artefacts enregistrés ou consommés par un run ? Comment trouver les runs qui ont produit ou consommé un artefact ?"
 keywords: ["Artifacts"]
 ---
 
-W&amp;B suit les Artifacts enregistrés par chaque run ainsi que ceux utilisés par chaque run afin de construire un graphe d’Artifacts. Ce graphe est un graphe biparti orienté acyclique, dont les nœuds représentent des runs et des Artifacts. Vous pouvez en voir un exemple [ici](https://wandb.ai/shawn/detectron2-11/artifacts/dataset/furniture-small-val/06d5ddd4deeb2a6ebdd5/graph) (cliquez sur &quot;Explode&quot; pour déployer le graphe).
+Cette page explique comment retracer les relations entre les runs et les artefacts dans W&amp;B. Vous pouvez déterminer quel run a produit ou consommé un artefact donné, ou quels artefacts un run donné a produits ou consommés. Cela est utile pour auditer la traçabilité des données, déboguer des pipelines et comprendre comment les artefacts circulent dans vos Experiments.
 
-Utilisez l’API publique pour parcourir le graphe par code, à partir d’un artifact ou d’un run.
+W&amp;B suit les artefacts que chaque run enregistre et utilise pour construire un graphe d’artefacts. Ce graphe est un graphe biparti, orienté et acyclique, dont les nœuds représentent des runs et des artefacts. Voir [un exemple de graphe d’artefacts](https://wandb.ai/shawn/detectron2-11/artifacts/dataset/furniture-small-val/06d5ddd4deeb2a6ebdd5/graph), puis cliquez sur **Explode** pour développer le graphe.
+
+Utilisez l’API publique W&amp;B pour parcourir le graphe par programmation, en partant soit d’un artefact, soit d’un run. Choisissez l’onglet qui correspond à votre point de départ.
 
 <Tabs>
-  <Tab title="À partir d’un artifact">
+  <Tab title="À partir d’un artefact">
     ```python
     api = wandb.Api()
 
-    artifact = api.artifact("project/artifact:alias")
+    artifact = api.artifact("[PROJECT]/[ARTIFACT]:[ALIAS]")
 
-    # Remonter le graphe à partir d’un artifact :
+    # Remonter le graphe à partir d'un artefact :
     producer_run = artifact.logged_by()
-    # Descendre le graphe à partir d’un artifact :
+    # Descendre le graphe à partir d'un artefact :
     consumer_runs = artifact.used_by()
 
-    # Descendre le graphe à partir d’un run :
+    # Descendre le graphe à partir d'un run :
     next_artifacts = consumer_runs[0].logged_artifacts()
-    # Remonter le graphe à partir d’un run :
+    # Remonter le graphe à partir d'un run :
     previous_artifacts = producer_run.used_artifacts()
     ```
   </Tab>
@@ -30,16 +32,16 @@ Utilisez l’API publique pour parcourir le graphe par code, à partir d’un ar
     ```python
     api = wandb.Api()
 
-    run = api.run("entity/project/run_id")
+    run = api.run("[ENTITY]/[PROJECT]/[RUN_ID]")
 
-    # Descendre le graphe à partir d’un run :
+    # Descendre le graphe à partir d'un run :
     produced_artifacts = run.logged_artifacts()
-    # Remonter le graphe à partir d’un run :
+    # Remonter le graphe à partir d'un run :
     consumed_artifacts = run.used_artifacts()
 
-    # Remonter le graphe à partir d’un artifact :
+    # Remonter le graphe à partir d'un artefact :
     earlier_run = consumed_artifacts[0].logged_by()
-    # Descendre le graphe à partir d’un artifact :
+    # Descendre le graphe à partir d'un artefact :
     consumer_runs = produced_artifacts[0].used_by()
     ```
   </Tab>
@@ -51,4 +53,4 @@ Utilisez l’API publique pour parcourir le graphe par code, à partir d’un ar
 
 <Badge stroke shape="pill" color="orange" size="md">[Artifacts](/fr/support/models/tags/artifacts)</Badge>
 
-{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet */}

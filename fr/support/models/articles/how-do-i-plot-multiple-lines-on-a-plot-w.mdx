@@ -6,9 +6,7 @@ keywords: ["Experiments"]
 Créez un graphique personnalisé multiligne avec `wandb.plot.line_series()`. Accédez à la [page du projet](/fr/models/track/project-page) pour voir le graphique linéaire. Pour ajouter une légende, incluez l&#39;argument `keys` dans `wandb.plot.line_series()`. Par exemple :
 
 ```python
-
 with wandb.init(project="my_project") as run:
-
     run.log(
         {
             "my_plot": wandb.plot.line_series(
@@ -18,7 +16,7 @@ with wandb.init(project="my_project") as run:
     )
 ```
 
-Référez-vous [ici](/fr/models/track/log/plots#basic-charts) pour plus de détails sur les graphiques multilignes, dans l’onglet **Multi-line**.
+Pour plus de détails sur les graphiques multilignes, voir la [documentation des graphiques de base](/fr/models/track/log/plots#basic-charts) dans l’onglet **Multi-line**.
 
 ***
 

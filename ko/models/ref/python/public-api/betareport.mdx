@@ -31,11 +31,10 @@ BetaReport는 W&B에서 생성된 리포트와 연관된 클래스입니다.
 
 ```python
 __init__(
-    client: 'RetryingClient',
+    service_api: 'ServiceApi',
     attrs: 'dict',
     entity: 'str | None' = None,
-    project: 'str | None' = None,
-    service_api: 'ServiceApi'
+    project: 'str | None' = None
 )
 ```
 

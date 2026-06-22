@@ -26,10 +26,10 @@ Par exemple, l’image suivante montre un graphe de lignage typique pour les art
 
 De gauche à droite, l’image montre :
 
-1. Plusieurs runs enregistrent l’artifact `split_zoo_dataset:v4`.
-2. Le run « rural-feather-20 » utilise l’artifact `split_zoo_dataset:v4` pour l’entraînement.
-3. La sortie du run « rural-feather-20 » est un artifact de modèle appelé `zoo-ylbchv20:v0`.
-4. Un run appelé « northern-lake-21 » utilise l’artifact de modèle `zoo-ylbchv20:v0` pour évaluer le modèle.
+1. Plusieurs runs enregistrent l’artifact `split_zoo_dataset:v0`.
+2. Le run « zesty-snowball-7 » utilise l’artifact `split_zoo_dataset:v0` pour l’entraînement.
+3. La sortie du run « zesty-snowball-7 » est un artifact de modèle appelé `zoo-qne08r7u:v0`.
+4. Un run appelé « glamorous-planet-8 » utilise l’artifact de modèle `zoo-qne08r7u:v0` pour évaluer le modèle.
 
 Pour afficher le graphe de lignage d’un artifact dans une collection :
 
@@ -43,21 +43,37 @@ Pour afficher le graphe de lignage d’un artifact dans une collection :
   Voir [Activer le suivi du graphe de lignage](/fr/models/artifacts/explore-and-traverse-an-artifact-graph#enable-lineage-graph-tracking) pour apprendre à suivre les entrées et les sorties d’un run à l’aide du W&amp;B Python SDK.
 </Info>
 
-L’image suivante montre la vue détaillée développée d’un run (`rural-feather-20`) lorsque vous sélectionnez un nœud dans le graphe de lignage :
+L’image suivante montre la vue détaillée développée d’un run (`zesty-snowball-7`) lorsque vous sélectionnez un nœud dans le graphe de lignage :
 
 <Frame>
   <img src="/images/registry/lineage_expanded_node.png" alt="Nœud de lignage développé" />
 </Frame>
 
-L’image suivante montre la vue détaillée développée d’un artifact (`zoo-ylbchv20:v0`) lorsque vous sélectionnez un nœud d’artifact dans le graphe de lignage :
+L’image suivante montre la vue détaillée développée d’un artifact (`zoo-qne08r7u:v0`) lorsque vous sélectionnez un nœud d’artifact dans le graphe de lignage :
 
 <Frame>
   <img src="/images/registry/lineage_expanded_artifact_node.png" alt="Détails du nœud d’artifact développé" />
 </Frame>
 
 <Info>
-  Vous pouvez également afficher les graphes de lignage des artifacts que vous enregistrez dans W&amp;B et qui ne font pas partie d’une collection. Voir E[explorer les graphes d’artifacts](/fr/models/artifacts/explore-and-traverse-an-artifact-graph) pour plus d’informations.
+  Vous pouvez également afficher les graphes de lignage des artifacts que vous enregistrez dans W&amp;B et qui ne font pas partie d’une collection. Voir [Explorer les graphes d’artifacts](/fr/models/artifacts/explore-and-traverse-an-artifact-graph) pour plus d’informations.
 </Info>
+
+<div id="create-a-custom-view">
+  ### Créer une vue personnalisée
+</div>
+
+Cliquez sur **Custom** dans l’angle supérieur droit du graphe de lignage pour créer une vue personnalisée. Vous pouvez filtrer et personnaliser le graphe de lignage à l’aide des options suivantes :
+
+* **Filtrer par type d’artifact** : filtrez selon les valeurs de type d’artifact enregistrées dans W&amp;B. Par exemple, si vous enregistrez un artifact avec le type &quot;dataset&quot;, alors &quot;dataset&quot; est disponible comme valeur de filtre.
+* **Filtrer par type de job du run** : filtrez selon les valeurs de type de job du run enregistrées dans W&amp;B. Par exemple, si vous enregistrez un run avec le type de job &quot;training&quot;, alors &quot;training&quot; est disponible comme valeur de filtre.
+* **Inclure la traçabilité étendue** : affiche les éléments qui ne font pas partie de la traçabilité directe de la version de base.
+* **Inclure les artifacts générés** : les éléments créés par programmation s’afficheront.
+* **Développer les clusters** : les éléments similaires ayant des connexions similaires ne seront pas regroupés.
+* **Sauts en aval** : générations descendantes par rapport au nœud actif.
+* **Sauts en amont** : générations ascendantes par rapport au nœud actif.
+
+Pour réinitialiser le graphe de lignage à sa vue par défaut, cliquez sur le bouton flèche vers la gauche.
 
 <div id="audit-a-collections-history">
   ## Consulter l&#39;historique d&#39;une collection
@@ -77,8 +93,8 @@ Pour afficher l&#39;historique des actions d&#39;une collection :
 3. Sélectionnez le menu déroulant à côté du nom de la collection.
 4. Sélectionnez l&#39;option **Historique des actions**.
 
-{/* Sélectionnez un nœud de run pour afficher les détails de ce run, comme son ID, son nom, son état, etc. À titre d'exemple, l'image suivante montre des informations sur le run `rural-feather-20`:
+{/* Sélectionnez un nœud de run pour afficher les détails de ce run, comme son ID, son nom, son état, etc. À titre d'exemple, l'image suivante montre des informations sur le run `zesty-snowball-7`:
 
 
 
-  Sélectionnez un nœud d'artifact pour afficher les détails de cet artifact, comme son nom complet, son type, sa date de création et les alias associés. */}
+    Sélectionnez un nœud d'artifact pour afficher les détails de cet artifact, comme son nom complet, son type, sa date de création et les alias associés. */}

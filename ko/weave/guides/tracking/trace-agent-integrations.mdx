@@ -1,0 +1,40 @@
+---
+title: 에이전트 인테그레이션 트레이스
+description: W&B Weave를 에이전트 SDK, 에이전트 하니스, 맞춤형 에이전트에 연결하여 세션이 Agents 뷰에 표시되도록 하세요.
+keywords: ["에이전트 하니스", "autopatch", "OpenTelemetry", "GenAI semconv", "멀티 에이전트"]
+---
+
+import AgentsPreview from '/snippets/ko/_includes/agents-public-preview.mdx';
+
+<AgentsPreview />
+
+W&amp;B Weave는 각 턴을 일일이 계측하지 않아도 멀티턴 에이전트 애플리케이션을 트레이스할 수 있습니다. 지원되는 에이전트 SDK와 하니스에서는 `weave.init()`을 호출하면 Weave가 프레임워크를 자동 패치합니다. Weave는 세션, 턴, LLM Call, 도구 Call을 캡처한 다음 **Agents** 뷰에 렌더링합니다. 이 페이지는 세 가지 범주(에이전트 하니스, 에이전트 SDK, 맞춤형 에이전트(OpenTelemetry span을 내보내는 에이전트 포함))의 인테그레이션 가이드로 연결됩니다.
+
+<div id="agent-harnesses">
+  ## 에이전트 하니스
+</div>
+
+에이전트 하니스는 Weave에서 캡처할 수 있는 span을 생성하는 최종 사용자용 에이전트 런타임(예: 코딩 에이전트, 개발자 도구)입니다. 적절한 플러그인 또는 확장을 설치하면 Weave가 하니스 세션을 **Agents** 뷰로 전달합니다:
+
+* **[Claude Code plugin](/ko/weave/guides/integrations/agents/claude-code-harness)**
+* **[Codex plugin](/ko/weave/guides/integrations/agents/codex-harness)**
+* **[OpenClaw plugin](/ko/weave/guides/integrations/agents/openclaw-harness)**
+* **[Pi extension](/ko/weave/guides/integrations/agents/pi-dev-harness)**
+
+<div id="agent-sdks">
+  ## 에이전트 SDK
+</div>
+
+에이전트 SDK는 자체 애플리케이션 코드에서 에이전트와 멀티 에이전트 워크플로를 구축하는 데 사용하는 라이브러리입니다. Weave는 다음 SDK를 자동 패치합니다.
+
+* **[OpenAI Agents SDK](/ko/weave/guides/integrations/agents/openai-agents-sdk)**
+* **[Google Agent Development Kit (ADK)](/ko/weave/guides/integrations/agents/google-adk)**
+* **[Claude Agent SDK](/ko/weave/guides/integrations/agents/claude-agents-sdk)**
+
+<div id="custom-agents-and-opentelemetry">
+  ## 맞춤형 에이전트 및 OpenTelemetry
+</div>
+
+OpenTelemetry span을 생성하는 에이전트를 포함해 맞춤형 에이전트를 계측하려면 Weave SDK를 직접 사용하세요. Weave는 모든 OTel span을 수용하며, span이 **Agents** 뷰에 렌더링되도록 [GenAI semantic-convention attributes](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans/)를 특별히 처리합니다.
+
+Weave SDK를 직접 사용해 맞춤형 에이전트를 계측하는 방법을 알아보려면 [에이전트 트레이스하기](/ko/weave/guides/tracking/trace-agents)를 참조하세요. 워크스루는 [에이전트 트레이스 퀵스타트](/ko/weave/agents-quickstart)를 참조하세요.

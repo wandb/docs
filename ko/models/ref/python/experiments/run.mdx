@@ -733,14 +733,14 @@ artifact를 run의 출력으로 선언합니다.
 log_code(
     root: 'str | None' = '.',
     name: 'str | None' = None,
-    include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function _is_py_requirements_or_dockerfile at 0x10b282660>,
-    exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function exclude_wandb_fn at 0x10ca1d1c0>
+    include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function _is_py_requirements_or_dockerfile at 0x106b82d40>,
+    exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function exclude_wandb_fn at 0x10814af20>
 ) → Artifact | None
 ```
 
 현재 코드 상태를 W&amp;B Artifact에 저장합니다.
 
-기본적으로 현재 디렉터리를 순회하면서 `.py`로 끝나는 모든 파일을 로그합니다.
+기본적으로 현재 디렉터리를 순회하면서 `.py`로 끝나는 모든 파일을 로깅합니다.
 
 **인수:**
 

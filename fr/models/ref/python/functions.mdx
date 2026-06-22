@@ -1,6 +1,6 @@
 ---
 title: Aperçu des fonctions globales
-description: Fonctions globales du W&B Python SDK
+description: Référence des fonctions de niveau supérieur du SDK Python W&B, y compris init, login, setup, sweep et agent.
 module: 
 no_list: true
 ---
@@ -32,7 +32,7 @@ Le flux de travail le plus courant consiste à s&#39;authentifier auprès de W&a
 ```python
 import wandb
 
-# S'authentifier avec W&B
+# S'authentifier auprès de W&B
 wandb.login()
 
 # Hyperparamètres et métadonnées
@@ -41,13 +41,13 @@ config = {
    "epochs": 10,
 }
 
-# Projet dans lequel le run est enregistré
+# Project dans lequel le run est enregistré
 project = "my-awesome-project"
 
 # Initialiser un nouveau run
 with wandb.init(project=project, config=config) as run:
    # Votre code d'entraînement ici...
    
-   # Journaliser les valeurs dans W&B
+   # Journaliser des valeurs dans W&B
    run.log({"accuracy": 0.9, "loss": 0.1})
 ```
