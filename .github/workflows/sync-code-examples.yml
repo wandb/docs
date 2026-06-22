@@ -12,7 +12,7 @@ jobs:
     
     steps:
       - name: Checkout docs repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           # Do not persist GITHUB_TOKEN as http.https://github.com/.extraheader:
           # a later `git clone` of docs-code-eval would reuse it and often exit 128.

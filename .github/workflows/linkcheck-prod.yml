@@ -12,7 +12,7 @@ jobs:
     permissions:
       issues: write # Required for creating issues
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Download and parse sitemap
         run: |
