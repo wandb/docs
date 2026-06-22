@@ -14,16 +14,16 @@ Use W&B to save your code, compare code across runs, view local changes, and cap
 Configure code saving for your team or organization. Team and organization controls are documented in [Configure privacy settings](/platform/hosting/privacy-settings).
 
 <Info>
-By default, W&B disables code saving for all teams. Before you can turn it on for a team, an organization admin must turn it on for the organization. See the [Organization](#organization) section.
+By default, W&B disables code saving for all teams. Before you can turn it on for a team, an organization admin must enable it at the organization level. See the [Organization](#organization) section.
 </Info>
 
 ### Team
 
-Team admins open the team **Settings** page, go to the **Privacy** section, and configure **Enable code saving by default** for runs in that team. This option is available only when an organization admin has not enforced code saving restrictions for the whole organization. For navigation steps, see [Configure privacy settings for a team](/platform/hosting/privacy-settings#configure-privacy-settings-for-a-team).
+To enable code saving for a team as a team admin, navigate to the **Settings** page, then go to the **Privacy** section, and configure **Enable code saving by default** for runs in that team. This option is available only when an organization admin has not enforced code saving restrictions for the whole organization. For navigation steps, see [Configure privacy settings for a team](/platform/hosting/privacy-settings#configure-privacy-settings-for-a-team).
 
 ### Organization
 
-Organization admins open organization **Settings**, go to the **Privacy** section, and can turn on **Enforce default code saving restrictions** so code saving stays off by default for every team. While this enforcement is on, team admins cannot turn on **Enable code saving by default** for a team. For the full list of organization controls, see [Enforce privacy settings for all teams](/platform/hosting/privacy-settings#enforce-privacy-settings-for-all-teams).
+To enable code saving for an organization as an organization admin, navigate to **Settings**, go to the **Privacy** section, and turn on **Enforce default code saving restrictions** so code saving stays off by default for every team. While this enforcement is on, team admins cannot turn on **Enable code saving by default** for a team. For the full list of organization controls, see [Enforce privacy settings for all teams](/platform/hosting/privacy-settings#enforce-privacy-settings-for-all-teams).
 
 ## Save code
 
@@ -31,7 +31,7 @@ Organization admins open organization **Settings**, go to the **Privacy** sectio
 
 Capture source code that produced a run as an [artifact](/models/ref/python/experiments/artifact). The code artifact is viewable within your project's workspace.
 
-There are two ways approaches to save code: a fine-grained approached and an automatic approach.
+There are two ways to save code: a fine-grained approach and an automatic approach.
 
 ### Fine grain control
 
@@ -64,7 +64,7 @@ with wandb.init() as run:
     )
 ```
 
-For more control over the types and locations of source code files that are saved, see the [reference docs](/models/ref/python/experiments/run#log_code).
+For more control over the types and locations of source code files that W&B saves, see the [reference docs](/models/ref/python/experiments/run#log_code).
 
 ### Automatically capture code
 
@@ -88,18 +88,18 @@ You can also specify a different directory by replacing `.` with the path to the
 
 ## View local changes
 
-View local changes in your project workspace. W&B generates diff files when you log code with staged or unstaged changes in your Git repository.
+W&B generates diff files when you log code with staged or unstaged changes in your Git repository, and you can view the changes in the W&B UI.
 
 W&B names the diff files `diff.patch` or `diff_<sha>.patch`. These files contain local code changes that are not yet committed to Git, relative to `HEAD`.
 
 To view diff files:
 
 1. Navigate to your project's workspace.
-2. In the left sidebar, click **Workspace**.
-3. In the run selector, select the run whose diff you want to view.
-2. On the run **Overview** page, select the **Files** tab.
-3. From the list of files, select the `diff.patch` or `diff_<sha>.patch` file.
-4. Select a file from the list to expand the diff for that file.
+1. In the left sidebar, click **Workspace**.
+1. In the run selector, select the run whose diff you want to view.
+1. On the run **Overview** page, select the **Files** tab.
+1. From the list of files, select the `diff.patch` or `diff_<sha>.patch` file.
+1. Select a file from the list to expand the diff for that file.
 
 W&B supports two modes for viewing the diff across runs: *unified* and *split*.
 
