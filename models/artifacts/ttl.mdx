@@ -6,7 +6,7 @@ import { ColabLink } from '/snippets/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/kas-artifacts-ttl-colab/colabs/wandb-artifacts/WandB_Artifacts_Time_to_live_TTL_Walkthrough.ipynb" />
 
-Schedule when W&B deletes artifacts with a W&B Artifact time-to-live (TTL) policy. Use TTL policies to automate cleanup of stale artifact data, manage storage consumption, and enforce data retention requirements without manually tracking which artifacts to remove. When you delete an artifact, W&B marks that artifact as a "soft-delete." In other words, W&B marks the artifact for deletion but doesn't immediately delete files from storage. For more information on how W&B deletes artifacts, see the [Delete artifacts](./delete-artifacts) page.
+Schedule when artifacts are deleted from W&B with a W&B Artifact time-to-live (TTL) policy. When you delete an artifact, W&B marks that artifact as a *soft-delete*. In other words, the artifact is marked for deletion but files are not immediately deleted from storage. For more information on how W&B deletes artifacts, see the [Delete artifacts](./delete-artifacts) page.
 
 Watch a [Managing data retention with Artifacts TTL](https://www.youtube.com/watch?v=hQ9J6BoVmnc) video tutorial to learn how to manage data retention with Artifacts TTL in the W&B App.
 
@@ -39,7 +39,7 @@ with wandb.init(project="<my-project-name>") as run:
     print(artifact.type)
 ```
 
-Replace the bracketed placeholders with your own values.
+Replace the values enclosed with `<>` with your own.
 
 ## Define who can edit and set TTL policies
 
@@ -64,7 +64,7 @@ Only team admins can define who can set or edit a TTL policy.
 
 Set a TTL policy for an artifact either when you create the artifact or retroactively after you create the artifact. The following sections describe both approaches and additional options for setting team-wide defaults or working outside of a run.
 
-For all the following code snippets, replace the bracketed placeholders with your own values to use the code snippet.
+For all the following code snippets, replace the content wrapped in `<>` with your own values to use the code snippet.
 
 ### Set a TTL policy when you create an artifact
 
@@ -116,10 +116,9 @@ The following code snippet shows how to set a TTL policy for an artifact:
 import wandb
 from datetime import timedelta
 
-with wandb.init(project="<my-project>") as run:
-    artifact = run.use_artifact("<my-entity>/<my-project>/<my-artifact>:<alias>")
-    artifact.ttl = timedelta(days=365 * 2)  # Delete in two years
-    artifact.save()
+artifact = run.use_artifact("<my-entity/my-project/my-artifact:alias>")
+artifact.ttl = timedelta(days=365 * 2)  # Delete in two years
+artifact.save()
 ```
 
 The preceding code example sets the TTL policy to two years.
@@ -147,7 +146,7 @@ The preceding code example sets the TTL policy to two years.
 Only team admins can set a default TTL policy for a team.
 </Note>
 
-Set a default TTL policy for your team to apply a consistent retention period across artifacts without configuring each one individually. Default TTL policies apply to all existing and future artifacts based on their respective creation dates. The team's default TTL doesn't affect artifacts with existing version-level TTL policies.
+Set a default TTL policy for your team. Default TTL policies apply to all existing and future artifacts based on their respective creation dates. Artifacts with existing version-level TTL policies are not affected by the team's default TTL.
 
 1. Navigate to your team's profile page.
 2. Select the **Settings** tab.
@@ -182,7 +181,7 @@ artifact.save()
 
 ## Deactivate a TTL policy
 
-Use the W&B Python SDK or W&B App UI to deactivate a TTL policy for a specific artifact version when you no longer want the artifact to expire automatically.
+Use the W&B Python SDK or W&B App UI to deactivate a TTL policy for a specific artifact version.
 {/* <Note>
 Artifacts with TTL turned off don't inherit an artifact collection's TTL. Refer to (## Inherit TTL Policy) on how to delete artifact TTL and inherit from the collection level TTL.
 </Note> */}
@@ -195,12 +194,9 @@ Artifacts with TTL turned off don't inherit an artifact collection's TTL. Refer 
 
 The following code snippet shows how to deactivate a TTL policy for an artifact:
 ```python
-import wandb
-
-with wandb.init(project="<my-project>") as run:
-    artifact = run.use_artifact("<my-entity>/<my-project>/<my-artifact>:<alias>")
-    artifact.ttl = None
-    artifact.save()
+artifact = run.use_artifact("<my-entity/my-project/my-artifact:alias>")
+artifact.ttl = None
+artifact.save()
 ```
 </Tab>
 <Tab title="W&B App">
@@ -229,11 +225,8 @@ View TTL policies for artifacts with the Python SDK or with the W&B App UI to co
 Use a print statement to view an artifact's TTL policy. The following example shows how to retrieve an artifact and view its TTL policy:
 
 ```python
-import wandb
-
-with wandb.init(project="<my-project>") as run:
-    artifact = run.use_artifact("<my-entity>/<my-project>/<my-artifact>:<alias>")
-    print(artifact.ttl)
+artifact = run.use_artifact("<my-entity/my-project/my-artifact:alias>")
+print(artifact.ttl)
 ```
 </Tab>
 <Tab title="W&B App">

@@ -14,7 +14,7 @@ Garbage collection is **best-effort**. W&B does not guarantee how quickly freed 
 
 ## Artifact garbage collection workflow
 
-This section provides a visual overview of how artifact deletion flows through soft-delete and garbage collection before files are permanently removed. The following diagram illustrates the complete artifact garbage collection process:
+The following diagram illustrates the complete artifact garbage collection process:
 
 ```mermaid
 graph TB
@@ -51,7 +51,7 @@ graph TB
 You can schedule when artifacts are deleted from W&B with TTL policies. For more information, see [Manage data retention with Artifact TTL policy](./ttl).
 
 <Note>
-Artifacts deleted by a TTL policy, the W&B Python SDK, or the W&B App are first soft-deleted. Soft-deleted artifacts are then garbage-collected before they're permanently deleted.
+Artifacts deleted by a TTL policy, the W&B Python SDK, or the W&B App are first soft-deleted. Soft-deleted artifacts are then garbage-collected before they are permanently deleted.
 </Note>
 
 <Note>
@@ -94,7 +94,7 @@ artifact.delete(delete_aliases=True)
 
 ## Delete multiple artifact versions
 
-Use this approach when you want to clean up several artifact versions logged by a single run in one operation, rather than deleting each version individually. The following code example shows how to delete multiple artifact versions. Provide the entity, project name, and run ID that created the artifact as arguments to `wandb.Api.run()`. This returns a run object that you can use to access all artifact versions created by that run. Next, iterate through the artifact versions and delete the versions that match your criteria.
+The following code example shows how to delete multiple artifact versions. Provide the entity, project name, and run ID that created the artifact as arguments to `wandb.Api.run()`. This returns a run object that you can use to access all artifact versions created by that run. Next, iterate through the artifact versions and delete the versions that match your criteria.
 
 <Tip>
 Set the `delete_aliases` parameter to `True` (`wandb.Artifact.delete(delete_aliases=True)`) to delete an artifact version and any aliases associated with it.
@@ -125,7 +125,7 @@ for artifact in run.logged_artifacts():
 
 ## Delete multiple artifact versions with a specific alias
 
-To remove only versions tagged with a particular alias (for example, an obsolete release tag), filter on the alias before deleting. The following code demonstrates how to delete multiple artifact versions that have a specific alias.
+The following code demonstrates how to delete multiple artifact versions that have a specific alias.
 
 Replace the `<entity>`, `<project>`, `<run_id>`, `<artifact_name>`, and `<alias>` placeholders with your own values:
 
@@ -153,7 +153,7 @@ for artifact in run.logged_artifacts():
 
 ## Delete an artifact collection
 
-Deleting a collection removes the collection and all artifact versions it contains. Deleted versions follow the same soft-delete and garbage collection workflow described in the preceding sections.
+Deleting a collection removes the collection and all artifact versions it contains.
 
 <Tabs>
 <Tab title="W&B App" value="ui">
@@ -205,7 +205,7 @@ Artifacts with protected aliases have special deletion restrictions. [Protected 
 
 <Note>Garbage collection timing is not guaranteed. See [Manage bucket storage and costs](/platform/hosting/managing-bucket-storage) for details.</Note>
 
-Whether garbage collection is active by default depends on your W&B deployment type, so the steps to enable it vary. Garbage collection is active by default if you use W&B Multi-tenant Cloud. In W&B Dedicated and Self-Managed, you might need to take the following steps to activate garbage collection.
+Garbage collection behavior depends on your W&B deployment type. For W&B Multi-tenant Cloud, garbage collection is enabled by default. For W&B Dedicated and Self-Managed deployments, you might need to enable garbage collection manually.
 
 
 1. **W&B Self-Managed**: Set `GORILLA_ARTIFACT_GC_ENABLED=true`.

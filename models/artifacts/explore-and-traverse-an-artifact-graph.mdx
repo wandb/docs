@@ -6,8 +6,6 @@ title: Explore artifact lineage graphs
 W&B tracks the inputs and outputs of runs using directed acyclic graphs (DAGs) called _lineage graphs_. Lineage graphs are visual representations of the relationships between artifacts and runs in an ML experiment. They show how data and models
 flow through different stages of the ML lifecycle, from raw data ingestion to model training and evaluation.
 
-This page is for ML practitioners and team members who want to view, navigate, and enable lineage tracking for the artifacts produced and consumed by their W&B runs.
-
 Tracking artifact lineage provides several key advantages:
 
 * **Reproducibility**: Teams can reproduce experiments, models, and results for debugging, experimentation, and validation.
@@ -23,8 +21,6 @@ To view an artifact's lineage graph:
 1. Navigate to your project's workspace in the W&B App.
 2. Click the **Artifacts** tab in the project sidebar.
 3. Select an artifact, then click the **Lineage** tab.
-
-The Lineage tab displays the artifact's lineage graph. For more information, see [Navigate lineage graphs](#navigate-lineage-graphs).
 
 ## Navigate lineage graphs
 
@@ -98,7 +94,7 @@ Mark an artifact as the input (or dependency) of a run with the [`wandb.Run.use_
 method. Specify the name of the artifact and an optional alias to reference a specific version of that artifact. The name of the
 artifact is in the format `<artifact_name>:<version>` or `<artifact_name>:<alias>`.
 
-Replace the bracketed placeholders with your values:
+Replace the bracketed placeholders (`< >`) with your values:
 
 ```python
 import wandb
@@ -106,7 +102,7 @@ import wandb
 # Initialize a run
 with wandb.init(entity="<entity>", project="<project>") as run:
   # Get artifact, mark it as a dependency
-  artifact = run.use_artifact(artifact_or_name="<name>:<alias>")
+  artifact = run.use_artifact(artifact_or_name="<name>", aliases="<alias>")
 ```
 
 
@@ -116,7 +112,7 @@ Use [`wandb.Run.log_artifact()`](/models/ref/python/experiments/run#log_artifact
 create an artifact with the [`wandb.Artifact()`](/models/ref/python/experiments/artifact#wandb.Artifact) constructor. Then, log the
 artifact as an output of the run with `wandb.Run.log_artifact()`.
 
-Replace the bracketed placeholders with your values:
+Replace the bracketed placeholders (`< >`) with your values:
 
 ```python
 import wandb

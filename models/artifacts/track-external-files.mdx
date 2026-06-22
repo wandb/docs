@@ -5,7 +5,7 @@ title: Track external files
 
 Use *reference artifacts* to track and use files saved outside W&B servers, so you can version and reference large datasets and models without copying them into W&B. Common external storage solutions include: CoreWeave AI Object Storage, an Amazon Simple Storage Service (Amazon S3) bucket, GCS bucket, Azure blob, HTTP file server, or NFS share.
 
-Reference artifacts behave like non-reference artifacts. The key difference is that a reference artifact only consists of metadata about the files, such as their sizes and MD5 checksums. The files themselves never leave your system.
+Reference artifacts behave similar to non-reference artifacts. The key difference is that a reference artifact only consists of metadata about the files, such as their sizes and MD5 checksums. The files themselves never leave your system.
 
 You can interact with reference artifacts the same way you interact with non-reference artifacts. In the W&B App, you can browse the contents of the reference artifact using the file browser, explore the full dependency graph, and scan through the versioned history of your artifact. However, the UI can't render rich media such as images and audio, because the artifact doesn't contain the data itself.
 
@@ -125,7 +125,7 @@ with wandb.init() as run:
   run.log_artifact(model_artifact)
 ```
 
-To download the model artifact later, specify the name of the artifact and its type:
+At a later point, you can download the model artifact. To do so, specify the name of the artifact and its type:
 
 ```python
 import wandb
