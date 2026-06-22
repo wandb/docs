@@ -1,29 +1,30 @@
 ---
 title: "비용 추적"
 description: "Weave에서 LLM 오퍼레이션의 자동 비용 추적과 맞춤형 비용 추적을 이해하세요"
+keywords: ["LLM 비용", "토큰 비용", "add_cost", "query_costs", "purge_costs"]
 ---
 
-Weave는 두 가지 방법으로 LLM 호출 비용을 추적합니다:
+Weave는 두 가지 방법으로 LLM Call 비용을 추적합니다:
 
 * **자동 비용 추적**: [지원되는 인테그레이션](/ko/weave/guides/integrations)의 경우, Weave는 API 응답에서 토큰 사용량을 캡처하고 모델의 기본 가격을 적용하므로 추가 코드가 필요하지 않습니다.
 * **맞춤형 비용 추적**: 파인튜닝된 모델, 자체 호스팅 모델 또는 Weave가 자동으로 통합하지 않는 모델의 경우, 사용 가능한 API 방법을 사용해 맞춤형 비용을 추적하도록 Weave를 설정하세요.
 
 <Note>
-  현재 Weave TypeScript는 비용 추적을 지원하지 않습니다.
+  Weave TypeScript는 비용 추적을 지원하지 않습니다.
 </Note>
 
 <div id="use-automatic-cost-tracking">
   ## 자동 비용 추적 사용
 </div>
 
-`weave.init()`를 호출하고 OpenAI, Anthropic, Cohere 또는 Mistral과 같은 [지원되는 LLM 인테그레이션](/ko/weave/guides/integrations)을 사용하면 Weave가 자동으로 토큰 사용량을 기록하고 각 호출의 비용을 계산합니다. 비용은 트레이스 트리와 Weave UI의 Call 테이블에 표시되며, `include_costs` 파라미터를 `true`로 설정해 호출을 쿼리하면 `call.summary["weave"]["costs"]`에서 프로그래밍 방식으로 조회할 수 있습니다.
+`weave.init()`를 호출하고 OpenAI, Anthropic, Cohere 또는 Mistral과 같은 [지원되는 LLM 인테그레이션](/ko/weave/guides/integrations)을 사용하면 Weave가 자동으로 토큰 사용량을 기록하고 각 Call의 비용을 계산합니다. 비용은 트레이스 트리와 Weave UI의 Call 테이블에 표시됩니다. 또한 `include_costs` 파라미터를 `true`로 설정해 Call을 쿼리하면 `call.summary["weave"]["costs"]`에서 프로그래밍 방식으로 조회할 수 있습니다.
 
 자동 비용 추적을 사용하려면 두 가지 조건이 필요합니다:
 
 * LLM 공급자가 지원되는 인테그레이션이어야 합니다.
 * API 응답에 토큰 사용량이 포함되어야 합니다(대부분의 공급자는 기본적으로 이를 반환합니다).
 
-두 조건 중 하나라도 충족되지 않으면 대신 사용자 정의 비용 추적을 사용하세요.
+두 조건 중 하나라도 충족되지 않으면 대신 맞춤형 비용 추적을 사용하세요.
 
 다음 예시는 자동 비용 데이터를 프로그래밍 방식으로 조회하는 방법을 보여줍니다:
 
@@ -62,9 +63,11 @@ for model, cost in costs.items():
   ## 맞춤형 비용 추가
 </div>
 
+자동 비용 추적을 사용할 수 없는 경우(예: 파인튜닝된 모델, 자체 호스팅 모델 또는 Weave와 통합되지 않는 공급자)에는 맞춤형 비용 추적을 사용하세요. 다음 섹션에서는 맞춤형 비용을 추가, 쿼리, 제거 및 집계하는 방법을 설명합니다.
+
 [`add_cost`](/ko/weave/reference/python-sdk/trace/weave_client#method-add-cost) 방법을 사용해 맞춤형 비용을 추가할 수 있습니다.
 필수 필드는 `llm_id`, `prompt_token_cost`, `completion_token_cost`의 세 가지입니다.
-`llm_id`는 LLM의 이름(예: `gpt-4o`)입니다. `prompt_token_cost`와 `completion_token_cost`는 LLM의 토큰당 비용입니다(LLM 가격이 백만 토큰 기준으로 지정된 경우 값을 반드시 변환하세요).
+`llm_id`는 LLM의 이름(예: `gpt-4o`)입니다. `prompt_token_cost`와 `completion_token_cost`는 LLM의 토큰당 비용입니다. LLM 가격이 백만 토큰 기준으로 지정된 경우 값을 변환하세요.
 `effective_date`를 datetime으로 설정해 특정 날짜부터 비용이 적용되도록 할 수도 있으며, 기본값은 현재 날짜입니다.
 
 ```python lines
@@ -87,9 +90,11 @@ client.add_cost(
 )
 ```
 
-<div id="querying-custom-costs">
+<div id="query-custom-costs">
   ### 맞춤형 비용 쿼리하기
 </div>
+
+맞춤형 비용을 추가한 후에는 해당 값을 확인하거나 삭제와 같은 다른 오퍼레이션에 필요한 비용 ID를 조회하기 위해 비용을 retrieve할 수 있습니다.
 
 [`query_costs`](/ko/weave/reference/python-sdk/trace/weave_client#method-query-costs) 방법을 사용해 비용을 쿼리할 수 있습니다.
 비용을 쿼리하는 방법은 몇 가지가 있으며, 단일 비용 ID를 전달하거나 LLM 모델 이름 목록을 전달할 수 있습니다.
@@ -104,11 +109,11 @@ costs = client.query_costs(llm_ids=["your_model_name"])
 cost = client.query_costs(costs[0].id)
 ```
 
-<div id="purging-a-custom-cost">
+<div id="purge-a-custom-cost">
   ### 맞춤형 비용 삭제
 </div>
 
-[`purge_costs`](/ko/weave/reference/python-sdk/trace/weave_client#method-purge-costs) 방법을 사용해 맞춤형 비용을 삭제할 수 있습니다. 비용 ID 목록을 전달하면 해당 ID를 가진 비용이 삭제됩니다.
+[`purge_costs`](/ko/weave/reference/python-sdk/trace/weave_client#method-purge-costs) 방법을 사용해 맞춤형 비용을 삭제하세요. 비용 ID 목록을 전달하면 Weave가 해당 ID를 가진 비용을 삭제합니다.
 
 ```python lines
 import weave
@@ -119,11 +124,11 @@ costs = client.query_costs(llm_ids=["your_model_name"])
 client.purge_costs([cost.id for cost in costs])
 ```
 
-<div id="calculating-custom-costs-for-a-project">
+<div id="calculate-custom-costs-for-a-project">
   ### 프로젝트의 맞춤형 비용 계산하기
 </div>
 
-`include_costs=True`로 `get_calls()`를 사용하면 프로젝트의 맞춤형 비용을 계산할 수 있습니다.
+프로젝트 전체의 총 지출을 파악하려면 Weave가 반환하는 Call별 비용을 집계하세요. `get_calls()`에 `include_costs=True`를 지정해 프로젝트의 맞춤형 비용을 계산하세요.
 
 ```python lines
 import weave
@@ -156,10 +161,10 @@ def get_costs_for_project(project_name: str):
 get_costs_for_project("my_custom_cost_model")
 ```
 
-<div id="setting-up-a-custom-model-with-custom-costs">
+<div id="set-up-a-custom-model-with-custom-costs">
   ### 맞춤형 비용을 사용하는 맞춤형 모델 설정하기
 </div>
 
-[맞춤형 모델에 맞춤형 비용 설정하기](/ko/weave/cookbooks/custom_model_cost) 쿡북을 사용해 보세요.
+맞춤형 모델과 맞춤형 비용 추적을 결합한 엔드투엔드 워크스루를 보려면, [맞춤형 모델에 맞춤형 비용 설정하기](/ko/weave/cookbooks/custom_model_cost) 쿡북을 사용해 보세요.
 
 <Card title="Colab에서 사용해 보기" href="https://colab.research.google.com/github/wandb/weave/blob/master/docs/./notebooks/custom_model_cost.ipynb" icon="python" />

@@ -1,6 +1,7 @@
 ---
 title: "Google ADK"
 description: Trace an agent built with Google's Agent Development Kit (ADK) using Weave.
+keywords: ["ADK", "Gemini", "agent tracing", "multi-agent", "autopatch"]
 ---
 
 import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
@@ -11,17 +12,17 @@ import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
 
 ## Trace Google ADK agents with Weave
 
-The Weave SDK autopatches with Google ADK, allowing you to capture traces from your ADK agents with minimal set up. This doc shows how to initialize Weave and then run a multi-turn research agent built with Google ADK so that Weave captures every agent invocation, model call, and tool call across the session.
+The Weave SDK autopatches with Google ADK so you can capture traces from your ADK agents with minimal setup. This guide shows how to initialize Weave and then run a multi-turn research agent built with Google ADK so that Weave captures every agent invocation, model call, and tool call across the session.
 
 ### Prerequisites
 
-- A W&B account and [API key](https://wandb.ai/authorize) set as a `WANDB_API_KEY` environment variable
-- A [Google API key](https://aistudio.google.com/apikey) for Gemini
-- Python 3.10+
+- A W&B account and [API key](https://wandb.ai/authorize) set as a `WANDB_API_KEY` environment variable.
+- A [Google API key](https://aistudio.google.com/apikey) for Gemini.
+- Python 3.10+.
 
 ### Install packages
 
-Install the following packages in your developer environment:
+Install the following packages in your developer environment. These provide the Weave SDK, the Google ADK framework, and the HTTP client used by the example tool:
 
 ```bash
 pip install weave google-adk requests
@@ -31,7 +32,7 @@ pip install weave google-adk requests
 
 Add `weave.init` to the project, along with your W&B team and project names, and then build an agent the way you normally would. The following code creates a `research_assistant` agent that uses `gemini-2.5-flash` and a `wikipedia_search` tool, then runs three questions through a single ADK session while Weave captures the trace.
 
-```python lines
+```python
 import asyncio
 import requests
 import weave
@@ -39,7 +40,7 @@ from google.adk.agents import Agent
 from google.adk.runners import InMemoryRunner
 from google.genai import types
 
-weave.init("<your-team>/<your-project-name>")
+weave.init("[YOUR-TEAM]/[YOUR-PROJECT-NAME]")
 
 def wikipedia_search(query: str) -> dict:
     """Search Wikipedia for a topic and return its title and intro paragraph.
@@ -99,15 +100,15 @@ async def main():
 asyncio.run(main())
 ```
 
-The example runs three turns in a single ADK session. The first two turns trigger Wikipedia lookups, and the third uses the prior conversation context to produce a summary without a tool call.
+The example runs three turns in a single ADK session. The first two turns trigger Wikipedia lookups, and the third uses the previous conversation context to produce a summary without a tool call.
 
 ### See your agent traces in the Agents view
 
-`weave.init()` prints a link to your project when it runs. Open the **Agents** view to inspect:
+After the script runs, open your project's **Agents** view to confirm that Weave captured the session. `weave.init()` prints a link to your project when it runs. In the **Agents** view, inspect the following:
 
-- A row in the **Agents** tab for `research_assistant`
-- A single session containing three turns
-- Each turn rendered as an `invoke_agent` span with nested model calls and tool calls
-- The full input, model, output, token usage, and Wikipedia results at each step
+- A row in the **Agents** tab for `research_assistant`.
+- A single session containing three turns.
+- Each turn rendered as an `invoke_agent` span with nested model calls and tool calls.
+- The full input, model, output, token usage, and Wikipedia results at each step.
 
 For details on viewing Agents data in Weave, see [View agent activity](/weave/guides/tracking/view-agent-activity).

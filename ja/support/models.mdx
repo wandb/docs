@@ -9,25 +9,25 @@ template: "scripts/knowledgebase-nav/templates/support_product_index.mdx.j2"
 </div>
 
 <Card title="トレーニングコードで run 名を設定するにはどうすればよいですか?" href="/ja/support/models/articles/how-can-i-configure-the-name-of-the-run-" arrow="true" horizontal>
-  トレーニングスクリプトの先頭で、experiment 名を指定して wandb.init を呼び出します。例: wandb.init(name=&quot;my&#95;aweso ...
+  トレーニングスクリプトの先頭で、run 名を指定して wandb.init を呼び出します。例: wandb.init(name=&quot;my&#95;awesome&#95;run&quot;) ...
 
   <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>
 </Card>
 
 <Card title="Sweeps でカスタム CLI コマンドを使用するにはどうすればよいですか?" href="/ja/support/models/articles/how-do-i-use-custom-cli-commands-with-sw" arrow="true" horizontal>
-  トレーニング設定でコマンドライン引数が渡される場合は、カスタム CLI コマンドで W&amp;B Sweeps を使用できます。この例では  ...
+  トレーニング設定でコマンドライン引数が渡される場合は、カスタム CLI コマンドで W&amp;B Sweeps を使用できます。これにより、r ...
 
   <Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ja/support/models/tags/sweeps)</Badge>
 </Card>
 
 <Card title="メトリクスをオフラインで保存し、後で W&B に Sync できますか?" href="/ja/support/models/articles/is-it-possible-to-save-metrics-offline-a" arrow="true" horizontal>
-  デフォルトでは、wandb.init はメトリクスをリアルタイムでクラウドに Sync するプロセスを開始します。オフラインで使用するには、2 つの環境変数を設定し ...
+  デフォルトでは、wandb.init はメトリクスをリアルタイムでクラウドに Sync するプロセスを開始します。experiment を実行する必要がある場 ...
 
   <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge> <Badge stroke shape="pill" color="orange" size="md">[環境変数](/ja/support/models/tags/environment-variables)</Badge> <Badge stroke shape="pill" color="orange" size="md">[メトリクス](/ja/support/models/tags/metrics)</Badge>
 </Card>
 
 <Card title="wandb.init はトレーニングプロセスで何を行いますか?" href="/ja/support/models/articles/what-does-wandbinit-do-to-my-training-pr" arrow="true" horizontal>
-  トレーニングスクリプト内で wandb.init() が実行されると、API 呼び出しによってサーバー上に run オブジェクトが作成されます。新しいプロセスが開始され、st ...
+  トレーニングスクリプト内で wandb.init() が実行されると、API 呼び出しによって W&amp;B サーバー上に run オブジェクトが作成されます。新しいプロセスが開始さ ...
 
   <Badge stroke shape="pill" color="orange" size="md">[環境変数](/ja/support/models/tags/environment-variables)</Badge> <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>
 </Card>
@@ -157,7 +157,7 @@ template: "scripts/knowledgebase-nav/templates/support_product_index.mdx.j2"
 </Card>
 
 <Card title="ユーザー管理" href="/ja/support/models/tags/user-management" arrow="true">
-  13件の記事
+  14件の記事
 </Card>
 
 <Card title="Workspaces" href="/ja/support/models/tags/workspaces" arrow="true">

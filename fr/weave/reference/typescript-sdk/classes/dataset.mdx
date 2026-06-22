@@ -5,12 +5,12 @@ description: "Référence du SDK TypeScript"
 
 [weave](../) / Dataset
 
-Objet Dataset avec enregistrement simple et gestion automatique des versions
+Objet Dataset avec sauvegarde facile et gestion des versions automatique
 
-`Exemple`
+`Example`
 
 ```ts
-// Créer un jeu de données
+// Créer un dataset
 const dataset = new Dataset({
   id: 'grammar-dataset',
   rows: [
@@ -23,10 +23,9 @@ const dataset = new Dataset({
 // Accéder à un exemple spécifique
 const exampleLabel = dataset.getRow(2).sentence;
 
-// Enregistrer le jeu de données
+// Sauvegarder le dataset
 const ref = await dataset.save()
 ```
-
 
 ## Paramètres de type
 
@@ -116,7 +115,7 @@ const ref = await dataset.save()
   #### Défini dans
 </div>
 
-[dataset.ts:51](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/dataset.ts#L51)
+[dataset.ts:51](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/dataset.ts#L51)
 
 ## Propriétés
 
@@ -136,7 +135,7 @@ const ref = await dataset.save()
   #### Défini dans
 </div>
 
-[weaveObject.ts:73](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L73)
+[weaveObject.ts:73](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveObject.ts#L73)
 
 ***
 
@@ -150,7 +149,7 @@ const ref = await dataset.save()
   #### Défini dans
 </div>
 
-[dataset.ts:49](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/dataset.ts#L49)
+[dataset.ts:49](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/dataset.ts#L49)
 
 ## Accesseurs
 
@@ -176,7 +175,7 @@ WeaveObject.description
   #### Défini dans
 </div>
 
-[weaveObject.ts:100](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L100)
+[weaveObject.ts:100](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveObject.ts#L100)
 
 ***
 
@@ -196,7 +195,7 @@ WeaveObject.description
   #### Défini dans
 </div>
 
-[dataset.ts:64](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/dataset.ts#L64)
+[dataset.ts:64](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/dataset.ts#L64)
 
 ***
 
@@ -222,7 +221,7 @@ WeaveObject.name
   #### Défini dans
 </div>
 
-[weaveObject.ts:96](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L96)
+[weaveObject.ts:96](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveObject.ts#L96)
 
 ## Méthodes
 
@@ -242,7 +241,7 @@ WeaveObject.name
   #### Défini dans
 </div>
 
-[dataset.ts:68](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/dataset.ts#L68)
+[dataset.ts:68](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/dataset.ts#L68)
 
 ***
 
@@ -270,7 +269,7 @@ WeaveObject.name
   #### Défini dans
 </div>
 
-[dataset.ts:74](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/dataset.ts#L74)
+[dataset.ts:74](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/dataset.ts#L74)
 
 ***
 
@@ -290,7 +289,7 @@ WeaveObject.name
   #### Défini dans
 </div>
 
-[dataset.ts:60](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/dataset.ts#L60)
+[dataset.ts:60](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/dataset.ts#L60)
 
 ***
 
@@ -316,4 +315,4 @@ WeaveObject.name
   #### Défini dans
 </div>
 
-[weaveObject.ts:77](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L77)
+[weaveObject.ts:77](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveObject.ts#L77)

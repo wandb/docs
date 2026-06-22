@@ -1,0 +1,25 @@
+---
+title: "2 つの異なる時間スケールでメトリクスをログするにはどうすればよいですか？"
+keywords: ["Experiments", "メトリクス"]
+---
+
+2 つの異なる時間スケールでメトリクスをログするには、メトリクスとあわせて `batch` や `epoch` のようなインデックスもログします。たとえば、`batch` ごとにトレーニング精度をログし、`epoch` ごとに検証精度をログできます。あるステップで `run.log({'train_accuracy': 0.9, 'batch': 200})` を呼び出し、別のステップで `run.log({'val_accuracy': 0.8, 'epoch': 4})` を呼び出します。UI では、各チャートの x 軸として使用する値を設定します。特定のインデックスに対するデフォルトの x 軸を設定するには、[`Run.define_metric()`](/ja/models/ref/python/experiments/run#define_metric) を使用します。前述の例では、次のコードを使用します。
+
+```python
+import wandb
+
+with wandb.init() as run:
+    run.define_metric("batch")
+    run.define_metric("epoch")
+
+    run.define_metric("train_accuracy", step_metric="batch")
+    run.define_metric("val_accuracy", step_metric="epoch")
+```
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[メトリクス](/ja/support/models/tags/metrics)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}
