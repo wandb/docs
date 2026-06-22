@@ -1,0 +1,452 @@
+---
+title: "Bots and service accounts"
+description: "Push sessions to HiveMind from CI, cloud agents, and headless environments using static tokens or OIDC federation."
+---
+
+Bots, including CI jobs, cloud agents, scheduled tasks, and headless scripts, push sessions to HiveMind without an interactive `hivemind login`. There are two ways to authenticate one, and the choice determines who the resulting sessions belong to.
+
+## Identity: PAT or service account?
+
+| Token                           | Acts as                                                            | Good for                                                             |
+| ------------------------------- | ------------------------------------------------------------------ | -------------------------------------------------------------------- |
+| **Personal access token (PAT)** | You, the user who minted it. Sessions land in your account.        | Personal scripts, your laptop, one-off bots only you care about.     |
+| **Service account (SA)**        | Its own `sa_*` identity. Sessions are owned by the SA, not by you. | Shared CI, cloud agents, anything that needs to outlive your tenure. |
+
+Mint a PAT under **Settings > Personal Access Tokens** and inject it as `HIVEMIND_TOKEN`, the same env var the daemon uses for any static token. Your org admin can disable PAT authentication org-wide or restrict it to `write` scope only, so check that policy before depending on one.
+
+Service accounts have their own `sa_*` identity and scoped tokens. With OIDC federation, the workload swaps a short-lived ID token from a trusted provider for a HiveMind token at runtime, so there's no static secret to rotate. Everything else on this page is about service accounts. Pick a PAT if you want the session under your own name, or an SA if you want it under a dedicated bot identity.
+
+## Pick an auth method
+
+| Where the bot runs                  | Auth                            |
+| ----------------------------------- | ------------------------------- |
+| GitHub Actions                      | GitHub Actions OIDC             |
+| GitHub Copilot cloud agent          | GitHub Actions OIDC via MCP env |
+| Kubernetes pod                      | Projected service account token |
+| Modal Function                      | Modal OIDC                      |
+| Anything else (cron, VM, fly.io)    | Static `HIVEMIND_TOKEN`         |
+
+Prefer OIDC when it's available. Policy is checked against verified claims on every exchange, and there's nothing for you to rotate.
+
+## Identity providers
+
+Configure these per service account in **Admin > Service Accounts**.
+
+<Warning>
+The HiveMind server fetches your issuer's OIDC discovery document and JWKS to verify token signatures, so the **issuer URL has to be reachable from the HiveMind server over the internet**. GitHub Actions and Modal already are. A self-hosted IdP or a Kubernetes cluster on a private network is not, so you'll need to expose the issuer endpoint (TLS, public DNS, no auth required for `.well-known/openid-configuration` and the JWKS URI) before the exchange can succeed.
+</Warning>
+
+### GitHub Actions
+
+| Field    | Value                                                   |
+| -------- | ------------------------------------------------------- |
+| Issuer   | `https://token.actions.githubusercontent.com`           |
+| Audience | Your HiveMind URL (e.g. `https://hivemind.wandb.tools`) |
+| Selector | `repo:OWNER/REPO`                                       |
+
+Put branch, environment, and `pull_request` constraints in the CEL policy, not the selector. Your workflow needs `id-token: write` so the runner will mint an ID token (see the [Pattern A example](#pattern-a-ci-agents-you-launch-yourself) below for the full job structure).
+
+### Kubernetes
+
+| Field    | Value                                   |
+| -------- | --------------------------------------- |
+| Issuer   | Your cluster's issuer URL               |
+| Audience | The audience set on the projected token |
+| Selector | `system:serviceaccount:NAMESPACE:NAME`  |
+
+Mount a projected service account token whose audience matches your HiveMind server:
+
+```yaml
+spec:
+  volumes:
+    - name: hivemind-token
+      projected:
+        sources:
+          - serviceAccountToken:
+              path: token
+              audience: https://hivemind.wandb.tools
+              expirationSeconds: 3600
+  containers:
+    - name: hivemind
+      volumeMounts:
+        - name: hivemind-token
+          mountPath: /var/run/secrets/hivemind
+          readOnly: true
+```
+
+The mount plus `path: token` resolves to `/var/run/secrets/hivemind/token`, which is where the daemon reads from by default. Override with `HIVEMIND_OIDC_TOKEN_FILE` if you need a different path.
+
+<Warning>
+Don't reuse `/var/run/secrets/kubernetes.io/serviceaccount/token`. Its audience is the Kubernetes API and the exchange will fail. You need a separate projected token with the HiveMind audience.
+</Warning>
+
+### Modal
+
+| Field    | Value                                      |
+| -------- | ------------------------------------------ |
+| Issuer   | `https://oidc.modal.com`                   |
+| Audience | `https://oidc.modal.com` (locked by Modal) |
+| Selector | `modal:workspace_id:ac-12345abcd`          |
+
+Modal injects `MODAL_IDENTITY_TOKEN` once at container start and never rotates it. Modal mints ~48h ID tokens, so our handler clamps the resulting JWT to the 24h ceiling, long enough to cover a full-timeout Modal Function without a mid-run refresh. See [Token lifecycle](#token-lifecycle) below.
+
+Environment, app, and function names go in the CEL policy.
+
+### Generic OIDC
+
+Any provider with an OIDC discovery document, including in-house IdPs, build systems, and anything that mints JWTs.
+
+| Field    | Value                                                                                                                                            |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Issuer   | Your provider's issuer URL                                                                                                                       |
+| Audience | Defaults to your HiveMind server (`https://hivemind.wandb.tools` on managed). Override if your provider issues tokens with a different audience. |
+| Selector | Whatever `sub` claim you want to match on                                                                                                        |
+
+To feed an ID token to the daemon, write it to a file and point `HIVEMIND_OIDC_TOKEN_FILE` at the path:
+
+```bash
+echo "$MY_OIDC_TOKEN" > /tmp/hivemind-oidc-token
+HIVEMIND_OIDC_TOKEN_FILE=/tmp/hivemind-oidc-token hivemind start
+```
+
+If `HIVEMIND_OIDC_TOKEN_FILE` is unset, the daemon falls back to `/var/run/secrets/hivemind/token`, the same code path Kubernetes projected tokens use. The daemon reads the file and posts the contents to the backend, which routes by the token's `iss` claim.
+
+For tokens your provider rotates, rewrite the file in place. The daemon re-reads it on every refresh, so an updated file picks up automatically the next time the JWT nears expiry.
+
+### Static token
+
+When OIDC isn't an option, mint a service-account token in the dashboard and inject it as `HIVEMIND_TOKEN`. No exchange, no policy, so treat it like any other secret.
+
+Pick an expiration when you create the token:
+
+| Option  | When to use                          |
+| ------- | ------------------------------------ |
+| `30d`   | Short-lived bots you'll rotate often |
+| `90d`   | Sensible default for CI              |
+| `6m`    | Long enough to forget about          |
+| `1y`    | Annual rotation cadence              |
+| `never` | Avoid unless you rotate out-of-band  |
+
+<Tip>
+Always set an expiration. A leaked token with no expiry is the worst kind to find six months later. The dashboard shows a per-token expiration badge so you can rotate ahead of time.
+</Tip>
+
+## Scopes
+
+There are two scopes, `read` and `write`, and the same set applies whether you authenticate via OIDC or a static token.
+
+| Scope   | Grants                                        |
+| ------- | --------------------------------------------- |
+| `write` | Upload sessions and source entries            |
+| `read`  | Query sessions, events, and stats via the API |
+
+Most bots only need `write`. Add `read` for analytics jobs or agents that look at past sessions to inform new runs. A `read`-only token fits dashboards and exporters that should never push.
+
+## Set one up
+
+1. Open **Admin > Service Accounts > New service account**.
+2. Pick a provider. Issuer is pre-filled for the built-in ones. For Generic OIDC, paste your provider's issuer URL.
+3. Set the selector and scopes, and save.
+
+Then wire the bot up with whichever pattern below matches your runtime. Every exchange does an `(issuer, selector)` lookup to find the SA, then verifies the token's signature and audience against the configured provider. See [Token lifecycle](#token-lifecycle) for how the resulting JWT is sized and rotated.
+
+## Advanced: CEL policies
+
+A CEL policy further restricts which tokens get exchanged, on top of the issuer and selector match. It's most useful for **shared platforms** like GitHub Actions: `https://token.actions.githubusercontent.com` is the issuer for every workflow on GitHub, so the policy is where you pin to specific repos, branches, or workflows. The same applies to Modal, where one issuer serves every workspace.
+
+A GitHub Actions policy pinned to one workflow on `main`:
+
+```cel
+claims.repository == "octo-org/octo-repo" &&
+claims.ref == "refs/heads/main" &&
+claims.workflow_ref.startsWith("octo-org/octo-repo/.github/workflows/release.yml")
+```
+
+A Modal policy pinned to one app and environment:
+
+```cel
+claims.environment_name == "main" &&
+claims.app_name == "agent-runner"
+```
+
+For a private issuer you control end-to-end (an in-house IdP, a Kubernetes cluster only your team has access to), you can usually skip the policy entirely. The selector match is enough.
+
+## Token lifecycle
+
+What happens after the daemon makes its first exchange.
+
+### JWT lifetime
+
+The HiveMind JWT the daemon receives tracks the ID token's `exp` claim, clamped to **[1h, 24h]**:
+
+| ID token `exp − now` | JWT TTL       |
+| -------------------- | ------------- |
+| Less than 1h         | 1h (floor)    |
+| 1h to 24h            | Matches `exp` |
+| More than 24h        | 24h (ceiling) |
+
+The floor keeps short runner tokens (GitHub Actions hands out ~10min ID tokens) from causing constant refresh churn. The ceiling caps the blast radius of a leaked JWT. In between, we honor what the issuer signed for. A 4-hour Modal Function with a 4-hour identity token gets a 4-hour JWT, so the daemon doesn't have to refresh mid-run.
+
+### Rotation
+
+Roughly five minutes before the JWT expires, the daemon refreshes by re-reading the ID token source and re-running the exchange. Whether refresh succeeds depends on the source:
+
+| Source                               | Refresh behavior                                                                                                                                                                                                       |
+| ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| GitHub Actions                       | Fetches a fresh ID token from the runner endpoint on each refresh: fresh `jti`, always succeeds.                                                                                                                       |
+| Kubernetes projected token           | Kubelet rewrites the file in place at ~80% of the token TTL: fresh `iat`/`exp` produce a fresh replay key.                                                                                                             |
+| `HIVEMIND_OIDC_TOKEN_FILE` (generic) | Whoever wrote the file is responsible for rewriting it before the JWT expires. The same file means replay rejection.                                                                                                   |
+| Modal `MODAL_IDENTITY_TOKEN`         | Static for the container lifetime, so it doesn't rotate. Modal mints ~48h ID tokens, so the JWT clamps to the 24h ceiling and covers a full-timeout Modal Function (Modal's own max is 24h) without ever needing to refresh. |
+| Static `HIVEMIND_TOKEN`              | No exchange to refresh. The token is the JWT. Lives until you rotate it manually.                                                                                                                                      |
+
+If a refresh attempt sees the same ID token it already exchanged (same `jti` or the same synthesized replay key), the daemon's client-side guard short-circuits the call and falls back to the cached JWT until it actually expires. After that point sync pauses until a fresh ID token is available.
+
+### JTI replay protection
+
+Every ID token is exchanged exactly once. The backend stores the `(issuer, jti)` pair in Redis with a 24h TTL and rejects any subsequent exchange that matches.
+
+A few edge cases worth knowing:
+
+- **Tokens without `jti`** (notably vanilla Kubernetes projected service account tokens, which carry `iss/sub/aud/exp/iat` but no `jti` claim) are handled automatically. The server derives a stable replay key by hashing the canonical full set of verified claims, keyed by the matched issuer and audience. Kubelet's in-place rotation always produces a fresh `iat`/`exp`, so legitimate rotations get a fresh key and succeed while replays of the same physical token still collide and are blocked.
+- **Generic OIDC providers** that follow OIDC Core typically include `jti`. If yours doesn't, the synthesis path catches it as long as the token carries `iat`, `sub`, and `exp`. Tokens missing all three are rejected.
+- **The replay window is per-issuer**: two different issuers can mint tokens with the same `jti` string and they won't collide.
+
+## Pattern A: CI agents you launch yourself
+
+When you control the runner loop (you install the agent, you call it, you tear it down), run the daemon alongside the agent with `hivemind start` and `hivemind stop`. Sessions stream live, and the daemon does a final catch-up pass on shutdown.
+
+A complete GitHub Actions job. The `id-token: write` permission is what lets the runner mint an OIDC token. The daemon exchanges it for a HiveMind JWT on its own, so you don't need a static `HIVEMIND_TOKEN` secret:
+
+```yaml
+jobs:
+  run-agent:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - uses: astral-sh/setup-uv@v7
+
+      - name: Install hivemind
+        run: |
+          uv venv --python 3.13 "$HOME/.hivemind-venv"
+          uv pip install --python "$HOME/.hivemind-venv/bin/python" wandb-hivemind
+          echo "$HOME/.hivemind-venv/bin" >> "$GITHUB_PATH"
+
+      - name: Start hivemind daemon
+        run: hivemind start
+
+      - name: Run Claude Code
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+
+      - name: Stop hivemind daemon
+        if: always()
+        run: hivemind stop || true
+```
+
+`hivemind start` launches the daemon in the background. `hivemind stop` sends SIGTERM and waits up to 10s for a final catch-up pass so the agent's last message makes it to the dashboard. The `if: always()` guard makes sure `stop` runs even when the agent step fails, so failed runs still get uploaded.
+
+For agents that write to a non-default home dir (Codex, custom Cursor paths), set the home env var on the `Start hivemind daemon` step. The daemon inherits it and watches the right place:
+
+```yaml
+- name: Start hivemind daemon
+  env:
+    CODEX_HOME: /tmp/codex-home
+  run: hivemind start
+```
+
+### Lighter alternative: import after the run
+
+If you don't want a background daemon, `hivemind import --all` uploads everything in one shot at the end of the job:
+
+```yaml
+- name: Upload sessions to HiveMind
+  run: hivemind import --all
+```
+
+It exits non-zero if any session fails to upload, or if it finds zero sessions (override with `--allow-empty`), so the step itself is the assertion.
+
+| Flag                                | Purpose                                                  |
+| ----------------------------------- | -------------------------------------------------------- |
+| `--all`                             | Search all known agent dirs (default: current repo only) |
+| `--since 1d` / `--since 2026-01-15` | Limit by modification time                               |
+| `--agents claude,cursor`            | Restrict to specific agents                              |
+| `--path <dir>`                      | Add an explicit search path (repeatable)                 |
+| `--dry-run`                         | Show what would be uploaded                              |
+| `--allow-empty`                     | Don't fail when zero sessions are found                  |
+
+The same pattern works outside CI. Drop `hivemind import --since 1h` into a shell wrapper or a cron entry. It's idempotent, so re-running is safe.
+
+## Pattern B: Long-running container (Docker sidecar)
+
+When the agent runs continuously and you want sessions to stream live, run hivemind as a sidecar. It watches the agent's session directory read-only and uploads on a timer.
+
+The agent writes JSONL into a shared named volume. The sidecar reads the same volume and uploads:
+
+```yaml
+services:
+  agent:
+    image: node:20-slim
+    working_dir: /workspace
+    volumes:
+      - claude-sessions:/root/.claude
+      - ./workspace:/workspace
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+    command: >
+      sh -c "
+        npm install -g @anthropic-ai/claude-code &&
+        claude -p 'Hello, world!'
+      "
+    depends_on:
+      hivemind:
+        condition: service_healthy
+
+  hivemind:
+    image: ghcr.io/wandb/hivemind:latest
+    volumes:
+      - claude-sessions:/watch/.claude:ro
+      - hivemind-state:/home/hivemind/.hivemind
+    environment:
+      - HIVEMIND_ENDPOINT=${HIVEMIND_ENDPOINT}
+      - HIVEMIND_TOKEN=${HIVEMIND_TOKEN}
+      - HIVEMIND_WATCH_PATHS=/watch/.claude
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "hivemind",
+          "health",
+          "-q",
+          "--state-dir",
+          "/home/hivemind/.hivemind",
+        ]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    restart: unless-stopped
+    stop_grace_period: 30s
+
+volumes:
+  claude-sessions:
+  hivemind-state:
+```
+
+Run it:
+
+```bash
+export HIVEMIND_TOKEN=<token-from-the-dashboard>
+export HIVEMIND_ENDPOINT=https://hivemind.wandb.tools
+docker compose up
+```
+
+<Tip>
+On platforms that issue OIDC tokens (GitHub Actions, Modal, Kubernetes), drop `HIVEMIND_TOKEN` and pass the platform's OIDC env vars to the sidecar instead.
+</Tip>
+
+| Provider       | Inject                                                             |
+| -------------- | ------------------------------------------------------------------ |
+| GitHub Actions | `ACTIONS_ID_TOKEN_REQUEST_URL`, `ACTIONS_ID_TOKEN_REQUEST_TOKEN`   |
+| Modal          | `MODAL_IDENTITY_TOKEN`                                             |
+| Kubernetes     | The mounted token file (default `/var/run/secrets/hivemind/token`) |
+
+The 30-second `stop_grace_period` matters: it gives the sidecar time to flush the final upload batch when Compose tears the stack down.
+
+## Pattern C: GitHub Copilot cloud agent (MCP server)
+
+For runners where you _don't_ control the loop, like the GitHub Copilot cloud agent, register hivemind as an MCP server. Copilot's runtime spawns it at session start and tears it down at session end, so the daemon's lifecycle matches the agent's.
+
+### 1. Add the MCP server
+
+In **repo Settings > Copilot > MCP configuration**:
+
+```json
+{
+  "mcpServers": {
+    "hivemind": {
+      "type": "local",
+      "command": "hivemind",
+      "args": ["mcp"],
+      "tools": ["status"],
+      "env": {
+        "ACTIONS_ID_TOKEN_REQUEST_URL": "COPILOT_MCP_OIDC_REQUEST_URL",
+        "ACTIONS_ID_TOKEN_REQUEST_TOKEN": "COPILOT_MCP_OIDC_REQUEST_TOKEN"
+      }
+    }
+  }
+}
+```
+
+Two things have to happen on the runner before Copilot spawns the MCP subprocess:
+
+1. **`hivemind` has to be on `PATH`**, because Copilot resolves the `command` value against `PATH`.
+2. **The OIDC request env vars have to be re-exported under the `COPILOT_MCP_` prefix.** Copilot only forwards env vars with that prefix into MCP subprocesses, so the daemon won't see GitHub's `ACTIONS_ID_TOKEN_REQUEST_*` env vars unless you copy them over.
+
+Both belong in `.github/workflows/copilot-setup-steps.yml`, which Copilot runs automatically before launching the agent:
+
+```yaml
+name: Copilot Setup Steps
+on: workflow_dispatch
+
+permissions: {}
+
+jobs:
+  copilot-setup-steps:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # required for OIDC exchange
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@v7
+
+      - name: Install hivemind onto PATH
+        run: |
+          uv venv --python 3.13 "$HOME/.hivemind-venv"
+          uv pip install --python "$HOME/.hivemind-venv/bin/python" wandb-hivemind
+          echo "$HOME/.hivemind-venv/bin" >> "$GITHUB_PATH"
+
+      - name: Forward Copilot runtime env to MCP servers
+        run: |
+          echo "COPILOT_MCP_OIDC_REQUEST_URL=$ACTIONS_ID_TOKEN_REQUEST_URL" >> "$GITHUB_ENV"
+          echo "COPILOT_MCP_OIDC_REQUEST_TOKEN=$ACTIONS_ID_TOKEN_REQUEST_TOKEN" >> "$GITHUB_ENV"
+```
+
+If OIDC passthrough isn't an option in your environment, fall back to a static token: mint one in the dashboard, store it as `COPILOT_MCP_HIVEMIND_TOKEN` under **Settings > Environments > copilot**, and reference it from the MCP config (Copilot requires the `COPILOT_MCP_` prefix on every secret):
+
+```json
+"env": {
+  "HIVEMIND_TOKEN": "COPILOT_MCP_HIVEMIND_TOKEN"
+}
+```
+
+### 2. Flush on shutdown
+
+Copilot kills the MCP subprocess when the agent finishes, so the daemon may have entries it hasn't uploaded yet. Add a session-end hook that calls `hivemind flush` to drain those before the runner is torn down. Drop this at `.github/hooks/hooks.json`:
+
+```json
+{
+  "version": 1,
+  "hooks": {
+    "sessionEnd": [
+      {
+        "type": "command",
+        "bash": "hivemind flush || true",
+        "timeoutSec": 60,
+        "comment": "Drain pending uploads before the Copilot runner is torn down."
+      }
+    ]
+  }
+}
+```
+
+`hivemind flush` blocks until in-flight uploads finish, or until the 60s timeout. The `|| true` keeps a flush error from failing the agent.

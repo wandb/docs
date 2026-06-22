@@ -1,0 +1,72 @@
+---
+title: "Features"
+description: "A tour of what HiveMind shows you and how to get the most out of it."
+---
+
+A tour of what HiveMind shows you and how to get the most out of it.
+
+## Dashboard pages
+
+### Overview
+
+Your home screen. Three tabs give you different angles on recent activity:
+
+- **Activity**: a feed of your AI coding sessions from the past week.
+- **My Stats**: your personal streak, top repositories, rank, and a calendar heatmap of when you've been working with agents.
+- **Team Stats**: adoption metrics across the organization, including active users, activity over time, and aggregate streaks.
+
+### Live view
+
+A real-time view of coding sessions happening right now. The sidebar lists active sessions with status indicators: green for actively working, blue for waiting on user input, and gray for ended. Pick a session to watch its event timeline stream in as it happens.
+
+You can filter by repository to focus on a specific project, or switch to "My Sessions" to see only your own.
+
+### Insights
+
+Repository-level suggestions extracted from your team's coding patterns. HiveMind analyzes sessions for a given repo and surfaces conventions, common pitfalls, and workflow patterns it noticed across multiple sessions.
+
+Each suggestion includes a confidence level, the evidence behind it, and a ready-to-use snippet you can apply to your project's `CLAUDE.md` (or similar config) via the CLI. You can dismiss suggestions you don't find useful.
+
+### Leaderboard
+
+A ranked view of activity across your team. The top 15 users are shown alongside a breakdown of which repositories and agents are seeing the most use. When you filter to a specific repo, the view shifts to show session duration distribution for that project.
+
+### Repositories
+
+An overview of all repositories with agent activity. Each repo card shows total session count, cumulative duration, and how many people have been working in it. Click through to see detailed activity for a specific repo.
+
+### Sessions
+
+The main session browser. You can view sessions grouped by branch or as a flat list, and filter by user, team, repository, time range, agent type, minimum turn count, or minimum duration.
+
+#### Session detail
+
+Click into any session to see the full conversation. The detail page has several tabs:
+
+- **Timeline**: the full event stream, grouped into turns. Tool calls, file edits, and agent reasoning are all shown inline.
+- **Diff**: a combined view of all file changes the agent made during the session. You can copy or download the diff.
+- **Transcript**: the session as a readable document. You can copy it to your clipboard or download it as Markdown, JSONL, or ATIF format. Transcript settings let you filter which event types to include and toggle verbose mode.
+
+##### Search
+
+Use the search bar (Cmd+K / Ctrl+K) to find sessions by content, file names, or keywords. Results link directly to the matching session, and when the match is inside a specific message, the page scrolls to that point in the timeline.
+
+##### Sub-agents
+
+When a session spawns sub-agents (common with Claude Code's Agent tool), HiveMind captures those child sessions and merges their file operations into the parent session's diff view. A badge on the session header shows how many sub-agent sessions ran and which models they used.
+
+## Integrations
+
+### GitHub App
+
+The [HiveMind GitHub App](https://github.com/apps/w-b-hivemind) connects your GitHub repositories to HiveMind. Once installed, it does two things:
+
+**PR comments**: when a pull request is opened on a branch where agent sessions occurred, HiveMind posts a comment summarizing the AI-assisted work, including which sessions contributed, who ran them, and links back to the full transcripts. The comment updates automatically as new sessions are uploaded or the PR is updated.
+
+**Repository visibility gating**: the GitHub App is also what powers [repository-level access controls](/hivemind/permissions#repository-visibility-gating). It lets HiveMind verify which users have write access to which repos, so admins can restrict session visibility accordingly.
+
+### Slack
+
+When someone pastes a HiveMind session link in Slack, it unfurls into a rich preview showing the session title, who ran it, which agent and model were used, duration, and token count. If the session is linked to a pull request, the preview includes the PR status.
+
+This works automatically once a Slack workspace admin installs the [HiveMind Slack app](https://slack.com/marketplace/A0AM3CCURAT-hivemind). No per-user setup is needed, so anyone in the workspace sees unfurls for links they have access to.

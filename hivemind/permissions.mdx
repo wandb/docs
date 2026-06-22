@@ -1,0 +1,166 @@
+---
+title: "Permissions & privacy"
+description: "Control who can see your HiveMind sessions, configure default and per-repo visibility, and set up SSO."
+---
+
+## Default visibility
+
+New accounts default to **private** sessions, so only you can see them. You can change this any time on your [settings page](https://hivemind.wandb.tools/settings), or share an individual session from the session detail page.
+
+Once you've set your visibility to **Repository**, newly created sessions are shared with other members of your GitHub organization when they occurred within a repository associated with your organization that you have write access to. Changing this setting does not retroactively update existing sessions. For example:
+
+| Detected origin             | Effect                                                                               |
+| --------------------------- | ------------------------------------------------------------------------------------ |
+| github.com/wandb/hivemind   | Shared with members of the wandb GitHub org that have write access to wandb/hivemind |
+| github.com/vanpelt/dotfiles | Only visible to you                                                                  |
+| _none_                      | Only visible to you                                                                  |
+
+### Repository visibility gating
+
+When sessions are shared with your organization, each member only sees sessions for repositories their GitHub account has write access to. You always see your own sessions regardless. Write access is verified through the [HiveMind GitHub App](https://github.com/apps/w-b-hivemind), which must be installed on at least one of your linked GitHub organizations.
+
+### Workspaces
+
+Every session belongs to one workspace. Workspaces are tied to your GitHub org membership:
+
+- **Organization workspaces** are GitHub organizations with the [HiveMind GitHub App](https://github.com/apps/w-b-hivemind) installed.
+- **Personal workspaces** get created automatically for sessions that don't match any registered org.
+
+You can switch between your organization and personal workspaces by clicking the profile avatar in the upper right corner of the navigation bar. Sessions from your personal workspace appear in the organization workspace but are only visible to you, as indicated by the eye icon.
+
+## Device-local configuration
+
+To make all coding sessions go to your **personal workspace** instead of using the git repository to determine visibility, run the following:
+
+```bash
+hivemind config set sessions.private true
+```
+
+<Note>
+This setting only applies to the machine you ran the command on. There is also a global configuration setting you can configure on your [settings page](https://hivemind.wandb.tools/settings) to default to private sessions globally.
+</Note>
+
+| Setting                    | Effect                                                     |
+| -------------------------- | ---------------------------------------------------------- |
+| `sessions.private = false` | Sessions in org GitHub repos visible to your org (default) |
+| `sessions.private = true`  | All sessions visible only to you                           |
+
+### Per-repo overrides
+
+Sometimes the global setting isn't granular enough. You might want most sessions private, but still share work on your team's main repo. Or you might keep things open by default, but lock down a sensitive project.
+
+That's what `org_repos` and `private_repos` are for.
+
+#### Always share a repo (allowlist)
+
+Repos in `org_repos` are visible to your org even when `sessions.private` is `true`:
+
+```bash
+hivemind config add sessions.org_repos "myorg/shared-project"
+```
+
+#### Always hide a repo (denylist)
+
+Repos in `private_repos` are private no matter what. This wins over everything else:
+
+```bash
+hivemind config add sessions.private_repos "myorg/secret-project"
+```
+
+Repo names are case-insensitive. You can use `org/repo` or `host/org/repo`.
+
+#### Example config
+
+```toml
+# ~/.hivemind/config.toml
+
+[sessions]
+private = true                          # Default: keep sessions private
+org_repos = ["myorg/open-source"]       # Exception: this repo is always shared
+private_repos = ["myorg/secret-proj"]   # This repo is ALWAYS private
+```
+
+## Global configuration
+
+If you want all sessions to default to being private and associated with your personal workspace, you can change the global default settings from your [settings page](https://hivemind.wandb.tools/settings).
+
+### How the rules stack up
+
+When HiveMind decides whether a session is visible:
+
+1. `private_repos`: if the repo is here, it's private. Full stop.
+2. `org_repos`: if the repo is here, it's shared with members of the org who have write access to the repo.
+3. `sessions.private`: the fallback for a device, defaults to false.
+4. **Global setting**: if a repo was not made public via `org_repos` and the global setting is private, it's private.
+
+## Single sign-on (SSO)
+
+Organization admins can require members to authenticate through their company's identity provider (IdP) instead of relying on GitHub credentials alone. This is configured from the [Admin > Authentication](https://hivemind.wandb.tools/admin/authentication) page.
+
+### How it works
+
+HiveMind supports OpenID Connect (OIDC), which is compatible with most identity providers (Okta, Azure AD, Google Workspace, and others). An admin registers their IdP's issuer URL and client ID in the admin panel. Once configured, the admin can optionally enforce SSO so that all members must sign in through the IdP to access organization data.
+
+HiveMind uses PKCE (Proof Key for Code Exchange) for the OAuth flow, so a client secret is only needed if your IdP doesn't support public clients. When provisioning HiveMind as a service provider, choose "Native App" if your IdP asks.
+
+### What members see
+
+When SSO enforcement is turned on, members who haven't authenticated via the IdP see a prompt to log in through SSO before they can view any organization sessions. Members can still access their personal workspace without SSO.
+
+### SCIM provisioning
+
+If your organization uses SCIM, HiveMind can automatically sync your IdP's user directory. Members removed from the IdP lose access to the organization workspace. SCIM is configured from the [Admin > SCIM](https://hivemind.wandb.tools/admin/provisioning) page.
+
+## Authentication
+
+HiveMind attempts to authenticate automatically using your GitHub identity. The daemon tries these methods in order, picking the first one that works:
+
+1. **SSH signature**: signs a challenge with your SSH key (silent, most common).
+2. **GitHub credential helper**: pulls a token from your git credential manager (silent).
+3. **GitHub CLI**: uses your `gh auth` token (silent).
+4. **Browser OAuth**: opens your default browser to log in via GitHub or your org's SSO (interactive, used when no silent credential is available).
+5. **Device OAuth**: prints a code to enter at GitHub or your org's SSO identity provider, for headless machines without a usable browser.
+
+<Warning>
+When the credential helper or GitHub CLI is used, your GitHub PAT is passed to the HiveMind server to federate your identity. This is similar to the [AWS STS service](https://docs.aws.amazon.com/STS/latest/APIReference/API_GetFederationToken.html) for identity federation. We do not store your credentials and take special care to not log them. They are only used in the federation request to confirm your identity.
+</Warning>
+
+To log in:
+
+```bash
+hivemind login
+```
+
+To check who you're logged in as:
+
+```bash
+hivemind whoami
+```
+
+### Workload identity federation
+
+For CI runners and other ephemeral environments, the daemon can exchange a short-lived OIDC ID token from a trusted provider for a HiveMind token at runtime, so there's no static secret to manage:
+
+- **GitHub Actions**: the daemon presents the workflow's OIDC token. The HiveMind app verifies the repo, ref, and workflow claims and mints a daemon token.
+- **Modal**: Modal-issued OIDC tokens are exchanged the same way, attributing sessions to a configured service account.
+- **Generic OIDC**: any IdP that can produce a project-scoped ID token (Kubernetes projected service-account tokens, custom OIDC providers) can be wired up by pointing `HIVEMIND_OIDC_TOKEN_FILE` at a file the IdP keeps refreshed.
+
+See [Bots & service accounts](/hivemind/bots) for the full OIDC federation setup.
+
+### Personal access tokens
+
+Where federation isn't available (one-off scripts, third-party CI you don't fully control), mint a token under **Settings > Personal Access Tokens** and export it as `HIVEMIND_TOKEN`. Org admins can disable PATs or restrict them to `write` scope from the admin panel.
+
+### Scopes
+
+Every HiveMind token carries a `scopes` claim (`read`, `write`, or both) that controls what API calls it can make. Write lets the daemon upload sessions and emit telemetry. Read lets you view other users' sessions in the dashboard and CLI.
+
+| Login method                             | Default scope                                 |
+| ---------------------------------------- | --------------------------------------------- |
+| Browser OAuth (GitHub or SSO)            | `read + write`                                |
+| Device OAuth                             | `read + write`                                |
+| Personal access token                    | Chosen at creation, subject to admin policy   |
+| Service account / federated OIDC         | Whatever the service account was created with |
+| SSH signature, credential helper, gh CLI | `write` only when your org enforces SSO       |
+
+When SSO is required on your org, the three silent direct-credential methods (SSH, credential helper, gh CLI) only mint write-only tokens. The daemon can keep uploading sessions, but reading other users' data requires completing an SSO browser login (`hivemind login --method sso_browser`).

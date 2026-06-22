@@ -50,6 +50,7 @@ Key directories:
 - `/platform/` - W&B Platform features and hosting documentation.
 - `/models/` - W&B Models documentation.
 - `/weave/` - W&B Weave documentation.
+- `/hivemind/` - W&B HiveMind documentation (shared dashboard for AI coding sessions).
 - `/inference/` - Serverless Inference documentation.
 - `/serverless-training/` - Serverless Training documentation (Serverless RL and Serverless SFT subcategories; formerly Serverless RL / W&B Training).
 - `/snippets/` - Reusable content snippets.
