@@ -3,19 +3,21 @@ title: "Comment puis-je corriger les erreurs `Rate limit exceeded` quand je cons
 keywords: ["Métriques", "Experiments"]
 ---
 
-Si vous recevez une erreur HTTP `429 Rate limit exceeded` lors de l&#39;appel à `wandb.log()`, c&#39;est que vous dépassez le quota de limites de débit de votre projet. W&amp;B applique des limites de débit par projet, et les plans payants ont des limites plus élevées que les plans gratuits.
+Si vous recevez une erreur HTTP `429 Rate limit exceeded` lorsque vous appelez `wandb.log()`, c&#39;est que vous dépassez le quota de limites de débit de votre projet. W&amp;B applique des limites de débit par projet, et les plans payants ont des limites plus élevées que les plans gratuits.
 
-<div id="how-to-stay-under-the-rate-limit">
-  ## Comment rester sous la limite de débit
+Utilisez les étapes suivantes pour réduire votre volume de journalisation et récupérer les données dont la journalisation a été limitée.
+
+<div id="stay-under-the-rate-limit">
+  ## Restez sous la limite de débit
 </div>
 
 1. **Mettez à jour votre SDK W&amp;B** : la dernière version inclut des mécanismes optimisés pour réessayer les requêtes et gérer l’utilisation du quota.
 
-   ```shell
+   ```bash
    pip install --upgrade wandb
    ```
 
-2. **Réduisez la fréquence de journalisation** : consignez les métriques moins souvent. Par exemple, consignez-les toutes les N époques au lieu de le faire à chaque époque :
+2. **Réduisez la fréquence de journalisation** : consignez les métriques moins souvent. Par exemple, consignez-les toutes les `N` époques au lieu de le faire à chaque époque :
 
    ```python
    for epoch in range(100):
@@ -23,17 +25,17 @@ Si vous recevez une erreur HTTP `429 Rate limit exceeded` lors de l&#39;appel à
            wandb.log({"acc": accuracy, "loss": loss})
    ```
 
-3. **Synchronisez les données manuellement** : si vous atteignez la limite de débit, W&amp;B stocke localement les données de votre run. Vous pouvez les synchroniser plus tard avec :
+3. **Synchronisez les données manuellement** : si vous atteignez la limite de débit, W&amp;B stocke localement les données de votre run. Pour téléverser le répertoire local du run situé à `[RUN-FILE-PATH]` une fois la limite de débit levée :
 
-   ```shell
-   wandb sync <run-file-path>
+   ```bash
+   wandb sync [RUN-FILE-PATH]
    ```
 
 <div id="rate-limit-headers">
   ## En-têtes de limite de débit
 </div>
 
-Lorsque la limite de débit est atteinte, la réponse inclut les en-têtes suivants :
+Pour évaluer à quel point vous êtes proche du quota et à quel moment vous pouvez reprendre la journalisation, inspectez les en-têtes de limite de débit dans la réponse. Lorsque la limite de débit est atteinte, la réponse inclut les en-têtes suivants :
 
 | En-tête               | Description                                                    |
 | --------------------- | -------------------------------------------------------------- |

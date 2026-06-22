@@ -1,0 +1,19 @@
+---
+title: "Comment puis-je me connecter à W&B Autogéré ?"
+keywords: ["Gestion des utilisateurs"]
+---
+
+Pour vous authentifier sur une instance [W&amp;B Self-Managed](/fr/platform/hosting/hosting-options/self-managed), configurez le CLI et le SDK pour qu’ils utilisent l’URL de votre instance avant de vous connecter :
+
+* Définissez [`WANDB_BASE_URL`](/fr/models/track/environment-variables) sur l’URL de votre instance, ou
+* Ajoutez `--host` à [`wandb login`](/fr/models/ref/cli/wandb-login)
+
+Exécutez `wandb status` pour vérifier l’hôte et la clé API.
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Gestion des utilisateurs](/fr/support/models/tags/user-management)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

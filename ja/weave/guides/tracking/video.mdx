@@ -1,29 +1,36 @@
 ---
 title: "動画をログする"
-description: "moviepy を使用して Weave のトレース内の動画データを自動的にログし、UI で再生や分析ができるようにします。"
+description: "moviepy を使用して Weave のトレース内の動画データを自動的にログおよびトラッキングし、UI で再生や分析を行います。"
+keywords: ["moviepy", "VideoFileClip", "MP4", "動画トレース"]
 ---
 
-Weave は [`moviepy`](https://zulko.github.io/moviepy/) を使用して動画を自動的にログします。これにより、トレース対象の関数に動画の入力や出力を渡せるようになり、動画データのアップロードと保存は Weave が自動的に処理します。
+このガイドでは、Weave のトレースで動画データをログおよびトラッキングする方法を説明します。これにより、Weave UI で動画を直接確認、再生、分析できます。対象は、トレースされた関数の動画の入力と出力を自動的に取得したい、動画処理アプリケーションを構築する開発者です。
+
+Weave は [`moviepy`](https://zulko.github.io/moviepy/) を使用して動画を自動的にログします。動画の入力と出力をトレースされた関数に渡すことができ、Weave が動画データのアップロードと保存を自動的に処理します。
 
 <Note>
-  動画のサポートは現在 Python でのみ利用可能です。
+  動画のサポートは Python でのみ利用できます。
 </Note>
 
 <div id="usage-prerequisites">
   ## 使用するための前提条件
 </div>
 
+Weave で動画をログする前に、次の前提条件を満たしてください。
+
 1. `weave` と `moviepy==1.0.3` をインストールします。
 2. W&amp;B アカウントを作成します。
 
 <div id="supported-video-types">
-  ## サポートされる動画タイプ
+  ## サポートされている動画タイプ
 </div>
 
-Weave は、以下のような `moviepy` の動画クリップオブジェクトを認識します。
+Weave では、さまざまな種類の `moviepy` クリップをそれぞれ異なる方法で扱います。どのタイプを使用しているかを把握すると、Weave が動画データをどのようにアップロードして保存するかを理解しやすくなります。
 
-* 動画ファイルから読み込んだ `VideoFileClip`
-* `ImageClip`、`ColorClip`、`TextClip` などのインメモリクリップ
+Weave は、次のような `moviepy` の動画クリップオブジェクトを認識します。
+
+* 動画ファイルから読み込まれた `VideoFileClip` オブジェクト。
+* `ImageClip`、`ColorClip`、`TextClip` などのインメモリクリップ。
 
 <div id="direct-upload-of-file-based-clips">
   ### ファイルベースのクリップの直接アップロード
@@ -48,21 +55,21 @@ Weave は、以下のような `moviepy` の動画クリップオブジェクト
 * `TextClip`
 
 <div id="example-trace-a-video-function">
-  ## 例: 動画処理関数をトレースする
+  ## 例: 動画関数をトレースする
 </div>
 
-以下のコードサンプルは、Weave で動画処理関数をトレースする方法を示します。このコードサンプルでは、次のことを行います。
+次のコードサンプルは、Weave で動画処理関数をトレースする方法を示しています。このコードサンプルでは、次のことを行います。
 
 1. Weave プロジェクト `video-test` を初期化します。
-2. `get_video` 関数を `weave.op` としてトラッキングし、読み込んだ `VideoFileClip` から 1 秒間のサブクリップを `VideoClip` として抽出するように定義します。
+2. 読み込んだ `VideoFileClip` から 1 秒のサブクリップを `VideoClip` として抽出する `get_video` 関数を、`weave.op` としてトラッキング対象にして定義します。
 3. クリップを Weave にアップロードしてトラッキングします。
-4. 動画が見つからない場合は、ダミーの MP4 動画を自動的に生成します。
+4. 動画が見つからない場合は、プレースホルダーの MP4 動画を自動生成します。
 
 <Warning>
-  スレッドセーフティの問題を避けるため、`VideoFileClip` オブジェクトは Weave の `op` の外で作成せず、必ずそのパスを渡してください。
+  スレッドセーフティの問題を避けるため、`VideoFileClip` オブジェクトは Weave の `op` の外部で作成せず、必ずそのパスを渡してください。
 </Warning>
 
-以下のコードスニペットを使用する前に、[利用の前提条件](#usage-prerequisites)を完了してください。
+次のコードスニペットを使用する前に、[使用するための前提条件](#usage-prerequisites) を完了してください。
 
 ```python lines
 import os
@@ -74,10 +81,10 @@ weave.init('video-test')
 
 @weave.op
 def get_video(clip: VideoFileClip) -> VideoClip:
-    """クリップを直接渡すのではなく、パスを使用してビデオを処理します。
+    """Process a video by path rather than by passing the clip directly.
 
-    これにより、VideoFileClip が Weave op のスレッドコンテキスト内で
-    作成・管理され、スレッドセーフティの問題を回避できます。
+    This ensures that the VideoFileClip is created and managed within the
+    Weave op's thread context, avoiding thread-safety issues.
     """
     new_clip = clip.subclip(0, 1)
     return new_clip
@@ -85,13 +92,13 @@ def get_video(clip: VideoFileClip) -> VideoClip:
 if __name__ == "__main__":
     os.makedirs("videos", exist_ok=True)
 
-    # MP4 ファイルを指すようにパスを更新してください
+    # MP4ファイルへのパスを更新してください
     video_path = './videos/example.mp4'
 
-    # ファイルが存在しない場合はダミー動画を生成する
+    # 動画が存在しない場合はダミー動画を生成する
     # ダミー動画の内容: 5秒間表示される赤い正方形
     if not os.path.isfile(video_path):
-        print("動画が見つかりません。ダミー動画を作成しています...")
+        print("No video found. Creating dummy video...")
         dummy_clip = ColorClip(size=(640, 480), color=(255, 0, 0), duration=5)
         dummy_clip.write_videofile(video_path, fps=24)
 
@@ -99,12 +106,12 @@ if __name__ == "__main__":
     get_video(clip) 
 ```
 
-コードサンプルが正常に実行されると、プロジェクトの**トレース**表にあるリンクをクリックして、動画を表示できます。
+コードサンプルが正常に実行されると、project の **トレース** 表にあるリンクをクリックして動画を表示できます。
 
 <Frame>
   ![トレース表内の動画処理関数のトレース。](/weave/guides/tracking/imgs/video-trace.png)
 </Frame>
 
 <Frame>
-  ![Weave にアップロードされ、トレースのポップアウトで表示された MP4 動画。](/weave/guides/tracking/imgs/video-trace-popout.png)
+  ![Weave にアップロードされた MP4 動画。トレースのポップアウトで表示されています。](/weave/guides/tracking/imgs/video-trace-popout.png)
 </Frame>

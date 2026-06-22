@@ -888,26 +888,25 @@ new_file(
     name: 'str',
     mode: 'str' = 'x',
     encoding: 'str | None' = None
-) → Iterator[IO]
+) → Generator[IO]
 ```
 
-새 임시 파일을 열어 artifact에 추가합니다.
+새 임시 파일을 열어 아티팩트에 추가합니다.
 
 **매개변수:**
 
-* `name`:  artifact에 추가할 새 파일의 이름입니다.
+* `name`:  아티팩트에 추가할 새 파일의 이름입니다.
 * `mode`:  새 파일을 열 때 사용할 파일 액세스 모드입니다.
 * `encoding`:  새 파일을 열 때 사용할 인코딩입니다.
 
 **반환값:**
-쓸 수 있는 새 파일 객체입니다. 파일을 닫으면 자동으로 artifact에 추가됩니다.
+쓸 수 있는 새 파일 객체입니다. 파일을 닫으면 자동으로 아티팩트에 추가됩니다.
 
 **예외:**
 
-* `ArtifactFinalizedError`:  현재 artifact 버전은 이미 확정되었으므로 변경할 수 없습니다. 대신 새 artifact 버전을 log하세요.
+* `ArtifactFinalizedError`:  현재 아티팩트 버전은 이미 확정되었으므로 변경할 수 없습니다. 대신 새 아티팩트 버전을 log하세요.
 
 ***
-
 
 ### <kbd>방법</kbd> `Artifact.remove`
 

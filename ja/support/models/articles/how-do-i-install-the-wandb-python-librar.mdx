@@ -1,25 +1,31 @@
 ---
-title: "gcc がない環境で wandb Python ライブラリをインストールするにはどうすればよいですか?"
+title: "gcc のない環境で wandb Python ライブラリをインストールするにはどうすればよいですか?"
 keywords: ["Python"]
 ---
 
-`wandb` のインストール時に、次のようなエラーが表示される場合:
+このページは、最小限のコンテナーイメージやアクセスが制限されたシステムなど、`gcc` のない環境で `wandb` Python ライブラリをインストールしたいユーザー向けです。依存関係をソースからコンパイルせずにインストールを完了するには、次の step に従ってください。
 
-```
+`wandb` のインストール時に、次のようなエラーが発生する場合:
+
+```text
 unable to execute 'gcc': No such file or directory
 error: command 'gcc' failed with exit status 1
 ```
 
-ビルド済みの wheel から `psutil` を直接インストールします。[https://pywharf.github.io/pywharf-pkg-repo/psutil/](https://pywharf.github.io/pywharf-pkg-repo/psutil/) で、お使いの Python のバージョンとオペレーティングシステムを確認してください。
+installer が `psutil` 依存関係をソースからコンパイルしているため、`gcc` が必要です。これを回避するには、コンパイル不要の事前ビルド済み wheel から `psutil` をインストールします。
 
-たとえば、Linux 上の Python 3.8 に `psutil` をインストールするには、次のようにします。
+`gcc` なしで `wandb` をインストールするには、次の手順を実行します。
 
-```bash
-WHEEL_URL=https://github.com/pywharf/pywharf-pkg-repo/releases/download/psutil-5.7.0-cp38-cp38-manylinux2010_x86_64.whl#sha256=adc36dabdff0b9a4c84821ef5ce45848f30b8a01a1d5806316e068b5fd669c6d
-pip install $WHEEL_URL
-```
+1. [pywharf `psutil` package repository](https://pywharf.github.io/pywharf-pkg-repo/psutil/) で、使用している Python のバージョンとオペレーティング システムを確認します。
+2. 事前ビルド済み wheel から `psutil` をインストールします。たとえば、Linux 上の Python 3.8 に `psutil` をインストールするには、次のようにします。
 
-`psutil` をインストールしたら、`wandb` のインストールを完了するために `pip install wandb` を実行します。
+   ```bash
+   WHEEL_URL=https://github.com/pywharf/pywharf-pkg-repo/releases/download/psutil-5.7.0-cp38-cp38-manylinux2010_x86_64.whl#sha256=adc36dabdff0b9a4c84821ef5ce45848f30b8a01a1d5806316e068b5fd669c6d
+   pip install $WHEEL_URL
+   ```
+3. インストールを完了するには、`pip install wandb` を実行します。
+
+`psutil` は事前ビルド済み wheel によってすでに要件が満たされているため、`pip` は元の `gcc` エラーの原因となったソースからのビルドをスキップし、`wandb` は正常にインストールされます。
 
 ***
 

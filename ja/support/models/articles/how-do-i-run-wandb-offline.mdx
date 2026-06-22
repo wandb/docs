@@ -1,0 +1,20 @@
+---
+title: "W&B をオフラインで実行するにはどうすればよいですか?"
+keywords: ["Experiments", "環境変数"]
+---
+
+インターネットにアクセスできないマシンでトレーニングし、後で結果を W&amp;B にアップロードするには、次の手順に従ってください。
+
+1. インターネット接続がなくてもメトリクスをローカルに保存できるように、環境変数 `WANDB_MODE=offline` を設定します。
+2. アップロードする準備ができたら、対象のディレクトリで `wandb init` を実行してプロジェクト名を設定します。
+3. `wandb sync [RUN-DIRECTORY]` を実行してメトリクスを W&amp;B に転送し、Web アプリで結果を確認します。`[RUN-DIRECTORY]` はローカルの run ディレクトリへのパスに置き換えてください。
+
+run がオフラインであることを確認するには、`wandb.init()` を呼び出した後に `run.settings._offline` または `run.settings.mode` を確認します。
+
+***
+
+{/* 自動生成: タブバッジ */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[環境変数](/ja/support/models/tags/environment-variables)</Badge>
+
+{/* 終了 AUTO-GENERATED: タブバッジ */}

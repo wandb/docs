@@ -1,0 +1,18 @@
+---
+title: "에이전트를 트레이스하려면 어떤 Weave API를 사용해야 하나요?"
+keywords: ["Agents", "Tracing", "weave.op"]
+---
+
+무엇을 만들고 있는지에 따라 다릅니다:
+
+* Claude Code와 같은 기성 에이전트 프레임워크를 실행하고 있다면, 해당 [Weave 인테그레이션](/ko/weave/guides/integrations)을 설치하세요. 그러면 **Agents** 탭에 트레이싱이 자동으로 표시됩니다.
+* 세션과 턴을 사용하는 자체 에이전트를 구축하고 있다면, [Agents용 Weave SDK](/ko/weave/guides/tracking/trace-agents) (`weave.start_session`, `weave.start_turn`)를 사용하세요. 그러면 결과가 **Agents** 탭에 표시됩니다.
+* 에이전트 대화가 아니라 개별 함수나 파이프라인을 트레이스하려는 경우에는 [`@weave.op`](/ko/weave/guides/tracking/tracing)을 사용하세요. 그러면 결과가 **Traces** 탭에 표시됩니다.
+
+***
+
+{/* AUTO-GENERATED: 탭 배지 */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Agents](/ko/support/weave/tags/agents)</Badge><Badge stroke shape="pill" color="orange" size="md">[Tracing](/ko/support/weave/tags/tracing)</Badge><Badge stroke shape="pill" color="orange" size="md">[weave.op](/ko/support/weave/tags/weave-op)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

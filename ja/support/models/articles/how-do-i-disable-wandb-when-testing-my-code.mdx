@@ -1,0 +1,18 @@
+---
+title: "コードのテスト中に W&B を無効にするにはどうすればよいですか？"
+keywords: ["Artifacts"]
+---
+
+テスト時に W&amp;B を no-op として動作させるには、`wandb.init(mode="disabled")` を使用するか、`WANDB_MODE=disabled` を設定します。
+
+<Note>
+  `wandb.init(mode="disabled")` を使用していても、W&amp;B は引き続きアーティファクトを `WANDB_CACHE_DIR` に保存します。
+</Note>
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/ja/support/models/tags/artifacts)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}
