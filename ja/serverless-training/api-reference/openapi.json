@@ -1105,6 +1105,43 @@
             ],
             "title": "Kl Penalty Coef"
           },
+          "kl_penalty_reference_step": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Kl Penalty Reference Step"
+          },
+          "kl_penalty_source": {
+            "anyOf": [
+              {
+                "enum": [
+                  "current_learner",
+                  "sample"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Kl Penalty Source"
+          },
+          "kl_penalty_step_lag": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Kl Penalty Step Lag"
+          },
           "kl_ref_adapter_path": {
             "anyOf": [
               {
@@ -1738,6 +1775,18 @@
               }
             ],
             "title": "Learning Rate"
+          },
+          "metric_logging": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Metric Logging"
           }
         },
         "title": "SFTTrainingConfig",
