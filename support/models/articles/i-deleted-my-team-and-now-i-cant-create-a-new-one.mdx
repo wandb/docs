@@ -3,9 +3,9 @@ title: "I deleted my team and now I can't create a new one — what do I do?"
 keywords: ["Teams", "Team Management", "Org Management"]
 ---
 
-When you sign up for W&B, the platform automatically creates a personal team with the same name as your username. If you delete that team — perhaps to rename it or because it looked like a duplicate — you may find that you can no longer create projects or that the **Create team** button has disappeared entirely. You may also see a "rate limit exceeded" error every time you log in.
+When you sign up for W&B, the platform automatically creates a personal team with the same name as your username. If you delete that team, you may find that you can no longer create projects or that the **Create team** button has disappeared entirely. You may also see a "rate limit exceeded" error every time you log in.
 
-**Why this happens**
+## Why this happens
 
 W&B accounts must belong to at least one team to create projects and run experiments. When the auto-generated team is deleted, the account loses its team membership. In this state:
 
@@ -13,7 +13,7 @@ W&B accounts must belong to at least one team to create projects and run experim
 - Attempting to log in or navigate to your workspace may immediately redirect to a "rate limit exceeded" or "An application error occurred" page.
 - You cannot create a new team to resolve the issue yourself — team creation is blocked while the account is in this state.
 
-**What to do**
+## What to do
 
 This state cannot be resolved through the W&B UI. Contact W&B support and include:
 
@@ -21,7 +21,7 @@ This state cannot be resolved through the W&B UI. Contact W&B support and includ
 - Your **organization name** if you are on a team or enterprise plan
 - The **desired team name** you want created (team names must be globally unique, lowercase, with no spaces)
 
-Support will manually create a team for your account and restore your access. Response times vary by plan; enterprise customers can escalate via their dedicated support channel.
+Support will manually create a team for your account and restore your access.
 
 **If you are on an academic or free plan**
 
@@ -29,13 +29,13 @@ Academic accounts may not have the ability to create teams directly through the 
 
 **Preventing this in the future**
 
-- Do not delete your initial auto-generated team unless you plan to contact support immediately to replace it.
+- Do not delete your initial auto-generated team.
 - If you want a different team name, see [How do I delete a team from my account?](/support/models/articles/how-do-i-delete-a-team-from-my-account) for creating a new team before you delete your only team.
 - To check whether your account belongs to a team, go to [wandb.ai/settings](https://wandb.ai/settings) and look under **Teams**.
 
 **Related: rate limit exceeded loop**
 
-If you are stuck in a redirect loop with a "rate limit exceeded" error after deleting your team, this is a symptom of the same issue. The error appears because W&B's routing logic expects every logged-in user to belong to a team. Logging out and back in will not fix it — only support restoring a team on your account will resolve the loop.
+If you are stuck in a redirect loop with a "rate limit exceeded" error after deleting your team, this is a symptom of the same issue. The error appears because W&B's routing logic expects every logged-in user to belong to a team. Logging out and back in will not fix it. Only contacting Support can resolve this issue.
 
 ---
 
