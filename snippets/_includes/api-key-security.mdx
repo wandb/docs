@@ -1,8 +1,10 @@
 ## Store and handle API keys securely
 
-API keys provide access to your W&B account and should be protected like passwords. Follow these best practices:
+API keys provide access to your W&B account and should be protected like passwords. The following sections describe recommended storage methods, practices to avoid, how to pass keys to your code, and SDK version requirements for newer keys.
 
 ### Recommended storage methods
+
+Use one of the following methods to store your API key securely.
 
 - **Secrets manager**: Use a dedicated secrets management system such as [AWS Secrets Manager](https://aws.amazon.com/secrets-manager/), [HashiCorp Vault](https://developer.hashicorp.com/vault), [Azure Key Vault](https://azure.microsoft.com/en-us/products/key-vault), or [Google Secret Manager](https://cloud.google.com/security/products/secret-manager).
 - **Password manager**: Use a reputable password manager application.
@@ -10,36 +12,38 @@ API keys provide access to your W&B account and should be protected like passwor
 
 ### What to avoid
 
+Avoid the following practices, which can expose your API key:
+
 - Never commit API keys to version control systems such as Git.
-- Do not store API keys in plain text configuration files.
-- Do not pass API keys on the command line, because they will be visible in the output of OS commands like `ps`.
+- Don't store API keys in plain text configuration files.
+- Don't pass API keys on the command line, because they're visible in the output of OS commands like `ps`.
 - Avoid sharing API keys through email, chat, or other unencrypted channels.
-- Do not hard-code API keys in your source code.
+- Don't hard-code API keys in your source code.
 
 If an API key is exposed, delete the API key from your W&B account immediately and contact [support](mailto:support@wandb.ai) or your AISE.
 
 ### Environment variables
 
-When using API keys in your code, pass them through environment variables:
+When you use API keys in your code, pass them through environment variables:
 
 ```bash
-export WANDB_API_KEY="your-api-key-here"
+export WANDB_API_KEY="[YOUR-API-KEY]"
 ```
 
 This approach keeps keys out of your source code and makes it easier to rotate them when needed.
 
 <Warning>
-Avoid setting the environment variable in line with the command, because it will be visible in the output of OS commands like `ps`:
+Avoid setting the environment variable in line with the command, because it's visible in the output of OS commands like `ps`:
 
 ```bash
 # Avoid this pattern, which can expose the API key in process managers
-export WANDB_API_KEY="your-api-key-here" ./my-script.sh
+export WANDB_API_KEY="[YOUR-API-KEY]" ./my-script.sh
 ```
 </Warning>
 
 ### SDK version compatibility
 
-New API keys are longer than legacy keys. When authenticating with older versions of the `wandb` or `weave` SDKs, you may encounter an API key length error.
+If you use a newer API key, confirm that your SDK version supports it. Newer API keys are longer than legacy keys. When you authenticate with older versions of the `wandb` or `weave` SDKs, you may encounter an API key length error.
 
 **Solution**: Update to a newer SDK version:
 - `wandb` SDK v0.22.3+
@@ -48,7 +52,9 @@ New API keys are longer than legacy keys. When authenticating with older version
     pip install --upgrade wandb==0.22.3
     ```
 - `weave` SDK v0.52.17+
+
     ```bash
     pip install --upgrade weave==0.52.17
     ```
-If you cannot upgrade the SDK immediately, set the API key using the `WANDB_API_KEY` environment variable as a workaround.
+
+If you can't upgrade the SDK immediately, set the API key using the `WANDB_API_KEY` environment variable as a workaround.

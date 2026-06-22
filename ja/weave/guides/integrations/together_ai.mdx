@@ -1,17 +1,18 @@
 ---
 title: "Together AI"
 description: "OpenAI SDK との互換性を利用して、Weave で Together AI のオープンソース LLM をトラッキングし、モデル呼び出しのトレースと評価をシームレスに行います。"
+keywords: ["オープンソース LLM", "OpenAI との互換性", "Mixtral", "ファインチューニング", "モデル ホスティング"]
 ---
 
-Together AI は、生成 AI モデルの構築とファインチューニングのためのプラットフォームです。オープンソース LLM に注力しており、ユーザーは独自のモデルをファインチューニングしてホストできます。
+Together AI は、生成 AI モデルの構築とファインチューニングのためのプラットフォームです。オープンソース LLM に注力しており、ユーザーは独自のモデルをファインチューニングしてホストできます。このガイドでは、Together の OpenAI SDK との互換性を使用して、Weave で Together AI のモデル呼び出しをトレースして評価する方法を説明します。オープンソース LLM の入力、出力、パフォーマンスを、Weave でトラッキングされる他の作業とあわせてモニターできます。
 
 <Info>
-  Weave による `together` Python パッケージの完全サポートは現在開発中です
+  Weave による `together` Python パッケージの完全サポートは現在開発中です。
 </Info>
 
-`together` Python パッケージに対する Weave の完全サポートは現在開発中ですが、Together は OpenAI SDK との互換性 ([ドキュメント](https://docs.together.ai/docs/openai-api-compatibility)) をサポートしており、Weave はこれを自動的に検出して連携します。
+それまでの間、Together は [OpenAI SDK との互換性](https://docs.together.ai/docs/openai-api-compatibility) をサポートしており、Weave はこれを自動的に検出して連携します。標準の OpenAI クライアントを使用して Together AI モデルを呼び出し、追加のセットアップなしで Weave の自動トレースを利用できます。
 
-Together API を使用するには、APIキーをお使いの [Together API](https://docs.together.ai/docs/quickstart) キーに、`base_url` を `https://api.together.xyz/v1` に、モデルを [チャットモデル](https://docs.together.ai/docs/inference-models#chat-models) のいずれかに変更するだけです。
+Together API に切り替えるには、`api_key` をお使いの [Together API](https://docs.together.ai/docs/quickstart) キーに、`base_url` を `https://api.together.xyz/v1` に、`model` を [チャットモデル](https://docs.together.ai/docs/inference-models#chat-models) のいずれかに設定します。次の例では、Weave を初期化してから、Together でホストされているモデルに対して Chat Completion を呼び出します。実行すると、その呼び出しは Weave プロジェクト内にトレースとして表示されます。
 
 ```python lines {5, 10-13}
 import os
@@ -40,4 +41,4 @@ response = chat_completion.choices[0].message.content
 print("Together response:\n", response)
 ```
 
-これは使い始めるためのシンプルな例ですが、より複雑なユースケースで独自の関数を Weave に統合する方法について詳しくは、[OpenAI](/ja/weave/guides/integrations/openai#track-your-own-ops) ガイドを参照してください。
+これは使い始めるための例です。より複雑なユースケースで独自の関数を Weave に統合する方法について詳しくは、[OpenAI](/ja/weave/guides/integrations/openai#track-your-own-ops) ガイドを参照してください。

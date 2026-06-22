@@ -84,7 +84,8 @@ Custom naming is optional but helps you distinguish between different evaluation
 <Tab title="TypeScript">
   To name the `Evaluation` object, pass an `id` parameter to the `Evaluation` constructor. This name helps you identify the `Evaluation` in code and UI listings.
 
-  ```typescript lines
+  ```typescript twoslash lines
+  // @noErrors
   const evaluation = new weave.Evaluation({
     id: 'my-evaluation',
     dataset: dataset,
@@ -113,7 +114,8 @@ First, define a [Dataset](../core-types/datasets) object or list of examples wit
 <Tab title="TypeScript">
   The following example shows a dataset defined as a `Dataset` object with an array of rows:
 
-  ```typescript lines
+  ```typescript twoslash lines
+  // @noErrors
   const dataset = new weave.Dataset({
     id: 'my-dataset',
     rows: [
@@ -170,7 +172,8 @@ Then, create one or more [scoring functions](../evaluation/scorers). Weave uses 
 
   The following example scorer function `matchScore` compares the model output to the `expected` value from the dataset row:
 
-  ```typescript lines
+  ```typescript twoslash lines
+  // @noErrors
   import * as weave from 'weave';
 
   // Collect your examples into a dataset
@@ -243,7 +246,8 @@ Then, create one or more [scoring functions](../evaluation/scorers). Weave uses 
 <Tab title="TypeScript">
   In TypeScript, you evaluate functions wrapped with `weave.op`. The function receives the dataset row and returns the model output.
 
-  ```typescript lines
+  ```typescript twoslash lines
+  // @noErrors
   import * as weave from 'weave';
 
   // Initialize Weave
@@ -299,7 +303,8 @@ With your `Evaluation` object, dataset, scorers, and model defined, you're ready
 <Tab title="TypeScript">
   Assuming an `Evaluation` object called `evaluation` and a model function called `myModel`, the following code runs the evaluation:
 
-  ```typescript lines
+  ```typescript twoslash lines
+  // @noErrors
   const results = await evaluation.evaluate({model: myModel});
   ```
 
@@ -307,7 +312,8 @@ With your `Evaluation` object, dataset, scorers, and model defined, you're ready
 
   You can set the `nTrials` parameter when calling `evaluate()` to run each example multiple times:
 
-  ```typescript lines
+  ```typescript twoslash lines
+  // @noErrors
   const results = await evaluation.evaluate({
     model: myModel,
     nTrials: 3,
@@ -369,7 +375,8 @@ The following example brings together each of the previous steps in a single, ru
 <Tab title="TypeScript">
   The following code sample demonstrates a complete evaluation run from start to finish. The dataset rows are used by the `matchScore` scoring function to evaluate `myModel`.
 
-  ```typescript lines
+  ```typescript twoslash lines
+  // @noErrors
   import * as weave from 'weave';
 
   // Initialize Weave
@@ -494,7 +501,8 @@ The following sections cover optional features for more complex evaluation workf
 
   The following example maps the `expectedOutputTimesTwo` column to the `expected` column:
 
-  ```typescript lines
+  ```typescript twoslash lines
+  // @noErrors
   const myScorer = weave.op(
     ({modelOutput, datasetRow}) => {
       return modelOutput * 2 === datasetRow.expectedOutputTimesTwo;

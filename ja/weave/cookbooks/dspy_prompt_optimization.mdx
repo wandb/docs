@@ -1,38 +1,37 @@
 ---
-title: "DSPy プロンプト最適化"
-description: "W&B Weave での dspy プロンプト最適化の使い方を学びます"
+title: "DSPy Prompt Optimization"
+description: "DSPy の プロンプト最適化 を W&B Weave で使用する方法を学びます"
+keywords: [DSPy, prompt optimization, BIG-Bench Hard, BootstrapFewShot, causal reasoning]
 ---
 
 <Note>
-  これはインタラクティブなノートブックです。ローカルで実行することも、以下のリンクを使用することもできます。
+  これはインタラクティブなノートブックです。ローカルで実行するか、以下のリンクをご利用ください。
 
   * [Google Colab で開く](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/dspy_prompt_optimization.ipynb)
   * [GitHub でソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/dspy_prompt_optimization.ipynb)
 </Note>
 
-<div id="optimizing-llm-workflows-using-dspy-and-weave">
-  # DSPy と Weave を使用した LLM ワークフローの最適化
-</div>
+[BIG-bench (Beyond the Imitation Game Benchmark)](https://github.com/google/BIG-bench) は、大規模言語モデルを評価し、200 以上のタスクにわたる将来的な能力を推定するための共同ベンチマークです。[BIG-Bench Hard (BBH)](https://github.com/suzgunmirac/BIG-Bench-Hard) は、現世代の言語モデルが解くことが困難な BIG-Bench の最難関 23 タスクをまとめたスイートです。
 
-[BIG-bench (Beyond the Imitation Game Benchmark) ](https://github.com/google/BIG-bench) は、大規模言語モデルを検証し、その将来的な能力を予測することを目的とした共同ベンチマークで、200 を超えるタスクで構成されています。[BIG-Bench Hard (BBH)](https://github.com/suzgunmirac/BIG-Bench-Hard) は、BIG-Bench の中でも特に難易度の高い 23 のタスクからなるベンチマークスイートで、現世代の言語モデルでは解くのが非常に難しい場合があります。
+このチュートリアルでは、BIG-bench Hard ベンチマークの因果判断タスクを対象に、LLM ワークフローのパフォーマンスを向上させてプロンプティング戦略を評価する方法を説明します。LLM ワークフローの実装とプロンプティング戦略の最適化には [DSPy](https://dspy.ai) を使用し、LLM ワークフローのトラッキングとプロンプティング戦略の評価には [Weave](/ja/weave) を使用します。
 
-このチュートリアルでは、BIG-bench Hard ベンチマークの**因果判断タスク**に実装した LLM ワークフローのパフォーマンスを改善し、プロンプト戦略を評価する方法を紹介します。LLM ワークフローの実装とプロンプト戦略の最適化には [DSPy](https://dspy.ai) を使用します。また、LLM ワークフローのトラッキングとプロンプト戦略の評価には [Weave](/ja/weave) も使用します。
+このチュートリアルを完了すると、因果推論のためのベースライン DSPy プログラムを構築し、Weave で評価し、DSPy オプティマイザーを適用してプロンプティング戦略を改善し、最適化されたプログラムとベースラインを比較できるようになります。このチュートリアルは、自身の LLM ワークフローに プロンプト最適化 を適用し、Weave を使用して結果をトラッキング・比較したい実践者を対象としています。
 
-<div id="installing-the-dependencies">
+<div id="install-the-dependencies">
   ## 依存ライブラリのインストール
 </div>
 
-このチュートリアルでは、次のライブラリを使用します。
+開始する前に、このチュートリアル全体で使用するライブラリをインストールしてください。このチュートリアルでは、次のライブラリを使用します。
 
 * [DSPy](https://dspy.ai)：LLMワークフローの構築と最適化に使用します。
 * [Weave](/ja/weave)：LLMワークフローをトラッキングし、プロンプト戦略を評価するために使用します。
-* [datasets](https://huggingface.co/docs/datasets/index)：HuggingFace Hub から Big-Bench Hard データセットにアクセスするために使用します。
+* [datasets](https://huggingface.co/docs/datasets/index)：HuggingFace Hub から BIG-Bench Hard データセットにアクセスするために使用します。
 
 ```python lines
 !pip install -qU dspy weave "datasets<4"
 ```
 
-LLMベンダーとして [OpenAI API](https://openai.com/index/openai-api/) を使用するため、OpenAIのAPIキーも必要です。ご自身のAPIキーを取得するには、OpenAIプラットフォームで [サインアップ](https://platform.openai.com/signup) してください。
+このチュートリアルでは、LLMベンダーとして [OpenAI API](https://openai.com/index/openai-api/) を使用するため、OpenAI APIキーも必要です。ご自身のAPIキーを取得するには、OpenAIプラットフォームで [サインアップ](https://platform.openai.com/signup) してください。
 
 ```python lines
 import os
@@ -46,7 +45,9 @@ os.environ["OPENAI_API_KEY"] = api_key
   ## Weave を使ってトラッキングを有効にする
 </div>
 
-Weave は現在 DSPy と統合されており、コードの先頭で [`weave.init`](/ja/weave/reference/python-sdk/trace/weave_client#method-init) を呼び出すと、DSPy の関数を自動的にトレースし、その内容を Weave UI で確認できます。詳しくは、[DSPy 向け Weave インテグレーションのドキュメント](/ja/weave/guides/integrations/dspy) を参照してください。
+このセクションでは Weave を設定し、このチュートリアルで以降に行う DSPy の Call が自動的にトレースされ、Weave UI で確認できるようにします。
+
+Weave は DSPy と統合されています。コードの先頭で [`weave.init`](/ja/weave/reference/python-sdk/trace/weave_client#method-init) を呼び出すと、DSPy の関数が自動的にトレースされ、その内容を Weave UI で確認できます。詳しくは、[DSPy 向け Weave インテグレーションのドキュメント](/ja/weave/guides/integrations/dspy) を参照してください。
 
 ```python lines
 import weave
@@ -70,14 +71,16 @@ metadata = Metadata()
 ```
 
 <Tip>
-  **オブジェクトのバージョン管理**: `Metadata` オブジェクトは、それらを利用する関数がトレースされると、自動的にバージョン管理され、あわせてトレースされます
+  オブジェクトのバージョン管理: `Metadata` オブジェクトは、それらを利用する関数がトレースされると、自動的にバージョン管理され、あわせてトレースされます。
 </Tip>
 
 <div id="load-the-big-bench-hard-dataset">
   ## BIG-Bench Hardデータセットを読み込む
 </div>
 
-このデータセットをHuggingFace Hubから読み込み、トレーニング用セットと検証セットに分割したうえで、Weaveで[公開](/ja/weave/guides/core-types/datasets)します。これにより、データセットをバージョン管理できるようになり、[`weave.Evaluation`](/ja/weave/guides/core-types/evaluations)を使用してプロンプト戦略を評価することもできます。
+Weave tracking を有効にしたら、次のステップは、DSPyプログラムのトレーニングと評価に使用するデータを準備することです。
+
+このデータセットをHuggingFace Hubから読み込み、トレーニング用セットと検証セットに分割したうえで、Weaveで[公開](/ja/weave/guides/core-types/datasets)します。公開すると、データセットをバージョン管理できるようになり、[`weave.Evaluation`](/ja/weave/guides/core-types/evaluations)を使用してプロンプト戦略を評価することもできます。
 
 ```python lines
 import dspy
@@ -126,6 +129,8 @@ dspy_train_examples, dspy_val_examples = get_dataset(metadata)
   ## DSPy プログラム
 </div>
 
+データセットを Weave に公開したので、次に、後で評価および最適化するベースラインの DSPy プログラムを定義できます。
+
 [DSPy](https://dspy.ai) は、新しい LM パイプラインの構築を、自由記述の文字列を操作するやり方から、プログラミング (モジュール化されたオペレーターを組み合わせてテキスト変換グラフを構成すること) へと近づけるフレームワークです。これにより、コンパイラがプログラムから最適化された LM 呼び出し戦略とプロンプトを自動生成します。
 
 言語モデルの設定には [`dspy.LM`](https://dspy.ai/learn/programming/language_models) を使用し、それをデフォルトに設定するには [`dspy.configure`](https://dspy.ai/api/utils/configure/) を使用します。
@@ -135,11 +140,11 @@ llm = dspy.LM("openai/gpt-4o-mini")
 dspy.configure(lm=llm)
 ```
 
-<div id="writing-the-causal-reasoning-signature">
-  ### 因果推論シグネチャの作成
+<div id="write-the-causal-reasoning-signature">
+  ### 因果推論シグネチャを作成する
 </div>
 
-[signature](https://dspy.ai/learn/programming/signatures) とは、[DSPy module](https://dspy.ai/learn/programming/modules) の入出力の振る舞いを宣言的に定義するものです。[DSPy module](https://dspy.ai/learn/programming/modules) は、ニューラルネットワークの層に似たタスク適応型のコンポーネントで、特定のテキスト変換を抽象化します。
+[signature](https://dspy.ai/learn/programming/signatures) とは、[DSPy module](https://dspy.ai/learn/programming/modules) の入出力の動作を宣言的に定義するものです。DSPy modules は、ニューラルネットワークの層に似たタスク適応型のコンポーネントで、特定のテキスト変換を抽象化します。
 
 ```python lines
 class CausalReasoning(dspy.Signature):
@@ -165,7 +170,7 @@ class CausalReasoningModule(dspy.Module):
         }
 ```
 
-Big-Bench Hard の因果推論サブセットの例を使って、LLMワークフロー、つまり `CausalReasoningModule` をテストしてみましょう。
+BIG-Bench Hard の因果推論サブセットの例を使って、LLMワークフロー、つまり `CausalReasoningModule` をテストします。
 
 ```python lines
 import rich
@@ -178,13 +183,15 @@ rich.print(prediction)
 
 <Frame>
   ![パフォーマンス メトリクスと出力例を含むベースライン DSPy プログラムの評価結果](/media/dspy_optimization/2.png)
-
-  ## DSPy プログラムを評価する
 </Frame>
 
-ベースラインのプロンプト戦略ができたので、予測した回答と正解を照合するシンプルなメトリクスを使って、[`weave.Evaluation`](/ja/weave/guides/core-types/evaluations) で検証セットを評価してみましょう。Weave は各例をアプリケーションに渡し、複数のカスタムスコアリング関数で出力を採点します。これにより、アプリケーションのパフォーマンスを把握できるほか、個々の出力やスコアを詳しく確認できる充実した UI も利用できます。
+<div id="evaluate-the-dspy-program">
+  ## DSPy プログラムを評価する
+</div>
 
-まず、予測した回答が正解と一致するかどうかを判定するスコアリング関数を作成する必要があります。Weave のスコアリング関数は、モデルの戻り値を `output` として受け取り、さらにデータセット例内の一致するキーを追加の引数として受け取ります。ここでは、`answer` はデータセットから取得され、`output` は `CausalReasoningModule.forward` が返す dict です。
+ベースラインのプロンプト戦略ができたので、予測した回答と正解を照合するメトリクスを使って、[`weave.Evaluation`](/ja/weave/guides/core-types/evaluations) で検証セットを評価します。Weave は各例をアプリケーションに渡し、複数のカスタムスコアリング関数で出力を採点します。これにより、アプリケーションのパフォーマンスを把握できるほか、個々の出力やスコアを詳しく確認できる充実した UI も利用できます。
+
+まず、予測した回答が正解と一致するかどうかを判定するスコアリング関数を作成します。Weave のスコアリング関数は、モデルの戻り値を `output` として受け取り、さらにデータセット例内の一致するキーを追加の引数として受け取ります。ここでは、`answer` はデータセットから取得され、`output` は `CausalReasoningModule.forward` が返す dict です。
 
 ```python lines
 @weave.op()
@@ -230,12 +237,14 @@ await evaluation.evaluate(predict)
 </Note>
 
 <Warning>
-  因果推論 データセットで評価を実行すると、OpenAI クレジットで約 $0.24 の費用がかかります。
+  因果推論データセットで評価を実行するには、OpenAI クレジットが約 $0.24 かかります。
 </Warning>
 
-<div id="optimizing-our-dspy-program">
-  ## DSPy プログラムの最適化
+<div id="optimize-the-dspy-program">
+  ## DSPy プログラムを最適化する
 </div>
+
+ベースラインのパフォーマンスを測定できたので、DSPy オプティマイザーを適用し、その結果をベースラインと比較できます。
 
 これで DSPy プログラムのベースラインができたので、指定したメトリクスを最大化するように DSPy プログラムのパラメーターを調整できる [BootstrapFewShot](https://dspy.ai/api/optimizers/BootstrapFewShot/) オプティマイザーを使って、因果推論のパフォーマンスをさらに向上させてみましょう。
 
@@ -266,7 +275,7 @@ optimized_module = get_optimized_program(baseline_module, metadata)
   因果推論の評価用データセットを実行すると、OpenAI クレジットが約 $0.04 かかります。
 </Warning>
 
-最適化済みのプログラム (最適化されたプロンプト戦略) が用意できたので、これを検証セットでもう一度評価し、ベースラインの DSPy プログラムと比較してみましょう。
+最適化済みのプログラム (最適化されたプロンプト戦略) が用意できたので、これを検証セットでもう一度評価し、ベースラインの DSPy プログラムと比較してください。
 
 ```python lines
 @weave.op()
@@ -286,10 +295,10 @@ await evaluation.evaluate(predict_optimized)
   ![パフォーマンスメトリクスと出力品質が改善された、最適化済みDSPyプログラムの評価結果](/media/dspy_optimization/5.png)
 </Frame>
 
-ベースラインプログラムの評価結果を最適化済みプログラムと比較すると、最適化済みプログラムのほうが因果推論に関する質問に対して大幅に高い精度で回答できていることがわかります。
+ベースラインプログラムの評価結果を最適化済みプログラムと比較すると、最適化済みプログラムのほうが因果推論に関する質問に対してより高い精度で回答できていることがわかります。
 
 <div id="conclusion">
   ## 結論
 </div>
 
-このチュートリアルでは、DSPyを使ってプロンプトを最適化し、Weaveでトラッキングと評価を行って、元のプログラムと最適化後のプログラムを比較する方法を学びました。
+このチュートリアルでは、DSPyを使ってプロンプト最適化を行い、Weaveでトラッキングと評価を行って、元のプログラムと最適化後のプログラムを比較する方法を学びました。

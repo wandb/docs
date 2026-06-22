@@ -1,0 +1,117 @@
+---
+title: "Extension Pi"
+description: "Tracez les sessions agentiques de Pi, les appels LLM et les exécutions d'outils dans Weave."
+keywords: ["Pi", "OpenTelemetry", "OTEL", "TypeScript", "agent de codage"]
+---
+
+import AgentsPreview from '/snippets/fr/_includes/agents-public-preview.mdx';
+
+<AgentsPreview />
+
+[Pi](https://pi.dev/) est un agent de codage en ligne de commande. Weave trace automatiquement les sessions Pi, les appels LLM et les exécutions d’outils à l’aide de l’intégration `createOtelExtension`, qui est conforme aux [conventions sémantiques GenAI](https://opentelemetry.io/docs/specs/semconv/gen-ai/). Cette page vous montre comment activer le tracing Weave dans une application Pi afin que vous puissiez observer le comportement de l’agent, déboguer les runs et analyser l’utilisation et le coût des jetons.
+
+<Warning>
+  Cette intégration envoie les données de session Pi vers Weave. Ces données peuvent inclure les prompts des utilisateurs, les réponses du modèle, les entrées et sorties des outils, le contenu des fichiers lus par les outils Pi, les commandes shell et leur sortie, ainsi que les URL récupérées et le contenu des pages.
+
+  L’intégration n’implémente pas le nettoyage des PII ni le masquage des données sensibles. Si vous ne pouvez pas envoyer ces données à Weave au regard de vos exigences de sécurité ou de conformité, n’activez pas le tracing Weave dans votre application Pi.
+</Warning>
+
+<div id="prerequisites">
+  ## Prérequis
+</div>
+
+* [Node.js](https://nodejs.org/) (v18 ou version ultérieure).
+* Un compte W&amp;B et une [clé API](https://wandb.ai/authorize) définie comme variable d’environnement `WANDB_API_KEY`.
+
+<Note>
+  Pi est un framework TypeScript et Node.js sans équivalent en Python. Pi nécessite le système de modules ESM. Votre projet doit utiliser `"type": "module"` dans `package.json`, ou compiler TypeScript en sortie ESM. Les projets CommonJS génèrent une erreur. Pour plus d’informations sur la configuration d’un projet ESM, voir [l’intégration du SDK TypeScript](/fr/weave/guides/integrations/js#set-up-an-esm-project).
+</Note>
+
+<div id="install-packages">
+  ## Installer les paquets
+</div>
+
+Installez Weave, Pi et les définitions de types pour Node comme dépendances locales du project :
+
+```bash lines
+npm install weave @earendil-works/pi-coding-agent
+npm install --save-dev @types/node tsx typescript
+```
+
+<div id="trace-a-pi-prompt-and-response">
+  ## Tracer un prompt et une réponse dans Pi
+</div>
+
+L’exemple suivant montre la configuration minimale nécessaire pour tracer un seul prompt et une seule réponse dans Pi. Appelez `weave.init()` avant de créer votre session d&#39;agent, puis transmettez `createOtelExtension()` en tant que fabrique d&#39;extensions. Weave trace l&#39;intégralité du cycle de vie de l&#39;agent : la session, chaque cycle prompt/réponse (`invoke_agent`), les appels LLM individuels (`chat`) et les exécutions d&#39;outils (`execute_tool`). `SessionManager.inMemory()` génère automatiquement l&#39;ID de session.
+
+```typescript lines twoslash
+// @noErrors
+import {init, createOtelExtension} from 'weave';
+
+import {
+  createAgentSession,
+  DefaultResourceLoader,
+  SessionManager,
+  getAgentDir,
+} from '@earendil-works/pi-coding-agent';
+
+async function main() {
+  // 1. Initialiser Weave. Configure le TracerProvider OTEL pointant vers votre
+  //    projet Weave. Tous les spans créés par createOtelExtension() sont
+  //    automatiquement exportés ici.
+  await init('[YOUR-TEAM]/[YOUR-PROJECT]');
+
+  // 2. Créer un chargeur de ressources et injecter l'extension OTEL de Weave.
+  //    Le chargeur de ressources fournit l'environnement d'exécution Pi et
+  //    le cycle de vie des extensions utilisé pour tracer l'activité de l'agent.
+  const resourceLoader = new DefaultResourceLoader({
+    cwd: process.cwd(),
+    agentDir: getAgentDir(),
+    extensionFactories: [createOtelExtension({})],
+  });
+
+  await resourceLoader.reload();
+
+  // 3. Démarrer la session de l'agent
+  const {session} = await createAgentSession({
+    resourceLoader,
+    sessionManager: SessionManager.inMemory(),
+  });
+
+  // 4. Lier les extensions. Déclenche l'événement session_start afin que l'adaptateur OTEL
+  //    crée le span de session racine et capture l'identifiant de conversation.
+  await session.bindExtensions({});
+
+  // 5. Diffuser la sortie de l'assistant vers stdout
+  session.subscribe(event => {
+    if (
+      event.type === 'message_update' &&
+      event.assistantMessageEvent.type === 'text_delta'
+    ) {
+      process.stdout.write(event.assistantMessageEvent.delta);
+    }
+  });
+
+  // 6. Envoyer un prompt et attendre la réponse complète
+  await session.prompt('What files are in the current directory?');
+  console.log();
+}
+
+main();
+```
+
+Compilez et exécutez le script avec `tsx`, en remplaçant `[FILENAME]` par le nom de votre fichier TypeScript :
+
+```bash
+npx tsx [FILENAME].ts
+```
+
+Lorsque vous exécutez votre code, vos traces apparaissent dans l’onglet **Agents** de votre projet Weave à l’adresse `https://wandb.ai/[YOUR-TEAM]/[YOUR-PROJECT]/weave/agents`. Weave capture les sessions Pi, les appels LLM et les exécutions d’outils à chaque run de votre application.
+
+<div id="next-steps">
+  ### Étapes suivantes
+</div>
+
+Pour transformer cet exemple en session sur plusieurs tours de conversation, ajoutez d’autres prompts. Weave trace chaque appel à `session.prompt()` sous la forme d’un span `invoke_agent` distinct, tous imbriqués sous un seul span racine. L’agent conserve automatiquement le contexte d’un prompt à l’autre.
+
+Après avoir exécuté le code, l’onglet **Agents** affiche la chronologie complète de la session sur plusieurs tours, avec les appels LLM imbriqués, les exécutions d’outils, l’utilisation des jetons et le coût.

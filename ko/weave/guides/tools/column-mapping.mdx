@@ -1,6 +1,7 @@
 ---
 title: "데이터셋에서 열 매핑하기"
 description: "데이터셋의 열을 다른 이름에 매핑합니다. 이렇게 하면 데이터셋의 열 이름을 scorer가 기대하는 열 이름에 맞출 수 있습니다."
+keywords: ["column_map", "columnMapping", "scorer 매개변수", "EmbeddingSimilarityScorer"]
 ---
 
 <Tabs>
@@ -16,7 +17,7 @@ description: "데이터셋의 열을 다른 이름에 매핑합니다. 이렇게
 
     similarity_scorer.column_map = {
         "output": "model_output",  # 모델이 생성한 텍스트
-        "target": "answer"         # 예상 응답 또는 기준 응답
+        "target": "answer"         # 예상되거나 레퍼런스가 되는 응답
     }
     ```
 
@@ -28,7 +29,8 @@ description: "데이터셋의 열을 다른 이름에 매핑합니다. 이렇게
 
     다음 예제에서는 scorer가 사용하는 `expectedOutputTimesTwo`를 데이터셋의 `expected` 열에 매핑합니다.
 
-    ```typescript
+    ```typescript twoslash
+    // @noErrors
     import * as weave from 'weave';
 
     const myScorer = weave.op(
@@ -46,6 +48,6 @@ description: "데이터셋의 열을 다른 이름에 매핑합니다. 이렇게
     });
     ```
 
-    TypeScript scorer 인자에 대한 자세한 내용은 [Scorer Keyword Arguments](../evaluation/scorers#scorer-keyword-arguments)를 참조하세요.
+    TypeScript scorer 인수에 대한 자세한 내용은 [Scorer Keyword Arguments](../evaluation/scorers#scorer-keyword-arguments)를 참조하세요.
   </Tab>
 </Tabs>

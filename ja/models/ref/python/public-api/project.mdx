@@ -17,30 +17,27 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 ```python
 __init__(
-    client: 'RetryingClient',
+    service_api: 'ServiceApi',
     entity: 'str',
     project: 'str',
-    attrs: 'Mapping[str, Any]',
-    service_api: 'ServiceApi'
+    attrs: 'Mapping[str, Any]'
 ) → Project
 ```
 
 **引数:**
 
-* `client`:  API 互換性のために保持されているレガシー GraphQL クライアント。
 * `service_api`:  この project に対して W&amp;B API Call を実行する wandb-core サービスへのインターフェース。
-* `name` (str):  プロジェクトの名。
-* `entity` (str):  プロジェクトを所有する entity の名。
+* `name` (str):  project の名。
+* `entity` (str):  project を所有する entity の名。
 
-entity に紐づく単一のプロジェクト。
+entity に紐づく単一の project。
 
 **引数:**
 
-* `client`:  API 互換性のために保持されているレガシー GraphQL クライアント。
-* `service_api`:  この project に対して W&amp;B API Call を実行する wandb-core サービスへのインターフェース。
-* `entity`:  プロジェクトを所有する entity。
-* `project`:  クエリするプロジェクトの名。
-* `attrs`:  プロジェクトの属性。
+* `service_api`:  W&amp;B をクエリするために使用する service API。
+* `entity`:  project を所有する entity。
+* `project`:  クエリする project の名。
+* `attrs`:  project の属性。
 
 ***
 

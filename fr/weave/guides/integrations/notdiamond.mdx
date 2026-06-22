@@ -1,34 +1,41 @@
 ---
 title: "Not Diamond ¬◇"
 description: "Utilisez Not Diamond pour acheminer les prompts vers le modèle le plus adapté à vos besoins, tout en maximisant la précision et en réduisant les coûts"
+keywords: ["Not Diamond", "routage de modèles", "routeur personnalisé", "routage LLM", "ID de préférence"]
 ---
 
 Lors de la création de flux de travail LLM complexes, vous pouvez avoir besoin de solliciter différents modèles selon la précision,
 le coût ou la latence des appels. Vous pouvez utiliser [Not Diamond][nd] pour acheminer les prompts dans ces flux de travail vers le
 modèle le plus adapté à vos besoins, afin de maximiser la précision tout en réduisant les coûts liés aux modèles.
 
-<div id="getting-started">
+Ce guide vous montre comment intégrer Not Diamond à W&amp;B Weave afin que Weave trace automatiquement les appels de modèle
+acheminés, et comment entraîner un routeur personnalisé à l&#39;aide de Weave Evaluations pour acheminer les prompts en fonction
+de vos propres données de performances.
+
+<div id="get-started">
   ## Premiers pas
 </div>
 
-Assurez-vous d’avoir [créé un compte][account] et [généré une clé API][keys], puis ajoutez votre clé API
+Pour utiliser Not Diamond avec Weave, vous devez disposer d’un compte Not Diamond et d’une clé API. [Créez un
+compte][account] et [générez une clé API][keys], puis ajoutez votre clé API
 à vos variables d’environnement sous le nom `NOTDIAMOND_API_KEY`.
 
 ![Créer une clé API](/weave/guides/integrations/imgs/notdiamond/api-keys.png)
 
-À partir de là, vous pouvez
+À partir de là, vous pouvez effectuer l’une des actions suivantes :
 
-* essayer le [guide de démarrage rapide],
-* [créer un routeur personnalisé][custom router] avec W&amp;B Weave et Not Diamond, ou
-* [discuter avec Not Diamond][chat] pour voir le routage à l’œuvre
+* essayer le [guide de démarrage rapide].
+* [créer un routeur personnalisé][custom router] avec Weave et Not Diamond.
+* [discuter avec Not Diamond][chat] pour voir le routage à l’œuvre.
 
 <div id="tracing">
   ## Tracing
 </div>
 
-Weave s’intègre à [la bibliothèque Python de Not Diamond][python] pour [journaliser automatiquement les appels d’API][ops].
-Il vous suffit d’exécuter `weave.init()` au début de votre flux de travail, puis de continuer à utiliser le
-fournisseur avec routage comme d’habitude :
+Weave s’intègre à [la bibliothèque Python de Not Diamond][python] pour [journaliser automatiquement les appels d’API][ops],
+afin que vous puissiez inspecter les décisions de routage et les réponses des fournisseurs avec le reste de vos traces Weave.
+Exécutez `weave.init()` au début de votre flux de travail, puis continuez à utiliser le fournisseur
+sélectionné par le routeur comme d’habitude :
 
 ```python lines
 from notdiamond import NotDiamond
@@ -45,19 +52,19 @@ session_id, provider = client.chat.completions.model_select(
     model=['openai/gpt-4o', 'anthropic/claude-3-5-sonnet-20240620']
 )
 
-print("LLM called: ", provider.provider)  # openai, anthropic, etc
-print("Provider model: ", provider.model) # gpt-4o, claude-3-5-sonnet-20240620, etc
+print("LLM called: ", provider.provider)  # openai, anthropic, etc.
+print("Provider model: ", provider.model) # gpt-4o, claude-3-5-sonnet-20240620, etc.
 ```
-
 
 <div id="custom-routing">
   ## Routage personnalisé
 </div>
 
-Vous pouvez également entraîner votre propre [routeur personnalisé] à partir d’[Évaluations][evals], afin de permettre à Not Diamond d’acheminer les prompts
-en fonction des performances obtenues lors des évaluations pour des cas d’usage spécialisés.
+Pour des cas d’usage spécialisés, vous pouvez entraîner votre propre [routeur personnalisé] à partir d’[Évaluations][evals], ce qui permet à
+Not Diamond d’acheminer les prompts selon les performances des évaluations plutôt que selon la stratégie de routage par défaut.
 
-Commencez par entraîner un routeur personnalisé :
+Commencez par entraîner un routeur personnalisé. L’appel `train_router` renvoie un `preference_id` qui identifie
+votre routeur entraîné pour une utilisation ultérieure :
 
 ```python lines
 from weave.flow.eval import EvaluationResults
@@ -81,8 +88,8 @@ preference_id = train_router(
 )
 ```
 
-En réutilisant cet ID de préférence dans n’importe quelle requête `model_select`, vous pouvez acheminer vos prompts
-afin de maximiser les performances et de minimiser le coût sur vos données d’évaluation :
+Lorsque vous transmettez cet ID de préférence à une requête `model_select`, vous pouvez réutiliser votre routeur personnalisé pour
+acheminer les prompts de façon à maximiser les performances et à minimiser les coûts sur vos données d’évaluation :
 
 ```python lines
 from notdiamond import NotDiamond
@@ -102,16 +109,15 @@ session_id, provider = client.chat.completions.model_select(
     preference_id=preference_id
 )
 
-print("LLM called: ", provider.provider)  # openai, anthropic, etc
-print("Provider model: ", provider.model) # gpt-4o, claude-3-5-sonnet-20240620, etc
+print("LLM called: ", provider.provider)  # openai, anthropic, etc.
+print("Provider model: ", provider.model) # gpt-4o, claude-3-5-sonnet-20240620, etc.
 ```
-
 
 <div id="additional-support">
   ## Assistance complémentaire
 </div>
 
-Consultez la [docs] ou [envoyez-nous un message][support] si vous avez besoin d&#39;une aide supplémentaire.
+Consultez la [docs] ou [envoyez un message][support] si vous avez besoin d&#39;une aide supplémentaire.
 
 [account]: https://app.notdiamond.ai
 

@@ -1,0 +1,49 @@
+---
+title: "Comment puis-je définir des valeurs d'hyperparamètre par défaut dans un sweep ?"
+keywords: ["Sweeps"]
+---
+
+Vous n&#39;avez pas besoin de fournir une valeur pour chaque hyperparamètre dans un W&amp;B Sweep. Vous pouvez définir des valeurs par défaut et laisser le sweep les remplacer.
+
+Accédez aux noms et aux valeurs des hyperparamètres à partir de la configuration du sweep avec `run.config`, qui fonctionne comme un dictionnaire.
+
+Pour les runs en dehors d&#39;un sweep, définissez les valeurs de `run.config` en passant un dictionnaire à l&#39;argument `config` dans `wandb.init()`. Dans un sweep, toute configuration transmise à `wandb.init()` sert de valeur par défaut que le sweep peut remplacer.
+
+Utilisez `run.config.setdefaults()` pour définir explicitement ce comportement. Les extraits de code suivants illustrent les deux méthodes :
+
+<Tabs>
+  <Tab title="wandb.init()">
+    ```python
+    # Définissez des valeurs par défaut pour les hyperparamètres
+    config_defaults = {"lr": 0.1, "batch_size": 256}
+
+    # Démarrez un run et fournissez des valeurs par défaut
+    # qu'un sweep peut remplacer
+    with wandb.init(config=config_defaults) as run:
+        # Ajoutez le code d'entraînement ici
+        ...
+    ```
+  </Tab>
+
+  <Tab title="config.setdefaults()">
+    ```python
+    # Définissez des valeurs par défaut pour les hyperparamètres
+    config_defaults = {"lr": 0.1, "batch_size": 256}
+
+    # Démarrez un run
+    with wandb.init() as run:
+        # Mettez à jour toutes les valeurs non définies par le sweep
+        run.config.setdefaults(config_defaults)
+
+        # Ajoutez le code d'entraînement ici
+    ```
+  </Tab>
+</Tabs>
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/fr/support/models/tags/sweeps)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
