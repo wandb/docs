@@ -74,6 +74,7 @@ products:
   - slug: weave
     display_name: "W&B Weave"
     allowed_keywords:
+      - Agents
       - Client Info
       - Code Capture
       - Data Capture
@@ -81,7 +82,9 @@ products:
       - Performance
       - System Info
       - Trace Data
+      - Tracing
       - UI Rendering
+      - weave.op
 
   - slug: inference
     display_name: "Serverless Inference"
