@@ -505,7 +505,6 @@
                     "group": "Reference",
                     "pages": [
                       "models/ref-link-python",
-                      "models/ref-link-public-api",
                       "models/ref-link-cli",
                       "models/ref-link-query-panel",
                       "models/ref-link-workspaces"
@@ -1887,7 +1886,6 @@
                     "group": "Référence",
                     "pages": [
                       "fr/models/ref-link-python",
-                      "fr/models/ref-link-public-api",
                       "fr/models/ref-link-cli",
                       "fr/models/ref-link-query-panel",
                       "fr/models/ref-link-workspaces"
@@ -3269,7 +3267,6 @@
                     "group": "リファレンス",
                     "pages": [
                       "ja/models/ref-link-python",
-                      "ja/models/ref-link-public-api",
                       "ja/models/ref-link-cli",
                       "ja/models/ref-link-query-panel",
                       "ja/models/ref-link-workspaces"
@@ -4651,7 +4648,6 @@
                     "group": "레퍼런스",
                     "pages": [
                       "ko/models/ref-link-python",
-                      "ko/models/ref-link-public-api",
                       "ko/models/ref-link-cli",
                       "ko/models/ref-link-query-panel",
                       "ko/models/ref-link-workspaces"
