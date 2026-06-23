@@ -1,7 +1,7 @@
 ---
 title: "Suivre et versionner des objets"
 description: "Suivre et versionner tout objet sérialisable en JSON dans W&B Weave"
-keywords: ["objets", "gestion des versions", "refs", "weave.publish", "weave.ref"]
+keywords: ["objets", "gestion des versions", "refs", "weave.publish", "weave.ref", "tag", "alias", "tags d'objet", "alias d'objet", "set_aliases", "add_tags", "alias de production", "promouvoir une version", "étiqueter les versions"]
 ---
 
 Cette page explique comment publier, récupérer, supprimer et référencer des objets versionnés dans W&amp;B Weave. Utilisez-la lorsque vous devez suivre des données structurées telles que des jeux de données, des modèles ou des prompts d&#39;un run à l&#39;autre et au fil du temps.
@@ -127,10 +127,65 @@ weave:///[YOUR-TEAM-NAME]/[YOUR-PROJECT-NAME]/object/[OBJECT-NAME]:[OBJECT-VERSI
 * `[YOUR-TEAM-NAME]` : entité W&amp;B (nom d&#39;utilisateur ou nom d&#39;équipe)
 * `[YOUR-PROJECT-NAME]` : projet W&amp;B
 * `[OBJECT-NAME]` : nom de l&#39;objet
-* `[OBJECT-VERSION]` : soit un hachage de version, une chaîne comme `v0` ou `v1`, soit un alias comme `:latest`. Tous les objets ont l&#39;alias `:latest`.
+* `[OBJECT-VERSION]` : soit un hachage de version, une chaîne comme `v0` ou `v1`, soit un alias comme `:latest`. Tous les objets ont l&#39;alias `:latest`. Voir [Organize object versions with tags and aliases](#organize-object-versions-with-tags-and-aliases) pour créer vos propres alias.
 
 Vous pouvez construire des réf. de plusieurs manières :
 
 * `weave.ref([NAME])` : récupère la version `:latest` d&#39;un objet. Nécessite d&#39;appeler `weave.init(...)`.
 * `weave.ref([NAME]:[VERSION])` : récupère la version spécifiée d&#39;un objet. Nécessite d&#39;appeler `weave.init(...)`.
-* `weave.ref([FULLY-QUALIFIED-REF-URI])` : récupère l&#39;objet situé à l&#39;URI de réf. d&#39;objet complète indiquée. Ne nécessite pas d&#39;appeler `weave.init()`."
+* `weave.ref([FULLY-QUALIFIED-REF-URI])` : récupère l&#39;objet situé à l&#39;URI de réf. d&#39;objet complète indiquée. Ne nécessite pas d&#39;appeler `weave.init()`.
+
+<div id="organize-object-versions-with-tags-and-aliases">
+  ## Organiser les versions d’objets avec des tags et des alias
+</div>
+
+Utilisez des **tags** et des **alias** pour étiqueter des versions spécifiques de n’importe quel objet Weave, y compris `Dataset`, `Model`, `Prompt` ou tout autre objet que vous publiez avec `weave.publish`. Ces libellés fonctionnent avec n’importe quel `ObjectRef`, donc les mêmes API s’appliquent à tous les types d’objets.
+
+* **Alias :** nom unique qui renvoie à une seule version. Vous pouvez déplacer un alias vers une autre version à tout moment, ce qui le rend utile pour des références stables comme `production` ou `staging`. Chaque objet dispose automatiquement d’un alias `:latest` qui pointe vers la version la plus récente.
+* **Tag :** libellé descriptif associé à une version. Une version peut avoir plusieurs tags, et un même tag peut apparaître sur plusieurs versions. Utilisez les tags pour catégoriser et filtrer les versions, par exemple `reviewed` ou `passed-eval`.
+
+Résolvez un alias ou une version spécifique en l’ajoutant au nom de l’objet dans une réf. :
+
+L’exemple suivant publie deux versions d’un jeu de données, puis attribue et met à jour des tags et des alias sur chaque version.
+
+<CodeGroup>
+  ```python Python lines
+  import weave
+
+  client = weave.init("[YOUR-TEAM-NAME]/[YOUR-PROJECT-NAME]")
+
+  # Publier deux versions d'un objet.
+  dataset_v0 = weave.publish(
+      weave.Dataset(name="test-cases", rows=[{"input": "ping", "expected": "pong"}]),
+  )
+  dataset_v1 = weave.publish(
+      weave.Dataset(name="test-cases", rows=[{"input": "ping", "expected": "pong!"}]),
+  )
+
+  # Définir des alias sur une version.
+  client.set_aliases(dataset_v0, "staging")
+  client.set_aliases(dataset_v1, "production")
+
+  # Récupérer un objet à l'aide de son alias
+  dataset = weave.ref("test-cases:production").get()
+
+  # Lister tous les alias du projet.
+  client.list_aliases()
+
+  # --- Tags : libellés sur une version spécifique. ---
+
+  # Ajouter des tags à une version.
+  client.add_tags(dataset_v0, ["reviewed", "passed-eval"])
+  client.add_tags(dataset_v1, ["reviewed", "needs-improvement"])
+
+  # Obtenir les tags d'une version.
+  client.get_tags(dataset_v0)  # ["passed-eval", "reviewed"]
+
+  # Lister tous les tags distincts du projet.
+  client.list_tags()
+  ```
+
+  ```plaintext TypeScript lines
+  Cette fonctionnalité n’est pas encore disponible dans le SDK TypeScript.
+  ```
+</CodeGroup>
