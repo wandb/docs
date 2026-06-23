@@ -41,7 +41,7 @@ uv pip install --upgrade wandb
 This guide tracks the latest CLI behavior. For version-by-version changes, see the [changelog](#changelog) on this page.
 
 <Note>
-`wandb beta leet` is a beta command. Its flags, shortcuts, and behavior may change between releases. The SDK team plans to graduate LEET out of `wandb beta`; watch [SDK release notes](/release-notes/sdk-releases) for updates.
+In SDK v0.27.x and earlier, launch the LEET TUI with `wandb beta leet` instead of `wandb leet`.
 </Note>
 
 ## Launch LEET
@@ -49,25 +49,25 @@ This guide tracks the latest CLI behavior. For version-by-version changes, see t
 From the directory that contains your `wandb/` folder, open the default workspace and auto-select the latest local run:
 
 ```bash
-wandb beta leet
+wandb leet
 ```
 
 You can pass an optional `PATH` that points to a workspace directory, a specific run directory, or a `.wandb` file:
 
 ```bash
-wandb beta leet ./wandb
-wandb beta leet ./wandb/offline-run-20260403_145048-6ao9fhns
-wandb beta leet ./wandb/offline-run-20260403_145048-6ao9fhns/run-6ao9fhns.wandb
+wandb leet ./wandb
+wandb leet ./wandb/offline-run-20260403_145048-6ao9fhns
+wandb leet ./wandb/offline-run-20260403_145048-6ao9fhns/run-6ao9fhns.wandb
 ```
 
 
 Open the standalone system monitor (SYMON) to view host metrics without a run context:
 
 ```bash
-wandb beta leet symon --interval 2s
+wandb leet symon --interval 2s
 ```
 
-For command syntax and subcommands, see [`wandb beta leet`](/models/ref/cli/wandb-beta/wandb-beta-leet) in the CLI reference.
+For command syntax and subcommands, see [`wandb leet`](/models/ref/cli/wandb-leet) in the CLI reference.
 
 ## Views and pane layout
 
@@ -86,7 +86,7 @@ Typical panes include:
 - **Console logs** — assembled stdout and stderr for the highlighted run.
 - **Run overview** — state, IDs, tags, notes, config, and summary values.
 
-Use `space` to select or deselect a run for overlaid metrics. Use `p` to pin a run so its series stays on top in metric charts. Press `enter` on the highlighted run to open **single-run view**. Live runs keep updating in the workspace, so you can use LEET for both post-run analysis and monitoring an active job.
+Use `space` to select or deselect a run for overlaid metrics. Selected runs have a filled icon. Use `p` to pin a run so its series stays on top in metric charts. Press `enter` on the highlighted run to open **single-run view**. Live runs keep updating in the workspace, so you can use LEET for both post-run analysis and monitoring an active job.
 
 ### Single-run view
 
@@ -163,7 +163,7 @@ For console log behavior in the W&B App, see [Console logs](/models/app/console-
 Persist layout, colors, default panes, and startup mode with the config editor:
 
 ```bash
-wandb beta leet config
+wandb leet config
 ```
 
 LEET writes `wandb-leet.json` under `~/.config/wandb/` by default, or under `WANDB_CONFIG_DIR` when that variable is set. You can also resize grids from inside LEET with `c` and `r`.
@@ -204,9 +204,10 @@ LEET writes `wandb-leet.json` under `~/.config/wandb/` by default, or under `WAN
 | `console_logs_visible` | `false` | Show the single-run console logs pane by default. |
 | `media_visible` | `false` | Show the single-run media pane by default. |
 
-Available color schemes: `wandb-vibe-10`, `wandb-vibe-20`, `sunset-glow`, `blush-tide`, `gilded-lagoon`, `bootstrap-vibe`, `dusk-shore`, `clear-signal`, `traffic-light`, `viridis`, `plasma`, `inferno`, `magma`, and `cividis`.
+Several color schemes are available, like `wandb-vibe-10`, `wandb-vibe-20`, `sunset-glow`, `blush-tide`, `gilded-lagoon`, `bootstrap-vibe`, `dusk-shore`, `clear-signal`, `traffic-light`, `viridis`, `plasma`, `inferno`, `magma`, and `cividis`.
 
-`dusk-shore` and `clear-signal` are colorblind-friendly palettes. Sequential palettes such as `viridis`, `plasma`, `inferno`, `magma`, `cividis`, and `traffic-light` work well for bucketed heatmaps.
+- Palettes `dusk-shore` and `clear-signal` are colorblind-friendly.
+- Sequential palettes such as `viridis`, `plasma`, `inferno`, `magma`, `cividis`, and `traffic-light` work well for bucketed heatmaps.
 
 ## Navigate with the keyboard
 
@@ -239,20 +240,11 @@ If you need artifacts, sweep analysis, or panel types that LEET does not provide
 
 ## Changelog
 
-The following table summarizes LEET changes by version. For more details, see the [SDK release notes](/release-notes/sdk-releases).
-
-| Version | LEET changes |
-| --- | --- |
-| `0.23.0` | Initial experimental `wandb beta leet` command for local run metrics and system health. |
-| `0.23.1` | Regex filters for metrics and the run overview, chart inspection with right-click drag, synchronized chart inspection with `alt`, and better negative Y-axis tick display and system metric units. |
-| `0.25.0` | Multi-run workspace view and `wandb beta leet config` editor. |
-| `0.25.1` | Console logs pane, workspace system metrics pane, and system metrics filtering. |
-| `0.26.0` | Metadata-aware run filtering, tags and notes in overview, per-chart log Y, SYMON, bucketed heatmaps, colorblind-friendly palettes, media pane, improved system metrics overlays/inspection/zoom, and workspace run color collision prevention. |
-| `0.26.1` | Unified navigation across focused panes with `w`/`a`/`s`/`d`, arrows, `home`, `end`, `pgup`, and `pgdown`. |
+LEET was initially launched in beta in SDK v0.23.0, and graduated to GA in SDK v0.28.0. For details, refer to the [SDK release notes](/release-notes/sdk-releases).
 
 ## Related resources
 
-- [View a specific run](/models/runs/view-logged-runs) — open runs in the W&B App or LEET.
-- [Keyboard shortcuts](/models/app/keyboard-shortcuts) — LEET and App shortcut reference.
-- [`wandb beta leet`](/models/ref/cli/wandb-beta/wandb-beta-leet) — launch syntax and subcommands.
-- [SDK release notes](/release-notes/sdk-releases) — LEET feature history by CLI version.
+- [View a specific run](/models/runs/view-logged-runs) in the W&B App or LEET.
+- [Keyboard shortcuts](/models/app/keyboard-shortcuts) for the W&B App and LEET.
+- [`wandb leet`](/models/ref/cli/wandb-leet) command reference.
+- [SDK release notes](/release-notes/sdk-releases), including LEET changes.
