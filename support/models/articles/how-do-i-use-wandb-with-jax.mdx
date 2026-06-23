@@ -62,6 +62,7 @@ import orbax.checkpoint as ocp
 
 checkpointer = ocp.StandardCheckpointer()
 checkpointer.save("/tmp/checkpoint", params)
+checkpointer.wait_until_finished()
 
 artifact = wandb.Artifact("jax-model", type="model")
 artifact.add_dir("/tmp/checkpoint")

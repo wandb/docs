@@ -26,8 +26,8 @@ with wandb.init(project="nmt-project") as run:
         run.log({
             "epoch": epoch,
             "val/bleu": bleu_score.score,
-            "val/rouge1": sum(s.rouge1.fmeasure for s in rouge_scores) / len(rouge_scores),
-            "val/rougeL": sum(s.rougeL.fmeasure for s in rouge_scores) / len(rouge_scores),
+            "val/rouge1": sum(s["rouge1"].fmeasure for s in rouge_scores) / len(rouge_scores),
+            "val/rougeL": sum(s["rougeL"].fmeasure for s in rouge_scores) / len(rouge_scores),
             "val/perplexity": compute_perplexity(model, val_loader),
         })
 ```
