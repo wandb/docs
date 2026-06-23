@@ -1,7 +1,7 @@
 ---
 title: "Track and version objects"
 description: "Track and version any JSON-serializable object in W&B Weave"
-keywords: ["objects", "versioning", "refs", "weave.publish", "weave.ref"]
+keywords: ["objects", "versioning", "refs", "weave.publish", "weave.ref", "tags", "aliases", "object tags", "object aliases", "set_aliases", "add_tags", "production alias", "promote version", "label versions"]
 ---
 This page explains how to publish, retrieve, delete, and reference versioned objects in W&B Weave. Use it when you need to track structured data such as datasets, models, or prompts across runs and over time.
 
@@ -116,10 +116,62 @@ weave:///[YOUR-TEAM-NAME]/[YOUR-PROJECT-NAME]/object/[OBJECT-NAME]:[OBJECT-VERSI
 - `[YOUR-TEAM-NAME]`: W&B entity (username or team name)
 - `[YOUR-PROJECT-NAME]`: W&B project
 - `[OBJECT-NAME]`: object name
-- `[OBJECT-VERSION]`: either a version hash, a string like `v0` or `v1`, or an alias like `:latest`. All objects have the `:latest` alias.
+- `[OBJECT-VERSION]`: either a version hash, a string like `v0` or `v1`, or an alias like `:latest`. All objects have the `:latest` alias. See [Organize object versions with tags and aliases](#organize-object-versions-with-tags-and-aliases) to create your own aliases.
 
 You can construct refs with a few different styles:
 
 - `weave.ref([NAME])`: retrieves the `:latest` version of an object. Requires calling `weave.init(...)`.
 - `weave.ref([NAME]:[VERSION])`: retrieves the specified version of an object. Requires calling `weave.init(...)`.
 - `weave.ref([FULLY-QUALIFIED-REF-URI])`: retrieves the object located at the specified fully qualified object ref URI. Doesn't require calling `weave.init()`.
+
+## Organize object versions with tags and aliases
+
+Use **tags** and **aliases** to label specific versions of any Weave object, including `Dataset`, `Model`, `Prompt`, or any other object you publish with `weave.publish`. These labels work on any `ObjectRef`, so the same APIs apply across object types.
+
+- **Alias:** A unique name that resolves to a single version. You can move an alias to a different version at any time, making it useful for stable references like `production` or `staging`. Every object automatically has a `:latest` alias that points to the most recent version.
+- **Tag:** A descriptive label attached to a version. A version can have multiple tags, and the same tag can appear on multiple versions. Use tags to categorize and filter versions, such as `reviewed` or `passed-eval`.
+
+Resolve an alias or specific version by appending it to the object name in a ref:
+
+The following example publishes two versions of a dataset, then assigns and updates tags and aliases on each version.
+
+<CodeGroup>
+```python Python lines
+import weave
+
+client = weave.init("[YOUR-TEAM-NAME]/[YOUR-PROJECT-NAME]")
+
+# Publish two versions of an object.
+dataset_v0 = weave.publish(
+    weave.Dataset(name="test-cases", rows=[{"input": "ping", "expected": "pong"}]),
+)
+dataset_v1 = weave.publish(
+    weave.Dataset(name="test-cases", rows=[{"input": "ping", "expected": "pong!"}]),
+)
+
+# Set aliases at a version.
+client.set_aliases(dataset_v0, "staging")
+client.set_aliases(dataset_v1, "production")
+
+# Retrieve an object using its alias
+dataset = weave.ref("test-cases:production").get()
+
+# List all aliases in the project.
+client.list_aliases()
+
+# --- Tags: labels on a specific version. ---
+
+# Add tags to a version.
+client.add_tags(dataset_v0, ["reviewed", "passed-eval"])
+client.add_tags(dataset_v1, ["reviewed", "needs-improvement"])
+
+# Get tags for a version.
+client.get_tags(dataset_v0)  # ["passed-eval", "reviewed"]
+
+# List all distinct tags in the project.
+client.list_tags()
+```
+```plaintext TypeScript lines
+This feature is not available in the TypeScript SDK yet.
+```
+</CodeGroup>

@@ -96,8 +96,17 @@ jobs:
         run: docengine build --orphan-report-file "${RUNNER_TEMP}/orphan-report.md"
 
       - name: Orphan report → job summary
+        # The engine writes the report file only when there is something to report
+        # (orphans, or escapes the host has not declared in allowed_escapes). A clean
+        # build leaves no file — say so rather than failing on a missing cat.
         if: success()
-        run: cat "${RUNNER_TEMP}/orphan-report.md" >> "$GITHUB_STEP_SUMMARY"
+        run: |
+          f="${RUNNER_TEMP}/orphan-report.md"
+          if [ -s "$f" ]; then
+            cat "$f" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "DocEngine: no orphans or escapes to report." >> "$GITHUB_STEP_SUMMARY"
+          fi
 
       - name: Commit generated output back to the branch
         # Never commit back to main (e.g. a workflow_dispatch run targeting main);
@@ -123,11 +132,35 @@ jobs:
           num=$(gh pr list --head "${{ github.ref_name }}" --state open --json number --jq '.[0].number // empty')
           echo "number=${num}" >> "$GITHUB_OUTPUT"
 
+      - name: Detect orphan report
+        # File presence is the signal: written only when there is something to report.
+        id: orphanfile
+        if: success()
+        run: |
+          if [ -s "${RUNNER_TEMP}/orphan-report.md" ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Upsert orphan-report PR comment
-        if: ${{ success() && github.actor != 'dependabot[bot]' && github.ref_name != 'main' && steps.findpr.outputs.number != '' }}
+        # Only when there is something to report; a clean build is silent.
+        if: ${{ success() && github.actor != 'dependabot[bot]' && github.ref_name != 'main' && steps.findpr.outputs.number != '' && steps.orphanfile.outputs.present == 'true' }}
         uses: thollander/actions-comment-pull-request@v3
         with:
           pr-number: ${{ steps.findpr.outputs.number }}
           comment-tag: docengine-orphans
           file-path: ${{ runner.temp }}/orphan-report.md
+          github-token: ${{ steps.app_token.outputs.token }}
+
+      - name: Clear stale orphan-report PR comment
+        # A previous build may have posted orphans that are now resolved — delete that
+        # comment so the PR does not carry a stale warning. No-ops when none exists.
+        if: ${{ success() && github.actor != 'dependabot[bot]' && github.ref_name != 'main' && steps.findpr.outputs.number != '' && steps.orphanfile.outputs.present == 'false' }}
+        uses: thollander/actions-comment-pull-request@v3
+        with:
+          pr-number: ${{ steps.findpr.outputs.number }}
+          comment-tag: docengine-orphans
+          mode: delete
+          create-if-not-exists: false
           github-token: ${{ steps.app_token.outputs.token }}
