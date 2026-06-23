@@ -1477,7 +1477,8 @@
                     "group": "Weights & Biases",
                     "pages": [
                       "fr/product-models",
-                      "fr/product-weave"
+                      "fr/product-weave",
+                      "fr/hivemind"
                     ]
                   },
                   {
@@ -2858,7 +2859,8 @@
                     "group": "Weights & Biases",
                     "pages": [
                       "ja/product-models",
-                      "ja/product-weave"
+                      "ja/product-weave",
+                      "ja/hivemind"
                     ]
                   },
                   {
@@ -4239,7 +4241,8 @@
                     "group": "Weights & Biases",
                     "pages": [
                       "ko/product-models",
-                      "ko/product-weave"
+                      "ko/product-weave",
+                      "ko/hivemind"
                     ]
                   },
                   {
