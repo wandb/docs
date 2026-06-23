@@ -2311,6 +2311,7 @@
                           "fr/models/ref/python/data-types",
                           "fr/models/ref/python/data-types/audio",
                           "fr/models/ref/python/data-types/box3d",
+                          "fr/models/ref/python/data-types/evaltable",
                           "fr/models/ref/python/data-types/histogram",
                           "fr/models/ref/python/data-types/html",
                           "fr/models/ref/python/data-types/image",
@@ -2378,6 +2379,7 @@
                         "pages": [
                           "fr/models/ref/python/public-api",
                           "fr/models/ref/python/public-api/api",
+                          "fr/models/ref/python/public-api/agentruns",
                           "fr/models/ref/python/public-api/artifactcollection",
                           "fr/models/ref/python/public-api/artifactcollections",
                           "fr/models/ref/python/public-api/artifactfiles",
@@ -3693,6 +3695,7 @@
                           "ja/models/ref/python/data-types",
                           "ja/models/ref/python/data-types/audio",
                           "ja/models/ref/python/data-types/box3d",
+                          "ja/models/ref/python/data-types/evaltable",
                           "ja/models/ref/python/data-types/histogram",
                           "ja/models/ref/python/data-types/html",
                           "ja/models/ref/python/data-types/image",
@@ -3760,6 +3763,7 @@
                         "pages": [
                           "ja/models/ref/python/public-api",
                           "ja/models/ref/python/public-api/api",
+                          "ja/models/ref/python/public-api/agentruns",
                           "ja/models/ref/python/public-api/artifactcollection",
                           "ja/models/ref/python/public-api/artifactcollections",
                           "ja/models/ref/python/public-api/artifactfiles",
@@ -5075,6 +5079,7 @@
                           "ko/models/ref/python/data-types",
                           "ko/models/ref/python/data-types/audio",
                           "ko/models/ref/python/data-types/box3d",
+                          "ko/models/ref/python/data-types/evaltable",
                           "ko/models/ref/python/data-types/histogram",
                           "ko/models/ref/python/data-types/html",
                           "ko/models/ref/python/data-types/image",
@@ -5142,6 +5147,7 @@
                         "pages": [
                           "ko/models/ref/python/public-api",
                           "ko/models/ref/python/public-api/api",
+                          "ko/models/ref/python/public-api/agentruns",
                           "ko/models/ref/python/public-api/artifactcollection",
                           "ko/models/ref/python/public-api/artifactcollections",
                           "ko/models/ref/python/public-api/artifactfiles",
