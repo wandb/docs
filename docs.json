@@ -1828,6 +1828,7 @@
                               "fr/models/app/features/custom-charts/walkthrough"
                             ]
                           },
+                          "fr/models/app/leet-tui",
                           "fr/models/app/console-logs",
                           "fr/models/app/keyboard-shortcuts"
                         ]
@@ -3212,6 +3213,7 @@
                               "ja/models/app/features/custom-charts/walkthrough"
                             ]
                           },
+                          "ja/models/app/leet-tui",
                           "ja/models/app/console-logs",
                           "ja/models/app/keyboard-shortcuts"
                         ]
@@ -4596,6 +4598,7 @@
                               "ko/models/app/features/custom-charts/walkthrough"
                             ]
                           },
+                          "ko/models/app/leet-tui",
                           "ko/models/app/console-logs",
                           "ko/models/app/keyboard-shortcuts"
                         ]
