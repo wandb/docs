@@ -108,7 +108,7 @@ For example, authorize with API key `sa-p@55w0rd`:
 Authorization: Basic OnNhLXBANTV3MHJk
 ```
 
-## Microsoft Entra configuration
+## Microsoft Entra ID configuration
 
 Use this section when you configure automatic user and group provisioning from Microsoft Entra ID to W&B through the SCIM API.
 
@@ -116,7 +116,7 @@ For Entra SSO setup, see [Configure SSO with Entra](/platform/hosting/iam/sso).
 
 ### Tenant URL
 
-In your Entra enterprise application's provisioning settings, set **Tenant URL** to your W&B SCIM base URL with the `aadOptscim062020` query parameter appended:
+In your Entra enterprise application's provisioning settings, set **Tenant URL** to your W&B SCIM base URL with the Entra feature flag query parameter `aadOptscim062020` appended:
 
 ```text
 [HOST-URL]/scim?aadOptscim062020
@@ -129,7 +129,7 @@ The `aadOptscim062020` parameter enables Entra-specific handling in the W&B SCIM
 Set **Secret Token** to the API key from an organization admin user or an organization-scoped service account. See [Authentication](#authentication).
 
 <Note>
-When you append `aadOptscim062020` to the tenant URL, user deactivation from Entra's **Provision on demand** UI in the Microsoft Entra admin center might not work because that UI still sends string boolean values. To test deactivation manually, send a `PATCH` request with `{"active": false}`. See [Deactivate user](#deactivate-user).
+When you append `aadOptscim062020` to the tenant URL, user deactivation from Entra's **Provision on demand** UI in the Microsoft Entra admin center might not work because that UI still sends string boolean values. To test deactivation manually, send a SCIM `PATCH` request using the `PatchOp` `Operations` format that replaces `active` with `false` (see [Deactivate user](#deactivate-user)).
 </Note>
 
 ### Team names
