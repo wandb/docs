@@ -140,12 +140,12 @@ Name Entra groups that map to W&B teams using lowercase letters and hyphens, for
 
 Configure the following attribute mappings in Entra for SCIM user provisioning:
 
-| Source attribute (Entra) | Target attribute (W&B) | Apply this mapping | Match objects using this attribute |
+| Target attribute (W&B) | Source attribute (Entra) | Apply this mapping | Match objects using this attribute |
 | --- | --- | --- | --- |
-| `mail` | `emails[type eq "work"].value` | Always | Yes |
-| `Not([IsSoftDeleted])` | `active` | Always | |
+| `emails[type eq "work"].value` | `mail` | Always | Yes |
+| `active` | `Not([IsSoftDeleted])` | Always | |
 | `displayName` | `displayName` | Always | |
-| `displayName` | `userName` | Only on object creation | |
+| `userName` | `displayName` | Only on object creation | |
 
 <Note>
 On **Multi-tenant Cloud**, a user's account isn't managed by the organization. W&B doesn't support updating `displayName` through SCIM on Multi-tenant Cloud. See [Update user display name](#update-user-display-name).
@@ -155,7 +155,7 @@ On **Multi-tenant Cloud**, a user's account isn't managed by the organization. W
 
 Configure the following attribute mappings in Entra for SCIM group (team) provisioning:
 
-| Source attribute (Entra) | Target attribute (W&B) | Apply this mapping | Match objects using this attribute |
+| Target attribute (W&B) | Source attribute (Entra) | Apply this mapping | Match objects using this attribute |
 | --- | --- | --- | --- |
 | `displayName` | `displayName` | Only on object creation | Yes |
 | `members` | `members` | Always | |
