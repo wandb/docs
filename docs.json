@@ -927,6 +927,7 @@
                           "models/ref/python/data-types",
                           "models/ref/python/data-types/audio",
                           "models/ref/python/data-types/box3d",
+                          "models/ref/python/data-types/evaltable",
                           "models/ref/python/data-types/histogram",
                           "models/ref/python/data-types/html",
                           "models/ref/python/data-types/image",
@@ -994,6 +995,7 @@
                         "pages": [
                           "models/ref/python/public-api",
                           "models/ref/python/public-api/api",
+                          "models/ref/python/public-api/agentruns",
                           "models/ref/python/public-api/artifactcollection",
                           "models/ref/python/public-api/artifactcollections",
                           "models/ref/python/public-api/artifactfiles",
