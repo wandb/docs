@@ -219,12 +219,20 @@ registry.add_members(my_team)
 ```python
 collections(
     filter: 'dict[str, Any] | None' = None,
+    order: 'str | None' = None,
     per_page: 'PositiveInt' = 100,
     start: 'str | None' = None
 ) → Collections
 ```
 
-레지스트리에 속한 컬렉션을 반환합니다.
+이 레지스트리에 속한 컬렉션을 반환합니다.
+
+**인수:**
+
+* `filter`:  컬렉션 쿼리에 적용할 필터를 지정하는 선택 사항인 매핑입니다.
+* `order`:  결과의 정렬 순서를 지정하는 선택 사항인 string입니다. `+` 접두사가 있으면 오름차순으로 정렬되며(기본값), `-` 접두사가 있으면 내림차순으로 정렬됩니다.
+* `per_page`:  페이지당 가져올 결과의 숫자입니다. 일반적으로 이 값을 변경할 이유는 없습니다.
+* `start`:  이전 `paginator`의 `.cursor` 속성에서 캡처한 값으로, 이전 쿼리를 이어서 실행하기 위한 페이지 매김 커서입니다.
 
 ***
 
@@ -429,4 +437,10 @@ versions(
 ) → Versions
 ```
 
-레지스트리에 속한 버전들을 반환합니다. 
+이 레지스트리에 속한 아티팩트 버전들을 반환합니다.
+
+**인수:**
+
+* `filter`:  아티팩트 버전 쿼리에 적용할 필터의 선택 사항인 매핑입니다.
+* `per_page`:  페이지당 가져올 결과 수입니다.  일반적으로는 이를 변경할 이유가 없습니다.
+* `start`:  이전 paginator의 `.cursor` 속성에서 캡처한, 이전 쿼리를 이어서 실행하기 위한 페이지 매김 커서입니다. 

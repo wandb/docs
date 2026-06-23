@@ -195,6 +195,7 @@ wandb.Api.artifact_collection_exists(type="type", name="collection_name")
 artifact_collections(
     project_name: 'str',
     type_name: 'str',
+    order: 'str | None' = None,
     per_page: 'int' = 50,
     start: 'str | None' = None
 ) → ArtifactCollections
@@ -206,6 +207,7 @@ Renvoie une collection de collections d&#39;artifacts correspondantes.
 
 * `project_name`:  Le nom du projet à utiliser pour le filtrage.
 * `type_name`:  Le nom du type d&#39;artifact à utiliser pour le filtrage.
+* `order`:  Chaîne facultative permettant de spécifier l&#39;ordre des résultats.  Si elle est préfixée par &#39;+&#39;, le tri est croissant (par défaut).  Si elle est préfixée par &#39;-&#39;, le tri est décroissant.
 * `per_page`:  Définit le nombre d&#39;éléments par page pour la pagination de la requête.  En général, il n&#39;est pas nécessaire de modifier cette valeur.
 * `start`:  Curseur de pagination pour reprendre une requête précédente, capturé à partir de l&#39;attribut `.cursor` d&#39;un paginateur précédent.
 
@@ -299,6 +301,7 @@ Obsolète. Utilisez la méthode `Api.artifacts(type_name, name)` à la place.
 artifacts(
     type_name: 'str',
     name: 'str',
+    order: 'str | None' = None,
     per_page: 'int' = 50,
     tags: 'list[str] | None' = None,
     start: 'str | None' = None
@@ -311,6 +314,7 @@ Renvoie une collection `Artifacts`.
 
 * `type_name`:  Le type d&#39;artifacts à récupérer.
 * `name`:  Le nom de la collection de l&#39;artifact. Vous pouvez éventuellement faire précéder ce nom de l&#39;entité qui a enregistré l&#39;artifact, suivie d&#39;une barre oblique.
+* `order`:  Chaîne facultative permettant de spécifier l&#39;ordre des résultats. Si elle est préfixée par &#39;+&#39;, le tri est croissant (par défaut). Si elle est préfixée par &#39;-&#39;, le tri est décroissant.
 * `per_page`:  Définit la taille de page pour la pagination des requêtes. En général, il n&#39;y a aucune raison de modifier ce paramètre.
 * `tags`:  Renvoie uniquement les artifacts qui possèdent tous ces tags.
 * `start`:  Curseur de pagination pour reprendre une requête précédente, capturé à partir de l&#39;attribut `.cursor` d&#39;un paginateur précédent.
@@ -905,6 +909,7 @@ Analyse les chemins au format `entity/project/queue_id/run_queue_item_id`.
 registries(
     organization: 'str | None' = None,
     filter: 'dict[str, Any] | None' = None,
+    order: 'str | None' = None,
     per_page: 'int' = 100,
     start: 'str | None' = None
 ) → Registries
@@ -916,10 +921,11 @@ Utilisez cet itérateur pour rechercher et filtrer des registres, des collection
 
 **Arguments :**
 
-* `organization`: (str, facultatif) Organisation du registre à récupérer. Si elle n’est pas spécifiée, utilisez l’organisation indiquée dans les paramètres de l’utilisateur.
-* `filter`: (dict, facultatif) Filtre de type MongoDB à appliquer à chaque objet de l’itérateur différé du registre. Les champs disponibles pour filtrer les registres sont `name`, `description`, `created_at`, `updated_at`. Les champs disponibles pour filtrer les collections sont `name`, `tag`, `description`, `created_at`, `updated_at` Les champs disponibles pour filtrer les versions sont `tag`, `alias`, `created_at`, `updated_at`, `metadata`
-* `per_page`: Définit la taille de page pour la pagination des requêtes.
-* `start`: Curseur de pagination pour reprendre une requête précédente, capturé à partir de l’attribut `.cursor` d’un paginateur précédent.
+* `organization`:  Organisation du registre à récupérer. Si elle n’est pas spécifiée, utilisez l’organisation indiquée dans les paramètres de l’utilisateur.
+* `filter`:  Filtre de type MongoDB à appliquer à chaque objet de l’itérateur différé du registre. Les champs disponibles pour filtrer les registres sont  `name`, `description`, `created_at`, `updated_at`.  Les champs disponibles pour filtrer les collections sont  `name`, `tag`, `description`, `created_at`, `updated_at`  Les champs disponibles pour filtrer les versions sont  `tag`, `alias`, `created_at`, `updated_at`, `metadata`
+* `order`:  Chaîne facultative permettant de spécifier l’ordre des résultats. Si elle est préfixée par &#39;+&#39;, le tri est croissant (par défaut). Si elle est préfixée par &#39;-&#39;, le tri est décroissant.
+* `per_page`:  Définit la taille de page pour la pagination des requêtes.
+* `start`:  Curseur de pagination pour reprendre une requête précédente, capturé  à partir de l’attribut `.cursor` d’un paginateur précédent.
 
 **Retourne :**
 Un itérateur différé d’objets `Registry`.
@@ -1082,7 +1088,8 @@ runs(
     filters: 'dict[str, Any] | None' = None,
     order: 'str' = '+created_at',
     per_page: 'int' = 50,
-    include_sweeps: 'bool' = True
+    include_sweeps: 'bool' = False,
+    lazy: 'bool' = True
 )
 ```
 
@@ -1126,7 +1133,7 @@ Pour des filtres plus complexes, vous pouvez utiliser les opérateurs de requêt
 * `For example` : `{"config.experiment_name": "foo"}` trouverait les runs dont l’entrée de configuration pour le nom de l’expérience est définie sur &quot;foo&quot;
 * `order` : (str) L’ordre peut être `created_at`, `heartbeat_at`, `config.*.value` ou `summary_metrics.*`. Si vous faites précéder l’ordre d’un +, le tri est croissant (par défaut). Si vous faites précéder l’ordre d’un -, le tri est décroissant. L’ordre par défaut est run.created&#95;at, du plus ancien au plus récent.
 * `per_page` : (int) Définit la taille de page pour la pagination des requêtes.
-* `include_sweeps` : (bool) Indique s’il faut inclure les runs de balayage dans les résultats.
+* `include_sweeps` : (bool) Indique s’il faut récupérer de manière anticipée l’objet balayage dans chaque résultat de run.
 * `lazy` : (bool) Indique s’il faut utiliser le chargement différé pour de meilleures performances. Quand True (par défaut), seules les métadonnées essentielles du run sont chargées initialement. Les champs volumineux comme config, summaryMetrics et systemMetrics sont chargés à la demande lors de l’accès. Définissez cette option sur False pour charger toutes les données d’emblée.
 
 **Retourne :**
