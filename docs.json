@@ -2440,15 +2440,6 @@
                               "fr/models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-stop"
                             ]
                           },
-                          {
-                            "group": "beta leet",
-                            "pages": [
-                              "fr/models/ref/cli/wandb-beta/wandb-beta-leet",
-                              "fr/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-config",
-                              "fr/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-run",
-                              "fr/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-symon"
-                            ]
-                          },
                           "fr/models/ref/cli/wandb-beta/wandb-beta-sync"
                         ]
                       },
@@ -2465,6 +2456,15 @@
                           "fr/models/ref/cli/wandb-job/wandb-job-create",
                           "fr/models/ref/cli/wandb-job/wandb-job-describe",
                           "fr/models/ref/cli/wandb-job/wandb-job-list"
+                        ]
+                      },
+                      {
+                        "group": "wandb leet",
+                        "pages": [
+                          "fr/models/ref/cli/wandb-leet",
+                          "fr/models/ref/cli/wandb-leet/wandb-leet-config",
+                          "fr/models/ref/cli/wandb-leet/wandb-leet-run",
+                          "fr/models/ref/cli/wandb-leet/wandb-leet-symon"
                         ]
                       },
                       "fr/models/ref/cli/wandb-login",
@@ -3824,15 +3824,6 @@
                               "ja/models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-stop"
                             ]
                           },
-                          {
-                            "group": "beta leet",
-                            "pages": [
-                              "ja/models/ref/cli/wandb-beta/wandb-beta-leet",
-                              "ja/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-config",
-                              "ja/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-run",
-                              "ja/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-symon"
-                            ]
-                          },
                           "ja/models/ref/cli/wandb-beta/wandb-beta-sync"
                         ]
                       },
@@ -3849,6 +3840,15 @@
                           "ja/models/ref/cli/wandb-job/wandb-job-create",
                           "ja/models/ref/cli/wandb-job/wandb-job-describe",
                           "ja/models/ref/cli/wandb-job/wandb-job-list"
+                        ]
+                      },
+                      {
+                        "group": "wandb leet",
+                        "pages": [
+                          "ja/models/ref/cli/wandb-leet",
+                          "ja/models/ref/cli/wandb-leet/wandb-leet-config",
+                          "ja/models/ref/cli/wandb-leet/wandb-leet-run",
+                          "ja/models/ref/cli/wandb-leet/wandb-leet-symon"
                         ]
                       },
                       "ja/models/ref/cli/wandb-login",
@@ -5208,15 +5208,6 @@
                               "ko/models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-stop"
                             ]
                           },
-                          {
-                            "group": "beta leet",
-                            "pages": [
-                              "ko/models/ref/cli/wandb-beta/wandb-beta-leet",
-                              "ko/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-config",
-                              "ko/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-run",
-                              "ko/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-symon"
-                            ]
-                          },
                           "ko/models/ref/cli/wandb-beta/wandb-beta-sync"
                         ]
                       },
@@ -5233,6 +5224,15 @@
                           "ko/models/ref/cli/wandb-job/wandb-job-create",
                           "ko/models/ref/cli/wandb-job/wandb-job-describe",
                           "ko/models/ref/cli/wandb-job/wandb-job-list"
+                        ]
+                      },
+                      {
+                        "group": "wandb leet",
+                        "pages": [
+                          "ko/models/ref/cli/wandb-leet",
+                          "ko/models/ref/cli/wandb-leet/wandb-leet-config",
+                          "ko/models/ref/cli/wandb-leet/wandb-leet-run",
+                          "ko/models/ref/cli/wandb-leet/wandb-leet-symon"
                         ]
                       },
                       "ko/models/ref/cli/wandb-login",
