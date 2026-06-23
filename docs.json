@@ -1480,7 +1480,8 @@
                     "group": "Weights & Biases",
                     "pages": [
                       "fr/product-models",
-                      "fr/product-weave"
+                      "fr/product-weave",
+                      "fr/hivemind"
                     ]
                   },
                   {
@@ -1827,6 +1828,7 @@
                               "fr/models/app/features/custom-charts/walkthrough"
                             ]
                           },
+                          "fr/models/app/leet-tui",
                           "fr/models/app/console-logs",
                           "fr/models/app/keyboard-shortcuts"
                         ]
@@ -2311,6 +2313,7 @@
                           "fr/models/ref/python/data-types",
                           "fr/models/ref/python/data-types/audio",
                           "fr/models/ref/python/data-types/box3d",
+                          "fr/models/ref/python/data-types/evaltable",
                           "fr/models/ref/python/data-types/histogram",
                           "fr/models/ref/python/data-types/html",
                           "fr/models/ref/python/data-types/image",
@@ -2378,6 +2381,7 @@
                         "pages": [
                           "fr/models/ref/python/public-api",
                           "fr/models/ref/python/public-api/api",
+                          "fr/models/ref/python/public-api/agentruns",
                           "fr/models/ref/python/public-api/artifactcollection",
                           "fr/models/ref/python/public-api/artifactcollections",
                           "fr/models/ref/python/public-api/artifactfiles",
@@ -2438,15 +2442,6 @@
                               "fr/models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-stop"
                             ]
                           },
-                          {
-                            "group": "beta leet",
-                            "pages": [
-                              "fr/models/ref/cli/wandb-beta/wandb-beta-leet",
-                              "fr/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-config",
-                              "fr/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-run",
-                              "fr/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-symon"
-                            ]
-                          },
                           "fr/models/ref/cli/wandb-beta/wandb-beta-sync"
                         ]
                       },
@@ -2463,6 +2458,15 @@
                           "fr/models/ref/cli/wandb-job/wandb-job-create",
                           "fr/models/ref/cli/wandb-job/wandb-job-describe",
                           "fr/models/ref/cli/wandb-job/wandb-job-list"
+                        ]
+                      },
+                      {
+                        "group": "wandb leet",
+                        "pages": [
+                          "fr/models/ref/cli/wandb-leet",
+                          "fr/models/ref/cli/wandb-leet/wandb-leet-config",
+                          "fr/models/ref/cli/wandb-leet/wandb-leet-run",
+                          "fr/models/ref/cli/wandb-leet/wandb-leet-symon"
                         ]
                       },
                       "fr/models/ref/cli/wandb-login",
@@ -2861,7 +2865,8 @@
                     "group": "Weights & Biases",
                     "pages": [
                       "ja/product-models",
-                      "ja/product-weave"
+                      "ja/product-weave",
+                      "ja/hivemind"
                     ]
                   },
                   {
@@ -3208,6 +3213,7 @@
                               "ja/models/app/features/custom-charts/walkthrough"
                             ]
                           },
+                          "ja/models/app/leet-tui",
                           "ja/models/app/console-logs",
                           "ja/models/app/keyboard-shortcuts"
                         ]
@@ -3692,6 +3698,7 @@
                           "ja/models/ref/python/data-types",
                           "ja/models/ref/python/data-types/audio",
                           "ja/models/ref/python/data-types/box3d",
+                          "ja/models/ref/python/data-types/evaltable",
                           "ja/models/ref/python/data-types/histogram",
                           "ja/models/ref/python/data-types/html",
                           "ja/models/ref/python/data-types/image",
@@ -3759,6 +3766,7 @@
                         "pages": [
                           "ja/models/ref/python/public-api",
                           "ja/models/ref/python/public-api/api",
+                          "ja/models/ref/python/public-api/agentruns",
                           "ja/models/ref/python/public-api/artifactcollection",
                           "ja/models/ref/python/public-api/artifactcollections",
                           "ja/models/ref/python/public-api/artifactfiles",
@@ -3819,15 +3827,6 @@
                               "ja/models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-stop"
                             ]
                           },
-                          {
-                            "group": "beta leet",
-                            "pages": [
-                              "ja/models/ref/cli/wandb-beta/wandb-beta-leet",
-                              "ja/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-config",
-                              "ja/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-run",
-                              "ja/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-symon"
-                            ]
-                          },
                           "ja/models/ref/cli/wandb-beta/wandb-beta-sync"
                         ]
                       },
@@ -3844,6 +3843,15 @@
                           "ja/models/ref/cli/wandb-job/wandb-job-create",
                           "ja/models/ref/cli/wandb-job/wandb-job-describe",
                           "ja/models/ref/cli/wandb-job/wandb-job-list"
+                        ]
+                      },
+                      {
+                        "group": "wandb leet",
+                        "pages": [
+                          "ja/models/ref/cli/wandb-leet",
+                          "ja/models/ref/cli/wandb-leet/wandb-leet-config",
+                          "ja/models/ref/cli/wandb-leet/wandb-leet-run",
+                          "ja/models/ref/cli/wandb-leet/wandb-leet-symon"
                         ]
                       },
                       "ja/models/ref/cli/wandb-login",
@@ -4242,7 +4250,8 @@
                     "group": "Weights & Biases",
                     "pages": [
                       "ko/product-models",
-                      "ko/product-weave"
+                      "ko/product-weave",
+                      "ko/hivemind"
                     ]
                   },
                   {
@@ -4589,6 +4598,7 @@
                               "ko/models/app/features/custom-charts/walkthrough"
                             ]
                           },
+                          "ko/models/app/leet-tui",
                           "ko/models/app/console-logs",
                           "ko/models/app/keyboard-shortcuts"
                         ]
@@ -5073,6 +5083,7 @@
                           "ko/models/ref/python/data-types",
                           "ko/models/ref/python/data-types/audio",
                           "ko/models/ref/python/data-types/box3d",
+                          "ko/models/ref/python/data-types/evaltable",
                           "ko/models/ref/python/data-types/histogram",
                           "ko/models/ref/python/data-types/html",
                           "ko/models/ref/python/data-types/image",
@@ -5140,6 +5151,7 @@
                         "pages": [
                           "ko/models/ref/python/public-api",
                           "ko/models/ref/python/public-api/api",
+                          "ko/models/ref/python/public-api/agentruns",
                           "ko/models/ref/python/public-api/artifactcollection",
                           "ko/models/ref/python/public-api/artifactcollections",
                           "ko/models/ref/python/public-api/artifactfiles",
@@ -5200,15 +5212,6 @@
                               "ko/models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-stop"
                             ]
                           },
-                          {
-                            "group": "beta leet",
-                            "pages": [
-                              "ko/models/ref/cli/wandb-beta/wandb-beta-leet",
-                              "ko/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-config",
-                              "ko/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-run",
-                              "ko/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-symon"
-                            ]
-                          },
                           "ko/models/ref/cli/wandb-beta/wandb-beta-sync"
                         ]
                       },
@@ -5225,6 +5228,15 @@
                           "ko/models/ref/cli/wandb-job/wandb-job-create",
                           "ko/models/ref/cli/wandb-job/wandb-job-describe",
                           "ko/models/ref/cli/wandb-job/wandb-job-list"
+                        ]
+                      },
+                      {
+                        "group": "wandb leet",
+                        "pages": [
+                          "ko/models/ref/cli/wandb-leet",
+                          "ko/models/ref/cli/wandb-leet/wandb-leet-config",
+                          "ko/models/ref/cli/wandb-leet/wandb-leet-run",
+                          "ko/models/ref/cli/wandb-leet/wandb-leet-symon"
                         ]
                       },
                       "ko/models/ref/cli/wandb-login",
