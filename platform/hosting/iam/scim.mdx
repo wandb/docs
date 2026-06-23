@@ -140,7 +140,7 @@ Name Entra groups that map to W&B teams using lowercase letters and hyphens, for
 
 Configure the following attribute mappings in Entra for SCIM user provisioning:
 
-| Target attribute (W&B) | Source attribute (Entra) | Apply this mapping | Match objects using this attribute |
+| W&B custom app attribute | Source attribute (Entra) | Apply this mapping | Match objects using this attribute |
 | --- | --- | --- | --- |
 | `emails[type eq "work"].value` | `mail` | Always | Yes |
 | `active` | `Not([IsSoftDeleted])` | Always | |
@@ -155,7 +155,7 @@ On **Multi-tenant Cloud**, a user's account isn't managed by the organization. W
 
 Configure the following attribute mappings in Entra for SCIM group (team) provisioning:
 
-| Target attribute (W&B) | Source attribute (Entra) | Apply this mapping | Match objects using this attribute |
+| W&B custom app attribute | Source attribute (Entra) | Apply this mapping | Match objects using this attribute |
 | --- | --- | --- | --- |
 | `displayName` | `displayName` | Only on object creation | Yes |
 | `members` | `members` | Always | |
