@@ -1,14 +1,15 @@
 ---
 title: "Google Agent Development Kit (ADK)"
 description: "Trace Google Agent Development Kit (ADK) agent and tool calls in Weave using OpenTelemetry"
+keywords: ["ADK", "OpenTelemetry", "OTEL", "Gemini", "agent tracing"]
 ---
 
-You can trace [Google Agent Development Kit (ADK)](https://google.github.io/adk-docs/) agent and tool calls in Weave using [OpenTelemetry (OTEL)](https://opentelemetry.io/). ADK is a flexible and modular framework for developing and deploying AI agents. While optimized for Gemini and the Google ecosystem, ADK is model-agnostic and deployment-agnostic. It provides tools for creating, deploying, and orchestrating agentic architectures ranging from simple tasks to complex workflows.
+You can trace [Google Agent Development Kit (ADK)](https://google.github.io/adk-docs/) agent and tool calls in Weave using [OpenTelemetry (OTEL)](https://opentelemetry.io/). ADK is a flexible and modular framework for developing and deploying AI agents. Although optimized for Gemini and the Google ecosystem, ADK is model independent and deployment independent. It provides tools for creating, deploying, and orchestrating agentic architectures that range from simple tasks to complex workflows.
 
-This guide explains how to trace ADK agent and tool calls using OTEL, and visualize those traces in Weave. You'll learn how to install the required dependencies, configure an OTEL tracer to send data to Weave, and instrument your ADK agents and tools.
+This guide is for developers building agents with ADK who want end-to-end observability of agent reasoning, tool calls, and multi-agent workflows. It explains how to trace ADK agent and tool calls using OTEL, and visualize those traces in Weave. You'll learn how to install the required dependencies, configure an OTEL tracer to send data to Weave, and instrument your ADK agents and tools. With traces in Weave, you can debug agent behavior, monitor performance, and inspect how data flows through your agents and tools.
 
 <Tip>
-For more information on OTEL tracing in Weave, see [Send OTEL Traces to Weave](../tracking/otel).
+For more information about OTEL tracing in Weave, see [Send OTEL Traces to Weave](../tracking/otel).
 </Tip>
 
 ## Prerequisites
@@ -22,7 +23,7 @@ For more information on OTEL tracing in Weave, see [Send OTEL Traces to Weave](.
 2. Set your [Google API key](https://cloud.google.com/docs/authentication/api-keys) as an environment variable:
 
     ```bash
-    export GOOGLE_API_KEY=your_api_key_here
+    export GOOGLE_API_KEY=[YOUR-API-KEY]
     ```
 
 3. [Configure OTEL tracing in Weave](#configure-otel-tracing-in-weave).
@@ -32,19 +33,19 @@ For more information on OTEL tracing in Weave, see [Send OTEL Traces to Weave](.
 To send traces from ADK to Weave, configure OTEL with a `TracerProvider` and an `OTLPSpanExporter`. Set the exporter to the [correct endpoint and HTTP headers for authentication and project identification](#required-configuration).
 
 <Warning>
-It is recommended that you store sensitive environment variables like your API key and project info in an environment file (e.g., `.env`), and load them using `os.environ`. This keeps your credentials secure and out of your codebase.
+Store sensitive environment variables like your API key and project information in an environment file (for example, `.env`), and load them using `os.environ`. This keeps your credentials secure and out of your codebase.
 </Warning>
 
-### Required configuration
+#### Required configuration
 
-- **Endpoint:** `https://trace.wandb.ai/otel/v1/traces`. If you are using a dedicated Weave instance, the URL follows this pattern instead: `{YOUR_WEAVE_HOST}/traces/otel/v1/traces`
+- **Endpoint:** `https://trace.wandb.ai/otel/v1/traces`. If you're using a dedicated Weave instance, the URL follows this pattern instead: `[YOUR-WEAVE-HOST]/traces/otel/v1/traces`.
 - **Headers:**
-  - `Authorization`: Basic auth using your W&B API key
-  - `project_id`: Your W&B entity/project name (e.g., `myteam/myproject`)
+  - `Authorization`: Basic auth using your W&B API key.
+  - `project_id`: Your W&B entity/project name (for example, `myteam/myproject`).
 
 ## Send OTEL traces from ADK to Weave
 
-The following code snippet demonstrates how to configure an OTLP span exporter and tracer provider to send OTEL traces from an ADK application to Weave.
+With the prerequisites in place, you can set up the OTEL exporter and tracer provider that forward span data to Weave. The following code snippet demonstrates how to configure an OTLP span exporter and tracer provider to send OTEL traces from an ADK application to Weave.
 
 <Warning>
 To ensure that Weave traces ADK properly, set the global tracer provider _before_ using ADK components in your code.
@@ -87,9 +88,9 @@ tracer_provider.add_span_processor(SimpleSpanProcessor(exporter))
 trace.set_tracer_provider(tracer_provider)
 ```
 
-## Trace ADK Agents with OTEL
+## Trace ADK agents with OTEL
 
-After setting up the tracer provider, you can create and run ADK agents with automatic tracing. The following example demonstrates how to create a simple LLM agent with a tool, and run it with an in-memory runner:
+After you set up the tracer provider, you can create and run ADK agents with automatic tracing. The following example demonstrates how to create an LLM agent with a tool, and run it with an in-memory runner:
 
 ```python lines
 from google.adk.agents import LlmAgent
@@ -153,15 +154,15 @@ async def run_agent():
 asyncio.run(run_agent())
 ```
 
-All agent operations are automatically traced and sent to Weave, allowing you to visualize the execution flow. You can view model calls, reasoning steps, and tool invocations.
+All agent operations are automatically traced and sent to Weave, so you can visualize the execution flow. You can view model calls, reasoning steps, and tool invocations.
 
 <Frame>
 ![A trace visualization of an ADK agent](./imgs/google_adk/adk_agent_trace.png)
 </Frame>
 
-## Trace ADK Tools with OTEL
+## Trace ADK tools with OTEL
 
-When you define and use tools with ADK, these tool calls are also captured in the trace. The OTEL integration automatically instruments both the agent's reasoning process and the individual tool executions, providing a comprehensive view of your agent's behavior.
+This section shows how tool invocations appear in your traces when an agent uses more than one tool. When you define and use tools with ADK, the trace also captures these tool calls. The OTEL integration automatically instruments both the agent's reasoning process and the individual tool executions, so you can see how your agent behaves end to end.
 
 Here's an example with multiple tools:
 
@@ -248,7 +249,7 @@ asyncio.run(run_agent())
 
 ## Work with workflow agents
 
-ADK provides various [_workflow agents_](https://google.github.io/adk-docs/agents/workflow-agents/) for more complex scenarios. You can trace workflow agents just like regular LLM agents. Here's an example using a [`SequentialAgent`](https://google.github.io/adk-docs/agents/workflow-agents/sequential-agents/):
+Beyond single-agent setups, ADK supports composing multiple agents into workflows. The same OTEL configuration traces those flows without additional setup. ADK provides [_workflow agents_](https://google.github.io/adk-docs/agents/workflow-agents/) for more complex scenarios. You can trace workflow agents just like regular LLM agents. The following example uses a [`SequentialAgent`](https://google.github.io/adk-docs/agents/workflow-agents/sequential-agents/):
 
 ```python lines
 from google.adk.agents import LlmAgent, SequentialAgent
@@ -310,7 +311,7 @@ async def run_workflow():
 asyncio.run(run_workflow())
 ```
 
-This workflow agent trace will show the sequential execution of both agents in Weave, providing visibility into how data flows through your multi-agent system.
+This workflow agent trace shows the sequential execution of both agents in Weave, which provides visibility into how data flows through your multi-agent system.
 
 <Frame>
 ![A trace visualization of a Sequential workflow agent](./imgs/google_adk/adk_workflow_trace.png)

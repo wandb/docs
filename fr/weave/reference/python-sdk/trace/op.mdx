@@ -5,26 +5,25 @@ description: "Référence du SDK Python pour weave.trace.op"
 
 import { SourceLink } from '/snippets/fr/_includes/source-link.mdx';
 
-
 <div id="api-overview">
   # Aperçu de l’API
 </div>
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L85" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/trace/op.py#L96" />
 
 ## <kbd>classe</kbd> `DisplayNameFuncError`
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L88" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/trace/op.py#L99" />
 
 ## <kbd>classe</kbd> `OpCallError`
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L204" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/trace/op.py#L215" />
 
 ## <kbd>classe</kbd> `OpKwargs`
 
@@ -32,13 +31,13 @@ TypedDict des arguments nommés de op().
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L109" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/trace/op.py#L120" />
 
 ## <kbd>classe</kbd> `Sentinel`
 
 Sentinel(package: &#39;str&#39;, path: &#39;str&#39;, name: &#39;str&#39;)
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/../../../../weave/trace/op/__init__" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/../../../../weave/trace/op/__init__" />
 
 ### <kbd>méthode</kbd> `__init__`
 
@@ -48,14 +47,13 @@ __init__(package: 'str', path: 'str', name: 'str') → None
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L198" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/trace/op.py#L209" />
 
 ## <kbd>classe</kbd> `WeaveKwargs`
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L1421" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/trace/op.py#L1460" />
 
 ### <kbd>fonction</kbd> `as_op`
 
@@ -75,8 +73,7 @@ Les fonctions décorées avec @weave.op sont déjà des instances d’Op ; cette
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L1150" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/trace/op.py#L1164" />
 
 ### <kbd>fonction</kbd> `call`
 
@@ -107,8 +104,7 @@ result, call = add.call(1, 2)
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L1196" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/trace/op.py#L1210" />
 
 ### <kbd>fonction</kbd> `calls`
 
@@ -132,8 +128,7 @@ for call in calls:
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L1367" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/trace/op.py#L1406" />
 
 ### <kbd>fonction</kbd> `get_captured_code`
 
@@ -149,8 +144,7 @@ ref = weave.publish(func) op = ref.get() captured&#95;code = op.get&#95;captured
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L1413" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/trace/op.py#L1452" />
 
 ### <kbd>fonction</kbd> `is_op`
 
@@ -162,8 +156,7 @@ Vérifie si un objet est une op.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L423" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/trace/op.py#L437" />
 
 ### <kbd>fonction</kbd> `is_placeholder_call`
 
@@ -173,8 +166,7 @@ is_placeholder_call(call: 'Call') → TypeIs[NoOpCall]
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L391" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/trace/op.py#L405" />
 
 ### <kbd>fonction</kbd> `is_tracing_setting_disabled`
 
@@ -184,8 +176,7 @@ is_tracing_setting_disabled() → bool
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L1384" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/trace/op.py#L1423" />
 
 ### <kbd>fonction</kbd> `maybe_bind_method`
 
@@ -199,8 +190,7 @@ Si self est None, renvoyez la fonction telle quelle.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L1396" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/trace/op.py#L1435" />
 
 ### <kbd>fonction</kbd> `maybe_unbind_method`
 
@@ -217,8 +207,7 @@ Pour :
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L1220" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/trace/op.py#L1234" />
 
 ### <kbd>fonction</kbd> `op`
 
@@ -244,7 +233,7 @@ Un décorateur pour convertir une fonction ou une méthode en op Weave. Fonction
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L416" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/trace/op.py#L430" />
 
 ### <kbd>fonction</kbd> `placeholder_call`
 
@@ -254,8 +243,7 @@ placeholder_call() → Call
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L219" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/trace/op.py#L230" />
 
 ### <kbd>fonction</kbd> `setup_dunder_weave_dict`
 
@@ -292,8 +280,7 @@ Configure un dict &#95;&#95;weave utilisé pour transmettre des WeaveKwargs aux 
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L402" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.42/weave/trace/op.py#L416" />
 
 ### <kbd>fonction</kbd> `should_skip_tracing_for_op`
 

@@ -1,0 +1,189 @@
+---
+title: Claude Code plugin
+description: Track Claude Code sessions in W&B Weave for observability and debugging.
+keywords: ["Claude Code", "OTEL", "tracing", "agents", "plugin"]
+---
+
+import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
+
+<AgentsPreview />
+
+The Weave Claude Code plugin automatically traces every Claude Code session and sends the structured data to W&B Weave. The plugin logs every turn, tool call, and subagent with no code changes required. Use these traces to debug sessions, audit tool usage, and monitor cost and latency across runs.
+
+This guide walks you through installing the plugin, viewing your Claude Code traces in Weave, configuring the plugin, and managing its lifecycle.
+
+<Warning>
+This plugin sends Claude Code session data to Weave. That data can include user prompts, Claude responses, tool inputs and outputs, file contents read by Claude Code tools, shell commands and output, and fetched URLs and page content.
+
+PII scrubbing and sensitive-data redaction aren't implemented. If you can't send this data to Weave under your security or compliance requirements, don't install this plugin.
+</Warning>
+
+## Prerequisites
+
+- [Node.js](https://nodejs.org/) v18 or later (includes `npm`).
+- [Claude Code](https://claude.ai/code) installed and authenticated.
+- A W&B account and [API key](https://wandb.ai/authorize) set as a `WANDB_API_KEY` environment variable.
+- A Weave project (`[YOUR-TEAM]/[YOUR-PROJECT]`) to receive traces.
+
+## Install the plugin
+
+Install the CLI, run the installer to register the plugin with Claude Code, then start a Claude Code session to begin tracing.
+
+<Steps>
+  <Step title="Install the CLI">
+    ```bash lines
+    npm install -g weave-claude-code
+    ```
+  </Step>
+
+  <Step title="Run the installer">
+    ```bash lines
+    weave-claude-code install
+    ```
+
+    The installer does the following:
+    - Creates `~/.weave-claude-code/settings.json`.
+    - Registers the plugin in Claude Code.
+    - Prompts for your Weave project (`[YOUR-TEAM]/[YOUR-PROJECT]`) and W&B API key if they aren't already set.
+
+    To skip prompts in CI, bootstrap scripts, or other automated systems, set environment variables before running:
+
+    ```bash lines
+    WEAVE_PROJECT=[YOUR-TEAM]/[YOUR-PROJECT] \
+    WANDB_API_KEY=[YOUR-API-KEY] \
+    weave-claude-code install --non-interactive
+    ```
+
+    In non-interactive mode, the installer still creates the config file and registers the plugin. It uses `WEAVE_PROJECT` and `WANDB_API_KEY` from the environment and warns if either is missing.
+  </Step>
+
+  <Step title="Start Claude Code">
+    ```bash lines
+    claude
+    ```
+
+    The plugin traces sessions automatically from this point. Run a prompt or two, then open your Weave project to see the traces appear.
+  </Step>
+</Steps>
+
+## View Claude Code traces in Weave
+
+After running at least one Claude Code session, open your project in the Weave UI:
+
+1. Navigate to [https://wandb.ai](https://wandb.ai) and select your project.
+2. In the sidebar menu, select **Agents** to view all agent conversations saved for your project.
+3. Select a conversation to inspect the full session tree.
+
+For more information about the Agents view, see [View agent activity](/weave/guides/tracking/view-agent-activity).
+
+Each user prompt produces one OTEL trace that follows the [GenAI semantic conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/). The trace shows a full turn hierarchy:
+
+```text
+invoke_agent claude-code               (Root, one trace per user prompt.)
+├─ chat <model>                        (Each LLM call within the turn.)
+├─ execute_tool <tool_name>            (Each tool call such as Read, Bash, Grep.)
+└─ invoke_agent <subagent_type>        (Subagent dispatched through the Agent tool.)
+   ├─ chat <model>
+   └─ execute_tool <tool_name>
+```
+
+The root `invoke_agent claude-code` span uses the top-level agent name, which defaults to `claude-code`. You can change it with the `agent_name` setting or the `WEAVE_AGENT_NAME` environment variable (see [Configure the plugin](#configure-the-plugin)). Subagents keep their own type names.
+
+Multi-turn conversations are linked server-side by session ID, so you can follow a conversation across multiple traces. Each span includes token usage, model name, tool inputs and outputs, timing, and the textual content of prompts and responses. For more information about traced data, see [What Gets Traced](https://github.com/wandb/weave-claude-code/blob/main/README.md#what-gets-traced) in GitHub.
+
+## Configure the plugin
+
+Use the `weave-claude-code config` commands to view or update plugin settings after installation:
+
+```bash lines
+# Show all current settings.
+weave-claude-code config show
+
+# Set your Weave project.
+weave-claude-code config set weave_project [YOUR-TEAM]/[YOUR-PROJECT]
+
+# Set your W&B API key.
+weave-claude-code config set wandb_api_key [YOUR-API-KEY]
+
+# (Optional) Customize the agent name shown in the Agents view.
+weave-claude-code config set agent_name [YOUR-AGENT-NAME]
+```
+
+By default, sessions appear under the agent name `claude-code` in the Agents view. Set `agent_name` to use a different name, for example to distinguish teams or projects. The name can't be empty, and surrounding whitespace is trimmed.
+
+Environment variables take precedence over the settings file:
+
+```bash lines
+export WEAVE_PROJECT=[YOUR-TEAM]/[YOUR-PROJECT]
+export WANDB_API_KEY=[YOUR-API-KEY]
+export WEAVE_AGENT_NAME=[YOUR-AGENT-NAME]
+```
+
+## Weave skills
+
+After installation, three Weave-specific skills are available directly inside any Claude Code session.
+
+| Skill | Command | Description |
+|-------|---------|-------------|
+| Install | `/weave:weave-install` | Walks through the installation and configuration flow interactively. Use this on a fresh machine or to diagnose a broken setup. |
+| Status | `/weave:weave-status` | Checks the current plugin status and explains any issues. Equivalent to running `weave-claude-code status`, but Claude interprets the output and tells you what to fix. |
+| Config | `/weave:weave-config` | Read or update plugin configuration without leaving Claude Code. |
+
+You can use the `weave:weave-config` skill to set Weave values from within Claude Code:
+
+```text
+/weave:weave-config set weave_project [YOUR-TEAM]/[YOUR-PROJECT]
+/weave:weave-config set wandb_api_key [YOUR-API-KEY]
+/weave:weave-config set agent_name [YOUR-AGENT-NAME]
+```
+
+## Check plugin status
+
+You can use these CLI commands to check plugin status or troubleshoot issues:
+
+```bash lines
+weave-claude-code status
+```
+
+Each line shows `✓` (OK), `✗` (action needed), or `-` (not yet active but not an error).
+
+If sessions aren't appearing in Weave, check the daemon log:
+
+```bash lines
+weave-claude-code logs
+```
+
+To tail the log in real time:
+
+```bash lines
+weave-claude-code logs --follow
+```
+
+The log file is also at `~/.weave-claude-code/logs/daemon.log`.
+
+### W&B Dedicated Cloud or self-hosted instances
+
+If you use W&B Dedicated Cloud or a self-hosted instance, set `WANDB_BASE_URL` before launching Claude Code:
+
+```bash lines
+export WANDB_BASE_URL=https://[YOUR-INSTANCE].wandb.io
+```
+
+The plugin runs a background daemon that reads `WANDB_BASE_URL` at startup. If the daemon is already running when you set the variable, it won't detect the change. To restart the daemon:
+
+1. Shut down the daemon:
+   ```bash lines
+   printf '{"command":"shutdown"}' | nc -U -w1 ~/.weave-claude-code/daemon.sock
+   ```
+2. Set `WANDB_BASE_URL`, or run `wandb login --host https://[YOUR-INSTANCE].wandb.io` to persist the setting across sessions.
+3. Launch Claude Code again. The daemon restarts automatically and uses the correct URL.
+
+## Uninstall
+
+To remove the plugin from Claude Code, run:
+
+```bash lines
+weave-claude-code uninstall
+```
+
+Pass `--keep-logs` to preserve the log directory.

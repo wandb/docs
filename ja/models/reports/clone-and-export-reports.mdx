@@ -1,35 +1,42 @@
 ---
-description: "W&B Reports を PDF または LaTeX ファイルにエクスポートし、App UI または Report and Workspace API を使用して複製します。"
-title: Reports の複製とエクスポート
+description: "W&B レポート を PDF または LaTeX ファイルにエクスポートし、App UI または Report and Workspace API を使用して複製します。"
+title: レポートの複製とエクスポート
+keywords: ["report のエクスポート", "report の複製", "PDF", "LaTeX", "Report and Workspace API"]
 ---
 
 <Note>
   W&amp;B Report and Workspace API はパブリックプレビューです。
 </Note>
 
-<div id="export-reports">
-  ## Reports をエクスポート
+このページでは、W&amp;B Report をポータブルなファイル形式にエクスポートする方法について説明します。また、既存の report を複製して、その構造を新しい作業の出発点として再利用する方法についても説明します。
+
+<div id="export-a-report">
+  ## report をエクスポート
 </div>
 
-レポートを PDF または LaTeX としてエクスポートできます。レポート内で **action (<Icon icon="ellipsis-vertical" iconType="solid" />)** メニューを選択して、ドロップダウンメニューを開きます。**Download and** を選択し、出力形式として PDF または LaTeX を選びます。
+W&amp;B の外部で内容を共有したり、分析の静的バージョンをアーカイブしたりするために、report を PDF または LaTeX ファイルとしてエクスポートできます。report 内で **action (<Icon icon="ellipsis-vertical" iconType="solid" />)** メニューを選択します。**Download** を選択し、出力形式として PDF または LaTeX を選びます。
 
-<div id="cloning-reports">
-  ## Reports の複製
+<div id="clone-a-report">
+  ## report の複製
 </div>
+
+既存のプロジェクトのテンプレートと書式を新しい report のベースとして再利用するには、report を複製します。report は W&amp;B App で複製することも、Report and Workspace API を使用してプログラムから複製することもできます。
 
 <Tabs>
   <Tab title="W&B App">
-    レポート内で **action (<Icon icon="ellipsis-vertical" iconType="solid" />)** メニューを選択して、ドロップダウンメニューを開きます。**Clone this report** ボタンを選択します。モーダルで、複製したレポートの保存先を選びます。次に **Clone report** を選択します。
+    report 内で **action (<Icon icon="ellipsis-vertical" iconType="solid" />)** メニューを選択します。**Clone this report** を選択します。モーダルで、複製した report の保存先を選びます。**Clone report** を選択します。
 
     <Frame>
-      <img src="/images/reports/clone_reports.gif" alt="Reports の複製" />
+      <img src="/images/reports/clone_reports.gif" alt="W&B App で report を複製" />
     </Frame>
 
-    レポートを複製すると、プロジェクトのテンプレートや形式を再利用できます。チームのアカウント内でレポートを複製した場合、その複製したレポートはチームに表示されます。個人のアカウント内で複製したレポートは、そのユーザーにのみ表示されます。
+    report を複製するときは、保存先を指定します。チームに複製した場合は、チームのすべてのメンバーがその report を表示できます。個人のアカウントに複製した場合は、デフォルトでは自分だけが表示できます。
   </Tab>
 
   <Tab title="Report and Workspace API">
-    URL から Report を読み込み、テンプレートとして使用します。
+    既存の report を URL から読み込み、新しい report のテンプレートとして再利用するには、Report and Workspace API を使用します。
+
+    URL から report を読み込み、テンプレートとして使用します。`PROJECT` は W&amp;B のプロジェクト名に置き換えてください。
 
     ```python
     report = wr.Report(
@@ -39,7 +46,7 @@ title: Reports の複製とエクスポート
     new_report = wr.Report.from_url(report.url)  # 読み込み
     ```
 
-    `new_report.blocks` 内の内容を編集します。
+    report を読み込んだら、複製した report をカスタマイズするために `new_report.blocks` の内容を編集してから保存します。`ENTITY` は W&amp;B entity 名に置き換えてください。
 
     ```python
     pg = wr.PanelGrid(
@@ -59,5 +66,7 @@ title: Reports の複製とエクスポート
     )
     new_report.save()
     ```
+
+    保存すると、新しい report が W&amp;B のプロジェクトに表示されます。
   </Tab>
 </Tabs>

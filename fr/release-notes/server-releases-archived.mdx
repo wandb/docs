@@ -17,6 +17,85 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 {/* Pour archiver une version, déplacez ses entrées <Update> (y compris les correctifs)
     de server-releases.mdx juste en dessous */}
 
+<Update label="v0.69.1" description="10 juin 2025">
+  ## Correctifs
+
+  * Vous pouvez désormais définir l’état initial d’un run lors de sa création avec `Run.create()`, en définissant le paramètre `state` sur `pending` ou `running`.
+  * Correctif d’un bug qui faisait qu’un clic sur **Action History** chargeait incorrectement la vue **Version**.
+  * Amélioration des performances mémoire du service Parquet Store.
+</Update>
+
+<Update label="v0.69.0" description="28 mai 2025">
+  ## Assistance et fin de vie
+
+  * W&amp;B Server v0.56 est en fin de vie.
+
+  ## Mise à niveau
+
+  Pour [mettre à niveau](/fr/platform/hosting/server-upgrade-process/#update-with-helm) vers W&amp;B v0.69.x, vous devez utiliser la version v0.31.4+ du chart Helm `operator-wandb`. Dans le cas contraire, après la mise à niveau, le conteneur `weave-cache-clear` peut ne pas démarrer. Assurez-vous que votre déploiement utilise les valeurs suivantes :
+
+  ```yaml
+  chart:
+    url: https://charts.wandb.ai
+    name: operator-wandb
+    version: 0.31.4
+  ```
+
+  Si vous avez des questions ou rencontrez des problèmes lors d&#39;une mise à niveau, contactez l&#39;[assistance](mailto:support@wandb.com).
+
+  ## Fonctionnalités
+
+  * Vous pouvez désormais définir un nom d’affichage personnalisé pour un run directement dans l’espace de travail. Les noms de run personnalisés s’affichent dans tous les graphiques et tableaux, mais uniquement dans votre espace de travail, sans affecter les vues de vos coéquipiers. Vous obtenez ainsi une vue plus claire et plus épurée dans votre espace de travail, sans libellés du type `*...v6-final-restart...`* dans chaque légende et graphique.
+  * Lors du filtrage ou du regroupement de runs, les couleurs peuvent parfois se chevaucher et devenir difficiles à distinguer. La nouvelle option **Randomize Colors** du sélecteur de runs réattribue aléatoirement des couleurs de la palette par défaut à votre sélection actuelle de runs ou à vos groupes, afin de mieux les différencier.
+  * Dans les graphiques en courbes, vous pouvez désormais faire **Cmd+clic** sur une ligne pour ouvrir la vue d’un run unique dans un nouvel onglet.
+  * Les volets multimédias vidéo fournissent désormais davantage de commandes de lecture pour lire, mettre en pause, avancer ou reculer, passer en plein écran et ajuster la vitesse de lecture.
+  * Les paramètres de tous les types de volets multimédia ont été réorganisés et améliorés.
+  * Vous pouvez désormais personnaliser la couleur des points et celle de l’arrière-plan des panneaux de nuage de points.
+  * Les comptes de service au niveau de l’équipe et de l’organisation peuvent désormais interagir avec Registry.
+  * Le lissage amélioré par moyenne mobile exponentielle pondérée (EMA) fournit des [courbes lissées](/fr/models/app/features/panels/line-plot/smoothing) plus fiables lorsqu’il est appliqué à des données complètes non agrégées. Dans la plupart des cas, le lissage est effectué côté back-end pour améliorer les performances. Cette fonctionnalité était disponible en aperçu privé dans la version v0.68.x.
+
+  ### Aperçu privé
+
+  Les fonctionnalités en préversion privée sont disponibles sur invitation uniquement. Pour demander à rejoindre une préversion privée, contactez l&#39;[assistance](mailto:support@wandb.com) ou votre AISE.
+
+  * Vous pouvez désormais colorer toutes vos exécutions en fonction d&#39;une métrique secondaire, comme la perte ou des métriques d&#39;efficacité personnalisées. Cela crée un dégradé de couleurs net sur toutes vos exécutions dans tous les graphiques, ce qui vous permet de repérer plus rapidement les tendances. [Voir une démo vidéo](https://www.loom.com/share/c6ed484899324de991ef7147fd73785d).
+  * [Modèles d’espace de travail personnel](/fr/models/track/workspaces/#workspace-templates){/* TODO change to a relref after workspace templates docs merge */} vous permettent d’enregistrer les paramètres de base d’un graphique en courbes et de les réappliquer automatiquement dans de nouvelles vues. Ces paramètres incluent la clé de l’axe X, l’algorithme de lissage, le facteur de lissage, le nombre maximal de lignes, l’utilisation ou non du Grouping du sélecteur de runs, ainsi que l’agrégation à appliquer.
+
+  ### Weave
+
+  * [Les vues enregistrées](/fr/weave/guides/tools/saved-views) simplifient la collaboration au sein de l’équipe et vous permettent d’enregistrer les paramètres de filtre et de colonne.
+  * Les PDF et les fichiers génériques sont désormais pris en charge.
+  * La nouvelle [API `EvaluationLogger`](/fr/weave/guides/evaluation/evaluation_logger) permet une journalisation flexible des évaluations, dans un style impératif.
+  * Vous pouvez désormais importer des [annotations humaines](/fr/weave/guides/tracking/feedback#add-human-annotations) dans les datasets Weave
+  * [Playground](/fr/weave/guides/tools/playground) prend désormais en charge les configurations enregistrées et les prompts.
+  * Les décorateurs sont désormais pris en charge en TypeScript.
+  * Ajout de la prise en charge du [traçage des fonctions génératrices](/fr/weave/guides/tracking/tracing#trace-sync-%26-async-generator-functions).
+  * Le nouvel utilitaire [`dataset.add_rows`](/fr/weave/reference/python-sdk/#method-add-rows) améliore l’efficacité de l’ajout de lignes à un jeu de données existant.
+  * Pour vous aider à mieux comprendre votre utilisation, les tailles des traces et des objets sont désormais affichées dans l’interface utilisateur.
+
+  ## Performances
+
+  * Avec le [`wandb` SDK](/fr/models/quickstart/#install-the-wandb-library-and-log-in) v0.19.11, les artefacts se téléchargent désormais en moyenne 3 à 5 fois plus vite. Par exemple, un artefact qui se téléchargeait auparavant à environ 100 Mo/s peut désormais être téléchargé à 450 Mo/s ou plus. Les vitesses de téléchargement réelles varient en fonction de facteurs tels que votre réseau et votre infrastructure de stockage.
+  * Amélioration de la mise en cache sur les pages [Project](/fr/models/track/project-page) et [Paramètres utilisateur](/fr/platform/app/settings-page/user-settings).
+
+  ## Correctifs
+
+  * Amélioration du processus de démarrage du conteneur `weave-cache-clear` pour garantir sa compatibilité avec les environnements virtuels Python.
+  * Ajout d’options pour un affichage plus dense des logs de console.
+  * Les écrans de chargement du Workspace sont désormais plus informatifs.
+  * Lors de l’ajout d’un panneau depuis un espace de travail vers un Report, les Reports du projet en cours s’affichent désormais en premier dans la liste de destination.
+  * Correction de nombreux cas où les axes Y étaient arrondis de façon excessive, ce qui entraînait l’affichage de valeurs en double.
+  * Correctif d’un comportement déroutant lors de la saisie de paramètres de lissage non valides.
+  * Suppression de l’avertissement **Partial Media** dans les volets multimédias. Cela ne modifie pas le comportement des volets multimédias.
+  * Lorsque vous ajoutez un [filtre de run basé sur des tags](/fr/models/runs/filter-runs/#filter-runs-with-tags), le filtre est désormais sélectionné par défaut, comme lorsque vous filtrez sur d&#39;autres champs.
+  * Suppression de l’icône de cloche verte qui pouvait apparaître sur les runs actifs dans le sélecteur de runs.
+  * Suppression de la page System pour les runs individuels.
+  * Le champ de description du projet prend désormais en charge les retours à la ligne.
+  * Correction des URL des anciennes collections du registre de modèles.
+  * Correctif d’un bug empêchant la visionneuse Netron de s’étendre pour occuper tout l’espace disponible sur la page.
+  * Lorsque vous cliquez sur **Delete** pour un projet, son nom s’affiche désormais dans la boîte de dialogue de confirmation.
+</Update>
+
 <Update label="v0.68.2" description="7 mai 2025">
   ## Correctifs
 

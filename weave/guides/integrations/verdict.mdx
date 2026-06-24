@@ -7,15 +7,15 @@ description: "Use Verdict evaluation framework with Weave to trace and monitor y
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
 </a>
 
-Weave is designed to make tracking and logging all calls made through the [Verdict Python library](https://verdict.haizelabs.com/docs/) effortless.
+Weave is designed to track and log all calls made through the [Verdict Python library](https://verdict.haizelabs.com/docs/) automatically.
 
-When working with AI evaluation pipelines, debugging is crucial. Whether a pipeline step fails, outputs are unexpected, or nested operations create confusion, pinpointing issues can be challenging. Verdict applications often consist of multiple pipeline steps, judges, and transformations, making it essential to understand the inner workings of your evaluation workflows.
+When working with AI evaluation pipelines, debugging matters. Whether a pipeline step fails, outputs are unexpected, or nested operations create confusion, pinpointing issues can be hard. Verdict applications often consist of multiple pipeline steps, judges, and transformations, so it helps to understand the inner workings of your evaluation workflows.
 
-Weave simplifies this process by automatically capturing traces for your [Verdict](https://verdict.readthedocs.io/) applications. This enables you to monitor and analyze your pipeline's performance, making it easier to debug and optimize your AI evaluation workflows.
+Weave streamlines this process by automatically capturing traces for your [Verdict](https://verdict.readthedocs.io/) applications. This lets you monitor and analyze your pipeline's performance to debug and optimize your AI evaluation workflows.
 
 ## Getting started
 
-To get started, simply call `weave.init(project=...)` at the beginning of your script. Use the `project` argument to log to a specific W&B Team name with `team-name/project-name` or do `project-name` to log to your default team/entity.
+To enable Weave tracing for your Verdict pipelines, call `weave.init(project=...)` at the beginning of your script. Use the `project` argument to log to a specific W&B Team name with `team-name/project-name`, or pass `project-name` to log to your default team or entity.
 
 ```python lines {7}
 import weave
@@ -33,15 +33,15 @@ pipeline = pipeline >> JudgeUnit().prompt("Rate the quality of this text: {sourc
 # Create sample data
 data = Schema.of(text="This is a sample text for evaluation.")
 
-# Run the pipeline - this will be automatically traced
+# Run the pipeline - Weave traces this automatically
 output = pipeline.run(data)
 
 print(output)
 ```
 
-## Tracking Call Metadata
+## Tracking call metadata
 
-To track metadata from your Verdict pipeline calls, you can use the [`weave.attributes`](/weave/reference/python-sdk#function-attributes) context manager. This context manager allows you to set custom metadata for a specific block of code, such as a pipeline run or evaluation batch.
+To attach custom metadata to your Verdict pipeline calls, use the [`weave.attributes`](/weave/reference/python-sdk#function-attributes) context manager. This context manager lets you tag a specific block of code, such as a pipeline run or evaluation batch, so that you can filter and group related traces later in the Weave UI.
 
 ```python lines {7,14}
 import weave
@@ -67,21 +67,21 @@ Weave automatically tracks the metadata against the trace of the Verdict pipelin
 
 ## Traces
 
-Storing traces of AI evaluation pipelines in a central database is crucial during both development and production. These traces are essential for debugging and improving your evaluation workflows by providing a valuable dataset.
+Storing traces of AI evaluation pipelines in a central database helps during both development and production. These traces support debugging and improving your evaluation workflows, and they provide a useful dataset.
 
-Weave automatically captures traces for your Verdict applications. It will track and log all calls made through the Verdict library, including:
+Weave automatically captures traces for your Verdict applications. It tracks and logs all calls made through the Verdict library, including:
 
-- Pipeline execution steps
-- Judge unit evaluations  
-- Layer transformations
-- Pooling operations
-- Custom units and transformations
+- `Pipeline` execution steps.
+- `JudgeUnit` evaluations.
+- `Layer` transformations.
+- Pooling operations.
+- Custom units and transformations.
 
-You can view the traces in the Weave web interface, showing the hierarchical structure of your pipeline execution.
+You can view the traces in the Weave web interface, which shows the hierarchical structure of your pipeline execution.
 
 ## Pipeline tracing example
 
-Here's a more complex example showing how Weave traces nested pipeline operations:
+The following example shows how Weave traces nested pipeline operations, so you can see how each step in a multi-stage Verdict pipeline is captured:
 
 ```python lines {8}
 import weave
@@ -93,7 +93,7 @@ from verdict.schema import Schema
 # Initialize Weave with your project name
 weave.init("verdict_demo")
 
-# Create a complex pipeline with multiple steps
+# Create a pipeline with multiple steps
 pipeline = Pipeline()
 pipeline = pipeline >> Layer([
     JudgeUnit().prompt("Rate coherence: {source.text}"),
@@ -103,34 +103,34 @@ pipeline = pipeline >> Layer([
 pipeline = pipeline >> MeanPoolUnit()
 
 # Sample data
-data = Schema.of(text="This is a comprehensive evaluation of text quality across multiple dimensions.")
+data = Schema.of(text="This is an evaluation of text quality across multiple dimensions.")
 
-# Run the pipeline - all operations will be traced
+# Run the pipeline - Weave traces all operations
 result = pipeline.run(data)
 
 print(f"Average score: {result}")
 ```
 
-This will create a detailed trace showing:
-- The main Pipeline execution
-- Each JudgeUnit evaluation within the Layer
-- The MeanPoolUnit aggregation step
-- Timing information for each operation
+This creates a detailed trace showing:
+- The main `Pipeline` execution.
+- Each `JudgeUnit` evaluation within the `Layer`.
+- The `MeanPoolUnit` aggregation step.
+- Timing information for each operation.
 
 ## Configuration
 
-Upon calling `weave.init()`, tracing is automatically enabled for Verdict pipelines. The integration works by patching the `Pipeline.__init__()` method to inject a `VerdictTracer` that forwards all trace data to Weave.
+When you call `weave.init()`, Weave automatically enables tracing for Verdict pipelines. The integration works by patching the `Pipeline.__init__()` method to inject a `VerdictTracer` that forwards all trace data to Weave.
 
-No additional configuration is needed - Weave will automatically:
-- Capture all pipeline operations
-- Track execution timing
-- Log inputs and outputs
-- Maintain trace hierarchy
-- Handle concurrent pipeline execution
+You don't need any additional configuration. Weave automatically performs the following:
+- Captures all pipeline operations.
+- Tracks execution timing.
+- Logs inputs and outputs.
+- Maintains trace hierarchy.
+- Handles concurrent pipeline execution.
 
-## Custom Tracers and Weave
+## Custom tracers and Weave
 
-If you're using custom Verdict tracers in your application, Weave's `VerdictTracer` can work alongside them:
+If you already use custom Verdict tracers in your application, Weave's `VerdictTracer` can run alongside them so that you don't have to choose between integrations:
 
 ```python lines {8}
 import weave
@@ -151,15 +151,15 @@ pipeline = pipeline >> JudgeUnit().prompt("Evaluate: {source.text}")
 
 data = Schema.of(text="Sample evaluation text")
 
-# This will trace to both Weave and console
+# This traces to both Weave and console
 result = pipeline.run(data)
 ```
 
-## Models and Evaluations
+## Models and evaluations
 
 Organizing and evaluating AI systems with multiple pipeline components can be challenging. Using the [`weave.Model`](/weave/guides/core-types/models), you can capture and organize experimental details like prompts, pipeline configurations, and evaluation parameters, making it easier to compare different iterations.
 
-The following example demonstrates wrapping a Verdict pipeline in a `WeaveModel`:
+The following example demonstrates wrapping a Verdict pipeline in a `weave.Model`:
 
 ```python lines {8,10,14}
 import asyncio
@@ -204,7 +204,7 @@ prediction = asyncio.run(model.predict(text))
 print(prediction)
 ```
 
-This code creates a model that can be visualized in the Weave UI, showing both the pipeline structure and the evaluation results.
+This code creates a model that you can visualize in the Weave UI, showing both the pipeline structure and the evaluation results.
 
 ### Evaluations
 
@@ -271,8 +271,11 @@ This creates an evaluation trace that shows how your Verdict pipeline performs a
 
 ## Best practices
 
+The following sections describe best practices for monitoring performance and handling errors when using Weave with Verdict pipelines.
+
 ### Performance monitoring
-Weave automatically captures timing information for all pipeline operations. You can use this to identify performance bottlenecks:
+
+Weave automatically captures timing information for all pipeline operations, which you can use to identify performance bottlenecks across runs:
 
 ```python lines {6}
 import weave
@@ -298,7 +301,8 @@ for i in range(3):
 ```
 
 ### Error handling
-Weave automatically captures exceptions that occur during pipeline execution:
+
+Weave automatically captures exceptions that occur during pipeline execution, so Weave records failures in the trace even when your application handles the exception:
 
 ```python lines {6}
 import weave
@@ -309,7 +313,7 @@ from verdict.schema import Schema
 weave.init("verdict_demo")
 
 pipeline = Pipeline()
-pipeline = pipeline >> JudgeUnit().prompt("Process: {source.invalid_field}")  # This will cause an error
+pipeline = pipeline >> JudgeUnit().prompt("Process: {source.invalid_field}")  # This causes an error
 
 data = Schema.of(text="Sample text")
 
@@ -320,4 +324,4 @@ except Exception as e:
     # Error details are captured in Weave trace
 ```
 
-By integrating Weave with Verdict, you get comprehensive observability into your AI evaluation pipelines, making it easier to debug, optimize, and understand your evaluation workflows.
+Integrating Weave with Verdict gives you visibility into your AI evaluation pipelines, making it easier to debug, optimize, and understand your evaluation workflows.

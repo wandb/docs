@@ -56,10 +56,11 @@ Workspace에서 runset(run이 표시되는 왼쪽 바)에 대한 설정입니다
 
 * `query` (str):  runset을 필터링하는 쿼리입니다(정규식 표현식일 수 있으며, 다음 매개변수 참조).
 * `regex_query` (bool):  위의 `query`가 정규식 표현식인지 여부를 제어합니다. 기본값은 `False`입니다.
-* `filters` (Union[str, LList[expr.FilterExpr]]):  runset에 적용할 필터 목록 또는 문자열 표현식입니다.
-  * 목록인 경우: 필터는 AND로 결합됩니다. 필터 생성에 대한 자세한 내용은 FilterExpr를 참조하세요.
-  * 문자열인 경우: Python 스타일 표현식을 사용합니다. 예: &quot;Config(&#39;lr&#39;) = 0.001 and State = &#39;finished&#39;&quot;
-* `Supports operators`:  `=`, `==`, `!=`, `<`, `>`, `<=`, `>=`, `in`, `not in`
+* `filters` (Union[str, LList[FilterExpr], Or, And]):  runset용 필터입니다.
+  * FilterExpr 목록인 경우: 필터는 AND로 결합됩니다.
+  * 문자열인 경우: Python 스타일 표현식입니다. 예: &quot;Config(&#39;lr&#39;) = 0.001 and State = &#39;finished&#39;&quot;
+* `Supports operators`:  `=`, `==`, `!=`, `<`, `>`, `<=`, `>=`, `in`, `not in`, `and`, `or`
+  * Or/And 결합자인 경우: OR 로직과 중첩 그룹을 사용할 수 있습니다. 예: Or(And(Config(&quot;lr&quot;) == 0.01, Metric(&quot;State&quot;) == &quot;finished&quot;), Config(&quot;lr&quot;) == 0.1)
 * `groupby` (LList[expr.MetricType]):  runset에서 그룹화할 메트릭 목록입니다. `Metric`, `Summary`, `Config`, `Tags`, 또는 `KeysInfo`로 설정합니다.
 * `order` (LList[expr.Ordering]):  runset에 적용할 메트릭과 정렬 순서의 목록입니다.
 * `run_settings` (Dict[str, RunSettings]):  run 설정의 딕셔너리로, 키는 run의 ID이고 값은 RunSettings 객체입니다.
@@ -67,35 +68,50 @@ Workspace에서 runset(run이 표시되는 왼쪽 바)에 대한 설정입니다
 * `Column names use format`:  &quot;run:displayName&quot;, &quot;summary:metric&quot;, &quot;config:param&quot;.
 * `run`: displayName이 없으면 자동으로 추가됩니다.
 * `Example`:  [&quot;summary:accuracy&quot;, &quot;summary:loss&quot;]
+* `baseline_run` (Optional[str]):  기준 run의 W&amp;B run slug입니다(`wandb.Run.id`의 값, 예: `"1mbku38n"` — run URL의 마지막 경로 세그먼트이기도 함). 델타 열과 비교 스타일링에 사용됩니다. 설정하면 W&amp;B 앱의 동작에 맞춰 기준 run이 `pinned_runs`에 자동으로 추가됩니다. Workspace 자체 프로젝트의 run을 참조해야 하며, 프로젝트 간 pin은 아직 이 SDK에서 지원되지 않습니다(UI에서 해당하는 기능은 W&amp;B 앱의 &quot;Add cross-project runs&quot; drawer를 참조하세요).
+* `pinned_runs` (LList[str]):  run 선택기에 계속 표시하고 plot에 대해 항상 가져올 W&amp;B run slug의 순서 있는 목록입니다. GraphQL ID가 아니라 slug 문자열(`wandb.Run.id`)을 전달하세요. W&amp;B 앱에서는 이를 20개 항목으로 제한합니다.
 
 **예시:**
 
 ```python
     # 문자열 필터 사용 (신규)
     RunsetSettings(
-        filters="Config('learning_rate') = 0.001 and State = 'finished'",
-        pinned_columns=["summary:accuracy", "summary:loss"],
+         filters="Config('learning_rate') = 0.001 and State = 'finished'",
+         pinned_columns=["summary:accuracy", "summary:loss"],
+         baseline_run="1mbku38n",  # wandb.Run.id (URL의 슬러그)
+         pinned_runs=["1mbku38n", "2u1g3j1c"],
     )
 
     # FilterExpr 목록 사용 (기존 방식)
     RunsetSettings(
-        filters=[expr.Config("learning_rate") == 0.001],
-        pinned_columns=["summary:accuracy", "summary:loss"],
+         filters=[expr.Config("learning_rate") == 0.001],
+         pinned_columns=["summary:accuracy", "summary:loss"],
     )
 ```
 
 ***
 
-### <kbd>메서드</kbd> `convert_filterexpr_list_to_string`
+### <kbd>방법</kbd> `convert_filterexpr_list_to_string`
 
 ```python
 convert_filterexpr_list_to_string()
 ```
 
-FilterExpr 목록을 문자열 표현식(통합 내부 형식)으로 변환합니다.
+FilterExpr 목록 또는 Or/And를 문자열 표현식으로 변환합니다.
 
 ***
 
+### <kbd>방법</kbd> `ensure_baseline_pinned`
+
+```python
+ensure_baseline_pinned()
+```
+
+W&amp;B 앱의 불변 조건을 그대로 따르세요. 기준 run은 항상 고정된 run이기도 합니다.
+
+프런트엔드의 `setBaselineRun` 액션 핸들러는 `setRunPinnedAndBaseline`을 거치므로, UI에서 생성된 모든 spec에는 `pinnedRunIds`에 기준 ID가 포함됩니다. SDK에서 생성된 spec도 동일하게 일치하도록 여기에서도 같은 규칙을 강제 적용합니다.
+
+***
 
 ### <kbd>방법</kbd> `validate_and_setup_columns`
 
@@ -221,17 +237,17 @@ save_as_new_view()
 
 워크스페이스에 대한 설정으로, 일반적으로 UI에서 워크스페이스 상단에 표시됩니다.
 
-이 객체에는 x-axis, smoothing, 이상치, 패널, 툴팁, run, 패널 쿼리 바에 대한 설정이 포함됩니다.
+이 객체에는 x축, 스무딩, 이상치, 패널, 툴팁, run, 패널 쿼리 바에 대한 설정이 포함됩니다.
 
 여기에 적용한 설정은 다음 우선순위에 따라 더 세분화된 Section 및 Panel 설정으로 재정의될 수 있습니다: Workspace &lt; Section &lt; Panel
 
 **속성:**
 
-* `x_axis` (str):  x-axis metric name 설정입니다.
-* `x_min` (Optional[float]):  x-axis의 최솟값입니다.
-* `x_max` (Optional[float]):  x-axis의 최댓값입니다.
-* `smoothing_type` (Literal[&#39;exponentialTimeWeighted&#39;, &#39;exponential&#39;, &#39;gaussian&#39;, &#39;average&#39;, &#39;none&#39;]):  모든 패널에 적용되는 smoothing 유형입니다.
-* `smoothing_weight` (int):  모든 패널에 적용되는 smoothing 가중치입니다.
+* `x_axis` (str):  x축 metric name 설정입니다.
+* `x_min` (Optional[float]):  x축의 최솟값입니다.
+* `x_max` (Optional[float]):  x축의 최댓값입니다.
+* `smoothing_type` (Literal[&#39;exponentialTimeWeighted&#39;, &#39;exponential&#39;, &#39;gaussian&#39;, &#39;average&#39;, &#39;none&#39;]):  모든 패널에 적용되는 스무딩 유형입니다.
+* `smoothing_weight` (int):  모든 패널에 적용되는 스무딩 가중치입니다.
 * `ignore_outliers` (bool):  모든 패널에서 이상치를 무시합니다.
 * `sort_panels_alphabetically` (bool):  모든 Section의 패널을 알파벳순으로 정렬합니다.
 * `group_by_prefix` (Literal[&quot;first&quot;, &quot;last&quot;]):  첫 번째 또는 마지막 prefix를 기준으로 패널을 그룹화합니다(first 또는 last). 기본값은 `last`입니다.

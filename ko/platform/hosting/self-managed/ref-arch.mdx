@@ -5,6 +5,7 @@ keywords: ["인프라 사이징", "MySQL 요구 사항", "Redis 설정", "프로
 ---
 
 import SelfManagedVersionRequirements from "/snippets/ko/_includes/self-managed-version-requirements.mdx";
+import SelfManagedMysqlEolUpgrade from "/snippets/ko/_includes/self-managed-mysql-eol-upgrade.mdx";
 import SelfManagedNetworkingRequirements from "/snippets/ko/_includes/self-managed-networking-requirements.mdx";
 import SelfManagedSslTlsRequirements from "/snippets/ko/_includes/self-managed-ssl-tls-requirements.mdx";
 
@@ -73,9 +74,11 @@ W&amp;B는 클라우드, 온프레미스, 폐쇄망 환경의 [OpenShift Kuberne
   ### MySQL
 </div>
 
+<SelfManagedMysqlEolUpgrade />
+
 W&amp;B는 메타데이터를 MySQL 데이터베이스에 저장합니다. 데이터베이스의 성능 및 저장소 요구 사항은 모델 파라미터의 형태와 관련 메타데이터에 따라 달라집니다. 예를 들어, 더 많은 트레이닝 run을 추적할수록 데이터베이스 크기가 커지며, run 테이블, 사용자 Workspace, Reports의 쿼리에 따라 데이터베이스 부하도 증가합니다.
 
-**W&amp;B는 프로덕션 배포에 관리형 데이터베이스 서비스를 사용할 것을 강력히 권장합니다**(예: AWS RDS Aurora MySQL, Google Cloud SQL for MySQL, Azure Database for MySQL). 관리형 서비스는 자동 백업, 모니터링, 고가용성, 패치 적용을 제공하며 오퍼레이션 복잡성을 줄여 줍니다. 구체적인 서비스 권장 사항은 [Cloud provider instance recommendations](#cloud-provider-instance-recommendations) section을 참조하세요.
+**W&amp;B는 프로덕션 배포에 관리형 데이터베이스 서비스를 사용할 것을 강력히 권장합니다**(예: AWS RDS Aurora MySQL, Google Cloud SQL for MySQL, Azure Database for MySQL). 관리형 서비스는 자동 백업, 모니터링, 고가용성, 패치 적용을 제공하며 오퍼레이션 복잡성을 줄여 줍니다. 구체적인 서비스 권장 사항은 [클라우드 제공업체 인스턴스 권장 사항](#cloud-provider-instance-recommendations) section을 참조하세요.
 
 Self-Managed MySQL 데이터베이스를 배포하기로 한 경우에는 다음 사항을 고려하세요:
 

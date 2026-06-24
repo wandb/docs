@@ -1,6 +1,7 @@
 ---
 title: "평가 데이터 내보내기"
 description: "Evaluation REST API를 사용해 프로그래밍 방식으로 평가 결과를 내보내세요."
+keywords: ["evaluation REST API", "eval_results", "row_digest", "evaluation runs", "scorer statistics"]
 ---
 
 W&amp;B Weave에서 평가를 실행하는 Teams는 Weave UI 외부에서 평가 결과를 활용해야 하는 경우가 많습니다. 일반적인 사용 사례는 다음과 같습니다.
@@ -31,6 +32,8 @@ W&amp;B Weave에서 평가를 실행하는 Teams는 Weave UI 외부에서 평가
 
 이 페이지의 예제는 Python을 사용하지만, Evaluation REST API는 특정 언어에 종속되지 않습니다. 따라서 TypeScript나 다른 HTTP 클라이언트에서도 동일한 엔드포인트를 호출할 수 있습니다.
 
+시작하기 전에 다음 항목을 준비했는지 확인하세요.
+
 * Python 3.7 이상
 * `requests` 라이브러리. `pip install requests`로 설치하세요.
 * `WANDB_API_KEY` 환경 변수로 설정한 W&amp;B API 키. 키는 [wandb.ai/settings](https://wandb.ai/settings)에서 조회하세요.
@@ -38,6 +41,8 @@ W&amp;B Weave에서 평가를 실행하는 Teams는 Weave UI 외부에서 평가
 <div id="set-up-authentication">
   ## 인증 설정
 </div>
+
+다음 스니펫은 이 페이지 전반에서 사용하는 라이브러리를 임포트하고, base URL, 인증 튜플, 대상 entity와 프로젝트를 설정합니다. 이후의 모든 예시에서는 이 변수들을 재사용합니다.
 
 ```python
 import json
@@ -52,12 +57,13 @@ entity = "my-team"
 project = "my-project"
 ```
 
+인증을 설정하면 다음 섹션에 설명된 모든 엔드포인트를 호출할 수 있습니다.
 
 <div id="list-evaluation-runs">
   ## evaluation run 목록
 </div>
 
-프로젝트의 최근 evaluation run을 조회하고, 각 run의 ID 및 status 등의 세부 정보를 표시합니다.
+evaluation run 목록은 일반적으로 내보내기 워크플로에서 가장 먼저 필요합니다. 다른 엔드포인트에서 요구하는 `evaluation_run_id` 값을 제공하기 때문입니다. 프로젝트의 최근 evaluation run을 조회하고, 각 run의 ID 및 status 등의 세부 정보를 표시합니다.
 
 ```python
 resp = requests.get(
@@ -70,15 +76,14 @@ for run in runs:
     print(run["evaluation_run_id"], run.get("status"))
 ```
 
-
 <div id="read-a-single-evaluation-run">
   ## 단일 Evaluation run 조회
 </div>
 
-특정 Evaluation run의 세부 정보를 조회합니다. 여기에는 모델, Evaluation 레퍼런스, 상태, 타임스탬프가 포함됩니다.
+`evaluation_run_id`가 있으면 해당 run의 전체 레코드를 가져올 수 있습니다. 특정 Evaluation run의 세부 정보를 조회합니다. 여기에는 모델, Evaluation 레퍼런스, 상태, 타임스탬프가 포함됩니다. `[EVALUATION_RUN_ID]`를 조회하려는 Evaluation run의 ID로 바꾸세요.
 
 ```python
-eval_run_id = "<evaluation-run-id>"
+eval_run_id = "[EVALUATION_RUN_ID]"
 
 resp = requests.get(
     f"{TRACE_BASE}/v2/{entity}/{project}/evaluation_runs/{eval_run_id}",
@@ -88,15 +93,14 @@ eval_run = resp.json()
 print(eval_run["evaluation_run_id"], eval_run.get("status"), eval_run.get("model"))
 ```
 
-
 <div id="get-predictions-and-scores">
   ## 예측 및 점수 조회
 </div>
 
-Evaluation run의 행별 결과를 조회하려면 `eval_results/query` 엔드포인트를 사용하세요. 각 행에는 확인된 dataset inputs, 모델 출력, 그리고 개별 scorer 결과가 포함됩니다. 전체 행별 세부 정보를 보려면 `include_rows`, `include_raw_data_rows`, `resolve_row_refs`를 설정하세요.
+스프레드시트로 내보내거나 행 수준 분석을 하는 등 run의 기반 데이터가 필요할 때는 `eval_results/query` 엔드포인트를 사용해 evaluation run의 행별 결과를 조회하세요. 각 행에는 확인된 dataset inputs, 모델 출력, 그리고 개별 scorer 결과가 포함됩니다. 전체 행별 세부 정보를 보려면 `include_rows`, `include_raw_data_rows`, `resolve_row_refs`를 설정하세요. `[EVALUATION_RUN_ID]`를 조회하려는 evaluation run의 ID로 바꾸세요.
 
 ```python
-eval_run_id = "<evaluation-run-id>"
+eval_run_id = "[EVALUATION_RUN_ID]"
 
 resp = requests.post(
     f"{TRACE_BASE}/v2/{entity}/{project}/eval_results/query",
@@ -121,12 +125,11 @@ for row in results["rows"]:
             print("Scores:", scores)
 ```
 
-
 <div id="get-aggregated-scores">
   ## 집계된 점수 조회
 </div>
 
-동일한 `eval_results/query` 엔드포인트는 행별 데이터 대신 집계된 scorer 통계도 반환할 수 있습니다. `include_summary`를 설정하면 이진 scorer의 통과율이나 연속형 scorer의 평균과 같은 요약 수준의 메트릭을 반환합니다.
+대시보드나 CI/CD 게이팅처럼 상위 수준의 메트릭만 필요하다면, 행별 데이터 대신 요약 통계를 요청하세요. 동일한 `eval_results/query` 엔드포인트는 행별 데이터 대신 집계된 scorer 통계도 반환할 수 있습니다. `include_summary`를 설정하면 이진 scorer의 통과율이나 연속형 scorer의 평균과 같은 요약 수준의 메트릭을 반환합니다.
 
 ```python
 resp = requests.post(
@@ -145,15 +148,14 @@ for ev in results["summary"]["evaluations"]:
         print(stat["scorer_key"], stat.get("value_type"), stat.get("pass_rate") or stat.get("numeric_mean"))
 ```
 
-
 <div id="read-a-single-prediction">
   ## 단일 예측 조회
 </div>
 
-입력, 출력, 모델 레퍼런스를 포함한 개별 예측의 전체 세부 정보를 조회합니다.
+예기치 않은 점수를 조사하는 경우처럼 단일 행을 따로 확인하려면 ID를 사용해 예측을 직접 가져올 수 있습니다. 입력, 출력, 모델 레퍼런스를 포함한 개별 예측의 전체 세부 정보를 조회합니다. `[PREDICTION_ID]`를 조회하려는 예측의 ID로 바꾸세요.
 
 ```python
-prediction_id = "<predict-call-id>"
+prediction_id = "[PREDICTION_ID]"
 
 resp = requests.get(
     f"{TRACE_BASE}/v2/{entity}/{project}/predictions/{prediction_id}",
@@ -163,13 +165,12 @@ prediction = resp.json()
 print(prediction)
 ```
 
-
-<div id="how-to-use-row-digests">
-  ## row digests 사용 방법
+<div id="row-digests">
+  ## Row digests
 </div>
 
-`eval_results/query` 엔드포인트의 각 결과 행에는 `row_digest`가 포함됩니다. `row_digest`는 위치가 아니라 내용 기준으로 평가 데이터셋의 특정 입력을 고유하게 식별하는 콘텐츠 해시입니다. row digests는 다음과 같은 경우에 유용합니다.
+각 엔드포인트가 반환하는 원시 데이터 외에도 `eval_results/query`의 응답에는 Runs 전반에서 행을 서로 연관 지을 수 있도록 도와주는 추가 식별자가 포함됩니다. `eval_results/query` 엔드포인트의 각 결과 행에는 `row_digest`가 포함됩니다. `row_digest`는 위치가 아니라 내용 기준으로 평가 데이터셋의 특정 입력을 고유하게 식별하는 콘텐츠 해시입니다. row digests는 다음과 같은 경우에 유용합니다.
 
 * **평가 간 비교**: 동일한 데이터셋에 대해 서로 다른 두 모델을 실행하면, digest가 같은 행은 동일한 입력을 나타냅니다. `row_digest`를 기준으로 조인하면 서로 다른 모델이 정확히 같은 작업에서 어떤 성능을 보였는지 비교할 수 있습니다.
 * **중복 제거**: 동일한 작업이 여러 평가 스위트에 나타나는 경우 digest를 사용해 이를 식별할 수 있습니다.
-* **재현성**: digest는 콘텐츠 기반 주소 지정 방식이므로 누군가 데이터셋 행을 수정하면(지시문 텍스트, 루브릭 또는 기타 필드 변경) 새 digest가 생성됩니다. 두 evaluation run이 동일한 입력을 사용했는지, 아니면 약간 다른 버전을 사용했는지 확인할 수 있습니다.
+* **재현성**: digest는 콘텐츠 기반 주소 지정 방식이므로 누군가 데이터셋 행을 수정하면(지시문 텍스트, 루브릭 또는 기타 필드 변경) 새 digest가 생성됩니다. 두 evaluation run이 동일한 입력을 사용했는지, 아니면 다른 버전을 사용했는지 확인할 수 있습니다.

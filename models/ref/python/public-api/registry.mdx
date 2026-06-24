@@ -17,12 +17,11 @@ A single registry in the Registry.
 
 ```python
 __init__(
-    client: 'RetryingClient',
+    service_api: 'ServiceApi',
     organization: 'str',
     entity: 'str',
     name: 'str',
-    attrs: 'RegistryFragment | None' = None,
-    service_api: 'ServiceApi | None' = None
+    attrs: 'RegistryFragment | None' = None
 )
 ```
 
@@ -237,12 +236,22 @@ registry.add_members(my_team)
 ```python
 collections(
     filter: 'dict[str, Any] | None' = None,
+    order: 'str | None' = None,
     per_page: 'PositiveInt' = 100,
     start: 'str | None' = None
 ) → Collections
 ```
 
-Returns the collections belonging to the registry. 
+Returns the collections belonging to this registry. 
+
+
+
+**Args:**
+ 
+ - `filter`:  Optional mapping of filters to apply to the collections query. 
+ - `order`:  Optional string to specify the order of the results.  If prefixed with '+', sorts ascending (default).  If prefixed with '-', sorts descending. 
+ - `per_page`:  The number of results to fetch per page.  Usually there is no reason to change this. 
+ - `start`:  Pagination cursor for resuming a past query, captured  from a previous paginator's `.cursor` attribute. 
 
 ---
 
@@ -250,13 +259,12 @@ Returns the collections belonging to the registry.
 
 ```python
 create(
-    client: 'RetryingClient',
+    api: 'Api',
     organization: 'str',
     name: 'str',
     visibility: "Literal['organization', 'restricted']",
     description: 'str | None' = None,
-    artifact_types: 'list[str] | None' = None,
-    service_api: 'ServiceApi | None' = None
+    artifact_types: 'list[str] | None' = None
 ) → Self
 ```
 
@@ -268,8 +276,7 @@ The registry name must be unique within the organization. This function should b
 
 **Args:**
  
- - `client`:  Legacy GraphQL client retained for API compatibility. 
- - `service_api`:  Interface to the wandb-core service that performs  W&B API calls for the created registry. 
+ - `api`:  The W&B API instance. 
  - `organization`:  The name of the organization. 
  - `name`:  The name of the registry (without the `wandb-registry-` prefix). 
  - `visibility`:  The visibility level ('organization' or 'restricted'). 
@@ -457,5 +464,13 @@ versions(
 ) → Versions
 ```
 
-Returns the versions belonging to the registry. 
+Returns the artifact versions belonging to this registry. 
+
+
+
+**Args:**
+ 
+ - `filter`:  Optional mapping of filters to apply to the artifact versions query. 
+ - `per_page`:  The number of results to fetch per page.  Usually there is no reason to change this. 
+ - `start`:  Pagination cursor for resuming a past query, captured  from a previous paginator's `.cursor` attribute. 
 

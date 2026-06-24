@@ -1,6 +1,7 @@
 ---
 title: "Track costs"
 description: "Understand automatic and custom cost tracking for LLM operations in Weave"
+keywords: ["LLM cost", "token cost", "add_cost", "query_costs", "purge_costs"]
 ---
 
 Weave tracks the cost of LLM calls in two ways:
@@ -9,19 +10,19 @@ Weave tracks the cost of LLM calls in two ways:
 - **Custom cost tracking**: For fine-tuned models, self-hosted models, or models that Weave doesn't automatically integrate with, configure Weave to track custom costs using available API methods.
 
 <Note>
-The Weave TypeScript does not support cost tracking at this time.
+The Weave TypeScript doesn't support cost tracking.
 </Note>
 
 ## Use automatic cost tracking
 
-When you call `weave.init()` and use a [supported LLM integration](/weave/guides/integrations) such as OpenAI, Anthropic, Cohere, or Mistral, Weave automatically records token usage and calculates cost for each call. Costs appear in the trace tree and in the calls table in the Weave UI, and are available programmatically under `call.summary["weave"]["costs"]` when you query calls with the `include_costs` parameter set to `true`.
+When you call `weave.init()` and use a [supported LLM integration](/weave/guides/integrations) such as OpenAI, Anthropic, Cohere, or Mistral, Weave automatically records token usage and calculates cost for each call. Costs appear in the trace tree and in the calls table in the Weave UI. They're also available programmatically under `call.summary["weave"]["costs"]` when you query calls with the `include_costs` parameter set to `true`.
 
 Automatic cost tracking requires two conditions:
 
 - The LLM provider is a supported integration.
 - The API response includes token usage (most providers return this by default).
 
-If either condition is not met, use custom cost tracking instead.
+If either condition isn't met, use custom cost tracking instead.
 
 The following example shows how to retrieve automatic cost data programmatically:
 
@@ -58,10 +59,12 @@ for model, cost in costs.items():
 
 ## Add a custom cost
 
-You can add a custom cost by using the [`add_cost`](/weave/reference/python-sdk/trace/weave_client#method-add-cost) method.
+Use custom cost tracking when automatic cost tracking isn't available, such as with fine-tuned models, self-hosted models, or providers that Weave doesn't integrate with. The following sections describe how to add, query, purge, and aggregate custom costs.
+
+Add a custom cost with the [`add_cost`](/weave/reference/python-sdk/trace/weave_client#method-add-cost) method.
 The three required fields are `llm_id`, `prompt_token_cost`, and `completion_token_cost`.
-`llm_id` is the name of the LLM (for example, `gpt-4o`). `prompt_token_cost` and `completion_token_cost` are cost per token for the LLM (if the LLM prices were specified in per million tokens, make sure to convert the value).
-You can also set `effective_date` to a datetime, to make the cost effective at a specific date, this defaults to the current date.
+`llm_id` is the name of the LLM (for example, `gpt-4o`). `prompt_token_cost` and `completion_token_cost` are the cost per token for the LLM. If the LLM prices are specified per million tokens, convert the value.
+You can also set `effective_date` to a datetime to make the cost effective at a specific date. This defaults to the current date.
 
 ```python lines
 import weave
@@ -83,10 +86,12 @@ client.add_cost(
 )
 ```
 
-### Querying custom costs
+### Query custom costs
 
-You can query for costs by using the [`query_costs`](/weave/reference/python-sdk/trace/weave_client#method-query-costs) method.
-There are a few ways to query for costs, you can pass in a singular cost id, or a list of LLM model names.
+After adding custom costs, you can retrieve them to verify their values or to look up the cost ID needed for other operations such as purging.
+
+Query for costs with the [`query_costs`](/weave/reference/python-sdk/trace/weave_client#method-query-costs) method.
+You can query for costs in a few ways: pass in a single cost ID, or a list of LLM model names.
 
 ```python lines
 import weave
@@ -98,9 +103,9 @@ costs = client.query_costs(llm_ids=["your_model_name"])
 cost = client.query_costs(costs[0].id)
 ```
 
-### Purging a custom cost
+### Purge a custom cost
 
-You can purge a custom cost by using the [`purge_costs`](/weave/reference/python-sdk/trace/weave_client#method-purge-costs) method. You pass in a list of cost ids, and the costs with those ids are purged.
+Purge a custom cost with the [`purge_costs`](/weave/reference/python-sdk/trace/weave_client#method-purge-costs) method. Pass in a list of cost IDs, and Weave purges the costs with those IDs.
 
 ```python lines
 import weave
@@ -111,9 +116,9 @@ costs = client.query_costs(llm_ids=["your_model_name"])
 client.purge_costs([cost.id for cost in costs])
 ```
 
-### Calculating custom costs for a project
+### Calculate custom costs for a project
 
-You can calculate costs for a project by using `get_calls()` with `include_costs=True`.
+To understand the total spend across a project, aggregate the per-call costs returned by Weave. Calculate costs for a project with `get_calls()` and `include_costs=True`.
 
 ```python lines
 import weave
@@ -146,8 +151,8 @@ def get_costs_for_project(project_name: str):
 get_costs_for_project("my_custom_cost_model")
 ```
 
-### Setting up a custom model with custom costs
+### Set up a custom model with custom costs
 
-Try the cookbook for [setting up costs with a custom model](/weave/cookbooks/custom_model_cost).
+For an end-to-end walkthrough that combines a custom model with custom cost tracking, try the cookbook for [setting up costs with a custom model](/weave/cookbooks/custom_model_cost).
 
 <Card title="Try in Colab" href="https://colab.research.google.com/github/wandb/weave/blob/master/docs/./notebooks/custom_model_cost.ipynb" icon="python"/>

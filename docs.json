@@ -95,14 +95,15 @@
                     "group": "Weights & Biases",
                     "pages": [
                       "product-models",
-                      "product-weave"
+                      "product-weave",
+                      "hivemind"
                     ]
                   },
                   {
                     "group": "Powered by CoreWeave",
                     "pages": [
                       "product-inference",
-                      "product-serverless-rl",
+                      "product-serverless-training",
                       "product-sandboxes"
                     ]
                   },
@@ -442,6 +443,7 @@
                               "models/app/features/custom-charts/walkthrough"
                             ]
                           },
+                          "models/app/leet-tui",
                           "models/app/console-logs",
                           "models/app/keyboard-shortcuts"
                         ]
@@ -504,7 +506,6 @@
                     "group": "Reference",
                     "pages": [
                       "models/ref-link-python",
-                      "models/ref-link-public-api",
                       "models/ref-link-cli",
                       "models/ref-link-query-panel",
                       "models/ref-link-workspaces"
@@ -520,9 +521,8 @@
                   {
                     "group": "Get Started",
                     "pages": [
-                      "weave/quickstart",
-                      "weave/tutorial-eval",
-                      "weave/tutorial-rag"
+                      "weave/agents-quickstart",
+                      "weave/quickstart"
                     ]
                   },
                   {
@@ -530,7 +530,18 @@
                     "pages": [
                       "weave/concepts/what-is-weave",
                       {
-                        "group": "Trace your application",
+                        "group": "Trace your agents",
+                        "pages": [
+                          "weave/guides/tracking/trace-agents",
+                          "weave/guides/tracking/trace-agent-integrations",
+                          "weave/guides/tracking/view-agent-activity",
+                          "weave/guides/tracking/view-agent-signals",
+                          "weave/guides/tracking/trace-agents-batch",
+                          "weave/guides/tracking/trace-sub-agents"
+                        ]
+                      },
+                      {
+                        "group": "Trace your applications",
                         "pages": [
                           {
                             "group": "Tracing basics",
@@ -573,9 +584,11 @@
                         ]
                       },
                       {
-                        "group": "Evaluate your application",
+                        "group": "Evaluate your agents and applications",
                         "pages": [
                           "weave/guides/core-types/evaluations",
+                          "weave/tutorial-eval",
+                          "weave/tutorial-rag",
                           "weave/guides/core-types/datasets",
                           "weave/guides/evaluation/scorers",
                           "weave/guides/evaluation/builtin_scorers",
@@ -618,6 +631,7 @@
                           },
                           "weave/guides/tracking/redact-pii",
                           "weave/guides/evaluation/monitors",
+                          "weave/guides/evaluation/custom-monitors",
                           "weave/guides/evaluation/automations",
                           "weave/guides/evaluation/guardrails",
                           "weave/guides/tracking/otel"
@@ -629,6 +643,18 @@
                           "weave/guides/integrations",
                           "weave/guides/integrations/autopatching",
                           "weave/guides/integrations/js",
+                          {
+                            "group": "Trace agents",
+                            "pages": [
+                              "weave/guides/integrations/agents/google-adk",
+                              "weave/guides/integrations/agents/openai-agents-sdk",
+                              "weave/guides/integrations/agents/claude-agents-sdk",
+                              "weave/guides/integrations/agents/claude-code-harness",
+                              "weave/guides/integrations/agents/codex-harness",
+                              "weave/guides/integrations/agents/openclaw-harness",
+                              "weave/guides/integrations/agents/pi-dev-harness"
+                            ]
+                          },
                           {
                             "group": "LLM Providers",
                             "pages": [
@@ -796,25 +822,30 @@
                 ]
               },
               {
-                "item": "Serverless RL",
+                "item": "Serverless Training",
                 "pages": [
-                  "serverless-rl",
-                  "serverless-rl/prerequisites",
-                  "serverless-rl/usage",
-                  "serverless-rl/available-models",
-                  "serverless-rl/usage-limits",
-                  "serverless-rl/use-trained-models",
+                  "serverless-training",
+                  "serverless-training/prerequisites",
+                  "serverless-training/usage-limits",
+                  {
+                    "group": "Serverless RL",
+                    "pages": [
+                      "serverless-training/usage",
+                      "serverless-training/available-models",
+                      "serverless-training/use-trained-models"
+                    ]
+                  },
                   {
                     "group": "Serverless SFT",
                     "pages": [
-                      "serverless-rl/sft",
-                      "serverless-rl/sft/usage"
+                      "serverless-training/sft",
+                      "serverless-training/sft/usage"
                     ]
                   },
                   {
                     "group": "API Reference",
                     "pages": [
-                      "serverless-rl/ref-link-api"
+                      "serverless-training/ref-link-api"
                     ]
                   }
                 ]
@@ -897,6 +928,7 @@
                           "models/ref/python/data-types",
                           "models/ref/python/data-types/audio",
                           "models/ref/python/data-types/box3d",
+                          "models/ref/python/data-types/evaltable",
                           "models/ref/python/data-types/histogram",
                           "models/ref/python/data-types/html",
                           "models/ref/python/data-types/image",
@@ -930,10 +962,15 @@
                           "models/ref/python/automations/metricthresholdfilter",
                           "models/ref/python/automations/newautomation",
                           "models/ref/python/automations/onaddartifactalias",
+                          "models/ref/python/automations/onaddartifacttag",
+                          "models/ref/python/automations/onaddcollectiontag",
                           "models/ref/python/automations/oncreateartifact",
                           "models/ref/python/automations/onlinkartifact",
+                          "models/ref/python/automations/onremoveartifacttag",
+                          "models/ref/python/automations/onremovecollectiontag",
                           "models/ref/python/automations/onrunmetric",
                           "models/ref/python/automations/onrunstate",
+                          "models/ref/python/automations/onunlinkartifact",
                           "models/ref/python/automations/runstatefilter",
                           "models/ref/python/automations/sendnotification",
                           "models/ref/python/automations/sendwebhook"
@@ -959,6 +996,7 @@
                         "pages": [
                           "models/ref/python/public-api",
                           "models/ref/python/public-api/api",
+                          "models/ref/python/public-api/agentruns",
                           "models/ref/python/public-api/artifactcollection",
                           "models/ref/python/public-api/artifactcollections",
                           "models/ref/python/public-api/artifactfiles",
@@ -1019,15 +1057,6 @@
                               "models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-stop"
                             ]
                           },
-                          {
-                            "group": "beta leet",
-                            "pages": [
-                              "models/ref/cli/wandb-beta/wandb-beta-leet",
-                              "models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-config",
-                              "models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-run",
-                              "models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-symon"
-                            ]
-                          },
                           "models/ref/cli/wandb-beta/wandb-beta-sync"
                         ]
                       },
@@ -1044,6 +1073,15 @@
                           "models/ref/cli/wandb-job/wandb-job-create",
                           "models/ref/cli/wandb-job/wandb-job-describe",
                           "models/ref/cli/wandb-job/wandb-job-list"
+                        ]
+                      },
+                      {
+                        "group": "wandb leet",
+                        "pages": [
+                          "models/ref/cli/wandb-leet",
+                          "models/ref/cli/wandb-leet/wandb-leet-config",
+                          "models/ref/cli/wandb-leet/wandb-leet-run",
+                          "models/ref/cli/wandb-leet/wandb-leet-symon"
                         ]
                       },
                       "models/ref/cli/wandb-login",
@@ -1146,10 +1184,15 @@
                           "weave/reference/typescript-sdk/classes/dataset",
                           "weave/reference/typescript-sdk/classes/evaluation",
                           "weave/reference/typescript-sdk/classes/evaluationlogger",
+                          "weave/reference/typescript-sdk/classes/llm",
                           "weave/reference/typescript-sdk/classes/messagesprompt",
                           "weave/reference/typescript-sdk/classes/objectref",
                           "weave/reference/typescript-sdk/classes/scorelogger",
+                          "weave/reference/typescript-sdk/classes/session",
                           "weave/reference/typescript-sdk/classes/stringprompt",
+                          "weave/reference/typescript-sdk/classes/subagent",
+                          "weave/reference/typescript-sdk/classes/tool",
+                          "weave/reference/typescript-sdk/classes/turn",
                           "weave/reference/typescript-sdk/classes/weaveclient",
                           "weave/reference/typescript-sdk/classes/weaveobject"
                         ]
@@ -1158,6 +1201,14 @@
                         "group": "Functions",
                         "pages": [
                           "weave/reference/typescript-sdk/functions/createopenaiagentstracingprocessor",
+                          "weave/reference/typescript-sdk/functions/createotelextension",
+                          "weave/reference/typescript-sdk/functions/endllm",
+                          "weave/reference/typescript-sdk/functions/endsession",
+                          "weave/reference/typescript-sdk/functions/endturn",
+                          "weave/reference/typescript-sdk/functions/flushotel",
+                          "weave/reference/typescript-sdk/functions/getcurrentllm",
+                          "weave/reference/typescript-sdk/functions/getcurrentsession",
+                          "weave/reference/typescript-sdk/functions/getcurrentturn",
                           "weave/reference/typescript-sdk/functions/init",
                           "weave/reference/typescript-sdk/functions/instrumentopenaiagents",
                           "weave/reference/typescript-sdk/functions/login",
@@ -1165,6 +1216,12 @@
                           "weave/reference/typescript-sdk/functions/patchrealtimesession",
                           "weave/reference/typescript-sdk/functions/requirecurrentcallstackentry",
                           "weave/reference/typescript-sdk/functions/requirecurrentchildsummary",
+                          "weave/reference/typescript-sdk/functions/runisolated",
+                          "weave/reference/typescript-sdk/functions/startllm",
+                          "weave/reference/typescript-sdk/functions/startsession",
+                          "weave/reference/typescript-sdk/functions/startsubagent",
+                          "weave/reference/typescript-sdk/functions/starttool",
+                          "weave/reference/typescript-sdk/functions/startturn",
                           "weave/reference/typescript-sdk/functions/weaveaudio",
                           "weave/reference/typescript-sdk/functions/weaveimage",
                           "weave/reference/typescript-sdk/functions/withattributes",
@@ -1177,6 +1234,17 @@
                         "pages": [
                           "weave/reference/typescript-sdk/interfaces/callschema",
                           "weave/reference/typescript-sdk/interfaces/callsfilter",
+                          "weave/reference/typescript-sdk/interfaces/getcallsoptions",
+                          "weave/reference/typescript-sdk/interfaces/llminit",
+                          "weave/reference/typescript-sdk/interfaces/message",
+                          "weave/reference/typescript-sdk/interfaces/query",
+                          "weave/reference/typescript-sdk/interfaces/reasoning",
+                          "weave/reference/typescript-sdk/interfaces/sessioninit",
+                          "weave/reference/typescript-sdk/interfaces/sortby",
+                          "weave/reference/typescript-sdk/interfaces/subagentinit",
+                          "weave/reference/typescript-sdk/interfaces/toolinit",
+                          "weave/reference/typescript-sdk/interfaces/turninit",
+                          "weave/reference/typescript-sdk/interfaces/usage",
                           "weave/reference/typescript-sdk/interfaces/weaveaudio",
                           "weave/reference/typescript-sdk/interfaces/weaveimage"
                         ]
@@ -1184,8 +1252,11 @@
                       {
                         "group": "Type Aliases",
                         "pages": [
+                          "weave/reference/typescript-sdk/type-aliases/messagepart",
+                          "weave/reference/typescript-sdk/type-aliases/modality",
                           "weave/reference/typescript-sdk/type-aliases/op",
-                          "weave/reference/typescript-sdk/type-aliases/opdecorator"
+                          "weave/reference/typescript-sdk/type-aliases/opdecorator",
+                          "weave/reference/typescript-sdk/type-aliases/role"
                         ]
                       }
                     ]
@@ -1212,13 +1283,13 @@
                 ]
               },
               {
-                "group": "Serverless RL",
+                "group": "Serverless Training",
                 "openapi": {
-                  "directory": "serverless-rl/api-reference",
-                  "source": "serverless-rl/api-reference/openapi.json"
+                  "directory": "serverless-training/api-reference",
+                  "source": "serverless-training/api-reference/openapi.json"
                 },
                 "pages": [
-                  "serverless-rl/api-reference"
+                  "serverless-training/api-reference"
                 ]
               }
             ],
@@ -1490,14 +1561,15 @@
                     "group": "Weights & Biases",
                     "pages": [
                       "fr/product-models",
-                      "fr/product-weave"
+                      "fr/product-weave",
+                      "fr/hivemind"
                     ]
                   },
                   {
                     "group": "Propulsé par CoreWeave",
                     "pages": [
                       "fr/product-inference",
-                      "fr/product-serverless-rl",
+                      "fr/product-serverless-training",
                       "fr/product-sandboxes"
                     ]
                   },
@@ -1837,6 +1909,7 @@
                               "fr/models/app/features/custom-charts/walkthrough"
                             ]
                           },
+                          "fr/models/app/leet-tui",
                           "fr/models/app/console-logs",
                           "fr/models/app/keyboard-shortcuts"
                         ]
@@ -1899,7 +1972,6 @@
                     "group": "Référence",
                     "pages": [
                       "fr/models/ref-link-python",
-                      "fr/models/ref-link-public-api",
                       "fr/models/ref-link-cli",
                       "fr/models/ref-link-query-panel",
                       "fr/models/ref-link-workspaces"
@@ -1915,9 +1987,8 @@
                   {
                     "group": "Premiers pas",
                     "pages": [
-                      "fr/weave/quickstart",
-                      "fr/weave/tutorial-eval",
-                      "fr/weave/tutorial-rag"
+                      "fr/weave/agents-quickstart",
+                      "fr/weave/quickstart"
                     ]
                   },
                   {
@@ -1925,7 +1996,18 @@
                     "pages": [
                       "fr/weave/concepts/what-is-weave",
                       {
-                        "group": "Tracez votre application",
+                        "group": "Tracez vos agents",
+                        "pages": [
+                          "fr/weave/guides/tracking/trace-agents",
+                          "fr/weave/guides/tracking/trace-agent-integrations",
+                          "fr/weave/guides/tracking/view-agent-activity",
+                          "fr/weave/guides/tracking/view-agent-signals",
+                          "fr/weave/guides/tracking/trace-agents-batch",
+                          "fr/weave/guides/tracking/trace-sub-agents"
+                        ]
+                      },
+                      {
+                        "group": "Tracez vos applications",
                         "pages": [
                           {
                             "group": "Notions de base du traçage",
@@ -1952,7 +2034,7 @@
                             ]
                           },
                           {
-                            "group": "Utilisez les appels",
+                            "group": "Travaillez avec les appels",
                             "pages": [
                               "fr/weave/guides/tracking/update-call",
                               "fr/weave/guides/tracking/call-schema-reference",
@@ -1968,9 +2050,11 @@
                         ]
                       },
                       {
-                        "group": "Évaluez votre application",
+                        "group": "Évaluez vos agents et applications",
                         "pages": [
                           "fr/weave/guides/core-types/evaluations",
+                          "fr/weave/tutorial-eval",
+                          "fr/weave/tutorial-rag",
                           "fr/weave/guides/core-types/datasets",
                           "fr/weave/guides/evaluation/scorers",
                           "fr/weave/guides/evaluation/builtin_scorers",
@@ -1991,7 +2075,7 @@
                         ]
                       },
                       {
-                        "group": "Gérez les versions de votre travail",
+                        "group": "Versionnez votre travail",
                         "pages": [
                           "fr/weave/tutorial-weave_models",
                           "fr/weave/guides/core-types/models",
@@ -2001,7 +2085,7 @@
                         ]
                       },
                       {
-                        "group": "Surveillez et recueillez des retours",
+                        "group": "Surveillez et recueillez le feedback",
                         "pages": [
                           {
                             "group": "Annotez",
@@ -2013,6 +2097,7 @@
                           },
                           "fr/weave/guides/tracking/redact-pii",
                           "fr/weave/guides/evaluation/monitors",
+                          "fr/weave/guides/evaluation/custom-monitors",
                           "fr/weave/guides/evaluation/automations",
                           "fr/weave/guides/evaluation/guardrails",
                           "fr/weave/guides/tracking/otel"
@@ -2025,7 +2110,19 @@
                           "fr/weave/guides/integrations/autopatching",
                           "fr/weave/guides/integrations/js",
                           {
-                            "group": "Fournisseurs de LLM",
+                            "group": "Traçage des agents",
+                            "pages": [
+                              "fr/weave/guides/integrations/agents/google-adk",
+                              "fr/weave/guides/integrations/agents/openai-agents-sdk",
+                              "fr/weave/guides/integrations/agents/claude-agents-sdk",
+                              "fr/weave/guides/integrations/agents/claude-code-harness",
+                              "fr/weave/guides/integrations/agents/codex-harness",
+                              "fr/weave/guides/integrations/agents/openclaw-harness",
+                              "fr/weave/guides/integrations/agents/pi-dev-harness"
+                            ]
+                          },
+                          {
+                            "group": "Fournisseurs LLM",
                             "pages": [
                               "fr/weave/guides/integrations/bedrock",
                               "fr/weave/guides/integrations/anthropic",
@@ -2191,25 +2288,30 @@
                 ]
               },
               {
-                "item": "Serverless RL",
+                "item": "Serverless Training",
                 "pages": [
-                  "fr/serverless-rl",
-                  "fr/serverless-rl/prerequisites",
-                  "fr/serverless-rl/usage",
-                  "fr/serverless-rl/available-models",
-                  "fr/serverless-rl/usage-limits",
-                  "fr/serverless-rl/use-trained-models",
+                  "fr/serverless-training",
+                  "fr/serverless-training/prerequisites",
+                  "fr/serverless-training/usage-limits",
+                  {
+                    "group": "Serverless RL",
+                    "pages": [
+                      "fr/serverless-training/usage",
+                      "fr/serverless-training/available-models",
+                      "fr/serverless-training/use-trained-models"
+                    ]
+                  },
                   {
                     "group": "Serverless SFT",
                     "pages": [
-                      "fr/serverless-rl/sft",
-                      "fr/serverless-rl/sft/usage"
+                      "fr/serverless-training/sft",
+                      "fr/serverless-training/sft/usage"
                     ]
                   },
                   {
                     "group": "Référence de l’API",
                     "pages": [
-                      "fr/serverless-rl/ref-link-api"
+                      "fr/serverless-training/ref-link-api"
                     ]
                   }
                 ]
@@ -2292,6 +2394,7 @@
                           "fr/models/ref/python/data-types",
                           "fr/models/ref/python/data-types/audio",
                           "fr/models/ref/python/data-types/box3d",
+                          "fr/models/ref/python/data-types/evaltable",
                           "fr/models/ref/python/data-types/histogram",
                           "fr/models/ref/python/data-types/html",
                           "fr/models/ref/python/data-types/image",
@@ -2325,10 +2428,15 @@
                           "fr/models/ref/python/automations/metricthresholdfilter",
                           "fr/models/ref/python/automations/newautomation",
                           "fr/models/ref/python/automations/onaddartifactalias",
+                          "fr/models/ref/python/automations/onaddartifacttag",
+                          "fr/models/ref/python/automations/onaddcollectiontag",
                           "fr/models/ref/python/automations/oncreateartifact",
                           "fr/models/ref/python/automations/onlinkartifact",
+                          "fr/models/ref/python/automations/onremoveartifacttag",
+                          "fr/models/ref/python/automations/onremovecollectiontag",
                           "fr/models/ref/python/automations/onrunmetric",
                           "fr/models/ref/python/automations/onrunstate",
+                          "fr/models/ref/python/automations/onunlinkartifact",
                           "fr/models/ref/python/automations/runstatefilter",
                           "fr/models/ref/python/automations/sendnotification",
                           "fr/models/ref/python/automations/sendwebhook"
@@ -2354,6 +2462,7 @@
                         "pages": [
                           "fr/models/ref/python/public-api",
                           "fr/models/ref/python/public-api/api",
+                          "fr/models/ref/python/public-api/agentruns",
                           "fr/models/ref/python/public-api/artifactcollection",
                           "fr/models/ref/python/public-api/artifactcollections",
                           "fr/models/ref/python/public-api/artifactfiles",
@@ -2414,15 +2523,6 @@
                               "fr/models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-stop"
                             ]
                           },
-                          {
-                            "group": "beta leet",
-                            "pages": [
-                              "fr/models/ref/cli/wandb-beta/wandb-beta-leet",
-                              "fr/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-config",
-                              "fr/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-run",
-                              "fr/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-symon"
-                            ]
-                          },
                           "fr/models/ref/cli/wandb-beta/wandb-beta-sync"
                         ]
                       },
@@ -2439,6 +2539,15 @@
                           "fr/models/ref/cli/wandb-job/wandb-job-create",
                           "fr/models/ref/cli/wandb-job/wandb-job-describe",
                           "fr/models/ref/cli/wandb-job/wandb-job-list"
+                        ]
+                      },
+                      {
+                        "group": "wandb leet",
+                        "pages": [
+                          "fr/models/ref/cli/wandb-leet",
+                          "fr/models/ref/cli/wandb-leet/wandb-leet-config",
+                          "fr/models/ref/cli/wandb-leet/wandb-leet-run",
+                          "fr/models/ref/cli/wandb-leet/wandb-leet-symon"
                         ]
                       },
                       "fr/models/ref/cli/wandb-login",
@@ -2541,10 +2650,15 @@
                           "fr/weave/reference/typescript-sdk/classes/dataset",
                           "fr/weave/reference/typescript-sdk/classes/evaluation",
                           "fr/weave/reference/typescript-sdk/classes/evaluationlogger",
+                          "fr/weave/reference/typescript-sdk/classes/llm",
                           "fr/weave/reference/typescript-sdk/classes/messagesprompt",
                           "fr/weave/reference/typescript-sdk/classes/objectref",
                           "fr/weave/reference/typescript-sdk/classes/scorelogger",
+                          "fr/weave/reference/typescript-sdk/classes/session",
                           "fr/weave/reference/typescript-sdk/classes/stringprompt",
+                          "fr/weave/reference/typescript-sdk/classes/subagent",
+                          "fr/weave/reference/typescript-sdk/classes/tool",
+                          "fr/weave/reference/typescript-sdk/classes/turn",
                           "fr/weave/reference/typescript-sdk/classes/weaveclient",
                           "fr/weave/reference/typescript-sdk/classes/weaveobject"
                         ]
@@ -2553,6 +2667,14 @@
                         "group": "Fonctions",
                         "pages": [
                           "fr/weave/reference/typescript-sdk/functions/createopenaiagentstracingprocessor",
+                          "fr/weave/reference/typescript-sdk/functions/createotelextension",
+                          "fr/weave/reference/typescript-sdk/functions/endllm",
+                          "fr/weave/reference/typescript-sdk/functions/endsession",
+                          "fr/weave/reference/typescript-sdk/functions/endturn",
+                          "fr/weave/reference/typescript-sdk/functions/flushotel",
+                          "fr/weave/reference/typescript-sdk/functions/getcurrentllm",
+                          "fr/weave/reference/typescript-sdk/functions/getcurrentsession",
+                          "fr/weave/reference/typescript-sdk/functions/getcurrentturn",
                           "fr/weave/reference/typescript-sdk/functions/init",
                           "fr/weave/reference/typescript-sdk/functions/instrumentopenaiagents",
                           "fr/weave/reference/typescript-sdk/functions/login",
@@ -2560,6 +2682,12 @@
                           "fr/weave/reference/typescript-sdk/functions/patchrealtimesession",
                           "fr/weave/reference/typescript-sdk/functions/requirecurrentcallstackentry",
                           "fr/weave/reference/typescript-sdk/functions/requirecurrentchildsummary",
+                          "fr/weave/reference/typescript-sdk/functions/runisolated",
+                          "fr/weave/reference/typescript-sdk/functions/startllm",
+                          "fr/weave/reference/typescript-sdk/functions/startsession",
+                          "fr/weave/reference/typescript-sdk/functions/startsubagent",
+                          "fr/weave/reference/typescript-sdk/functions/starttool",
+                          "fr/weave/reference/typescript-sdk/functions/startturn",
                           "fr/weave/reference/typescript-sdk/functions/weaveaudio",
                           "fr/weave/reference/typescript-sdk/functions/weaveimage",
                           "fr/weave/reference/typescript-sdk/functions/withattributes",
@@ -2572,6 +2700,17 @@
                         "pages": [
                           "fr/weave/reference/typescript-sdk/interfaces/callschema",
                           "fr/weave/reference/typescript-sdk/interfaces/callsfilter",
+                          "fr/weave/reference/typescript-sdk/interfaces/getcallsoptions",
+                          "fr/weave/reference/typescript-sdk/interfaces/llminit",
+                          "fr/weave/reference/typescript-sdk/interfaces/message",
+                          "fr/weave/reference/typescript-sdk/interfaces/query",
+                          "fr/weave/reference/typescript-sdk/interfaces/reasoning",
+                          "fr/weave/reference/typescript-sdk/interfaces/sessioninit",
+                          "fr/weave/reference/typescript-sdk/interfaces/sortby",
+                          "fr/weave/reference/typescript-sdk/interfaces/subagentinit",
+                          "fr/weave/reference/typescript-sdk/interfaces/toolinit",
+                          "fr/weave/reference/typescript-sdk/interfaces/turninit",
+                          "fr/weave/reference/typescript-sdk/interfaces/usage",
                           "fr/weave/reference/typescript-sdk/interfaces/weaveaudio",
                           "fr/weave/reference/typescript-sdk/interfaces/weaveimage"
                         ]
@@ -2579,8 +2718,11 @@
                       {
                         "group": "Alias de types",
                         "pages": [
+                          "fr/weave/reference/typescript-sdk/type-aliases/messagepart",
+                          "fr/weave/reference/typescript-sdk/type-aliases/modality",
                           "fr/weave/reference/typescript-sdk/type-aliases/op",
-                          "fr/weave/reference/typescript-sdk/type-aliases/opdecorator"
+                          "fr/weave/reference/typescript-sdk/type-aliases/opdecorator",
+                          "fr/weave/reference/typescript-sdk/type-aliases/role"
                         ]
                       }
                     ]
@@ -2607,13 +2749,13 @@
                 ]
               },
               {
-                "group": "Serverless RL",
+                "group": "Serverless Training",
                 "openapi": {
-                  "directory": "fr/serverless-rl/api-reference",
-                  "source": "fr/serverless-rl/api-reference/openapi.json"
+                  "directory": "fr/serverless-training/api-reference",
+                  "source": "fr/serverless-training/api-reference/openapi.json"
                 },
                 "pages": [
-                  "fr/serverless-rl/api-reference"
+                  "fr/serverless-training/api-reference"
                 ]
               }
             ],
@@ -2804,14 +2946,15 @@
                     "group": "Weights & Biases",
                     "pages": [
                       "ja/product-models",
-                      "ja/product-weave"
+                      "ja/product-weave",
+                      "ja/hivemind"
                     ]
                   },
                   {
                     "group": "CoreWeave 提供",
                     "pages": [
                       "ja/product-inference",
-                      "ja/product-serverless-rl",
+                      "ja/product-serverless-training",
                       "ja/product-sandboxes"
                     ]
                   },
@@ -3151,6 +3294,7 @@
                               "ja/models/app/features/custom-charts/walkthrough"
                             ]
                           },
+                          "ja/models/app/leet-tui",
                           "ja/models/app/console-logs",
                           "ja/models/app/keyboard-shortcuts"
                         ]
@@ -3213,7 +3357,6 @@
                     "group": "リファレンス",
                     "pages": [
                       "ja/models/ref-link-python",
-                      "ja/models/ref-link-public-api",
                       "ja/models/ref-link-cli",
                       "ja/models/ref-link-query-panel",
                       "ja/models/ref-link-workspaces"
@@ -3229,15 +3372,25 @@
                   {
                     "group": "スタートガイド",
                     "pages": [
-                      "ja/weave/quickstart",
-                      "ja/weave/tutorial-eval",
-                      "ja/weave/tutorial-rag"
+                      "ja/weave/agents-quickstart",
+                      "ja/weave/quickstart"
                     ]
                   },
                   {
                     "group": "ガイド",
                     "pages": [
                       "ja/weave/concepts/what-is-weave",
+                      {
+                        "group": "エージェントをトレースする",
+                        "pages": [
+                          "ja/weave/guides/tracking/trace-agents",
+                          "ja/weave/guides/tracking/trace-agent-integrations",
+                          "ja/weave/guides/tracking/view-agent-activity",
+                          "ja/weave/guides/tracking/view-agent-signals",
+                          "ja/weave/guides/tracking/trace-agents-batch",
+                          "ja/weave/guides/tracking/trace-sub-agents"
+                        ]
+                      },
                       {
                         "group": "アプリケーションをトレースする",
                         "pages": [
@@ -3282,9 +3435,11 @@
                         ]
                       },
                       {
-                        "group": "アプリケーションを評価する",
+                        "group": "エージェントとアプリケーションを評価する",
                         "pages": [
                           "ja/weave/guides/core-types/evaluations",
+                          "ja/weave/tutorial-eval",
+                          "ja/weave/tutorial-rag",
                           "ja/weave/guides/core-types/datasets",
                           "ja/weave/guides/evaluation/scorers",
                           "ja/weave/guides/evaluation/builtin_scorers",
@@ -3315,10 +3470,10 @@
                         ]
                       },
                       {
-                        "group": "監視とフィードバックの収集",
+                        "group": "監視してフィードバックを収集する",
                         "pages": [
                           {
-                            "group": "アノテーション",
+                            "group": "アノテーションする",
                             "pages": [
                               "ja/weave/guides/tracking/annotation-queues",
                               "ja/weave/guides/tracking/annotation-review",
@@ -3327,19 +3482,32 @@
                           },
                           "ja/weave/guides/tracking/redact-pii",
                           "ja/weave/guides/evaluation/monitors",
+                          "ja/weave/guides/evaluation/custom-monitors",
                           "ja/weave/guides/evaluation/automations",
                           "ja/weave/guides/evaluation/guardrails",
                           "ja/weave/guides/tracking/otel"
                         ]
                       },
                       {
-                        "group": "LLM provider とフレームワークを統合する",
+                        "group": "LLM プロバイダおよびフレームワークと統合する",
                         "pages": [
                           "ja/weave/guides/integrations",
                           "ja/weave/guides/integrations/autopatching",
                           "ja/weave/guides/integrations/js",
                           {
-                            "group": "LLM provider",
+                            "group": "エージェントをトレースする",
+                            "pages": [
+                              "ja/weave/guides/integrations/agents/google-adk",
+                              "ja/weave/guides/integrations/agents/openai-agents-sdk",
+                              "ja/weave/guides/integrations/agents/claude-agents-sdk",
+                              "ja/weave/guides/integrations/agents/claude-code-harness",
+                              "ja/weave/guides/integrations/agents/codex-harness",
+                              "ja/weave/guides/integrations/agents/openclaw-harness",
+                              "ja/weave/guides/integrations/agents/pi-dev-harness"
+                            ]
+                          },
+                          {
+                            "group": "LLM プロバイダ",
                             "pages": [
                               "ja/weave/guides/integrations/bedrock",
                               "ja/weave/guides/integrations/anthropic",
@@ -3505,25 +3673,30 @@
                 ]
               },
               {
-                "item": "Serverless RL",
+                "item": "Serverless Training",
                 "pages": [
-                  "ja/serverless-rl",
-                  "ja/serverless-rl/prerequisites",
-                  "ja/serverless-rl/usage",
-                  "ja/serverless-rl/available-models",
-                  "ja/serverless-rl/usage-limits",
-                  "ja/serverless-rl/use-trained-models",
+                  "ja/serverless-training",
+                  "ja/serverless-training/prerequisites",
+                  "ja/serverless-training/usage-limits",
+                  {
+                    "group": "Serverless RL",
+                    "pages": [
+                      "ja/serverless-training/usage",
+                      "ja/serverless-training/available-models",
+                      "ja/serverless-training/use-trained-models"
+                    ]
+                  },
                   {
                     "group": "Serverless SFT",
                     "pages": [
-                      "ja/serverless-rl/sft",
-                      "ja/serverless-rl/sft/usage"
+                      "ja/serverless-training/sft",
+                      "ja/serverless-training/sft/usage"
                     ]
                   },
                   {
                     "group": "API リファレンス",
                     "pages": [
-                      "ja/serverless-rl/ref-link-api"
+                      "ja/serverless-training/ref-link-api"
                     ]
                   }
                 ]
@@ -3606,6 +3779,7 @@
                           "ja/models/ref/python/data-types",
                           "ja/models/ref/python/data-types/audio",
                           "ja/models/ref/python/data-types/box3d",
+                          "ja/models/ref/python/data-types/evaltable",
                           "ja/models/ref/python/data-types/histogram",
                           "ja/models/ref/python/data-types/html",
                           "ja/models/ref/python/data-types/image",
@@ -3639,10 +3813,15 @@
                           "ja/models/ref/python/automations/metricthresholdfilter",
                           "ja/models/ref/python/automations/newautomation",
                           "ja/models/ref/python/automations/onaddartifactalias",
+                          "ja/models/ref/python/automations/onaddartifacttag",
+                          "ja/models/ref/python/automations/onaddcollectiontag",
                           "ja/models/ref/python/automations/oncreateartifact",
                           "ja/models/ref/python/automations/onlinkartifact",
+                          "ja/models/ref/python/automations/onremoveartifacttag",
+                          "ja/models/ref/python/automations/onremovecollectiontag",
                           "ja/models/ref/python/automations/onrunmetric",
                           "ja/models/ref/python/automations/onrunstate",
+                          "ja/models/ref/python/automations/onunlinkartifact",
                           "ja/models/ref/python/automations/runstatefilter",
                           "ja/models/ref/python/automations/sendnotification",
                           "ja/models/ref/python/automations/sendwebhook"
@@ -3668,6 +3847,7 @@
                         "pages": [
                           "ja/models/ref/python/public-api",
                           "ja/models/ref/python/public-api/api",
+                          "ja/models/ref/python/public-api/agentruns",
                           "ja/models/ref/python/public-api/artifactcollection",
                           "ja/models/ref/python/public-api/artifactcollections",
                           "ja/models/ref/python/public-api/artifactfiles",
@@ -3728,15 +3908,6 @@
                               "ja/models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-stop"
                             ]
                           },
-                          {
-                            "group": "beta leet",
-                            "pages": [
-                              "ja/models/ref/cli/wandb-beta/wandb-beta-leet",
-                              "ja/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-config",
-                              "ja/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-run",
-                              "ja/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-symon"
-                            ]
-                          },
                           "ja/models/ref/cli/wandb-beta/wandb-beta-sync"
                         ]
                       },
@@ -3753,6 +3924,15 @@
                           "ja/models/ref/cli/wandb-job/wandb-job-create",
                           "ja/models/ref/cli/wandb-job/wandb-job-describe",
                           "ja/models/ref/cli/wandb-job/wandb-job-list"
+                        ]
+                      },
+                      {
+                        "group": "wandb leet",
+                        "pages": [
+                          "ja/models/ref/cli/wandb-leet",
+                          "ja/models/ref/cli/wandb-leet/wandb-leet-config",
+                          "ja/models/ref/cli/wandb-leet/wandb-leet-run",
+                          "ja/models/ref/cli/wandb-leet/wandb-leet-symon"
                         ]
                       },
                       "ja/models/ref/cli/wandb-login",
@@ -3855,10 +4035,15 @@
                           "ja/weave/reference/typescript-sdk/classes/dataset",
                           "ja/weave/reference/typescript-sdk/classes/evaluation",
                           "ja/weave/reference/typescript-sdk/classes/evaluationlogger",
+                          "ja/weave/reference/typescript-sdk/classes/llm",
                           "ja/weave/reference/typescript-sdk/classes/messagesprompt",
                           "ja/weave/reference/typescript-sdk/classes/objectref",
                           "ja/weave/reference/typescript-sdk/classes/scorelogger",
+                          "ja/weave/reference/typescript-sdk/classes/session",
                           "ja/weave/reference/typescript-sdk/classes/stringprompt",
+                          "ja/weave/reference/typescript-sdk/classes/subagent",
+                          "ja/weave/reference/typescript-sdk/classes/tool",
+                          "ja/weave/reference/typescript-sdk/classes/turn",
                           "ja/weave/reference/typescript-sdk/classes/weaveclient",
                           "ja/weave/reference/typescript-sdk/classes/weaveobject"
                         ]
@@ -3867,6 +4052,14 @@
                         "group": "関数",
                         "pages": [
                           "ja/weave/reference/typescript-sdk/functions/createopenaiagentstracingprocessor",
+                          "ja/weave/reference/typescript-sdk/functions/createotelextension",
+                          "ja/weave/reference/typescript-sdk/functions/endllm",
+                          "ja/weave/reference/typescript-sdk/functions/endsession",
+                          "ja/weave/reference/typescript-sdk/functions/endturn",
+                          "ja/weave/reference/typescript-sdk/functions/flushotel",
+                          "ja/weave/reference/typescript-sdk/functions/getcurrentllm",
+                          "ja/weave/reference/typescript-sdk/functions/getcurrentsession",
+                          "ja/weave/reference/typescript-sdk/functions/getcurrentturn",
                           "ja/weave/reference/typescript-sdk/functions/init",
                           "ja/weave/reference/typescript-sdk/functions/instrumentopenaiagents",
                           "ja/weave/reference/typescript-sdk/functions/login",
@@ -3874,6 +4067,12 @@
                           "ja/weave/reference/typescript-sdk/functions/patchrealtimesession",
                           "ja/weave/reference/typescript-sdk/functions/requirecurrentcallstackentry",
                           "ja/weave/reference/typescript-sdk/functions/requirecurrentchildsummary",
+                          "ja/weave/reference/typescript-sdk/functions/runisolated",
+                          "ja/weave/reference/typescript-sdk/functions/startllm",
+                          "ja/weave/reference/typescript-sdk/functions/startsession",
+                          "ja/weave/reference/typescript-sdk/functions/startsubagent",
+                          "ja/weave/reference/typescript-sdk/functions/starttool",
+                          "ja/weave/reference/typescript-sdk/functions/startturn",
                           "ja/weave/reference/typescript-sdk/functions/weaveaudio",
                           "ja/weave/reference/typescript-sdk/functions/weaveimage",
                           "ja/weave/reference/typescript-sdk/functions/withattributes",
@@ -3886,6 +4085,17 @@
                         "pages": [
                           "ja/weave/reference/typescript-sdk/interfaces/callschema",
                           "ja/weave/reference/typescript-sdk/interfaces/callsfilter",
+                          "ja/weave/reference/typescript-sdk/interfaces/getcallsoptions",
+                          "ja/weave/reference/typescript-sdk/interfaces/llminit",
+                          "ja/weave/reference/typescript-sdk/interfaces/message",
+                          "ja/weave/reference/typescript-sdk/interfaces/query",
+                          "ja/weave/reference/typescript-sdk/interfaces/reasoning",
+                          "ja/weave/reference/typescript-sdk/interfaces/sessioninit",
+                          "ja/weave/reference/typescript-sdk/interfaces/sortby",
+                          "ja/weave/reference/typescript-sdk/interfaces/subagentinit",
+                          "ja/weave/reference/typescript-sdk/interfaces/toolinit",
+                          "ja/weave/reference/typescript-sdk/interfaces/turninit",
+                          "ja/weave/reference/typescript-sdk/interfaces/usage",
                           "ja/weave/reference/typescript-sdk/interfaces/weaveaudio",
                           "ja/weave/reference/typescript-sdk/interfaces/weaveimage"
                         ]
@@ -3893,8 +4103,11 @@
                       {
                         "group": "型エイリアス",
                         "pages": [
+                          "ja/weave/reference/typescript-sdk/type-aliases/messagepart",
+                          "ja/weave/reference/typescript-sdk/type-aliases/modality",
                           "ja/weave/reference/typescript-sdk/type-aliases/op",
-                          "ja/weave/reference/typescript-sdk/type-aliases/opdecorator"
+                          "ja/weave/reference/typescript-sdk/type-aliases/opdecorator",
+                          "ja/weave/reference/typescript-sdk/type-aliases/role"
                         ]
                       }
                     ]
@@ -3921,13 +4134,13 @@
                 ]
               },
               {
-                "group": "Serverless RL",
+                "group": "Serverless Training",
                 "openapi": {
-                  "directory": "ja/serverless-rl/api-reference",
-                  "source": "ja/serverless-rl/api-reference/openapi.json"
+                  "directory": "ja/serverless-training/api-reference",
+                  "source": "ja/serverless-training/api-reference/openapi.json"
                 },
                 "pages": [
-                  "ja/serverless-rl/api-reference"
+                  "ja/serverless-training/api-reference"
                 ]
               }
             ],
@@ -4118,14 +4331,15 @@
                     "group": "Weights & Biases",
                     "pages": [
                       "ko/product-models",
-                      "ko/product-weave"
+                      "ko/product-weave",
+                      "ko/hivemind"
                     ]
                   },
                   {
                     "group": "CoreWeave 제공",
                     "pages": [
                       "ko/product-inference",
-                      "ko/product-serverless-rl",
+                      "ko/product-serverless-training",
                       "ko/product-sandboxes"
                     ]
                   },
@@ -4465,6 +4679,7 @@
                               "ko/models/app/features/custom-charts/walkthrough"
                             ]
                           },
+                          "ko/models/app/leet-tui",
                           "ko/models/app/console-logs",
                           "ko/models/app/keyboard-shortcuts"
                         ]
@@ -4527,7 +4742,6 @@
                     "group": "레퍼런스",
                     "pages": [
                       "ko/models/ref-link-python",
-                      "ko/models/ref-link-public-api",
                       "ko/models/ref-link-cli",
                       "ko/models/ref-link-query-panel",
                       "ko/models/ref-link-workspaces"
@@ -4543,9 +4757,8 @@
                   {
                     "group": "시작하기",
                     "pages": [
-                      "ko/weave/quickstart",
-                      "ko/weave/tutorial-eval",
-                      "ko/weave/tutorial-rag"
+                      "ko/weave/agents-quickstart",
+                      "ko/weave/quickstart"
                     ]
                   },
                   {
@@ -4553,7 +4766,18 @@
                     "pages": [
                       "ko/weave/concepts/what-is-weave",
                       {
-                        "group": "애플리케이션 트레이스하기",
+                        "group": "에이전트를 트레이스하세요",
+                        "pages": [
+                          "ko/weave/guides/tracking/trace-agents",
+                          "ko/weave/guides/tracking/trace-agent-integrations",
+                          "ko/weave/guides/tracking/view-agent-activity",
+                          "ko/weave/guides/tracking/view-agent-signals",
+                          "ko/weave/guides/tracking/trace-agents-batch",
+                          "ko/weave/guides/tracking/trace-sub-agents"
+                        ]
+                      },
+                      {
+                        "group": "애플리케이션을 트레이스하세요",
                         "pages": [
                           {
                             "group": "트레이싱 기본 개념",
@@ -4580,7 +4804,7 @@
                             ]
                           },
                           {
-                            "group": "Call 활용하기",
+                            "group": "Call 사용하기",
                             "pages": [
                               "ko/weave/guides/tracking/update-call",
                               "ko/weave/guides/tracking/call-schema-reference",
@@ -4596,9 +4820,11 @@
                         ]
                       },
                       {
-                        "group": "애플리케이션 평가하기",
+                        "group": "에이전트와 애플리케이션을 평가하세요",
                         "pages": [
                           "ko/weave/guides/core-types/evaluations",
+                          "ko/weave/tutorial-eval",
+                          "ko/weave/tutorial-rag",
                           "ko/weave/guides/core-types/datasets",
                           "ko/weave/guides/evaluation/scorers",
                           "ko/weave/guides/evaluation/builtin_scorers",
@@ -4611,7 +4837,7 @@
                         ]
                       },
                       {
-                        "group": "프롬프트와 모델로 실험하기",
+                        "group": "프롬프트와 모델로 실험하세요",
                         "pages": [
                           "ko/weave/guides/tools/playground",
                           "ko/weave/guides/tools/evaluation_playground",
@@ -4619,7 +4845,7 @@
                         ]
                       },
                       {
-                        "group": "작업 버전 관리하기",
+                        "group": "작업을 버전 관리하세요",
                         "pages": [
                           "ko/weave/tutorial-weave_models",
                           "ko/weave/guides/core-types/models",
@@ -4629,10 +4855,10 @@
                         ]
                       },
                       {
-                        "group": "모니터링 및 피드백 수집",
+                        "group": "모니터링하고 피드백을 수집하세요",
                         "pages": [
                           {
-                            "group": "어노테이션",
+                            "group": "주석 달기",
                             "pages": [
                               "ko/weave/guides/tracking/annotation-queues",
                               "ko/weave/guides/tracking/annotation-review",
@@ -4641,17 +4867,30 @@
                           },
                           "ko/weave/guides/tracking/redact-pii",
                           "ko/weave/guides/evaluation/monitors",
+                          "ko/weave/guides/evaluation/custom-monitors",
                           "ko/weave/guides/evaluation/automations",
                           "ko/weave/guides/evaluation/guardrails",
                           "ko/weave/guides/tracking/otel"
                         ]
                       },
                       {
-                        "group": "LLM 공급자 및 프레임워크와 통합하기",
+                        "group": "LLM 공급자 및 프레임워크와 통합하세요",
                         "pages": [
                           "ko/weave/guides/integrations",
                           "ko/weave/guides/integrations/autopatching",
                           "ko/weave/guides/integrations/js",
+                          {
+                            "group": "트레이스 에이전트",
+                            "pages": [
+                              "ko/weave/guides/integrations/agents/google-adk",
+                              "ko/weave/guides/integrations/agents/openai-agents-sdk",
+                              "ko/weave/guides/integrations/agents/claude-agents-sdk",
+                              "ko/weave/guides/integrations/agents/claude-code-harness",
+                              "ko/weave/guides/integrations/agents/codex-harness",
+                              "ko/weave/guides/integrations/agents/openclaw-harness",
+                              "ko/weave/guides/integrations/agents/pi-dev-harness"
+                            ]
+                          },
                           {
                             "group": "LLM 공급자",
                             "pages": [
@@ -4705,7 +4944,7 @@
                         ]
                       },
                       {
-                        "group": "배포 및 확장",
+                        "group": "배포하고 확장하세요",
                         "pages": [
                           "ko/weave/guides/platform",
                           "ko/weave/guides/platform/weave-self-managed"
@@ -4819,25 +5058,30 @@
                 ]
               },
               {
-                "item": "Serverless RL",
+                "item": "Serverless Training",
                 "pages": [
-                  "ko/serverless-rl",
-                  "ko/serverless-rl/prerequisites",
-                  "ko/serverless-rl/usage",
-                  "ko/serverless-rl/available-models",
-                  "ko/serverless-rl/usage-limits",
-                  "ko/serverless-rl/use-trained-models",
+                  "ko/serverless-training",
+                  "ko/serverless-training/prerequisites",
+                  "ko/serverless-training/usage-limits",
+                  {
+                    "group": "Serverless RL",
+                    "pages": [
+                      "ko/serverless-training/usage",
+                      "ko/serverless-training/available-models",
+                      "ko/serverless-training/use-trained-models"
+                    ]
+                  },
                   {
                     "group": "Serverless SFT",
                     "pages": [
-                      "ko/serverless-rl/sft",
-                      "ko/serverless-rl/sft/usage"
+                      "ko/serverless-training/sft",
+                      "ko/serverless-training/sft/usage"
                     ]
                   },
                   {
                     "group": "API 레퍼런스",
                     "pages": [
-                      "ko/serverless-rl/ref-link-api"
+                      "ko/serverless-training/ref-link-api"
                     ]
                   }
                 ]
@@ -4920,6 +5164,7 @@
                           "ko/models/ref/python/data-types",
                           "ko/models/ref/python/data-types/audio",
                           "ko/models/ref/python/data-types/box3d",
+                          "ko/models/ref/python/data-types/evaltable",
                           "ko/models/ref/python/data-types/histogram",
                           "ko/models/ref/python/data-types/html",
                           "ko/models/ref/python/data-types/image",
@@ -4953,10 +5198,15 @@
                           "ko/models/ref/python/automations/metricthresholdfilter",
                           "ko/models/ref/python/automations/newautomation",
                           "ko/models/ref/python/automations/onaddartifactalias",
+                          "ko/models/ref/python/automations/onaddartifacttag",
+                          "ko/models/ref/python/automations/onaddcollectiontag",
                           "ko/models/ref/python/automations/oncreateartifact",
                           "ko/models/ref/python/automations/onlinkartifact",
+                          "ko/models/ref/python/automations/onremoveartifacttag",
+                          "ko/models/ref/python/automations/onremovecollectiontag",
                           "ko/models/ref/python/automations/onrunmetric",
                           "ko/models/ref/python/automations/onrunstate",
+                          "ko/models/ref/python/automations/onunlinkartifact",
                           "ko/models/ref/python/automations/runstatefilter",
                           "ko/models/ref/python/automations/sendnotification",
                           "ko/models/ref/python/automations/sendwebhook"
@@ -4982,6 +5232,7 @@
                         "pages": [
                           "ko/models/ref/python/public-api",
                           "ko/models/ref/python/public-api/api",
+                          "ko/models/ref/python/public-api/agentruns",
                           "ko/models/ref/python/public-api/artifactcollection",
                           "ko/models/ref/python/public-api/artifactcollections",
                           "ko/models/ref/python/public-api/artifactfiles",
@@ -5042,15 +5293,6 @@
                               "ko/models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-stop"
                             ]
                           },
-                          {
-                            "group": "beta leet",
-                            "pages": [
-                              "ko/models/ref/cli/wandb-beta/wandb-beta-leet",
-                              "ko/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-config",
-                              "ko/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-run",
-                              "ko/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-symon"
-                            ]
-                          },
                           "ko/models/ref/cli/wandb-beta/wandb-beta-sync"
                         ]
                       },
@@ -5067,6 +5309,15 @@
                           "ko/models/ref/cli/wandb-job/wandb-job-create",
                           "ko/models/ref/cli/wandb-job/wandb-job-describe",
                           "ko/models/ref/cli/wandb-job/wandb-job-list"
+                        ]
+                      },
+                      {
+                        "group": "wandb leet",
+                        "pages": [
+                          "ko/models/ref/cli/wandb-leet",
+                          "ko/models/ref/cli/wandb-leet/wandb-leet-config",
+                          "ko/models/ref/cli/wandb-leet/wandb-leet-run",
+                          "ko/models/ref/cli/wandb-leet/wandb-leet-symon"
                         ]
                       },
                       "ko/models/ref/cli/wandb-login",
@@ -5169,10 +5420,15 @@
                           "ko/weave/reference/typescript-sdk/classes/dataset",
                           "ko/weave/reference/typescript-sdk/classes/evaluation",
                           "ko/weave/reference/typescript-sdk/classes/evaluationlogger",
+                          "ko/weave/reference/typescript-sdk/classes/llm",
                           "ko/weave/reference/typescript-sdk/classes/messagesprompt",
                           "ko/weave/reference/typescript-sdk/classes/objectref",
                           "ko/weave/reference/typescript-sdk/classes/scorelogger",
+                          "ko/weave/reference/typescript-sdk/classes/session",
                           "ko/weave/reference/typescript-sdk/classes/stringprompt",
+                          "ko/weave/reference/typescript-sdk/classes/subagent",
+                          "ko/weave/reference/typescript-sdk/classes/tool",
+                          "ko/weave/reference/typescript-sdk/classes/turn",
                           "ko/weave/reference/typescript-sdk/classes/weaveclient",
                           "ko/weave/reference/typescript-sdk/classes/weaveobject"
                         ]
@@ -5181,6 +5437,14 @@
                         "group": "함수",
                         "pages": [
                           "ko/weave/reference/typescript-sdk/functions/createopenaiagentstracingprocessor",
+                          "ko/weave/reference/typescript-sdk/functions/createotelextension",
+                          "ko/weave/reference/typescript-sdk/functions/endllm",
+                          "ko/weave/reference/typescript-sdk/functions/endsession",
+                          "ko/weave/reference/typescript-sdk/functions/endturn",
+                          "ko/weave/reference/typescript-sdk/functions/flushotel",
+                          "ko/weave/reference/typescript-sdk/functions/getcurrentllm",
+                          "ko/weave/reference/typescript-sdk/functions/getcurrentsession",
+                          "ko/weave/reference/typescript-sdk/functions/getcurrentturn",
                           "ko/weave/reference/typescript-sdk/functions/init",
                           "ko/weave/reference/typescript-sdk/functions/instrumentopenaiagents",
                           "ko/weave/reference/typescript-sdk/functions/login",
@@ -5188,6 +5452,12 @@
                           "ko/weave/reference/typescript-sdk/functions/patchrealtimesession",
                           "ko/weave/reference/typescript-sdk/functions/requirecurrentcallstackentry",
                           "ko/weave/reference/typescript-sdk/functions/requirecurrentchildsummary",
+                          "ko/weave/reference/typescript-sdk/functions/runisolated",
+                          "ko/weave/reference/typescript-sdk/functions/startllm",
+                          "ko/weave/reference/typescript-sdk/functions/startsession",
+                          "ko/weave/reference/typescript-sdk/functions/startsubagent",
+                          "ko/weave/reference/typescript-sdk/functions/starttool",
+                          "ko/weave/reference/typescript-sdk/functions/startturn",
                           "ko/weave/reference/typescript-sdk/functions/weaveaudio",
                           "ko/weave/reference/typescript-sdk/functions/weaveimage",
                           "ko/weave/reference/typescript-sdk/functions/withattributes",
@@ -5200,6 +5470,17 @@
                         "pages": [
                           "ko/weave/reference/typescript-sdk/interfaces/callschema",
                           "ko/weave/reference/typescript-sdk/interfaces/callsfilter",
+                          "ko/weave/reference/typescript-sdk/interfaces/getcallsoptions",
+                          "ko/weave/reference/typescript-sdk/interfaces/llminit",
+                          "ko/weave/reference/typescript-sdk/interfaces/message",
+                          "ko/weave/reference/typescript-sdk/interfaces/query",
+                          "ko/weave/reference/typescript-sdk/interfaces/reasoning",
+                          "ko/weave/reference/typescript-sdk/interfaces/sessioninit",
+                          "ko/weave/reference/typescript-sdk/interfaces/sortby",
+                          "ko/weave/reference/typescript-sdk/interfaces/subagentinit",
+                          "ko/weave/reference/typescript-sdk/interfaces/toolinit",
+                          "ko/weave/reference/typescript-sdk/interfaces/turninit",
+                          "ko/weave/reference/typescript-sdk/interfaces/usage",
                           "ko/weave/reference/typescript-sdk/interfaces/weaveaudio",
                           "ko/weave/reference/typescript-sdk/interfaces/weaveimage"
                         ]
@@ -5207,8 +5488,11 @@
                       {
                         "group": "유형 별칭",
                         "pages": [
+                          "ko/weave/reference/typescript-sdk/type-aliases/messagepart",
+                          "ko/weave/reference/typescript-sdk/type-aliases/modality",
                           "ko/weave/reference/typescript-sdk/type-aliases/op",
-                          "ko/weave/reference/typescript-sdk/type-aliases/opdecorator"
+                          "ko/weave/reference/typescript-sdk/type-aliases/opdecorator",
+                          "ko/weave/reference/typescript-sdk/type-aliases/role"
                         ]
                       }
                     ]
@@ -5235,13 +5519,13 @@
                 ]
               },
               {
-                "group": "Serverless RL",
+                "group": "Serverless Training",
                 "openapi": {
-                  "directory": "ko/serverless-rl/api-reference",
-                  "source": "ko/serverless-rl/api-reference/openapi.json"
+                  "directory": "ko/serverless-training/api-reference",
+                  "source": "ko/serverless-training/api-reference/openapi.json"
                 },
                 "pages": [
-                  "ko/serverless-rl/api-reference"
+                  "ko/serverless-training/api-reference"
                 ]
               }
             ],
@@ -5563,7 +5847,11 @@
       "source": "/guides/track/:slug*"
     },
     {
-      "destination": "/serverless-rl/:slug*",
+      "destination": "/serverless-training",
+      "source": "/guides/training/serverless-rl"
+    },
+    {
+      "destination": "/serverless-training/:slug*",
       "source": "/guides/training/:slug*"
     },
     {
@@ -5747,8 +6035,12 @@
       "source": "/models/support/add_extra_values_sweep_start_new_one"
     },
     {
-      "destination": "/support/models/articles/is-there-a-way-to-add-more-seats",
+      "destination": "/support/models/articles/how-do-i-add-more-seats",
       "source": "/models/support/add_more_seats"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-add-more-seats",
+      "source": "/support/models/articles/is-there-a-way-to-add-more-seats"
     },
     {
       "destination": "/support/models/articles/how-do-i-add-plotly-or-bokeh-charts-into",
@@ -5815,8 +6107,12 @@
       "source": "/models/support/change_directory_sweep_logs_locally"
     },
     {
-      "destination": "/support/models/articles/is-it-possible-to-change-the-group-assig",
+      "destination": "/support/models/articles/how-do-i-change-the-group-of-a-completed-run",
       "source": "/models/support/change_group_after_completion"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-change-the-group-of-a-completed-run",
+      "source": "/support/models/articles/is-it-possible-to-change-the-group-assig"
     },
     {
       "destination": "/support/models/articles/is-it-possible-to-change-the-username",
@@ -5859,8 +6155,12 @@
       "source": "/models/support/custom_cli_commands_sweeps"
     },
     {
-      "destination": "/support/models/articles/is-there-a-dark-mode",
+      "destination": "/support/models/articles/how-do-i-enable-dark-mode",
       "source": "/models/support/dark_mode"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-enable-dark-mode",
+      "source": "/support/models/articles/is-there-a-dark-mode"
     },
     {
       "destination": "/support/models/articles/how-do-i-deal-with-network-issues",
@@ -5959,8 +6259,12 @@
       "source": "/models/support/find_artifacts_logged_consumed_run_find"
     },
     {
-      "destination": "/support/models/articles/can-we-flag-boolean-variables-as-hyperpa",
+      "destination": "/support/models/articles/how-do-i-flag-boolean-variables-as-hyperparameters",
       "source": "/models/support/flag_boolean_variables_hyperparameters"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-flag-boolean-variables-as-hyperparameters",
+      "source": "/support/models/articles/can-we-flag-boolean-variables-as-hyperpa"
     },
     {
       "destination": "/support/models/articles/what-formula-do-you-use-for-your-smoothi",
@@ -5983,8 +6287,12 @@
       "source": "/models/support/group_runs_tags"
     },
     {
-      "destination": "/support/models/articles/can-i-group-runs-without-using-the-group",
+      "destination": "/support/models/articles/how-can-i-categorize-runs-without-the-group-feature",
       "source": "/models/support/group_runs_without_group_feature"
+    },
+    {
+      "destination": "/support/models/articles/how-can-i-categorize-runs-without-the-group-feature",
+      "source": "/support/models/articles/can-i-group-runs-without-using-the-group"
     },
     {
       "destination": "/support/models/articles/how-can-i-be-removed-from-a-team",
@@ -6087,12 +6395,20 @@
       "source": "/models/support/join_team"
     },
     {
-      "destination": "/support/models/articles/can-i-just-log-metrics-no-code-or-datase",
+      "destination": "/support/models/articles/how-do-i-log-metrics-without-saving-code",
       "source": "/models/support/just_log_metrics_no_code_dataset_examples"
     },
     {
-      "destination": "/support/models/articles/can-i-just-set-the-run-name-to-the-run-i",
+      "destination": "/support/models/articles/how-do-i-log-metrics-without-saving-code",
+      "source": "/support/models/articles/can-i-just-log-metrics-no-code-or-datase"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-set-the-run-name-to-the-run-id",
       "source": "/models/support/just_set_run_name_run_id"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-set-the-run-name-to-the-run-id",
+      "source": "/support/models/articles/can-i-just-set-the-run-name-to-the-run-i"
     },
     {
       "destination": "/support/models/articles/how-do-i-kill-a-job-with-wandb",
@@ -6131,8 +6447,12 @@
       "source": "/models/support/log_metrics_batches_some_metrics_epochs"
     },
     {
-      "destination": "/support/models/articles/can-i-log-metrics-on-two-different-time-",
+      "destination": "/support/models/articles/how-do-i-log-metrics-on-two-time-scales",
       "source": "/models/support/log_metrics_two_different_time_scales_example_log_training"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-log-metrics-on-two-time-scales",
+      "source": "/support/models/articles/can-i-log-metrics-on-two-different-time-"
     },
     {
       "destination": "/support/models/articles/what-happens-when-i-log-millions-of-step",
@@ -6163,8 +6483,12 @@
       "source": "/models/support/monthly_subscription_option_teams_plan"
     },
     {
-      "destination": "/support/models/articles/is-it-possible-to-move-a-run-from-one-pr",
+      "destination": "/support/models/articles/how-do-i-move-a-run-to-another-project",
       "source": "/models/support/move_from_project_another"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-move-a-run-to-another-project",
+      "source": "/support/models/articles/is-it-possible-to-move-a-run-from-one-pr"
     },
     {
       "destination": "/support/models/articles/how-to-get-multiple-charts-with-differen",
@@ -6179,8 +6503,12 @@
       "source": "/models/support/multiprocessing_library"
     },
     {
-      "destination": "/support/models/articles/do-i-need-to-provide-values-for-all-hype",
+      "destination": "/support/models/articles/how-do-i-set-default-hyperparameter-values-in-a-sweep",
       "source": "/models/support/need_provide_values_all_hyperparameters_part_wb_sweep_set"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-set-default-hyperparameter-values-in-a-sweep",
+      "source": "/support/models/articles/do-i-need-to-provide-values-for-all-hype"
     },
     {
       "destination": "/support/models/articles/optimizing-multiple-metrics",
@@ -6199,8 +6527,12 @@
       "source": "/models/support/pass_class_attribute_wandblog"
     },
     {
-      "destination": "/support/models/articles/is-it-possible-to-plot-the-max-of-a-metr",
+      "destination": "/support/models/articles/how-do-i-plot-the-maximum-of-a-metric",
       "source": "/models/support/plot_max_metric"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-plot-the-maximum-of-a-metric",
+      "source": "/support/models/articles/is-it-possible-to-plot-the-max-of-a-metr"
     },
     {
       "destination": "/support/models/articles/how-do-i-plot-multiple-lines-on-a-plot-w",
@@ -6259,16 +6591,24 @@
       "source": "/models/support/report_slow_after_wysiwyg"
     },
     {
-      "destination": "/support/models/articles/can-i-use-markdown-in-my-reports",
+      "destination": "/support/models/articles/how-do-i-use-markdown-in-my-reports",
       "source": "/models/support/reports_markdown"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-use-markdown-in-my-reports",
+      "source": "/support/models/articles/can-i-use-markdown-in-my-reports"
     },
     {
       "destination": "/support/models/articles/how-do-i-request-the-complete-deletion-o",
       "source": "/models/support/request_complete_deletion_account"
     },
     {
-      "destination": "/support/models/articles/can-i-rerun-a-grid-search",
+      "destination": "/support/models/articles/how-do-i-rerun-a-grid-search",
       "source": "/models/support/rerun_grid_search"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-rerun-a-grid-search",
+      "source": "/support/models/articles/can-i-rerun-a-grid-search"
     },
     {
       "destination": "/support/models/articles/how-can-i-resolve-login-issues-with-my-a",
@@ -6311,8 +6651,12 @@
       "source": "/support/models/articles/how-do-i-run-sweeps-with-distributed-training-on-slurm"
     },
     {
-      "destination": "/support/models/articles/can-i-run-wandb-offline",
+      "destination": "/support/models/articles/how-do-i-run-wandb-offline",
       "source": "/models/support/run_wandb_offline"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-run-wandb-offline",
+      "source": "/support/models/articles/can-i-run-wandb-offline"
     },
     {
       "destination": "/support/models/articles/how-many-runs-can-i-create-per-project",
@@ -6367,8 +6711,12 @@
       "source": "/models/support/slow_training"
     },
     {
-      "destination": "/support/models/articles/does-wb-support-sso-for-multi-tenant",
+      "destination": "/support/models/articles/how-do-i-set-up-sso-for-multi-tenant",
       "source": "/models/support/sso_multitenant"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-set-up-sso-for-multi-tenant",
+      "source": "/support/models/articles/does-wb-support-sso-for-multi-tenant"
     },
     {
       "destination": "/support/models/articles/how-do-i-stop-wandb-from-writing-to-my-t",
@@ -6383,12 +6731,20 @@
       "source": "/models/support/stream_logs_writes_disk"
     },
     {
-      "destination": "/support/models/articles/can-you-use-wb-sweeps-with-cloud-infrast",
+      "destination": "/support/models/articles/how-do-i-use-sweeps-with-cloud-infrastructure",
       "source": "/models/support/sweeps_cloud_infrastructures_such_aws_batch_ecs"
     },
     {
-      "destination": "/support/models/articles/can-i-use-sweeps-and-sagemaker",
+      "destination": "/support/models/articles/how-do-i-use-sweeps-with-cloud-infrastructure",
+      "source": "/support/models/articles/can-you-use-wb-sweeps-with-cloud-infrast"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-use-sweeps-with-sagemaker",
       "source": "/models/support/sweeps_sagemaker"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-use-sweeps-with-sagemaker",
+      "source": "/support/models/articles/can-i-use-sweeps-and-sagemaker"
     },
     {
       "destination": "/support/models/articles/how-do-i-switch-between-accounts-on-the-",
@@ -6403,8 +6759,12 @@
       "source": "/models/support/team_find_more_information"
     },
     {
-      "destination": "/support/models/articles/can-i-turn-off-wandb-when-testing-my-cod",
+      "destination": "/support/models/articles/how-do-i-disable-wandb-when-testing-my-code",
       "source": "/models/support/testing_code_turn_off"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-disable-wandb-when-testing-my-code",
+      "source": "/support/models/articles/can-i-turn-off-wandb-when-testing-my-cod"
     },
     {
       "destination": "/support/models/articles/does-your-tool-track-or-store-training-d",
@@ -6571,7 +6931,7 @@
       "source": "/ref/release-notes/releases/archived/*"
     },
     {
-      "destination": "/serverless-rl/api-reference",
+      "destination": "/serverless-training/api-reference",
       "source": "/ref/training"
     },
     {
@@ -6603,43 +6963,51 @@
       "source": "/sweeps/faq/"
     },
     {
-      "destination": "/serverless-rl/api-reference/:slug*",
+      "destination": "/serverless-training/api-reference/:slug*",
       "source": "/training/api-reference/:slug*"
     },
     {
-      "destination": "/serverless-rl/api-reference",
+      "destination": "/serverless-training/api-reference",
       "source": "/training/api-reference"
     },
     {
-      "destination": "/serverless-rl/usage",
+      "destination": "/serverless-training/usage",
       "source": "/training/serverless-rl"
     },
     {
-      "destination": "/serverless-rl/:slug*",
+      "destination": "/serverless-training",
+      "source": "/serverless-rl"
+    },
+    {
+      "destination": "/serverless-training/:slug*",
+      "source": "/serverless-rl/:slug*"
+    },
+    {
+      "destination": "/serverless-training/:slug*",
       "source": "/training/serverless-rl/:slug*"
     },
     {
-      "destination": "/serverless-rl/sft/usage",
+      "destination": "/serverless-training/sft/usage",
       "source": "/training/sft-training/sft-training"
     },
     {
-      "destination": "/serverless-rl/sft/:slug*",
+      "destination": "/serverless-training/sft/:slug*",
       "source": "/training/sft-training/:slug*"
     },
     {
-      "destination": "/serverless-rl/sft",
+      "destination": "/serverless-training/sft",
       "source": "/training/sft-training"
     },
     {
-      "destination": "/serverless-rl/prerequisites",
+      "destination": "/serverless-training/prerequisites",
       "source": "/training/prerequisites"
     },
     {
-      "destination": "/serverless-rl",
+      "destination": "/serverless-training",
       "source": "/training"
     },
     {
-      "destination": "/serverless-rl/:slug*",
+      "destination": "/serverless-training/:slug*",
       "source": "/training/:slug*"
     },
     {

@@ -1,0 +1,197 @@
+---
+title: OpenClaw 플러그인
+description: 관측성과 디버깅을 위해 W&B Weave에서 OpenClaw 에이전트 세션을 추적합니다.
+keywords: ["OpenClaw", "게이트웨이 플러그인", "에이전트 트레이싱", "OTel GenAI", "weave-openclaw"]
+---
+
+import AgentsPreview from '/snippets/ko/_includes/agents-public-preview.mdx';
+
+<AgentsPreview />
+
+Weave OpenClaw 플러그인은 OpenClaw 게이트웨이를 통해 실행되는 모든 에이전트 세션을 자동으로 트레이스하고, 구조화된 데이터를 W&amp;B Weave로 전송합니다. 이 플러그인은 애플리케이션 코드를 변경하지 않아도 모든 대화 턴, 모델 Call, 도구 실행을 기록합니다. 이러한 트레이스를 사용해 세션을 디버그하고, 도구 사용을 감사하고, Runs 전반의 비용과 지연 시간을 모니터링하세요.
+
+이 가이드는 게이트웨이 뒤에서 실행되는 에이전트에 대해 Weave Tracing을 활성화하려는 OpenClaw 게이트웨이 운영자를 위한 문서입니다. 플러그인 설치, 설정, 생성된 트레이스 확인, 일반적인 문제 해결 방법을 안내합니다.
+
+<Warning>
+  이 플러그인은 OpenClaw 세션 데이터를 Weave로 전송합니다. 이 데이터에는 사용자 프롬프트, 모델 응답, 도구 입력과 출력, 도구 결과, 대화 이력이 포함될 수 있습니다.
+
+  이 플러그인은 개인 식별 정보(PII) 제거 또는 민감한 데이터 마스킹 기능을 제공하지 않습니다. 콘텐츠 캡처를 억제해야 하는 경우 플러그인 설정에서 `captureContent: false`를 설정하세요. 보안 또는 규정 준수 요구 사항 때문에 이 데이터를 Weave로 보낼 수 없다면 이 플러그인을 설치하지 마세요.
+</Warning>
+
+<div id="prerequisites">
+  ## 사전 요구 사항
+</div>
+
+* [Node.js](https://nodejs.org/) v22.14 이상.
+* 플러그인 API를 지원하는 [OpenClaw](https://openclaw.ai) `2026.4.25` 이상.
+* W&amp;B 계정 및 [API 키](https://wandb.ai/authorize).
+* 트레이스를 수신할 Weave 프로젝트 (`[YOUR-TEAM]/[YOUR-PROJECT]`).
+
+<div id="install-the-plugin">
+  ## 플러그인 설치
+</div>
+
+다음 step을 완료하여 플러그인을 설치하고, OpenClaw 게이트웨이에 등록하고, 트레이스가 Weave 프로젝트에 도달하는지 확인하세요.
+
+<Steps>
+  <Step title="패키지 설치">
+    ```bash lines
+    openclaw plugins install weave-openclaw
+    ```
+
+    전체 이름인 `weave-openclaw`를 사용하세요(`weave`만 사용하면 이 플러그인이 아니라 W&amp;B SDK를 가리킵니다). 플러그인은 설정을 통해 OpenClaw 게이트웨이에서 로드됩니다. application 코드에서 직접 임포트하지는 않습니다.
+  </Step>
+
+  <Step title="게이트웨이 설정에 플러그인 추가">
+    기본 설정 위치는 `~/.openclaw/openclaw.json`입니다(JSON5 형식이므로 주석과 후행 쉼표를 사용할 수 있습니다). 아직 없다면 `openclaw onboard`를 실행해 기본 파일을 생성하세요.
+    프로젝트에 맞게 `[YOUR-TEAM]` 및 `[YOUR-PROJECT]`를 수정하세요.
+
+    ```json lines
+    {
+      plugins: {
+        allow: ["weave"],
+        entries: {
+          weave: {
+            enabled: true,
+            config: { entity: "YOUR-TEAM", project: "YOUR-PROJECT" },
+            hooks: { allowConversationAccess: true },
+          },
+        },
+      },
+    }
+    ```
+
+    OpenClaw가 콘텐츠를 포함하는 훅(`llm_input`, `llm_output`, `agent_end`)을 실행하고, span에 입력 및 출력 텍스트, 도구 인수, 도구 결과가 포함되도록 **`hooks.allowConversationAccess`**를 **`true`**로 설정하세요.
+
+    `diagnostics.enabled`는 기본적으로 켜져 있습니다. 비활성화해야 하는 경우에만 명시적으로 설정하세요.
+  </Step>
+
+  <Step title="게이트웨이를 다시 시작하고 확인">
+    OpenClaw 게이트웨이를 다시 시작한 다음, OpenClaw 채팅 인터페이스에서 `/weave status`를 실행해 플러그인이 활성화되었는지 확인하세요. 첫 번째 에이전트 run 후 몇 초 이내에 `https://wandb.ai/[YOUR-TEAM]/[YOUR-PROJECT]`에 트레이스가 표시됩니다.
+  </Step>
+</Steps>
+
+<div id="view-openclaw-traces-in-weave">
+  ## Weave에서 OpenClaw 트레이스 보기
+</div>
+
+플러그인이 활성화되면 각 에이전트 세션은 Weave UI에서 확인할 수 있는 트레이스를 생성합니다. 하나 이상의 에이전트 세션을 실행한 후 Weave UI에서 프로젝트를 여세요:
+
+1. [https://wandb.ai](https://wandb.ai)로 이동해 프로젝트를 선택하세요.
+2. 사이드바에서 멀티턴 채팅 뷰와 에이전트별 버전 그룹화를 보려면 **Agents**를 선택하고, 원시 span 트리를 보려면 **Traces**를 선택하세요.
+3. 전체 세션 트리를 확인할 대화를 선택하세요.
+
+Agents 뷰에 대한 자세한 내용은 [에이전트 활동 보기](/ko/weave/guides/tracking/view-agent-activity)를 참조하세요.
+
+이 플러그인은 [OpenTelemetry (OTel) GenAI semantic conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/)에 따라 span을 생성합니다:
+
+| Span                   | 발생 시점        | 주요 속성                                                                             |
+| ---------------------- | ------------ | --------------------------------------------------------------------------------- |
+| `invoke_agent <agent>` | 각 에이전트 run마다 | `gen_ai.agent.name`, `gen_ai.conversation.id`, 누적 비용, 토큰 사용량                      |
+| `chat <model>`         | 각 모델 호출마다    | `gen_ai.request.model`, `gen_ai.usage.input_tokens`, `gen_ai.usage.output_tokens` |
+| `execute_tool <tool>`  | 각 도구 실행마다    | `gen_ai.tool.name`, `gen_ai.tool.call.id`                                         |
+
+<div id="configuration-reference">
+  ## 설정 레퍼런스
+</div>
+
+이 섹션은 `openclaw.json`의 `weave` 플러그인 항목에 대한 전체 설정 레퍼런스입니다.
+
+`apiKey` 필드는 4가지 인증 소스를 지원하며, 다음 순서로 확인됩니다.
+
+1. `source: "env"` 또는 `source: "file"`이 지정된 `SecretRef` 객체(아래 예시의 10번째 줄 참조)
+2. 리터럴 `apiKey` string(지원되지만 권장되지는 않음)
+3. `WANDB_API_KEY` 환경 변수
+4. `wandb login`으로 채워진 Weave 호스트용 `~/.netrc` 항목
+
+```json lines
+{
+  plugins: {
+    entries: {
+      weave: {
+        enabled: true,
+        config: {
+          entity: "YOUR-TEAM",
+          project: "YOUR-PROJECT",
+          // Reads WANDB_API_KEY from env if apiKey is omitted.
+          // SecretRef supports source: "env" or "file":
+          //   { source: "env",  provider: "default", id: "WANDB_API_KEY" }
+          //   { source: "file", provider: "default", id: "/run/secrets/wandb" }
+          // Plain string is supported but discouraged.
+          apiKey: { source: "env", provider: "default", id: "WANDB_API_KEY" },
+          serviceName: "openclaw-agent",
+          // Optional, improves Agents tab grouping.
+          agentName: "my-agent",
+          agentVersion: "v1.0",
+          agentDescription: "What my agent does.",
+          // ON by default. Set to false for a hard off (compliance or
+          // retention policy). The plugin does not redact captured
+          // strings; scrub upstream if needed.
+          captureContent: true,
+          flushIntervalMs: 1000,
+        },
+        hooks: { allowConversationAccess: true },
+      },
+    },
+  },
+}
+```
+
+`captureContent`의 기본값은 `true`입니다. `captureContent`가 `true`이면 플러그인은 입력 및 출력 메시지, 도구 인수, 그리고 도구 결과도 `gen_ai.input.messages` 및 `gen_ai.output.messages` payload 형식에 따라 함께 전송합니다. 플러그인은 서브에이전트, compaction 이벤트, 루프 감지, 재시도 시도, 그리고 컨텍스트 사이징을 추가 속성과 span 이벤트로 기록합니다.
+
+규정 준수 또는 보존 정책에 따라 캡처를 끄려면 `captureContent`를 `false`로 설정하세요.
+
+<div id="wb-dedicated-cloud-or-self-hosted-instances">
+  ### W&amp;B Dedicated Cloud 또는 자체 호스팅 인스턴스
+</div>
+
+플러그인은 엔드포인트와 인증을 [Weave Node SDK](https://github.com/wandb/weave/tree/master/sdks/node)에 위임합니다. Weave Python 및 Node SDK와 동일한 규칙에 따라 다음 환경 변수를 조회합니다:
+
+| 변수                    | 설명                                                                                              |
+| --------------------- | ----------------------------------------------------------------------------------------------- |
+| `WANDB_BASE_URL`      | W&amp;B API base URL. 기본값: `https://api.wandb.ai`. Dedicated Cloud 또는 자체 호스팅 설치의 경우 이 값을 설정하세요. |
+| `WF_TRACE_SERVER_URL` | 전체 trace-server URL 재정의값입니다. Self-Managed 또는 프록시를 사용하는 설정에 사용하세요.                               |
+
+<div id="troubleshooting">
+  ## 문제 해결
+</div>
+
+트레이스가 Weave에 도달하지 않거나 content 필드가 비어 있으면, 가장 일반적인 원인을 진단하려면 아래 섹션을 참조하세요.
+
+게이트웨이 로그는 `openclaw`를 실행하는 process의 터미널 출력이거나, 데몬으로 실행한 경우 프로세스 관리자의 로그 스트림입니다.
+
+<div id="plugin-loaded-but-no-spans-show-up">
+  ### 플러그인이 로드되었지만 span이 표시되지 않음
+</div>
+
+1. `/weave status`를 실행하세요. 라이프사이클이 `disabled`, `config-error` 또는 `not-started`이면 플러그인이 활성화되지 않은 것입니다. 게이트웨이 로그에서 `weave: config.entity is required`, `weave: configuration error` 또는 `[weave] incompatible plugin SDK`가 있는지 확인하세요.
+2. 게이트웨이 설정에서 `diagnostics.enabled: false`로 설정하지 않았는지 확인하세요. 이 필드는 `true`여야 합니다.
+3. 확인 중인 Weave 프로젝트의 URL 슬러그와 엔터티 및 프로젝트가 일치하는지 확인하세요. `/weave status`는 `project=[YOUR-TEAM]/[YOUR-PROJECT]`를 출력해야 합니다.
+4. 인증 소스를 확인하세요. `/weave status`는 `auth=...`를 출력해야 합니다. `WANDB_API_KEY env`라고 표시되는데 키를 다른 환경 변수에 설정했다면, 플러그인이 잘못된 키를 읽고 있는 것입니다.
+
+<div id="spans-land-but-inputoutput-text-is-empty">
+  ### span은 수신되지만 입력/출력 텍스트가 비어 있습니다
+</div>
+
+게이트웨이 로그에서 다음 내용을 확인하세요:
+
+```text
+[plugins] typed hook "llm_input"  blocked because non-bundled plugins must set
+                                  plugins.entries.weave.hooks.allowConversationAccess=true
+[plugins] typed hook "llm_output" blocked ...
+[plugins] typed hook "agent_end"  blocked ...
+```
+
+OpenClaw에서는 콘텐츠가 포함된 훅을 operator가 opt-in한 경우에만 사용할 수 있습니다. 설정에서 `plugins.entries.weave.hooks.allowConversationAccess: true`를 지정한 다음 게이트웨이를 다시 시작하세요. `span` 구조와 비용/사용 데이터는 훅이 아니라 진단 이벤트를 통해 전달되므로, `allowConversationAccess`가 `false`인 경우에도 계속 작동합니다.
+
+<div id="errors-sending-traces-to-weave">
+  ### Weave로 트레이스를 전송할 때 발생하는 오류
+</div>
+
+플러그인이 활성화되어 span을 생성하고 있는데도 Weave에 표시되지 않으면, 게이트웨이 로그에서 내보내기 오류를 확인한 뒤 아래 표와 대조하세요.
+
+| Symptom                              | Most likely cause                | Fix                                                                                                                          |
+| ------------------------------------ | -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `trace.wandb.ai`에서 `401` 또는 `403` 반환 | 유효하지 않거나 범위가 제한된 API 키           | 키가 현재 사용 중인 키인지, 그리고 팀이 해당 entity와 프로젝트를 소유하고 있는지 확인하세요. `wandb login`을 실행하면 `~/.netrc`가 갱신됩니다.                              |
+| agents endpoint에서 `404` 반환           | 잘못된 base URL 또는 trace-server URL | Dedicated 설치의 경우 `WANDB_BASE_URL`을 설치 호스트로 설정하세요. self-managed 또는 프록시 환경의 경우 `WF_TRACE_SERVER_URL`을 trace-server URL로 설정하세요. |
+| 연결 거부 또는 DNS 오류                      | DNS, 프록시 또는 방화벽 문제               | 게이트웨이 호스트가 `443` 포트에서 `trace.wandb.ai`(cloud) 또는 설치 호스트(Dedicated)에 연결할 수 있는지 확인하세요.                                         |
