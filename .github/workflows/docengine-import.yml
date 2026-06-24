@@ -1,0 +1,110 @@
+name: DocEngine - data import
+
+# Scheduled refresh of the DocEngine database (validated YAML data) from upstream
+# sources, running IN-REPO on the pinned `docengine` submodule. Opens one same-repo
+# PR updating docengine-site/data/**. That PR's push then triggers docengine-build
+# (atomic output), which regenerates the snippets and runs the host validations —
+# this workflow does NOT build (clean separation of concerns).
+#
+# Hello World note: there are no importers yet (docengine-site/importers/ is an
+# empty stub), so `docengine import --all` is a no-op until importers are added.
+#
+# Auth:
+#   - Engine submodule checkout (PRIVATE coreweave/docengine): DOCENGINE_TOKEN via
+#     url.insteadOf.
+#   - PR auth (push branch + open PR with a workflow-triggering identity): the
+#     wandb-docs-pr-writer App token, so the docengine-site/data/** change fires
+#     docengine-build.yml.
+
+on:
+  # schedule:
+  #   - cron: "17 6 * * *"   # ~06:17 UTC daily (PR only on change)
+  workflow_dispatch:
+
+concurrency:
+  group: docengine-import
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  DocEngineImport:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require app credentials
+        run: |
+          if [ -z "${{ vars.DOCS_PR_WRITER_CLIENT_ID }}" ] || [ -z "${{ secrets.DOCS_PR_WRITER_PRIVATE_KEY }}" ]; then
+            echo "::error::DOCS_PR_WRITER_CLIENT_ID (variable) and DOCS_PR_WRITER_PRIVATE_KEY (secret) must be set in Settings → Secrets and variables → Actions."
+            exit 1
+          fi
+
+      - name: Require submodule-read token
+        run: |
+          if [ -z "${{ secrets.DOCENGINE_TOKEN }}" ]; then
+            echo "::error::DOCENGINE_TOKEN is not set. Required to clone the private coreweave/docengine submodule."
+            exit 1
+          fi
+
+      - name: Generate token for wandb-docs-pr-writer
+        id: app_token
+        uses: actions/create-github-app-token@v3
+        with:
+          client-id: ${{ vars.DOCS_PR_WRITER_CLIENT_ID }}
+          private-key: ${{ secrets.DOCS_PR_WRITER_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          # App token persists as the push credential; peter-evans uses it explicitly
+          # for the PR. No `submodules:` here — `recursive` would also try the
+          # unrelated `.claude` (docs-skills) submodule.
+          token: ${{ steps.app_token.outputs.token }}
+
+      - name: Authenticate git for the private coreweave docengine submodule
+        env:
+          TOKEN: ${{ secrets.DOCENGINE_TOKEN }}
+        run: |
+          git config --global url."https://x-access-token:${TOKEN}@github.com/".insteadOf "https://github.com/"
+
+      - name: Initialize the engine submodule (docengine only; skip .claude)
+        run: git submodule update --init --depth 1 docengine
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Install DocEngine from the submodule
+        run: pip install -e ./docengine
+
+      - name: Run all data importers
+        # Slim descriptor (docengine-site/docengine.yaml) selects the single site; no
+        # --site needed. Every discovered importer runs in one job for a consistent
+        # snapshot, writing validated YAML into docengine-site/data/<table>/.
+        run: docengine import --all
+
+      - name: Open PR with YAML updates
+        uses: peter-evans/create-pull-request@v8
+        with:
+          token: ${{ steps.app_token.outputs.token }}
+          branch: docengine/data-import
+          delete-branch: true
+          add-paths: |
+            docengine-site/data/**
+          commit-message: |
+            Scheduled data import
+
+            Automated refresh of DocEngine database tables from upstream sources.
+          title: "Scheduled data import"
+          labels: auto-generated
+          body: |
+            Automated refresh of DocEngine database tables from their upstream sources.
+
+            All importers ran together in one job for a consistent snapshot. The
+            `docengine-site/data/**` change in this PR triggers the DocEngine build
+            workflow, which regenerates the snippets and runs the site validations.
+
+            **Workflow run:** [View run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})

@@ -1,15 +1,20 @@
 ---
-title: OpenAI Realtime API
-description: Utilisez Weave pour tracer automatiquement vos appels à l’OpenAI Realtime API.
+title: API Realtime d’OpenAI
+description: Utilisez Weave pour tracer automatiquement vos appels à l’API Realtime d’OpenAI.
+keywords: ["de voix à voix", "assistant vocal", "WebSockets", "SDK Agents", "traçage audio"]
 ---
 
-L’intégration de Weave avec l’[OpenAI Realtime API](https://developers.openai.com/api/docs/guides/realtime/) vous permet de tracer automatiquement les interactions vocales de votre application en temps réel. Vous pouvez l’utiliser pour capturer les conversations entre vos agents et les utilisateurs afin d’examiner et d’évaluer les performances des agents.
+L’intégration de Weave avec l’[API Realtime d’OpenAI](https://developers.openai.com/api/docs/guides/realtime/) vous permet de tracer automatiquement les interactions vocales de votre application en temps réel. Vous pouvez l’utiliser pour capturer les conversations entre vos agents et les utilisateurs afin d’examiner et d’évaluer les performances des agents.
+
+Ce guide vous montre comment activer le traçage de l’API Realtime dans votre application et vous présente deux exemples complets d’assistants vocaux que vous pouvez exécuter localement.
 
 <div id="integrate-realtime-traces">
   ## Intégrer les traces en temps réel
 </div>
 
-Weave s’intègre automatiquement à l’OpenAI Realtime API et ne nécessite que quelques lignes de code supplémentaires pour commencer à capturer les interactions audio de votre application. Le code suivant importe Weave et l’intégration à l’OpenAI Realtime API :
+Cette section présente le code minimal nécessaire pour activer le tracing Weave pour l’API Realtime d’OpenAI dans toute application.
+
+Weave s’intègre automatiquement à l’API Realtime d’OpenAI et ne nécessite que quelques lignes de code supplémentaires pour commencer à capturer les interactions audio de votre application. Le code suivant importe Weave et l’intégration à l’API Realtime d’OpenAI :
 
 ```python lines {2,5}
 import weave
@@ -21,16 +26,15 @@ patch_openai_realtime()
 # La logique de votre application
 ```
 
-Une fois Weave importé dans votre code et exécuté, Weave trace automatiquement les interactions entre l’utilisateur et l’OpenAI Realtime API.
-
+Une fois Weave importé dans votre code et exécuté, Weave trace automatiquement les interactions entre l’utilisateur et l’API Realtime d’OpenAI.
 
 <div id="run-a-realtime-voice-assistant-with-the-openai-agents-sdk">
-  ### Exécuter un assistant vocal en temps réel avec le SDK OpenAI Agents
+  ### Exécutez un assistant vocal en temps réel avec le SDK OpenAI Agents
 </div>
 
-Cet exemple met en œuvre un assistant vocal en temps réel qui diffuse en continu l’audio du microphone vers l’OpenAI Realtime API et restitue les réponses vocales de l’IA via le haut-parleur de votre machine locale. L’application utilise le SDK OpenAI Agents avec `RealtimeAgent` et `RealtimeRunner`, et active le tracing Weave en appliquant le patch `patch_openai_realtime()`.
+Cet exemple exécute un assistant vocal en temps réel qui transmet en continu l’audio du microphone à l’API Realtime d’OpenAI et lit les réponses orales de l’IA via le haut-parleur de votre machine locale. L’application utilise le SDK OpenAI Agents avec `RealtimeAgent` et `RealtimeRunner`, et active le tracing Weave via le patch `patch_openai_realtime()`. Utilisez cette approche si vous souhaitez que le SDK Agents de plus haut niveau gère la session Realtime à votre place.
 
-Pour exécuter l’exemple :
+Pour exécuter l’exemple, suivez les étapes ci-dessous :
 
 1. Démarrez votre environnement Python et installez les bibliothèques suivantes :
 
@@ -50,7 +54,7 @@ Pour exécuter l’exemple :
 
 2. Créez un fichier nommé `weave_voice_assistant.py` et ajoutez-y le code suivant.
 
-   Les lignes surlignées indiquent l’intégration de Weave dans l’application. Le reste du code sert à créer l’application d’assistant vocal de base.
+   Les lignes surlignées montrent l’intégration de Weave dans l’application. Le reste du code crée l’application de base de l’assistant vocal.
 
    <Accordion title="weave_voice_assistant.py">
      ```python lines {8,11,14,51-55}
@@ -78,7 +82,7 @@ Pour exécuter l’exemple :
      INP_DEV_IDX = None
      OUT_DEV_IDX = None
 
-     # Parse CLI args for Weave project name and audio device selection.
+     # Analyse les arguments CLI pour le nom du projet Weave et la sélection du périphérique audio.
      def parse_args():
          parser = argparse.ArgumentParser(description="Realtime agent with Weave logging")
          parser.add_argument(
@@ -98,13 +102,13 @@ Pour exécuter l’exemple :
              "--output-device",
              type=int,
              default=None,
-             help="Index du périphérique de sortie PyAudio (haut-parleur). Par défaut, utilise le périphérique système par défaut. Exécutez mic_detect.py pour lister les périphériques.",
+             help="PyAudio output (speaker) device index. Defaults to system default. Run mic_detect.py to list devices.",
              dest="output_device"
          )
          return parser.parse_args()
 
 
-     # Initialize Weave and patch the OpenAI Realtime API for tracing.
+     # Initialise Weave et applique le patch à l'API Realtime d'OpenAI pour le tracing.
      def init_weave(project_name: str | None = None) -> None:
          name = project_name or DEFAULT_WEAVE_PROJECT
          weave.init(name)
@@ -113,7 +117,7 @@ Pour exécuter l’exemple :
 
      mic_enabled = True
 
-     # Listen for 't' key to toggle mic on/off. Runs in a daemon thread.
+     # Écoute la touche 't' pour activer/désactiver le micro. S'exécute dans un thread démon.
      def start_keylistener():
          global mic_enabled
          fd = sys.stdin.fileno()
@@ -132,7 +136,7 @@ Pour exécuter l’exemple :
              termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
 
 
-     # Drain the audio queue and write to the speaker in a background thread.
+     # Vide la file d'attente audio et écrit vers le haut-parleur dans un thread en arrière-plan.
      def play_audio(output_stream: pyaudio.Stream, audio_output_queue: queue.Queue):
          while True:
              data = audio_output_queue.get()
@@ -141,7 +145,7 @@ Pour exécuter l’exemple :
              output_stream.write(data)
 
 
-     # Open audio streams, start a Realtime session, and run the send/receive loop.
+     # Ouvre les flux audio, démarre une session Realtime et exécute la boucle d'envoi/réception.
      async def main(*, input_device_index: int | None = None, output_device_index: int | None = None):
          p = pyaudio.PyAudio()
 
@@ -150,7 +154,7 @@ Pour exécuter l’exemple :
          if output_device_index is None:
              output_device_index = int(p.get_default_output_device_info()['index'])
 
-         # Clamp channel count to device capabilities to avoid pyaudio errors.
+         # Limite le nombre de canaux aux capacités du périphérique pour éviter les erreurs pyaudio.
          input_info = p.get_device_info_by_index(input_device_index)
          output_info = p.get_device_info_by_index(output_device_index)
 
@@ -180,7 +184,7 @@ Pour exécuter l’exemple :
          mic.start_stream()
          speaker.start_stream()
 
-         # Buffer audio through a queue so in-flight playback can be flushed on interrupt.
+         # Met l'audio en mémoire tampon via une file d'attente afin que la lecture en cours puisse être interrompue proprement.
          audio_output_queue = queue.Queue()
          threading.Thread(
              target=play_audio, args=(speaker, audio_output_queue), daemon=True
@@ -214,7 +218,7 @@ Pour exécuter l’exemple :
          threading.Thread(target=start_keylistener, daemon=True).start()
 
          async with await s_runner.run() as session:
-             # Stream mic input to the Realtime API, sending silence when muted.
+             # Diffuse l'entrée micro vers l'API Realtime en envoyant du silence lorsque le micro est coupé.
              async def send_mic_audio():
                  silence = b'\x00' * CHUNK * 2  # 2 bytes per sample (16-bit PCM).
                  try:
@@ -231,17 +235,17 @@ Pour exécuter l’exemple :
                              print(f"Mic Level: {' ' * 50} | 🎙 OFF", end="\r")
                              await session.send_audio(silence)
 
-                         await asyncio.sleep(0)  # Yield to the event loop between reads.
+                         await asyncio.sleep(0)  # Cède la main à la boucle d'événements entre les lectures.
                  except Exception:
                      pass
 
-             # Receive events from the session and route audio to the speaker.
+             # Reçoit les événements de la session et achemine l'audio vers le haut-parleur.
              async def handle_events():
                  async for event in session:
                      if event.type == "audio":
                          audio_output_queue.put(event.audio.data)
                      elif event.type == "audio_interrupted":
-                         # Flush queued AI audio so it doesn't talk over the user.
+                         # Vide l'audio IA en attente pour éviter qu'il ne couvre la voix de l'utilisateur.
                          while not audio_output_queue.empty():
                              try:
                                  audio_output_queue.get_nowait()
@@ -254,8 +258,8 @@ Pour exécuter l’exemple :
              finally:
                  mic_task.cancel()
 
-         # Cleanup
-         audio_output_queue.put(None)  # Signal playback thread to exit.
+         # Nettoyage
+         audio_output_queue.put(None)  # Signale au thread de lecture de se terminer.
          mic.close()
          speaker.close()
          p.terminate()
@@ -272,28 +276,28 @@ Pour exécuter l’exemple :
      ```
    </Accordion>
 
-3. Mettez à jour la valeur `DEFAULT_WEAVE_PROJECT` avec les noms de votre équipe et de votre projet.
+3. Mettez à jour la valeur de `DEFAULT_WEAVE_PROJECT` avec le nom de votre équipe et celui de votre projet.
 
 4. Définissez la variable d’environnement `OPENAI_API_KEY`.
 
-5. Exécutez le code :
-   ```
+5. Lancez l’assistant vocal :
+   ```bash
    python weave_voice_assistant.py
    ```
 
-Une fois en cours d’exécution, appuyez sur la touche **T** de votre clavier pour couper ou réactiver le micro. L’assistant utilise la détection d’activité vocale côté serveur pour gérer la prise de parole à tour de rôle et les interruptions.
+Une fois que l’assistant est en cours d’exécution, appuyez sur la touche `T` de votre clavier pour couper ou réactiver le micro. L’assistant utilise la détection de l’activité vocale côté serveur pour gérer la prise de parole à tour de rôle et les interruptions.
 
 Lorsque vous parlez à l’assistant, Weave capture des traces que vous pouvez explorer dans la Weave UI, y compris l’audio de la session.
 
-<div id="run-a-realtime-voice-assistant-using-websockets">
+<div id="run-a-realtime-voice-assistant-with-websockets">
   ### Exécuter un assistant vocal en temps réel avec WebSockets
 </div>
 
-L’exemple suivant se connecte directement à l’OpenAI Realtime API via WebSockets. Il transmet l’audio du microphone à l’API, lit les réponses vocales et prend en charge l’appel d’outils (recherches météo, évaluation mathématique, exécution de code et écriture de fichiers). Weave trace la session à l’aide de `weave.init()` et `patch_openai_realtime()`.
+L’exemple suivant se connecte directement à l’OpenAI Realtime API via WebSockets. Il transmet l’audio du microphone à l’API, lit les réponses vocales et prend en charge l’appel d’outils (recherches météo, évaluation mathématique, exécution de code et écriture de fichiers). Weave trace la session à l’aide de `weave.init()` et `patch_openai_realtime()`. Utilisez cette approche lorsque vous souhaitez un contrôle total sur la session Realtime sans dépendre du SDK Agents.
 
-Pour exécuter l’exemple :
+Pour exécuter l’exemple, effectuez les étapes suivantes :
 
-1. Lancez votre environnement Python et installez les bibliothèques suivantes :
+1. Lancez votre environnement Python et installez les bibliothèques suivantes :
 
    <Tabs>
      <Tab title="uv">
@@ -309,7 +313,7 @@ Pour exécuter l’exemple :
      </Tab>
    </Tabs>
 
-2. Créez un fichier intitulé `tool_definitions.py` et ajoutez-y les définitions d’outil suivantes. L’application principale importe ce module.
+2. Créez un fichier intitulé `tool_definitions.py` et ajoutez-y les définitions d&#39;outil suivantes. L&#39;application principale importe ce module.
 
    <Accordion title="tool_definitions.py">
      ```python lines
@@ -336,13 +340,13 @@ Pour exécuter l’exemple :
          """Évaluer une expression mathématique et renvoyer le résultat.
 
          Arguments:
-             expression: Une expression mathématique à évaluer, par exemple '2 + 2'.
+             expression: Une expression mathématique à évaluer, par ex. '2 + 2'.
          """
          try:
              result = eval(expression)
              return str(result)
          except Exception as e:
-             return f"Erreur: {e}"
+             return f"Error: {e}"
 
 
      @weave.op
@@ -369,10 +373,10 @@ Pour exécuter l’exemple :
              if result.stderr:
                  output += f"\nSTDERR:\n{result.stderr}"
              if result.returncode != 0:
-                 output += f"\n(code de sortie {result.returncode})"
-             return output or "(aucune sortie)"
+                 output += f"\n(exit code {result.returncode})"
+             return output or "(no output)"
          except subprocess.TimeoutExpired:
-             return "Erreur: le script a dépassé le délai de 30 secondes."
+             return "Error: script timed out after 30 seconds."
          finally:
              script_path.unlink(missing_ok=True)
 
@@ -382,16 +386,16 @@ Pour exécuter l’exemple :
          """Écrire du contenu dans un fichier sur disque.
 
          Arguments:
-             file_path: Le chemin du fichier à écrire.
+             file_path: Le chemin du fichier dans lequel écrire.
              content: Le contenu à écrire dans le fichier.
          """
          try:
              path = Path(file_path)
              path.parent.mkdir(parents=True, exist_ok=True)
              path.write_text(content)
-             return f"{len(content)} octets écrits dans {file_path}"
+             return f"Wrote {len(content)} bytes to {file_path}"
          except Exception as e:
-             return f"Erreur lors de l'écriture du fichier: {e}"
+             return f"Error writing file: {e}"
      ```
    </Accordion>
 
@@ -570,7 +574,7 @@ Pour exécuter l’exemple :
 
          print(f"[Function Result] {result}")
 
-         # Send the function call output back to the model.
+         # Renvoyer le résultat de l'appel de fonction au modèle.
          await send_event(ws, {
              "type": "conversation.item.create",
              "item": {
@@ -580,7 +584,7 @@ Pour exécuter l’exemple :
              },
          })
 
-         # Trigger a new response so the model incorporates the function result.
+         # Déclencher une nouvelle réponse pour que le modèle intègre le résultat de la fonction.
          await send_event(ws, {"type": "response.create"})
 
 
@@ -600,13 +604,13 @@ Pour exécuter l’exemple :
              while True:
                  raw_data = mic.read(CHUNK, exception_on_overflow=False)
 
-                 # Visual volume meter.
+                 # Indicateur visuel du volume.
                  audio_data = np.frombuffer(raw_data, dtype=np.int16).astype(np.float64)
                  rms = np.sqrt(np.mean(audio_data**2))
                  meter = int(min(rms / 50, 50))
                  print(f"Mic Level: {'█' * meter}{' ' * (50 - meter)} |", end="\r")
 
-                 # Base64-encode and send audio chunk.
+                 # Encoder en Base64 et envoyer le fragment audio.
                  b64_audio = base64.b64encode(raw_data).decode("utf-8")
                  await send_event(ws, {
                      "type": "input_audio_buffer.append",
@@ -619,7 +623,7 @@ Pour exécuter l’exemple :
 
 
      async def receive_events(ws, audio_output_queue: queue.Queue) -> None:
-         # Accumulate function call arguments across delta events.
+         # Accumuler les arguments des appels de fonction à travers les événements delta.
          pending_calls: dict[str, dict] = {}
          async for raw_message in ws:
              if DEBUG_WRITE_LOG:
@@ -639,7 +643,7 @@ Pour exécuter l’exemple :
                  print(f"\n[Error] {event}")
 
              elif event_type == "input_audio_buffer.speech_started":
-                 # Flush queued AI audio so it doesn't talk over the user.
+                 # Vider la file audio de l'IA pour qu'elle ne parle pas par-dessus l'utilisateur.
                  while not audio_output_queue.empty():
                      try:
                          audio_output_queue.get_nowait()
@@ -804,16 +808,16 @@ Pour exécuter l’exemple :
      ```
    </Accordion>
 
-4. Mettez à jour l’appel à `weave.init()` avec le nom de votre équipe et de votre projet.
+4. Mettez à jour l&#39;appel à `weave.init()` avec le nom de votre équipe et de votre projet.
 
 5. Définissez la variable d&#39;environnement `OPENAI_API_KEY`.
 
-6. Exécutez le code :
+6. Lancez l’assistant vocal :
 
    ```bash
    python weave_ws_voice_assistant.py
    ```
 
-Une fois en cours d’exécution, appuyez sur la touche **T** de votre clavier pour couper ou réactiver le micro. L’assistant utilise la détection de l’activité vocale côté serveur pour gérer la prise de parole à tour de rôle et les interruptions.
+Une fois que l’assistant est en cours d’exécution, appuyez sur la touche `T` de votre clavier pour couper ou réactiver le micro. L’assistant utilise la détection de l’activité vocale côté serveur pour gérer la prise de parole à tour de rôle et les interruptions.
 
 Lorsque vous parlez à l’assistant, Weave capture des traces que vous pouvez explorer dans la Weave UI, y compris l’audio de la session.

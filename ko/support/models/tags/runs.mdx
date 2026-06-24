@@ -2,81 +2,81 @@
 title: "Runs"
 tag: "19"
 generator: "knowledgebase-nav"
-template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
+template: "docengine-site/templates/support_tag.mdx.j2"
 ---
 
-<Card title="하이퍼파라미터 검색을 구성하는 모범 사례" href="/ko/support/models/articles/best-practices-to-organize-hyperparamete" arrow="true" horizontal>
-  wandb.init(tags=&#39;your&#95;tag&#39;)로 고유한 tags를 설정하세요. 그러면 해당 항목을 선택해 프로젝트 Runs를 효율적으로 필터링할 수 있 ...
+<Card title="하이퍼파라미터 검색을 정리하기 위한 모범 사례" href="/ko/support/models/articles/best-practices-to-organize-hyperparamete" arrow="true" horizontal>
+  하이퍼파라미터 검색을 많이 실행하는 경우, 나중에 관련 실험을 그룹화하고 찾을 수 있도록 Runs에 태그를 지정하세요. Runs에 태그를 지 ...
 </Card>
 
-<Card title="'그룹' 기능을 사용하지 않고 Runs를 그룹화할 수 있나요?" href="/ko/support/models/articles/can-i-group-runs-without-using-the-group" arrow="true" horizontal>
-  예, tags나 맞춤형 메타데이터를 사용해 Runs를 분류할 수도 있습니다. 이는 사용 가능한 그룹 버튼을 사용해 수행할 수 있 ...
+<Card title="태그별로 Runs를 그룹화할 수 있나요?" href="/ko/support/models/articles/can-you-group-runs-by-tags" arrow="true" horizontal>
+  run에는 여러 태그를 지정할 수 있으므로 태그별 그룹화는 지원되지 않습니다. 대신 이러한 r ...에 대해 config 객체에 값을 추가하세요.
 </Card>
 
-<Card title="grid search를 다시 실행할 수 있나요?" href="/ko/support/models/articles/can-i-rerun-a-grid-search" arrow="true" horizontal>
-  grid search가 완료되었지만 충돌로 인해 일부 W&amp;B Runs를 다시 실행해야 하는 경우, 특정 W&amp;B Runs를 삭제해 다시 실행하세요. T ...
+<Card title="Group 기능 없이 Runs를 분류하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-can-i-categorize-runs-without-the-group-feature" arrow="true" horizontal>
+  태그나 맞춤형 메타데이터로 Runs를 분류할 수 있습니다. 이러한 값으로 Runs를 정리하려면 projec ...에서 Group 버튼을 사용하세요.
 </Card>
 
-<Card title="tags로 Runs를 그룹화할 수 있나요?" href="/ko/support/models/articles/can-you-group-runs-by-tags" arrow="true" horizontal>
-  하나의 run에는 여러 tags가 있을 수 있으므로 tags 기준 그룹화는 지원되지 않습니다. 이러한 Runs의 config 객체에 값을 추가하고  ...
+<Card title="system metrics 로깅 빈도를 변경하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-can-i-change-how-frequently-to-log-s" arrow="true" horizontal>
+  system metrics 로깅 빈도를 설정하려면 &#95;stats&#95;sampling&#95;interval을 초 단위 숫자(float)로 설정하 ...
 </Card>
 
-<Card title="시스템 메트릭을 로깅하는 빈도를 어떻게 변경할 수 있나요?" href="/ko/support/models/articles/how-can-i-change-how-frequently-to-log-s" arrow="true" horizontal>
-  시스템 메트릭을 로깅하는 빈도를 설정하려면 &#95;stats&#95;sampling&#95;interval을 초 단위 숫자(float로 표현)로 설정하세요 ...
-</Card>
-
-<Card title="같은 그룹에 있는 각 run의 colors를 어떻게 변경할 수 있나요?" href="/ko/support/models/articles/how-can-i-change-the-colors-of-each-run-" arrow="true" horizontal>
-  그룹 내 개별 run의 colors는 변경할 수 없습니다. 같은 그룹의 모든 Runs는 동일한 color를 공유합니다.
+<Card title="같은 그룹에 있는 각 run의 색상을 변경하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-can-i-change-the-colors-of-each-run-" arrow="true" horizontal>
+  그룹 내 개별 run의 색상은 변경할 수 없습니다. 같은 그룹의 모든 Runs는 동일한 색상을 공유합니다.
 </Card>
 
 <Card title="한 번에 하나씩이 아니라 여러 Runs를 일괄 삭제하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-can-i-delete-multiple-runs-in-bulk-i" arrow="true" horizontal>
-  Workspace의 Runs 탭에서 삭제할 각 run 옆의 checkbox를 선택한 다음 Delete를 클릭하세요. 또는, u ...
+  Workspace의 Runs 탭에서 삭제할 각 run 옆의 체크박스를 선택한 다음 Delete를 클릭하세요. Runs를 필터링하려면 b ...
 </Card>
 
-<Card title="W&B에 시스템 메트릭 로깅을 비활성화하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-can-i-disable-logging-of-system-metr" arrow="true" horizontal>
-  시스템 메트릭 로깅을 비활성화하려면 &#95;disable&#95;stats를 True로 설정하세요:
+<Card title="W&B에 system metrics 로깅을 비활성화하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-can-i-disable-logging-of-system-metr" arrow="true" horizontal>
+  system metrics 로깅을 비활성화하려면 &#95;disable&#95;stats를 True로 설정하세요:
 </Card>
 
-<Card title="최종 Evaluation accuracy처럼 시간에 따라 변하지 않는 metric을 어떻게 로깅할 수 있나요?" href="/ko/support/models/articles/how-can-i-log-a-metric-that-doesnt-chang" arrow="true" horizontal>
-  run.log( )를 사용하면 최종 accuracy가 올바르게 업데이트됩니다. 기본적으로 run.log( )는 run.settings의 &#39;final&#95;accuracy&#39;를 업데이트하며, wh ...
+<Card title="최종 Evaluation 정확도처럼 시간에 따라 변하지 않는 메트릭을 로깅하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-can-i-log-a-metric-that-doesnt-chang" arrow="true" horizontal>
+  최종 Evaluation 정확도처럼 변하지 않는 단일 값을 기록하려면 run.log로 한 번만 로깅하세요. 예를 들어, run.log ...
 </Card>
 
-<Card title="run이 완료된 후 추가 메트릭을 어떻게 로깅할 수 있나요?" href="/ko/support/models/articles/how-can-i-log-additional-metrics-after-a" arrow="true" horizontal>
-  실험을 관리하는 방법에는 여러 가지가 있습니다. 복잡한 워크플로의 경우 여러 Runs를 사용하고 w에서 그룹 parameters를 설정하세요 ...
+<Card title="run이 완료된 후 추가 메트릭을 로깅하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-can-i-log-additional-metrics-after-a" arrow="true" horizontal>
+  이미 종료된 run에 메트릭을 추가하려면 워크플로의 복잡성에 따라 W&amp;B에서 여러 가지 접근 방식을 제 ...
 </Card>
 
 <Card title="삭제된 Runs를 복구하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-can-i-recover-deleted-runs" arrow="true" horizontal>
-  W&amp;B App에서 최근 삭제된 Runs를 최대 7일 동안 복구하는 방법을 알아보세요.
+  W&amp;B App에서 최근 삭제된 Runs를 최대 7일 이내에 복구하는 방법을 알아보세요.
 </Card>
 
-<Card title="스윕 중 `CommError, Run does not exist` 오류를 어떻게 해결하나요?" href="/ko/support/models/articles/commerror-run-does-not-exist-during-swee" arrow="true" horizontal>
-  스윕 중 CommError, Run does not exist와 ERROR Error uploading이 모두 표시되면, 가장 가능성이 높은 원인은 yo ...
+<Card title="완료된 run의 그룹을 변경하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-do-i-change-the-group-of-a-completed-run" arrow="true" horizontal>
+  API를 사용해 완료된 run에 부여된 그룹을 변경할 수 있습니다. 이 기능은 웹 UI에는 표시되지 않습니다. 업데이트하려면 ...
 </Card>
 
-<Card title="오류 `resume='must' but run (<run_id>) doesn't exist`를 어떻게 해결하나요?" href="/ko/support/models/articles/how-do-i-fix-the-error-resumemust-but-ru" arrow="true" horizontal>
-  resume=&#39;must&#39; but run ( ) doesn&#39;t exist 오류가 발생하면, 재개하려는 run이 존재하지 않 ...
+<Card title="스윕 중 `CommError, Run does not exist` 오류를 해결하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/commerror-run-does-not-exist-during-swee" arrow="true" horizontal>
+  스윕 중 CommError, Run does not exist와 ERROR Error uploading가 모두 표시된다면, 가장 가능성 높은 원인은 yo ...
 </Card>
 
-<Card title="지속적 통합 또는 내부 도구로 시작된 Runs를 어떻게 로깅하나요?" href="/ko/support/models/articles/how-do-i-log-runs-launched-by-continuous" arrow="true" horizontal>
-  W&amp;B에 로깅하는 자동화된 테스트나 내부 도구를 실행하려면 Team settings 페이지에서 Service Account를 생성하세요. 이 계정 ...
+<Card title="`resume='must' but run ([RUN-ID]) doesn't exist` 오류를 해결하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-do-i-fix-the-error-resumemust-but-ru" arrow="true" horizontal>
+  resume=&#39;must&#39; but run ( RUN-ID ) doesn&#39;t exist 오류가 발생하면, 재개하려는 run이 존재하지 않 ...
+</Card>
+
+<Card title="지속적 통합 또는 내부 도구로 시작된 Runs를 로깅하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-do-i-log-runs-launched-by-continuous" arrow="true" horizontal>
+  W&amp;B에 로깅하는 자동화된 테스트 또는 내부 도구를 시작하려면 팀 settings 페이지에서 Service Account를 생성하세요. 이 계 ...
+</Card>
+
+<Card title="run을 다른 프로젝트로 어떻게 이동하나요?" href="/ko/support/models/articles/how-do-i-move-a-run-to-another-project" arrow="true" horizontal>
+  작업을 재정리하거나, 관련 실험을 통합하거나, r ...을 다른 위치로 옮기기 위해 run을 한 프로젝트에서 다른 프로젝트로 이동할 수 있습니다.
+</Card>
+
+<Card title="grid search를 어떻게 다시 실행하나요?" href="/ko/support/models/articles/how-do-i-rerun-a-grid-search" arrow="true" horizontal>
+  grid search가 완료되었지만 일부 W&amp;B Runs가 crashed된 경우, 해당 run을 삭제해 다시 실행하세요. 그런 다음  ...에서 Resume 버튼을 선택하세요.
 </Card>
 
 <Card title="run을 로깅할 때 권한 오류를 어떻게 해결하나요?" href="/ko/support/models/articles/how-do-i-resolve-permission-errors-when-" arrow="true" horizontal>
-  W&amp;B entity에 run을 로깅할 때 발생하는 권한 오류를 해결하려면 다음 단계를 따르세요: entity 및 프로젝트 이름 확인: En ...
+  run을 로깅할 때 발생하는 권한 오류는 일반적으로 코드, 자격 증명 또는 배포 ... 간에 불일치가 있음을 의미합니다.
 </Card>
 
 <Card title="프로젝트당 몇 개의 run을 생성할 수 있나요?" href="/ko/support/models/articles/how-many-runs-can-i-create-per-project" arrow="true" horizontal>
-  최적의 performance를 위해 각 프로젝트를 약 10,000개의 run으로 제한하세요.
-</Card>
-
-<Card title="완료 후 run에 할당된 그룹을 변경할 수 있나요?" href="/ko/support/models/articles/is-it-possible-to-change-the-group-assig" arrow="true" horizontal>
-  API를 사용하면 완료된 run에 할당된 그룹을 변경할 수 있습니다. 이 기능은 웹 UI에는 표시되지 않습니다. ...를 사용하세요.
-</Card>
-
-<Card title="run을 한 프로젝트에서 다른 프로젝트로 옮길 수 있나요?" href="/ko/support/models/articles/is-it-possible-to-move-a-run-from-one-pr" arrow="true" horizontal>
-  다음 step에 따라 run을 한 프로젝트에서 다른 프로젝트로 옮길 수 있습니다: run이 있는 프로젝트 페이지로 이동하다 ...
+  최적의 성능을 위해 각 프로젝트는 약 10,000개의 run으로 제한하세요.
 </Card>
 
 <Card title="CSV metric 내보내기에서 step이 누락되는 이유는 무엇인가요?" href="/ko/support/models/articles/why-are-steps-missing-from-a-csv-metric-" arrow="true" horizontal>
-  내보내기 limits로 인해 전체 run 이력을 CSV 또는 `run.history` API로 내보내지 못할 수 있습니다. 이에 접근하려면 ...
+  내보내기 제한으로 인해 전체 run 이력을 CSV로 또는 `run.history` API를 사용해 내보내지 못할 수 있습니다.  ...에 액세스하려면
 </Card>

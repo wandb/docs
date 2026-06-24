@@ -1,15 +1,20 @@
 ---
-title: API로 자동화 관리
-description: Python API를 사용한 프로그래밍 방식의 자동화 관리(일부 클라이언트 버전에서는 생성 및 업데이트에 영향이 있을 수 있으므로, SDK 수정 버전이 배포될 때까지는 W&B App을 우선 사용하세요).
+title: API로 자동화 관리하기
+description: Python API를 사용해 자동화를 프로그래밍 방식으로 관리합니다. 일부 클라이언트 버전에서는 생성 및 업데이트가 제대로 동작하지 않을 수 있습니다. SDK 수정 버전이 배포될 때까지는 W&B App을 사용하세요.
+keywords: ["Python API", "프로그래밍 방식 자동화", "wandb.Api", "자동화 스크립팅", "SDK"]
 ---
 
+W&amp;B App 대신 자동화 워크플로를 스크립팅하는 경우 `wandb` Python API를 사용해 W&amp;B 자동화를 프로그래밍 방식으로 관리할 수 있습니다.
+
 <Note>
-  `wandb.Api().create_automation()` 및 관련 헬퍼를 통한 자동화의 프로그래밍 방식 **생성** 및 **업데이트**는 클라이언트 측 기능 검사(예: run 상태 자동화) 때문에 최신 `wandb` Python 클라이언트에서 실패할 수 있습니다. 수정된 SDK가 배포될 때까지는 [W&amp;B App](/ko/models/automations/create-automations)에서 자동화를 생성하고 편집하세요. 사용 중인 버전에서는 목록, 조회, 삭제가 계속 작동할 수도 있지만, 오류가 발생하면 App을 사용하세요. 내부 추적: WB-34263.
+  `wandb.Api().create_automation()` 및 관련 헬퍼를 통한 자동화의 프로그래밍 방식 **생성** 및 **업데이트**는 클라이언트 측 기능 검사(예: run-state 자동화) 때문에 일부 `wandb` Python 클라이언트 버전에서 실패할 수 있습니다. 수정된 SDK가 배포될 때까지는 자동화를 생성하고 편집할 때 [W&amp;B App](/ko/models/automations/create-automations)을 사용하세요. `list`, `get`, `delete` 메서드는 영향을 받지 않습니다. 내부 추적 ID: WB-34263.
 </Note>
 
 <div id="next-steps">
   ## 다음 단계
 </div>
+
+자동화를 관리하고 작동 방식에 대해 자세히 알아보려면 다음 리소스를 참고하세요:
 
 * [자동화 개요](/ko/models/automations)
 * [자동화 생성하기](/ko/models/automations/create-automations) (W&amp;B App)

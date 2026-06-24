@@ -2,39 +2,40 @@
 title: "前提条件"
 linkTitle: "前提条件"
 description: "API または UI から Serverless Inference サービスを使用する前に、環境、APIキー、必要な依存関係を設定します。"
+keywords: ["APIキーの設定", "OpenAI のインストール", "OPENAI_API_KEY", "Weave のインストール", "使い始める"]
 ---
 
 import ApiKeyCreate from "/snippets/ja/_includes/api-key-create.mdx";
 
-API または UI から Serverless Inference サービスを使用する前に、以下の手順を完了してください。
+このページでは、API または UI から Serverless Inference サービスを呼び出す前に設定する必要があるアカウント、認証情報、およびツールを一覧表示します。後続のリクエストが正常に認証され、有効な project にルーティングされるよう、以下のセクションにある各項目をすべて完了してください。
 
 <Tip>
   始める前に、コストと制限事項を把握するため、[利用状況と制限](/ja/inference/usage-limits/)を確認してください。
 </Tip>
 
 <div id="set-up-your-wb-account-and-project">
-  ## W&amp;Bアカウントとプロジェクトを設定する
+  ## W&amp;B アカウントと project を設定する
 </div>
 
-Serverless Inference にアクセスするには、次の項目が必要です。
+Serverless Inference を利用するには、次の項目が必要です。
 
-1. **W&amp;Bアカウント**
-   [W&amp;B](https://app.wandb.ai/login?signup=true) で登録します
+1. **W&amp;B アカウント。** [W&amp;B](https://app.wandb.ai/login?signup=true) でサインアップしてください。
 
-2. **W&amp;B APIキー**
+2. **W&amp;B APIキー。**
 
    <ApiKeyCreate />
 
-3. **W&amp;Bプロジェクト**
-   使用状況をトラッキングするために、W&amp;Bアカウントでプロジェクトを作成します
+3. **W&amp;B の project。** 利用状況をトラッキングするために、W&amp;B アカウントで project を作成してください。
 
-<div id="set-up-your-environment-python">
-  ## 環境を設定する (Python)
+これら 3 つの項目を完了すると、Inference API に対して認証できる W&amp;B のアイデンティティと、利用状況を記録する project を利用できるようになります。
+
+<div id="set-up-your-environment-for-python">
+  ## Python 用の環境を設定する
 </div>
 
-Python で Inference API を使用するには、次の作業も必要です。
+Python から Inference API を呼び出す予定の場合は、一般的な要件に加えて次の設定を行います。
 
-1. 上記の一般的な要件を満たす
+1. 前のセクションの一般的な要件を満たす。
 
 2. 必須ライブラリをインストールする:
 
@@ -46,16 +47,14 @@ Python で Inference API を使用するには、次の作業も必要です。
   **注記**
 
   `weave` ライブラリは必須ではありませんが、使用を推奨します。このライブラリを使うと、LLM アプリケーションをトレースできます。詳しくは、[Weave クイックスタート](/ja/models/quickstart/)を参照してください。
-
-  Weave で Serverless Inference を使用するコードサンプルについては、[使用例](/ja/inference/examples)を参照してください。
 </Note>
 
 <div id="next-steps">
   ## 次のステップ
 </div>
 
-前提条件を満たしたら：
+アカウント、APIキー、project、必要に応じた Python 環境の準備ができたら、リクエストを送信する準備は完了です。次のいずれかの資料に進んでください：
 
-* 利用可能なエンドポイントについては、[API reference](/ja/inference/api-reference/)を確認してください
-* サービスの動作を確認するには、[使用例](/ja/inference/examples/)を試してください
-* Webインターフェースからモデルにアクセスするには、[UI ガイド](/ja/inference/ui-guide/)を参照してください
+* 利用可能なエンドポイントについては、[API reference](/ja/inference/api-reference/)を確認してください。
+* サービスの動作を確認するには、[使用例](/ja/inference/examples/)を試してください。
+* Webインターフェースからモデルにアクセスするには、[UI ガイド](/ja/inference/ui-guide/)を参照してください。

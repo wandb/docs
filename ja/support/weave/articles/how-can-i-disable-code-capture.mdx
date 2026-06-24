@@ -3,8 +3,10 @@ title: "コードキャプチャを無効にするにはどうすればよいで
 keywords: ["Code Capture"]
 ---
 
-Weave クライアントの初期化時に、コードキャプチャを無効にできます：`weave.init("entity/project", settings={"capture_code": False})`。
-[環境変数](/ja/weave/guides/core-types/env-vars) `WEAVE_CAPTURE_CODE=false` を使用することもできます。
+コードキャプチャを無効にするには、次のいずれかの方法を使用します。
+
+* W&amp;B Weave クライアントの初期化時に、`capture_code` を `False` に設定します：`weave.init("entity/project", settings={"capture_code": False})`。
+* [環境変数](/ja/weave/guides/core-types/env-vars) `WEAVE_CAPTURE_CODE=false` を設定します。
 
 ***
 

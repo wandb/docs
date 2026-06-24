@@ -1,45 +1,47 @@
 ---
-title: "run によってログまたは使用された artifact を検索するにはどうすればよいですか？ artifact を生成または使用した run を検索するにはどうすればよいですか？"
+title: "run がログした、または使用した artifact を検索するにはどうすればよいですか？ artifact を生成または使用した Runs を検索するにはどうすればよいですか？"
 keywords: ["Artifacts"]
 ---
 
-W&amp;B は、各 run によってログされた artifact と各 run で使用された artifact をトラッキングし、artifact グラフを構築します。このグラフは、run と artifact を表すノードで構成される二部の有向非巡回グラフです。例は [こちら](https://wandb.ai/shawn/detectron2-11/artifacts/dataset/furniture-small-val/06d5ddd4deeb2a6ebdd5/graph) で確認できます (グラフを展開するには &quot;Explode&quot; をクリックしてください) 。
+このページでは、W&amp;B で runs と artifacts の関係をたどる方法を説明します。特定の artifact を生成または使用した run や、特定の run が生成または使用した artifacts を検索できます。これは、データ リネージの監査、パイプラインのデバッグ、artifacts が Experiments 全体でどのように流れるかを把握するのに役立ちます。
 
-Public API を使用して、artifact または run のどちらからでもプログラムでグラフをたどることができます。
+W&amp;B は、各 run がログする artifact と使用する artifact をトラッキングして artifact グラフを構築します。このグラフは、runs と artifacts を表すノードを持つ二部有向非巡回グラフです。[artifact グラフの例](https://wandb.ai/shawn/detectron2-11/artifacts/dataset/furniture-small-val/06d5ddd4deeb2a6ebdd5/graph)を参照し、**Explode** をクリックしてグラフを展開してください。
+
+W&amp;B Public API を使用すると、artifact または run のいずれかを起点として、プログラムからグラフをたどることができます。開始地点に合ったタブを選択してください。
 
 <Tabs>
-  <Tab title="Artifact から">
+  <Tab title="artifact から">
     ```python
     api = wandb.Api()
 
-    artifact = api.artifact("project/artifact:alias")
+    artifact = api.artifact("[PROJECT]/[ARTIFACT]:[ALIAS]")
 
-    # artifact からグラフを上方向にたどる:
+    # artifact からグラフを上方向にたどります:
     producer_run = artifact.logged_by()
-    # artifact からグラフを下方向にたどる:
+    # artifact からグラフを下方向にたどります:
     consumer_runs = artifact.used_by()
 
-    # run からグラフを下方向にたどる:
+    # run からグラフを下方向にたどります:
     next_artifacts = consumer_runs[0].logged_artifacts()
-    # run からグラフを上方向にたどる:
+    # run からグラフを上方向にたどります:
     previous_artifacts = producer_run.used_artifacts()
     ```
   </Tab>
 
-  <Tab title="Run から">
+  <Tab title="run から">
     ```python
     api = wandb.Api()
 
-    run = api.run("entity/project/run_id")
+    run = api.run("[ENTITY]/[PROJECT]/[RUN_ID]")
 
-    # run からグラフを下方向にたどる:
+    # run からグラフを下方向にたどります:
     produced_artifacts = run.logged_artifacts()
-    # run からグラフを上方向にたどる:
+    # run からグラフを上方向にたどります:
     consumed_artifacts = run.used_artifacts()
 
-    # artifact からグラフを上方向にたどる:
+    # artifact からグラフを上方向にたどります:
     earlier_run = consumed_artifacts[0].logged_by()
-    # artifact からグラフを下方向にたどる:
+    # artifact からグラフを下方向にたどります:
     consumer_runs = produced_artifacts[0].used_by()
     ```
   </Tab>

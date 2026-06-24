@@ -3,7 +3,7 @@ title: "SLURM에서 Sweeps를 어떻게 실행해야 하나요?"
 keywords: ["Sweeps"]
 ---
 
-[SLURM scheduling system](https://slurm.schedmd.com/documentation.html)과 함께 Sweeps를 사용할 때는 예약된 각 작업에서 `wandb agent --count 1 SWEEP_ID`를 실행하세요. 이 명령은 단일 트레이닝 작업을 실행한 뒤 종료하므로, 하이퍼파라미터 검색의 병렬성을 활용하면서 리소스 요청에 필요한 실행 시간 예측을 더 쉽게 할 수 있습니다.
+[SLURM scheduling system](https://slurm.schedmd.com/documentation.html)과 함께 Sweeps를 사용하려면 예약된 각 작업에서 `wandb agent --count 1 SWEEP_ID`를 실행하세요. 이 명령은 단일 트레이닝 작업을 실행한 뒤 종료됩니다. 이 방식은 리소스 요청에 필요한 실행 시간 예측을 지원하면서도 하이퍼파라미터 검색의 병렬성 이점을 그대로 활용할 수 있습니다.
 
 ***
 

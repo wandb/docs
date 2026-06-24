@@ -1,7 +1,7 @@
 ---
 title: Manage users, groups, and roles with SCIM
 description: "Use the SCIM API to manage users, groups, and custom roles in a W&B organization with automated provisioning."
-keywords: ["SCIM 2.0", "Okta provisioning", "automatic user sync", "group sync", "directory provisioning"]
+keywords: ["SCIM 2.0", "Okta provisioning", "Microsoft Entra", "automatic user sync", "group sync"]
 ---
 
 <Note>
@@ -12,7 +12,7 @@ Watch a [video demonstrating SCIM in action](https://www.youtube.com/watch?v=Nw3
 
 This page describes how instance and organization admins use the System for Cross-domain Identity Management (SCIM) API to automate identity management in W&B. With the SCIM API, you can provision and deprovision users, manage team membership, and define custom roles programmatically through an identity provider or CI/CD pipeline instead of clicking through the W&B App. SCIM groups map to W&B Teams.
 
-W&B's SCIM API is compatible with identity providers such as Okta. For SSO configuration with Okta and other identity providers, see the [SSO documentation](/platform/hosting/iam/sso/).
+W&B's SCIM API is compatible with identity providers such as Okta and Microsoft Entra. For SSO configuration with Okta, Microsoft Entra, and other identity providers, see the [SSO documentation](/platform/hosting/iam/sso).
 
 For practical Python examples that demonstrate how to interact with the SCIM API, visit the [`wandb-scim`](https://github.com/wandb/examples/tree/master/wandb-scim) repository.
 
@@ -107,6 +107,58 @@ For example, authorize with API key `sa-p@55w0rd`:
 ```bash
 Authorization: Basic OnNhLXBANTV3MHJk
 ```
+
+## Microsoft Entra ID configuration
+
+Use this section when you configure automatic user and group provisioning from Microsoft Entra ID to W&B through the SCIM API.
+
+For Entra SSO setup, see [Configure SSO with Entra](/platform/hosting/iam/sso).
+
+### Tenant URL
+
+In your Entra enterprise application's provisioning settings, set **Tenant URL** to your W&B SCIM base URL with the Entra feature flag query parameter `aadOptscim062020` appended:
+
+```text
+[HOST-URL]/scim?aadOptscim062020
+```
+
+For example, if your instance is at `https://wandb.example.com`, set the tenant URL to `https://wandb.example.com/scim?aadOptscim062020`.
+
+The `aadOptscim062020` parameter enables Entra-specific handling in the W&B SCIM API. Without it, Entra can send user deactivation requests with string boolean values (`"False"` or `"True"`) instead of JSON booleans (`false` or `true`), which can cause deactivation to fail.
+
+Set **Secret Token** to the API key from an organization admin user or an organization-scoped service account. See [Authentication](#authentication).
+
+<Note>
+When you append `aadOptscim062020` to the tenant URL, user deactivation from Entra's **Provision on demand** UI in the Microsoft Entra admin center might not work because that UI still sends string boolean values. To test deactivation manually, send a SCIM `PATCH` request using the `PatchOp` `Operations` format that replaces `active` with `false` (see [Deactivate user](#deactivate-user)).
+</Note>
+
+### Team names
+
+Name Entra groups that map to W&B teams using lowercase letters and hyphens, for example `ml-platform` or `data-science`. Avoid spaces, underscores, and other special characters in group display names that you sync to W&B.
+
+### User attribute mappings
+
+Configure the following attribute mappings in Entra for SCIM user provisioning:
+
+| W&B custom app attribute | Source attribute (Entra) | Apply this mapping | Match objects using this attribute |
+| --- | --- | --- | --- |
+| `emails[type eq "work"].value` | `mail` | Always | Yes |
+| `active` | `Not([IsSoftDeleted])` | Always | |
+| `displayName` | `displayName` | Always | |
+| `userName` | `displayName` | Only on object creation | |
+
+<Note>
+On **Multi-tenant Cloud**, a user's account isn't managed by the organization. W&B doesn't support updating `displayName` through SCIM on Multi-tenant Cloud. See [Update user display name](#update-user-display-name).
+</Note>
+
+### Group attribute mappings
+
+Configure the following attribute mappings in Entra for SCIM group (team) provisioning:
+
+| W&B custom app attribute | Source attribute (Entra) | Apply this mapping | Match objects using this attribute |
+| --- | --- | --- | --- |
+| `displayName` | `displayName` | Only on object creation | Yes |
+| `members` | `members` | Always | |
 
 ## User management
 
