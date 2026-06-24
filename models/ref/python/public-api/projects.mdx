@@ -28,9 +28,9 @@ An iterable interface to access projects created and saved by the entity.
 
 ## Args
 
-- `service_api`: Interface to the wandb-core service that performs W&B API calls for this collection.
-- `entity`: The entity name (username or team) to fetch projects for.
-- `per_page`: Number of projects to fetch per request (default is 50).
+- `service_api`: The service API used to query W&B.
+- `entity`: The entity which owns the projects.
+- `per_page`: The number of projects to fetch per request to the API.
 
 
 ## Examples

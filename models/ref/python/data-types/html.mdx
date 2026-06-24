@@ -26,9 +26,9 @@ W&B class for logging HTML content to W&B.
 
 ## Args
 
-- `data`: 
-- `inject`: 
-- `data_is_not_path`: 
+- `data`: A string that is a path to a file with the extension ".html", or a string or IO object containing literal HTML.
+- `inject`: Add a stylesheet to the HTML object. If set to False the HTML will pass through unchanged.
+- `data_is_not_path`: If set to False, the data will be treated as a path to a file.
 
 
 

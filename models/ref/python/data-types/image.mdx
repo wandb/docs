@@ -32,15 +32,15 @@ A class for logging images to W&B.
 
 ## Args
 
-- `data_or_path`: 
-- `mode`: 
-- `caption`: 
-- `grouping`: 
-- `classes`: 
-- `boxes`: 
-- `masks`: 
-- `file_type`: 
-- `normalize`: 
+- `data_or_path`: Accepts NumPy array/pytorch tensor of image data, a PIL image object, or a path to an image file. If a NumPy array or pytorch tensor is provided, the image data will be saved to the given file type. If the values are not in the range [0, 255] or all values are in the range [0, 1], the image pixel values will be normalized to the range [0, 255] unless `normalize` is set to `False`. - pytorch tensor should be in the format (channel, height, width) - NumPy array should be in the format (height, width, channel)
+- `mode`: The PIL mode for an image. Most common are "L", "RGB", "RGBA".
+- `caption`: Label for display of image.
+- `grouping`: The grouping number for the image.
+- `classes`: A list of class information for the image, used for labeling bounding boxes, and image masks.
+- `boxes`: A dictionary containing bounding box information for the image.
+- `masks`: A dictionary containing mask information for the image.
+- `file_type`: The file type to save the image as. This parameter has no effect if `data_or_path` is a path to an image file.
+- `normalize`: If `True`, normalize the image pixel values to fall within the range of [0, 255]. Normalize is only applied if `data_or_path` is a numpy array or pytorch tensor.
 
 
 

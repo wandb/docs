@@ -32,12 +32,12 @@ automatically when iterating through large collections of files.
 
 ## Args
 
-- `service_api`: 
-- `run`: 
-- `names`: 
-- `per_page`: 
-- `upload`: 
-- `pattern`: 
+- `service_api`: The service API instance to use for querying W&B.
+- `run`: The run object that contains the files
+- `names`: A list of file names to filter the files
+- `per_page`: The number of files to fetch per page
+- `upload`: If `True`, fetch the upload URL for each file
+- `pattern`: Pattern to match when returning files from W&B This pattern uses mySQL's LIKE syntax, so matching all files that end with .json would be "%.json". If both names and pattern are provided, a ValueError will be raised.
 
 
 ## Examples
