@@ -38,46 +38,6 @@ A tag is removed from an artifact collection.
 
 ## Methods
 
-### <kbd>method</kbd> model_dump
-
-```python
-self, *,
-mode: 'str' = 'json', **kwargs: 'Any'
-```
-
-!!! abstract "Usage Documentation"
-    [`model_dump`](../concepts/serialization.md#modelmodel_dump)
-
-Generate a dictionary representation of the model, optionally specifying which fields to include or exclude.
-
-##### Arguments
-
-- `mode`: The mode in which `to_python` should run. If mode is 'json', the output will only contain JSON serializable types. If mode is 'python', the output may contain non-JSON-serializable Python objects.
-- `kwargs`: 
-
-
-
-
-### <kbd>method</kbd> model_dump_json
-
-```python
-self, *,
-indent: 'int | None' = None, **kwargs: 'Any'
-```
-
-!!! abstract "Usage Documentation"
-    [`model_dump_json`](../concepts/serialization.md#modelmodel_dump_json)
-
-Generates a JSON representation of the model using Pydantic's `to_json` method.
-
-##### Arguments
-
-- `indent`: Indentation to use in the JSON output. If None is passed, the output will be compact.
-- `kwargs`: 
-
-
-
-
 ### <kbd>method</kbd> then
 
 ```python
