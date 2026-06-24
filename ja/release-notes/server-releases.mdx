@@ -14,6 +14,51 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
 <EolReminder />
 
+<Update label="v0.82.0" description="2026年6月23日">
+  **2026年6月23日**
+
+  W&amp;B 0.82.0 では、編集可能なコレクション概要とバージョン単位のメトリクスチャートにより、アーティファクトに関する分析情報がさらに充実しました。加えて、Workspace と run テーブルの使い勝手も改善されています。エンタープライズ管理を支援するため、メンバー招待時に Models のシートと Weave のロールを割り当てられるようになり、監査ログには APIキー のアクティビティも記録されるようになりました。
+
+  ## サポートと提供終了
+
+  * W&amp;B v0.70 は提供終了となりました。
+
+  ## 機能
+
+  * 異なる Projects の Runs をピン留めして比較したり、別の project の run をベースライン run として指定したりできるようになりました。[Compare runs across projects](/ja/models/runs/compare-runs#compare-runs-across-projects)を参照してください。
+    <Frame>
+      ![別の project の pinned runs が表示された Runs table](/images/runs/compare_runs_ui_element.png)
+    </Frame>
+  * W&amp;B UI に最新の利用可能な W&amp;B SDK バージョンが表示されるようになり、新しいリリースが利用可能かどうかを確認できます。
+  * Workspace のブラウザータブにアクティブなビュー名がページタイトルとして含まれるようになり、ブラウザータブ間で保存済みビューを区別しやすくなりました。
+
+  ### Registry
+
+  * Registry の **Advanced** search タブで、レジストリ、コレクション、バージョンを効率的に検索してフィルターできるようになりました。オブジェクト名ですばやく検索し、名、タグ、作成日または更新日、親レジストリなどでオブジェクトをフィルターできます。検索パフォーマンスと効率も改善されました。[Find registry items](/ja/models/registry/search_registry)を参照してください。
+
+  ### Weave
+
+  * Weave LLM プロキシで、コストが入力トークンと出力トークンの内訳に分けてレポートされるようになり、より詳細なコスト分析が可能になりました。
+
+  ## セキュリティ
+
+  * [監査ログ](/ja/platform/hosting/monitoring-usage/audit-logging)に、関連イベントの APIキー 情報が含まれるようになりました。
+  * 以下の CVE に対処するため、Redis を 8.6.3 にアップグレードしました。
+    * [CVE-2026-25243](https://www.cve.org/CVERecord?id=CVE-2026-25243)
+    * [CVE-2026-23631](https://www.cve.org/CVERecord?id=CVE-2026-23631)
+    * [CVE-2026-23479](https://www.cve.org/CVERecord?id=CVE-2026-23479)
+
+  ## パフォーマンス改善
+
+  * Workspace の panel search の効率を改善しました。
+
+  ## 修正
+
+  * 線形軸を使用するラインプロットパネルで発生する無限ループを修正しました。
+  * ダークモードでログされた動画を表示しているときに、全画面表示へ切り替えるとライトモードのカラーで動画が表示されることがあるバグを修正しました。
+  * Workspace 内の Weave パネルで、自動更新中に適用済みのフィルターが失われることがあるバグを修正しました。
+</Update>
+
 <Update label="v0.81.3" description="2026年6月9日">
   ## 修正
 
@@ -933,72 +978,4 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * カスタム表示名でグループ化した際にも、Sweeps が正しく表示されるようになりました。
   * Sweeps と Reports で、長い名前が正しく折り返されない問題を修正しました。
   * コンソールログのコピー＆ペースト時の挙動を改善しました。行番号はコピーされなくなり、Timestampは改行されずにインラインで表示されるようになりました。
-</Update>
-
-<Update label="v0.70.1" description="2025年7月9日">
-  ## 修正
-
-  * アップグレード後、クラッシュした run のステータスが **Crashed** に更新されない不具合を修正しました。
-  * **Sweeps** の **Runs table** で **State** 列が表示されない不具合を修正しました。
-  * artifact マニフェストファイルのキャッシュパスが artifact のバージョンインデックスのみに依存していたため、Registry コレクションのブラウザーで誤ったバージョンのファイルが表示されることがある Weave の不具合を修正しました。
-  * 構文的に有効な JSON を正しく解析できないことがある Weave の不具合を修正しました。
-
-  これらの不具合は v0.70.0 で導入されました。
-</Update>
-
-<Update label="v0.70.0" description="2025年7月7日">
-  W&amp;B Server v0.70 には、インサイトをより効率的に取得・共有するための新機能、機能強化、およびパフォーマンス改善が含まれています。例えば：
-
-  ## サポートとサポート終了
-
-  * W&amp;B Server v0.56 のサポートは終了しました。
-
-  ## 今後の変更点
-
-  * 今後の version では、multi-run と single-run の Workspace ビューを統一します。これにより、single run を開くと、カスタム chart、Layout、Settings を含め、multi-run ビューで設定したものと同じパネルの Layout と設定が表示されるようになります。これは、コンテキストを保ったまま、ビュー設定のやり直しを避けられるようにするためです。ただし、これにより、Workspace の他の部分から切り離して single-run 固有のビューを customize することはできなくなります。移行についてご不明な点があれば、担当の W&amp;B チームまたは [サポート](mailto:support@wandb.ai) までお問い合わせください。
-  * 今後数回のバージョン更新にわたり、既存のチームレベルのModel RegistryをW&amp;B Registryへ移行します。詳細とスケジュールについては、以下の[W&amp;B Registry GA announcement](#registry_ga_announcement)を参照してください。
-
-  ## 機能
-
-  * <a id="registry_ga_announcement" aria-label="W&B Registry 一般提供開始のお知らせ" /> **W&amp;B Registry の一般提供を開始しました**！Registry では、対応するアセットの種類、アクセス管理、スケーラビリティが強化され、大規模で多様なTeams間で AI の取り組みを共同で進めるための中核的なハブとなります。
-    * Registry は、現時点では `ENABLE_REGISTRY_UI` 環境変数を使用するか、W&amp;B のサポートチームにお問い合わせいただくことで有効にできます。
-    * 今後数回のリリースにわたり、既存のチームレベルの Model Registry アセットを段階的に W&amp;B Registry へ移行します。**お客様側での対応は不要です。W&amp;B が各チームの Model Registry アセットを、対応する自動作成されたチームレベルのプライベート Registry に自動的にコピーします。**  以前のチームレベルの Model Registry にあるモデル collection への既存の参照も引き続き機能します。
-
-      1. Server v0.71 では、すべての組織で Registry がデフォルトで有効になります。
-      2. Server v0.73 (8 月) には、アップグレード時にこの移行を自動実行するオプトアウト用の環境変数が含まれます。移行には、ほとんどの組織で 5 分から 30 分かかります。移行中は、古いチームの Model Registry または新しい Registry のいずれかに artifact をリンクすると、エラーで失敗します。****Artifact のログと取得** **には影響ありません**。
-      3. Server v0.74 (9 月) では、このフラグを削除し、移行はアップグレード中に実行されます。
-
-      強力な新しい機能をできるだけシームレスに、影響を最小限に抑えてご利用いただけるよう進めています。移行についてご不明な点があれば、W&amp;B チームまたは [サポート](mailto:support@wandb.ai) までお問い合わせください。
-  * **CoreWeave インフラストラクチャーの監視**: CoreWeave インフラストラクチャー上で [W&amp;B Run](/ja/models/runs) を実行している間、[CoreWeave Mission Control](https://www.coreweave.com/mission-control) が計算インフラストラクチャーを監視し、GPU 障害や温度違反などのインフラストラクチャーアラートを確認できます。エラーが発生すると、CoreWeave はその情報を W&amp;B に送信します。W&amp;B は、プロジェクトの Workspace 内にある run のプロットにインフラストラクチャー情報を表示します。CoreWeave は一部の問題を自動的に解決しようとし、W&amp;B はその情報を run のページに表示します。W&amp;B は、run に関するシステムレベルの詳細を確認できるよう、SLURM ジョブの Grafana ダッシュボードへのリンクを提供します。詳細は [CoreWeave インフラストラクチャーアラートを可視化する](/ja/models/app/features/panels/line-plot) を参照してください。
-  * **CoreWeave 外部ファイルのトラッキング**: reference artifacts を使って、CoreWeave AI Object Storage に保存されている外部ファイルをトラッキングできるようになりました。詳しくは、[外部ファイルをトラッキングする](/ja/models/artifacts/track-external-files)をご覧ください。
-  * **CoreWeave BYOB サポート**: 専用クラウドとセルフマネージドで、インスタンスおよびチームレベル BYOB 向けの CoreWeave AI オブジェクトストレージがサポートされるようになりました。Multi-tenant Cloud での CoreWeave チームレベル BYOB も近日対応予定です。詳細は [独自のバケットを使用する (BYOB)](/ja/platform/hosting/data-security/secure-storage-connector) を参照してください。
-  * **メディアの一括設定**: 折れ線グラフと同様に、Workspace 全体または特定のセクションにあるすべてのメディアパネルの設定を、一度に管理できるようになりました。各パネルを個別に調整しなくても、メディアパネルをエポックごとに表示するよう設定したり、カスタマイズしたグリッドパターンに並べたりできます。個別のパネル設定はグローバル設定より優先されます。
-  * **Workspace テンプレート**を使用すると、既存のWorkspaceと同じ設定ですばやくWorkspaceを作成できます。現在、Workspace テンプレートでは、カスタムの折れ線グラフの設定を定義できます。詳しくは、[Workspace テンプレート](/ja/models/track/workspaces/#workspace-templates)を参照してください。
-  * **段階的な表のlogging** を使用すると、機械学習の実験中に、行のバッチを表にログできます。これは、長時間実行されるジョブを監視する場合や、更新のためにrun中にログするには非効率な大きな表を扱う場合に最適です。UI 内では、新しい行がログされるたびに表が更新されるため、run 全体の完了を待たずに最新のデータを確認できます。段階的な追加をstepごとにたどることで、異なる時点での表を確認できます。詳細は [表をログする](/ja/models/track/log/log-tables/#adding-data-incrementally) を参照してください。
-
-  ## 修正
-
-  * 一部の行だけが表示されている場合に、ログビューアーの上部にバナーを表示するようにしました。
-  * データ境界における移動平均の計算バグを修正しました。
-  * 相対時間プロットのx-axisの単位ラベルを明確にしました。
-  * スムージングを適用したプロットで、**Show Original** をオフにしても元の線が表示されたままになる不具合を修正しました。
-  * 式を含むグループ化された高精細な折れ線グラフが、予期せず棒グラフに変換されることがある不具合を修正しました。
-  * ヒストグラムにカーソルを合わせると、ツールチップに x-axis の step が表示されるようになりました。
-  * パネルからエクスポートしたデータが正しく並び替えられない不具合を修正しました。エクスポートしたデータは数値順に並び替えられるようになりました。
-  * run selector で、**更新日時**でフィルターや並べ替えができるようになりました。
-  * 点群パネルに右手系設定オプションを追加しました。
-  * フルスクリーンパネルのURLから末尾のスラッシュが削除されるようになりました。
-  * 削除直後に更新すると、削除した保存済みビューが再表示されることがある不具合を修正しました。
-  * ダークモード有効時にページを再読み込みすると画面が一瞬点滅する不具合を修正しました。
-  * 非単調な値を使用した際に、スライダーのstepが不正になる不具合を修正しました。
-  * run をグループ間で移動する際に使用できる便利なチェックボックスと通知を追加しました。
-  * `wandb.define_metric()` でメトリクス名にワイルドカード文字 `*` を使用した際、名に `/` を含むメトリクスにマッチしない不具合を修正しました。
-  * W&amp;B は、コレクションポートフォリオがガベージコレクションされても、ソース artifact を削除しなくなりました。
-  * **Allowed types** と **Registry visibility** の選択ボックスで、誤ってテキスト入力できていた不具合を修正しました。
-  * Collectionカードに、artifact typeの完全な名前が省略されずに表示されるようになりました。
-  * Registry コレクションで **Action History** をクリックすると、誤って **Versions** ビューが表示される不具合を修正しました。
-  * Registry で `job` タイプの artifact を追加できるようになりました。
-  * リネージタイルの横幅が広くなり、省略される前により多くのテキストを表示できるようになりました。
-  * プロジェクトレベルの自動化設定のテキストを明確化し、Registry の用語である &quot;collections&quot; ではなく &quot;artifacts&quot; を指すようにしました。
-  * artifact ブラウザで名前による検索を行う際、以前は先頭500件の artifact のみが対象でしたが、現在はすべての artifact が検索対象になりました。
 </Update>
