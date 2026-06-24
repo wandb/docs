@@ -1,0 +1,32 @@
+---
+title: "스윕 내에서 run을 재개할 수 있나요?"
+keywords: ["Sweeps", "재개"]
+---
+
+W&amp;B 스윕 내에서는 run 재개가 지원되지 않습니다. 스윕 에이전트가 실행 중인 동안 `run_id`를 전달하거나 `wandb.init(resume=...)`를 사용하면 W&amp;B는 run ID를 무시하고 대신 새 run을 시작합니다. 다음과 같은 경고가 표시됩니다:
+
+```
+wandb: WARNING Ignoring run_id 'YOUR_RUN_ID' when running a sweep.
+```
+
+이는 버그가 아니라 예상된 동작입니다. 스윕 에이전트는 각 하이퍼파라미터 설정마다 독립적인 run을 시작하도록 설계되어 있습니다. 특정 run을 재개하면 스윕 컨트롤러의 작업 스케줄링과 충돌합니다.
+
+**우회 방법**
+
+오래 실행되는 스윕 run에 내결함성이 필요하다면, 다음 방법을 고려하세요:
+
+* **단일 run 내에서 checkpoint 저장 및 다시 로드**: 트레이닝 함수 내부에서 일정 간격으로 모델 checkpoint를 저장하세요. 다시 시작할 때는 `train()` 시작 부분에서 최신 checkpoint를 로드하세요. 스윕은 새 run을 시작하지만, 트레이닝은 저장된 상태부터 이어집니다.
+
+* **SLURM에서 requeue와 함께 `--count 1` 사용**: 각 스윕 에이전트 작업을 `wandb agent --count 1 SWEEP_ID`로 제출하세요. 작업이 선점되면 SLURM이 이를 requeue할 수 있고, 스윕 컨트롤러는 새 설정을 부여합니다.
+
+* **run을 실패로 표시하고 수동으로 requeue**: run이 중간에 크래시되면 스윕 컨트롤러가 결국 이를 실패로 표시하고, 스윕 설정에 따라 동일한 설정을 새 에이전트에 부여할 수 있습니다.
+
+스윕 외부에서 중단된 트레이닝 작업을 이어가야 한다면, 대신 독립형 스크립트에서 `wandb.init(resume="allow", id="YOUR_RUN_ID")`를 사용하세요. [Resume runs](/ko/models/runs/resuming) 및 [Troubleshoot sweeps](/ko/models/sweeps/troubleshoot-sweeps)를 참조하세요.
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[스윕](/ko/support/models/tags/sweeps)</Badge><Badge stroke shape="pill" color="orange" size="md">[재개](/ko/support/models/tags/resuming)</Badge>
+
+{/* 종료 AUTO-GENERATED: 탭 배지 */}
