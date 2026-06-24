@@ -1,32 +1,78 @@
 ---
 title: RunArtifacts
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.artifacts
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L966" />
+
+
+
+```python
+(service_api: 'ServiceApi',
+run: 'Run',
+mode: "Literal['logged', 'used']" = 'logged',
+per_page: 'int' = 50,
+start: 'str | None' = None)
+```
+
+## Description
+
+An iterable collection of artifacts associated with a specific run.
 
 
 
 
-## <kbd>class</kbd> `RunArtifacts`
-An iterable collection of artifacts associated with a specific run. 
+
+## Args
+
+- **service_api**: 
+- **run**: 
+- **mode**: 
+- **per_page**: 
+- **start**: 
 
 
-### <kbd>property</kbd> RunArtifacts.cursor
-
-An opaque cursor that marks the start of the next page to fetch. 
-
-This value may be saved and passed as `start=` to a later paginated query to resume iteration from where this paginator left off. 
 
 
 
-**Returns:**
- - `str | None`: The cursor property value.
----
 
-### <kbd>property</kbd> RunArtifacts.more
+## Methods
+
+### <kbd>method</kbd> convert_objects
+
+```python
+self
+```
+
+Convert the last fetched response data into the iterated objects.
+
+
+
+
+
+### <kbd>method</kbd> next
+
+```python
+self
+```
+
+Return the next item from the iterator. When exhausted, raise StopIteration
+
+
+
+
+
+### <kbd>method</kbd> update_variables
+
+```python
+self
+```
+
+Update the query variables for the next page fetch.
 
 
 

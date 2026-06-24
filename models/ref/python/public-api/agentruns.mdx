@@ -1,11 +1,96 @@
 ---
 title: AgentRuns
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.runs
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py" />
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py#L474" />
+
+
+
+```python
+service_api: 'ServiceApi',
+entity: 'str',
+project: 'str',
+sweep_id: 'str',
+agent_key: 'str', *,
+total_runs: 'int',
+order: 'str' = '+created_at',
+per_page: 'int' = 50
+```
+
+## Description
+
+A lazy iterator of `Run` objects for a single sweep agent.
+
+
+
+
+
+## Args
+
+- **service_api**: 
+- **entity**: 
+- **project**: 
+- **sweep_id**: 
+- **agent_key**: 
+- **total_runs**: 
+- **order**: 
+- **per_page**: 
+
+
+
+
+## Properties
+
+### <kbd>property</kbd> more
+
+Whether there are more pages to be fetched.
+
+### <kbd>property</kbd> cursor
+
+The start cursor to use for the next fetched page.
+
+
+
+## Methods
+
+### <kbd>method</kbd> convert_objects
+
+```python
+self
+```
+
+Convert the current GraphQL page into :class:`Run` instances for this agent.
+
+
+
+
+
+### <kbd>method</kbd> next
+
+```python
+self
+```
+
+Return the next item from the iterator. When exhausted, raise StopIteration
+
+
+
+
+
+### <kbd>method</kbd> update_variables
+
+```python
+self
+```
+
+Map paginator state to GetAgentRuns variables (after/first, not cursor/perPage).
+
+
 
 
 

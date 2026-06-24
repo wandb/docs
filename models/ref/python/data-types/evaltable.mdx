@@ -1,11 +1,312 @@
 ---
 title: EvalTable
-namespace: python_sdk_data_type
-python_object_type: class
+kind: class
+namespace: wandb.sdk.data_types.eval_table
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/eval_table.py" />
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/eval_table.py#L28" />
+
+
+
+```python
+columns: 'list[str | int] | None' = None,
+data: 'list[Iterable[Any]] | np.ndarray | pd.DataFrame | None' = None,
+rows: 'list[Iterable[Any]] | None' = None,
+dataframe: 'pd.DataFrame | None' = None,
+dtype: 'Any' = None,
+optional: 'bool | list[bool]' = True,
+allow_mixed_types: 'bool' = False,
+log_mode: "Literal['IMMUTABLE']" = 'IMMUTABLE', *,
+input_columns: 'list[str] | None' = None,
+output_columns: 'list[str] | None' = None,
+score_columns: 'list[str] | None' = None,
+unsupported_media_mode: 'media_adapters.UnsupportedMediaMode' = 'stub'
+```
+
+## Description
+
+A Table subclass that routes run.log() to the new Eval Tables experience.
+
+When logged via run.log(), an EvalTable is logged as a Weave Eval via
+weave.EvaluationLogger instead of being uploaded as a regular wandb Table
+artifact.
+
+Note: EvalTable is a work-in-progress and is NOT yet officially released or
+supported.
+
+
+
+
+## Args
+
+- **columns**: 
+- **data**: 
+- **rows**: 
+- **dataframe**: 
+- **dtype**: 
+- **optional**: 
+- **allow_mixed_types**: 
+- **log_mode**: 
+- **input_columns**: 
+- **output_columns**: 
+- **score_columns**: 
+- **unsupported_media_mode**: 
+
+
+
+
+
+
+## Methods
+
+### <kbd>method</kbd> add_column
+
+```python
+self,
+name: 'str | int',
+data: 'list[Any] | np.ndarray',
+optional: 'bool' = False
+```
+
+Adds a column of data to the table.
+
+##### Arguments
+
+- **name**: (str) - the unique name of the column
+- **data**: (list | np.array) - a column of homogeneous data
+- **optional**: (bool) - if null-like values are permitted
+
+
+
+
+### <kbd>method</kbd> add_computed_columns
+
+```python
+(self, fn)
+```
+
+Adds one or more computed columns based on existing data.
+
+##### Arguments
+
+- **fn**: A function which accepts one or two parameters, ndx (int) and row (dict), which is expected to return a dict representing new columns for that row, keyed by the new column names. - `ndx` is an integer representing the index of the row. Only included if `include_ndx` is set to `True`. - `row` is a dictionary keyed by existing columns
+
+
+
+
+### <kbd>method</kbd> add_data
+
+```python
+self, *data: 'Any'
+```
+
+Adds a new row of data to the table.
+
+The maximum amount ofrows in a table is determined by
+`wandb.Table.MAX_ARTIFACT_ROWS`.
+
+The length of the data should match the length of the table column.
+
+##### Arguments
+
+- **data**: 
+
+
+
+
+### <kbd>method</kbd> add_row
+
+```python
+(self, *row)
+```
+
+Deprecated. Use `Table.add_data` method instead.
+
+##### Arguments
+
+- **row**: 
+
+
+
+
+### <kbd>method</kbd> captions
+
+```python
+media_items: 'Sequence[Media]'
+```
+
+
+
+##### Arguments
+
+- **media_items**: 
+
+
+
+
+### <kbd>method</kbd> cast
+
+```python
+(self, col_name, dtype, optional=False)
+```
+
+Casts a column to a specific data type.
+
+This can be one of the normal python classes, an internal W&B type,
+or an example object, like an instance of wandb.Image or
+wandb.Classes.
+
+##### Arguments
+
+- **col_name**: The name of the column to cast.
+- **dtype**: The target dtype.
+- **optional**: If the column should allow Nones.
+
+
+
+
+### <kbd>method</kbd> file_is_set
+
+```python
+self
+```
+
+
+
+
+
+
+
+### <kbd>method</kbd> get_column
+
+```python
+(self, name, convert_to=None)
+```
+
+Retrieves a column from the table and optionally converts it to a NumPy object.
+
+##### Arguments
+
+- **name**: (str) - the name of the column
+- **convert_to**: (str, optional)
+
+
+
+
+### <kbd>method</kbd> get_dataframe
+
+```python
+(self)
+```
+
+Returns a `pandas.DataFrame` of the table.
+
+
+
+
+
+### <kbd>method</kbd> get_index
+
+```python
+(self)
+```
+
+Returns an array of row indexes for use in other tables to create links.
+
+
+
+
+
+### <kbd>method</kbd> init_from_json
+
+```python
+json_obj: 'dict',
+source_artifact: 'Artifact'
+```
+
+Initialize a `WBValue` from a JSON blob based on the class that created it.
+
+Looks through all subclasses and tries to match the json obj with the class
+which created it. It will then call that subclass' `from_json` method.
+Importantly, this function will set the return object's `source_artifact`
+attribute to the passed in source artifact. This is critical for artifact
+bookkeeping. If you choose to create a wandb.Value via it's `from_json` method,
+make sure to properly set this `artifact_source` to avoid data duplication.
+
+##### Arguments
+
+- **json_obj**: A JSON dictionary to deserialize. It must contain a `_type` key. This is used to lookup the correct subclass to use.
+- **source_artifact**: An artifact which will hold any additional resources which were stored during the `to_json` function.
+
+
+
+
+### <kbd>method</kbd> is_bound
+
+```python
+self
+```
+
+
+
+
+
+
+
+### <kbd>method</kbd> path_is_reference
+
+```python
+path: 'str | pathlib.Path | None'
+```
+
+
+
+##### Arguments
+
+- **path**: 
+
+
+
+
+### <kbd>method</kbd> to_data_array
+
+```python
+self
+```
+
+Convert the object to a list of primitives representing the underlying data.
+
+
+
+
+
+### <kbd>method</kbd> type_mapping
+
+
+
+Return a map from `_log_type` to subclass. Used to lookup correct types for deserialization.
+
+
+
+
+
+### <kbd>method</kbd> with_suffix
+
+```python
+name: 'str',
+filetype: 'str' = 'json'
+```
+
+Get the name with the appropriate suffix.
+
+##### Arguments
+
+- **name**: the name of the file
+- **filetype**: the filetype to use. Defaults to "json".
+
 
 
 

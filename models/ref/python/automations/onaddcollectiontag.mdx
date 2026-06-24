@@ -1,33 +1,560 @@
 ---
 title: OnAddCollectionTag
-namespace: automations_namespace
-python_object_type: class
+kind: class
+namespace: wandb.automations.events
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py" />
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py#L322" />
 
 
 
-## <kbd>class</kbd> `OnAddCollectionTag`
+```python
+*,
+event_type: Literal[ADD_COLLECTION_TAG] = ADD_COLLECTION_TAG,
+scope: typing.Annotated[wandb.automations.scopes._ArtifactSequenceScope | wandb.automations.scopes._ArtifactPortfolioScope | wandb.automations.scopes.ProjectScope, BeforeValidator(func=<function parse_scope>, json_schema_input_type=PydanticUndefined)],
+filter: typing.Annotated[wandb.automations._filters.operators.And | wandb.automations._filters.operators.Or | wandb.automations._filters.operators.Nor | wandb.automations._filters.operators.Not | wandb.automations._filters.operators.Lt | wandb.automations._filters.operators.Gt | wandb.automations._filters.operators.Lte | wandb.automations._filters.operators.Gte | wandb.automations._filters.operators.Eq | wandb.automations._filters.operators.Ne | wandb.automations._filters.operators.In | wandb.automations._filters.operators.NotIn | wandb.automations._filters.operators.Exists | wandb.automations._filters.operators.Regex | wandb.automations._filters.operators.Contains | wandb.automations._filters.expressions.FilterExpr | dict[str, typing.Any], Json, BeforeValidator(func=<function ensure_json>, json_schema_input_type=PydanticUndefined), PlainSerializer(func=<function to_json>, return_type=PydanticUndefined, when_used='always'), AfterValidator(func=<function wrap_mutation_event_filter>)] = And(())
+```
+
+## Description
+
 A new tag is assigned to an artifact collection.
 
 
-### <kbd>method</kbd> `OnAddCollectionTag.__init__`
+
+## Args
+
+- **event_type**: 
+- **scope**: 
+- **filter**: 
+
+
+
+
+
+
+## Methods
+
+### <kbd>method</kbd> construct
 
 ```python
-__init__(
-    event_type: 'Literal[ADD_COLLECTION_TAG]' = ADD_COLLECTION_TAG,
-    scope: 'wandb.automations.scopes._ArtifactSequenceScope | wandb.automations.scopes._ArtifactPortfolioScope | wandb.automations.scopes.ProjectScope',
-    filter: 'wandb.automations._filters.operators.And | wandb.automations._filters.operators.Or | wandb.automations._filters.operators.Nor | wandb.automations._filters.operators.Not | wandb.automations._filters.operators.Lt | wandb.automations._filters.operators.Gt | wandb.automations._filters.operators.Lte | wandb.automations._filters.operators.Gte | wandb.automations._filters.operators.Eq | wandb.automations._filters.operators.Ne | wandb.automations._filters.operators.In | wandb.automations._filters.operators.NotIn | wandb.automations._filters.operators.Exists | wandb.automations._filters.operators.Regex | wandb.automations._filters.operators.Contains | wandb.automations._filters.expressions.FilterExpr | dict[str, Any]' = And(())
-) → None
+_fields_set: 'set[str] | None' = None, **values: 'Any'
 ```
 
-**Args:**
- 
- - `event_type` (Literal[ADD_COLLECTION_TAG]): 
- - `scope` (wandb.automations.scopes._ArtifactSequenceScope | wandb.automations.scopes._ArtifactPortfolioScope | wandb.automations.scopes.ProjectScope): The scope of the event.
- - `filter` (wandb.automations._filters.operators.And | wandb.automations._filters.operators.Or | wandb.automations._filters.operators.Nor | wandb.automations._filters.operators.Not | wandb.automations._filters.operators.Lt | wandb.automations._filters.operators.Gt | wandb.automations._filters.operators.Lte | wandb.automations._filters.operators.Gte | wandb.automations._filters.operators.Eq | wandb.automations._filters.operators.Ne | wandb.automations._filters.operators.In | wandb.automations._filters.operators.NotIn | wandb.automations._filters.operators.Exists | wandb.automations._filters.operators.Regex | wandb.automations._filters.operators.Contains | wandb.automations._filters.expressions.FilterExpr | dict[str, Any]): Additional conditions(s), if any, that are required for this event to trigger.
 
-**Returns:**
- An `OnAddCollectionTag` object.
+
+##### Arguments
+
+- **_fields_set**: 
+- **values**: 
+
+
+
+
+### <kbd>method</kbd> copy
+
+```python
+self, *,
+include: 'AbstractSetIntStr | MappingIntStrAny | None' = None,
+exclude: 'AbstractSetIntStr | MappingIntStrAny | None' = None,
+update: 'Dict[str, Any] | None' = None,
+deep: 'bool' = False
+```
+
+Returns a copy of the model.
+
+!!! warning "Deprecated"
+    This method is now deprecated; use `model_copy` instead.
+
+If you need `include` or `exclude`, use:
+
+```python {test="skip" lint="skip"}
+data = self.model_dump(include=include, exclude=exclude, round_trip=True)
+data = {**data, **(update or {})}
+copied = self.model_validate(data)
+```
+
+##### Arguments
+
+- **include**: Optional set or mapping specifying which fields to include in the copied model.
+- **exclude**: Optional set or mapping specifying which fields to exclude in the copied model.
+- **update**: Optional dictionary of field-value pairs to override field values in the copied model.
+- **deep**: If True, the values of fields that are Pydantic models will be deep-copied.
+
+
+
+
+### <kbd>method</kbd> dict
+
+```python
+self, *,
+include: 'IncEx | None' = None,
+exclude: 'IncEx | None' = None,
+by_alias: 'bool' = False,
+exclude_unset: 'bool' = False,
+exclude_defaults: 'bool' = False,
+exclude_none: 'bool' = False
+```
+
+
+
+##### Arguments
+
+- **include**: 
+- **exclude**: 
+- **by_alias**: 
+- **exclude_unset**: 
+- **exclude_defaults**: 
+- **exclude_none**: 
+
+
+
+
+### <kbd>method</kbd> from_orm
+
+```python
+obj: 'Any'
+```
+
+
+
+##### Arguments
+
+- **obj**: 
+
+
+
+
+### <kbd>method</kbd> json
+
+```python
+self, *,
+include: 'IncEx | None' = None,
+exclude: 'IncEx | None' = None,
+by_alias: 'bool' = False,
+exclude_unset: 'bool' = False,
+exclude_defaults: 'bool' = False,
+exclude_none: 'bool' = False,
+encoder: 'Callable[[Any], Any] | None' = PydanticUndefined,
+models_as_dict: 'bool' = PydanticUndefined, **dumps_kwargs: 'Any'
+```
+
+
+
+##### Arguments
+
+- **include**: 
+- **exclude**: 
+- **by_alias**: 
+- **exclude_unset**: 
+- **exclude_defaults**: 
+- **exclude_none**: 
+- **encoder**: 
+- **models_as_dict**: 
+- **dumps_kwargs**: 
+
+
+
+
+### <kbd>method</kbd> model_construct
+
+```python
+_fields_set: 'set[str] | None' = None, **values: 'Any'
+```
+
+Creates a new instance of the `Model` class with validated data.
+
+Creates a new model setting `__dict__` and `__pydantic_fields_set__` from trusted or pre-validated data.
+Default values are respected, but no other validation is performed.
+
+!!! note
+    `model_construct()` generally respects the `model_config.extra` setting on the provided model.
+    That is, if `model_config.extra == 'allow'`, then all extra passed values are added to the model instance's `__dict__`
+    and `__pydantic_extra__` fields. If `model_config.extra == 'ignore'` (the default), then all extra passed values are ignored.
+    Because no validation is performed with a call to `model_construct()`, having `model_config.extra == 'forbid'` does not result in
+    an error if extra values are passed, but they will be ignored.
+
+##### Arguments
+
+- **_fields_set**: A set of field names that were originally explicitly set during instantiation. If provided, this is directly used for the [`model_fields_set`][pydantic.BaseModel.model_fields_set] attribute. Otherwise, the field names from the `values` argument will be used.
+- **values**: Trusted or pre-validated data dictionary.
+
+
+
+
+### <kbd>method</kbd> model_copy
+
+```python
+self, *,
+update: 'Mapping[str, Any] | None' = None,
+deep: 'bool' = False
+```
+
+!!! abstract "Usage Documentation"
+    [`model_copy`](../concepts/serialization.md#model_copy)
+
+Returns a copy of the model.
+
+!!! note
+    The underlying instance's [`__dict__`][object.__dict__] attribute is copied. This
+    might have unexpected side effects if you store anything in it, on top of the model
+    fields (e.g. the value of [cached properties][functools.cached_property]).
+
+##### Arguments
+
+- **update**: Values to change/add in the new model. Note: the data is not validated before creating the new model. You should trust this data.
+- **deep**: Set to `True` to make a deep copy of the model.
+
+
+
+
+### <kbd>method</kbd> model_dump
+
+```python
+self, *,
+mode: 'str' = 'json', **kwargs: 'Any'
+```
+
+!!! abstract "Usage Documentation"
+    [`model_dump`](../concepts/serialization.md#modelmodel_dump)
+
+Generate a dictionary representation of the model, optionally specifying which fields to include or exclude.
+
+##### Arguments
+
+- **mode**: The mode in which `to_python` should run. If mode is 'json', the output will only contain JSON serializable types. If mode is 'python', the output may contain non-JSON-serializable Python objects.
+- **kwargs**: 
+
+
+
+
+### <kbd>method</kbd> model_dump_json
+
+```python
+self, *,
+indent: 'int | None' = None, **kwargs: 'Any'
+```
+
+!!! abstract "Usage Documentation"
+    [`model_dump_json`](../concepts/serialization.md#modelmodel_dump_json)
+
+Generates a JSON representation of the model using Pydantic's `to_json` method.
+
+##### Arguments
+
+- **indent**: Indentation to use in the JSON output. If None is passed, the output will be compact.
+- **kwargs**: 
+
+
+
+
+### <kbd>method</kbd> model_json_schema
+
+```python
+by_alias: 'bool' = True,
+ref_template: 'str' = '#/$defs/{model}',
+schema_generator: 'type[GenerateJsonSchema]' = <class 'pydantic.json_schema.GenerateJsonSchema'>,
+mode: 'JsonSchemaMode' = 'validation'
+```
+
+Generates a JSON schema for a model class.
+
+##### Arguments
+
+- **by_alias**: Whether to use attribute aliases or not.
+- **ref_template**: The reference template.
+- **schema_generator**: To override the logic used to generate the JSON schema, as a subclass of `GenerateJsonSchema` with your desired modifications
+- **mode**: The mode in which to generate the schema.
+
+
+
+
+### <kbd>method</kbd> model_parametrized_name
+
+```python
+params: 'tuple[type[Any], ...]'
+```
+
+Compute the class name for parametrizations of generic classes.
+
+This method can be overridden to achieve a custom naming scheme for generic BaseModels.
+
+##### Arguments
+
+- **params**: Tuple of types of the class. Given a generic class `Model` with 2 type variables and a concrete model `Model[str, int]`, the value `(str, int)` would be passed to `params`.
+
+
+##### Raises
+
+- **TypeError**: Raised when trying to generate concrete names for non-generic models.
+
+
+### <kbd>method</kbd> model_post_init
+
+```python
+self,
+context: 'Any', /
+```
+
+Override this method to perform additional initialization after `__init__` and `model_construct`.
+This is useful if you want to do some validation that requires the entire model to be initialized.
+
+##### Arguments
+
+- **context**: 
+
+
+
+
+### <kbd>method</kbd> model_rebuild
+
+```python
+*,
+force: 'bool' = False,
+raise_errors: 'bool' = True,
+_parent_namespace_depth: 'int' = 2,
+_types_namespace: 'MappingNamespace | None' = None
+```
+
+Try to rebuild the pydantic-core schema for the model.
+
+This may be necessary when one of the annotations is a ForwardRef which could not be resolved during
+the initial attempt to build the schema, and automatic rebuilding fails.
+
+##### Arguments
+
+- **force**: Whether to force the rebuilding of the model schema, defaults to `False`.
+- **raise_errors**: Whether to raise errors, defaults to `True`.
+- **_parent_namespace_depth**: The depth level of the parent namespace, defaults to 2.
+- **_types_namespace**: The types namespace, defaults to `None`.
+
+
+
+
+### <kbd>method</kbd> model_validate
+
+```python
+obj: 'Any', *,
+strict: 'bool | None' = None,
+from_attributes: 'bool | None' = None,
+context: 'Any | None' = None,
+by_alias: 'bool | None' = None,
+by_name: 'bool | None' = None
+```
+
+Validate a pydantic model instance.
+
+##### Arguments
+
+- **obj**: The object to validate.
+- **strict**: Whether to enforce types strictly.
+- **from_attributes**: Whether to extract data from object attributes.
+- **context**: Additional context to pass to the validator.
+- **by_alias**: Whether to use the field's alias when validating against the provided input data.
+- **by_name**: Whether to use the field's name when validating against the provided input data.
+
+
+##### Raises
+
+- **ValidationError**: If the object could not be validated.
+
+
+### <kbd>method</kbd> model_validate_json
+
+```python
+json_data: 'str | bytes | bytearray', *,
+strict: 'bool | None' = None,
+context: 'Any | None' = None,
+by_alias: 'bool | None' = None,
+by_name: 'bool | None' = None
+```
+
+!!! abstract "Usage Documentation"
+    [JSON Parsing](../concepts/json.md#json-parsing)
+
+Validate the given JSON data against the Pydantic model.
+
+##### Arguments
+
+- **json_data**: The JSON data to validate.
+- **strict**: Whether to enforce types strictly.
+- **context**: Extra variables to pass to the validator.
+- **by_alias**: Whether to use the field's alias when validating against the provided input data.
+- **by_name**: Whether to use the field's name when validating against the provided input data.
+
+
+##### Raises
+
+- **ValidationError**: If `json_data` is not a JSON string or the object could not be validated.
+
+
+### <kbd>method</kbd> model_validate_strings
+
+```python
+obj: 'Any', *,
+strict: 'bool | None' = None,
+context: 'Any | None' = None,
+by_alias: 'bool | None' = None,
+by_name: 'bool | None' = None
+```
+
+Validate the given object with string data against the Pydantic model.
+
+##### Arguments
+
+- **obj**: The object containing string data to validate.
+- **strict**: Whether to enforce types strictly.
+- **context**: Extra variables to pass to the validator.
+- **by_alias**: Whether to use the field's alias when validating against the provided input data.
+- **by_name**: Whether to use the field's name when validating against the provided input data.
+
+
+
+
+### <kbd>method</kbd> parse_file
+
+```python
+path: 'str | Path', *,
+content_type: 'str | None' = None,
+encoding: 'str' = 'utf8',
+proto: 'DeprecatedParseProtocol | None' = None,
+allow_pickle: 'bool' = False
+```
+
+
+
+##### Arguments
+
+- **path**: 
+- **content_type**: 
+- **encoding**: 
+- **proto**: 
+- **allow_pickle**: 
+
+
+
+
+### <kbd>method</kbd> parse_obj
+
+```python
+obj: 'Any'
+```
+
+
+
+##### Arguments
+
+- **obj**: 
+
+
+
+
+### <kbd>method</kbd> parse_raw
+
+```python
+b: 'str | bytes', *,
+content_type: 'str | None' = None,
+encoding: 'str' = 'utf8',
+proto: 'DeprecatedParseProtocol | None' = None,
+allow_pickle: 'bool' = False
+```
+
+
+
+##### Arguments
+
+- **b**: 
+- **content_type**: 
+- **encoding**: 
+- **proto**: 
+- **allow_pickle**: 
+
+
+
+
+### <kbd>method</kbd> schema
+
+```python
+by_alias: 'bool' = True,
+ref_template: 'str' = '#/$defs/{model}'
+```
+
+
+
+##### Arguments
+
+- **by_alias**: 
+- **ref_template**: 
+
+
+
+
+### <kbd>method</kbd> schema_json
+
+```python
+*,
+by_alias: 'bool' = True,
+ref_template: 'str' = '#/$defs/{model}', **dumps_kwargs: 'Any'
+```
+
+
+
+##### Arguments
+
+- **by_alias**: 
+- **ref_template**: 
+- **dumps_kwargs**: 
+
+
+
+
+### <kbd>method</kbd> then
+
+```python
+self,
+action: 'InputAction'
+```
+
+Define a new Automation in which this event triggers the given action.
+
+##### Arguments
+
+- **action**: 
+
+
+
+
+### <kbd>method</kbd> update_forward_refs
+
+```python
+**localns: 'Any'
+```
+
+
+
+##### Arguments
+
+- **localns**: 
+
+
+
+
+### <kbd>method</kbd> validate
+
+```python
+value: 'Any'
+```
+
+
+
+##### Arguments
+
+- **value**: 
+
+
+
+
+
+

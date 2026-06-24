@@ -1,190 +1,187 @@
 ---
 title: Sweep
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.sweeps
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py" />
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py#L238" />
 
 
-
-
-## <kbd>class</kbd> `Sweep`
-The set of runs associated with the sweep. 
-
-
-
-**Attributes:**
- 
- - `runs` (Runs):  List of runs 
- - `id` (str):  Sweep ID 
- - `project` (str):  The name of the project the sweep belongs to 
- - `config` (dict):  Dictionary containing the sweep configuration 
- - `state` (str):  The state of the sweep. Can be "Finished", "Failed",  "Crashed", or "Running". 
- - `expected_run_count` (int):  The number of expected runs for the sweep 
-
-### <kbd>method</kbd> `Sweep.__init__`
 
 ```python
-__init__(
-    service_api: 'ServiceApi',
-    entity: 'str',
-    project: 'str',
-    sweep_id: 'str',
-    attrs: 'Mapping[str, Any] | None' = None
-)
+(service_api: 'ServiceApi',
+entity: 'str',
+project: 'str',
+sweep_id: 'str',
+attrs: 'Mapping[str, Any] | None' = None)
 ```
 
+## Description
+
+The set of runs associated with the sweep.
+
+Attributes:
+    runs (Runs): List of runs
+    id (str): Sweep ID
+    project (str): The name of the project the sweep belongs to
+    config (dict): Dictionary containing the sweep configuration
+    state (str): The state of the sweep. Can be "Finished", "Failed",
+        "Crashed", or "Running".
+    expected_run_count (int): The number of expected runs for the sweep
+
+
+
+## Args
+
+- **service_api**: 
+- **entity**: 
+- **project**: 
+- **sweep_id**: 
+- **attrs**: 
 
 
 
 
+## Properties
 
----
+### <kbd>property</kbd> entity
 
-### <kbd>property</kbd> Sweep.config
+The entity associated with the sweep.
 
-The sweep configuration used for the sweep. 
+### <kbd>property</kbd> username
 
----
+Deprecated. Use `Sweep.entity` instead.
 
-### <kbd>property</kbd> Sweep.entity
+### <kbd>property</kbd> config
 
-The entity associated with the sweep. 
+The sweep configuration used for the sweep.
 
+### <kbd>property</kbd> order
 
+Return the order key for the sweep.
 
-**Returns:**
- - `str`: The entity property value.
----
+### <kbd>property</kbd> expected_run_count
 
-### <kbd>property</kbd> Sweep.expected_run_count
+Return the number of expected runs in the sweep or None for infinite runs.
 
-Return the number of expected runs in the sweep or None for infinite runs. 
+### <kbd>property</kbd> path
 
+Returns the path of the project.
 
+The path is a list containing the entity, project name, and sweep ID.
 
-**Returns:**
- - `int | None`: The expected_run_count property value.
----
+### <kbd>property</kbd> url
 
-### <kbd>property</kbd> Sweep.name
+The URL of the sweep.
 
-The name of the sweep. 
+The sweep URL is generated from the entity, project, the term
+"sweeps", and the sweep ID.run_id. For
+SaaS users, it takes the form
+of `https://wandb.ai/entity/project/sweeps/sweeps_ID`.
 
-Returns the first name that exists in the following priority order: 
+### <kbd>property</kbd> name
 
-1. User-edited display name 2. Name configured at creation time 3. Sweep ID 
+The name of the sweep.
 
----
+Returns the first name that exists in the following priority order:
 
-### <kbd>property</kbd> Sweep.order
-
-Return the order key for the sweep. 
-
----
-
-### <kbd>property</kbd> Sweep.path
-
-Returns the path of the project. 
-
-The path is a list containing the entity, project name, and sweep ID. 
-
----
-
-### <kbd>property</kbd> Sweep.url
-
-The URL of the sweep. 
-
-The sweep URL is generated from the entity, project, the term "sweeps", and the sweep ID.run_id. For SaaS users, it takes the form of `https://wandb.ai/entity/project/sweeps/sweeps_ID`. 
-
----
-
-### <kbd>property</kbd> Sweep.username
-
-Deprecated. Use `Sweep.entity` instead. 
+1. User-edited display name
+2. Name configured at creation time
+3. Sweep ID
 
 
 
+## Methods
 
-
-**Returns:**
- - `str`: The username property value.
----
-
-### <kbd>method</kbd> `Sweep.agent`
+### <kbd>method</kbd> agent
 
 ```python
-agent(agent_id: 'str') → Agent
+self,
+agent_id: 'str'
 ```
 
-Query an agent by ID for this sweep. 
+Query an agent by ID for this sweep.
+
+##### Arguments
+
+- **agent_id**: The ID of the agent to look up.
 
 
 
-**Args:**
- 
- - `agent_id`:  The ID of the agent to look up. 
 
----
-
-### <kbd>method</kbd> `Sweep.agents`
+### <kbd>method</kbd> agents
 
 ```python
-agents() → list[Agent]
+self
 ```
 
-Query the list of all agents for this sweep. 
+Query the list of all agents for this sweep.
 
----
 
-### <kbd>method</kbd> `Sweep.best_run`
+
+
+
+### <kbd>method</kbd> best_run
 
 ```python
-best_run(order=None)
+(self, order=None)
 ```
 
-Return the best run sorted by the metric defined in config or the order passed in. 
+Return the best run sorted by the metric defined in config or the order passed in.
 
----
+##### Arguments
 
-### <kbd>classmethod</kbd> `Sweep.get`
+- **order**: 
+
+
+
+
+### <kbd>method</kbd> get
 
 ```python
-get(
-    api: 'Api',
-    entity: 'str | None' = None,
-    project: 'str | None' = None,
-    sid: 'str | None' = None,
-    order: 'str | None' = None,
-    query: 'str | None' = None,
-    **kwargs
-)
+(api: 'Api',
+entity: 'str | None' = None,
+project: 'str | None' = None,
+sid: 'str | None' = None,
+order: 'str | None' = None,
+query: 'str | None' = None, **kwargs)
 ```
 
-Execute a query against the cloud backend. 
+Execute a query against the cloud backend.
+
+##### Arguments
+
+- **api**: The W&B API instance.
+- **entity**: The entity (username or team) that owns the project.
+- **project**: The name of the project to fetch sweep from.
+- **sid**: The sweep ID to query.
+- **order**: The order in which the sweep's runs are returned.
+- **query**: The query to use to execute the query.
+- **kwargs**: 
 
 
 
-**Args:**
- 
- - `api`:  The W&B API instance. 
- - `entity`:  The entity (username or team) that owns the project. 
- - `project`:  The name of the project to fetch sweep from. 
- - `sid`:  The sweep ID to query. 
- - `order`:  The order in which the sweep's runs are returned. 
- - `query`:  The query to use to execute the query. 
- - `**kwargs`:  Additional keyword arguments to pass to the query. 
 
----
-
-
-### <kbd>method</kbd> `Sweep.to_html`
+### <kbd>method</kbd> to_html
 
 ```python
-to_html(height: 'int' = 420, hidden: 'bool' = False) → str
+self,
+height: 'int' = 420,
+hidden: 'bool' = False
 ```
 
-Generate HTML containing an iframe displaying this sweep. 
+Generate HTML containing an iframe displaying this sweep.
+
+##### Arguments
+
+- **height**: 
+- **hidden**: 
+
+
+
+
+
 

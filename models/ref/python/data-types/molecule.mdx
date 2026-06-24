@@ -1,41 +1,243 @@
 ---
 title: Molecule
-namespace: python_sdk_data_type
-python_object_type: class
+kind: class
+namespace: wandb.sdk.data_types.molecule
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/molecule.py" />
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/molecule.py#L28" />
 
 
-
-
-## <kbd>class</kbd> `Molecule`
-W&B class for 3D Molecular data. 
-
-### <kbd>method</kbd> `Molecule.__init__`
 
 ```python
-__init__(
-    data_or_path: 'str | pathlib.Path | TextIO',
-    caption: 'str | None' = None,
-    **kwargs: 'str'
-) → None
+data_or_path: 'str | pathlib.Path | TextIO',
+caption: 'str | None' = None, **kwargs: 'str'
 ```
 
-Initialize a Molecule object. 
+## Description
+
+W&B class for 3D Molecular data.
 
 
 
-**Args:**
- 
- - `data_or_path`:  Molecule can be initialized from a file name or an io object. 
- - `caption`:  Caption associated with the molecule for display. 
+## Args
+
+- **data_or_path**: 
+- **caption**: 
+- **kwargs**: 
 
 
 
 
----
+
+
+## Methods
+
+### <kbd>method</kbd> bind_to_run
+
+```python
+self,
+run: 'wandb.Run',
+key: 'int | str',
+step: 'int | str',
+id_: 'int | str | None' = None,
+ignore_copy_err: 'bool | None' = None
+```
+
+Bind this object to a particular Run.
+
+Calling this function is necessary so that we have somewhere specific to put the
+file associated with this object, from which other Runs can refer to it.
+
+##### Arguments
+
+- **run**: 
+- **key**: 
+- **step**: 
+- **id_**: 
+- **ignore_copy_err**: 
+
+
+
+
+### <kbd>method</kbd> captions
+
+```python
+media_items: 'Sequence[Media]'
+```
+
+
+
+##### Arguments
+
+- **media_items**: 
+
+
+
+
+### <kbd>method</kbd> file_is_set
+
+```python
+self
+```
+
+
+
+
+
+
+
+### <kbd>method</kbd> from_json
+
+```python
+json_obj: 'dict',
+source_artifact: 'Artifact'
+```
+
+Likely will need to override for any more complicated media objects.
+
+##### Arguments
+
+- **json_obj**: 
+- **source_artifact**: 
+
+
+
+
+### <kbd>method</kbd> from_rdkit
+
+```python
+data_or_path: 'RDKitDataType',
+caption: 'str | None' = None,
+convert_to_3d_and_optimize: 'bool' = True,
+mmff_optimize_molecule_max_iterations: 'int' = 200
+```
+
+Convert RDKit-supported file/object types to wandb.Molecule.
+
+##### Arguments
+
+- **data_or_path**: (string, rdkit.Chem.rdchem.Mol) Molecule can be initialized from a file name or an rdkit.Chem.rdchem.Mol object.
+- **caption**: (string) Caption associated with the molecule for display.
+- **convert_to_3d_and_optimize**: (bool) Convert to rdkit.Chem.rdchem.Mol with 3D coordinates. This is an expensive operation that may take a long time for complicated molecules.
+- **mmff_optimize_molecule_max_iterations**: (int) Number of iterations to use in rdkit.Chem.AllChem.MMFFOptimizeMolecule
+
+
+
+
+### <kbd>method</kbd> from_smiles
+
+```python
+data: 'str',
+caption: 'str | None' = None,
+sanitize: 'bool' = True,
+convert_to_3d_and_optimize: 'bool' = True,
+mmff_optimize_molecule_max_iterations: 'int' = 200
+```
+
+Convert SMILES string to wandb.Molecule.
+
+##### Arguments
+
+- **data**: SMILES string.
+- **caption**: Caption associated with the molecule for display.
+- **sanitize**: Check if the molecule is chemically reasonable by the RDKit's definition.
+- **convert_to_3d_and_optimize**: Convert to rdkit.Chem.rdchem.Mol with 3D coordinates. This is a computationally intensive operation that may take a long time for complicated molecules.
+- **mmff_optimize_molecule_max_iterations**: Number of iterations to use in rdkit.Chem.AllChem.MMFFOptimizeMolecule.
+
+
+
+
+### <kbd>method</kbd> init_from_json
+
+```python
+json_obj: 'dict',
+source_artifact: 'Artifact'
+```
+
+Initialize a `WBValue` from a JSON blob based on the class that created it.
+
+Looks through all subclasses and tries to match the json obj with the class
+which created it. It will then call that subclass' `from_json` method.
+Importantly, this function will set the return object's `source_artifact`
+attribute to the passed in source artifact. This is critical for artifact
+bookkeeping. If you choose to create a wandb.Value via it's `from_json` method,
+make sure to properly set this `artifact_source` to avoid data duplication.
+
+##### Arguments
+
+- **json_obj**: A JSON dictionary to deserialize. It must contain a `_type` key. This is used to lookup the correct subclass to use.
+- **source_artifact**: An artifact which will hold any additional resources which were stored during the `to_json` function.
+
+
+
+
+### <kbd>method</kbd> is_bound
+
+```python
+self
+```
+
+
+
+
+
+
+
+### <kbd>method</kbd> path_is_reference
+
+```python
+path: 'str | pathlib.Path | None'
+```
+
+
+
+##### Arguments
+
+- **path**: 
+
+
+
+
+### <kbd>method</kbd> to_data_array
+
+```python
+self
+```
+
+Convert the object to a list of primitives representing the underlying data.
+
+
+
+
+
+### <kbd>method</kbd> type_mapping
+
+
+
+Return a map from `_log_type` to subclass. Used to lookup correct types for deserialization.
+
+
+
+
+
+### <kbd>method</kbd> with_suffix
+
+```python
+name: 'str',
+filetype: 'str' = 'json'
+```
+
+Get the name with the appropriate suffix.
+
+##### Arguments
+
+- **name**: the name of the file
+- **filetype**: the filetype to use. Defaults to "json".
+
+
 
 
 
