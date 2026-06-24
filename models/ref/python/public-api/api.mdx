@@ -11,6 +11,7 @@ import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
 
+## <kbd>class</kbd> Api
 ```python
 overrides: 'dict[str, Any] | None' = None,
 timeout: 'int | None' = None,
@@ -25,9 +26,9 @@ Used for querying the W&B server.
 
 ## Args
 
-- **overrides**: 
-- **timeout**: 
-- **api_key**: 
+- `overrides`: 
+- `timeout`: 
+- `api_key`: 
 
 
 ## Examples
@@ -68,14 +69,14 @@ Returns a single artifact.
 
 ##### Arguments
 
-- **name**: The artifact's name. The name of an artifact resembles a filepath that consists, at a minimum, the name of the project the artifact was logged to, the name of the artifact, and the artifact's version or alias. Optionally append the entity that logged the artifact as a prefix followed by a forward slash. If no entity is specified in the name, the Run or API setting's entity is used.
-- **type**: The type of artifact to fetch.
+- `name`: The artifact's name. The name of an artifact resembles a filepath that consists, at a minimum, the name of the project the artifact was logged to, the name of the artifact, and the artifact's version or alias. Optionally append the entity that logged the artifact as a prefix followed by a forward slash. If no entity is specified in the name, the Run or API setting's entity is used.
+- `type`: The type of artifact to fetch.
 
 
 ##### Raises
 
-- **ValueError**: If the artifact name is not specified.
-- **ValueError**: If the artifact type is specified but does not match the type of the fetched artifact.
+- `ValueError`: If the artifact name is not specified.
+- `ValueError`: If the artifact type is specified but does not match the type of the fetched artifact.
 
 
 ##### Examples
@@ -119,8 +120,8 @@ information about specific artifacts in that collection, and more.
 
 ##### Arguments
 
-- **type_name**: The type of artifact collection to fetch.
-- **name**: An artifact collection name. Optionally append the entity that logged the artifact as a prefix followed by a forward slash.
+- `type_name`: The type of artifact collection to fetch.
+- `name`: An artifact collection name. Optionally append the entity that logged the artifact as a prefix followed by a forward slash.
 
 
 
@@ -158,8 +159,8 @@ Whether an artifact collection exists within a specified project and entity.
 
 ##### Arguments
 
-- **name**: An artifact collection name. Optionally append the entity that logged the artifact as a prefix followed by a forward slash. If entity or project is not specified, infer the collection from the override params if they exist. Otherwise, entity is pulled from the user settings and project will default to "uncategorized".
-- **type**: The type of artifact collection.
+- `name`: An artifact collection name. Optionally append the entity that logged the artifact as a prefix followed by a forward slash. If entity or project is not specified, infer the collection from the override params if they exist. Otherwise, entity is pulled from the user settings and project will default to "uncategorized".
+- `type`: The type of artifact collection.
 
 
 
@@ -190,11 +191,11 @@ Returns a collection of matching artifact collections.
 
 ##### Arguments
 
-- **project_name**: The name of the project to filter on.
-- **type_name**: The name of the artifact type to filter on.
-- **order**: Optional string to specify the order of the results. If prefixed with '+', sorts ascending (default). If prefixed with '-', sorts descending.
-- **per_page**: Sets the page size for query pagination. Usually there is no reason to change this.
-- **start**: Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
+- `project_name`: The name of the project to filter on.
+- `type_name`: The name of the artifact type to filter on.
+- `order`: Optional string to specify the order of the results. If prefixed with '+', sorts ascending (default). If prefixed with '-', sorts descending.
+- `per_page`: Sets the page size for query pagination. Usually there is no reason to change this.
+- `start`: Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
 
 
 
@@ -211,8 +212,8 @@ Whether an artifact version exists within the specified project and entity.
 
 ##### Arguments
 
-- **name**: The name of artifact. Add the artifact's entity and project as a prefix. Append the version or the alias of the artifact with a colon. If the entity or project is not specified, W&B uses override parameters if populated. Otherwise, the entity is pulled from the user settings and the project is set to "Uncategorized".
-- **type**: The type of artifact.
+- `name`: The name of artifact. Add the artifact's entity and project as a prefix. Append the version or the alias of the artifact with a colon. If the entity or project is not specified, W&B uses override parameters if populated. Otherwise, the entity is pulled from the user settings and the project is set to "Uncategorized".
+- `type`: The type of artifact.
 
 
 
@@ -243,8 +244,8 @@ Returns the matching `ArtifactType`.
 
 ##### Arguments
 
-- **type_name**: The name of the artifact type to retrieve.
-- **project**: If given, a project name or path to filter on.
+- `type_name`: The name of the artifact type to retrieve.
+- `project`: If given, a project name or path to filter on.
 
 
 
@@ -261,8 +262,8 @@ Returns a collection of matching artifact types.
 
 ##### Arguments
 
-- **project**: The project name or path to filter on.
-- **start**: Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
+- `project`: The project name or path to filter on.
+- `start`: Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
 
 
 
@@ -277,9 +278,9 @@ Deprecated. Use `Api.artifacts(type_name, name)` method instead.
 
 ##### Arguments
 
-- **type_name**: 
-- **name**: 
-- **per_page**: 
+- `type_name`: 
+- `name`: 
+- `per_page`: 
 
 
 
@@ -300,12 +301,12 @@ Return an `Artifacts` collection.
 
 ##### Arguments
 
-- **type_name**: The type of artifacts to fetch.
-- **name**: The artifact's collection name. Optionally append the entity that logged the artifact as a prefix followed by a forward slash.
-- **order**: Optional string to specify the order of the results. If prefixed with '+', sorts ascending (default). If prefixed with '-', sorts descending.
-- **per_page**: Sets the page size for query pagination. Usually there is no reason to change this.
-- **tags**: Only return artifacts with all of these tags.
-- **start**: Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
+- `type_name`: The type of artifacts to fetch.
+- `name`: The artifact's collection name. Optionally append the entity that logged the artifact as a prefix followed by a forward slash.
+- `order`: Optional string to specify the order of the results. If prefixed with '+', sorts ascending (default). If prefixed with '-', sorts descending.
+- `per_page`: Sets the page size for query pagination. Usually there is no reason to change this.
+- `tags`: Only return artifacts with all of these tags.
+- `start`: Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
 
 
 
@@ -365,13 +366,13 @@ Returns the only Automation matching the parameters.
 
 ##### Arguments
 
-- **name**: The name of the automation to fetch.
-- **entity**: The entity to fetch the automation for.
+- `name`: The name of the automation to fetch.
+- `entity`: The entity to fetch the automation for.
 
 
 ##### Raises
 
-- **ValueError**: If zero or multiple Automations match the search criteria.
+- `ValueError`: If zero or multiple Automations match the search criteria.
 
 
 ##### Examples
@@ -408,10 +409,10 @@ Automations that the user has access to.
 
 ##### Arguments
 
-- **entity**: The entity to fetch the automations for.
-- **name**: The name of the automation to fetch.
-- **per_page**: The number of automations to fetch per page. Defaults to 50.  Usually there is no reason to change this.
-- **start**: Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
+- `entity`: The entity to fetch the automations for.
+- `name`: The name of the automation to fetch.
+- `per_page`: The number of automations to fetch per page. Defaults to 50.  Usually there is no reason to change this.
+- `start`: Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
 
 
 
@@ -439,9 +440,9 @@ Create a new Automation.
 
 ##### Arguments
 
-- **obj**: The automation to create.
-- **fetch_existing**: If True, and a conflicting automation already exists, attempt to fetch the existing automation instead of raising an error.
-- **kwargs**: 
+- `obj`: The automation to create.
+- `fetch_existing`: If True, and a conflicting automation already exists, attempt to fetch the existing automation instead of raising an error.
+- `kwargs`: 
 
 
 
@@ -491,18 +492,18 @@ Create a custom chart preset and return its id.
 
 ##### Arguments
 
-- **entity**: The entity (user or team) that owns the chart
-- **name**: Unique identifier for the chart preset
-- **display_name**: Human-readable name shown in the UI
-- **spec_type**: Type of specification. Must be "vega2" for Vega-Lite v2 specifications.
-- **access**: Access level for the chart:
-- **spec**: The Vega/Vega-Lite specification as a dictionary or JSON string
+- `entity`: The entity (user or team) that owns the chart
+- `name`: Unique identifier for the chart preset
+- `display_name`: Human-readable name shown in the UI
+- `spec_type`: Type of specification. Must be "vega2" for Vega-Lite v2 specifications.
+- `access`: Access level for the chart:
+- `spec`: The Vega/Vega-Lite specification as a dictionary or JSON string
 
 
 ##### Raises
 
-- **wandb.Error**: If chart creation fails
-- **UnsupportedError**: If the server doesn't support custom charts
+- `wandb.Error`: If chart creation fails
+- `UnsupportedError`: If the server doesn't support custom charts
 
 
 ##### Examples
@@ -553,8 +554,8 @@ Create a new project.
 
 ##### Arguments
 
-- **name**: The name of the new project.
-- **entity**: The entity of the new project.
+- `name`: The name of the new project.
+- `entity`: The entity of the new project.
 
 
 
@@ -574,11 +575,11 @@ Create a new registry.
 
 ##### Arguments
 
-- **name**: The name of the registry. Name must be unique within the organization.
-- **visibility**: The visibility of the registry.
-- **organization**: The organization of the registry. If no organization is set in the settings, the organization will be fetched from the entity if the entity only belongs to one organization.
-- **description**: The description of the registry.
-- **artifact_types**: The accepted artifact types of the registry. A type is no
+- `name`: The name of the registry. Name must be unique within the organization.
+- `visibility`: The visibility of the registry.
+- `organization`: The organization of the registry. If no organization is set in the settings, the organization will be fetched from the entity if the entity only belongs to one organization.
+- `description`: The description of the registry.
+- `artifact_types`: The accepted artifact types of the registry. A type is no
 
 
 
@@ -611,9 +612,9 @@ Create a new run.
 
 ##### Arguments
 
-- **run_id**: The ID to assign to the run. If not specified, W&B creates a random ID.
-- **project**: The project where to log the run to. If no project is specified, log the run to a project called "Uncategorized".
-- **entity**: The entity that owns the project. If no entity is specified, log the run to the default entity.
+- `run_id`: The ID to assign to the run. If not specified, W&B creates a random ID.
+- `project`: The project where to log the run to. If no project is specified, log the run to a project called "Uncategorized".
+- `entity`: The entity that owns the project. If no entity is specified, log the run to the default entity.
 
 
 
@@ -634,12 +635,12 @@ Create a new run queue in W&B Launch.
 
 ##### Arguments
 
-- **name**: Name of the queue to create
-- **type**: Type of resource to be used for the queue. One of "local-container", "local-process", "kubernetes","sagemaker", or "gcp-vertex".
-- **entity**: Name of the entity to create the queue. If `None`, use the configured or default entity.
-- **prioritization_mode**: Version of prioritization to use. Either "V0" or `None`.
-- **config**: Default resource configuration to be used for the queue. Use handlebars (eg. `{{var}}`) to specify template variables.
-- **template_variables**: A dictionary of template variable schemas to use with the config.
+- `name`: Name of the queue to create
+- `type`: Type of resource to be used for the queue. One of "local-container", "local-process", "kubernetes","sagemaker", or "gcp-vertex".
+- `entity`: Name of the entity to create the queue. If `None`, use the configured or default entity.
+- `prioritization_mode`: Version of prioritization to use. Either "V0" or `None`.
+- `config`: Default resource configuration to be used for the queue. Use handlebars (eg. `{{var}}`) to specify template variables.
+- `template_variables`: A dictionary of template variable schemas to use with the config.
 
 
 
@@ -656,8 +657,8 @@ Create a new team.
 
 ##### Arguments
 
-- **team**: The name of the team
-- **admin_username**: Username of the admin user of the team. Defaults to the current user.
+- `team`: The name of the team
+- `admin_username`: Username of the admin user of the team. Defaults to the current user.
 
 
 
@@ -674,8 +675,8 @@ Create a new user.
 
 ##### Arguments
 
-- **email**: The email address of the user.
-- **admin**: Set user as a global instance administrator.
+- `email`: The email address of the user.
+- `admin`: Set user as a global instance administrator.
 
 
 
@@ -691,7 +692,7 @@ Delete an automation.
 
 ##### Arguments
 
-- **obj**: The automation to delete, or its ID.
+- `obj`: The automation to delete, or its ID.
 
 
 
@@ -723,7 +724,7 @@ Return a run, sweep, project or report from a path.
 
 ##### Arguments
 
-- **path**: The path to the project, run, sweep or report
+- `path`: The path to the project, run, sweep or report
 
 
 
@@ -759,9 +760,9 @@ Return an iterator of all integrations for an entity.
 
 ##### Arguments
 
-- **entity**: The entity (e.g. team name) for which to fetch integrations.  If not provided, the user's default entity will be used.
-- **per_page**: Number of integrations to fetch per page. Defaults to 50.  Usually there is no reason to change this.
-- **start**: 
+- `entity`: The entity (e.g. team name) for which to fetch integrations.  If not provided, the user's default entity will be used.
+- `per_page`: Number of integrations to fetch per page. Defaults to 50.  Usually there is no reason to change this.
+- `start`: 
 
 
 
@@ -778,8 +779,8 @@ Return a `Job` object.
 
 ##### Arguments
 
-- **name**: The name of the job.
-- **path**: The root path to download the job artifact.
+- `name`: The name of the job.
+- `path`: The root path to download the job artifact.
 
 
 
@@ -796,8 +797,8 @@ Return a list of jobs, if any, for the given entity and project.
 
 ##### Arguments
 
-- **entity**: The entity for the listed jobs.
-- **project**: The project for the listed jobs.
+- `entity`: The entity for the listed jobs.
+- `project`: The project for the listed jobs.
 
 
 
@@ -814,8 +815,8 @@ Return the `Project` with the given name (and entity, if given).
 
 ##### Arguments
 
-- **name**: The project name.
-- **entity**: Name of the entity requested.  If None, will fall back to the default entity passed to `Api`.  If no default entity, will raise a `ValueError`.
+- `name`: The project name.
+- `entity`: Name of the entity requested.  If None, will fall back to the default entity passed to `Api`.  If no default entity, will raise a `ValueError`.
 
 
 
@@ -832,8 +833,8 @@ Get projects for a given entity.
 
 ##### Arguments
 
-- **entity**: Name of the entity requested.  If None, will fall back to the default entity passed to `Api`.  If no default entity, will raise a `ValueError`.
-- **per_page**: Sets the page size for query pagination. Usually there is no reason to change this.
+- `entity`: Name of the entity requested.  If None, will fall back to the default entity passed to `Api`.  If no default entity, will raise a `ValueError`.
+- `per_page`: Sets the page size for query pagination. Usually there is no reason to change this.
 
 
 
@@ -854,12 +855,12 @@ Parses paths of the form `entity/project/queue_id/run_queue_item_id`.
 
 ##### Arguments
 
-- **entity**: 
-- **project**: 
-- **queue_name**: 
-- **run_queue_item_id**: 
-- **project_queue**: 
-- **priority**: 
+- `entity`: 
+- `project`: 
+- `queue_name`: 
+- `run_queue_item_id`: 
+- `project_queue`: 
+- `priority`: 
 
 
 
@@ -882,11 +883,11 @@ or artifact versions across your organization's registry.
 
 ##### Arguments
 
-- **organization**: The organization of the registry to fetch. If not specified, use the organization specified in the user's settings.
-- **filter**: Optional MongoDB-style filter to apply to each object in the lazy registry iterator. Fields available to filter for registries are `name`, `description`, `created_at`, `updated_at`. Fields available to filter for collections are `name`, `tag`, `description`, `created_at`, `updated_at` Fields available to filter for versions are `tag`, `alias`, `created_at`, `updated_at`, `metadata`
-- **order**: Optional string to specify the order of the results. If prefixed with '+', sorts ascending (default). If prefixed with '-', sorts descending.
-- **per_page**: Sets the page size for query pagination.
-- **start**: Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
+- `organization`: The organization of the registry to fetch. If not specified, use the organization specified in the user's settings.
+- `filter`: Optional MongoDB-style filter to apply to each object in the lazy registry iterator. Fields available to filter for registries are `name`, `description`, `created_at`, `updated_at`. Fields available to filter for collections are `name`, `tag`, `description`, `created_at`, `updated_at` Fields available to filter for versions are `tag`, `alias`, `created_at`, `updated_at`, `metadata`
+- `order`: Optional string to specify the order of the results. If prefixed with '+', sorts ascending (default). If prefixed with '-', sorts descending.
+- `per_page`: Sets the page size for query pagination.
+- `start`: Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
 
 
 
@@ -957,8 +958,8 @@ Return a registry given a registry name.
 
 ##### Arguments
 
-- **name**: The name of the registry. This is without the `wandb-registry-` prefix.
-- **organization**: The organization of the registry. If no organization is set in the settings, the organization will be fetched from the entity if the entity only belongs to one organization.
+- `name`: The name of the registry. This is without the `wandb-registry-` prefix.
+- `organization`: The organization of the registry. If no organization is set in the settings, the organization will be fetched from the entity if the entity only belongs to one organization.
 
 
 
@@ -992,9 +993,9 @@ future releases.
 
 ##### Arguments
 
-- **path**: The path to the project the report resides in. Specify the entity that created the project as a prefix followed by a forward slash.
-- **name**: Name of the report requested.
-- **per_page**: Sets the page size for query pagination. Usually there is no reason to change this.
+- `path`: The path to the project the report resides in. Specify the entity that created the project as a prefix followed by a forward slash.
+- `name`: Name of the report requested.
+- `per_page`: Sets the page size for query pagination. Usually there is no reason to change this.
 
 
 
@@ -1017,7 +1018,7 @@ Return a single run by parsing path in the form `entity/project/run_id`.
 
 ##### Arguments
 
-- **path**: Path to run in the form `entity/project/run_id`. If `api.entity` is set, this can be in the form `project/run_id` and if `api.project` is set this can just be the run_id.
+- `path`: Path to run in the form `entity/project/run_id`. If `api.entity` is set, this can be in the form `project/run_id` and if `api.project` is set this can just be the run_id.
 
 
 
@@ -1036,8 +1037,8 @@ See `Api.create_run_queue` for more information on how to create a run queue.
 
 ##### Arguments
 
-- **entity**: 
-- **name**: 
+- `entity`: 
+- `name`: 
 
 
 
@@ -1090,12 +1091,12 @@ The following operations are supported:
 
 ##### Arguments
 
-- **path**: (str) path to project, should be in the form: "entity/project"
-- **filters**: (dict) queries for specific runs using the MongoDB query language. You can filter by run properties such as config.key, summary_metrics.key, state, entity, createdAt, etc.
-- **order**: (str) Order can be `created_at`, `heartbeat_at`, `config.*.value`, or `summary_metrics.*`. If you prepend order with a + order is ascending (default). If you prepend order with a - order is descending. The default order is run.created_at from oldest to newest.
-- **per_page**: (int) Sets the page size for query pagination.
-- **include_sweeps**: (bool) Whether to eagerly fetch the sweep object in each run result.
-- **lazy**: (bool) Whether to use lazy loading for faster performance. When True (default), only essential run metadata is loaded initially. Heavy fields like config, summaryMetrics, and systemMetrics are loaded on-demand when accessed. Set to False for full data upfront.
+- `path`: (str) path to project, should be in the form: "entity/project"
+- `filters`: (dict) queries for specific runs using the MongoDB query language. You can filter by run properties such as config.key, summary_metrics.key, state, entity, createdAt, etc.
+- `order`: (str) Order can be `created_at`, `heartbeat_at`, `config.*.value`, or `summary_metrics.*`. If you prepend order with a + order is ascending (default). If you prepend order with a - order is descending. The default order is run.created_at from oldest to newest.
+- `per_page`: (int) Sets the page size for query pagination.
+- `include_sweeps`: (bool) Whether to eagerly fetch the sweep object in each run result.
+- `lazy`: (bool) Whether to use lazy loading for faster performance. When True (default), only essential run metadata is loaded initially. Heavy fields like config, summaryMetrics, and systemMetrics are loaded on-demand when accessed. Set to False for full data upfront.
 
 
 
@@ -1158,9 +1159,9 @@ Returns an iterator of Slack integrations for an entity.
 
 ##### Arguments
 
-- **entity**: The entity (e.g. team name) for which to fetch integrations.  If not provided, the user's default entity will be used.
-- **per_page**: Number of integrations to fetch per page. Defaults to 50.  Usually there is no reason to change this.
-- **start**: 
+- `entity`: The entity (e.g. team name) for which to fetch integrations.  If not provided, the user's default entity will be used.
+- `per_page`: Number of integrations to fetch per page. Defaults to 50.  Usually there is no reason to change this.
+- `start`: 
 
 
 
@@ -1197,7 +1198,7 @@ Return a sweep by parsing path in the form `entity/project/sweep_id`.
 
 ##### Arguments
 
-- **path**: Path to sweep in the form entity/project/sweep_id. If `api.entity` is set, this can be in the form project/sweep_id and if `api.project` is set this can just be the sweep_id.
+- `path`: Path to sweep in the form entity/project/sweep_id. If `api.entity` is set, this can be in the form project/sweep_id and if `api.project` is set this can just be the sweep_id.
 
 
 
@@ -1212,10 +1213,10 @@ Sync a local directory containing tfevent files to wandb.
 
 ##### Arguments
 
-- **root_dir**: 
-- **run_id**: 
-- **project**: 
-- **entity**: 
+- `root_dir`: 
+- `run_id`: 
+- `project`: 
+- `entity`: 
 
 
 
@@ -1231,7 +1232,7 @@ Return the matching `Team` with the given name.
 
 ##### Arguments
 
-- **team**: The name of the team.
+- `team`: The name of the team.
 
 
 
@@ -1248,9 +1249,9 @@ Update an existing automation.
 
 ##### Arguments
 
-- **obj**: The automation to update.  Must be an existing automation.
-- **create_missing**: If True, and the automation does not exist, create it.
-- **kwargs**: 
+- `obj`: The automation to update.  Must be an existing automation.
+- `create_missing`: If True, and the automation does not exist, create it.
+- `kwargs`: 
 
 
 
@@ -1304,13 +1305,13 @@ Upsert a run queue in W&B Launch.
 
 ##### Arguments
 
-- **name**: Name of the queue to create
-- **resource_config**: Optional default resource configuration to be used for the queue. Use handlebars (eg. `{{var}}`) to specify template variables.
-- **resource_type**: Type of resource to be used for the queue. One of "local-container", "local-process", "kubernetes", "sagemaker", or "gcp-vertex".
-- **entity**: Optional name of the entity to create the queue. If `None`, use the configured or default entity.
-- **template_variables**: A dictionary of template variable schemas to be used with the config.
-- **external_links**: Optional dictionary of external links to be used with the queue.
-- **prioritization_mode**: Optional version of prioritization to use. Either "V0" or None
+- `name`: Name of the queue to create
+- `resource_config`: Optional default resource configuration to be used for the queue. Use handlebars (eg. `{{var}}`) to specify template variables.
+- `resource_type`: Type of resource to be used for the queue. One of "local-container", "local-process", "kubernetes", "sagemaker", or "gcp-vertex".
+- `entity`: Optional name of the entity to create the queue. If `None`, use the configured or default entity.
+- `template_variables`: A dictionary of template variable schemas to be used with the config.
+- `external_links`: Optional dictionary of external links to be used with the queue.
+- `prioritization_mode`: Optional version of prioritization to use. Either "V0" or None
 
 
 
@@ -1329,7 +1330,7 @@ This function only works for local administrators. Use `api.viewer`
 
 ##### Arguments
 
-- **username_or_email**: The username or email address of the user.
+- `username_or_email`: The username or email address of the user.
 
 
 
@@ -1348,7 +1349,7 @@ This function only works for local administrators. Use `api.viewer`
 
 ##### Arguments
 
-- **username_or_email**: The prefix or suffix of the user you want to find.
+- `username_or_email`: The prefix or suffix of the user you want to find.
 
 
 
@@ -1366,9 +1367,9 @@ Returns an iterator of webhook integrations for an entity.
 
 ##### Arguments
 
-- **entity**: The entity (e.g. team name) for which to fetch integrations.  If not provided, the user's default entity will be used.
-- **per_page**: Number of integrations to fetch per page. Defaults to 50.  Usually there is no reason to change this.
-- **start**: 
+- `entity`: The entity (e.g. team name) for which to fetch integrations.  If not provided, the user's default entity will be used.
+- `per_page`: Number of integrations to fetch per page. Defaults to 50.  Usually there is no reason to change this.
+- `start`: 
 
 
 

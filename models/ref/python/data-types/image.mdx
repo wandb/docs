@@ -11,6 +11,7 @@ import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
 
+## <kbd>class</kbd> Image
 ```python
 data_or_path: 'ImageDataOrPathType',
 mode: 'str | None' = None,
@@ -31,15 +32,15 @@ A class for logging images to W&B.
 
 ## Args
 
-- **data_or_path**: 
-- **mode**: 
-- **caption**: 
-- **grouping**: 
-- **classes**: 
-- **boxes**: 
-- **masks**: 
-- **file_type**: 
-- **normalize**: 
+- `data_or_path`: 
+- `mode`: 
+- `caption`: 
+- `grouping`: 
+- `classes`: 
+- `boxes`: 
+- `masks`: 
+- `file_type`: 
+- `normalize`: 
 
 
 
@@ -64,7 +65,7 @@ media_items: 'Sequence[Media]'
 
 ##### Arguments
 
-- **media_items**: 
+- `media_items`: 
 
 
 
@@ -99,8 +100,8 @@ make sure to properly set this `artifact_source` to avoid data duplication.
 
 ##### Arguments
 
-- **json_obj**: A JSON dictionary to deserialize. It must contain a `_type` key. This is used to lookup the correct subclass to use.
-- **source_artifact**: An artifact which will hold any additional resources which were stored during the `to_json` function.
+- `json_obj`: A JSON dictionary to deserialize. It must contain a `_type` key. This is used to lookup the correct subclass to use.
+- `source_artifact`: An artifact which will hold any additional resources which were stored during the `to_json` function.
 
 
 
@@ -127,7 +128,7 @@ path: 'str | pathlib.Path | None'
 
 ##### Arguments
 
-- **path**: 
+- `path`: 
 
 
 
@@ -153,8 +154,8 @@ Get the name with the appropriate suffix.
 
 ##### Arguments
 
-- **name**: the name of the file
-- **filetype**: the filetype to use. Defaults to "json".
+- `name`: the name of the file
+- `filetype`: the filetype to use. Defaults to "json".
 
 
 

@@ -11,6 +11,7 @@ import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
 
+## <kbd>function</kbd> confusion_matrix
 ```python
 probs: 'Sequence[Sequence[float]] | None' = None,
 y_true: 'Sequence[T] | None' = None,
@@ -28,12 +29,12 @@ Constructs a confusion matrix from a sequence of probabilities or predictions.
 
 ## Args
 
-- **probs**: A sequence of predicted probabilities for each class. The sequence shape should be (N, K) where N is the number of samples and K is the number of classes. If provided, `preds` should not be provided.
-- **y_true**: A sequence of true labels.
-- **preds**: A sequence of predicted class labels. If provided, `probs` should not be provided.
-- **class_names**: Sequence of class names. If not provided, class names will be defined as "Class_1", "Class_2", etc.
-- **title**: Title of the confusion matrix chart.
-- **split_table**: Whether the table should be split into a separate section in the W&B UI. If `True`, the table will be displayed in a section named "Custom Chart Tables". Default is `False`.
+- `probs`: A sequence of predicted probabilities for each class. The sequence shape should be (N, K) where N is the number of samples and K is the number of classes. If provided, `preds` should not be provided.
+- `y_true`: A sequence of true labels.
+- `preds`: A sequence of predicted class labels. If provided, `probs` should not be provided.
+- `class_names`: Sequence of class names. If not provided, class names will be defined as "Class_1", "Class_2", etc.
+- `title`: Title of the confusion matrix chart.
+- `split_table`: Whether the table should be split into a separate section in the W&B UI. If `True`, the table will be displayed in a section named "Custom Chart Tables". Default is `False`.
 
 
 ## Returns
@@ -43,8 +44,8 @@ Constructs a confusion matrix from a sequence of probabilities or predictions.
 
 ## Raises
 
-- **ValueError**: If both `probs` and `preds` are provided or if the number of predictions and true labels are not equal. If the number of unique predicted classes exceeds the number of class names or if the number of unique true labels exceeds the number of class names.
-- **wandb.Error**: If numpy is not installed.
+- `ValueError`: If both `probs` and `preds` are provided or if the number of predictions and true labels are not equal. If the number of unique predicted classes exceeds the number of class names or if the number of unique true labels exceeds the number of class names.
+- `wandb.Error`: If numpy is not installed.
 
 
 ## Examples

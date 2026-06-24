@@ -11,6 +11,7 @@ import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
 
+## <kbd>class</kbd> Audio
 ```python
 (data_or_path: 'str | pathlib.Path | list | np.ndarray',
 sample_rate: 'int | None' = None,
@@ -25,9 +26,9 @@ W&B class for audio clips.
 
 ## Args
 
-- **data_or_path**: 
-- **sample_rate**: 
-- **caption**: 
+- `data_or_path`: 
+- `sample_rate`: 
+- `caption`: 
 
 
 
@@ -46,7 +47,7 @@ Calculate the duration of the audio files.
 
 ##### Arguments
 
-- **audio_list**: 
+- `audio_list`: 
 
 
 
@@ -81,8 +82,8 @@ make sure to properly set this `artifact_source` to avoid data duplication.
 
 ##### Arguments
 
-- **json_obj**: A JSON dictionary to deserialize. It must contain a `_type` key. This is used to lookup the correct subclass to use.
-- **source_artifact**: An artifact which will hold any additional resources which were stored during the `to_json` function.
+- `json_obj`: A JSON dictionary to deserialize. It must contain a `_type` key. This is used to lookup the correct subclass to use.
+- `source_artifact`: An artifact which will hold any additional resources which were stored during the `to_json` function.
 
 
 
@@ -109,7 +110,7 @@ path: 'str | pathlib.Path | None'
 
 ##### Arguments
 
-- **path**: 
+- `path`: 
 
 
 
@@ -124,7 +125,7 @@ Get sample rates of the audio files.
 
 ##### Arguments
 
-- **audio_list**: 
+- `audio_list`: 
 
 
 
@@ -162,8 +163,8 @@ Get the name with the appropriate suffix.
 
 ##### Arguments
 
-- **name**: the name of the file
-- **filetype**: the filetype to use. Defaults to "json".
+- `name`: the name of the file
+- `filetype`: the filetype to use. Defaults to "json".
 
 
 

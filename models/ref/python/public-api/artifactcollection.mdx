@@ -11,6 +11,7 @@ import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
 
+## <kbd>class</kbd> ArtifactCollection
 ```python
 (service_api: 'ServiceApi',
 entity: 'str',
@@ -29,13 +30,13 @@ An artifact collection that represents a group of related artifacts.
 
 ## Args
 
-- **service_api**: Interface to the wandb-core service that performs W&B API calls for this collection.
-- **entity**: The entity (user or team) that owns the project.
-- **project**: The name of the project to query for artifact collections.
-- **name**: The name of the artifact collection.
-- **type**: The type of the artifact collection (e.g., "dataset", "model").
-- **organization**: Optional organization name if applicable.
-- **attrs**: Optional mapping of attributes to initialize the artifact collection. If not provided, the object will load its attributes from W&B upon initialization.
+- `service_api`: Interface to the wandb-core service that performs W&B API calls for this collection.
+- `entity`: The entity (user or team) that owns the project.
+- `project`: The name of the project to query for artifact collections.
+- `name`: The name of the artifact collection.
+- `type`: The type of the artifact collection (e.g., "dataset", "model").
+- `organization`: Optional organization name if applicable.
+- `attrs`: Optional mapping of attributes to initialize the artifact collection. If not provided, the object will load its attributes from W&B upon initialization.
 
 
 
@@ -98,8 +99,8 @@ Get all artifacts in the collection.
 
 ##### Arguments
 
-- **per_page**: The number of artifacts to fetch per page.
-- **start**: Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
+- `per_page`: The number of artifacts to fetch per page.
+- `start`: Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
 
 
 
@@ -115,7 +116,7 @@ Deprecated, change type directly with `save` instead.
 
 ##### Arguments
 
-- **new_type**: 
+- `new_type`: 
 
 
 

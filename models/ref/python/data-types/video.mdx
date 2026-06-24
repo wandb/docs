@@ -11,6 +11,7 @@ import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
 
+## <kbd>class</kbd> Video
 ```python
 (data_or_path: 'str | pathlib.Path | np.ndarray | TextIO | BytesIO',
 caption: 'str | None' = None,
@@ -26,10 +27,10 @@ A class for logging videos to W&B.
 
 ## Args
 
-- **data_or_path**: 
-- **caption**: 
-- **fps**: 
-- **format**: 
+- `data_or_path`: 
+- `caption`: 
+- `fps`: 
+- `format`: 
 
 
 
@@ -56,11 +57,11 @@ file associated with this object, from which other Runs can refer to it.
 
 ##### Arguments
 
-- **run**: 
-- **key**: 
-- **step**: 
-- **id_**: 
-- **ignore_copy_err**: 
+- `run`: 
+- `key`: 
+- `step`: 
+- `id_`: 
+- `ignore_copy_err`: 
 
 
 
@@ -75,7 +76,7 @@ media_items: 'Sequence[Media]'
 
 ##### Arguments
 
-- **media_items**: 
+- `media_items`: 
 
 
 
@@ -103,8 +104,8 @@ Likely will need to override for any more complicated media objects.
 
 ##### Arguments
 
-- **json_obj**: 
-- **source_artifact**: 
+- `json_obj`: 
+- `source_artifact`: 
 
 
 
@@ -127,8 +128,8 @@ make sure to properly set this `artifact_source` to avoid data duplication.
 
 ##### Arguments
 
-- **json_obj**: A JSON dictionary to deserialize. It must contain a `_type` key. This is used to lookup the correct subclass to use.
-- **source_artifact**: An artifact which will hold any additional resources which were stored during the `to_json` function.
+- `json_obj`: A JSON dictionary to deserialize. It must contain a `_type` key. This is used to lookup the correct subclass to use.
+- `source_artifact`: An artifact which will hold any additional resources which were stored during the `to_json` function.
 
 
 
@@ -155,7 +156,7 @@ path: 'str | pathlib.Path | None'
 
 ##### Arguments
 
-- **path**: 
+- `path`: 
 
 
 
@@ -193,8 +194,8 @@ Get the name with the appropriate suffix.
 
 ##### Arguments
 
-- **name**: the name of the file
-- **filetype**: the filetype to use. Defaults to "json".
+- `name`: the name of the file
+- `filetype`: the filetype to use. Defaults to "json".
 
 
 

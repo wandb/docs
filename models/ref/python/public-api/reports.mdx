@@ -11,6 +11,7 @@ import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
 
+## <kbd>class</kbd> Reports
 ```python
 (service_api: 'ServiceApi',
 project: 'Project',
@@ -27,11 +28,11 @@ Reports is a lazy iterator of `BetaReport` objects.
 
 ## Args
 
-- **service_api**: Interface to the wandb-core service that performs W&B API calls for this collection.
-- **project**: The project to fetch reports from.
-- **name**: The name of the report to filter by. If `None`, fetches all reports.
-- **entity**: The entity name for the project. Defaults to the project entity.
-- **per_page**: Number of reports to fetch per page (default is 50).
+- `service_api`: Interface to the wandb-core service that performs W&B API calls for this collection.
+- `project`: The project to fetch reports from.
+- `name`: The name of the report to filter by. If `None`, fetches all reports.
+- `entity`: The entity name for the project. Defaults to the project entity.
+- `per_page`: Number of reports to fetch per page (default is 50).
 
 
 

@@ -11,6 +11,7 @@ import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
 
+## <kbd>class</kbd> Run
 ```python
 (service_api: 'ServiceApi',
 entity: 'str',
@@ -30,14 +31,14 @@ A single run associated with an entity and project.
 
 ## Args
 
-- **service_api**: Interface to the wandb-core service that performs W&B API calls for this run.
-- **entity**: the name of the entity associated with the run
-- **project**: the project associated with the run
-- **run_id**: The unique identifier for the run.
-- **attrs**: The attributes of the run.
-- **include_sweeps**: Whether to include sweeps in the run.
-- **lazy**: 
-- **api_key**: 
+- `service_api`: Interface to the wandb-core service that performs W&B API calls for this run.
+- `entity`: the name of the entity associated with the run
+- `project`: the project associated with the run
+- `run_id`: The unique identifier for the run.
+- `attrs`: The attributes of the run.
+- `include_sweeps`: Whether to include sweeps in the run.
+- `lazy`: 
+- `api_key`: 
 
 
 
@@ -148,11 +149,11 @@ use_cache: 'bool' = True
 
 ##### Arguments
 
-- **keys**: 
-- **page_size**: 
-- **min_step**: 
-- **max_step**: 
-- **use_cache**: 
+- `keys`: 
+- `page_size`: 
+- `min_step`: 
+- `max_step`: 
+- `use_cache`: 
 
 
 
@@ -181,11 +182,11 @@ Runs created with this method have limited functionality. Calling
 
 ##### Arguments
 
-- **api**: The W&B API instance.
-- **run_id**: Optional run ID. If not provided, a random ID will be generated.
-- **project**: Optional project name. Defaults to the project in API settings or "uncategorized".
-- **entity**: Optional entity (user or team) name.
-- **state**: Initial state of the run. Use "pending" for runs that will be resumed later, or "running" for immediate execution.
+- `api`: The W&B API instance.
+- `run_id`: Optional run ID. If not provided, a random ID will be generated.
+- `project`: Optional project name. Defaults to the project in API settings or "uncategorized".
+- `entity`: Optional entity (user or team) name.
+- `state`: Initial state of the run. Use "pending" for runs that will be resumed later, or "running" for immediate execution.
 
 
 
@@ -221,7 +222,7 @@ Delete the given run from the wandb backend.
 
 ##### Arguments
 
-- **delete_artifacts**: Whether to delete the artifacts associated with the run.
+- `delete_artifacts`: Whether to delete the artifacts associated with the run.
 
 
 
@@ -238,14 +239,14 @@ Download any parquet history files for the run to the provided directory.
 
 ##### Arguments
 
-- **download_dir**: The directory to download the history files to.
-- **require_complete_history**: Whether to require the complete history to be downloaded. If true, and the run contains data that has not been exported to parquet files yet, an IncompleteRunHistoryError will be raised.
+- `download_dir`: The directory to download the history files to.
+- `require_complete_history`: Whether to require the complete history to be downloaded. If true, and the run contains data that has not been exported to parquet files yet, an IncompleteRunHistoryError will be raised.
 
 
 ##### Raises
 
-- **IncompleteRunHistoryError**: If require_complete_history is True and the run contains data not yet exported to parquet files.
-- **WandbApiFailedError**: If the API request fails for reasons other than incomplete history.
+- `IncompleteRunHistoryError`: If require_complete_history is True and the run contains data not yet exported to parquet files.
+- `WandbApiFailedError`: If the API request fails for reasons other than incomplete history.
 
 
 ### <kbd>method</kbd> file
@@ -259,7 +260,7 @@ Return the path of a file with a given name in the artifact.
 
 ##### Arguments
 
-- **name**: name of requested file.
+- `name`: name of requested file.
 
 
 
@@ -280,9 +281,9 @@ If both are provided, the pattern will be ignored.
 
 ##### Arguments
 
-- **names**: names of the requested files, if empty returns all files
-- **pattern**: Pattern to match when returning files from W&B. This pattern uses mySQL's LIKE syntax, so matching all files that end with .json would be "%.json". If both names and pattern are provided, a ValueError will be raised.
-- **per_page**: number of results per page.
+- `names`: names of the requested files, if empty returns all files
+- `pattern`: Pattern to match when returning files from W&B. This pattern uses mySQL's LIKE syntax, so matching all files that end with .json would be "%.json". If both names and pattern are provided, a ValueError will be raised.
+- `per_page`: number of results per page.
 
 
 
@@ -304,11 +305,11 @@ This is simpler and faster if you are ok with the history records being sampled.
 
 ##### Arguments
 
-- **samples**: (int, optional) The number of samples to return
-- **keys**: (list, optional) Only return metrics for specific keys
-- **x_axis**: (str, optional) Use this metric as the xAxis defaults to _step
-- **pandas**: (bool, optional) Return a pandas dataframe
-- **stream**: (str, optional) "default" for metrics, "system" for machine metrics
+- `samples`: (int, optional) The number of samples to return
+- `keys`: (list, optional) Only return metrics for specific keys
+- `x_axis`: (str, optional) Use this metric as the xAxis defaults to _step
+- `pandas`: (bool, optional) Return a pandas dataframe
+- `stream`: (str, optional) "default" for metrics, "system" for machine metrics
 
 
 
@@ -324,7 +325,7 @@ Load run data using appropriate fragment based on lazy mode.
 
 ##### Arguments
 
-- **force**: 
+- `force`: 
 
 
 
@@ -343,7 +344,7 @@ but need access to the full data for specific runs.
 
 ##### Arguments
 
-- **force**: Force reload even if data is already loaded
+- `force`: Force reload even if data is already loaded
 
 
 
@@ -361,9 +362,9 @@ Declare an artifact as output of a run.
 
 ##### Arguments
 
-- **artifact**: An artifact returned from `wandb.Api().artifact(name)`.
-- **aliases**: Aliases to apply to this artifact.
-- **tags**: (list, optional) Tags to apply to this artifact, if any.
+- `artifact`: An artifact returned from `wandb.Api().artifact(name)`.
+- `aliases`: Aliases to apply to this artifact.
+- `tags`: (list, optional) Tags to apply to this artifact, if any.
 
 
 
@@ -382,7 +383,7 @@ paginated result that can be iterated over or collected into a single list.
 
 ##### Arguments
 
-- **per_page**: Number of artifacts to fetch per API request.
+- `per_page`: Number of artifacts to fetch per API request.
 
 
 
@@ -437,11 +438,11 @@ Returns an iterable collection of all history records for a run.
 
 ##### Arguments
 
-- **keys**: list of metrics to read from the run's history. if no keys are provided then all metrics will be returned.
-- **page_size**: the number of history records to read at a time.
-- **min_step**: The minimum step to start reading history from (inclusive).
-- **max_step**: The maximum step to read history up to (exclusive).
-- **use_cache**: When set to True, checks the WANDB_CACHE_DIR for a run history. If the run history is not found in the cache, it will be downloaded from the server. If set to False, the run history will be downloaded every time.
+- `keys`: list of metrics to read from the run's history. if no keys are provided then all metrics will be returned.
+- `page_size`: the number of history records to read at a time.
+- `min_step`: The minimum step to start reading history from (inclusive).
+- `max_step`: The maximum step to read history up to (exclusive).
+- `use_cache`: When set to True, checks the WANDB_CACHE_DIR for a run history. If the run history is not found in the cache, it will be downloaded from the server. If set to False, the run history will be downloaded every time.
 
 
 
@@ -458,8 +459,8 @@ Generate HTML containing an iframe displaying this run.
 
 ##### Arguments
 
-- **height**: 
-- **hidden**: 
+- `height`: 
+- `hidden`: 
 
 
 
@@ -497,12 +498,12 @@ See `Run.state` for the list of possible run states.
 
 ##### Arguments
 
-- **state**: The target run state. One of `"pending"` or `"failed"`.
+- `state`: The target run state. One of `"pending"` or `"failed"`.
 
 
 ##### Raises
 
-- **`wandb.Error`**: If the requested state transition is not allowed, or the server does not support this operation.
+- ``wandb.Error``: If the requested state transition is not allowed, or the server does not support this operation.
 
 
 ### <kbd>method</kbd> upload_file
@@ -517,8 +518,8 @@ Upload a local file to W&B, associating it with this run.
 
 ##### Arguments
 
-- **path**: Path to the file to upload. Can be absolute or relative.
-- **root**: The root path to save the file relative to. For example, if you want to have the file saved in the run as "my_dir/file.txt" and you're currently in "my_dir" you would set root to "../". Defaults to current directory (".").
+- `path`: Path to the file to upload. Can be absolute or relative.
+- `root`: The root path to save the file relative to. For example, if you want to have the file saved in the run as "my_dir/file.txt" and you're currently in "my_dir" you would set root to "../". Defaults to current directory (".").
 
 
 
@@ -535,8 +536,8 @@ Declare an artifact as an input to a run.
 
 ##### Arguments
 
-- **artifact**: An artifact returned from `wandb.Api().artifact(name)`
-- **use_as**: A string identifying how the artifact is used in the script. Used to easily differentiate artifacts used in a run, when using the beta wandb launch feature's artifact swapping functionality.
+- `artifact`: An artifact returned from `wandb.Api().artifact(name)`
+- `use_as`: A string identifying how the artifact is used in the script. Used to easily differentiate artifacts used in a run, when using the beta wandb launch feature's artifact swapping functionality.
 
 
 
@@ -556,7 +557,7 @@ result that can be iterated over or collected into a single list.
 
 ##### Arguments
 
-- **per_page**: Number of artifacts to fetch per API request.
+- `per_page`: Number of artifacts to fetch per API request.
 
 
 

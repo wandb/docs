@@ -11,6 +11,7 @@ import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
 
+## <kbd>class</kbd> Project
 ```python
 service_api: 'ServiceApi',
 entity: 'str',
@@ -26,10 +27,10 @@ A project is a namespace for runs.
 
 ## Args
 
-- **service_api**: Interface to the wandb-core service that performs W&B API calls for this project.
-- **entity**: The entity name that owns the project.
-- **project**: 
-- **attrs**: 
+- `service_api`: Interface to the wandb-core service that performs W&B API calls for this project.
+- `entity`: The entity name that owns the project.
+- `project`: 
+- `attrs`: 
 
 
 
@@ -68,7 +69,7 @@ Returns all artifact types associated with this project.
 
 ##### Arguments
 
-- **per_page**: 
+- `per_page`: 
 
 
 
@@ -86,9 +87,9 @@ Returns all artifact collections associated with this project.
 
 ##### Arguments
 
-- **filters**: Optional mapping of filters to apply to the query.
-- **order**: Optional string to specify the order of the results. If you prepend order with a + order is ascending (default). If you prepend order with a - order is descending.
-- **per_page**: The number of artifact collections to fetch per page. Default is 50.
+- `filters`: Optional mapping of filters to apply to the query.
+- `order`: Optional string to specify the order of the results. If you prepend order with a + order is ascending (default). If you prepend order with a - order is descending.
+- `per_page`: The number of artifact collections to fetch per page. Default is 50.
 
 
 
@@ -104,7 +105,7 @@ Return a paginated collection of sweeps in this project.
 
 ##### Arguments
 
-- **per_page**: The number of sweeps to fetch per request to the API.
+- `per_page`: The number of sweeps to fetch per request to the API.
 
 
 

@@ -11,6 +11,7 @@ import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
 
+## <kbd>class</kbd> Object3D
 ```python
 data_or_path: 'np.ndarray | str | pathlib.Path | TextIO | dict',
 caption: 'str | None' = None, **kwargs: 'str | FileFormat3D | None'
@@ -24,9 +25,9 @@ W&B class for 3D point clouds.
 
 ## Args
 
-- **data_or_path**: 
-- **caption**: 
-- **kwargs**: 
+- `data_or_path`: 
+- `caption`: 
+- `kwargs`: 
 
 
 
@@ -53,11 +54,11 @@ file associated with this object, from which other Runs can refer to it.
 
 ##### Arguments
 
-- **run**: 
-- **key**: 
-- **step**: 
-- **id_**: 
-- **ignore_copy_err**: 
+- `run`: 
+- `key`: 
+- `step`: 
+- `id_`: 
+- `ignore_copy_err`: 
 
 
 
@@ -72,7 +73,7 @@ media_items: 'Sequence[Media]'
 
 ##### Arguments
 
-- **media_items**: 
+- `media_items`: 
 
 
 
@@ -100,8 +101,8 @@ Initializes Object3D from a file or stream.
 
 ##### Arguments
 
-- **data_or_path**: A path to a file or a `TextIO` stream.
-- **file_type**: Specifies the data format passed to `data_or_path`. Required when `data_or_path` is a `TextIO` stream. This parameter is ignored if a file path is provided. The type is taken from the file extension.
+- `data_or_path`: A path to a file or a `TextIO` stream.
+- `file_type`: Specifies the data format passed to `data_or_path`. Required when `data_or_path` is a `TextIO` stream. This parameter is ignored if a file path is provided. The type is taken from the file extension.
 
 
 
@@ -117,8 +118,8 @@ Likely will need to override for any more complicated media objects.
 
 ##### Arguments
 
-- **json_obj**: 
-- **source_artifact**: 
+- `json_obj`: 
+- `source_artifact`: 
 
 
 
@@ -133,7 +134,7 @@ Initializes Object3D from a numpy array.
 
 ##### Arguments
 
-- **data**: Each entry in the array will represent one point in the point cloud.
+- `data`: Each entry in the array will represent one point in the point cloud.
 
 
 
@@ -151,10 +152,10 @@ Initializes Object3D from a python object.
 
 ##### Arguments
 
-- **points**: The points in the point cloud.
-- **boxes**: 3D bounding boxes for labeling the point cloud. Boxes are displayed in point cloud visualizations.
-- **vectors**: Each vector is displayed in the point cloud visualization. Can be used to indicate directionality of bounding boxes. Defaults to None.
-- **point_cloud_type**: At this time, only the "lidar/beta" type is supported. Defaults to "lidar/beta".
+- `points`: The points in the point cloud.
+- `boxes`: 3D bounding boxes for labeling the point cloud. Boxes are displayed in point cloud visualizations.
+- `vectors`: Each vector is displayed in the point cloud visualization. Can be used to indicate directionality of bounding boxes. Defaults to None.
+- `point_cloud_type`: At this time, only the "lidar/beta" type is supported. Defaults to "lidar/beta".
 
 
 
@@ -177,8 +178,8 @@ make sure to properly set this `artifact_source` to avoid data duplication.
 
 ##### Arguments
 
-- **json_obj**: A JSON dictionary to deserialize. It must contain a `_type` key. This is used to lookup the correct subclass to use.
-- **source_artifact**: An artifact which will hold any additional resources which were stored during the `to_json` function.
+- `json_obj`: A JSON dictionary to deserialize. It must contain a `_type` key. This is used to lookup the correct subclass to use.
+- `source_artifact`: An artifact which will hold any additional resources which were stored during the `to_json` function.
 
 
 
@@ -205,7 +206,7 @@ path: 'str | pathlib.Path | None'
 
 ##### Arguments
 
-- **path**: 
+- `path`: 
 
 
 
@@ -243,8 +244,8 @@ Get the name with the appropriate suffix.
 
 ##### Arguments
 
-- **name**: the name of the file
-- **filetype**: the filetype to use. Defaults to "json".
+- `name`: the name of the file
+- `filetype`: the filetype to use. Defaults to "json".
 
 
 

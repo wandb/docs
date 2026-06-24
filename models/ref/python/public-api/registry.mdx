@@ -11,6 +11,7 @@ import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
 
+## <kbd>class</kbd> Registry
 ```python
 (service_api: 'ServiceApi',
 organization: 'str',
@@ -27,11 +28,11 @@ A single registry in the Registry.
 
 ## Args
 
-- **service_api**: 
-- **organization**: 
-- **entity**: 
-- **name**: 
-- **attrs**: 
+- `service_api`: 
+- `organization`: 
+- `entity`: 
+- `name`: 
+- `attrs`: 
 
 
 
@@ -111,13 +112,13 @@ Adds users or teams to this registry.
 
 ##### Arguments
 
-- **members**: The users or teams to add to the registry. Accepts `User` objects, `Team` objects, or their string IDs.
+- `members`: The users or teams to add to the registry. Accepts `User` objects, `Team` objects, or their string IDs.
 
 
 ##### Raises
 
-- **TypeError**: If no members are passed as arguments.
-- **ValueError**: If unable to infer or parse the user or team IDs.
+- `TypeError`: If no members are passed as arguments.
+- `ValueError`: If unable to infer or parse the user or team IDs.
 
 
 ##### Examples
@@ -152,10 +153,10 @@ Returns the collections belonging to this registry.
 
 ##### Arguments
 
-- **filter**: Optional mapping of filters to apply to the collections query.
-- **order**: Optional string to specify the order of the results. If prefixed with '+', sorts ascending (default). If prefixed with '-', sorts descending.
-- **per_page**: The number of results to fetch per page. Usually there is no reason to change this.
-- **start**: Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
+- `filter`: Optional mapping of filters to apply to the collections query.
+- `order`: Optional string to specify the order of the results. If prefixed with '+', sorts ascending (default). If prefixed with '-', sorts descending.
+- `per_page`: The number of results to fetch per page. Usually there is no reason to change this.
+- `start`: Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
 
 
 
@@ -178,17 +179,17 @@ This function should be called using `api.create_registry()`
 
 ##### Arguments
 
-- **api**: The W&B API instance.
-- **organization**: The name of the organization.
-- **name**: The name of the registry (without the `wandb-registry-` prefix).
-- **visibility**: The visibility level ('organization' or 'restricted').
-- **description**: An optional description for the registry.
-- **artifact_types**: An optional list of allowed artifact types.
+- `api`: The W&B API instance.
+- `organization`: The name of the organization.
+- `name`: The name of the registry (without the `wandb-registry-` prefix).
+- `visibility`: The visibility level ('organization' or 'restricted').
+- `description`: An optional description for the registry.
+- `artifact_types`: An optional list of allowed artifact types.
 
 
 ##### Raises
 
-- **ValueError**: If a registry with the same name already exists in the organization or if the creation fails.
+- `ValueError`: If a registry with the same name already exists in the organization or if the creation fails.
 
 
 ### <kbd>method</kbd> delete
@@ -237,13 +238,13 @@ Removes users or teams from this registry.
 
 ##### Arguments
 
-- **members**: The users or teams to remove from the registry. Accepts `User` objects, `Team` objects, or their string IDs.
+- `members`: The users or teams to remove from the registry. Accepts `User` objects, `Team` objects, or their string IDs.
 
 
 ##### Raises
 
-- **TypeError**: If no members are passed as arguments.
-- **ValueError**: If unable to infer or parse the user or team IDs.
+- `TypeError`: If no members are passed as arguments.
+- `ValueError`: If unable to infer or parse the user or team IDs.
 
 
 ##### Examples
@@ -300,13 +301,13 @@ Updates the role of a member (user or team) within this registry.
 
 ##### Arguments
 
-- **member**: The user or team to update the role of. Accepts a `User` object, `Team` object, or their string ID.
-- **role**: The new role to assign to the member. May be one of: - "admin" - "member" - "viewer" - "restricted_viewer" (if supported by the W&B server)
+- `member`: The user or team to update the role of. Accepts a `User` object, `Team` object, or their string ID.
+- `role`: The new role to assign to the member. May be one of: - "admin" - "member" - "viewer" - "restricted_viewer" (if supported by the W&B server)
 
 
 ##### Raises
 
-- **ValueError**: If unable to infer the user or team ID.
+- `ValueError`: If unable to infer the user or team ID.
 
 
 ##### Examples
@@ -349,9 +350,9 @@ Returns the artifact versions belonging to this registry.
 
 ##### Arguments
 
-- **filter**: Optional mapping of filters to apply to the artifact versions query.
-- **per_page**: The number of results to fetch per page. Usually there is no reason to change this.
-- **start**: Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
+- `filter`: Optional mapping of filters to apply to the artifact versions query.
+- `per_page`: The number of results to fetch per page. Usually there is no reason to change this.
+- `start`: Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
 
 
 

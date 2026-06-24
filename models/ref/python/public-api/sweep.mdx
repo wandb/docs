@@ -11,6 +11,7 @@ import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
 
+## <kbd>class</kbd> Sweep
 ```python
 (service_api: 'ServiceApi',
 entity: 'str',
@@ -36,11 +37,11 @@ Attributes:
 
 ## Args
 
-- **service_api**: 
-- **entity**: 
-- **project**: 
-- **sweep_id**: 
-- **attrs**: 
+- `service_api`: 
+- `entity`: 
+- `project`: 
+- `sweep_id`: 
+- `attrs`: 
 
 
 
@@ -107,7 +108,7 @@ Query an agent by ID for this sweep.
 
 ##### Arguments
 
-- **agent_id**: The ID of the agent to look up.
+- `agent_id`: The ID of the agent to look up.
 
 
 
@@ -134,7 +135,7 @@ Return the best run sorted by the metric defined in config or the order passed i
 
 ##### Arguments
 
-- **order**: 
+- `order`: 
 
 
 
@@ -154,13 +155,13 @@ Execute a query against the cloud backend.
 
 ##### Arguments
 
-- **api**: The W&B API instance.
-- **entity**: The entity (username or team) that owns the project.
-- **project**: The name of the project to fetch sweep from.
-- **sid**: The sweep ID to query.
-- **order**: The order in which the sweep's runs are returned.
-- **query**: The query to use to execute the query.
-- **kwargs**: 
+- `api`: The W&B API instance.
+- `entity`: The entity (username or team) that owns the project.
+- `project`: The name of the project to fetch sweep from.
+- `sid`: The sweep ID to query.
+- `order`: The order in which the sweep's runs are returned.
+- `query`: The query to use to execute the query.
+- `kwargs`: 
 
 
 
@@ -177,8 +178,8 @@ Generate HTML containing an iframe displaying this sweep.
 
 ##### Arguments
 
-- **height**: 
-- **hidden**: 
+- `height`: 
+- `hidden`: 
 
 
 

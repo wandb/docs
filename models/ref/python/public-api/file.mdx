@@ -11,6 +11,7 @@ import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
 
+## <kbd>class</kbd> File
 ```python
 (service_api: 'ServiceApi',
 attrs: 'dict[str, Any]',
@@ -44,9 +45,9 @@ file logged to a specific run. You can search using the following keys:
 
 ## Args
 
-- **service_api**: The service API instance to use for querying W&B.
-- **attrs**: A dictionary of attributes that define the file
-- **run**: The run object that contains the file
+- `service_api`: The service API instance to use for querying W&B.
+- `attrs`: A dictionary of attributes that define the file
+- `run`: The run object that contains the file
 
 
 
@@ -91,10 +92,10 @@ Downloads a file previously saved by a run from the wandb server.
 
 ##### Arguments
 
-- **root**: Local directory to save the file. Defaults to the current working directory (".").
-- **replace**: If `True`, download will overwrite a local file if it exists. Defaults to `False`.
-- **exist_ok**: If `True`, will not raise ValueError if file already exists and will not re-download unless replace=True. Defaults to `False`.
-- **api**: If specified, the `Api` instance used to download the file.
+- `root`: Local directory to save the file. Defaults to the current working directory (".").
+- `replace`: If `True`, download will overwrite a local file if it exists. Defaults to `False`.
+- `exist_ok`: If `True`, will not raise ValueError if file already exists and will not re-download unless replace=True. Defaults to `False`.
+- `api`: If specified, the `Api` instance used to download the file.
 
 
 

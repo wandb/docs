@@ -11,6 +11,7 @@ import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
 
+## <kbd>class</kbd> OnAddCollectionTag
 ```python
 *,
 event_type: Literal[ADD_COLLECTION_TAG] = ADD_COLLECTION_TAG,
@@ -26,9 +27,9 @@ A new tag is assigned to an artifact collection.
 
 ## Args
 
-- **event_type**: 
-- **scope**: 
-- **filter**: 
+- `event_type`: 
+- `scope`: 
+- `filter`: 
 
 
 
@@ -47,8 +48,8 @@ _fields_set: 'set[str] | None' = None, **values: 'Any'
 
 ##### Arguments
 
-- **_fields_set**: 
-- **values**: 
+- `_fields_set`: 
+- `values`: 
 
 
 
@@ -78,10 +79,10 @@ copied = self.model_validate(data)
 
 ##### Arguments
 
-- **include**: Optional set or mapping specifying which fields to include in the copied model.
-- **exclude**: Optional set or mapping specifying which fields to exclude in the copied model.
-- **update**: Optional dictionary of field-value pairs to override field values in the copied model.
-- **deep**: If True, the values of fields that are Pydantic models will be deep-copied.
+- `include`: Optional set or mapping specifying which fields to include in the copied model.
+- `exclude`: Optional set or mapping specifying which fields to exclude in the copied model.
+- `update`: Optional dictionary of field-value pairs to override field values in the copied model.
+- `deep`: If True, the values of fields that are Pydantic models will be deep-copied.
 
 
 
@@ -102,12 +103,12 @@ exclude_none: 'bool' = False
 
 ##### Arguments
 
-- **include**: 
-- **exclude**: 
-- **by_alias**: 
-- **exclude_unset**: 
-- **exclude_defaults**: 
-- **exclude_none**: 
+- `include`: 
+- `exclude`: 
+- `by_alias`: 
+- `exclude_unset`: 
+- `exclude_defaults`: 
+- `exclude_none`: 
 
 
 
@@ -122,7 +123,7 @@ obj: 'Any'
 
 ##### Arguments
 
-- **obj**: 
+- `obj`: 
 
 
 
@@ -145,15 +146,15 @@ models_as_dict: 'bool' = PydanticUndefined, **dumps_kwargs: 'Any'
 
 ##### Arguments
 
-- **include**: 
-- **exclude**: 
-- **by_alias**: 
-- **exclude_unset**: 
-- **exclude_defaults**: 
-- **exclude_none**: 
-- **encoder**: 
-- **models_as_dict**: 
-- **dumps_kwargs**: 
+- `include`: 
+- `exclude`: 
+- `by_alias`: 
+- `exclude_unset`: 
+- `exclude_defaults`: 
+- `exclude_none`: 
+- `encoder`: 
+- `models_as_dict`: 
+- `dumps_kwargs`: 
 
 
 
@@ -178,8 +179,8 @@ Default values are respected, but no other validation is performed.
 
 ##### Arguments
 
-- **_fields_set**: A set of field names that were originally explicitly set during instantiation. If provided, this is directly used for the [`model_fields_set`][pydantic.BaseModel.model_fields_set] attribute. Otherwise, the field names from the `values` argument will be used.
-- **values**: Trusted or pre-validated data dictionary.
+- `_fields_set`: A set of field names that were originally explicitly set during instantiation. If provided, this is directly used for the [`model_fields_set`][pydantic.BaseModel.model_fields_set] attribute. Otherwise, the field names from the `values` argument will be used.
+- `values`: Trusted or pre-validated data dictionary.
 
 
 
@@ -204,8 +205,8 @@ Returns a copy of the model.
 
 ##### Arguments
 
-- **update**: Values to change/add in the new model. Note: the data is not validated before creating the new model. You should trust this data.
-- **deep**: Set to `True` to make a deep copy of the model.
+- `update`: Values to change/add in the new model. Note: the data is not validated before creating the new model. You should trust this data.
+- `deep`: Set to `True` to make a deep copy of the model.
 
 
 
@@ -224,8 +225,8 @@ Generate a dictionary representation of the model, optionally specifying which f
 
 ##### Arguments
 
-- **mode**: The mode in which `to_python` should run. If mode is 'json', the output will only contain JSON serializable types. If mode is 'python', the output may contain non-JSON-serializable Python objects.
-- **kwargs**: 
+- `mode`: The mode in which `to_python` should run. If mode is 'json', the output will only contain JSON serializable types. If mode is 'python', the output may contain non-JSON-serializable Python objects.
+- `kwargs`: 
 
 
 
@@ -244,8 +245,8 @@ Generates a JSON representation of the model using Pydantic's `to_json` method.
 
 ##### Arguments
 
-- **indent**: Indentation to use in the JSON output. If None is passed, the output will be compact.
-- **kwargs**: 
+- `indent`: Indentation to use in the JSON output. If None is passed, the output will be compact.
+- `kwargs`: 
 
 
 
@@ -263,10 +264,10 @@ Generates a JSON schema for a model class.
 
 ##### Arguments
 
-- **by_alias**: Whether to use attribute aliases or not.
-- **ref_template**: The reference template.
-- **schema_generator**: To override the logic used to generate the JSON schema, as a subclass of `GenerateJsonSchema` with your desired modifications
-- **mode**: The mode in which to generate the schema.
+- `by_alias`: Whether to use attribute aliases or not.
+- `ref_template`: The reference template.
+- `schema_generator`: To override the logic used to generate the JSON schema, as a subclass of `GenerateJsonSchema` with your desired modifications
+- `mode`: The mode in which to generate the schema.
 
 
 
@@ -283,12 +284,12 @@ This method can be overridden to achieve a custom naming scheme for generic Base
 
 ##### Arguments
 
-- **params**: Tuple of types of the class. Given a generic class `Model` with 2 type variables and a concrete model `Model[str, int]`, the value `(str, int)` would be passed to `params`.
+- `params`: Tuple of types of the class. Given a generic class `Model` with 2 type variables and a concrete model `Model[str, int]`, the value `(str, int)` would be passed to `params`.
 
 
 ##### Raises
 
-- **TypeError**: Raised when trying to generate concrete names for non-generic models.
+- `TypeError`: Raised when trying to generate concrete names for non-generic models.
 
 
 ### <kbd>method</kbd> model_post_init
@@ -303,7 +304,7 @@ This is useful if you want to do some validation that requires the entire model 
 
 ##### Arguments
 
-- **context**: 
+- `context`: 
 
 
 
@@ -325,10 +326,10 @@ the initial attempt to build the schema, and automatic rebuilding fails.
 
 ##### Arguments
 
-- **force**: Whether to force the rebuilding of the model schema, defaults to `False`.
-- **raise_errors**: Whether to raise errors, defaults to `True`.
-- **_parent_namespace_depth**: The depth level of the parent namespace, defaults to 2.
-- **_types_namespace**: The types namespace, defaults to `None`.
+- `force`: Whether to force the rebuilding of the model schema, defaults to `False`.
+- `raise_errors`: Whether to raise errors, defaults to `True`.
+- `_parent_namespace_depth`: The depth level of the parent namespace, defaults to 2.
+- `_types_namespace`: The types namespace, defaults to `None`.
 
 
 
@@ -348,17 +349,17 @@ Validate a pydantic model instance.
 
 ##### Arguments
 
-- **obj**: The object to validate.
-- **strict**: Whether to enforce types strictly.
-- **from_attributes**: Whether to extract data from object attributes.
-- **context**: Additional context to pass to the validator.
-- **by_alias**: Whether to use the field's alias when validating against the provided input data.
-- **by_name**: Whether to use the field's name when validating against the provided input data.
+- `obj`: The object to validate.
+- `strict`: Whether to enforce types strictly.
+- `from_attributes`: Whether to extract data from object attributes.
+- `context`: Additional context to pass to the validator.
+- `by_alias`: Whether to use the field's alias when validating against the provided input data.
+- `by_name`: Whether to use the field's name when validating against the provided input data.
 
 
 ##### Raises
 
-- **ValidationError**: If the object could not be validated.
+- `ValidationError`: If the object could not be validated.
 
 
 ### <kbd>method</kbd> model_validate_json
@@ -378,16 +379,16 @@ Validate the given JSON data against the Pydantic model.
 
 ##### Arguments
 
-- **json_data**: The JSON data to validate.
-- **strict**: Whether to enforce types strictly.
-- **context**: Extra variables to pass to the validator.
-- **by_alias**: Whether to use the field's alias when validating against the provided input data.
-- **by_name**: Whether to use the field's name when validating against the provided input data.
+- `json_data`: The JSON data to validate.
+- `strict`: Whether to enforce types strictly.
+- `context`: Extra variables to pass to the validator.
+- `by_alias`: Whether to use the field's alias when validating against the provided input data.
+- `by_name`: Whether to use the field's name when validating against the provided input data.
 
 
 ##### Raises
 
-- **ValidationError**: If `json_data` is not a JSON string or the object could not be validated.
+- `ValidationError`: If `json_data` is not a JSON string or the object could not be validated.
 
 
 ### <kbd>method</kbd> model_validate_strings
@@ -404,11 +405,11 @@ Validate the given object with string data against the Pydantic model.
 
 ##### Arguments
 
-- **obj**: The object containing string data to validate.
-- **strict**: Whether to enforce types strictly.
-- **context**: Extra variables to pass to the validator.
-- **by_alias**: Whether to use the field's alias when validating against the provided input data.
-- **by_name**: Whether to use the field's name when validating against the provided input data.
+- `obj`: The object containing string data to validate.
+- `strict`: Whether to enforce types strictly.
+- `context`: Extra variables to pass to the validator.
+- `by_alias`: Whether to use the field's alias when validating against the provided input data.
+- `by_name`: Whether to use the field's name when validating against the provided input data.
 
 
 
@@ -427,11 +428,11 @@ allow_pickle: 'bool' = False
 
 ##### Arguments
 
-- **path**: 
-- **content_type**: 
-- **encoding**: 
-- **proto**: 
-- **allow_pickle**: 
+- `path`: 
+- `content_type`: 
+- `encoding`: 
+- `proto`: 
+- `allow_pickle`: 
 
 
 
@@ -446,7 +447,7 @@ obj: 'Any'
 
 ##### Arguments
 
-- **obj**: 
+- `obj`: 
 
 
 
@@ -465,11 +466,11 @@ allow_pickle: 'bool' = False
 
 ##### Arguments
 
-- **b**: 
-- **content_type**: 
-- **encoding**: 
-- **proto**: 
-- **allow_pickle**: 
+- `b`: 
+- `content_type`: 
+- `encoding`: 
+- `proto`: 
+- `allow_pickle`: 
 
 
 
@@ -485,8 +486,8 @@ ref_template: 'str' = '#/$defs/{model}'
 
 ##### Arguments
 
-- **by_alias**: 
-- **ref_template**: 
+- `by_alias`: 
+- `ref_template`: 
 
 
 
@@ -503,9 +504,9 @@ ref_template: 'str' = '#/$defs/{model}', **dumps_kwargs: 'Any'
 
 ##### Arguments
 
-- **by_alias**: 
-- **ref_template**: 
-- **dumps_kwargs**: 
+- `by_alias`: 
+- `ref_template`: 
+- `dumps_kwargs`: 
 
 
 
@@ -521,7 +522,7 @@ Define a new Automation in which this event triggers the given action.
 
 ##### Arguments
 
-- **action**: 
+- `action`: 
 
 
 
@@ -536,7 +537,7 @@ Define a new Automation in which this event triggers the given action.
 
 ##### Arguments
 
-- **localns**: 
+- `localns`: 
 
 
 
@@ -551,7 +552,7 @@ value: 'Any'
 
 ##### Arguments
 
-- **value**: 
+- `value`: 
 
 
 

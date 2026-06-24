@@ -11,6 +11,7 @@ import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
 
+## <kbd>class</kbd> ArtifactType
 ```python
 (service_api: 'ServiceApi',
 entity: 'str',
@@ -27,11 +28,11 @@ An artifact object that satisfies query based on the specified type.
 
 ## Args
 
-- **service_api**: Interface to the wandb-core service that performs W&B API calls for this artifact type.
-- **entity**: The entity (user or team) that owns the project.
-- **project**: The name of the project to query for artifact types.
-- **type_name**: The name of the artifact type.
-- **attrs**: Optional attributes to initialize the ArtifactType. If omitted, the object will load its attributes from W&B upon initialization.
+- `service_api`: Interface to the wandb-core service that performs W&B API calls for this artifact type.
+- `entity`: The entity (user or team) that owns the project.
+- `project`: The name of the project to query for artifact types.
+- `type_name`: The name of the artifact type.
+- `attrs`: Optional attributes to initialize the ArtifactType. If omitted, the object will load its attributes from W&B upon initialization.
 
 
 
@@ -61,7 +62,7 @@ Get a specific artifact collection by name.
 
 ##### Arguments
 
-- **name**: The name of the artifact collection to retrieve.
+- `name`: The name of the artifact collection to retrieve.
 
 
 
@@ -80,10 +81,10 @@ Get all artifact collections associated with this artifact type.
 
 ##### Arguments
 
-- **filters**: Optional mapping of filters to apply to the query.
-- **order**: Optional string to specify the order of the results. If prefixed with '+', sorts ascending (default). If prefixed with '-', sorts descending. The default order is the collection ID in descending order.
-- **per_page**: The number of artifact collections to fetch per page. Default is 50.
-- **start**: Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
+- `filters`: Optional mapping of filters to apply to the query.
+- `order`: Optional string to specify the order of the results. If prefixed with '+', sorts ascending (default). If prefixed with '-', sorts descending. The default order is the collection ID in descending order.
+- `per_page`: The number of artifact collections to fetch per page. Default is 50.
+- `start`: Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
 
 
 

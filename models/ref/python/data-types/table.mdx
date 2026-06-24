@@ -11,6 +11,7 @@ import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
 
+## <kbd>class</kbd> Table
 ```python
 (columns=None, data=None, rows=None, dataframe=None, dtype=None, optional=True, allow_mixed_types=False,
 log_mode: "Literal['IMMUTABLE', 'MUTABLE', 'INCREMENTAL'] | None" = 'IMMUTABLE')
@@ -32,14 +33,14 @@ https://docs.wandb.ai/models/tables
 
 ## Args
 
-- **columns**: 
-- **data**: 
-- **rows**: 
-- **dataframe**: 
-- **dtype**: 
-- **optional**: 
-- **allow_mixed_types**: 
-- **log_mode**: 
+- `columns`: 
+- `data`: 
+- `rows`: 
+- `dataframe`: 
+- `dtype`: 
+- `optional`: 
+- `allow_mixed_types`: 
+- `log_mode`: 
 
 
 
@@ -58,9 +59,9 @@ Adds a column of data to the table.
 
 ##### Arguments
 
-- **name**: (str) - the unique name of the column
-- **data**: (list | np.array) - a column of homogeneous data
-- **optional**: (bool) - if null-like values are permitted
+- `name`: (str) - the unique name of the column
+- `data`: (list | np.array) - a column of homogeneous data
+- `optional`: (bool) - if null-like values are permitted
 
 
 
@@ -75,7 +76,7 @@ Adds one or more computed columns based on existing data.
 
 ##### Arguments
 
-- **fn**: A function which accepts one or two parameters, ndx (int) and row (dict), which is expected to return a dict representing new columns for that row, keyed by the new column names. - `ndx` is an integer representing the index of the row. Only included if `include_ndx` is set to `True`. - `row` is a dictionary keyed by existing columns
+- `fn`: A function which accepts one or two parameters, ndx (int) and row (dict), which is expected to return a dict representing new columns for that row, keyed by the new column names. - `ndx` is an integer representing the index of the row. Only included if `include_ndx` is set to `True`. - `row` is a dictionary keyed by existing columns
 
 
 
@@ -95,7 +96,7 @@ The length of the data should match the length of the table column.
 
 ##### Arguments
 
-- **data**: 
+- `data`: 
 
 
 
@@ -110,7 +111,7 @@ Deprecated. Use `Table.add_data` method instead.
 
 ##### Arguments
 
-- **row**: 
+- `row`: 
 
 
 
@@ -125,7 +126,7 @@ media_items: 'Sequence[Media]'
 
 ##### Arguments
 
-- **media_items**: 
+- `media_items`: 
 
 
 
@@ -144,9 +145,9 @@ wandb.Classes.
 
 ##### Arguments
 
-- **col_name**: The name of the column to cast.
-- **dtype**: The target dtype.
-- **optional**: If the column should allow Nones.
+- `col_name`: The name of the column to cast.
+- `dtype`: The target dtype.
+- `optional`: If the column should allow Nones.
 
 
 
@@ -173,8 +174,8 @@ Retrieves a column from the table and optionally converts it to a NumPy object.
 
 ##### Arguments
 
-- **name**: (str) - the name of the column
-- **convert_to**: (str, optional)
+- `name`: (str) - the name of the column
+- `convert_to`: (str, optional)
 
 
 
@@ -221,8 +222,8 @@ make sure to properly set this `artifact_source` to avoid data duplication.
 
 ##### Arguments
 
-- **json_obj**: A JSON dictionary to deserialize. It must contain a `_type` key. This is used to lookup the correct subclass to use.
-- **source_artifact**: An artifact which will hold any additional resources which were stored during the `to_json` function.
+- `json_obj`: A JSON dictionary to deserialize. It must contain a `_type` key. This is used to lookup the correct subclass to use.
+- `source_artifact`: An artifact which will hold any additional resources which were stored during the `to_json` function.
 
 
 
@@ -249,7 +250,7 @@ path: 'str | pathlib.Path | None'
 
 ##### Arguments
 
-- **path**: 
+- `path`: 
 
 
 
@@ -287,8 +288,8 @@ Get the name with the appropriate suffix.
 
 ##### Arguments
 
-- **name**: the name of the file
-- **filetype**: the filetype to use. Defaults to "json".
+- `name`: the name of the file
+- `filetype`: the filetype to use. Defaults to "json".
 
 
 
