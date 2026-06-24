@@ -1332,7 +1332,10 @@
                   "support/models/tags/administrator",
                   "support/models/tags/alerts",
                   "support/models/tags/anonymous",
+                  "support/models/tags/api",
+                  "support/models/tags/api-keys",
                   "support/models/tags/artifacts",
+                  "support/models/tags/authentication",
                   "support/models/tags/aws",
                   "support/models/tags/billing",
                   "support/models/tags/charts",
@@ -1344,6 +1347,7 @@
                   "support/models/tags/logs",
                   "support/models/tags/metrics",
                   "support/models/tags/notebooks",
+                  "support/models/tags/org-management",
                   "support/models/tags/outage",
                   "support/models/tags/privacy",
                   "support/models/tags/projects",
@@ -1352,13 +1356,16 @@
                   "support/models/tags/resuming",
                   "support/models/tags/run-crashes",
                   "support/models/tags/runs",
+                  "support/models/tags/sdk",
                   "support/models/tags/security",
                   "support/models/tags/storage",
                   "support/models/tags/sweeps",
                   "support/models/tags/tables",
                   "support/models/tags/team-management",
+                  "support/models/tags/teams",
                   "support/models/tags/tensorboard",
                   "support/models/tags/user-management",
+                  "support/models/tags/workspace",
                   "support/models/tags/workspaces",
                   "support/models/tags/wysiwyg"
                 ]
@@ -1464,6 +1471,80 @@
               }
             ],
             "tab": "W&B Launch"
+          },
+          {
+            "tab": "Support: W&B Models",
+            "hidden": true,
+            "pages": [
+              "support/models",
+              "support/models/tags/academic",
+              "support/models/tags/administrator",
+              "support/models/tags/alerts",
+              "support/models/tags/anonymous",
+              "support/models/tags/api",
+              "support/models/tags/api-keys",
+              "support/models/tags/artifacts",
+              "support/models/tags/authentication",
+              "support/models/tags/aws",
+              "support/models/tags/billing",
+              "support/models/tags/charts",
+              "support/models/tags/connectivity",
+              "support/models/tags/environment-variables",
+              "support/models/tags/experiments",
+              "support/models/tags/hyperparameter",
+              "support/models/tags/inference",
+              "support/models/tags/logs",
+              "support/models/tags/metrics",
+              "support/models/tags/notebooks",
+              "support/models/tags/org-management",
+              "support/models/tags/outage",
+              "support/models/tags/privacy",
+              "support/models/tags/projects",
+              "support/models/tags/python",
+              "support/models/tags/reports",
+              "support/models/tags/resuming",
+              "support/models/tags/run-crashes",
+              "support/models/tags/runs",
+              "support/models/tags/sdk",
+              "support/models/tags/security",
+              "support/models/tags/storage",
+              "support/models/tags/sweeps",
+              "support/models/tags/tables",
+              "support/models/tags/team-management",
+              "support/models/tags/teams",
+              "support/models/tags/tensorboard",
+              "support/models/tags/user-management",
+              "support/models/tags/workspace",
+              "support/models/tags/workspaces",
+              "support/models/tags/wysiwyg"
+            ]
+          },
+          {
+            "tab": "Support: W&B Weave",
+            "hidden": true,
+            "pages": [
+              "support/weave",
+              "support/weave/tags/client-info",
+              "support/weave/tags/code-capture",
+              "support/weave/tags/data-capture",
+              "support/weave/tags/evaluation",
+              "support/weave/tags/performance",
+              "support/weave/tags/system-info",
+              "support/weave/tags/trace-data",
+              "support/weave/tags/ui-rendering"
+            ]
+          },
+          {
+            "tab": "Support: W&B Inference",
+            "hidden": true,
+            "pages": [
+              "support/inference",
+              "support/inference/tags/administrator",
+              "support/inference/tags/authentication-access",
+              "support/inference/tags/billing",
+              "support/inference/tags/quotas-rate-limits",
+              "support/inference/tags/server-errors"
+            ]
           }
         ]
       },
@@ -6018,6 +6099,10 @@
       "source": "/models/support/change_billing_address"
     },
     {
+      "destination": "/support/models/articles/how-do-i-connect-to-wandb-self-managed",
+      "source": "/support/models/articles/how-do-i-connect-to-a-self-hosted-wb-server"
+    },
+    {
       "destination": "/support/models/articles/how-can-i-change-the-directory-my-sweep-",
       "source": "/models/support/change_directory_sweep_logs_locally"
     },
@@ -6230,8 +6315,12 @@
       "source": "/models/support/how_can_i_disable_logging_of_system_metrics_to_wb"
     },
     {
-      "destination": "/support/models/articles/how-can-i-log-in-to-wb-server",
+      "destination": "/support/models/articles/how-do-i-log-in-to-wandb-self-managed",
       "source": "/models/support/how_can_i_log_in_to_wb_server"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-log-in-to-wandb-self-managed",
+      "source": "/support/models/articles/how-can-i-log-in-to-wb-server"
     },
     {
       "destination": "/support/models/articles/how-can-i-overwrite-the-logs-from-previo",
@@ -6556,6 +6645,10 @@
     {
       "destination": "/support/models/articles/how-should-i-run-sweeps-on-slurm",
       "source": "/models/support/run_sweeps_slurm"
+    },
+    {
+      "destination": "/support/models/articles/how-should-i-run-sweeps-on-slurm",
+      "source": "/support/models/articles/how-do-i-run-sweeps-with-distributed-training-on-slurm"
     },
     {
       "destination": "/support/models/articles/how-do-i-run-wandb-offline",
