@@ -97,6 +97,8 @@ On preemption, the **training process** must receive the signal, mark the run as
 
 **Multi-agent coordination:** When many agents run at once (such as SLURM array jobs), they can race to claim the same preempted run. This is a known limitation. Stagger agent startup or use external coordination mechanisms like locks to help work around this potential issue.
 
+For multi-GPU SLURM jobs where only one process should call `wandb.agent()`, see [How should I run sweeps on SLURM?](/support/models/articles/how-should-i-run-sweeps-on-slurm).
+
 ## `wandb sweep --cancel`
 
 You cancel a sweep using the W&B API, not an OS signal. Run a command like `wandb sweep --cancel entity/project/sweep_ID`. The server tells the agent to exit, and the agent then terminates running child processes and stops. There can be a short delay (on the order of the agent's API polling interval) before cancellation takes effect.

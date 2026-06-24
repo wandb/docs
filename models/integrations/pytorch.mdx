@@ -288,7 +288,7 @@ Two `wandb` functions come into play here: `watch` and `log`.
 `run.watch()` will log the gradients and the parameters of your model,
 every `log_freq` steps of training.
 
-All you need to do is call it before you start training.
+Call `run.watch()` before you start training. For log modes, multiple models, and performance tips, see [How do I log gradients and model weights with wandb.watch?](/support/models/articles/how-do-i-log-gradients-and-model-weights-with-wandb-watch).
 
 The rest of the training code remains the same:
 we iterate over epochs and batches,

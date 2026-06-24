@@ -29,7 +29,10 @@ products:
       - Agents
       - Alerts
       - Anonymous
+      - API
+      - API Keys
       - Artifacts
+      - Authentication
       - AWS
       - Billing
       - Charts
@@ -41,6 +44,7 @@ products:
       - Logs
       - Metrics
       - Notebooks
+      - Org Management
       - Outage
       - Privacy
       - Projects
@@ -49,14 +53,17 @@ products:
       - Resuming
       - Run Crashes
       - Runs
+      - SDK
       - Security
       - Storage
       - Sweeps
       - Tables
       - Team Management
+      - Teams
       - TensorBoard
       - Tracing
       - User Management
+      - Workspace
       - Workspaces
       - Wysiwyg
 
