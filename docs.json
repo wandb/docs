@@ -910,7 +910,7 @@
                         "group": "Global Functions",
                         "pages": [
                           "models/ref/python/functions",
-                          "models/ref/python/functions/agent",
+                          "models/ref/python/functions/box3d",
                           "models/ref/python/functions/controller",
                           "models/ref/python/functions/finish",
                           "models/ref/python/functions/init",
@@ -926,7 +926,6 @@
                         "pages": [
                           "models/ref/python/data-types",
                           "models/ref/python/data-types/audio",
-                          "models/ref/python/data-types/box3d",
                           "models/ref/python/data-types/evaltable",
                           "models/ref/python/data-types/histogram",
                           "models/ref/python/data-types/html",
