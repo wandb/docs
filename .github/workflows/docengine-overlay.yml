@@ -89,18 +89,22 @@ jobs:
         id: matrix
         # Slim-aware discovery: mirror `docengine overlay list`'s resolution. Emits
         # one row per discovered overlay as {api, output_path}; output_path =
-        # output_subpath + the overlay's output_spec_path. `tail -1` drops the
-        # resolver's note line.
+        # output_subpath + the overlay's output_spec_path. Python runs as its own
+        # command so a crash trips the shell's `-e` (GHA default) instead of being
+        # masked by the pipe in a command substitution; `tail -1` then drops the
+        # resolver's stdout note line.
         run: |
-          MATRIX=$(python -c "
+          python -c "
           import json
           from app.overlay_cli import _build_runner
           from app.cli_context import bootstrap_repo, resolve_default_site_context, resolve_site
           _, sm = bootstrap_repo()
           ctx = resolve_default_site_context(None, sm)
           resolved = resolve_site(ctx, sm)
+          if resolved is None:
+              raise SystemExit('resolve_site returned None')
           paths = resolved.paths
-          sub = (paths.site_entry.output_subpath or '').strip()
+          sub = (paths.descriptor.output_subpath or '').strip()
           runner = _build_runner(paths)
           rows = [
               {'api': r['name'],
@@ -108,7 +112,8 @@ jobs:
               for r in runner.list_overlays()
           ]
           print(json.dumps(rows))
-          " | tail -1)
+          " > "$RUNNER_TEMP/overlay-matrix.txt"
+          MATRIX=$(tail -1 "$RUNNER_TEMP/overlay-matrix.txt")
           echo "matrix=$MATRIX" >> "$GITHUB_OUTPUT"
           echo "Overlay matrix: $MATRIX"
 
