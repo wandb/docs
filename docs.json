@@ -892,6 +892,7 @@
                 "pages": [
                   "aria/overview",
                   "aria/chat",
+                  "aria/tools",
                   "aria/governance"
                 ]
               },
