@@ -2,22 +2,21 @@
 title: "Overview"
 ---
 
-ARIA (AI Research and Iteration Agent) is your personalized research assistant that helps you analyze experiments, understand results, and run experiments. 
-
-ARIA can help you investigate your project's data, find patterns across runs, recommend next steps, build visualizations, reports and more.
+ARIA (AI Research and Iteration Agent) is your personalized research assistant that helps you analyze and run experiments, understand results, find patterns across runs, recommend next steps, build visualizations, reports and more in W&B.
 
 <Frame>
     <img src="/images/agent/agent_empty_chat_window.png" alt="Blank ARIA chat window" />
 </Frame>
 
-ARIA can assist with common tasks:
+ARIA can assist with:
 
 * Analyze your experiments to find patterns and insights.
+* Run experiments and sweeps to test new ideas.
 * Propose next steps for your experiments, such as recommending hyperparameters to try.
 * Create new plot and panels to visualize your data.
 * Build saved views and reports to share insights with your team.
 
-Chat with ARIA in your project's workspace.
+[Chat with ARIA](/aria/chat) in your project's workspace.
 
 1. From any project, click the blue circle at the upper right corner of the page.
     <Frame>
@@ -28,45 +27,109 @@ Chat with ARIA in your project's workspace.
 
 Depending on the complexity of your question, the agent might take a few moments to respond. You can close the modal while the agent is working and return to check on the agent's response later.
 
-While the agent works, you might see **Reasoning** and **tool** steps:
+While ARIA works, you might see **Thinking** and **shell** steps:
 
-- **Reasoning** steps summarize how the agent is approaching your question.
-- **Tool** steps show when the agent uses a tool, such as creating a panel, filtering runs, creating Python scripts, and so forth.
+- **Thinking** steps summarize how the agent is approaching your question.
+- **shell** steps show when the agent uses a tool, such as creating a panel, filtering runs, creating Python and running scripts, and so forth.
 
-Click on the **Reasoning** or **Tool** step to expand more details about the agent's thought process or the specific tool action it took, respectively.
+Click on a **Thinking** or **shell** step to expand more details about ARIA's thought process or the specific tool action it took, respectively.
 
-
-## Start a new chat
-
-To start a new chat, open ARIA, then click **Start a new chat** (pencil icon).
-
-Starting a new chat does not delete your previous conversations. To view previous conversations, open the **Chat history** tab.
-
-## View chat history
-
-To view previous conversations with ARIA:
-
-1. Open ARIA.
-2. Click **Chat history**.
-3. Select a conversation.
-
-## Undock chat
-
-You can undock the chat into a separate window, which allows you to view the agent's response side-by-side with your project data.
-
-To undock the chat, click the undock icon in the upper right corner of the chat window next to the close (**X**) button.
-
-## Provide feedback
-
-Click the thumbs up or thumbs down icon at the end of the response to provide feedback on ARIA's response. Your feedback helps W&B improve ARIA's performance and accuracy.
-
-The queries you make, and the agent's responses to those queries within the chat session, are shared to W&B. You can optionally provide additional context about your feedback in the text box that appears after you select thumbs up or thumbs down.
-
-For information about how W&B handles data usage for ARIA, see [Governance and security](/agent/governance).
+See the [example chats below for real-world examples](/aria/overview#example-chats). For more information about managing chats, see [Chat with ARIA](/aria/chat).
 
 ## Example chats
 
 The following are examples of real chats with ARIA to illustrate how you can interact with the agent and the types of responses you can expect from the agent.
+
+
+<Accordion title="Gain insights, recommend next steps, and run experiments">
+
+Suppose you are an ML Engineer who has just completed a series of experiments. You want to understand what the next steps should be to improve your model's performance.
+
+To do this, you navigate to your the project where you logged runs. You open ARIA and ask:
+
+```text title="User prompt"
+/recommend-next-experiment
+```
+
+The following is an example of how ARIA might respond to this question:
+
+```text title="ARIA reasoning steps"
+Recommendation: run one “longer-training + held-out-eval” experiment
+before changing model architecture or sweeping LR.
+
+Use the current best setup, but train longer:
+
+hyperparameter_config = {
+    "learning_rate": 0.1,          # keep fixed
+    "epochs": 2000,                # was 1000
+    "model_type": "Multivariate_neural_network_classifier",
+    "torch_seed": 0,               # add for reproducibility
+}
+Also add logging for the existing held-out split every epoch or
+every 10–50 epochs:
+
+train/train_loss
+train/train_acc
+test/test_loss
+test/test_acc
+
+and save the best checkpoint by test/test_loss, not only
+by training loss.
+
+Why this is the most promising next experiment
+The project has 16 finished runs, but only 4 are actual training runs;
+all four used the same training config:
+
+learning_rate = 0.1
+epochs = 1000
+same model: Multivariate_neural_network_classifier
+
+So there is no real hyperparameter comparison yet. The
+strongest signal is from the learning curves: all four
+training losses are still improving at the final epoch, and
+the minimum training loss occurs at epoch 1000 in every run.
+
+What I expect to learn
+This single experiment answers the most important unresolved question:
+
+Is the model undertrained at 1000 epochs, or does
+held-out performance peak earlier?
+
+Possible outcomes:
+
+Train and test loss both keep improving past 1000
+→ Keep learning_rate=0.1; increase epochs further or
+    add a LR schedule.
+
+Train loss improves but test loss worsens after ~1000
+→ The model is starting to overfit; use early stopping
+    and keep the best checkpoint by test/test_loss.
+
+Both losses flatten soon after 1000
+→ Then the next experiment should be a learning-rate
+    or optimizer change, not more epochs.
+
+Concrete next run
+I’d run:
+
+learning_rate: 0.1
+epochs: 2000
+model_type: unchanged
+random_state: keep existing dataset split, 42
+add torch.manual_seed(0) and log it as torch_seed
+evaluate on X_test, y_test each epoch or every 10 epochs
+checkpoint on lowest test/test_loss
+```
+
+After reviewing ARIA's recommendations, you can ask the agent to run the recommended experiment for you. For example, you can ARIA:
+
+```text title="User prompt"
+Run that experiment for me.
+```
+
+
+</Accordion>
+
 
 <Accordion title="Gain insights on your experiments">
 Suppose you are an ML Engineer who has just completed a series of runs for a new model. You want to understand how your model performed, identify potential issues, and decide on your next steps.

@@ -891,6 +891,7 @@
                 "group" : "ARIA",
                 "pages": [
                   "aria/overview",
+                  "aria/chat",
                   "aria/governance"
                 ]
               },
