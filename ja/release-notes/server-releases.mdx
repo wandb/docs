@@ -17,7 +17,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 <Update label="v0.82.0" description="2026年6月23日">
   **2026年6月23日**
 
-  W&amp;B 0.82.0 では、編集可能なコレクション概要とバージョン単位のメトリクスチャートにより、アーティファクトに関する分析情報がさらに充実しました。加えて、Workspace と run テーブルの使い勝手も改善されています。監査ログには APIキー のアクティビティも記録されるようになりました。
+  W&amp;B 0.82.0 では、編集可能なコレクション概要とバージョン単位のメトリクスチャートにより、アーティファクトに関する分析情報がさらに充実しました。加えて、Workspace と run テーブルの使い勝手も改善されています。エンタープライズ管理をサポートするため、メンバーを招待する際に Models のシートと Weave ロールを割り当てられるようになり、監査ログには APIキー のアクティビティも記録されるようになりました。
 
   ## サポートと提供終了
 
@@ -32,6 +32,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * run のステータスの変更、または run のメトリクス値の変更に基づいてオートメーションを設定できるようになりました。[Run events](/ja/models/automations/automation-events#run-events)を参照してください。専用クラウド v0.81+ で利用できます。セルフマネージドではまだ利用できません。
   * W&amp;B UI に最新の利用可能な W&amp;B SDK バージョンが表示されるようになり、新しいリリースが利用可能かどうかを確認できます。
   * Workspace のブラウザータブにアクティブなビュー名がページタイトルとして含まれるようになり、ブラウザータブ間で保存済みビューを区別しやすくなりました。
+  * 組織にメンバーを招待する際に、各メンバーの Models のシートと Weave ロールを同時に設定できるようになりました。
 
   ### Registry
 
@@ -40,6 +41,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   ### Weave
 
   * Weave LLM プロキシで、コストが入力トークンと出力トークンの内訳に分けてレポートされるようになり、より詳細なコスト分析が可能になりました。
+  * Weave Playground で、Gemini 3.1 preview モデルの動画入力がサポートされるようになりました。
 
   ## セキュリティ
 
