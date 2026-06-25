@@ -7,7 +7,7 @@ ARIA (AI Research and Iteration Agent) is your personalized research assistant t
 ARIA can help you investigate your project's data, find patterns across runs, recommend next steps, build visualizations, reports and more.
 
 <Frame>
-    <img src="/images/agent/agent_empty_chat_window.png" alt="Blank W&B Agent chat window" />
+    <img src="/images/agent/agent_empty_chat_window.png" alt="Blank ARIA chat window" />
 </Frame>
 
 ARIA can assist with common tasks:
@@ -21,7 +21,7 @@ Chat with ARIA in your project's workspace.
 
 1. From any project, click the blue circle at the upper right corner of the page.
     <Frame>
-        <img src="/images/agent/agent_location.png" alt="Location of W&B Agent in the UI" />
+        <img src="/images/agent/agent_location.png" alt="Location of ARIA in the UI" />
     </Frame>
 2. In the modal, enter your question or request. If you you are unsure what to ask, you can select from the list of suggested prompts.
 3. Click the **Send** button, which has an upward-pointing arrow.
@@ -58,7 +58,7 @@ To undock the chat, click the undock icon in the upper right corner of the chat 
 
 ## Provide feedback
 
-Click the thumbs up or thumbs down icon at the end of the response to provide feedback on W&B Agent's response. Your feedback helps W&B improve ARIA's performance and accuracy.
+Click the thumbs up or thumbs down icon at the end of the response to provide feedback on ARIA's response. Your feedback helps W&B improve ARIA's performance and accuracy.
 
 The queries you make, and the agent's responses to those queries within the chat session, are shared to W&B. You can optionally provide additional context about your feedback in the text box that appears after you select thumbs up or thumbs down.
 
@@ -79,7 +79,7 @@ What patterns do you see across my runs?
 
 The following is an example of how ARIA might respond to this question. First, the agent makes reasoning steps to determine how to approach the question:
 
-```text title="W&B Agent reasoning steps"
+```text title="ARIA reasoning steps"
 I’m considering running a state breakdown scan with counts by state using
 specific server filters. I’ll look at the array of states: ['finished',
 'running', 'crashed', 'failed', 'killed', 'pending', 'preempting'] and
@@ -92,13 +92,13 @@ It’s important to compute the best min/max for numeric summary metrics too.
 The agent identifies that it needs to analyze the data across runs to answer the question. To do this, the agent creates a Python script (`analyze_patterns.py`) that uses the W&B Python SDK to query previously logged runs to identify patterns in the data. Once the script is generated, the agent executes it within a sandbox environment. 
 
 <Frame>
-    <img src="/images/agent/agent_analyze_project.gif" alt="W&B Agent thought process" />
+    <img src="/images/agent/agent_analyze_project.gif" alt="ARIA thought process" />
 </Frame>
 
 Next, the agent uses the ouput to generate a summary of the patterns it found across the runs, which it shares in the chat. 
 
 <Frame>
-    <img src="/images/agent/agent_analyze_summary_results.gif" alt="W&B Agent summary of patterns across runs" />
+    <img src="/images/agent/agent_analyze_summary_results.gif" alt="ARIA summary of patterns across runs" />
 </Frame>
 
 The agent was able to identify that my current experiment does not log `validation/test` metrics and recommended logging those metrics in future runs to better understand the model's performance. 
@@ -113,7 +113,7 @@ The agent can then generate the code to log validation metrics in your training 
 
 <Accordion title="Get recommendations for hyperparameter tuning">
 
-Suppose you are an ML Engineer who has just completed a series of runs for a new model. You want to understand how your model performed and get recommendations for how to improve your model's performance in future runs. You decide to ask your W&B Agent for recommendations on hyperparameter tuning.
+Suppose you are an ML Engineer who has just completed a series of runs for a new model. You want to understand how your model performed and get recommendations for how to improve your model's performance in future runs. You decide to ask ARIA for recommendations on hyperparameter tuning.
 
 You might ask the agent:
 
@@ -123,7 +123,7 @@ I want to conduct a sweep to improve lower my training model's loss. Do you have
 
 The agent might respond with the following reasoning steps:
 
-```text title="W&B Agent reasoning steps"
+```text title="ARIA reasoning steps"
  The user is looking for insights to improve training loss, so I
  should suggest ranges for learning rate, optimizer, batch size,
  weight decay, and other relevant parameters.
@@ -143,14 +143,14 @@ The agent also identifies that of the runs that use the SGD optimizer. Based on 
 The following image shows a portion of the agent's response with its recommendations for hyperparameter tuning:
 
 <Frame>
-    <img src="/images/agent/agent_recommend_hyperparameter.png" alt="W&B Agent recommendations for hyperparameter tuning" />
+    <img src="/images/agent/agent_recommend_hyperparameter.png" alt="ARIA recommendations for hyperparameter tuning" />
 </Frame>
 
 </Accordion>
 
 <Accordion title="Create a report to share with my team">
 
-Suppose you are a data scientist who has been analyzing your project's runs and identified interesting patterns in the data. You want to share these insights with your team in an easy-to-digest format. You decide to ask your W&B Agent to help you create a [W&B Report](/models/reports).
+Suppose you are a data scientist who has been analyzing your project's runs and identified interesting patterns in the data. You want to share these insights with your team in an easy-to-digest format. You decide to ask ARIA to help you create a [W&B Report](/models/reports).
 
 To do this, you open ARIA and ask:
 
@@ -160,7 +160,7 @@ Create a report to share my findings with my team.
 
 The agent might respond with the following reasoning steps:
 
-```text title="W&B Agent reasoning steps"
+```text title="ARIA reasoning steps"
 I’m looking to query the recent 50 runs, summarizing key frequencies 
 and counts by using api.runs to slice them down. I'll be counting
 lengths with lazy evaluation and weaving together the stats
@@ -173,7 +173,7 @@ The agent identifies that it needs to create a W&B Report that summarizes the in
 The following image shows the how the agent creates a W&B Report in the sandbox environment and then returns the link to the report in the chat:
 
 <Frame>
-    <img src="/images/agent/agent_create_report.png" alt="W&B Agent creating a report" />
+    <img src="/images/agent/agent_create_report.png" alt="ARIA creating a report" />
 </Frame>
 
 
