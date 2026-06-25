@@ -23,9 +23,63 @@ From the **Plan details** section, you can take the following actions:
 
 ## Plan usage
 
-The **Plan usage** section visually summarizes current usage and displays upcoming usage charges. For detailed insights into usage by month, click **View usage** on an individual tile. To export usage by calendar month, team, or project, click **Export CSV**.
+The **Plan usage** section visually summarizes current usage and displays upcoming usage charges. For detailed insights into usage by month, click **View usage** on an individual tile. To export usage by calendar month, team, or project, click **Export CSV**. To explore usage trends over time, see [View usage over time](#view-usage-over-time).
 
 For questions about usage or billing, contact your AISE or [Support](mailto:support@wandb.com).
+
+### View usage over time
+
+Organization admins can visualize usage trends for each category in the **Usage & Alerts** tab. To open it:
+
+1. In the top right corner, click your user profile icon.
+1. In the **Account** section, click **Usage & Alerts**. Alternatively, click **Settings**, then click the **Usage & Alerts** tab.
+1. From the sidebar, select a category to display its **Usage over time** chart.
+
+<Note>
+Usage charts are visible to organization admins only. Team admins can't view them.
+</Note>
+
+Usage charts are available on both W&B Multi-tenant Cloud and Dedicated Cloud. The categories in the sidebar depend on which products are active in your deployment, and can include Storage, Tracked Hours, Weave, Inference, Training, WB Agent, and Sandboxes.
+
+{/* Source: https://wandb.ai/account-settings/wandb/alerts/tracked-hours (multi-tenant, Current cycle, All teams) */}
+<Frame>
+    <img src="/images/app_ui/billing_usage_chart_current_cycle.png" alt="Usage over time chart for the current billing cycle, showing cumulative daily usage segmented by team above a stats bar" />
+</Frame>
+
+Use the controls above the chart to change what it shows:
+
+- **Time range**: Choose **Current cycle** (the default for most categories), **Last 30 days**, **Last 90 days**, **Last 12 months**, or **Last 24 months**. Storage defaults to **Last 12 months**.
+- **Team**: Choose **All teams** to see organization-wide usage, or select an individual team to see only its usage. The dropdown lists teams from highest to lowest usage and is searchable.
+
+Each bar is segmented by team. The five teams with the highest usage across the selected time range each appear in their own color, and all remaining teams are grouped into **Other**. To see per-team usage, hover over a bar. The bar for the current period is marked as in progress.
+
+To export usage data, click the download icon in the top right corner of the chart. The export returns a monthly usage breakdown by team and project for the last 24 months, regardless of the selected time range.
+
+#### Current cycle compared to historical views
+
+The **Current cycle** view is *cumulative*: each bar adds to the previous one to show your running total usage since the start of the current billing period. Use this view to see how your usage is pacing against its allowance. Granularity depends on the length of your billing cycle. For example, a monthly cycle shows daily bars and an annual cycle shows monthly bars.
+
+The **Last 30 days**, **Last 90 days**, **Last 12 months**, and **Last 24 months** views are *historical*: each bar shows the usage for a single day or month rather than a running total. Use these views to compare usage across past periods. Because the top five teams are recalculated for the selected range, the colored teams can differ from those in the current cycle.
+
+Storage is always cumulative, because it measures the total volume currently stored (a 30-day weighted average, in GB) rather than usage consumed during a period.
+
+{/* Source: https://wandb.ai/account-settings/wandb/alerts/storage (multi-tenant, Last 12 months, All teams) */}
+<Frame>
+    <img src="/images/app_ui/billing_usage_chart_12_months.png" alt="Storage usage over time chart for the last 12 months, showing one bar per month segmented by team" />
+</Frame>
+
+#### Stats bar and threshold lines
+
+In the **Current cycle** and **All teams** view, a stats bar above the chart summarizes **Usage**, **Allowance**, and **Daily Average Usage**. Daily Average Usage isn't shown for Storage.
+
+When a category has a defined allowance, the chart displays two threshold lines: a gold line at 85% of the allowance and a red line at 100%. These lines mark where [usage alerts](#usage-alerts) fire. Usage can exceed these thresholds. The lines are visual guides only.
+
+{/* Source: https://wandb.ai/account-settings/wandb/alerts/wb-agent (multi-tenant, Current cycle, All teams; category with a defined allowance) */}
+<Frame>
+    <img src="/images/app_ui/billing_usage_chart_thresholds.png" alt="Usage over time chart showing a gold 85% threshold line and a red 100% threshold line, with cumulative usage exceeding the allowance" />
+</Frame>
+
+For categories with no usage limit, **Allowance** displays as **Unlimited** and no threshold lines appear.
 
 ### Usage alerts
 
