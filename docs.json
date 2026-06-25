@@ -888,10 +888,10 @@
             "pages": [
               "reference",
               {
-                "group" : "W&B Agent",
+                "group" : "ARIA",
                 "pages": [
-                  "agent/agent_overview",
-                  "agent/governance"
+                  "aria/overview",
+                  "aria/governance"
                 ]
               },
               {
