@@ -24,7 +24,7 @@ def run_experiment(cfg):
 
 ## Track hyperparameters
 
-Hydra uses [OmegaConf](https://omegaconf.readthedocs.io/en/2.1_branch/) as the default way to interface with configuration dictionaries. OmegaConf dictionary objects are not subclasses of primitive dictionaries, so passing Hydra's `cfg` directly to `wandb.init(config=...)` can lead to unexpected results on the dashboard. Convert `omegaconf.DictConfig` to a plain `dict` with `OmegaConf.to_container()` and pass it to `wandb.init()`.
+Hydra uses [OmegaConf](https://omegaconf.readthedocs.io/en/2.1_branch/) as the default way to interface with configuration dictionaries. OmegaConf config objects (for example, `omegaconf.DictConfig`) are not plain Python `dict` instances, and `run.config` is a read-only property, so `run.config = ...` raises an `AttributeError`. Convert `cfg` to a plain `dict` with `OmegaConf.to_container()` and pass it to `wandb.init(config=...)` (or call `run.config.update(...)`).
 
 ```python
 import hydra
