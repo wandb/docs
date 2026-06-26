@@ -22,7 +22,7 @@ __init__(
     project: 'str',
     run_id: 'str',
     attrs: 'Mapping | None' = None,
-    include_sweeps: 'bool' = True,
+    include_sweeps: 'bool' = False,
     lazy: 'bool' = True,
     api_key: 'str | None' = None
 )
@@ -148,11 +148,15 @@ Renvoie la configuration brute du run, y compris les clés internes. Charge auto
 
 ### <kbd>propriété</kbd> Run.state
 
-État du run. Peut prendre l’une des valeurs suivantes : Finished, Failed, Crashed ou Running.
+L’état du run.
+
+Le tableau suivant décrit les états possibles d’un run :
+
+| État    | Description | | -------- | ----------- | | Planté  | Le run a cessé d’envoyer des heartbeats via le processus interne, ce qui peut se produire si la machine plante. | | Échoué   | Le run s’est terminé avec un code de sortie non nul. | | Terminé | Le run s’est terminé et a entièrement synchronisé les données, ou a appelé `wandb.Run.finish()`. | | Interrompu   | Le run a été arrêté de force avant de pouvoir se terminer. | | En cours d’exécution  | Le run est toujours en cours d’exécution et a récemment envoyé un heartbeat. | | En attente  | Le run est planifié, mais n’a pas encore démarré (fréquent dans les sweeps et les jobs Launch). |
 
 **Retourne :**
 
-* `str` : La valeur de la propriété `state`.
+* `str` : La valeur de la propriété d’état.
 
 ***
 
@@ -183,6 +187,16 @@ Obtient les métriques summary du run. Charge automatiquement les données compl
 **Retourne :**
 
 * `dict[str, Any]`: La valeur de la propriété summary&#95;metrics.
+
+***
+
+### <kbd>propriété</kbd> Run.sweep
+
+Le balayage associé à ce run. Charge les données du balayage si include&#95;sweeps vaut False.
+
+**Retourne :**
+
+* `public.Sweep | None`: La valeur de la propriété balayage.
 
 ***
 
@@ -572,16 +586,23 @@ Enregistre les modifications de l’objet run sur le backend wandb.
 ### <kbd>méthode</kbd> `Run.update_state`
 
 ```python
-update_state(state: "Literal['pending']") → bool
+update_state(state: 'str') → bool
 ```
 
 Met à jour l’état d’un run.
 
-Permet de faire passer les runs de &#39;failed&#39; ou &#39;crashed&#39; à &#39;pending&#39;.
+Transitions prises en charge :
+
+* vers `pending` depuis `running`, `failed`, `crashed` ou `preempted`  (par ex. pour remettre en file d’attente un run terminé ou en cours)
+  * vers `failed` depuis `pending` ou `running`  (par ex. pour marquer un run préempté ou perdu comme failed)
+
+L’état des runs de sweep ne peut pas être mis à jour.
+
+Voir `Run.state` pour la liste des états de run possibles.
 
 **Arguments :**
 
-* `state` :  L’état cible du run. Seul `"pending"` est pris en charge.
+* `state` :  L’état cible du run. L’une des valeurs `"pending"` ou `"failed"`.
 
 **Retourne :**
 `True` si l’état a bien été mis à jour.
@@ -591,7 +612,6 @@ Permet de faire passer les runs de &#39;failed&#39; ou &#39;crashed&#39; à &#39
 * `wandb.Error` :  Si la transition d’état demandée n’est pas autorisée ou si le serveur ne prend pas en charge cette opération.
 
 ***
-
 
 ### <kbd>méthode</kbd> `Run.upload_file`
 
