@@ -75,7 +75,7 @@ Before you fetch audit logs, confirm that you meet the following prerequisites f
 
 ## Fetch audit logs
 
-To retrieve audit logs from the W&B Audit Logging API, follow these steps. After you complete this procedure, you have a set of newline-separated JSON objects you can analyze using your preferred tooling.
+To retrieve audit logs from the W&B Audit Logging API, follow these steps. After you complete this procedure, you have audit log data you can analyze using your preferred tooling.
 
 1. Determine the correct API endpoint for your instance:
 
@@ -87,15 +87,29 @@ To retrieve audit logs from the W&B Audit Logging API, follow these steps. After
 1. Optional: Construct query parameters to append to the endpoint. In the following steps, replace `[PARAMETERS]` with the resulting string.
     - `anonymize`: If the URL includes the parameter `anonymize=true`, W&B removes any PII. Otherwise, PII is included. Refer to [Exclude PII when fetching audit logs](#exclude-pii-when-fetching-audit-logs). Not supported for Multi-tenant Cloud, where all fields are included, including PII.
     - Configure the date window of logs to fetch with a combination of `numDays` and `startDate`. Each parameter is optional, and they interact.
-      - If neither parameter is included, only today's logs are fetched.
-      - `numDays`: An integer that indicates the number of days backward from `startDate` to fetch logs. If you omit it or set it to `0`, logs are fetched for `startDate` only. On **Multi-tenant Cloud**, you can fetch a maximum of 7 days of audit logs, even if you set `numDays` to a larger value.
-      - `startDate`: Optional. Use `startDate=YYYY-MM-DD` to set the newest calendar day in the range. If you omit it or set it to today, the range ends today and `numDays` counts backward from that day.
+      - If neither parameter is included, only today's UTC logs are fetched.
+      - If `startDate` is omitted and `numDays` is set, logs are fetched from `numDays` days before today through today, in UTC.
+      - `startDate`: Optional. Use `startDate=YYYY-MM-DD` to set the oldest calendar day in the range. Dates are interpreted in UTC.
           - Supported in **Multi-tenant Cloud** only with an Enterprise license.
           - Supported in **Dedicated Cloud** and **Self-Managed** v0.80.0 and above.
+      - `numDays`: An integer that indicates how many days after `startDate` to fetch logs. If you omit it or set it to `0`, logs are fetched for the `startDate` only. For example, `startDate=2026-01-01&numDays=2` fetches logs for January 1, January 2, and January 3, 2026. On **Multi-tenant Cloud**, `numDays` must be an integer from `0` through `7`.
+    - On **Multi-tenant Cloud**, use pagination parameters to fetch large result sets within the selected date range:
+      - `limit`: Optional. A positive integer up to `1,000,000` that controls the maximum number of audit log entries to return. The default is `1000000`.
+      - `cursor`: Optional. An opaque cursor from the previous response's `next_cursor` field. Reuse the cursor with the same resolved date range.
 1. Construct the fully qualified endpoint URL in the format `[API-ENDPOINT]?[PARAMETERS]`.
 1. Execute an HTTP `GET` request on the fully qualified API endpoint with a web browser or a tool like [Postman](https://www.postman.com/downloads/), [HTTPie](https://httpie.io/), or cURL.
 
-The API response contains newline-separated JSON objects. Objects include the fields described in the [schema](#audit-log-schema), just like when audit logs are synced to an instance-level bucket. In those cases, the audit logs are located in the `/wandb-audit-logs` directory in your bucket.
+For **Self-Managed** and **Dedicated Cloud**, the API response contains newline-separated JSON objects. Objects include the fields described in the [schema](#audit-log-schema), just like when audit logs are synced to an instance-level bucket. In those cases, the audit logs are located in the `/wandb-audit-logs` directory in your bucket.
+
+For **Multi-tenant Cloud**, the API response is a JSON object with these fields:
+
+- `audit_logs`: An array of audit log entries. Each entry includes the fields described in the [schema](#audit-log-schema).
+- `range_start_time`: The start of the resolved date range, in UTC.
+- `range_end_time`: The exclusive end of the resolved date range, in UTC.
+- `count`: The number of audit log entries returned in this response.
+- `next_cursor`: An opaque cursor for the next page of results. If this field is `null`, there are no more results for the selected date range.
+
+To paginate on **Multi-tenant Cloud**, repeat the request with the same date range, and set `cursor` to the `next_cursor` value from the previous response. Continue until `next_cursor` is `null`.
 
 ### Use basic authentication
 
