@@ -111,6 +111,15 @@
                     "group": "Platform Details",
                     "pages": [
                       {
+                        "group" : "ARIA",
+                        "pages": [
+                          "aria/overview",
+                          "aria/chat",
+                          "aria/tools",
+                          "aria/governance"
+                        ]
+                      },
+                      {
                         "group": "Configure W&B",
                         "pages": [
                           {
@@ -889,15 +898,6 @@
           {
             "pages": [
               "reference",
-              {
-                "group" : "ARIA",
-                "pages": [
-                  "aria/overview",
-                  "aria/chat",
-                  "aria/tools",
-                  "aria/governance"
-                ]
-              },
               {
                 "group": "W&B Models",
                 "pages": [
