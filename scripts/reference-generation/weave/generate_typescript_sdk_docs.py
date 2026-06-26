@@ -34,7 +34,7 @@ def check_node_dependencies():
         sys.exit(1)
 
 
-def download_weave_source(version="main"):
+def download_weave_source(version="master"):
     """Download Weave source code for a specific version using shallow clone."""
     print(f"\nDownloading Weave source code (version: {version})...")
     
@@ -57,11 +57,11 @@ def download_weave_source(version="main"):
                         print(f"  Using latest release: {version}")
                         break
             else:
-                print("  Warning: Could not determine latest release, using main branch")
-                version = "main"
+                print("  Warning: Could not determine latest release, using master branch")
+                version = "master"
         except Exception as e:
-            print(f"  Warning: Could not fetch latest release, using main branch: {e}")
-            version = "main"
+            print(f"  Warning: Could not fetch latest release, using master branch: {e}")
+            version = "master"
     
     # Create temporary directory
     temp_dir = tempfile.mkdtemp()
@@ -77,8 +77,7 @@ def download_weave_source(version="main"):
         ]
         
         # Add branch/tag specification
-        if version != "main":
-            clone_cmd.extend(["--branch", version])
+        clone_cmd.extend(["--branch", version])
         
         clone_cmd.extend([
             "https://github.com/wandb/weave.git",
@@ -519,14 +518,14 @@ def main():
     # Check dependencies
     check_node_dependencies()
     
-    # Get Weave version from environment or use latest
-    # weave_version = os.environ.get("WEAVE_VERSION", "latest")
-    
+    # Get Weave version from environment or use master
+    weave_version = os.environ.get("WEAVE_VERSION", "master")
+
     # Store the original working directory
     original_cwd = os.getcwd()
-    
+
     # Download Weave source
-    weave_source = download_weave_source("master")
+    weave_source = download_weave_source(weave_version)
     
     try:
         # Set up TypeScript project
