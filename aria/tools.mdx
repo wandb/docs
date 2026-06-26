@@ -1,46 +1,112 @@
 ---
 title: "Tools"
-description: "Learn about the tools available in ARIA, W&B's AI Research and Iteration Agent, and how to use them to analyze and run experiments, visualize data, and more."
+description: "Learn about the tools available in ARIA, W&B's AI Research and Iteration Agent."
 ---
 
+ARIA uses tools to inspect, analyze, and update W&B and Weave data. Some tools are available by default. To let ARIA run experiments, configure W&B Launch.
 
+## Default tools
 
-{/* user clicks: recommend the next experiment
-user gets a response they like, and the agent follows up with: 
-"ARIA can help you setup W&B Launch so that ARIA can launch these experiments for you from now on, or ARIA can propose further-reaching experiments, ..."
-user tells the agent "ok let's setup Launch"
-agent walks user through the launch setup requirements: queue, docker image build, code saving, etc.
-agent confirms launch works with a small smoke test of the actual training code
-then the agent says "ok that works! should I launch the experiments?"
-user says yes
-at this point the user has the full loop setup. I guarantee if we get users to this point, they will continue using the agent */}
+ARIA can use the following tools in W&B and Weave projects.
 
+| Tool type                      | What ARIA can do  |
+| ------------------------------ | ----------------- |
+| W&B project and run analysis   | Query runs, configs, metrics, summaries, histories, artifacts, sweeps, system metrics, logs, and workspace views.  |
+| W&B Launch                     | Inspect queues, jobs, queue items, and agents. Package code into Launch jobs, relaunch jobs or runs with config overrides, submit jobs to queues, monitor launched runs, debug queue or run failures, and run bounded experiment searches. |
+| Weave                          | Inspect traces, calls, evaluations, scorers, datasets, feedback, token and cost summaries, and monitors when Weave data is available.  |
+| W&B editing                    | Create or update reports, workspace panels, saved views, run filters, Weave monitors, Weave signals, and other W&B objects when you ask ARIA to do so. ARIA asks for confirmation before destructive actions.  |
+| Documentation lookup           | Look up current W&B and Weave documentation for product behavior, SDK and API usage, UI paths, and feature details.  |
+| Python and shell analysis      | Run authenticated Python or shell scripts with libraries such as `wandb`, `weave`, `pandas`, `numpy`, and plotting packages. ARIA uses these tools for comparisons, rankings, summaries, anomaly checks, and custom diagnostics.           |
+| LLM-assisted semantic analysis | Summarize logs, cluster trace failures, interpret text-heavy evaluation examples, and analyze fetched images or plots. For exact counts, calculations, and metric comparisons, ARIA uses deterministic tools such as Python.               |
 
-Existing W&B Launch users can use ARIA to run experiments.
+## Run experiments with W&B Launch
 
-## Set up Launch with ARIA
+To let ARIA run experiments in your project, enable the W&B Launch tool.
 
-Use ARIA to help set up W&B Launch for running experiments.
+ARIA can help you configure W&B Launch from the chat. For example, ask:
 
-1. Click **ARIA**.
-2. In the chat window, enter `/autoresearch-quickstart`, then press **Enter**.
+```text title="User prompt"
+Can you help me set up W&B Launch?
+```
 
-ARIA checks whether your account is ready to run experiments. If your account is not ready, ARIA provides setup instructions.
+```text title="User prompt"
+Can you help me run experiments with W&B Launch?
+```
+
+ARIA can check which components of W&B Launch are available in your project and guide you through the steps to enable ARIA to run experiments. See [Launch components](/aria/tools#launch-components) for more information.
+
+For example, the following shows the beginning of an actual response from ARIA when asked "Can you help me set up W&B Launch?":
+
+<Accordion title="ARIA response">
+
+```text
+## 1. Decide where jobs will actually run
+
+Pick one:
+
+### Option A — Kubernetes / cluster setup
+Use this if you want shared GPU/CPU infrastructure and a
+persistent Launch agent.
+
+Recommended for “real” team usage.
+
+### Option B — Local Docker setup
+Use this if you want jobs to run on your own machine,
+e.g. local workstation with Docker and possibly a GPU.
+
+Good for testing Launch quickly.
+
+I’d usually start with **Kubernetes** if
+you have cluster access. If not, start with **Local Docker**.
+
+## 2. Create a Launch queue in the W&B UI
+
+Go to the Launch page for the entity: https://wandb.ai/wandb/launch
+
+Then:
+
+1. Click **Create Queue**.
+2. Select entity: `wandb`.
+3. Give the queue a name.
+4. Choose the queue resource type:
+   - **Kubernetes** for cluster execution.
+   - **Docker** for local execution.
+5. Add the queue resource configuration.
+6. Click **Create Queue**.
+
+## 3. Kubernetes path: install a Launch agent with Helm
+
+If using Kubernetes, you need:
+
+- A Kubernetes cluster.
+- `kubectl` access to the cluster.
+- `helm` installed locally.
+- A W&B **service account API key**.
+- Permission to create/update/delete Kubernetes resources in the target namespace.
+
+Do **not** use your personal API key for the agent if this is a real
+setup. Use a W&B service account key.
+```
+
+</Accordion>
+
 
 ### Launch components
 
-Launch has three core components: **launch jobs**, **queues**, and **agents**.
+W&B Launch has three core components:
 
-A *launch job* is a blueprint for configuring and running tasks in your ML workflow. After you create a launch job, you can add it to a *launch queue*. A launch queue is a first-in, first-out (FIFO) queue that lets you configure and submit jobs to a compute target, such as a Kubernetes cluster.
+* **Launch job**: A reusable blueprint for configuring and running a task in an ML workflow.
+* **Launch queue**: A first-in, first-out queue that submits jobs to a compute target, such as a Kubernetes cluster.
+* **Launch agent**: A process that polls a queue and runs jobs on the compute target configured for that queue.
 
-As jobs are added to the queue, one or more *launch agents* poll the queue and run each job on the system targeted by the queue.
+ARIA can manage the W&B-side Launch workflow after a queue and active Launch agent are available. ARIA usually cannot start a durable Launch agent on your local machine, Kubernetes cluster, SageMaker environment, or Vertex AI environment. A user or administrator must provide the compute environment, credentials, and running agent.
 
-The following table lists the steps required to set up W&B Launch with ARIA, who usually performs each step, and what each step involves.
+The following table summarizes the steps and who usually performs them to enable ARIA to run experiments with W&B Launch.
 
-| Step      | Who usually performs this step      | Details        |
-| --------- | ----------------------------------- | -------------- |
-| Create a Launch queue  | ARIA or team admin | ARIA can help create a queue if the required permissions and target backend are clear. Team admin permissions might be required. |
-| Choose or provision a compute backend  | Team member or infrastructure owner | ARIA requires access to a Docker host, Kubernetes cluster, SageMaker environment, or Vertex AI environment. ARIA cannot provision your cloud or Kubernetes infrastructure unless it is already accessible through W&B Launch. |
-| Start the Launch agent               | Team member or infrastructure owner | The Launch agent must run persistently on your machine or cluster with W&B credentials.           |
-| Configure a service account or API key | Team admin                          | Create and store service account keys securely. For more information, see [Manage secrets](https://docs.wandb.ai/platform/secrets#manage-secrets).  |
-| Submit experiments to the queue        | ARIA                                | After a queue has an active agent, ARIA can submit jobs, relaunch runs with config overrides, monitor results, debug failures, and compare metrics. |
+| Step                                   | Usually performed by                | Details          |
+| -------------------------------------- | ----------------------------------- | ---------------- |
+| Create a Launch queue                  | ARIA or team admin                  | ARIA can help create a queue when the required permissions and target backend are clear. Team admin permissions might be required  |
+| Choose or provision a compute backend  | Team member or infrastructure owner | ARIA needs access to a Docker host, Kubernetes cluster, SageMaker environment, or Vertex AI environment. ARIA cannot provision infrastructure unless it is already accessible through W&B Launch. |
+| Start the Launch agent                 | Team member or infrastructure owner | The Launch agent must run persistently on your machine or cluster with W&B credentials. |
+| Configure a service account or API key | Team admin                          | Create and store service account keys securely. For more information, see [Manage secrets](https://docs.wandb.ai/platform/secrets#manage-secrets). |
+| Submit experiments to the queue        | ARIA                                | After a queue has an active agent, ARIA can submit jobs, relaunch runs with config overrides, monitor results, debug failures, and compare metrics.  |
