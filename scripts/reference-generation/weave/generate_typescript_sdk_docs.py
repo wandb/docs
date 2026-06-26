@@ -118,12 +118,12 @@ def setup_typescript_project(weave_source):
     try:
         # Install dependencies
         print("  Installing dependencies...")
-        subprocess.run(["npm", "install"], check=True)
-        
+        subprocess.run(["npm", "install", "--legacy-peer-deps"], check=True)
+
         # Install typedoc and markdown plugin with compatible versions
         print("  Installing typedoc...")
         subprocess.run([
-            "npm", "install", "--save-dev",
+            "npm", "install", "--save-dev", "--legacy-peer-deps",
             "typedoc@0.25.13",
             "typedoc-plugin-markdown@3.17.1"
         ], check=True)
@@ -520,13 +520,13 @@ def main():
     check_node_dependencies()
     
     # Get Weave version from environment or use latest
-    weave_version = os.environ.get("WEAVE_VERSION", "latest")
+    # weave_version = os.environ.get("WEAVE_VERSION", "latest")
     
     # Store the original working directory
     original_cwd = os.getcwd()
     
     # Download Weave source
-    weave_source = download_weave_source(weave_version)
+    weave_source = download_weave_source("06-26-chore_weave_ts_update_opeani_openai_agents_types")
     
     try:
         # Set up TypeScript project
