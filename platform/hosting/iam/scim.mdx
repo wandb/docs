@@ -1132,7 +1132,7 @@ Updates a user's Models seat.
 <Note>
 On **Multi-tenant Cloud**{/* and on **Dedicated Cloud** and **Self-Managed** v0.83.0+ */}, Registry access is decoupled from Models seats. Setting `modelsSeat` to `none` no longer revokes Registry access when the user has a non-`none` `weaveRole`. To revoke Registry access on those deployments, use [Update Registry access](#update-registry-access) and set `registryAccess` to `none`.
 
-On **Dedicated Cloud** and **Self-Managed**, {*/ v0.82.0 and older */} Registry access is still tied to `modelsSeat`. Set `modelsSeat` to `none` to revoke Registry access on those releases.
+On **Dedicated Cloud** and **Self-Managed**, {/* v0.82.0 and older */} Registry access is still tied to `modelsSeat`. Set `modelsSeat` to `none` to revoke Registry access on those releases.
 </Note>
 
 #### Endpoint
@@ -1523,7 +1523,7 @@ PATCH /scim/Users/abc
 Removes a user from a registry.
 
 <Note>
-This operation removes a user from a specific registry. It doesn't revoke organization-level Registry access. To revoke Registry access entirely, use [Update Registry access](#update-registry-access) on **Multi-tenant Cloud**. {/* and on **Dedicated Cloud** and **Self-Managed** v0.83.0+, or [Update Models seat](#update-models-seat) on **Dedicated Cloud** and **Self-Managed**. {/* v0.82.0 and older. */}
+This operation removes a user from a specific registry. It doesn't revoke organization-level Registry access. To revoke Registry access entirely, use [Update Registry access](#update-registry-access).
 </Note>
 
 <Note>
