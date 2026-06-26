@@ -2,7 +2,19 @@
 title: "Chat with ARIA"
 ---
 
-The following page describes how to chat with ARIA, view your chat history, and manage your conversations with ARIA.
+The following page describes how to specify a run in your prompt, add an image to a conversation, start a new chat, view your chat history, delete previous conversations, undock the chat window, and provide feedback on ARIA's responses. 
+
+## Add context to a conversation
+
+You can use the `@` symbol to specify a specific run in your prompt. For example, you can ask ARIA to analyze a specific run by including the run's name in your prompt:
+
+```text title="User prompt"
+Analyze the run @run-20230615_123456-abcdefg and summarize the results
+```
+
+## Add an image to a conversation
+
+Click on the plus icon (`+`) in the lower left corner of the chat window to add an image to your conversation. You can then ask ARIA to analyze the image or provide information about it.
 
 ## Start a new chat
 
@@ -14,7 +26,7 @@ Starting a new chat does not delete your previous conversations. To [view previo
 
 ## View chat history
 
-To view previous conversations with ARIA:
+To view previous conversation:
 
 1. Open ARIA.
 2. Click the three horizontal lines in the upper left corner of the chat window to open the chat history.
@@ -24,22 +36,20 @@ W&B organizes your conversations with ARIA by project and by date. You can resum
 
 ## Delete previous conversations
 
-To delete a previous conversation with ARIA:
+To delete a previous conversation:
 
 1. Open ARIA.
 2. Click the three horizontal lines in the upper left corner of the chat window to open the chat history.
 3. Click the trash can icon next to the conversation you want to delete.
 
-## Undock chat
+## Undock chat window
 
-You can undock the chat into a separate window, which allows you to view the agent's response side-by-side with your project data.
+You can undock the chat window into a separate window, which allows you to view the agent's response side-by-side with your project data.
 
 To undock the chat, click the undock icon in the upper right corner of the chat window next to the close (**X**) button.
 
 ## Provide feedback
 
 Click the thumbs up or thumbs down icon at the end of the response to provide feedback on ARIA's response. Your feedback helps W&B improve ARIA's performance and accuracy.
-
-The queries you make, and the agent's responses to those queries within the chat session, are shared to W&B. You can optionally provide additional context about your feedback in the text box that appears after you select thumbs up or thumbs down.
 
 For information about how W&B handles data usage for ARIA, see [Governance and security](/aria/governance).
