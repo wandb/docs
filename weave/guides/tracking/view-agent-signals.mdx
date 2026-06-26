@@ -1,6 +1,7 @@
 ---
 title: "Monitor your agents with signals"
 description: "Use W&B Weave signals to score agent turns, apply tags, and surface quality and safety issues in production."
+keywords: ["signals", "agent monitoring", "scorers", "ratings", "tags"]
 ---
 
 import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
@@ -15,7 +16,7 @@ To view signals for your project:
 
 1. Navigate to [https://wandb.ai](https://wandb.ai) and select your project.
 2. In the sidebar menu, select **Agents** to view all agent conversations saved for your project.
-3. In the tab bar, click **Signals**.
+3. In the tab bar, select **Signals**.
 
 ![The Signals tab showing a list of scored turns for the agent.](./imgs/agent-view-signals.png)
 
@@ -27,38 +28,38 @@ To view signals for your project:
 
 ## Signals table
 
-Each row represents the output of one of your signal monitors. The following columns appear by default.
+The Signals tab displays a table of scored turns from your agent. Each row represents the output of one of your signal monitors. The following columns appear by default.
 
 | Column | Description |
 |---|---|
-| **Type** | The part of the conversation being scored. Currently only "turn" is supported. |
+| **Type** | The part of the conversation that gets scored. Only `turn` is supported. |
 | **Scorer** | The name of the signal that produced this score. |
 | **Last message** | A preview of the last message in the scored turn, with the role shown below. |
 | **Agent** | The agent associated with the scored turn. |
 | **Scores** | The numeric rating from 0.0 to 1.0, or a tag if matched. We recommend using consistent ratings where 1 indicates good and 0 indicates bad, but your scorers can use any scale you define. |
-| **Trend** | Displays an inline chart showing how this signal is trending over time. Shows either the average value (for ratings) or the count (for tags). |
+| **Trend** | Displays an inline chart that shows how this signal trends over time. Shows either the average value (for ratings) or the count (for tags). |
 | **When** | When the signal was scored. |
 
-Use the time window selector and **Filter** bar to narrow results by scorer, agent, score range, or time period. The **Score volume** timeline shows counts of signals that have been evaluated for ratings or tagged. It reflects the rows shown in the table and supports drag-to-filter on the timeline.
+Use the time window selector and **Filter** bar to narrow results by scorer, agent, score range, or time period. The **Score volume** timeline shows counts of signals that Weave evaluated for ratings or tagged. It reflects the rows shown in the table and supports drag-to-filter on the timeline.
 
 ## Create a new signal
 
-Select **+ New signal** to create a new scorer for your agent.
+To start scoring your agent's turns, create a signal. Select **+ New signal** to create a scorer for your agent, then configure the following options.
 
 ### Scorer type
 
 Choose to create either a **Rating** scorer or a **Tags** scorer.
 
 - **Rating**: Assigns a score between 0 and 1 to each matching span.
-- **Tags**: Assigns up to 10 tags to each matching span. The signals UI only displays rows for spans that matched at least one tag, so your tag scorer might be working even if you don't see any output.
+- **Tags**: Assigns up to 10 tags to each matching span. The signals UI only displays rows for spans that matched at least one tag, so your tag scorer might run successfully even if you don't see any output.
 
 ### Only score turns matching
 
-Use this selector to restrict which turns the signal scores, such as a specific `Agent name`, `Operation name`, `Tool name`, or `Request model`. Multiple filters are combined with `AND` logic. To score every turn, select the **x** at the end of the filter row to remove it.
+Use this selector to restrict which turns the signal scores, such as a specific `Agent name`, `Operation name`, `Tool name`, or `Request model`. Weave combines multiple filters with `AND` logic. To score every turn, select the **x** at the end of the filter row to remove it.
 
 ### Prompt template
 
-Choose a starter template from the lists below, then adjust the prompt that appears inline as **Scorer prompt**. Weave resolves template variables, such as `{input_messages}`, `{output_messages}`, and `{system_instructions}`, during scoring.
+Choose a starter template from the following tables, then adjust the prompt that appears inline as **Scorer prompt**. Weave resolves template variables, such as `{input_messages}`, `{output_messages}`, and `{system_instructions}`, during scoring.
 
 #### Rating templates
 
@@ -76,7 +77,7 @@ Choose a starter template from the lists below, then adjust the prompt that appe
 | **User Frustration** | User shows signs of frustration, anger, confusion, or dissatisfaction. |
 | **Malicious Intent (Jailbreaking)** | User attempts to jailbreak the system, extract restricted content, perform prompt injection, use role-play exploits, or otherwise manipulate the agent into ignoring its guardrails. |
 | **NSFW** | User input or agent output contains explicit sexual content, graphic violence, or other material inappropriate for a workplace setting. |
-| **Low Quality Response** | Agent output that is factually wrong, off-topic, evasive, repetitive, refuses without justification, or otherwise fails to address the user's request. |
+| **Low Quality Response** | Agent output that is factually wrong, off-topic, evasive, repetitive, lacks justification when refusing, or otherwise fails to address the user's request. |
 
 ### Scorer name
 
@@ -95,4 +96,4 @@ Select **Manage signals** to open a drawer that lists all active signals for the
 
 ## Troubleshoot signals
 
-Signal activity appears under **Traces** in the project sidebar. If you don't see the expected signal matches, debug using the **Traces** table. For example, check the scorer name and the **Status** column for error conditions. Scorer execution errors show a red indicator for **Status** and include details for the error.
+Signal activity appears under **Traces** in the project sidebar. If you don't see the expected signal matches, debug using the **Traces** table. For example, check the scorer name and the **Status** column for error conditions. Scorer execution errors show a red indicator for **Status** and include error details.

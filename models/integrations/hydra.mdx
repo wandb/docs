@@ -26,18 +26,32 @@ def run_experiment(cfg):
 
 Logging Hydra's configuration to W&B lets you see every hyperparameter alongside the run's metrics, making experiments easier to compare and reproduce.
 
-Hydra uses [omegaconf](https://omegaconf.readthedocs.io/en/2.1_branch/) as the default way to interface with configuration dictionaries. `OmegaConf`'s dictionary isn't a subclass of primitive dictionaries, so directly passing Hydra's `Config` to `wandb.Run.config` leads to unexpected results on the dashboard. Convert `omegaconf.DictConfig` to the primitive `dict` type before passing it to `wandb.Run.config`.
+Hydra uses [OmegaConf](https://omegaconf.readthedocs.io/en/2.1_branch/) as the default interface to handle configuration dictionaries. OmegaConf config objects (for example, `omegaconf.DictConfig`) are not plain Python `dict` instances.
+
+`wandb.Run.config` is a read-only property, which means that `wandb.Run.config = ...` raises an `AttributeError` if you try to pass an OmegaConf config object.
+
+Convert `cfg` to a plain `dict` with `OmegaConf.to_container()` and pass it to `wandb.init(config=...)` (or call `wandb.Run.config.update(...)`).
 
 ```python
-@hydra.main(config_path="configs/", config_name="defaults")
+import hydra
+import omegaconf
+import wandb
+
+
+@hydra.main(version_base=None, config_path="configs/", config_name="defaults")
 def run_experiment(cfg):
-  with wandb.init(entity=cfg.wandb.entity, project=cfg.wandb.project) as run:
-    run.config = omegaconf.OmegaConf.to_container(
+    cfg_dict = omegaconf.OmegaConf.to_container(
         cfg, resolve=True, throw_on_missing=True
     )
-    run = wandb.init(entity=cfg.wandb.entity, project=cfg.wandb.project)
-    run.log({"loss": loss})
-    model = Model(**run.config.model.configs)
+    # Optional: avoid logging W&B metadata (like entity/project) as part of the run config
+    cfg_dict.pop("wandb", None)
+    with wandb.init(
+        entity=cfg.wandb.entity,
+        project=cfg.wandb.project,
+        config=cfg_dict,
+    ) as run:
+        run.log({"loss": loss})
+        model = Model(**run.config["model"]["configs"])
 ```
 
 ## Troubleshoot multiprocessing

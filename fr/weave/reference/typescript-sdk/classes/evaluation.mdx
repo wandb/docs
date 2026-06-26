@@ -25,7 +25,7 @@ const dataset = new weave.Dataset({
   ],
 });
 
-// Définissez une fonction de score personnalisée
+// Définissez une fonction d'évaluation personnalisée
 const scoringFunction = weave.op(function isEqual({ modelOutput, datasetRow }) {
   return modelOutput == datasetRow.expected;
 });
@@ -44,7 +44,6 @@ const evaluation = new weave.Evaluation({
 
 const results = await evaluation.evaluate({ model });
 ```
-
 
 ## Paramètres de type
 
@@ -135,7 +134,7 @@ const results = await evaluation.evaluate({ model });
   #### Défini dans
 </div>
 
-[evaluation.ts:148](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/evaluation.ts#L148)
+[evaluation.ts:148](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/evaluation.ts#L148)
 
 ## Propriétés
 
@@ -155,7 +154,7 @@ const results = await evaluation.evaluate({ model });
   #### Défini dans
 </div>
 
-[weaveObject.ts:73](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L73)
+[weaveObject.ts:73](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveObject.ts#L73)
 
 ## Accesseurs
 
@@ -181,7 +180,7 @@ WeaveObject.description
   #### Défini dans
 </div>
 
-[weaveObject.ts:100](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L100)
+[weaveObject.ts:100](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveObject.ts#L100)
 
 ***
 
@@ -207,7 +206,7 @@ WeaveObject.nom
   #### Défini dans
 </div>
 
-[weaveObject.ts:96](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L96)
+[weaveObject.ts:96](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveObject.ts#L96)
 
 ## Méthodes
 
@@ -238,7 +237,7 @@ WeaveObject.nom
   #### Défini dans
 </div>
 
-[evaluation.ts:163](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/evaluation.ts#L163)
+[evaluation.ts:163](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/evaluation.ts#L163)
 
 ***
 
@@ -269,7 +268,7 @@ WeaveObject.nom
   #### Défini dans
 </div>
 
-[evaluation.ts:231](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/evaluation.ts#L231)
+[evaluation.ts:231](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/evaluation.ts#L231)
 
 ***
 
@@ -295,4 +294,4 @@ WeaveObject.nom
   #### Défini dans
 </div>
 
-[weaveObject.ts:77](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L77)
+[weaveObject.ts:77](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveObject.ts#L77)

@@ -1,0 +1,118 @@
+---
+title: "W&B HiveMind"
+description: "AI コーディングセッション向けの共有ダッシュボードです。リーダーボード、チームビュー、効率に関するインサイトなどを通じて、Claude Code、Cursor、Codex、Gemini CLI などにまたがるアクティビティ、コスト、成果をトラッキングします。"
+tag: プレビュー
+---
+
+W&amp;B HiveMind は、AI コーディングセッション向けの共有ダッシュボードです。このダッシュボードでは、リーダーボード、チームビュー、効率に関するインサイトなどを通じて、チームがエージェントを使って何をしているか、その作業にどれだけのコストがかかっているか、そしてどのような成果を上げているかを把握できます。軽量な HiveMind デーモンが各開発者のマシン上で実行され、コーディングエージェントのアクティビティを監視し、セッションのトランスクリプトを HiveMind サービスに送信します。
+
+HiveMind は、次の 2 つの対象者向けに設計されています。
+
+* **開発者と AI 実務者** は、過去のセッションを確認し、チームの履歴を検索して、コーディングエージェントとの作業の進め方を改善できます。
+* **エンジニアリングリーダー** は、チームやリポジトリをまたいで、AI コーディングの導入状況、支出、成果をトラッキングできます。
+
+<div id="quickstart">
+  ## クイックスタート
+</div>
+
+<Tip>
+  HiveMind とそのドキュメントは、専用サイト [hivemind.wandb.tools](https://hivemind.wandb.tools) で公開されています。
+</Tip>
+
+<div id="1-install-the-hivemind-daemon">
+  ### 1. HiveMind デーモンをインストールする
+</div>
+
+各チームメンバーのローカルシステムで、クライアントをインストールし、認証してから、デーモンを起動します。使用しているプラットフォームに合った方法を選択してください。
+
+<Tabs>
+  <Tab title="スタンドアロンバイナリ（macOS または Linux）">
+    署名付きのスタンドアロンバイナリを使用して HiveMind をダウンロードし、インストールします。
+
+    ```bash
+    curl -fsSL https://hivemind.wandb.tools/install -o hivemind-install.sh | sh
+    hivemind login
+    ```
+
+    * macOS では、スタンドアロンバイナリの利用に Apple Silicon が必要です。Intel Mac では、代わりに `uv` を使用してください。
+    * 特権アクセス (`sudo`) は不要です。
+    * インストーラはバックグラウンドサービス (macOS では launchd、Linux では systemd) を登録するため、デーモンは実行を継続し、ログイン時に自動的に起動します。
+    * 操作不要で自動的にアップグレードされます。
+
+    <Tip>JAMF、Intune、Mosyle、Kandji、Workspace ONE などのフリート展開ツールを使用した、スタンドアロンバイナリの配布とインストールの詳細については、HiveMind ドキュメントの [MDM](https://hivemind.wandb.tools/docs/mdm) を参照してください。</Tip>
+  </Tab>
+
+  <Tab title="uv（macOS または Linux）">
+    macOS または Linux では、`uv` を使用してインストールします。
+
+    ```bash
+    uv tool install wandb-hivemind
+    hivemind login
+    hivemind start
+    ```
+
+    * `uv` はオペレーティングシステムに応じて適切なバイナリを自動的に選択します。
+    * `hivemind start` を実行すると、バックグラウンドサービス (macOS では launchd、Linux では systemd) が登録されるため、デーモンは実行を継続し、ログイン時に自動的に起動します。
+    * `uv tool upgrade wandb-hivemind` でアップグレードします。
+  </Tab>
+</Tabs>
+
+HiveMind デーモンはコーディング エージェントのアクティビティを監視し、セッションのトランスクリプトを HiveMind サービスに送信します。
+
+<div id="2-access-the-hivemind-dashboard">
+  ### 2. HiveMind ダッシュボードにアクセスする
+</div>
+
+HiveMind サービスがチームからの情報を受信し始めたら、[HiveMind ダッシュボード](https://hivemind.wandb.tools) にアクセスして、チームの AI 使用状況を継続的にトラッキング、把握、改善できます。
+
+HiveMind ダッシュボードでは、チームで次のことができます。
+
+* **エージェント全体のセッションを確認する**: 1 つの デーモン が、サポート対象のすべてのエージェントからセッションを取得するため、エージェントごとの設定は不要です。
+* **コストと使用状況をトラッキングする**: 時系列の推定コスト、モデル別およびチーム別のコスト、トークン使用量、マージ済み pull request あたりのコストを確認できます。コストの値は、公表されているモデルの料金とセッションのトークン数に基づく推定値であり、AI ベンダーから実際に請求された金額ではありません。
+* **成果を測定する**: エージェントのアクティビティを pull request、マージ率、エージェントが作成したコードがどの程度残るかと関連付けて把握できます。
+* **過去の作業を再利用する**: Claude Code、Codex、または Cursor 内で `@hivemind` を使用してチームのセッション履歴を検索し、関連するコンテキストを現在のセッションに取り込めます。
+* **履歴から学ぶ**: Claude Code や Cursor などのローカル ツールから既存のセッションをインポートし、過去の AI 使用状況から新たな知見を得られます。
+
+これらのスクリーンショットは、HiveMind ダッシュボード内のページ例として、使用状況 report、リーダーボード、セッションの詳細ビューを示しています。詳細を表示するには、スクリーンショットをクリックしてください。
+
+<Columns cols={2}>
+  <Frame>![チャートを含む HiveMind Usage ダッシュボード](/images/hivemind/hivemind-dashboard-pr-outcomes.png)</Frame>
+  <Frame>![上位 15 人の Users を表示する HiveMind リーダーボード](/images/hivemind/hivemind-dashboard-leaderboard.png)</Frame>
+</Columns>
+
+<Columns cols={1}>
+  <Frame>![インサイトを含む HiveMind セッションの詳細](/images/hivemind/hivemind-session-insights.png)</Frame>
+</Columns>
+
+<div id="supported-agents">
+  ## サポート対象のエージェント
+</div>
+
+HiveMind は、多くのコーディングエージェントのセッションを取得でき、エージェント固有の設定は不要です。たとえば、次のエージェントが含まれます。
+
+* Claude Code
+* Codex
+* Cursor
+* Gemini CLI
+* GitHub Copilot CLI
+* OpenCode
+* Pi
+
+完全な一覧については、[hivemind.wandb.tools](https://hivemind.wandb.tools)を参照してください。
+
+デーモンの実行中は、サポート対象のエージェントを使用してから約 30 秒以内に、セッションがダッシュボードに表示されます。
+
+<div id="hivemind-and-weave">
+  ## HiveMind と Weave
+</div>
+
+すでに W&amp;B Weave を使用している場合は、HiveMind と併用できます。これらは異なる段階を対象としており、それぞれ異なる問いに答えます。
+
+* Weave は、本番環境で AI アプリケーションがどのように動作しているかを可視化し、LLM やエージェントのトレース、評価、品質をトラッキングします。
+* HiveMind は、チームが AI コーディング エージェントを使ってどのようにソフトウェアを構築しているかを可視化し、セッション、コスト、生産性をトラッキングします。
+
+<div id="next-steps">
+  ## 次のステップ
+</div>
+
+セットアップ、権限、CLI リファレンス、トラブルシューティングなどの詳細については、[HiveMind ドキュメント](https://hivemind.wandb.tools/docs/overview)をご覧ください。

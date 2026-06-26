@@ -1,0 +1,45 @@
+---
+title: Serverless Training
+description: Serverless RL 및 Serverless SFT를 사용해 관리형 서버리스 인프라에서 LLM을 포스트 트레이닝하고 파인튜닝하세요.
+---
+
+Serverless Training을 사용하면 관리형 서버리스 인프라에서 LLM을 포스트 트레이닝하고 파인튜닝할 수 있습니다. W&amp;B는 사용자를 위해 트레이닝 인프라([CoreWeave에서](https://docs.coreweave.com/docs/platform))를 프로비저닝하면서도 환경 설정은 원하는 대로 유연하게 구성할 수 있도록 합니다. 수십 개의 GPU까지 탄력적으로 자동 확장되는 관리형 트레이닝 클러스터에 즉시 액세스할 수 있습니다. Serverless Training은 현재 공개 프리뷰로 제공됩니다.
+
+Serverless Training은 서로 보완적인 두 가지 방법을 제공합니다:
+
+* **[Serverless RL](/ko/serverless-training/usage)**: 강화 학습으로 모델을 포스트 트레이닝하여 여러 턴으로 이루어진 에이전트 작업을 수행할 때 새로운 동작을 학습하고, 신뢰성, 속도, 비용 효율을 개선합니다. Serverless RL은 RL 워크플로를 Inference 단계와 트레이닝 단계로 나누고 이를 여러 작업에 멀티플렉싱해 GPU 사용량을 높이고 트레이닝 시간과 비용을 줄입니다.
+* **[Serverless SFT](/ko/serverless-training/sft)**: 선별된 데이터셋으로 지도 학습을 수행해 모델을 파인튜닝합니다. 증류, 출력 스타일과 형식 학습, 또는 RL을 적용하기 전에 모델을 워밍업하는 용도로 SFT를 사용하세요.
+
+Serverless Training은 다음과 같은 작업에 적합합니다:
+
+* 음성 에이전트
+* 딥 리서치 어시스턴트
+* 온프레미스 모델
+* 콘텐츠 마케팅 분석 에이전트
+
+Serverless Training은 특정 작업에 맞게 모델을 특화할 수 있도록 저랭크 어댑터(LoRA)를 트레이닝합니다. 이를 통해 실제 작업에서의 경험으로 원래 모델의 기능을 확장할 수 있습니다. W&amp;B는 트레이닝한 LoRA를 계정에 아티팩트로 자동 저장합니다. 백업을 위해 로컬이나 서드파티에 저장할 수도 있습니다. 또한 Serverless Inference는 Serverless Training을 통해 트레이닝한 모델도 자동으로 호스팅합니다.
+
+시작하려면 ART [퀵스타트](https://art.openpipe.ai/getting-started/quick-start) 또는 [Google Colab 노트북](https://colab.research.google.com/github/openpipe/art-notebooks/blob/main/examples/2048/2048.ipynb)을 참조하세요.
+
+<div id="why-serverless-training">
+  ## 왜 Serverless Training인가요?
+</div>
+
+Serverless Training은 사후학습(Post-training)에서 다음과 같은 이점을 제공합니다:
+
+* **더 낮은 트레이닝 비용**: 여러 사용자에게 공유 인프라를 멀티플렉싱하고, 각 작업마다 설정 과정을 생략하며, 실제로 트레이닝하지 않을 때는 GPU 비용을 0까지 낮출 수 있으므로 Serverless Training은 트레이닝 비용을 크게 줄여줍니다.
+* **더 빠른 트레이닝 시간**: 여러 GPU에 추론 요청을 분산하고, 필요할 때 즉시 트레이닝 인프라를 프로비저닝하므로 Serverless Training은 트레이닝 작업을 더 빠르게 실행하고 반복 주기를 단축할 수 있게 해줍니다.
+* **자동 배포**: Serverless Training은 트레이닝한 모든 체크포인트를 자동으로 배포하므로 호스팅 인프라를 수동으로 설정할 필요가 없습니다. 로컬, 스테이징 또는 프로덕션 환경에서 트레이닝된 모델에 즉시 액세스하고 테스트할 수 있습니다.
+
+<div id="how-serverless-training-uses-wb-services">
+  ## Serverless Training에서 W&amp;B 서비스를 사용하는 방식
+</div>
+
+Serverless Training은 다음 W&amp;B 컴포넌트를 조합해 작동합니다:
+
+* [Inference](/ko/inference): 모델을 실행하는 데 사용
+* [Models](/ko/models): LoRA 어댑터 트레이닝 중 성능 메트릭을 추적하는 데 사용
+* [Artifacts](/ko/models/artifacts): LoRA 어댑터를 저장하고 버전을 관리하는 데 사용
+* [Weave (선택)](/ko/weave): 트레이닝 루프의 각 단계에서 모델이 어떻게 응답하는지 관측성을 확보하는 데 사용
+
+Serverless Training은 공개 프리뷰 상태입니다. 프리뷰 기간 동안 W&amp;B는 Inference 사용량과 아티팩트 저장소에 대해서만 요금을 청구합니다. 프리뷰 기간 동안 어댑터 트레이닝에는 요금이 청구되지 않습니다.

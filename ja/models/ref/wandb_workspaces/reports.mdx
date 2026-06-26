@@ -308,7 +308,7 @@ LaTeXテキストのブロック。
 
 ***
 
-## <kbd>class</kbd> `LinePlot`
+## <kbd>クラス</kbd> `LinePlot`
 
 2D 折れ線グラフを持つパネルオブジェクト。
 
@@ -318,7 +318,7 @@ LaTeXテキストのブロック。
 * `x` (Optional[MetricType]):  レポートが情報を取得する、W&amp;B プロジェクトにログされたメトリクスの名。指定したメトリクスは x 軸に使用されます。
 * `y` (LList[MetricType]):  レポートが情報を取得する、W&amp;B プロジェクトにログされた 1 つ以上のメトリクス。指定したメトリクスは y 軸に使用されます。
 * `range_x` (Tuple[float | `None`, float | `None`]):  x 軸の範囲を指定するタプル。
-* `range_y` (Tuple[float | `None`, float | `None`]):  y 軸の範囲を指定するタプル。
+* `range_y` (Tuple[float | `None`, float | `None`]):  Y 軸の範囲を指定するタプル。
 * `log_x` (Optional[bool]):  x 座標を底 10 の対数スケールでプロットします。
 * `log_y` (Optional[bool]):  y 座標を底 10 の対数スケールでプロットします。
 * `title_x` (Optional[str]):  x 軸のラベル。
@@ -342,8 +342,13 @@ LaTeXテキストのブロック。
 * `legend_fields` (Optional[LList[str]]):  凡例に含めるフィールド。
 * `metric_regex` (Optional[str]):  y 軸メトリクスに一致させる正規表現パターン。バックエンドはこのパターンを使用して一致するメトリクスを選択します。
 * `point_visualization_method` (Optional[PointVizMethod]):  表示しきれないほど多くの点がある場合に、それらを集約するために使用される method。オプションには &quot;bucketing-gorilla&quot; (データポイントを bucket 化し、外れ値やスパイクを保持するために bucket ごとの最小値、最大値、平均値を表示) または &quot;sampling&quot; (より高速に表示するために点をランダムにサンプリングしますが、外れ値を見逃す可能性があります) が含まれます。
+* `line_titles` (Optional[Dict[str, str]]):  各系列の表示タイトル。キーには &quot;{runId}:{metricName}&quot; 形式を使用します。
+* `line_colors` (Optional[Dict[str, Any]]):  各系列のカラー。キーは &quot;{runId}:{metricName}&quot; 形式です。
+* `line_widths` (Optional[Dict[str, float]]):  各系列の線幅。キーには &quot;{runId}:{metricName}&quot; 形式を使用します。
+* `line_marks` (Optional[Dict[str, Mark]]):  各系列の破線スタイル。キーは &quot;{runId}:{metricName}&quot; 形式を使用します。
+* `有効な値`:  &quot;solid&quot;、&quot;dashed&quot;、&quot;dotted&quot;、&quot;dotdash&quot;、&quot;dotdotdash&quot;、&quot;points&quot;。
 
-***
+---
 
 ## <kbd>class</kbd> `Link`
 
@@ -662,21 +667,39 @@ to_html(height: int = 1024, hidden: bool = False) → str
 
 **属性:**
 
-* `entity` (str):  runs が保存されているプロジェクトを所有している、またはそのプロジェクトに対する適切な権限を持つ entity。
-* `project` (str):  runs が保存されているプロジェクトの名。
-* `name` (str):  run set の名。デフォルトでは `Run set` に設定されます。
-* `query` (str):  runs をフィルターするためのクエリ文字列。
-* `filters` (Union[str, LList[expr.FilterExpr]]):  runs に適用するフィルター。指定できる値は次のとおりです。
+* `entity` (str): runs が保存されているプロジェクトを所有している、またはそのプロジェクトに対する適切な権限を持つ entity。
+* `project` (str): runs が保存されている project の名。
+* `name` (str): run set の名。デフォルトでは `Run set` に設定されます。
+* `query` (str): runs をフィルターするためのクエリ文字列。
+* `filters` (Union[str, LList[expr.FilterExpr]]): runs に適用するフィルター。指定できる値は次のとおりです。
   * 文字列式: 例: &quot;Config(&#39;lr&#39;) = 0.001 and State = &#39;finished&#39;&quot;
-* `Supports operators`: `=`, `==`, `!=`, `<`, `>`, `<=`, `>=`, `in`, `not in`
+* `Supports operators`:  `=`, `==`, `!=`, `<`, `>`, `<=`, `>=`, `in`, `not in`, `and`, `or`
   * FilterExpr object のリスト: 例: [expr.Config(&#39;lr&#39;) == 0.001]
-* `groupby` (LList[str]):  グループ化に使用するメトリクス名のリスト。サポートされる形式は次のとおりです。
+* `groupby` (LList[str]): グループ化に使用するメトリクス名のリスト。サポートされる形式は次のとおりです。
   * run 属性でグループ化するには &quot;group&quot; または &quot;run.group&quot;
   * 設定パラメーターでグループ化するには &quot;config.param&quot;
   * summary メトリクスでグループ化するには &quot;summary.metric&quot;
-* `order` (LList[OrderBy]):  並び替えに使用する `OrderBy` object のリスト。
-* `custom_run_colors` (dict):  run ID (またはグループ化された runs の `RunsetGroup` キー) を colors に対応付ける辞書です。単純な run ごとの colors には、`run_settings` を使用することを推奨します。
-* `run_settings` (Dict[str, RunSettings]):  run ID をキーとする run ごとの表示設定です。色の設定や個々の runs の非表示にはこれを使用します。`RunSettings` を参照してください。
+* `order` (LList[OrderBy]): 並び替えに使用する `OrderBy` object のリスト。
+* `custom_run_colors` (dict): run ID (またはグループ化された runs の `RunsetGroup` キー) を colors に対応付ける辞書です。単純な run ごとの colors には、`run_settings` を使用することを推奨します。
+* `run_settings` (Dict[str, RunSettings]): run ID をキーとする run ごとの表示設定です。色の設定や個々の runs の非表示にはこれを使用します。`RunSettings` を参照してください。
+* `pinned_columns` (LList[str]): Runs table の左側に固定表示する列アクセサー
+* `the runs table (e.g. `[&quot;summary`: accuracy", "config:lr.value"]`). `hidden_columns` にも含まれる列は、保存時に取り除かれます。
+* `visible_columns` (LList[str]): 強制的に表示する列アクセサー。表示する列セットを限定するには、`lock_columns=True` と一緒に使用します。再読み込み時には、これには `column_order` でのみ設定された列も含まれます。
+* `hidden_columns` (LList[str]): 非表示にする列アクセサー。`pinned_columns`、`visible_columns`、および `column_order` より優先されます。再読み込み時には、サーバー側で設定された
+* `like `run`: name` のようなエントリーが含まれる場合があります。
+* `column_order` (LList[str]): 左から右への列順。`lock_columns=True` の場合、`pinned_columns` または `visible_columns` に含まれないエントリーは削除されます。
+* `column_widths` (Dict[str, int]): 列ごとのピクセル幅。
+* `lock_columns` (Optional[bool]): Runs table の列セットをロックするオプトイン設定です。`True` の場合は `pinned_columns` と `visible_columns` のみが表示されます。`False` または `None` (デフォルト) の場合は制限されません。Runs table のツールバーにあるロックアイコンに対応します。
+
+列の形式:
+
+* 列は `"<section>: <name>"` として指定します。
+  * `run:<attr>`: 組み込みの run プロパティ (例: `run:state`) 
+  * `config:<key>.value`: 設定キー (`.value` 接尾辞に注意してください) 
+  * `summary:<key>`: サマリー メトリクス
+  * `tags:__ALL__`: run タグ
+
+列数の上限: FE の Runs table に表示される列は最大 500 列です。表示される列セット (pinned + visible + column&#95;order から hidden を引いたもの) が 500 列以上に達すると、SDK は保存時に警告を出します。非表示列はカウントされません。SDK は切り詰めを行わず、完全なセットが送信され、フロントエンドがレンダリング時に上限を適用します。
 
 **例:**
 
@@ -688,7 +711,7 @@ to_html(height: int = 1024, hidden: bool = False) → str
          filters="Config('learning_rate') = 0.001 and State = 'finished'"
     )
 
-    # FilterExprリストを使用する場合
+    # FilterExpr リストを使用する場合
     wr.Runset(
          entity="my-entity",
          project="my-project",
@@ -698,17 +721,15 @@ to_html(height: int = 1024, hidden: bool = False) → str
 
 ***
 
-
 ### <kbd>method</kbd> `convert_filterexpr_list_to_string`
 
 ```python
 convert_filterexpr_list_to_string()
 ```
 
-内部処理用に、FilterExpr のリストを文字列式に変換します。
+FilterExpr のリストを文字列式に変換します。
 
 ***
-
 
 ### <kbd>method</kbd> `merge_custom_run_colors_into_run_settings`
 

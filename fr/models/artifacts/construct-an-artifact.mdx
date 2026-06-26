@@ -13,21 +13,22 @@ Pour savoir comment suivre des fichiers externes, tels que des fichiers stockés
 
 Construisez un [W&amp;B Artifact](/fr/models/ref/python/experiments/artifact) en trois étapes :
 
-1. [Créer un objet Python d&#39;artifact avec `wandb.Artifact()`](/fr/models/artifacts/construct-an-artifact#1-create-an-artifact-python-object-with-wandb-artifact)
-2. [Ajouter un ou plusieurs fichiers à l&#39;artifact](/fr/models/artifacts/construct-an-artifact#2-add-one-more-files-to-the-artifact)
-3. [Enregistrer votre artifact sur le serveur W&amp;B](/fr/models/artifacts/construct-an-artifact#3-save-your-artifact-to-the-w\&b-server)
+1. [Créer un objet Python d&#39;artifact avec `wandb.Artifact()`](/fr/models/artifacts/construct-an-artifact#create-an-artifact-python-object-with-wandb-artifact)
+2. [Ajouter un ou plusieurs fichiers à l&#39;artifact](/fr/models/artifacts/construct-an-artifact#add-one-or-more-files-to-the-artifact)
+3. [Enregistrer votre artifact sur le serveur W&amp;B](/fr/models/artifacts/construct-an-artifact#save-your-artifact-to-the-w\&b-server)
 
-<div id="1-create-an-artifact-python-object-with-wandbartifact">
-  ### 1. Créez un objet artifact Python avec `wandb.Artifact()`
+<div id="create-an-artifact-python-object-with-wandbartifact">
+  ### Créez un objet artifact Python avec `wandb.Artifact()`
 </div>
 
 Initialisez la classe [`wandb.Artifact()`](/fr/models/ref/python/experiments/artifact) pour créer un objet artifact. Spécifiez les paramètres suivants :
 
-* **Nom** : le nom de votre artifact. Il doit être unique, descriptif et facile à retenir.
+* **Nom** : le nom de votre artifact. Il doit être unique, descriptif et mémorable.
 * **Type** : le type de l&#39;artifact. Il doit être simple, descriptif et correspondre à une seule étape de votre pipeline de machine learning. Parmi les types d&#39;artifact courants, on trouve `'dataset'` ou `'model'`.
 
 <Note>
-  W&amp;B utilise le &quot;nom&quot; et le &quot;type&quot; que vous fournissez pour créer un graphe orienté acyclique dans l&#39;application W&amp;B. Voir [Explore and traverse artifact graphs](./explore-and-traverse-an-artifact-graph) pour plus d&#39;informations.
+  W&amp;B utilise le &quot;nom&quot; et le &quot;type&quot; que vous fournissez pour créer un graphe orienté acyclique dans l&#39;application W&amp;B. Voir [Explore and traverse artifact graphs](./explore-and-traverse-an-artifact-graph) pour plus
+  d&#39;informations.
 </Note>
 
 <Warning>
@@ -45,8 +46,8 @@ import wandb
 artifact = wandb.Artifact(name="<name>", type="<type>")
 ```
 
-<div id="2-add-one-more-files-to-the-artifact">
-  ### 2. Ajoutez un ou plusieurs fichiers à l&#39;artifact
+<div id="add-one-or-more-files-to-the-artifact">
+  ### Ajoutez un ou plusieurs fichiers à l&#39;artifact
 </div>
 
 [Ajoutez des fichiers, des répertoires, des références URI externes (comme Amazon S3), etc.](/fr/models/artifacts/construct-an-artifact#add-files-to-an-artifact) à votre objet artifact.
@@ -65,8 +66,8 @@ artifact.add_dir(local_path="path/to/directory", name="<name>")
 
 Voir la section suivante, [Ajouter des fichiers à un artifact](/fr/models/artifacts/construct-an-artifact#add-files-to-an-artifact), pour en savoir plus sur l’ajout de différents types de fichiers à un artifact.
 
-<div id="3-save-your-artifact-to-the-wb-server">
-  ### 3. Enregistrez votre artifact sur le serveur W&amp;B
+<div id="save-your-artifact-to-the-wb-server">
+  ### Enregistrez votre artifact sur le serveur W&amp;B
 </div>
 
 Enregistrez votre artifact sur le serveur W&amp;B. Utilisez la méthode [`wandb.Run.log_artifact()`](/fr/models/ref/python/experiments/run#log_artifact) de l&#39;objet run pour enregistrer l&#39;artifact.
@@ -114,7 +115,7 @@ Chaque fois que vous enregistrez un artifact avec le même nom et le même type,
           run.log_artifact(a)
   ```
 
-  Il n&#39;est PAS garanti que la version d&#39;artifact **v0** ait un index de 0 dans ses métadonnées, car les artifacts peuvent être enregistrés dans un ordre arbitraire.
+  Il est possible que la version d&#39;artifact **v0** n&#39;ait pas un index de 0 dans ses métadonnées, car les artifacts peuvent être enregistrés dans un ordre arbitraire.
 </Warning>
 
 <div id="add-files-to-an-artifact">
@@ -123,7 +124,7 @@ Chaque fois que vous enregistrez un artifact avec le même nom et le même type,
 
 Les sections suivantes montrent comment ajouter différents types d’objets à un artifact. Supposons que vous disposiez d’un répertoire présentant la structure suivante à mesure que vous parcourez les exemples :
 
-```
+```text
 root-directory
 | - hello.txt
 | - images/
@@ -147,7 +148,7 @@ import wandb
 # Initialiser un objet artifact
 artifact = wandb.Artifact(name="<name>", type="<type>")
 
-# Ajouter un fichier unique
+# Ajouter un seul fichier
 artifact.add_file(local_path="path/file.format")
 ```
 
@@ -159,7 +160,7 @@ artifact.add_file("hello.txt")
 
 L&#39;artifact contient désormais le contenu suivant :
 
-```
+```text
 hello.txt
 ```
 
@@ -174,7 +175,7 @@ artifact.add_file(
 
 L&#39;artifact est stocké sous la forme suivante :
 
-```
+```text
 new/path/hello_world.txt
 ```
 
@@ -240,10 +241,10 @@ Le tableau suivant montre comment différents appels d’API génèrent différe
 | `artifact.add_reference('s3://my-bucket/images', name='images')`              | <p><code>images/cat.png</code></p><p><code>images/dog.png</code></p> |
 
 <div id="add-files-to-artifacts-from-parallel-runs">
-  ### Ajouter des fichiers à des artifacts à partir de runs parallèles
+  ### Ajouter des fichiers à des artefacts depuis des exécutions parallèles
 </div>
 
-Pour les grands jeux de données ou l’entraînement distribué, plusieurs runs parallèles peuvent devoir alimenter un seul artifact.
+Pour les jeux de données volumineux ou l&#39;entraînement distribué, plusieurs exécutions parallèles peuvent devoir alimenter un même artefact.
 
 ```python
 import wandb
@@ -269,7 +270,7 @@ group_name = "writer-group-{}".format(round(time.time()))
 @ray.remote
 def train(i):
     """
-    Notre job d'écriture. Chaque writer ajoutera une image à l'artifact.
+    Our writer job. Each writer will add one image to the artifact.
     """
     with wandb.init(group=group_name) as run:
         artifact = wandb.Artifact(name=artifact_name, type=artifact_type)
@@ -284,7 +285,7 @@ def train(i):
         run.upsert_artifact(artifact)
 
 
-# Lancez vos runs en parallèle
+# Lancer les runs en parallèle
 result_ids = [train.remote(i) for i in range(num_parallel)]
 
 # Attendre tous les writers pour s'assurer que leurs fichiers ont
@@ -323,9 +324,9 @@ files = Files(api.client, run)
 
 # Itérer sur les fichiers
 for file in files:
-    print(f"Nom du fichier : {file.name}")
-    print(f"URL du fichier : {file.url}")
-    print(f"Chemin vers le fichier dans le bucket : {file.direct_url}")
+    print(f"File Name: {file.name}")
+    print(f"File URL: {file.url}")
+    print(f"Path to file in the bucket: {file.direct_url}")
 ```
 
 Voir la classe [File](/fr/models/ref/python/public-api/file) pour en savoir plus sur les attributs et méthodes disponibles.
