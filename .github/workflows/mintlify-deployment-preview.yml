@@ -19,13 +19,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
         with:
           ref: ${{ github.event.deployment.ref }}
 
       - name: Get PR number from deployment ref
         id: get-pr
-        uses: actions/github-script@v9
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         with:
           script: |
             // The deployment ref is the branch name
@@ -79,7 +79,7 @@ jobs:
       - name: Get all PR changed files
         if: steps.get-pr.outputs.pr_number && steps.get-pr.outputs.skip_update != 'true'
         id: changed
-        uses: actions/github-script@v9
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         with:
           script: |
             const prNumber = parseInt('${{ steps.get-pr.outputs.pr_number }}');
@@ -128,7 +128,7 @@ jobs:
 
       - name: Update PR comment with preview links
         if: steps.get-pr.outputs.pr_number && steps.get-pr.outputs.skip_update != 'true' && steps.changed.outputs.any_changed == 'true'
-        uses: actions/github-script@v9
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         env:
           PR_NUMBER: ${{ steps.get-pr.outputs.pr_number }}
           PREVIEW_URL: ${{ github.event.deployment_status.environment_url }}
