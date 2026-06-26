@@ -55,14 +55,14 @@ jobs:
       - name: Generate token for wandb-docs-pr-writer
         id: app_token
         if: github.actor != 'dependabot[bot]'
-        uses: actions/create-github-app-token@v3
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3
         with:
           client-id: ${{ vars.DOCS_PR_WRITER_CLIENT_ID }}
           private-key: ${{ secrets.DOCS_PR_WRITER_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
 
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
         with:
           # App token persists as the push credential for the commit-back below.
           # Falls back to DOCENGINE_TOKEN for dependabot[bot] runs.
@@ -82,7 +82,7 @@ jobs:
         run: git submodule update --init --depth 1 docengine
 
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: '3.12'
 
@@ -146,7 +146,7 @@ jobs:
       - name: Upsert orphan-report PR comment
         # Only when there is something to report; a clean build is silent.
         if: ${{ success() && github.actor != 'dependabot[bot]' && github.ref_name != 'main' && steps.findpr.outputs.number != '' && steps.orphanfile.outputs.present == 'true' }}
-        uses: thollander/actions-comment-pull-request@v3
+        uses: thollander/actions-comment-pull-request@24bffb9b452ba05a4f3f77933840a6a841d1b32b # v3
         with:
           pr-number: ${{ steps.findpr.outputs.number }}
           comment-tag: docengine-orphans
@@ -157,7 +157,7 @@ jobs:
         # A previous build may have posted orphans that are now resolved — delete that
         # comment so the PR does not carry a stale warning. No-ops when none exists.
         if: ${{ success() && github.actor != 'dependabot[bot]' && github.ref_name != 'main' && steps.findpr.outputs.number != '' && steps.orphanfile.outputs.present == 'false' }}
-        uses: thollander/actions-comment-pull-request@v3
+        uses: thollander/actions-comment-pull-request@24bffb9b452ba05a4f3f77933840a6a841d1b32b # v3
         with:
           pr-number: ${{ steps.findpr.outputs.number }}
           comment-tag: docengine-orphans

@@ -91,14 +91,14 @@ jobs:
 
       - name: Generate token for wandb-docs-pr-writer
         id: app_token
-        uses: actions/create-github-app-token@v3
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3
         with:
           client-id: ${{ vars.DOCS_PR_WRITER_CLIENT_ID }}
           private-key: ${{ secrets.DOCS_PR_WRITER_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
 
       - name: Check out repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
         with:
           # On a PR, check out the head branch so the commit-back pushes to it.
           ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.event_name == 'workflow_dispatch' && github.event.inputs.branch || github.ref }}
@@ -127,7 +127,7 @@ jobs:
           fi
 
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: "3.12"
 
