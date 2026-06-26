@@ -526,7 +526,7 @@ def main():
     original_cwd = os.getcwd()
     
     # Download Weave source
-    weave_source = download_weave_source("06-26-chore_weave_ts_update_opeani_openai_agents_types")
+    weave_source = download_weave_source("master")
     
     try:
         # Set up TypeScript project
