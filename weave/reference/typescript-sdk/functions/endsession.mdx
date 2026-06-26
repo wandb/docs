@@ -5,16 +5,36 @@ description: "TypeScript SDK reference"
 
 # endSession
 
-▸ **endSession**(): `void`
+▸ **endSession**(`opts?`): `void`
 
 End the current Session. No-op if no Session is active.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `opts?` | `SpanEndOptions` |
 
 #### Returns
 
 `void`
 
+`Example`
+
+```ts twoslash
+// @noErrors
+weave.endSession();
+```
+
+`Example`
+
+```ts twoslash
+// @noErrors
+weave.endSession({endTime: new Date('2026-05-29T10:00:01.700Z')});
+```
+
 #### Defined in
 
-[genai/api.ts:82](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/api.ts#L82)
+[src/genai/api.ts:146](https://github.com/wandb/weave/blob/86e2765eeab3bbb2235be6c53b69f7e99cf19d47/sdks/node/src/genai/api.ts#L146)
 
 ___

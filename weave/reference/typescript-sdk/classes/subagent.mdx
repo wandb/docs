@@ -17,7 +17,8 @@ Created by `weave.startSubagent()` (or `turn.startAgent()`, or
 
 `Example`
 
-```ts
+```ts twoslash
+// @noErrors
 const sub = weave.startSubagent({name: 'researcher', model: 'gpt-4o'});
 try {
   // ... orchestrate the sub-agent's LLM/Tool calls ...
@@ -25,6 +26,12 @@ try {
   sub.end();
 }
 ```
+
+## Hierarchy
+
+- `SpanBase`
+
+  ↳ `SubAgent`
 
 ## Table of contents
 
@@ -35,7 +42,9 @@ try {
 
 ### Methods
 
+- [addEvent](./subagent#addevent)
 - [end](./subagent#end)
+- [setAttributes](./subagent#setattributes)
 - [create](./subagent#create)
 
 ## Properties
@@ -46,7 +55,7 @@ try {
 
 #### Defined in
 
-[genai/subagent.ts:41](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/subagent.ts#L41)
+[src/genai/subagent.ts:41](https://github.com/wandb/weave/blob/86e2765eeab3bbb2235be6c53b69f7e99cf19d47/sdks/node/src/genai/subagent.ts#L41)
 
 ___
 
@@ -56,22 +65,59 @@ ___
 
 #### Defined in
 
-[genai/subagent.ts:40](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/subagent.ts#L40)
+[src/genai/subagent.ts:40](https://github.com/wandb/weave/blob/86e2765eeab3bbb2235be6c53b69f7e99cf19d47/sdks/node/src/genai/subagent.ts#L40)
 
 ## Methods
 
-### end
+### addEvent
 
-▸ **end**(`opts?`): `void`
+▸ **addEvent**(`name`, `attributes?`, `startTime?`): `this`
 
-Close the SubAgent span. Idempotent. Pass `error` to mark it as failed.
+Add a named event to the span. Useful for marking non-span moments such as
+context compaction, tool-loop detection, or guardrail trips. Warns and
+no-ops after `end()`. Mirrors OTel `Span.addEvent`.
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `opts?` | `Object` |
-| `opts.error?` | `Error` |
+| `name` | `string` |
+| `attributes?` | `Attributes` |
+| `startTime?` | `TimeInput` |
+
+#### Returns
+
+`this`
+
+`Example`
+
+```ts twoslash
+// @noErrors
+span.addEvent('context_compacted', {removedMessages: 12});
+```
+
+#### Inherited from
+
+SpanBase.addEvent
+
+#### Defined in
+
+[src/genai/spanBase.ts:77](https://github.com/wandb/weave/blob/86e2765eeab3bbb2235be6c53b69f7e99cf19d47/sdks/node/src/genai/spanBase.ts#L77)
+
+___
+
+### end
+
+▸ **end**(`opts?`): `void`
+
+Close the SubAgent span. Idempotent. Pass `error` to mark it as failed;
+pass `endTime` to backdate the close.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `opts?` | `SpanEndOptions` |
 
 #### Returns
 
@@ -79,7 +125,42 @@ Close the SubAgent span. Idempotent. Pass `error` to mark it as failed.
 
 #### Defined in
 
-[genai/subagent.ts:65](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/subagent.ts#L65)
+[src/genai/subagent.ts:72](https://github.com/wandb/weave/blob/86e2765eeab3bbb2235be6c53b69f7e99cf19d47/sdks/node/src/genai/subagent.ts#L72)
+
+___
+
+### setAttributes
+
+▸ **setAttributes**(`attributes`): `this`
+
+Set multiple attributes on the span at once. Warns and no-ops after
+`end()`. Mirrors OTel `Span.setAttributes` (and the Python SDK's
+`set_attributes`).
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `attributes` | `Attributes` |
+
+#### Returns
+
+`this`
+
+`Example`
+
+```ts twoslash
+// @noErrors
+span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
+```
+
+#### Inherited from
+
+SpanBase.setAttributes
+
+#### Defined in
+
+[src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/86e2765eeab3bbb2235be6c53b69f7e99cf19d47/sdks/node/src/genai/spanBase.ts#L63)
 
 ___
 
@@ -99,4 +180,4 @@ ___
 
 #### Defined in
 
-[genai/subagent.ts:44](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/subagent.ts#L44)
+[src/genai/subagent.ts:46](https://github.com/wandb/weave/blob/86e2765eeab3bbb2235be6c53b69f7e99cf19d47/sdks/node/src/genai/subagent.ts#L46)

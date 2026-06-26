@@ -10,6 +10,9 @@ description: "TypeScript SDK reference"
 Start a new Session and install it as the current session.
 Subsequent calls to `startTurn` will pick it up automatically.
 
+Pass `attributes` to stamp custom (non-semconv) attributes on every
+span the session emits.
+
 #### Parameters
 
 | Name | Type |
@@ -20,8 +23,26 @@ Subsequent calls to `startTurn` will pick it up automatically.
 
 [`Session`](../classes/session)
 
+`Example`
+
+```ts twoslash
+// @noErrors
+weave.startSession({agentName: 'research-bot'});
+```
+
+`Example`
+
+```ts twoslash
+// @noErrors
+weave.startSession({
+  agentName: 'research-bot',
+  sessionId: '019efa53-8a65-711c-b4c1-7c1cb72c0bb7',
+  attributes: {'myagent.version': '1.23'},
+});
+```
+
 #### Defined in
 
-[genai/api.ts:12](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/api.ts#L12)
+[src/genai/api.ts:26](https://github.com/wandb/weave/blob/86e2765eeab3bbb2235be6c53b69f7e99cf19d47/sdks/node/src/genai/api.ts#L26)
 
 ___

@@ -15,6 +15,7 @@ itself an OTel span — children stamp the conversation id onto theirs.
 ### Properties
 
 - [agentName](./session#agentname)
+- [attributes](./session#attributes)
 - [model](./session#model)
 - [sessionId](./session#sessionid)
 
@@ -32,7 +33,17 @@ itself an OTel span — children stamp the conversation id onto theirs.
 
 #### Defined in
 
-[genai/session.ts:22](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/session.ts#L22)
+[src/genai/session.ts:31](https://github.com/wandb/weave/blob/86e2765eeab3bbb2235be6c53b69f7e99cf19d47/sdks/node/src/genai/session.ts#L31)
+
+___
+
+### attributes
+
+• `Readonly` **attributes**: `Attributes`
+
+#### Defined in
+
+[src/genai/session.ts:34](https://github.com/wandb/weave/blob/86e2765eeab3bbb2235be6c53b69f7e99cf19d47/sdks/node/src/genai/session.ts#L34)
 
 ___
 
@@ -42,7 +53,7 @@ ___
 
 #### Defined in
 
-[genai/session.ts:23](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/session.ts#L23)
+[src/genai/session.ts:32](https://github.com/wandb/weave/blob/86e2765eeab3bbb2235be6c53b69f7e99cf19d47/sdks/node/src/genai/session.ts#L32)
 
 ___
 
@@ -52,13 +63,19 @@ ___
 
 #### Defined in
 
-[genai/session.ts:24](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/session.ts#L24)
+[src/genai/session.ts:33](https://github.com/wandb/weave/blob/86e2765eeab3bbb2235be6c53b69f7e99cf19d47/sdks/node/src/genai/session.ts#L33)
 
 ## Methods
 
 ### end
 
-▸ **end**(): `void`
+▸ **end**(`opts?`): `void`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `opts?` | `SpanEndOptions` |
 
 #### Returns
 
@@ -66,7 +83,7 @@ ___
 
 #### Defined in
 
-[genai/session.ts:51](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/session.ts#L51)
+[src/genai/session.ts:63](https://github.com/wandb/weave/blob/86e2765eeab3bbb2235be6c53b69f7e99cf19d47/sdks/node/src/genai/session.ts#L63)
 
 ___
 
@@ -86,7 +103,7 @@ ___
 
 #### Defined in
 
-[genai/session.ts:43](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/session.ts#L43)
+[src/genai/session.ts:54](https://github.com/wandb/weave/blob/86e2765eeab3bbb2235be6c53b69f7e99cf19d47/sdks/node/src/genai/session.ts#L54)
 
 ___
 
@@ -106,4 +123,4 @@ ___
 
 #### Defined in
 
-[genai/session.ts:27](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/session.ts#L27)
+[src/genai/session.ts:37](https://github.com/wandb/weave/blob/86e2765eeab3bbb2235be6c53b69f7e99cf19d47/sdks/node/src/genai/session.ts#L37)

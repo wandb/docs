@@ -20,8 +20,25 @@ Start a new Turn. If a Session is active, the turn inherits its
 
 [`Turn`](../classes/turn)
 
+`Example`
+
+```ts twoslash
+// @noErrors
+weave.startTurn({agentName: 'research-bot'});
+```
+
+`Example`
+
+```ts twoslash
+// @noErrors
+weave.startTurn({
+  agentName: 'research-bot',
+  startTime: new Date('2026-05-29T10:00:00.000Z'),
+});
+```
+
 #### Defined in
 
-[genai/api.ts:20](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/api.ts#L20)
+[src/genai/api.ts:43](https://github.com/wandb/weave/blob/86e2765eeab3bbb2235be6c53b69f7e99cf19d47/sdks/node/src/genai/api.ts#L43)
 
 ___

@@ -20,7 +20,8 @@ Children (LLM, Tool, SubAgent) attach via the `startLLM`, `startTool`,
 
 `Example`
 
-```ts
+```ts twoslash
+// @noErrors
 const turn = weave.startTurn({agentName: 'research-bot', model: MODEL});
 try {
   const llm = turn.startLLM({model: MODEL, providerName: 'openai'});
@@ -30,6 +31,12 @@ try {
   turn.end();
 }
 ```
+
+## Hierarchy
+
+- `SpanBase`
+
+  ↳ `Turn`
 
 ## Table of contents
 
@@ -43,6 +50,7 @@ try {
 - [addEvent](./turn#addevent)
 - [end](./turn#end)
 - [setAttribute](./turn#setattribute)
+- [setAttributes](./turn#setattributes)
 - [startLLM](./turn#startllm)
 - [startSubagent](./turn#startsubagent)
 - [startTool](./turn#starttool)
@@ -56,7 +64,7 @@ try {
 
 #### Defined in
 
-[genai/turn.ts:60](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L60)
+[src/genai/turn.ts:57](https://github.com/wandb/weave/blob/86e2765eeab3bbb2235be6c53b69f7e99cf19d47/sdks/node/src/genai/turn.ts#L57)
 
 ___
 
@@ -66,7 +74,7 @@ ___
 
 #### Defined in
 
-[genai/turn.ts:61](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L61)
+[src/genai/turn.ts:58](https://github.com/wandb/weave/blob/86e2765eeab3bbb2235be6c53b69f7e99cf19d47/sdks/node/src/genai/turn.ts#L58)
 
 ## Methods
 
@@ -74,9 +82,9 @@ ___
 
 ▸ **addEvent**(`name`, `attributes?`, `startTime?`): `this`
 
-Add a named event to the Turn span. Useful for marking non-span moments
-such as context compaction, tool-loop detection, or guardrail trips.
-No-op after `end()`. Mirrors OTel `Span.addEvent`.
+Add a named event to the span. Useful for marking non-span moments such as
+context compaction, tool-loop detection, or guardrail trips. Warns and
+no-ops after `end()`. Mirrors OTel `Span.addEvent`.
 
 #### Parameters
 
@@ -92,13 +100,18 @@ No-op after `end()`. Mirrors OTel `Span.addEvent`.
 
 `Example`
 
-```ts
-turn.addEvent('context_compacted', {removedMessages: 12});
+```ts twoslash
+// @noErrors
+span.addEvent('context_compacted', {removedMessages: 12});
 ```
+
+#### Inherited from
+
+SpanBase.addEvent
 
 #### Defined in
 
-[genai/turn.ts:152](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L152)
+[src/genai/spanBase.ts:77](https://github.com/wandb/weave/blob/86e2765eeab3bbb2235be6c53b69f7e99cf19d47/sdks/node/src/genai/spanBase.ts#L77)
 
 ___
 
@@ -106,14 +119,14 @@ ___
 
 ▸ **end**(`opts?`): `void`
 
-Close the Turn span. Idempotent. Pass `error` to mark it as failed.
+Close the Turn span. Idempotent. Pass `error` to mark it as failed; pass
+`endTime` to backdate the close.
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `opts?` | `Object` |
-| `opts.error?` | `Error` |
+| `opts?` | `SpanEndOptions` |
 
 #### Returns
 
@@ -121,17 +134,13 @@ Close the Turn span. Idempotent. Pass `error` to mark it as failed.
 
 #### Defined in
 
-[genai/turn.ts:159](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L159)
+[src/genai/turn.ts:144](https://github.com/wandb/weave/blob/86e2765eeab3bbb2235be6c53b69f7e99cf19d47/sdks/node/src/genai/turn.ts#L144)
 
 ___
 
 ### setAttribute
 
 ▸ **setAttribute**(`key`, `value`): `this`
-
-Set a single attribute on the Turn span. Useful for stamping running
-totals (e.g. cumulative cost, token usage) or other metadata that becomes
-known mid-turn. No-op after `end()`. Mirrors OTel `Span.setAttribute`.
 
 #### Parameters
 
@@ -144,15 +153,51 @@ known mid-turn. No-op after `end()`. Mirrors OTel `Span.setAttribute`.
 
 `this`
 
-`Example`
+`Deprecated`
 
-```ts
-turn.setAttribute('gen_ai.usage.input_tokens', totalInputTokens);
-```
+Use [setAttributes](./turn#setattributes) instead, which mirrors the Python
+SDK's `set_attributes` and OTel's `Span.setAttributes`. Retained as a thin
+alias so existing single-attribute callers keep working. Only `Turn`
+carries this — the other emitters never shipped a singular form.
 
 #### Defined in
 
-[genai/turn.ts:138](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L138)
+[src/genai/turn.ts:136](https://github.com/wandb/weave/blob/86e2765eeab3bbb2235be6c53b69f7e99cf19d47/sdks/node/src/genai/turn.ts#L136)
+
+___
+
+### setAttributes
+
+▸ **setAttributes**(`attributes`): `this`
+
+Set multiple attributes on the span at once. Warns and no-ops after
+`end()`. Mirrors OTel `Span.setAttributes` (and the Python SDK's
+`set_attributes`).
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `attributes` | `Attributes` |
+
+#### Returns
+
+`this`
+
+`Example`
+
+```ts twoslash
+// @noErrors
+span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
+```
+
+#### Inherited from
+
+SpanBase.setAttributes
+
+#### Defined in
+
+[src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/86e2765eeab3bbb2235be6c53b69f7e99cf19d47/sdks/node/src/genai/spanBase.ts#L63)
 
 ___
 
@@ -174,7 +219,7 @@ Start a child LLM span under this Turn.
 
 #### Defined in
 
-[genai/turn.ts:104](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L104)
+[src/genai/turn.ts:104](https://github.com/wandb/weave/blob/86e2765eeab3bbb2235be6c53b69f7e99cf19d47/sdks/node/src/genai/turn.ts#L104)
 
 ___
 
@@ -196,7 +241,7 @@ Start a child SubAgent span under this Turn.
 
 #### Defined in
 
-[genai/turn.ts:122](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L122)
+[src/genai/turn.ts:122](https://github.com/wandb/weave/blob/86e2765eeab3bbb2235be6c53b69f7e99cf19d47/sdks/node/src/genai/turn.ts#L122)
 
 ___
 
@@ -218,7 +263,7 @@ Start a child Tool span under this Turn.
 
 #### Defined in
 
-[genai/turn.ts:113](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L113)
+[src/genai/turn.ts:113](https://github.com/wandb/weave/blob/86e2765eeab3bbb2235be6c53b69f7e99cf19d47/sdks/node/src/genai/turn.ts#L113)
 
 ___
 
@@ -238,4 +283,4 @@ ___
 
 #### Defined in
 
-[genai/turn.ts:64](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L64)
+[src/genai/turn.ts:63](https://github.com/wandb/weave/blob/86e2765eeab3bbb2235be6c53b69f7e99cf19d47/sdks/node/src/genai/turn.ts#L63)
