@@ -678,10 +678,7 @@
                           {
                             "group": "Frameworks",
                             "pages": [
-                              "weave/guides/integrations/openai_agents",
                               "weave/guides/integrations/openai-realtime-audio",
-                              "weave/guides/integrations/claude_agent",
-                              "weave/guides/integrations/claude_code",
                               "weave/guides/integrations/langchain",
                               "weave/guides/integrations/llamaindex",
                               "weave/guides/integrations/dspy",
@@ -689,7 +686,6 @@
                               "weave/guides/integrations/crewai",
                               "weave/guides/integrations/smolagents",
                               "weave/guides/integrations/pydantic_ai",
-                              "weave/guides/integrations/google_adk",
                               "weave/guides/integrations/vercel_ai_sdk",
                               "weave/guides/integrations/haystack",
                               "weave/guides/integrations/agno",
@@ -7047,6 +7043,22 @@
     {
       "destination": "/weave/guides/evaluation/monitors",
       "source": "/weave/guides/evaluation/guardrails_and_monitors"
+    },
+    {
+      "destination": "/weave/guides/integrations/agents/claude-agents-sdk",
+      "source": "/weave/guides/integrations/claude_agent"
+    },
+    {
+      "destination": "/weave/guides/integrations/agents/claude-code-harness",
+      "source": "/weave/guides/integrations/claude_code"
+    },
+    {
+      "destination": "/weave/guides/integrations/agents/google-adk",
+      "source": "/weave/guides/integrations/google_adk"
+    },
+    {
+      "destination": "/weave/guides/integrations/agents/openai-agents-sdk",
+      "source": "/weave/guides/integrations/openai_agents"
     },
     {
       "destination": "weave/concepts/what-is-weave",
