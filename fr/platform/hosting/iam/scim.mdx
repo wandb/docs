@@ -1,7 +1,7 @@
 ---
 title: Gérer les utilisateurs, groupes et rôles avec SCIM
 description: "Utilisez l'API SCIM pour gérer les utilisateurs, les groupes et les rôles personnalisés dans une organisation W&B grâce au provisionnement automatisé."
-keywords: ["SCIM 2.0", "provisionnement Okta", "synchronisation automatique des utilisateurs", "synchronisation des groupes", "provisionnement de l'annuaire"]
+keywords: ["SCIM 2.0", "provisionnement Okta", "Microsoft Entra", "synchronisation automatique des utilisateurs", "synchronisation des groupes"]
 ---
 
 <Note>
@@ -14,7 +14,7 @@ keywords: ["SCIM 2.0", "provisionnement Okta", "synchronisation automatique des 
 
 Cette page décrit comment les administrateurs d’instance et de l’organisation utilisent l’API System for Cross-domain Identity Management (SCIM) pour automatiser la gestion des identités dans W&amp;B. Avec l’API SCIM, vous pouvez provisionner et déprovisionner des utilisateurs, gérer l’appartenance des utilisateurs aux équipes et définir des rôles personnalisés par programmation via un fournisseur d’identité ou un pipeline CI/CD, plutôt que de passer par la W&amp;B App. Les groupes SCIM correspondent aux équipes W&amp;B.
 
-L’API SCIM de W&amp;B est compatible avec des fournisseurs d’identité tels qu’Okta. Pour la configuration du SSO avec Okta et d’autres fournisseurs d’identité, voir la [documentation SSO](/fr/platform/hosting/iam/sso/).
+L’API SCIM de W&amp;B est compatible avec des fournisseurs d’identité tels qu’Okta et Microsoft Entra. Pour la configuration du SSO avec Okta, Microsoft Entra et d’autres fournisseurs d’identité, voir la [documentation SSO](/fr/platform/hosting/iam/sso).
 
 Pour des exemples pratiques en Python montrant comment interagir avec l’API SCIM, consultez le dépôt [`wandb-scim`](https://github.com/wandb/examples/tree/master/wandb-scim).
 
@@ -123,6 +123,68 @@ Par exemple, authentifiez-vous avec la clé API `sa-p@55w0rd` :
 ```bash
 Authorization: Basic OnNhLXBANTV3MHJk
 ```
+
+<div id="microsoft-entra-id-configuration">
+  ## Configuration de Microsoft Entra ID
+</div>
+
+Utilisez cette section pour configurer le provisionnement automatique des utilisateurs et des groupes de Microsoft Entra ID vers W&amp;B via l’API SCIM.
+
+Pour configurer l’authentification unique avec Entra, voir [Configurer l’authentification unique avec Entra](/fr/platform/hosting/iam/sso).
+
+<div id="tenant-url">
+  ### Tenant URL
+</div>
+
+Dans les paramètres de provisionnement de votre application d’entreprise Entra, définissez **Tenant URL** sur l’URL de base SCIM de W&amp;B, en y ajoutant le paramètre de requête d’indicateur de fonctionnalité Entra `aadOptscim062020` :
+
+```text
+[HOST-URL]/scim?aadOptscim062020
+```
+
+Par exemple, si votre instance est à l’adresse `https://wandb.example.com`, définissez l’URL du locataire sur `https://wandb.example.com/scim?aadOptscim062020`.
+
+Le paramètre `aadOptscim062020` active une gestion spécifique à Entra dans l’API SCIM de W&amp;B. Sans ce paramètre, Entra peut envoyer des requêtes de désactivation d’utilisateur avec des valeurs booléennes sous forme de chaînes (`"False"` ou `"True"`) au lieu de booléens JSON (`false` ou `true`), ce qui peut entraîner l’échec de la désactivation.
+
+Définissez **Secret Token** sur la clé API d’un administrateur de l’organisation ou d’un compte de service limité à l’organisation. Voir [Authentification](#authentication).
+
+<Note>
+  Lorsque vous ajoutez `aadOptscim062020` à l’URL du locataire, la désactivation d’utilisateur depuis l’interface utilisateur **Provision on demand** d’Entra dans le centre d’administration Microsoft Entra risque de ne pas fonctionner, car cette interface utilisateur envoie toujours des valeurs booléennes sous forme de chaînes. Pour tester la désactivation manuellement, envoyez une requête SCIM `PATCH` au format `PatchOp` `Operations` qui remplace `active` par `false` (voir [Deactivate user](#deactivate-user)).
+</Note>
+
+<div id="team-names">
+  ### Noms des équipes
+</div>
+
+Nommez les groupes Entra qui correspondent à des équipes W&amp;B en utilisant des lettres minuscules et des traits d’union, par exemple `ml-platform` ou `data-science`. Évitez les espaces, les caractères de soulignement et les autres caractères spéciaux dans les noms d’affichage des groupes que vous synchronisez avec W&amp;B.
+
+<div id="user-attribute-mappings">
+  ### Mappages des attributs utilisateur
+</div>
+
+Configurez les mappages d’attributs suivants dans Entra pour le provisionnement SCIM des utilisateurs :
+
+| Attribut de l’application personnalisée W&amp;B | Attribut source (Entra) | Appliquer ce mappage                      | Faire correspondre les objets avec cet attribut |
+| ----------------------------------------------- | ----------------------- | ----------------------------------------- | ----------------------------------------------- |
+| `emails[type eq "work"].value`                  | `mail`                  | Toujours                                  | Oui                                             |
+| `active`                                        | `Not([IsSoftDeleted])`  | Toujours                                  |                                                 |
+| `displayName`                                   | `displayName`           | Toujours                                  |                                                 |
+| `userName`                                      | `displayName`           | Uniquement lors de la création de l’objet |                                                 |
+
+<Note>
+  Dans **Cloud mutualisé**, le compte d’un utilisateur n’est pas géré par l’organisation. W&amp;B ne prend pas en charge la mise à jour de `displayName` via SCIM dans le Cloud mutualisé. Voir [Mettre à jour le nom d’affichage de l’utilisateur](#update-user-display-name).
+</Note>
+
+<div id="group-attribute-mappings">
+  ### Mappages des attributs de groupe
+</div>
+
+Configurez les mappages d’attributs suivants dans Entra pour le provisionnement SCIM des groupes (équipes) :
+
+| Attribut de l’application personnalisée W&amp;B | Attribut source (Entra) | Appliquer ce mappage                      | Faire correspondre les objets à l’aide de cet attribut |
+| ----------------------------------------------- | ----------------------- | ----------------------------------------- | ------------------------------------------------------ |
+| `displayName`                                   | `displayName`           | Uniquement lors de la création de l’objet | oui                                                    |
+| `members`                                       | `members`               | Toujours                                  |                                                        |
 
 <div id="user-management">
   ## Gestion des utilisateurs

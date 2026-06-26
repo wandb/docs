@@ -95,7 +95,8 @@
                     "group": "Weights & Biases",
                     "pages": [
                       "product-models",
-                      "product-weave"
+                      "product-weave",
+                      "hivemind"
                     ]
                   },
                   {
@@ -442,6 +443,7 @@
                               "models/app/features/custom-charts/walkthrough"
                             ]
                           },
+                          "models/app/leet-tui",
                           "models/app/console-logs",
                           "models/app/keyboard-shortcuts"
                         ]
@@ -935,6 +937,7 @@
                           "models/ref/python/data-types",
                           "models/ref/python/data-types/audio",
                           "models/ref/python/data-types/box3d",
+                          "models/ref/python/data-types/evaltable",
                           "models/ref/python/data-types/histogram",
                           "models/ref/python/data-types/html",
                           "models/ref/python/data-types/image",
@@ -1002,6 +1005,7 @@
                         "pages": [
                           "models/ref/python/public-api",
                           "models/ref/python/public-api/api",
+                          "models/ref/python/public-api/agentruns",
                           "models/ref/python/public-api/artifactcollection",
                           "models/ref/python/public-api/artifactcollections",
                           "models/ref/python/public-api/artifactfiles",
@@ -1062,15 +1066,6 @@
                               "models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-stop"
                             ]
                           },
-                          {
-                            "group": "beta leet",
-                            "pages": [
-                              "models/ref/cli/wandb-beta/wandb-beta-leet",
-                              "models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-config",
-                              "models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-run",
-                              "models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-symon"
-                            ]
-                          },
                           "models/ref/cli/wandb-beta/wandb-beta-sync"
                         ]
                       },
@@ -1087,6 +1082,15 @@
                           "models/ref/cli/wandb-job/wandb-job-create",
                           "models/ref/cli/wandb-job/wandb-job-describe",
                           "models/ref/cli/wandb-job/wandb-job-list"
+                        ]
+                      },
+                      {
+                        "group": "wandb leet",
+                        "pages": [
+                          "models/ref/cli/wandb-leet",
+                          "models/ref/cli/wandb-leet/wandb-leet-config",
+                          "models/ref/cli/wandb-leet/wandb-leet-run",
+                          "models/ref/cli/wandb-leet/wandb-leet-symon"
                         ]
                       },
                       "models/ref/cli/wandb-login",
@@ -1337,7 +1341,10 @@
                   "support/models/tags/administrator",
                   "support/models/tags/alerts",
                   "support/models/tags/anonymous",
+                  "support/models/tags/api",
+                  "support/models/tags/api-keys",
                   "support/models/tags/artifacts",
+                  "support/models/tags/authentication",
                   "support/models/tags/aws",
                   "support/models/tags/billing",
                   "support/models/tags/charts",
@@ -1349,6 +1356,7 @@
                   "support/models/tags/logs",
                   "support/models/tags/metrics",
                   "support/models/tags/notebooks",
+                  "support/models/tags/org-management",
                   "support/models/tags/outage",
                   "support/models/tags/privacy",
                   "support/models/tags/projects",
@@ -1357,13 +1365,16 @@
                   "support/models/tags/resuming",
                   "support/models/tags/run-crashes",
                   "support/models/tags/runs",
+                  "support/models/tags/sdk",
                   "support/models/tags/security",
                   "support/models/tags/storage",
                   "support/models/tags/sweeps",
                   "support/models/tags/tables",
                   "support/models/tags/team-management",
+                  "support/models/tags/teams",
                   "support/models/tags/tensorboard",
                   "support/models/tags/user-management",
+                  "support/models/tags/workspace",
                   "support/models/tags/workspaces",
                   "support/models/tags/wysiwyg"
                 ]
@@ -1469,6 +1480,80 @@
               }
             ],
             "tab": "W&B Launch"
+          },
+          {
+            "tab": "Support: W&B Models",
+            "hidden": true,
+            "pages": [
+              "support/models",
+              "support/models/tags/academic",
+              "support/models/tags/administrator",
+              "support/models/tags/alerts",
+              "support/models/tags/anonymous",
+              "support/models/tags/api",
+              "support/models/tags/api-keys",
+              "support/models/tags/artifacts",
+              "support/models/tags/authentication",
+              "support/models/tags/aws",
+              "support/models/tags/billing",
+              "support/models/tags/charts",
+              "support/models/tags/connectivity",
+              "support/models/tags/environment-variables",
+              "support/models/tags/experiments",
+              "support/models/tags/hyperparameter",
+              "support/models/tags/inference",
+              "support/models/tags/logs",
+              "support/models/tags/metrics",
+              "support/models/tags/notebooks",
+              "support/models/tags/org-management",
+              "support/models/tags/outage",
+              "support/models/tags/privacy",
+              "support/models/tags/projects",
+              "support/models/tags/python",
+              "support/models/tags/reports",
+              "support/models/tags/resuming",
+              "support/models/tags/run-crashes",
+              "support/models/tags/runs",
+              "support/models/tags/sdk",
+              "support/models/tags/security",
+              "support/models/tags/storage",
+              "support/models/tags/sweeps",
+              "support/models/tags/tables",
+              "support/models/tags/team-management",
+              "support/models/tags/teams",
+              "support/models/tags/tensorboard",
+              "support/models/tags/user-management",
+              "support/models/tags/workspace",
+              "support/models/tags/workspaces",
+              "support/models/tags/wysiwyg"
+            ]
+          },
+          {
+            "tab": "Support: W&B Weave",
+            "hidden": true,
+            "pages": [
+              "support/weave",
+              "support/weave/tags/client-info",
+              "support/weave/tags/code-capture",
+              "support/weave/tags/data-capture",
+              "support/weave/tags/evaluation",
+              "support/weave/tags/performance",
+              "support/weave/tags/system-info",
+              "support/weave/tags/trace-data",
+              "support/weave/tags/ui-rendering"
+            ]
+          },
+          {
+            "tab": "Support: W&B Inference",
+            "hidden": true,
+            "pages": [
+              "support/inference",
+              "support/inference/tags/administrator",
+              "support/inference/tags/authentication-access",
+              "support/inference/tags/billing",
+              "support/inference/tags/quotas-rate-limits",
+              "support/inference/tags/server-errors"
+            ]
           }
         ]
       },
@@ -1485,7 +1570,8 @@
                     "group": "Weights & Biases",
                     "pages": [
                       "fr/product-models",
-                      "fr/product-weave"
+                      "fr/product-weave",
+                      "fr/hivemind"
                     ]
                   },
                   {
@@ -1832,6 +1918,7 @@
                               "fr/models/app/features/custom-charts/walkthrough"
                             ]
                           },
+                          "fr/models/app/leet-tui",
                           "fr/models/app/console-logs",
                           "fr/models/app/keyboard-shortcuts"
                         ]
@@ -2316,6 +2403,7 @@
                           "fr/models/ref/python/data-types",
                           "fr/models/ref/python/data-types/audio",
                           "fr/models/ref/python/data-types/box3d",
+                          "fr/models/ref/python/data-types/evaltable",
                           "fr/models/ref/python/data-types/histogram",
                           "fr/models/ref/python/data-types/html",
                           "fr/models/ref/python/data-types/image",
@@ -2383,6 +2471,7 @@
                         "pages": [
                           "fr/models/ref/python/public-api",
                           "fr/models/ref/python/public-api/api",
+                          "fr/models/ref/python/public-api/agentruns",
                           "fr/models/ref/python/public-api/artifactcollection",
                           "fr/models/ref/python/public-api/artifactcollections",
                           "fr/models/ref/python/public-api/artifactfiles",
@@ -2443,15 +2532,6 @@
                               "fr/models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-stop"
                             ]
                           },
-                          {
-                            "group": "beta leet",
-                            "pages": [
-                              "fr/models/ref/cli/wandb-beta/wandb-beta-leet",
-                              "fr/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-config",
-                              "fr/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-run",
-                              "fr/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-symon"
-                            ]
-                          },
                           "fr/models/ref/cli/wandb-beta/wandb-beta-sync"
                         ]
                       },
@@ -2468,6 +2548,15 @@
                           "fr/models/ref/cli/wandb-job/wandb-job-create",
                           "fr/models/ref/cli/wandb-job/wandb-job-describe",
                           "fr/models/ref/cli/wandb-job/wandb-job-list"
+                        ]
+                      },
+                      {
+                        "group": "wandb leet",
+                        "pages": [
+                          "fr/models/ref/cli/wandb-leet",
+                          "fr/models/ref/cli/wandb-leet/wandb-leet-config",
+                          "fr/models/ref/cli/wandb-leet/wandb-leet-run",
+                          "fr/models/ref/cli/wandb-leet/wandb-leet-symon"
                         ]
                       },
                       "fr/models/ref/cli/wandb-login",
@@ -2866,7 +2955,8 @@
                     "group": "Weights & Biases",
                     "pages": [
                       "ja/product-models",
-                      "ja/product-weave"
+                      "ja/product-weave",
+                      "ja/hivemind"
                     ]
                   },
                   {
@@ -3213,6 +3303,7 @@
                               "ja/models/app/features/custom-charts/walkthrough"
                             ]
                           },
+                          "ja/models/app/leet-tui",
                           "ja/models/app/console-logs",
                           "ja/models/app/keyboard-shortcuts"
                         ]
@@ -3697,6 +3788,7 @@
                           "ja/models/ref/python/data-types",
                           "ja/models/ref/python/data-types/audio",
                           "ja/models/ref/python/data-types/box3d",
+                          "ja/models/ref/python/data-types/evaltable",
                           "ja/models/ref/python/data-types/histogram",
                           "ja/models/ref/python/data-types/html",
                           "ja/models/ref/python/data-types/image",
@@ -3764,6 +3856,7 @@
                         "pages": [
                           "ja/models/ref/python/public-api",
                           "ja/models/ref/python/public-api/api",
+                          "ja/models/ref/python/public-api/agentruns",
                           "ja/models/ref/python/public-api/artifactcollection",
                           "ja/models/ref/python/public-api/artifactcollections",
                           "ja/models/ref/python/public-api/artifactfiles",
@@ -3824,15 +3917,6 @@
                               "ja/models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-stop"
                             ]
                           },
-                          {
-                            "group": "beta leet",
-                            "pages": [
-                              "ja/models/ref/cli/wandb-beta/wandb-beta-leet",
-                              "ja/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-config",
-                              "ja/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-run",
-                              "ja/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-symon"
-                            ]
-                          },
                           "ja/models/ref/cli/wandb-beta/wandb-beta-sync"
                         ]
                       },
@@ -3849,6 +3933,15 @@
                           "ja/models/ref/cli/wandb-job/wandb-job-create",
                           "ja/models/ref/cli/wandb-job/wandb-job-describe",
                           "ja/models/ref/cli/wandb-job/wandb-job-list"
+                        ]
+                      },
+                      {
+                        "group": "wandb leet",
+                        "pages": [
+                          "ja/models/ref/cli/wandb-leet",
+                          "ja/models/ref/cli/wandb-leet/wandb-leet-config",
+                          "ja/models/ref/cli/wandb-leet/wandb-leet-run",
+                          "ja/models/ref/cli/wandb-leet/wandb-leet-symon"
                         ]
                       },
                       "ja/models/ref/cli/wandb-login",
@@ -4247,7 +4340,8 @@
                     "group": "Weights & Biases",
                     "pages": [
                       "ko/product-models",
-                      "ko/product-weave"
+                      "ko/product-weave",
+                      "ko/hivemind"
                     ]
                   },
                   {
@@ -4594,6 +4688,7 @@
                               "ko/models/app/features/custom-charts/walkthrough"
                             ]
                           },
+                          "ko/models/app/leet-tui",
                           "ko/models/app/console-logs",
                           "ko/models/app/keyboard-shortcuts"
                         ]
@@ -5078,6 +5173,7 @@
                           "ko/models/ref/python/data-types",
                           "ko/models/ref/python/data-types/audio",
                           "ko/models/ref/python/data-types/box3d",
+                          "ko/models/ref/python/data-types/evaltable",
                           "ko/models/ref/python/data-types/histogram",
                           "ko/models/ref/python/data-types/html",
                           "ko/models/ref/python/data-types/image",
@@ -5145,6 +5241,7 @@
                         "pages": [
                           "ko/models/ref/python/public-api",
                           "ko/models/ref/python/public-api/api",
+                          "ko/models/ref/python/public-api/agentruns",
                           "ko/models/ref/python/public-api/artifactcollection",
                           "ko/models/ref/python/public-api/artifactcollections",
                           "ko/models/ref/python/public-api/artifactfiles",
@@ -5205,15 +5302,6 @@
                               "ko/models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-stop"
                             ]
                           },
-                          {
-                            "group": "beta leet",
-                            "pages": [
-                              "ko/models/ref/cli/wandb-beta/wandb-beta-leet",
-                              "ko/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-config",
-                              "ko/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-run",
-                              "ko/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-symon"
-                            ]
-                          },
                           "ko/models/ref/cli/wandb-beta/wandb-beta-sync"
                         ]
                       },
@@ -5230,6 +5318,15 @@
                           "ko/models/ref/cli/wandb-job/wandb-job-create",
                           "ko/models/ref/cli/wandb-job/wandb-job-describe",
                           "ko/models/ref/cli/wandb-job/wandb-job-list"
+                        ]
+                      },
+                      {
+                        "group": "wandb leet",
+                        "pages": [
+                          "ko/models/ref/cli/wandb-leet",
+                          "ko/models/ref/cli/wandb-leet/wandb-leet-config",
+                          "ko/models/ref/cli/wandb-leet/wandb-leet-run",
+                          "ko/models/ref/cli/wandb-leet/wandb-leet-symon"
                         ]
                       },
                       "ko/models/ref/cli/wandb-login",
@@ -6011,6 +6108,10 @@
       "source": "/models/support/change_billing_address"
     },
     {
+      "destination": "/support/models/articles/how-do-i-connect-to-wandb-self-managed",
+      "source": "/support/models/articles/how-do-i-connect-to-a-self-hosted-wb-server"
+    },
+    {
       "destination": "/support/models/articles/how-can-i-change-the-directory-my-sweep-",
       "source": "/models/support/change_directory_sweep_logs_locally"
     },
@@ -6223,8 +6324,12 @@
       "source": "/models/support/how_can_i_disable_logging_of_system_metrics_to_wb"
     },
     {
-      "destination": "/support/models/articles/how-can-i-log-in-to-wb-server",
+      "destination": "/support/models/articles/how-do-i-log-in-to-wandb-self-managed",
       "source": "/models/support/how_can_i_log_in_to_wb_server"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-log-in-to-wandb-self-managed",
+      "source": "/support/models/articles/how-can-i-log-in-to-wb-server"
     },
     {
       "destination": "/support/models/articles/how-can-i-overwrite-the-logs-from-previo",
@@ -6549,6 +6654,10 @@
     {
       "destination": "/support/models/articles/how-should-i-run-sweeps-on-slurm",
       "source": "/models/support/run_sweeps_slurm"
+    },
+    {
+      "destination": "/support/models/articles/how-should-i-run-sweeps-on-slurm",
+      "source": "/support/models/articles/how-do-i-run-sweeps-with-distributed-training-on-slurm"
     },
     {
       "destination": "/support/models/articles/how-do-i-run-wandb-offline",
