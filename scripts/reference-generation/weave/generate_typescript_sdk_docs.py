@@ -525,7 +525,7 @@ def main():
     original_cwd = os.getcwd()
 
     # Download Weave source
-    weave_source = download_weave_source(weave_version)
+    weave_source = download_weave_source("drtangible/docs-typedoc-friendly")
     
     try:
         # Set up TypeScript project
