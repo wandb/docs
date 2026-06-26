@@ -22,7 +22,7 @@ __init__(
     project: 'str',
     run_id: 'str',
     attrs: 'Mapping | None' = None,
-    include_sweeps: 'bool' = True,
+    include_sweeps: 'bool' = False,
     lazy: 'bool' = True,
     api_key: 'str | None' = None
 )
@@ -153,7 +153,11 @@ Get raw run config including internal keys. Auto-loads full data if in lazy mode
 
 ### <kbd>property</kbd> Run.state
 
-The state of the run. Can be one of: Finished, Failed, Crashed, or Running. 
+The state of the run. 
+
+The following table describes the possible states a run can be in: 
+
+| State    | Description | | -------- | ----------- | | Crashed  | Run stopped sending heartbeats in the internal process, which can happen if the machine crashes. | | Failed   | Run ended with a non-zero exit status. | | Finished | Run ended and fully synced data, or called `wandb.Run.finish()`. | | Killed   | Run was forcibly stopped before it could finish. | | Running  | Run is still running and has recently sent a heartbeat. | | Pending  | Run is scheduled but not yet started (common in sweeps and Launch jobs). | 
 
 
 
@@ -189,6 +193,16 @@ Get run summary metrics. Auto-loads full data if in lazy mode.
 
 **Returns:**
  - `dict[str, Any]`: The summary_metrics property value.
+---
+
+### <kbd>property</kbd> Run.sweep
+
+The sweep associated with this run. Loads sweep data if include_sweeps is False. 
+
+
+
+**Returns:**
+ - `public.Sweep | None`: The sweep property value.
 ---
 
 ### <kbd>property</kbd> Run.sweep_name
@@ -613,18 +627,24 @@ Persist changes to the run object to the wandb backend.
 ### <kbd>method</kbd> `Run.update_state`
 
 ```python
-update_state(state: "Literal['pending']") → bool
+update_state(state: 'str') → bool
 ```
 
 Update the state of a run. 
 
-Allows transitioning runs from 'failed' or 'crashed' to 'pending'. 
+Supported transitions: 
+    - to `pending` from `running`, `failed`, `crashed`, or `preempted`  (e.g. to requeue a terminated or in-progress run) 
+    - to `failed` from `pending` or `running`  (e.g. to mark a preempted or lost run as failed) 
+
+Sweep runs cannot have their state updated. 
+
+See `Run.state` for the list of possible run states. 
 
 
 
 **Args:**
  
- - `state`:  The target run state. Only `"pending"` is supported. 
+ - `state`:  The target run state. One of `"pending"` or `"failed"`. 
 
 
 
