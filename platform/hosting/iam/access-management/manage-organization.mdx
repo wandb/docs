@@ -187,6 +187,80 @@ A user within an organization can have one of the following roles:
 | Viewer (Enterprise-only feature) | A view-only user of your organization, invited by an organization admin. A viewer only has read access to the organization and the underlying teams that they are a member of. |
 | Custom Roles (Enterprise-only feature) | Custom roles allow organization admins to compose new roles by inheriting from the preceding **Viewer** or **Member** organization roles, and adding additional permissions to achieve fine-grained access control. Team admins can then assign any of those custom roles to users in their respective teams. See also [Add and manage custom roles](#add-and-manage-custom-roles). |
 
+### Organization role permissions
+
+Organization roles control administrative actions at the organization scope. They're separate from [team roles](#assign-or-update-a-team-members-role), which control what a user can do inside a specific team, and from [Models seat and Weave access](#assign-or-update-a-users-access), which control product access and billing.
+
+The following tables summarize what **Member** and **Admin** users can do at the organization level. For team-scoped actions such as logging runs or editing reports, see [Team roles and permissions](/platform/app/settings-page/teams#team-roles-and-permissions). For registry-scoped actions, see [Registry role permissions](/models/registry/configure_registry#role-permissions).
+
+<Note>
+**Viewer** and custom roles are Enterprise-only features. A **Viewer** has read-only access to teams they belong to and can't perform write actions at the organization or team level. Custom roles inherit from **Viewer** or **Member** and add team-level permissions; see [Add and manage custom roles](#add-and-manage-custom-roles).
+</Note>
+
+#### User management
+
+| Permission                                                   | Permission group | Member | Admin |
+| ------------------------------------------------------------ | --------------- | :----: | :---: |
+| View the organization user list                              | Read            |   X    |   X   |
+| Invite users to the organization                             | Admin           |        |   X   |
+| Remove users from the organization                           | Admin           |        |   X   |
+| Assign or change a user's organization role                  | Admin           |        |   X   |
+| Assign or change a user's Models seat or Weave access        | Admin           |        |   X   |
+| Export the organization user list as CSV                     | Admin           |        |   X   |
+| View organization activity and usage trends                  | Read            |   X    |   X   |
+
+In organizations marked as hidden, members can view profiles only for themselves, for users who share a team with them, or if they're an organization admin.
+
+#### Teams
+
+| Permission                                                   | Permission group | Member | Admin |
+| ------------------------------------------------------------ | --------------- | :----: | :---: |
+| Create teams in the organization                             | Admin           |        |   X   |
+| Join teams when invited or through domain capture            | Read            |   X    |   X   |
+| View team membership for teams the user belongs to           | Read            |   X    |   X   |
+| View team membership for teams the user doesn't belong to    | Read            |        |   X   |
+| Invite users to a team without being a member of that team   | Admin           |        |   X   |
+| Add themselves to a team as a member or viewer               | Admin           |        |   X   |
+
+<Note>
+On Self-Managed deployments, non-admin users might be allowed to create teams when your instance administrator enables that option.
+</Note>
+
+Organization admins are assigned the **Admin** role in [registries](/models/registry/configure_registry#role-permissions) that are visible at the organization level.
+
+#### Organization settings
+
+| Permission                                                   | Permission group | Member | Admin |
+| ------------------------------------------------------------ | --------------- | :----: | :---: |
+| Change the organization name (Multi-tenant Cloud)            | Admin           |        |   X   |
+| Configure domain capture and SSO auto-provisioning           | Admin           |        |   X   |
+| Enforce organization-wide [privacy settings](/platform/hosting/privacy-settings#enforce-privacy-settings-for-all-teams) | Admin |        |   X   |
+| Create, edit, and delete custom roles (Enterprise)           | Admin           |        |   X   |
+| Configure organization alert thresholds                      | Admin           |        |   X   |
+| Connect external storage buckets at the organization level (Enterprise) | Admin |        |   X   |
+
+#### Billing
+
+| Permission                                                   | Permission group | Member | Admin |
+| ------------------------------------------------------------ | --------------- | :----: | :---: |
+| Assign the billing admin                                     | Admin           |        |   X   |
+| Manage subscriptions, payment methods, and plan upgrades     | Billing         |        |   X   |
+| Cancel subscriptions                                         | Billing         |        |   X   |
+| View billing alert thresholds                                | Read            |        |   X   |
+
+Users designated as **billing admins** can perform billing actions even if their organization role is **Member**. Billing admins can't perform other organization admin actions such as inviting users or creating teams.
+
+#### Security and automation
+
+| Permission                                                   | Permission group | Member | Admin |
+| ------------------------------------------------------------ | --------------- | :----: | :---: |
+| Authenticate to the [SCIM API](/platform/hosting/iam/scim)   | Admin           |        |   X   |
+| Create and manage organization-scoped service accounts        | Admin           |        |   X   |
+| View and manage all organization API keys                    | Admin           |        |   X   |
+| Manage organization user secrets (Dedicated Cloud and Self-Managed) | Admin     |        |   X   |
+
+Organization-scoped service accounts used for SCIM automation have admin-equivalent access for SCIM operations.
+
 To change a user's role:
 
 1. Navigate to https://wandb.ai/home.
