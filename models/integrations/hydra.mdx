@@ -37,6 +37,7 @@ def run_experiment(cfg):
     cfg_dict = omegaconf.OmegaConf.to_container(
         cfg, resolve=True, throw_on_missing=True
     )
+    # Optional: avoid logging W&B metadata (like entity/project) as part of the run config
     cfg_dict.pop("wandb", None)
     with wandb.init(
         entity=cfg.wandb.entity,
