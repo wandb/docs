@@ -8,107 +8,227 @@ import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
 
 <AgentsPreview />
 
-[Google's Agent Development Kit (ADK)](https://google.github.io/adk-docs/) is a flexible, model-agnostic Python framework for building and orchestrating agents. While optimized for Gemini, ADK supports any model and supports both simple tasks and complex multi-agent workflows. Weave automatically traces agents built with ADK, including each agent invocation, sub-agent handoff, model call, and tool call. Weave displays the captured data in the **Agents** view of your project.
+Google's Agent Development Kit (ADK) is a flexible, model-agnostic framework for building and orchestrating agents. While optimized for Gemini, ADK supports any model and both simple tasks and complex multi-agent workflows. Weave automatically traces agents built with ADK, including each agent invocation, sub-agent handoff, model call, and tool call. Weave displays the captured data in the **Agents** view of your project.
 
 ## Trace Google ADK agents with Weave
 
-The Weave SDK autopatches with Google ADK so you can capture traces from your ADK agents with minimal setup. This guide shows how to initialize Weave and then run a multi-turn research agent built with Google ADK so that Weave captures every agent invocation, model call, and tool call across the session.
+<Tabs>
+  <Tab title="Python">
+    The Weave SDK autopatches with [Google ADK for Python](https://google.github.io/adk-docs/) so you can capture traces from your ADK agents with minimal setup. This guide shows how to initialize Weave and then run a multi-turn research agent built with Google ADK so that Weave captures every agent invocation, model call, and tool call across the session.
 
-### Prerequisites
+    ### Prerequisites
 
-- A W&B account and [API key](https://wandb.ai/authorize) set as a `WANDB_API_KEY` environment variable.
-- A [Google API key](https://aistudio.google.com/apikey) for Gemini.
-- Python 3.10+.
+    - A W&B account and [API key](https://wandb.ai/authorize) set as a `WANDB_API_KEY` environment variable.
+    - A [Google API key](https://aistudio.google.com/apikey) for Gemini.
+    - Python 3.10+.
 
-### Install packages
+    ### Install packages
 
-Install the following packages in your developer environment. These provide the Weave SDK, the Google ADK framework, and the HTTP client used by the example tool:
+    Install the following packages in your developer environment. These provide the Weave SDK, the Google ADK framework, and the HTTP client used by the example tool:
 
-```bash
-pip install weave google-adk requests
-```
+    ```bash
+    pip install weave google-adk requests
+    ```
 
-### Initialize Weave in your code
+    ### Initialize Weave in your code
 
-Add `weave.init` to the project, along with your W&B team and project names, and then build an agent the way you normally would. The following code creates a `research_assistant` agent that uses `gemini-2.5-flash` and a `wikipedia_search` tool, then runs three questions through a single ADK session while Weave captures the trace.
+    Add `weave.init` to the project, along with your W&B team and project names, and then build an agent the way you normally would. The following code creates a `research_assistant` agent that uses `gemini-2.5-flash` and a `wikipedia_search` tool, then runs three questions through a single ADK session while Weave captures the trace.
 
-```python
-import asyncio
-import requests
-import weave
-from google.adk.agents import Agent
-from google.adk.runners import InMemoryRunner
-from google.genai import types
+    ```python
+    import asyncio
+    import requests
+    import weave
+    from google.adk.agents import Agent
+    from google.adk.runners import InMemoryRunner
+    from google.genai import types
 
-weave.init("[YOUR-TEAM]/[YOUR-PROJECT-NAME]")
+    weave.init("[YOUR-TEAM]/[YOUR-PROJECT-NAME]")
 
-def wikipedia_search(query: str) -> dict:
-    """Search Wikipedia for a topic and return its title and intro paragraph.
+    def wikipedia_search(query: str) -> dict:
+        """Search Wikipedia for a topic and return its title and intro paragraph.
 
-    Args:
-        query: The topic to search for.
+        Args:
+            query: The topic to search for.
 
-    Returns:
-        A dictionary with the article title and intro extract.
-    """
-    r = requests.get(
-        "https://en.wikipedia.org/w/api.php",
-        params={
-            "action": "query", "generator": "search", "gsrsearch": query, "gsrlimit": 1,
-            "prop": "extracts", "exintro": True, "explaintext": True, "format": "json",
-        },
-        headers={"User-Agent": "weave-demo"},
-    ).json()
-    page = next(iter(r["query"]["pages"].values()))
-    return {"title": page["title"], "extract": page["extract"]}
+        Returns:
+            A dictionary with the article title and intro extract.
+        """
+        r = requests.get(
+            "https://en.wikipedia.org/w/api.php",
+            params={
+                "action": "query", "generator": "search", "gsrsearch": query, "gsrlimit": 1,
+                "prop": "extracts", "exintro": True, "explaintext": True, "format": "json",
+            },
+            headers={"User-Agent": "weave-demo"},
+        ).json()
+        page = next(iter(r["query"]["pages"].values()))
+        return {"title": page["title"], "extract": page["extract"]}
 
-agent = Agent(
-    name="research_assistant",
-    model="gemini-2.5-flash",
-    instruction=(
-        "You are a research assistant. Use the wikipedia_search tool to look up "
-        "topics when needed, and cite the article titles you used."
-    ),
-    tools=[wikipedia_search],
-)
-
-async def main():
-    runner = InMemoryRunner(agent=agent, app_name="research-app")
-    session = await runner.session_service.create_session(
-        app_name="research-app", user_id="user-1"
+    agent = Agent(
+        name="research_assistant",
+        model="gemini-2.5-flash",
+        instruction=(
+            "You are a research assistant. Use the wikipedia_search tool to look up "
+            "topics when needed, and cite the article titles you used."
+        ),
+        tools=[wikipedia_search],
     )
 
-    questions = [
-        "Who founded Anthropic?",
-        "What is Claude (the AI assistant)?",
-        "Summarize what we discussed in one sentence.",
-    ]
+    async def main():
+        runner = InMemoryRunner(agent=agent, app_name="research-app")
+        session = await runner.session_service.create_session(
+            app_name="research-app", user_id="user-1"
+        )
 
-    for question in questions:
-        print(f"USER: {question}")
-        async for event in runner.run_async(
-            user_id="user-1",
-            session_id=session.id,
-            new_message=types.Content(
-                role="user",
-                parts=[types.Part(text=question)],
-            ),
-        ):
-            if event.is_final_response() and event.content:
-                print(f"AGENT: {event.content.parts[0].text}\n")
+        questions = [
+            "Who founded Anthropic?",
+            "What is Claude (the AI assistant)?",
+            "Summarize what we discussed in one sentence.",
+        ]
 
-asyncio.run(main())
-```
+        for question in questions:
+            print(f"USER: {question}")
+            async for event in runner.run_async(
+                user_id="user-1",
+                session_id=session.id,
+                new_message=types.Content(
+                    role="user",
+                    parts=[types.Part(text=question)],
+                ),
+            ):
+                if event.is_final_response() and event.content:
+                    print(f"AGENT: {event.content.parts[0].text}\n")
 
-The example runs three turns in a single ADK session. The first two turns trigger Wikipedia lookups, and the third uses the previous conversation context to produce a summary without a tool call.
+    asyncio.run(main())
+    ```
 
-### See your agent traces in the Agents view
+    The example runs three turns in a single ADK session. The first two turns trigger Wikipedia lookups, and the third uses the previous conversation context to produce a summary without a tool call.
 
-After the script runs, open your project's **Agents** view to confirm that Weave captured the session. `weave.init()` prints a link to your project when it runs. In the **Agents** view, inspect the following:
+    ### See your agent traces in the Agents view
 
-- A row in the **Agents** tab for `research_assistant`.
-- A single session containing three turns.
-- Each turn rendered as an `invoke_agent` span with nested model calls and tool calls.
-- The full input, model, output, token usage, and Wikipedia results at each step.
+    After the script runs, open your project's **Agents** view to confirm that Weave captured the session. `weave.init()` prints a link to your project when it runs. In the **Agents** view, inspect the following:
 
-For details on viewing Agents data in Weave, see [View agent activity](/weave/guides/tracking/view-agent-activity).
+    - A row in the **Agents** tab for `research_assistant`.
+    - A single session containing three turns.
+    - Each turn rendered as an `invoke_agent` span with nested model calls and tool calls.
+    - The full input, model, output, token usage, and Wikipedia results at each step.
+
+    For details on viewing Agents data in Weave, see [View agent activity](/weave/guides/tracking/view-agent-activity).
+  </Tab>
+
+  <Tab title="TypeScript">
+    Weave integrates with [Google ADK for Node.js](https://google.github.io/adk-docs/) (`@google/adk`) to automatically trace your agent runs. Requires `@google/adk` version `1.0.0` or later.
+
+    ### Prerequisites
+
+    - A W&B account and [API key](https://wandb.ai/authorize) set as a `WANDB_API_KEY` environment variable.
+    - A [Google API key](https://aistudio.google.com/apikey) set as a `GEMINI_API_KEY` or `GOOGLE_GENAI_API_KEY` environment variable.
+    - Node.js 18+.
+
+    ### Install packages
+
+    ```bash
+    npm install weave @google/adk zod
+    ```
+
+    ### Initialize Weave in your code
+
+    In most Node.js environments, no manual instrumentation is needed — Weave automatically traces `@google/adk` runners via module loader hooks.
+
+    - **CommonJS projects**: No extra configuration needed. Import `weave` before `@google/adk` to ensure auto-instrumentation runs first.
+    - **ESM projects**: Start Node with the `--import=weave/instrument` flag so the instrumentation loads before any other modules.
+
+    The following code creates a `weather_agent` with a `get_weather` tool and runs a query while Weave captures the trace.
+
+    ```typescript lines
+    import * as weave from "weave";
+    import { FunctionTool, InMemoryRunner, LlmAgent } from "@google/adk";
+    import { z } from "zod";
+
+    const getWeatherTool = new FunctionTool({
+      name: "get_weather",
+      description: "Get the current weather for a given city.",
+      parameters: z.object({
+        city: z.string().describe("The name of the city"),
+      }),
+      execute: async ({ city }) => {
+        const weather: Record<string, { temp: number; condition: string }> = {
+          "San Francisco": { temp: 18, condition: "Foggy" },
+          "New York": { temp: 22, condition: "Sunny" },
+          London: { temp: 12, condition: "Cloudy" },
+          Tokyo: { temp: 28, condition: "Humid" },
+        };
+        const data = weather[city] ?? { temp: 20, condition: "Clear" };
+        return { city, condition: data.condition, temperature_c: data.temp };
+      },
+    });
+
+    async function main() {
+      await weave.init("<your-team>/<your-project-name>");
+
+      const agent = new LlmAgent({
+        name: "weather_agent",
+        description: "Answers questions about the weather.",
+        instruction: "You answer weather questions. Always use the get_weather tool.",
+        model: "gemini-2.5-flash",
+        tools: [getWeatherTool],
+      });
+
+      const APP_NAME = "weave-adk-example";
+      const USER_ID = "example-user";
+
+      const runner = new InMemoryRunner({ agent, appName: APP_NAME });
+      const session = await runner.sessionService.createSession({
+        appName: APP_NAME,
+        userId: USER_ID,
+      });
+
+      for await (const event of runner.runAsync({
+        userId: USER_ID,
+        sessionId: session.id,
+        newMessage: {
+          role: "user",
+          parts: [{ text: "What's the weather in Tokyo and London?" }],
+        },
+      })) {
+        const text = event.content?.parts
+          ?.map(part => part.text)
+          .filter(Boolean)
+          .join("");
+        if (text) {
+          console.log(`[${event.author}] ${text}`);
+        }
+      }
+
+      await weave.flushOTel();
+    }
+
+    main().catch(console.error);
+    ```
+
+    ### Manual instrumentation
+
+    If module loader hooks can't run (for example, in bundled environments), pass `WeaveAdkPlugin` directly to the runner:
+
+    ```typescript lines
+    import { WeaveAdkPlugin } from "weave";
+    import { InMemoryRunner } from "@google/adk";
+
+    const runner = new InMemoryRunner({
+      agent,
+      appName: "my-app",
+      plugins: [new WeaveAdkPlugin()],
+    });
+    ```
+
+    ### See your agent traces in the Agents view
+
+    After the script runs, `weave.init()` prints a link to your project. Open the **Agents** view to inspect:
+
+    - A row in the **Agents** tab for `weather_agent`.
+    - Each run rendered as nested `invoke_agent` → `chat` → `execute_tool` spans.
+    - The full input, model, output, and token usage at each step.
+
+    For details about viewing Agents data in Weave, see [View agent activity](/weave/guides/tracking/view-agent-activity).
+  </Tab>
+</Tabs>

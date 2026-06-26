@@ -8,83 +8,163 @@ import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
 
 <AgentsPreview />
 
-The [Claude Agent SDK](https://github.com/anthropics/claude-agent-sdk-python) is a Python SDK for building agent applications with Claude.
-
-Weave automatically traces Claude Agent SDK calls, including agent queries, model responses, tool use, and multi-turn conversations. Weave displays the captured data in the **Agents** view of your project.
+The Claude Agent SDK is an SDK for building agent applications with Claude. Weave automatically traces Claude Agent SDK calls, including agent queries, model responses, tool use, and multi-turn conversations. Weave displays the captured data in the **Agents** view of your project.
 
 ## Trace Claude Agent SDK agents with Weave
 
-The Weave SDK autopatches the Claude Agent SDK, letting you capture traces from your Claude agents with minimal setup.
+<Tabs>
+  <Tab title="Python">
+    The Weave SDK autopatches the [Claude Agent SDK for Python](https://github.com/anthropics/claude-agent-sdk-python), letting you capture traces from your Claude agents with minimal setup.
 
-This doc shows how to initialize Weave and run a Claude agent with MCP tools through `ClaudeSDKClient`. Weave automatically traces the conversation, model calls, and tool calls end-to-end. When you're done, you can view a complete trace of the agent's query, model responses, and tool invocations in the **Agents** view of your project.
+    This guide shows how to initialize Weave and run a Claude agent with MCP tools through `ClaudeSDKClient`. Weave automatically traces the conversation, model calls, and tool calls end-to-end.
 
-### Prerequisites
+    ### Prerequisites
 
-- A W&B account and [API key](https://wandb.ai/authorize) set as a `WANDB_API_KEY` environment variable.
-- An Anthropic API key set as an `ANTHROPIC_API_KEY` environment variable.
-- Python 3.10+.
+    - A W&B account and [API key](https://wandb.ai/authorize) set as a `WANDB_API_KEY` environment variable.
+    - An Anthropic API key set as an `ANTHROPIC_API_KEY` environment variable.
+    - Python 3.10+.
 
-### Install packages
+    ### Install packages
 
-Install the following packages in your developer environment. The `weave` package captures traces, and `claude-agent-sdk` provides the agent runtime.
+    Install the following packages in your developer environment. The `weave` package captures traces, and `claude-agent-sdk` provides the agent runtime.
 
-```bash
-pip install weave claude-agent-sdk
-```
+    ```bash
+    pip install weave claude-agent-sdk
+    ```
 
-### Initialize Weave in your code
+    ### Initialize Weave in your code
 
-Add `weave.init` to the project, update your W&B team and project names, and then build an agent the way you normally would. `weave.init` enables the autopatching that captures traces from the Claude Agent SDK.
+    Add `weave.init` to the project, update your W&B team and project names, and then build an agent the way you normally would. `weave.init` enables the autopatching that captures traces from the Claude Agent SDK.
 
-The following code creates a Claude agent with two MCP math tools and runs it while Weave captures the traces.
+    The following code creates a Claude agent with two MCP math tools and runs it while Weave captures the traces.
 
-```python lines
-import anyio
-import weave
+    ```python lines
+    import anyio
+    import weave
 
-from claude_agent_sdk import (
-    ClaudeAgentOptions,
-    ClaudeSDKClient,
-    create_sdk_mcp_server,
-    tool,
-)
-
-weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
-
-
-@tool("add", "Add two numbers", {"a": float, "b": float})
-async def add(args: dict) -> dict:
-    return {"content": [{"type": "text", "text": str(args["a"] + args["b"])}]}
-
-
-@tool("multiply", "Multiply two numbers", {"a": float, "b": float})
-async def multiply(args: dict) -> dict:
-    return {"content": [{"type": "text", "text": str(args["a"] * args["b"])}]}
-
-
-math_server = create_sdk_mcp_server(
-    name="math",
-    version="1.0.0",
-    tools=[add, multiply],
-)
-
-
-async def main():
-    options = ClaudeAgentOptions(
-        mcp_servers={"math": math_server},
-        allowed_tools=["mcp__math__add", "mcp__math__multiply"],
+    from claude_agent_sdk import (
+        ClaudeAgentOptions,
+        ClaudeSDKClient,
+        create_sdk_mcp_server,
+        tool,
     )
 
-    async with ClaudeSDKClient(options=options) as client:
-        await client.query("Using the math tools, compute (3 + 7) * 2.")
-
-        async for message in client.receive_response():
-            print(message)
+    weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
 
 
-anyio.run(main) 
-```
+    @tool("add", "Add two numbers", {"a": float, "b": float})
+    async def add(args: dict) -> dict:
+        return {"content": [{"type": "text", "text": str(args["a"] + args["b"])}]}
 
-When the script runs, `weave.init()` prints a link to your project. Open the link to inspect the captured traces for the agent's query, model responses, and tool calls.
 
-For details about viewing Agents data in Weave, see [View agent activity](/weave/guides/tracking/view-agent-activity).
+    @tool("multiply", "Multiply two numbers", {"a": float, "b": float})
+    async def multiply(args: dict) -> dict:
+        return {"content": [{"type": "text", "text": str(args["a"] * args["b"])}]}
+
+
+    math_server = create_sdk_mcp_server(
+        name="math",
+        version="1.0.0",
+        tools=[add, multiply],
+    )
+
+
+    async def main():
+        options = ClaudeAgentOptions(
+            mcp_servers={"math": math_server},
+            allowed_tools=["mcp__math__add", "mcp__math__multiply"],
+        )
+
+        async with ClaudeSDKClient(options=options) as client:
+            await client.query("Using the math tools, compute (3 + 7) * 2.")
+
+            async for message in client.receive_response():
+                print(message)
+
+
+    anyio.run(main)
+    ```
+
+    When the script runs, `weave.init()` prints a link to your project. Open the link to inspect the captured traces for the agent's query, model responses, and tool calls.
+
+    For details about viewing Agents data in Weave, see [View agent activity](/weave/guides/tracking/view-agent-activity).
+  </Tab>
+
+  <Tab title="TypeScript">
+    Weave integrates with the [`@anthropic-ai/claude-agent-sdk`](https://github.com/anthropics/claude-agent-sdk) to automatically trace `query()` calls, including agent spans, model responses, and tool calls. Requires `@anthropic-ai/claude-agent-sdk` version `0.3.178` or later.
+
+    ### Prerequisites
+
+    - A W&B account and [API key](https://wandb.ai/authorize) set as a `WANDB_API_KEY` environment variable.
+    - An Anthropic API key set as an `ANTHROPIC_API_KEY` environment variable.
+    - Node.js 18+.
+
+    ### Install packages
+
+    ```bash
+    npm install weave @anthropic-ai/claude-agent-sdk
+    ```
+
+    ### Initialize Weave in your code
+
+    Weave automatically instruments `query()` via module loader hooks — no manual setup required.
+
+    - **CommonJS projects**: No extra configuration needed. Import `weave` before `@anthropic-ai/claude-agent-sdk`.
+    - **ESM projects**: Start Node with the `--import=weave/instrument` flag so the instrumentation loads before any other modules.
+
+    The following code runs a three-turn conversation. Each turn is a separate `query()` call, but later turns pass `resume` with the first turn's `session_id` so that all turns group as one session in the Weave Agents view.
+
+    ```typescript lines
+    import * as weave from "weave";
+    import { query, type Options } from "@anthropic-ai/claude-agent-sdk";
+
+    async function main() {
+      await weave.init("<your-team>/<your-project-name>");
+
+      const baseOptions: Options = {
+        model: "claude-sonnet-4-5",
+        maxTurns: 8,
+        allowedTools: ["Bash", "Read", "Glob", "Grep"],
+        cwd: process.cwd(),
+      };
+
+      const turns = [
+        "List the TypeScript files in the current directory.",
+        "Of those, which file is the largest, and what is it responsible for?",
+        "Summarize what you learned about this project in one sentence.",
+      ];
+
+      let sessionId: string | undefined;
+
+      for (const prompt of turns) {
+        const options: Options = sessionId
+          ? { ...baseOptions, resume: sessionId }
+          : baseOptions;
+
+        for await (const message of query({ prompt, options })) {
+          if (message.type === "system" && message.subtype === "init") {
+            sessionId ??= message.session_id;
+          }
+          if (message.type === "result" && message.subtype === "success") {
+            console.log(message.result);
+          }
+        }
+      }
+    }
+
+    main().catch(console.error);
+    ```
+
+    Each `query()` call produces an `invoke_agent` root span. Because the follow-up turns resume the same `session_id`, Weave stamps the same `gen_ai.conversation.id` on all spans and groups them as one session in the Agents view.
+
+    ### See your agent traces in the Agents view
+
+    After the script runs, `weave.init()` prints a link to your project. Open the **Agents** view to inspect:
+
+    - A single session containing all three turns.
+    - Each turn rendered as an `invoke_agent` span with nested `chat` and `execute_tool` children.
+    - The full input, model, output, token usage, and cost at each step.
+
+    For details about viewing Agents data in Weave, see [View agent activity](/weave/guides/tracking/view-agent-activity).
+  </Tab>
+</Tabs>
