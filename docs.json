@@ -533,6 +533,7 @@
                         "group": "Trace your agents",
                         "pages": [
                           "weave/guides/tracking/trace-agents",
+                          "weave/guides/tracking/trace-agents-attributes",
                           "weave/guides/tracking/trace-agent-integrations",
                           "weave/guides/tracking/view-agent-activity",
                           "weave/guides/tracking/view-agent-signals",
