@@ -25,12 +25,12 @@ ARIA can assist with:
 2. In the modal, enter your question or request. If you you are unsure what to ask, you can select from the list of suggested prompts.
 3. Click the **Send** button, which has an upward-pointing arrow.
 
-Depending on the complexity of your question, the agent might take a few moments to respond. You can close the modal while the agent is working and return to check on the agent's response later.
+Depending on the complexity of your question, ARIA might take a few moments to respond. You can close the modal while ARIA is working and return to check on ARIA's response later.
 
 While ARIA works, you might see **Thinking** and **shell** steps:
 
-- **Thinking** steps summarize how the agent is approaching your question.
-- **shell** steps show when the agent uses a tool, such as creating a panel, filtering runs, creating Python and running scripts, and so forth.
+- **Thinking** steps summarize how ARIA is approaching your question.
+- **shell** steps show when ARIA uses a tool, such as creating a panel, filtering runs, creating Python and running scripts, and so forth.
 
 Click on a **Thinking** or **shell** step to expand more details about ARIA's thought process or the specific tool action it took, respectively.
 
@@ -38,10 +38,10 @@ See the [example chats below for real-world examples](/aria/overview#example-cha
 
 ## Example chats
 
-The following are examples of real chats with ARIA to illustrate how you can interact with the agent and the types of responses you can expect from the agent.
+The following are examples of real chats with ARIA to illustrate how you can interact with ARIA and the types of responses you can expect.
 
 
-<Accordion title="Gain insights, recommend next steps, and run experiments">
+<Accordion title="Run experiments based on ARIA's recommendations">
 
 Suppose you are an ML Engineer who has just completed a series of experiments. You want to understand what the next steps should be to improve your model's performance.
 
@@ -51,7 +51,7 @@ To do this, you navigate to your the project where you logged runs. You open ARI
 /recommend-next-experiment
 ```
 
-The following is an example of how ARIA might respond to this question:
+The following is an example of how ARIA responded to this question. First, ARIA makes reasoning steps to determine how to approach the question. For brevity, only a portion of ARIA's reasoning is shown below:
 
 ```text title="ARIA reasoning steps"
 Recommendation: run one “longer-training + held-out-eval” experiment
@@ -89,27 +89,6 @@ strongest signal is from the learning curves: all four
 training losses are still improving at the final epoch, and
 the minimum training loss occurs at epoch 1000 in every run.
 
-What I expect to learn
-This single experiment answers the most important unresolved question:
-
-Is the model undertrained at 1000 epochs, or does
-held-out performance peak earlier?
-
-Possible outcomes:
-
-Train and test loss both keep improving past 1000
-→ Keep learning_rate=0.1; increase epochs further or
-    add a LR schedule.
-
-Train loss improves but test loss worsens after ~1000
-→ The model is starting to overfit; use early stopping
-    and keep the best checkpoint by test/test_loss.
-
-Both losses flatten soon after 1000
-→ Then the next experiment should be a learning-rate
-    or optimizer change, not more epochs.
-
-Concrete next run
 I’d run:
 
 learning_rate: 0.1
@@ -121,13 +100,20 @@ evaluate on X_test, y_test each epoch or every 10 epochs
 checkpoint on lowest test/test_loss
 ```
 
-After reviewing ARIA's recommendations, you can ask the agent to run the recommended experiment for you. For example, you can ARIA:
+You agree with ARIA's recommendation and ask ARIA to run the experiment for you:
 
 ```text title="User prompt"
 Run that experiment for me.
 ```
 
-ARIA uses W&B Launch to run experiments in a sandbox environment. See [Enable ARIA to run experiments](/aria/tools#enable-aria-to-run-experiments) for more information.
+ARIA uses W&B Launch to run the experiment in a sandbox environment. The following image shows ARIA's response after it has completed running the experiment:
+
+<Frame>
+    <img src="/images/agent/aria_experiment.gif" alt="ARIA running an experiment" />
+</Frame>
+
+
+ARIA uses W&B Launch to run experiments in a sandbox environment. See [Enable ARIA to run experiments](/aria/tools#run-experiments-with-w&b-launch) for more information.
 
 
 </Accordion>
@@ -142,7 +128,7 @@ To do this, you navigate to your the project where you logged runs. You open ARI
 What patterns do you see across my runs?
 ```
 
-The following is an example of how ARIA might respond to this question. First, the agent makes reasoning steps to determine how to approach the question:
+The following is an example of how ARIA might respond to this question. First, ARIA makes reasoning steps to determine how to approach the question:
 
 ```text title="ARIA reasoning steps"
 I’m considering running a state breakdown scan with counts by state using
@@ -154,39 +140,39 @@ from sample keys while excluding those that start with "_" or "system/".
 It’s important to compute the best min/max for numeric summary metrics too.
 ```
 
-The agent identifies that it needs to analyze the data across runs to answer the question. To do this, the agent creates a Python script (`analyze_patterns.py`) that uses the W&B Python SDK to query previously logged runs to identify patterns in the data. Once the script is generated, the agent executes it within a sandbox environment. 
+ARIA identifies that it needs to analyze the data across runs to answer the question. To do this, ARIA creates a Python script (`analyze_patterns.py`) that uses the W&B Python SDK to query previously logged runs to identify patterns in the data. Once the script is generated, ARIA executes it within a sandbox environment. 
 
 <Frame>
-    <img src="/images/agent/agent_analyze_project.gif" alt="ARIA thought process" />
+    <img src="/images/agent/agent_analyze_project.png" alt="ARIA thought process" />
 </Frame>
 
-Next, the agent uses the ouput to generate a summary of the patterns it found across the runs, which it shares in the chat. 
+Next, ARIA uses the ouput to generate a summary of the patterns it found across the runs, which it shares in the chat. 
 
 <Frame>
     <img src="/images/agent/agent_analyze_summary_results.gif" alt="ARIA summary of patterns across runs" />
 </Frame>
 
-The agent was able to identify that my current experiment does not log `validation/test` metrics and recommended logging those metrics in future runs to better understand the model's performance. 
+ARIA was able to identify that my current experiment does not log `validation/test` metrics and recommended logging those metrics in future runs to better understand the model's performance. 
 
-As a next step, you can ask the agent to help set up an experiment with validation metrics logged. To do this, you can ask the agent:
+As a next step, you can ask ARIA to help set up an experiment with validation metrics logged. For example, you can ask ARIA:
 
 ```text title="User prompt"
 Can you help me update my Python script to also log validation metrics?
 ```
-The agent can then generate the code to log validation metrics in your training script, which you can copy and paste into your codebase.
+ARIA can then generate the code to log validation metrics in your training script, which you can copy and paste into your codebase.
 </Accordion>
 
 <Accordion title="Get recommendations for hyperparameter tuning">
 
 Suppose you are an ML Engineer who has just completed a series of runs for a new model. You want to understand how your model performed and get recommendations for how to improve your model's performance in future runs. You decide to ask ARIA for recommendations on hyperparameter tuning.
 
-You might ask the agent:
+You might ask ARIA:
 
 ```text title="User prompt"
 I want to conduct a sweep to improve lower my training model's loss. Do you have suggestions on what hyperparameters I should try?
 ```
 
-The agent might respond with the following reasoning steps:
+ARIA might respond with the following reasoning steps:
 
 ```text title="ARIA reasoning steps"
  The user is looking for insights to improve training loss, so I
@@ -199,13 +185,13 @@ I might also suggest using random or Bayesian techniques for more
 effective hyperparameter selection.
 ``` 
 
-The agent identifies that it needs to analyze the hyperparameters used in previous runs and their relationship to the training loss to provide recommendations for hyperparameter tuning. 
+ARIA identifies that it needs to analyze the hyperparameters used in previous runs and their relationship to the training loss to provide recommendations for hyperparameter tuning. 
 
-The agent identifies that the given project used a learning rate of `0.01` for all runs. Based on these insights, the agent recommends trying a lower learning rate, such as `0.001`, in future runs to see if that helps improve the model's performance.
+ARIA identifies that the given project used a learning rate of `0.01` for all runs. Based on these insights, ARIA recommends trying a lower learning rate, such as `0.001`, in future runs to see if that helps improve the model's performance.
 
-The agent also identifies that of the runs that use the SGD optimizer. Based on this insight, the agent recommends trying a different optimizer, such as Adam (Adaptive Moment Estimation), in future runs to see if that helps improve the model's performance.
+ARIA also identifies that of the runs that use the SGD optimizer. Based on this insight, ARIA recommends trying a different optimizer, such as Adam (Adaptive Moment Estimation), in future runs to see if that helps improve the model's performance.
 
-The following image shows a portion of the agent's response with its recommendations for hyperparameter tuning:
+The following image shows a portion of ARIA's response with its recommendations for hyperparameter tuning:
 
 <Frame>
     <img src="/images/agent/agent_recommend_hyperparameter.png" alt="ARIA recommendations for hyperparameter tuning" />
@@ -223,7 +209,7 @@ To do this, you open ARIA and ask:
 Create a report to share my findings with my team.
 ```
 
-The agent might respond with the following reasoning steps:
+ARIA might respond with the following reasoning steps:
 
 ```text title="ARIA reasoning steps"
 I’m looking to query the recent 50 runs, summarizing key frequencies 
@@ -233,12 +219,12 @@ for a proper report.  I need to include a description that might
 require importing different report libraries.
 ```
 
-The agent identifies that it needs to create a W&B Report that summarizes the insights it found in the data. As part of it's reasoning process, it generates a Python script that uses the W&B SDK to create a report with the relevant data and insights. The agent executes this script in a sandbox environment, which creates a W&B Report in your project.
+ARIA identifies that it needs to create a W&B Report that summarizes the insights it found in the data. As part of it's reasoning process, it generates a Python script that uses the W&B SDK to create a report with the relevant data and insights. ARIA executes this script in a sandbox environment, which creates a W&B Report in your project.
 
-The following image shows the how the agent creates a W&B Report in the sandbox environment and then returns the link to the report in the chat:
+The following image shows the how ARIA creates a W&B Report in the sandbox environment and then returns the link to the report in the chat:
 
 <Frame>
-    <img src="/images/agent/agent_create_report.png" alt="ARIA creating a report" />
+    <img src="/images/agent/agent_create_report.png" alt="ARIA creates a report" />
 </Frame>
 
 
