@@ -57,14 +57,14 @@ jobs:
 
       - name: Generate token for wandb-docs-pr-writer
         id: app_token
-        uses: actions/create-github-app-token@v3
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3
         with:
           client-id: ${{ vars.DOCS_PR_WRITER_CLIENT_ID }}
           private-key: ${{ secrets.DOCS_PR_WRITER_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
 
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
         with:
           token: ${{ steps.app_token.outputs.token }}
 
@@ -78,7 +78,7 @@ jobs:
         run: git submodule update --init --depth 1 docengine
 
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: '3.12'
 
@@ -89,18 +89,22 @@ jobs:
         id: matrix
         # Slim-aware discovery: mirror `docengine overlay list`'s resolution. Emits
         # one row per discovered overlay as {api, output_path}; output_path =
-        # output_subpath + the overlay's output_spec_path. `tail -1` drops the
-        # resolver's note line.
+        # output_subpath + the overlay's output_spec_path. Python runs as its own
+        # command so a crash trips the shell's `-e` (GHA default) instead of being
+        # masked by the pipe in a command substitution; `tail -1` then drops the
+        # resolver's stdout note line.
         run: |
-          MATRIX=$(python -c "
+          python -c "
           import json
           from app.overlay_cli import _build_runner
           from app.cli_context import bootstrap_repo, resolve_default_site_context, resolve_site
           _, sm = bootstrap_repo()
           ctx = resolve_default_site_context(None, sm)
           resolved = resolve_site(ctx, sm)
+          if resolved is None:
+              raise SystemExit('resolve_site returned None')
           paths = resolved.paths
-          sub = (paths.site_entry.output_subpath or '').strip()
+          sub = (paths.descriptor.output_subpath or '').strip()
           runner = _build_runner(paths)
           rows = [
               {'api': r['name'],
@@ -108,7 +112,8 @@ jobs:
               for r in runner.list_overlays()
           ]
           print(json.dumps(rows))
-          " | tail -1)
+          " > "$RUNNER_TEMP/overlay-matrix.txt"
+          MATRIX=$(tail -1 "$RUNNER_TEMP/overlay-matrix.txt")
           echo "matrix=$MATRIX" >> "$GITHUB_OUTPUT"
           echo "Overlay matrix: $MATRIX"
 
@@ -140,14 +145,14 @@ jobs:
 
       - name: Generate token for wandb-docs-pr-writer
         id: app_token
-        uses: actions/create-github-app-token@v3
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3
         with:
           client-id: ${{ vars.DOCS_PR_WRITER_CLIENT_ID }}
           private-key: ${{ secrets.DOCS_PR_WRITER_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
 
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
         with:
           token: ${{ steps.app_token.outputs.token }}
 
@@ -161,7 +166,7 @@ jobs:
         run: git submodule update --init --depth 1 docengine
 
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: '3.12'
 
@@ -177,7 +182,7 @@ jobs:
         run: docengine overlay apply --api "$API" --output-dir "$GITHUB_WORKSPACE"
 
       - name: Open PR with curated OpenAPI spec
-        uses: peter-evans/create-pull-request@v8
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8
         with:
           token: ${{ steps.app_token.outputs.token }}
           branch: docengine/${{ matrix.api }}-api-specs
