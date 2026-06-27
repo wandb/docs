@@ -160,6 +160,10 @@ turn.end();
 </Tab>
 </Tabs>
 
+In the UI, recorded events can be viewed by selecting the **Spans** tab, then choosing the associated span. In the span detail panel, select the **Raw** data tab and expand the `events` array in the JSON tree, as shown in the following image.
+
+![The Spans tab with a span selected that has events. The detail panel on the right shows the Raw data tab with the events array expanded, listing the events recorded on the span.](./imgs/agent-view-spans-attributes-events.png)
+
 ## When you can set attributes and events
 
 Set attributes and events while the span is recording, that is, after the span starts and before it ends. In Python, this is inside the `with` block. In TypeScript, this is after `start*()` and before `end()`.
@@ -174,4 +178,4 @@ To attach attributes when logging completed agent activity in a single batch rat
 
 ## View and filter attributes in the UI
 
-Stamping attributes and recording events is only the first step. Their value comes from using them to analyze agent activity. After you stamp attributes on agent spans, you can filter and group agent conversations by those attributes in the **Agents** tab of your Weave project. For details, see [View agent activity](/weave/guides/tracking/view-agent-activity).
+Adding attributes is only the first step. Their value comes from using them to analyze agent activity. After you stamp attributes on agent spans, you can filter and group agent conversations by those attributes in the **Agents** tab of your Weave project. For details, see [View agent activity](/weave/guides/tracking/view-agent-activity).
