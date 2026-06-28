@@ -111,7 +111,8 @@
                     "group": "Platform Details",
                     "pages": [
                       {
-                        "group" : "ARIA",
+                        "group": "ARIA",
+                        "tag": "Preview",
                         "pages": [
                           "aria/overview",
                           "aria/chat",
