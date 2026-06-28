@@ -2,46 +2,43 @@
 title: "Overview"
 ---
 
-ARIA (AI Research and Iteration Agent) is your personalized research assistant that analyzes and runs experiments, explains results, finds patterns across runs, recommends next steps, builds visualizations, reports and more in W&B.
+ARIA, W&B's AI Research and Iteration Agent, is your personalized research assistant that helps you analyze and run experiments, explain results, identify patterns across runs, recommend next steps, build visualizations and reports, and more in W&B.
 
 <Frame>
     <img src="/images/agent/agent_empty_chat_window.png" alt="Blank ARIA chat window" />
 </Frame>
 
-ARIA can assist with:
+ARIA can help you:
 
-* Analyze your experiments to find patterns and insights.
+* Analyze experiments to find patterns and insights.
 * Run experiments and sweeps to test new ideas.
-* Propose next steps for your experiments, such as recommending hyperparameters to try.
-* Create new plot and panels to visualize your data.
+* Propose next steps, such as recommending hyperparameters to try.
+* Create plots and panels to visualize your data.
 * Build saved views and reports to share insights with your team.
 
-[Chat with ARIA](/aria/chat) in your project's workspace.
+To [chat with ARIA](/aria/chat):
 
 1. From any project, click the blue circle at the upper right corner of the page.
     <Frame>
         <img src="/images/agent/agent_location.png" alt="Location of ARIA in the UI" />
     </Frame>
-2. In the modal, enter your question or request. If you you are unsure what to ask, you can select from the list of suggested prompts.
-3. Click the **Send** button, which has an upward-pointing arrow.
+2. In the chat window, type your question or request. If you you are unsure what to ask, select a suggested prompt.
+3. Click the **Send** button, the upward-pointing arrow in the lower-right corner of the chat window.
 
-Depending on the complexity of your question, ARIA might take a few moments to respond. You can close the modal while ARIA is working and return to check on ARIA's response later.
+Depending on the complexity of your question, ARIA might take a few moments to respond. You can close the chat window while ARIA works and return to check the response later. If ARIA needs more information, it asks you for clarification.
 
 While ARIA works, you might see **Thinking** and **shell** steps:
 
-- **Thinking** steps summarize how ARIA is approaching your question.
-- **shell** steps show when ARIA uses a tool, such as creating a panel, filtering runs, creating Python and running scripts, and so forth.
+- **Thinking** steps summarize how ARIA approaches your question.
+- **shell** steps show when ARIA takes an action, such as creating a panel, filtering runs, creating and running Python scripts, and more.
 
-Click on a **Thinking** or **shell** step to expand more details about ARIA's thought process or the specific tool action it took, respectively.
+Click on a **Thinking** or **shell** step to expand more details about ARIA's reasoning or the action it took.
 
-If ARIA needs more information to answer your question, it will ask you for clarification.
-
-See the [example chats below for real-world examples](/aria/overview#example-chats). For more information about managing chats, see [Chat with ARIA](/aria/chat).
+For real-world examples, see [Example chats](/aria/overview#example-chats). For more information about managing chats, see [Chat with ARIA](/aria/chat).
 
 ## Example chats
 
 The following are examples of real chats with ARIA to illustrate how you can interact with ARIA and the types of responses you can expect.
-
 
 <Accordion title="Run experiments based on ARIA's recommendations">
 
@@ -114,10 +111,7 @@ ARIA uses W&B Launch to run the experiment in a sandbox environment. The followi
     <img src="/images/agent/aria_experiment.gif" alt="ARIA running an experiment" />
 </Frame>
 
-
 ARIA uses W&B Launch to run experiments in a sandbox environment. See [Enable ARIA to run experiments](/aria/autoresearch#run-experiments-with-w&b-launch) for more information.
-
-
 </Accordion>
 
 
