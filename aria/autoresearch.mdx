@@ -1,41 +1,26 @@
 ---
-title: "Tools"
-description: "Learn about the tools available in ARIA, W&B's AI Research and Iteration Agent."
+title: "Use ARIA for Autoresearch"
+description: "Learn how to use ARIA, W&B's AI Research and Iteration Agent, to analyze results and run experiments."
 ---
 
-ARIA uses tools to inspect, analyze, and update W&B and Weave data. Some tools are available by default. To let ARIA run experiments, configure W&B Launch.
+Use ARIA, W&B's AI Research and Iteration Agent, as your research assistant to analyze experiments, explain results, identify patterns across runs, recommend next steps, build visualizations, and more.
 
-## Default tools
+Based on your previous runs, ARIA can recommend and run new experiments.
 
-ARIA can use the following tools in W&B and Weave projects.
+ARIA uses W&B Launch to run experiments in a sandbox environment. Before ARIA can run experiments in your project, use [ARIA to help you set up W&B Launch](/aria/autoresearch#set-up-wb-launch-with-aria).
 
-| Tool type                      | What ARIA can do  |
-| ------------------------------ | ----------------- |
-| W&B project and run analysis   | Query runs, configs, metrics, summaries, histories, artifacts, sweeps, system metrics, logs, and workspace views.  |
-| W&B Launch                     | Inspect queues, jobs, queue items, and agents. Package code into Launch jobs, relaunch jobs or runs with config overrides, submit jobs to queues, monitor launched runs, debug queue or run failures, and run bounded experiment searches. |
-| Weave                          | Inspect traces, calls, evaluations, scorers, datasets, feedback, token and cost summaries, and monitors when Weave data is available.  |
-| W&B editing                    | Create or update reports, workspace panels, saved views, run filters, Weave monitors, Weave signals, and other W&B objects when you ask ARIA to do so. ARIA asks for confirmation before destructive actions.  |
-| Documentation lookup           | Look up current W&B and Weave documentation for product behavior, SDK and API usage, UI paths, and feature details.  |
-| Python and shell analysis      | Run authenticated Python or shell scripts with libraries such as `wandb`, `weave`, `pandas`, `numpy`, and plotting packages. ARIA uses these tools for comparisons, rankings, summaries, anomaly checks, and custom diagnostics.           |
-| LLM-assisted semantic analysis | Summarize logs, cluster trace failures, interpret text-heavy evaluation examples, and analyze fetched images or plots. For exact counts, calculations, and metric comparisons, ARIA uses deterministic tools such as Python.               |
+## Set up W&B Launch with ARIA
 
-## Run experiments with W&B Launch
-
-To let ARIA run experiments in your project, enable the W&B Launch tool.
-
-ARIA can help you configure W&B Launch from the chat. For example, ask:
+ARIA can help you configure W&B Launch from the chat. For example, if you ask ARIA:
 
 ```text title="User prompt"
 Can you help me set up W&B Launch?
 ```
 
-```text title="User prompt"
-Can you help me run experiments with W&B Launch?
-```
+ARIA checks which [W&B Launch components](/aria/autoresearch#launch-components) are available in your project and guides you through the remaining setup steps.
 
-ARIA can check which components of W&B Launch are available in your project and guide you through the steps to enable ARIA to run experiments. See [Launch components](/aria/tools#launch-components) for more information.
+The following example shows part of an ARIA response to the prompt, "Can you help me set up W&B Launch?":
 
-For example, the following shows the beginning of an actual response from ARIA when asked "Can you help me set up W&B Launch?":
 
 <Accordion title="ARIA response">
 
