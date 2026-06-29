@@ -531,8 +531,8 @@
                   {
                     "group": "Get Started",
                     "pages": [
-                      "weave/agents-quickstart",
-                      "weave/quickstart"
+                      "weave/agent-integration-quickstart",
+                      "weave/custom-agents-quickstart"
                     ]
                   },
                   {
@@ -546,6 +546,7 @@
                           "weave/guides/tracking/trace-agent-integrations",
                           "weave/guides/tracking/view-agent-activity",
                           "weave/guides/tracking/view-agent-signals",
+                          "weave/guides/tracking/trace-agents-attributes",
                           "weave/guides/tracking/trace-agents-batch",
                           "weave/guides/tracking/trace-sub-agents"
                         ]
@@ -556,6 +557,7 @@
                           {
                             "group": "Tracing basics",
                             "pages": [
+                              "weave/quickstart",
                               "weave/guides/tracking/tracing",
                               "weave/guides/tracking/create-call",
                               "weave/guides/tracking/trace-tree",
@@ -687,10 +689,7 @@
                           {
                             "group": "Frameworks",
                             "pages": [
-                              "weave/guides/integrations/openai_agents",
                               "weave/guides/integrations/openai-realtime-audio",
-                              "weave/guides/integrations/claude_agent",
-                              "weave/guides/integrations/claude_code",
                               "weave/guides/integrations/langchain",
                               "weave/guides/integrations/llamaindex",
                               "weave/guides/integrations/dspy",
@@ -698,7 +697,6 @@
                               "weave/guides/integrations/crewai",
                               "weave/guides/integrations/smolagents",
                               "weave/guides/integrations/pydantic_ai",
-                              "weave/guides/integrations/google_adk",
                               "weave/guides/integrations/vercel_ai_sdk",
                               "weave/guides/integrations/haystack",
                               "weave/guides/integrations/agno",
@@ -1997,7 +1995,6 @@
                   {
                     "group": "Premiers pas",
                     "pages": [
-                      "fr/weave/agents-quickstart",
                       "fr/weave/quickstart"
                     ]
                   },
@@ -3382,7 +3379,6 @@
                   {
                     "group": "スタートガイド",
                     "pages": [
-                      "ja/weave/agents-quickstart",
                       "ja/weave/quickstart"
                     ]
                   },
@@ -4767,7 +4763,6 @@
                   {
                     "group": "시작하기",
                     "pages": [
-                      "ko/weave/agents-quickstart",
                       "ko/weave/quickstart"
                     ]
                   },
@@ -7059,6 +7054,22 @@
     {
       "destination": "/weave/guides/evaluation/monitors",
       "source": "/weave/guides/evaluation/guardrails_and_monitors"
+    },
+    {
+      "destination": "/weave/guides/integrations/agents/claude-agents-sdk",
+      "source": "/weave/guides/integrations/claude_agent"
+    },
+    {
+      "destination": "/weave/guides/integrations/agents/claude-code-harness",
+      "source": "/weave/guides/integrations/claude_code"
+    },
+    {
+      "destination": "/weave/guides/integrations/agents/google-adk",
+      "source": "/weave/guides/integrations/google_adk"
+    },
+    {
+      "destination": "/weave/guides/integrations/agents/openai-agents-sdk",
+      "source": "/weave/guides/integrations/openai_agents"
     },
     {
       "destination": "weave/concepts/what-is-weave",
