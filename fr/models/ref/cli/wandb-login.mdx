@@ -74,6 +74,16 @@ Pour forcer une nouvelle demande de connexion, même si vous êtes déjà authen
 wandb login --relogin
 ```
 
+<div id="api-key-formats">
+  ## Formats de clé API
+</div>
+
+W&amp;B génère des clés API au format `wandb_v1_` (environ 92 caractères). Les anciennes versions du SDK attendent exactement 40 caractères et rejettent le nouveau format avec `API key must be 40 characters long`. Mettez à niveau le SDK (`pip install -U wandb`) et exécutez `wandb login --relogin`.
+
+Les clés générées sur [wandb.ai/authorize](https://wandb.ai/authorize) ne s’affichent qu’une seule fois, au moment de leur création. Copiez-les immédiatement : vous ne pourrez plus les récupérer après avoir fermé la boîte de dialogue.
+
+Pour les versions du SDK verrouillées, les clés héritées et les erreurs associées, voir [Pourquoi ma clé API échoue-t-elle avec « must be 40 characters long » ?](/fr/support/models/articles/why-does-my-api-key-fail-with-must-be-40-characters).
+
 <div id="arguments">
   ## Arguments
 </div>

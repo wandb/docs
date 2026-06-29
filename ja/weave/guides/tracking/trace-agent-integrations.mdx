@@ -5,36 +5,10 @@ keywords: ["エージェント ハーネス", "autopatch", "OpenTelemetry", "Gen
 ---
 
 import AgentsPreview from '/snippets/ja/_includes/agents-public-preview.mdx';
+import AgentIntegrationPaths from '/snippets/ja/_includes/agent-integration-paths.mdx';
 
 <AgentsPreview />
 
 W&amp;B Weave は、各ターンを手動でインストルメンテーションしなくても、マルチターンのエージェント型アプリケーションをトレースできます。サポートされているエージェント SDK とハーネスでは、`weave.init()` を呼び出すと、Weave がフレームワークに自動的にパッチを適用します。Weave はセッション、ターン、LLM Call、ツール呼び出しを取得し、**Agents** ビューに表示します。このページでは、3 つのカテゴリ (エージェント ハーネス、エージェント SDK、カスタム エージェント (OpenTelemetry スパンを出力するものを含む) ) のインテグレーション ガイドへのリンクを掲載しています。
 
-<div id="agent-harnesses">
-  ## エージェント ハーネス
-</div>
-
-ハーネスは、Weave が取得できるスパンを生成する、エンドユーザー向けのエージェントランタイム (コーディングエージェントや開発者ツールなど) です。適切なプラグインまたは拡張機能をインストールすると、Weave がハーネスのセッションを **Agents** ビューに送ります。
-
-* **[Claude Code プラグイン](/ja/weave/guides/integrations/agents/claude-code-harness)**
-* **[Codex プラグイン](/ja/weave/guides/integrations/agents/codex-harness)**
-* **[OpenClaw プラグイン](/ja/weave/guides/integrations/agents/openclaw-harness)**
-* **[Pi 拡張機能](/ja/weave/guides/integrations/agents/pi-dev-harness)**
-
-<div id="agent-sdks">
-  ## エージェント SDK
-</div>
-
-エージェント SDK は、自身のアプリケーションコード内でエージェントやマルチエージェントワークフローを構築するためのライブラリです。Weave は次の SDK に自動的にパッチを適用します。
-
-* **[OpenAI Agents SDK](/ja/weave/guides/integrations/agents/openai-agents-sdk)**
-* **[Google Agent Development Kit (ADK)](/ja/weave/guides/integrations/agents/google-adk)**
-* **[Claude Agent SDK](/ja/weave/guides/integrations/agents/claude-agents-sdk)**
-
-<div id="custom-agents-and-opentelemetry">
-  ## カスタムエージェントとOpenTelemetry
-</div>
-
-Weave SDK を直接使用して、OpenTelemetry の スパン を生成するエージェントを含むカスタムエージェントを計装できます。Weave は任意の OTel スパン を受け入れ、[GenAI semantic-convention attributes](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans/) に対する特別な処理も備えているため、スパン が **Agents** ビューに表示されます。
-
-Weave SDK を直接使用してカスタムエージェントを計装する方法については、[Trace your agents](/ja/weave/guides/tracking/trace-agents) を参照してください。手順をひととおり確認したい場合は、[Trace an agent quickstart](/ja/weave/agents-quickstart) もご覧ください。
+<AgentIntegrationPaths />

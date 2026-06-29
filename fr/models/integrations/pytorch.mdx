@@ -297,7 +297,7 @@ Deux fonctions `wandb` entrent en jeu ici : `watch` et `log`.
 `run.watch()` journalisera les gradients et les paramètres de votre modèle,
 toutes les `log_freq` étapes de l&#39;entraînement.
 
-Il vous suffit de l&#39;appeler avant de commencer l&#39;entraînement.
+Appelez `run.watch()` avant de commencer l&#39;entraînement. Pour les modes de journalisation, les modèles multiples et les conseils sur les performances, voir [Comment puis-je journaliser les gradients et les poids du modèle avec wandb.watch ?](/fr/support/models/articles/how-do-i-log-gradients-and-model-weights-with-wandb-watch).
 
 Le reste du code d&#39;entraînement reste le même :
 nous parcourons les époques et les lots,
@@ -328,11 +328,11 @@ def train(model, loader, criterion, optimizer, config):
 
 def train_batch(images, labels, model, optimizer, criterion):
     images, labels = images.to(device), labels.to(device)
-
+    
     # Passe avant ➡
     outputs = model(images)
     loss = criterion(outputs, labels)
-
+    
     # Passe arrière ⬅
     optimizer.zero_grad()
     loss.backward()
@@ -352,14 +352,14 @@ Ces chaînes identifient les objets enregistrés, qui constituent les valeurs.
 Vous pouvez aussi indiquer, de façon facultative, à quelle `step` d’entraînement vous en êtes.
 
 > *Remarque* : j’aime utiliser le nombre d’exemples que le modèle a vus,
-> car cela facilite la comparaison entre différentes tailles de batch,
-> mais vous pouvez utiliser les étapes brutes ou le nombre de batches. Pour des runs d’entraînement plus longs, il peut aussi être pertinent de journaliser par `epoch`.
+> car cela facilite la comparaison entre différentes tailles de lot,
+> mais vous pouvez utiliser les étapes brutes ou le nombre de lots. Pour des runs d’entraînement plus longs, il peut aussi être pertinent de journaliser par `epoch`.
 
 ```python
 def train_log(loss, example_ct, epoch):
     with wandb.init(project="pytorch-demo") as run:
-        # Consigner la perte et le numéro d’époque
-        # C’est ici que nous consignons les métriques dans W&B
+        # Consigner la perte et le numéro d'époque
+        # C'est ici que nous consignons les métriques dans W&B
         run.log({"epoch": epoch, "loss": loss}, step=example_ct)
         print(f"Loss after {str(example_ct).zfill(5)} examples: {loss:.3f}")
 ```

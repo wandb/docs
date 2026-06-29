@@ -111,6 +111,16 @@
                     "group": "Platform Details",
                     "pages": [
                       {
+                        "group": "ARIA",
+                        "pages": [
+                          "aria/overview",
+                          "aria/chat",
+                          "aria/autoresearch",
+                          "aria/governance"
+                        ],
+                        "tag": "Preview"
+                      },
+                      {
                         "group": "Configure W&B",
                         "pages": [
                           {
@@ -521,8 +531,8 @@
                   {
                     "group": "Get Started",
                     "pages": [
-                      "weave/agents-quickstart",
-                      "weave/quickstart"
+                      "weave/agent-integration-quickstart",
+                      "weave/custom-agents-quickstart"
                     ]
                   },
                   {
@@ -536,6 +546,7 @@
                           "weave/guides/tracking/trace-agent-integrations",
                           "weave/guides/tracking/view-agent-activity",
                           "weave/guides/tracking/view-agent-signals",
+                          "weave/guides/tracking/trace-agents-attributes",
                           "weave/guides/tracking/trace-agents-batch",
                           "weave/guides/tracking/trace-sub-agents"
                         ]
@@ -546,6 +557,7 @@
                           {
                             "group": "Tracing basics",
                             "pages": [
+                              "weave/quickstart",
                               "weave/guides/tracking/tracing",
                               "weave/guides/tracking/create-call",
                               "weave/guides/tracking/trace-tree",
@@ -677,10 +689,7 @@
                           {
                             "group": "Frameworks",
                             "pages": [
-                              "weave/guides/integrations/openai_agents",
                               "weave/guides/integrations/openai-realtime-audio",
-                              "weave/guides/integrations/claude_agent",
-                              "weave/guides/integrations/claude_code",
                               "weave/guides/integrations/langchain",
                               "weave/guides/integrations/llamaindex",
                               "weave/guides/integrations/dspy",
@@ -688,7 +697,6 @@
                               "weave/guides/integrations/crewai",
                               "weave/guides/integrations/smolagents",
                               "weave/guides/integrations/pydantic_ai",
-                              "weave/guides/integrations/google_adk",
                               "weave/guides/integrations/vercel_ai_sdk",
                               "weave/guides/integrations/haystack",
                               "weave/guides/integrations/agno",
@@ -1473,7 +1481,6 @@
             "tab": "W&B Launch"
           },
           {
-            "tab": "Support: W&B Models",
             "hidden": true,
             "pages": [
               "support/models",
@@ -1517,10 +1524,10 @@
               "support/models/tags/workspace",
               "support/models/tags/workspaces",
               "support/models/tags/wysiwyg"
-            ]
+            ],
+            "tab": "Support: W&B Models"
           },
           {
-            "tab": "Support: W&B Weave",
             "hidden": true,
             "pages": [
               "support/weave",
@@ -1532,10 +1539,10 @@
               "support/weave/tags/system-info",
               "support/weave/tags/trace-data",
               "support/weave/tags/ui-rendering"
-            ]
+            ],
+            "tab": "Support: W&B Weave"
           },
           {
-            "tab": "Support: W&B Inference",
             "hidden": true,
             "pages": [
               "support/inference",
@@ -1544,7 +1551,8 @@
               "support/inference/tags/billing",
               "support/inference/tags/quotas-rate-limits",
               "support/inference/tags/server-errors"
-            ]
+            ],
+            "tab": "Support: W&B Inference"
           }
         ]
       },
@@ -1577,7 +1585,17 @@
                     "group": "Détails de la plateforme",
                     "pages": [
                       {
-                        "group": "Configurez W&B",
+                        "group": "ARIA",
+                        "pages": [
+                          "fr/aria/overview",
+                          "fr/aria/chat",
+                          "fr/aria/autoresearch",
+                          "fr/aria/governance"
+                        ],
+                        "tag": "Preview"
+                      },
+                      {
+                        "group": "Configurer W&B",
                         "pages": [
                           {
                             "group": "Paramètres",
@@ -1987,8 +2005,8 @@
                   {
                     "group": "Premiers pas",
                     "pages": [
-                      "fr/weave/agents-quickstart",
-                      "fr/weave/quickstart"
+                      "fr/weave/agent-integration-quickstart",
+                      "fr/weave/custom-agents-quickstart"
                     ]
                   },
                   {
@@ -2002,6 +2020,7 @@
                           "fr/weave/guides/tracking/trace-agent-integrations",
                           "fr/weave/guides/tracking/view-agent-activity",
                           "fr/weave/guides/tracking/view-agent-signals",
+                          "fr/weave/guides/tracking/trace-agents-attributes",
                           "fr/weave/guides/tracking/trace-agents-batch",
                           "fr/weave/guides/tracking/trace-sub-agents"
                         ]
@@ -2012,6 +2031,7 @@
                           {
                             "group": "Notions de base du traçage",
                             "pages": [
+                              "fr/weave/quickstart",
                               "fr/weave/guides/tracking/tracing",
                               "fr/weave/guides/tracking/create-call",
                               "fr/weave/guides/tracking/trace-tree",
@@ -2143,10 +2163,7 @@
                           {
                             "group": "Frameworks",
                             "pages": [
-                              "fr/weave/guides/integrations/openai_agents",
                               "fr/weave/guides/integrations/openai-realtime-audio",
-                              "fr/weave/guides/integrations/claude_agent",
-                              "fr/weave/guides/integrations/claude_code",
                               "fr/weave/guides/integrations/langchain",
                               "fr/weave/guides/integrations/llamaindex",
                               "fr/weave/guides/integrations/dspy",
@@ -2154,7 +2171,6 @@
                               "fr/weave/guides/integrations/crewai",
                               "fr/weave/guides/integrations/smolagents",
                               "fr/weave/guides/integrations/pydantic_ai",
-                              "fr/weave/guides/integrations/google_adk",
                               "fr/weave/guides/integrations/vercel_ai_sdk",
                               "fr/weave/guides/integrations/haystack",
                               "fr/weave/guides/integrations/agno",
@@ -2798,7 +2814,10 @@
                   "fr/support/models/tags/administrator",
                   "fr/support/models/tags/alerts",
                   "fr/support/models/tags/anonymous",
+                  "fr/support/models/tags/api",
+                  "fr/support/models/tags/api-keys",
                   "fr/support/models/tags/artifacts",
+                  "fr/support/models/tags/authentication",
                   "fr/support/models/tags/aws",
                   "fr/support/models/tags/billing",
                   "fr/support/models/tags/charts",
@@ -2810,6 +2829,7 @@
                   "fr/support/models/tags/logs",
                   "fr/support/models/tags/metrics",
                   "fr/support/models/tags/notebooks",
+                  "fr/support/models/tags/org-management",
                   "fr/support/models/tags/outage",
                   "fr/support/models/tags/privacy",
                   "fr/support/models/tags/projects",
@@ -2818,13 +2838,16 @@
                   "fr/support/models/tags/resuming",
                   "fr/support/models/tags/run-crashes",
                   "fr/support/models/tags/runs",
+                  "fr/support/models/tags/sdk",
                   "fr/support/models/tags/security",
                   "fr/support/models/tags/storage",
                   "fr/support/models/tags/sweeps",
                   "fr/support/models/tags/tables",
                   "fr/support/models/tags/team-management",
+                  "fr/support/models/tags/teams",
                   "fr/support/models/tags/tensorboard",
                   "fr/support/models/tags/user-management",
+                  "fr/support/models/tags/workspace",
                   "fr/support/models/tags/workspaces",
                   "fr/support/models/tags/wysiwyg"
                 ]
@@ -2930,6 +2953,80 @@
               }
             ],
             "tab": "W&B Launch"
+          },
+          {
+            "hidden": true,
+            "pages": [
+              "fr/support/models",
+              "fr/support/models/tags/academic",
+              "fr/support/models/tags/administrator",
+              "fr/support/models/tags/alerts",
+              "fr/support/models/tags/anonymous",
+              "fr/support/models/tags/api",
+              "fr/support/models/tags/api-keys",
+              "fr/support/models/tags/artifacts",
+              "fr/support/models/tags/authentication",
+              "fr/support/models/tags/aws",
+              "fr/support/models/tags/billing",
+              "fr/support/models/tags/charts",
+              "fr/support/models/tags/connectivity",
+              "fr/support/models/tags/environment-variables",
+              "fr/support/models/tags/experiments",
+              "fr/support/models/tags/hyperparameter",
+              "fr/support/models/tags/inference",
+              "fr/support/models/tags/logs",
+              "fr/support/models/tags/metrics",
+              "fr/support/models/tags/notebooks",
+              "fr/support/models/tags/org-management",
+              "fr/support/models/tags/outage",
+              "fr/support/models/tags/privacy",
+              "fr/support/models/tags/projects",
+              "fr/support/models/tags/python",
+              "fr/support/models/tags/reports",
+              "fr/support/models/tags/resuming",
+              "fr/support/models/tags/run-crashes",
+              "fr/support/models/tags/runs",
+              "fr/support/models/tags/sdk",
+              "fr/support/models/tags/security",
+              "fr/support/models/tags/storage",
+              "fr/support/models/tags/sweeps",
+              "fr/support/models/tags/tables",
+              "fr/support/models/tags/team-management",
+              "fr/support/models/tags/teams",
+              "fr/support/models/tags/tensorboard",
+              "fr/support/models/tags/user-management",
+              "fr/support/models/tags/workspace",
+              "fr/support/models/tags/workspaces",
+              "fr/support/models/tags/wysiwyg"
+            ],
+            "tab": "Assistance : W&B Models"
+          },
+          {
+            "hidden": true,
+            "pages": [
+              "fr/support/weave",
+              "fr/support/weave/tags/client-info",
+              "fr/support/weave/tags/code-capture",
+              "fr/support/weave/tags/data-capture",
+              "fr/support/weave/tags/evaluation",
+              "fr/support/weave/tags/performance",
+              "fr/support/weave/tags/system-info",
+              "fr/support/weave/tags/trace-data",
+              "fr/support/weave/tags/ui-rendering"
+            ],
+            "tab": "Assistance : W&B Weave"
+          },
+          {
+            "hidden": true,
+            "pages": [
+              "fr/support/inference",
+              "fr/support/inference/tags/administrator",
+              "fr/support/inference/tags/authentication-access",
+              "fr/support/inference/tags/billing",
+              "fr/support/inference/tags/quotas-rate-limits",
+              "fr/support/inference/tags/server-errors"
+            ],
+            "tab": "Assistance : W&B Inference"
           }
         ]
       },
@@ -2962,7 +3059,17 @@
                     "group": "プラットフォームの詳細",
                     "pages": [
                       {
-                        "group": "W&B を設定する",
+                        "group": "ARIA",
+                        "pages": [
+                          "ja/aria/overview",
+                          "ja/aria/chat",
+                          "ja/aria/autoresearch",
+                          "ja/aria/governance"
+                        ],
+                        "tag": "Preview"
+                      },
+                      {
+                        "group": "W&B の設定",
                         "pages": [
                           {
                             "group": "設定",
@@ -2977,7 +3084,7 @@
                             ]
                           },
                           {
-                            "group": "アイデンティティとアクセス管理（IAM）",
+                            "group": "アイデンティティとアクセス管理 (IAM)",
                             "pages": [
                               "ja/platform/hosting/iam/org_team_struct",
                               {
@@ -3026,7 +3133,7 @@
                         ]
                       },
                       {
-                        "group": "デプロイオプション",
+                        "group": "デプロイメントオプション",
                         "pages": [
                           "ja/platform/hosting",
                           "ja/platform/hosting/hosting-options/multi_tenant_cloud",
@@ -3372,8 +3479,8 @@
                   {
                     "group": "スタートガイド",
                     "pages": [
-                      "ja/weave/agents-quickstart",
-                      "ja/weave/quickstart"
+                      "ja/weave/agent-integration-quickstart",
+                      "ja/weave/custom-agents-quickstart"
                     ]
                   },
                   {
@@ -3387,6 +3494,7 @@
                           "ja/weave/guides/tracking/trace-agent-integrations",
                           "ja/weave/guides/tracking/view-agent-activity",
                           "ja/weave/guides/tracking/view-agent-signals",
+                          "ja/weave/guides/tracking/trace-agents-attributes",
                           "ja/weave/guides/tracking/trace-agents-batch",
                           "ja/weave/guides/tracking/trace-sub-agents"
                         ]
@@ -3397,6 +3505,7 @@
                           {
                             "group": "トレースの基本",
                             "pages": [
+                              "ja/weave/quickstart",
                               "ja/weave/guides/tracking/tracing",
                               "ja/weave/guides/tracking/create-call",
                               "ja/weave/guides/tracking/trace-tree",
@@ -3528,10 +3637,7 @@
                           {
                             "group": "フレームワーク",
                             "pages": [
-                              "ja/weave/guides/integrations/openai_agents",
                               "ja/weave/guides/integrations/openai-realtime-audio",
-                              "ja/weave/guides/integrations/claude_agent",
-                              "ja/weave/guides/integrations/claude_code",
                               "ja/weave/guides/integrations/langchain",
                               "ja/weave/guides/integrations/llamaindex",
                               "ja/weave/guides/integrations/dspy",
@@ -3539,7 +3645,6 @@
                               "ja/weave/guides/integrations/crewai",
                               "ja/weave/guides/integrations/smolagents",
                               "ja/weave/guides/integrations/pydantic_ai",
-                              "ja/weave/guides/integrations/google_adk",
                               "ja/weave/guides/integrations/vercel_ai_sdk",
                               "ja/weave/guides/integrations/haystack",
                               "ja/weave/guides/integrations/agno",
@@ -4183,7 +4288,10 @@
                   "ja/support/models/tags/administrator",
                   "ja/support/models/tags/alerts",
                   "ja/support/models/tags/anonymous",
+                  "ja/support/models/tags/api",
+                  "ja/support/models/tags/api-keys",
                   "ja/support/models/tags/artifacts",
+                  "ja/support/models/tags/authentication",
                   "ja/support/models/tags/aws",
                   "ja/support/models/tags/billing",
                   "ja/support/models/tags/charts",
@@ -4195,6 +4303,7 @@
                   "ja/support/models/tags/logs",
                   "ja/support/models/tags/metrics",
                   "ja/support/models/tags/notebooks",
+                  "ja/support/models/tags/org-management",
                   "ja/support/models/tags/outage",
                   "ja/support/models/tags/privacy",
                   "ja/support/models/tags/projects",
@@ -4203,13 +4312,16 @@
                   "ja/support/models/tags/resuming",
                   "ja/support/models/tags/run-crashes",
                   "ja/support/models/tags/runs",
+                  "ja/support/models/tags/sdk",
                   "ja/support/models/tags/security",
                   "ja/support/models/tags/storage",
                   "ja/support/models/tags/sweeps",
                   "ja/support/models/tags/tables",
                   "ja/support/models/tags/team-management",
+                  "ja/support/models/tags/teams",
                   "ja/support/models/tags/tensorboard",
                   "ja/support/models/tags/user-management",
+                  "ja/support/models/tags/workspace",
                   "ja/support/models/tags/workspaces",
                   "ja/support/models/tags/wysiwyg"
                 ]
@@ -4315,6 +4427,80 @@
               }
             ],
             "tab": "W&B Launch"
+          },
+          {
+            "hidden": true,
+            "pages": [
+              "ja/support/models",
+              "ja/support/models/tags/academic",
+              "ja/support/models/tags/administrator",
+              "ja/support/models/tags/alerts",
+              "ja/support/models/tags/anonymous",
+              "ja/support/models/tags/api",
+              "ja/support/models/tags/api-keys",
+              "ja/support/models/tags/artifacts",
+              "ja/support/models/tags/authentication",
+              "ja/support/models/tags/aws",
+              "ja/support/models/tags/billing",
+              "ja/support/models/tags/charts",
+              "ja/support/models/tags/connectivity",
+              "ja/support/models/tags/environment-variables",
+              "ja/support/models/tags/experiments",
+              "ja/support/models/tags/hyperparameter",
+              "ja/support/models/tags/inference",
+              "ja/support/models/tags/logs",
+              "ja/support/models/tags/metrics",
+              "ja/support/models/tags/notebooks",
+              "ja/support/models/tags/org-management",
+              "ja/support/models/tags/outage",
+              "ja/support/models/tags/privacy",
+              "ja/support/models/tags/projects",
+              "ja/support/models/tags/python",
+              "ja/support/models/tags/reports",
+              "ja/support/models/tags/resuming",
+              "ja/support/models/tags/run-crashes",
+              "ja/support/models/tags/runs",
+              "ja/support/models/tags/sdk",
+              "ja/support/models/tags/security",
+              "ja/support/models/tags/storage",
+              "ja/support/models/tags/sweeps",
+              "ja/support/models/tags/tables",
+              "ja/support/models/tags/team-management",
+              "ja/support/models/tags/teams",
+              "ja/support/models/tags/tensorboard",
+              "ja/support/models/tags/user-management",
+              "ja/support/models/tags/workspace",
+              "ja/support/models/tags/workspaces",
+              "ja/support/models/tags/wysiwyg"
+            ],
+            "tab": "サポート: W&B Models"
+          },
+          {
+            "hidden": true,
+            "pages": [
+              "ja/support/weave",
+              "ja/support/weave/tags/client-info",
+              "ja/support/weave/tags/code-capture",
+              "ja/support/weave/tags/data-capture",
+              "ja/support/weave/tags/evaluation",
+              "ja/support/weave/tags/performance",
+              "ja/support/weave/tags/system-info",
+              "ja/support/weave/tags/trace-data",
+              "ja/support/weave/tags/ui-rendering"
+            ],
+            "tab": "サポート: W&B Weave"
+          },
+          {
+            "hidden": true,
+            "pages": [
+              "ja/support/inference",
+              "ja/support/inference/tags/administrator",
+              "ja/support/inference/tags/authentication-access",
+              "ja/support/inference/tags/billing",
+              "ja/support/inference/tags/quotas-rate-limits",
+              "ja/support/inference/tags/server-errors"
+            ],
+            "tab": "サポート: W&B Inference"
           }
         ]
       },
@@ -4346,6 +4532,16 @@
                   {
                     "group": "플랫폼 정보",
                     "pages": [
+                      {
+                        "group": "ARIA",
+                        "pages": [
+                          "ko/aria/overview",
+                          "ko/aria/chat",
+                          "ko/aria/autoresearch",
+                          "ko/aria/governance"
+                        ],
+                        "tag": "Preview"
+                      },
                       {
                         "group": "W&B 설정",
                         "pages": [
@@ -4402,7 +4598,7 @@
                         ]
                       },
                       {
-                        "group": "모니터링 및 사용",
+                        "group": "모니터링 및 사용량",
                         "pages": [
                           "ko/platform/hosting/monitoring-usage/audit-logging",
                           "ko/platform/hosting/monitoring-usage/slack-alerts",
@@ -4757,8 +4953,8 @@
                   {
                     "group": "시작하기",
                     "pages": [
-                      "ko/weave/agents-quickstart",
-                      "ko/weave/quickstart"
+                      "ko/weave/agent-integration-quickstart",
+                      "ko/weave/custom-agents-quickstart"
                     ]
                   },
                   {
@@ -4772,6 +4968,7 @@
                           "ko/weave/guides/tracking/trace-agent-integrations",
                           "ko/weave/guides/tracking/view-agent-activity",
                           "ko/weave/guides/tracking/view-agent-signals",
+                          "ko/weave/guides/tracking/trace-agents-attributes",
                           "ko/weave/guides/tracking/trace-agents-batch",
                           "ko/weave/guides/tracking/trace-sub-agents"
                         ]
@@ -4782,6 +4979,7 @@
                           {
                             "group": "트레이싱 기본 개념",
                             "pages": [
+                              "ko/weave/quickstart",
                               "ko/weave/guides/tracking/tracing",
                               "ko/weave/guides/tracking/create-call",
                               "ko/weave/guides/tracking/trace-tree",
@@ -4913,10 +5111,7 @@
                           {
                             "group": "프레임워크",
                             "pages": [
-                              "ko/weave/guides/integrations/openai_agents",
                               "ko/weave/guides/integrations/openai-realtime-audio",
-                              "ko/weave/guides/integrations/claude_agent",
-                              "ko/weave/guides/integrations/claude_code",
                               "ko/weave/guides/integrations/langchain",
                               "ko/weave/guides/integrations/llamaindex",
                               "ko/weave/guides/integrations/dspy",
@@ -4924,7 +5119,6 @@
                               "ko/weave/guides/integrations/crewai",
                               "ko/weave/guides/integrations/smolagents",
                               "ko/weave/guides/integrations/pydantic_ai",
-                              "ko/weave/guides/integrations/google_adk",
                               "ko/weave/guides/integrations/vercel_ai_sdk",
                               "ko/weave/guides/integrations/haystack",
                               "ko/weave/guides/integrations/agno",
@@ -5568,7 +5762,10 @@
                   "ko/support/models/tags/administrator",
                   "ko/support/models/tags/alerts",
                   "ko/support/models/tags/anonymous",
+                  "ko/support/models/tags/api",
+                  "ko/support/models/tags/api-keys",
                   "ko/support/models/tags/artifacts",
+                  "ko/support/models/tags/authentication",
                   "ko/support/models/tags/aws",
                   "ko/support/models/tags/billing",
                   "ko/support/models/tags/charts",
@@ -5580,6 +5777,7 @@
                   "ko/support/models/tags/logs",
                   "ko/support/models/tags/metrics",
                   "ko/support/models/tags/notebooks",
+                  "ko/support/models/tags/org-management",
                   "ko/support/models/tags/outage",
                   "ko/support/models/tags/privacy",
                   "ko/support/models/tags/projects",
@@ -5588,13 +5786,16 @@
                   "ko/support/models/tags/resuming",
                   "ko/support/models/tags/run-crashes",
                   "ko/support/models/tags/runs",
+                  "ko/support/models/tags/sdk",
                   "ko/support/models/tags/security",
                   "ko/support/models/tags/storage",
                   "ko/support/models/tags/sweeps",
                   "ko/support/models/tags/tables",
                   "ko/support/models/tags/team-management",
+                  "ko/support/models/tags/teams",
                   "ko/support/models/tags/tensorboard",
                   "ko/support/models/tags/user-management",
+                  "ko/support/models/tags/workspace",
                   "ko/support/models/tags/workspaces",
                   "ko/support/models/tags/wysiwyg"
                 ]
@@ -5700,6 +5901,80 @@
               }
             ],
             "tab": "W&B Launch"
+          },
+          {
+            "hidden": true,
+            "pages": [
+              "ko/support/models",
+              "ko/support/models/tags/academic",
+              "ko/support/models/tags/administrator",
+              "ko/support/models/tags/alerts",
+              "ko/support/models/tags/anonymous",
+              "ko/support/models/tags/api",
+              "ko/support/models/tags/api-keys",
+              "ko/support/models/tags/artifacts",
+              "ko/support/models/tags/authentication",
+              "ko/support/models/tags/aws",
+              "ko/support/models/tags/billing",
+              "ko/support/models/tags/charts",
+              "ko/support/models/tags/connectivity",
+              "ko/support/models/tags/environment-variables",
+              "ko/support/models/tags/experiments",
+              "ko/support/models/tags/hyperparameter",
+              "ko/support/models/tags/inference",
+              "ko/support/models/tags/logs",
+              "ko/support/models/tags/metrics",
+              "ko/support/models/tags/notebooks",
+              "ko/support/models/tags/org-management",
+              "ko/support/models/tags/outage",
+              "ko/support/models/tags/privacy",
+              "ko/support/models/tags/projects",
+              "ko/support/models/tags/python",
+              "ko/support/models/tags/reports",
+              "ko/support/models/tags/resuming",
+              "ko/support/models/tags/run-crashes",
+              "ko/support/models/tags/runs",
+              "ko/support/models/tags/sdk",
+              "ko/support/models/tags/security",
+              "ko/support/models/tags/storage",
+              "ko/support/models/tags/sweeps",
+              "ko/support/models/tags/tables",
+              "ko/support/models/tags/team-management",
+              "ko/support/models/tags/teams",
+              "ko/support/models/tags/tensorboard",
+              "ko/support/models/tags/user-management",
+              "ko/support/models/tags/workspace",
+              "ko/support/models/tags/workspaces",
+              "ko/support/models/tags/wysiwyg"
+            ],
+            "tab": "지원팀: W&B Models"
+          },
+          {
+            "hidden": true,
+            "pages": [
+              "ko/support/weave",
+              "ko/support/weave/tags/client-info",
+              "ko/support/weave/tags/code-capture",
+              "ko/support/weave/tags/data-capture",
+              "ko/support/weave/tags/evaluation",
+              "ko/support/weave/tags/performance",
+              "ko/support/weave/tags/system-info",
+              "ko/support/weave/tags/trace-data",
+              "ko/support/weave/tags/ui-rendering"
+            ],
+            "tab": "지원팀: W&B Weave"
+          },
+          {
+            "hidden": true,
+            "pages": [
+              "ko/support/inference",
+              "ko/support/inference/tags/administrator",
+              "ko/support/inference/tags/authentication-access",
+              "ko/support/inference/tags/billing",
+              "ko/support/inference/tags/quotas-rate-limits",
+              "ko/support/inference/tags/server-errors"
+            ],
+            "tab": "지원팀: W&B Inference"
           }
         ]
       }
@@ -7049,6 +7324,22 @@
     {
       "destination": "/weave/guides/evaluation/monitors",
       "source": "/weave/guides/evaluation/guardrails_and_monitors"
+    },
+    {
+      "destination": "/weave/guides/integrations/agents/claude-agents-sdk",
+      "source": "/weave/guides/integrations/claude_agent"
+    },
+    {
+      "destination": "/weave/guides/integrations/agents/claude-code-harness",
+      "source": "/weave/guides/integrations/claude_code"
+    },
+    {
+      "destination": "/weave/guides/integrations/agents/google-adk",
+      "source": "/weave/guides/integrations/google_adk"
+    },
+    {
+      "destination": "/weave/guides/integrations/agents/openai-agents-sdk",
+      "source": "/weave/guides/integrations/openai_agents"
     },
     {
       "destination": "weave/concepts/what-is-weave",

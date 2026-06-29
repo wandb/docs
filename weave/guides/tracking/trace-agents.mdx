@@ -12,6 +12,8 @@ Learn how to instrument a multi-turn agentic application using the W&B Weave SDK
 
 The Weave SDK for Agents models the full lifecycle of a multi-turn agent conversation: the agent that owns many sessions, the session that groups turns together, each user-agent exchange (turn), the LLM calls within a turn, and the tool executions that an LLM triggers. Traces appear in the **Agents** tab of your Weave project. Each session shows a multi-turn timeline with nested tool calls, token usage, and feedback.
 
+Weave is built on [OpenTelemetry (OTel)](https://opentelemetry.io/docs/concepts/), the open standard for distributed tracing. Every turn, LLM call, and tool call emits an OTel _span_ (a structured record of one operation). Each span is tagged with [GenAI semantic-convention](https://opentelemetry.io/docs/specs/semconv/gen-ai/) attributes like `gen_ai.agent.name` and `gen_ai.conversation.id`.
+
 If you're tracing individual functions as Ops with the `@weave.op` decorator, see [Trace LLM applications](/weave/guides/tracking/tracing) instead.
 
 ## Before you begin
@@ -33,7 +35,7 @@ import weave
 weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
 ```
 
-Call `weave.init()` before any `start_session()`, `start_turn()`, `start_llm()`, or `start_tool()` call. All agent tracing functions no-op silently when tracing is disabled or the init call is absent, so you can leave instrumentation in production code and control it through configuration.
+Call `weave.init()` before any `start_session()`, `start_turn()`, `start_llm()`, `start_tool()`, or `start_subagent()` call. All agent tracing functions no-op silently when tracing is disabled or the init call is absent, so you can leave instrumentation in production code and control it through configuration.
 
 </Tab>
 <Tab title="TypeScript">
@@ -51,7 +53,7 @@ import * as weave from 'weave';
 await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
 ```
 
-Call `weave.init()` before any `startSession()`, `startTurn()`, `startLLM()`, or `startTool()` call. All agent tracing functions no-op silently when tracing is disabled or the init call is absent, so you can leave instrumentation in production code and control it through configuration.
+Call `weave.init()` before any `startSession()`, `startTurn()`, `startLLM()`, `startTool()`, or `startSubagent()` call. All agent tracing functions no-op silently when tracing is disabled or the init call is absent, so you can leave instrumentation in production code and control it through configuration.
 
 </Tab>
 </Tabs>
@@ -60,13 +62,14 @@ Call `weave.init()` before any `startSession()`, `startTurn()`, `startLLM()`, or
 
 Weave models agent behavior as a hierarchy of one-to-many relationships. Each agent can have many sessions, each session can have many turns, each turn can have many LLM calls, and each LLM call can trigger many tool calls.
 
-| Concept | Weave SDK class | OTel span type | Description |
-|---|---|---|---|
-| Agent | *(no class)* | *(no span, grouped by `agent_name`)* | An agentic application in the Agents tab that contains one or more sessions. |
-| Session | `Session` | *(no span, turns are grouped by `conversation_id`)* | A conversation or run that contains one or more turns. |
-| Turn | `Turn` | `invoke_agent` | One user message and the agent's complete response. |
-| LLM call | `LLM` | `chat` | One call to a language model API. |
-| Tool call | `Tool` | `execute_tool` | One tool call triggered by an LLM response. |
+| Concept | Weave SDK class | OTel span type | Description | Reference page |
+|---|---|---|---|---|
+| Agent | *(no class)* | *(no span, grouped by the `agent_name` attribute)* | An agentic application in the Agents tab that contains one or more sessions. | 
+| Session | `Session` | *(no span, turns are grouped by the `conversation_id` attribute)* | A conversation or run that contains one or more turns. | [Python](/weave/reference/typescript-sdk/classes/session) <br /> [TypeScript](/weave/reference/typescript-sdk/classes/session) |  
+| Turn | `Turn` | `invoke_agent` | One user message and the agent's complete response. | [Python](/weave/reference/python-sdk#class-turn) <br /> [TypeScript](/weave/reference/typescript-sdk/classes/turn) |
+| LLM call | `LLM` | `chat` | One call to a language model API. | [Python](/weave/reference/python-sdk#class-llm) <br /> [TypeScript](/weave/reference/typescript-sdk/classes/llm) |
+| Tool call | `Tool` | `execute_tool` | One tool call triggered by an LLM response. | [Python](/weave/reference/python-sdk#class-tool) <br /> [TypeScript](/weave/reference/typescript-sdk/classes/tool) |
+| Sub-agent call | `SubAgent` | `invoke_agent` | A nested agent invocation, typically when one agent delegates to another. | [Python](/weave/reference/python-sdk#class-subagent) <br /> [TypeScript](/weave/reference/typescript-sdk/classes/subagent) |
 
 The following diagram shows how one agent spans many sessions, one session spans many turns, and so on.
 
@@ -119,7 +122,7 @@ Weave exposes the following top-level functions. Each function returns an object
 
 ### Start a session
 
-`start_session()` / `startSession()` sets a `conversation_id` attribute on all child spans so that turns are grouped in the Agents tab. If you pass a `session_id`, it must be stable across the lifetime of the conversation. Reuse the same ID to add new turns to an existing session. When you omit `session_id`, the SDK generates a UUID automatically.
+`start_session()` (Python) or `startSession()` (TypeScript) stamps a `conversation_id` attribute on every child span so that turns are grouped in the Agents tab. If you pass a `session_id` / `sessionId`, it must be stable across the lifetime of the conversation. Reuse the same ID to add new turns to an existing session. When you omit it, the SDK generates a UUID automatically.
 
 The active session is stored in context (a Python `ContextVar` or Node.js `AsyncLocalStorage`), so any code running in the same async context can retrieve it with `weave.get_current_session()` / `weave.getCurrentSession()` without passing the session object explicitly.
 
@@ -128,7 +131,7 @@ The active session is stored in context (a Python `ContextVar` or Node.js `Async
 
 ```python lines
 session = weave.start_session(
-    agent_name="my-agent",    # Required: identifies the agent in the UI.
+    agent_name="my-agent",    # Optional: identifies the agent in the UI. Omit it and the session isn't grouped under a named agent.
     session_id="",            # Optional: stable ID to group turns; auto-generated when empty.
     model="",                 # Optional: default model for turns in this session.
     session_name="",          # Optional: human-readable label shown in the UI.
@@ -143,7 +146,7 @@ session = weave.start_session(
 ```typescript lines twoslash
 // @noErrors
 const session = weave.startSession({
-  agentName: 'my-agent',  // Optional: identifies the agent in the UI.
+  agentName: 'my-agent',  // Optional: identifies the agent in the UI. Omit it and the session isn't grouped under a named agent.
   sessionId: '',          // Optional: stable ID to group turns, auto-generated when empty.
   model: '',              // Optional: default model for turns in this session.
 });
@@ -154,9 +157,12 @@ const session = weave.startSession({
 
 ### Start a turn
 
-`start_turn()` / `startTurn()` creates a new `invoke_agent` span that becomes the root of a new OTel trace. Weave uses this span to represent one complete user-agent exchange in the timeline view.
+`start_turn()` (Python) and `startTurn()` (TypeScript) create a new `invoke_agent` span that becomes the root of a new OTel trace. Weave uses this span to represent one complete user-agent exchange in the timeline view.
 
-When called as a top-level function, it resolves the active session from context and inherits its conversation ID. If no session is active, Weave creates the turn without a `conversation_id` and doesn't group it with other turns.
+You can call it two ways:
+
+- **As a top-level function** (`weave.start_turn(...)` / `weave.startTurn(...)`), shown in the examples below. It resolves the active session from context and inherits its conversation ID. If no session is active, the turn is created without a `conversation_id` and isn't grouped with other turns.
+- **As an instance method** on a session you hold a reference to (`session.start_turn(...)` / `session.startTurn(...)`). Useful when you have an explicit session object in scope, such as inside a context-manager block. The "Context manager or try-finally pattern" example below uses this form. See the data-model table above for direct links to the `Session`, `Turn`, `LLM`, `Tool`, and `SubAgent` reference pages in both SDKs.
 
 <Tabs>
 <Tab title="Python">
@@ -193,7 +199,7 @@ const turn = weave.startTurn({
 ```python lines
 llm = weave.start_llm(
     model="gpt-4o",             # The model identifier.
-    provider_name="openai",     # Required: provider name, for example "openai", "anthropic".
+    provider_name="openai",     # Optional: provider name, for example "openai", "anthropic". See note below.
     system_instructions=["Be concise."],  # Optional: system prompt strings.
 )
 ```
@@ -205,7 +211,7 @@ llm = weave.start_llm(
 // @noErrors
 const llm = weave.startLLM({
   model: 'gpt-4o',          // The model identifier.
-  providerName: 'openai',   // Optional: provider name, for example "openai", "anthropic".
+  providerName: 'openai',   // Optional: provider name, for example "openai", "anthropic". See note below.
 });
 ```
 
@@ -236,16 +242,20 @@ with weave.start_llm(model="gpt-4o", provider_name="openai") as llm:
 const llm = weave.startLLM({ model: 'gpt-4o', providerName: 'openai' });
 try {
   const response = await openaiClient.chat.completions.create({ ... });
-  llm.inputMessages = [{ role: 'user', content: '...' }];
-  llm.outputMessages = [{ role: 'assistant', content: response.choices[0].message.content ?? '' }];
-  llm.usage = {
-    inputTokens: response.usage?.prompt_tokens,
-    outputTokens: response.usage?.completion_tokens,
-  };
+  llm.record({
+    inputMessages: [{ role: 'user', content: '...' }],
+    outputMessages: [{ role: 'assistant', content: response.choices[0].message.content ?? '' }],
+    usage: {
+      inputTokens: response.usage?.prompt_tokens,
+      outputTokens: response.usage?.completion_tokens,
+    },
+  });
 } finally {
   llm.end();
 }
 ```
+
+`llm.record()` is a shortcut for assigning `inputMessages`, `outputMessages`, `usage`, and `reasoning` in one call. You can still set the properties individually if you prefer. The Python SDK exposes the same method as `llm.record(...)` with snake_case keyword arguments.
 
 </Tab>
 </Tabs>
@@ -315,10 +325,10 @@ The following sections describe how to combine these functions depending on how 
 
 The following examples use two types from the Weave SDK:
 
-- `Message` represents a single entry in a conversation: a user input, an assistant response, a system prompt, or a tool result. Assign to `llm.input_messages` / `llm.inputMessages` to record what the model received and produced.
-- `Usage` captures token counts from the LLM response and is assigned to `llm.usage`.
+- `Message` ([Python](/weave/reference/python-sdk#class-message) · [TypeScript](/weave/reference/typescript-sdk/interfaces/message)) represents a single entry in a conversation: a user input, an assistant response, a system prompt, or a tool result. Assign a list of messages to `llm.input_messages` / `llm.inputMessages` to record what the model received, and to `llm.output_messages` / `llm.outputMessages` to record what it produced.
+- `Usage` ([Python](/weave/reference/python-sdk#class-usage) · [TypeScript](/weave/reference/typescript-sdk/interfaces/usage)) captures token counts from the LLM response and is assigned to `llm.usage`.
 
-Weave uses both to populate the Agents view with the inputs, outputs, and token usage of each LLM call. For all supported data types, see the API reference.
+Weave uses both to populate the Agents view with the inputs, outputs, and token usage of each LLM call.
 
 ### Context manager or try-finally pattern
 

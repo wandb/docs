@@ -1,0 +1,44 @@
+---
+title: "API エラーコード 422 - 無効なリクエスト パラメーター"
+keywords: ["サーバー エラー"]
+---
+
+Chat Completion リクエストでパラメーターが無効な場合、検証がどこで実行されるかによって、**HTTP 422 (Unprocessable Entity)** または **HTTP 400 (Bad Request)** が返されることがあります。どちらの場合も、リクエストを変更する前に応答本文を確認してください。
+
+<div id="why-this-happens">
+  ## これが発生する理由
+</div>
+
+* **モデルでサポートされていないパラメーター**: 一部のパラメーター (`frequency_penalty`、`logprobs`、`response_format` など) は、すべてのモデルでサポートされているわけではありません。サポートされていないパラメーターを渡すと、**400** または **422** が返されることがあります。
+* **パラメーター値が範囲外**: `temperature` などの値は、モデルで有効な範囲内 (多くの場合 **0–2**) でなければなりません。範囲外の値は、多くの場合 **HTTP 400** で拒否され、該当するパラメーター名を示す `error.message` が返されます。
+* **不正な `messages` ペイロード**: `messages` フィールドは、メッセージオブジェクトのリストである必要があります。型が誤っていたり構造が無効だったりすると、通常は応答本文に検証メッセージを含む **HTTP 400** が返されます。
+* **無効な `response_format` またはその他の構造化出力設定**: モデルがサポートしていない形式をリクエストすると、エラー応答が返されることがあります。ステータスコードと応答本文を、そのモデルに関する信頼できる情報源として扱ってください。
+
+<div id="what-you-can-do">
+  ## 確認すべきこと
+</div>
+
+1. **エラーメッセージの本文を確認する**
+   * 多くの応答では、`error` オブジェクトに `message` フィールド (場合によっては `param` や `code` も含む) が含まれます。一方で、`detail` フィールドを返すレイヤーもあります。トラブルシューティングを行う前に、応答に含まれているフィールドを確認してください。
+
+2. **使用しているモデルでサポートされるパラメーターを確認する**
+   * 各モデルで受け入れられる具体的なパラメーターと範囲については、[利用可能なモデル](/ja/inference/models)を確認してください。
+
+3. **messages 配列を検証する**
+   * 各メッセージには `role` (`system`、`user`、または `assistant`) と `content` の `string` が必要です。tool call メッセージでは追加のフィールドが必要です。正しい schema については、[chat completions API リファレンス](/ja/inference/api-reference/chat-completions)を参照してください。
+
+4. **ベース URL を確認する**
+   * OpenAI-compatible クライアントの接続先は `https://api.inference.wandb.ai/v1` にし、`https://api.wandb.ai` は使用しないでください。Multi-tenant Cloud API ホストは Inference chat completions を提供していません。任意で使用状況の帰属を行うには、[list models API リファレンス](/ja/inference/api-reference/list-models)にあるように、`OpenAI-Project` ヘッダーを `team/project` に設定してください。
+
+5. **サポートされていないパラメーターを削除する**
+   * 別の provider のコードを流用している場合は、W&amp;B Inference API リファレンスにないパラメーターを削除してください。モデルがサポートしていない余分なパラメーターがあると、**400** または **422** の応答が返されることがあります。
+
+詳細は、[Serverless Inference](/ja/inference) と [chat completions API リファレンス](/ja/inference/api-reference/chat-completions)を参照してください。
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[サーバー エラー](/ja/support/inference/tags/server-errors)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}
