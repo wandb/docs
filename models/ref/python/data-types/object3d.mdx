@@ -48,7 +48,6 @@ Initializes Object3D from a file or stream.
 ##### Arguments
 
 - `data_or_path`: A path to a file or a `TextIO` stream.
-- `file_type`: Specifies the data format passed to `data_or_path`. Required when `data_or_path` is a `TextIO` stream. This parameter is ignored if a file path is provided. The type is taken from the file extension.
 
 
 
@@ -63,7 +62,6 @@ Initializes Object3D from a numpy array.
 
 ##### Arguments
 
-- `data`: Each entry in the array will represent one point in the point cloud.
 
 
 
@@ -84,7 +82,6 @@ Initializes Object3D from a python object.
 - `points`: The points in the point cloud.
 - `boxes`: 3D bounding boxes for labeling the point cloud. Boxes are displayed in point cloud visualizations.
 - `vectors`: Each vector is displayed in the point cloud visualization. Can be used to indicate directionality of bounding boxes. Defaults to None.
-- `point_cloud_type`: At this time, only the "lidar/beta" type is supported. Defaults to "lidar/beta".
 
 
 

@@ -26,7 +26,7 @@ Used for querying the W&B server.
 
 ## Args
 
-- `overrides`: You can set `base_url` if you are
+- `overrides`: You can set `base_url` if you are using a W&B server other than `https://api.wandb.ai`. You can also set defaults for `entity`, `project`, and `run`.
 - `timeout`: HTTP timeout in seconds for API requests. If not specified, the default timeout will be used.
 - `api_key`: API key to use for authentication. If not provided, the API key from the current environment or configuration will be used. Prompts for an API key if none is provided or configured in the environment.
 
@@ -497,6 +497,8 @@ Create a custom chart preset and return its id.
 - `display_name`: Human-readable name shown in the UI
 - `spec_type`: Type of specification. Must be "vega2" for Vega-Lite v2 specifications.
 - `access`: Access level for the chart:
+    - "private": Chart is only accessible to the entity that created it
+    - "public": Chart is publicly accessible
 - `spec`: The Vega/Vega-Lite specification as a dictionary or JSON string
 
 
@@ -576,10 +578,10 @@ Create a new registry.
 ##### Arguments
 
 - `name`: The name of the registry. Name must be unique within the organization.
-- `visibility`: The visibility of the registry.
+- `visibility`: The visibility of the registry. organization: Anyone in the organization can view this registry. You can edit their roles later from the settings in the UI. restricted: Only invited members via the UI can access this registry. Public sharing is disabled.
 - `organization`: The organization of the registry. If no organization is set in the settings, the organization will be fetched from the entity if the entity only belongs to one organization.
 - `description`: The description of the registry.
-- `artifact_types`: The accepted artifact types of the registry. A type is no
+- `artifact_types`: The accepted artifact types of the registry. A type is no more than 128 characters and do not include characters `/` or `:`. If not specified, all types are accepted. Allowed types added to the registry cannot be removed later.
 
 
 
@@ -1092,7 +1094,7 @@ The following operations are supported:
 ##### Arguments
 
 - `path`: (str) path to project, should be in the form: "entity/project"
-- `filters`: (dict) queries for specific runs using the MongoDB query language. You can filter by run properties such as config.key, summary_metrics.key, state, entity, createdAt, etc.
+- `filters`: (dict) queries for specific runs using the MongoDB query language. You can filter by run properties such as config.key, summary_metrics.key, state, entity, createdAt, etc. For example: `{"config.experiment_name": "foo"}` would find runs with a config entry of experiment name set to "foo"
 - `order`: (str) Order can be `created_at`, `heartbeat_at`, `config.*.value`, or `summary_metrics.*`. If you prepend order with a + order is ascending (default). If you prepend order with a - order is descending. The default order is run.created_at from oldest to newest.
 - `per_page`: (int) Sets the page size for query pagination.
 - `include_sweeps`: (bool) Whether to eagerly fetch the sweep object in each run result.

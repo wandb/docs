@@ -318,7 +318,19 @@ Subsequent "upserts" with the same distributed ID will result in a new version.
 ##### Arguments
 
 - `artifact_or_path`: A path to the contents of this artifact,
+    can be in the following forms:
+        - `/local/directory`
+        - `/local/directory/file.txt`
+        - `s3://bucket/path`
+    You can also pass an Artifact object created by calling
+    `wandb.Artifact`.
 - `name`: An artifact name. May be prefixed with entity/project.
+    Valid names can be in the following forms:
+        - name:version
+        - name:alias
+        - digest
+    This will default to the basename of the path prepended with the current
+    run id  if not specified.
 - `type`: The type of artifact to log, examples include `dataset`, `model`
 - `aliases`: Aliases to apply to this artifact, defaults to `["latest"]`
 - `distributed_id`: Unique string that all distributed jobs share. If None, defaults to the run's group name.
@@ -378,6 +390,10 @@ If not, create a new registered model with name 'registered_model_name'.
 ##### Arguments
 
 - `path`: (str) A path to the contents of this model, can be in the
+    following forms:
+    - `/local/directory`
+    - `/local/directory/file.txt`
+    - `s3://bucket/path`
 - `registered_model_name`: The name of the registered model that the model is to be linked to. A registered model is a collection of model versions linked to the model registry, typically representing a team's specific ML Task. The entity that this registered model belongs to will be derived from the run.
 - `name`: The name of the model artifact that files in 'path' will be logged to. This will default to the basename of the path prepended with the current run id  if not specified.
 - `aliases`: Aliases that will only be applied on this linked artifact inside the registered model. The alias "latest" will always be applied to the latest version of an artifact that is linked.
@@ -493,7 +509,7 @@ with wandb.init() as run:
 
 ##### Arguments
 
-- `data`: A `dict` with `str` keys and values that are serializable
+- `data`: A `dict` with `str` keys and values that are serializable Python objects including: `int`, `float` and `string`; any of the `wandb.data_types`; lists, tuples and NumPy arrays of serializable Python objects; other `dict`s of this structure.
 - `step`: The step number to log. If `None`, then an implicit auto-incrementing step is used. See the notes in the description.
 - `commit`: If true, finalize and upload the step. If false, then accumulate data for the step. See the notes in the description. If `step` is `None`, then the default is `commit=True`; otherwise, the default is `commit=False`.
 
@@ -652,7 +668,18 @@ Declare an artifact as an output of a run.
 ##### Arguments
 
 - `artifact_or_path`: (str or Artifact) A path to the contents of this artifact,
+    can be in the following forms:
+        - `/local/directory`
+        - `/local/directory/file.txt`
+        - `s3://bucket/path`
+    You can also pass an Artifact object created by calling
+    `wandb.Artifact`.
 - `name`: (str, optional) An artifact name. Valid names can be in the following forms:
+        - name:version
+        - name:alias
+        - digest
+    This will default to the basename of the path prepended with the current
+    run id  if not specified.
 - `type`: (str) The type of artifact to log, examples include `dataset`, `model`
 - `aliases`: (list, optional) Aliases to apply to this artifact, defaults to `["latest"]`
 - `tags`: (list, optional) Tags to apply to this artifact, if any.
@@ -678,7 +705,7 @@ By default, it walks the current directory and logs all files that end with `.py
 
 - `root`: The relative (to `os.getcwd()`) or absolute path to recursively find code from.
 - `name`: (str, optional) The name of our code artifact. By default, we'll name the artifact `source-$PROJECT_ID-$ENTRYPOINT_RELPATH`. There may be scenarios where you want many runs to share the same artifact. Specifying name allows you to achieve that.
-- `include_fn`: A callable that accepts a file path and (optionally) root path and returns True when it should be included and False otherwise. This
+- `include_fn`: A callable that accepts a file path and (optionally) root path and returns True when it should be included and False otherwise. This defaults to `lambda path, root: path.endswith(".py")`.
 - `exclude_fn`: A callable that accepts a file path and (optionally) root path and returns `True` when it should be excluded and `False` otherwise. This defaults to a function that excludes all files within `<root>/.wandb/` and `<root>/wandb/` directories.
 
 
@@ -727,6 +754,10 @@ underscores, and hyphens.
 ##### Arguments
 
 - `path`: (str) A path to the contents of this model,
+    can be in the following forms:
+        - `/local/directory`
+        - `/local/directory/file.txt`
+        - `s3://bucket/path`
 - `name`: A name to assign to the model artifact that the file contents will be added to. This will default to the basename of the path prepended with the current run id if not specified.
 - `aliases`: Aliases to apply to the created model artifact, defaults to `["latest"]`
 
@@ -831,6 +862,9 @@ on the same file without modifications will not re-upload it.
 - `glob_str`: A relative or absolute path or Unix glob.
 - `base_path`: A path to use to infer a directory structure; see examples.
 - `policy`: One of `live`, `now`, or `end`.
+    - live: upload the file as it changes, overwriting the previous version
+    - now: upload the file once now
+    - end: upload file when the run ends
 
 
 
@@ -882,7 +916,16 @@ This is useful when distributed jobs need to all contribute to the same artifact
 ##### Arguments
 
 - `artifact_or_path`: A path to the contents of this artifact,
-- `name`: An artifact name. May be prefixed with "entity/project". Defaults to the basename of the path prepended with the current run ID
+    can be in the following forms:
+    - `/local/directory`
+    - `/local/directory/file.txt`
+    - `s3://bucket/path`
+- `name`: An artifact name. May be prefixed with "entity/project". Defaults
+    to the basename of the path prepended with the current run ID
+    if not specified. Valid names can be in the following forms:
+    - name:version
+    - name:alias
+    - digest
 - `type`: The type of artifact to log. Common examples include `dataset`, `model`.
 - `aliases`: Aliases to apply to this artifact, defaults to `["latest"]`.
 - `distributed_id`: Unique string that all distributed jobs share. If None, defaults to the run's group name.
@@ -906,7 +949,13 @@ Call `download` or `file` on the returned object to get the contents locally.
 
 ##### Arguments
 
-- `artifact_or_name`: The name of the artifact to use. May be prefixed with the name of the project the artifact was logged to ("entity" or "entity/project"). If no entity is specified in the name, the Run or API setting's entity is used. Valid names can be in the following forms
+- `artifact_or_name`: The name of the artifact to use. May be prefixed
+    with the name of the project the artifact was logged to
+    ("entity" or "entity/project"). If no
+    entity is specified in the name, the Run or API setting's entity is used.
+    Valid names can be in the following forms
+    - name:version
+    - name:alias
 - `type`: The type of artifact to use.
 - `aliases`: Aliases to apply to this artifact
 - `use_as`: This argument is deprecated and does nothing.
@@ -952,7 +1001,11 @@ Download the files logged in a model artifact 'name'.
 
 ##### Arguments
 
-- `name`: A model artifact name. 'name' must match the name of an existing logged model artifact. May be prefixed with `entity/project/`. Valid names can be in the following forms
+- `name`: A model artifact name. 'name' must match the name of an existing logged
+    model artifact. May be prefixed with `entity/project/`. Valid names
+    can be in the following forms
+    - model_artifact_name:version
+    - model_artifact_name:alias
 
 
 ##### Raises

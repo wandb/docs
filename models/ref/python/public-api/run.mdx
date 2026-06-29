@@ -32,8 +32,8 @@ A single run associated with an entity and project.
 ## Args
 
 - `service_api`: Interface to the wandb-core service that performs W&B API calls for this run.
-- `entity`: the name of the entity associated with the run
-- `project`: the project associated with the run
+- `entity`: The entity associated with the run.
+- `project`: The project associated with the run.
 - `run_id`: The unique identifier for the run.
 - `attrs`: The attributes of the run.
 - `include_sweeps`: Whether to include sweeps in the run.
@@ -501,9 +501,6 @@ See `Run.state` for the list of possible run states.
 - `state`: The target run state. One of `"pending"` or `"failed"`.
 
 
-##### Raises
-
-- ``wandb.Error``: If the requested state transition is not allowed, or the server does not support this operation.
 
 
 ### <kbd>method</kbd> upload_file

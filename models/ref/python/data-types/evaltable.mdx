@@ -50,11 +50,19 @@ supported.
 - `dtype`: 
 - `optional`: 
 - `allow_mixed_types`: 
-- `log_mode`: Controls how the table is logged when the same EvalTable is passed to `run.log()` more than once.
+- `log_mode`: Controls how the table is logged when the same EvalTable
+    is passed to `run.log()` more than once.
+    - "IMMUTABLE" (default): full table logged on first `run.log()`;
+      subsequent `run.log()` calls are no-ops.
+    - "MUTABLE" and "INCREMENTAL": not currently supported for EvalTable.
 - `input_columns`: Names of the input columns. If set, designates these columns as inputs. Eval comparisons will match rows based on matching values from input columns. If unset, we will inject a "row" index input column so comparisons can match against that.
 - `output_columns`: Names of the output columns. These represents the values to be compared. Any columns not designated as input, output, or score will default to being output columns.
 - `score_columns`: Names of the score columns. These represent derived scores for the outputs. By default, we will auto-summarize any numeric and boolean scores.
 - `unsupported_media_mode`: How to handle unsupported wandb media/value types.
+    - "stub" (default): log unsupported values as short placeholder strings
+      like "[wandb.Html not yet supported]". (This is a temporary flag
+      for use during development.)
+    - "raise": fail fast when unsupported wandb value types are added.
 
 
 
@@ -93,7 +101,12 @@ Adds one or more computed columns based on existing data.
 
 ##### Arguments
 
-- `fn`: A function which accepts one or two parameters, ndx (int) and row (dict), which is expected to return a dict representing new columns for that row, keyed by the new column names. - `ndx` is an integer representing the index of the row. Only included if `include_ndx` is set to `True`. - `row` is a dictionary keyed by existing columns
+- `fn`: A function which accepts one or two parameters, ndx (int) and
+    row (dict), which is expected to return a dict representing
+    new columns for that row, keyed by the new column names.
+    - `ndx` is an integer representing the index of the row. Only included if `include_ndx`
+          is set to `True`.
+    - `row` is a dictionary keyed by existing columns
 
 
 
@@ -166,6 +179,7 @@ Retrieves a column from the table and optionally converts it to a NumPy object.
 
 - `name`: (str) - the name of the column
 - `convert_to`: (str, optional)
+    - "numpy": will convert the underlying data to numpy object
 
 
 
