@@ -1,0 +1,97 @@
+---
+title: "Utiliser ARIA pour la recherche automatisée"
+description: "Découvrez comment utiliser ARIA, l’agent d’IA de recherche et d’itération de W&B, pour analyser les résultats et mener des expériences."
+---
+
+Utilisez ARIA, l’agent d’IA de recherche et d’itération de W&amp;B, comme assistant de recherche pour analyser des expériences, expliquer les résultats, identifier des tendances d’un run à l’autre, recommander les prochaines étapes, créer des visualisations, et bien plus encore.
+
+À partir de vos runs précédents, ARIA peut recommander et exécuter de nouvelles expériences.
+
+ARIA utilise W&amp;B Launch pour exécuter des expériences dans un environnement isolé. Avant qu’ARIA puisse exécuter des expériences dans votre projet, utilisez [ARIA pour vous aider à configurer W&amp;B Launch](/fr/aria/autoresearch#set-up-wb-launch-with-aria).
+
+<div id="set-up-wb-launch-with-aria">
+  ## Configurer W&amp;B Launch avec ARIA
+</div>
+
+ARIA peut vous aider à configurer W&amp;B Launch dans le chat. Par exemple, si vous demandez à ARIA :
+
+```text title="User prompt"
+Pouvez-vous m'aider à configurer W&B Launch ?
+```
+
+ARIA vérifie quels [composants W&amp;B Launch](/fr/aria/autoresearch#launch-components) sont disponibles dans votre projet et vous guide dans les étapes de configuration restantes.
+
+L’exemple suivant montre une partie d’une réponse ARIA au prompt &quot;Pouvez-vous m’aider à configurer W&amp;B Launch ?&quot; :
+
+<Accordion title="Réponse ARIA">
+  ```text
+  ## 1. Décidez où les jobs s’exécuteront réellement
+
+  Choisissez l’une des options suivantes :
+
+  ### Option A — configuration Kubernetes / cluster
+  Utilisez cette option si vous souhaitez une infrastructure GPU/CPU partagée et un
+  agent Launch persistant.
+
+  Recommandé pour une utilisation d’équipe en conditions réelles.
+
+  ### Option B — configuration Docker locale
+  Utilisez cette option si vous souhaitez que les jobs s’exécutent sur votre propre machine,
+  par exemple une station de travail locale avec Docker et éventuellement un GPU.
+
+  Idéal pour tester rapidement Launch.
+
+  Je commencerais généralement par **Kubernetes** si
+  vous avez accès au cluster. Sinon, commencez par **Docker local**.
+
+  ## 2. Créez une file d’attente Launch dans l’interface W&B
+
+  Accédez à la page Launch pour l’entité : https://wandb.ai/wandb/launch
+
+  Ensuite :
+
+  1. Cliquez sur **Create Queue**.
+  2. Sélectionnez l’entité : `wandb`.
+  3. Donnez un nom à la file d’attente.
+  4. Choisissez le type de ressource de la file d’attente :
+     - **Kubernetes** pour une exécution sur cluster.
+     - **Docker** pour une exécution locale.
+  5. Ajoutez la configuration de la ressource de la file d’attente.
+  6. Cliquez sur **Create Queue**.
+
+  ## 3. Parcours Kubernetes : installez un agent Launch avec Helm
+
+  Si vous utilisez Kubernetes, vous avez besoin de :
+
+  - Un cluster Kubernetes.
+  - D’un accès `kubectl` au cluster.
+  - De `helm` installé localement.
+  - D’une **clé API de compte de service** W&B.
+  - De l’autorisation de créer/mettre à jour/supprimer des ressources Kubernetes dans l’espace de noms cible.
+
+  N’utilisez **pas** votre clé API personnelle pour l’agent s’il s’agit d’une
+  configuration réelle. Utilisez une clé de compte de service W&B.
+  ```
+</Accordion>
+
+<div id="launch-components">
+  ### Composants de Launch
+</div>
+
+W&amp;B Launch repose sur trois composants principaux :
+
+* **job Launch** : Un modèle réutilisable pour configurer et exécuter une tâche dans un flux de travail de ML.
+* **file d’attente Launch** : Une file d’attente FIFO qui soumet des jobs à une cible de calcul, telle qu’un cluster Kubernetes.
+* **agent Launch** : Un processus qui interroge une file d’attente et exécute des jobs sur la cible de calcul configurée pour cette file d’attente.
+
+ARIA peut gérer le flux de travail Launch côté W&amp;B une fois qu’une file d’attente et un agent Launch actif sont disponibles. En général, ARIA ne peut pas démarrer un agent Launch persistant sur votre machine locale, votre cluster Kubernetes, votre environnement SageMaker ou votre environnement Vertex AI. Un utilisateur ou un administrateur doit fournir l’environnement de calcul, les identifiants d’authentification et l’agent en cours d’exécution.
+
+Le tableau suivant résume les étapes, ainsi que les personnes qui les effectuent généralement, afin de permettre à ARIA d’exécuter des expériences avec W&amp;B Launch.
+
+| Étape                                             | Généralement effectué par                              | Détails                                                                                                                                                                                                                                |
+| ------------------------------------------------- | ------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Créer une file d’attente Launch                   | ARIA ou administrateur de l’équipe                     | ARIA peut aider à créer une file d’attente lorsque les autorisations requises et le backend cible sont clairement définis. Des autorisations d’administrateur de l’équipe peuvent être requises                                        |
+| Choisir ou provisionner un backend de calcul      | membre de l’équipe ou propriétaire de l’infrastructure | ARIA a besoin d’un accès à un hôte Docker, à un cluster Kubernetes, à un environnement SageMaker ou à un environnement Vertex AI. ARIA ne peut pas provisionner l’infrastructure, sauf si elle est déjà accessible via W&amp;B Launch. |
+| Démarrer l’agent Launch                           | membre de l’équipe ou propriétaire de l’infrastructure | L’agent Launch doit s’exécuter en continu sur votre machine ou votre cluster avec des identifiants d’authentification W&amp;B.                                                                                                         |
+| Configurer un compte de service ou une clé API    | administrateur de l’équipe                             | Créez et stockez les clés de compte de service de manière sécurisée. Pour plus d&#39;informations, voir [Manage secrets](https://docs.wandb.ai/platform/secrets#manage-secrets).                                                       |
+| Soumettre des expériences à la file d&#39;attente | ARIA                                                   | Une fois qu’une file d’attente dispose d’un agent actif, ARIA peut soumettre des jobs, relancer des runs avec des substitutions de configuration, surveiller les résultats, déboguer les échecs et comparer les métriques.             |

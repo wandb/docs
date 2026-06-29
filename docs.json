@@ -112,13 +112,13 @@
                     "pages": [
                       {
                         "group": "ARIA",
-                        "tag": "Preview",
                         "pages": [
                           "aria/overview",
                           "aria/chat",
                           "aria/autoresearch",
                           "aria/governance"
-                        ]
+                        ],
+                        "tag": "Preview"
                       },
                       {
                         "group": "Configure W&B",
@@ -1587,7 +1587,17 @@
                     "group": "Détails de la plateforme",
                     "pages": [
                       {
-                        "group": "Configurez W&B",
+                        "group": "ARIA",
+                        "pages": [
+                          "fr/aria/overview",
+                          "fr/aria/chat",
+                          "fr/aria/autoresearch",
+                          "fr/aria/governance"
+                        ],
+                        "tag": "Preview"
+                      },
+                      {
+                        "group": "Configurer W&B",
                         "pages": [
                           {
                             "group": "Paramètres",
@@ -3053,7 +3063,17 @@
                     "group": "プラットフォームの詳細",
                     "pages": [
                       {
-                        "group": "W&B を設定する",
+                        "group": "ARIA",
+                        "pages": [
+                          "ja/aria/overview",
+                          "ja/aria/chat",
+                          "ja/aria/autoresearch",
+                          "ja/aria/governance"
+                        ],
+                        "tag": "Preview"
+                      },
+                      {
+                        "group": "W&B の設定",
                         "pages": [
                           {
                             "group": "設定",
@@ -3068,7 +3088,7 @@
                             ]
                           },
                           {
-                            "group": "アイデンティティとアクセス管理（IAM）",
+                            "group": "アイデンティティとアクセス管理 (IAM)",
                             "pages": [
                               "ja/platform/hosting/iam/org_team_struct",
                               {
@@ -3117,7 +3137,7 @@
                         ]
                       },
                       {
-                        "group": "デプロイオプション",
+                        "group": "デプロイメントオプション",
                         "pages": [
                           "ja/platform/hosting",
                           "ja/platform/hosting/hosting-options/multi_tenant_cloud",
@@ -4519,6 +4539,16 @@
                     "group": "플랫폼 정보",
                     "pages": [
                       {
+                        "group": "ARIA",
+                        "pages": [
+                          "ko/aria/overview",
+                          "ko/aria/chat",
+                          "ko/aria/autoresearch",
+                          "ko/aria/governance"
+                        ],
+                        "tag": "Preview"
+                      },
+                      {
                         "group": "W&B 설정",
                         "pages": [
                           {
@@ -4574,7 +4604,7 @@
                         ]
                       },
                       {
-                        "group": "모니터링 및 사용",
+                        "group": "모니터링 및 사용량",
                         "pages": [
                           "ko/platform/hosting/monitoring-usage/audit-logging",
                           "ko/platform/hosting/monitoring-usage/slack-alerts",
