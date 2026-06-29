@@ -298,7 +298,7 @@ class ConvNet(nn.Module):
 `run.watch()`는 모델의 그라디언트와 파라미터를
 트레이닝 중 매 `log_freq` step마다 로깅합니다.
 
-트레이닝을 시작하기 전에 이 함수를 호출하기만 하면 됩니다.
+트레이닝을 시작하기 전에 `run.watch()`를 호출하세요. 로그 모드, 여러 모델, 성능 팁은 [wandb.watch로 그라디언트와 모델 가중치를 로깅하려면 어떻게 하나요?](/ko/support/models/articles/how-do-i-log-gradients-and-model-weights-with-wandb-watch)를 참조하세요.
 
 나머지 트레이닝 코드는 그대로입니다:
 에포크와 배치를 순회하면서
@@ -329,11 +329,11 @@ def train(model, loader, criterion, optimizer, config):
 
 def train_batch(images, labels, model, optimizer, criterion):
     images, labels = images.to(device), labels.to(device)
-
+    
     # Forward pass ➡
     outputs = model(images)
     loss = criterion(outputs, labels)
-
+    
     # Backward pass ⬅
     optimizer.zero_grad()
     loss.backward()

@@ -1,6 +1,6 @@
 ---
 title: "メトリクス"
-tag: "19"
+tag: "23"
 generator: "knowledgebase-nav"
 template: "docengine-site/templates/support_tag.mdx.j2"
 ---
@@ -18,7 +18,7 @@ template: "docengine-site/templates/support_tag.mdx.j2"
 </Card>
 
 <Card title="前の step のログを上書きするにはどうすればよいですか?" href="/ja/support/models/articles/how-can-i-overwrite-the-logs-from-previo" arrow="true" horizontal>
-  前の step のログを上書きするには、forking と巻き戻しを使用します。run を fork または巻き戻す機能は現在 सक्रियに開発中で ...
+  前の step のログを上書きするには、forking と巻き戻しを使用します。run を fork または巻き戻す機能は現在 활성に開発中で ...
 </Card>
 
 <Card title="メトリクスのログ時に発生する `Rate limit exceeded` エラーを修正するにはどうすればよいですか?" href="/ja/support/models/articles/rate-limit-exceeded-on-metric-logging" arrow="true" horizontal>
@@ -27,6 +27,14 @@ template: "docengine-site/templates/support_tag.mdx.j2"
 
 <Card title="sweep 中の `anaconda 400 error` を修正するにはどうすればよいですか?" href="/ja/support/models/articles/anaconda-400-error-during-a-sweep" arrow="true" horizontal>
   sweep 中の anaconda 400 error は、多くの場合、最適化対象のメトリクスをログしていないことを意味します。次のように表示されることがありま ...
+</Card>
+
+<Card title="W&B で NLP メトリクスとテキスト出力をログするにはどうすればよいですか?" href="/ja/support/models/articles/how-do-i-log-nlp-metrics-and-text-outputs-in-wandb" arrow="true" horizontal>
+  コーパスレベルの NLP スコア (BLEU、ROUGE、perplexity) は wandb.log() でログでき、各例の出力は wandb.Table でログできます。 ...
+</Card>
+
+<Card title="wandb.watch() で勾配とモデルの重みをログするにはどうすればよいですか?" href="/ja/support/models/articles/how-do-i-log-gradients-and-model-weights-with-wandb-watch" arrow="true" horizontal>
+  wandb.watch() は PyTorch モデルのパラメーターと勾配に hook し、それらの値のヒストグラムを一定間隔でログしま ...
 </Card>
 
 <Card title="2 つの異なる時間スケールでメトリクスをログするにはどうすればよいですか?" href="/ja/support/models/articles/how-do-i-log-metrics-on-two-time-scales" arrow="true" horizontal>
@@ -41,6 +49,10 @@ template: "docengine-site/templates/support_tag.mdx.j2"
   メトリクスの累積 maximum をプロットするには、次のようにします。1. メトリクスの散布図を作成します。2. Edit メニューを開き、Annota ...
 </Card>
 
+<Card title="JAX で W&B を使用するにはどうすればよいですか?" href="/ja/support/models/articles/how-do-i-use-wandb-with-jax" arrow="true" horizontal>
+  W&amp;B には JAX 専用のインテグレーションはありません。ただし、JAX のデバイス配列を Python スカラーに変換してから wandb.log ...
+</Card>
+
 <Card title="システムメトリクスはどのくらいの頻度で収集されますか?" href="/ja/support/models/articles/how-often-are-system-metrics-collected" arrow="true" horizontal>
   デフォルトでは、システムメトリクスは 10 秒ごとに収集されます。より高解像度のメトリクスが必要な場合は、contact@wandb.com までメールでお問い合わせください。
 </Card>
@@ -49,20 +61,24 @@ template: "docengine-site/templates/support_tag.mdx.j2"
   デフォルトでは、wandb.init はメトリクスをリアルタイムでクラウドに sync するプロセスを開始します。Experiments を wit ...
 </Card>
 
-<Card title="複数のメトリクスの最適化" href="/ja/support/models/articles/optimizing-multiple-metrics" arrow="true" horizontal>
-  W&amp;B Sweeps は単一の目的メトリクスを最適化します。1 つの run で複数のメトリクスを最適化するには、それらを重み付き ...
+<Card title="複数のメトリクスを最適化する" href="/ja/support/models/articles/optimizing-multiple-metrics" arrow="true" horizontal>
+  W&amp;B Sweeps は単一の目的メトリクスを最適化します。1 つの run で複数のメトリクスを最適化するには、それらを重み付き ... に結合します
 </Card>
 
-<Card title="何百万もの step を W&B にログするとどうなりますか? ブラウザではどのように render されますか?" href="/ja/support/models/articles/what-happens-when-i-log-millions-of-step" arrow="true" horizontal>
-  送信されるポイント数は、UI でのグラフの読み込み時間に影響します。1,000 ポイントを超える線については、バックエンドが sa ...
+<Card title="W&B に数百万件の step をログすると何が起こりますか？ブラウザーではどのように表示されますか？" href="/ja/support/models/articles/what-happens-when-i-log-millions-of-step" arrow="true" horizontal>
+  送信されるポイント数は、UI でのグラフの読み込み時間に影響します。1,000 ポイントを超える線については、バックエンドが ... をサンプリングします
 </Card>
 
-<Card title="一部のメトリクスは batch 単位で、別のメトリクスはエポック単位でのみログしたい場合はどうすればよいですか?" href="/ja/support/models/articles/what-if-i-want-to-log-some-metrics-on-ba" arrow="true" horizontal>
-  各 batch で特定のメトリクスをログし、プロットを標準化するには、目的の x 軸の値をメトリクスと一緒にログします。the ...
+<Card title="一部のメトリクスを batch ごとに、別のメトリクスをエポックごとにのみログしたい場合はどうすればよいですか？" href="/ja/support/models/articles/what-if-i-want-to-log-some-metrics-on-ba" arrow="true" horizontal>
+  各 batch で特定のメトリクスをログし、プロットを標準化するには、目的の x-axis 値をメトリクスと一緒にログします。 ... では
 </Card>
 
 <Card title="ログしたデータポイントより少なく表示されるのはなぜですか？" href="/ja/support/models/articles/why-am-i-seeing-fewer-data-points-than-i" arrow="true" horizontal>
   Step 以外の X-axis に対してメトリクスを可視化すると、表示されるデータポイントは少なくなります。メトリクスは t でログする必要があります ...
+</Card>
+
+<Card title="wandb.log() にログしたメトリクスが表示されないのはなぜですか？" href="/ja/support/models/articles/why-are-my-metrics-missing-from-wandb-log" arrow="true" horizontal>
+  wandb.log() でログしたメトリクスが W&amp;B UI に表示されない場合、一般的な原因がいくつかあります。同期を行っていないオフラインモード ...
 </Card>
 
 <Card title="特定の文字を含むメトリクスをソートまたはフィルターできないのはなぜですか？" href="/ja/support/models/articles/why-cant-i-sort-or-filter-metrics-with-c" arrow="true" horizontal>

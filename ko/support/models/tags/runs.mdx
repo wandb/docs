@@ -1,6 +1,6 @@
 ---
 title: "Runs"
-tag: "19"
+tag: "31"
 generator: "knowledgebase-nav"
 template: "docengine-site/templates/support_tag.mdx.j2"
 ---
@@ -10,7 +10,7 @@ template: "docengine-site/templates/support_tag.mdx.j2"
 </Card>
 
 <Card title="태그별로 Runs를 그룹화할 수 있나요?" href="/ko/support/models/articles/can-you-group-runs-by-tags" arrow="true" horizontal>
-  run에는 여러 태그를 지정할 수 있으므로 태그별 그룹화는 지원되지 않습니다. 대신 이러한 r ...에 대해 config 객체에 값을 추가하세요.
+  run에는 여러 태그를 지정할 수 있으므로 태그별 그룹화는 지원되지 않습니다. 대신 이러한 r ...에 대해 설정 객체에 값을 추가하세요.
 </Card>
 
 <Card title="Group 기능 없이 Runs를 분류하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-can-i-categorize-runs-without-the-group-feature" arrow="true" horizontal>
@@ -49,6 +49,10 @@ template: "docengine-site/templates/support_tag.mdx.j2"
   API를 사용해 완료된 run에 부여된 그룹을 변경할 수 있습니다. 이 기능은 웹 UI에는 표시되지 않습니다. 업데이트하려면 ...
 </Card>
 
+<Card title="run에서 콘솔 로그 파일을 다운로드하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-do-i-download-the-console-log-file-from-a-run" arrow="true" horizontal>
+  W&amp;B는 스크립트의 stdout과 stderr를 output.log(또는 logs/ 아래의 멀티파트 청크)로 저장합니다. 이를 조회하는 방법은 depends ...
+</Card>
+
 <Card title="스윕 중 `CommError, Run does not exist` 오류를 해결하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/commerror-run-does-not-exist-during-swee" arrow="true" horizontal>
   스윕 중 CommError, Run does not exist와 ERROR Error uploading가 모두 표시된다면, 가장 가능성 높은 원인은 yo ...
 </Card>
@@ -57,26 +61,70 @@ template: "docengine-site/templates/support_tag.mdx.j2"
   resume=&#39;must&#39; but run ( RUN-ID ) doesn&#39;t exist 오류가 발생하면, 재개하려는 run이 존재하지 않 ...
 </Card>
 
-<Card title="지속적 통합 또는 내부 도구로 시작된 Runs를 로깅하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-do-i-log-runs-launched-by-continuous" arrow="true" horizontal>
-  W&amp;B에 로깅하는 자동화된 테스트 또는 내부 도구를 시작하려면 팀 settings 페이지에서 Service Account를 생성하세요. 이 계 ...
+<Card title="W&B에서 NLP 메트릭과 텍스트 출력을 어떻게 로깅하나요?" href="/ko/support/models/articles/how-do-i-log-nlp-metrics-and-text-outputs-in-wandb" arrow="true" horizontal>
+  wandb.log()로 코퍼스 수준의 NLP 점수(BLEU, ROUGE, perplexity)를 로깅하고, wandb.Table로 예시별 출력을 로깅할 수 있습니다. ...
+</Card>
+
+<Card title="wandb.watch()로 그라디언트와 모델 가중치를 어떻게 로깅하나요?" href="/ko/support/models/articles/how-do-i-log-gradients-and-model-weights-with-wandb-watch" arrow="true" horizontal>
+  wandb.watch()는 PyTorch 모델의 파라미터와 그라디언트에 훅을 걸고, 일정한 간격으로 해당 값의 히스토그램을 로깅합니다. ...
+</Card>
+
+<Card title="지속적 통합 또는 내부 도구로 실행된 run을 어떻게 로깅하나요?" href="/ko/support/models/articles/how-do-i-log-runs-launched-by-continuous" arrow="true" horizontal>
+  W&amp;B에 로깅하는 자동화된 테스트나 내부 도구를 실행하려면 팀 settings 페이지에서 Service Account를 생성하세요. 이 계정은 ...
 </Card>
 
 <Card title="run을 다른 프로젝트로 어떻게 이동하나요?" href="/ko/support/models/articles/how-do-i-move-a-run-to-another-project" arrow="true" horizontal>
-  작업을 재정리하거나, 관련 실험을 통합하거나, r ...을 다른 위치로 옮기기 위해 run을 한 프로젝트에서 다른 프로젝트로 이동할 수 있습니다.
+  작업을 재구성하거나, 관련 실험을 통합하거나, r ...를 옮기기 위해 run을 한 프로젝트에서 다른 프로젝트로 이동할 수 있습니다.
+</Card>
+
+<Card title="W&B에서 대량의 API 결과를 어떻게 페이지 단위로 조회하나요?" href="/ko/support/models/articles/how-do-i-paginate-through-large-api-results-in-wandb" arrow="true" horizontal>
+  표준 지연 iterator 패턴과 per&#95;page 파라미터를 사용해 API 결과를 페이지 단위로 조회할 수 있습니다. 또한 u ...할 수도 있습니다.
 </Card>
 
 <Card title="grid search를 어떻게 다시 실행하나요?" href="/ko/support/models/articles/how-do-i-rerun-a-grid-search" arrow="true" horizontal>
-  grid search가 완료되었지만 일부 W&amp;B Runs가 crashed된 경우, 해당 run을 삭제해 다시 실행하세요. 그런 다음  ...에서 Resume 버튼을 선택하세요.
+  grid search가 완료되었지만 일부 W&amp;B Runs가 크래시되었다면, 해당 run을 삭제해 다시 실행하세요. 그런 다음 ...에서 Resume 버튼을 선택하세요.
 </Card>
 
 <Card title="run을 로깅할 때 권한 오류를 어떻게 해결하나요?" href="/ko/support/models/articles/how-do-i-resolve-permission-errors-when-" arrow="true" horizontal>
-  run을 로깅할 때 발생하는 권한 오류는 일반적으로 코드, 자격 증명 또는 배포 ... 간에 불일치가 있음을 의미합니다.
+  run을 로깅할 때 발생하는 권한 오류는 일반적으로 코드, 자격 증명 또는 배포 ... 간의 불일치를 의미합니다.
 </Card>
 
-<Card title="프로젝트당 몇 개의 run을 생성할 수 있나요?" href="/ko/support/models/articles/how-many-runs-can-i-create-per-project" arrow="true" horizontal>
+<Card title="W&B Alerts와 알림을 어떻게 설정하나요?" href="/ko/support/models/articles/how-do-i-set-up-wandb-alerts-and-notifications" arrow="true" horizontal>
+  W&amp;B Settings 페이지에서 Alerts와 알림을 설정할 수 있습니다. W&amp;B는 User Settings에서 자동화된 Alerts를 지원합니다 ( ...
+</Card>
+
+<Card title="W&B API를 통해 run 설정, 태그, notes를 어떻게 업데이트하나요?" href="/ko/support/models/articles/how-do-i-update-run-config-tags-and-notes-via-the-wandb-api" arrow="true" horizontal>
+  run이 완료된 후에는 Public API 가이드를 사용해 실험을 다시 실행하지 않고도 설정, 표시 이름, 태그, notes를 편집할 수 있습니다. ...
+</Card>
+
+<Card title="W&B를 JAX와 함께 어떻게 사용하나요?" href="/ko/support/models/articles/how-do-i-use-wandb-with-jax" arrow="true" horizontal>
+  W&amp;B에는 JAX 전용 인테그레이션이 없습니다. 하지만 JAX device array를 Python 스칼라로 변환한 다음 wandb.log ...를 사용할 수 있습니다.
+</Card>
+
+<Card title="W&B에서 병렬 좌표 차트를 어떻게 사용하나요?" href="/ko/support/models/articles/how-do-i-use-the-parallel-coordinates-chart-in-wandb" arrow="true" horizontal>
+  병렬 좌표 차트는 여러 run에서 하이퍼파라미터가 메트릭과 어떤 관계가 있는지 보여줍니다. 각 선은 하나의 run이며, 각 ...
+</Card>
+
+<Card title="프로젝트별로 몇 개의 run을 만들 수 있나요?" href="/ko/support/models/articles/how-many-runs-can-i-create-per-project" arrow="true" horizontal>
   최적의 성능을 위해 각 프로젝트는 약 10,000개의 run으로 제한하세요.
 </Card>
 
-<Card title="CSV metric 내보내기에서 step이 누락되는 이유는 무엇인가요?" href="/ko/support/models/articles/why-are-steps-missing-from-a-csv-metric-" arrow="true" horizontal>
-  내보내기 제한으로 인해 전체 run 이력을 CSV로 또는 `run.history` API를 사용해 내보내지 못할 수 있습니다.  ...에 액세스하려면
+<Card title="CSV 메트릭 내보내기에서 step이 누락되는 이유는 무엇인가요?" href="/ko/support/models/articles/why-are-steps-missing-from-a-csv-metric-" arrow="true" horizontal>
+  내보내기 제한으로 인해 전체 run 이력을 CSV 또는 run.history API로 내보내지 못할 수 있습니다. 액세스하려면 ...
+</Card>
+
+<Card title="세션 간에 내 Workspace 설정이 유지되지 않는 이유는 무엇인가요?" href="/ko/support/models/articles/why-do-my-workspace-settings-not-persist" arrow="true" horizontal>
+  Workspace 레이아웃(패널, 필터, 그룹화)은 뷰를 저장한 경우에만 유지됩니다. 저장하지 않은 변경 사항은 브라우저 세션에 남아 있습니다. ...
+</Card>
+
+<Card title="내 run의 콘솔 출력이 캡처되지 않는 이유는 무엇인가요?" href="/ko/support/models/articles/why-is-console-output-not-captured-for-my-run" arrow="true" horizontal>
+  W&amp;B는 스크립트의 stdout과 stderr를 캡처해 run의 Files 탭에 output.log로 저장합니다. 기본적으로 이 파일은 u ...
+</Card>
+
+<Card title="내 W&B run의 초기화나 업로드가 느린 이유는 무엇인가요?" href="/ko/support/models/articles/why-is-my-wandb-run-slow-to-initialize-or-upload" arrow="true" horizontal>
+  wandb.init()이 느리거나 메트릭 업로드가 느린 경우는 일반적으로 네트워크 지연 시간, 큰 미디어 payload, 높은 logging f ...
+</Card>
+
+<Card title="내 run이 크래시로 표시되는 이유는 무엇인가요?" href="/ko/support/models/articles/why-is-my-run-showing-as-crashed" arrow="true" horizontal>
+  W&amp;B는 wandb.init()를 호출한 process로부터 더 이상 하트비트를 받지 못하고, 해당 pro ...
 </Card>
