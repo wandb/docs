@@ -62,16 +62,14 @@ Call `weave.init()` before any `startSession()`, `startTurn()`, `startLLM()`, `s
 
 Weave models agent behavior as a hierarchy of one-to-many relationships. Each agent can have many sessions, each session can have many turns, each turn can have many LLM calls, and each LLM call can trigger many tool calls.
 
-The Weave SDK class names are identical in Python and TypeScript. The **Python class** links point to the [Weave Python SDK reference](/weave/reference/python-sdk), where all of these classes are documented on a single page. The **TypeScript class** links point to the corresponding pages in the [TypeScript SDK reference](/weave/reference/typescript-sdk). The OTel attribute and span-type names (`agent_name`, `conversation_id`, `invoke_agent`, `chat`, `execute_tool`) are `snake_case` in both languages because the [OTel GenAI semantic conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/) define them that way. Only the SDK parameter names that set them differ between languages — for example, Python `agent_name=` versus TypeScript `agentName:`.
-
-| Concept | Python class | TypeScript class | OTel span type | Description |
+| Concept | Weave SDK class | OTel span type | Description | Reference page |
 |---|---|---|---|---|
-| Agent | *(no class)* | *(no class)* | *(no span, grouped by the `agent_name` attribute)* | An agentic application in the Agents tab that contains one or more sessions. |
-| Session | [`Session`](/weave/reference/python-sdk#class-session) | [`Session`](/weave/reference/typescript-sdk/classes/session) | *(no span, turns are grouped by the `conversation_id` attribute)* | A conversation or run that contains one or more turns. |
-| Turn | [`Turn`](/weave/reference/python-sdk#class-turn) | [`Turn`](/weave/reference/typescript-sdk/classes/turn) | `invoke_agent` | One user message and the agent's complete response. |
-| LLM call | [`LLM`](/weave/reference/python-sdk#class-llm) | [`LLM`](/weave/reference/typescript-sdk/classes/llm) | `chat` | One call to a language model API. |
-| Tool call | [`Tool`](/weave/reference/python-sdk#class-tool) | [`Tool`](/weave/reference/typescript-sdk/classes/tool) | `execute_tool` | One tool call triggered by an LLM response. |
-| Sub-agent call | [`SubAgent`](/weave/reference/python-sdk#class-subagent) | [`SubAgent`](/weave/reference/typescript-sdk/classes/subagent) | `invoke_agent` | A nested agent invocation, typically when one agent delegates to another. |
+| Agent | *(no class)* | *(no span, grouped by the `agent_name` attribute)* | An agentic application in the Agents tab that contains one or more sessions. | 
+| Session | `Session` | *(no span, turns are grouped by the `conversation_id` attribute)* | A conversation or run that contains one or more turns. | [Python](/weave/reference/typescript-sdk/classes/session) <br /> [TypeScript](/weave/reference/typescript-sdk/classes/session) |  
+| Turn | `Turn` | `invoke_agent` | One user message and the agent's complete response. | [Python](/weave/reference/python-sdk#class-turn) <br /> [TypeScript](/weave/reference/typescript-sdk/classes/turn) |
+| LLM call | `LLM` | `chat` | One call to a language model API. | [Python](/weave/reference/python-sdk#class-llm) <br /> [TypeScript](/weave/reference/typescript-sdk/classes/llm) |
+| Tool call | `Tool` | `execute_tool` | One tool call triggered by an LLM response. | [Python](/weave/reference/python-sdk#class-tool) <br /> [TypeScript](/weave/reference/typescript-sdk/classes/tool) |
+| Sub-agent call | `SubAgent` | `invoke_agent` | A nested agent invocation, typically when one agent delegates to another. | [Python](/weave/reference/python-sdk#class-subagent) <br /> [TypeScript](/weave/reference/typescript-sdk/classes/subagent) |
 
 The following diagram shows how one agent spans many sessions, one session spans many turns, and so on.
 
