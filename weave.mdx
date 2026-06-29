@@ -4,10 +4,13 @@ description: "Track, test, and improve language model apps with W&B Weave"
 mode: wide
 ---
 
-W&B Weave is an observability and evaluation platform that helps you track, evaluate, and improve your LLM application. With Weave, you can:
+W&B Weave is an observability and evaluation platform for LLM applications. Use Weave to capture every model call your app makes, inspect prompts and responses, and score outputs so you can compare versions and ship with confidence.
 
-* [Observe and debug](/weave/quickstart) your LLM application
-* [Evaluate](/weave/tutorial-eval) your application’s responses using LLM judges and custom scorers
+With Weave, you can:
+
+* **Trace** every LLM call, tool use, and function in your app to debug latency, cost, and incorrect responses. See [Observe and debug](/weave/quickstart).
+* **Evaluate** application output with LLM judges and custom scorers, then compare results across model and prompt changes. See [Get started evaluating your app](/weave/tutorial-eval).
+* **Iterate** on prompts, datasets, and models with versioning built in.
 
 ## Get started
 
@@ -41,7 +44,12 @@ The following docs guide you through the basics of how to use Weave's suite of t
 
 ## Install Weave
 
-W&B Weave provides Python and TypeScript libraries. To install the Weave library, run the following command:
+W&B Weave provides Python and TypeScript libraries. Before you install, make sure you have:
+
+- A [W&B account](https://wandb.ai/signup) and an [API key](https://wandb.ai/settings) to authenticate.
+- Python 3.10+ or Node.js 18+.
+
+To install the Weave library, run the following command:
 
 <Tabs>
   <Tab title="Python">
@@ -56,4 +64,30 @@ W&B Weave provides Python and TypeScript libraries. To install the Weave library
   </Tab>
 </Tabs>
 
-To start using the Weave library, create a [Weights & Biases (W&B) account](https://wandb.ai) and an [API key at User Settings](https://wandb.ai/settings). The API key allows you to authenticate to your W&B account and start sending data to it.
+## Trace your first LLM call
+
+After you install Weave, add two lines to start tracing any Python function: import `weave`, call `weave.init()` with a `team/project` name, and decorate the functions you want to track with `@weave.op()`. Weave automatically traces calls to supported LLM providers like OpenAI, Anthropic, and others.
+
+```python
+import weave
+
+# Sends traces to the specified W&B team and project.
+# Weave creates the project if it doesn't exist.
+weave.init("your-team/intro-example")
+
+@weave.op()
+def greet(name: str) -> str:
+    return f"Hello, {name}!"
+
+greet("Weave")
+```
+
+Run the script, then open the link Weave prints in your terminal to view the trace in the Weave UI.
+
+For a full example that traces a real OpenAI call and explains the Weave UI, follow the [tracing quickstart](/weave/quickstart). For TypeScript usage, see the [TypeScript quickstart](/weave/quickstart#log-a-trace-to-a-new-project).
+
+## Next steps
+
+* Learn the core building blocks in [Tracing](/weave/guides/tracking/tracing) and [Ops](/weave/guides/tracking/ops).
+* Run evaluations with [Scorers](/weave/guides/evaluation/scorers) and [Datasets](/weave/guides/core-types/datasets).
+* Browse end-to-end examples in the [cookbook](/weave/cookbooks).
