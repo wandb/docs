@@ -66,7 +66,7 @@ To install the Weave library, run the following command:
 
 ## Trace your first LLM call
 
-After you install Weave, add two lines to start tracing any Python function: import `weave`, call `weave.init()` with a `team/project` name, and decorate the functions you want to track with `@weave.op()`. Weave automatically traces calls to supported LLM providers like OpenAI, Anthropic, and others.
+After you install Weave, start tracing any Python function in three steps: import `weave`, call `weave.init()` with a `team/project` name, and decorate the functions you want to track with `@weave.op()`. Weave automatically traces calls to supported LLM providers like OpenAI, Anthropic, and others.
 
 ```python
 import weave
