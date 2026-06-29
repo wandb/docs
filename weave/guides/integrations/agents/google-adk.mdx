@@ -108,7 +108,7 @@ Google's Agent Development Kit (ADK) is a flexible, model-agnostic framework for
 
     After the script runs, open your project's **Agents** view to confirm that Weave captured the session. `weave.init()` prints a link to your project when it runs. In the **Agents** view, inspect the following:
 
-    - A row in the **Agents** tab for `research_assistant`.
+    - A tile in the **Agents** tab for `research_assistant`.
     - A single session containing three turns.
     - Each turn rendered as an `invoke_agent` span with nested model calls and tool calls.
     - The full input, model, output, token usage, and Wikipedia results at each step.
@@ -128,22 +128,22 @@ Google's Agent Development Kit (ADK) is a flexible, model-agnostic framework for
     ### Install packages
 
     ```bash
-    npm install weave @google/adk zod
+    pnpm install weave @google/adk zod
     ```
 
     ### Initialize Weave in your code
 
-    In most Node.js environments, no manual instrumentation is needed — Weave automatically traces `@google/adk` runners via module loader hooks.
-
-    - **CommonJS projects**: No extra configuration needed. Import `weave` before `@google/adk` to ensure auto-instrumentation runs first.
-    - **ESM projects**: Start Node with the `--import=weave/instrument` flag so the instrumentation loads before any other modules.
+    Weave automatically traces `@google/adk` runners via module loader hooks for CommonJS projects. For ESM projects and more background on how Weave's loader hooks work, see the [TypeScript SDK third-party integration guide](/weave/guides/integrations/js).
 
     The following code creates a `weather_agent` with a `get_weather` tool and runs a query while Weave captures the trace.
 
-    ```typescript lines
+    ```typescript lines highlight="27"
     import * as weave from "weave";
-    import { FunctionTool, InMemoryRunner, LlmAgent } from "@google/adk";
+    import { FunctionTool, Gemini, InMemoryRunner, LlmAgent } from "@google/adk";
+    import { WeaveAdkPlugin } from "weave";
     import { z } from "zod";
+
+    const GEMINI_API_KEY = process.env.GEMINI_API_KEY
 
     const getWeatherTool = new FunctionTool({
       name: "get_weather",
@@ -170,14 +170,18 @@ Google's Agent Development Kit (ADK) is a flexible, model-agnostic framework for
         name: "weather_agent",
         description: "Answers questions about the weather.",
         instruction: "You answer weather questions. Always use the get_weather tool.",
-        model: "gemini-2.5-flash",
+        model: new Gemini({ model: "gemini-2.5-flash", apiKey: GEMINI_API_KEY }),
         tools: [getWeatherTool],
       });
 
       const APP_NAME = "weave-adk-example";
       const USER_ID = "example-user";
 
-      const runner = new InMemoryRunner({ agent, appName: APP_NAME });
+      const runner = new InMemoryRunner({
+        agent,
+        appName: APP_NAME,
+        plugins: [new WeaveAdkPlugin()],
+      });
       const session = await runner.sessionService.createSession({
         appName: APP_NAME,
         userId: USER_ID,
@@ -225,7 +229,7 @@ Google's Agent Development Kit (ADK) is a flexible, model-agnostic framework for
 
     After the script runs, `weave.init()` prints a link to your project. Open the **Agents** view to inspect:
 
-    - A row in the **Agents** tab for `weather_agent`.
+    - A tile in the **Agents** tab for `weather_agent`.
     - Each run rendered as nested `invoke_agent` → `chat` → `execute_tool` spans.
     - The full input, model, output, and token usage at each step.
 

@@ -102,14 +102,14 @@ The Claude Agent SDK is an SDK for building agent applications with Claude. Weav
     ### Install packages
 
     ```bash
-    npm install weave @anthropic-ai/claude-agent-sdk
+    pnpm install weave @anthropic-ai/claude-agent-sdk
     ```
 
     ### Initialize Weave in your code
 
-    Weave automatically instruments `query()` via module loader hooks — no manual setup required.
+    Weave automatically instruments `query()` via module loader hooks. The required setup differs slightly between module systems. For more background on CommonJS versus ESM and how Weave's loader hooks work, see the [TypeScript SDK third-party integration guide](/weave/guides/integrations/js).
 
-    - **CommonJS projects**: No extra configuration needed. Import `weave` before `@anthropic-ai/claude-agent-sdk`.
+    - **CommonJS projects**: No extra configuration needed. Require `weave` before `@anthropic-ai/claude-agent-sdk`.
     - **ESM projects**: Start Node with the `--import=weave/instrument` flag so the instrumentation loads before any other modules.
 
     The following code runs a three-turn conversation. Each turn is a separate `query()` call, but later turns pass `resume` with the first turn's `session_id` so that all turns group as one session in the Weave Agents view.
