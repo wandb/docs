@@ -9,7 +9,7 @@ keywords: ["iPhone app", "iPad app", "iOS app", "App Store", "mobile monitoring"
     ![W&B mobile app project panel with metric charts](/images/mobile-app/project-panels.png)
   </Frame>
   <Frame>
-    ![W&B mobile app Manage notifications screen](/images/mobile-app/manage-alerts.png)
+  ![ARIA tab and chat interface in the W&B iOS app](/images/mobile-app/aria-chat.png)
   </Frame>
   <Frame>
     ![W&B mobile app Projects list and team picker](/images/mobile-app/projects.png)
@@ -56,10 +56,31 @@ The following features are available in the mobile app.
     - **View console logs**: View [console logs](/models/runs/view-logged-runs#logs) for active or completed runs, or download logs for completed runs. The app polls active runs for new log lines every 5 seconds. The most recent 10,000 lines display by default, and you can scroll backward to view older logs. Log search stays responsive even for large outputs.
 - **Switch teams**: Use the **team picker** to change teams.
 - **Stay informed**: Get updates on your experiments without opening your laptop using notifications. **Remove alerts** you no longer need from the **Notifications** tab by swiping them away.
+- **Chat with ARIA**: Use ARIA in the mobile app to ask questions, analyze runs, and take action without leaving your phone.
+
+## Chat with ARIA
+
+ARIA (AI Research & Iteration Agent) helps you analyze runs, metrics, configs, sweeps, artifacts, and reports in your W&B projects.
+- Chat with ARIA from anywhere in the mobile app. It's available in the bottom navigation of each app screen.
+- In the mobile app, ARIA keeps context across multi-turn chats and shows reasoning and tool-call details while it works.
+- Chat history is kept in sync so you can move seamlessly between the web app and mobile app.
+
+<Frame>
+  ![ARIA tab and chat interface in the W&B iOS app](/images/mobile-app/aria-chat.png)
+</Frame>
+
+For a full overview of ARIA capabilities, see [ARIA overview](/aria/overview).
+
 
 ## Set up notifications
 
-Configure notifications to receive updates about your experiments on your mobile device. The following sections describe the two kinds of notifications you can configure.
+Configure notifications to receive updates about your experiments on your mobile device.
+
+<Frame>
+  ![W&B mobile app Manage notifications screen](/images/mobile-app/manage-alerts.png)
+</Frame>
+
+The following sections describe the kinds of notifications you can configure. The **Manage notifications** screen lists both kinds of settings in one place, with short descriptions that explain what each section controls.
 
 ### Metric threshold alerts
 
@@ -77,5 +98,3 @@ Use run failure alerts to get notified when runs in a project fail.
 1. Navigate to a project.
 2. Tap the **action (<Icon icon="ellipsis" iconType="solid"/>)** menu in the top right.
 3. Select **Run failed alert** to receive notifications for future run failures in that project.
-
-The **Manage notifications** screen lists both kinds of settings in one place, with short descriptions that explain what each section controls.
