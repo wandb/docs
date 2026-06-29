@@ -38,10 +38,6 @@ user.
 
 ## Properties
 
-### <kbd>property</kbd> user_api
-
-A `wandb.Api` instance using the user's credentials.
-
 ### <kbd>property</kbd> api_keys
 
 Names of the user's API keys.
@@ -60,11 +56,15 @@ Names of the user's teams.
 This is an empty list if the user has no team memberships or if teams
 data was not loaded.
 
+### <kbd>property</kbd> user_api
+
+A `wandb.Api` instance using the user's credentials.
+
 
 
 ## Methods
 
-### <kbd>method</kbd> create
+### <kbd>method</kbd> User.create()
 
 ```python
 api: 'Api',
@@ -86,7 +86,7 @@ This is an internal method. Use the `create_user()` method of
 
 
 
-### <kbd>method</kbd> delete_api_key
+### <kbd>method</kbd> User.delete_api_key()
 
 ```python
 self,
@@ -104,7 +104,7 @@ Only the owner of the key or an admin can delete it.
 
 
 
-### <kbd>method</kbd> generate_api_key
+### <kbd>method</kbd> User.generate_api_key()
 
 ```python
 self,

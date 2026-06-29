@@ -39,30 +39,6 @@ A single registry in the Registry.
 
 ## Properties
 
-### <kbd>property</kbd> id
-
-The unique ID for this registry.
-
-### <kbd>property</kbd> full_name
-
-Full name of the registry including the `wandb-registry-` prefix.
-
-### <kbd>property</kbd> name
-
-Name of the registry without the `wandb-registry-` prefix.
-
-### <kbd>property</kbd> entity
-
-Organization entity of the registry.
-
-### <kbd>property</kbd> organization
-
-Organization name of the registry.
-
-### <kbd>property</kbd> description
-
-Description of the registry.
-
 ### <kbd>property</kbd> allow_all_artifact_types
 
 Return whether all artifact types are allowed in the registry.
@@ -86,13 +62,37 @@ Note:
 
 Timestamp of when the registry was created.
 
-### <kbd>property</kbd> updated_at
+### <kbd>property</kbd> description
 
-Timestamp of when the registry was last updated.
+Description of the registry.
+
+### <kbd>property</kbd> entity
+
+Organization entity of the registry.
+
+### <kbd>property</kbd> full_name
+
+Full name of the registry including the `wandb-registry-` prefix.
+
+### <kbd>property</kbd> id
+
+The unique ID for this registry.
+
+### <kbd>property</kbd> name
+
+Name of the registry without the `wandb-registry-` prefix.
+
+### <kbd>property</kbd> organization
+
+Organization name of the registry.
 
 ### <kbd>property</kbd> path
 
 
+
+### <kbd>property</kbd> updated_at
+
+Timestamp of when the registry was last updated.
 
 ### <kbd>property</kbd> visibility
 
@@ -102,7 +102,7 @@ Visibility of the registry.
 
 ## Methods
 
-### <kbd>method</kbd> add_members
+### <kbd>method</kbd> Registry.add_members()
 
 ```python
 self, *members: 'User | UserMember | Team | TeamMember | str'
@@ -139,7 +139,7 @@ my_team = api.team(name="my-team")
 registry.add_members(my_team)
 ```
 
-### <kbd>method</kbd> collections
+### <kbd>method</kbd> Registry.collections()
 
 ```python
 self,
@@ -161,7 +161,7 @@ Returns the collections belonging to this registry.
 
 
 
-### <kbd>method</kbd> create
+### <kbd>method</kbd> Registry.create()
 
 ```python
 api: 'Api',
@@ -192,7 +192,7 @@ This function should be called using `api.create_registry()`
 - `ValueError`: If a registry with the same name already exists in the organization or if the creation fails.
 
 
-### <kbd>method</kbd> delete
+### <kbd>method</kbd> Registry.delete()
 
 ```python
 self
@@ -204,7 +204,7 @@ Delete the registry. This is irreversible.
 
 
 
-### <kbd>method</kbd> load
+### <kbd>method</kbd> Registry.load()
 
 ```python
 self
@@ -216,7 +216,7 @@ Load registry attributes from the backend.
 
 
 
-### <kbd>method</kbd> members
+### <kbd>method</kbd> Registry.members()
 
 ```python
 self
@@ -228,7 +228,7 @@ Returns the current members (users and teams) of this registry.
 
 
 
-### <kbd>method</kbd> remove_members
+### <kbd>method</kbd> Registry.remove_members()
 
 ```python
 self, *members: 'User | UserMember | Team | TeamMember | str'
@@ -265,7 +265,7 @@ old_team = api.team(name="old-team")
 registry.remove_members(old_team)
 ```
 
-### <kbd>method</kbd> save
+### <kbd>method</kbd> Registry.save()
 
 ```python
 self
@@ -277,7 +277,7 @@ Save registry attributes to the backend.
 
 
 
-### <kbd>method</kbd> team_members
+### <kbd>method</kbd> Registry.team_members()
 
 ```python
 self
@@ -289,7 +289,7 @@ Returns the current member teams of this registry.
 
 
 
-### <kbd>method</kbd> update_member
+### <kbd>method</kbd> Registry.update_member()
 
 ```python
 self,
@@ -329,7 +329,7 @@ for member in registry.user_members():
     registry.update_member(member.user, role="admin")
 ```
 
-### <kbd>method</kbd> user_members
+### <kbd>method</kbd> Registry.user_members()
 
 ```python
 self
@@ -341,7 +341,7 @@ Returns the current member users of this registry.
 
 
 
-### <kbd>method</kbd> versions
+### <kbd>method</kbd> Registry.versions()
 
 ```python
 self,

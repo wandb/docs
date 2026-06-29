@@ -47,19 +47,19 @@ A lazy iterator of `Run` objects for a single sweep agent.
 
 ## Properties
 
-### <kbd>property</kbd> more
-
-Whether there are more pages to be fetched.
-
 ### <kbd>property</kbd> cursor
 
 The start cursor to use for the next fetched page.
+
+### <kbd>property</kbd> more
+
+Whether there are more pages to be fetched.
 
 
 
 ## Methods
 
-### <kbd>method</kbd> convert_objects
+### <kbd>method</kbd> AgentRuns.convert_objects()
 
 ```python
 self
@@ -71,7 +71,7 @@ Convert the current GraphQL page into :class:`Run` instances for this agent.
 
 
 
-### <kbd>method</kbd> next
+### <kbd>method</kbd> Paginator.__next__()
 
 ```python
 self
@@ -83,7 +83,7 @@ Return the next item from the iterator. When exhausted, raise StopIteration
 
 
 
-### <kbd>method</kbd> update_variables
+### <kbd>method</kbd> AgentRuns.update_variables()
 
 ```python
 self

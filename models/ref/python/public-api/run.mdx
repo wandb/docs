@@ -45,6 +45,41 @@ A single run associated with an entity and project.
 
 ## Properties
 
+### <kbd>property</kbd> config
+
+Get run config. Auto-loads full data if in lazy mode.
+
+### <kbd>property</kbd> entity
+
+The entity associated with the run.
+
+### <kbd>property</kbd> id
+
+The unique identifier for the run.
+
+### <kbd>property</kbd> lastHistoryStep
+
+Returns the last step logged in the run's history.
+
+### <kbd>property</kbd> metadata
+
+Metadata about the run from wandb-metadata.json.
+
+Metadata includes the run's description, tags, start time, memory
+usage and more.
+
+### <kbd>property</kbd> name
+
+The name of the run.
+
+### <kbd>property</kbd> path
+
+The path of the run. The path is a list containing the entity, project, and run_id.
+
+### <kbd>property</kbd> rawconfig
+
+Get raw run config including internal keys. Auto-loads full data if in lazy mode.
+
 ### <kbd>property</kbd> state
 
 The state of the run.
@@ -60,57 +95,29 @@ The following table describes the possible states a run can be in:
 | Running  | Run is still running and has recently sent a heartbeat. |
 | Pending  | Run is scheduled but not yet started (common in sweeps and Launch jobs). |
 
-### <kbd>property</kbd> entity
-
-The entity associated with the run.
-
-### <kbd>property</kbd> username
-
-This API is deprecated. Use `entity` instead.
-
 ### <kbd>property</kbd> storage_id
 
 The unique storage identifier for the run.
-
-### <kbd>property</kbd> id
-
-The unique identifier for the run.
-
-### <kbd>property</kbd> name
-
-The name of the run.
-
-### <kbd>property</kbd> config
-
-Get run config. Auto-loads full data if in lazy mode.
 
 ### <kbd>property</kbd> summary
 
 Get run summary metrics. Auto-loads full data if in lazy mode.
 
-### <kbd>property</kbd> system_metrics
-
-Get run system metrics. Auto-loads full data if in lazy mode.
-
 ### <kbd>property</kbd> summary_metrics
 
 Get run summary metrics. Auto-loads full data if in lazy mode.
-
-### <kbd>property</kbd> rawconfig
-
-Get raw run config including internal keys. Auto-loads full data if in lazy mode.
-
-### <kbd>property</kbd> sweep_name
-
-Get sweep name. Always available since sweepName is in lightweight fragment.
 
 ### <kbd>property</kbd> sweep
 
 The sweep associated with this run. Loads sweep data if include_sweeps is False.
 
-### <kbd>property</kbd> path
+### <kbd>property</kbd> sweep_name
 
-The path of the run. The path is a list containing the entity, project, and run_id.
+Get sweep name. Always available since sweepName is in lightweight fragment.
+
+### <kbd>property</kbd> system_metrics
+
+Get run system metrics. Auto-loads full data if in lazy mode.
 
 ### <kbd>property</kbd> url
 
@@ -119,22 +126,15 @@ The URL of the run.
 The run URL is generated from the entity, project, and run_id. For
 SaaS users, it takes the form of `https://wandb.ai/entity/project/run_id`.
 
-### <kbd>property</kbd> metadata
+### <kbd>property</kbd> username
 
-Metadata about the run from wandb-metadata.json.
-
-Metadata includes the run's description, tags, start time, memory
-usage and more.
-
-### <kbd>property</kbd> lastHistoryStep
-
-Returns the last step logged in the run's history.
+This API is deprecated. Use `entity` instead.
 
 
 
 ## Methods
 
-### <kbd>method</kbd> beta_scan_history
+### <kbd>method</kbd> Run.beta_scan_history()
 
 ```python
 self,
@@ -158,7 +158,7 @@ use_cache: 'bool' = True
 
 
 
-### <kbd>method</kbd> create
+### <kbd>method</kbd> Run.create()
 
 ```python
 api: 'public.Api',
@@ -211,7 +211,7 @@ run = Run.create(
 )
 ```
 
-### <kbd>method</kbd> delete
+### <kbd>method</kbd> Run.delete()
 
 ```python
 self,
@@ -227,7 +227,7 @@ Delete the given run from the wandb backend.
 
 
 
-### <kbd>method</kbd> download_history_exports
+### <kbd>method</kbd> Run.download_history_exports()
 
 ```python
 self,
@@ -249,7 +249,7 @@ Download any parquet history files for the run to the provided directory.
 - `WandbApiFailedError`: If the API request fails for reasons other than incomplete history.
 
 
-### <kbd>method</kbd> file
+### <kbd>method</kbd> Run.file()
 
 ```python
 self,
@@ -265,7 +265,7 @@ Return the path of a file with a given name in the artifact.
 
 
 
-### <kbd>method</kbd> files
+### <kbd>method</kbd> Run.files()
 
 ```python
 self,
@@ -288,7 +288,7 @@ If both are provided, the pattern will be ignored.
 
 
 
-### <kbd>method</kbd> history
+### <kbd>method</kbd> Run.history()
 
 ```python
 self,
@@ -314,7 +314,7 @@ This is simpler and faster if you are ok with the history records being sampled.
 
 
 
-### <kbd>method</kbd> load
+### <kbd>method</kbd> Run.load()
 
 ```python
 self,
@@ -330,7 +330,7 @@ Load run data using appropriate fragment based on lazy mode.
 
 
 
-### <kbd>method</kbd> load_full_data
+### <kbd>method</kbd> Run.load_full_data()
 
 ```python
 self,
@@ -349,7 +349,7 @@ but need access to the full data for specific runs.
 
 
 
-### <kbd>method</kbd> log_artifact
+### <kbd>method</kbd> Run.log_artifact()
 
 ```python
 self,
@@ -369,7 +369,7 @@ Declare an artifact as output of a run.
 
 
 
-### <kbd>method</kbd> logged_artifacts
+### <kbd>method</kbd> Run.logged_artifacts()
 
 ```python
 self,
@@ -411,7 +411,7 @@ for logged_artifact in finished_run.logged_artifacts():
     print(logged_artifact.name)
 ```
 
-### <kbd>method</kbd> save
+### <kbd>method</kbd> Run.save()
 
 ```python
 self
@@ -423,7 +423,7 @@ Persist changes to the run object to the W&B backend.
 
 
 
-### <kbd>method</kbd> scan_history
+### <kbd>method</kbd> Run.scan_history()
 
 ```python
 self,
@@ -447,7 +447,7 @@ Returns an iterable collection of all history records for a run.
 
 
 
-### <kbd>method</kbd> to_html
+### <kbd>method</kbd> Run.to_html()
 
 ```python
 self,
@@ -465,7 +465,7 @@ Generate HTML containing an iframe displaying this run.
 
 
 
-### <kbd>method</kbd> update
+### <kbd>method</kbd> Run.update()
 
 ```python
 self
@@ -477,7 +477,7 @@ Persist changes to the run object to the wandb backend.
 
 
 
-### <kbd>method</kbd> update_state
+### <kbd>method</kbd> Run.update_state()
 
 ```python
 self,
@@ -501,9 +501,12 @@ See `Run.state` for the list of possible run states.
 - `state`: The target run state. One of `"pending"` or `"failed"`.
 
 
+##### Raises
+
+- ``wandb.Error``: If the requested state transition is not allowed, or the server does not support this operation.
 
 
-### <kbd>method</kbd> upload_file
+### <kbd>method</kbd> Run.upload_file()
 
 ```python
 self,
@@ -521,7 +524,7 @@ Upload a local file to W&B, associating it with this run.
 
 
 
-### <kbd>method</kbd> use_artifact
+### <kbd>method</kbd> Run.use_artifact()
 
 ```python
 self,
@@ -539,7 +542,7 @@ Declare an artifact as an input to a run.
 
 
 
-### <kbd>method</kbd> used_artifacts
+### <kbd>method</kbd> Run.used_artifacts()
 
 ```python
 self,
@@ -575,7 +578,7 @@ for used_artifact in finished_run.used_artifacts():
 test_artifact
 ```
 
-### <kbd>method</kbd> wait_until_finished
+### <kbd>method</kbd> Run.wait_until_finished()
 
 ```python
 self

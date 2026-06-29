@@ -76,14 +76,6 @@ with wandb.init(entity="entity", project="project") as run:
 
 ## Properties
 
-### <kbd>property</kbd> settings
-
-A frozen copy of run's Settings object.
-
-### <kbd>property</kbd> dir
-
-The directory where files associated with the run are saved.
-
 ### <kbd>property</kbd> config
 
 Config object associated with this run.
@@ -91,6 +83,49 @@ Config object associated with this run.
 ### <kbd>property</kbd> config_static
 
 Static config object associated with this run.
+
+### <kbd>property</kbd> dir
+
+The directory where files associated with the run are saved.
+
+### <kbd>property</kbd> disabled
+
+True if the run is disabled, False otherwise.
+
+### <kbd>property</kbd> entity
+
+The name of the W&B entity associated with the run.
+
+Entity can be a username or the name of a team or organization.
+
+### <kbd>property</kbd> group
+
+Returns the name of the group associated with this run.
+
+Grouping runs together allows related experiments to be organized and
+visualized collectively in the W&B UI. This is especially useful for
+scenarios such as distributed training or cross-validation, where
+multiple runs should be viewed and managed as a unified experiment.
+
+In shared mode, where all processes share the same run object,
+setting a group is usually unnecessary, since there is only one
+run and no grouping is required.
+
+### <kbd>property</kbd> id
+
+Identifier for this run.
+
+### <kbd>property</kbd> job_type
+
+Name of the job type associated with the run.
+
+View a run's job type in the run's Overview page in the W&B App.
+
+You can use this to categorize runs by their job type, such as
+"training", "evaluation", or "inference". This is useful for organizing
+and filtering runs in the W&B UI, especially when you have multiple
+runs with different job types in the same project. For more
+information, see [Organize runs](https://docs.wandb.ai/models/runs#organize-runs).
 
 ### <kbd>property</kbd> name
 
@@ -106,17 +141,9 @@ Notes associated with the run, if there are any.
 Notes can be a multiline string and can also use markdown and latex
 equations inside `$$`, like `$x + 3$`.
 
-### <kbd>property</kbd> tags
+### <kbd>property</kbd> offline
 
-Tags associated with the run, if there are any.
-
-### <kbd>property</kbd> id
-
-Identifier for this run.
-
-### <kbd>property</kbd> sweep_id
-
-Identifier for the sweep associated with the run, if there is one.
+True if the run is offline, False otherwise.
 
 ### <kbd>property</kbd> path
 
@@ -124,53 +151,6 @@ Path to the run.
 
 Run paths include entity, project, and run ID, in the format
 `entity/project/run_id`.
-
-### <kbd>property</kbd> start_time
-
-Unix timestamp (in seconds) of when the run started.
-
-### <kbd>property</kbd> resumed
-
-True if the run was resumed, False otherwise.
-
-### <kbd>property</kbd> step
-
-The W&B step of the next `log()` call.
-
-Raises an error in mode="shared" runs.
-
-### <kbd>property</kbd> offline
-
-True if the run is offline, False otherwise.
-
-### <kbd>property</kbd> disabled
-
-True if the run is disabled, False otherwise.
-
-### <kbd>property</kbd> group
-
-Returns the name of the group associated with this run.
-
-Grouping runs together allows related experiments to be organized and
-visualized collectively in the W&B UI. This is especially useful for
-scenarios such as distributed training or cross-validation, where
-multiple runs should be viewed and managed as a unified experiment.
-
-In shared mode, where all processes share the same run object,
-setting a group is usually unnecessary, since there is only one
-run and no grouping is required.
-
-### <kbd>property</kbd> job_type
-
-Name of the job type associated with the run.
-
-View a run's job type in the run's Overview page in the W&B App.
-
-You can use this to categorize runs by their job type, such as
-"training", "evaluation", or "inference". This is useful for organizing
-and filtering runs in the W&B UI, especially when you have multiple
-runs with different job types in the same project. For more
-information, see [Organize runs](https://docs.wandb.ai/models/runs#organize-runs).
 
 ### <kbd>property</kbd> project
 
@@ -182,11 +162,37 @@ URL of the W&B project associated with the run, if there is one.
 
 Offline runs do not have a project URL.
 
+### <kbd>property</kbd> resumed
+
+True if the run was resumed, False otherwise.
+
+### <kbd>property</kbd> settings
+
+A frozen copy of run's Settings object.
+
+### <kbd>property</kbd> start_time
+
+Unix timestamp (in seconds) of when the run started.
+
+### <kbd>property</kbd> step
+
+The W&B step of the next `log()` call.
+
+Raises an error in mode="shared" runs.
+
+### <kbd>property</kbd> sweep_id
+
+Identifier for the sweep associated with the run, if there is one.
+
 ### <kbd>property</kbd> sweep_url
 
 URL of the sweep associated with the run, if there is one.
 
 Offline runs do not have a sweep URL.
+
+### <kbd>property</kbd> tags
+
+Tags associated with the run, if there are any.
 
 ### <kbd>property</kbd> url
 
@@ -194,17 +200,11 @@ The url for the W&B run, if there is one.
 
 Offline runs will not have a url.
 
-### <kbd>property</kbd> entity
-
-The name of the W&B entity associated with the run.
-
-Entity can be a username or the name of a team or organization.
-
 
 
 ## Methods
 
-### <kbd>method</kbd> alert
+### <kbd>method</kbd> Run.alert()
 
 ```python
 self,
@@ -226,7 +226,7 @@ Create an alert with the given title and text.
 
 
 
-### <kbd>method</kbd> define_metric
+### <kbd>method</kbd> Run.define_metric()
 
 ```python
 self,
@@ -254,7 +254,7 @@ Customize metrics logged with `wandb.Run.log()`.
 
 
 
-### <kbd>method</kbd> display
+### <kbd>method</kbd> Run.display()
 
 ```python
 self,
@@ -272,7 +272,7 @@ Display this run in Jupyter.
 
 
 
-### <kbd>method</kbd> finish
+### <kbd>method</kbd> Run.finish()
 
 ```python
 self,
@@ -300,7 +300,7 @@ Run States:
 
 
 
-### <kbd>method</kbd> finish_artifact
+### <kbd>method</kbd> Run.finish_artifact()
 
 ```python
 self,
@@ -338,7 +338,7 @@ Subsequent "upserts" with the same distributed ID will result in a new version.
 
 
 
-### <kbd>method</kbd> link_artifact
+### <kbd>method</kbd> Run.link_artifact()
 
 ```python
 self,
@@ -364,7 +364,7 @@ View linked artifacts in the Registry UI for the specified collection.
 
 
 
-### <kbd>method</kbd> link_model
+### <kbd>method</kbd> Run.link_model()
 
 ```python
 self,
@@ -405,7 +405,7 @@ If not, create a new registered model with name 'registered_model_name'.
 - `ValueError`: If name has invalid special characters.
 
 
-### <kbd>method</kbd> log
+### <kbd>method</kbd> Run.log()
 
 ```python
 self,
@@ -652,7 +652,7 @@ with wandb.init() as run:
     )
 ```
 
-### <kbd>method</kbd> log_artifact
+### <kbd>method</kbd> Run.log_artifact()
 
 ```python
 self,
@@ -687,7 +687,7 @@ Declare an artifact as an output of a run.
 
 
 
-### <kbd>method</kbd> log_code
+### <kbd>method</kbd> Run.log_code()
 
 ```python
 self,
@@ -737,7 +737,7 @@ with wandb.init() as run:
     )
 ```
 
-### <kbd>method</kbd> log_model
+### <kbd>method</kbd> Run.log_model()
 
 ```python
 self,
@@ -767,7 +767,7 @@ underscores, and hyphens.
 - `ValueError`: If name has invalid special characters.
 
 
-### <kbd>method</kbd> mark_preempting
+### <kbd>method</kbd> Run.mark_preempting()
 
 ```python
 self
@@ -781,7 +781,7 @@ Also tells the internal process to immediately report this to server.
 
 
 
-### <kbd>method</kbd> pin_config_keys
+### <kbd>method</kbd> Run.pin_config_keys()
 
 ```python
 self,
@@ -801,7 +801,7 @@ plain text. Calling this again replaces the previously pinned list.
 
 
 
-### <kbd>method</kbd> restore
+### <kbd>method</kbd> Run.restore()
 
 ```python
 self,
@@ -830,7 +830,7 @@ By default, will only download the file if it doesn't already exist.
 - `ValueError`: If the file is not found or can't find run_path.
 
 
-### <kbd>method</kbd> save
+### <kbd>method</kbd> Run.save()
 
 ```python
 self,
@@ -869,7 +869,7 @@ on the same file without modifications will not re-upload it.
 
 
 
-### <kbd>method</kbd> status
+### <kbd>method</kbd> Run.status()
 
 ```python
 self
@@ -881,7 +881,7 @@ Get sync info from the internal backend, about the current run's sync status.
 
 
 
-### <kbd>method</kbd> unwatch
+### <kbd>method</kbd> Run.unwatch()
 
 ```python
 self,
@@ -897,7 +897,7 @@ Remove pytorch model topology, gradient and parameter hooks.
 
 
 
-### <kbd>method</kbd> upsert_artifact
+### <kbd>method</kbd> Run.upsert_artifact()
 
 ```python
 self,
@@ -933,7 +933,7 @@ This is useful when distributed jobs need to all contribute to the same artifact
 
 
 
-### <kbd>method</kbd> use_artifact
+### <kbd>method</kbd> Run.use_artifact()
 
 ```python
 self,
@@ -990,7 +990,7 @@ artifact_d = run.use_artifact(
 run.finish()
 ```
 
-### <kbd>method</kbd> use_model
+### <kbd>method</kbd> Run.use_model()
 
 ```python
 self,
@@ -1013,7 +1013,7 @@ Download the files logged in a model artifact 'name'.
 - `AssertionError`: If model artifact 'name' is of a type that does not contain the substring 'model'.
 
 
-### <kbd>method</kbd> watch
+### <kbd>method</kbd> Run.watch()
 
 ```python
 self,
@@ -1044,7 +1044,7 @@ This function can track parameters, gradients, or both during training.
 - `ValueError`: If `wandb.init()` has not been called or if any of the models are not instances of `torch.nn.Module`.
 
 
-### <kbd>method</kbd> write_logs
+### <kbd>method</kbd> Run.write_logs()
 
 ```python
 self,

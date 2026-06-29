@@ -48,25 +48,31 @@ Attributes:
 
 ## Properties
 
-### <kbd>property</kbd> entity
-
-The entity associated with the sweep.
-
-### <kbd>property</kbd> username
-
-Deprecated. Use `Sweep.entity` instead.
-
 ### <kbd>property</kbd> config
 
 The sweep configuration used for the sweep.
 
-### <kbd>property</kbd> order
+### <kbd>property</kbd> entity
 
-Return the order key for the sweep.
+The entity associated with the sweep.
 
 ### <kbd>property</kbd> expected_run_count
 
 Return the number of expected runs in the sweep or None for infinite runs.
+
+### <kbd>property</kbd> name
+
+The name of the sweep.
+
+Returns the first name that exists in the following priority order:
+
+1. User-edited display name
+2. Name configured at creation time
+3. Sweep ID
+
+### <kbd>property</kbd> order
+
+Return the order key for the sweep.
 
 ### <kbd>property</kbd> path
 
@@ -83,21 +89,15 @@ The sweep URL is generated from the entity, project, the term
 SaaS users, it takes the form
 of `https://wandb.ai/entity/project/sweeps/sweeps_ID`.
 
-### <kbd>property</kbd> name
+### <kbd>property</kbd> username
 
-The name of the sweep.
-
-Returns the first name that exists in the following priority order:
-
-1. User-edited display name
-2. Name configured at creation time
-3. Sweep ID
+Deprecated. Use `Sweep.entity` instead.
 
 
 
 ## Methods
 
-### <kbd>method</kbd> agent
+### <kbd>method</kbd> Sweep.agent()
 
 ```python
 self,
@@ -113,7 +113,7 @@ Query an agent by ID for this sweep.
 
 
 
-### <kbd>method</kbd> agents
+### <kbd>method</kbd> Sweep.agents()
 
 ```python
 self
@@ -125,7 +125,7 @@ Query the list of all agents for this sweep.
 
 
 
-### <kbd>method</kbd> best_run
+### <kbd>method</kbd> Sweep.best_run()
 
 ```python
 (self, order=None)
@@ -140,7 +140,7 @@ Return the best run sorted by the metric defined in config or the order passed i
 
 
 
-### <kbd>method</kbd> get
+### <kbd>method</kbd> Sweep.get()
 
 ```python
 (api: 'Api',
@@ -166,7 +166,7 @@ Execute a query against the cloud backend.
 
 
 
-### <kbd>method</kbd> to_html
+### <kbd>method</kbd> Sweep.to_html()
 
 ```python
 self,

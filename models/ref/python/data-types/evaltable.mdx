@@ -71,7 +71,7 @@ supported.
 
 ## Methods
 
-### <kbd>method</kbd> add_column
+### <kbd>method</kbd> EvalTable.add_column()
 
 ```python
 self,
@@ -91,7 +91,7 @@ Adds a column of data to the table.
 
 
 
-### <kbd>method</kbd> add_computed_columns
+### <kbd>method</kbd> Table.add_computed_columns()
 
 ```python
 (self, fn)
@@ -111,7 +111,7 @@ Adds one or more computed columns based on existing data.
 
 
 
-### <kbd>method</kbd> add_data
+### <kbd>method</kbd> EvalTable.add_data()
 
 ```python
 self, *data: 'Any'
@@ -131,7 +131,7 @@ The length of the data should match the length of the table column.
 
 
 
-### <kbd>method</kbd> add_row
+### <kbd>method</kbd> Table.add_row()
 
 ```python
 (self, *row)
@@ -146,7 +146,7 @@ Deprecated. Use `Table.add_data` method instead.
 
 
 
-### <kbd>method</kbd> cast
+### <kbd>method</kbd> Table.cast()
 
 ```python
 (self, col_name, dtype, optional=False)
@@ -167,7 +167,7 @@ wandb.Classes.
 
 
 
-### <kbd>method</kbd> get_column
+### <kbd>method</kbd> Table.get_column()
 
 ```python
 (self, name, convert_to=None)
@@ -184,7 +184,7 @@ Retrieves a column from the table and optionally converts it to a NumPy object.
 
 
 
-### <kbd>method</kbd> get_dataframe
+### <kbd>method</kbd> Table.get_dataframe()
 
 ```python
 (self)
@@ -196,7 +196,7 @@ Returns a `pandas.DataFrame` of the table.
 
 
 
-### <kbd>method</kbd> get_index
+### <kbd>method</kbd> Table.get_index()
 
 ```python
 (self)

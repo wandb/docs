@@ -41,13 +41,13 @@ wandb.Api()
 
 ## Properties
 
-### <kbd>property</kbd> user_agent
-
-Returns W&B public user agent.
-
 ### <kbd>property</kbd> default_entity
 
 Returns the default W&B entity.
+
+### <kbd>property</kbd> user_agent
+
+Returns W&B public user agent.
 
 ### <kbd>property</kbd> viewer
 
@@ -57,7 +57,7 @@ Returns the viewer object.
 
 ## Methods
 
-### <kbd>method</kbd> artifact
+### <kbd>method</kbd> Api.artifact()
 
 ```python
 (self,
@@ -105,7 +105,7 @@ wandb.Api().artifact(name="entity/project/artifact:version")
 Note:
 This method is intended for external use only. Do not call `api.artifact()` within the wandb repository code.
 
-### <kbd>method</kbd> artifact_collection
+### <kbd>method</kbd> Api.artifact_collection()
 
 ```python
 self,
@@ -147,7 +147,7 @@ artifact_example = collections.artifacts()[0]
 artifact_example.download()
 ```
 
-### <kbd>method</kbd> artifact_collection_exists
+### <kbd>method</kbd> Api.artifact_collection_exists()
 
 ```python
 self,
@@ -176,7 +176,7 @@ import wandb
 wandb.Api.artifact_collection_exists(type="type", name="collection_name")
 ```
 
-### <kbd>method</kbd> artifact_collections
+### <kbd>method</kbd> Api.artifact_collections()
 
 ```python
 self,
@@ -200,7 +200,7 @@ Returns a collection of matching artifact collections.
 
 
 
-### <kbd>method</kbd> artifact_exists
+### <kbd>method</kbd> Api.artifact_exists()
 
 ```python
 self,
@@ -232,7 +232,7 @@ wandb.Api().artifact_exists("entity/project/artifact:version")
 wandb.Api().artifact_exists("entity/project/artifact:alias")
 ```
 
-### <kbd>method</kbd> artifact_type
+### <kbd>method</kbd> Api.artifact_type()
 
 ```python
 self,
@@ -250,7 +250,7 @@ Returns the matching `ArtifactType`.
 
 
 
-### <kbd>method</kbd> artifact_types
+### <kbd>method</kbd> Api.artifact_types()
 
 ```python
 self,
@@ -268,7 +268,7 @@ Returns a collection of matching artifact types.
 
 
 
-### <kbd>method</kbd> artifact_versions
+### <kbd>method</kbd> Api.artifact_versions()
 
 ```python
 (self, type_name, name, per_page=50)
@@ -285,7 +285,7 @@ Deprecated. Use `Api.artifacts(type_name, name)` method instead.
 
 
 
-### <kbd>method</kbd> artifacts
+### <kbd>method</kbd> Api.artifacts()
 
 ```python
 self,
@@ -354,7 +354,7 @@ remaining_artifacts = api.artifacts(
 )
 ```
 
-### <kbd>method</kbd> automation
+### <kbd>method</kbd> Api.automation()
 
 ```python
 self,
@@ -392,7 +392,7 @@ Get an existing automation named "other-automation", from the entity "my-team":
 automation = api.automation(name="other-automation", entity="my-team")
 ```
 
-### <kbd>method</kbd> automations
+### <kbd>method</kbd> Api.automations()
 
 ```python
 self,
@@ -428,7 +428,7 @@ api = wandb.Api()
 automations = api.automations(entity="my-team")
 ```
 
-### <kbd>method</kbd> create_automation
+### <kbd>method</kbd> Api.create_automation()
 
 ```python
 self,
@@ -476,7 +476,7 @@ automation = api.create_automation(
 )
 ```
 
-### <kbd>method</kbd> create_custom_chart
+### <kbd>method</kbd> Api.create_custom_chart()
 
 ```python
 self,
@@ -544,7 +544,7 @@ Create a custom chart preset and return its id.
     )
     ```
 
-### <kbd>method</kbd> create_project
+### <kbd>method</kbd> Api.create_project()
 
 ```python
 self,
@@ -562,7 +562,7 @@ Create a new project.
 
 
 
-### <kbd>method</kbd> create_registry
+### <kbd>method</kbd> Api.create_registry()
 
 ```python
 self,
@@ -601,7 +601,7 @@ registry = api.create_registry(
 )
 ```
 
-### <kbd>method</kbd> create_run
+### <kbd>method</kbd> Api.create_run()
 
 ```python
 self, *,
@@ -621,7 +621,7 @@ Create a new run.
 
 
 
-### <kbd>method</kbd> create_run_queue
+### <kbd>method</kbd> Api.create_run_queue()
 
 ```python
 self,
@@ -647,7 +647,7 @@ Create a new run queue in W&B Launch.
 
 
 
-### <kbd>method</kbd> create_team
+### <kbd>method</kbd> Api.create_team()
 
 ```python
 self,
@@ -665,7 +665,7 @@ Create a new team.
 
 
 
-### <kbd>method</kbd> create_user
+### <kbd>method</kbd> Api.create_user()
 
 ```python
 self,
@@ -683,7 +683,7 @@ Create a new user.
 
 
 
-### <kbd>method</kbd> delete_automation
+### <kbd>method</kbd> Api.delete_automation()
 
 ```python
 self,
@@ -699,7 +699,7 @@ Delete an automation.
 
 
 
-### <kbd>method</kbd> flush
+### <kbd>method</kbd> Api.flush()
 
 ```python
 (self)
@@ -715,7 +715,7 @@ with `api.flush()` to get the latest values associated with the run.
 
 
 
-### <kbd>method</kbd> from_path
+### <kbd>method</kbd> Api.from_path()
 
 ```python
 (self,
@@ -749,7 +749,7 @@ sweep = api.from_path("team/project/sweeps/sweep_id")
 report = api.from_path("team/project/reports/report_name")
 ```
 
-### <kbd>method</kbd> integrations
+### <kbd>method</kbd> Api.integrations()
 
 ```python
 self,
@@ -769,7 +769,7 @@ Return an iterator of all integrations for an entity.
 
 
 
-### <kbd>method</kbd> job
+### <kbd>method</kbd> Api.job()
 
 ```python
 self,
@@ -787,7 +787,7 @@ Return a `Job` object.
 
 
 
-### <kbd>method</kbd> list_jobs
+### <kbd>method</kbd> Api.list_jobs()
 
 ```python
 self,
@@ -805,7 +805,7 @@ Return a list of jobs, if any, for the given entity and project.
 
 
 
-### <kbd>method</kbd> project
+### <kbd>method</kbd> Api.project()
 
 ```python
 self,
@@ -823,7 +823,7 @@ Return the `Project` with the given name (and entity, if given).
 
 
 
-### <kbd>method</kbd> projects
+### <kbd>method</kbd> Api.projects()
 
 ```python
 self,
@@ -841,7 +841,7 @@ Get projects for a given entity.
 
 
 
-### <kbd>method</kbd> queued_run
+### <kbd>method</kbd> Api.queued_run()
 
 ```python
 (self,
@@ -867,7 +867,7 @@ Parses paths of the form `entity/project/queue_id/run_queue_item_id`.
 
 
 
-### <kbd>method</kbd> registries
+### <kbd>method</kbd> Api.registries()
 
 ```python
 self,
@@ -948,7 +948,7 @@ saved_cursor = registries.cursor
 remaining_registries = api.registries(per_page=page_size, start=saved_cursor)
 ```
 
-### <kbd>method</kbd> registry
+### <kbd>method</kbd> Api.registry()
 
 ```python
 self,
@@ -979,7 +979,7 @@ registry.description = "This is an updated description"
 registry.save()
 ```
 
-### <kbd>method</kbd> reports
+### <kbd>method</kbd> Api.reports()
 
 ```python
 self,
@@ -1010,7 +1010,7 @@ import wandb
 wandb.Api.reports("entity/project")
 ```
 
-### <kbd>method</kbd> run
+### <kbd>method</kbd> Api.run()
 
 ```python
 (self, path='')
@@ -1025,7 +1025,7 @@ Return a single run by parsing path in the form `entity/project/run_id`.
 
 
 
-### <kbd>method</kbd> run_queue
+### <kbd>method</kbd> Api.run_queue()
 
 ```python
 (self,
@@ -1045,7 +1045,7 @@ See `Api.create_run_queue` for more information on how to create a run queue.
 
 
 
-### <kbd>method</kbd> runs
+### <kbd>method</kbd> Api.runs()
 
 ```python
 (self,
@@ -1148,7 +1148,7 @@ Api.runs(
 Api.runs(path="my_entity/project", order="+summary_metrics.loss")
 ```
 
-### <kbd>method</kbd> slack_integrations
+### <kbd>method</kbd> Api.slack_integrations()
 
 ```python
 self, *,
@@ -1190,7 +1190,7 @@ team_alert_integrations = [
 ]
 ```
 
-### <kbd>method</kbd> sweep
+### <kbd>method</kbd> Api.sweep()
 
 ```python
 (self, path='')
@@ -1205,7 +1205,7 @@ Return a sweep by parsing path in the form `entity/project/sweep_id`.
 
 
 
-### <kbd>method</kbd> sync_tensorboard
+### <kbd>method</kbd> Api.sync_tensorboard()
 
 ```python
 (self, root_dir, run_id=None, project=None, entity=None)
@@ -1223,7 +1223,7 @@ Sync a local directory containing tfevent files to wandb.
 
 
 
-### <kbd>method</kbd> team
+### <kbd>method</kbd> Api.team()
 
 ```python
 self,
@@ -1239,7 +1239,7 @@ Return the matching `Team` with the given name.
 
 
 
-### <kbd>method</kbd> update_automation
+### <kbd>method</kbd> Api.update_automation()
 
 ```python
 self,
@@ -1290,7 +1290,7 @@ updated_automation = api.update_automation(
 )
 ```
 
-### <kbd>method</kbd> upsert_run_queue
+### <kbd>method</kbd> Api.upsert_run_queue()
 
 ```python
 (self,
@@ -1318,7 +1318,7 @@ Upsert a run queue in W&B Launch.
 
 
 
-### <kbd>method</kbd> user
+### <kbd>method</kbd> Api.user()
 
 ```python
 self,
@@ -1337,7 +1337,7 @@ This function only works for local administrators. Use `api.viewer`
 
 
 
-### <kbd>method</kbd> users
+### <kbd>method</kbd> Api.users()
 
 ```python
 self,
@@ -1356,7 +1356,7 @@ This function only works for local administrators. Use `api.viewer`
 
 
 
-### <kbd>method</kbd> webhook_integrations
+### <kbd>method</kbd> Api.webhook_integrations()
 
 ```python
 self,

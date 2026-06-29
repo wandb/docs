@@ -47,43 +47,16 @@ begin with `add`. Once the artifact has all the desired files, you can call
 
 ## Properties
 
-### <kbd>property</kbd> id
+### <kbd>property</kbd> aliases
 
-The artifact's ID.
+List of one or more semantically-friendly references or
 
-### <kbd>property</kbd> entity
+identifying "nicknames" assigned to an artifact version.
 
-The name of the entity that the artifact collection belongs to.
-
-If the artifact is a link, the entity will be the entity of the linked artifact.
-
-### <kbd>property</kbd> project
-
-The name of the project that the artifact collection belongs to.
-
-If the artifact is a link, the project will be the project of the linked artifact.
-
-### <kbd>property</kbd> name
-
-The artifact name and version of the artifact.
-
-A string with the format `{collection}:{alias}`. If fetched before an artifact is
-logged/saved, the name won't contain the alias.
-If the artifact is a link, the name will be the name of the linked artifact.
-
-### <kbd>property</kbd> qualified_name
-
-The entity/project/name of the artifact.
-
-If the artifact is a link, the qualified name will be the qualified name of the
-linked artifact path.
-
-### <kbd>property</kbd> version
-
-The artifact's version.
-
-A string with the format `v{number}`.
-If this is a link artifact, the version will be from the linked collection.
+Aliases are mutable references that you can programmatically reference.
+Change an artifact's alias with the W&B App UI or programmatically.
+See [Create new artifact versions](https://docs.wandb.ai/models/artifacts/create-a-new-artifact-version)
+for more information.
 
 ### <kbd>property</kbd> collection
 
@@ -97,36 +70,42 @@ that the artifact version originates from.
 The collection that an artifact originates from is known as
 the source sequence.
 
-### <kbd>property</kbd> source_entity
+### <kbd>property</kbd> commit_hash
 
-The name of the entity of the source artifact.
+The hash returned when this artifact was committed.
 
-### <kbd>property</kbd> source_project
+### <kbd>property</kbd> created_at
 
-The name of the project of the source artifact.
+Timestamp when the artifact was created.
 
-### <kbd>property</kbd> source_name
+### <kbd>property</kbd> description
 
-The artifact name and version of the source artifact.
+A description of the artifact.
 
-A string with the format `{source_collection}:{alias}`. Before the artifact
-is saved, contains only the name since the version is not yet known.
+### <kbd>property</kbd> digest
 
-### <kbd>property</kbd> source_qualified_name
+The logical digest of the artifact.
 
-The source_entity/source_project/source_name of the source artifact.
+The digest is the checksum of the artifact's contents. If an artifact has the
+same digest as the current `latest` version, then `log_artifact` is a no-op.
 
-### <kbd>property</kbd> source_version
+### <kbd>property</kbd> entity
 
-The source artifact's version.
+The name of the entity that the artifact collection belongs to.
 
-A string with the format `v{number}`.
+If the artifact is a link, the entity will be the entity of the linked artifact.
 
-### <kbd>property</kbd> source_collection
+### <kbd>property</kbd> file_count
 
-The artifact's source collection.
+The number of files (including references).
 
-The source collection is the collection that the artifact was logged from.
+### <kbd>property</kbd> history_step
+
+The nearest step which logged history metrics for this artifact's source run.
+
+### <kbd>property</kbd> id
+
+The artifact's ID.
 
 ### <kbd>property</kbd> is_link
 
@@ -144,6 +123,46 @@ it will return an empty list.
 
 Limited to 500 results.
 
+### <kbd>property</kbd> manifest
+
+The artifact's manifest.
+
+The manifest lists all of its contents, and can't be changed once the artifact
+has been logged.
+
+### <kbd>property</kbd> metadata
+
+User-defined artifact metadata.
+
+Structured data associated with the artifact.
+
+### <kbd>property</kbd> name
+
+The artifact name and version of the artifact.
+
+A string with the format `{collection}:{alias}`. If fetched before an artifact is
+logged/saved, the name won't contain the alias.
+If the artifact is a link, the name will be the name of the linked artifact.
+
+### <kbd>property</kbd> project
+
+The name of the project that the artifact collection belongs to.
+
+If the artifact is a link, the project will be the project of the linked artifact.
+
+### <kbd>property</kbd> qualified_name
+
+The entity/project/name of the artifact.
+
+If the artifact is a link, the qualified name will be the qualified name of the
+linked artifact path.
+
+### <kbd>property</kbd> size
+
+The total size of the artifact in bytes.
+
+Includes any references tracked by this artifact.
+
 ### <kbd>property</kbd> source_artifact
 
 Returns the source artifact, which is the original logged artifact.
@@ -151,23 +170,44 @@ Returns the source artifact, which is the original logged artifact.
 If this artifact is a source artifact (`artifact.is_link == False`),
 it will return itself.
 
-### <kbd>property</kbd> type
+### <kbd>property</kbd> source_collection
 
-The artifact's type. Common types include `dataset` or `model`.
+The artifact's source collection.
 
-### <kbd>property</kbd> url
+The source collection is the collection that the artifact was logged from.
 
-Constructs the URL of the artifact.
+### <kbd>property</kbd> source_entity
 
-### <kbd>property</kbd> description
+The name of the entity of the source artifact.
 
-A description of the artifact.
+### <kbd>property</kbd> source_name
 
-### <kbd>property</kbd> metadata
+The artifact name and version of the source artifact.
 
-User-defined artifact metadata.
+A string with the format `{source_collection}:{alias}`. Before the artifact
+is saved, contains only the name since the version is not yet known.
 
-Structured data associated with the artifact.
+### <kbd>property</kbd> source_project
+
+The name of the project of the source artifact.
+
+### <kbd>property</kbd> source_qualified_name
+
+The source_entity/source_project/source_name of the source artifact.
+
+### <kbd>property</kbd> source_version
+
+The source artifact's version.
+
+A string with the format `v{number}`.
+
+### <kbd>property</kbd> state
+
+The status of the artifact. One of: "PENDING", "COMMITTED", or "DELETED".
+
+### <kbd>property</kbd> tags
+
+List of one or more tags assigned to this artifact version.
 
 ### <kbd>property</kbd> ttl
 
@@ -180,74 +220,34 @@ An artifact inherits a TTL policy from
 the team default if the team administrator defines a default
 TTL and there is no custom policy set on an artifact.
 
-### <kbd>property</kbd> aliases
+### <kbd>property</kbd> type
 
-List of one or more semantically-friendly references or
-
-identifying "nicknames" assigned to an artifact version.
-
-Aliases are mutable references that you can programmatically reference.
-Change an artifact's alias with the W&B App UI or programmatically.
-See [Create new artifact versions](https://docs.wandb.ai/models/artifacts/create-a-new-artifact-version)
-for more information.
-
-### <kbd>property</kbd> tags
-
-List of one or more tags assigned to this artifact version.
-
-### <kbd>property</kbd> use_as
-
-Deprecated.
-
-### <kbd>property</kbd> state
-
-The status of the artifact. One of: "PENDING", "COMMITTED", or "DELETED".
-
-### <kbd>property</kbd> manifest
-
-The artifact's manifest.
-
-The manifest lists all of its contents, and can't be changed once the artifact
-has been logged.
-
-### <kbd>property</kbd> digest
-
-The logical digest of the artifact.
-
-The digest is the checksum of the artifact's contents. If an artifact has the
-same digest as the current `latest` version, then `log_artifact` is a no-op.
-
-### <kbd>property</kbd> size
-
-The total size of the artifact in bytes.
-
-Includes any references tracked by this artifact.
-
-### <kbd>property</kbd> commit_hash
-
-The hash returned when this artifact was committed.
-
-### <kbd>property</kbd> file_count
-
-The number of files (including references).
-
-### <kbd>property</kbd> created_at
-
-Timestamp when the artifact was created.
+The artifact's type. Common types include `dataset` or `model`.
 
 ### <kbd>property</kbd> updated_at
 
 The time when the artifact was last updated.
 
-### <kbd>property</kbd> history_step
+### <kbd>property</kbd> url
 
-The nearest step which logged history metrics for this artifact's source run.
+Constructs the URL of the artifact.
+
+### <kbd>property</kbd> use_as
+
+Deprecated.
+
+### <kbd>property</kbd> version
+
+The artifact's version.
+
+A string with the format `v{number}`.
+If this is a link artifact, the version will be from the linked collection.
 
 
 
 ## Methods
 
-### <kbd>method</kbd> add
+### <kbd>method</kbd> Artifact.add()
 
 ```python
 self,
@@ -270,7 +270,7 @@ Add wandb.WBValue `obj` to the artifact.
 - `ArtifactFinalizedError`: You cannot make changes to the current artifact version because it is finalized. Log a new artifact version instead.
 
 
-### <kbd>method</kbd> add_dir
+### <kbd>method</kbd> Artifact.add_dir()
 
 ```python
 self,
@@ -302,7 +302,7 @@ Add a local directory to the artifact.
 - `ValueError`: Policy must be "mutable" or "immutable"
 
 
-### <kbd>method</kbd> add_file
+### <kbd>method</kbd> Artifact.add_file()
 
 ```python
 self,
@@ -332,7 +332,7 @@ Add a local file to the artifact.
 - `ValueError`: Policy must be "mutable" or "immutable"
 
 
-### <kbd>method</kbd> add_reference
+### <kbd>method</kbd> Artifact.add_reference()
 
 ```python
 self,
@@ -380,7 +380,7 @@ blank.
 - `ArtifactFinalizedError`: You cannot make changes to the current artifact version because it is finalized. Log a new artifact version instead.
 
 
-### <kbd>method</kbd> checkout
+### <kbd>method</kbd> Artifact.checkout()
 
 ```python
 self,
@@ -402,7 +402,7 @@ artifact.
 - `ArtifactNotLoggedError`: If the artifact is not logged.
 
 
-### <kbd>method</kbd> delete
+### <kbd>method</kbd> Artifact.delete()
 
 ```python
 self,
@@ -427,7 +427,7 @@ link between a source artifact and a collection.
 - `ArtifactNotLoggedError`: If the artifact is not logged.
 
 
-### <kbd>method</kbd> download
+### <kbd>method</kbd> Artifact.download()
 
 ```python
 self,
@@ -458,7 +458,7 @@ the artifact.
 - `ArtifactNotLoggedError`: If the artifact is not logged.
 
 
-### <kbd>method</kbd> file
+### <kbd>method</kbd> Artifact.file()
 
 ```python
 self,
@@ -478,7 +478,7 @@ Download a single file artifact to the directory you specify with `root`.
 - `ValueError`: If the artifact contains more than one file.
 
 
-### <kbd>method</kbd> files
+### <kbd>method</kbd> Artifact.files()
 
 ```python
 self,
@@ -501,7 +501,7 @@ Iterate over all files stored in this artifact.
 - `ArtifactNotLoggedError`: If the artifact is not logged.
 
 
-### <kbd>method</kbd> finalize
+### <kbd>method</kbd> Artifact.finalize()
 
 ```python
 self
@@ -518,7 +518,7 @@ when you log the artifact with `log_artifact`.
 
 
 
-### <kbd>method</kbd> get
+### <kbd>method</kbd> Artifact.get()
 
 ```python
 self,
@@ -537,7 +537,7 @@ Get the WBValue object located at the artifact relative `name`.
 - `ArtifactNotLoggedError`: if the artifact isn't logged or the run is offline.
 
 
-### <kbd>method</kbd> get_added_local_path_name
+### <kbd>method</kbd> Artifact.get_added_local_path_name()
 
 ```python
 self,
@@ -553,7 +553,7 @@ Get the artifact relative name of a file added by a local filesystem path.
 
 
 
-### <kbd>method</kbd> get_entry
+### <kbd>method</kbd> Artifact.get_entry()
 
 ```python
 self,
@@ -573,7 +573,7 @@ Get the entry with the given name.
 - `KeyError`: if the artifact doesn't contain an entry with the given name.
 
 
-### <kbd>method</kbd> get_path
+### <kbd>method</kbd> Artifact.get_path()
 
 ```python
 self,
@@ -589,7 +589,7 @@ Deprecated. Use `get_entry(name)`.
 
 
 
-### <kbd>method</kbd> is_draft
+### <kbd>method</kbd> Artifact.is_draft()
 
 ```python
 self
@@ -601,7 +601,7 @@ Check if artifact is not saved.
 
 
 
-### <kbd>method</kbd> json_encode
+### <kbd>method</kbd> Artifact.json_encode()
 
 ```python
 self
@@ -613,7 +613,7 @@ Returns the artifact encoded to the JSON format.
 
 
 
-### <kbd>method</kbd> link
+### <kbd>method</kbd> Artifact.link()
 
 ```python
 self,
@@ -634,7 +634,7 @@ Link this artifact to a collection.
 - `ArtifactNotLoggedError`: If the artifact is not logged.
 
 
-### <kbd>method</kbd> logged_by
+### <kbd>method</kbd> Artifact.logged_by()
 
 ```python
 self
@@ -649,7 +649,7 @@ Get the W&B run that originally logged the artifact.
 - `ArtifactNotLoggedError`: If the artifact is not logged.
 
 
-### <kbd>method</kbd> new_draft
+### <kbd>method</kbd> Artifact.new_draft()
 
 ```python
 self
@@ -668,7 +668,7 @@ modified and logged as a new version.
 - `ArtifactNotLoggedError`: If the artifact is not logged.
 
 
-### <kbd>method</kbd> new_file
+### <kbd>method</kbd> Artifact.new_file()
 
 ```python
 self,
@@ -691,7 +691,7 @@ Open a new temporary file and add it to the artifact.
 - `ArtifactFinalizedError`: You cannot make changes to the current artifact version because it is finalized. Log a new artifact version instead.
 
 
-### <kbd>method</kbd> remove
+### <kbd>method</kbd> Artifact.remove()
 
 ```python
 self,
@@ -711,7 +711,7 @@ Remove an item from the artifact.
 - `FileNotFoundError`: If the item isn't found in the artifact.
 
 
-### <kbd>method</kbd> save
+### <kbd>method</kbd> Artifact.save()
 
 ```python
 self,
@@ -732,7 +732,7 @@ run, a run of type "auto" is created to track this artifact.
 
 
 
-### <kbd>method</kbd> unlink
+### <kbd>method</kbd> Artifact.unlink()
 
 ```python
 self
@@ -748,7 +748,7 @@ Unlink this artifact if it is a linked member of an artifact collection.
 - `ValueError`: If the artifact is not linked to any collection.
 
 
-### <kbd>method</kbd> used_by
+### <kbd>method</kbd> Artifact.used_by()
 
 ```python
 self
@@ -763,7 +763,7 @@ Get a list of the runs that have used this artifact and its linked artifacts.
 - `ArtifactNotLoggedError`: If the artifact is not logged.
 
 
-### <kbd>method</kbd> verify
+### <kbd>method</kbd> Artifact.verify()
 
 ```python
 self,
@@ -786,7 +786,7 @@ cross-referenced against the artifact's manifest. References are not verified.
 - `ValueError`: If the verification fails.
 
 
-### <kbd>method</kbd> wait
+### <kbd>method</kbd> Artifact.wait()
 
 ```python
 self,

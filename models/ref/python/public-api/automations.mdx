@@ -38,7 +38,6 @@ A lazy iterator of `Automation` objects.
 - `variables`: 
 - `per_page`: 
 - `start`: 
-- `_query`: 
 - `omit_variables`: 
 - `omit_fragments`: 
 - `omit_fields`: 
@@ -51,7 +50,7 @@ A lazy iterator of `Automation` objects.
 
 ## Methods
 
-### <kbd>method</kbd> convert_objects
+### <kbd>method</kbd> Automations.convert_objects()
 
 ```python
 self
@@ -63,7 +62,7 @@ Convert the last fetched response data into the iterated objects.
 
 
 
-### <kbd>method</kbd> next
+### <kbd>method</kbd> Paginator.__next__()
 
 ```python
 self
@@ -75,7 +74,7 @@ Return the next item from the iterator. When exhausted, raise StopIteration
 
 
 
-### <kbd>method</kbd> update_variables
+### <kbd>method</kbd> Paginator.update_variables()
 
 ```python
 self
