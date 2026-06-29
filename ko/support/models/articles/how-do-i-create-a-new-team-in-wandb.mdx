@@ -1,0 +1,49 @@
+---
+title: "W&B에서 새 팀을 만들려면 어떻게 하나요?"
+keywords: ["Teams", "조직 관리"]
+---
+
+Teams는 W&amp;B에서 협업의 기본 단위입니다. 팀에는 자체 entity 이름, 공유 프로젝트, 그리고 구성원 목록이 있습니다. W&amp;B 계정이 있는 누구나 팀을 만들 수 있습니다.
+
+**팀 만들기**
+
+1. [wandb.ai](https://wandb.ai)에 로그인하세요.
+2. 왼쪽 사이드바에서 **+** 아이콘 또는 **Create new team**을 클릭하세요(또는 [wandb.ai/create-team](https://wandb.ai/create-team)으로 이동하세요).
+3. **팀 이름**을 입력하세요. 이 이름은 팀의 entity 이름이 됩니다(예: `wandb.ai/my-team`). 팀 이름은 전역적으로 고유해야 하며, 소문자만 사용할 수 있고 문자, 숫자, 하이픈을 포함할 수 있습니다.
+4. **Create team**을 클릭하세요.
+
+새 팀의 관리자로 자동 지정됩니다.
+
+**생성 후 구성원 초대하기**
+
+팀을 만든 후 **Team settings &gt; Members &gt; Invite members**로 이동해 동료를 추가하세요. 자세한 내용은 [내 W&amp;B 팀에 사용자를 초대하려면 어떻게 하나요?](/ko/support/models/articles/how-do-i-invite-a-user-to-my-wb-team)를 참조하세요.
+
+**팀 이름 선택하기**
+
+팀 이름은 해당 팀 아래의 모든 프로젝트와 run URL의 일부가 되므로, 장기적으로도 의미가 유지될 이름을 선택하세요. 팀 이름은 생성 후 W&amp;B 지원팀에 문의하지 않는 한 변경할 수 없습니다.
+
+**개인 계정과 팀 계정**
+
+개인 W&amp;B 계정에는 자체 entity(사용자 이름)가 있으며, 이는 사용자가 속한 어떤 팀과도 별개입니다. 개인 entity에 로깅된 Runs는 명시적으로 팀 entity에 로깅하지 않는 한 팀에서 볼 수 없습니다:
+
+```python
+import wandb
+
+# 팀 프로젝트에 로그 (모든 팀 구성원에게 표시됨)
+wandb.init(entity="my-team", project="shared-project")
+
+# 개인 entity에 로그 (본인에게만 표시됨)
+wandb.init(entity="my-username", project="personal-experiments")
+```
+
+**팀 한도**
+
+무료 플랜에서는 팀에서 사용할 수 있는 시트 수와 저장소 용량이 제한됩니다. **팀 settings &gt; Billing** 또는 [wandb.ai/site/pricing](https://wandb.ai/site/pricing)에서 **플랜 세부 정보**를 확인하세요.
+
+***
+
+{/* 자동 생성: 탭 배지 */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Teams](/ko/support/models/tags/teams)</Badge><Badge stroke shape="pill" color="orange" size="md">[조직 관리](/ko/support/models/tags/org-management)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

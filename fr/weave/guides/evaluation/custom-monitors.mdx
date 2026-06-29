@@ -3,6 +3,10 @@ title: "Configurer des moniteurs personnalisés"
 description: "Évaluer passivement le trafic de production pour mettre en évidence les tendances et les problèmes"
 ---
 
+<Note>
+  Les moniteurs personnalisés constituent l’approche précédente pour surveiller le trafic de production. Pour les nouvelles implémentations, utilisez **Signals** dans Weave for Agents. Voir [Afficher les signaux d’agent](/fr/weave/guides/tracking/view-agent-signals).
+</Note>
+
 Cette page vous montre comment configurer des moniteurs personnalisés dans W&amp;B Weave afin que vous puissiez évaluer passivement le trafic de production et mettre en évidence les tendances et les problèmes dans vos applications LLM. Utilisez ce guide lorsque vous souhaitez définir vos propres critères d&#39;évaluation, au-delà des signaux prédéfinis de Weave, pour les traces de production.
 
 Les moniteurs utilisent des juges LLM pour évaluer passivement le trafic de production afin de mettre en évidence les tendances et les problèmes dans vos applications LLM. Par exemple, vous pouvez surveiller les réponses de votre application pour en vérifier l&#39;exactitude ou l&#39;utilité, ou surveiller les entrées utilisateur pour identifier les tendances dans les questions posées à vos agents. Les moniteurs stockent automatiquement tous les résultats d&#39;évaluation dans la base de données de W&amp;B Weave, ce qui vous permet d&#39;analyser les tendances et les schémas historiques.

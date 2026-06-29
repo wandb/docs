@@ -1,6 +1,6 @@
 ---
 title: "ログ"
-tag: "7"
+tag: "10"
 generator: "knowledgebase-nav"
 template: "docengine-site/templates/support_tag.mdx.j2"
 ---
@@ -11,6 +11,10 @@ template: "docengine-site/templates/support_tag.mdx.j2"
 
 <Card title="前の step のログを上書きするにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-overwrite-the-logs-from-previo" arrow="true" horizontal>
   前の step のログを上書きするには、forking と巻き戻しを使用します。run を fork または巻き戻す機能は現在活発に開発中です ...
+</Card>
+
+<Card title="run からコンソールログ file をダウンロードするにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-download-the-console-log-file-from-a-run" arrow="true" horizontal>
+  W&amp;B はスクリプトの stdout と stderr を output.log として (または logs/ 配下の複数の chunk として) 保存します。取得方法は状況によって異なり ...
 </Card>
 
 <Card title="値の list をログするにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-log-a-list-of-values" arrow="true" horizontal>
@@ -31,4 +35,12 @@ template: "docengine-site/templates/support_tag.mdx.j2"
 
 <Card title="コードがクラッシュしたときはどのファイルを確認すべきですか？" href="/ja/support/models/articles/which-files-should-i-check-when-my-code-" arrow="true" horizontal>
   影響を受けた run については、コードがあるディレクトリの wandb/run- DATE &#95; TIME - RUN-ID /logs 内にある debug.log と debug-internal.log を確認してください ...
+</Card>
+
+<Card title="wandb.log() でログしたメトリクスが見つからないのはなぜですか？" href="/ja/support/models/articles/why-are-my-metrics-missing-from-wandb-log" arrow="true" horizontal>
+  wandb.log() でログしたメトリクスが W&amp;B UI に表示されない場合、よくある原因がいくつかあります。未同期のオフラインモードや ...
+</Card>
+
+<Card title="run でコンソール出力が取得されないのはなぜですか？" href="/ja/support/models/articles/why-is-console-output-not-captured-for-my-run" arrow="true" horizontal>
+  W&amp;B はスクリプトの stdout と stderr を取得し、run の Files タブに output.log として保存します。デフォルトでは、その file は u ...
 </Card>

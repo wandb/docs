@@ -1,0 +1,179 @@
+---
+title: "에이전트 span에 속성과 이벤트 설정"
+description: "맞춤형 속성을 추가하고 에이전트 span(Turn, LLM, Tool, SubAgent)에 이벤트를 기록해 Weave에서 에이전트 활동을 필터링하고 분석합니다."
+keywords: ["set_attributes", "setAttributes", "add_event", "addEvent", "agent attributes", "session attributes", "OTel attributes"]
+---
+
+Weave SDK로 에이전트를 계측하면 각 span 객체(`Turn`, `LLM`, `Tool`, `SubAgent`)에서 맞춤형 메타데이터를 추가할 수 있는 메서드를 제공합니다. 이 메서드를 사용해 사용자 ID, 테넌트, 실험 이름, 환경 레이블과 같은 컨텍스트 정보를 에이전트 span에 기록한 다음, Weave UI에서 해당 메타데이터를 기준으로 에이전트 활동을 필터링하고 그룹화하세요.
+
+이 메타데이터는 두 가지 형태로 제공됩니다:
+
+* **속성**: span 전체에 적용되는 키-값 속성입니다. `set_attributes()`(Python) 또는 `setAttributes()`(TypeScript)를 사용해 단일 span에 속성을 기록하거나, 세션이 생성하는 모든 span에 적용되는 세션 전체 속성을 설정하세요.
+* **이벤트**: span의 수명 동안 발생하는 특정 시점의 마커로, 권한 프롬프트나 라이프사이클 전환 등이 여기에 해당합니다. `add_event()`(Python) 또는 `addEvent()`(TypeScript)를 사용하세요.
+
+이 메서드들은 [OpenTelemetry (OTel) span API](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/)와 동일한 방식으로 동작합니다. `set_attributes`는 OTel의 `Span.set_attributes`에, `add_event`는 OTel의 `Span.add_event`에 대응합니다. Weave SDK는 OTel span을 생성하고 모든 속성을 저장하므로 Weave에서 계속 쿼리할 수 있습니다.
+
+<div id="set-attributes-on-a-span">
+  ## span에 속성 설정하기
+</div>
+
+단일 span에 임의의 속성을 지정하려면 `set_attributes()`(Python) 또는 `setAttributes()`(TypeScript)를 사용하세요. 키가 하나든 여러 개든 딕셔너리나 객체를 전달하면 됩니다. 이 메서드는 span을 반환하므로 호출을 체이닝할 수 있습니다.
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    import weave
+
+    weave.init("[TEAM-NAME]/[PROJECT-NAME]")
+
+    with weave.start_session(agent_name="my-agent"):
+        with weave.start_turn(user_message="What is the weather in Tokyo?") as turn:
+            # 이 turn span에 속성 지정
+            turn.set_attributes({"user_id": "12345", "tenant": "acme", "env": "production"})
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript lines twoslash
+    // @noErrors
+    import * as weave from 'weave';
+
+    await weave.init('[TEAM-NAME]/[PROJECT-NAME]');
+
+    const session = weave.startSession({ agentName: 'my-agent' });
+    const turn = weave.startTurn({ agentName: 'my-agent' });
+
+    // 이 turn span에 속성 지정
+    turn.setAttributes({ user_id: '12345', tenant: 'acme', env: 'production' });
+
+    turn.end();
+    session.end();
+    ```
+  </Tab>
+</Tabs>
+
+같은 메서드를 모든 span 클래스에서 사용할 수 있습니다. 예를 들어, 개별 도구 Call 또는 LLM Call에 태그를 지정할 수 있습니다.
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    with weave.start_turn(user_message="What is the weather in Tokyo?") as turn:
+        with turn.tool(name="get_weather") as tool:
+            tool.set_attributes({"weave.display_name": "Weather lookup"})
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript lines twoslash
+    // @noErrors
+    const turn = weave.startTurn({ agentName: 'my-agent' });
+    const tool = turn.startTool({ name: 'get_weather' });
+
+    tool.setAttributes({ 'weave.display_name': 'Weather lookup' });
+
+    tool.end();
+    turn.end();
+    ```
+  </Tab>
+</Tabs>
+
+대부분의 속성 키는 임의의 맞춤형 메타데이터이지만, Weave는 특별히 처리하기 위해 두 개의 접두사를 예약해 두었습니다. `weave.*` 아래의 키는 Weave의 기본 제공 필드에 매핑되고, `gen_ai.*` 아래의 키는 OpenTelemetry GenAI semantic convention 필드에 매핑됩니다. 앞선 예시에서 `weave.display_name`은 예약된 키로, Agents 및 Traces UI에서 span의 표시 이름을 설정합니다. 필터링하거나 그룹화하려는 임의의 메타데이터에는 `user_id` 또는 `tenant`와 같은 자체 키를 사용하세요. Weave는 이를 필터링 가능한 맞춤형 속성으로 저장합니다.
+
+<div id="set-attributes-on-every-span-in-a-session">
+  ## 세션의 모든 span에 속성 설정하기
+</div>
+
+속성을 span별로 하나씩 지정하는 방식은 span별 메타데이터에는 적합하지만, 일부 메타데이터는 세션 전체에 적용됩니다. 세션에서 생성되는 모든 span에 동일한 속성을 적용하려면 세션을 시작할 때 `attributes`를 전달하세요. 이는 인테그레이션 ID나 배포 환경처럼 세션 전반에 걸친 메타데이터를 전파할 때 유용합니다.
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    import weave
+
+    weave.init("[TEAM-NAME]/[PROJECT-NAME]")
+
+    session = weave.start_session(
+        agent_name="my-agent",
+        attributes={"weave.integration.name": "my-harness", "env": "production"},
+    )
+    # 이 세션의 모든 turn, LLM, 도구, 하위 에이전트 span에 이러한 속성이 포함됩니다.
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript lines twoslash
+    // @noErrors
+    import * as weave from 'weave';
+
+    await weave.init('[TEAM-NAME]/[PROJECT-NAME]');
+
+    const session = weave.startSession({
+      agentName: 'my-agent',
+      attributes: { 'weave.integration.name': 'my-harness', env: 'production' },
+    });
+    // 이 세션의 모든 turn, LLM, 도구, 하위 에이전트 span에 이러한 속성이 포함됩니다.
+    ```
+  </Tab>
+</Tabs>
+
+<Note>
+  span별 속성과 마찬가지로, 세션 속성에도 자체 맞춤형 키를 사용하세요. 에이전트 이름, 세션 이름, 모델과 같은 semantic-convention 필드는 `attributes`가 아니라 해당 유형 지정 매개변수(`agent_name`, `session_name`, `model`)를 통해 설정하세요. 예약된 `gen_ai.*` 및 `weave.*` 접두사 아래의 키는 사용하지 마세요. Weave는 수집 중에 이를 유형 지정 필드로 추출하므로, 예약된 키 아래의 맞춤형 값은 지원되지 않습니다.
+</Note>
+
+<div id="record-events-on-a-span">
+  ## span에 이벤트 기록하기
+</div>
+
+`add_event()`(Python) 또는 `addEvent()`(TypeScript)를 사용하면 span의 라이프사이클 중 특정 시점에 마커를 기록할 수 있습니다. span 전체를 설명하는 속성과 달리, 이벤트는 span 진행 중 특정 순간에 발생한 일을 기록합니다. 예를 들어 권한 프롬프트, 컨텍스트 압축 단계, 또는 `spawned`, `streaming`, `finished`와 같은 라이프사이클 전환이 이에 해당합니다.
+
+각 이벤트에는 이름과 선택적 속성 딕셔너리 또는 객체를 전달할 수 있습니다.
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    with weave.start_turn(user_message="Delete the temp files") as turn:
+        # 에이전트가 권한을 요청할 때 마커 기록
+        turn.add_event("weave.permission_request", {"tool": "shell", "command": "rm -rf ./tmp"})
+
+        # ... 에이전트 계속 진행 ...
+
+        turn.add_event("finished")
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript lines twoslash
+    // @noErrors
+    const turn = weave.startTurn({ agentName: 'my-agent' });
+
+    // 에이전트가 컨텍스트를 압축할 때 마커 기록
+    turn.addEvent('context_compacted', { removedMessages: 12 });
+
+    turn.end();
+    ```
+  </Tab>
+</Tabs>
+
+UI에서는 **Spans** 탭을 선택한 다음 해당 span을 선택하면 기록된 이벤트를 확인할 수 있습니다. span 세부 정보 패널에서 **Raw** 데이터 탭을 선택하고 JSON 트리에서 `events` 배열을 펼치세요. 아래 이미지와 같습니다.
+
+![이벤트가 기록된 span이 선택된 Spans 탭입니다. 오른쪽 세부 정보 패널에는 Raw 데이터 탭이 표시되어 있고, events 배열이 펼쳐진 상태로 span에 기록된 이벤트 목록이 나와 있습니다.](/weave/guides/tracking/imgs/agent-view-spans-attributes-events.png)
+
+<div id="when-you-can-set-attributes-and-events">
+  ## 속성과 이벤트를 설정할 수 있는 시점
+</div>
+
+span이 기록되는 동안, 즉 span이 시작된 후 종료되기 전에 속성과 이벤트를 설정하세요. Python에서는 `with` 블록 내부이고, TypeScript에서는 `start*()` 이후 `end()` 이전입니다.
+
+아직 시작되지 않았거나 이미 종료된 span에서 `set_attributes()`, `add_event()` 또는 이에 해당하는 TypeScript 함수를 호출하면, 해당 호출은 아무 작업도 수행하지 않으며 수정 방법이 포함된 경고를 기록합니다.
+
+OTel이 설치되어 있지 않거나 Weave가 비활성화된 경우에만 호출이 조용히 처리됩니다(경고 없음).
+
+<Tip>
+  실행 중에 실시간으로 추가하는 대신, 완료된 에이전트 활동을 단일 배치로 기록하면서 속성을 연결하려면 span 객체에 선언된 필드를 직접 채운 다음 해당 객체를 `log_turn` 또는 `log_session`에 전달하세요. [배치로 에이전트 활동 기록하기](/ko/weave/guides/tracking/trace-agents-batch)를 참조하세요.
+</Tip>
+
+<div id="view-and-filter-attributes-in-the-ui">
+  ## UI에서 속성 보기 및 필터링
+</div>
+
+속성을 추가하는 것은 첫 단계에 불과합니다. 속성은 이를 활용해 에이전트 활동을 분석할 때 비로소 가치가 있습니다. 에이전트 span에 속성을 지정하고 나면 Weave 프로젝트의 **Agents** 탭에서 해당 속성을 기준으로 에이전트 대화를 필터링하고 그룹화할 수 있습니다. 자세한 내용은 [에이전트 활동 보기](/ko/weave/guides/tracking/view-agent-activity)를 참조하세요.

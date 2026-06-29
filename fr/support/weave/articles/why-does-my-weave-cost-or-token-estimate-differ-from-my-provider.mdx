@@ -1,0 +1,46 @@
+---
+title: "Pourquoi l’estimation du coût ou du nombre de jetons dans Weave diffère-t-elle de celle de mon fournisseur ?"
+keywords: ["Capture de données", "Données de trace"]
+---
+
+Weave affiche des estimations du coût et de l’utilisation des jetons à partir des données capturées depuis vos appels LLM, et les écarts entre les chiffres de Weave et la facture de votre fournisseur peuvent être dus aux problèmes suivants.
+
+**Le nombre de jetons provient de la réponse du fournisseur, pas de Weave**
+
+Pour les intégrations prises en charge (OpenAI, Anthropic, Google, etc.), Weave lit l’utilisation des jetons directement dans l’objet de réponse de l’API — le même champ `usage` que reçoit votre code. Si votre fournisseur affiche un nombre différent sur sa page de facturation, l’écart vient du fournisseur (par exemple, il peut agréger les jetons des fragments de streaming différemment du reporting par appel).
+
+**Les estimations de coût de Weave s’appuient sur un tableau de tarification statique**
+
+Weave calcule le coût estimé en multipliant le nombre de jetons par les prix par jeton connus pour chaque modèle. Ce tableau est mis à jour périodiquement, mais il peut ne pas refléter immédiatement les changements de tarification du fournisseur. Si un fournisseur a récemment modifié la tarification d’un modèle, l’estimation de Weave sera obsolète jusqu’à la prochaine version du SDK qui mettra à jour le tableau.
+
+Pour vérifier la tarification des modèles utilisée par Weave, consultez la [référence de tarification dans le code source de Weave](https://github.com/wandb/weave/blob/master/weave/trace/util/inference_cost).
+
+**Les modèles personnalisés ou affinés peuvent ne pas avoir d’entrée de tarification**
+
+Si vous utilisez un modèle affiné ou un ID du modèle qui ne figure pas dans le tableau de tarification de Weave, la colonne de coût affiche `—` ou `$0.00`. Vous pouvez voir le nombre de jetons, mais Weave ne peut pas estimer le coût pour les modèles inconnus.
+
+**L’échantillonnage réduit le nombre total de jetons capturés**
+
+Si vous définissez `tracing_sample_rate` sur un op, seule une fraction des appels est tracée. Les totaux de jetons dans Weave ne reflètent que les appels échantillonnés, et non votre utilisation complète :
+
+```python
+@weave.op(tracing_sample_rate=0.1)
+def my_llm_call(prompt):
+    ...
+```
+
+Dans ce cas, Weave capture environ 10 % des appels, de sorte que les totaux de jetons et de coûts dans l’interface utilisateur ne représentent que cette fraction.
+
+**Mise en cache des prompts et appels API par lot**
+
+Certains fournisseurs (par exemple, OpenAI lorsque la mise en cache des prompts est activée) appliquent des remises sur les jetons d’entrée mis en cache. Weave capture l’objet `usage` tel qu’il est renvoyé par le fournisseur, ce qui devrait refléter la tarification des jetons mis en cache si le fournisseur l’indique dans la réponse. Cependant, le tableau de tarification statique de Weave reflète les prix standard (sans mise en cache) pour chaque catégorie de jetons. Si vous utilisez fortement la mise en cache des prompts, l’écart entre l’estimation de Weave et votre facture réelle peut être plus important.
+
+Les requêtes API par lot peuvent signaler l’utilisation des jetons différemment des requêtes en temps réel ; vérifiez que vos réponses par lot incluent les champs `usage` standard si vous vous attendez à ce que Weave les capture.
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Capture de données](/fr/support/weave/tags/data-capture)</Badge><Badge stroke shape="pill" color="orange" size="md">[Données de trace](/fr/support/weave/tags/trace-data)</Badge>
+
+{/* END GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet */}

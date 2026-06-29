@@ -1,0 +1,229 @@
+---
+title: "Aperçu"
+---
+
+ARIA, l’agent d’IA de W&amp;B dédié à la recherche et à l’itération, est un assistant de recherche personnalisé qui vous aide à analyser et à exécuter des expériences, à expliquer les résultats, à identifier des tendances entre les runs, à recommander les prochaines étapes, à créer des visualisations et des Reports, et bien plus encore dans W&amp;B.
+
+<Frame>
+  <img src="/images/agent/agent_empty_chat_window.png" alt="Fenêtre de chat ARIA vide" />
+</Frame>
+
+ARIA peut vous aider à :
+
+* Analyser des expériences pour trouver des tendances et en tirer des enseignements.
+* [Exécuter des expériences et des sweeps pour tester de nouvelles idées](/fr/aria/autoresearch).
+* Proposer les prochaines étapes, par exemple en recommandant des hyperparamètres à essayer.
+* Créer des graphiques et des panels pour visualiser vos données.
+* Créer des vues enregistrées et des Reports pour partager ces enseignements avec votre équipe.
+
+Pour [discuter avec ARIA](/fr/aria/chat) :
+
+1. Depuis n’importe quel projet, cliquez sur le cercle bleu dans le coin supérieur droit de la page.
+   <Frame>
+     <img src="/images/agent/agent_location.png" alt="Emplacement d’ARIA dans l’interface utilisateur" />
+   </Frame>
+2. Dans la fenêtre de chat, saisissez votre question ou votre requête. Si vous ne savez pas quoi demander, sélectionnez un prompt suggéré.
+3. Cliquez sur le bouton **Send**, la flèche pointant vers le haut dans l’angle inférieur droit de la fenêtre de chat.
+
+Selon la complexité de votre question, ARIA peut mettre quelques instants à répondre. Vous pouvez fermer la fenêtre de chat pendant qu’ARIA travaille et revenir consulter la réponse plus tard. Si ARIA a besoin de plus d’informations, ARIA vous demande des précisions.
+
+Pendant qu’ARIA travaille, vous pouvez voir des étapes **Thinking** et **shell** :
+
+* Les étapes **Thinking** résument la façon dont ARIA aborde votre question.
+* Les étapes **shell** indiquent quand ARIA effectue une action, par exemple la création d’un panel, le filtrage de runs, ou la création et l’exécution de scripts Python.
+
+Cliquez sur une étape **Thinking** ou **shell** pour afficher plus de détails sur le raisonnement d’ARIA ou sur l’action effectuée.
+
+Pour des exemples concrets, voir [Example chats](/fr/aria/overview#example-chats). Pour plus d’informations sur la gestion des chats, voir [Chat with ARIA](/fr/aria/chat).
+
+<div id="example-chats">
+  ## Exemples de conversations
+</div>
+
+Voici des exemples de conversations réelles avec ARIA pour illustrer comment vous pouvez interagir avec ARIA et les types de réponses que vous pouvez en attendre.
+
+<Accordion title="Exécuter des expériences à partir des recommandations d’ARIA">
+  Supposons que vous êtes un ingénieur ML qui vient de terminer une série d’expériences. Vous souhaitez comprendre quelles devraient être les prochaines étapes pour améliorer les performances de votre modèle.
+
+  Pour ce faire, vous accédez au projet dans lequel vous avez enregistré des runs. Vous ouvrez ARIA et saisissez :
+
+  ```text title="Prompt utilisateur"
+  /recommend-next-experiment
+  ```
+
+  Voici un exemple de la façon dont ARIA a répondu à cette question. ARIA commence par effectuer des étapes de raisonnement pour déterminer comment aborder la question. Par souci de concision, seule une partie du raisonnement d’ARIA est présentée ci-dessous :
+
+  ```text title="Étapes de raisonnement d'ARIA"
+  Recommandation : exécuter une expérience « entraînement plus long + évaluation sur un jeu de validation distinct »
+  avant de modifier l’architecture du modèle ou d’effectuer un sweep sur le LR.
+
+  Utilisez la meilleure configuration actuelle, mais entraînez plus longtemps :
+
+  hyperparameter_config = {
+      "learning_rate": 0.1,          # conserver tel quel
+      "epochs": 2000,                # était 1000
+      "model_type": "Multivariate_neural_network_classifier",
+      "torch_seed": 0,               # ajouter pour la reproductibilité
+  }
+  Ajoutez également la journalisation pour le split de validation existant à chaque époque ou
+  toutes les 10 à 50 époques :
+
+  train/train_loss
+  train/train_acc
+  test/test_loss
+  test/test_acc
+
+  et enregistrez le meilleur point de contrôle selon test/test_loss, pas uniquement
+  selon la perte d’entraînement.
+
+  Pourquoi il s’agit de l’expérience suivante la plus prometteuse
+  Le projet contient 16 runs terminés, mais seulement 4 sont de véritables runs d’entraînement ;
+  tous les quatre ont utilisé la même configuration d’entraînement :
+
+  learning_rate = 0.1
+  epochs = 1000
+  same model: Multivariate_neural_network_classifier
+
+  Il n’y a donc pas encore de véritable comparaison d’hyperparamètres. Le
+  signal le plus fort vient des courbes d’apprentissage : les quatre
+  pertes d’entraînement continuent de s’améliorer à la dernière époque, et
+  la perte d’entraînement minimale est atteinte à l’époque 1000 dans chaque run.
+
+  J’exécuterais :
+
+  learning_rate: 0.1
+  epochs: 2000
+  model_type: inchangé
+  random_state: conserver le split de dataset existant, 42
+  ajouter torch.manual_seed(0) et l’enregistrer comme torch_seed
+  évaluer sur X_test, y_test à chaque époque ou toutes les 10 époques
+  point de contrôle sur la valeur la plus basse de test/test_loss
+  ```
+
+  Vous êtes d’accord avec la recommandation d’ARIA et vous lui demandez d’exécuter l’expérience pour vous :
+
+  ```text title="Prompt utilisateur"
+  Run that experiment for me.
+  ```
+
+  ARIA utilise W&amp;B Launch pour exécuter l’expérience dans un environnement sandbox. L’image suivante montre la réponse d’ARIA après l’exécution de l’expérience :
+
+  <Frame>
+    <img src="/images/agent/aria_experiment.gif" alt="ARIA exécutant une expérience" />
+  </Frame>
+
+  ARIA utilise W&amp;B Launch pour exécuter des expériences dans un environnement sandbox. Voir [Activer ARIA pour exécuter des expériences](/fr/aria/autoresearch#run-experiments-with-w\&b-launch) pour plus d’informations.
+</Accordion>
+
+<Accordion title="Tirez des enseignements de vos expériences">
+  Supposons que vous soyez un ingénieur ML qui vient de terminer une série de run pour un nouveau modèle. Vous souhaitez comprendre les performances de votre modèle, identifier d’éventuels problèmes et déterminer les prochaines étapes.
+
+  Pour ce faire, vous accédez au projet dans lequel vous avez enregistré des run. Vous ouvrez ARIA et lui demandez :
+
+  ```text title="Prompt utilisateur"
+  Quelles tendances observez-vous sur l’ensemble de mes runs ?
+  ```
+
+  Ce qui suit montre un exemple de réponse possible d’ARIA à cette question. Tout d’abord, ARIA élabore des étapes de raisonnement pour déterminer comment aborder la question :
+
+  ```text title="Étapes de raisonnement d’ARIA"
+  J’envisage d’exécuter une analyse de répartition des états avec des
+  comptages par état à l’aide de filtres serveur spécifiques. Je vais examiner
+  le tableau des états : ['finished', 'running', 'crashed', 'failed', 'killed',
+  'pending', 'preempting'] et déterminer la longueur de chacun. En additionnant
+  ces métriques, je pourrais obtenir des informations utiles. Je dois aussi
+  me concentrer sur l’identification des métriques d’objectif à partir de clés
+  d’exemple, tout en excluant celles qui commencent par "_" ou "system/".
+  Il est également important de calculer les meilleures valeurs min/max pour les
+  métriques de synthèse numériques.
+  ```
+
+  ARIA identifie qu’il doit analyser les données sur l’ensemble des run pour répondre à la question. Pour ce faire, ARIA crée un script Python (`analyze_patterns.py`) qui utilise le SDK Python W&amp;B pour interroger les run précédemment enregistrés afin d’identifier des tendances dans les données. Une fois le script généré, ARIA l’exécute dans un environnement sandbox.
+
+  <Frame>
+    <img src="/images/agent/agent_analyze_project.png" alt="Processus de réflexion d’ARIA" />
+  </Frame>
+
+  Ensuite, ARIA utilise la sortie pour générer une synthèse des tendances qu’il a identifiées sur l’ensemble des run, qu’il partage dans le chat.
+
+  <Frame>
+    <img src="/images/agent/agent_analyze_summary_results.gif" alt="Synthèse par ARIA des tendances observées sur l’ensemble des run" />
+  </Frame>
+
+  ARIA a pu identifier que mon expérience actuelle n’enregistre pas de métriques `validation/test` et a recommandé d’enregistrer ces métriques dans les prochains run afin de mieux comprendre les performances du modèle.
+
+  Comme prochaine étape, vous pouvez demander à ARIA de vous aider à configurer une expérience avec des métriques de validation enregistrées. Par exemple, vous pouvez demander à ARIA :
+
+  ```text title="Prompt utilisateur"
+  Pouvez-vous m’aider à mettre à jour mon script Python pour qu’il enregistre aussi les métriques de validation ?
+  ```
+
+  ARIA peut ensuite générer le code permettant d’enregistrer les métriques de validation dans votre script d’entraînement, que vous pouvez copier-coller dans votre base de code.
+</Accordion>
+
+<Accordion title="Obtenez des recommandations pour le réglage des hyperparamètres">
+  Supposons que vous soyez un ingénieur ML qui vient de terminer une série de run pour un nouveau modèle. Vous souhaitez comprendre les performances de votre modèle et obtenir des recommandations pour les améliorer dans les prochains run. Vous décidez de demander à ARIA des recommandations sur le réglage des hyperparamètres.
+
+  Vous pouvez demander à ARIA :
+
+  ```text title="Prompt utilisateur"
+  Je veux effectuer un sweep pour réduire la perte de mon modèle pendant l’entraînement. Avez-vous des suggestions sur les hyperparamètres que je devrais essayer ?
+  ```
+
+  ARIA pourrait répondre avec les étapes de raisonnement suivantes :
+
+  ```text title="Étapes de raisonnement d’ARIA"
+   L’utilisateur cherche des informations pour améliorer la perte d’entraînement, je
+   devrais donc suggérer des plages pour le taux d’apprentissage, l’optimizer, la taille de lot,
+   la décroissance des poids et d’autres paramètres pertinents.
+
+  Comme l’utilisateur souhaite effectuer un sweep, je dois montrer le code ou
+  l’instrumentation avec une configuration YAML ou Python claire mais concise.
+  Je pourrais également suggérer d’utiliser des techniques aléatoires ou
+  bayésiennes pour une sélection plus efficace des hyperparamètres.
+  ```
+
+  ARIA identifie qu’il doit analyser les hyperparamètres utilisés dans les run précédents et leur relation avec la perte d’entraînement afin de fournir des recommandations de réglage des hyperparamètres.
+
+  ARIA identifie que le projet concerné a utilisé un taux d’apprentissage de `0.01` pour tous les run. Sur la base de ces observations, ARIA recommande d’essayer un taux d’apprentissage plus faible, comme `0.001`, dans les prochains run pour voir si cela aide à améliorer les performances du modèle.
+
+  ARIA identifie également que certaines exécutions utilisent l’optimizer SGD. Sur la base de cette observation, ARIA recommande d’essayer un autre optimizer, comme Adam (Adaptive Moment Estimation), dans les prochains run pour voir si cela aide à améliorer les performances du modèle.
+
+  L’image suivante montre une partie de la réponse d’ARIA avec ses recommandations pour le réglage des hyperparamètres :
+
+  <Frame>
+    <img src="/images/agent/agent_recommend_hyperparameter.png" alt="Recommandations d’ARIA pour le réglage des hyperparamètres" />
+  </Frame>
+</Accordion>
+
+<Accordion title="Créer un rapport à partager avec mon équipe">
+  Supposons que vous soyez data scientist et que vous analysiez les runs de votre projet en identifiant des tendances intéressantes dans les données. Vous souhaitez partager ces observations avec votre équipe dans un format facile à consulter. Vous décidez de demander à ARIA de vous aider à créer un [W&amp;B Report](/fr/models/reports).
+
+  Pour ce faire, vous ouvrez ARIA et lui demandez :
+
+  ```text title="Prompt utilisateur"
+  Create a report to share my findings with my team.
+  ```
+
+  ARIA peut répondre avec les étapes de raisonnement suivantes :
+
+  ```text title="Étapes de raisonnement d’ARIA"
+  I’m looking to query the recent 50 runs, summarizing key frequencies 
+  and counts by using api.runs to slice them down. I'll be counting
+  lengths with lazy evaluation and weaving together the stats
+  for a proper report.  I need to include a description that might
+  require importing different report libraries.
+  ```
+
+  ARIA détermine qu’il doit créer un W&amp;B Report qui résume les informations tirées des données. Dans le cadre de son processus de raisonnement, il génère un script Python qui utilise le SDK W&amp;B pour créer un rapport contenant les données et observations pertinentes. ARIA exécute ce script dans un environnement sandbox, ce qui crée un W&amp;B Report dans votre projet.
+
+  L’image suivante montre comment ARIA crée un W&amp;B Report dans l’environnement sandbox, puis renvoie le lien vers le rapport dans le chat :
+
+  <Frame>
+    <img src="/images/agent/agent_create_report.png" alt="ARIA crée un rapport" />
+  </Frame>
+
+  <Info>
+    En arrière-plan, ARIA crée un W&amp;B Report à l’aide de l’API Workspaces and Reports.
+  </Info>
+</Accordion>

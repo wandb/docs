@@ -1,0 +1,36 @@
+---
+title: "내 sweep agent가 새 Runs를 가져오지 않는 이유는 무엇인가요?"
+keywords: ["Sweeps", "Experiments"]
+---
+
+sweep agent가 시작되었지만 새 run 설정을 받지 못하거나, run 하나를 받은 뒤 대기 상태로 머무는 경우에는 몇 가지 일반적인 원인이 있습니다.
+
+**스윕의 검색 공간이 모두 소진되었습니다(grid search)**
+
+`grid` 검색에서는 sweep controller가 하이퍼파라미터 값의 모든 조합을 정확히 한 번씩 부여합니다. 모든 조합이 할당되고 나면 새 Runs는 더 이상 생성되지 않습니다. 여러 에이전트를 동시에 시작했다면, 특정 에이전트 하나가 현재 run을 끝내기 전에 에이전트들이 전체 설정을 모두 소진했을 수 있습니다.
+
+확인하려면 W&amp;B UI에서 sweep 페이지를 열고 run 수가 전체 grid 크기와 같은지 확인하세요. 같다면 스윕이 완료된 것입니다.
+
+**`--count` 플래그가 에이전트를 제한하고 있습니다**
+
+`wandb agent --count [COUNT] [SWEEP-ID]`를 실행하면 에이전트는 종료하기 전에 최대 `[COUNT]`개의 Runs만 수락합니다. `--count 1`로 설정하면 에이전트는 run 하나를 실행한 뒤 종료합니다. 이는 SLURM 및 기타 작업 스케줄러에서 의도된 동작이지만, 에이전트가 계속 반복 실행될 것이라고 기대했다면 다소 의외일 수 있습니다.
+
+에이전트가 계속 Runs를 가져오게 하려면 `--count`를 제거하거나 값을 늘리세요. `[SWEEP-ID]`는 W&amp;B UI의 sweep ID 또는 `wandb.sweep()`에서 반환된 값으로 바꾸세요:
+
+```bash
+wandb agent [SWEEP-ID]
+```
+
+**스윕이 일시 중지되었거나 중지된 경우**
+
+W&amp;B UI에서 스윕 상태를 확인하세요(**Sweeps &gt; your sweep &gt; Status**). 스윕이 수동으로 일시 중지되었거나 중지된 경우, 스윕을 재개할 때까지 에이전트는 새 설정을 받지 못합니다.
+
+추가 원인과 해결 방법은 [스윕 문제 해결](/ko/models/sweeps/troubleshoot-sweeps)을 참조하세요. SLURM 분산 작업의 경우 [SLURM에서 스윕을 실행하려면 어떻게 해야 하나요?](/ko/support/models/articles/how-should-i-run-sweeps-on-slurm)를 참조하세요.
+
+***
+
+{/* 자동 생성: 탭 배지 */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ko/support/models/tags/sweeps)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}
