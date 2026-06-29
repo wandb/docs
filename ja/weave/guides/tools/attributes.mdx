@@ -4,6 +4,10 @@ description: "属性を使用して、トレースと評価にメタデータを
 keywords: ["weave.attributes", "global_attributes", "trace metadata", "get_current_call", "withAttributes"]
 ---
 
+<Note>
+  このページでは、`@weave.op` デコレーターでトレースされる関数の属性について説明します。Weave agent SDK でエージェントをインストルメントする場合は、代わりにエージェント スパン (`Turn`、`LLM`、`Tool`、`SubAgent`) に属性とイベントを設定してください。詳しくは、[エージェント スパンに属性とイベントを設定する](/ja/weave/guides/tracking/trace-agents-attributes)を参照してください。
+</Note>
+
 Weave の属性を使用すると、トレースと評価にカスタムメタデータを追加できます。このメタデータには、環境名、モデルバージョン、実験 ID、ユーザー ID などの情報に加え、Weave データの整理、フィルター、分析に役立つその他のコンテキスト情報も含められます。
 
 属性は、特に次の項目でトレースをグループ化またはフィルターする際に役立ちます。

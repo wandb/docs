@@ -1,66 +1,66 @@
 ---
-title: "Démarrage rapide : tracer un agent"
-description: Tracez un agent sur plusieurs tours de conversation avec le SDK Weave. Les sessions, les tours de conversation, les appels LLM et les appels d’outil s’affichent dans la vue Agents de votre projet.
-keywords: ["OpenTelemetry", "spans OTel", "agent sur plusieurs tours de conversation", "appels d’outil", "traçage"]
+title: "퀵스타트: 맞춤형 에이전트 관측성 설정"
+description: Weave SDK를 사용해 멀티턴 에이전트를 트레이스하세요. 프로젝트의 Agents 뷰에서 세션, 턴, LLM Call, 도구 Call을 확인할 수 있습니다.
+keywords: ["OpenTelemetry", "OTel spans", "멀티턴 에이전트", "도구 Call", "트레이싱"]
 ---
 
-import AgentsPreview from '/snippets/fr/_includes/agents-public-preview.mdx';
+import AgentsPreview from '/snippets/ko/_includes/agents-public-preview.mdx';
 
 <AgentsPreview />
 
-[Essayer dans Colab](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/agents-quickstart.ipynb) · [Code source sur GitHub](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/agents-quickstart.ipynb)
+[Colab에서 사용해 보기](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/agents-quickstart.ipynb) · [GitHub 소스](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/agents-quickstart.ipynb)
 
-Le SDK Weave vous permet de tracer des agents créés avec des SDK populaires ou des harnesses personnalisés. Ce Démarrage rapide vous montre comment intégrer manuellement Weave à un agent sur plusieurs tours de conversation personnalisé afin d’émettre et de capturer des spans OpenTelemetry. Pour une compréhension conceptuelle de Weave pour les agents, voir [Tracer vos agents](/fr/weave/guides/tracking/trace-agents).
+Weave SDK를 사용하면 널리 사용되는 SDK나 맞춤형 하니스로 구축한 에이전트를 트레이스할 수 있습니다. 이 퀵스타트에서는 OpenTelemetry span을 생성하고 캡처할 수 있도록 맞춤형으로 구축한 멀티턴 에이전트에 Weave를 수동으로 통합하는 방법을 보여드립니다. 에이전트용 Weave를 개념적으로 이해하려면 [에이전트 트레이싱](/ko/weave/guides/tracking/trace-agents)을 참조하세요.
 
-Si vous cherchez à intégrer Weave à des SDK ou à des harnesses comme le Claude Agent SDK ou Codex, voir [Tracer les intégrations d’agents](/fr/weave/guides/tracking/trace-agent-integrations). Weave applique automatiquement des patchs à plusieurs SDK de création d’agents ainsi qu’à des harnesses d’agents pour une intégration rapide.
+Claude Agent SDK 또는 Codex와 같은 SDK나 하니스와 Weave를 통합하려는 경우 [에이전트 인테그레이션 트레이싱](/ko/weave/guides/tracking/trace-agent-integrations)을 참조하세요. Weave는 빠르게 통합할 수 있도록 여러 에이전트 구축 SDK와 에이전트 하니스에 자동 패치됩니다.
 
 <div id="what-youll-learn">
-  ## Ce que vous allez apprendre
+  ## 배울 내용
 </div>
 
-À la fin de ce démarrage rapide, vous disposerez d’un agent fonctionnel sur plusieurs tours de conversation qui émet des spans OTel compatibles avec Weave. Vous comprendrez également comment Weave fait correspondre les sessions, les tours de conversation, les appels LLM et les appels d’outil au code de votre agent, afin que vous puissiez appliquer le même modèle à vos propres agents personnalisés.
+이 퀵스타트를 마치면 Weave와 호환되는 OTel span을 생성하는 멀티턴 에이전트를 구현할 수 있습니다. 또한 Weave가 세션, 턴, LLM Call, 도구 Call을 에이전트 코드에 어떻게 대응시키는지도 이해하게 되므로, 동일한 패턴을 여러분의 맞춤형 에이전트에 적용할 수 있습니다.
 
-Le code de ce guide met en place un petit agent de recherche capable de consulter Wikipédia. Il pose trois questions (trois tours de conversation) et utilise le LLM pour décider quand interroger Wikipédia afin d’obtenir une réponse. Weave enregistre chaque étape (la conversation, chaque question, chaque réponse de l’IA et chaque recherche sur Wikipédia) afin que vous puissiez voir ce qui s’est passé dans la vue Agents de Weave.
+이 가이드의 코드는 Wikipedia에서 정보를 찾아볼 수 있는 간단한 리서치 에이전트를 설정합니다. 이 에이전트는 세 가지 질문(세 개의 턴)을 하고, 답을 찾기 위해 언제 Wikipedia를 검색할지 LLM이 결정합니다. Weave는 모든 단계(대화, 각 질문, 각 AI 응답, 각 Wikipedia 조회)를 기록하므로 Weave Agents 뷰에서 어떤 일이 일어났는지 확인할 수 있습니다.
 
-Ce guide vous montre comment :
+이 가이드에서는 다음 방법을 보여줍니다:
 
-* Initialiser Weave pour le traçage des agents avec `weave.init()`.
-* Ouvrir une session et un tour de conversation avec `start_session` / `startSession` et `start_turn` / `startTurn`.
-* Encapsuler les appels LLM avec `start_llm` / `startLLM` et enregistrer l’utilisation.
-* Encapsuler les exécutions d’outils avec `start_tool` / `startTool` et enregistrer les résultats.
-* Voir la session, les tours de conversation et les appels d’outil obtenus dans la vue Agents.
+* `weave.init()`를 사용해 에이전트 트레이싱용 Weave를 초기화합니다.
+* `start_session` / `startSession` 및 `start_turn` / `startTurn`으로 세션과 턴을 시작합니다.
+* `start_llm` / `startLLM`으로 LLM Call을 래핑하고 사용량을 기록합니다.
+* `start_tool` / `startTool`로 도구 실행을 래핑하고 결과를 기록합니다.
+* 결과로 생성된 세션, 턴, 도구 Call을 Agents 뷰에서 확인합니다.
 
 <div id="how-the-weave-sdk-works-with-agents">
-  ## Fonctionnement du SDK Weave avec les agents
+  ## Weave SDK가 에이전트와 작동하는 방식
 </div>
 
-Le SDK Weave inclut un système générique d&#39;ingestion OTel pour les agents, ce qui signifie que Weave peut capturer des informations à partir de n&#39;importe quel span OTel dans le code de votre agent. Cependant, Weave nécessite une gestion particulière des spans suivants pour afficher les traces de votre agent dans la vue Agents de l&#39;interface Weave.
+Weave SDK에는 에이전트를 위한 범용 OTel 수집 시스템이 포함되어 있으므로, Weave는 에이전트 코드의 모든 OTel span에서 정보를 캡처할 수 있습니다. 하지만 Weave UI의 Agents 뷰에서 에이전트 트레이스를 표시하려면, 다음 span은 Weave에서 특별히 처리해야 합니다.
 
-| Concept                         | Python                     | TypeScript                | span OTel                                        |
-| ------------------------------- | -------------------------- | ------------------------- | ------------------------------------------------ |
-| Une conversation                | `weave.start_session(...)` | `weave.startSession(...)` | (aucun span, regroupe les tours de conversation) |
-| Un échange utilisateur ou agent | `weave.start_turn(...)`    | `weave.startTurn(...)`    | `invoke_agent`                                   |
-| Un appel d&#39;API LLM          | `weave.start_llm(...)`     | `weave.startLLM(...)`     | `chat`                                           |
-| Une exécution d&#39;outil       | `weave.start_tool(...)`    | `weave.startTool(...)`    | `execute_tool`                                   |
+| 개념                     | Python                     | TypeScript                | OTel span         |
+| ---------------------- | -------------------------- | ------------------------- | ----------------- |
+| 하나의 대화                 | `weave.start_session(...)` | `weave.startSession(...)` | (span 없음, 턴을 그룹화) |
+| 사용자 또는 에이전트의 한 번의 상호작용 | `weave.start_turn(...)`    | `weave.startTurn(...)`    | `invoke_agent`    |
+| 하나의 LLM API 호출         | `weave.start_llm(...)`     | `weave.startLLM(...)`     | `chat`            |
+| 하나의 도구 실행              | `weave.start_tool(...)`    | `weave.startTool(...)`    | `execute_tool`    |
 
-En Python, les quatre fonctions s&#39;utilisent comme des gestionnaires de contexte (`with weave.start_*(...) as obj:`). À la sortie, elles terminent le span et vident les attributs, y compris en cas d&#39;exception. En TypeScript, appelez `.end()` sur chaque objet renvoyé. Utilisez `try { ... } finally { obj.end(); }` pour garantir le nettoyage en cas d&#39;exception.
+Python에서는 네 함수 모두 컨텍스트 관리자(`with weave.start_*(...) as obj:`)로 작동합니다. 종료 시에는 예외가 발생한 경우를 포함해 span을 종료하고 속성을 플러시합니다. TypeScript에서는 반환된 각 객체에 대해 `.end()`를 호출하세요. 예외가 발생하더라도 정리가 보장되도록 `try { ... } finally { obj.end(); }`를 사용하세요.
 
-D&#39;autres [attributs de convention sémantique GenAI](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans/), tels que `gen_ai.usage.*` et `gen_ai.agent.name`, permettent un rendu supplémentaire, mais ils sont facultatifs.
+`gen_ai.usage.*` 및 `gen_ai.agent.name`과 같은 다른 [GenAI semantic-convention attributes](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans/)도 추가 정보 표시를 가능하게 하지만, 선택 사항입니다.
 
 <div id="prerequisites">
-  ## Prérequis
+  ## 사전 요구 사항
 </div>
 
-* Un compte W&amp;B et une [clé API](https://wandb.ai/authorize).
-* Une clé API OpenAI.
-* Python 3.10+ (pour les exemples en Python).
-* Node.js 18+ (les exemples en TypeScript requièrent `fetch` intégré).
+* W&amp;B 계정 및 [API 키](https://wandb.ai/authorize).
+* OpenAI API 키.
+* Python 3.10+ (Python 예시용).
+* Node.js 18+ (TypeScript 예시에는 내장 `fetch`가 필요합니다).
 
 <div id="install-packages">
-  ## Installer les paquets
+  ## 패키지 설치
 </div>
 
-Installez les paquets suivants dans votre environnement de développement :
+다음 패키지를 개발 환경에 설치하세요:
 
 <CodeGroup>
   ```bash Python
@@ -73,10 +73,10 @@ Installez les paquets suivants dans votre environnement de développement :
 </CodeGroup>
 
 <div id="initialize-weave">
-  ## Initialiser Weave
+  ## Weave 초기화
 </div>
 
-`weave.init()` s’authentifie auprès de W&amp;B et configure l’exporter OTel qui envoie les spans d’agent vers la vue **Agents**. Si le projet n’existe pas dans votre équipe, Weave le crée lors de la première écriture.
+`weave.init()`는 W&amp;B 인증을 수행하고 에이전트 span을 **Agents** 뷰로 전송하는 OTel 익스포터를 설정합니다. 팀에 해당 프로젝트가 없으면 Weave가 처음 데이터를 기록할 때 자동으로 생성합니다.
 
 <CodeGroup>
   ```python lines Python
@@ -95,7 +95,7 @@ Installez les paquets suivants dans votre environnement de développement :
 
   ```typescript lines highlight="4" TypeScript twoslash
   // @noErrors
-  // Définissez WANDB_API_KEY et OPENAI_API_KEY dans votre environnement avant d’exécuter ce projet
+  // 이 프로젝트를 실행하기 전에 환경에 WANDB_API_KEY와 OPENAI_API_KEY를 설정하세요
   import * as weave from 'weave';
 
   await weave.init(`[YOUR-TEAM]/[YOUR-PROJECT]`);
@@ -103,10 +103,10 @@ Installez les paquets suivants dans votre environnement de développement :
 </CodeGroup>
 
 <div id="define-a-tool">
-  ## Définir un outil
+  ## 도구 정의하기
 </div>
 
-Le code suivant définit l&#39;outil de recherche Wikipédia de l&#39;agent, ainsi qu&#39;un schéma d&#39;outil OpenAI qui spécifie quand et comment l&#39;utiliser.
+다음 코드는 에이전트의 Wikipedia 검색 도구와, 도구를 언제 어떻게 사용할지 지정하는 OpenAI 도구 스키마를 정의합니다.
 
 <CodeGroup>
   ```python lines Python
@@ -175,16 +175,16 @@ Le code suivant définit l&#39;outil de recherche Wikipédia de l&#39;agent, ain
 </CodeGroup>
 
 <div id="run-a-traced-multi-turn-agent">
-  ## Exécuter un agent tracé sur plusieurs tours de conversation
+  ## 트레이스된 멀티턴 에이전트 실행
 </div>
 
-Une fois l’outil et l’initialisation de Weave en place, l’étape suivante consiste à les intégrer dans une boucle d’agent complète. Cette boucle montre comment les sessions, les tours de conversation, les appels LLM et les appels d’outil s’imbriquent.
+도구와 Weave 초기화가 준비되면, 다음 단계는 이를 완전한 에이전트 루프로 결합하는 것입니다. 이 루프는 세션, 턴, LLM Call, 도구 Call이 서로 어떻게 중첩되는지 보여줍니다.
 
-L’exemple suivant exécute trois tours de conversation dans une même session. Chaque tour de conversation :
+다음 예시에서는 단일 세션에서 세 번의 턴을 실행합니다. 각 턴은 다음과 같습니다.
 
-1. Ouvre un span `chat` et laisse le LLM choisir s’il doit appeler l’outil.
-2. Si le LLM demande à appeler l’outil, ouvre un span `execute_tool` autour de cet appel et renvoie le résultat au LLM.
-3. Ouvre un second span `chat` pour produire la réponse finale.
+1. `chat` span을 열고 LLM이 도구를 Call할지 선택하게 합니다.
+2. LLM이 도구를 요청하면 해당 Call을 `execute_tool` span으로 감싸고, 그 결과를 다시 LLM에 전달합니다.
+3. 두 번째 `chat` span을 열어 최종 답변을 생성합니다.
 
 <CodeGroup>
   ```python lines highlight="9,11,17,29,42,46,53" Python
@@ -197,7 +197,7 @@ L’exemple suivant exécute trois tours de conversation dans une même session.
       history.append({"role": "user", "content": user_message})
 
       with weave.start_turn(user_message=user_message, model=MODEL):
-          # Appel LLM 1 : le modèle peut décider d'utiliser un outil.
+          # LLM Call 1: 모델이 도구를 사용하기로 결정할 수 있습니다.
           with weave.start_llm(model=MODEL, provider_name="openai") as llm:
               resp = openai_client.chat.completions.create(
                   model=MODEL, messages=history, tools=[wikipedia_tool_schema],
@@ -210,11 +210,11 @@ L’exemple suivant exécute trois tours de conversation dans une même session.
               )
               history.append(msg.model_dump(exclude_none=True))
 
-          # Si aucun outil n'a été demandé, la première réponse LLM est la réponse finale.
+          # 도구가 요청되지 않은 경우, 첫 번째 LLM 응답이 최종 답변입니다.
           if not msg.tool_calls:
               return msg.content
 
-          # Exécuter chaque appel d'outil demandé.
+          # 요청된 각 도구 Call을 실행합니다.
           for tc in msg.tool_calls:
               with weave.start_tool(
                   name=tc.function.name,
@@ -228,7 +228,7 @@ L’exemple suivant exécute trois tours de conversation dans une même session.
                       "content": tool.result,
                   })
 
-          # Appel LLM 2 : synthétiser la réponse finale.
+          # LLM Call 2: 최종 답변을 종합합니다.
           with weave.start_llm(model=MODEL, provider_name="openai") as llm:
               resp = openai_client.chat.completions.create(model=MODEL, messages=history)
               msg = resp.choices[0].message
@@ -258,13 +258,13 @@ L’exemple suivant exécute trois tours de conversation dans une même session.
   const openaiClient = new OpenAI();
   const MODEL = 'gpt-4o-mini';
 
-  // history is a list of OpenAI chat messages; typed loosely for brevity.
+  // history는 OpenAI 채팅 메시지의 목록입니다. 간결성을 위해 유형을 느슨하게 지정했습니다.
   async function runTurn(history: any[], userMessage: string): Promise<string | null> {
     history.push({ role: 'user', content: userMessage });
 
     const turn = weave.startTurn({ userMessage, model: MODEL });
     try {
-      // Appel LLM 1 : le modèle peut décider d'utiliser un outil.
+      // LLM Call 1: 모델이 도구 사용을 결정할 수 있습니다.
       const llm1 = weave.startLLM({ model: MODEL, providerName: 'openai' });
       let msg;
       try {
@@ -284,12 +284,12 @@ L’exemple suivant exécute trois tours de conversation dans une même session.
         llm1.end();
       }
 
-      // Si aucun outil n'a été demandé, la première réponse du LLM est la réponse finale.
+      // 도구가 요청되지 않은 경우, 첫 번째 LLM 응답이 최종 답변입니다.
       if (!msg.tool_calls?.length) {
         return msg.content ?? null;
       }
 
-      // Exécuter chaque appel d'outil demandé.
+      // 요청된 각 도구 Call을 실행합니다.
       for (const tc of msg.tool_calls) {
         const tool = weave.startTool({
           name: tc.function.name,
@@ -305,7 +305,7 @@ L’exemple suivant exécute trois tours de conversation dans une même session.
         }
       }
 
-      // Appel LLM 2 : synthétiser la réponse finale.
+      // LLM Call 2: 최종 답변을 종합합니다.
       const llm2 = weave.startLLM({ model: MODEL, providerName: 'openai' });
       try {
         const resp = await openaiClient.chat.completions.create({
@@ -346,21 +346,21 @@ L’exemple suivant exécute trois tours de conversation dans une même session.
 </CodeGroup>
 
 <div id="see-your-agent-traces-in-the-agents-view">
-  ## Voir les traces de votre agent dans la vue Agents
+  ## Agents 뷰에서 에이전트 트레이스 확인하기
 </div>
 
-Lorsque `weave.init()` s&#39;exécute, un lien vers votre projet s&#39;affiche, où vous pouvez voir :
+`weave.init()`가 실행되면 다음을 확인할 수 있는 프로젝트 링크가 출력됩니다.
 
-* Une ligne dans l&#39;onglet **Agents** pour `research-bot`.
-* Une session contenant trois tours de conversation.
-* Chaque tour (`invoke_agent`) avec deux spans `chat` et un span `execute_tool` imbriqué.
-* Le nombre de jetons, la latence, le modèle et l&#39;échange complet de messages pour chaque `chat`.
+* **Agents** 탭에 `research-bot`에 대한 행 하나
+* 세 개의 턴이 포함된 세션 하나
+* 각 턴(`invoke_agent`) 안에 중첩된 `chat` span 두 개와 `execute_tool` span 하나
+* 각 `chat`의 토큰 수, 지연 시간, 모델, 그리고 전체 메시지 교환 내용
 
-Cliquez sur n&#39;importe quel tour pour inspecter les entrées, les sorties, les arguments de l&#39;outil et les résultats de l&#39;outil.
+아무 턴이나 클릭하여 입력, 출력, 도구 인수, 도구 결과를 확인하세요.
 
 <div id="next-steps">
-  ## Étapes suivantes
+  ## 다음 단계
 </div>
 
-* Découvrez comment [tracer des agents avec Weave](/fr/weave/guides/tracking/trace-agents), ainsi que des fonctionnalités et options disponibles dans le SDK Weave.
-* Consultez [Tracer les intégrations d’agents](/fr/weave/guides/tracking/trace-agent-integrations) pour découvrir d’autres options permettant d’intégrer Weave à vos agents.
+* [Weave로 에이전트 트레이싱](/ko/weave/guides/tracking/trace-agents)하는 방법과 Weave SDK에서 어떤 특성 및 옵션을 사용할 수 있는지 알아보세요.
+* 에이전트에 Weave를 통합하는 방법에 관한 추가 옵션은 [에이전트 인테그레이션 트레이싱](/ko/weave/guides/tracking/trace-agent-integrations)을 참조하세요.

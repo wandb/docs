@@ -2005,7 +2005,8 @@
                   {
                     "group": "Premiers pas",
                     "pages": [
-                      "fr/weave/quickstart"
+                      "fr/weave/agent-integration-quickstart",
+                      "fr/weave/custom-agents-quickstart"
                     ]
                   },
                   {
@@ -2019,6 +2020,7 @@
                           "fr/weave/guides/tracking/trace-agent-integrations",
                           "fr/weave/guides/tracking/view-agent-activity",
                           "fr/weave/guides/tracking/view-agent-signals",
+                          "fr/weave/guides/tracking/trace-agents-attributes",
                           "fr/weave/guides/tracking/trace-agents-batch",
                           "fr/weave/guides/tracking/trace-sub-agents"
                         ]
@@ -2029,6 +2031,7 @@
                           {
                             "group": "Notions de base du traçage",
                             "pages": [
+                              "fr/weave/quickstart",
                               "fr/weave/guides/tracking/tracing",
                               "fr/weave/guides/tracking/create-call",
                               "fr/weave/guides/tracking/trace-tree",
@@ -2160,10 +2163,7 @@
                           {
                             "group": "Frameworks",
                             "pages": [
-                              "fr/weave/guides/integrations/openai_agents",
                               "fr/weave/guides/integrations/openai-realtime-audio",
-                              "fr/weave/guides/integrations/claude_agent",
-                              "fr/weave/guides/integrations/claude_code",
                               "fr/weave/guides/integrations/langchain",
                               "fr/weave/guides/integrations/llamaindex",
                               "fr/weave/guides/integrations/dspy",
@@ -2171,7 +2171,6 @@
                               "fr/weave/guides/integrations/crewai",
                               "fr/weave/guides/integrations/smolagents",
                               "fr/weave/guides/integrations/pydantic_ai",
-                              "fr/weave/guides/integrations/google_adk",
                               "fr/weave/guides/integrations/vercel_ai_sdk",
                               "fr/weave/guides/integrations/haystack",
                               "fr/weave/guides/integrations/agno",
@@ -3480,7 +3479,8 @@
                   {
                     "group": "スタートガイド",
                     "pages": [
-                      "ja/weave/quickstart"
+                      "ja/weave/agent-integration-quickstart",
+                      "ja/weave/custom-agents-quickstart"
                     ]
                   },
                   {
@@ -3494,6 +3494,7 @@
                           "ja/weave/guides/tracking/trace-agent-integrations",
                           "ja/weave/guides/tracking/view-agent-activity",
                           "ja/weave/guides/tracking/view-agent-signals",
+                          "ja/weave/guides/tracking/trace-agents-attributes",
                           "ja/weave/guides/tracking/trace-agents-batch",
                           "ja/weave/guides/tracking/trace-sub-agents"
                         ]
@@ -3504,6 +3505,7 @@
                           {
                             "group": "トレースの基本",
                             "pages": [
+                              "ja/weave/quickstart",
                               "ja/weave/guides/tracking/tracing",
                               "ja/weave/guides/tracking/create-call",
                               "ja/weave/guides/tracking/trace-tree",
@@ -3635,10 +3637,7 @@
                           {
                             "group": "フレームワーク",
                             "pages": [
-                              "ja/weave/guides/integrations/openai_agents",
                               "ja/weave/guides/integrations/openai-realtime-audio",
-                              "ja/weave/guides/integrations/claude_agent",
-                              "ja/weave/guides/integrations/claude_code",
                               "ja/weave/guides/integrations/langchain",
                               "ja/weave/guides/integrations/llamaindex",
                               "ja/weave/guides/integrations/dspy",
@@ -3646,7 +3645,6 @@
                               "ja/weave/guides/integrations/crewai",
                               "ja/weave/guides/integrations/smolagents",
                               "ja/weave/guides/integrations/pydantic_ai",
-                              "ja/weave/guides/integrations/google_adk",
                               "ja/weave/guides/integrations/vercel_ai_sdk",
                               "ja/weave/guides/integrations/haystack",
                               "ja/weave/guides/integrations/agno",
@@ -4955,7 +4953,8 @@
                   {
                     "group": "시작하기",
                     "pages": [
-                      "ko/weave/quickstart"
+                      "ko/weave/agent-integration-quickstart",
+                      "ko/weave/custom-agents-quickstart"
                     ]
                   },
                   {
@@ -4969,6 +4968,7 @@
                           "ko/weave/guides/tracking/trace-agent-integrations",
                           "ko/weave/guides/tracking/view-agent-activity",
                           "ko/weave/guides/tracking/view-agent-signals",
+                          "ko/weave/guides/tracking/trace-agents-attributes",
                           "ko/weave/guides/tracking/trace-agents-batch",
                           "ko/weave/guides/tracking/trace-sub-agents"
                         ]
@@ -4979,6 +4979,7 @@
                           {
                             "group": "트레이싱 기본 개념",
                             "pages": [
+                              "ko/weave/quickstart",
                               "ko/weave/guides/tracking/tracing",
                               "ko/weave/guides/tracking/create-call",
                               "ko/weave/guides/tracking/trace-tree",
@@ -5110,10 +5111,7 @@
                           {
                             "group": "프레임워크",
                             "pages": [
-                              "ko/weave/guides/integrations/openai_agents",
                               "ko/weave/guides/integrations/openai-realtime-audio",
-                              "ko/weave/guides/integrations/claude_agent",
-                              "ko/weave/guides/integrations/claude_code",
                               "ko/weave/guides/integrations/langchain",
                               "ko/weave/guides/integrations/llamaindex",
                               "ko/weave/guides/integrations/dspy",
@@ -5121,7 +5119,6 @@
                               "ko/weave/guides/integrations/crewai",
                               "ko/weave/guides/integrations/smolagents",
                               "ko/weave/guides/integrations/pydantic_ai",
-                              "ko/weave/guides/integrations/google_adk",
                               "ko/weave/guides/integrations/vercel_ai_sdk",
                               "ko/weave/guides/integrations/haystack",
                               "ko/weave/guides/integrations/agno",
