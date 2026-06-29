@@ -49,7 +49,7 @@ Organization admins can visualize usage trends for each category in the **Usage 
 Usage charts are visible to organization admins only. Team admins can't view them.
 </Note>
 
-The categories in the sidebar depend on which products are active in your deployment, and can include **Storage**, **Tracked Hours**, **Weave**, **Inference**, **Training**, {/* Agent, */} and **Sandboxes**.
+The categories in the sidebar depend on which products are active in your deployment, and can include **Storage**, **Tracked Hours**, **Weave**, **Inference**, **Training**, **AI Research Agent** (ARIA), and **Sandboxes**.
 
 {/* Source: https://wandb.ai/account-settings/wandb/alerts/tracked-hours (multi-tenant, Current cycle, All teams) */}
 <Frame>
@@ -102,7 +102,6 @@ Usage alerts notify organization and billing admins by email when your organizat
 | Inference     | Total input and output tokens used by Inference. See [Inference Pricing](https://wandb.ai/site/pricing/inference/). Shown only if Inference is active in the deployment. |
 | Training      | Token-based inference and compute, measured in GPU/hour. See [Serverless RL Pricing](https://wandb.ai/site/pricing/reinforcement-learning/). Shown only if Serverless RL is active in the deployment. |
 | Sandboxes     | Flat rate per billing period, determined by your plan. See [Pricing](https://wandb.ai/site/pricing/). Shown only if Sandboxes are active in the deployment. |
-{/* Agent | TODO | */}
 
 <Note>Usage alerts are not available for categories with no usage limit like tracked hours, or during a trial.</Note>
 
@@ -129,7 +128,6 @@ In a given billing period, spending alerts notify organization and billing admin
 | Inference     | Charges for your organization's Inference [usage](#usage-alerts) during the billing period. See [Inference Pricing](https://wandb.ai/site/pricing/inference/). Shown only if Inference is active in the deployment. |
 | Training      | Charges for your organization's Serverless RL [usage](#usage-alerts) during the billing period. See [Serverless RL Pricing](https://wandb.ai/site/pricing/reinforcement-learning/). Shown only if Serverless RL is active in the deployment. |
 | Sandboxes     | Flat rate per billing period, determined by your plan. See [Pricing](https://wandb.ai/site/pricing/). Shown only if Sandboxes are active in the deployment. |
-{/* Agent | TODO | */}
 
 <Note>
 - Spending alerts are not available for categories with no spending limit or during a trial.
