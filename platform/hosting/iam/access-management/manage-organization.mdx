@@ -185,6 +185,7 @@ A user within an organization can have one of the following roles:
 | Admin | An organization admin who can add users to the organization or remove them, change user roles, manage custom roles, add teams and more. W&B recommends ensuring there is more than one admin in the event that your admin is unavailable. |
 | Member | A regular user of the organization, invited by an organization admin. An organization member cannot invite other users or manage existing users in the organization. |
 | Viewer (Enterprise-only feature) | A view-only user of your organization, invited by an organization admin. A viewer only has read access to the organization and the underlying teams that they are a member of. |
+| Billing only (Multi-tenant Cloud) | A billing-focused role for Multi-tenant Cloud organizations. You can assign this role only to the organization's billing user. Billing-only users can manage billing workflows, such as subscriptions, invoices, and payment methods, but they can't invite users, manage teams, or perform non-billing admin actions. Billing-only users are also removed from all organization teams and always have **No access** for both Models and Weave. |
 | Custom Roles (Enterprise-only feature) | Custom roles allow organization admins to compose new roles by inheriting from the preceding **Viewer** or **Member** organization roles, and adding additional permissions to achieve fine-grained access control. Team admins can then assign any of those custom roles to users in their respective teams. See also [Add and manage custom roles](#add-and-manage-custom-roles). |
 
 ### Organization role permissions
@@ -249,6 +250,8 @@ Organization admins are assigned the **Admin** role in [registries](/models/regi
 | View billing alert thresholds                                | Read            |        |   X   |
 
 Users designated as **billing admins** can perform billing actions even if their organization role is **Member**. Billing admins can't perform other organization admin actions such as inviting users or creating teams.
+
+On Multi-tenant Cloud, you can optionally assign the billing admin the **Billing only** organization role. This role is restricted to the billing user, removes team membership, and enforces **No access** for both Models and Weave while preserving billing administration capabilities.
 
 #### Security and automation
 
