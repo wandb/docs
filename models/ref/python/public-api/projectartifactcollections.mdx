@@ -1,43 +1,80 @@
 ---
 title: ProjectArtifactCollections
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.artifacts
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L382" />
+
+
+
+## <kbd>class</kbd> ProjectArtifactCollections
+```python
+(service_api: 'ServiceApi',
+entity: 'str',
+project: 'str',
+filters: 'Mapping[str, Any] | None' = None,
+order: 'str | None' = None,
+per_page: 'int' = 50,
+start: 'str | None' = None)
+```
+
+## Description
+
+Artifact collections in a project.
+
+
+
+## Args
+
+- `service_api`: Interface to the wandb-core service that performs W&B API calls for this collection.
+- `entity`: The entity (user or team) that owns the project.
+- `project`: The name of the project to query for artifact collections.
+- `filters`: Optional mapping of filters to apply to the query.
+- `order`: Optional string to specify the order of the results. If prefixed with '+', sorts ascending (default). If prefixed with '-', sorts descending.
+- `start`: 
 
 
 
 
-## <kbd>class</kbd> `ProjectArtifactCollections`
-Artifact collections in a project. 
+
+
+## Methods
+
+### <kbd>method</kbd> RelayPaginator.convert_objects()
+
+```python
+self
+```
+
+Convert the last fetched response data into the iterated objects.
 
 
 
-**Args:**
- 
- - `service_api`:  Interface to the wandb-core service that performs  W&B API calls for this collection. 
- - `entity`:  The entity (user or team) that owns the project. 
- - `project`:  The name of the project to query for artifact collections. 
- - `filters`:  Optional mapping of filters to apply to the query. 
- - `order`:  Optional string to specify the order of the results.  If prefixed with '+', sorts ascending (default).  If prefixed with '-', sorts descending. 
- - `per_page`:  The number of artifact collections to fetch per page. Default is 50. 
 
 
-### <kbd>property</kbd> ProjectArtifactCollections.cursor
+### <kbd>method</kbd> Paginator.__next__()
 
-An opaque cursor that marks the start of the next page to fetch. 
+```python
+self
+```
 
-This value may be saved and passed as `start=` to a later paginated query to resume iteration from where this paginator left off. 
+Return the next item from the iterator. When exhausted, raise StopIteration
 
 
 
-**Returns:**
- - `str | None`: The cursor property value.
----
 
-### <kbd>property</kbd> ProjectArtifactCollections.more
+
+### <kbd>method</kbd> Paginator.update_variables()
+
+```python
+self
+```
+
+Update the query variables for the next page fetch.
 
 
 

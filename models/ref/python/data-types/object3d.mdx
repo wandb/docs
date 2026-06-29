@@ -1,52 +1,88 @@
 ---
 title: Object3D
-namespace: python_sdk_data_type
-python_object_type: class
+kind: class
+namespace: wandb.sdk.data_types.object_3d
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/object_3d.py" />
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/object_3d.py#L242" />
 
 
 
-
-## <kbd>class</kbd> `Object3D`
-W&B class for 3D point clouds. 
-
-### <kbd>method</kbd> `Object3D.__init__`
-
+## <kbd>class</kbd> Object3D
 ```python
-__init__(
-    data_or_path: 'np.ndarray | str | pathlib.Path | TextIO | dict',
-    caption: 'str | None' = None,
-    **kwargs: 'str | FileFormat3D | None'
-) → None
+data_or_path: 'np.ndarray | str | pathlib.Path | TextIO | dict',
+caption: 'str | None' = None, **kwargs: 'str | FileFormat3D | None'
 ```
 
-Creates a W&B Object3D object. 
+## Description
+
+W&B class for 3D point clouds.
 
 
 
-**Args:**
- 
- - `data_or_path`:  Object3D can be initialized from a file or a numpy array. 
- - `caption`:  Caption associated with the object for display. 
+## Args
 
-
-
-**Examples:**
- The shape of the numpy array must be one of either 
-
-```text
-[[x y z],       ...] nx3
-[[x y z c],     ...] nx4 where c is a category with supported range [1, 14]
-[[x y z r g b], ...] nx6 where is rgb is color
-``` 
+- `data_or_path`: Object3D can be initialized from a file or a numpy array.
+- `caption`: Caption associated with the object for display.
+- `kwargs`: 
 
 
 
 
----
+
+
+## Methods
+
+### <kbd>method</kbd> Object3D.from_file()
+
+```python
+data_or_path: 'TextIO | str',
+file_type: 'FileFormat3D | None' = None
+```
+
+Initializes Object3D from a file or stream.
+
+##### Arguments
+
+- `data_or_path`: A path to a file or a `TextIO` stream.
+
+
+
+
+### <kbd>method</kbd> Object3D.from_numpy()
+
+```python
+data: 'np.ndarray'
+```
+
+Initializes Object3D from a numpy array.
+
+##### Arguments
+
+
+
+
+
+### <kbd>method</kbd> Object3D.from_point_cloud()
+
+```python
+points: 'Sequence[Point]',
+boxes: 'Sequence[Box3D]',
+vectors: 'Sequence[Vector3D] | None' = None,
+point_cloud_type: 'PointCloudType' = 'lidar/beta'
+```
+
+Initializes Object3D from a python object.
+
+##### Arguments
+
+- `points`: The points in the point cloud.
+- `boxes`: 3D bounding boxes for labeling the point cloud. Boxes are displayed in point cloud visualizations.
+- `vectors`: Each vector is displayed in the point cloud visualization. Can be used to indicate directionality of bounding boxes. Defaults to None.
+
 
 
 
