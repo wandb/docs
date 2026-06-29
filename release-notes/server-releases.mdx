@@ -12,6 +12,22 @@ This page includes release notes for supported releases of W&B Server.
 
 <EolReminder/>
 
+<Update label="v0.82.1" description="June 30, 2026">
+**June 30, 2026**
+
+## Performance improvements
+
+- Improved chart and workspace loading for projects with a large number of logged metrics, including faster media panel loading and more efficient history key queries.
+
+## Fixes
+
+- Fixed a bug where adding a custom Vega chart could hang the workspace in projects with a large number of logged metrics.
+- Fixed an infinite loop that could occur when rendering line plots with non-logarithmic axis splits.
+- Fixed a bug where toggling **Show original** on a line plot with smoothing disabled could alter the shaded min/max band.
+- Fixed a bug in Models and Weave projects where opening **Assets** showed the full asset list instead of the categorized asset picker.
+
+</Update>
+
 <Update label="v0.82.0" description="June 23, 2026">
 **June 23, 2026**
 
