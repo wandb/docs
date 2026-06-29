@@ -1,6 +1,6 @@
 ---
 title: "Runs"
-tag: "19"
+tag: "31"
 generator: "knowledgebase-nav"
 template: "docengine-site/templates/support_tag.mdx.j2"
 ---
@@ -10,7 +10,7 @@ template: "docengine-site/templates/support_tag.mdx.j2"
 </Card>
 
 <Card title="タグで Runs をグループ化できますか？" href="/ja/support/models/articles/can-you-group-runs-by-tags" arrow="true" horizontal>
-  1 つの run には複数のタグを付けられるため、タグによるグループ化はサポートされていません。代わりに、これらの r ... の config object に値を追加してください。
+  1 つの run には複数のタグを付けられるため、タグによるグループ化はサポートされていません。代わりに、これらの r ... の 設定 object に値を追加してください。
 </Card>
 
 <Card title="Group 機能なしで Runs を分類するにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-categorize-runs-without-the-group-feature" arrow="true" horizontal>
@@ -49,6 +49,10 @@ template: "docengine-site/templates/support_tag.mdx.j2"
   完了した run に割り当てられたグループは、API を使用して変更できます。この機能は Web UI には表示されません。更新するには ...
 </Card>
 
+<Card title="run からコンソールログ file をダウンロードするにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-download-the-console-log-file-from-a-run" arrow="true" horizontal>
+  W&amp;B は、スクリプトの stdout と stderr を output.log (または logs/ 配下の複数パートのチャンク) として保存します。取得方法は状況によって異なり ...
+</Card>
+
 <Card title="sweep 中の `CommError, Run does not exist` を修正するにはどうすればよいですか？" href="/ja/support/models/articles/commerror-run-does-not-exist-during-swee" arrow="true" horizontal>
   sweep 中に CommError, Run does not exist と ERROR Error uploading の両方が表示される場合、最も可能性が高い原因は yo ...
 </Card>
@@ -57,26 +61,70 @@ template: "docengine-site/templates/support_tag.mdx.j2"
   エラー resume=&#39;must&#39; but run ( RUN-ID ) doesn&#39;t exist が発生した場合、resume しようとしている run は存在しません ...
 </Card>
 
-<Card title="継続的インテグレーションや内部ツールによって起動された Runs をログするにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-log-runs-launched-by-continuous" arrow="true" horizontal>
-  W&amp;B にログする自動テストや内部ツールを起動するには、team settings ページでサービスアカウントを作成します。この ac ...
+<Card title="W&B で NLP メトリクスとテキスト出力をログするにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-log-nlp-metrics-and-text-outputs-in-wandb" arrow="true" horizontal>
+  `wandb.log()` を使用してコーパスレベルの NLP スコア (BLEU、ROUGE、パープレキシティ) をログし、`wandb.Table` を使用してサンプルごとの出力をログできます。...
+</Card>
+
+<Card title="wandb.watch() で勾配とモデルの重みをログするにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-log-gradients-and-model-weights-with-wandb-watch" arrow="true" horizontal>
+  `wandb.watch()` は PyTorch モデルのパラメーターと勾配をフックし、それらの値のヒストグラムを一定間隔でログします ...
+</Card>
+
+<Card title="継続的インテグレーションや内部ツールで起動した Runs をログするにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-log-runs-launched-by-continuous" arrow="true" horizontal>
+  W&amp;B にログする自動テストや内部ツールを起動するには、Team settings ページでサービスアカウントを作成します。このアカウ ...
 </Card>
 
 <Card title="run を別の project に移動するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-move-a-run-to-another-project" arrow="true" horizontal>
-  作業を整理し直したり、関連する実験をまとめたり、run を別の場所に移したりするために、run をある project から別の project に移動できま ...
+  run は、作業を整理し直したり、関連する experiment をまとめたり、r ... を移動したりするために、ある project から別の project へ移動できます。
+</Card>
+
+<Card title="W&B で大量の API 結果をページングするにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-paginate-through-large-api-results-in-wandb" arrow="true" horizontal>
+  標準的な遅延イテレーターパターンと `per_page` パラメーターを使用して API の結果をページングできます。さらに、u ...
 </Card>
 
 <Card title="グリッドサーチを再実行するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-rerun-a-grid-search" arrow="true" horizontal>
-  グリッドサーチが完了しても一部の W&amp;B Runs がクラッシュした場合は、それらの Runs を削除して再実行します。その後、... の Resume ボタンを選択 ...
+  グリッドサーチが完了しても一部の W&amp;B Runs がクラッシュした場合は、それらの Runs を削除して再実行します。次に、... の Resume ボタンを選択します
 </Card>
 
-<Card title="run をログするときに権限エラーを解決するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-resolve-permission-errors-when-" arrow="true" horizontal>
-  run をログするときに発生する権限エラーは通常、コード、認証情報、またはデプロイメント設定の不一致を示してい ...
+<Card title="run のログ時に発生する権限エラーを解決するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-resolve-permission-errors-when-" arrow="true" horizontal>
+  run のログ時に発生する権限エラーは通常、コード、認証情報、またはデプロイメントの不一致を示しています ...
 </Card>
 
-<Card title="project ごとに作成できる Runs の数はどれくらいですか？" href="/ja/support/models/articles/how-many-runs-can-i-create-per-project" arrow="true" horizontal>
-  最適なパフォーマンスを得るには、各 project の Runs をおよそ 10,000 件までに抑えてください。
+<Card title="W&B Alerts と通知を設定するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-set-up-wandb-alerts-and-notifications" arrow="true" horizontal>
+  W&amp;B Settings ページを使用して、アラートと通知を設定できます。W&amp;B は User Settings での自動アラートをサポートしています ( ...
 </Card>
 
-<Card title="CSV メトリクスのエクスポートで steps が欠落するのはなぜですか？" href="/ja/support/models/articles/why-are-steps-missing-from-a-csv-metric-" arrow="true" horizontal>
-  エクスポートの制限により、run の履歴全体を CSV または run.history API でエクスポートできないことがあります。完全な履歴にアクセスするには ...
+<Card title="W&B API を使用して run の設定、タグ、メモを更新するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-update-run-config-tags-and-notes-via-the-wandb-api" arrow="true" horizontal>
+  run の完了後は、experiment を再実行しなくても、Public API ガイドを使用して設定、表示名、タグ、メモを編集できます ...
+</Card>
+
+<Card title="W&B を JAX と一緒に使用するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-use-wandb-with-jax" arrow="true" horizontal>
+  W&amp;B には JAX 固有のインテグレーションはありません。ただし、JAX のデバイス配列を Python スカラーに変換してから `wandb.log` を使用できます ...
+</Card>
+
+<Card title="W&B で parallel coordinates チャートを使用するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-use-the-parallel-coordinates-chart-in-wandb" arrow="true" horizontal>
+  parallel coordinates チャートは、多数の run にわたってハイパーパラメーターがメトリクスとどのように関係しているかを示します。各線は 1 つの run を表し、各 ...
+</Card>
+
+<Card title="project ごとにいくつの Runs を作成できますか？" href="/ja/support/models/articles/how-many-runs-can-i-create-per-project" arrow="true" horizontal>
+  最適なパフォーマンスを得るには、各 project の Runs はおよそ 10,000 件までに抑えてください。
+</Card>
+
+<Card title="CSV メトリクスのエクスポートで step が欠けているのはなぜですか？" href="/ja/support/models/articles/why-are-steps-missing-from-a-csv-metric-" arrow="true" horizontal>
+  エクスポートの制限により、CSV または `run.history` API を使用して run 履歴全体をエクスポートできない場合があります。アクセスするには ...
+</Card>
+
+<Card title="Workspace settings がセッション間で保持されないのはなぜですか？" href="/ja/support/models/articles/why-do-my-workspace-settings-not-persist" arrow="true" horizontal>
+  Workspace layout (パネル、フィルター、グループ化) は、ビューを保存した場合にのみ保持されます。保存していない変更はブラウザーのセ ...
+</Card>
+
+<Card title="自分のrunでコンソール出力が取得されないのはなぜですか？" href="/ja/support/models/articles/why-is-console-output-not-captured-for-my-run" arrow="true" horizontal>
+  W&amp;B はスクリプトの stdout と stderr を取得し、run の Files タブに output.log として保存します。デフォルトでは、その file は u ...
+</Card>
+
+<Card title="W&B Run の初期化や upload が遅いのはなぜですか？" href="/ja/support/models/articles/why-is-my-wandb-run-slow-to-initialize-or-upload" arrow="true" horizontal>
+  wandb.init() の動作が遅い、またはメトリクスの upload が遅い場合は、通常、ネットワーク遅延、大きなメディア payload、高い ログする 頻度が原因です ...
+</Card>
+
+<Card title="run が クラッシュした と表示されるのはなぜですか？" href="/ja/support/models/articles/why-is-my-run-showing-as-crashed" arrow="true" horizontal>
+  W&amp;B は、wandb.init() を呼び出したプロセスからのハートビートを受信しなくなると、そのプロ ...
 </Card>

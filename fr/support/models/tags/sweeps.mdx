@@ -1,12 +1,16 @@
 ---
 title: "Balayages"
-tag: "19"
+tag: "22"
 generator: "knowledgebase-nav"
 template: "docengine-site/templates/support_tag.mdx.j2"
 ---
 
 <Card title="Bonnes pratiques pour organiser les recherches d'hyperparamètres" href="/fr/support/models/articles/best-practices-to-organize-hyperparamete" arrow="true" horizontal>
   Lorsque vous lancez de nombreuses recherches d&#39;hyperparamètres, ajoutez des tags à vos runs afin de pouvoir regrouper et retrouver les expériences associées plus tard. Taggez les runs i ...
+</Card>
+
+<Card title="Puis-je reprendre un run dans un balayage ?" href="/fr/support/models/articles/can-i-resume-a-run-inside-a-sweep" arrow="true" horizontal>
+  La reprise d&#39;un run n&#39;est pas prise en charge dans un balayage W&amp;B. Si vous transmettez un run&#95;id ou utilisez wandb.init(resume=...) pendant qu&#39;un agent de ba ...
 </Card>
 
 <Card title="Comment puis-je modifier le répertoire dans lequel mon balayage journalise localement ?" href="/fr/support/models/articles/how-can-i-change-the-directory-my-sweep-" arrow="true" horizontal>
@@ -54,11 +58,15 @@ template: "docengine-site/templates/support_tag.mdx.j2"
 </Card>
 
 <Card title="Comment utiliser balayage W&B avec une infrastructure cloud ?" href="/fr/support/models/articles/how-do-i-use-sweeps-with-cloud-infrastructure" arrow="true" horizontal>
-  Pour exécuter un balayage W&amp;B sur une infrastructure cloud telle qu&#39;AWS Batch ou ECS, publiez le sweep&#95;id afin que n&#39;importe quel agent balayage W&amp;B puisse ca ...
+  Pour exécuter un balayage W&amp;B sur une infrastructure cloud telle qu&#39;AWS Batch ou ECS, publiez le sweep&#95;id afin que n&#39;importe quel agent de balayage W&amp;B puisse ca ...
 </Card>
 
-<Card title="Comment utiliser des commandes CLI personnalisées avec les balayages ?" href="/fr/support/models/articles/how-do-i-use-custom-cli-commands-with-sw" arrow="true" horizontal>
-  Vous pouvez utiliser le balayage W&amp;B avec des commandes CLI personnalisées si la configuration d&#39;entraînement transmet des arguments de ligne de commande. Cela vous permet d&#39;e ...
+<Card title="Comment puis-je utiliser des commandes CLI personnalisées avec des balayages ?" href="/fr/support/models/articles/how-do-i-use-custom-cli-commands-with-sw" arrow="true" horizontal>
+  Vous pouvez utiliser des balayages W&amp;B avec des commandes CLI personnalisées si la configuration d’entraînement transmet des arguments de ligne de commande. Cela vous permet d’e ...
+</Card>
+
+<Card title="Comment puis-je utiliser le graphique en coordonnées parallèles dans W&B ?" href="/fr/support/models/articles/how-do-i-use-the-parallel-coordinates-chart-in-wandb" arrow="true" horizontal>
+  Le graphique en coordonnées parallèles montre comment les hyperparamètres sont liés aux métriques sur de nombreuses exécutions. Chaque ligne correspond à une exécution ; chaque  ...
 </Card>
 
 <Card title="Comment exécuter des balayages sur SLURM ?" href="/fr/support/models/articles/how-should-i-run-sweeps-on-slurm" arrow="true" horizontal>
@@ -79,4 +87,8 @@ template: "docengine-site/templates/support_tag.mdx.j2"
 
 <Card title="Qu’est-ce que la colonne `Est. Runs` ?" href="/fr/support/models/articles/what-is-the-est-runs-column" arrow="true" horizontal>
   W&amp;B fournit un nombre estimé de run générés lors de la création d’un balayage W&amp;B avec un espace de recherche discret. Ce total re ...
+</Card>
+
+<Card title="Pourquoi mon agent de balayage ne récupère-t-il pas de nouvelles exécutions ?" href="/fr/support/models/articles/why-is-my-sweep-agent-not-picking-up-new-runs" arrow="true" horizontal>
+  Si votre agent de balayage démarre mais ne reçoit pas de nouvelles configurations d’exécution, ou reçoit une exécution puis reste inactif, il existe plusieu ...
 </Card>
