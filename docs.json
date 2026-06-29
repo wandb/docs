@@ -111,6 +111,16 @@
                     "group": "Platform Details",
                     "pages": [
                       {
+                        "group": "ARIA",
+                        "tag": "Preview",
+                        "pages": [
+                          "aria/overview",
+                          "aria/chat",
+                          "aria/autoresearch",
+                          "aria/governance"
+                        ]
+                      },
+                      {
                         "group": "Configure W&B",
                         "pages": [
                           {
