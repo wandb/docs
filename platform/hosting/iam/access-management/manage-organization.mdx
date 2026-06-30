@@ -210,7 +210,7 @@ The following tables summarize what **Member** and **Admin** users can do at the
 | Export the organization user list as CSV                     | Admin           |        |   X   |
 | View organization activity and usage trends                  | Read            |   X    |   X   |
 
-In organizations marked as hidden, non-admin members can view profiles only for themselves or for users who share a team with them.
+When **Enforce team visibility restrictions** is enabled, non-admin members can view profiles only for themselves or for users who share a team with them. Organization admins can view all member profiles. For more information, see [Privacy settings](/platform/hosting/privacy-settings#enforce-privacy-settings-for-all-teams).
 
 #### Teams
 
@@ -221,10 +221,10 @@ In organizations marked as hidden, non-admin members can view profiles only for 
 | View team membership for teams the user belongs to           | Read            |   X    |   X   |
 | View team membership for teams the user doesn't belong to    | Read            |        |   X   |
 | Invite users to a team without being a member of that team   | Admin           |        |   X   |
-| Add themselves to a team as a member or viewer               | Admin           |        |   X   |
+| Add themselves to a team                                      | Admin           |        |   X   |
 
 <Note>
-On Self-Managed deployments, non-admin users might be allowed to create teams when your instance administrator enables that option.
+On Self-Managed deployments, instance admins can optionally enable team creation for non-admin users. This option is managed at the instance level, not in organization settings. If you don't know whether your instance has this option enabled, contact your instance admin or W&B support.
 </Note>
 
 Organization admins are assigned the **Admin** role in [registries](/models/registry/configure_registry#role-permissions) that are visible at the organization level.
@@ -247,9 +247,9 @@ Organization admins are assigned the **Admin** role in [registries](/models/regi
 | Assign the billing admin                                     | Admin           |        |   X   |
 | Manage subscriptions, payment methods, and plan upgrades     | Billing         |        |   X   |
 | Cancel subscriptions                                         | Billing         |        |   X   |
-| View billing alert thresholds                                | Read            |        |   X   |
+| Configure usage alerts                                       | Billing         |        |   X   |
 
-Users designated as **billing admins** can perform billing actions even if their organization role is **Member**. Billing admins can't perform other organization admin actions such as inviting users or creating teams.
+Users designated as **billing admins** can perform billing actions, including configuring usage alerts, even if their organization role is **Member**. Billing admins can't perform other organization admin actions such as inviting users or creating teams.
 
 On Multi-tenant Cloud, you can optionally assign the billing admin the **Billing only** organization role. This role is restricted to the billing user, removes team membership, and enforces **No access** for both Models and Weave while preserving billing administration capabilities.
 
