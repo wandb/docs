@@ -124,8 +124,8 @@ def setup_typescript_project(weave_source):
         print("  Installing typedoc...")
         subprocess.run([
             "npm", "install", "--save-dev",
-            "typedoc@0.25.13",
-            "typedoc-plugin-markdown@3.17.1"
+            "typedoc@0.28.19",
+            "typedoc-plugin-markdown@^4"
         ], check=True)
         
         print("  ✓ Dependencies installed")

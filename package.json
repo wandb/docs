@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "typedoc-plugin-markdown": "^4.12.0"
+  }
+}
