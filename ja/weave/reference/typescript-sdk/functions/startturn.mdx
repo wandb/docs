@@ -9,7 +9,7 @@ description: "TypeScript SDK リファレンス"
 
 ▸ **startTurn**(`opts?`): [`Turn`](../classes/turn)
 
-新しいターンを開始します。Session がアクティブな場合、ターンはその
+新しいターンを開始します。Conversation がアクティブな場合、ターンはその
 `conversationId` を引き継ぎます。アクティブでない場合、ターンには conversation ID がありません。
 
 <div id="parameters">
@@ -26,10 +26,27 @@ description: "TypeScript SDK リファレンス"
 
 [`Turn`](../classes/turn)
 
+`例`
+
+```ts twoslash
+// @noErrors
+weave.startTurn({agentName: 'research-bot'});
+```
+
+`例`
+
+```ts twoslash
+// @noErrors
+weave.startTurn({
+  agentName: 'research-bot',
+  startTime: new Date('2026-05-29T10:00:00.000Z'),
+});
+```
+
 <div id="defined-in">
   #### 定義元
 </div>
 
-[genai/api.ts:20](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/api.ts#L20)
+[src/genai/api.ts:48](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/api.ts#L48)
 
 ***

@@ -1,0 +1,57 @@
+---
+title: "wrapClaudeAgentSdk"
+description: "TypeScript SDK リファレンス"
+---
+
+<div id="wrapclaudeagentsdk">
+  # wrapClaudeAgentSdk
+</div>
+
+▸ **wrapClaudeAgentSdk**&lt;`T`&gt;(`sdk`): `T`
+
+`@anthropic-ai/claude-agent-sdk` モジュールを手動でインストルメントします。
+
+自動インストルメンテーションを適用できない場合に使用します。たとえば、CJS/ESM の hooks で監視できないモジュール読み込みを行うバンドラを使っている場合や、それらでカバーされない import パスを使用している場合です。`@anthropic-ai/claude-agent-sdk` &gt;= 0.3.178 が必要です。`query` export が trace されるモジュールの view を返します。元の import ではなく、返されたオブジェクトを使用してください (SDK の `query` は getter-only export であるため、元の binding をその場で patch することはできません) :
+
+<div id="type-parameters">
+  #### 型パラメーター
+</div>
+
+| 名   |
+| :-- |
+| `T` |
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名     | タイプ |
+| :---- | :-- |
+| `sdk` | `T` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`T`
+
+`例`
+
+```ts twoslash
+// @noErrors
+import * as claudeAgentSdk from '@anthropic-ai/claude-agent-sdk';
+import { wrapClaudeAgentSdk } from 'weave';
+
+const { query } = wrapClaudeAgentSdk(claudeAgentSdk);
+for await (const message of query({ prompt: 'hi' })) {
+  // ...トレース済み
+}
+```
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[src/integrations/claudeAgentSdk.ts:209](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/claudeAgentSdk.ts#L209)
+
+***

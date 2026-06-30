@@ -16,7 +16,8 @@ description: "TypeScript SDK 레퍼런스"
 
 `예시`
 
-```ts
+```ts twoslash
+// @noErrors
 const sub = weave.startSubagent({name: 'researcher', model: 'gpt-4o'});
 try {
   // ... 서브 에이전트의 LLM/Tool Call을 조율합니다 ...
@@ -24,6 +25,14 @@ try {
   sub.end();
 }
 ```
+
+<div id="hierarchy">
+  ## 계층 구조
+</div>
+
+* `SpanBase`
+
+  ↳ `SubAgent`
 
 <div id="table-of-contents">
   ## 목차
@@ -40,7 +49,9 @@ try {
   ### 방법
 </div>
 
+* [addEvent](./subagent#addevent)
 * [end](./subagent#end)
+* [setAttributes](./subagent#setattributes)
 * [create](./subagent#create)
 
 ## 속성
@@ -55,7 +66,7 @@ try {
   #### 정의 위치
 </div>
 
-[genai/subagent.ts:41](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/subagent.ts#L41)
+[src/genai/subagent.ts:41](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/subagent.ts#L41)
 
 ***
 
@@ -69,9 +80,56 @@ try {
   #### 정의 위치
 </div>
 
-[genai/subagent.ts:40](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/subagent.ts#L40)
+[src/genai/subagent.ts:40](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/subagent.ts#L40)
 
 ## 방법
+
+<div id="addevent">
+  ### addEvent
+</div>
+
+▸ **addEvent**(`name`, `attributes?`, `startTime?`): `this`
+
+이름이 지정된 이벤트를 span에 추가합니다. 컨텍스트 압축, 도구 루프 감지,
+또는 가드레일 트리거와 같이 span이 아닌 시점을 표시할 때 유용합니다. `end()` 이후에 호출하면 경고를 표시하고
+아무 작업도 수행하지 않습니다. OTel `Span.addEvent`와 동일하게 동작합니다.
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름            | 유형           |
+| :------------ | :----------- |
+| `name`        | `string`     |
+| `attributes?` | `Attributes` |
+| `startTime?`  | `TimeInput`  |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`this`
+
+`예시`
+
+```ts twoslash
+// @noErrors
+span.addEvent('context_compacted', {removedMessages: 12});
+```
+
+<div id="inherited-from">
+  #### 상속됨
+</div>
+
+SpanBase.addEvent
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/genai/spanBase.ts:77](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/spanBase.ts#L77)
+
+***
 
 <div id="end">
   ### end
@@ -79,16 +137,16 @@ try {
 
 ▸ **end**(`opts?`): `void`
 
-SubAgent span을 종료합니다. 멱등성을 가집니다. 실패로 표시하려면 `error`를 전달하세요.
+SubAgent span을 종료합니다. 멱등성을 가집니다. 실패로 표시하려면 `error`를 전달하세요;
+종료 시점을 이전으로 소급하려면 `endTime`을 전달하세요.
 
 <div id="parameters">
   #### 매개변수
 </div>
 
-| 이름            | 유형       |
-| :------------ | :------- |
-| `opts?`       | `Object` |
-| `opts.error?` | `Error`  |
+| 이름      | 유형               |
+| :------ | :--------------- |
+| `opts?` | `SpanEndOptions` |
 
 <div id="returns">
   #### 반환값
@@ -100,7 +158,52 @@ SubAgent span을 종료합니다. 멱등성을 가집니다. 실패로 표시하
   #### 정의 위치
 </div>
 
-[genai/subagent.ts:65](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/subagent.ts#L65)
+[src/genai/subagent.ts:72](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/subagent.ts#L72)
+
+***
+
+<div id="setattributes">
+  ### setAttributes
+</div>
+
+▸ **setAttributes**(`attributes`): `this`
+
+span에 여러 속성을 한 번에 설정합니다. `end()` 호출 후에는 경고를 표시하고
+더 이상 아무 작업도 수행하지 않습니다. OTel `Span.setAttributes`(및 Python SDK의
+`set_attributes`)와 동일한 동작을 합니다.
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름           | 유형           |
+| :----------- | :----------- |
+| `attributes` | `Attributes` |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`this`
+
+`예시`
+
+```ts twoslash
+// @noErrors
+span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
+```
+
+<div id="inherited-from">
+  #### 상속됨
+</div>
+
+SpanBase.setAttributes
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/spanBase.ts#L63)
 
 ***
 
@@ -128,4 +231,4 @@ SubAgent span을 종료합니다. 멱등성을 가집니다. 실패로 표시하
   #### 정의 위치
 </div>
 
-[genai/subagent.ts:44](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/subagent.ts#L44)
+[src/genai/subagent.ts:46](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/subagent.ts#L46)

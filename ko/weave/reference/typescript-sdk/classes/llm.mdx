@@ -18,7 +18,8 @@ LLM Call입니다. `gen_ai.*` 속성이 포함된 `chat` span을 생성합니다
 
 `예시`
 
-```ts
+```ts twoslash
+// @noErrors
 const llm = weave.startLLM({model: 'gpt-4o-mini', providerName: 'openai'});
 try {
   llm.inputMessages = [{role: 'user', content: prompt}];
@@ -29,6 +30,14 @@ try {
   llm.end();
 }
 ```
+
+<div id="hierarchy">
+  ## 계층
+</div>
+
+* `SpanBase`
+
+  ↳ `LLM`
 
 <div id="table-of-contents">
   ## 목차
@@ -49,11 +58,13 @@ try {
   ### 메서드
 </div>
 
+* [addEvent](./llm#addevent)
 * [attachMedia](./llm#attachmedia)
 * [attachMediaUrl](./llm#attachmediaurl)
 * [end](./llm#end)
 * [output](./llm#output)
 * [record](./llm#record)
+* [setAttributes](./llm#setattributes)
 * [startSubagent](./llm#startsubagent)
 * [startTool](./llm#starttool)
 * [think](./llm#think)
@@ -74,7 +85,7 @@ try {
   #### 정의된 위치
 </div>
 
-[genai/llm.ts:78](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/llm.ts#L78)
+[src/genai/llm.ts:79](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/llm.ts#L79)
 
 ***
 
@@ -88,7 +99,7 @@ try {
   #### 정의된 위치
 </div>
 
-[genai/llm.ts:98](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/llm.ts#L98)
+[src/genai/llm.ts:97](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/llm.ts#L97)
 
 ***
 
@@ -105,7 +116,7 @@ try {
   #### 정의된 위치
 </div>
 
-[genai/llm.ts:83](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/llm.ts#L83)
+[src/genai/llm.ts:84](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/llm.ts#L84)
 
 ***
 
@@ -119,7 +130,7 @@ try {
   #### 정의된 위치
 </div>
 
-[genai/llm.ts:99](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/llm.ts#L99)
+[src/genai/llm.ts:98](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/llm.ts#L98)
 
 ***
 
@@ -136,7 +147,7 @@ ReasoningPart로 병합됩니다.
   #### 정의된 위치
 </div>
 
-[genai/llm.ts:90](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/llm.ts#L90)
+[src/genai/llm.ts:91](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/llm.ts#L91)
 
 ***
 
@@ -152,9 +163,56 @@ ReasoningPart로 병합됩니다.
   #### 정의된 위치
 </div>
 
-[genai/llm.ts:85](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/llm.ts#L85)
+[src/genai/llm.ts:86](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/llm.ts#L86)
 
 ## 메서드
+
+<div id="addevent">
+  ### addEvent
+</div>
+
+▸ **addEvent**(`name`, `attributes?`, `startTime?`): `this`
+
+span에 이름이 있는 event를 추가합니다. 컨텍스트 압축, 도구 루프 감지,
+또는 가드레일 트리거처럼 span으로 표현되지 않는 시점을 표시할 때 유용합니다. `end()` 호출 후에는
+경고를 기록하고 아무 작업도 수행하지 않습니다. OTel `Span.addEvent`와 동일하게 동작합니다.
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름            | 유형           |
+| :------------ | :----------- |
+| `name`        | `string`     |
+| `attributes?` | `Attributes` |
+| `startTime?`  | `TimeInput`  |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`this`
+
+`예시`
+
+```ts twoslash
+// @noErrors
+span.addEvent('context_compacted', {removedMessages: 12});
+```
+
+<div id="inherited-from">
+  #### 상속됨
+</div>
+
+SpanBase.addEvent
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[src/genai/spanBase.ts:77](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/spanBase.ts#L77)
+
+***
 
 <div id="attachmedia">
   ### attachMedia
@@ -183,7 +241,7 @@ ReasoningPart로 병합됩니다.
   #### 정의된 위치
 </div>
 
-[genai/llm.ts:168](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/llm.ts#L168)
+[src/genai/llm.ts:170](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/llm.ts#L170)
 
 ***
 
@@ -215,7 +273,7 @@ ReasoningPart로 병합됩니다.
   #### 정의된 위치
 </div>
 
-[genai/llm.ts:186](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/llm.ts#L186)
+[src/genai/llm.ts:188](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/llm.ts#L188)
 
 ***
 
@@ -225,17 +283,15 @@ ReasoningPart로 병합됩니다.
 
 ▸ **end**(`opts?`): `void`
 
-누적된 상태를 span에 플러시한 후 닫습니다. 멱등적입니다. span을 실패로 표시하려면
-`error`를 전달하세요.
+누적된 상태를 플러시한 후 span을 닫습니다. 멱등적입니다. 실패로 표시하려면 `error`를 전달하고, 종료 시점을 과거로 지정하려면 `endTime`을 전달하세요.
 
 <div id="parameters">
   #### 매개변수
 </div>
 
-| 이름            | 유형       |
-| :------------ | :------- |
-| `opts?`       | `Object` |
-| `opts.error?` | `Error`  |
+| 이름      | 유형               |
+| :------ | :--------------- |
+| `opts?` | `SpanEndOptions` |
 
 <div id="returns">
   #### 반환값
@@ -247,7 +303,7 @@ ReasoningPart로 병합됩니다.
   #### 정의된 위치
 </div>
 
-[genai/llm.ts:246](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/llm.ts#L246)
+[src/genai/llm.ts:245](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/llm.ts#L245)
 
 ***
 
@@ -277,7 +333,7 @@ ReasoningPart로 병합됩니다.
   #### 정의된 위치
 </div>
 
-[genai/llm.ts:141](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/llm.ts#L141)
+[src/genai/llm.ts:143](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/llm.ts#L143)
 
 ***
 
@@ -308,7 +364,52 @@ ReasoningPart로 병합됩니다.
   #### 정의된 위치
 </div>
 
-[genai/llm.ts:197](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/llm.ts#L197)
+[src/genai/llm.ts:199](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/llm.ts#L199)
+
+***
+
+<div id="setattributes">
+  ### setAttributes
+</div>
+
+▸ **setAttributes**(`attributes`): `this`
+
+span에 여러 속성을 한 번에 설정합니다. `end()` 이후에 호출하면 경고를 표시하고
+아무 작업도 수행하지 않습니다. OTel `Span.setAttributes`(및 Python SDK의
+`set_attributes`)와 동일하게 동작합니다.
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름           | 유형           |
+| :----------- | :----------- |
+| `attributes` | `Attributes` |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`this`
+
+`예시`
+
+```ts twoslash
+// @noErrors
+span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
+```
+
+<div id="inherited-from">
+  #### 상속됨
+</div>
+
+SpanBase.setAttributes
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/spanBase.ts#L63)
 
 ***
 
@@ -338,7 +439,7 @@ ReasoningPart로 병합됩니다.
   #### 정의된 위치
 </div>
 
-[genai/llm.ts:230](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/llm.ts#L230)
+[src/genai/llm.ts:232](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/llm.ts#L232)
 
 ***
 
@@ -368,7 +469,7 @@ ReasoningPart로 병합됩니다.
   #### 정의된 위치
 </div>
 
-[genai/llm.ts:221](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/llm.ts#L221)
+[src/genai/llm.ts:223](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/llm.ts#L223)
 
 ***
 
@@ -401,7 +502,7 @@ on-the-wire 형식과 일치합니다.
   #### 정의된 위치
 </div>
 
-[genai/llm.ts:153](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/llm.ts#L153)
+[src/genai/llm.ts:155](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/llm.ts#L155)
 
 ***
 
@@ -429,4 +530,4 @@ on-the-wire 형식과 일치합니다.
   #### 정의된 위치
 </div>
 
-[genai/llm.ts:102](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/llm.ts#L102)
+[src/genai/llm.ts:103](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/llm.ts#L103)
