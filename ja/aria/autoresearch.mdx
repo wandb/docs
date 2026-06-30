@@ -1,0 +1,98 @@
+---
+title: "ARIA を使用して autoresearch を行う"
+description: "ARIA（W&B の AI Research and Iteration Agent）を使用して、結果を分析し、Experiments を実行する方法を学びます。"
+---
+
+ARIA (W&amp;B の AI Research and Iteration Agent) をリサーチアシスタントとして使用すると、Experiments の分析、結果の説明、Runs 全体にわたるパターンの特定、次のステップの提案、可視化の作成などを行えます。
+
+ARIA は、これまでの Runs に基づいて新しい Experiments を提案し、実行できます。
+
+ARIA は W&amp;B Launch を使用して、サンドボックス環境で Experiments を実行します。ARIA が project 内で Experiments を実行できるようにするには、まず [ARIA を使用して W&amp;B Launch を設定する](/ja/aria/autoresearch#set-up-wb-launch-with-aria) を参照してください。
+
+<div id="set-up-wb-launch-with-aria">
+  ## ARIA を使って W&amp;B Launch を設定する
+</div>
+
+ARIA を使うと、チャットから W&amp;B Launch を設定できます。たとえば、ARIA に次のように依頼できます。
+
+```text title="User prompt"
+W&B Launch の設定を手伝ってもらえますか？
+```
+
+ARIA は、あなたのprojectで利用可能な [W&amp;B Launch の構成要素](/ja/aria/autoresearch#launch-components) を確認し、残りの設定手順を案内します。
+
+次の例は、プロンプト「&quot;W&amp;B Launch の設定を手伝ってもらえますか？&quot;」に対する ARIA の応答の一部です。
+
+<Accordion title="ARIA の応答">
+  ```text
+  ## 1. ジョブを実際にどこで実行するかを決める
+
+  次のいずれかを選択します:
+
+  ### オプション A — Kubernetes / クラスター設定
+  共有の GPU/CPU インフラストラクチャーと
+  常駐する Launch agent が必要な場合に使用します。
+
+  本格的なチーム利用に推奨されます。
+
+  ### オプション B — ローカル Docker 設定
+  自分のマシン上でジョブを実行したい場合に使用します。
+  たとえば、Docker と必要に応じて GPU を備えたローカルワークステーションです。
+
+  Launch を手早くテストするのに適しています。
+
+  クラスターにアクセスできる場合は、通常 **Kubernetes** から始めることをおすすめします。
+  そうでない場合は、**Local Docker** から始めてください。
+
+  ## 2. W&B UI で Launch queue を作成する
+
+  entity の Launch ページに移動します: https://wandb.ai/wandb/launch
+
+  次に:
+
+  1. **Create Queue** をクリックします。
+  2. entity として `wandb` を選択します。
+  3. キューに名前を付けます。
+  4. キューのリソースタイプを選択します:
+     - クラスターで実行する場合は **Kubernetes**。
+     - ローカルで実行する場合は **Docker**。
+  5. キューのリソース設定を追加します。
+  6. **Create Queue** をクリックします。
+
+  ## 3. Kubernetes の手順: Helm を使用して Launch agent をインストールする
+
+  Kubernetes を使用する場合、次が必要です:
+
+  - Kubernetes クラスター。
+  - クラスターへの `kubectl` アクセス。
+  - ローカルにインストールされた `helm`。
+  - W&B **サービスアカウント APIキー**。
+  - 対象 namespace 内で Kubernetes リソースを作成、更新、削除する権限。
+
+  これが本番向けの
+  設定である場合、agent には個人用 APIキーを **使用しないでください**。  
+  W&B サービスアカウントキーを使用してください。
+  ```
+</Accordion>
+
+<div id="launch-components">
+  ### Launch の構成要素
+</div>
+
+W&amp;B Launch には、3 つの主要なコンポーネントがあります。
+
+* **Launch job**: ML ワークフロー内のタスクを設定して実行するための、再利用可能な設計図です。
+* **Launch queue**: Kubernetes クラスターなどのコンピュートターゲットにジョブを送信する、先入れ先出しのキューです。
+* **Launch agent**: キューをポーリングし、そのキュー用に設定されたコンピュートターゲットでジョブを実行するプロセスです。
+
+ARIA は、キューとアクティブな Launch agent が利用可能になった後の W&amp;B 側の Launch ワークフローを管理できます。通常、ARIA はローカルマシン、Kubernetes クラスター、SageMaker 環境、または Vertex AI 環境で永続的な Launch agent を起動できません。ユーザーまたは管理者が、コンピュート環境、認証情報、および実行中のエージェントを用意する必要があります。
+
+次の表は、ARIA が W&amp;B Launch で実験を実行できるようにするための手順と、通常それを担当する人をまとめたものです。
+
+| 手順                           | 通常の実施者                   | 詳細                                                                                                                                                   |
+| ---------------------------- | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Launch queue を作成する           | ARIA またはチーム管理者           | 必要な権限とターゲットバックエンドが明確であれば、ARIA はキューの作成を支援できます。チーム管理者権限が必要になる場合があります                                                                                   |
+| コンピュートバックエンドを選択またはプロビジョニングする | チームメンバーまたはインフラストラクチャー管理者 | ARIA には、Docker ホスト、Kubernetes クラスター、SageMaker 環境、または Vertex AI 環境へのアクセスが必要です。W&amp;B Launch を通じてすでにアクセス可能でない限り、ARIA がインフラストラクチャーをプロビジョニングすることはできません。 |
+| Launch agent を起動する           | チームメンバーまたはインフラストラクチャー管理者 | Launch agent は、W&amp;B の認証情報を使用して、マシンまたはクラスター上で継続的に実行されている必要があります。                                                                                   |
+| サービスアカウントまたは APIキーを設定する      | チーム管理者                   | サービスアカウントキーを作成し、安全に保管します。詳細は, [Manage secrets](https://docs.wandb.ai/platform/secrets#manage-secrets) を参照してください。                                     |
+| 実験をキューに送信する                  | ARIA                     | キューにアクティブなエージェントがあれば、ARIA はジョブを送信し、設定のオーバーライドを適用して Runs を再起動し、結果をモニターし、失敗をデバッグし、メトリクスを比較できます。                                                        |

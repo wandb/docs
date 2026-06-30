@@ -7,29 +7,30 @@ description: "TypeScript SDK 레퍼런스"
   # startSession
 </div>
 
-▸ **startSession**(`opts?`): [`Session`](../classes/session)
+<Warning>
+  **사용 중단.** [startConversation](../functions/startconversation)을 대신 사용하세요.
+</Warning>
 
-새 Session을 시작하고 이를 현재 Session으로 설정합니다.
-이후 `startTurn`을 호출하면 이 Session이 자동으로 사용됩니다.
+▸ **startSession**(`opts?`): [`Conversation`](../classes/conversation)
 
 <div id="parameters">
   #### 매개변수
 </div>
 
-| 이름     | 유형                                         |
-| :----- | :----------------------------------------- |
-| `opts` | [`SessionInit`](../interfaces/sessioninit) |
+| 이름     | 유형                                                   |
+| :----- | :--------------------------------------------------- |
+| `opts` | [`ConversationInit`](../interfaces/conversationinit) |
 
 <div id="returns">
   #### 반환값
 </div>
 
-[`Session`](../classes/session)
+[`Conversation`](../classes/conversation)
 
 <div id="defined-in">
   #### 정의 위치
 </div>
 
-[genai/api.ts:12](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/api.ts#L12)
+[src/genai/api.ts:33](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/api.ts#L33)
 
 ***

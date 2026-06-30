@@ -27,12 +27,12 @@ Turn (invoke_agent — root span)
 └── LLM call (chat)              ← parent agent synthesizes the final answer
 ```
 
-Sub-agents inherit the active session's `conversation_id`, so they're grouped with the rest of the conversation in the **Agents** view.
+Sub-agents inherit the active conversation's `conversation_id`, so they're grouped with the rest of the conversation in the **Agents** view.
 
 ```python lines
 sub = weave.start_subagent(
     name="research-specialist",   # Required: identifies this sub-agent in the UI.
-    model="gpt-4o",               # Optional: defaults to the parent session's model if empty.
+    model="gpt-4o",               # Optional: defaults to the parent conversation's model if empty.
 )
 ```
 
@@ -42,18 +42,18 @@ sub = weave.start_subagent(
 
 The following example runs a supervisor agent that receives a request and delegates it to a research-specialist sub-agent that uses a Wikipedia search tool to find the answer.
 
-Weave captures the full hierarchy by wrapping the conversation in `weave.start_session` and then a `session.start_turn`. Weave then captures the sub-agent trace using the `weave.start_subagent` block for the specialist, and records each LLM call and tool execution as child spans.
+Weave captures the full hierarchy by wrapping the conversation in `weave.start_conversation` and then a `conversation.start_turn`. Weave then captures the sub-agent trace using the `weave.start_subagent` block for the specialist, and records each LLM call and tool execution as child spans.
 
 The routing logic is intentionally omitted from these examples to focus on the tracing between agents.
 
 ```python lines highlight="4,10,16,22,30"
 import weave
-from weave.session.session import Message, Usage
+from weave.conversation import Message, Usage
 
 weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
 
-with weave.start_session(agent_name="supervisor") as session:
-    with session.start_turn(user_message="Research the founders of Anthropic.") as turn:
+with weave.start_conversation(agent_name="supervisor") as conversation:
+    with conversation.start_turn(user_message="Research the founders of Anthropic.") as turn:
 
         # Supervisor LLM call: decide which specialist to delegate to.
         with weave.start_llm(model="gpt-4o", provider_name="openai") as llm:
@@ -90,8 +90,8 @@ The following example runs a content-pipeline agent that handles a single reques
 Weave captures all three sub-agents as siblings under the same turn by opening a separate `weave.start_subagent` block for each. Because each sub-agent inherits the active turn's OTel context, the sub-agents appear as peer `invoke_agent` spans nested under the turn rather than under each other.
 
 ```python lines highlight="1,5,11,15,22"
-with weave.start_session(agent_name="content-pipeline") as session:
-    with session.start_turn(user_message="Write a short blog post about Anthropic.") as turn:
+with weave.start_conversation(agent_name="content-pipeline") as conversation:
+    with conversation.start_turn(user_message="Write a short blog post about Anthropic.") as turn:
 
         # Researcher sub-agent: gather facts.
         with weave.start_subagent(name="researcher", model="gpt-4o") as researcher:
@@ -125,8 +125,8 @@ In the **Agents** view, the turn contains three sibling sub-agent invocations, e
 A sub-agent can itself delegate to another sub-agent. Each `start_subagent` call nests under whatever span is currently active in OTel context.
 
 ```python lines highlight="1,2,4,5,11,16"
-with weave.start_session(agent_name="orchestrator") as session:
-    with session.start_turn(user_message="Compare Anthropic and OpenAI.") as turn:
+with weave.start_conversation(agent_name="orchestrator") as conversation:
+    with conversation.start_turn(user_message="Compare Anthropic and OpenAI.") as turn:
 
         with weave.start_subagent(name="research-coordinator") as coordinator:
             with weave.start_subagent(name="anthropic-researcher") as r1:

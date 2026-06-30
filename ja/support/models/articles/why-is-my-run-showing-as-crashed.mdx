@@ -1,0 +1,57 @@
+---
+title: "run が crashed と表示されるのはなぜですか？"
+keywords: ["Runs", "run のクラッシュ"]
+---
+
+W&amp;B では、`wandb.init()` を呼び出したプロセスからのハートビートを受信しなくなり、かつそのプロセスが `wandb.finish()` を呼び出していない場合、その run を **Crashed** としてマークします。これは、トレーニングプロセスが強制終了された場合、予期せず終了した場合、または正常終了を報告する前に接続が失われた場合に発生します。
+
+**一般的な原因**
+
+* **メモリ不足 (OOM) エラー**: 使用可能なメモリを超えると、OS または GPU ドライバーによってプロセスが強制終了されます。`output.log` で `CUDA out of memory` または `Killed` というメッセージを確認してください。
+* **未処理の例外**: Python の未処理例外により、`wandb.finish()` を呼び出さないままプロセスが終了します。例外は `output.log` に記録されます。
+* **ジョブスケジューラによるプリエンプション**: SLURM などのクラスター スケジューラでは、ジョブが予告なくプリエンプトされて強制終了されることがあります。その場合、run は正常終了する機会を得られません。
+* **ネットワーク切断**: まれに、ネットワークの長時間の停止により、W&amp;B バックエンドがハートビート待機中にタイムアウトし、プロセスがまだ実行中でも run が crashed とマークされることがあります。
+* **プロセスの手動終了**: `kill -9` または `SIGKILL` を使用すると、Python のシグナルハンドラがバイパスされ、`wandb.finish()` が呼び出されません。
+
+**デバッグ方法**
+
+1. プロジェクトのサイドバーで **Runs** をクリックします。
+2. run の名前をクリックし、**Files** タブをクリックします。
+3. stdout/stderr を確認するために `output.log` をダウンロードします。通常、このファイルにはクラッシュの原因となったエラーが含まれています。
+4. W&amp;B レベルの診断情報 (接続の問題、アップロード エラー) を確認するために、`debug.log` と `debug-internal.log` をダウンロードします。
+5. run がクラスター上で実行されていた場合は、プリエンプションや OOM シグナルがないか、スケジューラのジョブ ログも確認してください。
+
+**クラッシュした run のデータ**
+
+クラッシュ前にログされたメトリクスは保持され、UI で確認できます。run のチャート、システムメトリクス、およびクラッシュ前に完全にアップロードされたアーティファクトには引き続きアクセスできます。一部のみアップロードされたアーティファクトは不完全な可能性があります。
+
+ローカルでログされた step が UI に表示されない場合 (たとえば、run が crashed とマークされた後もプロセスが動作し続けていた場合) は、ローカルの run ディレクトリから `wandb sync` を使ってバッファされたデータを同期してください。`[TIMESTAMP]` と `[ID]` は、対象の run の値に置き換えてください。
+
+```bash
+wandb sync wandb/run-[TIMESTAMP]-[ID]
+```
+
+詳細は、[UI では自分の run の状態が crashed になっているのに、手元のマシンではまだ実行中です](/ja/support/models/articles/my-runs-state-is-crashed-on-the-ui-but-i)を参照してください。
+
+**クラッシュによるデータ損失を防ぐ**
+
+`wandb.init()` をコンテキストマネージャーとして使用すると、スクリプトで例外が発生した場合でも run を正常に終了できます。run は **Crashed** ではなく **Failed** としてマークされ、バッファリングされたデータがフラッシュされます。
+
+```python
+import wandb
+
+with wandb.init(project="[YOUR-PROJECT]") as run:
+    for step in range(1000):
+        loss = ...  # トレーニングのステップ
+        run.log({"loss": loss})
+```
+
+run state の定義については、[Run states](/ja/models/runs/run-states) を参照してください。クラッシュ後のコンソールログについては、[run のコンソール出力が取得されないのはなぜですか？](/ja/support/models/articles/why-is-console-output-not-captured-for-my-run) を参照してください。
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Runs](/ja/support/models/tags/runs)</Badge><Badge stroke shape="pill" color="orange" size="md">[run のクラッシュ](/ja/support/models/tags/run-crashes)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

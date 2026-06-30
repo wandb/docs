@@ -298,7 +298,7 @@ class ConvNet(nn.Module):
 `run.watch()` は、トレーニング中 `log_freq` step ごとに、
 モデルの勾配とパラメーターをログします。
 
-必要なのは、トレーニングを始める前にこれを呼び出すだけです。
+トレーニングを始める前に `run.watch()` を呼び出してください。ログモード、複数のモデル、パフォーマンスのヒントについては、[wandb.watch で勾配とモデルの重みをログするにはどうすればよいですか？](/ja/support/models/articles/how-do-i-log-gradients-and-model-weights-with-wandb-watch) を参照してください。
 
 それ以外のトレーニングコードはそのままです。
 エポックとバッチを繰り返し処理し、
@@ -329,11 +329,11 @@ def train(model, loader, criterion, optimizer, config):
 
 def train_batch(images, labels, model, optimizer, criterion):
     images, labels = images.to(device), labels.to(device)
-
+    
     # フォワードパス ➡
     outputs = model(images)
     loss = criterion(outputs, labels)
-
+    
     # バックワードパス ⬅
     optimizer.zero_grad()
     loss.backward()

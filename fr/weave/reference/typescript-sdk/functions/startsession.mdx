@@ -7,29 +7,30 @@ description: "Référence du SDK TypeScript"
   # startSession
 </div>
 
-▸ **startSession**(`opts?`): [`Session`](../classes/session)
+<Warning>
+  **Obsolète.** Utilisez plutôt [startConversation](../functions/startconversation).
+</Warning>
 
-Démarre une nouvelle Session et la définit comme session active.
-Les appels ultérieurs à `startTurn` l’utiliseront automatiquement.
+▸ **startSession**(`opts?`): [`Conversation`](../classes/conversation)
 
 <div id="parameters">
   #### Paramètres
 </div>
 
-| Nom    | Type                                       |
-| :----- | :----------------------------------------- |
-| `opts` | [`SessionInit`](../interfaces/sessioninit) |
+| Nom    | Type                                                 |
+| :----- | :--------------------------------------------------- |
+| `opts` | [`ConversationInit`](../interfaces/conversationinit) |
 
 <div id="returns">
   #### Renvoie
 </div>
 
-[`Session`](../classes/session)
+[`Conversation`](../classes/conversation)
 
 <div id="defined-in">
   #### Défini dans
 </div>
 
-[genai/api.ts:12](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/api.ts#L12)
+[src/genai/api.ts:33](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/api.ts#L33)
 
 ***

@@ -15,7 +15,8 @@ JSON エンコードされた引数、ツール呼び出し ID、および結果
 
 `例`
 
-```ts
+```ts twoslash
+// @noErrors
 const tool = weave.startTool({
   name: tc.function.name,
   args: tc.function.arguments,
@@ -27,6 +28,14 @@ try {
   tool.end();
 }
 ```
+
+<div id="hierarchy">
+  ## 階層
+</div>
+
+* `SpanBase`
+
+  ↳ `Tool`
 
 <div id="table-of-contents">
   ## 目次
@@ -45,7 +54,9 @@ try {
   ### メソッド
 </div>
 
+* [addEvent](./tool#addevent)
 * [end](./tool#end)
+* [setAttributes](./tool#setattributes)
 * [create](./tool#create)
 
 ## プロパティ
@@ -60,7 +71,7 @@ try {
   #### 定義元
 </div>
 
-[genai/tool.ts:52](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/tool.ts#L52)
+[src/genai/tool.ts:52](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L52)
 
 ***
 
@@ -74,7 +85,7 @@ try {
   #### 定義元
 </div>
 
-[genai/tool.ts:51](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/tool.ts#L51)
+[src/genai/tool.ts:51](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L51)
 
 ***
 
@@ -90,7 +101,7 @@ try {
   #### 定義元
 </div>
 
-[genai/tool.ts:45](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/tool.ts#L45)
+[src/genai/tool.ts:47](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L47)
 
 ***
 
@@ -104,9 +115,54 @@ try {
   #### 定義元
 </div>
 
-[genai/tool.ts:53](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/tool.ts#L53)
+[src/genai/tool.ts:53](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L53)
 
 ## メソッド
+
+<div id="addevent">
+  ### addEvent
+</div>
+
+▸ **addEvent**(`name`, `attributes?`, `startTime?`): `this`
+
+span に名前付きのイベントを追加します。コンテキストの圧縮、tool ループの検出、guardrail のトリガーなど、span では表されない時点を記録するのに便利です。`end()` の後に呼び出すと、警告を出して何も行いません。OTel の `Span.addEvent` に対応しています。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名             | タイプ          |
+| :------------ | :----------- |
+| `name`        | `string`     |
+| `attributes?` | `Attributes` |
+| `startTime?`  | `TimeInput`  |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`this`
+
+`例`
+
+```ts twoslash
+// @noErrors
+span.addEvent('context_compacted', {removedMessages: 12});
+```
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+SpanBase.addEvent
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/spanBase.ts:77](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/spanBase.ts#L77)
+
+***
 
 <div id="end">
   ### end
@@ -115,16 +171,15 @@ try {
 ▸ **end**(`opts?`): `void`
 
 `result` を span にフラッシュしてから閉じます。冪等です。`error` を渡すと、
-span は失敗としてマークされます。
+span は失敗としてマークされます。`endTime` を渡すと、終了時刻を過去の時刻として設定します。
 
 <div id="parameters">
   #### パラメーター
 </div>
 
-| 名             | タイプ      |
-| :------------ | :------- |
-| `opts?`       | `Object` |
-| `opts.error?` | `Error`  |
+| 名       | タイプ              |
+| :------ | :--------------- |
+| `opts?` | `SpanEndOptions` |
 
 <div id="returns">
   #### 戻り値
@@ -136,7 +191,52 @@ span は失敗としてマークされます。
   #### 定義元
 </div>
 
-[genai/tool.ts:83](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/tool.ts#L83)
+[src/genai/tool.ts:87](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L87)
+
+***
+
+<div id="setattributes">
+  ### setAttributes
+</div>
+
+▸ **setAttributes**(`attributes`): `this`
+
+span に複数の属性をまとめて設定します。`end()` の後に呼び出すと
+警告が表示され、何も実行されません。OTel の `Span.setAttributes` (および Python SDK の
+`set_attributes`) に対応しています。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名            | タイプ          |
+| :----------- | :----------- |
+| `attributes` | `Attributes` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`this`
+
+`例`
+
+```ts twoslash
+// @noErrors
+span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
+```
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+SpanBase.setAttributes
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/spanBase.ts#L63)
 
 ***
 
@@ -164,4 +264,4 @@ span は失敗としてマークされます。
   #### 定義元
 </div>
 
-[genai/tool.ts:56](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/tool.ts#L56)
+[src/genai/tool.ts:58](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L58)

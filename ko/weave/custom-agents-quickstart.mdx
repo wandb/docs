@@ -1,0 +1,367 @@
+---
+title: "퀵스타트: 맞춤형 에이전트 관측성 설정"
+description: Weave SDK를 사용해 멀티턴 에이전트를 트레이스하세요. 프로젝트의 Agents 뷰에서 대화, 턴, LLM Call, 도구 Call을 확인할 수 있습니다.
+keywords: ["OpenTelemetry", "OTel spans", "멀티턴 에이전트", "도구 Call", "트레이싱"]
+---
+
+import AgentsPreview from '/snippets/ko/_includes/agents-public-preview.mdx';
+
+<AgentsPreview />
+
+[Colab에서 사용해 보기](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/agents-quickstart.ipynb) · [GitHub 소스](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/agents-quickstart.ipynb)
+
+Weave SDK를 사용하면 널리 사용되는 SDK나 맞춤형 하니스로 구축한 에이전트를 트레이스할 수 있습니다. 이 퀵스타트에서는 OpenTelemetry span을 생성하고 캡처할 수 있도록 맞춤형으로 구축한 멀티턴 에이전트에 Weave를 수동으로 통합하는 방법을 보여드립니다. 에이전트용 Weave를 개념적으로 이해하려면 [에이전트 트레이싱](/ko/weave/guides/tracking/trace-agents)을 참조하세요.
+
+Claude Agent SDK 또는 Codex와 같은 SDK나 하니스와 Weave를 통합하려는 경우 [에이전트 인테그레이션 트레이싱](/ko/weave/guides/tracking/trace-agent-integrations)을 참조하세요. Weave는 빠르게 통합할 수 있도록 여러 에이전트 구축 SDK와 에이전트 하니스에 자동 패치됩니다.
+
+<div id="what-youll-learn">
+  ## 배울 내용
+</div>
+
+이 퀵스타트를 마치면 Weave와 호환되는 OTel span을 생성하는 멀티턴 에이전트를 구현할 수 있습니다. 또한 Weave가 대화, 턴, LLM Call, 도구 Call을 에이전트 코드에 어떻게 대응시키는지도 이해하게 되므로, 동일한 패턴을 여러분의 맞춤형 에이전트에 적용할 수 있습니다.
+
+이 가이드의 코드는 Wikipedia에서 정보를 찾아볼 수 있는 간단한 리서치 에이전트를 설정합니다. 이 에이전트는 세 가지 질문(세 개의 턴)을 하고, 답을 찾기 위해 언제 Wikipedia를 검색할지 LLM이 결정합니다. Weave는 모든 단계(대화, 각 질문, 각 AI 응답, 각 Wikipedia 조회)를 기록하므로 Weave Agents 뷰에서 어떤 일이 일어났는지 확인할 수 있습니다.
+
+이 가이드에서는 다음 방법을 보여줍니다:
+
+* `weave.init()`를 사용해 에이전트 트레이싱용 Weave를 초기화합니다.
+* `start_conversation` / `startConversation` 및 `start_turn` / `startTurn`으로 대화와 턴을 시작합니다.
+* `start_llm` / `startLLM`으로 LLM Call을 래핑하고 사용량을 기록합니다.
+* `start_tool` / `startTool`로 도구 실행을 래핑하고 결과를 기록합니다.
+* 결과로 생성된 대화, 턴, 도구 Call을 Agents 뷰에서 확인합니다.
+
+<div id="how-the-weave-sdk-works-with-agents">
+  ## Weave SDK가 에이전트와 작동하는 방식
+</div>
+
+Weave SDK에는 에이전트를 위한 범용 OTel 수집 시스템이 포함되어 있으므로, Weave는 에이전트 코드의 모든 OTel span에서 정보를 캡처할 수 있습니다. 하지만 Weave UI의 Agents 뷰에서 에이전트 트레이스를 표시하려면, 다음 span은 Weave에서 특별히 처리해야 합니다.
+
+| 개념                     | Python                          | TypeScript                     | OTel span         |
+| ---------------------- | ------------------------------- | ------------------------------ | ----------------- |
+| 하나의 대화                 | `weave.start_conversation(...)` | `weave.startConversation(...)` | (span 없음, 턴을 그룹화) |
+| 사용자 또는 에이전트의 한 번의 상호작용 | `weave.start_turn(...)`         | `weave.startTurn(...)`         | `invoke_agent`    |
+| 하나의 LLM API 호출         | `weave.start_llm(...)`          | `weave.startLLM(...)`          | `chat`            |
+| 하나의 도구 실행              | `weave.start_tool(...)`         | `weave.startTool(...)`         | `execute_tool`    |
+
+Python에서는 네 함수 모두 컨텍스트 관리자(`with weave.start_*(...) as obj:`)로 작동합니다. 종료 시에는 예외가 발생한 경우를 포함해 span을 종료하고 속성을 플러시합니다. TypeScript에서는 반환된 각 객체에 대해 `.end()`를 호출하세요. 예외가 발생하더라도 정리가 보장되도록 `try { ... } finally { obj.end(); }`를 사용하세요.
+
+`gen_ai.usage.*` 및 `gen_ai.agent.name`과 같은 다른 [GenAI semantic-convention attributes](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans/)도 추가 정보 표시를 가능하게 하지만, 선택 사항입니다.
+
+<div id="prerequisites">
+  ## 사전 요구 사항
+</div>
+
+* W&amp;B 계정 및 [API 키](https://wandb.ai/authorize).
+* OpenAI API 키.
+* Python 3.10+ (Python 예시용).
+* Node.js 18+ (TypeScript 예시에는 내장 `fetch`가 필요합니다).
+
+<div id="install-packages">
+  ## 패키지 설치
+</div>
+
+다음 패키지를 개발 환경에 설치하세요:
+
+<CodeGroup>
+  ```bash Python
+  pip install weave openai requests
+  ```
+
+  ```bash TypeScript
+  npm install weave openai
+  ```
+</CodeGroup>
+
+<div id="initialize-weave">
+  ## Weave 초기화
+</div>
+
+`weave.init()`는 W&amp;B 인증을 수행하고 에이전트 span을 **Agents** 뷰로 전송하는 OTel 익스포터를 설정합니다. 팀에 해당 프로젝트가 없으면 Weave가 처음 데이터를 기록할 때 자동으로 생성합니다.
+
+<CodeGroup>
+  ```python lines Python
+  import getpass
+  import os
+
+  os.environ["WANDB_API_KEY"] = getpass.getpass("Enter your W&B API key: ")
+  os.environ["OPENAI_API_KEY"] = getpass.getpass("Enter your OpenAI API key: ")
+
+  TEAM = input("Enter your W&B team name: ")
+  PROJECT = input("Enter your W&B project name: ")
+
+  import weave
+  weave.init(f"{TEAM}/{PROJECT}")
+  ```
+
+  ```typescript lines highlight="4" TypeScript twoslash
+  // @noErrors
+  // 이 프로젝트를 실행하기 전에 환경에 WANDB_API_KEY와 OPENAI_API_KEY를 설정하세요
+  import * as weave from 'weave';
+
+  await weave.init(`[YOUR-TEAM]/[YOUR-PROJECT]`);
+  ```
+</CodeGroup>
+
+<div id="define-a-tool">
+  ## 도구 정의하기
+</div>
+
+다음 코드는 에이전트의 Wikipedia 검색 도구와, 도구를 언제 어떻게 사용할지 지정하는 OpenAI 도구 스키마를 정의합니다.
+
+<CodeGroup>
+  ```python lines Python
+  import json
+  import requests
+
+  def wikipedia_search(query: str) -> str:
+      r = requests.get(
+          "https://en.wikipedia.org/w/api.php",
+          params={
+              "action": "query", "generator": "search", "gsrsearch": query, "gsrlimit": 1,
+              "prop": "extracts", "exintro": True, "explaintext": True, "format": "json",
+          },
+          headers={"User-Agent": "weave-demo"},
+      ).json()
+      return next(iter(r["query"]["pages"].values()))["extract"]
+
+  wikipedia_tool_schema = {
+      "type": "function",
+      "function": {
+          "name": "wikipedia_search",
+          "description": "Search Wikipedia for a topic and return its intro paragraph.",
+          "parameters": {
+              "type": "object",
+              "properties": {"query": {"type": "string"}},
+              "required": ["query"],
+          },
+      },
+  }
+  ```
+
+  ```typescript lines TypeScript twoslash
+  // @noErrors
+  async function wikipediaSearch(query: string): Promise<string> {
+    const url = new URL('https://en.wikipedia.org/w/api.php');
+    url.search = new URLSearchParams({
+      action: 'query',
+      generator: 'search',
+      gsrsearch: query,
+      gsrlimit: '1',
+      prop: 'extracts',
+      exintro: 'true',
+      explaintext: 'true',
+      format: 'json',
+    }).toString();
+    const res = await fetch(url, { headers: { 'User-Agent': 'weave-demo' } });
+    const data = (await res.json()) as {
+      query: { pages: Record<string, { extract: string }> };
+    };
+    return Object.values(data.query.pages)[0].extract;
+  }
+
+  const wikipediaToolSchema = {
+    type: 'function' as const,
+    function: {
+      name: 'wikipedia_search',
+      description: 'Search Wikipedia for a topic and return its intro paragraph.',
+      parameters: {
+        type: 'object',
+        properties: { query: { type: 'string' } },
+        required: ['query'],
+      },
+    },
+  };
+  ```
+</CodeGroup>
+
+<div id="run-a-traced-multi-turn-agent">
+  ## 트레이스된 멀티턴 에이전트 실행
+</div>
+
+도구와 Weave 초기화가 준비되면, 다음 단계는 이를 완전한 에이전트 루프로 결합하는 것입니다. 이 루프는 대화, 턴, LLM Call, 도구 Call이 서로 어떻게 중첩되는지 보여줍니다.
+
+다음 예시에서는 단일 대화에서 세 번의 턴을 실행합니다. 각 턴은 다음과 같습니다.
+
+1. `chat` span을 열고 LLM이 도구를 Call할지 선택하게 합니다.
+2. LLM이 도구를 요청하면 해당 Call을 `execute_tool` span으로 감싸고, 그 결과를 다시 LLM에 전달합니다.
+3. 두 번째 `chat` span을 열어 최종 답변을 생성합니다.
+
+<CodeGroup>
+  ```python lines highlight="9,11,17,29,42,46,53" Python
+  from openai import OpenAI
+
+  openai_client = OpenAI()
+  MODEL = "gpt-4o-mini"
+
+  def run_turn(history, user_message):
+      history.append({"role": "user", "content": user_message})
+
+      with weave.start_turn(user_message=user_message, model=MODEL):
+          # LLM Call 1: 모델이 도구를 사용하기로 결정할 수 있습니다.
+          with weave.start_llm(model=MODEL, provider_name="openai") as llm:
+              resp = openai_client.chat.completions.create(
+                  model=MODEL, messages=history, tools=[wikipedia_tool_schema],
+              )
+              msg = resp.choices[0].message
+              llm.output(msg.content or "")
+              llm.usage = weave.Usage(
+                  input_tokens=resp.usage.prompt_tokens,
+                  output_tokens=resp.usage.completion_tokens,
+              )
+              history.append(msg.model_dump(exclude_none=True))
+
+          # 도구가 요청되지 않은 경우, 첫 번째 LLM 응답이 최종 답변입니다.
+          if not msg.tool_calls:
+              return msg.content
+
+          # 요청된 각 도구 Call을 실행합니다.
+          for tc in msg.tool_calls:
+              with weave.start_tool(
+                  name=tc.function.name,
+                  arguments=tc.function.arguments,
+                  tool_call_id=tc.id,
+              ) as tool:
+                  tool.result = wikipedia_search(**json.loads(tc.function.arguments))
+                  history.append({
+                      "role": "tool",
+                      "tool_call_id": tc.id,
+                      "content": tool.result,
+                  })
+
+          # LLM Call 2: 최종 답변을 종합합니다.
+          with weave.start_llm(model=MODEL, provider_name="openai") as llm:
+              resp = openai_client.chat.completions.create(model=MODEL, messages=history)
+              msg = resp.choices[0].message
+              llm.output(msg.content)
+              llm.usage = weave.Usage(
+                  input_tokens=resp.usage.prompt_tokens,
+                  output_tokens=resp.usage.completion_tokens,
+              )
+              history.append({"role": "assistant", "content": msg.content})
+              return msg.content
+
+  with weave.start_conversation(agent_name="research-bot") as conversation:
+      history = []
+      for question in [
+          "Who founded Anthropic?",
+          "What is Claude (the AI assistant)?",
+          "Summarize what we discussed in one sentence.",
+      ]:
+          print(f"USER: {question}")
+          print(f"AGENT: {run_turn(history, question)}\n")
+  ```
+
+  ```typescript lines highlight="10,13,40,55,77" TypeScript twoslash
+  // @noErrors
+  import OpenAI from 'openai';
+
+  const openaiClient = new OpenAI();
+  const MODEL = 'gpt-4o-mini';
+
+  // history는 OpenAI 채팅 메시지의 목록입니다. 간결성을 위해 유형을 느슨하게 지정했습니다.
+  async function runTurn(history: any[], userMessage: string): Promise<string | null> {
+    history.push({ role: 'user', content: userMessage });
+
+    const turn = weave.startTurn({ model: MODEL });
+    try {
+      // LLM Call 1: 모델이 도구 사용을 결정할 수 있습니다.
+      const llm1 = weave.startLLM({ model: MODEL, providerName: 'openai' });
+      let msg;
+      try {
+        const resp = await openaiClient.chat.completions.create({
+          model: MODEL,
+          messages: history,
+          tools: [wikipediaToolSchema],
+        });
+        msg = resp.choices[0].message;
+        llm1.output(msg.content ?? '');
+        llm1.usage = {
+          inputTokens: resp.usage?.prompt_tokens,
+          outputTokens: resp.usage?.completion_tokens,
+        };
+        history.push(msg);
+      } finally {
+        llm1.end();
+      }
+
+      // 도구가 요청되지 않은 경우, 첫 번째 LLM 응답이 최종 답변입니다.
+      if (!msg.tool_calls?.length) {
+        return msg.content ?? null;
+      }
+
+      // 요청된 각 도구 Call을 실행합니다.
+      for (const tc of msg.tool_calls) {
+        if (tc.type !== 'function') continue;
+        const tool = weave.startTool({
+          name: tc.function.name,
+          args: tc.function.arguments,
+          toolCallId: tc.id,
+        });
+        try {
+          const { query } = JSON.parse(tc.function.arguments);
+          tool.result = await wikipediaSearch(query);
+          history.push({ role: 'tool', tool_call_id: tc.id, content: tool.result });
+        } finally {
+          tool.end();
+        }
+      }
+
+      // LLM Call 2: 최종 답변을 종합합니다.
+      const llm2 = weave.startLLM({ model: MODEL, providerName: 'openai' });
+      try {
+        const resp = await openaiClient.chat.completions.create({
+          model: MODEL,
+          messages: history,
+        });
+        const msg2 = resp.choices[0].message;
+        llm2.output(msg2.content ?? '');
+        llm2.usage = {
+          inputTokens: resp.usage?.prompt_tokens,
+          outputTokens: resp.usage?.completion_tokens,
+        };
+        history.push({ role: 'assistant', content: msg2.content });
+        return msg2.content ?? null;
+      } finally {
+        llm2.end();
+      }
+    } finally {
+      turn.end();
+    }
+  }
+
+  const conversation = weave.startConversation({ agentName: 'research-bot' });
+  try {
+    const history: any[] = [];
+    for (const question of [
+      'Who founded Anthropic?',
+      'What is Claude (the AI assistant)?',
+      'Summarize what we discussed in one sentence.',
+    ]) {
+      console.log(`USER: ${question}`);
+      console.log(`AGENT: ${await runTurn(history, question)}\n`);
+    }
+  } finally {
+    conversation.end();
+  }
+  ```
+</CodeGroup>
+
+<div id="see-your-agent-traces-in-the-agents-view">
+  ## Agents 뷰에서 에이전트 트레이스 확인하기
+</div>
+
+`weave.init()`가 실행되면 다음을 확인할 수 있는 프로젝트 링크가 출력됩니다.
+
+* **Agents** 탭에 `research-bot`에 대한 행 하나
+* 세 개의 턴이 포함된 대화 하나
+* 각 턴(`invoke_agent`) 안에 중첩된 `chat` span 두 개와 `execute_tool` span 하나
+* 각 `chat`의 토큰 수, 지연 시간, 모델, 그리고 전체 메시지 교환 내용
+
+아무 턴이나 클릭하여 입력, 출력, 도구 인수, 도구 결과를 확인하세요.
+
+<div id="next-steps">
+  ## 다음 단계
+</div>
+
+* [Weave로 에이전트 트레이싱](/ko/weave/guides/tracking/trace-agents)하는 방법과 Weave SDK에서 어떤 특성 및 옵션을 사용할 수 있는지 알아보세요.
+* 에이전트에 Weave를 통합하는 방법에 관한 추가 옵션은 [에이전트 인테그레이션 트레이싱](/ko/weave/guides/tracking/trace-agent-integrations)을 참조하세요.

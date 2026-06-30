@@ -1,8 +1,8 @@
 ---
 title: "Logs"
-tag: "7"
+tag: "10"
 generator: "knowledgebase-nav"
-template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
+template: "docengine-site/templates/support_tag.mdx.j2"
 ---
 
 <Card title="La journalisation bloque-t-elle mon entraînement ?" href="/fr/support/models/articles/does-logging-block-my-training" arrow="true" horizontal>
@@ -11,6 +11,10 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 
 <Card title="Comment puis-je écraser les logs des étapes précédentes ?" href="/fr/support/models/articles/how-can-i-overwrite-the-logs-from-previo" arrow="true" horizontal>
   Pour écraser les logs des étapes précédentes, utilisez le forking et le rembobinage. La possibilité de forker ou de rembobiner un run est en cours de développ ...
+</Card>
+
+<Card title="Comment puis-je télécharger le fichier journal de la console d’un run ?" href="/fr/support/models/articles/how-do-i-download-the-console-log-file-from-a-run" arrow="true" horizontal>
+  W&amp;B stocke le stdout et le stderr de votre script dans output.log (ou sous forme de fragments multipart dans logs/). L’endroit où le récupérer dépend ...
 </Card>
 
 <Card title="Comment puis-je enregistrer une liste de valeurs ?" href="/fr/support/models/articles/how-do-i-log-a-list-of-values" arrow="true" horizontal>
@@ -31,4 +35,12 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 
 <Card title="Quels fichiers dois-je vérifier lorsque mon code plante ?" href="/fr/support/models/articles/which-files-should-i-check-when-my-code-" arrow="true" horizontal>
   Pour le run concerné, vérifiez debug.log et debug-internal.log dans wandb/run- DATE &#95; TIME - RUN-ID /logs dans le répertoire o ...
+</Card>
+
+<Card title="Pourquoi mes métriques n’apparaissent-elles pas dans wandb.log() ?" href="/fr/support/models/articles/why-are-my-metrics-missing-from-wandb-log" arrow="true" horizontal>
+  Si des métriques enregistrées avec wandb.log() n’apparaissent pas dans l’interface W&amp;B, plusieurs causes courantes sont possibles. Le mode hors ligne sans ...
+</Card>
+
+<Card title="Pourquoi la sortie de la console n’est-elle pas capturée pour mon run ?" href="/fr/support/models/articles/why-is-console-output-not-captured-for-my-run" arrow="true" horizontal>
+  W&amp;B capture le stdout et le stderr de votre script et les stocke dans output.log, dans l’onglet Files du run. Par défaut, ce fichier u ...
 </Card>

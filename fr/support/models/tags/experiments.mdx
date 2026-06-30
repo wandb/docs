@@ -1,8 +1,8 @@
 ---
 title: "Experiments"
-tag: "39"
+tag: "51"
 generator: "knowledgebase-nav"
-template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
+template: "docengine-site/templates/support_tag.mdx.j2"
 ---
 
 <Card title="W&B utilise-t-il la bibliothèque `multiprocessing` ?" href="/fr/support/models/articles/does-wb-use-the-multiprocessing-library" arrow="true" horizontal>
@@ -65,12 +65,24 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
   Pour consigner plusieurs runs dans un même script, vous devez terminer chaque run précédent avant d’en démarrer un nouveau. La suite ...
 </Card>
 
+<Card title="Comment puis-je consigner des métriques NLP et des sorties textuelles dans W&B ?" href="/fr/support/models/articles/how-do-i-log-nlp-metrics-and-text-outputs-in-wandb" arrow="true" horizontal>
+  Vous pouvez consigner des scores NLP au niveau du corpus (BLEU, ROUGE, perplexité) avec wandb.log() et des sorties pour chaque exemple avec wandb.Table. ...
+</Card>
+
 <Card title="Comment puis-je consigner une liste de valeurs ?" href="/fr/support/models/articles/how-do-i-log-a-list-of-values" arrow="true" horizontal>
   Vous pouvez consigner une liste de valeurs, comme les pertes par étape, avec wandb.Run.log(). Les exemples suivants montrent deux approches courantes ...
 </Card>
 
+<Card title="Comment puis-je consigner les gradients et les poids du modèle avec wandb.watch() ?" href="/fr/support/models/articles/how-do-i-log-gradients-and-model-weights-with-wandb-watch" arrow="true" horizontal>
+  wandb.watch() se connecte aux paramètres et aux gradients d’un modèle PyTorch et journalise des histogrammes de leurs valeurs à intervalles réguliers ...
+</Card>
+
 <Card title="Comment puis-je consigner des métriques sur deux échelles de temps différentes ?" href="/fr/support/models/articles/how-do-i-log-metrics-on-two-time-scales" arrow="true" horizontal>
   Pour consigner des métriques sur deux échelles de temps différentes, consignez des indices comme lot et époque avec vos métriques. Par exemple, vous p ...
+</Card>
+
+<Card title="Comment puis-je parcourir de grands résultats d’API dans W&B ?" href="/fr/support/models/articles/how-do-i-paginate-through-large-api-results-in-wandb" arrow="true" horizontal>
+  Vous pouvez parcourir les résultats de l’API à l’aide du modèle standard d’itérateur paresseux et du paramètre per&#95;page. De plus, vous pouvez u ...
 </Card>
 
 <Card title="Comment puis-je tracer plusieurs lignes sur un graphique avec une légende ?" href="/fr/support/models/articles/how-do-i-plot-multiple-lines-on-a-plot-w" arrow="true" horizontal>
@@ -87,6 +99,26 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 
 <Card title="Comment puis-je définir le nom du run sur l’ID du run ?" href="/fr/support/models/articles/how-do-i-set-the-run-name-to-the-run-id" arrow="true" horizontal>
   Pour remplacer le nom du run par l’ID du run, utilisez l’extrait de code suivant :
+</Card>
+
+<Card title="Comment puis-je configurer les alertes et les notifications W&B ?" href="/fr/support/models/articles/how-do-i-set-up-wandb-alerts-and-notifications" arrow="true" horizontal>
+  Vous pouvez configurer des alertes et des notifications à l’aide de la page W&amp;B Settings. W&amp;B prend en charge les alertes automatisées dans Paramètres utilisateur ( ...
+</Card>
+
+<Card title="Comment puis-je mettre à jour la configuration, les tags et les notes d’un run via l’API W&B ?" href="/fr/support/models/articles/how-do-i-update-run-config-tags-and-notes-via-the-wandb-api" arrow="true" horizontal>
+  Une fois qu’un run est terminé, utilisez le guide de l’API publique pour modifier la configuration, le nom d’affichage, les tags et les notes sans réexécuter l’expé ...
+</Card>
+
+<Card title="Comment puis-je utiliser W&B avec JAX ?" href="/fr/support/models/articles/how-do-i-use-wandb-with-jax" arrow="true" horizontal>
+  W&amp;B n’a pas d’intégration spécifique à JAX. Cependant, vous pouvez convertir des tableaux JAX sur périphérique en scalaires Python, puis utiliser wandb.log ...
+</Card>
+
+<Card title="Comment puis-je utiliser le graphique en coordonnées parallèles dans W&B ?" href="/fr/support/models/articles/how-do-i-use-the-parallel-coordinates-chart-in-wandb" arrow="true" horizontal>
+  Le graphique en coordonnées parallèles montre comment les hyperparamètres sont liés aux métriques sur de nombreux runs. Chaque ligne correspond à un run ; chaque  ...
+</Card>
+
+<Card title="Comment dois-je exécuter des balayages sur SLURM ?" href="/fr/support/models/articles/how-should-i-run-sweeps-on-slurm" arrow="true" horizontal>
+  Pour les balayages W&amp;B sur le système d’ordonnancement SLURM, exécutez wandb agent --count 1 SWEEP&#95;ID dans chaque job planifié. L’agent exécu ...
 </Card>
 
 <Card title="Je n’ai pas nommé mon run. D’où vient son nom ?" href="/fr/support/models/articles/i-didnt-name-my-run-where-is-the-run-nam" arrow="true" horizontal>
@@ -117,20 +149,24 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
   Le nombre de points envoyés influe sur le temps de chargement des graphiques dans l’interface utilisateur. Pour les lignes dépassant 1 000 points, le backend sa ...
 </Card>
 
-<Card title="Et si je veux intégrer W&B à mon projet, mais sans téléverser d’images ni de médias ?" href="/fr/support/models/articles/what-if-i-want-to-integrate-wb-into-my-p" arrow="true" horizontal>
-  W&amp;B prend en charge les projets qui n’enregistrent que des scalaires en vous permettant de spécifier quels fichiers ou quelles données téléverser. Pour un exemple de journa ...
+<Card title="Que faire si je veux intégrer W&B à mon projet, mais que je ne veux téléverser ni images ni médias ?" href="/fr/support/models/articles/what-if-i-want-to-integrate-wb-into-my-p" arrow="true" horizontal>
+  W&amp;B prend en charge les projets qui ne consignent que des scalaires en vous permettant de spécifier quels fichiers ou quelles données téléverser. Pour un exemple de consign ...
 </Card>
 
-<Card title="Et si je veux consigner certaines métriques par lot et d’autres uniquement par époque ?" href="/fr/support/models/articles/what-if-i-want-to-log-some-metrics-on-ba" arrow="true" horizontal>
-  Pour consigner des métriques spécifiques à chaque lot et standardiser les graphiques, consignez les valeurs d’axe X souhaitées avec les métriques. Dans le ...
+<Card title="Que faire si je veux consigner certaines métriques sur les lots et d’autres uniquement sur les époques ?" href="/fr/support/models/articles/what-if-i-want-to-log-some-metrics-on-ba" arrow="true" horizontal>
+  Pour consigner des métriques spécifiques dans chaque lot et standardiser les graphiques, consignez les valeurs d’axe X souhaitées avec les métriques. Dans le ...
 </Card>
 
-<Card title="Quelle est la différence entre les modes de wandb.init ?" href="/fr/support/models/articles/what-is-the-difference-between-wandbinit" arrow="true" horizontal>
-  Lorsque vous appelez wandb.init, vous pouvez choisir un mode qui contrôle la façon dont le client communique avec le serveur W&amp;B. La su ...
+<Card title="Quelle est la différence entre les modes de wandb.init ?" href="/fr/support/models/articles/what-is-the-difference-between-wandbinit" arrow="true" horizontal>
+  Lorsque vous appelez wandb.init, vous pouvez choisir un mode qui contrôle la manière dont le client communique avec le serveur W&amp;B. La follo ...
 </Card>
 
-<Card title="Pourquoi vois-je moins de points de données que je n’en ai enregistrés ?" href="/fr/support/models/articles/why-am-i-seeing-fewer-data-points-than-i" arrow="true" horizontal>
-  Lorsque vous visualisez des métriques par rapport à un axe X autre que Step, il est normal de voir moins de points de données. Vous devez consigner les métriques au m ...
+<Card title="Pourquoi est-ce que je vois moins de points de données que je n’en ai enregistrés ?" href="/fr/support/models/articles/why-am-i-seeing-fewer-data-points-than-i" arrow="true" horizontal>
+  Lorsque vous visualisez des métriques par rapport à un axe X autre que Step, attendez-vous à voir moins de points de données. Vous devez consigner les métriques à t ...
+</Card>
+
+<Card title="Pourquoi mes métriques n’apparaissent-elles pas dans wandb.log() ?" href="/fr/support/models/articles/why-are-my-metrics-missing-from-wandb-log" arrow="true" horizontal>
+  Si les métriques enregistrées avec wandb.log() n’apparaissent pas dans l’interface W&amp;B, il existe plusieurs causes courantes. Le mode hors ligne sans ...
 </Card>
 
 <Card title="Pourquoi manque-t-il des étapes dans une exportation CSV de métriques ?" href="/fr/support/models/articles/why-are-steps-missing-from-a-csv-metric-" arrow="true" horizontal>
@@ -141,12 +177,24 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
   Les noms de métriques dans W&amp;B doivent respecter les conventions de nommage GraphQL afin que vous puissiez les trier et les filtrer dans l’interface utilisateur. Les métriques valides  ...
 </Card>
 
+<Card title="Pourquoi mes paramètres du Workspace ne sont-ils pas enregistrés entre les sessions ?" href="/fr/support/models/articles/why-do-my-workspace-settings-not-persist" arrow="true" horizontal>
+  La mise en page du Workspace (panneaux, filtres, Grouping) n’est enregistrée que lorsque vous enregistrez une vue. Les modifications non enregistrées restent dans votre se ...
+</Card>
+
 <Card title="Pourquoi mon processus ne répond-il plus lorsque j’utilise Hydra avec W&B ?" href="/fr/support/models/articles/process-hangs-when-using-hydra-with-wan" arrow="true" horizontal>
   Cette page explique comment résoudre les problèmes de processus bloqués qui surviennent lorsque vous démarrez un processus avec Hydra en parallèle de W&amp;B. I ...
 </Card>
 
 <Card title="Pourquoi mon entraînement se bloque-t-il en entraînement distribué ?" href="/fr/support/models/articles/training-hangs-with-distributed-trainin" arrow="true" horizontal>
   Cet article vous aide à résoudre les blocages d’entraînement lorsque vous utilisez W&amp;B avec des frameworks d’entraînement distribué, afin que vos runs puissent cont ...
+</Card>
+
+<Card title="Pourquoi mon run W&B est-il lent à s’initialiser ou à téléverser ?" href="/fr/support/models/articles/why-is-my-wandb-run-slow-to-initialize-or-upload" arrow="true" horizontal>
+  La lenteur de wandb.init() ou des téléversements de métriques est généralement causée par la latence réseau, des charges utiles multimédias volumineuses, une fréquence de journalisation él ...
+</Card>
+
+<Card title="Pourquoi mon agent de balayage ne récupère-t-il pas de nouveaux runs ?" href="/fr/support/models/articles/why-is-my-sweep-agent-not-picking-up-new-runs" arrow="true" horizontal>
+  Si votre agent de balayage démarre mais ne reçoit pas de nouvelles configurations de run, ou reçoit un run puis reste inactif, il existe plu ...
 </Card>
 
 <Card title="Pourquoi rien ne s’affiche-t-il dans mes graphiques ?" href="/fr/support/models/articles/why-is-nothing-showing-up-in-my-graphs" arrow="true" horizontal>

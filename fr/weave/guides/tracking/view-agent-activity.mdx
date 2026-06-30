@@ -21,7 +21,17 @@ Pour ouvrir la vue Agents de votre projet :
 1. Accédez à [https://wandb.ai](https://wandb.ai) et sélectionnez votre projet.
 2. Dans le menu latéral, sélectionnez **Agents** pour afficher toutes les conversations d’agents enregistrées dans votre projet.
 
-La vue Agents s’ouvre sur l’onglet **Agents**, où chaque agent ayant enregistré des traces dans le projet apparaît sous forme de carte. À partir de là, vous pouvez examiner en détail les conversations, spans et signaux individuels à l’aide des onglets décrits dans les sections suivantes.
+La vue Agents est organisée en une rangée d’onglets en haut : **Dashboard**, **Agents**, **Conversations**, **Spans** et **Signals**. L’onglet **Dashboard** offre un aperçu de l’activité des agents à l’échelle du projet, tandis que les autres onglets vous permettent d’examiner en détail les agents, conversations, spans et signaux individuels.
+
+<div id="dashboard-tab">
+  ## Onglet Dashboard
+</div>
+
+L&#39;onglet **Dashboard** offre un aperçu, à l&#39;échelle du projet, de toute l&#39;activité des agents. Il est conçu pour être lu d&#39;un coup d&#39;œil. Les équipes l&#39;utilisent donc comme point de départ pour un contrôle de santé quotidien avant d&#39;examiner en détail un agent ou une conversation en particulier.
+
+![L'onglet Dashboard affichant des cartes de statistiques de synthèse, des graphiques de volume en série temporelle et des répartitions top-N de l'activité des agents à l'échelle du projet.](/weave/guides/tracking/imgs/agent-view-dashboard.png)
+
+En haut, des cartes de synthèse indiquent les totaux pour la fenêtre temporelle sélectionnée : **Spans**, **Conversations**, **Tokens**, **Cost**, **Error rate** et **Agents**. Sous les cartes, des graphiques en série temporelle montrent au fil du temps le volume des spans, des conversations, des jetons et du coût, ainsi que le nombre d&#39;erreurs et l&#39;activité des signaux. La rangée du bas présente la répartition des principaux outils, agents, modèles et fournisseurs par utilisation. À gauche, une liste des conversations ou des spans récents s&#39;affiche, avec la possibilité de basculer entre **Conversations** et **Spans** ; le sélecteur de fenêtre temporelle contrôle la période reflétée dans chaque panneau.
 
 <div id="agents-tab">
   ## Onglet Agents
@@ -32,7 +42,7 @@ traces dans ce projet. Utilisez-le pour repérer les agents actifs et comparer
 la latence et les taux d’erreur d’un agent à l’autre. Il vous aide également à identifier ceux qui
 nécessitent une attention particulière avant d’examiner les conversations individuelles.
 
-![L’onglet Agents affichant une grille de cartes d’agent, chacune présentant le nombre de conversations, le nombre de spans, la latence moyenne et le taux d’erreur.](/weave/guides/tracking/imgs/agent-view-agent.png)
+![L’onglet Agents affichant une grille de cartes d’agent, chacune présentant le nombre de conversations, le nombre de spans, le coût, la latence moyenne et le taux d’erreur.](/weave/guides/tracking/imgs/agent-view-agent.png)
 
 Il est utile dans des scénarios tels que :
 
@@ -58,22 +68,23 @@ Il est utile dans des scénarios tels que :
 
 Chaque agent est représenté par une carte indiquant :
 
-| Champ                          | Description                                                                                                           |
-| ------------------------------ | --------------------------------------------------------------------------------------------------------------------- |
-| **Nom de l&#39;agent**         | Le nom enregistré avec les traces de l&#39;agent.                                                                     |
-| **Dernière activité**          | Le temps écoulé depuis la dernière activité enregistrée par l&#39;agent.                                              |
-| **Version**                    | Le nombre de valeurs `agent_version` distinctes enregistrées dans les spans de l&#39;agent.                           |
-| **Histogramme d&#39;activité** | Un graphique en barres du volume récent de conversations, qui donne un aperçu rapide des tendances d&#39;utilisation. |
-| **Conversations**              | Nombre total de conversations enregistrées.                                                                           |
-| **Spans**                      | Nombre total de spans enregistrés dans l&#39;ensemble des conversations.                                              |
-| **Latence (moy.)**             | Durée de bout en bout moyenne par invocation.                                                                         |
-| **Taux d&#39;erreur**          | Pourcentage d&#39;invocations ayant renvoyé une erreur. S&#39;affiche en rouge lorsqu&#39;il est supérieur à 0 %.     |
+| Champ                          | Description                                                                                                                                         |
+| ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Nom de l&#39;agent**         | Le nom enregistré avec les traces de l&#39;agent.                                                                                                   |
+| **Dernière activité**          | Le temps écoulé depuis la dernière activité enregistrée par l&#39;agent.                                                                            |
+| **Version**                    | Le nombre de valeurs `agent_version` distinctes enregistrées dans les spans de l&#39;agent.                                                         |
+| **Histogramme d&#39;activité** | Un graphique en barres du volume récent de conversations, qui donne un aperçu rapide des tendances d&#39;utilisation.                               |
+| **Conversations**              | Nombre total de conversations enregistrées.                                                                                                         |
+| **Spans**                      | Nombre total de spans enregistrés dans l&#39;ensemble des conversations.                                                                            |
+| **Coût**                       | Coût total engagé dans l&#39;ensemble des conversations de l&#39;agent. Affiche un tiret (`-`) lorsque les données de coût ne sont pas disponibles. |
+| **Latence (moy.)**             | Durée de bout en bout moyenne par invocation.                                                                                                       |
+| **Taux d&#39;erreur**          | Pourcentage d&#39;invocations ayant renvoyé une erreur. S&#39;affiche en rouge lorsqu&#39;il est supérieur à 0 %.                                   |
 
 <div id="find-and-sort-agents">
   ### Trouver et trier les agents
 </div>
 
-Utilisez le champ **Recherche d’agents** pour filtrer les cartes par nom d’agent.
+Utilisez le champ **Recherche et filtrage des agents** pour trouver des agents par nom.
 
 Utilisez la liste déroulante de tri (par défaut : **Dernière activité**) pour réorganiser la grille. Les
 options de tri disponibles sont :
@@ -107,19 +118,27 @@ Pour obtenir une vue d’ensemble de ce qu’un agent a dit et fait au fil d’u
 Le tableau des conversations affiche une ligne par conversation. Les colonnes suivantes
 s’affichent par défaut :
 
-| Colonne               | Description                                                                                                                   |
-| --------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| **Conversation**      | L’identifiant de la conversation et un aperçu du premier message.                                                             |
-| **Dernier message**   | Un aperçu du message le plus récent, avec un indicateur de rôle.                                                              |
-| **Agent**             | Le nom du ou des agents impliqués.                                                                                            |
-| **Invocations**       | Le nombre de fois où l’agent a été invoqué pendant la conversation.                                                           |
-| **Spans**             | Nombre total de spans enregistrés. Un nombre de spans plus élevé indique davantage de branchements ou d’utilisation d’outils. |
-| **Jetons d’entrée**   | Jetons d’entrée consommés.                                                                                                    |
-| **Jetons de sortie**  | Jetons de sortie générés.                                                                                                     |
-| **Début**             | Le moment où la conversation a commencé.                                                                                      |
-| **Dernière activité** | Le temps écoulé depuis l’enregistrement du dernier message.                                                                   |
+| Colonne               | Description                                                                                                                                                                            |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Conversation**      | L’identifiant de la conversation et un aperçu du premier message.                                                                                                                      |
+| **Dernier message**   | Un aperçu du message le plus récent, avec un indicateur de rôle.                                                                                                                       |
+| **Spans**             | Nombre total de spans enregistrés, affiché à côté d’une bande colorée (décrite ci-dessous). Un nombre de spans plus élevé indique davantage de branchements ou d’utilisation d’outils. |
+| **Tags**              | Les tags de signal et les scores appliqués à la conversation.                                                                                                                          |
+| **Agent**             | Le nom du ou des agents impliqués.                                                                                                                                                     |
+| **Invocations**       | Le nombre de fois où l’agent a été invoqué pendant la conversation.                                                                                                                    |
+| **Jetons d’entrée**   | Jetons d’entrée consommés.                                                                                                                                                             |
+| **Jetons de sortie**  | Jetons de sortie générés.                                                                                                                                                              |
+| **Coût**              | Coût total de la conversation.                                                                                                                                                         |
+| **Début**             | Le moment où la conversation a commencé.                                                                                                                                               |
+| **Dernière activité** | Le temps écoulé depuis l’enregistrement du dernier message.                                                                                                                            |
 
-Pour afficher ou masquer des colonnes supplémentaires, cliquez sur **Columns** dans la barre d’outils.
+La colonne **Spans** affiche également une bande colorée qui donne un aperçu de la
+séquence d’événements de la conversation, en utilisant les mêmes couleurs d’événement que la
+[chronologie des événements](#events). Cela vous permet de voir d’un coup d’œil, sans l’ouvrir, si une
+conversation faisait un usage intensif des outils, du LLM, ou impliquait une délégation à un
+sous-agent.
+
+Pour afficher ou masquer des colonnes supplémentaires, cliquez sur **colonne** dans la barre d’outils.
 
 <div id="filters-and-time-window">
   ### Filtres et fenêtre temporelle
@@ -127,6 +146,14 @@ Pour afficher ou masquer des colonnes supplémentaires, cliquez sur **Columns** 
 
 Utilisez la barre de **Filtre** pour affiner les résultats par agent, modèle, statut d&#39;erreur ou
 autres attributs.
+
+Les attributs personnalisés que vous ajoutez aux spans d&#39;agent avec le SDK peuvent également
+être filtrés ici. Vous pouvez filtrer la liste des conversations
+sur une valeur précise pour un attribut donné.
+
+Pour afficher un attribut personnalisé dans sa propre colonne, cliquez sur
+**colonne** dans la barre d’outils. Pour savoir comment définir ces attributs, voir [Définir
+des attributs et des events sur les spans d&#39;agent](/fr/weave/guides/tracking/trace-agents-attributes).
 
 Utilisez le sélecteur de fenêtre temporelle (**1m**, **1h**, **6h**, **24h**, **7d**, ou
 **30d**) pour limiter la liste aux conversations actives au cours de cette
@@ -140,7 +167,7 @@ une valeur ou une plage spécifique.
   ### Détail d’une conversation d’agent
 </div>
 
-Cliquez sur une ligne de conversation pour ouvrir un panneau de détail avec deux sous-onglets : **Tours de conversation** et **Événements**.
+Cliquez sur une ligne de conversation pour ouvrir un panneau de détail avec deux sous-panneaux : **Tours de conversation** et **Événements**. L’en-tête du panneau affiche le nom de l’agent et l’ID de la conversation, ainsi que les actions **Summarize** (pour générer une synthèse de la conversation) et **Add to dataset**.
 
 ![Une conversation sélectionnée dans l’onglet Conversations, avec le panneau de détail ouvert affichant le fil des messages tour par tour, les appels d’outil, le raisonnement et la chronologie des événements à droite.](/weave/guides/tracking/imgs/agent-view-conversation-detail.png)
 
@@ -166,7 +193,7 @@ Les **messages de l’assistant** affichent les éléments suivants :
 
 * Le nom de l’agent et le modèle utilisé (par exemple, `gpt-5.5-2026-04-23`).
 * L’horodatage et la durée.
-* Le nombre de jetons en entrée et en sortie (par exemple, `16086 in  295 out`).
+* Le nombre de jetons en entrée et en sortie, ainsi que le coût (par exemple, `18823 in · 96 out · $0.0717`).
 * Une section **Raisonnement** dépliable lorsque le modèle a utilisé un raisonnement approfondi.
 * Le texte de la réponse, qui se replie automatiquement pour les réponses longues.
 
@@ -227,9 +254,10 @@ conversation sélectionnée.
 | Champ                              | Description                                                                           |
 | ---------------------------------- | ------------------------------------------------------------------------------------- |
 | **Jetons**                         | Nombre total de jetons d’entrée et de sortie.                                         |
+| **Coût**                           | Coût total de la conversation.                                                        |
 | **Appels d’outils**                | Nombre d’appels d’outils sur l’ensemble des tours de conversation.                    |
 | **Messages**                       | Nombre total de messages.                                                             |
-| **Durée de la session**            | Durée écoulée entre le premier et le dernier message.                                 |
+| **Durée de la conversation**       | Durée écoulée entre le premier et le dernier message.                                 |
 | **Page des tours de conversation** | Tours de conversation actuellement affichés et nombre total de tours de conversation. |
 
 <div id="token-breakdown">
@@ -255,6 +283,17 @@ La section **Participants** répertorie les agents et les modèles impliqués da
 conversation. Dans les conversations multi-agent, des tours de conversation différents peuvent afficher différents
 noms de modèle ici.
 
+<div id="add-agent-messages-to-a-dataset">
+  #### Ajouter des messages d’agent à un dataset
+</div>
+
+Pour ajouter des messages d’agent à un `Dataset` :
+
+1. Dans l’en-tête du panneau de détails de la conversation, cliquez sur **Add to dataset** pour ouvrir le volet latéral **Add example to dataset**.
+2. Dans **Choisir un dataset**, utilisez le menu déroulant pour choisir le dataset auquel vous souhaitez ajouter des traces.
+3. Dans **Select context**, sélectionnez les messages à ajouter au dataset. Cliquez sur **Next**.
+4. Vérifiez votre sélection, puis cliquez sur **Add to dataset**.
+
 <div id="spans-tab">
   ## Onglet Spans
 </div>
@@ -270,15 +309,17 @@ L’onglet **Spans** affiche chaque span individuel enregistré dans l’ensembl
 Le tableau des spans partage la plupart de ses colonnes avec le tableau Conversations (agent, modèle,
 outil, nombre de jetons, statut). Certaines colonnes propres à cette vue sont :
 
-| Colonne       | Description                                                                                                                                                                             |
-| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Span**      | Le nom et l&#39;ID du span, avec son ID de trace en dessous.                                                                                                                            |
-| **Kind**      | Le type de span OpenTelemetry pour cette opération (par exemple `INTERNAL`, `SERVER` ou `CLIENT`).                                                                                      |
-| **Operation** | Le type d&#39;opération (par exemple `chat`, `execute_tool` ou `invoke_agent`).                                                                                                         |
-| **Finished**  | La raison de fin renvoyée par le modèle (par exemple `stop` ou `max_tokens`). Cette colonne n&#39;est renseignée que pour les spans `chat` lorsque le modèle indique une raison de fin. |
+| Colonne                | Description                                                                                                                                                                             |
+| ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Span**               | Le nom et l&#39;ID du span, avec son ID de trace en dessous.                                                                                                                            |
+| **Kind**               | Le type de span OpenTelemetry pour cette opération (par exemple `INTERNAL`, `SERVER` ou `CLIENT`).                                                                                      |
+| **Operation**          | Le type d&#39;opération (par exemple `chat`, `execute_tool` ou `invoke_agent`).                                                                                                         |
+| **Ratings &amp; Tags** | Les scores de signal et les tags appliqués au span.                                                                                                                                     |
+| **Finish**             | La raison de fin renvoyée par le modèle (par exemple `stop` ou `max_tokens`). Cette colonne n&#39;est renseignée que pour les spans `chat` lorsque le modèle indique une raison de fin. |
+| **Error type**         | Le type d&#39;erreur renvoyé par le span, lorsqu&#39;une erreur s&#39;est produite.                                                                                                     |
 
 Des colonnes supplémentaires pour le détail des jetons de cache, les jetons de raisonnement, les
-paramètres LLM et les métadonnées de run W&amp;B sont disponibles via le bouton **Columns**.
+paramètres LLM et les métadonnées de run W&amp;B sont disponibles via le bouton **colonne**.
 
 L&#39;onglet Spans est particulièrement utile lorsque vous avez besoin d&#39;une précision au niveau des opérations que l&#39;onglet
 Conversations ne fournit pas :
@@ -289,7 +330,7 @@ Conversations ne fournit pas :
 * **Déboguer un type d&#39;opération spécifique.** Filtrez par **Operation** pour isoler
   tous les spans `execute_tool` et vérifier les taux d&#39;erreur, ou tous les spans `chat` pour un
   modèle spécifique.
-* **Examiner la troncature.** Filtrez **Finished** sur `max_tokens` pour trouver
+* **Examiner la troncature.** Filtrez **Finish** sur `max_tokens` pour trouver
   les spans où le modèle a atteint sa limite de jetons au lieu de se terminer normalement.
 * **Établir une corrélation avec un run W&amp;B.** Des colonnes masquées par défaut exposent les ID de run W&amp;B
   et les étapes du run, ce qui vous permet de relier un span spécifique à un run
@@ -302,27 +343,29 @@ Conversations ne fournit pas :
 Cliquez sur n’importe quelle ligne pour sélectionner la trace correspondante et mettre en surbrillance tous les autres spans qui partagent le même ID de trace. Cela vous montre l’ensemble des opérations exécutées dans le cadre d’une invocation d’un agent. Le regroupement s’effectue ici par trace, et non par conversation. Cela signifie qu’une même conversation peut contenir plusieurs traces si elle implique une délégation à un sous-agent.
 
 <div id="agent-invocation-detail">
-  ### Détail de l’invocation d’agent
+  ### Détail de l’appel d’agent
 </div>
 
-Cliquez sur une ligne du tableau **Spans** pour ouvrir un panneau de détail contenant les données de l’invocation complète de l’agent.
+Cliquez sur une ligne du tableau **Spans** pour ouvrir un panneau de détail contenant les données de l’appel d’agent complet.
 
-En haut du panneau de détail, un diagramme en flammes montre la
-position sur la chronologie et la durée relative de chaque span dans la trace sélectionnée. Chaque span
-apparaît sous la forme d’un bloc coloré mis à l’échelle selon sa durée réelle, positionné à son instant de début
-en millisecondes depuis le début de la trace. Utilisez la chronologie pour :
+En haut du panneau de détail, un graphique à barres montre la
+position sur l’axe du temps et la durée relative de chaque span dans la trace
+sélectionnée, sous forme de cascade. L’appel parent s’étend sur toute la largeur, et chaque span
+enfant apparaît en dessous sous la forme d’une barre colorée mise à l’échelle selon sa durée réelle, positionnée à
+son heure de début en millisecondes à partir du début de la trace. Utilisez la chronologie
+pour :
 
-* **Repérer l’opération la plus longue en un coup d’œil.** Les blocs larges indiquent les spans qui
+* **Repérer l’opération la plus longue en un coup d’œil.** Les barres larges indiquent les spans qui
   ont le plus contribué à la latence totale.
-* **Voir le parallélisme.** Les blocs qui se chevauchent indiquent des spans qui se sont exécutés
-  simultanément plutôt que séquentiellement.
-* **Inspecter n’importe quel span directement.** Cliquez sur un bloc dans la chronologie pour afficher les détails de ce
-  span, y compris ses messages d’entrée et de sortie,
+* **Voir le parallélisme.** Les barres qui se chevauchent indiquent des spans exécutés
+  en parallèle plutôt que séquentiellement.
+* **Inspecter n’importe quel span directement.** Cliquez sur une barre de la chronologie pour charger les
+  détails de ce span dans la vue, y compris ses messages d’entrée et de sortie,
   le nombre de jetons et d’autres métadonnées.
 
-![L’onglet Spans avec une trace sélectionnée, mettant en évidence un groupe de spans associés dans le tableau et affichant le diagramme en flammes dans le panneau de détail à droite.](/weave/guides/tracking/imgs/agent-view-spans-detail.png)
+![L’onglet Spans avec une trace sélectionnée, mettant en évidence un groupe de spans liés dans le tableau et affichant le graphique en cascade dans le panneau de détail à droite.](/weave/guides/tracking/imgs/agent-view-spans-detail.png)
 
-Vous pouvez aussi afficher les spans enfants sous la forme d’une arborescence de trace hiérarchique en sélectionnant l’icône **Show trace tree** dans l’en-tête du panneau de détail.
+Vous pouvez également afficher les spans enfants sous la forme d’une arborescence de trace hiérarchique en sélectionnant l’icône **Show trace tree** dans l’en-tête du panneau de détail.
 
 <div id="signals-tab">
   ## Onglet Signals

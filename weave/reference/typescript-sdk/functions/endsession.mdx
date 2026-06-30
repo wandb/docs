@@ -5,9 +5,17 @@ description: "TypeScript SDK reference"
 
 # endSession
 
-▸ **endSession**(): `void`
+<Warning>
+  **Deprecated.** Use [endConversation](../functions/endconversation) instead.
+</Warning>
 
-End the current Session. No-op if no Session is active.
+▸ **endSession**(`opts?`): `void`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `opts?` | `SpanEndOptions` |
 
 #### Returns
 
@@ -15,6 +23,6 @@ End the current Session. No-op if no Session is active.
 
 #### Defined in
 
-[genai/api.ts:82](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/api.ts#L82)
+[src/genai/api.ts:161](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/api.ts#L161)
 
 ___

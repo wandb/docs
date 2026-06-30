@@ -23,7 +23,7 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 * `collection_name`: 쿼리할 아티팩트 컬렉션의 이름.
 * `type`: 쿼리할 아티팩트의 유형. 일반적인 예로는 &quot;dataset&quot; 또는 &quot;model&quot;이 있습니다.
 * `filters`: 쿼리에 적용할 선택적 필터 매핑.
-* `order`: 결과 정렬 순서를 지정하는 선택적 문자열.
+* `order`: 결과 정렬 순서를 지정하는 선택적 문자열. `+` 접두사가 있으면 오름차순(기본값)으로 정렬합니다. `-` 접두사가 있으면 내림차순으로 정렬합니다.
 * `per_page`: 페이지당 가져올 아티팩트 버전 개수. 기본값은 50.
 * `tags`: 태그로 아티팩트를 필터링하기 위한 선택적 문자열 또는 문자열 목록. 
 
