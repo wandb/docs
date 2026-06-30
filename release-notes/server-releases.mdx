@@ -90,7 +90,7 @@ W&B 0.82.0 brings richer artifact insights with editable collection overviews an
 
 W&B Server 0.81.0 makes debugging and comparing runs easier with deeper, searchable run logs, a new diff patch viewer for run code, more flexible run filtering, improved artifact download, new triggers for automations, and more. Weave adds configurable trace retention, custom monitor signals with faster evaluation workflows. To keep your deployment secure and stable, this release includes security improvements and mitigations, expanded SCIM support for Okta and Microsoft Entra, and reliability fixes across artifacts, workspaces, and reports.
 
-<Note>For deployments using the ClickHouse/OLAP features (Registry Search, Run Store Accelerator, or History), ClickHouse 26.2+ is required before upgrading to v0.81.0+. On older ClickHouse, the runs-accelerator schema migration fails on boot and the `api`/`glue` pods do not start.</Note>
+<Note>For deployments using the ClickHouse/OLAP features (Registry Search, Run Store Accelerator, or History), ClickHouse 26.2+ is required before upgrading to v0.81.0+. Self-managed deployments must upgrade **both** the ClickHouse server and ClickHouse Keeper images. On older ClickHouse, the runs-accelerator schema migration fails on boot and the `api`/`glue` pods do not start.</Note>
 
 ## Support and end of life
 
