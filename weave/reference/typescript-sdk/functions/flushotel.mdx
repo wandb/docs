@@ -1,11 +1,19 @@
 ---
-title: "flushOTel"
+title: "Function: flushOTel()"
 description: "TypeScript SDK reference"
 ---
 
-# flushOTel
+[**weave**](../)
 
-▸ **flushOTel**(): `Promise`\<`void`\>
+***
+
+[weave](../) / flushOTel
+
+
+
+> **flushOTel**(): `Promise`\<`void`\>
+
+Defined in: [src/genai/flush.ts:15](https://github.com/wandb/weave/blob/ebaa175f4434046995224aafad3b9e2939258601/sdks/node/src/genai/flush.ts#L15)
 
 Force-flush any GenAI spans buffered by the active span processor.
 
@@ -18,12 +26,6 @@ Call before process exit when using `'simple'` or any other processor that
 may have in-flight work, or in tests that need to observe exported spans
 synchronously.
 
-#### Returns
+## Returns
 
 `Promise`\<`void`\>
-
-#### Defined in
-
-[genai/flush.ts:15](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/flush.ts#L15)
-
-___

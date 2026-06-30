@@ -1,11 +1,19 @@
 ---
-title: "instrumentOpenAIAgents"
+title: "Function: instrumentOpenAIAgents()"
 description: "TypeScript SDK reference"
 ---
 
-# instrumentOpenAIAgents
+[**weave**](../)
 
-▸ **instrumentOpenAIAgents**(): `Promise`\<`boolean`\>
+***
+
+[weave](../) / instrumentOpenAIAgents
+
+
+
+> **instrumentOpenAIAgents**(): `Promise`\<`boolean`\>
+
+Defined in: [src/integrations/openai.agent.ts:169](https://github.com/wandb/weave/blob/ebaa175f4434046995224aafad3b9e2939258601/sdks/node/src/integrations/openai.agent.ts#L169)
 
 Manually register Weave tracing with OpenAI Agents if the package is available.
 
@@ -18,15 +26,16 @@ This function attempts to dynamically import @openai/agents from the consumer's 
 and registers a TracingProcessor. If the package is not installed, it returns false without
 throwing an error.
 
-#### Returns
+## Returns
 
 `Promise`\<`boolean`\>
 
 `Promise<boolean>` - `true` if registration succeeded, `false` if `@openai/agents` not available
 
-`Example`
+## Examples
 
-```typescript
+```typescript twoslash
+// @noErrors
 // ✅ Recommended: Just import Weave - instrumentation happens automatically!
 import * as weave from 'weave';
 await weave.init('my-project');
@@ -37,9 +46,8 @@ const agent = new Agent({ ... });
 await agent.run(input); // Automatically traced in Weave
 ```
 
-`Example`
-
-```typescript
+```typescript twoslash
+// @noErrors
 // ⚠️ Only needed for edge cases where automatic hooks don't work
 import { instrumentOpenAIAgents } from 'weave';
 
@@ -49,7 +57,7 @@ if (!registered) {
 }
 ```
 
-`Remarks`
+## Remarks
 
 **How automatic instrumentation works**: When you import Weave, it registers module loader
 hooks via `addCJSInstrumentation()` and `addESMInstrumentation()`. When your code later
@@ -63,16 +71,11 @@ module to add Weave tracing. This happens transparently - no action required fro
 
 **Alternative for custom processor logic**: If you need custom tracing behavior,
 use `createOpenAIAgentsTracingProcessor()` and register it manually:
-```typescript
+```typescript twoslash
+// @noErrors
 import { addTraceProcessor } from '@openai/agents';
 import { createOpenAIAgentsTracingProcessor } from 'weave';
 
 const processor = createOpenAIAgentsTracingProcessor();
 addTraceProcessor(processor);
 ```
-
-#### Defined in
-
-[integrations/openai.agent.ts:727](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/integrations/openai.agent.ts#L727)
-
-___

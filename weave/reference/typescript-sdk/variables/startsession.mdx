@@ -1,0 +1,52 @@
+---
+title: "~~Variable: startSession~~"
+description: "TypeScript SDK reference"
+---
+
+[**weave**](../)
+
+***
+
+[weave](../) / startSession
+
+
+
+> `const` **startSession**: (`opts`) => [`Conversation`](../interfaces/conversation) = `startConversation`
+
+Defined in: [src/genai/api.ts:33](https://github.com/wandb/weave/blob/ebaa175f4434046995224aafad3b9e2939258601/sdks/node/src/genai/api.ts#L33)
+
+Start a new Conversation and install it as the current conversation.
+Subsequent calls to `startTurn` will pick it up automatically.
+
+Pass `attributes` to stamp custom (non-semconv) attributes on every
+span the conversation emits.
+
+## Parameters
+
+### opts?
+
+[`ConversationInit`](../interfaces/conversationinit) = `{}`
+
+## Returns
+
+[`Conversation`](../interfaces/conversation)
+
+## Examples
+
+```ts twoslash
+// @noErrors
+weave.startConversation({agentName: 'research-bot'});
+```
+
+```ts twoslash
+// @noErrors
+weave.startConversation({
+  agentName: 'research-bot',
+  conversationId: '019efa53-8a65-711c-b4c1-7c1cb72c0bb7',
+  attributes: {'myagent.version': '1.23'},
+});
+```
+
+## Deprecated
+
+Use [startConversation](../functions/startconversation) instead.

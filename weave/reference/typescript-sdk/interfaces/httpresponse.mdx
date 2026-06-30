@@ -1,0 +1,312 @@
+---
+title: "Interface: HttpResponse<D, E>"
+description: "TypeScript SDK reference"
+---
+
+[**weave**](../)
+
+***
+
+[weave](../) / HttpResponse
+
+
+
+Defined in: [src/generated/traceServerApi.ts:5989](https://github.com/wandb/weave/blob/ebaa175f4434046995224aafad3b9e2939258601/sdks/node/src/generated/traceServerApi.ts#L5989)
+
+## Extends
+
+- `Response`
+
+## Type Parameters
+
+### D
+
+`D` *extends* `unknown`
+
+### E
+
+`E` *extends* `unknown` = `unknown`
+
+## Properties
+
+### body
+
+> `readonly` **body**: `ReadableStream`\<`Uint8Array`\<`ArrayBuffer`\>\> \| `null`
+
+Defined in: node\_modules/typescript/lib/lib.dom.d.ts:4468
+
+[MDN Reference](https://developer.mozilla.org/docs/Web/API/Request/body)
+
+#### Inherited from
+
+`Response.body`
+
+***
+
+### bodyUsed
+
+> `readonly` **bodyUsed**: `boolean`
+
+Defined in: node\_modules/typescript/lib/lib.dom.d.ts:4470
+
+[MDN Reference](https://developer.mozilla.org/docs/Web/API/Request/bodyUsed)
+
+#### Inherited from
+
+`Response.bodyUsed`
+
+***
+
+### data
+
+> **data**: `D`
+
+Defined in: [src/generated/traceServerApi.ts:5991](https://github.com/wandb/weave/blob/ebaa175f4434046995224aafad3b9e2939258601/sdks/node/src/generated/traceServerApi.ts#L5991)
+
+***
+
+### error
+
+> **error**: `E`
+
+Defined in: [src/generated/traceServerApi.ts:5992](https://github.com/wandb/weave/blob/ebaa175f4434046995224aafad3b9e2939258601/sdks/node/src/generated/traceServerApi.ts#L5992)
+
+***
+
+### headers
+
+> `readonly` **headers**: `Headers`
+
+Defined in: node\_modules/typescript/lib/lib.dom.d.ts:26322
+
+The `headers` read-only property of the with the response.
+
+[MDN Reference](https://developer.mozilla.org/docs/Web/API/Response/headers)
+
+#### Inherited from
+
+`Response.headers`
+
+***
+
+### ok
+
+> `readonly` **ok**: `boolean`
+
+Defined in: node\_modules/typescript/lib/lib.dom.d.ts:26328
+
+The `ok` read-only property of the Response interface contains a Boolean stating whether the response was successful (status in the range 200-299) or not.
+
+[MDN Reference](https://developer.mozilla.org/docs/Web/API/Response/ok)
+
+#### Inherited from
+
+`Response.ok`
+
+***
+
+### redirected
+
+> `readonly` **redirected**: `boolean`
+
+Defined in: node\_modules/typescript/lib/lib.dom.d.ts:26334
+
+The `redirected` read-only property of the Response interface indicates whether or not the response is the result of a request you made which was redirected.
+
+[MDN Reference](https://developer.mozilla.org/docs/Web/API/Response/redirected)
+
+#### Inherited from
+
+`Response.redirected`
+
+***
+
+### status
+
+> `readonly` **status**: `number`
+
+Defined in: node\_modules/typescript/lib/lib.dom.d.ts:26340
+
+The `status` read-only property of the Response interface contains the HTTP status codes of the response.
+
+[MDN Reference](https://developer.mozilla.org/docs/Web/API/Response/status)
+
+#### Inherited from
+
+`Response.status`
+
+***
+
+### statusText
+
+> `readonly` **statusText**: `string`
+
+Defined in: node\_modules/typescript/lib/lib.dom.d.ts:26346
+
+The `statusText` read-only property of the Response interface contains the status message corresponding to the HTTP status code in Response.status.
+
+[MDN Reference](https://developer.mozilla.org/docs/Web/API/Response/statusText)
+
+#### Inherited from
+
+`Response.statusText`
+
+***
+
+### type
+
+> `readonly` **type**: `ResponseType`
+
+Defined in: node\_modules/typescript/lib/lib.dom.d.ts:26352
+
+The `type` read-only property of the Response interface contains the type of the response.
+
+[MDN Reference](https://developer.mozilla.org/docs/Web/API/Response/type)
+
+#### Inherited from
+
+`Response.type`
+
+***
+
+### url
+
+> `readonly` **url**: `string`
+
+Defined in: node\_modules/typescript/lib/lib.dom.d.ts:26358
+
+The `url` read-only property of the Response interface contains the URL of the response.
+
+[MDN Reference](https://developer.mozilla.org/docs/Web/API/Response/url)
+
+#### Inherited from
+
+`Response.url`
+
+## Methods
+
+### arrayBuffer()
+
+> **arrayBuffer**(): `Promise`\<`ArrayBuffer`\>
+
+Defined in: node\_modules/typescript/lib/lib.dom.d.ts:4472
+
+[MDN Reference](https://developer.mozilla.org/docs/Web/API/Request/arrayBuffer)
+
+#### Returns
+
+`Promise`\<`ArrayBuffer`\>
+
+#### Inherited from
+
+`Response.arrayBuffer`
+
+***
+
+### blob()
+
+> **blob**(): `Promise`\<`Blob`\>
+
+Defined in: node\_modules/typescript/lib/lib.dom.d.ts:4474
+
+[MDN Reference](https://developer.mozilla.org/docs/Web/API/Request/blob)
+
+#### Returns
+
+`Promise`\<`Blob`\>
+
+#### Inherited from
+
+`Response.blob`
+
+***
+
+### bytes()
+
+> **bytes**(): `Promise`\<`Uint8Array`\<`ArrayBuffer`\>\>
+
+Defined in: node\_modules/typescript/lib/lib.dom.d.ts:4476
+
+[MDN Reference](https://developer.mozilla.org/docs/Web/API/Request/bytes)
+
+#### Returns
+
+`Promise`\<`Uint8Array`\<`ArrayBuffer`\>\>
+
+#### Inherited from
+
+`Response.bytes`
+
+***
+
+### clone()
+
+> **clone**(): `Response`
+
+Defined in: node\_modules/typescript/lib/lib.dom.d.ts:26364
+
+The `clone()` method of the Response interface creates a clone of a response object, identical in every way, but stored in a different variable.
+
+[MDN Reference](https://developer.mozilla.org/docs/Web/API/Response/clone)
+
+#### Returns
+
+`Response`
+
+#### Inherited from
+
+`Response.clone`
+
+***
+
+### formData()
+
+> **formData**(): `Promise`\<`FormData`\>
+
+Defined in: node\_modules/typescript/lib/lib.dom.d.ts:4478
+
+[MDN Reference](https://developer.mozilla.org/docs/Web/API/Request/formData)
+
+#### Returns
+
+`Promise`\<`FormData`\>
+
+#### Inherited from
+
+`Response.formData`
+
+***
+
+### json()
+
+> **json**(): `Promise`\<`any`\>
+
+Defined in: node\_modules/typescript/lib/lib.dom.d.ts:4480
+
+[MDN Reference](https://developer.mozilla.org/docs/Web/API/Request/json)
+
+#### Returns
+
+`Promise`\<`any`\>
+
+#### Inherited from
+
+`Response.json`
+
+***
+
+### text()
+
+> **text**(): `Promise`\<`string`\>
+
+Defined in: node\_modules/typescript/lib/lib.dom.d.ts:4482
+
+[MDN Reference](https://developer.mozilla.org/docs/Web/API/Request/text)
+
+#### Returns
+
+`Promise`\<`string`\>
+
+#### Inherited from
+
+`Response.text`

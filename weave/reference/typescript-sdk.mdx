@@ -3,66 +3,94 @@ title: "weave"
 description: "TypeScript SDK reference"
 ---
 
-weave
+**weave**
+
+***
 
 
 
-## Table of contents
-
-### Classes
+## Classes
 
 - [Dataset](./typescript-sdk/classes/dataset)
 - [Evaluation](./typescript-sdk/classes/evaluation)
 - [EvaluationLogger](./typescript-sdk/classes/evaluationlogger)
-- [LLM](./typescript-sdk/classes/llm)
 - [MessagesPrompt](./typescript-sdk/classes/messagesprompt)
 - [ObjectRef](./typescript-sdk/classes/objectref)
 - [ScoreLogger](./typescript-sdk/classes/scorelogger)
-- [Session](./typescript-sdk/classes/session)
 - [StringPrompt](./typescript-sdk/classes/stringprompt)
-- [SubAgent](./typescript-sdk/classes/subagent)
-- [Tool](./typescript-sdk/classes/tool)
-- [Turn](./typescript-sdk/classes/turn)
-- [WeaveClient](./typescript-sdk/classes/weaveclient)
+- [WeaveAdkPlugin](./typescript-sdk/classes/weaveadkplugin)
 - [WeaveObject](./typescript-sdk/classes/weaveobject)
 
-### Interfaces
+## Interfaces
 
 - [CallSchema](./typescript-sdk/interfaces/callschema)
 - [CallsFilter](./typescript-sdk/interfaces/callsfilter)
+- [Conversation](./typescript-sdk/interfaces/conversation)
+- [ConversationInit](./typescript-sdk/interfaces/conversationinit)
+- [GetAgentsOptions](./typescript-sdk/interfaces/getagentsoptions)
+- [GetAgentSpansOptions](./typescript-sdk/interfaces/getagentspansoptions)
+- [GetAgentTurnOptions](./typescript-sdk/interfaces/getagentturnoptions)
+- [GetAgentTurnsOptions](./typescript-sdk/interfaces/getagentturnsoptions)
+- [GetAgentVersionsOptions](./typescript-sdk/interfaces/getagentversionsoptions)
 - [GetCallsOptions](./typescript-sdk/interfaces/getcallsoptions)
+- [HttpResponse](./typescript-sdk/interfaces/httpresponse)
+- [HTTPValidationError](./typescript-sdk/interfaces/httpvalidationerror)
+- [LLM](./typescript-sdk/interfaces/llm)
 - [LLMInit](./typescript-sdk/interfaces/llminit)
 - [Message](./typescript-sdk/interfaces/message)
 - [Query](./typescript-sdk/interfaces/query)
 - [Reasoning](./typescript-sdk/interfaces/reasoning)
-- [SessionInit](./typescript-sdk/interfaces/sessioninit)
 - [SortBy](./typescript-sdk/interfaces/sortby)
+- [SubAgent](./typescript-sdk/interfaces/subagent)
 - [SubAgentInit](./typescript-sdk/interfaces/subagentinit)
+- [Tool](./typescript-sdk/interfaces/tool)
 - [ToolInit](./typescript-sdk/interfaces/toolinit)
+- [Turn](./typescript-sdk/interfaces/turn)
 - [TurnInit](./typescript-sdk/interfaces/turninit)
 - [Usage](./typescript-sdk/interfaces/usage)
 - [WeaveAudio](./typescript-sdk/interfaces/weaveaudio)
+- [WeaveClient](./typescript-sdk/interfaces/weaveclient)
 - [WeaveImage](./typescript-sdk/interfaces/weaveimage)
 
+## Type Aliases
 
-### Type Aliases
-
+- [Agent](./typescript-sdk/type-aliases/agent)
+- [AgentMessage](./typescript-sdk/type-aliases/agentmessage)
+- [AgentSpan](./typescript-sdk/type-aliases/agentspan)
+- [AgentTurn](./typescript-sdk/type-aliases/agentturn)
+- [AgentVersion](./typescript-sdk/type-aliases/agentversion)
+- [GetAgentSpansResult](./typescript-sdk/type-aliases/getagentspansresult)
+- [GetAgentsResult](./typescript-sdk/type-aliases/getagentsresult)
+- [GetAgentTurnResult](./typescript-sdk/type-aliases/getagentturnresult)
+- [GetAgentTurnsResult](./typescript-sdk/type-aliases/getagentturnsresult)
+- [GetAgentVersionsResult](./typescript-sdk/type-aliases/getagentversionsresult)
 - [MessagePart](./typescript-sdk/type-aliases/messagepart)
 - [Modality](./typescript-sdk/type-aliases/modality)
-- [OpDecorator](./typescript-sdk/type-aliases/opdecorator)
 - [Op](./typescript-sdk/type-aliases/op)
+- [OpDecorator](./typescript-sdk/type-aliases/opdecorator)
+- [Response](./typescript-sdk/type-aliases/response)
 - [Role](./typescript-sdk/type-aliases/role)
+- [~~Session~~](./typescript-sdk/type-aliases/session)
+- [~~Session~~](./typescript-sdk/type-aliases/session-1)
+- [~~SessionInit~~](./typescript-sdk/type-aliases/sessioninit)
+- [Settings](./typescript-sdk/type-aliases/settings)
 
-### Functions
+## Variables
+
+- [~~endSession~~](variables/endSession)
+- [~~getCurrentSession~~](variables/getCurrentSession)
+- [~~startSession~~](variables/startSession)
+
+## Functions
 
 - [createOpenAIAgentsTracingProcessor](./typescript-sdk/functions/createopenaiagentstracingprocessor)
 - [createOtelExtension](./typescript-sdk/functions/createotelextension)
+- [endConversation](./typescript-sdk/functions/endconversation)
 - [endLLM](./typescript-sdk/functions/endllm)
-- [endSession](./typescript-sdk/functions/endsession)
 - [endTurn](./typescript-sdk/functions/endturn)
 - [flushOTel](./typescript-sdk/functions/flushotel)
+- [getCurrentConversation](./typescript-sdk/functions/getcurrentconversation)
 - [getCurrentLLM](./typescript-sdk/functions/getcurrentllm)
-- [getCurrentSession](./typescript-sdk/functions/getcurrentsession)
 - [getCurrentTurn](./typescript-sdk/functions/getcurrentturn)
 - [init](./typescript-sdk/functions/init)
 - [instrumentOpenAIAgents](./typescript-sdk/functions/instrumentopenaiagents)
@@ -72,20 +100,14 @@ weave
 - [requireCurrentCallStackEntry](./typescript-sdk/functions/requirecurrentcallstackentry)
 - [requireCurrentChildSummary](./typescript-sdk/functions/requirecurrentchildsummary)
 - [runIsolated](./typescript-sdk/functions/runisolated)
+- [startConversation](./typescript-sdk/functions/startconversation)
 - [startLLM](./typescript-sdk/functions/startllm)
-- [startSession](./typescript-sdk/functions/startsession)
 - [startSubagent](./typescript-sdk/functions/startsubagent)
 - [startTool](./typescript-sdk/functions/starttool)
 - [startTurn](./typescript-sdk/functions/startturn)
 - [weaveAudio](./typescript-sdk/functions/weaveaudio)
 - [weaveImage](./typescript-sdk/functions/weaveimage)
 - [withAttributes](./typescript-sdk/functions/withattributes)
+- [wrapClaudeAgentSdk](./typescript-sdk/functions/wrapclaudeagentsdk)
 - [wrapGoogleGenAI](./typescript-sdk/functions/wrapgooglegenai)
 - [wrapOpenAI](./typescript-sdk/functions/wrapopenai)
-
-## Type Aliases
-
-
-
-
-

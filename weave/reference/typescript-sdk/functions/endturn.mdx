@@ -1,20 +1,45 @@
 ---
-title: "endTurn"
+title: "Function: endTurn()"
 description: "TypeScript SDK reference"
 ---
 
-# endTurn
+[**weave**](../)
 
-▸ **endTurn**(): `void`
+***
+
+[weave](../) / endTurn
+
+
+
+> **endTurn**(`opts?`): `void`
+
+Defined in: [src/genai/api.ts:175](https://github.com/wandb/weave/blob/ebaa175f4434046995224aafad3b9e2939258601/sdks/node/src/genai/api.ts#L175)
 
 End the current Turn. No-op if no Turn is active.
 
-#### Returns
+## Parameters
+
+### opts?
+
+`SpanEndOptions`
+
+## Returns
 
 `void`
 
-#### Defined in
+## Examples
 
-[genai/api.ts:92](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/api.ts#L92)
+```ts twoslash
+// @noErrors
+weave.endTurn();
+```
 
-___
+```ts twoslash
+// @noErrors
+weave.endTurn({endTime: new Date('2026-05-29T10:00:01.700Z')});
+```
+
+```ts twoslash
+// @noErrors
+weave.endTurn({error: new Error('agent loop diverged')});
+```

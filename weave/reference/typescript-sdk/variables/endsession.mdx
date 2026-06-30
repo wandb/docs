@@ -1,0 +1,44 @@
+---
+title: "~~Variable: endSession~~"
+description: "TypeScript SDK reference"
+---
+
+[**weave**](../)
+
+***
+
+[weave](../) / endSession
+
+
+
+> `const` **endSession**: (`opts?`) => `void` = `endConversation`
+
+Defined in: [src/genai/api.ts:161](https://github.com/wandb/weave/blob/ebaa175f4434046995224aafad3b9e2939258601/sdks/node/src/genai/api.ts#L161)
+
+End the current Conversation. No-op if no Conversation is active.
+
+## Parameters
+
+### opts?
+
+`SpanEndOptions`
+
+## Returns
+
+`void`
+
+## Examples
+
+```ts twoslash
+// @noErrors
+weave.endConversation();
+```
+
+```ts twoslash
+// @noErrors
+weave.endConversation({endTime: new Date('2026-05-29T10:00:01.700Z')});
+```
+
+## Deprecated
+
+Use [endConversation](../functions/endconversation) instead.

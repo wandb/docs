@@ -1,0 +1,149 @@
+---
+title: "Interface: SubAgent"
+description: "TypeScript SDK reference"
+---
+
+[**weave**](../)
+
+***
+
+[weave](../) / SubAgent
+
+
+
+Defined in: [src/genai/subagent.ts:37](https://github.com/wandb/weave/blob/ebaa175f4434046995224aafad3b9e2939258601/sdks/node/src/genai/subagent.ts#L37)
+
+A nested agent invocation — used when the current agent hands work to
+another named agent (e.g. a planner calling a researcher). Emits an
+`invoke_agent` span tagged with the sub-agent's name and (optionally)
+its model.
+
+Created by `weave.startSubagent()` (or `turn.startAgent()`, or
+`llm.startAgent()`) and terminated with `end()`.
+
+## Example
+
+```ts twoslash
+// @noErrors
+const sub = weave.startSubagent({name: 'researcher', model: 'gpt-4o'});
+try {
+  // ... orchestrate the sub-agent's LLM/Tool calls ...
+} finally {
+  sub.end();
+}
+```
+
+## Extends
+
+- `SpanBase`
+
+## Properties
+
+### model
+
+> `readonly` **model**: `string`
+
+Defined in: [src/genai/subagent.ts:41](https://github.com/wandb/weave/blob/ebaa175f4434046995224aafad3b9e2939258601/sdks/node/src/genai/subagent.ts#L41)
+
+***
+
+### name
+
+> `readonly` **name**: `string`
+
+Defined in: [src/genai/subagent.ts:40](https://github.com/wandb/weave/blob/ebaa175f4434046995224aafad3b9e2939258601/sdks/node/src/genai/subagent.ts#L40)
+
+## Methods
+
+### addEvent()
+
+> **addEvent**(`name`, `attributes?`, `startTime?`): `this`
+
+Defined in: [src/genai/spanBase.ts:77](https://github.com/wandb/weave/blob/ebaa175f4434046995224aafad3b9e2939258601/sdks/node/src/genai/spanBase.ts#L77)
+
+Add a named event to the span. Useful for marking non-span moments such as
+context compaction, tool-loop detection, or guardrail trips. Warns and
+no-ops after `end()`. Mirrors OTel `Span.addEvent`.
+
+#### Parameters
+
+##### name
+
+`string`
+
+##### attributes?
+
+`Attributes`
+
+##### startTime?
+
+`TimeInput`
+
+#### Returns
+
+`this`
+
+#### Example
+
+```ts twoslash
+// @noErrors
+span.addEvent('context_compacted', {removedMessages: 12});
+```
+
+#### Inherited from
+
+`SpanBase.addEvent`
+
+***
+
+### end()
+
+> **end**(`opts?`): `void`
+
+Defined in: [src/genai/subagent.ts:72](https://github.com/wandb/weave/blob/ebaa175f4434046995224aafad3b9e2939258601/sdks/node/src/genai/subagent.ts#L72)
+
+Close the SubAgent span. Idempotent. Pass `error` to mark it as failed;
+pass `endTime` to backdate the close.
+
+#### Parameters
+
+##### opts?
+
+`SpanEndOptions`
+
+#### Returns
+
+`void`
+
+***
+
+### setAttributes()
+
+> **setAttributes**(`attributes`): `this`
+
+Defined in: [src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/ebaa175f4434046995224aafad3b9e2939258601/sdks/node/src/genai/spanBase.ts#L63)
+
+Set multiple attributes on the span at once. Warns and no-ops after
+`end()`. Mirrors OTel `Span.setAttributes` (and the Python SDK's
+`set_attributes`).
+
+#### Parameters
+
+##### attributes
+
+`Attributes`
+
+#### Returns
+
+`this`
+
+#### Example
+
+```ts twoslash
+// @noErrors
+span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
+```
+
+#### Inherited from
+
+`SpanBase.setAttributes`

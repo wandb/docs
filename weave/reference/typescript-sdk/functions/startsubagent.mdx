@@ -1,26 +1,44 @@
 ---
-title: "startSubagent"
+title: "Function: startSubagent()"
 description: "TypeScript SDK reference"
 ---
 
-# startSubagent
+[**weave**](../)
 
-▸ **startSubagent**(`opts`): [`SubAgent`](../classes/subagent)
+***
+
+[weave](../) / startSubagent
+
+
+
+> **startSubagent**(`opts`): [`SubAgent`](../interfaces/subagent)
+
+Defined in: [src/genai/api.ts:129](https://github.com/wandb/weave/blob/ebaa175f4434046995224aafad3b9e2939258601/sdks/node/src/genai/api.ts#L129)
 
 Start a SubAgent span. Same parent-resolution rules as `startTool`.
 
-#### Parameters
+## Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `opts` | [`SubAgentInit`](../interfaces/subagentinit) |
+### opts
 
-#### Returns
+[`SubAgentInit`](../interfaces/subagentinit)
 
-[`SubAgent`](../classes/subagent)
+## Returns
 
-#### Defined in
+[`SubAgent`](../interfaces/subagent)
 
-[genai/api.ts:66](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/api.ts#L66)
+## Examples
 
-___
+```ts twoslash
+// @noErrors
+weave.startSubagent({name: 'critic', model: 'gpt-4o'});
+```
+
+```ts twoslash
+// @noErrors
+weave.startSubagent({
+  name: 'critic',
+  model: 'gpt-4o',
+  startTime: new Date('2026-05-29T10:00:00.000Z'),
+});
+```

@@ -1,20 +1,45 @@
 ---
-title: "endLLM"
+title: "Function: endLLM()"
 description: "TypeScript SDK reference"
 ---
 
-# endLLM
+[**weave**](../)
 
-▸ **endLLM**(): `void`
+***
+
+[weave](../) / endLLM
+
+
+
+> **endLLM**(`opts?`): `void`
+
+Defined in: [src/genai/api.ts:194](https://github.com/wandb/weave/blob/ebaa175f4434046995224aafad3b9e2939258601/sdks/node/src/genai/api.ts#L194)
 
 End the current LLM. No-op if no LLM is active.
 
-#### Returns
+## Parameters
+
+### opts?
+
+`SpanEndOptions`
+
+## Returns
 
 `void`
 
-#### Defined in
+## Examples
 
-[genai/api.ts:102](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/api.ts#L102)
+```ts twoslash
+// @noErrors
+weave.endLLM();
+```
 
-___
+```ts twoslash
+// @noErrors
+weave.endLLM({endTime: new Date('2026-05-29T10:00:00.800Z')});
+```
+
+```ts twoslash
+// @noErrors
+weave.endLLM({error: new Error('llm call failed')});
+```
