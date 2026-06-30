@@ -3,27 +3,33 @@ description: "Export W&B Table data to pandas DataFrames and CSV files for offli
 title: Export table data
 ---
 
-Like all W&B artifacts, you can convert Tables into pandas DataFrames for data export. This page shows you how to export the data in a W&B Table to a pandas DataFrame and then to a CSV file, so that you can analyze or process the data outside of W&B.
+This page shows you how to export the data in a W&B Table to a pandas DataFrame and then to a CSV file, so that you can analyze or process the data outside of W&B.
 
 ## Convert a table to an artifact
 
-First, add the table to an artifact and log it, then retrieve the table as a `Table` object you can manipulate. Use `artifact.add(table, "my_table")` to add the table to the artifact and `artifact.get("my_table")` to retrieve it later:
+To work with a logged table as a `Table` object, add it to an artifact, log the artifact, then retrieve the table:
 
-```python
-# Create and log a new table.
-with wandb.init() as r:
-    artifact = wandb.Artifact("my_dataset", type="dataset")
-    table = wandb.Table(
-        columns=["a", "b", "c"], data=[(i, i * 2, 2**i) for i in range(10)]
-    )
-    artifact.add(table, "my_table")
-    wandb.log_artifact(artifact)
+1. Add the table to an artifact with `artifact.add(table, "my_table")`, then log the artifact:
 
-# Retrieve the created table using the artifact you created.
-with wandb.init() as r:
-    artifact = r.use_artifact("my_dataset:latest")
-    table = artifact.get("my_table")
-```
+   ```python
+   # Create and log a new table.
+   with wandb.init() as r:
+       artifact = wandb.Artifact("my_dataset", type="dataset")
+       table = wandb.Table(
+           columns=["a", "b", "c"], data=[(i, i * 2, 2**i) for i in range(10)]
+       )
+       artifact.add(table, "my_table")
+       wandb.log_artifact(artifact)
+   ```
+
+2. Retrieve the table as a `Table` object with `artifact.get("my_table")`:
+
+   ```python
+   # Retrieve the created table using the artifact you created.
+   with wandb.init() as r:
+       artifact = r.use_artifact("my_dataset:latest")
+       table = artifact.get("my_table")
+   ```
 
 ## Convert the artifact to a DataFrame
 

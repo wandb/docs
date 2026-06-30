@@ -3,22 +3,20 @@ description: "Compare, filter, group, sort, and visualize W&B Tables data in mer
 title: Visualize and analyze tables
 ---
 
-Customize your W&B Tables to answer questions about your machine learning model's performance, analyze your data, and more. This page is for machine learning practitioners who want to inspect logged data interactively in the W&B App.
+Customize your W&B Tables to answer questions about your machine learning model's performance, analyze your data, and more. This page is for machine learning practitioners who want to inspect logged data interactively in W&B.
 
 Interactively explore your data to:
 
-* [Compare two W&B Tables](#table-comparison-options) logged as artifact versions to analyze changes in your data or model performance.
+* [Compare two Tables](#table-comparison-options) logged as artifact versions to analyze changes in your data or model performance.
 * Understand higher-level patterns in your data.
 * [View how values you log to a table change throughout your runs](#visualize-how-values-change-throughout-your-runs).
 
-<Note>
-W&B Tables have the following behaviors:
+Tables have the following behaviors:
 
 - **Stateless in an artifact context**: any table logged alongside an artifact version resets to its default state after you close the browser window.
 - **Stateful in a workspace or report context**: any changes you make to a table in a single run workspace, multi-run project workspace, or report persist.
 
-For information on how to save your current W&B Table view, see [Save your view](#save-your-view).
-</Note>
+For information on how to save your current Table view, see [Save your view](#save-your-view).
 
 
 
@@ -32,7 +30,7 @@ This section describes how to start a comparison and the two views you can switc
 
 Follow these steps to compare two tables:
 
-1. Go to your project in the W&B App.
+1. Go to your project in W&B.
 2. Select the artifacts icon in the project sidebar.
 3. Select an artifact version. 
 
@@ -51,7 +49,7 @@ Follow these steps to compare two tables:
 After you select a second artifact version, W&B opens a comparison of the two tables that you can explore in either of the following views.
 
 ### Merged view
-{/* To do, add steps */}
+
 Initially you see both tables merged together. The first table selected has index 0 and a blue highlight, and the second table has index 1 and a yellow highlight. [View a live example of merged tables here](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#7dd0cd845c0edb469dec).
 
 <Frame>
@@ -66,8 +64,6 @@ From the merged view, you can:
 * **Visualize detailed numerical differences as histograms**: Compare the values in any cell at a glance.
 
 ### Side-by-side view
-
-{/* To do */}
 
 To view the two tables side-by-side, change the first dropdown from **Merge Tables: Table** to **List of: Table** and then update the **Page size**. Here the first table selected is on the left and the second one is on the right. You can also compare these tables vertically by clicking the **Vertical** checkbox.
 
@@ -135,7 +131,7 @@ The query panel now displays a step slider that you can use to scrub through the
     <img src="/images/data_vis/stepper_key.png" alt="Step slider feature"  />
 </Frame>
 
-Within the W&B App UI you may notice duplicate values for multiple steps. This duplication can occur if multiple runs log the same value at different steps, or if a run doesn't log values at every step. If a value is missing for a given step, W&B uses the last logged value as the slider key.
+In W&B, you may notice duplicate values for multiple steps. This duplication can occur if multiple runs log the same value at different steps, or if a run doesn't log values at every step. If a value is missing for a given step, W&B uses the last logged value as the slider key.
 
 ### Custom step key
 
@@ -172,13 +168,6 @@ If the slider is set to `epoch = 9`:
 * `vague-cloud` also doesn't log `epoch = 9`, so W&B uses the latest prior value `epoch = 3` and returns the value logged at `_step = 20`.
 * `lively-frog` doesn't log `epoch = 9`, but the latest prior value is `epoch = 5` so it returns the value logged at `_step = 20`.
 * `serene-sponge` finds `epoch = 9` and returns the value logged at `_step = 18`.
-
-{/* | | |
-| ---- | ---- |
-| Run History Tables Stepper | |
-| Run History Plots Stepper | |
-| Stepper | | */}
-
 
 ## Save your view
 
