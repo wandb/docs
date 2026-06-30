@@ -1,6 +1,6 @@
 ---
 title: "Quickstart: Set up custom agent observability"
-description: Trace a multi-turn agent with the Weave SDK. Sessions, turns, LLM calls, and tool calls render in the Agents view of your project.
+description: Trace a multi-turn agent with the Weave SDK. Conversations, turns, LLM calls, and tool calls render in the Agents view of your project.
 keywords: ["OpenTelemetry", "OTel spans", "multi-turn agent", "tool calls", "tracing"]
 ---
 
@@ -16,17 +16,17 @@ If you're looking to integrate Weave with SDKs or harnesses such as the Claude A
 
 ## What you'll learn
 
-By the end of this quickstart, you'll have a working multi-turn agent that emits Weave-compatible OTel spans. You'll also understand how Weave maps sessions, turns, LLM calls, and tool calls onto your agent code so you can apply the same pattern to your own custom agents.
+By the end of this quickstart, you'll have a working multi-turn agent that emits Weave-compatible OTel spans. You'll also understand how Weave maps conversations, turns, LLM calls, and tool calls onto your agent code so you can apply the same pattern to your own custom agents.
 
 The code in this guide sets up a small research agent that can look things up on Wikipedia. It asks three questions (three turns) and uses the LLM to choose when to search Wikipedia for an answer. Weave records every step (the conversation, each question, each AI response, and each Wikipedia lookup) so you can see what happened in the Weave Agents view.
 
 This guide shows you how to:
 
 - Initialize Weave for agent tracing with `weave.init()`.
-- Open a session and a turn with `start_session` / `startSession` and `start_turn` / `startTurn`.
+- Open a conversation and a turn with `start_conversation` / `startConversation` and `start_turn` / `startTurn`.
 - Wrap LLM calls with `start_llm` / `startLLM` and record usage.
 - Wrap tool executions with `start_tool` / `startTool` and record results.
-- View the resulting session, turns, and tool calls in the Agents view.
+- View the resulting conversation, turns, and tool calls in the Agents view.
 
 ## How the Weave SDK works with agents
 
@@ -34,7 +34,7 @@ The Weave SDK includes a generic OTel ingest system for agents, meaning that Wea
 
 | Concept | Python | TypeScript | OTel span |
 | --- | --- | --- | --- |
-| A conversation | `weave.start_session(...)` | `weave.startSession(...)` | (no span, groups turns) |
+| A conversation | `weave.start_conversation(...)` | `weave.startConversation(...)` | (no span, groups turns) |
 | One user or agent exchange | `weave.start_turn(...)` | `weave.startTurn(...)` | `invoke_agent` |
 | One LLM API call | `weave.start_llm(...)` | `weave.startLLM(...)` | `chat` |
 | One tool execution | `weave.start_tool(...)` | `weave.startTool(...)` | `execute_tool` |
@@ -164,9 +164,9 @@ const wikipediaToolSchema = {
 
 ## Run a traced multi-turn agent
 
-With the tool and Weave initialization in place, the next step combines them into a complete agent loop. This loop shows how sessions, turns, LLM calls, and tool calls nest together.
+With the tool and Weave initialization in place, the next step combines them into a complete agent loop. This loop shows how conversations, turns, LLM calls, and tool calls nest together.
 
-The following example runs three turns in a single session. Each turn:
+The following example runs three turns in a single conversation. Each turn:
 
 1. Opens a `chat` span and lets the LLM choose whether to call the tool.
 2. If the LLM requests a tool, opens an `execute_tool` span around the call and feeds the result back to the LLM.
@@ -226,7 +226,7 @@ def run_turn(history, user_message):
             history.append({"role": "assistant", "content": msg.content})
             return msg.content
 
-with weave.start_session(agent_name="research-bot") as session:
+with weave.start_conversation(agent_name="research-bot") as conversation:
     history = []
     for question in [
         "Who founded Anthropic?",
@@ -237,7 +237,7 @@ with weave.start_session(agent_name="research-bot") as session:
         print(f"AGENT: {run_turn(history, question)}\n")
 ```
 
-```typescript lines highlight="10,13,39,54,76" TypeScript twoslash
+```typescript lines highlight="10,13,40,55,77" TypeScript twoslash
 // @noErrors
 import OpenAI from 'openai';
 
@@ -248,7 +248,7 @@ const MODEL = 'gpt-4o-mini';
 async function runTurn(history: any[], userMessage: string): Promise<string | null> {
   history.push({ role: 'user', content: userMessage });
 
-  const turn = weave.startTurn({ userMessage, model: MODEL });
+  const turn = weave.startTurn({ model: MODEL });
   try {
     // LLM call 1: the model might decide to use a tool.
     const llm1 = weave.startLLM({ model: MODEL, providerName: 'openai' });
@@ -277,6 +277,7 @@ async function runTurn(history: any[], userMessage: string): Promise<string | nu
 
     // Execute each requested tool call.
     for (const tc of msg.tool_calls) {
+      if (tc.type !== 'function') continue;
       const tool = weave.startTool({
         name: tc.function.name,
         args: tc.function.arguments,
@@ -314,7 +315,7 @@ async function runTurn(history: any[], userMessage: string): Promise<string | nu
   }
 }
 
-const session = weave.startSession({ agentName: 'research-bot' });
+const conversation = weave.startConversation({ agentName: 'research-bot' });
 try {
   const history: any[] = [];
   for (const question of [
@@ -326,7 +327,7 @@ try {
     console.log(`AGENT: ${await runTurn(history, question)}\n`);
   }
 } finally {
-  session.end();
+  conversation.end();
 }
 ```
 </CodeGroup>
@@ -336,7 +337,7 @@ try {
 When `weave.init()` runs, it prints a link to your project where you can see:
 
 - A row in the **Agents** tab for `research-bot`.
-- One session containing three turns.
+- One conversation containing three turns.
 - Each turn (`invoke_agent`) with two `chat` spans and an `execute_tool` span nested inside.
 - Token counts, latency, model, and the full message exchange on each `chat`.
 
