@@ -503,8 +503,95 @@ def organize_for_mintlify(temp_output, final_output):
     
     # Extract functions and type aliases to separate files if they're consolidated
     extract_members_to_separate_files(final_path)
-    
+
+    # Promote `@deprecated` JSDoc tags into prominent Mintlify <Warning>
+    # callouts hoisted under each symbol's heading. Must run AFTER extraction
+    # so the `### name\n\n▸` pattern that extraction relies on is still intact.
+    hoist_deprecation_callouts(final_path)
+
     print("  ✓ Documentation organized")
+
+
+# Matches TypeDoc's @deprecated output:
+#   `Deprecated`
+#
+#   <message paragraph, possibly multiline>
+#
+# Stops at the next heading or `___` separator (or end of file). The non-greedy
+# `.+?` plus the lookahead lets the message itself span multiple soft-wrapped
+# lines without swallowing the section that follows it.
+_DEPRECATED_BLOCK_RE = re.compile(
+    r'\n\n`Deprecated`\n\n(.+?)(?=\n\n(?:#{1,6} |___|\Z))',
+    re.DOTALL,
+)
+
+# Symbol-level headings only. H4 (`#### Returns`, `#### Defined in`) is a
+# *sub*section of a symbol and is deliberately excluded — anchoring the
+# warning there would put it back where TypeDoc already placed it.
+_SYMBOL_HEADING_RE = re.compile(r'^#{1,3} .+$', re.MULTILINE)
+
+
+def hoist_deprecation_callouts(docs_root):
+    """Convert inline `Deprecated` markers into hoisted Mintlify <Warning>s.
+
+    TypeDoc renders `@deprecated` as a plain inline label after the Returns
+    block, which is easy to overlook. For each `Deprecated` marker we:
+      1. Replace it with a Mintlify <Warning> callout for visual weight.
+      2. Move it directly under the nearest preceding symbol heading
+         (H1-H3) so it's the first thing a reader sees for that symbol.
+    """
+    docs_root = Path(docs_root)
+    targets = list(docs_root.rglob("*.mdx"))
+    landing = docs_root.parent / "typescript-sdk.mdx"
+    if landing.exists():
+        targets.append(landing)
+
+    updated = 0
+    for mdx_file in targets:
+        original = mdx_file.read_text()
+        new_content = _hoist_deprecations_in_text(original)
+        if new_content != original:
+            mdx_file.write_text(new_content)
+            updated += 1
+
+    if updated:
+        print(f"  ✓ Hoisted deprecation callouts in {updated} file(s)")
+
+
+def _hoist_deprecations_in_text(content):
+    deprecations = list(_DEPRECATED_BLOCK_RE.finditer(content))
+    if not deprecations:
+        return content
+
+    headings = list(_SYMBOL_HEADING_RE.finditer(content))
+
+    edits = []
+    inserts_by_pos = {}
+
+    for dep in deprecations:
+        message = dep.group(1).strip()
+        warning = f'\n\n<Warning>\n  **Deprecated.** {message}\n</Warning>'
+
+        anchor = 0
+        for h in headings:
+            if h.start() < dep.start():
+                anchor = h.end()
+            else:
+                break
+
+        edits.append((dep.start(), dep.end(), ''))
+        inserts_by_pos.setdefault(anchor, []).append(warning)
+
+    for pos, warns in inserts_by_pos.items():
+        edits.append((pos, pos, ''.join(warns)))
+
+    # Reverse-order application keeps earlier offsets valid.
+    edits.sort(key=lambda e: (e[0], e[1]), reverse=True)
+
+    for start, end, replacement in edits:
+        content = content[:start] + replacement + content[end:]
+
+    return content
 
 
 def cleanup_temp_dirs(*paths):
