@@ -4,10 +4,6 @@ description: 관측성과 디버깅을 위해 W&B Weave에서 OpenClaw 에이전
 keywords: ["OpenClaw", "게이트웨이 플러그인", "에이전트 트레이싱", "OTel GenAI", "weave-openclaw"]
 ---
 
-import AgentsPreview from '/snippets/ko/_includes/agents-public-preview.mdx';
-
-<AgentsPreview />
-
 Weave OpenClaw 플러그인은 OpenClaw 게이트웨이를 통해 실행되는 모든 에이전트 세션을 자동으로 트레이스하고, 구조화된 데이터를 W&amp;B Weave로 전송합니다. 이 플러그인은 애플리케이션 코드를 변경하지 않아도 모든 대화 턴, 모델 Call, 도구 실행을 기록합니다. 이러한 트레이스를 사용해 세션을 디버그하고, 도구 사용을 감사하고, Runs 전반의 비용과 지연 시간을 모니터링하세요.
 
 이 가이드는 게이트웨이 뒤에서 실행되는 에이전트에 대해 Weave Tracing을 활성화하려는 OpenClaw 게이트웨이 운영자를 위한 문서입니다. 플러그인 설치, 설정, 생성된 트레이스 확인, 일반적인 문제 해결 방법을 안내합니다.

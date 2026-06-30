@@ -4,10 +4,6 @@ description: Weave SDK を使用してマルチターンのエージェント型
 keywords: ["マルチターン", "セッション", "OTel", "invoke_agent", "conversation_id"]
 ---
 
-import AgentsPreview from '/snippets/ja/_includes/agents-public-preview.mdx';
-
-<AgentsPreview />
-
 W&amp;B Weave SDK を使用してマルチターンのエージェント型アプリケーションを計装し、エージェントの動作を確認、デバッグ、評価する方法を学びます。このガイドは、エージェントを構築または統合し、セッション、ターン、LLM calls、ツール実行を構造化された形で可視化したい開発者を対象としています。
 
 Agents 向けの Weave SDK は、マルチターンのエージェント会話のライフサイクル全体をモデル化します。これには、多数のセッションを持つエージェント、ターンをグループ化するセッション、ユーザーとエージェントの各やり取り (ターン) 、ターン内の LLM calls、そして LLM によってトリガーされるツール実行が含まれます。トレースは Weave プロジェクトの **Agents** タブに表示されます。各セッションには、ネストされたツール呼び出し、トークン使用量、feedback を含むマルチターンのタイムラインが表示されます。
