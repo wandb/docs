@@ -7,7 +7,7 @@ description: "TypeScript SDK reference"
 
 ▸ **runIsolated**\<`T`\>(`fn`): `T`
 
-Run `fn` in a fresh, isolated GenAI state frame. Any Session / Turn / LLM
+Run `fn` in a fresh, isolated GenAI state frame. Any Conversation / Turn / LLM
 started inside `fn` lives in this frame only — it does not clash with
 sibling `runIsolated` frames running concurrently, and it does not leak
 to the outer async chain.
@@ -42,6 +42,6 @@ process-wide default state handles it.
 
 #### Defined in
 
-[genai/context.ts:90](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/context.ts#L90)
+[src/genai/context.ts:54](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/context.ts#L54)
 
 ___
