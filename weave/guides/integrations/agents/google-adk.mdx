@@ -104,10 +104,10 @@ The example runs three turns in a single ADK session. The first two turns trigge
 
 ### See your agent traces in the Agents view
 
-After the script runs, open your project's **Agents** view to confirm that Weave captured the session. `weave.init()` prints a link to your project when it runs. In the **Agents** view, inspect the following:
+After the script runs, open your project's **Agents** view to confirm that Weave captured the conversation. `weave.init()` prints a link to your project when it runs. In the **Agents** view, inspect the following:
 
 - A row in the **Agents** tab for `research_assistant`.
-- A single session containing three turns.
+- A single conversation containing three turns.
 - Each turn rendered as an `invoke_agent` span with nested model calls and tool calls.
 - The full input, model, output, token usage, and Wikipedia results at each step.
 

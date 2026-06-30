@@ -36,7 +36,7 @@ npm install --save-dev @types/node tsx typescript
 
 ## Trace a Pi prompt and response
 
-The following example shows the minimum setup needed to trace a single Pi prompt and response. Call `weave.init()` before you create your agent session, then pass `createOtelExtension()` as an extension factory. Weave traces the full agent lifecycle: the session, each prompt-and-response cycle (`invoke_agent`), individual LLM calls (`chat`), and tool executions (`execute_tool`). `SessionManager.inMemory()` generates the session ID automatically.
+The following example shows the minimum setup needed to trace a single Pi prompt and response. Call `weave.init()` before you create your agent session, then pass `createOtelExtension()` as an extension factory. Weave traces the full agent lifecycle: the conversation, each prompt-and-response cycle (`invoke_agent`), individual LLM calls (`chat`), and tool executions (`execute_tool`). `SessionManager.inMemory()` generates the session ID automatically.
 
 ```typescript lines twoslash
 // @noErrors
@@ -73,7 +73,7 @@ async function main() {
   });
 
   // 4. Bind extensions. Triggers session_start event so the OTEL adapter
-  //    creates the root session span and captures the conversation ID.
+  //    creates the root conversation span and captures the conversation ID.
   await session.bindExtensions({});
 
   // 5. Stream assistant output to stdout
@@ -104,6 +104,6 @@ When you run your code, your traces appear in the **Agents** tab of your Weave p
 
 ### Next steps
 
-To turn this example into a multi-turn session, add more prompts. Weave traces each call to `session.prompt()` as a separate `invoke_agent` span, all nested under a single root span. The agent retains context across prompts automatically.
+To turn this example into a multi-turn conversation, add more prompts. Weave traces each call to `session.prompt()` as a separate `invoke_agent` span, all nested under a single root span. The agent retains context across prompts automatically.
 
 After running the code, the **Agents** tab shows the full multi-turn timeline with nested LLM calls, tool executions, token usage, and cost.
