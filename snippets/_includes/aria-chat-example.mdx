@@ -1,0 +1,35 @@
+export const AriaChatBubbles = ({ prompt, response }) => (
+  <div
+    aria-label="W&B ARIA chat example"
+    className="not-prose flex flex-col gap-3 rounded-xl border border-zinc-950/10 bg-zinc-50 p-4 dark:border-white/10 dark:bg-zinc-900/40"
+    role="group"
+  >
+    <div className="flex flex-col items-end">
+      <span className="mb-1 text-xs font-medium text-zinc-500 dark:text-zinc-400">
+        You
+      </span>
+      <div className="max-w-[85%] whitespace-pre-wrap rounded-2xl rounded-br-md bg-[#007AFF] px-4 py-2.5 text-[15px] leading-snug text-white">
+        {prompt}
+      </div>
+    </div>
+    <div className="flex flex-col items-start">
+      <span className="mb-1 text-xs font-medium text-zinc-500 dark:text-zinc-400">
+        W&B ARIA
+      </span>
+      <div className="max-w-[85%] whitespace-pre-wrap rounded-2xl rounded-bl-md bg-[#E9E9EB] px-4 py-2.5 text-[15px] leading-snug text-zinc-900 dark:bg-zinc-700 dark:text-zinc-100">
+        {response}
+      </div>
+    </div>
+  </div>
+);
+
+export const AriaChatCodeBlocks = ({ prompt, response }) => (
+  <>
+    <CodeBlock language="text" filename="User prompt">
+      {prompt}
+    </CodeBlock>
+    <CodeBlock language="text" filename="W&B ARIA response">
+      {response}
+    </CodeBlock>
+  </>
+);

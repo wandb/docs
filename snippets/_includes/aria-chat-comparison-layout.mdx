@@ -1,0 +1,16 @@
+export const AriaChatComparisonLayout = ({ codeColumn, chatColumn }) => (
+  <div className="not-prose my-6 grid gap-6 lg:grid-cols-2">
+    <div>
+      <p className="mb-3 text-sm font-medium text-zinc-700 dark:text-zinc-300">
+        Code blocks
+      </p>
+      {codeColumn}
+    </div>
+    <div>
+      <p className="mb-3 text-sm font-medium text-zinc-700 dark:text-zinc-300">
+        Chat bubbles (prototype)
+      </p>
+      {chatColumn}
+    </div>
+  </div>
+);

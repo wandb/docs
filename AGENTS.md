@@ -85,6 +85,20 @@ To check or apply style, read the relevant pass file(s) and use them as guidance
 - **Python SDK functions**: Module-level functions in the Python SDK are listed in the [Global Functions overview](/models/ref/python/functions).
 - **`.editorconfig`**: An `.editorconfig` file in the repository root enforces indentation and whitespace automatically. Most editors apply it with no configuration. If yours doesn't support it natively, install the EditorConfig plugin (https://editorconfig.org/#download).
 - **Consistent language tab labels**: When an example offers multiple languages — in a `<CodeGroup>` or across `<Tab title="...">` blocks — label every tab with the same canonical name everywhere: `Python`, `TypeScript` (never `Typescript`), `Bash`. In a `<CodeGroup>`, give each fence a lowercase lexer **and** that canonical title (e.g. a `python` fence titled `Python`); never leave a language fence untitled. The reader's **Python/TypeScript** choice carries from page to page via `code-group-language-persist.js` (repo root), which matches those two labels case-insensitively — so inconsistent casing of them silently resets it. Other labels like `Bash` are only for in-page consistency and are intentionally not persisted across pages. Don't add a competing per-page persistence script.
+- **W&B ARIA chat examples**: Use the reusable snippet at `/snippets/_includes/aria-chat-example.mdx` when a task can be delegated to W&B ARIA end-to-end in the W&B app. This is a third content modality alongside code examples and UI click sequences. Import and invoke with `prompt` and `response` props:
+
+  ```mdx
+  import { AriaChatCodeBlocks } from '/snippets/_includes/aria-chat-example.mdx';
+
+  <AriaChatCodeBlocks
+    prompt="Your user prompt here"
+    response="A concise example W&B ARIA response"
+  />
+  ```
+
+  Use **W&B ARIA** as the public-facing product name in prose and in the response fence title (the snippet sets this automatically). The default format is compact: a user prompt and a concise W&B ARIA response. Don't include reasoning or thinking steps unless the page specifically needs them for clarity; longer walkthroughs belong on [ARIA overview](/aria/overview). Place chat examples in the first section where the ARIA-delegable task appears, not at the top of the page unless the whole page is about chatting with ARIA.
+
+  For reviewer comparison during the DOCS-2631 prototype, import `AriaChatCodeBlocks`, `AriaChatBubbles`, and `AriaChatComparisonLayout` in the parent page and pass `codeColumn` and `chatColumn` props. Mintlify does not resolve component references across snippet files, so the parent page must import each piece.
 
 ## Working with the repository
 

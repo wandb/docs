@@ -5,6 +5,12 @@ description: Use and customize workspace panels to visualize your logged data
 keywords: ["workspace panels", "quick add", "full-screen mode", "panel sections", "embed panel"]
 ---
 
+import {
+  AriaChatBubbles,
+  AriaChatCodeBlocks,
+} from '/snippets/_includes/aria-chat-example.mdx';
+import { AriaChatComparisonLayout } from '/snippets/_includes/aria-chat-comparison-layout.mdx';
+
 Use workspace panel visualizations to explore your [logged data](/models/ref/python/experiments/run.md/#method-runlog) by key, visualize the relationships between hyperparameters and output metrics, and more. This page describes how to choose a workspace mode, add and configure panels, organize them into sections, and share them with collaborators. 
 
 ## Workspace modes
@@ -100,6 +106,23 @@ Add panels to your workspace one at a time, either globally or at the section le
 ### Quick add panels
 
 Use **Quick add** to add a panel automatically for each key you select, either globally or at the section level.
+
+You can also ask W&B ARIA to add panels for you. The following compares the current code-block style with a chat-bubble prototype:
+
+<AriaChatComparisonLayout
+  codeColumn={
+    <AriaChatCodeBlocks
+      prompt="Add line plot panels for every metric under the train/ prefix."
+      response="I'll add line plot panels for each train/ metric logged in the visible runs and organize them in your workspace."
+    />
+  }
+  chatColumn={
+    <AriaChatBubbles
+      prompt="Add line plot panels for every metric under the train/ prefix."
+      response="I'll add line plot panels for each train/ metric logged in the visible runs and organize them in your workspace."
+    />
+  }
+/>
 
 <Note>
 For an automated workspace with no deleted panels, the **Quick add** option isn't visible because the workspace already includes panels for all logged keys. You can use **Quick add** to re-add a panel that you deleted.
