@@ -123,7 +123,7 @@ Pour filtrer, trier ou traiter des appels en dehors de l’interface utilisateur
 Pour plus de détails sur les propriétés et les champs des appels, voir la [référence du schéma des appels](/fr/weave/guides/tracking/call-schema-reference).
 
 <div id="export-call-metrics">
-  ## Exporter les métriques des appels
+  ## Exporter les métriques d’appel
 </div>
 
 Lorsque vous avez besoin de données agrégées, comme des tendances de coût ou de latence, plutôt que des enregistrements d&#39;appels sous-jacents, utilisez le point de terminaison de métriques décrit dans cette section.
@@ -181,8 +181,7 @@ L&#39;exemple suivant montre comment récupérer les appels générés à partir
   print(json.dumps(response.json(), indent=2))
   ```
 
-  ```typescript twoslash TypeScript lines {6-7,13-20}
-  // @noErrors
+  ```typescript TypeScript lines {6-7,13-20}
   const url = "https://trace.wandb.ai/calls/stats";
 
   const payload = {
@@ -226,8 +225,8 @@ La requête précise également comment agréger les métriques. Vous pouvez agr
 
 Le point de terminaison renvoie un objet JSON. L&#39;exemple de réponse suivant montre des métriques sur deux jours. Chaque jour (bucket) apparaît comme un objet distinct dans les tableaux `usage_buckets` et `call_buckets`. Chaque tableau répartit les métriques différemment :
 
-* `usage_buckets` : regroupe les métriques d&#39;appel de chaque jour par modèle utilisé.
-* `call_buckets` : regroupe les métriques d&#39;appel de chaque jour, quel que soit le modèle utilisé.
+* `usage_buckets` : regroupe les métriques d’appel de chaque jour par modèle utilisé.
+* `call_buckets` : regroupe les métriques d’appel de chaque jour, quel que soit le modèle utilisé.
 
 Définissez le champ granularity (en secondes) dans la requête pour modifier la taille des buckets.
 

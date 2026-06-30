@@ -384,12 +384,13 @@ Crée un nouvel utilisateur au sein de votre organisation.
   #### Paramètres
 </div>
 
-| Paramètre    | Type   | Requis | Description                                                                                                          |
-| ------------ | ------ | ------ | -------------------------------------------------------------------------------------------------------------------- |
-| `emails`     | array  | Oui    | Tableau d’objets e-mail. Doit inclure une adresse e-mail principale                                                  |
-| `userName`   | string | Oui    | Nom d’utilisateur du nouvel utilisateur                                                                              |
-| `modelsSeat` | string | Non    | Niveau de licence Models. L’une des valeurs suivantes : `full`, `viewer` ou `none`. La valeur par défaut est `full`. |
-| `weaveRole`  | string | Non    | Niveau de rôle Weave. L’une des valeurs suivantes : `full`, `viewer` ou `none`. La valeur par défaut est `full`.     |
+| Paramètre        | Type   | Requis | Description                                                                                                                                                                                                                                                                                                     |
+| ---------------- | ------ | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `emails`         | array  | Oui    | Tableau d’objets e-mail. Doit inclure une adresse e-mail principale                                                                                                                                                                                                                                             |
+| `userName`       | string | Oui    | Nom d’utilisateur du nouvel utilisateur                                                                                                                                                                                                                                                                         |
+| `modelsSeat`     | string | Non    | Niveau de licence Models. L’une des valeurs suivantes : `full`, `viewer` ou `none`. La valeur par défaut est `full`.                                                                                                                                                                                            |
+| `weaveRole`      | string | Non    | Niveau de rôle Weave. L’une des valeurs suivantes : `full`, `viewer` ou `none`. La valeur par défaut est `full`.                                                                                                                                                                                                |
+| `registryAccess` | string | Non    | Droit d’accès au registre. L’une des valeurs suivantes : `enabled` ou `none`. Lorsqu’il n’est pas indiqué, l’accès effectif est déterminé à partir de `modelsSeat` et `weaveRole` au moment de la lecture. Disponible dans **Cloud mutualisé**{/* and in **Cloud dédié** and **Autogéré** v0.83.0+ */}. |
 
 #### Exemple
 
@@ -1242,6 +1243,12 @@ Attribue à un utilisateur un rôle au niveau de l’organisation.
 
 Met à jour la licence Models attribuée à un utilisateur.
 
+<Note>
+  Sur **Cloud mutualisé**{/* and on **Dedicated Cloud** and **Self-Managed** v0.83.0+ */}, l&#39;accès à Registry est dissocié des licences Models. Définir `modelsSeat` sur `none` ne révoque plus l&#39;accès à Registry lorsque l&#39;utilisateur a un `weaveRole` différent de `none`. Pour révoquer l&#39;accès à Registry sur ces déploiements, utilisez [Mettre à jour l&#39;accès à Registry](#update-registry-access) et définissez `registryAccess` sur `none`.
+
+  Sur **Cloud dédié** et **Autogéré**, {/* v0.82.0 and older */} l&#39;accès à Registry reste lié à `modelsSeat`. Définissez `modelsSeat` sur `none` pour révoquer l&#39;accès à Registry dans ces versions.
+</Note>
+
 #### Point de terminaison
 
 * **URL**: `[HOST-URL]/scim/Users/{id}`
@@ -1387,6 +1394,91 @@ Met à jour le rôle d&#39;un utilisateur dans Weave.
         "organizationRole": "member",
         "modelsSeat": "full",
         "weaveRole": "full"
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<div id="update-registry-access">
+  ### Mettre à jour l’accès au registre
+</div>
+
+Accorde ou révoque l’accès au registre au niveau de l’organisation pour un utilisateur. Ce droit est distinct des [rôles du registre](#add-to-registry) (`registryRoles`), qui contrôlent les autorisations pour chaque registre une fois l’utilisateur autorisé.
+
+Sur **Cloud mutualisé**, {/* et sur **Cloud dédié** et **Autogéré** v0.83.0+ */} les utilisateurs ayant un `modelsSeat` ou un `weaveRole` différent de `none` ont accès au registre par défaut. Définissez `registryAccess` sur `none` pour révoquer l’accès au registre sans modifier leur licence Models ni leur rôle Weave.
+
+Sur **Cloud dédié** et **Autogéré**, {/* v0.82.0 et versions antérieures */} utilisez [Mettre à jour la licence Models](#update-models-seat) et définissez `modelsSeat` sur `none` pour révoquer l’accès au registre. L’attribut `registryAccess` n’est pas disponible dans ces versions.
+
+Si vous omettez `registryAccess` lors de la création, l’API détermine l’accès effectif à partir du `modelsSeat` et du `weaveRole` de l’utilisateur lorsque vous récupérez cet utilisateur. Une valeur `registryAccess` explicite prime sur ce calcul. Les utilisateurs ayant un rôle d’organisation limité à la facturation ne reçoivent pas l’accès au registre via ce mécanisme.
+
+#### Point de terminaison
+
+* **URL**: `[HOST-URL]/scim/Users/{id}`
+* **Méthode**: `PATCH`
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Paramètre | Type   | Requis | Description                                    |
+| --------- | ------ | ------ | ---------------------------------------------- |
+| `id`      | string | Oui    | L’ID unique de l’utilisateur                   |
+| `op`      | string | Oui    | `replace`                                      |
+| `path`    | string | Oui    | `registryAccess`                               |
+| `value`   | string | Oui    | Droit d’accès à registre (`enabled` ou `none`) |
+
+#### Exemple
+
+<Tabs>
+  <Tab title="Requête de révocation de l’accès au registre">
+    ```bash
+    PATCH /scim/Users/abc
+    ```
+
+    ```json
+    {
+        "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+        "Operations": [
+            {
+                "op": "replace",
+                "path": "registryAccess",
+                "value": "none"
+            }
+        ]
+    }
+    ```
+  </Tab>
+
+  <Tab title="Réponse de révocation de l’accès au registre">
+    ```text
+    (Statut 200)
+    ```
+
+    ```json
+    {
+        "active": true,
+        "displayName": "Dev User 1",
+        "emails": [
+            {
+                "primary": true,
+                "value": "dev-user1@example.com"
+            }
+        ],
+        "id": "abc",
+        "meta": {
+            "resourceType": "User",
+            "created": "2023-10-01T00:00:00Z",
+            "lastModified": "2023-10-01T00:00:00Z",
+            "location": "Users/abc"
+        },
+        "schemas": [
+            "urn:ietf:params:scim:schemas:core:2.0:User"
+        ],
+        "userName": "dev-user1",
+        "organizationRole": "member",
+        "modelsSeat": "none",
+        "weaveRole": "full",
+        "registryAccess": "none"
     }
     ```
   </Tab>
@@ -1577,8 +1669,12 @@ Ajoute un utilisateur à un registre en lui attribuant un rôle au niveau du reg
 Retire un utilisateur d’un registre.
 
 <Note>
+  Cette opération retire un utilisateur d’un registre spécifique. Elle ne révoque pas l’accès au registre au niveau de l’organisation. Pour révoquer entièrement l’accès au registre, utilisez [Mettre à jour l’accès au registre](#update-registry-access).
+</Note>
+
+<Note>
   * Les opérations de suppression suivent les spécifications du protocole SCIM RFC 7644. Utilisez la syntaxe de filtre `"registryRoles[registryName eq \"{registry_name}\"]"` pour retirer un utilisateur d’un registre spécifique, ou `"registryRoles"` pour retirer l’utilisateur de tous les registres.
-  * Cette opération fonctionne uniquement pour les utilisateurs, pas pour les comptes de service. Retirez les comptes de service d’un registre dans les paramètres de la Team W&amp;B.
+  * Cette opération fonctionne uniquement pour les utilisateurs, pas pour les comptes de service. Retirez les comptes de service d’un registre dans les paramètres de l’équipe W&amp;B.
 </Note>
 
 #### Point de terminaison
@@ -2798,20 +2894,25 @@ L’API SCIM renvoie des réponses d’erreur SCIM standard :
 | `500`          | Erreur interne du serveur                                                 |
 
 <div id="implementation-differences-per-deployment-type">
-  ### Différences d’implémentation selon le type de déploiement
+  ## Différences d’implémentation selon le type de déploiement
 </div>
 
 W&amp;B propose deux implémentations distinctes de l’API SCIM, dont les fonctionnalités diffèrent : consultez le tableau suivant avant d’intégrer SCIM afin de vérifier que les opérations sur lesquelles vous vous appuyez sont disponibles pour votre type de déploiement.
 
-| Fonctionnalité                                       | Cloud mutualisé | Cloud dédié et Autogéré |
-| ---------------------------------------------------- | --------------- | ----------------------- |
-| Mettre à jour l’adresse e-mail de l’utilisateur      | -               | ✓                       |
-| Mettre à jour le nom d’affichage de l’utilisateur    | -               | ✓                       |
-| Désactivation de l’utilisateur                       | ✓               | ✓                       |
-| Réactivation de l’utilisateur                        | -               | ✓                       |
-| Plusieurs adresses e-mail par utilisateur            | ✓               | -                       |
-| Définir `modelsSeat` lors de la création/mise à jour | ✓               | ✓                       |
-| Définir `weaveRole` lors de la création/mise à jour  | ✓               | ✓                       |
+| Fonctionnalité                                           | Cloud mutualisé | Cloud dédié et Autogéré |
+| -------------------------------------------------------- | --------------- | ----------------------- |
+| Mettre à jour l’adresse e-mail de l’utilisateur          | -               | ✓                       |
+| Mettre à jour le nom d’affichage de l’utilisateur        | -               | ✓                       |
+| Désactivation de l’utilisateur                           | ✓               | ✓                       |
+| Réactivation de l’utilisateur                            | -               | ✓                       |
+| Plusieurs adresses e-mail par utilisateur                | ✓               | -                       |
+| Définir `modelsSeat` lors de la création/mise à jour     | ✓               | ✓                       |
+| Définir `weaveRole` lors de la création/mise à jour      | ✓               | ✓                       |
+| Définir `registryAccess` lors de la création/mise à jour | ✓               | -                       |
+| Révoquer l’accès au Registry avec `modelsSeat: none`     | -               | ✓                       |
+| Révoquer l’accès au Registry avec `registryAccess: none` | ✓               | -                       |
+
+{/* À corriger avec la version 0.83+ */}
 
 <div id="limitations">
   ## Limitations
