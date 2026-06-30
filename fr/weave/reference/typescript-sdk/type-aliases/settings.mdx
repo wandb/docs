@@ -1,0 +1,33 @@
+---
+title: "Paramètres"
+description: "Référence du SDK TypeScript"
+---
+
+<div id="settings">
+  # Paramètres
+</div>
+
+Ƭ **Paramètres** : `Object`
+
+<div id="type-declaration">
+  #### Déclaration de type
+</div>
+
+| Nom                    | Type                                                                                                        | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| :--------------------- | :---------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `attributes`           | `Record`&lt;`string`, `any`&gt;                                                                             | Un tableau d&#39;attributs appliqués à chaque trace produite par ce client.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| `genai`                | &#123; `batchOptions?`: `BufferConfig` ; `spanProcessor?`: `"batch"` | `"simple"` | `SpanProcessor`  &#125; | -                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| `genai.batchOptions?`  | `BufferConfig`                                                                                              | Configuration de `BatchSpanProcessor`. Ignorée sauf si `spanProcessor === 'batch'`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| `genai.spanProcessor?` | `"batch"` | `"simple"` | `SpanProcessor`                                                                    | Définit comment les spans GenAI sont exportés. - `'batch'` (par défaut) : `BatchSpanProcessor`, adapté aux agents de production et aux processus de longue durée. - `'simple'` : `SimpleSpanProcessor`, un POST HTTP par span. Utile pour les tests et les CLI de courte durée, où un vidage déterministe importe davantage que le débit. - Instance de `SpanProcessor` : un processeur fourni par l&#39;utilisateur. L&#39;appelant est responsable de son cycle de vie ; l&#39;exporter OTLP Weave ciblant `/agents/otel/v1/traces` n&#39;est pas utilisé. |
+| `printCallLink`        | `boolean`                                                                                                   | Affiche dans le terminal des liens vers l&#39;interface Weave pour les ops. `Par défaut` `true`                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| `useOTelV2`            | `boolean`                                                                                                   | Achemine les intégrations compatibles OTel via leur variante OTel. `Par défaut` `true`                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/settings.ts:3](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/settings.ts#L3)
+
+<div id="variables">
+  ## Variables
+</div>

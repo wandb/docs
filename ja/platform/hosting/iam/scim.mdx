@@ -388,12 +388,13 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   #### パラメーター
 </div>
 
-| パラメーター       | タイプ    | 必須  | 説明                                                                |
-| ------------ | ------ | --- | ----------------------------------------------------------------- |
-| `emails`     | array  | はい  | メールオブジェクトの配列。メインメールアドレスを含める必要があります                                |
-| `userName`   | string | はい  | 新規ユーザーのユーザー名                                                      |
-| `modelsSeat` | string | いいえ | Models のシートレベルです。`full`、`viewer`、`none` のいずれかです。デフォルトは `full` です。 |
-| `weaveRole`  | string | いいえ | Weave のロールレベルです。`full`、`viewer`、`none` のいずれかです。デフォルトは `full` です。  |
+| パラメーター           | タイプ    | 必須  | 説明                                                                                                                                                                                           |
+| ---------------- | ------ | --- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `emails`         | array  | はい  | メールオブジェクトの配列。メインメールアドレスを含める必要があります                                                                                                                                                           |
+| `userName`       | string | はい  | 新規ユーザーのユーザー名                                                                                                                                                                                 |
+| `modelsSeat`     | string | いいえ | Models のシートレベルです。`full`、`viewer`、`none` のいずれかです。デフォルトは `full` です。                                                                                                                            |
+| `weaveRole`      | string | いいえ | Weave のロールレベルです。`full`、`viewer`、`none` のいずれかです。デフォルトは `full` です。                                                                                                                             |
+| `registryAccess` | string | いいえ | Registry の利用権限です。`enabled` または `none` のいずれかです。省略した場合、実効アクセス権は読み取り時に `modelsSeat` と `weaveRole` から決定されます。**Multi-tenant Cloud** で利用できます{/* **専用クラウド** および **セルフマネージド** v0.83.0+ でも利用できます */}。 |
 
 <div id="examples">
   #### 例
@@ -1258,10 +1259,16 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 </Tabs>
 
 <div id="update-models-seat">
-  ### シートを更新
+  ### シートを更新する
 </div>
 
-ユーザーのシートを更新します。
+ユーザーの シートを更新します。
+
+<Note>
+  **Multi-tenant Cloud**{/* and on **Dedicated Cloud** and **Self-Managed** v0.83.0+ */} では、Registry へのアクセスは シートと切り離されています。ユーザーが `none` 以外の `weaveRole` を持っている場合、`modelsSeat` を `none` に設定しても、Registry へのアクセスは取り消されません。これらのデプロイで Registry へのアクセスを取り消すには、[Registry access を更新する](#update-registry-access) を使用し、`registryAccess` を `none` に設定します。
+
+  **専用クラウド** と **セルフマネージド** では、{/* v0.82.0 and older */} Registry へのアクセスは引き続き `modelsSeat` に紐付いています。これらのリリースで Registry へのアクセスを取り消すには、`modelsSeat` を `none` に設定します。
+</Note>
 
 #### エンドポイント
 
@@ -1412,6 +1419,93 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
         "organizationRole": "member",
         "modelsSeat": "full",
         "weaveRole": "full"
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<div id="update-registry-access">
+  ### Registry アクセスを更新する
+</div>
+
+ユーザーに対して、組織レベルの Registry アクセスを付与または取り消します。この権限は [Registry roles](#add-to-registry) (`registryRoles`) とは別です。`registryRoles` は、ユーザーに Registry アクセスが付与された後の Registry ごとの権限を制御します。
+
+**Multi-tenant Cloud** では、{/* and on **Dedicated Cloud** and **Self-Managed** v0.83.0+ */} `modelsSeat` または `weaveRole` が `none` 以外のユーザーには、デフォルトで Registry アクセスが付与されます。Models シートや Weave ロールを変更せずに Registry アクセスを取り消すには、`registryAccess` を `none` に設定します。
+
+**専用クラウド** および **セルフマネージド** では、{/* v0.82.0 and older */} [Models シートを更新する](#update-models-seat) を使用し、`modelsSeat` を `none` に設定して Registry アクセスを取り消します。これらのリリースでは、`registryAccess` 属性は使用できません。
+
+作成時に `registryAccess` を省略すると、ユーザーの `modelsSeat` と `weaveRole` に基づいて API が有効なアクセス権を導出し、ユーザーの読み取り時にそれを返します。`registryAccess` を明示的に指定すると、この導出結果よりもそちらが優先されます。組織ロールが請求専用のユーザーには、この導出によって Registry アクセスは付与されません。
+
+#### エンドポイント
+
+* **URL**: `[HOST-URL]/scim/Users/{id}`
+* **method**: `PATCH`
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| パラメーター  | タイプ    | 必須 | 説明                                     |
+| ------- | ------ | -- | -------------------------------------- |
+| `id`    | string | はい | ユーザーの一意の ID                            |
+| `op`    | string | はい | `replace`                              |
+| `path`  | string | はい | `registryAccess`                       |
+| `value` | string | はい | Registry の利用権限 (`enabled` または `none`)  |
+
+<div id="examples">
+  #### 例
+</div>
+
+<Tabs>
+  <Tab title="Registry アクセスの取り消しリクエスト">
+    ```bash
+    PATCH /scim/Users/abc
+    ```
+
+    ```json
+    {
+        "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+        "Operations": [
+            {
+                "op": "replace",
+                "path": "registryAccess",
+                "value": "none"
+            }
+        ]
+    }
+    ```
+  </Tab>
+
+  <Tab title="Registry アクセスの取り消しレスポンス">
+    ```text
+    (Status 200)
+    ```
+
+    ```json
+    {
+        "active": true,
+        "displayName": "Dev User 1",
+        "emails": [
+            {
+                "primary": true,
+                "value": "dev-user1@example.com"
+            }
+        ],
+        "id": "abc",
+        "meta": {
+            "resourceType": "User",
+            "created": "2023-10-01T00:00:00Z",
+            "lastModified": "2023-10-01T00:00:00Z",
+            "location": "Users/abc"
+        },
+        "schemas": [
+            "urn:ietf:params:scim:schemas:core:2.0:User"
+        ],
+        "userName": "dev-user1",
+        "organizationRole": "member",
+        "modelsSeat": "none",
+        "weaveRole": "full",
+        "registryAccess": "none"
     }
     ```
   </Tab>
@@ -1604,6 +1698,10 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 </div>
 
 ユーザーを Registry から削除します。
+
+<Note>
+  この操作では、ユーザーを特定の Registry から削除します。組織レベルの Registry アクセスは取り消されません。Registry アクセスを完全に取り消すには、[Registry アクセスを更新](#update-registry-access)を使用してください。
+</Note>
 
 <Note>
   * 削除操作は RFC 7644 SCIM プロトコル仕様に従います。特定の Registry からユーザーを削除するには、フィルター構文 `"registryRoles[registryName eq \"{registry_name}\"]"` を使用します。すべての Registry からユーザーを削除するには、`"registryRoles"` を使用します。
@@ -2847,20 +2945,25 @@ SCIM APIは標準のSCIMエラーレスポンスを返します。
 | `500`    | Internal Server Error             |
 
 <div id="implementation-differences-per-deployment-type">
-  ### デプロイタイプごとの実装の違い
+  ## デプロイタイプごとの実装の違い
 </div>
 
 W&amp;B では 2 種類の SCIM API 実装を提供しており、利用できる機能はそれぞれ異なります。SCIM と統合する前に以下の表を確認し、利用している操作がご利用のデプロイタイプで使用可能かどうかを確認してください。
 
-| 機能                       | Multi-tenant Cloud | 専用クラウドとセルフマネージド |
-| ------------------------ | ------------------ | --------------- |
-| ユーザーのメールアドレスを更新          | -                  | ✓               |
-| ユーザーの表示名を更新              | -                  | ✓               |
-| ユーザーの無効化                 | ✓                  | ✓               |
-| ユーザーの再有効化                | -                  | ✓               |
-| ユーザーごとに複数のメールアドレス        | ✓                  | -               |
-| 作成/更新時に `modelsSeat` を設定 | ✓                  | ✓               |
-| 作成/更新時に `weaveRole` を設定  | ✓                  | ✓               |
+| 機能                                            | Multi-tenant Cloud | 専用クラウドとセルフマネージド |
+| --------------------------------------------- | ------------------ | --------------- |
+| ユーザーのメールアドレスを更新                               | -                  | ✓               |
+| ユーザーの表示名を更新                                   | -                  | ✓               |
+| ユーザーの無効化                                      | ✓                  | ✓               |
+| ユーザーの再有効化                                     | -                  | ✓               |
+| ユーザーごとに複数のメールアドレス                             | ✓                  | -               |
+| 作成/更新時に `modelsSeat` を設定                      | ✓                  | ✓               |
+| 作成/更新時に `weaveRole` を設定                       | ✓                  | ✓               |
+| 作成/更新時に `registryAccess` を設定                  | ✓                  | -               |
+| `modelsSeat: none` で Registry へのアクセスを取り消す     | -                  | ✓               |
+| `registryAccess: none` で Registry へのアクセスを取り消す | ✓                  | -               |
+
+{/* 0.83+ で修正 */}
 
 <div id="limitations">
   ## 制限事項

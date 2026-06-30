@@ -257,7 +257,7 @@ conversation sélectionnée.
 | **Coût**                           | Coût total de la conversation.                                                        |
 | **Appels d’outils**                | Nombre d’appels d’outils sur l’ensemble des tours de conversation.                    |
 | **Messages**                       | Nombre total de messages.                                                             |
-| **Durée de la session**            | Durée écoulée entre le premier et le dernier message.                                 |
+| **Durée de la conversation**       | Durée écoulée entre le premier et le dernier message.                                 |
 | **Page des tours de conversation** | Tours de conversation actuellement affichés et nombre total de tours de conversation. |
 
 <div id="token-breakdown">
@@ -282,6 +282,17 @@ conversation sélectionnée.
 La section **Participants** répertorie les agents et les modèles impliqués dans la
 conversation. Dans les conversations multi-agent, des tours de conversation différents peuvent afficher différents
 noms de modèle ici.
+
+<div id="add-agent-messages-to-a-dataset">
+  #### Ajouter des messages d’agent à un dataset
+</div>
+
+Pour ajouter des messages d’agent à un `Dataset` :
+
+1. Dans l’en-tête du panneau de détails de la conversation, cliquez sur **Add to dataset** pour ouvrir le volet latéral **Add example to dataset**.
+2. Dans **Choisir un dataset**, utilisez le menu déroulant pour choisir le dataset auquel vous souhaitez ajouter des traces.
+3. Dans **Select context**, sélectionnez les messages à ajouter au dataset. Cliquez sur **Next**.
+4. Vérifiez votre sélection, puis cliquez sur **Add to dataset**.
 
 <div id="spans-tab">
   ## Onglet Spans

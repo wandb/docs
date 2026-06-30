@@ -14,7 +14,8 @@ d’appeler `end()` pour enregistrer le résultat de l’outil dans le span.
 
 `Exemple`
 
-```ts
+```ts twoslash
+// @noErrors
 const tool = weave.startTool({
   name: tc.function.name,
   args: tc.function.arguments,
@@ -26,6 +27,14 @@ try {
   tool.end();
 }
 ```
+
+<div id="hierarchy">
+  ## Hiérarchie
+</div>
+
+* `SpanBase`
+
+  ↳ `Tool`
 
 <div id="table-of-contents">
   ## Table des matières
@@ -44,7 +53,9 @@ try {
   ### Méthodes
 </div>
 
+* [addEvent](./tool#addevent)
 * [end](./tool#end)
+* [setAttributes](./tool#setattributes)
 * [create](./tool#create)
 
 ## Propriétés
@@ -59,7 +70,7 @@ try {
   #### Défini dans
 </div>
 
-[genai/tool.ts:52](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/tool.ts#L52)
+[src/genai/tool.ts:52](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L52)
 
 ***
 
@@ -73,7 +84,7 @@ try {
   #### Défini dans
 </div>
 
-[genai/tool.ts:51](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/tool.ts#L51)
+[src/genai/tool.ts:51](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L51)
 
 ***
 
@@ -89,7 +100,7 @@ Sortie de l’outil sous forme de chaîne de caractères. Enregistrée dans `gen
   #### Défini dans
 </div>
 
-[genai/tool.ts:45](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/tool.ts#L45)
+[src/genai/tool.ts:47](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L47)
 
 ***
 
@@ -103,9 +114,56 @@ Sortie de l’outil sous forme de chaîne de caractères. Enregistrée dans `gen
   #### Défini dans
 </div>
 
-[genai/tool.ts:53](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/tool.ts#L53)
+[src/genai/tool.ts:53](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L53)
 
 ## Méthodes
+
+<div id="addevent">
+  ### addEvent
+</div>
+
+▸ **addEvent**(`name`, `attributes?`, `startTime?`): `this`
+
+Ajoute un événement nommé au span. Utile pour marquer des événements ponctuels qui ne constituent pas un span, comme
+la compaction du contexte, la détection de boucles d’outils ou le déclenchement de guardrails. Émet un avertissement et
+ne fait rien après `end()`. Correspond à OTel `Span.addEvent`.
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom           | Type         |
+| :------------ | :----------- |
+| `name`        | `string`     |
+| `attributes?` | `Attributes` |
+| `startTime?`  | `TimeInput`  |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`this`
+
+`Exemple`
+
+```ts twoslash
+// @noErrors
+span.addEvent('context_compacted', {removedMessages: 12});
+```
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+SpanBase.addEvent
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/spanBase.ts:77](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/spanBase.ts#L77)
+
+***
 
 <div id="end">
   ### end
@@ -114,16 +172,15 @@ Sortie de l’outil sous forme de chaîne de caractères. Enregistrée dans `gen
 ▸ **end**(`opts?`): `void`
 
 Vide `result` dans le span et le ferme. Idempotent. Passez `error` pour
-marquer le span comme ayant échoué.
+marquer le span comme ayant échoué ; passez `endTime` pour antidater la fermeture.
 
 <div id="parameters">
   #### Paramètres
 </div>
 
-| Nom           | Type     |
-| :------------ | :------- |
-| `opts?`       | `Object` |
-| `opts.error?` | `Error`  |
+| Nom     | Type             |
+| :------ | :--------------- |
+| `opts?` | `SpanEndOptions` |
 
 <div id="returns">
   #### Renvoie
@@ -135,7 +192,52 @@ marquer le span comme ayant échoué.
   #### Défini dans
 </div>
 
-[genai/tool.ts:83](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/tool.ts#L83)
+[src/genai/tool.ts:87](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L87)
+
+***
+
+<div id="setattributes">
+  ### setAttributes
+</div>
+
+▸ **setAttributes**(`attributes`): `this`
+
+Définit plusieurs attributs sur le span en une seule opération. Émet un avertissement et ne fait rien après
+`end()`. Reprend le comportement de `Span.setAttributes` d&#39;OTel (ainsi que celui de
+`set_attributes` dans le SDK Python).
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom          | Type         |
+| :----------- | :----------- |
+| `attributes` | `Attributes` |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`this`
+
+`Exemple`
+
+```ts twoslash
+// @noErrors
+span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
+```
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+SpanBase.setAttributes
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/spanBase.ts#L63)
 
 ***
 
@@ -163,4 +265,4 @@ marquer le span comme ayant échoué.
   #### Défini dans
 </div>
 
-[genai/tool.ts:56](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/tool.ts#L56)
+[src/genai/tool.ts:58](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L58)

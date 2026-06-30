@@ -226,7 +226,7 @@ conversation.
 | **Cost** | Total cost of the conversation. |
 | **Tool calls** | Number of tool calls across all turns. |
 | **Messages** | Total message count. |
-| **Session time** | Wall-clock duration from first to last message. |
+| **Conversation time** | Wall-clock duration from first to last message. |
 | **Turn page** | Which turns are currently displayed, and the total turn count. |
 
 ##### Token breakdown
@@ -247,6 +247,15 @@ selected conversation.
 The **Participants** section lists the agents and models involved in the
 conversation. In multi-agent conversations, different turns may show different
 model names here.
+
+#### Add agent messages to a dataset
+
+To add agent messages to a `Dataset`:
+
+1. In the conversation details panel header, click **Add to dataset** to open the **Add example to dataset** drawer.
+1. In **Choose a dataset**, use the dropdown to choose the dataset you want to add traces to.
+1. In **Select context**, select which messages to add to the dataset. Click **Next**.
+1. Review your selections and click **Add to dataset**.
 
 ## Spans tab
 

@@ -7,9 +7,17 @@ description: "Référence du SDK TypeScript"
   # endLLM
 </div>
 
-▸ **endLLM**(): `void`
+▸ **endLLM**(`opts?`): `void`
 
 Met fin au LLM actuel. N’a aucun effet si aucun LLM n’est actif.
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom     | Type             |
+| :------ | :--------------- |
+| `opts?` | `SpanEndOptions` |
 
 <div id="returns">
   #### Renvoie
@@ -17,10 +25,31 @@ Met fin au LLM actuel. N’a aucun effet si aucun LLM n’est actif.
 
 `void`
 
+`Exemple`
+
+```ts twoslash
+// @noErrors
+weave.endLLM();
+```
+
+`Exemple`
+
+```ts twoslash
+// @noErrors
+weave.endLLM({endTime: new Date('2026-05-29T10:00:00.800Z')});
+```
+
+`Exemple`
+
+```ts twoslash
+// @noErrors
+weave.endLLM({error: new Error('llm call failed')});
+```
+
 <div id="defined-in">
   #### Défini dans
 </div>
 
-[genai/api.ts:102](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/api.ts#L102)
+[src/genai/api.ts:194](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/api.ts#L194)
 
 ***
