@@ -22,7 +22,7 @@ The W&B Kubernetes Operator is the recommended way to deploy W&B Server on Kuber
 Before deploying W&B with the Kubernetes Operator, ensure your infrastructure meets all requirements:
 
 1. **Review infrastructure requirements**: See the [Self-Managed infrastructure requirements](/platform/hosting/self-managed/requirements/) page for details on:
-  - Software version requirements (Kubernetes, MySQL, Redis, Helm)
+  - Software version requirements (Kubernetes, MySQL, Redis, Helm, ClickHouse)
   - Hardware requirements (CPU architecture, sizing recommendations)
   - Kubernetes cluster configuration
   - Networking, SSL/TLS, and DNS requirements
@@ -1232,6 +1232,37 @@ Plan a maintenance window and notify users before you begin. Contact [Customer S
 5. Restart MySQL and verify that it is operational.
 6. When MySQL is up, run `wandb verify` to validate your W&B deployment. The command runs a series of checks and reports results to `STDOUT`. If it reports problems, make adjustments and run it again. For setup and login steps, see [Verify the installation](#verify-the-installation).
 7. After validation completes, users can resume normal operations.
+
+## ClickHouse compatibility for upgrades
+
+Self-Managed deployments that use an external ClickHouse cluster must verify ClickHouse compatibility before upgrading W&B Server or enabling Models OLAP features.
+
+### When this applies
+
+W&B Server 0.81.0+ introduces schema migrations that require ClickHouse 26.2 or newer when any of the following Models OLAP features are enabled in your Helm values:
+
+```yaml
+global:
+  olap:
+    registrySearch:
+      enabled: true
+    runStoreAccelerator:
+      enabled: true
+    history:
+      enabled: true
+```
+
+If these features are disabled or you do not use ClickHouse for Models OLAP workloads, this requirement does not apply to your upgrade.
+
+Dedicated Cloud and Multi-tenant Cloud deployments already run a compatible ClickHouse version and are not affected.
+
+### Before you upgrade
+
+1. Confirm whether Registry Search, Run Store Accelerator, or History is enabled in your deployment.
+2. If any are enabled, upgrade **both** ClickHouse Server and ClickHouse Keeper to 26.2 or newer **before** upgrading W&B Server to 0.81 or newer. On older ClickHouse versions, the migration can fail on startup and prevent `api` and `glue` pods from starting.
+3. If your deployment uses **Weave** with ClickHouse, coordinate your target ClickHouse version with [Weave self-managed guidance](/weave/guides/platform/weave-self-managed#upgrade). Models OLAP and Weave can have different ClickHouse version constraints. Contact [support](mailto:support@wandb.com) before upgrading if you use both.
+
+For version-specific release notes, see [Supported W&B Server releases](/release-notes/server-releases).
 
 ## Migrate self-managed instances to W&B Operator
 

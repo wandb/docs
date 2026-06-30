@@ -92,6 +92,14 @@ W&B can connect to a Redis instance in any of the following environments:
 - [Azure Cache for Redis](https://azure.microsoft.com/en-us/products/cache).
 - Redis deployment hosted in your cloud or on-premises infrastructure.
 
+## ClickHouse
+
+Weave and some Models OLAP features on Self-Managed deployments use ClickHouse. ClickHouse is not required for every Self-Managed installation.
+
+Minimum ClickHouse versions depend on which W&B features you enable and which W&B Server version you run. Before you upgrade W&B Server or change your ClickHouse version, see [ClickHouse compatibility for upgrades](/platform/hosting/self-managed/operator#clickhouse-compatibility-for-upgrades) in the Operator guide and the compatibility notes in [Supported W&B Server releases](/release-notes/server-releases).
+
+For deployment procedures, see [Deploy Weave in a self-managed environment](/weave/guides/platform/weave-self-managed).
+
 ## Object storage
 
 W&B Server requires an object storage bucket to store artifacts, media, and run data.
