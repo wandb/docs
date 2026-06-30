@@ -20,8 +20,26 @@ active.
 
 [`LLM`](../classes/llm)
 
+`Example`
+
+```ts twoslash
+// @noErrors
+weave.startLLM({model: 'gpt-4o-mini', providerName: 'openai'});
+```
+
+`Example`
+
+```ts twoslash
+// @noErrors
+weave.startLLM({
+  model: 'gpt-4o-mini',
+  providerName: 'openai',
+  startTime: new Date('2026-05-29T10:00:00.000Z'),
+});
+```
+
 #### Defined in
 
-[genai/api.ts:32](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/api.ts#L32)
+[src/genai/api.ts:70](https://github.com/wandb/weave/blob/0e7b9d2fd9d2777d5300774ea79a15aabe39435f/sdks/node/src/genai/api.ts#L70)
 
 ___

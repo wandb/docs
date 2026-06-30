@@ -1,0 +1,40 @@
+---
+title: "endConversation"
+description: "TypeScript SDK reference"
+---
+
+# endConversation
+
+▸ **endConversation**(`opts?`): `void`
+
+End the current Conversation. No-op if no Conversation is active.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `opts?` | `SpanEndOptions` |
+
+#### Returns
+
+`void`
+
+`Example`
+
+```ts twoslash
+// @noErrors
+weave.endConversation();
+```
+
+`Example`
+
+```ts twoslash
+// @noErrors
+weave.endConversation({endTime: new Date('2026-05-29T10:00:01.700Z')});
+```
+
+#### Defined in
+
+[src/genai/api.ts:151](https://github.com/wandb/weave/blob/0e7b9d2fd9d2777d5300774ea79a15aabe39435f/sdks/node/src/genai/api.ts#L151)
+
+___

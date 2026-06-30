@@ -1,0 +1,367 @@
+---
+title: "Interface: HttpResponse<D, E>"
+description: "TypeScript SDK reference"
+---
+
+[weave](../) / HttpResponse
+
+
+
+## Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `D` | extends `unknown` |
+| `E` | extends `unknown` = `unknown` |
+
+## Hierarchy
+
+- `Response`
+
+  ↳ `HttpResponse`
+
+## Table of contents
+
+### Properties
+
+- [body](./httpresponse#body)
+- [bodyUsed](./httpresponse#bodyused)
+- [data](./httpresponse#data)
+- [error](./httpresponse#error)
+- [headers](./httpresponse#headers)
+- [ok](./httpresponse#ok)
+- [redirected](./httpresponse#redirected)
+- [status](./httpresponse#status)
+- [statusText](./httpresponse#statustext)
+- [type](./httpresponse#type)
+- [url](./httpresponse#url)
+
+### Methods
+
+- [arrayBuffer](./httpresponse#arraybuffer)
+- [blob](./httpresponse#blob)
+- [bytes](./httpresponse#bytes)
+- [clone](./httpresponse#clone)
+- [formData](./httpresponse#formdata)
+- [json](./httpresponse#json)
+- [text](./httpresponse#text)
+
+## Properties
+
+### body
+
+• `Readonly` **body**: ``null`` \| `ReadableStream`\<`Uint8Array`\<`ArrayBuffer`\>\>
+
+[MDN Reference](https://developer.mozilla.org/docs/Web/API/Request/body)
+
+#### Inherited from
+
+Response.body
+
+#### Defined in
+
+node_modules/typescript/lib/lib.dom.d.ts:4468
+
+___
+
+### bodyUsed
+
+• `Readonly` **bodyUsed**: `boolean`
+
+[MDN Reference](https://developer.mozilla.org/docs/Web/API/Request/bodyUsed)
+
+#### Inherited from
+
+Response.bodyUsed
+
+#### Defined in
+
+node_modules/typescript/lib/lib.dom.d.ts:4470
+
+___
+
+### data
+
+• **data**: `D`
+
+#### Defined in
+
+[src/generated/traceServerApi.ts:5991](https://github.com/wandb/weave/blob/0e7b9d2fd9d2777d5300774ea79a15aabe39435f/sdks/node/src/generated/traceServerApi.ts#L5991)
+
+___
+
+### error
+
+• **error**: `E`
+
+#### Defined in
+
+[src/generated/traceServerApi.ts:5992](https://github.com/wandb/weave/blob/0e7b9d2fd9d2777d5300774ea79a15aabe39435f/sdks/node/src/generated/traceServerApi.ts#L5992)
+
+___
+
+### headers
+
+• `Readonly` **headers**: `Headers`
+
+The `headers` read-only property of the with the response.
+
+[MDN Reference](https://developer.mozilla.org/docs/Web/API/Response/headers)
+
+#### Inherited from
+
+Response.headers
+
+#### Defined in
+
+node_modules/typescript/lib/lib.dom.d.ts:26322
+
+___
+
+### ok
+
+• `Readonly` **ok**: `boolean`
+
+The `ok` read-only property of the Response interface contains a Boolean stating whether the response was successful (status in the range 200-299) or not.
+
+[MDN Reference](https://developer.mozilla.org/docs/Web/API/Response/ok)
+
+#### Inherited from
+
+Response.ok
+
+#### Defined in
+
+node_modules/typescript/lib/lib.dom.d.ts:26328
+
+___
+
+### redirected
+
+• `Readonly` **redirected**: `boolean`
+
+The `redirected` read-only property of the Response interface indicates whether or not the response is the result of a request you made which was redirected.
+
+[MDN Reference](https://developer.mozilla.org/docs/Web/API/Response/redirected)
+
+#### Inherited from
+
+Response.redirected
+
+#### Defined in
+
+node_modules/typescript/lib/lib.dom.d.ts:26334
+
+___
+
+### status
+
+• `Readonly` **status**: `number`
+
+The `status` read-only property of the Response interface contains the HTTP status codes of the response.
+
+[MDN Reference](https://developer.mozilla.org/docs/Web/API/Response/status)
+
+#### Inherited from
+
+Response.status
+
+#### Defined in
+
+node_modules/typescript/lib/lib.dom.d.ts:26340
+
+___
+
+### statusText
+
+• `Readonly` **statusText**: `string`
+
+The `statusText` read-only property of the Response interface contains the status message corresponding to the HTTP status code in Response.status.
+
+[MDN Reference](https://developer.mozilla.org/docs/Web/API/Response/statusText)
+
+#### Inherited from
+
+Response.statusText
+
+#### Defined in
+
+node_modules/typescript/lib/lib.dom.d.ts:26346
+
+___
+
+### type
+
+• `Readonly` **type**: `ResponseType`
+
+The `type` read-only property of the Response interface contains the type of the response.
+
+[MDN Reference](https://developer.mozilla.org/docs/Web/API/Response/type)
+
+#### Inherited from
+
+Response.type
+
+#### Defined in
+
+node_modules/typescript/lib/lib.dom.d.ts:26352
+
+___
+
+### url
+
+• `Readonly` **url**: `string`
+
+The `url` read-only property of the Response interface contains the URL of the response.
+
+[MDN Reference](https://developer.mozilla.org/docs/Web/API/Response/url)
+
+#### Inherited from
+
+Response.url
+
+#### Defined in
+
+node_modules/typescript/lib/lib.dom.d.ts:26358
+
+## Methods
+
+### arrayBuffer
+
+▸ **arrayBuffer**(): `Promise`\<`ArrayBuffer`\>
+
+[MDN Reference](https://developer.mozilla.org/docs/Web/API/Request/arrayBuffer)
+
+#### Returns
+
+`Promise`\<`ArrayBuffer`\>
+
+#### Inherited from
+
+Response.arrayBuffer
+
+#### Defined in
+
+node_modules/typescript/lib/lib.dom.d.ts:4472
+
+___
+
+### blob
+
+▸ **blob**(): `Promise`\<`Blob`\>
+
+[MDN Reference](https://developer.mozilla.org/docs/Web/API/Request/blob)
+
+#### Returns
+
+`Promise`\<`Blob`\>
+
+#### Inherited from
+
+Response.blob
+
+#### Defined in
+
+node_modules/typescript/lib/lib.dom.d.ts:4474
+
+___
+
+### bytes
+
+▸ **bytes**(): `Promise`\<`Uint8Array`\<`ArrayBuffer`\>\>
+
+[MDN Reference](https://developer.mozilla.org/docs/Web/API/Request/bytes)
+
+#### Returns
+
+`Promise`\<`Uint8Array`\<`ArrayBuffer`\>\>
+
+#### Inherited from
+
+Response.bytes
+
+#### Defined in
+
+node_modules/typescript/lib/lib.dom.d.ts:4476
+
+___
+
+### clone
+
+▸ **clone**(): `Response`
+
+The `clone()` method of the Response interface creates a clone of a response object, identical in every way, but stored in a different variable.
+
+[MDN Reference](https://developer.mozilla.org/docs/Web/API/Response/clone)
+
+#### Returns
+
+`Response`
+
+#### Inherited from
+
+Response.clone
+
+#### Defined in
+
+node_modules/typescript/lib/lib.dom.d.ts:26364
+
+___
+
+### formData
+
+▸ **formData**(): `Promise`\<`FormData`\>
+
+[MDN Reference](https://developer.mozilla.org/docs/Web/API/Request/formData)
+
+#### Returns
+
+`Promise`\<`FormData`\>
+
+#### Inherited from
+
+Response.formData
+
+#### Defined in
+
+node_modules/typescript/lib/lib.dom.d.ts:4478
+
+___
+
+### json
+
+▸ **json**(): `Promise`\<`any`\>
+
+[MDN Reference](https://developer.mozilla.org/docs/Web/API/Request/json)
+
+#### Returns
+
+`Promise`\<`any`\>
+
+#### Inherited from
+
+Response.json
+
+#### Defined in
+
+node_modules/typescript/lib/lib.dom.d.ts:4480
+
+___
+
+### text
+
+▸ **text**(): `Promise`\<`string`\>
+
+[MDN Reference](https://developer.mozilla.org/docs/Web/API/Request/text)
+
+#### Returns
+
+`Promise`\<`string`\>
+
+#### Inherited from
+
+Response.text
+
+#### Defined in
+
+node_modules/typescript/lib/lib.dom.d.ts:4482

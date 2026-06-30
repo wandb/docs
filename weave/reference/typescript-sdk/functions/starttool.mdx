@@ -24,8 +24,31 @@ Throws if neither a Turn nor an LLM is active.
 
 [`Tool`](../classes/tool)
 
+`Example`
+
+```ts twoslash
+// @noErrors
+weave.startTool({
+  name: 'get_weather',
+  args: JSON.stringify({city: 'Tokyo'}),
+  toolCallId: 'call_t1',
+});
+```
+
+`Example`
+
+```ts twoslash
+// @noErrors
+weave.startTool({
+  name: 'get_weather',
+  args: JSON.stringify({city: 'Tokyo'}),
+  toolCallId: 'call_t1',
+  startTime: new Date('2026-05-29T10:00:00.800Z'),
+});
+```
+
 #### Defined in
 
-[genai/api.ts:50](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/api.ts#L50)
+[src/genai/api.ts:103](https://github.com/wandb/weave/blob/0e7b9d2fd9d2777d5300774ea79a15aabe39435f/sdks/node/src/genai/api.ts#L103)
 
 ___

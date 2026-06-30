@@ -1,0 +1,48 @@
+---
+title: "startConversation"
+description: "TypeScript SDK reference"
+---
+
+# startConversation
+
+▸ **startConversation**(`opts?`): [`Conversation`](../classes/conversation)
+
+Start a new Conversation and install it as the current conversation.
+Subsequent calls to `startTurn` will pick it up automatically.
+
+Pass `attributes` to stamp custom (non-semconv) attributes on every
+span the conversation emits.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `opts` | [`ConversationInit`](../interfaces/conversationinit) |
+
+#### Returns
+
+[`Conversation`](../classes/conversation)
+
+`Example`
+
+```ts twoslash
+// @noErrors
+weave.startConversation({agentName: 'research-bot'});
+```
+
+`Example`
+
+```ts twoslash
+// @noErrors
+weave.startConversation({
+  agentName: 'research-bot',
+  conversationId: '019efa53-8a65-711c-b4c1-7c1cb72c0bb7',
+  attributes: {'myagent.version': '1.23'},
+});
+```
+
+#### Defined in
+
+[src/genai/api.ts:26](https://github.com/wandb/weave/blob/0e7b9d2fd9d2777d5300774ea79a15aabe39435f/sdks/node/src/genai/api.ts#L26)
+
+___
