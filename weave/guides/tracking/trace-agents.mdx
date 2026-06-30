@@ -65,7 +65,7 @@ Weave models agent behavior as a hierarchy of one-to-many relationships. Each ag
 | Concept | Weave SDK class | OTel span type | Description | Reference page |
 |---|---|---|---|---|
 | Agent | *(no class)* | *(no span, grouped by the `agent_name` attribute)* | An agentic application in the Agents tab that contains one or more sessions. | 
-| Session | `Session` | *(no span, turns are grouped by the `conversation_id` attribute)* | A conversation or run that contains one or more turns. | [Python](/weave/reference/typescript-sdk/classes/session) <br /> [TypeScript](/weave/reference/typescript-sdk/classes/session) |  
+| Session | `Conversation` | *(no span, turns are grouped by the `conversation_id` attribute)* | A conversation or run that contains one or more turns. | [Python](/weave/reference/python-sdk#class-conversation) <br /> [TypeScript](/weave/reference/typescript-sdk/classes/conversation) |  
 | Turn | `Turn` | `invoke_agent` | One user message and the agent's complete response. | [Python](/weave/reference/python-sdk#class-turn) <br /> [TypeScript](/weave/reference/typescript-sdk/classes/turn) |
 | LLM call | `LLM` | `chat` | One call to a language model API. | [Python](/weave/reference/python-sdk#class-llm) <br /> [TypeScript](/weave/reference/typescript-sdk/classes/llm) |
 | Tool call | `Tool` | `execute_tool` | One tool call triggered by an LLM response. | [Python](/weave/reference/python-sdk#class-tool) <br /> [TypeScript](/weave/reference/typescript-sdk/classes/tool) |
