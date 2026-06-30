@@ -133,7 +133,10 @@ Google's Agent Development Kit (ADK) is a flexible, model-agnostic framework for
 
     ### Initialize Weave in your code
 
-    Weave automatically traces `@google/adk` runners via module loader hooks for CommonJS projects. For ESM projects and more background on how Weave's loader hooks work, see the [TypeScript SDK third-party integration guide](/weave/guides/integrations/js).
+    Weave automatically traces `@google/adk` runners via module loader hooks. The required setup differs slightly between module systems. For more background on CommonJS versus ESM and how Weave's loader hooks work, see the [TypeScript SDK third-party integration guide](/weave/guides/integrations/js#use-weave-integrations-with-your-typescript-project).
+
+    - **CommonJS projects**: No extra configuration needed. Require `weave` before `@google/adk` so auto-instrumentation runs first.
+    - **ESM projects**: Start Node with the `--import=weave/instrument` flag so the instrumentation loads before any other modules.
 
     The following code creates a `weather_agent` with a `get_weather` tool and runs a query while Weave captures the trace.
 
