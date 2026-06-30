@@ -29,12 +29,12 @@ Turn (invoke_agent — root span)
 └── LLM call (chat)              ← l'agent parent synthétise la réponse finale
 ```
 
-Les sous-agents héritent du `conversation_id` de la session active ; ils sont donc regroupés avec le reste de la conversation dans la vue **Agents**.
+Les sous-agents héritent du `conversation_id` de la conversation active ; ils sont donc regroupés avec le reste de la conversation dans la vue **Agents**.
 
 ```python lines
 sub = weave.start_subagent(
-    name="research-specialist",   # Requis : identifie ce sous-agent dans l'interface utilisateur.
-    model="gpt-4o",               # Facultatif : utilise par défaut le modèle de la session parente si non renseigné.
+    name="research-specialist",   # Required: identifies this sub-agent in the UI.
+    model="gpt-4o",               # Facultatif : utilise par défaut le modèle de la conversation parente si non renseigné.
 )
 ```
 
@@ -46,18 +46,18 @@ sub = weave.start_subagent(
 
 L’exemple suivant exécute un agent superviseur qui reçoit une requête et la délègue à un sous-agent spécialiste de la recherche, qui utilise un outil de recherche Wikipédia pour trouver la réponse.
 
-Weave capture la hiérarchie complète en enveloppant la conversation dans `weave.start_session`, puis dans un `session.start_turn`. Weave capture ensuite la trace du sous-agent à l’aide du bloc `weave.start_subagent` pour le spécialiste, et enregistre chaque appel au LLM et chaque exécution d’outil comme des spans enfants.
+Weave capture la hiérarchie complète en enveloppant la conversation dans `weave.start_conversation`, puis dans un `conversation.start_turn`. Weave capture ensuite la trace du sous-agent à l’aide du bloc `weave.start_subagent` pour le spécialiste, et enregistre chaque appel LLM et chaque exécution d’outil comme des spans enfants.
 
-La logique de routage est volontairement omise de ces exemples afin de se concentrer sur le traçage entre les agents.
+La logique d’acheminement est volontairement omise de ces exemples afin de se concentrer sur le traçage entre les agents.
 
 ```python lines highlight="4,10,16,22,30"
 import weave
-from weave.session.session import Message, Usage
+from weave.conversation import Message, Usage
 
 weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
 
-with weave.start_session(agent_name="supervisor") as session:
-    with session.start_turn(user_message="Research the founders of Anthropic.") as turn:
+with weave.start_conversation(agent_name="supervisor") as conversation:
+    with conversation.start_turn(user_message="Research the founders of Anthropic.") as turn:
 
         # Appel LLM du superviseur : décider à quel spécialiste déléguer.
         with weave.start_llm(model="gpt-4o", provider_name="openai") as llm:
@@ -91,13 +91,13 @@ Dans la vue **Agents**, le sous-agent apparaît sous la forme d’un bloc `invok
   ## Tracer plusieurs sous-agents
 </div>
 
-L&#39;exemple suivant exécute un agent de pipeline de contenu qui traite une seule requête en la déléguant, en séquence, à trois sous-agents pairs : un `researcher` qui recueille des informations, un `writer` qui rédige le billet, et un `reviewer` qui peaufine le résultat final.
+L&#39;exemple suivant exécute un agent de pipeline de contenu qui traite une seule requête en la déléguant, en séquence, à trois sous-agents au même niveau : un `researcher` qui recueille des informations, un `writer` qui rédige le billet, et un `reviewer` qui peaufine le résultat final.
 
-Weave capture ces trois sous-agents comme des pairs sous le même tour de conversation en ouvrant un bloc `weave.start_subagent` distinct pour chacun d&#39;eux. Comme chaque sous-agent hérite du contexte OTel du tour de conversation actif, les sous-agents apparaissent comme des spans `invoke_agent` au même niveau, imbriqués sous le tour de conversation plutôt que les uns sous les autres.
+Weave capture ces trois sous-agents comme étant au même niveau sous le même tour de conversation en ouvrant un bloc `weave.start_subagent` distinct pour chacun d&#39;eux. Comme chaque sous-agent hérite du contexte OTel du tour de conversation actif, les sous-agents apparaissent comme des spans `invoke_agent` au même niveau, imbriqués sous le tour de conversation plutôt que les uns sous les autres.
 
 ```python lines highlight="1,5,11,15,22"
-with weave.start_session(agent_name="content-pipeline") as session:
-    with session.start_turn(user_message="Write a short blog post about Anthropic.") as turn:
+with weave.start_conversation(agent_name="content-pipeline") as conversation:
+    with conversation.start_turn(user_message="Write a short blog post about Anthropic.") as turn:
 
         # Sous-agent chercheur : collecter des faits.
         with weave.start_subagent(name="researcher", model="gpt-4o") as researcher:
@@ -133,8 +133,8 @@ Dans la vue **Agents**, le tour de conversation contient trois invocations de so
 Un sous-agent peut lui-même déléguer à un autre sous-agent. Chaque appel à `start_subagent` est imbriqué dans le span actuellement actif du contexte OTel.
 
 ```python lines highlight="1,2,4,5,11,16"
-with weave.start_session(agent_name="orchestrator") as session:
-    with session.start_turn(user_message="Compare Anthropic and OpenAI.") as turn:
+with weave.start_conversation(agent_name="orchestrator") as conversation:
+    with conversation.start_turn(user_message="Compare Anthropic and OpenAI.") as turn:
 
         with weave.start_subagent(name="research-coordinator") as coordinator:
             with weave.start_subagent(name="anthropic-researcher") as r1:
@@ -167,4 +167,4 @@ turn (invoke_agent)
         └── chat
 ```
 
-Dans la vue Agents, `research-coordinator` apparaît comme un sous-agent du tour de conversation, `anthropic-researcher` et `openai-researcher` apparaissent comme des éléments de même niveau sous le coordinateur, et `anthropic-summarizer` apparaît comme un sous-agent d&#39;`anthropic-researcher`.
+Dans la vue Agents, `research-coordinator` apparaît comme un sous-agent du tour de conversation, `anthropic-researcher` et `openai-researcher` apparaissent comme étant au même niveau sous le coordinateur, et `anthropic-summarizer` apparaît comme un sous-agent d&#39;`anthropic-researcher`.
