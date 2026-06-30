@@ -349,10 +349,10 @@ With this schema, you can define a Python object and pass it to [the `from_point
 
 * `points` is a NumPy array containing coordinates and colors for the points to render using [the same formats as the simple point cloud renderer](#python-object).
 * `boxes` is a NumPy array of Python dictionaries with three attributes:
-  * `corners` - a list of eight corners
-  * `label` - a string representing the label to render on the box (optional)
-  * `color` - RGB values representing the color of the box
-  * `score` - a numeric value that displays on the bounding box and that you can use to filter the bounding boxes shown (for example, to only show bounding boxes where `score` > `0.75`). (optional)
+  * `corners`: a list of eight corners
+  * `label`: a string representing the label to render on the box (optional)
+  * `color`: RGB values representing the color of the box
+  * `score`: a numeric value that displays on the bounding box and that you can use to filter the bounding boxes shown (for example, to only show bounding boxes where `score` > `0.75`). (optional)
 * `type` is a string representing the scene type to render. The only supported value is `lidar/beta`.
 
 ```python
