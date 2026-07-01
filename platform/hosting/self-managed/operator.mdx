@@ -1235,11 +1235,18 @@ Plan a maintenance window and notify users before you begin. Contact [Customer S
 
 ## ClickHouse compatibility for upgrades
 
-Self-Managed deployments that use an external ClickHouse cluster must verify ClickHouse compatibility before upgrading W&B Server or enabling Models OLAP features.
+Self-Managed deployments that use an external ClickHouse cluster must verify ClickHouse compatibility before upgrading W&B Server.
 
-### When this applies
+### Unsupported ClickHouse versions
 
-W&B Server 0.81.0+ introduces schema migrations that require ClickHouse 26.3 or newer when any of the following Models OLAP features are enabled in your Helm values:
+W&B Self-Managed does not work with ClickHouse 26.1 or 26.2.
+
+ClickHouse 26.3 is supported for W&B Self-Managed v0.81 and above.
+
+
+### Models OLAP features
+
+W&B Server 0.81.0+ introduces schema migrations that require ClickHouse 26.3. These migrations run when any of the following Models OLAP features are enabled in your Helm values:
 
 ```yaml
 global:
@@ -1252,7 +1259,9 @@ global:
       enabled: true
 ```
 
-**_Before_ upgrading to W&B Self-Managed to Server v0.81+**, you must either set these to `false` in your Helm values, or upgrade upgrade **both** ClickHouse Server and ClickHouse Keeper to 26.3 or newer.
+**_Before_ upgrading to W&B Self-Managed to Server v0.81+**, you must _either_:
+- Set these to `false` in your Helm values, _or_:
+- Upgrade both ClickHouse Server and ClickHouse Keeper to 26.3 or newer.
 
 If these features are disabled or you do not use ClickHouse for Models OLAP workloads, this requirement does not apply to your upgrade.
 
