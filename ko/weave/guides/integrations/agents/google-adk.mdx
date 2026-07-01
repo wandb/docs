@@ -107,14 +107,14 @@ asyncio.run(main())
 이 예시는 하나의 ADK Session에서 세 번의 턴으로 진행됩니다. 처음 두 턴에서는 Wikipedia 조회가 트리거되고, 세 번째 턴에서는 도구 Call 없이 이전 대화 컨텍스트를 바탕으로 요약을 생성합니다.
 
 <div id="see-your-agent-traces-in-the-agents-view">
-  ### Agents 뷰에서 에이전트 트레이스를 확인하세요
+  ### Agents 뷰에서 에이전트 트레이스 보기
 </div>
 
-스크립트가 실행된 후 Weave가 대화를 캡처했는지 확인하려면 프로젝트의 **Agents** 뷰를 여세요. `weave.init()`는 실행 시 프로젝트 링크를 출력합니다. **Agents** 뷰에서 다음을 확인하세요:
+스크립트가 실행된 후 프로젝트의 **Agents** 뷰를 열어 Weave가 대화를 캡처했는지 확인하세요. `weave.init()`는 실행 시 프로젝트 링크를 출력합니다. **Agents** 뷰에서 다음을 확인하세요.
 
-* **Agents** 탭에 `research_assistant`용 행이 있는지
-* 세 개의 턴이 포함된 단일 대화
-* 각 턴이 중첩된 모델 Call과 도구 Call을 포함한 `invoke_agent` span으로 렌더링되는지
-* 각 단계의 전체 입력, 모델, 출력, token 사용량, 그리고 Wikipedia 결과
+* **Agents** 탭에 `research_assistant`에 대한 행 1개
+* 세 개의 턴이 포함된 conversation 1개
+* 각 턴이 중첩된 모델 Call 및 도구 Call을 포함한 `invoke_agent` span으로 표시됨
+* 각 단계의 전체 입력, 모델, 출력, 토큰 사용량, Wikipedia 결과
 
 Weave에서 Agents 데이터를 보는 방법에 대한 자세한 내용은 [에이전트 활동 보기](/ko/weave/guides/tracking/view-agent-activity)를 참조하세요.

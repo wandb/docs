@@ -1,13 +1,13 @@
 ---
 title: "Pi 확장"
-description: "Weave에서 Pi의 에이전트 기반 세션, LLM Call, 도구 실행을 트레이스합니다."
+description: "Weave에서 Pi의 에이전트 기반 Session, LLM Call, 도구 실행을 트레이스합니다."
 keywords: ["Pi", "OpenTelemetry", "OTEL", "TypeScript", "코딩 에이전트"]
 ---
 
-[Pi](https://pi.dev/)는 터미널 기반 코딩 에이전트입니다. Weave는 [GenAI semantic conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/)을 준수하는 `createOtelExtension` 인테그레이션을 사용해 Pi 세션, LLM Call, 도구 실행을 자동으로 트레이스합니다. 이 페이지에서는 Pi 애플리케이션에서 Weave 트레이싱을 활성화하여 에이전트 동작을 관찰하고, run을 디버그하고, token 사용량과 비용을 분석하는 방법을 설명합니다.
+[Pi](https://pi.dev/)는 터미널 기반 코딩 에이전트입니다. Weave는 [GenAI semantic conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/)을 준수하는 `createOtelExtension` 인테그레이션을 사용해 Pi Session, LLM Call, 도구 실행을 자동으로 트레이스합니다. 이 페이지에서는 Pi 애플리케이션에서 Weave 트레이싱을 활성화하여 에이전트 동작을 관찰하고, run을 디버그하고, token 사용량과 비용을 분석하는 방법을 설명합니다.
 
 <Warning>
-  이 인테그레이션은 Pi 세션 데이터를 Weave로 전송합니다. 이 데이터에는 사용자 프롬프트, 모델 응답, 도구 입력과 출력, Pi 도구가 읽은 파일 내용, 셸 명령과 출력, 가져온 URL 및 페이지 콘텐츠가 포함될 수 있습니다.
+  이 인테그레이션은 Pi Session 데이터를 Weave로 전송합니다. 이 데이터에는 사용자 프롬프트, 모델 응답, 도구 입력과 출력, Pi 도구가 읽은 파일 내용, 셸 명령과 출력, 가져온 URL 및 페이지 콘텐츠가 포함될 수 있습니다.
 
   이 인테그레이션은 PII 스크러빙이나 민감한 데이터 마스킹을 구현하지 않습니다. 보안 또는 규정 준수 요구 사항상 이 데이터를 Weave로 보낼 수 없다면 Pi 애플리케이션에서 Weave 트레이싱을 활성화하지 마세요.
 </Warning>
