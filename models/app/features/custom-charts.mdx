@@ -4,11 +4,8 @@ description: Create custom charts in W&B projects with Vega visualizations
 keywords: ["Vega", "wandb.plot_table", "precision-recall curve", "ROC curve", "GraphQL query"]
 ---
 
-import {
-  AriaChatBubbles,
-  AriaChatCodeBlocks,
-} from '/snippets/_includes/aria-chat-example.mdx';
-import { AriaChatComparisonLayout } from '/snippets/_includes/aria-chat-comparison-layout.mdx';
+import { AriaChatBubbles } from '/snippets/AriaChatBubbles.jsx';
+import { AriaChatComparisonCodeColumn } from '/snippets/_includes/aria-chat-comparison.mdx';
 
 Custom charts let you visualize logged data exactly how you want, beyond the defaults W&B provides. Use them when you need to plot relationships, distributions, or model evaluation metrics that the built-in panels don't cover, such as precision-recall curves, custom histograms, or overlays of multiple experiments.
 
@@ -252,22 +249,28 @@ with wandb.init() as run:
 
 After you log data, build a chart in the W&B app by choosing which logged values to pull in and how to render them. Add a new custom chart to get started, then edit the query to select data from your visible runs. The query uses [GraphQL](https://graphql.org) to fetch data from the config, summary, and history fields in your runs.
 
-You can also ask W&B ARIA to create a custom chart from a description. Open ARIA from your project workspace and describe the chart you want. The following compares the current code-block style with a chat-bubble prototype:
+You can also ask ARIA to create a custom chart from a description. Open ARIA from your project workspace and describe the chart you want. The following compares the current code-block style with a chat-bubble prototype:
 
-<AriaChatComparisonLayout
-  codeColumn={
-    <AriaChatCodeBlocks
+<div className="not-prose my-6 grid gap-6 lg:grid-cols-2">
+  <div>
+    <p className="mb-3 text-sm font-medium text-zinc-700 dark:text-zinc-300">
+      Code blocks
+    </p>
+    <AriaChatComparisonCodeColumn
       prompt="Create a scatter plot of validation accuracy vs. training loss for the visible runs, with points colored by learning rate."
       response="I'll add a custom chart panel that plots validation accuracy on the x-axis and training loss on the y-axis, with points colored by each run's learning rate from config."
     />
-  }
-  chatColumn={
+  </div>
+  <div>
+    <p className="mb-3 text-sm font-medium text-zinc-700 dark:text-zinc-300">
+      Ask Assistant style (prototype)
+    </p>
     <AriaChatBubbles
       prompt="Create a scatter plot of validation accuracy vs. training loss for the visible runs, with points colored by learning rate."
       response="I'll add a custom chart panel that plots validation accuracy on the x-axis and training loss on the y-axis, with points colored by each run's learning rate from config."
     />
-  }
-/>
+  </div>
+</div>
 
 ### Build the GraphQL query
 
