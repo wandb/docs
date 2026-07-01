@@ -1104,7 +1104,7 @@ image: clickhouse/clickhouse-server:25.10   # Server version
 Keeper and server versions should match, or the Keeper version should be greater than or equal to the server version for compatibility.
 
 <Warning>
-When you upgrade ClickHouse Server, upgrade ClickHouse Keeper to a compatible version at the same time. Before you change ClickHouse versions on a Self-Managed deployment that also runs W&B Server, review [ClickHouse compatibility for upgrades](/platform/hosting/self-managed/operator#clickhouse-compatibility-for-upgrades) and the [Supported W&B Server releases](/release-notes/server-releases) page. Models OLAP features and Weave can have different ClickHouse version requirements.
+Upgrade ClickHouse Keeper to a compatible version when you upgrade ClickHouse Server. Before you change ClickHouse versions for a W&B Self-Managed deployment, review [ClickHouse compatibility for upgrades](/platform/hosting/self-managed/operator#clickhouse-compatibility-for-upgrades) and the [Supported W&B Server releases](/release-notes/server-releases) page. Models OLAP features and Weave can have different ClickHouse version requirements.
 </Warning>
 
 ### Monitor ClickHouse
