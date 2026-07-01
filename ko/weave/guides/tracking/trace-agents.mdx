@@ -4,11 +4,7 @@ description: Weave SDK를 사용해 멀티턴 에이전트 애플리케이션을
 keywords: ["멀티턴", "대화", "OTel", "invoke_agent", "conversation_id"]
 ---
 
-import AgentsPreview from '/snippets/ko/_includes/agents-public-preview.mdx';
-
-<AgentsPreview />
-
-W&amp;B Weave SDK를 사용해 멀티턴 에이전트형 애플리케이션을 계측하고, 에이전트의 동작을 확인하고 디버그하며 평가하는 방법을 알아보세요. 이 가이드는 에이전트를 구축하거나 통합하면서 대화, 턴, LLM 호출, 도구 실행을 구조화된 방식으로 파악하려는 개발자를 위한 것입니다.
+W&amp;B Weave SDK를 사용해 멀티턴 에이전트형 애플리케이션을 계측하고, 에이전트의 동작을 확인하고 디버그하며 평가하는 방법을 알아보세요. 이 가이드는 에이전트를 구축하거나 통합하면서 Session, 턴, LLM 호출, 도구 실행을 구조화된 방식으로 파악하려는 개발자를 위한 것입니다.
 
 에이전트용 Weave SDK는 멀티턴 에이전트 대화의 전체 라이프사이클을 모델링합니다. 즉, 여러 대화를 소유하는 에이전트, 턴을 함께 묶는 대화, 각각의 사용자-에이전트 상호작용(턴), 턴 내의 LLM 호출, 그리고 LLM이 트리거하는 도구 실행까지 포함합니다. 트레이스는 Weave 프로젝트의 **Agents** 탭에 표시됩니다. 각 대화에는 중첩된 도구 Call, 토큰 사용량, feedback이 포함된 멀티턴 타임라인이 표시됩니다.
 

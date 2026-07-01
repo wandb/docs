@@ -4,10 +4,6 @@ description: Suivez les sessions d’agent OpenClaw dans W&B Weave à des fins d
 keywords: ["OpenClaw", "plugin de gateway", "traçage d’agent", "OTel GenAI", "weave-openclaw"]
 ---
 
-import AgentsPreview from '/snippets/fr/_includes/agents-public-preview.mdx';
-
-<AgentsPreview />
-
 Le plugin Weave OpenClaw trace automatiquement chaque session d’agent exécutée via la passerelle OpenClaw et envoie les données structurées vers W&amp;B Weave. Le plugin journalise chaque tour de conversation, chaque appel de modèle et chaque exécution d’outil sans nécessiter de modification du code de l’application. Utilisez ces traces pour déboguer les sessions, auditer l’utilisation des outils et surveiller les coûts et la latence sur l’ensemble des exécutions.
 
 Ce guide s’adresse aux opérateurs de la passerelle OpenClaw qui souhaitent activer le traçage Weave pour les agents exécutés derrière la passerelle. Il vous explique comment installer le plugin, le configurer, afficher les traces obtenues et résoudre les problèmes courants.
