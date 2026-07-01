@@ -4,7 +4,7 @@ description: W&B Weave で、Codex のエージェント セッション、LLM C
 keywords: ["OpenAI Codex", "OTEL", "agent tracing", "Stop フック", "rollout"]
 ---
 
-Weave Codex プラグインは、Codex の各ターンを自動的にトレースし、その構造化データを W&amp;B Weave に送信します。Codex のワークフローを変更することなく、すべてのモデル呼び出し、ツール実行、推論ステップがログされます。これらのトレースを使用して、セッションのデバッグ、ツール使用状況の監査、Runs 全体のコストとレイテンシの監視を行えます。
+Weave Codex プラグインは、Codex の各ターンを自動的にトレースし、その構造化データを W&amp;B Weave に送信します。Codex のワークフローを変更することなく、すべてのモデル Call、ツール実行、推論ステップがログされます。これらのトレースを使用して、セッションのデバッグ、ツール使用状況の監査、Runs 全体のコストとレイテンシの監視を行えます。
 
 このプラグインは、Codex 自身のロールアウトセッションファイル (`~/.codex/sessions/**/rollout-*.jsonl`) を読み取り、スパンを再構築します。fire-and-forget の Stop フック を通じて Codex のクリティカルパスとは完全に切り離して実行されるため、Codex がネットワークを待つことはありません。
 

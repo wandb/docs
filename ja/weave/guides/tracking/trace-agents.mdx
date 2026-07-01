@@ -4,9 +4,9 @@ description: Weave SDK を使用してマルチターンのエージェント型
 keywords: ["マルチターン", "会話", "OTel", "invoke_agent", "conversation_id"]
 ---
 
-W&amp;B Weave SDK を使用してマルチターンのエージェント型アプリケーションを計装し、エージェントの動作を確認、デバッグ、評価する方法を学びます。このガイドは、エージェントを構築または統合し、セッション、ターン、LLM calls、ツール実行を構造化された形で可視化したい開発者を対象としています。
+W&amp;B Weave SDK を使用してマルチターンのエージェント型アプリケーションを計装し、エージェントの動作を確認、デバッグ、評価する方法を学びます。このガイドは、エージェントを構築または統合し、会話、ターン、LLM Call、ツール実行を構造化された形で可視化したい開発者を対象としています。
 
-Agents 向けの Weave SDK は、マルチターンのエージェント会話のライフサイクル全体をモデル化します。これには、多数の会話を持つエージェント、ターンをグループ化する会話、ユーザーとエージェントの各やり取り (ターン) 、ターン内の LLM calls、そして LLM によってトリガーされるツール実行が含まれます。トレースは Weave プロジェクトの **Agents** タブに表示されます。各会話には、ネストされたツール呼び出し、トークン使用量、feedback を含むマルチターンのタイムラインが表示されます。
+Agents 向けの Weave SDK は、マルチターンのエージェント会話のライフサイクル全体をモデル化します。これには、多数の会話を持つエージェント、ターンをグループ化する会話、ユーザーとエージェントの各やり取り (ターン) 、ターン内の LLM Call、そして LLM によってトリガーされるツール実行が含まれます。トレースは Weave プロジェクトの **Agents** タブに表示されます。各会話には、ネストされたツール呼び出し、トークン使用量、feedback を含むマルチターンのタイムラインが表示されます。
 
 Weave は、分散トレースのオープン標準である [OpenTelemetry (OTel)](https://opentelemetry.io/docs/concepts/) を基盤としています。各ターン、LLM Call、ツール呼び出し はそれぞれ OTel の *スパン* (1 つの操作を表す構造化レコード) を生成します。各 スパン には、`gen_ai.agent.name` や `gen_ai.conversation.id` などの [GenAI semantic-convention](https://opentelemetry.io/docs/specs/semconv/gen-ai/) 属性 がタグ付けされます。
 
@@ -493,9 +493,9 @@ Weave SDK は、[GenAI semantic conventions](https://opentelemetry.io/docs/specs
   ## Weave UI でデータがどのように表示されるか
 </div>
 
-先述のパターンでエージェントをインストルメントして実行すると、トレースは Weave プロジェクトの **Agents** タブ (`https://wandb.ai/[YOUR-TEAM]/[YOUR-PROJECT]/weave/agents`) に表示されます。
+前述のパターンを使ってエージェントをインストルメントし、実行すると、トレースは Weave プロジェクトの **Agents** タブ (`https://wandb.ai/[YOUR-TEAM]/[YOUR-PROJECT]/weave/agents`) に表示されます。
 
-* **Conversations tab** には、ターンのアクティビティを示すミニマップとともに、すべての会話が表示されます。
-* **Conversation detail view** は、会話をクリックすると開き、すべてのターン、LLM calls、ツール実行、token 数、関連付けられたフィードバックを表示します。
+* **Conversations** タブには、すべての会話と、ターンのアクティビティを示すミニマップが表示されます。
+* **Conversation detail view** は会話をクリックすると開き、すべてのターン、LLM Call、ツール実行、トークン数、関連付けられたフィードバックが表示されます。
 
-Weave で Agents データを表示する方法の詳細については、[エージェントのアクティビティを表示する](/ja/weave/guides/tracking/view-agent-activity)をご覧ください。
+Weave で Agents データを表示する方法の詳細については、[エージェントのアクティビティを表示する](/ja/weave/guides/tracking/view-agent-activity) を参照してください。
