@@ -74,8 +74,9 @@ Installez le CLI, exécutez le programme d’installation pour enregistrer le pl
 Après avoir exécuté au moins une session Claude Code, ouvrez votre projet dans l’interface Weave :
 
 1. Accédez à [https://wandb.ai](https://wandb.ai) et sélectionnez votre projet.
-2. Dans le menu latéral, sélectionnez **Agents** pour afficher toutes les conversations d’agent enregistrées dans votre projet.
-3. Sélectionnez une conversation pour examiner l’arborescence complète de la session.
+2. Dans le menu latéral, sélectionnez **Agents**.
+3. Sélectionnez l’onglet **Conversations** pour afficher toutes les conversations d’agent enregistrées dans votre projet.
+4. Sélectionnez une conversation pour examiner l’arborescence complète de la conversation.
 
 Pour plus d’informations sur la vue Agents, voir [Afficher l’activité de l’agent](/fr/weave/guides/tracking/view-agent-activity).
 
@@ -92,7 +93,7 @@ invoke_agent claude-code               (Racine, une trace par prompt utilisateur
 
 Le span racine `invoke_agent claude-code` utilise le nom de l’agent de niveau supérieur, qui vaut par défaut `claude-code`. Vous pouvez le modifier à l’aide du paramètre `agent_name` ou de la variable d’environnement `WEAVE_AGENT_NAME` (voir [Configurer le plugin](#configure-the-plugin)). Les sous-agents conservent leurs propres noms de type.
 
-Les conversations comportant plusieurs tours de conversation sont associées côté serveur via l&#39;ID de session, afin que vous puissiez suivre une conversation à travers plusieurs traces. Chaque span inclut l&#39;utilisation des jetons, le nom du modèle, les entrées et sorties des outils, les informations de temporisation, ainsi que le contenu textuel des prompts et des réponses. Pour plus d’informations sur les données tracées, voir [Ce qui est tracé](https://github.com/wandb/weave-claude-code/blob/main/README.md#what-gets-traced) sur GitHub.
+Les conversations comportant plusieurs tours de conversation sont associées côté serveur via l&#39;ID de conversation, afin que vous puissiez suivre une conversation à travers plusieurs traces. Chaque span inclut l&#39;utilisation des jetons, le nom du modèle, les entrées et sorties des outils, les informations de temporisation, ainsi que le contenu textuel des prompts et des réponses. Pour plus d’informations sur les données tracées, voir [Ce qui est tracé](https://github.com/wandb/weave-claude-code/blob/main/README.md#what-gets-traced) sur GitHub.
 
 <div id="configure-the-plugin">
   ## Configurer le plugin
@@ -114,7 +115,7 @@ weave-claude-code config set wandb_api_key [YOUR-API-KEY]
 weave-claude-code config set agent_name [YOUR-AGENT-NAME]
 ```
 
-Par défaut, les sessions apparaissent sous le nom d’agent `claude-code` dans la vue Agents. Définissez `agent_name` pour utiliser un autre nom, par exemple pour distinguer des équipes ou des projets. Le nom ne peut pas être vide, et les espaces blancs au début et à la fin sont supprimés.
+Par défaut, les conversations apparaissent sous le nom d’agent `claude-code` dans la vue Agents. Définissez `agent_name` pour utiliser un autre nom, par exemple pour distinguer des équipes ou des projets. Le nom ne peut pas être vide, et les espaces blancs au début et à la fin sont supprimés.
 
 Les variables d’environnement priment sur le fichier de paramètres :
 
@@ -156,7 +157,7 @@ weave-claude-code status
 
 Chaque ligne affiche `✓` (OK), `✗` (action nécessaire) ou `-` (pas encore actif, mais sans erreur).
 
-Si les sessions n’apparaissent pas dans Weave, consultez le journal du démon :
+Si les conversations n’apparaissent pas dans Weave, consultez le journal du démon :
 
 ```bash lines
 weave-claude-code logs

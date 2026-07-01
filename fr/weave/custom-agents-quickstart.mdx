@@ -1,6 +1,6 @@
 ---
 title: "Démarrage rapide : Configurer l’observabilité personnalisée d’un agent"
-description: Tracez un agent sur plusieurs tours de conversation avec le SDK Weave. Les sessions, les tours de conversation, les appels LLM et les appels d’outil s’affichent dans la vue Agents de votre projet.
+description: Tracez un agent sur plusieurs tours de conversation avec le SDK Weave. Les conversations, les tours de conversation, les appels LLM et les appels d’outil s’affichent dans la vue Agents de votre projet.
 keywords: ["OpenTelemetry", "spans OTel", "agent sur plusieurs tours de conversation", "appels d’outil", "traçage"]
 ---
 
@@ -14,17 +14,17 @@ Si vous souhaitez intégrer Weave à des SDK ou à des harnesses comme Claude Ag
   ## Ce que vous allez apprendre
 </div>
 
-À la fin de ce démarrage rapide, vous disposerez d’un agent fonctionnel sur plusieurs tours de conversation qui émet des spans OTel compatibles avec Weave. Vous comprendrez également comment Weave fait correspondre les sessions, les tours de conversation, les appels LLM et les appels d’outil à votre code d’agent, afin de pouvoir appliquer le même modèle à vos propres agents personnalisés.
+À la fin de ce démarrage rapide, vous disposerez d’un agent fonctionnel sur plusieurs tours de conversation qui émet des spans OTel compatibles avec Weave. Vous comprendrez également comment Weave fait correspondre les conversations, les tours de conversation, les appels LLM et les appels d’outil à votre code d’agent, afin de pouvoir appliquer le même modèle à vos propres agents personnalisés.
 
 Le code de ce guide configure un petit agent de recherche capable d’interroger Wikipédia. Il pose trois questions (trois tours de conversation) et utilise le LLM pour choisir quand effectuer une recherche sur Wikipédia afin de trouver une réponse. Weave enregistre chaque étape (la conversation, chaque question, chaque réponse de l’IA et chaque recherche sur Wikipédia) pour que vous puissiez voir ce qui s’est passé dans la vue Agents de Weave.
 
 Ce guide vous montre comment :
 
 * Initialiser Weave pour le tracing d’agent avec `weave.init()`.
-* Ouvrir une session et un tour de conversation avec `start_session` / `startSession` et `start_turn` / `startTurn`.
+* Ouvrir une conversation et un tour de conversation avec `start_conversation` / `startConversation` et `start_turn` / `startTurn`.
 * Encapsuler les appels LLM avec `start_llm` / `startLLM` et enregistrer l’utilisation.
 * Encapsuler les exécutions d’outil avec `start_tool` / `startTool` et enregistrer les résultats.
-* Afficher la session, les tours de conversation et les appels d’outil obtenus dans la vue Agents.
+* Afficher la conversation, les tours de conversation et les appels d’outil obtenus dans la vue Agents.
 
 <div id="how-the-weave-sdk-works-with-agents">
   ## Fonctionnement du SDK Weave avec les agents
@@ -32,12 +32,12 @@ Ce guide vous montre comment :
 
 Le SDK Weave inclut un système d’ingestion OTel générique pour les agents, ce qui signifie que Weave peut capturer des informations à partir de n’importe quel span OTel dans le code de votre agent. Cependant, Weave nécessite un traitement particulier des spans suivants pour afficher les traces de votre agent dans la vue Agents de l’interface Weave.
 
-| Concept                         | Python                     | TypeScript                | span OTel                                         |
-| ------------------------------- | -------------------------- | ------------------------- | ------------------------------------------------- |
-| Une conversation                | `weave.start_session(...)` | `weave.startSession(...)` | (pas de span, regroupe les tours de conversation) |
-| Un échange utilisateur ou agent | `weave.start_turn(...)`    | `weave.startTurn(...)`    | `invoke_agent`                                    |
-| Un appel d’API LLM              | `weave.start_llm(...)`     | `weave.startLLM(...)`     | `chat`                                            |
-| Une exécution d’outil           | `weave.start_tool(...)`    | `weave.startTool(...)`    | `execute_tool`                                    |
+| Concept                         | Python                          | TypeScript                     | span OTel                                         |
+| ------------------------------- | ------------------------------- | ------------------------------ | ------------------------------------------------- |
+| Une conversation                | `weave.start_conversation(...)` | `weave.startConversation(...)` | (pas de span, regroupe les tours de conversation) |
+| Un échange utilisateur ou agent | `weave.start_turn(...)`         | `weave.startTurn(...)`         | `invoke_agent`                                    |
+| Un appel d’API LLM              | `weave.start_llm(...)`          | `weave.startLLM(...)`          | `chat`                                            |
+| Une exécution d’outil           | `weave.start_tool(...)`         | `weave.startTool(...)`         | `execute_tool`                                    |
 
 En Python, les quatre fonctions s’utilisent comme des gestionnaires de contexte (`with weave.start_*(...) as obj:`). À la fin du contexte, elles ferment le span et effectuent le vidage des attributs, y compris en cas d’exception. En TypeScript, appelez `.end()` sur chaque objet renvoyé. Utilisez `try { ... } finally { obj.end(); }` pour garantir le nettoyage en cas d’exception.
 
@@ -174,9 +174,9 @@ Le code suivant définit l’outil de recherche Wikipédia de l’agent, ainsi q
   ## Exécuter un agent tracé sur plusieurs tours de conversation
 </div>
 
-Une fois l’outil et l’initialisation de Weave en place, l’étape suivante consiste à les intégrer dans une boucle d’exécution complète de l’agent. Cette boucle montre comment les sessions, les tours de conversation, les appels LLM et les appels d’outil s’imbriquent.
+Une fois l’outil et l’initialisation de Weave en place, l’étape suivante consiste à les intégrer dans une boucle d’exécution complète de l’agent. Cette boucle montre comment les conversations, les tours de conversation, les appels LLM et les appels d’outil s’imbriquent.
 
-L’exemple suivant exécute trois tours de conversation dans une seule session. Chaque tour de conversation :
+L’exemple suivant exécute trois tours de conversation dans une seule conversation. Chaque tour de conversation :
 
 1. Ouvre un span `chat` et laisse le LLM choisir s’il doit appeler l’outil.
 2. Si le LLM demande à utiliser l’outil, ouvre un span `execute_tool` autour de l’appel et renvoie le résultat au LLM.
@@ -236,7 +236,7 @@ L’exemple suivant exécute trois tours de conversation dans une seule session.
               history.append({"role": "assistant", "content": msg.content})
               return msg.content
 
-  with weave.start_session(agent_name="research-bot") as session:
+  with weave.start_conversation(agent_name="research-bot") as conversation:
       history = []
       for question in [
           "Who founded Anthropic?",
@@ -247,7 +247,7 @@ L’exemple suivant exécute trois tours de conversation dans une seule session.
           print(f"AGENT: {run_turn(history, question)}\n")
   ```
 
-  ```typescript lines highlight="10,13,39,54,76" TypeScript twoslash
+  ```typescript lines highlight="10,13,40,55,77" TypeScript twoslash
   // @noErrors
   import OpenAI from 'openai';
 
@@ -258,7 +258,7 @@ L’exemple suivant exécute trois tours de conversation dans une seule session.
   async function runTurn(history: any[], userMessage: string): Promise<string | null> {
     history.push({ role: 'user', content: userMessage });
 
-    const turn = weave.startTurn({ userMessage, model: MODEL });
+    const turn = weave.startTurn({ model: MODEL });
     try {
       // Appel LLM 1 : le modèle peut décider d'utiliser un outil.
       const llm1 = weave.startLLM({ model: MODEL, providerName: 'openai' });
@@ -287,6 +287,7 @@ L’exemple suivant exécute trois tours de conversation dans une seule session.
 
       // Exécuter chaque appel d'outil demandé.
       for (const tc of msg.tool_calls) {
+        if (tc.type !== 'function') continue;
         const tool = weave.startTool({
           name: tc.function.name,
           args: tc.function.arguments,
@@ -324,7 +325,7 @@ L’exemple suivant exécute trois tours de conversation dans une seule session.
     }
   }
 
-  const session = weave.startSession({ agentName: 'research-bot' });
+  const conversation = weave.startConversation({ agentName: 'research-bot' });
   try {
     const history: any[] = [];
     for (const question of [
@@ -336,7 +337,7 @@ L’exemple suivant exécute trois tours de conversation dans une seule session.
       console.log(`AGENT: ${await runTurn(history, question)}\n`);
     }
   } finally {
-    session.end();
+    conversation.end();
   }
   ```
 </CodeGroup>
@@ -348,7 +349,7 @@ L’exemple suivant exécute trois tours de conversation dans une seule session.
 Lorsque `weave.init()` s’exécute, il affiche un lien vers votre project dans lequel vous pouvez voir :
 
 * Une ligne dans l’onglet **Agents** pour `research-bot`.
-* Une session contenant trois tours de conversation.
+* Une conversation contenant trois tours de conversation.
 * Chaque tour de conversation (`invoke_agent`) avec deux spans `chat` et un span `execute_tool` imbriqué.
 * Le nombre de jetons, la latence, le modèle et l’échange complet de messages pour chaque `chat`.
 

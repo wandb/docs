@@ -21,16 +21,16 @@ Turn (invoke_agent — root span)
 ├── LLM call (chat)              ← 상위 에이전트의 추론
 │   └── SubAgent (invoke_agent)  ← 여기서 위임 발생
 │       ├── LLM call (chat)      ← 하위 에이전트의 LLM Call
-│       └── Tool call (execute_tool)
+│       └── 도구 Call (execute_tool)
 └── LLM call (chat)              ← 상위 에이전트가 최종 답변 합성
 ```
 
-하위 에이전트는 현재 활성 세션의 `conversation_id`를 상속하므로 **Agents** 뷰에서 나머지 대화와 함께 그룹화됩니다.
+하위 에이전트는 현재 활성 대화의 `conversation_id`를 상속하므로 **Agents** 뷰에서 나머지 대화와 함께 그룹화됩니다.
 
 ```python lines
 sub = weave.start_subagent(
-    name="research-specialist",   # Required: UI에서 이 하위 에이전트를 식별합니다.
-    model="gpt-4o",               # Optional: 비어 있으면 상위 세션의 모델을 사용합니다.
+    name="research-specialist",   # Required: identifies this sub-agent in the UI.
+    model="gpt-4o",               # Optional: 비어 있으면 상위 대화의 모델을 사용합니다.
 )
 ```
 
@@ -42,18 +42,18 @@ sub = weave.start_subagent(
 
 다음 예시에서는 요청을 받아, 답을 찾기 위해 Wikipedia 검색 도구를 사용하는 리서치 전문 하위 에이전트에 작업을 위임하는 supervisor 에이전트를 실행합니다.
 
-Weave는 대화를 `weave.start_session`으로 감싸고 이어서 `session.start_turn`을 사용해 전체 계층 구조를 캡처합니다. 그런 다음 Weave는 specialist의 `weave.start_subagent` 블록을 사용해 하위 에이전트 트레이스를 캡처하고, 각 LLM Call과 도구 실행을 하위 span으로 기록합니다.
+Weave는 대화를 `weave.start_conversation`으로 감싸고 이어서 `conversation.start_turn`을 사용해 전체 계층 구조를 캡처합니다. 그런 다음 Weave는 specialist의 `weave.start_subagent` 블록을 사용해 하위 에이전트 트레이스를 캡처하고, 각 LLM Call과 도구 실행을 하위 span으로 기록합니다.
 
 이 예시에서는 에이전트 간 Tracing에 집중할 수 있도록 라우팅 로직을 의도적으로 생략했습니다.
 
 ```python lines highlight="4,10,16,22,30"
 import weave
-from weave.session.session import Message, Usage
+from weave.conversation import Message, Usage
 
 weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
 
-with weave.start_session(agent_name="supervisor") as session:
-    with session.start_turn(user_message="Research the founders of Anthropic.") as turn:
+with weave.start_conversation(agent_name="supervisor") as conversation:
+    with conversation.start_turn(user_message="Research the founders of Anthropic.") as turn:
 
         # 슈퍼바이저 LLM 호출: 어떤 전문가에게 위임할지 결정합니다.
         with weave.start_llm(model="gpt-4o", provider_name="openai") as llm:
@@ -92,8 +92,8 @@ with weave.start_session(agent_name="supervisor") as session:
 Weave는 각 하위 에이전트마다 별도의 `weave.start_subagent` 블록을 열어, 세 하위 에이전트를 모두 동일한 turn 아래의 형제 관계로 캡처합니다. 각 하위 에이전트는 활성 turn의 OTel 컨텍스트를 상속하므로, 서로 아래에 중첩되는 대신 turn 아래에 중첩된 동일 레벨의 `invoke_agent` span으로 표시됩니다.
 
 ```python lines highlight="1,5,11,15,22"
-with weave.start_session(agent_name="content-pipeline") as session:
-    with session.start_turn(user_message="Write a short blog post about Anthropic.") as turn:
+with weave.start_conversation(agent_name="content-pipeline") as conversation:
+    with conversation.start_turn(user_message="Write a short blog post about Anthropic.") as turn:
 
         # Researcher 하위 에이전트: 사실 수집.
         with weave.start_subagent(name="researcher", model="gpt-4o") as researcher:
@@ -129,8 +129,8 @@ with weave.start_session(agent_name="content-pipeline") as session:
 하위 에이전트는 다시 다른 하위 에이전트에 작업을 위임할 수 있습니다. 각 `start_subagent` 호출은 OTel 컨텍스트에서 현재 활성 상태인 span 아래에 중첩됩니다.
 
 ```python lines highlight="1,2,4,5,11,16"
-with weave.start_session(agent_name="orchestrator") as session:
-    with session.start_turn(user_message="Compare Anthropic and OpenAI.") as turn:
+with weave.start_conversation(agent_name="orchestrator") as conversation:
+    with conversation.start_turn(user_message="Compare Anthropic and OpenAI.") as turn:
 
         with weave.start_subagent(name="research-coordinator") as coordinator:
             with weave.start_subagent(name="anthropic-researcher") as r1:
@@ -138,7 +138,7 @@ with weave.start_session(agent_name="orchestrator") as session:
                     sub_llm.output("Anthropic facts...")
                     sub_llm.usage = Usage(input_tokens=120, output_tokens=30)
 
-                # 중첩: 연구자가 자체 요약용 하위 에이전트에 작업을 위임합니다.
+                # 중첩: 연구자가 자체 요약 하위 에이전트에 작업을 위임합니다.
                 with weave.start_subagent(name="anthropic-summarizer") as summarizer:
                     with summarizer.llm(model="gpt-4o", provider_name="openai") as sub_llm:
                         sub_llm.output("Anthropic summary: ...")

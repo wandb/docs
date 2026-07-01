@@ -38,7 +38,7 @@ npm install --save-dev @types/node tsx typescript
   ## Pi のプロンプトと応答をトレースする
 </div>
 
-以下の例は、単一の Pi のプロンプトと応答をトレースするために必要な最小限のセットアップを示しています。エージェントのセッションを作成する前に `weave.init()` を呼び出し、拡張機能ファクトリとして `createOtelExtension()` を渡します。Weave は、セッション、各プロンプト/応答サイクル (`invoke_agent`) 、個々の LLM Call (`chat`) 、およびツール実行 (`execute_tool`) を含む、エージェントのライフサイクル全体をトレースします。`SessionManager.inMemory()` はセッション ID を自動的に生成します。
+以下の例は、単一の Pi のプロンプトと応答をトレースするために必要な最小限のセットアップを示しています。エージェントのセッションを作成する前に `weave.init()` を呼び出し、拡張機能ファクトリとして `createOtelExtension()` を渡します。Weave は、会話、各プロンプト/応答サイクル (`invoke_agent`) 、個々の LLM Call (`chat`) 、およびツール実行 (`execute_tool`) を含む、エージェントのライフサイクル全体をトレースします。`SessionManager.inMemory()` はセッション ID を自動的に生成します。
 
 ```typescript lines twoslash
 // @noErrors
@@ -52,14 +52,14 @@ import {
 } from '@earendil-works/pi-coding-agent';
 
 async function main() {
-  // 1. Weave を初期化します。OTEL TracerProvider を設定して Weave プロジェクトに向けます。
-  //    createOtelExtension() で作成されたすべての span は
-  //    自動的にここにエクスポートされます。
+  // 1. Initialize Weave. Sets up the OTEL TracerProvider that points at your
+  //    Weave project. All spans created by createOtelExtension() are
+  //    automatically exported here.
   await init('[YOUR-TEAM]/[YOUR-PROJECT]');
 
-  // 2. リソースローダーを作成し、Weave OTEL 拡張機能を注入します。
-  //    リソースローダーは Pi ランタイム環境と、
-  //    エージェントアクティビティのトレースに使用する拡張機能のライフサイクルを提供します。
+  // 2. Create a resource loader and inject the Weave OTEL extension.
+  //    The resource loader provides the Pi runtime environment and
+  //    extension lifecycle used for tracing agent activity.
   const resourceLoader = new DefaultResourceLoader({
     cwd: process.cwd(),
     agentDir: getAgentDir(),
@@ -68,17 +68,17 @@ async function main() {
 
   await resourceLoader.reload();
 
-  // 3. エージェントセッションを開始する
+  // 3. Start the agent session
   const {session} = await createAgentSession({
     resourceLoader,
     sessionManager: SessionManager.inMemory(),
   });
 
   // 4. 拡張機能をバインドします。session_start イベントをトリガーし、OTEL アダプターが
-  //    ルートセッション span を作成して会話 ID を取得します。
+  //    ルート会話 span を作成して会話 ID を取得します。
   await session.bindExtensions({});
 
-  // 5. アシスタントの出力を stdout にストリーミングする
+  // 5. Stream assistant output to stdout
   session.subscribe(event => {
     if (
       event.type === 'message_update' &&
@@ -88,7 +88,7 @@ async function main() {
     }
   });
 
-  // 6. プロンプトを送信し、応答が完了するまで待機する
+  // 6. Send a prompt and wait for the full response
   await session.prompt('What files are in the current directory?');
   console.log();
 }
@@ -108,6 +108,6 @@ npx tsx [FILENAME].ts
   ### 次のステップ
 </div>
 
-この例をマルチターンのセッションにするには、プロンプトを追加します。Weave は `session.prompt()` を呼び出すたびに、それぞれが単一のルート span の下にネストされた個別の `invoke_agent` span としてトレースします。エージェントはプロンプト間で自動的にコンテキストを保持します。
+この例をマルチターンの会話にするには、プロンプトを追加します。Weave は `session.prompt()` を呼び出すたびに、それぞれが単一のルート span の下にネストされた個別の `invoke_agent` span としてトレースします。エージェントはプロンプト間で自動的にコンテキストを保持します。
 
-コードを実行すると、**Agents** タブに、ネストされた LLM Call、ツール実行、token 使用量、コストを含む、マルチターンの完全なタイムラインが表示されます。
+コードを実行すると、**Agents** タブに、ネストされた LLM Call、ツール実行、トークン使用量、コストを含む、マルチターンの完全なタイムラインが表示されます。
