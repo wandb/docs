@@ -10,7 +10,7 @@ keywords: ["application iPhone", "application iPad", "application iOS", "App Sto
   </Frame>
 
   <Frame>
-    ![Écran Gérer les notifications de l'application mobile W\&B](/images/mobile-app/manage-alerts.png)
+    ![Onglet ARIA et interface de chat dans l'application iOS W\&B](/images/mobile-app/aria-chat.png)
   </Frame>
 
   <Frame>
@@ -58,12 +58,35 @@ Les fonctionnalités suivantes sont disponibles dans l’application mobile.
   * **Afficher les journaux de la console** : Consultez les [journaux de la console](/fr/models/runs/view-logged-runs#logs) des runs actifs ou terminés, ou téléchargez les journaux des runs terminés. L’application interroge les runs actifs toutes les 5 secondes pour récupérer les nouvelles lignes de journal. Les 10 000 lignes les plus récentes s’affichent par défaut, et vous pouvez faire défiler l’écran pour consulter les journaux plus anciens. La recherche dans les journaux reste réactive même avec de grandes sorties.
 * **Changer d’équipe** : Utilisez le **sélecteur d&#39;équipe** pour changer d’équipe.
 * **Rester informé** : Recevez des mises à jour sur vos expériences sans ouvrir votre ordinateur portable grâce aux notifications. **Supprimez les alertes** dont vous n’avez plus besoin depuis l’onglet **Notifications** en les balayant.
+* **Chat avec ARIA** : Utilisez ARIA dans l’application mobile pour poser des questions, analyser des runs et effectuer des actions sans quitter votre téléphone.
+
+<div id="chat-with-aria">
+  ## Chat avec ARIA
+</div>
+
+ARIA (AI Research &amp; Iteration Agent) est votre assistant de recherche personnalisé. Il vous aide à analyser et à exécuter des expériences, à expliquer les résultats, à identifier des tendances sur l’ensemble des runs, à recommander les prochaines étapes, à créer des visualisations et des Reports, entre autres, dans W&amp;B.
+
+Pour discuter avec ARIA, cliquez sur <img className="inline dark:hidden" alt="icône ARIA" src="/images/agent/aria-logo.svg" style={{ height: "0.95em", width: "0.95em", verticalAlign: "-0.1em", margin: 0 }} /><img className="hidden dark:inline" alt="icône ARIA" src="/images/agent/aria-logo-dark.svg" style={{ height: "0.95em", width: "0.95em", verticalAlign: "-0.1em", margin: 0 }} /> dans la barre de navigation inférieure.
+
+Dans l’application mobile, ARIA conserve le contexte sur plusieurs tours de conversation et affiche les détails de raisonnement et d’action pendant qu’elle travaille. Les étapes du shell indiquent quand ARIA effectue une action, par exemple lorsqu’elle crée un panneau, filtre des runs, crée et exécute des scripts Python, etc. L’historique de conversation reste synchronisé pour vous permettre de passer facilement de l’application web à l’application mobile.
+
+<Frame>
+  ![Onglet ARIA et interface de chat dans l’app iOS W\&B](/images/mobile-app/aria-chat.png)
+</Frame>
+
+Pour un aperçu complet des fonctionnalités d’ARIA, voir [Aperçu d’ARIA](/fr/aria/overview).
 
 <div id="set-up-notifications">
   ## Configurer les notifications
 </div>
 
-Configurez les notifications pour recevoir sur votre appareil mobile des mises à jour concernant vos expériences. Les sections suivantes décrivent les deux types de notifications que vous pouvez configurer.
+Configurez les notifications pour recevoir sur votre appareil mobile des mises à jour concernant vos expériences.
+
+<Frame>
+  ![Écran Gérer les notifications de l’application mobile W\&B](/images/mobile-app/manage-alerts.png)
+</Frame>
+
+Les sections suivantes décrivent les types de notifications que vous pouvez configurer. L’écran **Gérer les notifications** regroupe ces deux types de paramètres au même endroit, avec de courtes descriptions expliquant ce que contrôle chaque section.
 
 <div id="metric-threshold-alerts">
   ### Alertes de seuil de métrique
@@ -85,5 +108,3 @@ Utilisez les alertes d’échec de run pour être averti lorsque des runs échou
 1. Accédez à un projet.
 2. Touchez le menu **d’action (<Icon icon="ellipsis" iconType="solid" />)** en haut à droite.
 3. Sélectionnez **Alerte d’échec de run** pour recevoir des notifications en cas d’échec de futurs runs dans ce projet.
-
-L’écran **Gérer les notifications** regroupe ces deux types de paramètres au même endroit, avec de courtes descriptions expliquant ce que contrôle chaque section.

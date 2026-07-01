@@ -1,0 +1,33 @@
+---
+title: 에이전트 인테그레이션 경로
+---
+
+<div id="agent-harnesses">
+  ## 에이전트 하니스
+</div>
+
+에이전트 하니스는 코딩 에이전트나 개발자 도구와 같은 최종 사용자용 에이전트 런타임입니다. 플러그인 또는 확장을 설치한 다음 하니스에서 세션을 시작하면 트레이싱을 시작할 수 있습니다:
+
+* [Claude Code 플러그인](/ko/weave/guides/integrations/agents/claude-code-harness)
+* [Codex 플러그인](/ko/weave/guides/integrations/agents/codex-harness)
+* [OpenClaw 플러그인](/ko/weave/guides/integrations/agents/openclaw-harness)
+* [Pi 확장](/ko/weave/guides/integrations/agents/pi-dev-harness)
+
+<div id="agent-sdks">
+  ## 에이전트 SDK
+</div>
+
+에이전트 SDK는 자체 애플리케이션 코드에서 에이전트 및 멀티 에이전트 워크플로를 구축하기 위한 라이브러리입니다. 스크립트에 `weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")`를 추가하면 Weave가 SDK에 자동 패치를 적용합니다:
+
+* [OpenAI Agents SDK](/ko/weave/guides/integrations/agents/openai-agents-sdk)
+* [Google Agent Development Kit (ADK)](/ko/weave/guides/integrations/agents/google-adk)
+* [Claude Agent SDK](/ko/weave/guides/integrations/agents/claude-agents-sdk)
+
+<div id="custom-agents-and-opentelemetry">
+  ## 맞춤형 에이전트 및 OpenTelemetry
+</div>
+
+에이전트가 위의 SDK 중 하나로 빌드되지 않았거나 이미 OpenTelemetry span을 내보내는 경우에는 Weave SDK를 직접 사용하세요. Weave는 모든 OTel span을 받아들이며, span이 **Agents** 뷰에 표시되도록 [GenAI semantic-convention attributes](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans/)를 특별히 처리합니다.
+
+* [퀵스타트: 에이전트를 수동으로 계측하기](/ko/weave/custom-agents-quickstart) — 작은 멀티턴 에이전트를 따라 해 보는 워크스루입니다.
+* [에이전트 트레이스하기](/ko/weave/guides/tracking/trace-agents) — 에이전트 헬퍼와 개념에 대한 전체 레퍼런스입니다.

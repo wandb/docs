@@ -1,0 +1,493 @@
+---
+title: "インターフェイス: HttpResponse<D, E>"
+description: "TypeScript SDK リファレンス"
+---
+
+[weave](../) / HttpResponse
+
+<div id="type-parameters">
+  ## 型パラメーター
+</div>
+
+| 名   | タイプ                           |
+| :-- | :---------------------------- |
+| `D` | extends `unknown`             |
+| `E` | extends `unknown` = `unknown` |
+
+<div id="hierarchy">
+  ## 階層
+</div>
+
+* `Response`
+
+  ↳ `HttpResponse`
+
+<div id="table-of-contents">
+  ## 目次
+</div>
+
+<div id="properties">
+  ### プロパティ
+</div>
+
+* [body](./httpresponse#body)
+* [bodyUsed](./httpresponse#bodyused)
+* [data](./httpresponse#data)
+* [error](./httpresponse#error)
+* [headers](./httpresponse#headers)
+* [ok](./httpresponse#ok)
+* [redirected](./httpresponse#redirected)
+* [status](./httpresponse#status)
+* [statusText](./httpresponse#statustext)
+* [type](./httpresponse#type)
+* [url](./httpresponse#url)
+
+<div id="methods">
+  ### メソッド
+</div>
+
+* [arrayBuffer](./httpresponse#arraybuffer)
+* [blob](./httpresponse#blob)
+* [bytes](./httpresponse#bytes)
+* [clone](./httpresponse#clone)
+* [formData](./httpresponse#formdata)
+* [json](./httpresponse#json)
+* [text](./httpresponse#text)
+
+## プロパティ
+
+<div id="body">
+  ### body
+</div>
+
+• `Readonly` **body**: `null` | `ReadableStream`&lt;`Uint8Array`&lt;`ArrayBuffer`&gt;&gt;
+
+[MDN リファレンス](https://developer.mozilla.org/docs/Web/API/Request/body)
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+Response.body
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:4468
+
+***
+
+<div id="bodyused">
+  ### bodyUsed
+</div>
+
+• `Readonly` **bodyUsed**: `boolean`
+
+[MDN リファレンス](https://developer.mozilla.org/docs/Web/API/Request/bodyUsed)
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+Response.bodyUsed
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:4470
+
+***
+
+<div id="data">
+  ### data
+</div>
+
+• **data**: `D`
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/generated/traceServerApi.ts:5991](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/generated/traceServerApi.ts#L5991)
+
+***
+
+<div id="error">
+  ### error
+</div>
+
+• **error**: `E`
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/generated/traceServerApi.ts:5992](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/generated/traceServerApi.ts#L5992)
+
+***
+
+<div id="headers">
+  ### headers
+</div>
+
+• `Readonly` **headers**: `Headers`
+
+`headers` は、response に関連付けられたヘッダーを表す読み取り専用プロパティです。
+
+[MDN リファレンス](https://developer.mozilla.org/docs/Web/API/Response/headers)
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+Response.headers
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:26322
+
+***
+
+<div id="ok">
+  ### ok
+</div>
+
+• `Readonly` **ok**: `boolean`
+
+Response インターフェースの `ok` 読み取り専用プロパティには、レスポンスが成功したかどうか (ステータスが 200～299 の範囲内にあるかどうか) を示す Boolean 値が含まれます。
+
+[MDN リファレンス](https://developer.mozilla.org/docs/Web/API/Response/ok)
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+Response.ok
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:26328
+
+***
+
+<div id="redirected">
+  ### redirected
+</div>
+
+• `Readonly` **redirected**: `boolean`
+
+Response インターフェースの読み取り専用プロパティ `redirected` は、このレスポンスが、リダイレクトされたリクエストの結果であるかどうかを示します。
+
+[MDN リファレンス](https://developer.mozilla.org/docs/Web/API/Response/redirected)
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+Response.redirected
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:26334
+
+***
+
+<div id="status">
+  ### ステータス
+</div>
+
+• `Readonly` **ステータス**: `number`
+
+`Response` インターフェースの読み取り専用プロパティ `status` には、レスポンスの HTTP ステータスコードが格納されます。
+
+[MDN リファレンス](https://developer.mozilla.org/docs/Web/API/Response/status)
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+Response.status
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:26340
+
+***
+
+<div id="statustext">
+  ### statusText
+</div>
+
+• `Readonly` **statusText**: `string`
+
+Response インターフェースの読み取り専用プロパティ `statusText` には、Response.status の HTTP ステータス コードに対応するステータス メッセージが含まれます。
+
+[MDN リファレンス](https://developer.mozilla.org/docs/Web/API/Response/statusText)
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+Response.statusText
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:26346
+
+***
+
+<div id="type">
+  ### type
+</div>
+
+• `Readonly` **type**: `ResponseType`
+
+Response インターフェースの `type` 読み取り専用プロパティには、レスポンスのタイプが格納されます。
+
+[MDN リファレンス](https://developer.mozilla.org/docs/Web/API/Response/type)
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+Response.type
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:26352
+
+***
+
+<div id="url">
+  ### url
+</div>
+
+• `Readonly` **url**: `string`
+
+Response インターフェースの読み取り専用 `url` プロパティには、レスポンスの URL が含まれます。
+
+[MDN リファレンス](https://developer.mozilla.org/docs/Web/API/Response/url)
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+Response.url
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:26358
+
+## メソッド
+
+<div id="arraybuffer">
+  ### arrayBuffer
+</div>
+
+▸ **arrayBuffer**(): `Promise`&lt;`ArrayBuffer`&gt;
+
+[MDN リファレンス](https://developer.mozilla.org/docs/Web/API/Request/arrayBuffer)
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`ArrayBuffer`&gt;
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+Response.arrayBuffer
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:4472
+
+***
+
+<div id="blob">
+  ### blob
+</div>
+
+▸ **blob**(): `Promise`&lt;`Blob`&gt;
+
+[MDN リファレンス](https://developer.mozilla.org/docs/Web/API/Request/blob)
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`Blob`&gt;
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+Response.blob
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:4474
+
+***
+
+<div id="bytes">
+  ### bytes
+</div>
+
+▸ **bytes**(): `Promise`&lt;`Uint8Array`&lt;`ArrayBuffer`&gt;&gt;
+
+[MDN リファレンス](https://developer.mozilla.org/docs/Web/API/Request/bytes)
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`Uint8Array`&lt;`ArrayBuffer`&gt;&gt;
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+Response.bytes
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:4476
+
+***
+
+<div id="clone">
+  ### clone
+</div>
+
+▸ **clone**(): `Response`
+
+Response インターフェースの `clone()` メソッドは、あらゆる点で同一のレスポンスオブジェクトの複製を作成し、それを別の変数に格納します。
+
+[MDN リファレンス](https://developer.mozilla.org/docs/Web/API/Response/clone)
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Response`
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+Response.clone
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:26364
+
+***
+
+<div id="formdata">
+  ### formData
+</div>
+
+▸ **formData**(): `Promise`&lt;`FormData`&gt;
+
+[MDN リファレンス](https://developer.mozilla.org/docs/Web/API/Request/formData)
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`FormData`&gt;
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+Response.formData
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:4478
+
+***
+
+<div id="json">
+  ### json
+</div>
+
+▸ **json**(): `Promise`&lt;`any`&gt;
+
+[MDN リファレンス](https://developer.mozilla.org/docs/Web/API/Request/json)
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`any`&gt;
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+Response.json
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:4480
+
+***
+
+<div id="text">
+  ### text
+</div>
+
+▸ **text**(): `Promise`&lt;`string`&gt;
+
+[MDN リファレンス](https://developer.mozilla.org/docs/Web/API/Request/text)
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`string`&gt;
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+Response.text
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:4482

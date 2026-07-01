@@ -37,17 +37,18 @@ curl -H "Authorization: Bearer YOUR_API_KEY" https://trace.wandb.ai/...
   ### Call
 </div>
 
-* **[POST `/call/end`](https://docs.wandb.ai/weave/reference/service-api/calls/call-end)** - コール終了
-* **[POST `/call/read`](https://docs.wandb.ai/weave/reference/service-api/calls/call-read)** - コール読み取り
-* **[POST `/call/start`](https://docs.wandb.ai/weave/reference/service-api/calls/call-start)** - コール開始
-* **[POST `/call/update`](https://docs.wandb.ai/weave/reference/service-api/calls/call-update)** - コール更新
-* **[POST `/call/upsert_batch`](https://docs.wandb.ai/weave/reference/service-api/calls/call-start-batch)** - コール一括開始
+* **[POST `/call/end`](https://docs.wandb.ai/weave/reference/service-api/calls/call-end)** - Call終了
+* **[POST `/call/read`](https://docs.wandb.ai/weave/reference/service-api/calls/call-read)** - Call読み取り
+* **[POST `/call/start`](https://docs.wandb.ai/weave/reference/service-api/calls/call-start)** - Call開始
+* **[POST `/call/update`](https://docs.wandb.ai/weave/reference/service-api/calls/call-update)** - Call更新
+* **[POST `/call/upsert_batch`](https://docs.wandb.ai/weave/reference/service-api/calls/call-start-batch)** - Call一括開始
 * **[POST `/calls/delete`](https://docs.wandb.ai/weave/reference/service-api/calls/calls-delete)** - Call削除
 * **[POST `/calls/query_stats`](https://docs.wandb.ai/weave/reference/service-api/calls/calls-query-stats)** - Callクエリ統計
-* **[POST `/calls/stats`](https://docs.wandb.ai/weave/reference/service-api/calls/call-stats)** - コール統計
+* **[POST `/calls/stats`](https://docs.wandb.ai/weave/reference/service-api/calls/call-stats)** - Call統計
 * **[POST `/calls/stream_query`](https://docs.wandb.ai/weave/reference/service-api/calls/calls-query-stream)** - Callクエリストリーム
 * **[POST `/calls/usage`](https://docs.wandb.ai/weave/reference/service-api/calls/calls-usage)** - Call使用状況
 * **[POST `/trace/usage`](https://docs.wandb.ai/weave/reference/service-api/calls/trace-usage)** - トレース使用状況
+* **[POST `/v2/{entity}/{project}/calls/complete`](https://docs.wandb.ai/weave/reference/service-api/calls/calls-complete)** - Call完了
 
 <div id="costs">
   ### コスト
@@ -61,6 +62,7 @@ curl -H "Authorization: Bearer YOUR_API_KEY" https://trace.wandb.ai/...
   ### フィードバック
 </div>
 
+* **[POST `/feedback/aggregate`](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-aggregate)** - フィードバックの集計
 * **[POST `/feedback/batch/create`](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-create-batch)** - フィードバックのバッチ作成
 * **[POST `/feedback/create`](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-create)** - フィードバックの作成
 * **[POST `/feedback/payload_schema`](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-payload-schema)** - フィードバックのペイロードスキーマ
@@ -137,6 +139,7 @@ curl -H "Authorization: Bearer YOUR_API_KEY" https://trace.wandb.ai/...
 
 * **[GET `/inference/analysis/artificialanalysis/models`](https://docs.wandb.ai/weave/reference/service-api/inference/inference-analysis-artificialanalysis-models)** - Inference Analysis Artificialanalysis モデル
 * **[GET `/inference/catalog/models`](https://docs.wandb.ai/weave/reference/service-api/inference/inference-catalog-models)** - Inference Catalog モデル
+* **[GET `/inference/modelsdev/models`](https://docs.wandb.ai/weave/reference/service-api/inference/inference-modelsdev-models)** - Inference Modelsdev モデル
 * **[GET `/inference/nvidia/v2/hardware`](https://docs.wandb.ai/weave/reference/service-api/inference/nvidia-hardware)** - NVIDIA ハードウェア
 * **[GET `/inference/router/openrouter/models`](https://docs.wandb.ai/weave/reference/service-api/inference/inference-router-openrouter-models)** - Inference Router OpenRouter モデル
 
@@ -146,6 +149,7 @@ curl -H "Authorization: Bearer YOUR_API_KEY" https://trace.wandb.ai/...
 
 * **[POST `/agents/agent-versions/query`](https://docs.wandb.ai/weave/reference/service-api/agents/genai-agent-versions-query)** - Genai エージェントバージョンのクエリ
 * **[POST `/agents/conversations/chat`](https://docs.wandb.ai/weave/reference/service-api/agents/genai-conversation-chat)** - Genai 会話チャット
+* **[POST `/agents/conversations/spans`](https://docs.wandb.ai/weave/reference/service-api/agents/genai-conversation-spans)** - Genai 会話スパン
 * **[POST `/agents/otel/v1/traces`](https://docs.wandb.ai/weave/reference/service-api/agents/export-genai-trace)** - Genai トレースのエクスポート
 * **[POST `/agents/query`](https://docs.wandb.ai/weave/reference/service-api/agents/genai-agents-query)** - Genai エージェントのクエリ
 * **[POST `/agents/search`](https://docs.wandb.ai/weave/reference/service-api/agents/genai-search)** - Genai 検索

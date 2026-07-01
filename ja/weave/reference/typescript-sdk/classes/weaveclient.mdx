@@ -32,6 +32,13 @@ description: "TypeScript SDK リファレンス"
 * [finishCall](./weaveclient#finishcall)
 * [finishCallWithException](./weaveclient#finishcallwithexception)
 * [get](./weaveclient#get)
+* [getAgentCustomAttributes](./weaveclient#getagentcustomattributes)
+* [getAgentSpanStats](./weaveclient#getagentspanstats)
+* [getAgentSpans](./weaveclient#getagentspans)
+* [getAgentTurn](./weaveclient#getagentturn)
+* [getAgentTurns](./weaveclient#getagentturns)
+* [getAgentVersions](./weaveclient#getagentversions)
+* [getAgents](./weaveclient#getagents)
 * [getCall](./weaveclient#getcall)
 * [getCallStack](./weaveclient#getcallstack)
 * [getCalls](./weaveclient#getcalls)
@@ -45,28 +52,29 @@ description: "TypeScript SDK リファレンス"
 * [saveCallEnd](./weaveclient#savecallend)
 * [saveCallStart](./weaveclient#savecallstart)
 * [saveOp](./weaveclient#saveop)
+* [searchAgents](./weaveclient#searchagents)
 * [serializeAudio](./weaveclient#serializeaudio)
 * [updateCall](./weaveclient#updatecall)
 * [waitForBatchProcessing](./weaveclient#waitforbatchprocessing)
 
 ## コンストラクタ
 
-<div id="constructor">
-  ### コンストラクター
+<div id="constructors">
+  ### コンストラクタ
 </div>
 
-• **new WeaveClient**(`traceServerApi`, `wandbServerApi`, `projectId`, `settings?`): [`WeaveClient`](./weaveclient)
+• **new WeaveClient**(`«destructured»`): [`WeaveClient`](./weaveclient)
 
 <div id="parameters">
   #### パラメーター
 </div>
 
-| 名                | タイプ                |
-| :--------------- | :----------------- |
-| `traceServerApi` | `Api`&lt;`any`&gt; |
-| `wandbServerApi` | `WandbServerApi`   |
-| `projectId`      | `string`           |
-| `settings`       | `Settings`         |
+| 名                  | タイプ                                         |
+| :----------------- | :------------------------------------------ |
+| `«destructured»`   | `Object`                                    |
+| › `projectId`      | `string`                                    |
+| › `settings?`      | `Partial`&lt;[`Settings`](../#settings)&gt; |
+| › `traceServerApi` | `Api`&lt;`any`&gt;                          |
 
 <div id="returns">
   #### 戻り値
@@ -78,7 +86,7 @@ description: "TypeScript SDK リファレンス"
   #### 定義箇所
 </div>
 
-[weaveClient.ts:190](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L190)
+[src/weaveClient.ts:459](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L459)
 
 ## プロパティ
 
@@ -92,7 +100,7 @@ description: "TypeScript SDK リファレンス"
   #### 定義箇所
 </div>
 
-[weaveClient.ts:193](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L193)
+[src/weaveClient.ts:456](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L456)
 
 ***
 
@@ -100,13 +108,13 @@ description: "TypeScript SDK リファレンス"
   ### settings
 </div>
 
-• **settings**: `Settings`
+• **settings**: [`Settings`](../#settings)
 
 <div id="defined-in">
   #### 定義箇所
 </div>
 
-[weaveClient.ts:194](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L194)
+[src/weaveClient.ts:457](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L457)
 
 ***
 
@@ -120,7 +128,7 @@ description: "TypeScript SDK リファレンス"
   #### 定義箇所
 </div>
 
-[weaveClient.ts:191](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L191)
+[src/weaveClient.ts:455](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L455)
 
 ## メソッド
 
@@ -154,7 +162,7 @@ call に scorer の結果 (例: scorer output) を追加します。
   #### 定義箇所
 </div>
 
-[weaveClient.ts:1132](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L1132)
+[src/weaveClient.ts:1727](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L1727)
 
 ***
 
@@ -191,7 +199,7 @@ call に scorer の結果 (例: scorer output) を追加します。
   #### 定義箇所
 </div>
 
-[weaveClient.ts:979](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L979)
+[src/weaveClient.ts:1570](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L1570)
 
 ***
 
@@ -225,7 +233,7 @@ call に scorer の結果 (例: scorer output) を追加します。
   #### 定義箇所
 </div>
 
-[weaveClient.ts:1039](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L1039)
+[src/weaveClient.ts:1630](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L1630)
 
 ***
 
@@ -258,7 +266,7 @@ call に scorer の結果 (例: scorer output) を追加します。
   #### 定義箇所
 </div>
 
-[weaveClient.ts:1079](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L1079)
+[src/weaveClient.ts:1672](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L1672)
 
 ***
 
@@ -286,7 +294,373 @@ call に scorer の結果 (例: scorer output) を追加します。
   #### 定義箇所
 </div>
 
-[weaveClient.ts:435](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L435)
+[src/weaveClient.ts:1025](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L1025)
+
+***
+
+<div id="getagentcustomattributes">
+  ### getAgentCustomAttributes
+</div>
+
+▸ **getAgentCustomAttributes**(`options`): `Promise`&lt;[`Response`](../#response)&lt;`GetAgentCustomAttributesResult`&gt;&gt;
+
+project 内のエージェントのスパンで観測された型付きカスタム属性キーを検出します。各結果行は 1 つの `(source, key, value_type)` トリプルに、その値を持つスパン数を加えたもので、spans の query/group/stats API がカスタム属性を参照する際に使用する形式です。
+
+対象とするスパンは、`query` (構造化された span
+フィルター) 、`startedAfter` / `startedBefore` (ISO-8601) 、またはその両方を指定して絞り込めます。検出されたキーをページングするには、
+`limit` / `offset` を使用します。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名         | タイプ                               |
+| :-------- | :-------------------------------- |
+| `options` | `GetAgentCustomAttributesOptions` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;[`Response`](../#response)&lt;`GetAgentCustomAttributesResult`&gt;&gt;
+
+`例`
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgentCustomAttributes({
+  query: {
+    $expr: {
+      $eq: [{$getField: 'agent_name'}, {$literal: 'my-agent'}],
+    },
+  },
+  startedAfter: '2026-06-15T00:00:00Z',
+  limit: 200,
+});
+
+for (const attr of resp.data.attributes ?? []) {
+  console.log(`${attr.source}.${attr.key} (${attr.value_type}): ${attr.span_count}`);
+}
+```
+
+<div id="defined-in">
+  #### 定義箇所
+</div>
+
+[src/weaveClient.ts:772](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L772)
+
+***
+
+<div id="getagentspanstats">
+  ### getAgentSpanStats
+</div>
+
+▸ **getAgentSpanStats**(`options`): `Promise`&lt;[`Response`](../#response)&lt;`GetAgentSpanStatsResult`&gt;&gt;
+
+project 内のエージェント スパンに対する集約を、時系列 / バケット化された可視化に適した行 + 列の
+メタデータとして返します。
+
+`start` (必須) と `end` は時間ウィンドウを定義します。`metrics` の各エントリでは、
+抽出するフィールドとその集約方法 (`sum`、
+`avg`、`count`、パーセンタイルなど) を指定します。`granularity` (秒) を渡すと
+行を時間単位でバケット化でき、`groupBy` を渡すと結果をエージェント /
+provider / モデル / などごとに分けられます。`query` は、集約前に対象のスパンを
+フィルターします。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名         | タイプ                        |
+| :-------- | :------------------------- |
+| `options` | `GetAgentSpanStatsOptions` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;[`Response`](../#response)&lt;`GetAgentSpanStatsResult`&gt;&gt;
+
+`例`
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgentSpanStats({
+  start: '2026-06-10T00:00:00Z',
+  end: '2026-06-23T00:00:00Z',
+  granularity: 86400, // 1日1行
+  metrics: [
+    {
+      alias: 'total_input_tokens',
+      value_type: 'number',
+      aggregations: ['sum'],
+      value: {source: 'field', key: 'input_tokens'},
+    },
+  ],
+  groupBy: [{key: 'agent_name'}],
+});
+
+for (const row of resp.data.rows ?? []) {
+  console.log(row.started_at_bucket, row.agent_name, row.total_input_tokens);
+}
+```
+
+<div id="defined-in">
+  #### 定義箇所
+</div>
+
+[src/weaveClient.ts:621](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L621)
+
+***
+
+<div id="getagentspans">
+  ### getAgentSpans
+</div>
+
+▸ **getAgentSpans**(`options`): `Promise`&lt;[`Response`](../#response)&lt;[`GetAgentSpansResult`](../#getagentspansresult)&gt;&gt;
+
+エージェントのスパンをクエリします。必要に応じて、エージェント名や Mongo スタイルの
+クエリ式でフィルターできます。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名         | タイプ                                                          |
+| :-------- | :----------------------------------------------------------- |
+| `options` | [`GetAgentSpansOptions`](../interfaces/getagentspansoptions) |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;[`Response`](../#response)&lt;[`GetAgentSpansResult`](../#getagentspansresult)&gt;&gt;
+
+`例`
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgentSpans({agentName: 'my-agent', limit: 20});
+
+for (const span of resp.data.spans) {
+  console.log(span.span_id, span.span_name, span.input_tokens);
+}
+```
+
+`例`
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+
+const resp = await client.getAgentSpans({
+  agentName: 'my-agent',
+  query: {
+    $expr: {$gt: [{$getField: 'input_tokens'}, {$literal: 1000}]},
+  },
+});
+
+for (const span of resp.data.spans) {
+  console.log(span.span_id, span.span_name, span.input_tokens);
+}
+```
+
+<div id="defined-in">
+  #### 定義箇所
+</div>
+
+[src/weaveClient.ts:566](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L566)
+
+***
+
+<div id="getagentturn">
+  ### getAgentTurn
+</div>
+
+▸ **getAgentTurn**(`options`): `Promise`&lt;[`Response`](../#response)&lt;`AgentTraceChatRes`&gt;&gt;
+
+traceId で指定した単一のターンのデータ (メッセージを含む) を取得します。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名         | タイプ                                                        |
+| :-------- | :--------------------------------------------------------- |
+| `options` | [`GetAgentTurnOptions`](../interfaces/getagentturnoptions) |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;[`Response`](../#response)&lt;`AgentTraceChatRes`&gt;&gt;
+
+`例`
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgentTurn({
+  traceId: '01997b8a-2c89-7c4d-9d0e-2f7e5b9a1b2c',
+  includeFeedback: true,
+});
+
+console.log(resp.data.root_span_name, resp.data.total_duration_ms);
+
+for (const message of resp.data.messages ?? []) {
+  if (message.user_message) console.log('user:', message.user_message);
+  if (message.assistant_message) console.log('assistant:', message.assistant_message);
+}
+```
+
+<div id="defined-in">
+  #### 定義箇所
+</div>
+
+[src/weaveClient.ts:655](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L655)
+
+***
+
+<div id="getagentturns">
+  ### getAgentTurns
+</div>
+
+▸ **getAgentTurns**(`options`): `Promise`&lt;[`Response`](../#response)&lt;[`GetAgentTurnsResult`](../#getagentturnsresult)&gt;&gt;
+
+複数のターンのデータ (メッセージを含む) を conversationId ごとに取得します。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名         | タイプ                                                          |
+| :-------- | :----------------------------------------------------------- |
+| `options` | [`GetAgentTurnsOptions`](../interfaces/getagentturnsoptions) |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;[`Response`](../#response)&lt;[`GetAgentTurnsResult`](../#getagentturnsresult)&gt;&gt;
+
+`例`
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgentTurns({
+  conversationId: 'trace_c50312356de3487fa90e381c9399b5b4',
+  limit: 20,
+  includeFeedback: true,
+});
+
+for (const turn of resp.data.turns ?? []) {
+  console.log(turn.trace_id, turn.root_span_name);
+  for (const message of turn.messages ?? []) {
+    if (message.user_message) console.log('user:', message.user_message);
+    if (message.assistant_message) console.log('assistant:', message.assistant_message);
+  }
+}
+
+console.log(`total turns: ${resp.data.total_turns}, has more: ${resp.data.has_more}`);
+```
+
+<div id="defined-in">
+  #### 定義箇所
+</div>
+
+[src/weaveClient.ts:688](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L688)
+
+***
+
+<div id="getagentversions">
+  ### getAgentVersions
+</div>
+
+▸ **getAgentVersions**(`options`): `Promise`&lt;[`Response`](../#response)&lt;[`GetAgentVersionsResult`](../#getagentversionsresult)&gt;&gt;
+
+指定したエージェントのバージョンを一覧で取得します。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名         | タイプ                                                                |
+| :-------- | :----------------------------------------------------------------- |
+| `options` | [`GetAgentVersionsOptions`](../interfaces/getagentversionsoptions) |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;[`Response`](../#response)&lt;[`GetAgentVersionsResult`](../#getagentversionsresult)&gt;&gt;
+
+`例`
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgentVersions({agentName: 'my-agent', limit: 20});
+
+for (const version of resp.data.versions) {
+  console.log(version.agent_version, version.total_input_tokens);
+}
+
+console.log(`total count: ${resp.data.total_count}`)
+```
+
+<div id="defined-in">
+  #### 定義箇所
+</div>
+
+[src/weaveClient.ts:522](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L522)
+
+***
+
+<div id="getagents">
+  ### getAgents
+</div>
+
+▸ **getAgents**(`options?`): `Promise`&lt;[`Response`](../#response)&lt;[`GetAgentsResult`](../#getagentsresult)&gt;&gt;
+
+集計済みの統計情報とともに、エージェントの一覧を返します。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名         | タイプ                                                  |
+| :-------- | :--------------------------------------------------- |
+| `options` | [`GetAgentsOptions`](../interfaces/getagentsoptions) |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;[`Response`](../#response)&lt;[`GetAgentsResult`](../#getagentsresult)&gt;&gt;
+
+`例`
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgents({limit: 20});
+
+for (const agent of resp.data.agents) {
+  console.log(agent.agent_name, agent.total_input_tokens);
+}
+
+console.log(`total count: ${resp.data.total_count}`)
+```
+
+<div id="defined-in">
+  #### 定義箇所
+</div>
+
+[src/weaveClient.ts:488](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L488)
 
 ***
 
@@ -315,7 +689,7 @@ call に scorer の結果 (例: scorer output) を追加します。
   #### 定義箇所
 </div>
 
-[weaveClient.ts:312](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L312)
+[src/weaveClient.ts:902](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L902)
 
 ***
 
@@ -335,7 +709,7 @@ call に scorer の結果 (例: scorer output) を追加します。
   #### 定義箇所
 </div>
 
-[weaveClient.ts:890](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L890)
+[src/weaveClient.ts:1482](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L1482)
 
 ***
 
@@ -363,7 +737,7 @@ call に scorer の結果 (例: scorer output) を追加します。
   #### 定義箇所
 </div>
 
-[weaveClient.ts:345](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L345)
+[src/weaveClient.ts:935](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L935)
 
 ▸ **getCalls**(`options?`, `includeCosts?`, `limit?`): `Promise`&lt;`Call`[]&gt;
 
@@ -387,7 +761,7 @@ call に scorer の結果 (例: scorer output) を追加します。
   #### 定義箇所
 </div>
 
-[weaveClient.ts:346](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L346)
+[src/weaveClient.ts:936](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L936)
 
 ***
 
@@ -395,7 +769,7 @@ call に scorer の結果 (例: scorer output) を追加します。
   ### getCallsIterator
 </div>
 
-▸ **getCallsIterator**(`options?`, `includeCosts?`, `limit?`): `AsyncIterableIterator`&lt;[`CallSchema`](../interfaces/callschema)&gt;
+▸ **getCallsIterator**(`options?`, `includeCosts?`, `limit?`): `AsyncIterableIterator`&lt;[`CallSchema`](../interfaces/callschema), `any`, `any`&gt;
 
 <div id="parameters">
   #### パラメーター
@@ -411,15 +785,15 @@ call に scorer の結果 (例: scorer output) を追加します。
   #### 戻り値
 </div>
 
-`AsyncIterableIterator`&lt;[`CallSchema`](../interfaces/callschema)&gt;
+`AsyncIterableIterator`&lt;[`CallSchema`](../interfaces/callschema), `any`, `any`&gt;
 
 <div id="defined-in">
   #### 定義箇所
 </div>
 
-[weaveClient.ts:367](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L367)
+[src/weaveClient.ts:957](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L957)
 
-▸ **getCallsIterator**(`options?`): `AsyncIterableIterator`&lt;[`CallSchema`](../interfaces/callschema)&gt;
+▸ **getCallsIterator**(`options?`): `AsyncIterableIterator`&lt;[`CallSchema`](../interfaces/callschema), `any`, `any`&gt;
 
 <div id="parameters">
   #### パラメーター
@@ -433,13 +807,13 @@ call に scorer の結果 (例: scorer output) を追加します。
   #### 戻り値
 </div>
 
-`AsyncIterableIterator`&lt;[`CallSchema`](../interfaces/callschema)&gt;
+`AsyncIterableIterator`&lt;[`CallSchema`](../interfaces/callschema), `any`, `any`&gt;
 
 <div id="defined-in">
   #### 定義箇所
 </div>
 
-[weaveClient.ts:372](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L372)
+[src/weaveClient.ts:962](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L962)
 
 ***
 
@@ -459,7 +833,7 @@ call に scorer の結果 (例: scorer output) を追加します。
   #### 定義箇所
 </div>
 
-[weaveClient.ts:894](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L894)
+[src/weaveClient.ts:1486](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L1486)
 
 ***
 
@@ -490,7 +864,7 @@ call に scorer の結果 (例: scorer output) を追加します。
   #### 定義箇所
 </div>
 
-[weaveClient.ts:591](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L591)
+[src/weaveClient.ts:1181](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L1181)
 
 ***
 
@@ -519,7 +893,7 @@ call に scorer の結果 (例: scorer output) を追加します。
   #### 定義箇所
 </div>
 
-[weaveClient.ts:300](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L300)
+[src/weaveClient.ts:890](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L890)
 
 ***
 
@@ -545,7 +919,7 @@ call に scorer の結果 (例: scorer output) を追加します。
   #### 定義箇所
 </div>
 
-[weaveClient.ts:898](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L898)
+[src/weaveClient.ts:1490](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L1490)
 
 ***
 
@@ -582,7 +956,7 @@ call に scorer の結果 (例: scorer output) を追加します。
   #### 定義箇所
 </div>
 
-[weaveClient.ts:906](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L906)
+[src/weaveClient.ts:1498](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L1498)
 
 ***
 
@@ -619,7 +993,7 @@ call に scorer の結果 (例: scorer output) を追加します。
   #### 定義箇所
 </div>
 
-[weaveClient.ts:902](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L902)
+[src/weaveClient.ts:1494](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L1494)
 
 ***
 
@@ -647,7 +1021,7 @@ call に scorer の結果 (例: scorer output) を追加します。
   #### 定義箇所
 </div>
 
-[weaveClient.ts:885](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L885)
+[src/weaveClient.ts:1477](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L1477)
 
 ***
 
@@ -675,7 +1049,7 @@ call に scorer の結果 (例: scorer output) を追加します。
   #### 定義箇所
 </div>
 
-[weaveClient.ts:880](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L880)
+[src/weaveClient.ts:1472](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L1472)
 
 ***
 
@@ -704,7 +1078,64 @@ call に scorer の結果 (例: scorer output) を追加します。
   #### 定義箇所
 </div>
 
-[weaveClient.ts:945](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L945)
+[src/weaveClient.ts:1537](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L1537)
+
+***
+
+<div id="searchagents">
+  ### searchAgents
+</div>
+
+▸ **searchAgents**(`options`): `Promise`&lt;[`Response`](../#response)&lt;`SearchAgentsResult`&gt;&gt;
+
+project 内のエージェントメッセージ全体を対象に全文検索を実行します。結果は会話ごとに
+グループ化され、一致した各メッセージのプレビューが表示されます。
+
+`query` は全文検索の検索語です。空の文字列を渡すと、テキスト一致は行わず、
+構造化フィルター (`agentName`,
+`conversationId`, `traceId`) に一致するすべてのメッセージを取得できます。`limit` /
+`offset` を使用して結果をページ単位で取得します。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名         | タイプ                   |
+| :-------- | :-------------------- |
+| `options` | `SearchAgentsOptions` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;[`Response`](../#response)&lt;`SearchAgentsResult`&gt;&gt;
+
+`例`
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.searchAgents({
+  query: 'Liverpool',
+  agentName: 'Assistant',
+  limit: 20,
+});
+
+for (const conversation of resp.data.results ?? []) {
+  console.log(`${conversation.conversation_id} (${conversation.agent_name})`);
+  for (const match of conversation.matched_messages) {
+    console.log(`  [${match.role}] ${match.content_preview}`);
+  }
+}
+
+console.log(`total conversations: ${resp.data.total_conversations}`);
+```
+
+<div id="defined-in">
+  #### 定義箇所
+</div>
+
+[src/weaveClient.ts:730](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L730)
 
 ***
 
@@ -724,10 +1155,10 @@ Call の出力を手動で構築する場合 (たとえば `saveCallEnd` 経由)
   #### パラメーター
 </div>
 
-| 名           | タイプ      | 既定値                  | 説明                                        |
-| :---------- | :------- | :------------------- | :---------------------------------------- |
-| `data`      | `Buffer` | `undefined`          | 生のオーディオバイト (ブラウザーとの互換性を最大限にするには WAV)      |
-| `audioType` | `"wav"`  | `DEFAULT_AUDIO_TYPE` | ファイル形式 — 現在サポートされているのは &#39;wav&#39; のみです |
+| 名           | タイプ                               | 既定値                  | 説明                                        |
+| :---------- | :-------------------------------- | :------------------- | :---------------------------------------- |
+| `data`      | `Buffer`&lt;`ArrayBufferLike`&gt; | `undefined`          | 生のオーディオバイト (ブラウザーとの互換性を最大限にするには WAV)      |
+| `audioType` | `"wav"`                           | `DEFAULT_AUDIO_TYPE` | ファイル形式 — 現在サポートされているのは &#39;wav&#39; のみです |
 
 <div id="returns">
   #### 戻り値
@@ -739,7 +1170,7 @@ Call の出力を手動で構築する場合 (たとえば `saveCallEnd` 経由)
   #### 定義箇所
 </div>
 
-[weaveClient.ts:832](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L832)
+[src/weaveClient.ts:1424](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L1424)
 
 ***
 
@@ -768,7 +1199,7 @@ Call の出力を手動で構築する場合 (たとえば `saveCallEnd` 経由)
   #### 定義箇所
 </div>
 
-[weaveClient.ts:1115](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L1115)
+[src/weaveClient.ts:1710](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L1710)
 
 ***
 
@@ -788,4 +1219,4 @@ Call の出力を手動で構築する場合 (たとえば `saveCallEnd` 経由)
   #### 定義箇所
 </div>
 
-[weaveClient.ts:211](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L211)
+[src/weaveClient.ts:801](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L801)

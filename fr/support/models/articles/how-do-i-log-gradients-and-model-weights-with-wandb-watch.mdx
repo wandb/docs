@@ -1,0 +1,86 @@
+---
+title: "Comment puis-je journaliser les gradients et les poids du modèle avec wandb.watch() ?"
+keywords: ["Experiments", "Métriques", "Runs"]
+---
+
+`wandb.watch()` ajoute des hooks aux paramètres et aux gradients d’un modèle PyTorch, puis journalise des histogrammes de leurs valeurs à intervalles réguliers. Cela est utile pour diagnostiquer l’instabilité de l’entraînement, la disparition des gradients et les neurones morts.
+
+**Utilisation de base**
+
+Appelez `wandb.watch()` après `wandb.init()` et avant la première étape d’entraînement :
+
+```python
+import wandb
+import torch.nn as nn
+
+wandb.init(project="my-project")
+
+model = MyModel()
+wandb.watch(model, log="gradients", log_freq=100)
+
+for step, batch in enumerate(dataloader):
+    loss = train_step(model, batch)
+    loss.backward()
+    optimizer.step()
+    optimizer.zero_grad()
+
+    wandb.log({"train/loss": loss.item()}, step=step)
+
+wandb.finish()
+```
+
+Les histogrammes de gradients sont enregistrés tous les `log_freq` **lots** (la valeur par défaut de [`Run.watch()`](/fr/models/ref/python/experiments/run) est `log_freq=1000` ; l’exemple utilise `100` pour obtenir un retour plus rapide). Ils apparaissent dans l’onglet **Charts** sous des clés telles que `gradients/layer_name.weight`.
+
+**Options du paramètre `log`**
+
+| Value          | Ce qui est enregistré                                                   |
+| -------------- | ----------------------------------------------------------------------- |
+| `"gradients"`  | Histogrammes de gradients uniquement (par défaut)                       |
+| `"parameters"` | Histogrammes de poids/paramètres uniquement                             |
+| `"all"`        | Gradients et paramètres                                                 |
+| `None`         | Aucun des deux — journalise uniquement la topologie du graphe du modèle |
+
+```python
+wandb.watch(model, log="all", log_freq=50)
+```
+
+**Journalisation de la topologie du graphe du modèle**
+
+Définissez `log_graph=True` si vous souhaitez obtenir le graphe de calcul alors que la journalisation des histogrammes est désactivée ou réduite au minimum. Consultez le graphe dans l’onglet **Aperçu** du run, sous **Model**. Voir [`Run.watch()`](/fr/models/ref/python/experiments/run) pour comprendre comment `log`, `log_graph` et `log_freq` interagissent.
+
+```python
+wandb.watch(model, log=None, log_graph=True)  # focus sur le graphe, sans histogrammes
+```
+
+**Surveiller plusieurs modèles**
+
+Appelez `wandb.watch()` séparément pour chaque modèle (utile lors de l’entraînement de GAN) :
+
+```python
+wandb.watch(generator, log="gradients", log_freq=100)
+wandb.watch(discriminator, log="gradients", log_freq=100)
+```
+
+Les gradients de chaque modèle sont enregistrés avec comme préfixes les noms de ses paramètres.
+
+**Considérations sur les performances**
+
+La journalisation des gradients ajoute une surcharge proportionnelle à `log_freq`. Journaliser à chaque étape (`log_freq=1`) peut considérablement ralentir l’entraînement. Une valeur comprise entre 50 et 200 est courante pour la plupart des exécutions d’entraînement. Si les performances sont primordiales, définissez `log="parameters"` plutôt que `log="gradients"` — les histogrammes de paramètres sont calculés sans hook de rétropropagation et sont moins coûteux.
+
+**Arrêter watch**
+
+Pour arrêter la journalisation des gradients en cours d’entraînement :
+
+```python
+wandb.unwatch(model)
+```
+
+Cela supprime les hooks sans mettre fin au run, de sorte que la journalisation des métriques se poursuit sans incidence.
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Métriques](/fr/support/models/tags/metrics)</Badge><Badge stroke shape="pill" color="orange" size="md">[Exécutions](/fr/support/models/tags/runs)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

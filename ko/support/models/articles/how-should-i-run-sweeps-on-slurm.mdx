@@ -1,14 +1,74 @@
 ---
-title: "SLURM에서 Sweeps를 어떻게 실행해야 하나요?"
-keywords: ["Sweeps"]
+title: "SLURM에서 스윕을 실행하려면 어떻게 해야 하나요?"
+keywords: ["Sweeps", "Experiments"]
 ---
 
-[SLURM scheduling system](https://slurm.schedmd.com/documentation.html)과 함께 Sweeps를 사용하려면 예약된 각 작업에서 `wandb agent --count 1 SWEEP_ID`를 실행하세요. 이 명령은 단일 트레이닝 작업을 실행한 뒤 종료됩니다. 이 방식은 리소스 요청에 필요한 실행 시간 예측을 지원하면서도 하이퍼파라미터 검색의 병렬성 이점을 그대로 활용할 수 있습니다.
+[SLURM scheduling system](https://slurm.schedmd.com/documentation.html)에서 W&amp;B 스윕을 실행하려면, 스케줄된 각 작업에서 `wandb agent --count 1 SWEEP_ID`를 실행하세요. 에이전트는 하나의 트레이닝 run을 실행한 뒤 종료하므로 리소스 추정이 더 쉬워지고, SLURM 스케줄러가 여러 작업에 걸쳐 하이퍼파라미터 검색을 병렬화할 수 있습니다.
+
+멀티 GPU 또는 분산 트레이닝 작업에는 추가로 적용되는 규칙이 있습니다. 각 SLURM 작업에서는 프로세스 하나만 `wandb.agent()`를 호출해야 합니다. 모든 rank가 에이전트를 호출하면 각 rank가 스윕 컨트롤러에서 각자의 하이퍼파라미터 설정을 가져오게 되므로, rank들이 더 이상 동일한 모델을 트레이닝하지 않게 됩니다.
+
+아래 섹션에서는 단일 프로세스 작업의 제출 command, 분산 트레이닝이 포함된 멀티 GPU 작업의 rank 게이팅 패턴, global rank와 local rank 중 어느 것을 기준으로 게이트해야 하는지, 그리고 rank 0이 아닌 rank에서 로그를 기록하는 방법을 설명합니다.
+
+<div id="single-process-or-single-gpu-jobs">
+  ## 단일 프로세스 또는 단일 GPU 작업
+</div>
+
+각 예약 작업을 다음과 같이 제출하세요:
+
+```bash
+wandb agent --count 1 SWEEP_ID
+```
+
+<div id="multi-gpu-jobs-with-distributed-training">
+  ## 분산 트레이닝을 사용하는 멀티 GPU 작업
+</div>
+
+분산 트레이닝(예: `--gpus-per-node`를 사용하는 멀티 GPU 작업)과 함께 W&amp;B 스윕을 실행할 때는 `SLURM_PROCID` 환경 변수를 사용해 `wandb.agent()`가 하나의 rank에서만 실행되도록 하세요. 다른 rank에서는 스윕 에이전트나 `wandb.init()`를 호출하지 말고 분산 트레이닝만 실행해야 합니다. 분산 트레이닝에서 W&amp;B를 사용하는 일반적인 방법은 [분산 트레이닝 실험 로깅](/ko/models/track/log/distributed-training)을 참조하세요.
+
+```python
+import os
+import wandb
+
+def train():
+    with wandb.init() as run:
+        config = run.config
+        # 설정을 다른 rank에 브로드캐스트한 후 분산 트레이닝을 실행합니다.
+        ...
+
+if os.environ.get("SLURM_PROCID", "0") == "0":
+    wandb.agent(sweep_id, function=train, count=1)
+else:
+    # rank 0이 아닌 rank는 rank 0으로부터 설정을 받아 트레이닝을 실행하며,
+    # wandb.agent() 또는 wandb.init()을 호출하지 않습니다.
+    run_worker()
+```
+
+이 패턴은 다음을 보장합니다:
+
+* 각 SLURM 작업이 스윕 컨트롤러에 정확히 하나의 run만 등록합니다.
+* rank-0이 아닌 rank는 중복되거나 분리된 run을 생성하지 않고 분산 트레이닝에서 자신의 부분을 실행합니다.
+* 스윕 컨트롤러가 진행 상황을 올바르게 추적하고 새로운 하이퍼파라미터 설정을 올바르게 스케줄링합니다.
+
+`submitit` 또는 이와 유사한 런처를 사용하는 경우, `wandb.agent()`를 호출하기 전에 트레이닝 진입점에서 동일한 검사를 적용하세요.
+
+<div id="choose-between-slurm_procid-and-slurm_localid">
+  ### `SLURM_PROCID`와 `SLURM_LOCALID` 중에서 선택하기
+</div>
+
+`SLURM_PROCID`는 전체 SLURM 작업에서의 전역 rank입니다. 분산 그룹 전체에 대해 에이전트를 정확히 하나만 두려면 `SLURM_PROCID == 0`일 때만 실행되도록 설정하세요. 이는 Sweeps에서 일반적인 방식입니다.
+
+`SLURM_LOCALID`는 단일 노드 내에서의 rank입니다. 노드마다 에이전트를 하나씩 두려면 `SLURM_LOCALID == 0`일 때만 실행되도록 설정하세요. 예를 들어, 노드별로 독립적인 스윕 run을 병렬로 시작할 때 이렇게 설정할 수 있습니다.
+
+<div id="log-from-non-rank-0-ranks">
+  ### rank-0이 아닌 rank에서 로그 기록
+</div>
+
+위 예시는 rank 0만 W&amp;B에 로그를 기록하는 [단일 프로세스 추적](/ko/models/track/log/distributed-training#track-a-single-process) 패턴을 따릅니다. rank-0이 아닌 rank도 동일한 run에 로그를 기록하게 하려면(예: rank별 시스템 메트릭을 캡처하려는 경우), shared mode를 사용하고 각 워커에 rank 0의 Run ID를 전달하세요. 자세한 내용은 [모든 프로세스를 단일 run으로 추적](/ko/models/track/log/distributed-training#track-all-processes-to-a-single-run)을 참조하세요.
 
 ***
 
 {/* AUTO-GENERATED: 탭 배지 */}
 
-<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ko/support/models/tags/sweeps)</Badge>
+<Badge stroke shape="pill" color="orange" size="md">[스윕](/ko/support/models/tags/sweeps)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge>
 
-{/* END AUTO-GENERATED: 탭 배지 */}
+{/* AUTO-GENERATED 끝: tab badges */}
