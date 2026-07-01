@@ -76,22 +76,18 @@ export const AriaChatBubbles = ({ prompt, response }) => {
     <div
       className={`flex w-full ${align === 'end' ? 'justify-end' : 'justify-start'}`}
     >
-      <div className="flex w-full max-w-[min(100%,36rem)] items-start">
-        <div
-          className={`min-w-0 flex-1 rounded-2xl px-3 py-2 ${bubbleClassName}`}
+      <div
+        className={`flex w-fit max-w-[min(100%,36rem)] items-start gap-1 rounded-2xl py-2 pl-3 pr-1.5 ${bubbleClassName}`}
+      >
+        <div className={`min-w-0 flex-1 ${bubbleTextClassName}`}>{text}</div>
+        <button
+          type="button"
+          className={`mt-0.5 shrink-0 ${copyButtonClassName}`}
+          onClick={() => copyText(text, setCopied)}
+          aria-label={copyLabel}
         >
-          <div className={bubbleTextClassName}>{text}</div>
-        </div>
-        <div className="flex w-10 shrink-0 items-start justify-center pt-1.5">
-          <button
-            type="button"
-            className={copyButtonClassName}
-            onClick={() => copyText(text, setCopied)}
-            aria-label={copyLabel}
-          >
-            {copyIcon(copied)}
-          </button>
-        </div>
+          {copyIcon(copied)}
+        </button>
       </div>
     </div>
   );
