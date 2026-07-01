@@ -4,6 +4,7 @@ description: Trace an agent built with the OpenAI Agents SDK using Weave.
 ---
 
 import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
+import AgentsViewTraces from '/snippets/_includes/agents-view-traces.mdx';
 
 <AgentsPreview />
 
@@ -83,17 +84,6 @@ asyncio.run(main())
 ```
 
 The example runs three turns in a single conversation. The first two turns trigger Wikipedia lookups, and the third uses the prior conversation context to produce a summary without a tool call. Each call to `Runner.run` continues the conversation by passing the previous result's input list back as the next request.
-
-### See your agent traces in the Agents view
-
-After the script runs, you can review the captured activity in Weave. `weave.init()` prints a link to your project when it runs. Open the **Agents** view to inspect:
-
-- A tile in the **Agents** tab for `Research assistant`.
-- A session containing three turns.
-- Each turn rendered as an `invoke_agent` span with nested model calls and tool calls.
-- The full input, model, output, token usage, and Wikipedia results at each step.
-
-For details about viewing Agents data in Weave, see [View agent activity](/weave/guides/tracking/view-agent-activity).
 </Tab>
 
 <Tab title="TypeScript">
@@ -115,7 +105,7 @@ npm install weave @openai/agents zod
 
 ### Initialize Weave in your code
 
-In most Node.js environments, no manual instrumentation is needed — Weave automatically instruments `@openai/agents` via module loader hooks when it is imported. The required setup differs slightly between module systems. For more background on CommonJS versus ESM and how Weave's loader hooks work, see the [TypeScript SDK third-party integration guide](/weave/guides/integrations/js).
+Weave automatically instruments `@openai/agents` via module loader hooks when it is imported. The required setup differs slightly between module systems. For more background on CommonJS versus ESM and how Weave's loader hooks work, see the [TypeScript SDK third-party integration guide](/weave/guides/integrations/js).
 
 - **CommonJS projects**: No extra configuration needed. Require `weave` before `@openai/agents` so auto-instrumentation runs first.
 - **ESM projects**: Start Node with the `--import=weave/instrument` flag so the instrumentation loads before any other modules.
@@ -216,16 +206,7 @@ import { createOpenAIAgentsTracingProcessor } from "weave";
 const processor = createOpenAIAgentsTracingProcessor();
 addTraceProcessor(processor);
 ```
-
-### See your agent traces in the Agents view
-
-After the script runs, `weave.init()` prints a link to your project. Open the **Agents** view to inspect:
-
-- A tile in the **Agents** tab for `Research assistant`.
-- A single session containing three turns.
-- Each turn rendered as an `invoke_agent` span with nested model calls and tool calls.
-- The full input, model, output, token usage, and Wikipedia results at each step.
-
-For details about viewing Agents data in Weave, see [View agent activity](/weave/guides/tracking/view-agent-activity).
 </Tab>
 </Tabs>
+
+<AgentsViewTraces />

@@ -5,10 +5,11 @@ keywords: ["Claude Agent SDK", "Anthropic", "MCP tools", "agent tracing", "autop
 ---
 
 import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
+import AgentsViewTraces from '/snippets/_includes/agents-view-traces.mdx';
 
 <AgentsPreview />
 
-The Claude Agent SDK is an SDK for building agent applications with Claude. Weave automatically traces Claude Agent SDK calls, including agent queries, model responses, tool use, and multi-turn conversations. Weave displays the captured data in the **Agents** view of your project.
+The Claude Agent SDK enables you to quickly build agent applications powered by Claude. You can integrate Weave into you Claude agents to automatically trace their calls, including agent queries, model responses, tool use, and multi-turn conversations. Weave displays the captured data in the **Agents** view of your project.
 
 ## Trace Claude Agent SDK agents with Weave
 
@@ -86,8 +87,6 @@ anyio.run(main)
 ```
 
 When the script runs, `weave.init()` prints a link to your project. Open the link to inspect the captured traces for the agent's query, model responses, and tool calls.
-
-For details about viewing Agents data in Weave, see [View agent activity](/weave/guides/tracking/view-agent-activity).
 </Tab>
 
 <Tab title="TypeScript">
@@ -108,12 +107,12 @@ npm install weave @anthropic-ai/claude-agent-sdk
 
 ### Initialize Weave in your code
 
-Weave automatically instruments `query()` via module loader hooks. The required setup differs slightly between module systems. For more background on CommonJS versus ESM and how Weave's loader hooks work, see the [TypeScript SDK third-party integration guide](/weave/guides/integrations/js).
+Weave automatically instruments `query()` via module loader hooks. The required setup differs slightly between module systems. For more information on CommonJS versus ESM and how Weave's loader hooks work, see the [TypeScript SDK third-party integration guide](/weave/guides/integrations/js).
 
-- **CommonJS projects**: No extra configuration needed. Require `weave` before `@anthropic-ai/claude-agent-sdk`.
+- **CommonJS projects**: No extra configuration needed. Require `weave` before `@anthropic-ai/claude-agent-sdk` so auto-instrumentation runs first.
 - **ESM projects**: Start Node with the `--import=weave/instrument` flag so the instrumentation loads before any other modules.
 
-The following code defines a `wikipedia_search` MCP tool and runs a three-turn conversation. Each turn is a separate `query()` call, but later turns pass `resume` with the first turn's `session_id` so that all turns group as one session in the Weave Agents view. The first two turns trigger Wikipedia lookups, and the third uses the previous conversation context to produce a summary without a tool call.
+This example defines a `wikipedia_search` MCP tool and runs a three-turn conversation. Each turn is a separate `query()` call, but later turns pass `resume` with the first turn's `session_id` so that all turns group as one session in the Weave Agents view. The first two turns trigger Wikipedia lookups, and the third uses the previous conversation context to produce a summary without a tool call.
 
 ```typescript lines
 import * as weave from "weave";
@@ -190,14 +189,12 @@ main().catch(console.error);
 
 Each `query()` call produces an `invoke_agent` root span. Because the follow-up turns resume the same `session_id`, Weave stamps the same `gen_ai.conversation.id` on all spans and groups them as one session in the Agents view.
 
-### See your agent traces in the Agents view
+Save the example as `main.mjs` and run it with the `--import=weave/instrument` flag so the loader hook runs before any other module:
 
-After the script runs, `weave.init()` prints a link to your project. Open the **Agents** view to inspect:
-
-- A single session containing all three turns.
-- Each turn rendered as an `invoke_agent` span with nested `chat` and `execute_tool` children.
-- The full input, model, output, token usage, and Wikipedia results at each step.
-
-For details about viewing Agents data in Weave, see [View agent activity](/weave/guides/tracking/view-agent-activity).
+```bash
+node --import=weave/instrument main.mjs
+```
 </Tab>
 </Tabs>
+
+<AgentsViewTraces />
