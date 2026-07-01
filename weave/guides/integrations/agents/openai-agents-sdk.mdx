@@ -120,11 +120,12 @@ In most Node.js environments, no manual instrumentation is needed — Weave auto
 - **CommonJS projects**: No extra configuration needed. Require `weave` before `@openai/agents` so auto-instrumentation runs first.
 - **ESM projects**: Start Node with the `--import=weave/instrument` flag so the instrumentation loads before any other modules.
 
-The following code defines a `wikipedia_search` tool and a `Research assistant` agent, then runs three questions through the SDK's `Runner` while Weave captures the trace.
+The following code defines a `wikipedia_search` tool and a `Research assistant` agent, then runs three questions through the SDK's `Runner` while Weave captures the trace. Each `run()` call is traced as a separate top-level trace, so the example creates a `Runner` with a shared `groupId` and reuses it across all three calls. Weave uses `groupId` to group traces from the same conversation, falling back to each trace's own ID when no `groupId` is set.
 
 ```typescript lines
+import { randomUUID } from "node:crypto";
 import * as weave from "weave";
-import { Agent, run, tool, type AgentInputItem } from "@openai/agents";
+import { Agent, Runner, tool, type AgentInputItem } from "@openai/agents";
 import { z } from "zod";
 
 const wikipediaSearch = tool({
@@ -164,6 +165,8 @@ async function main() {
     tools: [wikipediaSearch],
     });
 
+    const runner = new Runner({ groupId: randomUUID() });
+
     const questions = [
     "Who founded Anthropic?",
     "What is Claude (the AI assistant)?",
@@ -174,7 +177,7 @@ async function main() {
     for (const question of questions) {
     history.push({ role: "user", content: question });
     console.log(`USER: ${question}`);
-    const result = await run(agent, history);
+    const result = await runner.run(agent, history);
     console.log(`AGENT: ${result.finalOutput}\n`);
     history = result.history;
     }
@@ -183,7 +186,7 @@ async function main() {
 main();
 ```
 
-The example runs three turns in a single conversation. The first two turns trigger Wikipedia lookups, and the third uses the prior conversation context to produce a summary without a tool call. Each call to `run` continues the conversation by passing the previous result's `history` back as the next input.
+The example runs three turns in a single conversation. The first two turns trigger Wikipedia lookups, and the third uses the prior conversation context to produce a summary without a tool call. Each call to `runner.run` continues the conversation by passing the previous result's `history` back as the next input, and shares the same `groupId` so Weave groups all three turns into one session in the Agents view.
 
 Save the example as `main.mjs` and run it with the `--import=weave/instrument` flag so the loader hook runs before any other module:
 
