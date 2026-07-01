@@ -140,13 +140,6 @@ ___
 
 ### setAttribute
 
-<Warning>
-  **Deprecated.** Use [setAttributes](./turn#setattributes) instead, which mirrors the Python
-SDK's `set_attributes` and OTel's `Span.setAttributes`. Retained as a thin
-alias so existing single-attribute callers keep working. Only `Turn`
-carries this — the other emitters never shipped a singular form.
-</Warning>
-
 ▸ **setAttribute**(`key`, `value`): `this`
 
 #### Parameters
@@ -159,6 +152,13 @@ carries this — the other emitters never shipped a singular form.
 #### Returns
 
 `this`
+
+`Deprecated`
+
+Use [setAttributes](./turn#setattributes) instead, which mirrors the Python
+SDK's `set_attributes` and OTel's `Span.setAttributes`. Retained as a thin
+alias so existing single-attribute callers keep working. Only `Turn`
+carries this — the other emitters never shipped a singular form.
 
 #### Defined in
 
