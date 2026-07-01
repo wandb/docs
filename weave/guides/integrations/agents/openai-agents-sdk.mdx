@@ -23,20 +23,43 @@ Before you begin, make sure you have the following:
 - A W&B account and [API key](https://wandb.ai/authorize) set as a `WANDB_API_KEY` environment variable.
 - An [OpenAI API key](https://platform.openai.com/api-keys).
 - Python 3.10+.
+</Tab>
+
+<Tab title="TypeScript">
+Weave integrates with the [OpenAI Agents Node SDK](https://github.com/openai/openai-agents-js) (`@openai/agents`) to automatically trace your agent runs. Requires `@openai/agents` version `0.4.15` or later.
+
+### Prerequisites
+
+Before you begin, make sure you have the following:
+
+- A W&B account and [API key](https://wandb.ai/authorize) set as a `WANDB_API_KEY` environment variable.
+- An [OpenAI API key](https://platform.openai.com/api-keys).
+- Node.js 18+.
+</Tab>
+</Tabs>
 
 ### Install packages
 
-Install the following packages in your developer environment so that Weave and the OpenAI Agents SDK are available to your script:
+Install the following packages in your developer environment so that Weave and the SDK are available to your script.
 
-```bash
+<CodeGroup>
+```bash Python
 pip install weave openai-agents requests
 ```
 
+```bash TypeScript
+npm install weave @openai/agents zod
+```
+</CodeGroup>
+
 ### Initialize Weave in your code
+
+<Tabs>
+<Tab title="Python">
 
 Add `weave.init` to the project, along with your W&B team and project names, and then build your agent as usual. The following code defines a `wikipedia_search` function tool and a `Research assistant` agent, then runs three questions through the OpenAI Agents SDK `Runner` while Weave captures the trace.
 
-```python lines
+```python lines  highlight="6"
 import asyncio
 import requests
 import weave
@@ -87,24 +110,6 @@ The example runs three turns in a single conversation. The first two turns trigg
 </Tab>
 
 <Tab title="TypeScript">
-Weave integrates with the [OpenAI Agents Node SDK](https://github.com/openai/openai-agents-js) (`@openai/agents`) to automatically trace your agent runs. Requires `@openai/agents` version `0.4.15` or later.
-
-### Prerequisites
-
-Before you begin, make sure you have the following:
-
-- A W&B account and [API key](https://wandb.ai/authorize) set as a `WANDB_API_KEY` environment variable.
-- An [OpenAI API key](https://platform.openai.com/api-keys).
-- Node.js 18+.
-
-### Install packages
-
-```bash
-npm install weave @openai/agents zod
-```
-
-### Initialize Weave in your code
-
 Weave automatically instruments `@openai/agents` via module loader hooks when it is imported. The required setup differs slightly between module systems. For more background on CommonJS versus ESM and how Weave's loader hooks work, see the [TypeScript SDK third-party integration guide](/weave/guides/integrations/js).
 
 - **CommonJS projects**: No extra configuration needed. Require `weave` before `@openai/agents` so auto-instrumentation runs first.
@@ -112,7 +117,7 @@ Weave automatically instruments `@openai/agents` via module loader hooks when it
 
 The following code defines a `wikipedia_search` tool and a `Research assistant` agent, then runs three questions through the SDK's `Runner` while Weave captures the trace. Each `run()` call is traced as a separate top-level trace, so the example creates a `Runner` with a shared `groupId` and reuses it across all three calls. Weave uses `groupId` to group traces from the same conversation, falling back to each trace's own ID when no `groupId` is set.
 
-```typescript lines
+```typescript lines  highlight="33" title="main.mjs"
 import { randomUUID } from "node:crypto";
 import * as weave from "weave";
 import { Agent, Runner, tool, type AgentInputItem } from "@openai/agents";

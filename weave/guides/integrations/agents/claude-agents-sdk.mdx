@@ -25,21 +25,45 @@ This guide shows how to initialize Weave and run a Claude agent with MCP tools t
 - An Anthropic API key set as an `ANTHROPIC_API_KEY` environment variable.
 - Python 3.10+.
 
+</Tab>
+
+<Tab title="TypeScript">
+Weave integrates with the [`@anthropic-ai/claude-agent-sdk`](https://github.com/anthropics/claude-agent-sdk) to automatically trace `query()` calls, including agent spans, model responses, and tool calls.
+
+### Prerequisites
+
+- A W&B account and [API key](https://wandb.ai/authorize) set as a `WANDB_API_KEY` environment variable.
+- An Anthropic API key set as an `ANTHROPIC_API_KEY` environment variable.
+- Node.js 18+.
+- `@anthropic-ai/claude-agent-sdk` version `0.3.178` or later.
+</Tab>
+</Tabs>
+
 ### Install packages
 
 Install the following packages in your developer environment. The `weave` package captures traces, and `claude-agent-sdk` provides the agent runtime.
 
-```bash
+<CodeGroup>
+```bash Python
 pip install weave claude-agent-sdk
 ```
 
+```bash TypeScript
+npm install weave @anthropic-ai/claude-agent-sdk
+```
+</CodeGroup>
+
 ### Initialize Weave in your code
+
+<Tabs>
+<Tab title="Python">
+
 
 Add `weave.init` to the project, update your W&B team and project names, and then build an agent the way you normally would. `weave.init` enables the autopatching that captures traces from the Claude Agent SDK.
 
 The following code creates a Claude agent with two MCP math tools and runs it while Weave captures the traces.
 
-```python lines
+```python lines highlight="11"
 import anyio
 import weave
 
@@ -50,7 +74,7 @@ from claude_agent_sdk import (
     tool,
 )
 
-weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
+weave.init("<your-team>/<your-project-name>")
 
 
 @tool("add", "Add two numbers", {"a": float, "b": float})
@@ -88,25 +112,7 @@ anyio.run(main)
 
 When the script runs, `weave.init()` prints a link to your project. Open the link to inspect the captured traces for the agent's query, model responses, and tool calls.
 </Tab>
-
 <Tab title="TypeScript">
-Weave integrates with the [`@anthropic-ai/claude-agent-sdk`](https://github.com/anthropics/claude-agent-sdk) to automatically trace `query()` calls, including agent spans, model responses, and tool calls.
-
-### Prerequisites
-
-- A W&B account and [API key](https://wandb.ai/authorize) set as a `WANDB_API_KEY` environment variable.
-- An Anthropic API key set as an `ANTHROPIC_API_KEY` environment variable.
-- Node.js 18+.
-- `@anthropic-ai/claude-agent-sdk` version `0.3.178` or later.
-
-### Install packages
-
-```bash
-npm install weave @anthropic-ai/claude-agent-sdk
-```
-
-### Initialize Weave in your code
-
 Weave automatically instruments `query()` via module loader hooks. The required setup differs slightly between module systems. For more information on CommonJS versus ESM and how Weave's loader hooks work, see the [TypeScript SDK third-party integration guide](/weave/guides/integrations/js).
 
 - **CommonJS projects**: No extra configuration needed. Require `weave` before `@anthropic-ai/claude-agent-sdk` so auto-instrumentation runs first.
@@ -114,7 +120,7 @@ Weave automatically instruments `query()` via module loader hooks. The required 
 
 This example defines a `wikipedia_search` MCP tool and runs a three-turn conversation. Each turn is a separate `query()` call, but later turns pass `resume` with the first turn's `session_id` so that all turns group as one session in the Weave Agents view. The first two turns trigger Wikipedia lookups, and the third uses the previous conversation context to produce a summary without a tool call.
 
-```typescript lines
+```typescript lines highlight="36" title="main.mjs"
 import * as weave from "weave";
 import { createSdkMcpServer, query, tool, type Options } from "@anthropic-ai/claude-agent-sdk";
 import { z } from "zod";

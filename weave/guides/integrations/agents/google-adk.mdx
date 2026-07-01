@@ -22,20 +22,42 @@ The Weave SDK autopatches with [Google ADK for Python](https://google.github.io/
 - A W&B account and [API key](https://wandb.ai/authorize) set as a `WANDB_API_KEY` environment variable.
 - A [Google API key](https://aistudio.google.com/apikey) for Gemini.
 - Python 3.10+.
+</Tab>
+
+<Tab title="TypeScript">
+Weave integrates with [Google ADK for Node.js](https://google.github.io/adk-docs/) (`@google/adk`) to automatically trace your agent runs.
+
+### Prerequisites
+
+- A W&B account and [API key](https://wandb.ai/authorize) set as a `WANDB_API_KEY` environment variable.
+- A [Google API key](https://aistudio.google.com/apikey) set as a `GEMINI_API_KEY` or `GOOGLE_GENAI_API_KEY` environment variable.
+- Node.js 18+.
+- `@google/adk` version `1.0.0` or later.
+</Tab>
+</Tabs>
 
 ### Install packages
 
-Install the following packages in your developer environment. These provide the Weave SDK, the Google ADK framework, and the HTTP client used by the example tool:
+Install the following packages in your developer environment. These provide the Weave SDK, the Google ADK framework, and the HTTP client used by the example tool.
 
-```bash
+<CodeGroup>
+```bash Python
 pip install weave google-adk requests
 ```
 
+```bash TypeScript
+npm install weave @google/adk zod
+```
+</CodeGroup>
+
 ### Initialize Weave in your code
+
+<Tabs>
+<Tab title="Python">
 
 Add `weave.init` to the project, along with your W&B team and project names, and then build an agent the way you normally would. The following code creates a `research_assistant` agent that uses `gemini-2.5-flash` and a `wikipedia_search` tool, then runs three questions through a single ADK session while Weave captures the trace.
 
-```python
+```python lines highlight="8"
 import asyncio
 import requests
 import weave
@@ -43,7 +65,7 @@ from google.adk.agents import Agent
 from google.adk.runners import InMemoryRunner
 from google.genai import types
 
-weave.init("[YOUR-TEAM]/[YOUR-PROJECT-NAME]")
+weave.init("<your-team>/<your-project-name>")
 
 def wikipedia_search(query: str) -> dict:
     """Search Wikipedia for a topic and return its title and intro paragraph.
@@ -107,28 +129,11 @@ The example runs three turns in a single ADK session. The first two turns trigge
 </Tab>
 
 <Tab title="TypeScript">
-Weave integrates with [Google ADK for Node.js](https://google.github.io/adk-docs/) (`@google/adk`) to automatically trace your agent runs.
-
-### Prerequisites
-
-- A W&B account and [API key](https://wandb.ai/authorize) set as a `WANDB_API_KEY` environment variable.
-- A [Google API key](https://aistudio.google.com/apikey) set as a `GEMINI_API_KEY` or `GOOGLE_GENAI_API_KEY` environment variable.
-- Node.js 18+.
-- `@google/adk` version `1.0.0` or later.
-
-### Install packages
-
-```bash
-npm install weave @google/adk zod
-```
-
-### Initialize Weave in your code
-
 Weave traces `@google/adk` runners through the `WeaveAdkPlugin`, which you register directly on the runner's `plugins` array. Registering the plugin explicitly works the same way in ESM and CommonJS projects, so no module loader hook setup is required.
 
 The following code creates a `research_assistant` agent with a `wikipedia_search` tool, then runs three questions through a single ADK session while Weave captures the trace.
 
-```typescript lines highlight="53"
+```typescript lines highlight="35"
 import * as weave from "weave";
 import { FunctionTool, Gemini, InMemoryRunner, LlmAgent } from "@google/adk";
 import { WeaveAdkPlugin } from "weave";
