@@ -1,0 +1,45 @@
+---
+title: "코드를 저장하지 않고 메트릭을 기록하려면 어떻게 해야 하나요?"
+keywords: ["관리자", "팀 관리", "메트릭"]
+---
+
+개인정보 보호 또는 규정 준수상의 이유로 독점 소스 코드나 트레이닝 데이터를 W&amp;B에 포함하지 않으려면, W&amp;B가 캡처하는 항목을 제한하여 각 Runs이 메트릭만 기록하도록 하세요.
+
+기본적으로 W&amp;B는 코드와 시스템 메트릭을 기록하지만, 데이터셋 예시는 기록하지 않습니다.
+
+코드 로깅을 끄려면 run 수준에서 환경 변수를 사용하거나, 관리자로서 팀 전체 기본값을 변경하세요.
+
+<div id="turn-off-code-logging-with-environment-variables">
+  ## 환경 변수로 코드 로깅 끄기
+</div>
+
+개별 run 또는 프로세스의 코드 로깅을 끄려면 다음 환경 변수 중 하나를 사용하세요.
+
+* `WANDB_DISABLE_CODE`를 `true`로 설정하면 모든 코드 추적이 비활성화됩니다. 이렇게 하면 Git SHA와 diff patch를 가져오지 않습니다.
+* `WANDB_IGNORE_GLOBS`를 `*.patch`로 설정하면 diff patch가 W&amp;B 서버에 동기화되지 않도록 하면서, `wandb restore`로 로컬에서 계속 적용할 수는 있도록 유지할 수 있습니다.
+
+<div id="enforce-settings-at-the-organization-or-team-level">
+  ## 조직 또는 팀 수준에서 설정 강제 적용
+</div>
+
+팀의 각 사용자가 환경 변수를 직접 설정하게 하는 대신, 팀의 모든 사용자에 대해 코드 저장을 끄려면 팀 또는 조직의 Settings에서 기본값을 변경하세요.
+
+조직 관리자는 계정 또는 조직 대시보드의 **Settings** 탭에 있는 **개인정보 보호** 섹션에서 조직의 모든 Teams에 대해 개인정보 보호 설정을 강제 적용할 수 있습니다. 조직 관리자가 설정을 강제 적용하면 팀 관리자는 자신의 Teams에서 해당 설정을 구성할 수 없습니다.
+
+팀 관리자인 경우 팀의 Runs에 대한 기본 코드 저장을 끌 수 있습니다:
+
+1. `[TEAM-NAME]`을 팀 이름으로 바꾸어 `https://wandb.ai/[TEAM-NAME]`으로 이동하세요.
+2. 왼쪽 내비게이션에서 **팀 settings**을 선택하세요.
+3. **개인정보 보호** 섹션을 열고 **Enable code saving by default**를 끄세요.
+
+이 단계를 완료하면 팀의 새 Runs는 더 이상 기본적으로 코드를 저장하지 않습니다. W&amp;B는 계속해서 메트릭과 시스템 정보를 기록합니다.
+
+자세한 내용은 [개인정보 보호 설정](/ko/platform/hosting/privacy-settings)을 참조하세요.
+
+***
+
+{/* AUTO-GENERATED: 탭 배지 */}
+
+<Badge stroke shape="pill" color="orange" size="md">[관리자](/ko/support/models/tags/administrator)</Badge><Badge stroke shape="pill" color="orange" size="md">[팀 관리](/ko/support/models/tags/team-management)</Badge><Badge stroke shape="pill" color="orange" size="md">[메트릭](/ko/support/models/tags/metrics)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

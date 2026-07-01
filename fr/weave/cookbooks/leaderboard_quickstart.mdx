@@ -1,6 +1,7 @@
 ---
-title: "Leaderboard Quickstart"
-description: "Découvrez comment utiliser Leaderboard Quickstart avec W&B Weave"
+title: "Démarrage rapide du Leaderboard"
+description: "Découvrez comment utiliser Démarrage rapide du Leaderboard avec W&B Weave"
+keywords: [leaderboard, comparaison de modèles, évaluation Weave, fonctions de score]
 ---
 
 <Note>
@@ -11,21 +12,23 @@ description: "Découvrez comment utiliser Leaderboard Quickstart avec W&B Weave"
 </Note>
 
 <div id="leaderboard-quickstart">
-  # Leaderboard Quickstart
+  # Démarrage rapide du Leaderboard
 </div>
 
-Dans ce notebook, nous allons apprendre à utiliser le Leaderboard de Weave pour comparer les performances des modèles sur différents jeux de données et fonctions de scoring. Plus précisément, nous allons :
+Ce démarrage rapide vous montre comment utiliser le leaderboard W&amp;B Weave pour comparer les performances de modèles sur plusieurs jeux de données et avec plusieurs fonctions de score. À la fin, vous aurez publié un leaderboard qui classe plusieurs modèles à partir d’un ensemble commun d’évaluations. Vous pourrez ensuite identifier le modèle le plus performant pour chaque métrique. Ce guide s’adresse aux développeurs déjà familiers avec l’exécution d’évaluations Weave et qui souhaitent comparer les résultats côte à côte.
 
-1. Générer un jeu de données de faux codes postaux
-2. Rédiger quelques fonctions de scoring et évaluer un modèle de référence.
-3. Utiliser ces techniques pour évaluer une matrice modèles/évaluations.
-4. Examiner le leaderboard dans Weave UI.
+Plus précisément, vous allez :
+
+1. Générer un jeu de données factice de codes postaux.
+2. Créer quelques fonctions de score et évaluer un modèle de référence.
+3. Utiliser ces techniques pour évaluer une matrice de modèles et d’évaluations.
+4. Consulter le leaderboard dans l’interface Weave.
 
 <div id="step-1-generate-a-dataset-of-fake-zip-code-data">
   ## Étape 1 : Générer un jeu de données fictif de codes postaux
 </div>
 
-Nous allons d’abord créer une fonction `generate_dataset_rows` qui génère une liste de données fictives de codes postaux.
+Créez d’abord une fonction `generate_dataset_rows` qui génère une liste de données fictives de codes postaux. Ce jeu de données synthétique fournit au leaderboard un ensemble cohérent d’entrées et de valeurs attendues pour attribuer un score à chaque modèle.
 
 ```python lines
 import json
@@ -75,12 +78,11 @@ import weave
 weave.init("leaderboard-demo")
 ```
 
-
 <div id="step-2-author-scoring-functions">
   ## Étape 2 : Créez des fonctions de score
 </div>
 
-Nous allons ensuite créer 3 fonctions de score :
+Créez ensuite trois fonctions de score. Chaque scorer évalue un aspect différent de la sortie du modèle afin que le leaderboard puisse classer les modèles selon des dimensions distinctes de la qualité :
 
 1. `check_concrete_fields` : vérifie si la sortie du modèle correspond à la ville et à l’État attendus.
 2. `check_value_fields` : vérifie si la sortie du modèle se situe dans une marge de 10 % par rapport à la population et au revenu médian attendus.
@@ -133,11 +135,11 @@ def check_subjective_fields(zip_code: str, known_for: str, output: dict):
     return json.loads(completion.choices[0].message.content)
 ```
 
-<div id="step-3-create-a-simple-evaluation">
-  ## Étape 3 : Créer une Évaluation simple
+<div id="step-3-create-an-evaluation">
+  ## Étape 3 : Créer une évaluation
 </div>
 
-Nous définissons ensuite une Évaluation simple à l’aide de nos données factices et des scoring functions.
+Définissez ensuite une évaluation à l’aide des données factices et des fonction de score. L’objet `Evaluation` associe le jeu de données aux évaluateurs, afin que vous puissiez exécuter n’importe quel modèle sur le même benchmark.
 
 ```python lines
 rows = generate_dataset_rows()
@@ -152,12 +154,11 @@ evaluation = weave.Evaluation(
 )
 ```
 
-
 <div id="step-4-evaluate-a-baseline-model">
-  ## Étape 4 : Évaluer un modèle de base
+  ## Étape 4 : Évaluer un modèle de référence
 </div>
 
-Nous allons maintenant évaluer un modèle de base qui renvoie une réponse statique.
+Évaluez maintenant un modèle de référence qui renvoie une réponse statique. L’établissement d’une base de référence vous fournit un point de repère dans le leaderboard, afin de mesurer dans quelle mesure chaque modèle suivant améliore l’implémentation statique.
 
 ```python lines
 @weave.op
@@ -174,12 +175,11 @@ def baseline_model(zip_code: str):
 await evaluation.evaluate(baseline_model)
 ```
 
-
 <div id="step-5-create-more-models">
-  ## Étape 5 : Créer d’autres Models
+  ## Étape 5 : Créer d’autres modèles
 </div>
 
-Nous allons maintenant créer 2 modèles supplémentaires pour les comparer à la référence.
+Créez maintenant deux modèles supplémentaires pour les comparer au modèle de référence. Un modèle reçoit le code postal sans prompt supplémentaire, tandis que l’autre reçoit un prompt structuré. Leur comparaison dans le leaderboard montre l’impact du contexte du prompt sur la qualité des réponses.
 
 ```python lines
 @weave.op
@@ -235,12 +235,11 @@ def gpt_4o_mini_with_context(zip_code: str):
 await evaluation.evaluate(gpt_4o_mini_with_context)
 ```
 
-
 <div id="step-6-create-more-evaluations">
   ## Étape 6 : Créez davantage d’évaluations
 </div>
 
-Nous allons maintenant évaluer une matrice croisant des modèles et des évaluations.
+À présent, évaluez une matrice croisant des modèles et des évaluations. En exécutant chaque modèle sur plusieurs jeux de données (régions et années différentes), vous produisez les données dont le leaderboard a besoin pour classer les modèles dans différentes conditions.
 
 ```python lines
 scorers = [
@@ -286,12 +285,13 @@ for evaluation in evaluations:
         )
 ```
 
-
 <div id="step-7-review-the-leaderboard">
-  ## Étape 7 : consultez le Leaderboard
+  ## Étape 7 : consultez le leaderboard
 </div>
 
-Vous pouvez créer un nouveau Leaderboard en accédant à l’onglet Leaderboard dans l’interface utilisateur, puis en cliquant sur &quot;Create Leaderboard&quot;.
+Une fois les résultats d’évaluation publiés, vous pouvez maintenant les regrouper dans un leaderboard pour les comparer côte à côte.
+
+Vous pouvez créer un nouveau Leaderboard en accédant à l’onglet Leaderboard dans l’interface utilisateur, puis en cliquant sur **Create Leaderboard**.
 
 Vous pouvez également générer un Leaderboard directement depuis Python :
 
@@ -332,3 +332,5 @@ This leaderboard compares the performance of models in terms of world knowledge 
 
 ref = weave.publish(spec)
 ```
+
+Vous disposez maintenant d’un leaderboard publié dans Weave qui classe chaque modèle en fonction des trois évaluations et des métriques de scoring que vous avez définies. Depuis l’interface Weave, vous pouvez consulter les scores de chaque modèle, examiner en détail les différents runs d’évaluation et comparer les futures itérations du modèle à la même référence.

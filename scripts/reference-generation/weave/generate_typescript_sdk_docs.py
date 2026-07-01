@@ -118,12 +118,12 @@ def setup_typescript_project(weave_source):
     try:
         # Install dependencies
         print("  Installing dependencies...")
-        subprocess.run(["npm", "install"], check=True)
-        
+        subprocess.run(["npm", "install", "--legacy-peer-deps"], check=True)
+
         # Install typedoc and markdown plugin with compatible versions
         print("  Installing typedoc...")
         subprocess.run([
-            "npm", "install", "--save-dev",
+            "npm", "install", "--save-dev", "--legacy-peer-deps",
             "typedoc@0.25.13",
             "typedoc-plugin-markdown@3.17.1"
         ], check=True)
@@ -214,7 +214,16 @@ description: "TypeScript SDK reference"
         
         # Fix parameter tables
         content = re.sub(r'\|\s*:--\s*\|', '| --- |', content)
-        
+
+        # Enable Mintlify Twoslash on TS code blocks for IDE-style hover types.
+        # `// @noErrors` suppresses type errors from non-self-contained snippets.
+        content = re.sub(
+            r'^```(ts|typescript)([^\n]*)$',
+            r'```\1\2 twoslash\n// @noErrors',
+            content,
+            flags=re.MULTILINE,
+        )
+
         # Fix internal links to use relative paths with lowercase filenames
         # TypeDoc generates links like ../classes/WeaveObject.md which need fixing
         

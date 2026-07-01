@@ -1,0 +1,33 @@
+---
+title: エージェントのインテグレーション パス
+---
+
+<div id="agent-harnesses">
+  ## エージェント実行環境
+</div>
+
+エージェント実行環境は、コーディングエージェントや開発者ツールなど、エンドユーザー向けのエージェントランタイムを指します。プラグインまたは拡張機能をインストールし、実行環境でセッションを開始すると、トレースを開始できます。
+
+* [Claude Code プラグイン](/ja/weave/guides/integrations/agents/claude-code-harness)
+* [Codex プラグイン](/ja/weave/guides/integrations/agents/codex-harness)
+* [OpenClaw プラグイン](/ja/weave/guides/integrations/agents/openclaw-harness)
+* [Pi 拡張機能](/ja/weave/guides/integrations/agents/pi-dev-harness)
+
+<div id="agent-sdks">
+  ## エージェント SDKs
+</div>
+
+エージェント SDKs は、独自のアプリケーションコードでエージェントやマルチエージェント ワークフローを構築するためのライブラリです。スクリプトに `weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")` を追加すると、Weave が SDK に自動でパッチを適用します。
+
+* [OpenAI エージェント SDK](/ja/weave/guides/integrations/agents/openai-agents-sdk)
+* [Google エージェント Development Kit (ADK)](/ja/weave/guides/integrations/agents/google-adk)
+* [Claude エージェント SDK](/ja/weave/guides/integrations/agents/claude-agents-sdk)
+
+<div id="custom-agents-and-opentelemetry">
+  ## カスタムエージェントとOpenTelemetry
+</div>
+
+エージェントが上記いずれかのSDKで構築されていない場合、またはすでにOpenTelemetryのスパンを出力している場合は、Weave SDKを直接使用してください。Weaveは任意のOTelスパンを受け入れ、[GenAI semantic-convention attributes](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans/) を特別に処理するため、スパンが **Agents** ビューに表示されます。
+
+* [クイックスタート: エージェントを手動でインストルメントする](/ja/weave/custom-agents-quickstart) — 小規模なマルチターンエージェントのウォークスルーです。
+* [エージェントをトレースする](/ja/weave/guides/tracking/trace-agents) — エージェント用ヘルパーと関連概念の完全なリファレンスです。

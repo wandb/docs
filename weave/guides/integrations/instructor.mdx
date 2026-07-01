@@ -1,19 +1,20 @@
 ---
 title: Instructor
 description: "Trace structured data extraction from LLMs with Weave's Instructor integration, capturing Pydantic validation and retry logic."
+keywords: ["Instructor", "Pydantic", "structured extraction", "response_model", "FastAPI serve"]
 ---
 
 <a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_instructor.ipynb" aria-label="Open in Google Colab">
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
 </a>
 
-[Instructor](https://python.useinstructor.com/) is a lightweight library that makes it easy to get structured data like JSON from LLMs.
+[Instructor](https://python.useinstructor.com/) is a lightweight library for getting structured data like JSON from LLMs. This guide shows you how to trace Instructor calls with Weave so you can debug structured extraction, capture Pydantic validation, and inspect retry logic.
 
 ## Tracing
 
-It’s important to store traces of language model applications in a central location, both during development and in production. These traces can be useful for debugging, and as a dataset that will help you improve your application.
+It's important to store traces of language model applications in a central location, both during development and in production. These traces can be useful for debugging, and as a dataset that will help you improve your application.
 
-Weave will automatically capture traces for [Instructor](https://python.useinstructor.com/). To start tracking, calling `weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")` and use the library as normal.
+Weave automatically captures traces for [Instructor](https://python.useinstructor.com/). To start tracking, call `weave.init(project_name="[YOUR-WANDB-PROJECT-NAME]")` and use the library as normal.
 
 ```python lines
 import instructor
@@ -43,15 +44,15 @@ user_info = client.chat.completions.create(
 
 | ![Instructor LM trace in Weave with structured output extraction workflow](/weave/guides/integrations/imgs/instructor/instructor_lm_trace.gif)                                                                        |
 |-----------------------------------------------------------------------------------------------------------------------|
-| Weave will now track and log all LLM calls made using Instructor. You can view the traces in the Weave web interface. |
+| Weave tracks and logs all LLM calls made using Instructor. You can view the traces in the Weave web interface. |
 
 ## Track your own ops
 
-Wrapping a function with `@weave.op` starts capturing inputs, outputs and app logic so you can debug how data flows through your app. You can deeply nest ops and build a tree of functions that you want to track. This also starts automatically versioning code as you experiment to capture ad-hoc details that haven't been committed to git.
+Wrapping a function with `@weave.op` starts capturing inputs, outputs, and app logic so you can debug how data flows through your app. You can deeply nest ops and build a tree of functions that you want to track. This also starts automatically versioning code as you experiment, capturing ad hoc details that haven't been committed to Git.
 
-Simply create a function decorated with [`@weave.op`](/weave/guides/tracking/ops).
+Create a function decorated with [`@weave.op`](/weave/guides/tracking/ops).
 
-In the example below, we have the function `extract_person` which is the metric function wrapped with `@weave.op`. This helps us see how intermediate steps, such as OpenAI chat completion call.
+In the following example, the `extract_person` function is the metric function wrapped with `@weave.op`. This lets you see intermediate steps, such as the OpenAI chat completion call.
 
 ```python lines
 import instructor
@@ -94,11 +95,11 @@ person = extract_person("My name is John and I am 20 years old")
 
 ## Create a `Model` for easier experimentation
 
-Organizing experimentation is difficult when there are many moving pieces. By using the [`Model`](../core-types/models) class, you can capture and organize the experimental details of your app like your system prompt or the model you're using. This helps organize and compare different iterations of your app. 
+Organizing experimentation is difficult when there are many moving pieces. By using the [`Model`](../core-types/models) class, you can capture and organize the experimental details of your app like your system prompt or the model you're using. This helps organize and compare different iterations of your app.
 
-In addition to versioning code and capturing inputs/outputs, [`Model`](../core-types/models)s capture structured parameters that control your application’s behavior, making it easy to find what parameters worked best. You can also use Weave Models with `serve` (see below), and [`Evaluation`](../core-types/evaluations)s.
+In addition to versioning code and capturing inputs and outputs, [`Model`](../core-types/models)s capture structured parameters that control your application's behavior, so you can find which parameters worked best. You can also use Weave Models with [`serve`](#serve-a-weave-model) and [`Evaluation`](../core-types/evaluations)s.
 
-In the example below, you can experiment with `PersonExtractor`. Every time you change one of these, you'll get a new _version_ of `PersonExtractor`.
+In the following example, you can experiment with `PersonExtractor`. Every time you change one of these, you'll get a new _version_ of `PersonExtractor`.
 
 ```python lines
 import asyncio
@@ -156,16 +157,16 @@ asyncio.run(model.predict("John is 30 years old"))
 |---------------------------------------------------------------------------|
 | Tracing and versioning your calls using a [`Model`](../core-types/models) |
 
-## Serving a Weave Model
+## Serve a Weave Model
 
-Given a weave reference a `weave.Model` object, you can spin up a fastapi server and [`serve`](https://docs.wandb.ai/weave/guides/tools/serve) it.
+After you save a `weave.Model`, you can serve it as a FastAPI endpoint to test it from outside the notebook or integrate it with other applications. Given a Weave reference to a `weave.Model` object, you can start a FastAPI server and [`serve`](https://docs.wandb.ai/weave/guides/tools/serve) it.
 
 | [![Instructor serve interface with FastAPI server configuration and model serving options](/weave/guides/integrations/imgs/instructor/instructor_serve.png)](https://wandb.ai/geekyrakshit/instructor-test/weave/objects/PersonExtractor/versions/xXpMsJvaiTOjKafz1TnHC8wMgH5ZAAwYOaBMvHuLArI) |
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | You can find the weave reference of any `weave.Model` by navigating to the model and copying it from the UI.                                                      |
 
-You can serve your model by using the following command in the terminal:
+To serve your model, run the following command in your terminal:
 
-```shell
-weave serve weave://your_entity/project-name/YourModel:<hash>
+```bash
+weave serve weave://your_entity/project-name/YourModel:[HASH]
 ```

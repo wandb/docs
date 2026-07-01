@@ -1,0 +1,104 @@
+---
+title: "SDK OpenAI Agents"
+description: Tracez un agent développé avec l’SDK OpenAI Agents à l’aide de Weave.
+---
+
+Le [SDK OpenAI Agents](https://github.com/openai/openai-agents-python) est un framework léger qui permet de créer des agents et des flux de travail multi-agent à partir de l’API d’OpenAI. Weave trace automatiquement les agents créés avec le SDK OpenAI Agents, y compris chaque appel d’agent, transfert vers un sous-agent, appel de modèle et appel d’outil. Weave affiche les données capturées dans la vue **Agents** de votre project.
+
+<Note>
+  Le SDK TypeScript de Weave ne prend pas en charge le patching automatique pour le SDK OpenAI Agents.
+</Note>
+
+<div id="trace-openai-agents-sdk-agents-with-weave">
+  ## Tracer des agents du SDK OpenAI Agents avec Weave
+</div>
+
+Le SDK Weave effectue un patching automatique avec le SDK OpenAI Agents, ce qui vous permet de capturer les traces de vos agents avec une configuration minimale. Ce guide explique comment initialiser Weave, puis exécuter un agent de recherche multitour créé avec le SDK OpenAI Agents afin que Weave capture chaque appel d’agent, chaque appel de modèle et chaque appel d’outil pendant toute la session.
+
+<div id="prerequisites">
+  ### Prérequis
+</div>
+
+Avant de commencer, assurez-vous de disposer des éléments suivants :
+
+* Un compte W&amp;B et une [clé API](https://wandb.ai/authorize) configurée comme variable d’environnement `WANDB_API_KEY`.
+* Une [clé API OpenAI](https://platform.openai.com/api-keys).
+* Python 3.10+.
+
+<div id="install-packages">
+  ### Installer les packages
+</div>
+
+Installez les packages suivants dans votre environnement de développement afin que Weave et le SDK OpenAI Agents soient disponibles pour votre script :
+
+```bash
+pip install weave openai-agents requests
+```
+
+<div id="initialize-weave-in-your-code">
+  ### Initialisez Weave dans votre code
+</div>
+
+Ajoutez `weave.init` à votre projet, avec les noms de votre équipe W&amp;B et de votre projet, puis créez votre agent comme d’habitude. Le code suivant définit une fonction-outil `wikipedia_search` et un agent `Research assistant`, puis exécute trois questions via le `Runner` du SDK OpenAI Agents, tandis que Weave capture la trace.
+
+```python lines
+import asyncio
+import requests
+import weave
+from agents import Agent, Runner, function_tool
+
+weave.init("<your-team>/<your-project-name>")
+
+@function_tool
+def wikipedia_search(query: str) -> str:
+    """Search Wikipedia for a topic and return its title and intro paragraph."""
+    r = requests.get(
+        "https://en.wikipedia.org/w/api.php",
+        params={
+            "action": "query", "generator": "search", "gsrsearch": query, "gsrlimit": 1,
+            "prop": "extracts", "exintro": True, "explaintext": True, "format": "json",
+        },
+        headers={"User-Agent": "weave-demo"},
+    ).json()
+    page = next(iter(r["query"]["pages"].values()))
+    return f"{page['title']}: {page['extract']}"
+
+agent = Agent(
+    name="Research assistant",
+    instructions=(
+        "You are a research assistant. Use the wikipedia_search tool to look up "
+        "topics when needed, and cite the article titles you used."
+    ),
+    tools=[wikipedia_search],
+)
+
+async def main():
+    history = []
+    for question in [
+        "Who founded Anthropic?",
+        "What is Claude (the AI assistant)?",
+        "Summarize what we discussed in one sentence.",
+    ]:
+        history.append({"role": "user", "content": question})
+        print(f"USER: {question}")
+        result = await Runner.run(agent, input=history)
+        print(f"AGENT: {result.final_output}\n")
+        history = result.to_input_list()
+
+asyncio.run(main())
+```
+
+L’exemple exécute trois tours de conversation au sein d’une même conversation. Les deux premiers tours de conversation déclenchent des consultations sur Wikipédia, et le troisième utilise le contexte de la conversation précédente pour produire une synthèse sans appel à un outil. Chaque appel à `Runner.run` poursuit la conversation en repassant la liste d’entrées du résultat précédent comme requête suivante.
+
+<div id="see-your-agent-traces-in-the-agents-view">
+  ### Voir les traces de votre agent dans la vue Agents
+</div>
+
+Une fois le script exécuté, vous pouvez examiner l’activité capturée dans Weave. `weave.init()` affiche un lien vers votre projet à l’exécution. Ouvrez la vue **Agents** pour examiner :
+
+* Une ligne dans l’onglet **Agents** pour `Research assistant`.
+* Une conversation contenant trois tours de conversation.
+* Chaque tour de conversation affiché sous la forme d’un span `invoke_agent`, avec des appels de modèle et des appels d’outil imbriqués.
+* L’entrée complète, le modèle, la sortie, l’utilisation des jetons et les résultats de Wikipédia à chaque étape.
+
+Pour en savoir plus sur l’affichage des données d’agent dans Weave, voir [Voir l’activité de l’agent](/fr/weave/guides/tracking/view-agent-activity).

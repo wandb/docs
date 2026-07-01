@@ -3,10 +3,6 @@ title: "OpenAI Agents SDK"
 description: Trace an agent built with the OpenAI Agents SDK using Weave.
 ---
 
-import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
-
-<AgentsPreview />
-
 The [OpenAI Agents SDK](https://github.com/openai/openai-agents-python) is a lightweight framework for building agents and multi-agent workflows on top of OpenAI's API. Weave automatically traces agents built with the OpenAI Agents SDK, including each agent invocation, sub-agent handoff, model call, and tool call. Weave displays the captured data in the **Agents** view of your project.
 
 <Note>
@@ -15,17 +11,19 @@ The Weave TypeScript SDK does not support autopatching for the OpenAI Agents SDK
 
 ## Trace OpenAI Agents SDK agents with Weave
 
-The Weave SDK autopatches with the OpenAI Agents SDK, allowing you to capture traces from your agents with minimal set up. This doc shows how to initialize Weave and then run a multi-turn research agent built with the OpenAI Agents SDK so that Weave captures every agent invocation, model call, and tool call across the session.
+The Weave SDK autopatches with the OpenAI Agents SDK so you can capture traces from your agents with minimal setup. This guide explains how to initialize Weave and then run a multi-turn research agent built with the OpenAI Agents SDK so that Weave captures every agent invocation, model call, and tool call across the session.
 
 ### Prerequisites
 
-- A W&B account and [API key](https://wandb.ai/authorize) set as a `WANDB_API_KEY` environment variable
-- An [OpenAI API key](https://platform.openai.com/api-keys)
-- Python 3.10+
+Before you begin, make sure you have the following:
+
+- A W&B account and [API key](https://wandb.ai/authorize) set as a `WANDB_API_KEY` environment variable.
+- An [OpenAI API key](https://platform.openai.com/api-keys).
+- Python 3.10+.
 
 ### Install packages
 
-Install the following packages in your developer environment:
+Install the following packages in your developer environment so that Weave and the OpenAI Agents SDK are available to your script:
 
 ```bash
 pip install weave openai-agents requests
@@ -33,7 +31,7 @@ pip install weave openai-agents requests
 
 ### Initialize Weave in your code
 
-Add `weave.init` to the project, along with your W&B team and project names, and then build an agent the way you normally would. The following code defines a `wikipedia_search` function tool and a `Research assistant` agent, then runs three questions through the OpenAI Agents SDK `Runner` while Weave captures the trace.
+Add `weave.init` to the project, along with your W&B team and project names, and then build your agent as usual. The following code defines a `wikipedia_search` function tool and a `Research assistant` agent, then runs three questions through the OpenAI Agents SDK `Runner` while Weave captures the trace.
 
 ```python lines
 import asyncio
@@ -86,11 +84,11 @@ The example runs three turns in a single conversation. The first two turns trigg
 
 ### See your agent traces in the Agents view
 
-`weave.init()` prints a link to your project when it runs. Open the **Agents** view to inspect:
+After the script runs, you can review the captured activity in Weave. `weave.init()` prints a link to your project when it runs. Open the **Agents** view to inspect:
 
-- A row in the **Agents** tab for `Research assistant`
-- A session containing three turns
-- Each turn rendered as an `invoke_agent` span with nested model calls and tool calls
-- The full input, model, output, token usage, and Wikipedia results at each step
+- A row in the **Agents** tab for `Research assistant`.
+- A conversation containing three turns.
+- Each turn rendered as an `invoke_agent` span with nested model calls and tool calls.
+- The full input, model, output, token usage, and Wikipedia results at each step.
 
-For details on viewing Agents data in Weave, see [View agent activity](/weave/guides/tracking/view-agent-activity).
+For details about viewing Agents data in Weave, see [View agent activity](/weave/guides/tracking/view-agent-activity).

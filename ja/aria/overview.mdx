@@ -1,0 +1,230 @@
+---
+title: "概要"
+---
+
+ARIA は、W&amp;B の AI Research and Iteration Agent です。実験の分析や実行、結果の説明、Runs 全体にわたるパターンの特定、次のステップの提案、可視化や Reports の作成などを支援する、パーソナライズされたリサーチアシスタントです。
+
+<Frame>
+  <img src="/images/agent/agent_empty_chat_window.png" alt="空の ARIA チャットウィンドウ" />
+</Frame>
+
+ARIA は次のことを支援できます:
+
+* 実験を分析して、パターンやインサイトを見つける。
+* [新しいアイデアを試すために実験や Sweeps を実行する](/ja/aria/autoresearch)。
+* 試すべきハイパーパラメーターの推奨など、次のステップを提案する。
+* データを可視化するためのプロットやパネルを作成する。
+* インサイトをチームと共有するために、保存済みビューや Reports を作成する。
+
+[ARIA とチャットする](/ja/aria/chat)には、次の手順を実行します:
+
+1. 任意の project で、ページ右上の青い丸をクリックします。
+   <Frame>
+     <img src="/images/agent/agent_location.png" alt="UI 内の ARIA の場所" />
+   </Frame>
+2. チャットウィンドウで、質問またはリクエストを入力します。何を聞けばよいかわからない場合は、提案されたプロンプトを選択します。
+3. チャットウィンドウ右下にある、上向き矢印の **Send** ボタンをクリックします。
+
+質問の複雑さによっては、ARIA の応答に少し時間がかかることがあります。ARIA の処理中はチャットウィンドウを閉じて、後から戻って応答を確認できます。ARIA がさらに情報を必要とする場合は、補足を求めます。
+
+ARIA の処理中に、**Thinking** ステップと **shell** ステップが表示されることがあります:
+
+* **Thinking** ステップは、ARIA が質問にどのように取り組むかを要約します。
+* **shell** ステップは、パネルの作成、Runs のフィルタリング、Python スクリプトの作成や実行など、ARIA がアクションを実行したときに表示されます。
+
+**Thinking** または **shell** ステップをクリックすると、ARIA の推論や実行したアクションの詳細を展開できます。
+
+実際の使用例については、[Example chats](/ja/aria/overview#example-chats) を参照してください。チャットの管理に関する詳細は、[Chat with ARIA](/ja/aria/chat) を参照してください。
+
+<div id="example-chats">
+  ## チャット例
+</div>
+
+以下は、ARIA とどのようにやり取りできるか、またどのような応答が返ってくるかを示すための、ARIA との実際のチャット例です。
+
+<Accordion title="ARIA の推奨に基づいて Experiments を実行する">
+  一連の Experiments を終えたばかりの ML Engineer だとします。モデルのパフォーマンスを向上させるには、次に何をすべきかを知りたいと考えています。
+
+  そのために、Runs をログした project にアクセスします。ARIA を開いて、次のように質問します。
+
+  ```text title="ユーザープロンプト"
+  /recommend-next-experiment
+  ```
+
+  以下は、この質問に対する ARIA の応答例です。まず、ARIA はこの質問にどうアプローチするかを判断するために推論ステップを実行します。簡潔にするため、以下には ARIA の推論の一部のみを示します。
+
+  ```text title="ARIA の推論ステップ"
+  推奨: モデル アーキテクチャを変更したり LR を sweep したりする前に、
+  「トレーニング時間を延ばす + ホールドアウト評価」の
+  experiment を 1 回実行する
+
+  現在の最良の設定を使いつつ、トレーニングを長くします:
+
+  hyperparameter_config = {
+      "learning_rate": 0.1,          # そのまま固定
+      "epochs": 2000,                # 以前は 1000
+      "model_type": "Multivariate_neural_network_classifier",
+      "torch_seed": 0,               # 再現性のために追加
+  }
+  さらに、既存のホールドアウト分割に対して、各エポックまたは
+  10～50 エポックごとに次のログも追加します:
+
+  train/train_loss
+  train/train_acc
+  test/test_loss
+  test/test_acc
+
+  また、最良のチェックポイントは training loss だけでなく、
+  test/test_loss に基づいて保存します。
+
+  これが次の experiment として最も有望な理由
+  この project には完了済みの Runs が 16 件ありますが、実際の training Runs は 4 件だけです。
+  その 4 件はすべて同じトレーニング設定を使用しています:
+
+  learning_rate = 0.1
+  epochs = 1000
+  same model: Multivariate_neural_network_classifier
+
+  したがって、実質的なハイパーパラメーター比較はまだ行われていません。最も強い
+  シグナルは学習曲線から得られます。4 件すべてで
+  トレーニング損失は最終エポック時点でも改善し続けており、
+  最小のトレーニング損失はすべての run で epoch 1000 で発生しています。
+
+  私なら次を実行します:
+
+  learning_rate: 0.1
+  epochs: 2000
+  model_type: 変更なし
+  random_state: 既存のデータセット分割 42 を維持
+  torch.manual_seed(0) を追加し、torch_seed としてログする
+  各エポック、または 10 エポックごとに X_test, y_test で評価する
+  test/test_loss が最小のときにチェックポイントを保存する
+  ```
+
+  ARIA の推奨に同意したので、experiment を実行するよう ARIA に依頼します。
+
+  ```text title="ユーザープロンプト"
+  Run that experiment for me.
+  ```
+
+  ARIA は W&amp;B Launch を使用して、サンドボックス環境で experiment を実行します。次の画像は、experiment の実行完了後の ARIA の応答を示しています。
+
+  <Frame>
+    <img src="/images/agent/aria_experiment.gif" alt="experiment を実行している ARIA" />
+  </Frame>
+
+  ARIA は W&amp;B Launch を使用して、サンドボックス環境で Experiments を実行します。詳しくは、[ARIA が Experiments を実行できるようにする](/ja/aria/autoresearch#run-experiments-with-w\&b-launch) をご覧ください。
+</Accordion>
+
+<Accordion title="実験からインサイトを得る">
+  新しいモデルについて一連の run を完了したばかりの ML Engineer だとします。モデルのパフォーマンスを把握し、潜在的な問題を特定して、次に取るべき steps を決めたいと考えています。
+
+  そのために、run をログした project にアクセスします。ARIA を開いて、次のように尋ねます。
+
+  ```text title="ユーザー プロンプト"
+  私の Runs 全体を通して、どのようなパターンが見られますか？
+  ```
+
+  以下は、この質問に対して ARIA がどのように応答するかの例です。まず、ARIA はこの質問にどうアプローチするかを判断するために推論ステップを行います。
+
+  ```text title="ARIA の推論ステップ"
+  特定のサーバー フィルターを使用して、state ごとの件数を集計する
+  state の内訳スキャンを実行しようと考えています。対象となる
+  state の配列は ['finished',
+  'running', 'crashed', 'failed', 'killed', 'pending', 'preempting'] で、
+  それぞれの件数を
+  確認します。これらのメトリクスを合計することで、
+  有用なインサイトが得られる可能性があります。また、"_" または "system/" で始まるものを除外しつつ、
+  サンプル key から目的のメトリクスを特定することにも注力すべきです。
+  さらに、数値のサマリー メトリクスについて最適な最小値と最大値を計算することも重要です。
+  ```
+
+  ARIA は、この質問に答えるには Runs 全体のデータを分析する必要があると判断します。そのために、ARIA は以前にログされた Runs を W&amp;B Python SDK を使ってクエリし、データ内のパターンを特定する Python スクリプト (`analyze_patterns.py`) を作成します。スクリプトが生成されると、ARIA はそれをサンドボックス環境内で実行します。
+
+  <Frame>
+    <img src="/images/agent/agent_analyze_project.png" alt="ARIA thought process" />
+  </Frame>
+
+  次に、ARIA はその出力を使って、Runs 全体で見つかったパターンの要約を生成し、チャットで共有します。
+
+  <Frame>
+    <img src="/images/agent/agent_analyze_summary_results.gif" alt="ARIA summary of patterns across runs" />
+  </Frame>
+
+  ARIA は、現在の experiment では `validation/test` メトリクスがログされていないことを特定し、モデルのパフォーマンスをよりよく理解するために、今後の Runs ではそれらのメトリクスをログすることを推奨しました。
+
+  次の step として、検証メトリクスがログされる experiment の設定を ARIA に手伝ってもらうことができます。たとえば、ARIA に次のように尋ねることができます。
+
+  ```text title="ユーザー プロンプト"
+  validation メトリクスもログするように、私の Python スクリプトの更新を手伝ってもらえますか？
+  ```
+
+  すると ARIA は、トレーニング スクリプトで検証メトリクスをログするコードを生成でき、それをコードベースにコピー＆ペーストできます。
+</Accordion>
+
+<Accordion title="ハイパーパラメーター調整の推奨事項を得る">
+  新しいモデルについて一連の run を完了したばかりの ML Engineer だとします。モデルのパフォーマンスを把握し、今後の Runs でモデルのパフォーマンスを改善するための推奨事項を得たいと考えています。そこで、ハイパーパラメーター調整に関する推奨事項を ARIA に求めることにします。
+
+  ARIA に次のように尋ねることができます。
+
+  ```text title="ユーザー プロンプト"
+  トレーニング中のモデルの損失をさらに下げるために、sweep を実施したいと考えています。試すべきハイパーパラメーターについて何か提案はありますか？
+  ```
+
+  ARIA は、次のような推論ステップで応答する可能性があります。
+
+  ```text title="ARIA の推論ステップ"
+   ユーザーはトレーニング損失を改善するためのインサイトを求めているため、
+   学習率、オプティマイザー、バッチサイズ、
+   weight decay、およびその他の関連パラメーターについて範囲を提案すべきです。
+
+  ユーザーは sweep を実施したいので、コードまたは
+  インストルメンテーションを、分かりやすく簡潔な YAML または Python の設定とともに示す必要があります。
+  また、より効果的な
+  ハイパーパラメーター選択のために、ランダム手法やベイズ手法の使用を提案してもよいでしょう。
+  ```
+
+  ARIA は、ハイパーパラメーター調整の推奨事項を提供するために、以前の Runs で使用されたハイパーパラメーターと、それらがトレーニング損失にどう関係しているかを分析する必要があると判断します。
+
+  ARIA は、指定された project ではすべての Runs で学習率 `0.01` が使われていたことを特定します。これらのインサイトに基づき、ARIA は、今後の Runs ではモデルのパフォーマンス改善に役立つか確認するため、`0.001` などのより低い学習率を試すことを推奨します。
+
+  ARIA はまた、SGD オプティマイザーを使用している Runs についても特定します。このインサイトに基づき、ARIA は、今後の Runs ではモデルのパフォーマンス改善に役立つか確認するため、Adam (Adaptive Moment Estimation) などの別のオプティマイザーを試すことを推奨します。
+
+  次の画像は、ハイパーパラメーター調整に関する推奨事項を含む ARIA の応答の一部を示しています。
+
+  <Frame>
+    <img src="/images/agent/agent_recommend_hyperparameter.png" alt="ARIA recommendations for hyperparameter tuning" />
+  </Frame>
+</Accordion>
+
+<Accordion title="チームと共有するための report を作成する">
+  project の Runs を分析していて、データ内に興味深いパターンを見つけたデータサイエンティストだとします。これらの知見を、わかりやすい形式でチームと共有したいと考えています。そこで、[W&amp;B Report](/ja/models/reports) の作成を ARIA に手伝ってもらうことにします。
+
+  これを行うには、ARIA を開いて次のように依頼します。
+
+  ```text title="ユーザーのプロンプト"
+  Create a report to share my findings with my team.
+  ```
+
+  ARIA は、次のような推論ステップを返すことがあります。
+
+  ```text title="ARIA の推論ステップ"
+  I’m looking to query the recent 50 runs, summarizing key frequencies 
+  and counts by using api.runs to slice them down. I'll be counting
+  lengths with lazy evaluation and weaving together the stats
+  for a proper report.  I need to include a description that might
+  require importing different report libraries.
+  ```
+
+  ARIA は、データから見つけた知見を要約する W&amp;B Report を作成する必要があると判断します。推論プロセスの一環として、関連するデータと知見を含む report を W&amp;B SDK で作成する Python スクリプトを生成します。ARIA はこのスクリプトをサンドボックス環境で実行し、その結果、project に W&amp;B Report が作成されます。
+
+  次の画像は、ARIA がサンドボックス環境で W&amp;B Report を作成し、その後チャットで report へのリンクを返す様子を示しています。
+
+  <Frame>
+    <img src="/images/agent/agent_create_report.png" alt="ARIA が report を作成する" />
+  </Frame>
+
+  <Info>
+    内部では、ARIA は Workspaces and Reports API を使用して W&amp;B Report を作成します。
+  </Info>
+</Accordion>

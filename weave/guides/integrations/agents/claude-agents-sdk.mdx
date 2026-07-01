@@ -1,11 +1,8 @@
 ---
 title: "Claude Agent SDK"
 description: Trace an agent built with the Claude Agent SDK using Weave.
+keywords: ["Claude Agent SDK", "Anthropic", "MCP tools", "agent tracing", "autopatching"]
 ---
-
-import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
-
-<AgentsPreview />
 
 The [Claude Agent SDK](https://github.com/anthropics/claude-agent-sdk-python) is a Python SDK for building agent applications with Claude.
 
@@ -13,19 +10,19 @@ Weave automatically traces Claude Agent SDK calls, including agent queries, mode
 
 ## Trace Claude Agent SDK agents with Weave
 
-The Weave SDK autopatches the Claude Agent SDK, allowing you to capture traces from your Claude agents with minimal setup.
+The Weave SDK autopatches the Claude Agent SDK, letting you capture traces from your Claude agents with minimal setup.
 
-This doc shows how to initialize Weave and then run a Claude agent with MCP tools through `ClaudeSDKClient` so that Weave automatically traces the conversation, model calls, and tool calls end-to-end.
+This doc shows how to initialize Weave and run a Claude agent with MCP tools through `ClaudeSDKClient`. Weave automatically traces the conversation, model calls, and tool calls end-to-end. When you're done, you can view a complete trace of the agent's query, model responses, and tool invocations in the **Agents** view of your project.
 
 ### Prerequisites
 
-- A W&B account and [API key](https://wandb.ai/authorize) set as a `WANDB_API_KEY` environment variable
-- An Anthropic API key set as an `ANTHROPIC_API_KEY` environment variable
-- Python 3.10+
+- A W&B account and [API key](https://wandb.ai/authorize) set as a `WANDB_API_KEY` environment variable.
+- An Anthropic API key set as an `ANTHROPIC_API_KEY` environment variable.
+- Python 3.10+.
 
 ### Install packages
 
-Install the following packages in your developer environment:
+Install the following packages in your developer environment. The `weave` package captures traces, and `claude-agent-sdk` provides the agent runtime.
 
 ```bash
 pip install weave claude-agent-sdk
@@ -33,9 +30,9 @@ pip install weave claude-agent-sdk
 
 ### Initialize Weave in your code
 
-Add `weave.init` to the project, update your W&B team and project names, and then build an agent the way you normally would.
+Add `weave.init` to the project, update your W&B team and project names, and then build an agent the way you normally would. `weave.init` enables the autopatching that captures traces from the Claude Agent SDK.
 
-The following code creates a Claude agent with two MCP math tools and runs it while Weave captures its traces.
+The following code creates a Claude agent with two MCP math tools and runs it while Weave captures the traces.
 
 ```python lines
 import anyio
@@ -50,23 +47,19 @@ from claude_agent_sdk import (
 
 weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
 
-
 @tool("add", "Add two numbers", {"a": float, "b": float})
 async def add(args: dict) -> dict:
     return {"content": [{"type": "text", "text": str(args["a"] + args["b"])}]}
 
-
 @tool("multiply", "Multiply two numbers", {"a": float, "b": float})
 async def multiply(args: dict) -> dict:
     return {"content": [{"type": "text", "text": str(args["a"] * args["b"])}]}
-
 
 math_server = create_sdk_mcp_server(
     name="math",
     version="1.0.0",
     tools=[add, multiply],
 )
-
 
 async def main():
     options = ClaudeAgentOptions(
@@ -80,10 +73,9 @@ async def main():
         async for message in client.receive_response():
             print(message)
 
-
 anyio.run(main) 
 ```
 
-`weave.init()` prints a link to your project when it runs.
+When the script runs, `weave.init()` prints a link to your project. Open the link to inspect the captured traces for the agent's query, model responses, and tool calls.
 
-For details on viewing Agents data in Weave, see [View agent activity](/weave/guides/tracking/view-agent-activity).
+For details about viewing Agents data in Weave, see [View agent activity](/weave/guides/tracking/view-agent-activity).

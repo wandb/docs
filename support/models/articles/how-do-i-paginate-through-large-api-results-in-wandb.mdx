@@ -1,0 +1,47 @@
+---
+title: "How do I page through large API results in W&B?"
+keywords: ["Runs", "Experiments", "API", "Artifacts"]
+---
+
+You can page through API result using the [standard lazy-iterator pattern and `per_page` parameter](/models/track/public-api-guide). Additionally, you can use the following checkpointing and bulk-download tips to more effectively page through the results.
+
+## Checkpoint processed run IDs
+
+For very large projects, record IDs you have already handled and skip them on restart:
+
+```python
+import json
+import pathlib
+import wandb
+
+checkpoint_file = pathlib.Path("processed_ids.json")
+processed = set(json.loads(checkpoint_file.read_text())) if checkpoint_file.exists() else set()
+
+api = wandb.Api()
+for run in api.runs("my-entity/my-project"):
+    if run.id in processed:
+        continue
+    process(run)
+    processed.add(run.id)
+    checkpoint_file.write_text(json.dumps(list(processed)))
+```
+
+Avoid `list(api.runs(...))` on huge projects unless you need random access — it forces every page into memory.
+
+## Rate limits on bulk downloads
+
+If each run triggers extra API calls (for example `run.file("output.log").download()`), add a short delay to avoid `429` errors:
+
+```python
+import time
+
+for run in api.runs("my-entity/my-project"):
+    run.file("output.log").download()
+    time.sleep(0.1)
+```
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Runs](/support/models/tags/runs)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[API](/support/models/tags/api)</Badge><Badge stroke shape="pill" color="orange" size="md">[Artifacts](/support/models/tags/artifacts)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

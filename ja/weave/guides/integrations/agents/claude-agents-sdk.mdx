@@ -1,0 +1,89 @@
+---
+title: "Claude Agent SDK"
+description: Weave を使用して、Claude Agent SDK で構築したエージェントをトレースします。
+keywords: ["Claude Agent SDK", "Anthropic", "MCP ツール", "エージェントトレース", "自動パッチ適用"]
+---
+
+[Claude Agent SDK](https://github.com/anthropics/claude-agent-sdk-python) は、Claude を使用してエージェント アプリケーションを構築するための Python SDK です。
+
+Weave は、エージェントのクエリ、モデルの応答、ツールの使用、複数ターンの会話を含む Claude Agent SDK の Call を自動的にトレースします。Weave は、取得したデータを project の **Agents** ビューに表示します。
+
+<div id="trace-claude-agent-sdk-agents-with-weave">
+  ## Claude Agent SDK エージェントを Weave でトレースする
+</div>
+
+Weave SDK では Claude Agent SDK に自動でパッチが適用されるため、最小限のセットアップで Claude エージェントのトレースを取得できます。
+
+このドキュメントでは、Weave を初期化し、`ClaudeSDKClient` を介して MCP ツールを使う Claude エージェントを実行する方法を説明します。Weave は会話、モデルの Call、ツールの Call をエンドツーエンドで自動的にトレースします。完了したら、project の **Agents** ビューで、エージェントのクエリ、モデルの応答、ツールの呼び出しの完全なトレースを表示できます。
+
+<div id="prerequisites">
+  ### 前提条件
+</div>
+
+* W&amp;B アカウントと、`WANDB_API_KEY` 環境変数として設定された [APIキー](https://wandb.ai/authorize)。
+* `ANTHROPIC_API_KEY` 環境変数として設定された Anthropic APIキー。
+* Python 3.10+。
+
+<div id="install-packages">
+  ### パッケージをインストールする
+</div>
+
+開発環境に以下のパッケージをインストールします。`weave` パッケージはトレースを取得し、`claude-agent-sdk` はエージェントのランタイムを提供します。
+
+```bash
+pip install weave claude-agent-sdk
+```
+
+<div id="initialize-weave-in-your-code">
+  ### コードで Weave を初期化する
+</div>
+
+project に `weave.init` を追加し、W&amp;B のチーム名とプロジェクト名を更新してから、通常どおりエージェントを構築します。`weave.init` は、Claude Agent SDK からトレースを取得する自動パッチ適用を有効にします。
+
+次のコードでは、2 つの MCP 数学ツールを備えた Claude エージェントを作成し、Weave がトレースを取得しながら実行します。
+
+```python lines
+import anyio
+import weave
+
+from claude_agent_sdk import (
+    ClaudeAgentOptions,
+    ClaudeSDKClient,
+    create_sdk_mcp_server,
+    tool,
+)
+
+weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
+
+@tool("add", "Add two numbers", {"a": float, "b": float})
+async def add(args: dict) -> dict:
+    return {"content": [{"type": "text", "text": str(args["a"] + args["b"])}]}
+
+@tool("multiply", "Multiply two numbers", {"a": float, "b": float})
+async def multiply(args: dict) -> dict:
+    return {"content": [{"type": "text", "text": str(args["a"] * args["b"])}]}
+
+math_server = create_sdk_mcp_server(
+    name="math",
+    version="1.0.0",
+    tools=[add, multiply],
+)
+
+async def main():
+    options = ClaudeAgentOptions(
+        mcp_servers={"math": math_server},
+        allowed_tools=["mcp__math__add", "mcp__math__multiply"],
+    )
+
+    async with ClaudeSDKClient(options=options) as client:
+        await client.query("Using the math tools, compute (3 + 7) * 2.")
+
+        async for message in client.receive_response():
+            print(message)
+
+anyio.run(main) 
+```
+
+スクリプトを実行すると、`weave.init()` が project へのリンクを出力します。リンクを開くと、エージェントのクエリ、モデルの応答、ツールの Callについて取得されたトレースを確認できます。
+
+Weave でエージェントのデータを表示する方法について詳しくは、[エージェントのアクティビティを表示](/ja/weave/guides/tracking/view-agent-activity)を参照してください。

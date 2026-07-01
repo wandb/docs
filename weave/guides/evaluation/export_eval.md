@@ -1,13 +1,14 @@
 ---
 title: "Export evaluation data"
 description: "Programmatically export evaluation results using the Evaluation REST API."
+keywords: ["evaluation REST API", "eval_results", "row_digest", "evaluation runs", "scorer statistics"]
 ---
 
 Teams that run evaluations in W&B Weave often need evaluation results outside of the Weave UI. Common use cases include:
 
 - Pulling metrics into spreadsheets or notebooks for custom analysis and visualization.
 - Feeding evaluation results into CI/CD pipelines to gate deployments.
-- Sharing results with stakeholders who don't have W&B seats, through BI tools like Looker or internal dashboards.
+- Sharing results through BI tools like Looker or internal dashboards with stakeholders who don't have W&B seats.
 - Building automated reporting pipelines that aggregate scores across projects.
 
 The [v2 Evaluation REST API](https://trace.wandb.ai/docs) surfaces focused evaluation concepts: evaluation runs, predictions, scores, and scorers. The result is richer, more structured output with typed scorer statistics and resolved dataset inputs compared to the general-purpose Calls API.
@@ -24,13 +25,18 @@ The snippets on this page use the following endpoints from the [v2 Evaluation RE
 Authentication uses HTTP Basic with `api` as the username and your W&B API key as the password.
 
 ## Prerequisites
+
 The examples on this page use Python, but the Evaluation REST API is language-agnostic: you can call the same endpoints from TypeScript or any HTTP client.
+
+Before you begin, make sure you have the following:
 
 - Python 3.7 or later.
 - The `requests` library. Install it with `pip install requests`.
 - A W&B API key, set as the `WANDB_API_KEY` environment variable. Get your key at [wandb.ai/settings](https://wandb.ai/settings).
 
 ## Set up authentication
+
+The following snippet imports the libraries used throughout this page and configures the base URL, authentication tuple, and target entity and project. Every later example reuses these variables.
 
 ```python
 import json
@@ -45,9 +51,11 @@ entity = "my-team"
 project = "my-project"
 ```
 
+With authentication configured, you can call any of the endpoints described in the following sections.
+
 ## List evaluation runs
 
-Retrieve recent evaluation runs in a project and list details for each run, such as ID and status.
+A list of evaluation runs is usually the first thing you need in an export workflow, because it gives you the `evaluation_run_id` values that the other endpoints require. Retrieve recent evaluation runs in a project and list details for each run, such as ID and status.
 
 ```python
 resp = requests.get(
@@ -62,10 +70,10 @@ for run in runs:
 
 ## Read a single evaluation run
 
-Retrieve details for a specific evaluation run, including its model, evaluation reference, status, and timestamps.
+After you have an `evaluation_run_id`, you can fetch the full record for that run. Retrieve details for a specific evaluation run, including its model, evaluation reference, status, and timestamps. Replace `[EVALUATION_RUN_ID]` with the ID of the evaluation run you want to fetch.
 
 ```python
-eval_run_id = "<evaluation-run-id>"
+eval_run_id = "[EVALUATION_RUN_ID]"
 
 resp = requests.get(
     f"{TRACE_BASE}/v2/{entity}/{project}/evaluation_runs/{eval_run_id}",
@@ -77,10 +85,10 @@ print(eval_run["evaluation_run_id"], eval_run.get("status"), eval_run.get("model
 
 ## Get predictions and scores
 
-Use the `eval_results/query` endpoint to retrieve per-row results for an evaluation run. Each row includes the resolved dataset inputs, model output, and individual scorer results. Set `include_rows`, `include_raw_data_rows`, and `resolve_row_refs` to get the full per-row detail.
+When you need the underlying data behind a run, such as for spreadsheet exports or row-level analysis, use the `eval_results/query` endpoint to retrieve per-row results for an evaluation run. Each row includes the resolved dataset inputs, model output, and individual scorer results. Set `include_rows`, `include_raw_data_rows`, and `resolve_row_refs` to get the full per-row detail. Replace `[EVALUATION_RUN_ID]` with the ID of the evaluation run you want to query.
 
 ```python
-eval_run_id = "<evaluation-run-id>"
+eval_run_id = "[EVALUATION_RUN_ID]"
 
 resp = requests.post(
     f"{TRACE_BASE}/v2/{entity}/{project}/eval_results/query",
@@ -107,7 +115,7 @@ for row in results["rows"]:
 
 ## Get aggregated scores
 
-The same `eval_results/query` endpoint can also return aggregated scorer statistics instead of per-row data. Set `include_summary` to get summary-level metrics like pass rates for binary scorers and means for continuous scorers.
+When you only need high-level metrics, such as for dashboards or CI/CD gating, request summary statistics instead of per-row data. The same `eval_results/query` endpoint can also return aggregated scorer statistics instead of per-row data. Set `include_summary` to get summary-level metrics like pass rates for binary scorers and means for continuous scorers.
 
 ```python
 resp = requests.post(
@@ -128,10 +136,10 @@ for ev in results["summary"]["evaluations"]:
 
 ## Read a single prediction
 
-Retrieve the full details of an individual prediction, including its inputs, output, and model reference.
+To inspect a single row in isolation, for example when investigating an unexpected score, you can fetch a prediction directly by its ID. Retrieve the full details of an individual prediction, including its inputs, output, and model reference. Replace `[PREDICTION_ID]` with the ID of the prediction you want to retrieve.
 
 ```python
-prediction_id = "<predict-call-id>"
+prediction_id = "[PREDICTION_ID]"
 
 resp = requests.get(
     f"{TRACE_BASE}/v2/{entity}/{project}/predictions/{prediction_id}",
@@ -141,11 +149,11 @@ prediction = resp.json()
 print(prediction)
 ```
 
-## How to use row digests
+## Row digests
 
-Each result row from the `eval_results/query` endpoint includes a `row_digest`, a content hash that uniquely identifies a specific input in the evaluation dataset based on its contents, not its position. Row digests are useful for:
+Beyond the raw data each endpoint returns, the response from `eval_results/query` includes an additional identifier that helps you correlate rows across runs. Each result row from the `eval_results/query` endpoint includes a `row_digest`, a content hash that uniquely identifies a specific input in the evaluation dataset based on its contents, not its position. Row digests are useful for:
 
 - **Cross-evaluation comparison**: When you run two different models against the same dataset, rows with the same digest represent the same input. You can join on `row_digest` to compare how different models performed on the exact same task.
 - **Deduplication**: If the same task appears in multiple evaluation suites, the digest lets you identify it.
-- **Reproducibility**: The digest is content-addressable, so if someone modifies a dataset row (changes the instruction text, rubric, or other fields), it gets a new digest. You can verify whether two evaluation runs used identical inputs or slightly different versions.
+- **Reproducibility**: The digest is content-addressable, so if someone modifies a dataset row (changes the instruction text, rubric, or other fields), it gets a new digest. You can verify whether two evaluation runs used identical inputs or different versions.
 

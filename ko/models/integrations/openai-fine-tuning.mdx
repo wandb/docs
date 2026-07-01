@@ -121,7 +121,7 @@ WandbLogger.sync(
   ## 파인튜닝된 모델과 모델 버전 관리
 </div>
 
-OpenAI는 파인튜닝된 모델의 ID를 제공합니다. 모델 가중치에는 액세스할 수 없으므로 `WandbLogger`는 모델의 모든 세부 정보(하이퍼파라미터, 데이터 파일 ID 등)와 `fine_tuned_model`` ID가 포함된 `model&#95;metadata.json` 파일을 생성하고, 이를 W&amp;B Artifact로 로깅합니다.
+OpenAI는 파인튜닝된 모델의 ID를 제공합니다. 모델 가중치에는 액세스할 수 없으므로 `WandbLogger`는 모델의 모든 세부 정보(하이퍼파라미터, 데이터 파일 ID 등)와 `fine_tuned_model`` ID가 포함된 `model&#95;metadata.json&#96; 파일을 생성하고, 이를 W&amp;B Artifact로 로깅합니다.
 
 이 모델(메타데이터) Artifact는 [W&amp;B Registry](/ko/models/registry/)의 모델에 추가로 연결할 수 있습니다.
 

@@ -29,9 +29,22 @@ run がクラッシュしたときや、カスタムトリガーに応じて、S
   Private Cloud 上の [W&amp;B Server](/ja/platform/hosting/) または W&amp;B 専用クラウドを使用している場合は、[W&amp;B Server で Slack アラートを設定する](/ja/platform/hosting/monitoring-usage/slack-alerts) を参照して Slack アラートを設定してください。
 </Note>
 
-アラートを設定するには、以下のセクションで詳しく説明する次の step を実行します。
+<div id="automated-run-lifecycle-alerts">
+  ## run ライフサイクルの自動アラート
+</div>
 
-1. W&amp;B の [User Settings](https://wandb.ai/settings) で Alerts を有効にします。
+W&amp;B では、コードを変更しなくても、run の完了時やクラッシュ時に通知を受け取れます。[User Settings](https://wandb.ai/settings) で **Alerts** セクションまでスクロールし、次をオンにします。
+
+* run が正常に完了したときに通知を受け取るには、**Run finished** をオンにします。
+* [`run.finish()`](/ja/models/ref/python/experiments/run#finish) を呼び出さずに run が終了したときに通知を受け取るには、**Run crashed** をオンにします。
+
+これらのトグルはユーザーごとの設定です。**Run finished** アラートは、Jupyter ノートブック内の run には送信されません。ノートブックでは、完了通知に `run.alert()` を使用してください。
+
+アラートの配信先はメールまたは Slack で、同じ User Settings パネルで設定します。この配信設定は Scriptable Alerts と共通です。Scriptable Alerts については以下のセクションで説明します。これにより、メトリクスのしきい値や NaN の損失など、カスタム条件に基づいてアラートをトリガーできます。
+
+`run.alert()` を使用して Scriptable Alerts を設定するには、次の手順を実行してください。詳細は以下のセクションで説明します。
+
+1. W&amp;B の [User Settings](https://wandb.ai/settings) で Alerts をオンにします。
 2. コードに `run.alert()` を追加します。
 3. 設定をテストします。
 

@@ -1,11 +1,14 @@
 ---
 title: "OpenAI"
 description: "Intégrez OpenAI avec Weave pour le tracing, l’évaluation et le monitoring"
+keywords: [GPT-4, Assistants API, Batch API, sorties structurées, appel de fonction]
 ---
 
 <a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_openai.ipynb" aria-label="Ouvrir dans Google Colab">
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Ouvrir dans Colab" />
 </a>
+
+Ce guide vous montre comment intégrer les bibliothèques Python et TypeScript d’OpenAI avec Weave afin de tracer, d’évaluer et de surveiller votre application LLM. Il s’adresse aux développeurs qui utilisent déjà les SDK d’OpenAI et souhaitent avoir une meilleure visibilité sur leurs appels pendant le développement et en production.
 
 <Note>
   Vous souhaitez tester des modèles OpenAI sur Weave sans aucune configuration préalable ? Essayez le [LLM Playground](../tools/playground).
@@ -15,17 +18,19 @@ description: "Intégrez OpenAI avec Weave pour le tracing, l’évaluation et le
   ## Tracing
 </div>
 
-Il est important de stocker les traces des applications LLM dans une base de données centrale, aussi bien pendant le développement qu&#39;en production. Vous utiliserez ces traces pour le débogage, ainsi que pour constituer un jeu de données d&#39;exemples difficiles servant à l&#39;évaluation au fur et à mesure que vous améliorez votre application.
+Il est utile de stocker les traces des applications LLM dans une base de données centrale, aussi bien pendant le développement qu&#39;en production. Utilisez ces traces pour le débogage, ainsi que pour constituer un jeu de données d&#39;exemples difficiles servant à l&#39;évaluation au fur et à mesure que vous améliorez votre application.
 
-Weave peut capturer automatiquement les traces de la [bibliothèque Python OpenAI](https://developers.openai.com/api/docs/libraries).
+Weave peut capturer automatiquement les traces de la [bibliothèque Python `openai`](https://developers.openai.com/api/docs/libraries).
 
-Commencez à capturer des traces en appelant `weave.init(<project-name>)` avec le nom de projet de votre choix. OpenAI sera automatiquement patché, quel que soit le moment où vous l&#39;importez.
+Pour commencer à capturer des traces, appelez `weave.init("[PROJECT_NAME]")` avec le nom de projet de votre choix. Weave patche automatiquement OpenAI, quel que soit le moment où vous l&#39;importez, afin que tous les appels OpenAI suivants soient tracés.
 
-Si vous ne spécifiez pas d&#39;équipe W&amp;B lorsque vous appelez `weave.init()`, votre entité par défaut sera utilisée. Pour trouver ou mettre à jour votre entité par défaut, consultez [Paramètres utilisateur](https://docs.wandb.ai/platform/app/settings-page/user-settings/#default-team) dans la documentation W&amp;B Models.
+Si vous ne spécifiez pas d&#39;équipe W&amp;B lorsque vous appelez `weave.init()`, Weave utilise votre entité par défaut. Pour trouver ou mettre à jour votre entité par défaut, consultez [Paramètres utilisateur](https://docs.wandb.ai/platform/app/settings-page/user-settings/#default-team) dans la documentation W&amp;B Models.
 
-**Patch automatique**
+<div id="automatic-patching">
+  ### Patching automatique
+</div>
 
-Weave patche automatiquement OpenAI, qu&#39;il soit importé avant ou après `weave.init()` :
+Weave patche automatiquement OpenAI, que vous l’importiez avant ou après `weave.init()`. L’exemple suivant montre la configuration minimale requise pour commencer à tracer les appels :
 
 <CodeGroup>
   ```python Python lines {4}
@@ -50,7 +55,8 @@ Weave patche automatiquement OpenAI, qu&#39;il soit importé avant ou après `we
   )
   ```
 
-  ```typescript TypeScript
+  ```typescript twoslash TypeScript
+  // @noErrors
   import { OpenAI } from 'openai';
   import { wrapOpenAI } from '@wandb/weave';
 
@@ -75,9 +81,11 @@ Weave patche automatiquement OpenAI, qu&#39;il soit importé avant ou après `we
   ```
 </CodeGroup>
 
-**Patch explicite (facultatif)**
+<div id="optional-explicit-patching">
+  ### Facultatif : patching explicite
+</div>
 
-Vous pouvez toujours appliquer explicitement un patch si vous souhaitez un contrôle plus fin :
+Pour contrôler plus finement le moment où le patching prend effet, patchez OpenAI explicitement plutôt que de vous appuyer sur le comportement automatique :
 
 ```python lines {3,4}
 import weave
@@ -98,15 +106,14 @@ response = client.chat.completions.create(
 [Voir une trace en temps réel](https://wandb.ai/capecape/emoji-bot/weave/calls/01928a78-6d8a-7e20-9b8c-0cbc8318a0c8)
 
 <Tip>
-  Nous capturons également les outils d’appel de fonctions pour [OpenAI Functions](https://platform.openai.com/docs/guides/function-calling) et [OpenAI Assistants](https://platform.openai.com/docs/assistants/overview).
+  Weave capture également les outils d’appel de fonctions pour [OpenAI Functions](https://platform.openai.com/docs/guides/function-calling) et [OpenAI Assistants](https://platform.openai.com/docs/assistants/overview).
 </Tip>
-
 
 <div id="structured-outputs">
   ## Sorties structurées
 </div>
 
-Weave prend également en charge les sorties structurées avec OpenAI. C&#39;est utile pour garantir que les réponses de votre LLM suivent un format spécifique.
+Weave prend en charge le tracing des sorties structurées OpenAI, ce qui est utile lorsque vous devez garantir que les réponses de votre LLM respectent un format spécifique. L’exemple suivant trace un appel qui extrait un objet `UserDetail` typé à partir d’un message utilisateur :
 
 <CodeGroup>
   ```python Python
@@ -136,10 +143,10 @@ Weave prend également en charge les sorties structurées avec OpenAI. C&#39;est
 </CodeGroup>
 
 <div id="async-support">
-  ## Prise en charge de l&#39;asynchrone
+  ## Prise en charge de l’asynchrone
 </div>
 
-Weave prend également en charge les fonctions asynchrones avec OpenAI.
+Weave prend également en charge le tracing des appels OpenAI asynchrones, afin que les applications qui utilisent `AsyncOpenAI` bénéficient de la même visibilité que les applications synchrones.
 
 <CodeGroup>
   ```python Python
@@ -174,7 +181,7 @@ Weave prend également en charge les fonctions asynchrones avec OpenAI.
   ## Prise en charge du streaming
 </div>
 
-Weave prend également en charge le streaming des réponses d’OpenAI.
+Weave prend en charge le tracing des réponses en streaming d’OpenAI. La trace capturée reflète l’intégralité de la complétion diffusée en streaming, afin que vous puissiez examiner la sortie finale avec les paramètres de la requête.
 
 <CodeGroup>
   ```python Python
@@ -208,7 +215,7 @@ Weave prend également en charge le streaming des réponses d’OpenAI.
   ## Tracing des appels de fonction
 </div>
 
-Weave effectue également le tracing des appels de fonction effectués par OpenAI lors de l’utilisation d’outils.
+Weave effectue le tracing des appels de fonction effectués par OpenAI lorsque vous utilisez des outils, ce qui vous aide à comprendre comment le modèle a invoqué chaque outil et avec quels arguments.
 
 <CodeGroup>
   ```python Python
@@ -259,10 +266,10 @@ Weave effectue également le tracing des appels de fonction effectués par OpenA
 </CodeGroup>
 
 <div id="batch-api">
-  ## API Batch
+  ## Batch API
 </div>
 
-Weave prend également en charge l’API Batch d’OpenAI pour traiter plusieurs requêtes.
+Weave prend en charge la Batch API d’OpenAI, qui vous permet de traiter plusieurs requêtes de manière asynchrone tout en continuant à capturer chaque requête dans vos traces.
 
 <CodeGroup>
   ```python Python
@@ -310,7 +317,7 @@ Weave prend également en charge l’API Batch d’OpenAI pour traiter plusieurs
   ## API Assistants
 </div>
 
-Weave prend également en charge l’API Assistants d’OpenAI pour créer des applications d’IA conversationnelle.
+Weave prend en charge l’API Assistants d’OpenAI, ce qui vous permet de tracer des applications d’IA conversationnelle basées sur des assistants, des threads et des runs.
 
 <CodeGroup>
   ```python Python
@@ -352,17 +359,17 @@ Weave prend également en charge l’API Assistants d’OpenAI pour créer des a
   ## Suivi des coûts
 </div>
 
-Weave suit automatiquement le coût de vos appels à l’API OpenAI. Vous pouvez consulter le détail des coûts dans l’interface Weave.
+Weave suit automatiquement le coût de vos appels à l’API OpenAI afin que vous puissiez surveiller les dépenses parallèlement aux performances. Vous pouvez consulter le détail des coûts dans l’interface Weave.
 
 <Note>
-  Le suivi des coûts est disponible pour tous les modèles OpenAI et est calculé d’après la tarification OpenAI la plus récente.
+  Le suivi des coûts est disponible pour tous les modèles OpenAI et est calculé d’après la tarification publiée par OpenAI.
 </Note>
 
 <div id="tracing-custom-functions">
   ## Tracing des fonctions personnalisées
 </div>
 
-Vous pouvez également tracer des fonctions personnalisées qui utilisent OpenAI à l’aide du décorateur `@weave.op`.
+Pour regrouper les appels à OpenAI dans votre propre logique applicative, tracez les fonctions personnalisées qui utilisent OpenAI en appliquant le décorateur `@weave.op`. Cela crée une trace parente pour la fonction, dans laquelle les appels OpenAI sous-jacents sont imbriqués.
 
 <CodeGroup>
   ```python Python
@@ -394,11 +401,11 @@ Vous pouvez également tracer des fonctions personnalisées qui utilisent OpenAI
   ## Étapes suivantes
 </div>
 
-Maintenant que vous avez configuré le tracing pour OpenAI, vous pouvez :
+Une fois le tracing configuré pour OpenAI, les appels de votre application sont désormais visibles dans Weave. Vous pouvez ensuite :
 
-1. **Voir les traces dans l’interface Weave** : accédez à votre projet Weave pour consulter les traces de vos appels OpenAI
-2. **Créer des évaluations** : utilisez vos traces pour créer des jeux de données d’évaluation
-3. **Surveiller les performances** : suivez la latence, les coûts et d’autres métriques
-4. **Déboguer les problèmes** : utilisez les traces pour comprendre ce qui se passe dans votre application LLM
+* **Afficher les traces dans l’interface Weave** : accédez à votre projet Weave pour consulter les traces de vos appels OpenAI.
+* **Créer des évaluations** : utilisez vos traces pour constituer des jeux de données d’évaluation.
+* **Surveiller les performances** : suivez la latence, les coûts et d’autres métriques.
+* **Déboguer les problèmes** : utilisez les traces pour comprendre ce qui se passe dans votre application LLM.
 
-Pour en savoir plus sur ces sujets, consultez notre [guide d’évaluation](../evaluation/scorers) et notre [guide de monitoring](../tracking).
+Pour plus d’informations sur ces sujets, voir le [guide d’évaluation](../evaluation/scorers) et le [guide de suivi](../tracking).
