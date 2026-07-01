@@ -1239,14 +1239,18 @@ Self-Managed deployments that use an external ClickHouse cluster must verify Cli
 
 ### Unsupported ClickHouse versions
 
-W&B Self-Managed does not work with ClickHouse 26.1 or 26.2.
+W&B Self-Managed deployments using W&B Weave or Models OLAP features require a supported version of both ClickHouse Server and ClickHouse Keeper.
 
-ClickHouse 26.3 is supported for W&B Self-Managed v0.81 and above.
+- Weave does not work with ClickHouse 26.1 or 26.2.
+- The Models OLAP features described in the next section require ClickHouse 26.2+.
+- Deployments using both Weave and Models OLAP features require ClickHouse 26.3.
+
+If your W&B Self-Managed deployment uses neither Weave nor Models OLAP features, ClickHouse is not required.
 
 
 ### Models OLAP features
 
-W&B Server 0.81.0+ introduces schema migrations that require ClickHouse 26.3. These migrations run when any of the following Models OLAP features are enabled in your Helm values:
+W&B Server 0.81.0+ introduces schema migrations that require ClickHouse 26.2+. These migrations run when any of the following Models OLAP features are enabled in your Helm values:
 
 ```yaml
 global:
@@ -1261,7 +1265,7 @@ global:
 
 **_Before_ upgrading to W&B Self-Managed to Server v0.81+**, you must _either_:
 - Set these to `false` in your Helm values, _or_:
-- Upgrade both ClickHouse Server and ClickHouse Keeper to 26.3 or newer.
+- Upgrade both ClickHouse Server and ClickHouse Keeper to 26.2 or newer (26.3 or newer if your deployment also uses Weave).
 
 If these features are disabled or you do not use ClickHouse for Models OLAP workloads, this requirement does not apply to your upgrade.
 
