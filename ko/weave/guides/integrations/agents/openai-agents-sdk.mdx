@@ -3,10 +3,6 @@ title: "OpenAI Agents SDK"
 description: Weave를 사용해 OpenAI Agents SDK로 구축한 에이전트를 트레이스하세요.
 ---
 
-import AgentsPreview from '/snippets/ko/_includes/agents-public-preview.mdx';
-
-<AgentsPreview />
-
 [OpenAI Agents SDK](https://github.com/openai/openai-agents-python)는 OpenAI API를 기반으로 에이전트와 멀티 에이전트 워크플로를 구축할 수 있는 경량 프레임워크입니다. Weave는 OpenAI Agents SDK로 구축된 에이전트를 자동으로 트레이스하며, 각 에이전트 호출, 하위 에이전트 핸드오프, 모델 Call, 도구 Call을 포함해 추적합니다. Weave는 캡처한 데이터를 프로젝트의 **Agents** 뷰에 표시합니다.
 
 <Note>
@@ -95,14 +91,14 @@ asyncio.run(main())
 이 예시에서는 하나의 대화에서 세 번의 turn을 실행합니다. 처음 두 turn은 Wikipedia 조회를 트리거하고, 세 번째 turn은 앞선 대화 컨텍스트를 사용해 도구 Call 없이 요약을 생성합니다. 각 `Runner.run` 호출은 이전 결과의 입력 목록을 다음 요청으로 다시 전달해 대화를 이어갑니다.
 
 <div id="see-your-agent-traces-in-the-agents-view">
-  ### Agents 뷰에서 에이전트 트레이스 확인하기
+  ### Agents 뷰에서 에이전트 트레이스를 확인하세요
 </div>
 
-스크립트가 실행된 후 Weave에서 캡처된 활동을 검토할 수 있습니다. `weave.init()`가 실행되면 프로젝트 링크가 출력됩니다. **Agents** 뷰를 열어 다음 항목을 확인하세요.
+스크립트가 실행된 후에는 Weave에서 캡처된 활동을 검토할 수 있습니다. `weave.init()`가 실행되면 프로젝트 링크가 출력됩니다. 다음 항목을 확인하려면 **Agents** 뷰를 여세요:
 
-* `Research assistant`에 해당하는 **Agents** 탭의 행
-* 세 개의 turn이 포함된 Session
-* 중첩된 모델 Calls 및 도구 Calls와 함께 `invoke_agent` span으로 렌더링된 각 turn
-* 각 step의 전체 입력, 모델, 출력, token 사용량, 그리고 Wikipedia 결과
+* `Research assistant`에 대한 **Agents** 탭의 행 하나
+* 세 개의 턴으로 이루어진 conversation
+* 중첩된 모델 Call과 도구 Call이 포함된 `invoke_agent` span으로 렌더링된 각 턴
+* 각 step의 전체 입력, 모델, 출력, 토큰 사용량, 그리고 Wikipedia 결과
 
 Weave에서 Agents 데이터를 보는 방법에 대한 자세한 내용은 [에이전트 활동 보기](/ko/weave/guides/tracking/view-agent-activity)를 참조하세요.

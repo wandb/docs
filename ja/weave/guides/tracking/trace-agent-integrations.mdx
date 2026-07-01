@@ -1,13 +1,10 @@
 ---
 title: エージェント向けトレース インテグレーション
-description: W&B Weave をエージェント SDK、エージェント ハーネス、カスタム エージェントに接続して、セッションが Agents ビューに表示されるようにします。
+description: W&B Weave をエージェント SDK、エージェント ハーネス、カスタム エージェントに接続して、会話が Agents ビューに表示されるようにします。
 keywords: ["エージェント ハーネス", "autopatch", "OpenTelemetry", "GenAI semconv", "マルチエージェント"]
 ---
 
-import AgentsPreview from '/snippets/ja/_includes/agents-public-preview.mdx';
 import AgentIntegrationPaths from '/snippets/ja/_includes/agent-integration-paths.mdx';
-
-<AgentsPreview />
 
 W&amp;B Weave は、各ターンを手動でインストルメンテーションしなくても、マルチターンのエージェント型アプリケーションをトレースできます。サポートされているエージェント SDK とハーネスでは、`weave.init()` を呼び出すと、Weave がフレームワークに自動的にパッチを適用します。Weave はセッション、ターン、LLM Call、ツール呼び出しを取得し、**Agents** ビューに表示します。このページでは、3 つのカテゴリ (エージェント ハーネス、エージェント SDK、カスタム エージェント (OpenTelemetry スパンを出力するものを含む) ) のインテグレーション ガイドへのリンクを掲載しています。
 

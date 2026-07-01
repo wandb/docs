@@ -7,20 +7,22 @@ description: "Référence du SDK TypeScript"
   # getCurrentSession
 </div>
 
-▸ **getCurrentSession**(): [`Session`](../classes/session) | `undefined`
+<Warning>
+  **Obsolète.** Utilisez plutôt [getCurrentConversation](../functions/getcurrentconversation).
+</Warning>
 
-Renvoie la Session en cours, ou undefined.
+▸ **getCurrentSession**(): [`Conversation`](../classes/conversation) | `undefined`
 
 <div id="returns">
   #### Renvoie
 </div>
 
-[`Session`](../classes/session) | `undefined`
+[`Conversation`](../classes/conversation) | `undefined`
 
 <div id="defined-in">
   #### Défini dans
 </div>
 
-[genai/context.ts:95](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/context.ts#L95)
+[src/genai/context.ts:64](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/context.ts#L64)
 
 ***

@@ -4,10 +4,6 @@ description: Tracez un agent développé avec l'Agent Development Kit (ADK) de G
 keywords: ["ADK", "Gemini", "traçage d’agents", "multi-agent", "autopatch"]
 ---
 
-import AgentsPreview from '/snippets/fr/_includes/agents-public-preview.mdx';
-
-<AgentsPreview />
-
 Le [Google&#39;s Agent Development Kit (ADK)](https://google.github.io/adk-docs/) est un framework Python flexible et agnostique quant au modèle pour créer et orchestrer des agents. Bien qu&#39;optimisé pour Gemini, ADK prend en charge n&#39;importe quel modèle ainsi que les tâches simples comme les flux de travail multi-agents complexes. Weave capture automatiquement les traces des agents créés avec ADK, y compris chaque invocation d&#39;agent, transfert vers un sous-agent, appel de modèle et appel d&#39;outil. Weave affiche les données capturées dans la vue **Agents** de votre projet.
 
 <div id="trace-google-adk-agents-with-weave">
@@ -114,11 +110,11 @@ L’exemple comporte trois tours de conversation dans une seule session ADK. Les
   ### Voir les traces de votre agent dans la vue Agents
 </div>
 
-Une fois le script exécuté, ouvrez la vue **Agents** de votre projet pour vérifier que Weave a bien capturé la session. `weave.init()` affiche un lien vers votre projet lors de son exécution. Dans la vue **Agents**, examinez les éléments suivants :
+Une fois le script exécuté, ouvrez la vue **Agents** de votre projet pour confirmer que Weave a bien capturé la conversation. `weave.init()` affiche un lien vers votre projet lors de son exécution. Dans la vue **Agents**, examinez les éléments suivants :
 
 * Une ligne dans l’onglet **Agents** pour `research_assistant`.
-* Une seule session contenant trois tours de conversation.
-* Chaque tour de conversation affiché comme un span `invoke_agent`, avec des appels de modèle et des appels d’outil imbriqués.
+* Une seule conversation contenant trois tours de conversation.
+* Chaque tour de conversation est affiché sous la forme d’un span `invoke_agent`, avec des appels de modèle et des appels d’outil imbriqués.
 * L’entrée complète, le modèle, la sortie, l’utilisation des jetons et les résultats de Wikipédia à chaque étape.
 
-Pour en savoir plus sur l’affichage des données des agents dans Weave, voir [Afficher l’activité de l’agent](/fr/weave/guides/tracking/view-agent-activity).
+Pour en savoir plus sur l’affichage des données Agents dans Weave, voir [Voir l’activité de l’agent](/fr/weave/guides/tracking/view-agent-activity).

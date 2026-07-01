@@ -3,14 +3,10 @@ title: "OpenAI Agents SDK"
 description: "Weave を使用して、OpenAI Agents SDK で構築したエージェントをトレースします。"
 ---
 
-import AgentsPreview from '/snippets/ja/_includes/agents-public-preview.mdx';
-
-<AgentsPreview />
-
-[OpenAI Agents SDK](https://github.com/openai/openai-agents-python) は、OpenAI の API 上でエージェントやマルチエージェント ワークフローを構築するための軽量なフレームワークです。Weave は、OpenAI Agents SDK で構築されたエージェントを自動的にトレースし、各エージェントの呼び出し、サブエージェントへのハンドオフ、モデル呼び出し、ツール呼び出しを含むデータを取得します。Weave は、取得したデータを project の **Agents** ビューに表示します。
+[OpenAI Agents SDK](https://github.com/openai/openai-agents-python) は、OpenAI の API 上でエージェントやマルチエージェント ワークフローを構築するための軽量なフレームワークです。Weave は、OpenAI Agents SDK で構築されたエージェントを自動的にトレースし、各エージェントの呼び出し、サブエージェントへのハンドオフ、モデルの Call、ツール呼び出しを含むデータを取得します。Weave は、取得したデータを project の **Agents** ビューに表示します。
 
 <Note>
-  Weave TypeScript SDK は、OpenAI Agents SDK の自動パッチ適用をサポートしていません。
+  Weave TypeScript SDK は、OpenAI Agents SDK のパッチ適用をサポートしていません。
 </Note>
 
 <div id="trace-openai-agents-sdk-agents-with-weave">
@@ -98,11 +94,11 @@ asyncio.run(main())
   ### Agents ビューでエージェントのトレースを確認する
 </div>
 
-スクリプトの実行後、Weave で取得されたアクティビティを確認できます。`weave.init()` は、実行時に project へのリンクを表示します。次の内容を確認するには、**Agents** ビューを開きます。
+スクリプトの実行後、Weave で取得されたアクティビティを確認できます。`weave.init()` は実行時に、使用中の project へのリンクを出力します。**Agents** ビューを開くと、次の内容を確認できます。
 
-* **Agents** タブ内にある `Research assistant` の行。
-* 3 つのターンを含むセッション。
-* ネストされたモデルの Call とツールの Call を含む `invoke_agent` span として表示される各ターン。
-* 各ステップでの完全な入力、モデル、出力、トークン使用量、Wikipedia の結果。
+* **Agents** タブに `Research assistant` の行が表示されます。
+* 3 つのターンを含む会話が表示されます。
+* 各ターンは、ネストされたモデルの Call とツール呼び出しを含む `invoke_agent` span として表示されます。
+* 各ステップで、完全な input、モデル、output、トークン使用量、Wikipedia の結果を確認できます。
 
-Weave で Agents データを表示する方法の詳細については、[エージェントのアクティビティを表示する](/ja/weave/guides/tracking/view-agent-activity) を参照してください。
+Weave で Agents データを表示する方法について詳しくは、[エージェントのアクティビティを表示する](/ja/weave/guides/tracking/view-agent-activity) を参照してください。

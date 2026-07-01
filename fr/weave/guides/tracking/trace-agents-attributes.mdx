@@ -1,17 +1,17 @@
 ---
 title: "Définir des attributs et des événements sur des spans d’agent"
-description: "Ajoutez des attributs personnalisés et enregistrez des événements sur des spans d’agent (Turn, LLM, Tool et SubAgent) pour filtrer et analyser l’activité des agents dans Weave."
-keywords: ["set_attributes", "setAttributes", "add_event", "addEvent", "agent attributes", "session attributes", "OTel attributes"]
+description: "Joignez des attributs personnalisés et enregistrez des événements sur des spans d’agent (Turn, LLM, Tool et SubAgent) pour filtrer et analyser l’activité des agents dans Weave."
+keywords: ["set_attributes", "setAttributes", "add_event", "addEvent", "agent attributes", "conversation attributes", "OTel attributes"]
 ---
 
-Lorsque vous instrumentez un agent avec le SDK Weave, chaque objet span (`Turn`, `LLM`, `Tool` et `SubAgent`) expose des méthodes permettant d’ajouter des métadonnées personnalisées. Utilisez ces méthodes pour associer aux spans d’agent des informations contextuelles comme des ID d’utilisateur, des locataires, des noms d’expérience ou des libellés d’environnement, puis filtrez et regroupez l’activité des agents selon ces métadonnées dans l’interface Weave.
+Lorsque vous instrumentez un agent avec le SDK Weave, chaque objet span (`Turn`, `LLM`, `Tool` et `SubAgent`) expose des méthodes permettant de joindre des métadonnées personnalisées. Utilisez ces méthodes pour associer aux spans d’agent des informations contextuelles comme des ID d’utilisateur, des locataires, des noms d’expérience ou des libellés d’environnement, puis filtrez et regroupez l’activité des agents selon ces métadonnées dans l’interface Weave.
 
 Ces métadonnées existent sous deux formes :
 
-* **Attributs** : propriétés clé-valeur d’un span dans son ensemble. Utilisez `set_attributes()` (Python) ou `setAttributes()` (TypeScript) pour définir des attributs sur un seul span, ou définissez des attributs à l’échelle de la session qui s’appliquent à chaque span émis par une session.
+* **Attributs** : propriétés clé-valeur d’un span dans son ensemble. Utilisez `set_attributes()` (Python) ou `setAttributes()` (TypeScript) pour définir des attributs sur un seul span, ou définissez des attributs à l’échelle de la conversation qui s’appliquent à chaque span émis par une conversation.
 * **Événements** : marqueurs ponctuels survenant pendant la durée de vie d’un span, comme un prompt d’autorisation ou une transition du cycle de vie. Utilisez `add_event()` (Python) ou `addEvent()` (TypeScript).
 
-Ces méthodes correspondent à l’[API de span OpenTelemetry (OTel)](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/) : `set_attributes` correspond à `Span.set_attributes` d’OTel, et `add_event` à `Span.add_event`. Le SDK Weave émet des spans OTel et stocke tous les attributs afin qu’ils restent interrogeables dans Weave.
+Ces méthodes correspondent à l’[API de span OpenTelemetry (OTel)](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/) : `set_attributes` correspond à `Span.set_attributes` d’OTel, et `add_event` à `Span.add_event`. Le SDK Weave émet des spans OTel et stocke tous les attributs afin qu’ils restent interrogeables dans Weave.&quot;
 
 <div id="set-attributes-on-a-span">
   ## Définir des attributs sur un span
@@ -26,7 +26,7 @@ Utilisez `set_attributes()` (Python) ou `setAttributes()` (TypeScript) pour ajou
 
     weave.init("[TEAM-NAME]/[PROJECT-NAME]")
 
-    with weave.start_session(agent_name="my-agent"):
+    with weave.start_conversation(agent_name="my-agent"):
         with weave.start_turn(user_message="What is the weather in Tokyo?") as turn:
             # Ajouter des attributs au span de ce tour
             turn.set_attributes({"user_id": "12345", "tenant": "acme", "env": "production"})
@@ -40,19 +40,19 @@ Utilisez `set_attributes()` (Python) ou `setAttributes()` (TypeScript) pour ajou
 
     await weave.init('[TEAM-NAME]/[PROJECT-NAME]');
 
-    const session = weave.startSession({ agentName: 'my-agent' });
+    const conversation = weave.startConversation({ agentName: 'my-agent' });
     const turn = weave.startTurn({ agentName: 'my-agent' });
 
     // Ajouter des attributs au span de ce tour
     turn.setAttributes({ user_id: '12345', tenant: 'acme', env: 'production' });
 
     turn.end();
-    session.end();
+    conversation.end();
     ```
   </Tab>
 </Tabs>
 
-Les mêmes méthodes sont disponibles sur chaque classe de span. Par exemple, vous pouvez étiqueter un appel d&#39;outil individuel ou un appel LLM :
+Les mêmes méthodes sont disponibles sur chaque classe de span. Par exemple, vous pouvez étiqueter un appel d’outil individuel ou un appel LLM :
 
 <Tabs>
   <Tab title="Python">
@@ -79,11 +79,11 @@ Les mêmes méthodes sont disponibles sur chaque classe de span. Par exemple, vo
 
 La plupart des clés d’attribut sont des métadonnées personnalisées arbitraires, mais Weave réserve deux préfixes pour un traitement particulier. Les clés sous `weave.*` correspondent à des champs Weave intégrés, et les clés sous `gen_ai.*` correspondent aux champs de convention sémantique GenAI d’OpenTelemetry. Dans l’exemple précédent, `weave.display_name` est une clé réservée qui définit le nom d’affichage du span dans l’interface utilisateur Agents and Traces. Pour les métadonnées arbitraires sur lesquelles vous souhaitez filtrer et regrouper, utilisez vos propres clés, comme `user_id` ou `tenant`, que Weave stocke comme attributs personnalisés filtrables.
 
-<div id="set-attributes-on-every-span-in-a-session">
-  ## Définir des attributs sur chaque span d’une session
+<div id="set-attributes-on-every-span-in-a-conversation">
+  ## Définir des attributs sur chaque span d’une conversation
 </div>
 
-Ajouter des attributs span par span convient bien aux métadonnées propres à un span, mais certaines métadonnées s’appliquent à l’ensemble d’une session. Pour appliquer les mêmes attributs à chaque span émis par une session, transmettez `attributes` lorsque vous démarrez la session. Cela permet de propager des métadonnées à l’échelle de la session, comme une identité d’intégration ou un environnement de déploiement.
+Ajouter des attributs span par span convient bien aux métadonnées propres à un span, mais certaines métadonnées s’appliquent à l’ensemble d’une conversation. Pour appliquer les mêmes attributs à chaque span émis par une conversation, transmettez `attributes` lorsque vous démarrez la conversation. Cela permet de propager des métadonnées à l’échelle de la conversation, comme une identité d’intégration ou un environnement de déploiement.
 
 <Tabs>
   <Tab title="Python">
@@ -92,7 +92,7 @@ Ajouter des attributs span par span convient bien aux métadonnées propres à u
 
     weave.init("[TEAM-NAME]/[PROJECT-NAME]")
 
-    session = weave.start_session(
+    conversation = weave.start_conversation(
         agent_name="my-agent",
         attributes={"weave.integration.name": "my-harness", "env": "production"},
     )
@@ -107,69 +107,31 @@ Ajouter des attributs span par span convient bien aux métadonnées propres à u
 
     await weave.init('[TEAM-NAME]/[PROJECT-NAME]');
 
-    const session = weave.startSession({
+    const conversation = weave.startConversation({
       agentName: 'my-agent',
       attributes: { 'weave.integration.name': 'my-harness', env: 'production' },
     });
-    // Chaque span de tour de conversation, LLM, outil et sous-agent de cette session porte ces attributs.
+    // Chaque span de tour de conversation, LLM, outil et sous-agent de cette conversation porte ces attributs.
     ```
   </Tab>
 </Tabs>
 
 <Note>
-  Comme pour les attributs par span, utilisez vos propres clés personnalisées pour les attributs de session. Définissez les champs de convention sémantique, comme le nom de l’agent, le nom de la session ou le modèle, via leurs paramètres typés (`agent_name`, `session_name`, `model`) plutôt que via `attributes`. Évitez les clés sous les préfixes réservés `gen_ai.*` et `weave.*`. Weave les extrait dans des champs typés lors de l’ingestion. Une valeur personnalisée sous une clé réservée n’est donc pas prise en charge.
+  Comme pour les attributs par span, utilisez vos propres clés personnalisées pour les attributs de conversation. Définissez les champs de convention sémantique, comme le nom de l’agent, le nom de la conversation ou le modèle, via leurs paramètres typés (`agent_name`, `conversation_name`, `model`) plutôt que via `attributes`. Évitez les clés sous les préfixes réservés `gen_ai.*` et `weave.*`. Weave les extrait dans des champs typés lors de l’ingestion. Une valeur personnalisée sous une clé réservée n’est donc pas prise en charge.
 </Note>
 
-<div id="record-events-on-a-span">
-  ## Enregistrer des événements sur un span
+<div id="when-you-can-set-attributes">
+  ## Quand vous pouvez définir des attributs
 </div>
 
-Utilisez `add_event()` (Python) ou `addEvent()` (TypeScript) pour enregistrer un marqueur à un moment précis du cycle de vie d’un span. Contrairement à un attribut, qui décrit le span dans son ensemble, un événement capture quelque chose qui se produit à un instant donné pendant le span, comme un prompt d’autorisation, une étape de compactage du contexte ou une transition de cycle de vie telle que `spawned`, `streaming` ou `finished`.
+Définissez les attributs tant que le span est en cours d’enregistrement, c’est-à-dire une fois le span démarré et avant qu’il ne se termine. En Python, cela se fait à l’intérieur du bloc `with`. En TypeScript, cela se fait après `start*()` et avant `end()`.
 
-Chaque événement prend un nom et, de façon facultative, un dictionnaire ou un objet d’attributs.
-
-<Tabs>
-  <Tab title="Python">
-    ```python lines
-    with weave.start_turn(user_message="Delete the temp files") as turn:
-        # Enregistrer un marqueur lorsque l’agent demande une autorisation
-        turn.add_event("weave.permission_request", {"tool": "shell", "command": "rm -rf ./tmp"})
-
-        # ... l’agent continue ...
-
-        turn.add_event("finished")
-    ```
-  </Tab>
-
-  <Tab title="TypeScript">
-    ```typescript lines twoslash
-    // @noErrors
-    const turn = weave.startTurn({ agentName: 'my-agent' });
-
-    // Enregistrer un marqueur lorsque l’agent compacte son contexte
-    turn.addEvent('context_compacted', { removedMessages: 12 });
-
-    turn.end();
-    ```
-  </Tab>
-</Tabs>
-
-Dans l’interface utilisateur, les événements enregistrés peuvent être consultés en sélectionnant l’onglet **Spans**, puis en choisissant le span associé. Dans le panneau de détail du span, sélectionnez l’onglet de données **Raw** et développez le tableau `events` dans l’arborescence JSON, comme illustré dans l’image suivante.
-
-![L’onglet Spans avec un span sélectionné contenant des événements. Le panneau de détail à droite affiche l’onglet de données Raw avec le tableau events développé, qui liste les événements enregistrés sur le span.](/weave/guides/tracking/imgs/agent-view-spans-attributes-events.png)
-
-<div id="when-you-can-set-attributes-and-events">
-  ## Quand vous pouvez définir des attributs et des événements
-</div>
-
-Définissez les attributs et les événements tant que le span est en cours d’enregistrement, c’est-à-dire une fois le span démarré et avant qu’il ne se termine. En Python, cela se fait à l’intérieur du bloc `with`. En TypeScript, cela se fait après `start*()` et avant `end()`.
-
-Si vous appelez `set_attributes()`, `add_event()` ou leurs équivalents TypeScript sur un span qui n’a pas encore démarré ou qui est déjà terminé, l’appel est sans effet et consigne un avertissement indiquant comment corriger le problème.
+Si vous appelez `set_attributes()` ou son équivalent TypeScript sur un span qui n’a pas encore démarré ou qui est déjà terminé, l’appel est sans effet et consigne un avertissement indiquant comment corriger le problème.
 
 L’appel ne génère aucun avertissement uniquement lorsque OTel n’est pas installé ou que Weave est désactivé.
 
 <Tip>
-  Pour joindre des attributs lors de la journalisation, en un seul lot, d’une activité d’agent déjà terminée plutôt que pendant l’exécution en temps réel, renseignez directement les champs déclarés de l’objet span et transmettez l’objet à `log_turn` ou `log_session`. Voir [Journaliser l’activité d’agent par lots](/fr/weave/guides/tracking/trace-agents-batch).
+  Pour joindre des attributs lors de la journalisation, en un seul lot, d’une activité d’agent déjà terminée plutôt que pendant l’exécution en temps réel, renseignez directement les champs déclarés de l’objet span et transmettez l’objet à `log_turn` ou `log_conversation`. Voir [Journaliser l’activité d’agent par lots](/fr/weave/guides/tracking/trace-agents-batch).
 </Tip>
 
 <div id="view-and-filter-attributes-in-the-ui">

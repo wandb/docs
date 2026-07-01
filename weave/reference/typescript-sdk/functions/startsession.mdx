@@ -5,23 +5,24 @@ description: "TypeScript SDK reference"
 
 # startSession
 
-▸ **startSession**(`opts?`): [`Session`](../classes/session)
+<Warning>
+  **Deprecated.** Use [startConversation](../functions/startconversation) instead.
+</Warning>
 
-Start a new Session and install it as the current session.
-Subsequent calls to `startTurn` will pick it up automatically.
+▸ **startSession**(`opts?`): [`Conversation`](../classes/conversation)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `opts` | [`SessionInit`](../interfaces/sessioninit) |
+| `opts` | [`ConversationInit`](../interfaces/conversationinit) |
 
 #### Returns
 
-[`Session`](../classes/session)
+[`Conversation`](../classes/conversation)
 
 #### Defined in
 
-[genai/api.ts:12](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/api.ts#L12)
+[src/genai/api.ts:33](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/api.ts#L33)
 
 ___

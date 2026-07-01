@@ -1,14 +1,11 @@
 ---
 title: Trace agent integrations
-description: Connect W&B Weave to agent SDKs, agent harnesses, and custom agents so sessions appear in the Agents view.
+description: Connect W&B Weave to agent SDKs, agent harnesses, and custom agents so conversations appear in the Agents view.
 keywords: ["agent harnesses", "autopatch", "OpenTelemetry", "GenAI semconv", "multi-agent"]
 ---
 
-import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
 import AgentIntegrationPaths from '/snippets/_includes/agent-integration-paths.mdx';
 
-<AgentsPreview />
-
-W&B Weave can trace multi-turn agentic applications without hand-instrumenting every turn. For supported agent SDKs and harnesses, call `weave.init()` and Weave autopatches the framework. Weave captures sessions, turns, LLM calls, and tool calls, then renders them in the **Agents** view. This page links to integration guides for three categories: agent harnesses, agent SDKs, and custom agents (including those that emit OpenTelemetry spans).
+W&B Weave can trace multi-turn agentic applications without hand-instrumenting every turn. For supported agent SDKs and harnesses, call `weave.init()` and Weave autopatches the framework. Weave captures conversations, turns, LLM calls, and tool calls, then renders them in the **Agents** view. This page links to integration guides for three categories: agent harnesses, agent SDKs, and custom agents (including those that emit OpenTelemetry spans).
 
 <AgentIntegrationPaths />

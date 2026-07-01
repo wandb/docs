@@ -4,10 +4,6 @@ description: "Use W&B Weave's Agents view to understand what your agent did, how
 keywords: ["agent observability", "conversation traces", "spans", "token usage", "agent debugging"]
 ---
 
-import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
-
-<AgentsPreview />
-
 The Agents view gives you a turn-by-turn record of every conversation your agent had, along with token usage, tool invocations, and execution spans.
 
 Agent applications are hard to debug because the interesting behavior happens between the user's request and the final response. The Agents view in W&B Weave makes that middle layer visible. Every conversation your agent had is captured here, with the full message history, span-level execution detail, and token costs attached. You can see at a glance whether an agent completed its task, how many tool calls it made, and where time or budget was spent. For teams building and iterating on agents, this is the starting point for understanding behavior in production.
@@ -226,7 +222,7 @@ conversation.
 | **Cost** | Total cost of the conversation. |
 | **Tool calls** | Number of tool calls across all turns. |
 | **Messages** | Total message count. |
-| **Session time** | Wall-clock duration from first to last message. |
+| **Conversation time** | Wall-clock duration from first to last message. |
 | **Turn page** | Which turns are currently displayed, and the total turn count. |
 
 ##### Token breakdown
@@ -247,6 +243,15 @@ selected conversation.
 The **Participants** section lists the agents and models involved in the
 conversation. In multi-agent conversations, different turns may show different
 model names here.
+
+#### Add agent messages to a dataset
+
+To add agent messages to a `Dataset`:
+
+1. In the conversation details panel header, click **Add to dataset** to open the **Add example to dataset** drawer.
+1. In **Choose a dataset**, use the dropdown to choose the dataset you want to add traces to.
+1. In **Select context**, select which messages to add to the dataset. Click **Next**.
+1. Review your selections and click **Add to dataset**.
 
 ## Spans tab
 
