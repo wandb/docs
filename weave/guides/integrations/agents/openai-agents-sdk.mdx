@@ -110,7 +110,7 @@ The OpenAI Agents SDK is a lightweight framework for building agents and multi-a
     ### Install packages
 
     ```bash
-    pnpm install weave @openai/agents zod
+    npm install weave @openai/agents zod
     ```
 
     ### Initialize Weave in your code
@@ -120,21 +120,36 @@ The OpenAI Agents SDK is a lightweight framework for building agents and multi-a
     - **CommonJS projects**: No extra configuration needed. Require `weave` before `@openai/agents` so auto-instrumentation runs first.
     - **ESM projects**: Start Node with the `--import=weave/instrument` flag so the instrumentation loads before any other modules.
 
-    The following code defines a `get_weather` tool and a `weather_assistant` agent, then runs a single question while Weave captures the trace.
+    The following code defines a `wikipedia_search` tool and a `Research assistant` agent, then runs three questions through the SDK's `Runner` while Weave captures the trace.
 
     ```typescript lines
     import * as weave from "weave";
-    import { Agent, run, tool } from "@openai/agents";
+    import { Agent, run, tool, type AgentInputItem } from "@openai/agents";
     import { z } from "zod";
 
-    const getWeather = tool({
-      name: "get_weather",
-      description: "Get the current weather for a given city.",
+    const wikipediaSearch = tool({
+      name: "wikipedia_search",
+      description: "Search Wikipedia for a topic and return its title and intro paragraph.",
       parameters: z.object({
-        city: z.string().describe("The name of the city"),
+        query: z.string().describe("The topic to search for"),
       }),
-      async execute({ city }) {
-        return `${city}: 14-20C, Sunny with wind.`;
+      async execute({ query }) {
+        const url = new URL("https://en.wikipedia.org/w/api.php");
+        url.search = new URLSearchParams({
+          action: "query",
+          generator: "search",
+          gsrsearch: query,
+          gsrlimit: "1",
+          prop: "extracts",
+          exintro: "true",
+          explaintext: "true",
+          format: "json",
+        }).toString();
+
+        const response = await fetch(url, { headers: { "User-Agent": "weave-demo" } });
+        const data = await response.json();
+        const page = Object.values(data.query.pages)[0] as { title: string; extract: string };
+        return `${page.title}: ${page.extract}`;
       },
     });
 
@@ -142,19 +157,33 @@ The OpenAI Agents SDK is a lightweight framework for building agents and multi-a
       await weave.init("<your-team>/<your-project-name>");
 
       const agent = new Agent({
-        name: "weather_assistant",
-        instructions: "You are a helpful agent.",
-        tools: [getWeather],
+        name: "Research assistant",
+        instructions:
+          "You are a research assistant. Use the wikipedia_search tool to look up " +
+          "topics when needed, and cite the article titles you used.",
+        tools: [wikipediaSearch],
       });
 
-      const result = await run(agent, [
-        { role: "user", content: "What's the weather in Tokyo?" },
-      ]);
-      console.log(result.finalOutput);
+      const questions = [
+        "Who founded Anthropic?",
+        "What is Claude (the AI assistant)?",
+        "Summarize what we discussed in one sentence.",
+      ];
+
+      let history: AgentInputItem[] = [];
+      for (const question of questions) {
+        history.push({ role: "user", content: question });
+        console.log(`USER: ${question}`);
+        const result = await run(agent, history);
+        console.log(`AGENT: ${result.finalOutput}\n`);
+        history = result.history;
+      }
     }
 
     main();
     ```
+
+    The example runs three turns in a single conversation. The first two turns trigger Wikipedia lookups, and the third uses the prior conversation context to produce a summary without a tool call. Each call to `run` continues the conversation by passing the previous result's `history` back as the next input.
 
     Save the example as `main.mjs` and run it with the `--import=weave/instrument` flag so the loader hook runs before any other module:
 
@@ -189,9 +218,10 @@ The OpenAI Agents SDK is a lightweight framework for building agents and multi-a
 
     After the script runs, `weave.init()` prints a link to your project. Open the **Agents** view to inspect:
 
-    - A tile in the **Agents** tab for `weather_assistant`.
-    - Each run rendered as an `invoke_agent` span with nested model calls and tool calls.
-    - The full input, model, output, and token usage at each step.
+    - A tile in the **Agents** tab for `Research assistant`.
+    - A single session containing three turns.
+    - Each turn rendered as an `invoke_agent` span with nested model calls and tool calls.
+    - The full input, model, output, token usage, and Wikipedia results at each step.
 
     For details about viewing Agents data in Weave, see [View agent activity](/weave/guides/tracking/view-agent-activity).
   </Tab>

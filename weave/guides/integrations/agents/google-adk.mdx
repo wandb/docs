@@ -128,7 +128,7 @@ Google's Agent Development Kit (ADK) is a flexible, model-agnostic framework for
     ### Install packages
 
     ```bash
-    pnpm install weave @google/adk zod
+    npm install weave @google/adk zod
     ```
 
     ### Initialize Weave in your code
@@ -138,9 +138,9 @@ Google's Agent Development Kit (ADK) is a flexible, model-agnostic framework for
     - **CommonJS projects**: No extra configuration needed. Require `weave` before `@google/adk` so auto-instrumentation runs first.
     - **ESM projects**: Start Node with the `--import=weave/instrument` flag so the instrumentation loads before any other modules.
 
-    The following code creates a `weather_agent` with a `get_weather` tool and runs a query while Weave captures the trace.
+    The following code creates a `research_assistant` agent with a `wikipedia_search` tool, then runs three questions through a single ADK session while Weave captures the trace.
 
-    ```typescript lines highlight="27"
+    ```typescript lines highlight="53"
     import * as weave from "weave";
     import { FunctionTool, Gemini, InMemoryRunner, LlmAgent } from "@google/adk";
     import { WeaveAdkPlugin } from "weave";
@@ -148,21 +148,29 @@ Google's Agent Development Kit (ADK) is a flexible, model-agnostic framework for
 
     const GEMINI_API_KEY = process.env.GEMINI_API_KEY
 
-    const getWeatherTool = new FunctionTool({
-      name: "get_weather",
-      description: "Get the current weather for a given city.",
+    const wikipediaSearchTool = new FunctionTool({
+      name: "wikipedia_search",
+      description: "Search Wikipedia for a topic and return its title and intro paragraph.",
       parameters: z.object({
-        city: z.string().describe("The name of the city"),
+        query: z.string().describe("The topic to search for"),
       }),
-      execute: async ({ city }) => {
-        const weather: Record<string, { temp: number; condition: string }> = {
-          "San Francisco": { temp: 18, condition: "Foggy" },
-          "New York": { temp: 22, condition: "Sunny" },
-          London: { temp: 12, condition: "Cloudy" },
-          Tokyo: { temp: 28, condition: "Humid" },
-        };
-        const data = weather[city] ?? { temp: 20, condition: "Clear" };
-        return { city, condition: data.condition, temperature_c: data.temp };
+      execute: async ({ query }) => {
+        const url = new URL("https://en.wikipedia.org/w/api.php");
+        url.search = new URLSearchParams({
+          action: "query",
+          generator: "search",
+          gsrsearch: query,
+          gsrlimit: "1",
+          prop: "extracts",
+          exintro: "true",
+          explaintext: "true",
+          format: "json",
+        }).toString();
+
+        const response = await fetch(url, { headers: { "User-Agent": "weave-demo" } });
+        const data = await response.json();
+        const page = Object.values(data.query.pages)[0] as { title: string; extract: string };
+        return { title: page.title, extract: page.extract };
       },
     });
 
@@ -170,11 +178,13 @@ Google's Agent Development Kit (ADK) is a flexible, model-agnostic framework for
       await weave.init("<your-team>/<your-project-name>");
 
       const agent = new LlmAgent({
-        name: "weather_agent",
-        description: "Answers questions about the weather.",
-        instruction: "You answer weather questions. Always use the get_weather tool.",
+        name: "research_assistant",
+        description: "Answers research questions using Wikipedia.",
+        instruction:
+          "You are a research assistant. Use the wikipedia_search tool to look up " +
+          "topics when needed, and cite the article titles you used.",
         model: new Gemini({ model: "gemini-2.5-flash", apiKey: GEMINI_API_KEY }),
-        tools: [getWeatherTool],
+        tools: [wikipediaSearchTool],
       });
 
       const APP_NAME = "weave-adk-example";
@@ -190,20 +200,29 @@ Google's Agent Development Kit (ADK) is a flexible, model-agnostic framework for
         userId: USER_ID,
       });
 
-      for await (const event of runner.runAsync({
-        userId: USER_ID,
-        sessionId: session.id,
-        newMessage: {
-          role: "user",
-          parts: [{ text: "What's the weather in Tokyo and London?" }],
-        },
-      })) {
-        const text = event.content?.parts
-          ?.map(part => part.text)
-          .filter(Boolean)
-          .join("");
-        if (text) {
-          console.log(`[${event.author}] ${text}`);
+      const questions = [
+        "Who founded Anthropic?",
+        "What is Claude (the AI assistant)?",
+        "Summarize what we discussed in one sentence.",
+      ];
+
+      for (const question of questions) {
+        console.log(`USER: ${question}`);
+        for await (const event of runner.runAsync({
+          userId: USER_ID,
+          sessionId: session.id,
+          newMessage: {
+            role: "user",
+            parts: [{ text: question }],
+          },
+        })) {
+          const text = event.content?.parts
+            ?.map(part => part.text)
+            .filter(Boolean)
+            .join("");
+          if (text) {
+            console.log(`AGENT: ${text}\n`);
+          }
         }
       }
 
@@ -212,6 +231,8 @@ Google's Agent Development Kit (ADK) is a flexible, model-agnostic framework for
 
     main().catch(console.error);
     ```
+
+    The example runs three turns in a single ADK session. The first two turns trigger Wikipedia lookups, and the third uses the previous conversation context to produce a summary without a tool call.
 
     ### Manual instrumentation
 
@@ -232,9 +253,10 @@ Google's Agent Development Kit (ADK) is a flexible, model-agnostic framework for
 
     After the script runs, `weave.init()` prints a link to your project. Open the **Agents** view to inspect:
 
-    - A tile in the **Agents** tab for `weather_agent`.
-    - Each run rendered as nested `invoke_agent` → `chat` → `execute_tool` spans.
-    - The full input, model, output, and token usage at each step.
+    - A tile in the **Agents** tab for `research_assistant`.
+    - A single session containing three turns.
+    - Each turn rendered as an `invoke_agent` span with nested `chat` and `execute_tool` children.
+    - The full input, model, output, token usage, and Wikipedia results at each step.
 
     For details about viewing Agents data in Weave, see [View agent activity](/weave/guides/tracking/view-agent-activity).
   </Tab>

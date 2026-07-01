@@ -91,18 +91,19 @@ For details about viewing Agents data in Weave, see [View agent activity](/weave
 </Tab>
 
 <Tab title="TypeScript">
-Weave integrates with the [`@anthropic-ai/claude-agent-sdk`](https://github.com/anthropics/claude-agent-sdk) to automatically trace `query()` calls, including agent spans, model responses, and tool calls. Requires `@anthropic-ai/claude-agent-sdk` version `0.3.178` or later.
+Weave integrates with the [`@anthropic-ai/claude-agent-sdk`](https://github.com/anthropics/claude-agent-sdk) to automatically trace `query()` calls, including agent spans, model responses, and tool calls.
 
 ### Prerequisites
 
 - A W&B account and [API key](https://wandb.ai/authorize) set as a `WANDB_API_KEY` environment variable.
 - An Anthropic API key set as an `ANTHROPIC_API_KEY` environment variable.
 - Node.js 18+.
+- `@anthropic-ai/claude-agent-sdk` version `0.3.178` or later.
 
 ### Install packages
 
 ```bash
-pnpm install weave @anthropic-ai/claude-agent-sdk
+npm install weave @anthropic-ai/claude-agent-sdk
 ```
 
 ### Initialize Weave in your code
@@ -112,41 +113,73 @@ Weave automatically instruments `query()` via module loader hooks. The required 
 - **CommonJS projects**: No extra configuration needed. Require `weave` before `@anthropic-ai/claude-agent-sdk`.
 - **ESM projects**: Start Node with the `--import=weave/instrument` flag so the instrumentation loads before any other modules.
 
-The following code runs a three-turn conversation. Each turn is a separate `query()` call, but later turns pass `resume` with the first turn's `session_id` so that all turns group as one session in the Weave Agents view.
+The following code defines a `wikipedia_search` MCP tool and runs a three-turn conversation. Each turn is a separate `query()` call, but later turns pass `resume` with the first turn's `session_id` so that all turns group as one session in the Weave Agents view. The first two turns trigger Wikipedia lookups, and the third uses the previous conversation context to produce a summary without a tool call.
 
 ```typescript lines
 import * as weave from "weave";
-import { query, type Options } from "@anthropic-ai/claude-agent-sdk";
+import { createSdkMcpServer, query, tool, type Options } from "@anthropic-ai/claude-agent-sdk";
+import { z } from "zod";
+
+const wikipediaSearch = tool(
+    "wikipedia_search",
+    "Search Wikipedia for a topic and return its title and intro paragraph.",
+    { query: z.string().describe("The topic to search for") },
+    async ({ query }) => {
+    const url = new URL("https://en.wikipedia.org/w/api.php");
+    url.search = new URLSearchParams({
+        action: "query",
+        generator: "search",
+        gsrsearch: query,
+        gsrlimit: "1",
+        prop: "extracts",
+        exintro: "true",
+        explaintext: "true",
+        format: "json",
+    }).toString();
+
+    const response = await fetch(url, { headers: { "User-Agent": "weave-demo" } });
+    const data = await response.json();
+    const page = Object.values(data.query.pages)[0] as { title: string; extract: string };
+    return { content: [{ type: "text" as const, text: `${page.title}: ${page.extract}` }] };
+    },
+);
+
+const wikiServer = createSdkMcpServer({
+    name: "wiki",
+    version: "1.0.0",
+    tools: [wikipediaSearch],
+});
 
 async function main() {
     await weave.init("<your-team>/<your-project-name>");
 
     const baseOptions: Options = {
     model: "claude-sonnet-4-5",
-    maxTurns: 8,
-    allowedTools: ["Bash", "Read", "Glob", "Grep"],
-    cwd: process.cwd(),
+    maxTurns: 4,
+    mcpServers: { wiki: wikiServer },
+    allowedTools: ["mcp__wiki__wikipedia_search"],
     };
 
-    const turns = [
-    "List the TypeScript files in the current directory.",
-    "Of those, which file is the largest, and what is it responsible for?",
-    "Summarize what you learned about this project in one sentence.",
+    const questions = [
+    "Who founded Anthropic?",
+    "What is Claude (the AI assistant)?",
+    "Summarize what we discussed in one sentence.",
     ];
 
     let sessionId: string | undefined;
 
-    for (const prompt of turns) {
+    for (const prompt of questions) {
     const options: Options = sessionId
         ? { ...baseOptions, resume: sessionId }
         : baseOptions;
 
+    console.log(`USER: ${prompt}`);
     for await (const message of query({ prompt, options })) {
         if (message.type === "system" && message.subtype === "init") {
         sessionId ??= message.session_id;
         }
         if (message.type === "result" && message.subtype === "success") {
-        console.log(message.result);
+        console.log(`AGENT: ${message.result}\n`);
         }
     }
     }
@@ -163,7 +196,7 @@ After the script runs, `weave.init()` prints a link to your project. Open the **
 
 - A single session containing all three turns.
 - Each turn rendered as an `invoke_agent` span with nested `chat` and `execute_tool` children.
-- The full input, model, output, token usage, and cost at each step.
+- The full input, model, output, token usage, and Wikipedia results at each step.
 
 For details about viewing Agents data in Weave, see [View agent activity](/weave/guides/tracking/view-agent-activity).
 </Tab>
