@@ -8,9 +8,9 @@ This page shows you how to create and log W&B Tables with the Python SDK so you 
 
 A Table is a two-dimensional grid of data where each column has a single type of data. Each row represents one or more data points logged to a W&B [run](/models/runs/). Tables support primitive and numeric types, as well as nested lists, dictionaries, and rich media types.
 
-A Table is a specialized [data type](/models/ref/python/data-types/) in W&B, logged as an [artifact](/models/artifacts/) object.
+A Table is a specialized W&B [data type](/models/ref/python/data-types/). When you log a table, W&B stores it as an [artifact](/models/artifacts/).
 
-You [create and log table objects](#create-and-log-a-table) using the W&B Python SDK. When you create a table object, you specify the columns and data for the table and a [mode](#logging-modes). The mode determines how the table is logged and updated during your ML experiments, which affects performance, what you can change after logging, and how the table appears in W&B.
+You [create and log tables](#create-and-log-a-table) using the W&B Python SDK. When you create a table, you specify its columns, data, and a [mode](#logging-modes). The mode determines how the table is logged and updated during your ML experiments, which affects performance, what you can change after logging, and how the table appears in W&B.
 
 ## Create and log a table
 
