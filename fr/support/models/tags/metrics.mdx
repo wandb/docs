@@ -1,6 +1,6 @@
 ---
 title: "Métriques"
-tag: "19"
+tag: "23"
 generator: "knowledgebase-nav"
 template: "docengine-site/templates/support_tag.mdx.j2"
 ---
@@ -29,8 +29,16 @@ template: "docengine-site/templates/support_tag.mdx.j2"
   Une erreur anaconda 400 pendant un balayage signifie souvent que vous n&#39;avez pas consigné la métrique que vous optimisez. Vous pourriez voir : The sweep c ...
 </Card>
 
+<Card title="Comment puis-je consigner des métriques NLP et des sorties de texte dans W&B ?" href="/fr/support/models/articles/how-do-i-log-nlp-metrics-and-text-outputs-in-wandb" arrow="true" horizontal>
+  Vous pouvez consigner des scores NLP au niveau du corpus (BLEU, ROUGE, perplexité) avec wandb.log() et des sorties pour chaque exemple avec wandb.Table. ...
+</Card>
+
+<Card title="Comment puis-je consigner les gradients et les poids du modèle avec wandb.watch() ?" href="/fr/support/models/articles/how-do-i-log-gradients-and-model-weights-with-wandb-watch" arrow="true" horizontal>
+  wandb.watch() s&#39;attache aux paramètres et aux gradients d&#39;un modèle PyTorch et consigne des histogrammes de leurs valeurs à intervalles réguliers ...
+</Card>
+
 <Card title="Comment puis-je consigner des métriques sur deux échelles de temps différentes ?" href="/fr/support/models/articles/how-do-i-log-metrics-on-two-time-scales" arrow="true" horizontal>
-  Pour consigner des métriques sur deux échelles de temps différentes, consignez des indices comme batch et époque avec vos métriques. Par exemple, vous p ...
+  Pour consigner des métriques sur deux échelles de temps différentes, consignez des indices comme lot et époque avec vos métriques. Par exemple, vous p ...
 </Card>
 
 <Card title="Comment puis-je consigner des métriques sans enregistrer mon code ?" href="/fr/support/models/articles/how-do-i-log-metrics-without-saving-code" arrow="true" horizontal>
@@ -39,6 +47,10 @@ template: "docengine-site/templates/support_tag.mdx.j2"
 
 <Card title="Comment puis-je tracer le maximum d'une métrique ?" href="/fr/support/models/articles/how-do-i-plot-the-maximum-of-a-metric" arrow="true" horizontal>
   Pour tracer le maximum cumulé d&#39;une métrique : 1. Créez un nuage de points de la métrique. 2. Ouvrez le menu Edit et sélectionnez Annota ...
+</Card>
+
+<Card title="Comment puis-je utiliser W&B avec JAX ?" href="/fr/support/models/articles/how-do-i-use-wandb-with-jax" arrow="true" horizontal>
+  W&amp;B n&#39;a pas d&#39;intégration spécifique à JAX. Cependant, vous pouvez convertir les tableaux JAX du périphérique en scalaires Python, puis utiliser wandb.log ...
 </Card>
 
 <Card title="À quelle fréquence les métriques système sont-elles collectées ?" href="/fr/support/models/articles/how-often-are-system-metrics-collected" arrow="true" horizontal>
@@ -50,19 +62,23 @@ template: "docengine-site/templates/support_tag.mdx.j2"
 </Card>
 
 <Card title="Optimisation de plusieurs métriques" href="/fr/support/models/articles/optimizing-multiple-metrics" arrow="true" horizontal>
-  Les Sweeps W&amp;B optimisent une seule métrique objective. Pour optimiser plusieurs métriques dans un seul run, combinez-les en une pondé ...
+  Les balayages W&amp;B optimisent une seule métrique d’objectif. Pour optimiser plusieurs métriques dans un seul run, combinez-les en une métrique pondé ...
 </Card>
 
-<Card title="Que se passe-t-il lorsque je consigne des millions d'étapes dans W&B ? Comment cela est-il affiché dans le navigateur ?" href="/fr/support/models/articles/what-happens-when-i-log-millions-of-step" arrow="true" horizontal>
-  Le nombre de points envoyés affecte le temps de chargement des graphiques dans l’interface utilisateur. Pour les lignes dépassant 1 000 points, le backend sa ...
+<Card title="Que se passe-t-il lorsque je consigne des millions d’étapes dans W&B ? Comment cela s’affiche-t-il dans le navigateur ?" href="/fr/support/models/articles/what-happens-when-i-log-millions-of-step" arrow="true" horizontal>
+  Le nombre de points envoyés affecte le temps de chargement des graphiques dans l’interface utilisateur. Pour les lignes dépassant 1 000 points, le backend écha ...
 </Card>
 
-<Card title="Que faire si je veux consigner certaines métriques sur les batches et d'autres uniquement sur les époques ?" href="/fr/support/models/articles/what-if-i-want-to-log-some-metrics-on-ba" arrow="true" horizontal>
-  Pour consigner des métriques spécifiques dans chaque batch et standardiser les graphiques, consignez les valeurs souhaitées de l&#39;axe X avec les métriques. Dans le ...
+<Card title="Et si je veux consigner certaines métriques par lot et d’autres uniquement par époque ?" href="/fr/support/models/articles/what-if-i-want-to-log-some-metrics-on-ba" arrow="true" horizontal>
+  Pour consigner des métriques spécifiques à chaque lot et standardiser les graphiques, consignez les valeurs souhaitées de l’axe X en même temps que les métriques. Dans le ...
 </Card>
 
 <Card title="Pourquoi vois-je moins de points de données que je n’en ai enregistrés ?" href="/fr/support/models/articles/why-am-i-seeing-fewer-data-points-than-i" arrow="true" horizontal>
   Lorsque vous visualisez des métriques avec un axe X autre que Étape, attendez-vous à voir moins de points de données. Vous devez consigner des métriques à t ...
+</Card>
+
+<Card title="Pourquoi mes métriques sont-elles absentes de wandb.log() ?" href="/fr/support/models/articles/why-are-my-metrics-missing-from-wandb-log" arrow="true" horizontal>
+  Si les métriques consignées avec wandb.log() n’apparaissent pas dans l’interface W&amp;B, plusieurs causes courantes sont possibles. Le mode hors ligne sans ...
 </Card>
 
 <Card title="Pourquoi ne puis-je pas trier ou filtrer les métriques contenant certains caractères ?" href="/fr/support/models/articles/why-cant-i-sort-or-filter-metrics-with-c" arrow="true" horizontal>

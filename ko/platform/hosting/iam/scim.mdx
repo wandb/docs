@@ -388,12 +388,13 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   #### 매개변수
 </div>
 
-| 매개변수         | 유형     | 필수  | 설명                                                                 |
-| ------------ | ------ | --- | ------------------------------------------------------------------ |
-| `emails`     | 배열     | 예   | 이메일 객체 배열입니다. 기본 이메일이 포함되어야 합니다.                                   |
-| `userName`   | string | 예   | 새로 생성할 사용자의 사용자 이름입니다.                                             |
-| `modelsSeat` | string | 아니요 | Models 시트 수준입니다. `full`, `viewer`, `none` 중 하나입니다. 기본값은 `full`입니다. |
-| `weaveRole`  | string | 아니요 | Weave 역할 수준입니다. `full`, `viewer`, `none` 중 하나입니다. 기본값은 `full`입니다.  |
+| 매개변수             | 유형     | 필수  | 설명                                                                                                                                                                                                          |
+| ---------------- | ------ | --- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `emails`         | 배열     | 예   | 이메일 객체 배열입니다. 기본 이메일이 포함되어야 합니다.                                                                                                                                                                            |
+| `userName`       | string | 예   | 새로 생성할 사용자의 사용자 이름입니다.                                                                                                                                                                                      |
+| `modelsSeat`     | string | 아니요 | Models 시트 수준입니다. `full`, `viewer`, `none` 중 하나입니다. 기본값은 `full`입니다.                                                                                                                                          |
+| `weaveRole`      | string | 아니요 | Weave 역할 수준입니다. `full`, `viewer`, `none` 중 하나입니다. 기본값은 `full`입니다.                                                                                                                                           |
+| `registryAccess` | string | 아니요 | 레지스트리 권한입니다. `enabled` 또는 `none` 중 하나입니다. 생략하면 실제 액세스 권한은 조회 시 `modelsSeat` 및 `weaveRole`을 기준으로 결정됩니다. **Multi-tenant Cloud**에서 사용할 수 있습니다{/* and in **Dedicated Cloud** and **Self-Managed** v0.83.0+ */}. |
 
 <div id="examples">
   #### 예시
@@ -1264,6 +1265,12 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 
 사용자의 Models 시트를 업데이트합니다.
 
+<Note>
+  **Multi-tenant Cloud**{/* and on **Dedicated Cloud** and **Self-Managed** v0.83.0+ */}에서는 레지스트리 액세스가 Models 시트와 분리되어 있습니다. `modelsSeat`를 `none`으로 설정해도 사용자의 `weaveRole`이 `none`이 아니면 레지스트리 액세스가 더 이상 철회되지 않습니다. 이러한 배포 환경에서 레지스트리 액세스를 철회하려면 [레지스트리 액세스 업데이트](#update-registry-access)를 사용하고 `registryAccess`를 `none`으로 설정하세요.
+
+  **Dedicated Cloud** 및 **Self-Managed**에서는 {/* v0.82.0 and older */} 레지스트리 액세스가 여전히 `modelsSeat`에 연결되어 있습니다. 해당 릴리스에서 레지스트리 액세스를 철회하려면 `modelsSeat`를 `none`으로 설정하세요.
+</Note>
+
 #### 엔드포인트
 
 * **URL**: `[HOST-URL]/scim/Users/{id}`
@@ -1413,6 +1420,93 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
         "organizationRole": "member",
         "modelsSeat": "full",
         "weaveRole": "full"
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<div id="update-registry-access">
+  ### 레지스트리 액세스 업데이트
+</div>
+
+사용자에게 조직 수준의 레지스트리 액세스를 부여하거나 취소합니다. 이 권한은 [레지스트리 역할](#add-to-registry) (`registryRoles`)과는 별개이며, 레지스트리 역할은 사용자가 권한을 부여받은 후 각 레지스트리별 권한을 제어합니다.
+
+**Multi-tenant Cloud**에서는 {/* and on **Dedicated Cloud** and **Self-Managed** v0.83.0+ */} `modelsSeat` 또는 `weaveRole`이 `none`이 아닌 사용자는 기본적으로 레지스트리 사용 권한이 부여됩니다. Models 시트나 Weave 역할을 변경하지 않고 레지스트리 액세스를 취소하려면 `registryAccess`를 `none`으로 설정하세요.
+
+**Dedicated Cloud** 및 **Self-Managed**에서는 {/* v0.82.0 and older */} [Models 시트 업데이트](#update-models-seat)를 사용하고 `modelsSeat`를 `none`으로 설정해 레지스트리 액세스를 취소하세요. 해당 릴리스에서는 `registryAccess` 속성을 사용할 수 없습니다.
+
+생성 시 `registryAccess`를 생략하면 API는 사용자를 조회할 때 사용자의 `modelsSeat`와 `weaveRole`을 기반으로 실제 액세스를 결정합니다. 명시적으로 설정한 `registryAccess` 값은 이 결정 결과를 재정의합니다. 조직 역할이 billing-only인 사용자는 이 방식으로 레지스트리 액세스를 부여받지 않습니다.
+
+#### 엔드포인트
+
+* **URL**: `[HOST-URL]/scim/Users/{id}`
+* **방법**: `PATCH`
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 매개변수    | 유형     | 필수 | 설명                                |
+| ------- | ------ | -- | --------------------------------- |
+| `id`    | string | 예  | 사용자의 고유 ID입니다.                    |
+| `op`    | string | 예  | `replace`                         |
+| `path`  | string | 예  | `registryAccess`                  |
+| `value` | string | 예  | 레지스트리 권한입니다(`enabled` 또는 `none`). |
+
+<div id="examples">
+  #### 예시
+</div>
+
+<Tabs>
+  <Tab title="레지스트리 액세스 해제 요청">
+    ```bash
+    PATCH /scim/Users/abc
+    ```
+
+    ```json
+    {
+        "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+        "Operations": [
+            {
+                "op": "replace",
+                "path": "registryAccess",
+                "value": "none"
+            }
+        ]
+    }
+    ```
+  </Tab>
+
+  <Tab title="레지스트리 액세스 해제 응답">
+    ```text
+    (상태 200)
+    ```
+
+    ```json
+    {
+        "active": true,
+        "displayName": "Dev User 1",
+        "emails": [
+            {
+                "primary": true,
+                "value": "dev-user1@example.com"
+            }
+        ],
+        "id": "abc",
+        "meta": {
+            "resourceType": "User",
+            "created": "2023-10-01T00:00:00Z",
+            "lastModified": "2023-10-01T00:00:00Z",
+            "location": "Users/abc"
+        },
+        "schemas": [
+            "urn:ietf:params:scim:schemas:core:2.0:User"
+        ],
+        "userName": "dev-user1",
+        "organizationRole": "member",
+        "modelsSeat": "none",
+        "weaveRole": "full",
+        "registryAccess": "none"
     }
     ```
   </Tab>
@@ -1605,6 +1699,10 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 </div>
 
 레지스트리에서 사용자를 제거합니다.
+
+<Note>
+  이 오퍼레이션은 특정 레지스트리에서 사용자를 제거합니다. 조직 수준의 레지스트리 액세스는 취소되지 않습니다. 레지스트리 액세스를 완전히 취소하려면 [레지스트리 액세스 업데이트](#update-registry-access)를 사용하세요.
+</Note>
 
 <Note>
   * 제거 오퍼레이션은 RFC 7644 SCIM 프로토콜 사양을 따릅니다. 특정 레지스트리에서 사용자를 제거하려면 필터 구문 `"registryRoles[registryName eq \"{registry_name}\"]"`을 사용하고, 모든 레지스트리에서 사용자를 제거하려면 `"registryRoles"`를 사용하세요.
@@ -2846,20 +2944,25 @@ SCIM API는 표준 SCIM 오류 응답을 반환합니다.
 | `500` | 내부 서버 오류                       |
 
 <div id="implementation-differences-per-deployment-type">
-  ### 배포 유형별 구현 차이
+  ## 배포 유형별 구현 차이
 </div>
 
 W&amp;B는 별도의 SCIM API 구현 두 가지를 유지 관리하며, 지원되는 특성은 다음과 같이 서로 다릅니다. SCIM과 통합하기 전에 아래 표를 검토하여, 의존하는 오퍼레이션이 사용 중인 배포 유형에서 사용 가능한지 확인하세요.
 
-| 특성                        | Multi-tenant Cloud | Dedicated Cloud and Self-Managed |
-| ------------------------- | ------------------ | -------------------------------- |
-| 사용자 이메일 업데이트              | -                  | ✓                                |
-| 사용자 표시 이름 업데이트            | -                  | ✓                                |
-| 사용자 비활성화                  | ✓                  | ✓                                |
-| 사용자 재활성화                  | -                  | ✓                                |
-| 사용자당 여러 이메일               | ✓                  | -                                |
-| 생성/업데이트 시 `modelsSeat` 설정 | ✓                  | ✓                                |
-| 생성/업데이트 시 `weaveRole` 설정  | ✓                  | ✓                                |
+| 특성                                    | Multi-tenant Cloud | Dedicated Cloud and Self-Managed |
+| ------------------------------------- | ------------------ | -------------------------------- |
+| 사용자 이메일 업데이트                          | -                  | ✓                                |
+| 사용자 표시 이름 업데이트                        | -                  | ✓                                |
+| 사용자 비활성화                              | ✓                  | ✓                                |
+| 사용자 재활성화                              | -                  | ✓                                |
+| 사용자당 여러 이메일                           | ✓                  | -                                |
+| 생성/업데이트 시 `modelsSeat` 설정             | ✓                  | ✓                                |
+| 생성/업데이트 시 `weaveRole` 설정              | ✓                  | ✓                                |
+| 생성/업데이트 시 `registryAccess` 설정         | ✓                  | -                                |
+| `modelsSeat: none`으로 레지스트리 액세스 취소     | -                  | ✓                                |
+| `registryAccess: none`으로 레지스트리 액세스 취소 | ✓                  | -                                |
+
+{/* 0.83+에서 수정됨 */}
 
 <div id="limitations">
   ## 제한 사항

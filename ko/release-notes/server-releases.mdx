@@ -14,6 +14,54 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
 
 <EolReminder />
 
+<Update label="v0.82.0" description="2026년 6월 23일">
+  **2026년 6월 23일**
+
+  W&amp;B 0.82.0에서는 편집 가능한 컬렉션 개요와 버전 수준 메트릭 차트를 통해 아티팩트 인사이트를 더욱 풍부하게 제공하며, 워크스페이스와 run table의 사용성도 개선되었습니다. 엔터프라이즈 관리를 지원하기 위해 이제 구성원을 초대할 때 Models 시트와 Weave 역할을 할당할 수 있으며, audit logs에 API 키 활동도 기록됩니다.
+
+  ## 지원 및 지원 종료
+
+  * W&amp;B v0.70은 지원이 종료되었습니다.
+
+  ## 특성
+
+  * 서로 다른 프로젝트의 run을 고정하고 비교하거나, 다른 프로젝트의 run을 기준 run으로 지정할 수 있습니다. 자세한 내용은 [Compare runs across projects](/ko/models/runs/compare-runs#compare-runs-across-projects)를 참조하세요.
+    <Frame>
+      ![다른 프로젝트의 고정된 run이 있는 Runs table](/images/runs/compare_runs_ui_element.png)
+    </Frame>
+  * run 상태가 변경되거나 run의 메트릭 값이 변경될 때 이를 기반으로 자동화를 설정할 수 있습니다. 자세한 내용은 [Run events](/ko/models/automations/automation-events#run-events)를 참조하세요. Dedicated Cloud v0.81+에서 사용 가능합니다. Self-Managed에서는 아직 사용할 수 없습니다.
+  * 이제 W&amp;B UI에 최신 사용 가능한 W&amp;B SDK 버전이 표시되므로, 새 릴리스가 나왔는지 확인할 수 있습니다.
+  * 이제 워크스페이스 브라우저 탭의 페이지 제목에 활성 뷰 이름이 포함되어, 브라우저 탭 간 저장된 뷰를 더 쉽게 구분할 수 있습니다.
+  * 조직에 구성원을 초대할 때 이제 각 구성원의 Models 시트와 Weave 역할을 동시에 설정할 수 있습니다.
+
+  ### 레지스트리
+
+  * 레지스트리 **Advanced** 검색 탭을 사용하면 레지스트리, 컬렉션, 버전을 효율적으로 검색하고 필터링할 수 있습니다. 객체 이름으로 빠르게 검색하고, 이름, 태그, 생성일 또는 업데이트 날짜, 상위 레지스트리 등으로 객체를 필터링할 수 있습니다. 검색 성능과 효율성도 개선되었습니다. 자세한 내용은 [Find registry items](/ko/models/registry/search_registry)를 참조하세요.
+
+  ### Weave
+
+  * 이제 Weave LLM 프록시가 비용을 입력 토큰과 출력 토큰으로 나누어 보고하므로, 더 세밀한 비용 분석이 가능합니다.
+  * 이제 Weave 플레이그라운드에서 Gemini 3.1 프리뷰 모델의 비디오 입력을 지원합니다.
+
+  ## 보안
+
+  * 이제 [Audit logs](/ko/platform/hosting/monitoring-usage/audit-logging)에 관련 이벤트의 API 키 정보가 포함됩니다.
+  * 다음 CVE를 해결하기 위해 Redis를 8.6.3으로 업그레이드했습니다.
+    * [CVE-2026-25243](https://www.cve.org/CVERecord?id=CVE-2026-25243)
+    * [CVE-2026-23631](https://www.cve.org/CVERecord?id=CVE-2026-23631)
+    * [CVE-2026-23479](https://www.cve.org/CVERecord?id=CVE-2026-23479)
+
+  ## 성능 개선
+
+  * 워크스페이스 패널 검색의 효율성을 개선했습니다.
+
+  ## 수정 사항
+
+  * 선형 축이 있는 선형 플롯 패널에서 무한 루프가 발생하던 문제를 수정했습니다.
+  * 어두운 모드에서 기록된 비디오를 볼 때 전체 화면으로 전환하면 비디오가 밝은 모드 색상으로 표시되던 버그를 수정했습니다.
+  * 워크스페이스의 Weave 패널이 자동 새로 고침 중 적용된 필터를 잃을 수 있던 버그를 수정했습니다.
+</Update>
+
 <Update label="v0.81.3" description="2026년 6월 9일">
   ## 수정 사항
 
@@ -936,72 +984,4 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
   * 이제 맞춤형 표시 이름으로 그룹화하면 Sweeps가 올바르게 표시됩니다.
   * Sweeps 및 Reports의 긴 이름 줄바꿈 문제를 수정했습니다.
   * 콘솔 로그의 복사 및 붙여넣기 동작이 개선되었습니다. 이제 줄 번호는 더 이상 복사되지 않으며, Timestamp는 새 줄이 아니라 같은 줄에 표시됩니다.
-</Update>
-
-<Update label="v0.70.1" description="2025년 7월 9일">
-  ## 수정 사항
-
-  * 업그레이드 후 비정상 종료된 run의 상태가 **Crashed**로 업데이트되지 않던 버그를 수정했습니다.
-  * **Sweeps** Runs table에서 **State** 열이 누락되던 버그를 수정했습니다.
-  * artifact 매니페스트 파일의 캐시 경로가 artifact의 버전 인덱스에만 의존해, 레지스트리 collection 브라우저에 올바르지 않은 버전의 파일이 표시될 수 있던 Weave 버그를 수정했습니다.
-  * 유효한 구문의 JSON이 올바르게 파싱되지 않을 수 있던 Weave 버그를 수정했습니다.
-
-  이 버그들은 v0.70.0에서 도입되었습니다.
-</Update>
-
-<Update label="v0.70.0" description="2025년 7월 7일">
-  W&amp;B Server v0.70에는 인사이트를 보다 효율적으로 얻고 공유할 수 있는 새로운 기능, 개선 사항 및 성능 향상이 포함되어 있습니다. 예를 들면 다음과 같습니다:
-
-  ## 지원 및 서비스 종료
-
-  * W&amp;B Server v0.56는 지원 종료 상태입니다.
-
-  ## 예정된 변경 사항
-
-  * 다가오는 릴리스에서는 멀티 run과 단일 run workspace 뷰를 일치시킬 예정입니다. 따라서 단일 run으로 들어가면 맞춤형 차트, 레이아웃, 설정을 포함해 멀티 run 뷰에서 구성한 것과 동일한 패널 레이아웃과 설정이 표시됩니다. 이는 작업 맥락을 유지하고 뷰를 설정할 때 재작업을 줄이기 위한 것입니다. 하지만 이 변경으로 인해 workspace의 나머지 부분과 분리된 고유한 단일 run 뷰를 사용자 지정하는 기능은 사라집니다. 마이그레이션에 관해 궁금한 점이 있으면 W&amp;B 팀이나 [지원팀](mailto:support@wandb.ai)에 문의하세요.
-  * 향후 몇 차례의 릴리스에 걸쳐 기존 팀 수준 모델 레지스트리를 W&amp;B Registry로 마이그레이션할 예정입니다. 자세한 내용과 일정은 아래의 [W&amp;B Registry GA announcement](#registry_ga_announcement)을 참조하세요.
-
-  ## 특성
-
-  * <a id="registry_ga_announcement" aria-label="W&B Registry GA 발표" /> **W&amp;B Registry를 이제 정식으로 사용할 수 있습니다**! Registry는 더 다양한 자산, 액세스 관리, 확장성을 제공하여 규모가 크고 다양한 팀이 AI 이니셔티브 전반에서 협업할 수 있는 진정한 허브 역할을 합니다.
-    * Registry는 지금 바로 `ENABLE_REGISTRY_UI` 환경 변수를 사용해 활성화하거나 W&amp;B 지원팀에 문의해 켤 수 있습니다.
-    * 앞으로 몇 차례의 릴리스에 걸쳐 기존 팀 수준 Model Registry 에셋을 W&amp;B Registry로 순차적으로 마이그레이션할 예정입니다. **사용자 쪽에서 별도로 해야 할 작업은 없습니다. W&amp;B가 각 팀의 Model Registry 에셋을 해당 팀에 대해 자동 생성된 팀 수준 비공개 레지스트리로 자동 복사합니다.**  기존 팀 수준 Model Registry의 모델 collection에 대한 기존 레퍼런스도 계속 작동합니다.
-
-      1. Server v0.71부터는 모든 조직에서 Registry가 기본으로 활성화됩니다.
-      2. Server v0.73(August)에는 업그레이드 중 이 마이그레이션을 자동으로 실행하는 opt-out 환경 변수가 포함됩니다. 대부분의 조직에서는 마이그레이션에 5~30분이 소요됩니다. 마이그레이션 중에는 이전 팀의 Model Registry나 새 Registry에 artifact를 연결하려고 하면 오류가 발생하며 실패합니다. ****Artifact logging 및 retrieval** **에는 영향이 없습니다**.
-      3. Server v0.74(September)에서는 이 플래그가 제거되며, 업그레이드 중 마이그레이션이 진행됩니다.
-
-      강력한 새 환경으로 최대한 원활하고 불편을 최소화하는 업그레이드가 되도록 준비하고 있습니다. 마이그레이션에 관해 궁금한 점이 있으면 W&amp;B 팀이나 [지원팀](mailto:support@wandb.ai)에 문의하세요.
-  * **CoreWeave 인프라 모니터링**: CoreWeave 인프라에서 [W&amp;B Run](/ko/models/runs)을 실행하는 동안 [CoreWeave Mission Control](https://www.coreweave.com/mission-control)이 컴퓨팅 인프라를 모니터링하므로 GPU 장애, 온도 임계치 초과 등의 인프라 알림을 확인할 수 있습니다. 오류가 발생하면 CoreWeave는 해당 정보를 W&amp;B로 전송합니다. W&amp;B는 프로젝트 Workspace에서 run의 플롯에 인프라 정보를 표시합니다. CoreWeave는 일부 문제를 자동으로 해결하려고 시도하며, W&amp;B는 해당 정보를 run 페이지에 표시합니다. W&amp;B는 run의 시스템 수준 세부 정보를 확인할 수 있도록 SLURM 작업의 Grafana 대시보드 링크를 제공합니다. 자세한 내용은 [CoreWeave 인프라 알림 시각화](/ko/models/app/features/panels/line-plot)에서 확인하세요.
-  * **CoreWeave 외부 파일 추적**: 이제 참조 아티팩트를 사용해 CoreWeave AI Object Storage에 저장된 외부 파일을 추적할 수 있습니다. 자세한 내용은 [외부 파일 추적](/ko/models/artifacts/track-external-files)에서 확인하세요.
-  * **CoreWeave BYOB 지원**: 이제 Dedicated Cloud 및 Self-Managed에서 Instance 및 팀 수준 BYOB용 CoreWeave AI Object Storage를 지원합니다. Multi-tenant Cloud의 CoreWeave 팀 수준 BYOB도 곧 제공될 예정입니다. 자세한 내용은 [Bring your own bucket (BYOB)](/ko/platform/hosting/data-security/secure-storage-connector)에서 확인하세요.
-  * **일괄 미디어 설정**: 선형 플롯과 마찬가지로, 이제 전체 워크스페이스나 특정 섹션에 있는 모든 미디어 패널 설정을 한 번에 관리할 수 있습니다. 각 패널을 개별적으로 조정하지 않고도 미디어 패널을 에포크별로 표시하거나 사용자 지정 그리드 패턴으로 손쉽게 배열할 수 있습니다. 개별 패널 설정은 전역 설정보다 우선 적용됩니다.
-  * 기존 Workspace와 동일한 Settings으로 Workspace를 빠르게 생성하려면 **Workspace templates**를 사용하세요. 현재 Workspace template에서는 맞춤형 선형 플롯 Settings을 정의할 수 있습니다. 자세한 내용은 [Workspace templates](/ko/models/track/workspaces/#workspace-templates)에서 확인하세요.
-  * **incremental table logging**을 사용하면 머신 러닝 실험 중에 테이블에 행 배치를 로깅할 수 있습니다. 이는 장시간 실행되는 작업을 모니터링하거나, 업데이트를 위해 run 중에 로깅하는 것이 비효율적인 큰 테이블을 다룰 때 특히 유용합니다. UI에서는 새 행이 로깅될 때마다 테이블이 업데이트되므로, 전체 run이 끝날 때까지 기다리지 않고도 최신 데이터를 확인할 수 있습니다. 증분 단위로 step을 이동하며 서로 다른 시점의 테이블을 확인할 수 있습니다. 자세한 내용은 [테이블 로깅](/ko/models/track/log/log-tables/#adding-data-incrementally)에서 확인하세요.
-
-  ## Fixes
-
-  * 일부 줄만 표시될 경우, 로그 뷰어 상단에 배너를 추가했습니다.
-  * 데이터 경계에서 발생하던 이동 평균 계산 버그를 수정했습니다.
-  * 상대 시간 플롯의 x축 단위 레이블을 더 명확하게 했습니다.
-  * 평활화가 적용된 플롯에서 **원본 표시**를 선택 해제해도 원본 선이 계속 표시되던 버그를 수정했습니다.
-  * 표현식이 포함된 그룹화된 전체 해상도 선형 플롯이 예기치 않게 막대 차트로 변환되는 버그를 수정했습니다.
-  * 히스토그램에 마우스를 올리면 이제 툴팁에 x-axis step이 표시됩니다.
-  * 패널에서 내보낸 데이터가 잘못 정렬될 수 있던 버그를 수정했습니다. 이제 내보낸 데이터는 숫자순으로 정렬됩니다.
-  * run selector에서 이제 **updated at** 기준으로 필터링하고 정렬할 수 있습니다.
-  * 포인트 클라우드 패널에 오른손 좌표계 설정 옵션을 추가했습니다.
-  * 이제 전체 화면 패널 URL 끝의 슬래시가 제거됩니다.
-  * 삭제 직후 새로고침하면 삭제한 저장된 뷰가 다시 나타나던 버그를 수정했습니다.
-  * 다크 모드가 켜진 상태에서 페이지를 새로고침할 때 화면이 깜빡이는 표시 버그를 수정했습니다.
-  * 비단조 값을 사용할 때 슬라이더 step이 올바르지 않게 설정되던 버그를 수정했습니다.
-  * run을 그룹 간에 이동할 때 사용할 수 있는 편의 체크박스와 알림을 추가했습니다.
-  * `wandb.define_metric()`에서 메트릭 이름에 와일드카드 문자 `*`를 사용하면 이름에 `/`가 포함된 메트릭과 매칭되지 않던 버그를 수정했습니다.
-  * W&amp;B는 이제 collection 포트폴리오가 가비지 컬렉션될 때 소스 artifact를 더 이상 삭제하지 않습니다.
-  * **Allowed types** 및 **Registry visibility** 선택 상자에서 텍스트를 입력할 수 있게 잘못 허용되던 버그를 수정했습니다.
-  * 이제 collection 카드에서는 잘린 이름 대신 artifact 유형의 전체 이름이 표시됩니다.
-  * 레지스트리 컬렉션에서 **작업 이력**을 클릭했을 때 **버전** 뷰가 잘못 로드되던 버그를 수정했습니다.
-  * 레지스트리에서 이제 `job` 유형 artifact를 추가할 수 있습니다.
-  * 리니지 타일의 너비가 더 넓어져, 텍스트가 잘리기 전에 더 많은 내용을 표시합니다.
-  * 프로젝트 수준 자동화 설정의 텍스트를 명확히 하여, 레지스트리 용어인 &quot;collections&quot; 대신 &quot;artifacts&quot;를 사용하도록 했습니다.
-  * 이제 artifact 브라우저에서 이름으로 검색할 때, 이전처럼 처음 500개의 artifact만 검색하는 것이 아니라 모든 artifact를 검색합니다.
 </Update>
