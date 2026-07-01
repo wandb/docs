@@ -3,11 +3,7 @@ title: エージェントのトレースをバッチでログする
 description: すでに LLM 呼び出しが完了しており、その記録が必要なフレームワーク向けに、エージェントのトレースを手動でログします。
 ---
 
-import AgentsPreview from '/snippets/ja/_includes/agents-public-preview.mdx';
-
-<AgentsPreview />
-
-LLM 呼び出しがすでに完了していて、その記録だけが必要なフレームワークでは、`weave.log_turn` と `weave.log_conversation` を使用します。すべてのスパンは作成後すぐに終了し、コンテキストマネージャーを開いたままにしておく必要はありません。
+LLM 呼び出しがすでに完了していて、その記録だけが必要なフレームワークでは、`weave.log_turn` と `weave.log_session` を使用します。すべてのスパンは作成後すぐに終了し、コンテキストマネージャーを開いたままにしておく必要はありません。
 
 この方法でログしたデータは過去の履歴データでも問題ありません。ライブ会話は不要です。会話を一意に識別できる安定した任意の文字列を `conversation_id` に設定してください。同じ `conversation_id` を共有するターンは、**Agents** ビューで 1 つの会話としてグループ化されます。
 

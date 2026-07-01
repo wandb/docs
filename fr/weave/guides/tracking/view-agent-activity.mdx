@@ -4,10 +4,6 @@ description: "Utilisez la vue Agents de W&B Weave pour comprendre ce qu’a fait
 keywords: ["observabilité des agents", "traces de conversation", "spans", "utilisation des jetons", "débogage des agents"]
 ---
 
-import AgentsPreview from '/snippets/fr/_includes/agents-public-preview.mdx';
-
-<AgentsPreview />
-
 La vue Agents vous donne un enregistrement, tour par tour, de chaque conversation menée par votre agent, ainsi que de l’utilisation des jetons, des invocations d’outils et des spans d’exécution.
 
 Les applications d’agents sont difficiles à déboguer, car le comportement intéressant se produit entre la requête de l’utilisateur et la réponse finale. La vue Agents dans W&amp;B Weave rend cette couche intermédiaire visible. Chaque conversation menée par votre agent est capturée ici, avec l’historique complet des messages, les détails d’exécution au niveau des spans et les coûts en jetons associés. Vous pouvez voir d’un coup d’œil si un agent a mené sa tâche à bien, combien d’appels d’outil il a effectués, et où le temps ou le budget ont été dépensés. Pour les équipes qui créent des agents et les font évoluer de manière itérative, c’est le point de départ pour comprendre le comportement en production.
@@ -371,6 +367,6 @@ Vous pouvez également afficher les spans enfants sous la forme d’une arboresc
   ## Onglet Signals
 </div>
 
-L’onglet **Signals** affiche des tags et des évaluations pour les conversations de votre agent. Les signaux mettent en évidence les problèmes de qualité et de sécurité pour signaler des problèmes, repérer des tendances et attirer votre attention sur les traces qui en ont besoin. Utilisez les signaux pour évaluer automatiquement la qualité des réponses de votre agent, détecter lorsqu’un utilisateur est frustré ou signaler du contenu NSFW.
+L&#39;onglet **Signals** affiche les tags et les scores des conversations de votre agent. Les signaux font ressortir les problèmes de qualité et de sécurité afin de signaler les incidents, de repérer des tendances et de mettre en évidence les traces qui nécessitent votre attention. Utilisez les signaux pour évaluer automatiquement la qualité des réponses de votre agent, détecter quand un utilisateur est frustré ou signaler du contenu NSFW.
 
-Pour la configuration et l’utilisation détaillée, voir [Surveillez vos agents avec des signaux](/fr/weave/guides/tracking/view-agent-signals).
+Pour la configuration et l&#39;utilisation détaillée, voir [Surveillez vos agents avec des signaux](/fr/weave/guides/tracking/view-agent-signals).

@@ -4,10 +4,6 @@ description: Trace an agent built with the Claude Agent SDK using Weave.
 keywords: ["Claude Agent SDK", "Anthropic", "MCP tools", "agent tracing", "autopatching"]
 ---
 
-import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
-
-<AgentsPreview />
-
 The [Claude Agent SDK](https://github.com/anthropics/claude-agent-sdk-python) is a Python SDK for building agent applications with Claude.
 
 Weave automatically traces Claude Agent SDK calls, including agent queries, model responses, tool use, and multi-turn conversations. Weave displays the captured data in the **Agents** view of your project.
@@ -51,23 +47,19 @@ from claude_agent_sdk import (
 
 weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
 
-
 @tool("add", "Add two numbers", {"a": float, "b": float})
 async def add(args: dict) -> dict:
     return {"content": [{"type": "text", "text": str(args["a"] + args["b"])}]}
 
-
 @tool("multiply", "Multiply two numbers", {"a": float, "b": float})
 async def multiply(args: dict) -> dict:
     return {"content": [{"type": "text", "text": str(args["a"] * args["b"])}]}
-
 
 math_server = create_sdk_mcp_server(
     name="math",
     version="1.0.0",
     tools=[add, multiply],
 )
-
 
 async def main():
     options = ClaudeAgentOptions(
@@ -80,7 +72,6 @@ async def main():
 
         async for message in client.receive_response():
             print(message)
-
 
 anyio.run(main) 
 ```

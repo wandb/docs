@@ -3,10 +3,6 @@ title: Journalisation par lot pour votre agent
 description: Enregistrez manuellement les traces de l’agent pour les frameworks qui ont déjà effectué l’appel au LLM et doivent le consigner.
 ---
 
-import AgentsPreview from '/snippets/fr/_includes/agents-public-preview.mdx';
-
-<AgentsPreview />
-
 Pour les frameworks qui ont déjà effectué l’appel au LLM et doivent simplement l’enregistrer, utilisez `weave.log_turn` et `weave.log_conversation`. Tous les spans sont créés et terminés immédiatement, sans laisser de gestionnaires de contexte ouverts.
 
 Les données enregistrées de cette façon peuvent être historiques — aucune conversation en direct n’est nécessaire. Définissez `conversation_id` sur n’importe quelle chaîne stable qui identifie de manière unique la conversation. Les tours de conversation qui partagent le même `conversation_id` sont regroupés en une seule conversation dans la vue **Agents**.

@@ -4,10 +4,6 @@ description: Track OpenClaw agent sessions in W&B Weave for observability and de
 keywords: ["OpenClaw", "gateway plugin", "agent tracing", "OTel GenAI", "weave-openclaw"]
 ---
 
-import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
-
-<AgentsPreview />
-
 The Weave OpenClaw plugin automatically traces every agent session running through the OpenClaw gateway and sends the structured data to W&B Weave. The plugin logs every turn, model call, and tool execution without requiring any application code changes. Use these traces to debug sessions, audit tool usage, and monitor cost and latency across runs.
 
 This guide is for OpenClaw gateway operators who want to enable Weave tracing for the agents running behind the gateway. It walks you through how to install the plugin, configure it, view the resulting traces, and troubleshoot common issues.

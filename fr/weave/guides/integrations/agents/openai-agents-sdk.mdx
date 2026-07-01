@@ -3,10 +3,6 @@ title: "SDK OpenAI Agents"
 description: Tracez un agent développé avec l’SDK OpenAI Agents à l’aide de Weave.
 ---
 
-import AgentsPreview from '/snippets/fr/_includes/agents-public-preview.mdx';
-
-<AgentsPreview />
-
 Le [SDK OpenAI Agents](https://github.com/openai/openai-agents-python) est un framework léger qui permet de créer des agents et des flux de travail multi-agent à partir de l’API d’OpenAI. Weave trace automatiquement les agents créés avec le SDK OpenAI Agents, y compris chaque appel d’agent, transfert vers un sous-agent, appel de modèle et appel d’outil. Weave affiche les données capturées dans la vue **Agents** de votre project.
 
 <Note>
@@ -98,11 +94,11 @@ L’exemple exécute trois tours de conversation au sein d’une même conversat
   ### Voir les traces de votre agent dans la vue Agents
 </div>
 
-Une fois le script exécuté, vous pouvez consulter l&#39;activité capturée dans Weave. `weave.init()` affiche un lien vers votre projet lors de son exécution. Ouvrez la vue **Agents** pour examiner :
+Une fois le script exécuté, vous pouvez examiner l’activité capturée dans Weave. `weave.init()` affiche un lien vers votre projet à l’exécution. Ouvrez la vue **Agents** pour examiner :
 
-* Une ligne dans l&#39;onglet **Agents** pour `Research assistant`.
+* Une ligne dans l’onglet **Agents** pour `Research assistant`.
 * Une conversation contenant trois tours de conversation.
-* Chaque tour de conversation affiché sous la forme d&#39;un span `invoke_agent` avec des appels de modèle et des appels d&#39;outil imbriqués.
-* L&#39;entrée complète, le modèle, la sortie, l&#39;utilisation des jetons et les résultats Wikipédia à chaque étape.
+* Chaque tour de conversation affiché sous la forme d’un span `invoke_agent`, avec des appels de modèle et des appels d’outil imbriqués.
+* L’entrée complète, le modèle, la sortie, l’utilisation des jetons et les résultats de Wikipédia à chaque étape.
 
-Pour en savoir plus sur la consultation des données Agents dans Weave, voir [Voir l&#39;activité des agents](/fr/weave/guides/tracking/view-agent-activity).
+Pour en savoir plus sur l’affichage des données d’agent dans Weave, voir [Voir l’activité de l’agent](/fr/weave/guides/tracking/view-agent-activity).

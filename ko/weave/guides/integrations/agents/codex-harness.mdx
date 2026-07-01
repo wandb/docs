@@ -4,16 +4,12 @@ description: W&B Weave에서 Codex 에이전트 기반 세션, LLM Call, 도구 
 keywords: ["OpenAI Codex", "OTEL", "에이전트 트레이싱", "Stop 훅", "rollout"]
 ---
 
-import AgentsPreview from '/snippets/ko/_includes/agents-public-preview.mdx';
-
-<AgentsPreview />
-
 Weave Codex 플러그인은 모든 Codex 턴을 자동으로 트레이스하고 구조화된 데이터를 W&amp;B Weave로 전송합니다. Codex 워크플로를 전혀 변경하지 않아도 모든 모델 Call, 도구 실행, 추론 step이 로깅됩니다. 이 트레이스를 사용해 Session을 디버깅하고, 도구 사용을 감사하고, Runs 전반의 비용과 지연 시간을 모니터링하세요.
 
 이 플러그인은 Codex 자체의 rollout Session 파일(`~/.codex/sessions/**/rollout-*.jsonl`)을 읽어 span을 재구성합니다. fire-and-forget Stop 훅을 통해 Codex의 핵심 경로와 분리되어 완전히 실행되므로, Codex가 네트워크 응답을 기다리는 일은 없습니다.
 
 <Warning>
-  기본적으로 이 플러그인은 span 콘텐츠를 캡처합니다. 여기에는 프롬프트, 모델의 응답과 추론, 도구 Call 인수, 그리고 도구 결과가 포함됩니다. 도구 결과에는 셸 command, command 출력, 파일 내용이 포함됩니다. 이 데이터는 사용자의 Weave 인스턴스로 전송됩니다.
+  기본적으로 이 플러그인은 span 콘텐츠를 캡처합니다. 여기에는 프롬프트, 모델의 응답과 추론, 도구 Call 인수, 그리고 도구 결과가 포함됩니다. 도구 결과에는 셸 명령어, 명령어 출력, 파일 내용이 포함됩니다. 이 데이터는 사용자의 Weave 인스턴스로 전송됩니다.
 
   PII 스크러빙과 민감한 데이터 마스킹은 구현되어 있지 않습니다. 구조, token 사용량, 모델, 타이밍만 전송하고 프롬프트, 코드, 출력은 전송하지 않으려면 `WEAVE_CODEX_CAPTURE_CONTENT=0`으로 설정하세요. 보안 또는 규정 준수 요구 사항 때문에 이 데이터를 Weave로 전송할 수 없다면, 이 플러그인을 설치하지 마세요.
 </Warning>
