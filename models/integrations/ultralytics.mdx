@@ -6,39 +6,47 @@ import { ColabLink } from '/snippets/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/ultralytics/01_train_val.ipynb" />
 
-[Ultralytics](https://github.com/ultralytics/ultralytics) is the home for cutting-edge, state-of-the-art computer vision models for tasks like image classification, object detection, image segmentation, and pose estimation. Not only it hosts [YOLOv8](https://docs.ultralytics.com/models/yolov8/), the latest iteration in the YOLO series of real-time object detection models, but other powerful computer vision models such as [SAM (Segment Anything Model)](https://docs.ultralytics.com/models/sam/#introduction-to-sam-the-segment-anything-model), [RT-DETR](https://docs.ultralytics.com/models/rtdetr/), [YOLO-NAS](https://docs.ultralytics.com/models/yolo-nas/), etc. Besides providing implementations of these models, Ultralytics also provides us with out-of-the-box workflows for training, fine-tuning, and applying these models using an easy-to-use API.
+[Ultralytics](https://github.com/ultralytics/ultralytics) provides computer vision models for tasks like image classification, object detection, image segmentation, and pose estimation. It hosts [YOLOv8](https://docs.ultralytics.com/models/yolov8/), an iteration in the YOLO series of real-time object detection models, along with other computer vision models such as [SAM (Segment Anything Model)](https://docs.ultralytics.com/models/sam/#introduction-to-sam-the-segment-anything-model), [RT-DETR](https://docs.ultralytics.com/models/rtdetr/), and [YOLO-NAS](https://docs.ultralytics.com/models/yolo-nas/). Ultralytics also provides ready-to-use workflows for training, fine-tuning, and applying these models through an API.
+
+This page shows computer vision practitioners how to integrate W&B with Ultralytics so that W&B automatically tracks and visualizes experiment metrics, model checkpoints, and predictions on validation or inference images. It covers installation, a training and validation workflow, and an inference-only workflow.
 
 ## Get started
 
-1. Install `ultralytics` and `wandb`.
+To use the integration, you must first install both `ultralytics` and `wandb` and confirm you're using a supported version of `ultralytics`.
 
-    <Tabs>
-    <Tab title="Command Line">
-    ```shell
-        pip install --upgrade ultralytics==8.0.238 wandb
+Install `ultralytics` and `wandb`:
 
-        # or
-        # conda install ultralytics
-        ```
-    </Tab>
-    <Tab title="Notebook">
-    ```bash
-        !pip install --upgrade ultralytics==8.0.238 wandb
-        ```
-    </Tab>
-    </Tabs>
+<Tabs>
+<Tab title="Command Line">
+```shell
+pip install --upgrade ultralytics==8.0.238 wandb
 
-    The development team has tested the integration with `ultralyticsv8.0.238` and below. To report any issues with the integration, create a [GitHub issue](https://github.com/wandb/wandb/issues/new?template=sdk-bug.yml) with the tag `yolov8`.
+# or
+# conda install ultralytics
+```
+</Tab>
+<Tab title="Notebook">
+```bash
+!pip install --upgrade ultralytics==8.0.238 wandb
+```
+</Tab>
+</Tabs>
+
+<Note>
+The development team tested the integration with `ultralytics` v8.0.238 and below. To report any issues with the integration, create a [GitHub issue](https://github.com/wandb/wandb/issues/new?template=sdk-bug.yml) with the tag `yolov8`.
+</Note>
+
+With both packages installed, you can move on to instrumenting an Ultralytics workflow with W&B.
 
 ## Track experiments and visualize validation results
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/ultralytics/01_train_val.ipynb" />
 
-This section demonstrates a typical workflow of using an [Ultralytics](https://docs.ultralytics.com/modes/predict/) model for training, fine-tuning, and validation and performing experiment tracking, model-checkpointing, and visualization of the model's performance using [W&B](https://wandb.ai/site).
+This section demonstrates a typical workflow that uses an [Ultralytics](https://docs.ultralytics.com/modes/predict/) model for training, fine-tuning, and validation, and that performs experiment tracking, model checkpointing, and visualization of the model's performance using [W&B](https://wandb.ai/site).
 
-You can also check out about the integration in this report: [Supercharging Ultralytics with W&B](https://wandb.ai/geekyrakshit/ultralytics/reports/Supercharging-Ultralytics-with-Weights-Biases--Vmlldzo0OTMyMDI4)
+For more information about the integration, see [Supercharging Ultralytics with W&B](https://wandb.ai/geekyrakshit/ultralytics/reports/Supercharging-Ultralytics-with-Weights-Biases--Vmlldzo0OTMyMDI4).
 
-To use the W&B integration with Ultralytics, import the `wandb.integration.ultralytics.add_wandb_callback` function.
+To use the W&B integration with Ultralytics, import the `wandb.integration.ultralytics.add_wandb_callback` function. This callback is the entry point that registers W&B logging with the Ultralytics model.
 
 ```python
 import wandb
@@ -47,7 +55,7 @@ from wandb.integration.ultralytics import add_wandb_callback
 from ultralytics import YOLO
 ```
 
-Initialize the `YOLO` model of your choice, and invoke the `add_wandb_callback` function on it before performing inference with the model. This ensures that when you perform training, fine-tuning, validation, or inference, it automatically saves the experiment logs and the images, overlaid with both ground-truth and the respective prediction results using the [interactive overlays for computer vision tasks](/models/track/log/media/#image-overlays-in-tables) on W&B along with additional insights in a [`wandb.Table`](/models/tables/).
+Next, initialize the `YOLO` model of your choice, and invoke the `add_wandb_callback` function on it before performing inference with the model. Attaching the callback before training enables automatic logging during each epoch. This ensures that when you perform training, fine-tuning, validation, or inference, W&B automatically saves the experiment logs and the images, overlaid with both ground-truth and the respective prediction results using the [interactive overlays for computer vision tasks](/models/track/log/media/#image-overlays-in-tables), along with additional insights in a [`wandb.Table`](/models/tables/).
 
 ```python
 with wandb.init(project="ultralytics", job_type="train") as run:
@@ -65,7 +73,9 @@ with wandb.init(project="ultralytics", job_type="train") as run:
     model.train(project="ultralytics", data="coco128.yaml", epochs=5, imgsz=640)
 ```
 
-Here's how experiments tracked using W&B for an Ultralytics training or fine-tuning workflow looks like:
+With the callback attached and training started, your run now streams training metrics, model checkpoints, and per-epoch validation visualizations to your W&B project.
+
+Here's how experiments tracked using W&B for an Ultralytics training or fine-tuning workflow look:
 
 <blockquote class="imgur-embed-pub" lang="en" data-id="a/TB76U9O"  ><a href="https://imgur.com/a/TB76U9O">YOLO Fine-tuning Experiments</a></blockquote><script async src="https://s.imgur.com/min/embed.js" charset="utf-8"></script>
 
@@ -79,13 +89,11 @@ Here's how epoch-wise validation results are visualized using a [W&B Table](/mod
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/ultralytics/00_inference.ipynb" />
 
-This section demonstrates a typical workflow of using an [Ultralytics](https://docs.ultralytics.com/modes/predict/) model for inference and visualizing the results using [W&B](https://wandb.ai/site).
+This section demonstrates a typical workflow that uses an [Ultralytics](https://docs.ultralytics.com/modes/predict/) model for inference and visualizes the results using [W&B](https://wandb.ai/site).
 
 You can try out the code in Google Colab: [Open in Colab](https://wandb.me/ultralytics-inference).
 
-You can also check out about the integration in this report: [Supercharging Ultralytics with W&B](https://wandb.ai/geekyrakshit/ultralytics/reports/Supercharging-Ultralytics-with-Weights-Biases--Vmlldzo0OTMyMDI4)
-
-In order to use the W&B integration with Ultralytics, we need to import the `wandb.integration.ultralytics.add_wandb_callback` function.
+As with the training workflow, to use the W&B integration with Ultralytics, import the `wandb.integration.ultralytics.add_wandb_callback` function.
 
 ```python
 import wandb
@@ -94,7 +102,7 @@ from wandb.integration.ultralytics import add_wandb_callback
 from ultralytics.engine.model import YOLO
 ```
 
-Download a few images to test the integration on. You can use still images, videos, or camera sources. For more information on inference sources, check out the [Ultralytics docs](https://docs.ultralytics.com/modes/predict/).
+Next, download a few images to test the integration on. You can use still images, videos, or camera sources. For more information about inference sources, see the [Ultralytics docs](https://docs.ultralytics.com/modes/predict/).
 
 ```bash
 !wget https://raw.githubusercontent.com/wandb/examples/ultralytics/colabs/ultralytics/assets/img1.png
@@ -103,7 +111,7 @@ Download a few images to test the integration on. You can use still images, vide
 !wget https://raw.githubusercontent.com/wandb/examples/ultralytics/colabs/ultralytics/assets/img5.png
 ```
 
-Initialize a W&B [run](/models/runs/) using `wandb.init()`. Next, Initialize your desired `YOLO` model and invoke the `add_wandb_callback` function on it before you perform inference with the model. This ensures that when you perform inference, it automatically logs the images overlaid with your [interactive overlays for computer vision tasks](/models/track/log/media/#image-overlays-in-tables) along with additional insights in a [`wandb.Table`](/models/tables/).
+With the test images in place, initialize a W&B [run](/models/runs/) using `wandb.init()`. Next, initialize your desired `YOLO` model and invoke the `add_wandb_callback` function on it before you perform inference with the model. This ensures that when you perform inference, W&B automatically logs the images overlaid with your [interactive overlays for computer vision tasks](/models/track/log/media/#image-overlays-in-tables), along with additional insights in a [`wandb.Table`](/models/tables/).
 
 ```python
 # Initialize W&B Run
@@ -118,22 +126,26 @@ with wandb.init(project="ultralytics", job_type="inference") as run:
     # with interactive overlays for bounding boxes, segmentation masks
     model(
         [
-            "./assets/img1.jpeg",
-            "./assets/img3.png",
-            "./assets/img4.jpeg",
-            "./assets/img5.jpeg",
+            "img1.png",
+            "img2.png",
+            "img4.png",
+            "img5.png",
         ]
     )
 ```
 
-You do not need to explicitly initialize a run using `wandb.init()` in case of a training or fine-tuning workflow. However, if the code involves only prediction, you must explicitly create a run.
+<Note>
+You don't need to explicitly initialize a run using `wandb.init()` for a training or fine-tuning workflow. However, if the code involves only prediction, you must explicitly create a run.
+</Note>
 
-Here's how the interactive bbox overlay looks:
+After you run inference, W&B logs the predicted bounding boxes and segmentation masks to your W&B run as interactive overlays.
+
+Here's how the interactive bounding box overlay looks:
 
 <blockquote class="imgur-embed-pub" lang="en" data-id="a/UTSiufs"  ><a href="https://imgur.com/a/UTSiufs">WandB Image Overlay</a></blockquote><script async src="https://s.imgur.com/min/embed.js" charset="utf-8"></script>
 
 
-For more details, see the [W&B image overlays guide](/models/track/log/media/#image-overlays).
+For more information, see the [W&B image overlays guide](/models/track/log/media/#image-overlays).
 
 ## More resources
 
