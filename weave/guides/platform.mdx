@@ -4,6 +4,8 @@ description: "Learn about Weave's deployment options, IAM management, and data s
 keywords: ["deployment", "IAM", "SSO", "Dedicated Cloud", "data security"]
 ---
 
+import WeaveByob from "/snippets/_includes/weave-byob.mdx";
+
 This page describes how to deploy Weave, manage access, and protect data, so you can choose the deployment option and security controls that fit your organization's needs.
 
 Weave is available on the following deployment options:
@@ -35,9 +37,7 @@ The data security protections available to you depend on your deployment option.
   - **[Data encryption](/platform/hosting/data-security/data-encryption):** W&B encrypts data at rest using a unique W&B-managed encryption key.
   - **ClickHouse cluster security:** W&B connects to the unique ClickHouse Cloud cluster for your Dedicated Cloud instance over the cloud provider's private network. W&B also encrypts the cluster with a unique W&B-managed encryption key and uses ClickHouse's file-level encryption.
 
-<Warning>
-[The W&B Platform secure storage connector or BYOB](/platform/hosting/data-security/secure-storage-connector) is not available for Weave.
-</Warning>
+<WeaveByob/>
 
 ## Maintenance
 
