@@ -4,20 +4,20 @@ description: "Create and log W&B Tables with different logging modes including i
 ---
 
 
-Visualize and log tabular data with W&B Tables. A W&B Table is a two-dimensional grid of data where each column has a single type of data. Each row represents one or more data points logged to a W&B [run](/models/runs/). W&B Tables support primitive and numeric types, as well as nested lists, dictionaries, and rich media types.
+This page shows you how to create and log W&B Tables with the Python SDK so you can visualize and analyze tabular data, including predictions, evaluation results, and batched training output, alongside your ML experiments.
 
-A W&B Table is a specialized [data type](/models/ref/python/data-types/) in W&B, logged as an [artifact](/models/artifacts/) object.
+A Table is a two-dimensional grid of data where each column has a single type of data. Each row represents one or more data points logged to a W&B [run](/models/runs/). Tables support primitive and numeric types, as well as nested lists, dictionaries, and rich media types.
 
-You [create and log table objects](#create-and-log-a-new-table) using the W&B Python SDK. When you create a table object, you specify the columns and data for the table and a [mode](#table-logging-modes). The mode determines how the table is logged and updated during your ML experiments.
+A Table is a specialized W&B [data type](/models/ref/python/data-types/). When you log a table, W&B stores it as an [artifact](/models/artifacts/).
 
-<Note>
-`INCREMENTAL` mode is supported on W&B Server v0.70.0 and above.
-</Note>
+You [create and log tables](#create-and-log-a-table) using the W&B Python SDK. When you create a table, you specify its columns, data, and a [mode](#logging-modes). The mode determines how the table is logged and updated during your ML experiments, which affects performance, what you can change after logging, and how the table appears in W&B.
 
 ## Create and log a table
 
-1. Initialize a new run with `wandb.init()`. 
-2. Create a Table object with the [`wandb.Table`](/models/ref/python/data-types/table) Class. Specify the columns and data for the table for the `columns` and `data` parameters, respectively. It is recommended to set the optional `log_mode` parameter to one of the three modes: `IMMUTABLE` (the default), `MUTABLE`, or `INCREMENTAL`. See [Table Logging Modes](#logging-modes) in the next section for more information.
+Follow these steps to log a table to a run. The resulting table is stored as an artifact in W&B and rendered in the run's workspace.
+
+1. Initialize a new run with `wandb.init()`.
+2. Create a Table object with the [`wandb.Table`](/models/ref/python/data-types/table) class. Specify the columns and data for the table for the `columns` and `data` parameters, respectively. Set the optional `log_mode` parameter to one of the three modes: `IMMUTABLE` (the default), `MUTABLE`, or `INCREMENTAL`, because the mode controls how the table behaves when logged. See [Logging modes](#logging-modes) for more information.
 3. Log the table to W&B with `run.log()`.
 
 The following example shows how to create and log a table with two columns, `a` and `b`, and two rows of data, `["a1", "b1"]` and `["a2", "b2"]`:
@@ -41,21 +41,23 @@ with wandb.init(project="table-demo") as run:
 
 ## Logging modes
 
-The [`wandb.Table`](/models/ref/python/data-types/table) `log_mode` parameter determines how a table is logged and updated during your ML experiments. The `log_mode` parameter accepts one of three arguments: `IMMUTABLE`, `MUTABLE`, and `INCREMENTAL`. Each mode has different implications for how a table is logged, how it can be modified, and how it is rendered in the W&B App.
+The logging mode you choose affects performance, what you can change after logging, and how the table appears in W&B. Pick the mode that matches your workflow, for example, a single end-of-run snapshot, a table you progressively enrich with new columns, or a long-running training table updated in batches.
 
-The following describes the three logging modes, the high-level differences, and common use case for each mode:
+The [`wandb.Table`](/models/ref/python/data-types/table) `log_mode` parameter determines how a table is logged and updated during your ML experiments. The `log_mode` parameter accepts one of three arguments: `IMMUTABLE`, `MUTABLE`, and `INCREMENTAL`. Each mode has different implications for how a table is logged, how it can be modified, and how it is rendered in W&B.
 
-| Mode  | Definition | Use Cases  | Benefits  |
+The following describes the three logging modes, the high-level differences, and common use cases for each mode:
+
+| Mode  | Definition | Use cases  | Benefits  |
 | ----- | ---------- | ---------- | ----------|
-| `IMMUTABLE`   | Once a table is logged to W&B, you cannot modify it. |- Storing tabular data generated at the end of a run for further analysis                              | - Minimal overhead when logged at the end of a run<br/>- All rows rendered in UI |
-| `MUTABLE`     | After you log a table to W&B, you can overwrite the existing table with a new one. | - Adding columns or rows to existing tables<br/>- Enriching results with new information                        | - Capture Table mutations<br/>- All rows rendered in UI                          |
-| `INCREMENTAL` |  Add batches of new rows to a table throughout the machine learning experiment. | - Adding rows to tables in batches<br/> - Long-running training jobs<br/>- Processing large datasets in batches<br/>- Monitoring ongoing results | - View updates on UI during training<br/>- Ability to step through increments    |
+| `IMMUTABLE`   | Once a table is logged to W&B, you cannot modify it. | <ul><li>Storing tabular data generated at the end of a run for further analysis</li></ul> | <ul><li>Minimal overhead when logged at the end of a run</li><li>All rows rendered in UI</li></ul> |
+| `MUTABLE`     | After you log a table to W&B, you can overwrite the existing table with a new one. | <ul><li>Adding columns or rows to existing tables</li><li>Enriching results with new information</li></ul> | <ul><li>Capture table mutations</li><li>All rows rendered in UI</li></ul> |
+| `INCREMENTAL` | Add batches of new rows to a table throughout the machine learning experiment. | <ul><li>Adding rows to tables in batches</li><li>Long-running training jobs</li><li>Processing large datasets in batches</li><li>Monitoring ongoing results</li></ul> | <ul><li>View updates on UI during training</li><li>Ability to step through increments</li></ul> |
 
-The next sections show example code snippets for each mode along with considerations when to use each mode.
+The following sections show example code snippets for each mode along with considerations for when to use each mode.
 
-### MUTABLE mode
+### `MUTABLE` mode
 
-`MUTABLE` mode updates an existing table by replacing the existing table with a new one. `MUTABLE` mode is useful when you want to add new columns and rows to an existing table in a non iterative process. Within the UI, the table is rendered with all rows and columns, including the new ones added after the initial log.
+`MUTABLE` mode updates an existing table by replacing it with a new one. `MUTABLE` mode is useful when you want to add new columns and rows to an existing table in a non-iterative process. Within the UI, the table is rendered with all rows and columns, including the new ones added after the initial log.
 
 <Note>
 In `MUTABLE` mode, the table object is replaced each time you log the table. Overwriting a table with a new one is computationally expensive and can be slow for large tables.
@@ -64,7 +66,7 @@ In `MUTABLE` mode, the table object is replaced each time you log the table. Ove
 The following example shows how to create a table in `MUTABLE` mode, log it, and then add new columns to it. The table object is logged three times: once with the initial data, once with the confidence scores, and once with the final predictions.
 
 <Note>
-The following example uses a placeholder function `load_eval_data()` to load data and a placeholder function `model.predict()` to make predictions. You will need to replace these with your own data loading and prediction functions.
+The following example uses a placeholder function `load_eval_data()` to load data and a placeholder function `model.predict()` to make predictions. Replace these with your own data loading and prediction functions.
 </Note>
 
 ```python
@@ -84,7 +86,7 @@ with wandb.init(project="mutable-table-demo") as run:
     for inp, label, pred in zip(inputs, labels, raw_preds):
         table.add_data(inp, label, pred)
 
-    # Step 1: Log initial data 
+    # Step 1: Log initial data
     run.log({"eval_table": table})  # Log initial table
 
     # Step 2: Add confidence scores (e.g. max softmax)
@@ -99,21 +101,17 @@ with wandb.init(project="mutable-table-demo") as run:
     run.log({"eval_table": table})  # Final update with another column
 ```
 
-If you only want to add new batches of rows (no columns) incrementally like in a training loop, consider using [`INCREMENTAL` mode](#INCREMENTAL-mode) instead.
+If you only want to add new batches of rows (no columns) incrementally like in a training loop, consider using [`INCREMENTAL` mode](#incremental-mode) instead.
 
-### INCREMENTAL mode
+### `INCREMENTAL` mode
 
-In incremental mode, you log batches of rows to a table during the machine learning experiment. This is ideal for monitoring long-running jobs or when working with large tables that would be inefficient to log during the run for updates. Within the UI, the table is updated with new rows as they are logged, allowing you to view the latest data without having to wait for the entire run to finish. You can also step through the increments to view the table at different points in time.
-
-<Note>
-Run workspaces in the W&B App have a limit of 100 increments. If you log more than 100 increments, only the most recent 100 are shown in the run workspace.
-</Note>
-
-The following example creates a table in `INCREMENTAL` mode, logs it, and then adds new rows to it. Note that the table is logged once per training step (`step`).
+In `INCREMENTAL` mode, you log batches of rows to a table during the machine learning experiment. This is ideal for monitoring long-running jobs or when working with large tables that would be inefficient to log during the run for updates. Within the UI, the table is updated with new rows as they are logged, so you can view the latest data without waiting for the entire run to finish. You can also step through the increments to view the table at different points in time.
 
 <Note>
-The following example uses a placeholder function `get_training_batch()` to load data, a placeholder function `train_model_on_batch()` to train the model, and a placeholder function `predict_on_batch()` to make predictions. You will need to replace these with your own data loading, training, and prediction functions.
+Run workspaces in W&B have a limit of 100 increments. If you log more than 100 increments, only the most recent 100 are shown in the run workspace.
 </Note>
+
+The following example creates a table in `INCREMENTAL` mode, logs it, and then adds new rows to it. The table is logged once per training step (`step`). The example uses placeholder functions (`get_training_batch()`, `train_model_on_batch()`, and `predict_on_batch()`); replace these with your own data loading, training, and prediction functions.
 
 ```python
 import wandb
@@ -141,7 +139,7 @@ with wandb.init(project="incremental-table-demo") as run:
         run.log({"training_table": table}, step=step)
 ```
 
-Incremental logging is generally more computationally efficient than logging a new table each time (`log_mode=MUTABLE`). However, the W&B App may not render all rows in the table if you log a large number of increments. If your goal is to update and view your table data while your run is ongoing and to have all the data available for analysis, consider using two tables. One with `INCREMENTAL` log mode and one with `IMMUTABLE` log mode. 
+Incremental logging is more computationally efficient than logging a new table each time (`log_mode="MUTABLE"`). However, W&B may not render all rows in the table if you log a large number of increments. To update and view your table data while your run is ongoing and to have all the data available for analysis, consider using two tables: one with `INCREMENTAL` log mode and one with `IMMUTABLE` log mode.
 
 The following example shows how to combine `INCREMENTAL` and `IMMUTABLE` logging modes to achieve this.
 
@@ -173,11 +171,13 @@ with wandb.init(project="combined-logging-example") as run:
     run.log({"table": final_table})
 ```
 
-In this example, the `incr_table` is logged incrementally (with `log_mode="INCREMENTAL"`) during training. This allows you to log and view updates to the table as new data is processed. At the end of training, an immutable table (`final_table`) is created with all data from the incremental table. The immutable table is logged to preserve the complete dataset for further analysis and it enables you to view all rows in the W&B App. 
+In this example, the `incr_table` is logged incrementally (with `log_mode="INCREMENTAL"`) during training. This lets you log and view updates to the table as new data is processed. At the end of training, an immutable table (`final_table`) is created with all data from the incremental table. The immutable table is logged to preserve the complete dataset for further analysis and to let you view all rows in W&B.
 
-## Examples 
+## Examples
 
-### Enriching evaluation results with MUTABLE
+The following examples show end-to-end logging patterns for common workflows: enriching evaluation results, resuming runs that log incremental tables, and incrementally logging batches during training.
+
+### Enrich evaluation results with `MUTABLE`
 
 ```python
 import wandb
@@ -207,7 +207,7 @@ with wandb.init(project="mutable-logging") as run:
     run.log({"eval_table": table})
 ```
 
-### Resuming runs with INCREMENTAL tables
+### Resume runs with `INCREMENTAL` tables
 
 You can continue logging to an incremental table when resuming a run:
 
@@ -216,7 +216,7 @@ You can continue logging to an incremental table when resuming a run:
 resumed_run = wandb.init(project="resume-incremental", id="your-run-id", resume="must")
 
 # Create the incremental table; no need to populate with data from previously logged table
-# Increments will be continue to be added to the Table artifact.
+# Increments continue to be added to the Table artifact.
 table = wandb.Table(columns=["step", "metric"], log_mode="INCREMENTAL")
 
 # Continue logging
@@ -233,7 +233,7 @@ Increments are logged to a new table if you turn off summaries on a key used for
 </Note>
 
 
-### Training with INCREMENTAL batch training
+### Train in batches with `INCREMENTAL`
 
 ```python
 
