@@ -1103,6 +1103,10 @@ image: clickhouse/clickhouse-server:25.10   # Server version
 
 Keeper and server versions should match, or the Keeper version should be greater than or equal to the server version for compatibility.
 
+<Warning>
+Upgrade ClickHouse Keeper to a compatible version when you upgrade ClickHouse Server. Before you change ClickHouse versions for a W&B Self-Managed deployment, review [ClickHouse compatibility for upgrades](/platform/hosting/self-managed/operator#clickhouse-compatibility-for-upgrades) and the [Supported W&B Server releases](/release-notes/server-releases) page. Models OLAP features and Weave can have different ClickHouse version requirements.
+</Warning>
+
 ### Monitor ClickHouse
 
 Access ClickHouse system tables for monitoring:
@@ -1140,6 +1144,12 @@ Production deployments should harden the defaults shown in this guide. The follo
 
 The following procedures cover routine upgrades for the operator, ClickHouse server, and Weave Trace components. Upgrade one component at a time and confirm that the deployment is healthy before moving on.
 
+<Note>
+Self-Managed deployments that use ClickHouse for both Weave and Models OLAP features must satisfy version requirements for both products. Models OLAP features and Weave can have different ClickHouse version requirements. 
+
+See [ClickHouse compatibility for upgrades](/platform/hosting/self-managed/operator#clickhouse-compatibility-for-upgrades) and [Supported W&B Server releases](/release-notes/server-releases) before upgrading ClickHouse or W&B Server. Upgrade ClickHouse Server and ClickHouse Keeper together.
+</Note>
+
 ### Upgrade the ClickHouse Operator
 
 ```bash
@@ -1150,10 +1160,11 @@ helm upgrade ch-operator altinity/altinity-clickhouse-operator \
 
 ### Upgrade ClickHouse Server
 
-Update the image version in `ch-server.yaml` and apply:
+Update the image version in both `ch-keeper.yaml` and `ch-server.yaml`, then apply the server manifest:
 
 ```bash
-# Edit ch-server.yaml, change image tag
+# Edit ch-keeper.yaml and ch-server.yaml, change image tags
+kubectl apply -f ch-keeper.yaml
 kubectl apply -f ch-server.yaml
 
 # Monitor the pods

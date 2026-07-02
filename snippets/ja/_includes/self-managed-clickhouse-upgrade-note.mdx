@@ -1,0 +1,22 @@
+---
+title: セルフマネージド ClickHouse アップグレードに関する注意
+---
+
+<Note>
+  W&amp;B Server 0.81.0+ ではスキーマ移行が導入されており、Helm values で以下の Models OLAP 機能のいずれかを有効にしている場合は、ClickHouse 26.3 以降が必要です。
+
+  ```yaml
+  global:
+    olap:
+      registrySearch:
+        enabled: true
+      runStoreAccelerator:
+        enabled: true
+      history:
+        enabled: true
+  ```
+
+  ***W&amp;B Self-Managed を Server v0.81+ にアップグレードする前に***、Helm values でこれらを `false` に設定するか、**ClickHouse Server と ClickHouse Keeper の両方**を 26.3 にアップグレードする必要があります。
+
+  専用クラウドのデプロイでは、すでに互換性のある ClickHouse バージョンを実行しているため、影響はありません。
+</Note>

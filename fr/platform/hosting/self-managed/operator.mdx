@@ -27,12 +27,12 @@ Avant de déployer W&amp;B avec l’opérateur Kubernetes, assurez-vous que votr
 
 1. **Vérifier les exigences de l’infrastructure** : Voir la page des [exigences d’infrastructure pour l’environnement Autogéré](/fr/platform/hosting/self-managed/requirements/) pour plus de détails sur :
 
-* Exigences relatives aux versions logicielles (Kubernetes, MySQL, Redis, Helm)
+* Exigences relatives aux versions logicielles (Kubernetes, MySQL, Redis, Helm, ClickHouse)
   * Exigences matérielles (architecture CPU, recommandations de dimensionnement)
   * Configuration du cluster Kubernetes
   * Exigences relatives au réseau, à SSL/TLS et au DNS
 
-2. **Obtenir une licence W&amp;B Server** : Voir la section [License](/fr/platform/hosting/self-managed/requirements#license) sur la page des exigences.
+2. **Obtenir une licence serveur W&amp;B** : Voir la section [License](/fr/platform/hosting/self-managed/requirements#license) sur la page des exigences.
 3. **Préparer les services externes** : Configurer MySQL, Redis et le stockage d’objets avant le déploiement.
 
 Pour plus d’informations, voir la page de [l’architecture de référence](/fr/platform/hosting/self-managed/ref-arch/).
@@ -1290,6 +1290,52 @@ Ces étapes décrivent la séquence du point de vue de W&amp;B. Pour savoir comm
 5. Redémarrez MySQL et vérifiez qu’il est opérationnel.
 6. Une fois MySQL opérationnel, exécutez `wandb verify` pour valider votre déploiement W&amp;B. La commande exécute une série de vérifications et affiche les résultats dans `STDOUT`. Si elle signale des problèmes, effectuez les ajustements nécessaires et exécutez-la de nouveau. Pour les étapes de configuration et de connexion, voir [Vérifiez l’installation](#verify-the-installation).
 7. Une fois la validation terminée, les utilisateurs peuvent reprendre les opérations normales.
+
+<div id="clickhouse-compatibility-for-upgrades">
+  ## Compatibilité de ClickHouse pour les mises à niveau
+</div>
+
+Les déploiements autogérés qui utilisent un cluster ClickHouse externe doivent vérifier la compatibilité de ClickHouse avant de mettre à niveau le serveur W&amp;B.
+
+<div id="unsupported-clickhouse-versions">
+  ### Versions de ClickHouse non prises en charge
+</div>
+
+Les déploiements W&amp;B Autogéré qui utilisent les fonctionnalités OLAP de W&amp;B Weave ou de Models nécessitent une version prise en charge de ClickHouse Server et de ClickHouse Keeper.
+
+* Weave ne fonctionne pas avec ClickHouse 26.1 ni 26.2.
+* Les fonctionnalités OLAP de Models décrites dans la section suivante nécessitent ClickHouse 26.2 ou version ultérieure.
+* Les déploiements qui utilisent à la fois les fonctionnalités OLAP de Weave et de Models nécessitent ClickHouse 26.3.
+
+Si votre déploiement W&amp;B Autogéré n&#39;utilise ni Weave ni les fonctionnalités OLAP de Models, ClickHouse n&#39;est pas requis.
+
+<div id="models-olap-features">
+  ### Fonctionnalités OLAP de Models
+</div>
+
+serveur W&amp;B 0.81.0+ introduit des migrations de schéma qui nécessitent ClickHouse 26.2+. Ces migrations s’exécutent lorsque l’une des fonctionnalités OLAP de Models ci-dessous est activée dans vos valeurs Helm :
+
+```yaml
+global:
+  olap:
+    registrySearch:
+      enabled: true
+    runStoreAccelerator:
+      enabled: true
+    history:
+      enabled: true
+```
+
+***Avant* la mise à niveau de W&amp;B Autogéré vers Server v0.81+**, vous devez *soit* :
+
+* définir ces valeurs sur `false` dans vos valeurs Helm, *soit* :
+* mettre à niveau ClickHouse Server et ClickHouse Keeper vers la version 26.2 ou ultérieure (26.3 ou ultérieure si votre déploiement utilise également Weave).
+
+Si ces fonctionnalités sont désactivées ou si vous n&#39;utilisez pas ClickHouse pour les charges de travail OLAP de Models, cette exigence ne s&#39;applique pas à votre mise à niveau.
+
+Les déploiements Cloud dédié et Cloud mutualisé exécutent déjà une version compatible de ClickHouse et ne sont pas concernés.
+
+Pour les notes de version propres à chaque version, voir [Versions du serveur W&amp;B prises en charge](/fr/release-notes/server-releases).
 
 <div id="migrate-self-managed-instances-to-wb-operator">
   ## Migrer des instances Autogéré vers W&amp;B Operator
