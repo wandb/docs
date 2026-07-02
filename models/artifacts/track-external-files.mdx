@@ -3,23 +3,23 @@ description: Track files saved in an external bucket, HTTP file server, or an NF
 title: Track external files
 ---
 
-Use *reference artifacts* to track and use files saved outside of W&B servers. Common external storage solutions include: CoreWeave AI Object Storage, an Amazon Simple Storage Service (Amazon S3) bucket, GCS bucket, Azure blob, HTTP file server, or NFS share.
+Use *reference artifacts* to track and use files saved outside W&B servers, so you can version and reference large datasets and models without copying them into W&B. Common external storage solutions include: CoreWeave AI Object Storage, an Amazon Simple Storage Service (Amazon S3) bucket, GCS bucket, Azure blob, HTTP file server, or NFS share.
 
-Reference artifacts behave similar to non-reference artifacts. The key difference is that the reference artifacts only consists of metadata about the files, such as their sizes and MD5 checksums. The files themselves never leave your system.
+Reference artifacts behave similar to non-reference artifacts. The key difference is that a reference artifact only consists of metadata about the files, such as their sizes and MD5 checksums. The files themselves never leave your system.
 
-You can interact with reference artifact similarly to non-reference artifacts. In the W&B App, you can browse the contents of the reference artifact using the file browser, explore the full dependency graph, and scan through the versioned history of your artifact. However, the UI cannot render rich media such as images, audio, because the data itself is not contained within the artifact.
+You can interact with reference artifacts the same way you interact with non-reference artifacts. In the W&B App, you can browse the contents of the reference artifact using the file browser, explore the full dependency graph, and scan through the versioned history of your artifact. However, the UI can't render rich media such as images and audio, because the artifact doesn't contain the data itself.
 
 <Note>
-If you log an artifact that does not track external files, W&B saves the artifact's files to W&B servers. This is the default behavior when you log artifacts with the W&B Python SDK.
+If you log an artifact that doesn't track external files, W&B saves the artifact's files to W&B servers. This is the default behavior when you log artifacts with the W&B Python SDK.
 
-If you log an artifact that tracks external files, W&B logs metadata about the object, such as the object's ETag and size. If object versioning is enabled on the bucket, the version ID is also logged.
+If you log an artifact that tracks external files, W&B logs metadata about the object, such as the object's ETag and size. If object versioning is enabled on the bucket, W&B also logs the version ID.
 </Note>
 
 The following sections describe how to track external reference artifacts.
 
 ## Track an artifact in an external bucket
 
-Use the W&B Python SDK to track references to files stored outside of W&B.
+Use the W&B Python SDK to track references to files stored outside W&B.
 
 1. Initialize a run with `wandb.init()`.
 2. Create an artifact object with `wandb.Artifact()`.
@@ -56,9 +56,9 @@ s3://my-bucket
 The `datasets/mnist/` directory contains a collection of images. To track the image `datasets/mnist/` directory as a dataset artifact, specify:
 
 1. Provide a name for the artifact, such as `"mnist"`.
-1. Set the `type` parameter to `"dataset"` when you construct the artifact object (`wandb.Artifact(type="dataset")`).
-1. Provide the path to the `datasets/mnist/` directory as an Amazon S3 URI (`s3://my-bucket/datasets/mnist/`) when you call `wandb.Artifact.add_reference()`.
-1. Log the artifact with `run.log_artifact()`.
+2. Set the `type` parameter to `"dataset"` when you construct the artifact object (`wandb.Artifact(type="dataset")`).
+3. When you call `wandb.Artifact.add_reference()`, provide the path to the `datasets/mnist/` directory as an Amazon S3 URI (`s3://my-bucket/datasets/mnist/`).
+4. Log the artifact with `run.log_artifact()`.
 
 The following code sample creates a reference artifact `mnist:latest`:
 
@@ -71,10 +71,10 @@ with wandb.init(project="my-project") as run:
   run.log_artifact(artifact)
 ```
 
-Within the W&B App, you can look through the contents of the reference artifact using the file browser, [explore the full dependency graph](/models/artifacts/explore-and-traverse-an-artifact-graph/), and scan through the versioned history of your artifact. The W&B App does not render rich media such as images, audio, and so forth because the data itself is not contained within the artifact.
+Within the W&B App, you can browse the contents of the reference artifact using the file browser, [explore the full dependency graph](/models/artifacts/explore-and-traverse-an-artifact-graph/), and scan through the versioned history of your artifact. The W&B App doesn't render rich media such as images or audio because the artifact doesn't contain the data itself.
 
 <Note>
-W&B Artifacts support any Amazon S3 compatible interface, including CoreWeave Storage and MinIO. The scripts described below work as-is with both providers, when you set the `AWS_S3_ENDPOINT_URL` environment variable to point at your CoreWeave Storage or MinIO server.
+W&B Artifacts support any Amazon S3 compatible interface, including CoreWeave AI Object Storage and MinIO. The following scripts work without modification with both providers, when you set the `AWS_S3_ENDPOINT_URL` environment variable to point at your CoreWeave AI Object Storage or MinIO server.
 </Note>
 
 <Warning>
@@ -83,7 +83,9 @@ By default, W&B imposes a 10,000 object limit when adding an object prefix. You 
 
 ## Download an artifact from an external bucket
 
-W&B retrieves the files from the underlying bucket when it downloads a reference artifact using the metadata recorded when the artifact is logged. If your bucket has object versioning enabled, W&B retrieves the object version that corresponds to the state of the file at the time an artifact was logged. As you evolve the contents of your bucket, you can always point to the exact version of your data a given model was trained on, because the artifact serves as a snapshot of your bucket during the training run.
+After you log a reference artifact, you can download it later to retrieve the original files from the bucket.
+
+When W&B downloads a reference artifact, it retrieves the files from the underlying bucket using the metadata recorded when you logged the artifact. If your bucket has object versioning enabled, W&B retrieves the object version that corresponds to the state of the file at the time the artifact was logged. As you evolve the contents of your bucket, you can point to the exact version of your data a given model was trained on, because the artifact serves as a snapshot of your bucket during the training run.
 
 The following code sample shows how to download a reference artifact. The APIs for downloading artifacts are the same for both reference and non-reference artifacts:
 
@@ -96,14 +98,14 @@ with wandb.init(project="my-project") as run:
 ```
 
 <Note>
-W&B recommends that you enable 'Object Versioning' on your storage buckets if you overwrite files as part of your workflow. 
+If you overwrite files as part of your workflow, W&B recommends that you enable 'Object Versioning' on your storage buckets.
 
-If versioning is enabled, W&B can always retrieve the correct version of the file when you download an artifact, even if the file has been overwritten since the artifact was logged.
+If versioning is enabled, W&B can retrieve the correct version of the file when you download an artifact, even if the file has been overwritten since you logged the artifact.
 
 Based on your use case, read the instructions to enable object versioning: [AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html), [Google Cloud](https://cloud.google.com/storage/docs/using-object-versioning#set), [Azure](https://learn.microsoft.com/azure/storage/blobs/versioning-enable).
 </Note>
 
-## Add and download an external from a bucket
+## Add and download an external file from a bucket
 
 The following code sample uploads a dataset to an Amazon S3 bucket, tracks it with a reference artifact, then downloads it:
 
@@ -123,7 +125,7 @@ with wandb.init() as run:
   run.log_artifact(model_artifact)
 ```
 
-At a later point, you can download the model artifact. Specify the name of the artifact and its type:
+At a later point, you can download the model artifact. To do so, specify the name of the artifact and its type:
 
 ```python
 import wandb
@@ -142,27 +144,25 @@ See the following reports for an end-to-end walkthrough on how to track artifact
 
 ## Cloud storage credentials
 
-W&B uses the default mechanism to look for credentials based on the cloud provider you use. Read the documentation from your cloud provider to learn more about the credentials used:
+To read from and write to your external bucket, W&B needs credentials configured in your environment. W&B uses the default mechanism to look for credentials based on the cloud provider you use. To learn more about the credentials used, read the documentation from your cloud provider:
 
-| Cloud provider | Credentials Documentation |
+| Cloud provider | Credentials documentation |
 | -------------- | ------------------------- |
 | CoreWeave AI Object Storage | [CoreWeave AI Object Storage documentation](https://docs.coreweave.com/docs/products/storage/object-storage/how-to/manage-access-keys/cloud-console-tokens) |
 | AWS            | [Boto3 documentation](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html#configuring-credentials) |
 | Google Cloud            | [Google Cloud documentation](https://cloud.google.com/docs/authentication/provide-credentials-adc) |
 | Azure          | [Azure documentation](https://learn.microsoft.com/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python) |
 
-For AWS, if the bucket is not located in the configured user's default region, you must set the `AWS_REGION` environment variable to match the bucket region.
+For AWS, if the bucket isn't located in the configured user's default region, you must set the `AWS_REGION` environment variable to match the bucket region.
 
 <Warning>
-Rich media such as images, audio, video, and point clouds may fail to render in the App UI depending on the CORS configuration of your bucket. Allow listing **app.wandb.ai** in your bucket's CORS settings will allow the W&B App to properly render such rich media.
-
-If rich media such as images, audio, video, and point clouds does not render in the App UI, ensure that `app.wandb.ai` is allowlisted in your bucket's CORS policy.
+Rich media such as images, audio, video, and point clouds may fail to render in the App UI depending on the CORS configuration of your bucket. To resolve rendering issues, allowlist `app.wandb.ai` in your bucket's CORS policy.
 </Warning>
 
 
 ## Track an artifact in a filesystem
 
-A common pattern for accessing datasets is to expose an NFS mount point to a remote filesystem on all machines running training jobs. This can be an alternative solution to a cloud storage bucket because from the perspective of the training script, the files appear local to your filesystem. 
+A common pattern for accessing datasets is to expose an NFS mount point to a remote filesystem on all machines running training jobs. This can be an alternative to a cloud storage bucket because, from the perspective of the training script, the files appear local to your filesystem.
 
 {/* Use W&B Artifacts to track references to file systems, regardless if they are mounted or not. */}
 
@@ -174,7 +174,7 @@ To track an artifact in a filesystem:
 3. Specify the reference to the filesystem path with the artifact object's `wandb.Artifact.add_reference()` method.
 4. Log the artifact's metadata with `run.log_artifact()`.
 
-Copy and paste the following code snippet to track files in a mounted filesystem. Replace the values enclosed in angle brackets (`< >`) with your own values.
+To track files in a mounted filesystem, copy and paste the following code snippet. Replace the values enclosed in angle brackets (`< >`) with your own values.
 
 ```python
 import wandb
@@ -204,7 +204,7 @@ mount
   |-- cnn/
 ```
 
-You want to track the `datasets/mnist/` directory as a dataset artifact. To track it, you could use the following code snippet.
+To track the `datasets/mnist/` directory as a dataset artifact, use the following code snippet:
 
 ```python
 import wandb
@@ -221,7 +221,7 @@ This creates a reference artifact `mnist:latest` that points to the files stored
 By default, W&B imposes a 10,000 file limit when adding a reference to a directory. You can adjust this limit by specifying `max_objects=` when you call `wandb.Artifact.add_reference()`.
 </Warning>
 
-Similarly, to track a model stored at `models/cnn/my_model.h5`, you could use the following code snippet:
+Similarly, to track a model stored at `models/cnn/my_model.h5`, use the following code snippet:
 
 ```python
 import wandb
@@ -244,12 +244,13 @@ with wandb.init() as run:
 
 ## Download an artifact from an external filesystem
 
+After you log a filesystem reference artifact, you can download it later to retrieve the original files from the mounted filesystem.
 
 Download files from a referenced filesystem using the same APIs as non-reference artifacts:
 
 1. Initialize a run with `wandb.init()`.
 2. Use the `wandb.Run.use_artifact()` method to indicate the artifact you want to download.
-3. Call the artifact's `wandb.Artifact.download()` method to download the files from the referenced filesystem
+3. Call the artifact's `wandb.Artifact.download()` method to download the files from the referenced filesystem.
 
 ```python
 with wandb.init() as run:
@@ -257,11 +258,11 @@ with wandb.init() as run:
   artifact_dir = artifact.download()
 ```
 
-W&B copies the contents of `/mount/datasets/mnist` to the `artifacts/mnist:v0/` directory. 
+W&B copies the contents of `/mount/datasets/mnist` to the `artifacts/mnist:v0/` directory.
 
 <Info>
 
-`Artifact.download()` throws an error if it cannot reconstruct the artifact. For example, if an artifact contains a reference to a file that was overwritten, `Artifact.download()` will throw an error because the artifact can no longer be reconstructed.
+`Artifact.download()` throws an error if it can't reconstruct the artifact. For example, if an artifact contains a reference to a file that was overwritten, `Artifact.download()` throws an error because the artifact can no longer be reconstructed.
 </Info>
 
 

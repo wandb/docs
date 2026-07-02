@@ -1,18 +1,23 @@
 ---
-description: Download and use Artifacts from multiple projects.
+description: Download and use artifacts from multiple projects.
 title: Download and use artifacts
 ---
 
-Download and use an artifact that is already stored on the W&B server or construct an artifact object and pass it in to for de-duplication as necessary.
+Download and use an artifact that's already stored on the W&B server, or construct an artifact object and pass it in for de-duplication. Use these workflows when you need to consume datasets, models, or other versioned files produced earlier in your pipeline, either inside a W&B run or as a standalone operation.
+
+Replace placeholders in the code examples with your own values:
+
+- `<project-name>`: The name of your W&B project.
+- `<job-type>`: A label describing the type of run, such as `training` or `eval`.
 
 <Note>
-Team members with a Models **Viewer** seat cannot download artifacts.
+Team members with a Models **Viewer** seat can't download artifacts.
 </Note>
 
 
-### Download and use an artifact stored on W&B
+## Download and use an artifact stored on W&B
 
-Download and use an artifact stored in W&B either inside or outside of a W&B Run. Use the Public API ([`wandb.Api`](/models/ref/python/public-api/api)) to export (or update data) already saved in W&B.
+Download and use an artifact stored in W&B either inside or outside a W&B run. Use the Public API ([`wandb.Api`](/models/ref/python/public-api/api)) to export or update data already saved in W&B.
 
 <Tabs>
 <Tab title="During a run">
@@ -21,11 +26,11 @@ First, import the W&B Python SDK. Next, create a W&B [Run](/models/ref/python/ex
 ```python
 import wandb
 
-with wandb.init(project="<example>", job_type="<job-type>") as run:
+with wandb.init(project="<project-name>", job_type="<job-type>") as run:
     # See next step
 ```
 
-Indicate the artifact you want to use with the [`wandb.Run.use_artifact()`](/models/ref/python/experiments/run#use_artifact) method. This returns a run object. In the following code snippet specifies an artifact called `'bike-dataset'` with the alias `'latest'`:
+Indicate the artifact you want to use with the [`wandb.Run.use_artifact()`](/models/ref/python/experiments/run#use_artifact) method. This returns an artifact object. The following code snippet specifies an artifact called `bike-dataset` with the alias `latest`:
 
 ```python
 # Indicate the artifact to use. Format is "name:alias"
@@ -39,7 +44,7 @@ Use the object returned to download all the contents of the artifact:
 datadir = artifact.download()
 ```
 
-You can optionally pass a path to the root parameter to download the contents of the artifact to a specific directory.
+You can optionally pass a path to the `root` parameter to download the contents of the artifact to a specific directory.
 
 Use the [`wandb.Artifact.get_entry()`](/models/ref/python/experiments/artifact#get_entry) method to download only a subset of files:
 
@@ -51,9 +56,9 @@ entry = artifact.get_entry(name)
 Putting this together, the complete code example looks like this:
 
 ```python
-import wandb    
+import wandb
 
-with wandb.init(project="<example>", job_type="<job-type>") as run:
+with wandb.init(project="<project-name>", job_type="<job-type>") as run:
     # Indicate the artifact to use. Format is "name:alias"
     artifact = run.use_artifact("bike-dataset:latest")
 
@@ -67,14 +72,14 @@ with wandb.init(project="<example>", job_type="<job-type>") as run:
 
 This fetches only the file at the path `name`. It returns an `Entry` object with the following methods:
 
-* `Entry.download`: Downloads file from the artifact at path `name`
-* `Entry.ref`: If `add_reference` stored the entry as a reference, returns the URI
+* `Entry.download`: Downloads the file from the artifact at path `name`.
+* `Entry.ref`: Returns the URI if `add_reference` stored the entry as a reference.
 
 {/* References that have schemes that W&B knows how to handle get downloaded just like artifact files. For more information, see [Track external files](/models/artifacts/track-external-files/). */}
 
 </Tab>
-<Tab title="Outside of a run">
-First, import the W&B SDK. Next, create an artifact object from the Public API Class. Provide the entity, project, artifact, and alias associated with that artifact:
+<Tab title="Outside a run">
+Import the W&B SDK, then create an artifact object from the Public API class. Provide the entity, project, artifact, and alias associated with that artifact:
 
 ```python
 import wandb
@@ -89,45 +94,46 @@ Use the object returned to download the contents of the artifact:
 artifact.download()
 ```
 
-You can optionally pass a path the `root` parameter to download the contents of the artifact to a specific directory. For more information, see the [Python SDK Reference Guide](/models/ref/python/experiments/artifact#download).
+You can optionally pass a path to the `root` parameter to download the contents of the artifact to a specific directory. For more information, see the [Python SDK Reference Guide](/models/ref/python/experiments/artifact#download).
 </Tab>
 <Tab title="W&B CLI">
 Use the `wandb artifact get` command to download an artifact from the W&B server.
 
-```
-$ wandb artifact get project/artifact:alias --root mnist/
+```bash
+wandb artifact get project/artifact:alias --root mnist/
 ```
 </Tab>
 </Tabs>
 
 
-### Partially download an artifact
+## Partially download an artifact
 
-You can optionally download part of an artifact based on a prefix. Use the `path_prefix=` (`wandb.Artifact.download(path_prefix=)`) parameter to download a single file or the content of a sub-folder.
+If you only need a subset of an artifact's contents, download part of an artifact based on a prefix. Use the `path_prefix=` (`wandb.Artifact.download(path_prefix=)`) parameter to download a single file or the content of a sub-folder.
 
 ```python
-with wandb.init(project="<example>", job_type="<job-type>") as run:
+with wandb.init(project="<project-name>", job_type="<job-type>") as run:
     # Indicate the artifact to use. Format is "name:alias"
     artifact = run.use_artifact("bike-dataset:latest")
 
     # Download a specific file or sub-folder
-    artifact.download(path_prefix="bike.png") # downloads only bike.png
+    artifact.download(path_prefix="bike.png")  # Downloads only bike.png
 ```
 
 Alternatively, you can download files from a certain directory. To do so, specify the directory within the `path_prefix=` parameter. Continuing from the previous code snippet:
 
 ```python
-# downloads files in the images/bikes directory
-artifact.download(path_prefix="images/bikes/") 
+# Downloads files in the images/bikes directory
+artifact.download(path_prefix="images/bikes/")
 ```
-### Use an artifact from a different project
 
-Specify the name of artifact along with its project name to reference an artifact. You can also reference artifacts across entities by specifying the name of the artifact with its entity name.
+## Use an artifact from a different project
 
-The following code example demonstrates how to query an artifact from another project as input to the current W&B run.
+Specify the name of the artifact along with its project name to reference an artifact. You can also reference artifacts across entities by specifying the name of the artifact with its entity name.
+
+The following code example queries an artifact from another project and uses it as input to the current W&B run.
 
 ```python
-with wandb.init(project="<example>", job_type="<job-type>") as run:
+with wandb.init(project="<project-name>", job_type="<job-type>") as run:
     # Query W&B for an artifact from another project and mark it
     # as an input to this run.
     artifact = run.use_artifact("my-project/artifact:alias")
@@ -135,17 +141,16 @@ with wandb.init(project="<example>", job_type="<job-type>") as run:
     # Use an artifact from another entity and mark it as an input
     # to this run.
     artifact = run.use_artifact("my-entity/my-project/artifact:alias")
-
 ```
 
-### Construct and use an artifact simultaneously
+## Construct and use an artifact simultaneously
 
-Simultaneously construct and use an artifact. Create an artifact object and pass it to use_artifact. This creates an artifact in W&B if it does not exist yet. The [`wandb.Run.use_artifact()`](/models/ref/python/experiments/run#use_artifact) API is idempotent, so you can call it as many times as you like.
+When you want to log an artifact and immediately mark it as an input to the same run, construct and use the artifact in a single step. Create an artifact object and pass it to `use_artifact`. This creates the artifact in W&B if it doesn't exist yet. The [`wandb.Run.use_artifact()`](/models/ref/python/experiments/run#use_artifact) API is idempotent, so you can call it as many times as needed.
 
 ```python
 import wandb
 
-with wandb.init(project="<example>", job_type="<job-type>") as run:
+with wandb.init(project="<project-name>", job_type="<job-type>") as run:
     artifact = wandb.Artifact("reference model")
     artifact.add_file("model.h5")
     run.use_artifact(artifact)

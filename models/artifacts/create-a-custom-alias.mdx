@@ -7,7 +7,7 @@ Use aliases as pointers to specific versions. By default, `wandb.Run.log_artifac
 
 W&B creates an artifact version `v0` and attaches it to your artifact when you log that artifact for the first time. W&B checksums the contents when you log again to the same artifact. If the artifact changed, W&B saves a new version `v1`.
 
-For example, if you want your training script to pull the most recent version of a dataset, specify `latest` when you use that artifact. The following code example demonstrates how to download a recent dataset artifact named `bike-dataset` that has an alias, `latest`:
+For example, if you want your training script to pull the most recent version of a dataset, specify `latest` when you use that artifact. The following code example downloads a recent dataset artifact named `bike-dataset` that has an alias, `latest`. Replace `<project>` with your W&B project name:
 
 ```python
 import wandb
@@ -17,7 +17,7 @@ with wandb.init(project="<project>") as run:
     artifact.download()
 ```
 
-You can also apply a custom alias to an artifact version. For example, if you want to mark that model checkpoint is the best on the metric AP-50, you could add the string `'best-ap50'` as an alias when you log the model artifact.
+You can also apply a custom alias to an artifact version. For example, if you want to mark that a model checkpoint is the best on the AP-50 metric, you could add the string `'best-ap50'` as an alias when you log the model artifact.
 
 ```python
 with wandb.init(project="<project>") as run:
