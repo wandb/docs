@@ -23,9 +23,9 @@ Weave provides the following capabilities for model evaluation:
 * **Detailed tracing**: Debug model behavior with complete input/output traces.
 * **Cost tracking**: Monitor API costs and token usage across evaluations.
 
-### Evaluate a model from Registry
+### Evaluate a model from W&B Registry
 
-Download a model from Registry and evaluate it using Weave:
+Download a model from W&B Registry and evaluate it using Weave:
 
 ```python
 import weave
@@ -35,12 +35,12 @@ from typing import Any
 # Initialize Weave
 weave.init("your-entity/your-project")
 
-# Define a ChatModel that loads from Registry
+# Define a ChatModel that loads from W&B Registry
 class ChatModel(weave.Model):
     model_name: str
     
     def model_post_init(self, __context):
-        # Download model from Registry
+        # Download model from W&B Registry
         with wandb.init(project="your-project", job_type="model_download") as run:
             artifact = run.use_artifact(self.model_name)
             self.model_path = artifact.download()
@@ -71,25 +71,25 @@ evaluation = weave.Evaluation(
 results = await evaluation.evaluate(model)
 ```
 
-### Integrate Weave evaluations with Models
+### Integrate Weave evaluations with W&B Models
 
 To connect Weave evaluation results with the models and runs you track in W&B, use the integration workflow described next.
 
 The [Models and Weave Integration Demo](/weave/cookbooks/Models_and_Weave_Integration_Demo) shows the complete workflow for:
 
-1. **Load models from Registry**: Download fine-tuned models stored in Registry.
+1. **Load models from Registry**: Download fine-tuned models stored in W&B Registry.
 2. **Create evaluation pipelines**: Build evaluations with custom scorers.
 3. **Log results back to W&B**: Connect evaluation metrics to your model runs.
 4. **Version evaluated models**: Save improved models back to the Registry.
 
-Log evaluation results to both Weave and Models:
+Log evaluation results to both Weave and W&B Models:
 
 ```python
 # Run evaluation with W&B tracking
 with weave.attributes({"wandb-run-id": wandb.run.id}):
     summary, call = await evaluation.evaluate.call(evaluation, model)
 
-# Log metrics to Models
+# Log metrics to W&B Models
 wandb.run.log(summary)
 wandb.run.config.update({
     "weave_eval_url": f"https://wandb.ai/{entity}/{project}/r/call/{call.id}"
@@ -134,9 +134,9 @@ For more information, see the following:
 
 
 
-## Evaluate models with Tables
+## Evaluate models with W&B Tables
 
-W&B Tables let you log structured predictions and inspect them interactively in the UI. Use Tables to:
+W&B Tables let you log structured predictions and inspect them interactively in the W&B UI. Use Tables to:
 
 * **Compare model predictions**: View side-by-side comparisons of how different models perform on the same test set.
 * **Track prediction changes**: Monitor how predictions evolve across training epochs or model versions.
@@ -219,7 +219,7 @@ for epoch in range(num_epochs):
 
 ### Interactive analysis in the W&B UI
 
-After you log your tables, the W&B UI provides several ways to explore the results. You can:
+After you log a table, you can use the W&B UI to explore the results. You can:
 
 * **Filter results**: Click column headers to filter by prediction accuracy, confidence thresholds, or specific classes.
 * **Compare tables**: Select multiple table versions to see side-by-side comparisons.

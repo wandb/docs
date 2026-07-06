@@ -7,7 +7,7 @@ This page shows you how to export the data in a W&B Table to a pandas DataFrame 
 
 ## Convert a table to an artifact
 
-To work with a logged table as a `Table` object, add it to an artifact, log the artifact, then retrieve the table:
+To work with a logged table as a Table object, add the table to an artifact, log the artifact, then retrieve the table from the artifact:
 
 1. Add the table to an artifact with `artifact.add(table, "my_table")`, then log the artifact:
 
@@ -22,7 +22,7 @@ To work with a logged table as a `Table` object, add it to an artifact, log the 
        wandb.log_artifact(artifact)
    ```
 
-2. Retrieve the table as a `Table` object with `artifact.get("my_table")`:
+2. Retrieve the table with `wandb.Artifact.get("my_table")`:
 
    ```python
    # Retrieve the created table using the artifact you created.
@@ -33,7 +33,7 @@ To work with a logged table as a `Table` object, add it to an artifact, log the 
 
 ## Convert the artifact to a DataFrame
 
-With the table retrieved from the artifact, convert it into a pandas DataFrame so that you can use DataFrame operations:
+With the table retrieved from the artifact, convert it into a pandas DataFrame:
 
 ```python
 # Following from the last code example:
@@ -42,7 +42,7 @@ df = table.get_dataframe()
 
 ## Export data
 
-With your data in a DataFrame, you can export it using any method that pandas supports. For example, the following exports the data to a CSV file:
+With your data in a pandas DataFrame, you can export it using any method that pandas supports. For example, the following exports the data to a CSV file:
 
 ```python
 # Convert the table data to .csv

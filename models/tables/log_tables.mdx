@@ -4,20 +4,24 @@ description: "Create and log W&B Tables with different logging modes including i
 ---
 
 
-This page shows you how to create and log W&B Tables with the Python SDK so you can visualize and analyze tabular data, including predictions, evaluation results, and batched training output, alongside your ML experiments.
+This page shows you how to create and log W&B Tables with the Python SDK so you can visualize and analyze tabular data alongside your ML experiments.
 
-A Table is a two-dimensional grid of data where each column has a single type of data. Each row represents one or more data points logged to a W&B [run](/models/runs/). Tables support primitive and numeric types, as well as nested lists, dictionaries, and rich media types.
+A *table* is a two-dimensional grid of data where each column has a single type of data. Each row represents one or more data points logged to a [run](/models/runs/). Tables support primitive and numeric types, as well as nested lists, dictionaries, and rich media types.
 
-A Table is a specialized W&B [data type](/models/ref/python/data-types/). When you log a table, W&B stores it as an [artifact](/models/artifacts/).
+A W&B Table is a specialized W&B [data type](/models/ref/python/data-types/). When you log a table, W&B stores it as an [artifact](/models/artifacts/).
 
 You [create and log tables](#create-and-log-a-table) using the W&B Python SDK. When you create a table, you specify its columns, data, and a [mode](#logging-modes). The mode determines how the table is logged and updated during your ML experiments, which affects performance, what you can change after logging, and how the table appears in W&B.
 
+<Note>
+`INCREMENTAL` mode is supported on W&B Server v0.70.0 and above.
+</Note>
+
 ## Create and log a table
 
-Follow these steps to log a table to a run. The resulting table is stored as an artifact in W&B and rendered in the run's workspace.
+Follow these steps to log a table to a run. The resulting table is stored as an artifact in W&B and rendered in your project's workspace.
 
 1. Initialize a new run with `wandb.init()`.
-2. Create a Table object with the [`wandb.Table`](/models/ref/python/data-types/table) class. Specify the columns and data for the table for the `columns` and `data` parameters, respectively. Set the optional `log_mode` parameter to one of the three modes: `IMMUTABLE` (the default), `MUTABLE`, or `INCREMENTAL`, because the mode controls how the table behaves when logged. See [Logging modes](#logging-modes) for more information.
+2. Create a table with the [`wandb.Table`](/models/ref/python/data-types/table) Class. Use the `columns` and `data` parameters to define the table columns and rows. To control how the table behaves when logged, set the optional `log_mode` parameter to: `IMMUTABLE` (the default), `MUTABLE`, or `INCREMENTAL`. See [Table Logging Modes](#logging-modes) in the next section for more information.
 3. Log the table to W&B with `run.log()`.
 
 The following example shows how to create and log a table with two columns, `a` and `b`, and two rows of data, `["a1", "b1"]` and `["a2", "b2"]`:
@@ -41,9 +45,7 @@ with wandb.init(project="table-demo") as run:
 
 ## Logging modes
 
-The logging mode you choose affects performance, what you can change after logging, and how the table appears in W&B. Pick the mode that matches your workflow, for example, a single end-of-run snapshot, a table you progressively enrich with new columns, or a long-running training table updated in batches.
-
-The [`wandb.Table`](/models/ref/python/data-types/table) `log_mode` parameter determines how a table is logged and updated during your ML experiments. The `log_mode` parameter accepts one of three arguments: `IMMUTABLE`, `MUTABLE`, and `INCREMENTAL`. Each mode has different implications for how a table is logged, how it can be modified, and how it is rendered in W&B.
+The [`wandb.Table`](/models/ref/python/data-types/table) `log_mode` parameter controls how a table is logged, updated, and displayed in the W&B App. Choose one of the following values based on your workflow: `IMMUTABLE` for a single end-of-run snapshot, `MUTABLE` for a table that you update after logging, or `INCREMENTAL` for long-running jobs that log table data in batches.
 
 The following describes the three logging modes, the high-level differences, and common use cases for each mode:
 
@@ -111,7 +113,7 @@ In `INCREMENTAL` mode, you log batches of rows to a table during the machine lea
 Run workspaces in W&B have a limit of 100 increments. If you log more than 100 increments, only the most recent 100 are shown in the run workspace.
 </Note>
 
-The following example creates a table in `INCREMENTAL` mode, logs it, and then adds new rows to it. The table is logged once per training step (`step`). The example uses placeholder functions (`get_training_batch()`, `train_model_on_batch()`, and `predict_on_batch()`); replace these with your own data loading, training, and prediction functions.
+The following example creates a table in `INCREMENTAL` mode, logs it, and then adds new rows to it. The table is logged once per training step (`step`). The example uses placeholder functions (`get_training_batch()`, `train_model_on_batch()`, and `predict_on_batch()`). Replace these with your own data loading, training, and prediction functions.
 
 ```python
 import wandb
