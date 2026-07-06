@@ -52,7 +52,7 @@ test_table = wandb.Table(data=my_data, columns=columns)
 
 ## Add data
 
-After you create a table, populate it with the rows or columns you want to track. Tables are mutable. As your script executes, you can add more data to your table, up to 200,000 rows. You can add data to a table in two ways:
+After you create a table, populate it with the rows or columns you want to track. As your script executes, you can add more data to your table, up to 200,000 rows. You can add data to a table in two ways:
 
 1. **Add a row**: `table.add_data("3a", "3b", "3c")`. The new row isn't represented as a list. If your row is in list format, use the star notation, `*`, to expand the list to positional arguments: `table.add_data(*my_row_list)`. The row must contain the same number of entries as there are columns in the table.
 2. **Add a column**: `table.add_column(name="col_name", data=col_data)`. The length of `col_data` must equal the table's current number of rows. Here, `col_data` can be a list data, or a NumPy NDArray.
@@ -115,18 +115,18 @@ with wandb.init(project="my_project") as run:
 
 ## Retrieve data
 
-After data is in a table, you can read it back to compute statistics, feed it into downstream code, or inspect specific rows. Access the data by column or by row:
+After data is in a table, you can access the data by column or by row:
 
-1. **Row iterator**: Use the row iterator of the table such as `for ndx, row in table.iterrows(): ...` to efficiently iterate over the data's rows.
-2. **Get a column**: Retrieve a column of data using `table.get_column("col_name")`. As a convenience, you can pass `convert_to="numpy"` to convert the column to a NumPy NDArray of primitives. This is useful if your column contains media types such as `wandb.Image`, so that you can access the underlying data directly.
+1. Row iteration: Use Table.iterrows() to iterate over the data's rows. For example, `for ndx, row in table.iterrows(): ...`.
+2. Retrieve a column: Retrieve a column of data using `table.get_column("col_name")`. As a convenience, you can pass `convert_to="numpy"` to convert the column to a NumPy NDArray of primitives. This is useful if your column contains media types such as `wandb.Image`, so that you can access the underlying data directly.
 
 ## Save tables
 
-After you generate a table of data in your script, for example, a table of model predictions, save it to W&B to visualize the results live. Saving a table persists it to the W&B backend, so that you and your collaborators can view, query, and compare it in the UI.
+After you generate a table of data in your script, for example, a table of model predictions, save it to W&B to visualize the results live.
 
 ### Log a table to a run
 
-To attach a table to a specific run so that it appears in that run's workspace, use `wandb.Run.log()`:
+Use `wandb.Run.log()` to save your table to the run. For example, the following code snippet first creates a table object before logging the table to the run with `wandb.Run.log()`:
 
 ```python
 with wandb.init() as run:
@@ -153,16 +153,16 @@ with wandb.init() as run:
     my_table = run.use_artifact("run-[RUN-ID]-[TABLE-NAME]:[TAG]").get("[TABLE-NAME]")
 ```
 
-For more information about artifacts, see the [Artifacts chapter](/models/artifacts/) in the Developer Guide.
+For more information about artifacts, see [Artifacts](/models/artifacts/).
 
 ### Visualize tables
 
-Any table logged this way appears in your workspace on both the run page and the project page. For more information, see [Visualize and Analyze Tables](/models/tables/visualize-tables/).
+View tables you log in your project's workspace or run page. For more information, see [Visualize and Analyze Tables](/models/tables/visualize-tables/).
 
 
 ## Artifact tables
 
-Use `artifact.add()` to log tables to the Artifacts section of your run instead of the workspace. This approach is useful when you have a dataset that you want to log once and then reference from future runs, so you don't re-upload the same data each time.
+Use `Artifact.add()` to log tables to the Artifacts section of your run instead of the workspace. This approach is useful when you have a dataset that you want to log once and then reference from future runs, so you don't re-upload the same data each time.
 
 ```python
 with wandb.init(project="my_project") as run:
@@ -175,11 +175,11 @@ with wandb.init(project="my_project") as run:
     run.log_artifact(test_predictions)
 ```
 
-Refer to this Colab for a [detailed example of artifact.add() with image data](https://wandb.me/dsviz-nature-colab) and this report for an example of how to use artifacts and tables to [version control and deduplicate tabular data](https://wandb.me/TBV-Dedup).
+Refer to this Colab for a [detailed example of Artifact.add() with image data](https://wandb.me/dsviz-nature-colab) and this report for an example of how to use artifacts and tables to [version control and deduplicate tabular data](https://wandb.me/TBV-Dedup).
 
 ### Join artifact tables
 
-To compare or correlate data across two tables, for example, to align ground truth with predictions or pair original and generated samples, join them with `wandb.JoinedTable(table_1, table_2, join_key)`. You can join tables you constructed locally or tables you retrieved from other artifacts.
+Join tables you have locally constructed or tables you have retrieved from other artifacts with `wandb.JoinedTable(table_1, table_2, join_key)`.
 
 | Args        | Description                                                                                                              |
 | ----------- | ------------------------------------------------------------------------------------------------------------------------ |

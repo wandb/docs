@@ -8,7 +8,7 @@ import { ColabLink } from '/snippets/_includes/colab-link.mdx';
 
 # Log models
 
-This guide shows you how to log model files to a W&B run as a model artifact, and how to retrieve and reuse those files in later runs. Logging models to a run lets you track which experiment produced a given model, capture its lineage, and make it available for downstream use. Use this page if you want lightweight model tracking as part of an experiment tracking workflow.
+This guide shows you how to log model files to a W&B run as a model artifact, and how to retrieve and reuse those files in later runs. Logging models to a run lets you track which experiment produced a given model, capture its lineage, and make it available for downstream use.
 
 <Note>
 The following APIs are useful for tracking models as a part of your experiment tracking workflow. Use the APIs listed on this page to log models to a run, and to access metrics, tables, media, and other objects.
@@ -23,13 +23,13 @@ For more information about W&B Artifacts and advanced versioning use cases, see 
 
 ## Log a model to a run
 
-This section explains how to use `log_model` to log a model artifact from a W&B run.
+This section explains how to use `wandb.Run.log_model()` to log a model artifact from a W&B run.
 
-Use the [`log_model`](/models/ref/python/experiments/run#log_model) method to log a model artifact that contains content within a directory you specify. The [`log_model`](/models/ref/python/experiments/run#log_model) method also marks the resulting model artifact as an output of the W&B run.
+Use the [`wandb.Run.log_model()`](/models/ref/python/experiments/run#log_model) method to log a model artifact that contains content within a directory you specify. `wandb.Run.log_model()` method also marks the resulting model artifact as an output of the W&B run.
 
 You can track a model's dependencies and the model's associations if you mark the model as the input or output of a W&B run. View the lineage of the model within the W&B App UI. For more information, see the [Explore and traverse artifact graphs](/models/artifacts/explore-and-traverse-an-artifact-graph/) page within the [Artifacts](/models/artifacts/) chapter.
 
-Provide the path where your model files are saved to the `path` parameter. The path can be a local file, directory, or [reference URI](/models/artifacts/track-external-files/#amazon-s3--gcs--azure-blob-storage-references) to an external bucket such as `s3://bucket/path`.
+Provide the path where your model files are saved to the `path` parameter. The path can be a local file, directory, or [reference URI](/models/artifacts/track-external-files/) to an external bucket such as `s3://bucket/path`.
 
 Replace `[YOUR-PROJECT]` with your project name, `[YOUR-ENTITY]` with your entity name, `[PATH-TO-MODEL]` with the path to your model files, and `[NAME]` with a name for the model artifact.
 
@@ -49,7 +49,7 @@ Optionally provide a name for the model artifact for the `name` parameter. If `n
 Keep track of the `name` that you, or W&B assigns, to the model. You need the name of the model to retrieve the model path with the [`wandb.Run.use_model()`](/models/ref/python/experiments/run#use_model) method.
 </Note>
 
-For parameters, see [`log_model`](/models/ref/python/experiments/run#log_model) in the API Reference.
+For parameters, see [`wandb.Run.log_model()`](/models/ref/python/experiments/run#log_model) in the API Reference.
 
 <details>
 
@@ -100,7 +100,7 @@ with wandb.init(entity="charlie", project="mnist-experiments", config=config) as
     run.log_model(path=full_path, name="MNIST")
 ```
 
-When you call `wandb.Run.log_model()`, W&B creates a model artifact named `MNIST` and adds the file `model.h5` to the model artifact. Your terminal or notebook prints a link to the run the model was logged to.
+When you use `wandb.Run.log_model()`, W&B creates a model artifact named `MNIST` and adds the file `model.h5` to the model artifact. Your terminal or notebook prints a link to the run the model was logged to.
 
 ```text
 View run different-surf-5 at: https://wandb.ai/charlie/mnist-experiments/runs/wlby6fuw
@@ -117,7 +117,7 @@ After the run completes, the model files are stored as a model artifact in W&B a
 
 After you log a model, you can retrieve its files in a later run to evaluate it, fine-tune it, or use it for inference.
 
-Use the [`use_model`](/models/ref/python/experiments/run#use_model) function to access and download model files previously logged to a W&B run.
+Use [`wandb.Run.use_model()`](/models/ref/python/experiments/run#use_model) method to access and download model files previously logged to a W&B run.
 
 Provide the name of the model artifact where the model files you want to retrieve are stored. The name you provide must match the name of an existing logged model artifact.
 
@@ -136,13 +136,13 @@ with wandb.init(project="[YOUR-PROJECT]", entity="[YOUR-ENTITY]") as run:
     downloaded_model_path = run.use_model(name="[YOUR-MODEL-NAME]")
 ```
 
-The [`use_model`](/models/ref/python/experiments/run#use_model) function returns the path of downloaded model files. Keep track of this path if you want to link this model later. In the previous code snippet, the returned path is stored in a variable called `downloaded_model_path`.
+The [`wandb.Run.use_model()`](/models/ref/python/experiments/run#use_model) method returns the path of downloaded model files. Keep track of this path if you want to link this model later. In the previous code snippet, the returned path is stored in a variable called `downloaded_model_path`.
 
 <details>
 
 <summary>Example: Download and use a logged model</summary>
 
-In the following code snippet, you call the `use_model` API. You specify the name of the model artifact to fetch along with a version or alias, then store the returned path in the `downloaded_model_path` variable.
+The following code snippet shows how to use `wandb.Run.use_model()` to fetch a model based on its name and alias:
 
 ```python
 import wandb
@@ -159,4 +159,4 @@ with wandb.init(project=project, entity=entity) as run:
 ```
 </details>
 
-For parameters and return type, see [`use_model`](/models/ref/python/experiments/run#use_model) in the API Reference.
+For parameters and return type, see [`wandb.Run.use_model()`](/models/ref/python/experiments/run#use_model) in the API Reference.
