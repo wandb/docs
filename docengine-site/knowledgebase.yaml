@@ -1,0 +1,92 @@
+# ---------------------------------------------------------------------------
+# Knowledgebase navigation configuration
+# ---------------------------------------------------------------------------
+# Consumed by the DocEngine `knowledgebase` subsystem (`docengine knowledgebase
+# apply`). It defines the products and allowed keywords (tags) the subsystem
+# crawls under <output_subpath>/support/<slug>/articles/.
+#
+# There is no `mintlify_root` key: the support root is resolved from
+# docengine.yaml `output_subpath` (here, the repo root ".").
+#
+# To add a new product:
+#   1. Add an entry under "products:" with slug, display_name, allowed_keywords.
+#   2. Create support/<slug>/articles/ under the output_subpath.
+#   3. Add at least one article with keywords from the allowed list.
+#
+# If an article uses a keyword not listed here, the subsystem still creates the
+# tag page but warns. Resolve the warning by adding the keyword here.
+# ---------------------------------------------------------------------------
+
+# badge_color: Mintlify <Badge> color used for tab and featured Badges.
+badge_color: "orange"
+
+products:
+  - slug: models
+    display_name: "W&B Models"
+    allowed_keywords:
+      - Academic
+      - Administrator
+      - Agents
+      - Alerts
+      - Anonymous
+      - API
+      - API Keys
+      - Artifacts
+      - Authentication
+      - AWS
+      - Billing
+      - Charts
+      - Connectivity
+      - Environment Variables
+      - Experiments
+      - Hyperparameter
+      - Inference
+      - Logs
+      - Metrics
+      - Notebooks
+      - Org Management
+      - Outage
+      - Privacy
+      - Projects
+      - Python
+      - Reports
+      - Resuming
+      - Run Crashes
+      - Runs
+      - SDK
+      - Security
+      - Storage
+      - Sweeps
+      - Tables
+      - Team Management
+      - Teams
+      - TensorBoard
+      - Tracing
+      - User Management
+      - Workspace
+      - Workspaces
+      - Wysiwyg
+
+  - slug: weave
+    display_name: "W&B Weave"
+    allowed_keywords:
+      - Agents
+      - Client Info
+      - Code Capture
+      - Data Capture
+      - Evaluation
+      - Performance
+      - System Info
+      - Trace Data
+      - Tracing
+      - UI Rendering
+      - weave.op
+
+  - slug: inference
+    display_name: "Serverless Inference"
+    allowed_keywords:
+      - Administrator
+      - Authentication & Access
+      - Billing
+      - Quotas & Rate Limits
+      - Server Errors

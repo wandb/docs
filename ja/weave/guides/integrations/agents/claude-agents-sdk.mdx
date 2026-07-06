@@ -1,0 +1,203 @@
+---
+title: "Claude Agent SDK"
+description: Weave を使用して、Claude Agent SDK で構築したエージェントをトレースします。
+keywords: ["Claude Agent SDK", "Anthropic", "MCP ツール", "エージェントトレース", "自動パッチ適用"]
+---
+
+import AgentsViewTraces from '/snippets/ja/_includes/agents-view-traces.mdx';
+
+Claude Agent SDK を使用すると、Claude を活用したエージェント アプリケーションをすばやく構築できます。Weave を Claude エージェントに統合すると、エージェントのクエリ、モデルの応答、ツールの使用、複数ターンの会話を含む ツール呼び出し を自動的にトレースできます。Weave は、取得したデータを project の **Agents** ビューに表示します。
+
+<div id="trace-claude-agent-sdk-agents-with-weave">
+  ## Weave で Claude Agent SDK エージェントをトレースする
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    Weave SDK は [Claude Agent SDK for Python](https://github.com/anthropics/claude-agent-sdk-python) に自動的にパッチを適用し、最小限のセットアップで Claude エージェントのトレースを取得できます。
+
+    このガイドでは、Weave を初期化し、`ClaudeSDKClient` を介して MCP ツールを使用する Claude エージェントを実行する方法を紹介します。Weave は、会話、モデルの Call、ツール呼び出しをエンドツーエンドで自動的にトレースします。
+
+    ### 前提条件
+
+    * W&amp;B アカウントと、`WANDB_API_KEY` 環境変数として設定された [APIキー](https://wandb.ai/authorize)。
+    * `ANTHROPIC_API_KEY` 環境変数として設定された Anthropic APIキー。
+    * Python 3.10+。
+  </Tab>
+
+  <Tab title="TypeScript">
+    Weave は [`@anthropic-ai/claude-agent-sdk`](https://github.com/anthropics/claude-agent-sdk) と連携し、エージェント スパン、モデルの応答、ツール呼び出しを含む `query()` 呼び出しを自動的にトレースします。
+
+    ### 前提条件
+
+    * W&amp;B アカウントと、`WANDB_API_KEY` 環境変数として設定された [APIキー](https://wandb.ai/authorize)。
+    * `ANTHROPIC_API_KEY` 環境変数として設定された Anthropic APIキー。
+    * Node.js 18+。
+    * `@anthropic-ai/claude-agent-sdk` バージョン `0.3.178` 以降。
+  </Tab>
+</Tabs>
+
+<div id="install-packages">
+  ### パッケージをインストールする
+</div>
+
+開発環境に以下のパッケージをインストールします。`weave` パッケージはトレースを取得し、`claude-agent-sdk` はエージェントのランタイムを提供します。
+
+<CodeGroup>
+  ```bash Python
+  pip install weave claude-agent-sdk
+  ```
+
+  ```bash TypeScript
+  npm install weave @anthropic-ai/claude-agent-sdk
+  ```
+</CodeGroup>
+
+<div id="initialize-weave-in-your-code">
+  ### コードで Weave を初期化する
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    project に `weave.init` を追加し、W&amp;B のチーム名とプロジェクト名を更新してから、通常どおりエージェントを構築します。`weave.init` を使用すると、Claude Agent SDK からトレースを取得する autopatching が有効になります。
+
+    次のコードは、2 つの MCP 数学ツールを備えた Claude エージェントを作成し、Weave がトレースを取得しながらそのエージェントを実行します。
+
+    ```python lines highlight="11"
+    import anyio
+    import weave
+
+    from claude_agent_sdk import (
+        ClaudeAgentOptions,
+        ClaudeSDKClient,
+        create_sdk_mcp_server,
+        tool,
+    )
+
+    weave.init("<your-team>/<your-project-name>")
+
+    @tool("add", "Add two numbers", {"a": float, "b": float})
+    async def add(args: dict) -> dict:
+        return {"content": [{"type": "text", "text": str(args["a"] + args["b"])}]}
+
+    @tool("multiply", "Multiply two numbers", {"a": float, "b": float})
+    async def multiply(args: dict) -> dict:
+        return {"content": [{"type": "text", "text": str(args["a"] * args["b"])}]}
+
+    math_server = create_sdk_mcp_server(
+        name="math",
+        version="1.0.0",
+        tools=[add, multiply],
+    )
+
+    async def main():
+        options = ClaudeAgentOptions(
+            mcp_servers={"math": math_server},
+            allowed_tools=["mcp__math__add", "mcp__math__multiply"],
+        )
+
+        async with ClaudeSDKClient(options=options) as client:
+            await client.query("Using the math tools, compute (3 + 7) * 2.")
+
+            async for message in client.receive_response():
+                print(message)
+
+
+    anyio.run(main)
+    ```
+
+    スクリプトが実行されると、`weave.init()` によって project へのリンクが表示されます。リンクを開くと、エージェントのクエリ、モデルの応答、ツール呼び出しについて取得されたトレースを確認できます。
+  </Tab>
+
+  <Tab title="TypeScript">
+    Weave は、module loader hooks を通じて `query()` を自動的にインストルメントします。必要なセットアップは、モジュールシステムによって少し異なります。CommonJS と ESM の違いや、Weave の loader hooks の動作の詳細については、[TypeScript SDK のサードパーティ インテグレーション ガイド](/ja/weave/guides/integrations/js)を参照してください。
+
+    * **CommonJS プロジェクト**: 追加の設定は不要です。自動インストルメンテーションが先に実行されるように、`@anthropic-ai/claude-agent-sdk` より前に `weave` を require してください。
+    * **ESM プロジェクト**: 他のどのモジュールよりも前にインストルメンテーションが読み込まれるよう、`--import=weave/instrument` フラグを付けて Node を起動してください。
+
+    この例では、`wikipedia_search` MCP ツールを定義し、3 ターンの会話を実行します。各ターンは個別の `query()` 呼び出しですが、後続のターンでは最初のターンの `session_id` とともに `resume` を渡すことで、Weave の Agents ビューではすべてのターンが 1 つのセッションとしてグループ化されます。最初の 2 つのターンでは Wikipedia のルックアップがトリガーされ、3 つ目のターンではそれまでの会話コンテキストを使用して、ツール呼び出しなしで要約を生成します。
+
+    ```typescript lines highlight="36" title="main.mjs"
+    import * as weave from "weave";
+    import { createSdkMcpServer, query, tool, type Options } from "@anthropic-ai/claude-agent-sdk";
+    import { z } from "zod";
+
+    const wikipediaSearch = tool(
+        "wikipedia_search",
+        "Search Wikipedia for a topic and return its title and intro paragraph.",
+        { query: z.string().describe("The topic to search for") },
+        async ({ query }) => {
+        const url = new URL("https://en.wikipedia.org/w/api.php");
+        url.search = new URLSearchParams({
+            action: "query",
+            generator: "search",
+            gsrsearch: query,
+            gsrlimit: "1",
+            prop: "extracts",
+            exintro: "true",
+            explaintext: "true",
+            format: "json",
+        }).toString();
+
+        const response = await fetch(url, { headers: { "User-Agent": "weave-demo" } });
+        const data = await response.json();
+        const page = Object.values(data.query.pages)[0] as { title: string; extract: string };
+        return { content: [{ type: "text" as const, text: `${page.title}: ${page.extract}` }] };
+        },
+    );
+
+    const wikiServer = createSdkMcpServer({
+        name: "wiki",
+        version: "1.0.0",
+        tools: [wikipediaSearch],
+    });
+
+    async function main() {
+        await weave.init("<your-team>/<your-project-name>");
+
+        const baseOptions: Options = {
+        model: "claude-sonnet-4-5",
+        maxTurns: 4,
+        mcpServers: { wiki: wikiServer },
+        allowedTools: ["mcp__wiki__wikipedia_search"],
+        };
+
+        const questions = [
+        "Who founded Anthropic?",
+        "What is Claude (the AI assistant)?",
+        "Summarize what we discussed in one sentence.",
+        ];
+
+        let sessionId: string | undefined;
+
+        for (const prompt of questions) {
+        const options: Options = sessionId
+            ? { ...baseOptions, resume: sessionId }
+            : baseOptions;
+
+        console.log(`USER: ${prompt}`);
+        for await (const message of query({ prompt, options })) {
+            if (message.type === "system" && message.subtype === "init") {
+            sessionId ??= message.session_id;
+            }
+            if (message.type === "result" && message.subtype === "success") {
+            console.log(`AGENT: ${message.result}\n`);
+            }
+        }
+        }
+    }
+
+    main().catch(console.error);
+    ```
+
+    各 `query()` 呼び出しで、`invoke_agent` のルートスパンが生成されます。後続のターンでは同じ `session_id` を引き継ぐため、Weave はすべてのスパンに同じ `gen_ai.conversation.id` を付与し、Agents ビューではそれらを 1 つのセッションとしてグループ化します。
+
+    この例を `main.mjs` として保存し、他のどのモジュールよりも先にローダーフックが実行されるよう、`--import=weave/instrument` フラグを付けて実行します:
+
+    ```bash
+    node --import=weave/instrument main.mjs
+    ```
+  </Tab>
+</Tabs>
+
+<AgentsViewTraces />

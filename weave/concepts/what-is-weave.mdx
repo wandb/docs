@@ -23,7 +23,7 @@ Weave provides the following core functionality:
 
 Weave provides agentic observability for the full lifecycle of agent conversations, including sessions, LLM calls, and tool executions.
 
-If you're building an agent, follow the [agent tracing quickstart](weave/agents-quickstart.mdx) or learn to use the Weave SDK to [trace your agents](/weave/guides/tracking/trace-agents).
+If you're building an agent, start with the [agent integration quickstart](/weave/agent-integration-quickstart) to pick a built-in integration, or follow the [custom agents quickstart](/weave/custom-agents-quickstart) to manually instrument your own. To learn how the Weave SDK models agents, see [Trace your agents](/weave/guides/tracking/trace-agents).
 
 If you're using a supported third-party agent harness, such as Claude Code or OpenAI Agent SDK, Weave instruments it automatically with no additional code. See [Integrations](/weave/guides/integrations) for all supported frameworks.
 
@@ -84,23 +84,23 @@ To get started with Weave:
 
 <CodeGroup>
 
-```Python Python
+```python Python
 pip install weave
 ```
 
-```Typescript Typescript
+```typescript TypeScript
 npm install weave
 ```
 </CodeGroup>
 3. In your script, import Weave and initialize a project. Replace `<your-team>` with your W&B team name and `<your-project>` with your W&B project name.
 
 <CodeGroup>
-```Python Python
+```python Python
 import weave
 client = weave.init('<your-team>/<your-project>')
 ```
 
-```TypeScript Typescript
+```typescript TypeScript
 import * as weave from 'weave';
 const client = await weave.init('<your-team>/<your-project>');
 ```

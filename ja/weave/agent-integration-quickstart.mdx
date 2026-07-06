@@ -1,0 +1,19 @@
+---
+title: "エージェント インテグレーションを選択する"
+description: お使いのエージェント SDK またはハーネスに対応した組み込みの Weave インテグレーションを選択し、会話、ターン、LLM Call、ツールコールを Agents ビューに送信し始めましょう。
+keywords: ["エージェント インテグレーション", "autopatch", "エージェント SDK", "エージェント ハーネス", "トレース"]
+---
+
+import AgentIntegrationPaths from '/snippets/ja/_includes/agent-integration-paths.mdx';
+
+W&amp;B Weave は、一般的な SDK やハーネスで構築されたマルチターンのエージェントを、各ターンを手動でインストルメンテーションすることなくトレースします。エージェントハーネス用のプラグインをインストールするか、サポートされるエージェント SDK を使用するコードで `weave.init()` を呼び出すと、Weave がフレームワークに自動でパッチを適用します。会話、ターン、LLM Call、ツールコール は、project の **Agents** ビュー に表示されます。
+
+以下のサポートされるインテグレーションのいずれかを選択してください。
+
+<AgentIntegrationPaths />
+
+<div id="next-steps">
+  ## 次のステップ
+</div>
+
+最初の会話が Weave に送信されたら、会話、ターン、ツールコールを確認するには、[Agents ビューでアクティビティを表示する](/ja/weave/guides/tracking/view-agent-activity) を参照してください。

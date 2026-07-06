@@ -22,7 +22,7 @@ The W&B Kubernetes Operator is the recommended way to deploy W&B Server on Kuber
 Before deploying W&B with the Kubernetes Operator, ensure your infrastructure meets all requirements:
 
 1. **Review infrastructure requirements**: See the [Self-Managed infrastructure requirements](/platform/hosting/self-managed/requirements/) page for details on:
-  - Software version requirements (Kubernetes, MySQL, Redis, Helm)
+  - Software version requirements (Kubernetes, MySQL, Redis, Helm, ClickHouse)
   - Hardware requirements (CPU architecture, sizing recommendations)
   - Kubernetes cluster configuration
   - Networking, SSL/TLS, and DNS requirements
@@ -332,7 +332,7 @@ Kubernetes is the same whether it runs on-premises or in the cloud. The main dif
 
 ### On-premises and bare metal
 
-When deploying on on-premises or bare-metal Kubernetes, pay attention to the following.
+When deploying to on-premises or bare-metal Kubernetes, pay attention to the following.
 
 #### Load balancer configuration
 
@@ -1233,6 +1233,46 @@ Plan a maintenance window and notify users before you begin. Contact [Customer S
 6. When MySQL is up, run `wandb verify` to validate your W&B deployment. The command runs a series of checks and reports results to `STDOUT`. If it reports problems, make adjustments and run it again. For setup and login steps, see [Verify the installation](#verify-the-installation).
 7. After validation completes, users can resume normal operations.
 
+## ClickHouse compatibility for upgrades
+
+Self-Managed deployments that use an external ClickHouse cluster must verify ClickHouse compatibility before upgrading W&B Server.
+
+### Unsupported ClickHouse versions
+
+W&B Self-Managed deployments using W&B Weave or Models OLAP features require a supported version of both ClickHouse Server and ClickHouse Keeper.
+
+- Weave does not work with ClickHouse 26.1 or 26.2.
+- The Models OLAP features described in the next section require ClickHouse 26.2+.
+- Deployments using both Weave and Models OLAP features require ClickHouse 26.3.
+
+If your W&B Self-Managed deployment uses neither Weave nor Models OLAP features, ClickHouse is not required.
+
+
+### Models OLAP features
+
+W&B Server 0.81.0+ introduces schema migrations that require ClickHouse 26.2+. These migrations run when any of the following Models OLAP features are enabled in your Helm values:
+
+```yaml
+global:
+  olap:
+    registrySearch:
+      enabled: true
+    runStoreAccelerator:
+      enabled: true
+    history:
+      enabled: true
+```
+
+**_Before_ upgrading to W&B Self-Managed to Server v0.81+**, you must _either_:
+- Set these to `false` in your Helm values, _or_:
+- Upgrade both ClickHouse Server and ClickHouse Keeper to 26.2 or newer (26.3 or newer if your deployment also uses Weave).
+
+If these features are disabled or you do not use ClickHouse for Models OLAP workloads, this requirement does not apply to your upgrade.
+
+Dedicated Cloud and Multi-tenant Cloud deployments already run a compatible ClickHouse version and are not affected.
+
+For version-specific release notes, see [Supported W&B Server releases](/release-notes/server-releases).
+
 ## Migrate self-managed instances to W&B Operator
 
 The following section describes how to migrate from self-managing your own W&B Server installation to using the W&B Operator to do this for you. Migrating lets the operator handle reconciliation and W&B Server upgrades automatically, so you no longer have to coordinate manifest changes or Helm upgrades for the application. The migration process depends on how you installed W&B Server:
@@ -1785,6 +1825,35 @@ global:
   extraEnv:
     GLOBAL_ENV: "example"
 ```
+
+### Set rate limits
+
+For Dedicated Cloud and Self-Managed deployments that use the Operator, optionally configure rate limits by setting environment variables in `spec.values.global.extraEnv`. For reference, this example explicitly sets each rate limit to its default. In practice, define a rate limit only to override the default.
+
+<Important>To enable rate limiting, you must set `GORILLA_LIMITER` to the address of your Redis server.</Important>
+
+```yaml
+spec:
+  values:
+    global:
+      extraEnv:
+        GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM: "5"
+        GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_COUNT: "5"
+        GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_PER_RUN_COUNT: "0.8"
+        GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_SIZE: "10"
+        GORILLA_DEFAULT_RATE_LIMITS_RUN_UPDATE_COUNT: "10"
+        GORILLA_LIMITER: "redis://$HOST:6379?ttlInSeconds=900"
+```
+
+Refer to the following table for more detail:
+
+| Environment variable | Default | Description |
+| --- | --- | --- |
+| `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM` | `5` | Default filestream requests. |
+| `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_COUNT` | `5` | Filestream requests per second. |
+| `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_PER_RUN_COUNT` | `0.8` | Filestream requests per run per second. |
+| `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_SIZE` | `10` | Filestream ingestion limit in MB per second. |
+| `GORILLA_DEFAULT_RATE_LIMITS_RUN_UPDATE_COUNT` | `10` | Run metadata update requests per second. |
 
 ### Custom certificate authority
 `customCACerts` is a list and can take many certificates. Certificate authorities specified in `customCACerts` only apply to the W&B Server application.

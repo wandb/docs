@@ -1,13 +1,16 @@
 ---
-title: "List Models"
-description: "models API endpoint を使用して、利用可能なすべての Serverless Inference モデルとその ID の一覧を取得する"
+title: "モデルを一覧表示"
+description: "models エンドポイントを使用して、利用可能な Serverless Inference のモデルとその ID の一覧を取得します。"
+keywords: ["/v1/models エンドポイント", "モデルを検出", "モデル ID", "利用可能なモデルを一覧表示"]
 ---
 
-利用可能なモデルとそれぞれの ID をすべて取得します。これを使ってモデルを動的に選択したり、利用可能なものを確認したりできます。
+このページでは、Serverless Inference API で利用可能なすべてのモデルとその ID を取得する方法を説明します。利用可能なモデルをプログラムから確認したり、実行時にモデルを動的に選択したり、アカウントでアクセスできるモデルを確認したりするには、このエンドポイントを使用します。
 
 <div id="request-examples">
   ## リクエスト例
 </div>
+
+以下の例では、Python とコマンドラインから models エンドポイントを呼び出す方法を示します。
 
 <Tabs>
   <Tab title="Python">
@@ -16,8 +19,8 @@ description: "models API endpoint を使用して、利用可能なすべての 
 
     client = openai.OpenAI(
         base_url="https://api.inference.wandb.ai/v1",
-        api_key="<your-api-key>",
-        project="<your-team>/<your-project>"  # 省略可能。使用状況のトラッキング用
+        api_key="[YOUR-API-KEY]",
+        project="[YOUR-TEAM]/[YOUR-PROJECT]"  # 省略可能。使用状況のトラッキング用
     )
 
     response = client.models.list()
@@ -31,8 +34,8 @@ description: "models API endpoint を使用して、利用可能なすべての 
     ```bash
     curl https://api.inference.wandb.ai/v1/models \
       -H "Content-Type: application/json" \
-      -H "Authorization: Bearer <your-api-key>" \
-      -H "OpenAI-Project: <your-team>/<your-project>"
+      -H "Authorization: Bearer [YOUR-API-KEY]" \
+      -H "OpenAI-Project: [YOUR-TEAM]/[YOUR-PROJECT]"
     ```
   </Tab>
 </Tabs>
@@ -41,7 +44,7 @@ description: "models API endpoint を使用して、利用可能なすべての 
   ## 応答形式
 </div>
 
-API は、OpenAI 互換の形式で応答を返します。
+このエンドポイントは、OpenAI 互換形式のモデル オブジェクトのリストを返すため、標準的な OpenAI クライアント ライブラリを使用して応答を解析できます。各エントリには、他の Inference API エンドポイントに渡すモデル ID が含まれます。
 
 ```json
 {

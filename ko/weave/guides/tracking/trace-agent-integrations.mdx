@@ -1,0 +1,11 @@
+---
+title: 에이전트 인테그레이션 트레이스
+description: W&B Weave를 에이전트 SDK, 에이전트 하니스, 맞춤형 에이전트에 연결하여 대화가 Agents 뷰에 표시되도록 하세요.
+keywords: ["에이전트 하니스", "autopatch", "OpenTelemetry", "GenAI semconv", "멀티 에이전트"]
+---
+
+import AgentIntegrationPaths from '/snippets/ko/_includes/agent-integration-paths.mdx';
+
+W&amp;B Weave는 각 턴을 일일이 계측하지 않아도 멀티턴 에이전트 애플리케이션을 트레이스할 수 있습니다. 지원되는 에이전트 SDK와 하니스에서는 `weave.init()`을 호출하면 Weave가 프레임워크를 자동 패치합니다. Weave는 세션, 턴, LLM Call, 도구 Call을 캡처한 다음 **Agents** 뷰에 렌더링합니다. 이 페이지는 세 가지 범주(에이전트 하니스, 에이전트 SDK, 맞춤형 에이전트(OpenTelemetry span을 내보내는 에이전트 포함))의 인테그레이션 가이드로 연결됩니다.
+
+<AgentIntegrationPaths />

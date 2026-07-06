@@ -1,0 +1,9 @@
+### See your agent traces in the Agents view
+
+After the script runs, `weave.init()` prints a link to your project. Open the **Agents** view to inspect:
+
+- A session containing the conversation's turns.
+- Each turn rendered as an `invoke_agent` span with nested `chat` and `execute_tool` children.
+- The full input, model, output, token usage, and tool results at each step.
+
+For details about viewing Agents data in Weave, see [View agent activity](/weave/guides/tracking/view-agent-activity).
