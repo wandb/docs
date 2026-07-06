@@ -668,3 +668,22 @@ run = api.run("<entity>/<project>/<run_id>")
 meta = json.load(run.file("wandb-metadata.json").download())
 program = ["python"] + [meta["program"]] + meta["args"]
 ```
+
+### Access a team
+
+Use `api.team()` to look up an existing team, then manage its members. Do not instantiate the `Team` class directly. To create a new team, use `api.create_team()`. See the [`Team` reference](/models/ref/python/public-api/team) for the full list of available methods.
+
+```python
+import wandb
+
+api = wandb.Api()
+
+# Look up an existing team.
+team = api.team("<team-name>")
+
+# Invite a member to the team.
+team.invite("user@example.com")
+
+# Create a new team.
+# team = api.create_team("<team-name>")
+```
