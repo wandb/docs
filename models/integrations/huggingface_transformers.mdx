@@ -282,7 +282,7 @@ with wandb.init(
 ) as run:
     # Connect an Artifact to the run
     my_checkpoint_name = f"checkpoint-{last_run_id}:latest"
-    my_checkpoint_artifact = run.use_artifact(my_model_name)
+    my_checkpoint_artifact = run.use_artifact(my_checkpoint_name)
 
     # Download checkpoint to a folder and return the path
     checkpoint_dir = my_checkpoint_artifact.download()
