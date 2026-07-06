@@ -114,6 +114,12 @@
   border-radius: 12px;
   background-color: var(--color-card-rest);
   overflow: hidden; /* clip the strip + panel to the rounded corners */
+  /* Open up the gap to whatever follows the tabbed block. The box ships with
+     margin-bottom:0, so the only separation was the next element's ~20px top
+     margin; bump to 2rem so the outlined block doesn't crowd the next
+     paragraph/heading. (overflow:hidden gives the box its own block
+     formatting context, so this margin can't collapse into the panel body.) */
+  margin-bottom: 2rem;
 }
 
 /* Tab strip — kill Mintlify's mb-6 (24px) gap below the strip so the panel
