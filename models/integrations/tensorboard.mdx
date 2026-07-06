@@ -22,9 +22,9 @@ Upload your TensorBoard logs to the cloud, quickly share your results among coll
 import wandb
 
 # Start a wandb run with `sync_tensorboard=True`
-wandb.init(project="my-project", sync_tensorboard=True) as run:
-  # Your training code using TensorBoard
-  ...
+with wandb.init(project="my-project", sync_tensorboard=True) as run:
+    # Your training code using TensorBoard
+    ...
 
 ```
 

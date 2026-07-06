@@ -41,9 +41,9 @@ with wandb.init(project="new-sota-model", config=config) as run:
     run.watch(model)
 
     for batch in dataloader:
-    metrics = model.training_step()
-    # log metrics inside your training loop to visualize model performance
-    run.log(metrics)
+        metrics = model.training_step()
+        # log metrics inside your training loop to visualize model performance
+        run.log(metrics)
 
     # optional: save model at the end
     model.to_onnx()
