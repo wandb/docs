@@ -4,6 +4,8 @@ description: "Découvrez les options de déploiement de Weave, la gestion des id
 keywords: ["déploiement", "IAM", "SSO", "Cloud dédié", "sécurité des données"]
 ---
 
+import WeaveByob from "/snippets/fr/_includes/weave-byob.mdx";
+
 Cette page décrit comment déployer Weave, gérer les accès et protéger les données, afin que vous puissiez choisir l’option de déploiement et les contrôles de sécurité adaptés aux besoins de votre organisation.
 
 Weave est disponible avec les options de déploiement suivantes :
@@ -39,9 +41,7 @@ Les protections de sécurité des données dont vous disposez dépendent de votr
   * **[Chiffrement des données](/fr/platform/hosting/data-security/data-encryption) :** W&amp;B chiffre les données au repos à l’aide d’une clé de chiffrement unique gérée par W&amp;B.
   * **Sécurité du cluster ClickHouse :** W&amp;B se connecte au cluster ClickHouse Cloud dédié à votre instance de Cloud dédié via le réseau privé du fournisseur de cloud. W&amp;B chiffre également le cluster à l’aide d’une clé de chiffrement unique gérée par W&amp;B et utilise le chiffrement au niveau des fichiers de ClickHouse.
 
-<Warning>
-  [Le connecteur de stockage sécurisé de la plateforme W&amp;B, ou BYOB](/fr/platform/hosting/data-security/secure-storage-connector) n’est pas disponible pour Weave.
-</Warning>
+<WeaveByob />
 
 <div id="maintenance">
   ## Maintenance
