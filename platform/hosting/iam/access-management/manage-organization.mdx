@@ -194,7 +194,7 @@ Organization roles control administrative actions at the organization scope. The
 
 - [Team roles](#assign-or-update-a-team-members-role)  control what a user can do inside a specific team.
 - [Registry roles](https://docs.wandb.ai/models/registry/configure_registry#details-about-registry-roles) control what a user can do in a given registry.
-- [Models seats and Weave access](#assign-or-update-a-users-access) control product access and billing.
+- [Models seats and Weave access](#assign-or-update-a-users-access) control product access.
 
 The following tables summarize what **Member** and **Admin** users can do at the organization level. For team-scoped actions such as logging runs or editing reports, see [Team roles and permissions](/platform/app/settings-page/teams#team-roles-and-permissions). For registry-scoped actions, see [Registry role permissions](/models/registry/configure_registry#role-permissions).
 
@@ -241,7 +241,6 @@ Organization admins are assigned the **Admin** role in [registries](/models/regi
 | Configure domain capture and SSO auto-provisioning           | Admin           |        |   X   |
 | Enforce organization-wide [privacy settings](/platform/hosting/privacy-settings#enforce-privacy-settings-for-all-teams) | Admin |        |   X   |
 | Create, edit, and delete custom roles (Enterprise)           | Admin           |        |   X   |
-| Configure organization alert thresholds                      | Admin           |        |   X   |
 | Connect external storage buckets at the organization level (Enterprise) | Admin |        |   X   |
 
 #### Billing
@@ -253,7 +252,7 @@ Organization admins are assigned the **Admin** role in [registries](/models/regi
 | Cancel subscriptions                                         | Billing         |        |   X   |
 | Configure usage alerts                                       | Billing         |        |   X   |
 
-Users designated as **billing admins** can perform billing actions, including configuring usage alerts, even if their organization role is **Member**. Billing admins can't perform other organization admin actions such as inviting users or creating teams.
+Users designated as **billing admins** can perform billing actions, including configuring usage alerts, even if their organization role is **Member**. Unless they are also an organization admin, a billing admin can't perform other organization admin actions such as inviting users or creating teams.
 
 On Multi-tenant Cloud, you can optionally assign the billing admin the **Billing only** organization role. This role is restricted to the billing user, removes team membership, and enforces **No access** for both Models and Weave while preserving billing administration capabilities.
 
@@ -264,7 +263,6 @@ On Multi-tenant Cloud, you can optionally assign the billing admin the **Billing
 | Authenticate to the [SCIM API](/platform/hosting/iam/scim)   | Admin           |        |   X   |
 | Create and manage organization-scoped service accounts        | Admin           |        |   X   |
 | View and manage all organization API keys                    | Admin           |        |   X   |
-| Manage organization user secrets (Dedicated Cloud and Self-Managed) | Admin     |        |   X   |
 
 Organization-scoped service accounts used for SCIM automation have admin-equivalent access for SCIM operations.
 
