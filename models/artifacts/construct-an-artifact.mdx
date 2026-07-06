@@ -23,9 +23,7 @@ Initialize the [`wandb.Artifact()`](/models/ref/python/experiments/artifact) cla
 * **Type**: The type of artifact. The type should be short, descriptive, and correspond to a single step of your machine learning pipeline. Common artifact types include `'dataset'` or `'model'`.
 
 
-<Note>
-W&B uses the `name` and `type` you provide to create a directed acyclic graph in the W&B App. See the [Explore and traverse artifact graphs](./explore-and-traverse-an-artifact-graph) for more information.
-</Note>
+W&B uses the `name` and `type` you provide to create a directed acyclic graph in the W&B App. See [Explore and traverse artifact graphs](./explore-and-traverse-an-artifact-graph) for more information.
 
 
 <Warning>
@@ -59,7 +57,7 @@ To add a directory, use the [`Artifact.add_dir()`](/models/ref/python/experiment
 artifact.add_dir(local_path="path/to/directory", name="<name>")
 ```
 
-See the next section, [Add files to an artifact](/models/artifacts/construct-an-artifact#add-files-to-an-artifact), for more information about how to add different file types to an artifact.
+See [Add files to an artifact](/models/artifacts/construct-an-artifact#add-files-to-an-artifact), for more information about adding different file types to an artifact.
 
 ### Save your artifact to the W&B server
 
