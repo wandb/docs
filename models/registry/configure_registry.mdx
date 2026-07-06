@@ -5,7 +5,7 @@ description: "Configure W&B Registry access by managing users and teams, assigni
 
 This page shows registry admins how to control access to a W&B Registry by managing its members and their permissions. Use these procedures to add or remove users and teams, assign or change registry roles, and understand the permissions each role provides.
 
-A registry admin can [configure registry roles](/models/registry/configure_registry/#configure-registry-roles), [add users](/models/registry/configure_registry/#add-a-user-or-a-team-to-a-registry), or [remove users](/models/registry/configure_registry/#remove-a-user-or-team-from-a-registry) from a registry through the registry's settings.
+Registry admins can control access to a W&B Registry by managing members and permissions. Use the registry settings to [configure registry roles](/models/registry/configure_registry/#configure-registry-roles), [add users](/models/registry/configure_registry/#add-a-user-or-a-team-to-a-registry) or teams, and [remove users or teams](/models/registry/configure_registry/#remove-a-user-or-team-from-a-registry).
 
 ## Manage users
 
@@ -87,10 +87,6 @@ W&B automatically assigns a default **registry role** to a user or team when you
 
 A registry admin can assign or modify roles for users and teams in the registry. For more information, see [Configure registry roles](#configure-registry-roles).
 
-{/* Backward-compatibility anchor: external pages (for example, automations docs) and localized pages link to #registry-roles. Keep this anchor so those inbound links continue to resolve to the role definitions below. */}
-<a id="registry-roles"></a>
-
-
 ### Role permissions
 
 The following table lists each registry role, along with the permissions each role provides:
@@ -99,7 +95,7 @@ The following table lists each registry role, along with the permissions each ro
 |-----------------------------------------------------------------------------------------------------------------------|------------------|------------------------------------------------------------|:------:|:------:|:-----:|
 | View a collection's details                                                                                           | Read             | ✓                                                          |   ✓    |   ✓    |   ✓   |
 | View a linked artifact's details                                                                                      | Read             | ✓                                                          |   ✓    |   ✓    |   ✓   |
-| Usage: Consume an artifact in a registry with `use_artifact`                                                          | Read             |                                                            |   ✓    |   ✓    |   ✓   |
+| Usage: Consume an artifact in a registry with `wandb.Run.use_artifact()`                                             | Read             |                                                            |   ✓    |   ✓    |   ✓   |
 | Download a linked artifact                                                                                            | Read             |                                                            |   ✓    |   ✓    |   ✓   |
 | Download files from an artifact's file viewer                                                                         | Read             |                                                            |   ✓    |   ✓    |   ✓   |
 | Search a registry                                                                                                     | Read             | ✓                                                          |   ✓    |   ✓    |   ✓   |

@@ -4,7 +4,7 @@ description: "Create a collection of linked artifact versions within a W&B Regis
 ---
 
 
-This page explains how to create a collection within a W&B Registry and configure the artifact types it accepts. Collections let you group related artifact versions for a specific task or use case.
+This page explains how to create a collection within a W&B Registry and configure the artifact types it accepts.
 
 A *collection* is a set of linked artifact versions within a registry. Each collection represents a distinct task or use case.
 
@@ -15,7 +15,7 @@ As another example, you might have a registry called `chatbot` that contains a c
 How you organize a registry and their collections is up to you.
 
 <Note>
-If you're familiar with W&B Model Registry, you might know about registered models. The W&B Registry now refers to registered models as collections.
+If you're familiar with W&B Model Registry, you might know about registered models. The W&B Registry now refers to registered models as *collections*.
 </Note>
 
 ## Collection types
@@ -29,21 +29,21 @@ You can think of artifact types similar to data types in programming languages s
 For example, suppose you create a collection that accepts `dataset` artifact types. You can only link future artifact versions of type `dataset` to this collection. Similarly, you can only link artifacts of type `model` to a collection that accepts only model artifact types.
 
 <Note>
-You specify an artifact's type when you create that artifact object. See the `type` field in `wandb.Artifact()`. Replace the placeholders `[TEAM-ENTITY]`, `[PROJECT]`, `[ARTIFACT-NAME]`, and `[ARTIFACT-TYPE]` with your own values:
+You specify an artifact's type when you create that artifact object. See the `type` field in `wandb.Artifact()`. Replace values enclosed in `<>` with your own values:
 
 ```python
 import wandb
 
 # Initialize a run
 with wandb.init(
-  entity = "[TEAM-ENTITY]",
-  project = "[PROJECT]"
+  entity = "<team-entity>",
+  project = "<project>"
   ) as run:
 
   # Create an artifact object
   artifact = wandb.Artifact(
-      name="[ARTIFACT-NAME]",
-      type="[ARTIFACT-TYPE]"
+      name="<artifact-name>",
+      type="<artifact-type>"
       )
 ```
 </Note>
@@ -84,14 +84,15 @@ To view accepted artifact types within a registry's settings page:
 <Tab title="Python SDK (Beta)">
 Programmatically view the artifact types that a registry accepts with the W&B Python SDK:
 
-Replace `[REGISTRY-NAME]` with the name of your registry:
+Replace `<registry-name>` with the name of your registry:
 
 ```python
 import wandb
 
-registry_name = "[REGISTRY-NAME]"
+registry_name = "<registry-name>"
 artifact_types = wandb.Api().project(name=f"wandb-registry-{registry_name}").artifact_types()
-print([artifact_type.name for artifact_type in artifact_types])
+for artifact_type in artifact_types:
+    print(artifact_type.name)
 ```
 
 <Note>
@@ -107,7 +108,7 @@ Once you know what type of artifact a collection accepts, you can [create a coll
 
 ## Create a collection
 
-Interactively or programmatically create a collection within a registry. Choose the method that best fits your workflow: programmatic creation is useful for automated pipelines, while interactive creation is useful for individual setup in the W&B App. You can't change the type of artifact that a collection accepts after you create it.
+Interactively or programmatically create a collection within a registry. You can't change the type of artifact that a collection accepts after you create it.
 
 ### Create a collection programmatically
 
@@ -123,22 +124,22 @@ Where `registry_name` is the name of the registry and `collection_name` is the n
 W&B automatically creates a collection for you if you try to link an artifact to a collection that doesn't exist. If you specify a collection that exists, W&B links the artifact to the existing collection.
 </Note>
 
-The following code snippet shows how to programmatically create a collection. Replace the placeholders `[TEAM-ENTITY]`, `[PROJECT]`, `[ARTIFACT-NAME]`, `[ARTIFACT-TYPE]`, `[REGISTRY-NAME]`, and `[COLLECTION-NAME]` with your own values:
+The following code snippet shows how to programmatically create a collection. Replace values enclosed in `<>` with your own values:
 
 ```python
 import wandb
 
 # Initialize a run
-with wandb.init(entity = "[TEAM-ENTITY]", project = "[PROJECT]") as run:
+with wandb.init(entity = "<team-entity>", project = "<project>") as run:
 
   # Create an artifact object
   artifact = wandb.Artifact(
-    name = "[ARTIFACT-NAME]",
-    type = "[ARTIFACT-TYPE]"
+    name = "<artifact-name>",
+    type = "<artifact-type>"
     )
 
-  registry_name = "[REGISTRY-NAME]"
-  collection_name = "[COLLECTION-NAME]"
+  registry_name = "<registry-name>"
+  collection_name = "<collection-name>"
   target_path = f"wandb-registry-{registry_name}/{collection_name}"
 
   # Link the artifact to a collection

@@ -3,11 +3,9 @@ description: Use lineage graphs to visualize a linked artifact's history and aud
 title: Lineage graphs and audit history
 ---
 
-Use a lineage graph to visualize a linked artifact's history. Audit a collection's history to track changes made to artifacts in that collection. These views help ML practitioners and Registry administrators understand how artifacts evolved across runs and who modified collection contents over time.
+Use a lineage graph to visualize a linked artifact's history. Audit a collection's history to track changes made to artifacts in that collection.
 
 ## Lineage graphs
-
-This section explains what a lineage graph shows and how to open one for an artifact in a collection.
 
 Within a collection in the W&B Registry, you can view a history of the artifacts that an ML experiment uses. This history is called a _lineage graph_.
 
@@ -34,9 +32,6 @@ To view a lineage graph for an artifact in a collection:
 3. From the dropdown, select the artifact version whose lineage graph you want to view.
 4. Select the **Lineage** tab.
 5. Select a node to view detailed information about the run or artifact.
-
-The **Lineage** tab displays the selected artifact version's input and output history. To inspect an individual run or artifact, select its node.
-
 
 <Info>
 To learn how to track the input and output of a run using the W&B Python SDK, see [Enable lineage graph tracking](/models/artifacts/explore-and-traverse-an-artifact-graph#enable-lineage-graph-tracking).

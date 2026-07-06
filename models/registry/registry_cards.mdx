@@ -3,7 +3,7 @@ title: Annotate collections
 description: "Add descriptions and documentation to W&B Registry collections to help users understand their purpose and contents."
 ---
 
-Add human-friendly text to your collections to help collaborators and downstream users understand the purpose of the collection and the artifacts it contains. Well-annotated collections make it easier for others to discover, evaluate, and reuse your artifacts.
+Add human-friendly text to your collections to help collaborators and downstream users understand the purpose of the collection and the artifacts it contains.
 
 Depending on the collection, you might want to include information about the training data, model architecture, task, license, references, and deployment. The following sections describe topics worth documenting in a collection.
 
@@ -25,7 +25,7 @@ If your collection contains a machine learning model, consider including these a
 
 ## Add a description to a collection
 
-After you've decided what to document, add a description to the collection so that the information is visible to others. You can add a description interactively through the W&B Registry UI or programmatically with the Python SDK.
+After you've decided what to document, add a description to the collection so that the information is visible to others. You can add a description interactively through the W&B Registry or programmatically with the Python SDK.
 
 <Tabs>
 <Tab title="W&B Registry UI">
@@ -40,10 +40,10 @@ Use the [`wandb.Api().artifact_collection()`](/models/ref/python/public-api/api#
 Specify the collection's type for the `type_name` parameter and the collection's full name for the `name` parameter. A collection's full name prepends the prefix `wandb-registry-` to the registry name, followed by a forward slash and the collection name:
 
 ```text
-wandb-registry-[REGISTRY-NAME]/[COLLECTION-NAME]
+wandb-registry-<registry-name>/<collection-name>
 ```
 
-Copy and paste the following code snippet into your Python script or notebook. Replace `[COLLECTION-TYPE]` with the collection's type and `[COLLECTION-NAME]` with the full name of the collection.
+Copy and paste the following code snippet into your Python script or notebook. Replace `<collection-type>` with the collection's type and `<collection-name>` with the full name of the collection.
 
 ```python
 import wandb
@@ -51,8 +51,8 @@ import wandb
 api = wandb.Api()
 
 collection = api.artifact_collection(
-  type_name = "[COLLECTION-TYPE]",
-  name = "[COLLECTION-NAME]"
+  type_name = "<collection-type>",
+  name = "<collection-name>"
   )
 
 

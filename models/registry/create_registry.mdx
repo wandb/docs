@@ -3,7 +3,7 @@ title: Create a registry
 description: "Create a W&B Registry with configurable visibility and accepted artifact types using the App UI or Python SDK."
 ---
 
-This page shows organization and team admins how to create a W&B Registry and configure its visibility and accepted artifact types. A registry gives you control over which artifact types you can use and who can access it.
+This page shows organization and team admins how to create a W&B Registry and configure its visibility and accepted artifact types.
 
 
 ## Create a registry
@@ -12,26 +12,26 @@ You can create a registry either interactively using the W&B Registry UI or prog
 
 <Tabs>
 <Tab title="W&B Registry UI">
-1. Navigate to the W&B Registry at https://wandb.ai/registry/.
+1. Navigate to the W&B Registry.
 2. Click the **Create registry** button.
 3. Provide a name for the registry in the **Name** field.
 4. Optional: Provide a description of the registry.
 5. Select who can view the registry from the **Registry visibility** dropdown. See [Visibility types](#visibility-types) for more information about registry visibility options.
 6. Select either **All types** or **Specify types** from the **Accepted artifacts type** dropdown.
-   a. If you select **Specify types**, add one or more artifact types that your registry accepts.
-7. Click the **Create registry** button.
+7. If you select **Specify types**, add one or more artifact types that your registry accepts.
+8. Click the **Create registry** button.
 </Tab>
 <Tab title="Python SDK">
 Use the [`wandb.Api().create_registry()`](/models/ref/python/#method-apicreate_registry) method to create a registry programmatically. Provide a name and [visibility](#visibility-types) using the `name` and `visibility` parameters.
 
-Copy and paste the code block below. Replace `[REGISTRY-NAME]` with a name for your registry, and replace `[VISIBILITY]` with either `restricted` or `organization`:
+Copy and paste the code block below. Replace `<registry-name>` with a name for your registry, and replace `<visibility>` with either `restricted` or `organization`:
 
 ```python
 import wandb
 
 registry = wandb.Api().create_registry(
-    name="[REGISTRY-NAME]",
-    visibility="[VISIBILITY]",
+    name="<registry-name>",
+    visibility="<visibility>",
 )
 ```
 
@@ -67,14 +67,14 @@ A team admin or registry admin can assign the visibility of a registry during or
 
 To restrict the visibility of an existing registry:
 
-1. Navigate to the W&B Registry at https://wandb.ai/registry/.
+1. Navigate to the W&B Registry.
 2. Select a registry.
 3. Click the gear icon in the upper right corner.
 4. From the **Registry visibility** dropdown, select a visibility option.
 5. If you select **Restricted visibility**:
-   a. Add members of your organization who you want to have access to this registry. Scroll to the **Registry members and roles** section and click the **Add member** button.
-   b. In the **Member** field, add the email or username of the member you want to add.
-   c. Click **Add new member**.
+   1. Add members of your organization who you want to have access to this registry. Scroll to the **Registry members and roles** section and click the **Add member** button.
+   2. In the **Member** field, add the email or username of the member you want to add.
+   3. Click **Add new member**.
 
 For more information about assigning visibility when a team admin creates a registry, see [Create a registry](#create-a-registry).
 

@@ -3,7 +3,7 @@ title: Reference an artifact version with aliases
 description: "Use default, custom, and protected aliases to reference specific artifact versions in W&B Registry."
 ---
 
-Aliases give you a stable, human-readable way to point to a specific [artifact version](/models/artifacts/create-a-new-artifact-version/) in W&B Registry, so you can track which version is current, in production, or otherwise notable without having to remember version numbers. [W&B automatically assigns aliases](/models/registry/aliases/#default-aliases) to each artifact you link with the same name, and you can also [create one or more custom aliases](/models/registry/aliases/#custom-aliases) to reference a specific artifact version. This page explains the default aliases that W&B assigns automatically, how to create your own custom aliases, and how to use protected aliases to safeguard important versions.
+Use aliases to reference a specific [artifact version](/models/artifacts/create-a-new-artifact-version/) in W&B Registry. Aliases provide stable, human-readable labels for versions that are current, in production, or otherwise important. [W&B automatically assigns aliases](/models/registry/aliases/#default-aliases) to each artifact you link with the same name. You can also [create custom aliases](/models/registry/aliases/#custom-aliases) and use protected aliases to safeguard important versions.
 
 Aliases appear as rectangles with the name of that alias in the rectangle in the Registry UI. If an [alias is protected](/models/registry/aliases/#protected-aliases), it appears as a gray rectangle with a lock icon. Otherwise, the alias appears as an orange rectangle. Aliases aren't shared across registries.
 
@@ -19,7 +19,7 @@ When you add an alias to an artifact version, you can optionally start a [Regist
 
 ## Default aliases
 
-W&B automatically assigns the following aliases to each artifact version you link with the same name, so you can identify a version without configuring anything:
+W&B automatically assigns the following aliases to each artifact version you link with the same name:
 
 * The `latest` alias to the most recent artifact version you link to a collection.
 * A unique version number. W&B counts each artifact version (zero indexing) you link. W&B uses the count number to assign a unique version number to that artifact.
@@ -28,7 +28,7 @@ For example, if you link an artifact named `zoo_model` three times, W&B creates 
 
 ## Custom aliases
 
-Custom aliases let you label artifact versions with names that reflect your workflow, such as the dataset a model was trained on or which version is performing best. For example:
+Use custom aliases to label artifact versions by workflow, dataset, performance, or other criteria. For example:
 
 - You might use aliases such as `dataset_version_v0`, `dataset_version_v1`, and `dataset_version_v2` to identify which dataset a model was trained on.
 - You might use a `best_model` alias to keep track of the best performing artifact model version.
@@ -52,26 +52,26 @@ You can create a custom alias with the W&B Registry or the Python SDK. Click the
 <Tab title="Python SDK">
 When you link an artifact version to a collection with the Python SDK, you can optionally provide a list of one or more aliases as an argument to the `aliases` parameter in [`link_artifact()`](/models/ref/python/experiments/run/#method-runlink_artifact). W&B creates an alias ([non protected alias](#custom-aliases)) for you if the alias you provide doesn't already exist.
 
-The following code snippet demonstrates how to link an artifact version to a collection and add aliases to that artifact version with the Python SDK. Replace the bracketed placeholders with your own values:
+The following code snippet demonstrates how to link an artifact version to a collection and add aliases to that artifact version with the Python SDK. Replace values enclosed in `<>` with your own values:
 
 ```python
 import wandb
 
 # Initialize a run
-with wandb.init(entity = "[TEAM-ENTITY]", project = "[PROJECT-NAME]") as run:
+with wandb.init(entity = "<team-entity>", project = "<project-name>") as run:
 
     # Create an artifact object
     # The type parameter specifies both the type of the 
     # artifact object and the collection type
-    artifact = wandb.Artifact(name = "[NAME]", type = "[TYPE]")
+    artifact = wandb.Artifact(name = "<name>", type = "<type>")
 
     # Add the file to the artifact object. 
     # Specify the path to the file on your local machine.
-    artifact.add_file(local_path = "[LOCAL-PATH-TO-ARTIFACT]")
+    artifact.add_file(local_path = "<local-path-to-artifact>")
 
     # Specify the collection and registry to link the artifact to
-    REGISTRY_NAME = "[REGISTRY-NAME]"
-    COLLECTION_NAME = "[COLLECTION-NAME]"
+    REGISTRY_NAME = "<registry-name>"
+    COLLECTION_NAME = "<collection-name>"
     target_path=f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
 
     # Link the artifact version to the collection
@@ -79,7 +79,7 @@ with wandb.init(entity = "[TEAM-ENTITY]", project = "[PROJECT-NAME]") as run:
     run.link_artifact(
         artifact = artifact, 
         target_path = target_path, 
-        aliases = ["[ALIAS-1]", "[ALIAS-2]"]
+        aliases = ["<alias-1>", "<alias-2>"]
         )
 ```
 </Tab>
@@ -87,7 +87,7 @@ with wandb.init(entity = "[TEAM-ENTITY]", project = "[PROJECT-NAME]") as run:
 
 ### Protected aliases
 
-Protected aliases combine labeling with a guardrail: besides identifying a version, they prevent that version from being modified or deleted, which is useful for releases that downstream systems depend on. For example, consider a `production` protected alias to label and identify artifact versions that are in use in your organization's machine learning production pipeline.
+Use [protected alias](/models/registry/aliases/#protected-aliases) to identify an artifact version and prevent it from being modified or deleted. Protected aliases are useful for versions that downstream systems depend on. For example, use a `production` protected alias for artifact versions used in your organization's production ML pipeline.
 
 [Registry admin](/models/registry/configure_registry/#role-permissions) users and [service accounts](/support/models/articles/what-is-a-service-account-and-why-is-it-) with the **Admin** role can create protected aliases and add or remove protected aliases from an artifact version. Users and service accounts with **Member**, **Viewer**, and **Restricted Viewer** roles can't unlink a protected version or delete a collection that contains a protected alias. See [Configure registry access](/models/registry/configure_registry/) for details.
 
