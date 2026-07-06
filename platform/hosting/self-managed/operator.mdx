@@ -330,6 +330,21 @@ After the MCP server is healthy, configure your MCP client to use `https://<HOST
 
 Kubernetes is the same whether it runs on-premises or in the cloud. The main differences are in naming and managed services (for example, MySQL compared to RDS, or S3 compared to on-premises object storage). This section covers considerations that vary by environment.
 
+### Shared or multi-tenant clusters
+
+If you run more than one W&B install on the same cluster, give each one a unique release (CR) name. The chart creates some cluster-scoped objects named after the release, such as the `<release>-oidc-reviewer` ClusterRoleBinding. If two installs use the same release name, the second one fails with an ownership error like:
+
+```text
+ClusterRoleBinding "wandb-oidc-reviewer" ... cannot be imported into the current release:
+... annotation validation error: key "meta.helm.sh/release-namespace" must equal ...
+```
+
+To avoid this on a shared cluster:
+
+- Use a unique release/CR name for each install (for example `wandb-team-a`, not `wandb`).
+- Set `app.internalJWTMap: []` unless you need internal JWT mapping. This skips rendering the `oidc-reviewer` ClusterRoleBinding.
+- Install the operator with `namespaceIsolation.enabled=true`.
+
 ### On-premises and bare metal
 
 When deploying to on-premises or bare-metal Kubernetes, pay attention to the following.
