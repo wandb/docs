@@ -15,10 +15,10 @@ Weave 트레이싱이 작동하는 데 필요한 Weave 클라이언트를 초기
   #### 매개변수
 </div>
 
-| 이름          | 유형             | 설명                                                                                                                                                                                                                                                                                                                            |
-| :---------- | :------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `project`   | `string`       | W&amp;B 프로젝트 이름입니다(`project` 또는 `entity/project` 형식일 수 있습니다). W&amp;B 팀(예: `team/project`)을 지정하지 않으면 기본 entity가 사용됩니다. 기본 entity를 찾거나 변경하려면 [https://docs.wandb.ai/platform/app/settings-page/user-settings#default-team](https://docs.wandb.ai/platform/app/settings-page/user-settings#default-team)의 User Settings를 참고하세요. |
-| `settings?` | `SettingsInit` | (선택) Weave 트레이싱 설정                                                                                                                                                                                                                                                                                                            |
+| 이름          | 유형                                                      | 설명                                                                                                                                                                                                                                                                                                                            |
+| :---------- | :------------------------------------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `project`   | `string`                                                | W&amp;B 프로젝트 이름입니다(`project` 또는 `entity/project` 형식일 수 있습니다). W&amp;B 팀(예: `team/project`)을 지정하지 않으면 기본 entity가 사용됩니다. 기본 entity를 찾거나 변경하려면 [https://docs.wandb.ai/platform/app/settings-page/user-settings#default-team](https://docs.wandb.ai/platform/app/settings-page/user-settings#default-team)의 User Settings를 참고하세요. |
+| `settings?` | `Partial`&lt;[`Settings`](../type-aliases/settings)&gt; | (선택) Weave 트레이싱 설정                                                                                                                                                                                                                                                                                                            |
 
 <div id="returns">
   #### 반환값
@@ -36,6 +36,6 @@ Weave 트레이싱이 작동하는 데 필요한 Weave 클라이언트를 초기
   #### 정의 위치
 </div>
 
-[clientApi.ts:90](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/clientApi.ts#L90)
+[src/clientApi.ts:83](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/clientApi.ts#L83)
 
 ***

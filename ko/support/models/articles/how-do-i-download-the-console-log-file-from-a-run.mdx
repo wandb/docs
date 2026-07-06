@@ -1,0 +1,62 @@
+---
+title: "run의 콘솔 로그 파일은 어떻게 다운로드하나요?"
+keywords: ["로그", "Runs"]
+---
+
+W&amp;B는 스크립트의 stdout과 stderr를 `output.log`(또는 `logs/` 아래의 여러 청크)로 저장합니다. 어디에서 가져올 수 있는지는 run이 완료되었는지, 아직 활성 상태인지, 또는 비정상 종료되었는지에 따라 달라집니다. 캡처 설정과 `console_multipart`에 대해서는 [콘솔 로그](/ko/models/app/console-logs)를 참조하세요.
+
+<div id="from-the-ui">
+  ## UI에서
+</div>
+
+1. run 페이지를 여세요.
+2. **Files** 탭을 클릭하세요.
+3. `output.log`(또는 `logs/` 아래 파일)을 찾아 다운로드 아이콘을 클릭하세요.
+
+기본적으로 `output.log`는 *run이 완료되면* 업로드됩니다. init 시점에 멀티파트 로깅을 활성화하지 않았다면 run이 아직 실행 중일 때는 **Files**에 표시되지 않을 수 있습니다.
+
+<div id="programmatically-via-the-api">
+  ## API를 사용해 프로그래밍 방식으로
+</div>
+
+```python
+import wandb
+
+api = wandb.Api()
+run = api.run("entity/project/run_id")
+run.file("output.log").download(replace=True)
+```
+
+멀티파트 Runs의 경우에도 같은 방식으로 `logs/` 아래의 개별 파일 목록을 확인하고 다운로드하세요.
+
+<div id="while-the-run-is-still-running">
+  ## run이 아직 실행 중일 때
+</div>
+
+`wandb.init` 시점에 [멀티파트 콘솔 로깅](/ko/models/app/console-logs)을 활성화하세요. run이 아직 활성 상태인 동안 SDK가 `logs/` 아래에 타임스탬프가 포함된 청크를 기록하고 업로드할 수 있도록 `wandb` **v0.22.3** 이상을 사용하세요. 업로드 주기는 run이 시작된 후에는 변경할 수 없습니다.
+
+<div id="if-the-run-crashed">
+  ## run이 충돌한 경우
+</div>
+
+멀티파트 로깅을 사용하지 않으면 충돌한 run의 서버에 `output.log`가 없을 수 있습니다. 멀티파트가 활성화된 경우 충돌 전에 업로드된 청크는 계속 다운로드할 수 있습니다. 서버 측 파일이 없으면 `wandb/run-<timestamp>-<run-id>/logs/output.log`에 있는 로컬 복사본을 확인하세요.
+
+<div id="resuming-a-run">
+  ## run 재개
+</div>
+
+멀티파트 로깅을 사용하지 않으면 `wandb.init(resume="allow", id=...)`가 단일 `output.log`를 덮어쓸 수 있습니다. `console_multipart=True`를 사용하면(멀티파트 로깅을 활성화하려면 `wandb` **v0.22.3** 이상 필요, 재개 시 청크가 올바르게 업로드되려면 **`wandb` v0.20.1** 이상 필요) 각 세션이 자체 청크를 유지합니다. [콘솔 로그](/ko/models/app/console-logs)를 참조하세요.
+
+<div id="more-lines-than-the-logs-tab-shows">
+  ## Logs 탭에 표시되는 줄 수보다 더 많은 줄
+</div>
+
+성능상의 이유로 **Logs** 탭에는 한 번에 최대 10,000줄까지만 표시됩니다. 전체 로그는 **Files** 또는 API에서 다운로드하세요. 캡처 관련 문제는 [내 run의 콘솔 출력이 캡처되지 않는 이유는 무엇인가요?](/ko/support/models/articles/why-is-console-output-not-captured-for-my-run)에서 확인하세요.
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Logs](/ko/support/models/tags/logs)</Badge><Badge stroke shape="pill" color="orange" size="md">[Runs](/ko/support/models/tags/runs)</Badge>
+
+{/* END AUTO-GENERATED: 탭 배지 */}

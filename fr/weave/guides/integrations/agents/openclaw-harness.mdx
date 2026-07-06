@@ -1,12 +1,8 @@
 ---
 title: Plugin OpenClaw
 description: Suivez les sessions d’agent OpenClaw dans W&B Weave à des fins d’observabilité et de débogage.
-keywords: ["OpenClaw", "plugin de gateway", "traçage d’agent", "OTel GenAI", "weave-openclaw"]
+keywords: ["OpenClaw", "plugin de passerelle", "traçage d’agent", "OTel GenAI", "weave-openclaw"]
 ---
-
-import AgentsPreview from '/snippets/fr/_includes/agents-public-preview.mdx';
-
-<AgentsPreview />
 
 Le plugin Weave OpenClaw trace automatiquement chaque session d’agent exécutée via la passerelle OpenClaw et envoie les données structurées vers W&amp;B Weave. Le plugin journalise chaque tour de conversation, chaque appel de modèle et chaque exécution d’outil sans nécessiter de modification du code de l’application. Utilisez ces traces pour déboguer les sessions, auditer l’utilisation des outils et surveiller les coûts et la latence sur l’ensemble des exécutions.
 
@@ -78,8 +74,9 @@ Suivez les étapes ci-dessous pour installer le plugin, l’enregistrer auprès 
 Une fois le plugin activé, chaque session d&#39;agent produit une trace que vous pouvez examiner dans l&#39;interface Weave. Après avoir exécuté au moins une session d&#39;agent, ouvrez votre projet dans l&#39;interface Weave :
 
 1. Accédez à [https://wandb.ai](https://wandb.ai) et sélectionnez votre projet.
-2. Dans la barre latérale, sélectionnez **Agents** pour la vue de conversation multi-tour et le regroupement par version d&#39;agent, ou sélectionnez **Traces** pour l&#39;arborescence brute des spans.
-3. Sélectionnez une conversation pour examiner l&#39;arborescence complète de la session.
+2. Dans le menu latéral, sélectionnez **Agents**.
+3. Sélectionnez l&#39;onglet **Conversations** pour afficher toutes les conversations d&#39;agent enregistrées pour votre projet.
+4. Sélectionnez une conversation pour examiner l&#39;arborescence complète de la conversation.
 
 Pour plus d&#39;informations sur la vue Agents, voir [Afficher l&#39;activité de l&#39;agent](/fr/weave/guides/tracking/view-agent-activity).
 
@@ -88,7 +85,7 @@ Le plugin émet des spans conformément aux [conventions sémantiques OpenTeleme
 | Span                   | Émis pour                         | Attributs clés                                                                     |
 | ---------------------- | --------------------------------- | ---------------------------------------------------------------------------------- |
 | `invoke_agent <agent>` | Pour chaque exécution d&#39;agent | `gen_ai.agent.name`, `gen_ai.conversation.id`, coût cumulé, utilisation des jetons |
-| `chat <model>`         | Pour chaque appel au modèle       | `gen_ai.request.model`, `gen_ai.usage.input_tokens`, `gen_ai.usage.output_tokens`  |
+| `chat <model>`         | Pour chaque appel de modèle       | `gen_ai.request.model`, `gen_ai.usage.input_tokens`, `gen_ai.usage.output_tokens`  |
 | `execute_tool <tool>`  | Pour chaque exécution d&#39;outil | `gen_ai.tool.name`, `gen_ai.tool.call.id`                                          |
 
 <div id="configuration-reference">
