@@ -15,6 +15,8 @@ The `wandb.Run.config` property makes it easy to analyze your experiments and re
 
 <Note>
 To save output metrics or dependent variables like loss and accuracy, use `wandb.Run.log()` instead of `wandb.Run.config`.
+
+To save model checkpoints (weights, optimizer state, or other files that change during training), log them as [W&B Artifacts](/models/artifacts/) with `wandb.Run.log_artifact()`. Each call creates a new version, and the most recent version is automatically labeled with the `latest` alias. See [Log model checkpoints](/models/integrations/add-wandb-to-any-library#log-model-checkpoints) for a full example.
 </Note>
 
 
