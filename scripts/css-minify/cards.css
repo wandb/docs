@@ -94,6 +94,55 @@
 
 
 /* --------------------------------------------------------------------------
+   Content tabs (<Tabs>/<Tab>) — Mintlify renders the block as
+   <div class="tabs tab-container">
+     <ul role="tablist" … border-b …>   the tab strip (each <li role="tab">
+                                          holds a [data-component-part=
+                                          "tab-button"] with its own active
+                                          underline)
+     <div><div role="tabpanel">…</div></div>   the active panel
+   Out of the box the component is borderless — only the strip's bottom rule
+   and the active tab's underline hint at it. Wrap the whole block in the
+   same card chrome used by .product-card / .card.block (1px --color-stroke
+   border, 12px radius, --color-card-rest fill) so each tabbed section reads
+   as one outlined region. The strip's existing border-b then becomes the
+   divider between the tab header and the panel body.
+   -------------------------------------------------------------------------- */
+
+.tab-container {
+  border: 1px solid var(--color-stroke);
+  border-radius: 12px;
+  background-color: var(--color-card-rest);
+  overflow: hidden; /* clip the strip + panel to the rounded corners */
+}
+
+/* Tab strip — kill Mintlify's mb-6 (24px) gap below the strip so the panel
+   sits close under the divider, and inset the tabs horizontally so they line
+   up with the padded panel. The strip keeps its full-width border-b (it spans
+   the whole container, so the divider reaches both box edges) and each tab
+   button keeps its -mb-px active underline. */
+.tab-container [role="tablist"] {
+  margin-bottom: 0;
+  padding: 2px 20px 0;
+  /* Mintlify sets overflow:auto on the strip so many tabs scroll horizontally
+     on narrow screens. But each tab button uses a -mb-px / border-b overlap
+     that leaves the strip's scroll height 1px taller than its client height,
+     which makes overflow:auto paint a stray vertical scrollbar in the tab
+     title row. Pin the y-axis to hidden (keeps horizontal scrolling) to kill
+     it. Higher specificity than Mintlify's .overflow-auto, so only overflow-y
+     is overridden; overflow-x stays auto. */
+  overflow-y: hidden;
+}
+
+/* Panel body — pad the active panel inside the box. Mintlify already zeroes
+   the first child's top margin (prose [&>:first-child…]:mt-0), so 16px top
+   reads evenly against the divider above. */
+.tab-container [role="tabpanel"] {
+  padding: 16px 20px;
+}
+
+
+/* --------------------------------------------------------------------------
    Page footer prev/next links — Mintlify wraps the prev/next anchors in
    a <div id="pagination" class="grid …"> at the bottom of every page.
    The anchors ship with only a border (no bg), so the page texture shows
