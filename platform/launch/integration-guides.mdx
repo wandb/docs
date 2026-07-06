@@ -2,3 +2,27 @@
 title: Launch integration guides
 description: "Browse integration guides for configuring W&B Launch with Docker, Kubernetes, SageMaker, and Vertex AI."
 ---
+
+W&B Launch can submit jobs to a range of compute targets. Choose the guide that matches the environment where you want your agent to run jobs.
+
+<CardGroup cols={2}>
+  <Card title="Docker" icon="docker" href="/platform/launch/setup-launch-docker">
+    Run jobs on a local machine or a single VM. Best for development, small workloads, and getting familiar with Launch.
+  </Card>
+  <Card title="Kubernetes" icon="dharmachakra" href="/platform/launch/setup-launch-kubernetes">
+    Run jobs on a Kubernetes cluster (including EKS and GKE) using Helm charts, Kaniko image building, and Kubernetes job specs.
+  </Card>
+  <Card title="Amazon SageMaker" icon="aws" href="/platform/launch/setup-launch-sagemaker">
+    Submit training jobs to Amazon SageMaker with ECR, S3, and IAM. Best for AWS-based ML pipelines.
+  </Card>
+  <Card title="Google Vertex AI" icon="google" href="/platform/launch/setup-vertex">
+    Submit training jobs to Google Cloud Vertex AI using CustomJob specs and Artifact Registry.
+  </Card>
+</CardGroup>
+
+## Related resources
+
+- [Set up W&B Launch](/platform/launch/set-up-launch) — pick a queue type and configure an agent.
+- [Advanced agent setup](/platform/launch/setup-agent-advanced) — customize agent behavior, permissions, and networking.
+- [Advanced queue setup](/platform/launch/setup-queue-advanced) — configure queue resource specs and templates.
+- [Launch terminology](/platform/launch/launch-terminology) — reference for queues, agents, jobs, and runs.

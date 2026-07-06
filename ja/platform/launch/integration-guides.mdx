@@ -2,3 +2,27 @@
 title: Launch インテグレーションガイド
 description: "Docker、Kubernetes、SageMaker、Vertex AI 向けの、W&B Launch の設定に関するインテグレーションガイドをご覧ください。"
 ---
+
+W&B Launch はさまざまな計算ターゲットにジョブを送信できます。エージェントでジョブを実行したい環境に合わせて、対応するガイドを選択してください。
+
+<CardGroup cols={2}>
+  <Card title="Docker" icon="docker" href="/ja/platform/launch/setup-launch-docker">
+    ローカルマシンや単一の VM 上でジョブを実行します。開発、小規模なワークロード、Launch の学習に最適です。
+  </Card>
+  <Card title="Kubernetes" icon="dharmachakra" href="/ja/platform/launch/setup-launch-kubernetes">
+    Helm チャート、Kaniko によるイメージビルド、Kubernetes ジョブ仕様を使用して、Kubernetes クラスター(EKS や GKE を含む)上でジョブを実行します。
+  </Card>
+  <Card title="Amazon SageMaker" icon="aws" href="/ja/platform/launch/setup-launch-sagemaker">
+    ECR、S3、IAM を利用して Amazon SageMaker にトレーニングジョブを送信します。AWS ベースの ML パイプラインに最適です。
+  </Card>
+  <Card title="Google Vertex AI" icon="google" href="/ja/platform/launch/setup-vertex">
+    CustomJob 仕様と Artifact Registry を使用して Google Cloud Vertex AI にトレーニングジョブを送信します。
+  </Card>
+</CardGroup>
+
+## 関連リソース
+
+- [W&B Launch のセットアップ](/ja/platform/launch/set-up-launch) — キューの種類を選び、エージェントを構成します。
+- [エージェントの詳細設定](/ja/platform/launch/setup-agent-advanced) — エージェントの動作、権限、ネットワークをカスタマイズします。
+- [キューの詳細設定](/ja/platform/launch/setup-queue-advanced) — キューのリソース仕様とテンプレートを構成します。
+- [Launch の用語](/ja/platform/launch/launch-terminology) — キュー、エージェント、ジョブ、Run のリファレンスです。

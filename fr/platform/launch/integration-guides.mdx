@@ -2,3 +2,27 @@
 title: Guides d’intégration pour Launch
 description: "Parcourez les guides d’intégration pour configurer W&B Launch avec Docker, Kubernetes, SageMaker et Vertex AI."
 ---
+
+W&B Launch peut soumettre des jobs à différentes cibles de calcul. Choisissez le guide correspondant à l’environnement dans lequel vous souhaitez que votre agent exécute les jobs.
+
+<CardGroup cols={2}>
+  <Card title="Docker" icon="docker" href="/fr/platform/launch/setup-launch-docker">
+    Exécutez des jobs sur une machine locale ou une VM unique. Idéal pour le développement, les petites charges de travail et pour se familiariser avec Launch.
+  </Card>
+  <Card title="Kubernetes" icon="dharmachakra" href="/fr/platform/launch/setup-launch-kubernetes">
+    Exécutez des jobs sur un cluster Kubernetes (y compris EKS et GKE) à l’aide de charts Helm, de la construction d’images Kaniko et de spécifications de jobs Kubernetes.
+  </Card>
+  <Card title="Amazon SageMaker" icon="aws" href="/fr/platform/launch/setup-launch-sagemaker">
+    Soumettez des jobs d’entraînement à Amazon SageMaker avec ECR, S3 et IAM. Idéal pour les pipelines ML sur AWS.
+  </Card>
+  <Card title="Google Vertex AI" icon="google" href="/fr/platform/launch/setup-vertex">
+    Soumettez des jobs d’entraînement à Google Cloud Vertex AI à l’aide de spécifications CustomJob et d’Artifact Registry.
+  </Card>
+</CardGroup>
+
+## Ressources associées
+
+- [Configurer W&B Launch](/fr/platform/launch/set-up-launch) — choisissez un type de file d’attente et configurez un agent.
+- [Configuration avancée de l’agent](/fr/platform/launch/setup-agent-advanced) — personnalisez le comportement, les permissions et la mise en réseau de l’agent.
+- [Configuration avancée de la file d’attente](/fr/platform/launch/setup-queue-advanced) — configurez les spécifications de ressources et les modèles de file d’attente.
+- [Terminologie de Launch](/fr/platform/launch/launch-terminology) — référence pour les files d’attente, agents, jobs et runs.

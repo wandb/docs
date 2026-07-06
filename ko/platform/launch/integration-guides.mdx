@@ -2,3 +2,27 @@
 title: Launch 인테그레이션 가이드
 description: "Docker, Kubernetes, SageMaker, Vertex AI에서 W&B Launch를 구성하는 방법을 안내하는 인테그레이션 가이드를 살펴보세요."
 ---
+
+W&B Launch는 다양한 컴퓨트 타겟으로 작업을 제출할 수 있습니다. 에이전트가 작업을 실행할 환경에 맞는 가이드를 선택하세요.
+
+<CardGroup cols={2}>
+  <Card title="Docker" icon="docker" href="/ko/platform/launch/setup-launch-docker">
+    로컬 머신이나 단일 VM에서 작업을 실행합니다. 개발, 소규모 워크로드, Launch 학습에 적합합니다.
+  </Card>
+  <Card title="Kubernetes" icon="dharmachakra" href="/ko/platform/launch/setup-launch-kubernetes">
+    Helm 차트, Kaniko 이미지 빌드, Kubernetes 잡 스펙을 사용해 Kubernetes 클러스터(EKS, GKE 포함)에서 작업을 실행합니다.
+  </Card>
+  <Card title="Amazon SageMaker" icon="aws" href="/ko/platform/launch/setup-launch-sagemaker">
+    ECR, S3, IAM을 사용해 Amazon SageMaker에 트레이닝 작업을 제출합니다. AWS 기반 ML 파이프라인에 적합합니다.
+  </Card>
+  <Card title="Google Vertex AI" icon="google" href="/ko/platform/launch/setup-vertex">
+    CustomJob 스펙과 Artifact Registry를 사용해 Google Cloud Vertex AI에 트레이닝 작업을 제출합니다.
+  </Card>
+</CardGroup>
+
+## 관련 리소스
+
+- [W&B Launch 설정하기](/ko/platform/launch/set-up-launch) — 큐 유형을 선택하고 에이전트를 구성합니다.
+- [고급 에이전트 설정](/ko/platform/launch/setup-agent-advanced) — 에이전트의 동작, 권한, 네트워킹을 커스터마이즈합니다.
+- [고급 큐 설정](/ko/platform/launch/setup-queue-advanced) — 큐 리소스 스펙과 템플릿을 구성합니다.
+- [Launch 용어](/ko/platform/launch/launch-terminology) — 큐, 에이전트, 작업, run에 대한 참고 자료입니다.
