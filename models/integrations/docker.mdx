@@ -5,7 +5,7 @@ title: Docker
 
 ## Docker integration
 
-W&B can store a pointer to the Docker image that your code ran in, letting you restore a previous experiment to the exact environment it ran in. The wandb library looks for the `WANDB_DOCKER` environment variable to persist this state. W&B provides a few helpers that automatically set this state.
+W&B can store a pointer to the Docker image that your code ran in, letting you restore a previous experiment to the exact environment it ran in. The W&B Python SDK (`wandb`) looks for the `WANDB_DOCKER` environment variable to persist this state. W&B provides a few helpers that automatically set this state.
 
 The following sections describe how to set the `WANDB_DOCKER` environment variable in different environments, from local development through Kubernetes-based training.
 
@@ -19,7 +19,7 @@ The `wandb docker-run` command is provided for production workloads. It's a drop
 
 ### Kubernetes
 
-If you run your training workloads in Kubernetes and the Kubernetes API is exposed to your pod \(which is the case by default\), wandb queries the API for the digest of the Docker image and automatically sets the `WANDB_DOCKER` environment variable.
+If you run your training workloads in Kubernetes and the Kubernetes API is exposed to your pod \(which is the case by default\), W&B queries the API for the digest of the Docker image and automatically sets the `WANDB_DOCKER` environment variable.
 
 ## Restore the training environment
 

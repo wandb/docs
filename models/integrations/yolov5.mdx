@@ -8,7 +8,7 @@ import { ColabLink } from '/snippets/_includes/colab-link.mdx';
 
 [Ultralytics' YOLOv5](https://www.ultralytics.com/yolo) ("You Only Look Once") model family enables real-time object detection with convolutional neural networks.
 
-[W&B](https://wandb.com) is directly integrated into YOLOv5, providing experiment metric tracking, model and dataset versioning, rich model prediction visualization, and more. **Run a single `pip install` before you run your YOLO experiments.**
+[W&B](https://wandb.com) integrates directly with YOLOv5, providing experiment metric tracking, model and dataset versioning, rich model prediction visualization, and more. **Run a single `pip install` before you run your YOLO experiments.**
 
 <Note>
 All W&B logging features are compatible with data-parallel multi-GPU training, such as with [PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html).
@@ -16,7 +16,7 @@ All W&B logging features are compatible with data-parallel multi-GPU training, s
 
 ## Track core experiments
 
-To get started, install `wandb` alongside YOLOv5 and run training as usual. By installing `wandb`, you activate the built-in W&B [logging features](/models/track/log/): system metrics, model metrics, and media logged to interactive [Dashboards](/models/track/workspaces/).
+To get started, install the W&B Python SDK (`wandb`) alongside YOLOv5 and run training as usual. By installing `wandb`, you activate the built-in W&B [logging features](/models/track/log/): system metrics, model metrics, and media logged to interactive [Dashboards](/models/track/workspaces/).
 
 ```bash
 pip install wandb
@@ -24,7 +24,7 @@ git clone https://github.com/ultralytics/yolov5.git
 python yolov5/train.py  # train a small network on a small dataset
 ```
 
-Follow the links that wandb prints to standard out.
+Follow the links that W&B prints to standard out.
 
 <Frame>
     <img src="/images/integrations/yolov5_experiment_tracking.png" alt="W&B dashboard showing YOLOv5 training metrics and system charts."  />

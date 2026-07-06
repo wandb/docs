@@ -5,8 +5,8 @@ title: Ray Tune
 
 This page describes how to use W&B with [Ray](https://github.com/ray-project/ray) Tune so you can track hyperparameter tuning trials, log metrics, and compare experiment results across runs. W&B offers two lightweight integrations with Ray, and you can choose the one that best fits your training workflow:
 
-- The `WandbLoggerCallback` function automatically logs metrics reported to Tune to the W&B API.
-- The `setup_wandb()` function, which you can use with the function API, automatically initializes the W&B API with Tune's training information. You can use the W&B API as usual, such as by calling `run.log()` to log your training process.
+- The `WandbLoggerCallback` function automatically logs metrics reported to Tune to W&B.
+- The `setup_wandb()` function, which you can use with the function API, automatically initializes the W&B Python SDK (`wandb`) with Tune's training information. You can use the W&B API as usual, such as by calling `run.log()` to log your training process.
 
 ## Configure the integration
 

@@ -2,11 +2,11 @@
 title: MMEngine
 description: "Use W&B with OpenMMLab's MMEngine through the WandbVisBackend to log training metrics, configs, and visual records."
 ---
-This page shows you how to use W&B with OpenMMLab's MMEngine to track and visualize training runs. It's for users who train deep learning models with MMEngine or OpenMMLab computer vision libraries and want to log metrics, configs, and visualizations to W&B.
+This page shows you how to use W&B with OpenMMLab's MMEngine to track and visualize training runs. Use it if you train deep learning models with MMEngine or OpenMMLab computer vision libraries and want to log metrics, configs, and visualizations to W&B.
 
 MMEngine by [OpenMMLab](https://github.com/open-mmlab) is a foundational library for training deep learning models based on PyTorch. MMEngine implements a training architecture for the OpenMMLab algorithm library, providing a unified execution foundation for over 30 algorithm libraries within OpenMMLab. Its core components include the training engine, evaluation engine, and module management.
 
-[W&B](https://wandb.ai/site) is directly integrated into MMEngine through a dedicated [`WandbVisBackend`](https://mmengine.readthedocs.io/en/latest/api/generated/mmengine.visualization.WandbVisBackend.html#mmengine.visualization.WandbVisBackend) that you can use to:
+MMEngine integrates directly with [W&B](https://wandb.ai/site) through a dedicated [`WandbVisBackend`](https://mmengine.readthedocs.io/en/latest/api/generated/mmengine.visualization.WandbVisBackend.html#mmengine.visualization.WandbVisBackend) that you can use to:
 
 - Log training and evaluation metrics.
 - Log and manage experiment configs.
