@@ -63,7 +63,7 @@ See the next section, [Add files to an artifact](/models/artifacts/construct-an-
 
 ### Save your artifact to the W&B server
 
-When you save the artifact, W&B uploads its contents and registers it with the run, which makes the artifact available for downstream use and versioning. Use the run object's [`wandb.Run.log_artifact()`](/models/ref/python/experiments/run#log_artifact) method to save the artifact.
+Use the run object's [`wandb.Run.log_artifact()`](/models/ref/python/experiments/run#log_artifact) method to save the artifact.
 
 ```python
 with wandb.init(project="<project>", job_type="<job-type>") as run:
@@ -292,7 +292,7 @@ with wandb.init(group=group_name) as run:
 
 ## Find path for logged artifacts and other metadata
 
-After you log an artifact, you might want to inspect the files associated with the run that produced it. The following code snippet shows how to use the [W&B Public API](/models/ref/python/public-api/) to list the files in a run, including their names and URLs. Replace the `<entity/project/run-id>` placeholder with your own values:
+The following code snippet shows how to use the [W&B Public API](/models/ref/python/public-api/) to list the files in a run, including their names and URLs. Replace the `<entity/project/run-id>` placeholder with your own values:
 
 ```python
 from wandb.apis.public.files import Files

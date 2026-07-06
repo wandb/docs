@@ -56,9 +56,9 @@ s3://my-bucket
 The `datasets/mnist/` directory contains a collection of images. To track the image `datasets/mnist/` directory as a dataset artifact, specify:
 
 1. Provide a name for the artifact, such as `"mnist"`.
-2. Set the `type` parameter to `"dataset"` when you construct the artifact object (`wandb.Artifact(type="dataset")`).
-3. When you call `wandb.Artifact.add_reference()`, provide the path to the `datasets/mnist/` directory as an Amazon S3 URI (`s3://my-bucket/datasets/mnist/`).
-4. Log the artifact with `run.log_artifact()`.
+1. Set the `type` parameter to `"dataset"` when you construct the artifact object (`wandb.Artifact(type="dataset")`).
+1. When you call `wandb.Artifact.add_reference()`, provide the path to the `datasets/mnist/` directory as an Amazon S3 URI (`s3://my-bucket/datasets/mnist/`).
+1. Log the artifact with `run.log_artifact()`.
 
 The following code sample creates a reference artifact `mnist:latest`:
 
@@ -82,8 +82,6 @@ By default, W&B imposes a 10,000 object limit when adding an object prefix. You 
 </Warning>
 
 ## Download an artifact from an external bucket
-
-After you log a reference artifact, you can download it later to retrieve the original files from the bucket.
 
 When W&B downloads a reference artifact, it retrieves the files from the underlying bucket using the metadata recorded when you logged the artifact. If your bucket has object versioning enabled, W&B retrieves the object version that corresponds to the state of the file at the time the artifact was logged. As you evolve the contents of your bucket, you can point to the exact version of your data a given model was trained on, because the artifact serves as a snapshot of your bucket during the training run.
 
@@ -144,7 +142,7 @@ See the following reports for an end-to-end walkthrough on how to track artifact
 
 ## Cloud storage credentials
 
-To read from and write to your external bucket, W&B needs credentials configured in your environment. W&B uses the default mechanism to look for credentials based on the cloud provider you use. To learn more about the credentials used, read the documentation from your cloud provider:
+W&B uses the default mechanism to look for credentials based on the cloud provider you use. To learn more about the credentials used, read the documentation from your cloud provider:
 
 | Cloud provider | Credentials documentation |
 | -------------- | ------------------------- |
@@ -243,8 +241,6 @@ with wandb.init() as run:
 ```
 
 ## Download an artifact from an external filesystem
-
-After you log a filesystem reference artifact, you can download it later to retrieve the original files from the mounted filesystem.
 
 Download files from a referenced filesystem using the same APIs as non-reference artifacts:
 
