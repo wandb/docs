@@ -42,23 +42,54 @@ W&amp;B は 3 種類のコンソールログを取得し、各ログの重大度
   ## コンソールログの設定
 </div>
 
-W&amp;B が取得して表示するコンソール出力の種類を制御するには、run の初期化時に `wandb.Settings` オブジェクトを `wandb.init()` に渡します。関連するパラメーターは `show_errors`、`show_warnings`、`show_info`、`silent` です。各パラメーターとそのデフォルト値の詳細については、[`wandb.Settings` Reference](/ja/models/ref/python/experiments/settings)を参照してください。
+W&amp;B が取得して表示するコンソール出力の種類を制御するには、run の初期化時に [`wandb.Settings`](/ja/models/ref/python/experiments/settings) オブジェクトを `wandb.init()` に渡します。関連するパラメーターには、`show_errors`、`show_warnings`、`show_info`、`silent` があります。[Settings リファレンス](/ja/models/ref/python/experiments/settings) にはすべてのパラメーターが記載されており、SDK から生成されるため、新しいオプションが追加されても常に最新の内容が反映されます。
 
-次の例は、これらの設定を構成する方法を示しています。
+次の例では、W&amp;B からの情報メッセージ、警告、エラーを **Logs** タブに表示するかどうかを切り替えます。`silent=True` を設定すると、W&amp;B のすべてのコンソール出力を抑制できます (トレーニングスクリプトの出力を抑えたい場合に便利です) :
 
 ```python
 import wandb
 
 settings = wandb.Settings(
-    show_errors=True,  # W&B App にエラーメッセージを表示する
-    silent=False,      # W&B のコンソール出力をすべて無効にする
-    show_warnings=True # W&B App に警告メッセージを表示する
+    show_errors=True,
+    silent=False,
+    show_warnings=True,
 )
 
 with wandb.init(settings=settings) as run:
-    # トレーニングコードをここに記述する
     run.log({"accuracy": 0.95})
 ```
+
+stdout と stderr の取得 (`console`) 、マルチパートアップロード (`console_multipart`、`console_chunk_max_bytes`、`console_chunk_max_seconds`) 、およびトラブルシューティングについては、以下のセクションと Settings リファレンスを参照してください。分散トレーニングやその他の特殊なケースについては、[run のコンソール出力が取得されないのはなぜですか？](/ja/support/models/articles/why-is-console-output-not-captured-for-my-run) を参照してください。
+
+<div id="multipart-console-logging">
+  ### マルチパート コンソールログ
+</div>
+
+デフォルトでは、W&amp;B はスクリプトの stdout と stderr を単一の `output.log` ファイルとして保存し、*run の終了時に* アップロードします。run がアクティブな間は、**Logs** タブで出力がストリーミング表示されますが、`output.log` は run が完了するまで **Files** タブには表示されません。
+
+run がまだアクティブな間にダウンロード可能なログが必要な場合、run が終了前にクラッシュする可能性がある場合、または run を再開して以前のセッションのログ出力を保持したい場合は、マルチパート コンソールログを有効にしてください。`console_multipart=True` (SDK v0.22.3 以降) を設定すると、SDK は `logs/` 配下にタイムスタンプ付きのチャンクを書き込み、各チャンクがクローズされるたびにアップロードします。ロールオーバーは `console_chunk_max_bytes` と `console_chunk_max_seconds` で制御します。両方が `0` の場合のデフォルトと動作については、[Settings リファレンス](/ja/models/ref/python/experiments/settings) を参照してください。
+
+<Note>
+  アップロードされたチャンクは不変です。以前の行を変更するターミナル制御シーケンス (たとえば、キャリッジリターンを使用するプログレスバー) は、現在のチャンクにのみ影響します。
+</Note>
+
+```python
+import wandb
+
+with wandb.init(
+    project="my-project",
+    settings=wandb.Settings(
+        console_multipart=True,
+        console_chunk_max_bytes=1_000_000,  # ~1 MB でローテート
+        console_chunk_max_seconds=60,     # または60秒ごと（どちらか早い方）
+    ),
+) as run:
+    print("Logs upload in chunks while this run is active.")
+```
+
+`console_multipart` は、`wandb.init` の時点で設定する必要があります。run の開始後にアップロード頻度を変更することはできません。
+
+トラブルシューティング (コンソールの取得が無効になっている場合、分散トレーニング、再開した Runs、表示の制限) については、[自分の run でコンソール出力が取得されないのはなぜですか？](/ja/support/models/articles/why-is-console-output-not-captured-for-my-run) および [run からコンソールログファイルをダウンロードするにはどうすればよいですか？](/ja/support/models/articles/how-do-i-download-the-console-log-file-from-a-run) を参照してください。
 
 <div id="custom-logging">
   ## カスタムロギング

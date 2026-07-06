@@ -139,7 +139,7 @@ While checkpointing on TPUs, you might encounter the `UnimplementedError: File s
 checkpoint_options = tf.saved_model.SaveOptions(experimental_io_device="/job:localhost")
 
 WandbModelCheckpoint(
-    filepath="models/,
+    filepath="models/",
     options=checkpoint_options,
 )
 ```

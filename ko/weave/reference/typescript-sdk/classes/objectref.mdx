@@ -14,7 +14,8 @@ ObjectRef에는 Weave의 저장소 시스템에서 저장된 객체를 고유하
 
 `예시`
 
-```ts
+```ts twoslash
+// @noErrors
 const ref = new ObjectRef('my-project', 'abc123', 'def456');
 const uri = ref.uri(); // weave:///my-project/object/abc123:def456
 ```
@@ -74,7 +75,7 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
   #### 정의 위치
 </div>
 
-[weaveObject.ts:26](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveObject.ts#L26)
+[src/weaveObject.ts:24](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveObject.ts#L24)
 
 ## 속성
 
@@ -88,7 +89,7 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
   #### 정의 위치
 </div>
 
-[weaveObject.ts:29](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveObject.ts#L29)
+[src/weaveObject.ts:27](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveObject.ts#L27)
 
 ***
 
@@ -102,7 +103,7 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
   #### 정의 위치
 </div>
 
-[weaveObject.ts:28](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveObject.ts#L28)
+[src/weaveObject.ts:26](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveObject.ts#L26)
 
 ***
 
@@ -116,7 +117,7 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
   #### 정의 위치
 </div>
 
-[weaveObject.ts:27](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveObject.ts#L27)
+[src/weaveObject.ts:25](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveObject.ts#L25)
 
 ## 방법
 
@@ -136,7 +137,7 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
   #### 정의 위치
 </div>
 
-[weaveObject.ts:66](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveObject.ts#L66)
+[src/weaveObject.ts:64](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveObject.ts#L64)
 
 ***
 
@@ -156,7 +157,7 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
   #### 정의 위치
 </div>
 
-[weaveObject.ts:61](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveObject.ts#L61)
+[src/weaveObject.ts:59](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveObject.ts#L59)
 
 ***
 
@@ -176,7 +177,7 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
   #### 정의 위치
 </div>
 
-[weaveObject.ts:57](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveObject.ts#L57)
+[src/weaveObject.ts:55](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveObject.ts#L55)
 
 ***
 
@@ -208,15 +209,15 @@ Weave URI 문자열로부터 ObjectRef를 생성합니다.
 
 URI 형식이 잘못되었거나 ObjectRef가 아닌 경우 오류
 
-`Example`
+`예시`
 
-```ts
+```ts twoslash
+// @noErrors
 const ref = ObjectRef.fromUri('weave:///my-entity/my-project/object/my-dataset:abc123');
 ```
-
 
 <div id="defined-in">
   #### 정의 위치
 </div>
 
-[weaveObject.ts:44](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveObject.ts#L44)
+[src/weaveObject.ts:42](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveObject.ts#L42)

@@ -72,6 +72,7 @@ from ray.air.integrations.wandb import setup_wandb
 This utility function helps initialize W&B for use with Ray Tune. For basic usage, call `setup_wandb()` in your training function:
 
 ```python
+from ray import tune
 from ray.air.integrations.wandb import setup_wandb
 
 

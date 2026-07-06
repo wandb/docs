@@ -5,6 +5,7 @@ sidebarTitle: "Supported releases"
 rss: true
 ---
 import EolReminder from '/snippets/_includes/release-notes-support-eol-reminder.mdx';
+import SelfManagedClickhouseUpgradeNote from '/snippets/_includes/self-managed-clickhouse-upgrade-note.mdx';
 
 This page includes release notes for supported releases of W&B Server.
 - For releases that are no longer supported, see [Archived Server releases](/release-notes/server-releases-archived).
@@ -12,10 +13,30 @@ This page includes release notes for supported releases of W&B Server.
 
 <EolReminder/>
 
+<Update label="v0.82.1" description="July 1, 2026">
+**July 1, 2026**
+
+<SelfManagedClickhouseUpgradeNote/>
+
+## Performance improvements
+
+- Improved chart and workspace loading for projects with a large number of logged metrics, including faster media panel loading and more efficient history key queries.
+
+## Fixes
+
+- Fixed a bug where adding history keys to a custom Vega chart could hang when loading the workspace in projects with a large number of logged metrics.
+- Fixed an infinite loop that could occur when rendering line plots with non-logarithmic axis splits.
+- Fixed a bug where toggling **Show original** on a line plot with smoothing disabled could alter the shaded min/max band.
+- Fixed a bug in Models and Weave projects where opening **Assets** showed the full asset list instead of the categorized asset picker.
+
+</Update>
+
 <Update label="v0.82.0" description="June 23, 2026">
 **June 23, 2026**
 
 W&B 0.82.0 brings richer artifact insights with editable collection overviews and version-level metric charts, along with workspace and run table quality-of-life improvements. To support enterprise administration, you can now assign Models seats and Weave roles when inviting members, and audit logs capture API key activity.
+
+<SelfManagedClickhouseUpgradeNote/>
 
 ## Support and end of life
 
@@ -89,6 +110,8 @@ W&B 0.82.0 brings richer artifact insights with editable collection overviews an
 **June 2, 2026**
 
 W&B Server 0.81.0 makes debugging and comparing runs easier with deeper, searchable run logs, a new diff patch viewer for run code, more flexible run filtering, improved artifact download, new triggers for automations, and more. Weave adds configurable trace retention, custom monitor signals with faster evaluation workflows. To keep your deployment secure and stable, this release includes security improvements and mitigations, expanded SCIM support for Okta and Microsoft Entra, and reliability fixes across artifacts, workspaces, and reports.
+
+<SelfManagedClickhouseUpgradeNote/>
 
 ## Support and end of life
 

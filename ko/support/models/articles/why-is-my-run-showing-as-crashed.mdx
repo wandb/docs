@@ -1,0 +1,57 @@
+---
+title: "왜 내 run이 크래시된 것으로 표시되나요?"
+keywords: ["Runs", "run 크래시"]
+---
+
+W&amp;B는 `wandb.init()`을 호출한 프로세스로부터 더 이상 하트비트를 받지 못하고, 해당 프로세스가 `wandb.finish()`를 호출하지 않았을 때 run을 **Crashed**로 표시합니다. 이는 트레이닝 프로세스가 강제 종료되거나, 예기치 않게 종료되거나, 정상 종료를 보고하기 전에 연결이 끊어질 때 발생합니다.
+
+**일반적인 원인**
+
+* **메모리 부족(OOM) 오류**: 사용 가능한 메모리를 초과하면 OS 또는 GPU 드라이버가 프로세스를 종료합니다. `output.log`에서 `CUDA out of memory` 또는 `Killed` 메시지를 확인하세요.
+* **처리되지 않은 예외**: 처리되지 않은 Python 예외로 인해 `wandb.finish()`를 호출하지 못한 채 프로세스가 종료됩니다. 예외는 `output.log`에 표시됩니다.
+* **작업 스케줄러 선점**: SLURM 또는 다른 클러스터 스케줄러에서는 작업이 선점되어 경고 없이 종료될 수 있습니다. 이 경우 run은 정상적으로 종료할 기회를 얻지 못합니다.
+* **네트워크 손실**: 드문 경우지만 장시간 네트워크 장애가 발생하면, W&amp;B 백엔드가 하트비트를 기다리다가 시간 초과로 인해 프로세스가 아직 실행 중이더라도 run을 크래시된 것으로 표시할 수 있습니다.
+* **수동으로 프로세스 종료**: `kill -9` 또는 `SIGKILL`을 사용하면 Python의 시그널 핸들러를 우회하므로 `wandb.finish()`가 호출되지 않습니다.
+
+**디버그하는 방법**
+
+1. 프로젝트 사이드바에서 **Runs**를 클릭하세요.
+2. run 이름을 클릭한 다음 **Files** 탭을 클릭하세요.
+3. stdout/stderr용 `output.log`를 다운로드하세요. 이 파일에는 일반적으로 크래시를 일으킨 오류가 들어 있습니다.
+4. W&amp;B 수준의 진단 정보(연결 문제, 업로드 오류)를 확인하려면 `debug.log`와 `debug-internal.log`를 다운로드하세요.
+5. run이 클러스터에서 실행된 경우, 선점 또는 OOM 시그널이 있었는지 스케줄러의 작업 로그도 확인하세요.
+
+**크래시된 run의 데이터**
+
+크래시 전에 로깅된 메트릭은 보존되며 UI에서 확인할 수 있습니다. run의 차트, 시스템 메트릭, 그리고 크래시 전에 완전히 업로드된 모든 아티팩트는 계속 액세스할 수 있습니다. 부분적으로만 업로드된 아티팩트는 불완전할 수 있습니다.
+
+로컬에서 로깅된 step이 UI에 보이지 않는 경우(예: run이 크래시된 것으로 표시된 뒤에도 프로세스가 계속 실행된 경우), `wandb sync`를 사용해 로컬 run 디렉터리에 버퍼링된 데이터를 푸시하세요. `[TIMESTAMP]`와 `[ID]`를 run의 값으로 바꾸세요:
+
+```bash
+wandb sync wandb/run-[TIMESTAMP]-[ID]
+```
+
+자세한 내용은 [내 run의 상태가 UI에서는 crashed로 표시되지만 내 머신에서는 계속 실행 중인 경우](/ko/support/models/articles/my-runs-state-is-crashed-on-the-ui-but-i)를 참조하세요.
+
+**충돌로 인한 데이터 손실 방지**
+
+스크립트에서 예외가 발생해도 run이 정상적으로 종료되도록 `wandb.init()`를 컨텍스트 관리자로 사용하세요. 그러면 run은 **Crashed**가 아니라 **Failed**로 표시되고, 버퍼링된 데이터가 플러시됩니다:
+
+```python
+import wandb
+
+with wandb.init(project="[YOUR-PROJECT]") as run:
+    for step in range(1000):
+        loss = ...  # 트레이닝 단계
+        run.log({"loss": loss})
+```
+
+run state 정의는 [Run states](/ko/models/runs/run-states)에서 확인하세요. 충돌 이후의 콘솔 로그는 [내 run의 콘솔 출력이 왜 캡처되지 않나요?](/ko/support/models/articles/why-is-console-output-not-captured-for-my-run)에서 확인하세요.
+
+***
+
+{/* AUTO-GENERATED: 탭 배지 */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Runs](/ko/support/models/tags/runs)</Badge><Badge stroke shape="pill" color="orange" size="md">[run 크래시](/ko/support/models/tags/run-crashes)</Badge>
+
+{/* 종료 AUTO-GENERATED: 탭 배지 */}

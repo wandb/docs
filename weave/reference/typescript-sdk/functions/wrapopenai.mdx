@@ -27,7 +27,8 @@ Wraps the OpenAI API to enable function tracing for OpenAI calls.
 
 `Example`
 
-```ts
+```ts twoslash
+// @noErrors
 const openai = wrapOpenAI(new OpenAI());
 const result = await openai.chat.completions.create({
   model: 'gpt-3.5-turbo',
@@ -37,4 +38,4 @@ const result = await openai.chat.completions.create({
 
 #### Defined in
 
-[integrations/openai.ts:703](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/integrations/openai.ts#L703)
+[src/integrations/openai.ts:723](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/openai.ts#L723)

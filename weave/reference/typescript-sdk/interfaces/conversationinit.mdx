@@ -1,0 +1,80 @@
+---
+title: "Interface: ConversationInit"
+description: "TypeScript SDK reference"
+---
+
+[weave](../) / ConversationInit
+
+
+
+## Table of contents
+
+### Properties
+
+- [agentName](./conversationinit#agentname)
+- [attributes](./conversationinit#attributes)
+- [conversationId](./conversationinit#conversationid)
+- [model](./conversationinit#model)
+- [sessionId](./conversationinit#sessionid)
+
+## Properties
+
+### agentName
+
+• `Optional` **agentName**: `string`
+
+#### Defined in
+
+[src/genai/conversation.ts:9](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L9)
+
+___
+
+### attributes
+
+• `Optional` **attributes**: `Attributes`
+
+Custom attributes stamped on every span the conversation emits.
+
+A key here that collides with a span's own `gen_ai.*` / `weave.*`
+attribute is unsupported; the span's value wins.
+
+#### Defined in
+
+[src/genai/conversation.ts:20](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L20)
+
+___
+
+### conversationId
+
+• `Optional` **conversationId**: `string`
+
+Conversation ID propagated to every span under this conversation as
+ `gen_ai.conversation.id`. Auto-generated if omitted.
+
+#### Defined in
+
+[src/genai/conversation.ts:13](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L13)
+
+___
+
+### model
+
+• `Optional` **model**: `string`
+
+#### Defined in
+
+[src/genai/conversation.ts:10](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L10)
+
+___
+
+### sessionId
+
+<Warning>
+  **Deprecated.** Use [ConversationInit.conversationId](./conversationinit#conversationid) instead.
+</Warning>
+
+• `Optional` **sessionId**: `string`
+
+#### Defined in
+
+[src/genai/conversation.ts:23](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L23)

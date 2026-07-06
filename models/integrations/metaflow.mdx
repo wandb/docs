@@ -90,7 +90,7 @@ class WandbExampleFlow(FlowSpec):
     @wandb_log(datasets=True, models=True, settings=wandb.Settings(...))
     @step
     def start(self):
-        self.raw_df = pd.read_csv(...).    # pd.DataFrame -> upload as dataset
+        self.raw_df = pd.read_csv(...)    # pd.DataFrame -> upload as dataset
         self.model_file = torch.load(...)  # nn.Module    -> upload as model
         self.next(self.transform)
 ```
@@ -107,7 +107,7 @@ from wandb.integration.metaflow import wandb_log
 class WandbExampleFlow(FlowSpec):
     @step
     def start(self):
-        self.raw_df = pd.read_csv(...).    # pd.DataFrame -> upload as dataset
+        self.raw_df = pd.read_csv(...)    # pd.DataFrame -> upload as dataset
         self.model_file = torch.load(...)  # nn.Module    -> upload as model
         self.next(self.transform)
 ```
@@ -128,14 +128,14 @@ class WandbExampleFlow(FlowSpec):
   # this step will log datasets and models
   @step
   def start(self):
-    self.raw_df = pd.read_csv(...).    # pd.DataFrame -> upload as dataset
+    self.raw_df = pd.read_csv(...)    # pd.DataFrame -> upload as dataset
     self.model_file = torch.load(...)  # nn.Module    -> upload as model
     self.next(self.mid)
 
   # this step will also log datasets and models
   @step
   def mid(self):
-    self.raw_df = pd.read_csv(...).    # pd.DataFrame -> upload as dataset
+    self.raw_df = pd.read_csv(...)    # pd.DataFrame -> upload as dataset
     self.model_file = torch.load(...)  # nn.Module    -> upload as model
     self.next(self.end)
 
@@ -143,7 +143,7 @@ class WandbExampleFlow(FlowSpec):
   @wandb_log(datasets=False, models=False)
   @step
   def end(self):
-    self.raw_df = pd.read_csv(...).    
+    self.raw_df = pd.read_csv(...)    
     self.model_file = torch.load(...)
 ```
 </Tab>
