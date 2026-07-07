@@ -343,7 +343,6 @@ To avoid this on a shared cluster:
 
 - Use a unique release/CR name for each install (for example `wandb-team-a`, not `wandb`).
 - Set `app.internalJWTMap: []` unless you need internal JWT mapping. This skips rendering the `oidc-reviewer` ClusterRoleBinding.
-- Install the operator with `namespaceIsolation.enabled=true`.
 
 ### On-premises and bare metal
 
