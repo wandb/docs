@@ -1,0 +1,36 @@
+---
+title: "なぜ sweep エージェントが新しい run を取得しないのですか？"
+keywords: ["Sweeps", "Experiments"]
+---
+
+sweep エージェントが起動しても新しい run の設定を受け取らない場合や、1 つの run を受け取ったあと待機状態のままになる場合には、よくある原因がいくつかあります。
+
+**sweep が探索空間を使い切っている (グリッドサーチ)&#x20;**
+
+`grid` search では、sweep コントローラーがハイパーパラメーター値のすべての組み合わせをそれぞれ 1 回だけ割り当てます。すべての組み合わせが割り当てられると、新しい run は生成されません。複数のエージェントを同時に起動した場合、どの 1 つのエージェントも現在の run を完了する前に、それらのエージェント全体ですべての設定を消費してしまうことがあります。
+
+確認するには、W&amp;B UI で sweep ページを開き、run 数とグリッドの合計サイズを確認してください。一致していれば、その sweep は完了しています。
+
+**`--count` フラグがエージェントを制限している**
+
+`wandb agent --count [COUNT] [SWEEP-ID]` を実行すると、エージェントは終了するまでに最大 `[COUNT]` 個の run だけ受け付けます。`--count 1` を設定すると、エージェントは 1 つの run のあとで終了します。これは SLURM やその他のジョブスケジューラーでは意図された動作ですが、エージェントが繰り返し実行されることを想定していた場合は、意外に感じるかもしれません。
+
+エージェントが run を継続して取得できるようにするには、`--count` を削除するか、値を増やしてください。`[SWEEP-ID]` は、W&amp;B UI の sweep ID または `wandb.sweep()` が返す値に置き換えてください。
+
+```bash
+wandb agent [SWEEP-ID]
+```
+
+**sweep が一時停止または停止されています**
+
+W&amp;B UI で sweep のステータスを確認してください (**Sweeps &gt; your sweep &gt; Status**) 。sweep が手動で一時停止または停止されている場合、sweep が再開されるまで、エージェントは新しい設定を受け取りません。
+
+その他の原因と対処法については、[sweeps のトラブルシューティング](/ja/models/sweeps/troubleshoot-sweeps)を参照してください。SLURM 分散ジョブについては、[SLURM で sweeps を実行するにはどうすればよいですか？](/ja/support/models/articles/how-should-i-run-sweeps-on-slurm)を参照してください。
+
+***
+
+{/* 自動生成: タブバッジ */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ja/support/models/tags/sweeps)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

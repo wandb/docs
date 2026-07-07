@@ -1,0 +1,73 @@
+---
+title: "W&B run 초기화 또는 업로드가 느린 이유는 무엇인가요?"
+keywords: ["Runs", "Experiments", "연결성"]
+---
+
+`wandb.init()`이 느리거나 메트릭 업로드가 지연되는 경우는 일반적으로 네트워크 지연 시간, 큰 미디어 페이로드, 높은 로깅 빈도 또는 W&amp;B 서비스 프로세스의 느린 시작 때문입니다.
+
+<div id="slow-wandbinit">
+  ## 느린 wandb.init()
+</div>
+
+`wandb.init()`은 run을 생성하고 자격 증명을 확인하기 위해 W&amp;B API에 연결합니다. 몇 초 이상 응답이 없으면 다음을 확인하세요.
+
+* **연결 상태 확인**: `curl -I https://api.wandb.ai`를 실행해 사용 중인 머신이 W&amp;B API에 도달할 수 있는지 확인하세요. 클러스터의 방화벽 규칙이나 프록시 설정이 흔한 원인입니다.
+
+* **init 타임아웃 늘리기**: 연결이 간헐적이라면 `wandb.init()`이 포기하기 전에 더 오래 기다리도록 시간을 늘리세요.
+
+  ```python
+  import os
+  os.environ["WANDB_INIT_TIMEOUT"] = "120"   # 초
+  ```
+
+* **테스트 중에는 오프라인 모드 사용**: 반복 작업 중에 실시간 동기화가 필요하지 않다면 오프라인으로 실행한 뒤 나중에 동기화하세요. `[TIMESTAMP]`와 `[ID]`를 run의 타임스탬프와 ID로 바꾸세요.
+
+  ```bash
+  WANDB_MODE=offline python train.py
+  wandb sync wandb/run-[TIMESTAMP]-[ID]
+  ```
+
+<div id="slow-metric-uploads-during-training">
+  ## 트레이닝 중 메트릭 업로드가 느린 경우
+</div>
+
+W&amp;B는 트레이닝 루프가 차단되지 않도록 백그라운드 스레드에서 메트릭을 비동기적으로 업로드합니다. 다음과 같은 경우 업로드가 밀릴 수 있습니다.
+
+* **너무 자주 로그하는 경우**: 빠른 GPU에서 매 step마다 `wandb.log()`를 호출하면 백그라운드 스레드가 업로드할 수 있는 양보다 더 많은 데이터가 생성될 수 있습니다. 대신 N step마다 로그하세요.
+
+  ```python
+  if step % 50 == 0:
+      wandb.log({"loss": loss}, step=step)
+  ```
+
+* **매 step마다 큰 미디어를 로그하는 경우**: `wandb.Image`, `wandb.Table`, `wandb.Video` 객체는 스칼라 메트릭보다 훨씬 큽니다. 리치 미디어는 매 step마다 로그하지 말고, 매 에포크 또는 N step마다 로그하세요.
+
+* **요청 속도 제한**: `429 Rate limit exceeded` 오류가 발생하면 [요청 속도 제한 초과 오류는 어떻게 해결하나요?](/ko/support/models/articles/rate-limit-exceeded-on-metric-logging)를 참조하세요.
+
+<div id="run-finalization-is-slow">
+  ## run 종료에 시간이 오래 걸립니다
+</div>
+
+스크립트가 `wandb.finish()`를 호출한 후(또는 종료된 후) W&amp;B는 남아 있는 버퍼링된 데이터를 모두 플러시합니다. 트레이닝 중에 대량의 백로그가 쌓였다면 이 작업에 시간이 걸릴 수 있습니다. 마지막에 모든 것을 한꺼번에 몰아서 처리하기보다는 트레이닝 전반에 걸쳐 로깅 빈도를 적절하게 유지하세요.
+
+<div id="diagnosing-with-debug-logs">
+  ## 디버그 로그로 문제 진단하기
+</div>
+
+어디에 시간이 소요되는지 확인하려면 디버그 로깅을 활성화하세요:
+
+```bash
+WANDB_DEBUG=true python train.py
+```
+
+이렇게 하면 상세한 타이밍 정보가 `wandb/debug.log` 및 `wandb/debug-internal.log`에 기록됩니다.
+
+자세한 내용은 [Experiments의 제한 사항 및 성능](/ko/models/track/limits) 및 [네트워크 문제는 어떻게 해결하나요?](/ko/support/models/articles/how-do-i-deal-with-network-issues)를 참조하세요.
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Runs](/ko/support/models/tags/runs)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[연결성](/ko/support/models/tags/connectivity)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

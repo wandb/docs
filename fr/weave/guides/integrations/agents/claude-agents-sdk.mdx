@@ -1,0 +1,203 @@
+---
+title: "Claude Agent SDK"
+description: Tracez un agent créé avec le Claude Agent SDK à l’aide de Weave.
+keywords: ["Claude Agent SDK", "Anthropic", "outils MCP", "traçage d’agents", "patching automatique"]
+---
+
+import AgentsViewTraces from '/snippets/fr/_includes/agents-view-traces.mdx';
+
+Le Claude Agent SDK vous permet de créer rapidement des applications d’agents avec Claude. Vous pouvez intégrer Weave à vos agents Claude pour tracer automatiquement leurs appels, y compris les requêtes d’agents, les réponses du modèle, l’utilisation d’outils et les conversations multi-tours. Weave affiche les données capturées dans la vue **Agents** de votre projet.
+
+<div id="trace-claude-agent-sdk-agents-with-weave">
+  ## Tracez les agents du Claude Agent SDK avec Weave
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    Le SDK Weave applique automatiquement un patch au [Claude Agent SDK for Python](https://github.com/anthropics/claude-agent-sdk-python), ce qui vous permet de capturer les traces de vos agents Claude avec une configuration minimale.
+
+    Ce guide explique comment initialiser Weave et exécuter un agent Claude avec des outils MCP via `ClaudeSDKClient`. Weave trace automatiquement de bout en bout la conversation, les appels de modèle et les appels d’outil.
+
+    ### Prérequis
+
+    * Un compte W&amp;B et une [clé API](https://wandb.ai/authorize) définie comme variable d’environnement `WANDB_API_KEY`.
+    * Une clé API Anthropic définie comme variable d’environnement `ANTHROPIC_API_KEY`.
+    * Python 3.10+.
+  </Tab>
+
+  <Tab title="TypeScript">
+    Weave s’intègre à [`@anthropic-ai/claude-agent-sdk`](https://github.com/anthropics/claude-agent-sdk) pour tracer automatiquement les appels `query()`, y compris les spans d’agent, les réponses du modèle et les appels d’outil.
+
+    ### Prérequis
+
+    * Un compte W&amp;B et une [clé API](https://wandb.ai/authorize) définie comme variable d’environnement `WANDB_API_KEY`.
+    * Une clé API Anthropic définie comme variable d’environnement `ANTHROPIC_API_KEY`.
+    * Node.js 18+.
+    * `@anthropic-ai/claude-agent-sdk` version `0.3.178` ou ultérieure.
+  </Tab>
+</Tabs>
+
+<div id="install-packages">
+  ### Installer les packages
+</div>
+
+Installez les packages suivants dans votre environnement de développement. Le package `weave` capture des traces, et `claude-agent-sdk` fournit l’environnement d’exécution de l’agent.
+
+<CodeGroup>
+  ```bash Python
+  pip install weave claude-agent-sdk
+  ```
+
+  ```bash TypeScript
+  npm install weave @anthropic-ai/claude-agent-sdk
+  ```
+</CodeGroup>
+
+<div id="initialize-weave-in-your-code">
+  ### Initialisez Weave dans votre code
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    Ajoutez `weave.init` à votre projet, mettez à jour les noms de votre équipe et de votre projet W&amp;B, puis créez un agent comme d’habitude. `weave.init` active le patching automatique qui permet de capturer les traces du Claude Agent SDK.
+
+    Le code suivant crée un agent Claude avec deux outils mathématiques MCP et l’exécute pendant que Weave en capture les traces.
+
+    ```python lines highlight="11"
+    import anyio
+    import weave
+
+    from claude_agent_sdk import (
+        ClaudeAgentOptions,
+        ClaudeSDKClient,
+        create_sdk_mcp_server,
+        tool,
+    )
+
+    weave.init("<your-team>/<your-project-name>")
+
+    @tool("add", "Add two numbers", {"a": float, "b": float})
+    async def add(args: dict) -> dict:
+        return {"content": [{"type": "text", "text": str(args["a"] + args["b"])}]}
+
+    @tool("multiply", "Multiply two numbers", {"a": float, "b": float})
+    async def multiply(args: dict) -> dict:
+        return {"content": [{"type": "text", "text": str(args["a"] * args["b"])}]}
+
+    math_server = create_sdk_mcp_server(
+        name="math",
+        version="1.0.0",
+        tools=[add, multiply],
+    )
+
+    async def main():
+        options = ClaudeAgentOptions(
+            mcp_servers={"math": math_server},
+            allowed_tools=["mcp__math__add", "mcp__math__multiply"],
+        )
+
+        async with ClaudeSDKClient(options=options) as client:
+            await client.query("Using the math tools, compute (3 + 7) * 2.")
+
+            async for message in client.receive_response():
+                print(message)
+
+
+    anyio.run(main)
+    ```
+
+    Lorsque le script s’exécute, `weave.init()` affiche un lien vers votre projet. Ouvrez ce lien pour examiner les traces capturées correspondant à la requête de l’agent, aux réponses du modèle et aux appels d’outil.
+  </Tab>
+
+  <Tab title="TypeScript">
+    Weave instrumente automatiquement `query()` grâce aux hooks du chargeur de modules. La configuration requise varie légèrement selon le système de modules. Pour plus d’informations sur CommonJS et ESM, ainsi que sur le fonctionnement des hooks du chargeur de Weave, voir le [guide d’intégration tierce du SDK TypeScript](/fr/weave/guides/integrations/js).
+
+    * **Projets CommonJS** : aucune configuration supplémentaire n’est nécessaire. Chargez `weave` avant `@anthropic-ai/claude-agent-sdk` afin que l’instrumentation automatique s’exécute en premier.
+    * **Projets ESM** : démarrez Node avec l’indicateur `--import=weave/instrument` afin que l’instrumentation se charge avant tout autre module.
+
+    Cet exemple définit un outil MCP `wikipedia_search` et exécute une conversation en trois tours. Chaque tour correspond à un appel `query()` distinct, mais les tours suivants transmettent `resume` avec le `session_id` du premier tour afin que tous les tours soient regroupés en une seule session dans la vue Agents de Weave. Les deux premiers tours déclenchent des recherches sur Wikipédia, et le troisième utilise le contexte de la conversation précédente pour produire une synthèse sans appel à l’outil.
+
+    ```typescript lines highlight="36" title="main.mjs"
+    import * as weave from "weave";
+    import { createSdkMcpServer, query, tool, type Options } from "@anthropic-ai/claude-agent-sdk";
+    import { z } from "zod";
+
+    const wikipediaSearch = tool(
+        "wikipedia_search",
+        "Search Wikipedia for a topic and return its title and intro paragraph.",
+        { query: z.string().describe("The topic to search for") },
+        async ({ query }) => {
+        const url = new URL("https://en.wikipedia.org/w/api.php");
+        url.search = new URLSearchParams({
+            action: "query",
+            generator: "search",
+            gsrsearch: query,
+            gsrlimit: "1",
+            prop: "extracts",
+            exintro: "true",
+            explaintext: "true",
+            format: "json",
+        }).toString();
+
+        const response = await fetch(url, { headers: { "User-Agent": "weave-demo" } });
+        const data = await response.json();
+        const page = Object.values(data.query.pages)[0] as { title: string; extract: string };
+        return { content: [{ type: "text" as const, text: `${page.title}: ${page.extract}` }] };
+        },
+    );
+
+    const wikiServer = createSdkMcpServer({
+        name: "wiki",
+        version: "1.0.0",
+        tools: [wikipediaSearch],
+    });
+
+    async function main() {
+        await weave.init("<your-team>/<your-project-name>");
+
+        const baseOptions: Options = {
+        model: "claude-sonnet-4-5",
+        maxTurns: 4,
+        mcpServers: { wiki: wikiServer },
+        allowedTools: ["mcp__wiki__wikipedia_search"],
+        };
+
+        const questions = [
+        "Who founded Anthropic?",
+        "What is Claude (the AI assistant)?",
+        "Summarize what we discussed in one sentence.",
+        ];
+
+        let sessionId: string | undefined;
+
+        for (const prompt of questions) {
+        const options: Options = sessionId
+            ? { ...baseOptions, resume: sessionId }
+            : baseOptions;
+
+        console.log(`USER: ${prompt}`);
+        for await (const message of query({ prompt, options })) {
+            if (message.type === "system" && message.subtype === "init") {
+            sessionId ??= message.session_id;
+            }
+            if (message.type === "result" && message.subtype === "success") {
+            console.log(`AGENT: ${message.result}\n`);
+            }
+        }
+        }
+    }
+
+    main().catch(console.error);
+    ```
+
+    Chaque appel à `query()` produit un span racine `invoke_agent`. Comme les tours de conversation suivants reprennent le même `session_id`, Weave attribue le même `gen_ai.conversation.id` à tous les spans et les regroupe en une seule session dans la vue Agents.
+
+    Enregistrez l’exemple sous `main.mjs` et exécutez-le avec l’indicateur `--import=weave/instrument` afin que le hook de chargement s’exécute avant tout autre module :
+
+    ```bash
+    node --import=weave/instrument main.mjs
+    ```
+  </Tab>
+</Tabs>
+
+<AgentsViewTraces />

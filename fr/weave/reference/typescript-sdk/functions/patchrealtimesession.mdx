@@ -7,9 +7,9 @@ description: "Référence du SDK TypeScript"
   # patchRealtimeSession
 </div>
 
-▸ **patchRealtimeSession**(): `void`
+▸ **patchRealtimeSession**(): `Promise`&lt;`boolean`&gt;
 
-Appliquez manuellement un correctif à la classe `RealtimeSession` de `@openai/agents-realtime` afin que
+Patchez manuellement la classe `RealtimeSession` de `@openai/agents-realtime` afin que
 chaque nouvelle instance soit automatiquement tracée par Weave.
 
 **Remarque : vous n’avez généralement pas besoin d’appeler cette fonction !** `@openai/agents-realtime` est
@@ -24,21 +24,24 @@ La fonction est idempotente : vous pouvez l’appeler en toute sécurité à pl
   #### Renvoie
 </div>
 
-`void`
+`Promise`&lt;`boolean`&gt;
+
+`true` si le patch a été appliqué (ou l’était déjà), `false` si
+`@openai/agents-realtime` n’a pas pu être chargé.
 
 `Exemple`
 
-```typescript
+```typescript twoslash
+// @noErrors
 import { patchRealtimeSession } from 'weave';
-patchRealtimeSession();
-// Chaque nouvelle RealtimeSession(...) est désormais instrumentée automatiquement
+await patchRealtimeSession();
+// Chaque nouveau RealtimeSession(...) est désormais automatiquement instrumenté
 ```
-
 
 <div id="defined-in">
   #### Défini dans
 </div>
 
-[integrations/openai.realtime.agent.ts:797](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/integrations/openai.realtime.agent.ts#L797)
+[src/integrations/openai.realtime.agent.ts:836](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/openai.realtime.agent.ts#L836)
 
 ***

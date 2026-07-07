@@ -1,6 +1,7 @@
 ---
 title: Verifiers
 description: "Weave で Verifiers の RL 環境と LLM エージェントのトレーニングをトラッキングし、複数ラウンドの会話や評価ロールアウトを記録します。"
+keywords: ["Verifiers", "強化学習", "RL トレーニング", "ロールアウト", "GSM8K"]
 ---
 
 [Verifiers](https://github.com/willccbb/verifiers) は、強化学習 (RL) 環境の作成や LLM エージェントのトレーニングに使う、モジュール型コンポーネントのライブラリです。Verifiers で構築した環境は、LLM の評価、合成データパイプライン、任意の OpenAI 互換 endpoint 向けのエージェントハーネス、RL トレーニングに利用できます。
@@ -9,11 +10,11 @@ W&amp;B を使用してトレーニングメトリクスを記録するだけで
 
 また、Weave と Verifiers を組み合わせて使用して、評価を実行することもできます。
 
-このガイドでは、Verifiers、W&amp;B、Weave のインストール方法を説明し、Verifiers を Weave および W&amp;B と組み合わせて使う 2 つの例を紹介します。
+このガイドは、Verifiers ベースの RL ワークフローに可観測性を追加したい ML エンジニアや研究者向けです。Verifiers、W&amp;B、Weave のインストール方法を説明し、Verifiers を Weave および W&amp;B と組み合わせて使う 2 つの例を紹介します。1 つは評価中のロールアウトをトレースする方法、もう 1 つは実験管理とトレースを有効にしてモデルをファインチューニングする方法です。
 
 ![verifiers wandb run page](/images/weave/verifiers.gif)
 
-<div id="getting-started">
+<div id="get-started">
   ## はじめに
 </div>
 
@@ -38,6 +39,8 @@ uv pip install weave wandb
 
 Weave では、デフォルトでこのライブラリに対して[暗黙的なパッチ適用](/ja/weave/guides/integrations#automatic-implicit-patching)が有効になっています。これにより、明示的な call / calls パッチ関数がなくても、Verifiers と Weave を使用できます.
 
+ライブラリをインストールしたら、以下のセクションの例を実行する準備は完了です。
+
 <div id="trace-rollouts-and-evaluate">
   ### ロールアウトをトレースして評価する
 </div>
@@ -54,7 +57,7 @@ from openai import OpenAI
 import verifiers as vf
 import weave
 
-os.environ["OPENAI_API_KEY"] = "<YOUR-OPENAI-API-KEY>"
+os.environ["OPENAI_API_KEY"] = "[YOUR-OPENAI-API-KEY]"
 
 # Weave を初期化する
 weave.init("verifiers_demo")
@@ -86,7 +89,7 @@ results = env.evaluate(
   ### 実験管理とトレースを使用してモデルをファインチューニングする
 </div>
 
-Weave は、トレーニング中のモデルのパフォーマンスを可視化できるため、RL のファインチューニングワークフローで強力なツールになります。W&amp;B と併用すると、包括的な可観測性が得られます。W&amp;B はトレーニングのメトリクスやパフォーマンスチャートをトラッキングし、Weave はトレーニングプロセス中の各インタラクションの詳細なトレースを取得します。
+Weave は、RL のファインチューニング中にモデルがどのようにパフォーマンスしているかを可視化します。W&amp;B と併用すると、ワークフロー全体にわたる可観測性が得られます。W&amp;B はトレーニングのメトリクスやパフォーマンスチャートをトラッキングし、Weave はトレーニングプロセス中の各インタラクションの詳細なトレースを取得します。
 
 `verifiers` repository には、使い始めるのに役立つ、すぐに実行できる[例](https://github.com/PrimeIntellect-ai/verifiers)が含まれています。
 
@@ -130,7 +133,7 @@ CUDA_VISIBLE_DEVICES=1 accelerate launch --num-processes 1 --config-file configs
   これらの変数は、デバイスメモリ割り当てにおける CUDA Unified Memory (CuMem) を無効にします。
 </Note>
 
-トレーニングが始まると、run 中にログされた[トレース](/ja/weave/guides/tools/weave-in-workspaces)を UI で表示できます。
+トレーニングが始まると、run 中にログされた[トレース](/ja/weave/guides/tools/weave-in-workspaces)を UI で表示できます。W&amp;B はトレーニングメトリクスを取得し、Weave は各インタラクションのトレースを記録するため、トレーニング run の高レベルなパフォーマンス傾向と、詳細なステップごとの可視性の両方を得られます。
 
 トレースでは、`Environment.a_generate` および `Rubric.score_rollouts` method の `logprobs` は省略されます。これにより、トレーニング用の元のデータはそのまま保持しつつ、ペイロードを小さくできます。
 
@@ -138,4 +141,4 @@ CUDA_VISIBLE_DEVICES=1 accelerate launch --num-processes 1 --config-file configs
   ## 関連項目
 </div>
 
-Verifiers は W&amp;B Models とネイティブにインテグレーションされています。詳しくは、[Verifiers repository](https://github.com/PrimeIntellect-ai/verifiers)を参照してください。
+Verifiers は W&amp;B Models とネイティブにインテグレーションされています。詳細は、[Verifiers repository](https://github.com/willccbb/verifiers)を参照してください。

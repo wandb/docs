@@ -2,39 +2,40 @@
 title: "Prérequis"
 linkTitle: "Prérequis"
 description: "Configurez votre environnement, votre clé API et les dépendances avant d'utiliser le service Serverless Inference via l'API ou l'UI."
+keywords: ["configuration de la clé API", "installer openai", "OPENAI_API_KEY", "installer Weave", "premiers pas"]
 ---
 
 import ApiKeyCreate from "/snippets/fr/_includes/api-key-create.mdx";
 
-Suivez ces étapes avant d’utiliser le service Serverless Inference via l’API ou l’UI.
+Cette page répertorie les comptes, les identifiants et les outils que vous devez configurer avant de pouvoir appeler le service Serverless Inference via l’API ou l’UI. Complétez chaque élément des sections suivantes afin que les requêtes ultérieures soient correctement authentifiées et acheminées vers un projet valide.
 
 <Tip>
   Avant de commencer, consultez les [informations sur l’utilisation et les limites](/fr/inference/usage-limits/) pour comprendre les coûts et les restrictions.
 </Tip>
 
 <div id="set-up-your-wb-account-and-project">
-  ## Configurez votre compte W&amp;B et votre projet
+  ## Configurez votre compte et votre projet W&amp;B
 </div>
 
-Vous avez besoin des éléments suivants pour accéder à Serverless Inference :
+Vous devez disposer des éléments suivants pour accéder à Serverless Inference :
 
-1. **Un compte W&amp;B**
-   Créez votre compte sur [W&amp;B](https://app.wandb.ai/login?signup=true)
+1. **Un compte W&amp;B.** Inscrivez-vous sur [W&amp;B](https://app.wandb.ai/login?signup=true).
 
-2. **Une clé API W&amp;B**
+2. **Une clé API W&amp;B.**
 
    <ApiKeyCreate />
 
-3. **Un projet W&amp;B**
-   Créez un projet dans votre compte W&amp;B pour suivre l’utilisation
+3. **Un projet W&amp;B.** Créez un projet dans votre compte W&amp;B pour suivre l’utilisation.
 
-<div id="set-up-your-environment-python">
-  ## Configurer votre environnement (Python)
+Une fois ces trois éléments en place, vous disposez d’une identité W&amp;B pouvant s’authentifier auprès de l’API d’inférence, ainsi que d’un projet qui enregistre votre utilisation.
+
+<div id="set-up-your-environment-for-python">
+  ## Configurer votre environnement pour Python
 </div>
 
-Pour utiliser l’API Inference avec Python, vous devez également :
+Si vous prévoyez d’appeler l’API d’inférence depuis Python, configurez également les éléments suivants en plus des prérequis généraux :
 
-1. Remplir les prérequis généraux ci-dessus
+1. Remplir les prérequis généraux dans la section précédente.
 
 2. Installer les bibliothèques requises :
 
@@ -46,16 +47,14 @@ Pour utiliser l’API Inference avec Python, vous devez également :
   **Remarque**
 
   La bibliothèque `weave` est facultative, mais recommandée. Elle vous permet de tracer vos applications LLM. Pour en savoir plus, consultez le [Démarrage rapide de Weave](/fr/models/quickstart/).
-
-  Voir les [exemples d&#39;utilisation](/fr/inference/examples) pour des exemples de code avec Serverless Inference et Weave.
 </Note>
 
 <div id="next-steps">
   ## Étapes suivantes
 </div>
 
-Une fois les prérequis remplis :
+Avec votre compte, votre clé API, votre projet et, si besoin, votre environnement Python en place, vous êtes prêt à commencer à envoyer des requêtes. Poursuivez avec l’une des ressources suivantes :
 
-* Consultez la [référence de l’API](/fr/inference/api-reference/) pour découvrir les points de terminaison disponibles
-* Essayez les [exemples d&#39;utilisation](/fr/inference/examples/) pour voir le service en action
-* Utilisez le [guide UI](/fr/inference/ui-guide/) pour accéder aux modèles via l’interface web
+* Consultez la [référence de l’API](/fr/inference/api-reference/) pour découvrir les points de terminaison disponibles.
+* Essayez les [exemples d&#39;utilisation](/fr/inference/examples/) pour voir le service en action.
+* Utilisez le [guide UI](/fr/inference/ui-guide/) pour accéder aux modèles via l’interface web.

@@ -4,10 +4,6 @@ description: "Use W&B Weave signals to score agent turns, apply tags, and surfac
 keywords: ["signals", "agent monitoring", "scorers", "ratings", "tags"]
 ---
 
-import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
-
-<AgentsPreview />
-
 In W&B Weave's [Agents view](/weave/guides/tracking/view-agent-activity), the Signals tab shows tags and ratings for your agent's conversations. Signals surface quality and safety issues to flag problems, find patterns, and highlight the traces that need your attention. Use signals to automatically score the quality of your agent's responses, notice when a user is frustrated, or flag NSFW content.
 
 ## Get started
@@ -44,33 +40,18 @@ Use the time window selector and **Filter** bar to narrow results by scorer, age
 
 ## Create a new signal
 
-To start scoring your agent's turns, create a signal. Select **+ New signal** to create a scorer for your agent, then configure the following options.
+To start scoring your agent's turns, create one or more signals. Select **+ New signal** to open the **Create signals** drawer.
 
-### Scorer type
+The drawer groups available signals into two categories:
 
-Choose to create either a **Rating** scorer or a **Tags** scorer.
+- **Tags**: Apply a label automatically to matching spans, such as `user-frustration` or `nsfw`. Use tags to categorize spans or flag unwanted behavior. The signals UI only displays rows for spans that matched at least one tag, so a tag signal might run successfully even if you don't see any output.
+- **Ratings**: Assign a score from 0 to 1 to matching spans. Use ratings to rate agent performance and measure improvements over time.
 
-- **Rating**: Assigns a score between 0 and 1 to each matching span.
-- **Tags**: Assigns up to 10 tags to each matching span. The signals UI only displays rows for spans that matched at least one tag, so your tag scorer might run successfully even if you don't see any output.
+### Preset signals
 
-### Only score turns matching
+Each category offers preset templates that you can select directly. Select any combination of presets across both categories, then select **Create [_N_] signals** to create them all at once with default settings.
 
-Use this selector to restrict which turns the signal scores, such as a specific `Agent name`, `Operation name`, `Tool name`, or `Request model`. Weave combines multiple filters with `AND` logic. To score every turn, select the **x** at the end of the filter row to remove it.
-
-### Prompt template
-
-Choose a starter template from the following tables, then adjust the prompt that appears inline as **Scorer prompt**. Weave resolves template variables, such as `{input_messages}`, `{output_messages}`, and `{system_instructions}`, during scoring.
-
-#### Rating templates
-
-| Template | What it evaluates |
-|--------|----------------|
-| **User Satisfaction** | Whether the user is satisfied (positive feedback, follow-up engagement, task completion) or dissatisfied (complaints, repeated rephrasing, abandonment). |
-| **User Good Intent** | Whether the user's intent is benign and legitimate, versus jailbreak attempts, harmful requests, or prompt injection. |
-| **Safe-for-Work** | Whether the conversation is appropriate for any professional setting, versus explicit, violent, or otherwise inappropriate workplace content. |
-| **Response Quality** | Whether the agent's response is accurate, complete, and directly addresses the user's request. |
-
-#### Tags templates
+#### Tags presets
 
 | Template | What it detects |
 |--------|----------------|
@@ -79,20 +60,34 @@ Choose a starter template from the following tables, then adjust the prompt that
 | **NSFW** | User input or agent output contains explicit sexual content, graphic violence, or other material inappropriate for a workplace setting. |
 | **Low Quality Response** | Agent output that is factually wrong, off-topic, evasive, repetitive, lacks justification when refusing, or otherwise fails to address the user's request. |
 
-### Scorer name
+#### Ratings presets
 
-Choose the display name for this signal.
+| Template | What it evaluates |
+|--------|----------------|
+| **User Satisfaction** | Whether the user is satisfied (positive feedback, follow-up engagement, task completion) or dissatisfied (complaints, repeated rephrasing, abandonment). |
+| **User Good Intent** | Whether the user's intent is benign and legitimate, versus jailbreak attempts, harmful requests, or prompt injection. |
+| **Safe-for-Work** | Whether the conversation is appropriate for any professional setting, versus explicit, violent, or otherwise inappropriate workplace content. |
+| **Response Quality** | Whether the agent's response is accurate, complete, and directly addresses the user's request. |
 
-### Advanced settings
+### Custom signals
 
-Under **Advanced**, configure the following options.
+In the **Create signals** drawer, at the bottom of each of the **Tags** and **Ratings** categories, there is an option to create a custom signal.
 
-- **Inference model**: The LLM to use for scoring. [Serverless Inference](/inference/) is the recommended default when available.
-- **Sample rate**: For high-traffic agents, set a sample rate to score a fraction of turns instead of every turn and reduce cost.
+To define your own signal, select **Custom Tags** or **Custom Rating**. This opens a configuration screen with the following fields.
+
+- **Prompt template**: Optionally base your scorer on one or more preset templates. Selecting templates populates the **Scorer prompt**; you can combine multiple templates or write a prompt from scratch.
+- **Scorer prompt**: The prompt sent to the inference model at score time. Weave resolves template variables, such as `{input_messages}`, `{output_messages}`, `{system_instructions}`, and `{agent_name}`, during scoring.
+- **Scorer name**: The display name for this signal.
+- **Inference model**: The LLM to use for scoring. [Serverless Inference](/inference/) is the default; CoreWeave Serverless Inference consumes credits from your W&B account.
+- **Advanced**: Expand to configure additional options:
+  - **Only score turns matching**: Add one or more filters to restrict which turns the signal scores, for example by agent, operation, tool, or model. Leave empty to score every agent turn. Weave combines multiple filters with `AND` logic.
+  - **Sample rate**: For high-traffic agents, lower the sample rate to score a fraction of matching turns instead of every turn and reduce cost.
+
+Select **Create signal** to save.
 
 ## Manage and edit signals
 
-Select **Manage signals** to open a drawer that lists all active signals for the project. From there you can toggle signals on or off, delete them, or edit any signal. The editor shows the same fields as **+ New signal**.
+If you have at least one created signal, select the active signals button in the toolbar—labeled with the number of active signals, such as **1 active signals**—to open a drawer that lists all active signals for the project. From there you can toggle signals on or off, delete them, or edit any signal. The editor shows the same configuration fields as a custom signal.
 
 ## Troubleshoot signals
 

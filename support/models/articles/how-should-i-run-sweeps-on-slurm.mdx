@@ -1,12 +1,64 @@
 ---
 title: "How should I run sweeps on SLURM?"
-keywords: ["Sweeps"]
+keywords: ["Sweeps", "Experiments"]
 ---
 
-To use sweeps with the [SLURM scheduling system](https://slurm.schedmd.com/documentation.html), run `wandb agent --count 1 SWEEP_ID` in each scheduled job. This command executes a single training job and then exits. This approach supports runtime predictions for resource requests and still benefits from the parallelism of hyperparameter searches.
+For W&B sweeps on the [SLURM scheduling system](https://slurm.schedmd.com/documentation.html), run `wandb agent --count 1 SWEEP_ID` in each scheduled job. The agent executes one training run and exits, which makes resource estimation simpler and lets the SLURM scheduler parallelize hyperparameter searches across jobs.
+
+For multi-GPU or distributed-training jobs, an additional rule applies: only one process per SLURM job should call `wandb.agent()`. If every rank calls the agent, each rank pulls its own hyperparameter configuration from the sweep controller and the ranks no longer train the same model.
+
+The sections below show the submission command for single-process jobs, the rank-gating pattern for multi-GPU jobs with distributed training, when to gate on global rank versus local rank, and how to log from non-rank-0 ranks.
+
+## Single-process or single-GPU jobs
+
+Submit each scheduled job with:
+
+```bash
+wandb agent --count 1 SWEEP_ID
+```
+
+## Multi-GPU jobs with distributed training
+
+When running a W&B sweep with distributed training (for example, multi-GPU jobs with `--gpus-per-node`), gate `wandb.agent()` to one rank using the `SLURM_PROCID` environment variable. The other ranks should run distributed training without invoking the sweep agent or `wandb.init()`. For the W&B side of distributed training in general, see [Log distributed training experiments](/models/track/log/distributed-training).
+
+```python
+import os
+import wandb
+
+def train():
+    with wandb.init() as run:
+        config = run.config
+        # Broadcast config to other ranks, then run distributed training.
+        ...
+
+if os.environ.get("SLURM_PROCID", "0") == "0":
+    wandb.agent(sweep_id, function=train, count=1)
+else:
+    # Non-rank-0 ranks receive the config from rank 0 and run training
+    # without calling wandb.agent() or wandb.init().
+    run_worker()
+```
+
+This pattern ensures that:
+
+- Each SLURM job registers exactly one run with the sweep controller.
+- Non-rank-0 ranks run their portion of distributed training without creating duplicate, disconnected runs.
+- The sweep controller correctly tracks progress and schedules new hyperparameter configurations.
+
+If you use `submitit` or a similar launcher, apply the same check in your training entry point before calling `wandb.agent()`.
+
+### Choose between `SLURM_PROCID` and `SLURM_LOCALID`
+
+`SLURM_PROCID` is the global rank across the entire SLURM job. Gate on `SLURM_PROCID == 0` when you want exactly one agent for the whole distributed group, which is the typical case for sweeps.
+
+`SLURM_LOCALID` is the rank within a single node. Gate on `SLURM_LOCALID == 0` when you want one agent per node, for example to launch independent sweep runs in parallel across nodes.
+
+### Log from non-rank-0 ranks
+
+The example above follows the [Track a single process](/models/track/log/distributed-training#track-a-single-process) pattern, where only rank 0 logs to W&B. If you also want non-rank-0 ranks to log to the same run, for example to capture per-rank system metrics, use shared mode and pass the rank-0 run ID to each worker. See [Track all processes to a single run](/models/track/log/distributed-training#track-all-processes-to-a-single-run).
 
 ---
 
 {/* AUTO-GENERATED: tab badges */}
-<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/support/models/tags/sweeps)</Badge>
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/support/models/tags/sweeps)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/support/models/tags/experiments)</Badge>
 {/* END AUTO-GENERATED: tab badges */}

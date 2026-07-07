@@ -298,7 +298,7 @@ class ConvNet(nn.Module):
 `run.watch()`는 모델의 그라디언트와 파라미터를
 트레이닝 중 매 `log_freq` step마다 로깅합니다.
 
-트레이닝을 시작하기 전에 이 함수를 호출하기만 하면 됩니다.
+트레이닝을 시작하기 전에 `run.watch()`를 호출하세요. 로그 모드, 여러 모델, 성능 팁은 [wandb.watch로 그라디언트와 모델 가중치를 로깅하려면 어떻게 하나요?](/ko/support/models/articles/how-do-i-log-gradients-and-model-weights-with-wandb-watch)를 참조하세요.
 
 나머지 트레이닝 코드는 그대로입니다:
 에포크와 배치를 순회하면서
@@ -329,11 +329,11 @@ def train(model, loader, criterion, optimizer, config):
 
 def train_batch(images, labels, model, optimizer, criterion):
     images, labels = images.to(device), labels.to(device)
-
+    
     # Forward pass ➡
     outputs = model(images)
     loss = criterion(outputs, labels)
-
+    
     # Backward pass ⬅
     optimizer.zero_grad()
     loss.backward()
@@ -481,6 +481,6 @@ W&amp;B로 추적하고 시각화한 프로젝트 예제를 [Gallery →](https:
 </div>
 
 1. [환경 변수](/ko/platform/hosting/env-vars/): 관리형 클러스터에서 트레이닝을 실행할 수 있도록 환경 변수에 API 키를 설정합니다.
-2. [오프라인 모드](/ko/support/models/articles/can-i-run-wandb-offline): `dryrun` 모드를 사용해 오프라인으로 트레이닝한 뒤, 나중에 결과를 동기화합니다.
+2. [오프라인 모드](/ko/support/models/articles/how-do-i-run-wandb-offline): `dryrun` 모드를 사용해 오프라인으로 트레이닝한 뒤, 나중에 결과를 동기화합니다.
 3. [온프레미스](/ko/platform/hosting/hosting-options/self-managed): 자체 인프라의 프라이빗 클라우드 또는 외부망과 격리된 서버에 W&amp;B를 설치합니다. 학계 사용자부터 엔터프라이즈 팀까지 폭넓게 사용할 수 있는 로컬 설치 옵션을 제공합니다.
 4. [Sweeps](/ko/models/sweeps/): 경량 튜닝 도구로 하이퍼파라미터 검색을 빠르게 설정합니다.

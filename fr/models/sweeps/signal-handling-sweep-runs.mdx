@@ -47,7 +47,7 @@ import wandb
 
 def signal_handler(signum, frame):
     if wandb.run is not None:
-        # Facultatif : sauvegarder un point de contrôle du modèle, vider les tampons, etc.
+        # Facultatif : enregistrez un point de contrôle du modèle, videz les tampons, etc.
         print(f"Preempted with signal: {signal.Signals(signum).name}.")
         wandb.run.mark_preempting()
     sys.exit(128 + signum)
@@ -108,6 +108,8 @@ En cas de préemption, le **processus d&#39;entraînement** doit recevoir le sig
 **État du balayage :** exécutez `wandb sweep entity/project/sweep_ID --resume` avant de démarrer l&#39;agent afin que le balayage soit en mode reprise et redistribue les runs remis en file d’attente.
 
 **Coordination multi-agents :** lorsque de nombreux agents s&#39;exécutent en même temps (comme des jobs array dans SLURM), ils peuvent entrer en concurrence pour récupérer le même run préempté. Il s&#39;agit d&#39;une limitation connue. Espacez le démarrage des agents ou utilisez des mécanismes de coordination externes, comme des verrous, pour limiter ce problème potentiel.
+
+Pour les jobs SLURM multi-GPU où un seul processus doit appeler `wandb.agent()`, voir [Comment exécuter des balayages sur SLURM ?](/fr/support/models/articles/how-should-i-run-sweeps-on-slurm).
 
 <div id="wandb-sweep-cancel">
   ## `wandb sweep --cancel`

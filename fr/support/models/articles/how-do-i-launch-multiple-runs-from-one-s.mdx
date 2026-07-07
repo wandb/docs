@@ -3,12 +3,17 @@ title: "Comment puis-je lancer plusieurs runs depuis un seul script ?"
 keywords: ["Experiments"]
 ---
 
-Terminez les runs précédents avant d&#39;en démarrer de nouveaux pour journaliser plusieurs runs dans
-un même script.
+Pour journaliser plusieurs runs dans un même script, vous devez terminer chaque run précédent
+avant d’en démarrer un nouveau. Les sections suivantes décrivent deux approches pour
+enchaîner les runs dans un script, ainsi qu’une approche distincte pour conserver plusieurs runs
+actifs en même temps.
 
-La méthode recommandée consiste à utiliser `wandb.init()` comme gestionnaire de contexte,
-car cela termine le run et le marque comme ayant échoué si votre script lève une
-exception :
+<div id="use-a-context-manager">
+  ## Utiliser un gestionnaire de contexte
+</div>
+
+Utilisez `wandb.init()` comme gestionnaire de contexte. Cette approche termine le run et
+le marque comme ayant échoué si votre script lève une exception :
 
 ```python
 import wandb
@@ -18,6 +23,10 @@ for x in range(10):
         for y in range(100):
             run.log({"metric": x + y})
 ```
+
+<div id="call-runfinish-explicitly">
+  ## Appelez explicitement run.finish
+</div>
 
 Vous pouvez également appeler explicitement `run.finish()` :
 
@@ -43,8 +52,8 @@ for x in range(10):
   ## Plusieurs runs actifs
 </div>
 
-À partir de wandb 0.19.10, vous pouvez définir le paramètre `reinit` sur `"create_new"`
-afin de créer plusieurs runs actifs simultanément.
+Dans `wandb` 0.19.10 et les versions ultérieures, si vous avez besoin de plusieurs runs actifs en même temps au lieu de les exécuter séquentiellement, définissez le paramètre `reinit` sur
+`"create_new"` afin de créer plusieurs runs actifs simultanément.
 
 ```python
 import wandb
@@ -58,9 +67,8 @@ with wandb.init(reinit="create_new") as tracking_run:
             tracking_run.log({"x": x})
 ```
 
-Voir [Plusieurs runs par processus](/fr/models/runs/initialize-run)
-pour en savoir plus sur `reinit="create_new"`, y compris les points à prendre en compte concernant les intégrations
-W&amp;B.
+Pour en savoir plus sur `reinit="create_new"`, y compris les points à prendre en compte concernant les intégrations
+W&amp;B, voir [Plusieurs runs par processus](/fr/models/runs/initialize-run).
 
 ***
 

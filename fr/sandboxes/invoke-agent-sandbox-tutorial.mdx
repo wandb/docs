@@ -1,6 +1,7 @@
 ---
 title: "Tutoriel : invoquer un agent dans un Sandbox"
 description: "Découvrez comment invoquer un agent OpenAI dans un environnement Serverless Sandbox"
+keywords: ["tutoriel", "invoquer un agent dans un Sandbox"]
 ---
 
 <Warning>
@@ -19,6 +20,8 @@ Dans ce tutoriel, vous invoquerez un agent dans un environnement Serverless Sand
   ## Prérequis
 </div>
 
+Avant de commencer, installez le SDK Python de W&amp;B, authentifiez-vous auprès de W&amp;B et enregistrez votre clé API OpenAI comme secret pour que le sandbox puisse l’utiliser.
+
 {/* ### (Recommandé) Créer un environnement virtuel Python
 
   Créez et activez un environnement virtuel Python afin de garder vos dépendances organisées et d’éviter les conflits avec d’autres projets. Exécutez les commandes suivantes dans votre terminal :
@@ -32,7 +35,7 @@ Dans ce tutoriel, vous invoquerez un agent dans un environnement Serverless Sand
   ### Installer le SDK Python de W&amp;B
 </div>
 
-Installez le SDK Python de W&amp;B. Vous pouvez le faire avec `pip` :
+Installez le SDK Python de W&amp;B avec `pip` :
 
 ```bash
 pip install wandb
@@ -52,16 +55,18 @@ wandb login
   ### Stockez les clés API dans Secret Manager
 </div>
 
-Stockez votre clé API OpenAI dans le [W&amp;B Secret Manager](/fr/platform/secrets) sous le nom `OPENAI_API_KEY`. Voir [Secrets](/fr/sandboxes/secrets) pour plus d&#39;informations sur l&#39;utilisation des secrets dans les sandboxes.
+Stockez votre clé API OpenAI dans le [W&amp;B Secret Manager](/fr/platform/secrets) sous le nom `OPENAI_API_KEY`. Pour plus d’informations sur l’utilisation des secrets dans les sandboxes, voir [Secrets](/fr/sandboxes/secrets).
 
-Cela vous permet d&#39;accéder de façon sécurisée à la clé API dans la sandbox sans l&#39;intégrer en dur dans votre code ou dans la configuration de la sandbox.
+Cela vous permet d’accéder de façon sécurisée à la clé API dans la sandbox sans l’intégrer en dur dans votre code ou dans la configuration de la sandbox.
 
 <div id="copy-agent-code">
   ## Copier le code de l’agent
 </div>
 
+Une fois les prérequis réunis, enregistrez le code de l’agent localement afin de pouvoir l’exécuter dans un sandbox. Le script définit un agent OpenAI avec deux outils et un format de réponse structuré.
+
 <Accordion title="Code de l’agent OpenAI">
-  Copiez-collez le code suivant dans un fichier nommé `demo.py` dans le même répertoire que ce tutoriel, puis exécutez l&#39;extrait de code ci-dessus pour voir comment appeler un agent OpenAI dans un environnement sandbox.
+  Copiez le code suivant dans un fichier nommé `demo.py` dans le même répertoire que ce tutoriel. Ensuite, exécutez l&#39;extrait de code précédent pour invoquer un agent OpenAI dans un bac à sable.
 
   ```python title="demo.py"
   import json
