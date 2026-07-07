@@ -238,6 +238,24 @@ For detailed instructions on using these cloud-specific modules, see [Deploy wit
 
 <SelfManagedVerifyInstallation/>
 
+## Applying configuration changes
+
+When you change configuration after the initial install — for example SSO/OIDC settings, environment variables, or other values in the custom resource (CR) — the operator updates the underlying ConfigMaps, but the running pods do not automatically pick up the change. Kubernetes does not restart pods when a mounted ConfigMap changes.
+
+Apply the change in one of two ways:
+
+- **Restart the affected deployments manually.** Restart whichever components consume the changed config; `app` and `api` cover most auth/SSO changes:
+
+  ```bash
+  kubectl -n <namespace> rollout restart deployment/<release>-app deployment/<release>-api
+  ```
+
+- **Install [Stakater Reloader](https://github.com/stakater/Reloader).** The chart already annotates the deployments with `reloader.stakater.com/auto: "true"`, so if the Reloader controller is running in your cluster it restarts the affected pods automatically when their ConfigMap or Secret changes. Reloader is not installed by default, so on a fresh cluster you must deploy it yourself for this to work.
+
+<Note>
+If you change SSO/OIDC settings and login still behaves the same, it is almost always because the pods are still running the old config. Restart `app` and `api` (or install Reloader), then try again.
+</Note>
+
 ## Enable the MCP server
 
 The [W&B MCP Server](/platform/mcp-server) ships as an optional subchart in `operator-wandb`. When enabled, the operator deploys an in-cluster MCP server exposed through your existing ingress at `<global.host>/mcp`, so any MCP-compatible client can connect using a W&B API key. This is the same server W&B runs as the hosted offering at `https://mcp.withwandb.com/mcp`, but pointed at your deployment's data.
