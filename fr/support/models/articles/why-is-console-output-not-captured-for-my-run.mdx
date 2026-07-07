@@ -1,0 +1,76 @@
+---
+title: "Pourquoi la sortie console n'est-elle pas capturée pour mon run ?"
+keywords: ["Journaux", "runs"]
+---
+
+W&amp;B capture le stdout et le stderr de votre script et les enregistre dans `output.log`, dans l&#39;onglet **Files** du run. Par défaut, ce fichier est téléversé à la fin du run. Un journal vide ou manquant est donc souvent dû à un problème de synchronisation, et non à un échec de capture.
+
+Pour en savoir plus sur les téléversements multipart (`console_multipart`), la rotation des fragments et quand les activer, voir [Logs de la console](/fr/models/app/console-logs) et [`wandb.Settings`](/fr/models/ref/python/experiments/settings). Pour télécharger les journaux, voir [Comment puis-je télécharger le fichier journal de la console d’un run ?](/fr/support/models/articles/how-do-i-download-the-console-log-file-from-a-run).
+
+<div id="console-capture-is-disabled">
+  ## La capture de la console est désactivée
+</div>
+
+Vous pouvez désactiver la capture de la console dans les paramètres ou à l’aide d’une variable d’environnement :
+
+```python
+wandb.init(settings=wandb.Settings(console="off"))
+```
+
+```bash
+WANDB_CONSOLE=off python my_script.py
+```
+
+Vérifiez si l’un ou l’autre est défini dans votre environnement ou votre configuration de lancement. Pour le réactiver, supprimez ce paramètre ou définissez `WANDB_CONSOLE=wrap`.
+
+<div id="distributed-training-ddp-multiprocessing">
+  ## Entraînement distribué (DDP / multiprocessing)
+</div>
+
+L’onglet **Logs** ne journalise la sortie que du processus qui détient le run W&amp;B actif. Avec Lightning/DDP, les appels à `print()` ou `wandb.termlog()` effectués depuis des processus workers qui ne détiennent pas le run n’apparaissent que dans le terminal local. Initialisez le run sur le rang 0 et utilisez `console="wrap"`.
+
+```python
+import wandb
+from lightning.pytorch import Trainer
+from lightning.pytorch.loggers import WandbLogger
+
+wandb_logger = WandbLogger(
+    project="my_project",
+    settings=wandb.Settings(console="wrap"),  # ou WANDB_CONSOLE=wrap
+)
+trainer = Trainer(logger=wandb_logger, strategy="ddp", devices=2, accelerator="gpu")
+```
+
+Si l’onglet **Logs** reste vide, essayez `console="redirect"`. La sortie peut apparaître dans `output.log` dans l’onglet **Files**, même si elle ne s’affiche pas en direct. Voir [Journaliser des expériences distribuées](/fr/models/track/log/distributed-training) pour les schémas de journalisation sur le rang 0.
+
+<div id="run-still-active-but-no-file-on-files-tab">
+  ## Run toujours actif, mais aucun fichier dans l’onglet Files
+</div>
+
+Tant qu’un run est en cours, l’onglet **Logs** affiche la sortie en continu, mais `output.log` n’apparaît généralement pas dans **Files** tant que le run n’est pas terminé, à moins que vous n’ayez activé la [journalisation multipart de la console](/fr/models/app/console-logs) lors de l’appel à `wandb.init()`. La fréquence de téléversement ne peut pas être modifiée après le démarrage du run.
+
+<div id="run-crashed-before-flush">
+  ## Le run a planté avant le vidage
+</div>
+
+Sans journalisation multipart, un run interrompu de force (OOM, SIGKILL, etc.) peut ne téléverser aucun `output.log` et ne pas afficher de bouton de téléchargement. Activez `console_multipart` avant le démarrage du run afin que les fragments téléversés avant le plantage restent sur le serveur. Une copie locale est toujours écrite dans `wandb/run-[TIMESTAMP]-[ID]/logs/output.log`.
+
+<div id="resumed-runs-lose-earlier-console-output">
+  ## Les runs repris perdent les sorties de console précédentes
+</div>
+
+Sur les anciennes versions du SDK, `wandb.init(resume="allow", id=...)` peut écraser un unique fichier `output.log`. Avec `console_multipart=True`, chaque session écrit des fragments distincts dans `logs/`. Voir [Logs de la console](/fr/models/app/console-logs) pour la configuration.
+
+<div id="logs-tab-shows-fewer-lines-than-expected">
+  ## L&#39;onglet Logs affiche moins de lignes que prévu
+</div>
+
+L&#39;onglet **Logs** limite l&#39;affichage pour des raisons de performances : un run stocke jusqu&#39;à 100 000 lignes au total, et l&#39;application en affiche jusqu&#39;à 10 000 à la fois. Faites défiler les logs pour afficher les lignes plus anciennes. Le journal complet se trouve dans `output.log` ou dans des fragments en plusieurs parties. Téléchargez-le depuis l&#39;onglet **Files** des détails du run, ou via l&#39;API.
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Logs](/fr/support/models/tags/logs)</Badge><Badge stroke shape="pill" color="orange" size="md">[Runs](/fr/support/models/tags/runs)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet */}

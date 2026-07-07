@@ -1,0 +1,25 @@
+---
+title: "Comment puis-je consigner des métriques sur deux échelles de temps différentes ?"
+keywords: ["Experiments", "Métriques"]
+---
+
+Pour consigner des métriques sur deux échelles de temps différentes, consignez des indices comme `batch` et `epoch` en même temps que vos métriques. Par exemple, vous pouvez consigner la précision d’entraînement par lot et la précision de validation à chaque époque. Appelez `run.log({'train_accuracy': 0.9, 'batch': 200})` à une étape, puis `run.log({'val_accuracy': 0.8, 'epoch': 4})` à une autre. Dans l’interface utilisateur, définissez comme axe X la valeur souhaitée pour chaque graphique. Pour définir un axe X par défaut pour un indice donné, utilisez [`Run.define_metric()`](/fr/models/ref/python/experiments/run#define_metric). Pour l’exemple précédent, utilisez le code suivant :
+
+```python
+import wandb
+
+with wandb.init() as run:
+    run.define_metric("batch")
+    run.define_metric("epoch")
+
+    run.define_metric("train_accuracy", step_metric="batch")
+    run.define_metric("val_accuracy", step_metric="epoch")
+```
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Métriques](/fr/support/models/tags/metrics)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

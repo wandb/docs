@@ -2,15 +2,18 @@
 title: "Guide de l’interface utilisateur"
 description: >
   Accédez aux modèles Serverless Inference via l’interface web
+keywords: ["Playground", "comparer des modèles", "tests interactifs", "wandb.ai/inference"]
 ---
 
-Découvrez comment utiliser le service Serverless Inference via l’interface utilisateur web. Avant d’utiliser l’interface utilisateur, consultez les [prérequis](/fr/inference/prerequisites).
+Découvrez comment utiliser le service Serverless Inference dans l’interface utilisateur web. Ce guide explique comment accéder au service, essayer des modèles dans le Playground, les comparer côte à côte et suivre la facturation et l’utilisation. Utilisez l’interface utilisateur si vous souhaitez tester des modèles de manière interactive sans écrire de code.
+
+Avant d’utiliser l’interface utilisateur, suivez les [prérequis](/fr/inference/prerequisites).
 
 <div id="access-the-inference-service">
-  ## Accéder au service d’inférence
+  ## Accéder au service d’Inférence
 </div>
 
-Vous pouvez accéder au service d’inférence depuis trois endroits :
+Les sections suivantes décrivent trois façons d’accéder au service d’Inférence. Choisissez le point d’entrée le mieux adapté à votre flux de travail actuel.
 
 <div id="direct-link">
   ### Lien direct
@@ -22,9 +25,8 @@ Accédez à [https://wandb.ai/inference](https://wandb.ai/inference).
   ### Depuis l’onglet Inférence
 </div>
 
-1. Accédez à votre compte W&amp;B sur [https://wandb.ai/](https://wandb.ai/)
-2. Sélectionnez **Inférence** dans la barre latérale gauche
-3. Une page s’affiche avec les modèles disponibles et leurs informations
+1. Accédez à votre compte W&amp;B sur [https://wandb.ai/](https://wandb.ai/).
+2. Sélectionnez **Inférence** dans la barre latérale du projet. Une page s’affiche avec les modèles disponibles et leurs informations.
 
 <Frame>
   <img src="/images/inference/inference-playground-single.png" alt="Utilisation d’un modèle d’inférence dans le playground" />
@@ -34,10 +36,10 @@ Accédez à [https://wandb.ai/inference](https://wandb.ai/inference).
   ### Depuis l’onglet Playground
 </div>
 
-1. Sélectionnez **Playground** dans la barre latérale gauche. L’interface de chat du Playground s’affiche
-2. Survolez **Serverless Inference** dans la liste déroulante des LLM. Un menu déroulant affichant les modèles disponibles apparaît à droite
+1. Sélectionnez **Playground** dans la barre latérale du projet. L’interface de chat du Playground s’affiche.
+2. Survolez **Serverless Inference** dans la liste déroulante des LLM. Un menu déroulant affichant les modèles disponibles apparaît à droite.
 3. Dans la liste déroulante des modèles, vous pouvez :
-   * Cliquer sur le nom de n’importe quel modèle pour [l’essayer dans le Playground](#try-a-model-in-the-playground)
+   * Cliquer sur le nom de n’importe quel modèle pour [l’essayer dans le Playground](#try-a-model-in-the-playground).
    * [Comparer plusieurs modèles](#compare-multiple-models)
 
 <Frame>
@@ -45,33 +47,32 @@ Accédez à [https://wandb.ai/inference](https://wandb.ai/inference).
 </Frame>
 
 <div id="try-a-model-in-the-playground">
-  ## Tester un modèle dans le playground
+  ## Tester un modèle dans le Playground
 </div>
 
-Après avoir [sélectionné un modèle](#access-the-inference-service), vous pouvez le tester dans le playground. Les actions disponibles sont les suivantes :
+Après avoir [sélectionné un modèle](#access-the-inference-service), vous pouvez le tester dans le playground afin d’évaluer ses réponses et d’ajuster son comportement avant de l’intégrer ailleurs. Les actions disponibles sont les suivantes :
 
-* [Personnaliser les réglages et paramètres du modèle](/fr/weave/guides/tools/playground#customize-playground-settings)
-* [Ajouter, relancer, modifier et supprimer des messages](/fr/weave/guides/tools/playground#message-controls)
-* [Enregistrer et réutiliser un modèle avec des paramètres personnalisés](/fr/weave/guides/tools/playground#saved-models)
-* [Comparer plusieurs modèles](#compare-multiple-models)
+* [Personnaliser les réglages et paramètres du modèle](/fr/weave/guides/tools/playground#customize-playground-settings).
+* [Ajouter, relancer, modifier et supprimer des messages](/fr/weave/guides/tools/playground#message-controls).
+* [Enregistrer et réutiliser un modèle avec des paramètres personnalisés](/fr/weave/guides/tools/playground#saved-models).
+* [Comparer plusieurs modèles](#compare-multiple-models).
 
 <div id="compare-multiple-models">
   ## Comparer plusieurs modèles
 </div>
 
-Vous pouvez comparer des modèles d’Inférence côte à côte dans le Playground. Accédez à la vue Compare à partir de deux endroits :
+Vous pouvez comparer des modèles d’Inférence côte à côte dans le Playground pour évaluer la qualité, la latence et le style de sortie pour un même prompt. Accédez à la vue Compare à partir de deux endroits, décrits dans les sections suivantes.
 
 <div id="from-the-inference-tab">
   ### Depuis l’onglet Inférence
 </div>
 
-1. Sélectionnez **Inférence** dans la barre latérale gauche. La page des modèles disponibles s’affiche
-2. Cliquez n’importe où sur une carte de modèle (sauf sur le nom du modèle) pour la sélectionner. La bordure de la carte devient bleue
-3. Répétez l’opération pour chaque modèle que vous souhaitez comparer
-4. Cliquez sur **Comparer N modèles dans le Playground** sur n’importe quelle carte sélectionnée. `N` indique le nombre de modèles sélectionnés
-5. La vue de comparaison s’ouvre
+1. Sélectionnez **Inférence** dans la barre latérale du projet. La page des modèles disponibles s’affiche.
+2. Cliquez n’importe où sur une carte de modèle (sauf sur le nom du modèle) pour la sélectionner. La carte est mise en surbrillance pour indiquer qu’elle est sélectionnée.
+3. Répétez l’opération pour chaque modèle que vous souhaitez comparer.
+4. Cliquez sur **Comparer [N] modèles dans le Playground** sur n’importe quelle carte sélectionnée, où `[N]` correspond au nombre de modèles que vous avez sélectionnés. La vue de comparaison s’ouvre.
 
-Vous pouvez maintenant comparer les modèles et utiliser toutes les fonctionnalités de [Essayer un modèle dans le Playground](#try-a-model-in-the-playground).
+Vous pouvez maintenant comparer les modèles et utiliser toutes les fonctionnalités de [Tester un modèle dans le Playground](#try-a-model-in-the-playground).
 
 <Frame>
   <img src="/images/inference/inference-playground-compare.png" alt="Sélection de plusieurs modèles à comparer dans le Playground" />
@@ -81,26 +82,26 @@ Vous pouvez maintenant comparer les modèles et utiliser toutes les fonctionnali
   ### Depuis l’onglet Playground
 </div>
 
-1. Sélectionnez **Playground** dans la barre latérale gauche. L’interface de chat du Playground apparaît
-2. Survolez **Serverless Inference** dans la liste déroulante LLM. La liste déroulante des modèles apparaît à droite
-3. Sélectionnez **Compare** dans la liste déroulante. L’onglet **Inférence** apparaît
-4. Cliquez n’importe où sur une carte de modèle (sauf sur le nom du modèle) pour la sélectionner. La bordure de la carte devient bleue
-5. Répétez l’opération pour chaque modèle que vous souhaitez comparer
-6. Cliquez sur **Comparer N modèles dans le Playground** sur l’une des cartes sélectionnées. La vue de comparaison s’ouvre
+1. Sélectionnez **Playground** dans la barre latérale du projet. L’interface de chat du Playground s’affiche.
+2. Survolez **Serverless Inference** dans la liste déroulante des LLM. La liste déroulante des modèles s’affiche à droite.
+3. Sélectionnez **Compare** dans la liste déroulante. L’onglet **Inférence** s’affiche.
+4. Cliquez n’importe où sur une carte de modèle (sauf sur le nom du modèle) pour la sélectionner. La carte est mise en surbrillance pour indiquer qu’elle est sélectionnée.
+5. Répétez l’opération pour chaque modèle que vous souhaitez comparer.
+6. Cliquez sur **Comparer [N] modèles dans le Playground** sur n’importe quelle carte sélectionnée. La vue de comparaison s’ouvre.
 
-Vous pouvez maintenant comparer des modèles et utiliser toutes les fonctionnalités de [Essayer un modèle dans le Playground](#try-a-model-in-the-playground).
+Vous pouvez maintenant comparer des modèles et utiliser toutes les fonctionnalités de [Tester un modèle dans le Playground](#try-a-model-in-the-playground).
 
 <div id="view-billing-and-usage-information">
   ## Voir les informations de facturation et d’utilisation
 </div>
 
-Les administrateurs de l’organisation peuvent suivre le solde de crédits, l’historique d’utilisation et les prochaines factures dans l’interface W&amp;B :
+Les administrateurs de l’organisation peuvent suivre le solde de crédits, l’historique d’utilisation et les prochaines factures dans l’interface W&amp;B. Utilisez cette vue pour surveiller les dépenses et prévoir les prochains frais.
 
-1. Accédez à la page **Billing** de W&amp;B dans l’interface
-2. Repérez la carte d’informations de facturation pour l’Inférence dans l’angle inférieur droit
+1. Accédez à la page **Billing** de W&amp;B dans l’interface.
+2. Repérez la carte d’informations de facturation **Inférence**.
 3. Vous pouvez ensuite :
-   * Cliquer sur **View usage** pour voir l’évolution de votre utilisation au fil du temps
-   * Consulter les prochains frais d’inférence (pour les plans payants)
+   * Cliquer sur **View usage** pour voir l’évolution de votre utilisation au fil du temps.
+   * Consulter les prochains frais d’inférence (pour les plans payants).
 
 <Tip>
   Consultez la [page de tarification de l’inférence](https://wandb.ai/site/pricing/inference) pour connaître le détail des tarifs par modèle.
@@ -110,6 +111,6 @@ Les administrateurs de l’organisation peuvent suivre le solde de crédits, l�
   ## Étapes suivantes
 </div>
 
-* Consultez les [modèles disponibles](/fr/inference/models) pour trouver celui qui correspond le mieux à vos besoins
-* Essayez l&#39;[API](/fr/inference/api-reference/) pour y accéder par programmation
-* Consultez les [exemples d&#39;utilisation](/fr/inference/examples/) pour voir des exemples de code
+* Consultez les [modèles disponibles](/fr/inference/models) pour trouver celui qui correspond le mieux à vos besoins.
+* Essayez l&#39;[API](/fr/inference/api-reference/) pour y accéder par programmation.
+* Consultez les [exemples d&#39;utilisation](/fr/inference/examples/) pour voir des exemples de code.

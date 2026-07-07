@@ -1,0 +1,44 @@
+---
+title: "Code d’erreur API 422 - Paramètres de requête non valides"
+keywords: ["Erreurs du serveur"]
+---
+
+Des paramètres non valides dans les requêtes de complétion de chat entraînent souvent une erreur **HTTP 422 (Unprocessable Entity)** ou **HTTP 400 (Bad Request)**, selon l’endroit où la validation est effectuée. Dans les deux cas, lisez le corps de la réponse avant de modifier votre requête.
+
+<div id="why-this-happens">
+  ## Pourquoi cela se produit
+</div>
+
+* **Paramètre non pris en charge par le modèle** : Certains paramètres (comme `frequency_penalty`, `logprobs` ou `response_format`) ne sont pas pris en charge par tous les modèles. Le fait de transmettre un paramètre non pris en charge peut renvoyer **400** ou **422**.
+* **Valeur de paramètre hors plage** : Des valeurs comme `temperature` doivent se situer dans une plage valide pour le modèle (souvent **0–2**). Les valeurs hors plage sont souvent rejetées avec **HTTP 400** et un `error.message` indiquant le paramètre concerné.
+* **Charge utile `messages` mal formée** : Le champ `messages` doit être une liste d’objets message. Des types incorrects ou une structure non valide renvoient généralement **HTTP 400**, avec un message de validation dans le corps de la réponse.
+* **`response_format` non valide ou autres paramètres de sortie structurée** : Demander un format que le modèle ne prend pas en charge peut renvoyer une réponse d’erreur. Pour votre modèle, fiez-vous au code d’état et au corps de la réponse.
+
+<div id="what-you-can-do">
+  ## Ce que vous pouvez faire
+</div>
+
+1. **Vérifier le contenu du message d&#39;erreur**
+   * De nombreuses réponses utilisent un objet `error` avec un champ `message` (et parfois `param` ou `code`). Certaines couches renvoient plutôt un champ `detail`. Lisez le champ présent dans la réponse avant tout dépannage.
+
+2. **Vérifier la prise en charge des paramètres par votre modèle**
+   * Consultez les [modèles disponibles](/fr/inference/models) pour connaître les paramètres spécifiques et les plages de valeurs que chaque modèle accepte.
+
+3. **Valider votre tableau `messages`**
+   * Chaque message doit avoir un `role` (`system`, `user` ou `assistant`) et un champ `content` de type chaîne. Les messages d&#39;appel d&#39;outil nécessitent des champs supplémentaires. Consultez la [référence de l&#39;API de complétions de chat](/fr/inference/api-reference/chat-completions) pour connaître le schéma correct.
+
+4. **Confirmer l&#39;URL de base**
+   * Configurez votre client compatible avec OpenAI pour utiliser `https://api.inference.wandb.ai/v1`, et non `https://api.wandb.ai`. Le point d&#39;accès API du Cloud mutualisé ne sert pas les complétions de chat d&#39;Inférence. Pour attribuer facultativement l&#39;utilisation, définissez l&#39;en-tête `OpenAI-Project` sur `team/project`, comme dans la [référence de l&#39;API de liste des modèles](/fr/inference/api-reference/list-models).
+
+5. **Supprimer les paramètres non pris en charge**
+   * Si vous adaptez du code provenant d&#39;un autre fournisseur, supprimez tous les paramètres qui ne figurent pas dans la référence de l&#39;API d’Inférence de W&amp;B. Les paramètres supplémentaires non pris en charge par le modèle peuvent déclencher des réponses **400** ou **422**.
+
+Pour plus d&#39;informations, voir [Serverless Inference](/fr/inference) et la [référence de l&#39;API de complétions de chat](/fr/inference/api-reference/chat-completions).
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Erreurs du serveur](/fr/support/inference/tags/server-errors)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

@@ -1,6 +1,7 @@
 ---
 title: "DSPy"
 description: "Weave を使用して、DSPy のモジュールや関数による call を自動的にトラッキングしてログする"
+keywords: ["DSPy", "BootstrapFewShot", "ChainOfThought", "トレース", "オプティマイザー"]
 ---
 
 import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
@@ -12,25 +13,24 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
   <GitHubLink url="https://github.com/wandb/examples/blob/master/weave/docs/quickstart_dspy.ipynb" />
 </div>
 
-[DSPy](https://dspy.ai) は、特に LM がパイプライン内で複数回使用される場合に、LM のプロンプトと重みをアルゴリズムによって最適化するためのフレームワークです。Weave は、DSPy のモジュールや関数を使用したcallを自動的にトラッキングしてログします.
+[DSPy](https://dspy.ai) は、特にパイプライン内で LM を1回以上使用する場合に、言語モデル (LM) のプロンプトと重みをアルゴリズムによって最適化するためのフレームワークです。W&amp;B Weave は、DSPy のモジュールや関数を使用したcallを自動的にトラッキングしてログします。このガイドでは、DSPy プログラムで Weave のトレースを有効にする方法、カスタムモジュールと Signature をトラッキングする方法、さらに DSPy のオプティマイザーと評価からトレースを取得する方法を紹介します。これらのトレースを使用すると、DSPy アプリケーションをデバッグ、分析、改善できます。
 
-
-<div id="tracing">
+<div id="traces">
   ## トレース
 </div>
 
-開発時と本番環境の両方で、言語モデルアプリケーションのトレースを一元的に保存することが重要です。これらのトレースは、デバッグに役立つほか、アプリケーションの改善に役立つデータセットとしても活用できます。
+このセクションでは、Weave で DSPy Call の自動トレースを有効にする方法を説明します。開発時と本番環境の両方で、言語モデルアプリケーションのトレースを一元的に保存できます。これらのトレースは、デバッグや、アプリケーションの改善に役立つデータセットとして活用できます。
 
-Weave は [DSPy](https://dspy.ai) のトレースを自動的に取得します。トラッキングを開始するには、`weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")` を呼び出してから、通常どおりライブラリを使用します。
+Weave は [DSPy](https://dspy.ai) のトレースを自動的に取得します。トラッキングを開始するには、`weave.init(project_name="[YOUR-WANDB-PROJECT-NAME]")` を呼び出し、通常どおりライブラリを使用します。`[YOUR-OPENAI-API-KEY]` はご使用の OpenAI APIキー に、`[YOUR-WANDB-PROJECT-NAME]` は プロジェクト名に置き換えてください。
 
 ```python lines
 import os
 import dspy
 import weave
 
-os.environ["OPENAI_API_KEY"] = "<YOUR-OPENAI-API-KEY>"
+os.environ["OPENAI_API_KEY"] = "[YOUR-OPENAI-API-KEY]"
 
-weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")
+weave.init(project_name="[YOUR-WANDB-PROJECT-NAME]")
 
 lm = dspy.LM('openai/gpt-4o-mini')
 dspy.configure(lm=lm)
@@ -38,24 +38,24 @@ classify = dspy.Predict("sentence -> sentiment")
 classify(sentence="it's a charming and often affecting journey.")
 ```
 
-[![dspy\_trace.png](/weave/guides/integrations/imgs/dspy/dspy_trace.png)](https://wandb.ai/geekyrakshit/dspy-project/weave/calls)
+[![LM Call の入力、出力、メタデータを示す Weave の DSPy トレース](/weave/guides/integrations/imgs/dspy/dspy_trace.png)](https://wandb.ai/geekyrakshit/dspy-project/weave/calls)
 
-Weave は、DSPy プログラム内のすべての LM のcallをログし、入力、出力、メタデータの詳細を提供します。
+トレースを有効にすると、Weave は DSPy プログラムによるすべての LM Call を Weave プロジェクトにログするため、入力、出力、メタデータを確認できます。
 
 <div id="track-your-own-dspy-modules-and-signatures">
   ## 独自のDSPyモジュールとシグネチャをトラッキングする
 </div>
 
-`Module` は、プロンプト手法を抽象化する、学習可能なパラメーターを備えた DSPy プログラムの構成要素です。`Signature` は、DSPy Module の入出力の動作を宣言的に記述する仕様です。Weave は、DSPy プログラム内の組み込みおよびカスタムの Signature と Module をすべて自動的にトラッキングします。
+組み込みの Call に加えて、Weave は定義したカスタムモジュールとシグネチャもトレースします。`Module` は、プロンプト手法を抽象化する、学習可能なパラメーターを備えた DSPy プログラムの構成要素です。`Signature` は、DSPy `Module` の入出力の動作を宣言的に記述する仕様です。Weave は、DSPy プログラム内の組み込みおよびカスタムの `Signature` オブジェクトと `Module` オブジェクトをすべて自動的にトラッキングします。`[YOUR-OPENAI-API-KEY]` をご使用の OpenAI APIキーに、`[YOUR-WANDB-PROJECT-NAME]` をご使用の プロジェクト名に置き換えてください。
 
 ```python lines
 import os
 import dspy
 import weave
 
-os.environ["OPENAI_API_KEY"] = "<YOUR-OPENAI-API-KEY>"
+os.environ["OPENAI_API_KEY"] = "[YOUR-OPENAI-API-KEY]"
 
-weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")
+weave.init(project_name="[YOUR-WANDB-PROJECT-NAME]")
 
 class Outline(dspy.Signature):
     """Outline a thorough overview of a topic."""
@@ -105,19 +105,19 @@ article = draft_article(topic="World Cup 2002")
 
 [![モジュール実行フローとトレースの詳細を含む、Weave の DSPy カスタムモジュールのトレース](/weave/guides/integrations/imgs/dspy/dspy_custom_module.png)](https://wandb.ai/geekyrakshit/dspy-project/weave/calls)
 
-<div id="optimization-and-evaluation-of-your-dspy-program">
-  ## DSPy プログラムの最適化と評価
+<div id="optimize-and-evaluate-your-dspy-program">
+  ## DSPy プログラムを最適化して評価する
 </div>
 
-Weave は、DSPy オプティマイザと評価 call のトレースも自動的に自動取得します。これを使用すると、開発セットでの DSPy プログラムのパフォーマンスを改善し、評価できます。
+Weave は、DSPy オプティマイザと評価 call のトレースも取得します。これを使用すると、開発セットでの DSPy プログラムのパフォーマンスを改善し、評価できます。`[YOUR-OPENAI-API-KEY]` はご自身の OpenAI APIキー に、`[YOUR-WANDB-PROJECT-NAME]` はご自身の プロジェクト名 に置き換えてください。
 
 ```python lines
 import os
 import dspy
 import weave
 
-os.environ["OPENAI_API_KEY"] = "<YOUR-OPENAI-API-KEY>"
-weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")
+os.environ["OPENAI_API_KEY"] = "[YOUR-OPENAI-API-KEY]"
+weave.init(project_name="[YOUR-WANDB-PROJECT-NAME]")
 
 def accuracy_metric(answer, output, trace=None):
     predicted_answer = output["answer"].lower()
@@ -130,4 +130,4 @@ optimized_module = optimizer.compile(
 )
 ```
 
-[![最適化プロセスとパフォーマンス改善を示す、Weave の DSPy optimizer トレース](/weave/guides/integrations/imgs/dspy/dspy_optimizer.png)](https://wandb.ai/geekyrakshit/dspy-project/weave/calls)
+[![最適化プロセスとパフォーマンス改善を示す、Weave の DSPy オプティマイザー トレース](/weave/guides/integrations/imgs/dspy/dspy_optimizer.png)](https://wandb.ai/geekyrakshit/dspy-project/weave/calls)

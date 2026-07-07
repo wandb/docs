@@ -6,9 +6,7 @@ keywords: ["Experiments"]
 `wandb.plot.line_series()` を使用して、複数の線からなるカスタムチャートを作成します。線グラフを表示するには、[プロジェクトページ](/ja/models/track/project-page) にアクセスします。凡例を追加するには、`wandb.plot.line_series()` で `keys` 引数を指定します。例:
 
 ```python
-
 with wandb.init(project="my_project") as run:
-
     run.log(
         {
             "my_plot": wandb.plot.line_series(
@@ -18,7 +16,7 @@ with wandb.init(project="my_project") as run:
     )
 ```
 
-複数線プロットの詳細については、**Multi-line** タブの[こちら](/ja/models/track/log/plots#basic-charts)を参照してください。
+複数線プロットの詳細については、**Multi-line** タブの[基本チャートのドキュメント](/ja/models/track/log/plots#basic-charts)を参照してください。
 
 ***
 

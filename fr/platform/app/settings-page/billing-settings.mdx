@@ -27,53 +27,134 @@ Depuis la section **Détails du forfait**, vous pouvez effectuer les actions sui
   ## Utilisation du plan
 </div>
 
-La section **Utilisation du plan** résume visuellement l’utilisation actuelle et affiche les frais d’utilisation à venir. Pour obtenir des informations détaillées sur l’utilisation par mois, cliquez sur **Voir l’utilisation** dans la vignette concernée. Pour exporter l’utilisation par mois civil, équipe ou projet, cliquez sur **Export CSV**.
+La section **Utilisation du plan** résume visuellement l’utilisation actuelle et affiche les frais d’utilisation à venir. Pour obtenir des informations détaillées sur l’utilisation par mois, cliquez sur **Voir l’utilisation** dans la vignette concernée. Pour exporter l’utilisation par mois civil, équipe ou projet, cliquez sur **Export CSV**. Pour explorer les tendances d’utilisation au fil du temps, voir [Voir l’utilisation au fil du temps](#view-usage-over-time).
 
 Pour toute question sur l’utilisation ou la facturation, contactez votre AISE ou [assistance](mailto:support@wandb.com).
 
-<div id="usage-alerts">
-  ### Alertes d’utilisation
+<div id="view-usage-over-time">
+  ### Voir l’utilisation au fil du temps
 </div>
 
-Les alertes d’utilisation notifient par e-mail les administrateurs de l’organisation et les administrateurs de la facturation lorsque votre organisation atteint 85 % puis 100 % de sa limite d’utilisation pour la période de facturation en cours dans une catégorie donnée. Configurez les alertes d’utilisation pour surveiller la consommation et éviter les dépassements inattendus. Les catégories suivantes sont suivies :
+Les administrateurs de l’organisation peuvent visualiser les tendances d’utilisation pour chaque catégorie dans l’onglet **Utilisation &amp; alertes**. Sélectionnez votre type de déploiement pour afficher les instructions correspondantes :
 
-| Catégorie             | Description                                                                                                                                                                                                                     |
-| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Stockage              | Volume total cumulé des Artifacts stockés et des données de run de votre organisation, mesuré en Go.                                                                                                                            |
-| Heures comptabilisées | Temps d’entraînement réel pendant la période de facturation, mesuré en heures.                                                                                                                                                  |
-| Weave                 | Volume total de données importées pendant la période de facturation, mesuré en Mo. Affiché uniquement si Weave est actif dans le déploiement.                                                                                   |
-| Inférence             | Nombre total de tokens d’entrée et de sortie utilisés par Inférence. Voir [Tarification de l’inférence](https://wandb.ai/site/pricing/inference/). Affiché uniquement si Inférence est active dans le déploiement.              |
-| Entraînement          | Inférence et calcul basés sur les tokens, mesurés en GPU/heure. Voir [Tarification du RL serverless](https://wandb.ai/site/pricing/reinforcement-learning/). Affiché uniquement si Serverless RL est actif dans le déploiement. |
+<Tabs>
+  <Tab title="Cloud mutualisé">
+    1. Dans le coin supérieur droit, cliquez sur l’icône de votre profil utilisateur.
+    2. Dans la section **Compte**, cliquez sur **Utilisation &amp; alertes**.
+    3. Dans la barre latérale, sélectionnez une catégorie pour afficher son graphique **Usage over time**.
+  </Tab>
 
-Pour les organisations disposant du plan **Enterprise**, tous les **Administrateurs de l’organisation** et **administrateurs de la facturation** reçoivent des alertes d’utilisation. Avec le [plan Pro](https://wandb.ai/site/pricing/), seul l’**administrateur de la facturation** reçoit des alertes d’utilisation.
+  <Tab title="Cloud dédié / Autogéré">
+    1. Dans le coin supérieur droit, cliquez sur l’icône de votre profil utilisateur.
+    2. Cliquez sur **Organization Dashboard**.
+    3. Cliquez sur **Utilisation &amp; alertes**.
+    4. Dans la barre latérale, sélectionnez une catégorie pour afficher son graphique **Usage over time**.
+  </Tab>
+</Tabs>
 
-Les messages sont envoyés depuis `support@wandb.com`. Les seuils ne sont pas configurables, mais vous pouvez désactiver, pour chaque catégorie, l’une ou l’autre des alertes, ou les deux.
+<Note>
+  Les graphiques d’utilisation sont visibles uniquement par les administrateurs de l’organisation. Les administrateurs d’équipe ne peuvent pas les consulter.
+</Note>
 
-Pour configurer les alertes d’utilisation pour votre organisation, vous devez être **Administrateur de l’organisation** ou **administrateur de la facturation** :
+Les catégories de la barre latérale dépendent des produits actifs dans votre déploiement et peuvent inclure **Storage**, **heure suivie**, **Weave**, **Inference**, **Training**, **AI Research Agent** (ARIA) et **Sandboxes**.
+
+{/* Source : https://wandb.ai/account-settings/wandb/alerts/tracked-hours (multilocataire, cycle actuel, Toutes les équipes) */}
+
+<Frame>
+  <img src="/images/app_ui/billing_usage_chart_current_cycle.png" alt="Graphique de l’utilisation au fil du temps pour le cycle de facturation en cours, montrant l’utilisation quotidienne cumulée segmentée par équipe au-dessus d’une barre de statistiques" />
+</Frame>
+
+Utilisez les commandes au-dessus du graphique pour modifier ce qu’il affiche :
+
+* **Time range** : Choisissez **Cycle actuel** (valeur par défaut pour la plupart des catégories), **Last 30 days**, **Last 90 days**, **Last 12 months** ou **Last 24 months**. Pour le stockage, la valeur par défaut est **Last 12 months**.
+* **Team** : Choisissez **All teams** pour voir l’utilisation à l’échelle de l’organisation, ou sélectionnez une équipe pour n’afficher que son utilisation. La liste déroulante avec recherche répertorie les équipes de la plus forte à la plus faible utilisation.
+
+Chaque barre est segmentée par équipe. Les cinq équipes dont l’utilisation est la plus élevée sur la période sélectionnée apparaissent chacune dans une couleur distincte, et toutes les autres sont regroupées dans **Other**. Pour voir l’utilisation par équipe, survolez une barre. La barre correspondant à la période en cours est indiquée comme étant en cours.
+
+Pour exporter les données d’utilisation, cliquez sur l’icône de téléchargement dans le coin supérieur droit du graphique. L’export renvoie une ventilation mensuelle de l’utilisation par équipe et par projet pour les 24 derniers mois, quelle que soit la période sélectionnée.
+
+<div id="current-cycle-compared-to-historical-views">
+  #### Cycle actuel comparé aux vues historiques
+</div>
+
+La vue **Cycle actuel** est *cumulative* : chaque barre s’ajoute à la précédente pour afficher votre utilisation cumulée depuis le début de la période de facturation en cours. Utilisez cette vue pour voir comment votre utilisation se situe par rapport au quota alloué. La granularité dépend de la durée de votre cycle de facturation. Par exemple, un cycle mensuel affiche des barres quotidiennes, tandis qu’un cycle annuel affiche des barres mensuelles.
+
+Les vues **30 derniers jours**, **90 derniers jours**, **12 derniers mois** et **24 derniers mois** sont *historiques* : chaque barre affiche l’utilisation d’un seul jour ou d’un seul mois, plutôt qu’un total cumulé. Utilisez ces vues pour comparer l’utilisation sur des périodes antérieures. Comme les cinq principales équipes sont recalculées pour la plage sélectionnée, les équipes affichées en couleur peuvent être différentes de celles du cycle actuel.
+
+Le stockage est toujours cumulatif, car il mesure le volume total actuellement stocké (une moyenne pondérée sur 30 jours, en Go) plutôt que l’utilisation consommée pendant une période.
+
+{/* Source : https://wandb.ai/account-settings/wandb/alerts/storage (multilocataire, 12 derniers mois, Toutes les équipes) */}
+
+<Frame>
+  <img src="/images/app_ui/billing_usage_chart_12_months.png" alt="Utilisation du stockage au cours des 12 derniers mois, mesurée sous forme de moyenne pondérée sur 30 jours, exprimée en Go, avec une barre par mois segmentée par équipe" />
+</Frame>
+
+<div id="stats-bar-and-threshold-lines">
+  #### Barre de statistiques et lignes de seuil
+</div>
+
+Lorsque **Cycle actuel** et **All teams** sont tous deux sélectionnés, une barre de statistiques au-dessus du graphique récapitule l&#39;**Utilisation**, le **Quota** et l&#39;**Utilisation quotidienne moyenne**. Les graphiques de stockage n&#39;affichent ni barre de statistiques ni utilisation quotidienne moyenne ; à la place, les vues historiques affichent l&#39;utilisation totale agrégée sur la période sélectionnée.
+
+Lorsqu&#39;une catégorie a un quota défini, le graphique affiche deux lignes de seuil : une ligne dorée à 85 % du quota et une ligne rouge à 100 %. Ces lignes indiquent à partir de quel niveau des [alertes d&#39;utilisation](#usage-alerts) sont envoyées aux administrateurs. L&#39;utilisation peut dépasser ces seuils. Ces lignes servent uniquement de repères visuels.
+
+{/* Source: https://wandb.ai/account-settings/wandb/alerts/training (multilocataire, Cycle actuel, All teams; catégorie avec une allocation définie) */}
+
+<Frame>
+  <img src="/images/app_ui/billing_usage_chart_thresholds.png" alt="Graphique de l’utilisation au fil du temps montrant une ligne de seuil dorée à 85 % et une ligne de seuil rouge à 100 %, avec une utilisation cumulée dépassant l’allocation" />
+</Frame>
+
+Pour les catégories sans limite d’utilisation, **Allowance** s’affiche comme **Unlimited** et aucune ligne de seuil n’apparaît.
+
+<a id="usage-alerts">
+  ### Afficher et gérer les alertes d’utilisation
+</a>
+
+Les alertes d’utilisation notifient par e-mail les administrateurs de l’organisation et les administrateurs de la facturation lorsque votre organisation atteint 85 % puis 100 % de sa limite d’utilisation pour la période de facturation en cours dans une catégorie donnée. Configurez des alertes d’utilisation pour surveiller la consommation et éviter les dépassements imprévus. Les alertes d’utilisation sont disponibles pour les catégories suivantes :
+
+| Catégorie    | Description                                                                                                                                                                                                                  |
+| ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Stockage     | Volume total cumulé des artifacts et des données de run stockés par votre organisation, mesuré en Go.                                                                                                                        |
+| Weave        | Volume total de données importées pendant la période de facturation, mesuré en Mo. Affiché uniquement si Weave est actif dans le déploiement.                                                                                |
+| Inférence    | Nombre total de jetons d’entrée et de sortie utilisés par Inference. Voir [Tarification d’Inférence](https://wandb.ai/site/pricing/inference/). Affiché uniquement si Inference est actif dans le déploiement.               |
+| Entraînement | Inférence basée sur les jetons et calcul, mesurés en GPU/heure. Voir [Tarification Serverless RL](https://wandb.ai/site/pricing/reinforcement-learning/). Affiché uniquement si Serverless RL est actif dans le déploiement. |
+| Sandboxes    | Tarif fixe par période de facturation, déterminé par votre forfait. Voir [Tarification](https://wandb.ai/site/pricing/). Affiché uniquement si Sandboxes sont actifs dans le déploiement.                                    |
+
+<Note>Les alertes d’utilisation ne sont pas disponibles pour les catégories sans limite d’utilisation, comme les heures suivies, ni pendant un essai.</Note>
+
+Pour les organisations disposant du forfait **Enterprise**, tous les **Administrateurs de l’organisation** et **Administrateurs de la facturation** reçoivent les alertes d’utilisation et peuvent les configurer. Avec le [forfait Pro](https://wandb.ai/site/pricing/), seul l’**administrateur de la facturation** reçoit des alertes d’utilisation.
+
+Les messages sont envoyés depuis `support@wandb.com`. Les seuils ne sont pas configurables, mais vous pouvez désactiver l’une ou l’autre des alertes, ou les deux, pour chaque catégorie.
+
+Pour configurer des alertes d’utilisation pour votre organisation, vous devez être **administrateur de l’organisation** ou **administrateur de la facturation**.
 
 1. Dans le coin supérieur droit, cliquez sur l’icône de votre profil utilisateur.
-2. Dans la section **Compte**, cliquez sur **Utilisation et alertes**. Vous pouvez aussi cliquer sur **Paramètres**, puis sur l’onglet **Utilisation et alertes**.
+2. Dans la section **Compte**, cliquez sur **Utilisation &amp; Alertes**. Vous pouvez aussi cliquer sur **Paramètres**, puis sur l’onglet **Utilisation &amp; Alertes**.
 3. Dans la barre latérale, sélectionnez une catégorie.
-4. Cliquez sur l’onglet **Utilisation** pour afficher les paramètres d’utilisation et d’alerte de votre organisation pour cette catégorie.
-5. Activez ou désactivez l’**alerte d’utilisation à 85 %** ou l’**alerte d’utilisation à 100 %** pour cette catégorie. <Warning>Si vous désactivez les deux alertes d’utilisation, aucune alerte n’est envoyée pour cette catégorie d’utilisation.</Warning>
+4. Cliquez sur l’onglet **Utilisation** pour afficher l’utilisation et les paramètres d’alerte de votre organisation pour cette catégorie.
+5. Activez ou désactivez l’**alerte d’utilisation à 85 %** ou l’**alerte d’utilisation à 100 %** pour cette catégorie. <Warning>Si aucune alerte d’utilisation n’est active pour une catégorie, votre organisation peut atteindre 100 % d’utilisation dans cette catégorie sans avertissement.</Warning>
 
-<div id="spending-alerts">
-  ### Alertes de dépenses
-</div>
+<a id="spending-alerts">
+  ### Afficher et gérer les alertes de dépenses
+</a>
 
-Au cours d’une période de facturation donnée, les alertes de dépenses notifient par e-mail les administrateurs de l’organisation et de la facturation lorsque votre organisation atteint un ou plusieurs seuils de dépense personnalisables, exprimés en USD. Utilisez les alertes de dépenses pour suivre les coûts par rapport à un budget que vous définissez. Vous pouvez configurer jusqu’à cinq alertes de dépenses distinctes par catégorie :
+Pour une période de facturation donnée, les alertes de dépenses notifient par e-mail les administrateurs de l’organisation et les administrateurs de la facturation lorsque votre organisation atteint un ou plusieurs seuils de dépenses personnalisables exprimés en USD. Utilisez les alertes de dépenses pour suivre les coûts par rapport à un budget que vous définissez. Vous pouvez configurer jusqu’à cinq alertes de dépenses distinctes par catégorie :
 
-| Catégorie             | Description                                                                                                                                                                                                                                                                           |
-| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Stockage              | Frais liés à l’[utilisation](#usage-alerts) du stockage de votre organisation pendant la période de facturation. Voir [Tarification](https://wandb.ai/site/pricing/).                                                                                                                 |
-| Heures comptabilisées | Frais liés à l’[utilisation](#usage-alerts) d’entraînement de votre organisation pendant la période de facturation. Voir [Tarification](https://wandb.ai/site/pricing/).                                                                                                              |
-| Weave                 | Frais liés à l’[utilisation](#usage-alerts) de Weave par votre organisation pendant la période de facturation. Voir [Tarification](https://wandb.ai/site/pricing/). Affiché uniquement si Weave est actif dans le déploiement.                                                        |
-| Inférence             | Frais liés à l’[utilisation](#usage-alerts) de l’Inférence de votre organisation pendant la période de facturation. Voir [Tarification de l’inférence](https://wandb.ai/site/pricing/inference/). Affiché uniquement si Inférence est active dans le déploiement.                     |
-| Entraînement          | Frais liés à l’[utilisation](#usage-alerts) de Serverless RL de votre organisation pendant la période de facturation. Voir [Tarification du RL serverless](https://wandb.ai/site/pricing/reinforcement-learning/). Affiché uniquement si Serverless RL est actif dans le déploiement. |
+| Catégorie    | Description                                                                                                                                                                                                                                                                           |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Stockage     | Frais liés à l’[utilisation](#usage-alerts) du stockage de votre organisation pendant la période de facturation. Voir [Tarification](https://wandb.ai/site/pricing/).                                                                                                                 |
+| Weave        | Frais liés à l’[utilisation](#usage-alerts) de Weave par votre organisation pendant la période de facturation. Voir [Tarification](https://wandb.ai/site/pricing/). Affiché uniquement si Weave est actif dans le déploiement.                                                        |
+| Inférence    | Frais liés à l’[utilisation](#usage-alerts) de l’Inférence de votre organisation pendant la période de facturation. Voir [Tarification d’Inférence](https://wandb.ai/site/pricing/inference/). Affiché uniquement si Inférence est active dans le déploiement.                     |
+| Entraînement | Frais liés à l’[utilisation](#usage-alerts) de Serverless RL de votre organisation pendant la période de facturation. Voir [Tarification du RL serverless](https://wandb.ai/site/pricing/reinforcement-learning/). Affiché uniquement si Serverless RL est actif dans le déploiement. |
+| Sandboxes    | Tarif fixe par période de facturation, déterminé par votre plan. Voir [Tarification](https://wandb.ai/site/pricing/). Affiché uniquement si les sandboxes sont actifs dans le déploiement.                                                                                            |
+
+<Note>
+  * Les alertes de dépenses ne sont pas disponibles pour les catégories sans limite de dépenses ou pendant une période d’essai.
+  * Vous n’êtes pas facturé pour les heures suivies, qui sont illimitées pour tous les plans.
+</Note>
 
 Les messages sont envoyés depuis `support@wandb.com`.
 
-Pour les organisations disposant du plan **Enterprise** :
+Avec le plan **Enterprise** :
 
 * Tous les **Administrateurs de l’organisation** et les **administrateurs de la facturation** reçoivent des alertes de dépenses.
 * Aucune alerte de dépenses n’est configurée par défaut.
@@ -83,34 +164,16 @@ Avec le plan Pro :
 * Seul l’**administrateur de la facturation** reçoit des alertes de dépenses.
 * Par défaut, les alertes de dépenses sont configurées à $200, $450, $700 et $1,000.
 
-<Note>
-  Vous n’êtes pas facturé pour les heures comptabilisées, qui sont illimitées pour tous les plans. Les heures comptabilisées sont affichées sur la page **Utilisation** à des fins de suivi.
-</Note>
+Pour afficher et gérer les alertes de dépenses de votre organisation :
 
-<div id="view-spending-alerts">
-  #### Afficher les alertes de dépenses
-</div>
-
-Pour afficher les alertes de dépenses de votre organisation :
-
-1. Dans le coin supérieur droit, cliquez sur l’icône de votre profil.
-2. Dans la section **Compte**, cliquez sur **Utilisation et alertes**. Vous pouvez également cliquer sur **Paramètres**, puis sur l’onglet **Utilisation et alertes**.
+1. Dans le coin supérieur droit, cliquez sur votre icône de profil utilisateur.
+2. Dans la section **Compte**, cliquez sur **Utilisation &amp; alertes**. Vous pouvez également cliquer sur **Paramètres**, puis sur l’onglet **Utilisation &amp; alertes**.
 3. Dans la barre latérale, sélectionnez une catégorie.
-4. Par défaut, l’onglet **Utilisation** s’affiche. Pour afficher les alertes de dépenses, cliquez sur **Alertes de dépenses**. Toutes les alertes de dépenses configurées pour la catégorie s’affichent.
-
-<div id="add-or-delete-a-spending-alert">
-  #### Ajouter ou supprimer une alerte de dépenses
-</div>
-
-Pour gérer les alertes de dépenses :
-
-1. Dans le coin supérieur droit, cliquez sur l’icône de votre profil utilisateur.
-2. Dans la section **Compte**, cliquez sur **Utilisation et alertes**. Vous pouvez également cliquer sur **Settings**, puis sur l’onglet **Utilisation et alertes**.
-3. Dans la barre latérale, sélectionnez une catégorie, par exemple **Stockage**.
-4. Pour ajouter une alerte, cliquez sur **Add alert**.
-   a. Saisissez un seuil en USD.
-   a. Cliquez sur **Create alert**.
-5. Pour supprimer une alerte de dépenses, cliquez sur l’icône de corbeille située à côté.
+4. Au départ, l’onglet **Utilisation** s’affiche. Pour afficher les alertes de dépenses, cliquez sur **Alertes de dépenses**. Toutes les alertes de dépenses configurées pour la catégorie s’affichent.
+5. Pour ajouter une alerte, cliquez sur **Ajouter une alerte**.
+   a. Saisissez un montant seuil en USD.
+   a. Cliquez sur **Créer une alerte**.
+6. Pour supprimer une alerte de dépenses, cliquez sur l’icône de corbeille à côté.
 
 <div id="payment-methods">
   ## Modes de paiement
