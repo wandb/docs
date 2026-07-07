@@ -334,7 +334,7 @@ Un objet de panneau avec des graphiques en courbes 2D.
 * `custom_expressions` (Optional[LList[str]]):  Expressions personnalisées à appliquer aux données.
 * `plot_type Optional[LinePlotStyle]`:  Le type de graphique en courbes à générer. Les options incluent &quot;line&quot;, &quot;stacked-area&quot; ou &quot;pct-area&quot;.
 * `font_size Optional[FontSize]`:  La taille de police du graphique en courbes. Les options incluent &quot;small&quot;, &quot;medium&quot;, &quot;large&quot;, &quot;auto&quot; ou `None`.
-* `legend_position Optional[LegendPosition]`:  L&#39;emplacement de la légende. Les options incluent &quot;north&quot;, &quot;south&quot;, &quot;east&quot;, &quot;west&quot; ou `None`.
+* `legend_position Optional[LegendPosition]`:  L&#39;emplacement de la légende.  Les options incluent &quot;north&quot;, &quot;south&quot;, &quot;east&quot;, &quot;west&quot; ou `None`.
 * `legend_template` (Optional[str]):  Le modèle de la légende.
 * `aggregate` (Optional[bool]):  Si défini sur `True`, agrège les données.
 * `xaxis_expression` (Optional[str]):  L&#39;expression pour l&#39;axe des x.
@@ -342,8 +342,13 @@ Un objet de panneau avec des graphiques en courbes 2D.
 * `legend_fields` (Optional[LList[str]]):  Les champs à inclure dans la légende.
 * `metric_regex` (Optional[str]):  Motif d&#39;expression régulière pour faire correspondre les métriques de l&#39;axe des y. Le backend utilisera ce motif pour sélectionner les métriques correspondantes.
 * `point_visualization_method` (Optional[PointVizMethod]):  La méthode utilisée pour agréger les points lorsqu&#39;il y en a trop à afficher. Les options incluent &quot;bucketing-gorilla&quot; (regroupe les points de données dans des buckets et affiche les valeurs min, max et avg par bucket afin de préserver les valeurs aberrantes et les pics) ou &quot;sampling&quot; (échantillonne aléatoirement les points pour un rendu plus rapide, mais peut manquer certaines valeurs aberrantes).
+* `line_titles` (Optional[Dict[str, str]]):  Titres d’affichage pour chaque série. Les clés utilisent le format &quot;{runId}:{metricName}&quot;.
+* `line_colors` (Optional[Dict[str, Any]]):  Couleurs pour chaque série. Les clés utilisent le format &quot;{runId}:{metricName}&quot;.
+* `line_widths` (Optional[Dict[str, float]]):  Largeur des lignes pour chaque série. Les clés sont au format &quot;{runId}:{metricName}&quot;.
+* `line_marks` (Optional[Dict[str, Mark]]):  Styles de trait par série. Les clés utilisent le format &quot;{runId}:{metricName}&quot;.
+* `Valeurs valides` :  &quot;solid&quot;, &quot;dashed&quot;, &quot;dotted&quot;, &quot;dotdash&quot;, &quot;dotdotdash&quot;, &quot;points&quot;.
 
-***
+---
 
 ## <kbd>class</kbd> `Link`
 
@@ -668,15 +673,33 @@ Un ensemble de runs à afficher dans une grille de panneaux.
 * `query` (str):  Une chaîne de requête pour filtrer les runs.
 * `filters` (Union[str, LList[expr.FilterExpr]]):  Filtres à appliquer aux runs. Peut être :
   * Une expression sous forme de chaîne : par exemple, &quot;Config(&#39;lr&#39;) = 0.001 and State = &#39;finished&#39;&quot;
-* `Opérateurs pris en charge`: `=`, `==`, `!=`, `<`, `>`, `<=`, `>=`, `in`, `not in`
+* `Opérateurs pris en charge`:  `=`, `==`, `!=`, `<`, `>`, `<=`, `>=`, `in`, `not in`, `and`, `or`
   * Une liste d’objets FilterExpr : par exemple, [expr.Config(&#39;lr&#39;) == 0.001]
 * `groupby` (LList[str]):  Une liste de noms de métriques à utiliser pour le regroupement. Les formats pris en charge sont :
   * &quot;group&quot; ou &quot;run.group&quot; pour regrouper par attribut de run
   * &quot;config.param&quot; pour regrouper par paramètre de configuration
-  * &quot;summary.metric&quot; pour regrouper par métrique de résumé
+  * &quot;summary.metric&quot; pour regrouper par métrique de synthèse
 * `order` (LList[OrderBy]):  Une liste d’objets `OrderBy` à utiliser pour le tri.
 * `custom_run_colors` (dict):  Un dictionnaire qui associe les ID de run (ou les clés `RunsetGroup` pour les runs groupés) à des couleurs. Pour des couleurs simples par run, préférez utiliser `run_settings`.
-* `run_settings` (Dict[str, RunSettings]):  Paramètres d’affichage par run, indexés par ID de run.  Utilisez-le pour définir des couleurs et/ou masquer des runs individuels. Voir `RunSettings`.
+* `run_settings` (Dict[str, RunSettings]):  Paramètres d’affichage par run, indexés par ID de run. Utilisez-le pour définir des couleurs et/ou masquer des runs individuels. Voir `RunSettings`.
+* `pinned_columns` (LList[str]):  Accesseurs de colonnes à épingler à gauche du
+* `tableau des runs (p. ex. `[&quot;summary`: accuracy", "config:lr.value"]`). Les colonnes également présentes dans `hidden_columns` sont supprimées à l’enregistrement.
+* `visible_columns` (LList[str]):  Accesseurs de colonnes à forcer à afficher. Utilisez-les avec  `lock_columns=True` pour définir l’ensemble visible. Au rechargement, cela  inclut également les colonnes définies uniquement via `column_order`.
+* `hidden_columns` (LList[str]):  Accesseurs de colonnes à masquer. A priorité  sur `pinned_columns`, `visible_columns` et  `column_order`. Au rechargement, peut inclure des entrées initialisées par le serveur
+* `comme `run`: name`.
+* `column_order` (LList[str]):  Ordre des colonnes de gauche à droite. Avec  `lock_columns=True`, les entrées qui ne figurent pas dans `pinned_columns` ou  `visible_columns` sont supprimées.
+* `column_widths` (Dict[str, int]):  Largeurs en pixels par colonne.
+* `lock_columns` (Optional[bool]):  Verrouillage facultatif de l’ensemble des colonnes du tableau des runs. `True` n’affiche que `pinned_columns` et `visible_columns` ;  `False` ou `None` (par défaut) est permissif. Correspond à l’icône de verrouillage  dans la barre d’outils du tableau des runs.
+
+Format des colonnes :
+
+* Les colonnes sont référencées sous la forme `"<section>: <name>"` :
+  * `run:<attr>`: propriétés de run intégrées (par ex. `run:state`)
+  * `config:<key>.value`: clés de configuration (notez le suffixe `.value`)
+  * `summary:<key>`: métriques de synthèse
+  * `tags:__ALL__`: tags de run
+
+Limite de colonnes : le tableau des runs du frontend affiche au maximum 500 colonnes. Lorsque l’ensemble visible (épinglées + visibles + column&#95;order, moins les colonnes masquées) atteint ou dépasse 500, le SDK émet un avertissement à l’enregistrement ; les colonnes masquées ne comptent pas. Le SDK ne tronque pas — l’ensemble complet est envoyé et le frontend applique la limite au rendu.
 
 **Exemple :**
 
@@ -698,17 +721,15 @@ Un ensemble de runs à afficher dans une grille de panneaux.
 
 ***
 
-
 ### <kbd>méthode</kbd> `convert_filterexpr_list_to_string`
 
 ```python
 convert_filterexpr_list_to_string()
 ```
 
-Convertit une liste de FilterExpr en expression de chaîne pour le traitement interne.
+Convertit une liste de FilterExpr en expression de chaîne.
 
 ***
-
 
 ### <kbd>méthode</kbd> `merge_custom_run_colors_into_run_settings`
 

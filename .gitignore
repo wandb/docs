@@ -53,3 +53,6 @@ __pycache__/
 # Python virtual environments
 .venv/
 venv/
+
+# direnv
+.direnv/

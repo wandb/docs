@@ -1,23 +1,24 @@
 ---
-title: "プロンプトオブジェクトの作成"
+title: "プロンプトオブジェクトを作成する"
 description: "LLM アプリケーション向けのプロンプトオブジェクトを作成、公開、使用する"
+keywords: ["StringPrompt", "MessagesPrompt", "プロンプトテンプレート", "パラメーター化されたプロンプト", "weave.publish"]
 ---
 
 プロンプトの作成、評価、改良は、AI エンジニアにとって中核となる作業です。
 プロンプトの小さな変更が、アプリケーションの挙動に大きな影響を与えることがあります。
 W&amp;B Weave を使うと、プロンプトを作成して公開し、継続的に改善していくことができます。
 
-このページでは、プロンプトオブジェクトを作成して公開する方法を説明します。公開済みプロンプトの参照、取得、バージョン管理については、[プロンプトのバージョンの保存と追跡](/ja/weave/guides/core-types/prompts-version.mdx) を参照してください。
+このページは、Weave で再利用可能なプロンプトオブジェクトを作成し、アプリケーションコードから参照できるように公開したい AI エンジニア向けです。このガイドに従うことで、単一文字列のプロンプトやマルチターンのプロンプトを作成し、実行時の値でパラメーター化して、Weave プロジェクトに公開する方法を学べます。公開済みプロンプトの参照、取得、バージョン管理については、[プロンプトのバージョンの保存と追跡](/ja/weave/guides/core-types/prompts-version.mdx) を参照してください。
 
 プロンプトの要件がシンプルな場合は、組み込みの `weave.StringPrompt` または `weave.MessagesPrompt` クラスを使用できます。より複雑な要件がある場合は、それらのクラス、または基底クラス `weave.Prompt` をサブクラス化し、`format` method をオーバーライドできます。
 
-`weave.publish` でプロンプトを公開すると、Weave プロジェクトの [Prompts ページ](/ja/weave/guides/core-types/prompts-version.mdx#view-prompts) に表示されます。
+`weave.publish` でプロンプトを公開すると、Weave プロジェクトの [Prompts ページ](/ja/weave/guides/core-types/prompts-version.mdx#view-prompts) に表示され、あなたや共同作業者が参照して再利用できます。
 
 <div id="stringprompt">
   ## StringPrompt
 </div>
 
-`StringPrompt` は、システムメッセージ、ユーザーのクエリ、または LLM への単独のテキスト入力として使用できる単一文字列のプロンプトをログします。複数メッセージの会話のような複雑さが不要な場合に、個別のプロンプト文字列を管理するには `StringPrompt` を使用することをおすすめします。
+`StringPrompt` は、システムメッセージ、ユーザーのクエリ、または LLM への単独のテキスト入力として使用できる単一文字列のプロンプトをログします。複数メッセージの会話のような複雑さが不要な個別のプロンプト文字列を管理するには、`StringPrompt` を使用してください。
 
 <Tabs>
   <Tab title="Python">
@@ -48,7 +49,8 @@ W&amp;B Weave を使うと、プロンプトを作成して公開し、継続的
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     import * as weave from 'weave';
     import OpenAI from 'openai';
 
@@ -65,7 +67,7 @@ W&amp;B Weave を使うと、プロンプトを作成して公開し、継続的
       // init から返されたクライアントを使用します
       await weaveClient.publish(systemPrompt, 'pirate_prompt');
 
-      // OpenAI クライアントをラップして Weave で call をトラッキングします
+      // OpenAI クライアントをラップして Weave で Call をトラッキングします
       const client = weave.wrapOpenAI(new OpenAI());
 
       const response = await client.chat.completions.create({
@@ -92,7 +94,7 @@ W&amp;B Weave を使うと、プロンプトを作成して公開し、継続的
   ## MessagesPrompt
 </div>
 
-`MessagesPrompt` を使うと、複数ターンの会話やチャットベースのプロンプトをログできます。これは、会話全体の流れを表すメッセージオブジェクトの配列 (&quot;system&quot;、&quot;user&quot;、&quot;assistant&quot; などのロールを含む) を保存します。複数のメッセージにまたがってコンテキストを維持する必要があるチャットベースの LLM や、特定の会話パターンを定義したい場合、再利用可能な会話テンプレートを作成したい場合に使用することを推奨します。
+`MessagesPrompt` を使うと、マルチターンの会話やチャットベースのプロンプトをログできます。これは、会話全体の流れを表すメッセージオブジェクトの配列 (`system`、`user`、`assistant` などのロールを含む) を保存します。複数のメッセージにまたがってコンテキストを維持する必要があるチャットベースの LLM、特定の会話パターンを定義したい場合、または再利用可能な会話テンプレートを作成したい場合は、`MessagesPrompt` を使用してください。
 
 <Tabs>
   <Tab title="Python">
@@ -123,12 +125,13 @@ W&amp;B Weave を使うと、プロンプトを作成して公開し、継続的
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     import * as weave from 'weave';
     import OpenAI from 'openai';
 
     async function main() {
-      // weave.init はクライアントインスタンスを返します
+      // weave.init はクライアント インスタンスを返します
       const weaveClient = await weave.init('wandb/prompt-examples');
 
       const prompt = new weave.MessagesPrompt({
@@ -144,10 +147,10 @@ W&amp;B Weave を使うと、プロンプトを作成して公開し、継続的
         ],
       });
       
-      // init が返したクライアントを使用します
+      // init から返されたクライアントを使用します
       await weaveClient.publish(prompt, 'dino_prompt');
 
-      // OpenAI クライアントをラップして、Weave で call をトラッキングします
+      // OpenAI クライアントをラップして Weave で Call をトラッキングします
       const client = weave.wrapOpenAI(new OpenAI());
 
       const response = await client.chat.completions.create({
@@ -161,11 +164,11 @@ W&amp;B Weave を使うと、プロンプトを作成して公開し、継続的
   </Tab>
 </Tabs>
 
-<div id="parameterizing-prompts">
-  ## プロンプトのパラメーター化
+<div id="parameterize-prompts">
+  ## プロンプトをパラメーター化する
 </div>
 
-`StringPrompt` と `MessagesPrompt` はどちらも、パラメーター化によって動的なコンテンツをサポートしています。これにより、プレースホルダー (`{variable}` 構文を使用) を含む柔軟で再利用可能なプロンプトテンプレートを作成し、実行時に異なる値を埋め込めます。これは、一貫した構造を保ちながら、異なる入力、ユーザーデータ、またはコンテキストに応じてプロンプトを適応させる必要があるスケーラブルなアプリケーションを構築する際に役立ちます。`format()` メソッドは、これらのプレースホルダーを実際の値に置き換えるためのキーと値のペアを受け取ります。
+静的なプロンプトを作成できるようになったら、次のステップは、それらをさまざまな入力に対して再利用できるようにすることです。`StringPrompt` と `MessagesPrompt` はどちらも、パラメーター化によって動的なコンテンツをサポートしています。これにより、プレースホルダー (`{variable}` 構文を使用) を含む再利用可能なプロンプトテンプレートを作成し、実行時に異なる値を埋め込めます。パラメーター化は、一貫した構造を保ちながら、プロンプトをさまざまな入力、ユーザーデータ、またはコンテキストに応じて変える必要がある場合に便利です。`format()` メソッドは、これらのプレースホルダーを実際の値に置き換えるためのキーと値のペアを受け入れます。
 
 <Tabs>
   <Tab title="Python">
@@ -192,7 +195,8 @@ W&amp;B Weave を使うと、プロンプトを作成して公開し、継続的
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines {8,23}
+    ```typescript twoslash lines {8,23}
+    // @noErrors
     import * as weave from 'weave';
     import OpenAI from 'openai';
 
@@ -207,7 +211,7 @@ W&amp;B Weave を使うと、プロンプトを作成して公開し、継続的
       // init から返されたクライアントを使用します
       await weaveClient.publish(prompt, 'calculator_prompt');
 
-      // Weave で call をトラッキングするために OpenAI クライアントをラップします
+      // Weave で Call をトラッキングするために OpenAI クライアントをラップします
       const client = weave.wrapOpenAI(new OpenAI());
 
       const response = await client.chat.completions.create({
@@ -226,7 +230,7 @@ W&amp;B Weave を使うと、プロンプトを作成して公開し、継続的
   </Tab>
 </Tabs>
 
-これは `MessagesPrompt` でも同様に機能します。
+同じパラメーター化のパターンは、マルチターン会話内でプレースホルダーが必要な場合にも `MessagesPrompt` で使用できます。
 
 <Tabs>
   <Tab title="Python">
@@ -257,7 +261,8 @@ W&amp;B Weave を使うと、プロンプトを作成して公開し、継続的
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines {8,29}
+    ```typescript twoslash lines {8,29}
+    // @noErrors
     import * as weave from 'weave';
     import OpenAI from 'openai';
 
@@ -281,7 +286,7 @@ W&amp;B Weave を使うと、プロンプトを作成して公開し、継続的
       // init から返されたクライアントを使用します
       await weaveClient.publish(prompt, 'emotion_prompt');
 
-      // Weave で call をトラッキングするために OpenAI クライアントをラップします
+      // Weave で Call をトラッキングするために OpenAI クライアントをラップします
       const client = weave.wrapOpenAI(new OpenAI());
 
       const response = await client.chat.completions.create({

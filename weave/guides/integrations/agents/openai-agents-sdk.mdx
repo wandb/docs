@@ -3,39 +3,60 @@ title: "OpenAI Agents SDK"
 description: Trace an agent built with the OpenAI Agents SDK using Weave.
 ---
 
-import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
+import AgentsViewTraces from '/snippets/_includes/agents-view-traces.mdx';
 
-<AgentsPreview />
-
-The [OpenAI Agents SDK](https://github.com/openai/openai-agents-python) is a lightweight framework for building agents and multi-agent workflows on top of OpenAI's API. Weave automatically traces agents built with the OpenAI Agents SDK, including each agent invocation, sub-agent handoff, model call, and tool call. Weave displays the captured data in the **Agents** view of your project.
-
-<Note>
-The Weave TypeScript SDK does not support autopatching for the OpenAI Agents SDK.
-</Note>
+The OpenAI Agents SDK is a lightweight framework for building agents and multi-agent workflows on top of OpenAI's API. Weave automatically traces agents built with the OpenAI Agents SDK, including each agent invocation, sub-agent handoff, model call, and tool call. Weave displays the captured data in the **Agents** view of your project.
 
 ## Trace OpenAI Agents SDK agents with Weave
 
-The Weave SDK autopatches with the OpenAI Agents SDK, allowing you to capture traces from your agents with minimal set up. This doc shows how to initialize Weave and then run a multi-turn research agent built with the OpenAI Agents SDK so that Weave captures every agent invocation, model call, and tool call across the session.
+<Tabs>
+<Tab title="Python">
+The Weave SDK autopatches with the [OpenAI Agents SDK for Python](https://github.com/openai/openai-agents-python) so you can capture traces from your agents with minimal setup. This guide explains how to initialize Weave and then run a multi-turn research agent built with the OpenAI Agents SDK so that Weave captures every agent invocation, model call, and tool call across the session.
 
 ### Prerequisites
 
-- A W&B account and [API key](https://wandb.ai/authorize) set as a `WANDB_API_KEY` environment variable
-- An [OpenAI API key](https://platform.openai.com/api-keys)
-- Python 3.10+
+Before you begin, make sure you have the following:
+
+- A W&B account and [API key](https://wandb.ai/authorize) set as a `WANDB_API_KEY` environment variable.
+- An [OpenAI API key](https://platform.openai.com/api-keys).
+- Python 3.10+.
+</Tab>
+
+<Tab title="TypeScript">
+Weave integrates with the [OpenAI Agents Node SDK](https://github.com/openai/openai-agents-js) (`@openai/agents`) to automatically trace your agent runs. Requires `@openai/agents` version `0.4.15` or later.
+
+### Prerequisites
+
+Before you begin, make sure you have the following:
+
+- A W&B account and [API key](https://wandb.ai/authorize) set as a `WANDB_API_KEY` environment variable.
+- An [OpenAI API key](https://platform.openai.com/api-keys).
+- Node.js 18+.
+</Tab>
+</Tabs>
 
 ### Install packages
 
-Install the following packages in your developer environment:
+Install the following packages in your developer environment so that Weave and the SDK are available to your script.
 
-```bash
+<CodeGroup>
+```bash Python
 pip install weave openai-agents requests
 ```
 
+```bash TypeScript
+npm install weave @openai/agents zod
+```
+</CodeGroup>
+
 ### Initialize Weave in your code
 
-Add `weave.init` to the project, along with your W&B team and project names, and then build an agent the way you normally would. The following code defines a `wikipedia_search` function tool and a `Research assistant` agent, then runs three questions through the OpenAI Agents SDK `Runner` while Weave captures the trace.
+<Tabs>
+<Tab title="Python">
 
-```python lines
+Add `weave.init` to the project, along with your W&B team and project names, and then build your agent as usual. The following code defines a `wikipedia_search` function tool and a `Research assistant` agent, then runs three questions through the OpenAI Agents SDK `Runner` while Weave captures the trace.
+
+```python lines  highlight="6"
 import asyncio
 import requests
 import weave
@@ -83,14 +104,111 @@ asyncio.run(main())
 ```
 
 The example runs three turns in a single conversation. The first two turns trigger Wikipedia lookups, and the third uses the prior conversation context to produce a summary without a tool call. Each call to `Runner.run` continues the conversation by passing the previous result's input list back as the next request.
+</Tab>
 
-### See your agent traces in the Agents view
+<Tab title="TypeScript">
+Weave automatically instruments `@openai/agents` via module loader hooks when it is imported. The required setup differs slightly between module systems. For more background on CommonJS versus ESM and how Weave's loader hooks work, see the [TypeScript SDK third-party integration guide](/weave/guides/integrations/js).
 
-`weave.init()` prints a link to your project when it runs. Open the **Agents** view to inspect:
+- **CommonJS projects**: No extra configuration needed. Require `weave` before `@openai/agents` so auto-instrumentation runs first.
+- **ESM projects**: Start Node with the `--import=weave/instrument` flag so the instrumentation loads before any other modules.
 
-- A row in the **Agents** tab for `Research assistant`
-- A session containing three turns
-- Each turn rendered as an `invoke_agent` span with nested model calls and tool calls
-- The full input, model, output, token usage, and Wikipedia results at each step
+The following code defines a `wikipedia_search` tool and a `Research assistant` agent, then runs three questions through the SDK's `Runner` while Weave captures the trace. Each `run()` call is traced as a separate top-level trace, so the example creates a `Runner` with a shared `groupId` and reuses it across all three calls. Weave uses `groupId` to group traces from the same conversation, falling back to each trace's own ID when no `groupId` is set.
 
-For details on viewing Agents data in Weave, see [View agent activity](/weave/guides/tracking/view-agent-activity).
+```typescript lines  highlight="33" title="main.mjs"
+import { randomUUID } from "node:crypto";
+import * as weave from "weave";
+import { Agent, Runner, tool, type AgentInputItem } from "@openai/agents";
+import { z } from "zod";
+
+const wikipediaSearch = tool({
+    name: "wikipedia_search",
+    description: "Search Wikipedia for a topic and return its title and intro paragraph.",
+    parameters: z.object({
+    query: z.string().describe("The topic to search for"),
+    }),
+    async execute({ query }) {
+    const url = new URL("https://en.wikipedia.org/w/api.php");
+    url.search = new URLSearchParams({
+        action: "query",
+        generator: "search",
+        gsrsearch: query,
+        gsrlimit: "1",
+        prop: "extracts",
+        exintro: "true",
+        explaintext: "true",
+        format: "json",
+    }).toString();
+
+    const response = await fetch(url, { headers: { "User-Agent": "weave-demo" } });
+    const data = await response.json();
+    const page = Object.values(data.query.pages)[0] as { title: string; extract: string };
+    return `${page.title}: ${page.extract}`;
+    },
+});
+
+async function main() {
+    await weave.init("<your-team>/<your-project-name>");
+
+    const agent = new Agent({
+    name: "Research assistant",
+    instructions:
+        "You are a research assistant. Use the wikipedia_search tool to look up " +
+        "topics when needed, and cite the article titles you used.",
+    tools: [wikipediaSearch],
+    });
+
+    const runner = new Runner({ groupId: randomUUID() });
+
+    const questions = [
+    "Who founded Anthropic?",
+    "What is Claude (the AI assistant)?",
+    "Summarize what we discussed in one sentence.",
+    ];
+
+    let history: AgentInputItem[] = [];
+    for (const question of questions) {
+    history.push({ role: "user", content: question });
+    console.log(`USER: ${question}`);
+    const result = await runner.run(agent, history);
+    console.log(`AGENT: ${result.finalOutput}\n`);
+    history = result.history;
+    }
+}
+
+main();
+```
+
+The example runs three turns in a single conversation. The first two turns trigger Wikipedia lookups, and the third uses the prior conversation context to produce a summary without a tool call. Each call to `runner.run` continues the conversation by passing the previous result's `history` back as the next input, and shares the same `groupId` so Weave groups all three turns into one session in the Agents view.
+
+Save the example as `main.mjs` and run it with the `--import=weave/instrument` flag so the loader hook runs before any other module:
+
+```bash
+node --import=weave/instrument main.mjs
+```
+
+### Manual instrumentation
+
+Manual instrumentation is only needed when module loader hooks cannot run, such as when using a bundler that combines dependencies into a single file, in environments that don't support Node CLI flags, or with dynamic module loading patterns that bypass loader hooks.
+
+Use `instrumentOpenAIAgents()` to register instrumentation explicitly:
+
+```typescript lines
+import * as weave from "weave";
+
+await weave.init("<your-team>/<your-project-name>");
+await weave.instrumentOpenAIAgents();
+```
+
+If you need full control over the tracing processor — for example, to configure a custom processor or register it conditionally — create and register it directly:
+
+```typescript lines
+import { addTraceProcessor } from "@openai/agents";
+import { createOpenAIAgentsTracingProcessor } from "weave";
+
+const processor = createOpenAIAgentsTracingProcessor();
+addTraceProcessor(processor);
+```
+</Tab>
+</Tabs>
+
+<AgentsViewTraces />

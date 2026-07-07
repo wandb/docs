@@ -64,7 +64,7 @@ wandb.login()
 ```python
 import wandb
 
-wandb.init(project="visualize-sklearn") as run:
+with wandb.init(project="visualize-sklearn") as run:
 
   y_pred = clf.predict(X_test)
   accuracy = sklearn.metrics.accuracy_score(y_true, y_pred)

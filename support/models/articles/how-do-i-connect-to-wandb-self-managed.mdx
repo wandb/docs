@@ -1,0 +1,43 @@
+---
+title: "How do I connect to W&B Self-Managed?"
+keywords: ["Administrator", "User Management", "Environment Variables"]
+---
+
+[W&B Self-Managed](/platform/hosting/hosting-options/self-managed) is a self-hosted deployment that runs in your infrastructure. Point the SDK and CLI at your instance URL instead of the [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) API (`api.wandb.ai`). For login commands, `WANDB_BASE_URL`, and `--host`, see [`wandb login`](/models/ref/cli/wandb-login) and [Environment variables](/models/track/environment-variables).
+
+## Verify the connection
+
+```bash
+wandb status
+```
+
+Confirm the host matches your instance URL and the API key is present (masked).
+
+## SSL / certificate issues
+
+If your instance uses a self-signed or internal CA certificate, set the CA bundle before initializing W&B:
+
+```bash
+export REQUESTS_CA_BUNDLE=/path/to/ca-bundle.crt
+```
+
+## Switching between Multi-tenant Cloud and Self-Managed
+
+To use Multi-tenant Cloud again, unset `WANDB_BASE_URL` and run `wandb login` without `--host`:
+
+```bash
+unset WANDB_BASE_URL
+wandb login
+```
+
+## Common issues
+
+- **401 on `wandb.init()`**: API keys are not shared between Multi-tenant Cloud and a Self-Managed instance. Create a key on your Self-Managed instance profile.
+- **Connection refused / timeout**: Check the instance URL and VPN or network access to your deployment.
+- **License not recognized**: See [Why is my enterprise license not recognized?](/support/models/articles/enterprise-license-not-recognized).
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Administrator](/support/models/tags/administrator)</Badge><Badge stroke shape="pill" color="orange" size="md">[User Management](/support/models/tags/user-management)</Badge><Badge stroke shape="pill" color="orange" size="md">[Environment Variables](/support/models/tags/environment-variables)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

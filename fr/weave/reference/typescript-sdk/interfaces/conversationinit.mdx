@@ -1,0 +1,101 @@
+---
+title: "Interface : ConversationInit"
+description: "Référence du SDK TypeScript"
+---
+
+[weave](../) / ConversationInit
+
+<div id="table-of-contents">
+  ## Table des matières
+</div>
+
+<div id="properties">
+  ### Propriétés
+</div>
+
+* [agentName](./conversationinit#agentname)
+* [attributes](./conversationinit#attributes)
+* [conversationId](./conversationinit#conversationid)
+* [model](./conversationinit#model)
+* [sessionId](./conversationinit#sessionid)
+
+## Propriétés
+
+<div id="agentname">
+  ### agentName
+</div>
+
+• `facultatif` **agentName**: `string`
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/conversation.ts:9](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L9)
+
+***
+
+<div id="attributes">
+  ### attributes
+</div>
+
+• `facultatif` **attributes**: `Attributes`
+
+Attributs personnalisés ajoutés à chaque span émis par la conversation.
+
+Toute clé définie ici qui entre en conflit avec l’attribut `gen_ai.*` / `weave.*` propre à un span n’est pas prise en charge ; la valeur du span prévaut.
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/conversation.ts:20](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L20)
+
+***
+
+<div id="conversationid">
+  ### conversationId
+</div>
+
+• `facultatif` **conversationId**: `string`
+
+ID de conversation propagé à chaque span de cette conversation sous la forme de
+`gen_ai.conversation.id`. Généré automatiquement s’il est omis.
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/conversation.ts:13](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L13)
+
+***
+
+<div id="model">
+  ### model
+</div>
+
+• `facultatif` **model**: `string`
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/conversation.ts:10](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L10)
+
+***
+
+<div id="sessionid">
+  ### sessionId
+</div>
+
+<Warning>
+  **Obsolète.** Utilisez plutôt [ConversationInit.conversationId](./conversationinit#conversationid).
+</Warning>
+
+• `facultatif` **sessionId**: `string`
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/conversation.ts:23](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L23)

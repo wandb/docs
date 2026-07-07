@@ -1,21 +1,24 @@
 ---
 title: "Contrôler le suivi automatique des appels LLM"
-description: "Contrôlez la façon dont W&B Weave enregistre automatiquement les appels à OpenAI, Anthropic et à d'autres bibliothèques LLM"
+description: "Contrôler la manière dont W&B Weave enregistre automatiquement les appels à OpenAI, Anthropic et à d'autres bibliothèques LLM"
+keywords: ["autopatching", "patch_openai", "implicitly_patch_integrations", "masquage des PII", "traçage LLM"]
 ---
 
-Si vous utilisez des bibliothèques de fournisseurs de LLM (comme OpenAI, Anthropic, Cohere ou Mistral) dans votre application, le patching automatique permet à Weave de prendre en charge le tracing de tous vos appels LLM pour vous. Lorsque vous appelez `weave.init()`, Weave intercepte automatiquement (applique un patch à) les bibliothèques clientes LLM prises en charge. Le code de votre application reste inchangé : vous utilisez le SDK du fournisseur comme d’habitude, et chaque requête est enregistrée comme un Appel Weave. Vous bénéficiez d’un tracing complet avec une configuration minimale.
+Si vous utilisez des bibliothèques de fournisseurs de LLM (comme OpenAI, Anthropic, Cohere ou Mistral) dans votre application, le patching automatique permet à Weave de tracer automatiquement vos appels LLM. Lorsque vous appelez `weave.init()`, Weave intercepte (applique un patch à) les bibliothèques clientes LLM prises en charge. Le code de votre application reste inchangé. Vous utilisez le SDK du fournisseur comme d&#39;habitude, et Weave enregistre chaque requête en tant qu’appel Weave.
 
-Cette page explique quand et comment modifier ce comportement : désactiver le suivi automatique, le limiter à certains fournisseurs spécifiques, ou post-traiter les entrées et sorties (par exemple, pour masquer des données personnelles identifiables).
+Cette page explique quand et comment modifier ce comportement : désactiver le suivi automatique, le limiter à des fournisseurs spécifiques, ou post-traiter les entrées et les sorties (par exemple, pour masquer des PII).
 
 <div id="default-behavior">
   ## Comportement par défaut
 </div>
 
-Par défaut, Weave patche automatiquement et suit les appels aux bibliothèques LLM courantes telles que `openai` et `anthropic`. Appelez `weave.init(...)` au début de votre programme et utilisez ces bibliothèques normalement. Leurs appels apparaîtront dans les Traces de votre projet.
+Par défaut, Weave patche automatiquement et suit les appels aux bibliothèques LLM courantes telles que `openai` et `anthropic`. Appelez `weave.init(...)` au début de votre programme et utilisez ces bibliothèques normalement. Leurs appels apparaissent dans les Traces de votre projet.
 
 <div id="configure-autopatching">
   ## Configurer le patching automatique
 </div>
+
+Les sections suivantes expliquent comment activer, désactiver ou effectuer le fine-tuning du patching automatique en Python et en TypeScript. Choisissez l’onglet correspondant à votre SDK.
 
 <Tabs>
   <Tab title="Python">
@@ -23,50 +26,52 @@ Par défaut, Weave patche automatiquement et suit les appels aux bibliothèques 
       L’argument `autopatch_settings` est obsolète. Utilisez `implicitly_patch_integrations=False` pour désactiver le patching implicite, ou appelez des fonctions de patch spécifiques comme `patch_openai(settings={...})` pour configurer les paramètres de chaque intégration.
     </Warning>
 
-    Weave fournit par défaut un **patching implicite automatique** pour toutes les intégrations prises en charge :
+    Par défaut, Weave fournit un patching implicite automatique pour toutes les intégrations prises en charge.
 
-    **Patching implicite (automatique) :** les bibliothèques sont automatiquement patchées, quel que soit le moment où elles sont importées.
+    Patching implicite (automatique) : Weave patche automatiquement les bibliothèques, quel que soit le moment où vous les importez.
 
     ```python lines
-    # Option 1 : importer avant weave.init()
+    # Option 1: Importer avant weave.init()
     import openai
     import weave
-    weave.init('your-team-name/your-project-name')  # OpenAI est automatiquement patché !
+    weave.init('your-team-name/your-project-name')  # OpenAI est patché automatiquement.
 
-    # Option 2 : importer après weave.init()
+    # Option 2: Importer après weave.init()
     import weave
     weave.init('your-team-name/your-project-name')
-    import anthropic  # Patché automatiquement via le hook d'import !
+    import anthropic  # Patché automatiquement via le hook d’import.
     ```
 
-    **Désactiver le patching implicite :** vous pouvez désactiver le patching automatique si vous préférez un contrôle explicite.
+    Désactiver le patching implicite : vous pouvez désactiver le patching automatique si vous préférez un contrôle explicite.
 
     ```python lines
     import weave
 
-    # Option 1 : via le paramètre settings
+    # Option 1: Via le paramètre settings
     weave.init('your-team-name/your-project-name', settings={'implicitly_patch_integrations': False})
 
-    # Option 2 : via une variable d'environnement
-    # Définissez WEAVE_IMPLICITLY_PATCH_INTEGRATIONS=false avant d'exécuter votre script
+    # Option 2: Via une variable d’environnement
+    # Définissez WEAVE_IMPLICITLY_PATCH_INTEGRATIONS=false avant d’exécuter votre script
 
-    # Lorsque le patching implicite est désactivé, vous devez patcher explicitement les intégrations
+    # Lorsque le patching implicite est désactivé, vous devez appliquer explicitement les patchs aux intégrations
     import openai
-    weave.patch_openai()  # Désormais requis pour le Tracing OpenAI
+    weave.patch_openai()  # Désormais requis pour le traçage OpenAI
     ```
 
-    **Patching explicite (manuel) :** vous pouvez patcher explicitement les intégrations pour un contrôle plus fin.
+    Patching explicite (manuel) : vous pouvez appliquer explicitement des patchs aux intégrations pour un contrôle plus fin. C’est utile lorsque le patching implicite est désactivé ou lorsque vous souhaitez tracer seulement un sous-ensemble de fournisseurs.
 
     ```python lines
     import weave
     weave.init('your-team-name/your-project-name')
-    weave.integrations.patch_openai()  # Active le Tracing OpenAI
-    weave.integrations.patch_anthropic()  # Active le Tracing Anthropic
+    weave.integrations.patch_openai()  # Activer le traçage OpenAI
+    weave.integrations.patch_anthropic()  # Activer le traçage Anthropic
     ```
+
+    Après avoir exécuté le code ci-dessus, Weave trace uniquement les fournisseurs que vous avez explicitement patchés.
 
     ### Post-traiter les entrées et les sorties
 
-    Vous pouvez personnaliser la façon dont les entrées et les sorties sont enregistrées (par exemple, pour masquer des données personnelles identifiables ou des secrets) en passant des paramètres à la fonction de patch :
+    En plus d’activer ou de désactiver le patching, vous pouvez transformer ce que Weave enregistre pour chaque appel. Vous pouvez personnaliser la manière dont Weave enregistre les entrées et les sorties (par exemple, pour masquer des PII ou des secrets) en passant des paramètres à la fonction de patch :
 
     ```python lines
     import weave.integrations
@@ -84,20 +89,21 @@ Par défaut, Weave patche automatiquement et suit les appels aux bibliothèques 
     )
     ```
 
-    Pour en savoir plus sur la gestion des données sensibles, voir [comment utiliser Weave avec des données PII](/fr/weave/cookbooks/pii).
+    Pour plus d’informations sur la gestion des données sensibles, voir [Comment utiliser Weave avec des données PII](/fr/weave/cookbooks/pii).
   </Tab>
 
   <Tab title="TypeScript">
-    Le SDK TypeScript prend uniquement en charge le patching automatique pour OpenAI et Anthropic. OpenAI est automatiquement patché lorsque vous importez Weave et ne nécessite aucune configuration supplémentaire.
+    Le SDK TypeScript prend uniquement en charge le patching automatique pour OpenAI et Anthropic. Weave patche OpenAI lorsque vous importez Weave, sans configuration supplémentaire.
 
     De plus, le SDK TypeScript ne prend pas en charge :
 
-    * la configuration ou la désactivation du patching automatique ;
-    * le post-traitement des entrées/sorties.
+    * La configuration ou la désactivation du patching automatique.
+    * Le post-traitement des entrées et des sorties.
 
-    Dans les cas limites où le patching automatique ne fonctionne pas (ESM, bundlers comme Next.js), utilisez un encapsulage explicite :
+    Pour les cas limites où le patching automatique ne fonctionne pas (ESM, bundlers comme Next.js), utilisez un encapsulage explicite pour vous assurer que Weave trace votre client OpenAI :
 
-    ```typescript
+    ```typescript twoslash
+    // @noErrors
     import OpenAI from 'openai'
     import * as weave from 'weave'
     import { wrapOpenAI } from 'weave'
@@ -106,6 +112,6 @@ Par défaut, Weave patche automatiquement et suit les appels aux bibliothèques 
     await weave.init('your-team-name/your-project-name')
     ```
 
-    Pour plus de détails sur la configuration ESM et le dépannage, voir le [guide d’intégration du SDK TypeScript](/fr/weave/guides/integrations/js).
+    Pour plus d’informations sur la configuration d’ESM et le dépannage, voir le [guide d’intégration du SDK TypeScript](/fr/weave/guides/integrations/js).
   </Tab>
 </Tabs>

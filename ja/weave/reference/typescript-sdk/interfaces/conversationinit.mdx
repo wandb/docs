@@ -1,0 +1,101 @@
+---
+title: "インターフェース: ConversationInit"
+description: "TypeScript SDK リファレンス"
+---
+
+[weave](../) / ConversationInit
+
+<div id="table-of-contents">
+  ## 目次
+</div>
+
+<div id="properties">
+  ### プロパティ
+</div>
+
+* [agentName](./conversationinit#agentname)
+* [属性](./conversationinit#attributes)
+* [conversationId](./conversationinit#conversationid)
+* [モデル](./conversationinit#model)
+* [sessionId](./conversationinit#sessionid)
+
+## プロパティ
+
+<div id="agentname">
+  ### agentName
+</div>
+
+• `Optional` **agentName**: `string`
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[src/genai/conversation.ts:9](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L9)
+
+***
+
+<div id="attributes">
+  ### 属性
+</div>
+
+• `Optional` **属性**: `Attributes`
+
+会話で生成されるすべての span に付与されるカスタム属性です。
+
+ここで指定したキーが span 自身の `gen_ai.*` / `weave.*`
+属性と衝突する場合はサポートされず、span 側の値が優先されます。
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[src/genai/conversation.ts:20](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L20)
+
+***
+
+<div id="conversationid">
+  ### conversationId
+</div>
+
+• `Optional` **conversationId**: `string`
+
+この会話に属するすべての span に `gen_ai.conversation.id` として伝播される会話 ID です。省略した場合は自動生成されます。
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[src/genai/conversation.ts:13](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L13)
+
+***
+
+<div id="model">
+  ### モデル
+</div>
+
+• `Optional` **モデル**: `string`
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[src/genai/conversation.ts:10](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L10)
+
+***
+
+<div id="sessionid">
+  ### sessionId
+</div>
+
+<Warning>
+  **非推奨です。** 代わりに [ConversationInit.conversationId](./conversationinit#conversationid) を使用してください。
+</Warning>
+
+• `Optional` **sessionId**: `string`
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[src/genai/conversation.ts:23](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L23)

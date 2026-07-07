@@ -27,7 +27,19 @@ The following guide only applies to alerts in Multi-tenant Cloud.
 
 If you're using [W&B Server](/platform/hosting/) in your Private Cloud or on W&B Dedicated Cloud, refer to [Configure Slack alerts in W&B Server](/platform/hosting/monitoring-usage/slack-alerts) to set up Slack alerts.
 </Note>
-To set up an alert, take these steps, which are detailed in the following sections:
+
+## Automated run lifecycle alerts
+
+W&B can notify you when a run finishes or crashes, without any code changes. In your [User Settings](https://wandb.ai/settings), scroll to the **Alerts** section and turn on:
+
+- **Run finished** to be notified when a run completes successfully.
+- **Run crashed** to be notified when a run exits without calling [`run.finish()`](/models/ref/python/experiments/run#finish).
+
+These toggles are per-user. **Run finished** alerts do not fire for runs in Jupyter notebooks. In notebooks, use `run.alert()` for completion notifications.
+
+Alerts are delivered to email or Slack, configured in the same User Settings panel. The delivery setup is shared with scriptable alerts, which are covered in the following sections and let you trigger alerts on custom conditions such as a metric threshold or a NaN loss.
+
+To set up scriptable alerts with `run.alert()`, take these steps, which are detailed in the following sections:
 
 1. Turn on Alerts in your W&B [User Settings](https://wandb.ai/settings).
 2. Add `run.alert()` to your code.

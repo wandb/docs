@@ -1,15 +1,20 @@
 ---
-title: Gérer les automatisations via l’API
-description: Gestion programmatique des automatisations avec l’API Python (la création et la mise à jour peuvent être affectées avec certaines versions du client ; privilégiez W&B App jusqu’à la publication d’un correctif du SDK).
+title: Gérer les automatisations avec l’API
+description: Gestion programmatique des automatisations avec l’API Python. La création et la mise à jour peuvent ne pas fonctionner sur certaines versions du client. Préférez le W&B App jusqu’à la publication du correctif du SDK.
+keywords: ["API Python", "automatisation programmatique", "wandb.Api", "scripts d’automatisation", "SDK"]
 ---
 
+Gérez les automatisations W&amp;B de manière programmatique avec l’API Python `wandb` lorsque vous automatisez des flux de travail par script plutôt que d’utiliser le W&amp;B App.
+
 <Note>
-  La **création** et la **mise à jour** programmatiques des automatisations via `wandb.Api().create_automation()` et les fonctions utilitaires associées peuvent échouer avec les versions récentes du client Python `wandb` en raison d’une vérification de fonctionnalité effectuée côté client (par exemple, pour les automatisations liées à l’état des runs). Utilisez la [W&amp;B App](/fr/models/automations/create-automations) pour créer et modifier des automatisations jusqu’à la publication d’un SDK corrigé. Les opérations de liste, de récupération et de suppression peuvent encore fonctionner avec votre version ; si vous rencontrez des erreurs, passez par l’App. Suivi interne : WB-34263.
+  La **création** et la **mise à jour** programmatiques des automatisations via `wandb.Api().create_automation()` et les fonctions utilitaires associées peuvent échouer sur certaines versions du client Python `wandb` en raison d’une vérification de fonctionnalité côté client (par exemple, pour les automatisations basées sur l’état d’exécution). En attendant la publication d’un correctif du SDK, utilisez le [W&amp;B App](/fr/models/automations/create-automations) pour créer et modifier des automatisations. Les méthodes `list`, `get` et `delete` ne sont pas affectées. Suivi interne : WB-34263.
 </Note>
 
 <div id="next-steps">
   ## Prochaines étapes
 </div>
+
+Consultez les ressources suivantes pour gérer les automatisations et en savoir plus sur leur fonctionnement :
 
 * [Aperçu des automatisations](/fr/models/automations)
 * [Créer une automatisation](/fr/models/automations/create-automations) (W&amp;B App)

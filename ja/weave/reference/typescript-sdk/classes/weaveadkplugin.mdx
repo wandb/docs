@@ -1,0 +1,659 @@
+---
+title: "クラス: WeaveAdkPlugin"
+description: "TypeScript SDK リファレンス"
+---
+
+[weave](../) / WeaveAdkPlugin
+
+Weave の agents パイプラインで、ランナーの呼び出し、エージェントの実行、モデルの Call、ツールの実行を GenAI-semconv OTel スパンとして出力する ADK プラグインです。
+
+構造的に `BasePlugin` の完全なサーフェスを実装しています。ADK の PluginManager はすべてのコールバックを呼び出すため、no-op のコールバックであっても、すべて定義されています。ADK は `undefined` 以外の戻り値をショートサーキットとして扱うため、各コールバックは自身のエラーを捕捉して `undefined` を返します。
+
+<div id="implements">
+  ## 実装
+</div>
+
+* `BasePlugin`
+
+<div id="table-of-contents">
+  ## 目次
+</div>
+
+<div id="constructors">
+  ### コンストラクター
+</div>
+
+* [コンストラクター](./weaveadkplugin#constructor)
+
+<div id="properties">
+  ### プロパティ
+</div>
+
+* [名](./weaveadkplugin#name)
+
+<div id="methods">
+  ### メソッド
+</div>
+
+* [afterAgentCallback](./weaveadkplugin#afteragentcallback)
+* [afterContextCompaction](./weaveadkplugin#aftercontextcompaction)
+* [afterModelCallback](./weaveadkplugin#aftermodelcallback)
+* [afterRunCallback](./weaveadkplugin#afterruncallback)
+* [afterToolCallback](./weaveadkplugin#aftertoolcallback)
+* [beforeAgentCallback](./weaveadkplugin#beforeagentcallback)
+* [beforeContextCompaction](./weaveadkplugin#beforecontextcompaction)
+* [beforeModelCallback](./weaveadkplugin#beforemodelcallback)
+* [beforeRunCallback](./weaveadkplugin#beforeruncallback)
+* [beforeToolCallback](./weaveadkplugin#beforetoolcallback)
+* [beforeToolSelection](./weaveadkplugin#beforetoolselection)
+* [finishInterruptedInvocation](./weaveadkplugin#finishinterruptedinvocation)
+* [onEventCallback](./weaveadkplugin#oneventcallback)
+* [onModelErrorCallback](./weaveadkplugin#onmodelerrorcallback)
+* [onToolErrorCallback](./weaveadkplugin#ontoolerrorcallback)
+* [onUserMessageCallback](./weaveadkplugin#onusermessagecallback)
+
+## コンストラクター
+
+<div id="constructors">
+  ### コンストラクター
+</div>
+
+• **new WeaveAdkPlugin**(): [`WeaveAdkPlugin`](./weaveadkplugin)
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+[`WeaveAdkPlugin`](./weaveadkplugin)
+
+## プロパティ
+
+<div id="name">
+  ### 名
+</div>
+
+• `Readonly` **名**: `"weave"`
+
+<div id="implementation-of">
+  #### 実装元
+</div>
+
+AdkBasePlugin.name
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/integrations/googleAdk.ts:590](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/googleAdk.ts#L590)
+
+## メソッド
+
+<div id="afteragentcallback">
+  ### afterAgentCallback
+</div>
+
+▸ **afterAgentCallback**(`params`): `Promise`&lt;`undefined`&gt;
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名                        | タイプ         |
+| :----------------------- | :---------- |
+| `params`                 | `Object`    |
+| `params.agent`           | `BaseAgent` |
+| `params.callbackContext` | `Context`   |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`undefined`&gt;
+
+<div id="implementation-of">
+  #### 実装元
+</div>
+
+AdkBasePlugin.afterAgentCallback
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/integrations/googleAdk.ts:779](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/googleAdk.ts#L779)
+
+***
+
+<div id="aftercontextcompaction">
+  ### afterContextCompaction
+</div>
+
+▸ **afterContextCompaction**(`_params`): `Promise`&lt;`undefined`&gt;
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名         | タイプ       |
+| :-------- | :-------- |
+| `_params` | `unknown` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`undefined`&gt;
+
+<div id="implementation-of">
+  #### 実装元
+</div>
+
+AdkBasePlugin.afterContextCompaction
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/integrations/googleAdk.ts:997](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/googleAdk.ts#L997)
+
+***
+
+<div id="aftermodelcallback">
+  ### afterModelCallback
+</div>
+
+▸ **afterModelCallback**(`params`): `Promise`&lt;`undefined`&gt;
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名                        | タイプ           |
+| :----------------------- | :------------ |
+| `params`                 | `Object`      |
+| `params.callbackContext` | `Context`     |
+| `params.llmResponse`     | `LlmResponse` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`undefined`&gt;
+
+<div id="implementation-of">
+  #### 実装元
+</div>
+
+AdkBasePlugin.afterModelCallback
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/integrations/googleAdk.ts:841](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/googleAdk.ts#L841)
+
+***
+
+<div id="afterruncallback">
+  ### afterRunCallback
+</div>
+
+▸ **afterRunCallback**(`params`): `Promise`&lt;`undefined`&gt;
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名                          | タイプ                 |
+| :------------------------- | :------------------ |
+| `params`                   | `Object`            |
+| `params.invocationContext` | `InvocationContext` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`undefined`&gt;
+
+<div id="implementation-of">
+  #### 実装元
+</div>
+
+AdkBasePlugin.afterRunCallback
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/integrations/googleAdk.ts:713](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/googleAdk.ts#L713)
+
+***
+
+<div id="aftertoolcallback">
+  ### afterToolCallback
+</div>
+
+▸ **afterToolCallback**(`params`): `Promise`&lt;`undefined`&gt;
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名                    | タイプ                                          |
+| :------------------- | :------------------------------------------- |
+| `params`             | `Object`                                     |
+| `params.result`      | `null` | `Record`&lt;`string`, `unknown`&gt; |
+| `params.tool`        | `BaseTool`                                   |
+| `params.toolArgs`    | `Record`&lt;`string`, `unknown`&gt;          |
+| `params.toolContext` | `Context`                                    |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`undefined`&gt;
+
+<div id="implementation-of">
+  #### 実装元
+</div>
+
+AdkBasePlugin.afterToolCallback
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/integrations/googleAdk.ts:965](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/googleAdk.ts#L965)
+
+***
+
+<div id="beforeagentcallback">
+  ### beforeAgentCallback
+</div>
+
+▸ **beforeAgentCallback**(`params`): `Promise`&lt;`undefined`&gt;
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名                        | タイプ         |
+| :----------------------- | :---------- |
+| `params`                 | `Object`    |
+| `params.agent`           | `BaseAgent` |
+| `params.callbackContext` | `Context`   |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`undefined`&gt;
+
+<div id="implementation-of">
+  #### 実装元
+</div>
+
+AdkBasePlugin.beforeAgentCallback
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/integrations/googleAdk.ts:765](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/googleAdk.ts#L765)
+
+***
+
+<div id="beforecontextcompaction">
+  ### beforeContextCompaction
+</div>
+
+▸ **beforeContextCompaction**(`_params`): `Promise`&lt;`undefined`&gt;
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名         | タイプ       |
+| :-------- | :-------- |
+| `_params` | `unknown` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`undefined`&gt;
+
+<div id="implementation-of">
+  #### 実装元
+</div>
+
+AdkBasePlugin.beforeContextCompaction
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/integrations/googleAdk.ts:993](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/googleAdk.ts#L993)
+
+***
+
+<div id="beforemodelcallback">
+  ### beforeModelCallback
+</div>
+
+▸ **beforeModelCallback**(`params`): `Promise`&lt;`undefined`&gt;
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名                        | タイプ          |
+| :----------------------- | :----------- |
+| `params`                 | `Object`     |
+| `params.callbackContext` | `Context`    |
+| `params.llmRequest`      | `LlmRequest` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`undefined`&gt;
+
+<div id="implementation-of">
+  #### 実装元
+</div>
+
+AdkBasePlugin.beforeModelCallback
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/integrations/googleAdk.ts:804](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/googleAdk.ts#L804)
+
+***
+
+<div id="beforeruncallback">
+  ### beforeRunCallback
+</div>
+
+▸ **beforeRunCallback**(`params`): `Promise`&lt;`undefined`&gt;
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名                          | タイプ                 |
+| :------------------------- | :------------------ |
+| `params`                   | `Object`            |
+| `params.invocationContext` | `InvocationContext` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`undefined`&gt;
+
+<div id="implementation-of">
+  #### 実装元
+</div>
+
+AdkBasePlugin.beforeRunCallback
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/integrations/googleAdk.ts:621](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/googleAdk.ts#L621)
+
+***
+
+<div id="beforetoolcallback">
+  ### beforeToolCallback
+</div>
+
+▸ **beforeToolCallback**(`params`): `Promise`&lt;`undefined`&gt;
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名                    | タイプ                                 |
+| :------------------- | :---------------------------------- |
+| `params`             | `Object`                            |
+| `params.tool`        | `BaseTool`                          |
+| `params.toolArgs`    | `Record`&lt;`string`, `unknown`&gt; |
+| `params.toolContext` | `Context`                           |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`undefined`&gt;
+
+<div id="implementation-of">
+  #### 実装元
+</div>
+
+AdkBasePlugin.beforeToolCallback
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/integrations/googleAdk.ts:918](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/googleAdk.ts#L918)
+
+***
+
+<div id="beforetoolselection">
+  ### beforeToolSelection
+</div>
+
+▸ **beforeToolSelection**(`_params`): `Promise`&lt;`undefined`&gt;
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名         | タイプ       |
+| :-------- | :-------- |
+| `_params` | `unknown` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`undefined`&gt;
+
+<div id="implementation-of">
+  #### 実装元
+</div>
+
+AdkBasePlugin.beforeToolSelection
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/integrations/googleAdk.ts:914](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/googleAdk.ts#L914)
+
+***
+
+<div id="finishinterruptedinvocation">
+  ### finishInterruptedInvocation
+</div>
+
+▸ **finishInterruptedInvocation**(`invocationId`): `void`
+
+`afterRunCallback` に到達しなかった run を終了処理します。ADK はイベント ループが通常どおりドレインされた場合にのみ
+`afterRunCallback` をディスパッチするため、`runAsync` を途中で抜けたコンシューマーや、
+中止された run では、その invocation (および関連するスパン) が開いたまま残ります。
+自動インストルメントされたランナー ラッパーは、これらを中断として閉じるために `finally` からこれを呼び出します。
+べき等であり、run がすでに終了している場合 (一般的な、完全に消費されたケース) には何もしません。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名              | タイプ      |
+| :------------- | :------- |
+| `invocationId` | `string` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`void`
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/integrations/googleAdk.ts:732](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/googleAdk.ts#L732)
+
+***
+
+<div id="oneventcallback">
+  ### onEventCallback
+</div>
+
+▸ **onEventCallback**(`params`): `Promise`&lt;`undefined`&gt;
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名                          | タイプ                 |
+| :------------------------- | :------------------ |
+| `params`                   | `Object`            |
+| `params.event`             | `Event`             |
+| `params.invocationContext` | `InvocationContext` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`undefined`&gt;
+
+<div id="implementation-of">
+  #### 実装元
+</div>
+
+AdkBasePlugin.onEventCallback
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/integrations/googleAdk.ts:693](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/googleAdk.ts#L693)
+
+***
+
+<div id="onmodelerrorcallback">
+  ### onModelErrorCallback
+</div>
+
+▸ **onModelErrorCallback**(`params`): `Promise`&lt;`undefined`&gt;
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名                        | タイプ          |
+| :----------------------- | :----------- |
+| `params`                 | `Object`     |
+| `params.callbackContext` | `Context`    |
+| `params.error`           | `Error`      |
+| `params.llmRequest`      | `LlmRequest` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`undefined`&gt;
+
+<div id="implementation-of">
+  #### 実装元
+</div>
+
+AdkBasePlugin.onModelErrorCallback
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/integrations/googleAdk.ts:884](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/googleAdk.ts#L884)
+
+***
+
+<div id="ontoolerrorcallback">
+  ### onToolErrorCallback
+</div>
+
+▸ **onToolErrorCallback**(`params`): `Promise`&lt;`undefined`&gt;
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名                    | タイプ                                 |
+| :------------------- | :---------------------------------- |
+| `params`             | `Object`                            |
+| `params.error`       | `Error`                             |
+| `params.tool`        | `BaseTool`                          |
+| `params.toolArgs`    | `Record`&lt;`string`, `unknown`&gt; |
+| `params.toolContext` | `Context`                           |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`undefined`&gt;
+
+<div id="implementation-of">
+  #### 実装元
+</div>
+
+AdkBasePlugin.onToolErrorCallback
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/integrations/googleAdk.ts:977](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/googleAdk.ts#L977)
+
+***
+
+<div id="onusermessagecallback">
+  ### onUserMessageCallback
+</div>
+
+▸ **onUserMessageCallback**(`_params`): `Promise`&lt;`undefined`&gt;
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名                           | タイプ                 |
+| :-------------------------- | :------------------ |
+| `_params`                   | `Object`            |
+| `_params.invocationContext` | `InvocationContext` |
+| `_params.userMessage`       | `Content`           |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`undefined`&gt;
+
+<div id="implementation-of">
+  #### 実装元
+</div>
+
+AdkBasePlugin.onUserMessageCallback
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/integrations/googleAdk.ts:614](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/googleAdk.ts#L614)

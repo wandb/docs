@@ -7,7 +7,7 @@ import { ColabLink } from '/snippets/ko/_includes/colab-link.mdx';
 
 <ColabLink url="https://wandb.me/alerts-colab" />
 
-실행이 중단되거나 사용자 정의 트리거 조건을 만족하면 Slack 또는 이메일 알림을 보내도록 설정할 수 있습니다. 예를 들어, 학습 루프의 그래디언트가 폭주하기 시작해 NaN을 보고하거나, ML 파이프라인의 한 단계가 완료되었을 때 알림을 만들 수 있습니다. 알림 설정은 개인 프로젝트와 팀 프로젝트를 포함해 실행을 초기화하는 모든 프로젝트에 적용됩니다.
+실행이 크래시되거나 사용자 정의 트리거 조건을 만족하면 Slack 또는 이메일 알림을 보내도록 설정할 수 있습니다. 예를 들어, 학습 루프의 그래디언트가 폭주하기 시작해 NaN을 보고하거나, ML 파이프라인의 한 단계가 완료되었을 때 알림을 만들 수 있습니다. 알림 설정은 개인 프로젝트와 팀 프로젝트를 포함해 실행을 초기화하는 모든 프로젝트에 적용됩니다.
 
 그리고 Slack(또는 이메일)에서 W&amp;B Alerts 메시지를 확인할 수 있습니다:
 
@@ -29,11 +29,24 @@ import { ColabLink } from '/snippets/ko/_includes/colab-link.mdx';
   Private Cloud 또는 W&amp;B Dedicated Cloud에서 [W&amp;B Server](/ko/platform/hosting/)를 사용하는 경우, Slack 알림을 설정하려면 [W&amp;B Server에서 Slack 알림 구성](/ko/platform/hosting/monitoring-usage/slack-alerts)을 참조하세요.
 </Note>
 
-알림을 설정하려면 다음 섹션에서 자세히 설명하는 아래 단계를 수행하세요:
+<div id="automated-run-lifecycle-alerts">
+  ## 자동 run 라이프사이클 알림
+</div>
 
-1. W&amp;B [User Settings](https://wandb.ai/settings)에서 Alerts를 켭니다.
-2. 코드에 `run.alert()`를 추가합니다.
-3. 설정을 테스트합니다.
+W&amp;B는 코드를 변경하지 않아도 run이 완료되거나 크래시될 때 알림을 보낼 수 있습니다. [User Settings](https://wandb.ai/settings)에서 **Alerts** 섹션까지 스크롤한 다음, 다음 항목을 켜세요.
+
+* run이 성공적으로 완료될 때 알림을 받으려면 **Run finished**
+* [`run.finish()`](/ko/models/ref/python/experiments/run#finish)를 호출하지 않고 run이 크래시될 때 알림을 받으려면 **Run crashed**
+
+이 설정은 사용자별로 적용됩니다. Jupyter notebook에서 실행한 run에는 **Run finished** 알림이 전송되지 않습니다. notebook에서는 완료 알림을 위해 `run.alert()`를 사용하세요.
+
+알림은 같은 User Settings 패널에서 설정한 이메일 또는 Slack으로 전송됩니다. 이 전송 설정은 스크립트형 알림과 공유되며, 이에 대해서는 다음 섹션에서 설명합니다. 스크립트형 알림을 사용하면 metric threshold나 NaN loss와 같은 맞춤형 조건에서 알림을 트리거할 수 있습니다.
+
+`run.alert()`로 스크립트형 알림을 설정하려면 다음 단계를 따르세요. 자세한 내용은 다음 섹션에서 설명합니다.
+
+1. W&amp;B [User Settings](https://wandb.ai/settings)에서 Alerts를 켜세요.
+2. 코드에 `run.alert()`를 추가하세요.
+3. 설정을 테스트하세요.
 
 <div id="1-turn-on-alerts-in-your-wb-user-settings">
   ### 1. W&amp;B 사용자 설정에서 알림 켜기

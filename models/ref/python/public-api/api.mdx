@@ -223,6 +223,7 @@ wandb.Api.artifact_collection_exists(type="type", name="collection_name")
 artifact_collections(
     project_name: 'str',
     type_name: 'str',
+    order: 'str | None' = None,
     per_page: 'int' = 50,
     start: 'str | None' = None
 ) → ArtifactCollections
@@ -236,6 +237,7 @@ Returns a collection of matching artifact collections.
  
  - `project_name`:  The name of the project to filter on. 
  - `type_name`:  The name of the artifact type to filter on. 
+ - `order`:  Optional string to specify the order of the results.  If prefixed with '+', sorts ascending (default).  If prefixed with '-', sorts descending. 
  - `per_page`:  Sets the page size for query pagination.  Usually there is no reason to change this. 
  - `start`:  Pagination cursor for resuming a past query, captured  from a previous paginator's `.cursor` attribute. 
 
@@ -343,6 +345,7 @@ Deprecated. Use `Api.artifacts(type_name, name)` method instead.
 artifacts(
     type_name: 'str',
     name: 'str',
+    order: 'str | None' = None,
     per_page: 'int' = 50,
     tags: 'list[str] | None' = None,
     start: 'str | None' = None
@@ -357,6 +360,7 @@ Return an `Artifacts` collection.
  
  - `type_name`:  The type of artifacts to fetch. 
  - `name`:  The artifact's collection name. Optionally append the  entity that logged the artifact as a prefix followed by  a forward slash. 
+ - `order`:  Optional string to specify the order of the results.  If prefixed with '+', sorts ascending (default).  If prefixed with '-', sorts descending. 
  - `per_page`:  Sets the page size for query pagination. Usually  there is no reason to change this. 
  - `tags`:  Only return artifacts with all of these tags. 
  - `start`:  Pagination cursor for resuming a past query, captured  from a previous paginator's `.cursor` attribute. 
@@ -1022,6 +1026,7 @@ Parses paths of the form `entity/project/queue_id/run_queue_item_id`.
 registries(
     organization: 'str | None' = None,
     filter: 'dict[str, Any] | None' = None,
+    order: 'str | None' = None,
     per_page: 'int' = 100,
     start: 'str | None' = None
 ) → Registries
@@ -1035,8 +1040,9 @@ Use the iterator to search and filter registries, collections, or artifact versi
 
 **Args:**
  
- - `organization`:  (str, optional) The organization of the registry to fetch.  If not specified, use the organization specified in the user's settings. 
- - `filter`:  (dict, optional) MongoDB-style filter to apply to each object in the lazy registry iterator.  Fields available to filter for registries are  `name`, `description`, `created_at`, `updated_at`.  Fields available to filter for collections are  `name`, `tag`, `description`, `created_at`, `updated_at`  Fields available to filter for versions are  `tag`, `alias`, `created_at`, `updated_at`, `metadata` 
+ - `organization`:  The organization of the registry to fetch.  If not specified, use the organization specified in the user's settings. 
+ - `filter`:  Optional MongoDB-style filter to apply to each object in the lazy registry iterator.  Fields available to filter for registries are  `name`, `description`, `created_at`, `updated_at`.  Fields available to filter for collections are  `name`, `tag`, `description`, `created_at`, `updated_at`  Fields available to filter for versions are  `tag`, `alias`, `created_at`, `updated_at`, `metadata` 
+ - `order`:  Optional string to specify the order of the results.  If prefixed with '+', sorts ascending (default).  If prefixed with '-', sorts descending. 
  - `per_page`:  Sets the page size for query pagination. 
  - `start`:  Pagination cursor for resuming a past query, captured  from a previous paginator's `.cursor` attribute. 
 
@@ -1216,7 +1222,7 @@ runs(
     filters: 'dict[str, Any] | None' = None,
     order: 'str' = '+created_at',
     per_page: 'int' = 50,
-    include_sweeps: 'bool' = True,
+    include_sweeps: 'bool' = False,
     lazy: 'bool' = True
 )
 ```
@@ -1265,7 +1271,7 @@ For more complex filtering, you can use MongoDB query operators. For details, se
  - `For example`:  `{"config.experiment_name": "foo"}` would find runs with a config entry  of experiment name set to "foo" 
  - `order`:  (str) Order can be `created_at`, `heartbeat_at`, `config.*.value`, or `summary_metrics.*`.  If you prepend order with a + order is ascending (default).  If you prepend order with a - order is descending.  The default order is run.created_at from oldest to newest. 
  - `per_page`:  (int) Sets the page size for query pagination. 
- - `include_sweeps`:  (bool) Whether to include the sweep runs in the results. 
+ - `include_sweeps`:  (bool) Whether to eagerly fetch the sweep object in each run result. 
  - `lazy`:  (bool) Whether to use lazy loading for faster performance.  When True (default), only essential run metadata is loaded initially.  Heavy fields like config, summaryMetrics, and systemMetrics are loaded  on-demand when accessed. Set to False for full data upfront. 
 
 

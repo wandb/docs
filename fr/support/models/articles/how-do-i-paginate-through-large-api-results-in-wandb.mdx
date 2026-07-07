@@ -1,0 +1,53 @@
+---
+title: "Comment puis-je parcourir page par page des résultats d'API volumineux dans W&B ?"
+keywords: ["Exécutions", "Experiments", "API", "Artifacts"]
+---
+
+Vous pouvez parcourir les résultats de l&#39;API page par page à l&#39;aide du [modèle standard d&#39;itérateur paresseux et du paramètre `per_page`](/fr/models/track/public-api-guide). En outre, vous pouvez utiliser les conseils suivants sur le point de contrôle et le téléchargement en masse pour parcourir les résultats plus efficacement.
+
+<div id="checkpoint-processed-run-ids">
+  ## Point de contrôle des ID de run traités
+</div>
+
+Pour les projets très volumineux, enregistrez les ID que vous avez déjà traités et ignorez-les au redémarrage :
+
+```python
+import json
+import pathlib
+import wandb
+
+checkpoint_file = pathlib.Path("processed_ids.json")
+processed = set(json.loads(checkpoint_file.read_text())) if checkpoint_file.exists() else set()
+
+api = wandb.Api()
+for run in api.runs("my-entity/my-project"):
+    if run.id in processed:
+        continue
+    process(run)
+    processed.add(run.id)
+    checkpoint_file.write_text(json.dumps(list(processed)))
+```
+
+Évitez `list(api.runs(...))` sur de très gros Projects, sauf si vous avez besoin d&#39;un accès aléatoire — cela charge toutes les pages en mémoire.
+
+<div id="rate-limits-on-bulk-downloads">
+  ## Limites de débit sur les téléchargements en masse
+</div>
+
+Si chaque run déclenche des appels API supplémentaires (par exemple `run.file("output.log").download()`), ajoutez un court délai pour éviter les erreurs `429` :
+
+```python
+import time
+
+for run in api.runs("my-entity/my-project"):
+    run.file("output.log").download()
+    time.sleep(0.1)
+```
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Exécutions](/fr/support/models/tags/runs)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[API](/fr/support/models/tags/api)</Badge><Badge stroke shape="pill" color="orange" size="md">[Artifacts](/fr/support/models/tags/artifacts)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet */}

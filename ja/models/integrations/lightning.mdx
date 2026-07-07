@@ -367,8 +367,17 @@ W&amp;B summary メトリクスで検証 accuracy の最大値をトラッキン
 Lightning の [`ModelCheckpoint`](https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.callbacks.ModelCheckpoint.html) コールバックを使用し、`WandbLogger` で `log_model` 引数を設定します。
 
 <Tabs>
-  <Tab title="PyTorch Logger">`python trainer = Trainer(logger=wandb_logger, callbacks=[checkpoint_callback]) `</Tab>
-  <Tab title="Fabric Logger">`python fabric = L.Fabric(loggers=[wandb_logger], callbacks=[checkpoint_callback]) `</Tab>
+  <Tab title="PyTorch Logger">
+    ```python
+    trainer = Trainer(logger=wandb_logger, callbacks=[checkpoint_callback])
+    ```
+  </Tab>
+
+  <Tab title="Fabric Logger">
+    ```python
+    fabric = L.Fabric(loggers=[wandb_logger], callbacks=[checkpoint_callback])
+    ```
+  </Tab>
 </Tabs>
 
 *latest* と *best* のエイリアスは自動的に設定されるため、W&amp;B [Artifact](/ja/models/artifacts/) からモデル チェックポイントを簡単に取得できます。
@@ -380,10 +389,19 @@ checkpoint_reference = "USER/PROJECT/MODEL-RUN_ID:VERSION"
 ```
 
 <Tabs>
-  <Tab title="Logger 経由">`python # チェックポイントをローカルにダウンロードします（未キャッシュの場合） wandb_logger.download_artifact(checkpoint_reference, artifact_type="model") `</Tab>
+  <Tab title="Logger 経由">
+    ```python
+    # チェックポイントをローカルにダウンロードします（未キャッシュの場合）
+    wandb_logger.download_artifact(checkpoint_reference, artifact_type="model")
+    ```
+  </Tab>
 
   <Tab title="wandb 経由">
-    ```python # チェックポイントをローカルにダウンロードします（未キャッシュの場合） run = wandb.init(project="MNIST") artifact = run.use_artifact(checkpoint_reference, type="model") artifact_dir = artifact.download()
+    ```python
+    # チェックポイントをローカルにダウンロードします（未キャッシュの場合）
+    run = wandb.init(project="MNIST")
+    artifact = run.use_artifact(checkpoint_reference, type="model")
+    artifact_dir = artifact.download()
     ```
   </Tab>
 </Tabs>
@@ -403,7 +421,6 @@ checkpoint_reference = "USER/PROJECT/MODEL-RUN_ID:VERSION"
 
     model.load_state_dict(full_checkpoint["model"])
     optimizer.load_state_dict(full_checkpoint["optimizer"])
-
     ```
   </Tab>
 </Tabs>
@@ -413,9 +430,6 @@ checkpoint_reference = "USER/PROJECT/MODEL-RUN_ID:VERSION"
 ベストなモデル チェックポイントをブックマークしてチーム全体で一元管理するには、[W&amp;B Model Registry](/ja/models) にリンクできます。
 
 ここでは、ベストなモデルをタスク別に整理し、モデルのライフサイクルを管理し、ML ライフサイクル全体を通じて容易にトラッキングや監査を行い、webhook やジョブで下流のアクションを[自動化](/ja/models/automations/)できます。
-
-```
-```
 
 <div id="log-images-text-and-more">
   ## 画像、テキストなどをログする

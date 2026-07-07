@@ -1,0 +1,45 @@
+---
+title: "Comment puis-je consigner des métriques sans enregistrer mon code ?"
+keywords: ["Administrateur", "Gestion des équipes", "Métriques"]
+---
+
+Pour éviter que du code source propriétaire ou des données d&#39;entraînement ne soient capturés par W&amp;B pour des raisons de confidentialité ou de conformité, limitez ce que W&amp;B capture afin que vos runs ne consignent que des métriques.
+
+Par défaut, W&amp;B journalise le code et les métriques système, mais ne journalise pas d&#39;exemples de jeux de données.
+
+Pour désactiver la journalisation du code, utilisez des variables d&#39;environnement au niveau du run ou modifiez les valeurs par défaut à l&#39;échelle de l&#39;équipe en tant qu&#39;administrateur.
+
+<div id="turn-off-code-logging-with-environment-variables">
+  ## Désactiver la journalisation du code avec des variables d&#39;environnement
+</div>
+
+Utilisez l&#39;une des variables d&#39;environnement suivantes pour désactiver la journalisation du code pour un run ou un processus individuel :
+
+* Définissez `WANDB_DISABLE_CODE` sur `true` pour désactiver le suivi du code. Cette action empêche la récupération du SHA Git et du patch diff.
+* Définissez `WANDB_IGNORE_GLOBS` sur `*.patch` pour arrêter la synchronisation du patch diff vers les serveurs W&amp;B, tout en le laissant disponible localement pour l&#39;appliquer avec `wandb restore`.
+
+<div id="enforce-settings-at-the-organization-or-team-level">
+  ## Appliquer des paramètres au niveau de l’organisation ou de l’équipe
+</div>
+
+Si vous souhaitez désactiver l’enregistrement du code pour tous les membres d’une équipe (plutôt que de vous reposer sur chaque utilisateur pour définir des variables d’environnement), modifiez la valeur par défaut dans les paramètres de votre équipe ou de votre organisation.
+
+Les administrateurs de l’organisation peuvent appliquer les paramètres de confidentialité à toutes les équipes de leur organisation depuis la section **Confidentialité** de l’onglet **Paramètres** du tableau de bord du compte ou de l’organisation. Si les administrateurs de l’organisation appliquent un paramètre, les administrateurs d’équipe ne peuvent pas configurer ce paramètre dans leurs équipes.
+
+En tant qu’administrateur de l’équipe, vous pouvez désactiver l’enregistrement du code par défaut pour les runs de votre équipe :
+
+1. Accédez à `https://wandb.ai/[TEAM-NAME]`, en remplaçant `[TEAM-NAME]` par le nom de votre équipe.
+2. Sélectionnez **Paramètres de l’équipe** dans le menu de navigation de gauche.
+3. Ouvrez la section **Confidentialité** et désactivez **Activer l’enregistrement du code par défaut**.
+
+Après avoir effectué ces étapes, les nouveaux runs de votre équipe n’enregistrent plus le code par défaut. W&amp;B continue de consigner des métriques et des informations système.
+
+Pour plus d&#39;informations, voir [paramètres de confidentialité](/fr/platform/hosting/privacy-settings).
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Administrateur](/fr/support/models/tags/administrator)</Badge><Badge stroke shape="pill" color="orange" size="md">[Gestion des équipes](/fr/support/models/tags/team-management)</Badge><Badge stroke shape="pill" color="orange" size="md">[Métriques](/fr/support/models/tags/metrics)</Badge>
+
+{/* END GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet */}

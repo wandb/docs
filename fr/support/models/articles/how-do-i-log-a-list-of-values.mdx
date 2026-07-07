@@ -3,14 +3,14 @@ title: "Comment puis-je journaliser une liste de valeurs ?"
 keywords: ["Journalisation", "Experiments"]
 ---
 
-Ces exemples montrent deux façons de journaliser des pertes à l&#39;aide de [`wandb.Run.log()`](/fr/models/ref/python/experiments/run/#method-runlog/).
+Vous pouvez journaliser une liste de valeurs, telles que des pertes par étape, avec [`wandb.Run.log()`](/fr/models/ref/python/experiments/run/#method-runlog/). Les exemples suivants montrent deux approches courantes : journaliser la liste comme une entrée de dictionnaire, ou comme un histogramme pour visualiser sa distribution.
 
 <Tabs>
-  <Tab title="À l'aide d'un dictionnaire">
+  <Tab title="Sous forme de dictionnaire">
     ```python
     import wandb
 
-    # Initialiser un nouveau run
+    # Initialiser une nouvelle exécution
     with wandb.init(project="log-list-values", name="log-dict") as run:
         # Journaliser les pertes sous forme de dictionnaire
         losses = [0.1, 0.2, 0.3, 0.4, 0.5]
@@ -23,7 +23,7 @@ Ces exemples montrent deux façons de journaliser des pertes à l&#39;aide de [`
     ```python
     import wandb
 
-    # Initialiser un nouveau run
+    # Initialiser une nouvelle exécution
     with wandb.init(project="log-list-values", name="log-hist") as run:
         # Journaliser les pertes sous forme d'histogramme
         losses = [0.1, 0.2, 0.3, 0.4, 0.5]
@@ -32,12 +32,18 @@ Ces exemples montrent deux façons de journaliser des pertes à l&#39;aide de [`
   </Tab>
 </Tabs>
 
-Pour en savoir plus, voir [la documentation sur la journalisation](/fr/models/track/log/).
+Pour plus d&#39;informations, voir [Journaliser des objets et des médias](/fr/models/track/log/).
 
 ***
 
-{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badge d’onglet */}
 
-<Badge stroke shape="pill" color="orange" size="md">[Logs](/fr/support/models/tags/logs)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge>
+<Badge stroke shape="pill" color="orange" size="md">
+  [Logs](/fr/support/models/tags/logs)
+</Badge>
+
+<Badge stroke shape="pill" color="orange" size="md">
+  [Experiments](/fr/support/models/tags/experiments)
+</Badge>
 
 {/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

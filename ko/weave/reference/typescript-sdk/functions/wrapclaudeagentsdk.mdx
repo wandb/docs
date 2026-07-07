@@ -1,0 +1,57 @@
+---
+title: "wrapClaudeAgentSdk"
+description: "TypeScript SDK 레퍼런스"
+---
+
+<div id="wrapclaudeagentsdk">
+  # wrapClaudeAgentSdk
+</div>
+
+▸ **wrapClaudeAgentSdk**&lt;`T`&gt;(`sdk`): `T`
+
+`@anthropic-ai/claude-agent-sdk` 모듈을 수동으로 계측합니다.
+
+자동 계측을 적용할 수 없을 때 이 방법을 사용하세요. 예를 들어 CJS/ESM 훅이 관찰할 수 없는 방식으로 모듈을 로드하는 번들러를 사용하거나, 훅이 지원하지 않는 임포트 경로를 사용하는 경우입니다. `@anthropic-ai/claude-agent-sdk` &gt;= 0.3.178이 필요합니다. `query` 내보내기가 트레이스되도록 처리된 모듈의 뷰를 반환합니다. 원래 임포트 대신 반환된 객체를 사용하세요(SDK의 `query`는 getter 전용 내보내기이므로 원래 바인딩을 제자리에서 패치할 수 없습니다):
+
+<div id="type-parameters">
+  #### 유형 매개변수
+</div>
+
+| 이름  |
+| :-- |
+| `T` |
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름    | 유형  |
+| :---- | :-- |
+| `sdk` | `T` |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`T`
+
+`예시`
+
+```ts twoslash
+// @noErrors
+import * as claudeAgentSdk from '@anthropic-ai/claude-agent-sdk';
+import { wrapClaudeAgentSdk } from 'weave';
+
+const { query } = wrapClaudeAgentSdk(claudeAgentSdk);
+for await (const message of query({ prompt: 'hi' })) {
+  // ...트레이스됨
+}
+```
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[src/integrations/claudeAgentSdk.ts:209](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/claudeAgentSdk.ts#L209)
+
+***

@@ -1,6 +1,7 @@
 ---
 title: Exécuter des commandes dans un sandbox
 description: Découvrez comment exécuter des commandes dans un sandbox, puis lire la sortie et les codes de sortie.
+keywords: ["Sandbox.run", "Sandbox.exec", "Process.result", "SandboxExecutionError", "stdout", "stderr"]
 ---
 
 <Warning>
@@ -9,13 +10,13 @@ description: Découvrez comment exécuter des commandes dans un sandbox, puis li
 
 <br />
 
-[Exécutez des commandes dans un sandbox](#run-commands-in-a-sandbox), [lisez leur sortie et leur code de sortie](#read-output-and-exit-codes), et [vérifiez les erreurs](#check-for-errors). Utilisez ces fonctionnalités pour exécuter des scripts, des tâches d&#39;entraînement et d&#39;autres processus dans un sandbox, puis vérifier les résultats par programmation.
+[Exécutez des commandes dans un sandbox](#run-commands-in-a-sandbox), [lisez la sortie des commandes et les codes de sortie](#read-output-and-exit-codes), et [vérifiez les erreurs](#check-for-sandbox-execution-errors). Utilisez ces fonctionnalités pour exécuter des scripts, des tâches d&#39;entraînement et d&#39;autres processus dans un W&amp;B Serverless Sandbox, puis vérifier les résultats par programmation.
 
 <div id="run-commands-in-a-sandbox">
   ## Exécuter des commandes dans un sandbox
 </div>
 
-Selon votre cas d’usage, utilisez l’une de ces approches pour exécuter des commandes dans un sandbox :
+Le client sandbox prend en charge deux approches pour exécuter des commandes, selon que vous devez exécuter une commande unique ou une séquence de commandes liées. Selon votre cas d’usage, utilisez l’une de ces approches pour exécuter des commandes dans un sandbox :
 
 * [Commande unique](#run-a-single-command) : transmettez la commande à `Sandbox.run()` et appelez `Sandbox.wait_until_complete()` pour attendre la fin de l’exécution. Idéal pour les traitements par lot, les tests ou les entraînements.
 * [Commandes multiples](#run-multiple-commands-sequentially) : appelez `Sandbox.run()` sans argument, puis utilisez `Sandbox.exec()` pour chaque étape. Idéal pour les flux de travail qui combinent la configuration, l’exécution et la récupération des résultats.
@@ -57,7 +58,7 @@ with Sandbox.run() as sandbox:
     print(result.stdout)
 ```
 
-`Sandbox.exec()` exécute une commande dans le sandbox et renvoie un objet `Process`. Vous pouvez utiliser l’objet renvoyé pour attendre la fin de l’exécution, lire la sortie et vérifier le code de sortie.
+`Sandbox.exec()` exécute une commande dans le sandbox et renvoie un objet `Process`. Utilisez l’objet renvoyé pour attendre la fin de l’exécution, lire la sortie et vérifier le code de sortie.
 
 Pour plus d’informations sur `Sandbox.exec()` et ses paramètres, voir [`Sandbox.exec()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#exec) dans la documentation de référence de CoreWeave Sandboxes.
 
@@ -65,7 +66,7 @@ Pour plus d’informations sur `Sandbox.exec()` et ses paramètres, voir [`Sandb
   #### Maintenir le sandbox actif pour des commandes supplémentaires
 </div>
 
-Dans certains cas, vous souhaiterez peut-être démarrer le sandbox avec un processus principal de longue durée afin de le maintenir disponible pendant que vous exécutez d’autres commandes avec `Sandbox.exec()`.
+Parfois, vous souhaiterez peut-être démarrer le sandbox avec un processus principal de longue durée afin de le maintenir disponible pendant l’exécution d’autres commandes avec `Sandbox.exec()`.
 
 L’exemple suivant démarre un sandbox avec `sleep infinity` comme processus principal, puis exécute un script d’entraînement dans le sandbox avec `Sandbox.exec()`.
 
@@ -81,11 +82,13 @@ with Sandbox.run("sleep", "infinity") as sandbox:
   ## Lire la sortie et les codes de sortie
 </div>
 
-`Sandbox.exec()` renvoie un objet [`Process`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/types/process). Appelez `Process.result()` pour attendre la fin de la commande et obtenir son résultat. `Process.result()` inclut la sortie standard (`stdout`), la sortie d&#39;erreur standard (`stderr`) et le code de sortie (`returncode`).
+Après avoir exécuté une commande, vous pouvez lire sa sortie et vérifier si elle a réussi. `Sandbox.exec()` renvoie un objet [`Process`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/types/process). Pour attendre la fin de la commande, appelez `Process.result()`.
+
+Le résultat inclut la sortie standard (`stdout`), la sortie d&#39;erreur standard (`stderr`) et le code de sortie (`returncode`).
 
 Utilisez le code de sortie pour déterminer si la commande a réussi. Par convention, un code de sortie de 0 indique un succès. Les codes de sortie possibles et leur signification dépendent de la commande.
 
-Par exemple, l&#39;extrait de code suivant exécute une commande Python qui affiche la sortie standard (`stdout`) et le code de sortie (`returncode`). Une fois la commande terminée, il affiche la sortie standard, la sortie d&#39;erreur standard et le code de sortie dans la console.
+Par exemple, l&#39;extrait de code suivant exécute une commande Python qui affiche la sortie standard (`stdout`) et le code de sortie (`returncode`). Une fois la commande terminée, l&#39;extrait affiche la sortie standard, la sortie d&#39;erreur standard et le code de sortie dans la console.
 
 ```python
 from wandb.sandbox import Sandbox
@@ -100,7 +103,7 @@ with Sandbox.run() as sandbox:
   ## Vérifiez les erreurs d’exécution du sandbox
 </div>
 
-Spécifiez `check=True` (`Sandbox.exec(check=True)`) pour lever une erreur si la commande se termine avec un code de sortie non nul. Une [`SandboxExecutionError`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/exceptions/exceptions#sandboxexecutionerror) est levée si la commande se termine avec un code de sortie non nul. Cet exemple exécute le script `might_fail.py` et vérifie le résultat.
+Utilisez `check=True` pour lever une exception lorsqu’une commande échoue, plutôt que d’inspecter manuellement les codes de sortie. Si la commande se termine avec un code de sortie non nul, `Sandbox.exec(check=True)` lève une [SandboxExecutionError](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/exceptions/exceptions#sandboxexecutionerror).
 
 ```python
 from wandb.sandbox import Sandbox, SandboxExecutionError

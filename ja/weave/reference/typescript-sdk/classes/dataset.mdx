@@ -9,7 +9,8 @@ description: "TypeScript SDK リファレンス"
 
 `例`
 
-```ts
+```ts twoslash
+// @noErrors
 // データセットを作成する
 const dataset = new Dataset({
   id: 'grammar-dataset',
@@ -20,13 +21,12 @@ const dataset = new Dataset({
   ]
 })
 
-// 特定の例にアクセスする
+// 特定のサンプルにアクセスする
 const exampleLabel = dataset.getRow(2).sentence;
 
 // データセットを保存する
 const ref = await dataset.save()
 ```
-
 
 ## 型パラメーター
 
@@ -116,7 +116,7 @@ const ref = await dataset.save()
   #### 定義元
 </div>
 
-[dataset.ts:51](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/dataset.ts#L51)
+[src/dataset.ts:55](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/dataset.ts#L55)
 
 ## プロパティ
 
@@ -136,7 +136,7 @@ const ref = await dataset.save()
   #### 定義元
 </div>
 
-[weaveObject.ts:73](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L73)
+[src/weaveObject.ts:71](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveObject.ts#L71)
 
 ***
 
@@ -150,7 +150,7 @@ const ref = await dataset.save()
   #### 定義元
 </div>
 
-[dataset.ts:49](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/dataset.ts#L49)
+[src/dataset.ts:53](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/dataset.ts#L53)
 
 ## アクセサ
 
@@ -176,7 +176,7 @@ WeaveObject.description
   #### 定義元
 </div>
 
-[weaveObject.ts:100](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L100)
+[src/weaveObject.ts:98](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveObject.ts#L98)
 
 ***
 
@@ -196,7 +196,7 @@ WeaveObject.description
   #### 定義元
 </div>
 
-[dataset.ts:64](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/dataset.ts#L64)
+[src/dataset.ts:68](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/dataset.ts#L68)
 
 ***
 
@@ -222,7 +222,7 @@ WeaveObject.name
   #### 定義元
 </div>
 
-[weaveObject.ts:96](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L96)
+[src/weaveObject.ts:94](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveObject.ts#L94)
 
 ## Methods
 
@@ -230,19 +230,19 @@ WeaveObject.name
   ### [asyncIterator]
 </div>
 
-▸ **[asyncIterator]**(): `AsyncIterator`&lt;`any`, `any`, `undefined`&gt;
+▸ **[asyncIterator]**(): `AsyncIterator`&lt;`any`, `any`, `any`&gt;
 
 <div id="returns">
   #### 戻り値
 </div>
 
-`AsyncIterator`&lt;`any`, `any`, `undefined`&gt;
+`AsyncIterator`&lt;`any`, `any`, `any`&gt;
 
 <div id="defined-in">
   #### 定義元
 </div>
 
-[dataset.ts:68](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/dataset.ts#L68)
+[src/dataset.ts:72](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/dataset.ts#L72)
 
 ***
 
@@ -270,7 +270,7 @@ WeaveObject.name
   #### 定義元
 </div>
 
-[dataset.ts:74](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/dataset.ts#L74)
+[src/dataset.ts:78](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/dataset.ts#L78)
 
 ***
 
@@ -290,7 +290,7 @@ WeaveObject.name
   #### 定義元
 </div>
 
-[dataset.ts:60](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/dataset.ts#L60)
+[src/dataset.ts:64](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/dataset.ts#L64)
 
 ***
 
@@ -316,4 +316,4 @@ WeaveObject.name
   #### 定義元
 </div>
 
-[weaveObject.ts:77](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L77)
+[src/weaveObject.ts:75](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveObject.ts#L75)

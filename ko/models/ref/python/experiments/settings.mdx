@@ -35,13 +35,13 @@ __init__(
     allow_media_symlink: 'bool' = False,
     allow_offline_artifacts: 'bool' = True,
     allow_val_change: 'bool' = False,
-    anonymous: 'object' = <object object at 0x10482d250>,
+    anonymous: 'object' = <object object at 0x109b16dd0>,
     api_key: 'str | None' = None,
     azure_account_url_to_access_key: 'dict[str, str] | None' = None,
     app_url_override: 'str | None' = None,
     base_url: 'str' = 'https://api.wandb.ai',
     code_dir: 'str | None' = None,
-    config_paths: 'Sequence | None' = None,
+    config_paths: 'collections.abc.Sequence[str] | None' = None,
     console: 'Literal['auto', 'off', 'wrap', 'redirect', 'wrap_raw', 'wrap_emu']' = 'auto',
     console_multipart: 'bool' = False,
     console_chunk_max_bytes: 'int' = 0,
@@ -57,7 +57,7 @@ __init__(
     entity: 'str | None' = None,
     organization: 'str | None' = None,
     force: 'bool' = False,
-    fork_from: 'RunMoment | None' = None,
+    fork_from: 'wandb.sdk.lib.run_moment.RunMoment | None' = None,
     git_commit: 'str | None' = None,
     git_remote: 'str' = 'origin',
     git_remote_url: 'str | None' = None,
@@ -88,7 +88,7 @@ __init__(
     reinit: 'Literal['default', 'return_previous', 'finish_previous', 'create_new'] | bool' = 'default',
     relogin: 'bool' = False,
     resume: 'Literal['allow', 'must', 'never', 'auto'] | None' = None,
-    resume_from: 'RunMoment | None' = None,
+    resume_from: 'wandb.sdk.lib.run_moment.RunMoment | None' = None,
     resumed: 'bool' = False,
     root_dir: 'str' = None,
     run_group: 'str | None' = None,
@@ -96,11 +96,11 @@ __init__(
     run_job_type: 'str | None' = None,
     run_name: 'str | None' = None,
     run_notes: 'str | None' = None,
-    run_tags: 'tuple[str, Ellipsis] | None' = None,
+    run_tags: 'tuple[str, ...] | None' = None,
     sagemaker_disable: 'bool' = False,
     save_code: 'bool | None' = None,
     settings_system: 'str | None' = None,
-    stop_fn: 'Callable | None' = None,
+    stop_fn: 'collections.abc.Callable[[], None] | None' = None,
     max_end_of_run_history_metrics: 'int' = 10,
     max_end_of_run_summary_metrics: 'int' = 10,
     show_colors: 'bool | None' = None,
@@ -165,19 +165,19 @@ __init__(
     x_service_wait: 'float' = 30.0,
     x_skip_transaction_log: 'bool' = False,
     x_start_time: 'float | None' = None,
-    x_stats_pid: 'int' = 92619,
+    x_stats_pid: 'int' = 28097,
     x_stats_sampling_interval: 'float' = 15.0,
     x_stats_neuron_monitor_config_path: 'str | None' = None,
     x_stats_dcgm_exporter: 'str | None' = None,
     x_stats_open_metrics_endpoints: 'dict[str, str] | None' = None,
-    x_stats_open_metrics_filters: 'dict[str, dict[str, str]] | Sequence | None' = None,
+    x_stats_open_metrics_filters: 'dict[str, dict[str, str]] | collections.abc.Sequence[str] | None' = None,
     x_stats_open_metrics_http_headers: 'dict[str, str] | None' = None,
-    x_stats_disk_paths: 'Sequence | None' = ('/',),
+    x_stats_disk_paths: 'collections.abc.Sequence[str] | None' = ('/',),
     x_stats_cpu_count: 'int | None' = None,
     x_stats_cpu_logical_count: 'int | None' = None,
     x_stats_gpu_count: 'int | None' = None,
     x_stats_gpu_type: 'str | None' = None,
-    x_stats_gpu_device_ids: 'Sequence | None' = None,
+    x_stats_gpu_device_ids: 'collections.abc.Sequence[int] | None' = None,
     x_stats_buffer_size: 'int' = 0,
     x_stats_coreweave_metadata_base_url: 'str' = 'http://169.254.169.254',
     x_stats_coreweave_metadata_endpoint: 'str' = '/api/v2/cloud-init/meta-data',
@@ -205,20 +205,20 @@ __init__(
 
 * `anonymous` (객체): 사용 중단되었으며 곧 제거될 예정입니다.
 
-* `api_key` (Optional[str]): W&amp;B API 키입니다.
+* `api_key` (str | None): W&amp;B API 키입니다.
 
-* `azure_account_url_to_access_key` (Optional[Dict[str, str]]): Azure 인테그레이션을 위해 Azure 계정 URL을 해당 액세스 키에 매핑한 딕셔너리입니다.
+* `azure_account_url_to_access_key` (dict[str, str] | None): Azure 인테그레이션을 위한 Azure 계정 URL과 해당 액세스 키의 매핑입니다.
 
-* `app_url_override` (Optional[str]): W&amp;B UI의 &#39;app&#39; URL을 재정의하는 값입니다.
+* `app_url_override` (str | None): W&amp;B UI의 &#39;app&#39; URL을 재정의하는 값입니다.
   The `app_url` is normally computed based on `base_url`, but this can be
   used to set it explicitly.
   WANDB&#95;APP&#95;URL is the corresponding environment variable.
 
 * `base_url` (str): 데이터 동기화에 사용되는 W&amp;B 백엔드 URL입니다.
 
-* `code_dir` (Optional[str]): W&amp;B가 추적할 코드가 포함된 디렉터리입니다.
+* `code_dir` (str | None): W&amp;B가 추적할 코드가 포함된 디렉터리입니다.
 
-* `config_paths` (Optional[Sequence]): `Config` 객체에 설정을 로드할 파일 경로.
+* `config_paths` (collections.abc.Sequence[str] | None): `Config` 객체에 설정을 로드할 파일 경로.
 
 * `console` (Literal[&#39;auto&#39;, &#39;off&#39;, &#39;wrap&#39;, &#39;redirect&#39;, &#39;wrap&#95;raw&#39;, &#39;wrap&#95;emu&#39;]): 적용할 콘솔 캡처 유형입니다.
   가능한 값은 다음과 같습니다:
@@ -233,15 +233,16 @@ __init__(
     `wrap` 설정에서 파생되므로 수동으로 설정해서는 안 됩니다.
 
 * `console_multipart` (bool): 멀티파트 콘솔 로깅을 활성화합니다.
-  When True, the SDK writes console output to timestamped files
-  under the `logs/` directory instead of a single `output.log`.
-  Each part is uploaded as soon as it is closed, giving users live
-  access to logs while the run is active. Rollover cadence is
-  controlled by `console_chunk_max_bytes` and/or `console_chunk_max_seconds`.
-  If both limits are `0`, all logs are uploaded once at run finish.
-  Note: Uploaded chunks are immutable; terminal control sequences
-  that modify previous lines (e.g., progress bars using carriage returns)
-  only affect the current chunk.
+  When True, SDK는 콘솔 출력을 단일 `output.log` 대신
+  `logs/` 디렉터리 아래의 타임스탬프가 포함된 파일에 기록합니다.
+  각 파트는 닫히는 즉시 업로드되므로 run이 활성 상태인 동안
+  Users가 로그에 실시간으로 액세스할 수 있습니다. 롤오버 주기는
+  `console_chunk_max_bytes` 및/또는 `console_chunk_max_seconds`로
+  제어됩니다.
+  두 limits가 모두 `0`이면 모든 logs는 run 종료 시 한 번에 업로드됩니다.
+  참고: 업로드된 chunk는 immutable이므로, 이전 줄을 수정하는
+  터미널 제어 시퀀스(예: 캐리지 리턴을 사용하는 진행률 표시줄)는
+  현재 chunk에만 영향을 줍니다.
 
 * `console_chunk_max_bytes` (int): 멀티파트 콘솔 로그의 크기 기준 롤오버 임계값(바이트)입니다.
   현재 파트가 이 크기에 도달하면 새 콘솔 로그 파일을
@@ -259,9 +260,9 @@ __init__(
   도달한 제한값에 따라 해당 파트가 닫힙니다. 값이 `0`이면 시간 기반
   제한이 비활성화됩니다.
 
-* `capture_loggers` (Optional[Dict[str, str]]): run의 Logs 탭에 캡처할 Python 로거 이름입니다.
+* `capture_loggers` (dict[str, str] | None): run의 Logs 탭에 캡처할 Python 로거 이름입니다.
   로거 이름을 최소 로그 수준에 매핑한 값입니다. 이 값을 설정하면 wandb는
-  이름이 지정된 각 로거에 `logging.Handler`를 설치하고 run이 종료되면 이를 제거합니다.
+  logging.Handler를 이름이 지정된 각 로거에 설치하고 run이 종료되면 이를 제거합니다.
   이들 로거에서 발생한 로그 레코드는
   stdout/stderr 캡처와 비슷하게 run의 콘솔 출력으로 게시됩니다.
   로그 레코드는 `logging.basicConfig()`와 동일한 형식으로 포맷되며, 예를 들면
@@ -297,35 +298,35 @@ __init__(
 
 * `disable_job_creation` (bool): W&amp;B Launch용 작업 아티팩트 생성을 비활성화할지 여부입니다.
 
-* `docker` (Optional[str]): 스크립트 실행에 사용되는 도커 이미지입니다.
+* `docker` (str | None): 스크립트를 실행하는 데 사용되는 도커 이미지입니다.
 
-* `email` (Optional[str]): 사용자의 이메일 주소입니다.
+* `email` (str | None): 사용자의 이메일 주소입니다.
 
-* `entity` (Optional[str]): 사용자 또는 팀과 같은 W&amp;B entity(예: 사용자 또는 팀)입니다.
+* `entity` (str | None): 사용자 또는 팀과 같은 W&amp;B entity(예: 사용자 또는 팀)입니다.
 
-* `organization` (Optional[str]): W&amp;B 조직입니다.
+* `organization` (str | None): W&amp;B 조직입니다.
 
 * `force` (bool): `wandb.login()`에 `force` 플래그를 전달할지 여부입니다.
 
-* `fork_from` (Optional[RunMoment]): 이전 run 실행의 한 시점에서 포크할 지점을 지정합니다.
+* `fork_from` (wandb.sdk.lib.run&#95;moment.RunMoment | None): 이전 run 실행의 한 시점에서 포크할 지점을 지정합니다.
   이 지점은 run ID, 메트릭, 그리고 해당 값으로 정의됩니다.
   현재는 메트릭 &#39;&#95;step&#39;만 지원됩니다.
 
-* `git_commit` (Optional[str]): run과 연결할 git 커밋 해시입니다.
+* `git_commit` (str | None): run과 연결할 git 커밋 해시입니다.
 
 * `git_remote` (str): run에 연결할 git 리모트입니다.
 
-* `git_remote_url` (Optional[str]): Git 원격 저장소의 URL입니다.
+* `git_remote_url` (str | None): Git 원격 저장소의 URL입니다.
 
-* `git_root` (Optional[str]): git 저장소의 루트 디렉터리입니다.
+* `git_root` (str | None): git 저장소의 루트 디렉터리입니다.
 
-* `host` (Optional[str]): 스크립트를 실행 중인 머신의 호스트 이름.
+* `host` (str | None): 스크립트를 실행 중인 머신의 호스트 이름.
 
-* `http_proxy` (선택[str]): W&amp;B에 대한 http 요청에 사용할 맞춤형 프록시 서버입니다.
+* `http_proxy` (str | None): W&amp;B로 보내는 http 요청에 사용할 맞춤형 프록시 서버입니다.
 
-* `https_proxy` (Optional[str]): W&amp;B로 보내는 https 요청에 사용할 맞춤형 프록시 서버입니다.
+* `https_proxy` (str | None): W&amp;B에 대한 https 요청에 사용할 맞춤형 프록시 서버입니다.
 
-* `identity_token_file` (Optional[str]): 인증에 사용할 ID 토큰(JWT)이 들어 있는 파일 경로입니다.
+* `identity_token_file` (str | None): 인증에 사용할 ID 토큰(JWT)이 들어 있는 파일의 경로입니다.
 
 * `ignore_globs` (Sequence): 업로드에서 제외할 파일을 지정하는 `files_dir` 기준의 Unix glob 패턴입니다.
 
@@ -359,30 +360,30 @@ __init__(
 
 * `insecure_disable_ssl` (bool): SSL 검증을 안전하지 않게 비활성화할지 여부입니다.
 
-* `job_name` (Optional[str]): 스크립트를 실행하는 Launch 작업의 이름.
+* `job_name` (str | None): 스크립트를 실행하는 Launch 작업의 이름.
 
 * `job_source` (Optional[Literal[&#39;repo&#39;, &#39;artifact&#39;, &#39;image&#39;]]): Launch의 소스 유형입니다.
 
 * `label_disable` (bool): 자동 라벨 지정 특성을 비활성화할지 여부를 지정합니다.
 
-* `launch_config_path` (Optional[str]): Launch 설정 파일 경로입니다.
+* `launch_config_path` (str | None): Launch 설정 파일 경로입니다.
 
-* `login_timeout` (Optional[float]): 로그인 오퍼레이션이 시간 초과되기 전까지 대기할 시간(초)입니다.
+* `login_timeout` (float | None): 시간 초과되기 전에 로그인 작업이 완료될 때까지 기다리는 시간(초)입니다.
 
 * `mode` (Literal[&#39;online&#39;, &#39;offline&#39;, &#39;shared&#39;, &#39;disabled&#39;, &#39;dryrun&#39;, &#39;run&#39;]): W&amp;B 로깅 및 동기화에 사용되는 작동 모드입니다。
 
-* `notebook_name` (Optional[str]): Jupyter와 같은 환경에서 실행하는 경우 노트북 이름입니다.
+* `notebook_name` (str | None): Jupyter와 유사한 환경에서 실행 중인 경우의 노트북 이름입니다.
 
-* `program` (Optional[str]): 알 수 있는 경우 run을 생성한 스크립트의 경로입니다.
+* `program` (str | None): 사용 가능한 경우 run을 생성한 스크립트의 경로입니다.
 
-* `program_abspath` (선택[str]): 루트 저장소 디렉터리에서 run을
+* `program_abspath` (str | None): 루트 저장소 디렉터리에서 run을
   생성한 스크립트까지의 절대 경로입니다.
   루트 저장소 디렉터리는 .git 디렉터리가 있으면 해당 디렉터리를 포함하는
   디렉터리로 정의됩니다. 그렇지 않으면 현재 작업 디렉터리입니다.
 
-* `program_relpath` (Optional[str]): `run`을 생성한 스크립트의 상대 경로입니다。
+* `program_relpath` (str | None): `run`을 생성한 스크립트의 상대 경로입니다。
 
-* `project` (Optional[str]): W&amp;B 프로젝트 ID입니다.
+* `project` (str | None): W&amp;B 프로젝트 ID입니다.
 
 * `quiet` (bool): 필수가 아닌 출력을 숨기는 플래그입니다.
 
@@ -414,33 +415,33 @@ __init__(
   * &quot;auto&quot;: 동일한 머신에서 가장 최근에 실패한 run을 자동으로
     재개합니다.
 
-* `resume_from` (Optional[RunMoment]): 이전 run 실행의 특정 시점부터 재개할지 지정합니다.
-  이 시점은 run ID, metric, 그리고 해당 값으로 정의됩니다.
+* `resume_from` (wandb.sdk.lib.run&#95;moment.RunMoment | None): 이전 run 실행의 특정 시점부터 재개할 지점을 지정합니다.
+  이 지점은 run ID, metric, 그리고 해당 값으로 정의됩니다.
   현재는 metric &#39;&#95;step&#39;만 지원됩니다.
 
 * `root_dir` (str): 모든 run 관련 경로의 기준이 되는 루트 디렉터리입니다.
   특히 wandb 디렉터리와 run 디렉터리의 경로를 결정하는 데 사용됩니다.
 
-* `run_group` (Optional[str]): 연관된 Runs의 그룹 식별자입니다.
+* `run_group` (str | None): 연관된 Runs의 그룹 식별자입니다.
   UI에서 Runs를 그룹화하는 데 사용됩니다.
 
-* `run_id` (Optional[str]): run ID입니다.
+* `run_id` (str | None): run ID입니다.
 
-* `run_job_type` (Optional[str]): 실행 중인 작업의 유형(예: 트레이닝, 평가)입니다.
+* `run_job_type` (str | None): 실행 중인 작업의 유형(예: 트레이닝, 평가)입니다.
 
-* `run_name` (Optional[str]): run을 사람이 읽을 수 있는 이름입니다.
+* `run_name` (str | None): run을 사람이 읽을 수 있는 이름입니다.
 
-* `run_notes` (Optional[str]): run에 대한 추가 메모나 설명입니다.
+* `run_notes` (str | None): run에 대한 추가 메모나 설명입니다.
 
-* `run_tags` (Optional[Tuple[str, Ellipsis]]): 조직 및 필터링을 위해 run에 연결할 Tags입니다.
+* `run_tags` (tuple[str, ...] | None): 조직 및 필터링을 위해 run에 연결할 Tags입니다.
 
 * `sagemaker_disable` (bool): SageMaker 관련 기능을 비활성화하는 플래그입니다.
 
-* `save_code` (Optional[bool]): run에 연결된 코드를 저장할지 여부입니다.
+* `save_code` (bool | None): run에 연결된 코드를 저장할지 여부입니다.
 
-* `settings_system` (Optional[str]): 시스템 전체에서 사용하는 설정 파일의 경로입니다.
+* `settings_system` (str | None): 시스템 전체에서 사용하는 설정 파일의 경로입니다.
 
-* `stop_fn` (Optional[Callable]): run을 중지할 때 실행할 콜백입니다.
+* `stop_fn` (collections.abc.Callable[[], None] | None): run을 중지할 때 실행할 콜백입니다.
   run은 웹 UI를 통해 중지할 수 있으며, 치명적 오류가 발생한 후에도
   (설정에서 그렇게 구성한 경우) 중지될 수 있습니다.
   기본적으로 run을 중지하기 위해 W&amp;B는 메인 스레드에 SIGINT를 보냅니다.
@@ -470,33 +471,33 @@ __init__(
   이 경우 이 값을 True로 설정하면 치명적 오류가 발생한 후
   웹 UI에서 중지 버튼을 누른 것처럼 run이 중지됩니다.
 
-* `strict` (Optional[bool]): 검증 및 오류 검사를 위해 strict 모드를 사용할지 여부입니다.
+* `strict` (bool | None): 검증 및 오류 검사를 위해 strict 모드를 사용할지 여부입니다.
 
 * `summary_timeout` (int): 시간 초과 전에 summary 오퍼레이션을 기다릴 최대 시간(초)입니다.
 
-* `sweep_id` (Optional[str]): 이 run이 속해 있는 스윕의 식별자입니다.
+* `sweep_id` (str | None): 이 run이 속해 있는 스윕의 식별자입니다.
 
-* `sweep_param_path` (Optional[str]): 스윕 파라미터 설정 경로입니다.
+* `sweep_param_path` (str | None): 스윕 파라미터 설정 경로입니다.
 
 * `symlink` (bool): 심볼릭 링크를 사용할지 여부입니다(Windows를 제외하면 기본값은 True입니다).
 
-* `sync_tensorboard` (Optional[bool]): TensorBoard 로그를 W&amp;B와 동기화할지 여부입니다.
+* `sync_tensorboard` (bool | None): TensorBoard 로그를 W&amp;B와 동기화할지 여부입니다.
 
 * `table_raise_on_max_row_limit_exceeded` (bool): 테이블 행 수 제한을 초과했을 때 예외를 발생시킬지 여부입니다.
 
-* `use_dot_wandb` (선택[bool]): run 데이터에 숨겨진 `.wandb` 디렉터리를 사용할지, 보이는 `wandb` 디렉터리를 사용할지 여부입니다.
+* `use_dot_wandb` (bool | None): run 데이터에 숨겨진 `.wandb` 디렉터리를 사용할지, 보이는 `wandb` 디렉터리를 사용할지 여부입니다.
   True이면 SDK는 `.wandb`를 사용합니다. False이면 `wandb`를 사용합니다.
   설정하지 않으면 이미 존재하는 경우 `.wandb`가 기본값이며, 그렇지 않으면 `wandb`가 기본값입니다.
 
-* `username` (Optional[str]): 사용자 이름.
+* `username` (str | None): 사용자 이름.
 
 * `x_disable_meta` (bool): 시스템 메타데이터 수집을 비활성화하는 플래그입니다.
 
 * `x_disable_stats` (bool): 시스템 메트릭 컬렉션을 사용 중지하는 플래그입니다.
 
-* `x_extra_http_headers` (Optional[Dict[str, str]]): 모든 발신 HTTP 요청에 추가할 헤더입니다.
+* `x_extra_http_headers` (dict[str, str] | None): 모든 발신 HTTP 요청에 추가할 헤더입니다.
 
-* `x_label` (Optional[str]): run에 대해 수집된 시스템 메트릭과 콘솔 로그에 부여할 레이블입니다.
+* `x_label` (str | None): run에 대해 수집된 시스템 메트릭과 콘솔 로그에 부여할 레이블입니다.
   프런트엔드에서 이 레이블을 기준으로 데이터를 그룹화하는 데 사용되며,
   분산 트레이닝 작업의 서로 다른 프로세스에서 수집된 데이터를 구분하는 데도 사용할 수 있습니다.
 
@@ -520,7 +521,7 @@ __init__(
 
 * `x_stats_sampling_interval` (float): 시스템 모니터의 샘플링 간격(초)입니다.
 
-* `x_stats_dcgm_exporter` (Optional[str]): NVIDIA DCGM 메트릭을 추출할 엔드포인트입니다.
+* `x_stats_dcgm_exporter` (str | None): NVIDIA DCGM 메트릭을 추출할 엔드포인트입니다.
   옵션:
   * Prometheus `/api/v1/query` 엔드포인트에 대한 쿼리에서 DCGM 관련 메트릭을 추출합니다.
     Prometheus를 사용해 클러스터의 여러 노드에서 실행 중인 DCGM Exporter 인스턴스가 보고한 메트릭을 집계하는 것은 일반적인 방식입니다.
@@ -528,30 +529,30 @@ __init__(
     예시:
   * `http://localhost:9400/api/v1/query?query=DCGM_FI_DEV_GPU_TEMP{node="l1337", cluster="globular"}`.
 
-* `x_stats_open_metrics_endpoints` (Optional[Dict[str, str]]): 시스템 메트릭 모니터링을 위한 OpenMetrics `/metrics` 엔드포인트입니다。
+* `x_stats_open_metrics_endpoints` (dict[str, str] | None): 시스템 메트릭 모니터링을 위한 OpenMetrics `/metrics` 엔드포인트입니다。
 
-* `x_stats_open_metrics_filters` (Union[Dict[str, Dict[str, str]], Sequence, None]): OpenMetrics `/metrics` 엔드포인트에서 수집되는 메트릭에 적용할 필터입니다.
+* `x_stats_open_metrics_filters` (dict[str, dict[str, str]] | collections.abc.Sequence[str] | None): OpenMetrics `/metrics` 엔드포인트에서 수집되는 메트릭에 적용할 필터입니다.
   두 가지 형식을 지원합니다:
   * `{"엔드포인트 이름을 접두사로 포함한 metric 정규식 패턴": {"label": "label 값 정규식 패턴"}}`
   * `("metric 정규식 패턴 1", "metric 정규식 패턴 2", ...)`
 
-* `x_stats_open_metrics_http_headers` (Optional[Dict[str, str]]): OpenMetrics 요청에 추가할 HTTP 헤더입니다.
+* `x_stats_open_metrics_http_headers` (dict[str, str] | None): OpenMetrics 요청에 추가할 HTTP 헤더입니다.
 
-* `x_stats_disk_paths` (Optional[Sequence]): 디스크 사용량을 모니터링하는 시스템 경로입니다。
+* `x_stats_disk_paths` (collections.abc.Sequence[str] | None): 디스크 사용량을 모니터링할 시스템 경로입니다.
 
-* `x_stats_cpu_count` (Optional[int]): 시스템 CPU 수입니다.
+* `x_stats_cpu_count` (int | None): 시스템 CPU 수입니다.
   설정하면 run 메타데이터의 자동 감지 값을 재정의합니다.
 
-* `x_stats_cpu_logical_count` (Optional[int]): 논리 CPU 수입니다.
-  If set, overrides the auto-detected value in the run metadata.
-
-* `x_stats_gpu_count` (Optional[int]): GPU 장치 개수입니다.
-  If set, overrides the auto-detected value in the run metadata.
-
-* `x_stats_gpu_type` (Optional[str]): GPU 장치 유형입니다.
+* `x_stats_cpu_logical_count` (int | None): 논리 CPU 수입니다.
   설정하면 run 메타데이터의 자동 감지 값을 재정의합니다.
 
-* `x_stats_gpu_device_ids` (Optional[Sequence]): 모니터링할 GPU 디바이스 인덱스입니다.
+* `x_stats_gpu_count` (int | None): GPU 장치 수입니다.
+  설정하면 run 메타데이터에서 자동 감지된 값을 재정의합니다.
+
+* `x_stats_gpu_type` (str | None): GPU 장치 유형입니다.
+  설정하면 run 메타데이터의 자동 감지 값을 재정의합니다.
+
+* `x_stats_gpu_device_ids` (collections.abc.Sequence[int] | None): 모니터링할 GPU 디바이스 인덱스입니다.
   설정하지 않으면 시스템 모니터가 모든 GPU의 메트릭을 캡처합니다.
   CUDA/ROCm 디바이스 열거와 일치하는 0 기반 인덱싱을 가정합니다.
 
@@ -589,7 +590,7 @@ Colab에서 실행 중인 경우 Colab 노트북의 URL입니다.
 
 **반환값:**
 
-* `Optional[str]`: colab&#95;url 속성 값입니다.
+* `str | None`: colab&#95;url 속성 값입니다.
 
 ### <kbd>속성</kbd> `Settings.deployment`
 

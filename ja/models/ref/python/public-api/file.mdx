@@ -21,15 +21,15 @@ W&amp;B に保存された単一のファイルを表します。ファイルの
 * name (str): ファイル名
 * url (str): ファイルへのパス
 * direct&#95;url (str): バケット内のファイルへのパス
-* sizeBytes (int): ファイルサイズ (バイト単位) 
+* sizeBytes (int): ファイルサイズ (バイト単位)
 * md5 (str): ファイルの md5
 * mimetype (str): ファイルの MIME タイプ
 * updated&#95;at (str): 最終更新のタイムスタンプ
 * path&#95;uri (str): バケット内のファイルへのパス。現在は S3 オブジェクトと参照ファイルでのみ利用可能です
 
-**Args:**
+**引数:**
 
-* `client`:  ファイルを含む run オブジェクト
+* `service_api`:  W&amp;B のクエリに使用する service API インスタンス
 * `attrs` (dict):  ファイルを定義する属性の辞書
 * `run`:  ファイルを含む run オブジェクト 
 

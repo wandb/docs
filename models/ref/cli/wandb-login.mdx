@@ -5,7 +5,7 @@ title: wandb login
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/v0.27.1/wandb/cli/cli.py#L281" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/cli.py#L282" />
 
 
 
@@ -73,7 +73,13 @@ wandb login --host https://my-wandb-server.example.com
 wandb login --relogin
 ```
 
+## API key formats
 
+W&B issues API keys in the `wandb_v1_` format (about 92 characters). Older SDK versions expect exactly 40 characters and reject the new format with `API key must be 40 characters long`. Upgrade the SDK (`pip install -U wandb`) and run `wandb login --relogin`.
+
+Keys generated at [wandb.ai/authorize](https://wandb.ai/authorize) are shown only once at creation. Copy them immediately; you cannot retrieve them again after closing the dialog.
+
+For pinned SDK versions, legacy keys, and related errors, see [Why does my API key fail with 'must be 40 characters long'?](/support/models/articles/why-does-my-api-key-fail-with-must-be-40-characters).
 
 ## Arguments
 

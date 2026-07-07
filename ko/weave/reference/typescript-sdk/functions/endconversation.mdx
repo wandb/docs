@@ -1,0 +1,48 @@
+---
+title: "endConversation"
+description: "TypeScript SDK 레퍼런스"
+---
+
+<div id="endconversation">
+  # endConversation
+</div>
+
+▸ **endConversation**(`opts?`): `void`
+
+현재 Conversation을 종료합니다. 활성 Conversation이 없으면 아무 작업도 수행하지 않습니다.
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름      | 유형               |
+| :------ | :--------------- |
+| `opts?` | `SpanEndOptions` |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`void`
+
+`예시`
+
+```ts twoslash
+// @noErrors
+weave.endConversation();
+```
+
+`예시`
+
+```ts twoslash
+// @noErrors
+weave.endConversation({endTime: new Date('2026-05-29T10:00:01.700Z')});
+```
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[src/genai/api.ts:151](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/api.ts#L151)
+
+***

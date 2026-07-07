@@ -68,6 +68,7 @@ exclude = [
   '(http|https)://.*\.?auth0\.com',
   'https://cognito-idp.us-east-1.amazonaws.com',
   'https://archive.ics.uci.edu',
+  'https://gdpr.eu/',
 
   # Social and community sites commonly rate-limiting or banning bots
   '(http|https)://.*\.?discord\.com',

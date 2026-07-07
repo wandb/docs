@@ -1,0 +1,118 @@
+---
+title: "W&B HiveMind"
+description: "Un tableau de bord partagé pour les sessions de développement assisté par IA. Suivez l’activité, les coûts et les résultats dans Claude Code, Cursor, Codex, Gemini CLI, et bien plus encore grâce à des leaderboards, des vues par équipe et des indicateurs d’efficacité."
+tag: Aperçu
+---
+
+W&amp;B HiveMind est un tableau de bord partagé pour les sessions de développement assisté par IA. Le tableau de bord montre ce que votre équipe fait avec des agents, combien ce travail coûte et ce qu’il produit, avec des leaderboards, des vues par équipe, des indicateurs d’efficacité, et plus encore. Un démon HiveMind léger s’exécute sur la machine de chaque développeur, surveille l’activité des agents de développement et envoie les transcriptions des sessions au service HiveMind.
+
+HiveMind est conçu pour deux publics :
+
+* **Les développeurs et les praticiens de l’IA** peuvent consulter les sessions passées, effectuer des recherches dans l’historique de leur équipe et améliorer leur façon de travailler avec les agents de développement.
+* **Les responsables de l’ingénierie** peuvent suivre l’adoption du développement assisté par IA, les dépenses et les résultats à l’échelle des équipes et des dépôts.
+
+<div id="quickstart">
+  ## Démarrage rapide
+</div>
+
+<Tip>
+  HiveMind et sa documentation se trouvent sur un site dédié : [hivemind.wandb.tools](https://hivemind.wandb.tools).
+</Tip>
+
+<div id="1-install-the-hivemind-daemon">
+  ### 1. Installez le démon HiveMind
+</div>
+
+Sur la machine locale de chaque membre de l’équipe, installez le client, authentifiez-vous, puis démarrez le démon. Choisissez la méthode adaptée à votre plateforme.
+
+<Tabs>
+  <Tab title="Binaire autonome (macOS ou Linux)">
+    Téléchargez et installez HiveMind à l’aide du binaire autonome signé :
+
+    ```bash
+    curl -fsSL https://hivemind.wandb.tools/install -o hivemind-install.sh | sh
+    hivemind login
+    ```
+
+    * Sur macOS, le binaire autonome nécessite Apple Silicon. Sur un Mac Intel, utilisez plutôt `uv`.
+    * Un accès privilégié (`sudo`) n’est pas requis.
+    * Le programme d’installation enregistre un service d’arrière-plan (launchd sur macOS, systemd sur Linux) afin que le démon continue de s’exécuter et démarre à l’ouverture de session.
+    * Les mises à jour se font automatiquement, sans aucune action de votre part.
+
+    <Tip>Pour en savoir plus sur la distribution et l’installation du binaire autonome à l’aide d’outils de déploiement de flotte comme JAMF, Intune, Mosyle, Kandji ou Workspace ONE, voir [MDM](https://hivemind.wandb.tools/docs/mdm) dans la documentation HiveMind.</Tip>
+  </Tab>
+
+  <Tab title="uv (macOS ou Linux)">
+    Installez avec `uv` sur macOS ou Linux :
+
+    ```bash
+    uv tool install wandb-hivemind
+    hivemind login
+    hivemind start
+    ```
+
+    * `uv` sélectionne automatiquement le binaire adapté à votre système d’exploitation.
+    * Lorsque vous exécutez `hivemind start`, un service d’arrière-plan est enregistré (launchd sur macOS, systemd sur Linux) afin que le démon continue de s’exécuter et démarre à l’ouverture de session.
+    * Mettez à jour avec `uv tool upgrade wandb-hivemind`.
+  </Tab>
+</Tabs>
+
+Le démon HiveMind surveille l’activité des agents de développement et envoie les transcriptions de session au service HiveMind.
+
+<div id="2-access-the-hivemind-dashboard">
+  ### 2. Accédez au tableau de bord HiveMind
+</div>
+
+Une fois que le service HiveMind commence à recevoir des informations de votre équipe, accédez au [tableau de bord HiveMind](https://hivemind.wandb.tools) pour suivre, comprendre et affiner l’utilisation de l’IA par votre équipe au fil du temps.
+
+Depuis le tableau de bord HiveMind, votre équipe peut :
+
+* **Voir les sessions pour tous les agents** : Un démon capture les sessions de chaque agent pris en charge, sans configuration par agent.
+* **Suivre les coûts et l’utilisation** : Consultez le coût estimé au fil du temps, le coût par modèle et par équipe, l’utilisation des jetons et le coût par pull request fusionnée. Les chiffres de coût sont des estimations basées sur la tarification publiée des modèles et le nombre de jetons des sessions, et non sur les montants facturés par vos fournisseurs d’IA.
+* **Mesurer les résultats** : Reliez l’activité des agents aux pull requests, aux taux de fusion et à la quantité de code écrit par les agents qui est conservée.
+* **Réutiliser le travail passé** : Utilisez `@hivemind` dans Claude Code, Codex ou Cursor pour rechercher dans l’historique des sessions de votre équipe et intégrer le contexte pertinent à votre session actuelle.
+* **Tirer parti de l’historique** : Importez des sessions existantes depuis des outils locaux comme Claude Code ou Cursor afin d’obtenir de nouvelles informations à partir d’une utilisation antérieure de l’IA.
+
+Ces captures d’écran montrent des pages d’exemple du tableau de bord HiveMind : un rapport d’utilisation, un leaderboard et la vue détaillée d’une session. Cliquez sur une capture d’écran pour voir les détails.
+
+<Columns cols={2}>
+  <Frame>![Tableau de bord d’utilisation HiveMind avec des graphiques](/images/hivemind/hivemind-dashboard-pr-outcomes.png)</Frame>
+  <Frame>![Leaderboard HiveMind affichant les 15 meilleurs utilisateurs](/images/hivemind/hivemind-dashboard-leaderboard.png)</Frame>
+</Columns>
+
+<Columns cols={1}>
+  <Frame>![Détails d’une session HiveMind avec des insights](/images/hivemind/hivemind-session-insights.png)</Frame>
+</Columns>
+
+<div id="supported-agents">
+  ## Agents pris en charge
+</div>
+
+HiveMind capture les sessions de nombreux agents de développement, sans nécessiter de configuration spécifique à chaque agent. Par exemple :
+
+* Claude Code
+* Codex
+* Cursor
+* Gemini CLI
+* GitHub Copilot CLI
+* OpenCode
+* Pi
+
+Pour la liste complète, voir [hivemind.wandb.tools](https://hivemind.wandb.tools).
+
+Lorsque le démon est en cours d’exécution, votre session apparaît dans le tableau de bord environ 30 secondes après l’utilisation d’un agent pris en charge.
+
+<div id="hivemind-and-weave">
+  ## HiveMind et Weave
+</div>
+
+Si vous utilisez déjà W&amp;B Weave, il fonctionne avec HiveMind. Ils interviennent à différentes étapes et répondent à des questions différentes.
+
+* Weave observe ce que fait votre application d’IA en production et suit les traces LLM et d’agent, les évaluations et la qualité.
+* HiveMind observe comment votre équipe développe des logiciels avec des agents de codage IA et suit les sessions, les dépenses et la productivité.
+
+<div id="next-steps">
+  ## Prochaines étapes
+</div>
+
+Voir la [documentation HiveMind](https://hivemind.wandb.tools/docs/overview) pour plus de détails sur la configuration, les autorisations, la référence de la CLI, le dépannage, et bien plus encore.

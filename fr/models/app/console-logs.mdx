@@ -39,26 +39,57 @@ W&amp;B capture trois types de journaux de console et ajoute un préfixe pour in
 | Info          | `wandb:`  | Mises à jour sur la progression et le statut du run.                         | `wandb: Starting Run: abc123`                                   |
 
 <div id="console-log-settings">
-  ## Paramètres du journal de la console
+  ## Paramètres des journaux de console
 </div>
 
-Pour contrôler les types de sortie de la console que W&amp;B capture et affiche, passez un objet `wandb.Settings` à `wandb.init()` lors de l’initialisation d’une exécution. Les paramètres concernés sont `show_errors`, `show_warnings`, `show_info` et `silent`. Pour en savoir plus sur chaque paramètre et sa valeur par défaut, voir la [référence `wandb.Settings`](/fr/models/ref/python/experiments/settings).
+Pour contrôler les types de sortie de console que W&amp;B capture et affiche, passez un objet [`wandb.Settings`](/fr/models/ref/python/experiments/settings) à `wandb.init()` lorsque vous initialisez un run. Les paramètres pertinents incluent `show_errors`, `show_warnings`, `show_info` et `silent`. La [référence de Settings](/fr/models/ref/python/experiments/settings) répertorie tous les paramètres et est générée à partir du SDK. Elle reste donc à jour à mesure que de nouvelles options sont ajoutées.
 
-L’exemple suivant montre comment configurer ces paramètres :
+L’exemple ci-dessous active ou désactive l’affichage des messages informatifs, des avertissements et des erreurs de W&amp;B dans l’onglet **Logs**. Définissez `silent=True` pour supprimer toute sortie de console de W&amp;B (utile si vous voulez qu’un script d’entraînement n’affiche rien) :
 
 ```python
 import wandb
 
 settings = wandb.Settings(
-    show_errors=True,  # Afficher les messages d'erreur dans la W&B App
-    silent=False,      # Désactiver toutes les sorties console W&B
-    show_warnings=True # Afficher les messages d'avertissement dans la W&B App
+    show_errors=True,
+    silent=False,
+    show_warnings=True,
 )
 
 with wandb.init(settings=settings) as run:
-    # Votre code d'entraînement ici
     run.log({"accuracy": 0.95})
 ```
+
+Pour la capture de stdout et stderr (`console`), les téléversements multipart (`console_multipart`, `console_chunk_max_bytes`, `console_chunk_max_seconds`) et le dépannage, voir les sections ci-dessous et la référence des paramètres. L’entraînement distribué et d’autres cas limites sont traités dans [Pourquoi la sortie de la console n’est-elle pas capturée pour mon run ?](/fr/support/models/articles/why-is-console-output-not-captured-for-my-run).
+
+<div id="multipart-console-logging">
+  ### Journalisation multipart de la console
+</div>
+
+Par défaut, W&amp;B stocke les flux stdout et stderr de votre script dans un seul fichier `output.log` et le téléverse *à la fin du run*. Tant qu’un run est actif, l’onglet **Logs** affiche la sortie en streaming, mais `output.log` n’apparaît pas dans l’onglet **Files** avant la fin du run.
+
+Activez la journalisation multipart de la console si vous avez besoin d’un journal de console téléchargeable pendant qu’un run est encore actif, si un run risque de planter avant la fin, ou si vous reprenez un run et souhaitez conserver la sortie du journal de console des sessions précédentes. Définissez `console_multipart=True` (SDK v0.22.3 ou version ultérieure) pour que le SDK écrive des fragments horodatés dans `logs/` et téléverse chaque fragment à sa fermeture. Utilisez `console_chunk_max_bytes` et `console_chunk_max_seconds` pour contrôler le découpage ; voir la [référence des paramètres](/fr/models/ref/python/experiments/settings) pour les valeurs par défaut et le comportement lorsque les deux sont à `0`.
+
+<Note>
+  Les fragments téléversés sont immuables. Les séquences de contrôle du terminal qui modifient des lignes précédentes (par exemple, les barres de progression qui utilisent des retours chariot) n’affectent que le fragment en cours.
+</Note>
+
+```python
+import wandb
+
+with wandb.init(
+    project="my-project",
+    settings=wandb.Settings(
+        console_multipart=True,
+        console_chunk_max_bytes=1_000_000,  # rotation vers ~1 Mo
+        console_chunk_max_seconds=60,     # ou toutes les 60 secondes, selon la première limite atteinte
+    ),
+) as run:
+    print("Logs upload in chunks while this run is active.")
+```
+
+Vous devez définir `console_multipart` au moment de l’appel à `wandb.init`. La cadence de téléversement ne peut pas être modifiée une fois le run démarré.
+
+Pour le dépannage (capture de la console désactivée, entraînement distribué, reprise de runs et limites d’affichage), voir [Pourquoi la sortie de console n&#39;est-elle pas capturée pour mon run ?](/fr/support/models/articles/why-is-console-output-not-captured-for-my-run) et [Comment puis-je télécharger le fichier journal de console d’un run ?](/fr/support/models/articles/how-do-i-download-the-console-log-file-from-a-run).
 
 <div id="custom-logging">
   ## Journalisation personnalisée

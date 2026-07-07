@@ -1,11 +1,12 @@
 ---
 title: "Activer le mode JSON"
 description: "Configurez le mode JSON dans Serverless Inference pour obtenir une sortie JSON structurée à partir des réponses du modèle, afin de faciliter l'analyse."
+keywords: ["json_object", "response_format", "analyser la sortie du modèle", "réponse structurée"]
 ---
 
-L&#39;activation du mode JSON demande au modèle de renvoyer la réponse dans un format JSON valide. Cependant, le schéma de la réponse peut ne pas être cohérent ni respecter une structure donnée. Pour obtenir des réponses JSON structurées cohérentes, nous vous recommandons d&#39;utiliser la [sortie structurée](/fr/inference/response-settings/structured-output) lorsque c&#39;est possible.
+Le mode JSON est utile lorsque vous devez analyser par programmation les réponses du modèle sans avoir à gérer du texte libre. L&#39;activation du mode JSON demande au modèle de renvoyer la réponse dans un format JSON valide, ce qui facilite l&#39;utilisation de la sortie dans le code en aval. Cependant, le schéma de la réponse n&#39;est pas garanti comme cohérent ni conforme à une structure donnée. Pour obtenir des réponses JSON structurées cohérentes, nous vous recommandons d&#39;utiliser la [sortie structurée](/fr/inference/response-settings/structured-output) lorsque c&#39;est possible.
 
-Pour activer le mode JSON, indiquez-le comme valeur de &quot;response&#95;format&quot; dans la requête :
+Pour activer le mode JSON, indiquez-le comme valeur de `response_format` dans la requête :
 
 <Tabs>
   <Tab title="Python">
@@ -15,7 +16,7 @@ Pour activer le mode JSON, indiquez-le comme valeur de &quot;response&#95;format
 
     client = openai.OpenAI(
         base_url='https://api.inference.wandb.ai/v1',
-        api_key="<your-api-key>",  # Créez une clé API sur https://wandb.ai/settings
+        api_key="[YOUR-API-KEY]",  # Créez une clé API sur https://wandb.ai/settings
     )
 
     response = client.chat.completions.create(
@@ -37,7 +38,7 @@ Pour activer le mode JSON, indiquez-le comme valeur de &quot;response&#95;format
     ```bash
     curl https://api.inference.wandb.ai/v1/chat/completions \
       -H "Content-Type: application/json" \
-      -H "Authorization: Bearer <your-api-key>" \
+      -H "Authorization: Bearer [YOUR-API-KEY]" \
       -d '{
         "model": "openai/gpt-oss-20b",
         "messages": [

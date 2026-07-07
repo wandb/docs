@@ -121,7 +121,7 @@ Les jeux de données s’affichent dans W&amp;B Tables, ce qui vous permet de le
   ## Le modèle affiné et la gestion des versions des modèles
 </div>
 
-OpenAI vous fournit un ID du modèle affiné. Comme nous n&#39;avons pas accès aux poids du modèle, `WandbLogger` crée un fichier `model_metadata.json` contenant tous les détails du modèle (hyperparamètres, ID des fichiers de données, etc.), ainsi que l&#39;ID `fine&#95;tuned&#95;model``, puis l&#39;enregistre en tant qu&#39;Artifact W&amp;B.
+OpenAI vous fournit un ID du modèle affiné. Comme nous n&#39;avons pas accès aux poids du modèle, `WandbLogger` crée un fichier `model_metadata.json` contenant tous les détails du modèle (hyperparamètres, ID des fichiers de données, etc.), ainsi que l&#39;ID &#96;fine&#95;tuned&#95;model&#96;&#96;, puis l&#39;enregistre en tant qu&#39;Artifact W&amp;B.
 
 Cet Artifact de modèle (métadonnées) peut ensuite être lié à un modèle dans le [W&amp;B Registry](/fr/models/registry/).
 

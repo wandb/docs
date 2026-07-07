@@ -1,23 +1,24 @@
 ---
 title: "Créer des objets prompt"
 description: "Créez, publiez et utilisez des objets prompt pour les applications LLM"
+keywords: ["StringPrompt", "MessagesPrompt", "modèles de prompt", "prompts paramétrés", "weave.publish"]
 ---
 
 Créer, évaluer et affiner des prompts est une activité essentielle pour les ingénieurs IA.
 De petites modifications d’un prompt peuvent avoir des effets importants sur le comportement de votre application.
 W&amp;B Weave vous permet de créer des prompts, de les publier et de les faire évoluer au fil du temps.
 
-Cette page explique comment créer des objets prompt et les publier. Pour savoir comment référencer, récupérer et gérer les versions des prompts publiés, voir [Stocker et suivre les versions des prompts](/fr/weave/guides/core-types/prompts-version.mdx).
+Cette page s’adresse aux ingénieurs IA qui souhaitent créer des objets prompt réutilisables dans Weave et les publier afin que le code de l’application puisse y faire référence. En suivant ce guide, vous apprendrez à créer des prompts sous forme de chaîne unique et sur plusieurs tours de conversation, à les paramétrer avec des valeurs d’exécution et à les publier dans votre projet Weave. Pour savoir comment référencer, récupérer et gérer les versions des prompts publiés, voir [Stocker et suivre les versions des prompts](/fr/weave/guides/core-types/prompts-version.mdx).
 
 Si vos besoins en prompts sont simples, vous pouvez utiliser les classes intégrées `weave.StringPrompt` ou `weave.MessagesPrompt`. Si vos besoins sont plus complexes, vous pouvez les sous-classer, ou sous-classer la classe de base `weave.Prompt` et redéfinir la méthode `format`.
 
-Lorsque vous publiez un prompt avec `weave.publish`, il apparaît dans votre projet Weave sur la [page Prompts](/fr/weave/guides/core-types/prompts-version.mdx#view-prompts).
+Lorsque vous publiez un prompt avec `weave.publish`, il apparaît dans votre projet Weave sur la [page Prompts](/fr/weave/guides/core-types/prompts-version.mdx#view-prompts), où vous et vos collaborateurs pouvez le parcourir et le réutiliser.
 
 <div id="stringprompt">
   ## StringPrompt
 </div>
 
-`StringPrompt` journalise des prompts sous forme d’une seule chaîne que vous pouvez utiliser pour des messages système, des requêtes utilisateur ou toute entrée de texte autonome destinée à un LLM. Nous vous recommandons d’utiliser `StringPrompt` pour gérer des chaînes de prompt individuelles qui ne nécessitent pas la complexité de conversations à plusieurs messages.
+`StringPrompt` journalise des prompts sous forme d’une chaîne unique que vous pouvez utiliser pour des messages système, des requêtes utilisateur ou toute entrée de texte autonome destinée à un LLM. Utilisez `StringPrompt` pour gérer des chaînes de prompt individuelles qui ne nécessitent pas la complexité de conversations à plusieurs messages.
 
 <Tabs>
   <Tab title="Python">
@@ -48,7 +49,8 @@ Lorsque vous publiez un prompt avec `weave.publish`, il apparaît dans votre pro
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     import * as weave from 'weave';
     import OpenAI from 'openai';
 
@@ -92,7 +94,7 @@ Lorsque vous publiez un prompt avec `weave.publish`, il apparaît dans votre pro
   ## MessagesPrompt
 </div>
 
-`MessagesPrompt` vous permet de journaliser des conversations sur plusieurs tours et des prompts de type chat. Il stocke un tableau d&#39;objets de message (avec des rôles comme &quot;system&quot;, &quot;user&quot; et &quot;assistant&quot;) qui représentent un flux de conversation complet. Nous recommandons de l&#39;utiliser pour les LLM de type chat lorsque vous devez conserver le contexte sur plusieurs messages, définir des modèles de conversation spécifiques ou créer des modèles de conversation réutilisables.
+`MessagesPrompt` vous permet de journaliser des conversations sur plusieurs tours de conversation et des prompts de type chat. Il stocke un tableau d&#39;objets de message (avec des rôles comme `system`, `user` et `assistant`) qui représentent un flux de conversation complet. Utilisez `MessagesPrompt` pour les LLM de type chat lorsque vous devez conserver le contexte sur plusieurs messages, définir des modèles de conversation spécifiques ou créer des modèles de conversation réutilisables.
 
 <Tabs>
   <Tab title="Python">
@@ -123,12 +125,13 @@ Lorsque vous publiez un prompt avec `weave.publish`, il apparaît dans votre pro
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     import * as weave from 'weave';
     import OpenAI from 'openai';
 
     async function main() {
-      // weave.init renvoie une instance client
+      // weave.init renvoie une instance de client
       const weaveClient = await weave.init('wandb/prompt-examples');
 
       const prompt = new weave.MessagesPrompt({
@@ -161,11 +164,11 @@ Lorsque vous publiez un prompt avec `weave.publish`, il apparaît dans votre pro
   </Tab>
 </Tabs>
 
-<div id="parameterizing-prompts">
-  ## Paramétrage des prompts
+<div id="parameterize-prompts">
+  ## Paramétrer les prompts
 </div>
 
-`StringPrompt` et `MessagesPrompt` prennent tous deux en charge le contenu dynamique grâce au paramétrage. Cela vous permet de créer des modèles de prompt flexibles et réutilisables avec des espaces réservés (à l’aide de la syntaxe `{variable}`), qui peuvent être remplacés par différentes valeurs à l’exécution. C’est utile pour créer des applications évolutives dans lesquelles les prompts doivent s’adapter à différentes entrées, données utilisateur ou différents contextes, tout en conservant une structure cohérente. La méthode `format()` accepte des paires clé-valeur pour remplacer ces espaces réservés par des valeurs réelles.
+Une fois que vous savez créer des prompts statiques, l’étape suivante consiste à les rendre réutilisables avec différentes entrées. `StringPrompt` et `MessagesPrompt` prennent tous deux en charge le contenu dynamique via le paramétrage. Cela vous permet de créer des modèles de prompt réutilisables avec des emplacements réservés (à l’aide de la syntaxe `{variable}`), que vous remplissez avec différentes valeurs à l’exécution. Le paramétrage est utile lorsque vos prompts doivent s’adapter à différentes entrées, à des données utilisateur ou à des contextes variés, tout en conservant une structure cohérente. La méthode `format()` accepte des paires clé-valeur pour remplacer ces emplacements réservés par des valeurs réelles.
 
 <Tabs>
   <Tab title="Python">
@@ -192,22 +195,23 @@ Lorsque vous publiez un prompt avec `weave.publish`, il apparaît dans votre pro
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines {8,23}
+    ```typescript twoslash lines {8,23}
+    // @noErrors
     import * as weave from 'weave';
     import OpenAI from 'openai';
 
     async function main() {
-      // weave.init renvoie une instance client
+      // weave.init renvoie une instance de client
       const weaveClient = await weave.init('wandb/prompt-examples');
 
       const prompt = new weave.StringPrompt({
         content: 'Solve the equation {equation}',
       });
       
-      // Utilisez le client renvoyé par init
+      // Utiliser le client renvoyé par init
       await weaveClient.publish(prompt, 'calculator_prompt');
 
-      // Encapsulez le client OpenAI pour suivre les appels dans Weave
+      // Encapsuler le client OpenAI pour suivre les appels dans Weave
       const client = weave.wrapOpenAI(new OpenAI());
 
       const response = await client.chat.completions.create({
@@ -226,7 +230,7 @@ Lorsque vous publiez un prompt avec `weave.publish`, il apparaît dans votre pro
   </Tab>
 </Tabs>
 
-Cela fonctionne également avec `MessagesPrompt`.
+Le même principe de paramétrage fonctionne aussi avec `MessagesPrompt` lorsque vous avez besoin d’emplacements réservés dans une conversation sur plusieurs tours de conversation.
 
 <Tabs>
   <Tab title="Python">
@@ -257,12 +261,13 @@ Cela fonctionne également avec `MessagesPrompt`.
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript lines {8,29}
+    ```typescript twoslash lines {8,29}
+    // @noErrors
     import * as weave from 'weave';
     import OpenAI from 'openai';
 
     async function main() {
-      // weave.init renvoie une instance client
+      // weave.init renvoie une instance de client
       const weaveClient = await weave.init('wandb/prompt-examples');
 
       const prompt = new weave.MessagesPrompt({
@@ -278,10 +283,10 @@ Cela fonctionne également avec `MessagesPrompt`.
         ]
       });
       
-      // Utilisez le client renvoyé par init
+      // Utiliser le client renvoyé par init
       await weaveClient.publish(prompt, 'emotion_prompt');
 
-      // Encapsulez le client OpenAI pour suivre les appels dans Weave
+      // Encapsuler le client OpenAI pour suivre les appels dans Weave
       const client = weave.wrapOpenAI(new OpenAI());
 
       const response = await client.chat.completions.create({

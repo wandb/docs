@@ -1,26 +1,29 @@
 ---
 title: "CSV에서 가져오기"
 description: "평가, 트레이싱 및 모델 비교 워크플로에 사용하기 위해 CSV 파일에서 데이터셋을 W&B Weave로 가져옵니다."
+keywords: ["CSV 가져오기", "트레이스 가져오기", "과거 트레이스", "부모-자식 Call", "대화 트레이스"]
 ---
 
 <Note>
-  이 노트북은 대화형 노트북입니다. 로컬에서 실행하거나 아래 링크로 열 수 있습니다:
+  이 노트북은 대화형 노트북입니다. 로컬에서 실행하거나 다음 링크를 사용할 수 있습니다:
 
   * [Google Colab에서 열기](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/import_from_csv.ipynb)
   * [GitHub에서 소스 보기](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/import_from_csv.ipynb)
 </Note>
 
-<div id="import-traces-from-3rd-party-systems">
-  # 3rd Party 시스템에서 Traces 가져오기
+<div id="import-traces-from-third-party-systems">
+  ## 서드파티 시스템에서 트레이스 가져오기
 </div>
 
-경우에 따라서는 GenAI 애플리케이션의 실시간 트레이스를 얻기 위해 Python 또는 JavaScript 코드를 Weave의 간단한 인테그레이션을 통해 계측하는 것이 불가능할 수 있습니다. 이런 트레이스는 나중에 `csv` 또는 `json` 형식으로 제공되는 경우가 많습니다.
+이 노트북에서는 CSV 파일의 과거 대화 트레이스를 W&amp;B Weave로 가져와, Weave로 계측된 애플리케이션 외부에서 생성된 데이터를 분석하고, 모델 동작을 비교하며, 평가를 실행하는 방법을 보여줍니다.
 
-이 쿡북에서는 저수준 Weave Python API를 활용하여 CSV 파일에서 데이터를 추출하고, 이를 Weave로 가져와 인사이트를 얻고 엄격한 평가를 수행하는 방법을 살펴봅니다.
+경우에 따라서는 GenAI 애플리케이션의 실시간 트레이스를 획득하기 위해 Python 또는 JavaScript 코드를 Weave 인테그레이션으로 계측할 수 없습니다. 이런 트레이스는 나중에 CSV 또는 JSON 형식으로 제공되는 경우가 많습니다.
+
+이 노트북에서는 저수준 Weave Python API를 사용하여 CSV 파일에서 데이터를 추출하고 이를 Weave로 가져와 분석하고 평가합니다.
 
 이 쿡북에서 가정하는 샘플 데이터셋은 다음과 같은 구조를 가지고 있습니다:
 
-```
+```text
 conversation_id,turn_index,start_time,user_input,ground_truth,answer_text
 1234,1,2024-09-04 13:05:39,This is the beginning, ['This was the beginning'], That was the beginning
 1235,1,2024-09-04 13:02:11,This is another trace,, That was another trace
@@ -31,24 +34,26 @@ conversation_id,turn_index,start_time,user_input,ground_truth,answer_text
 
 ```
 
-이 쿠크북에서 import 방식을 어떻게 결정했는지 이해하려면, Weave 트레이스에는 1 대 다(1:Many)이면서 연속적인 부모-자식 관계가 있다는 점을 알아두어야 합니다. 즉, 하나의 부모가 여러 자식을 가질 수 있으며, 그 부모 자체도 또 다른 부모의 자식이 될 수 있습니다.
+이 notebook에서 import 방식을 어떻게 결정했는지 이해하려면, Weave 트레이스에는 1 대 다(1:Many)이면서 연속적인 부모-자식 관계가 있다는 점을 알아두어야 합니다. 즉, 하나의 부모가 여러 자식을 가질 수 있으며, 그 부모 자체도 또 다른 부모의 자식이 될 수 있습니다.
 
-따라서 대화를 완전히 로깅하기 위해 부모 식별자로는 `conversation_id`를, 자식 식별자로는 `turn_index`를 사용합니다.
+이 notebook에서는 완전한 대화 로깅을 제공하기 위해 부모 식별자로 `conversation_id`를, 자식 식별자로 `turn_index`를 사용합니다.
 
-필요에 따라 변수 값을 수정하십시오.
+다음 섹션의 변수는 사용자의 데이터셋, 파일 경로, W&amp;B 프로젝트에 맞게 반드시 수정해야 합니다.
 
 <div id="set-up-the-environment">
-  # 환경 설정하기
+  ## 환경 설정
 </div>
 
-필요한 모든 패키지를 설치하고 import 합니다.
-`WANDB_API_KEY`를 환경 변수에 설정해서 `wandb.login()`으로 쉽게 로그인할 수 있도록 합니다(이 키는 Colab에 secret으로 제공되어야 합니다).
+필요한 패키지를 모두 설치하고 임포트하세요.
+환경 변수에 `WANDB_API_KEY`를 설정해 `wandb.login()`으로 로그인할 수 있도록 하세요(이 값은 Colab에 시크릿으로 제공하세요).
 
-Colab에 업로드할 파일 이름을 `name_of_file`에 설정하고, 로그를 남길 W&amp;B 프로젝트를 `name_of_wandb_project`에 설정합니다.
+Colab에 업로드할 파일 이름을 `name_of_file`에 설정하고, 사용할 W&amp;B 프로젝트를 `name_of_wandb_project`에 설정하세요.
 
-***NOTE:*** `name_of_wandb_project`는 트레이스를 기록할 팀을 지정하기 위해 `{team_name}/{project_name}` 형식으로도 사용할 수 있습니다.
+<Note>
+  `name_of_wandb_project`는 트레이스를 기록할 팀을 지정하기 위해 `[TEAM_NAME]/[PROJECT_NAME]` 형식으로도 설정할 수 있습니다.
+</Note>
 
-그다음 `weave.init()`을 호출해서 Weave 클라이언트를 가져옵니다.
+그런 다음 `weave.init()`를 호출해 Weave 클라이언트를 가져오세요.
 
 ```python lines
 %pip install wandb weave pandas datetime --quiet
@@ -92,16 +97,18 @@ python
 weave_client = weave.init(name_of_wandb_project)
 ```
 
-<div id="data-loading">
-  # 데이터 로딩
+<div id="load-the-data">
+  ## 데이터 로드
 </div>
 
-데이터를 Pandas 데이터프레임으로 로드한 다음, 부모와 자식 턴이 올바른 순서가 되도록 `conversation_id`와 `turn_index`로 정렬합니다.
+환경이 준비되면 Weave에서 기대하는 부모-자식 구조에 맞게 CSV 데이터를 로드하고 형태를 정리할 수 있습니다.
 
-이렇게 하면 `conversation_data` 열에 배열 형태로 대화 턴이 포함된 두 개의 열을 가진 pandas 데이터프레임이 생성됩니다.
+데이터를 pandas 데이터프레임으로 로드한 다음, 부모와 자식이 올바른 순서로 정렬되도록 `conversation_id`와 `turn_index`를 기준으로 정렬하세요.
+
+그러면 대화 턴이 `conversation_data` 아래 배열로 포함된 2개 열의 pandas 데이터프레임이 생성됩니다.
 
 ```python lines
-## 데이터 로드 및 형태 변환
+## 데이터 로드 및 정형화
 df = pd.read_csv(name_of_file)
 
 sorted_df = df.sort_values(["conversation_id", "turn_index"])
@@ -110,7 +117,7 @@ sorted_df = df.sort_values(["conversation_id", "turn_index"])
 def create_conversation_dict_array(group):
     return group.drop("conversation_id", axis=1).to_dict("records")
 
-# conversation_id로 데이터프레임을 그룹화하고 집계 적용
+# 데이터프레임을 conversation_id로 그룹화하고 집계 적용
 result_df = (
     sorted_df.groupby("conversation_id")
     .apply(create_conversation_dict_array)
@@ -123,116 +130,120 @@ result_df.head()
 ```
 
 <div id="log-the-traces-to-weave">
-  # 트레이스를 Weave에 로깅하기
+  ## 트레이스를 Weave에 기록하기
 </div>
 
-이제 pandas DF를 순회합니다:
+데이터를 대화와 턴 형태로 구성했다면, 다음 단계는 해당 레코드를 부모 Call과 자식 Call로 Weave에 기록하는 것입니다.
 
-* 각 `conversation_id`마다 부모 call을 생성합니다.
-* `turn_index`로 정렬된 턴 배열을 순회하며 자식 call을 생성합니다.
+pandas 데이터프레임을 순회합니다:
 
-저수준 Python API의 중요한 개념:
+* 각 `conversation_id`마다 부모 Call을 생성합니다.
+* `turn_index` 순으로 정렬된 자식 Call을 생성하기 위해 턴 배열을 순회합니다.
 
-* Weave call은 Weave trace와 동일하며, 이 call에는 부모나 자식이 연결될 수 있습니다.
-* Weave call에는 Feedback, Metadata 등 다른 것들이 연결될 수 있습니다. 여기서는 입력과 출력만 연결하지만, 데이터가 제공된다면 import 시 이러한 것들도 추가로 연결할 수 있습니다.
-* Weave call은 실시간으로 추적되도록 `created` 및 `finished` 상태를 가집니다. 이번 경우처럼 사후(import 이후) 처리에서는, 객체들을 정의하고 서로 연결한 뒤 한 번에 생성과 완료를 처리합니다.
-* call의 `op` 값은 Weave가 동일한 구조의 call을 분류하는 방식입니다. 이 예시에서는 모든 부모 call은 `Conversation` 타입이고, 모든 자식 call은 `Turn` 타입입니다. 필요에 따라 이 값을 수정할 수 있습니다.
-* call에는 `inputs`와 `output`이 있을 수 있습니다. `inputs`는 생성 시 정의되고, `output`은 call이 완료될 때 정의됩니다.
+하위 수준 Python API의 중요한 개념:
+
+* Weave Call은 Weave 트레이스와 동일합니다. 이 Call에는 부모가 있거나 연결된 자식이 있을 수 있습니다.
+* Weave Call에는 feedback 및 메타데이터처럼 다른 항목도 연결할 수 있습니다. 이 예제에서는 inputs와 output만 연결하지만, 데이터가 이를 제공하면 임포트할 때 이러한 항목도 추가할 수 있습니다.
+* Weave Call에는 `created`와 `finished`가 있습니다. 이는 실시간으로 추적되도록 설계되었기 때문입니다. 하지만 여기서는 사후 임포트이므로, 오브젝트를 정의하고 서로 연결한 다음 생성과 종료를 한 번에 처리합니다.
+* Call의 `op` 값은 Weave가 같은 형태의 Call을 분류하는 방식입니다. 이 예제에서는 모든 부모 Call의 유형이 `Conversation`이고, 모든 자식 Call의 유형이 `Turn`입니다. 필요에 따라 이를 수정할 수 있습니다.
+* Call에는 `inputs`와 `output`이 있을 수 있습니다. `inputs`는 생성 시 정의되고, `output`은 Call이 종료될 때 정의됩니다.
 
 ```python lines
-# weave에 트레이스 로그
+# Weave에 트레이스 로깅
 
-# 집계된 대화를 순회
+# 집계된 대화를 순회합니다.
 for _, row in result_df.iterrows():
-    # 대화 부모를 정의하고,
-    # 이전에 정의한 weave_client로 "call"을 생성
+    # 대화 부모를 정의합니다.
+    # 이전에 정의한 weave_client로 "call"을 생성합니다.
     parent_call = weave_client.create_call(
-        # Op 값은 이를 Weave Op으로 등록하여 나중에 그룹으로 쉽게 검색할 수 있게 함
+        # Op 값은 이를 Weave Op으로 등록하여 나중에 그룹으로 쉽게 조회할 수 있게 합니다.
         op="Conversation",
-        # 상위 레벨 대화의 입력을 그 아래의 모든 턴으로 설정
+        # 상위 레벨 대화의 inputs을 해당 대화에 속한 모든 턴으로 설정합니다.
         inputs={
             "conversation_data": row["conversation_data"][:-1]
             if len(row["conversation_data"]) > 1
             else row["conversation_data"]
         },
-        # Conversation 부모는 상위 부모가 없음
+        # Conversation 부모는 상위 부모가 없습니다.
         parent=None,
-        # 이 특정 대화가 UI에 표시될 이름
+        # UI에서 이 대화가 표시될 이름
         display_name=f"conversation-{row['conversation_id']}",
     )
 
-    # 부모의 출력을 대화의 마지막 트레이스로 설정
+    # 부모의 출력을 대화의 마지막 트레이스로 설정합니다.
     parent_output = row["conversation_data"][len(row["conversation_data"]) - 1]
 
-    # 부모의 모든 대화 턴을 순회하며
-    # 대화의 자식으로 로깅
+    # 이제 부모의 모든 대화 턴을 순회하며
+    # 대화의 자식 call로 로깅합니다.
     for item in row["conversation_data"]:
         item_id = f"{row['conversation_id']}-{item['turn_index']}"
 
-        # 대화 하위로 분류되도록 여기서 다시 call을 생성
+        # 대화 하위로 분류되도록 여기서 다시 call을 생성합니다.
         call = weave_client.create_call(
-            # 단일 대화 트레이스를 "Turn"으로 지정
+            # 단일 대화 트레이스를 "Turn"으로 지정합니다.
             op="Turn",
-            # RAG 'ground_truth'를 포함한 턴의 모든 입력 제공
+            # RAG 'ground_truth'를 포함한 턴의 모든 inputs을 제공합니다.
             inputs={
                 "turn_index": item["turn_index"],
                 "start_time": item["start_time"],
                 "user_input": item["user_input"],
                 "ground_truth": item["ground_truth"],
             },
-            # 정의한 부모의 자식으로 설정
+            # 앞서 정의한 부모의 자식으로 설정합니다.
             parent=parent_call,
-            # Weave에서 식별될 이름 제공
+            # Weave에서 식별에 사용할 이름을 지정합니다.
             display_name=item_id,
         )
 
-        # call의 출력을 답변으로 설정
+        # call의 출력을 답변으로 설정합니다.
         output = {
             "answer_text": item["answer_text"],
         }
 
-        # 이미 발생한 트레이스이므로 단일 턴 call을 완료
+        # 이미 발생한 트레이스이므로 단일 턴 call을 완료합니다.
         weave_client.finish_call(call=call, output=output)
-    # 모든 자식을 로깅했으므로 부모 call도 완료
+    # 모든 자식 call을 로깅했으므로 부모 call도 완료합니다.
     weave_client.finish_call(call=parent_call, output=parent_output)
 ```
 
-<div id="result-traces-are-logged-to-weave">
-  # 결과: 트레이스가 Weave에 기록됩니다
+<div id="result-traces-logged-to-weave">
+  ## 결과: Weave에 로깅된 트레이스
 </div>
+
+이제 CSV 데이터가 Weave로 임포트되었습니다. 이제 Weave UI에서 대화와 각 턴을 살펴볼 수 있으며, 앞에서 정의한 `Conversation` 및 `Turn` 오퍼레이션 아래에 그룹화되어 표시됩니다.
 
 트레이스:
 
 <Frame>
-  ![image.png](/images/screenshots/csv-1.png)
+  ![Weave UI에 임포트된 대화 트레이스](/images/screenshots/csv-1.png)
 </Frame>
 
-연산:
+오퍼레이션:
 
 <Frame>
-  ![image.png](/images/screenshots/csv-2.png)
+  ![Weave UI의 Conversation 및 Turn 오퍼레이션](/images/screenshots/csv-2.png)
 </Frame>
 
-<div id="bonus-export-your-traces-to-run-rigorous-evaluations">
-  # 보너스: 트레이스를 내보내 정교한 평가를 수행하세요!
+<div id="optional-export-your-traces-to-run-evaluations">
+  ## 선택 사항: 평가 실행을 위해 트레이스 내보내기
 </div>
 
-트레이스가 Weave에 기록되고 대화가 어떻게 진행되는지 파악했다면, 나중에 이를 Weave Evaluations를 실행하는 별도의 프로세스로 내보내고 싶을 수 있습니다.
+트레이스가 Weave에 있고 대화가 어떤 형태인지 파악했다면, 이를 다른 프로세스로 내보내 Weave Evaluations를 실행할 수 있습니다.
 
 <Frame>
-  ![image.png](/images/screenshots/csv-3.png)
+  ![Weave 프로젝트에서 트레이스 내보내기](/images/screenshots/csv-3.png)
 </Frame>
 
-이를 위해 간단한 쿼리 API를 통해 W&amp;B에서 모든 대화를 가져와, 이를 기반으로 데이터셋을 생성합니다.
+이렇게 하려면 쿼리 API를 통해 W&amp;B에서 모든 대화를 가져온 다음, 이를 바탕으로 데이터셋을 만드세요.
 
 ```python lines
 ## 이 셀은 기본적으로 실행되지 않습니다. 아래 줄을 주석 처리하여 스크립트를 실행하세요
 %%script false --no-raise-error
-## 평가를 위한 모든 Conversation 트레이스를 가져오고 평가용 데이터셋을 준비합니다
+## 평가를 위한 모든 대화 트레이스를 가져오고 평가용 데이터셋을 준비합니다
 
-# 모든 Conversation 객체를 가져오는 쿼리 필터를 생성합니다
-# 아래에 표시된 ref는 프로젝트마다 다르며, UI에서 프로젝트의 Operations로 이동한 후
-# "Conversations" 객체를 클릭하고 사이드 패널의 "Use" 탭에서 확인할 수 있습니다.
+# 모든 Conversation 오브젝트를 가져오는 쿼리 필터를 생성합니다
+# 아래에 표시된 ref는 프로젝트마다 다르며, UI에서 프로젝트의 오퍼레이션으로 이동한 후
+# "Conversations" 오브젝트를 클릭하고 사이드 패널의 "Use" 탭에서 확인할 수 있습니다.
 weave_ref_for_conversation_op = "weave://wandb-smle/import-weave-traces-cookbook/op/Conversation:tzUhDyzVm5bqQsuqh5RT4axEXSosyLIYZn9zbRyenaw"
 filter = weave.trace_server.trace_server_interface.CallsFilter(
     op_names=[weave_ref_for_conversation_op],
@@ -243,10 +254,10 @@ conversation_traces = weave_client.get_calls(filter=filter)
 
 rows = []
 
-# conversation 트레이스를 순회하며 데이터셋 행을 구성합니다
+# 대화 트레이스를 순회하며 데이터셋 행을 구성합니다
 for single_conv in conversation_traces:
-  # In this example, we may only care for conversations that utilized our RAG
-  # pipeline, so we filter for such types of conversations
+  # 이 예제에서는 RAG 파이프라인을 활용한 대화만 처리하므로,
+  # 해당 유형의 대화를 필터링합니다
   is_rag = False
   for single_trace in single_conv.inputs['conversation_data']:
     if single_trace['ground_truth'] is not None:
@@ -255,7 +266,7 @@ for single_conv in conversation_traces:
   if single_conv.output['ground_truth'] is not None:
       is_rag = True
 
-  # RAG를 사용한 대화로 식별되면 데이터셋에 추가합니다
+  # RAG를 사용한 대화로 확인되면 데이터셋에 추가합니다
   if is_rag:
     inputs = []
     ground_truths = []
@@ -280,18 +291,20 @@ for single_conv in conversation_traces:
 
     rows.append(data)
 
-# 데이터셋 행이 생성되면 Dataset 객체를 만들고
-# 나중에 검색할 수 있도록 Weave에 게시합니다
+# 데이터셋 행이 생성되면 Dataset 오브젝트를 만들고
+# 나중에 조회할 수 있도록 Weave에 게시합니다
 dset = weave.Dataset(name = "conv_traces_for_eval", rows=rows)
 weave.publish(dset)
 ```
 
 <div id="result">
-  # 결과
+  ## 결과
 </div>
 
+내보낸 데이터셋이 이제 다시 Weave에 게시되었으며, 평가의 입력으로 사용할 수 있습니다.
+
 <Frame>
-  ![image.png](/images/screenshots/csv-4.png)
+  ![평가에 사용할 수 있도록 Weave UI에 게시된 데이터셋](/images/screenshots/csv-4.png)
 </Frame>
 
-평가에 대해 더 자세히 알아보려면 새로 생성한 데이터셋으로 RAG 애플리케이션을 평가하는 방법을 소개하는 [퀵스타트](/ko/weave/tutorial-rag)를 확인하세요!
+평가에 대해 더 자세히 알아보려면 새로 생성한 데이터셋으로 RAG 애플리케이션을 평가하는 방법을 소개하는 [퀵스타트](/ko/weave/tutorial-rag)를 확인하세요.

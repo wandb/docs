@@ -5,6 +5,7 @@ keywords: ["dimensionnement de l’infrastructure", "exigences MySQL", "configur
 ---
 
 import SelfManagedVersionRequirements from "/snippets/fr/_includes/self-managed-version-requirements.mdx";
+import SelfManagedMysqlEolUpgrade from "/snippets/fr/_includes/self-managed-mysql-eol-upgrade.mdx";
 import SelfManagedNetworkingRequirements from "/snippets/fr/_includes/self-managed-networking-requirements.mdx";
 import SelfManagedSslTlsRequirements from "/snippets/fr/_includes/self-managed-ssl-tls-requirements.mdx";
 
@@ -14,9 +15,9 @@ Cette page s’adresse aux ingénieurs plateforme, aux ingénieurs SRE et aux ad
 
 Selon l’environnement de déploiement W&amp;B que vous avez choisi, différents services peuvent contribuer à renforcer la résilience de votre déploiement.
 
-Par exemple, les principaux fournisseurs de services cloud proposent des services de base de données managés, qui permettent de réduire la complexité de la configuration, de la maintenance, de la haute disponibilité et de la résilience des bases de données.
+Par exemple, les principaux fournisseurs de cloud proposent des services de base de données managés, qui permettent de réduire la complexité de la configuration, de la maintenance, de la haute disponibilité et de la résilience des bases de données.
 
-Cette architecture de référence couvre des scénarios de déploiement courants et montre comment intégrer votre déploiement W&amp;B à des services de fournisseurs cloud pour les performances et la fiabilité.
+Cette architecture de référence couvre des scénarios de déploiement courants et montre comment intégrer votre déploiement W&amp;B à des services de fournisseurs de cloud pour les performances et la fiabilité.
 
 <div id="before-you-start">
   ## Avant de commencer
@@ -73,9 +74,11 @@ W&amp;B prend en charge le déploiement sur des [clusters Kubernetes OpenShift](
   ### MySQL
 </div>
 
+<SelfManagedMysqlEolUpgrade />
+
 W&amp;B stocke les métadonnées dans une base de données MySQL. Les exigences en matière de performances et de stockage de la base de données dépendent de la forme des paramètres du modèle et des métadonnées associées. Par exemple, la base de données grossit à mesure que vous suivez davantage de runs d&#39;entraînement, et la charge sur la base de données augmente selon les requêtes effectuées dans les tableaux de runs, les workspaces des utilisateurs et Reports.
 
-**W&amp;B recommande vivement d&#39;utiliser des services de base de données managés** (tels qu&#39;AWS RDS Aurora MySQL, Google Cloud SQL for MySQL ou Azure Database for MySQL) pour les déploiements en production. Les services managés assurent les sauvegardes automatiques, la surveillance, la haute disponibilité et l&#39;application des correctifs, et réduisent la complexité opérationnelle. Voir la section [Recommandations d&#39;instances du fournisseur cloud](#cloud-provider-instance-recommendations) pour des recommandations de service spécifiques.
+**W&amp;B recommande vivement d&#39;utiliser des services de base de données managés** (tels qu&#39;AWS RDS Aurora MySQL, Google Cloud SQL for MySQL ou Azure Database for MySQL) pour les déploiements en production. Les services managés assurent les sauvegardes automatiques, la surveillance, la haute disponibilité et le patching, et réduisent la complexité opérationnelle. Voir la section [Recommandations d&#39;instances du fournisseur de cloud](#cloud-provider-instance-recommendations) pour des recommandations de service spécifiques.
 
 Si vous choisissez de déployer une base de données MySQL autogérée, tenez compte des points suivants :
 

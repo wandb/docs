@@ -1,0 +1,199 @@
+---
+title: "クラス: Conversation"
+description: "TypeScript SDK リファレンス"
+---
+
+[weave](../) / Conversation
+
+Conversation は、単一の `gen_ai.conversation.id` の下にターンをまとめるクラスです。これ自体は OTel span ではなく、子 span が自身の span に conversation id を付与します。
+
+<div id="table-of-contents">
+  ## 目次
+</div>
+
+<div id="properties">
+  ### プロパティ
+</div>
+
+* [agentName](./conversation#agentname)
+* [attributes](./conversation#attributes)
+* [conversationId](./conversation#conversationid)
+* [model](./conversation#model)
+
+<div id="accessors">
+  ### アクセサー
+</div>
+
+* [sessionId](./conversation#sessionid)
+
+<div id="methods">
+  ### メソッド
+</div>
+
+* [end](./conversation#end)
+* [startTurn](./conversation#startturn)
+* [create](./conversation#create)
+
+## プロパティ
+
+<div id="agentname">
+  ### agentName
+</div>
+
+• `Readonly` **agentName**: `string`
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/conversation.ts:34](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L34)
+
+***
+
+<div id="attributes">
+  ### attributes
+</div>
+
+• `Readonly` **attributes**: `Attributes`
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/conversation.ts:37](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L37)
+
+***
+
+<div id="conversationid">
+  ### conversationId
+</div>
+
+• `Readonly` **conversationId**: `string`
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/conversation.ts:36](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L36)
+
+***
+
+<div id="model">
+  ### model
+</div>
+
+• `Readonly` **model**: `string`
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/conversation.ts:35](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L35)
+
+## アクセサー
+
+<div id="sessionid">
+  ### sessionId
+</div>
+
+<Warning>
+  **非推奨。** 代わりに [Conversation.conversationId](./conversation#conversationid) を使用してください。
+</Warning>
+
+• `get` **sessionId**(): `string`
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`string`
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/conversation.ts:41](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L41)
+
+## メソッド
+
+<div id="end">
+  ### end
+</div>
+
+▸ **end**(`opts?`): `void`
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名       | タイプ              |
+| :------ | :--------------- |
+| `opts?` | `SpanEndOptions` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`void`
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/conversation.ts:71](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L71)
+
+***
+
+<div id="startturn">
+  ### startTurn
+</div>
+
+▸ **startTurn**(`opts?`): [`Turn`](./turn)
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名      | タイプ                                  |
+| :----- | :----------------------------------- |
+| `opts` | [`TurnInit`](../interfaces/turninit) |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+[`Turn`](./turn)
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/conversation.ts:62](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L62)
+
+***
+
+<div id="create">
+  ### create
+</div>
+
+▸ **create**(`opts?`): [`Conversation`](./conversation)
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名      | タイプ                                                  |
+| :----- | :--------------------------------------------------- |
+| `opts` | [`ConversationInit`](../interfaces/conversationinit) |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+[`Conversation`](./conversation)
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/conversation.ts:45](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L45)

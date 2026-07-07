@@ -4,6 +4,8 @@ title: Manage access control for projects
 keywords: ["project visibility", "restricted project", "project roles", "project permissions"]
 ---
 
+import ProjectVisibilityScopesTable from "/snippets/_includes/project-visibility-scopes-table.mdx";
+
 Define the scope of a W&B project to limit who can view, edit, and submit W&B runs to it. This page is for team and organization admins, and project owners, who need to control access to sensitive workflows or limit collaboration to a specific group of users.
 
 You can combine two controls to configure the access level for any project within a W&B team. **Visibility scope** is the higher-level mechanism. Use it to control which groups of users can view or submit runs in a project. For a project with _Team_ or _Restricted_ visibility scope, you can then use **Project level roles** to control the level of access that each user has within the project.
@@ -17,12 +19,7 @@ The owner of a project, a team admin, or an organization admin can set or edit a
 Visibility scope determines which users in your organization can see and contribute to a project. You can choose from four project visibility scopes. From most public to most private, they are:
 
 
-| Scope | Description | 
-| ----- | ----- |
-| Open |Anyone who knows about the project can view it and submit runs or reports.|
-| Public |Anyone who knows about the project can view it. Only your team can submit runs or reports.|
-| Team | Only members of the parent team can view the project and submit runs or reports. Anyone outside the team can't access the project. |
-| Restricted| Only invited members from the parent team can view the project and submit runs or reports.|
+<ProjectVisibilityScopesTable />
 
 
 <Note>
@@ -47,9 +44,6 @@ To set the visibility scope for a new project:
 1. Navigate to your W&B organization on a W&B Multi-tenant Cloud, Dedicated Cloud, or Self-Managed instance.
 2. Click the **Create a new project** button in the left-hand sidebar's **My projects** section. Alternatively, navigate to the **Projects** tab of your team and click the **Create new project** button in the upper right-hand corner.
 3. After you select the parent team and enter the name of the project, select the desired scope from the **Project Visibility** dropdown.
-   <Frame>
-       <img src="/images/hosting/restricted_project_add_new.gif" alt="Creating restricted project"  />
-   </Frame>
 
    Complete the following step if you select **Restricted** visibility.
 
@@ -69,21 +63,19 @@ W&B creates the project with the selected visibility scope, and only the invited
 To change the visibility scope of an existing project:
 
 1. Navigate to your W&B project.
-2. Select the **Overview** tab on the left column.
-3. Click the **Edit Project Details** button on the upper right corner.
-4. From the **Project Visibility** dropdown, select the desired scope.
-   <Frame>
-       <img src="/images/hosting/restricted_project_edit.gif" alt="Editing restricted project settings"  />
-   </Frame>
+2. From the top of any project page, click the icon next to the project name to edit the project's visibility. The icon reflects the current visibility scope: **Open**, **Public**, **Team**, or **Restricted**. See [Visibility scopes](#visibility-scopes).
+3. From the **Project Visibility** dropdown, select the desired scope, then click **Save**.
 
-   Complete the following step if you select **Restricted** visibility.
+    <Important>If you select **Restricted** visibility, you must complete the next step.</Important>
 
-5. Navigate to the **Users** tab in the project, and click the **Add user** button to invite specific users to the restricted project.
-
-W&B updates the project's visibility scope, and access reflects the new scope along with any invited members.
+    W&B updates the project's visibility scope, and access reflects the new scope.
+4. To share a restricted project:
+    1. Click **Project** in the left navigation to open the project **Overview** page.
+    2. Select the **Users** tab.
+    3. Click **Add user** and select one or more specific users to invite them to the project.
 
 <Warning>
-* All members of a team lose access to a project if you change its visibility scope from **Team** to **Restricted**, unless you invite the required team members to the project.
+* All members of a team lose access to a project if you change its visibility scope from **Team** to **Restricted**, and you must invite team members to give them access.
 * All members of a team get access to a project if you change its visibility scope from **Restricted** to **Team**.
 * If you remove a team member from the user list for a restricted project, they lose access to that project.
 </Warning>
@@ -110,7 +102,7 @@ Project level roles are in preview on W&B Multi-tenant Cloud, Dedicated Cloud, a
 To assign a project level role:
 
 1. Navigate to your W&B project.
-2. Select the **Overview** tab on the left column.
+2. In the project sidebar, click **Project**.
 3. Navigate to the **Users** tab in the project.
 4. Click the currently assigned role for the relevant user in the **Project Role** field, which opens a dropdown listing the other available roles.
 5. Select another role from the dropdown. The change saves instantly.

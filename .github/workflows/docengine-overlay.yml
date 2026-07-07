@@ -1,0 +1,209 @@
+name: DocEngine - API spec overlay refresh
+
+# Re-fetch upstream OpenAPI specs, apply DocEngine overlays, and open one PR per API
+# overlay, running IN-REPO on the pinned `docengine` submodule. A single workflow +
+# matrix covers every discovered overlay — no per-API files. Overlay apply only;
+# never bundled with the data import or the MDX build.
+#
+# Hello World note: there are no overlays yet (docengine-site/overlays/ is an empty
+# stub), so the `plan` job emits an empty matrix and the `overlay` job is skipped
+# until an overlay is added under docengine-site/overlays/<api>/.
+#
+# Separation of concerns:
+#   - This workflow         → upstream API spec drift only (one OpenAPI YAML per PR)
+#   - docengine-build.yml   → DocEngine data / generator output (MDX, atomic output)
+#   - docengine-import.yml  → scheduled importer data into docengine-site/data/**
+#
+# Auth:
+#   - Engine submodule checkout (PRIVATE coreweave/docengine): DOCENGINE_TOKEN via
+#     url.insteadOf.
+#   - PR auth (push branch + open PR with a workflow-triggering identity): the
+#     wandb-docs-pr-writer App token.
+#
+# Output: `docengine overlay apply --output-dir "$GITHUB_WORKSPACE"` writes the
+# curated spec in place under the host's output subpath (output_subpath: .).
+
+on:
+  # schedule:
+  #   - cron: "47 6 * * *"   # ~06:47 UTC daily (offset from data import)
+  workflow_dispatch:
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+concurrency:
+  group: docengine-overlay
+  cancel-in-progress: false
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - name: Require app credentials
+        run: |
+          if [ -z "${{ vars.DOCS_PR_WRITER_CLIENT_ID }}" ] || [ -z "${{ secrets.DOCS_PR_WRITER_PRIVATE_KEY }}" ]; then
+            echo "::error::DOCS_PR_WRITER_CLIENT_ID (variable) and DOCS_PR_WRITER_PRIVATE_KEY (secret) must be set in Settings → Secrets and variables → Actions."
+            exit 1
+          fi
+
+      - name: Require submodule-read token
+        run: |
+          if [ -z "${{ secrets.DOCENGINE_TOKEN }}" ]; then
+            echo "::error::DOCENGINE_TOKEN is not set. Required to clone the private coreweave/docengine submodule."
+            exit 1
+          fi
+
+      - name: Generate token for wandb-docs-pr-writer
+        id: app_token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3
+        with:
+          client-id: ${{ vars.DOCS_PR_WRITER_CLIENT_ID }}
+          private-key: ${{ secrets.DOCS_PR_WRITER_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+        with:
+          token: ${{ steps.app_token.outputs.token }}
+
+      - name: Authenticate git for the private coreweave docengine submodule
+        env:
+          TOKEN: ${{ secrets.DOCENGINE_TOKEN }}
+        run: |
+          git config --global url."https://x-access-token:${TOKEN}@github.com/".insteadOf "https://github.com/"
+
+      - name: Initialize the engine submodule (docengine only; skip .claude)
+        run: git submodule update --init --depth 1 docengine
+
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+
+      - name: Install DocEngine from the submodule
+        run: pip install -e ./docengine
+
+      - name: Build overlay matrix
+        id: matrix
+        # Slim-aware discovery: mirror `docengine overlay list`'s resolution. Emits
+        # one row per discovered overlay as {api, output_path}; output_path =
+        # output_subpath + the overlay's output_spec_path. Python runs as its own
+        # command so a crash trips the shell's `-e` (GHA default) instead of being
+        # masked by the pipe in a command substitution; `tail -1` then drops the
+        # resolver's stdout note line.
+        run: |
+          python -c "
+          import json
+          from app.overlay_cli import _build_runner
+          from app.cli_context import bootstrap_repo, resolve_default_site_context, resolve_site
+          _, sm = bootstrap_repo()
+          ctx = resolve_default_site_context(None, sm)
+          resolved = resolve_site(ctx, sm)
+          if resolved is None:
+              raise SystemExit('resolve_site returned None')
+          paths = resolved.paths
+          sub = (paths.descriptor.output_subpath or '').strip()
+          runner = _build_runner(paths)
+          rows = [
+              {'api': r['name'],
+               'output_path': '/'.join(p for p in (sub, r['output_spec_path']) if p)}
+              for r in runner.list_overlays()
+          ]
+          print(json.dumps(rows))
+          " > "$RUNNER_TEMP/overlay-matrix.txt"
+          MATRIX=$(tail -1 "$RUNNER_TEMP/overlay-matrix.txt")
+          echo "matrix=$MATRIX" >> "$GITHUB_OUTPUT"
+          echo "Overlay matrix: $MATRIX"
+
+  overlay:
+    needs: plan
+    if: needs.plan.outputs.matrix != '[]' && needs.plan.result == 'success'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJson(needs.plan.outputs.matrix) }}
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Require app credentials
+        run: |
+          if [ -z "${{ vars.DOCS_PR_WRITER_CLIENT_ID }}" ] || [ -z "${{ secrets.DOCS_PR_WRITER_PRIVATE_KEY }}" ]; then
+            echo "::error::DOCS_PR_WRITER_CLIENT_ID (variable) and DOCS_PR_WRITER_PRIVATE_KEY (secret) must be set in Settings → Secrets and variables → Actions."
+            exit 1
+          fi
+
+      - name: Require submodule-read token
+        run: |
+          if [ -z "${{ secrets.DOCENGINE_TOKEN }}" ]; then
+            echo "::error::DOCENGINE_TOKEN is not set. Required to clone the private coreweave/docengine submodule."
+            exit 1
+          fi
+
+      - name: Generate token for wandb-docs-pr-writer
+        id: app_token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3
+        with:
+          client-id: ${{ vars.DOCS_PR_WRITER_CLIENT_ID }}
+          private-key: ${{ secrets.DOCS_PR_WRITER_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+        with:
+          token: ${{ steps.app_token.outputs.token }}
+
+      - name: Authenticate git for the private coreweave docengine submodule
+        env:
+          TOKEN: ${{ secrets.DOCENGINE_TOKEN }}
+        run: |
+          git config --global url."https://x-access-token:${TOKEN}@github.com/".insteadOf "https://github.com/"
+
+      - name: Initialize the engine submodule (docengine only; skip .claude)
+        run: git submodule update --init --depth 1 docengine
+
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+
+      - name: Install DocEngine from the submodule
+        run: pip install -e ./docengine
+
+      - name: Run DocEngine overlay
+        env:
+          # Matrix values via env (not direct ${{ }} interpolation into the shell) so
+          # they can never be parsed as shell, should a future change introduce an
+          # attacker-influenced matrix value.
+          API: ${{ matrix.api }}
+        run: docengine overlay apply --api "$API" --output-dir "$GITHUB_WORKSPACE"
+
+      - name: Open PR with curated OpenAPI spec
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8
+        with:
+          token: ${{ steps.app_token.outputs.token }}
+          branch: docengine/${{ matrix.api }}-api-specs
+          delete-branch: true
+          add-paths: ${{ matrix.output_path }}
+          commit-message: |
+            docs: Refresh ${{ matrix.api }} OpenAPI spec from upstream
+
+            Automated overlay apply for the ${{ matrix.api }} API.
+          title: "Scheduled upstream API spec refresh (${{ matrix.api }})"
+          labels: auto-generated, api-specs
+          body: |
+            This PR refreshes the **${{ matrix.api }}** curated OpenAPI spec produced by
+            DocEngine overlays against the latest upstream API repository. It contains
+            API reference changes for this API only — no DocEngine data or MDX generator output.
+
+            **Output file:** `${{ matrix.output_path }}`
+
+            **Overlay:** `docengine-site/overlays/${{ matrix.api }}/`
+
+            **Workflow run:** [View run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+
+            > [!IMPORTANT]
+            > Review API surface changes (new/removed operations, schema drift) before merging.

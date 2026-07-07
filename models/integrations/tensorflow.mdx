@@ -62,7 +62,7 @@ With TensorFlow 2, the recommended way of training a model with a custom loop is
         loss = loss_func(labels, predictions)
 
     # Log your metrics
-    run.log("loss": loss.numpy())
+    run.log({"loss": loss.numpy()})
     # Get the gradients
     gradients = tape.gradient(loss, model.trainable_variables)
     # Update the weights

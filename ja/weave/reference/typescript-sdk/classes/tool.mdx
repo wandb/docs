@@ -1,0 +1,267 @@
+---
+title: "クラス: Tool"
+description: "TypeScript SDK リファレンス"
+---
+
+[weave](../) / Tool
+
+ツール呼び出しを表します。ツール名、
+JSON エンコードされた引数、ツール呼び出し ID、および結果を含む
+`execute_tool` span を生成します。
+
+`weave.startTool()` (または `turn.startTool()`、あるいは
+`llm.startTool()`) によって作成され、`end()` で終了します。span にツールの出力を記録するには、
+`end()` を呼び出す前に `result` を設定してください。
+
+`例`
+
+```ts twoslash
+// @noErrors
+const tool = weave.startTool({
+  name: tc.function.name,
+  args: tc.function.arguments,
+  toolCallId: tc.id,
+});
+try {
+  tool.result = await wikipediaSearch(JSON.parse(tc.function.arguments));
+} finally {
+  tool.end();
+}
+```
+
+<div id="hierarchy">
+  ## 階層
+</div>
+
+* `SpanBase`
+
+  ↳ `Tool`
+
+<div id="table-of-contents">
+  ## 目次
+</div>
+
+<div id="properties">
+  ### プロパティ
+</div>
+
+* [args](./tool#args)
+* [name](./tool#name)
+* [result](./tool#result)
+* [toolCallId](./tool#toolcallid)
+
+<div id="methods">
+  ### メソッド
+</div>
+
+* [addEvent](./tool#addevent)
+* [end](./tool#end)
+* [setAttributes](./tool#setattributes)
+* [create](./tool#create)
+
+## プロパティ
+
+<div id="args">
+  ### args
+</div>
+
+• `Readonly` **args**: `string`
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/tool.ts:52](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L52)
+
+***
+
+<div id="name">
+  ### 名
+</div>
+
+• `Readonly` **name**: `string`
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/tool.ts:51](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L51)
+
+***
+
+<div id="result">
+  ### result
+</div>
+
+• `Optional` **result**: `string`
+
+文字列形式のツール出力です。`end()` で `gen_ai.tool.call.result` に記録されます。
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/tool.ts:47](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L47)
+
+***
+
+<div id="toolcallid">
+  ### toolCallId
+</div>
+
+• `Readonly` **toolCallId**: `string`
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/tool.ts:53](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L53)
+
+## メソッド
+
+<div id="addevent">
+  ### addEvent
+</div>
+
+▸ **addEvent**(`name`, `attributes?`, `startTime?`): `this`
+
+span に名前付きのイベントを追加します。コンテキストの圧縮、tool ループの検出、guardrail のトリガーなど、span では表されない時点を記録するのに便利です。`end()` の後に呼び出すと、警告を出して何も行いません。OTel の `Span.addEvent` に対応しています。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名             | タイプ          |
+| :------------ | :----------- |
+| `name`        | `string`     |
+| `attributes?` | `Attributes` |
+| `startTime?`  | `TimeInput`  |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`this`
+
+`例`
+
+```ts twoslash
+// @noErrors
+span.addEvent('context_compacted', {removedMessages: 12});
+```
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+SpanBase.addEvent
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/spanBase.ts:77](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/spanBase.ts#L77)
+
+***
+
+<div id="end">
+  ### end
+</div>
+
+▸ **end**(`opts?`): `void`
+
+`result` を span にフラッシュしてから閉じます。冪等です。`error` を渡すと、
+span は失敗としてマークされます。`endTime` を渡すと、終了時刻を過去の時刻として設定します。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名       | タイプ              |
+| :------ | :--------------- |
+| `opts?` | `SpanEndOptions` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`void`
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/tool.ts:87](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L87)
+
+***
+
+<div id="setattributes">
+  ### setAttributes
+</div>
+
+▸ **setAttributes**(`attributes`): `this`
+
+span に複数の属性をまとめて設定します。`end()` の後に呼び出すと
+警告が表示され、何も実行されません。OTel の `Span.setAttributes` (および Python SDK の
+`set_attributes`) に対応しています。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名            | タイプ          |
+| :----------- | :----------- |
+| `attributes` | `Attributes` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`this`
+
+`例`
+
+```ts twoslash
+// @noErrors
+span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
+```
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+SpanBase.setAttributes
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/spanBase.ts#L63)
+
+***
+
+<div id="create">
+  ### create
+</div>
+
+▸ **create**(`opts`): [`Tool`](./tool)
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名      | タイプ                                                           |
+| :----- | :------------------------------------------------------------ |
+| `opts` | [`ToolInit`](../interfaces/toolinit) &amp; `ChildSpanContext` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+[`Tool`](./tool)
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/tool.ts:58](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L58)

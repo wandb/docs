@@ -35,13 +35,13 @@ __init__(
     allow_media_symlink: 'bool' = False,
     allow_offline_artifacts: 'bool' = True,
     allow_val_change: 'bool' = False,
-    anonymous: 'object' = <object object at 0x10482d250>,
+    anonymous: 'object' = <object object at 0x109b16dd0>,
     api_key: 'str | None' = None,
     azure_account_url_to_access_key: 'dict[str, str] | None' = None,
     app_url_override: 'str | None' = None,
     base_url: 'str' = 'https://api.wandb.ai',
     code_dir: 'str | None' = None,
-    config_paths: 'Sequence | None' = None,
+    config_paths: 'collections.abc.Sequence[str] | None' = None,
     console: 'Literal['auto', 'off', 'wrap', 'redirect', 'wrap_raw', 'wrap_emu']' = 'auto',
     console_multipart: 'bool' = False,
     console_chunk_max_bytes: 'int' = 0,
@@ -57,7 +57,7 @@ __init__(
     entity: 'str | None' = None,
     organization: 'str | None' = None,
     force: 'bool' = False,
-    fork_from: 'RunMoment | None' = None,
+    fork_from: 'wandb.sdk.lib.run_moment.RunMoment | None' = None,
     git_commit: 'str | None' = None,
     git_remote: 'str' = 'origin',
     git_remote_url: 'str | None' = None,
@@ -88,7 +88,7 @@ __init__(
     reinit: 'Literal['default', 'return_previous', 'finish_previous', 'create_new'] | bool' = 'default',
     relogin: 'bool' = False,
     resume: 'Literal['allow', 'must', 'never', 'auto'] | None' = None,
-    resume_from: 'RunMoment | None' = None,
+    resume_from: 'wandb.sdk.lib.run_moment.RunMoment | None' = None,
     resumed: 'bool' = False,
     root_dir: 'str' = None,
     run_group: 'str | None' = None,
@@ -96,11 +96,11 @@ __init__(
     run_job_type: 'str | None' = None,
     run_name: 'str | None' = None,
     run_notes: 'str | None' = None,
-    run_tags: 'tuple[str, Ellipsis] | None' = None,
+    run_tags: 'tuple[str, ...] | None' = None,
     sagemaker_disable: 'bool' = False,
     save_code: 'bool | None' = None,
     settings_system: 'str | None' = None,
-    stop_fn: 'Callable | None' = None,
+    stop_fn: 'collections.abc.Callable[[], None] | None' = None,
     max_end_of_run_history_metrics: 'int' = 10,
     max_end_of_run_summary_metrics: 'int' = 10,
     show_colors: 'bool | None' = None,
@@ -165,19 +165,19 @@ __init__(
     x_service_wait: 'float' = 30.0,
     x_skip_transaction_log: 'bool' = False,
     x_start_time: 'float | None' = None,
-    x_stats_pid: 'int' = 92619,
+    x_stats_pid: 'int' = 28097,
     x_stats_sampling_interval: 'float' = 15.0,
     x_stats_neuron_monitor_config_path: 'str | None' = None,
     x_stats_dcgm_exporter: 'str | None' = None,
     x_stats_open_metrics_endpoints: 'dict[str, str] | None' = None,
-    x_stats_open_metrics_filters: 'dict[str, dict[str, str]] | Sequence | None' = None,
+    x_stats_open_metrics_filters: 'dict[str, dict[str, str]] | collections.abc.Sequence[str] | None' = None,
     x_stats_open_metrics_http_headers: 'dict[str, str] | None' = None,
-    x_stats_disk_paths: 'Sequence | None' = ('/',),
+    x_stats_disk_paths: 'collections.abc.Sequence[str] | None' = ('/',),
     x_stats_cpu_count: 'int | None' = None,
     x_stats_cpu_logical_count: 'int | None' = None,
     x_stats_gpu_count: 'int | None' = None,
     x_stats_gpu_type: 'str | None' = None,
-    x_stats_gpu_device_ids: 'Sequence | None' = None,
+    x_stats_gpu_device_ids: 'collections.abc.Sequence[int] | None' = None,
     x_stats_buffer_size: 'int' = 0,
     x_stats_coreweave_metadata_base_url: 'str' = 'http://169.254.169.254',
     x_stats_coreweave_metadata_endpoint: 'str' = '/api/v2/cloud-init/meta-data',
@@ -205,20 +205,20 @@ __init__(
 
 * `anonymous` (objet): Obsolète et sera supprimé.
 
-* `api_key` (Optional[str]): La clé API de W&amp;B.
+* `api_key` (str | None): La clé API de W&amp;B.
 
-* `azure_account_url_to_access_key` (Optional[Dict[str, str]]) : Correspondance entre les URL de compte Azure et leurs clés d’accès correspondantes pour l’intégration Azure.
+* `azure_account_url_to_access_key` (dict[str, str] | None): Correspondance entre les URL de compte Azure et leurs clés d’accès correspondantes pour l’intégration Azure.
 
-* `app_url_override` (Optional[str]) : redéfinit l’URL &#39;app&#39; de l’interface utilisateur W&amp;B.
+* `app_url_override` (str | None) : redéfinit l’URL &#39;app&#39; de l’interface utilisateur W&amp;B.
   `app_url` est normalement calculée à partir de `base_url`, mais vous pouvez
   l’utiliser pour la définir explicitement.
   WANDB&#95;APP&#95;URL est la variable d’environnement correspondante.
 
 * `base_url` (str): URL du backend W&amp;B pour la synchronisation des données.
 
-* `code_dir` (Optional[str]): Répertoire contenant le code à suivre par W&amp;B.
+* `code_dir` (str | None): Répertoire contenant le code à suivre par W&amp;B.
 
-* `config_paths` (Optional[Sequence]) : chemins des fichiers à partir desquels charger la configuration dans l’objet `Config`.
+* `config_paths` (collections.abc.Sequence[str] | None) : chemins des fichiers à partir desquels charger la configuration dans l’objet `Config`.
 
 * `console` (Literal[&#39;auto&#39;, &#39;off&#39;, &#39;wrap&#39;, &#39;redirect&#39;, &#39;wrap&#95;raw&#39;, &#39;wrap&#95;emu&#39;]) : Le type de capture de la console à appliquer.
   Valeurs possibles :
@@ -258,7 +258,7 @@ __init__(
   atteinte clôt la partie. Une valeur de `0` désactive la limite
   temporelle.
 
-* `capture_loggers` (Optional[Dict[str, str]]): Noms des loggers Python à capturer dans l’onglet Logs du run.
+* `capture_loggers` (dict[str, str] | None): Noms des loggers Python à capturer dans l’onglet Logs du run.
   Correspondance entre le nom du logger et le niveau de journalisation minimum. Lorsqu’elle est définie, wandb installe un
   `logging.Handler` sur chaque logger nommé et le supprime lorsque le run se termine.
   Les enregistrements de journal émis par ces loggers sont publiés comme sortie de console dans le
@@ -297,35 +297,35 @@ __init__(
 
 * `disable_job_creation` (bool): Indique si vous devez désactiver la création d’un artefact de job pour W&amp;B Launch.
 
-* `docker` (Optional[str]) : image Docker utilisée pour exécuter le script.
+* `docker` (str | None): L’image Docker utilisée pour exécuter le script.
 
-* `email` (Optional[str]) : Adresse e-mail de l’utilisateur.
+* `email` (str | None) : Adresse e-mail de l’utilisateur.
 
-* `entity` (Optional[str]) : l&#39;entité W&amp;B, par exemple un utilisateur ou une équipe.
+* `entity` (str | None): l&#39;entité W&amp;B, par exemple un utilisateur ou une équipe.
 
-* `organization` (Optional[str]): L’organisation W&amp;B.
+* `organization` (str | None): L’organisation W&amp;B.
 
 * `force` (bool) : Indique s’il faut passer l’indicateur `force` à `wandb.login()`.
 
-* `fork_from` (Optional[RunMoment]) : indique un point dans l’exécution précédente d’un run à partir duquel effectuer un fork.
+* `fork_from` (wandb.sdk.lib.run&#95;moment.RunMoment | None): indique un point dans l’exécution précédente d’un run à partir duquel effectuer un fork.
   Le point est défini par l’ID du run, une métrique et sa valeur.
   Actuellement, seule la métrique &#39;&#95;step&#39; est prise en charge.
 
-* `git_commit` (Optional[str]) : le hash du commit Git à associer au run.
+* `git_commit` (str | None): le hash du commit Git à associer au run.
 
 * `git_remote` (str): Le remote Git à associer au run.
 
-* `git_remote_url` (Optional[str]) : l’URL du dépôt Git distant.
+* `git_remote_url` (str | None) : l’URL du dépôt Git distant.
 
-* `git_root` (Optional[str]): Répertoire racine du dépôt Git.
+* `git_root` (str | None): Répertoire racine du dépôt Git.
 
-* `host` (Optional[str]) : Nom d’hôte de la machine exécutant le script.
+* `host` (str | None): Nom d’hôte de la machine exécutant le script.
 
-* `http_proxy` (Optional[str]) : serveurs proxy personnalisés pour les requêtes HTTP à destination de W&amp;B.
+* `http_proxy` (str | None) : serveurs proxy personnalisés pour les requêtes HTTP à destination de W&amp;B.
 
-* `https_proxy` (Optional[str]) : Serveurs proxy personnalisés pour les requêtes HTTPS vers W&amp;B.
+* `https_proxy` (str | None) : Serveurs proxy personnalisés pour les requêtes HTTPS vers W&amp;B.
 
-* `identity_token_file` (Optional[str]) : chemin d’accès au fichier contenant un jeton d’identité (JWT) pour l’authentification.
+* `identity_token_file` (str | None) : chemin d’accès au fichier contenant un jeton d’identité (JWT) pour l’authentification.
 
 * `ignore_globs` (Sequence) : motifs glob Unix relatifs à `files_dir`, indiquant les fichiers à exclure du téléversement.
 
@@ -358,30 +358,30 @@ __init__(
 
 * `insecure_disable_ssl` (bool): Indique s’il faut désactiver de façon non sécurisée la vérification SSL.
 
-* `job_name` (Optional[str]) : Nom du job Launch qui exécute le script.
+* `job_name` (str | None) : Nom du job Launch qui exécute le script.
 
 * `job_source` (Optional[Literal[&#39;repo&#39;, &#39;artifact&#39;, &#39;image&#39;]]): Type de source pour Launch.
 
 * `label_disable` (bool): Indique s’il faut désactiver les fonctionnalités d’étiquetage automatique.
 
-* `launch_config_path` (Optional[str]) : chemin d’accès au fichier de configuration de Launch.
+* `launch_config_path` (str | None) : chemin d’accès au fichier de configuration de Launch.
 
-* `login_timeout` (Optional[float]) : Temps d’attente, en secondes, pour les opérations de connexion avant expiration du délai.
+* `login_timeout` (float | None) : Temps d’attente, en secondes, pour les opérations de connexion avant expiration du délai.
 
 * `mode` (Literal[&#39;online&#39;, &#39;offline&#39;, &#39;shared&#39;, &#39;disabled&#39;, &#39;dryrun&#39;, &#39;run&#39;]): Le mode de fonctionnement de la journalisation et de la synchronisation de W&amp;B.
 
-* `notebook_name` (Facultatif[str]) : nom du notebook en cas d’exécution dans un environnement de type Jupyter.
+* `notebook_name` (str | None): nom du notebook en cas d’exécution dans un environnement de type Jupyter.
 
-* `program` (Optional[str]) : Chemin d’accès au script ayant créé le run, si disponible.
+* `program` (str | None): Chemin d’accès au script ayant créé le run, si disponible.
 
-* `program_abspath` (Optional[str]) : Le chemin absolu allant du répertoire racine du dépôt jusqu’au script qui
+* `program_abspath` (str | None) : Le chemin absolu entre le répertoire racine du dépôt et le script qui
   a créé le run.
-  Le répertoire racine du dépôt correspond au répertoire qui contient le
+  Le répertoire racine du dépôt est défini comme le répertoire qui contient le
   répertoire .git, s’il existe. Sinon, il s’agit du répertoire de travail actuel.
 
-* `program_relpath` (Optional[str]) : Le chemin relatif du script qui a créé le run.
+* `program_relpath` (str | None) : Le chemin relatif du script qui a créé le run.
 
-* `project` (Optional[str]) : ID du projet W&amp;B.
+* `project` (str | None): ID du projet W&amp;B.
 
 * `quiet` (bool): Indicateur permettant de supprimer la sortie non essentielle.
 
@@ -413,33 +413,33 @@ __init__(
   * &quot;auto&quot;: Reprend automatiquement le run en échec le plus récent sur la même
     machine.
 
-* `resume_from` (Optional[RunMoment]) : spécifie un point d&#39;une exécution précédente d&#39;un run à partir duquel reprendre.
+* `resume_from` (wandb.sdk.lib.run&#95;moment.RunMoment | None): spécifie un point d&#39;une exécution précédente d&#39;un run à partir duquel reprendre.
   Le point est défini par l&#39;ID du run, une métrique et sa valeur.
   Actuellement, seule la métrique &#39;&#95;step&#39; est prise en charge.
 
 * `root_dir` (str) : le répertoire racine à utiliser comme base pour tous les chemins liés aux runs.
   Il sert notamment à déterminer le répertoire wandb et le répertoire du run.
 
-* `run_group` (Optional[str]): Identifiant de groupe pour des runs associés.
+* `run_group` (str | None): Identifiant de groupe pour des runs associés.
   Utilisé pour regrouper les runs dans l’interface utilisateur.
 
-* `run_id` (Facultatif[str]) : Identifiant du run.
+* `run_id` (str | None): Identifiant du run.
 
-* `run_job_type` (Optional[str]) : Type de job exécuté (par exemple : entraînement, évaluation).
+* `run_job_type` (str | None): Type de job exécuté (par exemple : entraînement, évaluation).
 
-* `run_name` (Optional[str]) : Nom du run lisible par l’utilisateur.
+* `run_name` (str | None): Nom du run lisible par l’utilisateur.
 
-* `run_notes` (Optional[str]): Notes ou description supplémentaires pour le run.
+* `run_notes` (str | None): Notes ou description supplémentaires pour le run.
 
-* `run_tags` (Optional[Tuple[str, Ellipsis]]): Tags à associer au run à des fins d’organisation et de filtrage.
+* `run_tags` (tuple[str, ...] | None): Tags à associer au run à des fins d’organisation et de filtrage.
 
 * `sagemaker_disable` (bool): Indicateur permettant de désactiver les fonctionnalités propres à SageMaker.
 
-* `save_code` (Optional[bool]) : Indique s’il faut enregistrer le code associé à l’exécution.
+* `save_code` (bool | None) : Indique s’il faut enregistrer le code associé à l’exécution.
 
-* `settings_system` (Optional[str]) : Chemin d’accès au fichier de paramètres à l’échelle du système.
+* `settings_system` (str | None) : Chemin d’accès au fichier de paramètres à l’échelle du système.
 
-* `stop_fn` (Optional[Callable]): Fonction de rappel à exécuter pour arrêter le run.
+* `stop_fn` (collections.abc.Callable[[], None] | None): Fonction de rappel à exécuter pour arrêter le run.
   Un run peut être arrêté via l’interface utilisateur web, ou après une erreur fatale
   (si cela est configuré dans un paramètre).
   Par défaut, pour arrêter un run, W&amp;B envoie un SIGINT au thread principal.
@@ -461,7 +461,7 @@ __init__(
 * `silent` (bool) : indicateur permettant de désactiver toute sortie.
 
 * `stop_on_fatal_error` (bool): Indique s’il faut arrêter le run après une erreur fatale.
-  Une fois que W&amp;B rencontre une erreur irrécupérable lors du téléversement des données, il affiche
+  Après que W&amp;B rencontre une erreur irrécupérable lors du téléversement des données, il affiche
   un message et arrête le téléversement, tout en permettant toujours de
   journaliser davantage de données.
   C’est généralement souhaitable : vos métriques d’entraînement sont stockées sur le disque
@@ -470,33 +470,33 @@ __init__(
   Dans ce cas, définir cette valeur sur True arrêtera le run après une erreur fatale,
   comme si le bouton d’arrêt avait été pressé dans l’interface utilisateur web.
 
-* `strict` (Optional[bool]) : Indique s’il faut activer le mode strict pour la validation et le contrôle des erreurs.
+* `strict` (bool | None): Indique s’il faut activer le mode strict pour la validation et le contrôle des erreurs.
 
 * `summary_timeout` (int): Temps d’attente, en secondes, avant l’expiration du délai pour les opérations de synthèse.
 
-* `sweep_id` (Optional[str]) : identifiant du sweep dont fait partie ce run.
+* `sweep_id` (str | None) : identifiant du sweep dont fait partie ce run.
 
-* `sweep_param_path` (Optional[str]) : Chemin d’accès à la configuration des paramètres du sweep.
+* `sweep_param_path` (str | None) : Chemin d’accès à la configuration des paramètres du sweep.
 
 * `symlink` (bool): Indique s’il faut utiliser des liens symboliques (True par défaut, sauf sous Windows).
 
-* `sync_tensorboard` (Optional[bool]) : Indique s’il faut synchroniser les journaux de TensorBoard avec W&amp;B.
+* `sync_tensorboard` (bool | None): Indique s’il faut synchroniser les journaux de TensorBoard avec W&amp;B.
 
 * `table_raise_on_max_row_limit_exceeded` (bool): Indique s’il faut lever une exception lorsque la limite maximale du nombre de lignes du tableau est dépassée.
 
-* `use_dot_wandb` (Optional[bool]) : indique s’il faut utiliser le répertoire caché `.wandb` ou le répertoire visible `wandb` pour les données de run.
+* `use_dot_wandb` (bool | None): indique s’il faut utiliser le répertoire caché `.wandb` ou le répertoire visible `wandb` pour les données de run.
   Si True, le SDK utilise `.wandb`. Si False, `wandb`.
   S’il n’est pas défini, utilise par défaut `.wandb` s’il existe déjà, sinon `wandb`.
 
-* `username` (Optional[str]) : Nom d’utilisateur.
+* `username` (str | None) : Nom d’utilisateur.
 
 * `x_disable_meta` (bool): Indicateur permettant de désactiver la collecte des métadonnées système.
 
 * `x_disable_stats` (bool): Indicateur permettant de désactiver la collecte des métriques système.
 
-* `x_extra_http_headers` (Optional[Dict[str, str]]) : En-têtes supplémentaires à ajouter à toutes les requêtes HTTP envoyées.
+* `x_extra_http_headers` (dict[str, str] | None) : En-têtes supplémentaires à ajouter à toutes les requêtes HTTP sortantes.
 
-* `x_label` (Optional[str]) : Étiquette à attribuer aux métriques système et aux journaux de console collectés pour le run.
+* `x_label` (str | None): Étiquette à attribuer aux métriques système et aux journaux de console collectés pour le run.
   Utilisée pour regrouper les données dans l’interface utilisateur, elle peut aussi servir à distinguer les données
   issues de différents processus dans une tâche d’entraînement distribuée.
 
@@ -520,7 +520,7 @@ __init__(
 
 * `x_stats_sampling_interval` (float): Intervalle d’échantillonnage du moniteur système, en secondes.
 
-* `x_stats_dcgm_exporter` (Optional[str]) : point de terminaison depuis lequel extraire les métriques DCGM de Nvidia.
+* `x_stats_dcgm_exporter` (str | None) : point de terminaison depuis lequel extraire les métriques DCGM de Nvidia.
   Options :
   * Extraire les métriques liées à DCGM à partir d&#39;une requête adressée au point de terminaison Prometheus `/api/v1/query`.
     Il est courant d&#39;agréger avec Prometheus les métriques rapportées par les instances de DCGM Exporter
@@ -529,30 +529,30 @@ __init__(
     Exemples :
   * `http://localhost:9400/api/v1/query?query=DCGM_FI_DEV_GPU_TEMP{node="l1337", cluster="globular"}`.
 
-* `x_stats_open_metrics_endpoints` (Optional[Dict[str, str]]): points de terminaison OpenMetrics `/metrics` à surveiller pour le suivi des métriques système.
+* `x_stats_open_metrics_endpoints` (dict[str, str] | None): points de terminaison OpenMetrics `/metrics` à surveiller pour collecter les métriques système.
 
-* `x_stats_open_metrics_filters` (Union[Dict[str, Dict[str, str]], Sequence, None]) : filtre à appliquer aux métriques collectées depuis les points de terminaison OpenMetrics `/metrics`.
+* `x_stats_open_metrics_filters` (dict[str, dict[str, str]] | collections.abc.Sequence[str] | None) : filtre à appliquer aux métriques collectées depuis les points de terminaison OpenMetrics `/metrics`.
   Prend en charge deux formats :
   * `{"motif regex de métrique, incluant le nom du point de terminaison comme préfixe": {"label": "motif regex de valeur de label"}}`
   * `("motif regex de métrique 1", "motif regex de métrique 2", ...)`
 
-* `x_stats_open_metrics_http_headers` (Optional[Dict[str, str]]) : en-têtes HTTP à ajouter aux requêtes OpenMetrics.
+* `x_stats_open_metrics_http_headers` (dict[str, str] | None) : en-têtes HTTP à ajouter aux requêtes OpenMetrics.
 
-* `x_stats_disk_paths` (Optional[Sequence]) : chemins système à surveiller pour l’utilisation du disque.
+* `x_stats_disk_paths` (collections.abc.Sequence[str] | None) : chemins système à surveiller pour l’utilisation du disque.
 
-* `x_stats_cpu_count` (Optional[int]) : Nombre de CPU du système.
+* `x_stats_cpu_count` (int | None) : Nombre de CPU du système.
   Si cette valeur est définie, elle remplace la valeur détectée automatiquement dans les métadonnées du run.
 
-* `x_stats_cpu_logical_count` (Optional[int]) : Nombre de CPU logiques.
+* `x_stats_cpu_logical_count` (int | None) : Nombre de CPU logiques.
   S’il est défini, remplace la valeur détectée automatiquement dans les métadonnées du run.
 
-* `x_stats_gpu_count` (Optional[int]) : nombre de GPU.
+* `x_stats_gpu_count` (int | None): nombre de GPU.
   Si cette valeur est définie, elle redéfinit la valeur détectée automatiquement dans les métadonnées du run.
 
-* `x_stats_gpu_type` (Optional[str]): Type de GPU.
+* `x_stats_gpu_type` (str | None): Type de GPU.
   S&#39;il est défini, il remplace la valeur détectée automatiquement dans les métadonnées du run.
 
-* `x_stats_gpu_device_ids` (Optional[Sequence]) : indices des périphériques GPU à surveiller.
+* `x_stats_gpu_device_ids` (collections.abc.Sequence[int] | None) : indices des périphériques GPU à surveiller.
   Si ce paramètre n’est pas défini, le moniteur système capture les métriques de tous les GPU.
   Utilise une indexation à partir de 0, correspondant à l’énumération des périphériques CUDA/ROCm.
 
@@ -590,7 +590,7 @@ L’URL du notebook Colab, si l’exécution a lieu dans Colab.
 
 **Retourne :**
 
-* `Optional[str]`: La valeur de propriété `colab_url`.
+* `str | None`: La valeur de propriété `colab_url`.
 
 ### <kbd>propriété</kbd> `Settings.deployment`
 

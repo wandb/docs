@@ -1,29 +1,36 @@
 ---
 title: "Not Diamond ¬◇"
 description: "Use Not Diamond to route prompts to the right model for your needs while maximizing accuracy and saving on costs"
+keywords: ["Not Diamond", "model routing", "custom router", "LLM routing", "preference ID"]
 ---
 
-When building complex LLM workflows you may need to prompt different models according to accuracy,
+When you build complex LLM workflows, you may need to prompt different models according to accuracy,
 cost, or call latency. You can use [Not Diamond][nd] to route prompts in these workflows to the
 right model for your needs, helping maximize accuracy while saving on model costs.
 
-## Getting started
+This guide shows you how to integrate Not Diamond with W&B Weave so that Weave automatically traces
+routed model calls, and how to train a custom router using Weave Evaluations to route prompts based
+on your own performance data.
 
-Make sure you have [created an account][account] and [generated an API key][keys], then add your API
-key to your env as `NOTDIAMOND_API_KEY`.
+## Get started
+
+To use Not Diamond with Weave, you must have a Not Diamond account and an API key. [Create an
+account][account] and [generate an API key][keys], then add your API key to your environment as
+`NOTDIAMOND_API_KEY`.
 
 ![Create an API key](/weave/guides/integrations/imgs/notdiamond/api-keys.png)
 
-From here, you can
+From here, you can do any of the following:
 
-- try the [quickstart guide],
-- [build a custom router][custom router] with W&B Weave and Not Diamond, or
-- [chat with Not Diamond][chat] to see routing in action
+- Try the [quickstart guide].
+- [Build a custom router][custom router] with Weave and Not Diamond.
+- [Chat with Not Diamond][chat] to see routing in action.
 
 ## Tracing
 
-Weave integrates with [Not Diamond's Python library][python] to [automatically log API calls][ops].
-You only need to run `weave.init()` at the start of your workflow, then continue using the routed
+Weave integrates with [Not Diamond's Python library][python] to [automatically log API calls][ops],
+so you can inspect routing decisions and provider responses alongside the rest of your Weave traces.
+Run `weave.init()` at the start of your workflow, then continue to use the routed
 provider as usual:
 
 ```python lines
@@ -47,10 +54,11 @@ print("Provider model: ", provider.model) # gpt-4o, claude-3-5-sonnet-20240620, 
 
 ## Custom routing
 
-You can also train your own [custom router] on [Evaluations][evals], allowing Not Diamond to route prompts
-according to eval performance for specialized use cases.
+For specialized use cases, you can train your own [custom router] on [Evaluations][evals], which lets
+Not Diamond route prompts according to eval performance rather than the default routing policy.
 
-Start by training a custom router:
+Start by training a custom router. The `train_router` call returns a `preference_id` that identifies
+your trained router for later use:
 
 ```python lines
 from weave.flow.eval import EvaluationResults
@@ -74,8 +82,8 @@ preference_id = train_router(
 )
 ```
 
-By reusing this preference ID in any `model_select` request, you can route your prompts
-to maximize performance and minimize cost on your evaluation data:
+When you pass this preference ID to any `model_select` request, you can reuse your custom router to
+route prompts to maximize performance and minimize cost on your evaluation data:
 
 ```python lines
 from notdiamond import NotDiamond
@@ -101,7 +109,7 @@ print("Provider model: ", provider.model) # gpt-4o, claude-3-5-sonnet-20240620, 
 
 ## Additional support
 
-Visit the [docs] or [send us a message][support] for further support.
+For further support, visit the [docs] or [send a message][support].
 
 [account]: https://app.notdiamond.ai
 [chat]: https://chat.notdiamond.ai

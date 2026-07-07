@@ -1,0 +1,28 @@
+---
+title: "How do I use the parallel coordinates chart in W&B?"
+keywords: ["Runs", "Experiments", "Workspace", "Sweeps"]
+---
+
+The parallel coordinates chart shows how hyperparameters relate to metrics across many runs. Each line is one run; each axis is a config key or summary metric. To add a panel, configure axes, colors, and brushes, see [Parallel coordinates](/models/app/features/panels/parallel-coordinates) and [Visualize sweep results](/models/sweeps/visualize-sweep-results).
+
+## Reading the chart
+
+- Lines that **cross** between adjacent axes suggest an inverse relationship between those parameters.
+- Lines that **run parallel** suggest a positive correlation.
+- A tight **bundle** of lines at a good metric value marks a promising hyperparameter region.
+
+Color lines by a summary metric (for example `val/accuracy`) so strong runs stand out on a gradient from cool to warm colors.
+
+## Filtering with brushes
+
+Drag on an axis to brush a value range. Only runs in range stay highlighted. Brushing multiple axes narrows to runs that satisfy all ranges — useful for questions like which learning-rate and batch-size pairs exceed 90% accuracy.
+
+## Sweeps
+
+After a sweep, filter to the sweep (**Filter > Sweep > your-sweep-id**) so the panel shows trial runs only. Use the chart to see the explored space and plan a tighter follow-up sweep.
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Runs](/support/models/tags/runs)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Workspace](/support/models/tags/workspace)</Badge><Badge stroke shape="pill" color="orange" size="md">[Sweeps](/support/models/tags/sweeps)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

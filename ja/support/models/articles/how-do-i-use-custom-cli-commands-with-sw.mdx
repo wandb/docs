@@ -4,9 +4,9 @@ keywords: ["Sweeps"]
 featured: true
 ---
 
-トレーニングの設定でコマンドライン引数を渡すようにしていれば、W&amp;B Sweeps でカスタム CLI コマンドを使用できます。
+トレーニング設定でコマンドライン引数を渡せる場合は、W&amp;B Sweeps でカスタム CLI コマンドを使用できます。これにより、スクリプトでの引数の受け取り方を変更しなくても、既存のトレーニングスクリプトが想定している特定の CLI フラグをそのまま使って sweep を実行できます。
 
-以下の例のコードスニペットは、ユーザーが `train.py` という名前の Python スクリプトを実行し、スクリプトが解析する値を渡している bash ターミナルを示しています。
+次の例では、`train.py` という Python スクリプトをトレーニング用に実行し、スクリプトが解析する値を渡す Bash ターミナルの例を示します。
 
 ```bash
 /usr/bin/env python train.py -b \
@@ -15,7 +15,7 @@ featured: true
     --lr 0.00001
 ```
 
-カスタムコマンドを実装するには、YAML ファイルの `command` キーを変更します。前の例をもとにすると、設定は次のようになります。
+その呼び出しを sweep で再現するには、sweep エージェントが同じコマンドラインを組み立てるように、sweep 設定用 YAML file の `command` キーを変更します。前の例に基づくと、設定は次のようになります。
 
 ```yaml
 program:
@@ -35,9 +35,9 @@ command:
   - ${args}
 ```
 
-The `${args}` キーは、sweep 設定内のすべてのパラメーターに展開され、`argparse` 用に `--param1 value1 --param2 value2` の形式になります。
+`${args}` キーは、sweep 設定内のすべてのパラメーターを `argparse` 用に `--param1 value1 --param2 value2` の形式で展開します。
 
-`argparse` 以外の追加の引数については、以下を実装します。
+スクリプトが `argparse` 以外の追加の引数も受け取る場合は、認識されないフラグでパーサーがエラーにならないように `parse_known_args` を使用してください。
 
 ```python
 parser = argparse.ArgumentParser()
@@ -45,7 +45,7 @@ args, unknown = parser.parse_known_args()
 ```
 
 <Note>
-  環境によっては、`python` が Python 2 を指している場合があります。確実に Python 3 を起動するには、command の設定で `python3` を使用してください。
+  環境によっては、`python` が Python 2 を指している場合があります。Python 3 を呼び出すには、コマンド設定で `python3` を使用してください。
 
   ```yaml
   program:

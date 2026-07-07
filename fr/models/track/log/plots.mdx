@@ -156,7 +156,7 @@ Les graphiques de base suivants permettent de créer des visualisations simples 
   ### Graphiques d’évaluation du modèle
 </div>
 
-Ces graphiques prédéfinis intègrent des méthodes `wandb.plot()` qui permettent de journaliser rapidement et facilement des graphiques directement depuis votre script, puis de voir exactement les informations recherchées dans l’interface utilisateur.
+Ces graphiques prédéfinis intègrent des méthodes `wandb.plot()` qui permettent de journaliser rapidement des graphiques directement depuis votre script, puis de voir exactement les informations recherchées dans l’interface utilisateur.
 
 <Tabs>
   <Tab title="Courbes de précision-rappel">
@@ -165,7 +165,7 @@ Ces graphiques prédéfinis intègrent des méthodes `wandb.plot()` qui permette
     ```python
     import wandb
     with wandb.init() as run:
-        # ground_truth est une liste de vraies étiquettes, predictions est une liste de scores prédits.
+        # ground_truth est une liste d'étiquettes réelles, predictions est une liste de scores prédits.
         # Par exemple ground_truth = [0, 1, 1, 0], predictions = [0.1, 0.4, 0.35, 0.8]
         ground_truth = [0, 1, 1, 0]
         predictions = [0.1, 0.4, 0.35, 0.8]
@@ -195,7 +195,7 @@ Ces graphiques prédéfinis intègrent des méthodes `wandb.plot()` qui permette
     import wandb
 
     with wandb.init() as run:
-        # ground_truth est une liste de labels réels, predictions est une liste de scores prédits.
+        # ground_truth est une liste d'étiquettes réelles, predictions est une liste de scores prédits.
         # Par exemple ground_truth = [0, 1, 1, 0], predictions = [0.1, 0.4, 0.35, 0.8]
         ground_truth = [0, 1, 1, 0]
         predictions = [0.1, 0.4, 0.35, 0.8]
@@ -256,14 +256,14 @@ Pour une personnalisation complète, modifiez un [préréglage de graphique pers
 
 ```python
 import wandb
-# Créer un tableau avec les colonnes à tracer.
+# Créer un tableau avec les colonnes à représenter.
 table = wandb.Table(data=data, columns=["step", "height"])
 
 # Associer les colonnes du tableau aux champs du graphique.
 fields = {"x": "step", "value": "height"}
 
 # Utiliser le tableau pour remplir le nouveau préréglage de graphique personnalisé.
-# Pour utiliser votre propre préréglage de graphique enregistré, modifiez vega_spec_name.
+# Pour utiliser votre propre préréglage enregistré, modifiez vega_spec_name.
 # Pour modifier le titre, modifiez string_fields.
 my_custom_chart = wandb.plot_table(
     vega_spec_name="carey/new_chart",
@@ -273,7 +273,7 @@ my_custom_chart = wandb.plot_table(
 )
 
 with wandb.init() as run:
-    # Journaliser le graphique personnalisé dans le journal.
+    # Journaliser le graphique personnalisé.
     run.log({"my_custom_chart": my_custom_chart})
 ```
 
@@ -293,7 +293,7 @@ with wandb.init() as run:
     # Créer un graphique matplotlib simple.
     plt.figure()
     plt.plot([1, 2, 3, 4])
-    plt.ylabel("quelques nombres intéressants")
+    plt.ylabel("some interesting numbers")
 
     # Journaliser le graphique dans W&B.
     run.log({"chart": plt})
@@ -301,9 +301,7 @@ with wandb.init() as run:
 
 Passez simplement un graphique `matplotlib` ou un objet figure à `wandb.Run.log()`. Par défaut, nous convertirons le graphique en graphique [Plotly](https://plot.ly/). Si vous préférez journaliser le graphique sous forme d’image, vous pouvez le passer à `wandb.Image`. Nous acceptons aussi directement les graphiques Plotly.
 
-<Note>
-  Si vous obtenez une erreur du type &quot;You attempted to log an empty plot&quot;, stockez la figure séparément du graphique avec `fig = plt.figure()`, puis journalisez `fig` dans votre appel à `wandb.Run.log()`.
-</Note>
+<Note>Si vous obtenez une erreur du type &quot;You attempted to log an empty plot&quot;, stockez la figure séparément du graphique avec `fig = plt.figure()`, puis journalisez `fig` dans votre appel à `wandb.Run.log()`.</Note>
 
 <div id="log-custom-html-to-wb-tables">
   ### Journaliser du HTML personnalisé dans W&amp;B Tables
@@ -312,10 +310,10 @@ Passez simplement un graphique `matplotlib` ou un objet figure à `wandb.Run.log
 W&amp;B prend en charge la journalisation de graphiques interactifs Plotly et Bokeh au format HTML, ainsi que leur ajout à Tables.
 
 <div id="log-plotly-figures-to-tables-as-html">
-  #### Journaliser des figures Plotly dans Tables au format HTML
+  #### Journaliser des figures Plotly dans W&amp;B Tables au format HTML
 </div>
 
-Vous pouvez journaliser des graphiques Plotly interactifs dans les Tables de W&amp;B en les convertissant au format HTML.
+Vous pouvez journaliser des graphiques Plotly interactifs dans W&amp;B Tables en les convertissant au format HTML.
 
 ```python
 import wandb
@@ -327,18 +325,18 @@ with wandb.init(project="log-plotly-fig-tables", name="plotly_html") as run:
     # Créer un tableau.
     table = wandb.Table(columns=["plotly_figure"])
 
-    # Créer le chemin vers le graphique Plotly.
+    # Créer le chemin vers la figure Plotly.
     path_to_plotly_html = "./plotly_figure.html"
 
-    # Exemple de graphique Plotly.
+    # Exemple de figure Plotly.
     fig = px.scatter(x=[0, 1, 2, 3, 4], y=[0, 1, 4, 9, 16])
 
-    # Écrire le graphique Plotly en HTML.
+    # Écrire la figure Plotly en HTML.
     # Définir auto_play sur False empêche les graphiques Plotly animés
     # de se lancer automatiquement dans le tableau.
     fig.write_html(path_to_plotly_html, auto_play=False)
 
-    # Ajouter le graphique Plotly en tant que fichier HTML dans le tableau.
+    # Ajouter la figure Plotly en tant que fichier HTML dans le tableau.
     table.add_data(wandb.Html(path_to_plotly_html))
 
     # Journaliser le tableau.

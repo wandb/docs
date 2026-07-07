@@ -3,7 +3,7 @@ title: "最終評価の精度のように、時間が経っても変化しない
 keywords: ["Runs"]
 ---
 
-`run.log({'final_accuracy': 0.9})` を使用すると、最終精度が正しく更新されます。デフォルトでは、`run.log({'final_accuracy': <value>})` は `run.settings['final_accuracy']` を更新し、その値が Runs table に反映されます。
+最終評価の精度のような単一の変化しない値を記録するには、`run.log` で一度だけログします。たとえば、`run.log({'final_accuracy': 0.9})` は最終精度を記録します。デフォルトでは、`run.log({'final_accuracy': <value>})` は `run.settings['final_accuracy']` を更新し、その値が Runs table に反映されます。
 
 ***
 

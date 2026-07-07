@@ -1,0 +1,48 @@
+---
+title: "endConversation"
+description: "TypeScript SDK リファレンス"
+---
+
+<div id="endconversation">
+  # endConversation
+</div>
+
+▸ **endConversation**(`opts?`): `void`
+
+現在のConversationを終了します。アクティブなConversationがない場合、この操作は何も行いません。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名       | タイプ              |
+| :------ | :--------------- |
+| `opts?` | `SpanEndOptions` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`void`
+
+`例`
+
+```ts twoslash
+// @noErrors
+weave.endConversation();
+```
+
+`例`
+
+```ts twoslash
+// @noErrors
+weave.endConversation({endTime: new Date('2026-05-29T10:00:01.700Z')});
+```
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/api.ts:151](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/api.ts#L151)
+
+***

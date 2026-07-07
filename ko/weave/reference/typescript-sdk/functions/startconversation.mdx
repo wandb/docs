@@ -1,0 +1,56 @@
+---
+title: "startConversation"
+description: "TypeScript SDK 레퍼런스"
+---
+
+<div id="startconversation">
+  # startConversation
+</div>
+
+▸ **startConversation**(`opts?`): [`Conversation`](../classes/conversation)
+
+새 `Conversation`을 시작하고 현재 대화로 설정합니다.
+이후 `startTurn` Call은 이 대화를 자동으로 사용합니다.
+
+`attributes`를 전달하면 대화에서 생성하는 모든
+span에 맞춤형(non-semconv) 속성이 기록됩니다.
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름     | 유형                                                   |
+| :----- | :--------------------------------------------------- |
+| `opts` | [`ConversationInit`](../interfaces/conversationinit) |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+[`Conversation`](../classes/conversation)
+
+`예시`
+
+```ts twoslash
+// @noErrors
+weave.startConversation({agentName: 'research-bot'});
+```
+
+`예시`
+
+```ts twoslash
+// @noErrors
+weave.startConversation({
+  agentName: 'research-bot',
+  conversationId: '019efa53-8a65-711c-b4c1-7c1cb72c0bb7',
+  attributes: {'myagent.version': '1.23'},
+});
+```
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/genai/api.ts:26](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/api.ts#L26)
+
+***

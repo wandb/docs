@@ -1,0 +1,57 @@
+---
+title: "runIsolated"
+description: "TypeScript SDK リファレンス"
+---
+
+<div id="runisolated">
+  # runIsolated
+</div>
+
+▸ **runIsolated**&lt;`T`&gt;(`fn`): `T`
+
+新しい独立した GenAI 状態フレームで `fn` を実行します。`fn` 内で開始された Conversation / Turn / LLM
+はこのフレーム内にのみ存在し、同時に実行される
+ほかの `runIsolated` フレームと競合せず、外側の非同期チェーン
+にも漏れません。
+
+並列の GenAI 処理を安全に実行するには、これを使用します。
+
+```typescript
+  await Promise.all([
+    weave.runIsolated(async () => { ... }),
+    weave.runIsolated(async () => { ... }),
+  ]);
+```
+
+single-flight を順次利用する場合、このラッパーは不要です —
+プロセス全体のデフォルト状態で対応されます。
+
+<div id="type-parameters">
+  #### 型パラメーター
+</div>
+
+| 名   |
+| :-- |
+| `T` |
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名    | タイプ          |
+| :--- | :----------- |
+| `fn` | () =&gt; `T` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`T`
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/context.ts:54](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/context.ts#L54)
+
+***

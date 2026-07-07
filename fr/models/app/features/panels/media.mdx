@@ -61,16 +61,17 @@ Cet onglet apparaît dans les Settings du Workspace et les Paramètres de la sec
   ### Affichage
 </div>
 
-Personnalisez l’apparence générale et le comportement du panneau :
+Personnalisez l’apparence générale et le comportement du volet multimédia :
 
-* Configurez le titre du panneau.
+* Configurez le titre du volet multimédia.
 * Sélectionnez les clés de média à visualiser.
-* Personnalisez le curseur du panneau et son comportement de lecture.
+* Personnalisez le curseur du volet multimédia et son comportement de lecture.
   * Configurez la clé du curseur, qui est définie par défaut sur **Étape**.
   * Définissez **Longueur de pas** sur le nombre d’étapes à avancer à chaque clic sur le curseur.
   * Activez ou désactivez **Aligner sur une étape existante**. Si cette option est activée, le curseur avance jusqu’à l’étape existante suivante après **Longueur de pas**. Sinon, il avance de **Longueur de pas** même si cela ne correspond pas à une étape existante.
 * **Images** : activez ou désactivez le lissage.
-* **Objets 3D** : configurez la couleur d’arrière-plan et la couleur des points.
+* **Vidéos** : configurez l’intervalle de déplacement dans la vidéo, qui contrôle la distance du saut vers l’avant ou vers l’arrière lors de l’utilisation des touches fléchées gauche et droite.
+* **objets 3D** : configurez la couleur d’arrière-plan et la couleur des points.
 
 <div id="layout">
   ### Mise en page
@@ -83,9 +84,11 @@ Personnalisez l’affichage des éléments individuels du panneau :
 * Définissez le **Panel mode** :
   * **Gallery** (par défaut) : spécifiez le nombre de colonnes et indiquez si la grille affiche un seul élément par run (par défaut), par étape ou par index.
   * **Grid** : spécifiez le nombre de colonnes, l’axe x (par défaut, **Log Step**) et l’axe y (par défaut, **Run**).
-  * **Compare** : comparez jusqu’à quatre éléments multimédias côte à côte, en les répartissant éventuellement par étape ou par index. Voir [Compare mode](#compare-mode) pour plus de détails.
+  * **Compare** : comparez jusqu’à quatre éléments multimédias côte à côte, en les répartissant éventuellement par étape ou par index. Voir [mode de comparaison](#compare-mode) pour plus de détails.
 * **Utiliser la taille d’origine** : si cette option est désactivée (par défaut), W&amp;B met à l’échelle les images et les vidéos du panneau pour qu’elles apparaissent à la même taille. Aucun effet en mode **Compare**.
-* **Ajuster à l’espace disponible** : si cette option est activée (par défaut), W&amp;B met à l’échelle les images et les vidéos du panneau pour occuper autant d’espace que possible dans le panneau. En mode **Gallery**, chaque image remplit la largeur du panneau. En mode **Grid**, chaque image remplit la largeur de la grille. Aucun effet en mode **Compare**.
+* Configurez l’ajustement des médias et le comportement de mise à l’échelle :
+  * **Images** : choisissez l’une des options **Original image**, **Original size** ou **Fit to available space**. Avec cette dernière, W&amp;B met à l’échelle les images du panneau pour occuper autant d’espace que possible. En mode **Gallery**, chaque image remplit la largeur du panneau. En mode **Grid**, chaque image remplit la largeur de la grille. Aucun effet en mode **Compare**.
+  * **Videos** : basculez **Use original size** pour déterminer si les médias doivent être mis à l’échelle afin d’apparaître à la même taille. Si cette option est inactive (par défaut), W&amp;B met à l’échelle les vidéos du panneau pour occuper autant d’espace que possible. En mode **Gallery**, chaque vidéo remplit la largeur du panneau. En mode **Grid**, chaque vidéo remplit la largeur de la grille. Aucun effet en mode **Compare**.
 * **Système à main droite** : si cette option est activée, les nuages de points utilisent le système à main droite pour tracer les points, plutôt que le système à main gauche par défaut.
 
 <div id="all-media-panels-in-a-section">
@@ -165,17 +168,17 @@ Pour utiliser Compare mode :
 W&amp;B enregistre votre sélection afin que vous puissiez revenir plus tard à la même comparaison sans reconfigurer le panneau.
 
 <div id="interact-with-a-media-panel">
-  ## Interagir avec un panneau multimédia
+  ## Interagir avec un volet multimédia
 </div>
 
-Après avoir ajouté et configuré un panneau multimédia, utilisez les interactions suivantes pour parcourir, comparer et inspecter les médias enregistrés :
+Après avoir ajouté et configuré un volet multimédia, utilisez les interactions suivantes pour parcourir, comparer et inspecter les médias enregistrés :
 
-* Pour configurer un panneau multimédia, survolez-le et cliquez sur l’icône d’engrenage en haut.
-* Pour déplacer le curseur d’étape d’un panneau multimédia, utilisez **CMD + flèche gauche ou droite** (macOS) ou **Ctrl + flèche gauche ou droite** (Windows / Linux). Si **Synchroniser le curseur par clé** est activé pour la section ou le Workspace, le déplacement du curseur d’étape dans un panneau multimédia déplace également le curseur d’étape dans les autres panneaux multimédia ayant la même clé de curseur d’étape.
-* Utilisez le sélecteur d’étape en haut d’un panneau multimédia pour parcourir les runs multimédia. Pour déplacer le curseur d’étape, utilisez les contrôles de l’UI.
-* Cliquez sur un panneau multimédia pour l’afficher en mode plein écran. Cliquez sur le bouton fléché en haut du panneau pour quitter le mode plein écran.
+* Pour configurer un volet multimédia, survolez-le et cliquez sur l’icône d’engrenage en haut.
+* Pour déplacer le curseur d’étape d’un volet multimédia, utilisez **CMD + flèche gauche ou droite** (macOS) ou **Ctrl + flèche gauche ou droite** (Windows / Linux). Si **Synchroniser le curseur par clé** est activé pour la section ou le Workspace, le déplacement du curseur d’étape dans un volet multimédia déplace également le curseur d’étape dans les autres volets multimédia ayant la même clé de curseur d’étape.
+* Utilisez le sélecteur d’étape en haut d’un volet multimédia pour parcourir les runs multimédia. Pour déplacer le curseur d’étape, utilisez les contrôles de l’UI.
+* Cliquez sur un volet multimédia pour l’afficher en mode plein écran. Cliquez sur le bouton fléché en haut du panneau pour quitter le mode plein écran.
 * Pour naviguer entre les panneaux d’une section sans quitter le mode plein écran, utilisez soit les boutons **Précédent** et **Suivant** sous le panneau, soit les touches fléchées gauche et droite.
 * Lorsque vous affichez une image en mode plein écran, cliquez sur le contrôle de zoom en haut à droite pour zoomer ou dézoomer. Par défaut, les images sont ajustées à la fenêtre. Cliquez et faites glisser pour déplacer une image agrandie. Vous pouvez également zoomer, dézoomer, réinitialiser le zoom à 100 % ou ajuster l’image à la fenêtre à l’aide de raccourcis clavier. Voir [Raccourcis clavier](/fr/models/app/keyboard-shortcuts#media-panels).
 * Pour une image enregistrée avec des masques de segmentation, vous pouvez personnaliser leur apparence ou les activer et les désactiver individuellement. Survolez le panneau, puis cliquez sur l’icône d’engrenage du bas.
 * Pour une image ou un nuage de points enregistré avec des boîtes englobantes, vous pouvez personnaliser leur apparence ou les activer et les désactiver individuellement. Survolez le panneau, puis cliquez sur l’icône d’engrenage du bas.
-* Utilisez les contrôles multimédias pour lancer, mettre en pause ou arrêter la lecture de la vidéo. Si **Synchroniser la lecture vidéo** est activé, toutes les vidéos de la section sont lues de manière synchronisée. Si **Lire les vidéos en boucle** est activé, les vidéos de la section redémarrent automatiquement et sont lues en continu jusqu’à leur arrêt.
+* Utilisez les contrôles multimédias pour lancer, mettre en pause ou arrêter la lecture de la vidéo. Utilisez les touches fléchées gauche et droite pour avancer ou reculer selon l’**étape de recherche vidéo** configurée. Si **Synchroniser la lecture vidéo** est activé, toutes les vidéos de la section sont lues de manière synchronisée. Si **Lire les vidéos en boucle** est activé, les vidéos de la section redémarrent automatiquement et sont lues en continu jusqu’à leur arrêt.

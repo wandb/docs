@@ -1,0 +1,148 @@
+---
+title: "Class: Conversation"
+description: "TypeScript SDK reference"
+---
+
+[weave](../) / Conversation
+
+
+
+A Conversation groups Turns under a single `gen_ai.conversation.id`. It is
+not itself an OTel span — children stamp the conversation id onto theirs.
+
+## Table of contents
+
+### Properties
+
+- [agentName](./conversation#agentname)
+- [attributes](./conversation#attributes)
+- [conversationId](./conversation#conversationid)
+- [model](./conversation#model)
+
+### Accessors
+
+- [sessionId](./conversation#sessionid)
+
+### Methods
+
+- [end](./conversation#end)
+- [startTurn](./conversation#startturn)
+- [create](./conversation#create)
+
+## Properties
+
+### agentName
+
+• `Readonly` **agentName**: `string`
+
+#### Defined in
+
+[src/genai/conversation.ts:34](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L34)
+
+___
+
+### attributes
+
+• `Readonly` **attributes**: `Attributes`
+
+#### Defined in
+
+[src/genai/conversation.ts:37](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L37)
+
+___
+
+### conversationId
+
+• `Readonly` **conversationId**: `string`
+
+#### Defined in
+
+[src/genai/conversation.ts:36](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L36)
+
+___
+
+### model
+
+• `Readonly` **model**: `string`
+
+#### Defined in
+
+[src/genai/conversation.ts:35](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L35)
+
+## Accessors
+
+### sessionId
+
+<Warning>
+  **Deprecated.** Use [Conversation.conversationId](./conversation#conversationid) instead.
+</Warning>
+
+• `get` **sessionId**(): `string`
+
+#### Returns
+
+`string`
+
+#### Defined in
+
+[src/genai/conversation.ts:41](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L41)
+
+## Methods
+
+### end
+
+▸ **end**(`opts?`): `void`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `opts?` | `SpanEndOptions` |
+
+#### Returns
+
+`void`
+
+#### Defined in
+
+[src/genai/conversation.ts:71](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L71)
+
+___
+
+### startTurn
+
+▸ **startTurn**(`opts?`): [`Turn`](./turn)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `opts` | [`TurnInit`](../interfaces/turninit) |
+
+#### Returns
+
+[`Turn`](./turn)
+
+#### Defined in
+
+[src/genai/conversation.ts:62](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L62)
+
+___
+
+### create
+
+▸ **create**(`opts?`): [`Conversation`](./conversation)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `opts` | [`ConversationInit`](../interfaces/conversationinit) |
+
+#### Returns
+
+[`Conversation`](./conversation)
+
+#### Defined in
+
+[src/genai/conversation.ts:45](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L45)

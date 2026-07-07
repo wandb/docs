@@ -1,0 +1,62 @@
+---
+title: "wrapClaudeAgentSdk"
+description: "Référence du SDK TypeScript"
+---
+
+<div id="wrapclaudeagentsdk">
+  # wrapClaudeAgentSdk
+</div>
+
+▸ **wrapClaudeAgentSdk**&lt;`T`&gt;(`sdk`): `T`
+
+Instrumentez manuellement le module `@anthropic-ai/claude-agent-sdk`.
+
+Utilisez cette fonction lorsque l&#39;instrumentation automatique ne s&#39;applique pas — par ex. avec un bundler
+dont le chargement des modules ne peut pas être observé par les hooks CJS/ESM, ou avec un chemin d&#39;import qu&#39;ils
+ne couvrent pas. Nécessite `@anthropic-ai/claude-agent-sdk` &gt;= 0.3.178. Renvoie une
+vue du module dont l&#39;export `query` est tracé ; utilisez l&#39;objet renvoyé
+plutôt que l&#39;import d&#39;origine (le `query` du SDK est un export avec accesseur en lecture seule,
+donc la liaison d&#39;origine ne peut pas être patchée sur place) :
+
+<div id="type-parameters">
+  #### Paramètres de type
+</div>
+
+| Nom |
+| :-- |
+| `T` |
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom   | Type |
+| :---- | :--- |
+| `sdk` | `T`  |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`T`
+
+`Example`
+
+```ts twoslash
+// @noErrors
+import * as claudeAgentSdk from '@anthropic-ai/claude-agent-sdk';
+import { wrapClaudeAgentSdk } from 'weave';
+
+const { query } = wrapClaudeAgentSdk(claudeAgentSdk);
+for await (const message of query({ prompt: 'hi' })) {
+  // ...tracé
+}
+```
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/integrations/claudeAgentSdk.ts:209](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/claudeAgentSdk.ts#L209)
+
+***

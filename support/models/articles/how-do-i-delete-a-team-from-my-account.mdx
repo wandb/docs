@@ -3,14 +3,30 @@ title: "How do I delete a team from my account?"
 keywords: ["Administrator", "Team Management"]
 ---
 
-As a team admin, you can permanently delete a team from your W&B account. Use this procedure when you need to remove a team that you no longer use.
+## Delete a team
 
-To delete a team from your account:
+1. Log in as a team admin.
+2. Open **Team settings** from the team page in the W&B UI.
+3. Scroll to the bottom of the settings page and click **Delete team**.
+4. Confirm the deletion when prompted.
 
-1. Access team settings as an admin.
-2. At the bottom of the page, click **Delete**.
+<Warning>
+If you delete your *only* team, your account is locked until [support@wandb.com](mailto:support@wandb.com) restores access. You may also see a "rate limit exceeded" error when you log in. W&B accounts must belong to at least one team to create projects and run experiments, including the personal team created at signup.
+</Warning>
 
-W&B removes the team from your account.
+See [I deleted my team and now I can't create a new one — what do I do?](/support/models/articles/i-deleted-my-team-and-now-i-cant-create-a-new-one) for recovery steps.
+
+## If you want a different team name
+
+Team names cannot be changed after creation. To use a new name without locking your account:
+
+1. [Create a new team](/support/models/articles/how-do-i-create-a-new-team-in-wandb) with the name you want.
+2. Move projects and runs to the new team as needed.
+3. Delete the old team *only if* you still belong to at least one other team (including your personal team).
+
+If the old team was your only team, contact [support@wandb.com](mailto:support@wandb.com) before deleting so support can help you transition without losing access.
+
+On [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) or [Self-Managed](/platform/hosting/hosting-options/self-managed), contact your account team or support for rename requests before you delete a team.
 
 ---
 

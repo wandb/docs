@@ -1,13 +1,16 @@
 ---
 title: "OpenRouter"
 description: "Utilisez l’interface unifiée d’OpenRouter pour de nombreux LLM avec une intégration automatique à Weave"
+keywords: ["OpenRouter", "compatibilité du SDK OpenAI", "routage des LLM", "traçage multi-modèles", "API LLM unifiée"]
 ---
 
-OpenRouter.ai est une interface unifiée pour de nombreux LLM, prenant en charge aussi bien des modèles de fondation comme OpenAI GPT-4, Anthropic Claude et Google Gemini que des modèles open source comme LLama-3, Mixtral et [bien d’autres](https://openrouter.ai/models). Certains modèles sont même proposés gratuitement.
+Ce guide vous montre comment utiliser Weave pour tracer automatiquement les appels aux LLM accessibles via OpenRouter, afin de pouvoir surveiller, déboguer et évaluer l’utilisation des modèles de votre application depuis un seul tableau de bord.
 
-OpenRouter propose une API REST et une compatibilité du SDK OpenAI ([docs](https://docs.together.ai/docs/openai-api-compatibility)) que Weave détecte et intègre automatiquement (voir le [guide de démarrage rapide](https://openrouter.ai/docs/quick-start) d’OpenRouter pour plus de détails).
+OpenRouter est une interface unifiée pour de nombreux LLM, prenant en charge à la fois des modèles de base comme OpenAI GPT-4, Anthropic Claude et Google Gemini, ainsi que des modèles open source comme LLama-3, Mixtral et [d&#39;autres](https://openrouter.ai/models). Certains modèles sont proposés gratuitement.
 
-Pour faire passer votre code OpenAI SDK à OpenRouter, remplacez la clé API par votre clé [API OpenRouter](https://openrouter.ai/docs/api-keys), `base_url` par `https://openrouter.ai/api/v1` et le modèle par l’un de ses nombreux [modèles de chat](https://openrouter.ai/docs/models). Lorsque vous appelez `weave.init()`, fournissez un nom de projet pour vos traces. S’il n’est pas spécifié, votre entité par défaut est utilisée. Pour trouver ou mettre à jour votre entité par défaut, référez-vous à [Paramètres utilisateur](https://docs.wandb.ai/platform/app/settings-page/user-settings/#default-team) dans la documentation W&amp;B Models.
+OpenRouter propose une API REST et une [compatibilité du SDK OpenAI](https://openrouter.ai/docs/guides/community/openai-sdk) que Weave détecte automatiquement et avec laquelle il s’intègre. Pour en savoir plus, consultez le [guide de démarrage rapide](https://openrouter.ai/docs/quick-start) d’OpenRouter. Comme Weave détecte le SDK OpenAI, vous pouvez réutiliser votre code OpenAI existant avec quelques modifications de configuration.
+
+Pour faire passer votre code SDK OpenAI à OpenRouter, remplacez la clé API par votre clé [API OpenRouter](https://openrouter.ai/docs/api-keys), définissez `base_url` sur `https://openrouter.ai/api/v1`, et définissez le modèle sur l’un des [modèles de chat](https://openrouter.ai/docs/models) disponibles. Lorsque vous appelez `weave.init()`, indiquez un nom de projet pour vos traces. Si vous n’en indiquez pas, Weave utilise votre entité par défaut. Pour trouver ou modifier votre entité par défaut, consultez [Paramètres utilisateur](https://docs.wandb.ai/platform/app/settings-page/user-settings/#default-team) dans la documentation W&amp;B Models. Après avoir exécuté l’exemple suivant, Weave capture votre appel à OpenRouter sous forme de trace dans votre projet Weave.
 
 ```python lines {5,10-12}
 import os
@@ -25,8 +28,8 @@ client = openai.OpenAI(
 )
 chat_completion = client.chat.completions.create(
     extra_headers={
-    "HTTP-Referer": $YOUR_SITE_URL, # Facultatif, pour inclure votre application dans les classements openrouter.ai.
-    "X-Title": $YOUR_APP_NAME, # Facultatif. Apparaît dans les classements sur openrouter.ai.
+    "HTTP-Referer": "[YOUR-SITE-URL]", # Facultatif, pour inclure votre application dans le classement sur openrouter.ai.
+    "X-Title": "[YOUR-APP-NAME]", # Facultatif. S’affiche dans le classement sur openrouter.ai.
     },
     model="meta-llama/llama-3.1-8b-instruct:free",
     messages=[
@@ -40,4 +43,4 @@ response = chat_completion.choices[0].message.content
 print("Model response:\n", response)
 ```
 
-Bien qu’il s’agisse d’un exemple simple pour commencer, consultez notre guide [OpenAI](/fr/weave/guides/integrations/openai#track-your-own-ops) pour plus de détails sur la manière d’intégrer Weave à vos propres fonctions pour des cas d’utilisation plus complexes.
+Bien qu’il s’agisse d’un exemple de base pour commencer, voir le guide [OpenAI](/fr/weave/guides/integrations/openai#track-your-own-ops) pour plus de détails sur l’intégration de Weave à vos propres fonctions dans des cas d’usage plus complexes.

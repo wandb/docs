@@ -1,28 +1,175 @@
 ---
-title: "アーカイブされた W&B Server バージョン"
-description: "サポート終了ステータスに達した旧 W&B Server バージョンのアーカイブ済みバージョンメモを参照します。"
-sidebarTitle: "アーカイブされたバージョン"
+title: "アーカイブされた W&B Server リリース"
+description: "サポート終了ステータスに達した旧 W&B Server リリースのアーカイブ済みバージョンメモを参照します。"
+sidebarTitle: "アーカイブされたリリース"
 rss: true
 ---
 
 import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-reminder.mdx';
 
-このページでは、サポートが終了した W&amp;B Server の version に関する version メモを掲載しています。
+このページでは、サポートが終了した W&amp;B Server の リリース に関する リリース メモを掲載しています。
 
-* 現在サポートされている Server version については、[W&amp;B Server version メモ](/ja/release-notes/server-releases) を参照してください。
-* W&amp;B Server の version スケジュールとサポートの詳細については、[W&amp;B Server version ポリシー](/ja/release-notes/release-policies) を参照してください。
+* 現在サポートされている Server リリース については、[W&amp;B Server リリース メモ](/ja/release-notes/server-releases) を参照してください。
+* W&amp;B Server の リリース スケジュールとサポートの詳細については、[W&amp;B Server リリース ポリシー](/ja/release-notes/release-policies) を参照してください。
 
 <EolReminder />
 
 {/* リリースをアーカイブするには、server-releases.mdx からその <Update> エントリ（パッチを含む）を
-      この直下に移動します */}
+    この直下に移動します */}
+
+<Update label="v0.70.1" description="2025年7月9日">
+  ## 修正
+
+  * アップグレード後に、クラッシュした run のステータスが **Crashed** に更新されないバグを修正しました。
+  * **Sweeps** Runs table で **State** 列が表示されないバグを修正しました。
+  * artifact manifest file のキャッシュパスが artifact のバージョンインデックスのみに依存していたため、Registry コレクションのブラウザーで誤ったバージョンの Files が表示されることがある Weave のバグを修正しました。
+  * 構文的に正しい JSON を正しく解析できないことがある Weave のバグを修正しました。
+
+  これらのバグは v0.70.0 で導入されました。
+</Update>
+
+<Update label="v0.70.0" description="2025年7月7日">
+  W&amp;B Server v0.70 には、インサイトをより効率的に取得・共有するための新機能、機能強化、およびパフォーマンス改善が含まれています。以下に例を示します。
+
+  ## サポートとサポート終了
+
+  * W&amp;B Server v0.56 はサポートが終了しました。
+
+  ## 今後の変更点
+
+  * 今後のリリースで、複数 run の Workspace ビューと単一 run ビューの動作を統一する予定です。これにより、単一 run をドリルダウンしたときに、カスタム チャート、レイアウト、設定を含め、複数 run ビューで設定したものと同じパネルのレイアウトと設定が表示されるようになります。これは、コンテキストを維持したまま、ビュー設定のやり直しを避けられるようにするためです。ただし、Workspace の他の部分から独立した単一 run ビューを個別にカスタマイズすることはできなくなります。移行についてご不明な点がありましたら、W&amp;B のチームまたは [サポート](mailto:support@wandb.ai) までお問い合わせください。
+  * 今後数回のリリースにわたり、既存のチーム レベルの Model Registry を W&amp;B Registry に移行します。詳細とスケジュールについては、以下の [W&amp;B Registry GA announcement](#registry_ga_announcement) を参照してください。
+
+  ## 機能
+
+  * <a id="registry_ga_announcement" aria-label="W&B Registry 一般提供開始のお知らせ" /> **W&amp;B Registry の一般提供を開始しました**！Registry では、アセットの多様性、アクセス管理、スケーラビリティが向上し、大規模で多様なチーム全体で AI の取り組みを共同で進めるための真のハブとなります。
+    * Registry は現在、`ENABLE_REGISTRY_UI` 環境変数を使用するか、W&amp;B のサポートチームへお問い合わせいただくことで有効にできます。
+    * 今後数回のリリースにわたって、既存のチームレベルの Model Registry アセットを段階的に W&amp;B Registry へ移行します。**お客様側での作業は不要です。W&amp;B が各チームの Model Registry アセットを、対応する自動作成されたチームレベルのプライベート Registry に自動的にコピーします。**  以前のチームレベルの Model Registry 内にあるモデル コレクションへの既存の参照は、引き続き機能します。
+
+      1. Server v0.71 では、すべての組織で Registry がデフォルトで有効になります。
+      2. Server v0.73 (8 月) には、アップグレード中にこの移行を自動的に実行するオプトアウト用の環境変数が含まれます。ほとんどの組織では、移行に 5 分から 30 分かかります。移行中は、古いチームの Model Registry または新しい Registry のいずれかに artifact をリンクしようとすると、エラーで失敗します。****artifact のログと取得** **には影響ありません**。
+      3. Server v0.74 (9 月) では、このフラグを削除し、移行はアップグレード中に実行されます。
+
+      強力な新しい機能を、できる限りシームレスかつ影響を最小限に抑えてご利用いただけるよう、アップグレードを進めています。移行についてご不明な点がありましたら、W&amp;B チームまたは [support](mailto:support@wandb.ai) までお問い合わせください。
+  * **CoreWeave インフラストラクチャーのモニタリング**: CoreWeave インフラストラクチャー上の [W&amp;B Run](/ja/models/runs) では、[CoreWeave Mission Control](https://www.coreweave.com/mission-control) がコンピュートインフラストラクチャーを監視し、GPU 障害や温度制限違反などのインフラストラクチャーアラートを確認できます。エラーが発生すると、CoreWeave はその情報を W&amp;B に送信します。W&amp;B は、そのインフラストラクチャー情報をお使いの project の Workspace 内にある run のプロットに表示します。CoreWeave は一部の問題を自動的に解決しようとし、W&amp;B はその情報を run のページに表示します。さらに W&amp;B は、run に関するシステムレベルの詳細を確認できるよう、SLURM ジョブの Grafana ダッシュボードへのリンクも提供します。詳しくは [CoreWeave インフラストラクチャーアラートを可視化する](/ja/models/app/features/panels/line-plot) をご覧ください。
+  * **CoreWeave 外部 file のトラッキング**: reference artifacts を使用して、CoreWeave AI Object Storage に保存された外部 file をトラッキングできるようになりました。詳しくは [外部 file をトラッキングする](/ja/models/artifacts/track-external-files) をご覧ください。
+  * **CoreWeave BYOB のサポート**: 専用クラウド と セルフマネージド で、Instance レベルおよび チームレベル BYOB の CoreWeave AI Object Storage がサポートされるようになりました。Multi-tenant Cloud での CoreWeave チームレベル BYOB は近日提供予定です。詳しくは [Bring your own bucket (BYOB)](/ja/platform/hosting/data-security/secure-storage-connector) をご覧ください。
+  * **一括メディア設定**: 折れ線グラフと同様に、Workspace 全体または特定のセクションにわたって、すべてのメディアパネル設定を一度に管理できるようになりました。各パネルを個別に調整しなくても、メディアパネルをエポックごとに表示するよう設定したり、カスタマイズしたグリッドパターンに配置したりできます。個別のパネル設定はグローバル設定より優先されます。
+  * **Workspace テンプレート**を使用すると、既存の Workspace と同じ設定で Workspace をすばやく作成できます。現在、Workspace テンプレートではカスタムの折れ線グラフ設定を定義できます。詳しくは [Workspace templates](/ja/models/track/workspaces/#workspace-templates) をご覧ください。
+  * **段階的な表のログ**を使用すると、機械学習 experiment の実行中に rows のバッチを表にログできます。これは、長時間実行されるジョブを監視する場合や、更新のために run 中にログするには非効率な大きな表を扱う場合に最適です。UI では、rows がログされるたびに表が新しい rows で更新されるため、run 全体の完了を待たずに最新のデータを確認できます。増分ごとに確認して、異なる時点での表を表示できます。詳しくは [表をログする](/ja/models/track/log/log-tables/#adding-data-incrementally) をご覧ください。
+
+  ## Fixes
+
+  * 表示される行が一部のみの場合、ログビューアーの上部にバナーを表示するようにしました。
+  * データ境界での移動平均の計算に関するバグを修正しました。
+  * 相対時間プロットの x 軸の単位ラベルをわかりやすくしました。
+  * **Show Original** をオフにしても元の線が表示されたままになる、スムージングを使用したプロットのバグを修正しました。
+  * 式を含むグループ化された full-fidelity 折れ線グラフが、意図せず棒グラフに変換されることがあるバグを修正しました。
+  * ヒストグラムにカーソルを合わせると、ツールチップに x 軸の step が表示されるようになりました。
+  * パネルからエクスポートしたデータが誤って並べ替えられることがあるバグを修正しました。エクスポートしたデータは数値順でソートされるようになりました。
+  * run selector で **updated at** によるフィルターと並べ替えができるようになりました。
+  * ポイントクラウドパネルに右手系のシステム設定オプションを追加しました。
+  * フルスクリーンのパネル URL から末尾のスラッシュを削除するようにしました。
+  * 削除直後に更新すると、削除した保存済みビューが再表示されることがあるバグを修正しました。
+  * ダークモードをオンにした状態でページを再読み込みすると発生する、表示のちらつきに関するバグを修正しました。
+  * 非単調な値を使用した際に、スライダーの step が誤るバグを修正しました。
+  * Runs を group 間で移動する際に、便利なチェックボックスと通知を追加しました。
+  * `wandb.define_metric()` でメトリクス名にワイルドカード文字 `*` を使用した場合に、名前に `/` を含むメトリクスと一致しないバグを修正しました。
+  * W&amp;B は、コレクションポートフォリオがガベージコレクションされた際にソース artifact を削除しないようになりました。
+  * **Allowed types** と **Registry visibility** の選択ボックスで入力できてしまうバグを修正しました。
+  * コレクションカードに、省略せず完全な artifact タイプ名を表示するようにしました。
+  * Registry コレクションで **Action History** をクリックすると、誤って **Versions** ビューが読み込まれるバグを修正しました。
+  * Registry で `job` タイプの artifacts を追加できるようになりました。
+  * リネージタイルの幅を広げ、省略される前により多くのテキストを表示できるようにしました。
+  * project レベルのオートメーション設定のテキストをわかりやすくし、Registry の用語である &quot;collections&quot; ではなく &quot;artifacts&quot; を参照するようにしました。
+  * artifact ブラウザーで名前検索を行う際、従来の先頭 500 件の artifacts の制限ではなく、すべての artifacts を検索するようになりました。
+</Update>
+
+<Update label="v0.69.1" description="2025年6月10日">
+  ## 修正
+
+  * `state` パラメーターを `pending` または `running` に設定することで、`Run.create()` を使用して run を作成する際の初期状態を設定できるようになりました。
+  * **Action History** をクリックすると **Version** ビューが誤って読み込まれるバグを修正しました。
+  * Parquet store service のメモリ使用効率を改善しました。
+</Update>
+
+<Update label="v0.69.0" description="2025年5月28日">
+  ## サポートとサポート終了
+
+  * W&amp;B Server v0.56 はサポート終了しました。
+
+  ## Upgrading
+
+  W&amp;B v0.69.x に[アップグレード](/ja/platform/hosting/server-upgrade-process/#update-with-helm)するには、`operator-wandb` Helm chart の v0.31.4 以降を使用する必要があります。これを行わないと、アップグレード後に `weave-cache-clear` コンテナーが起動に失敗する場合があります。デプロイメントに以下の値が設定されていることを確認してください。
+
+  ```yaml
+  chart:
+    url: https://charts.wandb.ai
+    name: operator-wandb
+    version: 0.31.4
+  ```
+
+  アップグレードに関するご質問や問題が発生した場合は、[サポート](mailto:support@wandb.com)までお問い合わせください。
+
+  ## 機能
+
+  * Workspace で、run のカスタム表示名を直接設定できるようになりました。カスタマイズした run 名はすべてのプロットと表に表示されますが、反映されるのはご自身の Workspace 内のみで、チームメイトの表示には影響しません。これにより、Workspace をよりすっきり見やすく保てるようになり、すべての凡例やプロットに `*...v6-final-restart...`* のようなラベルが並ぶこともなくなります。
+  * run をフィルタリングまたはグループ化すると、カラーが重なって区別しにくくなることがあります。run セレクターに追加された新しい **Randomize Colors** オプションでは、現在選択している run またはグループに、デフォルトパレットからランダムにカラーを再割り当てできるため、カラーをより見分けやすくできます。
+  * 折れ線グラフで、線を **Cmd+Click** すると、新しいタブで単一 run ビューを開けるようになりました。
+  * 動画メディアパネルで、再生、一時停止、シーク、フルスクリーン表示、再生速度の調整など、より多くの再生コントロールを利用できるようになりました。
+  * すべての種類のメディアパネルの設定が整理・改善されました。
+  * ポイントクラウド パネルのポイントと背景のカラーをカスタマイズできるようになりました。
+  * チームレベルおよび組織レベルのサービスアカウントが、Registry を操作できるようになりました。
+  * 改良された指数加重移動平均 (EMA) スムージングにより、完全な未ビニングデータを扱う場合でも、より信頼性の高い[スムージング済みの線](/ja/models/app/features/panels/line-plot/smoothing)を表示できます。ほとんどの場合、パフォーマンス向上のため、スムージングはバックエンドで処理されます。この機能は v0.68.x ではプライベートプレビューでした。
+
+  ### プライベートプレビュー
+
+  プライベートプレビュー機能は招待制でのみご利用いただけます。プライベートプレビューへの参加をご希望の場合は、[サポート](mailto:support@wandb.com)またはAISEまでお問い合わせください。
+
+  * すべてのRunsを、損失やカスタムの効率メトリクスなどのセカンダリメトリクスに基づいて色分けできるようになりました。これにより、すべてのプロットでRuns全体にわたって明確なグラデーションの色分けが適用され、パターンをよりすばやく見つけられます。[動画デモを見る](https://www.loom.com/share/c6ed484899324de991ef7147fd73785d)。
+  * [個人用Workspaceテンプレート](/ja/models/track/workspaces/#workspace-templates){/* TODO change to a relref after workspace templates docs merge */}を使用すると、基本的な折れ線グラフの設定を保存し、新しいビューで自動的に再適用できます。これらの設定には、X軸キー、スムージングアルゴリズム、スムージング係数、表示する線の最大数、run セレクターの Grouping を使用するかどうか、適用する集約が含まれます。
+
+  ### Weave
+
+  * [保存済みビュー](/ja/weave/guides/tools/saved-views) を使うと、チームでの共同作業がしやすくなり、フィルターや列の設定を保存できます。
+  * PDF と一般的なファイルがサポートされるようになりました。
+  * 新しい[`EvaluationLogger` API](/ja/weave/guides/evaluation/evaluation_logger) では、命令型スタイルで柔軟に評価をログできます。
+  * これで、[人によるアノテーション](/ja/weave/guides/tracking/feedback#add-human-annotations) を Weave のデータセットにインポートできるようになりました
+  * [Playground](/ja/weave/guides/tools/playground) で、保存済みの設定とプロンプトがサポートされるようになりました。
+  * TypeScript でデコレーターがサポートされるようになりました。
+  * [ジェネレーター関数のトレース](/ja/weave/guides/tracking/tracing#trace-sync-%26-async-generator-functions) をサポートしました。
+  * 新しい[`dataset.add_rows`](/ja/weave/reference/python-sdk/#method-add-rows)ヘルパーにより、既存のデータセットへの行の追加がより効率的になります。
+  * 利用状況を把握しやすくするため、UI で trace と object のサイズを確認できるようになりました。
+
+  ## パフォーマンス
+
+  * [`wandb` SDK](/ja/models/quickstart/#install-the-wandb-library-and-log-in) v0.19.11 では、artifact のダウンロード速度が平均で 3〜5 倍向上しました。たとえば、以前は約 100 MB/秒 だった artifact でも、現在は 450 MB/秒 以上でダウンロードできる場合があります。実際のダウンロード速度は、ネットワークやストレージ インフラストラクチャーなどの要因によって異なります。
+  * [Project](/ja/models/track/project-page) ページと [User Settings](/ja/platform/app/settings-page/user-settings) ページでのキャッシュを改善しました。
+
+  ## 修正
+
+  * Python 仮想環境との互換性を確保できるよう、`weave-cache-clear` コンテナーの起動プロセスを改善しました。
+  * コンソールログをより密に表示するオプションを追加しました。
+  * Workspace の読み込み画面に表示される情報がより充実しました。
+  * Workspace から report にパネルを追加する際、宛先 report のリストでは、現在の project の report が先に表示されるようになりました。
+  * y 軸が過度に丸められ、その結果として重複した値が表示されるケースを多数修正しました。
+  * 無効なスムージングパラメーターを入力したときに発生するわかりにくい動作を修正しました。
+  * メディアパネルから **Partial Media** 警告を削除しました。これによって、メディアパネルの動作が変わることはありません。
+  * [tags に基づく run フィルター](/ja/models/runs/filter-runs/#filter-runs-with-tags)を追加すると、他のフィールドでフィルタリングする場合と同様に、そのフィルターがデフォルトで選択されるようになりました。
+  * run セレクターで、アクティブな Runs に表示されることがあった緑のベルアイコンを削除しました。
+  * 個別の Runs の System ページを削除しました。
+  * project の説明フィールドで改行が反映されるようになりました。
+  * レガシー model registry コレクションの URL を修正しました。
+  * Netron viewer がページ上の使用可能なスペース全体に広がらないバグを修正しました。
+  * project の **Delete** をクリックすると、確認モーダルにプロジェクト名が表示されるようになりました。
+</Update>
 
 <Update label="v0.68.2" description="2025年5月7日">
   ## 修正
 
   * `state` パラメーターを `pending` または `running` に設定することで、`Run.create()` を使用して run を作成する際の初期状態を設定できるようになりました。
   * **Action History** をクリックすると **Version** ビューが誤って読み込まれるバグを修正しました。
-  * Parquet Store サービス のメモリ使用効率を改善しました。
+  * Parquet store service のメモリ使用効率を改善しました。
 </Update>
 
 <Update label="v0.68.1" description="2025年5月2日">

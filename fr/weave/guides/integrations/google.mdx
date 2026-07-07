@@ -1,6 +1,7 @@
 ---
 title: "Google"
 description: "Utilisez Weave pour tracer et journaliser les appels de modèles Google GenAI"
+keywords: ["Gemini", "Vertex AI", "SDK GenAI", "traces", "LLM"]
 ---
 
 <a target="_blank" href="https://github.com/wandb/examples/blob/master/weave/docs/quickstart_google.ipynb">
@@ -11,22 +12,24 @@ description: "Utilisez Weave pour tracer et journaliser les appels de modèles G
   Vous pouvez tester les modèles Google AI dans Weave sans aucune configuration à l’aide du [LLM Playground](../tools/playground).
 </Note>
 
-Cette page explique comment utiliser W&amp;B Weave avec l’API Google Vertex AI et l’API Google Gemini.
+Cette page explique comment utiliser W&amp;B Weave avec l’API Google Vertex AI et l’API Google Gemini afin de pouvoir évaluer, surveiller et faire évoluer vos applications Google GenAI.
 
-Vous pouvez utiliser Weave pour évaluer, surveiller et faire évoluer vos applications Google GenAI. Weave capture automatiquement des traces pour les éléments suivants :
+Weave capture automatiquement des traces pour les éléments suivants :
 
-1. Le [SDK Google GenAI](https://github.com/googleapis/python-genai), accessible via le SDK Python, le SDK Node.js, le SDK Go et REST.
-2. L’[API Google Vertex AI](https://cloud.google.com/vertex-ai/docs), qui donne accès aux modèles Gemini de Google ainsi qu’à [divers modèles partenaires](https://cloud.google.com/vertex-ai/generative-ai/docs/partner-models/use-partner-models).
+* Le [SDK Google GenAI](https://github.com/googleapis/python-genai), accessible via le SDK Python, le SDK Node.js, le SDK Go et REST.
+* L’[API Google Vertex AI](https://cloud.google.com/vertex-ai/docs), qui donne accès aux modèles Gemini de Google ainsi qu’aux [modèles partenaires](https://cloud.google.com/vertex-ai/generative-ai/docs/partner-models/use-partner-models).
 
 <Note>
-  Nous proposons également une assistance pour le [SDK Python Google AI pour l’API Gemini](https://github.com/google-gemini/deprecated-generative-ai-python), désormais obsolète. Notez que cette assistance est également obsolète et sera supprimée dans une prochaine version.
+  Weave prend également en charge le [SDK Python Google AI pour l’API Gemini](https://github.com/google-gemini/deprecated-generative-ai-python), désormais obsolète. Cette prise en charge est également obsolète et sa suppression est prévue dans une prochaine version.
 </Note>
 
 <div id="get-started">
   ## Pour commencer
 </div>
 
-Weave capture automatiquement les traces avec le [SDK Google GenAI](https://github.com/googleapis/python-genai). Pour démarrer le suivi, appelez `weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")`, puis utilisez la bibliothèque normalement.
+Les exemples suivants montrent comment activer le tracing pour chaque SDK pris en charge. Dans les deux cas, appeler `weave.init` est la seule étape spécifique à Weave requise. Votre code Google GenAI ou Vertex AI existant reste inchangé.
+
+Weave capture automatiquement les traces avec le [SDK Google GenAI](https://github.com/googleapis/python-genai). Pour démarrer le suivi, appelez `weave.init(project_name="[YOUR-WANDB-PROJECT-NAME]")`, puis utilisez la bibliothèque normalement.
 
 ```python lines
 import os
@@ -44,7 +47,7 @@ response = google_client.models.generate_content(
 
 [![dspy\_trace.png](/weave/guides/integrations/imgs/google-genai-trace.png)](https://wandb.ai/geekyrakshit/google-genai/weave/traces)
 
-Weave capture aussi automatiquement les traces des [API Vertex](https://github.com/googleapis/python-aiplatform/tree/main/vertexai/generative_models). Pour démarrer le suivi, appelez `weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")`, puis utilisez la bibliothèque normalement.
+Weave capture aussi automatiquement les traces des [API Vertex](https://github.com/googleapis/python-aiplatform/tree/main/vertexai/generative_models). Pour démarrer le suivi, appelez `weave.init(project_name="[YOUR-WANDB-PROJECT-NAME]")`, puis utilisez la bibliothèque normalement.
 
 ```python lines
 import vertexai
@@ -52,7 +55,7 @@ import weave
 from vertexai.generative_models import GenerativeModel
 
 weave.init(project_name="vertex-ai-test")
-vertexai.init(project="<YOUR-VERTEXAIPROJECT-NAME>", location="<YOUR-VERTEXAI-PROJECT-LOCATION>")
+vertexai.init(project="[YOUR-VERTEX-AI-PROJECT-NAME]", location="[YOUR-VERTEX-AI-PROJECT-LOCATION]")
 model = GenerativeModel("gemini-1.5-flash-002")
 response = model.generate_content(
     "What's a good name for a flower shop specialising in selling dried flower bouquets?"
@@ -63,11 +66,11 @@ response = model.generate_content(
   ## Suivez vos propres ops
 </div>
 
-En encapsulant une fonction avec `@weave.op`, vous commencez à capturer les entrées, les sorties et la logique de l&#39;application, afin de pouvoir déboguer la façon dont les données circulent dans votre application. Vous pouvez imbriquer des ops en profondeur et construire un arbre de fonctions que vous souhaitez suivre. Cela active également automatiquement la gestion des versions du code au fil de vos expériences, afin de capturer des détails ad hoc qui n&#39;ont pas été commités dans Git.
+Encapsulez une fonction avec `@weave.op` pour commencer à capturer les entrées, les sorties et la logique de l&#39;application, afin de pouvoir déboguer la façon dont les données circulent dans votre application. Vous pouvez imbriquer des ops en profondeur et construire un arbre de fonctions que vous souhaitez suivre. Cela active également automatiquement la gestion des versions du code au fil de vos expériences, afin de capturer des détails ad hoc qui n&#39;ont pas été commités dans Git.
 
-Créez simplement une fonction décorée avec [`@weave.op`](/fr/weave/guides/tracking/ops).
+Créez une fonction décorée avec [`@weave.op`](/fr/weave/guides/tracking/ops).
 
-Dans l&#39;exemple ci-dessous, la fonction `recommend_places_to_visit`, encapsulée avec `@weave.op`, recommande des lieux à visiter dans une ville.
+Dans l&#39;exemple suivant, la fonction `recommend_places_to_visit`, encapsulée avec `@weave.op`, recommande des lieux à visiter dans une ville.
 
 ```python lines
 import os
@@ -100,9 +103,9 @@ recommend_places_to_visit("Kolkata")
 
 Il est difficile d’organiser une expérimentation lorsqu’il y a de nombreux éléments en jeu. En utilisant la classe [`Model`](../core-types/models), vous pouvez capturer et organiser les détails expérimentaux de votre application, comme votre prompt système ou le modèle que vous utilisez. Cela facilite l’organisation et la comparaison des différentes itérations de votre application.
 
-En plus de la gestion des versions du code et de la capture des entrées/sorties, les [`Model`](../core-types/models)s capturent des paramètres structurés qui contrôlent le comportement de votre application, ce qui permet d’identifier facilement les paramètres les plus efficaces. Vous pouvez également utiliser les Weave Models avec `serve` et les [`Évaluation`](../core-types/evaluations)s.
+En plus de la gestion des versions du code et de la capture des entrées/sorties, les [`Model`](../core-types/models)s capturent des paramètres structurés qui contrôlent le comportement de votre application, vous aidant à trouver les paramètres les plus efficaces. Vous pouvez également utiliser les Weave Models avec `serve` et les [`Évaluation`](../core-types/evaluations)s.
 
-Dans l’exemple ci-dessous, vous pouvez expérimenter avec `CityVisitRecommender`. Chaque fois que vous modifiez l’un de ces éléments, vous obtenez une nouvelle *version* de `CityVisitRecommender`.
+Dans l’exemple suivant, vous pouvez expérimenter avec `CityVisitRecommender`. Chaque fois que vous modifiez l’un de ces éléments, vous obtenez une nouvelle *version* de `CityVisitRecommender`. Cela vous donne un historique versionné de chaque configuration que vous essayez, que vous pouvez ensuite comparer ou évaluer.
 
 ```python lines
 import os
@@ -120,7 +123,7 @@ class CityVisitRecommender(weave.Model):
     def predict(self, city: str) -> str:
         response = google_client.models.generate_content(
             model=self.model,
-            contents="Vous êtes un assistant serviable destiné à suggérer tous les endroits économiques à visiter dans une ville",
+            contents="You are a helpful assistant meant to suggest all budget-friendly places to visit in a city",
         )
         return response.text
 

@@ -1,27 +1,24 @@
 ---
 title: Aperçu
-description: Créez et gérez les Automatisations W&B pour simplifier vos flux de travail ML
+description: Créez et gérez les automatisations W&B pour simplifier vos flux de travail de ML
+keywords: ["automatisations", "notifications Slack", "webhooks", "événements du registre", "secrets W&B"]
 ---
 
-import EnterpriseCloudOnly from "/snippets/fr/_includes/enterprise-cloud-only.mdx";
-
-<Info>
-  <EnterpriseCloudOnly />
-</Info>
-
-Cette page présente un aperçu de la création et de la gestion des W&amp;B [Automatisations](/fr/models/automations). Pour des instructions plus détaillées, reportez-vous à [Créer une automatisation Slack](/fr/models/automations/create-automations/slack) ou à [Créer une automatisation webhook](/fr/models/automations/create-automations/webhook).
+Cette page explique comment créer et gérer des [automatisations](/fr/models/automations) W&amp;B, qui vous permettent de déclencher des notifications Slack ou des webhooks en réponse à des événements de projet et de registre. Utilisez cet aperçu pour comprendre les prérequis et le flux de travail général, puis suivez les instructions détaillées dans [Créer une automatisation Slack](/fr/models/automations/create-automations/slack) ou [Créer une automatisation webhook](/fr/models/automations/create-automations/webhook).
 
 <Note>
-  Vous cherchez des tutoriels complémentaires sur les Automatisations ?
+  Vous cherchez des tutoriels complémentaires sur les automatisations ?
 
-  * [Découvrez comment déclencher automatiquement une GitHub Action pour l’évaluation et le déploiement d’un modèle](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw).
-  * [Regardez une vidéo montrant comment déployer automatiquement un modèle vers un endpoint SageMaker](https://www.youtube.com/watch?v=s5CMj_w3DaQ).
-  * [Regardez une série de vidéos présentant les Automatisations](https://youtube.com/playlist?list=PLD80i8An1OEGECFPgY-HPCNjXgGu-qGO6\&feature=shared).
+  * [Découvrez comment déclencher automatiquement une GitHub Action pour l&#39;évaluation et le déploiement d&#39;un modèle](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw).
+  * [Regardez une vidéo montrant comment déployer automatiquement un modèle vers un point de terminaison SageMaker](https://www.youtube.com/watch?v=s5CMj_w3DaQ).
+  * [Regardez une série de vidéos présentant les automatisations](https://youtube.com/playlist?list=PLD80i8An1OEGECFPgY-HPCNjXgGu-qGO6\&feature=shared).
 </Note>
 
 <div id="requirements">
   ## Prérequis
 </div>
+
+Lors de la création d’Automatisations :
 
 * Un administrateur d’équipe peut créer et gérer des Automatisations pour les projets de l’équipe, ainsi que les composants de ces Automatisations, tels que des webhooks, des secrets et des intégrations Slack. Consultez [Team settings](/fr/platform/app/settings-page/teams).
 * Pour créer une automatisation de registre, vous devez avoir accès au registre. Consultez [Configurer l’accès au registre](/fr/models/registry/configure_registry/#registry-roles).
@@ -31,13 +28,25 @@ Cette page présente un aperçu de la création et de la gestion des W&amp;B [Au
   ## Créer une automatisation
 </div>
 
-Créez une automatisation depuis l’onglet **Automatisations** du projet ou du registre. En résumé, pour créer une automatisation, suivez ces étapes :
+Vous pouvez créer une automatisation depuis l’onglet **Automatisations** du projet ou du registre, ou directement depuis un panneau de graphique linéaire dans le Workspace.
 
-1. Si nécessaire, [créez un secret W&amp;B](/fr/platform/secrets) pour chaque chaîne sensible requise par l’automatisation, comme un jeton d’accès, un mot de passe ou une clé SSH. Les secrets sont définis dans vos **Team Settings**. Ils sont le plus souvent utilisés dans les Automatisations webhook.
-2. Configurez des intégrations webhook ou Slack au niveau de l’équipe pour autoriser W&amp;B à publier sur Slack ou à exécuter le webhook en votre nom. Une même intégration webhook ou Slack peut être utilisée par plusieurs Automatisations. Ces actions sont définies dans vos **Team Settings**.
+<div id="create-from-the-automations-tab">
+  ### Créer depuis l’onglet Automatisations
+</div>
+
+En résumé, pour créer une automatisation depuis l’onglet **Automatisations**, suivez ces étapes :
+
+1. Si nécessaire, [créez un secret W&amp;B](/fr/platform/secrets) pour chaque chaîne sensible requise par l’automatisation, comme un jeton d’accès, un mot de passe ou une clé SSH. Les secrets vous permettent de réutiliser des chaînes sensibles en toute sécurité et de les exclure des configurations d’automatisation. Définissez les secrets dans vos **Team Settings**. Les automatisations webhook utilisent le plus souvent des secrets.
+2. Configurez des intégrations webhook ou Slack au niveau de l’équipe pour autoriser W&amp;B à publier sur Slack ou à exécuter le webhook en votre nom. Plusieurs automatisations peuvent utiliser une même intégration webhook ou Slack. Définissez ces actions dans vos **Team Settings**.
 3. Dans le projet ou le registre, créez l’automatisation, qui définit l’événement à surveiller et l’action à exécuter (par exemple, publier sur Slack ou exécuter un webhook). Lorsque vous créez une automatisation webhook, vous configurez la charge utile qu’elle envoie.
 
-Ou, à partir d’un graphique en courbes dans le Workspace, vous pouvez rapidement créer une [automatisation sur une métrique de run](/fr/models/automations/automation-events/#run-events) pour la métrique affichée :
+Après avoir suivi ces étapes, l’automatisation s’exécute chaque fois que l’événement spécifié se produit dans le projet ou le registre.
+
+<div id="create-a-run-metric-automation-from-a-workspace-panel">
+  ### Créer une automatisation sur une métrique de run à partir d’un panneau du Workspace
+</div>
+
+À partir d’un graphique en courbes dans le Workspace, vous pouvez également créer une [automatisation sur une métrique de run](/fr/models/automations/automation-events/#run-events) pour la métrique affichée :
 
 1. Survolez le panneau, puis cliquez sur l’icône en forme de cloche en haut du panneau.
 
@@ -52,19 +61,21 @@ Pour plus de détails, consultez :
 * [Créer une automatisation webhook](/fr/models/automations/create-automations/webhook)
 
 <div id="view-and-manage-automations">
-  ## Afficher et gérer les Automations
+  ## Afficher et gérer les Automatisations
 </div>
 
-Affichez et gérez les Automations depuis l&#39;onglet **Automations** d&#39;un projet ou d&#39;un registre.
+Affichez et gérez les Automatisations depuis l&#39;onglet **Automatisations** d&#39;un projet ou d&#39;un registre :
 
-* Pour afficher les détails d&#39;une automation, cliquez sur son nom.
-* Pour afficher l&#39;historique d&#39;exécution d&#39;une automation, cliquez sur son nom, puis sélectionnez l&#39;onglet **Historique**. Voir [Afficher l&#39;historique d&#39;une automation](/fr/models/automations/view-automation-history) pour plus de détails.
-* Pour modifier une automation, cliquez sur son menu **d&#39;action (<Icon icon="ellipsis" iconType="solid" />)**, puis sur **Modifier l&#39;automation**.
-* Pour supprimer une automation, cliquez sur son menu **d&#39;action (<Icon icon="ellipsis" iconType="solid" />)**, puis sur **Supprimer l&#39;automation**.
+* Pour afficher les détails d&#39;une automatisation, cliquez sur son nom.
+* Pour afficher l&#39;historique d&#39;exécution d&#39;une automatisation (quelles actions ont été exécutées et si elles ont réussi), cliquez sur son nom, puis sélectionnez l&#39;onglet **Historique**. Pour plus d&#39;informations, voir [Afficher l&#39;historique d&#39;une automatisation](/fr/models/automations/view-automation-history).
+* Pour modifier une automatisation, cliquez sur son menu **d&#39;action (<Icon icon="ellipsis" iconType="solid" />)**, puis sur **Modifier l&#39;automatisation**.
+* Pour supprimer une automatisation, cliquez sur son menu **d&#39;action (<Icon icon="ellipsis" iconType="solid" />)**, puis sur **Supprimer l&#39;automatisation**.
 
-<div id="next-steps">
-  ## Étapes suivantes
+<div id="go-further">
+  ## Aller plus loin
 </div>
+
+Pour plus d&#39;informations, voir les ressources suivantes :
 
 * [Tutoriels sur les Automatisations](/fr/models/automations/tutorial) : créez une [alerte d’échec d’un run de projet](/fr/models/automations/project-automation-tutorial) ou une [automatisation d’un alias de Registre vers un webhook](/fr/models/automations/registry-automation-tutorial) dans l’application W&amp;B.
 * [Événements et portée des Automatisations](/fr/models/automations/automation-events).

@@ -1,0 +1,365 @@
+---
+title: "クラス: Turn"
+description: "TypeScript SDK リファレンス"
+---
+
+[weave](../) / Turn
+
+エージェントの呼び出しです。通常は、単一の
+ユーザーメッセージに応答するための処理をラップします。`invoke_agent` スパンを生成し、その
+ターンのトレースのルートとして機能します。常に `ROOT_CONTEXT` の下で開始されるため、
+別の OTel でインストルメントされた
+ライブラリから誤って親を継承することはありません。
+
+`weave.startTurn()` (または `conversation.startTurn()`) で作成され、
+`end()` で終了します。非同期チェーンでアクティブにできる Turn は 1 つだけです。
+子要素 (LLM、Tool、SubAgent) は、`startLLM`、`startTool`、
+`startSubagent` メソッドを介して接続されます。
+
+`例`
+
+```ts twoslash
+// @noErrors
+const turn = weave.startTurn({agentName: 'research-bot', model: MODEL});
+try {
+  const llm = turn.startLLM({model: MODEL, providerName: 'openai'});
+  // ...
+  llm.end();
+} finally {
+  turn.end();
+}
+```
+
+<div id="hierarchy">
+  ## 階層
+</div>
+
+* `SpanBase`
+
+  ↳ `Turn`
+
+<div id="table-of-contents">
+  ## 目次
+</div>
+
+<div id="properties">
+  ### プロパティ
+</div>
+
+* [agentName](./turn#agentname)
+* [model](./turn#model)
+
+<div id="methods">
+  ### メソッド
+</div>
+
+* [addEvent](./turn#addevent)
+* [end](./turn#end)
+* [setAttribute](./turn#setattribute)
+* [setAttributes](./turn#setattributes)
+* [startLLM](./turn#startllm)
+* [startSubagent](./turn#startsubagent)
+* [startTool](./turn#starttool)
+* [create](./turn#create)
+
+## プロパティ
+
+<div id="agentname">
+  ### agentName
+</div>
+
+• `Readonly` **agentName**: `string`
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/turn.ts:57](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/turn.ts#L57)
+
+***
+
+<div id="model">
+  ### model
+</div>
+
+• `Readonly` **model**: `string`
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/turn.ts:58](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/turn.ts#L58)
+
+## メソッド
+
+<div id="addevent">
+  ### addEvent
+</div>
+
+▸ **addEvent**(`name`, `attributes?`, `startTime?`): `this`
+
+スパンに名前付きイベントを追加します。コンテキストの圧縮、
+ツールループの検出、ガードレールの作動など、スパンではない時点を示すのに便利です。警告を出し、
+`end()` の後に呼び出しても何も行いません。OTel の `Span.addEvent` に対応しています。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名             | タイプ          |
+| :------------ | :----------- |
+| `name`        | `string`     |
+| `attributes?` | `Attributes` |
+| `startTime?`  | `TimeInput`  |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`this`
+
+`例`
+
+```ts twoslash
+// @noErrors
+span.addEvent('context_compacted', {removedMessages: 12});
+```
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+SpanBase.addEvent
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/spanBase.ts:77](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/spanBase.ts#L77)
+
+***
+
+<div id="end">
+  ### end
+</div>
+
+▸ **end**(`opts?`): `void`
+
+Turn スパン を終了します。冪等です。失敗としてマークするには、`error` を渡します。終了時刻を過去にさかのぼって設定するには、`endTime` を渡します。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名       | タイプ              |
+| :------ | :--------------- |
+| `opts?` | `SpanEndOptions` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`void`
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/turn.ts:144](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/turn.ts#L144)
+
+***
+
+<div id="setattribute">
+  ### setAttribute
+</div>
+
+<Warning>
+  **非推奨。** 代わりに [setAttributes](./turn#setattributes) を使用してください。これは Python
+  SDK の `set_attributes` と OTel の `Span.setAttributes` に合わせたものです。既存の単一属性を設定する呼び出しコードとの互換性を保つため、このメソッドは薄い
+  alias として残されています。これを持つのは `Turn`
+  のみで、他の emitter に単数形はありませんでした。
+</Warning>
+
+▸ **setAttribute**(`key`, `value`): `this`
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名       | タイプ              |
+| :------ | :--------------- |
+| `key`   | `string`         |
+| `value` | `AttributeValue` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`this`
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/turn.ts:136](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/turn.ts#L136)
+
+***
+
+<div id="setattributes">
+  ### setAttributes
+</div>
+
+▸ **setAttributes**(`attributes`): `this`
+
+スパン に複数の属性を一度に設定します。`end()` の後は警告を出し、何も行いません。OTel の `Span.setAttributes` (および Python SDK の `set_attributes`) と同様の動作です。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名            | タイプ          |
+| :----------- | :----------- |
+| `attributes` | `Attributes` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`this`
+
+`例`
+
+```ts twoslash
+// @noErrors
+span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
+```
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+SpanBase.setAttributes
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/spanBase.ts#L63)
+
+***
+
+<div id="startllm">
+  ### startLLM
+</div>
+
+▸ **startLLM**(`opts`): [`LLM`](./llm)
+
+この Turn 配下で子 LLM スパン を開始します。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名      | タイプ                                |
+| :----- | :--------------------------------- |
+| `opts` | [`LLMInit`](../interfaces/llminit) |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+[`LLM`](./llm)
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/turn.ts:104](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/turn.ts#L104)
+
+***
+
+<div id="startsubagent">
+  ### startSubagent
+</div>
+
+▸ **startSubagent**(`opts`): [`SubAgent`](./subagent)
+
+この Turn の配下に、子 SubAgent のスパンを開始します。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名      | タイプ                                          |
+| :----- | :------------------------------------------- |
+| `opts` | [`SubAgentInit`](../interfaces/subagentinit) |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+[`SubAgent`](./subagent)
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/turn.ts:122](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/turn.ts#L122)
+
+***
+
+<div id="starttool">
+  ### startTool
+</div>
+
+▸ **startTool**(`opts`): [`Tool`](./tool)
+
+この Turn 配下で子 Tool の スパン を開始します。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名      | タイプ                                  |
+| :----- | :----------------------------------- |
+| `opts` | [`ToolInit`](../interfaces/toolinit) |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+[`Tool`](./tool)
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/turn.ts:113](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/turn.ts#L113)
+
+***
+
+<div id="create">
+  ### create
+</div>
+
+▸ **create**(`opts?`): [`Turn`](./turn)
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名      | タイプ                                                                                   |
+| :----- | :------------------------------------------------------------------------------------ |
+| `opts` | [`TurnInit`](../interfaces/turninit) &amp; &#123; `conversationId?`: `string`  &#125; |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+[`Turn`](./turn)
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/turn.ts:63](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/turn.ts#L63)

@@ -1,15 +1,17 @@
 ---
-title: "익명 사용자에게 제공되지 않는 기능은 무엇인가요?"
+title: "익명 사용자에게 제공되지 않는 기능"
 keywords: ["익명"]
 ---
 
-* **영구 데이터 없음**: Runs는 익명 계정에서 7일 동안 보관됩니다. 익명 run 데이터를 실제 계정에 저장해 소유권을 가져오세요.
+익명 계정을 사용하면 가입하지 않고도 W&amp;B를 사용해 볼 수 있지만, 여러 기능이 제한됩니다. 중요한 작업을 로깅하기 전에 실제 계정을 만들지 여부를 결정할 수 있도록 다음 제한 사항을 검토하세요.
+
+* **영구 데이터 없음**: 익명 계정은 Runs를 7일 동안 보관합니다. 익명 run 데이터를 실제 계정에 저장해 소유권을 가져오세요.
 
 <Frame>
   <img src="/images/app_ui/anon_mode_no_data.png" alt="익명 모드 인터페이스" />
 </Frame>
 
-* **artifact 로깅 없음**: 익명 run에 artifact를 로깅하려고 하면 명령줄에 경고가 표시됩니다.
+* **artifact 로깅 없음**: 익명 run에 artifact를 로깅하면 명령줄에 경고가 표시됩니다.
   ```bash
   wandb: WARNING Artifacts logged anonymously cannot be claimed and expire after 7 days.
   ```

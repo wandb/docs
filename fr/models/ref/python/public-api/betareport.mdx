@@ -31,11 +31,10 @@ Elle fournit un accès aux attributs du rapport (nom, description, utilisateur, 
 
 ```python
 __init__(
-    client: 'RetryingClient',
+    service_api: 'ServiceApi',
     attrs: 'dict',
     entity: 'str | None' = None,
-    project: 'str | None' = None,
-    service_api: 'ServiceApi'
+    project: 'str | None' = None
 )
 ```
 

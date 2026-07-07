@@ -16,17 +16,16 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 ### <kbd>방법</kbd> `Member.__init__`
 
 ```python
-__init__(client: 'RetryingClient', team: 'str', attrs: 'Mapping[str, Any]')
+__init__(service_api: 'ServiceApi', team: 'str', attrs: 'Mapping[str, Any]')
 ```
 
 **매개변수:**
 
-* `client` (`wandb.apis.internal.Api`):  사용할 클라이언트 인스턴스
+* `service_api`:  W&amp;B를 쿼리하는 데 사용할 서비스 API 인스턴스
 * `team` (str):  이 구성원이 속한 팀 이름
 * `attrs` (dict):  구성원의 속성
 
 ***
-
 
 ### <kbd>방법</kbd> `Member.delete`
 

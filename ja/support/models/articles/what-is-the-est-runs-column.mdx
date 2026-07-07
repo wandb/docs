@@ -3,7 +3,7 @@ title: "`Est. Runs` 列とは？"
 keywords: ["Sweeps", "ハイパーパラメーター"]
 ---
 
-W&amp;B では、離散的な探索空間を持つ W&amp;B Sweep を作成する際に、生成される Runs の推定数を表示します。この合計値は、探索空間のデカルト積を反映したものです。
+W&amp;B では、離散的な探索空間を持つ W&amp;B Sweep を作成する際に、生成される runs の推定数を表示します。この合計値は、探索空間のデカルト積を反映したものです。
 
 たとえば、次のような探索空間を考えます。
 
@@ -17,7 +17,7 @@ W&amp;B では、離散的な探索空間を持つ W&amp;B Sweep を作成する
   <img src="/images/sweeps/spaces_sweeps_faq_whatisestruns_2.webp" alt="Sweep の run 数推定" />
 </Frame>
 
-推定 Run 数をプログラムから取得するには、W&amp;B SDK の Sweep オブジェクトにある `expected_run_count` 属性を使用します。
+推定 run 数をプログラムから取得するには、W&amp;B SDK 内の `Sweep` オブジェクトの `expected_run_count` 属性を使用します。
 
 ```python
 sweep_id = wandb.sweep(

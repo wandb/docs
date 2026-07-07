@@ -54,31 +54,36 @@ Paramètres du runset (la barre de gauche contenant les runs) dans un Workspace.
 
 * `query` (str):  Une requête pour filtrer le runset (peut être une expression régulière, voir le paramètre suivant).
 * `regex_query` (bool):  Indique si la requête (ci-dessus) est une expression régulière. La valeur par défaut est `False`.
-* `filters` (Union[str, LList[expr.FilterExpr]]):  Une liste de filtres à appliquer au runset, ou une expression sous forme de chaîne.
-  * Sous forme de liste : les filtres sont combinés avec l’opérateur AND. Voir FilterExpr pour plus d’informations sur la création de filtres.
+* `filters` (Union[str, LList[FilterExpr], Or, And]):  Filtres à appliquer au runset.
+  * Sous forme de liste de FilterExpr : les filtres sont combinés avec l’opérateur AND.
   * Sous forme de chaîne : utilisez des expressions de type Python, par ex., &quot;Config(&#39;lr&#39;) = 0.001 and State = &#39;finished&#39;&quot;
-* `Supports operators`:  `=`, `==`, `!=`, `<`, `>`, `<=`, `>=`, `in`, `not in`
+* `Supports operators`:  `=`, `==`, `!=`, `<`, `>`, `<=`, `>=`, `in`, `not in`, `and`, `or`
+  * Sous forme de combinateur Or/And : permet d’utiliser une logique OR et des groupes imbriqués. Par ex., Or(And(Config(&quot;lr&quot;) == 0.01, Metric(&quot;State&quot;) == &quot;finished&quot;), Config(&quot;lr&quot;) == 0.1)
 * `groupby` (LList[expr.MetricType]):  Une liste de métriques selon lesquelles regrouper les éléments du runset. Définissez-la sur `Metric`, `Summary`, `Config`, `Tags` ou `KeysInfo`.
 * `order` (LList[expr.Ordering]):  Une liste de métriques et d’ordres de tri à appliquer au runset.
 * `run_settings` (Dict[str, RunSettings]):  Un dictionnaire de paramètres de run, où la clé est l’ID du run et la valeur un objet RunSettings.
 * `pinned_columns` (LList[str]):  Liste des noms de colonnes à épingler.
 * `Column names use format`:  &quot;run:displayName&quot;, &quot;summary:metric&quot;, &quot;config:param&quot;.
-* `run`:  displayName est ajouté automatiquement s’il n’est pas déjà présent.
+* `run`: displayName est ajouté automatiquement s’il n’est pas déjà présent.
 * `Example`:  [&quot;summary:accuracy&quot;, &quot;summary:loss&quot;]
+* `baseline_run` (Optional[str]):  Le slug W&amp;B du run de référence (la valeur de `wandb.Run.id`, par ex. `"1mbku38n"` — également le dernier segment du chemin d’une URL de run). Utilisé pour les colonnes delta et le style de comparaison. Lorsqu’il est défini, le run de référence est automatiquement ajouté à `pinned_runs` pour correspondre au comportement de l’application W&amp;B. Il doit faire référence à un run du Workspace lui-même — les épingles entre projects ne sont pas encore prises en charge par ce SDK (voir le volet latéral &quot;Add cross-project runs&quot; de l’application W&amp;B pour l’équivalent dans l’interface utilisateur).
+* `pinned_runs` (LList[str]):  Liste ordonnée de slugs de runs W&amp;B à conserver visibles dans le sélecteur de runs et à toujours récupérer pour les graphiques. Transmettez des chaînes de slug (`wandb.Run.id`), et non des ID GraphQL. L’application W&amp;B limite ce nombre à 20 entrées.
 
 **Exemple :**
 
 ```python
     # Utilisation de filtres sous forme de chaîne (nouveau)
     RunsetSettings(
-        filters="Config('learning_rate') = 0.001 and State = 'finished'",
-        pinned_columns=["summary:accuracy", "summary:loss"],
+         filters="Config('learning_rate') = 0.001 and State = 'finished'",
+         pinned_columns=["summary:accuracy", "summary:loss"],
+         baseline_run="1mbku38n",  # wandb.Run.id (le slug de l'URL)
+         pinned_runs=["1mbku38n", "2u1g3j1c"],
     )
 
     # Utilisation d'une liste FilterExpr (méthode d'origine)
     RunsetSettings(
-        filters=[expr.Config("learning_rate") == 0.001],
-        pinned_columns=["summary:accuracy", "summary:loss"],
+         filters=[expr.Config("learning_rate") == 0.001],
+         pinned_columns=["summary:accuracy", "summary:loss"],
     )
 ```
 
@@ -90,10 +95,21 @@ Paramètres du runset (la barre de gauche contenant les runs) dans un Workspace.
 convert_filterexpr_list_to_string()
 ```
 
-Convertit une liste de FilterExpr en expression sous forme de chaîne (format interne unifié).
+Convertit une liste de FilterExpr ou un Or/And en expression sous forme de chaîne.
 
 ***
 
+### <kbd>méthode</kbd> `ensure_baseline_pinned`
+
+```python
+ensure_baseline_pinned()
+```
+
+Respectez l&#39;invariant de l&#39;application W&amp;B : un run de référence est toujours aussi épinglé.
+
+Le gestionnaire d&#39;action frontend `setBaselineRun` passe par `setRunPinnedAndBaseline`, de sorte que toute spécification produite par l&#39;interface utilisateur inclut l&#39;ID de référence dans `pinnedRunIds`. Nous appliquons la même règle ici afin que les spécifications produites par le SDK soient cohérentes.
+
+***
 
 ### <kbd>méthode</kbd> `validate_and_setup_columns`
 
@@ -217,7 +233,7 @@ Enregistrez le Workspace actuel en tant que nouvelle vue dans W&amp;B.
 
 ## <kbd>class</kbd> `WorkspaceSettings`
 
-Paramètres du Workspace, généralement visibles en haut du Workspace dans l&#39;UI.
+Paramètres du Workspace, généralement visibles en haut du Workspace dans l&#39;interface utilisateur.
 
 Cet objet inclut des paramètres pour l&#39;axe x, le lissage, les valeurs aberrantes, les panneaux, les infobulles, les runs et la barre de requête des panneaux.
 

@@ -7,14 +7,16 @@ description: "Trace activity between your MCP client and MCP server with Weave"
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
 </a>
 
-The Model Context Protocol (MCP) is a standardized communication protocol that enables AI applications to exchange information with large language models (LLMs). Similar to universal connectors that transformed hardware compatibility, MCP provides an interface for LLMs to access various data sources and interact with external tools, all without requiring custom integrations for each new service.
+The Model Context Protocol (MCP) is a standardized communication protocol that enables AI applications to exchange information with large language models (LLMs). MCP provides an interface for LLMs to access data sources and interact with external tools, without requiring custom integrations for each new service.
 
-The Weave integration lets you trace activity between your MCP client and MCP server. It gives you detailed visibility into tool calls, resource access, and prompt generation across MCP-based systems.
+The Weave integration lets you trace activity between your MCP client and MCP server. It gives you detailed visibility into tool calls, resource access, and prompt generation across MCP-based systems, so you can debug, audit, and optimize your MCP applications.
+
+This guide explains how the integration works, how to enable tracing on the server and client sides, and walks through a full example you can run yourself.
 
 ## How it works
 
 <Warning>
-Currently, the integration captures client-side and server-side operations separately, but does not provide end-to-end visibility into their interaction. There's an ongoing proposal to add OpenTelemetry trace support to MCP to enable end-to-end observability. For more information, see [GitHub discussion #269](https://github.com/modelcontextprotocol/modelcontextprotocol/discussions/269).
+The integration captures client-side and server-side operations separately, but doesn't provide end-to-end visibility into their interaction. An ongoing proposal aims to add OpenTelemetry trace support to MCP to enable end-to-end observability. For more information, see [GitHub discussion #269](https://github.com/modelcontextprotocol/modelcontextprotocol/discussions/269).
 </Warning>
 
 The Weave integration automatically traces key components of the Model Context Protocol (MCP) by patching core methods with the [`weave.op()`](../tracking/ops) decorator. Specifically, it patches methods in the [`mcp.server.fastmcp.FastMCP`](https://github.com/modelcontextprotocol/python-sdk/blob/b4c7db6a50a5c88bae1db5c1f7fba44d16eebc6e/src/mcp/server/fastmcp/server.py#L109) and [`mcp.ClientSession`](https://github.com/modelcontextprotocol/python-sdk/blob/b4c7db6a50a5c88bae1db5c1f7fba44d16eebc6e/src/mcp/client/session.py#L84) classes.
@@ -30,7 +32,7 @@ Through this integration, Weave traces the following MCP components:
 
 ## Use the integration
 
-The Weave integration works with both the MCP server and client. Once installed, you can enable tracing with just two additional lines of code—one to import `weave`, and another to initialize it.
+The Weave integration works with both the MCP server and client. Once installed, you can enable tracing with two additional lines of code: one to import `weave`, and another to initialize it.
 
 ### Prerequisites
 
@@ -42,13 +44,11 @@ pip install -qq "mcp[cli]" weave
 
 ### Configuration
 
-Configure the MCP integration through environment variables:
-
-- `MCP_TRACE_LIST_OPERATIONS`: Set to `true` to trace list operations (`list_tools`, `list_resources`, and `list_prompts`) on both server and client sides.
+Configure the MCP integration through the `MCP_TRACE_LIST_OPERATIONS` environment variable. Set it to `true` to trace list operations (`list_tools`, `list_resources`, and `list_prompts`) on both server and client sides.
 
 ### Server-side integration
 
-To trace an MCP server, add two lines to your existing `FastMCP` setup: one to import Weave and one to initialize the client. Once added, tool, resource, and prompt operations will be automatically traced.
+Use this section if you're building or instrumenting an MCP server. To trace an MCP server, add two lines to your existing `FastMCP` setup: one to import Weave and one to initialize the client. Once added, Weave automatically traces tool, resource, and prompt operations.
 
 ```python lines
 # Import Weave (required for tracing)
@@ -85,7 +85,7 @@ mcp.run(transport="stdio")
 
 ### Client-side integration
 
-On the client side, tracing also requires just two changes: import Weave and initialize it. All tool calls, resource accesses, and prompt requests will be traced automatically.
+Use this section if you're building or instrumenting an MCP client. On the client side, tracing also requires two changes: import Weave and initialize it. Weave automatically traces all tool calls, resource accesses, and prompt requests.
 
 ```python lines
 # Import Weave (required for tracing)
@@ -114,7 +114,7 @@ async with stdio_client(server_params) as (read, write):
 
 ## Tutorial: `mcp_demo` example
 
-The `mcp_demo` example demonstrates an integration between the Model Context Protocol (MCP) and Weave for tracing. It showcases how to instrument both the client and server components to capture detailed traces of their interactions. 
+The `mcp_demo` example demonstrates an integration between MCP and Weave for tracing. It showcases how to instrument both the client and server components to capture detailed traces of their interactions. By running through this code, you can see traces from both sides of an MCP application in the Weave UI and gain a concrete reference you can adapt to your own projects.
 
 ### Run the example
 
@@ -161,10 +161,10 @@ The client interface supports the following commands:
 | `config`             | Fetch app configuration                 |
 | `code-review <code>` | Generate a code review prompt            |
 | `debug <error>`      | Generate a debugging prompt              |
-| `demo`               | Run a full demo of all available features. This will run each feature in sequence and produce a full trace timeline of interactions in the Weave UI. |
+| `demo`               | Run a full demo of all available features. Runs each feature in sequence and produces a full trace timeline of interactions in the Weave UI. |
 | `q`                  | Quit the session                         |
 
-### Understanding the example
+### Example overview
 
 The `example_server.py` server defines the following:
 
@@ -172,37 +172,39 @@ The `example_server.py` server defines the following:
 - _Resources_: Endpoints like `greeting://{name}`, `config://app`, `users://{id}/profile`
 - _Prompts_: Templates like `review_code()` and `debug_error()`
 
-All server-side operations are automatically traced by Weave when you initialize the client with `weave.init()`.
+Weave automatically traces all server-side operations when you initialize the client with `weave.init()`.
 
 The `example_client.py` client demonstrates how to:
 
-- Connect to an MCP server
-- Discover available tools, resources, and prompts
-- Call tools with parameters
-- Read from resource URIs
-- Generate prompts with arguments
-- Show usage of [`weave.op()`](../tracking/ops) with custom methods/functions.
+- Connect to an MCP server.
+- Discover available tools, resources, and prompts.
+- Call tools with parameters.
+- Read from resource URIs.
+- Generate prompts with arguments.
+- Show usage of [`weave.op()`](../tracking/ops) with custom methods and functions.
 
 Weave traces all client-side calls to provide a complete view of interactions between the client and server.
 
 ## FAQ
 
-### Why is MCP tracing needed?
+The following section answers common questions about why and how to use Weave's MCP tracing.
+
+### Why MCP tracing is needed
 
 As an LLM application developer, you fall into one of three categories:
 
-- _MCP server-side developer_: You want to expose multiple tools, resources, and prompts to the MCP client. You expose your existing application's tools, resources, etc., or you have built agents or have multiple agents orchestrated by an orchestrator agent. 
+- _MCP server-side developer_: You want to expose multiple tools, resources, and prompts to the MCP client. You expose your existing application's tools and resources, or you've built agents or have multiple agents orchestrated by an orchestrator agent.
 
 - _MCP client-side developer_: You want to plug your client-side application into multiple MCP servers. A core part of your client-side logic is making LLM calls to decide which tool to call or which resource to fetch.
 
-- _MCP server and client developer_: You are developing both the server and the client.
+- _MCP server and client developer_: You're developing both the server and the client.
 
-If you fall into either of the first two categories, you want to know when each tool is called, what the execution flow looks like, the token count, and latency of different components in your server or client-side logic. 
+If you fall into either of the first two categories, you want to know when each tool is called, what the execution flow looks like, the token count, and latency of different components in your server or client-side logic.
 
-If you are developing both the server and client, the ability to see a unified trace timeline can help you quickly iterate through both server and client-side logic.
+If you're developing both the server and client, a unified trace timeline helps you iterate through both server and client-side logic.
 
-In any case, an observability layer allows you to:
+In any case, an observability layer lets you:
 
-- Quickly iterate through your application
-- Audit the workflow or execution logic
-- Identify bottlenecks
+- Iterate through your application.
+- Audit the workflow or execution logic.
+- Identify bottlenecks.

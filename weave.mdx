@@ -4,9 +4,10 @@ description: "Track, test, and improve language model apps with W&B Weave"
 mode: wide
 ---
 
-W&B Weave is an observability and evaluation platform that helps you track, evaluate, and improve your LLM application. With Weave, you can:
+W&B Weave is an observability and evaluation platform that helps you track, evaluate, and improve your agents and LLM applications. With Weave, you can:
 
-* [Observe and debug](/weave/quickstart) your LLM application
+* [Trace and collect metrics about your agent built with popular SDKs and harnesses](/weave/agent-integration-quickstart)
+* [Manually instrument custom-built agents to collect traces and metrics](/weave/custom-agents-quickstart)
 * [Evaluate](/weave/tutorial-eval) your application’s responses using LLM judges and custom scorers
 
 ## Get started
@@ -15,28 +16,29 @@ The following docs guide you through the basics of how to use Weave's suite of t
 
 <CardGroup cols={3}>
   <Card
-    title="Quickstart: Track LLM inputs & outputs"
+    title="Integrate Weave with an agent"
+    icon="plug"
+    href="/weave/agent-integration-quickstart"
+  >
+    Pick a built-in integration for your agent SDK or harness and start tracing sessions, turns, LLM calls, and tool calls in the Agents view.
+  </Card>
+
+  <Card
+    title="Set up custom agent observability"
+    icon="code"
+    href="/weave/custom-agents-quickstart"
+  >
+    Trace a custom multi-turn agent with the Weave SDK to capture sessions, LLM calls, and tool calls as OpenTelemetry spans.
+  </Card>
+
+  <Card
+    title="View agent metrics in Weave UI"
     icon="chart-line"
-    href="/weave/quickstart"
+    href="/weave/guides/tracking/view-agent-activity"
   >
-    Start by tracing a basic call to an LLM and reviewing the data in your W&B account.
+    Trace a basic call to an LLM and review the inputs, outputs, and code in your W&B account.
   </Card>
 
-  <Card
-    title="Get started evaluating your app"
-    icon="clipboard-check"
-    href="/weave/tutorial-eval"
-  >
-    Learn how to build an evaluation pipeline using Weave scorers to test and track your application's performance.
-  </Card>
-
-  <Card
-    title="Evaluate a RAG application"
-    icon="search"
-    href="/weave/tutorial-rag"
-  >
-    Build and evaluate RAG applications using Weave with LLM judges to measure retrieval quality.
-  </Card>
 </CardGroup>
 
 ## Install Weave

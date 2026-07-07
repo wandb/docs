@@ -1,0 +1,102 @@
+---
+title: "인터페이스: ConversationInit"
+description: "TypeScript SDK 레퍼런스"
+---
+
+[weave](../) / ConversationInit
+
+<div id="table-of-contents">
+  ## 목차
+</div>
+
+<div id="properties">
+  ### 속성
+</div>
+
+* [agentName](./conversationinit#agentname)
+* [attributes](./conversationinit#attributes)
+* [conversationId](./conversationinit#conversationid)
+* [model](./conversationinit#model)
+* [sessionId](./conversationinit#sessionid)
+
+## 속성
+
+<div id="agentname">
+  ### agentName
+</div>
+
+• `선택` **agentName**: `string`
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/genai/conversation.ts:9](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L9)
+
+***
+
+<div id="attributes">
+  ### attributes
+</div>
+
+• `선택` **attributes**: `Attributes`
+
+대화에서 생성되는 모든 span에 적용되는 맞춤형 속성입니다.
+
+여기서 span 자체의 `gen_ai.*` / `weave.*`
+속성과 충돌하는 키는 지원되지 않으며, 이 경우 span의 값이 우선합니다.
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/genai/conversation.ts:20](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L20)
+
+***
+
+<div id="conversationid">
+  ### conversationId
+</div>
+
+• `선택` **conversationId**: `string`
+
+이 대화에 속한 모든 span에 `gen_ai.conversation.id`로 전달되는 대화 ID입니다.
+생략하면 자동 생성됩니다.
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/genai/conversation.ts:13](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L13)
+
+***
+
+<div id="model">
+  ### 모델
+</div>
+
+• `선택` **모델**: `string`
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/genai/conversation.ts:10](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L10)
+
+***
+
+<div id="sessionid">
+  ### sessionId
+</div>
+
+<Warning>
+  **사용 중단되었습니다.** 대신 [ConversationInit.conversationId](./conversationinit#conversationid)를 사용하세요.
+</Warning>
+
+• `선택` **sessionId**: `string`
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/genai/conversation.ts:23](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L23)

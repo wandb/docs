@@ -1,28 +1,29 @@
 ---
-title: "Collecter les retours et utiliser les annotations"
-description: "Recueillir et analyser les retours pour les applications LLM via l’UI et le SDK"
+title: "Collecter les feedbacks et utiliser les annotations"
+description: "Recueillir et analyser les feedbacks pour les applications LLM via l’UI et le SDK"
+keywords: ["annotations humaines", "AnnotationSpec", "API de feedback", "réactions", "évaluateurs"]
 ---
 
-Pour évaluer efficacement des applications LLM, vous avez besoin d’outils robustes pour recueillir et analyser les retours. W&amp;B Weave fournit un système de retours intégré, qui permet aux utilisateurs de donner leur avis sur les Appels directement dans l’UI ou par programmation via le SDK. Différents types de retours sont pris en charge, notamment les réactions par emoji, les commentaires textuels et les données structurées, ce qui permet aux équipes de :
+Évaluer des applications LLM nécessite des outils pour recueillir et analyser les feedbacks. W&amp;B Weave fournit un système de feedback intégré, qui vous permet de donner votre avis sur les Appels directement dans l’UI ou par programmation via le SDK. Différents types de feedbacks sont pris en charge, notamment les réactions par emoji, les commentaires textuels et les données structurées, ce qui permet aux équipes de :
 
 * Créer des jeux de données d’évaluation pour le suivi des performances.
-* Identifier et résoudre efficacement les problèmes de contenu des LLM.
+* Identifier et résoudre les problèmes de contenu des LLM.
 * Recueillir des exemples pour des tâches avancées comme le fine-tuning.
 
-Ce guide explique comment utiliser la fonctionnalité de retours de Weave dans l’UI et le SDK, interroger et gérer les retours, et utiliser des annotations humaines pour des évaluations détaillées.
+Ce guide s’adresse aux développeurs et aux réviseurs qui travaillent avec des applications LLM dans Weave. Il explique comment utiliser la fonctionnalité de feedback de Weave dans l’UI et le SDK, interroger et gérer les feedbacks, et utiliser des annotations humaines pour des évaluations détaillées.
 
-* [Donner un retour dans l’UI](#provide-feedback-in-the-ui)
-* [Donner un retour via le SDK](#provide-feedback-through-the-sdk)
+* [Donner un feedback dans l’UI](#provide-feedback-in-the-ui)
+* [Donner un feedback via le SDK](#provide-feedback-through-the-sdk)
 * [Ajouter des annotations humaines](#add-human-annotations)
 
 <div id="provide-feedback-in-the-ui">
-  ## Fournir des retours dans l’UI
+  ## Fournir du feedback dans l’interface utilisateur
 </div>
 
-Dans Weave UI, vous pouvez ajouter et consulter des retours [depuis le panneau des détails de l’appel](#from-the-call-details-panel) ou [à l’aide des icônes](#use-the-icons).
+Les sections suivantes expliquent comment fournir du feedback dans l’interface Weave, soit depuis le panneau des détails de l’appel, soit à l’aide des icônes de feedback.
 
-<div id="from-the-call-details-panel">
-  ### Depuis le panneau des détails de l’appel
+<div id="use-the-call-details-panel">
+  ### Utiliser le panneau des détails de l’appel
 </div>
 
 1. Dans la barre latérale du projet Weave, accédez à **Traces**.
@@ -34,7 +35,7 @@ Dans Weave UI, vous pouvez ajouter et consulter des retours [depuis le panneau d
    * *Affichez et supprimez des feedbacks depuis le tableau Feedback des détails de l’appel.* Supprimez un feedback en cliquant sur l’icône de corbeille dans la colonne la plus à droite de la ligne de feedback concernée.
 
 <Frame>
-  ![Capture d’écran de l’onglet Feedback dans les détails de l’appel](/weave/guides/tracking/imgs/feedback_tab.png)
+  ![Onglet Feedback dans les détails de l’appel](/weave/guides/tracking/imgs/feedback_tab.png)
 </Frame>
 
 <div id="use-the-feedback-icons">
@@ -56,46 +57,48 @@ Pour supprimer une réaction :
 1. Survolez la réaction emoji que vous souhaitez supprimer.
 2. Cliquez sur la réaction pour la supprimer.
 
-> Vous pouvez également supprimer un feedback depuis la [colonne **Feedback** du panneau des détails de l’appel](#from-the-call-details-panel).
+> Vous pouvez également supprimer un feedback depuis la [colonne **Feedback** du panneau des détails de l’appel](#use-the-call-details-panel).
 
 Pour ajouter un commentaire :
 
 1. Cliquez sur l’icône de bulle de commentaire.
 2. Dans la zone de texte, ajoutez votre note. Le nombre maximal de caractères dans une note de feedback est de 1024.
-3. Pour enregistrer la note, appuyez sur la touche **Entrée**. Vous pouvez ajouter des notes supplémentaires.
+3. Pour enregistrer la note, appuyez sur la touche **Entrée**. Vous pouvez ajouter d’autres notes.
 
 <Warning>
-  Le nombre maximal de caractères dans une note de feedback est de 1024. Si une note dépasse cette limite, elle ne sera pas créée.
+  Le nombre maximal de caractères dans une note de feedback est de 1024. Si une note dépasse cette limite, Weave ne la crée pas.
 </Warning>
 
 <Frame>
-  ![Capture d’écran de la grille des appels avec la colonne Feedback](/weave/guides/tracking/imgs/feedback_calls.png)
+  ![Grille des appels avec colonne Feedback](/weave/guides/tracking/imgs/feedback_calls.png)
 </Frame>
 
 <div id="provide-feedback-through-the-sdk">
-  ## Fournir des retours via le SDK
+  ## Fournir des feedbacks via le SDK
 </div>
 
-Vous trouverez des exemples d&#39;utilisation du SDK pour les retours dans l&#39;UI, sous l&#39;onglet **Use** du panneau des détails de l’appel.
+Utilisez le SDK si vous souhaitez automatiser la collecte des feedbacks ou l’intégrer dans des pipelines d’évaluation, plutôt que de saisir les feedbacks manuellement dans l’UI.
 
-Vous pouvez utiliser le SDK Python de Weave pour [ajouter](/fr/weave/reference/python-sdk/trace/feedback#method-add), [supprimer](/fr/weave/reference/python-sdk/trace/feedback#method-purge) et [interroger les retours](/fr/weave/reference/python-sdk/trace/weave_client#method-get_feedback) sur les appels par programmation. Le SDK TypeScript ne prend actuellement pas en charge les retours.
+Vous trouverez des exemples d&#39;utilisation du SDK pour les feedbacks dans l&#39;UI, sous l&#39;onglet **Use** du panneau des détails de l’appel.
+
+Vous pouvez utiliser le SDK Python de Weave pour [ajouter](/fr/weave/reference/python-sdk/trace/feedback#method-add), [supprimer](/fr/weave/reference/python-sdk/trace/feedback#method-purge) et [interroger les feedbacks](/fr/weave/reference/python-sdk/trace/weave_client#method-get_feedback) sur les appels par programmation. Le SDK TypeScript ne prend pas en charge les feedbacks.
 
 <div id="query-a-projects-feedback">
-  ### Consulter les feedbacks d&#39;un projet
+  ### Interroger le feedback d’un projet
 </div>
 
-Vous pouvez interroger les feedbacks de votre projet Weave à l&#39;aide du SDK. Le SDK prend en charge les opérations de requête de feedback suivantes :
+Vous pouvez interroger le feedback de votre projet Weave à l’aide du SDK. Le SDK prend en charge les opérations de requête de feedback suivantes :
 
-* `client.get_feedback()` : Renvoie tous les feedbacks d&#39;un projet.
-* `client.get_feedback("<feedback_uuid>")` : Renvoie, sous forme de collection, un objet de feedback spécifique désigné par `<feedback_uuid>`.
-* `client.get_feedback(reaction="<reaction_type>")` : Renvoie tous les objets de feedback pour un type de réaction donné.
+* `client.get_feedback()` : Renvoie tout le feedback d’un projet.
+* `client.get_feedback("[FEEDBACK-UUID]")` : Renvoie un objet feedback spécifique indiqué par `[FEEDBACK-UUID]` sous forme de collection.
+* `client.get_feedback(reaction="[REACTION-TYPE]")` : Renvoie tous les objets feedback pour un type de réaction spécifique.
 
-Vous pouvez également obtenir des informations supplémentaires pour chaque objet de feedback dans `client.get_feedback()` :
+Vous pouvez également obtenir plus d’informations sur chaque objet feedback dans `client.get_feedback()` :
 
-* `id` : l&#39;ID de l&#39;objet de feedback.
-* `created_at` : la date et l&#39;heure de création de l&#39;objet de feedback.
-* `feedback_type` : le type de feedback (`reaction`, `note`, `custom`).
-* `payload` : le payload du feedback.
+* `id` : l’ID de l’objet feedback.
+* `created_at` : les informations de date de création de l’objet feedback.
+* `feedback_type` : le type de feedback (réaction, note, personnalisé).
+* `payload` : la charge utile du feedback.
 
 <Tabs>
   <Tab title="Python">
@@ -103,17 +106,17 @@ Vous pouvez également obtenir des informations supplémentaires pour chaque obj
     import weave
     client = weave.init('intro-example')
 
-    # Obtenir tous les feedbacks d'un projet
+    # Obtenir tout le feedback dans un projet
     all_feedback = client.get_feedback()
 
-    # Récupérer un objet de feedback spécifique par ID.
+    # Récupérer un objet feedback spécifique par ID.
     # L'API renvoie une collection, qui ne doit contenir au plus qu'un seul élément.
-    one_feedback = client.get_feedback("<feedback_uuid>")[0]
+    one_feedback = client.get_feedback("[FEEDBACK-UUID]")[0]
 
-    # Trouver tous les objets de feedback avec une réaction spécifique. Vous pouvez spécifier offset et limit.
+    # Trouver tous les objets feedback avec une réaction spécifique. Vous pouvez spécifier offset et limit.
     thumbs_up = client.get_feedback(reaction="👍", limit=10)
 
-    # Après récupération, afficher les détails de chaque objet de feedback.
+    # Après la récupération, afficher les détails de chaque objet feedback.
     for f in client.get_feedback():
         print(f.id)
         print(f.created_at)
@@ -124,7 +127,7 @@ Vous pouvez également obtenir des informations supplémentaires pour chaque obj
 
   <Tab title="TypeScript">
     ```plaintext
-    Cette fonctionnalité n'est pas encore disponible en TypeScript.
+    Cette fonctionnalité n’est pas encore disponible en TypeScript.
     ```
   </Tab>
 </Tabs>
@@ -135,12 +138,12 @@ Vous pouvez également obtenir des informations supplémentaires pour chaque obj
 
 Vous pouvez ajouter du feedback à un Appel à l’aide de l’UUID de l’Appel. Pour utiliser l’UUID afin d’obtenir un Appel précis, [récupérez-le pendant ou après l’exécution de l’Appel](#retrieve-the-call-uuid). Le SDK prend en charge les opérations suivantes pour ajouter du feedback à un Appel :
 
-* `call.feedback.add_reaction("<reaction_type>")` : ajoute l’un des `<reaction_types>` pris en charge (émojis), par exemple 👍.
-* `call.feedback.add_note("<note>")` : ajoute une note.
-* `call.feedback.add("<label>", <object>)` : ajoute un `<object>` de feedback personnalisé spécifié par `<label>`.
+* `call.feedback.add_reaction("[REACTION-TYPE]")`: ajoute l’une des valeurs `[REACTION-TYPE]` prises en charge (émojis), par exemple 👍.
+* `call.feedback.add_note("[NOTE]")`: ajoute une note.
+* `call.feedback.add("[LABEL]", [OBJECT])`: ajoute un `[OBJECT]` de feedback personnalisé spécifié par `[LABEL]`.
 
 <Warning>
-  Le nombre maximal de caractères dans une note de feedback est de 1024. Si une note dépasse cette limite, elle ne sera pas créée.
+  Le nombre maximal de caractères dans une note de feedback est de 1024. Si une note dépasse cette limite, Weave ne la crée pas.
 </Warning>
 
 <Tabs>
@@ -149,7 +152,7 @@ Vous pouvez ajouter du feedback à un Appel à l’aide de l’UUID de l’Appel
     import weave
     client = weave.init('intro-example')
 
-    call = client.get_call("<call_uuid>")
+    call = client.get_call("[CALL-UUID]")
 
     # Ajout d’une réaction emoji
     call.feedback.add_reaction("👍")
@@ -158,8 +161,8 @@ Vous pouvez ajouter du feedback à un Appel à l’aide de l’UUID de l’Appel
     call.feedback.add_note("this is a note")
 
     # Ajout de paires clé/valeur personnalisées.
-    # Le premier argument est une chaîne de "type" définie par l’utilisateur.
-    # Le feedback doit être sérialisable en JSON et faire moins de 1 Ko une fois sérialisé.
+    # Le premier argument est une chaîne "type" définie par l’utilisateur.
+    # Le feedback doit être sérialisable en JSON et faire moins de 1 Ko une fois sérialisé.
     call.feedback.add("correctness", { "value": 5 })
     ```
   </Tab>
@@ -194,7 +197,7 @@ Pour récupérer l’UUID lors de l’exécution de l’Appel, récupérez l’A
     def simple_operation(input_value):
         # Effectuer une opération simple
         output = f"Processed {input_value}"
-        # Obtenir l'ID de l'appel en cours
+        # Obtenir l’ID de l’appel en cours
         current_call = weave.require_current_call()
         call_id = current_call.id
         return output, call_id
@@ -209,7 +212,7 @@ Pour récupérer l’UUID lors de l’exécution de l’Appel, récupérez l’A
 </Tabs>
 
 <div id="after-call-execution">
-  ##### Après l’exécution d’un Appel
+  ##### Après l’exécution de l’Appel
 </div>
 
 Vous pouvez également utiliser la méthode `call()` pour exécuter l’opération et récupérer l’ID après l’exécution de l’Appel :
@@ -224,7 +227,7 @@ Vous pouvez également utiliser la méthode `call()` pour exécuter l’opérati
     def simple_operation(input_value):
         return f"Processed {input_value}"
 
-    # Exécute l’opération et récupère le résultat ainsi que l’ID de l’appel
+    # Exécuter l’opération et récupérer le résultat ainsi que l’ID de l’Appel
     result, call = simple_operation.call("example input")
     call_id = call.id
     ```
@@ -246,7 +249,7 @@ Vous pouvez supprimer le feedback d’un Appel donné en spécifiant un UUID.
 <Tabs>
   <Tab title="Python">
     ```python lines
-    call.feedback.purge("<feedback_uuid>")
+    call.feedback.purge("[FEEDBACK-UUID]")
     ```
   </Tab>
 
@@ -261,25 +264,27 @@ Vous pouvez supprimer le feedback d’un Appel donné en spécifiant un UUID.
   ## Ajouter des annotations humaines
 </div>
 
-Les annotations humaines sont prises en charge dans Weave UI. Cette fonctionnalité vous permet de créer des champs personnalisés pour ajouter à vos traces des données supplémentaires saisies manuellement sous forme de retours. Pour créer des annotations humaines, vous devez d’abord créer un évaluateur d’annotation humaine à l’aide de la [UI](#create-a-human-annotation-scorer-in-the-ui) ou de l’[API](#create-a-human-annotation-scorer-using-the-api). Vous pouvez ensuite [utiliser le scorer dans la UI pour créer des annotations](#use-the-human-annotation-scorer-in-the-ui), puis [modifier vos évaluateurs d’annotation à l’aide de l’API](#modify-a-human-annotation-scorer-using-the-api).
+Les annotations humaines vous permettent de capturer des jugements structurés, examinés par des humains, sur les appels afin que les réviseurs puissent évaluer la sortie du modèle selon vos propres critères.
+
+Les annotations humaines sont prises en charge dans Weave UI. Cette fonctionnalité vous permet de créer des champs personnalisés pour ajouter à vos traces des données saisies manuellement sous forme de feedback. Pour créer des annotations humaines, vous devez d’abord créer un évaluateur d’annotation humaine à l’aide de la [UI](#create-a-human-annotation-scorer-in-the-ui) ou de l’[API](#create-a-human-annotation-scorer-using-the-api). Vous pouvez ensuite [utiliser l’évaluateur dans la UI pour créer des annotations](#use-the-human-annotation-scorer-in-the-ui), puis [modifier vos évaluateurs d’annotation à l’aide de l’API](#modify-a-human-annotation-scorer-using-the-api).
 
 <div id="create-a-human-annotation-scorer-in-the-ui">
-  ### Créez un évaluateur d’annotation humaine dans l’interface utilisateur
+  ### Créer un évaluateur d’annotation humaine dans l’interface utilisateur
 </div>
 
 Pour créer un évaluateur d’annotation humaine dans l’interface utilisateur, procédez comme suit :
 
 1. Dans la barre latérale du projet, accédez à **Assets**.
-2. Dans le panneau de navigation d’**Assets**, cliquez sur **Scorers**.
+2. Dans le panneau de navigation **Assets**, cliquez sur **Scorers**.
 3. Dans l’en-tête du panneau **Scorers**, cliquez sur **New scorer**.
 4. Dans la boîte de dialogue modale **Create Scorer**, définissez :
    * `Scorer type` sur `Human annotation`
    * `Name`
    * `Description`
-   * `Type`, qui détermine le type de retour collecté, par exemple `boolean` ou `integer`.
-5. Cliquez sur **Create scorer**. Vous pouvez maintenant utiliser votre évaluateur pour ajouter des annotations.
+   * `Type`, qui détermine le type de feedback à recueillir, par exemple `boolean` ou `integer`.
+5. Cliquez sur **Create scorer**. Vous pouvez maintenant utiliser votre évaluateur pour effectuer des annotations.
 
-Dans l’exemple suivant, il est demandé à un annotateur humain de sélectionner le type de document traité par le LLM. Ainsi, le `Type` sélectionné pour la configuration du score est un `enum` contenant les types de documents possibles.
+Dans l’exemple suivant, un annotateur humain sélectionne le type de document chargé par le LLM. Le `Type` de la configuration du score est un `enum` qui contient les types de documents possibles.
 
 <Frame>
   ![Boîte de dialogue modale Create Scorer](/weave/guides/tracking/imgs/human-annotation-scorer-form.png)
@@ -289,7 +294,7 @@ Dans l’exemple suivant, il est demandé à un annotateur humain de sélectionn
   ### Utiliser l’évaluateur d’annotation humaine dans l’interface utilisateur
 </div>
 
-Une fois que vous avez créé un évaluateur d’annotation humaine, vous pouvez l’utiliser sur la page Traces.
+Après avoir créé un évaluateur d’annotation humaine, vous pouvez l’utiliser sur la page Traces.
 
 Pour utiliser l’évaluateur, procédez comme suit :
 
@@ -303,7 +308,7 @@ Pour utiliser l’évaluateur, procédez comme suit :
 
    ![Icône de marqueur dans l’en-tête de l’Appel](/weave/guides/tracking/imgs/marker-icon.png)
 
-   Vos évaluateurs d’annotation humaine disponibles s’affichent dans un panneau **Annotate** supplémentaire.
+   Vos évaluateurs d’annotation humaine disponibles s’affichent dans un panneau **Annotate**.
 
    ![Panneau de feedback de l’évaluateur d’annotation humaine](/weave/guides/tracking/imgs/full-feedback-sidebar.png)
 
@@ -328,7 +333,7 @@ Vous pouvez également créer des évaluateurs d’annotation humaine via l’AP
 1. Importez la classe `AnnotationSpec` depuis `weave.flow.annotation_spec`.
 2. Utilisez la méthode `publish` de `weave` pour créer l’évaluateur.
 
-Dans l’exemple suivant, deux évaluateurs sont créés. Le premier, `Temperature`, sert à attribuer un score à la température perçue de l’Appel LLM. Le second, `Tone`, sert à attribuer un score au ton de la Réponse du LLM. Chaque évaluateur est créé à l’aide de `save` avec un ID d’objet associé (`temperature-scorer` et `tone-scorer`).
+L’exemple suivant crée deux évaluateurs. Le premier évaluateur, `Temperature`, attribue un score à la température perçue de l’Appel LLM. Le second évaluateur, `Tone`, attribue un score au ton de la Réponse du LLM. Chaque évaluateur utilise `save` avec un ID d’objet associé (`temperature-scorer` et `tone-scorer`).
 
 <Tabs>
   <Tab title="Python">
@@ -386,9 +391,9 @@ Dans la continuité de [la création d’un évaluateur d’annotation humaine v
     # créer une nouvelle version de l’évaluateur
     spec1 = AnnotationSpec(
       name="Temperature",
-      description="The perceived temperature of the llm call",
+      description="La température perçue de l’appel LLM",
       field_schema={
-        "type": "integer",  # <<- remplacer le type par integer
+        "type": "integer",  # <<- modifier le type en integer
         "minimum": -1,
         "maximum": 1,
       }
@@ -412,7 +417,7 @@ Dans la continuité de [la création d’un évaluateur d’annotation humaine v
   ### Utiliser un évaluateur d’annotation humaine avec l’API
 </div>
 
-L’API de feedback vous permet d’utiliser un évaluateur d’annotation humaine en indiquant un nom au format spécifique et un champ `annotation_ref`. Vous pouvez obtenir l’`annotation_spec_ref` dans l’UI en sélectionnant l’onglet approprié, ou lors de la création de l’`AnnotationSpec`.
+L’API de feedback vous permet d’utiliser un évaluateur d’annotation humaine en indiquant un nom au format spécifique et un champ `annotation_ref`. Vous pouvez obtenir l’`annotation_spec_ref` dans l’interface utilisateur en sélectionnant l’onglet approprié, ou lors de la création de l’`AnnotationSpec`.
 
 <Tabs>
   <Tab title="Python">
@@ -421,8 +426,8 @@ L’API de feedback vous permet d’utiliser un évaluateur d’annotation humai
 
     client = weave.init("feedback-example")
 
-    call = client.get_call("<call_id>")
-    annotation_spec = weave.ref("<annotation_spec_ref_uri>")
+    call = client.get_call("[CALL-ID]")
+    annotation_spec = weave.ref("[ANNOTATION-SPEC-REF-URI]")
 
     call.feedback.add(
       feedback_type="wandb.annotation." + annotation_spec.name,

@@ -1,0 +1,25 @@
+---
+title: "서로 다른 두 시간 스케일로 메트릭을 기록하려면 어떻게 해야 하나요?"
+keywords: ["Experiments", "메트릭"]
+---
+
+서로 다른 두 시간 스케일로 메트릭을 기록하려면 메트릭과 함께 `batch` 및 `epoch` 같은 인덱스도 기록하세요. 예를 들어, 배치마다 트레이닝 정확도를 기록하고 에포크마다 검증 정확도를 기록할 수 있습니다. 한 단계에서는 `run.log({'train_accuracy': 0.9, 'batch': 200})`를 호출하고, 다른 단계에서는 `run.log({'val_accuracy': 0.8, 'epoch': 4})`를 호출하세요. UI에서 각 차트의 x축으로 사용할 값을 설정하세요. 특정 인덱스에 대한 기본 x축을 설정하려면 [`Run.define_metric()`](/ko/models/ref/python/experiments/run#define_metric)을 사용하세요. 위 예시에서는 다음 코드를 사용하세요:
+
+```python
+import wandb
+
+with wandb.init() as run:
+    run.define_metric("batch")
+    run.define_metric("epoch")
+
+    run.define_metric("train_accuracy", step_metric="batch")
+    run.define_metric("val_accuracy", step_metric="epoch")
+```
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[메트릭](/ko/support/models/tags/metrics)</Badge>
+
+{/* END AUTO-GENERATED: 탭 배지 */}

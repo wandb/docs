@@ -1,10 +1,72 @@
 ---
 title: "W&B SDK リリース"
-description: "新機能、バグ修正、破壊的変更を含む、W&B Python SDK のバージョン別リリースノートを表示します。"
+description: "新機能、バグ修正、破壊的変更をバージョン別にまとめた W&B Python SDK のリリースノートを参照できます。"
 rss: true
 ---
 
-このページには、W&amp;B Models で使用する W&amp;B Python SDK (`wandb` パッケージ) のリリースノートが含まれています。Weave Python SDK (`weave` パッケージ) については、[Weave SDK releases](/ja/release-notes/weave-sdk-releases)を参照してください。W&amp;B Server については、[W&amp;B Server release notes](/ja/release-notes/server-releases)を参照してください。
+このページには、W&amp;B Models で使用する W&amp;B Python SDK (`wandb` パッケージ) のリリースノートが掲載されています。Weave Python SDK (`weave` パッケージ) については、[Weave SDK releases](/ja/release-notes/weave-sdk-releases)を参照してください。W&amp;B Server については、[W&amp;B Server release notes](/ja/release-notes/server-releases)を参照してください。
+
+<Update label="0.28.0" description="2026年6月22日">
+  ## 主な変更
+
+  * このバージョンでは、0.65.0 より前のサーバーバージョンとの互換性が廃止されました。
+
+  ## Added
+
+  * W&amp;B LEET TUI の機能:
+    * メディアパネルで、Kitty プロトコルをサポートするターミナルでの高解像度画像レンダリングをサポートし、ANSI へのフォールバックにも対応しました。
+    * メディアパネルで同期スクラブをサポートしました。`l` を押してスクラブをリンクすると、矢印キー、Home、End で共有カーソルを step タイムライン全体上で移動でき、すべての画像タイルがそれに追従します。
+    * `wandb leet [run-url]` による基本的なリモート run のサポート。
+  * 次のページネーション対応 artifact および Registry API メソッドで、キーワード引数として省略可能な order string を受け付けるようになりました: `Api.artifacts()`, `Api.artifact_collections()`, `Api.registries()`, `Api.registries().collections()`, `Registry.collections()`.
+
+  ## Changed
+
+  * W&amp;B LEET TUI の変更:
+    * W&amp;B LEET TUI は一般提供となり、コマンドは `wandb beta leet` から `wandb leet` に変更されました。従来のコマンドも引き続き alias として利用できます。
+    * 単一の key でログされた画像のリストが、W&amp;B LEET のメディア ペインに画像ごとに 1 タイルで表示されるようになりました。
+  * クエリのパフォーマンス向上のため、`wandb.Api().runs()` はデフォルトで各 run の Sweeps を読み込まなくなりました。sweep データは、sweep プロパティに初めてアクセスした際に読み込まれます。
+
+  ## Fixed
+
+  * `File.download()` は、ハードコードされた 5 秒のタイムアウト後に失敗しなくなりました。ダウンロードは file 転送設定に従います。
+  * 0.27.1 で導入されたリグレッションを修正しました。この問題により、`wandb.Api().viewer`、`Api().user()`、`Api().users()` が `WandbApiFailedError: relogin required for some API keys` エラーで失敗することがありました。
+  * `wandb.Image` を、異なる `class_labels` を持つ複数の box または mask レイヤーとともに `wandb.Table` 内でログした場合、各レイヤーのラベルが `table.json` 内の新しい `box_class_maps` または `mask_class_maps` フィールドに保持されるようになりました。以前は、単一の `class_map` が各 class label セットによって誤って上書きされていました。
+  * artifact の file 操作では、正規化された相対パスが一貫して必須になりました。
+  * `$TMPDIR` が存在しない、または書き込み不可の場合のサイレントな失敗を修正するため、`WandbLogger` または `run.log_artifact` を使用して artifact をログすると、manifest file は OS の temp dir ではなく artifact のステージングディレクトリに書き込まれるようになりました。
+  * 共有モード (`wandb.init(mode="shared")`) で artifact をログする際に、コード保存が有効になっているとエラーが発生するバグを修正しました。
+  * `diff.patch` file の作成時は、デフォルトで `git_root` 設定が使用され、`root_dir` 設定にフォールバックするようになりました。
+  * GPU、CPU、電力、温度などの Apple システムメトリクスが Apple M5 Mac で収集されるようになりました。
+  * `wandb.Api().run(...).download_history_exports` を使用して history をエクスポートする際に、file ダウンロードの進行状況が表示されるようになりました。
+  * 0.27.1 で導入されたリグレッションを修正しました。この問題により、`Run.scan_history()` は、アクティブな run のように history は存在していても Parquet にエクスポートされていない run に対して行を返さないことがありました。
+</Update>
+
+<Update label="0.27.2" description="2026年6月6日">
+  ## Fixed
+
+  * `Run.scan_history()` は、run history の取得時に step の重複や欠落を返さなくなりました。
+</Update>
+
+<Update label="0.27.1" description="2026年6月4日">
+  ## 追加
+
+  * Automations API が、artifact タグ、コレクションタグ、および artifact のリンク解除イベントをサポートするようになりました。
+
+  ## 変更
+
+  * `wandb.Api` の GraphQL 操作は、従来の Python GraphQL クライアントではなく `wandb-core` 経由でルーティングされるようになりました。
+    * `wandb.Api` の GraphQL 操作で失敗した場合は、`requests` の HTTP 例外ではなく `WandbApiFailedError` が発生するようになりました。
+  * `Run.scan_history()` は、利用可能な場合はエクスポートされた parquet 履歴から読み取るようになり、履歴が大きい runs でスループットが大幅に向上する可能性があります。この機能は、SDK `v0.23.1` で `beta_scan_history` として導入されました。
+
+  ## 削除
+
+  * サポート対象外の `wandb.apis.importers` API を削除しました。
+  * OpenAI、Cohere、LangChain の古い LLM インテグレーション (従来の autologging およびトレース API を含む) を削除しました。
+  * 非推奨の Keras `WandbCallback` と従来の `wandb.integration.yolov8` コールバックパッケージを削除しました。
+
+  ## 修正
+
+  * `wandb.sandbox` は、placement、GPU、egress に対する無効な引数値を拒否するようになりました。
+</Update>
 
 <Update label="0.27.0" description="2026年5月13日">
   ## 主な変更
@@ -29,17 +91,17 @@ rss: true
 <Update label="0.26.1" description="2026年4月23日">
   ## 追加
 
-  * Artifacts、レジストリ、オートメーション、および関連するページネーターを返す `wandb.Api` メソッドで、省略可能な `start` 引数を受け取れるようになりました。これにより、保存したカーソルからイテレーションを再開できます。
-  * `wandb.Settings` の `stop_fn` 設定では、run の停止が要求されたときに SDK が Python プロセスの停止を要求する方法をカスタマイズできます (デフォルトでは SIGINT を送信します) 。この設定は `wandb.setup(settings=...)` または `wandb.init(settings=...)` で渡します。この値は callable であるため、環境変数では設定できません。
+  * artifact、レジストリ、オートメーション、および関連するページネーターを返す `wandb.Api` メソッドで、オプションの `start` 引数を受け取れるようになり、保存済みカーソルから反復処理を再開できます。
+  * `wandb.Settings` の `stop_fn` 設定により、run の停止が要求されたときに SDK が Python プロセスを停止させる方法をカスタマイズできます (デフォルトでは SIGINT を送信します)。この設定は `wandb.setup(settings=...)` または `wandb.init(settings=...)` で渡します。値は callable であるため、環境変数では設定できません。
 
   ## 変更
 
-  * `wandb beta leet` では、各ペイン (チャートグリッド、リストナビゲーション) 内でフォーカスを移動する際に、WASD キーと矢印キーを同じように使用できます。**Home**、**End**、**Page Up**、**Page Down** キーも一貫して動作します。メディアペインでは引き続き、X 軸 をスクラブするには矢印キーを、画像タイル間を移動するには WASD キーを使用します。
+  * `wandb beta leet` では、各 ペイン (チャートグリッド、リストナビゲーション) 内でフォーカスを移動する際に、WASD キーと矢印キーを同じように使用できます。**Home**、**End**、**Page Up**、**Page Down** キーも一貫して動作します。media ペイン では引き続き、X-axis をスクラブするには矢印キーを使用し、画像タイル間を移動するには WASD キーを使用します。
 
   ## 修正
 
-  * `wandb.init(id=run_id, reinit="create_new")` で、同じスクリプト内で同じ `run_id` を持つ別の run がまだアクティブな場合は、エラーが発生するようになりました。
-  * `WANDB_MODE` 環境変数または `mode` 設定でオフラインモードが有効な場合に、`wandb.Api` が一部の操作で例外を発生させることがなくなりました。
+  * `wandb.init(id=run_id, reinit="create_new")` は、同じスクリプト内で同じ `run_id` を持つ別の run がまだアクティブな場合にエラーを発生させるようになりました。
+  * `wandb.Api` は、`WANDB_MODE` 環境変数または `mode` 設定でオフラインモードが有効になっている場合、一部の操作でエラーを発生させなくなりました。
 </Update>
 
 <Update label="0.26.0" description="2026年4月13日">

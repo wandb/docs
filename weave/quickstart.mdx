@@ -1,7 +1,8 @@
 ---
-title: "Quickstart: Track LLM inputs & outputs"
+title: "Quickstart: Track LLM inputs and outputs"
 description: "Get started with W&B Weave by adding tracing to your LLM application to debug and monitor model interactions."
 mode: "wide"
+keywords: ["tracing", "LLM observability", "weave.op", "OpenAI tracing", "trace quickstart"]
 ---
 
 import { ColabLink } from '/snippets/_includes/colab-link.mdx';
@@ -13,29 +14,29 @@ import WeaveQuickstartPrereqs from "/snippets/_includes/weave-quickstart-prereqs
 <GitHubLink url="https://github.com/wandb/docs/blob/main/weave/cookbooks/source/traces-quickstart.ipynb" />
 </div>
 
-Learn how to track LLM calls with Weave by adding tracing to your code. This quickstart walks you through tracing a request to OpenAI and viewing the results in the Weave UI.
+Learn how to track LLM calls with Weave by adding tracing to your code. This quickstart walks you through tracing a request to OpenAI and viewing the results in the Weave UI. It's for developers who are new to Weave and want to instrument an LLM application for debugging and monitoring.
 
-## What you'll learn:
+## What you'll learn
 
 This guide shows you how to:
 
-* Import and configure Weave in your code
-* Use `weave.op` decorator to track your code
-* View traces in the Weave UI
+* Import and configure Weave in your code.
+* Use the `weave.op` decorator to track your code.
+* View traces in the Weave UI.
 
 <WeaveQuickstartPrereqs/>
 
 ## Log a trace to a new project
 
-To begin tracking your code and logging traces to Weave:
+In this section, you instrument a small application so that Weave can record its inputs, outputs, and code. To begin tracking your code and logging traces to Weave:
 
 1. Import the `weave` library into your code.
-2. Call `weave.init('your_wb_team/project_name')` in your code to send tracking information to your W&B [team](/platform/app/settings-page/teams) and [project](/platform/hosting/iam/org_team_struct#project). If you do not set a team, the traces are sent to your [default team](/platform/app/settings-page/user-settings/#default-team). If the specified project does not exist in your team, Weave creates it.
-3. Add the [`@weave.op()` decorator](/weave/guides/tracking/ops) to specific functions you want to track. While Weave automatically tracks calls to supported LLMs, adding the Weave decorator allows you to track the inputs, outputs, and code of specific functions. The decorator uses the following syntax in TypeScript: `weave.op(your_function)`
+2. Call `weave.init('your_wb_team/project_name')` in your code to send tracking information to your W&B [team](/platform/app/settings-page/teams) and [project](/platform/hosting/iam/org_team_struct#project). If you don't set a team, Weave sends the traces to your [default team](/platform/app/settings-page/user-settings/#default-team). If the specified project doesn't exist in your team, Weave creates it.
+3. Add the [`@weave.op()` decorator](/weave/guides/tracking/ops) to functions you want to track. Although Weave automatically tracks calls to supported LLMs, the decorator lets you track the inputs, outputs, and code of specific functions. The decorator uses the following syntax in TypeScript: `weave.op(your_function)`.
 
-The following example code sends a request to OpenAI (requires [OpenAI API key](https://platform.openai.com/docs/quickstart)) and Weave records the request's tracing information. The request asks the OpenAI model to extract dinosaur names from the input and identify each dinosaur's diet (herbivore or carnivore).
+The following example code sends a request to OpenAI (requires an [OpenAI API key](https://platform.openai.com/docs/quickstart)), and Weave records the request's tracing information. The request asks the OpenAI model to extract dinosaur names from the input and identify each dinosaur's diet (herbivore or carnivore).
 
-Run the following example code to track your first project with Weave:
+The following example code tracks your first project with Weave:
 
 <Tabs>
   <Tab title="Python">
@@ -78,7 +79,8 @@ Run the following example code to track your first project with Weave:
     ```
   </Tab>
   <Tab title="TypeScript">
-    ```typescript lines {1-2,7-8,20,24-25}
+    ```typescript twoslash lines {1-2,7-8,20,24-25}
+    // @noErrors
     // Imports the Weave library
     import * as weave from 'weave';
     import OpenAI from 'openai';
@@ -117,9 +119,9 @@ Run the following example code to track your first project with Weave:
   </Tab>
 </Tabs>
 
-When you call the `extract_dinos` function, Weave outputs links to view your traces in the terminal. The output looks like this:
+When you call the `extract_dinos` function, Weave outputs links in the terminal to view your traces. The output looks like this:
 
-```shell
+```text
 weave:  $ pip install weave --upgrade
 weave: Logged in as Weights & Biases user: example-username.
 weave: View Weave data at https://wandb.ai/your-team/traces-quickstart/weave
@@ -147,16 +149,18 @@ weave: 🍩 https://wandb.ai/your-team/traces-quickstart/r/call/019ae171-7f32-7c
 
 ## See traces of your application in your project
 
-Click the link in your terminal or paste it into your browser to open the Weave UI. In the **Traces** panel of the Weave UI, you can click on the trace to see its data, such as its input, output, latency, and token usage.
+Now that your code has produced a trace, you can inspect it in the Weave UI. Click the link in your terminal or paste it into your browser to open the Weave UI. In the **Traces** panel of the Weave UI, click the trace to see its data, such as its input, output, latency, and token usage.
 
-![Weave Trace Outputs 1](/images/tutorial_trace_1.png)
+![Weave UI Traces panel showing the trace for the extract_dinos function, including its input, output, latency, and token usage.](/images/tutorial_trace_1.png)
 
-## Learn more about Traces
+You have now logged and viewed your first Weave trace.
+
+## Learn more about traces
 
 - Learn how to [decorate your functions and retrieve call information](/weave/guides/tracking/tracing).
 - Try the [Playground](/weave/guides/tools/playground) to test different models on logged traces.
-- [Explore integrations](/weave/guides/integrations/). Weave automatically tracks calls made to OpenAI, Anthropic and many more LLM libraries. If your LLM library isn't currently one of our integrations you can track calls to other LLMs libraries or frameworks easily by wrapping them with `@weave.op()`.
+- [Explore integrations](/weave/guides/integrations/). Weave automatically tracks calls made to OpenAI, Anthropic, and many more LLM libraries. If your LLM library isn't one of the Weave integrations, you can track calls to other LLM libraries or frameworks by wrapping them with `@weave.op()`.
 
-## Next Steps
+## Next steps
 
 [Get started evaluating your app](/weave/tutorial-eval) and then see how to [evaluate a RAG application](/weave/tutorial-rag).

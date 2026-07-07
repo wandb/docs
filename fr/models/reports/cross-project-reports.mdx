@@ -1,44 +1,47 @@
 ---
-description: Comparez des runs de deux projets différents avec des Reports interprojets.
-title: Comparer des runs entre projets
+description: Comparez des exécutions issues de deux projets différents à l’aide de rapports inter-projets.
+title: Comparer des exécutions entre projets
+keywords: ["lien magique", "rapport en lecture seule", "ensemble d’exécutions", "partager un rapport", "sélecteur de projet"]
 ---
 
 <Note>
-  Regardez une [vidéo montrant comment comparer des runs entre projets](https://www.youtube.com/watch?v=uD4if_nGrs4) (2 min).
+  Regardez une [vidéo montrant comment comparer des exécutions entre projets](https://www.youtube.com/watch?v=uD4if_nGrs4) (2 min).
 </Note>
 
-Comparez des runs de deux projets différents avec des Reports interprojets. Utilisez le sélecteur de projet dans le tableau des ensembles de runs pour choisir un projet.
+Les rapports inter-projets vous permettent de comparer côte à côte des exécutions provenant de deux projets différents. Cela est utile lorsque vous souhaitez évaluer des expériences suivies dans des Projects W&amp;B distincts sans dupliquer les données. Cette page explique comment récupérer des exécutions depuis un autre projet dans un rapport et comment partager ce rapport avec des collaborateurs qui n’ont pas de comptes W&amp;B.
+
+Pour comparer des exécutions entre projets, utilisez le sélecteur de projet dans le tableau de l’ensemble d’exécutions pour choisir un projet.
 
 <Frame>
-  <img src="/images/reports/howto_pick_a_different_project_to_draw_runs_from.gif" alt="Comparer des runs entre différents projets" />
+  <img src="/images/reports/howto_pick_a_different_project_to_draw_runs_from.gif" alt="Comparer des exécutions entre différents projets" />
 </Frame>
 
-Les visualisations de la section utilisent les colonnes du premier ensemble de runs actif. Si vous ne voyez pas la métrique recherchée dans le graphique en courbes, assurez-vous que le premier ensemble de runs coché dans la section contient bien cette colonne.
+Les visualisations de la section utilisent les colonnes du premier ensemble d’exécutions actif. Si vous ne voyez pas la métrique recherchée dans le graphique en courbes, assurez-vous que le premier ensemble d’exécutions coché dans la section contient cette colonne.
 
-Cette fonctionnalité prend en charge les données d&#39;historique sur les courbes de séries temporelles, mais nous ne prenons pas en charge l&#39;extraction de différentes métriques de summary depuis différents projets. En d&#39;autres termes, vous ne pouvez pas créer un nuage de points à partir de colonnes enregistrées uniquement dans un autre projet.
+Cette fonctionnalité prend en charge les données d’historique dans les courbes de séries temporelles, mais ne permet pas de récupérer différentes métriques de synthèse depuis différents projets. Autrement dit, vous ne pouvez pas créer un nuage de points à partir de colonnes enregistrées uniquement dans un autre projet.
 
-Si vous devez comparer des runs de deux projets et que les colonnes ne fonctionnent pas, ajoutez un tag aux runs de l&#39;un des projets, puis déplacez ces runs vers l&#39;autre projet. Vous pouvez toujours filtrer uniquement les runs de chaque projet, mais le rapport inclut toutes les colonnes pour les deux ensembles de runs.
+Si vous devez comparer des exécutions de deux projets et que les colonnes ne fonctionnent pas, ajoutez un tag aux exécutions d’un des projets, puis déplacez ces exécutions vers l’autre projet. Vous pouvez toujours filtrer uniquement les exécutions de chaque projet, mais le rapport inclut toutes les colonnes pour les deux ensembles d’exécutions.
 
 <div id="view-only-report-links">
-  ## Liens de Reports en lecture seule
+  ## Liens de rapports en lecture seule
 </div>
 
-Partagez un lien en lecture seule vers un Reports situé dans un projet privé ou un projet Team.
+Lorsque vous devez partager un rapport avec une personne en dehors de votre projet (par exemple, une partie prenante qui n’a pas de compte W&amp;B), utilisez un lien en lecture seule. Partagez un lien en lecture seule vers un rapport situé dans un projet privé ou un projet Team.
 
 <Frame>
-  <img src="/images/reports/magic-links.gif" alt="Liens de Reports en lecture seule" />
+  <img src="/images/reports/magic-links.gif" alt="Liens de rapports en lecture seule" />
 </Frame>
 
-Les liens de Reports en lecture seule ajoutent un jeton d’accès secret à l’URL, afin que toute personne qui ouvre le lien puisse consulter la page. N’importe qui peut utiliser le lien magique pour consulter le Reports sans avoir à se connecter au préalable. Pour les clients qui utilisent [W&amp;B Local](/fr/platform/hosting/) dans des installations de cloud privé, ces liens restent derrière votre pare-feu. Ainsi, seuls les membres de votre équipe qui ont accès à votre instance privée *et* au lien en lecture seule peuvent consulter le Reports.
+Les liens de rapports en lecture seule ajoutent un jeton d’accès secret à l’URL, afin que toute personne qui ouvre le lien puisse consulter la page. N’importe qui peut utiliser le lien magique pour consulter le rapport sans avoir à se connecter au préalable. Pour les clients qui utilisent [W&amp;B Local](/fr/platform/hosting/) dans des installations de cloud privé, ces liens restent derrière votre pare-feu. Seuls les membres de l’équipe qui ont à la fois accès à votre instance privée et au lien en lecture seule peuvent consulter le rapport.
 
-En **mode lecture seule**, une personne non connectée peut voir les graphiques, les survoler pour afficher les infobulles des valeurs, zoomer et dézoomer sur les graphiques, et faire défiler les colonnes du tableau. En mode vue, elle ne peut pas créer de nouveaux graphiques ni de nouvelles requêtes de tableau pour explorer les données. Les visiteurs utilisant un lien de Reports en lecture seule ne peuvent pas cliquer sur un run pour accéder à sa page. De plus, ils ne peuvent pas voir la fenêtre modale de partage et voient à la place, au survol, une infobulle indiquant : `Sharing not available for view only access`.
+En mode lecture seule, une personne non connectée peut voir les graphiques, les survoler pour afficher les infobulles des valeurs, zoomer et dézoomer sur les graphiques, et faire défiler les colonnes du tableau. Elle ne peut pas créer de nouveaux graphiques ni de nouvelles requêtes de tableau pour explorer les données. Les visiteurs en lecture seule ne peuvent pas cliquer sur une exécution pour accéder à la page de l’exécution, et ils ne peuvent pas voir la fenêtre modale de partage. À la place, ils voient au survol une infobulle indiquant `Sharing not available for view only access`.
 
 <Info>
-  Les liens magiques sont disponibles uniquement pour les projets « Private » et « Team ». Pour les projets « Public » (tout le monde peut voir) ou « Open » (tout le monde peut voir et contribuer avec des runs), ces liens ne peuvent pas être activés ou désactivés, car le projet est public et déjà accessible à toute personne disposant du lien.
+  Les liens magiques sont disponibles uniquement pour les projets « Private » et « Team ». Pour les projets « Public » (tout le monde peut voir) ou « Open » (tout le monde peut voir et contribuer avec des exécutions), vous ne pouvez pas activer ou désactiver les liens. Le projet est déjà public, le rapport est donc déjà accessible à toute personne disposant du lien.
 </Info>
 
 <div id="send-a-graph-to-a-report">
-  ## Envoyer un graphique vers un rapport
+  ## Envoyer un graphique dans un rapport
 </div>
 
-Envoyez un graphique depuis votre Workspace vers un rapport pour suivre votre progression. Cliquez sur le menu déroulant du graphique ou du panneau que vous souhaitez copier dans un rapport, puis sur **Add to report** pour sélectionner un rapport comme destination.
+Vous pouvez également alimenter un rapport avec des graphiques que vous avez déjà créés dans un espace de travail, au lieu de les recréer. Pour conserver un graphique d’un espace de travail avec l’analyse associée, envoyez-le directement dans un rapport. Cliquez sur le menu déroulant du graphique ou du panneau que vous souhaitez copier, puis cliquez sur **Add to report** pour sélectionner le rapport de destination.

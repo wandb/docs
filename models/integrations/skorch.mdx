@@ -22,10 +22,11 @@ We've created a few examples for you to see how the integration works:
 * [Colab](https://colab.research.google.com/drive/1Bo8SqN1wNPMKv5Bn9NjwGecBxzFlaNZn?usp=sharing): A simple demo to try the integration
 * [A step by step guide](https://app.wandb.ai/cayush/uncategorized/reports/Automate-Kaggle-model-training-with-Skorch-and-W%26B--Vmlldzo4NTQ1NQ): to tracking your Skorch model performance
 
-```python
-# Install wandb
-... pip install wandb
+```bash
+pip install wandb
+```
 
+```python
 import wandb
 from skorch.callbacks import WandbLogger
 

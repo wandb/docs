@@ -1,11 +1,12 @@
 ---
 title: "Afficher les informations de raisonnement"
 description: Comment renvoyer et afficher le raisonnement dans vos réponses Serverless Inference
+keywords: ["chaîne de pensée", "mode réflexion", "champ de raisonnement", "activer le raisonnement", "désactiver le raisonnement"]
 ---
 
-Les modèles de raisonnement, comme [Gemma 4 de Google](https://huggingface.co/google/gemma-4-31B-it), renvoient des informations sur leurs étapes de raisonnement en plus de la réponse finale. Cette page explique comment identifier les modèles compatibles avec le raisonnement sur Serverless Inference, où trouver le raisonnement dans une réponse et comment l’activer ou le désactiver pour les modèles qui prennent en charge cette option.
+Les modèles de raisonnement, comme [Gemma 4 de Google](https://huggingface.co/google/gemma-4-31B-it), renvoient des informations sur leurs étapes de raisonnement en plus de la réponse finale. Cette page explique comment identifier les modèles compatibles avec le raisonnement sur Serverless Inference, où trouver le raisonnement dans une réponse et comment l’activer ou le désactiver pour les modèles qui prennent en charge cette option. Utilisez ce guide pour examiner le raisonnement intermédiaire d’un modèle ou pour contrôler si le raisonnement apparaît dans une réponse.
 
-Pour déterminer si un modèle prend en charge le raisonnement, consultez le tableau suivant des modèles pris en charge ou la section Supported Features de sa page de catalogue dans l’interface utilisateur.
+Pour déterminer si un modèle prend en charge le raisonnement, consultez le tableau suivant des modèles pris en charge ou la section **Supported Features** de sa page de catalogue dans l’interface utilisateur.
 
 Les informations de raisonnement apparaissent dans le champ `reasoning` des réponses. La valeur de ce champ est `null` dans les réponses des modèles qui ne prennent pas en charge le raisonnement.
 
@@ -13,19 +14,21 @@ Les informations de raisonnement apparaissent dans le champ `reasoning` des rép
   ## Modèles pris en charge avec raisonnement
 </div>
 
-Le tableau suivant répertorie les modèles de Serverless Inference qui renvoient un raisonnement en sortie. Chaque modèle pris en charge peut soit toujours inclure le raisonnement, soit avoir le raisonnement activé ou désactivé par défaut :
+Le tableau suivant répertorie les modèles de Serverless Inference qui renvoient un raisonnement en sortie. Chaque modèle pris en charge inclut soit toujours le raisonnement, soit a le raisonnement activé ou désactivé par défaut :
 
-{/* takeru reasoning-models - Ce tableau est généré automatiquement, ne le modifiez pas manuellement. */}
+{/* takeru reasoning-models - Ce tableau est généré automatiquement, ne le modifiez pas à la main. */}
 
 | ID du modèle (pour l’utilisation de l’API)     | Prise en charge du raisonnement |
 | ---------------------------------------------- | ------------------------------- |
 | `deepseek-ai/DeepSeek-V4-Flash`                | Désactivé par défaut            |
 | `deepseek-ai/DeepSeek-V4-Pro`                  | Désactivé par défaut            |
-| `google/gemma-4-31B-it`                        | Activé par défaut               |
+| `google/gemma-4-31B-it`                        | Désactivé par défaut            |
 | `MiniMaxAI/MiniMax-M2.5`                       | Always on                       |
+| `moonshotai/Kimi-K2.7-Code`                    | Always on                       |
 | `moonshotai/Kimi-K2.6`                         | Always on                       |
 | `moonshotai/Kimi-K2.5`                         | Always on                       |
 | `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-FP8` | Activé par défaut               |
+| `nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B`     | Activé par défaut               |
 | `openai/gpt-oss-120b`                          | Always on                       |
 | `openai/gpt-oss-20b`                           | Always on                       |
 | `Qwen/Qwen3.6-35B-A3B`                         | Activé par défaut               |
@@ -33,19 +36,20 @@ Le tableau suivant répertorie les modèles de Serverless Inference qui renvoien
 | `Qwen/Qwen3.5-35B-A3B`                         | Activé par défaut               |
 | `Qwen/Qwen3.5-27B`                             | Activé par défaut               |
 | `Qwen/Qwen3-235B-A22B-Thinking-2507`           | Always on                       |
+| `zai-org/GLM-5.2`                              | Activé par défaut               |
 | `zai-org/GLM-5.1`                              | Activé par défaut               |
 
 <div id="models-with-always-on-reasoning">
   ### Modèles avec le raisonnement `Always on`
 </div>
 
-Si un modèle figure comme `Always on` dans le [tableau des modèles pris en charge](#supported-models) ci-dessus, il inclut toujours le raisonnement et il n’est pas possible de le désactiver.
+Si un modèle figure comme `Always on` dans le [tableau des modèles pris en charge](#supported-models) ci-dessus, il inclut toujours le raisonnement et vous ne pouvez pas le désactiver.
 
 <div id="disable-reasoning">
   ### Désactiver le raisonnement
 </div>
 
-Si un modèle est indiqué comme `Activé par défaut` dans le tableau précédent [Modèles pris en charge](#supported-models), vous pouvez désactiver le raisonnement pour réduire la consommation de jetons ou simplifier la réponse. Pour désactiver le raisonnement pour une requête, dans `chat_template_kwargs`, définissez l’indicateur `enable_thinking` sur la valeur `False` (Python) ou `false` (Bash) :
+Si un modèle est indiqué comme `Activé par défaut` dans le tableau précédent [Modèles pris en charge](#supported-models), vous pouvez désactiver le raisonnement pour réduire la consommation de jetons ou simplifier la réponse. Pour désactiver le raisonnement pour une requête, dans `chat_template_kwargs`, définissez l’indicateur `enable_thinking` sur `False` (Python) ou `false` (Bash). Une fois la requête terminée, la réponse omet le contenu de raisonnement :
 
 <Tabs>
   <Tab title="Python">
@@ -91,4 +95,4 @@ Si un modèle est indiqué comme `Activé par défaut` dans le tableau précéde
   ### Activer le raisonnement
 </div>
 
-Si un modèle est répertorié comme `Disabled by default` dans le tableau [modèles pris en charge](#supported-models) ci-dessus, vous pouvez activer le raisonnement en définissant l’indicateur `enable_thinking` sur la valeur `True` (Python) ou `true` (Bash) dans l’extrait de code ci-dessus.
+Si un modèle est répertorié comme `Désactivé par défaut` dans le tableau [modèles pris en charge](#supported-models) ci-dessus, vous pouvez activer le raisonnement en définissant l’indicateur `enable_thinking` sur `True` (Python) ou `true` (Bash) dans l’extrait de code ci-dessus.

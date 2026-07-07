@@ -5,7 +5,9 @@ keywords: ["Experiments", "Métriques"]
 
 Le nombre de points envoyés influe sur le temps de chargement des graphiques dans l’UI. Pour les courbes de plus de 1 000 points, le backend sous-échantillonne les données à 1 000 points avant de les envoyer au navigateur. Cet échantillonnage n’est pas déterministe, de sorte que les points échantillonnés peuvent varier à chaque actualisation de la page.
 
-Enregistrez moins de 10 000 points par métrique. Enregistrer plus d’un million de points sur une courbe augmente considérablement le temps de chargement de la page. Explorez des stratégies pour réduire le volume de données journalisées sans sacrifier la précision dans ce [Colab](https://wandb.me/log-hf-colab). Avec plus de 500 colonnes de configuration et de métriques de summary, seules 500 s’affichent dans le tableau.
+Pour que les graphiques restent réactifs, enregistrez moins de 10 000 points par métrique. Enregistrer plus d’un million de points sur une courbe augmente le temps de chargement de la page. Pour explorer des stratégies qui réduisent le volume de données journalisées sans sacrifier la précision, voir ce [Colab](https://wandb.me/log-hf-colab).
+
+Si vous avez plus de 500 colonnes de configuration et de métriques de summary, seules 500 s’affichent dans le tableau.
 
 ***
 

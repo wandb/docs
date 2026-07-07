@@ -1,16 +1,21 @@
 ---
-description: W&B Reports를 Notion에 직접 삽입하거나 HTML IFrame 요소를 사용해 삽입합니다.
-title: 리포트 삽입하기
+description: W&B 리포트를 Notion에 직접 또는 HTML `iframe` 요소를 사용해 임베드하세요.
+title: 리포트 임베드하기
+keywords: ["iframe", "Confluence", "Notion", "Gradio", "Hugging Face Spaces"]
 ---
 
+외부 페이지나 도구에 W&amp;B 리포트를 임베드하면 팀에서 다른 문서와 함께 실시간 실험 결과를 볼 수 있습니다. 이 페이지에서는 리포트에서 임베드 코드를 생성해 HTML, Confluence, Notion 또는 Gradio에서 사용하는 방법을 설명합니다.
+
 <div id="html-iframe-element">
-  ## HTML iframe 요소
+  ## HTML `iframe` 요소
 </div>
 
-리포트 오른쪽 상단의 **Share** 버튼을 선택합니다. 모달 창이 나타납니다. 모달 창에서 **Copy embed code**를 선택합니다. 복사한 코드는 Inline Frame (IFrame) HTML 요소 안에서 렌더링됩니다. 원하는 iframe HTML 요소에 복사한 코드를 붙여넣습니다.
+맞춤형 HTML을 허용하는 모든 웹 페이지에 HTML `iframe` 요소를 사용하여 리포트를 임베드할 수 있습니다. W&amp;B는 리포트에서 직접 복사할 수 있는 미리 생성된 임베드 코드를 제공합니다.
+
+리포트 오른쪽 상단에서 **Share** 버튼을 선택하여 대화 상자를 연 다음, **Copy embed code**를 선택합니다. 복사된 스니펫은 맞춤형 HTML을 허용하는 모든 페이지에 붙여넣을 수 있는 `iframe` HTML 요소입니다.
 
 <Note>
-  임베드하면 **public** Reports만 볼 수 있습니다.
+  임베드하면 *public* Reports만 볼 수 있습니다.
 </Note>
 
 <Frame>
@@ -21,7 +26,7 @@ title: 리포트 삽입하기
   ## Confluence
 </div>
 
-다음 애니메이션은 Confluence의 IFrame 셀 안에 리포트 직접 링크를 삽입하는 방법을 보여줍니다.
+Confluence에서는 기본 제공 `iframe` 매크로를 사용해 리포트를 임베드할 수 있습니다. 다음 애니메이션은 Confluence의 `iframe` 셀 안에 리포트 직접 링크를 삽입하는 방법을 보여줍니다.
 
 <Frame>
   <img src="/images/reports/embed_iframe_confluence.gif" alt="Confluence에 임베드하기" />
@@ -31,7 +36,7 @@ title: 리포트 삽입하기
   ## Notion
 </div>
 
-아래 애니메이션은 Notion의 Embed 블록과 리포트의 임베드 코드를 사용해 Notion 문서에 리포트를 삽입하는 방법을 보여줍니다.
+Notion의 **Embed** 블록은 W&amp;B에서 제공하는 것과 동일한 임베드 코드를 사용할 수 있습니다. 아래 애니메이션은 Notion의 **Embed** 블록과 리포트의 임베드 코드를 사용해 Notion 문서에 리포트를 삽입하는 방법을 보여줍니다.
 
 <Frame>
   <img src="/images/reports/embed_iframe_notion.gif" alt="Notion에 임베드하기" />
@@ -41,7 +46,7 @@ title: 리포트 삽입하기
   ## Gradio
 </div>
 
-`gr.HTML` 요소를 사용해 Gradio Apps에 W&amp;B Reports를 임베드하고, 이를 Hugging Face Spaces에서 사용할 수 있습니다.
+Hugging Face Spaces에 호스팅된 앱을 포함한 Gradio 앱에 W&amp;B 리포트를 임베드하려면, Gradio의 `gr.HTML` 요소를 사용해 리포트 URL을 가리키는 `iframe`을 렌더링하세요.
 
 ```python
 import gradio as gr
@@ -58,6 +63,3 @@ with gr.Blocks() as demo:
     )
 demo.launch()
 ```
-
-
-##

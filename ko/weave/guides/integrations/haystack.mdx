@@ -1,9 +1,11 @@
 ---
 title: "Haystack"
-description: "WeaveConnector 인테그레이션을 사용하여 W&B Weave에서 Deepset Haystack 파이프라인을 트레이싱하세요."
+description: "WeaveConnector 인테그레이션을 사용하여 W&B Weave에서 Deepset Haystack 파이프라인을 트레이스하세요."
 ---
 
 [Haystack](https://haystack.deepset.ai/)는 검색 및 LLM 애플리케이션을 구축하기 위한 오픈 소스 프레임워크입니다. Deepset은 Haystack 파이프라인 트레이스를 W&amp;B Weave로 전달하는 WeaveConnector 컴포넌트를 유지 관리하므로, Weave UI에서 컴포넌트 실행, 프롬프트, 출력을 확인할 수 있습니다.
+
+이 가이드는 파이프라인에 관측성을 추가하려는 Haystack 개발자를 위한 것입니다.
 
 전체 API 세부 정보와 추가 예시는 다음 Deepset 리소스를 참조하세요:
 
@@ -15,9 +17,9 @@ description: "WeaveConnector 인테그레이션을 사용하여 W&B Weave에서 
   ## 사전 요구 사항
 </div>
 
-시작하기 전에 다음을 수행하세요:
+시작하기 전에 다음을 반드시 완료해야 합니다:
 
-* W&amp;B [API 키](https://wandb.ai/settings)를 사용해 환경 변수 `WANDB_API_KEY`를 설정하세요.
+* W&amp;B [API 키](https://wandb.ai/settings)를 사용해 환경 변수 `WANDB_API_KEY`를 설정하세요. 그러면 커넥터가 W&amp;B Weave에 인증됩니다.
 * 파이프라인을 실행하기 전에 `HAYSTACK_CONTENT_TRACING_ENABLED`를 `true`로 설정하여, Haystack이 커넥터가 전달할 수 있는 트레이싱 데이터를 내보내도록 하세요.
 
 <div id="install">
@@ -36,7 +38,7 @@ pip install weave-haystack
   ## Weave로 Haystack 파이프라인 트레이스하기
 </div>
 
-다음 예시에서는 Haystack [`Pipeline`](https://docs.haystack.deepset.ai/docs/pipelines)에 Haystack의 `WeaveConnector`를 추가해, 파이프라인 컴포넌트를 트레이싱하고 모니터링할 수 있도록 W&amp;B Weave와 통합합니다. 전달한 `pipeline_name`은 해당 파이프라인에서 생성된 트레이스의 Weave 프로젝트 이름으로 사용됩니다.
+다음 예시에서는 Haystack [`Pipeline`](https://docs.haystack.deepset.ai/docs/pipelines)에 Haystack의 `WeaveConnector`를 추가해, 파이프라인 컴포넌트를 트레이스하고 모니터링할 수 있도록 W&amp;B Weave와 통합합니다. 전달한 `pipeline_name`은 해당 파이프라인에서 생성된 트레이스의 Weave 프로젝트 이름으로 사용됩니다.
 
 Haystack 파이프라인에서는 `WeaveConnector`를 다른 컴포넌트와 연결하지 마세요.
 

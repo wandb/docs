@@ -4,12 +4,12 @@ keywords: ["Performances"]
 ---
 
 <div id="errno-24-too-many-open-files">
-  ### `[Errno 24]: Trop de fichiers ouverts`
+  ## `[Errno 24]: Trop de fichiers ouverts`
 </div>
 
-Cette erreur se produit lorsque le nombre de fichiers ouverts dépasse la limite définie par votre système d’exploitation. Dans Weave, cela peut arriver si vous travaillez avec de grands jeux de données d’images. Weave utilise `PIL` pour le traitement des images, ce qui maintient les descripteurs de fichiers ouverts pendant toute l’exécution du programme.
+Cette erreur se produit lorsque le nombre de fichiers ouverts dépasse la limite définie par votre système d’exploitation. Dans Weave, cela peut arriver parce que vous travaillez avec de grands jeux de données d’images. Weave utilise `PIL` pour le traitement des images, ce qui maintient les descripteurs de fichiers ouverts pendant l’exécution du programme.
 
-Pour résoudre ce problème, augmentez la limite système du nombre de fichiers ouverts à `65,536` à l’aide de `ulimit` :
+Pour résoudre ce problème, augmentez la limite système du nombre de fichiers ouverts à `65536` à l’aide de `ulimit` :
 
 ```bash
 ulimit -n 65536

@@ -1,19 +1,20 @@
 ---
 title: "Together AI"
 description: "Track Together AI's open-source LLMs with Weave using OpenAI SDK compatibility for seamless tracing and evaluation of model calls."
+keywords: ["open-source LLMs", "OpenAI compatibility", "Mixtral", "fine-tuning", "model hosting"]
 ---
 
-Together AI is a platform for building and finetuning generative AI models, focusing on Open Source LLMs, and allowing customers to fine-tune and host their own models.
+Together AI is a platform for building and fine-tuning generative AI models. It focuses on open-source LLMs and lets customers fine-tune and host their own models. This guide shows you how to trace and evaluate Together AI model calls in Weave by using Together's OpenAI SDK compatibility. You can monitor inputs, outputs, and performance of open-source LLMs alongside your other Weave-tracked work.
 
 <Info>
 
-Full Weave `together` python package support is currently in development
+Full Weave support for the `together` Python package is in development.
 
 </Info>
 
-While full Weave support for the `together` python package is currently in development, Together supports the OpenAI SDK compatibility ([docs](https://docs.together.ai/docs/openai-api-compatibility)) which Weave automatically detects and integrates with.
+In the meantime, Together supports [OpenAI SDK compatibility](https://docs.together.ai/docs/openai-api-compatibility), which Weave automatically detects and integrates with. You can use the standard OpenAI client to call Together AI models and get automatic Weave tracing without any additional setup.
 
-To switch to using the Together API, simply switch out the API key to your [Together API](https://docs.together.ai/docs/quickstart) key, `base_url` to `https://api.together.xyz/v1`, and model to one of their [chat models](https://docs.together.ai/docs/inference-models#chat-models).
+To switch to the Together API, set `api_key` to your [Together API](https://docs.together.ai/docs/quickstart) key, `base_url` to `https://api.together.xyz/v1`, and `model` to one of the [chat models](https://docs.together.ai/docs/inference-models#chat-models). The following example initializes Weave and then makes a chat completion call against a Together-hosted model. Once it runs, the call appears as a trace in your Weave project.
 
 ```python lines {5, 10-13}
 import os
@@ -42,4 +43,4 @@ response = chat_completion.choices[0].message.content
 print("Together response:\n", response)
 ```
 
-While this is a simple example to get started, see our [OpenAI](/weave/guides/integrations/openai#track-your-own-ops) guide for more details on how to integrate Weave with your own functions for more complex use cases.
+This example gets you started. For more details on how to integrate Weave with your own functions for more complex use cases, see the [OpenAI](/weave/guides/integrations/openai#track-your-own-ops) guide.

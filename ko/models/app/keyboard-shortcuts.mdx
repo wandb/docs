@@ -4,6 +4,8 @@ title: 키보드 단축키
 keywords: ["단축키", "LEET", "빠른 검색", "실행 취소 다시 실행", "패널 내비게이션"]
 ---
 
+import LEETShortcuts from "/snippets/ko/_includes/leet-keyboard-shortcuts.mdx";
+
 W&amp;B는 키보드 단축키를 지원하여 Experiments, 워크스페이스, 데이터를 더 효율적으로 탐색하고 상호작용할 수 있도록 돕습니다. 이 가이드는 W&amp;B App과 W&amp;B LEET(Lightweight Experiment Exploration Tool) 터미널 UI의 키보드 단축키를 설명합니다.
 
 <Tabs>
@@ -40,17 +42,19 @@ W&amp;B는 키보드 단축키를 지원하여 Experiments, 워크스페이스, 
     | Shortcut                                                  | Description                                                                |
     | --------------------------------------------------------- | -------------------------------------------------------------------------- |
     | **Cmd + +/-** (macOS)<br />**Ctrl + +/-** (Windows/Linux) | 전체 화면에서 이미지를 볼 때 확대하거나 축소합니다.<br />확대한 상태에서는 클릭한 채로 드래그하여 이미지를 이동할 수 있습니다. |
-    | **Cmd+0** (macOS)<br />**Ctrl+0** (Windows/Linux)         | 전체 화면에서 이미지를 볼 때 확대 수준을 100%로 재설정합니다.                                      |
-    | **Shift+L**                                               | 전체 화면에서 이미지를 볼 때 화면에 맞게 표시합니다.                                             |
+    | **Cmd + 0** (macOS)<br />**Ctrl + 0** (Windows/Linux)     | 전체 화면에서 이미지를 볼 때 확대 수준을 100%로 재설정합니다.                                      |
+    | **Shift + L**                                             | 전체 화면에서 이미지를 볼 때 화면에 맞게 표시합니다.                                             |
+    | **Click**                                                 | 비디오 패널에서 키보드로 앞으로 또는 뒤로 건너뛰기 전에 비디오를 선택합니다.                                |
+    | **Left Arrow / Right Arrow**                              | 비디오 패널에서 설정된 **video seek step**만큼 앞으로 또는 뒤로 건너뜁니다.                        |
 
     ## Reports
 
-    | Shortcut               | Description                                            |
-    | ---------------------- | ------------------------------------------------------ |
-    | **Delete / Backspace** | Reports에서 선택한 패널 그리드를 제거합니다.                           |
-    | **Enter**              | Reports에서 &quot;/mark&quot;를 입력한 후 Markdown 블록을 삽입합니다. |
-    | **Esc**                | Reports 편집기를 종료합니다.                                    |
-    | **Tab**                | Reports에서 대화형 요소 사이를 이동합니다.                            |
+    | Shortcut               | Description                                  |
+    | ---------------------- | -------------------------------------------- |
+    | **Delete / Backspace** | Reports에서 선택한 패널 그리드를 제거합니다.                 |
+    | **Enter**              | Reports에서 `/mark`를 입력한 후 Markdown 블록을 삽입합니다. |
+    | **Esc**                | Reports 편집기를 종료합니다.                          |
+    | **Tab**                | Reports에서 대화형 요소 사이를 이동합니다.                  |
 
     ## 참고
 
@@ -62,8 +66,10 @@ W&amp;B는 키보드 단축키를 지원하여 Experiments, 워크스페이스, 
   </Tab>
 
   <Tab title="LEET">
-    다음 키보드 단축키는 명령줄을 벗어나지 않고도 Experiments를 탐색할 수 있게 해주는 W&amp;B LEET(Lightweight Experiment Exploration Tool) 터미널 UI에서 사용할 수 있습니다. LEET를 시작하려면 터미널에서 `wandb beta leet`를 실행하세요. 자세한 내용은 [`wandb beta leet`](/ko/models/ref/cli/wandb-beta/wandb-beta-leet/)를 참조하세요.
+    이 키보드 단축키는 W&amp;B LEET(Lightweight Experiment Exploration Tool) 터미널 UI에서 사용할 수 있습니다. LEET를 시작하려면 터미널에서 `wandb beta leet`를 실행하세요.
 
-    {/* <LEETShortcuts /> */}
+    LEET 내부에서 `h` 또는 `?`를 눌러 현재 뷰의 앱 내 도움말 오버레이를 여세요. 제품 개요와 시작 경로는 [LEET terminal UI](/ko/models/app/leet-tui)를 참조하세요.
+
+    <LEETShortcuts />
   </Tab>
 </Tabs>

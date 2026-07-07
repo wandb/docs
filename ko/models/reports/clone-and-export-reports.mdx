@@ -1,35 +1,42 @@
 ---
-description: "W&B Reports를 PDF 또는 LaTeX 파일로 내보내고 App UI 또는 Report and Workspace API를 사용해 복제합니다."
-title: Reports 복제 및 내보내기
+description: "W&B 리포트를 PDF 또는 LaTeX 파일로 내보내고 App UI 또는 Report and Workspace API를 사용해 복제합니다."
+title: 리포트 복제 및 내보내기
+keywords: ["리포트 내보내기", "리포트 복제", "PDF", "LaTeX", "Report and Workspace API"]
 ---
 
 <Note>
   W&amp;B Report and Workspace API는 공개 프리뷰 상태입니다.
 </Note>
 
-<div id="export-reports">
-  ## Reports 내보내기
+이 페이지에서는 W&amp;B 리포트를 이식 가능한 파일 형식으로 내보내는 방법을 설명합니다. 또한 기존 리포트를 복제해 해당 구조를 새 작업의 시작점으로 재사용하는 방법도 설명합니다.
+
+<div id="export-a-report">
+  ## 리포트 내보내기
 </div>
 
-리포트를 PDF 또는 LaTeX 형식으로 내보내세요. 리포트에서 드롭다운 메뉴를 열려면 **액션 (<Icon icon="ellipsis-vertical" iconType="solid" />)** 메뉴를 선택합니다. **Download and**를 선택한 다음, 출력 형식으로 PDF 또는 LaTeX를 선택하세요.
+W&amp;B 외부에서 콘텐츠를 공유하거나 분석의 정적 버전을 보관하려면 리포트를 PDF 또는 LaTeX 파일로 내보내세요. 리포트에서 **액션 (<Icon icon="ellipsis-vertical" iconType="solid" />)** 메뉴를 선택합니다. **Download**를 선택한 다음, 출력 형식으로 PDF 또는 LaTeX를 선택하세요.
 
-<div id="cloning-reports">
-  ## Reports 복제
+<div id="clone-a-report">
+  ## 리포트 복제
 </div>
+
+기존 프로젝트의 템플릿과 서식을 새 리포트의 기반으로 재사용하려면 리포트를 복제하세요. W&amp;B App에서 리포트를 복제하거나 Report and Workspace API를 사용해 프로그래밍 방식으로 복제할 수 있습니다.
 
 <Tabs>
   <Tab title="W&B App">
-    리포트에서 **액션 (<Icon icon="ellipsis-vertical" iconType="solid" />)** 메뉴를 선택해 드롭다운 메뉴를 엽니다. **이 리포트 복제** 버튼을 선택합니다. 모달에서 복제한 리포트의 대상을 선택합니다. **리포트 복제**를 선택합니다.
+    리포트에서 **액션 (<Icon icon="ellipsis-vertical" iconType="solid" />)** 메뉴를 선택합니다. **이 리포트 복제**를 선택합니다. 모달에서 복제한 리포트의 대상을 선택합니다. **리포트 복제**를 선택합니다.
 
     <Frame>
-      <img src="/images/reports/clone_reports.gif" alt="Reports 복제" />
+      <img src="/images/reports/clone_reports.gif" alt="W&B App에서 리포트 복제" />
     </Frame>
 
-    리포트를 복제하면 프로젝트의 템플릿과 형식을 재사용할 수 있습니다. 팀 계정에서 프로젝트를 복제하면 복제된 프로젝트를 팀에서 볼 수 있습니다. 개인 계정에서 복제한 프로젝트는 해당 사용자에게만 표시됩니다.
+    리포트를 복제할 때는 대상을 지정합니다. 팀으로 복제하면 모든 팀 구성원이 볼 수 있습니다. 개인 계정으로 복제하면 기본적으로 본인만 볼 수 있습니다.
   </Tab>
 
   <Tab title="Report and Workspace API">
-    URL에서 Report를 불러와 템플릿으로 사용합니다.
+    Report and Workspace API를 사용해 기존 리포트를 URL에서 불러오고, 이를 새 리포트의 템플릿으로 재사용합니다.
+
+    URL에서 리포트를 불러와 템플릿으로 사용합니다. `PROJECT`를 W&amp;B 프로젝트 이름으로 바꾸세요.
 
     ```python
     report = wr.Report(
@@ -39,7 +46,7 @@ title: Reports 복제 및 내보내기
     new_report = wr.Report.from_url(report.url)  # 불러오기
     ```
 
-    `new_report.blocks` 안의 콘텐츠를 편집합니다.
+    리포트를 불러온 후 `new_report.blocks`의 콘텐츠를 편집해 복제한 리포트를 사용자 지정한 다음 저장합니다. `ENTITY`를 W&amp;B entity 이름으로 바꾸세요.
 
     ```python
     pg = wr.PanelGrid(
@@ -59,5 +66,7 @@ title: Reports 복제 및 내보내기
     )
     new_report.save()
     ```
+
+    저장하면 새 리포트가 W&amp;B 프로젝트에 표시됩니다.
   </Tab>
 </Tabs>

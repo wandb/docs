@@ -1,8 +1,8 @@
 ---
 title: "Experiments"
-tag: "39"
+tag: "51"
 generator: "knowledgebase-nav"
-template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
+template: "docengine-site/templates/support_tag.mdx.j2"
 ---
 
 <Card title="Does W&B use the `multiprocessing` library?" href="/support/models/articles/does-wb-use-the-multiprocessing-library" arrow="true" horizontal>
@@ -50,11 +50,20 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 <Card title="How do I launch multiple runs from one script?" href="/support/models/articles/how-do-i-launch-multiple-runs-from-one-s" arrow="true" horizontal>
   To log multiple runs within a single script, you must finish each previous run before you start a new one. The following ...
 </Card>
+<Card title="How do I log NLP metrics and text outputs in W&B?" href="/support/models/articles/how-do-i-log-nlp-metrics-and-text-outputs-in-wandb" arrow="true" horizontal>
+  You can log corpus-level NLP scores (BLEU, ROUGE, perplexity) with wandb.log() and per-example outputs with wandb.Table. ...
+</Card>
 <Card title="How do I log a list of values?" href="/support/models/articles/how-do-i-log-a-list-of-values" arrow="true" horizontal>
   You can log a list of values, such as per-step losses, with wandb.Run.log(). The following examples show two common appr ...
 </Card>
+<Card title="How do I log gradients and model weights with wandb.watch()?" href="/support/models/articles/how-do-i-log-gradients-and-model-weights-with-wandb-watch" arrow="true" horizontal>
+  wandb.watch() hooks into a PyTorch model's parameters and gradients and logs histograms of their values at regular inter ...
+</Card>
 <Card title="How do I log metrics on two different time scales?" href="/support/models/articles/how-do-i-log-metrics-on-two-time-scales" arrow="true" horizontal>
   To log metrics on two different time scales, log indices like batch and epoch alongside your metrics. For example, you m ...
+</Card>
+<Card title="How do I page through large API results in W&B?" href="/support/models/articles/how-do-i-paginate-through-large-api-results-in-wandb" arrow="true" horizontal>
+  You can page through API result using the standard lazy-iterator pattern and per_page parameter. Additionally, you can u ...
 </Card>
 <Card title="How do I plot multiple lines on a plot with a legend?" href="/support/models/articles/how-do-i-plot-multiple-lines-on-a-plot-w" arrow="true" horizontal>
   Create a multi-line custom chart with wandb.plot.line_series(). Go to the project page to view the line chart. To add a  ...
@@ -67,6 +76,21 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 </Card>
 <Card title="How do I set the run name to the run ID?" href="/support/models/articles/how-do-i-set-the-run-name-to-the-run-id" arrow="true" horizontal>
   To overwrite the run name with the run ID, use the following code snippet:
+</Card>
+<Card title="How do I set up W&B alerts and notifications?" href="/support/models/articles/how-do-i-set-up-wandb-alerts-and-notifications" arrow="true" horizontal>
+  You can set up alerts in and notifications using the W&B Settings page. W&B supports automated alerts in User Settings ( ...
+</Card>
+<Card title="How do I update run config, tags, and notes via the W&B API?" href="/support/models/articles/how-do-i-update-run-config-tags-and-notes-via-the-wandb-api" arrow="true" horizontal>
+  After a run finishes, use the Public API guide to edit config, display name, tags, and notes without re-running the expe ...
+</Card>
+<Card title="How do I use W&B with JAX?" href="/support/models/articles/how-do-i-use-wandb-with-jax" arrow="true" horizontal>
+  W&B has no JAX-specific integration. However, you can convert JAX device arrays to Python scalars and then use wandb.log ...
+</Card>
+<Card title="How do I use the parallel coordinates chart in W&B?" href="/support/models/articles/how-do-i-use-the-parallel-coordinates-chart-in-wandb" arrow="true" horizontal>
+  The parallel coordinates chart shows how hyperparameters relate to metrics across many runs. Each line is one run; each  ...
+</Card>
+<Card title="How should I run sweeps on SLURM?" href="/support/models/articles/how-should-i-run-sweeps-on-slurm" arrow="true" horizontal>
+  For W&B sweeps on the SLURM scheduling system, run wandb agent --count 1 SWEEP_ID in each scheduled job. The agent execu ...
 </Card>
 <Card title="I didn't name my run. Where is the run name coming from?" href="/support/models/articles/i-didnt-name-my-run-where-is-the-run-nam" arrow="true" horizontal>
   If a run isn't explicitly named, W&B assigns a random name to identify it in your project. Examples of random names are  ...
@@ -101,17 +125,29 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 <Card title="Why am I seeing fewer data points than I logged?" href="/support/models/articles/why-am-i-seeing-fewer-data-points-than-i" arrow="true" horizontal>
   When you visualize metrics against an X-axis other than Step, expect to see fewer data points. You must log metrics at t ...
 </Card>
+<Card title="Why are my metrics missing from wandb.log()?" href="/support/models/articles/why-are-my-metrics-missing-from-wandb-log" arrow="true" horizontal>
+  If metrics logged with wandb.log() are not appearing in the W&B UI, there are several common causes. Offline mode withou ...
+</Card>
 <Card title="Why are steps missing from a CSV metric export?" href="/support/models/articles/why-are-steps-missing-from-a-csv-metric-" arrow="true" horizontal>
   Export limits can prevent you from exporting the entire run history as a CSV or with the run.history API. To access the  ...
 </Card>
 <Card title="Why can't I sort or filter metrics with certain characters?" href="/support/models/articles/why-cant-i-sort-or-filter-metrics-with-c" arrow="true" horizontal>
   Metric names in W&B must follow GraphQL naming conventions so that you can sort and filter them in the UI. Valid metric  ...
 </Card>
+<Card title="Why do my workspace settings not persist between sessions?" href="/support/models/articles/why-do-my-workspace-settings-not-persist" arrow="true" horizontal>
+  Workspace layout (panels, filters, grouping) persists only when you save a view. Unsaved changes stay in your browser se ...
+</Card>
 <Card title="Why does my process stop responding when using Hydra with W&B?" href="/support/models/articles/process-hangs-when-using-hydra-with-wan" arrow="true" horizontal>
   This page explains how to resolve unresponsive processes that occur when you start a process with Hydra alongside W&B. I ...
 </Card>
 <Card title="Why does my training hang with distributed training?" href="/support/models/articles/training-hangs-with-distributed-trainin" arrow="true" horizontal>
   This article helps you resolve training hangs when you use W&B with distributed training frameworks, so your runs can st ...
+</Card>
+<Card title="Why is my W&B run slow to initialize or upload?" href="/support/models/articles/why-is-my-wandb-run-slow-to-initialize-or-upload" arrow="true" horizontal>
+  Slow wandb.init() or sluggish metric uploads are usually caused by network latency, large media payloads, high logging f ...
+</Card>
+<Card title="Why is my sweep agent not picking up new runs?" href="/support/models/articles/why-is-my-sweep-agent-not-picking-up-new-runs" arrow="true" horizontal>
+  If your sweep agent starts but does not receive new run configurations, or receives one run and then idles, there are se ...
 </Card>
 <Card title="Why is nothing showing up in my graphs?" href="/support/models/articles/why-is-nothing-showing-up-in-my-graphs" arrow="true" horizontal>
   If the message "No visualization data logged yet" appears, the script hasn't executed the first wandb.log call. This can ...

@@ -17,12 +17,11 @@ Registry 内の 1 つのレジストリ。
 
 ```python
 __init__(
-    client: 'RetryingClient',
+    service_api: 'ServiceApi',
     organization: 'str',
     entity: 'str',
     name: 'str',
-    attrs: 'RegistryFragment | None' = None,
-    service_api: 'ServiceApi | None' = None
+    attrs: 'RegistryFragment | None' = None
 )
 ```
 
@@ -212,17 +211,25 @@ registry.add_members(my_team)
 ***
 
 
-### <kbd>method</kbd> `Registry.collections`
+### <kbd>メソッド</kbd> `Registry.collections`
 
 ```python
 collections(
     filter: 'dict[str, Any] | None' = None,
+    order: 'str | None' = None,
     per_page: 'PositiveInt' = 100,
     start: 'str | None' = None
 ) → Collections
 ```
 
-Registryに属するコレクションを返します。
+この Registry に属するコレクションを返します。
+
+**引数:**
+
+* `filter`:  コレクションのクエリに適用するフィルターのマッピング (省略可) 。
+* `order`:  結果の並び順を指定する string (省略可) 。先頭に &#39;+&#39; を付けると昇順 (デフォルト) 、&#39;-&#39; を付けると降順で並べ替えます。
+* `per_page`:  1 ページあたりに取得する結果数です。通常、これを変更する必要はありません。
+* `start`:  過去のクエリを再開するためのページネーションカーソルです。以前のページネーターの `.cursor` 属性から取得します。
 
 ***
 
@@ -230,28 +237,26 @@ Registryに属するコレクションを返します。
 
 ```python
 create(
-    client: 'RetryingClient',
+    api: 'Api',
     organization: 'str',
     name: 'str',
     visibility: "Literal['organization', 'restricted']",
     description: 'str | None' = None,
-    artifact_types: 'list[str] | None' = None,
-    service_api: 'ServiceApi | None' = None
+    artifact_types: 'list[str] | None' = None
 ) → Self
 ```
 
-新しいレジストリを作成します。
+新しいRegistryを作成します。
 
-レジストリ名は、組織内で一意である必要があります。この関数は `api.create_registry()` を使用して呼び出してください。
+Registry名は、組織内で一意である必要があります。この関数は `api.create_registry()` を使用して呼び出してください。
 
 **引数:**
 
-* `client`:  API 互換性のために保持されている Legacy GraphQL クライアント。
-* `service_api`:  作成されるレジストリに対して W&amp;B API 呼び出しを実行する wandb-core サービスへのインターフェース。
+* `api`:  W&amp;B API インスタンス。
 * `organization`:  組織の名。
-* `name`:  レジストリの名 (`wandb-registry-` プレフィックスを除く) 。
+* `name`:  Registryの名 (`wandb-registry-` プレフィックスを除く) 。
 * `visibility`:  公開レベル (&#39;organization&#39; または &#39;restricted&#39;) 。
-* `description`:  レジストリの説明 (省略可能) 。
+* `description`:  Registryの説明 (省略可能) 。
 * `artifact_types`:  許可するアーティファクト タイプのリスト (省略可能) 。
 
 **戻り値:**
@@ -260,7 +265,7 @@ create(
 
 **例外:**
 
-* `ValueError`:  組織内に同じ名のレジストリがすでに存在する場合、または作成に失敗した場合。
+* `ValueError`:  組織内に同じ名のRegistryがすでに存在する場合、または作成に失敗した場合。
 
 ***
 
@@ -426,4 +431,10 @@ versions(
 ) → Versions
 ```
 
-そのRegistryに属するバージョンを返します。 
+このRegistryに属するアーティファクト versionを返します。
+
+**引数:**
+
+* `filter`:  アーティファクト version のクエリに適用する、省略可能なフィルターのマッピング。
+* `per_page`:  1ページあたりに取得する結果の数です。通常、これを変更する理由はありません。
+* `start`:  過去のクエリを再開するためのページネーションカーソルで、以前のページネーターの `.cursor` 属性から取得します。

@@ -1,20 +1,20 @@
 ---
-title: "ワーカープロセスでの Trace Data 損失"
-keywords: ["Trace Data", "パフォーマンス"]
+title: "ワーカープロセスでのトレースデータ損失"
+keywords: ["トレースデータ", "パフォーマンス"]
 ---
 
-Weave は、アプリケーションのパフォーマンスへの影響を最小限に抑えるために、バックグラウンドスレッドで Trace Data をアップロードします。ただし、multiprocessing やタスクキューシステム、あるいは Celery のようなワーカープロセスを使用している場合、トレースのアップロードがバックグラウンドスレッドで完了する前にワーカープロセスが終了すると、Weave は Trace Data を失います。
+Weave は、アプリケーションのパフォーマンスへの影響を最小限に抑えるために、バックグラウンドスレッドでトレースデータをアップロードします。ただし、multiprocessing やタスクキューシステム、あるいは Celery のようなワーカープロセスを使用している場合、トレースデータが失われることがあります。これは、バックグラウンドスレッドによるトレースのアップロードが完了する前に、ワーカープロセスが終了してしまうためです。
 
-ワーカープロセスでのデータ損失を防ぐには、ワーカータスクが完了する前に `client.flush()` または `client.finish()` を呼び出し、バックグラウンドアップロードを完了させる必要があります。これは、[AWS Lambda](https://aws.amazon.com/lambda/)、[Google Cloud Run](https://cloud.google.com/run)、または実行直後に終了するノートブックのような短命な環境で作業する場合に役立ちます。
+ワーカープロセスでのデータ損失を防ぐには、ワーカータスクが完了する前に `client.flush()` または `client.finish()` を呼び出し、バックグラウンドアップロードが完了するようにしてください。これは、[AWS Lambda](https://aws.amazon.com/lambda/)、[Google Cloud Run](https://cloud.google.com/run)、または実行直後に終了するノートブックのような短命な環境で特に有効です。
 
-これらの method には、それぞれ異なる用途があります。
+これらのメソッドは用途が異なるため、環境に合ったものを選択してください。
 
-* `weave.flush()`: シンプルで通知のないフラッシュです。Weave をワーカープロセスや CI 環境に統合する場合に推奨されます。
-* `weave.finish()`: プログレスバーやステータスコールバックによる進行状況のフィードバックが含まれます。対話的なスクリプトやノートブックに推奨されます。
+* `weave.flush()`: 出力を表示せずにフラッシュします。Weave をワーカープロセスや継続的インテグレーション (CI) 環境に統合している場合に推奨されます。
+* `weave.finish()`: 進捗バーまたはステータスコールバックで進行状況を確認できます。対話型スクリプトやノートブックに推奨されます。
 
-どちらの method も、すべてのバックグラウンドアップロードが完了するまでブロックするため、ワーカープロセスの終了時に Trace Data が失われることはありません。
+どちらのメソッドも、すべてのバックグラウンドアップロードが完了するまで処理をブロックするため、ワーカープロセスの終了時にトレースデータが失われるのを防げます。
 
-次の例では、`client.finish()` を示します。
+次の例では、ワーカーの処理が終了する前にトレースをフラッシュするために、Celery タスクから `client.finish()` を呼び出す方法を示します。`[TEAM-NAME]` は W&amp;B のチーム名に、`[PROJECT-NAME]` は W&amp;B の project 名に置き換えてください。
 
 ```python
 from celery import Celery
@@ -24,13 +24,13 @@ app = Celery('tasks')
 
 @app.task
 def process_task(input_data):
-    weave.init("your-team-name/your-project-name")
+    weave.init("[TEAM-NAME]/[PROJECT-NAME]")
 
     try:
         # トレースを作成するタスクロジック
         result = your_processing_function(input_data)
 
-        # タスク完了前にすべてのトレースがアップロードされていることを確認する
+        # タスク完了前にすべてのトレースをアップロードする
         weave.finish()
 
         return result
@@ -38,22 +38,22 @@ def process_task(input_data):
         pass
 ```
 
-`with` コンテキストマネージャーを使うと、終了時に `weave.finish()` が自動的に呼び出されます：
+別の方法として、`with` コンテキストマネージャーを使用すると、終了時に `weave.finish()` が自動的に呼び出されます。
 
 ```python
-with weave.init("your-team-name/your-project-name") as client:
+with weave.init("[TEAM-NAME]/[PROJECT-NAME]") as client:
     result = your_processing_function(input_data)
 
     return result
 ```
 
-`weave.flush()` を使うことで、アプリケーションのパフォーマンスを改善することもできます。詳しくは、[Flushing](/ja/support/weave/articles/long-eval-clean-up-times) を参照してください。
+`weave.flush()` を使用すると、アプリケーションのパフォーマンスを改善することもできます。詳細は、[Flushing](/ja/support/weave/articles/long-eval-clean-up-times) を参照してください。
 
-データ損失に対する耐性をさらに高めるには、サーバーに送信する前に Trace Data をディスクに書き込む [write-ahead log](/ja/weave/guides/tracking/write-ahead-log) を有効にすることも検討してください。
+データ損失への耐性をさらに高めるには、データをサーバーに送信する前にトレースデータをディスクに書き込む [ライトアヘッドログ](/ja/weave/guides/tracking/write-ahead-log) を有効にすることも検討してください。
 
 ***
 
-{/* AUTO-GENERATED: tab badges */}
+{/* 自動生成: タブバッジ */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Trace Data](/ja/support/weave/tags/trace-data)</Badge><Badge stroke shape="pill" color="orange" size="md">[パフォーマンス](/ja/support/weave/tags/performance)</Badge>
 

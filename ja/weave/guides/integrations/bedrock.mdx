@@ -1,21 +1,22 @@
 ---
 title: Bedrock
-description: "Weave で Amazon Bedrock の LLM 呼び出しをトラッキング・監視し、基盤モデルとのやり取りや Converse API の利用状況を把握できます。"
+description: "Weave で Amazon Bedrock の LLM Call をトラッキングおよびモニタリングし、基盤モデルのインタラクションと converse API の使用状況を取得します。"
+keywords: ["Amazon Bedrock", "boto3", "converse API", "invoke_model", "foundation models"]
 ---
 
-Weave は、Amazon Bedrock 経由で行われる LLM 呼び出しを自動的にトラッキングしてログします。Amazon Bedrock は、主要な AI 企業の基盤モデルを統一 API で提供する AWS の完全マネージドサービスです。
+Weave は、統一された API を通じて複数の AI プロバイダの基盤モデルを提供する AWS のマネージドサービスである Amazon Bedrock 経由の LLM Call を、自動的にトラッキングしてログします。このインテグレーションを使用すると、Bedrock の基盤モデルとのインタラクションや `converse` API の使用状況を取得し、Bedrock ベースのアプリケーションをデバッグ、評価、モニタリングできます。
 
-Amazon Bedrock から Weave に LLM 呼び出しをログする方法はいくつかあります。`weave.op` を使用すると、Bedrock モデルへのあらゆる呼び出しをトラッキングするための再利用可能な op を作成できます。Anthropic のモデルを使用している場合は、必要に応じて Anthropic 向けの Weave 組み込みインテグレーションを使用することもできます。
+Amazon Bedrock から Weave に LLM Call をログする方法は複数あります。`weave.op` を使用すると、Bedrock モデルへのあらゆる Call をトラッキングする再利用可能な op を作成できます。必要に応じて、Anthropic モデルを使用している場合は、Weave に組み込まれている Anthropic インテグレーションを使用することもできます。
 
 <Tip>
-  最新のチュートリアルについては、[Amazon Web Services 上の Weights &amp; Biases](https://wandb.ai/site/partners/aws/) をご覧ください。
+  最新のチュートリアルについては、[W&amp;B on Amazon Web Services](https://wandb.ai/site/partners/aws/) をご覧ください。
 </Tip>
 
 <div id="traces">
   ## トレース
 </div>
 
-Weave は、Bedrock API 呼び出しのトレースを自動的に収集します。Weave を初期化し、クライアントにパッチを適用すれば、その後は通常どおり Bedrock クライアントを使用できます。
+クライアントにパッチを適用すると、Weave は Bedrock API Call のトレースを自動的に収集します。Weave を初期化し、クライアントにパッチを適用したら、その後は通常どおり Bedrock クライアントを使用します:
 
 ```python lines
 import weave
@@ -25,11 +26,11 @@ from weave.integrations.bedrock.bedrock_sdk import patch_client
 
 weave.init("my_bedrock_app")
 
-# Bedrockクライアントを作成してパッチを適用する
+# Bedrock クライアントを作成してパッチを適用する
 client = boto3.client("bedrock-runtime")
 patch_client(client)
 
-# 通常通りクライアントを使用する
+# 通常どおりクライアントを使用する
 response = client.invoke_model(
     modelId="anthropic.claude-3-5-sonnet-20240620-v1:0",
     body=json.dumps({
@@ -46,7 +47,7 @@ response_dict = json.loads(response.get('body').read())
 print(response_dict["content"][0]["text"])
 ```
 
-`converse` API の使用例:
+同じくパッチを適用したクライアントは、`converse` API の使用時にもトレースを取得します:
 
 ```python lines
 messages = [{"role": "user", "content": [{"text": "What is the capital of France?"}]}]
@@ -61,11 +62,11 @@ print(response["output"]["message"]["content"][0]["text"])
 
 ```
 
-<div id="wrapping-with-your-own-ops">
-  ## 独自のopでラップする
+<div id="wrap-calls-with-your-own-ops">
+  ## 独自のopでCallをラップする
 </div>
 
-`@weave.op()` デコレータを使うと、再利用可能なopを作成できます。以下は、`invoke_model` API と `converse` API の両方を使用する例です。
+関連するロジックをまとめ、custom inputs を取得し、アプリケーション全体で同じトラッキング対象の関数を再利用できるようにするために、Bedrock の Call を独自のopでラップします。`@weave.op()` デコレータを使うと、再利用可能なopを作成できます。以下は、`invoke_model` API と `converse` API の両方を使用する例です。
 
 ```python lines
 @weave.op
@@ -113,10 +114,10 @@ def call_model_converse(
 </Frame>
 
 <div id="create-a-model-for-easier-experimentation">
-  ## より簡単に実験できるように `Model` を作成する
+  ## より簡単に試行錯誤できるように `Model` を作成する
 </div>
 
-Weave Model を作成すると、実験を整理しやすくなり、パラメーターを保持できます。以下は `converse` API を使用した例です。
+Weave の `Model` は、設定と予測ロジックをまとめて扱えるため、パラメーターを調整しながら Runs を並べて比較できます。実験をより整理し、パラメーターを取得しやすくするために、Weave の `Model` を作成します。次の例では `converse` API を使用します。
 
 ```python lines
 class BedrockLLM(weave.Model):
@@ -151,22 +152,22 @@ result = model.predict("What is the best way to handle errors in Python?")
 print(result)
 ```
 
-この方法を使うと、実験をバージョン管理し、Bedrock ベースのアプリケーションの異なる設定を簡単にトラッキングできます。
+この方法を使うと、experiments をバージョン管理し、Bedrock ベースのアプリケーションのさまざまな設定をトラッキングできます。
 
 <div id="learn-more">
   ## 詳しく見る
 </div>
 
-Amazon Bedrock を Weave で使用する方法について詳しく見る
+以下のリソースでは、Amazon Bedrock を Weave で試したり評価したりするための追加の方法を紹介します。
 
 <div id="try-bedrock-in-the-weave-playground">
   ### Weave Playground で Bedrock を試す
 </div>
 
-設定なしで Weave UI から Amazon Bedrock モデルを試したい場合は、[LLM Playground](../tools/playground) をお試しください。
+設定なしで Weave UI から Amazon Bedrock モデルを試すには、[LLM Playground](../tools/playground) をお試しください。
 
 <div id="report-compare-llms-on-bedrock-for-text-summarization-with-weave">
   ### レポート: Weave で Bedrock 上の LLM をテキスト要約タスクで比較する
 </div>
 
-[Amazon Bedrock 上の LLM を評価する](https://wandb.ai/byyoung3/ML_NEWS3/reports/Compare-LLMs-on-Amazon-Bedrock-for-text-summarization-with-W-B-Weave--VmlldzoxMDI1MTIzNw) レポートでは、要約タスク向けに LLM を評価・比較するために、Bedrock と Weave を組み合わせて使う方法を、コードサンプル付きで説明しています。
+[Amazon Bedrock 上の LLM を評価する](https://wandb.ai/byyoung3/ML_NEWS3/reports/Compare-LLMs-on-Amazon-Bedrock-for-text-summarization-with-W-B-Weave--VmlldzoxMDI1MTIzNw) レポートでは、要約タスク向けに LLM を評価・比較するために、Bedrock と Weave を組み合わせて使う方法を説明しています。レポートにはコードサンプルが含まれています。

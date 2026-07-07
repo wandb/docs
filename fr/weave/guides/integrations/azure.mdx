@@ -1,19 +1,20 @@
 ---
 title: "Microsoft Azure"
 description: "Intégrer Weave aux services Microsoft Azure OpenAI"
+keywords: ["Azure OpenAI", "Azure AI Model Inference", "Azure AI Studio", "traçage", "weave.op"]
 ---
 
-Weights &amp; Biases (W&amp;B) Weave s’intègre aux services Microsoft Azure OpenAI pour aider les équipes à optimiser leurs applications d’IA sur Azure. Avec W&amp;B, vous pouvez
+Weights &amp; Biases (W&amp;B) Weave s’intègre aux services Microsoft Azure OpenAI pour aider les équipes à optimiser leurs applications d’IA sur Azure. Cette page vous montre comment commencer à suivre les appels à Azure OpenAI avec Weave et renvoie vers des ressources supplémentaires pour des flux de travail plus avancés.
 
 <Tip>
   Pour accéder aux tutoriels les plus récents, consultez [Weights &amp; Biases sur Microsoft Azure](https://wandb.ai/site/partners/azure).
 </Tip>
 
-<div id="getting-started">
+<div id="get-started">
   ## Premiers pas
 </div>
 
-Pour commencer à utiliser Azure avec Weave, décorez simplement les fonctions que vous souhaitez suivre avec `weave.op`.
+Pour commencer à suivre les appels Azure OpenAI avec Weave, décorez les fonctions que vous souhaitez suivre avec `weave.op`. Une fois décorées, Weave capture automatiquement les entrées, les sorties et les métadonnées de chaque appel de fonction.
 
 ```python lines
 @weave.op()
@@ -28,21 +29,20 @@ def call_azure_chat(model_id: str, messages: list, max_tokens: int = 1000, tempe
 
 ```
 
-
 <div id="learn-more">
   ## En savoir plus
 </div>
 
-Approfondissez les sujets avancés d’Azure avec Weave à l’aide des ressources ci-dessous.
+Les sections suivantes présentent des sujets avancés sur Azure avec Weave.
 
 <div id="use-the-azure-ai-model-inference-api-with-weave">
   ### Utiliser l’API Azure AI Model Inference avec Weave
 </div>
 
-Découvrez comment utiliser l’[API Azure AI Model Inference] avec Weave afin de mieux comprendre les modèles Azure dans [ce guide](https://wandb.ai/byyoung3/ML-NEWS2/reports/A-guide-to-using-the-Azure-AI-model-inference-API--Vmlldzo4OTY1MjEy#tutorial:-implementing-azure-ai-model-inference-api-with-w\&b-weave-).
+Découvrez comment [utiliser l’API Azure AI Model Inference avec Weave afin de mieux comprendre les modèles Azure](https://wandb.ai/byyoung3/ML-NEWS2/reports/A-guide-to-using-the-Azure-AI-model-inference-API--Vmlldzo4OTY1MjEy#tutorial:-implementing-azure-ai-model-inference-api-with-w\&b-weave-).
 
 <div id="trace-azure-openai-models-with-weave">
   ### Tracer les modèles Azure OpenAI avec Weave
 </div>
 
-Découvrez comment tracer les modèles Azure OpenAI avec Weave dans [ce guide](https://wandb.ai/a-sh0ts/azure-weave-cookbook/reports/How-to-use-Azure-OpenAI-and-Azure-AI-Studio-with-W-B-Weave--Vmlldzo4MTI0NDgy).  
+Découvrez comment [tracer les modèles Azure OpenAI avec Weave](https://wandb.ai/a-sh0ts/azure-weave-cookbook/reports/How-to-use-Azure-OpenAI-and-Azure-AI-Studio-with-W-B-Weave--Vmlldzo4MTI0NDgy).

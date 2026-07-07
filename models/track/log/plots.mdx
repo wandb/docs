@@ -149,7 +149,7 @@ For more information, see the [Custom Multi-Line Plots](https://wandb.ai/wandb/p
 
 ### Model evaluation charts
 
-These preset charts have built-in `wandb.plot()` methods that make it quick and easy to log charts directly from your script and see the exact information you're looking for in the UI.
+These preset charts have built-in `wandb.plot()` methods that make it quick to log charts directly from your script and see the exact information you're looking for in the UI.
 
 <Tabs>
 <Tab title="Precision-recall curves">
@@ -287,7 +287,7 @@ with wandb.init() as run:
     run.log({"chart": plt})
 ```
 
-Just pass a `matplotlib` plot or figure object to `wandb.Run.log()`. By default we'll convert the plot into a [Plotly](https://plot.ly/) plot. If you'd rather log the plot as an image, you can pass the plot into `wandb.Image`. We also accept Plotly charts directly.
+Pass a `matplotlib` plot or figure object to `wandb.Run.log()`. By default we'll convert the plot into a [Plotly](https://plot.ly/) plot. If you'd rather log the plot as an image, you can pass the plot into `wandb.Image`. We also accept Plotly charts directly.
 
 <Note>
 If you get an error like "You attempted to log an empty plot", store the figure separately from the plot with `fig = plt.figure()` and then log `fig` in your call to `wandb.Run.log()`.

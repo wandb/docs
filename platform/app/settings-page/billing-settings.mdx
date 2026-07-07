@@ -23,49 +23,124 @@ From the **Plan details** section, you can take the following actions:
 
 ## Plan usage
 
-The **Plan usage** section visually summarizes current usage and displays upcoming usage charges. For detailed insights into usage by month, click **View usage** on an individual tile. To export usage by calendar month, team, or project, click **Export CSV**.
+The **Plan usage** section visually summarizes current usage and displays upcoming usage charges. For detailed insights into usage by month, click **View usage** on an individual tile. To export usage by calendar month, team, or project, click **Export CSV**. To explore usage trends over time, see [View usage over time](#view-usage-over-time).
 
 For questions about usage or billing, contact your AISE or [Support](mailto:support@wandb.com).
 
-### Usage alerts
+### View usage over time
 
-Usage alerts notify organization and billing admins by email when your organization reaches 85% and 100% of its usage limit for the current billing period in a given category. Configure usage alerts to monitor consumption and avoid unexpected overages. The following categories are tracked:
+Organization admins can visualize usage trends for each category in the **Usage & Alerts** tab. Select your deployment type for instructions:
+
+<Tabs>
+<Tab title="Multi-tenant Cloud">
+1. In the top right corner, click your user profile icon.
+1. In the **Account** section, click **Usage & Alerts**.
+1. From the sidebar, select a category to display its **Usage over time** chart.
+</Tab>
+<Tab title="Dedicated Cloud / Self-Managed">
+1. In the top right corner, click your user profile icon.
+1. Click **Organization Dashboard**.
+1. Click **Usage & Alerts**.
+1. From the sidebar, select a category to display its **Usage over time** chart.
+</Tab>
+</Tabs>
+
+<Note>
+Usage charts are visible to organization admins only. Team admins can't view them.
+</Note>
+
+The categories in the sidebar depend on which products are active in your deployment, and can include **Storage**, **Tracked Hours**, **Weave**, **Inference**, **Training**, **AI Research Agent** (ARIA), and **Sandboxes**.
+
+{/* Source: https://wandb.ai/account-settings/wandb/alerts/tracked-hours (multi-tenant, Current cycle, All teams) */}
+<Frame>
+    <img src="/images/app_ui/billing_usage_chart_current_cycle.png" alt="Usage over time chart for the current billing cycle, showing cumulative daily usage segmented by team above a stats bar" />
+</Frame>
+
+Use the controls above the chart to change what it shows:
+
+- **Time range**: Choose **Current cycle** (the default for most categories), **Last 30 days**, **Last 90 days**, **Last 12 months**, or **Last 24 months**. Storage defaults to **Last 12 months**.
+- **Team**: Choose **All teams** to see organization-wide usage, or select an individual team to see only its usage. The searchable dropdown lists teams from highest to lowest usage.
+
+Each bar is segmented by team. The five teams with the highest usage across the selected time range each appear in their own color, and all remaining teams are grouped into **Other**. To see per-team usage, hover over a bar. The bar for the current period is marked as in progress.
+
+To export usage data, click the download icon in the top right corner of the chart. The export returns a monthly usage breakdown by team and project for the last 24 months, regardless of the selected time range.
+
+#### Current cycle compared to historical views
+
+The **Current cycle** view is *cumulative*: each bar adds to the previous one to show your running total usage since the start of the current billing period. Use this view to see how your usage is pacing against its allowance. Granularity depends on the length of your billing cycle. For example, a monthly cycle shows daily bars and an annual cycle shows monthly bars.
+
+The **Last 30 days**, **Last 90 days**, **Last 12 months**, and **Last 24 months** views are *historical*: each bar shows the usage for a single day or month rather than a running total. Use these views to compare usage across past periods. Because the top five teams are recalculated for the selected range, the colored teams can differ from those in the current cycle.
+
+Storage is always cumulative, because it measures the total volume currently stored (a 30-day weighted average, in GB) rather than usage consumed during a period.
+
+{/* Source: https://wandb.ai/account-settings/wandb/alerts/storage (multi-tenant, Last 12 months, All teams) */}
+<Frame>
+    <img src="/images/app_ui/billing_usage_chart_12_months.png" alt="Storage usage over time for the last 12 months, measured as a 30-day weighted average, expressed in GB with one bar per month segmented by team" />
+</Frame>
+
+#### Stats bar and threshold lines
+
+When both **Current cycle** and **All teams** are selected, a stats bar above the chart summarizes **Usage**, **Allowance**, and **Daily Average Usage**. Storage charts do not display a stats bar or daily average usage; instead, historical views show the aggregated total usage for that specific time range.
+
+When a category has a defined allowance, the chart displays two threshold lines: a gold line at 85% of the allowance and a red line at 100%. These lines mark where [usage alerts](#usage-alerts) are sent to admins. Usage can exceed these thresholds. The lines are visual guides only.
+
+{/* Source: https://wandb.ai/account-settings/wandb/alerts/training (multi-tenant, Current cycle, All teams; category with a defined allowance) */}
+<Frame>
+    <img src="/images/app_ui/billing_usage_chart_thresholds.png" alt="Usage over time chart showing a gold 85% threshold line and a red 100% threshold line, with cumulative usage exceeding the allowance" />
+</Frame>
+
+For categories with no usage limit, **Allowance** displays as **Unlimited** and no threshold lines appear.
+
+<a id="usage-alerts">
+### View and manage usage Alerts
+</a>
+
+Usage alerts notify organization and billing admins by email when your organization reaches 85% and 100% of its usage limit for the current billing period in a given category. Configure usage alerts to monitor consumption and avoid unexpected overages. Usage alerts are available for the following categories:
 
 | Category      | Description |
 |---------------|-------------|
 | Storage       | Total accumulated volume of your organization's stored artifacts and run data, measured in GB. |
-| Tracked hours | Wall-clock training time during the billing period, measured in hours. |
 | Weave         | Total volume of data imported during the billing period, measured in MB. Shown only if Weave is active in the deployment. |
 | Inference     | Total input and output tokens used by Inference. See [Inference Pricing](https://wandb.ai/site/pricing/inference/). Shown only if Inference is active in the deployment. |
 | Training      | Token-based inference and compute, measured in GPU/hour. See [Serverless RL Pricing](https://wandb.ai/site/pricing/reinforcement-learning/). Shown only if Serverless RL is active in the deployment. |
+| Sandboxes     | Flat rate per billing period, determined by your plan. See [Pricing](https://wandb.ai/site/pricing/). Shown only if Sandboxes are active in the deployment. |
 
-For organizations on the **Enterprise** plan, all **Organization admins** and **Billing admins** receive usage alerts. On the [Pro plan](https://wandb.ai/site/pricing/), only the **Billing admin** receives usage alerts.
+<Note>Usage alerts are not available for categories with no usage limit like tracked hours, or during a trial.</Note>
+
+For organizations on the **Enterprise** plan, all **Organization admins** and **Billing admins** receive and can configure usage alerts. On the [Pro plan](https://wandb.ai/site/pricing/), only the **Billing admin** receives usage alerts.
 
 Messages are sent from `support@wandb.com`. The thresholds are not configurable, but you can selectively turn off one or both alerts per category.
 
-To configure usage alerts for your organization, you must be an **Organization admin** or **Billing admin**:
+To configure usage alerts for your organization, you must be an **Organization admin** or **Billing admin**.
 
 1. In the top right corner, click your user profile icon.
 1. In the **Account** section, click **Usage & Alerts**. Alternatively, click **Settings**, then click the **Usage & Alerts** tab.
 1. From the sidebar, select a category.
 1. Click the **Usage** tab to view your organization's usage and alert settings for that category.
-1. Turn on or off the **85% usage alert** or **100% usage alert** for that category. <Warning>If you turn off both usage alerts, no alerts are sent for that category of usage.</Warning>
+1. Turn on or off the **85% usage alert** or **100% usage alert** for that category. <Warning>With no active usage alerts for a category, your organization could reach 100% of usage in a category without warning.</Warning>
 
-### Spending alerts
+<a id="spending-alerts">
+### View and manage spending Alerts
+</a>
 
 In a given billing period, spending alerts notify organization and billing admins by email when your organization reaches one or more customizable spending thresholds expressed in USD. Use spending alerts to track costs against a budget you define. You can configure up to five unique spending alerts per category:
 
 | Category      | Description |
 |---------------|-------------|
 | Storage       | Charges for your organization's storage [usage](#usage-alerts) during the billing period. See [Pricing](https://wandb.ai/site/pricing/). |
-| Tracked hours | Charges for your organization's training [usage](#usage-alerts) during the billing period. See [Pricing](https://wandb.ai/site/pricing/). |
 | Weave         | Charges for your organization's Weave [usage](#usage-alerts) during the billing period. See [Pricing](https://wandb.ai/site/pricing/). Shown only if Weave is active in the deployment. |
 | Inference     | Charges for your organization's Inference [usage](#usage-alerts) during the billing period. See [Inference Pricing](https://wandb.ai/site/pricing/inference/). Shown only if Inference is active in the deployment. |
 | Training      | Charges for your organization's Serverless RL [usage](#usage-alerts) during the billing period. See [Serverless RL Pricing](https://wandb.ai/site/pricing/reinforcement-learning/). Shown only if Serverless RL is active in the deployment. |
+| Sandboxes     | Flat rate per billing period, determined by your plan. See [Pricing](https://wandb.ai/site/pricing/). Shown only if Sandboxes are active in the deployment. |
+
+<Note>
+- Spending alerts are not available for categories with no spending limit or during a trial.
+- You aren't billed for tracked hours, which are unlimited for all plans.
+</Note>
 
 Messages are sent from `support@wandb.com`.
 
-For organizations on the **Enterprise** plan:
+On the **Enterprise** plan:
 
 - All **Organization admins** and **Billing admins** receive spending alerts.
 - No spending alerts are configured by default.
@@ -75,26 +150,12 @@ On the Pro plan:
 - Only the **Billing admin** receives spending alerts.
 - By default, spending alerts are configured at $200, $450, $700, and $1,000.
 
-<Note>
-You aren't billed for tracked hours, which are unlimited for all plans. Tracked hours are displayed on the **Usage** page for monitoring purposes.
-</Note>
-
-#### View spending alerts
-
-To view your organization's spending alerts:
+To view and manage your organization's spending alerts:
 
 1. In the top right corner, click your user profile icon.
 1. In the **Account** section, click **Usage & Alerts**. Alternatively, click **Settings**, then click the **Usage & Alerts** tab.
 1. From the sidebar, select a category.
 1. Initially, the **Usage** tab displays. To view spending alerts, click **Spend alerts**. All configured spending alerts for the category display.
-
-#### Add or delete a spending alert
-
-To manage spending alerts:
-
-1. In the top right corner, click your user profile icon.
-1. In the **Account** section, click **Usage & Alerts**. Alternatively, click **Settings**, then click the **Usage & Alerts** tab.
-1. From the sidebar, select a category, such as **Storage**.
 1. To add an alert, click **Add alert**.
     a. Enter a threshold amount in USD.
     a. Click **Create alert**.

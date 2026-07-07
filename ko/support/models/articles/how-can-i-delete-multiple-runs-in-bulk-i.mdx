@@ -5,15 +5,15 @@ keywords: ["Projects", "Runs"]
 
 Workspace의 **Runs** 탭에서 삭제할 각 run 옆의 체크박스를 선택한 다음 **Delete**를 클릭하세요.
 
-또는 여러 run을 한 번에 삭제하려면 [public API](/ko/models/ref/python/public-api/api)를 사용하세요:
+수동으로 선택하는 대신 조건으로 run을 필터링하려면 [public API](/ko/models/ref/python/public-api/api)를 사용해 여러 run을 한 번에 삭제하세요. `[ENTITY]`와 `[PROJECT]`를 entity 및 프로젝트 이름으로 바꾸고, `[CONDITION]`을 삭제할 run에 대해 `True`로 평가되는 Python 표현식으로 바꾸세요:
 
 ```python
 import wandb
 
 api = wandb.Api()
-runs = api.runs('<entity>/<project>')
+runs = api.runs('[ENTITY]/[PROJECT]')
 for run in runs:
-    if <condition>:
+    if [CONDITION]:
         run.delete()
 ```
 

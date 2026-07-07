@@ -2,11 +2,11 @@
 title: Self Managed Redis 요구 사항
 ---
 
-W&amp;B는 작업 큐잉과 데이터 캐싱을 위해 W&amp;B 컴포넌트가 사용하는 단일 노드 Redis 7.x 배포에 의존합니다. 테스트 및 개념 검증을 편리하게 수행할 수 있도록, W&amp;B Self-Managed에는 로컬 Redis 배포가 포함되어 있지만 이는 프로덕션 배포에는 적합하지 않습니다.
+W&amp;B는 단일 노드 Redis 7.x 배포에 의존하며, W&amp;B의 컴포넌트는 이를 작업 큐잉과 데이터 캐싱에 사용합니다. 테스트 및 개념 증명 작업을 위해 W&amp;B Self-Managed에는 로컬 Redis 배포가 포함되어 있습니다. 이 번들 배포는 프로덕션 환경에서 사용하기에 적합하지 않습니다.
 
-프로덕션 배포의 경우 W&amp;B는 다음 환경의 Redis 인스턴스에 연결할 수 있습니다:
+프로덕션 배포의 경우 W&amp;B는 다음 환경의 Redis 인스턴스에 연결할 수 있습니다.
 
-* [AWS Elasticache](https://aws.amazon.com/elasticache/)
-* [Google Cloud Memory Store](https://cloud.google.com/memorystore?hl=en)
+* [Amazon ElastiCache](https://aws.amazon.com/elasticache/)
+* [Google Cloud Memorystore](https://cloud.google.com/memorystore?hl=en)
 * [Azure Cache for Redis](https://azure.microsoft.com/en-us/products/cache)
-* 사용자의 클라우드 또는 온프레미스 인프라에서 호스팅되는 Redis 배포
+* 클라우드 또는 온프레미스 인프라에서 자체 호스팅되는 Redis

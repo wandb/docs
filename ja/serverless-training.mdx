@@ -1,0 +1,45 @@
+---
+title: Serverless Training
+description: Serverless RL と Serverless SFT を使用して、マネージドなサーバーレス インフラストラクチャ上で LLM を追加トレーニングおよびファインチューニングします。
+---
+
+Serverless Training を使用すると、マネージドなサーバーレス インフラストラクチャ上で LLM を追加トレーニングおよびファインチューニングできます。環境の設定の柔軟性を最大限に保ちながら、W&amp;B がトレーニング用インフラストラクチャ ([CoreWeave 上](https://docs.coreweave.com/docs/platform)) をプロビジョニングします。数十台の GPU まで弾力的に自動スケーリングするマネージドなトレーニング クラスターに、すぐにアクセスできます。Serverless Training は現在パブリック プレビューです。
+
+Serverless Training では、相互に補完し合う 2 つの方法を提供しています。
+
+* **[Serverless RL](/ja/serverless-training/usage)**: 強化学習を使用してモデルを追加トレーニングし、新しい動作を学習させることで、マルチターンのエージェント型タスクを実行する際の信頼性、速度、コストを改善します。Serverless RL では、RL ワークフローを推論フェーズとトレーニング フェーズに分割し、それらを複数のジョブにまたがって多重化することで、GPU 使用率を高め、トレーニング時間とコストを削減します。
+* **[Serverless SFT](/ja/serverless-training/sft)**: 厳選されたデータセットに対する教師あり学習でモデルをファインチューニングします。SFT は、蒸留、出力スタイルや形式の学習、または RL を適用する前のモデルのウォームアップに使用します。
+
+Serverless Training は、次のようなタスクに最適です。
+
+* 音声エージェント
+* ディープリサーチ アシスタント
+* オンプレミス モデル
+* コンテンツ マーケティング分析エージェント
+
+Serverless Training では、特定のタスク向けにモデルを特化させるために低ランク アダプター (LoRA アダプター) をトレーニングします。これにより、元のモデルの機能を実運用での経験によって拡張できます。W&amp;B は、トレーニングした LoRA アダプターをアカウント内のアーティファクトとして自動的に保存します。バックアップ用にローカルまたはサードパーティに保存することもできます。Serverless Inference は、Serverless Training でトレーニングしたモデルも自動的にホストします。
+
+開始するには、ART の [クイックスタート](https://art.openpipe.ai/getting-started/quick-start) または [Google Colab ノートブック](https://colab.research.google.com/github/openpipe/art-notebooks/blob/main/examples/2048/2048.ipynb) を参照してください。
+
+<div id="why-serverless-training">
+  ## なぜ Serverless Training なのですか？
+</div>
+
+Serverless Training には、post-training で次のような利点があります。
+
+* **トレーニングコストの削減**: 多数のユーザーで共有インフラストラクチャーを多重利用し、ジョブごとの設定プロセスを省略し、トレーニングしていない間は GPU コストを 0 までスケールダウンできるため、Serverless Training はトレーニングコストを大幅に削減します。
+* **トレーニング時間の短縮**: 推論リクエストを複数の GPU に分散し、必要なときにトレーニング用インフラストラクチャーを即座にプロビジョニングすることで、Serverless Training はトレーニングジョブを高速化し、より迅速に反復できるようにします。
+* **自動デプロイ**: Serverless Training は、トレーニングしたすべてのチェックポイントを自動的にデプロイするため、ホスティング用インフラストラクチャーを手動で設定する必要がありません。ローカル、ステージング、本番の各環境で、トレーニング済みモデルにすぐアクセスしてテストできます。
+
+<div id="how-serverless-training-uses-wb-services">
+  ## Serverless Training における W&amp;B サービスの利用方法
+</div>
+
+Serverless Training は、以下の W&amp;B コンポーネントを組み合わせて動作します。
+
+* [Inference](/ja/inference): モデルを実行するため
+* [Models](/ja/models): LoRA アダプターのトレーニング中のパフォーマンス メトリクスをトラッキングするため
+* [Artifacts](/ja/models/artifacts): LoRA アダプターを保存し、バージョン管理するため
+* [Weave (optional)](/ja/weave): トレーニング ループの各ステップでモデルがどのように応答するかについての可観測性を得るため
+
+Serverless Training は現在パブリック プレビューです。プレビュー期間中、W&amp;B で課金対象となるのは Inference の使用量と Artifacts のストレージのみです。プレビュー期間中、アダプターのトレーニングに対する課金はありません。

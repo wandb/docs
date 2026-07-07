@@ -1,12 +1,13 @@
 ---
 title: "Trace generator functions"
 description: "Track sync and async generator functions with W&B Weave tracing"
+keywords: ["generator functions", "async generators", "streaming traces", "accumulator", "weave.op"]
 ---
 
-W&B Weave supports tracing both sync and async generator functions, including deeply nested patterns.
+W&B Weave supports tracing both sync and async generator functions, including deeply nested patterns. This page shows you how to decorate generator functions with `@weave.op` so that Weave captures their inputs, yielded outputs, and the full hierarchy of nested calls. Use this when you have streaming or lazily evaluated code paths whose outputs you want to inspect in the Weave UI alongside your other traces.
 
 <Warning>
-Because generators yield values lazily, Weave logs outputs only when the generator is fully consumed (for example, when you convert it to a list).
+Because generators yield values lazily, Weave logs outputs only when you fully consume the generator (for example, when you convert it to a list).
 To ensure Weave captures outputs in the trace, fully consume the generator (for example, with `list()`).
 </Warning>
 
@@ -19,7 +20,7 @@ To ensure Weave captures outputs in the trace, fully consume the generator (for 
 
     weave.init("my-project")
 
-    # This function uses a simple sync generator.
+    # This function uses a sync generator.
     # Weave will trace the Call and its input (`x`),
     # but output values are only captured once the generator is consumed (for example, with `list()`).
     @weave.op
@@ -39,7 +40,7 @@ To ensure Weave captures outputs in the trace, fully consume the generator (for 
         for i in range(x):
             yield inner(i)
 
-    # A more complex generator that composes the above generator.
+    # A generator that composes the above generator.
     # Tracing here produces a hierarchical Call tree:
     # - `deeply_nested_generator` (parent)
     #   - `nested_generator` (child)
@@ -63,24 +64,28 @@ To ensure Weave captures outputs in the trace, fully consume the generator (for 
     ```
   </Tab>
 </Tabs>
-The following screenshot shows the **Traces** page with a selected trace of the preceding code.  The center panel shows the trace tree for the selected trace. The trace tree shows the `deeply_nested_generator`, `nested_generator`, and `inner` Ops in the trace tree hierarchy.
+The following screenshot shows the **Traces** page with a selected trace of the preceding code. The center panel shows the trace tree for the selected trace. The trace tree shows the `deeply_nested_generator`, `nested_generator`, and `inner` Ops in the trace tree hierarchy.
 ![Weave Traces page showing a selected trace tree illustrating deeply nested Ops](/weave/guides/tracking/imgs/generators.png)
 
-## Consuming generators
+## Consume generators
+
+The following section explains why you must consume generators for Weave to record their outputs, and which consumption patterns work.
 
 Weave captures generator outputs only after you fully consume the generator. Consume the generator by iterating over it (for example, with `list()`, a `for` loop, or `next()` until exhaustion). The same applies to async generators when you use `async for` or equivalent consumption.
 
-For more on decorating functions and methods with `@weave.op`, see [Create calls](/weave/guides/tracking/create-call).
+For more information about decorating functions and methods with `@weave.op`, see [Create calls](/weave/guides/tracking/create-call).
 
 ## Accumulate yielded values into a single trace
 
-You can use the `weave.op`'s `accumulator` parameter to customize how yielded values are combined from generator functions, for example, to join streamed text tokens into a single string. The accumulator is a two-argument function that Weave calls once per yielded value, building up a result incrementally.
+If you want Weave to record a combined result (such as a joined string or a list) instead of the raw sequence of yielded values, use an accumulator.
+
+You can use the `accumulator` parameter of `weave.op` to customize how yielded values are combined from generator functions, for example, to join streamed text tokens into a single string. The accumulator is a two-argument function that Weave calls once per yielded value, building up a result incrementally.
 
 <Note>
-The `accumulator` parameter is not available for the TypeScript.
+The `accumulator` parameter isn't available for TypeScript.
 </Note>
 
-The following example demonstrates a custom accumulator that appends each yielded value to a list, so Weave records that list as the call output after the generator is fully consumed.
+The following example demonstrates a custom accumulator that appends each yielded value to a list, so Weave records that list as the call output after you fully consume the generator.
 
 ```python
 from typing import Generator
@@ -88,7 +93,7 @@ import weave
 
 weave.init("your-team-name/your-project-name")
 
-# Weave calls this after each yield; acc is None on the first call.
+# Weave calls this after each yield. acc is None on the first call.
 # The last value you return becomes the traced Op output.
 def list_accumulator(acc, value):
     if acc is None:

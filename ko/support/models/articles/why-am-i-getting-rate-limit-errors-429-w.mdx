@@ -1,45 +1,52 @@
 ---
-title: "Serverless Inference에서 왜 요청 속도 제한 오류(429)가 발생하나요?"
+title: "Serverless Inference에서 요청 속도 제한 오류(429)가 발생하는 이유는 무엇인가요?"
 keywords: ["Inference"]
 ---
 
-한도를 초과하면 요청 속도 제한 오류(429)가 발생합니다.
+이 페이지에서는 Serverless Inference가 `429` 요청 속도 제한 오류를 반환하는 이유와, 허용된 동시성 한도 내에서 요청이 성공하도록 문제를 해결하는 방법을 설명합니다.
 
-**오류:** &quot;요청 동시성 한도에 도달했습니다&quot;
+요청 속도 제한 오류(`429`)는 동시성 한도를 초과하면 발생합니다.
 
-**해결 방법:**
+**오류:** &quot;요청에 대한 동시성 한도에 도달했습니다&quot;
 
-* 병렬 요청 수를 줄이세요
-* 요청 사이에 지연 시간을 두세요
-* 지수 백오프를 구현하세요
-* 참고: 요청 속도 제한은 W&amp;B 프로젝트별로 적용됩니다
+**해결 방법:** 이 오류를 해결하려면 다음 중 하나를 수행하세요.
+
+* 병렬 요청 수를 줄이세요.
+* 요청 사이에 지연 시간을 두세요.
+* 지수 백오프를 구현하세요.
+
+참고: 요청 속도 제한은 W&amp;B 프로젝트별로 적용됩니다.
 
 <div id="best-practices-to-avoid-rate-limits">
   ## 요청 속도 제한을 피하기 위한 모범 사례
 </div>
 
-1. **지수 백오프를 적용한 재시도 로직을 구현합니다:**
-   ```python
-   import time
+다음 사례를 따르면 애플리케이션이 동시성 한도 내에서 작동하도록 유지하고, 한도에 도달하더라도 원활하게 복구하는 데 도움이 됩니다.
 
-   def retry_with_backoff(func, max_retries=3):
-       for i in range(max_retries):
-           try:
-               return func()
-           except Exception as e:
-               if "429" in str(e) and i < max_retries - 1:
-                   time.sleep(2 ** i)
-               else:
-                   raise
-   ```
+* **지수 백오프를 적용한 재시도 로직을 구현합니다:** 백오프는 재시도 사이에 간격을 두므로 다음 시도 전에 일시적인 `429` 응답이 해소될 수 있습니다.
+  ```python
+  import time
 
-2. **병렬 요청 대신 배치 처리를 사용합니다**
+  def retry_with_backoff(func, max_retries=3):
+      for i in range(max_retries):
+          try:
+              return func()
+          except Exception as e:
+              if "429" in str(e) and i < max_retries - 1:
+                  time.sleep(2 ** i)
+              else:
+                  raise
+  ```
 
-3. **W&amp;B Billing 페이지에서 사용량을 모니터링합니다**
+* **병렬 요청 대신 배치 처리를 사용합니다.**
+
+* **W&amp;B Billing 페이지에서 사용량을 모니터링합니다.**
 
 <div id="default-spending-caps">
   ## 기본 지출 한도
 </div>
+
+계정에는 전체 Inference 사용량을 제한하는 기본 지출 한도도 있습니다:
 
 * **Pro 계정:** 월 $6,000
 * **Enterprise 계정:** 연 $700,000

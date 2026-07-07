@@ -28,18 +28,32 @@ def run_experiment(cfg):
   ## ハイパーパラメーターをトラッキングする
 </div>
 
-Hydra では、設定用の辞書を扱うデフォルトの方法として [omegaconf](https://omegaconf.readthedocs.io/en/2.1_branch/) を使用します。`OmegaConf` の辞書はプリミティブな辞書のサブクラスではないため、Hydra の `Config` を `wandb.Run.config` に直接渡すと、ダッシュボードで予期しない結果になることがあります。`wandb.Run.config` に渡す前に、`omegaconf.DictConfig` をプリミティブな `dict` タイプに変換する必要があります。
+Hydra は、設定辞書を扱うためのデフォルトのインターフェースとして [OmegaConf](https://omegaconf.readthedocs.io/en/2.1_branch/) を使用します。OmegaConf の設定オブジェクト (たとえば `omegaconf.DictConfig`) は、通常の Python の `dict` インスタンスではありません。
+
+`wandb.Run.config` は読み取り専用のプロパティであるため、OmegaConf の設定オブジェクトを渡そうとして `wandb.Run.config = ...` を実行すると、`AttributeError` が発生します。
+
+`OmegaConf.to_container()` を使って `cfg` を通常の `dict` に変換し、それを `wandb.init(config=...)` に渡してください (または `wandb.Run.config.update(...)` を呼び出してください) 。
 
 ```python
-@hydra.main(config_path="configs/", config_name="defaults")
+import hydra
+import omegaconf
+import wandb
+
+
+@hydra.main(version_base=None, config_path="configs/", config_name="defaults")
 def run_experiment(cfg):
-  with wandb.init(entity=cfg.wandb.entity, project=cfg.wandb.project) as run:
-    run.config = omegaconf.OmegaConf.to_container(
+    cfg_dict = omegaconf.OmegaConf.to_container(
         cfg, resolve=True, throw_on_missing=True
     )
-    run = wandb.init(entity=cfg.wandb.entity, project=cfg.wandb.project)
-    run.log({"loss": loss})
-    model = Model(**run.config.model.configs)
+    # オプション: W&B のメタデータ（entity/project など）を run の設定としてログしないようにする
+    cfg_dict.pop("wandb", None)
+    with wandb.init(
+        entity=cfg.wandb.entity,
+        project=cfg.wandb.project,
+        config=cfg_dict,
+    ) as run:
+        run.log({"loss": loss})
+        model = Model(**run.config["model"]["configs"])
 ```
 
 <div id="troubleshoot-multiprocessing">

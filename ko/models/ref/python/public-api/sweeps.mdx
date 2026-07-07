@@ -32,11 +32,10 @@ for sweep in sweeps:
 
 ```python
 __init__(
-    client: 'RetryingClient',
+    service_api: 'ServiceApi',
     entity: 'str',
     project: 'str',
-    per_page: 'int' = 50,
-    service_api: 'ServiceApi'
+    per_page: 'int' = 50
 ) → Sweeps
 ```
 
@@ -44,8 +43,7 @@ __init__(
 
 **매개변수:**
 
-* `client`:  API 호환성을 위해 유지되는 레거시 GraphQL 클라이언트입니다.
-* `service_api`:  이 컬렉션에 대해 W&amp;B API Call을 수행하는 wandb-core 서비스 인터페이스입니다.
+* `service_api`:  W&amp;B를 쿼리하는 데 사용되는 서비스 API입니다.
 * `entity`:  스윕을 소유한 entity입니다.
 * `project`:  스윕이 포함된 프로젝트입니다.
 * `per_page`:  API에 대한 각 요청마다 가져올 스윕 수입니다.

@@ -7,6 +7,12 @@ import ApiKeyCreate from "/snippets/fr/_includes/api-key-create.mdx";
 import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
+<div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+  <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/run_quickstart.ipynb" />
+
+  <GitHubLink url="https://github.com/wandb/examples/blob/master/colabs/intro/run_quickstart.ipynb" />
+</div>
+
 Installez W&amp;B pour suivre, visualiser et gérer des expériences de machine learning, quelle que soit leur taille.
 
 <Note>
@@ -20,14 +26,6 @@ Installez W&amp;B pour suivre, visualiser et gérer des expériences de machine 
 Pour authentifier votre machine auprès de W&amp;B, vous avez besoin d’une clé API.
 
 <ApiKeyCreate />
-
-Ce démarrage rapide est également disponible sous la forme d’un notebook Colab :
-
-<div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-  <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/run_quickstart.ipynb" />
-
-  <GitHubLink url="https://github.com/wandb/examples/blob/master/colabs/intro/run_quickstart.ipynb" />
-</div>
 
 <div id="install-the-wandb-library-and-log-in">
   ## Installez la bibliothèque `wandb` et connectez-vous
@@ -85,7 +83,7 @@ wandb.login()
 # Projet dans lequel le run est enregistré
 project = "my-awesome-project"
 
-# Dictionnaire avec les hyperparamètres
+# Dictionnaire des hyperparamètres
 config = {
     'epochs' : 10,
     'lr' : 0.01
@@ -93,15 +91,13 @@ config = {
 
 with wandb.init(project=project, config=config) as run:
     # Code d'entraînement ici
-    # Enregistrer les valeurs dans W&B avec run.log()
+    # Consigner les valeurs dans W&B avec run.log()
     run.log({"accuracy": 0.9, "loss": 0.1})
 ```
 
 Voir la section suivante pour un exemple complet qui simule un run d&#39;entraînement et enregistre les métriques de précision et de perte dans W&amp;B.
 
-<Info>
-  Un [run](/fr/models/runs/) est un élément central de W&amp;B. Vous utilisez les runs pour [suivre les métriques](/fr/models/track/), [créer des journaux](/fr/models/track/log/), suivre les artifacts, et bien plus encore.
-</Info>
+<Info>Un [run](/fr/models/runs/) est un élément central de W&amp;B. Vous utilisez les runs pour [suivre les métriques](/fr/models/track/), [créer des journaux](/fr/models/track/log/), suivre les artifacts, et bien plus encore.</Info>
 
 <div id="create-a-machine-learning-training-experiment">
   ## Créer une expérience d&#39;entraînement en machine learning
@@ -118,7 +114,7 @@ wandb.login()
 # Projet dans lequel le run est enregistré
 project = "my-awesome-project"
 
-# Dictionnaire avec les hyperparamètres
+# Dictionnaire des hyperparamètres
 config = {
     'epochs' : 10,
     'lr' : 0.01

@@ -13,20 +13,20 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 保存済みの W&amp;B automation を編集できるローカルインスタンスです。
 
-### <kbd>method</kbd> `Automation.__init__`
+### <kbd>メソッド</kbd> `Automation.__init__`
 
 ```python
 __init__(
     typename__: 'Literal['Trigger']' = 'Trigger',
     id: 'str',
     created_at: 'datetime',
-    updated_at: 'datetime | None' = None,
+    updated_at: 'datetime.datetime | None' = None,
     name: 'str',
     description: 'str | None',
     enabled: 'bool',
-    scope: '_ArtifactSequenceScope | _ArtifactPortfolioScope | ProjectScope',
+    scope: 'wandb.automations.scopes._ArtifactSequenceScope | wandb.automations.scopes._ArtifactPortfolioScope | wandb.automations.scopes.ProjectScope',
     event: 'SavedEvent',
-    action: 'SavedLaunchJobAction | SavedNotificationAction | SavedWebhookAction | SavedNoOpAction'
+    action: 'wandb.automations.actions.SavedLaunchJobAction | wandb.automations.actions.SavedNotificationAction | wandb.automations.actions.SavedWebhookAction | wandb.automations.actions.SavedNoOpAction'
 ) → None
 ```
 
@@ -34,14 +34,14 @@ __init__(
 
 * `typename__` (Literal[&#39;Trigger&#39;]):
 * `id` (str):
-* `created_at` (datetime): この automation が作成された日時。
-* `updated_at` (Optional[datetime]): 該当する場合、この automation が最後に更新された日時。
-* `name` (str): この automation の名前。
-* `description` (Optional[str]): この automation のオプションの説明。
-* `enabled` (bool): この automation が有効かどうか。有効な automation のみがトリガーされます。
-* `scope` (Union[&#95;ArtifactSequenceScope, &#95;ArtifactPortfolioScope, ProjectScope]): トリガーとなるイベントが発生するスコープ。
-* `event` (SavedEvent): この automation をトリガーするイベント。
-* `action` (Union[SavedLaunchJobAction, SavedNotificationAction, SavedWebhookAction, SavedNoOpAction]): この automation がトリガーされたときに実行されるアクション。
+* `created_at` (datetime): このオートメーションが作成された日時。
+* `updated_at` (datetime.datetime | None): 該当する場合、このオートメーションが最後に更新された日時。
+* `name` (str): このオートメーションの名前。
+* `description` (str | None): このオートメーションの説明 (省略可能) 。
+* `enabled` (bool): このオートメーションが有効かどうか。有効なオートメーションのみがトリガーされます。
+* `scope` (wandb.automations.scopes.&#95;ArtifactSequenceScope | wandb.automations.scopes.&#95;ArtifactPortfolioScope | wandb.automations.scopes.ProjectScope): トリガー対象のイベントが発生するスコープ。
+* `event` (SavedEvent): このオートメーションをトリガーするイベント。
+* `action` (wandb.automations.actions.SavedLaunchJobAction | wandb.automations.actions.SavedNotificationAction | wandb.automations.actions.SavedWebhookAction | wandb.automations.actions.SavedNoOpAction): このオートメーションがトリガーされたときに実行されるアクション。
 
 **戻り値:**
 `Automation` オブジェクト。
