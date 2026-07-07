@@ -390,7 +390,7 @@ try {
   const turn = conversation.startTurn({ agentName: 'weather-bot' });
   try {
     // First LLM call: returns a tool call.
-    const llm = weave.startLLM({ model: 'gpt-4o', providerName: 'openai' });
+    const llm = turn.startLLM({ model: 'gpt-4o', providerName: 'openai' });
     try {
       llm.inputMessages = [{ role: 'user', content: 'What is the weather?' }];
       llm.think('User wants weather data, I should call get_weather.');
@@ -398,7 +398,7 @@ try {
       llm.usage = { inputTokens: 100, outputTokens: 20 };
 
       // Tool call: child of the LLM call that requested it.
-      const tool = weave.startTool({ name: 'get_weather', args: '{"city":"Tokyo"}' });
+      const tool = llm.startTool({ name: 'get_weather', args: '{"city":"Tokyo"}' });
       try {
         tool.result = await getWeatherApi('Tokyo');  // Returns "24°C, sunny".
       } finally {
@@ -409,7 +409,7 @@ try {
     }
 
     // Second LLM call: synthesizes the final answer.
-    const llm2 = weave.startLLM({ model: 'gpt-4o', providerName: 'openai' });
+    const llm2 = turn.startLLM({ model: 'gpt-4o', providerName: 'openai' });
     try {
       llm2.inputMessages = [{ role: 'user', content: 'What is the weather?' }];
       llm2.output('It is 24°C and sunny in Tokyo today.');
@@ -467,18 +467,18 @@ conversation.end()
 const conversation = weave.startConversation({ agentName: 'weather-bot' });
 const turn = conversation.startTurn({ agentName: 'weather-bot' });
 
-const llm = weave.startLLM({ model: 'gpt-4o', providerName: 'openai' });
+const llm = turn.startLLM({ model: 'gpt-4o', providerName: 'openai' });
 llm.inputMessages = [{ role: 'user', content: 'What is the weather?' }];
 llm.output('Let me check.');
 llm.usage = { inputTokens: 100, outputTokens: 20 };
 
-const tool = weave.startTool({ name: 'get_weather', args: '{"city": "Tokyo"}' });
+const tool = llm.startTool({ name: 'get_weather', args: '{"city": "Tokyo"}' });
 tool.result = '24°C, sunny';
 tool.end();  // end() is idempotent: safe to call more than once.
 
 llm.end();
 
-const llm2 = weave.startLLM({ model: 'gpt-4o', providerName: 'openai' });
+const llm2 = turn.startLLM({ model: 'gpt-4o', providerName: 'openai' });
 llm2.output('It is 24°C and sunny in Tokyo.');
 llm2.usage = { inputTokens: 150, outputTokens: 30 };
 llm2.end();
