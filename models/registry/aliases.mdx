@@ -52,26 +52,26 @@ You can create a custom alias with the W&B Registry or the Python SDK. Click the
 <Tab title="Python SDK">
 When you link an artifact version to a collection with the Python SDK, you can optionally provide a list of one or more aliases as an argument to the `aliases` parameter in [`link_artifact()`](/models/ref/python/experiments/run/#method-runlink_artifact). W&B creates an alias ([non protected alias](#custom-aliases)) for you if the alias you provide doesn't already exist.
 
-The following code snippet demonstrates how to link an artifact version to a collection and add aliases to that artifact version with the Python SDK. Replace values enclosed in `<>` with your own values:
+The following code snippet demonstrates how to link an artifact version to a collection and add aliases to that artifact version with the Python SDK. Replace the bracketed placeholders with your own values:
 
 ```python
 import wandb
 
 # Initialize a run
-with wandb.init(entity = "<team-entity>", project = "<project-name>") as run:
+with wandb.init(entity = "[TEAM-ENTITY]", project = "[PROJECT-NAME]") as run:
 
     # Create an artifact object
     # The type parameter specifies both the type of the 
     # artifact object and the collection type
-    artifact = wandb.Artifact(name = "<name>", type = "<type>")
+    artifact = wandb.Artifact(name = "[NAME]", type = "[TYPE]")
 
     # Add the file to the artifact object. 
     # Specify the path to the file on your local machine.
-    artifact.add_file(local_path = "<local-path-to-artifact>")
+    artifact.add_file(local_path = "[LOCAL-PATH-TO-ARTIFACT]")
 
     # Specify the collection and registry to link the artifact to
-    REGISTRY_NAME = "<registry-name>"
-    COLLECTION_NAME = "<collection-name>"
+    REGISTRY_NAME = "[REGISTRY-NAME]"
+    COLLECTION_NAME = "[COLLECTION-NAME]"
     target_path=f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
 
     # Link the artifact version to the collection
@@ -79,7 +79,7 @@ with wandb.init(entity = "<team-entity>", project = "<project-name>") as run:
     run.link_artifact(
         artifact = artifact, 
         target_path = target_path, 
-        aliases = ["<alias-1>", "<alias-2>"]
+        aliases = ["[ALIAS-1]", "[ALIAS-2]"]
         )
 ```
 </Tab>

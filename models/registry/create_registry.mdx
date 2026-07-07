@@ -24,14 +24,14 @@ You can create a registry either interactively using the W&B Registry UI or prog
 <Tab title="Python SDK">
 Use the [`wandb.Api().create_registry()`](/models/ref/python#method-apicreate_registry) method to create a registry programmatically. Provide a name and [visibility](#visibility-types) using the `name` and `visibility` parameters.
 
-Copy and paste the code block below. Replace `<registry-name>` with a name for your registry, and replace `<visibility>` with either `restricted` or `organization`:
+Copy and paste the code block below. Replace `[REGISTRY-NAME]` with a name for your registry, and replace `[VISIBILITY]` with either `restricted` or `organization`:
 
 ```python
 import wandb
 
 registry = wandb.Api().create_registry(
-    name="<registry-name>",
-    visibility="<visibility>",
+    name="[REGISTRY-NAME]",
+    visibility="[VISIBILITY]",
 )
 ```
 

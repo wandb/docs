@@ -1,12 +1,12 @@
 ---
 description: Use tags to organize collections or artifact versions within collections.
-  You can add, remove, edit tags with the Python SDK or W&B App UI.
+  You can add, remove, edit tags with the Python SDK or W&B UI.
 title: Organize versions with tags
 ---
 
 Tags help you organize and find collections or artifact versions within a registry. Unlike aliases, tags are flexible labels that can be shared across multiple versions or collections, which makes them useful for grouping related items and for search.
 
-This page shows how to add, modify, view, and remove tags on a collection or artifact version using either the W&B App UI or the W&B Python SDK.
+This page shows how to add, modify, view, and remove tags on a collection or artifact version using either the W&B UI or the W&B Python SDK.
 
 <Note>
 **When to use a tag versus using an alias**
@@ -19,11 +19,11 @@ Use tags when you want more flexibility for grouping or searching. Tags are idea
 
 ## Add a tag to a collection
 
-Use the W&B App or Python SDK to add a tag to a collection.
+Use the W&B UI or Python SDK to add a tag to a collection.
 
 <Tabs>
-<Tab title="W&B App">
-Use the W&B App to add a tag to a collection:
+<Tab title="W&B UI">
+Use the W&B UI to add a tag to a collection:
 
 1. Navigate to the [W&B Registry](https://wandb.ai/registry).
 2. Click on a registry card.
@@ -36,9 +36,9 @@ Use the W&B App to add a tag to a collection:
 ```python
 import wandb
 
-COLLECTION_TYPE = "<collection-type>"
-REGISTRY_NAME = "<registry-name>"
-COLLECTION_NAME = "<collection-name>"
+COLLECTION_TYPE = "[COLLECTION-TYPE]"
+REGISTRY_NAME = "[REGISTRY-NAME]"
+COLLECTION_NAME = "[COLLECTION-NAME]"
 
 full_name = f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
 
@@ -84,7 +84,7 @@ collection.tags.clear()
 
 ## View tags that belong to a collection
 
-Use the W&B App to view the tags added to a collection.
+Use the W&B UI to view the tags added to a collection.
 
 1. Navigate to the [W&B Registry](https://wandb.ai/registry).
 2. Click on a registry card.
@@ -107,7 +107,7 @@ For example, in the following image, a tag called "sample-tag-1" was added to th
 
 ## Remove a tag from a collection
 
-Use the W&B App to remove a tag from a collection.
+Use the W&B UI to remove a tag from a collection.
 
 1. Navigate to the [W&B Registry](https://wandb.ai/registry).
 2. Click on a registry card.
@@ -117,11 +117,11 @@ Use the W&B App to remove a tag from a collection.
 
 ## Add a tag to an artifact version
 
-You can also tag individual artifact versions within a collection. Add a tag to an artifact version that is linked to a collection with the W&B App or with the Python SDK.
+You can also tag individual artifact versions within a collection. Add a tag to an artifact version that is linked to a collection with the W&B UI or with the Python SDK.
 
 <Tabs>
-<Tab title="W&B App">
-Use the W&B App to add a tag to an artifact version:
+<Tab title="W&B UI">
+Use the W&B UI to add a tag to an artifact version:
 
 1. Navigate to the [W&B Registry](https://wandb.ai/registry).
 2. Click on a registry card.
@@ -137,17 +137,17 @@ Fetch the artifact version you want to add or update a tag on. After you have th
 
 Like other artifacts, you can fetch an artifact from W&B without creating a run, or you can create a run and fetch the artifact within that run. In either case, call the artifact object's `save` method to update the artifact on the W&B servers.
 
-Copy and paste one of the following code cells to add or modify an artifact version's tag. Replace values enclosed in `<>` with your own values.
+Copy and paste one of the following code cells to add or modify an artifact version's tag. Replace the bracketed placeholders with your own values.
 
 
 The following code snippet shows how to fetch an artifact and add a tag without creating a new run:
 ```python title="Add a tag to an artifact version without creating a new run"
 import wandb
 
-ARTIFACT_TYPE = "<type>"
-REGISTRY_NAME = "<registry-name>"
-COLLECTION_NAME = "<collection-name>"
-VERSION = "<artifact-version>"
+ARTIFACT_TYPE = "[TYPE]"
+REGISTRY_NAME = "[REGISTRY-NAME]"
+COLLECTION_NAME = "[COLLECTION-NAME]"
+VERSION = "[ARTIFACT-VERSION]"
 
 artifact_name = f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{VERSION}"
 
@@ -162,11 +162,11 @@ The following code snippet shows how to fetch an artifact and add a tag by creat
 ```python title="Add a tag to an artifact version during a run"
 import wandb
 
-REGISTRY_NAME = "<registry-name>"
-COLLECTION_NAME = "<collection-name>"
-VERSION = "<artifact-version>"
+REGISTRY_NAME = "[REGISTRY-NAME]"
+COLLECTION_NAME = "[COLLECTION-NAME]"
+VERSION = "[ARTIFACT-VERSION]"
 
-with wandb.init(entity = "<entity>", project="<project>") as run:
+with wandb.init(entity = "[ENTITY]", project="[PROJECT]") as run:
 
     artifact_name = f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{VERSION}"
 
@@ -209,11 +209,11 @@ artifact.tags.clear()
 
 ## View tags that belong to an artifact version
 
-View the tags that belong to an artifact version linked to a registry with the W&B App UI or with the Python SDK. 
+View the tags that belong to an artifact version linked to a registry with the W&B UI or with the Python SDK. 
 
 <Tabs>
-<Tab title="W&B App">
-Use the W&B App to view the tags that belong to an artifact version:
+<Tab title="W&B UI">
+Use the W&B UI to view the tags that belong to an artifact version:
 
 1. Navigate to the [W&B Registry](https://wandb.ai/registry).
 2. Click on a registry card.
@@ -231,17 +231,17 @@ Fetch the artifact version to view its tags. After you have the artifact version
 
 Like other artifacts, you can fetch an artifact from W&B without creating a run, or you can create a run and fetch the artifact within that run.
 
-Copy and paste one of the following code cells to add or modify an artifact version's tag. Replace values enclosed in `<>` with your own values.
+Copy and paste one of the following code cells to add or modify an artifact version's tag. Replace the bracketed placeholders with your own values.
 
 The following code snippet shows how to fetch and view an artifact version's tags without creating a new run:
 
 ```python title="Add a tag to an artifact version without creating a new run"
 import wandb
 
-ARTIFACT_TYPE = "<type>"
-REGISTRY_NAME = "<registry-name>"
-COLLECTION_NAME = "<collection-name>"
-VERSION = "<artifact-version>"
+ARTIFACT_TYPE = "[TYPE]"
+REGISTRY_NAME = "[REGISTRY-NAME]"
+COLLECTION_NAME = "[COLLECTION-NAME]"
+VERSION = "[ARTIFACT-VERSION]"
 
 artifact_name = f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{VERSION}"
 
@@ -255,11 +255,11 @@ The following code snippet shows how to fetch and view artifact version's tags b
 ```python title="Add a tag to an artifact version during a run"
 import wandb
 
-REGISTRY_NAME = "<registry-name>"
-COLLECTION_NAME = "<collection-name>"
-VERSION = "<artifact-version>"
+REGISTRY_NAME = "[REGISTRY-NAME]"
+COLLECTION_NAME = "[COLLECTION-NAME]"
+VERSION = "[ARTIFACT-VERSION]"
 
-with wandb.init(entity = "<entity>", project="<project>") as run:
+with wandb.init(entity = "[ENTITY]", project="[PROJECT]") as run:
 
     artifact_name = f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{VERSION}"
 
@@ -273,7 +273,7 @@ with wandb.init(entity = "<entity>", project="<project>") as run:
 
 ## Remove a tag from an artifact version
 
-Remove a tag from an artifact version when the tag no longer applies. Use the W&B App to remove a tag from an artifact version:
+Remove a tag from an artifact version when the tag no longer applies. Use the W&B UI to remove a tag from an artifact version:
 
 1. Navigate to the [W&B Registry](https://wandb.ai/registry).
 2. Click on a registry card.
@@ -301,9 +301,9 @@ import wandb
 
 api = wandb.Api()
 tagged_artifact_versions = api.artifacts(
-    type_name = "<artifact-type>",
-    name = "<artifact-name>",
-    tags = ["<tag-1>", "<tag-2>"]
+    type_name = "[ARTIFACT-TYPE]",
+    name = "[ARTIFACT-NAME]",
+    tags = ["[TAG-1]", "[TAG-2]"]
 )
 
 for artifact_version in tagged_artifact_versions:

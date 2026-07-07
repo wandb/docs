@@ -29,21 +29,21 @@ You can think of artifact types similar to data types in programming languages s
 For example, suppose you create a collection that accepts `dataset` artifact types. You can only link future artifact versions of type `dataset` to this collection. Similarly, you can only link artifacts of type `model` to a collection that accepts only model artifact types.
 
 <Note>
-You specify an artifact's type when you create that artifact object. See the `type` field in `wandb.Artifact()`. Replace values enclosed in `<>` with your own values:
+You specify an artifact's type when you create that artifact object. See the `type` field in `wandb.Artifact()`. Replace the bracketed placeholders with your own values:
 
 ```python
 import wandb
 
 # Initialize a run
 with wandb.init(
-  entity = "<team-entity>",
-  project = "<project>"
+  entity = "[TEAM-ENTITY]",
+  project = "[PROJECT]"
   ) as run:
 
   # Create an artifact object
   artifact = wandb.Artifact(
-      name="<artifact-name>",
-      type="<artifact-type>"
+      name="[ARTIFACT-NAME]",
+      type="[ARTIFACT-TYPE]"
       )
 ```
 </Note>
@@ -54,14 +54,14 @@ Before you link an artifact to a collection or create a new collection, [check w
 
 ### Check the artifact types a collection accepts
 
-Before you link to a collection, inspect the artifact type that the collection accepts. This helps you avoid link errors caused by mismatched artifact types. You can inspect the artifact types that a collection accepts programmatically with the W&B Python SDK or interactively with the W&B App.
+Before you link to a collection, inspect the artifact type that the collection accepts. This helps you avoid link errors caused by mismatched artifact types. You can inspect the artifact types that a collection accepts programmatically with the W&B Python SDK or interactively with the W&B UI.
 
 <Note>
 An error message appears if you try to link an artifact to a collection that doesn't accept that artifact type.
 </Note>
 
 <Tabs>
-<Tab title="W&B App">
+<Tab title="W&B UI">
 You can find the accepted artifact types on the registry card on the homepage or within a registry's settings page.
 
 For both methods, first navigate to your W&B Registry.
@@ -84,12 +84,12 @@ To view accepted artifact types within a registry's settings page:
 <Tab title="Python SDK (Beta)">
 Programmatically view the artifact types that a registry accepts with the W&B Python SDK:
 
-Replace `<registry-name>` with the name of your registry:
+Replace `[REGISTRY-NAME]` with the name of your registry:
 
 ```python
 import wandb
 
-registry_name = "<registry-name>"
+registry_name = "[REGISTRY-NAME]"
 artifact_types = wandb.Api().project(name=f"wandb-registry-{registry_name}").artifact_types()
 for artifact_type in artifact_types:
     print(artifact_type.name)
@@ -124,22 +124,22 @@ Where `registry_name` is the name of the registry and `collection_name` is the n
 W&B automatically creates a collection for you if you try to link an artifact to a collection that doesn't exist. If you specify a collection that exists, W&B links the artifact to the existing collection.
 </Note>
 
-The following code snippet shows how to programmatically create a collection. Replace values enclosed in `<>` with your own values:
+The following code snippet shows how to programmatically create a collection. Replace the bracketed placeholders with your own values:
 
 ```python
 import wandb
 
 # Initialize a run
-with wandb.init(entity = "<team-entity>", project = "<project>") as run:
+with wandb.init(entity = "[TEAM-ENTITY]", project = "[PROJECT]") as run:
 
   # Create an artifact object
   artifact = wandb.Artifact(
-    name = "<artifact-name>",
-    type = "<artifact-type>"
+    name = "[ARTIFACT-NAME]",
+    type = "[ARTIFACT-TYPE]"
     )
 
-  registry_name = "<registry-name>"
-  collection_name = "<collection-name>"
+  registry_name = "[REGISTRY-NAME]"
+  collection_name = "[COLLECTION-NAME]"
   target_path = f"wandb-registry-{registry_name}/{collection_name}"
 
   # Link the artifact to a collection

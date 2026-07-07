@@ -40,10 +40,10 @@ Use the [`wandb.Api().artifact_collection()`](/models/ref/python/public-api/api#
 Specify the collection's type for the `type_name` parameter and the collection's full name for the `name` parameter. A collection's full name prepends the prefix `wandb-registry-` to the registry name, followed by a forward slash and the collection name:
 
 ```text
-wandb-registry-<registry-name>/<collection-name>
+wandb-registry-[REGISTRY-NAME]/[COLLECTION-NAME]
 ```
 
-Copy and paste the following code snippet into your Python script or notebook. Replace `<collection-type>` with the collection's type and `<collection-name>` with the full name of the collection.
+Copy and paste the following code snippet into your Python script or notebook. Replace `[COLLECTION-TYPE]` with the collection's type and `[COLLECTION-NAME]` with the full name of the collection.
 
 ```python
 import wandb
@@ -51,8 +51,8 @@ import wandb
 api = wandb.Api()
 
 collection = api.artifact_collection(
-  type_name = "<collection-type>",
-  name = "<collection-name>"
+  type_name = "[COLLECTION-TYPE]",
+  name = "[COLLECTION-NAME]"
   )
 
 
