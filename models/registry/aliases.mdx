@@ -87,7 +87,7 @@ with wandb.init(entity = "<team-entity>", project = "<project-name>") as run:
 
 ### Protected aliases
 
-Use [protected alias](/models/registry/aliases/#protected-aliases) to identify an artifact version and prevent it from being modified or deleted. Protected aliases are useful for versions that downstream systems depend on. For example, use a `production` protected alias for artifact versions used in your organization's production ML pipeline.
+Use a [protected alias](/models/registry/aliases/#protected-aliases) to identify an artifact version and prevent it from being modified or deleted. Protected aliases are useful for versions that downstream systems depend on. For example, use a `production` protected alias for artifact versions used in your organization's production ML pipeline.
 
 [Registry admin](/models/registry/configure_registry/#role-permissions) users and [service accounts](/support/models/articles/what-is-a-service-account-and-why-is-it-) with the **Admin** role can create protected aliases and add or remove protected aliases from an artifact version. Users and service accounts with **Member**, **Viewer**, and **Restricted Viewer** roles can't unlink a protected version or delete a collection that contains a protected alias. See [Configure registry access](/models/registry/configure_registry/) for details.
 
@@ -118,11 +118,11 @@ The following steps describe how to add a protected alias to an artifact version
 3. Within the **Versions** section, select the **View** button for a specific artifact version.
 4. Click the **+** button to add one or more protected aliases next to the **Aliases** field.
 
-After an admin creates a protected alias, the admin can add it to an artifact version programmatically with the Python SDK. For an example of how to add a protected alias to an artifact version, see [Custom aliases](#custom-aliases).
+After an admin creates a protected alias, it can be added to an artifact version either in the UI or programmatically with the Python SDK. See [Custom aliases](#custom-aliases).
 
 ## Find existing aliases
 
-Once you have aliases in place, you can find them with the [global search bar in the W&B Registry](/models/registry/search_registry/#search-for-registry-items). To find a protected alias:
+You can find aliases with the [global search bar in the W&B Registry](/models/registry/search_registry/#search-for-registry-items). To find a protected alias:
 
 1. Navigate to the W&B Registry.
 2. Specify the search term in the search bar at the top of the page. Press Enter to search.
