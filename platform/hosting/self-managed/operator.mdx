@@ -244,10 +244,11 @@ When you change configuration after the initial install — for example SSO/OIDC
 
 Apply the change in one of two ways:
 
-- **Restart the affected deployments manually.** Restart whichever components consume the changed config; `app` and `api` cover most auth/SSO changes:
+- **Restart the affected deployments manually.** Deployment names vary by version and install (the app deployment usually carries a `-bc` suffix, e.g. `<release>-app-bc`), so list them first, then restart the ones that consume the changed config — the `app` component covers most auth/SSO changes:
 
   ```bash
-  kubectl -n <namespace> rollout restart deployment/<release>-app deployment/<release>-api
+  kubectl -n <namespace> get deployments
+  kubectl -n <namespace> rollout restart deployment/<name>   # e.g. <release>-app-bc
   ```
 
 - **Install [Stakater Reloader](https://github.com/stakater/Reloader).** The chart already annotates the deployments with `reloader.stakater.com/auto: "true"`, so if the Reloader controller is running in your cluster it restarts the affected pods automatically when their ConfigMap or Secret changes. Reloader is not installed by default, so on a fresh cluster you must deploy it yourself for this to work.
