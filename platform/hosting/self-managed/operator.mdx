@@ -106,7 +106,7 @@ api:
 ```
 
 <Note>
-Both `runAsUser` **and** `fsGroup` must be set within the project's UID range. Setting only `runAsUser` leaves `fsGroup: 0`, which the `restricted-v2` SCC rejects with `fsGroup: Invalid value: [0]: 0 is not an allowed group`.
+Both `runAsUser` **and** `fsGroup` must be set within the project's UID range. Setting only `runAsUser` leaves `fsGroup: 0`, which the `restricted-v2` SCC rejects with `fsGroup: Invalid value: []int64{0}: 0 is not an allowed group`.
 </Note>
 
 If needed, configure a custom security context for other components like `app` or `console`. For details, see [Custom security context](#custom-security-context).
