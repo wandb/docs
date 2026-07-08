@@ -81,6 +81,7 @@ from ray.air.integrations.wandb import setup_wandb
 이 유틸리티 함수는 Ray Tune과 함께 사용할 수 있도록 Wandb를 초기화하는 데 도움이 됩니다. 기본적인 사용 방법은 트레이닝 함수에서 `setup_wandb()`를 호출하는 것입니다:
 
 ```python
+from ray import tune
 from ray.air.integrations.wandb import setup_wandb
 
 
@@ -111,7 +112,6 @@ tuner = tune.Tuner(
 )
 results = tuner.fit()
 ```
-
 
 <div id="example-code">
   ## 예시 코드

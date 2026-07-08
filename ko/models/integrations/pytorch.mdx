@@ -44,9 +44,9 @@ with wandb.init(project="new-sota-model", config=config) as run:
     run.watch(model)
 
     for batch in dataloader:
-    metrics = model.training_step()
-    # 트레이닝 루프 내부에서 메트릭을 로깅해 모델 성능을 시각화합니다
-    run.log(metrics)
+        metrics = model.training_step()
+        # 트레이닝 루프 내부에서 메트릭을 로깅해 모델 성능을 시각화합니다
+        run.log(metrics)
 
     # 선택 사항: 마지막에 모델을 저장합니다
     model.to_onnx()

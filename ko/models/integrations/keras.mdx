@@ -81,11 +81,11 @@ with wandb.init(config={"batch_size": 64}) as run:
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbModelCheckpoint_in_your_Keras_workflow.ipynb" />
 
-`WandbModelCheckpoint` 콜백을 사용하면 Keras 모델(`SavedModel` 형식) 또는 모델 가중치를 주기적으로 저장하고, 모델 버전 관리를 위해 이를 `wandb.Artifact`로 W&amp;B에 업로드합니다.
+`WandbModelCheckpoint` callback을 사용하면 Keras 모델(`SavedModel` 형식) 또는 모델 가중치를 주기적으로 저장하고, 모델 버전 관리를 위해 이를 `wandb.Artifact`로 W&amp;B에 업로드합니다.
 
-이 콜백은 [`tf.keras.callbacks.ModelCheckpoint()`](https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/ModelCheckpoint)를 서브클래싱하므로 체크포인트 로직은 부모 콜백이 처리합니다.
+이 callback은 [`tf.keras.callbacks.ModelCheckpoint()`](https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/ModelCheckpoint)를 서브클래싱하므로 체크포인트 로직은 부모 callback이 처리합니다.
 
-이 콜백은 다음을 저장합니다:
+이 callback은 다음을 저장합니다:
 
 * monitor를 기준으로 가장 좋은 성능을 달성한 모델
 * 성능과 관계없이 매 에포크가 끝날 때의 모델
@@ -93,13 +93,13 @@ with wandb.init(config={"batch_size": 64}) as run:
 * 모델 가중치만 또는 전체 모델
 * `SavedModel` 형식 또는 `.h5` 형식의 모델
 
-이 콜백은 `WandbMetricsLogger()`와 함께 사용하세요.
+이 callback은 `WandbMetricsLogger()`와 함께 사용하세요.
 
 ```python
 import wandb
 from wandb.integration.keras import WandbMetricsLogger, WandbModelCheckpoint
 
-# 새 W&B run 초기화
+# 새로운 W&B Run 초기화
 with wandb.init(config={"bs": 12}) as run:
 
     # WandbModelCheckpoint를 model.fit에 전달
@@ -153,7 +153,7 @@ TPU에서 체크포인트를 저장하는 동안 `UnimplementedError: File syste
 checkpoint_options = tf.saved_model.SaveOptions(experimental_io_device="/job:localhost")
 
 WandbModelCheckpoint(
-    filepath="models/,
+    filepath="models/",
     options=checkpoint_options,
 )
 ```
@@ -164,18 +164,18 @@ WandbModelCheckpoint(
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbEvalCallback_in_your_Keras_workflow.ipynb" />
 
-`WandbEvalCallback()`는 주로 모델 예측용 Keras 콜백을 만들고, 부차적으로는 데이터셋 시각화에도 사용할 수 있는 추상 기반 클래스입니다.
+`WandbEvalCallback()`는 주로 모델 예측용 Keras callback을 만들고, 부차적으로는 데이터셋 시각화에도 사용할 수 있는 추상 기반 클래스입니다.
 
-이 추상 콜백은 데이터셋과 태스크에 구애받지 않습니다. 이를 사용하려면 이 기반 `WandbEvalCallback()` 콜백 클래스를 상속하고 `add_ground_truth` 및 `add_model_prediction` 메서드를 구현하세요.
+이 추상 callback은 데이터셋과 태스크에 구애받지 않습니다. 이를 사용하려면 이 기반 `WandbEvalCallback()` callback 클래스를 상속하고 `add_ground_truth` 및 `add_model_prediction` 방법을 구현하세요.
 
-`WandbEvalCallback()`는 다음을 위한 메서드를 제공하는 유틸리티 클래스입니다.
+`WandbEvalCallback()`는 다음을 위한 방법을 제공하는 유틸리티 클래스입니다.
 
 * 데이터 및 예측 `wandb.Table()` 인스턴스를 생성합니다.
 * 데이터와 예측 Tables를 `wandb.Artifact()`로 로깅합니다.
 * `on_train_begin`에서 데이터 테이블을 로깅합니다.
 * `on_epoch_end`에서 예측 테이블을 로깅합니다.
 
-다음 예제에서는 이미지 분류 태스크에 `WandbClfEvalCallback`을 사용합니다. 이 예제 콜백은 검증 데이터(`data_table`)를 W&amp;B에 로깅하고, Inference를 수행한 다음, 매 에포크가 끝날 때마다 예측(`pred_table`)을 W&amp;B에 로깅합니다.
+다음 예제에서는 이미지 분류 태스크에 `WandbClfEvalCallback`을 사용합니다. 이 예제 callback은 검증 데이터(`data_table`)를 W&amp;B에 로깅하고, Inference를 수행한 다음, 매 에포크가 끝날 때마다 예측(`pred_table`)을 W&amp;B에 로깅합니다.
 
 ```python
 import wandb
@@ -273,7 +273,7 @@ with wandb.init(config={"hyper": "parameter"}) as run:
 
     # Keras에서 모델을 설정하는 코드
 
-    # model.fit에 콜백 전달
+    # model.fit에 callback 전달
     model.fit(
         X_train, y_train, validation_data=(X_test, y_test), callbacks=[WandbCallback()]
     )

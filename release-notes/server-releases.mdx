@@ -13,10 +13,21 @@ This page includes release notes for supported releases of W&B Server.
 
 <EolReminder/>
 
+<Update label="v0.82.2" description="July 7, 2026">
+## Fixes
+
+- Fixed a regression in v0.82.1 that prevented new W&B deployments from completing initial setup. Instances that had already created their first user before upgrading to v0.82.1 are not affected.
+
+</Update>
+
 <Update label="v0.82.1" description="July 1, 2026">
 **July 1, 2026**
 
 <SelfManagedClickhouseUpgradeNote/>
+
+<Warning>
+A regression in W&B Server v0.82.1 prevents new W&B deployments from completing initial setup. W&B recommends avoiding v0.82.1 for new deployments. Instances that had already created their first user before upgrading to v0.82.1 are not affected. 
+</Warning>
 
 ## Performance improvements
 
