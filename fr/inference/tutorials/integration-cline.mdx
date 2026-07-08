@@ -29,10 +29,10 @@ Voir [les instructions d’installation de Cline](https://docs.cline.bot/cline-c
 
 Ces instructions ont été testées avec la version `2.5.1` du CLI Cline. Exécutez `cline version` pour vérifier la version installée.
 
-Ensuite, authentifiez Cline auprès du point de terminaison Serverless Inference. La commande suivante configure Cline pour utiliser le point de terminaison compatible OpenAI de Serverless Inference et le modèle Kimi K2.5. Remplacez `[YOUR-API-KEY]` par votre clé API W&amp;B.
+Ensuite, authentifiez Cline auprès du point de terminaison Serverless Inference. La commande suivante configure Cline pour utiliser le point de terminaison compatible OpenAI de Serverless Inference et le modèle Kimi K2.6. Remplacez `[YOUR-API-KEY]` par votre clé API W&amp;B.
 
 ```bash
-cline auth -k [YOUR-API-KEY] -p openai -b https://api.inference.wandb.ai/v1 -m moonshotai/Kimi-K2.5
+cline auth -k [YOUR-API-KEY] -p openai -b https://api.inference.wandb.ai/v1 -m moonshotai/Kimi-K2.6
 ```
 
 Pour connaître la disponibilité des modèles et la tarification, voir le [catalogue de modèles W&amp;B Inference](https://wandb.ai/inference).
@@ -72,7 +72,7 @@ Indiquez les valeurs suivantes en remplaçant `[YOUR-API-KEY]` par votre clé AP
 | API Provider              | `OpenAI Compatible`                 |
 | Base URL                  | `https://api.inference.wandb.ai/v1` |
 | OpenAI Compatible API Key | `[API-KEY]`                         |
-| Model ID                  | `moonshotai/Kimi-K2.5`              |
+| Model ID                  | `moonshotai/Kimi-K2.6`              |
 
 Renseignez la tarification en développant **Model Configuration**.
 

@@ -12,9 +12,10 @@ description: "TypeScript SDK 레퍼런스"
 `llm.startTool()`)로 생성되며 `end()`로 종료됩니다. span에 도구의 출력을 기록하려면
 `end()`를 호출하기 전에 `result`에 값을 부여하세요.
 
-`Example`
+`예시`
 
-```ts
+```ts twoslash
+// @noErrors
 const tool = weave.startTool({
   name: tc.function.name,
   args: tc.function.arguments,
@@ -26,6 +27,14 @@ try {
   tool.end();
 }
 ```
+
+<div id="hierarchy">
+  ## 계층 구조
+</div>
+
+* `SpanBase`
+
+  ↳ `Tool`
 
 <div id="table-of-contents">
   ## 목차
@@ -44,7 +53,9 @@ try {
   ### 방법
 </div>
 
+* [addEvent](./tool#addevent)
 * [end](./tool#end)
+* [setAttributes](./tool#setattributes)
 * [create](./tool#create)
 
 ## 속성
@@ -59,7 +70,7 @@ try {
   #### 정의 위치
 </div>
 
-[genai/tool.ts:52](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/tool.ts#L52)
+[src/genai/tool.ts:52](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L52)
 
 ***
 
@@ -73,7 +84,7 @@ try {
   #### 정의 위치
 </div>
 
-[genai/tool.ts:51](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/tool.ts#L51)
+[src/genai/tool.ts:51](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L51)
 
 ***
 
@@ -89,7 +100,7 @@ try {
   #### 정의 위치
 </div>
 
-[genai/tool.ts:45](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/tool.ts#L45)
+[src/genai/tool.ts:47](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L47)
 
 ***
 
@@ -103,9 +114,56 @@ try {
   #### 정의 위치
 </div>
 
-[genai/tool.ts:53](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/tool.ts#L53)
+[src/genai/tool.ts:53](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L53)
 
 ## 방법
+
+<div id="addevent">
+  ### addEvent
+</div>
+
+▸ **addEvent**(`name`, `attributes?`, `startTime?`): `this`
+
+span에 이름이 지정된 event를 추가합니다. 컨텍스트 압축, 도구 루프 감지,
+또는 가드레일 트리거처럼 span이 아닌 시점을 표시할 때 유용합니다. `end()` 이후에는 경고를
+표시하고 no-op으로 처리됩니다. OTel `Span.addEvent`와 동일하게 동작합니다.
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름            | 유형           |
+| :------------ | :----------- |
+| `name`        | `string`     |
+| `attributes?` | `Attributes` |
+| `startTime?`  | `TimeInput`  |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`this`
+
+`예시`
+
+```ts twoslash
+// @noErrors
+span.addEvent('context_compacted', {removedMessages: 12});
+```
+
+<div id="inherited-from">
+  #### 상속됨
+</div>
+
+SpanBase.addEvent
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/genai/spanBase.ts:77](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/spanBase.ts#L77)
+
+***
 
 <div id="end">
   ### end
@@ -114,16 +172,15 @@ try {
 ▸ **end**(`opts?`): `void`
 
 `result`를 span에 플러시한 후 닫습니다. 멱등성을 가집니다. span을 실패로 표시하려면
-`error`를 전달하세요.
+`error`를 전달하세요. 닫는 시점을 과거로 소급하려면 `endTime`을 전달하세요.
 
 <div id="parameters">
   #### 매개변수
 </div>
 
-| 이름            | 유형       |
-| :------------ | :------- |
-| `opts?`       | `Object` |
-| `opts.error?` | `Error`  |
+| 이름      | 유형               |
+| :------ | :--------------- |
+| `opts?` | `SpanEndOptions` |
 
 <div id="returns">
   #### 반환값
@@ -135,7 +192,52 @@ try {
   #### 정의 위치
 </div>
 
-[genai/tool.ts:83](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/tool.ts#L83)
+[src/genai/tool.ts:87](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L87)
+
+***
+
+<div id="setattributes">
+  ### setAttributes
+</div>
+
+▸ **setAttributes**(`attributes`): `this`
+
+`span`에 여러 속성을 한 번에 설정합니다. `end()` 호출 후에는 경고를 표시하고 아무 작업도 수행하지 않습니다.
+OTel `Span.setAttributes`(및 Python SDK의
+`set_attributes`)와 동일하게 동작합니다.
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름           | 유형           |
+| :----------- | :----------- |
+| `attributes` | `Attributes` |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`this`
+
+`예시`
+
+```ts twoslash
+// @noErrors
+span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
+```
+
+<div id="inherited-from">
+  #### 상속됨
+</div>
+
+SpanBase.setAttributes
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/spanBase.ts#L63)
 
 ***
 
@@ -163,4 +265,4 @@ try {
   #### 정의 위치
 </div>
 
-[genai/tool.ts:56](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/tool.ts#L56)
+[src/genai/tool.ts:58](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L58)

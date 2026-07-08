@@ -4,6 +4,10 @@ description: "Use attributes to add metadata to your traces and evaluations."
 keywords: ["weave.attributes", "global_attributes", "trace metadata", "get_current_call", "withAttributes"]
 ---
 
+<Note>
+This page describes attributes for functions traced with the `@weave.op` decorator. If you instrument an agent with the Weave agent SDK, set attributes and events on agent spans (`Turn`, `LLM`, `Tool`, and `SubAgent`) instead. See [Set attributes and events on agent spans](/weave/guides/tracking/trace-agents-attributes).
+</Note>
+
 Attributes in Weave let you attach custom metadata to your traces and evaluations. This metadata can include information like environment names, model versions, experiment IDs, user IDs, or other contextual information to help you organize, filter, and analyze your Weave data.
 
 Attributes are especially helpful for grouping or filtering traces by:

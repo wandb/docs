@@ -15,7 +15,75 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 <EolReminder />
 
 {/* Pour archiver une version, déplacez ses entrées <Update> (y compris les correctifs)
-    de server-releases.mdx juste en dessous */}
+      de server-releases.mdx juste en dessous */}
+
+<Update label="v0.70.1" description="9 juillet 2025">
+  ## Correctifs
+
+  * Correctif d’un bug où le statut des runs plantés n’était pas mis à jour vers **Crashed** après une mise à niveau.
+  * Correctif d’un bug où la colonne **State** était absente du tableau des runs de **Sweeps**.
+  * Correctif d’un bug Weave où le navigateur d’une collection du Registry pouvait afficher les fichiers d’une version incorrecte, car le chemin mis en cache d’un fichier manifeste d’artefact dépendait uniquement de l’index de version de l’artefact.
+  * Correctif d’un bug Weave qui pouvait empêcher l’analyse correcte d’un JSON dont la syntaxe était valide.
+
+  Ces bugs ont été introduits dans v0.70.0.
+</Update>
+
+<Update label="v0.70.0" description="7 juillet 2025">
+  W&amp;B Server v0.70 inclut de nouvelles fonctionnalités, des améliorations et des améliorations des performances pour vous aider à obtenir et à partager des informations plus efficacement. Par exemple :
+
+  ## Assistance et fin de vie
+
+  * W&amp;B Server v0.56 a atteint sa fin de vie.
+
+  ## Modifications à venir
+
+  * Dans une prochaine version, nous alignerons les vues Workspace multi-run et single-run, afin que, lorsque vous ouvrez le détail d’un run, vous voyiez la même mise en page et la même configuration de panneaux que celles définies pour la vue multi-run, y compris les graphiques personnalisés, les mises en page et les paramètres. L’objectif est de vous aider à garder le contexte et à éviter d’avoir à reconfigurer vos vues. Cependant, cela supprimera la possibilité de personnaliser des vues single-run distinctes, isolées du reste du Workspace. Contactez votre équipe W&amp;B ou l’[assistance](mailto:support@wandb.ai) si vous avez des questions concernant la migration.
+  * Au cours des prochaines versions, nous migrerons le Model Registry existant au niveau de l’équipe vers W&amp;B Registry. Pour plus de détails et le calendrier, voir l’[annonce de disponibilité générale de W&amp;B Registry](#registry_ga_announcement) ci-dessous.
+
+  ## Fonctionnalités
+
+  * <a id="registry_ga_announcement" aria-label="Annonce de la disponibilité générale de W&B Registry" /> **W&amp;B Registry est désormais en disponibilité générale** ! W&amp;B Registry offre une plus grande diversité de ressources, une gestion des accès améliorée et une meilleure évolutivité, ce qui en fait un véritable hub de collaboration pour les initiatives d&#39;IA menées par des équipes nombreuses et variées.
+    * Registry peut être activé dès aujourd’hui avec la variable d’environnement `ENABLE_REGISTRY_UI` ou en contactant l’assistance W&amp;B.
+    * Nous migrons progressivement les ressources existantes du Model Registry au niveau de l’équipe vers W&amp;B Registry au cours des prochaines versions. **Aucune action n’est requise de votre part. W&amp;B copiera automatiquement les ressources du Model Registry de chaque équipe vers un registry privé correspondant au niveau de l’équipe, créé automatiquement.**  Les références existantes aux collections de modèles dans votre ancien Model Registry au niveau de l’équipe continueront de fonctionner.
+
+      1. Dans Server v0.71, Registry sera activé par défaut pour toutes les organisations.
+      2. Server v0.73 (août) inclura une variable d’environnement de désactivation, et cette migration s’exécutera automatiquement pendant la mise à niveau. La migration prend entre 5 et 30 minutes pour la plupart des organisations. Pendant la migration, l’association d’artefacts à l’ancien Model Registry de l’équipe ou au nouveau Registry échouera avec une erreur. ****La journalisation et la récupération des artefacts** **ne seront pas affectées**.
+      3. Dans Server v0.74 (septembre), nous supprimerons cet indicateur et la migration aura lieu pendant la mise à niveau.
+
+      Nous visons une mise à niveau fluide, avec un minimum de perturbations, vers une nouvelle expérience plus puissante. Contactez votre équipe W&amp;B ou le [support](mailto:support@wandb.ai) pour toute question sur la migration.
+  * **Surveillance de l’infrastructure CoreWeave** : Lors d’un [run W&amp;B](/fr/models/runs) sur l’infrastructure CoreWeave, [CoreWeave Mission Control](https://www.coreweave.com/mission-control) surveille votre infrastructure de calcul, ce qui vous permet de consulter des alertes d’infrastructure telles que des pannes de GPU, des dépassements de seuil thermique, etc. En cas d’erreur, CoreWeave transmet ces informations à W&amp;B. W&amp;B ajoute les informations d’infrastructure aux graphiques de votre run dans le Workspace de votre project. CoreWeave tente de résoudre automatiquement certains problèmes, et W&amp;B affiche ces informations sur la page du run. W&amp;B fournit également un lien vers le tableau de bord Grafana du job SLURM pour obtenir des détails système sur le run. Pour en savoir plus, consultez [Visualize CoreWeave infrastructure alerts](/fr/models/app/features/panels/line-plot).
+  * **Suivi des fichiers externes CoreWeave** : Vous pouvez désormais suivre les fichiers externes stockés dans CoreWeave AI Object Storage avec des artifacts de référence. Pour en savoir plus, consultez [Track external files](/fr/models/artifacts/track-external-files).
+  * **Prise en charge de BYOB CoreWeave** : Cloud dédié et Autogéré prennent désormais en charge CoreWeave AI Object Storage pour BYOB au niveau de l’instance et BYOB au niveau de l’équipe. La prise en charge de CoreWeave Team level BYOB sur Cloud mutualisé sera bientôt disponible. Pour en savoir plus, consultez [Bring your own bucket (BYOB)](/fr/platform/hosting/data-security/secure-storage-connector).
+  * **Paramètres groupés du volet multimédia** : Comme pour les graphiques en courbes, vous pouvez désormais gérer en une seule fois tous les paramètres de vos volets multimédia, à l’échelle d’un Workspace entier ou d’une section spécifique. Configurez facilement les volets multimédia pour qu’ils s’affichent par époque ou organisez-les selon des grilles personnalisées, sans avoir à ajuster chaque volet séparément. Les paramètres individuels des volets redéfinissent les paramètres globaux.
+  * Utilisez les **modèles de Workspace** pour créer rapidement des workspaces en reprenant les mêmes paramètres qu’un Workspace existant. Actuellement, un modèle de Workspace peut définir des paramètres personnalisés pour les graphiques en courbes. Pour en savoir plus, consultez [Workspace templates](/fr/models/track/workspaces/#workspace-templates).
+  * Grâce à la **journalisation incrémentielle des tableaux**, vous pouvez journaliser des lots de lignes dans un tableau au cours d’une expérience de machine learning. Cela est particulièrement utile pour surveiller des jobs de longue durée ou lorsque vous travaillez avec de grands tableaux dont la mise à jour pendant le run serait peu efficace. Dans l’interface utilisateur, le tableau est mis à jour avec les nouvelles lignes au fur et à mesure de leur journalisation, ce qui vous permet de consulter les données les plus récentes sans attendre la fin complète du run. Vous pouvez parcourir les incréments pour afficher le tableau à différents moments. Pour en savoir plus, consultez [Log tables](/fr/models/track/log/log-tables/#adding-data-incrementally).
+
+  ## Correctifs
+
+  * Ajout d&#39;une bannière en haut de la visionneuse de logs lorsqu&#39;un sous-ensemble des lignes seulement est affiché.
+  * Correctif d&#39;un bug dans le calcul de la moyenne glissante aux limites des données.
+  * Clarification des libellés d&#39;unité de l&#39;axe X pour les graphiques de temps relatif.
+  * Correctif d&#39;un bug dans les graphiques avec lissage où la ligne d&#39;origine continuait de s&#39;afficher lorsque **Show Original** était décoché.
+  * Correctif d&#39;un bug qui pouvait convertir de manière inattendue un graphique en courbes groupé en fidélité totale avec des expressions en graphique à barres.
+  * Au survol des histogrammes, l&#39;incrément de l&#39;axe X s&#39;affiche désormais dans une info-bulle.
+  * Correctif d&#39;un bug où les données exportées depuis un panneau pouvaient être triées de façon incorrecte. Les données exportées sont désormais triées numériquement.
+  * Dans le sélecteur de runs, vous pouvez désormais filtrer et trier par **updated at**.
+  * Ajout d&#39;une option de système droitier dans les panneaux de nuages de points.
+  * Les slashs de fin sont désormais supprimés des URL des panneaux en plein écran.
+  * Correctif d&#39;un bug où une vue enregistrée supprimée pouvait réapparaître si vous actualisiez immédiatement après l&#39;avoir supprimée.
+  * Correctif d&#39;un bug d&#39;affichage qui provoquait un clignotement lors du rechargement d&#39;une page avec le mode sombre activé.
+  * Correctif d&#39;un bug qui provoquait des incréments de curseur incorrects lors de l&#39;utilisation de valeurs non monotones.
+  * Ajout d&#39;une case à cocher pratique et d&#39;une notification lors du déplacement de runs entre des groupes.
+  * Correctif d&#39;un bug où l&#39;utilisation du caractère générique `*` pour le nom de la métrique dans `wandb.define_metric()` ne parvenait pas à faire correspondre les métriques contenant `/` dans leur nom.
+  * W&amp;B ne supprime désormais plus les artefacts sources lors du nettoyage des portefeuilles de collections par le garbage collector.
+  * Correctif d&#39;un bug qui autorisait à tort la saisie dans les listes de sélection **Allowed types** et **Registry visibility**.
+  * Les cartes de collection affichent désormais le nom complet du type d&#39;artefact au lieu de le tronquer.
+  * Correctif d&#39;un bug où un clic sur **Action History** dans une collection du Registry ouvrait par erreur la vue **Versions**.
+  * Registry prend désormais en charge l&#39;ajout d&#39;artefacts de type `job`.
+  * Les tuiles de traçabilité sont désormais plus larges et affichent davantage de texte avant troncature.
+  * Clarification du texte dans la configuration de l&#39;automatisation au niveau du projet pour parler des &quot;artifacts&quot; plutôt que du terme &quot;collections&quot; du Registry.
+  * Le navigateur d&#39;artefacts effectue désormais la recherche par nom sur l&#39;ensemble des artefacts, au lieu d&#39;être limité aux 500 premiers artefacts.
+</Update>
 
 <Update label="v0.69.1" description="10 juin 2025">
   ## Correctifs

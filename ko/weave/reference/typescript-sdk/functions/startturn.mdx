@@ -9,7 +9,7 @@ description: "TypeScript SDK 레퍼런스"
 
 ▸ **startTurn**(`opts?`): [`Turn`](../classes/turn)
 
-새 Turn을 시작합니다. 활성 상태인 Session이 있으면 Turn이 해당
+새 Turn을 시작합니다. 활성 상태인 Conversation이 있으면 Turn이 해당
 `conversationId`를 상속받고, 그렇지 않으면 Turn에는 conversation ID가 없습니다.
 
 <div id="parameters">
@@ -26,10 +26,27 @@ description: "TypeScript SDK 레퍼런스"
 
 [`Turn`](../classes/turn)
 
+`예시`
+
+```ts twoslash
+// @noErrors
+weave.startTurn({agentName: 'research-bot'});
+```
+
+`예시`
+
+```ts twoslash
+// @noErrors
+weave.startTurn({
+  agentName: 'research-bot',
+  startTime: new Date('2026-05-29T10:00:00.000Z'),
+});
+```
+
 <div id="defined-in">
   #### 정의 위치
 </div>
 
-[genai/api.ts:20](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/api.ts#L20)
+[src/genai/api.ts:48](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/api.ts#L48)
 
 ***

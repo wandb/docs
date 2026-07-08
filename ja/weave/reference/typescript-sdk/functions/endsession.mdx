@@ -7,9 +7,19 @@ description: "TypeScript SDK リファレンス"
   # endSession
 </div>
 
-▸ **endSession**(): `void`
+<Warning>
+  **非推奨。** 代わりに [endConversation](../functions/endconversation) を使用します。
+</Warning>
 
-現在のSessionを終了します。アクティブなSessionがない場合は、何も行いません。
+▸ **endSession**(`opts?`): `void`
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名       | タイプ              |
+| :------ | :--------------- |
+| `opts?` | `SpanEndOptions` |
 
 <div id="returns">
   #### 戻り値
@@ -21,6 +31,6 @@ description: "TypeScript SDK リファレンス"
   #### 定義元
 </div>
 
-[genai/api.ts:82](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/api.ts#L82)
+[src/genai/api.ts:161](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/api.ts#L161)
 
 ***

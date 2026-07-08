@@ -25,10 +25,28 @@ Démarre un span de SubAgent. Les règles de résolution du parent sont les mêm
 
 [`SubAgent`](../classes/subagent)
 
+`Exemple`
+
+```ts twoslash
+// @noErrors
+weave.startSubagent({name: 'critic', model: 'gpt-4o'});
+```
+
+`Exemple`
+
+```ts twoslash
+// @noErrors
+weave.startSubagent({
+  name: 'critic',
+  model: 'gpt-4o',
+  startTime: new Date('2026-05-29T10:00:00.000Z'),
+});
+```
+
 <div id="defined-in">
   #### Défini dans
 </div>
 
-[genai/api.ts:66](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/api.ts#L66)
+[src/genai/api.ts:129](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/api.ts#L129)
 
 ***
