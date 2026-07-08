@@ -15,10 +15,20 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
 
 <EolReminder />
 
+<Update label="v0.82.2" description="7 juillet 2026">
+  ## Correctifs
+
+  * Correctif d’une régression dans la v0.82.1 qui empêchait les nouveaux déploiements W&amp;B de terminer la configuration initiale. Les instances ayant déjà créé leur premier utilisateur avant la mise à niveau vers la v0.82.1 ne sont pas affectées.
+</Update>
+
 <Update label="v0.82.1" description="1 juillet 2026">
   **1 juillet 2026**
 
   <SelfManagedClickhouseUpgradeNote />
+
+  <Warning>
+    Une régression dans W&amp;B Server v0.82.1 empêche les nouveaux déploiements W&amp;B de terminer la configuration initiale. W&amp;B recommande d’éviter la v0.82.1 pour les nouveaux déploiements. Les instances ayant déjà créé leur premier utilisateur avant la mise à niveau vers la v0.82.1 ne sont pas affectées.
+  </Warning>
 
   ## Améliorations des performances
 
@@ -85,7 +95,7 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
 <Update label="v0.81.3" description="9 juin 2026">
   ## Correctifs
 
-  * Suppression d’un point de terminaison d’API interne non pris en charge.
+  * Suppression d’un API endpoint interne non pris en charge.
 </Update>
 
 <Update label="v0.81.2" description="8 juin 2026">
@@ -93,7 +103,7 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
 
   ## Correctifs
 
-  * Correctif d’un bug dans le Cloud dédié où une fonctionnalité de préversion activable sur demande pouvait être désactivée par erreur après la mise à niveau vers v0.81.1. Les déploiements sont mis à niveau automatiquement et aucune action n’est requise. Contactez l’[assistance](mailto:support@wandb.com) si vous constatez des problèmes.
+  * Correctif d’un bug dans Cloud dédié où une fonctionnalité de préversion activée explicitement pouvait être désactivée par erreur après la mise à niveau vers v0.81.1. Les déploiements sont mis à niveau automatiquement et aucune action n’est requise. Contactez l’[assistance](mailto:support@wandb.com) si vous constatez des problèmes.
 </Update>
 
 <Update label="v0.81.1" description="3 juin 2026">
@@ -102,9 +112,9 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
   ## Correctifs
 
   * Amélioration des performances de la recherche de panneaux dans les Workspace, en particulier pour les recherches basées sur des expressions régulières.
-  * Correctif d’un bug où le téléchargement d’artifacts pouvait échouer lorsqu’un artifact était lié dans plusieurs registres, car les vérifications des autorisations étaient effectuées au-delà du contexte actuellement accessible à l’utilisateur.
-  * Correctif d’un bug où le fait de lier à nouveau un artifact déjà lié pouvait déclencher de manière inattendue des automatisations de liaison d’artifact.
-  * Correctif d’un bug où les lectures du moteur de stockage pouvaient échouer après le renommage d’un projet avec l’erreur `project [storage_key] not found`.
+  * Correctif d’un bug où les téléchargements d’artifacts pouvaient échouer lorsqu’un artifact était lié dans plusieurs registres, car les vérifications d’autorisation étaient évaluées au-delà du contexte actuellement accessible par l’utilisateur.
+  * Correctif d’un bug où le fait de relier à nouveau un artifact déjà lié pouvait déclencher de manière inattendue des automatisations de liaison d’artifact.
+  * Correctif d’un bug où les lectures du moteur de stockage pouvaient échouer après le changement de nom d’un projet avec l’erreur `project [storage_key] not found`.
   * Correctif d’un bug où les appels d’évaluation Weave pouvaient échouer pour les modèles OpenAI compatibles audio en raison d’un format de réponse non pris en charge.
 </Update>
 
