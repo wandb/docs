@@ -32,7 +32,7 @@ Serverless Training provisions and autoscales the GPUs for you: inference reques
 
 Before you begin, complete the [Serverless Training prerequisites](/serverless-training/prerequisites): a W&B account, an API key, and a project.
 
-You also need:
+You also need the following:
 
 - Python 3.10 or later, running in an environment that supports `async`/`await` at the top level, such as a Jupyter notebook. To run the code as a script instead, wrap it in a function and call it with `asyncio.run()`.
 - An OpenAI API key. RULER uses an LLM as a judge to rank trajectories; this example uses an OpenAI model as the judge. To use a different judge, pass any [LiteLLM-supported model](https://docs.litellm.ai/docs/providers) to `ruler_score_group`.
@@ -43,16 +43,16 @@ Install the [OpenPipe ART](https://art.openpipe.ai/getting-started/about) framew
 pip install openpipe-art
 ```
 
-Then set your credentials as environment variables:
+Then set your credentials as environment variables. Replace `[YOUR-WANDB-API-KEY]` and `[YOUR-OPENAI-API-KEY]` with your keys:
 
 ```python lines
 import os
 
-os.environ["WANDB_API_KEY"] = "your-wandb-api-key"    # Used for training, inference, and logging
-os.environ["OPENAI_API_KEY"] = "your-openai-api-key"  # Used by the RULER judge
+os.environ["WANDB_API_KEY"] = "[YOUR-WANDB-API-KEY]"    # Used for training, inference, and logging
+os.environ["OPENAI_API_KEY"] = "[YOUR-OPENAI-API-KEY]"  # Used by the RULER judge
 ```
 
-## Step 1: Register a trainable model
+## Register a trainable model
 
 Declare a trainable model and register it with the `ServerlessBackend`. The backend sends inference and training requests to the W&B training cluster, which autoscales to match your job's demand. Registration also sets up metric logging to your W&B project.
 
@@ -72,7 +72,7 @@ await model.register(backend)
 
 `base_model` must be one of the [available models](/serverless-training/available-models). This example uses a 14B model optimized for building agents with fine-tuning.
 
-## Step 2: Create the agent's environment
+## Create the agent's environment
 
 The agent answers questions using a small product knowledge base and a single search tool. This example defines the knowledge base inline so the quickstart is self-contained; in a real application, the tool would query your documentation index, help desk, or vector store.
 
@@ -182,7 +182,7 @@ TRAINING_QUESTIONS = [
 HELD_OUT_QUESTION = "I set up vacation mode but I'm coming home early. Will the house be cold when I arrive?"
 ```
 
-## Step 3: Define a rollout
+## Define a rollout
 
 A rollout is one complete attempt by the agent to handle a scenario. The rollout function sends the question to the model, executes any tool calls it makes, and returns the full interaction as an `art.Trajectory`. During training, Serverless RL runs many rollouts in parallel against your model's current LoRA weights.
 
@@ -252,7 +252,7 @@ A few details matter here:
 - `temperature=1` keeps the agent's attempts diverse. RULER needs variation within a group of attempts to produce a useful ranking.
 - The trajectory records the entire interaction, including tool calls and tool results, so training can credit the behavior that led to a good answer.
 
-## Step 4: Score trajectories with RULER
+## Score trajectories with RULER
 
 Instead of writing a reward function, pass each group of trajectories to RULER. An LLM judge compares the attempts for the same question against each other and scores them from 0 to 1 based on how well each one achieves the goal described in the system prompt. Because the RL algorithm normalizes scores within each group, only the relative ranking matters.
 
@@ -274,7 +274,7 @@ for trajectory in sorted(judged_group.trajectories, key=lambda t: t.reward, reve
 
 The `debug=True` flag prints the judge's reasoning so you can confirm the rankings make sense for your task before you train on them.
 
-## Step 5: Run the training loop
+## Run the training loop
 
 Each training step gathers a batch of trajectory groups, scores them with RULER, and sends the scored trajectories to the W&B training cluster, which updates your LoRA adapter and saves a checkpoint. Metrics for each step log to your W&B project automatically.
 
@@ -337,7 +337,7 @@ This configuration runs six training steps. While the loop runs, open your `supp
 To trace every message in each rollout, including the judge's rankings, add [Weave](/weave) to your project: call `weave.init(model.project)` before the training loop and decorate `rollout` with `@weave.op`. Weave records each step of the training loop so you can inspect exactly how your agent's behavior changes during training.
 </Tip>
 
-## Step 6: Use your trained model
+## Use your trained model
 
 Compare the agent's behavior on the held-out question. Your model's endpoint continues to serve the latest trained weights, so the same rollout function now runs against your trained LoRA:
 
