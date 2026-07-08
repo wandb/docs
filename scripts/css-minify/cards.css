@@ -124,12 +124,14 @@
 
 /* Tab strip — kill Mintlify's mb-6 (24px) gap below the strip so the panel
    sits close under the divider, and inset the tabs horizontally so they line
-   up with the padded panel. The strip keeps its full-width border-b (it spans
-   the whole container, so the divider reaches both box edges) and each tab
-   button keeps its -mb-px active underline. */
+   up with the padded panel. Bottom padding (10px) lifts the now-boxed tab
+   buttons off the divider, and gap:8px tightens Mintlify's gap-x-6 (24px) so
+   the bordered chips read as a group. The strip keeps its full-width border-b
+   (it spans the whole container, so the divider reaches both box edges). */
 .tab-container [role="tablist"] {
   margin-bottom: 0;
-  padding: 2px 20px 0;
+  padding: 8px 20px 10px;
+  gap: 8px;
   /* Mintlify sets overflow:auto on the strip so many tabs scroll horizontally
      on narrow screens. But each tab button uses a -mb-px / border-b overlap
      that leaves the strip's scroll height 1px taller than its client height,
@@ -138,6 +140,30 @@
      it. Higher specificity than Mintlify's .overflow-auto, so only overflow-y
      is overridden; overflow-x stays auto. */
   overflow-y: hidden;
+}
+
+/* Tab buttons — give each tab its own bordered chip. Mintlify ships them with
+   a bottom-only border (border-b, transparent when idle / border-current when
+   active) and no horizontal padding, relying on the strip's gap for spacing.
+   Replace that with a full 1px --color-stroke box, horizontal padding, and a
+   6px radius so every tab reads as a distinct button. margin-bottom:0 cancels
+   Mintlify's -mb-px (which pulled the button down to overlap the strip's
+   border-b for the underline effect) so the chips sit cleanly above the
+   divider. Specificity (0,0,2,0 for the class + attribute) beats Mintlify's
+   single-class border/padding utilities, so no !important is needed. */
+.tab-container [data-component-part="tab-button"] {
+  border: 1px solid var(--color-stroke);
+  border-radius: 6px;
+  padding: 6px 12px;
+  margin-bottom: 0;
+}
+
+/* Active tab chip — stronger (primary-color) border plus a subtle fill so the
+   selected tab stands out from the resting chips. The label is already
+   --color-text-primary via Mintlify's text-primary class. */
+.tab-container [data-component-part="tab-button"][data-active="true"] {
+  border-color: var(--color-text-primary);
+  background-color: var(--color-sidebar-hover);
 }
 
 /* Panel body — pad the active panel inside the box. Mintlify already zeroes
