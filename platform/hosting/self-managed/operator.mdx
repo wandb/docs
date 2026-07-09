@@ -341,7 +341,7 @@ ClusterRoleBinding "wandb-oidc-reviewer" ... cannot be imported into the current
 
 To avoid this on a shared cluster:
 
-- Use a unique release/CR name for each install (for example `wandb-team-a`, not `wandb`).
+- Use a unique release (CR) name for each install (for example `wandb-team-a`, not `wandb`).
 - Set `app.internalJWTMap: []` unless you need internal JWT mapping. This skips rendering the `oidc-reviewer` ClusterRoleBinding.
 
 ### On-premises and bare metal
