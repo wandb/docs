@@ -124,10 +124,11 @@ def parse_changed_files(name_status: str) -> List[Dict[str, str]]:
     """
     Parse ``git diff --name-status`` into changed English ``.mdx`` entries.
 
-    Returns a list of dicts with ``status`` (``A``/``M``/``D``/``R``) and
-    ``path`` (the new path for renames). Localized files and non-mdx files are
-    skipped. Deletions are kept so the report can note removed pages, but they
-    are not scored (no after version).
+    Returns a list of dicts with ``status`` (``A``/``M``/``D``/``R``/``C``),
+    ``path`` (the new path for renames/copies), and ``old_path`` (the base-side
+    path, which differs from ``path`` only for renames/copies). Localized files
+    and non-mdx files are skipped. Deletions are kept so the report can note
+    removed pages, but they are not scored (no after version).
     """
     entries: List[Dict[str, str]] = []
     for raw in name_status.splitlines():
@@ -138,13 +139,15 @@ def parse_changed_files(name_status: str) -> List[Dict[str, str]]:
         if len(parts) < 2:
             continue
         status = parts[0]
-        # Renames/copies: use the new path (last field).
+        # Renames/copies (R###/C###) have three fields: status, old, new.
+        # Score against the new path but read the base version from the old one.
         path = parts[-1]
+        old_path = parts[1] if status[0] in ("R", "C") and len(parts) >= 3 else path
         if not path.endswith(".mdx"):
             continue
         if path.startswith(_LOCALE_PREFIXES):
             continue
-        entries.append({"status": status[0], "path": path})
+        entries.append({"status": status[0], "path": path, "old_path": old_path})
     return entries
 
 
@@ -173,11 +176,13 @@ def score_entry(
     """Score one changed file, returning a plain-number result row."""
     path = entry["path"]
     status = entry["status"]
+    # For renames/copies the base version lives at the old path.
+    old_path = entry.get("old_path", path)
 
     if status == "D":
         return {"path": path, "status": "deleted"}
 
-    before_text = "" if status == "A" else git_show(f"{base}:{path}", repo_root)
+    before_text = "" if status == "A" else git_show(f"{base}:{old_path}", repo_root)
     after_text = git_show(f"{head}:{path}", repo_root)
 
     before_prose = readability.extract_prose_mdx(before_text)
@@ -196,6 +201,7 @@ def score_entry(
 
     return {
         "path": path,
+        "old_path": old_path,
         "status": "new" if status == "A" or before["insufficient_prose"] else "scored",
         "fk_before": before["metrics"]["flesch_kincaid_grade"] if before["metrics"] else None,
         "fk_after": after["metrics"]["flesch_kincaid_grade"] if after["metrics"] else None,
@@ -501,10 +507,11 @@ def main() -> None:
             if judged >= MAX_JUDGED_FILES:
                 break
             path = str(r["path"])
+            old_path = str(r.get("old_path", path))
             status = r.get("status")
             before_text = (
                 "" if status == "new"
-                else git_show(f"{args.base}:{path}", args.repo_root)
+                else git_show(f"{args.base}:{old_path}", args.repo_root)
             )
             after_text = git_show(f"{args.head}:{path}", args.repo_root)
             j = run_comprehension_judge(args.skills_scripts, before_text, after_text)

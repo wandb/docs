@@ -2,8 +2,8 @@
 #
 # Deterministic readability scoring (always used). Imported by the analyzer in
 # the coreweave/docs-skills submodule (.claude/scripts/_readability.py):
-textstat
+textstat==0.7.13
 # AI agent comprehension judge (optional; only when WANDB_API_KEY is set).
 # Imported lazily from the submodule's _docs_eval_lib.py:
-openai
-weave
+openai==2.45.0
+weave==0.53.1

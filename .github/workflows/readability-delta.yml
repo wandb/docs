@@ -71,7 +71,7 @@ jobs:
 
       - name: Check out repository
         if: steps.fork.outputs.is_fork != 'true'
-        uses: actions/checkout@v6
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
         with:
           # Need full history to diff base..head.
           fetch-depth: 0
@@ -80,6 +80,10 @@ jobs:
       # The docs-skills submodule is a private repo in another org. Initialize it
       # with DOCENGINE_TOKEN so the main checkout token needs no extra scope.
       - name: Check out docs-skills submodule
+        # Non-fatal: a transient auth/network failure here must not fail the PR.
+        # The report step below detects the missing analyzer and posts the
+        # informational fallback comment instead.
+        continue-on-error: true
         if: steps.fork.outputs.is_fork != 'true'
         env:
           DOCENGINE_TOKEN: ${{ secrets.DOCENGINE_TOKEN }}
@@ -89,13 +93,13 @@ jobs:
 
       - name: Set up Python 3.11
         if: steps.fork.outputs.is_fork != 'true'
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: "3.11"
 
       - name: Cache pip packages
         if: steps.fork.outputs.is_fork != 'true'
-        uses: actions/cache@v5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-readability-${{ hashFiles('scripts/readability/requirements.txt') }}
@@ -104,6 +108,9 @@ jobs:
             ${{ runner.os }}-pip-
 
       - name: Install dependencies
+        # Non-fatal: if deps fail to install, the report step still runs and
+        # falls back to the informational notice rather than failing the PR.
+        continue-on-error: true
         if: steps.fork.outputs.is_fork != 'true'
         run: pip install -r scripts/readability/requirements.txt
 

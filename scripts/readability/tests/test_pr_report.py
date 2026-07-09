@@ -47,17 +47,57 @@ def test_parse_changed_files_filters_and_keeps_status():
     ])
     entries = pr_report.parse_changed_files(name_status)
     assert entries == [
-        {"status": "M", "path": "weave/guides/tracking/threads.mdx"},
-        {"status": "A", "path": "models/new-page.mdx"},
-        {"status": "D", "path": "models/old-page.mdx"},
+        {"status": "M", "path": "weave/guides/tracking/threads.mdx",
+         "old_path": "weave/guides/tracking/threads.mdx"},
+        {"status": "A", "path": "models/new-page.mdx",
+         "old_path": "models/new-page.mdx"},
+        {"status": "D", "path": "models/old-page.mdx",
+         "old_path": "models/old-page.mdx"},
     ]
 
 
-def test_parse_changed_files_rename_uses_new_path():
-    # Rename rows have three tab fields: status, old path, new path.
+def test_parse_changed_files_rename_keeps_both_paths():
+    # Rename rows have three tab fields: status, old path, new path. Keep the
+    # old path so scoring can compare base(old) vs head(new) rather than
+    # treating the page as brand-new.
     name_status = "R096\tmodels/old.mdx\tmodels/renamed.mdx"
     entries = pr_report.parse_changed_files(name_status)
-    assert entries == [{"status": "R", "path": "models/renamed.mdx"}]
+    assert entries == [
+        {"status": "R", "path": "models/renamed.mdx", "old_path": "models/old.mdx"}
+    ]
+
+
+def test_score_entry_rename_reads_base_from_old_path(monkeypatch):
+    # A renamed page must load its before text from the OLD path; otherwise the
+    # base lookup returns empty and the page is misreported as new.
+    entry = {"status": "R", "path": "models/renamed.mdx", "old_path": "models/old.mdx"}
+    seen = {}
+
+    def fake_git_show(ref_path, repo_root):
+        seen[ref_path] = True
+        return "before" if ref_path.endswith(":models/old.mdx") else "after"
+
+    class FakeReadability:
+        def extract_prose_mdx(self, text):
+            return text
+
+        def analyze_texts(self, before_prose, after_prose):
+            return {
+                "before": {"insufficient_prose": before_prose == "",
+                           "metrics": {"flesch_kincaid_grade": 10.0}},
+                "after": {"insufficient_prose": False, "word_count": 100,
+                          "metrics": {"flesch_kincaid_grade": 9.0}},
+                "delta": {"flesch_kincaid_grade": -1.0, "flesch_reading_ease": 1.0},
+                "headline": {"direction": "easier"},
+            }
+
+    monkeypatch.setattr(pr_report, "git_show", fake_git_show)
+    result = pr_report.score_entry(entry, "BASE", "HEAD", Path("."), FakeReadability())
+
+    assert "BASE:models/old.mdx" in seen      # base read from the old path
+    assert "HEAD:models/renamed.mdx" in seen   # head read from the new path
+    assert result["status"] == "scored"        # has a real before -> scored, not new
+    assert result["fk_delta"] == -1.0
 
 
 def test_parse_changed_files_empty():
