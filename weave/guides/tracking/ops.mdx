@@ -78,9 +78,9 @@ A custom display name makes it easier to identify an Op in the Weave UI, especia
 
 To better organize your Ops in the Weave UI, apply custom kinds and colors by adding the `kind` and `color` arguments to the `@weave.op` decorators in your code. For example, the following code applies an `LLM` `kind` and a `blue` `color` to the parent function, and a `tool` `kind` and a `red` `color` to a nested function:
 
-<Tabs>
-<Tab title="Python">
-```python lines
+<CodeGroup>
+
+```python Python lines
 import weave
 
 weave.init("[YOUR-TEAM-NAME]/[YOUR-PROJECT-NAME]")
@@ -97,13 +97,12 @@ def llm_func():
 
 llm_func()
 ```
-</Tab>
-<Tab title="TypeScript">
-```text
+
+```text TypeScript
 This feature is not available in TypeScript yet.
 ```
-</Tab>
-</Tabs>
+
+</CodeGroup>
 
 This applies the colors and kinds to your Ops in the Weave UI, like this:
 

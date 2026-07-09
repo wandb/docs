@@ -11,59 +11,56 @@ Because generators yield values lazily, Weave logs outputs only when you fully c
 To ensure Weave captures outputs in the trace, fully consume the generator (for example, with `list()`).
 </Warning>
 
-<Tabs>
-  <Tab title="Python">
+<CodeGroup>
 
-    ```python
-    from typing import Generator
-    import weave
+```python Python
+from typing import Generator
+import weave
 
-    weave.init("my-project")
+weave.init("my-project")
 
-    # This function uses a sync generator.
-    # Weave will trace the Call and its input (`x`),
-    # but output values are only captured once the generator is consumed (for example, with `list()`).
-    @weave.op
-    def basic_gen(x: int) -> Generator[int, None, None]:
-        yield from range(x)
+# This function uses a sync generator.
+# Weave will trace the Call and its input (`x`),
+# but output values are only captured once the generator is consumed (for example, with `list()`).
+@weave.op
+def basic_gen(x: int) -> Generator[int, None, None]:
+    yield from range(x)
 
-    # A normal sync function used within the generator pipeline.
-    # Its calls are also traced independently by Weave.
-    @weave.op
-    def inner(x: int) -> int:
-        return x + 1
+# A normal sync function used within the generator pipeline.
+# Its calls are also traced independently by Weave.
+@weave.op
+def inner(x: int) -> int:
+    return x + 1
 
-    # A sync generator that calls another traced function (`inner`).
-    # Each yielded value comes from a separate traced Call to `inner`.
-    @weave.op
-    def nested_generator(x: int) -> Generator[int, None, None]:
-        for i in range(x):
-            yield inner(i)
+# A sync generator that calls another traced function (`inner`).
+# Each yielded value comes from a separate traced Call to `inner`.
+@weave.op
+def nested_generator(x: int) -> Generator[int, None, None]:
+    for i in range(x):
+        yield inner(i)
 
-    # A generator that composes the above generator.
-    # Tracing here produces a hierarchical Call tree:
-    # - `deeply_nested_generator` (parent)
-    #   - `nested_generator` (child)
-    #     - `inner` (grandchild)
-    @weave.op
-    def deeply_nested_generator(x: int) -> Generator[int, None, None]:
-        for i in range(x):
-            for j in nested_generator(i):
-                yield j
+# A generator that composes the above generator.
+# Tracing here produces a hierarchical Call tree:
+# - `deeply_nested_generator` (parent)
+#   - `nested_generator` (child)
+#     - `inner` (grandchild)
+@weave.op
+def deeply_nested_generator(x: int) -> Generator[int, None, None]:
+    for i in range(x):
+        for j in nested_generator(i):
+            yield j
 
-    # The generator must be *consumed* for Weave to capture outputs.
-    # This is true for both sync and async generators.
-    res = deeply_nested_generator(4)
-    list(res)  # Triggers tracing of all nested calls and yields
-    ```
+# The generator must be *consumed* for Weave to capture outputs.
+# This is true for both sync and async generators.
+res = deeply_nested_generator(4)
+list(res)  # Triggers tracing of all nested calls and yields
+```
 
-  </Tab>
-  <Tab title="TypeScript">
-    ```plaintext
-    This feature is not available in the TypeScript SDK yet.
-    ```
-  </Tab>
-</Tabs>
+```plaintext TypeScript
+This feature is not available in the TypeScript SDK yet.
+```
+
+</CodeGroup>
 The following screenshot shows the **Traces** page with a selected trace of the preceding code. The center panel shows the trace tree for the selected trace. The trace tree shows the `deeply_nested_generator`, `nested_generator`, and `inner` Ops in the trace tree hierarchy.
 ![Weave Traces page showing a selected trace tree illustrating deeply nested Ops](/weave/guides/tracking/imgs/generators.png)
 

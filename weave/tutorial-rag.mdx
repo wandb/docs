@@ -37,90 +37,88 @@ The knowledge base is the corpus your RAG application searches at query time. In
 
 First, compute the embeddings for the articles. You typically do this once with your articles and put the embeddings and metadata in a database, but here it's done every time the script runs for simplicity.
 
-<Tabs>
-  <Tab title="Python">
-    ```python lines
-    from openai import OpenAI
-    import weave
-    from weave import Model
-    import numpy as np
-    import json
-    import asyncio
+<CodeGroup>
 
-    articles = [
-        "Novo Nordisk and Eli Lilly rival soars 32 percent after promising weight loss drug results Shares of Denmarks Zealand Pharma shot 32 percent higher in morning trade, after results showed success in its liver disease treatment survodutide, which is also on trial as a drug to treat obesity. The trial “tells us that the 6mg dose is safe, which is the top dose used in the ongoing [Phase 3] obesity trial too,” one analyst said in a note. The results come amid feverish investor interest in drugs that can be used for weight loss.",
-        "Berkshire shares jump after big profit gain as Buffetts conglomerate nears $1 trillion valuation Berkshire Hathaway shares rose on Monday after Warren Buffetts conglomerate posted strong earnings for the fourth quarter over the weekend. Berkshires Class A and B shares jumped more than 1.5%, each. Class A shares are higher by more than 17% this year, while Class B has gained more than 18%. Berkshire was last valued at $930.1 billion, up from $905.5 billion where it closed on Friday, according to FactSet. Berkshire on Saturday posted fourth-quarter operating earnings of $8.481 billion, about 28 percent higher than the $6.625 billion from the year-ago period, driven by big gains in its insurance business. Operating earnings refers to profits from businesses across insurance, railroads and utilities. Meanwhile, Berkshires cash levels also swelled to record levels. The conglomerate held $167.6 billion in cash in the fourth quarter, surpassing the $157.2 billion record the conglomerate held in the prior quarter.",
-        "Highmark Health says its combining tech from Google and Epic to give doctors easier access to information Highmark Health announced it is integrating technology from Google Cloud and the health-care software company Epic Systems. The integration aims to make it easier for both payers and providers to access key information they need, even if its stored across multiple points and formats, the company said. Highmark is the parent company of a health plan with 7 million members, a provider network of 14 hospitals and other entities",
-        "Rivian and Lucid shares plunge after weak EV earnings reports Shares of electric vehicle makers Rivian and Lucid fell Thursday after the companies reported stagnant production in their fourth-quarter earnings after the bell Wednesday. Rivian shares sank about 25 percent, and Lucids stock dropped around 17 percent. Rivian forecast it will make 57,000 vehicles in 2024, slightly less than the 57,232 vehicles it produced in 2023. Lucid said it expects to make 9,000 vehicles in 2024, more than the 8,428 vehicles it made in 2023.",
-        "Mauritius blocks Norwegian cruise ship over fears of a potential cholera outbreak Local authorities on Sunday denied permission for the Norwegian Dawn ship, which has 2,184 passengers and 1,026 crew on board, to access the Mauritius capital of Port Louis, citing “potential health risks.” The Mauritius Ports Authority said Sunday that samples were taken from at least 15 passengers on board the cruise ship. A spokesperson for the U.S.-headquartered Norwegian Cruise Line Holdings said Sunday that 'a small number of guests experienced mild symptoms of a stomach-related illness' during Norwegian Dawns South Africa voyage.",
-        "Intuitive Machines lands on the moon in historic first for a U.S. company Intuitive Machines Nova-C cargo lander, named Odysseus after the mythological Greek hero, is the first U.S. spacecraft to soft land on the lunar surface since 1972. Intuitive Machines is the first company to pull off a moon landing — government agencies have carried out all previously successful missions. The company's stock surged in extended trading Thursday, after falling 11 percent in regular trading.",
-        "Lunar landing photos: Intuitive Machines Odysseus sends back first images from the moon Intuitive Machines cargo moon lander Odysseus returned its first images from the surface. Company executives believe the lander caught its landing gear sideways on the moon's surface while touching down and tipped over. Despite resting on its side, the company's historic IM-1 mission is still operating on the moon.",
-    ]
+```python Python lines
+from openai import OpenAI
+import weave
+from weave import Model
+import numpy as np
+import json
+import asyncio
 
-    def docs_to_embeddings(docs: list) -> list:
-        openai = OpenAI()
-        document_embeddings = []
-        for doc in docs:
-            response = (
-                openai.embeddings.create(input=doc, model="text-embedding-3-small")
-                .data[0]
-                .embedding
-            )
-            document_embeddings.append(response)
-        return document_embeddings
+articles = [
+    "Novo Nordisk and Eli Lilly rival soars 32 percent after promising weight loss drug results Shares of Denmarks Zealand Pharma shot 32 percent higher in morning trade, after results showed success in its liver disease treatment survodutide, which is also on trial as a drug to treat obesity. The trial “tells us that the 6mg dose is safe, which is the top dose used in the ongoing [Phase 3] obesity trial too,” one analyst said in a note. The results come amid feverish investor interest in drugs that can be used for weight loss.",
+    "Berkshire shares jump after big profit gain as Buffetts conglomerate nears $1 trillion valuation Berkshire Hathaway shares rose on Monday after Warren Buffetts conglomerate posted strong earnings for the fourth quarter over the weekend. Berkshires Class A and B shares jumped more than 1.5%, each. Class A shares are higher by more than 17% this year, while Class B has gained more than 18%. Berkshire was last valued at $930.1 billion, up from $905.5 billion where it closed on Friday, according to FactSet. Berkshire on Saturday posted fourth-quarter operating earnings of $8.481 billion, about 28 percent higher than the $6.625 billion from the year-ago period, driven by big gains in its insurance business. Operating earnings refers to profits from businesses across insurance, railroads and utilities. Meanwhile, Berkshires cash levels also swelled to record levels. The conglomerate held $167.6 billion in cash in the fourth quarter, surpassing the $157.2 billion record the conglomerate held in the prior quarter.",
+    "Highmark Health says its combining tech from Google and Epic to give doctors easier access to information Highmark Health announced it is integrating technology from Google Cloud and the health-care software company Epic Systems. The integration aims to make it easier for both payers and providers to access key information they need, even if its stored across multiple points and formats, the company said. Highmark is the parent company of a health plan with 7 million members, a provider network of 14 hospitals and other entities",
+    "Rivian and Lucid shares plunge after weak EV earnings reports Shares of electric vehicle makers Rivian and Lucid fell Thursday after the companies reported stagnant production in their fourth-quarter earnings after the bell Wednesday. Rivian shares sank about 25 percent, and Lucids stock dropped around 17 percent. Rivian forecast it will make 57,000 vehicles in 2024, slightly less than the 57,232 vehicles it produced in 2023. Lucid said it expects to make 9,000 vehicles in 2024, more than the 8,428 vehicles it made in 2023.",
+    "Mauritius blocks Norwegian cruise ship over fears of a potential cholera outbreak Local authorities on Sunday denied permission for the Norwegian Dawn ship, which has 2,184 passengers and 1,026 crew on board, to access the Mauritius capital of Port Louis, citing “potential health risks.” The Mauritius Ports Authority said Sunday that samples were taken from at least 15 passengers on board the cruise ship. A spokesperson for the U.S.-headquartered Norwegian Cruise Line Holdings said Sunday that 'a small number of guests experienced mild symptoms of a stomach-related illness' during Norwegian Dawns South Africa voyage.",
+    "Intuitive Machines lands on the moon in historic first for a U.S. company Intuitive Machines Nova-C cargo lander, named Odysseus after the mythological Greek hero, is the first U.S. spacecraft to soft land on the lunar surface since 1972. Intuitive Machines is the first company to pull off a moon landing — government agencies have carried out all previously successful missions. The company's stock surged in extended trading Thursday, after falling 11 percent in regular trading.",
+    "Lunar landing photos: Intuitive Machines Odysseus sends back first images from the moon Intuitive Machines cargo moon lander Odysseus returned its first images from the surface. Company executives believe the lander caught its landing gear sideways on the moon's surface while touching down and tipped over. Despite resting on its side, the company's historic IM-1 mission is still operating on the moon.",
+]
 
-    article_embeddings = docs_to_embeddings(articles) # Note: you would typically do this once with your articles and put the embeddings & metadata in a database
-    ```
+def docs_to_embeddings(docs: list) -> list:
+    openai = OpenAI()
+    document_embeddings = []
+    for doc in docs:
+        response = (
+            openai.embeddings.create(input=doc, model="text-embedding-3-small")
+            .data[0]
+            .embedding
+        )
+        document_embeddings.append(response)
+    return document_embeddings
 
-  </Tab>
-  <Tab title="TypeScript">
-    ```typescript twoslash lines
-    // @noErrors
-    require('dotenv').config();
-    import { OpenAI } from 'openai';
-    import * as weave from 'weave';
+article_embeddings = docs_to_embeddings(articles) # Note: you would typically do this once with your articles and put the embeddings & metadata in a database
+```
 
-    interface Article {
-        text: string;
-        embedding?: number[];
+```typescript TypeScript twoslash lines
+// @noErrors
+require('dotenv').config();
+import { OpenAI } from 'openai';
+import * as weave from 'weave';
+
+interface Article {
+    text: string;
+    embedding?: number[];
+}
+
+const articles: Article[] = [
+    { 
+        text: `Novo Nordisk and Eli Lilly rival soars 32 percent after promising weight loss drug results Shares of Denmarks Zealand Pharma shot 32 percent higher in morning trade, after results showed success in its liver disease treatment survodutide, which is also on trial as a drug to treat obesity. The trial tells us that the 6mg dose is safe, which is the top dose used in the ongoing [Phase 3] obesity trial too, one analyst said in a note. The results come amid feverish investor interest in drugs that can be used for weight loss.`
+    },
+    { 
+        text: `Berkshire shares jump after big profit gain as Buffetts conglomerate nears $1 trillion valuation Berkshire Hathaway shares rose on Monday after Warren Buffetts conglomerate posted strong earnings for the fourth quarter over the weekend. Berkshires Class A and B shares jumped more than 1.5%, each. Class A shares are higher by more than 17% this year, while Class B has gained more than 18%. Berkshire was last valued at $930.1 billion, up from $905.5 billion where it closed on Friday, according to FactSet. Berkshire on Saturday posted fourth-quarter operating earnings of $8.481 billion, about 28 percent higher than the $6.625 billion from the year-ago period, driven by big gains in its insurance business. Operating earnings refers to profits from businesses across insurance, railroads and utilities. Meanwhile, Berkshires cash levels also swelled to record levels. The conglomerate held $167.6 billion in cash in the fourth quarter, surpassing the $157.2 billion record the conglomerate held in the prior quarter.`
+    },
+    { 
+        text: `Highmark Health says its combining tech from Google and Epic to give doctors easier access to information Highmark Health announced it is integrating technology from Google Cloud and the health-care software company Epic Systems. The integration aims to make it easier for both payers and providers to access key information they need, even if its stored across multiple points and formats, the company said. Highmark is the parent company of a health plan with 7 million members, a provider network of 14 hospitals and other entities`
     }
+];
 
-    const articles: Article[] = [
-        { 
-            text: `Novo Nordisk and Eli Lilly rival soars 32 percent after promising weight loss drug results Shares of Denmarks Zealand Pharma shot 32 percent higher in morning trade, after results showed success in its liver disease treatment survodutide, which is also on trial as a drug to treat obesity. The trial tells us that the 6mg dose is safe, which is the top dose used in the ongoing [Phase 3] obesity trial too, one analyst said in a note. The results come amid feverish investor interest in drugs that can be used for weight loss.`
-        },
-        { 
-            text: `Berkshire shares jump after big profit gain as Buffetts conglomerate nears $1 trillion valuation Berkshire Hathaway shares rose on Monday after Warren Buffetts conglomerate posted strong earnings for the fourth quarter over the weekend. Berkshires Class A and B shares jumped more than 1.5%, each. Class A shares are higher by more than 17% this year, while Class B has gained more than 18%. Berkshire was last valued at $930.1 billion, up from $905.5 billion where it closed on Friday, according to FactSet. Berkshire on Saturday posted fourth-quarter operating earnings of $8.481 billion, about 28 percent higher than the $6.625 billion from the year-ago period, driven by big gains in its insurance business. Operating earnings refers to profits from businesses across insurance, railroads and utilities. Meanwhile, Berkshires cash levels also swelled to record levels. The conglomerate held $167.6 billion in cash in the fourth quarter, surpassing the $157.2 billion record the conglomerate held in the prior quarter.`
-        },
-        { 
-            text: `Highmark Health says its combining tech from Google and Epic to give doctors easier access to information Highmark Health announced it is integrating technology from Google Cloud and the health-care software company Epic Systems. The integration aims to make it easier for both payers and providers to access key information they need, even if its stored across multiple points and formats, the company said. Highmark is the parent company of a health plan with 7 million members, a provider network of 14 hospitals and other entities`
-        }
-    ];
+function cosineSimilarity(a: number[], b: number[]): number {
+    const dotProduct = a.reduce((sum, val, i) => sum + val * b[i], 0);
+    const magnitudeA = Math.sqrt(a.reduce((sum, val) => sum + val * val, 0));
+    const magnitudeB = Math.sqrt(b.reduce((sum, val) => sum + val * val, 0));
+    return dotProduct / (magnitudeA * magnitudeB);
+}
 
-    function cosineSimilarity(a: number[], b: number[]): number {
-        const dotProduct = a.reduce((sum, val, i) => sum + val * b[i], 0);
-        const magnitudeA = Math.sqrt(a.reduce((sum, val) => sum + val * val, 0));
-        const magnitudeB = Math.sqrt(b.reduce((sum, val) => sum + val * val, 0));
-        return dotProduct / (magnitudeA * magnitudeB);
-    }
+const docsToEmbeddings = weave.op(async function(docs: Article[]): Promise<Article[]> {
+    const openai = new OpenAI();
+    const enrichedDocs = await Promise.all(docs.map(async (doc) => {
+        const response = await openai.embeddings.create({
+            input: doc.text,
+            model: "text-embedding-3-small"
+        });
+        return {
+            ...doc,
+            embedding: response.data[0].embedding
+        };
+    }));
+    return enrichedDocs;
+});
+```
 
-    const docsToEmbeddings = weave.op(async function(docs: Article[]): Promise<Article[]> {
-        const openai = new OpenAI();
-        const enrichedDocs = await Promise.all(docs.map(async (doc) => {
-            const response = await openai.embeddings.create({
-                input: doc.text,
-                model: "text-embedding-3-small"
-            });
-            return {
-                ...doc,
-                embedding: response.data[0].embedding
-            };
-        }));
-        return enrichedDocs;
-    });
-    ```
-  </Tab>
-</Tabs>
+</CodeGroup>
 
 ## Create a RAG app
 
@@ -128,118 +126,116 @@ With the knowledge base in place, you can now build the RAG application itself. 
 
 Next, wrap the retrieval function `get_most_relevant_document` with a `weave.op()` decorator and create a `Model` class. Wrapping the retrieval function with `weave.op()` lets Weave capture its inputs and outputs for every call, which is what makes the retrieval step inspectable later. Call `weave.init('<team-name>/rag-quickstart')` to begin tracking all the inputs and outputs of your functions for later inspection. If you don't specify a team name, Weave records the output to your [W&B default team or entity](/platform/app/settings-page/user-settings#default-team).
 
-<Tabs>
-  <Tab title="Python">
-    ```python lines
-    from openai import OpenAI
-    import weave
-    from weave import Model
-    import numpy as np
-    import asyncio
+<CodeGroup>
+
+```python Python lines
+from openai import OpenAI
+import weave
+from weave import Model
+import numpy as np
+import asyncio
+
+@weave.op()
+def get_most_relevant_document(query):
+    openai = OpenAI()
+    query_embedding = (
+        openai.embeddings.create(input=query, model="text-embedding-3-small")
+        .data[0]
+        .embedding
+    )
+    similarities = [
+        np.dot(query_embedding, doc_emb)
+        / (np.linalg.norm(query_embedding) * np.linalg.norm(doc_emb))
+        for doc_emb in article_embeddings
+    ]
+    # Get the index of the most similar document
+    most_relevant_doc_index = np.argmax(similarities)
+    return articles[most_relevant_doc_index]
+
+class RAGModel(Model):
+    system_message: str
+    model_name: str = "gpt-3.5-turbo-1106"
 
     @weave.op()
-    def get_most_relevant_document(query):
-        openai = OpenAI()
-        query_embedding = (
-            openai.embeddings.create(input=query, model="text-embedding-3-small")
-            .data[0]
-            .embedding
+    def predict(self, question: str) -> dict: # note: `question` will be used later to select data from our evaluation rows
+        from openai import OpenAI
+        context = get_most_relevant_document(question)
+        client = OpenAI()
+        query = f"""Use the following information to answer the subsequent question. If the answer cannot be found, write "I don't know."
+        Context:
+        \"\"\"
+        {context}
+        \"\"\"
+        Question: {question}"""
+        response = client.chat.completions.create(
+            model=self.model_name,
+            messages=[
+                {"role": "system", "content": self.system_message},
+                {"role": "user", "content": query},
+            ],
+            temperature=0.0,
+            response_format={"type": "text"},
         )
-        similarities = [
-            np.dot(query_embedding, doc_emb)
-            / (np.linalg.norm(query_embedding) * np.linalg.norm(doc_emb))
-            for doc_emb in article_embeddings
-        ]
-        # Get the index of the most similar document
-        most_relevant_doc_index = np.argmax(similarities)
-        return articles[most_relevant_doc_index]
+        answer = response.choices[0].message.content
+        return {'answer': answer, 'context': context}
 
-    class RAGModel(Model):
-        system_message: str
-        model_name: str = "gpt-3.5-turbo-1106"
+# Set your team and project names
+weave.init('<team-name>/rag-quickstart')
+model = RAGModel(
+    system_message="You are an expert in finance and answer questions related to finance, financial services, and financial markets. When responding based on provided information, be sure to cite the source."
+)
+model.predict("What significant result was reported about Zealand Pharma's obesity trial?")
+```
 
-        @weave.op()
-        def predict(self, question: str) -> dict: # note: `question` will be used later to select data from our evaluation rows
-            from openai import OpenAI
-            context = get_most_relevant_document(question)
-            client = OpenAI()
-            query = f"""Use the following information to answer the subsequent question. If the answer cannot be found, write "I don't know."
-            Context:
-            \"\"\"
-            {context}
-            \"\"\"
-            Question: {question}"""
-            response = client.chat.completions.create(
-                model=self.model_name,
-                messages=[
-                    {"role": "system", "content": self.system_message},
-                    {"role": "user", "content": query},
-                ],
-                temperature=0.0,
-                response_format={"type": "text"},
-            )
-            answer = response.choices[0].message.content
-            return {'answer': answer, 'context': context}
-    
-    # Set your team and project names
-    weave.init('<team-name>/rag-quickstart')
-    model = RAGModel(
-        system_message="You are an expert in finance and answer questions related to finance, financial services, and financial markets. When responding based on provided information, be sure to cite the source."
-    )
-    model.predict("What significant result was reported about Zealand Pharma's obesity trial?")
-    ```
+```typescript TypeScript twoslash lines
+// @noErrors
+class RAGModel {
+    private openai: OpenAI;
+    private systemMessage: string;
+    private modelName: string;
+    private articleEmbeddings: Article[];
 
-  </Tab>
-  <Tab title="TypeScript">
-    ```typescript twoslash lines
-    // @noErrors
-    class RAGModel {
-        private openai: OpenAI;
-        private systemMessage: string;
-        private modelName: string;
-        private articleEmbeddings: Article[];
-
-        constructor(config: {
-            systemMessage: string;
-            modelName?: string;
-            articleEmbeddings: Article[];
-        }) {
-            this.openai = new OpenAI();
-            this.systemMessage = config.systemMessage;
-            this.modelName = config.modelName || "gpt-3.5-turbo-1106";
-            this.articleEmbeddings = config.articleEmbeddings;
-            this.predict = weave.op(this, this.predict);
-        }
-
-        async predict(question: string): Promise<{
-            answer: string;
-            context: string;
-        }> {
-            const context = await this.getMostRelevantDocument(question);
-            
-            const response = await this.openai.chat.completions.create({
-                model: this.modelName,
-                messages: [
-                    { role: "system", content: this.systemMessage },
-                    { role: "user", content: `Use the following information to answer the subsequent question. If the answer cannot be found, write "I don't know."
-                        Context:
-                        """
-                        ${context}
-                        """
-                        Question: ${question}` }
-                ],
-                temperature: 0
-            });
-
-            return {
-                answer: response.choices[0].message.content || "",
-                context
-            };
-        }
+    constructor(config: {
+        systemMessage: string;
+        modelName?: string;
+        articleEmbeddings: Article[];
+    }) {
+        this.openai = new OpenAI();
+        this.systemMessage = config.systemMessage;
+        this.modelName = config.modelName || "gpt-3.5-turbo-1106";
+        this.articleEmbeddings = config.articleEmbeddings;
+        this.predict = weave.op(this, this.predict);
     }
-    ```
-  </Tab>
-</Tabs>
+
+    async predict(question: string): Promise<{
+        answer: string;
+        context: string;
+    }> {
+        const context = await this.getMostRelevantDocument(question);
+        
+        const response = await this.openai.chat.completions.create({
+            model: this.modelName,
+            messages: [
+                { role: "system", content: this.systemMessage },
+                { role: "user", content: `Use the following information to answer the subsequent question. If the answer cannot be found, write "I don't know."
+                    Context:
+                    """
+                    ${context}
+                    """
+                    Question: ${question}` }
+            ],
+            temperature: 0
+        });
+
+        return {
+            answer: response.choices[0].message.content || "",
+            context
+        };
+    }
+}
+```
+
+</CodeGroup>
 
 ## Evaluate with an LLM judge
 
@@ -251,91 +247,89 @@ When there aren't simple ways to evaluate your application, one approach is to u
 
 As in the [Build an Evaluation pipeline tutorial](/weave/tutorial-eval), define a set of example rows to test your app against and a scoring function. The scoring function takes one row and evaluates it. The input arguments should match the corresponding keys in your row, so `question` here is taken from the row dictionary. `output` is the output of the model. The input to the model is taken from the example based on its input argument, so `question` here too. This example uses `async` functions so they run in parallel. For a quick introduction to async, see the [Python `asyncio` documentation](https://docs.python.org/3/library/asyncio.html).
 
-<Tabs>
-  <Tab title="Python">
-    ```python lines
-    from openai import OpenAI
-    import weave
-    import asyncio
+<CodeGroup>
 
-    @weave.op()
-    async def context_precision_score(question, output):
-        context_precision_prompt = """Given question, answer and context verify if the context was useful in arriving at the given answer. Give verdict as "1" if useful and "0" if not with json output.
-        Output in only valid JSON format.
+```python Python lines
+from openai import OpenAI
+import weave
+import asyncio
 
-        question: {question}
-        context: {context}
-        answer: {answer}
-        verdict: """
-        client = OpenAI()
+@weave.op()
+async def context_precision_score(question, output):
+    context_precision_prompt = """Given question, answer and context verify if the context was useful in arriving at the given answer. Give verdict as "1" if useful and "0" if not with json output.
+    Output in only valid JSON format.
 
-        prompt = context_precision_prompt.format(
-            question=question,
-            context=output['context'],
-            answer=output['answer'],
-        )
+    question: {question}
+    context: {context}
+    answer: {answer}
+    verdict: """
+    client = OpenAI()
 
-        response = client.chat.completions.create(
-            model="gpt-4-turbo-preview",
-            messages=[{"role": "user", "content": prompt}],
-            response_format={ "type": "json_object" }
-        )
-        response_message = response.choices[0].message
-        response = json.loads(response_message.content)
-        return {
-            "verdict": int(response["verdict"]) == 1,
-        }
+    prompt = context_precision_prompt.format(
+        question=question,
+        context=output['context'],
+        answer=output['answer'],
+    )
 
-    questions = [
-        {"question": "What significant result was reported about Zealand Pharma's obesity trial?"},
-        {"question": "How much did Berkshire Hathaway's cash levels increase in the fourth quarter?"},
-        {"question": "What is the goal of Highmark Health's integration of Google Cloud and Epic Systems technology?"},
-        {"question": "What were Rivian and Lucid's vehicle production forecasts for 2024?"},
-        {"question": "Why was the Norwegian Dawn cruise ship denied access to Mauritius?"},
-        {"question": "Which company achieved the first U.S. moon landing since 1972?"},
-        {"question": "What issue did Intuitive Machines' lunar lander encounter upon landing on the moon?"}
-    ]
-    evaluation = weave.Evaluation(dataset=questions, scorers=[context_precision_score])
-    asyncio.run(evaluation.evaluate(model)) # note: you'll need to define a model to evaluate
-    ```
+    response = client.chat.completions.create(
+        model="gpt-4-turbo-preview",
+        messages=[{"role": "user", "content": prompt}],
+        response_format={ "type": "json_object" }
+    )
+    response_message = response.choices[0].message
+    response = json.loads(response_message.content)
+    return {
+        "verdict": int(response["verdict"]) == 1,
+    }
 
-  </Tab>
-  <Tab title="TypeScript">
-    ```typescript twoslash lines
-    // @noErrors
-    const contextPrecisionScore = weave.op(async function(args: {
-        datasetRow: QuestionRow;
-        modelOutput: { answer: string; context: string; }
-    }): Promise<ScorerResult> {
-        const openai = new OpenAI();
-        
-        const prompt = `Given question, answer and context verify if the context was useful...`;
+questions = [
+    {"question": "What significant result was reported about Zealand Pharma's obesity trial?"},
+    {"question": "How much did Berkshire Hathaway's cash levels increase in the fourth quarter?"},
+    {"question": "What is the goal of Highmark Health's integration of Google Cloud and Epic Systems technology?"},
+    {"question": "What were Rivian and Lucid's vehicle production forecasts for 2024?"},
+    {"question": "Why was the Norwegian Dawn cruise ship denied access to Mauritius?"},
+    {"question": "Which company achieved the first U.S. moon landing since 1972?"},
+    {"question": "What issue did Intuitive Machines' lunar lander encounter upon landing on the moon?"}
+]
+evaluation = weave.Evaluation(dataset=questions, scorers=[context_precision_score])
+asyncio.run(evaluation.evaluate(model)) # note: you'll need to define a model to evaluate
+```
 
-        const response = await openai.chat.completions.create({
-            model: "gpt-4-turbo-preview",
-            messages: [{ role: "user", content: prompt }],
-            response_format: { type: "json_object" }
-        });
+```typescript TypeScript twoslash lines
+// @noErrors
+const contextPrecisionScore = weave.op(async function(args: {
+    datasetRow: QuestionRow;
+    modelOutput: { answer: string; context: string; }
+}): Promise<ScorerResult> {
+    const openai = new OpenAI();
+    
+    const prompt = `Given question, answer and context verify if the context was useful...`;
 
-        const result = JSON.parse(response.choices[0].message.content || "{}");
-        return {
-            verdict: parseInt(result.verdict) === 1
-        };
+    const response = await openai.chat.completions.create({
+        model: "gpt-4-turbo-preview",
+        messages: [{ role: "user", content: prompt }],
+        response_format: { type: "json_object" }
     });
 
-    const evaluation = new weave.Evaluation({
-        dataset: createQuestionDataset(),
-        scorers: [contextPrecisionScore]
-    });
+    const result = JSON.parse(response.choices[0].message.content || "{}");
+    return {
+        verdict: parseInt(result.verdict) === 1
+    };
+});
 
-    await evaluation.evaluate({
-        model: weave.op((args: { datasetRow: QuestionRow }) => 
-            model.predict(args.datasetRow.question)
-        )
-    });
-    ```
-  </Tab>
-</Tabs>
+const evaluation = new weave.Evaluation({
+    dataset: createQuestionDataset(),
+    scorers: [contextPrecisionScore]
+});
+
+await evaluation.evaluate({
+    model: weave.op((args: { datasetRow: QuestionRow }) => 
+        model.predict(args.datasetRow.question)
+    )
+});
+```
+
+</CodeGroup>
 
 ### Optional: Define a `Scorer` class
 
@@ -352,97 +346,94 @@ At a high level, the steps to create a custom Scorer are:
 3. Optional: Overwrite the `summarize` function to customize the calculation of the aggregate score. By default, Weave uses the `weave.flow.scorer.auto_summarize` function if you don't define a custom function.
    - This function has to have a `@weave.op()` decorator.
 
-<Tabs>
-  <Tab title="Python">
-    ```python lines
-    from weave import Scorer
+<CodeGroup>
 
-    class CorrectnessLLMJudge(Scorer):
-        prompt: str
-        model_name: str
-        device: str
+```python Python lines
+from weave import Scorer
 
-        @weave.op()
-        async def score(self, output: Optional[dict], query: str, answer: str) -> Any:
-            """Score the correctness of the predictions by comparing the pred, query, target.
-            Args:
-                - output: the dict that will be provided by the model that is evaluated
-                - query: the question asked - as defined in the dataset
-                - answer: the target answer - as defined in the dataset
-            Returns:
-                - single dict {metric name: single evaluation value}"""
+class CorrectnessLLMJudge(Scorer):
+    prompt: str
+    model_name: str
+    device: str
 
-            # get_model is defined as general model getter based on provided params (OpenAI,HF...)
-            eval_model = get_model(
-                model_name = self.model_name,
-                prompt = self.prompt
-                device = self.device,
-            )
-            # async evaluation to speed up evaluation - this doesn't have to be async
-            grade = await eval_model.async_predict(
-                {
-                    "query": query,
-                    "answer": answer,
-                    "result": output.get("result"),
-                }
-            )
-            # output parsing - could be done more reobustly with pydantic
-            evaluation = "incorrect" not in grade["text"].strip().lower()
+    @weave.op()
+    async def score(self, output: Optional[dict], query: str, answer: str) -> Any:
+        """Score the correctness of the predictions by comparing the pred, query, target.
+        Args:
+            - output: the dict that will be provided by the model that is evaluated
+            - query: the question asked - as defined in the dataset
+            - answer: the target answer - as defined in the dataset
+        Returns:
+            - single dict {metric name: single evaluation value}"""
 
-            # the column name displayed in Weave
-            return {"correct": evaluation}
-
-        @weave.op()
-        def summarize(self, score_rows: list) -> Optional[dict]:
-            """Aggregate all the scores that are calculated for each row by the scoring function.
-            Args:
-                - score_rows: a list of dicts. Each dict has metrics and scores
-            Returns:
-                - nested dict with the same structure as the input"""
-
-            # if nothing is provided the weave.flow.scorer.auto_summarize function is used
-            # return auto_summarize(score_rows)
-
-            valid_data = [x.get("correct") for x in score_rows if x.get("correct") is not None]
-            count_true = list(valid_data).count(True)
-            int_data = [int(x) for x in valid_data]
-
-            sample_mean = np.mean(int_data) if int_data else 0
-            sample_variance = np.var(int_data) if int_data else 0
-            sample_error = np.sqrt(sample_variance / len(int_data)) if int_data else 0
-
-            # the extra "correct" layer is not necessary but adds structure in the UI
-            return {
-                "correct": {
-                    "true_count": count_true,
-                    "true_fraction": sample_mean,
-                    "stderr": sample_error,
-                }
+        # get_model is defined as general model getter based on provided params (OpenAI,HF...)
+        eval_model = get_model(
+            model_name = self.model_name,
+            prompt = self.prompt
+            device = self.device,
+        )
+        # async evaluation to speed up evaluation - this doesn't have to be async
+        grade = await eval_model.async_predict(
+            {
+                "query": query,
+                "answer": answer,
+                "result": output.get("result"),
             }
-    ```
+        )
+        # output parsing - could be done more reobustly with pydantic
+        evaluation = "incorrect" not in grade["text"].strip().lower()
 
-  </Tab>
-  <Tab title="TypeScript">
-    ```plaintext
-    This feature is not available in TypeScript yet.
-    ```
-  </Tab>
-</Tabs>
+        # the column name displayed in Weave
+        return {"correct": evaluation}
+
+    @weave.op()
+    def summarize(self, score_rows: list) -> Optional[dict]:
+        """Aggregate all the scores that are calculated for each row by the scoring function.
+        Args:
+            - score_rows: a list of dicts. Each dict has metrics and scores
+        Returns:
+            - nested dict with the same structure as the input"""
+
+        # if nothing is provided the weave.flow.scorer.auto_summarize function is used
+        # return auto_summarize(score_rows)
+
+        valid_data = [x.get("correct") for x in score_rows if x.get("correct") is not None]
+        count_true = list(valid_data).count(True)
+        int_data = [int(x) for x in valid_data]
+
+        sample_mean = np.mean(int_data) if int_data else 0
+        sample_variance = np.var(int_data) if int_data else 0
+        sample_error = np.sqrt(sample_variance / len(int_data)) if int_data else 0
+
+        # the extra "correct" layer is not necessary but adds structure in the UI
+        return {
+            "correct": {
+                "true_count": count_true,
+                "true_fraction": sample_mean,
+                "stderr": sample_error,
+            }
+        }
+```
+
+```plaintext TypeScript
+This feature is not available in TypeScript yet.
+```
+
+</CodeGroup>
 
 To use this as a scorer, initialize it and pass it to the `scorers` argument in your `Evaluation` like this:
 
-<Tabs>
-  <Tab title="Python">
-    ```python lines
-    evaluation = weave.Evaluation(dataset=questions, scorers=[CorrectnessLLMJudge()])
-    ```
-  </Tab>
-  <Tab title="TypeScript">
-    ```plaintext
-    This feature is not available in TypeScript yet.
-    ```
-  </Tab>
-</Tabs>
+<CodeGroup>
+
+```python Python lines
+evaluation = weave.Evaluation(dataset=questions, scorers=[CorrectnessLLMJudge()])
+```
+
+```plaintext TypeScript
+This feature is not available in TypeScript yet.
+```
+
+</CodeGroup>
 
 ## Put it all together
 
@@ -460,323 +451,321 @@ To get the same result for your RAG apps:
 
 Here's the code in its entirety.
 
-<Tabs>
-  <Tab title="Python">
-    ```python lines {34,52-77}
-    from openai import OpenAI
-    import weave
-    from weave import Model
-    import numpy as np
-    import json
-    import asyncio
+<CodeGroup>
 
-    # Examples to use for evaluations
-    articles = [
-        "Novo Nordisk and Eli Lilly rival soars 32 percent after promising weight loss drug results Shares of Denmarks Zealand Pharma shot 32 percent higher in morning trade, after results showed success in its liver disease treatment survodutide, which is also on trial as a drug to treat obesity. The trial “tells us that the 6mg dose is safe, which is the top dose used in the ongoing [Phase 3] obesity trial too,” one analyst said in a note. The results come amid feverish investor interest in drugs that can be used for weight loss.",
-        "Berkshire shares jump after big profit gain as Buffetts conglomerate nears $1 trillion valuation Berkshire Hathaway shares rose on Monday after Warren Buffetts conglomerate posted strong earnings for the fourth quarter over the weekend. Berkshires Class A and B shares jumped more than 1.5%, each. Class A shares are higher by more than 17% this year, while Class B has gained more than 18%. Berkshire was last valued at $930.1 billion, up from $905.5 billion where it closed on Friday, according to FactSet. Berkshire on Saturday posted fourth-quarter operating earnings of $8.481 billion, about 28 percent higher than the $6.625 billion from the year-ago period, driven by big gains in its insurance business. Operating earnings refers to profits from businesses across insurance, railroads and utilities. Meanwhile, Berkshires cash levels also swelled to record levels. The conglomerate held $167.6 billion in cash in the fourth quarter, surpassing the $157.2 billion record the conglomerate held in the prior quarter.",
-        "Highmark Health says its combining tech from Google and Epic to give doctors easier access to information Highmark Health announced it is integrating technology from Google Cloud and the health-care software company Epic Systems. The integration aims to make it easier for both payers and providers to access key information they need, even if it's stored across multiple points and formats, the company said. Highmark is the parent company of a health plan with 7 million members, a provider network of 14 hospitals and other entities",
-        "Rivian and Lucid shares plunge after weak EV earnings reports Shares of electric vehicle makers Rivian and Lucid fell Thursday after the companies reported stagnant production in their fourth-quarter earnings after the bell Wednesday. Rivian shares sank about 25 percent, and Lucids stock dropped around 17 percent. Rivian forecast it will make 57,000 vehicles in 2024, slightly less than the 57,232 vehicles it produced in 2023. Lucid said it expects to make 9,000 vehicles in 2024, more than the 8,428 vehicles it made in 2023.",
-        "Mauritius blocks Norwegian cruise ship over fears of a potential cholera outbreak Local authorities on Sunday denied permission for the Norwegian Dawn ship, which has 2,184 passengers and 1,026 crew on board, to access the Mauritius capital of Port Louis, citing “potential health risks.” The Mauritius Ports Authority said Sunday that samples were taken from at least 15 passengers on board the cruise ship. A spokesperson for the U.S.-headquartered Norwegian Cruise Line Holdings said Sunday that 'a small number of guests experienced mild symptoms of a stomach-related illness' during Norwegian Dawns South Africa voyage.",
-        "Intuitive Machines lands on the moon in historic first for a U.S. company Intuitive Machines Nova-C cargo lander, named Odysseus after the mythological Greek hero, is the first U.S. spacecraft to soft land on the lunar surface since 1972. Intuitive Machines is the first company to pull off a moon landing — government agencies have carried out all previously successful missions. The company's stock surged in extended trading Thursday, after falling 11 percent in regular trading.",
-        "Lunar landing photos: Intuitive Machines Odysseus sends back first images from the moon Intuitive Machines cargo moon lander Odysseus returned its first images from the surface. Company executives believe the lander caught its landing gear sideways on the surface of the moon while touching down and tipped over. Despite resting on its side, the company's historic IM-1 mission is still operating on the moon.",
-    ]
+```python Python lines {34,52-77}
+from openai import OpenAI
+import weave
+from weave import Model
+import numpy as np
+import json
+import asyncio
 
-    def docs_to_embeddings(docs: list) -> list:
-        openai = OpenAI()
-        document_embeddings = []
-        for doc in docs:
-            response = (
-                openai.embeddings.create(input=doc, model="text-embedding-3-small")
-                .data[0]
-                .embedding
-            )
-            document_embeddings.append(response)
-        return document_embeddings
+# Examples to use for evaluations
+articles = [
+    "Novo Nordisk and Eli Lilly rival soars 32 percent after promising weight loss drug results Shares of Denmarks Zealand Pharma shot 32 percent higher in morning trade, after results showed success in its liver disease treatment survodutide, which is also on trial as a drug to treat obesity. The trial “tells us that the 6mg dose is safe, which is the top dose used in the ongoing [Phase 3] obesity trial too,” one analyst said in a note. The results come amid feverish investor interest in drugs that can be used for weight loss.",
+    "Berkshire shares jump after big profit gain as Buffetts conglomerate nears $1 trillion valuation Berkshire Hathaway shares rose on Monday after Warren Buffetts conglomerate posted strong earnings for the fourth quarter over the weekend. Berkshires Class A and B shares jumped more than 1.5%, each. Class A shares are higher by more than 17% this year, while Class B has gained more than 18%. Berkshire was last valued at $930.1 billion, up from $905.5 billion where it closed on Friday, according to FactSet. Berkshire on Saturday posted fourth-quarter operating earnings of $8.481 billion, about 28 percent higher than the $6.625 billion from the year-ago period, driven by big gains in its insurance business. Operating earnings refers to profits from businesses across insurance, railroads and utilities. Meanwhile, Berkshires cash levels also swelled to record levels. The conglomerate held $167.6 billion in cash in the fourth quarter, surpassing the $157.2 billion record the conglomerate held in the prior quarter.",
+    "Highmark Health says its combining tech from Google and Epic to give doctors easier access to information Highmark Health announced it is integrating technology from Google Cloud and the health-care software company Epic Systems. The integration aims to make it easier for both payers and providers to access key information they need, even if it's stored across multiple points and formats, the company said. Highmark is the parent company of a health plan with 7 million members, a provider network of 14 hospitals and other entities",
+    "Rivian and Lucid shares plunge after weak EV earnings reports Shares of electric vehicle makers Rivian and Lucid fell Thursday after the companies reported stagnant production in their fourth-quarter earnings after the bell Wednesday. Rivian shares sank about 25 percent, and Lucids stock dropped around 17 percent. Rivian forecast it will make 57,000 vehicles in 2024, slightly less than the 57,232 vehicles it produced in 2023. Lucid said it expects to make 9,000 vehicles in 2024, more than the 8,428 vehicles it made in 2023.",
+    "Mauritius blocks Norwegian cruise ship over fears of a potential cholera outbreak Local authorities on Sunday denied permission for the Norwegian Dawn ship, which has 2,184 passengers and 1,026 crew on board, to access the Mauritius capital of Port Louis, citing “potential health risks.” The Mauritius Ports Authority said Sunday that samples were taken from at least 15 passengers on board the cruise ship. A spokesperson for the U.S.-headquartered Norwegian Cruise Line Holdings said Sunday that 'a small number of guests experienced mild symptoms of a stomach-related illness' during Norwegian Dawns South Africa voyage.",
+    "Intuitive Machines lands on the moon in historic first for a U.S. company Intuitive Machines Nova-C cargo lander, named Odysseus after the mythological Greek hero, is the first U.S. spacecraft to soft land on the lunar surface since 1972. Intuitive Machines is the first company to pull off a moon landing — government agencies have carried out all previously successful missions. The company's stock surged in extended trading Thursday, after falling 11 percent in regular trading.",
+    "Lunar landing photos: Intuitive Machines Odysseus sends back first images from the moon Intuitive Machines cargo moon lander Odysseus returned its first images from the surface. Company executives believe the lander caught its landing gear sideways on the surface of the moon while touching down and tipped over. Despite resting on its side, the company's historic IM-1 mission is still operating on the moon.",
+]
 
-    article_embeddings = docs_to_embeddings(articles) # Note: you would typically do this once with your articles and put the embeddings & metadata in a database
-
-    # Add a decorator to the retrieval step
-    @weave.op()
-    def get_most_relevant_document(query):
-        openai = OpenAI()
-        query_embedding = (
-            openai.embeddings.create(input=query, model="text-embedding-3-small")
+def docs_to_embeddings(docs: list) -> list:
+    openai = OpenAI()
+    document_embeddings = []
+    for doc in docs:
+        response = (
+            openai.embeddings.create(input=doc, model="text-embedding-3-small")
             .data[0]
             .embedding
         )
-        similarities = [
-            np.dot(query_embedding, doc_emb)
-            / (np.linalg.norm(query_embedding) * np.linalg.norm(doc_emb))
-            for doc_emb in article_embeddings
-        ]
-        # Get the index of the most similar document
-        most_relevant_doc_index = np.argmax(similarities)
-        return articles[most_relevant_doc_index]
+        document_embeddings.append(response)
+    return document_embeddings
 
-    # Create a Model subclass with details about the app, along with a predict function that produces a response
-    class RAGModel(Model):
-        system_message: str
-        model_name: str = "gpt-3.5-turbo-1106"
+article_embeddings = docs_to_embeddings(articles) # Note: you would typically do this once with your articles and put the embeddings & metadata in a database
 
-        @weave.op()
-        def predict(self, question: str) -> dict: # note: `question` will be used later to select data from our evaluation rows
-            from openai import OpenAI
-            context = get_most_relevant_document(question)
-            client = OpenAI()
-            query = f"""Use the following information to answer the subsequent question. If the answer cannot be found, write "I don't know."
-            Context:
-            \"\"\"
-            {context}
-            \"\"\"
-            Question: {question}"""
-            response = client.chat.completions.create(
-                model=self.model_name,
-                messages=[
-                    {"role": "system", "content": self.system_message},
-                    {"role": "user", "content": query},
-                ],
-                temperature=0.0,
-                response_format={"type": "text"},
-            )
-            answer = response.choices[0].message.content
-            return {'answer': answer, 'context': context}
+# Add a decorator to the retrieval step
+@weave.op()
+def get_most_relevant_document(query):
+    openai = OpenAI()
+    query_embedding = (
+        openai.embeddings.create(input=query, model="text-embedding-3-small")
+        .data[0]
+        .embedding
+    )
+    similarities = [
+        np.dot(query_embedding, doc_emb)
+        / (np.linalg.norm(query_embedding) * np.linalg.norm(doc_emb))
+        for doc_emb in article_embeddings
+    ]
+    # Get the index of the most similar document
+    most_relevant_doc_index = np.argmax(similarities)
+    return articles[most_relevant_doc_index]
 
-    # Set your team and project names
-    weave.init('<team-name>/rag-quickstart')
-    model = RAGModel(
-        system_message="You are an expert in finance and answer questions related to finance, financial services, and financial markets. When responding based on provided information, be sure to cite the source."
+# Create a Model subclass with details about the app, along with a predict function that produces a response
+class RAGModel(Model):
+    system_message: str
+    model_name: str = "gpt-3.5-turbo-1106"
+
+    @weave.op()
+    def predict(self, question: str) -> dict: # note: `question` will be used later to select data from our evaluation rows
+        from openai import OpenAI
+        context = get_most_relevant_document(question)
+        client = OpenAI()
+        query = f"""Use the following information to answer the subsequent question. If the answer cannot be found, write "I don't know."
+        Context:
+        \"\"\"
+        {context}
+        \"\"\"
+        Question: {question}"""
+        response = client.chat.completions.create(
+            model=self.model_name,
+            messages=[
+                {"role": "system", "content": self.system_message},
+                {"role": "user", "content": query},
+            ],
+            temperature=0.0,
+            response_format={"type": "text"},
+        )
+        answer = response.choices[0].message.content
+        return {'answer': answer, 'context': context}
+
+# Set your team and project names
+weave.init('<team-name>/rag-quickstart')
+model = RAGModel(
+    system_message="You are an expert in finance and answer questions related to finance, financial services, and financial markets. When responding based on provided information, be sure to cite the source."
+)
+
+# Here is our scoring function uses our question and output to product a score
+@weave.op()
+async def context_precision_score(question, output):
+    context_precision_prompt = """Given question, answer and context verify if the context was useful in arriving at the given answer. Give verdict as "1" if useful and "0" if not with json output.
+    Output in only valid JSON format.
+
+    question: {question}
+    context: {context}
+    answer: {answer}
+    verdict: """
+    client = OpenAI()
+
+    prompt = context_precision_prompt.format(
+        question=question,
+        context=output['context'],
+        answer=output['answer'],
     )
 
-    # Here is our scoring function uses our question and output to product a score
-    @weave.op()
-    async def context_precision_score(question, output):
-        context_precision_prompt = """Given question, answer and context verify if the context was useful in arriving at the given answer. Give verdict as "1" if useful and "0" if not with json output.
-        Output in only valid JSON format.
-
-        question: {question}
-        context: {context}
-        answer: {answer}
-        verdict: """
-        client = OpenAI()
-
-        prompt = context_precision_prompt.format(
-            question=question,
-            context=output['context'],
-            answer=output['answer'],
-        )
-
-        response = client.chat.completions.create(
-            model="gpt-4-turbo-preview",
-            messages=[{"role": "user", "content": prompt}],
-            response_format={ "type": "json_object" }
-        )
-        response_message = response.choices[0].message
-        response = json.loads(response_message.content)
-        return {
-            "verdict": int(response["verdict"]) == 1,
-        }
-
-    questions = [
-        {"question": "What significant result was reported about Zealand Pharma's obesity trial?"},
-        {"question": "How much did Berkshire Hathaway's cash levels increase in the fourth quarter?"},
-        {"question": "What is the goal of Highmark Health's integration of Google Cloud and Epic Systems technology?"},
-        {"question": "What were Rivian and Lucid's vehicle production forecasts for 2024?"},
-        {"question": "Why was the Norwegian Dawn cruise ship denied access to Mauritius?"},
-        {"question": "Which company achieved the first U.S. moon landing since 1972?"},
-        {"question": "What issue did Intuitive Machines' lunar lander encounter upon landing on the moon?"}
-    ]
-
-    # Define an Evaluation object and pass example questions along with scoring functions
-    evaluation = weave.Evaluation(dataset=questions, scorers=[context_precision_score])
-    asyncio.run(evaluation.evaluate(model))
-    ```
-
-  </Tab>
-  <Tab title="TypeScript">
-    ```typescript twoslash lines
-    // @noErrors
-    require('dotenv').config();
-    import { OpenAI } from 'openai';
-    import * as weave from 'weave';
-
-    interface Article {
-        text: string;
-        embedding?: number[];
+    response = client.chat.completions.create(
+        model="gpt-4-turbo-preview",
+        messages=[{"role": "user", "content": prompt}],
+        response_format={ "type": "json_object" }
+    )
+    response_message = response.choices[0].message
+    response = json.loads(response_message.content)
+    return {
+        "verdict": int(response["verdict"]) == 1,
     }
 
-    const articles: Article[] = [
-        { 
-            text: `Novo Nordisk and Eli Lilly rival soars 32 percent after promising weight loss drug results Shares of Denmarks Zealand Pharma shot 32 percent higher in morning trade, after results showed success in its liver disease treatment survodutide, which is also on trial as a drug to treat obesity. The trial tells us that the 6mg dose is safe, which is the top dose used in the ongoing [Phase 3] obesity trial too, one analyst said in a note. The results come amid feverish investor interest in drugs that can be used for weight loss.`
-        },
-        { 
-            text: `Berkshire shares jump after big profit gain as Buffetts conglomerate nears $1 trillion valuation Berkshire Hathaway shares rose on Monday after Warren Buffetts conglomerate posted strong earnings for the fourth quarter over the weekend. Berkshires Class A and B shares jumped more than 1.5%, each. Class A shares are higher by more than 17% this year, while Class B has gained more than 18%. Berkshire was last valued at $930.1 billion, up from $905.5 billion where it closed on Friday, according to FactSet. Berkshire on Saturday posted fourth-quarter operating earnings of $8.481 billion, about 28 percent higher than the $6.625 billion from the year-ago period, driven by big gains in its insurance business. Operating earnings refers to profits from businesses across insurance, railroads and utilities. Meanwhile, Berkshires cash levels also swelled to record levels. The conglomerate held $167.6 billion in cash in the fourth quarter, surpassing the $157.2 billion record the conglomerate held in the prior quarter.`
-        },
-        { 
-            text: `Highmark Health says its combining tech from Google and Epic to give doctors easier access to information Highmark Health announced it is integrating technology from Google Cloud and the health-care software company Epic Systems. The integration aims to make it easier for both payers and providers to access key information they need, even if its stored across multiple points and formats, the company said. Highmark is the parent company of a health plan with 7 million members, a provider network of 14 hospitals and other entities`
-        }
-    ];
+questions = [
+    {"question": "What significant result was reported about Zealand Pharma's obesity trial?"},
+    {"question": "How much did Berkshire Hathaway's cash levels increase in the fourth quarter?"},
+    {"question": "What is the goal of Highmark Health's integration of Google Cloud and Epic Systems technology?"},
+    {"question": "What were Rivian and Lucid's vehicle production forecasts for 2024?"},
+    {"question": "Why was the Norwegian Dawn cruise ship denied access to Mauritius?"},
+    {"question": "Which company achieved the first U.S. moon landing since 1972?"},
+    {"question": "What issue did Intuitive Machines' lunar lander encounter upon landing on the moon?"}
+]
 
-    function cosineSimilarity(a: number[], b: number[]): number {
-        const dotProduct = a.reduce((sum, val, i) => sum + val * b[i], 0);
-        const magnitudeA = Math.sqrt(a.reduce((sum, val) => sum + val * val, 0));
-        const magnitudeB = Math.sqrt(b.reduce((sum, val) => sum + val * val, 0));
-        return dotProduct / (magnitudeA * magnitudeB);
+# Define an Evaluation object and pass example questions along with scoring functions
+evaluation = weave.Evaluation(dataset=questions, scorers=[context_precision_score])
+asyncio.run(evaluation.evaluate(model))
+```
+
+```typescript TypeScript twoslash lines
+// @noErrors
+require('dotenv').config();
+import { OpenAI } from 'openai';
+import * as weave from 'weave';
+
+interface Article {
+    text: string;
+    embedding?: number[];
+}
+
+const articles: Article[] = [
+    { 
+        text: `Novo Nordisk and Eli Lilly rival soars 32 percent after promising weight loss drug results Shares of Denmarks Zealand Pharma shot 32 percent higher in morning trade, after results showed success in its liver disease treatment survodutide, which is also on trial as a drug to treat obesity. The trial tells us that the 6mg dose is safe, which is the top dose used in the ongoing [Phase 3] obesity trial too, one analyst said in a note. The results come amid feverish investor interest in drugs that can be used for weight loss.`
+    },
+    { 
+        text: `Berkshire shares jump after big profit gain as Buffetts conglomerate nears $1 trillion valuation Berkshire Hathaway shares rose on Monday after Warren Buffetts conglomerate posted strong earnings for the fourth quarter over the weekend. Berkshires Class A and B shares jumped more than 1.5%, each. Class A shares are higher by more than 17% this year, while Class B has gained more than 18%. Berkshire was last valued at $930.1 billion, up from $905.5 billion where it closed on Friday, according to FactSet. Berkshire on Saturday posted fourth-quarter operating earnings of $8.481 billion, about 28 percent higher than the $6.625 billion from the year-ago period, driven by big gains in its insurance business. Operating earnings refers to profits from businesses across insurance, railroads and utilities. Meanwhile, Berkshires cash levels also swelled to record levels. The conglomerate held $167.6 billion in cash in the fourth quarter, surpassing the $157.2 billion record the conglomerate held in the prior quarter.`
+    },
+    { 
+        text: `Highmark Health says its combining tech from Google and Epic to give doctors easier access to information Highmark Health announced it is integrating technology from Google Cloud and the health-care software company Epic Systems. The integration aims to make it easier for both payers and providers to access key information they need, even if its stored across multiple points and formats, the company said. Highmark is the parent company of a health plan with 7 million members, a provider network of 14 hospitals and other entities`
     }
+];
 
-    const docsToEmbeddings = weave.op(async function(docs: Article[]): Promise<Article[]> {
-        const openai = new OpenAI();
-        const enrichedDocs = await Promise.all(docs.map(async (doc) => {
-            const response = await openai.embeddings.create({
-                input: doc.text,
-                model: "text-embedding-3-small"
-            });
-            return {
-                ...doc,
-                embedding: response.data[0].embedding
-            };
-        }));
-        return enrichedDocs;
-    });
+function cosineSimilarity(a: number[], b: number[]): number {
+    const dotProduct = a.reduce((sum, val, i) => sum + val * b[i], 0);
+    const magnitudeA = Math.sqrt(a.reduce((sum, val) => sum + val * val, 0));
+    const magnitudeB = Math.sqrt(b.reduce((sum, val) => sum + val * val, 0));
+    return dotProduct / (magnitudeA * magnitudeB);
+}
 
-    class RAGModel {
-        private openai: OpenAI;
-        private systemMessage: string;
-        private modelName: string;
-        private articleEmbeddings: Article[];
-
-        constructor(config: {
-            systemMessage: string;
-            modelName?: string;
-            articleEmbeddings: Article[];
-        }) {
-            this.openai = new OpenAI();
-            this.systemMessage = config.systemMessage;
-            this.modelName = config.modelName || "gpt-3.5-turbo-1106";
-            this.articleEmbeddings = config.articleEmbeddings;
-            this.predict = weave.op(this, this.predict);
-        }
-
-        private async getMostRelevantDocument(query: string): Promise<string> {
-            const queryEmbedding = await this.openai.embeddings.create({
-                input: query,
-                model: "text-embedding-3-small"
-            });
-
-            const similarities = this.articleEmbeddings.map(doc => {
-                if (!doc.embedding) return 0;
-                return cosineSimilarity(queryEmbedding.data[0].embedding, doc.embedding);
-            });
-
-            const mostRelevantIndex = similarities.indexOf(Math.max(...similarities));
-            return this.articleEmbeddings[mostRelevantIndex].text;
-        }
-
-        async predict(question: string): Promise<{
-            answer: string;
-            context: string;
-        }> {
-            const context = await this.getMostRelevantDocument(question);
-            
-            const response = await this.openai.chat.completions.create({
-                model: this.modelName,
-                messages: [
-                    { role: "system", content: this.systemMessage },
-                    { 
-                        role: "user", 
-                        content: `Use the following information to answer the subsequent question. If the answer cannot be found, write "I don't know."
-                        Context:
-                        """
-                        ${context}
-                        """
-                        Question: ${question}`
-                    }
-                ],
-                temperature: 0
-            });
-
-            return {
-                answer: response.choices[0].message.content || "",
-                context
-            };
-        }
-    }
-
-    interface ScorerResult {
-        verdict: boolean;
-    }
-
-    interface QuestionRow {
-        question: string;
-    }
-
-    function createQuestionDataset(): weave.Dataset<QuestionRow> {
-        return new weave.Dataset<QuestionRow>({
-            id: 'rag-questions',
-            rows: [
-                { question: "What significant result was reported about Zealand Pharma's obesity trial?" },
-                { question: "How much did Berkshire Hathaway's cash levels increase in the fourth quarter?" },
-                { question: "What is the goal of Highmark Health's integration of Google Cloud and Epic Systems technology?" }
-            ]
+const docsToEmbeddings = weave.op(async function(docs: Article[]): Promise<Article[]> {
+    const openai = new OpenAI();
+    const enrichedDocs = await Promise.all(docs.map(async (doc) => {
+        const response = await openai.embeddings.create({
+            input: doc.text,
+            model: "text-embedding-3-small"
         });
-    }
-
-    const contextPrecisionScore = weave.op(async function(args: {
-        datasetRow: QuestionRow;
-        modelOutput: { answer: string; context: string; }
-    }): Promise<ScorerResult> {
-        const openai = new OpenAI();
-        
-        const prompt = `Given question, answer and context verify if the context was useful in arriving at the given answer. Give verdict as "1" if useful and "0" if not with json output.
-        Output in only valid JSON format.
-
-        question: ${args.datasetRow.question}
-        context: ${args.modelOutput.context}
-        answer: ${args.modelOutput.answer}
-        verdict: `;
-
-        const response = await openai.chat.completions.create({
-            model: "gpt-4-turbo-preview",
-            messages: [{ role: "user", content: prompt }],
-            response_format: { type: "json_object" }
-        });
-
-        const result = JSON.parse(response.choices[0].message.content || "{}");
         return {
-            verdict: parseInt(result.verdict) === 1
+            ...doc,
+            embedding: response.data[0].embedding
         };
+    }));
+    return enrichedDocs;
+});
+
+class RAGModel {
+    private openai: OpenAI;
+    private systemMessage: string;
+    private modelName: string;
+    private articleEmbeddings: Article[];
+
+    constructor(config: {
+        systemMessage: string;
+        modelName?: string;
+        articleEmbeddings: Article[];
+    }) {
+        this.openai = new OpenAI();
+        this.systemMessage = config.systemMessage;
+        this.modelName = config.modelName || "gpt-3.5-turbo-1106";
+        this.articleEmbeddings = config.articleEmbeddings;
+        this.predict = weave.op(this, this.predict);
+    }
+
+    private async getMostRelevantDocument(query: string): Promise<string> {
+        const queryEmbedding = await this.openai.embeddings.create({
+            input: query,
+            model: "text-embedding-3-small"
+        });
+
+        const similarities = this.articleEmbeddings.map(doc => {
+            if (!doc.embedding) return 0;
+            return cosineSimilarity(queryEmbedding.data[0].embedding, doc.embedding);
+        });
+
+        const mostRelevantIndex = similarities.indexOf(Math.max(...similarities));
+        return this.articleEmbeddings[mostRelevantIndex].text;
+    }
+
+    async predict(question: string): Promise<{
+        answer: string;
+        context: string;
+    }> {
+        const context = await this.getMostRelevantDocument(question);
+        
+        const response = await this.openai.chat.completions.create({
+            model: this.modelName,
+            messages: [
+                { role: "system", content: this.systemMessage },
+                { 
+                    role: "user", 
+                    content: `Use the following information to answer the subsequent question. If the answer cannot be found, write "I don't know."
+                    Context:
+                    """
+                    ${context}
+                    """
+                    Question: ${question}`
+                }
+            ],
+            temperature: 0
+        });
+
+        return {
+            answer: response.choices[0].message.content || "",
+            context
+        };
+    }
+}
+
+interface ScorerResult {
+    verdict: boolean;
+}
+
+interface QuestionRow {
+    question: string;
+}
+
+function createQuestionDataset(): weave.Dataset<QuestionRow> {
+    return new weave.Dataset<QuestionRow>({
+        id: 'rag-questions',
+        rows: [
+            { question: "What significant result was reported about Zealand Pharma's obesity trial?" },
+            { question: "How much did Berkshire Hathaway's cash levels increase in the fourth quarter?" },
+            { question: "What is the goal of Highmark Health's integration of Google Cloud and Epic Systems technology?" }
+        ]
+    });
+}
+
+const contextPrecisionScore = weave.op(async function(args: {
+    datasetRow: QuestionRow;
+    modelOutput: { answer: string; context: string; }
+}): Promise<ScorerResult> {
+    const openai = new OpenAI();
+    
+    const prompt = `Given question, answer and context verify if the context was useful in arriving at the given answer. Give verdict as "1" if useful and "0" if not with json output.
+    Output in only valid JSON format.
+
+    question: ${args.datasetRow.question}
+    context: ${args.modelOutput.context}
+    answer: ${args.modelOutput.answer}
+    verdict: `;
+
+    const response = await openai.chat.completions.create({
+        model: "gpt-4-turbo-preview",
+        messages: [{ role: "user", content: prompt }],
+        response_format: { type: "json_object" }
     });
 
-    async function main() {
-        # Set your team and project names
-        await weave.init('<team-name>/rag-quickstart');
-        
-        const articleEmbeddings = await docsToEmbeddings(articles);
-        
-        const model = new RAGModel({
-            systemMessage: "You are an expert in finance and answer questions related to finance, financial services, and financial markets. When responding based on provided information, be sure to cite the source.",
-            articleEmbeddings
-        });
+    const result = JSON.parse(response.choices[0].message.content || "{}");
+    return {
+        verdict: parseInt(result.verdict) === 1
+    };
+});
 
-        const evaluation = new weave.Evaluation({
-            dataset: createQuestionDataset(),
-            scorers: [contextPrecisionScore]
-        });
+async function main() {
+    # Set your team and project names
+    await weave.init('<team-name>/rag-quickstart');
+    
+    const articleEmbeddings = await docsToEmbeddings(articles);
+    
+    const model = new RAGModel({
+        systemMessage: "You are an expert in finance and answer questions related to finance, financial services, and financial markets. When responding based on provided information, be sure to cite the source.",
+        articleEmbeddings
+    });
 
-        const results = await evaluation.evaluate({
-            model: weave.op((args: { datasetRow: QuestionRow }) => 
-                model.predict(args.datasetRow.question)
-            )
-        });
-        
-        console.log('Evaluation results:', results);
-    }
+    const evaluation = new weave.Evaluation({
+        dataset: createQuestionDataset(),
+        scorers: [contextPrecisionScore]
+    });
 
-    if (require.main === module) {
-        main().catch(console.error);
-    }
-    ```
-  </Tab>
-</Tabs>
+    const results = await evaluation.evaluate({
+        model: weave.op((args: { datasetRow: QuestionRow }) => 
+            model.predict(args.datasetRow.question)
+        )
+    });
+    
+    console.log('Evaluation results:', results);
+}
+
+if (require.main === module) {
+    main().catch(console.error);
+}
+```
+
+</CodeGroup>
 
 ## Conclusion
 

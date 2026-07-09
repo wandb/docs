@@ -18,29 +18,28 @@ To unconditionally disable tracing for the entire program, set the environment v
 
 To conditionally disable tracing for a specific Weave client, initialize the client with the `disabled` flag in init settings.
 
-<Tabs>
-  <Tab title="Python">
-    ```python lines
+<CodeGroup>
+
+```python Python lines
 import weave
 
 # Initialize the client
 client = weave.init(..., settings={"disabled": True})
-    ```
-  </Tab>
-  <Tab title="TypeScript">
-    ```plaintext
-    This feature is not available for the TypeScript SDK yet.
-    ```
-  </Tab>
-</Tabs>
+```
+
+```plaintext TypeScript
+This feature is not available for the TypeScript SDK yet.
+```
+
+</CodeGroup>
 
 ## Context manager
 
 To conditionally disable tracing only within a specific block of code, use a tracing context manager. Use `with tracing_disabled()` to suppress tracing **only for the function calls executed inside the `with` block**. Use it in application code to scope which calls shouldn't be logged.
 
-<Tabs>
-  <Tab title="Python">
-```python lines
+<CodeGroup>
+
+```python Python lines
 import weave
 from weave.trace.context.call_context import tracing_disabled
 
@@ -53,29 +52,27 @@ def my_op():
 with tracing_disabled():
     my_op()
 ```
-  </Tab>
-  <Tab title="TypeScript">
-    ```plaintext
-    This feature is not available for the TypeScript SDK yet.
-    ```
-  </Tab>
-</Tabs>
+
+```plaintext TypeScript
+This feature is not available for the TypeScript SDK yet.
+```
+
+</CodeGroup>
 
 Although tracing behavior is fixed when functions are defined, you can use this for runtime control when you combine it with application logic. For example, wrap the context manager in a conditional to dynamically enable or disable tracing based on a runtime value:
 
-<Tabs>
-  <Tab title="Python">
-```python lines
+<CodeGroup>
+
+```python Python lines
 if should_trace:
     my_op()
 else:
     with tracing_disabled():
         my_op()
 ```
-  </Tab>
-  <Tab title="TypeScript">
-    ```plaintext
-    This feature is not available for the TypeScript SDK yet.
-    ```
-  </Tab>
-</Tabs>
+
+```plaintext TypeScript
+This feature is not available for the TypeScript SDK yet.
+```
+
+</CodeGroup>

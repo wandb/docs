@@ -38,9 +38,9 @@ When you run this code, Weave:
 - Logs inputs, outputs, latency, and token usage.
 - Provides a link to view your trace in the Weave UI.
 
-<Tabs>
-<Tab title="Python">
-```python lines
+<CodeGroup>
+
+```python Python lines
 import weave
 import openai
 
@@ -70,9 +70,8 @@ def ask_llama(question: str) -> str:
 result = ask_llama("What are the benefits of using W&B Weave for LLM development?")
 print(result)
 ```
-</Tab>
-<Tab title="TypeScript">
-```typescript twoslash lines
+
+```typescript TypeScript twoslash lines
 // @noErrors
 import * as weave from 'weave';
 import OpenAI from 'openai';
@@ -102,8 +101,8 @@ return response.choices[0].message.content || '';
 const result = await askLlama('What are the benefits of using W&B Weave for LLM development?');
 console.log(result);
 ```
-</Tab>
-</Tabs>
+
+</CodeGroup>
 
 ## Build a text summarization application
 
@@ -111,9 +110,9 @@ Now that you've traced a single LLM call, this section shows how Weave traces ne
 
 Next, run this code, which is a basic summarization app that shows how Weave traces nested operations:
 
-<Tabs>
-<Tab title="Python">
-```python lines
+<CodeGroup>
+
+```python Python lines
 import weave
 import openai
 
@@ -175,9 +174,8 @@ result = summarize_text(sample_text)
 print("Key Points:", result["key_points"])
 print("\nSummary:", result["summary"])
 ```
-</Tab>
-<Tab title="TypeScript">
-```typescript twoslash lines
+
+```typescript TypeScript twoslash lines
 // @noErrors
 import * as weave from 'weave';
 import OpenAI from 'openai';
@@ -237,16 +235,16 @@ const result = await summarizeText(sampleText);
 console.log('Key Points:', result.key_points);
 console.log('\nSummary:', result.summary);
 ```
-</Tab>
-</Tabs>
+
+</CodeGroup>
 
 ## Compare multiple models
 
 A common use case for Weave is comparing how different models respond to the same prompt. Serverless Inference provides access to multiple models. Use the following code to compare the performance of Llama and DeepSeek's respective responses:
 
-<Tabs>
-<Tab title="Python">
-```python lines
+<CodeGroup>
+
+```python Python lines
 import weave
 import openai
 
@@ -286,9 +284,8 @@ print("\n" + "="*50 + "\n")
 print("DeepSeek V3 response:")
 print(deepseek_model.predict(test_question))
 ```
-</Tab>
-<Tab title="TypeScript">
-```typescript twoslash lines
+
+```typescript TypeScript twoslash lines
 // @noErrors
 import * as weave from 'weave';
 import OpenAI from 'openai';
@@ -327,8 +324,8 @@ console.log('\n' + '='.repeat(50) + '\n');
 console.log('DeepSeek V3 response:');
 console.log(await deepseekModel(testQuestion));
 ```
-</Tab>
-</Tabs>
+
+</CodeGroup>
 
 ## Evaluate model performance
 
@@ -338,9 +335,9 @@ Evaluate how well a model performs on a Q&A task using Weave's built-in `Evaluat
 
 Append the following code to the script you used in the prior section:
 
-<Tabs>
-<Tab title="Python">
-```python lines
+<CodeGroup>
+
+```python Python lines
 from typing import Optional
 from weave import EvaluationLogger
 
@@ -417,9 +414,8 @@ for model in models_to_compare:
 
 # In the Weave UI, navigate to the Evals tab to compare results across models
 ```
-</Tab>
-<Tab title="TypeScript">
-```typescript twoslash lines
+
+```typescript TypeScript twoslash lines
 // @noErrors
 import { EvaluationLogger } from 'weave';
 
@@ -513,8 +509,8 @@ for (const { model, name } of modelsToCompare) {
 
 // In the Weave UI, navigate to the Evals tab to compare results across models
 ```
-</Tab>
-</Tabs>
+
+</CodeGroup>
 
 After you run these examples, you have traced LLM calls, a nested summarization pipeline, a model comparison, and a full evaluation logged to Weave. Running these examples returns links to the traces in the terminal. Click any link to view traces in the Weave UI.
 

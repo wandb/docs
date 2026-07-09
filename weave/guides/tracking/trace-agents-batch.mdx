@@ -13,10 +13,9 @@ If you're building your own agent loop, use the real-time instrumentation APIs d
 
 To record a single completed turn after it happens, use `weave.log_turn`. It accepts a fully-formed turn, including all LLM and tool spans.
 
-<Tabs>
-<Tab title="Python">
+<CodeGroup>
 
-```python lines highlight="1,3,28"
+```python Python lines highlight="1,3,28"
 weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
 
 from weave.conversation import LLM, Message, Tool, Usage
@@ -55,15 +54,11 @@ weave.log_turn(
 )
 ```
 
-</Tab>
-<Tab title="TypeScript">
-
-```plaintext
+```plaintext TypeScript
 This feature is not available in the TypeScript SDK yet.
 ```
 
-</Tab>
-</Tabs>
+</CodeGroup>
 
 `log_turn` returns a `LogResult` containing the trace IDs of the emitted spans.
 
@@ -73,10 +68,9 @@ An optional `model` parameter on `log_turn` sets the model on the turn's own spa
 
 To bulk-import a complete, multi-turn conversation at once, use `weave.log_conversation`. The `turns` parameter accepts a list of `Turn` objects, each constructed the same way as the previous `log_turn` example.
 
-<Tabs>
-<Tab title="Python">
+<CodeGroup>
 
-```python lines
+```python Python lines
 weave.log_conversation(
     conversation_id="my-conversation-abc",
     agent_name="weather-bot",
@@ -84,12 +78,8 @@ weave.log_conversation(
 )
 ```
 
-</Tab>
-<Tab title="TypeScript">
-
-```plaintext
+```plaintext TypeScript
 This feature is not available in the TypeScript SDK yet.
 ```
 
-</Tab>
-</Tabs>
+</CodeGroup>

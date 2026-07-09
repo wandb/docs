@@ -33,9 +33,9 @@ You can't modify `call.attributes` once the call starts. Use this
 context manager to set any metadata before invoking the op.
 </Tip>
 
-<Tabs>
-<Tab title="Python">
-```python lines
+<CodeGroup>
+
+```python Python lines
 import weave
 
 weave.init("[TEAM-NAME]/[PROJECT-NAME]")
@@ -48,9 +48,8 @@ def my_function(name: str):
 with weave.attributes({'env': 'production', 'user_id': '12345'}):
     result = my_function("World")
 ```
-</Tab>
-<Tab title="TypeScript">
-```typescript twoslash lines
+
+```typescript TypeScript twoslash lines
 // @noErrors
 import {init, op, withAttributes} from 'weave';
 
@@ -72,16 +71,16 @@ async function main() {
 
 main().catch(console.error);
 ```
-</Tab>
-</Tabs>
+
+</CodeGroup>
 
 The function attaches the attributes to all traced operations within the context manager block (Python) or callback function (TypeScript).
 
 You can also nest `weave.attributes()` contexts. Inner contexts override outer contexts for the same keys:
 
-<Tabs>
-<Tab title="Python">
-```python lines
+<CodeGroup>
+
+```python Python lines
 @weave.op
 def process_data(data: str):
     return data.upper()
@@ -101,9 +100,8 @@ with weave.attributes({
     }):
         process_data("world")  # Has env='production', version='1.1.0', region='us-west-2', experiment='exp-456'
 ```
-</Tab>
-<Tab title="TypeScript">
-```typescript twoslash lines
+
+```typescript TypeScript twoslash lines
 // @noErrors
 import {init, op, withAttributes} from 'weave';
 
@@ -140,16 +138,16 @@ async function main() {
 
 main().catch(console.error);
 ```
-</Tab>
-</Tabs>
+
+</CodeGroup>
 
 ## Global attributes
 
 When you set global attributes during Weave initialization, they automatically apply to all traces and evaluations in your project. This is useful for propagating project-wide metadata like environment, deployment version, or team information.
 
-<Tabs>
-<Tab title="Python">
-```python lines
+<CodeGroup>
+
+```python Python lines
 import weave
 
 weave.init(
@@ -173,9 +171,8 @@ my_function()  # Automatically has all global attributes
 evaluation = weave.Evaluation(dataset=examples, scorers=[scorer])
 asyncio.run(evaluation.evaluate(model))  # Has all global attributes
 ```
-</Tab>
-<Tab title="TypeScript">
-```typescript twoslash lines
+
+```typescript TypeScript twoslash lines
 // @noErrors
 import {init, op, withAttributes} from 'weave';
 
@@ -199,16 +196,16 @@ async function main() {
 }
 main().catch(console.error);
 ```
-</Tab>
-</Tabs>
+
+</CodeGroup>
 
 ### Combine global and per-call attributes
 
 You can use global attributes and per-call attributes together. Per-call attributes with the same key override global attributes:
 
-<Tabs>
-<Tab title="Python">
-```python lines
+<CodeGroup>
+
+```python Python lines
 import weave
 
 # Set global attributes
@@ -231,9 +228,8 @@ process("test1")
 with weave.attributes({'env': 'staging', 'experiment': 'A'}):
     process("test2")
 ```
-</Tab>
-<Tab title="TypeScript">
-```typescript twoslash lines
+
+```typescript TypeScript twoslash lines
 // @noErrors
 import {init, op, withAttributes} from 'weave';
 
@@ -261,8 +257,8 @@ async function main() {
 }
 main().catch(console.error);
 ```
-</Tab>
-</Tabs>
+
+</CodeGroup>
 
 ## Get attributes during execution
 

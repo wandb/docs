@@ -380,9 +380,9 @@ To avoid this duplication, publish your dataset to Weave before running any eval
 
 The following example publishes a dataset and links to it in the `EvaluationLogger`, before retrieving and iterating over it like any other dataset.
 
-<Tabs>
-<Tab title="Python">
-```python
+<CodeGroup>
+
+```python Python
 import weave
 from weave import EvaluationLogger
 
@@ -402,9 +402,8 @@ weave.publish(dataset)
 # Retrieve the published dataset
 dataset = weave.ref("my_eval_dataset").get()
 ```
-</Tab>
-<Tab title="TypeScript">
-```typescript twoslash
+
+```typescript TypeScript twoslash
 // @noErrors
 import weave, {EvaluationLogger, Dataset} from 'weave';
 
@@ -424,8 +423,8 @@ const datasetRef = await dataset.save();
 // Retrieve the published dataset
 const published = await datasetRef.get();
 ```
-</Tab>
-</Tabs>
+
+</CodeGroup>
 
 
 ### Get outputs before logging
@@ -635,9 +634,9 @@ With `EvaluationLogger`, you can log and compare multiple evaluations side by si
 
 For more information about comparisons, see [Comparisons](../tools/comparison).
 
-<Tabs>
-<Tab title="Python">
-```python lines
+<CodeGroup>
+
+```python Python lines
 import weave
 
 models = [
@@ -665,9 +664,8 @@ for model in models:
 
     ev.log_summary()
 ```
-</Tab>
-<Tab title="TypeScript">
-```typescript twoslash lines
+
+```typescript TypeScript twoslash lines
 // @noErrors
 import weave from 'weave';
 import {EvaluationLogger} from 'weave/evaluationLogger';
@@ -706,8 +704,8 @@ for (const model of models) {
   await ev.logSummary();
 }
 ```
-</Tab>
-</Tabs>
+
+</CodeGroup>
 <Frame>
 ![The Evals tab](/weave/guides/evaluation/img/evals_tab.png)
 </Frame>

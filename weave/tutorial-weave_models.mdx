@@ -33,88 +33,84 @@ When you change the class fields or the code that defines your model, Weave logs
 
 In the following example, Weave tracks and versions the model name, temperature, and system prompt:
 
-<Tabs>
-  <Tab title="Python">
-    ```python lines {26,33-34}
-    import json
-    from openai import OpenAI
+<CodeGroup>
 
-    import weave
+```python Python lines {26,33-34}
+import json
+from openai import OpenAI
 
+import weave
+
+@weave.op()
+def extract_dinos(wmodel: weave.Model, sentence: str) -> dict:
+    response = wmodel.client.chat.completions.create(
+        model=wmodel.model_name,
+        temperature=wmodel.temperature,
+        messages=[
+            {
+                "role": "system",
+                "content": wmodel.system_prompt
+            },
+            {
+                "role": "user",
+                "content": sentence
+            }
+            ],
+            response_format={ "type": "json_object" }
+        )
+    return response.choices[0].message.content
+
+# Subclass with a weave.Model
+class ExtractDinos(weave.Model):
+    client: OpenAI = None
+    model_name: str
+    temperature: float
+    system_prompt: str
+
+    # Ensure your function is called `invoke` or `predict`
     @weave.op()
-    def extract_dinos(wmodel: weave.Model, sentence: str) -> dict:
-        response = wmodel.client.chat.completions.create(
-            model=wmodel.model_name,
-            temperature=wmodel.temperature,
-            messages=[
-                {
-                    "role": "system",
-                    "content": wmodel.system_prompt
-                },
-                {
-                    "role": "user",
-                    "content": sentence
-                }
-                ],
-                response_format={ "type": "json_object" }
-            )
-        return response.choices[0].message.content
+    def invoke(self, sentence: str) -> dict:
+        dino_data  = extract_dinos(self, sentence)
+        return json.loads(dino_data)
+```
 
-    # Subclass with a weave.Model
-    class ExtractDinos(weave.Model):
-        client: OpenAI = None
-        model_name: str
-        temperature: float
-        system_prompt: str
+```plaintext TypeScript
+This feature is not available in TypeScript yet.
+```
 
-        # Ensure your function is called `invoke` or `predict`
-        @weave.op()
-        def invoke(self, sentence: str) -> dict:
-            dino_data  = extract_dinos(self, sentence)
-            return json.loads(dino_data)
-    ```
-
-  </Tab>
-  <Tab title="TypeScript">
-    ```plaintext
-    This feature is not available in TypeScript yet.
-    ```
-  </Tab>
-</Tabs>
+</CodeGroup>
 
 Now you can instantiate and call the model with `invoke`:
 
-<Tabs>
-  <Tab title="Python">
-    ```python lines {7,18}
-    weave.init('jurassic-park')
-    client = OpenAI()
+<CodeGroup>
 
-    system_prompt = """Extract any dinosaur `name`, their `common_name`, \
-    names and whether its `diet` is a herbivore or carnivore, in JSON format."""
+```python Python lines {7,18}
+weave.init('jurassic-park')
+client = OpenAI()
 
-    dinos = ExtractDinos(
-        client=client,
-        model_name='gpt-4o',
-        temperature=0.4,
-        system_prompt=system_prompt
-    )
+system_prompt = """Extract any dinosaur `name`, their `common_name`, \
+names and whether its `diet` is a herbivore or carnivore, in JSON format."""
 
-    sentence = """I watched as a Tyrannosaurus rex (T. rex) chased after a Triceratops (Trike), \
-    both carnivore and herbivore locked in an ancient dance. Meanwhile, a gentle giant \
-    Brachiosaurus (Brachi) calmly munched on treetops, blissfully unaware of the chaos below."""
+dinos = ExtractDinos(
+    client=client,
+    model_name='gpt-4o',
+    temperature=0.4,
+    system_prompt=system_prompt
+)
 
-    result = dinos.invoke(sentence)
-    print(result)
-    ```
+sentence = """I watched as a Tyrannosaurus rex (T. rex) chased after a Triceratops (Trike), \
+both carnivore and herbivore locked in an ancient dance. Meanwhile, a gentle giant \
+Brachiosaurus (Brachi) calmly munched on treetops, blissfully unaware of the chaos below."""
 
-  </Tab>
-  <Tab title="TypeScript">
-    ```plaintext
-    This feature is not available in TypeScript yet.
-    ```
-  </Tab>
-</Tabs>
+result = dinos.invoke(sentence)
+print(result)
+```
+
+```plaintext TypeScript
+This feature is not available in TypeScript yet.
+```
+
+</CodeGroup>
 
 After calling `.invoke()`, the trace in Weave tracks the model parameters along with the code for the model functions decorated with `weave.op()`. The model is also versioned (`v21` in this case). Click the model to see all the calls that used that version.
 
@@ -140,27 +136,25 @@ In the Weave UI, you can get the Model ref for a particular version.
 
 Once you have the URI of the Model object, you can export and reuse it. The exported model is already initialized and ready to use:
 
-<Tabs>
-  <Tab title="Python">
-    ```python lines {2}
-    # The exported Weave model is already initialized and ready to call.
-    new_dinos = weave.ref("weave://morgan/jurassic-park/object/ExtractDinos:ey4udBU2MU23heQFJenkVxLBX4bmDsFk7vsGcOWPjY4").get()
+<CodeGroup>
 
-    # Set the client to the OpenAI client again.
-    new_dinos.client = client
+```python Python lines {2}
+# The exported Weave model is already initialized and ready to call.
+new_dinos = weave.ref("weave://morgan/jurassic-park/object/ExtractDinos:ey4udBU2MU23heQFJenkVxLBX4bmDsFk7vsGcOWPjY4").get()
 
-    new_sentence = """I also saw an Ankylosaurus grazing on giant ferns"""
-    new_result = new_dinos.invoke(new_sentence)
-    print(new_result)
-    ```
+# Set the client to the OpenAI client again.
+new_dinos.client = client
 
-  </Tab>
-  <Tab title="TypeScript">
-    ```plaintext
-    This feature is not available in TypeScript yet.
-    ```
-  </Tab>
-</Tabs>
+new_sentence = """I also saw an Ankylosaurus grazing on giant ferns"""
+new_result = new_dinos.invoke(new_sentence)
+print(new_result)
+```
+
+```plaintext TypeScript
+This feature is not available in TypeScript yet.
+```
+
+</CodeGroup>
 
 You can now see that the new input uses the same Model version (v21):
 

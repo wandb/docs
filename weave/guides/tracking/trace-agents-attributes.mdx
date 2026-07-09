@@ -17,10 +17,9 @@ These methods mirror the [OpenTelemetry (OTel) span API](https://opentelemetry.i
 
 Use `set_attributes()` (Python) or `setAttributes()` (TypeScript) to stamp arbitrary attributes on a single span. Pass a dictionary or object whether you have one key or many. The method returns the span, so you can chain calls.
 
-<Tabs>
-<Tab title="Python">
+<CodeGroup>
 
-```python lines
+```python Python lines
 import weave
 
 weave.init("[TEAM-NAME]/[PROJECT-NAME]")
@@ -31,10 +30,7 @@ with weave.start_conversation(agent_name="my-agent"):
         turn.set_attributes({"user_id": "12345", "tenant": "acme", "env": "production"})
 ```
 
-</Tab>
-<Tab title="TypeScript">
-
-```typescript lines twoslash
+```typescript TypeScript lines twoslash
 // @noErrors
 import * as weave from 'weave';
 
@@ -50,24 +46,19 @@ turn.end();
 conversation.end();
 ```
 
-</Tab>
-</Tabs>
+</CodeGroup>
 
 The same methods are available on every span class. For example, you can tag an individual tool call or LLM call:
 
-<Tabs>
-<Tab title="Python">
+<CodeGroup>
 
-```python lines
+```python Python lines
 with weave.start_turn(user_message="What is the weather in Tokyo?") as turn:
     with turn.tool(name="get_weather") as tool:
         tool.set_attributes({"weave.display_name": "Weather lookup"})
 ```
 
-</Tab>
-<Tab title="TypeScript">
-
-```typescript lines twoslash
+```typescript TypeScript lines twoslash
 // @noErrors
 const turn = weave.startTurn({ agentName: 'my-agent' });
 const tool = turn.startTool({ name: 'get_weather' });
@@ -78,8 +69,7 @@ tool.end();
 turn.end();
 ```
 
-</Tab>
-</Tabs>
+</CodeGroup>
 
 Most attribute keys are arbitrary custom metadata, but Weave reserves two prefixes for special handling. Keys under `weave.*` map to built-in Weave fields, and keys under `gen_ai.*` map to OpenTelemetry GenAI semantic-convention fields. In the preceding example, `weave.display_name` is a reserved key that sets the span's display name in the Agents and Traces UI. For arbitrary metadata that you want to filter and group by, use your own keys such as `user_id` or `tenant`, which Weave stores as filterable custom attributes.
 
@@ -87,10 +77,9 @@ Most attribute keys are arbitrary custom metadata, but Weave reserves two prefix
 
 Stamping attributes one span at a time works well for span-specific metadata, but some metadata applies to an entire conversation. To apply the same attributes to every span a conversation emits, pass `attributes` when you start the conversation. This is useful for propagating conversation-wide metadata such as an integration identity or a deployment environment.
 
-<Tabs>
-<Tab title="Python">
+<CodeGroup>
 
-```python lines
+```python Python lines
 import weave
 
 weave.init("[TEAM-NAME]/[PROJECT-NAME]")
@@ -102,10 +91,7 @@ conversation = weave.start_conversation(
 # Every turn, LLM, tool, and sub-agent span in this session carries these attributes.
 ```
 
-</Tab>
-<Tab title="TypeScript">
-
-```typescript lines twoslash
+```typescript TypeScript lines twoslash
 // @noErrors
 import * as weave from 'weave';
 
@@ -118,8 +104,7 @@ const conversation = weave.startConversation({
 // Every turn, LLM, tool, and sub-agent span in this conversation carries these attributes.
 ```
 
-</Tab>
-</Tabs>
+</CodeGroup>
 
 <Note>
 As with per-span attributes, use your own custom keys for conversation attributes. Set semantic-convention fields, such as the agent name, conversation name, or model, through their typed parameters (`agent_name`, `conversation_name`, `model`) rather than through `attributes`. Avoid keys under the reserved `gen_ai.*` and `weave.*` prefixes. Weave extracts those into typed fields during ingestion, so a custom value under a reserved key is unsupported.

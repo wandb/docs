@@ -90,37 +90,35 @@ You can also get more information for each feedback object in `client.get_feedba
 - `feedback_type`: The type of feedback (reaction, note, custom).
 - `payload`: The feedback payload.
 
-<Tabs>
-  <Tab title="Python">
-    ```python lines
-    import weave
-    client = weave.init('intro-example')
+<CodeGroup>
 
-    # Get all feedback in a project
-    all_feedback = client.get_feedback()
+```python Python lines
+import weave
+client = weave.init('intro-example')
 
-    # Fetch a specific feedback object by id.
-    # The API returns a collection, which is expected to contain at most one item.
-    one_feedback = client.get_feedback("[FEEDBACK-UUID]")[0]
+# Get all feedback in a project
+all_feedback = client.get_feedback()
 
-    # Find all feedback objects with a specific reaction. You can specify offset and limit.
-    thumbs_up = client.get_feedback(reaction="👍", limit=10)
+# Fetch a specific feedback object by id.
+# The API returns a collection, which is expected to contain at most one item.
+one_feedback = client.get_feedback("[FEEDBACK-UUID]")[0]
 
-    # After retrieval, view the details of individual feedback objects.
-    for f in client.get_feedback():
-        print(f.id)
-        print(f.created_at)
-        print(f.feedback_type)
-        print(f.payload)
-    ```
+# Find all feedback objects with a specific reaction. You can specify offset and limit.
+thumbs_up = client.get_feedback(reaction="👍", limit=10)
 
-  </Tab>
-  <Tab title="TypeScript">
-    ```plaintext
-    This feature is not available in TypeScript yet.
-    ```
-  </Tab>
-</Tabs>
+# After retrieval, view the details of individual feedback objects.
+for f in client.get_feedback():
+    print(f.id)
+    print(f.created_at)
+    print(f.feedback_type)
+    print(f.payload)
+```
+
+```plaintext TypeScript
+This feature is not available in TypeScript yet.
+```
+
+</CodeGroup>
 
 ### Add feedback to a Call
 
@@ -134,33 +132,31 @@ You can add feedback to a Call using the Call's UUID. To use the UUID to get a p
 The maximum number of characters in a feedback note is 1024. If a note exceeds this limit, Weave doesn't create it.
 </Warning>
 
-<Tabs>
-  <Tab title="Python">
-    ```python lines
-    import weave
-    client = weave.init('intro-example')
+<CodeGroup>
 
-    call = client.get_call("[CALL-UUID]")
+```python Python lines
+import weave
+client = weave.init('intro-example')
 
-    # Adding an emoji reaction
-    call.feedback.add_reaction("👍")
+call = client.get_call("[CALL-UUID]")
 
-    # Adding a note
-    call.feedback.add_note("this is a note")
+# Adding an emoji reaction
+call.feedback.add_reaction("👍")
 
-    # Adding custom key/value pairs.
-    # The first argument is a user-defined "type" string.
-    # Feedback must be JSON serializable and less than 1 KB when serialized.
-    call.feedback.add("correctness", { "value": 5 })
-    ```
+# Adding a note
+call.feedback.add_note("this is a note")
 
-  </Tab>
-  <Tab title="TypeScript">
-    ```plaintext
-    This feature is not available in TypeScript yet.
-    ```
-  </Tab>
-</Tabs>
+# Adding custom key/value pairs.
+# The first argument is a user-defined "type" string.
+# Feedback must be JSON serializable and less than 1 KB when serialized.
+call.feedback.add("correctness", { "value": 5 })
+```
+
+```plaintext TypeScript
+This feature is not available in TypeScript yet.
+```
+
+</CodeGroup>
 
 #### Retrieve the Call UUID
 
@@ -170,74 +166,69 @@ For scenarios where you must add feedback immediately after a Call, you can retr
 
 To retrieve the UUID during Call execution, get the current Call, and return the ID.
 
-<Tabs>
-  <Tab title="Python">
-    ```python lines
+<CodeGroup>
 
-    import weave
-    weave.init("uuid")
+```python Python lines
 
-    @weave.op()
-    def simple_operation(input_value):
-        # Perform some simple operation
-        output = f"Processed {input_value}"
-        # Get the current call ID
-        current_call = weave.require_current_call()
-        call_id = current_call.id
-        return output, call_id
-    ```
+import weave
+weave.init("uuid")
 
-  </Tab>
-  <Tab title="TypeScript">
-    ```plaintext
-    This feature is not available in TypeScript yet.
-    ```
-  </Tab>
-</Tabs>
+@weave.op()
+def simple_operation(input_value):
+    # Perform some simple operation
+    output = f"Processed {input_value}"
+    # Get the current call ID
+    current_call = weave.require_current_call()
+    call_id = current_call.id
+    return output, call_id
+```
+
+```plaintext TypeScript
+This feature is not available in TypeScript yet.
+```
+
+</CodeGroup>
 
 ##### After Call execution
 
 Alternatively, you can use the `call()` method to execute the operation and retrieve the ID after Call execution:
 
-<Tabs>
-  <Tab title="Python">
-    ```python lines
-    import weave
-    weave.init("uuid")
+<CodeGroup>
 
-    @weave.op()
-    def simple_operation(input_value):
-        return f"Processed {input_value}"
+```python Python lines
+import weave
+weave.init("uuid")
 
-    # Execute the operation and retrieve the result and call ID
-    result, call = simple_operation.call("example input")
-    call_id = call.id
-    ```
+@weave.op()
+def simple_operation(input_value):
+    return f"Processed {input_value}"
 
-  </Tab>
-  <Tab title="TypeScript">
-    ```plaintext
-    This feature is not available in TypeScript yet.
-    ```
-  </Tab>
-</Tabs>
+# Execute the operation and retrieve the result and call ID
+result, call = simple_operation.call("example input")
+call_id = call.id
+```
+
+```plaintext TypeScript
+This feature is not available in TypeScript yet.
+```
+
+</CodeGroup>
 
 ### Delete feedback from a Call
 
 You can delete feedback from a particular call by specifying a UUID.
 
-<Tabs>
-  <Tab title="Python">
-    ```python lines
-    call.feedback.purge("[FEEDBACK-UUID]")
-    ```
-  </Tab>
-  <Tab title="TypeScript">
-    ```plaintext
-    This feature is not available in TypeScript yet.
-    ```
-  </Tab>
-</Tabs>
+<CodeGroup>
+
+```python Python lines
+call.feedback.purge("[FEEDBACK-UUID]")
+```
+
+```plaintext TypeScript
+This feature is not available in TypeScript yet.
+```
+
+</CodeGroup>
 
 ## Add human annotations
 
@@ -301,42 +292,40 @@ You can also create human annotation scorers through the API. Each scorer is its
 
 The following example creates two scorers. The first scorer, `Temperature`, scores the perceived temperature of the LLM call. The second scorer, `Tone`, scores the tone of the LLM response. Each scorer uses `save` with an associated object ID (`temperature-scorer` and `tone-scorer`).
 
-<Tabs>
-  <Tab title="Python">
-    ```python lines
-    import weave
-    from weave.flow.annotation_spec import AnnotationSpec
+<CodeGroup>
 
-    client = weave.init("feedback-example")
+```python Python lines
+import weave
+from weave.flow.annotation_spec import AnnotationSpec
 
-    spec1 = AnnotationSpec(
-      name="Temperature",
-      description="The perceived temperature of the llm call",
-      field_schema={
-        "type": "number",
-        "minimum": -1,
-        "maximum": 1,
-      }
-    )
-    spec2 = AnnotationSpec(
-      name="Tone",
-      description="The tone of the llm response",
-      field_schema={
-        "type": "string",
-        "enum": ["Aggressive", "Neutral", "Polite", "N/A"],
-      },
-    )
-    weave.publish(spec1, "temperature-scorer")
-    weave.publish(spec2, "tone-scorer")
-    ```
+client = weave.init("feedback-example")
 
-  </Tab>
-  <Tab title="TypeScript">
-    ```plaintext
-    This feature is not available in TypeScript yet.
-    ```
-  </Tab>
-</Tabs>
+spec1 = AnnotationSpec(
+  name="Temperature",
+  description="The perceived temperature of the llm call",
+  field_schema={
+    "type": "number",
+    "minimum": -1,
+    "maximum": 1,
+  }
+)
+spec2 = AnnotationSpec(
+  name="Tone",
+  description="The tone of the llm response",
+  field_schema={
+    "type": "string",
+    "enum": ["Aggressive", "Neutral", "Polite", "N/A"],
+  },
+)
+weave.publish(spec1, "temperature-scorer")
+weave.publish(spec2, "tone-scorer")
+```
+
+```plaintext TypeScript
+This feature is not available in TypeScript yet.
+```
+
+</CodeGroup>
 
 ### Modify a human annotation scorer using the API
 
@@ -344,34 +333,32 @@ Expanding on [creating a human annotation scorer using the API](#create-a-human-
 
 > You can view human annotation scorer object history in the **Scorers** tab under **Human annotations**.
 
-<Tabs>
-  <Tab title="Python">
-    ```python lines
-    import weave
-    from weave.flow.annotation_spec import AnnotationSpec
+<CodeGroup>
 
-    client = weave.init("feedback-example")
+```python Python lines
+import weave
+from weave.flow.annotation_spec import AnnotationSpec
 
-    # create a new version of the scorer
-    spec1 = AnnotationSpec(
-      name="Temperature",
-      description="The perceived temperature of the llm call",
-      field_schema={
-        "type": "integer",  # <<- change type to integer
-        "minimum": -1,
-        "maximum": 1,
-      }
-    )
-    weave.publish(spec1, "temperature-scorer")
-    ```
+client = weave.init("feedback-example")
 
-  </Tab>
-  <Tab title="TypeScript">
-    ```plaintext
-    This feature is not available in TypeScript yet.
-    ```
-  </Tab>
-</Tabs>
+# create a new version of the scorer
+spec1 = AnnotationSpec(
+  name="Temperature",
+  description="The perceived temperature of the llm call",
+  field_schema={
+    "type": "integer",  # <<- change type to integer
+    "minimum": -1,
+    "maximum": 1,
+  }
+)
+weave.publish(spec1, "temperature-scorer")
+```
+
+```plaintext TypeScript
+This feature is not available in TypeScript yet.
+```
+
+</CodeGroup>
 
 <Frame>
 ![Human Annotation scorer history](/weave/guides/tracking/imgs/human-annotation-scorer-history.png)
@@ -381,22 +368,21 @@ Expanding on [creating a human annotation scorer using the API](#create-a-human-
 
 The feedback API lets you use a human annotation scorer by specifying a specially constructed name and an `annotation_ref` field. You can obtain the `annotation_spec_ref` from the UI by selecting the appropriate tab, or during the creation of the `AnnotationSpec`.
 
-<Tabs>
-  <Tab title="Python">
-    ```python lines
-    import weave
+<CodeGroup>
 
-    client = weave.init("feedback-example")
+```python Python lines
+import weave
 
-    call = client.get_call("[CALL-ID]")
-    annotation_spec = weave.ref("[ANNOTATION-SPEC-REF-URI]")
+client = weave.init("feedback-example")
 
-    call.feedback.add(
-      feedback_type="wandb.annotation." + annotation_spec.name,
-      payload={"value": 1},
-      annotation_ref=annotation_spec.uri(),
-    )
-    ```
+call = client.get_call("[CALL-ID]")
+annotation_spec = weave.ref("[ANNOTATION-SPEC-REF-URI]")
 
-  </Tab>
-</Tabs>
+call.feedback.add(
+  feedback_type="wandb.annotation." + annotation_spec.name,
+  payload={"value": 1},
+  annotation_ref=annotation_spec.uri(),
+)
+```
+
+</CodeGroup>
