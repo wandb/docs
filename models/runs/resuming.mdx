@@ -34,7 +34,7 @@ If a run is stopped, crashes, or fails, you can resume it using the same run ID.
 The following code snippet shows how to accomplish this with the W&B Python SDK:
 
 ```python
-with wandb.init(entity="<entity>", project="<project>", resume="must") as run:
+with wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="must") as run:
         # Your training code here
 ```
 

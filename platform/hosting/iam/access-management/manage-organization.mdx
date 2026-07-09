@@ -51,7 +51,7 @@ The following table summarizes how seats work for Models and Weave:
 
 | Product | Seats | Cost based on |
 | ----- | ----- | ----- |
-| Models | Pay per set | How many Models paid seats you have and how much usage you've accrued determines your overall subscription cost. You can assign each user one of three available seat types: Full, Viewer, or No-Access. |
+| Models | Pay per seat | The number of Models paid seats you have and the usage you’ve accrued determine your overall subscription cost. Each user can be assigned one of three available seat types: Full, Viewer (Enterprise-only feature), or No access. |
 | Weave | Free | Usage based |
 
 ### Invite a user
@@ -64,8 +64,8 @@ Admins can invite users to their organization, as well as to specific teams with
 2. In the upper right corner of the page, select the **User menu** dropdown. Within the **Account** section of the dropdown, select **Users**.
 3. Select **Invite new user**.
 4. In the modal that appears, provide the email or username of the user in the **Email or username** field.
-5. Optional: Add the user to a team from the **Choose teams** dropdown menu.
-6. From the **Select role** dropdown, select the role to assign to the user. You can change the user's role later. See the table listed in [Assign a role](#assign-or-update-a-team-members-role) for more information about possible roles.
+5. (Recommended) Add the user to a team from the **Choose teams** dropdown menu.
+6. From the **Select role** dropdown, select the organization role to assign to the user. You can change the user's role at a later time. See the table in [Assign or update a user's role](#assign-or-update-a-users-role) for possible roles.
 7. Click the **Send invite** button.
 
 After you select the **Send invite** button, W&B sends an invite link to the user's email using a third-party email server. A user can access your organization once they accept the invite.
@@ -74,8 +74,8 @@ After you select the **Send invite** button, W&B sends an invite link to the use
 1. Navigate to `https://<org-name>.io/console/settings/`. Replace `<org-name>` with your organization name.
 2. Select the **Add user** button.
 3. Within the modal that appears, provide the email of the new user in the **Email** field.
-4. Select a role to assign to the user from the **Role** dropdown. You can change the user's role later. See the table listed in [Assign a role](#assign-or-update-a-team-members-role) for more information about possible roles.
-5. To have W&B send an invite link to the user's email using a third-party email server, check the **Send invite email to user** box.
+4. Select a role to assign to the user from the **Role** dropdown. You can change the user's role at a later time. See the table in [Assign or update a user's role](#assign-or-update-a-users-role) for possible roles.
+5. Check the **Send invite email to user** box if you want W&B to send an invite link using a third-party email server to the user's email.
 6. Select the **Add new user** button.
 </Tab>
 </Tabs>
@@ -182,35 +182,33 @@ A user within an organization can have one of the following roles:
 
 | Role | Descriptions |
 | ----- | ----- |
-| Admin | An instance admin who can add or remove other users to the organization, change user roles, manage custom roles, add teams, and more. W&B recommends having more than one admin in case your admin is unavailable. |
-| Member | A regular user of the organization, invited by an instance admin. An organization member can't invite other users or manage existing users in the organization. |
-| Viewer (Enterprise-only feature) | A view-only user of your organization, invited by an instance admin. A viewer only has read access to the organization and the underlying teams that they are a member of. |
-| Custom Roles (Enterprise-only feature) | Custom roles let organization admins compose new roles by inheriting from the preceding View-Only or Member roles and adding additional permissions to achieve fine-grained access control. Team admins can then assign any of those custom roles to users in their respective teams. For more information, see [Add and manage custom roles](#add-and-manage-custom-roles). |
+| Admin | An organization admin who can add users to the organization or remove them, change user roles, manage custom roles, add teams and more. W&B recommends ensuring there is more than one admin in the event that your admin is unavailable. |
+| Member | A regular user of the organization, invited by an organization admin. An organization member cannot invite other users or manage existing users in the organization. |
+| Viewer (Enterprise-only feature) | A view-only user of your organization, invited by an organization admin. A viewer only has read access to the organization and the underlying teams that they are a member of. |
+| Custom Roles (Enterprise-only feature) | Custom roles allow organization admins to compose new roles by inheriting from the preceding **Viewer** or **Member** organization roles, and adding additional permissions to achieve fine-grained access control. Team admins can then assign any of those custom roles to users in their respective teams. See also [Add and manage custom roles](#add-and-manage-custom-roles). |
 
 To change a user's role:
 
 1. Navigate to https://wandb.ai/home.
 2. In the upper right corner of the page, select the **User menu** dropdown. From the dropdown, choose **Users**.
-3. Provide the name or email of the user in the search bar.
-4. Select a role from the **TEAM ROLE** dropdown next to the name of the user.
+3. Find the user in the list. You can filter by name or email in the search bar.
+4. Select a role from the **ORG ROLE** dropdown next to the name of the user.
 
 ### Assign or update a user's access
 
-While the organization role controls administrative actions, the seat type controls what a user can do within Models and Weave. Use this procedure when you need to change a user's product-level permissions independent of their organization role.
+A user within an organization has a **Models seat** and **Weave access** level. Each is one of **Full**, **Viewer**, or **No access**. These are separate from the organization **Viewer** role, which controls organization-wide permissions.
 
-A user within an organization has one of the following Model seat or Weave access types: full, viewer, or no access.
-
-| Seat type | Description |
+| Seat or access level | Description |
 | ----- | ----- |
-| Full | Users with this role type have full permissions to write, read, and export data for Models or Weave. |
-| Viewer | A view-only user of your organization. A viewer only has read access to the organization and the underlying teams that they are a part of, and view-only access to Models or Weave. |
-| No access | Users with this role have no access to the Models or Weave products. |
+| Full | Full access to read, write, and export in Models or Weave for that user. |
+| Viewer | Read-only access to Models or Weave for that user. |
+| No access | No access to Models or Weave for that user. |
 
-Model seat type and Weave access type are defined at the organization level and inherited by the team. To change a user's seat type, navigate to the organization settings and follow these steps:
+Models seat and Weave access are defined at the organization level and inherited by the team. To change them, navigate to the organization user list and use the following steps:
 
 1. For Multi-tenant Cloud users, navigate to your organization's settings at `https://wandb.ai/account-settings/<organization>/settings`. Replace the values enclosed in angle brackets (`<>`) with your organization name. For Dedicated Cloud and Self-Managed deployments, navigate to `https://<your-instance>.wandb.io/org/dashboard`.
 2. Select the **Users** tab.
-3. From the **Role** dropdown, select the seat type you want to assign to the user.
+3. From the **MODELS SEAT** and **WEAVE ACCESS** dropdowns for that user, select the levels you want to assign.
 
 <Note>
 The organization role and subscription type determine which seat types are available within your organization.
@@ -271,7 +269,7 @@ Invite users to a team in your organization. Use the team's dashboard to invite 
 </Frame>
 3. Select the **Users** tab.
 4. Click **Invite a new user**.
-5. Within the modal that appears, provide the email of the user in the **Email or username** field and select the role to assign to that user from the **Select a team** role dropdown. For more information about roles a user can have in a team, see [Assign or update a team member's role](#assign-or-update-a-team-members-role).
+5. Within the modal that appears, provide the email of the user in the **Email or username** field and select the role to assign to that user from the **Select team role** dropdown. For more information about roles a user can have in a team, see [Team roles](#assign-or-update-a-team-members-role).
 6. Click the **Send invite** button.
 
 By default, only a team or instance admin can invite members to a team. To change this behavior, see [Team settings](/platform/app/settings-page/teams#privacy).
@@ -327,7 +325,7 @@ Custom roles let you tailor permissions beyond the built-in roles when the stand
 An Enterprise license is required to create or assign custom roles on Dedicated Cloud or Self-Managed deployments.
 </Note>
 
-Organization admins can compose a new role based on either the View-Only or Member role and add additional permissions to achieve fine-grained access control. Team admins can assign a custom role to a team member. You create custom roles at the organization level but assign them at the team level.
+Organization admins can compose a new role based on either the **Viewer** or **Member** predefined role and add additional permissions to achieve fine-grained access control. Team admins can assign a custom role to a team member. Custom roles are created at the organization level but are assigned at the team level.
 
 To create a custom role:
 

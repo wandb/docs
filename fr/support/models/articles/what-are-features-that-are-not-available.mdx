@@ -1,15 +1,17 @@
 ---
-title: "Quelles fonctionnalités ne sont pas disponibles pour les utilisateurs anonymes ?"
+title: "Fonctionnalités non disponibles pour les utilisateurs anonymes"
 keywords: ["Anonyme"]
 ---
 
-* **Aucune donnée persistante** : les Runs sont conservés pendant 7 jours dans un compte anonyme. Associez les données d&#39;un run anonyme à un compte standard en les enregistrant.
+Les comptes anonymes vous permettent d’essayer W&amp;B sans vous inscrire, mais plusieurs fonctionnalités sont restreintes. Prenez connaissance des limitations suivantes afin de décider si vous souhaitez créer un compte standard avant d’enregistrer des travaux importants.
+
+* **Aucune donnée persistante** : les comptes anonymes conservent les Runs pendant 7 jours. Associez les données d&#39;un run anonyme à un compte standard en les enregistrant.
 
 <Frame>
   <img src="/images/app_ui/anon_mode_no_data.png" alt="Interface du mode anonyme" />
 </Frame>
 
-* **Pas de journalisation d&#39;artifact** : un avertissement apparaît sur la ligne de commande lorsque vous tentez de journaliser un artifact dans un run anonyme :
+* **Pas de journalisation d&#39;artifact** : lorsque vous journalisez un artifact dans un run anonyme, un avertissement apparaît sur la ligne de commande :
   ```bash
   wandb: WARNING Artifacts logged anonymously cannot be claimed and expire after 7 days.
   ```
@@ -22,4 +24,4 @@ keywords: ["Anonyme"]
 
 <Badge stroke shape="pill" color="orange" size="md">[Anonyme](/fr/support/models/tags/anonymous)</Badge>
 
-{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : tab badges */}
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

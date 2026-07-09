@@ -1,6 +1,6 @@
 ---
 title: "init"
-description: "Reference for the Weave TypeScript init function, which initializes a Weave client connected to a project."
+description: "TypeScript SDK reference"
 ---
 
 # init
@@ -13,8 +13,8 @@ Initialize the Weave client, which is required for weave tracing to work.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `project` | `string` | The W&B project name (can be project or entity/project). If you don't specify a W&B team (e.g., 'team/project'), your default entity is used. To find or update your default entity, refer to User Settings at https://docs.wandb.ai/guides/models/app/settings-page/user-settings/#default-team |
-| `settings?` | `SettingsInit` | (Optional) Weave tracing settings |
+| `project` | `string` | The W&B project name (can be project or entity/project). If you don't specify a W&B team (e.g., 'team/project'), your default entity is used. To find or update your default entity, refer to User Settings at https://docs.wandb.ai/platform/app/settings-page/user-settings#default-team |
+| `settings?` | `Partial`\<[`Settings`](../type-aliases/settings)\> | (Optional) Weave tracing settings |
 
 #### Returns
 
@@ -28,6 +28,6 @@ If the initialization fails
 
 #### Defined in
 
-[clientApi.ts:83](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/clientApi.ts#L83)
+[src/clientApi.ts:87](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/clientApi.ts#L87)
 
 ___

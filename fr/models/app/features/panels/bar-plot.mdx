@@ -20,15 +20,17 @@ Utilisez les paramètres du graphique pour limiter le nombre maximal de runs aff
   ## Personnaliser les graphiques à barres
 </div>
 
-Vous pouvez également créer des graphiques **Box** ou **Violin** pour combiner de nombreuses statistiques de synthèse dans un seul type de graphique.
+Vous pouvez également créer des graphiques **Box Plot** ou **graphiques en violon** pour combiner de nombreuses statistiques de synthèse dans un seul type de graphique, si vous regroupez vos runs.
 
-Pour créer un graphique box ou violin :
+Pour créer un graphique box ou en violon :
 
-1. Regroupez les runs dans le tableau des runs.
-2. Dans le Workspace, cliquez sur **Add panel**.
-3. Ajoutez un **Bar Chart** standard et sélectionnez la métrique à afficher.
-4. Sous l’onglet **Grouping**, choisissez **Box** ou **Violin** pour afficher le graphique dans l’un de ces styles.
+1. [Regroupez vos runs dans le tableau des runs](/fr/models/runs/grouping), ou activez le **Grouping** dans le panneau.
+2. Dans le Workspace, cliquez sur **Add panel**, puis choisissez **Bar Chart**.
+3. Dans l’onglet **Data**, utilisez le sélecteur **Metric** pour choisir votre métrique de synthèse.
+4. Dans l’onglet **Grouping**, dans le contrôle **Style**, choisissez **Box Plot** ou **graphique en violon**.
+
+Si vous ne voyez pas le contrôle **Style** ni les options **Box Plot** et **graphique en violon**, vos runs ne sont pas regroupés. Regroupez vos runs et les options apparaîtront.
 
 <Frame>
-  <img src="/images/app_ui/bar_plots.gif" alt="Personnalisation d’un graphique à barres avec des options de regroupement" />
+  <img src="/images/app_ui/bar_plots.gif" alt="Personnalisation d’un graphique à barres avec des options de Grouping" />
 </Frame>

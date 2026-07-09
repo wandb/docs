@@ -3,9 +3,33 @@ title: "ハイパーパラメーター探索を整理するためのベストプ
 keywords: ["ハイパーパラメーター", "Sweeps", "Runs"]
 ---
 
-`wandb.init(tags='your_tag')` で固有のタグを設定します。これにより、Project Page の Runs Table で該当するタグを選択して、プロジェクトの Runs を効率的にフィルタリングできます。
+多数のハイパーパラメーター探索を実行する場合は、後で関連する実験をグループ化して見つけやすくするために、Runs にタグを付けておきます。
 
-`wandb.init()` の詳細については、[`wandb.init()` リファレンス](/ja/models/ref/python/functions/init)を参照してください。
+<div id="tag-runs-in-your-code">
+  ## コードで run にタグを設定する
+</div>
+
+各 run の初期化時に、一意のタグを指定します。
+
+```python
+import wandb
+
+with wandb.init(tags=["sweep-3", "lr-0.01"]) as run:
+    # トレーニングコードをここに記述
+    pass
+```
+
+`wandb.init()` の詳細については、[`wandb.init()` リファレンス](/ja/models/ref/python/functions/init)と[tags を使用して Runs にラベルを追加する](/ja/models/runs/tags)を参照してください。
+
+<div id="filter-tagged-runs-in-the-ui">
+  ## UI でタグ付きの Runs をフィルタリングする
+</div>
+
+1. project を開き、**Runs** タブに移動します。
+2. Runs Table の上にある **Filter** をクリックします。
+3. **Tags** を選択し、`is` や `in` などの演算子を選んで、コードで設定したタグを入力します。
+
+その他のフィルター オプションについては、[Runs のフィルタリング](/ja/models/runs/filter-runs)を参照してください。
 
 ***
 

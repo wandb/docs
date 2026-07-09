@@ -4,6 +4,8 @@ title: Keyboard shortcuts
 keywords: ["hotkeys", "LEET", "quick search", "undo redo", "panel navigation"]
 ---
 
+import LEETShortcuts from "/snippets/_includes/leet-keyboard-shortcuts.mdx";
+
 W&B supports keyboard shortcuts to help you navigate and interact with experiments, workspaces, and data more efficiently. This guide covers keyboard shortcuts for the W&B App and the W&B LEET (Lightweight Experiment Exploration Tool) terminal UI.
 
 <Tabs>
@@ -40,9 +42,11 @@ The following tables list keyboard shortcuts available in the W&B App, grouped b
 
 | Shortcut | Description |
 |----------|-------------|
-| **Cmd + +/-** (macOS)<br/>**Ctrl + +/-** (Windows/Linux) | When viewing an image in full-screen, zoom in or out.<br/>When zoomed in, click and drag to pan the image. |
-| **Cmd+0** (macOS)<br/>**Ctrl+0** (Windows/Linux) | When viewing an image in full-screen, reset to 100% zoom. |
-| **Shift+L** | When viewing an image in full-screen, zoom to fit. |
+| **Cmd + +/-** (macOS)<br />**Ctrl + +/-** (Windows/Linux) | When viewing an image in full-screen, zoom in or out.<br/>When zoomed in, click and drag to pan the image. |
+| **Cmd + 0** (macOS)<br />**Ctrl + 0** (Windows/Linux) | When viewing an image in full-screen, reset to 100% zoom. |
+| **Shift + L** | When viewing an image in full-screen, zoom to fit. |
+| **Click** | In a video panel, select a video, before skipping forward or backward using the keyboard. |
+| **Left Arrow / Right Arrow** | In a video panel, skip forward or backward by the configured **video seek step**. |
 
 ## Reports
 
@@ -64,9 +68,11 @@ Keep the following points in mind when using keyboard shortcuts in the W&B App:
 </Tab>
 <Tab title="LEET">
 
-The following keyboard shortcuts work in the W&B LEET (Lightweight Experiment Exploration Tool) terminal UI, which lets you explore experiments without leaving the command line. To launch LEET, run `wandb beta leet` in your terminal. For more information, see [`wandb beta leet`](/models/ref/cli/wandb-beta/wandb-beta-leet/).
+These keyboard shortcuts work in the W&B LEET (Lightweight Experiment Exploration Tool) terminal UI. To launch LEET, run `wandb beta leet` in your terminal.
 
-{/* <LEETShortcuts /> */}
+Press `h` or `?` inside LEET to open the in-app help overlay for the current view. For a product overview and launch paths, see [LEET terminal UI](/models/app/leet-tui).
+
+<LEETShortcuts />
 
 </Tab>
 </Tabs>

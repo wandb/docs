@@ -1,0 +1,50 @@
+---
+title: "チームを削除してしまい、新しく作成できなくなりました。どうすればよいですか？"
+keywords: ["Teams", "Team Management", "Org Management"]
+---
+
+W&amp;B にサインアップすると、プラットフォームによってユーザー名と同じ名前の個人用チームが自動的に作成されます。そのチームを削除すると、Projects を作成できなくなったり、**Create team** ボタン自体が表示されなくなったりすることがあります。また、ログインするたびに &quot;rate limit exceeded&quot; エラーが表示される場合もあります。
+
+<div id="why-this-happens">
+  ## これが発生する理由
+</div>
+
+W&amp;B アカウントは、project を作成して実験を実行するために、少なくとも 1 つのチームに所属している必要があります。自動生成されたチームが削除されると、アカウントはチームへの所属を失います。この状態では、次のようなことが起こります。
+
+* **Account Settings &gt; Teams** の **Create team** ボタンが表示されないことがあります。
+* ログインしたり Workspace にアクセスしたりすると、すぐに &quot;rate limit exceeded&quot; または &quot;An application error occurred&quot; のページにリダイレクトされることがあります。
+* この問題を自分で解決するために新しいチームを作成することはできません。アカウントがこの状態にある間は、チームの作成はブロックされます。
+
+<div id="what-to-do">
+  ## 対処方法
+</div>
+
+この状態は W&amp;B UI では解消できません。W&amp;B サポートに連絡し、次の情報を含めてください。
+
+* ご自身の W&amp;B **username** (プロフィール URL に表示される entity 名。例: `wandb.ai/your-username`)
+* チーム または enterprise plan を利用している場合は、**organization 名**
+* 作成を希望する **チーム 名** (チーム 名はグローバルで一意である必要があり、小文字のみ使用でき、スペースは使用できません)
+
+サポートがアカウント用に チーム を手動で作成し、アクセスを復旧します。
+
+**academic または free plan を利用している場合**
+
+academic アカウントでは、UI から直接 チーム を作成できないことがあります。新規アカウントであっても、&quot;Create team&quot; ボタンが表示されない場合があります。これはバグではありません。free plan では、状況によって チーム の作成に制限があります。サポートに username と希望する チーム 名を伝え、W&amp;B を academic または research 目的で使用していることをメモとして添えてください。
+
+**今後これを防ぐには**
+
+* 最初に自動生成された チーム は削除しないでください。
+* 別の チーム 名にしたい場合は、唯一の チーム を削除する前に新しい チーム を作成する方法について、[アカウントから チーム を削除するにはどうすればよいですか？](/ja/support/models/articles/how-do-i-delete-a-team-from-my-account) を参照してください。
+* アカウントが チーム に属しているか確認するには、[wandb.ai/settings](https://wandb.ai/settings) にアクセスし、**Teams** を確認してください。
+
+**関連: rate limit exceeded ループ**
+
+チーム を削除したあと、&quot;rate limit exceeded&quot; エラーによるリダイレクトループに陥っている場合は、これも同じ問題の症状です。このエラーは、W&amp;B の routing ロジックが、ログイン中のすべてのユーザーが チーム に所属していることを前提としているために発生します。ログアウトして再度ログインしても解決しません。この問題を解決できるのは、サポートに問い合わせることだけです。
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Teams](/ja/support/models/tags/teams)</Badge><Badge stroke shape="pill" color="orange" size="md">[Team Management](/ja/support/models/tags/team-management)</Badge><Badge stroke shape="pill" color="orange" size="md">[組織管理](/ja/support/models/tags/org-management)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

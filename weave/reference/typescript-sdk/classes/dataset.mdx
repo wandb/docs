@@ -1,6 +1,6 @@
 ---
 title: "Class: Dataset<R>"
-description: "Reference for the Weave TypeScript Dataset class used to store and reuse example rows for evaluations."
+description: "TypeScript SDK reference"
 ---
 
 [weave](../) / Dataset
@@ -11,7 +11,8 @@ Dataset object with easy saving and automatic versioning
 
 `Example`
 
-```ts
+```ts twoslash
+// @noErrors
 // Create a dataset
 const dataset = new Dataset({
   id: 'grammar-dataset',
@@ -93,7 +94,7 @@ const ref = await dataset.save()
 
 #### Defined in
 
-[dataset.ts:51](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/dataset.ts#L51)
+[src/dataset.ts:55](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L55)
 
 ## Properties
 
@@ -107,7 +108,7 @@ const ref = await dataset.save()
 
 #### Defined in
 
-[weaveObject.ts:73](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L73)
+[src/weaveObject.ts:71](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L71)
 
 ___
 
@@ -117,7 +118,7 @@ ___
 
 #### Defined in
 
-[dataset.ts:49](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/dataset.ts#L49)
+[src/dataset.ts:53](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L53)
 
 ## Accessors
 
@@ -135,7 +136,7 @@ WeaveObject.description
 
 #### Defined in
 
-[weaveObject.ts:100](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L100)
+[src/weaveObject.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L98)
 
 ___
 
@@ -149,7 +150,7 @@ ___
 
 #### Defined in
 
-[dataset.ts:64](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/dataset.ts#L64)
+[src/dataset.ts:68](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L68)
 
 ___
 
@@ -167,21 +168,21 @@ WeaveObject.name
 
 #### Defined in
 
-[weaveObject.ts:96](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L96)
+[src/weaveObject.ts:94](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L94)
 
 ## Methods
 
 ### [asyncIterator]
 
-▸ **[asyncIterator]**(): `AsyncIterator`\<`any`, `any`, `undefined`\>
+▸ **[asyncIterator]**(): `AsyncIterator`\<`any`, `any`, `any`\>
 
 #### Returns
 
-`AsyncIterator`\<`any`, `any`, `undefined`\>
+`AsyncIterator`\<`any`, `any`, `any`\>
 
 #### Defined in
 
-[dataset.ts:68](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/dataset.ts#L68)
+[src/dataset.ts:72](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L72)
 
 ___
 
@@ -201,7 +202,7 @@ ___
 
 #### Defined in
 
-[dataset.ts:74](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/dataset.ts#L74)
+[src/dataset.ts:78](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L78)
 
 ___
 
@@ -215,7 +216,7 @@ ___
 
 #### Defined in
 
-[dataset.ts:60](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/dataset.ts#L60)
+[src/dataset.ts:64](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L64)
 
 ___
 
@@ -233,4 +234,4 @@ ___
 
 #### Defined in
 
-[weaveObject.ts:77](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L77)
+[src/weaveObject.ts:75](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L75)

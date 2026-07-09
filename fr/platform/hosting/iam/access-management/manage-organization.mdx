@@ -56,10 +56,10 @@ Les sections suivantes décrivent chaque méthode.
 
 Le tableau suivant résume le fonctionnement des licences pour Models et Weave :
 
-| Produit | Licences              | Coût calculé selon                                                                                                                                                                                                                                         |
-| ------- | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Models  | Paiement à la licence | Le coût total de votre abonnement dépend du nombre de licences Models payantes dont vous disposez et du volume d’utilisation accumulé. Vous pouvez attribuer à chaque utilisateur l’un des trois types de licence disponibles : Full, Viewer ou No-Access. |
-| Weave   | Gratuit               | Selon l’utilisation                                                                                                                                                                                                                                        |
+| Produit | Licences              | Coût calculé selon                                                                                                                                                                                                                                                                               |
+| ------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Models  | Paiement à la licence | Le coût total de votre abonnement dépend du nombre de licences Models payantes dont vous disposez et du volume d’utilisation accumulé. Chaque utilisateur peut se voir attribuer l’un des trois types de licence disponibles : complet, Viewer (fonctionnalité réservée à Enterprise) ou aucun accès. |
+| Weave   | Gratuit               | Selon l’utilisation                                                                                                                                                                                                                                                                              |
 
 <div id="invite-a-user">
   ### Inviter un utilisateur
@@ -73,8 +73,8 @@ Les administrateurs peuvent inviter des utilisateurs dans leur organisation, ain
     2. Dans le coin supérieur droit de la page, sélectionnez le menu déroulant **Menu utilisateur**. Dans la section **Compte** de ce menu, sélectionnez **Users**.
     3. Sélectionnez **Invite new user**.
     4. Dans la fenêtre modale qui s’affiche, saisissez l’adresse e-mail ou le nom d’utilisateur de l’utilisateur dans le champ **Email or username**.
-    5. Facultatif : ajoutez l’utilisateur à une équipe à l’aide du menu déroulant **Choose teams**.
-    6. Dans le menu déroulant **Select role**, sélectionnez le rôle à attribuer à l’utilisateur. Vous pourrez modifier le rôle de l’utilisateur plus tard. Voir le tableau indiqué dans [Attribuer un rôle](#assign-or-update-a-team-members-role) pour plus d’informations sur les rôles possibles.
+    5. (Recommandé) Ajoutez l’utilisateur à une équipe à l’aide du menu déroulant **Choose teams**.
+    6. Dans le menu déroulant **Select role**, sélectionnez le rôle d’organisation à attribuer à l’utilisateur. Vous pourrez modifier le rôle de l’utilisateur ultérieurement. Voir le tableau dans [Attribuer ou mettre à jour le rôle d’un utilisateur](#assign-or-update-a-users-role) pour connaître les rôles possibles.
     7. Cliquez sur le bouton **Send invite**.
 
     Après avoir sélectionné le bouton **Send invite**, W&amp;B envoie un lien d’invitation à l’adresse e-mail de l’utilisateur via un serveur de messagerie tiers. L’utilisateur peut accéder à votre organisation une fois l’invitation acceptée.
@@ -84,8 +84,8 @@ Les administrateurs peuvent inviter des utilisateurs dans leur organisation, ain
     1. Accédez à `https://<org-name>.io/console/settings/`. Remplacez `<org-name>` par le nom de votre organisation.
     2. Sélectionnez le bouton **Add user**.
     3. Dans la fenêtre modale qui s’affiche, saisissez l’adresse e-mail du nouvel utilisateur dans le champ **Email**.
-    4. Sélectionnez, dans le menu déroulant **Role**, le rôle à attribuer à l’utilisateur. Vous pourrez modifier le rôle de l’utilisateur plus tard. Voir le tableau indiqué dans [Attribuer un rôle](#assign-or-update-a-team-members-role) pour plus d’informations sur les rôles possibles.
-    5. Pour que W&amp;B envoie un lien d’invitation à l’adresse e-mail de l’utilisateur via un serveur de messagerie tiers, cochez la case **Send invite email to user**.
+    4. Sélectionnez, dans le menu déroulant **Role**, le rôle à attribuer à l’utilisateur. Vous pourrez modifier le rôle de l’utilisateur ultérieurement. Voir le tableau dans [Attribuer ou mettre à jour le rôle d’un utilisateur](#assign-or-update-a-users-role) pour connaître les rôles possibles.
+    5. Cochez la case **Send invite email to user** si vous souhaitez que W&amp;B envoie un lien d’invitation à l’adresse e-mail de l’utilisateur via un serveur de messagerie tiers.
     6. Sélectionnez le bouton **Add new user**.
   </Tab>
 </Tabs>
@@ -196,39 +196,37 @@ Vous attribuez initialement un rôle d’organisation à un utilisateur lorsque 
 
 Un utilisateur au sein d’une organisation peut avoir l’un des rôles suivants :
 
-| Rôle                                                | Descriptions                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Admin                                               | Un administrateur d’instance qui peut ajouter ou supprimer d’autres utilisateurs de l’organisation, modifier les rôles des utilisateurs, gérer les rôles personnalisés, ajouter des équipes, etc. W&amp;B recommande d’avoir plus d’un administrateur au cas où l’un d’eux ne serait pas disponible.                                                                                                                                                                                                                      |
-| Member                                              | Un utilisateur standard de l’organisation, invité par un administrateur d’instance. Un membre de l’organisation ne peut pas inviter d’autres utilisateurs ni gérer les utilisateurs existants dans l’organisation.                                                                                                                                                                                                                                                                                                        |
-| Viewer (fonctionnalité Enterprise uniquement)       | Un utilisateur en lecture seule de votre organisation, invité par un administrateur d’instance. Un viewer dispose uniquement d’un accès en lecture à l’organisation et aux équipes dont il est membre.                                                                                                                                                                                                                                                                                                                    |
-| Custom Roles (fonctionnalité Enterprise uniquement) | Les rôles personnalisés permettent aux administrateurs de l’organisation de créer de nouveaux rôles en héritant des rôles de base lecture seule ou membre, puis en ajoutant des autorisations supplémentaires pour obtenir un contrôle d’accès granulaire. Les administrateurs d’équipe peuvent ensuite attribuer n’importe lequel de ces rôles personnalisés aux utilisateurs de leurs équipes respectives. Pour plus d&#39;informations, voir [Ajouter et gérer des rôles personnalisés](#add-and-manage-custom-roles). |
+| Rôle                                                | Descriptions                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| --------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Admin                                               | Un administrateur de l’organisation qui peut ajouter des utilisateurs à l’organisation ou les supprimer, modifier les rôles des utilisateurs, gérer les rôles personnalisés, ajouter des équipes, etc. W&amp;B recommande de s’assurer qu’il y a plus d’un administrateur au cas où votre administrateur ne serait pas disponible.                                                                                                                                                                                   |
+| membre                                              | Un utilisateur standard de l’organisation, invité par un administrateur de l’organisation. Un membre de l’organisation ne peut pas inviter d’autres utilisateurs ni gérer les utilisateurs existants dans l’organisation.                                                                                                                                                                                                                                                                                            |
+| Viewer (fonctionnalité Enterprise uniquement)       | Un utilisateur en lecture seule de votre organisation, invité par un administrateur de l’organisation. Un viewer dispose uniquement d’un accès en lecture à l’organisation et aux équipes dont il est membre.                                                                                                                                                                                                                                                                                                        |
+| Custom Roles (fonctionnalité Enterprise uniquement) | Les rôles personnalisés permettent aux administrateurs de l’organisation de créer de nouveaux rôles en héritant des rôles d’organisation **Viewer** ou **membre** précédents, puis en ajoutant des autorisations supplémentaires pour obtenir un contrôle d’accès granulaire. Les administrateurs d’équipe peuvent ensuite attribuer n’importe lequel de ces rôles personnalisés aux utilisateurs de leurs équipes respectives. Voir aussi [Ajouter et gérer des rôles personnalisés](#add-and-manage-custom-roles). |
 
 Pour modifier le rôle d’un utilisateur :
 
 1. Accédez à [https://wandb.ai/home](https://wandb.ai/home).
 2. Dans le coin supérieur droit de la page, sélectionnez le menu déroulant **Menu utilisateur**. Dans le menu déroulant, choisissez **Users**.
-3. Saisissez le nom ou l’adresse e-mail de l’utilisateur dans la barre de recherche.
-4. Sélectionnez un rôle dans le menu déroulant **TEAM ROLE** à côté du nom de l’utilisateur.
+3. Trouvez l’utilisateur dans la liste. Vous pouvez filtrer par nom ou adresse e-mail dans la barre de recherche.
+4. Sélectionnez un rôle dans le menu déroulant **ORG ROLE** à côté du nom de l’utilisateur.
 
 <div id="assign-or-update-a-users-access">
   ### Attribuer ou mettre à jour l&#39;accès d&#39;un utilisateur
 </div>
 
-Bien que le rôle au niveau de l&#39;organisation contrôle les actions administratives, le type de licence contrôle ce qu&#39;un utilisateur peut faire dans Models et Weave. Utilisez cette procédure lorsque vous devez modifier les autorisations d&#39;un utilisateur au niveau du produit indépendamment de son rôle dans l&#39;organisation.
+Un utilisateur au sein d&#39;une organisation dispose d&#39;une **licence Models** et d&#39;un niveau d&#39;**accès Weave**. Chacun peut être **Complet**, **Viewer** ou **Aucun accès**. Ils sont distincts du rôle **Viewer** de l&#39;organisation, qui contrôle les autorisations à l&#39;échelle de l&#39;organisation.
 
-Un utilisateur au sein d&#39;une organisation dispose de l&#39;un des types de licence Models ou types d&#39;accès Weave suivants : complet, Viewer ou aucun accès.
+| Type de licence ou niveau d&#39;accès | Description                                                                             |
+| ------------------------------------- | --------------------------------------------------------------------------------------- |
+| Complet                               | Accès complet en lecture, écriture et export dans Models ou Weave pour cet utilisateur. |
+| Viewer                                | Accès en lecture seule à Models ou Weave pour cet utilisateur.                          |
+| Aucun accès                           | Aucun accès à Models ou Weave pour cet utilisateur.                                     |
 
-| Type de licence | Description                                                                                                                                                                                                                    |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Complet         | Les Users ayant ce type de rôle disposent de toutes les autorisations nécessaires pour écrire, lire et exporter des données pour Models ou Weave.                                                                              |
-| Viewer          | Utilisateur en lecture seule de votre organisation. Un Viewer dispose uniquement d&#39;un accès en lecture à l&#39;organisation et aux Teams dont il fait partie, ainsi que d&#39;un accès en lecture seule à Models ou Weave. |
-| Aucun accès     | Les Users ayant ce rôle n&#39;ont accès ni au produit Models ni au produit Weave.                                                                                                                                              |
-
-Le type de licence Models et le type d&#39;accès Weave sont définis au niveau de l&#39;organisation, puis hérités par l&#39;équipe. Pour modifier le type de licence d&#39;un utilisateur, accédez aux paramètres de l&#39;organisation et suivez les étapes suivantes :
+Le type de licence Models et le type d&#39;accès Weave sont définis au niveau de l&#39;organisation, puis hérités par l&#39;équipe. Pour les modifier, accédez à la liste des utilisateurs de l&#39;organisation et suivez les étapes suivantes :
 
 1. Pour les utilisateurs du Cloud mutualisé, accédez aux paramètres de votre organisation à l&#39;adresse `https://wandb.ai/account-settings/<organization>/settings`. Remplacez les valeurs entre chevrons (`<>`) par le nom de votre organisation. Pour les déploiements Cloud dédié et Autogéré, accédez à `https://<your-instance>.wandb.io/org/dashboard`.
 2. Sélectionnez l&#39;onglet **Users**.
-3. Dans la liste déroulante **Role**, sélectionnez le type de licence que vous souhaitez attribuer à l&#39;utilisateur.
+3. Dans les listes déroulantes **MODELS SEAT** et **WEAVE ACCESS** de cet utilisateur, sélectionnez les niveaux que vous souhaitez attribuer.
 
 <Note>
   Le rôle de l&#39;organisation et le type d&#39;abonnement déterminent les types de licence disponibles au sein de votre organisation.
@@ -302,7 +300,7 @@ Invitez des utilisateurs dans une équipe de votre organisation. Utilisez le tab
 
 3. Sélectionnez l&#39;onglet **Users**.
 4. Cliquez sur **Invite a new user**.
-5. Dans la fenêtre modale qui s&#39;affiche, saisissez l&#39;adresse e-mail de l&#39;utilisateur dans le champ **Email or username** et sélectionnez le rôle à attribuer à cet utilisateur dans le menu déroulant des rôles **Select a team**. Pour plus d&#39;informations sur les rôles qu&#39;un utilisateur peut avoir dans une équipe, voir [Attribuer ou mettre à jour le rôle d&#39;un membre de l&#39;équipe](#assign-or-update-a-team-members-role).
+5. Dans la fenêtre modale qui s&#39;affiche, saisissez l&#39;adresse e-mail de l&#39;utilisateur dans le champ **Email or username** et sélectionnez le rôle à attribuer à cet utilisateur dans le menu déroulant **Select team role**. Pour plus d&#39;informations sur les rôles qu&#39;un utilisateur peut avoir dans une équipe, voir [Rôles d&#39;équipe](#assign-or-update-a-team-members-role).
 6. Cliquez sur le bouton **Send invite**.
 
 Par défaut, seul un administrateur d&#39;équipe ou d&#39;instance peut inviter des membres dans une équipe. Pour modifier ce comportement, voir [Team settings](/fr/platform/app/settings-page/teams#privacy).
@@ -359,13 +357,13 @@ Supprimez un utilisateur d’une équipe depuis le tableau de bord de l’équip
   ## Ajouter et gérer des rôles personnalisés
 </div>
 
-Les rôles personnalisés vous permettent d’adapter les autorisations au-delà des rôles intégrés lorsque les rôles standard View-Only, Member et Admin ne correspondent pas aux exigences d’accès de votre organisation. Utilisez des rôles personnalisés pour accorder des autorisations spécifiques tout en vous appuyant sur un rôle de base familier.
+Les rôles personnalisés vous permettent d’adapter les autorisations au-delà des rôles intégrés lorsque les rôles standard View-Only, membre et Admin ne correspondent pas aux exigences d’accès de votre organisation. Utilisez des rôles personnalisés pour accorder des autorisations spécifiques tout en vous appuyant sur un rôle de base familier.
 
 <Note>
   Une licence Enterprise est requise pour créer ou attribuer des rôles personnalisés dans des déploiements Cloud dédié ou Autogéré.
 </Note>
 
-Les administrateurs de l’organisation peuvent créer un nouveau rôle à partir du rôle View-Only ou Member, puis ajouter des autorisations supplémentaires afin d’obtenir un contrôle d’accès précis. Les administrateurs d’équipe peuvent attribuer un rôle personnalisé à un membre d’une équipe. Vous créez des rôles personnalisés au niveau de l’organisation, mais vous les attribuez au niveau de l’équipe.
+Les administrateurs de l’organisation peuvent créer un nouveau rôle à partir du rôle prédéfini **Viewer** ou **membre**, puis ajouter des autorisations supplémentaires afin d’obtenir un contrôle d’accès précis. Les administrateurs d’équipe peuvent attribuer un rôle personnalisé à un membre d’une équipe. Les rôles personnalisés sont créés au niveau de l’organisation, mais sont attribués au niveau de l’équipe.
 
 Pour créer un rôle personnalisé :
 
@@ -376,7 +374,7 @@ Pour créer un rôle personnalisé :
     3. Cliquez sur **Roles**.
     4. Dans la section **Custom roles**, cliquez sur **Create a role**.
     5. Saisissez un nom pour le rôle. Vous pouvez également fournir une description.
-    6. Choisissez le rôle sur lequel baser le rôle personnalisé, soit **Viewer** soit **Member**.
+    6. Choisissez le rôle sur lequel baser le rôle personnalisé, soit **Viewer** soit **membre**.
     7. Pour ajouter des autorisations, cliquez sur le champ **Search permissions**, puis sélectionnez une ou plusieurs autorisations à ajouter.
     8. Vérifiez la section **Custom role permissions**, qui récapitule les autorisations dont dispose le rôle.
     9. Cliquez sur **Create Role**.
@@ -386,7 +384,7 @@ Pour créer un rôle personnalisé :
     1. Accédez à `https://<org-name>.wandb.io/org/settings/`. Remplacez `<org-name>` par le nom de votre organisation.
     2. Dans la section **Custom roles**, cliquez sur **Create a role**.
     3. Saisissez un nom pour le rôle. Vous pouvez également fournir une description.
-    4. Choisissez le rôle sur lequel baser le rôle personnalisé, soit **Viewer** soit **Member**.
+    4. Choisissez le rôle sur lequel baser le rôle personnalisé, soit **Viewer** soit **membre**.
     5. Pour ajouter des autorisations, cliquez sur le champ **Search permissions**, puis sélectionnez une ou plusieurs autorisations à ajouter.
     6. Vérifiez la section **Custom role permissions**, qui récapitule les autorisations dont dispose le rôle.
     7. Cliquez sur **Create Role**.

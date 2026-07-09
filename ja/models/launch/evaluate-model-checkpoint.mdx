@@ -1,6 +1,7 @@
 ---
-description: "CoreWeave が管理するインフラストラクチャーで、VLLM 互換のモデル チェックポイントを評価する"
+description: "CoreWeave が管理するインフラストラクチャーを使用して、VLLM 互換のモデル チェックポイントを評価する"
 title: "モデル チェックポイントを評価する"
+keywords: ["LLM 評価ジョブ", "VLLM", "ベンチマーク", "リーダーボード", "モデル チェックポイント"]
 ---
 
 import ReviewEvaluationResults from "/snippets/ja/_includes/llm-eval-jobs/review-evaluation-results.mdx";
@@ -16,19 +17,21 @@ import PreviewLink from '/snippets/ja/_includes/llm-eval-jobs/preview.mdx';
   ## 前提条件
 </div>
 
-1. LLM評価ジョブの[要件と制限事項](/ja/models/launch#more-details)を確認します。
+モデル チェックポイントを評価する前に、次の作業を完了してください。
+
+1. LLM 評価ジョブの[要件と制限事項](/ja/models/launch#more-details)を確認します。
 2. 一部のベンチマークを実行するには、チーム管理者が必要なAPIキーを[チームスコープのシークレット](/ja/platform/secrets#add-a-secret)として追加する必要があります。評価ジョブの設定時には、どのチームメンバーでもそのシークレットを指定できます。要件については、[評価モデルカタログ](/ja/models/launch/evaluations)を参照してください。
    * **OpenAPI APIキー**: スコアリングにOpenAIモデルを使用するベンチマークで使われます。ベンチマークを選択した後に **Scorer API key** フィールドが表示される場合は必須です。シークレット名は `OPENAI_API_KEY` である必要があります。
-   * **Hugging Face ユーザーアクセストークン**: `lingoly` や `lingoly2` など、1つ以上のアクセス制限付きHugging Faceデータセットへのアクセスが必要な一部のベンチマークで必須です。ベンチマークを選択した後に **Hugging Face Token** フィールドが表示される場合は必須です。APIキーには、該当するデータセットへのアクセス権が必要です。[ユーザーアクセストークン](https://huggingface.co/docs/hub/en/security-tokens)および[アクセス制限付きデータセットへのアクセス](https://huggingface.co/docs/hub/en/datasets-gated#access-gated-datasets-as-a-user)については、Hugging Faceのドキュメントを参照してください。
+   * **Hugging Face ユーザーアクセストークン**: `lingoly` や `lingoly2` など、1つ以上のアクセス制限付きHugging Faceデータセットへのアクセスが必要な一部のベンチマークで必須です。ベンチマークを選択した後に **Hugging Face token** フィールドが表示される場合は必須です。APIキーには、該当するデータセットへのアクセス権が必要です。[ユーザーアクセストークン](https://huggingface.co/docs/hub/en/security-tokens)および[アクセス制限付きデータセットへのアクセス](https://huggingface.co/docs/hub/en/datasets-gated#access-gated-datasets-as-a-user)については、Hugging Faceのドキュメントを参照してください。
 3. 評価結果用の新しい[W&amp;Bプロジェクト](/ja/models/track/project-page)を作成します。プロジェクトのサイドバーで、**Create new project** をクリックします。
-4. モデルをVLLM互換形式でパッケージ化し、W&amp;B Modelsにartifactとして保存します。それ以外の種類のartifactをベンチマークしようとすると失敗します。一つの方法については、このページの末尾にある[例: モデルを準備する](#example-prepare-your-model)を参照してください。
+4. モデルをVLLM互換形式でパッケージ化し、W&amp;B Modelsにartifactとして保存します。それ以外の種類のartifactをベンチマークしようとすると失敗します。一つの方法については、次の[例: モデルを準備する](#example-prepare-a-model)セクションを参照してください。
 5. 各ベンチマークのドキュメントを確認し、その仕組みと個別の要件を理解してください。参考として、[利用可能な評価ベンチマーク](/ja/models/launch/evaluations)のリファレンスには関連リンクが含まれています。
 
 <div id="evaluate-your-model">
   ## モデルを評価する
 </div>
 
-次の手順で、評価ジョブを設定して Launch します。
+前提条件を完了したら、次の手順で、評価ジョブを設定して Launch します。
 
 1. W&amp;B にログインし、プロジェクトのサイドバーで **Launch** をクリックします。**LLM評価ジョブ** ページが表示されます。
 2. **Evaluate モデル チェックポイント** をクリックして、評価ジョブを設定します。
@@ -37,7 +40,7 @@ import PreviewLink from '/snippets/ja/_includes/llm-eval-jobs/preview.mdx';
 5. **Evaluations** をクリックし、最大 4 つのベンチマークを選択します。
 6. スコアリングに OpenAI モデルを使用するベンチマークを選択すると、**Scorer API key** フィールドが表示されます。これをクリックし、`OPENAI_API_KEY` シークレットを選択します。必要に応じて、チーム管理者はこの drawer で **Create secret** をクリックしてシークレットを作成できます。
 7. Hugging Face の アクセス制限付きデータセット への access が必要なベンチマークを選択すると、**Hugging Face token** フィールドが表示されます。[該当するデータセットへのアクセスをリクエスト](https://huggingface.co/docs/hub/en/datasets-gated#access-gated-datasets-as-a-user) してから、Hugging Face ユーザーアクセストークンを含むシークレットを選択します。
-8. 必要に応じて、**Sample limit** に正の整数を設定し、評価するベンチマークサンプルの最大数を制限します。設定しない場合は、タスク内のすべてのサンプルが含まれます。
+8. オプション: **Sample limit** に正の整数を設定し、評価するベンチマークサンプルの最大数を制限します。設定しない場合、ジョブにはタスク内のすべてのサンプルが含まれます。
 9. リーダーボードを自動的に作成するには、**Publish results to leaderboard** をクリックします。リーダーボードにはすべての評価が Workspace パネルにまとめて表示され、レポートで共有することもできます。
 10. **Launch** をクリックして評価ジョブを起動します。
 11. ページ上部の円形矢印アイコンをクリックして、最近の run のモーダルを開きます。評価ジョブは、他の最近の run と一緒に表示されます。完了した run の名をクリックすると単一 run ビューで開き、**Leaderboard** の link をクリックするとリーダーボードを直接開けます。詳細は、[結果を表示する](#view-the-results) を参照してください。
@@ -68,7 +71,7 @@ import PreviewLink from '/snippets/ja/_includes/llm-eval-jobs/preview.mdx';
   ## 例: モデルを準備する
 </div>
 
-モデルを準備するには、まず W&amp;B Models にモデルを読み込み、モデルの重みを vLLM 互換形式でパッケージ化して、結果を保存します。以下にその一例を示します。
+モデル チェックポイントを評価するには、まず VLLM 互換形式でパッケージ化し、W&amp;B Models のartifactとして保存する必要があります。この例では、その方法の 1 つを示します。
 
 ```python lines
 import os

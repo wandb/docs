@@ -1,6 +1,6 @@
 ---
 title: "wrapOpenAI"
-description: "Reference for wrapOpenAI, which patches the OpenAI client so that chat completion calls are traced by Weave."
+description: "TypeScript SDK reference"
 ---
 
 # wrapOpenAI
@@ -27,7 +27,8 @@ Wraps the OpenAI API to enable function tracing for OpenAI calls.
 
 `Example`
 
-```ts
+```ts twoslash
+// @noErrors
 const openai = wrapOpenAI(new OpenAI());
 const result = await openai.chat.completions.create({
   model: 'gpt-3.5-turbo',
@@ -37,4 +38,4 @@ const result = await openai.chat.completions.create({
 
 #### Defined in
 
-[integrations/openai.ts:505](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/integrations/openai.ts#L505)
+[src/integrations/openai.ts:723](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/openai.ts#L723)

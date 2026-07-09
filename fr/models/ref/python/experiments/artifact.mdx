@@ -888,7 +888,7 @@ new_file(
     name: 'str',
     mode: 'str' = 'x',
     encoding: 'str | None' = None
-) → Iterator[IO]
+) → Generator[IO]
 ```
 
 Ouvrez un nouveau fichier temporaire et ajoutez-le à l&#39;artifact.
@@ -907,7 +907,6 @@ Un nouvel objet fichier dans lequel vous pouvez écrire. Une fois fermé, le fic
 * `ArtifactFinalizedError` :  Vous ne pouvez pas modifier la version actuelle de l&#39;artifact, car elle est finalisée. Enregistrez plutôt une nouvelle version de l&#39;artifact.
 
 ***
-
 
 ### <kbd>méthode</kbd> `Artifact.remove`
 

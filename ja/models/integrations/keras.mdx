@@ -99,7 +99,7 @@ with wandb.init(config={"batch_size": 64}) as run:
 import wandb
 from wandb.integration.keras import WandbMetricsLogger, WandbModelCheckpoint
 
-# 新しい W&B run を初期化する
+# 新しい W&B Run を初期化する
 with wandb.init(config={"bs": 12}) as run:
 
     # WandbModelCheckpoint を model.fit に渡す
@@ -153,7 +153,7 @@ TPU でチェックポイントを作成する際に、`UnimplementedError: File
 checkpoint_options = tf.saved_model.SaveOptions(experimental_io_device="/job:localhost")
 
 WandbModelCheckpoint(
-    filepath="models/,
+    filepath="models/",
     options=checkpoint_options,
 )
 ```
@@ -171,9 +171,9 @@ WandbModelCheckpoint(
 `WandbEvalCallback()` は、次の機能を提供するユーティリティクラスです。
 
 * データと予測用の `wandb.Table()` インスタンスを作成する。
-* データと予測のテーブルを `wandb.Artifact()` としてログする。
-* `on_train_begin` でデータテーブルをログする。
-* `on_epoch_end` で予測テーブルをログする。
+* データと予測の表を `wandb.Artifact()` としてログする。
+* `on_train_begin` でデータ表をログする。
+* `on_epoch_end` で予測表をログする。
 
 次の例では、画像分類タスクで `WandbClfEvalCallback` を使用します。このコールバックは、検証データ (`data_table`) を W&amp;B にログし、推論を実行して、各エポックの終了時に予測結果 (`pred_table`) を W&amp;B にログします。
 
@@ -182,7 +182,7 @@ import wandb
 from wandb.integration.keras import WandbMetricsLogger, WandbEvalCallback
 
 
-# モデル予測の可視化コールバックを実装する
+# モデル予測可視化コールバックを実装する
 class WandbClfEvalCallback(WandbEvalCallback):
     def __init__(
         self, validation_data, data_table_columns, pred_table_columns, num_samples=100
@@ -218,7 +218,7 @@ class WandbClfEvalCallback(WandbEvalCallback):
 # 新しい W&B Run を初期化する
 with wandb.init(config={"hyper": "parameter"}) as run:
 
-    # Model.fit にコールバックを追加する
+    # コールバックを Model.fit に追加する
     model.fit(
         X_train,
         y_train,
@@ -271,9 +271,9 @@ from wandb.integration.keras import WandbCallback
 
 with wandb.init(config={"hyper": "parameter"}) as run:
 
-    # Kerasでモデルを設定するコード
+    # Keras でモデルを設定するコード
 
-    # コールバックをmodel.fitに渡す
+    # コールバックを model.fit に渡す
     model.fit(
         X_train, y_train, validation_data=(X_test, y_test), callbacks=[WandbCallback()]
     )
@@ -284,7 +284,8 @@ with wandb.init(config={"hyper": "parameter"}) as run:
 より詳しい動画は、[Keras と W&amp;B を統合する](https://www.youtube.com/watch?v=Bsudo7jbMow\&ab_channel=Weights%26Biases)をご覧ください。[Colab Jupyter Notebook](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Keras_pipeline_with_Weights_and_Biases.ipynb)も確認できます。
 
 <Note>
-  スクリプトについては、[example repo](https://github.com/wandb/examples)を参照してください。これには、[Fashion MNIST の例](https://github.com/wandb/examples/blob/master/examples/keras/keras-cnn-fashion/train.py)と、それによって生成される [W&amp;B ダッシュボード](https://wandb.ai/wandb/keras-fashion-mnist/runs/5z1d85qs) が含まれます。
+  スクリプトについては、[example repo](https://github.com/wandb/examples)を参照してください。これには、[Fashion MNIST の例](https://github.com/wandb/examples/blob/master/examples/keras/keras-cnn-fashion/train.py)
+  と、それによって生成される [W&amp;B ダッシュボード](https://wandb.ai/wandb/keras-fashion-mnist/runs/5z1d85qs) が含まれます。
 </Note>
 
 `WandbCallback` クラスは、さまざまなログ設定オプションをサポートします。たとえば、監視するメトリクスの指定、重みと勾配のトラッキング、training&#95;data と validation&#95;data に対する予測のログなどです。

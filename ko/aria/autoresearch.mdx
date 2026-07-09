@@ -1,0 +1,97 @@
+---
+title: "ARIA로 자동 연구 수행하기"
+description: "ARIA(W&B의 AI Research and Iteration Agent)를 사용하여 결과를 분석하고 실험을 실행하는 방법을 알아보세요."
+---
+
+ARIA(W&amp;B의 AI Research and Iteration Agent)를 연구 도우미로 활용해 실험을 분석하고, 결과를 설명하고, Runs 전반에서 나타나는 패턴을 파악하고, 다음 단계를 추천하고, 시각화를 생성하는 등 다양한 작업을 수행하세요.
+
+이전 Runs를 바탕으로 ARIA는 새로운 실험을 추천하고 실행할 수 있습니다.
+
+ARIA는 W&amp;B Launch를 사용해 샌드박스 환경에서 실험을 실행합니다. ARIA가 프로젝트에서 실험을 실행하려면 먼저 [ARIA의 도움을 받아 W&amp;B Launch를 설정하세요](/ko/aria/autoresearch#set-up-wb-launch-with-aria).
+
+<div id="set-up-wb-launch-with-aria">
+  ## ARIA로 W&amp;B Launch 설정하기
+</div>
+
+ARIA를 사용하면 채팅에서 W&amp;B Launch를 설정할 수 있습니다. 예를 들어, ARIA에 다음과 같이 요청할 수 있습니다:
+
+```text title="User prompt"
+W&B Launch 설정을 도와주실 수 있나요?
+```
+
+ARIA는 프로젝트에서 어떤 [W&amp;B Launch 컴포넌트](/ko/aria/autoresearch#launch-components)를 사용할 수 있는지 확인하고, 남아 있는 설정 단계를 안내합니다.
+
+다음 예시는 &quot;Can you help me set up W&amp;B Launch?&quot;라는 프롬프트에 대한 ARIA 응답의 일부를 보여줍니다.
+
+<Accordion title="ARIA 응답">
+  ```text
+  ## 1. 작업이 실제로 어디에서 실행될지 결정하세요
+
+  다음 중 하나를 선택하세요:
+
+  ### 옵션 A — Kubernetes / 클러스터 설정
+  공유 GPU/CPU 인프라와
+  지속적으로 실행되는 Launch 에이전트가 필요하다면 이 옵션을 사용하세요.
+
+  “실제” 팀 사용 환경에 권장됩니다.
+
+  ### 옵션 B — 로컬 Docker 설정
+  작업을 자신의 머신에서 실행하려는 경우,
+  예를 들어 Docker와 경우에 따라 GPU가 있는 로컬 워크스테이션에서 이 옵션을 사용하세요.
+
+  Launch를 빠르게 테스트하기에 좋습니다.
+
+  클러스터에 액세스할 수 있다면 일반적으로 **Kubernetes**부터
+  시작하는 것을 권장합니다. 그렇지 않다면 **Local Docker**부터 시작하세요.
+
+  ## 2. W&B UI에서 Launch 큐를 만드세요
+
+  entity의 Launch 페이지로 이동하세요: https://wandb.ai/wandb/launch
+
+  그런 다음:
+
+  1. **Create Queue**를 클릭하세요.
+  2. entity로 `wandb`를 선택하세요.
+  3. 큐 이름을 입력하세요.
+  4. 큐 리소스 유형을 선택하세요:
+     - 클러스터에서 실행하려면 **Kubernetes**
+     - 로컬에서 실행하려면 **Docker**
+  5. 큐 리소스 설정을 추가하세요.
+  6. **Create Queue**를 클릭하세요.
+
+  ## 3. Kubernetes 경로: Helm으로 Launch 에이전트 설치
+
+  Kubernetes를 사용하는 경우 다음이 필요합니다:
+
+  - Kubernetes 클러스터
+  - 클러스터에 대한 `kubectl` 액세스
+  - 로컬에 설치된 `helm`
+  - W&B **service account API 키**
+  - 대상 네임스페이스에서 Kubernetes 리소스를 생성/업데이트/삭제할 권한
+
+  실제
+  설정이라면 에이전트에 개인 API 키를 사용하지 **마세요**. W&B service account 키를 사용하세요.
+  ```
+</Accordion>
+
+<div id="launch-components">
+  ### Launch 컴포넌트
+</div>
+
+W&amp;B Launch에는 세 가지 핵심 컴포넌트가 있습니다.
+
+* **Launch job**: ML 워크플로에서 작업을 구성하고 실행하기 위한 재사용 가능한 청사진입니다.
+* **Launch queue**: Kubernetes 클러스터와 같은 컴퓨팅 대상에 작업을 제출하는 선입선출 큐입니다.
+* **Launch agent**: 큐를 폴링하고 해당 큐에 구성된 컴퓨팅 대상에서 작업을 실행하는 프로세스입니다.
+
+큐와 활성 Launch agent를 사용할 수 있게 되면 ARIA는 W&amp;B 측 Launch 워크플로를 관리할 수 있습니다. 일반적으로 ARIA는 로컬 머신, Kubernetes 클러스터, SageMaker 환경 또는 Vertex AI 환경에서 지속적으로 실행되는 Launch agent를 시작할 수 없습니다. 사용자 또는 관리자가 컴퓨팅 환경, 자격 증명, 그리고 실행 중인 에이전트를 제공해야 합니다.
+
+다음 표는 ARIA가 W&amp;B Launch로 실험을 실행할 수 있도록 설정하는 데 필요한 단계와 이를 일반적으로 누가 수행하는지 요약한 것입니다.
+
+| Step                | Usually performed by | Details                                                                                                                                                |
+| ------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Launch queue 생성     | ARIA 또는 팀 관리자        | 필요한 권한과 대상 백엔드가 명확한 경우 ARIA가 큐 생성을 도울 수 있습니다. 팀 관리자 권한이 필요할 수 있습니다.                                                                                    |
+| 컴퓨팅 백엔드 선택 또는 프로비저닝 | 팀 구성원 또는 인프라 소유자     | ARIA는 Docker 호스트, Kubernetes 클러스터, SageMaker 환경 또는 Vertex AI 환경에 액세스할 수 있어야 합니다. W&amp;B Launch를 통해 이미 액세스할 수 있는 상태가 아니라면 ARIA는 인프라를 프로비저닝할 수 없습니다. |
+| Launch agent 시작     | 팀 구성원 또는 인프라 소유자     | Launch agent는 W&amp;B 자격 증명으로 사용자의 머신 또는 cluster에서 지속적으로 실행되어야 합니다.                                                                                    |
+| 서비스 계정 또는 API 키 구성  | 팀 관리자                | 서비스 계정 키를 생성하고 안전하게 저장하세요. 자세한 내용은 [Manage secrets](https://docs.wandb.ai/platform/secrets#manage-secrets)를 참조하세요.                                     |
+| 큐에 실험 제출            | ARIA                 | 큐에 활성 에이전트가 있으면 ARIA가 작업을 제출하고, 설정 재정의를 적용해 Runs를 다시 시작하고, 결과를 모니터링하고, 실패를 디버그하고, 메트릭을 비교할 수 있습니다.                                                     |

@@ -1,6 +1,6 @@
 ---
 title: "Class: ObjectRef"
-description: "Reference for the Weave TypeScript ObjectRef class that points to a saved Weave object by entity, project, and digest."
+description: "TypeScript SDK reference"
 ---
 
 [weave](../) / ObjectRef
@@ -16,7 +16,8 @@ a saved object in Weave's storage system.
 
 `Example`
 
-```ts
+```ts twoslash
+// @noErrors
 const ref = new ObjectRef('my-project', 'abc123', 'def456');
 const uri = ref.uri(); // weave:///my-project/object/abc123:def456
 ```
@@ -60,7 +61,7 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
 
 #### Defined in
 
-[weaveObject.ts:26](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L26)
+[src/weaveObject.ts:24](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L24)
 
 ## Properties
 
@@ -70,7 +71,7 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
 
 #### Defined in
 
-[weaveObject.ts:29](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L29)
+[src/weaveObject.ts:27](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L27)
 
 ___
 
@@ -80,7 +81,7 @@ ___
 
 #### Defined in
 
-[weaveObject.ts:28](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L28)
+[src/weaveObject.ts:26](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L26)
 
 ___
 
@@ -90,7 +91,7 @@ ___
 
 #### Defined in
 
-[weaveObject.ts:27](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L27)
+[src/weaveObject.ts:25](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L25)
 
 ## Methods
 
@@ -104,7 +105,7 @@ ___
 
 #### Defined in
 
-[weaveObject.ts:66](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L66)
+[src/weaveObject.ts:64](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L64)
 
 ___
 
@@ -118,7 +119,7 @@ ___
 
 #### Defined in
 
-[weaveObject.ts:61](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L61)
+[src/weaveObject.ts:59](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L59)
 
 ___
 
@@ -132,7 +133,7 @@ ___
 
 #### Defined in
 
-[weaveObject.ts:57](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L57)
+[src/weaveObject.ts:55](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L55)
 
 ___
 
@@ -160,10 +161,11 @@ Error if the URI format is invalid or not an object ref
 
 `Example`
 
-```ts
+```ts twoslash
+// @noErrors
 const ref = ObjectRef.fromUri('weave:///my-entity/my-project/object/my-dataset:abc123');
 ```
 
 #### Defined in
 
-[weaveObject.ts:44](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L44)
+[src/weaveObject.ts:42](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L42)

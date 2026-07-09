@@ -17,14 +17,13 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 **인자(Args):**
 
-* `client`: API 호환성을 위해 유지되는 레거시 GraphQL 클라이언트.
 * `service_api`: 이러한 아티팩트 버전에 대해 W&amp;B API Call을 수행하는 wandb-core 서비스 인터페이스.
 * `entity`: 프로젝트를 소유한 엔터티(사용자 또는 팀).
 * `project`: 아티팩트를 쿼리할 프로젝트의 이름.
 * `collection_name`: 쿼리할 아티팩트 컬렉션의 이름.
 * `type`: 쿼리할 아티팩트의 유형. 일반적인 예로는 &quot;dataset&quot; 또는 &quot;model&quot;이 있습니다.
 * `filters`: 쿼리에 적용할 선택적 필터 매핑.
-* `order`: 결과 정렬 순서를 지정하는 선택적 문자열.
+* `order`: 결과 정렬 순서를 지정하는 선택적 문자열. `+` 접두사가 있으면 오름차순(기본값)으로 정렬합니다. `-` 접두사가 있으면 내림차순으로 정렬합니다.
 * `per_page`: 페이지당 가져올 아티팩트 버전 개수. 기본값은 50.
 * `tags`: 태그로 아티팩트를 필터링하기 위한 선택적 문자열 또는 문자열 목록. 
 
