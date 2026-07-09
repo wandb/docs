@@ -338,7 +338,10 @@ def build_report_markdown(
             f"**{summary['weighted_fk_delta']:+.1f} ({summary['direction']})**."
         )
     else:
-        lines.append("No pages had enough prose to score a readability delta.")
+        lines.append(
+            "No changed page had a scorable before-and-after version, so there "
+            "is no readability delta to report. See the per-page details below."
+        )
     lines.append("")
     lines.append(REPORT_LEGEND)
     lines.append("")
