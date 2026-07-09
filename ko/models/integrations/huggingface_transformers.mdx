@@ -308,31 +308,31 @@ with wandb.init(project="amazon_sentiment_analysis") as run:
 `WANDB_LOG_MODEL='checkpoint'`를 설정한 경우, `TrainingArguments`에서 `model_dir`를 `model_name_or_path` 인수로 사용하고 `Trainer`에 `resume_from_checkpoint=True`를 전달해 트레이닝을 재개할 수도 있습니다.
 
 ```python
-last_run_id = "xxxxxxxx"  # wandb workspace에서 run_id를 가져옵니다
+last_run_id = "xxxxxxxx"  # fetch the run_id from your wandb workspace
 
-# run_id로 wandb run을 재개합니다
+# resume the wandb run from the run_id
 with wandb.init(
     project=os.environ["WANDB_PROJECT"],
     id=last_run_id,
     resume="must",
 ) as run:
-    # run에 아티팩트를 연결합니다
+    # Connect an Artifact to the run
     my_checkpoint_name = f"checkpoint-{last_run_id}:latest"
-    my_checkpoint_artifact = run.use_artifact(my_model_name)
+    my_checkpoint_artifact = run.use_artifact(my_checkpoint_name)
 
-    # 체크포인트를 폴더에 다운로드하고 경로를 반환합니다
+    # Download checkpoint to a folder and return the path
     checkpoint_dir = my_checkpoint_artifact.download()
 
-    # 모델과 trainer를 다시 초기화합니다
+    # reinitialize your model and trainer
     model = AutoModelForSequenceClassification.from_pretrained(
         "<model_name>", num_labels=num_labels
     )
-    # 트레이닝 인수를 여기에 입력하세요.
+    # your awesome training arguments here.
     training_args = TrainingArguments()
 
     trainer = Trainer(model=model, args=training_args)
 
-    # 체크포인트에서 트레이닝을 재개하려면 반드시 체크포인트 디렉토리를 사용하세요
+    # make sure use the checkpoint dir to resume training from the checkpoint
     trainer.train(resume_from_checkpoint=checkpoint_dir)
 ```
 
