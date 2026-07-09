@@ -21,8 +21,8 @@ accelerator = Accelerator(log_with="wandb")
 
 # Initialiser votre run wandb en transmettant les paramètres wandb et toute information de configuration
 accelerator.init_trackers(
-    project_name="my_project",
-    config={"dropout": 0.1, "learning_rate": 1e-2}
+    project_name="my_project", 
+    config={"dropout": 0.1, "learning_rate": 1e-2},
     init_kwargs={"wandb": {"entity": "my-wandb-team"}}
     )
 
