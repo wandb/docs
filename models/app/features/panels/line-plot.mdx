@@ -35,7 +35,7 @@ In an [automatic workspace](/models/app/features/panels#workspace-modes), W&B cr
     1. Click **Create [NUMBER] panels**.
 1. To add a custom line plot instead, click **Line plot**.
     1. Configure the line plot's data, grouping, and display preferences using the corresponding tabs. For details, see [Edit line plot settings](#edit-line-plot-settings).
-    1. To add calculated expressions to the x-axis or y-axis, click **Expressions**. [JavaScript regular expressions](https://www.w3schools.com/js/js_regexp.asp) are supported.
+    1. To add calculated expressions to the x-axis or y-axis, click **Expressions**. Specify a regular expression. Use Google's [RE2 syntax](https://github.com/google/re2/wiki/Syntax).
 1. Select the type of panel to add, such as a chart. The panel's configuration details appear with selected defaults.
 1. Optionally, customize the panel and its display preferences. Configuration options depend on the type of panel you select. For more information about the options for each type of panel, see [Line plots](/models/app/features/panels/line-plot/) or [Bar plots](/models/app/features/panels/bar-plot/).
 1. Click **Apply**.
@@ -46,20 +46,20 @@ In an [automatic workspace](/models/app/features/panels#workspace-modes), W&B cr
 This feature is in preview, available by invitation only. To request enrollment, contact [support](mailto:support@wandb.com) or your AISE.
 </Note>
 
-In an [automatic workspace](/models/app/features/panels#workspace-modes), W&B creates a single-metric line plot automatically for each logged metric. This section shows how to create a single line plot that shows multiple metrics together, defined by a JavaScript regular expression. You can optionally consolidate many single-metric plots into a single multi-metric plot. This can improve the performance of a workspace with many logged metrics, and can help you analyze the results of your runs.
+In an [automatic workspace](/models/app/features/panels#workspace-modes), W&B creates a single-metric line plot automatically for each logged metric. This section shows how to create a single line plot that shows multiple metrics together, defined by a RE2 syntax. You can optionally consolidate many single-metric plots into a single multi-metric plot. This can improve the performance of a workspace with many logged metrics, and can help you analyze the results of your runs.
 
 1. Navigate to your workspace.
 1. To add a line plot globally, click **Add panels** in the control bar near the panel search field.
 
     To add a line plot directly to a section instead, click the section's **action (<Icon icon="ellipsis" iconType="solid"/>)** menu, then click **+ Add panels**.
 1. Click **Quick panel builder**, then click the **Multi-metric panels** tab.
-1. In **Regex** enter an expression in [JavaScript regular expression](https://www.w3schools.com/js/js_regexp.asp) format. As you type, the UI updates to show which metrics match the expression. By default, the plot name shows the regular expression used by the plot. The plot includes lines for all metrics that match the expression, including metrics logged in the future.
+1. In **Regex** enter an expression in [RE2](https://github.com/google/re2/wiki/Syntax) format. As you type, the UI updates to show which metrics match the expression. By default, the plot name shows the regular expression used by the plot. The plot includes lines for all metrics that match the expression, including metrics logged in the future.
 1. To optionally remove duplicate single-metric panels when the multi-metric plot is created, toggle **Clean up auto-generated panels**. A preview shows which panels are cleaned up. <Note>When this option is turned on, W&B doesn't create a single-metric plot for a newly logged metric that matches the expression. Instead, it appears only in this multi-metric plot.</Note>
 1. Click **Create [NUMBER] panels**.
 
 ### Multi-metric regular expressions
 
-Multi-metric line plots use [JavaScript regular expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions) to match metric names. The following sections describe common use cases and provide more details about how the regular expressions work, such as how capture groups affect the panels that W&B creates.
+Multi-metric line plots use [Google's RE2](https://github.com/google/re2/wiki/Syntax) syntax to match metric names. The following sections describe common use cases and provide more details about how the regular expressions work, such as how capture groups affect the panels that W&B creates.
 
 #### Common use cases
 
