@@ -13,7 +13,10 @@ description: "TypeScript SDK リファレンス"
   ### プロパティ
 </div>
 
+* [agentDescription](./conversationinit#agentdescription)
+* [agentId](./conversationinit#agentid)
 * [agentName](./conversationinit#agentname)
+* [agentVersion](./conversationinit#agentversion)
 * [属性](./conversationinit#attributes)
 * [conversationId](./conversationinit#conversationid)
 * [モデル](./conversationinit#model)
@@ -21,17 +24,71 @@ description: "TypeScript SDK リファレンス"
 
 ## プロパティ
 
+<div id="agentdescription">
+  ### agentDescription
+</div>
+
+• `Optional` **agentDescription**: `string`
+
+人が読んで理解できるエージェントの説明です。ターン で独自の `agentDescription` を設定しない限り、`startTurn()` で作成されるすべての `Turn` に、デフォルトの
+`agentDescription` として引き継がれます。また、各 ターン の `invoke_agent` スパン に
+`gen_ai.agent.description` として出力されます。
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[src/genai/conversation.ts:31](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L31)
+
+***
+
+<div id="agentid">
+  ### agentId
+</div>
+
+• `Optional` **agentId**: `string`
+
+一貫したエージェント識別子です。ターン で独自の `agentId` を設定しない限り、`startTurn()` で作成されるすべての
+`Turn` にデフォルトの `agentId` として引き継がれます。また、各 ターン の `invoke_agent` スパン で
+`gen_ai.agent.id` として出力されます。
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[src/genai/conversation.ts:16](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L16)
+
+***
+
 <div id="agentname">
   ### agentName
 </div>
 
 • `Optional` **agentName**: `string`
 
+エージェント名。各ターンで独自の値を設定しない限り、`startTurn()` で作成されるすべての `Turn` にデフォルトの `agentName` として引き継がれます。また、各ターンの `invoke_agent` スパンでは `gen_ai.agent.name` として出力されます。
+
 <div id="defined-in">
   #### 定義場所
 </div>
 
-[src/genai/conversation.ts:9](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L9)
+[src/genai/conversation.ts:23](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L23)
+
+***
+
+<div id="agentversion">
+  ### agentVersion
+</div>
+
+• `Optional` **agentVersion**: `string`
+
+エージェントのバージョン文字列です。各 `Turn` で独自の値が設定されていない限り、`startTurn()` で作成されるすべての `Turn` にデフォルトの `agentVersion` として引き継がれます。また、各 `Turn` の `invoke_agent` スパン で `gen_ai.agent.version` として出力されます。
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[src/genai/conversation.ts:38](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L38)
 
 ***
 
@@ -50,7 +107,7 @@ description: "TypeScript SDK リファレンス"
   #### 定義場所
 </div>
 
-[src/genai/conversation.ts:20](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L20)
+[src/genai/conversation.ts:52](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L52)
 
 ***
 
@@ -60,13 +117,13 @@ description: "TypeScript SDK リファレンス"
 
 • `Optional` **conversationId**: `string`
 
-この会話に属するすべての span に `gen_ai.conversation.id` として伝播される会話 ID です。省略した場合は自動生成されます。
+この会話に属するすべての スパン に `gen_ai.conversation.id` として伝播される会話 ID です。省略した場合は自動生成されます。
 
 <div id="defined-in">
   #### 定義場所
 </div>
 
-[src/genai/conversation.ts:13](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L13)
+[src/genai/conversation.ts:44](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L44)
 
 ***
 
@@ -80,7 +137,7 @@ description: "TypeScript SDK リファレンス"
   #### 定義場所
 </div>
 
-[src/genai/conversation.ts:10](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L10)
+[src/genai/conversation.ts:9](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L9)
 
 ***
 
@@ -98,4 +155,4 @@ description: "TypeScript SDK リファレンス"
   #### 定義場所
 </div>
 
-[src/genai/conversation.ts:23](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L23)
+[src/genai/conversation.ts:55](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L55)

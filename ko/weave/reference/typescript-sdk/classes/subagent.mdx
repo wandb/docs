@@ -5,27 +5,6 @@ description: "TypeScript SDK 레퍼런스"
 
 [weave](../) / SubAgent
 
-중첩된 에이전트 호출입니다. 현재 에이전트가 작업을
-이름이 지정된 다른 에이전트에 넘길 때 사용됩니다
-(예: planner가 researcher에게 작업을 넘기는 경우). 하위 에이전트의 이름과
-(선택적으로) 모델이 태그된
-`invoke_agent` span을 생성합니다.
-
-`weave.startSubagent()`(또는 `turn.startAgent()`, 또는
-`llm.startAgent()`)로 생성되며, `end()`로 종료됩니다.
-
-`예시`
-
-```ts twoslash
-// @noErrors
-const sub = weave.startSubagent({name: 'researcher', model: 'gpt-4o'});
-try {
-  // ... 서브 에이전트의 LLM/Tool Call을 조율합니다 ...
-} finally {
-  sub.end();
-}
-```
-
 <div id="hierarchy">
   ## 계층 구조
 </div>
@@ -38,8 +17,8 @@ try {
   ## 목차
 </div>
 
-<div id="properties">
-  ### 속성
+<div id="accessors">
+  ### 접근자
 </div>
 
 * [모델](./subagent#model)
@@ -51,22 +30,29 @@ try {
 
 * [addEvent](./subagent#addevent)
 * [end](./subagent#end)
+* [record](./subagent#record)
 * [setAttributes](./subagent#setattributes)
 * [create](./subagent#create)
 
-## 속성
+## 접근자
 
 <div id="model">
   ### 모델
 </div>
 
-• `Readonly` **모델**: `string`
+• `get` **모델**(): `string`
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`string`
 
 <div id="defined-in">
   #### 정의 위치
 </div>
 
-[src/genai/subagent.ts:41](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/subagent.ts#L41)
+[src/genai/subagent.ts:78](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L78)
 
 ***
 
@@ -74,19 +60,39 @@ try {
   ### 이름
 </div>
 
-• `Readonly` **이름**: `string`
+• `get` **이름**(): `string`
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`string`
 
 <div id="defined-in">
   #### 정의 위치
 </div>
 
-[src/genai/subagent.ts:40](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/subagent.ts#L40)
+[src/genai/subagent.ts:74](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L74)
 
 ## 방법
 
 <div id="addevent">
   ### addEvent
 </div>
+
+<Warning>
+  **사용 중단.** 이 데이터는 대신 [setAttributes](./subagent#setattributes)를 통해 기록하세요.
+  OpenTelemetry는 Span Event API (`Span.addEvent`)를 단계적으로 폐지하고 있습니다. 이
+  메서드는 여전히 작동하며 기존 span-event 데이터도 계속 유효합니다.
+  참조: [https://opentelemetry.io/blog/2026/deprecating-span-events/](https://opentelemetry.io/blog/2026/deprecating-span-events/)
+
+  `예시`
+
+  ```ts twoslash
+  // @noErrors
+  span.addEvent('context_compacted', {removedMessages: 12});
+  ```
+</Warning>
 
 ▸ **addEvent**(`name`, `attributes?`, `startTime?`): `this`
 
@@ -110,13 +116,6 @@ try {
 
 `this`
 
-`예시`
-
-```ts twoslash
-// @noErrors
-span.addEvent('context_compacted', {removedMessages: 12});
-```
-
 <div id="inherited-from">
   #### 상속됨
 </div>
@@ -127,7 +126,7 @@ SpanBase.addEvent
   #### 정의 위치
 </div>
 
-[src/genai/spanBase.ts:77](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/spanBase.ts#L77)
+[src/genai/spanBase.ts:82](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L82)
 
 ***
 
@@ -137,7 +136,7 @@ SpanBase.addEvent
 
 ▸ **end**(`opts?`): `void`
 
-SubAgent span을 종료합니다. 멱등성을 가집니다. 실패로 표시하려면 `error`를 전달하세요;
+현재 필드 값(`start` 이후 `record()`로 수행된 변경 사항을 반영)을 조회하고 span을 종료합니다. 멱등성을 가집니다. 실패로 표시하려면 `error`를 전달하세요;
 종료 시점을 이전으로 소급하려면 `endTime`을 전달하세요.
 
 <div id="parameters">
@@ -158,7 +157,43 @@ SubAgent span을 종료합니다. 멱등성을 가집니다. 실패로 표시하
   #### 정의 위치
 </div>
 
-[src/genai/subagent.ts:72](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/subagent.ts#L72)
+[src/genai/subagent.ts:153](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L153)
+
+***
+
+<div id="record">
+  ### record
+</div>
+
+▸ **record**(`opts`): `this`
+
+필드를 한 번에 설정합니다. 병합하지 않고 대체합니다.
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름                         | 유형         |
+| :------------------------- | :--------- |
+| `opts`                     | `Object`   |
+| `opts.agentDescription?`   | `string`   |
+| `opts.agentId?`            | `string`   |
+| `opts.agentVersion?`       | `string`   |
+| `opts.model?`              | `string`   |
+| `opts.name?`               | `string`   |
+| `opts.systemInstructions?` | `string`[] |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`this`
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/genai/subagent.ts:117](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L117)
 
 ***
 
@@ -203,7 +238,7 @@ SpanBase.setAttributes
   #### 정의 위치
 </div>
 
-[src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/spanBase.ts#L63)
+[src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L63)
 
 ***
 
@@ -231,4 +266,4 @@ SpanBase.setAttributes
   #### 정의 위치
 </div>
 
-[src/genai/subagent.ts:46](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/subagent.ts#L46)
+[src/genai/subagent.ts:93](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L93)

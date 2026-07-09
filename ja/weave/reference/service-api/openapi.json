@@ -7153,6 +7153,18 @@
             ],
             "title": "Model Ref"
           },
+          "predict_total_cost": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "この評価における試行ごとの予測専用コストの合計です（モデルの predict() コストのみで、LLM-as-a-judge scorer のコストは含みません）。いずれの試行でもコストが報告されない場合は None です。",
+            "title": "Predict Total Cost"
+          },
           "predict_total_tokens": {
             "anyOf": [
               {
@@ -7290,6 +7302,12 @@
             ],
             "description": "グループ化された行に適用されるフィルターです。複数のフィルターは AND 条件で結合されます。",
             "title": "Filters"
+          },
+          "include_costs": {
+            "default": false,
+            "description": "true の場合、predict-and-score の子 Call にコスト情報を付与し、summary で予測専用の `predict_total_cost` をレポートできるようにします。明示的に有効化した場合のみ適用され、それ以外の呼び出し元ではコスト計算をスキップします。",
+            "title": "Include Costs",
+            "type": "boolean"
           },
           "include_predict_and_score_children": {
             "default": true,
@@ -7686,6 +7704,17 @@
             "additionalProperties": true,
             "title": "Scores",
             "type": "object"
+          },
+          "total_cost": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Cost"
           },
           "total_tokens": {
             "anyOf": [
@@ -10411,8 +10440,9 @@
           },
           "lifecycleStage": {
             "enum": [
-              "general-availability",
               "experimental",
+              "general-availability",
+              "deprecated",
               "retired"
             ],
             "title": "Lifecyclestage",
@@ -11111,6 +11141,18 @@
             ],
             "description": "価格情報です。"
           },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "モデルの説明（人が読んで理解しやすい形式）です。",
+            "title": "Description"
+          },
           "id": {
             "description": "AI SDK で使用されるモデル ID です。",
             "title": "Id",
@@ -11184,6 +11226,31 @@
             "description": "Chain-of-thought 推論のサポートです。",
             "title": "Reasoning",
             "type": "boolean"
+          },
+          "reasoning_options": {
+            "anyOf": [
+              {
+                "items": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/ReasoningToggle"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ReasoningEffortOption"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ReasoningBudgetTokens"
+                    }
+                  ]
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "推論をどのように制御するかを示します。推論がサポートされる場合に設定されます（空のリストを指定でき、その場合は常時有効を意味します）。それ以外の場合は省略されます。",
+            "title": "Reasoning Options"
           },
           "release_date": {
             "description": "最初の一般公開日（YYYY-MM-DD）です。",
@@ -12692,6 +12759,97 @@
           "$expr"
         ],
         "title": "Query",
+        "type": "object"
+      },
+      "ReasoningBudgetTokens": {
+        "description": "推論はトークン予算で制御されます。",
+        "properties": {
+          "max": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "推論予算の最大値です。",
+            "title": "Max"
+          },
+          "min": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "推論予算の最小値です。",
+            "title": "Min"
+          },
+          "type": {
+            "const": "budget_tokens",
+            "default": "budget_tokens",
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "title": "ReasoningBudgetTokens",
+        "type": "object"
+      },
+      "ReasoningEffortOption": {
+        "description": "推論の強度は、複数のレベルから選択できます。",
+        "properties": {
+          "type": {
+            "const": "effort",
+            "default": "effort",
+            "title": "Type",
+            "type": "string"
+          },
+          "values": {
+            "description": "使用可能な強度レベルです（null は暗黙のデフォルトを示します）。",
+            "items": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "none",
+                    "minimal",
+                    "low",
+                    "medium",
+                    "high",
+                    "xhigh",
+                    "max",
+                    "default"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "title": "Values",
+            "type": "array"
+          }
+        },
+        "required": [
+          "values"
+        ],
+        "title": "ReasoningEffortOption",
+        "type": "object"
+      },
+      "ReasoningToggle": {
+        "description": "推論はオンまたはオフにできます。",
+        "properties": {
+          "type": {
+            "const": "toggle",
+            "default": "toggle",
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "title": "ReasoningToggle",
         "type": "object"
       },
       "RefsReadBatchReq": {

@@ -5,27 +5,6 @@ description: "TypeScript SDK リファレンス"
 
 [weave](../) / SubAgent
 
-ネストされたエージェント呼び出しです。現在のエージェントが
-別の名前付きエージェントに処理を引き継ぐ際に使用されます
-(例: planner が researcher を呼び出す場合) 。サブエージェントの名と
-(必要に応じて) そのモデルがタグ付けされた
-`invoke_agent` スパンを出力します。
-
-`weave.startSubagent()` (または `turn.startAgent()`、あるいは
-`llm.startAgent()`) で作成し、`end()` で終了します。
-
-`例`
-
-```ts twoslash
-// @noErrors
-const sub = weave.startSubagent({name: 'researcher', model: 'gpt-4o'});
-try {
-  // ... サブエージェントの LLM/Tool Call を調整する ...
-} finally {
-  sub.end();
-}
-```
-
 <div id="hierarchy">
   ## 階層
 </div>
@@ -38,8 +17,8 @@ try {
   ## 目次
 </div>
 
-<div id="properties">
-  ### プロパティ
+<div id="accessors">
+  ### アクセサー
 </div>
 
 * [モデル](./subagent#model)
@@ -51,22 +30,29 @@ try {
 
 * [addEvent](./subagent#addevent)
 * [end](./subagent#end)
+* [record](./subagent#record)
 * [setAttributes](./subagent#setattributes)
 * [create](./subagent#create)
 
-## プロパティ
+## アクセサー
 
 <div id="model">
   ### モデル
 </div>
 
-• `Readonly` **モデル**: `string`
+• `get` **モデル**(): `string`
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`string`
 
 <div id="defined-in">
   #### 定義場所
 </div>
 
-[src/genai/subagent.ts:41](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/subagent.ts#L41)
+[src/genai/subagent.ts:78](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L78)
 
 ***
 
@@ -74,19 +60,39 @@ try {
   ### 名
 </div>
 
-• `Readonly` **name**: `string`
+• `get` **name**(): `string`
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`string`
 
 <div id="defined-in">
   #### 定義場所
 </div>
 
-[src/genai/subagent.ts:40](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/subagent.ts#L40)
+[src/genai/subagent.ts:74](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L74)
 
 ## メソッド
 
 <div id="addevent">
   ### addEvent
 </div>
+
+<Warning>
+  **非推奨です。** このデータは代わりに [setAttributes](./subagent#setattributes) を使用して記録してください。
+  OpenTelemetry では Span Event API (`Span.addEvent`) の段階的な廃止が進められています。この
+  メソッドは引き続き動作し、既存の span event データも引き続き有効です。
+  参照: [https://opentelemetry.io/blog/2026/deprecating-span-events/](https://opentelemetry.io/blog/2026/deprecating-span-events/)
+
+  `例`
+
+  ```ts twoslash
+  // @noErrors
+  span.addEvent('context_compacted', {removedMessages: 12});
+  ```
+</Warning>
 
 ▸ **addEvent**(`name`, `attributes?`, `startTime?`): `this`
 
@@ -110,13 +116,6 @@ try {
 
 `this`
 
-`例`
-
-```ts twoslash
-// @noErrors
-span.addEvent('context_compacted', {removedMessages: 12});
-```
-
 <div id="inherited-from">
   #### 継承元
 </div>
@@ -127,7 +126,7 @@ SpanBase.addEvent
   #### 定義場所
 </div>
 
-[src/genai/spanBase.ts:77](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/spanBase.ts#L77)
+[src/genai/spanBase.ts:82](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L82)
 
 ***
 
@@ -137,7 +136,8 @@ SpanBase.addEvent
 
 ▸ **end**(`opts?`): `void`
 
-SubAgent の スパン を終了します。冪等です。失敗としてマークするには、`error` を渡します。
+現在のフィールド値を読み取り (`start` 以降に `record()` によって行われた変更を反映するため) 、
+スパンを終了します。冪等です。失敗としてマークするには、`error` を渡します。
 終了時刻を過去にさかのぼって設定するには、`endTime` を渡します。
 
 <div id="parameters">
@@ -158,7 +158,43 @@ SubAgent の スパン を終了します。冪等です。失敗としてマー
   #### 定義場所
 </div>
 
-[src/genai/subagent.ts:72](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/subagent.ts#L72)
+[src/genai/subagent.ts:153](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L153)
+
+***
+
+<div id="record">
+  ### record
+</div>
+
+▸ **record**(`opts`): `this`
+
+任意のフィールドを一括で設定します。マージは行わず、置き換えます。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名                          | タイプ        |
+| :------------------------- | :--------- |
+| `opts`                     | `Object`   |
+| `opts.agentDescription?`   | `string`   |
+| `opts.agentId?`            | `string`   |
+| `opts.agentVersion?`       | `string`   |
+| `opts.model?`              | `string`   |
+| `opts.name?`               | `string`   |
+| `opts.systemInstructions?` | `string`[] |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`this`
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[src/genai/subagent.ts:117](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L117)
 
 ***
 
@@ -202,7 +238,7 @@ SpanBase.setAttributes
   #### 定義場所
 </div>
 
-[src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/spanBase.ts#L63)
+[src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L63)
 
 ***
 
@@ -230,4 +266,4 @@ SpanBase.setAttributes
   #### 定義場所
 </div>
 
-[src/genai/subagent.ts:46](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/subagent.ts#L46)
+[src/genai/subagent.ts:93](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L93)

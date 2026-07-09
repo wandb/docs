@@ -70,7 +70,7 @@ try {
   #### Défini dans
 </div>
 
-[src/genai/tool.ts:52](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L52)
+[src/genai/tool.ts:52](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/tool.ts#L52)
 
 ***
 
@@ -84,7 +84,7 @@ try {
   #### Défini dans
 </div>
 
-[src/genai/tool.ts:51](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L51)
+[src/genai/tool.ts:51](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/tool.ts#L51)
 
 ***
 
@@ -100,7 +100,7 @@ Sortie de l’outil sous forme de chaîne de caractères. Enregistrée dans `gen
   #### Défini dans
 </div>
 
-[src/genai/tool.ts:47](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L47)
+[src/genai/tool.ts:47](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/tool.ts#L47)
 
 ***
 
@@ -114,13 +114,27 @@ Sortie de l’outil sous forme de chaîne de caractères. Enregistrée dans `gen
   #### Défini dans
 </div>
 
-[src/genai/tool.ts:53](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L53)
+[src/genai/tool.ts:53](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/tool.ts#L53)
 
 ## Méthodes
 
 <div id="addevent">
   ### addEvent
 </div>
+
+<Warning>
+  **Obsolète.** Enregistrez plutôt ces données via [setAttributes](./tool#setattributes).
+  OpenTelemetry abandonne progressivement l’API Span Event (`Span.addEvent`). Cette
+  méthode fonctionne toujours et les données d’événements de span existantes restent valides.
+  Voir [https://opentelemetry.io/blog/2026/deprecating-span-events/](https://opentelemetry.io/blog/2026/deprecating-span-events/)
+
+  `Exemple`
+
+  ```ts twoslash
+  // @noErrors
+  span.addEvent('context_compacted', {removedMessages: 12});
+  ```
+</Warning>
 
 ▸ **addEvent**(`name`, `attributes?`, `startTime?`): `this`
 
@@ -144,13 +158,6 @@ ne fait rien après `end()`. Correspond à OTel `Span.addEvent`.
 
 `this`
 
-`Exemple`
-
-```ts twoslash
-// @noErrors
-span.addEvent('context_compacted', {removedMessages: 12});
-```
-
 <div id="inherited-from">
   #### Hérité de
 </div>
@@ -161,7 +168,7 @@ SpanBase.addEvent
   #### Défini dans
 </div>
 
-[src/genai/spanBase.ts:77](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/spanBase.ts#L77)
+[src/genai/spanBase.ts:82](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L82)
 
 ***
 
@@ -192,7 +199,7 @@ marquer le span comme ayant échoué ; passez `endTime` pour antidater la ferme
   #### Défini dans
 </div>
 
-[src/genai/tool.ts:87](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L87)
+[src/genai/tool.ts:87](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/tool.ts#L87)
 
 ***
 
@@ -237,7 +244,7 @@ SpanBase.setAttributes
   #### Défini dans
 </div>
 
-[src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/spanBase.ts#L63)
+[src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L63)
 
 ***
 
@@ -265,4 +272,4 @@ SpanBase.setAttributes
   #### Défini dans
 </div>
 
-[src/genai/tool.ts:58](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L58)
+[src/genai/tool.ts:58](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/tool.ts#L58)
