@@ -73,7 +73,7 @@ API 키는 사용 중인 머신을 W&amp;B에 인증하는 데 사용됩니다. 
 ```python
 import wandb
 
-wandb.init(project="visualize-sklearn") as run:
+with wandb.init(project="visualize-sklearn") as run:
 
   y_pred = clf.predict(X_test)
   accuracy = sklearn.metrics.accuracy_score(y_true, y_pred)
@@ -81,7 +81,7 @@ wandb.init(project="visualize-sklearn") as run:
   # 시간 경과에 따라 메트릭을 로깅하려면 run.log를 사용하세요
   run.log({"accuracy": accuracy})
 
-  # 또는 트레이닝 종료 시 최종 메트릭을 로깅하려면 run.summary를 사용할 수도 있습니다
+  # 또는 트레이닝 종료 시 최종 메트릭을 log하려면 run.summary를 사용할 수도 있습니다
   run.summary["accuracy"] = accuracy
 ```
 
@@ -118,7 +118,7 @@ wandb.sklearn.plot_confusion_matrix(y_true, y_pred, labels)
   #### 모든 플롯
 </div>
 
-W&amp;B에는 `plot_classifier`처럼 관련된 여러 플롯을 그려 주는 함수가 있습니다:
+W&amp;B에는 `plot_classifier`처럼 관련 플롯 여러 개를 그려 주는 함수가 있습니다:
 
 ```python
 # 모든 분류기 플롯 시각화
@@ -164,10 +164,10 @@ import wandb
 
 with wandb.init(project="visualize-sklearn") as run:
 
-  # plt.plot(), plt.scatter() 등을 여기서 모두 수행합니다.
+  # plt.plot(), plt.scatter() 등을 여기서 모두 수행하세요.
   # ...
 
-  # plt.show() 대신 다음을 실행합니다:
+  # plt.show() 대신 다음을 수행하세요:
   run.log({"plot": plt})
 ```
 
