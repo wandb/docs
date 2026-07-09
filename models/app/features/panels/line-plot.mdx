@@ -35,7 +35,7 @@ In an [automatic workspace](/models/app/features/panels#workspace-modes), W&B cr
     1. Click **Create [NUMBER] panels**.
 1. To add a custom line plot instead, click **Line plot**.
     1. Configure the line plot's data, grouping, and display preferences using the corresponding tabs. For details, see [Edit line plot settings](#edit-line-plot-settings).
-    1. To add calculated expressions to the x-axis or y-axis, click **Expressions**. Specify a regular expression. Use Google's [RE2 syntax](https://github.com/google/re2/wiki/Syntax).
+    1. To add calculated expressions to the x-axis or y-axis, click **Expressions**. Use Google's [RE2 syntax](https://github.com/google/re2/wiki/Syntax) when you define a regular expression.
 1. Select the type of panel to add, such as a chart. The panel's configuration details appear with selected defaults.
 1. Optionally, customize the panel and its display preferences. Configuration options depend on the type of panel you select. For more information about the options for each type of panel, see [Line plots](/models/app/features/panels/line-plot/) or [Bar plots](/models/app/features/panels/bar-plot/).
 1. Click **Apply**.
@@ -46,7 +46,7 @@ In an [automatic workspace](/models/app/features/panels#workspace-modes), W&B cr
 This feature is in preview, available by invitation only. To request enrollment, contact [support](mailto:support@wandb.com) or your AISE.
 </Note>
 
-In an [automatic workspace](/models/app/features/panels#workspace-modes), W&B creates a single-metric line plot automatically for each logged metric. This section shows how to create a single line plot that shows multiple metrics together, defined by a RE2 syntax. You can optionally consolidate many single-metric plots into a single multi-metric plot. This can improve the performance of a workspace with many logged metrics, and can help you analyze the results of your runs.
+In an [automatic workspace](/models/app/features/panels#workspace-modes), W&B creates a single-metric line plot automatically for each logged metric. This section shows how to create a single line plot that shows multiple metrics together, defined by a [RE2 syntax](https://github.com/google/re2/wiki/Syntax). You can optionally consolidate many single-metric plots into a single multi-metric plot. This can improve the performance of a workspace with many logged metrics, and can help you analyze the results of your runs.
 
 1. Navigate to your workspace.
 1. To add a line plot globally, click **Add panels** in the control bar near the panel search field.
