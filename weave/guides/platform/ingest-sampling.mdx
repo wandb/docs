@@ -1,0 +1,135 @@
+---
+title: "Configure ingest sampling for self-managed Weave"
+description: "Keep only a share of incoming traces to control storage and LLM scoring costs on a self-managed Weave instance"
+keywords: ["ingest sampling", "sample rate", "self-managed", "trace server", "WEAVE_INGEST_SAMPLE_RATE", "dry run", "DogStatsD"]
+---
+
+{/*
+DO NOT PUBLISH YET. Hold this page until the next on-prem server image that
+contains the sampler is cut and customers can use it.
+Open items before merge:
+- Confirm the SDK version gate with Roman: this page says Python 0.53.0+ /
+  TypeScript 0.16.1+, but an earlier tracking ticket referenced 0.52.44.
+- Confirm the exact DogStatsD counter names are OK to publish, or move them
+  to an internal runbook.
+- Remove this comment.
+*/}
+
+Ingest sampling lets you keep only a share of the traces that arrive at a self-managed W&B Weave instance and drop the rest. An administrator sets a single sample rate on the trace server, and it applies across the whole deployment. Use ingest sampling to control cost at high trace volume. It's off by default, and evaluations are always kept.
+
+This guide is for administrators who operate a [self-managed Weave instance](/weave/guides/platform/weave-self-managed). It explains how ingest sampling works, how to turn it on, and its requirements and limitations.
+
+<Note>
+Ingest sampling requires a Weave server version that includes the sampler, and it samples only traffic from the Weave Python SDK 0.53.0 or later, or the Weave TypeScript SDK 0.16.1 or later. Traffic from older SDKs, and traces sent as raw OpenTelemetry, is kept in full. For details, see [Requirements and limitations](#requirements-and-limitations).
+</Note>
+
+## Why use ingest sampling
+
+By default, Weave keeps every trace that your applications send. A trace is the record of one run through your app: a single call and everything beneath it. A busy production app produces an enormous number of traces, and many of them look nearly identical because the same path runs over and over. Weave keeps them all by default because it can't know in advance which trace you'll need later. A routine-looking trace can turn out to be the one carrying the error you want to debug.
+
+Keeping that complete record becomes expensive at scale, and storage usually isn't the largest cost. Monitors and scorers run over each ingested trace, and when the scorers are LLM-based, every scored trace is an LLM call. At high volume, the LLM scoring bill typically dominates. Storage adds cost too, but it's comparatively minor.
+
+Ingest sampling happens on the server, before a trace is stored or scored, so a dropped trace is never stored and never scored. You save on both. Roughly, what you pay scales with the share of traffic that you keep.
+
+You control ingest sampling with a single number, the sample rate:
+
+- `1.0` keeps everything. Sampling is off. This is the default.
+- `0.1` keeps about 10% of traces and drops the rest.
+- `0.0` drops everything except evaluations. See [Evaluations are always kept](#evaluations-are-always-kept).
+
+## Scope: Weave classic only
+
+Weave has two data models:
+
+- **Weave classic**: the `@weave.op` calls traces shown in the Traces table.
+- **Weave agents**: the newer agents (spans) data model.
+
+Ingest sampling applies only to Weave classic. Agents traffic isn't sampled and is always kept in full. Throughout this page, "traces" means Weave-classic traces.
+
+## How it works
+
+The following sections describe why the sampling decision is made on the server and how the server decides which traces to keep.
+
+### Why sampling happens on the server
+
+Weave also offers client-side sampling at the Op level. The `tracing_sample_rate` parameter in the `@weave.op` decorator lets an individual traced function sample its own calls. That setting remains available and is independent of ingest sampling. For more information, see [Control sampling rate](/weave/guides/tracking/ops#control-sampling-rate).
+
+Ingest sampling is server-side by design. A rate that lives in the client can't enforce a single organization-wide limit: each client decides for itself, can run a different version, and can change or ignore the setting. Some teams also send traces without the Weave SDK at all, for example through their own OpenTelemetry tooling. With a server-side rate, an administrator configures one value that applies across the whole deployment, and no client can opt out.
+
+### The keep or drop decision
+
+The server derives the decision from each trace's `trace_id` using a stable rule, not a per-message coin flip. A stable rule is required because a single trace doesn't arrive as one request. It arrives as many messages (`call/start`, `call/end`, and batch writes) that share the same `trace_id` and arrive over time. A random choice per message would keep some messages and drop others, tearing the trace apart.
+
+The server keeps a trace when a hash of its id falls under the rate:
+
+```text
+keep = ( sha256(trace_id) mod 1,000,000 ) < rate × 1,000,000
+```
+
+At a rate of `0.1`, the roughly 10% of trace ids whose hash lands in the lowest tenth are kept, and the rest are dropped. Because the rule depends only on the `trace_id` and the rate, every message of a trace receives the same verdict. A trace is kept whole or dropped whole, never stored halfway.
+
+<Warning>
+The verdict is stable only while the rate is fixed. A trace that's in flight when the rate changes can be split across the change. Change the sample rate during a low-traffic window.
+</Warning>
+
+## Evaluations are always kept
+
+An evaluation is a deliberate quality measurement: you run your app over a dataset and score the results. An evaluation is a single run made of many linked calls, with one root call and many children.
+
+Sampling is meant to thin high-volume production traffic, not your evaluations. Evaluations are relatively few and high-value. You run them on purpose to measure quality, so dropping them to save cost would defeat their purpose. Weave therefore keeps evaluation calls regardless of the sample rate. This rule is called the eval carve-out.
+
+There's a second reason to keep evaluations whole: if Weave kept only part of an evaluation, its scores would be computed over incomplete data and come out wrong.
+
+Because evaluations are always kept, a rate of `0.0` means "drop everything except evaluations," not "drop everything."
+
+The carve-out is reliable for traffic from supported SDK versions and can miss evaluations in other traffic. See [Requirements and limitations](#requirements-and-limitations).
+
+## Configure ingest sampling
+
+Configure ingest sampling with environment variables on the trace server deployment, for example through your Helm values.
+
+### Set the sample rate
+
+One variable turns sampling on:
+
+| Variable | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| `WEAVE_INGEST_SAMPLE_RATE` | float | `1.0` | The share of traces to keep. `1.0` keeps all traces (sampling is off). `0.1` keeps about 10%. `0.0` drops all traces except evaluations. An invalid or out-of-range value falls back to `1.0`, so a bad configuration can't start dropping data. |
+
+Set `WEAVE_INGEST_SAMPLE_RATE` to the share of traces that you want to keep, for example `0.1`. That's all most deployments need. Because the default is `1.0`, nothing is dropped until you lower the rate.
+
+### Optional: Preview with a dry run
+
+A second variable lets you preview the effect of a sample rate before dropping anything:
+
+| Variable | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| `WEAVE_INGEST_SAMPLE_DRY_RUN` | bool | `false` | When `true`, the server makes the keep or drop decision and counts what it would drop, but drops nothing. |
+
+A dry run is a safety switch, not a required step. Its only output is the server's sampling metrics, emitted as DogStatsD counters, for example to Datadog. If your deployment doesn't collect those metrics, a dry run has no visible effect, and you can skip it and set the rate directly.
+
+If you do collect the metrics, run with `WEAVE_INGEST_SAMPLE_RATE=0.1` and `WEAVE_INGEST_SAMPLE_DRY_RUN=true` for a while to see how much traffic the server would drop and how much traffic isn't eligible for sampling. Then set `WEAVE_INGEST_SAMPLE_DRY_RUN=false` to begin dropping traces.
+
+The server emits each counter with a `route` tag that identifies the endpoint. The service name is set separately through the `DD_SERVICE` environment variable.
+
+| Metric | What it counts |
+| --- | --- |
+| `ingest_sampling.seen` | Call records the sampler evaluated. |
+| `ingest_sampling.evals_kept` | Evaluation calls kept by the carve-out. |
+| `ingest_sampling.dropped` | Records dropped. Carries a `dry_run` tag. |
+| `ingest_sampling.dropped_bytes` | Bytes dropped. Carries a `dry_run` tag. |
+| `ingest_sampling.unsupported` | Traffic from clients too old to be sampled. |
+| `ingest_sampling.parse_failures` | Messages received without a usable trace id. |
+
+These metrics show what would be, or was, dropped. They don't by themselves prove that the server kept every evaluation.
+
+## Requirements and limitations
+
+Before you enable ingest sampling, review the following requirements and limitations:
+
+- **SDK version requirements**: The drop decision runs on the server, but it relies on signals that the Weave SDK adds to each message so the server can group a trace's messages and recognize evaluation calls. Those signals require the Weave Python SDK 0.53.0 or later, or the Weave TypeScript SDK 0.16.1 or later. Until your apps upgrade to a supported SDK, the server has nothing it can safely sample, and the rate has no effect. After clients upgrade, the server checks each request and samples only traffic from supported clients. Traffic from older clients isn't sampled and isn't rejected.
+- **Raw OpenTelemetry traffic isn't sampled**: Traces sent with your own OpenTelemetry tooling arrive at the raw OTel endpoint (`/otel/v1/traces`) and are always stored in full. Raw OpenTelemetry traffic carries no evaluation marker, so the eval carve-out can't be applied to it, and sampling it would risk silently dropping evaluations. For more information, see [Send OpenTelemetry traces to Weave](/weave/guides/tracking/otel).
+- **Savings depend on your client mix**: Traffic that isn't sampled, such as traffic from older clients and raw OpenTelemetry, doesn't reduce cost. If much of your traffic comes from those sources, savings are smaller than the rate implies. A dry run is the best way to measure this first.
+- **The eval carve-out isn't an absolute guarantee**: The server decides as each trace arrives and doesn't buffer traffic, so it can only spare an evaluation when the evaluation marker is already present on the message it's inspecting. A supported Weave SDK marks every evaluation call, so the carve-out is reliable for that traffic. Older SDKs don't always mark evaluations, and raw OpenTelemetry never does, so an evaluation in that traffic can be dropped.
+- **Monitors and scoring**: A dropped trace is neither stored nor scored. If you rely on monitors covering 100% of traffic, account for this before you enable sampling.
+- **No drop signal to the client**: A dropped trace receives a normal success response. The client isn't told that its trace was dropped.
