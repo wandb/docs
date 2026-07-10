@@ -1,0 +1,129 @@
+---
+title: Bedrock Agents
+description: "Tracez les invocations d’Amazon Bedrock Agents avec Weave en capturant les entrées de l’agent, l’utilisation du modèle de fondation et la sortie de complétion."
+---
+
+[Amazon Bedrock Agents](https://docs.aws.amazon.com/bedrock/latest/userguide/agents.html) vous permettent de créer sur AWS des agents d’IA gérés qui orchestrent des modèles de fondation, des bases de connaissances et des groupes d’actions. Weave trace les appels au client `bedrock-agent-runtime` afin que vous puissiez inspecter chaque invocation `invoke_agent`, y compris le modèle de fondation, l’utilisation des jetons, l’ID de session et la réponse de l’agent.
+
+<Note>
+  Le SDK TypeScript de Weave ne prend actuellement pas en charge l’intégration à Bedrock Agents.
+</Note>
+
+<div id="prerequisites">
+  ## Prérequis
+</div>
+
+* Une clé API W&amp;B. Pour plus d&#39;informations, voir [les clés API](/fr/platform/app/settings-page/user-settings#api-keys).
+* Des identifiants d’authentification AWS configurés pour un compte disposant d’un accès à Bedrock Agents (voir [Identity and access management for Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/security-iam.html)).
+* Un agent Bedrock et un alias existants. Notez les valeurs de `agentId` et `agentAliasId`. Vous pouvez afficher la liste des agents associés à votre ID en exécutant la commande AWS CLI suivante, en remplaçant `<your-region>` par le slug de la région où se trouve votre agent :
+
+  ```bash
+  aws bedrock-agent list-agents --region us-east-1
+  ```
+
+<div id="installation">
+  ## Installation
+</div>
+
+Installez Weave et le SDK AWS pour Python :
+
+```bash
+pip install weave boto3
+```
+
+<div id="trace-invoke_agent-calls">
+  ## Tracer les appels `invoke_agent`
+</div>
+
+Créez un client `bedrock-agent-runtime` et passez-le à `patch_client`. Weave détecte le type de client et encapsule la méthode `invoke_agent`. Une fois le patching appliqué, utilisez le client comme d’habitude.
+
+```python lines highlight="15-17"
+import boto3
+
+import weave
+from weave.integrations.bedrock import patch_client
+
+weave.init("your-team-name/bedrock-agents-demo")
+
+# Créer et appliquer le patch au client runtime Bedrock Agents.
+bedrock_agent_client = boto3.client("bedrock-agent-runtime", region_name="us-east-1")
+patch_client(bedrock_agent_client)
+
+# Invoquer l'agent. Définir `enableTrace=True` pour que Weave puisse capturer le
+# modèle de fondation sous-jacent et l'utilisation des jetons depuis les événements de trace d'orchestration.
+response = bedrock_agent_client.invoke_agent(
+    agentId="[YOUR-AGENT-ID]",
+    agentAliasId="[YOUR-AGENT-ALIAS-ID]",
+    sessionId="[YOUR-SESSION-ID]",
+    inputText="What is the capital of France?",
+    enableTrace=True,
+)
+
+# Consommer la complétion en streaming pour assembler le texte de réponse final.
+final_text = ""
+for event in response["completion"]:
+    chunk = event.get("chunk")
+    if chunk and "bytes" in chunk:
+        final_text += chunk["bytes"].decode("utf-8")
+
+print(final_text)
+```
+
+Chaque appel `invoke_agent` apparaît dans l’interface Weave sous la forme d’une trace `BedrockAgentRuntime.invoke_agent`. La trace enregistre :
+
+* Les entrées de l’agent (`agentId`, `agentAliasId`, `sessionId`, `inputText`).
+* Le texte de l’assistant extrait du flux d’événements de complétion.
+* Le modèle de fondation sous-jacent utilisé par l’agent (extrait de la trace d’orchestration).
+* L’utilisation des jetons (`prompt_tokens`, `completion_tokens`, `total_tokens`) lorsqu’elle est renvoyée par l’agent.
+
+Le modèle de fondation et l’utilisation des jetons sont extraits des événements `orchestrationTrace`, que Bedrock n’émet que lorsque `invoke_agent` est appelé avec `enableTrace=True`. Sans cet indicateur, les traces capturent toujours les entrées et le texte de réponse généré, mais le modèle de fondation prend par défaut la valeur `bedrock-agent:<agentId>` et le nombre de jetons n’est pas disponible.
+
+<div id="nest-related-agent-calls-together">
+  ## Imbriquez les appels d’agent liés
+</div>
+
+Pour regrouper un appel `invoke_agent` avec une logique connexe, comme le prétraitement, le post-traitement ou des appels d’API en chaîne, encapsulez votre fonction avec `@weave.op`. Weave imbrique la trace patchée de `invoke_agent` dans l’op parent.
+
+```python lines
+@weave.op
+def ask_agent(question: str, session_id: str) -> str:
+    response = bedrock_agent_client.invoke_agent(
+        agentId="[YOUR-AGENT-ID]",
+        agentAliasId="[YOUR-AGENT-ALIAS-ID]",
+        sessionId=session_id,
+        inputText=question,
+        enableTrace=True,
+    )
+    text = ""
+    for event in response["completion"]:
+        chunk = event.get("chunk")
+        if chunk and "bytes" in chunk:
+            text += chunk["bytes"].decode("utf-8")
+    return text
+
+
+answer = ask_agent("Summarize today's open support tickets.", session_id="session-1")
+```
+
+<div id="multi-turn-conversations">
+  ## Conversations sur plusieurs tours de conversation
+</div>
+
+Les Bedrock Agents conservent l’état de la conversation côté service lorsque vous réutilisez un `sessionId`. Pour regrouper plusieurs tours de conversation dans une trace unique dans l’interface Weave, encapsulez ces tours de conversation dans `weave.thread` :
+
+```python lines
+with weave.thread("support-conversation") as t:
+    for prompt in [
+        "I can't log in to my account.",
+        "I already tried resetting my password.",
+    ]:
+        ask_agent(prompt, session_id=t.thread_id)
+```
+
+Weave affiche chaque tour de conversation dans l’interface utilisateur comme une ligne distincte dans la vue Threads.
+
+<div id="view-traces">
+  ## Consulter les traces
+</div>
+
+Lorsque vous exécutez l’exemple, Weave affiche un lien vers le tableau de bord du projet. Ouvrez le lien pour examiner les entrées de l’agent, le modèle de fondation, l’utilisation des jetons et la réponse générée pour chaque appel à `invoke_agent`.

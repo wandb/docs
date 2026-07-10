@@ -2187,6 +2187,7 @@
                             "group": "Frameworks",
                             "pages": [
                               "fr/weave/guides/integrations/openai-realtime-audio",
+                              "fr/weave/guides/integrations/bedrock_agents",
                               "fr/weave/guides/integrations/langchain",
                               "fr/weave/guides/integrations/llamaindex",
                               "fr/weave/guides/integrations/dspy",
@@ -3687,6 +3688,7 @@
                             "group": "フレームワーク",
                             "pages": [
                               "ja/weave/guides/integrations/openai-realtime-audio",
+                              "ja/weave/guides/integrations/bedrock_agents",
                               "ja/weave/guides/integrations/langchain",
                               "ja/weave/guides/integrations/llamaindex",
                               "ja/weave/guides/integrations/dspy",
@@ -5187,6 +5189,7 @@
                             "group": "프레임워크",
                             "pages": [
                               "ko/weave/guides/integrations/openai-realtime-audio",
+                              "ko/weave/guides/integrations/bedrock_agents",
                               "ko/weave/guides/integrations/langchain",
                               "ko/weave/guides/integrations/llamaindex",
                               "ko/weave/guides/integrations/dspy",
