@@ -253,6 +253,7 @@ As in the [Build an Evaluation pipeline tutorial](/weave/tutorial-eval), define 
 from openai import OpenAI
 import weave
 import asyncio
+import json
 
 @weave.op()
 async def context_precision_score(question, output):
@@ -349,6 +350,9 @@ At a high level, the steps to create a custom Scorer are:
 <CodeGroup>
 
 ```python Python lines
+from typing import Any, Optional
+import numpy as np
+import weave
 from weave import Scorer
 
 class CorrectnessLLMJudge(Scorer):
@@ -368,9 +372,9 @@ class CorrectnessLLMJudge(Scorer):
 
         # get_model is defined as general model getter based on provided params (OpenAI,HF...)
         eval_model = get_model(
-            model_name = self.model_name,
-            prompt = self.prompt
-            device = self.device,
+            model_name=self.model_name,
+            prompt=self.prompt,
+            device=self.device,
         )
         # async evaluation to speed up evaluation - this doesn't have to be async
         grade = await eval_model.async_predict(
@@ -736,7 +740,7 @@ const contextPrecisionScore = weave.op(async function(args: {
 });
 
 async function main() {
-    # Set your team and project names
+    // Set your team and project names
     await weave.init('<team-name>/rag-quickstart');
     
     const articleEmbeddings = await docsToEmbeddings(articles);
