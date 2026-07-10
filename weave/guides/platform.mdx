@@ -4,13 +4,15 @@ description: "Learn about Weave's deployment options, IAM management, and data s
 keywords: ["deployment", "IAM", "SSO", "Dedicated Cloud", "data security"]
 ---
 
+import WeaveByob from "/snippets/_includes/weave-byob.mdx";
+
 This page describes how to deploy Weave, manage access, and protect data, so you can choose the deployment option and security controls that fit your organization's needs.
 
 Weave is available on the following deployment options:
 
 - **[W&B Multi-tenant Cloud](https://docs.wandb.ai/platform/hosting/hosting-options/multi_tenant_cloud):** A multi-tenant, fully managed platform deployed in W&B's Google Cloud Platform (Google Cloud) account in a North America region.
 - **[W&B Dedicated Cloud](https://docs.wandb.ai/platform/hosting/hosting-options/dedicated-cloud):** Generally available on AWS, Google Cloud, and Azure.
-- **[Self-Managed instances](/weave/guides/platform/weave-self-managed):** For teams that prefer to host Weave independently, your W&B team provides guidance to evaluate deployment options.
+- **[Self-Managed instances](/weave/guides/platform/weave-self-managed):** Set up a W&B Self-Managed instance and enable Weave on your own infrastructure. This is for teams that prefer to host Weave independently, your W&B team provides guidance to evaluate deployment options.
 
 ## Identity and access management
 
@@ -35,9 +37,7 @@ The data security protections available to you depend on your deployment option.
   - **[Data encryption](/platform/hosting/data-security/data-encryption):** W&B encrypts data at rest using a unique W&B-managed encryption key.
   - **ClickHouse cluster security:** W&B connects to the unique ClickHouse Cloud cluster for your Dedicated Cloud instance over the cloud provider's private network. W&B also encrypts the cluster with a unique W&B-managed encryption key and uses ClickHouse's file-level encryption.
 
-<Warning>
-[The W&B Platform secure storage connector or BYOB](/platform/hosting/data-security/secure-storage-connector) is not available for Weave.
-</Warning>
+<WeaveByob/>
 
 ## Maintenance
 

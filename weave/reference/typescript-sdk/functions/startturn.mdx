@@ -24,7 +24,7 @@ Start a new Turn. If a Conversation is active, the turn inherits its
 
 ```ts twoslash
 // @noErrors
-weave.startTurn({agentName: 'research-bot'});
+weave.startTurn();
 ```
 
 `Example`
@@ -32,13 +32,19 @@ weave.startTurn({agentName: 'research-bot'});
 ```ts twoslash
 // @noErrors
 weave.startTurn({
+  agentId: 'research-bot-prod',
   agentName: 'research-bot',
+  agentDescription: 'Looks up facts on Wikipedia.',
+  agentVersion: '1.4.2',
+  model: 'gpt-4o',
+  userMessage: 'What is the weather in Tokyo?',
+  systemInstructions: ['You are a helpful weather bot.'],
   startTime: new Date('2026-05-29T10:00:00.000Z'),
 });
 ```
 
 #### Defined in
 
-[src/genai/api.ts:48](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/api.ts#L48)
+[src/genai/api.ts:54](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L54)
 
 ___
