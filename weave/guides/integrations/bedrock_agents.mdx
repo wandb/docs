@@ -72,7 +72,7 @@ Each `invoke_agent` call appears in the Weave UI as a `BedrockAgentRuntime.invok
 
 The foundation model and token usage are extracted from `orchestrationTrace` events, which Bedrock only emits when `invoke_agent` is called with `enableTrace=True`. Without this flag, traces still capture the inputs and the generated response text, but the foundation model falls back to `bedrock-agent:<agentId>` and token counts are unavailable.
 
-## Wrap an agent call with `weave.op`
+## Nest related agent calls together
 
 To group an `invoke_agent` call with related logic, such as preprocessing, postprocessing, or chained API calls, wrap your function with `@weave.op`. Weave nests the patched `invoke_agent` trace inside the parent op.
 
