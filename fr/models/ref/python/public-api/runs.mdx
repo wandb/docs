@@ -21,30 +21,29 @@ Cette classe s’utilise généralement de manière indirecte via l’espace de 
 
 ```python
 __init__(
-    client: 'RetryingClient',
+    service_api: 'ServiceApi',
     entity: 'str',
     project: 'str',
     filters: 'dict[str, Any] | None' = None,
     order: 'str' = '+created_at',
     per_page: 'int' = 50,
-    include_sweeps: 'bool' = True,
+    include_sweeps: 'bool' = False,
     lazy: 'bool' = True,
-    service_api: 'ServiceApi | None' = None
+    api_key: 'str | None' = None
 )
 ```
 
 **Arguments :**
 
-* `client`:  (`wandb.apis.public.RetryingClient`) Le client API à utiliser pour les requêtes.
-* `entity`:  (str) L’entité (nom d’utilisateur ou équipe) propriétaire du projet.
-* `project`:  (str) Le nom du projet depuis lequel récupérer les runs.
-* `filters`:  (Optional[Dict[str, Any]]) Un dictionnaire de filtres à appliquer à la requête de runs.
-* `order`:  (str) L’ordre peut être `created_at`, `heartbeat_at`, `config.*.value` ou `summary_metrics.*`.  Si l’ordre est précédé de `+`, le tri est croissant (par défaut).  Si l’ordre est précédé de `-`, le tri est décroissant.  Par défaut, l’ordre est `run.created&#95;at`, du plus ancien au plus récent.
-* `per_page`:  (int) Le nombre de runs à récupérer par requête (50 par défaut).
-* `include_sweeps`:  (bool) Indique s’il faut inclure les informations sur les Sweeps dans les runs. La valeur par défaut est `True`.
+* `service_api`:  L’API de service à utiliser pour les requêtes.
+* `entity`:  L’entité (nom d’utilisateur ou équipe) propriétaire du projet.
+* `project`:  Le nom du projet depuis lequel récupérer les runs.
+* `filters`:  Filtres à appliquer à la requête de runs.
+* `order`:  L’ordre peut être `created_at`, `heartbeat_at`, `config.*.value` ou `summary_metrics.*`.  Si l’ordre est précédé de `+`, le tri est croissant (par défaut).  Si l’ordre est précédé de `-`, le tri est décroissant.  Par défaut, l’ordre est `run.created&#95;at`, du plus ancien au plus récent.
+* `per_page`:  Le nombre de runs à récupérer par requête (50 par défaut).
+* `include_sweeps`:  Indique s’il faut inclure les informations sur les Sweeps dans les runs. La valeur par défaut est `True`.
 
 ***
-
 
 ### <kbd>propriété</kbd> Runs.length
 

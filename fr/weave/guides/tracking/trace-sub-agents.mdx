@@ -1,0 +1,166 @@
+---
+title: Tracer les sous-agents
+description: Utilisez le span de sous-agent de Weave pour tracer les délégations à des sous-agents et afficher les invocations d'agents imbriquées.
+keywords: ["sous-agents", "invoke_agent", "spans OTel", "multi-agent", "start_subagent"]
+---
+
+Ce guide vous montre comment utiliser W&amp;B Weave pour tracer des sous-agents afin que les invocations d’agent déléguées apparaissent comme des spans imbriqués dans la même trace que le tour de conversation parent. Le traçage des sous-agents vous permet de voir la hiérarchie complète du raisonnement d’un agent, notamment les agents spécialistes auxquels l’agent parent a fait appel, ce qu’ils ont fait et comment ils ont contribué à la réponse finale. Ce guide s’adresse aux développeurs qui instrumentent des systèmes multi-agent avec Weave.
+
+Un sous-agent est une invocation d’agent déléguée qui s’exécute à l’intérieur d’un tour de conversation. Utilisez des sous-agents lorsqu’un agent transmet la tâche à un autre, par exemple lorsqu’un agent superviseur délègue à un agent spécialiste.
+
+Lorsque vous les instrumentez avec Weave, les sous-agents émettent un span OpenTelemetry (OTel) `invoke_agent` imbriqué dans la même trace que le tour de conversation parent. Dans la vue **Agents**, cet emboîtement apparaît comme une invocation de sous-agent sous le tour de conversation qui l’a déclenchée, avec ses propres appels LLM et appels d’outil regroupés en dessous.
+
+<div id="sub-agent-data-model">
+  ## Modèle de données du sous-agent
+</div>
+
+Avant d’instrumenter votre code, il est utile de comprendre comment Weave représente les sous-agents dans une trace. Le span `weave.start_subagent` correspond au span OTel `invoke_agent` et utilise le même nom d’opération que le tour de conversation parent. Weave distingue les deux par leur relation parent-enfant dans la trace :
+
+```plaintext
+Turn (invoke_agent — root span)
+├── LLM call (chat)              ← raisonnement de l'agent parent
+│   └── SubAgent (invoke_agent)  ← la délégation s'effectue ici
+│       ├── LLM call (chat)      ← appel LLM du sous-agent
+│       └── Tool call (execute_tool)
+└── LLM call (chat)              ← l'agent parent synthétise la réponse finale
+```
+
+Les sous-agents héritent du `conversation_id` de la conversation active ; ils sont donc regroupés avec le reste de la conversation dans la vue **Agents**.
+
+```python lines
+sub = weave.start_subagent(
+    name="research-specialist",   # Required: identifies this sub-agent in the UI.
+    model="gpt-4o",               # Facultatif : utilise par défaut le modèle de la conversation parente si non renseigné.
+)
+```
+
+`weave.start_subagent` crée un span `invoke_agent` qui devient automatiquement un span enfant du span actuellement actif dans le contexte OTel, généralement le tour de conversation parent ou l’appel LLM qui a déclenché la délégation. La propagation du contexte OTel gère la relation parent-enfant, vous n’avez donc pas besoin de délégation explicite.
+
+<div id="trace-a-single-sub-agent">
+  ## Tracer un seul sous-agent
+</div>
+
+L’exemple suivant exécute un agent superviseur qui reçoit une requête et la délègue à un sous-agent spécialiste de la recherche, qui utilise un outil de recherche Wikipédia pour trouver la réponse.
+
+Weave capture la hiérarchie complète en enveloppant la conversation dans `weave.start_conversation`, puis dans un `conversation.start_turn`. Weave capture ensuite la trace du sous-agent à l’aide du bloc `weave.start_subagent` pour le spécialiste, et enregistre chaque appel LLM et chaque exécution d’outil comme des spans enfants.
+
+La logique d’acheminement est volontairement omise de ces exemples afin de se concentrer sur le traçage entre les agents.
+
+```python lines highlight="4,10,16,22,30"
+import weave
+from weave.conversation import Message, Usage
+
+weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
+
+with weave.start_conversation(agent_name="supervisor") as conversation:
+    with conversation.start_turn(user_message="Research the founders of Anthropic.") as turn:
+
+        # Appel LLM du superviseur : décider à quel spécialiste déléguer.
+        with weave.start_llm(model="gpt-4o", provider_name="openai") as llm:
+            llm.input_messages = [Message(role="user", content="Research the founders of Anthropic.")]
+            llm.output("Delegating to the research specialist.")
+            llm.usage = Usage(input_tokens=80, output_tokens=10)
+
+        # Déléguer au spécialiste de la recherche en tant que sous-agent.
+        with weave.start_subagent(name="research-specialist", model="gpt-4o") as sub:
+            with sub.llm(model="gpt-4o", provider_name="openai") as sub_llm:
+                sub_llm.input_messages = [Message(role="user", content="Find founders of Anthropic.")]
+                sub_llm.output("I should search for this.")
+                sub_llm.usage = Usage(input_tokens=120, output_tokens=15)
+
+                with weave.start_tool(name="wikipedia_search", arguments='{"query":"Anthropic"}') as tool:
+                    tool.result = "Anthropic was founded by Dario and Daniela Amodei in 2021."
+
+            with sub.llm(model="gpt-4o", provider_name="openai") as sub_llm:
+                sub_llm.output("Anthropic was founded by Dario and Daniela Amodei in 2021.")
+                sub_llm.usage = Usage(input_tokens=200, output_tokens=25)
+
+        # Retour dans le tour de conversation du superviseur : synthétiser la réponse finale.
+        with weave.start_llm(model="gpt-4o", provider_name="openai") as llm:
+            llm.output("Anthropic was founded by Dario and Daniela Amodei in 2021.")
+            llm.usage = Usage(input_tokens=300, output_tokens=20)
+```
+
+Dans la vue **Agents**, le sous-agent apparaît sous la forme d’un bloc `invoke_agent` imbriqué dans le tour de conversation, avec ses propres appels LLM et appels d’outil regroupés en dessous. Les appels LLM directs du superviseur restent au même niveau que le sous-agent.
+
+<div id="trace-multiple-sub-agents">
+  ## Tracer plusieurs sous-agents
+</div>
+
+L&#39;exemple suivant exécute un agent de pipeline de contenu qui traite une seule requête en la déléguant, en séquence, à trois sous-agents au même niveau : un `researcher` qui recueille des informations, un `writer` qui rédige le billet, et un `reviewer` qui peaufine le résultat final.
+
+Weave capture ces trois sous-agents comme étant au même niveau sous le même tour de conversation en ouvrant un bloc `weave.start_subagent` distinct pour chacun d&#39;eux. Comme chaque sous-agent hérite du contexte OTel du tour de conversation actif, les sous-agents apparaissent comme des spans `invoke_agent` au même niveau, imbriqués sous le tour de conversation plutôt que les uns sous les autres.
+
+```python lines highlight="1,5,11,15,22"
+with weave.start_conversation(agent_name="content-pipeline") as conversation:
+    with conversation.start_turn(user_message="Write a short blog post about Anthropic.") as turn:
+
+        # Sous-agent chercheur : collecter des faits.
+        with weave.start_subagent(name="researcher", model="gpt-4o") as researcher:
+            with researcher.llm(model="gpt-4o", provider_name="openai") as sub_llm:
+                sub_llm.input_messages = [Message(role="user", content="Find key facts about Anthropic.")]
+                sub_llm.output("I should search Wikipedia.")
+                sub_llm.usage = Usage(input_tokens=80, output_tokens=15)
+
+                with weave.start_tool(name="wikipedia_search", arguments='{"query":"Anthropic"}') as tool:
+                    tool.result = "Anthropic was founded by Dario and Daniela Amodei in 2021."
+
+        # Sous-agent rédacteur : rédiger l'article.
+        with weave.start_subagent(name="writer", model="gpt-4o") as writer:
+            with writer.llm(model="gpt-4o", provider_name="openai") as sub_llm:
+                sub_llm.input_messages = [Message(role="user", content="Draft a post using the research.")]
+                sub_llm.output("Anthropic, founded in 2021 by Dario and Daniela Amodei, builds AI safety research...")
+                sub_llm.usage = Usage(input_tokens=180, output_tokens=120)
+
+        # Sous-agent réviseur : peaufiner le brouillon.
+        with weave.start_subagent(name="reviewer", model="gpt-4o") as reviewer:
+            with reviewer.llm(model="gpt-4o", provider_name="openai") as sub_llm:
+                sub_llm.input_messages = [Message(role="user", content="Review and tighten the draft.")]
+                sub_llm.output("Final post: Anthropic, founded in 2021 by Dario and Daniela Amodei, builds AI safety research...")
+                sub_llm.usage = Usage(input_tokens=200, output_tokens=140)
+```
+
+Dans la vue **Agents**, le tour de conversation contient trois invocations de sous-agents au même niveau, chacune avec son propre appel LLM imbriqué en dessous, et `researcher` inclut son appel d&#39;outil. Aucun des sous-agents n&#39;est l&#39;enfant d&#39;un autre.
+
+<div id="trace-nested-sub-agents">
+  ## Tracer des sous-agents imbriqués
+</div>
+
+Un sous-agent peut lui-même déléguer à un autre sous-agent. Chaque appel à `start_subagent` est imbriqué dans le span actuellement actif du contexte OTel.
+
+```python lines highlight="1,2,4,5,11,16"
+with weave.start_conversation(agent_name="orchestrator") as conversation:
+    with conversation.start_turn(user_message="Compare Anthropic and OpenAI.") as turn:
+
+        with weave.start_subagent(name="research-coordinator") as coordinator:
+            with weave.start_subagent(name="anthropic-researcher") as r1:
+                with r1.llm(model="gpt-4o", provider_name="openai") as sub_llm:
+                    sub_llm.output("Anthropic facts...")
+                    sub_llm.usage = Usage(input_tokens=120, output_tokens=30)
+
+                # Imbriqué : le chercheur délègue à son propre sous-agent de synthèse.
+                with weave.start_subagent(name="anthropic-summarizer") as summarizer:
+                    with summarizer.llm(model="gpt-4o", provider_name="openai") as sub_llm:
+                        sub_llm.output("Anthropic summary: ...")
+                        sub_llm.usage = Usage(input_tokens=80, output_tokens=20)
+
+            with weave.start_subagent(name="openai-researcher") as r2:
+                with r2.llm(model="gpt-4o", provider_name="openai") as sub_llm:
+                    sub_llm.output("OpenAI facts...")
+                    sub_llm.usage = Usage(input_tokens=120, output_tokens=30)
+```
+
+L’exemple produit trois niveaux d’imbrication dans le tour de conversation :
+
+```plaintext
+turn (invoke_agent)
+└── research-coordinator (invoke_agent)
+    ├── anthropic-researcher (invoke_agent)
+    │   ├── chat
+    │   └── anthropic-summarizer (invoke_agent)   ← imbriqué dans anthropic-researcher
+    │       └── chat
+    └── openai-researcher (invoke_agent)          ← au même niveau qu'anthropic-researcher
+        └── chat
+```
+
+Dans la vue Agents, `research-coordinator` apparaît comme un sous-agent du tour de conversation, `anthropic-researcher` et `openai-researcher` apparaissent comme étant au même niveau sous le coordinateur, et `anthropic-summarizer` apparaît comme un sous-agent d&#39;`anthropic-researcher`.

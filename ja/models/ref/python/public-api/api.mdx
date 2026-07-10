@@ -44,16 +44,6 @@ API を初期化します。
 ***
 
 
-### <kbd>プロパティ</kbd> Api.client
-
-クライアントオブジェクトを返します。
-
-**戻り値:**
-
-* `RetryingClient`: `client` プロパティの値。
-
-***
-
 ### <kbd>プロパティ</kbd> Api.default_entity
 
 デフォルトの W&amp;B entity を返します。
@@ -81,7 +71,7 @@ viewer オブジェクトを返します。
 **発生する例外:**
 
 * `ValueError`:  W&amp;B から viewer データを取得できない場合。
-* `requests.RequestException`:  GraphQL リクエストの実行中にエラーが発生した場合。
+* `WandbApiFailedError`:  GraphQL リクエストの実行中にエラーが発生した場合。
 
 **戻り値:**
 
@@ -189,7 +179,7 @@ artifact_collection_exists(name: 'str', type: 'str') → bool
 artifact collectionが存在する場合はTrue、存在しない場合はFalse。
 
 **例:**
-次のコードスニペットでは、&quot;type&quot;と&quot;collection&#95;name&quot;はそれぞれartifact collectionのタイプとcollectionの名を指します。
+以降のコードスニペットでは、&quot;type&quot;と&quot;collection&#95;name&quot;はそれぞれartifact collectionのタイプとcollectionの名を指します。
 
 ```python
 import wandb
@@ -205,17 +195,19 @@ wandb.Api.artifact_collection_exists(type="type", name="collection_name")
 artifact_collections(
     project_name: 'str',
     type_name: 'str',
+    order: 'str | None' = None,
     per_page: 'int' = 50,
     start: 'str | None' = None
 ) → ArtifactCollections
 ```
 
-条件に一致する artifact collection のコレクションを返します。
+条件に一致する アーティファクト コレクション のコレクションを返します。
 
 **引数:**
 
 * `project_name`:  フィルター対象の project 名。
 * `type_name`:  フィルター対象の artifact type 名。
+* `order`:  結果の順序を指定する省略可能な string。接頭辞に &#39;+&#39; が付いている場合は昇順 (デフォルト) で並べ替えます。接頭辞に &#39;-&#39; が付いている場合は降順で並べ替えます。
 * `per_page`:  クエリのページネーションにおけるページサイズを設定します。通常は変更する必要はありません。
 * `start`:  過去のクエリを再開するためのページネーション カーソル。前の paginator の `.cursor` 属性から取得します。
 
@@ -309,6 +301,7 @@ artifact_versions(type_name, name, per_page=50)
 artifacts(
     type_name: 'str',
     name: 'str',
+    order: 'str | None' = None,
     per_page: 'int' = 50,
     tags: 'list[str] | None' = None,
     start: 'str | None' = None
@@ -319,17 +312,18 @@ artifacts(
 
 **引数:**
 
-* `type_name`:  取得する artifact タイプ。
-* `name`:  artifact のコレクション名。必要に応じて、artifact をログした entity をプレフィックスとして付け、その後にスラッシュを追加します。
+* `type_name`:  取得する アーティファクト タイプ。
+* `name`:  アーティファクト のコレクション名。必要に応じて、アーティファクト をログした entity をプレフィックスとして付け、その後にスラッシュを追加します。
+* `order`:  結果の並び順を指定する省略可能な string。`+` をプレフィックスとして付けると昇順 (デフォルト) で並べ替えます。`-` をプレフィックスとして付けると降順で並べ替えます。
 * `per_page`:  クエリのページネーションにおけるページサイズを設定します。通常は、これを変更する必要はありません。
-* `tags`:  これらのタグをすべて持つ artifact のみを返します。
+* `tags`:  これらのタグをすべて持つ アーティファクト のみを返します。
 * `start`:  過去のクエリを再開するためのページネーションカーソル。以前の paginator の `.cursor` 属性から取得します。
 
 **戻り値:**
 反復可能な `Artifacts` オブジェクト。
 
 **例:**
-以下のコードスニペットでは、&quot;type&quot;、&quot;entity&quot;、&quot;project&quot;、および &quot;artifact&#95;name&quot; は、それぞれ artifact タイプ、W&amp;B entity、artifact がログされた project の名、および artifact の名を表すプレースホルダーです。
+以下のコードスニペットでは、&quot;type&quot;、&quot;entity&quot;、&quot;project&quot;、および &quot;artifact&#95;name&quot; は、それぞれ アーティファクト タイプ、W&amp;B entity、アーティファクト がログされた project の名、および アーティファクト の名を表すプレースホルダーです。
 
 ```python
 import wandb
@@ -774,7 +768,7 @@ from_path(path: 'str')
 パスが無効であるか、オブジェクトが存在しない場合は `wandb.Error`。
 
 **Examples:**
-以下のコードスニペットでは、&quot;project&quot;、&quot;チーム&quot;、&quot;run&#95;id&quot;、&quot;sweep&#95;id&quot;、および &quot;report&#95;name&quot; は、それぞれproject、チーム、run ID、sweep ID、および特定の レポート 名を表すプレースホルダーです。
+以下に示すコードスニペットでは、&quot;project&quot;、&quot;チーム&quot;、&quot;run&#95;id&quot;、&quot;sweep&#95;id&quot;、および &quot;report&#95;name&quot; は、それぞれproject、チーム、run ID、sweep ID、および特定の レポート 名を表すプレースホルダーです。
 
 ```python
 import wandb
@@ -915,6 +909,7 @@ queued_run(
 registries(
     organization: 'str | None' = None,
     filter: 'dict[str, Any] | None' = None,
+    order: 'str | None' = None,
     per_page: 'int' = 100,
     start: 'str | None' = None
 ) → Registries
@@ -922,12 +917,13 @@ registries(
 
 `Registry` オブジェクトの遅延イテレーターを返します。
 
-このイテレーターを使用して、組織のレジストリ全体にあるレジストリ、collection、または artifact バージョンを検索したり、フィルターしたりできます。
+このイテレーターを使用して、組織のレジストリ全体にあるレジストリ、コレクション、または artifact バージョンを検索したり、フィルターしたりできます。
 
 **引数:**
 
-* `organization`:  (str, optional) 取得するレジストリの組織。指定しない場合は、ユーザーの Settings で指定された組織を使用します。
-* `filter`:  (dict, optional) 遅延レジストリイテレーター内の各オブジェクトに適用する MongoDB スタイルのフィルター。レジストリに対してフィルターできるフィールドは `name`、`description`、`created_at`、`updated_at` です。collection に対してフィルターできるフィールドは `name`、`tag`、`description`、`created_at`、`updated_at` です。バージョンに対してフィルターできるフィールドは `tag`、`alias`、`created_at`、`updated_at`、`metadata` です。
+* `organization`:  取得するレジストリの組織。指定しない場合は、ユーザーの Settings で指定された組織を使用します。
+* `filter`:  遅延レジストリイテレーター内の各オブジェクトに適用する、省略可能な MongoDB スタイルのフィルター。レジストリに対してフィルターできるフィールドは `name`、`description`、`created_at`、`updated_at` です。コレクション に対してフィルターできるフィールドは `name`、`tag`、`description`、`created_at`、`updated_at` です。バージョンに対してフィルターできるフィールドは `tag`、`alias`、`created_at`、`updated_at`、`metadata` です。
+* `order`:  結果の順序を指定する省略可能な string。接頭辞が `+` の場合は昇順 (デフォルト) で並べ替えます。接頭辞が `-` の場合は降順で並べ替えます。
 * `per_page`:  クエリのページネーションにおけるページサイズを設定します。
 * `start`:  過去のクエリを再開するためのページネーションカーソル。以前の paginator の `.cursor` 属性から取得します。
 
@@ -950,7 +946,7 @@ api.registries(filter={"name": {"$regex": "model"}})
 api.registries().collections(filter={"name": "my_collection", "tag": "my_tag"})
 ```
 
-「my&#95;collection」を含むcollection名を持ち、エイリアス「best」を持つバージョンがあるレジストリ内のすべてのartifactバージョンを検索します
+「my&#95;collection」を含むコレクション名を持ち、エイリアス「best」を持つバージョンがあるレジストリ内のすべてのartifactバージョンを検索します
 
 ```python
 api.registries().collections(
@@ -1092,7 +1088,7 @@ runs(
     filters: 'dict[str, Any] | None' = None,
     order: 'str' = '+created_at',
     per_page: 'int' = 50,
-    include_sweeps: 'bool' = True,
+    include_sweeps: 'bool' = False,
     lazy: 'bool' = True
 )
 ```
@@ -1132,12 +1128,12 @@ runs(
 
 **引数:**
 
-* `path`: (str) プロジェクトへのパス。形式は &quot;entity/project&quot; である必要があります
+* `path`: (str) project へのパス。形式は &quot;entity/project&quot; である必要があります
 * `filters`: (dict) MongoDB クエリ言語を使用して特定の run をクエリするための条件。config.key、summary&#95;metrics.key、state、entity、createdAt などの run のプロパティでフィルターできます。
 * `For example`: `{"config.experiment_name": "foo"}` は、experiment name の設定エントリが &quot;foo&quot; に設定されている run を検索します
 * `order`: (str) 順序には `created_at`、`heartbeat_at`、`config.*.value`、または `summary_metrics.*` を指定できます。先頭に + を付けると昇順 (デフォルト) 、- を付けると降順になります。デフォルトの順序は、古いものから新しいものへの run.created&#95;at です。
 * `per_page`: (int) クエリのページネーションのページサイズを設定します。
-* `include_sweeps`: (bool) 結果に sweep の run を含めるかどうか。
+* `include_sweeps`: (bool) 各 run の結果で sweep オブジェクトを事前に取得するかどうか。
 * `lazy`: (bool) より高速なパフォーマンスのために遅延読み込みを使用するかどうか。True (デフォルト) の場合、最初は必要最小限の run メタデータのみが読み込まれます。config、summaryMetrics、systemMetrics などの重いフィールドは、アクセス時にオンデマンドで読み込まれます。最初から完全なデータを取得するには False に設定してください。
 
 **戻り値:**
@@ -1184,7 +1180,7 @@ Api.runs(
 ```
 
 ```python
-# 損失の昇順で並べ替えたプロジェクト内の run を検索する
+# project 内の run を損失の昇順で並べ替えて検索する
 Api.runs(path="my_entity/project", order="+summary_metrics.loss")
 ```
 

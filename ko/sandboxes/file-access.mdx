@@ -1,9 +1,12 @@
 ---
 title: 파일 작업
-description: W&B Sandboxes에서 파일을 조회하고, 쓰고, 마운트하는 방법을 알아보세요.
+description: Serverless Sandboxes에서 파일을 조회하고, 쓰고, 마운트하는 방법을 알아보세요.
+keywords: ["Sandbox.write_file", "Sandbox.read_file", "파일 마운트", "샌드박스에 업로드"]
 ---
 
-<Warning>W&amp;B Sandboxes는 비공개 프리뷰로, 초대를 받은 경우에만 사용할 수 있습니다. 등록을 요청하려면 [지원팀](mailto:support@wandb.com) 또는 AISE 담당자에게 문의하세요.</Warning>
+<Warning>
+  Serverless Sandboxes는 공개 프리뷰입니다.
+</Warning>
 
 파일 작업을 사용하면 로컬 환경과 샌드박스 간에 데이터를 공유할 수 있습니다. 샌드박스에서 파일을 조회하고, 파일을 샌드박스에 쓰거나, 로컬 파일 및 디렉터리를 샌드박스에 마운트할 수 있습니다.
 
@@ -21,11 +24,11 @@ description: W&B Sandboxes에서 파일을 조회하고, 쓰고, 마운트하는
   ## 샌드박스에 파일 쓰기
 </div>
 
-{/* 데이터를 생성, 업데이트, 수정 또는 저장 */}
+{/* 데이터를 생성, 업데이트, 수정 또는 저장  */}
 
 {/* 파일을 샌드박스로 전송합니다. 샌드박스 코드에 필요한 입력 파일(스크립트, 설정, 데이터 파일)을 업로드할 때 사용하세요. */}
 
-[`Sandbox.write_file()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#write_file) 방법을 사용해 로컬 환경의 파일을 샌드박스로 전송하세요.
+스크립트, 설정 또는 데이터 파일처럼 샌드박스 코드에 필요한 입력 파일을 업로드해야 할 때는 샌드박스에 파일을 쓰세요. [`Sandbox.write_file()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#write_file) 방법을 사용해 로컬 환경의 파일을 샌드박스로 전송하세요.
 
 ```python
 from pathlib import Path
@@ -68,7 +71,9 @@ with Sandbox.run() as sandbox:
 
 마운트된 파일을 사용하면 생성 시점에 로컬 파일을 샌드박스에 제공할 수 있습니다. 실행 중인 샌드박스로 파일을 전송하는 `Sandbox.write_file()`와 달리, 마운트된 파일은 샌드박스가 시작되자마자 사용할 수 있습니다. 마운트된 파일은 샌드박스에서 지정한 경로에 표시됩니다.
 
-<Info>마운트된 파일은 샌드박스에서 읽기 전용입니다. 샌드박스에서 파일을 수정해야 하는 경우에는 대신 `Sandbox.write_file()`을 사용하세요.</Info>
+<Info>
+  마운트된 파일은 샌드박스에서 읽기 전용입니다. 샌드박스에서 파일을 수정해야 하는 경우에는 대신 `Sandbox.write_file()`을 사용하세요.
+</Info>
 
 다음 코드 스니펫에서는 로컬 파일 `train.py`와 `requirements.txt`를 샌드박스 루트 디렉터리에 마운트합니다. 샌드박스는 `requirements.txt`의 의존성을 설치한 다음 `train.py`를 실행합니다.
 
@@ -79,7 +84,7 @@ from wandb.sandbox import Sandbox, NetworkOptions
 mounted_files = [
     {"mount_path": "requirements.txt", "file_content": Path("requirements.txt").read_bytes()},
     {"mount_path": "train.py", "file_content": Path("train.py").read_bytes()},
-        ]
+        ] 
 
 print("샌드박스를 시작하는 중...")
 with Sandbox.run(mounted_files=mounted_files) as sandbox:

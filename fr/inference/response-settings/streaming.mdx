@@ -1,16 +1,15 @@
 ---
 title: "Activer les réponses en streaming"
-description: "Activez la sortie en streaming avec W&B Inference pour recevoir les réponses du modèle de façon incrémentielle, au fur et à mesure de leur génération."
+description: "Activez la sortie en streaming avec Serverless Inference pour recevoir les réponses du modèle de façon incrémentielle."
+keywords: ["stream=True", "événements envoyés par le serveur", "SSE", "sortie incrémentielle"]
 ---
 
-Il arrive que les modèles mettent un certain temps à générer une réponse.
-Définir l&#39;option `stream` sur `true` vous permet de recevoir la réponse sous forme d&#39;un flux
-de fragments, afin d&#39;afficher les résultats de manière incrémentielle au lieu d&#39;attendre que la
-réponse complète soit générée.
+Définir l&#39;option `stream` sur `true` renvoie la réponse du modèle de façon incrémentielle sous la forme d&#39;un flux
+de fragments, afin que vous puissiez afficher les résultats à mesure qu&#39;ils arrivent au lieu d&#39;attendre la réponse complète. Cela est utile lorsque les modèles mettent du temps à générer une sortie.
 
-La sortie en streaming est prise en charge pour tous les modèles hébergés. Nous encourageons tout particulièrement son
-utilisation avec les [modèles de raisonnement](./reasoning), car les requêtes sans streaming peuvent expirer si le modèle réfléchit
-trop longtemps avant de commencer à produire une sortie.
+Tous les modèles hébergés prennent en charge la sortie en streaming. Nous recommandons le streaming pour les [modèles de raisonnement](./reasoning), car les requêtes sans streaming peuvent expirer si le modèle met longtemps à commencer à produire une sortie.
+
+Les exemples suivants activent le streaming pour une requête de complétion de chat :
 
 <Tabs>
   <Tab title="Python">
@@ -19,7 +18,7 @@ trop longtemps avant de commencer à produire une sortie.
 
     client = openai.OpenAI(
         base_url='https://api.inference.wandb.ai/v1',
-        api_key="<your-api-key>",  # Créez une clé API sur https://wandb.ai/settings
+        api_key="[YOUR-API-KEY]",  # Créez une clé API sur https://wandb.ai/settings
     )
 
     stream = client.chat.completions.create(
@@ -42,7 +41,7 @@ trop longtemps avant de commencer à produire une sortie.
     ```bash
     curl https://api.inference.wandb.ai/v1/chat/completions \
       -H "Content-Type: application/json" \
-      -H "Authorization: Bearer <your-api-key>" \
+      -H "Authorization: Bearer [YOUR-API-KEY]" \
       -d '{
         "model": "openai/gpt-oss-120b",
         "messages": [

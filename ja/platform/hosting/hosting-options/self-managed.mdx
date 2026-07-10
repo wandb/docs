@@ -2,21 +2,24 @@
 description: クラウドまたはオンプレミスのインフラストラクチャーにW&B セルフマネージドをデプロイする
 title: W&B セルフマネージド デプロイ概要
 sidebarTitle: デプロイ概要
+keywords: ["セルフホスト型 W&B", "オンプレミス デプロイ", "プライベートクラウド", "W&B Server", "helm chart"]
 ---
 
 <Tip>
-  W&amp;B では、[W&amp;B Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) や [W&amp;B Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated-cloud) などの完全マネージドなデプロイオプションを推奨しています。W&amp;B の完全マネージドサービスは、安全かつ簡単に使用でき、必要な設定は最小限で済むか、まったく不要です。
+  W&amp;B では、[W&amp;B Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) や [W&amp;B Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated-cloud) などの完全マネージドなデプロイオプションを推奨しています。W&amp;B の完全マネージドサービスは、安全に使用でき、必要な設定は最小限で済みます。
 </Tip>
+
+W&amp;B セルフマネージドでは、お客様が管理するインフラストラクチャー上で W&amp;B Server を実行できるため、データレジデンシー、ネットワーク分離、コンプライアンスに関する社内ポリシーを満たせます。この概要は、自社のクラウドアカウントまたはオンプレミスのインフラストラクチャー上で W&amp;B Server を計画、デプロイ、運用する IT、DevOps、MLOps チームを対象としています。
 
 [AWS、Google Cloud、または Azure のクラウドアカウント](#deploy-wb-server-within-Self-Managed-cloud-accounts)上、または[オンプレミスのインフラストラクチャー](#deploy-wb-server-in-on-prem-infrastructure)内に W&amp;B Server をデプロイします。
 
-IT/DevOps/MLOps チームは、以下を担当します。
+IT、DevOps、または MLOps チームは、以下を担当します。
 
 * デプロイをプロビジョニングすること。
 * 該当する場合は、組織のポリシーおよび [Security Technical Implementation Guidelines (STIG)](https://en.wikipedia.org/wiki/Security_Technical_Implementation_Guide) に従ってインフラストラクチャーを保護すること。
 * [Service and Organization Controls (SOC) 2 Type 2](https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2) や [Health Insurance Portability and Accountability Act of 1996 (HIPAA)](https://www.hhs.gov/hipaa/for-professionals/index.html) など、組織の規制要件への準拠を維持すること。
 * アップグレードを管理し、パッチを適用すること。
-* W&amp;B セルフマネージド 環境の W&amp;B デプロイを継続的に保守すること。
+* W&amp;B セルフマネージドのデプロイを継続的に保守すること。
 
 <Info>
   組織が規制要件の対象である場合は、W&amp;B が管理する [W&amp;B Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated-cloud) へのデプロイを検討してください。
@@ -31,33 +34,37 @@ IT/DevOps/MLOps チームは、以下を担当します。
   ## W&amp;B Kubernetes Operator について
 </div>
 
-**W&amp;B Kubernetes Operator** を使用して、W&amp;B セルフマネージドをデプロイします。この Operator により、W&amp;B のデプロイ、管理、トラブルシューティング、スケーリングが簡単になります。
+W&amp;B Self-Managed のインストールは Kubernetes オペレーターを通じて提供および管理され、W&amp;B Server の日常的な運用に伴う複雑さを処理します。
 
-この Operator は中央の [deploy.wandb.ai](https://deploy.wandb.ai) サーバーに接続し、指定されたリリースチャネルの最新の仕様変更をリクエストして適用します。ライセンスが有効である限り、更新を受け取れます。[Helm](https://helm.sh/) は、Operator のインストールと、Operator による W&amp;B Kubernetes スタックの管理の両方に使用されます。デプロイはサービスごとに 1 つずつ、複数の pod で構成され、各 pod 名には `wandb-` というプレフィックスが付きます。
+W&amp;B Self-Managed のデプロイには W&amp;B Kubernetes Operator を使用します。このオペレーターにより、W&amp;B のデプロイ、管理、トラブルシューティング、スケーリングが簡単になります。
 
-設定は階層構造に従います。**Release Channel Values** (W&amp;B のデフォルト) 、**User Input Values** (System Console での上書き) 、**Custom Resource Values** (お使いの spec が両方を上書き) です。詳細については、[Deploy W&amp;B with Kubernetes Operator](/ja/platform/hosting/self-managed/operator) を参照してください。
+このオペレーターは中央の [deploy.wandb.ai](https://deploy.wandb.ai) サーバーに接続し、指定されたリリースチャネルに対する最新の仕様変更をリクエストして適用します。ライセンスが有効である限り、このオペレーターは更新を受け取ります。また、このオペレーターは自身のインストールと W&amp;B Kubernetes スタックの管理の両方に [Helm](https://helm.sh/) を使用します。デプロイメントは複数の pod で構成され、各サービスに 1 つの pod が対応し、各 pod 名には `wandb-` という接頭辞が付きます。
 
-* パブリッククラウドまたはオンプレミスのインフラストラクチャーに W&amp;B セルフマネージドをデプロイする場合は、[Deploy W&amp;B with Kubernetes Operator](/ja/platform/hosting/self-managed/operator) を参照してください。
-* AWS 以外のカスタムクラウドプラットフォームに W&amp;B セルフマネージドをデプロイする場合、要件は [on-prem インフラストラクチャー](#deploy-wb-server-in-on-prem-infrastructure) へのデプロイの要件とほぼ同じです。
-* エアギャップ環境で W&amp;B セルフマネージドをデプロイする場合は、[Deploy on Air-Gapped Kubernetes](/ja/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped) を参照してください。
+設定には階層があり、**Release Channel Values** (W&amp;B によるデフォルト) 、**User Input Values** (System Console での上書き) 、**Custom Resource Values** (ユーザーの仕様で両方を上書き) の順に適用されます。
 
-必要に応じて、インスタンスの安定性を維持するために [configure rate limits](/ja/platform/hosting/self-managed/rate-limits) を設定できます。デフォルト値と通知の動作については、[Rate limits](/ja/platform/hosting/self-managed/rate-limits) を参照してください。
+デプロイ先に応じて、以下のリソースを使用してください。
+
+* パブリッククラウドまたはオンプレミスのインフラストラクチャーに W&amp;B Self-Managed をデプロイする場合は、[Deploy W&amp;B with Kubernetes Operator](/ja/platform/hosting/self-managed/operator) を参照してください。
+* AWS ではないカスタムクラウドプラットフォームに W&amp;B Self-Managed をデプロイする場合、要件は [オンプレミスのインフラストラクチャー](#deploy-wb-server-in-on-prem-infrastructure) にデプロイする場合とほぼ同じです。
+* エアギャップ環境に W&amp;B Self-Managed をデプロイする場合は、[Deploy on Air-Gapped Kubernetes](/ja/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped) を参照してください。
+
+必要に応じて、安定性を維持するためにインスタンスに rate limits を設定できます。詳細は、[Rate limits](/ja/platform/hosting/self-managed/rate-limits) を参照してください。
 
 <div id="required-infrastructure">
   ## 必須のインフラストラクチャー
 </div>
 
-すべてのデプロイオプションで、以下のインフラストラクチャーが必要です。
+デプロイを開始する前に、以下のインフラストラクチャーが利用可能であることを確認してください。すべての W&amp;B セルフマネージド デプロイオプションは、これらのコンポーネントに依存します。
 
 * Kubernetes
-* MySQL 8 データベース
+* MySQL 8.4.x データベース
 * Amazon S3互換のオブジェクトストレージ
 * Redis キャッシュ
 
-詳細は[要件](/ja/platform/hosting/self-managed/requirements)を参照してください。W&amp;B は、各コンポーネントに関する推奨事項の提示や、インストールプロセス全体を通じたガイダンスの提供が可能です。
+W&amp;B は、各コンポーネントに関する推奨事項の提示や、インストールプロセス全体を通じたガイダンスの提供が可能です。詳細は[要件](/ja/platform/hosting/self-managed/requirements)を参照してください。
 
 <div id="obtain-your-wb-server-license">
   ## W&amp;B Server ライセンスを取得する
 </div>
 
-デプロイする前に、W&amp;B Server ライセンスを取得する必要があります。詳しい手順については、要件ページの[License](/ja/platform/hosting/self-managed/requirements#license)を参照してください。
+W&amp;B Server ライセンスは、デプロイメントを許可するためのものです。インストールの前にライセンスを取得する必要があります。詳しい手順については、要件ページの[License](/ja/platform/hosting/self-managed/requirements#license)を参照してください。

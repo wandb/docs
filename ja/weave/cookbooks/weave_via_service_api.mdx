@@ -1,34 +1,33 @@
 ---
-title: "Weave Service API でトレースする"
-description: "W&B Weave で Service API 経由のトレースを行う方法を学びます"
+title: "Weave Service API を使用してトレースする"
+description: "W&B Weave で Service API を通じてトレースを使用する方法を学びます"
+keywords: [Weave Service API, トレースのログ, RAG トレース, ストリームクエリ, LLM オブザーバビリティ]
 ---
 
 <Note>
-  これはインタラクティブなノートブックです。ローカルで実行することも、以下のリンクから利用することもできます。
+  これは対話型ノートブックです。ローカルで実行するか、次のリンクを使用できます。
 
   * [Google Colab で開く](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/weave_via_service_api.ipynb)
   * [GitHub でソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/weave_via_service_api.ipynb)
 </Note>
 
-<div id="use-the-service-api-to-log-and-query-traces">
-  # Service API を使用してトレースをログし、クエリする
-</div>
+このノートブックでは、W&amp;B Weave Service API を使用してトレースを Weave にログする方法を学びます。
 
-このガイドでは、Weave Service API を使用してトレースをログする方法を学びます。具体的には、Service API を使用して次のことを行います。
-
-1. [シンプルな LLM call とレスポンスのモックを作成し、Weave にログします。](#simple-trace)
-2. [より複雑な LLM call とレスポンスのモックを作成し、Weave にログします。](#complex-trace)
+1. [シンプルな LLM call と応答のモックを作成し、Weave にログします。](#simple-trace)
+2. [より複雑な LLM call と応答のモックを作成し、Weave にログします。](#complex-trace)
 3. [ログされたトレースに対してサンプルの検索クエリを実行します。](#run-a-lookup-query)
 
 > **ログされたトレースを表示**
 >
 > このガイドのコードを実行したときに作成される Weave トレースはすべて、Weave プロジェクト (`team_id\project_id` で指定) の **Traces** タブに移動し、トレース名を選択すると表示できます。
 
-始める前に、[前提条件](#prerequisites-set-variables-and-endpoints)を完了してください
+始める前に、[前提条件](#prerequisites-set-variables-and-endpoints)を完了してください。
 
 <div id="prerequisites-set-variables-and-endpoints">
   ## 前提条件: 変数とエンドポイントを設定する
 </div>
+
+トレースをログする前に、Service API のエンドポイントを設定し、W&amp;B の認証情報を使用して認証する必要があります。
 
 以下のコードは、Service API へのアクセスに使用する URL エンドポイントを設定します。
 
@@ -64,7 +63,7 @@ wandb_token = ""
   ## シンプルなトレース
 </div>
 
-以下のセクションでは、シンプルなトレースを作成する手順を順に説明します。
+以下のセクションでは、シンプルなトレースを作成する手順を順に説明します：
 
 1. [シンプルなトレースを開始する](#start-a-simple-trace)
 2. [シンプルなトレースを終了する](#end-a-simple-trace)
@@ -163,25 +162,25 @@ else:
 ```
 
 <div id="complex-trace">
-  ## 複雑なtrace
+  ## 複雑なトレース
 </div>
 
-以下のセクションでは、複数の操作からなるRAGルックアップのように、子スパンを含むより複雑なtraceを作成する手順を説明します。
+シンプルな単一ステップのトレースをログしたので、以下のセクションでは、複数の操作からなるRAGルックアップのように、子スパンを含むより複雑なトレースを作成する手順を説明します。
 
-1. [複雑なtraceを開始する](#start-a-complex-trace)
+1. [複雑なトレースを開始する](#start-a-complex-trace)
 2. [RAGドキュメントのルックアップ用の子スパンを追加する](#add-a-child-span-for-a-rag-document-lookup)
 3. [LLM completion call用の子スパンを追加する](#add-a-child-span-for-an-llm-completion-call)
-4. [複雑なtraceを終了する](#end-a-complex-trace)
+4. [複雑なトレースを終了する](#end-a-complex-trace)
 
 <div id="start-a-complex-trace">
   ### 複雑なトレースを開始する
 </div>
 
-次のコードは、複数のスパンを含む、より複雑なトレースを作成する方法を示しています。たとえば、Retrieval-Augmented Generation (RAG) のルックアップを行い、その後に LLM の call を実行するケースです。最初の部分では、処理全体を表す親トレース (`payload_parent_start`) を初期化します。この場合の操作は、ユーザーのクエリ `Can you summarize the key points of this document?` を処理することです。
+次のコードは、複数のスパンを含む、より複雑なトレースを作成する方法を示しています。たとえば、Retrieval-Augmented Generation (RAG) のルックアップを行い、その後に LLM の call を実行するケースです。最初の部分では、操作を表す親トレース (`payload_parent_start`) を初期化します。この場合の操作は、ユーザーのクエリ `Can you summarize the key points of this document?` を処理することです。
 
 `payload_parent_start` オブジェクトは、複数の step から成る ワークフロー の最初の step を模しており、`url_start` エンドポイントを使用してその操作を Weave にログします。
 
-成功すると、このコードは親 call がログされたことを示すメッセージを出力します。
+成功すると、このコードは親 call がログされることを示すメッセージを出力します。
 
 ```
 Parent call started. ID: 01939d26-0844-7c43-94bb-cdc471b6d65f, Trace ID: 01939d26-0844-7c43-94bb-cdd97dc296c8
@@ -215,15 +214,15 @@ else:
 ```
 
 <div id="add-a-child-span-for-a-rag-document-lookup">
-  ### RAG ドキュメント検索用の子スパンを追加する
+  ### RAG ドキュメントルックアップ用の子スパンを追加する
 </div>
 
-次のコードは、前の step で開始した複雑な親トレースに子スパンを追加する方法を示しています。この step では、全体の ワークフロー における RAG ドキュメント検索のサブ operation を表現しています。
+次のコードは、前の step で開始した複雑な親トレースに子スパンを追加する方法を示しています。この step では、ワークフローにおける RAG ドキュメントルックアップのサブ 操作 を表現しています。
 
 子トレースは `payload_child_start` オブジェクトで開始され、これには次の内容が含まれます。
 
 * `trace_id`: この子スパンを親トレースに関連付けます。
-* `parent_id`: この子スパンを親 operation に関連付けます。
+* `parent_id`: この子スパンを親 操作 に関連付けます。
 * `inputs`: 検索クエリをログします。例:
   `"探しているドキュメントの検索クエリです。"`
 
@@ -290,22 +289,22 @@ else:
   ### LLM completion call の子スパンを追加する
 </div>
 
-次のコードは、複雑な親トレースに別の子スパンを追加し、LLM completion call を表現する方法を示しています。この step では、前の RAG operation で取得したドキュメントコンテキストに基づく AI の応答生成をモデル化します。
+次のコードは、複雑な親トレースに別の子スパンを追加し、LLM completion call を表現する方法を示しています。この step では、前の RAG operation で取得したドキュメントコンテキストに基づく LLM の応答生成をモデル化します。
 
 LLM completion トレースは `payload_child_start` オブジェクトで開始され、これには次が含まれます。
 
 * `trace_id`: この子スパンを親トレースに紐付けます。
-* `parent_id`: この子スパンを全体の ワークフロー に関連付けます。
+* `parent_id`: この子スパンを親ワークフローに関連付けます。
 * `inputs`: ユーザークエリと追加されたドキュメントコンテキストを含む、LLM への入力メッセージをログします。
 * `model`: この operation に使用するモデル (`gpt-4o`) を指定します。
 
-成功すると、コードは LLM の子スパンのトレースが開始され、終了したことを示すメッセージを出力します。
+成功すると、コードは LLM の子スパンのトレースが開始されたことを示すメッセージを出力します。
 
 ```
 Child call started. ID: 0245acdf-83a9-4c90-90df-dcb2b89f234a
 ```
 
-処理が完了すると、`payload_child_end` オブジェクトは、LLM が生成した応答を `output` フィールドにログして、トレースを終了します。Usage のサマリー情報もログされます。
+処理が完了した後、`payload_child_end` オブジェクトは、LLM が生成した応答を `output` フィールドにログして、トレースを終了します。コードは Usage のサマリー情報もログします。
 
 成功すると、コードは LLM の子スパンのトレースが開始されて終了したことを示すメッセージを出力します。
 
@@ -387,13 +386,13 @@ else:
   ### 複雑なトレースを終了する
 </div>
 
-次のコードは、親トレースを完了してワークフロー全体の終了を示す方法を示しています。この step では、すべての子 スパン (例: RAG lookup や LLM completion) の結果を集約し、最終的な出力とメタデータをログします。
+次のコードは、親トレースを完了してワークフローの終了を示す方法を示しています。この step では、すべての子 スパン (たとえば、RAG ルックアップ や LLM completion) の結果を集約し、最終的な出力とメタデータをログします。
 
-トレースは `payload_parent_end` object を使用して完了します。これには次が含まれます。
+トレースは `payload_parent_end` オブジェクト を使用して完了します。これには次が含まれます。
 
 * `id`: 最初に親トレースを開始したときの `parent_call_id`。
-* `output`: ワークフロー全体の最終出力を表します。
-* `summary`: ワークフロー全体の使用状況データを集約します。
+* `output`: ワークフローの最終出力を表します。
+* `summary`: ワークフローの使用状況データを集約します。
 * `prompt_tokens`: すべてのプロンプトで使用された token の合計数。
 * `completion_tokens`: すべての応答で生成された token の合計数。
 * `total_tokens`: ワークフロー全体の token 総数。
@@ -445,7 +444,7 @@ else:
   ## ルックアップクエリを実行する
 </div>
 
-以下のコードは、前の例で作成したトレースをクエリし、`inputs.model` フィールドが `gpt-4o` と等しいトレースだけをフィルタリングする方法を示しています。
+Weave にログされたトレースは、Service API を使用してプログラムからクエリできます。以下のコードは、前の例で作成したトレースをクエリし、`inputs.model` フィールドが `gpt-4o` と等しいトレースだけをフィルタリングする方法を示しています。
 
 `query_payload` オブジェクトには、次の内容が含まれます。
 

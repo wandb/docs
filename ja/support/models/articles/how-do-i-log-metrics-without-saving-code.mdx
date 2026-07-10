@@ -1,0 +1,45 @@
+---
+title: "コードを保存せずにメトリクスをログするにはどうすればよいですか?"
+keywords: ["管理者", "チーム管理", "メトリクス"]
+---
+
+プライバシーやコンプライアンス上の理由から、独自のソースコードやトレーニングデータを W&amp;B に含めたくない場合は、W&amp;B が取得する内容を制限して、run でメトリクスのみをログするようにします。
+
+デフォルトでは、W&amp;B はコードとシステムメトリクスをログしますが、データセットの例はログしません。
+
+コードのログを無効にするには、run レベルで環境変数を使用するか、管理者としてチーム全体のデフォルトを変更します。
+
+<div id="turn-off-code-logging-with-environment-variables">
+  ## 環境変数でコード ロギングを無効にする
+</div>
+
+個々のrunまたはプロセスでコード ロギングを無効にするには、次のいずれかの環境変数を使用します。
+
+* `WANDB_DISABLE_CODE` を `true` に設定すると、すべてのコードのトラッキングが無効になります。これにより、Git SHA と diff patch は取得されなくなります。
+* `WANDB_IGNORE_GLOBS` を `*.patch` に設定すると、diff patch の W&amp;B サーバーへの同期を停止できます。一方で、`wandb restore` で適用できるよう、ローカルでは引き続き利用可能です。
+
+<div id="enforce-settings-at-the-organization-or-team-level">
+  ## 組織またはチーム レベルで設定を強制する
+</div>
+
+チームの全員に対してコードの保存をオフにしたい場合は、各ユーザーが環境変数を設定する方法に頼るのではなく、チームまたは組織の設定でデフォルトを変更します。
+
+組織管理者は、アカウントまたは組織のダッシュボードにある **Settings** タブの **Privacy** セクションから、組織内のすべての Teams にプライバシー設定を適用できます。組織管理者が設定を強制すると、チーム管理者は自分の Teams でその設定を変更できません。
+
+チーム管理者は、自分のチームの Runs に対するデフォルトのコードの保存をオフにできます。
+
+1. `https://wandb.ai/[TEAM-NAME]` にアクセスし、`[TEAM-NAME]` を自分のチーム名に置き換えます。
+2. 左側のナビゲーションで **Team settings** を選択します。
+3. **Privacy** セクションを開き、**Enable code saving by default** をオフにします。
+
+これらの手順を完了すると、チーム内の新しい Runs ではデフォルトでコードが保存されなくなります。W&amp;B は引き続きメトリクスとシステム情報をログします。
+
+詳細は、[プライバシー設定](/ja/platform/hosting/privacy-settings)を参照してください。
+
+***
+
+{/* 自動生成: タブバッジ */}
+
+<Badge stroke shape="pill" color="orange" size="md">[管理者](/ja/support/models/tags/administrator)</Badge><Badge stroke shape="pill" color="orange" size="md">[チーム管理](/ja/support/models/tags/team-management)</Badge><Badge stroke shape="pill" color="orange" size="md">[メトリクス](/ja/support/models/tags/metrics)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

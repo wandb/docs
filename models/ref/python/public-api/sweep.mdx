@@ -28,7 +28,7 @@ The set of runs associated with the sweep.
 
 ```python
 __init__(
-    client: 'RetryingClient',
+    service_api: 'ServiceApi',
     entity: 'str',
     project: 'str',
     sweep_id: 'str',
@@ -153,12 +153,12 @@ Return the best run sorted by the metric defined in config or the order passed i
 
 ```python
 get(
-    client: 'RetryingClient',
+    api: 'Api',
     entity: 'str | None' = None,
     project: 'str | None' = None,
     sid: 'str | None' = None,
     order: 'str | None' = None,
-    query: 'Document | None' = None,
+    query: 'str | None' = None,
     **kwargs
 )
 ```
@@ -169,7 +169,7 @@ Execute a query against the cloud backend.
 
 **Args:**
  
- - `client`:  The client to use to execute the query. 
+ - `api`:  The W&B API instance. 
  - `entity`:  The entity (username or team) that owns the project. 
  - `project`:  The name of the project to fetch sweep from. 
  - `sid`:  The sweep ID to query. 

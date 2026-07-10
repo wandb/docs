@@ -17,25 +17,25 @@ Un run individuel associé à une entité et à un projet.
 
 ```python
 __init__(
-    client: 'RetryingClient',
+    service_api: 'ServiceApi',
     entity: 'str',
     project: 'str',
     run_id: 'str',
     attrs: 'Mapping | None' = None,
-    include_sweeps: 'bool' = True,
+    include_sweeps: 'bool' = False,
     lazy: 'bool' = True,
-    service_api: 'ServiceApi | None' = None
+    api_key: 'str | None' = None
 )
 ```
 
 **Arguments :**
 
-* `client`:  Le client de l&#39;API W&amp;B.
+* `service_api`:  Interface vers le service wandb-core qui effectue les appels à l&#39;API W&amp;B pour ce run.
 * `entity`:  L&#39;entité associée au run.
 * `project`:  Le projet associé au run.
 * `run_id`:  L&#39;identifiant unique du run.
 * `attrs`:  Les attributs du run.
-* `include_sweeps`:  Indique s&#39;il faut inclure les Sweeps dans le run.
+* `include_sweeps`:  Indique s&#39;il faut inclure les balayages dans le run.
 
 **Attributs :**
 
@@ -63,7 +63,6 @@ Initialise un objet Run.
 Run est toujours initialisé en appelant `api.runs()`, où `api` est une instance de `wandb.Api`.
 
 ***
-
 
 ### <kbd>propriété</kbd> Run.config
 
@@ -149,11 +148,15 @@ Renvoie la configuration brute du run, y compris les clés internes. Charge auto
 
 ### <kbd>propriété</kbd> Run.state
 
-État du run. Peut prendre l’une des valeurs suivantes : Finished, Failed, Crashed ou Running.
+L’état du run.
+
+Le tableau suivant décrit les états possibles d’un run :
+
+| État    | Description | | -------- | ----------- | | Planté  | Le run a cessé d’envoyer des heartbeats via le processus interne, ce qui peut se produire si la machine plante. | | Échoué   | Le run s’est terminé avec un code de sortie non nul. | | Terminé | Le run s’est terminé et a entièrement synchronisé les données, ou a appelé `wandb.Run.finish()`. | | Interrompu   | Le run a été arrêté de force avant de pouvoir se terminer. | | En cours d’exécution  | Le run est toujours en cours d’exécution et a récemment envoyé un heartbeat. | | En attente  | Le run est planifié, mais n’a pas encore démarré (fréquent dans les sweeps et les jobs Launch). |
 
 **Retourne :**
 
-* `str` : La valeur de la propriété `state`.
+* `str` : La valeur de la propriété d’état.
 
 ***
 
@@ -184,6 +187,16 @@ Obtient les métriques summary du run. Charge automatiquement les données compl
 **Retourne :**
 
 * `dict[str, Any]`: La valeur de la propriété summary&#95;metrics.
+
+***
+
+### <kbd>propriété</kbd> Run.sweep
+
+Le balayage associé à ce run. Charge les données du balayage si include&#95;sweeps vaut False.
+
+**Retourne :**
+
+* `public.Sweep | None`: La valeur de la propriété balayage.
 
 ***
 
@@ -238,26 +251,10 @@ beta_scan_history(
     min_step: 'int' = 0,
     max_step: 'int | None' = None,
     use_cache: 'bool' = True
-) → public.BetaHistoryScan
+) → public.HistoryScan
 ```
 
-Renvoie une collection itérable de tous les enregistrements de l’historique d’un run.
-
-Cette fonction est encore en cours de développement et peut ne pas fonctionner comme prévu. Elle utilise wandb-core pour lire localement l’historique à partir de l’historique Parquet exporté d’un run.
-
-**Arguments :**
-
-* `keys`:  liste des métriques à lire dans l’historique du run. Si aucune clé n’est fournie, toutes les métriques sont renvoyées.
-* `page_size`:  le nombre d’enregistrements d’historique à lire à la fois.
-* `min_step`:  l’étape minimale à partir de laquelle commencer à lire l’historique (inclus).
-* `max_step`:  l’étape maximale jusqu’à laquelle lire l’historique (exclus).
-* `use_cache`:  lorsqu’il est défini sur True, vérifie si l’historique d’un run est présent dans WANDB&#95;CACHE&#95;DIR. Si l’historique du run n’est pas trouvé dans le cache, il sera téléchargé depuis le serveur. S’il est défini sur False, l’historique du run sera téléchargé à chaque fois.
-
-**Retourne :**
-Un objet BetaHistoryScan, sur lequel il est possible d’itérer pour obtenir les enregistrements de l’historique.
-
 ***
-
 
 ### <kbd>classmethod</kbd> `Run.create`
 
@@ -543,34 +540,26 @@ Enregistrez les modifications apportées à l’objet run sur le backend W&amp;B
 scan_history(
     keys: 'list[str] | None' = None,
     page_size: 'int' = 1000,
-    min_step: 'int | None' = None,
-    max_step: 'int | None' = None
-) → Iterator[dict[str, Any]]
+    min_step: 'int' = 0,
+    max_step: 'int | None' = None,
+    use_cache: 'bool' = True
+) → public.HistoryScan
 ```
 
 Renvoie une collection itérable de tous les enregistrements de l’historique d’un run.
 
 **Arguments :**
 
-* `keys` ([str], facultatif) : récupère uniquement ces clés, et uniquement les lignes pour lesquelles toutes ces clés sont définies.
-* `page_size` (int, facultatif) : taille des pages à récupérer depuis l’API.
-* `min_step` (int, facultatif) : nombre minimal de pages à analyser à la fois.
-* `max_step` (int, facultatif) : nombre maximal de pages à analyser à la fois.
+* `keys`:  liste des métriques à lire dans l’historique du run. Si aucune clé n’est fournie, toutes les métriques sont renvoyées.
+* `page_size`:  le nombre d’enregistrements d’historique à lire à la fois.
+* `min_step`:  l’étape minimale à partir de laquelle commencer à lire l’historique (inclus).
+* `max_step`:  l’étape maximale jusqu’à laquelle lire l’historique (exclus).
+* `use_cache`:  lorsqu’il est défini sur True, vérifie si l’historique d’un run est présent dans WANDB&#95;CACHE&#95;DIR. Si l’historique du run n’est pas trouvé dans le cache, il sera téléchargé depuis le serveur. S’il est défini sur False, l’historique du run sera téléchargé à chaque fois.
 
 **Retourne :**
-Une collection itérable d’enregistrements de l’historique (dict).
-
-**Exemple :**
-Exporter toutes les valeurs de perte d’un run d’exemple
-
-```python
-run = api.run("entity/project-name/run-id")
-history = run.scan_history(keys=["Loss"])
-losses = [row["Loss"] for row in history]
-```
+Un objet HistoryScan, sur lequel il est possible d’itérer pour obtenir les enregistrements de l’historique.
 
 ***
-
 
 ### <kbd>méthode</kbd> `Run.to_html`
 
@@ -597,16 +586,23 @@ Enregistre les modifications de l’objet run sur le backend wandb.
 ### <kbd>méthode</kbd> `Run.update_state`
 
 ```python
-update_state(state: "Literal['pending']") → bool
+update_state(state: 'str') → bool
 ```
 
 Met à jour l’état d’un run.
 
-Permet de faire passer les runs de &#39;failed&#39; ou &#39;crashed&#39; à &#39;pending&#39;.
+Transitions prises en charge :
+
+* vers `pending` depuis `running`, `failed`, `crashed` ou `preempted`  (par ex. pour remettre en file d’attente un run terminé ou en cours)
+  * vers `failed` depuis `pending` ou `running`  (par ex. pour marquer un run préempté ou perdu comme failed)
+
+L’état des runs de sweep ne peut pas être mis à jour.
+
+Voir `Run.state` pour la liste des états de run possibles.
 
 **Arguments :**
 
-* `state` :  L’état cible du run. Seul `"pending"` est pris en charge.
+* `state` :  L’état cible du run. L’une des valeurs `"pending"` ou `"failed"`.
 
 **Retourne :**
 `True` si l’état a bien été mis à jour.
@@ -616,7 +612,6 @@ Permet de faire passer les runs de &#39;failed&#39; ou &#39;crashed&#39; à &#39
 * `wandb.Error` :  Si la transition d’état demandée n’est pas autorisée ou si le serveur ne prend pas en charge cette opération.
 
 ***
-
 
 ### <kbd>méthode</kbd> `Run.upload_file`
 

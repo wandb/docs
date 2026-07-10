@@ -44,16 +44,6 @@ API를 초기화합니다.
 ***
 
 
-### <kbd>속성</kbd> Api.client
-
-클라이언트 객체를 반환합니다.
-
-**반환값:**
-
-* `RetryingClient`: 클라이언트 속성 값입니다.
-
-***
-
 ### <kbd>속성</kbd> Api.default_entity
 
 기본 W&amp;B entity를 반환합니다.
@@ -80,8 +70,8 @@ viewer 객체를 반환합니다.
 
 **예외:**
 
-* `ValueError`: W&amp;B에서 viewer 데이터를 가져올 수 없는 경우.
-* `requests.RequestException`: GraphQL 요청 중 오류가 발생한 경우.
+* `ValueError`:  W&amp;B에서 viewer 데이터를 가져올 수 없는 경우.
+* `WandbApiFailedError`:  GraphQL 요청 중 오류가 발생한 경우.
 
 **반환값:**
 
@@ -154,7 +144,7 @@ artifact_collection(type_name: 'str', name: 'str') → ArtifactCollection
 `ArtifactCollection` 객체입니다.
 
 **예시:**
-다음 코드 스니펫에서 &quot;type&quot;, &quot;entity&quot;, &quot;project&quot;, &quot;artifact&#95;name&quot;는 각각 컬렉션 유형, 사용자의 W&amp;B entity, 아티팩트가 속한 프로젝트 이름, 아티팩트 이름을 나타내는 플레이스홀더입니다.
+이어서 나오는 코드 스니펫에서 &quot;type&quot;, &quot;entity&quot;, &quot;project&quot;, &quot;artifact&#95;name&quot;는 각각 컬렉션 유형, 사용자의 W&amp;B entity, 아티팩트가 속한 프로젝트 이름, 아티팩트 이름을 나타내는 플레이스홀더입니다.
 
 ```python
 import wandb
@@ -163,10 +153,10 @@ collections = wandb.Api().artifact_collection(
     type_name="type", name="entity/project/artifact_name"
 )
 
-# 컬렉션의 첫 번째 artifact를 가져옵니다.
+# 컬렉션의 첫 번째 아티팩트를 가져옵니다.
 artifact_example = collections.artifacts()[0]
 
-# artifact의 내용을 지정된 루트 디렉터리에 다운로드합니다.
+# 아티팩트의 내용을 지정된 루트 디렉터리에 다운로드합니다.
 artifact_example.download()
 ```
 
@@ -180,16 +170,16 @@ artifact_collection_exists(name: 'str', type: 'str') → bool
 
 지정된 프로젝트와 entity 내에 아티팩트 컬렉션이 존재하는지 여부입니다.
 
-**매개변수:**
+**인수:**
 
-* `name`:  아티팩트 컬렉션 이름입니다. 선택적으로 아티팩트를 로깅한 entity를 접두사로 붙인 다음 슬래시(`/`)를 추가할 수 있습니다. entity 또는 프로젝트를 지정하지 않으면 override 매개변수가 있는 경우 이를 바탕으로 collection을 추론합니다. 그렇지 않으면 entity는 User Settings에서 가져오고 프로젝트는 기본적으로 &quot;uncategorized&quot;로 설정됩니다.
+* `name`:  아티팩트 컬렉션 이름입니다. 선택적으로 아티팩트를 로깅한 entity를 접두사로 붙인 다음 슬래시(`/`)를 추가할 수 있습니다. entity 또는 프로젝트를 지정하지 않으면 override 매개변수가 있는 경우 이를 바탕으로 컬렉션을 추론합니다. 그렇지 않으면 entity는 User Settings에서 가져오고 프로젝트는 기본적으로 &quot;uncategorized&quot;로 설정됩니다.
 * `type`:  아티팩트 컬렉션의 유형입니다.
 
 **반환값:**
 아티팩트 컬렉션이 존재하면 True, 그렇지 않으면 False를 반환합니다.
 
 **예시:**
-다음 코드 스니펫에서 &quot;type&quot;과 &quot;collection&#95;name&quot;은 각각 아티팩트 컬렉션의 유형과 collection의 이름을 의미합니다.
+이어지는 코드 스니펫에서 &quot;type&quot;과 &quot;collection&#95;name&quot;은 각각 아티팩트 컬렉션의 유형과 컬렉션의 이름을 의미합니다.
 
 ```python
 import wandb
@@ -205,6 +195,7 @@ wandb.Api.artifact_collection_exists(type="type", name="collection_name")
 artifact_collections(
     project_name: 'str',
     type_name: 'str',
+    order: 'str | None' = None,
     per_page: 'int' = 50,
     start: 'str | None' = None
 ) → ArtifactCollections
@@ -212,10 +203,11 @@ artifact_collections(
 
 조건에 맞는 아티팩트 컬렉션 목록을 반환합니다.
 
-**매개변수:**
+**인수:**
 
 * `project_name`:  필터링할 프로젝트 이름입니다.
-* `type_name`:  필터링할 artifact 유형 이름입니다.
+* `type_name`:  필터링할 아티팩트 유형 이름입니다.
+* `order`:  결과 순서를 지정하는 선택 string입니다.  접두사로 &#39;+&#39;를 붙이면 오름차순으로 정렬됩니다(기본값).  접두사로 &#39;-&#39;를 붙이면 내림차순으로 정렬됩니다.
 * `per_page`:  쿼리 페이지네이션의 페이지 크기를 설정합니다.  일반적으로 이 값을 변경할 이유는 없습니다.
 * `start`:  이전 paginator의 `.cursor` 속성에서 캡처한 값을 사용해 이전 쿼리를 다시 이어가기 위한 페이지네이션 커서입니다.
 
@@ -232,7 +224,7 @@ artifact_exists(name: 'str', type: 'str | None' = None) → bool
 
 지정된 프로젝트와 entity 내에 아티팩트 버전이 존재하는지 여부입니다.
 
-**매개변수:**
+**인수:**
 
 * `name`:  아티팩트의 이름입니다. 아티팩트의 entity와 프로젝트를 접두사로 추가합니다. 아티팩트의 버전 또는 alias를 콜론(:)과 함께 뒤에 붙입니다. entity 또는 프로젝트를 지정하지 않으면, 값이 설정되어 있는 경우 W&amp;B가 override 매개변수를 사용합니다. 그렇지 않으면 entity는 User Settings에서 가져오고 프로젝트는 &quot;Uncategorized&quot;로 설정됩니다.
 * `type`:  아티팩트의 유형입니다.
@@ -241,7 +233,7 @@ artifact_exists(name: 'str', type: 'str | None' = None) → bool
 아티팩트 버전이 존재하면 True, 그렇지 않으면 False입니다.
 
 **예시:**
-다음 코드 스니펫에서 &quot;entity&quot;, &quot;project&quot;, &quot;artifact&quot;, &quot;version&quot;, &quot;alias&quot;는 각각 W&amp;B entity, 아티팩트가 속한 프로젝트 이름, 아티팩트 이름, 그리고 아티팩트 버전을 나타내는 플레이스홀더입니다.
+앞서 나온 코드 스니펫에서 &quot;entity&quot;, &quot;project&quot;, &quot;artifact&quot;, &quot;version&quot;, &quot;alias&quot;는 각각 W&amp;B entity, 아티팩트가 속한 프로젝트 이름, 아티팩트 이름, 그리고 아티팩트 버전을 나타내는 플레이스홀더입니다.
 
 ```python
 import wandb
@@ -309,6 +301,7 @@ artifact_versions(type_name, name, per_page=50)
 artifacts(
     type_name: 'str',
     name: 'str',
+    order: 'str | None' = None,
     per_page: 'int' = 50,
     tags: 'list[str] | None' = None,
     start: 'str | None' = None
@@ -317,10 +310,11 @@ artifacts(
 
 `Artifacts` 컬렉션을 반환합니다.
 
-**매개변수:**
+**인수:**
 
 * `type_name`: 가져올 아티팩트의 유형입니다.
 * `name`: 아티팩트의 컬렉션 이름입니다. 선택적으로 아티팩트를 로깅한 entity를 접두사로 추가하고 그 뒤에 슬래시를 붙일 수 있습니다.
+* `order`: 결과의 순서를 지정하는 선택 string입니다. `+` 접두사가 있으면 오름차순으로 정렬되고(기본값), `-` 접두사가 있으면 내림차순으로 정렬됩니다.
 * `per_page`: 쿼리 페이지네이션의 페이지 크기를 설정합니다. 일반적으로 이 값을 변경할 이유는 없습니다.
 * `tags`: 지정한 tags를 모두 가진 아티팩트만 반환합니다.
 * `start`: 이전 paginator의 `.cursor` 속성에서 캡처한 값으로, 이전 쿼리를 다시 이어서 실행하기 위한 페이지네이션 커서입니다.
@@ -329,7 +323,7 @@ artifacts(
 반복 가능한 `Artifacts` 객체입니다.
 
 **예시:**
-다음 코드 스니펫에서 &quot;type&quot;, &quot;entity&quot;, &quot;project&quot;, &quot;artifact&#95;name&quot;은 각각 아티팩트 유형, W&amp;B entity, 아티팩트가 로깅된 프로젝트 이름, 아티팩트 이름을 나타내는 플레이스홀더입니다.
+이어지는 코드 스니펫에서 &quot;type&quot;, &quot;entity&quot;, &quot;project&quot;, &quot;artifact&#95;name&quot;은 각각 아티팩트 유형, W&amp;B entity, 아티팩트가 로깅된 프로젝트 이름, 아티팩트 이름을 나타내는 플레이스홀더입니다.
 
 ```python
 import wandb
@@ -774,7 +768,7 @@ from_path(path: 'str')
 경로가 잘못되었거나 객체가 존재하지 않으면 `wandb.Error` 예외가 발생합니다.
 
 **예시:**
-다음 코드 스니펫에서 &quot;project&quot;, &quot;team&quot;, &quot;run&#95;id&quot;, &quot;sweep&#95;id&quot;, &quot;report&#95;name&quot;은 각각 프로젝트, 팀, run ID, 스윕 ID, 특정 리포트 이름을 나타내는 플레이스홀더입니다.
+앞의 코드 스니펫에서 &quot;project&quot;, &quot;team&quot;, &quot;run&#95;id&quot;, &quot;sweep&#95;id&quot;, &quot;report&#95;name&quot;은 각각 프로젝트, 팀, run ID, 스윕 ID, 특정 리포트 이름을 나타내는 플레이스홀더입니다.
 
 ```python
 import wandb
@@ -915,6 +909,7 @@ queued_run(
 registries(
     organization: 'str | None' = None,
     filter: 'dict[str, Any] | None' = None,
+    order: 'str | None' = None,
     per_page: 'int' = 100,
     start: 'str | None' = None
 ) → Registries
@@ -926,10 +921,11 @@ registries(
 
 **매개변수:**
 
-* `organization`: (str, 선택 사항) 가져올 레지스트리의 조직입니다. 지정하지 않으면 사용자 설정에 지정된 조직을 사용합니다.
-* `filter`: (dict, 선택 사항) lazy 레지스트리 이터레이터의 각 객체에 적용할 MongoDB 스타일 필터입니다. 레지스트리에 대해 필터링할 수 있는 필드는 `name`, `description`, `created_at`, `updated_at`입니다. 컬렉션에 대해 필터링할 수 있는 필드는 `name`, `tag`, `description`, `created_at`, `updated_at`입니다. 버전에 대해 필터링할 수 있는 필드는 `tag`, `alias`, `created_at`, `updated_at`, `metadata`입니다.
-* `per_page`: 쿼리 페이지네이션의 페이지 크기를 설정합니다.
-* `start`: 이전 paginator의 `.cursor` 속성에서 캡처한 값으로 이전 쿼리를 이어서 수행하기 위한 페이지네이션 커서입니다.
+* `organization`:  가져올 레지스트리의 조직입니다. 지정하지 않으면 사용자 설정에 지정된 조직을 사용합니다.
+* `filter`:  lazy 레지스트리 이터레이터의 각 객체에 적용할 MongoDB 스타일 필터입니다. 레지스트리에 대해 필터링할 수 있는 필드는 `name`, `description`, `created_at`, `updated_at`입니다. 컬렉션에 대해 필터링할 수 있는 필드는 `name`, `tag`, `description`, `created_at`, `updated_at`입니다. 버전에 대해 필터링할 수 있는 필드는 `tag`, `alias`, `created_at`, `updated_at`, `metadata`입니다.
+* `order`:  결과 순서를 지정하는 선택 사항인 string입니다. `+` 접두사가 있으면 오름차순으로 정렬합니다(기본값). `-` 접두사가 있으면 내림차순으로 정렬합니다.
+* `per_page`:  쿼리 페이지네이션의 페이지 크기를 설정합니다.
+* `start`:  이전 paginator의 `.cursor` 속성에서 캡처한 값으로 이전 쿼리를 이어서 수행하기 위한 페이지네이션 커서입니다.
 
 **반환값:**
 `Registry` 객체의 lazy 이터레이터입니다.
@@ -940,7 +936,7 @@ registries(
 ```python
 import wandb
 
-api = wandb.Api()  # entity가 여러 org에 속한 경우 org를 지정하십시오
+api = wandb.Api()  # 엔터티가 여러 조직(org)에 속한 경우 조직을 지정하세요
 api.registries(filter={"name": {"$regex": "model"}})
 ```
 
@@ -1092,7 +1088,7 @@ runs(
     filters: 'dict[str, Any] | None' = None,
     order: 'str' = '+created_at',
     per_page: 'int' = 50,
-    include_sweeps: 'bool' = True,
+    include_sweeps: 'bool' = False,
     lazy: 'bool' = True
 )
 ```
@@ -1137,7 +1133,7 @@ runs(
 * `For example`: `{"config.experiment_name": "foo"}` 는 실험 이름이 &quot;foo&quot;로 설정된 설정 항목이 있는 run을 찾습니다
 * `order`: (str) 정렬 기준으로 `created_at`, `heartbeat_at`, `config.*.value`, 또는 `summary_metrics.*`를 사용할 수 있습니다. 앞에 +를 붙이면 오름차순(기본값)입니다. 앞에 -를 붙이면 내림차순입니다. 기본 정렬은 가장 오래된 것부터 최신순까지의 run.created&#95;at입니다.
 * `per_page`: (int) 쿼리 페이지네이션의 페이지 크기를 설정합니다.
-* `include_sweeps`: (bool) 결과에 sweep run을 포함할지 여부입니다.
+* `include_sweeps`: (bool) 각 run 결과에서 sweep 객체를 eager 방식으로 가져올지 여부입니다.
 * `lazy`: (bool) 더 빠른 성능을 위해 lazy 로딩을 사용할지 여부입니다. True(기본값)인 경우 처음에는 필수 run 메타데이터만 로드됩니다. config, summaryMetrics, systemMetrics 같은 큰 필드는 접근 시 필요에 따라 로드됩니다. 전체 데이터를 처음부터 로드하려면 False로 설정하세요.
 
 **반환값:**
@@ -1154,7 +1150,7 @@ Api.runs(path="my_entity/project", filters={"config.experiment_name": "foo"})
 ```
 
 ```python
-# config.experiment_name이 "foo" 또는 "bar"로 설정된 프로젝트의 run 찾기
+# config.experiment_name이 "foo" 또는 "bar"로 설정된 프로젝트의 실행(Runs) 찾기
 Api.runs(
     path="my_entity/project",
     filters={
@@ -1184,7 +1180,7 @@ Api.runs(
 ```
 
 ```python
-# 오름차순 loss로 정렬된 프로젝트의 runs 찾기
+# 손실(loss)을 오름차순으로 정렬한 프로젝트의 러닝(Runs) 찾기
 Api.runs(path="my_entity/project", order="+summary_metrics.loss")
 ```
 

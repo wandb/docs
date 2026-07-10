@@ -1,6 +1,6 @@
 ---
 title: Registry overview
-description: W&B Registry to manage and share artifact versions across your organization
+description: Use W&B Registry to manage and share artifact versions across your organization
 ---
 import { ColabLink } from '/snippets/_includes/colab-link.mdx';
 
@@ -20,7 +20,10 @@ In summary, use W&B Registry to:
 
 {/* - Quickly find or reference important artifacts with a unique identifier known as aliases. */}
 
-The following image shows the W&B Registry landing page. A registry called `Model` is starred. Two collections are shown `DemoModels` and `Zoo_Classifier_Models`.
+The following image shows the W&B Registry landing page.
+
+From top to bottom, the image shows starred registries and the most recently updated registries and collections.
+
 
 <Frame>
     <img src="/images/registry/registry_landing_page.png" alt="W&B Registry"  />
@@ -95,11 +98,11 @@ If an artifact version logs metrics (such as by using `wandb.Run.log_artifact()`
 
 Based on your deployment type, satisfy the following conditions to enable W&B Registry:
 
-| Deployment type | How to enable |
-| ----- | ----- |
-| Multi-tenant Cloud | No action required. W&B Registry is available on the W&B App. |
-| Dedicated Cloud | Contact your account team to enable W&B Registry for your deployment. |
-| Self-Managed | For Server v0.70.0 or newer, no action required. For older supported Server versions, set the environment variable `ENABLE_REGISTRY_UI` to `true`. Refer to [Configure environment variables](/platform/hosting/env-vars). |
+| Deployment type    | How to enable                                                                                                                                                           |
+|--------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Multi-tenant Cloud | No action required. W&B Registry is available on the W&B App.                                                                                                           |
+| Dedicated Cloud    | Contact your account team to enable W&B Registry for your deployment.                                                                                                   |
+| Self-Managed       | For Server v0.71.0 or newer, no action required. Registry is enabled by default. For older supported Server versions, contact your W&B account team to enable Registry. |
 
 
 ## Resources to get started

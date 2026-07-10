@@ -1,42 +1,43 @@
 ---
 title: "프롬프트 실험에 플레이그라운드 활용하기"
 description: "LLM 프롬프트와 응답을 반복적으로 개선하는 과정을 간소화합니다"
+keywords: ["LLM 플레이그라운드", "프롬프트 엔지니어링", "모델 비교", "사용자 정의 공급자", "저장된 모델"]
 ---
 
 <Tip>
-  한정된 기간 동안 W&amp;B Inference가 무료 티어에 포함되어 있습니다. W&amp;B Inference는 API와 Weave 플레이그라운드를 통해 주요 오픈소스 파운데이션 모델에 접근할 수 있게 해줍니다.
+  한정된 기간 동안 Serverless Inference가 무료 티어에 포함되어 있습니다. Serverless Inference는 API와 Weave 플레이그라운드를 통해 주요 오픈소스 파운데이션 모델에 접근할 수 있게 해줍니다.
 
   * [개발자 문서](../integrations/inference)
   * [제품 페이지](https://wandb.ai/site/inference)
 </Tip>
 
-LLM 프롬프트와 응답을 평가하는 일은 쉽지 않습니다. Weave 플레이그라운드는 LLM 프롬프트와 응답을 반복적으로 개선하는 과정을 간소화하도록 설계되어, 다양한 모델과 프롬프트를 더 쉽게 실험할 수 있게 해줍니다. 프롬프트 편집, 메시지 재시도, 모델 비교 같은 기능을 통해 플레이그라운드는 LLM 애플리케이션을 빠르게 테스트하고 개선할 수 있도록 도와줍니다. 현재 플레이그라운드는 OpenAI, Anthropic, Google 등의 프로바이더 모델과 [사용자 정의 프로바이더](#add-a-custom-provider)를 지원합니다.
+LLM 프롬프트와 응답을 평가하는 일은 쉽지 않습니다. Weave 플레이그라운드는 LLM 프롬프트와 응답을 반복적으로 개선하는 과정을 간소화하도록 설계되어, 다양한 모델과 프롬프트를 더 쉽게 실험할 수 있게 해줍니다. 프롬프트 편집, 메시지 재시도, 모델 비교 같은 기능을 통해 플레이그라운드는 LLM 애플리케이션을 빠르게 테스트하고 개선할 수 있도록 도와줍니다. 플레이그라운드는 애플리케이션에 통합하기 전에 LLM 프롬프트를 테스트, 비교, 개선하려는 개발자와 프롬프트 엔지니어를 위한 도구입니다. 현재 플레이그라운드는 OpenAI, Anthropic, Google 등의 공급자 모델과 [사용자 정의 프로바이더](#add-a-custom-provider)를 지원합니다.
 
 * **빠른 액세스:** 새 세션을 시작하려면 Weave 사이드바 메뉴에서 &#39;플레이그라운드&#39;를 열고, 기존 프로젝트를 테스트하려면 Call 페이지에서 엽니다.
 * **메시지 제어:** 채팅 내에서 직접 메시지를 편집, 재시도, 또는 삭제합니다.
 * **유연한 메시징:** 새 메시지를 사용자 입력 또는 시스템 입력으로 추가해 LLM으로 보냅니다.
-* **사용자 지정 가능한 설정:** 선호하는 LLM 프로바이더를 구성하고 모델 설정을 조정합니다.
+* **사용자 지정 가능한 설정:** 선호하는 LLM 공급자를 구성하고 모델 설정을 조정합니다.
 * **다중 LLM 지원:** 팀 단위 API 키 관리와 함께 모델 간 전환이 가능합니다.
 * **모델 비교:** 서로 다른 모델이 프롬프트에 어떻게 응답하는지 비교합니다.
-* **사용자 정의 프로바이더:** 맞춤형 모델용 OpenAI 호환 API endpoint를 테스트합니다.
-* **저장된 모델:** 워크플로에 사용할 수 있는 재사용 가능한 모델 프리셋을 생성하고 구성합니다
+* **사용자 정의 프로바이더:** 맞춤형 모델용 OpenAI 호환 API 엔드포인트를 테스트합니다.
+* **저장된 모델:** 워크플로에 사용할 수 있는 재사용 가능한 모델 프리셋을 생성하고 구성합니다.
 
-플레이그라운드를 활용해 LLM 상호작용을 최적화하고 프롬프트 엔지니어링과 LLM 애플리케이션 개발 과정을 간소화하세요.
+플레이그라운드를 활용해 LLM 상호작용을 최적화하고 프롬프트 엔지니어링과 LLM 애플리케이션 개발 과정을 간소화하세요. 다음 섹션에서는 플레이그라운드를 구성하고 사용하는 방법을 설명합니다:
 
-* [프로바이더 자격 증명 및 정보 추가](#add-provider-credentials-and-information)
+* [공급자 자격 증명 및 정보 추가](#add-provider-credentials-and-information)
 * [플레이그라운드 액세스](#access-the-playground)
 * [LLM 선택](#select-an-llm)
 * [플레이그라운드 설정 사용자 지정](#customize-playground-settings)
 * [메시지 제어](#message-controls)
 * [LLM 비교](#compare-llms)
 * [사용자 정의 프로바이더](#custom-providers)
-* [저장된 모델](#saved-models) 
+* [저장된 모델](#saved-models)
 
 <div id="add-provider-credentials-and-information">
-  ## 프로바이더 자격 증명 및 정보 추가
+  ## 공급자 자격 증명 및 정보 추가
 </div>
 
-플레이그라운드를 사용하려면 먼저 프로바이더 자격 증명을 추가해야 합니다. 플레이그라운드는 현재 여러 프로바이더의 모델을 지원합니다. 사용 가능한 모델 중 하나를 사용하려면 W&amp;B 설정의 팀 시크릿에 적절한 정보를 추가하세요.
+플레이그라운드를 사용하려면 먼저 공급자 자격 증명을 추가하여 플레이그라운드가 각 모델 공급자에 대한 요청을 대신 인증할 수 있도록 해야 합니다. 플레이그라운드는 현재 여러 공급자의 모델을 지원합니다. 사용 가능한 모델 중 하나를 사용하려면 W&amp;B 설정의 팀 시크릿에 적절한 정보를 추가하세요.
 
 * Amazon Bedrock:
   * `AWS_ACCESS_KEY_ID`
@@ -45,8 +46,8 @@ LLM 프롬프트와 응답을 평가하는 일은 쉽지 않습니다. Weave 플
 * Anthropic: `ANTHROPIC_API_KEY`
 * Azure:
   * `AZURE_API_KEY`
-  * `AZURE_API_BASE`
   * `AZURE_API_VERSION`
+  * `AZURE_API_BASE`
 * Deepseek: `DEEPSEEK_API_KEY`
 * Google: `GEMINI_API_KEY`
 * Groq: `GROQ_API_KEY`
@@ -60,7 +61,7 @@ LLM 프롬프트와 응답을 평가하는 일은 쉽지 않습니다. Weave 플
 
 플레이그라운드에 액세스하는 방법은 두 가지입니다.
 
-1. *간단한 시스템 프롬프트로 새 플레이그라운드 페이지 열기*: Weave 프로젝트의 사이드바에서 **플레이그라운드**를 선택합니다. 플레이그라운드가 같은 탭에서 열립니다.
+1. *기본 system 프롬프트로 새 플레이그라운드 페이지 열기*: Weave 프로젝트의 사이드바에서 **플레이그라운드**를 선택합니다. 플레이그라운드가 같은 탭에서 열립니다.
 2. *특정 call에 대한 플레이그라운드 열기*:
    1. 사이드바에서 **Traces** 탭을 선택합니다. 트레이스 목록이 표시됩니다.
    2. 트레이스 목록에서 보려는 call의 이름을 클릭합니다. call의 상세 페이지가 열립니다.
@@ -74,7 +75,7 @@ LLM 프롬프트와 응답을 평가하는 일은 쉽지 않습니다. Weave 플
   ## LLM 선택
 </div>
 
-프롬프트 헤더(메인 플레이그라운드 패널 상단)에 있는 **모델 선택** 드롭다운에서 LLM을 전환할 수 있습니다. 여러 프로바이더에서 제공하는 사용 가능한 모델은 아래와 같습니다:
+프롬프트 헤더(메인 플레이그라운드 패널 상단)에 있는 **모델 선택** 드롭다운에서 LLM을 전환할 수 있습니다. 다음 공급자를 사용할 수 있습니다:
 
 * Amazon Bedrock
 * Anthropic
@@ -86,11 +87,13 @@ LLM 프롬프트와 응답을 평가하는 일은 쉽지 않습니다. Weave 플
 * OpenAI
 * X.AI
 
-사용 가능한 모델은 팀에 구성된 프로바이더에 따라 달라집니다.
+사용 가능한 모델은 팀에 구성된 공급자에 따라 달라집니다.
 
 <div id="customize-playground-settings">
-  ## 플레이그라운드 설정 사용자 지정하기
+  ## 플레이그라운드 설정 사용자 지정
 </div>
+
+선택한 모델의 파라미터를 조정하고 모델이 호출할 함수를 추가할 수 있습니다. 다음 섹션에서는 플레이그라운드 설정을 사용자 지정하는 방법을 설명합니다.
 
 <div id="adjust-llm-parameters">
   ### LLM 파라미터 조정
@@ -100,13 +103,14 @@ LLM 프롬프트와 응답을 평가하는 일은 쉽지 않습니다. Weave 플
 
 1. 프롬프트 헤더(메인 패널 상단)에서 **채팅 설정 (<Icon icon="sliders" iconType="regular" />)** 버튼을 클릭해 **채팅 설정** 패널을 엽니다.
 2. **채팅 설정** 패널에서 원하는 대로 파라미터를 조정합니다. Weave call 추적을 켜거나 끌 수도 있고, [함수를 추가](#add-a-function)할 수도 있습니다.
-3. 변경 사항은 자동으로 적용됩니다. 패널을 닫으려면 **채팅 설정**를 다시 클릭하거나 오른쪽 상단의 **x**를 클릭합니다. **채팅 설정** 버튼에 마우스를 올리면 표시되는 텍스트도 업데이트되어 변경한 설정이 표시됩니다.
+3. 변경 사항은 자동으로 적용됩니다. **채팅 설정**를 다시 클릭하거나 오른쪽 상단의 **x**를 클릭하면 패널이 닫힙니다. **채팅 설정** 버튼에 마우스를 올리면 표시되는 텍스트에 변경한 설정이 표시됩니다.
 
-페이지를 벗어나면 설정이 사라집니다. 설정을 저장하려면 [모델을 저장](#save-a-model)하세요.
-변경한 설정을 버리고 처음부터 다시 시작하려면 페이지를 새로고침하세요.
+<Note>
+  페이지를 벗어나면 설정이 사라집니다. 설정을 저장하려면 [모델을 저장](#save-a-model)하세요. 변경한 설정을 버리고 처음부터 다시 시작하려면 페이지를 새로고침하세요.
+</Note>
 
 <Frame>
-  !['모델 선택' 드롭다운이 열려 있고 오른쪽에 채팅 설정 패널이 열린 Weave 플레이그라운드.](/weave/guides/tools/imgs/playground_settings.png)
+  ![Select a model 드롭다운이 열려 있고 오른쪽에 채팅 설정 패널이 열린 Weave 플레이그라운드.](/weave/guides/tools/imgs/playground_settings.png)
 </Frame>
 
 플레이그라운드에서는 시행 횟수를 설정해 동일한 입력에 대해 여러 출력을 생성할 수 있습니다. 기본 설정은 `1`입니다. 시행 횟수를 조정하려면 **채팅 설정** 패널을 열고 **Number of trials** 설정을 조정하세요.
@@ -118,8 +122,10 @@ LLM 프롬프트와 응답을 평가하는 일은 쉽지 않습니다. Weave 플
 플레이그라운드에서는 서로 다른 모델이 사용자 입력에 따라 함수를 어떻게 사용하는지 테스트할 수 있습니다. 플레이그라운드에서 테스트할 함수를 추가하려면 **채팅 설정** 패널에서 **+ Add function**을 클릭합니다. 화면 안내에 따라 함수를 정의하고 변경 사항을 저장합니다.
 
 <div id="message-controls">
-  ## 메시지 제어
+  ## Message controls
 </div>
+
+플레이그라운드 채팅 인터페이스는 프롬프트 정의 영역, 메시지 패널, 메시지 작성 영역의 세 부분으로 구성됩니다. 다음 섹션에서 각 영역을 설명합니다.
 
 <div id="prompt-definition-area">
   ### 프롬프트 정의 영역
@@ -133,7 +139,7 @@ LLM 프롬프트와 응답을 평가하는 일은 쉽지 않습니다. Weave 플
 
 * **프롬프트 선택기**: 기존에 저장된 프롬프트를 선택하거나 새로 만듭니다.
 * **메시지 역할 선택기**: 현재 정의 중인 메시지의 역할(**System**, **Assistant**, 또는 **User** 역할)을 지정합니다.
-* **프롬프트 텍스트**: 모델이 어떻게 응답할지 결정하는 지침 텍스트를 입력합니다.
+* **프롬프트 텍스트**: 모델이 어떻게 응답하는지 결정하는 지침 텍스트를 입력합니다.
 * **메시지 추가** 버튼: 실행 전에 프롬프트 컨텍스트에 추가 메시지를 포함할 수 있습니다.
 
 이 메시지들은 함께 모델로 전송되며, 다음과 같은 용도로 사용할 수 있습니다.
@@ -174,50 +180,49 @@ LLM 프롬프트와 응답을 평가하는 일은 쉽지 않습니다. Weave 플
 
 메시지 이력을 보려면 오른쪽 플레이그라운드 툴바에서 **이력 (<Icon icon="clock-rotate-left" iconType="light" />)** 버튼을 클릭하세요. 그러면 현재 프로젝트에서 전송된 모든 메시지를 보여주는 이력 패널이 열립니다.
 
-이력에서 항목을 선택하면 비교할 수 있도록 추가 채팅 패널에 해당 항목이 자동으로 로드됩니다. 
+이력에서 항목을 선택하면 비교할 수 있도록 추가 채팅 패널에 해당 항목이 로드됩니다.
 
 <div id="compare-llms">
   ## LLM 비교
 </div>
 
-플레이그라운드에서는 LLM을 비교할 수 있습니다. 비교하려면 오른쪽 플레이그라운드 툴바에서 **채팅 추가 (<Icon icon="plus" iconType="solid" />)** 버튼을 클릭하세요. 기존 채팅 옆에 두 번째 채팅이 열립니다.
-두 번째 채팅에서도 모델 선택, 설정 조정, 함수 추가 등 기존 채팅과 동일한 기능을 사용할 수 있습니다.
+플레이그라운드에서는 LLM을 나란히 비교하여 서로 다른 모델이 동일한 프롬프트에 어떻게 응답하는지 평가할 수 있습니다. 비교하려면 오른쪽 플레이그라운드 툴바에서 **채팅 추가 (<Icon icon="plus" iconType="solid" />)** 버튼을 클릭하세요. 기존 채팅 옆에 두 번째 채팅이 열립니다. 두 번째 채팅에서도 모델 선택, 설정 조정, 함수 추가 등 기존 채팅과 동일한 기능을 사용할 수 있습니다.
 
 <div id="custom-providers">
-  ## 사용자 정의 프로바이더
+  ## 사용자 정의 공급자
 </div>
+
+기본 제공 공급자 외에도 플레이그라운드는 OpenAI 호환 API 엔드포인트를 제공하는 사용자 정의 공급자를 지원합니다. 다음 섹션에서는 사용자 정의 공급자를 추가, 편집, 제거하고 사용하는 방법을 설명합니다.
 
 <div id="add-a-custom-provider">
-  ### 사용자 정의 프로바이더 추가
+  ### 사용자 정의 공급자 추가
 </div>
 
-기본 제공 프로바이더 외에도 플레이그라운드에서 맞춤형 모델용 OpenAI 호환 API 엔드포인트를 테스트할 수 있습니다. 예를 들면 다음과 같습니다.
+기본 제공 공급자 외에도 플레이그라운드에서 맞춤형 모델용 OpenAI 호환 API 엔드포인트를 테스트할 수 있습니다. 예를 들면 다음과 같습니다.
 
-* 지원되는 모델 프로바이더의 이전 버전
+* 지원되는 모델 공급자의 이전 버전
 * 로컬 모델
 
-플레이그라운드에 사용자 정의 프로바이더를 추가하려면 다음 단계를 따르세요.
+플레이그라운드에 사용자 정의 공급자를 추가하려면 다음 단계를 따르세요.
 
 1. 프롬프트 헤더(메인 패널 상단)에서 **모델 선택** 드롭다운을 클릭합니다.
 2. **+ Add AI provider**를 선택합니다.
 3. **Custom Provider**를 선택합니다.
-4. pop-up modal에서 프로바이더 정보를 입력합니다.
-
-* **Provider name**: `openai` 또는 `ollama`와 같은 프로바이더 이름입니다.
-* **API 키**: OpenAI API 키와 같은 프로바이더의 API 키입니다.
-* **Base URL**: `https://api.openai.com/v1/` 또는 `https://e452-2600-1700-45f0-3e10-2d3f-796b-d6f2-8ba7.ngrok-free.app`와 같은 ngrok URL 등의 프로바이더용 기본 엔드포인트입니다.
-* **Headers**: (선택) 하나 이상의 맞춤형 HTTP 헤더 키-값 쌍입니다.
-* **Models**: `deepseek-r1` 또는 `qwq`와 같은 프로바이더용 하나 이상의 모델입니다.
-* **Max tokens**: (선택) 각 모델이 응답에서 생성할 수 있는 최대 token 수입니다.
-
-5. 프로바이더 정보를 입력한 후 **Add provider**를 클릭합니다.
-6. **모델 선택** 드롭다운에서 새 프로바이더와 사용 가능한 모델을 선택합니다.
+4. pop-up modal에서 공급자 정보를 입력합니다:
+   * **Provider name**: `openai` 또는 `ollama`와 같은 공급자 이름입니다.
+   * **API 키**: OpenAI API 키와 같은 공급자의 API 키입니다.
+   * **Base URL**: `https://api.openai.com/v1/` 또는 `https://e452-2600-1700-45f0-3e10-2d3f-796b-d6f2-8ba7.ngrok-free.app`와 같은 ngrok URL 등의 공급자용 기본 엔드포인트입니다.
+   * **Headers** (선택): 하나 이상의 맞춤형 HTTP 헤더 키-값 쌍입니다.
+   * **Models**: `deepseek-r1` 또는 `qwq`와 같은 공급자용 하나 이상의 모델입니다.
+   * **Max tokens** (선택): 각 모델이 응답에서 생성할 수 있는 최대 token 수입니다.
+5. 공급자 정보를 입력한 후 **Add provider**를 클릭합니다.
+6. **모델 선택** 드롭다운에서 새 공급자와 사용 가능한 모델을 선택합니다.
 
 <Warning>
   CORS 제한으로 인해 플레이그라운드에서 localhost 또는 127.0.0.1 URL을 직접 call할 수 없습니다. 로컬 모델 서버(Ollama 등)를 실행 중인 경우 ngrok 같은 터널링 서비스를 사용해 안전하게 외부에 노출하세요. 자세한 내용은 [Use ngrok with Ollama](#use-a-local-model-as-a-custom-provider)을 참조하세요.
 </Warning>
 
-이제 표준 플레이그라운드 기능을 사용해 사용자 정의 프로바이더 모델을 테스트할 수 있습니다. 사용자 정의 프로바이더를 [편집](#edit-a-custom-provider)하거나 [제거](#remove-a-custom-provider)할 수도 있습니다.
+사용자 정의 공급자를 추가한 후 표준 플레이그라운드 기능을 사용해 사용자 정의 공급자 모델을 테스트할 수 있습니다. 사용자 정의 공급자를 [편집](#edit-a-custom-provider)하거나 [제거](#remove-a-custom-provider)할 수도 있습니다.
 
 <div id="edit-a-custom-provider">
   ### 사용자 정의 프로바이더 편집
@@ -235,34 +240,34 @@ LLM 프롬프트와 응답을 평가하는 일은 쉽지 않습니다. Weave 플
 5. **Save**를 클릭합니다.
 
 <div id="remove-a-custom-provider">
-  ### 사용자 정의 프로바이더 제거
+  ### 사용자 정의 공급자 제거
 </div>
 
-[이전에 생성한 사용자 정의 프로바이더](#add-a-custom-provider)를 제거하려면 다음 단계를 따르세요.
+[이전에 생성한 사용자 정의 공급자](#add-a-custom-provider)를 제거하려면 다음 단계를 따르세요.
 
-1. 프롬프트 헤더에서 **모델 선택** 드롭다운을 클릭한 다음 **+프로바이더 구성**을 선택합니다.
+1. 프롬프트 헤더에서 **모델 선택** 드롭다운을 클릭한 다음 **+공급자 구성**을 선택합니다.
 
-* 또는 사이드바 메뉴에서 **프로젝트**를 선택한 다음 **AI 프로바이더** 탭을 선택할 수 있습니다.
+* 또는 사이드바 메뉴에서 **프로젝트**를 선택한 다음 **AI 공급자** 탭을 선택할 수 있습니다.
 
-2. **사용자 정의 프로바이더** 테이블에서 삭제하려는 사용자 정의 프로바이더를 찾습니다.
-3. 해당 사용자 정의 프로바이더 항목의 **Last Updated** 열에서 삭제 버튼(휴지통 아이콘)을 클릭합니다.
-4. 팝업 모달에서 프로바이더를 삭제할 것인지 확인합니다. 이 작업은 되돌릴 수 없습니다.
+2. **사용자 정의 공급자** 테이블에서 삭제하려는 사용자 정의 공급자를 찾습니다.
+3. 해당 사용자 정의 공급자 항목의 **Last Updated** 열에서 삭제 버튼(휴지통 아이콘)을 클릭합니다.
+4. 팝업 모달에서 공급자를 삭제할 것인지 확인합니다. 이 작업은 되돌릴 수 없습니다.
 5. **삭제**를 클릭합니다.
 
 <div id="use-a-local-model-as-a-custom-provider">
   ### 로컬 모델을 사용자 정의 프로바이더로 사용
 </div>
 
-플레이그라운드에서 로컬로 실행 중인 모델을 테스트하려면 ngrok와 Ollama를 사용해 CORS 제한을 우회할 수 있는 임시 공개 URL을 만드세요.
+플레이그라운드에서 로컬로 실행 중인 모델을 테스트하려면 ngrok와 Ollama를 사용해 CORS 제한을 우회할 수 있는 임시 공개 URL을 만드세요. 이렇게 하면 브라우저 보안 정책을 위반하지 않고도 플레이그라운드가 사용자의 머신에서 실행 중인 모델에 연결할 수 있습니다.
 
 설정하려면 다음 단계를 따르세요:
 
 1. 사용 중인 운영 체제에 맞는 [ngrok를 설치](https://ngrok.com/docs/getting-started/#step-1-install)합니다.
 
-2. Ollama 모델을 시작합니다:
+2. Ollama 모델을 시작합니다. `[MODEL]`을 실행하려는 Ollama 모델 이름으로 바꾸세요.
 
    ```bash
-   ollama run <model>
+   ollama run [MODEL]
    ```
 
 3. 별도의 터미널에서 필요한 CORS 헤더를 포함해 ngrok 터널을 생성합니다:
@@ -277,58 +282,59 @@ LLM 프롬프트와 응답을 평가하는 일은 쉽지 않습니다. Weave 플
 
 ```mermaid
 flowchart LR
-    %% 스타일 정의
+    %% Style definitions
     classDef clientMachine fill:#FFD95CCC,stroke:#454B52,stroke-width:2px
     classDef proxy fill:#00CDDBCC,stroke:#454B52,stroke-width:2px
     classDef wandbCloud fill:#DE72FFCC,stroke:#454B52,stroke-width:2px
     classDef publicCloud fill:#FFCBADCC,stroke:#454B52,stroke-width:2px
 
-    %% 서브그래프
-    subgraph Client_Machine
+    %% Subgraphs
+    subgraph 클라이언트_머신
         browser[브라우저]
         llm_local[로컬 LLM 공급자]
     end
 
-    subgraph Proxy
-        ngrok[Ngrok 프록시]
+    subgraph 프록시
+        ngrok[ngrok 프록시]
     end
 
-    subgraph WandB_Cloud
+    subgraph W&B_클라우드
         trace_server[트레이스 서버]
     end
 
-    subgraph Public_Cloud
+    subgraph 퍼블릭_클라우드
         llm_cloud[퍼블릭 LLM 공급자]
     end
 
-    %% 서브그래프에 스타일 적용
+    %% Apply styles to subgraphs
     class Client_Machine clientMachine
     class Proxy proxy
     class WandB_Cloud wandbCloud
     class Public_Cloud publicCloud
 
-    %% 현재 데이터 흐름
-    browser -->|채팅 요청 전송| trace_server
-    trace_server -->|퍼블릭 LLM 사용| llm_cloud
-    trace_server -->|로컬 LLM 사용| ngrok
-    ngrok -->|전달| llm_local
-    llm_cloud -->|응답 반환| trace_server
-    llm_local -->|응답 반환| ngrok
-    ngrok -->|전달| trace_server
-    trace_server -->|응답 반환| browser
+    %% Current Data Flow
+    browser -->|채팅 요청을 보냄| trace_server
+    trace_server -->|퍼블릭 LLM을 사용| llm_cloud
+    trace_server -->|로컬 LLM을 사용| ngrok
+    ngrok -->|다음으로 전달| llm_local
+    llm_cloud -->|응답을 반환| trace_server
+    llm_local -->|응답을 반환| ngrok
+    ngrok -->|다음으로 전달| trace_server
+    trace_server -->|응답을 반환| browser
 
-    %% 향후 가능한 연결
-    browser -.->|향후: 로컬 LLM 직접 호출| llm_local
+    %% Future Possible Connection
+    browser -.->|향후: 로컬 LLM을 직접 호출| llm_local
 
-    %% 링크 스타일
+    %% Link styles
     linkStyle default stroke:#454B52,stroke-width:2px
     linkStyle 8 stroke:#454B52,stroke-width:2px,stroke-dasharray:5
 ```
 
-
 <div id="saved-models">
   ## 저장된 모델
 </div>
+
+저장된 모델을 사용하면 공급자, 모델, 매개변수, 함수 훅을 재사용 가능한 사전 설정으로 저장할 수 있습니다. 다음 섹션에서는 모델을 저장하고, 사용하고, 업데이트하는 방법을 설명합니다.
 
 <div id="save-a-model">
   ### 모델 저장
@@ -341,16 +347,16 @@ flowchart LR
 3. **채팅 설정** 패널에서:
    * **모델 이름** (필수): 저장할 모델의 이름을 입력합니다.
    * 원하는 대로 매개변수를 조정합니다. Weave call 추적을 켜거나 끌 수도 있고, [함수를 추가](#add-a-function)할 수도 있습니다.
-4. **모델 게시**를 클릭합니다. 모델이 저장되며 **모델 선택** 드롭다운의 **저장된 모델**에서 사용할 수 있습니다. 이제 저장된 모델을 [사용](#use-a-saved-model)하고 [업데이트](#update-a-saved-model)할 수 있습니다.
+4. **모델 게시**를 클릭합니다. 모델이 저장되며 **모델 선택** 드롭다운의 **저장된 모델**에서 사용할 수 있습니다. 그런 다음 저장된 모델을 [사용](#use-a-saved-model)하고 [업데이트](#update-a-saved-model)할 수 있습니다.
 
 <div id="use-a-saved-model">
   ### 저장된 모델 사용
 </div>
 
-이전에 [저장한 모델](#save-a-model)로 빠르게 전환해 실험이나 세션 전반에서 일관성을 유지하세요. 이렇게 하면 중단한 부분부터 바로 이어서 작업할 수 있습니다.
+이전에 [저장한 모델](#save-a-model)로 전환해 실험이나 세션 전반에서 일관성을 유지하세요. 이렇게 하면 중단한 부분부터 이어서 작업할 수 있습니다.
 
 1. 프롬프트 헤더의 **모델 선택** 드롭다운에서 **저장된 모델**을 선택합니다.
-2. 저장된 모델 목록에서 불러올 모델을 선택합니다. 모델이 로드되면 플레이그라운드에서 바로 사용할 수 있습니다.
+2. 저장된 모델 목록에서 불러올 모델을 선택합니다. 모델이 로드되면 플레이그라운드에서 사용할 수 있습니다.
 
 <div id="update-a-saved-model">
   ### 저장된 모델 업데이트

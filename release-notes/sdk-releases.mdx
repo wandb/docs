@@ -6,6 +6,77 @@ rss: true
 
 This page includes release notes for the W&B Python SDK (`wandb` package) used with W&B Models. For the Weave Python SDK (`weave` package), see [Weave SDK releases](/release-notes/weave-sdk-releases). For W&B Server, see [W&B Server release notes](/release-notes/server-releases).
 
+<Update label="0.28.0" description="June 22, 2026">
+## Notable changes
+- This version drops compatibility with server versions older than 0.65.0.
+
+## Added
+- W&B LEET TUI features:
+  - Media panels support high-resolution image rendering in terminals that support the Kitty protocol, with ANSI fallback.
+  - Media panels support synced scrubbing: press `l` to link scrubbing, then navigate with arrow keys, Home, and End, which move a shared cursor over the union step timeline and every image tile follows it.
+  - Basic remote-run support with `wandb leet [run-url]`.
+- The following paginated artifacts and registry API methods now accept an optional order string as a keyword argument: `Api.artifacts()`, `Api.artifact_collections()`, `Api.registries()`, `Api.registries().collections()`, `Registry.collections()`.
+
+## Changed
+- W&B LEET TUI changes:
+  - The W&B LEET TUI is now generally available, and the command is updated from `wandb beta leet` to `wandb leet`. The prior command is still available as an alias.
+  - Lists of images logged under a single key are now displayed in the W&B LEET media pane, one tile per image.
+- To improve query performance, `wandb.Api().runs()` no longer loads Sweeps for each run by default. Sweep data is loaded on first access of the sweep property.
+
+## Fixed
+- `File.download()` no longer fails after a hard-coded 5-second timeout; downloads respect the file transfer settings.
+- Fixed a regression introduced in 0.27.1 where `wandb.Api().viewer`, `Api().user()`, and `Api().users()` could fail with the error `WandbApiFailedError: relogin required for some API keys`.
+- When a `wandb.Image` is logged inside a `wandb.Table` with multiple box or mask layers with distinct `class_labels`, each layer's labels are now preserved in new `box_class_maps` or `mask_class_maps` fields in the `table.json`. Previously, a single `class_map` would be incorrectly overwritten by each set of class labels.
+- Artifact file operations now consistently require normalized relative paths.
+- To fix silent failures when `$TMPDIR` is missing or unwritable, logging an artifact using a `WandbLogger` or `run.log_artifact` now writes the manifest file to the artifact's staging directory instead of the OS temp dir.
+- Fixed a bug where logging artifacts in shared mode (`wandb.init(mode="shared")`)  with code-saving enabled would raise an error.
+- To create a `diff.patch` file, the `git_root` setting is now used by default, falling back to the `root_dir` setting.
+- Apple system metrics like GPU, CPU, power, and temperature are now collected on Apple M5 Macs.
+- File download progress is now shown when exporting history using `wandb.Api().run(...).download_history_exports`.
+- Fixed a regression introduced in 0.27.1 where `Run.scan_history()` would return no rows for a run whose history exists but has not been exported to Parquet, like an active run.
+</Update>
+
+<Update label="0.27.2" description="June 6, 2026">
+## Fixed
+- `Run.scan_history()` no longer returns duplicate or missing steps when fetching run history.
+</Update>
+
+<Update label="0.27.1" description="June 4, 2026">
+## Added
+- The Automations API now supports artifact tag, collection tag, and artifact unlinking events.
+
+## Changed
+- `wandb.Api` GraphQL operations now route through `wandb-core` instead of the legacy Python GraphQL client.
+    - Failures from `wandb.Api` GraphQL operations now raise `WandbApiFailedError` instead of `requests` HTTP exceptions.
+- `Run.scan_history()` now reads from exported parquet history when available, which can significantly improve throughput for runs with large history. This capability was introduced under `beta_scan_history` in SDK `v0.23.1`.
+
+## Removed
+- Removed the unsupported `wandb.apis.importers` API.
+- Removed stale OpenAI, Cohere, and LangChain LLM integrations, including legacy autologging and tracing APIs.
+- Removed the deprecated Keras `WandbCallback` and the legacy `wandb.integration.yolov8` callback package.
+
+## Fixed
+- `wandb.sandbox` now rejects invalid argument values for placement, GPU, and egress.
+</Update>
+
+<Update label="0.27.0" description="May 13, 2026">
+## Notable Changes
+This version drops support for Python 3.9 and Pydantic v1. Pydantic v2.6 or newer is now required.
+
+## Added
+- The new package `wandb.sandbox` and the `wandb beta sandbox` CLI for using [Serverless Sandboxes](/sandboxes).
+- The new setting `stop_on_fatal_error` and environment variable `WANDB_STOP_ON_FATAL_ERROR` stop a run after a fatal error that prevents it from uploading metrics.
+- The new setting `finish_timeout` and corresponding environment variable `WANDB_FINISH_TIMEOUT` let you specify how many seconds to wait for data to upload at the end of a run. If a run times out, a warning message is printed. Use boolean setting `finish_timeout_raises` or corresponding environment variable `WANDB_FINISH_TIMEOUT_RAISES` to raise an error in addition to printing a warning message.
+- The new setting `capture_loggers` lets you specify Python loggers to capture into the run's **Logs** tab, using a mapping of logger name to minimum log level. Log records emitted by those loggers are published as console output to the run, similar to `stdout`/`stderr` capture.
+- The new method `run.write_logs()` writes text directly to the run's **Logs** tab instead of relying on automatic capture of `stdout`/`stderr`.
+
+## Changed
+- System metrics for runs in Linux containers now report CPU and memory usage relative to the container's cgroup v2 limits instead of the host's totals.
+- Python 3.9 is no longer supported.
+- Pydantic 2.6 or above is now required. Pydantic v1 is no longer supported. 
+
+</Update>
+
 <Update label="0.26.1" description="April 23, 2026">
 ## Added
 

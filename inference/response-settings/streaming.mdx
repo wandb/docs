@@ -1,16 +1,14 @@
 ---
 title: "Enable streaming responses"
-description: "Enable streaming output with W&B Inference to receive model responses incrementally as they are generated."
+description: "Enable streaming output with Serverless Inference to receive model responses incrementally."
+keywords: ["stream=True", "server-sent events", "SSE", "incremental output"]
 ---
 
-Sometimes models take a while to generate a response.
-Setting the `stream` option to true allows you to receive the response as a stream
-of chunks, allowing you to incrementally display results instead of waiting for the entire
-response to be generated.
+Setting the `stream` option to `true` returns the model's response incrementally as a stream of chunks, so you can display results as they arrive instead of waiting for the entire response. This is helpful when models take time to generate output.
 
-Streaming output is supported for all hosted models. We especially encourage its
-use with [reasoning models](./reasoning), as non-streaming requests may timeout if the model thinks for
-too long before output starts.
+All hosted models support streaming output. We recommend streaming for [reasoning models](./reasoning), since non-streaming requests can time out if the model takes a long time to start producing output.
+
+The following examples enable streaming for a chat completion request:
 
 <Tabs>
   <Tab title="Python">
@@ -19,7 +17,7 @@ too long before output starts.
 
     client = openai.OpenAI(
         base_url='https://api.inference.wandb.ai/v1',
-        api_key="<your-api-key>",  # Create an API key at https://wandb.ai/settings
+        api_key="[YOUR-API-KEY]",  # Create an API key at https://wandb.ai/settings
     )
 
     stream = client.chat.completions.create(
@@ -41,7 +39,7 @@ too long before output starts.
     ```bash
     curl https://api.inference.wandb.ai/v1/chat/completions \
       -H "Content-Type: application/json" \
-      -H "Authorization: Bearer <your-api-key>" \
+      -H "Authorization: Bearer [YOUR-API-KEY]" \
       -d '{
         "model": "openai/gpt-oss-120b",
         "messages": [

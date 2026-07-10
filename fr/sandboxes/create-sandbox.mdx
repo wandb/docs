@@ -1,11 +1,14 @@
 ---
 title: Créer des sandboxes
-description: Découvrez comment créer des W&B Sandboxes.
+keywords: ["Sandbox.run", "SandboxDefaults", "Session"]
+description: Créez des Serverless Sandboxes W&B qui exécutent du code dans des conteneurs isolés disposant de leur propre système de fichiers, réseau et espace de processus.
 ---
 
-<Warning>W&amp;B Sandboxes est en préversion privée, disponible uniquement sur invitation. Pour demander à y participer, contactez [l’assistance](mailto:support@wandb.com) ou votre AISE.</Warning>
+<Warning>
+  Serverless Sandboxes est en préversion publique.
+</Warning>
 
-Créez des sandboxes avec W&amp;B. Chaque sandbox s’exécute dans son propre conteneur, avec son propre [système de fichiers](/fr/sandboxes/file-access), son propre réseau et son propre espace de processus.
+Créez des Serverless Sandboxes W&amp;B pour exécuter du code dans des environnements isolés. Démarrez un sandbox, exécutez-y des commandes et gérez plusieurs sandboxes à l’aide d’une session. Chaque sandbox s’exécute dans son propre conteneur, avec son propre [système de fichiers](/fr/sandboxes/file-access), son propre réseau et son propre espace de processus.
 
 <Info>
   Par défaut, les sandboxes utilisent `python:3.11` comme image de base. Pour utiliser une autre image, passez `container_image` à [`Sandbox.run()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#run) ou à [`SandboxDefaults`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox-defaults). W&amp;B prend en charge uniquement les images de conteneur publiques.
@@ -26,7 +29,9 @@ Créez des sandboxes avec W&amp;B. Chaque sandbox s’exécute dans son propre c
 
 Utilisez [`Sandbox.run()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#run) pour créer et démarrer un sandbox. Cette méthode renvoie un objet `Sandbox` que vous pouvez utiliser pour interagir avec l’environnement.
 
-<Tip>W&amp;B recommande d’utiliser un gestionnaire de contexte (instruction `with`) afin de garantir que le sandbox s’arrête automatiquement à la sortie du bloc, même si une erreur se produit.</Tip>
+<Tip>
+  W&amp;B recommande d’utiliser un gestionnaire de contexte (instruction `with`) pour arrêter automatiquement le sandbox à la sortie du bloc, même si une erreur se produit.
+</Tip>
 
 L’exemple suivant crée un sandbox avec l’image de conteneur par défaut (`python:3.11`) :
 
@@ -58,7 +63,7 @@ Cette approche est utile pour les flux de travail interactifs et comportant plus
   ### Démarrer un sandbox avec une commande principale
 </div>
 
-Vous pouvez également passer une commande à `Sandbox.run()`. Utilisez cette approche lorsque le sandbox doit exécuter une seule tâche du début à la fin. Lorsque le processus principal se termine, le sandbox passe à un état terminal, tel que [COMPLETED ou FAILED](/fr/sandboxes/lifecycle).
+Vous pouvez également passer une commande à `Sandbox.run()`. Utilisez cette approche lorsque le sandbox exécute une seule tâche du début à la fin. Lorsque le processus principal se termine, le sandbox passe à un état terminal, tel que [COMPLETED ou FAILED](/fr/sandboxes/lifecycle).
 
 La commande que vous passez à `Sandbox.run()` démarre en tant que processus principal du sandbox.
 
@@ -83,13 +88,15 @@ sandbox.wait_until_complete().result()
   ## Créer plusieurs sandboxes avec une session
 </div>
 
+Lorsque vous avez besoin de plus d’un sandbox à la fois, ou que vous souhaitez partager une configuration entre plusieurs sandboxes, utilisez une session.
+
 Utilisez [`Session`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/session) pour créer et gérer plusieurs sandboxes. Lorsque la session se ferme (par exemple, à la sortie d’un bloc `with`), toutes les sandboxes créées par cette session sont automatiquement arrêtées.
 
 Vous pouvez également transmettre un objet [`SandboxDefaults`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox-defaults) à une session afin de définir une configuration par défaut réutilisable pour toutes les sandboxes créées par cette session. Par exemple, vous pouvez spécifier une image de conteneur par défaut, une configuration réseau ou une durée de vie maximale pour toutes les sandboxes de la session.
 
 `session.sandbox()` renvoie un sandbox non démarré. Il démarre automatiquement lorsque vous appelez `Sandbox.exec()`, `Sandbox.read_file()` ou toute autre opération.
 
-L’extrait de code suivant crée une session qui crée deux sandboxes en utilisant une configuration par défaut (`SandboxDefaults`) :
+L’extrait de code suivant crée une session avec deux sandboxes qui partagent une configuration par défaut (`SandboxDefaults`) :
 
 ```python
 from wandb.sandbox import Session, SandboxDefaults

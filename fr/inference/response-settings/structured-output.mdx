@@ -1,11 +1,14 @@
 ---
 title: "Activer la sortie structurée"
-description: Comment configurer la sortie structurée dans les réponses de W&B Inference
+description: Comment configurer la sortie structurée dans les réponses de Serverless Inference
+keywords: ["json_schema", "JSON schema", "application du schéma", "extraction de données", "response_format"]
 ---
 
-La sortie structurée est similaire au [mode JSON](/fr/inference/response-settings/json-mode), mais elle offre l’avantage supplémentaire de garantir que la réponse du modèle respecte le schéma que vous spécifiez. Nous vous recommandons d’utiliser la sortie structurée plutôt que le mode JSON lorsque c’est possible.
+La sortie structurée contraint les réponses de Serverless Inference à respecter un schéma JSON spécifique, ce qui garantit que la réponse du modèle est conforme aux champs et aux types que vous définissez. Utilisez la sortie structurée lorsque votre application doit analyser les réponses du modèle dans des champs connus, par exemple pour l’extraction de données, le remplissage de formulaires ou le traitement en aval.
 
-Pour activer la sortie structurée, spécifiez `json_schema` comme type de `response_format` dans la requête :
+La sortie structurée est similaire au [mode JSON](/fr/inference/response-settings/json-mode), mais elle offre l’avantage supplémentaire de garantir que la réponse du modèle respecte le schéma que vous spécifiez. Utilisez la sortie structurée plutôt que le mode JSON lorsque c’est possible.
+
+Pour activer la sortie structurée, spécifiez `json_schema` comme type de `response_format` dans la requête. L’exemple suivant extrait les détails d’un événement dans un schéma défini :
 
 <Tabs>
   <Tab title="Python">
@@ -15,7 +18,7 @@ Pour activer la sortie structurée, spécifiez `json_schema` comme type de `resp
 
     client = openai.OpenAI(
         base_url='https://api.inference.wandb.ai/v1',
-        api_key="<your-api-key>",  # Créez une clé API sur https://wandb.ai/settings
+        api_key="[YOUR-API-KEY]",  # Créez une clé API sur https://wandb.ai/settings
     )
 
     response = client.chat.completions.create(
@@ -53,7 +56,7 @@ Pour activer la sortie structurée, spécifiez `json_schema` comme type de `resp
     ```bash
     curl https://api.inference.wandb.ai/v1/chat/completions \
       -H "Content-Type: application/json" \
-      -H "Authorization: Bearer <your-api-key>" \
+      -H "Authorization: Bearer [YOUR-API-KEY]" \
       -d '{
         "model": "openai/gpt-oss-20b",
         "messages": [

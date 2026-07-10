@@ -1,0 +1,40 @@
+---
+title: "Pourquoi mes métriques n’apparaissent-elles pas dans wandb.log() ?"
+keywords: ["Journaux", "Métriques", "Experiments"]
+---
+
+Si les métriques enregistrées avec `wandb.log()` n’apparaissent pas dans l’interface W&amp;B, plusieurs causes fréquentes sont possibles.
+
+**Mode hors ligne sans synchronisation**
+
+Si `WANDB_MODE=offline` est défini, les métriques sont enregistrées localement, mais ne sont pas téléversées tant que vous n’exécutez pas `wandb sync`. Vérifiez si le run contient bien des données localement dans votre répertoire `wandb/`, puis synchronisez-le. Remplacez `[TIMESTAMP]` et `[ID]` par l’horodatage et l’ID de votre run :
+
+```bash
+wandb sync wandb/run-[TIMESTAMP]-[ID]
+```
+
+**Journalisation non coordonnée dans l&#39;entraînement distribué**
+
+Dans l&#39;entraînement distribué, une pratique courante consiste à ne journaliser que depuis un seul processus (généralement le rang 0). Si plusieurs processus journalisent dans le même run sans coordination, les métriques risquent de s&#39;écraser les unes les autres ou d&#39;être perdues. Utilisez une vérification du rang pour journaliser depuis un seul processus :
+
+```python
+import os
+import wandb
+
+with wandb.init(project="[YOUR-PROJECT]") as run:
+    if int(os.environ.get("RANK", 0)) == 0:
+        loss = ...  # votre métrique calculée
+        run.log({"loss": loss})
+```
+
+W&amp;B prend également en charge la journalisation vers un unique run à partir de plusieurs processus de manière coordonnée à l’aide du [mode partagé](/fr/models/track/log/distributed-training). Voir ce guide pour les schémas rank-0 et multiprocessus.
+
+Pour la synchronisation hors ligne, voir [Variables d&#39;environnement](/fr/models/track/environment-variables).
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Logs](/fr/support/models/tags/logs)</Badge><Badge stroke shape="pill" color="orange" size="md">[Métriques](/fr/support/models/tags/metrics)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

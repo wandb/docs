@@ -3,9 +3,29 @@ title: "Best practices to organize hyperparameter searches"
 keywords: ["Hyperparameter", "Sweeps", "Runs"]
 ---
 
-Set unique tags with `wandb.init(tags='your_tag')`. This allows efficient filtering of project runs by selecting the corresponding tag in a Project Page's Runs Table. 
+When you run many hyperparameter searches, tag your runs so you can group and find related experiments later.
 
-For more information on `wandb.init()`, see the [`wandb.init()` reference](/models/ref/python/functions/init).
+## Tag runs in your code
+
+Pass unique tags when you initialize each run:
+
+```python
+import wandb
+
+with wandb.init(tags=["sweep-3", "lr-0.01"]) as run:
+    # Your training code here
+    pass
+```
+
+For more information about `wandb.init()`, see the [`wandb.init()` reference](/models/ref/python/functions/init) and [Add labels to runs with tags](/models/runs/tags).
+
+## Filter tagged runs in the UI
+
+1. Open your project and go to the **Runs** tab.
+2. Click **Filter** above the runs table.
+3. Choose **Tags**, select an operator such as `is` or `in`, and enter the tag you set in code.
+
+See [Filter runs](/models/runs/filter-runs) for more filter options.
 
 ---
 

@@ -3,17 +3,11 @@ title: "How can I resolve the Filestream rate limit exceeded error?"
 keywords: ["Connectivity", "Outage"]
 ---
 
-To resolve the "Filestream rate limit exceeded" error in W&B, follow these steps:
+The `Filestream rate limit exceeded` error occurs when W&B receives too many API requests in a short window, which can interrupt logging during training. To resolve it, work through the following steps to reduce request volume, rule out a service outage, and request a higher limit if needed:
 
-**Optimize logging**:
-  - Reduce logging frequency or batch logs to decrease API requests.
-  - Stagger experiment start times to avoid simultaneous API requests.
-
-**Check for outages**:
-  - Verify that the issue does not arise from a temporary server-side problem by checking [W&B status updates](https://status.wandb.com).
-
-**Contact support**:
-  - Reach out to W&B support (support@wandb.com) with details of the experimental setup to request an increase in rate limits.
+1. Optimize logging. Reduce logging frequency or batch logs to decrease API requests, and stagger experiment start times to avoid simultaneous API requests.
+2. Check for outages. To rule out a temporary server-side problem, check [W&B status updates](https://status.wandb.com).
+3. Contact support. Contact W&B support (support@wandb.com) with details of your experimental setup to request an increase in rate limits.
 
 ---
 

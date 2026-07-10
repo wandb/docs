@@ -1,17 +1,22 @@
 ---
 title: "Tutoriel : entraîner un modèle PyTorch"
-description: "Découvrez comment entraîner un modèle PyTorch dans un environnement W&B Sandbox grâce à ce tutoriel pas à pas."
+description: "Découvrez comment entraîner un modèle PyTorch dans un environnement Serverless Sandbox grâce à ce tutoriel étape par étape."
+keywords: ["suivi des expériences W&B", "jeu de données UCI Zoo", "réseau de neurones", "entraînement ML isolé", "journalisation wandb"]
 ---
 
-<Warning>W&amp;B Sandboxes est en préversion privée, accessible uniquement sur invitation. Pour demander à y accéder, contactez l&#39;[assistance](mailto:support@wandb.com) ou votre AISE.</Warning>
+<Warning>
+  Serverless Sandboxes est en préversion publique.
+</Warning>
 
-Dans ce tutoriel, vous allez entraîner un modèle PyTorch dans un environnement W&amp;B Sandbox. Pour ce faire, vous allez démarrer un sandbox avec les variables d’environnement appropriées, installer les dépendances nécessaires et exécuter un script Python qui entraîne un réseau de neurones simple sur le jeu de données UCI Zoo.
+Dans ce tutoriel, vous entraînez un modèle PyTorch dans un environnement Serverless Sandbox. Pour ce faire, vous démarrez un sandbox avec les variables d&#39;environnement appropriées, installez les dépendances nécessaires et exécutez un script Python. Le script entraîne un réseau de neurones sur le jeu de données UCI Zoo.
+
+À la fin de ce tutoriel, vous disposez d&#39;un fichier de modèle PyTorch entraîné enregistré localement. Cela montre comment utiliser un Serverless Sandbox pour exécuter des charges de travail d&#39;entraînement ML isolées sans avoir à configurer d&#39;infrastructure locale. Ce tutoriel s&#39;adresse aux praticiens du ML et aux développeurs qui souhaitent évaluer Serverless Sandboxes pour des tâches d&#39;entraînement reproductibles.
 
 <div id="prerequisites">
   ## Prérequis
 </div>
 
-Avant de commencer, assurez-vous de disposer des éléments suivants :
+Avant de commencer, suivez les étapes de configuration suivantes.
 
 {/* ### (Recommandé) Créer un environnement virtuel Python
 
@@ -22,21 +27,21 @@ Avant de commencer, assurez-vous de disposer des éléments suivants :
   source venv/bin/activate  # Sous Windows, utilisez `venv\Scripts\activate`
   ```  */}
 
-<div id="install-wb-python-sdk">
+<div id="install-the-wb-python-sdk">
   ### Installez le SDK Python de W&amp;B
 </div>
 
-Installez le SDK Python de W&amp;B. Vous pouvez le faire à l’aide de `pip` :
+Le SDK Python de W&amp;B fournit l’interface `Sandbox`, que vous utiliserez plus tard pour créer le Serverless Sandbox et interagir avec lui. Installez-le à l’aide de `pip` :
 
 ```bash
 pip install wandb
 ```
 
 <div id="log-in-and-authenticate-with-wb">
-  ## Connectez-vous et authentifiez-vous auprès de W&amp;B
+  ### Connectez-vous et authentifiez-vous auprès de W&amp;B
 </div>
 
-Si ce n’est pas déjà fait, connectez-vous à W&amp;B. Utilisez la commande CLI `wandb login` et suivez les instructions pour vous connecter à votre compte W&amp;B :
+Les Serverless Sandboxes W&amp;B s’exécutent dans votre compte W&amp;B, vous devez donc vous authentifier avant d’en créer un. Utilisez la commande CLI `wandb login` et suivez les instructions pour vous connecter :
 
 ```bash
 wandb login
@@ -45,10 +50,12 @@ wandb login
 Voir la documentation de référence [`wandb login`](/fr/models/ref/cli/wandb-login) pour plus d’informations sur la manière dont W&amp;B recherche les informations d’authentification.
 
 <div id="copy-the-training-script-and-dependencies">
-  ### Copiez le script d’entraînement et les dépendances
+  ## Copiez le script d&#39;entraînement et les dépendances
 </div>
 
-Développez la liste déroulante ci-dessous pour accéder au code requis pour ce tutoriel. Faites un copier-coller du code dans trois fichiers distincts, dans le même répertoire que ce tutoriel. Dans la section suivante, vous exécuterez un script qui lit ces fichiers et entraîne un modèle PyTorch dans un environnement W&amp;B Sandbox.
+Préparez les trois fichiers requis pour ce tutoriel : un fichier requirements, un fichier d&#39;hyperparamètres et un script d&#39;entraînement. Ouvrez le menu déroulant ci-dessous, puis copiez chaque exemple de code dans un fichier distinct dans le même répertoire que ce tutoriel.
+
+Dans la section suivante, vous exécuterez un script qui lit ces fichiers et entraîne un modèle PyTorch dans un W&amp;B Serverless Sandbox.
 
 <Accordion title="Script d'entraînement du modèle PyTorch">
   Copiez-collez le code suivant dans un fichier nommé `requirements.txt`. Ce fichier contient les dépendances du script d&#39;entraînement.
@@ -69,7 +76,7 @@ Développez la liste déroulante ci-dessous pour accéder au code requis pour ce
   model_type: Multivariate_neural_network_classifier
   ```
 
-  Copiez-collez le code suivant dans un fichier nommé `train.py`. Ce script entraîne un modèle PyTorch simple sur le jeu de données UCI Zoo et enregistre le modèle entraîné dans un fichier nommé `zoo_wandb.pth`.
+  Copiez-collez le code suivant dans un fichier nommé `train.py`. Ce script entraîne un modèle PyTorch sur le jeu de données UCI Zoo et enregistre le modèle entraîné dans un fichier nommé `zoo_wandb.pth`.
 
   ```python title="train.py"
   import argparse
@@ -186,7 +193,9 @@ Développez la liste déroulante ci-dessous pour accéder au code requis pour ce
   ## Créer le sandbox et exécuter le script d’entraînement
 </div>
 
-L’extrait de code suivant montre comment créer un sandbox, y copier le script d’entraînement et les dépendances, exécuter le script d’entraînement, puis télécharger le fichier de modèle généré. La section suivante fournit une explication du code, ligne par ligne.
+Une fois vos fichiers d’entraînement en place, créez et gérez un W&amp;B Serverless Sandbox à partir d’un seul script Python. L’extrait de code suivant crée un sandbox, y copie le script d’entraînement et les dépendances, exécute le script d’entraînement, puis télécharge le fichier de modèle généré.
+
+La section suivante explique le code, ligne par ligne.
 
 Copiez-collez le code suivant dans un fichier Python et exécutez-le. Enregistrez-le dans le même répertoire que les fichiers `train.py`, `requirements.txt` et `hyperparameters.yaml` que vous avez créés à l’étape précédente.
 
@@ -199,7 +208,7 @@ from wandb.sandbox import Sandbox, NetworkOptions
 mounted_files = [
     {"mount_path": "train.py", "file_content": Path("train.py").read_bytes()},
     {"mount_path": "requirements.txt", "file_content": Path("requirements.txt").read_bytes()},
-        ]
+        ] 
 
 print("Starting sandbox...")
 with Sandbox.run(
@@ -237,3 +246,5 @@ L’extrait de code précédent effectue les opérations suivantes :
 5. (Ligne 26) Exécute le script d’entraînement. La commande `python train.py --config hyperparameters.yaml` est exécutée dans le sandbox pour démarrer le processus d’entraînement. Le script entraîne un modèle PyTorch sur le jeu de données UCI Zoo et enregistre le modèle entraîné dans un fichier nommé `zoo_wandb.pth`.
 6. (Lignes 27 à 29) Affiche la sortie et le code de sortie. Une fois l’exécution du script d’entraînement terminée, la sortie standard, la sortie d’erreur standard et le code de sortie sont affichés dans la console à des fins de débogage et de vérification.
 7. (Lignes 33 à 34) Télécharge le fichier de modèle généré. Le fichier `zoo_wandb.pth` est lu depuis le sandbox à l’aide de la méthode `read_file()` et enregistré localement.
+
+Une fois le script terminé, vous disposez d’un modèle PyTorch entraîné enregistré sous le nom `zoo_wandb.pth` dans votre répertoire de travail. Le sandbox qui l’a produit est créé, utilisé, puis supprimé à la demande.

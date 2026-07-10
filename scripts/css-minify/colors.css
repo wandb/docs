@@ -1,0 +1,118 @@
+/* ==========================================================================
+   Color tokens — W&B docs brand palette
+   This file has two sections:
+
+   1. MINTLIFY THEME OVERRIDES — override variables Mintlify injects as
+      space-separated RGB triplets (e.g. "251 250 248"). These control the
+      main page background, sidebar, gray scale, borders, and dot accents.
+      Edit these to change the site's overall color tone.
+
+   2. CUSTOM COMPONENT TOKENS — hex variables used in buttons.css, cards.css,
+      and other hand-authored component files. The .dark class redefines them
+      for dark mode; only values that differ from light mode are listed there.
+
+   Usage of component tokens in other CSS files:
+     color: var(--color-text-primary);
+     background: color-mix(in srgb, var(--color-stroke) 70%, transparent);
+   ========================================================================== */
+
+
+/* ==========================================================================
+   SECTION 1 — Mintlify theme variable overrides
+   Mintlify injects these into a <style>:root{} block before our stylesheet.
+   Our linked CSS loads after, so these declarations win.
+   All values are space-separated R G B (Tailwind/Mintlify color format).
+   Only override variables that are safe to change in both light and dark
+   modes independently; avoid --gray-* overrides (Mintlify inverts the
+   scale in dark mode, so a single :root block will break one of the two).
+   ========================================================================== */
+:root {
+  /* Main page background -------------------------------------------------- */
+  /* Space-separated R G B (no commas, no rgb() wrapper) is REQUIRED here:
+     Mintlify consumes these tokens via Tailwind's rgb(var(--background-light) /
+     <alpha>) pattern, which only works when the value is a bare R G B triplet.
+     A HEX value would break Mintlify's bg-background-light utility class. */
+  --background-light: 251 250 248;  /* #FBFAF8 — warm off-white */
+  --background-dark:   26  29  36;  /* #1A1D24 — deep blue-gray */
+
+  /* Primary button foreground — same constraint as above, but for HSL:
+     Mintlify wraps this in hsl(var(--primary-foreground)). Must stay as
+     space-separated H S% L% — HEX would break the wrapping function.
+     Default is near-white (210 40% 98%); we override to dark so text is
+     readable on the gold (#FCBC32) button background. */
+  --primary-foreground: 217 13% 19%;  /* #2B3038 */
+
+  /* Page texture — PNG dot pattern shown in the upper-right of the viewport.
+     Switched per-mode by the .dark override in section 2. */
+  --page-texture: url("/css/assets/light-dots.png");
+}
+
+
+/* ==========================================================================
+   SECTION 2 — Custom component color tokens (hex)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Light mode (default)
+   -------------------------------------------------------------------------- */
+:root {
+  /* Page backgrounds */
+  --color-page-bg:        #FBFAF8; /* main page and card background */
+  --color-card-hover:     #FFFFFF; /* card-tinted bg used by button-link components */
+  --color-stroke:         #DFE0E2; /* card / panel outline and borders */
+  --color-sidebar-bg:     #F9F7F3; /* left navigation panel */
+  --color-sidebar-hover:  #F5EDE1; /* left panel hover state and dot accents */
+
+  /* Card resting + active states — used by .product-card and Mintlify .card.
+     `rest` matches the page bg exactly so the resting card reads as an
+     outlined region with no fill (just the stroke border defines it).
+     `active` is the brighter solid bg shown on hover. Kept as a separate
+     token (rather than reusing --color-page-bg directly) for semantic
+     clarity at call sites. */
+  --color-card-rest:      #FBFAF8; /* same as --color-page-bg */
+  --color-card-active:    #FFFFFF; /* solid bg on hover/active */
+
+  /* Brand accent */
+  --color-icon:           #D4870D; /* icon fill */
+  --color-button:         #FCBC32; /* primary button and interactive accents */
+  --color-button-fg:      #2B3038; /* foreground (text + icon) on amber button bg —
+                                       fixed across modes since buttons stay amber */
+
+  /* Text */
+  --color-text-primary:   #2B3038; /* body text and headings */
+  --color-text-secondary: #4B535C; /* captions, labels, and supporting text */
+}
+
+
+/* --------------------------------------------------------------------------
+   Dark mode
+   Mintlify adds the `.dark` class to <html> when dark mode is active.
+   Only values that differ from light mode need to be listed here.
+   -------------------------------------------------------------------------- */
+.dark {
+  /* Page backgrounds */
+  --color-page-bg:        #1A1D24; /* main page background */
+  --color-card-hover:     #363C44; /* card-tinted bg used by button-link components */
+  --color-stroke:         #2B3038; /* card hover state, strokes, and dots */
+  --color-sidebar-bg:     #20242B; /* left panel — slightly lighter than page bg */
+  --color-sidebar-hover:  #2B3038; /* left panel hover and dot accents */
+
+  /* Card resting + active — same value as --color-page-bg so the card has
+     no visible fill at rest (only the stroke border defines it); active
+     brightens to the dark stroke color on hover. */
+  --color-card-rest:      #1A1D24; /* same as --color-page-bg */
+  --color-card-active:    #2B3038; /* solid bg on hover/active */
+
+  /* Brand accent — same values as light mode */
+  --color-icon:           #D4870D;
+  --color-button:         #FCBC32;
+  /* --color-button-fg intentionally inherits from :root — buttons stay amber
+     in both modes, so the dark foreground (#2B3038) is the same in both. */
+
+  /* Text */
+  --color-text-primary:   #E8E8E9;
+  --color-text-secondary: #C5C7CC;
+
+  /* Page texture — dark-mode dot pattern */
+  --page-texture: url("/css/assets/dark-dots.png");
+}

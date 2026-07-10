@@ -1,13 +1,15 @@
 ---
-title: "W&B Inference에서 Invalid Authentication (401) 오류를 해결하려면 어떻게 하나요?"
+title: "Serverless Inference에서 Invalid Authentication (401) 오류를 해결하려면 어떻게 하나요?"
 keywords: ["Inference"]
 ---
 
-401 Invalid Authentication 오류는 API 키가 유효하지 않거나 W&amp;B 프로젝트 entity/name이 올바르지 않다는 의미입니다.
+`401` Invalid Authentication 오류는 API 키가 유효하지 않거나 W&amp;B 프로젝트 entity 또는 name이 올바르지 않다는 의미입니다. 요청이 인증될 수 있도록 이 페이지의 확인 사항을 사용해 두 값이 모두 올바른지 확인하세요.
 
 <div id="verify-your-api-key">
   ## API 키를 확인하세요
 </div>
+
+다른 원인을 해결하기 전에 유효하고 현재 사용 중인 API 키가 있는지 확인하세요.
 
 1. [User Settings](https://wandb.ai/settings)에서 새 API 키를 생성하세요.
 2. API 키를 안전하게 보관하세요.
@@ -16,15 +18,15 @@ keywords: ["Inference"]
   ## 프로젝트 설정을 확인하세요
 </div>
 
-프로젝트가 `<your-team>/<your-project>` 형식으로 올바르게 지정되었는지 확인하세요.
+서비스가 요청을 올바른 W&amp;B 팀과 프로젝트로 전달할 수 있도록, 요청에는 프로젝트를 `[YOUR-TEAM]/[YOUR-PROJECT]` 형식으로 지정해야 합니다. `[YOUR-API-KEY]`는 W&amp;B API 키로, `[YOUR-TEAM]/[YOUR-PROJECT]`는 W&amp;B 팀 및 프로젝트로 바꾸세요.
 
 **Python 예시:**
 
 ```python
 client = openai.OpenAI(
     base_url='https://api.inference.wandb.ai/v1',
-    api_key="<your-api-key>",
-    project="<your-team>/<your-project>",  # W&B 팀 및 프로젝트와 일치해야 합니다
+    api_key="[YOUR-API-KEY]",
+    project="[YOUR-TEAM]/[YOUR-PROJECT]",  # W&B 팀 및 프로젝트와 일치해야 합니다
 )
 ```
 
@@ -32,26 +34,26 @@ client = openai.OpenAI(
 
 ```bash
 curl https://api.inference.wandb.ai/v1/chat/completions \
-  -H "Authorization: Bearer <your-api-key>" \
-  -H "OpenAI-Project: <your-team>/<your-project>"
+  -H "Authorization: Bearer [YOUR-API-KEY]" \
+  -H "OpenAI-Project: [YOUR-TEAM]/[YOUR-PROJECT]"
 ```
 
 <div id="common-mistakes">
   ## 흔히 하는 실수
 </div>
 
-* 팀 이름 대신 개인 entity 사용
-* 팀 또는 프로젝트 이름을 잘못 입력함
-* 팀과 프로젝트 사이의 슬래시(/) 누락
-* 만료되었거나 삭제된 API 키 사용
+* 팀 이름 대신 개인 entity 사용.
+* 팀 또는 프로젝트 이름을 잘못 입력함.
+* 팀과 프로젝트 사이의 슬래시(/) 누락.
+* 만료되었거나 삭제된 API 키 사용.
 
-<div id="still-having-issues">
-  ## 여전히 문제가 있나요?
+<div id="troubleshoot-remaining-issues">
+  ## 남아 있는 문제 해결
 </div>
 
-* W&amp;B 계정에 해당 팀과 프로젝트가 있는지 확인하세요
-* 지정된 팀에 접근 권한이 있는지 확인하세요
-* 현재 API 키가 작동하지 않으면 새 API 키를 만들어 사용해 보세요
+* W&amp;B 계정에 해당 팀과 프로젝트가 있는지 확인하세요.
+* 지정된 팀에 접근 권한이 있는지 확인하세요.
+* 현재 API 키가 작동하지 않으면 새 API 키를 만드세요.
 
 ***
 

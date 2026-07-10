@@ -81,6 +81,7 @@ from ray.air.integrations.wandb import setup_wandb
 Cette fonction utilitaire permet d’initialiser wandb pour l’utiliser avec Ray Tune. Pour une utilisation de base, appelez `setup_wandb()` dans votre fonction d’entraînement :
 
 ```python
+from ray import tune
 from ray.air.integrations.wandb import setup_wandb
 
 
@@ -111,7 +112,6 @@ tuner = tune.Tuner(
 )
 results = tuner.fit()
 ```
-
 
 <div id="example-code">
   ## Exemple de code

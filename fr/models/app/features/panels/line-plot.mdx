@@ -1,6 +1,7 @@
 ---
 description: Visualisez les métriques, personnalisez les axes et comparez plusieurs courbes sur un graphique
 title: Aperçu des graphiques en courbes
+keywords: ["graphique en courbes", "panneau multi-métriques", "comparateur de runs", "axe X", "NaN"]
 ---
 
 import LinePlotCaptureGroups from "/snippets/fr/_includes/line-plot-capture-groups.mdx";
@@ -21,53 +22,53 @@ Cette page explique comment créer, configurer et gérer des graphiques en courb
   ## Ajouter un graphique en courbes
 </div>
 
-Cette section explique comment créer un graphique en courbes pour une métrique unique ou plusieurs métriques.
+Les sections suivantes expliquent comment créer un graphique en courbes pour une métrique unique ou plusieurs métriques.
 
 <Tabs>
   <Tab title="Graphique en courbes à métrique unique">
-    Dans un [workspace automatique](/fr/models/app/features/panels#workspace-modes), un graphique en courbes à métrique unique est créé automatiquement pour chaque métrique enregistrée. Suivez ces étapes pour rajouter un graphique en courbes supprimé d’un workspace automatique, ou pour ajouter un graphique en courbes à un workspace manuel.
+    Dans un [espace de travail automatique](/fr/models/app/features/panels#workspace-modes), W&amp;B crée automatiquement un graphique en courbes à métrique unique pour chaque métrique enregistrée. Suivez ces étapes pour rajouter un graphique en courbes supprimé d’un espace de travail automatique, ou pour ajouter un graphique en courbes à un espace de travail manuel.
 
-    1. Accédez à votre Workspace.
-    2. Pour ajouter un graphique en courbes globalement, cliquez sur **Add panels** dans la barre de contrôle près du champ de recherche des panneaux.
+    1. Accédez à votre espace de travail.
+    2. Pour ajouter un graphique en courbes à l’ensemble de l’espace de travail, cliquez sur **Ajouter des panneaux** dans la barre de contrôle, près du champ de recherche des panneaux.
 
-       Pour ajouter directement un graphique en courbes à une section, cliquez plutôt sur le menu **d’action (<Icon icon="ellipsis" iconType="solid" />)** de la section, puis sur **+ Add panels**.
-    3. Pour ajouter un graphique à métrique unique avec les paramètres par défaut, cliquez sur **Quick panel builder**.
-       1. Dans l’onglet **Single-key panels**, survolez une métrique, puis cliquez sur **Add**. Répétez cette étape pour chaque panneau que vous souhaitez ajouter.
-       2. Cliquez sur **Create &lt;number&gt; panels**.
-    4. Pour ajouter à la place un graphique en courbes personnalisé, cliquez sur **Line plot**.
-       1. Configurez les données, le regroupement et les préférences d’affichage du graphique en courbes à l’aide des onglets correspondants. Pour en savoir plus, voir [Edit line plot settings](#edit-line-plot-settings).
-       2. Pour ajouter des expressions calculées à l’axe x ou y, cliquez sur **Expressions**. Les [expressions régulières JavaScript](https://www.w3schools.com/js/js_regexp.asp) sont prises en charge.
-          Sélectionnez le type de panneau à ajouter, par exemple un graphique. Les détails de configuration du panneau s’affichent avec les valeurs par défaut sélectionnées.
-    5. Si vous le souhaitez, personnalisez le panneau et ses préférences d’affichage. Les options de configuration dépendent du type de panneau que vous sélectionnez. Pour en savoir plus sur les options de chaque type de panneau, reportez-vous à la section pertinente ci-dessous, comme [Line plots](/fr/models/app/features/panels/line-plot/) ou [Bar plots](/fr/models/app/features/panels/bar-plot/).
-    6. Cliquez sur **Apply**.
+       Pour ajouter un graphique en courbes directement à une section, cliquez plutôt sur le menu **d’action (<Icon icon="ellipsis" iconType="solid" />)** de la section, puis sur **+ Ajouter des panneaux**.
+    3. Pour ajouter un graphique à métrique unique avec les paramètres par défaut, cliquez sur **Générateur rapide de panneaux**.
+       1. Dans l’onglet **Panneaux à clé unique**, survolez une métrique, puis cliquez sur **Ajouter**. Répétez cette étape pour chaque panneau que vous souhaitez ajouter.
+       2. Cliquez sur **Créer [NUMBER] panneaux**.
+    4. Pour ajouter à la place un graphique en courbes personnalisé, cliquez sur **Graphique en courbes**.
+       1. Configurez les préférences de données, de regroupement et d’affichage du graphique en courbes à l’aide des onglets correspondants. Pour plus de détails, voir [Modifier les paramètres du graphique en courbes](#edit-line-plot-settings).
+       2. Pour ajouter des expressions calculées à l’axe X ou à l’axe Y, cliquez sur **Expressions**. Les [expressions régulières JavaScript](https://www.w3schools.com/js/js_regexp.asp) sont prises en charge.
+    5. Sélectionnez le type de panneau à ajouter, par exemple un graphique. Les détails de configuration du panneau s’affichent avec les valeurs par défaut sélectionnées.
+    6. Si vous le souhaitez, personnalisez le panneau et ses préférences d’affichage. Les options de configuration dépendent du type de panneau sélectionné. Pour plus d’informations sur les options de chaque type de panneau, voir [Graphiques en courbes](/fr/models/app/features/panels/line-plot/) ou [Graphiques en barres](/fr/models/app/features/panels/bar-plot/).
+    7. Cliquez sur **Appliquer**.
   </Tab>
 
-  <Tab title="Graphique en courbes multi-métriques">
+  <Tab title="Graphique en courbes avec plusieurs métriques">
     <Note>
-      Cette fonctionnalité est en préversion et disponible sur invitation uniquement. Pour demander à y participer, contactez l&#39;[assistance](mailto:support@wandb.com) ou votre AISE.
+      Cette fonctionnalité est en préversion et disponible sur invitation uniquement. Pour demander à y être inscrit, contactez [l’assistance](mailto:support@wandb.com) ou votre AISE.
     </Note>
 
-    Dans un [Workspace automatique](/fr/models/app/features/panels#workspace-modes), un graphique en courbes à métrique unique est créé automatiquement pour chaque métrique enregistrée. Cette section explique comment créer un graphique en courbes unique affichant plusieurs métriques à la fois, définies par une expression régulière JavaScript. Vous pouvez aussi regrouper plusieurs graphiques à métrique unique en un seul graphique à métriques multiples. Cela peut améliorer les performances d&#39;un Workspace contenant de nombreuses métriques enregistrées et vous aider à analyser efficacement les résultats de vos Runs.
+    Dans un [espace de travail automatique](/fr/models/app/features/panels#workspace-modes), W&amp;B crée automatiquement un graphique en courbes à métrique unique pour chaque métrique enregistrée. Cette section explique comment créer un graphique en courbes unique affichant plusieurs métriques à la fois, définies par une expression régulière JavaScript. Vous pouvez également regrouper plusieurs graphiques à métrique unique en un seul graphique multi-métrique. Cela peut améliorer les performances d’un espace de travail comportant de nombreuses métriques enregistrées et vous aider à analyser les résultats de vos runs.
 
-    1. Accédez à votre Workspace.
-    2. Pour ajouter un graphique en courbes globalement, cliquez sur **Add panels** dans la barre de contrôle près du champ de recherche des panneaux.
+    1. Accédez à votre espace de travail.
+    2. Pour ajouter un graphique en courbes globalement, cliquez sur **Add panels** dans la barre de contrôle, à côté du champ de recherche des panneaux.
 
-       Pour ajouter directement un graphique en courbes à une section, cliquez plutôt sur le menu **d’action (<Icon icon="ellipsis" iconType="solid" />)** de la section, puis sur **+ Add panels**.
-    3. Cliquez sur **Quick panel builder**, puis sur l&#39;onglet **Multi-metric panels**.
-    4. Dans **Regex**, saisissez une expression au format [expression régulière JavaScript](https://www.w3schools.com/js/js_regexp.asp). Pendant la saisie, l&#39;interface utilisateur se met à jour pour indiquer quelles métriques correspondent à l&#39;expression. Par défaut, le nom du graphique affiche l&#39;expression régulière utilisée. Le graphique inclut des courbes pour toutes les métriques correspondant à l&#39;expression, y compris celles enregistrées ultérieurement.
-    5. Pour supprimer facultativement les panneaux à métrique unique en double lors de la création du graphique à métriques multiples, activez **Clean up auto-generated panels**. Un aperçu indique quels panneaux seront supprimés. <Note>Lorsque cette option est activée, aucun graphique à métrique unique n&#39;est créé pour une nouvelle métrique enregistrée qui correspond à l&#39;expression. Elle est incluse uniquement dans ce graphique à métriques multiples.</Note>
-    6. Cliquez sur **Create &lt;number&gt; panels**.
+       Pour ajouter un graphique en courbes directement à une section, cliquez plutôt sur le menu **action (<Icon icon="ellipsis" iconType="solid" />)** de la section, puis sur **+ Add panels**.
+    3. Cliquez sur **Quick panel builder**, puis sur l’onglet **Multi-metric panels**.
+    4. Dans **Regex**, saisissez une expression au format [expression régulière JavaScript](https://www.w3schools.com/js/js_regexp.asp). Au fur et à mesure de la saisie, l’interface utilisateur se met à jour pour indiquer quelles métriques correspondent à l’expression. Par défaut, le nom du graphique affiche l’expression régulière utilisée. Le graphique inclut des courbes pour toutes les métriques qui correspondent à l’expression, y compris les métriques enregistrées ultérieurement.
+    5. Pour supprimer éventuellement les panneaux à métrique unique en double lors de la création du graphique multi-métrique, activez **Clean up auto-generated panels**. Un aperçu indique quels panneaux seront supprimés. <Note>Lorsque cette option est activée, W&amp;B ne crée pas de graphique à métrique unique pour une métrique nouvellement enregistrée qui correspond à l’expression. Elle apparaît uniquement dans ce graphique multi-métrique.</Note>
+    6. Cliquez sur **Create [NUMBER] panels**.
 
-    ### En savoir plus sur les expressions régulières multi-métriques
+    ### Expressions régulières multi-métriques
 
-    Les graphiques en courbes à métriques multiples utilisent des [expressions régulières JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions) pour faire correspondre les noms de métriques. Cette section présente quelques cas d&#39;usage courants et donne plus de détails sur le fonctionnement des expressions régulières, notamment sur la façon dont les groupes de capture influencent les panneaux créés.
+    Les graphiques en courbes multi-métriques utilisent des [expressions régulières JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions) pour faire correspondre les noms de métriques. Les sections suivantes décrivent des cas d’usage courants et donnent plus de détails sur le fonctionnement des expressions régulières, notamment sur la manière dont les groupes de capture affectent les panneaux créés par W&amp;B.
 
-    #### Cas d&#39;usage courants
+    #### Cas d’usage courants
 
-    Cette section présente quelques façons d&#39;utiliser les panneaux multi-métriques pour vous aider à analyser les résultats de vos expériences.
+    Les exemples suivants montrent différentes façons d’utiliser des panneaux multi-métriques pour vous aider à analyser les résultats de vos expériences.
 
-    **Comparer les métriques entre les couches ou les composants du modèle**
-    Au lieu de créer des panneaux séparés pour les métriques de chaque couche, vous pouvez les afficher ensemble dans un seul panneau. Par exemple, si vous consignez des métriques avec une convention de nommage cohérente, comme `layer_0_loss`, `layer_1_loss` et `layer_2_loss` dans cet exemple de code Python, vous pouvez utiliser la regex `layer_\d+_loss` pour afficher toutes les pertes des couches sur un seul graphique.
+    **Comparer des métriques entre différentes couches ou différents composants du modèle**
+    Au lieu de créer des panneaux distincts pour les métriques de chaque couche, vous pouvez les afficher ensemble dans un seul panneau. Par exemple, si vous consignez des métriques selon une convention de nommage cohérente, comme `layer_0_loss`, `layer_1_loss` et `layer_2_loss` dans cet exemple de code Python, vous pouvez utiliser la regex `layer_\d+_loss` pour afficher toutes les pertes des couches sur un même graphique.
 
     ```python
     with wandb.init(project="multi-layer-model") as run:
@@ -80,16 +81,16 @@ Cette section explique comment créer un graphique en courbes pour une métrique
             })
     ```
 
-    **Regrouper les métriques liées par préfixe ou suffixe**
-    Faites correspondre toutes les métriques qui partagent un schéma de nommage commun. Par exemple :
+    **Regroupez les métriques associées par préfixe ou suffixe**
+    Faites correspondre toutes les métriques qui partagent un même schéma de nommage. Par exemple :
 
-    * `train_.*` correspond à toutes les métriques d&#39;entraînement, comme `train_loss`, `train_accuracy`, `train_f1_score`
-    * `.*_accuracy` correspond aux métriques d&#39;exactitude sur différents jeux de données, comme `train_accuracy`, `val_accuracy`, `test_accuracy`
+    * `train_.*` correspond à toutes les métriques d’entraînement, comme `train_loss`, `train_accuracy`, `train_f1_score`.
+    * `.*_accuracy` correspond aux métriques de précision de différents jeux de données, comme `train_accuracy`, `val_accuracy`, `test_accuracy`.
 
     **Faire correspondre des variantes de métriques spécifiques**
-    Utilisez l&#39;alternance pour ne faire correspondre que les métriques souhaitées. Par exemple, le groupe non capturant `(?:layer_0|layer_10)_loss` correspond uniquement aux pertes des première et dixième couches, en excluant les couches intermédiaires.
+    Utilisez l’alternance pour ne faire correspondre que les métriques souhaitées. Par exemple, le groupe non capturant `(?:layer_0|layer_10)_loss` correspond uniquement aux pertes de la première et de la dixième couche, en excluant les couches intermédiaires.
 
-    #### Comprendre les groupes de capture
+    #### Groupes de capture
 
     <LinePlotCaptureGroups />
   </Tab>
@@ -99,7 +100,7 @@ Cette section explique comment créer un graphique en courbes pour une métrique
   ## Modifier les paramètres du graphique en courbes
 </div>
 
-Cette section explique comment modifier les paramètres d’un panneau de graphique en courbes donné, de tous les panneaux de graphique en courbes d’une section ou de tous les panneaux de graphique en courbes d’un Workspace. Pour plus de détails sur les paramètres du graphique en courbes, voir [Référence du graphique en courbes](/fr/models/app/features/panels/line-plot/reference).
+Les sections suivantes expliquent comment modifier les paramètres d’un panneau de graphique en courbes donné, de tous les panneaux de graphique en courbes d’une section ou de tous les panneaux de graphique en courbes d’un Workspace. Pour des détails sur les paramètres du graphique en courbes, voir [Référence du graphique en courbes](/fr/models/app/features/panels/line-plot/reference).
 
 <div id="individual-line-plot">
   ### Graphique en courbes individuel
@@ -114,11 +115,11 @@ Les paramètres individuels d’un graphique en courbes remplacent ceux définis
 
 Les paramètres du graphique en courbes sont organisés en onglets :
 
-* **Data** : Configurez x-axis, y-axis, la méthode d’échantillonnage, le lissage, les valeurs aberrantes et le type de graphique.
+* **Data** : Configurez axe X, y-axis, la méthode d’échantillonnage, le lissage, les valeurs aberrantes et le type de graphique.
 * **Grouping** : Configurez si et comment regrouper et agréger les Runs dans le graphique.
 * **Chart** : Indiquez les titres du panneau et des axes, puis configurez la visibilité et la position de la légende.
-* **Legend** : Personnalisez l’apparence et le contenu de la légende du panneau.
-* **Expressions** : Ajoutez des expressions calculées personnalisées pour les axes.
+* **Légende** : Personnalisez l’apparence et le contenu de la légende du panneau.
+* **Expressions** : Ajoutez des expressions calculées personnalisées pour les axes. Pour la liste complète des opérateurs et des exemples d’expressions, y compris les opérations arithmétiques comme la multiplication, voir [Expressions](/fr/models/app/features/panels/line-plot/reference#expressions).
 
 Pour plus d’informations sur chaque paramètre, voir la [Référence du graphique en courbes](/fr/models/app/features/panels/line-plot/reference).
 
@@ -130,7 +131,7 @@ Pour personnaliser les paramètres par défaut de tous les graphiques en courbes
 
 1. Accédez à votre Workspace.
 2. Cliquez sur l’icône d’engrenage de la section pour ouvrir ses paramètres.
-3. Dans le volet qui s’affiche, sélectionnez les onglets **Data** ou **Display preferences** pour configurer les paramètres par défaut de la section. Pour plus de détails sur chaque paramètre **Data**, voir la [référence du graphique en courbes](/fr/models/app/features/panels/line-plot/reference). Pour plus de détails sur chaque préférence d’affichage, consultez [Configurer la mise en page de la section](../#configure-section-layout).
+3. Dans le volet qui s’affiche, sélectionnez les onglets **Data** ou **Display preferences** pour configurer les paramètres par défaut de la section. Pour plus de détails sur chaque paramètre **Data**, voir la [référence du graphique en courbes](/fr/models/app/features/panels/line-plot/reference). Pour plus de détails sur chaque préférence d’affichage, voir [Configurer la mise en page de la section](../#configure-section-layout).
 
 <div id="all-line-plots-in-a-workspace">
   ### Tous les graphiques en courbes d’un Workspace
@@ -140,7 +141,7 @@ Pour personnaliser les paramètres par défaut de tous les graphiques en courbes
 
 1. Accédez à votre Workspace.
 2. Cliquez sur l’icône des paramètres du Workspace, représentée par un engrenage avec le libellé **Settings**.
-3. Cliquez sur **Line plots**.
+3. Cliquez sur **graphiques en courbes**.
 4. Dans le volet qui s’affiche, sélectionnez les onglets **Data** ou **Display preferences** pour configurer les paramètres par défaut du Workspace.
    * Pour plus de détails sur chaque paramètre de **Data**, voir la [Référence du graphique en courbes](/fr/models/app/features/panels/line-plot/reference).
    * Pour plus de détails sur chaque section de **Display preferences**, voir [Préférences d’affichage du Workspace](../#configure-workspace-layout). Au niveau du Workspace, vous pouvez configurer le comportement **Zooming** par défaut des graphiques en courbes. Ce paramètre détermine si le zoom est synchronisé entre les graphiques en courbes qui ont une même clé d’axe x. Désactivé par défaut.
@@ -149,9 +150,9 @@ Pour personnaliser les paramètres par défaut de tous les graphiques en courbes
   ## Visualiser des valeurs moyennes sur un graphique
 </div>
 
-Si vous avez plusieurs experiments différents et que vous souhaitez voir la moyenne de leurs valeurs sur un graphique, vous pouvez utiliser la fonctionnalité Grouping dans le tableau. Cliquez sur &quot;Group&quot; au-dessus du tableau des runs et sélectionnez &quot;All&quot; pour afficher les valeurs moyennes dans vos graphiques.
+Si vous avez plusieurs experiments différents et que vous voulez voir la moyenne de leurs valeurs sur un graphique, vous pouvez utiliser la fonctionnalité Grouping dans le tableau. Cliquez sur &quot;Group&quot; au-dessus du tableau des runs et sélectionnez &quot;All&quot; pour afficher les valeurs moyennes dans vos graphiques.
 
-Voici à quoi ressemble le graphique avant le calcul de la moyenne :
+L&#39;image suivante montre le graphique avant le calcul de la moyenne, avec une ligne par run :
 
 <Frame>
   <img src="/images/app_ui/demo_precision_lines.png" alt="Courbes de précision individuelles" />
@@ -167,7 +168,7 @@ L&#39;image suivante montre un graphique représentant les valeurs moyennes sur 
   ## Visualiser une valeur NaN dans un graphique
 </div>
 
-Vous pouvez également tracer des valeurs `NaN`, y compris des tenseurs PyTorch, dans un graphique en courbes avec `wandb.Run.log()`. Par exemple :
+Pour suivre des métriques qui peuvent parfois être indéfinies, comme une perte qui renvoie `NaN`, vous pouvez les journaliser, et W&amp;B les affiche dans le graphique en courbes. Vous pouvez également tracer des valeurs `NaN`, y compris des tenseurs PyTorch, dans un graphique en courbes avec `wandb.Run.log()`. Par exemple :
 
 ```python
 with wandb.init() as run:
@@ -183,20 +184,22 @@ with wandb.init() as run:
   ## Comparer plusieurs métriques sur un même graphique
 </div>
 
+Pour comparer côte à côte plusieurs métriques provenant d’un ou de plusieurs runs, ajoutez un panneau **Run comparer** à votre Workspace.
+
 <Frame>
   <img src="/images/app_ui/visualization_add.gif" alt="Ajout de panneaux de visualisation" />
 </Frame>
 
 1. Accédez à votre Workspace.
 2. Sélectionnez le bouton **Add panels** dans le coin supérieur droit de la page.
-3. Dans le volet qui s’ouvre, développez le menu déroulant Évaluation.
-4. Sélectionnez **Run comparer**
+3. Dans le volet qui s’ouvre, développez le menu déroulant **Évaluation**.
+4. Sélectionnez **Run comparer**.
 
 <div id="change-the-colors-of-the-lines">
   ## Modifier les couleurs des lignes
 </div>
 
-Il arrive que la couleur par défaut des runs ne facilite pas la comparaison. Pour y remédier, wandb propose deux façons de modifier manuellement les couleurs.
+Si la couleur par défaut des runs ne facilite pas la comparaison, W&amp;B propose deux façons de modifier les couleurs : depuis le tableau des runs ou depuis les paramètres de la légende d’un graphique.
 
 <Tabs>
   <Tab title="Depuis le tableau des runs">
@@ -226,16 +229,16 @@ Il arrive que la couleur par défaut des runs ne facilite pas la comparaison. Po
 </Tabs>
 
 <div id="visualize-on-different-x-axes">
-  ## Visualiser sur différents axes x
+  ## Visualiser sur différents axes X
 </div>
 
-Si vous souhaitez voir le temps absolu qu’a pris une expérience, ou le jour où elle s’est exécutée, vous pouvez changer d’axe x. Voici un exemple de passage des étapes au temps relatif, puis au temps réel.
+Par défaut, les graphiques en courbes utilisent les étapes d’entraînement comme axe X, mais vous pouvez passer à un autre axe X pour afficher vos données sous un autre angle. Si vous souhaitez voir le temps absolu qu’a pris une expérience, ou le jour où elle s’est exécutée, vous pouvez changer d’axe X. L’exemple suivant montre le passage des étapes au temps relatif, puis au temps réel.
 
 <Frame>
-  <img src="/images/app_ui/howto_use_relative_time_or_wall_time.gif" alt="Options de temps de l’axe x" />
+  <img src="/images/app_ui/howto_use_relative_time_or_wall_time.gif" alt="Options de temps de l’axe X" />
 </Frame>
 
-Pour utiliser un x-axis personnalisé, journalisez la métrique dans le même appel à `wandb.Run.log()` que celui où vous journalisez le y-axis. Par exemple :
+Pour utiliser un axe X personnalisé, journalisez la métrique dans le même appel à `wandb.Run.log()` que celui où vous journalisez le y-axis. Par exemple :
 
 ```python
 with wandb.init() as run:
@@ -249,7 +252,7 @@ Pour plus de détails, consultez [Personnaliser les axes du journal](/fr/models/
   ## Zoom
 </div>
 
-Cliquez puis faites glisser pour tracer un rectangle afin de zoomer à la fois verticalement et horizontalement. Cela modifie le zoom des axes X et Y.
+Pour examiner de plus près une zone spécifique d’un graphique en courbes, vous pouvez zoomer simultanément sur les deux axes. Cliquez puis faites glisser pour tracer un rectangle afin de zoomer à la fois verticalement et horizontalement. Cela modifie le zoom des axes X et Y.
 
 <Frame>
   <img src="/images/app_ui/line_plots_zoom.gif" alt="Fonction de zoom du graphique" />
@@ -259,7 +262,7 @@ Cliquez puis faites glisser pour tracer un rectangle afin de zoomer à la fois v
   ## Masquer la légende du graphique
 </div>
 
-Désactivez la légende du graphique en courbes avec cette simple option :
+Si la légende du graphique occupe de l’espace que vous souhaitez utiliser pour le graphique, vous pouvez la désactiver. Désactivez la légende du graphique en courbes avec cette option :
 
 <Frame>
   <img src="/images/app_ui/demo_hide_legend.gif" alt="Option pour masquer la légende" />
@@ -271,7 +274,7 @@ Désactivez la légende du graphique en courbes avec cette simple option :
 
 Utilisez [Automations](/fr/models/automations/) pour notifier votre équipe lorsqu&#39;une métrique de run satisfait à une condition que vous définissez. Une automatisation peut publier dans un canal Slack ou déclencher un webhook.
 
-Depuis un graphique en courbes, vous pouvez rapidement créer une [notification de métriques de run](/fr/models/automations/automation-events/#run-events) pour la métrique qu&#39;il affiche :
+Depuis un graphique en courbes, vous pouvez créer une [notification de métriques de run](/fr/models/automations/automation-events/#run-events) pour la métrique qu&#39;il affiche :
 
 1. Accédez à votre Workspace.
 2. Survolez le panneau, puis cliquez sur l&#39;icône en forme de cloche.

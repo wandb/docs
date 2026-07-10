@@ -2,48 +2,49 @@
 title: "Exemples d'utilisation"
 linkTitle: "Exemples"
 description: >
-  Découvrez comment utiliser W&B Inference à l'aide d'exemples de code concrets
+  Apprenez à utiliser Serverless Inference à l'aide d'exemples de code pratiques
+keywords: ["traçage Weave", "évaluation de modèle", "leaderboard", "tracer les appels LLM"]
 ---
 
-Ces exemples montrent comment utiliser W&amp;B Inference avec Weave pour le tracing, l&#39;évaluation et la comparaison.
+Ces exemples montrent comment utiliser Serverless Inference avec Weave pour le traçage, l&#39;évaluation et la comparaison. Parcourez-les pour apprendre à instrumenter les appels de modèle afin d&#39;en observer le comportement, de mesurer les performances sur un jeu de données et de comparer les modèles côte à côte.
+
+Les sections suivantes présentent un exemple de traçage de base et un flux de travail d&#39;évaluation plus avancé. Avant d&#39;exécuter l&#39;un ou l&#39;autre exemple, complétez les [prérequis](/fr/inference/prerequisites/).
 
 <div id="basic-example-trace-llama-31-8b-with-weave">
-  ## Exemple de base : Tracing de Llama 3.1 8B avec Weave
+  ## Exemple de base : traçage de Llama 3.1 8B avec Weave
 </div>
 
-Cet exemple montre comment envoyer un prompt au modèle **Llama 3.1 8B** et tracer l&#39;appel avec Weave. Tracing capture l&#39;intégralité des entrées et des sorties de l&#39;appel LLM, surveille les performances et vous permet d&#39;analyser les résultats dans la Weave UI.
+Cet exemple montre comment envoyer un prompt au modèle Llama 3.1 8B et tracer l&#39;appel avec Weave. Le traçage capture l&#39;intégralité des entrées et des sorties de l&#39;appel LLM, surveille les performances et vous permet d&#39;analyser les résultats dans la Weave UI.
 
 <Tip>
-  Pour en savoir plus, consultez [Tracing dans Weave](/fr/weave/guides/tracking/tracing).
+  Pour en savoir plus, consultez [traçage dans Weave](/fr/weave/guides/tracking/tracing).
 </Tip>
 
 Dans cet exemple :
 
-* Vous définissez une fonction décorée avec `@weave.op()` qui effectue une requête de Chat Completion
-* Vos traces sont enregistrées et associées à votre entité et à votre projet W&amp;B
-* La fonction est automatiquement tracée, avec journalisation des entrées, des sorties, de la latence et des métadonnées
-* Le résultat s&#39;affiche dans le terminal, et la trace apparaît dans votre onglet **Traces** sur [https://wandb.ai](https://wandb.ai)
-
-Avant d&#39;exécuter cet exemple, effectuez les [prérequis](/fr/inference/prerequisites/).
+* Vous définissez une fonction décorée avec `@weave.op()` qui effectue une requête de Chat Completion.
+* Weave enregistre vos traces et les associe à votre entité et à votre projet W&amp;B.
+* Weave trace automatiquement la fonction, avec journalisation des entrées, des sorties, de la latence et des métadonnées.
+* Le résultat s&#39;affiche dans le terminal, et la trace apparaît dans votre onglet **Traces** sur [https://wandb.ai](https://wandb.ai).
 
 ```python
 import weave
 import openai
 
-# Définir l'équipe et le projet Weave pour le tracing
-weave.init("<your-team>/<your-project>")
+# Définir l'équipe et le projet Weave pour le traçage
+weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
 
 client = openai.OpenAI(
     base_url='https://api.inference.wandb.ai/v1',
 
-    # Créer une clé API sur https://wandb.ai/settings
-    api_key="<your-api-key>",
+    # Créez une clé API sur https://wandb.ai/settings
+    api_key="[YOUR-API-KEY]",
 
-    # Facultatif : équipe et projet pour le suivi de l'utilisation
+    # Facultatif : équipe et projet pour le suivi d'utilisation
     project="wandb/inference-demo",
 )
 
-# Tracer l'appel du modèle dans Weave
+# Tracer l'appel au modèle dans Weave
 @weave.op()
 def run_chat():
     response = client.chat.completions.create(
@@ -60,18 +61,18 @@ output = run_chat()
 print(output)
 ```
 
-Après avoir exécuté le code, affichez la trace dans Weave de l’une des façons suivantes :
+Après avoir exécuté le code, affichez la trace dans Weave à l’aide de l’une des méthodes suivantes :
 
-1. Cliquez sur le lien affiché dans le terminal (par exemple : `https://wandb.ai/<your-team>/<your-project>/r/call/01977f8f-839d-7dda-b0c2-27292ef0e04g`)
-2. Ou accédez à [https://wandb.ai](https://wandb.ai) et sélectionnez l’onglet **Traces**
+* Cliquez sur le lien affiché dans le terminal. Par exemple, `https://wandb.ai/[YOUR-TEAM]/[YOUR-PROJECT]/r/call/01977f8f-839d-7dda-b0c2-27292ef0e04g`.
+* Accédez à [https://wandb.ai](https://wandb.ai) et sélectionnez l’onglet **Traces**.
+
+Une fois la trace de base en place, vous pouvez passer à un flux de travail plus complet, qui va au-delà de l’inspection des appels individuels.
 
 <div id="advanced-example-use-weave-evaluations-and-leaderboards">
-  ## Exemple avancé : utiliser Weave Evaluations et les classements
+  ## Exemple avancé : utiliser Weave évaluations et les leaderboards
 </div>
 
-En plus du Tracing des appels de modèle, vous pouvez également évaluer les performances et publier des classements. Cet exemple compare deux modèles sur un jeu de données de questions-réponses.
-
-Avant d’exécuter cet exemple, suivez les [prérequis](/fr/inference/prerequisites/).
+En plus du tracing des appels de modèle, vous pouvez évaluer les performances et publier des leaderboards. Cet exemple compare deux modèles sur un jeu de données de questions-réponses pour montrer comment Llama 3.1 8B et DeepSeek-V3 se comportent avec les mêmes prompts.
 
 ```python
 import os
@@ -81,8 +82,8 @@ import weave
 from weave.flow import leaderboard
 from weave.trace.ref_util import get_ref
 
-# Définir l'équipe et le projet Weave pour le tracing
-weave.init("<your-team>/<your-project>")
+# Définir l'équipe et le projet Weave pour le suivi
+weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
 
 dataset = [
     {"input": "What is 2 + 2?", "target": "4"},
@@ -100,10 +101,10 @@ class WBInferenceModel(weave.Model):
     def predict(self, prompt: str) -> str:
         client = openai.OpenAI(
             base_url="https://api.inference.wandb.ai/v1",
-            # Créer une clé API sur https://wandb.ai/settings
-            api_key="<your-api-key>",
+            # Créez une clé API sur https://wandb.ai/settings
+            api_key="[YOUR-API-KEY]",
             # Facultatif : équipe et projet pour le suivi de l'utilisation
-            project="<your-team>/<your-project>",
+            project="[YOUR-TEAM]/[YOUR-PROJECT]",
         )
         resp = client.chat.completions.create(
             model=self.model,
@@ -145,11 +146,11 @@ spec = leaderboard.Leaderboard(
 weave.publish(spec)
 ```
 
-Après avoir exécuté ce code, accédez à votre compte W&amp;B sur [https://wandb.ai/](https://wandb.ai/) et :
+Après avoir exécuté ce code, accédez à votre compte W&amp;B sur [https://wandb.ai/](https://wandb.ai/) et effectuez les opérations suivantes :
 
-* Sélectionnez l’onglet **Traces** pour [consulter vos traces](/fr/weave/guides/tracking/tracing)
-* Sélectionnez l’onglet **Evals** pour [consulter les évaluations de votre modèle](/fr/weave/guides/core-types/evaluations)
-* Sélectionnez l’onglet **Leaders** pour [consulter le classement généré](/fr/weave/guides/core-types/leaderboards)
+* Sélectionnez l’onglet **Traces** pour [consulter vos traces](/fr/weave/guides/tracking/tracing).
+* Sélectionnez l’onglet **Evals** pour [consulter les évaluations de votre modèle](/fr/weave/guides/core-types/evaluations).
+* Sélectionnez l’onglet **Leaders** pour [consulter le leaderboard généré](/fr/weave/guides/core-types/leaderboards).
 
 <Frame>
   <img src="/images/inference/inference-advanced-evals.png" alt="Consulter les évaluations de votre modèle" />
@@ -159,9 +160,13 @@ Après avoir exécuté ce code, accédez à votre compte W&amp;B sur [https://wa
   <img src="/images/inference/inference-advanced-leaderboard.png" alt="Consulter votre classement" />
 </Frame>
 
+Après avoir terminé les deux exemples, vous disposez d’un ensemble d’appels de modèle tracés, d’une évaluation publiée et d’un leaderboard qui compare les modèles sur votre jeu de données.
+
 <div id="next-steps">
   ## Étapes suivantes
 </div>
 
-* Explorez la [référence de l’API](/fr/inference/api-reference/) pour découvrir toutes les méthodes disponibles
-* Essayez des modèles dans l’[UI](/fr/inference/ui-guide/)
+Pour continuer à explorer Serverless Inference, essayez ce qui suit :
+
+* Explorez la [référence de l’API](/fr/inference/api-reference/) pour découvrir toutes les méthodes disponibles.
+* Essayez des modèles dans l’[UI](/fr/inference/ui-guide/).

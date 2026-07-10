@@ -35,17 +35,18 @@ __init__(
     allow_media_symlink: 'bool' = False,
     allow_offline_artifacts: 'bool' = True,
     allow_val_change: 'bool' = False,
-    anonymous: 'object' = <object object at 0x107855240>,
+    anonymous: 'object' = <object object at 0x109b16dd0>,
     api_key: 'str | None' = None,
     azure_account_url_to_access_key: 'dict[str, str] | None' = None,
     app_url_override: 'str | None' = None,
     base_url: 'str' = 'https://api.wandb.ai',
     code_dir: 'str | None' = None,
-    config_paths: 'Sequence | None' = None,
+    config_paths: 'collections.abc.Sequence[str] | None' = None,
     console: 'Literal['auto', 'off', 'wrap', 'redirect', 'wrap_raw', 'wrap_emu']' = 'auto',
     console_multipart: 'bool' = False,
     console_chunk_max_bytes: 'int' = 0,
     console_chunk_max_seconds: 'int' = 0,
+    capture_loggers: 'dict[str, str] | None' = None,
     credentials_file: 'str' = None,
     disable_code: 'bool' = False,
     disable_git: 'bool' = False,
@@ -56,7 +57,7 @@ __init__(
     entity: 'str | None' = None,
     organization: 'str | None' = None,
     force: 'bool' = False,
-    fork_from: 'RunMoment | None' = None,
+    fork_from: 'wandb.sdk.lib.run_moment.RunMoment | None' = None,
     git_commit: 'str | None' = None,
     git_remote: 'str' = 'origin',
     git_remote_url: 'str | None' = None,
@@ -68,6 +69,8 @@ __init__(
     identity_token_file: 'str | None' = None,
     ignore_globs: 'Sequence' = (),
     init_timeout: 'float' = 90.0,
+    finish_timeout: 'float' = 0.0,
+    finish_timeout_raises: 'bool' = False,
     insecure_disable_ssl: 'bool' = False,
     job_name: 'str | None' = None,
     job_source: 'Literal['repo', 'artifact', 'image'] | None' = None,
@@ -85,7 +88,7 @@ __init__(
     reinit: 'Literal['default', 'return_previous', 'finish_previous', 'create_new'] | bool' = 'default',
     relogin: 'bool' = False,
     resume: 'Literal['allow', 'must', 'never', 'auto'] | None' = None,
-    resume_from: 'RunMoment | None' = None,
+    resume_from: 'wandb.sdk.lib.run_moment.RunMoment | None' = None,
     resumed: 'bool' = False,
     root_dir: 'str' = None,
     run_group: 'str | None' = None,
@@ -93,11 +96,11 @@ __init__(
     run_job_type: 'str | None' = None,
     run_name: 'str | None' = None,
     run_notes: 'str | None' = None,
-    run_tags: 'tuple[str, Ellipsis] | None' = None,
+    run_tags: 'tuple[str, ...] | None' = None,
     sagemaker_disable: 'bool' = False,
     save_code: 'bool | None' = None,
     settings_system: 'str | None' = None,
-    stop_fn: 'Callable | None' = None,
+    stop_fn: 'collections.abc.Callable[[], None] | None' = None,
     max_end_of_run_history_metrics: 'int' = 10,
     max_end_of_run_summary_metrics: 'int' = 10,
     show_colors: 'bool | None' = None,
@@ -107,6 +110,7 @@ __init__(
     show_warnings: 'bool' = True,
     silent: 'bool' = False,
     start_method: 'str | None' = None,
+    stop_on_fatal_error: 'bool' = False,
     strict: 'bool | None' = None,
     summary_timeout: 'int' = 60,
     summary_warnings: 'int' = 5,
@@ -161,23 +165,24 @@ __init__(
     x_service_wait: 'float' = 30.0,
     x_skip_transaction_log: 'bool' = False,
     x_start_time: 'float | None' = None,
-    x_stats_pid: 'int' = 72322,
+    x_stats_pid: 'int' = 28097,
     x_stats_sampling_interval: 'float' = 15.0,
     x_stats_neuron_monitor_config_path: 'str | None' = None,
     x_stats_dcgm_exporter: 'str | None' = None,
     x_stats_open_metrics_endpoints: 'dict[str, str] | None' = None,
-    x_stats_open_metrics_filters: 'dict[str, dict[str, str]] | Sequence | None' = None,
+    x_stats_open_metrics_filters: 'dict[str, dict[str, str]] | collections.abc.Sequence[str] | None' = None,
     x_stats_open_metrics_http_headers: 'dict[str, str] | None' = None,
-    x_stats_disk_paths: 'Sequence | None' = ('/',),
+    x_stats_disk_paths: 'collections.abc.Sequence[str] | None' = ('/',),
     x_stats_cpu_count: 'int | None' = None,
     x_stats_cpu_logical_count: 'int | None' = None,
     x_stats_gpu_count: 'int | None' = None,
     x_stats_gpu_type: 'str | None' = None,
-    x_stats_gpu_device_ids: 'Sequence | None' = None,
+    x_stats_gpu_device_ids: 'collections.abc.Sequence[int] | None' = None,
     x_stats_buffer_size: 'int' = 0,
     x_stats_coreweave_metadata_base_url: 'str' = 'http://169.254.169.254',
     x_stats_coreweave_metadata_endpoint: 'str' = '/api/v2/cloud-init/meta-data',
     x_stats_track_process_tree: 'bool' = False,
+    x_stats_no_cgroup: 'bool' = False,
     x_sync: 'bool' = False,
     x_sync_dir_suffix: 'str' = '',
     x_update_finish_state: 'bool' = True
@@ -200,20 +205,20 @@ __init__(
 
 * `anonymous` (object): 非推奨で、今後削除される予定です。
 
-* `api_key` (Optional[str]): W&amp;B の APIキー。
+* `api_key` (str | None): W&amp;B の APIキー。
 
-* `azure_account_url_to_access_key` (Optional[Dict[str, str]]): Azure インテグレーション用の、Azure アカウント URL とそれに対応するアクセス キーのマッピング。
+* `azure_account_url_to_access_key` (dict[str, str] | None): Azure インテグレーション用の、Azure アカウント URL とそれに対応するアクセス キーのマッピング。
 
-* `app_url_override` (Optional[str]): W&amp;B UI の &#39;app&#39; URL を上書きするための値です。
+* `app_url_override` (str | None): W&amp;B UI の &#39;app&#39; URL を上書きするための値です。
   `app_url` は通常 `base_url` に基づいて計算されますが、これを使用して
   明示的に設定することもできます。
   WANDB&#95;APP&#95;URL は対応する環境変数です。
 
 * `base_url` (str): データを同期するための W&amp;B バックエンドの URL です。
 
-* `code_dir` (Optional[str]): W&amp;Bでトラッキングするコードを含むディレクトリ。
+* `code_dir` (str | None): W&amp;Bでトラッキングするコードを含むディレクトリ。
 
-* `config_paths` (Optional[Sequence]): `Config` オブジェクトに読み込む設定ファイルのパス。
+* `config_paths` (collections.abc.Sequence[str] | None): `Config` オブジェクトに読み込む設定ファイルのパス。
 
 * `console` (Literal[&#39;auto&#39;, &#39;off&#39;, &#39;wrap&#39;, &#39;redirect&#39;, &#39;wrap&#95;raw&#39;, &#39;wrap&#95;emu&#39;]): 適用するコンソールの取得タイプです。
   指定可能な値は次のとおりです:
@@ -226,16 +231,15 @@ __init__(
     `wrap` 設定から派生するため、手動で設定しないでください。
 
 * `console_multipart` (bool): マルチパートのコンソールログを有効にします。
-  True の場合、SDK はコンソール出力を単一の `output.log` ではなく、
-  `logs/` ディレクトリ配下のタイムスタンプ付きファイルに書き込みます。
-  各パートはクローズされるとすぐにアップロードされるため、ユーザーは
-  run がアクティブな間、ログにリアルタイムで
-  アクセスできます。ロールオーバーの間隔は
-  `console_chunk_max_bytes` および/または `console_chunk_max_seconds` によって制御されます。
-  両方の制限が `0` の場合、すべてのログは run の終了時にまとめてアップロードされます。
-  注: アップロードされたチャンクは不変です。以前の行を変更する
-  ターミナル制御シーケンス (例: キャリッジリターンを使用するプログレスバー) は、
-  現在のチャンクにのみ影響します。
+  When True, the SDK writes console output to timestamped files
+  under the `logs/` directory instead of a single `output.log`.
+  Each part is uploaded as soon as it is closed, giving users live
+  access to logs while the run is active. Rollover cadence is
+  controlled by `console_chunk_max_bytes` and/or `console_chunk_max_seconds`.
+  If both limits are `0`, all logs are uploaded once at run finish.
+  Note: Uploaded chunks are immutable; terminal control sequences
+  that modify previous lines (e.g., progress bars using carriage returns)
+  only affect the current chunk.
 
 * `console_chunk_max_bytes` (int): マルチパートのコンソールログにおける、バイト単位のサイズベースのロールオーバーしきい値です。
   現在のパートがこの
@@ -250,6 +254,30 @@ __init__(
   `True` である必要があります。`console_chunk_max_bytes` と併用でき、
   先に達したほうの制限でパートが閉じられます。値を `0` にすると、
   時間ベースの制限は無効になります。
+
+* `capture_loggers` (dict[str, str] | None): run の Logs タブに取得する Python logger の名。
+  logger 名から最小ログレベルへのマッピングです。設定すると、wandb は
+  指定した各 logger に `logging.Handler` をインストールし、run の終了時に削除します。
+  それらの logger から出力されたログレコードは、
+  stdout/stderr の取得と同様に、run のコンソール出力として
+  公開されます。
+  ログレコードは `logging.basicConfig()` と同じ形式で整形されます。たとえば、
+  `INFO:my_module:Some message.` のようになります。現時点ではこの形式はカスタマイズできません。
+  すべてのログを取得するには、ルート logger の名である &#39;root&#39; を渡します。
+  これは `console` 設定とは独立しており、両方を
+  同時に有効にできます。
+  例:
+  ```python
+  wandb.init(
+  settings=wandb.Settings(
+  console="off",
+  capture_loggers={
+  "my_app": "INFO",
+  "my_app.training": "ERROR",
+  },
+  ),
+  )
+  ```
 
 * `credentials_file` (str): 一時的なアクセストークンを書き込むファイルのパスです。
 
@@ -266,64 +294,89 @@ __init__(
 
 * `disable_job_creation` (bool): W&amp;B Launch のジョブ artifact の作成を無効にするかどうか。
 
-* `docker` (Optional[str]): スクリプトの実行に使用する Docker image。
+* `docker` (str | None): スクリプトの実行に使用する Docker image。
 
-* `email` (Optional[str]): ユーザーのメールアドレス。
+* `email` (str | None): ユーザーのメールアドレス。
 
-* `entity` (Optional[str]): ユーザーまたはチームなどの W&amp;B の entity。
+* `entity` (str | None): ユーザーまたはチームなどの W&amp;B の entity。
 
-* `organization` (Optional[str]): W&amp;B の組織。
+* `organization` (str | None): W&amp;B の組織。
 
 * `force` (bool): `wandb.login()` に `force` フラグを渡すかどうかを指定します。
 
-* `fork_from` (Optional[RunMoment]): 以前の run の実行において、フォーク元となる時点を指定します。
+* `fork_from` (wandb.sdk.lib.run&#95;moment.RunMoment | None): 以前の run の実行において、フォーク元となる時点を指定します。
   その時点は、run ID、メトリクス、およびその値で定義されます。
   現在サポートされているメトリクスは &#39;&#95;step&#39; のみです。
 
-* `git_commit` (Optional[str]): run に関連付ける Git コミットハッシュ (省略可能) です。
+* `git_commit` (str | None): run に関連付ける Git コミットハッシュです。
 
 * `git_remote` (str): run に関連付ける Git リモートです。
 
-* `git_remote_url` (Optional[str]): git のリモートリポジトリの URL。
+* `git_remote_url` (str | None): git のリモートリポジトリの URL。
 
-* `git_root` (Optional[str]): Git リポジトリのルート ディレクトリです。
+* `git_root` (str | None): Git リポジトリのルート ディレクトリです。
 
-* `host` (Optional[str]): スクリプトを実行しているマシンのホスト名です。
+* `host` (str | None): スクリプトを実行しているマシンのホスト名です。
 
-* `http_proxy` (Optional[str]): W&amp;B への HTTP リクエストに使用するカスタム プロキシサーバー。
+* `http_proxy` (str | None): W&amp;B への HTTP リクエストに使用するカスタムプロキシサーバー。
 
-* `https_proxy` (Optional[str]): W&amp;B への HTTPS リクエストに使用するカスタムプロキシサーバー。
+* `https_proxy` (str | None): W&amp;B への HTTPS リクエストに使用するカスタムプロキシサーバー。
 
-* `identity_token_file` (Optional[str]): 認証用のアイデンティティトークン (JWT) が格納されたファイルへのパス。
+* `identity_token_file` (str | None): 認証用のアイデンティティトークン (JWT) が格納されたファイルへのパス。
 
 * `ignore_globs` (Sequence): アップロードから除外するファイルを指定する、`files_dir` からの相対パスの Unix glob パターン。
 
 * `init_timeout` (float): `wandb.init` の呼び出しが完了するまで待機する時間 (秒) 。この時間を超えるとタイムアウトします。
 
+* `finish_timeout` (float): run の終了時に、データのアップロードを待機する時間 (秒) です。
+  これを設定すると、run の終了時に W&amp;B へのアップロードが遅いことで発生するコストを抑えられますが、
+  その代わりに run は crashed としてマークされ、一部のデータが
+  欠落する可能性があります。デフォルトでは、`run.finish()` はすべての
+  データのアップロードが完了するまでブロックします。
+  これが 0 より大きい数値に設定されている場合、W&amp;B は
+  run の終了時にこの秒数が経過すると run のデータのアップロードをあきらめ、
+  スクリプトの実行を再開します。しばらくすると、run は UI で Crashed または Failed になります。未アップロードの
+  データは引き続きディスクに保存され、`wandb
+  sync` でアップロードできます。
+  警告メッセージの表示に加えてエラーを送出するには、
+  `finish_timeout_raises` 設定を使用します。
+  `wandb.teardown()` によってシャットダウンされる Runs (`atexit` フックで
+  スクリプトの終了時に自動的に実行されます) も、この設定に従います。
+
+* `finish_timeout_raises` (bool): `finish&#95;timeout` が期限切れになった場合に TimeoutError を送出するかどうか。
+  これを `finish_timeout` 設定と併用すると、`run.finish()`
+  はメッセージを出力するだけでなく、タイムアウト時に TimeoutError も送出します。
+  Run をコンテキストマネージャーとして使用する場合、`run.finish()` は暗黙的に
+  呼び出される点に注意してください:
+  with wandb.init() as run:
+  ...  # `with` ブロックの শেষে `run.finish()` が実行されます
+  ただし、これによって `wandb.teardown()` がエラーを送出することはありません (いずれにしても
+  スクリプトの最後で実行されるためです)。
+
 * `insecure_disable_ssl` (bool): 安全でない方法で SSL 検証を無効にするかどうか。
 
-* `job_name` (Optional[str]): スクリプトを実行中のLaunchジョブの名。
+* `job_name` (str | None): スクリプトを実行中のLaunchジョブの名。
 
 * `job_source` (Optional[Literal[&#39;repo&#39;, &#39;artifact&#39;, &#39;image&#39;]]): Launch のソースのタイプ。
 
 * `label_disable` (bool): 自動ラベリング機能を無効にするかどうかを指定します。
 
-* `launch_config_path` (Optional[str]): Launch 設定ファイルのパス。
+* `launch_config_path` (str | None): Launch 設定ファイルのパス。
 
-* `login_timeout` (Optional[float]): ログイン処理がタイムアウトするまでの待機時間 (秒) 。
+* `login_timeout` (float | None): ログイン処理がタイムアウトするまで待機する時間 (秒)。
 
 * `mode` (Literal[&#39;online&#39;, &#39;offline&#39;, &#39;shared&#39;, &#39;disabled&#39;, &#39;dryrun&#39;, &#39;run&#39;]): W&amp;B のログ記録と同期を行う際の動作モードです。
 
-* `notebook_name` (Optional[str]): Jupyterのような環境で実行する場合のノートブック名。
+* `notebook_name` (str | None): Jupyterのような環境で実行する場合のノートブック名。
 
-* `program` (Optional[str]): 利用可能な場合、run を作成したスクリプトのパス。
+* `program` (str | None): 利用可能な場合、run を作成したスクリプトのパス。
 
-* `program_abspath` (Optional[str]): run を作成したスクリプトへの、リポジトリのルートディレクトリからの絶対パスです。
+* `program_abspath` (str | None): run を作成したスクリプトへの、リポジトリのルートディレクトリからの絶対パスです。
   リポジトリのルートディレクトリは、`.git` ディレクトリが存在する場合はそれを含むディレクトリとして定義されます。存在しない場合は、現在の作業ディレクトリです。
 
-* `program_relpath` (Optional[str]): run を作成したスクリプトの相対パスです。
+* `program_relpath` (str | None): run を作成したスクリプトの相対パスです。
 
-* `project` (Optional[str]): W&amp;B の project ID。
+* `project` (str | None): W&amp;B の project ID。
 
 * `quiet` (bool): 必要のない出力を抑制するフラグです。
 
@@ -353,33 +406,33 @@ __init__(
     失敗します。
   * &quot;auto&quot;: 同じマシン上で直近に失敗した run から自動的に再開します。
 
-* `resume_from` (Optional[RunMoment]): 以前の run の実行において、再開元となる時点を指定します。
+* `resume_from` (wandb.sdk.lib.run&#95;moment.RunMoment | None): 以前の run の実行において、再開元となる時点を指定します。
   この時点は、run ID、メトリクス、およびその値で定義されます。
   現在サポートされているメトリクスは &#39;&#95;step&#39; のみです。
 
 * `root_dir` (str): すべてのrun関連パスの基準となるルートディレクトリです。
   特に、wandbディレクトリとrunディレクトリはこの値に基づいて決定されます。
 
-* `run_group` (Optional[str]): 関連する run のグループ識別子。
+* `run_group` (str | None): 関連する run のグループ識別子。
   UI で run をグループ化する際に使用します。
 
-* `run_id` (Optional[str]): run の ID です。
+* `run_id` (str | None): run の ID です。
 
-* `run_job_type` (Optional[str]): 実行中のジョブのタイプ (例: トレーニング、評価) 。
+* `run_job_type` (str | None): 実行中のジョブのタイプ (例: トレーニング、評価) 。
 
-* `run_name` (Optional[str]): runの人間が読みやすい名前。
+* `run_name` (str | None): runの人間が読みやすい名前。
 
-* `run_notes` (Optional[str]): run に関する追加のメモまたは説明。
+* `run_notes` (str | None): run に関する追加のメモまたは説明。
 
-* `run_tags` (Optional[Tuple[str, Ellipsis]]): 組織化やフィルタリングのために run に関連付ける Tags。
+* `run_tags` (tuple[str, ...] | None): 組織化やフィルタリングのために run に関連付ける Tags。
 
 * `sagemaker_disable` (bool): SageMaker 固有の機能を無効にするフラグ。
 
-* `save_code` (Optional[bool]): run に関連付けられたコードを保存するかどうか。
+* `save_code` (bool | None): run に関連付けられたコードを保存するかどうか。
 
-* `settings_system` (Optional[str]): システム全体で使用する設定ファイルのパス。
+* `settings_system` (str | None): システム全体で使用する設定ファイルのパス。
 
-* `stop_fn` (Optional[Callable]): run を停止するために実行されるコールバックです。
+* `stop_fn` (collections.abc.Callable[[], None] | None): run を停止するために実行されるコールバックです。
   run は Web UI から、または致命的なエラーの発生後に
   (設定で有効になっている場合) 停止できます。
   デフォルトでは、run を停止するために、W&amp;B はメインスレッドに SIGINT を送信します。
@@ -400,33 +453,42 @@ __init__(
 
 * `silent` (bool): すべての出力を抑制するフラグです。
 
-* `strict` (Optional[bool]): 検証とエラーチェックに対して厳格モードを有効にするかどうか。
+* `stop_on_fatal_error` (bool): 致命的なエラーが発生した後に run を停止するかどうか。
+  W&amp;B がデータのアップロード中に回復不能なエラーに遭遇すると、メッセージを表示して
+  アップロードを停止しますが、その後も追加のデータをログできます。
+  通常、これは望ましい動作です。トレーニングメトリクスはディスクに保存されるため、
+  アップロードされなかった場合でも `wandb sync` を使用して復旧できます。
+  ただし、トレーニング後にファイルが削除される場合、これは有用ではありません。
+  その場合、この値を True に設定すると、Web UI で停止ボタンが押されたときと同様に、
+  致命的なエラーの発生後に run を停止します。
+
+* `strict` (bool | None): 検証とエラーチェックに対して厳格モードを有効にするかどうか。
 
 * `summary_timeout` (int): `summary` の処理がタイムアウトするまで待機する秒数。
 
-* `sweep_id` (Optional[str]): この run が属する sweep の ID。
+* `sweep_id` (str | None): この run が属する sweep の ID。
 
-* `sweep_param_path` (Optional[str]): sweep パラメーターの設定へのパス。
+* `sweep_param_path` (str | None): sweep パラメーターの設定へのパス。
 
 * `symlink` (bool): シンボリックリンクを使用するかどうか (Windows を除き、デフォルトは True) 。
 
-* `sync_tensorboard` (Optional[bool]): TensorBoard のログを W&amp;B に同期するかどうか。
+* `sync_tensorboard` (bool | None): TensorBoard のログを W&amp;B に同期するかどうか。
 
 * `table_raise_on_max_row_limit_exceeded` (bool): 表の行数制限を超えた場合に例外を送出するかどうか。
 
-* `use_dot_wandb` (Optional[bool]): run データに対して、非表示の`.wandb`ディレクトリと表示される`wandb`ディレクトリのどちらを使用するかを指定します。
-  True の場合、SDK は`.wandb`を使用します。False の場合は`wandb`を使用します。
-  設定されていない場合、`.wandb`がすでに存在すればデフォルトでそれを使用し、そうでなければ`wandb`を使用します。
+* `use_dot_wandb` (bool | None): run データに対して、非表示の`.wandb`ディレクトリと表示される`wandb`ディレクトリのどちらを使用するかを指定します。
+  True の場合、SDK は `.wandb` を使用します。False の場合は `wandb` を使用します。
+  設定しない場合は、すでに存在していれば `.wandb`、そうでなければ `wandb` がデフォルトで使用されます。
 
-* `username` (Optional[str]): ユーザー名。
+* `username` (str | None): ユーザー名。
 
 * `x_disable_meta` (bool): システムメタデータのコレクションを無効にするフラグです。
 
 * `x_disable_stats` (bool): システムメトリクスの収集を無効にするフラグです。
 
-* `x_extra_http_headers` (Optional[Dict[str, str]]): 送信するすべての HTTP リクエストに付加するヘッダーです。
+* `x_extra_http_headers` (dict[str, str] | None): すべての送信 HTTP リクエストに追加するヘッダーです。
 
-* `x_label` (Optional[str]): run に対して収集されるシステムメトリクスおよびコンソールログに割り当てるラベルです。
+* `x_label` (str | None): run に対して収集されるシステムメトリクスおよびコンソールログに割り当てるラベルです。
   フロントエンドでデータをグループ化するために使用され、分散トレーニングジョブ内の
   異なるプロセスからのデータを区別するのにも使用できます。
 
@@ -450,7 +512,7 @@ __init__(
 
 * `x_stats_sampling_interval` (float): システムモニターのサンプリング間隔 (秒単位) 。
 
-* `x_stats_dcgm_exporter` (Optional[str]): Nvidia DCGM メトリクスを抽出するエンドポイント。
+* `x_stats_dcgm_exporter` (str | None): Nvidia DCGM メトリクスの取得元となるエンドポイント。
   オプション:
   * Prometheus の `/api/v1/query` エンドポイントへのクエリから、DCGM 関連のメトリクスを抽出します。
     Prometheus を使用して、クラスター内の異なるノードで実行されている DCGM Exporter インスタンスから報告されるメトリクスを集約するのは一般的です。
@@ -458,36 +520,39 @@ __init__(
     例:
   * `http://localhost:9400/api/v1/query?query=DCGM_FI_DEV_GPU_TEMP{node="l1337", cluster="globular"}`.
 
-* `x_stats_open_metrics_endpoints` (Optional[Dict[str, str]]): システムメトリクスを監視する OpenMetrics `/metrics` エンドポイント。
+* `x_stats_open_metrics_endpoints` (dict[str, str] | None): システムメトリクスを監視するための OpenMetrics `/metrics` エンドポイント。
 
-* `x_stats_open_metrics_filters` (Union[Dict[str, Dict[str, str]], Sequence, None]): OpenMetrics の `/metrics` エンドポイントから収集されるメトリクスに適用するフィルターです。
+* `x_stats_open_metrics_filters` (dict[str, dict[str, str]] | collections.abc.Sequence[str] | None): OpenMetrics の `/metrics` エンドポイントから収集されるメトリクスに適用するフィルターです。
   次の 2 つの形式をサポートします:
   * `{"エンドポイント名を接頭辞として含むメトリクスの正規表現パターン": {"label": "ラベル値の正規表現パターン"}}`
   * `("メトリクスの正規表現パターン 1", "メトリクスの正規表現パターン 2", ...)`
 
-* `x_stats_open_metrics_http_headers` (Optional[Dict[str, str]]): OpenMetrics リクエストに追加する HTTP ヘッダー。
+* `x_stats_open_metrics_http_headers` (dict[str, str] | None): OpenMetrics へのリクエストに追加する HTTP ヘッダー。
 
-* `x_stats_disk_paths` (Optional[Sequence]): ディスク使用量を監視する対象のシステムパス。
+* `x_stats_disk_paths` (collections.abc.Sequence[str] | None): ディスク使用量を監視する対象のシステムパス。
 
-* `x_stats_cpu_count` (Optional[int]): システムの CPU 数。
-  If set, overrides the auto-detected value in the run metadata.
-
-* `x_stats_cpu_logical_count` (Optional[int]): 論理 CPU 数。
+* `x_stats_cpu_count` (int | None): システムの CPU 数。
   設定すると、run メタデータで自動検出された値を上書きします。
 
-* `x_stats_gpu_count` (Optional[int]): GPU デバイス数。
+* `x_stats_cpu_logical_count` (int | None): 論理 CPU 数。
+  設定すると、run メタデータで自動検出された値を上書きします。
+
+* `x_stats_gpu_count` (int | None): GPU デバイス数。
   設定すると、run メタデータ内で自動検出された値を上書きします。
 
-* `x_stats_gpu_type` (Optional[str]): GPU デバイスのタイプ。
-  設定すると、run メタデータで自動検出された値を上書きします。
+* `x_stats_gpu_type` (str | None): GPU デバイスのタイプ。
+  If set, overrides the auto-detected value in the run metadata.
 
-* `x_stats_gpu_device_ids` (Optional[Sequence]): 監視対象の GPU デバイスのインデックスです。
+* `x_stats_gpu_device_ids` (collections.abc.Sequence[int] | None): 監視する GPU デバイスのインデックスです。
   設定しない場合、システムモニターはすべての GPU のメトリクスを取得します。
   CUDA/ROCm のデバイス列挙に対応する 0 始まりのインデックスであることを前提とします。
 
 * `x_stats_track_process_tree` (bool): `x_stats_pid` を起点として、プロセス ツリー全体のリソース使用状況を監視します。
-  `True` の場合、システム モニターは PID `x_stats_pid` のプロセスとそのすべての子孫プロセスの RSS、CPU%、およびスレッド数を集計します。
-  これによりパフォーマンス上のオーバーヘッドが発生する可能性があるため、デフォルトでは無効になっています。
+  True の場合、システムモニターは PID `x_stats_pid` のプロセスとそのすべての子孫プロセスの
+  RSS、CPU%、およびスレッド数を集計します。
+  これはパフォーマンスのオーバーヘッドを伴う可能性があり、デフォルトで無効です。
+
+* `x_stats_no_cgroup` (bool): システムメトリクスの割合の計算において、cgroup v2 の CPU およびメモリの制限を無効にします。
 
 * `x_sync_dir_suffix` (str): run のディレクトリ名 (`sync_dir`) に追加するサフィックスです。
   これは、名前の競合を避けるために `wandb.init()` で設定します。
@@ -516,7 +581,7 @@ Colab で実行している場合の Colab ノートブックの URL です。
 
 **戻り値:**
 
-* `Optional[str]`: `colab_url` プロパティの値。
+* `str | None`: `colab_url` プロパティの値。
 
 ### <kbd>プロパティ</kbd> `Settings.deployment`
 

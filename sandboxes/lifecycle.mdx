@@ -1,17 +1,20 @@
 ---
 title: Sandbox lifecycle
-description: Learn about the lifecycle of a W&B Sandbox, including its states, how to wait for state changes, and how to stop a sandbox.
+description: Learn about the lifecycle of a Serverless Sandbox, including its states, how to wait for state changes, and how to stop a sandbox.
+keywords: ["SandboxState", "wait_until_complete", "wait_until_ready", "sandbox timeout", "resource cleanup"]
 ---
 
 <Warning>
-W&B Sandboxes is in private preview, available by invitation only. To request enrollment, contact [support](mailto:support@wandb.com) or your AISE.
+Serverless Sandboxes is in public preview.
 </Warning>
 
-A W&B Sandbox goes through several states during its lifecycle. The sandbox's state determines which operations are available.
+This page describes the lifecycle of a Serverless Sandbox so that you can choose the right method for waiting on state changes, stopping a sandbox, and structuring code around its lifetime. Understanding the lifecycle helps you avoid race conditions, distinguish startup failures from runtime errors, and clean up resources predictably.
 
-In most cases, a sandbox starts in `PENDING`, moves to `CREATING` while the container is provisioned, and then enters `RUNNING` when it is ready for use.
+A W&B Serverless Sandbox goes through several states during its lifecycle. The sandbox state determines which operations are available.
 
-If you start a sandbox with a main command, that command becomes the sandbox's main process. When the main process exits, the sandbox enters a terminal state such as `COMPLETED` (exit code `0`) or `FAILED` (an error during startup or execution). A sandbox can also enter `TERMINATED` if it is stopped externally or exceeds its maximum lifetime.
+Usually, a sandbox starts in `PENDING`, moves to `CREATING` while the container is provisioned, and then enters `RUNNING` when it's ready for use.
+
+If you start a sandbox with a main command, that command becomes the sandbox's main process. When the main process exits, the sandbox enters a terminal state such as `COMPLETED` (exit code `0`) or `FAILED` (an error during startup or execution). A sandbox can also enter `TERMINATED` if it's stopped externally or exceeds its maximum lifetime.
 
 ```text
 PENDING -> CREATING -> RUNNING -> COMPLETED
@@ -19,7 +22,7 @@ PENDING -> CREATING -> RUNNING -> COMPLETED
                                -> TERMINATED
 ```
 
-The next sections describe sandbox states, how to wait for readiness or completion, and how to stop a sandbox. For more information about creating sandboxes and running commands, see [Create sandboxes](/sandboxes/create-sandbox) and [Run commands](/sandboxes/run-commands).
+The following sections describe sandbox states, how to wait for readiness or completion, and how to stop a sandbox. For more information about creating sandboxes and running commands, see [Create sandboxes](/sandboxes/create-sandbox) and [Run commands](/sandboxes/run-commands).
 
 ## Sandbox states
 
@@ -27,27 +30,27 @@ The following table summarizes the states of a sandbox:
 
 | State       | Description                         | 
 |-------------|-------------------------------------|
-| PENDING     | The sandbox request was accepted and is waiting to be scheduled. | 
-| CREATING    | The container is being provisioned. | 
-| RUNNING     | The sandbox is ready for operations. | 
-| COMPLETED   | The main process exited successfully with code 0. | 
-| FAILED      | The sandbox or its main process encountered an error during startup or execution. | 
-| TERMINATED   | The sandbox was stopped externally or ended because it exceeded its maximum lifetime. |
+| `PENDING`     | The sandbox request was accepted and is waiting to be scheduled. | 
+| `CREATING`    | The container is provisioning. | 
+| `RUNNING`     | The sandbox is ready for operations. | 
+| `COMPLETED`   | The main process exited successfully with code `0`. | 
+| `FAILED`      | The sandbox or its main process encountered an error during startup or execution. | 
+| `TERMINATED`   | An external process stopped the sandbox, or it ended because it exceeded its maximum lifetime. |
 
-Most operations require the sandbox to be in the RUNNING state. However, many operations automatically wait until the sandbox is ready before proceeding.
+Most operations require the sandbox to be in the `RUNNING` state. However, many operations wait until the sandbox is ready before proceeding.
 
-After a sandbox enters a terminal state, it is no longer available for additional work.
+After a sandbox enters a terminal state, it's no longer available for additional work.
 
 ## Wait for readiness or completion
 
-Use different wait methods depending on what you need:
+The following sections describe the two methods for waiting on sandbox state changes and when to use each. Use different wait methods depending on what you need:
 
 * Use `Sandbox.wait()` to [wait until the sandbox is ready for use](/sandboxes/lifecycle#wait-for-a-sandbox-to-start).
 * Use `Sandbox.wait_until_complete()` to [wait until the sandbox's main process finishes](/sandboxes/lifecycle#wait-for-a-sandbox-to-complete).
 
 ### Wait for a sandbox to start
 
-Use `Sandbox.wait()` to explicitly wait for the sandbox to reach the RUNNING state. This is useful for debugging startup problems or when you want to distinguish startup failures from errors in later commands.
+Use `Sandbox.wait()` to explicitly wait for the sandbox to reach the `RUNNING` state. This method is useful for debugging startup problems or when you want to distinguish startup failures from errors in later commands.
 
 For example, the following code creates a sandbox, waits for it to become ready, and then runs a command:
 
@@ -75,7 +78,7 @@ print(f"Exit code: {sandbox.returncode}")
 
 This pattern is useful when you start a sandbox with a main command such as `Sandbox.run("python", "train.py")` and want the sandbox lifecycle to match that command's execution.
 
-When the main process exits, the sandbox enters a terminal state. A successful run typically ends in COMPLETED. If the process fails, the sandbox may enter FAILED.
+When the main process exits, the sandbox enters a terminal state. A successful run typically ends in `COMPLETED`. If the process fails, the sandbox may enter `FAILED`.
 
 If you need to run commands interactively instead, use a context manager with `Sandbox.exec()`:
 
@@ -92,7 +95,7 @@ with Sandbox.run() as sandbox:
 
 Use methods such as `Sandbox.wait()` and `Sandbox.stop()` when you need explicit control over the sandbox lifecycle.
 
-In most cases, you do not need to call these methods directly. Operations such as `Sandbox.exec()`, `Sandbox.read_file()`, and `Sandbox.write_file()` automatically wait for readiness, and the context manager (`with Sandbox.run() as sandbox:`) automatically stops the sandbox when the block exits.
+Usually, you don't need to call these methods directly. Operations such as `Sandbox.exec()`, `Sandbox.read_file()`, and `Sandbox.write_file()` wait for readiness, and the context manager (`with Sandbox.run() as sandbox:`) stops the sandbox when the block exits.
 
 ### Stop a sandbox
 
@@ -116,6 +119,6 @@ from wandb.sandbox import Sandbox
 with Sandbox.run("sleep", "infinity") as sandbox:
     sandbox.stop(
         graceful_shutdown_seconds=30.0,  # Wait before force-killing the sandbox.
-        missing_ok=True,                 # Do not raise an error if it is already stopped.
+        missing_ok=True,                 # Don't raise an error if it's already stopped.
     ).result()
 ```

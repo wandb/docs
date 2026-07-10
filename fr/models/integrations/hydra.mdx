@@ -28,18 +28,32 @@ def run_experiment(cfg):
   ## Suivre les hyperparamètres
 </div>
 
-Hydra utilise [omegaconf](https://omegaconf.readthedocs.io/en/2.1_branch/) comme interface par défaut pour les dictionnaires de configuration. Les dictionnaires d’`OmegaConf` ne sont pas une sous-classe des dictionnaires primitifs. Par conséquent, passer directement le `Config` de Hydra à `wandb.Run.config` peut produire des résultats inattendus dans le tableau de bord. Vous devez convertir `omegaconf.DictConfig` en type primitif `dict` avant de le transmettre à `wandb.Run.config`.
+Hydra utilise [OmegaConf](https://omegaconf.readthedocs.io/en/2.1_branch/) comme interface par défaut pour gérer les dictionnaires de configuration. Les objets de configuration OmegaConf (par exemple, `omegaconf.DictConfig`) ne sont pas de simples instances Python de `dict`.
+
+`wandb.Run.config` est une propriété en lecture seule, ce qui signifie que `wandb.Run.config = ...` lève une exception `AttributeError` si vous essayez de lui passer un objet de configuration OmegaConf.
+
+Convertissez `cfg` en `dict` Python standard avec `OmegaConf.to_container()`, puis passez-le à `wandb.init(config=...)` (ou appelez `wandb.Run.config.update(...)`).
 
 ```python
-@hydra.main(config_path="configs/", config_name="defaults")
+import hydra
+import omegaconf
+import wandb
+
+
+@hydra.main(version_base=None, config_path="configs/", config_name="defaults")
 def run_experiment(cfg):
-  with wandb.init(entity=cfg.wandb.entity, project=cfg.wandb.project) as run:
-    run.config = omegaconf.OmegaConf.to_container(
+    cfg_dict = omegaconf.OmegaConf.to_container(
         cfg, resolve=True, throw_on_missing=True
     )
-    run = wandb.init(entity=cfg.wandb.entity, project=cfg.wandb.project)
-    run.log({"loss": loss})
-    model = Model(**run.config.model.configs)
+    # Facultatif : éviter d'inclure les métadonnées W&B (comme l'entité/le projet) dans la configuration du run
+    cfg_dict.pop("wandb", None)
+    with wandb.init(
+        entity=cfg.wandb.entity,
+        project=cfg.wandb.project,
+        config=cfg_dict,
+    ) as run:
+        run.log({"loss": loss})
+        model = Model(**run.config["model"]["configs"])
 ```
 
 <div id="troubleshoot-multiprocessing">

@@ -1,6 +1,7 @@
 ---
 title: Panneaux multimédia
 description: "Ajoutez et configurez des panneaux multimédia pour les images, la vidéo, l’audio, les objets 3D et les nuages de points dans un Workspace W&B."
+keywords: ["volet multimédia", "nuage de points", "boîte englobante", "masque de segmentation", "mode de comparaison"]
 ---
 
 Un panneau multimédia affiche les [clés enregistrées pour les objets média](/fr/models/track/log/media/), notamment les objets 3D, l’audio, les images, la vidéo et les nuages de points. Cette page explique comment ajouter et gérer des panneaux multimédia dans un Workspace.
@@ -13,14 +14,16 @@ Un panneau multimédia affiche les [clés enregistrées pour les objets média](
   ## Ajouter un panneau multimédia
 </div>
 
-Pour ajouter un panneau multimédia pour une clé enregistrée à l’aide de la configuration par défaut, utilisez **Quick Add**. Vous pouvez ajouter un panneau multimédia globalement ou à une section spécifique.
+Vous pouvez ajouter un panneau multimédia à l’aide de **Quick Add** (qui applique la configuration par défaut) ou l’ajouter manuellement afin de pouvoir le configurer lors de sa création. Dans les deux cas, vous pouvez ajouter le panneau globalement à l’espace de travail ou à une section spécifique.
+
+Pour ajouter un panneau multimédia pour une clé enregistrée à l’aide de la configuration par défaut, utilisez **Quick Add** :
 
 1. **Global** : cliquez sur **Add panels** dans la barre de contrôle, près du champ de recherche des panneaux.
 2. **Section** : cliquez sur le menu **d’action (<Icon icon="ellipsis" iconType="solid" />)** de la section, puis sur **Add panels**.
 3. Dans la liste des panneaux disponibles, trouvez la clé du panneau, puis cliquez sur **Add**. Répétez cette étape pour chaque panneau multimédia à ajouter, puis cliquez sur le **X** en haut à droite pour fermer la liste **Quick Add**.
 4. Si vous le souhaitez, [configurez le panneau](#configure-a-media-panel).
 
-Vous pouvez ajouter un panneau multimédia globalement ou à une section spécifique :
+Pour ajouter manuellement un panneau multimédia afin de pouvoir le configurer pendant sa création :
 
 1. **Global** : cliquez sur **Add panels** dans la barre de contrôle, près du champ de recherche des panneaux.
 2. **Section** : cliquez sur le menu **d’action (<Icon icon="ellipsis" iconType="solid" />)** de la section, puis sur **Add panels**.
@@ -31,15 +34,15 @@ Vous pouvez ajouter un panneau multimédia globalement ou à une section spécif
   ## Configurer un panneau multimédia
 </div>
 
-Les panneaux de tous les types de médias offrent les mêmes options.
+Les panneaux de tous les types de médias offrent les mêmes options, de sorte que les étapes suivantes s’appliquent quel que soit le type de média avec lequel vous travaillez.
 
-Lorsque vous ajoutez manuellement un panneau multimédia, sa page de configuration s’ouvre une fois le type de média sélectionné. Pour mettre à jour la configuration d’un panneau existant, survolez le panneau, puis cliquez sur l’icône d’engrenage qui apparaît en haut à droite. Cette section décrit les options disponibles dans chaque onglet.
+Lorsque vous ajoutez manuellement un panneau multimédia, sa page de configuration s’ouvre une fois le type de média sélectionné. Pour mettre à jour la configuration d’un panneau existant, survolez le panneau, puis cliquez sur l’icône d’engrenage qui apparaît en haut à droite. Les sections suivantes décrivent les options disponibles dans chaque onglet.
 
 <div id="overlays">
   ### Superpositions
 </div>
 
-Cet onglet s’affiche pour les images et les nuages de points enregistrés avec des masques de segmentation ou des boîtes englobantes.
+Cet onglet s’affiche pour les images et les nuages de points enregistrés avec des masques de segmentation ou des boîtes englobantes. Utilisez-le pour :
 
 * Recherchez et filtrez les superpositions par nom.
 * Personnalisez les couleurs des superpositions.
@@ -48,7 +51,7 @@ Cet onglet s’affiche pour les images et les nuages de points enregistrés avec
   ### Synchronisation
 </div>
 
-Cet onglet apparaît dans les Settings du Workspace et les Paramètres de la section.
+Cet onglet apparaît dans les Settings du Workspace et les Paramètres de la section, et fournit les paramètres suivants :
 
 * **Synchroniser le curseur par clé** : Configurez si les curseurs d’étape des vidéos de la section se déplacent de manière synchronisée.
 * **Lecture automatique des vidéos** : Configurez si les vidéos se lancent au chargement de la page.
@@ -58,36 +61,41 @@ Cet onglet apparaît dans les Settings du Workspace et les Paramètres de la sec
   ### Affichage
 </div>
 
-Personnalisez l’apparence générale et le comportement du panneau.
+Personnalisez l’apparence générale et le comportement du volet multimédia :
 
-* Configurez le titre du panneau.
+* Configurez le titre du volet multimédia.
 * Sélectionnez les clés de média à visualiser.
-* Personnalisez le curseur du panneau et son comportement de lecture.
+* Personnalisez le curseur du volet multimédia et son comportement de lecture.
   * Configurez la clé du curseur, qui est définie par défaut sur **Étape**.
   * Définissez **Longueur de pas** sur le nombre d’étapes à avancer à chaque clic sur le curseur.
   * Activez ou désactivez **Aligner sur une étape existante**. Si cette option est activée, le curseur avance jusqu’à l’étape existante suivante après **Longueur de pas**. Sinon, il avance de **Longueur de pas** même si cela ne correspond pas à une étape existante.
 * **Images** : activez ou désactivez le lissage.
-* **Objets 3D** : configurez la couleur d’arrière-plan et la couleur des points.
+* **Vidéos** : configurez l’intervalle de déplacement dans la vidéo, qui contrôle la distance du saut vers l’avant ou vers l’arrière lors de l’utilisation des touches fléchées gauche et droite.
+* **objets 3D** : configurez la couleur d’arrière-plan et la couleur des points.
 
 <div id="layout">
   ### Mise en page
 </div>
 
-Personnalisez l’affichage des éléments individuels du panneau.
+Personnalisez l’affichage des éléments individuels du panneau :
 
 * Limitez éventuellement le **nombre maximal de runs à inclure** dans le panneau.
 * Spécifiez éventuellement une **limite d’affichage des médias** pour limiter le nombre d’éléments multimédias à inclure par run.
 * Définissez le **Panel mode** :
   * **Gallery** (par défaut) : spécifiez le nombre de colonnes et indiquez si la grille affiche un seul élément par run (par défaut), par étape ou par index.
   * **Grid** : spécifiez le nombre de colonnes, l’axe x (par défaut, **Log Step**) et l’axe y (par défaut, **Run**).
-  * **Compare** : comparez jusqu’à 4 éléments multimédias côte à côte, en les répartissant éventuellement par étape ou par index. Voir [Compare mode](#compare-mode) pour plus de détails.
-* **Utiliser la taille d’origine** : si cette option est désactivée (par défaut), les images et les vidéos du panneau sont mises à l’échelle pour apparaître à la même taille. Aucun effet en mode **Compare**.
-* **Ajuster à l’espace disponible** : si cette option est activée (par défaut), les images et les vidéos du panneau sont mises à l’échelle pour occuper autant d’espace que possible dans le panneau. En mode **Gallery**, chaque image remplit la largeur du panneau. En mode **Grid**, chaque image remplit la largeur de la grille. Aucun effet en mode **Compare**.
+  * **Compare** : comparez jusqu’à quatre éléments multimédias côte à côte, en les répartissant éventuellement par étape ou par index. Voir [mode de comparaison](#compare-mode) pour plus de détails.
+* **Utiliser la taille d’origine** : si cette option est désactivée (par défaut), W&amp;B met à l’échelle les images et les vidéos du panneau pour qu’elles apparaissent à la même taille. Aucun effet en mode **Compare**.
+* Configurez l’ajustement des médias et le comportement de mise à l’échelle :
+  * **Images** : choisissez l’une des options **Original image**, **Original size** ou **Fit to available space**. Avec cette dernière, W&amp;B met à l’échelle les images du panneau pour occuper autant d’espace que possible. En mode **Gallery**, chaque image remplit la largeur du panneau. En mode **Grid**, chaque image remplit la largeur de la grille. Aucun effet en mode **Compare**.
+  * **Videos** : basculez **Use original size** pour déterminer si les médias doivent être mis à l’échelle afin d’apparaître à la même taille. Si cette option est inactive (par défaut), W&amp;B met à l’échelle les vidéos du panneau pour occuper autant d’espace que possible. En mode **Gallery**, chaque vidéo remplit la largeur du panneau. En mode **Grid**, chaque vidéo remplit la largeur de la grille. Aucun effet en mode **Compare**.
 * **Système à main droite** : si cette option est activée, les nuages de points utilisent le système à main droite pour tracer les points, plutôt que le système à main gauche par défaut.
 
 <div id="all-media-panels-in-a-section">
   ### Tous les panneaux multimédias d’une section
 </div>
+
+Configurez les valeurs par défaut au niveau de la section lorsque vous souhaitez que tous les panneaux multimédias d’une section partagent les mêmes paramètres, en remplaçant les valeurs par défaut définies au niveau du Workspace.
 
 Pour personnaliser les paramètres par défaut de tous les panneaux multimédias d’une section et remplacer les paramètres du Workspace pour les panneaux multimédias :
 
@@ -100,11 +108,13 @@ Pour en savoir plus sur un paramètre spécifique d’**Affichage** ou de **Mise
 Lorsque **Step slider syncing** est activé, les panneaux multimédias de la section qui utilisent le même curseur d’étape restent synchronisés. Pour activer la synchronisation du curseur d’étape :
 
 1. Cliquez sur l’onglet **Synchronisation**.
-   1. Activez **Sync slider by key (Step)**.
+2. Activez **Sync slider by key (Step)**.
 
 <div id="all-media-panels-in-a-workspace">
   ### Tous les panneaux multimédias d’un Workspace
 </div>
+
+Configurez les valeurs par défaut au niveau du Workspace lorsque vous souhaitez disposer d’une base cohérente pour les panneaux multimédias dans chaque section du Workspace.
 
 Pour personnaliser les paramètres par défaut de tous les panneaux multimédias d’un Workspace :
 
@@ -125,7 +135,7 @@ Pour obtenir des détails sur chaque paramètre, reportez-vous à [Configurer un
   ## Compare mode
 </div>
 
-Compare mode vous permet de sélectionner 2 à 4 images ou vidéos à partir de n’importe quelle combinaison de runs, d’étapes ou d’indices, puis de les afficher dans une seule grille. Vous pouvez comparer des médias sans télécharger de fichiers ni changer d’onglet.
+Compare mode vous permet de sélectionner deux à quatre images ou vidéos à partir de n’importe quelle combinaison de runs, d’étapes ou d’indices, puis de les afficher dans une seule grille. Vous pouvez comparer des médias sans télécharger un ou plusieurs fichiers ni changer d’onglet.
 
 Utilisez Compare mode pour :
 
@@ -143,30 +153,32 @@ Pour utiliser Compare mode :
 3. Configurez les dimensions et la densité de la grille en indiquant le nombre de colonnes et le mode fan out. La meilleure disposition dépend de la façon dont vos runs enregistrent les médias.
    * **Number of columns** : Nombre d’éléments à afficher par ligne, de `1` à `4`.
    * **Fan out** : Contrôle le niveau de granularité des médias affichés par ligne de la grille. Le meilleur réglage dépend du nombre d’éléments multimédias que vous enregistrez par étape et par run, et selon que vous souhaitez une vérification rapide ou une analyse approfondie.
-     * **None** : (par défaut) : Aucun fan-out. Chaque colonne de la grille représente un run, et chaque ligne de la grille représente une image ou une vidéo enregistrée.
-       <Frame>![Capture d’écran montrant un panneau multimédia en mode comparaison avec deux runs et aucun fan out](/images/models/compare-mode-fan-out-none.png)</Frame>
+     * **None** (par défaut) : Aucun fan-out. Chaque colonne de la grille représente un run, et chaque ligne de la grille représente une image ou une vidéo enregistrée.
+       <Frame>![Volet multimédia en mode comparaison avec deux runs et aucun fan out](/images/models/compare-mode-fan-out-none.png)</Frame>
      * **Step** : Fan out selon l’axe des étapes. Chaque colonne de la grille représente un run, et chaque ligne de la grille affiche la première image ou vidéo enregistrée pour une combinaison run:step.
-       <Frame>![Capture d’écran montrant un panneau multimédia en mode comparaison avec deux runs et un fan out par étape](/images/models/compare-mode-fan-out-by-step.png)</Frame>
+       <Frame>![Volet multimédia en mode comparaison avec deux runs et un fan out par étape](/images/models/compare-mode-fan-out-by-step.png)</Frame>
      * **Index** : Fan out selon l’axe des indices, utile lorsque vous enregistrez plusieurs éléments par étape (par exemple, `run.log({"images": [img0, img1, img2, img3]})`). Chaque cellule d’une ligne affiche l’image ou la vidéo enregistrée pour une combinaison run:step:index donnée.
-       <Frame>![Capture d’écran montrant un panneau multimédia en mode comparaison avec deux runs et un fan out par indice](/images/models/compare-mode-fan-out-by-index.png)</Frame>
+       <Frame>![Volet multimédia en mode comparaison avec deux runs et un fan out par indice](/images/models/compare-mode-fan-out-by-index.png)</Frame>
 4. Indiquez si une variable donnée affecte une seule tuile (**Individual**) ou toutes les tuiles (**Linked**).
    * **Media key** : **Linked** par défaut.
    * **Run** : **Individual** par défaut.
    * **Step** : **Linked** par défaut.
    * **Index** : **Linked** par défaut.
 
-Votre sélection est enregistrée afin que vous puissiez revenir plus tard à la même comparaison sans reconfigurer le panneau.
+W&amp;B enregistre votre sélection afin que vous puissiez revenir plus tard à la même comparaison sans reconfigurer le panneau.
 
 <div id="interact-with-a-media-panel">
-  ## Interagir avec un panneau multimédia
+  ## Interagir avec un volet multimédia
 </div>
 
-* Pour configurer un panneau multimédia, survolez-le et cliquez sur l’icône d’engrenage en haut.
-* Pour déplacer le curseur d’étape d’un panneau multimédia, utilisez **CMD + flèche gauche ou droite** (macOS) ou **Ctrl + flèche gauche ou droite** (Windows / Linux). Si **Synchroniser le curseur par clé** est activé pour la section ou le Workspace, le déplacement du curseur d’étape dans un panneau multimédia déplace également le curseur d’étape dans les autres panneaux multimédia ayant la même clé de curseur d’étape.
-* Utilisez le sélecteur d’étape en haut d’un panneau multimédia pour parcourir les runs multimédia. Pour déplacer le curseur d’étape, utilisez les contrôles de l’UI.
-* Cliquez sur un panneau multimédia pour l’afficher en mode plein écran. Cliquez sur le bouton fléché en haut du panneau pour quitter le mode plein écran.
+Après avoir ajouté et configuré un volet multimédia, utilisez les interactions suivantes pour parcourir, comparer et inspecter les médias enregistrés :
+
+* Pour configurer un volet multimédia, survolez-le et cliquez sur l’icône d’engrenage en haut.
+* Pour déplacer le curseur d’étape d’un volet multimédia, utilisez **CMD + flèche gauche ou droite** (macOS) ou **Ctrl + flèche gauche ou droite** (Windows / Linux). Si **Synchroniser le curseur par clé** est activé pour la section ou le Workspace, le déplacement du curseur d’étape dans un volet multimédia déplace également le curseur d’étape dans les autres volets multimédia ayant la même clé de curseur d’étape.
+* Utilisez le sélecteur d’étape en haut d’un volet multimédia pour parcourir les runs multimédia. Pour déplacer le curseur d’étape, utilisez les contrôles de l’UI.
+* Cliquez sur un volet multimédia pour l’afficher en mode plein écran. Cliquez sur le bouton fléché en haut du panneau pour quitter le mode plein écran.
 * Pour naviguer entre les panneaux d’une section sans quitter le mode plein écran, utilisez soit les boutons **Précédent** et **Suivant** sous le panneau, soit les touches fléchées gauche et droite.
 * Lorsque vous affichez une image en mode plein écran, cliquez sur le contrôle de zoom en haut à droite pour zoomer ou dézoomer. Par défaut, les images sont ajustées à la fenêtre. Cliquez et faites glisser pour déplacer une image agrandie. Vous pouvez également zoomer, dézoomer, réinitialiser le zoom à 100 % ou ajuster l’image à la fenêtre à l’aide de raccourcis clavier. Voir [Raccourcis clavier](/fr/models/app/keyboard-shortcuts#media-panels).
 * Pour une image enregistrée avec des masques de segmentation, vous pouvez personnaliser leur apparence ou les activer et les désactiver individuellement. Survolez le panneau, puis cliquez sur l’icône d’engrenage du bas.
 * Pour une image ou un nuage de points enregistré avec des boîtes englobantes, vous pouvez personnaliser leur apparence ou les activer et les désactiver individuellement. Survolez le panneau, puis cliquez sur l’icône d’engrenage du bas.
-* Utilisez les contrôles multimédias pour lancer, mettre en pause ou arrêter la lecture de la vidéo. Si **Synchroniser la lecture vidéo** est activé, toutes les vidéos de la section sont lues de manière synchronisée. Si **Lire les vidéos en boucle** est activé, les vidéos de la section redémarrent automatiquement et sont lues en continu jusqu’à leur arrêt.
+* Utilisez les contrôles multimédias pour lancer, mettre en pause ou arrêter la lecture de la vidéo. Utilisez les touches fléchées gauche et droite pour avancer ou reculer selon l’**étape de recherche vidéo** configurée. Si **Synchroniser la lecture vidéo** est activé, toutes les vidéos de la section sont lues de manière synchronisée. Si **Lire les vidéos en boucle** est activé, les vidéos de la section redémarrent automatiquement et sont lues en continu jusqu’à leur arrêt.

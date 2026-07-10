@@ -2,16 +2,19 @@
 title: "Evaluation benchmark catalog"
 description: >
   Browse the evaluation benchmarks available through LLM Evaluation Jobs
+mode: wide
+keywords: ["benchmark catalog", "task IDs", "Inspect Evals", "OpenAI scorer", "gated Hugging Face dataset"]
 ---
 import PreviewLink from '/snippets/_includes/llm-eval-jobs/preview.mdx';
 
 <PreviewLink />
 
-This page lists the evaluation benchmarks [LLM Evaluation Jobs](/models/launch) provides by category.
+This page catalogs the evaluation benchmarks available through [LLM Evaluation Jobs](/models/launch), organized by category. Use it to discover which benchmarks you can run, identify their task IDs, and check whether a benchmark requires additional credentials.
 
-To run certain benchmarks, a team admin must add the required API keys as [team-scoped secrets](/platform/secrets#add-a-secret). Any team member can specify the secret when configuring an evaluation job.
-    - If a benchmark has `true` in the **OpenAI Model Scorer** column, the benchmark uses OpenAI models for scoring. An organization or team admin must add an OpenAI API key as a team secret. When you configure an evaluation job with a benchmark with this requirement, set the **Scorer API key** field to the secret.
-    - If a benchmark has a link in the **Gated Hugging Face Dataset** column, the benchmark requires access to a gated Hugging Face dataset. An organization or team admin must request access to the dataset in Hugging Face, create a Hugging Face user access token, and configure a team secret with the access key. When you configure a benchmark with this requirement, set the **Hugging Face Token** field to the secret.
+Some benchmarks require additional credentials. A team admin must add these credentials as [team-scoped secrets](/platform/secrets#add-a-secret) before any team member can use the benchmarks in an evaluation job:
+
+- If a benchmark has `Yes` in the **OpenAI Scorer** column, the benchmark uses OpenAI models for scoring. An organization or team admin must add an OpenAI API key as a team secret. When you configure an evaluation job with a benchmark that has this requirement, set the **Scorer API key** field to the secret.
+- If a benchmark has a link in the **Gated HF Dataset** column, the benchmark requires access to a gated Hugging Face dataset. An organization or team admin must request access to the dataset in Hugging Face. The admin then creates a Hugging Face user access token and configures a team secret with that token. When you configure a benchmark with this requirement, set the **Hugging Face Token** field to the secret.
 
 {/*
     Benchmark list: https://github.com/wandb/launch-jobs/blob/main/jobs/inspect_ai_evals/api_model/sample-schema.json 
@@ -20,9 +23,9 @@ To run certain benchmarks, a team admin must add the required API keys as [team-
 
 ## Knowledge
 
-Evaluate factual knowledge across various domains like science, language, and general reasoning.
+Evaluate factual knowledge across domains such as science, language, and general reasoning.
 
-| Evaluation | Task ID | <div className='!w-[100px]'>OpenAI Scorer</div> | Gated Hugging Face Dataset | Description |
+| Evaluation | Task ID | <div className='!w-[100px]'>OpenAI Scorer</div> | Gated HF Dataset | Description |
 |------------|---------|---------------|------------------|-------------|
 | [BoolQ](https://github.com/google-research-datasets/boolean-questions) | `boolq` | | | Boolean yes/no questions from natural language queries |
 | [GPQA Diamond](https://arxiv.org/abs/2311.12022) | `gpqa_diamond` | | | Graduate-level science questions (highest quality subset) |
@@ -65,7 +68,7 @@ Evaluate logical thinking, problem-solving, and common-sense reasoning capabilit
 
 ## Math
 
-Evaluate mathematical problem-solving at various difficulty levels, from grade school to competition-level problems.
+Evaluate mathematical problem-solving across difficulty levels, from grade school to competition-level problems.
 
 | Evaluation | Task ID | OpenAI Scorer | Gated HF Dataset | Description |
 |------------|---------|---------------|------------------|-------------|
@@ -81,7 +84,7 @@ Evaluate mathematical problem-solving at various difficulty levels, from grade s
 
 ## Code
 
-Evaluate programming and software development capabilities like debugging, code execution prediction, and function calling.
+Evaluate programming and software development capabilities such as debugging, code execution prediction, and function calling.
 
 | Evaluation | Task ID | OpenAI Scorer | Gated HF Dataset | Description |
 |------------|---------|---------------|------------------|-------------|
@@ -146,7 +149,7 @@ Evaluate alignment, bias detection, harmful content resistance, and truthfulness
 | [WMDP Cyber](https://www.wmdp.ai/) | `wmdp_cyber` | | | Tests hazardous knowledge in cybersecurity |
 | [XSTest](https://arxiv.org/abs/2308.01263) | `xstest` | Yes | | Exaggerated safety test for over-refusal detection |
 
-## Domain-Specific
+## Domain-specific
 
 Evaluate specialized knowledge in medicine, chemistry, law, biology, and other professional fields.
 
@@ -198,7 +201,7 @@ Basic system validation and pre-flight checks.
 
 | Evaluation | Task ID | OpenAI Scorer | Gated HF Dataset | Description |
 |------------|---------|---------------|------------------|-------------|
-| [Pre-Flight](https://ukgovernmentbeis.github.io/inspect_evals/evals/knowledge/pre_flight/) | `pre_flight` | | | Basic system check and validation test |
+| [Pre-Flight](https://github.com/UKGovernmentBEIS/inspect_evals) | `pre_flight` | | | Basic system check and validation test |
 
 
 ## Next steps

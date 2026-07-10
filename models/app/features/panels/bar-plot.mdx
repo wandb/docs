@@ -1,15 +1,16 @@
 ---
 description: Visualize metrics, customize axes, and compare categorical data as bars.
 title: Bar plots
+keywords: ["bar chart", "box plot", "violin plot", "categorical data"]
 ---
 
-A bar plot presents categorical data with rectangular bars which can be plotted vertically or horizontally. Bar plots show up by default with `wandb.Run.log()` when all logged values are of length one.
+A bar plot presents categorical data with rectangular bars that you can plot vertically or horizontally. Use bar plots to visualize metrics, compare categorical data, and customize axes for your runs. Bar plots appear by default with `wandb.Run.log()` when all logged values are of length one.
 
 <Frame>
-    <img src="/images/app_ui/bar_plot.png" alt="Plotting Box and horizontal Bar plots in W&B"  />
+    <img src="/images/app_ui/bar_plot.png" alt="Box and horizontal bar plots in W&B"  />
 </Frame>
 
-Customize with chart settings to limit max runs to show, group runs by any config and rename labels.
+Use chart settings to limit the maximum number of runs shown, group runs by any config, and rename labels.
 
 <Frame>
     <img src="/images/app_ui/bar_plot_custom.png" alt="Customized bar plot"  />
@@ -17,13 +18,17 @@ Customize with chart settings to limit max runs to show, group runs by any confi
 
 ## Customize bar plots
 
-You can also create **Box** or **Violin** Plots to combine many summary statistics into one chart type.
+You can also create **Box Plot** or **Violin** plots to combine many summary statistics into one chart type, if you group your runs.
 
-1. Group runs via runs table.
-2. Click 'Add panel' in the workspace.
-3. Add a standard 'Bar Chart' and select the metric to plot.
-4. Under the 'Grouping' tab, pick 'box plot' or 'Violin', etc. to plot either of these styles.
+To create a box or violin plot:
+
+1. [Group your runs in the runs table](/models/runs/grouping), or enable grouping in the panel.
+1. In the workspace, click **Add panel**, then choose **Bar Chart**.
+1. On the **Data** tab, use the **Metric** selector to choose your summary metric.
+1. On the **Grouping** tab, in the **Style** control, choose **Box Plot** or **Violin**.
+
+If you do not see the **Style** control or the **Box Plot** and **Violin** options, your runs are not grouped. Group your runs and the options appear.
 
 <Frame>
-    <img src="/images/app_ui/bar_plots.gif" alt="Customize Bar Plots"  />
+    <img src="/images/app_ui/bar_plots.gif" alt="Customizing a bar plot with grouping options"  />
 </Frame>

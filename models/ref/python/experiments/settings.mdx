@@ -35,17 +35,18 @@ __init__(
     allow_media_symlink: 'bool' = False,
     allow_offline_artifacts: 'bool' = True,
     allow_val_change: 'bool' = False,
-    anonymous: 'object' = <object object at 0x107855240>,
+    anonymous: 'object' = <object object at 0x109b16dd0>,
     api_key: 'str | None' = None,
     azure_account_url_to_access_key: 'dict[str, str] | None' = None,
     app_url_override: 'str | None' = None,
     base_url: 'str' = 'https://api.wandb.ai',
     code_dir: 'str | None' = None,
-    config_paths: 'Sequence | None' = None,
+    config_paths: 'collections.abc.Sequence[str] | None' = None,
     console: 'Literal['auto', 'off', 'wrap', 'redirect', 'wrap_raw', 'wrap_emu']' = 'auto',
     console_multipart: 'bool' = False,
     console_chunk_max_bytes: 'int' = 0,
     console_chunk_max_seconds: 'int' = 0,
+    capture_loggers: 'dict[str, str] | None' = None,
     credentials_file: 'str' = None,
     disable_code: 'bool' = False,
     disable_git: 'bool' = False,
@@ -56,7 +57,7 @@ __init__(
     entity: 'str | None' = None,
     organization: 'str | None' = None,
     force: 'bool' = False,
-    fork_from: 'RunMoment | None' = None,
+    fork_from: 'wandb.sdk.lib.run_moment.RunMoment | None' = None,
     git_commit: 'str | None' = None,
     git_remote: 'str' = 'origin',
     git_remote_url: 'str | None' = None,
@@ -68,6 +69,8 @@ __init__(
     identity_token_file: 'str | None' = None,
     ignore_globs: 'Sequence' = (),
     init_timeout: 'float' = 90.0,
+    finish_timeout: 'float' = 0.0,
+    finish_timeout_raises: 'bool' = False,
     insecure_disable_ssl: 'bool' = False,
     job_name: 'str | None' = None,
     job_source: 'Literal['repo', 'artifact', 'image'] | None' = None,
@@ -85,7 +88,7 @@ __init__(
     reinit: 'Literal['default', 'return_previous', 'finish_previous', 'create_new'] | bool' = 'default',
     relogin: 'bool' = False,
     resume: 'Literal['allow', 'must', 'never', 'auto'] | None' = None,
-    resume_from: 'RunMoment | None' = None,
+    resume_from: 'wandb.sdk.lib.run_moment.RunMoment | None' = None,
     resumed: 'bool' = False,
     root_dir: 'str' = None,
     run_group: 'str | None' = None,
@@ -93,11 +96,11 @@ __init__(
     run_job_type: 'str | None' = None,
     run_name: 'str | None' = None,
     run_notes: 'str | None' = None,
-    run_tags: 'tuple[str, Ellipsis] | None' = None,
+    run_tags: 'tuple[str, ...] | None' = None,
     sagemaker_disable: 'bool' = False,
     save_code: 'bool | None' = None,
     settings_system: 'str | None' = None,
-    stop_fn: 'Callable | None' = None,
+    stop_fn: 'collections.abc.Callable[[], None] | None' = None,
     max_end_of_run_history_metrics: 'int' = 10,
     max_end_of_run_summary_metrics: 'int' = 10,
     show_colors: 'bool | None' = None,
@@ -107,6 +110,7 @@ __init__(
     show_warnings: 'bool' = True,
     silent: 'bool' = False,
     start_method: 'str | None' = None,
+    stop_on_fatal_error: 'bool' = False,
     strict: 'bool | None' = None,
     summary_timeout: 'int' = 60,
     summary_warnings: 'int' = 5,
@@ -161,23 +165,24 @@ __init__(
     x_service_wait: 'float' = 30.0,
     x_skip_transaction_log: 'bool' = False,
     x_start_time: 'float | None' = None,
-    x_stats_pid: 'int' = 72322,
+    x_stats_pid: 'int' = 28097,
     x_stats_sampling_interval: 'float' = 15.0,
     x_stats_neuron_monitor_config_path: 'str | None' = None,
     x_stats_dcgm_exporter: 'str | None' = None,
     x_stats_open_metrics_endpoints: 'dict[str, str] | None' = None,
-    x_stats_open_metrics_filters: 'dict[str, dict[str, str]] | Sequence | None' = None,
+    x_stats_open_metrics_filters: 'dict[str, dict[str, str]] | collections.abc.Sequence[str] | None' = None,
     x_stats_open_metrics_http_headers: 'dict[str, str] | None' = None,
-    x_stats_disk_paths: 'Sequence | None' = ('/',),
+    x_stats_disk_paths: 'collections.abc.Sequence[str] | None' = ('/',),
     x_stats_cpu_count: 'int | None' = None,
     x_stats_cpu_logical_count: 'int | None' = None,
     x_stats_gpu_count: 'int | None' = None,
     x_stats_gpu_type: 'str | None' = None,
-    x_stats_gpu_device_ids: 'Sequence | None' = None,
+    x_stats_gpu_device_ids: 'collections.abc.Sequence[int] | None' = None,
     x_stats_buffer_size: 'int' = 0,
     x_stats_coreweave_metadata_base_url: 'str' = 'http://169.254.169.254',
     x_stats_coreweave_metadata_endpoint: 'str' = '/api/v2/cloud-init/meta-data',
     x_stats_track_process_tree: 'bool' = False,
+    x_stats_no_cgroup: 'bool' = False,
     x_sync: 'bool' = False,
     x_sync_dir_suffix: 'str' = '',
     x_update_finish_state: 'bool' = True
@@ -196,15 +201,15 @@ __init__(
    To revert to the old behavior, set this to False.
  - `allow_val_change` (bool): Flag to allow modification of `Config` values after they've been set.
  - `anonymous` (object): Deprecated and will be removed.
- - `api_key` (Optional[str]): The W&B API key.
- - `azure_account_url_to_access_key` (Optional[Dict[str, str]]): Mapping of Azure account URLs to their corresponding access keys for Azure integration.
- - `app_url_override` (Optional[str]): Override for the 'app' URL for the W&B UI.
+ - `api_key` (str | None): The W&B API key.
+ - `azure_account_url_to_access_key` (dict[str, str] | None): Mapping of Azure account URLs to their corresponding access keys for Azure integration.
+ - `app_url_override` (str | None): Override for the 'app' URL for the W&B UI.
    The `app_url` is normally computed based on `base_url`, but this can be
    used to set it explicitly.
    WANDB_APP_URL is the corresponding environment variable.
  - `base_url` (str): The URL of the W&B backend for data synchronization.
- - `code_dir` (Optional[str]): Directory containing the code to be tracked by W&B.
- - `config_paths` (Optional[Sequence]): Paths to files to load configuration from into the `Config` object.
+ - `code_dir` (str | None): Directory containing the code to be tracked by W&B.
+ - `config_paths` (collections.abc.Sequence[str] | None): Paths to files to load configuration from into the `Config` object.
  - `console` (Literal['auto', 'off', 'wrap', 'redirect', 'wrap_raw', 'wrap_emu']): The type of console capture to be applied.
    Possible values are:
    - "auto" - Automatically selects the console capture method based on the
@@ -239,6 +244,28 @@ __init__(
    `True`.  May be used with `console_chunk_max_bytes`; the first limit
    reached closes the part. A value of `0` disables the time-based
    limit.
+ - `capture_loggers` (dict[str, str] | None): Names of Python loggers to capture into the run's Logs tab.
+   A mapping of logger name to minimum log level. When set, wandb installs a
+   logging.Handler on each named logger and removes it when the run finishes.
+   Log records emitted by those loggers are published as console output to the
+   run, similar to stdout/stderr capture.
+   Log records are formatted the same as `logging.basicConfig()`, like
+   `INFO:my_module:Some message.` This is not currently customizable.
+   To capture all logs, pass the name of the root logger, which is 'root'.
+   This is independent of the `console` setting: both can be active
+   simultaneously.
+   Example:
+   ```python
+   wandb.init(
+   settings=wandb.Settings(
+   console="off",
+   capture_loggers={
+   "my_app": "INFO",
+   "my_app.training": "ERROR",
+   },
+   ),
+   )
+   ```
  - `credentials_file` (str): Path to file for writing temporary access tokens.
  - `disable_code` (bool): Whether to disable capturing the code.
  - `disable_git` (bool): Whether to disable capturing the git state.
@@ -250,41 +277,64 @@ __init__(
    Otherwise, it will find the closest commit from all remote branches.
    This may impact performance for repos with many upstream branches.
  - `disable_job_creation` (bool): Whether to disable the creation of a job artifact for W&B Launch.
- - `docker` (Optional[str]): The Docker image used to execute the script.
- - `email` (Optional[str]): The email address of the user.
- - `entity` (Optional[str]): The W&B entity, such as a user or a team.
- - `organization` (Optional[str]): The W&B organization.
+ - `docker` (str | None): The Docker image used to execute the script.
+ - `email` (str | None): The email address of the user.
+ - `entity` (str | None): The W&B entity, such as a user or a team.
+ - `organization` (str | None): The W&B organization.
  - `force` (bool): Whether to pass the `force` flag to `wandb.login()`.
- - `fork_from` (Optional[RunMoment]): Specifies a point in a previous execution of a run to fork from.
+ - `fork_from` (wandb.sdk.lib.run_moment.RunMoment | None): Specifies a point in a previous execution of a run to fork from.
    The point is defined by the run ID, a metric, and its value.
    Currently, only the metric '_step' is supported.
- - `git_commit` (Optional[str]): The git commit hash to associate with the run.
+ - `git_commit` (str | None): The git commit hash to associate with the run.
  - `git_remote` (str): The git remote to associate with the run.
- - `git_remote_url` (Optional[str]): The URL of the git remote repository.
- - `git_root` (Optional[str]): Root directory of the git repository.
+ - `git_remote_url` (str | None): The URL of the git remote repository.
+ - `git_root` (str | None): Root directory of the git repository.
 
- - `host` (Optional[str]): Hostname of the machine running the script.
- - `http_proxy` (Optional[str]): Custom proxy servers for http requests to W&B.
- - `https_proxy` (Optional[str]): Custom proxy servers for https requests to W&B.
- - `identity_token_file` (Optional[str]): Path to file containing an identity token (JWT) for authentication.
+ - `host` (str | None): Hostname of the machine running the script.
+ - `http_proxy` (str | None): Custom proxy servers for http requests to W&B.
+ - `https_proxy` (str | None): Custom proxy servers for https requests to W&B.
+ - `identity_token_file` (str | None): Path to file containing an identity token (JWT) for authentication.
  - `ignore_globs` (Sequence): Unix glob patterns relative to `files_dir` specifying files to exclude from upload.
  - `init_timeout` (float): Time in seconds to wait for the `wandb.init` call to complete before timing out.
+ - `finish_timeout` (float): Time in seconds to wait for data to upload at the end of a run.
+   Setting this can limit costs caused by slow uploads to W&B at the end of a
+   run, with the trade-off that the run will be marked crashed and may be
+   missing some data. The default is for `run.finish()` to block until all
+   data finishes uploading.
+   If this is set to a number greater than zero, W&B gives up on uploading a
+   run's data after this many seconds at the end of a run, unblocking your
+   script. After some time, the run becomes Crashed or Failed in the UI. Any
+   unuploaded data is still stored on disk and can be uploaded with `wandb
+   sync`.
+   Use the `finish_timeout_raises` setting to raise an error in addition to
+   printing a warning message.
+   Runs shut down by `wandb.teardown()` (which automatically runs at the end
+   of a script in an atexit hook) will also respect this setting.
+ - `finish_timeout_raises` (bool): Whether to raise a TimeoutError if finish_timeout expires.
+   Using this together with the `finish_timeout` setting causes `run.finish()`
+   to raise a TimeoutError after a timeout in addition to printing a message.
+   Note that `run.finish()` is called implicitly when using a Run as a context
+   manager:
+   with wandb.init() as run:
+   ...  # run.finish() executes at the end of the `with` block
+   This does not cause `wandb.teardown()` to raise an error (since it runs
+   at the end of a script anyway).
  - `insecure_disable_ssl` (bool): Whether to insecurely disable SSL verification.
- - `job_name` (Optional[str]): Name of the Launch job running the script.
+ - `job_name` (str | None): Name of the Launch job running the script.
  - `job_source` (Optional[Literal['repo', 'artifact', 'image']]): Source type for Launch.
  - `label_disable` (bool): Whether to disable automatic labeling features.
 
- - `launch_config_path` (Optional[str]): Path to the launch configuration file.
- - `login_timeout` (Optional[float]): Time in seconds to wait for login operations before timing out.
+ - `launch_config_path` (str | None): Path to the launch configuration file.
+ - `login_timeout` (float | None): Time in seconds to wait for login operations before timing out.
  - `mode` (Literal['online', 'offline', 'shared', 'disabled', 'dryrun', 'run']): The operating mode for W&B logging and synchronization.
- - `notebook_name` (Optional[str]): Name of the notebook if running in a Jupyter-like environment.
- - `program` (Optional[str]): Path to the script that created the run, if available.
- - `program_abspath` (Optional[str]): The absolute path from the root repository directory to the script that
+ - `notebook_name` (str | None): Name of the notebook if running in a Jupyter-like environment.
+ - `program` (str | None): Path to the script that created the run, if available.
+ - `program_abspath` (str | None): The absolute path from the root repository directory to the script that
    created the run.
    Root repository directory is defined as the directory containing the
    .git directory, if it exists. Otherwise, it's the current working directory.
- - `program_relpath` (Optional[str]): The relative path to the script that created the run.
- - `project` (Optional[str]): The W&B project ID.
+ - `program_relpath` (str | None): The relative path to the script that created the run.
+ - `project` (str | None): The W&B project ID.
  - `quiet` (bool): Flag to suppress non-essential output.
  - `reinit` (Union[Literal['default', 'return_previous', 'finish_previous', 'create_new'], bool]): What to do when `wandb.init()` is called while a run is active.
    Options:
@@ -311,23 +361,23 @@ __init__(
    it will result in failure.
    - "auto": Automatically resumes from the most recent failed run on the same
    machine.
- - `resume_from` (Optional[RunMoment]): Specifies a point in a previous execution of a run to resume from.
+ - `resume_from` (wandb.sdk.lib.run_moment.RunMoment | None): Specifies a point in a previous execution of a run to resume from.
    The point is defined by the run ID, a metric, and its value.
    Currently, only the metric '_step' is supported.
 
  - `root_dir` (str): The root directory to use as the base for all run-related paths.
    In particular, this is used to derive the wandb directory and the run directory.
- - `run_group` (Optional[str]): Group identifier for related runs.
+ - `run_group` (str | None): Group identifier for related runs.
    Used for grouping runs in the UI.
- - `run_id` (Optional[str]): The ID of the run.
- - `run_job_type` (Optional[str]): Type of job being run (e.g., training, evaluation).
- - `run_name` (Optional[str]): Human-readable name for the run.
- - `run_notes` (Optional[str]): Additional notes or description for the run.
- - `run_tags` (Optional[Tuple[str, Ellipsis]]): Tags to associate with the run for organization and filtering.
+ - `run_id` (str | None): The ID of the run.
+ - `run_job_type` (str | None): Type of job being run (e.g., training, evaluation).
+ - `run_name` (str | None): Human-readable name for the run.
+ - `run_notes` (str | None): Additional notes or description for the run.
+ - `run_tags` (tuple[str, ...] | None): Tags to associate with the run for organization and filtering.
  - `sagemaker_disable` (bool): Flag to disable SageMaker-specific functionality.
- - `save_code` (Optional[bool]): Whether to save the code associated with the run.
- - `settings_system` (Optional[str]): Path to the system-wide settings file.
- - `stop_fn` (Optional[Callable]): A callback to execute to stop the run.
+ - `save_code` (bool | None): Whether to save the code associated with the run.
+ - `settings_system` (str | None): Path to the system-wide settings file.
+ - `stop_fn` (collections.abc.Callable[[], None] | None): A callback to execute to stop the run.
    A run can be stopped through the web UI, or after a fatal error
    (if configured via a setting).
    By default, to stop a run, W&B sends a SIGINT to the main thread.
@@ -344,25 +394,33 @@ __init__(
  - `show_warnings` (bool): Whether to display warning messages.
  - `silent` (bool): Flag to suppress all output.
 
- - `strict` (Optional[bool]): Whether to enable strict mode for validation and error checking.
+ - `stop_on_fatal_error` (bool): Whether to stop the run after a fatal error.
+   After W&B hits an unrecoverable error while uploading data, it prints
+   a message and stops uploading, but still allows logging more data.
+   This is usually desirable: your training metrics get stored on disk
+   and can be recovered using `wandb sync`, even if they aren't uploaded.
+   This is not useful if your files get deleted after training.
+   In that case, setting this to True will stop the run after a fatal error,
+   as if the stop button was pressed in the web UI.
+ - `strict` (bool | None): Whether to enable strict mode for validation and error checking.
  - `summary_timeout` (int): Time in seconds to wait for summary operations before timing out.
 
- - `sweep_id` (Optional[str]): Identifier of the sweep this run belongs to.
- - `sweep_param_path` (Optional[str]): Path to the sweep parameters configuration.
+ - `sweep_id` (str | None): Identifier of the sweep this run belongs to.
+ - `sweep_param_path` (str | None): Path to the sweep parameters configuration.
  - `symlink` (bool): Whether to use symlinks (True by default except on Windows).
- - `sync_tensorboard` (Optional[bool]): Whether to synchronize TensorBoard logs with W&B.
+ - `sync_tensorboard` (bool | None): Whether to synchronize TensorBoard logs with W&B.
  - `table_raise_on_max_row_limit_exceeded` (bool): Whether to raise an exception when table row limits are exceeded.
- - `use_dot_wandb` (Optional[bool]): Whether to use a hidden `.wandb` or visible `wandb` directory for run data.
+ - `use_dot_wandb` (bool | None): Whether to use a hidden `.wandb` or visible `wandb` directory for run data.
    If True, the SDK uses `.wandb`. If False, `wandb`.
    If not set, defaults to `.wandb` if it already exists, otherwise `wandb`.
- - `username` (Optional[str]): Username.
+ - `username` (str | None): Username.
 
  - `x_disable_meta` (bool): Flag to disable the collection of system metadata.
  - `x_disable_stats` (bool): Flag to disable the collection of system metrics.
 
 
 
- - `x_extra_http_headers` (Optional[Dict[str, str]]): Additional headers to add to all outgoing HTTP requests.
+ - `x_extra_http_headers` (dict[str, str] | None): Additional headers to add to all outgoing HTTP requests.
 
 
 
@@ -385,7 +443,7 @@ __init__(
 
 
 
- - `x_label` (Optional[str]): Label to assign to system metrics and console logs collected for the run.
+ - `x_label` (str | None): Label to assign to system metrics and console logs collected for the run.
    This is used to group data by on the frontend and can be used to distinguish data
    from different processes in a distributed training job.
 
@@ -413,7 +471,7 @@ __init__(
 
  - `x_stats_sampling_interval` (float): Sampling interval for the system monitor in seconds.
 
- - `x_stats_dcgm_exporter` (Optional[str]): Endpoint to extract Nvidia DCGM metrics from.
+ - `x_stats_dcgm_exporter` (str | None): Endpoint to extract Nvidia DCGM metrics from.
    Options:
    - Extract DCGM-related metrics from a query to the Prometheus `/api/v1/query` endpoint.
    It is a common practice to aggregate metrics reported by the instances of the DCGM Exporter
@@ -422,22 +480,22 @@ __init__(
    Examples:
    - `http://localhost:9400/api/v1/query?query=DCGM_FI_DEV_GPU_TEMP{node="l1337", cluster="globular"}`.
 
- - `x_stats_open_metrics_endpoints` (Optional[Dict[str, str]]): OpenMetrics `/metrics` endpoints to monitor for system metrics.
- - `x_stats_open_metrics_filters` (Union[Dict[str, Dict[str, str]], Sequence, None]): Filter to apply to metrics collected from OpenMetrics `/metrics` endpoints.
+ - `x_stats_open_metrics_endpoints` (dict[str, str] | None): OpenMetrics `/metrics` endpoints to monitor for system metrics.
+ - `x_stats_open_metrics_filters` (dict[str, dict[str, str]] | collections.abc.Sequence[str] | None): Filter to apply to metrics collected from OpenMetrics `/metrics` endpoints.
    Supports two formats:
    - `{"metric regex pattern, including endpoint name as prefix": {"label": "label value regex pattern"}}`
    - `("metric regex pattern 1", "metric regex pattern 2", ...)`
- - `x_stats_open_metrics_http_headers` (Optional[Dict[str, str]]): HTTP headers to add to OpenMetrics requests.
- - `x_stats_disk_paths` (Optional[Sequence]): System paths to monitor for disk usage.
- - `x_stats_cpu_count` (Optional[int]): System CPU count.
+ - `x_stats_open_metrics_http_headers` (dict[str, str] | None): HTTP headers to add to OpenMetrics requests.
+ - `x_stats_disk_paths` (collections.abc.Sequence[str] | None): System paths to monitor for disk usage.
+ - `x_stats_cpu_count` (int | None): System CPU count.
    If set, overrides the auto-detected value in the run metadata.
- - `x_stats_cpu_logical_count` (Optional[int]): Logical CPU count.
+ - `x_stats_cpu_logical_count` (int | None): Logical CPU count.
    If set, overrides the auto-detected value in the run metadata.
- - `x_stats_gpu_count` (Optional[int]): GPU device count.
+ - `x_stats_gpu_count` (int | None): GPU device count.
    If set, overrides the auto-detected value in the run metadata.
- - `x_stats_gpu_type` (Optional[str]): GPU device type.
+ - `x_stats_gpu_type` (str | None): GPU device type.
    If set, overrides the auto-detected value in the run metadata.
- - `x_stats_gpu_device_ids` (Optional[Sequence]): GPU device indices to monitor.
+ - `x_stats_gpu_device_ids` (collections.abc.Sequence[int] | None): GPU device indices to monitor.
    If not set, the system monitor captures metrics for all GPUs.
    Assumes 0-based indexing matching CUDA/ROCm device enumeration.
 
@@ -447,6 +505,7 @@ __init__(
    When `True`, the system monitor aggregates the RSS, CPU%, and thread count
    from the process with PID `x_stats_pid` and all of its descendants.
    This can have a performance overhead and is disabled by default.
+ - `x_stats_no_cgroup` (bool): Disable cgroup v2 CPU and memory limits for system metric percentages.
 
  - `x_sync_dir_suffix` (str): Suffix to add to the run's directory name (sync_dir).
    This is set in wandb.init() to avoid naming conflicts.
@@ -506,7 +565,7 @@ is used to access W&B APIs programmatically.
 The URL to the Colab notebook, if running in Colab.
 
 **Returns:**
- - `Optional[str]`: The colab_url property value.
+ - `str | None`: The colab_url property value.
 
 ### <kbd>property</kbd> `Settings.deployment`
 
@@ -630,6 +689,7 @@ Full path to the wandb directory.
 
 **Returns:**
  - `str`: The wandb_dir property value.
+
 
 
 

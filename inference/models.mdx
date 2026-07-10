@@ -1,49 +1,51 @@
 ---
 title: "Available models"
 description: >
-  Browse the foundation models available through W&B Inference
+  Browse the foundation models available through Serverless Inference
 mode: wide
+keywords: ["model catalog", "DeepSeek", "Llama", "Qwen", "MoE", "multimodal models"]
 ---
 
-W&B Inference provides access to several open-source foundation models. Each model has different strengths and use cases.
+Serverless Inference provides access to several open source foundation models. Each model has different strengths and use cases.
 
 ## Generally available models
 
 The following models are [generally available](/inference/lifecycle#model-lifecycle-stages):
 
 {/* takeru inference-models - This table is automatically generated, do not edit manually. */}
-| Model                         | Model ID (for API usage)                       | Type         | Context Window | Parameters                | Description                                                                                                                                       |
-| ----------------------------- | ---------------------------------------------- | ------------ | -------------- | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| DeepSeek V3.1                 | `deepseek-ai/DeepSeek-V3.1`                    | Text         | 161k           | 37B-671B (Active-Total)   | A large hybrid model that supports both thinking and non-thinking modes via prompt templates.                                                     |
-| Google Gemma 4 31B            | `google/gemma-4-31B-it`                        | Text, Vision | 262k           | 31B (Total)               | Gemma 4 31B Dense is designed for advanced reasoning, agentic workflows, and longer context and is natively trained on 140+ languages.            |
-| IBM Granite 4.1 8B            | `ibm-granite/granite-4.1-8b`                   | Text         | 131k           | 8B (Total)                | Granite 4.1 8B is a long-context instruct model capable of enhanced tool calling, instruction following, and chat capabilities.                   |
-| Meta Llama 3.3 70B            | `meta-llama/Llama-3.3-70B-Instruct`            | Text         | 128k           | 70B (Total)               | Multilingual model excelling in conversational tasks, detailed instruction-following, and coding.                                                 |
-| Meta Llama 3.1 70B            | `meta-llama/Llama-3.1-70B-Instruct`            | Text         | 128k           | 70B (Total)               | Efficient conversational model optimized for responsive multilingual chatbot interactions.                                                        |
-| Meta Llama 3.1 8B             | `meta-llama/Llama-3.1-8B-Instruct`             | Text         | 128k           | 8B (Total)                | Efficient conversational model optimized for responsive multilingual chatbot interactions.                                                        |
-| Microsoft Phi 4 Mini 3.8B     | `microsoft/Phi-4-mini-instruct`                | Text         | 128k           | 3.8B (Total)              | Compact, efficient model ideal for fast responses in resource-constrained environments.                                                           |
-| MiniMax M2.5                  | `MiniMaxAI/MiniMax-M2.5`                       | Text         | 197k           | 10B-230B (Active-Total)   | MoE model with a highly sparse architecture designed for high-throughput and low latency with strong coding capabilities.                         |
-| Moonshot AI Kimi K2.6         | `moonshotai/Kimi-K2.6`                         | Text, Vision | 262k           | 32B-1T (Active-Total)     | Kimi K2.6 is a multimodal Mixture-of-Experts language model featuring 32 billion activated parameters and a total of 1 trillion parameters.       |
-| Moonshot AI Kimi K2.5         | `moonshotai/Kimi-K2.5`                         | Text, Vision | 262k           | 32B-1T (Active-Total)     | Kimi K2.5 is a multimodal Mixture-of-Experts language model featuring 32 billion activated parameters and a total of 1 trillion parameters.       |
-| NVIDIA Nemotron 3 Super 120B  | `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-FP8` | Text         | 262k           | 12B-120B (Active-Total)   | Nemotron 3 is a LatentMoE model designed to deliver strong agentic, reasoning, and conversational capabilities.                                   |
-| OpenAI GPT OSS 120B           | `openai/gpt-oss-120b`                          | Text         | 131k           | 5.1B-117B (Active-Total)  | Efficient Mixture-of-Experts model designed for high-reasoning, agentic and general-purpose use cases.                                            |
-| OpenAI GPT OSS 20B            | `openai/gpt-oss-20b`                           | Text         | 131k           | 3.6B-20B (Active-Total)   | Lower latency Mixture-of-Experts model trained on OpenAI's Harmony response format with reasoning capabilities.                                   |
-| OpenPipe Qwen3 14B Instruct   | `OpenPipe/Qwen3-14B-Instruct`                  | Text         | 32.8k          | 14.8B (Total)             | An efficient multilingual, dense, instruction-tuned model, optimized by OpenPipe for building agents with finetuning.                             |
-| Qwen3.5 35B A3B               | `Qwen/Qwen3.5-35B-A3B`                         | Text, Vision | 262k           | 3B-35B (Active-Total)     | Qwen3.5-35B-A3B is an open-weights multimodal MoE model built for efficient, high-throughput inference across chat, reasoning, and agentic tasks. |
-| Qwen3 235B A22B Thinking-2507 | `Qwen/Qwen3-235B-A22B-Thinking-2507`           | Text         | 262k           | 22B-235B (Active-Total)   | High-performance Mixture-of-Experts model optimized for structured reasoning, math, and long-form generation.                                     |
-| Qwen3 235B A22B-2507          | `Qwen/Qwen3-235B-A22B-Instruct-2507`           | Text         | 262k           | 22B-235B (Active-Total)   | Efficient multilingual, Mixture-of-Experts, instruction-tuned model, optimized for logical reasoning.                                             |
-| Qwen3 30B A3B                 | `Qwen/Qwen3-30B-A3B-Instruct-2507`             | Text         | 262k           | 3.3B-30.5B (Active-Total) | Qwen3-30B-A3B-Instruct-2507 is a 30.5B MoE instruction-tuned model with enhanced reasoning, coding, and long-context understanding.               |
-| Qwen3 Coder 480B A35B         | `Qwen/Qwen3-Coder-480B-A35B-Instruct`          | Text         | 262k           | 35B-480B (Active-Total)   | Mixture-of-Experts model optimized for agentic coding tasks such as function calling, tool use, and long-context reasoning.                       |
-| Z.AI GLM 5.1                  | `zai-org/GLM-5.1`                              | Text         | 203k           | 40B-744B (Active-Total)   | Powerful MoE model for long-horizon agentic engineering and advanced reasoning.                                                                   |
+| Model                        | Model ID (for API usage)                       | Type         | Context Window | Parameters                | Description                                                                                                                                       |
+| ---------------------------- | ---------------------------------------------- | ------------ | -------------- | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| DeepSeek V4-Flash            | `deepseek-ai/DeepSeek-V4-Flash`                | Text         | 1049k          | 13B-284B (Active-Total)   | DeepSeek V4-Flash is an MoE model with 1M context length great for coding, reasoning, and agentic workloads.                                      |
+| DeepSeek V4-Pro              | `deepseek-ai/DeepSeek-V4-Pro`                  | Text         | 1049k          | 49B-1.6T (Active-Total)   | DeepSeek V4-Pro is a 1.6T-parameter MoE model with 49B active parameters excelling at advanced reasoning, coding, and complex agentic workloads.  |
+| DeepSeek V3.1                | `deepseek-ai/DeepSeek-V3.1`                    | Text         | 161k           | 37B-671B (Active-Total)   | A large hybrid model that supports both thinking and non-thinking modes via prompt templates.                                                     |
+| Google Gemma 4 31B           | `google/gemma-4-31B-it`                        | Text, Vision | 262k           | 31B (Total)               | Gemma 4 31B Dense is designed for advanced reasoning, agentic workflows, and longer context and is natively trained on 140+ languages.            |
+| IBM Granite 4.1 8B           | `ibm-granite/granite-4.1-8b`                   | Text         | 131k           | 8B (Total)                | Granite 4.1 8B is a long-context instruct model capable of enhanced tool calling, instruction following, and chat capabilities.                   |
+| JetBrains Mellum2 12B A2.5B  | `JetBrains/Mellum2-12B-A2.5B-Instruct`         | Text         | 131k           | 2.5B-12B (Active-Total)   | Mellum2-12B-A2.5B-Instruct is a fast MoE model with 131K context built for coding, tool use, and low-latency AI workflows.                        |
+| Meta Llama 3.3 70B           | `meta-llama/Llama-3.3-70B-Instruct`            | Text         | 128k           | 70B (Total)               | Multilingual model excelling in conversational tasks, detailed instruction-following, and coding.                                                 |
+| Meta Llama 3.1 70B           | `meta-llama/Llama-3.1-70B-Instruct`            | Text         | 128k           | 70B (Total)               | Efficient conversational model optimized for responsive multilingual chatbot interactions.                                                        |
+| Meta Llama 3.1 8B            | `meta-llama/Llama-3.1-8B-Instruct`             | Text         | 128k           | 8B (Total)                | Efficient conversational model optimized for responsive multilingual chatbot interactions.                                                        |
+| MiniMax M2.5                 | `MiniMaxAI/MiniMax-M2.5`                       | Text         | 197k           | 10B-230B (Active-Total)   | MoE model with a highly sparse architecture designed for high-throughput and low latency with strong coding capabilities.                         |
+| Moonshot AI Kimi K2.7 Code   | `moonshotai/Kimi-K2.7-Code`                    | Text, Vision | 262k           | 32B-1T (Active-Total)     | Kimi K2.7 Code is a 1T-parameter MoE model with 32B active parameters purpose-built for long-horizon agentic coding and software engineering.     |
+| Moonshot AI Kimi K2.6        | `moonshotai/Kimi-K2.6`                         | Text, Vision | 262k           | 32B-1T (Active-Total)     | Kimi K2.6 is a multimodal Mixture-of-Experts language model featuring 32 billion activated parameters and a total of 1 trillion parameters.       |
+| NVIDIA Nemotron 3 Super 120B | `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-FP8` | Text         | 262k           | 12B-120B (Active-Total)   | Nemotron 3 is a LatentMoE model designed to deliver strong agentic, reasoning, and conversational capabilities.                                   |
+| NVIDIA Nemotron 3 Ultra      | `nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B`     | Text         | 262k           | 55B-550B (Active-Total)   | Nemotron 3 Ultra is a powerful MoE model designed for long-running agents across coding, deep research, and enterprise automation.                |
+| OpenAI GPT OSS 120B          | `openai/gpt-oss-120b`                          | Text         | 131k           | 5.1B-117B (Active-Total)  | Efficient Mixture-of-Experts model designed for high-reasoning, agentic and general-purpose use cases.                                            |
+| OpenAI GPT OSS 20B           | `openai/gpt-oss-20b`                           | Text         | 131k           | 3.6B-20B (Active-Total)   | Lower latency Mixture-of-Experts model trained on OpenAI's Harmony response format with reasoning capabilities.                                   |
+| OpenPipe Qwen3 14B Instruct  | `OpenPipe/Qwen3-14B-Instruct`                  | Text         | 32.8k          | 14.8B (Total)             | An efficient multilingual, dense, instruction-tuned model, optimized by OpenPipe for building agents with finetuning.                             |
+| Qwen3.6 35B A3B              | `Qwen/Qwen3.6-35B-A3B`                         | Text, Vision | 262k           | 3B-35B (Active-Total)     | Qwen3.6-35B-A3B is an MoE multimodal model with 262K context optimized for agentic coding workflows.                                              |
+| Qwen3.6 27B                  | `Qwen/Qwen3.6-27B`                             | Text, Vision | 262k           | 27B (Total)               | Qwen3.6-27B is a 27B dense multimodal model with 262K context built for flagship-level agentic coding.                                            |
+| Qwen3.5 35B A3B              | `Qwen/Qwen3.5-35B-A3B`                         | Text, Vision | 262k           | 3B-35B (Active-Total)     | Qwen3.5-35B-A3B is an open-weights multimodal MoE model built for efficient, high-throughput inference across chat, reasoning, and agentic tasks. |
+| Qwen3 30B A3B                | `Qwen/Qwen3-30B-A3B-Instruct-2507`             | Text         | 262k           | 3.3B-30.5B (Active-Total) | Qwen3-30B-A3B-Instruct-2507 is a 30.5B MoE instruction-tuned model with enhanced reasoning, coding, and long-context understanding.               |
+| Qwen3 Coder 480B A35B        | `Qwen/Qwen3-Coder-480B-A35B-Instruct`          | Text         | 262k           | 35B-480B (Active-Total)   | Mixture-of-Experts model optimized for agentic coding tasks such as function calling, tool use, and long-context reasoning.                       |
+| Z.AI GLM 5.2                 | `zai-org/GLM-5.2`                              | Text         | 262k           | 40B-744B (Active-Total)   | GLM-5.2 is a Mixture-of-Experts language model featuring 40 billion activated parameters and a total of 744 billion parameters.                   |
+| Z.AI GLM 5.1                 | `zai-org/GLM-5.1`                              | Text         | 203k           | 40B-744B (Active-Total)   | Powerful MoE model for long-horizon agentic engineering and advanced reasoning.                                                                   |
 
 ## Experimental models
 
 The following models are [experimental](/inference/lifecycle#model-lifecycle-stages):
 
 {/* takeru inference-models-experimental - This table is automatically generated, do not edit manually. */}
-| Model             | Model ID (for API usage)        | Type         | Context Window | Parameters              | Description                                                                                                         |
-| ----------------- | ------------------------------- | ------------ | -------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| DeepSeek V4-Flash | `deepseek-ai/DeepSeek-V4-Flash` | Text         | 1049k          | 13B-284B (Active-Total) | DeepSeek V4-Flash is an MoE model with 1M context length great for coding, reasoning, and agentic workloads.        |
-| Qwen3.5 27B       | `Qwen/Qwen3.5-27B`              | Text, Vision | 262k           | 27B (Total)             | Qwen3.5-27B is a dense model from the Qwen3.5 family built for high performance across a large range of benchmarks. |
+_None currently_
 
 
 ## Deprecated models
@@ -51,12 +53,18 @@ The following models are [experimental](/inference/lifecycle#model-lifecycle-sta
 The following models are [deprecated](/inference/lifecycle#model-lifecycle-stages):
 
 {/* takeru inference-models-deprecated - This table is automatically generated, do not edit manually. */}
-_None currently_
+| Model                         | Model ID (for API usage)             | Type         | Context Window | Parameters              | Description                                                                                                                                 |
+| ----------------------------- | ------------------------------------ | ------------ | -------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| Microsoft Phi 4 Mini 3.8B     | `microsoft/Phi-4-mini-instruct`      | Text         | 128k           | 3.8B (Total)            | Compact, efficient model ideal for fast responses in resource-constrained environments.                                                     |
+| Moonshot AI Kimi K2.5         | `moonshotai/Kimi-K2.5`               | Text, Vision | 262k           | 32B-1T (Active-Total)   | Kimi K2.5 is a multimodal Mixture-of-Experts language model featuring 32 billion activated parameters and a total of 1 trillion parameters. |
+| Qwen3.5 27B                   | `Qwen/Qwen3.5-27B`                   | Text, Vision | 262k           | 27B (Total)             | Qwen3.5-27B is a dense model from the Qwen3.5 family built for high performance across a large range of benchmarks.                         |
+| Qwen3 235B A22B Thinking-2507 | `Qwen/Qwen3-235B-A22B-Thinking-2507` | Text         | 262k           | 22B-235B (Active-Total) | High-performance Mixture-of-Experts model optimized for structured reasoning, math, and long-form generation.                               |
+| Qwen3 235B A22B-2507          | `Qwen/Qwen3-235B-A22B-Instruct-2507` | Text         | 262k           | 22B-235B (Active-Total) | Efficient multilingual, Mixture-of-Experts, instruction-tuned model, optimized for logical reasoning.                                       |
 
 
-## Using model IDs
+## Use model IDs
 
-When using the API, specify the model using its `Model ID` from the table above. For example:
+To specify a model when calling the API, use its `Model ID` from the preceding tables. For example:
 
 ```python
 response = client.chat.completions.create(
@@ -67,6 +75,8 @@ response = client.chat.completions.create(
 
 ## Next steps
 
-- Check [usage limits and pricing](/inference/usage-limits/) for each model
-- See [API reference](/inference/api-reference/) for how to use these models
-- Try models in the [W&B Playground](/inference/ui-guide/)
+After you've chosen a model, continue with one of the following resources:
+
+- Check [usage limits and pricing](/inference/usage-limits/) for each model.
+- See the [API reference](/inference/api-reference/) for how to use these models.
+- Try models in the [W&B Playground](/inference/ui-guide/).

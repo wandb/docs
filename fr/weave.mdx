@@ -4,28 +4,29 @@ description: "Suivez, testez et améliorez vos applications de modèles de langa
 mode: wide
 ---
 
-W&amp;B Weave est une plateforme d&#39;observabilité et d&#39;évaluation qui vous aide à suivre, évaluer et améliorer votre application LLM. Avec Weave, vous pouvez :
+W&amp;B Weave est une plateforme d’observabilité et d’évaluation qui vous aide à suivre, évaluer et améliorer vos agents et applications LLM. Avec Weave, vous pouvez :
 
-* [Observer et déboguer](/fr/weave/quickstart) votre application LLM
+* [Tracer votre agent créé avec des SDK et harnesses populaires et collecter des métriques à son sujet](/fr/weave/agent-integration-quickstart)
+* [Instrumenter manuellement des agents personnalisés pour collecter des traces et des métriques](/fr/weave/custom-agents-quickstart)
 * [Évaluer](/fr/weave/tutorial-eval) les réponses de votre application à l’aide de juges LLM et d’évaluateurs personnalisés
 
 <div id="get-started">
   ## Premiers pas
 </div>
 
-Les documents suivants vous guident dans les bases de l’utilisation de la suite d’outils de Weave.
+Les documents suivants vous guident dans les notions de base pour utiliser la suite d’outils de Weave.
 
 <CardGroup cols={3}>
-  <Card title="Démarrage rapide : Suivre les entrées et sorties d’un LLM" icon="chart-line" href="/fr/weave/quickstart">
-    Commencez par tracer un appel simple à un LLM et examinez les données dans votre compte W&amp;B.
+  <Card title="Intégrer Weave à un agent" icon="plug" href="/fr/weave/agent-integration-quickstart">
+    Choisissez une intégration native pour le SDK ou le harness de votre agent, puis commencez à tracer les sessions, les tours de conversation, les appels LLM et les appels d’outil dans la vue Agents.
   </Card>
 
-  <Card title="Commencez à évaluer votre application" icon="clipboard-check" href="/fr/weave/tutorial-eval">
-    Découvrez comment créer un pipeline d’évaluation à l’aide des évaluateurs Weave pour tester et suivre les performances de votre application.
+  <Card title="Configurer une observabilité personnalisée pour un agent" icon="code" href="/fr/weave/custom-agents-quickstart">
+    Tracez un agent personnalisé sur plusieurs tours de conversation avec le SDK Weave afin de capturer les sessions, les appels LLM et les appels d’outil sous forme de spans OpenTelemetry.
   </Card>
 
-  <Card title="Évaluer une application RAG" icon="search" href="/fr/weave/tutorial-rag">
-    Créez et évaluez des applications RAG avec Weave et des juges LLM afin de mesurer la qualité de la récupération.
+  <Card title="Consulter les métriques d’agent dans l’interface Weave" icon="chart-line" href="/fr/weave/guides/tracking/view-agent-activity">
+    Tracez un appel LLM simple et examinez les entrées, les sorties et le code dans votre compte W&amp;B.
   </Card>
 </CardGroup>
 

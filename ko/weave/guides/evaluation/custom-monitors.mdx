@@ -1,0 +1,196 @@
+---
+title: "맞춤형 모니터 설정"
+description: "프로덕션 트래픽을 수동적으로 점수화해 추세와 문제를 파악합니다"
+---
+
+<Note>
+  맞춤형 모니터는 프로덕션 트래픽을 모니터링하는 이전 방식입니다. 새로 구현하는 경우에는 Weave for Agents의 **시그널**를 사용하세요. 자세한 내용은 [에이전트 시그널 보기](/ko/weave/guides/tracking/view-agent-signals)를 참조하세요.
+</Note>
+
+이 페이지에서는 W&amp;B Weave에서 맞춤형 모니터를 설정하여 프로덕션 트래픽을 수동적으로 점수화하고 LLM 애플리케이션의 추세와 문제를 파악하는 방법을 설명합니다. 프로덕션 트레이스에 대해 Weave의 사전 설정된 시그널을 넘어 자체 평가 기준을 정의하려는 경우 이 가이드를 사용하세요.
+
+모니터는 LLM judges를 사용해 프로덕션 트래픽을 수동적으로 점수화하고, LLM 애플리케이션의 추세와 문제를 파악할 수 있게 해줍니다. 예를 들어 애플리케이션의 responses를 모니터링해 정확성이나 유용성을 평가하거나, 사용자 입력을 모니터링해 사용자가 에이전트에 무엇을 요청하는지에 대한 추세를 파악할 수 있습니다. 모니터는 모든 점수화 결과를 W&amp;B Weave의 데이터베이스에 자동으로 저장하므로, 과거 추세와 패턴을 분석할 수 있습니다.
+
+애플리케이션의 입력과 출력에 포함된 텍스트, 이미지, 오디오를 모니터링할 수 있습니다.
+
+모니터를 사용하기 위해 애플리케이션 코드를 변경할 필요는 없습니다. W&amp;B Weave UI에서 설정하세요.
+
+점수에 따라 애플리케이션 동작에 적극적으로 개입해야 한다면, 대신 [guardrails](/ko/weave/guides/evaluation/guardrails)를 사용하세요.&quot;
+
+<div id="signals-and-custom-monitors">
+  ## 시그널과 맞춤형 모니터
+</div>
+
+프로덕션 트레이스용으로 미리 설정된 자동 Scorer인 [시그널](/ko/weave/guides/evaluation/monitors)을 사용해 프로덕션 모니터링을 빠르게 시작한 다음, 애플리케이션별 평가 기준에 맞는 맞춤형 모니터를 추가하세요.
+
+|             | 시그널                           | 맞춤형 모니터                          |
+| ----------- | --------------------------------- | -------------------------------- |
+| **설정**      | 클릭 한 번으로 활성화, prompt 작성 불필요       | 점수화 prompt, 모델, 파라미터를 완전히 제어     |
+| **범위**      | 미리 설정된 품질 및 오류 분류기                | 사용자가 정의한 모든 평가 기준                |
+| **트레이스 선택** | 자동(품질은 성공한 루트 트레이스, 오류는 실패한 트레이스) | 오퍼레이션, 필터, 샘플링 비율을 설정 가능         |
+| **모델**      | Serverless Inference (사전 설정)      | 모든 상용 또는 Serverless Inference 모델 |
+| **사용 사례**   | 검증된 분류기를 활용한 빠른 프로덕션 모니터링         | 애플리케이션에 특화된 맞춤형 평가 기준            |
+
+<div id="create-a-monitor-in-weave">
+  ## Weave에서 모니터 만들기
+</div>
+
+Weave에서 맞춤형 모니터를 만들려면 다음 단계를 따르세요:
+
+1. [W&amp;B UI](https://wandb.ai/home)를 연 다음 Weave 프로젝트를 여세요.
+
+2. Weave 사이드바에서 **Monitors**를 선택한 다음 **+ New Monitor** 버튼을 선택하세요. 그러면 **Create new monitor** 모달 대화상자가 열립니다.
+
+3. **Create new monitor** 메뉴에서 다음 필드를 설정하세요:
+   * **Name**: 문자 또는 숫자로 시작해야 합니다. 문자, 숫자, 하이픈, 밑줄을 포함할 수 있습니다.
+   * **Description** (선택): 모니터가 수행하는 작업을 설명합니다.
+   * **Active monitor** 표시/숨기기: 모니터를 켜거나 끕니다.
+   * **Calls to monitor**:
+     * **오퍼레이션**: 모니터링할 `@weave.op`를 하나 이상 선택하세요. 사용 가능한 op 목록에 표시되려면 먼저 해당 op를 사용하는 트레이스를 하나 이상 기록해야 합니다.
+     * **Filter** (선택): 점수화 대상 Call을 좁힙니다(예: `max_tokens` 또는 `top_p` 기준).
+     * **Sampling rate**: 점수화할 Call의 비율입니다(0%~100%).
+       <Tip>
+         샘플링 비율을 낮추면 각 점수화 Call에 비용이 발생하므로 전체 비용을 줄일 수 있습니다.
+       </Tip>
+   * **LLM-as-a-judge configuration**:
+     * **Scorer name**: 문자 또는 숫자로 시작해야 합니다. 문자, 숫자, 하이픈, 밑줄을 포함할 수 있습니다.
+     * **Score Audio**: 사용 가능한 LLM 모델이 오디오 지원 모델만 표시되도록 필터링하고 **Media Scoring JSON Paths** 필드를 엽니다.
+     * **Score Images**: 사용 가능한 LLM 모델이 이미지 지원 모델만 표시되도록 필터링하고 **Media Scoring JSON Paths** 필드를 엽니다.
+     * **Judge model**: op를 점수화할 모델을 선택하세요. 이 메뉴에는 W&amp;B 계정에 설정한 상용 LLM 모델과 [Serverless Inference models](/ko/inference/models)이 포함됩니다. 오디오 지원 모델에는 이름 옆에 **Audio Input** 레이블이 표시됩니다. 선택한 모델에 대해 다음 설정을 구성하세요:
+       * **Configuration name**: 이 모델 설정의 이름입니다.
+       * **System prompt**: 예를 들어 &quot;You are an impartial AI judge.&quot;처럼 평가 모델의 역할과 페르소나를 정의합니다.
+       * **Response format**: 평가 모델이 응답을 출력할 때 사용하는 형식으로, `json_object` 또는 일반 `text` 등이 있습니다.
+       * **Scoring prompt**: op를 점수화하는 데 사용하는 평가 작업입니다. 점수화 프롬프트에서 op의 [prompt variables](/ko/weave/guides/evaluation/scorers#access-variables-from-your-ops-in-scoring-prompts)를 참조할 수 있습니다. 예를 들어 &quot;Evaluate whether `{output}` is accurate based on `{ground_truth}`.&quot;와 같습니다.
+     * **Media Scoring JSON Paths**: 트레이스 데이터에서 미디어를 추출할 JSONPath 표현식(RFC 9535)을 지정합니다. 경로를 지정하지 않으면 모니터는 사용자 메시지에서 점수화 가능한 모든 미디어를 포함합니다. 이 필드는 **Score Audio** 또는 **Score Images**를 활성화하면 표시됩니다.
+
+4. 모니터 필드 설정을 마친 후 **Create monitor**를 선택하세요. 그러면 모니터가 Weave 프로젝트에 추가됩니다. 코드가 트레이스를 생성하기 시작하면 **Traces** 탭에서 모니터 이름을 선택하고 결과 패널의 데이터를 검토해 점수를 확인할 수 있습니다.
+
+또한 Weave UI에서 모니터의 트레이스 데이터를 [비교](/ko/weave/guides/tools/comparison)하고 시각화하거나, **Traces** 탭의 다운로드 버튼(<Icon icon="download" iconType="regular" />)을 사용해 CSV 및 JSON 같은 형식으로 다운로드할 수 있습니다.
+
+Weave는 모든 Scorer 결과를 [Call](/ko/weave/guides/tracking/tracing#calls) 객체의 `feedback` 필드에 자동으로 저장합니다.
+
+<div id="example-create-a-truthfulness-monitor">
+  ### 예시: 진실성 모니터 만들기
+</div>
+
+다음 엔드 투 엔드 예시에서는 생성된 문장의 진실성을 평가하는 모니터를 만드는 전체 과정을 안내합니다. 완료하면 Weave 프로젝트에서 샘플 op를 점수화하는 활성 모니터가 준비되고, 점수화된 트레이스를 W&amp;B UI에서 확인할 수 있습니다.
+
+1. 문장을 생성하는 함수를 정의합니다. 일부 문장은 사실이고, 일부는 사실이 아닙니다:
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    import weave
+    import random
+    import openai
+
+    weave.init("my-team/my-weave-project")
+
+    client = openai.OpenAI()
+
+    @weave.op()
+    def generate_statement(ground_truth: str) -> str:
+        if random.random() < 0.5:
+            response = client.chat.completions.create(
+                model="gpt-4.1",
+                messages=[
+                    {
+                        "role": "user",
+                        "content": f"Generate a statement that is incorrect based on this fact: {ground_truth}"
+                    }
+                ]
+            )
+            return response.choices[0].message.content
+        else:
+            return ground_truth
+
+    generate_statement("The Earth revolves around the Sun.")
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript lines twoslash
+    // @noErrors
+    import * as weave from 'weave';
+    import OpenAI from 'openai';
+
+    await weave.init('my-team/my-weave-project');
+
+    const client = new OpenAI();
+
+    const generateStatement = weave.op(async (ground_truth: string): Promise<string> => {
+      if (Math.random() < 0.5) {
+        const response = await client.chat.completions.create({
+          model: 'gpt-4.1',
+          messages: [
+            {
+              role: 'user',
+              content: `Generate a statement that is incorrect based on this fact: ${ground_truth}`,
+            },
+          ],
+        });
+        return response.choices[0]?.message?.content ?? '';
+      }
+      return ground_truth;
+    });
+
+    await generateStatement("The Earth revolves around the Sun.");
+    ```
+  </Tab>
+</Tabs>
+
+2. 프로젝트에 트레이스를 기록하도록 함수를 최소 한 번 실행하세요. 그러면 W&amp;B UI에서 해당 op를 모니터링에 사용할 수 있습니다.
+
+3. W&amp;B UI에서 Weave 프로젝트를 열고 사이드바에서 **Monitors**를 선택하세요. 그런 다음 **New Monitor**를 선택하세요.
+
+4. **Create new monitor** 메뉴에서 다음 값으로 필드를 설정하세요:
+   * **Name**: `truthfulness-monitor`
+   * **Description**: `생성된 문장의 진실성을 평가합니다.`
+   * **Active monitor**: **on**으로 설정합니다.
+   * **오퍼레이션**: `generate_statement`를 선택합니다.
+   * **Sampling rate**: 모든 call을 점수화하도록 `100%`로 설정합니다.
+   * **Scorer name**: `truthfulness-scorer`
+   * **평가 모델**: `o3-mini-2025-01-31`
+   * **System prompt**: `당신은 공정한 AI 심사자입니다. 당신의 작업은 문장의 진실성을 평가하는 것입니다.`
+   * **Response format**: `json_object`
+   * **Scoring prompt**:
+     ```text
+     출력 문장이 입력 문장을 기준으로 정확한지 평가하세요.
+
+     다음은 입력 문장입니다: {ground_truth}
+
+     다음은 출력 문장입니다: {output}
+
+     응답은 다음 필드를 포함하는 JSON 객체여야 합니다:
+     - is_true: 출력 문장이 입력 문장을 기준으로 참인지 거짓인지 나타내는 불리언 값입니다.
+     - reasoning: 해당 문장이 왜 참 또는 거짓인지에 대한 추론입니다.
+     ```
+
+5. **Create monitor**를 선택하세요. 그러면 모니터가 Weave 프로젝트에 추가됩니다.
+
+6. 스크립트에서 진실성의 정도가 서로 다른 문장으로 함수를 호출해 scoring function을 테스트하세요:
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    generate_statement("The Earth revolves around the Sun.")
+    generate_statement("Water freezes at 0 degrees Celsius.")
+    generate_statement("The Great Wall of China was built over several centuries.")
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript lines twoslash
+    // @noErrors
+    await generateStatement("The Earth revolves around the Sun.");
+    await generateStatement("Water freezes at 0 degrees Celsius.");
+    await generateStatement("The Great Wall of China was built over several centuries.");
+    ```
+  </Tab>
+</Tabs>
+
+7. 서로 다른 여러 문장으로 스크립트를 실행한 후 W&amp;B UI를 열고 **Traces** 탭으로 이동하세요. 결과를 보려면 **LLMAsAJudgeScorer.score** 트레이스를 아무 것이나 선택하세요.
+
+![Monitor trace](/weave/guides/evaluation/img/monitors-4.png)
+
+이제 `generate_statement`를 호출할 때마다 점수를 매기고 결과를 원본 트레이스와 함께 저장하는 진실성 모니터가 준비되었습니다. 이 결과는 Weave UI에서 분석하고 비교할 수 있습니다.

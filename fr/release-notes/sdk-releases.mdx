@@ -1,25 +1,107 @@
 ---
-title: "Versions du SDK W&B"
-description: "Consultez les notes de version du W&B Python SDK, y compris les nouvelles fonctionnalités, les correctifs de bugs et les changements incompatibles, par version."
+title: "Notes de version du SDK W&B"
+description: "Consultez les notes de version du SDK Python W&B, y compris les nouvelles fonctionnalités, les corrections de bugs et les changements majeurs par version."
 rss: true
 ---
 
-Cette page présente les notes de version du W&amp;B Python SDK (package `wandb`) utilisé avec W&amp;B Models. Pour le SDK Python Weave (package `weave`), voir les [versions du SDK Weave](/fr/release-notes/weave-sdk-releases). Pour W&amp;B Server, voir les [notes de version de W&amp;B Server](/fr/release-notes/server-releases).
+Cette page présente les notes de version du SDK Python W&amp;B (package `wandb`) utilisé avec W&amp;B Models. Pour le SDK Python Weave (package `weave`), voir [Versions du SDK Weave](/fr/release-notes/weave-sdk-releases). Pour le serveur W&amp;B, voir [Notes de version du serveur W&amp;B](/fr/release-notes/server-releases).
+
+<Update label="0.28.0" description="22 juin 2026">
+  ## Changements notables
+
+  * Cette version n&#39;est plus compatible avec les versions du serveur antérieures à 0.65.0.
+
+  ## Ajouts
+
+  * Fonctionnalités de W&amp;B LEET TUI :
+    * Les volets multimédias prennent en charge le rendu d&#39;images haute résolution dans les terminaux compatibles avec le protocole Kitty, avec repli vers ANSI.
+    * Les volets multimédias prennent en charge le défilement synchronisé : appuyez sur `l` pour lier le défilement, puis naviguez avec les touches fléchées, Début et Fin, qui déplacent un curseur partagé sur la chronologie unifiée des étapes, que chaque vignette d&#39;image suit ensuite.
+    * Prise en charge de base des runs distants avec `wandb leet [run-url]`.
+  * Les méthodes d&#39;API paginées suivantes pour les artifacts et le registre acceptent désormais une chaîne d&#39;ordre facultative comme argument nommé : `Api.artifacts()`, `Api.artifact_collections()`, `Api.registries()`, `Api.registries().collections()`, `Registry.collections()`.
+
+  ## Modification
+
+  * Modifications de W&amp;B LEET TUI :
+    * W&amp;B LEET TUI est désormais en disponibilité générale, et la commande a été mise à jour de `wandb beta leet` à `wandb leet`. L&#39;ancienne commande reste disponible comme alias.
+    * Les listes d&#39;images enregistrées sous une même clé sont désormais affichées dans le volet multimédia W&amp;B LEET, avec une vignette par image.
+  * Pour améliorer les performances des requêtes, `wandb.Api().runs()` ne charge plus les Sweeps pour chaque run par défaut. Les données de sweep sont chargées lors du premier accès à la propriété sweep.
+
+  ## Correctif
+
+  * `File.download()` n&#39;échoue plus après un délai d&#39;expiration codé en dur de 5 secondes ; les téléchargements respectent désormais les paramètres de transfert de fichiers.
+  * Correctif d&#39;une régression introduite dans la version 0.27.1 où `wandb.Api().viewer`, `Api().user()` et `Api().users()` pouvaient échouer avec l&#39;erreur `WandbApiFailedError: relogin required for some API keys`.
+  * Lorsqu&#39;une `wandb.Image` est enregistrée dans une `wandb.Table` avec plusieurs couches de box ou de masques ayant des `class_labels` distincts, les libellés de chaque couche sont désormais conservés dans les nouveaux champs `box_class_maps` ou `mask_class_maps` de `table.json`. Auparavant, un seul `class_map` était incorrectement écrasé par chaque ensemble de libellés de classe.
+  * Les opérations sur les fichiers d&#39;artifact exigent désormais systématiquement des chemins relatifs normalisés.
+  * Pour corriger les échecs silencieux lorsque `$TMPDIR` est absent ou non accessible en écriture, l&#39;enregistrement d&#39;un artifact à l&#39;aide d&#39;un `WandbLogger` ou de `run.log_artifact` écrit désormais le fichier manifeste dans le répertoire de staging de l&#39;artifact au lieu du répertoire temporaire du système d&#39;exploitation.
+  * Correctif d&#39;un bug où l&#39;enregistrement d&#39;artifacts en mode partagé (`wandb.init(mode="shared")`) avec l&#39;enregistrement du code activé provoquait une erreur.
+  * Pour créer un fichier `diff.patch`, le paramètre `git_root` est désormais utilisé par défaut, avec repli sur le paramètre `root_dir`.
+  * Les métriques système Apple, comme le GPU, le CPU, l&#39;alimentation et la température, sont désormais collectées sur les Mac Apple M5.
+  * La progression du téléchargement des fichiers est désormais affichée lors de l&#39;exportation de l&#39;historique à l&#39;aide de `wandb.Api().run(...).download_history_exports`.
+  * Correctif d&#39;une régression introduite dans la version 0.27.1 où `Run.scan_history()` ne renvoyait aucune ligne pour un run dont l&#39;historique existe mais n&#39;a pas été exporté au format Parquet, comme un run actif.
+</Update>
+
+<Update label="0.27.2" description="6 juin 2026">
+  ## Correctif
+
+  * `Run.scan_history()` ne renvoie plus d&#39;étapes en double ou manquantes lors de la récupération de l&#39;historique d&#39;un run.
+</Update>
+
+<Update label="0.27.1" description="4 juin 2026">
+  ## Ajouts
+
+  * L’API Automatisations prend désormais en charge les événements de marquage d’artifact, de marquage de collection et de dissociation d’artifact.
+
+  ## Modification
+
+  * Les opérations GraphQL de `wandb.Api` passent désormais par `wandb-core` au lieu de l’ancien client GraphQL Python.
+    * En cas d’échec, les opérations GraphQL de `wandb.Api` lèvent désormais `WandbApiFailedError` au lieu des exceptions HTTP `requests`.
+  * `Run.scan_history()` lit désormais l’historique exporté au format parquet lorsqu’il est disponible, ce qui peut considérablement améliorer le débit pour les runs dont l’historique est volumineux. Cette fonctionnalité a été introduite sous `beta_scan_history` dans le SDK `v0.23.1`.
+
+  ## Suppression
+
+  * Suppression de l’API `wandb.apis.importers` non prise en charge.
+  * Suppression des anciennes intégrations LLM OpenAI, Cohere et LangChain, y compris les anciennes API d’autologging et de Tracing.
+  * Suppression du `WandbCallback` Keras obsolète et de l’ancien package de callback `wandb.integration.yolov8`.
+
+  ## Correctif
+
+  * `wandb.sandbox` rejette désormais les valeurs d’argument invalides pour le placement, le GPU et l’egress.
+</Update>
+
+<Update label="0.27.0" description="13 mai 2026">
+  ## Changements notables
+
+  Cette version ne prend plus en charge Python 3.9 ni Pydantic v1. Pydantic v2.6 ou une version ultérieure est désormais requis.
+
+  ## Ajouts
+
+  * Le nouveau package `wandb.sandbox` et la CLI `wandb beta sandbox` pour utiliser [Serverless Sandboxes](/fr/sandboxes).
+  * Le nouveau paramètre `stop_on_fatal_error` et la variable d’environnement `WANDB_STOP_ON_FATAL_ERROR` arrêtent un run après une erreur fatale qui l’empêche de téléverser des métriques.
+  * Le nouveau paramètre `finish_timeout` et la variable d’environnement correspondante `WANDB_FINISH_TIMEOUT` vous permettent de spécifier le nombre de secondes à attendre pour le téléversement des données à la fin d’un run. Si un run expire, un message d’avertissement est affiché. Utilisez le paramètre booléen `finish_timeout_raises` ou la variable d’environnement correspondante `WANDB_FINISH_TIMEOUT_RAISES` pour lever une erreur en plus d’afficher un message d’avertissement.
+  * Le nouveau paramètre `capture_loggers` vous permet de spécifier les loggers Python à capturer dans l’onglet **Logs** du run, à l’aide d’une correspondance entre le nom du logger et le niveau de journalisation minimum. Les enregistrements émis par ces loggers sont publiés comme sortie de console dans le run, de façon similaire à la capture de `stdout`/`stderr`.
+  * La nouvelle méthode `run.write_logs()` écrit du texte directement dans l’onglet **Logs** du run au lieu de s’appuyer sur la capture automatique de `stdout`/`stderr`.
+
+  ## Modification
+
+  * Les métriques système des runs dans des conteneurs Linux signalent désormais l’utilisation du CPU et de la mémoire par rapport aux limites cgroup v2 du conteneur plutôt qu’aux totaux de l’hôte.
+  * Python 3.9 n’est plus pris en charge.
+  * Pydantic 2.6 ou version ultérieure est désormais requis. Pydantic v1 n’est plus pris en charge.
+</Update>
 
 <Update label="0.26.1" description="23 avril 2026">
   ## Ajouts
 
-  * Les méthodes `wandb.Api` qui renvoient des artifacts, des registres, des automatisations et les paginateurs associés acceptent un argument `start` facultatif, ce qui vous permet de reprendre l’itération à partir d’un curseur enregistré.
+  * Les méthodes `wandb.Api` qui renvoient des artifacts, des registries, des automatisations et les paginateurs associés acceptent un argument `start` facultatif afin de reprendre l’itération à partir d’un curseur enregistré.
   * Le paramètre `stop_fn` de `wandb.Settings` permet de personnaliser la façon dont le SDK demande au processus Python de s’arrêter lorsqu’un arrêt de run est demandé (par défaut, il envoie SIGINT). Transmettez ce paramètre avec `wandb.setup(settings=...)` ou `wandb.init(settings=...)`. Comme la valeur est un callable, elle ne peut pas être définie via une variable d’environnement.
 
-  ## Modifications
+  ## Modification
 
-  * Dans `wandb beta leet`, les touches WASD et les touches fléchées sont interchangeables pour déplacer le focus dans chaque volet (grilles de graphiques, navigation dans les listes). Les touches **Home**, **End**, **Page Up** et **Page Down** fonctionnent de manière cohérente. Le volet multimédia utilise toujours les touches fléchées pour parcourir l’axe X et les touches WASD pour se déplacer entre les vignettes d’image.
+  * Dans `wandb beta leet`, les touches WASD et les touches fléchées sont interchangeables pour déplacer le focus dans chaque volet (grilles de graphiques, navigation dans la liste). Les touches **Home**, **End**, **Page Up** et **Page Down** fonctionnent de manière cohérente. Le volet multimédia utilise toujours les touches fléchées pour parcourir l’axe X et les touches WASD pour se déplacer entre les vignettes d’image.
 
-  ## Correctifs
+  ## Correctif
 
-  * `wandb.init(id=run_id, reinit="create_new")` renvoie désormais une erreur si un autre run avec le même `run_id` est encore actif dans le même script.
-  * `wandb.Api` ne renvoie plus d’erreur pour certaines opérations lorsque le mode hors ligne est activé avec la variable d’environnement `WANDB_MODE` ou le paramètre `mode`.
+  * `wandb.init(id=run_id, reinit="create_new")` lève désormais une erreur si un autre run avec le même `run_id` est encore actif dans le même script.
+  * `wandb.Api` ne lève plus d’erreur lors de certaines opérations lorsque le mode hors ligne est activé avec la variable d’environnement `WANDB_MODE` ou le paramètre `mode`.
 </Update>
 
 <Update label="0.26.0" description="13 avril 2026">

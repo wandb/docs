@@ -1,34 +1,36 @@
 ---
-title: "API 오류 코드 401 - 인증 실패"
+title: "API 오류 코드 401: 인증 실패"
 keywords: ["인증 및 액세스"]
 ---
 
-&quot;Authentication failed&quot;라는 메시지와 함께 401 오류가 표시되면 인증 정보가 올바르지 않거나 W&amp;B 프로젝트 entity 및/또는 name이 올바르지 않다는 의미입니다.
+&quot;Authentication failed&quot;라는 메시지와 함께 `401` 오류가 표시되면 인증 정보가 올바르지 않거나 W&amp;B 프로젝트 entity 및/또는 name이 올바르지 않다는 의미입니다. 이 문서에서는 Serverless Inference API가 이 오류를 반환하는 이유와 해결 방법을 설명합니다.
 
 <div id="why-this-happens">
   ## 이 문제가 발생하는 이유
 </div>
 
-W&amp;B Inference API는 요청을 처리하려면 유효한 인증 정보가 필요합니다. 다음과 같은 경우 이 오류가 발생합니다.
+Serverless Inference API는 요청을 처리하려면 유효한 인증 정보가 필요합니다. 다음과 같은 경우 이 오류가 발생합니다.
 
-* API 키가 유효하지 않거나, 만료되었거나, 폐기되었습니다
-* W&amp;B 프로젝트 entity 이름이 올바르지 않습니다
-* W&amp;B 프로젝트 이름이 올바르지 않습니다
+* API 키가 유효하지 않거나, 만료되었거나, 폐기되었습니다.
+* W&amp;B 프로젝트 entity 이름이 올바르지 않습니다.
+* W&amp;B 프로젝트 이름이 올바르지 않습니다.
 
 <div id="what-you-can-do">
   ## 할 수 있는 작업
 </div>
 
+다음 확인 사항을 순서대로 진행하세요. 각 단계에서는 위에 나열된 일반적인 원인 중 하나를 배제하므로, 실패 원인을 분리해서 파악할 수 있습니다.
+
 1. **API 키 확인**
-   * 계정에 맞는 올바른 API 키를 사용하고 있는지 확인하세요
-   * 필요한 경우 [W&amp;B 설정](https://wandb.ai/settings)에서 API 키를 다시 생성하세요
+   * 계정에 맞는 올바른 API 키를 사용하고 있는지 확인하세요.
+   * 필요한 경우 [W&amp;B 설정](https://wandb.ai/settings)에서 API 키를 다시 생성하세요.
 
 2. **프로젝트 세부 정보 확인**
-   * W&amp;B 프로젝트 entity(조직 또는 사용자 이름)가 올바른지 확인하세요
-   * 프로젝트 이름이 기존 프로젝트와 일치하는지 확인하세요
+   * W&amp;B 프로젝트 entity(조직 또는 사용자 이름)가 올바른지 확인하세요.
+   * 프로젝트 이름이 기존 프로젝트와 일치하는지 확인하세요.
 
 3. **지원팀에 문의**
-   * 인증 정보를 확인한 후에도 문제가 계속되면 [W&amp;B 지원팀](mailto:support@wandb.com)에 문의하세요
+   * 인증 정보를 확인한 후에도 문제가 계속되면 [W&amp;B 지원팀](mailto:support@wandb.com)에 문의하세요.
 
 ***
 

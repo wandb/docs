@@ -1,13 +1,16 @@
 ---
 description: Découvrez les raccourcis clavier disponibles dans W&B.
 title: Raccourcis clavier
+keywords: ["raccourcis clavier", "LEET", "recherche rapide", "annuler rétablir", "navigation dans les panneaux"]
 ---
 
-W&amp;B propose des raccourcis clavier pour vous aider à naviguer plus efficacement et à interagir avec les expériences, les espaces de travail et les données. Ce guide de référence présente les raccourcis clavier de l&#39;application W&amp;B et de l&#39;interface de terminal W&amp;B LEET (Lightweight Experiment Exploration Tool).
+import LEETShortcuts from "/snippets/fr/_includes/leet-keyboard-shortcuts.mdx";
+
+W&amp;B propose des raccourcis clavier pour vous aider à naviguer plus efficacement et à interagir avec les expériences, les espaces de travail et les données. Ce guide présente les raccourcis clavier de l&#39;application W&amp;B et de l&#39;interface de terminal W&amp;B LEET (Lightweight Experiment Exploration Tool).
 
 <Tabs>
   <Tab title="App">
-    Ces raccourcis clavier fonctionnent dans l&#39;application W&amp;B.
+    Les tableaux suivants répertorient les raccourcis clavier disponibles dans l&#39;application W&amp;B, regroupés selon leur contexte d&#39;utilisation.
 
     ## Gestion du Workspace
 
@@ -41,17 +44,21 @@ W&amp;B propose des raccourcis clavier pour vous aider à naviguer plus efficace
     | **Cmd + +/-** (macOS)<br />**Ctrl + +/-** (Windows/Linux) | Lors de l&#39;affichage d&#39;une image en plein écran, zoomer ou dézoomer.<br />Une fois zoomé, cliquer-glisser pour déplacer l&#39;image. |
     | **Cmd + 0** (macOS)<br />**Ctrl + 0** (Windows/Linux)     | Lors de l&#39;affichage d&#39;une image en plein écran, réinitialiser le zoom à 100 %.                                                      |
     | **Shift + L**                                             | Lors de l&#39;affichage d&#39;une image en plein écran, ajuster le zoom à la fenêtre.                                                       |
+    | **Click**                                                 | Dans un panneau vidéo, sélectionnez une vidéo avant d&#39;avancer ou de reculer à l&#39;aide du clavier.                                    |
+    | **Left Arrow / Right Arrow**                              | Dans un panneau vidéo, avancez ou reculez selon le **pas de déplacement vidéo** configuré.                                                  |
 
     ## Reports
 
-    | Shortcut               | Description                                                                   |
-    | ---------------------- | ----------------------------------------------------------------------------- |
-    | **Delete / Backspace** | Supprimer la grille de panneaux sélectionnée du rapport.                      |
-    | **Enter**              | Insérer un bloc Markdown après avoir saisi &quot;/mark&quot; dans un rapport. |
-    | **Esc**                | Quitter l&#39;éditeur de rapport.                                             |
-    | **Tab**                | Naviguer entre les éléments interactifs dans un rapport.                      |
+    | Shortcut               | Description                                                         |
+    | ---------------------- | ------------------------------------------------------------------- |
+    | **Delete / Backspace** | Supprimer la grille de panneaux sélectionnée du rapport.            |
+    | **Enter**              | Insérer un bloc Markdown après avoir saisi `/mark` dans un rapport. |
+    | **Esc**                | Quitter l&#39;éditeur de rapport.                                   |
+    | **Tab**                | Naviguer entre les éléments interactifs dans un rapport.            |
 
     ## Notes
+
+    Gardez les points suivants à l&#39;esprit lorsque vous utilisez les raccourcis clavier dans l&#39;application W&amp;B :
 
     * La plupart des raccourcis clavier utilisent **Cmd** sur macOS et **Ctrl** sur Windows/Linux.
     * L&#39;application W&amp;B implémente une gestion personnalisée pour certains raccourcis par défaut du navigateur.
@@ -59,8 +66,10 @@ W&amp;B propose des raccourcis clavier pour vous aider à naviguer plus efficace
   </Tab>
 
   <Tab title="LEET">
-    Ces raccourcis clavier fonctionnent dans l&#39;interface de terminal W&amp;B LEET (Lightweight Experiment Exploration Tool). Pour lancer LEET, exécutez `wandb beta leet` dans votre terminal. Pour plus d&#39;informations, voir [`wandb beta leet`](/fr/models/ref/cli/wandb-beta/wandb-beta-leet/).
+    Ces raccourcis clavier fonctionnent dans l&#39;interface de terminal W&amp;B LEET (Lightweight Experiment Exploration Tool). Pour lancer LEET, exécutez `wandb beta leet` dans votre terminal.
 
-    {/* <LEETShortcuts /> */}
+    Appuyez sur `h` ou `?` dans LEET pour ouvrir la superposition d&#39;aide intégrée à l&#39;application pour la vue actuelle. Pour un aperçu du produit et des modes de lancement, voir [LEET terminal UI](/fr/models/app/leet-tui).
+
+    <LEETShortcuts />
   </Tab>
 </Tabs>

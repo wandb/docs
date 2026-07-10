@@ -1,0 +1,69 @@
+'''
+Create a basic Weave evaluation pipeline for scoring responses from a model.
+'''
+import json
+import asyncio
+import openai
+import weave
+from weave.scorers import MultiTaskBinaryClassificationF1
+
+# Initialize Weave once
+weave.init('your-team-name/your-project-name')
+
+# Define Model
+class ExtractFruitsModel(weave.Model):
+    model_name: str
+    prompt_template: str
+
+    @weave.op()
+    async def predict(self, sentence: str) -> dict:
+        client = openai.AsyncClient()
+        response = await client.chat.completions.create(
+            model=self.model_name,
+            messages=[{"role": "user", "content": self.prompt_template.format(sentence=sentence)}],
+        )
+        result = response.choices[0].message.content
+        if result is None:
+            raise ValueError("No response from model")
+        return json.loads(result)
+
+# Instantiate model
+model = ExtractFruitsModel(
+    model_name='gpt-3.5-turbo-1106',
+    prompt_template='Extract fields ("fruit": <str>, "color": <str>, "flavor": <str>) from the following text, as json: {sentence}'
+)
+
+# Create and publish dataset
+sentences = ["There are many fruits that were found on the recently discovered planet Goocrux. There are neoskizzles that grow there, which are purple and taste like candy.",
+"Pounits are a bright green color and are more savory than sweet.",
+"Finally, there are fruits called glowls, which have a very sour and bitter taste which is acidic and caustic, and a pale orange tinge to them."]
+labels = [
+    {'fruit': 'neoskizzles', 'color': 'purple', 'flavor': 'candy'},
+    {'fruit': 'pounits', 'color': 'bright green', 'flavor': 'savory'},
+    {'fruit': 'glowls', 'color': 'pale orange', 'flavor': 'sour and bitter'}
+]
+examples = [
+    {'id': '0', 'sentence': sentences[0], 'target': labels[0]},
+    {'id': '1', 'sentence': sentences[1], 'target': labels[1]},
+    {'id': '2', 'sentence': sentences[2], 'target': labels[2]}
+]
+
+dataset = weave.Dataset(name='fruits', rows=examples)
+weave.publish(dataset)
+
+# Define a scoring function
+@weave.op()
+def fruit_name_score(target: dict, output: dict) -> dict:
+    return {'correct': target['fruit'] == output['fruit']}
+
+# Run the evaluation
+evaluation = weave.Evaluation(
+    name='fruit_eval',
+    dataset=dataset,
+    scorers=[
+        MultiTaskBinaryClassificationF1(class_names=["fruit", "color", "flavor"]),
+        fruit_name_score
+    ],
+)
+
+print(asyncio.run(evaluation.evaluate(model)))
