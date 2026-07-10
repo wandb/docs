@@ -12,7 +12,7 @@ The Weave TypeScript SDK doesn't currently Bedrock Agent integration.
 ## Prerequisites
 
 - A W&B API key. For more information, see [API keys](/platform/app/settings-page/user-settings#api-keys).
-- AWS credentials configured for an account with access to Bedrock Agents (see [Authentication](https://docs.aws.amazon.com/bedrock/latest/userguide/security-iam.html)).
+- AWS credentials configured for an account with access to Bedrock Agents (see [Identity and access management for Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/security-iam.html)).
 - An existing Bedrock agent and alias. Note the `agentId` and `agentAliasId`. You can return a list of agents associated with your ID by running the following AWS CLI command, replacing `<your-region>` with the region slug your agent resides in:
 
     ```bash
@@ -21,7 +21,7 @@ The Weave TypeScript SDK doesn't currently Bedrock Agent integration.
 
 ## Installation
 
-Install Weave and the AWS SDK:
+Install Weave and the AWS SDK for Python:
 
 ```bash
 pip install weave boto3
@@ -70,7 +70,7 @@ Each `invoke_agent` call appears in the Weave UI as a `BedrockAgentRuntime.invok
 - The underlying foundation model used by the agent (extracted from the orchestration trace).
 - Token usage (`prompt_tokens`, `completion_tokens`, `total_tokens`) when reported by the agent.
 
-Foundation model and token usage are extracted from `orchestrationTrace` events, which Bedrock only emits when `invoke_agent` is called with `enableTrace=True`. Without this flag, traces still capture the inputs and the generated response text, but the foundation model falls back to `bedrock-agent:<agentId>` and token counts are unavailable.
+The foundation model and token usage are extracted from `orchestrationTrace` events, which Bedrock only emits when `invoke_agent` is called with `enableTrace=True`. Without this flag, traces still capture the inputs and the generated response text, but the foundation model falls back to `bedrock-agent:<agentId>` and token counts are unavailable.
 
 ## Wrap an agent call with `weave.op`
 
