@@ -1,13 +1,15 @@
 ---
-title: Create an evaluation table
+title: Create an eval table
 description: "Learn how to create an evaluation table in W&B."
 ---
 
-Create an evaluation table using the W&B Python SDK. Convert your existing W&B Tables to Eval Tables for faster rendering and more features. See [Migrate from W&B Tables](/models/evaltables/create-an-evaluation-table#convert-a-w&b-table-to-an-eval-table) for instructions on how to convert your W&B Tables to Eval Tables.
+Create an Eval Table using the W&B Python SDK, or convert an existing [W&B Table](/models/tables/) with ARIA.
 
-## Create an evaluation table
+## Create an eval table
 
-Use the W&B Python SDK's `EvalTable` Class to create an evaluation table. As ane example, suppose you have a pandas DataFrame with the following data:
+Use `wandb.EvalTable` class to create an Eval Table. 
+
+For example, suppose you have the following pandas DataFrame:
 
 ```python
 import pandas as pd
@@ -46,7 +48,13 @@ with wandb.init(project="classifier-table-demo") as run:
     run.log({"validation_predictions": table})
 ``` */}
 
-To create and log an evaluation table, pass the DataFrame to `wandb.EvalTable` and specify which columns to use for the inputs, outputs, and scores in the eval table. For example, the following code creates an eval table with the `image_id` column as the input, the `predicted_label` column as the output, and the `correct` and `confidence` columns as scores:
+Create an Eval Table by passing the DataFrame to `wandb.EvalTable`. Use the `input_columns`, `output_columns`, and `score_columns` arguments to identify the role of each column.
+
+The following example uses:
+
+- `image_id` as the input
+- `predicted_label` as the output
+- `correct` and `confidence` as scores
 
 ```python
 with wandb.init(project="classifier-eval-table-demo") as run:
@@ -62,13 +70,13 @@ with wandb.init(project="classifier-eval-table-demo") as run:
 
 ## Convert a W&B Table to an Eval Table
 
-Use [ARIA](/aria/) to migrate your W&B Table to an Evaluation Table:
+Use [ARIA](/aria/) to convert an existing W&B Table to an Eval Table:
 
-1. Navigate to the project that contains the W&B Table you want to migrate.
-2. Click on the blue circle on the upper right corner of the page to open the ARIA converstaion window.
-3. Type `/convert-eval-table` in the ARIA conversation window.
-4. Click the **Send** button, the upward-pointing arrow in the lower-right corner of the chat window.
+1. Navigate to the project that contains the W&B Table.
+2. Select the blue circle in the upper-right corner of the page to open ARIA.
+3. Enter `/convert-eval-table` in the ARIA conversation.
+4. Select Send, represented by the upward-pointing arrow in the lower-right corner of the conversation.
 
 <Info>
-Existing W&B Tables remain unchanged if you convert them to an Eval Table. 
+Converting a W&B Table does not modify the original table.
 </Info>
