@@ -312,7 +312,7 @@
                         ]
                       },
                       {
-                        "group" : "Evaluation Tables",
+                        "group" : "Eval Tables",
                         "pages" : [
                           "models/evaltables",
                           "models/evaltables/create-an-evaluation-table",

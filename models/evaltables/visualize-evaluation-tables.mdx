@@ -1,5 +1,5 @@
 ---
-title: View evaluation tables
+title: View eval tables
 ---
 
 {/* ## View an evaluation table
@@ -23,43 +23,17 @@ When you create an evaluation table, you specify which columns in your data corr
 ```python
 import wandb
 
-eval_table = wandb.EvalTable(
-        input_columns=["column1", "column2"],
-        output_columns=["output_column1", "output_column2"],
-        score_columns=["score_column1", "score_column2"],
-    )
+wandb.EvalTable(
+    input_columns=["column1", "column2"],
+    output_columns=["output_column1", "output_column2"],
+    score_columns=["score_column1", "score_column2"],
+)
 ```
 
-W&B displays the input columns in the **Inputs** section of the eval table, the output columns in the **Outputs** section, and the score columns in the **Scores** section. 
-
-For example, consider the code example from the [Create an evaluation table](/models/evaltables/create-an-evaluation-table) page. In that example, the eval table is created from a pandas DataFrame with the following columns: `image_id`, `true_label`, `predicted_label`, `confidence`, and `correct`:
-
-```python
-with wandb.init(project="classifier-eval-table-demo") as run:
-    eval_table = wandb.EvalTable(
-        dataframe=df,
-        input_columns=["image_id", "true_label"],
-        output_columns=["predicted_label"],
-        score_columns=["correct", "confidence"],
-    )
-    run.log({"validation_predictions_eval": eval_table})
-```
-The following image shows how W&B displays the eval table. The **Inputs** section contains both the `image_id` and `true_label` columns (see box 1), the **Outputs** section contains the `predicted_label` column (see box 2), and the **Scores** section contains both the `correct` and `confidence` columns (see box 3).
-
-<Frame>
-    <img src="/images/evaltables/single_run_eval_table_labled.png" alt="Evaluation table view" width="100%" />
-</Frame>
-
-
-Click on a row to view details about that example, including the input, output, and scores. For example, the following image shows the details for the first row (**A08E**) in the eval table above.
-
-<Frame>
-    <img src="/images/evaltables/single_run_eval_table_panel.png" alt="Evaluation table example details" width="100%" />
-</Frame>
-
+Pass the names of the columns in your data to `input_columns`, `output_columns`, and `score_columns` to specify which columns correspond to the inputs, outputs, and scores in the eval table. You can pass multiple column names to each of these parameters.
 
 <Info>
-The previous image shows an eval table that was created using the same data as the example in [Create an evaluation table](/models/evaltables/create-an-evaluation-table). Expand the **View code** section below to see the code and copy it to your own project to create a similar eval table:
+The images shown on this page were derived using the coe snippet shown in [Create an evaluation table](/models/evaltables/create-an-evaluation-table). Expand the **View code** accordion to both view and copy the code used to generate the images shown on this page.
 
 <Accordion title="View code" defaultOpen={false}>
 ```python
@@ -106,4 +80,60 @@ with wandb.init(project="classifier-eval-table-demo") as run:
 </Accordion>
 </Info>
 
+W&B displays the input columns (`input_columns`) in the **Inputs** section of the eval table, the output columns (`output_columns`) in the **Outputs** section, and the score columns (`score_columns`) in the **Scores** section. 
 
+For example, consider the code example from the [Create an evaluation table](/models/evaltables/create-an-evaluation-table) page. In that example, the eval table is created from a pandas DataFrame with the following columns: `image_id`, `true_label`, `predicted_label`, `confidence`, and `correct`. The column names are passed as to `EvalTable` as follows:
+
+```python
+import wandb
+
+with wandb.init(project="classifier-eval-table-demo") as run:
+    eval_table = wandb.EvalTable(
+        dataframe=df,
+        input_columns=["image_id", "true_label"],
+        output_columns=["predicted_label"],
+        score_columns=["correct", "confidence"],
+    )
+    run.log({"validation_predictions_eval": eval_table})
+```
+The following image shows how W&B displays the eval table. The **Inputs** section contains both the `image_id` and `true_label` columns (see box 1), the **Outputs** section contains the `predicted_label` column (see box 2), and the **Scores** section contains both the `correct` and `confidence` columns (see box 3).
+
+<Frame>
+    <img src="/images/evaltables/single_run_eval_table_labled.png" alt="Evaluation table view" width="100%" />
+</Frame>
+
+## Detail view
+
+Click on a row to view details about that example, including the input, output, and scores. For example, the following image shows the modal that appears when a user selects on the first row (**A08E**) in the eval table.
+
+<Frame>
+    <img src="/images/evaltables/single_run_eval_table_panel.png" alt="Evaluation table example details" width="100%" />
+</Frame>
+
+The modal can make viewing the input, output, and scores easier when there are many columns in the eval table. You can also use the modal to view the details for a specific example when comparing multiple runs. 
+
+Use the up and down arrows above to the **Inputs** columns to navigate through the examples in the eval table.
+
+## Filter data
+
+Filter which data is displayed in the eval table by clicking the **Filter** button above the table.
+
+From left to right, select the field you want to filter, the operator, and the value.
+
+<Frame>
+    <img src="/images/evaltables/filter.png" alt="Evaluation table filter" width="100%" />
+</Frame>
+
+Click on the `X` to remove a filter. You can add multiple filters to the eval table.
+
+## Add or remove columns
+
+Add or remove columns from the eval table by clicking the **Columns** button above the table. The available options depend on the columns you logged to the eval table.
+
+To add a column, click on the column name to select it. To remove a column, click on the column name to deselect it. 
+
+The following image shows that all columns in the eval table are selected.
+
+<Frame>
+    <img src="/images/evaltables/eval_column_options.png" alt="Evaluation table columns" width="100%" />
+</Frame>

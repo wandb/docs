@@ -1,46 +1,60 @@
 ---
-title: Compare runs with evaluation tables
+title: Compare runs with eval tables
 ---
 
-Use evaluation tables to compare multiple runs side-by-side. W&B shows the inputs, outputs, and scores for each run, as well as the differences in scores between the runs. 
+Use eval tables to compare multiple runs side-by-side. W&B shows the inputs, outputs, and scores for each run, as well as the differences in scores between the runs. 
 
 To compare multiple runs:
 
 1. Navigate to your project's workspace.
 2. Scroll down to the **Evaluation Tables** panel.
-3. Click the **+** button to add a run to compare.
+3. Click the **+** button to add a run.
 
-Values passed to `input_columns`, `output_columns`, and `score_columns` (`wandb.EvalTable(input_columns=, output_columns=, score_columns=`)) are grouped together across runs you select.
+W&B groups columsns that are shared across the runs you select to compare. For example, if you select two runs that both have the same `input_columns`, W&B groups those columns together in the **Inputs** section of the eval table. The same is true for `output_columns` and `score_columns`.
 
-The following image shows an example of an evaluation table that compares two runs "summer-butterfly-9" and "gentle-flower-8":
+The following image shows an example of an evaluation table that compares two runs `summer-butterfly-9` and `gentle-flower-8`:
 
 <Frame>
     <img src="/images/evaltables/overview_basic_compare_two_runs.png" alt="Evaluation table view" width="100%" />
-</Frame>
-
-W&B automtically shows values for the differences in scores between the runs in the **Aggregate Scores** section for the runs you select to compare.
-
-In the image below, the **Aggregate Scores** section shows the differences in scores for the `correct` and `confidence` columns between the two runs. The values are highlighted in yellow box below:
-
-<Frame>
-    <img src="/images/evaltables/overview_basic_compare_two_runs_labled.png" alt="Evaluation table view" width="100%" />
-</Frame>
-
-W&B automatically calculates the delta between values passed to `score_columns` for each run you select to compare.
-
-For example, continuing with example above, the deltas for the `confidence` is calculated for each row of the dataframe. The values are highlighted in yellow box below:
- 
-<Frame>
-    <img src="/images/evaltables/overview_basic_compare_two_runs_delta_labled.png" alt="Evaluation table view" width="100%" />
-</Frame>
-
-Select a row to view details about that example, including the input, output, and scores for each run you select to compare. For example, the following image shows the details for the first row (**A08E**) in the eval table above.
-
-<Frame>
-    <img src="/images/evaltables/compare_runs_labled.png" alt="Evaluation table view" width="100%" />
 </Frame>
 
 ## Reference run
 
 When you compare multiple runs, W&B sets one of the runs as the reference run. The reference run is used to calculate the differences in scores between the runs. By default, W&B sets the run furthest to the left as the reference run. You can change the reference run by hovering over a run and selecting **Set as reference** from the dropdown menu.
 
+
+## Aggregate scores
+
+When you compare two or more runs, W&B automatically calculates an aggregate score between them. Based on value's type, W&B calculates the aggregate score as follows:
+
+| Type of score | Aggregate score |
+| --- | --- |
+| Boolean | true_count and true_fraction |
+| Numeric | mean |
+| String / categorical | not averaged, so they don’t produce a scalar aggregate |
+| None values | skipped before calculating the aggregate |
+
+In the image below, two scores `correct` and `confidence` are shown (see section highlighted in the yellow box):
+
+<Frame>
+    <img src="/images/evaltables/overview_basic_compare_two_runs_labled.png" alt="Evaluation table view" width="100%" />
+</Frame>
+
+## Score deltas
+
+When you compare two or more runs, W&B automatically calculates the delta between values passed to `score_columns` for each run you select to compare. The delta is calculated as the difference between the value in the reference run and the value in the other run.
+
+For example, if `summer-butterfly-9` is the reference run, and `gentle-flower-8` is the other run, the delta for the `confidence` score is calculated as follows:
+
+| `summer-butterfly-9` | `gentle-flower-8` | delta |
+| --- | --- | --- |
+| 0.43 | 0.62 | +0.19 |
+| 0.92 | 0.86 | -0.06 |
+| 0.97 | 0.85 | -0.12 |
+
+
+The values are highlighted in yellow box below:
+ 
+<Frame>
+    <img src="/images/evaltables/overview_basic_compare_two_runs_delta_labled.png" alt="Evaluation table view" width="100%" />
+</Frame>

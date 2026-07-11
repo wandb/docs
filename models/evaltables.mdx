@@ -1,15 +1,35 @@
 ---
-title: Evaluation Tables
-description: "Learn how to create, compare, and visualize evaluation tables in W&B."
+title: Eval Tables
+description: "Learn how to create, compare, and visualize eval tables in W&B."
 ---
 
+Eval Tables help you compare model outputs, scores, and metrics across runs at the individual-example level. Use Eval Tables to compare model versions and training steps side-by-side, see aggregate scores, investigate individual examples, and more.
 
-Use Eval Tables to compare model versions and training steps side-by-side, see aggregate scores, investigate individual examples, find top-k regressions and more.
+The following image shows an eval table called `"validation_prediction_eval"` that compares two runs `"summer-butterfly-9"` and `"gentle-flower-8"`:
 
 <Frame>
-    <img src="/images/evaltables/mnist.png" alt="Evaluation table view" width="100%" />
+    <img src="/images/evaltables/overview_basic_compare_two_runs_landing_page_notlabled.png" alt="Evaluation table view" width="100%" />
 </Frame>
 
-W&B recommends converting your existing W&B Tables to Eval Tables for faster rendering and more features. See [Migrate from the old evaluation tables](/models/evaltables/create-an-evaluation-table#convert-a-w&b-table-to-an-eval-table) for instructions on how to convert your W&B Tables to Eval Tables.
 
+Eval Table panels consist of three major sections: run comparison selector, aggregate scores, and the dataset itself.
 
+Within the run selector you can select [which runs to compare](/models/evaltables/compare-runs). The [aggregate scores](/models/evaltables/compare-runs#aggregate-scores) section shows the differences in scores between the runs you select. The dataset section shows the inputs, outputs, and scores for each run you select to compare.
+
+In the image below, these sections are highlighted. From top to bottom, the sections are:
+
+- Run comparison selector (box 1)
+- Aggregate scores section  (box 2)
+- Dataset section (box 3)
+
+<Frame>
+    <img src="/images/evaltables/overview_basic_compare_two_runs_landing_page.png" alt="Evaluation table view" width="100%" />
+</Frame>
+
+You can create an eval table using the W&B Python SDK's `EvalTable` class. You can also convert your existing [W&B Tables](/models/tables/) to Eval Tables for faster rendering and more features.
+
+<Tip>
+W&B recommends converting your existing W&B Tables to Eval Tables for faster rendering and more features. See [Migrate from the old eval tables](/models/evaltables/create-an-evaluation-table#convert-a-w&b-table-to-an-eval-table) for instructions on how to convert your W&B Tables to Eval Tables.
+</Tip>
+
+To get started, see the [Create an evaluation table](/models/evaltables/create-an-evaluation-table/) to create your first eval table. 

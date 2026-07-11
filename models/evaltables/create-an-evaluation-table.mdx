@@ -3,11 +3,11 @@ title: Create an evaluation table
 description: "Learn how to create an evaluation table in W&B."
 ---
 
-Create an evaluation table using the W&B Python SDK.
+Create an evaluation table using the W&B Python SDK. Convert your existing W&B Tables to Eval Tables for faster rendering and more features. See [Migrate from W&B Tables](/models/evaltables/create-an-evaluation-table#convert-a-w&b-table-to-an-eval-table) for instructions on how to convert your W&B Tables to Eval Tables.
 
 ## Create an evaluation table
 
-Suppose you have a pandas DataFrame with the following data:
+Use the W&B Python SDK's `EvalTable` Class to create an evaluation table. As ane example, suppose you have a pandas DataFrame with the following data:
 
 ```python
 import pandas as pd
