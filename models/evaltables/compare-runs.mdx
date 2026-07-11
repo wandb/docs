@@ -2,14 +2,45 @@
 title: Compare runs with evaluation tables
 ---
 
-Use evaluation tables to compare multiple runs side-by-side.
+Use evaluation tables to compare multiple runs side-by-side. W&B shows the inputs, outputs, and scores for each run, as well as the differences in scores between the runs. 
+
+To compare multiple runs:
 
 1. Navigate to your project's workspace.
 2. Scroll down to the **Evaluation Tables** panel.
 3. Click the **+** button to add a run to compare.
 
-W&B sets the run furthest to the left as the initial reference run. Hover your mouse over the run you want to set as the reference and select **Set as reference** from the dropdown menu.
+Values passed to `input_columns`, `output_columns`, and `score_columns` (`wandb.EvalTable(input_columns=, output_columns=, score_columns=`)) are grouped together across runs you select.
+
+The following image shows an example of an evaluation table that compares two runs "summer-butterfly-9" and "gentle-flower-8":
 
 <Frame>
     <img src="/images/evaltables/overview_basic_compare_two_runs.png" alt="Evaluation table view" width="100%" />
 </Frame>
+
+W&B automtically shows values for the differences in scores between the runs in the **Aggregate Scores** section for the runs you select to compare.
+
+In the image below, the **Aggregate Scores** section shows the differences in scores for the `correct` and `confidence` columns between the two runs. The values are highlighted in yellow box below:
+
+<Frame>
+    <img src="/images/evaltables/overview_basic_compare_two_runs_labled.png" alt="Evaluation table view" width="100%" />
+</Frame>
+
+W&B automatically calculates the delta between values passed to `score_columns` for each run you select to compare.
+
+For example, continuing with example above, the deltas for the `confidence` is calculated for each row of the dataframe. The values are highlighted in yellow box below:
+ 
+<Frame>
+    <img src="/images/evaltables/overview_basic_compare_two_runs_delta_labled.png" alt="Evaluation table view" width="100%" />
+</Frame>
+
+Select a row to view details about that example, including the input, output, and scores for each run you select to compare. For example, the following image shows the details for the first row (**A08E**) in the eval table above.
+
+<Frame>
+    <img src="/images/evaltables/compare_runs_labled.png" alt="Evaluation table view" width="100%" />
+</Frame>
+
+## Reference run
+
+When you compare multiple runs, W&B sets one of the runs as the reference run. The reference run is used to calculate the differences in scores between the runs. By default, W&B sets the run furthest to the left as the reference run. You can change the reference run by hovering over a run and selecting **Set as reference** from the dropdown menu.
+

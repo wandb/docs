@@ -3,6 +3,9 @@ title: Create an evaluation table
 description: "Learn how to create an evaluation table in W&B."
 ---
 
+Create an evaluation table using the W&B Python SDK.
+
+## Create an evaluation table
 
 Suppose you have a pandas DataFrame with the following data:
 
@@ -43,6 +46,8 @@ with wandb.init(project="classifier-table-demo") as run:
     run.log({"validation_predictions": table})
 ``` */}
 
+To create and log an evaluation table, pass the DataFrame to `wandb.EvalTable` and specify which columns to use for the inputs, outputs, and scores in the eval table. For example, the following code creates an eval table with the `image_id` column as the input, the `predicted_label` column as the output, and the `correct` and `confidence` columns as scores:
+
 ```python
 with wandb.init(project="classifier-eval-table-demo") as run:
     eval_table = wandb.EvalTable(
@@ -54,4 +59,16 @@ with wandb.init(project="classifier-eval-table-demo") as run:
     run.log({"validation_predictions_eval": eval_table})    
 ```
 
-The list of values you pass to wandb.EvalTable's `dataframe` parameter is a pandas DataFrame. The `input_columns`, `output_columns`, and `score_columns` parameters are lists of column names in the DataFrame that specify which columns to use for the inputs, outputs, and scores in the eval table.
+
+## Convert a W&B Table to an Eval Table
+
+Use [ARIA](/aria/) to migrate your W&B Table to an Evaluation Table:
+
+1. Navigate to the project that contains the W&B Table you want to migrate.
+2. Click on the blue circle on the upper right corner of the page to open the ARIA converstaion window.
+3. Type `/convert-eval-table` in the ARIA conversation window.
+4. Click the **Send** button, the upward-pointing arrow in the lower-right corner of the chat window.
+
+<Info>
+Existing W&B Tables remain unchanged if you convert them to an Eval Table. 
+</Info>
