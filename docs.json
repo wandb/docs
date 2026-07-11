@@ -831,6 +831,7 @@
                 "pages": [
                   "serverless-training",
                   "serverless-training/prerequisites",
+                  "serverless-training/quickstart",
                   "serverless-training/usage-limits",
                   {
                     "group": "Serverless RL",
