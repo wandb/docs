@@ -316,8 +316,8 @@
                         "pages" : [
                           "models/evaltables",
                           "models/evaltables/create-an-evaluation-table",
-                          "models/evaltables/compare-models",
-                          "models/evaltables/visualize-evaluation-tables"
+                          "models/evaltables/visualize-evaluation-tables",
+                          "models/evaltables/compare-runs"
                         ],
                         "tag" : "Preview"
                       },

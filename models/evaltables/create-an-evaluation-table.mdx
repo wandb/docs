@@ -37,11 +37,11 @@ df = pd.DataFrame(
 )
 ```
 
-```python
+{/* ```python
 with wandb.init(project="classifier-table-demo") as run:
     table = wandb.Table(dataframe=df)
     run.log({"validation_predictions": table})
-```
+``` */}
 
 ```python
 with wandb.init(project="classifier-eval-table-demo") as run:
@@ -53,3 +53,5 @@ with wandb.init(project="classifier-eval-table-demo") as run:
     )
     run.log({"validation_predictions_eval": eval_table})    
 ```
+
+The list of values you pass to wandb.EvalTable's `dataframe` parameter is a pandas DataFrame. The `input_columns`, `output_columns`, and `score_columns` parameters are lists of column names in the DataFrame that specify which columns to use for the inputs, outputs, and scores in the eval table.

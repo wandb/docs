@@ -2,14 +2,102 @@
 title: View evaluation tables
 ---
 
-1. Navigate to your project's workspace.
-2. Select the run that contains the evaluation table you want to view.
-3. Select the **Charts** tab.
+{/* ## View an evaluation table
 
-## Compare runs
+<Tabs>
+    <Tab title="Single run">
+        1. Navigate to your project's workspace.
+        2. Select the run that contains the evaluation table you want to view.
+        3. Select the **Charts** tab.
+    </Tab>
+    <Tab title="Compare multiple runs">
+        1. Navigate to your project's workspace.
+        2. Scroll down to the **Evaluation Tables** panel.
+    </Tab>
+</Tabs>
 
-1. Navigate to your project's workspace.
-2. Scroll down to the **Evaluation Tables** panel.
-3. Click the **+** button to add a run to compare.
+ */}
 
-W&B sets the run furthest to the left as the initial reference run. Hover your mouse over the run you want to set as the reference and select **Set as reference** from the dropdown menu.
+
+
+
+
+The following image shows what an eval table might look like for a single run in your project's workspace.
+
+<Frame>
+    <img src="/images/evaltables/single_run_eval_table.png" alt="Evaluation table view" width="100%" />
+</Frame>
+
+<Info>
+The previous image shows an eval table that was created using the same data as the example in [Create an evaluation table](/models/evaltables/create-an-evaluation-table):
+
+<Accordion title="View code" defaultOpen={false}>
+```python
+import pandas as pd
+import wandb
+
+df = pd.DataFrame(
+    [
+        {
+            "image_id": "img_001",
+            "true_label": "cat",
+            "predicted_label": "cat",
+            "confidence": 0.97,
+            "correct": True,
+        },
+        {
+            "image_id": "img_002",
+            "true_label": "dog",
+            "predicted_label": "cat",
+            "confidence": 0.72,
+            "correct": False,
+        },
+        {
+            "image_id": "img_003",
+            "true_label": "car",
+            "predicted_label": "car",
+            "confidence": 0.89,
+            "correct": True,
+        },
+    ]
+)
+
+df["correct"] = df["correct"].astype(object)  # preserves native Python bools
+
+with wandb.init(project="classifier-eval-table-demo") as run:
+    eval_table = wandb.EvalTable(
+        dataframe=df,
+        input_columns=["image_id", "true_label"],
+        output_columns=["predicted_label"],
+        score_columns=["correct", "confidence"],
+    )
+    run.log({"validation_predictions_eval": eval_table})
+```
+</Accordion>
+</Info>
+
+
+The mapping from the columns in the pandas DataFrame to the input, output, and score columns in the eval table in the UI is as follows:
+
+
+`input_columns` maps to the **Inputs** section in the UI (see box label 1), `output_columns` maps to the **Outputs** section in the UI (box labeled 2), and `score_columns` maps to the **Scores** section in the UI (box labeled 3).
+
+In this example, the **Inputs** section contains the `image_id` column, the **Outputs** section contains the `predicted_label` column, and the **Scores** section contains the `correct` and `confidence` columns.
+
+<Frame>
+    <img src="/images/evaltables/single_run_eval_table_labled.png" alt="Evaluation table view" width="100%" />
+</Frame>
+
+
+
+
+
+
+
+
+Click on a row to view details about that example, including the input, output, and scores. For example, the following image shows the details for the first row (**F8B1**) in the eval table above.
+
+<Frame>
+    <img src="/images/evaltables/single_run_eval_table_panel.png" alt="Evaluation table example details" width="100%" />
+</Frame>
+
