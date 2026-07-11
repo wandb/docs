@@ -312,6 +312,16 @@
                         ]
                       },
                       {
+                        "group" : "Evaluation Tables",
+                        "pages" : [
+                          "models/evaltables",
+                          "models/evaltables/create-an-evaluation-table",
+                          "models/evaltables/compare-models",
+                          "models/evaltables/visualize-evaluation-tables"
+                        ],
+                        "tag" : "Preview"
+                      },
+                      {
                         "group": "Tables",
                         "pages": [
                           "models/tables",

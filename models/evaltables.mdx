@@ -1,0 +1,59 @@
+---
+title: Evaluation Tables
+description: "Learn how to create, compare, and visualize evaluation tables in W&B."
+---
+
+
+Use Eval Tables to compare model versions and training steps side-by-side, see aggregate scores, investigate individual examples, find top-k regressions and more.
+
+W&B recommends converting your existing W&B Tables to Eval Tables for faster rendering and more features. See [Migrate from the old evaluation tables](#migrate-from-the-old-evaluation-tables) for instructions on how to convert your W&B Tables to Eval Tables.
+
+
+## Migrate from W&B Tables to Eval Tables
+
+Use [ARIA](/aria/) to migrate your W&B Table to an Evaluation Table:
+
+1. Navigate to the project that contains the W&B Table you want to migrate.
+2. Click on the blue circle on the upper right corner of the page to open the ARIA converstaion window.
+3. Type `/convert-eval-table` in the ARIA conversation window.
+4. Click the **Send** button, the upward-pointing arrow in the lower-right corner of the chat window.
+
+<Info>
+Existing W&B Tables remain unchanged if you convert them to an Eval Table. 
+</Info>
+
+### Example
+
+Suppose you have a W&B Table with the following data:
+
+```python
+import wandb
+
+with wandb.init(project="table-test") as run:
+    my_table = wandb.Table(
+        columns=["a", "b"], 
+        data=[
+            ["a1", "b1"], 
+            ["a2", "b2"]
+        ],
+    )
+    run.log({"Table Name": my_table})
+```
+
+
+
+```python
+import wandb
+
+with wandb.init(entity="wandb", project="table-test") as run:
+    eval_table = wandb.EvalTable(
+        input_columns=["Step"],
+        score_columns=["Loss", "Accuracy"],
+        data=[
+            [1, 0.5, 0.8],
+            [2, 0.4, 0.85],
+            [3, 0.3, 0.9],
+        ],
+    )
+    run.log({"my_table_preview": eval_table})
+```
