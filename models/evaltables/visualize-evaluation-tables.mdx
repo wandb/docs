@@ -18,15 +18,45 @@ title: View evaluation tables
 
  */}
 
+When you create an evaluation table, you specify which columns in your data correspond to the inputs, outputs, and scores. The following code snippet shows the high-level structure of an eval table object:
 
+```python
+import wandb
 
+eval_table = wandb.EvalTable(
+        input_columns=["column1", "column2"],
+        output_columns=["output_column1", "output_column2"],
+        score_columns=["score_column1", "score_column2"],
+    )
+```
 
+W&B displays the input columns in the **Inputs** section of the eval table, the output columns in the **Outputs** section, and the score columns in the **Scores** section. 
 
-The following image shows what an eval table might look like for a single run in your project's workspace.
+For example, consider the code example from the [Create an evaluation table](/models/evaltables/create-an-evaluation-table) page. In that example, the eval table is created from a pandas DataFrame with the following columns: `image_id`, `true_label`, `predicted_label`, `confidence`, and `correct`:
+
+```python
+with wandb.init(project="classifier-eval-table-demo") as run:
+    eval_table = wandb.EvalTable(
+        dataframe=df,
+        input_columns=["image_id", "true_label"],
+        output_columns=["predicted_label"],
+        score_columns=["correct", "confidence"],
+    )
+    run.log({"validation_predictions_eval": eval_table})
+```
+The following image shows how W&B displays the eval table. The **Inputs** section contains both the `image_id` and `true_label` columns (see box 1), the **Outputs** section contains the `predicted_label` column (see box 2), and the **Scores** section contains both the `correct` and `confidence` columns (see box 3).
 
 <Frame>
-    <img src="/images/evaltables/single_run_eval_table.png" alt="Evaluation table view" width="100%" />
+    <img src="/images/evaltables/single_run_eval_table_labled.png" alt="Evaluation table view" width="100%" />
 </Frame>
+
+
+Click on a row to view details about that example, including the input, output, and scores. For example, the following image shows the details for the first row (**A08E**) in the eval table above.
+
+<Frame>
+    <img src="/images/evaltables/single_run_eval_table_panel.png" alt="Evaluation table example details" width="100%" />
+</Frame>
+
 
 <Info>
 The previous image shows an eval table that was created using the same data as the example in [Create an evaluation table](/models/evaltables/create-an-evaluation-table):
@@ -76,28 +106,4 @@ with wandb.init(project="classifier-eval-table-demo") as run:
 </Accordion>
 </Info>
 
-
-The mapping from the columns in the pandas DataFrame to the input, output, and score columns in the eval table in the UI is as follows:
-
-
-`input_columns` maps to the **Inputs** section in the UI (see box label 1), `output_columns` maps to the **Outputs** section in the UI (box labeled 2), and `score_columns` maps to the **Scores** section in the UI (box labeled 3).
-
-In this example, the **Inputs** section contains the `image_id` column, the **Outputs** section contains the `predicted_label` column, and the **Scores** section contains the `correct` and `confidence` columns.
-
-<Frame>
-    <img src="/images/evaltables/single_run_eval_table_labled.png" alt="Evaluation table view" width="100%" />
-</Frame>
-
-
-
-
-
-
-
-
-Click on a row to view details about that example, including the input, output, and scores. For example, the following image shows the details for the first row (**F8B1**) in the eval table above.
-
-<Frame>
-    <img src="/images/evaltables/single_run_eval_table_panel.png" alt="Evaluation table example details" width="100%" />
-</Frame>
 
