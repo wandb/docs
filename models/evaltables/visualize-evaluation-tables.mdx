@@ -2,23 +2,9 @@
 title: View eval tables
 ---
 
-{/* ## View an evaluation table
+When you create an Eval Table, specify which columns contain inputs, outputs, and scores. W&B groups the columns into corresponding sections in the Eval Table.
 
-<Tabs>
-    <Tab title="Single run">
-        1. Navigate to your project's workspace.
-        2. Select the run that contains the evaluation table you want to view.
-        3. Select the **Charts** tab.
-    </Tab>
-    <Tab title="Compare multiple runs">
-        1. Navigate to your project's workspace.
-        2. Scroll down to the **Evaluation Tables** panel.
-    </Tab>
-</Tabs>
-
- */}
-
-When you create an evaluation table, you specify which columns in your data correspond to the inputs, outputs, and scores. The following code snippet shows the high-level structure of an eval table object:
+The following example shows the basic structure of an EvalTable object:
 
 ```python
 import wandb
@@ -30,10 +16,16 @@ wandb.EvalTable(
 )
 ```
 
-Pass the names of the columns in your data to `input_columns`, `output_columns`, and `score_columns` to specify which columns correspond to the inputs, outputs, and scores in the eval table. You can pass multiple column names to each of these parameters.
+Pass one or more column names to each of the following arguments:
+
+- `input_columns`: Data provided to the model, such as an image, prompt, or ground-truth label.
+- `output_columns`: Values produced by the model, such as a prediction or generated response.
+- `score_columns`: Metrics or other values used to evaluate the output.
+
+W&B displays these columns in the Inputs, Outputs, and Scores sections of the Eval Table.
 
 <Info>
-The images shown on this page were derived using the coe snippet shown in [Create an evaluation table](/models/evaltables/create-an-evaluation-table). Expand the **View code** accordion to both view and copy the code used to generate the images shown on this page.
+The examples on this page use code from [Create an evaluation table](/models/evaltables/create-an-evaluation-table). Expand **View code** to view or copy the complete example.
 
 <Accordion title="View code" defaultOpen={false}>
 ```python
@@ -80,9 +72,7 @@ with wandb.init(project="classifier-eval-table-demo") as run:
 </Accordion>
 </Info>
 
-W&B displays the input columns (`input_columns`) in the **Inputs** section of the eval table, the output columns (`output_columns`) in the **Outputs** section, and the score columns (`score_columns`) in the **Scores** section. 
-
-For example, consider the code example from the [Create an evaluation table](/models/evaltables/create-an-evaluation-table) page. In that example, the eval table is created from a pandas DataFrame with the following columns: `image_id`, `true_label`, `predicted_label`, `confidence`, and `correct`. The column names are passed as to `EvalTable` as follows:
+For example, consider the code example from [Create an evaluation table](/models/evaltables/create-an-evaluation-table):
 
 ```python
 import wandb
@@ -96,7 +86,14 @@ with wandb.init(project="classifier-eval-table-demo") as run:
     )
     run.log({"validation_predictions_eval": eval_table})
 ```
-The following image shows how W&B displays the eval table. The **Inputs** section contains both the `image_id` and `true_label` columns (see box 1), the **Outputs** section contains the `predicted_label` column (see box 2), and the **Scores** section contains both the `correct` and `confidence` columns (see box 3).
+
+In that example:
+
+- The **Inputs** section contains the `image_id` and `true_label` columns.
+- The **Outputs** section contains the `predicted_label` column.
+- The **Scores** section contains the `correct` and `confidence` columns.
+
+The following image highlights these sections:
 
 <Frame>
     <img src="/images/evaltables/single_run_eval_table_labled.png" alt="Evaluation table view" width="100%" />
@@ -104,35 +101,45 @@ The following image shows how W&B displays the eval table. The **Inputs** sectio
 
 ## Detail view
 
-Click on a row to view details about that example, including the input, output, and scores. For example, the following image shows the modal that appears when a user selects on the first row (**A08E**) in the eval table.
+Select a row to open a detailed view of that example. The detail view shows the example's inputs, outputs, and scores.
+
+The following image shows the detail view for the first row in the Eval Table:
 
 <Frame>
     <img src="/images/evaltables/single_run_eval_table_panel.png" alt="Evaluation table example details" width="100%" />
 </Frame>
 
-The modal can make viewing the input, output, and scores easier when there are many columns in the eval table. You can also use the modal to view the details for a specific example when comparing multiple runs. 
+Use the detail view to inspect examples when the table contains many columns or when you compare results across multiple runs.
 
-Use the up and down arrows above to the **Inputs** columns to navigate through the examples in the eval table.
+Select the up or down arrow above the **Inputs** section to move between examples in the current table view.
 
 ## Filter data
 
-Filter which data is displayed in the eval table by clicking the **Filter** button above the table.
+Use filters to display only rows that match specific conditions.
 
-From left to right, select the field you want to filter, the operator, and the value.
+To add a filter:
+
+Select Filter above the table.
+Select the column to filter.
+Select an operator.
+Specify a value.
 
 <Frame>
     <img src="/images/evaltables/filter.png" alt="Evaluation table filter" width="100%" />
 </Frame>
 
-Click on the `X` to remove a filter. You can add multiple filters to the eval table.
+You can apply multiple filters. To remove a filter, select the X next to it.
 
-## Add or remove columns
+## Show or hide columns
 
-Add or remove columns from the eval table by clicking the **Columns** button above the table. The available options depend on the columns you logged to the eval table.
+Use the **Columns** menu to control which columns appear in the Eval Table. The available columns depend on the data logged to the table.
 
-To add a column, click on the column name to select it. To remove a column, click on the column name to deselect it. 
+To show or hide a column:
 
-The following image shows that all columns in the eval table are selected.
+1. Select **Columns** above the table.
+2. Select a column to show it, or clear the column to hide it.
+
+The following image shows a Columns menu in which all available columns are selected:
 
 <Frame>
     <img src="/images/evaltables/eval_column_options.png" alt="Evaluation table columns" width="100%" />
