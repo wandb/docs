@@ -4,7 +4,9 @@ description: "Deploy and manage Weave on your own infrastructure"
 keywords: ["self-hosted", "ClickHouse", "Altinity", "Keeper", "Kubernetes"]
 ---
 
-Self-hosting W&B Weave gives you more control over its environment and configuration. This can help you create a more isolated environment and meet additional security compliance. This document guides you through how to deploy the components required to run W&B Weave in a self-managed environment using the Altinity ClickHouse Operator. By the end, you'll have a production-grade Weave instance running on your own Kubernetes cluster, backed by a replicated ClickHouse database and S3-compatible object storage. This guide is for Kubernetes administrators and platform engineers who are responsible for deploying and operating W&B in their organization.
+Self-hosting W&B Weave gives you more control over its environment and configuration. This can help you create a more isolated environment and meet additional security compliance. 
+
+This document guides you through how to deploy the components required to run W&B Weave in a [W&B Self-Managed](/platform/hosting/hosting-options/self-managed) deployment using the Altinity ClickHouse Operator. By the end, you'll have a production-grade Weave instance running on your own Kubernetes cluster, backed by a replicated ClickHouse database and S3-compatible object storage. This guide is for Kubernetes administrators and platform engineers who are responsible for deploying and operating W&B in their organization.
 
 Self-managed Weave deployments rely on [ClickHouseDB](https://clickhouse.com/) to manage its backend. This deployment uses:
 
