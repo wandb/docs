@@ -62,7 +62,7 @@ You can preview the effect of a sample rate before dropping anything using a dry
 
 If you do collect the metrics, run with `WEAVE_INGEST_SAMPLE_RATE=0.1` and `WEAVE_INGEST_SAMPLE_DRY_RUN=true` for a period that covers representative peak traffic, such as one full day, to see how much traffic the server would drop and how much traffic isn't eligible for sampling. Then set `WEAVE_INGEST_SAMPLE_DRY_RUN=false` to begin dropping traces.
 
-Calls and agent spans report separate counters, and the two sets count different things, so don't combine them. Each counter carries a `route` tag that identifies the endpoint. The call counters count call records and the agent counters count spans, not whole traces, so ratios within a set reflect message volume rather than trace counts.
+Calls and agent spans report separate counters, and the two sets count different things and should not be combined. Each counter carries a `route` tag that identifies the endpoint. The call counters count call records and the agent counters count spans, not whole traces, so ratios within a set reflect message volume rather than trace counts.
 
 The following counters cover calls:
 
