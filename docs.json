@@ -716,7 +716,8 @@
                         "group": "Deploy and scale",
                         "pages": [
                           "weave/guides/platform",
-                          "weave/guides/platform/weave-self-managed"
+                          "weave/guides/platform/weave-self-managed",
+                          "weave/guides/platform/ingest-sampling"
                         ]
                       },
                       "weave/guides/platform/weave-projects",
