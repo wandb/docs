@@ -62,7 +62,7 @@ You can preview the effect of a sample rate before dropping anything using a dry
 
 If you do collect the metrics, run with `WEAVE_INGEST_SAMPLE_RATE=0.1` and `WEAVE_INGEST_SAMPLE_DRY_RUN=true` for a period that covers representative peak traffic, such as one full day, to see how much traffic the server would drop and how much traffic isn't eligible for sampling. Then set `WEAVE_INGEST_SAMPLE_DRY_RUN=false` to begin dropping traces.
 
-Calls and agent spans report separate counters, and the two sets count different things, so don't combine them. Each counter carries a `route` tag that identifies the endpoint. The call counters count call records and the agent counters count spans, not whole traces, so ratios within a set reflect record volume rather than trace counts.
+Calls and agent spans report separate counters, and the two sets count different things, so don't combine them. Each counter carries a `route` tag that identifies the endpoint. The call counters count call records and the agent counters count spans, not whole traces, so ratios within a set reflect message volume rather than trace counts.
 
 The following counters cover calls:
 
@@ -87,7 +87,7 @@ The following counters cover agent spans:
 
 ## Requirements and limitations
 
-Before you enable ingest sampling, review the following limitations and behaviors:
+Before you enable ingest sampling, review the following requirements, limitations, and behaviors:
 
 - **SDK version requirements**: The server samples calls only from the Weave Python SDK 0.53.0 or later, or the Weave TypeScript SDK 0.16.0 or later. These versions add the signals the server uses to group a trace's messages and recognize evaluation calls. Calls from older SDKs aren't sampled and aren't rejected, so until your apps upgrade, the rate has no effect on their traffic. Agent spans carry a trace ID as part of the OpenTelemetry protocol, so sampling them has no SDK requirement.
 - **Server version**: Support for agent spans was added after support for calls. If you already set a rate below `1.0`, upgrading to a server version that samples agent spans starts sampling your agent traffic at the same rate.
