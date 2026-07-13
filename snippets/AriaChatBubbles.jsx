@@ -1,95 +1,82 @@
 export const AriaChatBubbles = ({ prompt, response }) => {
+  const [isDark, setIsDark] = useState(false);
   const [promptCopied, setPromptCopied] = useState(false);
-  const [responseCopied, setResponseCopied] = useState(false);
+
+  // Track the dark class on <html> so inline styles update with the toggle.
+  useEffect(() => {
+    const root = document.documentElement;
+    const sync = () => setIsDark(root.classList.contains('dark'));
+    sync();
+    const obs = new MutationObserver(sync);
+    obs.observe(root, { attributes: true, attributeFilter: ['class'] });
+    return () => obs.disconnect();
+  }, []);
 
   useEffect(() => {
     if (!promptCopied) {
       return undefined;
     }
-
     const timeout = setTimeout(() => setPromptCopied(false), 2000);
     return () => clearTimeout(timeout);
   }, [promptCopied]);
 
-  useEffect(() => {
-    if (!responseCopied) {
-      return undefined;
-    }
-
-    const timeout = setTimeout(() => setResponseCopied(false), 2000);
-    return () => clearTimeout(timeout);
-  }, [responseCopied]);
-
-  const copyText = (text, setCopied) => {
-    navigator.clipboard
-      .writeText(text)
-      .then(() => setCopied(true))
-      .catch(console.error);
+  const copyText = (text) => {
+    navigator.clipboard.writeText(text).then(() => setPromptCopied(true)).catch(console.error);
   };
 
-  const copyButtonClassName =
-    'rounded-lg p-1.5 hover:bg-gray-100 dark:hover:bg-white/10 cursor-pointer text-gray-500';
+  // Colors derived from W&B app's moon palette and ARIA composer border colors.
+  // Inline styles bypass Tailwind's content-scan so arbitrary hex values render.
+  //
+  // User bubble:     moon-100/750 bg, moon-250/650 border (composer unfocused border)
+  // Response bubble: no background, #CDF4F7 border (composer focus glow color, thin)
+  const userBg      = isDark ? '#363C44'               : '#F8F8F8';
+  const userBorder  = isDark ? '#4B535C'               : '#DFE0E2';
+  const textColor   = isDark ? '#E8E8E9'               : '#2B3038';
+  const iconColor   = isDark ? '#8F949E'               : '#79808A';
+  const iconHoverBg = isDark ? 'rgba(255,255,255,0.10)' : 'rgba(0,0,0,0.05)';
 
-  const bubbleTextClassName =
-    'hyphens-auto whitespace-pre-wrap text-base text-gray-800 [overflow-wrap:anywhere] lg:text-sm dark:text-gray-200';
+  const bubbleText = {
+    fontSize: '15px',
+    color: textColor,
+    overflowWrap: 'anywhere',
+  };
 
-  const copyIcon = (copied) =>
-    copied ? (
-      <svg
-        aria-hidden="true"
-        focusable="false"
-        className="size-4 sm:size-3.5 text-primary dark:text-primary-light"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M20 6 9 17l-5-5" />
-      </svg>
-    ) : (
-      <svg
-        aria-hidden="true"
-        focusable="false"
-        className="size-4 sm:size-3.5"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
-        <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
-      </svg>
-    );
+  // Bubbles are capped at 85% width so each side of the conversation is visually
+  // distinct — user right-aligned, ARIA left-aligned — without spanning the full row.
+  const bubbleBase = { maxWidth: '85%' };
 
-  const bubbleRow = ({
-    align,
-    bubbleClassName,
-    text,
-    copied,
-    setCopied,
-    copyLabel,
-  }) => (
-    <div
-      className={`flex w-full ${align === 'end' ? 'justify-end' : 'justify-start'}`}
+  const copyIcon = promptCopied ? (
+    <svg
+      aria-hidden="true"
+      focusable="false"
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      style={{ color: '#FCBC32' }}
     >
-      <div
-        className={`flex w-fit max-w-[min(100%,36rem)] items-start gap-1 rounded-2xl py-2 pl-3 pr-1.5 ${bubbleClassName}`}
-      >
-        <div className={`min-w-0 flex-1 ${bubbleTextClassName}`}>{text}</div>
-        <button
-          type="button"
-          className={`mt-0.5 shrink-0 ${copyButtonClassName}`}
-          onClick={() => copyText(text, setCopied)}
-          aria-label={copyLabel}
-        >
-          {copyIcon(copied)}
-        </button>
-      </div>
-    </div>
+      <path d="M20 6 9 17l-5-5" />
+    </svg>
+  ) : (
+    <svg
+      aria-hidden="true"
+      focusable="false"
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+      <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+    </svg>
   );
 
   return (
@@ -98,24 +85,45 @@ export const AriaChatBubbles = ({ prompt, response }) => {
       className="not-prose flex flex-col gap-3"
       role="group"
     >
-      {bubbleRow({
-        align: 'end',
-        bubbleClassName:
-          'rounded-br-none bg-gray-100 dark:bg-white/5',
-        text: prompt,
-        copied: promptCopied,
-        setCopied: setPromptCopied,
-        copyLabel: 'Copy user prompt',
-      })}
-      {bubbleRow({
-        align: 'start',
-        bubbleClassName:
-          'rounded-bl-none bg-primary/10 dark:bg-primary-light/10',
-        text: response,
-        copied: responseCopied,
-        setCopied: setResponseCopied,
-        copyLabel: 'Copy chat response',
-      })}
+      {/* User prompt — right-aligned with copy button */}
+      <div className="flex w-full justify-end">
+        <div
+          className="flex w-fit items-start gap-1 rounded-2xl py-2 pl-3 pr-1.5"
+          style={{ ...bubbleBase, backgroundColor: userBg, border: `1px solid ${userBorder}` }}
+        >
+          <div
+            className="min-w-0 flex-1 hyphens-auto whitespace-pre-wrap"
+            style={bubbleText}
+          >
+            {prompt}
+          </div>
+          <button
+            type="button"
+            className="mt-0.5 shrink-0 rounded-lg p-1.5 cursor-pointer"
+            style={{ color: iconColor, background: 'transparent' }}
+            onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = iconHoverBg; }}
+            onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; }}
+            onClick={() => copyText(prompt)}
+            aria-label="Copy user prompt"
+          >
+            {copyIcon}
+          </button>
+        </div>
+      </div>
+      {/* ARIA response — left-aligned, no copy button */}
+      <div className="flex w-full justify-start">
+        <div
+          className="w-fit rounded-2xl py-2 px-3"
+          style={{ ...bubbleBase, border: '1px solid #CDF4F7' }}
+        >
+          <div
+            className="hyphens-auto whitespace-pre-wrap"
+            style={bubbleText}
+          >
+            {response}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

@@ -89,19 +89,7 @@ To check or apply style, read the relevant pass file(s) and use them as guidance
 
   Default format: a user prompt and a concise ARIA response. Don't include reasoning or thinking steps unless the page specifically needs them for clarity; longer walkthroughs belong on [ARIA overview](/aria/overview). Place chat examples in the first section where the ARIA-delegable task appears, not at the top of the page unless the whole page is about chatting with ARIA.
 
-  **Code blocks (default):** Use native Mintlify fences, matching [ARIA overview](/aria/overview):
-
-  ````mdx
-  ```text title="User prompt"
-  Your user prompt here
-  ```
-
-  ```text title="ARIA response"
-  A concise example ARIA response
-  ```
-  ````
-
-  **Ask Assistant style (optional):** Import `/snippets/AriaChatBubbles.jsx` when a chat-panel layout better fits the page. The component mirrors Mintlify's Ask Assistant sheet chrome and includes copy buttons for the prompt and response:
+  Import `/snippets/AriaChatBubbles.jsx` and render the component with `prompt` and `response` props:
 
   ```mdx
   import { AriaChatBubbles } from '/snippets/AriaChatBubbles.jsx';
@@ -111,8 +99,6 @@ To check or apply style, read the relevant pass file(s) and use them as guidance
     response="A concise example ARIA response"
   />
   ```
-
-  For reviewer comparison during the DOCS-2631 prototype, import `AriaChatComparisonCodeColumn` and `AriaChatBubbles` in the parent page and render them in a two-column grid. Mintlify does not render JSX components imported into MDX snippets, and it does not render children passed as props across snippet boundaries.
 
 ## Working with the repository
 
