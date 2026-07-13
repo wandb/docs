@@ -70,12 +70,17 @@ with wandb.init(project="classifier-eval-table-demo") as run:
 
 ## Convert a W&B Table to an Eval Table
 
-Use [ARIA](/aria/) to convert an existing W&B Table to an Eval Table:
+Use the conversion banner to convert an existing W&B Table to an Eval Table:
 
 1. Navigate to the project that contains the W&B Table.
-2. Select the blue circle in the upper-right corner of the page to open ARIA.
-3. Enter `/convert-eval-table` in the ARIA conversation.
-4. Select Send, represented by the upward-pointing arrow in the lower-right corner of the conversation.
+2. Select the **Try now** button in the conversion banner. The button opens [ARIA](/aria/) with information about which table to convert.
+3. Follow the prompts in ARIA's conversation window.
+
+If you closed the banner or do not see it, open ARIA manually:
+
+1. Select the blue circle in the upper-right corner of the page to open ARIA.
+2. Enter `/convert-eval-table` in the ARIA conversation.
+3. Select Send, represented by the upward-pointing arrow in the lower-right corner of the conversation.
 
 <Info>
 Converting a W&B Table does not modify the original table.
