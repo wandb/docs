@@ -13,17 +13,17 @@ To compare runs:
 
 W&B groups columns that have the same role and name across the selected runs. For example, if two runs use the same `input_columns`, W&B displays those columns together in the **Inputs** section. W&B similarly groups shared `output_columns` and `score_columns` in the **Outputs** and **Scores** sections.
 
-The following image shows an Eval Table that compares the `summer-butterfly-9` and `gentle-flower-8` runs:
+The following screenshot shows an Eval Table that compares the `summer-butterfly-9` and `gentle-flower-8` runs:
 
 <Frame>
-    <img src="/images/evaltables/overview_basic_compare_two_runs.png" alt="Evaluation table view" width="100%" />
+    <img src="/images/evaltables/overview_basic_compare_two_runs.png" alt="Evaluation table view" />
 </Frame>
 
 ## Set the reference run
 
-When you compare multiple runs, W&B designates one run as the reference run. W&B uses the reference run as the baseline when it calculates score deltas.
+When you compare multiple runs, W&B defaults to designating the left-most run as the reference run. The reference run is the the baseline to calculate score deltas.
 
-By default, the leftmost run is the reference run. To choose a different reference run, hover over the run, open its menu, and select **Set as reference**.
+To choose a different reference run, hover over the run, open its menu, and select **Set as reference**.
 
 
 ## View aggregate scores
@@ -37,10 +37,10 @@ W&B calculates an aggregate value for each score column in each selected run. Th
 | String or categorical | No scalar aggregate |
 | Null | Excluded from calculation |
 
-The following image highlights the aggregate values for the correct and confidence scores:
+The following screenshot highlights the aggregate values for the correct and confidence scores:
 
 <Frame>
-    <img src="/images/evaltables/overview_basic_compare_two_runs_labled.png" alt="Evaluation table view" width="100%" />
+    <img src="/images/evaltables/overview_basic_compare_two_runs_labled.png" alt="Evaluation table view" />
 </Frame>
 
 ## Compare score deltas
@@ -62,8 +62,8 @@ For example, suppose `summer-butterfly-9` is the reference run and `gentle-flowe
 
 A positive delta means that the comparison run has a higher value than the reference run. A negative delta means that it has a lower value.
 
-The following image highlights the score deltas:
+The following screenshot highlights the score deltas:
  
 <Frame>
-    <img src="/images/evaltables/overview_basic_compare_two_runs_delta_labled.png" alt="Evaluation table view" width="100%" />
+    <img src="/images/evaltables/overview_basic_compare_two_runs_delta_labled.png" alt="Evaluation table view" />
 </Frame>

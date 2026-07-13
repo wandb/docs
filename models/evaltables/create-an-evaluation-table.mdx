@@ -3,7 +3,7 @@ title: Create an Eval Table
 description: "Learn how to create an evaluation table in W&B."
 ---
 
-Create an Eval Table using the W&B Python SDK or convert an existing [W&B Table](/models/tables/) with ARIA.
+Create an Eval Table using the W&B Python SDK or convert an existing [W&B Table](/models/tables) with [ARIA](/aria).
 
 ## Create an eval table
 
@@ -73,7 +73,7 @@ with wandb.init(project="classifier-eval-table-demo") as run:
 Use the conversion banner to convert an existing W&B Table to an Eval Table:
 
 1. Navigate to the project that contains the W&B Table.
-2. Select the **Try now** button in the conversion banner. The button opens [ARIA](/aria/) with information about which table to convert.
+2. Select the **Try now** button in the conversion banner. The button opens [ARIA](/aria) with information about which table to convert.
 3. Follow the prompts in ARIA's conversation window.
 
 If you closed the banner or do not see it, open ARIA manually:
@@ -82,6 +82,4 @@ If you closed the banner or do not see it, open ARIA manually:
 2. Enter `/convert-eval-table` in the ARIA conversation.
 3. Select Send, represented by the upward-pointing arrow in the lower-right corner of the conversation.
 
-<Info>
 Converting a W&B Table does not modify the original table.
-</Info>
