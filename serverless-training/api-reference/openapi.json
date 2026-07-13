@@ -4,9 +4,6 @@
     "title": "Serverless Training",
     "version": "1.0.0"
   },
-  "servers": [
-    { "url": "https://api.training.wandb.ai" }
-  ],
   "paths": {
     "/v1/chat/completions/": {
       "post": {
