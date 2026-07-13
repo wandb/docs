@@ -4,6 +4,10 @@ title: Compare runs with eval tables
 
 Use Eval Tables to compare inputs, outputs, and scores across multiple runs. W&B aligns corresponding examples and calculates aggregate scores and score differences for the selected runs.
 
+<Note>
+To compare runs with workspace-level summary metrics, line plots, pinned runs, or a baseline run, see [Pin and compare runs](/models/runs/compare-runs). Eval Tables compare aligned examples and eval-specific scores within a logged table.
+</Note>
+
 To compare runs:
 
 1. Navigate to your project workspace.
@@ -21,7 +25,7 @@ The following screenshot shows an Eval Table that compares the `summer-butterfly
 
 ## Set the reference run
 
-When you compare multiple runs, W&B defaults to designating the left-most run as the reference run. The reference run is the the baseline to calculate score deltas.
+When you compare multiple runs, W&B defaults to designating the left-most run as the reference run. The reference run is the baseline to calculate score deltas.
 
 To choose a different reference run, hover over the run, open its menu, and select **Set as reference**.
 
