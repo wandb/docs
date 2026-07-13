@@ -109,7 +109,7 @@ To remove the baseline designation:
 
 After you set a baseline, you can compare other runs against it in line plots and the runs table.
 
-The baseline run is always visible in line plots for metrics the run has logged. In line plots, lines for the baseline run appear bolder than other lines.
+The baseline run stays visible in line plots for metrics it has logged. Its lines appear bolder than other runs.
 
 - Hover over a part of the plot to display a tooltip with values for all visible runs, including the baseline run and pinned runs.
   <Frame>
@@ -126,9 +126,9 @@ The baseline run is always visible in line plots for metrics the run has logged.
 
 ### Summary metric deltas
 
-When you set a run as the baseline, by default every other run that logs the same summary metric shows the delta from the baseline. The delta (amount of change) appears to the right of the metric's value in the run's row in the runs table.
+When you set a run as the baseline, every other run that logs the same summary metric shows the delta from the baseline by default. The delta, or amount of change, appears to the right of the metric value in the run's row in the runs table.
 
-By default, the delta appears as dark gray text on a dark gray background. To turn on semantic coloring for quick visual reference, set the **Metric directionality** for a column. With directionality set:
+By default, the delta uses dark gray text and a dark gray background. To turn on semantic coloring for quick visual reference, set the Metric directionality for a column. When directionality is set:
 
 - If the other run **outperforms** (is directionally better than) the baseline, the delta appears as dark red text with a light red background.
 - If the other run **underperforms** (is directionally worse than) the baseline, the delta appears as dark teal text with a light teal background.
@@ -144,7 +144,7 @@ The following screenshot shows how the runs `nanochat-train-base` and `nanochat-
 
 ## Hide summary metric deltas in a workspace
 
-By default, a workspace with a baseline run always displays summary metric deltas. To reduce visual clutter or focus on absolute values, you can hide them for a workspace:
+By default, a workspace with a baseline run always displays summary metric deltas. To hide summary metric deltas in a workspace:
 
 1. In the workspace, click **Settings**.
 2. In the drawer that appears, click **Runs**.
@@ -168,7 +168,7 @@ The following scenarios show how pinned and baseline runs can help guide your ex
 
 The following example illustrates how pinned and baseline runs help you compare runs.
 
-1. Run this example code, which simulates a hyperparameter-tuning scenario with a series of runs. Replace bracketed uppercase placeholders (for example, `[TEAM-NAME]`) with your own values.
+1. Run this example code, which simulates a hyperparameter-tuning scenario with a series of runs. Replace values enclosed in angle brackets (for example, `<team-name>`) with your own values.
 
     ```python
     import wandb
@@ -187,7 +187,7 @@ The following example illustrates how pinned and baseline runs help you compare 
         with wandb.init(
           # Replace with your team and project name
             project="hyperparameter-tuning",
-            entity="[TEAM-NAME]",
+            entity="<team-name>",
             name=run_name,
             config=config,
             tags=tags or []

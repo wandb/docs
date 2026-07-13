@@ -44,7 +44,7 @@ To set up scriptable alerts with `run.alert()`, take these steps, which are deta
 2. Add `run.alert()` to your code.
 3. Test the configuration.
 
-## Turn on alerts in your W&B user settings
+### Turn on alerts in your W&B user settings
 
 This step enables the alert delivery channels (Slack or email) that `run.alert()` calls use. You only have to do this the first time you set up W&B Alerts, or when you want to modify how you receive alerts.
 
@@ -61,9 +61,9 @@ In your [User Settings](https://wandb.ai/settings), configure the following:
 
 After you complete these settings, W&B can deliver alerts to your chosen channels whenever your code calls `run.alert()`.
 
-## Add `run.alert()` to your code
+### Add `run.alert()` to your code
 
-This step defines when alerts fire and what they contain. Each `run.alert()` call defines the condition that triggers a notification and the content of the message you receive. Add `run.alert()` to your code (either in a Notebook or Python script) wherever you want to trigger it.
+This step sets the condition that triggers an alert and the message that the alert sends. Add `run.alert()` to your notebook or Python script where you want to send an alert.
 
 ```python
 import wandb
@@ -72,9 +72,9 @@ with wandb.init() as run:
     run.alert(title="High Loss", text="Loss is increasing rapidly")
 ```
 
-## Test the configuration
+### Test the configuration
 
-Confirm that alerts reach you before you rely on them in production runs. Run your code to trigger the alert, then check your Slack or emails for the alert message. If you don't receive any, make sure you have emails or Slack turned on for **Scriptable run alerts** in your [User Settings](https://wandb.ai/settings).
+Run your code to trigger the alert, then check Slack or your email for the alert message. If you don't receive the alert, make sure email or Slack notifications are turned on for Scriptable run alerts in your [User Settings](https://wandb.ai/settings).
 
 After you complete these steps, your runs can notify you through Slack or email whenever the conditions you specify in `run.alert()` are met.
 
@@ -107,7 +107,7 @@ run.alert(title="Loss is NaN", text=f"Hey <@U1234ABCD> loss has gone to NaN")
 
 ## Configure team alerts
 
-Besides individual alerts, team admins can configure alerts that apply to everyone on the team. Team admins can set up team alerts on the team settings page: `wandb.ai/teams/[YOUR-TEAM]`.
+In addition to individual alerts, team admins can configure alerts that apply to everyone on the team. Team admins can set up team alerts on the team settings page: `wandb.ai/teams/[YOUR-TEAM]`.
 
 Team alerts apply to everyone on your team. W&B recommends using the **Slackbot** channel because it keeps alerts private.
 

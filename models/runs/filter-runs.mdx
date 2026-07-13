@@ -1,9 +1,15 @@
 ---
-description: Learn how to filter runs in the Runs table with the expression editor.
+description: Learn how to filter runs with the expression editor.
 title: Filter runs
 ---
 
-Filter runs based on their name, state, [tags](#example-filter-runs-with-tags), or other properties with the expression editor in the Runs table. Filtering helps you narrow a large set of runs down to the subset you want to compare, analyze, or act on.
+Use the expression editor to filter runs by name, state, [tags](#example-filter-runs-with-tags), or other properties. Filtering narrows a large set of runs to the subset you want to compare, analyze, or act on.
+
+The Runs table and Workspace use the same filters for a view. When you update filters in either place, the same set of runs appears in both the table and workspace visualizations.
+
+<Info>
+Runs table filters and Workspace filters use the same underlying runset configuration. Filtering in the Runs table changes which runs are included in the Workspace. Visibility settings, such as the eye toggle, only control whether included runs appear in panels. Some panels might display only a subset of visible runs because of panel-specific limits.
+</Info>
 
 When you add a filter, you first choose a field (for example, tags, timestamp, or entity). Each field has an underlying type, such as text, time, or ID.
 
@@ -20,12 +26,12 @@ The following table shows the operators most commonly used with each field type,
 | String      | `state`         | `=`, `!=`, `IN`, `NOT IN` | `state = "finished"` |
 
 <Note>
-The preceding table shows only a subset of available fields and operators. The expression editor shows all available fields and operators.
+The previous table shows only a subset of available fields and operators. The expression editor shows all available fields and operators.
 </Note>
 
 ## Create a filter expression
 
-Follow these steps to build a filter expression that limits which runs appear in the Runs table.
+The following steps outline how to create a filter:
 
 1. Click the **Runs** tab from the project sidebar.
 2. Click the **Filter** button, which looks like a funnel, above the runs table.
@@ -44,7 +50,7 @@ The following sections show examples of common filter expressions.
 
 ### Example: Filter runs with tags
 
-Use tag-based filters to scope the Runs table to a specific group of runs, such as runs sharing a baseline or experiment label. Filter runs based on their tags:
+Use tag-based filters to scope a specific group of runs, such as runs sharing a baseline or experiment label. Filter runs based on their tags:
 
 1. Click the **Runs** tab from the project sidebar.
 2. Click the **Filter** button, which looks like a funnel, above the runs table.
@@ -75,7 +81,7 @@ The following image demonstrates how the resulting filter expression appears in 
 
 ## Default filters
 
-Besides filters you create, W&B includes a few built-in filters that you can toggle on or off to narrow the Runs table without writing an expression. By default, W&B provides the following filters:
+Besides filters you create, W&B includes a few built-in filters that you can toggle on or off to narrow which runs are visible without writing an expression. By default, W&B provides the following filters:
 
 * **Show only my work**: Shows only runs created by the current user.
 * **Hide crashed runs**: Hides runs with the `crashed` state.

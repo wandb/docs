@@ -1,9 +1,11 @@
 ---
 title: Delete runs
-description: Delete runs from a W&B project using the W&B App or the Public API, and learn how deleted run data is removed from storage.
+description: Delete runs from a W&B project using the W&B App or the Python SDK, and learn how deleted run data is removed from storage.
 ---
 
-Delete runs from a W&B project interactively in the W&B App or programmatically with the W&B Public API. This page also explains when W&B removes deleted run data from object storage on self-managed deployments.
+This page shows how to delete runs from a W&B project interactively in the W&B App or programmatically with the W&B Python SDK. This page also explains the logic W&B uses to remove deleted run data from object storage on self-managed deployments.
+
+Based on your use case, select one of the following tabs to learn how to delete a run:
 
 <Tabs>
 <Tab title="W&B App" value="ui">
@@ -13,13 +15,11 @@ Delete runs from a W&B project interactively in the W&B App or programmatically 
 4. Select the **Delete** button (trash can icon) above the table.
 5. From the drawer that appears, select **Delete**.
 
-W&B removes the selected runs from the project.
-
 For projects that contain many runs, use the search bar to filter runs with Regex, or use the filter button to filter runs by status, tags, or other properties.
 </Tab>
 
 <Tab title="Python" value="python">
-You can delete runs programmatically with [`Run.delete()`](/models/ref/python/public-api/run#method-run-delete). To also remove artifacts associated with the run, set `delete_artifacts=True`.
+You can delete runs programmatically with [`wandb.apis.public.Run.delete()`](/models/ref/python/public-api/run#method-run-delete). To also remove artifacts associated with the run, set `delete_artifacts=True`.
 
 Replace `[ENTITY]` with your W&B entity name and `[PROJECT]` with your project name.
 
@@ -75,9 +75,7 @@ graph TB
 
 ## When deleted run data is removed from storage
 
-When you delete a run, W&B removes it from the W&B App, but the underlying data can persist in object storage for a configurable retention period on self-managed deployments. This section describes how that retention works and what to expect for bucket usage after deletion.
-
-On [W&B Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) and [W&B Self-Managed](/platform/hosting/hosting-options/self-managed), the `GORILLA_DATA_RETENTION_PERIOD` environment variable controls how long W&B retains deleted run data before permanently removing it from object storage. This setting doesn't remove artifacts; artifacts follow the deletion and garbage collection flow described in [Delete an artifact](/models/artifacts/delete-artifacts).
+On [W&B Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) and [W&B Self-Managed](/platform/hosting/hosting-options/self-managed), the `GORILLA_DATA_RETENTION_PERIOD` environment variable controls how long W&B retains deleted run data before permanently removing it from object storage. This setting doesn't remove artifacts. Artifacts follow the deletion and garbage collection flow described in [Delete an artifact](/models/artifacts/delete-artifacts).
 
 When you set or change `GORILLA_DATA_RETENTION_PERIOD`, the effect is irreversible for data past the retention window. Back up your database and bucket before you enable or tighten retention. For the reference table and warnings, see [Configure environment variables](/platform/hosting/env-vars).
 
