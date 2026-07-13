@@ -2218,7 +2218,8 @@
                         "group": "Déployez et passez à l’échelle",
                         "pages": [
                           "fr/weave/guides/platform",
-                          "fr/weave/guides/platform/weave-self-managed"
+                          "fr/weave/guides/platform/weave-self-managed",
+                          "fr/weave/guides/platform/ingest-sampling"
                         ]
                       },
                       "fr/weave/guides/platform/weave-projects",
@@ -3719,7 +3720,8 @@
                         "group": "デプロイしてスケールする",
                         "pages": [
                           "ja/weave/guides/platform",
-                          "ja/weave/guides/platform/weave-self-managed"
+                          "ja/weave/guides/platform/weave-self-managed",
+                          "ja/weave/guides/platform/ingest-sampling"
                         ]
                       },
                       "ja/weave/guides/platform/weave-projects",
@@ -5220,7 +5222,8 @@
                         "group": "배포하고 확장하세요",
                         "pages": [
                           "ko/weave/guides/platform",
-                          "ko/weave/guides/platform/weave-self-managed"
+                          "ko/weave/guides/platform/weave-self-managed",
+                          "ko/weave/guides/platform/ingest-sampling"
                         ]
                       },
                       "ko/weave/guides/platform/weave-projects",
