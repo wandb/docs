@@ -1,5 +1,5 @@
 ---
-title: View eval tables
+title: View Eval Tables
 ---
 
 When you create an Eval Table, specify which columns contain inputs, outputs, and scores. W&B groups the columns into corresponding sections in the Eval Table.
@@ -25,7 +25,7 @@ Pass one or more column names to each of the following arguments:
 W&B displays these columns in the Inputs, Outputs, and Scores sections of the Eval Table.
 
 <Info>
-The examples on this page use code from [Create an evaluation table](/models/evaltables/create-an-evaluation-table). Expand **View code** to view or copy the complete example.
+The examples on this page use code from [Create an Eval Table](/models/evaltables/create-an-evaluation-table). Expand **View code** to view or copy the complete example.
 
 <Accordion title="View code" defaultOpen={false}>
 ```python
@@ -72,7 +72,7 @@ with wandb.init(project="classifier-eval-table-demo") as run:
 </Accordion>
 </Info>
 
-For example, consider the code example from [Create an evaluation table](/models/evaltables/create-an-evaluation-table):
+For example, consider the code example from [Create an Eval Table](/models/evaltables/create-an-evaluation-table):
 
 ```python
 import wandb
@@ -96,7 +96,7 @@ In that example:
 The following image highlights these sections:
 
 <Frame>
-    <img src="/images/evaltables/single_run_eval_table_labled.png" alt="Evaluation table view" />
+    <img src="/images/evaltables/single_run_eval_table_labled.png" alt="Eval Table view" />
 </Frame>
 
 ## Detail view
@@ -106,7 +106,7 @@ Select a row to open a detailed view of that example. The detail view shows the 
 The following image shows the detail view for the first row in the Eval Table:
 
 <Frame>
-    <img src="/images/evaltables/single_run_eval_table_panel.png" alt="Evaluation table example details" />
+    <img src="/images/evaltables/single_run_eval_table_panel.png" alt="Eval Table example details" />
 </Frame>
 
 Use the detail view to inspect examples when the table contains many columns or when you compare results across multiple runs.
@@ -127,7 +127,7 @@ To add a filter:
 W&B automatically applies the filter to the table and displays only rows that match the condition.
 
 <Frame>
-    <img src="/images/evaltables/filter.png" alt="Evaluation table filter" />
+    <img src="/images/evaltables/filter.png" alt="Eval Table filter" />
 </Frame>
 
 You can apply multiple filters. To remove a filter, select the `X` next to it.
@@ -144,5 +144,5 @@ To show or hide a column:
 The following image shows a Columns menu in which all available columns are selected:
 
 <Frame>
-    <img src="/images/evaltables/eval_column_options.png" alt="Evaluation table columns" />
+    <img src="/images/evaltables/eval_column_options.png" alt="Eval Table columns" />
 </Frame>

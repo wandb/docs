@@ -1,17 +1,17 @@
 ---
-title: Compare runs with eval tables
+title: Compare runs with Eval Tables
 ---
 
 Use Eval Tables to compare inputs, outputs, and scores across multiple runs. W&B aligns corresponding examples and calculates aggregate scores and score differences for the selected runs.
 
 <Note>
-To compare runs with workspace-level summary metrics, line plots, pinned runs, or a baseline run, see [Pin and compare runs](/models/runs/compare-runs). Eval Tables compare aligned examples and eval-specific scores within a logged table.
+To compare runs with workspace-level summary metrics, line plots, pinned runs, or a baseline run, see [Pin and compare runs](/models/runs/compare-runs). Eval Tables compare aligned examples and Eval Table-specific scores within a logged table.
 </Note>
 
 To compare runs:
 
 1. Navigate to your project workspace.
-2. Scroll to the Evaluation Tables panel.
+2. Scroll to the Eval Tables panel.
 3. Select the **+** button.
 4. Select the run that you want to add.
 
@@ -20,7 +20,7 @@ W&B groups columns that have the same role and name across the selected runs. Fo
 The following screenshot shows an Eval Table that compares the `summer-butterfly-9` and `gentle-flower-8` runs:
 
 <Frame>
-    <img src="/images/evaltables/overview_basic_compare_two_runs.png" alt="Evaluation table view" />
+    <img src="/images/evaltables/overview_basic_compare_two_runs.png" alt="Eval Table view" />
 </Frame>
 
 ## Set the reference run
@@ -44,7 +44,7 @@ W&B calculates an aggregate value for each score column in each selected run. Th
 The following screenshot highlights the aggregate values for the correct and confidence scores:
 
 <Frame>
-    <img src="/images/evaltables/overview_basic_compare_two_runs_labled.png" alt="Evaluation table view" />
+    <img src="/images/evaltables/overview_basic_compare_two_runs_labled.png" alt="Eval Table view" />
 </Frame>
 
 ## Compare score deltas
@@ -69,5 +69,5 @@ A positive delta means that the comparison run has a higher value than the refer
 The following screenshot highlights the score deltas:
  
 <Frame>
-    <img src="/images/evaltables/overview_basic_compare_two_runs_delta_labled.png" alt="Evaluation table view" />
+    <img src="/images/evaltables/overview_basic_compare_two_runs_delta_labled.png" alt="Eval Table view" />
 </Frame>
