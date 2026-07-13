@@ -15,10 +15,20 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
 
 <EolReminder />
 
+<Update label="v0.82.2" description="2026年7月7日">
+  ## 修正
+
+  * v0.82.1 で発生したリグレッションにより、新しい W&amp;B デプロイで初期セットアップを完了できない問題を修正しました。v0.82.1 へアップグレードする前に最初のユーザーをすでに作成していたインスタンスは影響を受けません。
+</Update>
+
 <Update label="v0.82.1" description="2026年7月1日">
   **2026年7月1日**
 
   <SelfManagedClickhouseUpgradeNote />
+
+  <Warning>
+    W&amp;B Server v0.82.1 のリグレッションにより、新しい W&amp;B デプロイで初期セットアップを完了できません。W&amp;B は、新しいデプロイで v0.82.1 を避けることを推奨します。v0.82.1 へアップグレードする前に最初のユーザーをすでに作成していたインスタンスは影響を受けません。
+  </Warning>
 
   ## パフォーマンス改善
 
@@ -85,7 +95,7 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
 <Update label="v0.81.3" description="2026年6月9日">
   ## 修正
 
-  * サポートされていない内部 API endpoint を削除しました。
+  * サポート対象外の内部 API endpoint を削除しました。
 </Update>
 
 <Update label="v0.81.2" description="2026年6月8日">
@@ -93,7 +103,7 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
 
   ## 修正
 
-  * 専用クラウドで、v0.81.1 へのアップグレード後にオプトインのプレビュー機能が誤ってオフになることがあるバグを修正しました。デプロイは自動的にアップグレードされるため、対応は不要です。問題が発生した場合は [サポート](mailto:support@wandb.com) までご連絡ください。
+  * 専用クラウドで、v0.81.1 へのアップグレード後に、オプトインの preview 機能が誤って無効化されることがあるバグを修正しました。デプロイは自動的にアップグレードされるため、対応は不要です。問題が見られる場合は [サポート](mailto:support@wandb.com) にお問い合わせください。
 </Update>
 
 <Update label="v0.81.1" description="2026年6月3日">
@@ -102,10 +112,10 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
   ## 修正
 
   * Workspace での panel search のパフォーマンスを改善しました。特に、正規表現ベースの検索で効果があります。
-  * ユーザーが現在アクセス可能なコンテキスト外まで権限チェックが評価されていたため、アーティファクト が複数のレジストリにリンクされている場合に アーティファクト のダウンロードが失敗することがあるバグを修正しました。
-  * すでにリンクされている アーティファクト を再リンクすると、アーティファクト-link オートメーションが意図せずトリガーされることがあるバグを修正しました。
-  * project 名の変更後に、`project [storage_key] not found` エラーによりストレージエンジンの読み取りが失敗することがあるバグを修正しました。
-  * サポートされていないレスポンス形式が原因で、OpenAI のオーディオ対応モデルに対する Weave scoring の Call が失敗することがあるバグを修正しました。
+  * アーティファクトが複数のレジストリにリンクされている場合に、ユーザーが現在アクセス可能なコンテキストを超えて権限チェックが評価されることで、アーティファクトのダウンロードが失敗することがあるバグを修正しました。
+  * すでにリンク済みのアーティファクトを再リンクすると、artifact-link オートメーションが予期せずトリガーされることがあるバグを修正しました。
+  * project の名前変更後に、`project [storage_key] not found` というエラーでストレージエンジンの読み取りが失敗することがあるバグを修正しました。
+  * サポートされていない response format が原因で、OpenAI の音声対応モデルに対する Weave のスコアリング call が失敗することがあるバグを修正しました。
 </Update>
 
 <Update label="v0.81.0" description="2026年6月2日">
