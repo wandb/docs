@@ -312,14 +312,14 @@
                         ]
                       },
                       {
-                        "group" : "Eval Tables",
-                        "pages" : [
+                        "group": "Eval Tables",
+                        "pages": [
                           "models/evaltables",
                           "models/evaltables/create-an-evaluation-table",
                           "models/evaltables/visualize-evaluation-tables",
                           "models/evaltables/compare-runs"
                         ],
-                        "tag" : "Preview"
+                        "tag": "Preview"
                       },
                       {
                         "group": "Tables",
@@ -1824,6 +1824,16 @@
                         ]
                       },
                       {
+                        "group": "Tableaux d’évaluation",
+                        "pages": [
+                          "fr/models/evaltables",
+                          "fr/models/evaltables/create-an-evaluation-table",
+                          "fr/models/evaltables/visualize-evaluation-tables",
+                          "fr/models/evaltables/compare-runs"
+                        ],
+                        "tag": "Preview"
+                      },
+                      {
                         "group": "Tableaux",
                         "pages": [
                           "fr/models/tables",
@@ -1913,7 +1923,7 @@
                         ]
                       },
                       {
-                        "group": "Jobs d’évaluation LLM",
+                        "group": "Jobs d’évaluation des LLM",
                         "pages": [
                           "fr/models/launch",
                           "fr/models/launch/evaluate-model-checkpoint",
@@ -3326,7 +3336,17 @@
                         ]
                       },
                       {
-                        "group": "Tables",
+                        "group": "評価用 表",
+                        "pages": [
+                          "ja/models/evaltables",
+                          "ja/models/evaltables/create-an-evaluation-table",
+                          "ja/models/evaltables/visualize-evaluation-tables",
+                          "ja/models/evaltables/compare-runs"
+                        ],
+                        "tag": "Preview"
+                      },
+                      {
+                        "group": "表",
                         "pages": [
                           "ja/models/tables",
                           "ja/models/tables/tables-walkthrough",
@@ -3347,7 +3367,7 @@
                           "ja/models/artifacts/create-a-new-artifact-version",
                           "ja/models/artifacts/track-external-files",
                           {
-                            "group": "データを管理する",
+                            "group": "データを管理",
                             "pages": [
                               "ja/models/artifacts/delete-artifacts",
                               "ja/models/artifacts/ttl",
@@ -3390,11 +3410,11 @@
                         ]
                       },
                       {
-                        "group": "Automations",
+                        "group": "オートメーション",
                         "pages": [
                           "ja/models/automations",
                           {
-                            "group": "オートメーションを作成する",
+                            "group": "オートメーションを作成",
                             "pages": [
                               "ja/models/automations/create-automations",
                               "ja/models/automations/create-automations/slack",
@@ -3415,7 +3435,7 @@
                         ]
                       },
                       {
-                        "group": "LLM評価ジョブ",
+                        "group": "LLM 評価ジョブ",
                         "pages": [
                           "ja/models/launch",
                           "ja/models/launch/evaluate-model-checkpoint",
@@ -3448,7 +3468,7 @@
                               "ja/models/app/features/panels/parameter-importance",
                               "ja/models/app/features/panels/run-comparer",
                               {
-                                "group": "Query panels",
+                                "group": "クエリ パネル",
                                 "pages": [
                                   "ja/models/app/features/panels/query-panels",
                                   "ja/models/app/features/panels/query-panels/embedding-projector"
@@ -4828,7 +4848,17 @@
                         ]
                       },
                       {
-                        "group": "Tables",
+                        "group": "평가 테이블",
+                        "pages": [
+                          "ko/models/evaltables",
+                          "ko/models/evaltables/create-an-evaluation-table",
+                          "ko/models/evaltables/visualize-evaluation-tables",
+                          "ko/models/evaltables/compare-runs"
+                        ],
+                        "tag": "Preview"
+                      },
+                      {
+                        "group": "테이블",
                         "pages": [
                           "ko/models/tables",
                           "ko/models/tables/tables-walkthrough",
@@ -4892,7 +4922,7 @@
                         ]
                       },
                       {
-                        "group": "Automations",
+                        "group": "자동화",
                         "pages": [
                           "ko/models/automations",
                           {
@@ -4917,7 +4947,7 @@
                         ]
                       },
                       {
-                        "group": "LLM Evaluation 작업",
+                        "group": "LLM 평가 작업",
                         "pages": [
                           "ko/models/launch",
                           "ko/models/launch/evaluate-model-checkpoint",
@@ -4950,7 +4980,7 @@
                               "ko/models/app/features/panels/parameter-importance",
                               "ko/models/app/features/panels/run-comparer",
                               {
-                                "group": "Query panels",
+                                "group": "쿼리 패널",
                                 "pages": [
                                   "ko/models/app/features/panels/query-panels",
                                   "ko/models/app/features/panels/query-panels/embedding-projector"
