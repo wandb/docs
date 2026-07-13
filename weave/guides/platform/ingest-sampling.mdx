@@ -33,7 +33,7 @@ Ingest sampling applies to two kinds of traffic, and one rate covers both:
 
 The following traffic is never sampled and is always kept in full:
 
-- Evaluations. Weave keeps all evaluations because they are deliberate quality measurements, and their scores would be wrong if computed over partial data.
+- Evaluations from the Weave SDK. Weave keeps these because they are deliberate quality measurements, and their scores would be wrong if computed over partial data.
 - Traces sent with your own OpenTelemetry tooling to the raw OTel endpoint (`/otel/v1/traces`). Raw OpenTelemetry traffic carries no evaluation marker, so sampling it could silently drop evaluations. For more information, see [Send OpenTelemetry traces to Weave](/weave/guides/tracking/otel).
 - Calls from Weave SDK versions earlier than the supported versions. See [Requirements and limitations](#requirements-and-limitations).
 
@@ -58,11 +58,11 @@ Set `WEAVE_INGEST_SAMPLE_RATE` to the share of traces that you want to keep, for
 
 ### Optional: Preview with a dry run
 
-You can preview the effect of a sample rate before dropping anything using a dry run. Its only output is the server's sampling metrics, emitted as counters that your metrics pipeline collects, for example Datadog. If your deployment doesn't collect those metrics, a dry run has no visible effect, and you can skip it and set the rate directly.
+You can preview the effect of a sample rate before dropping anything using a dry run. Its only output is the server's sampling metrics, emitted as counters to a metrics backend such as Datadog. If your deployment doesn't collect those metrics, a dry run has no visible effect, and you can skip it and set the rate directly.
 
 If you do collect the metrics, run with `WEAVE_INGEST_SAMPLE_RATE=0.1` and `WEAVE_INGEST_SAMPLE_DRY_RUN=true` for a period that covers representative peak traffic, such as one full day, to see how much traffic the server would drop and how much traffic isn't eligible for sampling. Then set `WEAVE_INGEST_SAMPLE_DRY_RUN=false` to begin dropping traces.
 
-Calls and agent spans report separate counters. Each counter carries a `route` tag that identifies the endpoint. The counters count individual call records or spans, not whole traces, so ratios between them reflect message volume rather than trace counts.
+Calls and agent spans report separate counters, and the two sets count different things, so don't combine them. Each counter carries a `route` tag that identifies the endpoint. The call counters count call records and the agent counters count spans, not whole traces, so ratios within a set reflect record volume rather than trace counts.
 
 The following counters cover calls:
 
