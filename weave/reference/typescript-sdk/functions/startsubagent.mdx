@@ -23,7 +23,7 @@ Start a SubAgent span. Same parent-resolution rules as `startTool`.
 
 ```ts twoslash
 // @noErrors
-weave.startSubagent({name: 'critic', model: 'gpt-4o'});
+weave.startSubagent({name: 'critic'});
 ```
 
 `Example`
@@ -33,12 +33,13 @@ weave.startSubagent({name: 'critic', model: 'gpt-4o'});
 weave.startSubagent({
   name: 'critic',
   model: 'gpt-4o',
+  systemInstructions: ['Critique the proposed plan.'],
   startTime: new Date('2026-05-29T10:00:00.000Z'),
 });
 ```
 
 #### Defined in
 
-[src/genai/api.ts:129](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/api.ts#L129)
+[src/genai/api.ts:137](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L137)
 
 ___

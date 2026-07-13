@@ -13021,6 +13021,18 @@
             "title": "Predict Total Tokens",
             "description": "Sum of per-trial predict-only token usage for this evaluation (the model's predict() tokens only, excluding LLM-as-a-judge scorer usage); None when no trial reports usage."
           },
+          "predict_total_cost": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Predict Total Cost",
+            "description": "Sum of per-trial predict-only cost for this evaluation (the model's predict() cost only, excluding LLM-as-a-judge scorer cost); None when no trial reports cost."
+          },
           "evaluation_ref": {
             "anyOf": [
               {
@@ -13189,6 +13201,12 @@
             "title": "Include Predict And Score Children",
             "description": "When true (default), fetch child calls (predict/score) of each predict_and_score call to populate predict_call_id, scorer_call_ids, and more precise latency/token data. When false, these fields are derived from the predict_and_score call itself (predict_call_id and scorer_call_ids will be null/empty).",
             "default": true
+          },
+          "include_costs": {
+            "type": "boolean",
+            "title": "Include Costs",
+            "description": "When true, enrich the predict-and-score child calls with cost so the summary can report predict-only `predict_total_cost`. Opt-in: other callers skip the cost computation.",
+            "default": false
           },
           "sort_by": {
             "anyOf": [
@@ -13553,6 +13571,17 @@
               }
             ],
             "title": "Total Tokens"
+          },
+          "total_cost": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Cost"
           },
           "scorer_call_ids": {
             "additionalProperties": {
@@ -16226,8 +16255,9 @@
           "lifecycleStage": {
             "type": "string",
             "enum": [
-              "general-availability",
               "experimental",
+              "general-availability",
+              "deprecated",
               "retired"
             ],
             "title": "Lifecyclestage"
@@ -16981,6 +17011,18 @@
             "title": "Name",
             "description": "Display name."
           },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "Human-readable description of the model."
+          },
           "attachment": {
             "type": "boolean",
             "title": "Attachment",
@@ -16990,6 +17032,31 @@
             "type": "boolean",
             "title": "Reasoning",
             "description": "Chain-of-thought reasoning support."
+          },
+          "reasoning_options": {
+            "anyOf": [
+              {
+                "items": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/ReasoningToggle"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ReasoningEffortOption"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ReasoningBudgetTokens"
+                    }
+                  ]
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reasoning Options",
+            "description": "How reasoning is controlled. Set (possibly to an empty list, meaning always-on) when reasoning is supported; omitted otherwise."
           },
           "tool_call": {
             "type": "boolean",
@@ -18570,6 +18637,97 @@
           "$expr"
         ],
         "title": "Query"
+      },
+      "ReasoningBudgetTokens": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "budget_tokens",
+            "title": "Type",
+            "default": "budget_tokens"
+          },
+          "min": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Min",
+            "description": "Minimum reasoning budget."
+          },
+          "max": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max",
+            "description": "Maximum reasoning budget."
+          }
+        },
+        "type": "object",
+        "title": "ReasoningBudgetTokens",
+        "description": "Reasoning is controlled via a token budget."
+      },
+      "ReasoningEffortOption": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "effort",
+            "title": "Type",
+            "default": "effort"
+          },
+          "values": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "none",
+                    "minimal",
+                    "low",
+                    "medium",
+                    "high",
+                    "xhigh",
+                    "max",
+                    "default"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Values",
+            "description": "Accepted effort levels (null denotes an implicit default)."
+          }
+        },
+        "type": "object",
+        "required": [
+          "values"
+        ],
+        "title": "ReasoningEffortOption",
+        "description": "Reasoning effort can be selected from a set of levels."
+      },
+      "ReasoningToggle": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "toggle",
+            "title": "Type",
+            "default": "toggle"
+          }
+        },
+        "type": "object",
+        "title": "ReasoningToggle",
+        "description": "Reasoning can be turned on or off."
       },
       "RefsReadBatchReq": {
         "properties": {
