@@ -66,7 +66,9 @@ The following examples show how to send a chat completion request with `cache_sa
                 "content": "Summarize this document in one sentence: <long shared prefix here>"
             },
         ],
-        cache_salt="tenant-a-user-123-secret",
+        extra_body={
+            "cache_salt": "tenant-a-user-123-secret",
+        },
     )
 
     print(response.choices[0].message.content)
