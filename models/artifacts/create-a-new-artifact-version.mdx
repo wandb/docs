@@ -38,7 +38,7 @@ Use `Artifact.save()` as a convenience method. If a run is active, W&B logs the 
 </Tip>
 
 <Tabs>
-<Tab title="Associate with a run">
+<Tab title="Track as run output">
 
 Use `wandb.Run.log_artifact()` to explicitly associate the artifact with a run:
 
@@ -150,7 +150,7 @@ You can create an incremental artifact using a single run or across multiple run
 ### Single run
 
 <Tabs>
-    <Tab title="Use as run input">
+    <Tab title="Track as run input">
 Use `wandb.Run.use_artifact()` when the current run consumes the artifact. W&B records the artifact as an input to the run.
 
 1. Retrieve the artifact version with `wandb.Run.use_artifact()`.
