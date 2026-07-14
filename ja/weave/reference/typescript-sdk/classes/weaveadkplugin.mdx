@@ -1,11 +1,11 @@
 ---
-title: "クラス: WeaveAdkPlugin"
+title: "WeaveAdkPlugin"
 description: "TypeScript SDK リファレンス"
 ---
 
 [weave](../) / WeaveAdkPlugin
 
-Weave の agents パイプラインで、ランナーの呼び出し、エージェントの実行、モデルの Call、ツールの実行を GenAI-semconv OTel スパンとして出力する ADK プラグインです。
+Weave の agents パイプラインで、ランナーの invocation、エージェントの run、モデルの Call、ツールの実行を GenAI-semconv OTel スパンとして出力する ADK プラグインです。
 
 構造的に `BasePlugin` の完全なサーフェスを実装しています。ADK の PluginManager はすべてのコールバックを呼び出すため、no-op のコールバックであっても、すべて定義されています。ADK は `undefined` 以外の戻り値をショートサーキットとして扱うため、各コールバックは自身のエラーを捕捉して `undefined` を返します。
 
