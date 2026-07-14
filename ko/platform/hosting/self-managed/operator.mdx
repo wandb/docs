@@ -27,7 +27,7 @@ Kubernetes Operator로 W&amp;B를 배포하기 전에 인프라가 모든 요구
 
 1. **인프라 요구 사항 검토**: 다음 항목에 대한 자세한 내용은 [Self-Managed infrastructure requirements](/ko/platform/hosting/self-managed/requirements/) 페이지를 참조하세요.
 
-* 소프트웨어 버전 요구 사항(Kubernetes, MySQL, Redis, Helm)
+* 소프트웨어 버전 요구 사항(Kubernetes, MySQL, Redis, Helm, ClickHouse)
   * 하드웨어 요구 사항(CPU 아키텍처, 권장 사양)
   * Kubernetes 클러스터 설정
   * 네트워킹, SSL/TLS, DNS 요구 사항
@@ -1290,6 +1290,52 @@ MySQL 8.0.x는 수명 종료되었습니다. Self-Managed 배포에서는 보안
 5. MySQL을 다시 시작하고 정상적으로 작동하는지 확인하세요.
 6. MySQL이 실행되면 `wandb verify`를 실행하여 W&amp;B 배포를 검증하세요. 이 명령은 일련의 검사를 실행하고 결과를 `STDOUT`에 출력합니다. 문제가 보고되면 필요한 조치를 취한 후 다시 실행하세요. 설정 및 로그인 단계는 [설치 확인](#verify-the-installation)을 참고하세요.
 7. 검증이 완료되면 사용자는 정상 작업을 재개할 수 있습니다.
+
+<div id="clickhouse-compatibility-for-upgrades">
+  ## 업그레이드 전 ClickHouse 호환성
+</div>
+
+외부 ClickHouse 클러스터를 사용하는 Self-Managed 배포 환경은 W&amp;B Server를 업그레이드하기 전에 ClickHouse 호환성을 확인해야 합니다.
+
+<div id="unsupported-clickhouse-versions">
+  ### 지원되지 않는 ClickHouse 버전
+</div>
+
+W&amp;B Weave 또는 Models OLAP 특성을 사용하는 W&amp;B Self-Managed 배포에서는 ClickHouse Server와 ClickHouse Keeper가 모두 지원되는 버전이어야 합니다.
+
+* Weave는 ClickHouse 26.1 또는 26.2에서 작동하지 않습니다.
+* 다음 섹션에서 설명하는 Models OLAP 특성을 사용하려면 ClickHouse 26.2+가 필요합니다.
+* Weave와 Models OLAP 특성을 모두 사용하는 배포에는 ClickHouse 26.3이 필요합니다.
+
+W&amp;B Self-Managed 배포에서 Weave와 Models OLAP 특성을 모두 사용하지 않는 경우 ClickHouse는 필요하지 않습니다.
+
+<div id="models-olap-features">
+  ### Models OLAP 특성
+</div>
+
+W&amp;B Server 0.81.0+부터는 ClickHouse 26.2+가 필요한 스키마 마이그레이션이 도입되었습니다. 이러한 마이그레이션은 Helm values에서 다음 Models OLAP 특성 중 하나라도 활성화되어 있으면 실행됩니다:
+
+```yaml
+global:
+  olap:
+    registrySearch:
+      enabled: true
+    runStoreAccelerator:
+      enabled: true
+    history:
+      enabled: true
+```
+
+***W&amp;B Self-Managed를 Server v0.81+로 업그레이드하기 전에***, 반드시 *다음 중 하나를* 수행하세요:
+
+* Helm values에서 해당 설정을 `false`로 지정하거나,
+* ClickHouse Server와 ClickHouse Keeper를 모두 26.2 이상으로 업그레이드하세요(배포 환경에서 Weave도 사용하는 경우 26.3 이상).
+
+이 특성들이 비활성화되어 있거나 Models OLAP 워크로드에 ClickHouse를 사용하지 않는 경우에는 업그레이드 시 이 요구 사항이 적용되지 않습니다.
+
+Dedicated Cloud 및 Multi-tenant Cloud 배포 환경은 이미 호환되는 ClickHouse 버전에서 실행되므로 영향을 받지 않습니다.
+
+버전별 릴리스 노트는 [지원되는 W&amp;B Server 릴리스](/ko/release-notes/server-releases)에서 확인하세요.
 
 <div id="migrate-self-managed-instances-to-wb-operator">
   ## Self-Managed 인스턴스를 W&amp;B Operator로 마이그레이션하기

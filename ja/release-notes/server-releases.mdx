@@ -6,6 +6,7 @@ rss: true
 ---
 
 import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-reminder.mdx';
+import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-managed-clickhouse-upgrade-note.mdx';
 
 このページには、サポートされる W&amp;B Server リリースのリリースノートが含まれています。
 
@@ -14,10 +15,39 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
 <EolReminder />
 
+<Update label="v0.82.2" description="2026年7月7日">
+  ## 修正
+
+  * v0.82.1 で発生したリグレッションにより、新しい W&amp;B デプロイで初期セットアップを完了できない問題を修正しました。v0.82.1 へアップグレードする前に最初のユーザーをすでに作成していたインスタンスは影響を受けません。
+</Update>
+
+<Update label="v0.82.1" description="2026年7月1日">
+  **2026年7月1日**
+
+  <SelfManagedClickhouseUpgradeNote />
+
+  <Warning>
+    W&amp;B Server v0.82.1 のリグレッションにより、新しい W&amp;B デプロイで初期セットアップを完了できません。W&amp;B は、新しいデプロイで v0.82.1 を避けることを推奨します。v0.82.1 へアップグレードする前に最初のユーザーをすでに作成していたインスタンスは影響を受けません。
+  </Warning>
+
+  ## パフォーマンス改善
+
+  * 多数のログ済みメトリクスを含む project で、チャートと Workspace の読み込みを改善しました。これには、メディアパネルの読み込み高速化や、history key クエリの効率化が含まれます。
+
+  ## 修正
+
+  * 多数のログ済みメトリクスを含む project で Workspace を読み込む際に、カスタム Vega チャートに history key を追加すると処理が停止することがあるバグを修正しました。
+  * 非対数軸分割を使用した折れ線グラフのレンダリング時に発生することがある無限ループを修正しました。
+  * スムージングを無効にした折れ線グラフで **Show original** を切り替えると、陰影付きの最小/最大バンドが変化することがあるバグを修正しました。
+  * Models と Weave project で、**Assets** を開くと分類済みの asset picker ではなく asset の一覧全体が表示されるバグを修正しました。
+</Update>
+
 <Update label="v0.82.0" description="2026年6月23日">
   **2026年6月23日**
 
   W&amp;B 0.82.0 では、編集可能なコレクション概要とバージョン単位のメトリクスチャートにより、アーティファクトに関する分析情報がさらに充実しました。加えて、Workspace と run テーブルの使い勝手も改善されています。エンタープライズ管理をサポートするため、メンバーを招待する際に Models のシートと Weave ロールを割り当てられるようになり、監査ログには APIキー のアクティビティも記録されるようになりました。
+
+  <SelfManagedClickhouseUpgradeNote />
 
   ## サポートと提供終了
 
@@ -25,7 +55,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
   ## 機能
 
-  * 異なる Projects の Runs をピン留めして比較したり、別の project の run をベースライン run として指定したりできるようになりました。[Compare runs across projects](/ja/models/runs/compare-runs#compare-runs-across-projects)を参照してください。
+  * 異なる project の Runs をピン留めして比較したり、別の project の run をベースライン run として指定したりできるようになりました。[Compare runs across projects](/ja/models/runs/compare-runs#compare-runs-across-projects)を参照してください。
     <Frame>
       ![別の project の pinned runs が表示された Runs table](/images/runs/compare_runs_ui_element.png)
     </Frame>
@@ -65,7 +95,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 <Update label="v0.81.3" description="2026年6月9日">
   ## 修正
 
-  * サポートされていない内部 API endpoint を削除しました。
+  * サポート対象外の内部 API endpoint を削除しました。
 </Update>
 
 <Update label="v0.81.2" description="2026年6月8日">
@@ -73,7 +103,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
   ## 修正
 
-  * 専用クラウドで、v0.81.1 へのアップグレード後にオプトインのプレビュー機能が誤って無効化されることがあるバグを修正しました。デプロイメントは自動的にアップグレードされるため、対応は不要です。問題に気付いた場合は、[サポート](mailto:support@wandb.com)にお問い合わせください。
+  * 専用クラウドで、v0.81.1 へのアップグレード後に、オプトインの preview 機能が誤って無効化されることがあるバグを修正しました。デプロイは自動的にアップグレードされるため、対応は不要です。問題が見られる場合は [サポート](mailto:support@wandb.com) にお問い合わせください。
 </Update>
 
 <Update label="v0.81.1" description="2026年6月3日">
@@ -82,16 +112,18 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   ## 修正
 
   * Workspace での panel search のパフォーマンスを改善しました。特に、正規表現ベースの検索で効果があります。
-  * ユーザーが現在アクセス可能なコンテキスト外まで権限チェックが評価されていたため、アーティファクト が複数のレジストリにリンクされている場合に アーティファクト のダウンロードが失敗することがあるバグを修正しました。
-  * すでにリンクされている アーティファクト を再リンクすると、アーティファクト-link オートメーションが意図せずトリガーされることがあるバグを修正しました。
-  * project 名の変更後に、`project [storage_key] not found` エラーによりストレージエンジンの読み取りが失敗することがあるバグを修正しました。
-  * サポートされていないレスポンス形式が原因で、OpenAI のオーディオ対応モデルに対する Weave scoring の Call が失敗することがあるバグを修正しました。
+  * アーティファクトが複数のレジストリにリンクされている場合に、ユーザーが現在アクセス可能なコンテキストを超えて権限チェックが評価されることで、アーティファクトのダウンロードが失敗することがあるバグを修正しました。
+  * すでにリンク済みのアーティファクトを再リンクすると、artifact-link オートメーションが予期せずトリガーされることがあるバグを修正しました。
+  * project の名前変更後に、`project [storage_key] not found` というエラーでストレージエンジンの読み取りが失敗することがあるバグを修正しました。
+  * サポートされていない response format が原因で、OpenAI の音声対応モデルに対する Weave のスコアリング call が失敗することがあるバグを修正しました。
 </Update>
 
 <Update label="v0.81.0" description="2026年6月2日">
   **2026年6月2日**
 
   W&amp;B Server 0.81.0 では、より詳細で検索可能な run ログ、run コード用の新しい差分パッチビューアー、柔軟性が向上した run フィルタリング、アーティファクトのダウンロード改善、オートメーション向けの新しいトリガーなど、Runs のデバッグと比較が容易になりました。Weave には、設定可能なトレース保持期間、カスタムモニターシグナル、および高速化された評価ワークフローが追加されています。デプロイメントのセキュリティと安定性を確保するため、本リリースにはセキュリティの改善と緩和策、Okta および Microsoft Entra 向けの SCIM サポートの拡充、ならびにアーティファクト、Workspace、Reports 全体にわたる信頼性の修正が含まれています。
+
+  <SelfManagedClickhouseUpgradeNote />
 
   ## サポートとサポート終了
 
@@ -137,7 +169,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
   ### Weave
 
-  * project または組織管理者は、Weave トレースの保持期間を設定できるようになりました。
+  * project または組織管理者は、Weave トレースの保持期間を設定できるようになりました:
     * project の **Settings** ページで、トレースのデフォルトの TTL を指定します。
     * 個々のトレースの TTL は、トレースの **Details** ビューにある **Expiration** フィールドで指定します。
   * Weave UI でカスタムシグナルを作成できるようになりました。**Monitors** ページで **Add Signal** をクリックし、シグナル名、説明、プロンプトを指定します。

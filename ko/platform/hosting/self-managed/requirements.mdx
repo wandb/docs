@@ -106,6 +106,16 @@ W&amp;B는 다음 환경에 있는 Redis 인스턴스에 연결할 수 있습니
 * [Azure Cache for Redis](https://azure.microsoft.com/en-us/products/cache).
 * 사용자 클라우드 또는 온프레미스 인프라에서 호스팅되는 Redis 배포.
 
+<div id="clickhouse">
+  ## ClickHouse
+</div>
+
+Weave와 일부 Models OLAP 특성은 Self-Managed 배포에서 ClickHouse를 사용합니다. 모든 Self-Managed 설치에 ClickHouse가 필요한 것은 아닙니다.
+
+필요한 최소 ClickHouse 버전은 활성화한 W&amp;B 특성과 실행 중인 W&amp;B Server 버전에 따라 달라집니다. W&amp;B Server를 업그레이드하거나 ClickHouse 버전을 변경하기 전에 Operator 가이드의 [ClickHouse compatibility for upgrades](/ko/platform/hosting/self-managed/operator#clickhouse-compatibility-for-upgrades)와 [Supported W&amp;B Server releases](/ko/release-notes/server-releases)의 호환성 참고 사항을 확인하세요.
+
+배포 절차는 [Deploy Weave in a self-managed environment](/ko/weave/guides/platform/weave-self-managed)를 참조하세요.
+
 <div id="object-storage">
   ## 오브젝트 스토리지
 </div>
