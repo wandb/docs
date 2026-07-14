@@ -4,10 +4,6 @@ description: Weave のサブエージェント スパンを使用して、サブ
 keywords: ["サブエージェント", "invoke_agent", "OTel スパン", "マルチエージェント", "start_subagent"]
 ---
 
-import AgentsPreview from '/snippets/ja/_includes/agents-public-preview.mdx';
-
-<AgentsPreview />
-
 このガイドでは、委任されたエージェント呼び出しが親 ターン と同じ トレース 内でネストされた スパン として表示されるように、W&amp;B Weave で サブエージェント をトレースする方法を説明します。サブエージェント をトレースすると、親エージェントがどの専門エージェントを呼び出したか、それらが何を実行したか、そして最終的な回答にどう貢献したかを含め、エージェントの推論の階層全体を確認できます。このガイドは、Weave で multi-agent システムのインストルメンテーションを行う開発者を対象としています。
 
 サブエージェント は、ターン 内で実行される委任されたエージェント呼び出しです。あるエージェントが別のエージェントに処理を引き継ぐ場合、たとえば supervisor agent が specialist agent にディスパッチするような場合に、サブエージェント を使用します。

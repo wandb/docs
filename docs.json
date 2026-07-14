@@ -3,10 +3,6 @@
   "background": {
     "decoration": "gradient"
   },
-  "banner": {
-    "content": "Help us improve these docs. [Take our quick survey.](https://forms.gle/a843ZFZu8oKqXYVDA)",
-    "dismissible": true
-  },
   "baseUrl": "https://docs.wandb.ai",
   "colors": {
     "dark": "#FCBC32",
@@ -314,6 +310,16 @@
                           "models/sweeps/troubleshoot-sweeps",
                           "models/sweeps/existing-project"
                         ]
+                      },
+                      {
+                        "group" : "Eval Tables",
+                        "pages" : [
+                          "models/evaltables",
+                          "models/evaltables/create-an-evaluation-table",
+                          "models/evaltables/visualize-evaluation-tables",
+                          "models/evaltables/compare-runs"
+                        ],
+                        "tag" : "Preview"
                       },
                       {
                         "group": "Tables",
@@ -690,6 +696,7 @@
                             "group": "Frameworks",
                             "pages": [
                               "weave/guides/integrations/openai-realtime-audio",
+                              "weave/guides/integrations/bedrock_agents",
                               "weave/guides/integrations/langchain",
                               "weave/guides/integrations/llamaindex",
                               "weave/guides/integrations/dspy",
@@ -719,7 +726,8 @@
                         "group": "Deploy and scale",
                         "pages": [
                           "weave/guides/platform",
-                          "weave/guides/platform/weave-self-managed"
+                          "weave/guides/platform/weave-self-managed",
+                          "weave/guides/platform/ingest-sampling"
                         ]
                       },
                       "weave/guides/platform/weave-projects",

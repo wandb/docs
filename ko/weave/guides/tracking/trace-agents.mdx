@@ -4,13 +4,9 @@ description: Weave SDK를 사용해 멀티턴 에이전트 애플리케이션을
 keywords: ["멀티턴", "대화", "OTel", "invoke_agent", "conversation_id"]
 ---
 
-import AgentsPreview from '/snippets/ko/_includes/agents-public-preview.mdx';
+W&amp;B Weave SDK를 사용해 멀티턴 에이전트형 애플리케이션을 계측하고, 에이전트의 동작을 확인하고 디버그하며 평가하는 방법을 알아보세요. 이 가이드는 에이전트를 구축하거나 통합하면서 대화, 턴, LLM Call, 도구 실행을 구조화된 방식으로 파악하려는 개발자를 위한 것입니다.
 
-<AgentsPreview />
-
-W&amp;B Weave SDK를 사용해 멀티턴 에이전트형 애플리케이션을 계측하고, 에이전트의 동작을 확인하고 디버그하며 평가하는 방법을 알아보세요. 이 가이드는 에이전트를 구축하거나 통합하면서 대화, 턴, LLM 호출, 도구 실행을 구조화된 방식으로 파악하려는 개발자를 위한 것입니다.
-
-에이전트용 Weave SDK는 멀티턴 에이전트 대화의 전체 라이프사이클을 모델링합니다. 즉, 여러 대화를 소유하는 에이전트, 턴을 함께 묶는 대화, 각각의 사용자-에이전트 상호작용(턴), 턴 내의 LLM 호출, 그리고 LLM이 트리거하는 도구 실행까지 포함합니다. 트레이스는 Weave 프로젝트의 **Agents** 탭에 표시됩니다. 각 대화에는 중첩된 도구 Call, 토큰 사용량, feedback이 포함된 멀티턴 타임라인이 표시됩니다.
+에이전트용 Weave SDK는 멀티턴 에이전트 대화의 전체 라이프사이클을 모델링합니다. 즉, 여러 대화를 소유하는 에이전트, 턴을 함께 묶는 대화, 각각의 사용자-에이전트 상호작용(턴), 턴 내의 LLM Call, 그리고 LLM이 트리거하는 도구 실행까지 포함합니다. 트레이스는 Weave 프로젝트의 **Agents** 탭에 표시됩니다. 각 대화에는 중첩된 도구 Call, 토큰 사용량, feedback이 포함된 멀티턴 타임라인이 표시됩니다.
 
 Weave는 분산 트레이싱을 위한 개방형 표준인 [OpenTelemetry (OTel)](https://opentelemetry.io/docs/concepts/)을 기반으로 구축되었습니다. 모든 턴, LLM Call, 도구 Call은 OTel *span*(하나의 오퍼레이션에 대한 구조화된 기록)을 내보냅니다. 각 span에는 `gen_ai.agent.name` 및 `gen_ai.conversation.id`와 같은 [GenAI semantic-convention](https://opentelemetry.io/docs/specs/semconv/gen-ai/) 속성이 태그로 지정됩니다.
 
@@ -497,9 +493,9 @@ Weave SDK는 [GenAI 시맨틱 규약](https://opentelemetry.io/docs/specs/semcon
   ## Weave UI에서 데이터가 표시되는 방식
 </div>
 
-앞서 설명한 패턴으로 에이전트에 계측을 적용하고 실행하면 트레이스가 Weave 프로젝트의 `https://wandb.ai/[YOUR-TEAM]/[YOUR-PROJECT]/weave/agents`에 있는 **Agents** 탭에 표시됩니다.
+앞서 설명한 패턴으로 에이전트를 instrument하고 실행하면, 트레이스가 Weave 프로젝트의 `https://wandb.ai/[YOUR-TEAM]/[YOUR-PROJECT]/weave/agents`에 있는 **Agents** 탭에 표시됩니다.
 
-* **Conversations tab**에는 턴 활동의 미니맵과 함께 모든 대화가 표시됩니다.
-* 대화를 클릭하면 모든 턴, 해당 대화의 LLM calls, 도구 실행, 토큰 수, 그리고 연결된 피드백을 보여주는 **Conversation detail view**가 열립니다.
+* **Conversations tab**에는 모든 대화가 턴 활동 미니맵과 함께 표시됩니다.
+* 대화를 클릭하면 **Conversation detail view**가 열리며, 모든 턴, 해당 LLM Call, tool execution, token 수, 그리고 첨부된 feedback이 표시됩니다.
 
 Weave에서 Agents 데이터를 보는 방법에 대한 자세한 내용은 [에이전트 활동 보기](/ko/weave/guides/tracking/view-agent-activity)를 참조하세요.

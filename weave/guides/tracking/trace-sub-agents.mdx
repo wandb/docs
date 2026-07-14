@@ -4,10 +4,6 @@ description: Use Weave's sub-agent span to trace sub-agent delegations and view 
 keywords: ["sub-agents", "invoke_agent", "OTel spans", "multi-agent", "start_subagent"]
 ---
 
-import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
-
-<AgentsPreview />
-
 This guide shows you how to use W&B Weave to trace sub-agents so that delegated agent invocations appear as nested spans in the same trace as the parent turn. Tracing sub-agents lets you see the full hierarchy of an agent's reasoning, including which specialist agents the parent called, what they did, and how they contributed to the final answer. This guide is for developers instrumenting multi-agent systems with Weave.
 
 A sub-agent is a delegated agent invocation that runs inside a turn. Use sub-agents when one agent hands off to another, such as when a supervisor agent dispatches a specialist agent.

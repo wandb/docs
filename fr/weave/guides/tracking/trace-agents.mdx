@@ -1,12 +1,8 @@
 ---
 title: "Tracez vos agents"
 description: "Utilisez le SDK Weave pour instrumenter des applications agentiques sur plusieurs tours de conversation et les consulter dans l’onglet Agents."
-keywords: ["sur plusieurs tours de conversation", "conversations", "OTel", "invoke_agent", "conversation_id"]
+keywords: ["sur plusieurs tours de conversation", "conversation", "OTel", "invoke_agent", "conversation_id"]
 ---
-
-import AgentsPreview from '/snippets/fr/_includes/agents-public-preview.mdx';
-
-<AgentsPreview />
 
 Découvrez comment instrumenter une application agentique sur plusieurs tours de conversation à l’aide du SDK W&amp;B Weave afin de pouvoir visualiser, déboguer et évaluer le comportement de votre agent. Ce guide s’adresse aux développeurs qui créent ou intègrent des agents et souhaitent disposer d’une visibilité structurée sur les conversations, les tours de conversation, les appels LLM et les exécutions d’outils.
 
@@ -494,12 +490,12 @@ Utilisez `.end()` explicitement lorsque vous ne pouvez pas recourir à des blocs
 Le SDK Weave émet des spans OTel conformes aux [conventions sémantiques GenAI](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/) et aux [conventions de span d&#39;agent GenAI](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans/). Weave accepte tout span OTel, stocke tous les attributs et permet de les interroger. Vous pouvez ajouter des attributs arbitraires aux spans à l&#39;aide de l&#39;API standard des spans OTel, en plus des objets de traçage de Weave.
 
 <div id="how-data-appears-in-the-weave-ui">
-  ## Comment les données s’affichent dans l’interface Weave
+  ## Comment les données apparaissent dans l’interface Weave
 </div>
 
-Après avoir instrumenté votre agent avec les approches précédentes et l’avoir exécuté, vos traces apparaissent dans l’onglet **Agents** de votre projet Weave à l’adresse `https://wandb.ai/[YOUR-TEAM]/[YOUR-PROJECT]/weave/agents`.
+Après avoir instrumenté votre agent selon les approches précédentes et l’avoir exécuté, vos traces apparaissent dans l’onglet **Agents** de votre projet Weave à l’adresse `https://wandb.ai/[YOUR-TEAM]/[YOUR-PROJECT]/weave/agents`.
 
 * L’onglet **Conversations** affiche toutes les conversations avec une mini-carte de l’activité des tours de conversation.
-* La **vue détaillée de la conversation** s’ouvre lorsque vous cliquez sur une conversation et affiche tous les tours de conversation, ses appels LLM, ses exécutions d’outils, le nombre de jetons et le feedback associé.
+* La **vue détaillée de la conversation** s’ouvre lorsque vous cliquez sur une conversation et affiche tous les tours de conversation, les appels LLM, les exécutions d’outils, le nombre de jetons et tout feedback joint.
 
 Pour en savoir plus sur l’affichage des données Agents dans Weave, voir [Voir l’activité des agents](/fr/weave/guides/tracking/view-agent-activity).

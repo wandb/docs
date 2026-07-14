@@ -4,11 +4,8 @@ description: Connectez W&B Weave à des SDK d’agents, à des harness d’agent
 keywords: ["harness d’agents", "autopatch", "OpenTelemetry", "GenAI semconv", "multi-agent"]
 ---
 
-import AgentsPreview from '/snippets/fr/_includes/agents-public-preview.mdx';
 import AgentIntegrationPaths from '/snippets/fr/_includes/agent-integration-paths.mdx';
 
-<AgentsPreview />
-
-W&amp;B Weave peut tracer des applications à agents sur plusieurs tours de conversation sans avoir à instrumenter manuellement chaque tour de conversation. Pour les SDK d’agents et les harnesses pris en charge, appelez `weave.init()` et Weave applique automatiquement un patch au framework. Weave capture les conversations, les tours de conversation, les appels LLM et les appels d’outil, puis les affiche dans la vue **Agents**. Cette page renvoie vers des guides d’intégration pour trois catégories : les harness d’agents, les SDK d’agents et les agents personnalisés (y compris ceux qui émettent des spans OpenTelemetry).
+W&amp;B Weave peut tracer des applications à agents sur plusieurs tours de conversation sans avoir à instrumenter manuellement chaque tour de conversation. Pour les SDK d’agents et les harnesses pris en charge, appelez `weave.init()` et Weave applique automatiquement un patch au framework. Weave capture les sessions, les tours de conversation, les appels LLM et les appels d’outil, puis les affiche dans la vue **Agents**. Cette page renvoie vers des guides d’intégration pour trois catégories : les harness d’agents, les SDK d’agents et les agents personnalisés (y compris ceux qui émettent des spans OpenTelemetry).
 
 <AgentIntegrationPaths />

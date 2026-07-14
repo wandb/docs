@@ -3,6 +3,8 @@ description: A playground for exploring run data with interactive visualizations
 title: View experiment results
 ---
 
+import { AriaChatBubbles } from '/snippets/AriaChatBubbles.jsx';
+
 A W&B workspace is where you customize charts and explore model results. Use a workspace to visualize and compare runs across your project, organize panels for analysis, and share findings with your team. A W&B workspace consists of **Tables** and **Panel sections**:
 
 * **Tables**: All runs logged to your project are listed in the project's table. Turn on and off runs, change colors, and expand the table to see notes, config, and summary metrics for each run.
@@ -31,6 +33,13 @@ Create saved views to organize your preferred setup of charts and data, and to c
 1. Navigate to a personal workspace or a saved view.
 2. Make edits to the workspace.
 3. Click the **action (<Icon icon="ellipsis" iconType="solid"/>)** menu at the top right corner of your workspace. Click **Save as a new view**.
+
+You can also ask ARIA to save your current workspace layout as a new view:
+
+<AriaChatBubbles
+  prompt="Save this workspace as a new view called LR comparison so my team can review learning-rate experiments."
+  response="I'll save your current workspace layout, including the visible runs and panel arrangement, as a new saved view named LR comparison."
+/>
 
 New saved views appear in the workspace navigation menu.
 

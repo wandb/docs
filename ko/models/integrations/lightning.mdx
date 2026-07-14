@@ -446,20 +446,16 @@ checkpoint_reference = "USER/PROJECT/MODEL-RUN_ID:VERSION"
     wandb_logger.log_image(key="samples", images=[img1, img2])
 
     # 캡션 추가
-
     wandb_logger.log_image(key="samples", images=[img1, img2], caption=["tree", "person"])
 
     # 파일 경로 사용
-
     wandb_logger.log_image(key="samples", images=["img_1.jpg", "img_2.jpg"])
 
     # trainer에서 .log 사용
-
     trainer.logger.experiment.log(
-    {"samples": [wandb.Image(img, caption=caption) for (img, caption) in my_images]},
-    step=current_trainer_global_step,
+        {"samples": [wandb.Image(img, caption=caption) for (img, caption) in my_images]},
+        step=current_trainer_global_step,
     )
-
     ```
   </Tab>
 
@@ -483,16 +479,13 @@ checkpoint_reference = "USER/PROJECT/MODEL-RUN_ID:VERSION"
     columns = ["caption", "image", "sound"]
 
     # 데이터는 목록의 목록이어야 합니다
-
     my_data = [
-    ["cheese", wandb.Image(img_1), wandb.Audio(snd_1)],
-    ["wine", wandb.Image(img_2), wandb.Audio(snd_2)],
+        ["cheese", wandb.Image(img_1), wandb.Audio(snd_1)],
+        ["wine", wandb.Image(img_2), wandb.Audio(snd_2)],
     ]
 
     # Table 로깅
-
-    wandb_logger.log_table(key="my_samples", columns=columns, data=data)
-
+    wandb_logger.log_table(key="my_samples", columns=columns, data=my_data)
     ```
   </Tab>
 </Tabs>

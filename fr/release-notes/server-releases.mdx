@@ -6,6 +6,7 @@ rss: true
 ---
 
 import EolReminder from '/snippets/fr/_includes/release-notes-support-eol-reminder.mdx';
+import SelfManagedClickhouseUpgradeNote from '/snippets/fr/_includes/self-managed-clickhouse-upgrade-note.mdx';
 
 Cette page inclut les notes de version des versions du serveur W&amp;B prises en charge.
 
@@ -14,10 +15,39 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
 
 <EolReminder />
 
+<Update label="v0.82.2" description="7 juillet 2026">
+  ## Correctifs
+
+  * Correctif d’une régression dans la v0.82.1 qui empêchait les nouveaux déploiements W&amp;B de terminer la configuration initiale. Les instances ayant déjà créé leur premier utilisateur avant la mise à niveau vers la v0.82.1 ne sont pas affectées.
+</Update>
+
+<Update label="v0.82.1" description="1 juillet 2026">
+  **1 juillet 2026**
+
+  <SelfManagedClickhouseUpgradeNote />
+
+  <Warning>
+    Une régression dans W&amp;B Server v0.82.1 empêche les nouveaux déploiements W&amp;B de terminer la configuration initiale. W&amp;B recommande d’éviter la v0.82.1 pour les nouveaux déploiements. Les instances ayant déjà créé leur premier utilisateur avant la mise à niveau vers la v0.82.1 ne sont pas affectées.
+  </Warning>
+
+  ## Améliorations des performances
+
+  * Amélioration du chargement des graphiques et du Workspace pour les projets comportant un grand nombre de métriques enregistrées, notamment grâce à un chargement plus rapide du volet multimédia et à des requêtes de clés d’historique plus efficaces.
+
+  ## Correctifs
+
+  * Correctif d’un bug où l’ajout de clés d’historique à un graphique Vega personnalisé pouvait bloquer le chargement du Workspace dans les projets comportant un grand nombre de métriques enregistrées.
+  * Correctif d’une boucle infinie pouvant se produire lors du rendu de graphiques en courbes avec des divisions d’axe non logarithmiques.
+  * Correctif d’un bug où l’activation de **Show original** sur un graphique en courbes avec le lissage désactivé pouvait modifier la bande ombrée min/max.
+  * Correctif d’un bug dans les projets Models et Weave où l’ouverture de **Assets** affichait la liste complète des ressources au lieu du sélecteur de ressources par catégorie.
+</Update>
+
 <Update label="v0.82.0" description="23 juin 2026">
   **23 juin 2026**
 
   W&amp;B 0.82.0 offre une visibilité plus riche sur les artifacts grâce à des aperçus de collections modifiables et à des graphiques de métriques au niveau des versions, ainsi qu’à des améliorations pratiques pour le Workspace et le tableau des runs. Pour prendre en charge l’administration d’entreprise, vous pouvez désormais attribuer des licences Models et des rôles Weave lors de l’invitation de membres, et les journaux d’audit enregistrent l’activité des clés API.
+
+  <SelfManagedClickhouseUpgradeNote />
 
   ## Assistance et fin de vie
 
@@ -73,7 +103,7 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
 
   ## Correctifs
 
-  * Correctif d’un bug dans Cloud dédié où une fonctionnalité en préversion activée sur demande pouvait être désactivée par erreur après la mise à niveau vers v0.81.1. Les déploiements sont mis à niveau automatiquement et aucune action n’est requise. Contactez l’[assistance](mailto:support@wandb.com) si vous constatez des problèmes.
+  * Correctif d’un bug dans Cloud dédié où une fonctionnalité de préversion activée explicitement pouvait être désactivée par erreur après la mise à niveau vers v0.81.1. Les déploiements sont mis à niveau automatiquement et aucune action n’est requise. Contactez l’[assistance](mailto:support@wandb.com) si vous constatez des problèmes.
 </Update>
 
 <Update label="v0.81.1" description="3 juin 2026">
@@ -82,9 +112,9 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
   ## Correctifs
 
   * Amélioration des performances de la recherche de panneaux dans les Workspace, en particulier pour les recherches basées sur des expressions régulières.
-  * Correctif d’un bug où le téléchargement d’artifacts pouvait échouer lorsqu’un artifact était lié dans plusieurs registres, car les vérifications des autorisations étaient effectuées au-delà du contexte actuellement accessible à l’utilisateur.
-  * Correctif d’un bug où le fait de lier à nouveau un artifact déjà lié pouvait déclencher de manière inattendue des automatisations de liaison d’artifact.
-  * Correctif d’un bug où les lectures du moteur de stockage pouvaient échouer après le renommage d’un projet avec l’erreur `project [storage_key] not found`.
+  * Correctif d’un bug où les téléchargements d’artifacts pouvaient échouer lorsqu’un artifact était lié dans plusieurs registres, car les vérifications d’autorisation étaient évaluées au-delà du contexte actuellement accessible par l’utilisateur.
+  * Correctif d’un bug où le fait de relier à nouveau un artifact déjà lié pouvait déclencher de manière inattendue des automatisations de liaison d’artifact.
+  * Correctif d’un bug où les lectures du moteur de stockage pouvaient échouer après le changement de nom d’un projet avec l’erreur `project [storage_key] not found`.
   * Correctif d’un bug où les appels d’évaluation Weave pouvaient échouer pour les modèles OpenAI compatibles audio en raison d’un format de réponse non pris en charge.
 </Update>
 
@@ -92,6 +122,8 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
   **2 juin 2026**
 
   W&amp;B Server 0.81.0 facilite le débogage et la comparaison des runs grâce à des journaux de runs plus détaillés et interrogeables, un nouveau visualiseur de diff patch pour le code des runs, un filtrage des runs plus flexible, un téléchargement des artefacts amélioré, de nouveaux déclencheurs pour les automatisations, et bien plus encore. Weave ajoute une rétention des traces configurable ainsi que des signaux de moniteur personnalisés avec des flux de travail d&#39;évaluation plus rapides. Pour garantir la sécurité et la stabilité de votre déploiement, cette version inclut des améliorations et des mesures d&#39;atténuation en matière de sécurité, une prise en charge SCIM étendue pour Okta et Microsoft Entra, ainsi que des correctifs de fiabilité pour les artefacts, les espaces de travail et les Reports.
+
+  <SelfManagedClickhouseUpgradeNote />
 
   ## Assistance et fin de vie
 

@@ -58,7 +58,7 @@ model.compile(
 # Initialiser un nouveau run W&B
 with wandb.init(config={"batch_size": 64}) as run:
 
-    # Passer le WandbMetricsLogger à model.fit
+    # Transmettre le WandbMetricsLogger à model.fit
     model.fit(
         X_train, y_train, validation_data=(X_test, y_test), callbacks=[WandbMetricsLogger()]
     )
@@ -76,14 +76,14 @@ L’exemple précédent consigne dans W&amp;B les métriques d’entraînement e
 | `initial_global_step` | (int) : utilisez cet argument pour journaliser correctement le taux d’apprentissage lorsque vous reprenez l’entraînement à partir d’un `initial_epoch` et qu’un ordonnanceur de taux d’apprentissage est utilisé. Cette valeur peut être calculée comme `step_size * initial_step`. La valeur par défaut est 0. |
 
 <div id="checkpoint-a-model-using-wandbmodelcheckpoint">
-  ## Créer un checkpoint d’un modèle avec `WandbModelCheckpoint`
+  ## Créer un point de contrôle d’un modèle avec `WandbModelCheckpoint`
 </div>
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbModelCheckpoint_in_your_Keras_workflow.ipynb" />
 
 Utilisez le callback `WandbModelCheckpoint` pour enregistrer périodiquement le modèle Keras (au format `SavedModel`) ou les poids du modèle, puis les envoyer à W&amp;B sous forme de `wandb.Artifact` pour la gestion des versions du modèle.
 
-Ce callback est une sous-classe de [`tf.keras.callbacks.ModelCheckpoint()`](https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/ModelCheckpoint). La logique de checkpointing est donc gérée par le callback parent.
+Ce callback est une sous-classe de [`tf.keras.callbacks.ModelCheckpoint()`](https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/ModelCheckpoint). La logique de création de points de contrôle est donc gérée par le callback parent.
 
 Ce callback enregistre :
 
@@ -99,7 +99,7 @@ Utilisez ce callback avec `WandbMetricsLogger()`.
 import wandb
 from wandb.integration.keras import WandbMetricsLogger, WandbModelCheckpoint
 
-# Initialiser un nouveau run W&B
+# Initialiser un nouveau W&B Run
 with wandb.init(config={"bs": 12}) as run:
 
     # Passer le WandbModelCheckpoint à model.fit
@@ -153,7 +153,7 @@ Lors de la création de checkpoints sur des TPU, vous pouvez rencontrer le messa
 checkpoint_options = tf.saved_model.SaveOptions(experimental_io_device="/job:localhost")
 
 WandbModelCheckpoint(
-    filepath="models/,
+    filepath="models/",
     options=checkpoint_options,
 )
 ```
@@ -215,10 +215,10 @@ class WandbClfEvalCallback(WandbEvalCallback):
 
 # ...
 
-# Initialiser un nouveau run W&B
+# Initialiser un nouveau W&B Run
 with wandb.init(config={"hyper": "parameter"}) as run:
 
-    # Ajouter les callbacks à Model.fit
+    # Ajouter les Callbacks à Model.fit
     model.fit(
         X_train,
         y_train,
@@ -284,7 +284,8 @@ Vous pouvez regarder la courte vidéo [Premiers pas avec Keras et W&amp;B en moi
 Pour une vidéo plus détaillée, regardez [Intégrer W&amp;B à Keras](https://www.youtube.com/watch?v=Bsudo7jbMow\&ab_channel=Weights%26Biases). Vous pouvez également consulter le [notebook Jupyter Colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Keras_pipeline_with_Weights_and_Biases.ipynb).
 
 <Note>
-  Voir notre [dépôt d&#39;exemples](https://github.com/wandb/examples) pour des scripts, notamment un [exemple Fashion MNIST](https://github.com/wandb/examples/blob/master/examples/keras/keras-cnn-fashion/train.py) et le [tableau de bord W&amp;B](https://wandb.ai/wandb/keras-fashion-mnist/runs/5z1d85qs) qu&#39;il génère.
+  Voir notre [dépôt d&#39;exemples](https://github.com/wandb/examples) pour des scripts, notamment un [exemple Fashion MNIST](https://github.com/wandb/examples/blob/master/examples/keras/keras-cnn-fashion/train.py)
+  et le [tableau de bord W&amp;B](https://wandb.ai/wandb/keras-fashion-mnist/runs/5z1d85qs) qu&#39;il génère.
 </Note>
 
 La classe `WandbCallback` prend en charge un large éventail d&#39;options de configuration de journalisation : spécifier une métrique à surveiller, suivre les poids et les gradients, journaliser les prédictions sur training&#95;data et validation&#95;data, entre autres.

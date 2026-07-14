@@ -4,10 +4,6 @@ description: Utilisez le span de sous-agent de Weave pour tracer les délégatio
 keywords: ["sous-agents", "invoke_agent", "spans OTel", "multi-agent", "start_subagent"]
 ---
 
-import AgentsPreview from '/snippets/fr/_includes/agents-public-preview.mdx';
-
-<AgentsPreview />
-
 Ce guide vous montre comment utiliser W&amp;B Weave pour tracer des sous-agents afin que les invocations d’agent déléguées apparaissent comme des spans imbriqués dans la même trace que le tour de conversation parent. Le traçage des sous-agents vous permet de voir la hiérarchie complète du raisonnement d’un agent, notamment les agents spécialistes auxquels l’agent parent a fait appel, ce qu’ils ont fait et comment ils ont contribué à la réponse finale. Ce guide s’adresse aux développeurs qui instrumentent des systèmes multi-agent avec Weave.
 
 Un sous-agent est une invocation d’agent déléguée qui s’exécute à l’intérieur d’un tour de conversation. Utilisez des sous-agents lorsqu’un agent transmet la tâche à un autre, par exemple lorsqu’un agent superviseur délègue à un agent spécialiste.
