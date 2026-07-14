@@ -72,7 +72,7 @@ Avec TensorFlow 2, la manière recommandée d’entraîner un modèle avec une b
         loss = loss_func(labels, predictions)
 
     # Journaliser vos métriques
-    run.log("loss": loss.numpy())
+    run.log({"loss": loss.numpy()})
     # Obtenir les gradients
     gradients = tape.gradient(loss, model.trainable_variables)
     # Mettre à jour les poids

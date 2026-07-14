@@ -53,7 +53,8 @@ Select a tab to see Python and TypeScript-specific code.
 
   </Tab>
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     import * as weave from 'weave';
 
     // Initialize Weave
@@ -277,24 +278,11 @@ Use the following procedure when you want to remove a `Dataset` you no longer ne
 
 ### Add a new agent trace to a dataset
 
-To add agent traces such as sessions, turns, and tool calls to a `Dataset`:
-
-1. Navigate to [wandb.ai](http://wandb.ai) and select your project.
-1. In the Weave project sidebar, click **Agents**.
-1. In the top tab bar, click **Conversations**.
-1. In the Conversations table, select a conversation row to load the conversation details side panel. The conversation details side panel has a header with an agent name and a UUID.
-1. In the conversation details side panel header, click the table icon to the right to open the **Add example to dataset** drawer.
-
-    ![Agent conversation details panel header showing table icon to add items to a dataset.](./imgs/agent-conversation-details-header-add-dataset.png)
-
-1. In **Choose a dataset**, use the dropdown to choose the dataset you want to add traces to.
-1. In **Select context**, select which messages to add to the dataset. Click **Next**.
-1. Review your selections and click **Add to dataset**.
-
+To add agent turns and tool calls to a `Dataset`, see [Add agent messages to a dataset](/weave/guides/tracking/view-agent-activity#add-agent-messages-to-a-dataset).
 
 ### Add a new trace to a dataset
 
-To add traces generated from ops and calls to a `Dataset`:
+To add traces generated from Ops and Calls (using the `@weave.op` decorator) to a `Dataset`:
 
 1. Navigate to the Weave project you want to edit.
 

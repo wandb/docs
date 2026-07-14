@@ -1,0 +1,52 @@
+---
+title: "startLLM"
+description: "TypeScript SDK 레퍼런스"
+---
+
+<div id="startllm">
+  # startLLM
+</div>
+
+▸ **startLLM**(`opts`): [`LLM`](../classes/llm)
+
+현재 Turn의 하위 span으로 LLM span을 시작합니다. 활성화된 Turn이 없으면 예외를 발생시킵니다.
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름     | 유형                                 |
+| :----- | :--------------------------------- |
+| `opts` | [`LLMInit`](../interfaces/llminit) |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+[`LLM`](../classes/llm)
+
+`예시`
+
+```ts twoslash
+// @noErrors
+weave.startLLM({model: 'gpt-4o-mini', providerName: 'openai'});
+```
+
+`예시`
+
+```ts twoslash
+// @noErrors
+weave.startLLM({
+  model: 'gpt-4o-mini',
+  providerName: 'openai',
+  startTime: new Date('2026-05-29T10:00:00.000Z'),
+});
+```
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[src/genai/api.ts:70](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/api.ts#L70)
+
+***

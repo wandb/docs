@@ -1,23 +1,23 @@
 ---
 title: "LiteLLM"
-description: "LiteLLM을 통한 LLM 호출을 자동으로 추적하고 로깅합니다"
+description: "LiteLLM을 통한 LLM Call을 자동으로 추적하고 로깅합니다"
 ---
 
 <a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_litellm.ipynb" aria-label="Google Colab에서 열기">
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Colab에서 열기" />
 </a>
 
-`weave.init()`이 호출되면 Weave가 LiteLLM을 통한 LLM 호출을 자동으로 추적하고 로깅합니다.
+`weave.init()`을 호출하면 Weave가 LiteLLM을 통한 LLM Call을 자동으로 추적하고 로깅합니다. 이 가이드에서는 Weave와 LiteLLM을 함께 사용해 트레이스를 캡처하고, Call을 버전 관리되는 ops로 래핑하고, `Model`로 Experiments를 구성하고, 함수 호출 동작을 추적하는 방법을 설명합니다. LiteLLM이 지원하는 여러 모델 공급자 전반에서 관측성이 필요할 때 LLM 애플리케이션을 구축하는 경우 이 가이드를 사용하세요.
 
 <div id="traces">
   ## 트레이스
 </div>
 
-개발 중이든 프로덕션 환경이든, LLM 애플리케이션의 트레이스를 중앙 데이터베이스에 저장하는 것은 중요합니다. 이러한 트레이스는 디버깅에 활용할 수 있고, 애플리케이션 개선에 도움이 되는 데이터셋으로도 사용할 수 있습니다.
+개발 중이든 프로덕션 환경이든, LLM 애플리케이션의 트레이스를 중앙 데이터베이스에 저장하는 것은 중요합니다. 이러한 트레이스는 디버깅에 활용하고, 애플리케이션 개선에 도움이 되는 데이터셋으로도 사용할 수 있습니다.
 
 > **참고:** LiteLLM을 사용할 때는 `from litellm import completion` 대신 `import litellm`으로 라이브러리를 임포트하고, completion 함수는 `litellm.completion()`으로 호출해야 합니다. 이렇게 해야 모든 함수와 파라미터가 올바르게 참조됩니다.
 
-Weave는 LiteLLM의 트레이스를 자동으로 캡처합니다. 라이브러리는 평소처럼 사용하면 되며, 먼저 `weave.init()`를 호출해 시작하세요:
+Weave는 LiteLLM의 트레이스를 자동으로 캡처합니다. 라이브러리는 평소처럼 사용하고, 먼저 `weave.init()`를 호출해 시작하세요:
 
 ```python lines {4}
 import litellm
@@ -26,27 +26,27 @@ import weave
 weave.init("weave_litellm_integration")
 
 openai_response = litellm.completion(
-    model="gpt-3.5-turbo",
+    model="gpt-3.5-turbo", 
     messages=[{"role": "user", "content": "Translate 'Hello, how are you?' to French"}],
     max_tokens=1024
 )
 print(openai_response.choices[0].message.content)
 
 claude_response = litellm.completion(
-    model="claude-3-5-sonnet-20240620",
+    model="claude-3-5-sonnet-20240620", 
     messages=[{"role": "user", "content": "Translate 'Hello, how are you?' to French"}],
     max_tokens=1024
 )
 print(claude_response.choices[0].message.content)
 ```
 
-이제 Weave는 LiteLLM을 통해 발생하는 모든 LLM 호출을 추적하고 로깅합니다. Weave 웹 인터페이스에서 트레이스를 확인할 수 있습니다.
+이제 Weave는 LiteLLM을 통해 발생하는 모든 LLM Call을 추적하고 로깅합니다. Weave 웹 인터페이스에서 트레이스를 확인할 수 있습니다. 기본 트레이싱이 마련되었으므로, 다음 섹션에서는 LiteLLM Call을 자체 Weave ops로 감싸 애플리케이션 로직을 더 세밀하게 추적하고 버전별로 관리하는 방법을 보여줍니다.
 
-<div id="wrapping-with-your-own-ops">
+<div id="wrap-with-your-own-ops">
   ## 자체 ops로 감싸기
 </div>
 
-Weave ops는 실험하는 동안 코드 버전을 자동으로 관리하고 입력과 출력을 캡처해 결과를 재현 가능하게 만듭니다. `@weave.op()`으로 데코레이팅한 함수를 만들고 그 안에서 LiteLLM의 completion 함수를 호출하기만 하면, Weave가 입력과 출력을 추적해 줍니다. 다음은 예시입니다:
+Weave ops는 실험하는 동안 코드 버전을 자동으로 관리하고 입력과 출력을 캡처해 결과를 재현 가능하게 만듭니다. `@weave.op()`으로 데코레이팅한 함수를 만들고 그 안에서 LiteLLM의 completion 함수를 호출하면, Weave가 입력과 출력을 추적해 줍니다. 다음은 예시입니다:
 
 ```python lines {4,6}
 import litellm
@@ -67,16 +67,15 @@ print(translate("Hello, how are you?", "French", "gpt-3.5-turbo"))
 print(translate("Hello, how are you?", "Spanish", "claude-3-5-sonnet-20240620"))
 ```
 
-
 <div id="create-a-model-for-easier-experimentation">
   ## 더 쉽게 실험할 수 있도록 `Model` 만들기
 </div>
 
-구성 요소가 많아지면 실험을 체계적으로 정리하기가 어렵습니다. `Model` 클래스를 사용하면 시스템 프롬프트나 사용 중인 모델처럼 앱의 실험 관련 세부 정보를 캡처하고 정리할 수 있습니다. 이렇게 하면 앱의 여러 반복 버전을 정리하고 비교하는 데 도움이 됩니다.
+많은 요소가 동시에 움직이면 실험을 체계적으로 정리하기가 어렵습니다. `Model` 클래스를 사용하면 시스템 프롬프트나 사용 중인 모델처럼 앱의 실험 관련 세부 정보를 캡처하고 정리할 수 있습니다. 이렇게 하면 앱의 여러 반복 버전을 정리하고 비교하는 데 도움이 됩니다.
 
-Models는 코드 버전 관리와 입력/출력 캡처에 더해, 애플리케이션 동작을 제어하는 구조화된 매개변수도 함께 캡처하므로 어떤 매개변수가 가장 효과적이었는지 쉽게 찾을 수 있습니다. Weave Models는 `serve` 및 Evaluations와 함께 사용할 수도 있습니다.
+Models는 코드 버전 관리와 입력 및 출력 캡처에 더해, 애플리케이션 동작을 제어하는 구조화된 매개변수도 함께 캡처하므로 어떤 매개변수가 가장 효과적인지 찾는 데 도움이 됩니다. Weave Models는 `serve` 및 Evaluations와 함께 사용할 수도 있습니다.
 
-아래 예제에서는 다양한 모델과 temperature로 실험할 수 있습니다:
+다음 예시에서는 다양한 모델과 temperature로 실험할 수 있습니다:
 
 ```python lines {4,6,10}
 import litellm
@@ -87,7 +86,7 @@ weave.init('weave_litellm_integration')
 class TranslatorModel(weave.Model):
     model: str
     temperature: float
-
+  
     @weave.op()
     def predict(self, text: str, target_language: str):
         response = litellm.completion(
@@ -119,7 +118,7 @@ print(claude_translator.predict(english_text, "Spanish"))
   ## 함수 호출
 </div>
 
-LiteLLM은 호환되는 모델에서 함수 호출을 지원합니다. Weave는 이러한 함수 호출을 자동으로 추적합니다.
+LiteLLM은 호환되는 모델에서 함수 Call을 지원합니다. Weave는 이러한 함수 Call을 자동으로 추적하므로, 다른 트레이스와 함께 함수, 인수, 응답을 확인할 수 있습니다.
 
 ```python lines {4}
 import litellm
@@ -155,6 +154,6 @@ response = litellm.completion(
 print(response)
 ```
 
-프롬프트에서 사용한 함수를 자동으로 캡처하고 버전 관리합니다.
+Weave는 프롬프트에서 사용한 함수를 자동으로 캡처하고 버전 관리합니다.
 
 [![litellm.gif](/weave/guides/integrations/imgs/litellm.gif)](https://wandb.ai/a-sh0ts/weave_litellm_integration/weave/calls)

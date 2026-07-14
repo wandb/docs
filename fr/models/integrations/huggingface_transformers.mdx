@@ -218,7 +218,7 @@ Tous les `Trainer` Transformers que vous initialisez à partir de maintenant té
   #### W&amp;B registre
 </div>
 
-Une fois vos checkpoints enregistrés dans Artifacts, vous pouvez enregistrer les checkpoints de vos meilleurs modèles et les centraliser au sein de votre équipe avec [registre](/fr/models/registry/). Avec le registre, vous pouvez organiser vos meilleurs modèles par tâche, gérer le cycle de vie des modèles, suivre et auditer l&#39;ensemble du cycle de vie du machine learning, et [automatiser](/fr/models/automations/) les actions en aval.
+Une fois vos point de contrôle du modèle enregistrés dans Artifacts, vous pouvez enregistrer les point de contrôle du modèle de vos meilleurs modèles et les centraliser au sein de votre équipe avec [registre](/fr/models/registry/). Avec le registre, vous pouvez organiser vos meilleurs modèles par tâche, gérer le cycle de vie des modèles, suivre et auditer l&#39;ensemble du cycle de vie du machine learning, et [automatiser](/fr/models/automations/) les actions en aval.
 
 Pour lier un Artifact de modèle, reportez-vous à [registre](/fr/models/registry/).
 
@@ -308,31 +308,31 @@ with wandb.init(project="amazon_sentiment_analysis") as run:
 Si vous avez défini `WANDB_LOG_MODEL='checkpoint'`, vous pouvez également reprendre l’entraînement en utilisant `model_dir` comme valeur de l’argument `model_name_or_path` dans vos `TrainingArguments`, puis en passant `resume_from_checkpoint=True` à `Trainer`.
 
 ```python
-last_run_id = "xxxxxxxx"  # récupérez le run_id depuis votre workspace wandb
+last_run_id = "xxxxxxxx"  # fetch the run_id from your wandb workspace
 
-# reprendre le run wandb à partir du run_id
+# resume the wandb run from the run_id
 with wandb.init(
     project=os.environ["WANDB_PROJECT"],
     id=last_run_id,
     resume="must",
 ) as run:
-    # Connecter un Artifact au run
+    # Connect an Artifact to the run
     my_checkpoint_name = f"checkpoint-{last_run_id}:latest"
-    my_checkpoint_artifact = run.use_artifact(my_model_name)
+    my_checkpoint_artifact = run.use_artifact(my_checkpoint_name)
 
-    # Télécharger le point de contrôle dans un dossier et retourner le chemin
+    # Download checkpoint to a folder and return the path
     checkpoint_dir = my_checkpoint_artifact.download()
 
-    # réinitialiser votre modèle et votre trainer
+    # reinitialize your model and trainer
     model = AutoModelForSequenceClassification.from_pretrained(
         "<model_name>", num_labels=num_labels
     )
-    # vos arguments d'entraînement ici.
+    # your awesome training arguments here.
     training_args = TrainingArguments()
 
     trainer = Trainer(model=model, args=training_args)
 
-    # utilisez bien le répertoire du point de contrôle pour reprendre l'entraînement depuis ce point
+    # make sure use the checkpoint dir to resume training from the checkpoint
     trainer.train(resume_from_checkpoint=checkpoint_dir)
 ```
 
@@ -499,7 +499,7 @@ Vous pouvez affiner la configuration de ce qui est enregistré avec `Trainer` en
 
 Le `WandbCallback` utilisé par `Trainer` appelle `wandb.init()` en interne lors de l&#39;initialisation de `Trainer`. Vous pouvez aussi configurer vos runs manuellement en appelant `wandb.init()` avant l&#39;initialisation de `Trainer`. Cela vous donne un contrôle total sur la configuration de votre run W&amp;B.
 
-Voici un exemple de ce que vous pouvez passer à `init`. Pour plus de détails sur `wandb.init()`, voir la [`référence \`wandb.init()``](/fr/models/ref/python/functions/init).
+Voici un exemple de ce que vous pouvez passer à `init`. Pour plus de détails sur `wandb.init()`, voir la [`référence \`wandb.init()&#96;&#96;](/fr/models/ref/python/functions/init).
 
 ```python
 wandb.init(

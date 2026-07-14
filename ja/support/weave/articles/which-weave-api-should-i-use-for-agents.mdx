@@ -1,0 +1,18 @@
+---
+title: "エージェントをトレースするには、どの Weave API を使用すべきですか？"
+keywords: ["Agents", "Tracing", "weave.op"]
+---
+
+何を作成しているかによって異なります。
+
+* 既製のエージェントフレームワーク (Claude Code など) を実行している場合は、対応する [Weave integration](/ja/weave/guides/integrations) をインストールしてください。トレースは自動的に **Agents** タブに表示されます。
+* セッションとターンを使って独自のエージェントを作成している場合は、[Agents 向け Weave SDK](/ja/weave/guides/tracking/trace-agents) (`weave.start_session`、`weave.start_turn`) を使用してください。結果は **Agents** タブに表示されます。
+* エージェントの会話ではなく、個々の関数やパイプラインをトレースする場合は、[`@weave.op`](/ja/weave/guides/tracking/tracing) を使用してください。結果は **Traces** タブに表示されます。
+
+***
+
+{/* AUTO-GENERATED: タブバッジ */}
+
+<Badge stroke shape="pill" color="orange" size="md">[エージェント](/ja/support/weave/tags/agents)</Badge><Badge stroke shape="pill" color="orange" size="md">[トレース](/ja/support/weave/tags/tracing)</Badge><Badge stroke shape="pill" color="orange" size="md">[weave.op](/ja/support/weave/tags/weave-op)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

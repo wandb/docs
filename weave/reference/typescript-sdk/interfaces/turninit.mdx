@@ -7,14 +7,46 @@ description: "TypeScript SDK reference"
 
 
 
+## Hierarchy
+
+- `SpanInitBase`
+
+  ↳ `TurnInit`
+
 ## Table of contents
 
 ### Properties
 
+- [agentDescription](./turninit#agentdescription)
+- [agentId](./turninit#agentid)
 - [agentName](./turninit#agentname)
+- [agentVersion](./turninit#agentversion)
 - [model](./turninit#model)
+- [startTime](./turninit#starttime)
+- [systemInstructions](./turninit#systeminstructions)
+- [userMessage](./turninit#usermessage)
 
 ## Properties
+
+### agentDescription
+
+• `Optional` **agentDescription**: `string`
+
+#### Defined in
+
+[src/genai/turn.ts:37](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L37)
+
+___
+
+### agentId
+
+• `Optional` **agentId**: `string`
+
+#### Defined in
+
+[src/genai/turn.ts:35](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L35)
+
+___
 
 ### agentName
 
@@ -22,7 +54,17 @@ description: "TypeScript SDK reference"
 
 #### Defined in
 
-[genai/turn.ts:27](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L27)
+[src/genai/turn.ts:36](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L36)
+
+___
+
+### agentVersion
+
+• `Optional` **agentVersion**: `string`
+
+#### Defined in
+
+[src/genai/turn.ts:38](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L38)
 
 ___
 
@@ -32,4 +74,38 @@ ___
 
 #### Defined in
 
-[genai/turn.ts:28](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L28)
+[src/genai/turn.ts:32](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L32)
+
+___
+
+### startTime
+
+• `Optional` **startTime**: `TimeInput`
+
+#### Inherited from
+
+SpanInitBase.startTime
+
+#### Defined in
+
+[src/genai/spanBase.ts:17](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L17)
+
+___
+
+### systemInstructions
+
+• `Optional` **systemInstructions**: `string`[]
+
+#### Defined in
+
+[src/genai/turn.ts:33](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L33)
+
+___
+
+### userMessage
+
+• `Optional` **userMessage**: `string`
+
+#### Defined in
+
+[src/genai/turn.ts:34](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L34)

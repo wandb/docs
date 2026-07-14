@@ -1,0 +1,62 @@
+---
+title: "Comment puis-je télécharger le fichier de logs de console d’un run ?"
+keywords: ["Logs", "Exécutions"]
+---
+
+W&amp;B stocke le stdout et le stderr de votre script dans `output.log` (ou sous forme de fragments multipart dans `logs/`). L’endroit où vous pouvez le récupérer dépend du fait que le run soit terminé, encore actif ou planté. Pour les paramètres de capture et `console_multipart`, voir [Journaux de console](/fr/models/app/console-logs).
+
+<div id="from-the-ui">
+  ## Depuis l’interface utilisateur
+</div>
+
+1. Ouvrez la page du run.
+2. Cliquez sur l’onglet **Files**.
+3. Trouvez `output.log` (ou les fichiers dans `logs/`) et cliquez sur l’icône de téléchargement.
+
+Par défaut, `output.log` est téléversé *une fois le run terminé*. Il peut ne pas apparaître dans **Files** tant que le run est encore actif, sauf si vous avez activé la journalisation multipart lors de l’initialisation.
+
+<div id="programmatically-via-the-api">
+  ## De manière programmatique via l’API
+</div>
+
+```python
+import wandb
+
+api = wandb.Api()
+run = api.run("entity/project/run_id")
+run.file("output.log").download(replace=True)
+```
+
+Pour les runs multipart, listez et téléchargez de la même manière les fichiers individuels dans `logs/`.
+
+<div id="while-the-run-is-still-running">
+  ## Tant que le run est en cours
+</div>
+
+Activez la [journalisation multipart de la console](/fr/models/app/console-logs) lors de l’appel à `wandb.init`. Utilisez `wandb` **v0.22.3** ou une version ultérieure afin que le SDK puisse écrire et téléverser des fragments horodatés dans `logs/` tant que le run est actif. La fréquence de téléversement ne peut pas être modifiée une fois le run démarré.
+
+<div id="if-the-run-crashed">
+  ## Si le run a planté
+</div>
+
+Sans journalisation multipart, un run planté peut ne pas avoir de `output.log` sur le serveur. Les fragments téléversés avant le plantage restent téléchargeables si multipart était activé. Vérifiez la copie locale dans `wandb/run-<timestamp>-<run-id>/logs/output.log` si les fichiers sont absents côté serveur.
+
+<div id="resuming-a-run">
+  ## Reprendre un run
+</div>
+
+Sans journalisation multipart, `wandb.init(resume="allow", id=...)` peut écraser un seul fichier `output.log`. Avec `console_multipart=True` (nécessite `wandb` **v0.22.3** ou version ultérieure pour activer la journalisation multipart) et **`wandb` v0.20.1** ou version ultérieure pour téléverser correctement les fragments lors de la reprise, chaque session conserve ses propres fragments. Voir [Journaux de console](/fr/models/app/console-logs).
+
+<div id="more-lines-than-the-logs-tab-shows">
+  ## Plus de lignes que n’en affiche l’onglet Logs
+</div>
+
+L’onglet **Logs** affiche au maximum 10 000 lignes à la fois, pour des raisons de performances. Téléchargez le journal complet depuis **Files** ou via l’API. Pour les problèmes de capture, voir [Pourquoi la sortie de la console n’est-elle pas capturée pour mon run ?](/fr/support/models/articles/why-is-console-output-not-captured-for-my-run).
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Logs](/fr/support/models/tags/logs)</Badge><Badge stroke shape="pill" color="orange" size="md">[Exécutions](/fr/support/models/tags/runs)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

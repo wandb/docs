@@ -1,10 +1,10 @@
 ---
 title: バケットストレージとコストを管理する
-description: W&B がオブジェクトストレージをどのように使用するか、削除がバケット使用量（バイト数）にどのように反映されるか、またセルフマネージド、専用クラウド、Bring Your Own Bucket のデプロイ環境で使用量を削減する方法を理解します。
+description: W&B がオブジェクトストレージをどのように使用するか、削除がバケット使用量（バイト数）にどのように反映されるか、またストレージの使用量とコストを削減する方法を理解します。
 keywords: ["ストレージのクリーンアップ", "ガベージコレクション", "アーティファクト の削除", "バケットのバイト数", "S3 のコスト"]
 ---
 
-[Bring your own bucket (BYOB)](/ja/platform/hosting/data-security/secure-storage-connector)、[W&amp;B Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated-cloud)、または [W&amp;B Self-Managed](/ja/platform/hosting/hosting-options/self-managed) を使用する場合、通常、チームでクラウドストレージプロバイダに直接料金を支払うことになります。このページでは、バケット内で容量を消費するもの、アプリまたは API で削除した後に W&amp;B がオブジェクトをどのように削除するか、そして何を想定すべきかについて説明します。これを活用して、バケットの使用状況を把握し、クリーンアップを計画し、ストレージが再利用可能になる時期について現実的な見通しを立ててください。
+[Bring your own bucket を使用する (BYOB)](/ja/platform/hosting/data-security/secure-storage-connector)、[W&amp;B Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated-cloud)、または [W&amp;B Self-Managed](/ja/platform/hosting/hosting-options/self-managed) を使用する場合、通常、チームでクラウドストレージプロバイダに直接料金を支払うことになります。このページでは、バケット内で容量を消費するもの、アプリまたは API で削除した後に W&amp;B がオブジェクトをどのように削除するか、そして何を想定すべきかについて説明します。これを活用して、バケットの使用状況を把握し、クリーンアップを計画し、ストレージが再利用可能になる時期について現実的な見通しを立ててください。
 
 このページは、セルフマネージド、専用クラウド、または BYOB のデプロイ環境でオブジェクトストレージを管理する W&amp;B 管理者およびオペレーターを対象としています。
 

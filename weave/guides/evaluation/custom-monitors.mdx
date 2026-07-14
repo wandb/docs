@@ -3,6 +3,10 @@ title: "Set up custom monitors"
 description: "Passively score production traffic to surface trends and issues"
 ---
 
+<Note>
+Custom monitors are the previous approach to monitoring production traffic. For new implementations, use **Signals** under Weave for Agents. See [View agent signals](/weave/guides/tracking/view-agent-signals).
+</Note>
+
 This page shows you how to set up custom monitors in W&B Weave so you can passively score production traffic and surface trends and issues in your LLM applications. Use this guide when you want to define your own evaluation criteria, beyond Weave's preset signals, for production traces.
 
 Monitors use LLM judges to passively score production traffic to surface trends and issues in your LLM applications. For example, you can monitor your application's responses for correctness or helpfulness, or you can monitor user input to identify trends in what users ask your agents about. Monitors automatically store all scoring results in Weave's database, so you can analyze historical trends and patterns.
@@ -98,7 +102,8 @@ generate_statement("The Earth revolves around the Sun.")
 ```
   </Tab>
   <Tab title="TypeScript">
-```typescript lines
+```typescript lines twoslash
+// @noErrors
 import * as weave from 'weave';
 import OpenAI from 'openai';
 
@@ -167,7 +172,8 @@ generate_statement("The Great Wall of China was built over several centuries.")
 ```
   </Tab>
   <Tab title="TypeScript">
-```typescript lines
+```typescript lines twoslash
+// @noErrors
 await generateStatement("The Earth revolves around the Sun.");
 await generateStatement("Water freezes at 0 degrees Celsius.");
 await generateStatement("The Great Wall of China was built over several centuries.");

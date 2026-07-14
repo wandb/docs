@@ -1,0 +1,62 @@
+---
+title: "run のコンソールログファイルをダウンロードするにはどうすればよいですか？"
+keywords: ["ログ", "Runs"]
+---
+
+W&amp;B は、スクリプトの stdout と stderr を `output.log` (または `logs/` 配下のマルチパートチャンク) として保存します。取得先は、run が完了しているか、まだ実行中か、またはクラッシュしたかによって異なります。キャプチャ設定と `console_multipart` については、[Console logs](/ja/models/app/console-logs) を参照してください。
+
+<div id="from-the-ui">
+  ## UI から
+</div>
+
+1. run のページを開きます。
+2. **Files** タブをクリックします。
+3. `output.log` (または `logs/` 配下のファイル) を探して、ダウンロードアイコンをクリックします。
+
+デフォルトでは、`output.log` は *run の終了時に* アップロードされます。初期化時に multipart logging を有効にしていない限り、run がまだアクティブな間は **Files** に表示されないことがあります。
+
+<div id="programmatically-via-the-api">
+  ## API を使用してプログラムで
+</div>
+
+```python
+import wandb
+
+api = wandb.Api()
+run = api.run("entity/project/run_id")
+run.file("output.log").download(replace=True)
+```
+
+マルチパートの run では、`logs/` 配下の各ファイルも同様に一覧表示してダウンロードできます。
+
+<div id="while-the-run-is-still-running">
+  ## run の実行中
+</div>
+
+`wandb.init` 時に [マルチパート コンソールログ](/ja/models/app/console-logs) を有効にします。run の実行中でも SDK が `logs/` 配下にタイムスタンプ付きチャンクを書き込んでアップロードできるようにするには、`wandb` **v0.22.3** 以降を使用してください。アップロード間隔は、run の開始後は変更できません。
+
+<div id="if-the-run-crashed">
+  ## run がクラッシュした場合
+</div>
+
+マルチパート logging を使用していない場合、クラッシュした run ではサーバー上に `output.log` が存在しないことがあります。クラッシュ前に upload 済みのチャンクは、マルチパートが有効であれば引き続きダウンロードできます。サーバー側に file がない場合は、`wandb/run-<timestamp>-<run-id>/logs/output.log` にあるローカルコピーを確認してください。
+
+<div id="resuming-a-run">
+  ## run を再開する
+</div>
+
+マルチパート logging を使用しない場合、`wandb.init(resume="allow", id=...)` によって単一の `output.log` が上書きされることがあります。`console_multipart=True` を使用すると (マルチパート logging を有効にするには `wandb` **v0.22.3** 以降が必要) 、さらに再開時にチャンクを正しくアップロードするには **`wandb` v0.20.1** 以降が必要で、各 Session はそれぞれ独自のチャンクを保持します。詳しくは [Console logs](/ja/models/app/console-logs) を参照してください。
+
+<div id="more-lines-than-the-logs-tab-shows">
+  ## Logs タブに表示される行数を超える場合
+</div>
+
+パフォーマンス上の理由から、**Logs** タブに一度に表示されるのは最大 10,000 行です。ログ全体を確認するには、**Files** または API からダウンロードしてください。取得に関する問題については、[自分の run のコンソール出力が取得されないのはなぜですか？](/ja/support/models/articles/why-is-console-output-not-captured-for-my-run)を参照してください。
+
+***
+
+{/* 自動生成: タブバッジ */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Logs](/ja/support/models/tags/logs)</Badge><Badge stroke shape="pill" color="orange" size="md">[Runs](/ja/support/models/tags/runs)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

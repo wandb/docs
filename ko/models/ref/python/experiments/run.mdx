@@ -226,6 +226,18 @@ run이 시작된 시점의 Unix 타임스탬프(초 단위)입니다.
 
 ***
 
+### <kbd>속성</kbd> Run.step
+
+다음 `log()` 호출에 사용될 W&amp;B step입니다.
+
+`mode="shared"` run에서는 예외가 발생합니다.
+
+**반환값:**
+
+* `int`: step 속성 값입니다.
+
+***
+
 ### <kbd>속성</kbd> Run.sweep_id
 
 run에 연결된 sweep의 식별자입니다(있는 경우).
@@ -733,14 +745,14 @@ artifact를 run의 출력으로 선언합니다.
 log_code(
     root: 'str | None' = '.',
     name: 'str | None' = None,
-    include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function _is_py_requirements_or_dockerfile at 0x10b282660>,
-    exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function exclude_wandb_fn at 0x10ca1d1c0>
+    include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function _is_py_requirements_or_dockerfile at 0x10b40f1a0>,
+    exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function exclude_wandb_fn at 0x10cea8360>
 ) → Artifact | None
 ```
 
 현재 코드 상태를 W&amp;B Artifact에 저장합니다.
 
-기본적으로 현재 디렉터리를 순회하면서 `.py`로 끝나는 모든 파일을 로그합니다.
+기본적으로 현재 디렉터리를 순회하면서 `.py`로 끝나는 모든 파일을 로깅합니다.
 
 **인수:**
 

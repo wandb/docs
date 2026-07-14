@@ -1,19 +1,23 @@
 ---
-title: "Pourquoi mon processus se bloque-t-il lorsque j'utilise Hydra avec W&B ?"
-keywords: ["Experiments", "Plantages d’exécution"]
+title: "Pourquoi mon processus cesse-t-il de répondre lorsque j'utilise Hydra avec W&B ?"
+keywords: ["Experiments", "crash de run"]
 ---
 
-Si votre processus se bloque lorsqu&#39;il est lancé avec Hydra, cela est probablement dû à un conflit de multiprocessing entre Hydra et W&amp;B.
+Cette page explique comment résoudre les problèmes de processus qui ne répondent plus lorsque vous démarrez un processus avec Hydra en parallèle de W&amp;B. Si votre processus cesse de répondre lorsque vous le démarrez avec Hydra, la cause probable est un conflit de multiprocessing entre Hydra et W&amp;B.
 
-Pour corriger cela, modifiez le protocole de multiprocessing de W&amp;B en `"thread"`. Vous pouvez le faire de l&#39;une des deux manières suivantes :
+Pour corriger cela, modifiez le protocole de multiprocessing de W&amp;B en `"thread"`. Cela évite le conflit afin que votre processus puisse démarrer correctement. Vous pouvez le faire de l&#39;une des deux manières suivantes :
 
-**Option 1**: Passez un paramètre settings à `wandb.init()` :
+<div id="pass-a-settings-parameter-to-wandbinit">
+  ## Passez le paramètre settings à wandb.init
+</div>
 
 ```python
 wandb.init(settings=wandb.Settings(start_method="thread"))
 ```
 
-**Option 2** : définissez une variable d’environnement globale :
+<div id="set-a-global-environment-variable">
+  ## Définir une variable d’environnement globale
+</div>
 
 ```bash
 export WANDB_START_METHOD=thread

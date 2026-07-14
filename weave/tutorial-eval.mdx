@@ -49,7 +49,8 @@ from weave.scorers import MultiTaskBinaryClassificationF1
 ```
 </Tab>
 <Tab title="TypeScript">
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 import * as weave from 'weave';
 import OpenAI from 'openai';
 ```
@@ -94,7 +95,8 @@ The following example model uses OpenAI to extract the names, colors, and flavor
   ```
   </Tab>
   <Tab title="TypeScript">
-  ```typescript lines {9}
+  ```typescript twoslash lines {9}
+  // @noErrors
   // Note: weave.Model is not supported in TypeScript yet.
   // Instead, wrap your model-like function with weave.op
 
@@ -139,7 +141,8 @@ You can instantiate `Model` objects like this:
   ```
   </Tab>
   <Tab title="TypeScript">
-  ```typescript
+  ```typescript twoslash
+  // @noErrors
   await weave.init('eval_pipeline_quickstart');
 
   const sentence = "There are many fruits that were found on the recently discovered planet Goocrux. There are neoskizzles that grow there, which are purple and taste like candy.";
@@ -178,7 +181,8 @@ This example builds a list of examples in code, but you can also log them one at
   ```
   </Tab>
   <Tab title="TypeScript">
-  ```typescript
+  ```typescript twoslash
+  // @noErrors
   const sentences = [
     "There are many fruits that were found on the recently discovered planet Goocrux. There are neoskizzles that grow there, which are purple and taste like candy.",
     "Pounits are a bright green color and are more savory than sweet.",
@@ -209,7 +213,8 @@ Then create your dataset using the `weave.Dataset()` class and publish it:
   ```
   </Tab>
   <Tab title="TypeScript">
-  ```typescript lines {3-6}
+  ```typescript twoslash lines {3-6}
+  // @noErrors
   import * as weave from 'weave';
   await weave.init('eval_pipeline_quickstart');
   const dataset = new weave.Dataset({
@@ -237,7 +242,8 @@ When you use Weave evaluations, Weave expects a `target` to compare `output` aga
   ```
   </Tab>
   <Tab title="TypeScript">
-  ```typescript
+  ```typescript twoslash
+  // @noErrors
   import * as weave from 'weave';
 
   const fruitNameScorer = weave.op(
@@ -280,7 +286,8 @@ The following example runs an evaluation of `ExtractFruitsModel` on the `fruits`
   ```
   </Tab>
   <Tab title="TypeScript">
-  ```typescript lines {5-9}
+  ```typescript twoslash lines {5-9}
+  // @noErrors
   import * as weave from 'weave';
 
   await weave.init('eval_pipeline_quickstart');
@@ -376,7 +383,8 @@ If you're running from a Python script, you'll need to use `asyncio.run`. Howeve
   ```
   </Tab>
   <Tab title="TypeScript">
-  ```typescript lines
+  ```typescript twoslash lines
+  // @noErrors
   import * as weave from 'weave';
   import OpenAI from 'openai';
 

@@ -1,0 +1,268 @@
+---
+title: "Classe : Tool"
+description: "Référence du SDK TypeScript"
+---
+
+[weave](../) / Tool
+
+Un appel d’outil. Émet un span `execute_tool` contenant le nom de l’outil,
+les arguments encodés en JSON, l’identifiant de l’appel d’outil et le résultat.
+
+Créé par `weave.startTool()` (ou `turn.startTool()`, ou
+`llm.startTool()`) et terminé avec `end()`. Attribuez `result` avant
+d’appeler `end()` pour enregistrer le résultat de l’outil dans le span.
+
+`Exemple`
+
+```ts twoslash
+// @noErrors
+const tool = weave.startTool({
+  name: tc.function.name,
+  args: tc.function.arguments,
+  toolCallId: tc.id,
+});
+try {
+  tool.result = await wikipediaSearch(JSON.parse(tc.function.arguments));
+} finally {
+  tool.end();
+}
+```
+
+<div id="hierarchy">
+  ## Hiérarchie
+</div>
+
+* `SpanBase`
+
+  ↳ `Tool`
+
+<div id="table-of-contents">
+  ## Table des matières
+</div>
+
+<div id="properties">
+  ### Propriétés
+</div>
+
+* [args](./tool#args)
+* [name](./tool#name)
+* [result](./tool#result)
+* [toolCallId](./tool#toolcallid)
+
+<div id="methods">
+  ### Méthodes
+</div>
+
+* [addEvent](./tool#addevent)
+* [end](./tool#end)
+* [setAttributes](./tool#setattributes)
+* [create](./tool#create)
+
+## Propriétés
+
+<div id="args">
+  ### args
+</div>
+
+• `Readonly` **args**: `string`
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/tool.ts:52](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L52)
+
+***
+
+<div id="name">
+  ### nom
+</div>
+
+• `Readonly` **nom**: `string`
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/tool.ts:51](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L51)
+
+***
+
+<div id="result">
+  ### result
+</div>
+
+• `Facultatif` **result**: `string`
+
+Sortie de l’outil sous forme de chaîne de caractères. Enregistrée dans `gen_ai.tool.call.result` à `end()`.
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/tool.ts:47](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L47)
+
+***
+
+<div id="toolcallid">
+  ### toolCallId
+</div>
+
+• `Readonly` **toolCallId**: `string`
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/tool.ts:53](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L53)
+
+## Méthodes
+
+<div id="addevent">
+  ### addEvent
+</div>
+
+▸ **addEvent**(`name`, `attributes?`, `startTime?`): `this`
+
+Ajoute un événement nommé au span. Utile pour marquer des événements ponctuels qui ne constituent pas un span, comme
+la compaction du contexte, la détection de boucles d’outils ou le déclenchement de guardrails. Émet un avertissement et
+ne fait rien après `end()`. Correspond à OTel `Span.addEvent`.
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom           | Type         |
+| :------------ | :----------- |
+| `name`        | `string`     |
+| `attributes?` | `Attributes` |
+| `startTime?`  | `TimeInput`  |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`this`
+
+`Exemple`
+
+```ts twoslash
+// @noErrors
+span.addEvent('context_compacted', {removedMessages: 12});
+```
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+SpanBase.addEvent
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/spanBase.ts:77](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/spanBase.ts#L77)
+
+***
+
+<div id="end">
+  ### end
+</div>
+
+▸ **end**(`opts?`): `void`
+
+Vide `result` dans le span et le ferme. Idempotent. Passez `error` pour
+marquer le span comme ayant échoué ; passez `endTime` pour antidater la fermeture.
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom     | Type             |
+| :------ | :--------------- |
+| `opts?` | `SpanEndOptions` |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`void`
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/tool.ts:87](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L87)
+
+***
+
+<div id="setattributes">
+  ### setAttributes
+</div>
+
+▸ **setAttributes**(`attributes`): `this`
+
+Définit plusieurs attributs sur le span en une seule opération. Émet un avertissement et ne fait rien après
+`end()`. Reprend le comportement de `Span.setAttributes` d&#39;OTel (ainsi que celui de
+`set_attributes` dans le SDK Python).
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom          | Type         |
+| :----------- | :----------- |
+| `attributes` | `Attributes` |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`this`
+
+`Exemple`
+
+```ts twoslash
+// @noErrors
+span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
+```
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+SpanBase.setAttributes
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/spanBase.ts#L63)
+
+***
+
+<div id="create">
+  ### create
+</div>
+
+▸ **create**(`opts`): [`Tool`](./tool)
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom    | Type                                                          |
+| :----- | :------------------------------------------------------------ |
+| `opts` | [`ToolInit`](../interfaces/toolinit) &amp; `ChildSpanContext` |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+[`Tool`](./tool)
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/tool.ts:58](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L58)
