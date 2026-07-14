@@ -312,14 +312,14 @@
                         ]
                       },
                       {
-                        "group" : "Eval Tables",
-                        "pages" : [
+                        "group": "Eval Tables",
+                        "pages": [
                           "models/evaltables",
                           "models/evaltables/create-an-evaluation-table",
                           "models/evaltables/visualize-evaluation-tables",
                           "models/evaltables/compare-runs"
                         ],
-                        "tag" : "Preview"
+                        "tag": "Preview"
                       },
                       {
                         "group": "Tables",

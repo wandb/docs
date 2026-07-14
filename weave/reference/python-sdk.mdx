@@ -1105,7 +1105,7 @@ asyncio.run(evaluation.evaluate(function_to_evaluate))
 - `description`: `str | None`
 - `ref`: `trace.refs.ObjectRef | None`
 - `dataset`: `<class 'dataset.dataset.Dataset'>`
-- `scorers`: `list[typing.Annotated[trace.op_protocol.Op | flow.scorer.Scorer, BeforeValidator(func=<function cast_to_scorer at 0x7f136d430d60>, json_schema_input_type=PydanticUndefined)]] | None`
+- `scorers`: `list[typing.Annotated[trace.op_protocol.Op | flow.scorer.Scorer, BeforeValidator(func=<function cast_to_scorer at 0x7f3f13d394e0>, json_schema_input_type=PydanticUndefined)]] | None`
 - `preprocess_model_input`: `collections.abc.Callable[[dict], dict] | None`
 - `trials`: `<class 'int'>`
 - `metadata`: `dict[str, typing.Any] | None`
@@ -4310,7 +4310,7 @@ If no conversation is active, returns a disconnected Turn that is NOT set in the
 
 ```python
 thread(
-    thread_id: 'str | object | None' = <object object at 0x7f136d9f4bd0>
+    thread_id: 'str | object | None' = <object object at 0x7f3f142f4bf0>
 ) → Iterator[ThreadContext]
 ```
 

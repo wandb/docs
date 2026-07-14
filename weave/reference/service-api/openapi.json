@@ -6479,8 +6479,11 @@
         "properties": {
           "role": {
             "type": "string",
-            "title": "Role",
-            "default": ""
+            "enum": [
+              "user_message",
+              "assistant_message"
+            ],
+            "title": "Role"
           },
           "text": {
             "type": "string",
@@ -6489,6 +6492,9 @@
           }
         },
         "type": "object",
+        "required": [
+          "role"
+        ],
         "title": "AgentConversationMessagePreview",
         "description": "A truncated first/last message snippet for a grouped conversation row.\n\n`role` is the chat-timeline message type (e.g. \"user_message\",\n\"assistant_message\") so clients can style it consistently with the full\nchat view; `text` is the trimmed, length-capped preview content."
       },
@@ -7017,15 +7023,22 @@
             "title": "Trace Id"
           },
           "role": {
-            "type": "string",
-            "enum": [
-              "",
-              "user",
-              "assistant",
-              "system",
-              "tool",
-              "tool_call",
-              "tool_result"
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "",
+                  "user",
+                  "assistant",
+                  "system",
+                  "tool",
+                  "tool_call",
+                  "tool_result"
+                ]
+              },
+              {
+                "type": "string"
+              }
             ],
             "title": "Role"
           },
@@ -7215,6 +7228,26 @@
         ],
         "title": "AgentSearchRes",
         "description": "Response from a full-text search across agent messages."
+      },
+      "AgentSignalFilter": {
+        "properties": {
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Tags"
+          },
+          "ratings": {
+            "items": {
+              "$ref": "#/components/schemas/RatingCondition"
+            },
+            "type": "array",
+            "title": "Ratings"
+          }
+        },
+        "type": "object",
+        "title": "AgentSignalFilter"
       },
       "AgentSortBy": {
         "properties": {
@@ -7909,6 +7942,83 @@
               }
             ],
             "title": "Agent Version"
+          },
+          "eval_run_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Run Id"
+          },
+          "eval_predict_and_score_call_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Predict And Score Call Id"
+          },
+          "eval_kind": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Kind"
+          },
+          "eval_row_digest": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Row Digest"
+          },
+          "eval_example_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Example Id"
+          },
+          "eval_trial_index": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Trial Index"
+          },
+          "eval_evaluation_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Evaluation Name"
           },
           "request_model": {
             "anyOf": [
@@ -9007,6 +9117,16 @@
               }
             ],
             "title": "Started Before"
+          },
+          "signal_filters": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AgentSignalFilter"
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "type": "object",
@@ -12794,6 +12914,41 @@
         ],
         "title": "DatasetReadRes"
       },
+      "DeletedObjVersion": {
+        "properties": {
+          "digest": {
+            "type": "string",
+            "title": "Digest"
+          },
+          "base_object_class": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Base Object Class"
+          },
+          "leaf_object_class": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Leaf Object Class"
+          }
+        },
+        "type": "object",
+        "required": [
+          "digest"
+        ],
+        "title": "DeletedObjVersion"
+      },
       "EndedCallSchemaForInsert": {
         "properties": {
           "project_id": {
@@ -13205,7 +13360,7 @@
           "include_costs": {
             "type": "boolean",
             "title": "Include Costs",
-            "description": "When true, enrich the predict-and-score child calls with cost so the summary can report predict-only `predict_total_cost`. Opt-in: other callers skip the cost computation.",
+            "description": "When true, price each trial's predict call so rows and summary report predict-only cost (`total_cost` / `predict_total_cost`); scorer costs are excluded. Opt-in: other callers skip the cost computation.",
             "default": false
           },
           "sort_by": {
@@ -14728,8 +14883,20 @@
             "description": "Status of the scored turn (from spans.status_code)",
             "default": "UNSET",
             "examples": [
-              "SUCCESS"
+              "OK"
             ]
+          },
+          "span_conversation_id": {
+            "type": "string",
+            "title": "Span Conversation Id",
+            "description": "Conversation the feedback belongs to (from spans.conversation_id)",
+            "default": ""
+          },
+          "span_trace_id": {
+            "type": "string",
+            "title": "Span Trace Id",
+            "description": "Turn the feedback belongs to (from spans.trace_id)",
+            "default": ""
           },
           "wb_user_id": {
             "anyOf": [
@@ -15305,8 +15472,20 @@
             "description": "Status of the scored turn (from spans.status_code)",
             "default": "UNSET",
             "examples": [
-              "SUCCESS"
+              "OK"
             ]
+          },
+          "span_conversation_id": {
+            "type": "string",
+            "title": "Span Conversation Id",
+            "description": "Conversation the feedback belongs to (from spans.conversation_id)",
+            "default": ""
+          },
+          "span_trace_id": {
+            "type": "string",
+            "title": "Span Trace Id",
+            "description": "Turn the feedback belongs to (from spans.trace_id)",
+            "default": ""
           },
           "wb_user_id": {
             "anyOf": [
@@ -17497,6 +17676,21 @@
           "num_deleted": {
             "type": "integer",
             "title": "Num Deleted"
+          },
+          "deleted_versions": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/DeletedObjVersion"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deleted Versions",
+            "description": "Metadata for each deleted object version, with digest aliases resolved to content digests. None when the backing server does not report it."
           }
         },
         "type": "object",
@@ -18637,6 +18831,36 @@
           "$expr"
         ],
         "title": "Query"
+      },
+      "RatingCondition": {
+        "properties": {
+          "scorer_key": {
+            "type": "string",
+            "title": "Scorer Key"
+          },
+          "op": {
+            "type": "string",
+            "enum": [
+              "gte",
+              "gt",
+              "lte",
+              "lt",
+              "eq"
+            ],
+            "title": "Op"
+          },
+          "value": {
+            "type": "number",
+            "title": "Value"
+          }
+        },
+        "type": "object",
+        "required": [
+          "scorer_key",
+          "op",
+          "value"
+        ],
+        "title": "RatingCondition"
       },
       "ReasoningBudgetTokens": {
         "properties": {
