@@ -29,16 +29,23 @@ W&B will retrieve an existing artifact if you pass a name and artifact type to t
 ### Single run
 Log a new version of an Artifact with a single run that produces all the files in the artifact. This case occurs when a single run produces all the files in the artifact. 
 
-Based on your use case, select one of the tabs below to create a new artifact version inside or outside of a run:
+Based on your use case, select one of the tabs below to create a new artifact version:
+
+<Tip title="Run.log_artifact() vs Artifact.save()">
+Use `wandb.Run.log_artifact()` to explicitly mark an artifact as an output of a run. 
+
+Use `Artifact.save()` as a convenience method. If a run is active, W&B logs the artifact to that run. Otherwise, W&B creates an automatic run and logs it there.
+</Tip>
 
 <Tabs>
-<Tab title="Inside a run">
-Create an artifact version within a W&B run:
+<Tab title="Associate with a run">
+
+Use `wandb.Run.log_artifact()` to explicitly associate the artifact with a run:
 
 1. Create a run with `wandb.init()`.
 2. Create a new artifact or retrieve an existing one with `wandb.Artifact`.
-3. Add files to the artifact with `.add_file`.
-4. Log the artifact to the run with `.log_artifact`.
+3. Add files to the artifact with `wandb.Artifact.add_file()`.
+4. Log the artifact to the run with `wandb.Run.log_artifact()`.
 
 ```python 
 with wandb.init() as run:
@@ -50,12 +57,12 @@ with wandb.init() as run:
     run.log_artifact(artifact)
 ```
 </Tab>
-<Tab title="Outside of a run">
-Create an artifact version outside of a W&B run:
+<Tab title="Save directly">
+Use `wandb.Artifact.save()` as a convenience method to persist the artifact from the current context:
 
-1. Create a new artifact or retrieve an existing one with `wanb.Artifact`.
-2. Add files to the artifact with `.add_file`.
-3. Save the artifact with `.save`.
+1. Create a new artifact or retrieve an existing one with `wandb.Artifact`.
+2. Add files to the artifact with `wandb.Artifact.add_file()`.
+3. Save the artifact with `wandb.Artifact.save()`.
 
 ```python 
 artifact = wandb.Artifact("artifact_name", "artifact_type")
