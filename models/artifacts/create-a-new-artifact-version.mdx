@@ -131,29 +131,76 @@ with wandb.init() as run:
 
 ## Create a new artifact version from an existing version
 
-Add, modify, or remove a subset of files from a previous artifact version without the need to re-index the files that didn't change. Adding, modifying, or removing a subset of files from a previous artifact version creates a new artifact version known as an *incremental artifact*.
+Add, modify, or remove a subset of files from a previous artifact version without re-indexing files that didn't change. Adding, modifying, or removing a subset of files from a previous artifact version creates a new artifact version known as an *incremental artifact*.
 
 <Frame>
     <img src="/images/artifacts/incremental_artifacts.png" alt="Incremental artifact versioning"  />
 </Frame>
 
-Here are some scenarios for each type of incremental change you might encounter:
+There are three common use cases for creating an incremental artifact:
 
-- add: you periodically add a new subset of files to a dataset after collecting a new batch.
-- remove: you discovered several duplicate files and want to remove them from your artifact.
-- update: you corrected annotations for a subset of files and want to replace the old files with the correct ones.
+- Add: you periodically add a new subset of files to a dataset after collecting a new batch.
+- Remove: you discovered several duplicate files and want to remove them from your artifact.
+- Modify: you corrected annotations for a subset of files and want to replace the old files with the correct ones.
 
+<Info>
 You could create an artifact from scratch to perform the same function as an incremental artifact. However, when you create an artifact from scratch, you will need to have all the contents of your artifact on your local disk. When making an incremental change, you can add, remove, or modify a single file without changing the files from a previous artifact version.
+</Info>
 
 
-<Note>
+To create an incremental artifact, you need to create a draft of the previous artifact version. You can create a draft from any committed artifact version.
+
+
+
+<Tabs>
+    <Tab title="Use as run input">
+Use `wandb.Run.use_artifact()` when the current run consumes the artifact. W&B records the artifact as an input to the run.
+
+```python
+with wandb.init(job_type="modify dataset") as run:
+    saved_artifact = run.use_artifact(
+        "my_artifact:latest"
+    )  # fetch artifact and input it into your run
+    draft_artifact = saved_artifact.new_draft()  # create a draft version
+
+    # modify a subset of files in the draft version
+    draft_artifact.add_file("file_to_add.txt")
+    draft_artifact.remove("dir_to_remove/")
+    run.log_artifact(
+        draft_artifact
+    )  # log your changes to create a new version and mark it as output to your run
+```
+    </Tab>
+    <Tab title="Fetch directly">
+Use the Public API when you want to fetch the artifact without recording a run input relationship.
+
+```python
+client = wandb.Api()
+saved_artifact = client.artifact("my_artifact:latest")  # load your artifact
+draft_artifact = saved_artifact.new_draft()  # create a draft version
+
+# modify a subset of files in the draft version
+draft_artifact.remove("deleted_file.txt")
+draft_artifact.add_file("modified_file.txt")
+draft_artifact.save()  # commit changes to the draft
+```
+
+    </Tab>
+</Tabs>
+
+
+{/* <Note>
 You can create an incremental artifact within a single run or with a set of runs (distributed mode).
-</Note>
+</Note> */}
 
 
-Follow the procedure below to incrementally change an artifact:
+{/* Follow the procedure below to incrementally change an artifact: */}
 
-1. Obtain the artifact version you want to perform an incremental change on:
+{/* <Note>
+The method to add or modify an artifact are the same. Entries are replaced (as opposed to duplicated), when you pass a filename for an entry that already exists.
+</Note> */}
+
+{/* 1. Obtain the artifact version you want to perform an incremental change on:
 
 
 <Tabs>
@@ -217,9 +264,7 @@ draft_artifact.add_file("modified_file.txt")
 </Tabs>
 
 
-{/* <Note>
-The method to add or modify an artifact are the same. Entries are replaced (as opposed to duplicated), when you pass a filename for an entry that already exists.
-</Note> */}
+
 
 4. Lastly, log or save your changes. The following tabs show you how to save your changes inside and outside of a W&B run. Select the tab that is appropriate for your use case:
 
@@ -240,7 +285,7 @@ draft_artifact.save()
 Putting it all together, the code examples above look like: 
 
 <Tabs>
-<Tab title="Inside a run">
+<Tab title="Use as run input">
 ```python
 with wandb.init(job_type="modify dataset") as run:
     saved_artifact = run.use_artifact(
@@ -256,7 +301,7 @@ with wandb.init(job_type="modify dataset") as run:
     )  # log your changes to create a new version and mark it as output to your run
 ```
 </Tab>
-<Tab title="Outside of a run">
+<Tab title="Fetch directly">
 ```python
 client = wandb.Api()
 saved_artifact = client.artifact("my_artifact:latest")  # load your artifact
@@ -268,4 +313,4 @@ draft_artifact.add_file("modified_file.txt")
 draft_artifact.save()  # commit changes to the draft
 ```
 </Tab>
-</Tabs>
+</Tabs> */}
