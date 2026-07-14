@@ -4,57 +4,7 @@
     "title": "Serverless Training",
     "version": "1.0.0"
   },
-  "servers": [
-    { "url": "https://api.training.wandb.ai" }
-  ],
   "paths": {
-    "/v1/chat/completions/": {
-      "post": {
-        "tags": [
-          "chat-completions"
-        ],
-        "summary": "Create Chat Completion",
-        "description": "Create a new chat completion.",
-        "operationId": "create_chat_completion_v1_chat_completions__post",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ChatCompletionRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ChatCompletionResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "HTTPBearer": []
-          }
-        ]
-      }
-    },
     "/v1/chat/completions": {
       "post": {
         "tags": [
