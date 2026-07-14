@@ -471,7 +471,11 @@ losses = [row["loss"] for row in history]
 
 ### Get paginated data from history
 
-`scan_history` returns the complete, unsampled history for a run (unlike `run.history()`, which returns a sampled view). If metrics are being fetched slowly on our backend or API requests are timing out, you can try lowering the page size in `scan_history` so that individual requests don't time out. The `page_size` parameter controls how many history records are fetched per API request (default: `1000`). It is independent of the `keys` parameter, which filters which metrics are returned. You can experiment with different sizes to see what works best:
+To retrieve a run's complete, unsampled history, use `run.scan_history()`. By contrast, `run.history()` returns a sampled view.
+
+The `page_size` parameter controls the maximum number of history records fetched per API request and defaults to `1000`. If requests are slow or time out, try a smaller page size. Smaller pages can reduce timeout risk but require more API requests.
+
+The `keys` parameter independently filters which metrics are returned.
 
 ```python
 import wandb
