@@ -247,7 +247,7 @@ async function runTurn(history: any[], userMessage: string): Promise<string | nu
   const turn = weave.startTurn({ model: MODEL });
   try {
     // LLM call 1: the model might decide to use a tool.
-    const llm1 = weave.startLLM({ model: MODEL, providerName: 'openai' });
+    const llm1 = turn.startLLM({ model: MODEL, providerName: 'openai' });
     let msg;
     try {
       const resp = await openaiClient.chat.completions.create({
@@ -274,7 +274,7 @@ async function runTurn(history: any[], userMessage: string): Promise<string | nu
     // Execute each requested tool call.
     for (const tc of msg.tool_calls) {
       if (tc.type !== 'function') continue;
-      const tool = weave.startTool({
+      const tool = turn.startTool({
         name: tc.function.name,
         args: tc.function.arguments,
         toolCallId: tc.id,
@@ -289,7 +289,7 @@ async function runTurn(history: any[], userMessage: string): Promise<string | nu
     }
 
     // LLM call 2: synthesize the final answer.
-    const llm2 = weave.startLLM({ model: MODEL, providerName: 'openai' });
+    const llm2 = turn.startLLM({ model: MODEL, providerName: 'openai' });
     try {
       const resp = await openaiClient.chat.completions.create({
         model: MODEL,
