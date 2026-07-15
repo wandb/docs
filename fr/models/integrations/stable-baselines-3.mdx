@@ -17,6 +17,8 @@ Consultez un [exemple de run d&#39;entraînement SB3](https://wandb.ai/wandb/sb3
   ## Journalisez vos expériences SB3
 </div>
 
+Pour journaliser l’entraînement SB3 dans W&amp;B, passez `WandbCallback` à la méthode `learn` de votre modèle :
+
 ```python
 from wandb.integration.sb3 import WandbCallback
 
@@ -27,23 +29,24 @@ model.learn(..., callback=WandbCallback())
   <img src="/images/integrations/stable_baselines_demo.gif" alt="Entraînement de Stable Baselines 3 avec W&B" />
 </Frame>
 
-
 <div id="wandbcallback-arguments">
-  ## Arguments de WandbCallback
+  ## Arguments de `WandbCallback`
 </div>
 
-| Argument             | Utilisation                                                                                                                   |
-| :------------------- | :---------------------------------------------------------------------------------------------------------------------------- |
-| `verbose`            | Niveau de verbosité de la sortie de sb3                                                                                       |
-| `model_save_path`    | Chemin vers le dossier où le modèle sera enregistré. La valeur par défaut est `None`, donc le modèle n&#39;est pas enregistré |
-| `model_save_freq`    | Fréquence d&#39;enregistrement du modèle                                                                                      |
-| `gradient_save_freq` | Fréquence d&#39;enregistrement des gradients. La valeur par défaut est 0, donc les gradients ne sont pas enregistrés          |
+Le tableau suivant décrit les arguments que vous pouvez passer à `WandbCallback` :
+
+| Argument             | Utilisation                                                                                                                        |
+| :------------------- | :--------------------------------------------------------------------------------------------------------------------------------- |
+| `verbose`            | Niveau de verbosité de la sortie SB3.                                                                                              |
+| `model_save_path`    | Chemin du dossier dans lequel le modèle est enregistré. Par défaut, la valeur est `None`, donc le modèle n&#39;est pas journalisé. |
+| `model_save_freq`    | Fréquence d&#39;enregistrement du modèle.                                                                                          |
+| `gradient_save_freq` | Fréquence de journalisation des gradients. Par défaut, la valeur est `0`, donc les gradients ne sont pas journalisés.             |
 
 <div id="basic-example">
   ## Exemple de base
 </div>
 
-L’intégration W&amp;B SB3 utilise les journaux générés par TensorBoard pour journaliser vos métriques
+L’intégration W&amp;B SB3 utilise les journaux générés par TensorBoard pour journaliser vos métriques.
 
 ```python
 import gym
@@ -62,15 +65,15 @@ config = {
 run = wandb.init(
     project="sb3",
     config=config,
-    sync_tensorboard=True,  # téléverse automatiquement les métriques TensorBoard de sb3
-    monitor_gym=True,  # téléverse automatiquement les vidéos des agents pendant la partie
+    sync_tensorboard=True,  # téléversement automatique des métriques TensorBoard de sb3
+    monitor_gym=True,  # téléversement automatique des vidéos des agents jouant au jeu
     save_code=True,  # facultatif
 )
 
 
 def make_env():
     env = gym.make(config["env_name"])
-    env = Monitor(env)  # enregistre des statistiques comme les retours cumulés
+    env = Monitor(env)  # enregistre des statistiques telles que les retours
     return env
 
 

@@ -7153,6 +7153,18 @@
             ],
             "title": "Model Ref"
           },
+          "predict_total_cost": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "이 Evaluation의 trial별 predict 전용 비용 합계입니다(모델의 predict() 비용만 포함하며 LLM-as-a-judge scorer 비용은 제외). 비용을 보고한 trial이 없으면 None입니다.",
+            "title": "Predict Total Cost"
+          },
           "predict_total_tokens": {
             "anyOf": [
               {
@@ -7290,6 +7302,12 @@
             ],
             "description": "그룹화된 행에 적용되는 필터입니다. 여러 필터는 AND로 결합됩니다.",
             "title": "Filters"
+          },
+          "include_costs": {
+            "default": false,
+            "description": "true이면 요약에서 predict 전용 `predict_total_cost`를 보고할 수 있도록 predict-and-score 하위 Call에 비용 정보를 추가합니다. 옵트인 방식이므로 다른 호출자에서는 비용 계산을 건너뜁니다.",
+            "title": "Include Costs",
+            "type": "boolean"
           },
           "include_predict_and_score_children": {
             "default": true,
@@ -7686,6 +7704,17 @@
             "additionalProperties": true,
             "title": "Scores",
             "type": "object"
+          },
+          "total_cost": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Cost"
           },
           "total_tokens": {
             "anyOf": [
@@ -10411,8 +10440,9 @@
           },
           "lifecycleStage": {
             "enum": [
-              "general-availability",
               "experimental",
+              "general-availability",
+              "deprecated",
               "retired"
             ],
             "title": "Lifecyclestage",
@@ -11111,6 +11141,18 @@
             ],
             "description": "가격 정보."
           },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "모델에 대한 사람이 읽을 수 있는 설명입니다.",
+            "title": "Description"
+          },
           "id": {
             "description": "AI SDK에서 사용하는 모델 ID.",
             "title": "Id",
@@ -11184,6 +11226,31 @@
             "description": "Chain-of-thought 추론 지원.",
             "title": "Reasoning",
             "type": "boolean"
+          },
+          "reasoning_options": {
+            "anyOf": [
+              {
+                "items": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/ReasoningToggle"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ReasoningEffortOption"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ReasoningBudgetTokens"
+                    }
+                  ]
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "추론을 제어하는 방식입니다. 추론이 지원되는 경우에 설정되며(빈 목록일 수도 있으며, 이 경우 항상 켜짐을 의미함), 그렇지 않으면 생략됩니다.",
+            "title": "Reasoning Options"
           },
           "release_date": {
             "description": "최초 공개 릴리스 날짜(YYYY-MM-DD).",
@@ -12692,6 +12759,97 @@
           "$expr"
         ],
         "title": "Query",
+        "type": "object"
+      },
+      "ReasoningBudgetTokens": {
+        "description": "추론은 token 예산으로 제어됩니다.",
+        "properties": {
+          "max": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "최대 추론 예산입니다.",
+            "title": "Max"
+          },
+          "min": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "최소 추론 예산입니다.",
+            "title": "Min"
+          },
+          "type": {
+            "const": "budget_tokens",
+            "default": "budget_tokens",
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "title": "ReasoningBudgetTokens",
+        "type": "object"
+      },
+      "ReasoningEffortOption": {
+        "description": "추론 강도는 여러 수준 중에서 선택할 수 있습니다.",
+        "properties": {
+          "type": {
+            "const": "effort",
+            "default": "effort",
+            "title": "Type",
+            "type": "string"
+          },
+          "values": {
+            "description": "허용되는 강도 수준입니다(null은 암시적 기본값을 나타냄).",
+            "items": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "none",
+                    "minimal",
+                    "low",
+                    "medium",
+                    "high",
+                    "xhigh",
+                    "max",
+                    "default"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "title": "Values",
+            "type": "array"
+          }
+        },
+        "required": [
+          "values"
+        ],
+        "title": "ReasoningEffortOption",
+        "type": "object"
+      },
+      "ReasoningToggle": {
+        "description": "추론을 켜거나 끌 수 있습니다.",
+        "properties": {
+          "type": {
+            "const": "toggle",
+            "default": "toggle",
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "title": "ReasoningToggle",
         "type": "object"
       },
       "RefsReadBatchReq": {

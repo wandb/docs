@@ -10,86 +10,60 @@ Téléchargez et utilisez un artifact déjà stocké sur le serveur W&amp;B, ou 
 </Note>
 
 <div id="download-and-use-an-artifact-stored-on-wb">
-  ### Télécharger et utiliser un artifact stocké dans W&amp;B
+  ### Télécharger et utiliser un artifact stocké sur W&amp;B
 </div>
 
-Téléchargez et utilisez un artifact stocké dans W&amp;B, à l’intérieur ou à l’extérieur d’un W&amp;B Run. Utilisez l’API publique ([`wandb.Api`](/fr/models/ref/python/public-api/api)) pour exporter (ou mettre à jour) des données déjà enregistrées dans W&amp;B.
+Téléchargez un artifact comme entrée d’un run suivie lorsqu’il s’agit d’une dépendance du run, ou récupérez-le directement pour les flux de travail qui ne nécessitent pas de traçabilité.
+
+<Info>
+  Les références dont le schéma est pris en charge par W&amp;B sont téléchargées de la même manière que les fichiers d’artifact. Pour plus d&#39;informations, voir [Suivre les fichiers externes](/fr/models/artifacts/track-external-files/).
+</Info>
+
+Vous pouvez télécharger tous les fichiers d’un artifact ou seulement certains fichiers :
+
+* Utilisez [`Artifact.download()`](/fr/models/ref/python/experiments/artifact#download) pour télécharger tous les fichiers.
+* Utilisez [`Artifact.get_entry()`](/fr/models/ref/python/experiments/artifact#get_entry) pour récupérer une entrée spécifique, puis appelez `.download()` pour la télécharger.
 
 <Tabs>
-  <Tab title="Pendant un run">
-    Commencez par importer le W&amp;B Python SDK. Ensuite, créez un W&amp;B [Run](/fr/models/ref/python/experiments/run) :
+  <Tab title="Suivre l’entrée du run">
+    Utilisez `wandb.Run.use_artifact()` pour télécharger un artifact dans le cadre d’un run W&amp;B. W&amp;B enregistre l’artifact comme entrée du run.
 
-    ```python
-    import wandb
-
-    with wandb.init(project="<example>", job_type="<job-type>") as run:
-        # Voir l'étape suivante
-    ```
-
-    Indiquez l’artifact que vous souhaitez utiliser avec la méthode [`wandb.Run.use_artifact()`](/fr/models/ref/python/experiments/run#use_artifact). Cette méthode renvoie un objet run. Dans l’extrait de code suivant, un artifact nommé `'bike-dataset'` avec l’alias `'latest'` est spécifié :
-
-    ```python
-    # Indiquer l'artifact à utiliser. Le format est "name:alias"
-    artifact = run.use_artifact("bike-dataset:latest")
-    ```
-
-    Utilisez l’objet renvoyé pour télécharger l’intégralité du contenu de l’artifact :
-
-    ```python
-    # Télécharger l'artifact entier
-    datadir = artifact.download()
-    ```
-
-    Vous pouvez également passer un chemin au paramètre root pour télécharger le contenu de l’artifact dans un répertoire spécifique.
-
-    Utilisez la méthode [`wandb.Artifact.get_entry()`](/fr/models/ref/python/experiments/artifact#get_entry) pour télécharger uniquement un sous-ensemble de fichiers :
-
-    ```python
-    # Télécharger un fichier spécifique
-    entry = artifact.get_entry(name)
-    ```
-
-    En regroupant le tout, l’exemple de code complet ressemble à ceci :
+    1. Importez le SDK Python W&amp;B et initialisez un [Run](/fr/models/ref/python/experiments/run) W&amp;B.
+    2. Récupérez la version de l’artifact avec `wandb.Run.use_artifact()`.
+    3. Téléchargez tous les fichiers ou un fichier spécifique à partir de l’objet `Artifact` renvoyé.
 
     ```python
     import wandb    
 
     with wandb.init(project="<example>", job_type="<job-type>") as run:
-        # Indiquer l'artifact à utiliser. Le format est "name:alias"
+        # Indiquez l’artefact à utiliser. Le format est "name:alias"
         artifact = run.use_artifact("bike-dataset:latest")
 
-        # Télécharger l'artifact entier
+        # Télécharger l’artefact entier
         datadir = artifact.download()
 
         # Télécharger un fichier spécifique
         entry = artifact.get_entry("bike.png")
+        file_path = entry.download() # télécharge uniquement bike.png
     ```
-
-    Cela récupère uniquement le fichier situé au chemin `name`. Cette méthode renvoie un objet `Entry` avec les méthodes suivantes :
-
-    * `Entry.download`: télécharge le fichier de l’artifact au chemin `name`
-    * `Entry.ref`: si `add_reference` a stocké l’entrée comme référence, renvoie l’URI
-
-    {/* Les références dont le schéma est pris en charge par W&B sont téléchargées comme les fichiers d’artifact. Pour plus d'informations, voir [Track external files](/models/artifacts/track-external-files/). */}
   </Tab>
 
-  <Tab title="En dehors d’un run">
-    Commencez par importer le SDK W&amp;B. Ensuite, créez un objet artifact à partir de la classe API publique. Fournissez l’entité, le projet, l’artifact et l’alias associés à cet artifact :
+  <Tab title="Récupérer directement">
+    Utilisez l’API publique pour télécharger un artifact sans créer de run ni enregistrer de relation d’entrée de run.
+
+    1. Importez le SDK Python W&amp;B et créez un objet client avec `wandb.Api()`.
+    2. Récupérez la version de l’artifact avec `wandb.Api.artifact()`.
+    3. Téléchargez tous les fichiers ou un fichier spécifique à partir de l’objet `Artifact` renvoyé.
+
+    Spécifiez le chemin de l’artifact au format `entity/project/artifact:alias`.
 
     ```python
     import wandb
 
     api = wandb.Api()
     artifact = api.artifact("entity/project/artifact:alias")
-    ```
-
-    Utilisez l’objet renvoyé pour télécharger le contenu de l’artifact :
-
-    ```python
     artifact.download()
     ```
-
-    Vous pouvez également passer un chemin au paramètre `root` pour télécharger le contenu de l’artifact dans un répertoire spécifique. Pour plus d&#39;informations, voir le [Guide de référence du SDK Python](/fr/models/ref/python/experiments/artifact#download).
   </Tab>
 
   <Tab title="W&B CLI">

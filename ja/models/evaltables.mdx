@@ -1,0 +1,34 @@
+---
+title: 概要
+description: "W&B で Eval Tables を作成、比較、可視化する方法を学びます。"
+---
+
+Eval Tables を使用すると、複数の Runs にまたがって、集計スコアや各例におけるモデルの入力、出力、スコアを比較できます。Eval Table を使えば、モデルのバージョンやトレーニング手順を比較したり、集計スコアの変化を確認したり、モデル性能の変化につながった具体例を詳しく調べたりできます。
+
+次の画像は、`"summer-butterfly-9"` と `"gentle-flower-8"` の 2 つの Runs を比較する、`"validation_prediction_eval"` という名前の Eval Table を示しています。
+
+<Frame>
+  <img src="/images/evaltables/overview_basic_compare_two_runs_landing_page_notlabled.png" alt="Eval Table ビュー" />
+</Frame>
+
+**Eval Table** パネルには、3 つのセクションがあります。
+
+1. Run 比較セレクター: [比較する Runs](/ja/models/evaltables/compare-runs) を選択します。
+2. 集計スコア: 選択した Runs の集計スコアを確認し、それらの差分を比較します。詳細は、[集計スコアを表示する](/ja/models/evaltables/compare-runs#aggregate-scores) を参照してください。
+3. 例: 選択した Runs 間で、各例の入力、出力、スコアを比較します。
+
+次の画像は、パネル内の各セクションを示しています。
+
+<Frame>
+  <img src="/images/evaltables/overview_basic_compare_two_runs_landing_page.png" alt="Eval Table ビュー" />
+</Frame>
+
+[W&amp;B Python SDK の `EvalTable` クラスを使用して Eval Table を作成する](/ja/models/evaltables/create-an-evaluation-table)。
+
+既存の [W&amp;B Tables](/ja/models/tables) も、ARIA を使用して Eval Tables に変換できます。詳細は、[W&amp;B 表を Eval Table に変換する](/ja/models/evaltables/create-an-evaluation-table#convert-a-w\&b-table-to-an-eval-table) を参照してください。
+
+<Tip>
+  既存の W&amp;B Tables を Eval Tables に変換すると、レンダリングのパフォーマンスが向上し、追加の比較機能を利用できます。
+</Tip>
+
+初めて Eval Table を作成する場合は、[Eval Table を作成する](/ja/models/evaltables/create-an-evaluation-table) を参照してください。

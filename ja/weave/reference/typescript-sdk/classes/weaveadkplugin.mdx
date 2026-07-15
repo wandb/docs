@@ -1,11 +1,11 @@
 ---
-title: "クラス: WeaveAdkPlugin"
+title: "WeaveAdkPlugin"
 description: "TypeScript SDK リファレンス"
 ---
 
 [weave](../) / WeaveAdkPlugin
 
-Weave の agents パイプラインで、ランナーの呼び出し、エージェントの実行、モデルの Call、ツールの実行を GenAI-semconv OTel スパンとして出力する ADK プラグインです。
+Weave の agents パイプラインで、ランナーの invocation、エージェントの run、モデルの Call、ツールの実行を GenAI-semconv OTel スパンとして出力する ADK プラグインです。
 
 構造的に `BasePlugin` の完全なサーフェスを実装しています。ADK の PluginManager はすべてのコールバックを呼び出すため、no-op のコールバックであっても、すべて定義されています。ADK は `undefined` 以外の戻り値をショートサーキットとして扱うため、各コールバックは自身のエラーを捕捉して `undefined` を返します。
 
@@ -84,7 +84,7 @@ AdkBasePlugin.name
   #### 定義元
 </div>
 
-[src/integrations/googleAdk.ts:590](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/googleAdk.ts#L590)
+[src/integrations/googleAdk.ts:590](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L590)
 
 ## メソッド
 
@@ -120,7 +120,7 @@ AdkBasePlugin.afterAgentCallback
   #### 定義元
 </div>
 
-[src/integrations/googleAdk.ts:779](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/googleAdk.ts#L779)
+[src/integrations/googleAdk.ts:779](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L779)
 
 ***
 
@@ -154,7 +154,7 @@ AdkBasePlugin.afterContextCompaction
   #### 定義元
 </div>
 
-[src/integrations/googleAdk.ts:997](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/googleAdk.ts#L997)
+[src/integrations/googleAdk.ts:997](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L997)
 
 ***
 
@@ -190,7 +190,7 @@ AdkBasePlugin.afterModelCallback
   #### 定義元
 </div>
 
-[src/integrations/googleAdk.ts:841](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/googleAdk.ts#L841)
+[src/integrations/googleAdk.ts:841](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L841)
 
 ***
 
@@ -225,7 +225,7 @@ AdkBasePlugin.afterRunCallback
   #### 定義元
 </div>
 
-[src/integrations/googleAdk.ts:713](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/googleAdk.ts#L713)
+[src/integrations/googleAdk.ts:713](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L713)
 
 ***
 
@@ -263,7 +263,7 @@ AdkBasePlugin.afterToolCallback
   #### 定義元
 </div>
 
-[src/integrations/googleAdk.ts:965](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/googleAdk.ts#L965)
+[src/integrations/googleAdk.ts:965](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L965)
 
 ***
 
@@ -299,7 +299,7 @@ AdkBasePlugin.beforeAgentCallback
   #### 定義元
 </div>
 
-[src/integrations/googleAdk.ts:765](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/googleAdk.ts#L765)
+[src/integrations/googleAdk.ts:765](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L765)
 
 ***
 
@@ -333,7 +333,7 @@ AdkBasePlugin.beforeContextCompaction
   #### 定義元
 </div>
 
-[src/integrations/googleAdk.ts:993](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/googleAdk.ts#L993)
+[src/integrations/googleAdk.ts:993](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L993)
 
 ***
 
@@ -369,7 +369,7 @@ AdkBasePlugin.beforeModelCallback
   #### 定義元
 </div>
 
-[src/integrations/googleAdk.ts:804](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/googleAdk.ts#L804)
+[src/integrations/googleAdk.ts:804](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L804)
 
 ***
 
@@ -404,7 +404,7 @@ AdkBasePlugin.beforeRunCallback
   #### 定義元
 </div>
 
-[src/integrations/googleAdk.ts:621](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/googleAdk.ts#L621)
+[src/integrations/googleAdk.ts:621](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L621)
 
 ***
 
@@ -441,7 +441,7 @@ AdkBasePlugin.beforeToolCallback
   #### 定義元
 </div>
 
-[src/integrations/googleAdk.ts:918](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/googleAdk.ts#L918)
+[src/integrations/googleAdk.ts:918](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L918)
 
 ***
 
@@ -475,7 +475,7 @@ AdkBasePlugin.beforeToolSelection
   #### 定義元
 </div>
 
-[src/integrations/googleAdk.ts:914](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/googleAdk.ts#L914)
+[src/integrations/googleAdk.ts:914](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L914)
 
 ***
 
@@ -509,7 +509,7 @@ AdkBasePlugin.beforeToolSelection
   #### 定義元
 </div>
 
-[src/integrations/googleAdk.ts:732](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/googleAdk.ts#L732)
+[src/integrations/googleAdk.ts:732](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L732)
 
 ***
 
@@ -545,7 +545,7 @@ AdkBasePlugin.onEventCallback
   #### 定義元
 </div>
 
-[src/integrations/googleAdk.ts:693](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/googleAdk.ts#L693)
+[src/integrations/googleAdk.ts:693](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L693)
 
 ***
 
@@ -582,7 +582,7 @@ AdkBasePlugin.onModelErrorCallback
   #### 定義元
 </div>
 
-[src/integrations/googleAdk.ts:884](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/googleAdk.ts#L884)
+[src/integrations/googleAdk.ts:884](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L884)
 
 ***
 
@@ -620,7 +620,7 @@ AdkBasePlugin.onToolErrorCallback
   #### 定義元
 </div>
 
-[src/integrations/googleAdk.ts:977](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/googleAdk.ts#L977)
+[src/integrations/googleAdk.ts:977](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L977)
 
 ***
 
@@ -656,4 +656,4 @@ AdkBasePlugin.onUserMessageCallback
   #### 定義元
 </div>
 
-[src/integrations/googleAdk.ts:614](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/googleAdk.ts#L614)
+[src/integrations/googleAdk.ts:614](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L614)
