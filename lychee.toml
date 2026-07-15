@@ -1,9 +1,8 @@
 # Lychee link checker configuration
 # See https://lychee.cli.rs/guides/config/ for full documentation
 
-# Base URL for resolving relative links
-# This will be overridden at runtime by the workflows
-base_url = 'https://docs.wandb.ai'
+# PR checks resolve relative links from each source file's directory. The workflow
+# supplies the repository root and Mintlify's .mdx fallback extension at runtime.
 
 # Don't check heading anchors (fragments) - Mintlify generates these dynamically
 include_fragments = false
@@ -31,6 +30,7 @@ accept = [200, 403, 429]
 scheme = [
   "http",
   "https",
+  "file",
 ]
 
 # Logging verbosity
