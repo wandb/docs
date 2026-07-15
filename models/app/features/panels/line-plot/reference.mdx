@@ -414,8 +414,6 @@ sqrt(${summary:loss}*100)+sqrt(${summary:loss}*100000)
 ### Multi-metric panel expressions
 Use a regular expression to create a single line plot that shows multiple metrics together (including matching metrics logged in the future). For detailed instructions, see [Add a line plot](/models/app/features/panels/line-plot#multi-metric-line-plot).
 
-For detailed instructions, see [Add a line plot](/models/app/features/panels/line-plot#multi-metric-line-plot).
-
 For example:
 - Instead of creating separate panels for each layer's metrics, you can view them together in a single panel. For example, if you log metrics with consistent naming, like `layer_0_loss`, `layer_1_loss`, and `layer_2_loss`, you can use a regex like `layer_\d+_loss` to display all layer losses on one plot.
 - Match all metrics that share a common naming pattern. For example:
