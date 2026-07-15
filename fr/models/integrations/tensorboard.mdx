@@ -25,9 +25,9 @@ Téléversez vos journaux TensorBoard dans le cloud, partagez rapidement vos ré
 import wandb
 
 # Démarrer un run wandb avec `sync_tensorboard=True`
-wandb.init(project="my-project", sync_tensorboard=True) as run:
-  # Votre code d'entraînement utilisant TensorBoard
-  ...
+with wandb.init(project="my-project", sync_tensorboard=True) as run:
+    # Votre code d'entraînement utilisant TensorBoard
+    ...
 
 ```
 

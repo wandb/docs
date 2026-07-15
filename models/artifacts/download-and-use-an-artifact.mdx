@@ -12,43 +12,26 @@ Team members with a Models **Viewer** seat cannot download artifacts.
 
 ### Download and use an artifact stored on W&B
 
-Download and use an artifact stored in W&B either inside or outside of a W&B Run. Use the Public API ([`wandb.Api`](/models/ref/python/public-api/api)) to export (or update data) already saved in W&B.
+Download an artifact as a tracked run input when it is a run dependency, or fetch it directly for workflows that don’t require lineage tracking.
+
+
+<Info>
+References that have schemes that W&B knows how to handle get downloaded just like artifact files. For more information, see [Track external files](/models/artifacts/track-external-files/).
+</Info>
+
+You can download all files in an artifact or download individual files:
+
+- Use [`Artifact.download()`](/models/ref/python/experiments/artifact#download) to download all files.
+- Use [`Artifact.get_entry()`](/models/ref/python/experiments/artifact#get_entry) to retrieve a specific entry, and then call `.download()` to download it.
 
 <Tabs>
-<Tab title="During a run">
-First, import the W&B Python SDK. Next, create a W&B [Run](/models/ref/python/experiments/run):
+<Tab title="Track run input">
 
-```python
-import wandb
+Use `wandb.Run.use_artifact()` to download an artifact as part of a W&B run. W&B records the artifact as an input to the run.
 
-with wandb.init(project="<example>", job_type="<job-type>") as run:
-    # See next step
-```
-
-Indicate the artifact you want to use with the [`wandb.Run.use_artifact()`](/models/ref/python/experiments/run#use_artifact) method. This returns a run object. In the following code snippet specifies an artifact called `'bike-dataset'` with the alias `'latest'`:
-
-```python
-# Indicate the artifact to use. Format is "name:alias"
-artifact = run.use_artifact("bike-dataset:latest")
-```
-
-Use the object returned to download all the contents of the artifact:
-
-```python
-# Download the entire artifact
-datadir = artifact.download()
-```
-
-You can optionally pass a path to the root parameter to download the contents of the artifact to a specific directory.
-
-Use the [`wandb.Artifact.get_entry()`](/models/ref/python/experiments/artifact#get_entry) method to download only a subset of files:
-
-```python
-# Download a specific file
-entry = artifact.get_entry(name)
-```
-
-Putting this together, the complete code example looks like this:
+1. Import the W&B Python SDK and initialize a W&B [Run](/models/ref/python/experiments/run). 
+2. Retrieve the artifact version with `wandb.Run.use_artifact()`.
+3. Download all files or a specific file from the returned `Artifact` object.
 
 ```python
 import wandb    
@@ -62,34 +45,28 @@ with wandb.init(project="<example>", job_type="<job-type>") as run:
 
     # Download a specific file
     entry = artifact.get_entry("bike.png")
+    file_path = entry.download() # downloads only bike.png
 ```
 
-
-This fetches only the file at the path `name`. It returns an `Entry` object with the following methods:
-
-* `Entry.download`: Downloads file from the artifact at path `name`
-* `Entry.ref`: If `add_reference` stored the entry as a reference, returns the URI
-
-{/* References that have schemes that W&B knows how to handle get downloaded just like artifact files. For more information, see [Track external files](/models/artifacts/track-external-files/). */}
-
 </Tab>
-<Tab title="Outside of a run">
-First, import the W&B SDK. Next, create an artifact object from the Public API Class. Provide the entity, project, artifact, and alias associated with that artifact:
+<Tab title="Fetch directly">
+
+Use the Public API to download an artifact without creating a run or recording a run input relationship.
+
+1. Import the W&B Python SDK and create a client object with `wandb.Api()`.
+2. Retrieve the artifact version with `wandb.Api.artifact()`.
+3. Download all files or a specific file from the returned `Artifact` object.
+
+Specify the artifact path in the format `entity/project/artifact:alias`.
 
 ```python
 import wandb
 
 api = wandb.Api()
 artifact = api.artifact("entity/project/artifact:alias")
-```
-
-Use the object returned to download the contents of the artifact:
-
-```python
 artifact.download()
 ```
 
-You can optionally pass a path the `root` parameter to download the contents of the artifact to a specific directory. For more information, see the [Python SDK Reference Guide](/models/ref/python/experiments/artifact#download).
 </Tab>
 <Tab title="W&B CLI">
 Use the `wandb artifact get` command to download an artifact from the W&B server.

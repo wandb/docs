@@ -198,6 +198,14 @@ def convert_to_mintlify_format(docs_dir):
         
         # Fix escaped angle brackets in title (TypeDoc escapes them as \< and \>)
         title_fixed = title.replace('\\<', '<').replace('\\>', '>')
+
+        # Strip TypeDoc's reflection-kind prefix ("Class: LLM" → "LLM") so the
+        # left nav shows bare symbol names; the nav group already conveys the kind.
+        title_fixed = re.sub(
+            r'^(?:Class|Interface|Function|Type alias|Enumeration|Namespace|Variable|Module):\s+',
+            '',
+            title_fixed,
+        )
         
         # Add Mintlify frontmatter
         frontmatter = f"""---

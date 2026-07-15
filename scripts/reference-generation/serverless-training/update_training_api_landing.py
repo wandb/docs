@@ -179,7 +179,9 @@ def generate_endpoints_section(
                 raise KeyError(f"No computed href for {method} {path}")
             url = f"{PUBLIC_DOCS_ORIGIN}{rel}"
             label = summary if summary else method
-            lines.append(f"- **[{method} {path}]({url})** - {label}\n")
+            # Backtick the path so MDX renders {param} placeholders literally
+            # instead of evaluating them as empty JSX expressions.
+            lines.append(f"- **[{method} `{path}`]({url})** - {label}\n")
 
     _ = out_dir  # reserved if section text ever needs the base path
     return "".join(lines)

@@ -15,10 +15,20 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 
 <EolReminder />
 
+<Update label="v0.82.2" description="2026년 7월 7일">
+  ## 수정 사항
+
+  * v0.82.1의 회귀 문제로 인해 새 W&amp;B 배포가 초기 설정을 완료하지 못하던 문제를 수정했습니다. v0.82.1로 업그레이드하기 전에 이미 첫 번째 사용자를 생성한 인스턴스는 영향을 받지 않습니다.
+</Update>
+
 <Update label="v0.82.1" description="2026년 7월 1일">
   **2026년 7월 1일**
 
   <SelfManagedClickhouseUpgradeNote />
+
+  <Warning>
+    W&amp;B Server v0.82.1의 회귀 문제로 인해 새 W&amp;B 배포가 초기 설정을 완료하지 못합니다. W&amp;B는 새 배포에는 v0.82.1을 사용하지 않을 것을 권장합니다. v0.82.1로 업그레이드하기 전에 이미 첫 번째 사용자를 생성한 인스턴스는 영향을 받지 않습니다.
+  </Warning>
 
   ## 성능 개선
 
@@ -93,7 +103,7 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 
   ## 수정 사항
 
-  * Dedicated Cloud에서 옵트인 프리뷰 기능이 v0.81.1로 업그레이드한 후 잘못 비활성화될 수 있던 버그를 수정했습니다. 배포 환경은 자동으로 업그레이드되며 별도의 조치는 필요하지 않습니다. 문제가 발생하면 [지원팀](mailto:support@wandb.com)로 문의하세요.
+  * Dedicated Cloud에서 선택적으로 활성화한 프리뷰 기능이 v0.81.1로 업그레이드한 후 잘못 비활성화될 수 있던 버그를 수정했습니다. 배포는 자동으로 업그레이드되며 별도의 조치는 필요하지 않습니다. 문제가 발생하면 [support](mailto:support@wandb.com)에 문의하세요.
 </Update>
 
 <Update label="v0.81.1" description="2026년 6월 3일">
@@ -101,11 +111,11 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 
   ## 수정 사항
 
-  * 워크스페이스에서 패널 검색 성능이 개선되었으며, 특히 정규식 기반 검색에서 더욱 향상되었습니다.
-  * 아티팩트가 여러 레지스트리에 연결된 경우, 사용자가 현재 액세스할 수 있는 컨텍스트를 벗어나 권한 검사가 수행되어 아티팩트 다운로드가 실패할 수 있던 버그를 수정했습니다.
+  * 워크스페이스에서 패널 검색 성능을 개선했으며, 특히 regex 기반 검색이 향상되었습니다.
+  * 사용자가 현재 접근할 수 있는 컨텍스트를 벗어나 권한 검사가 수행되면서, 아티팩트가 여러 레지스트리에 연결된 경우 아티팩트 다운로드가 실패할 수 있던 버그를 수정했습니다.
   * 이미 연결된 아티팩트를 다시 연결할 때 아티팩트 연결 자동화가 예기치 않게 트리거될 수 있던 버그를 수정했습니다.
   * 프로젝트 이름을 변경한 후 `project [storage_key] not found` 오류와 함께 저장소 엔진 조회가 실패할 수 있던 버그를 수정했습니다.
-  * 지원되지 않는 응답 형식으로 인해 OpenAI 오디오 지원 모델에 대한 Weave 점수화 Call이 실패할 수 있던 버그를 수정했습니다.
+  * 지원되지 않는 응답 형식으로 인해 OpenAI 오디오 지원 모델에서 Weave 스코어링 호출이 실패할 수 있던 버그를 수정했습니다.
 </Update>
 
 <Update label="v0.81.0" description="2026년 6월 2일">

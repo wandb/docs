@@ -85,9 +85,9 @@ Pour installer la bibliothèque `wandb` en local et vous connecter :
 
 <Tabs>
   <Tab title="Étape">
-    Décorer une étape active ou désactive la journalisation pour certains types au sein de cette étape.
+    Décorer une étape permet d’activer ou de désactiver la journalisation pour certains types au sein de cette étape.
 
-    Dans cet exemple, tous les jeux de données et modèles de `start` seront enregistrés.
+    Dans cet exemple, tous les datasets et modèles dans `start` seront enregistrés.
 
     ```python
     from wandb.integration.metaflow import wandb_log
@@ -96,7 +96,7 @@ Pour installer la bibliothèque `wandb` en local et vous connecter :
         @wandb_log(datasets=True, models=True, settings=wandb.Settings(...))
         @step
         def start(self):
-            self.raw_df = pd.read_csv(...).    # pd.DataFrame -> téléverser comme jeu de données
+            self.raw_df = pd.read_csv(...)    # pd.DataFrame -> téléverser comme dataset
             self.model_file = torch.load(...)  # nn.Module    -> téléverser comme modèle
             self.next(self.transform)
     ```
@@ -105,7 +105,7 @@ Pour installer la bibliothèque `wandb` en local et vous connecter :
   <Tab title="Flow">
     Décorer un flow revient à décorer toutes les étapes qui le composent avec une configuration par défaut.
 
-    Dans ce cas, toutes les étapes de `WandbExampleFlow` enregistrent par défaut les jeux de données et les modèles, comme si chaque étape était décorée avec `@wandb_log(datasets=True, models=True)`.
+    Dans ce cas, toutes les étapes de `WandbExampleFlow` journalisent par défaut les datasets et les modèles, exactement comme si vous décoriez chaque étape avec `@wandb_log(datasets=True, models=True)`.
 
     ```python
     from wandb.integration.metaflow import wandb_log
@@ -114,44 +114,44 @@ Pour installer la bibliothèque `wandb` en local et vous connecter :
     class WandbExampleFlow(FlowSpec):
         @step
         def start(self):
-            self.raw_df = pd.read_csv(...).    # pd.DataFrame -> téléverser comme jeu de données
+            self.raw_df = pd.read_csv(...)    # pd.DataFrame -> téléverser comme dataset
             self.model_file = torch.load(...)  # nn.Module    -> téléverser comme modèle
             self.next(self.transform)
     ```
   </Tab>
 
   <Tab title="Flow et étapes">
-    Décorer le flow revient à décorer toutes les étapes avec une configuration par défaut. Cela signifie que si vous décorez ensuite une étape avec un autre `@wandb_log`, celui-ci remplace la décoration définie au niveau du flow.
+    Décorer le flow revient à décorer toutes les étapes avec une configuration par défaut. Cela signifie que si vous décorez ensuite une étape avec un autre `@wandb_log`, celui-ci redéfinit la décoration définie au niveau du flow.
 
-    Dans cet exemple :
+    Dans cet exemple :
 
-    * `start` et `mid` enregistrent à la fois les jeux de données et les modèles.
-    * `end` n&#39;enregistre ni jeux de données ni modèles.
+    * `start` et `mid` journalisent à la fois les datasets et les modèles.
+    * `end` ne journalise ni les datasets ni les modèles.
 
     ```python
     from wandb.integration.metaflow import wandb_log
 
-    @wandb_log(datasets=True, models=True)  # équivaut à décorer start et mid
+    @wandb_log(datasets=True, models=True)  # identique à la décoration de start et mid
     class WandbExampleFlow(FlowSpec):
-      # cette étape enregistrera les jeux de données et les modèles
+      # cette étape journalisera les datasets et les modèles
       @step
       def start(self):
-        self.raw_df = pd.read_csv(...).    # pd.DataFrame -> téléverser comme jeu de données
+        self.raw_df = pd.read_csv(...)    # pd.DataFrame -> téléverser comme dataset
         self.model_file = torch.load(...)  # nn.Module    -> téléverser comme modèle
         self.next(self.mid)
 
-      # cette étape enregistrera également les jeux de données et les modèles
+      # cette étape journalisera également les datasets et les modèles
       @step
       def mid(self):
-        self.raw_df = pd.read_csv(...).    # pd.DataFrame -> téléverser comme jeu de données
+        self.raw_df = pd.read_csv(...)    # pd.DataFrame -> téléverser comme dataset
         self.model_file = torch.load(...)  # nn.Module    -> téléverser comme modèle
         self.next(self.end)
 
-      # cette étape est redéfinie et n'enregistrera PAS les jeux de données NI les modèles
+      # cette étape redéfinit ce comportement et ne journalisera PAS les datasets NI les modèles
       @wandb_log(datasets=False, models=False)
       @step
       def end(self):
-        self.raw_df = pd.read_csv(...).    
+        self.raw_df = pd.read_csv(...)    
         self.model_file = torch.load(...)
     ```
   </Tab>
