@@ -4,39 +4,33 @@ description: "Render images and video that live in your own cloud bucket in Weav
 keywords: ["BYOB", "reference bucket", "S3", "presigned URL", "media", "external storage"]
 ---
 
-Weave can render media that already lives in your own cloud storage bucket. Instead of uploading bytes, you log the object's `s3://` URI as a plain string. Once you register the bucket as a reference bucket for your team, Weave presigns the URI on read and renders the image or video inline in the trace, exactly like natively logged media.
+Use this when the media you want to see in Weave already lives in your own bucket: frames from a video pipeline, screenshots from a browser agent, or images a model wrote to S3. Instead of re-uploading those bytes into Weave, you log the object's URI as a string and Weave renders the image or video inline from your bucket.
 
-The bytes never enter Weave. This is different from logging media with the [Content API](/weave/guides/core-types/media#contents-api), which ingests and stores the bytes in Weave.
+- **No re-upload of large media.** Only the URI is sent to Weave; the bytes stay in your bucket. Logging a 2 GB video costs the same as logging its path.
 
-## Overview
-
-Reference media in your own bucket when you want to:
-
-- **Keep large media in your bucket.** Only the URI is sent to Weave, so the media bytes are never uploaded or stored by Weave.
-- **Log instantly.** There is no upload, so logging latency is a short string write no matter how large the asset is.
-- **Reuse assets you already store.** If the media is already in your bucket, point Weave at it instead of copying it.
+This is different from logging media with the [Content API](/weave/guides/core-types/media#contents-api), which reads the bytes and stores them in Weave.
 
 <Note>
-This is a Weave-specific feature and is separate from [platform BYOB (secure storage connector)](/platform/hosting/data-security/secure-storage-connector), which backs W&B artifact and run storage. Reference media buckets are configured per team and only need read access.
+This is a Weave feature and is separate from [platform BYOB (secure storage connector)](/platform/hosting/data-security/secure-storage-connector), which backs W&B artifact and run storage. Reference media buckets are configured per team and only need read access.
 </Note>
 
 ## How it works
 
-1. You store a media object in your bucket, for example `s3://your-bucket/frame.png`.
-2. You log that URI as a string value in a trace (an op input/output or an agent tool result).
-3. When you open the trace, Weave requests a short-lived [presigned URL](/platform/hosting/data-security/presigned-urls) for the object and renders it inline.
+1. You store a media object in your bucket, for example `s3://your-bucket/frames/000123.png`.
+2. You log that URI as a string value anywhere in a trace: an op input or output, or an agent tool result. The field name does not matter.
+3. When you open the trace, Weave resolves the URI to a short-lived [presigned URL](/platform/hosting/data-security/presigned-urls) and renders it inline. The file extension decides how it renders: images (`.png`, `.jpg`, `.gif`, ...) and videos (`.mp4`, `.mov`, `.webm`, ...) render inline; anything else renders as a download link.
 
-Weave renders a URI as media only when it points at a bucket that is registered for your team, so the same string is inert until you complete registration.
+Weave only resolves URIs that point at a bucket registered for your team. Supported schemes are `s3://`, `gs://`, `gcs://`, and `az://`.
 
 ## Prerequisites
 
 - A W&B account and [API key](https://wandb.ai/authorize).
-- An AWS S3 bucket you control, containing at least one object.
+- A cloud storage bucket you control (S3, GCS, or Azure), containing at least one object.
 - Permission to edit your team settings.
 
 ## Configure your bucket
 
-Grant W&B read access to the bucket and allow the browser to fetch objects with CORS. For provisioning details and other providers, see the [secure storage connector guide](/platform/hosting/data-security/secure-storage-connector).
+Grant W&B read access to the bucket and allow the browser to fetch objects with CORS. The steps below are for AWS S3; for GCS or Azure, see the [secure storage connector guide](/platform/hosting/data-security/secure-storage-connector).
 
 1. Apply a bucket policy that lets the W&B integration role read objects. Replace `<your-bucket>` and use the principal for your environment:
 
@@ -82,7 +76,7 @@ Until the bucket is registered, referenced URIs do not render. Registration is w
 
 ## Log a media reference
 
-Log the object's URI as a string value in a trace. No Content annotation is needed, because the bytes stay in your bucket.
+Log the URI as a string value in a trace. There is nothing special to call: any string field whose value is a bucket URI renders, and no Content annotation is needed because the bytes stay in your bucket. Here an op captions images that already live in your bucket, and logs each URI alongside its caption.
 
 <Tabs>
 <Tab title="Python">
@@ -93,12 +87,13 @@ import weave
 weave.init("your-team/your-project")
 
 @weave.op
-def render_frame(source_uri: str) -> dict[str, str]:
-    # Return the URI verbatim; Weave presigns and renders it inline.
-    return {"image": source_uri}
+def caption_image(image_uri: str) -> dict:
+    caption = my_captioner(image_uri)  # your model or API call
+    # image_uri renders inline from its value; the field name is arbitrary
+    # and the extension (.png here) decides image vs video.
+    return {"image": image_uri, "caption": caption}
 
-render_frame("s3://your-bucket/frame.png")
-render_frame("s3://your-bucket/clip.mp4")
+caption_image("s3://your-bucket/photos/cat.png")
 ```
 
 </Tab>
@@ -109,13 +104,13 @@ import * as weave from 'weave';
 
 await weave.init('your-team/your-project');
 
-const renderFrame = weave.op(function renderFrame(sourceUri: string) {
-  // Return the URI verbatim; Weave presigns and renders it inline.
-  return { image: sourceUri };
+const captionImage = weave.op(async function captionImage(imageUri: string) {
+  const caption = await myCaptioner(imageUri); // your model or API call
+  // imageUri renders inline from its value; the field name is arbitrary.
+  return {image: imageUri, caption};
 });
 
-await renderFrame('s3://your-bucket/frame.png');
-await renderFrame('s3://your-bucket/clip.mp4');
+await captionImage('s3://your-bucket/photos/cat.png');
 ```
 
 </Tab>
@@ -127,7 +122,7 @@ You can also carry a reference URI in an agent tool result so it renders in the 
 
 ## View the reference in Weave
 
-Open the trace from the link that `weave.init()` prints. The referenced image or video renders inline in the call view, and referenced media in an agent tool result renders in the **Agents** view. If a URI does not resolve, Weave shows an error placeholder instead of the media, which usually means the object is missing or the bucket is not registered.
+Open the trace from the link that `weave.init()` prints. The referenced image or video renders inline in the call view, and referenced media in an agent tool result renders in the **Agents** view. If a URI can't be resolved, for example the object is missing or the bucket is not registered, Weave falls back to showing the plain URI string.
 
 {/* TODO: add a <Frame> screenshot of a referenced image rendering in a trace once one is captured. */}
 
