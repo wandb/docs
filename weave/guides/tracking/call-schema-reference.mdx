@@ -112,9 +112,9 @@ const myOp = weave.op(
 
 Use `getCall` to fetch a single Call by ID, or `getCalls` to fetch multiple Calls. In both cases, `summary` is the same merged dictionary.
 
-<Tabs>
-  <Tab title="Python">
-```python lines
+<CodeGroup>
+
+```python Python lines
 import weave
 client = weave.init("my-team/my-project")
 
@@ -134,9 +134,8 @@ for call in client.get_calls(filter={"op_names": ["weave:///my-team/my-project/o
     weave_s = s.get("weave", {})
     print(call.id, weave_s.get("status"), weave_s.get("latency_ms"), s.get("accuracy"))
 ```
-  </Tab>
-  <Tab title="TypeScript">
-```typescript twoslash lines
+
+```typescript TypeScript twoslash lines
 // @noErrors
 import * as weave from 'weave';
 const client = await weave.init('my-team/my-project');
@@ -158,6 +157,6 @@ for (const call of calls) {
   console.log(call.id, weaveS?.status, weaveS?.latency_ms, call.summary?.accuracy);
 }
 ```
-  </Tab>
-</Tabs>
+
+</CodeGroup>
 

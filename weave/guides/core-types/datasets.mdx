@@ -23,70 +23,67 @@ The following code samples demonstrate how to perform fundamental `Dataset` oper
 
 Select a tab to see Python and TypeScript-specific code.
 
-<Tabs>
-  <Tab title="Python">
-    ```python lines
-    import weave
-    from weave import Dataset
-    # Initialize Weave
-    weave.init('intro-example')
+<CodeGroup>
 
-    # Create a dataset
-    dataset = Dataset(
-        name='grammar',
-        rows=[
-            {'id': '0', 'sentence': "He no likes ice cream.", 'correction': "He doesn't like ice cream."},
-            {'id': '1', 'sentence': "She goed to the store.", 'correction': "She went to the store."},
-            {'id': '2', 'sentence': "They plays video games all day.", 'correction': "They play video games all day."}
-        ]
-    )
+```python Python lines
+import weave
+from weave import Dataset
+# Initialize Weave
+weave.init('intro-example')
 
-    # Publish the dataset
-    weave.publish(dataset)
+# Create a dataset
+dataset = Dataset(
+    name='grammar',
+    rows=[
+        {'id': '0', 'sentence': "He no likes ice cream.", 'correction': "He doesn't like ice cream."},
+        {'id': '1', 'sentence': "She goed to the store.", 'correction': "She went to the store."},
+        {'id': '2', 'sentence': "They plays video games all day.", 'correction': "They play video games all day."}
+    ]
+)
 
-    # Retrieve the dataset
-    dataset_ref = weave.ref('grammar').get()
+# Publish the dataset
+weave.publish(dataset)
 
-    # Access a specific example
-    example_label = dataset_ref.rows[2]['sentence']
-    ```
+# Retrieve the dataset
+dataset_ref = weave.ref('grammar').get()
 
-  </Tab>
-  <Tab title="TypeScript">
-    ```typescript twoslash lines
-    // @noErrors
-    import * as weave from 'weave';
+# Access a specific example
+example_label = dataset_ref.rows[2]['sentence']
+```
 
-    // Initialize Weave
-    const client = await weave.init('intro-example');
+```typescript TypeScript twoslash lines
+// @noErrors
+import * as weave from 'weave';
 
-    // Create a dataset
-    const dataset = new weave.Dataset({
-        name: 'grammar',
-        rows: [
-            {id: '0', sentence: "He no likes ice cream.", correction: "He doesn't like ice cream."},
-            {id: '1', sentence: "She goed to the store.", correction: "She went to the store."},
-            {id: '2', sentence: "They plays video games all day.", correction: "They play video games all day."}
-        ]
-    });
+// Initialize Weave
+const client = await weave.init('intro-example');
 
-    // Publish the dataset
-    const ref = await dataset.save();
+// Create a dataset
+const dataset = new weave.Dataset({
+    name: 'grammar',
+    rows: [
+        {id: '0', sentence: "He no likes ice cream.", correction: "He doesn't like ice cream."},
+        {id: '1', sentence: "She goed to the store.", correction: "She went to the store."},
+        {id: '2', sentence: "They plays video games all day.", correction: "They play video games all day."}
+    ]
+});
 
-    // Retrieve the dataset
-    const retrievedDataset = await client.get(ref);
+// Publish the dataset
+const ref = await dataset.save();
 
-    // Alternatively, retrieve using a URI string
-    const datasetUri = 'weave:///my-entity/intro-example/object/grammar:abc123def456';
-    const refFromUri = weave.ObjectRef.fromUri(datasetUri);
-    const retrievedDatasetFromUri = await client.get(refFromUri);
+// Retrieve the dataset
+const retrievedDataset = await client.get(ref);
 
-    // Access a specific example
-    const exampleLabel = retrievedDataset.getRow(2).sentence;
-    ```
+// Alternatively, retrieve using a URI string
+const datasetUri = 'weave:///my-entity/intro-example/object/grammar:abc123def456';
+const refFromUri = weave.ObjectRef.fromUri(datasetUri);
+const retrievedDatasetFromUri = await client.get(refFromUri);
 
-  </Tab>
-</Tabs>
+// Access a specific example
+const exampleLabel = retrievedDataset.getRow(2).sentence;
+```
+
+</CodeGroup>
 
 ## Create a dataset from other objects
 

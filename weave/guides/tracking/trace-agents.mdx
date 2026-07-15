@@ -122,10 +122,9 @@ Weave exposes the following top-level functions. Each function returns an object
 
 The active conversation is stored in context (a Python `ContextVar` or Node.js `AsyncLocalStorage`), so any code running in the same async context can retrieve it with `weave.get_current_conversation()` / `weave.getCurrentConversation()` without passing the conversation object explicitly.
 
-<Tabs>
-<Tab title="Python">
+<CodeGroup>
 
-```python lines
+```python Python lines
 conversation = weave.start_conversation(
     agent_name="my-agent",    # Optional: identifies the agent in the UI. Omit it and the conversation isn't grouped under a named agent.
     conversation_id="",       # Optional: stable ID to group turns; auto-generated when empty.
@@ -136,10 +135,7 @@ conversation = weave.start_conversation(
 )
 ```
 
-</Tab>
-<Tab title="TypeScript">
-
-```typescript lines twoslash
+```typescript TypeScript lines twoslash
 // @noErrors
 const conversation = weave.startConversation({
   agentName: 'my-agent',  // Optional: identifies the agent in the UI. Omit it and the conversation isn't grouped under a named agent.
@@ -148,8 +144,7 @@ const conversation = weave.startConversation({
 });
 ```
 
-</Tab>
-</Tabs>
+</CodeGroup>
 
 ### Start a turn
 
@@ -160,10 +155,9 @@ You can call it two ways:
 - **As a top-level function** (`weave.start_turn(...)` / `weave.startTurn(...)`), shown in the examples below. It resolves the active conversation from context and inherits its conversation ID. If no conversation is active, the turn is created without a `conversation_id` and isn't grouped with other turns.
 - **As an instance method** on a conversation you hold a reference to (`conversation.start_turn(...)` / `conversation.startTurn(...)`). Useful when you have an explicit conversation object in scope, such as inside a context-manager block. The "Context manager or try-finally pattern" example below uses this form. See the data-model table above for direct links to the `Conversation`, `Turn`, `LLM`, `Tool`, and `SubAgent` reference pages in both SDKs.
 
-<Tabs>
-<Tab title="Python">
+<CodeGroup>
 
-```python lines
+```python Python lines
 turn = weave.start_turn(
     user_message="What is the weather in Tokyo?",  # The user's input text.
     agent_name="my-agent",   # Optional: overrides the conversation-level agent name.
@@ -171,10 +165,7 @@ turn = weave.start_turn(
 )
 ```
 
-</Tab>
-<Tab title="TypeScript">
-
-```typescript lines twoslash
+```typescript TypeScript lines twoslash
 // @noErrors
 const turn = weave.startTurn({
   agentName: 'my-agent',  // Optional: overrides the conversation-level agent name.
@@ -182,17 +173,15 @@ const turn = weave.startTurn({
 });
 ```
 
-</Tab>
-</Tabs>
+</CodeGroup>
 
 ### Start an LLM call
 
 `start_llm()` / `startLLM()` creates a `chat` span nested under the current turn. Weave uses this span to display token usage, model name, input and output messages, and reasoning in the Agents view.
 
-<Tabs>
-<Tab title="Python">
+<CodeGroup>
 
-```python lines
+```python Python lines
 llm = weave.start_llm(
     model="gpt-4o",             # The model identifier.
     provider_name="openai",     # Optional: provider name, for example "openai", "anthropic". See note below.
@@ -200,10 +189,7 @@ llm = weave.start_llm(
 )
 ```
 
-</Tab>
-<Tab title="TypeScript">
-
-```typescript lines twoslash
+```typescript TypeScript lines twoslash
 // @noErrors
 const llm = weave.startLLM({
   model: 'gpt-4o',          // The model identifier.
@@ -211,8 +197,7 @@ const llm = weave.startLLM({
 });
 ```
 
-</Tab>
-</Tabs>
+</CodeGroup>
 
 After the LLM call completes, assign the response data to the `llm` object before it closes:
 
@@ -262,10 +247,9 @@ Pass `provider_name` / `providerName` explicitly. Weave doesn't infer it from th
 
 `start_tool()` / `startTool()` creates an `execute_tool` span. The span becomes a child of whatever OTel span is active in context (typically the `chat` span of the LLM call that produced the tool call).
 
-<Tabs>
-<Tab title="Python">
+<CodeGroup>
 
-```python lines
+```python Python lines
 tool = weave.start_tool(
     name="get_weather",                  # Tool name as declared to the LLM.
     arguments='{"city": "Tokyo"}',       # JSON string of the tool arguments.
@@ -273,10 +257,7 @@ tool = weave.start_tool(
 )
 ```
 
-</Tab>
-<Tab title="TypeScript">
-
-```typescript lines twoslash
+```typescript TypeScript lines twoslash
 // @noErrors
 const tool = weave.startTool({
   name: 'get_weather',            // Tool name as declared to the LLM.
@@ -285,24 +266,19 @@ const tool = weave.startTool({
 });
 ```
 
-</Tab>
-</Tabs>
+</CodeGroup>
 
 Assign the tool result before closing:
 
-<Tabs>
-<Tab title="Python">
+<CodeGroup>
 
-```python lines
+```python Python lines
 with weave.start_tool(name="get_weather", arguments='{"city": "Tokyo"}') as tool:
     result = get_weather_api("Tokyo")
     tool.result = result  # Accepts dict, list, or string. JSON-encoded automatically.
 ```
 
-</Tab>
-<Tab title="TypeScript">
-
-```typescript lines twoslash
+```typescript TypeScript lines twoslash
 // @noErrors
 const tool = weave.startTool({ name: 'get_weather', args: '{"city": "Tokyo"}' });
 try {
@@ -312,8 +288,7 @@ try {
 }
 ```
 
-</Tab>
-</Tabs>
+</CodeGroup>
 
 ## Usage patterns for agent tracing
 
@@ -332,10 +307,9 @@ For most agents, use a context manager pattern in Python or a try-finally patter
 
 Weave stores the active conversation, turn, and LLM call in context, so any function called within a block can call `start_llm()` / `startLLM()` or `start_tool()` / `startTool()` without holding an explicit reference to the parent. This works across module boundaries as long as the code runs in the same async context. To retrieve the active objects from anywhere in the call stack, use `weave.get_current_conversation()` / `weave.getCurrentConversation()`, `weave.get_current_turn()` / `weave.getCurrentTurn()`, and `weave.get_current_llm()` / `weave.getCurrentLLM()`.
 
-<Tabs>
-<Tab title="Python">
+<CodeGroup>
 
-```python lines highlight="13,14,17,25,29"
+```python Python lines highlight="13,14,17,25,29"
 import weave
 from weave.conversation import Message, Usage
 
@@ -370,10 +344,7 @@ with weave.start_conversation(agent_name="weather-bot") as conversation:
             llm.usage = Usage(input_tokens=150, output_tokens=30)
 ```
 
-</Tab>
-<Tab title="TypeScript">
-
-```typescript lines highlight="11,13,16,24,35" twoslash
+```typescript TypeScript lines highlight="11,13,16,24,35" twoslash
 // @noErrors
 import * as weave from 'weave';
 import type { Message, Usage } from 'weave';
@@ -425,17 +396,15 @@ try {
 }
 ```
 
-</Tab>
-</Tabs>
+</CodeGroup>
 
 ### Manual start and end pattern
 
 Use `.end()` explicitly when you can't use `with` blocks or `try/finally`. For example, when you open and close spans in different function calls, or when you manage async lifecycle outside a coroutine. You're responsible for calling `.end()` on every object you create, so that spans close and flush to the collector.
 
-<Tabs>
-<Tab title="Python">
+<CodeGroup>
 
-```python lines highlight="1,2,4,9,15"
+```python Python lines highlight="1,2,4,9,15"
 conversation = weave.start_conversation(agent_name="weather-bot")
 turn = conversation.start_turn(user_message="What is the weather?")
 
@@ -459,10 +428,7 @@ turn.end()
 conversation.end()
 ```
 
-</Tab>
-<Tab title="TypeScript">
-
-```typescript lines highlight="1,2,4,9,15" twoslash
+```typescript TypeScript lines highlight="1,2,4,9,15" twoslash
 // @noErrors
 const conversation = weave.startConversation({ agentName: 'weather-bot' });
 const turn = conversation.startTurn({ agentName: 'weather-bot' });
@@ -487,8 +453,7 @@ turn.end();
 conversation.end();
 ```
 
-</Tab>
-</Tabs>
+</CodeGroup>
 
 ## Semantic conventions
 

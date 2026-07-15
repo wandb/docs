@@ -100,22 +100,17 @@ Before running the following code samples, set the following fields:
 
 First, install the required dependencies:
 
-<Tabs>
-<Tab title="Python">
+<CodeGroup>
 
-```bash
+```bash Python
 pip install openai openinference-instrumentation-openai opentelemetry-exporter-otlp-proto-http
 ```
 
-</Tab>
-<Tab title="TypeScript">
-
-```bash
+```bash TypeScript
 npm install openai @opentelemetry/sdk-trace-node @opentelemetry/sdk-trace-base @opentelemetry/resources @opentelemetry/exporter-trace-otlp-proto @arizeai/openinference-instrumentation-openai @opentelemetry/api
 ```
 
-</Tab>
-</Tabs>
+</CodeGroup>
 
 <Warning>
 **Performance recommendation**: Always use `BatchSpanProcessor` instead of `SimpleSpanProcessor` when sending traces to Weave. `SimpleSpanProcessor` exports spans synchronously, which can impact the performance of other workloads. These examples illustrate `BatchSpanProcessor`, which is recommended in production because it batches spans asynchronously and efficiently.
@@ -280,22 +275,17 @@ npx ts-node openinference_example.ts
 
 First, install the required dependencies:
 
-<Tabs>
-<Tab title="Python">
+<CodeGroup>
 
-```bash
+```bash Python
 pip install openai opentelemetry-instrumentation-openai opentelemetry-exporter-otlp-proto-http
 ```
 
-</Tab>
-<Tab title="TypeScript">
-
-```bash
+```bash TypeScript
 npm install openai @traceloop/instrumentation-openai @opentelemetry/sdk-trace-node @opentelemetry/resources @opentelemetry/exporter-trace-otlp-http
 ```
 
-</Tab>
-</Tabs>
+</CodeGroup>
 
 <Tabs>
 <Tab title="Python">
@@ -456,22 +446,17 @@ If you prefer to use OTel directly instead of an instrumentation package, you ca
 
 First, install the required dependencies:
 
-<Tabs>
-<Tab title="Python">
+<CodeGroup>
 
-```bash
+```bash Python
 pip install openai opentelemetry-sdk opentelemetry-api opentelemetry-exporter-otlp-proto-http
 ```
 
-</Tab>
-<Tab title="TypeScript">
-
-```bash
+```bash TypeScript
 npm install openai @opentelemetry/api @opentelemetry/sdk-trace-node @opentelemetry/resources @opentelemetry/exporter-trace-otlp-http
 ```
 
-</Tab>
-</Tabs>
+</CodeGroup>
 
 <Tabs>
 <Tab title="Python">
@@ -808,10 +793,9 @@ The following examples show how to organize OTel traces into Weave threads. They
 
 Use this configuration to run these examples:
 
-<Tabs>
-<Tab title="Python">
+<CodeGroup>
 
-```python lines
+```python Python lines
 import json
 import os
 from opentelemetry import trace
@@ -847,10 +831,7 @@ trace.set_tracer_provider(tracer_provider)
 tracer = trace.get_tracer(__name__)
 ```
 
-</Tab>
-<Tab title="TypeScript">
-
-```typescript lines
+```typescript TypeScript lines
 import { trace, context } from "@opentelemetry/api";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import {
@@ -898,17 +879,15 @@ provider.register();
 const tracer = trace.getTracer("threads-examples");
 ```
 
-</Tab>
-</Tabs>
+</CodeGroup>
 
 </Accordion>
 
 <Accordion title="Trace a basic single-turn thread">
 
-<Tabs>
-<Tab title="Python">
+<CodeGroup>
 
-```python lines
+```python Python lines
 def example_1_basic_thread_and_turn():
     """Example 1: Basic thread with a single turn"""
     print("\n=== Example 1: Basic Thread and Turn ===")
@@ -944,10 +923,7 @@ if __name__ == "__main__":
     main()
 ```
 
-</Tab>
-<Tab title="TypeScript">
-
-```typescript twoslash lines
+```typescript TypeScript twoslash lines
 // @noErrors
 function example_1_basic_thread_and_turn() {
   console.log("\n=== Example 1: Basic Thread and Turn ===");
@@ -990,17 +966,15 @@ function main() {
 main();
 ```
 
-</Tab>
-</Tabs>
+</CodeGroup>
 
 </Accordion>
 
 <Accordion title="Trace a multi-turn conversation sharing one thread ID">
 
-<Tabs>
-<Tab title="Python">
+<CodeGroup>
 
-```python lines
+```python Python lines
 def example_2_multiple_turns():
     """Example 2: Multiple turns in a single thread"""
     print("\n=== Example 2: Multiple Turns in Thread ===")
@@ -1044,10 +1018,7 @@ if __name__ == "__main__":
     main()
 ```
 
-</Tab>
-<Tab title="TypeScript">
-
-```typescript twoslash lines
+```typescript TypeScript twoslash lines
 // @noErrors
 function example_2_multiple_turns() {
   console.log("\n=== Example 2: Multiple Turns in Thread ===");
@@ -1105,17 +1076,15 @@ function main() {
 main();
 ```
 
-</Tab>
-</Tabs>
+</CodeGroup>
 
 </Accordion>
 
 <Accordion title="Trace deeply nested operations and mark only the outermost span as a turn">
 
-<Tabs>
-<Tab title="Python">
+<CodeGroup>
 
-```python lines
+```python Python lines
 def example_3_complex_nested_structure():
     """Example 3: Complex nested structure with multiple levels"""
     print("\n=== Example 3: Complex Nested Structure ===")
@@ -1159,10 +1128,7 @@ if __name__ == "__main__":
     main()
 ```
 
-</Tab>
-<Tab title="TypeScript">
-
-```typescript twoslash lines
+```typescript TypeScript twoslash lines
 // @noErrors
 function example_3_complex_nested_structure() {
   console.log("\n=== Example 3: Complex Nested Structure ===");
@@ -1224,17 +1190,15 @@ function main() {
 main();
 ```
 
-</Tab>
-</Tabs>
+</CodeGroup>
 
 </Accordion>
 
 <Accordion title="Trace background operations that belong to a thread but aren't turns">
 
-<Tabs>
-<Tab title="Python">
+<CodeGroup>
 
-```python lines
+```python Python lines
 def example_4_non_turn_operations():
     """Example 4: Operations that are part of a thread but not turns"""
     print("\n=== Example 4: Non-Turn Thread Operations ===")
@@ -1264,10 +1228,7 @@ if __name__ == "__main__":
     main()
 ```
 
-</Tab>
-<Tab title="TypeScript">
-
-```typescript twoslash lines
+```typescript TypeScript twoslash lines
 // @noErrors
 function example_4_non_turn_operations() {
   console.log("\n=== Example 4: Non-Turn Thread Operations ===");
@@ -1302,8 +1263,7 @@ function main() {
 main();
 ```
 
-</Tab>
-</Tabs>
+</CodeGroup>
 
 </Accordion>
 

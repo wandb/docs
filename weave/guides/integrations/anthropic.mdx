@@ -17,9 +17,9 @@ Weave automatically captures traces for the Anthropic SDK when you add `weave.in
 
 The following examples demonstrate how to integrate Weave into a basic call to Anthropic:
 
-<Tabs>
-  <Tab title="Python">
-```python lines {6}
+<CodeGroup>
+
+```python Python lines {6}
 import weave    
 # use the anthropic library as usual
 import os
@@ -43,9 +43,8 @@ message = client.messages.create(
 )
 print(message.content)
 ```
-  </Tab>
-  <Tab title="TypeScript">
-```typescript twoslash
+
+```typescript TypeScript twoslash
 // @noErrors
 import Anthropic from '@anthropic-ai/sdk';
 import * as weave from 'weave';
@@ -69,8 +68,8 @@ const message = await client.messages.create({
 
 console.log(message.content);
 ```
-  </Tab>
-</Tabs>
+
+</CodeGroup>
 
 By including `weave.init()` in the code, Weave automatically captures tracing information and outputs links. You can view the traces in the Weave UI by clicking on the links.
 
@@ -84,9 +83,9 @@ Weave ops automatically version your code as you experiment, and capture its inp
 
 The following examples show you how to track a function:
 
-<Tabs>
-  <Tab title="Python">
-```python lines {5,10,24}
+<CodeGroup>
+
+```python Python lines {5,10,24}
 import weave
 import os
 from anthropic import Anthropic
@@ -117,9 +116,8 @@ def generate_joke(topic: str) -> str:
 print(generate_joke("chickens"))
 print(generate_joke("cars"))
 ```
-  </Tab>
-  <Tab title="TypeScript">
-```typescript twoslash
+
+```typescript TypeScript twoslash
 // @noErrors
 import Anthropic from '@anthropic-ai/sdk';
 import * as weave from 'weave';
@@ -155,8 +153,8 @@ const generateJoke = weave.op(async function generateJoke(
 console.log(await generateJoke('chickens'));
 console.log(await generateJoke('cars'));
 ```
-  </Tab>
-</Tabs>
+
+</CodeGroup>
 
 When you decorate a function with `weave.op()`, Weave captures the function's code, input, and output. You can use ops to track any function you want, including nested functions.
 
@@ -223,9 +221,9 @@ Anthropic provides a [tools](https://platform.claude.com/docs/en/agents-and-tool
 
 The following truncated examples demonstrate an Anthropic tool configuration:
 
-<Tabs>
-  <Tab title="Python">
-```python lines
+<CodeGroup>
+
+```python Python lines
 message = client.messages.create(
     max_tokens=1024,
     messages=[
@@ -255,9 +253,8 @@ message = client.messages.create(
 
 print(message)
 ```
-  </Tab>
-  <Tab title="TypeScript">
-```typescript twoslash
+
+```typescript TypeScript twoslash
 // @noErrors
 const message = await client.messages.create({
     max_tokens: 1024,
@@ -288,8 +285,8 @@ const message = await client.messages.create({
 
 console.log(message);
 ```
-  </Tab>
-</Tabs>
+
+</CodeGroup>
 
 Weave automatically captures the tool definitions, Claude's tool use requests, and tool results at each step of the conversation.
 

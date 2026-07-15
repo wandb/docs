@@ -94,6 +94,99 @@
 
 
 /* --------------------------------------------------------------------------
+   Content tabs (<Tabs>/<Tab>) — Mintlify renders the block as
+   <div class="tabs tab-container">
+     <ul role="tablist" … border-b …>   the tab strip (each <li role="tab">
+                                          holds a [data-component-part=
+                                          "tab-button"] with its own active
+                                          underline)
+     <div><div role="tabpanel">…</div></div>   the active panel
+   Out of the box the component is borderless — only the strip's bottom rule
+   and the active tab's underline hint at it. Wrap the whole block in the
+   same card chrome used by .product-card / .card.block (1px --color-stroke
+   border, 12px radius, --color-card-rest fill) so each tabbed section reads
+   as one outlined region. The strip's existing border-b then becomes the
+   divider between the tab header and the panel body.
+   -------------------------------------------------------------------------- */
+
+.tab-container {
+  border: 1px solid var(--color-stroke);
+  border-radius: 12px;
+  background-color: var(--color-card-rest);
+  overflow: hidden; /* clip the strip + panel to the rounded corners */
+  /* Open up the gap to whatever follows the tabbed block. The box ships with
+     margin-bottom:0, so the only separation was the next element's ~20px top
+     margin; bump to 2rem so the outlined block doesn't crowd the next
+     paragraph/heading. (overflow:hidden gives the box its own block
+     formatting context, so this margin can't collapse into the panel body.) */
+  margin-bottom: 2rem;
+}
+
+/* Tab strip — kill Mintlify's mb-6 (24px) gap below the strip so the panel
+   sits close under the divider, and inset the tabs horizontally so they line
+   up with the padded panel. gap:0 lets thin vertical rules (below) sit
+   between the tabs instead of empty space; the tabs stay plain text and keep
+   Mintlify's -mb-px / border-b active underline, which connects to the
+   strip's own full-width border-b. */
+.tab-container [role="tablist"] {
+  margin-bottom: 0;
+  padding: 2px 20px 0;
+  gap: 0;
+  /* Mintlify sets overflow:auto on the strip so many tabs scroll horizontally
+     on narrow screens. But each tab button uses a -mb-px / border-b overlap
+     that leaves the strip's scroll height 1px taller than its client height,
+     which makes overflow:auto paint a stray vertical scrollbar in the tab
+     title row. Pin the y-axis to hidden (keeps horizontal scrolling) to kill
+     it. Higher specificity than Mintlify's .overflow-auto, so only overflow-y
+     is overridden; overflow-x stays auto. */
+  overflow-y: hidden;
+}
+
+/* Tab labels — plain text (no chip). Just add horizontal breathing room so the
+   dividers below have space on either side. Mintlify's own bottom underline
+   (border-b, transparent when idle / border-current when active) stays as the
+   understated active indicator, so nothing else is needed here. */
+.tab-container [data-component-part="tab-button"] {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+/* First tab sits flush with the strip's left inset — no leading pad, and it's
+   :first-child so it gets no divider (dividers are drawn before each tab that
+   follows another one, below). */
+.tab-container [role="tab"]:first-child [data-component-part="tab-button"] {
+  padding-left: 0;
+}
+
+/* Divider between tabs — a short, vertically-centered 1px --color-stroke rule
+   drawn on every tab that follows another. Absolutely positioned at the tab's
+   left edge (the parent <li> is relative) and kept to 20px tall so it reads as
+   a light separator rather than a full-height boxy border — the classier look.
+   overflow-x:auto on the strip clips nothing here since the rule sits inside
+   the tab's own box. */
+.tab-container [role="tab"] {
+  position: relative;
+}
+.tab-container [role="tab"] + [role="tab"]::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 20px;
+  background-color: var(--color-stroke);
+}
+
+/* Panel body — pad the active panel inside the box. Mintlify already zeroes
+   the first child's top margin (prose [&>:first-child…]:mt-0), so 16px top
+   reads evenly against the divider above. */
+.tab-container [role="tabpanel"] {
+  padding: 16px 20px;
+}
+
+
+/* --------------------------------------------------------------------------
    Page footer prev/next links — Mintlify wraps the prev/next anchors in
    a <div id="pagination" class="grid …"> at the bottom of every page.
    The anchors ship with only a border (no bg), so the page texture shows

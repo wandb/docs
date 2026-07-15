@@ -71,9 +71,9 @@ The following end-to-end example walks through creating a monitor that evaluates
 
 1. Define a function that generates statements. Some statements are truthful, others are not:
 
-<Tabs>
-  <Tab title="Python">
-```python lines
+<CodeGroup>
+
+```python Python lines
 import weave
 import random
 import openai
@@ -100,9 +100,8 @@ def generate_statement(ground_truth: str) -> str:
 
 generate_statement("The Earth revolves around the Sun.")
 ```
-  </Tab>
-  <Tab title="TypeScript">
-```typescript lines twoslash
+
+```typescript TypeScript lines twoslash
 // @noErrors
 import * as weave from 'weave';
 import OpenAI from 'openai';
@@ -129,8 +128,8 @@ const generateStatement = weave.op(async (ground_truth: string): Promise<string>
 
 await generateStatement("The Earth revolves around the Sun.");
 ```
-  </Tab>
-</Tabs>
+
+</CodeGroup>
 
 2. Run the function at least once to log a trace in your project. This makes the op available for monitoring in the W&B UI.
 
@@ -163,23 +162,22 @@ await generateStatement("The Earth revolves around the Sun.");
 
 6. In your script, invoke your function using statements with differing degrees of truthfulness to test the scoring function:
 
-<Tabs>
-  <Tab title="Python">
-```python lines
+<CodeGroup>
+
+```python Python lines
 generate_statement("The Earth revolves around the Sun.")
 generate_statement("Water freezes at 0 degrees Celsius.")
 generate_statement("The Great Wall of China was built over several centuries.")
 ```
-  </Tab>
-  <Tab title="TypeScript">
-```typescript lines twoslash
+
+```typescript TypeScript lines twoslash
 // @noErrors
 await generateStatement("The Earth revolves around the Sun.");
 await generateStatement("Water freezes at 0 degrees Celsius.");
 await generateStatement("The Great Wall of China was built over several centuries.");
 ```
-  </Tab>
-</Tabs>
+
+</CodeGroup>
 
 7. After running the script using several different statements, open the W&B UI and go to the **Traces** tab. Select any **LLMAsAJudgeScorer.score** trace to see the results.
 

@@ -116,89 +116,87 @@ To create a chat completion, you need:
   - `meta-llama/Llama-4-Scout-17B-16E-Instruct`
   - `microsoft/Phi-4-mini-instruct`
 
-<Tabs>
-  <Tab title="Bash">
-    ```bash
-    curl https://api.inference.wandb.ai/v1/chat/completions \
-      -H "Content-Type: application/json" \
-      -H "Authorization: Bearer <your-api-key>" \
-      -H "OpenAI-Project: <your-team>/<your-project>" \
-      -d '{
-        "model": "<model-id>",
-        "messages": [
-          { "role": "system", "content": "You are a helpful assistant." },
-          { "role": "user", "content": "Tell me a joke." }
-        ]
-      }'
-    ```
-  </Tab>
-  <Tab title="Python">
-    ```python lines
-    import openai
+<CodeGroup>
 
-    client = openai.OpenAI(
-        # The custom base URL points to Serverless Inference
-        base_url='https://api.inference.wandb.ai/v1',
+```bash Bash
+curl https://api.inference.wandb.ai/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <your-api-key>" \
+  -H "OpenAI-Project: <your-team>/<your-project>" \
+  -d '{
+    "model": "<model-id>",
+    "messages": [
+      { "role": "system", "content": "You are a helpful assistant." },
+      { "role": "user", "content": "Tell me a joke." }
+    ]
+  }'
+```
 
-        # Create an API key at https://wandb.ai/settings
-        # Consider setting it in the environment as OPENAI_API_KEY instead for safety
-        api_key="<your-api-key>",
+```python Python lines
+import openai
 
-        # Team and project are required for usage tracking
-        project="<your-team>/<your-project>",
-    )
+client = openai.OpenAI(
+    # The custom base URL points to Serverless Inference
+    base_url='https://api.inference.wandb.ai/v1',
 
-    # Replace <model-id> with any of the following values:
-    # meta-llama/Llama-3.1-8B-Instruct
-    # deepseek-ai/DeepSeek-V3-0324
-    # meta-llama/Llama-3.3-70B-Instruct
-    # deepseek-ai/DeepSeek-R1-0528
-    # meta-llama/Llama-4-Scout-17B-16E-Instruct
-    # microsoft/Phi-4-mini-instruct
+    # Create an API key at https://wandb.ai/settings
+    # Consider setting it in the environment as OPENAI_API_KEY instead for safety
+    api_key="<your-api-key>",
 
-    response = client.chat.completions.create(
-        model="<model-id>",
-        messages=[
-            {"role": "system", "content": "<your-system-prompt>"},
-            {"role": "user", "content": "<your-prompt>"}
-        ],
-    )
+    # Team and project are required for usage tracking
+    project="<your-team>/<your-project>",
+)
 
-    print(response.choices[0].message.content)
-    ```
-  </Tab>
-</Tabs>
+# Replace <model-id> with any of the following values:
+# meta-llama/Llama-3.1-8B-Instruct
+# deepseek-ai/DeepSeek-V3-0324
+# meta-llama/Llama-3.3-70B-Instruct
+# deepseek-ai/DeepSeek-R1-0528
+# meta-llama/Llama-4-Scout-17B-16E-Instruct
+# microsoft/Phi-4-mini-instruct
+
+response = client.chat.completions.create(
+    model="<model-id>",
+    messages=[
+        {"role": "system", "content": "<your-system-prompt>"},
+        {"role": "user", "content": "<your-prompt>"}
+    ],
+)
+
+print(response.choices[0].message.content)
+```
+
+</CodeGroup>
 
 #### List supported models
 
 Use the API to query all available models and their IDs. This is useful for selecting models dynamically or inspecting what's available in your environment.
 
-<Tabs>
-  <Tab title="Bash">
-    ```bash
-    curl https://api.inference.wandb.ai/v1/models \
-      -H "Content-Type: application/json" \
-      -H "Authorization: Bearer <your-api-key>" \
-      -H "OpenAI-Project: <your-team>/<your-project>" \
-    ```
-  </Tab>
-  <Tab title="Python">
-    ```python lines
-    import openai
+<CodeGroup>
 
-    client = openai.OpenAI(
-        base_url="https://api.inference.wandb.ai/v1",
-        api_key="<your-api-key>",
-        project="<your-team>/<your-project>"
-    )
+```bash Bash
+curl https://api.inference.wandb.ai/v1/models \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <your-api-key>" \
+  -H "OpenAI-Project: <your-team>/<your-project>" \
+```
 
-    response = client.models.list()
+```python Python lines
+import openai
 
-    for model in response.data:
-        print(model.id)
-    ```
-  </Tab>
-</Tabs>
+client = openai.OpenAI(
+    base_url="https://api.inference.wandb.ai/v1",
+    api_key="<your-api-key>",
+    project="<your-team>/<your-project>"
+)
+
+response = client.models.list()
+
+for model in response.data:
+    print(model.id)
+```
+
+</CodeGroup>
 
 ## Usage examples
 

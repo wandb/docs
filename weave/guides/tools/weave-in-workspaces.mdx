@@ -136,9 +136,9 @@ The following sections show each approach.
 
 To add an artifact as an attribute of a trace, pass it as a key-value pair to the `weave.attributes()` context manager:
 
-<Tabs>
-<Tab title="Python">
-```python lines {10}
+<CodeGroup>
+
+```python Python lines {10}
 import weave
 
 weave.init("[YOUR-TEAM-NAME]/[YOUR-PROJECT-NAME]")
@@ -151,9 +151,8 @@ def my_function(name: str):
 with weave.attributes({'artifact_id': 'wandb-artifact:///team-name/project-name/run-38m4t5ja-history:v0'}):
     result = my_function("World")
 ```
-</Tab>
-<Tab title="TypeScript">
-```typescript twoslash lines {12}
+
+```typescript TypeScript twoslash lines {12}
 // @noErrors
 import {init, op, withAttributes} from 'weave';
 
@@ -175,8 +174,8 @@ async function main() {
 
 main().catch(console.error);
 ```
-</Tab>
-</Tabs>
+
+</CodeGroup>
 
 ### Add an artifact as an attribute of a `Model`
 

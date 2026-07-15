@@ -144,29 +144,27 @@ Now that Weave traces your nested functions, you can enrich those traces with ad
 
 Continuing the previous example:
 
-<Tabs>
-  <Tab title="Python">
-    ```python lines {1,10-11}
-    import weave
+<CodeGroup>
 
-    weave.init('jurassic-park')
+```python Python lines {1,10-11}
+import weave
 
-    sentence = """I watched as a Tyrannosaurus rex (T. rex) chased after a Triceratops (Trike), \
-    both carnivore and herbivore locked in an ancient dance. Meanwhile, a gentle giant \
-    Brachiosaurus (Brachi) calmly munched on treetops, blissfully unaware of the chaos below."""
+weave.init('jurassic-park')
 
-    # track metadata alongside the previously defined function
-    with weave.attributes({'user_id': 'lukas', 'env': 'production'}):
-        result = dino_tracker(sentence)
-    ```
+sentence = """I watched as a Tyrannosaurus rex (T. rex) chased after a Triceratops (Trike), \
+both carnivore and herbivore locked in an ancient dance. Meanwhile, a gentle giant \
+Brachiosaurus (Brachi) calmly munched on treetops, blissfully unaware of the chaos below."""
 
-  </Tab>
-  <Tab title="TypeScript">
-    ```plaintext
-    This feature is not available in TypeScript yet.
-    ```
-  </Tab>
-</Tabs>
+# track metadata alongside the previously defined function
+with weave.attributes({'user_id': 'lukas', 'env': 'production'}):
+    result = dino_tracker(sentence)
+```
+
+```plaintext TypeScript
+This feature is not available in TypeScript yet.
+```
+
+</CodeGroup>
 
 <Note>
 Track metadata at run time, such as your user IDs and your code's environment status (development, staging, or production).
