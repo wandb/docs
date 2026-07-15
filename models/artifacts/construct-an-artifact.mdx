@@ -32,13 +32,13 @@ Artifacts can't have the same name, regardless of type. In other words, you can'
 
 You can optionally provide a description and metadata when you initialize an artifact object. For more information about available attributes and parameters, see the [`wandb.Artifact`](/models/ref/python/experiments/artifact) class definition in the Python SDK Reference Guide.
 
-Copy and paste the following code snippet to create an artifact object. Replace the `<name>` and `<type>` placeholders with your own values:
+Copy and paste the following code snippet to create an artifact object. Replace the `[NAME]` and `[TYPE]` placeholders with your own values:
 
 ```python
 import wandb
 
 # Create an artifact object
-artifact = wandb.Artifact(name="<name>", type="<type>")
+artifact = wandb.Artifact(name="[NAME]", type="[TYPE]")
 ```
 
 ### Add one or more files to the artifact
@@ -48,13 +48,13 @@ artifact = wandb.Artifact(name="<name>", type="<type>")
 To add a single file, use the artifact object's [`Artifact.add_file()`](/models/ref/python/experiments/artifact#add_file) method:
 
 ```python
-artifact.add_file(local_path="path/to/file.txt", name="<name>")
+artifact.add_file(local_path="path/to/file.txt", name="[NAME]")
 ```
 
 To add a directory, use the [`Artifact.add_dir()`](/models/ref/python/experiments/artifact#add_dir) method:
 
 ```python
-artifact.add_dir(local_path="path/to/directory", name="<name>")
+artifact.add_dir(local_path="path/to/directory", name="[NAME]")
 ```
 
 See [Add files to an artifact](/models/artifacts/construct-an-artifact#add-files-to-an-artifact), for more information about adding different file types to an artifact.
@@ -64,7 +64,7 @@ See [Add files to an artifact](/models/artifacts/construct-an-artifact#add-files
 Use the run object's [`wandb.Run.log_artifact()`](/models/ref/python/experiments/run#log_artifact) method to save the artifact.
 
 ```python
-with wandb.init(project="<project>", job_type="<job-type>") as run:
+with wandb.init(project="[PROJECT]", job_type="[JOB-TYPE]") as run:
     run.log_artifact(artifact)
 ```
 
@@ -81,11 +81,11 @@ Putting this all together, the following code snippet shows how to create a data
 ```python
 import wandb
 
-artifact = wandb.Artifact(name="<name>", type="<type>")
-artifact.add_file(local_path="path/to/file.txt", name="<name>")
-artifact.add_dir(local_path="path/to/directory", name="<name>")
+artifact = wandb.Artifact(name="[NAME]", type="[TYPE]")
+artifact.add_file(local_path="path/to/file.txt", name="[NAME]")
+artifact.add_dir(local_path="path/to/directory", name="[NAME]")
 
-with wandb.init(project="<project>", job_type="<job-type>") as run:
+with wandb.init(project="[PROJECT]", job_type="[JOB-TYPE]") as run:
     run.log_artifact(artifact)
 ```
 
@@ -134,7 +134,7 @@ Use [`wandb.Artifact.add_file()`](/models/ref/python/experiments/artifact#method
 import wandb
 
 # Initialize an artifact object
-artifact = wandb.Artifact(name="<name>", type="<type>")
+artifact = wandb.Artifact(name="[NAME]", type="[TYPE]")
 
 # Add a single file
 artifact.add_file(local_path="path/file.format")
@@ -186,7 +186,7 @@ Use the [`wandb.Artifact.add_dir()`](/models/ref/python/experiments/artifact#met
 import wandb
 
 # Initialize an artifact object
-artifact = wandb.Artifact(name="<name>", type="<type>")
+artifact = wandb.Artifact(name="[NAME]", type="[TYPE]")
 
 # Add a local directory to the artifact
 artifact.add_dir(local_path="path/to/directory", name="optional-prefix")
@@ -290,14 +290,14 @@ with wandb.init(group=group_name) as run:
 
 ## Find path for logged artifacts and other metadata
 
-The following code snippet shows how to use the [W&B Public API](/models/ref/python/public-api/) to list the files in a run, including their names and URLs. Replace the `<entity/project/run-id>` placeholder with your own values:
+The following code snippet shows how to use the [W&B Public API](/models/ref/python/public-api/) to list the files in a run, including their names and URLs. Replace the `[ENTITY]/[PROJECT]/[RUN-ID]` placeholder with your own values:
 
 ```python
 from wandb.apis.public.files import Files
 from wandb.apis.public.api import Api
 
 # Example run object
-run = Api().run("<entity/project/run-id>")
+run = Api().run("[ENTITY]/[PROJECT]/[RUN-ID]")
 
 # Create a Files object to iterate over files in the run
 files = Files(api.client, run)

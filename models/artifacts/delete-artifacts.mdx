@@ -75,7 +75,7 @@ To delete an artifact version:
 </Tab>
 <Tab title="W&B Python SDK" value="sdk">
 
-Delete an artifact version programmatically with the [wandb.Artifact.delete()](/models/ref/python/experiments/artifact#delete) method. Provide the full name of the artifact. The full name consists of `<entity>/<project>/<artifact_name>:<version>`. Set the `delete_aliases` parameter to `True` to delete the artifact even if it has one or more aliases associated with it.
+Delete an artifact version programmatically with the [wandb.Artifact.delete()](/models/ref/python/experiments/artifact#delete) method. Provide the full name of the artifact. The full name consists of `[ENTITY]/[PROJECT]/[ARTIFACT_NAME]:[VERSION]`. Set the `delete_aliases` parameter to `True` to delete the artifact even if it has one or more aliases associated with it.
 
 ```python
 import wandb
@@ -83,7 +83,7 @@ import wandb
 api = wandb.Api()
 
 # Get the artifact by its path
-artifact = api.artifact("<entity>/<project>/<artifact_name>:<version>")
+artifact = api.artifact("[ENTITY]/[PROJECT]/[ARTIFACT_NAME]:[VERSION]")
 
 # Delete the artifact version along with any aliases
 artifact.delete(delete_aliases=True)
@@ -100,7 +100,7 @@ The following code example shows how to delete multiple artifact versions. Provi
 Set the `delete_aliases` parameter to `True` (`wandb.Artifact.delete(delete_aliases=True)`) to delete an artifact version and any aliases associated with it.
 </Tip>
 
-Replace the `<entity>`, `<project>`, `<run_id>`, and `<artifact_name>` placeholders with your own values:
+Replace the `[ENTITY]`, `[PROJECT]`, `[RUN_ID]`, and `[ARTIFACT_NAME]` placeholders with your own values:
 
 ```python
 import wandb
@@ -108,11 +108,11 @@ import wandb
 # Initialize W&B API
 api = wandb.Api()
 
-# Get the run by its path. Consists of <entity>/<project>/<run_id>
-run = api.run("<entity>/<project>/<run_id>")
+# Get the run by its path. Consists of [ENTITY]/[PROJECT]/[RUN_ID]
+run = api.run("[ENTITY]/[PROJECT]/[RUN_ID]")
 
 # Specify the artifact name to delete versions for
-artifact_name = "<artifact_name>"
+artifact_name = "[ARTIFACT_NAME]"
 
 # Search and delete artifact versions with the specified name
 for artifact in run.logged_artifacts():
@@ -127,7 +127,7 @@ for artifact in run.logged_artifacts():
 
 The following code demonstrates how to delete multiple artifact versions that have a specific alias.
 
-Replace the `<entity>`, `<project>`, `<run_id>`, `<artifact_name>`, and `<alias>` placeholders with your own values:
+Replace the `[ENTITY]`, `[PROJECT]`, `[RUN_ID]`, `[ARTIFACT_NAME]`, and `[ALIAS]` placeholders with your own values:
 
 ```python
 import wandb
@@ -135,14 +135,14 @@ import wandb
 # Initialize W&B API
 api = wandb.Api()
 
-# Get the run by its path. Consists of <entity>/<project>/<run_id>
-run = api.run("<entity>/<project>/<run_id>")
+# Get the run by its path. Consists of [ENTITY]/[PROJECT]/[RUN_ID]
+run = api.run("[ENTITY]/[PROJECT]/[RUN_ID]")
 
 # Specify the artifact name to delete versions for
-artifact_name = "<artifact_name>"
+artifact_name = "[ARTIFACT_NAME]"
 
 # Specify the alias to filter artifact versions for deletion
-desired_alias = "<alias>"
+desired_alias = "[ALIAS]"
 
 # Delete artifacts logged to run with alias 'v3' and 'v4'
 for artifact in run.logged_artifacts():
@@ -168,7 +168,7 @@ To delete an artifact collection:
 
 Delete artifact collection programmatically with the [wandb.Artifact.delete()](/models/ref/python/experiments/artifact#delete) method.
 
-Provide the full path of the artifact collection to `wandb.Api.artifact_collection(name="")`. The full path consists of `<entity>/<project>/<artifact_collection_name>`.
+Provide the full path of the artifact collection to `wandb.Api.artifact_collection(name="")`. The full path consists of `[ENTITY]/[PROJECT]/[ARTIFACT_COLLECTION_NAME]`.
 
 ```python
 import wandb
@@ -177,10 +177,10 @@ import wandb
 api = wandb.Api()
 
 # Get the artifact collection by its path. Consists of
-# <entity>/<project>/<artifact_collection_name>
+# [ENTITY]/[PROJECT]/[ARTIFACT_COLLECTION_NAME]
 collection = api.artifact_collection(
-    type_name = "<artifact_type>",
-    name = "<entity>/<project>/<artifact_collection_name>"
+    type_name = "[ARTIFACT_TYPE]",
+    name = "[ENTITY]/[PROJECT]/[ARTIFACT_COLLECTION_NAME]"
 )
 collection.delete()
 ```

@@ -172,16 +172,16 @@ To track an artifact in a filesystem:
 3. Specify the reference to the filesystem path with the artifact object's `wandb.Artifact.add_reference()` method.
 4. Log the artifact's metadata with `run.log_artifact()`.
 
-To track files in a mounted filesystem, copy and paste the following code snippet. Replace the values enclosed in angle brackets (`< >`) with your own values.
+To track files in a mounted filesystem, copy and paste the following code snippet. Replace the bracketed placeholders with your own values.
 
 ```python
 import wandb
 
 # Initialize a run
-with wandb.init(entity="<entity>", project="<project>") as run:
+with wandb.init(entity="[ENTITY]", project="[PROJECT]") as run:
 
   # Create an artifact object
-  artifact = wandb.Artifact(name="<name>", type="<type>")
+  artifact = wandb.Artifact(name="[NAME]", type="[TYPE]")
 
   # Add a reference to the filesystem path
   artifact.add_reference("file:///path/to/dataset/")

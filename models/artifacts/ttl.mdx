@@ -33,12 +33,12 @@ You can check an artifact's type on the [W&B platform](/models/artifacts/explore
 ```python
 import wandb
 
-with wandb.init(project="<my-project-name>") as run:
-    artifact = run.use_artifact(artifact_or_name="<my-artifact-name>")
+with wandb.init(project="[MY-PROJECT-NAME]") as run:
+    artifact = run.use_artifact(artifact_or_name="[MY-ARTIFACT-NAME]")
     print(artifact.type)
 ```
 
-Replace the values enclosed with `<>` with your own.
+Replace the bracketed placeholders with your own values.
 
 ## Define who can edit and set TTL policies
 
@@ -63,7 +63,7 @@ Only team admins can define who can set or edit a TTL policy.
 
 Set a TTL policy for an artifact either when you create the artifact or retroactively after you create the artifact.
 
-For all the following code snippets, replace the content wrapped in `<>` with your own values to use the code snippet.
+For all the following code snippets, replace the bracketed placeholders with your own values to use the code snippet.
 
 ### Set a TTL policy when you create an artifact
 
@@ -86,9 +86,9 @@ The following code snippet demonstrates how to create an artifact and set a TTL 
 import wandb
 from datetime import timedelta
 
-with wandb.init(project="<my-project-name>", entity="<my-entity>") as run:
-    artifact = wandb.Artifact(name="<artifact-name>", type="<type>")
-    artifact.add_file("<my-file>")
+with wandb.init(project="[MY-PROJECT-NAME]", entity="[MY-ENTITY]") as run:
+    artifact = wandb.Artifact(name="[ARTIFACT-NAME]", type="[TYPE]")
+    artifact.add_file("[MY-FILE]")
 
     artifact.ttl = timedelta(days=30)  # Set TTL policy
     run.log_artifact(artifact)
@@ -115,7 +115,7 @@ The following code snippet shows how to set a TTL policy for an artifact:
 import wandb
 from datetime import timedelta
 
-artifact = run.use_artifact("<my-entity/my-project/my-artifact:alias>")
+artifact = run.use_artifact("[MY-ENTITY]/[MY-PROJECT]/[MY-ARTIFACT]:[ALIAS]")
 artifact.ttl = timedelta(days=365 * 2)  # Delete in two years
 artifact.save()
 ```
@@ -171,7 +171,7 @@ from datetime import timedelta
 
 api = wandb.Api()
 
-artifact = api.artifact("<entity>/<project>/<artifact>:<alias>")
+artifact = api.artifact("[ENTITY]/[PROJECT]/[ARTIFACT]:[ALIAS]")
 
 artifact.ttl = timedelta(days=365)  # Delete in one year
 
@@ -193,7 +193,7 @@ Artifacts with TTL turned off don't inherit an artifact collection's TTL. Refer 
 
 The following code snippet shows how to deactivate a TTL policy for an artifact:
 ```python
-artifact = run.use_artifact("<my-entity/my-project/my-artifact:alias>")
+artifact = run.use_artifact("[MY-ENTITY]/[MY-PROJECT]/[MY-ARTIFACT]:[ALIAS]")
 artifact.ttl = None
 artifact.save()
 ```
@@ -224,7 +224,7 @@ View TTL policies for artifacts with the Python SDK or with the W&B App UI.
 Use a print statement to view an artifact's TTL policy. The following example shows how to retrieve an artifact and view its TTL policy:
 
 ```python
-artifact = run.use_artifact("<my-entity/my-project/my-artifact:alias>")
+artifact = run.use_artifact("[MY-ENTITY]/[MY-PROJECT]/[MY-ARTIFACT]:[ALIAS]")
 print(artifact.ttl)
 ```
 </Tab>
