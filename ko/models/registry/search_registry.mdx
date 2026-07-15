@@ -1,26 +1,44 @@
 ---
 title: 레지스트리 항목 찾기
-description: "전역 검색창이나 쿼리를 사용해 W&B Registry에서 레지스트리, 컬렉션, 아티팩트 버전을 검색하는 방법을 알아보세요."
+description: "UI에서 대화형으로 또는 쿼리를 사용해 프로그래밍 방식으로 레지스트리, 컬렉션, 아티팩트 버전을 검색하는 방법을 알아보세요."
 ---
 
-[W&amp;B Registry의 전역 검색창](./search_registry#search-for-registry-items)을 사용해 레지스트리, 컬렉션, 아티팩트 버전 태그, 컬렉션 태그 또는 별칭을 찾으세요. W&amp;B Python SDK를 사용하면 쿼리로 특정 기준에 따라 [레지스트리, 컬렉션, 아티팩트 버전을 필터링](/ko/models/registry/search_registry#query-registry-items)할 수 있습니다.
+[W&amp;B Registry에서 대화형으로](/ko/models/registry/search_registry#search-for-registry-items) 또는 [W&amp;B Python SDK](/ko/models/registry/search_registry#query-registry-items)를 사용해 프로그래밍 방식으로 레지스트리, 컬렉션, 아티팩트 버전을 찾으세요.
+
+검색 결과에는 볼 권한이 있는 항목만 표시됩니다.
 
 <Info>
   W&amp;B Registry를 쿼리할 때 사용하는 문법과 사용 가능한 Operator는 MongoDB 쿼리와 유사하지만 동일하지는 않습니다.
 </Info>
 
-검색 결과에는 볼 권한이 있는 항목만 표시됩니다.
-
 <div id="search-for-registry-items">
   ## 레지스트리 항목 검색
 </div>
 
-W&amp;B App을 사용해 레지스트리 항목을 검색하려면 다음과 같이 하세요:
+이름으로 컬렉션과 레지스트리를 찾으려면 [W&amp;B Registry 홈페이지의 검색창](/ko/models/registry/search_registry#basic-search)을 사용하세요. 이름, 태그, 설명, 생성 날짜 등의 특정 속성을 기준으로 레지스트리, 컬렉션 또는 아티팩트 버전을 찾으려면 [고급 검색](/ko/models/registry/search_registry#advanced-search)을 사용하세요.
+
+<div id="basic-search">
+  ### 기본 검색
+</div>
+
+W&amp;B Registry 홈페이지에서 레지스트리와 컬렉션을 검색하려면 다음과 같이 하세요:
 
 1. W&amp;B Registry로 이동합니다.
-2. 페이지 상단의 검색창에 검색어를 입력합니다. Enter 키를 눌러 검색합니다.
+2. 페이지 상단의 검색창에 검색어를 입력합니다.
+3. Enter 키를 눌러 검색합니다.
 
-입력한 검색어가 기존 레지스트리, 컬렉션 이름, 아티팩트 버전 태그, 컬렉션 태그 또는 별칭과 일치하면 검색 결과가 검색창 아래에 표시됩니다.
+<div id="advanced-search">
+  ### 고급 검색
+</div>
+
+고급 검색을 사용해 레지스트리, 컬렉션 또는 아티팩트 버전을 검색하세요. 필터를 사용하면 이름, 태그, 설명, 생성 날짜 등의 속성을 기준으로 특정 레지스트리 항목을 검색할 수 있습니다.
+
+1. W&amp;B Registry로 이동합니다.
+2. 홈 화면 상단에서 **Advanced**를 클릭합니다.
+3. **레지스트리**, **컬렉션** 또는 **아티팩트 버전** 버튼을 선택합니다.
+4. **Filters**를 클릭합니다.
+5. 왼쪽부터 순서대로 필터링할 속성, 연산자, 값을 선택합니다. 필터를 여러 개 추가해 검색 범위를 좁힐 수 있습니다.
+6. Enter 키를 눌러 필터를 적용합니다.
 
 <div id="query-registry-items">
   ## 레지스트리 항목 쿼리
@@ -103,59 +121,57 @@ W&amp;B는 레지스트리 항목을 필터링할 때 다음 비교 및 논리 O
 ```python
 import wandb
 
-# (선택) 가독성을 위해 wandb.Api() 클래스의 인스턴스를 생성
+# (선택) 가독성을 위해 wandb.Api() 클래스의 인스턴스를 생성합니다
 api = wandb.Api()
 ```
 
 `model` 문자열이 포함된 모든 레지스트리를 필터링합니다:
 
 ```python
-# 문자열 `model`을 포함하는 모든 레지스트리 필터링
+# `model` 문자열이 포함된 모든 레지스트리를 필터링합니다
 registry_filters = {
     "name": {"$regex": "model"}
 }
 
-# 필터 조건과 일치하는 모든 레지스트리의 이터러블 반환
+# 필터와 일치하는 모든 레지스트리의 반복 가능 객체를 반환합니다
 registries = api.registries(filter=registry_filters)
 ```
 
 컬렉션 이름에 `yolo` 문자열이 포함된 모든 컬렉션을 레지스트리와 무관하게 필터링합니다:
 
 ```python
-# 레지스트리에 관계없이 컬렉션 이름에 `yolo` 문자열이 포함된
-# 모든 컬렉션을 필터링합니다
+# 컬렉션 이름에 `yolo` 문자열이 포함된 모든 컬렉션을 레지스트리와 무관하게 필터링합니다
 collection_filters = {
     "name": {"$regex": "yolo"}
 }
 
-# 필터 조건에 맞는 모든 컬렉션의 이터러블을 반환합니다
+# 필터와 일치하는 모든 컬렉션의 반복 가능 객체를 반환합니다
 collections = api.registries().collections(filter=collection_filters)
 ```
 
 컬렉션 이름에 문자열 `yolo`가 포함되고 태그로 `cnn`이 지정된, 레지스트리와 무관한 모든 컬렉션을 필터링합니다:
 
 ```python
-# 레지스트리에 관계없이 컬렉션 이름에 `yolo` 문자열을 포함하고
-# `cnn` 태그를 가진 모든 컬렉션을 필터링합니다
+# 컬렉션 이름에 문자열 `yolo`가 포함되고 태그로 `cnn`이 지정된,
+# 레지스트리와 무관한 모든 컬렉션을 필터링합니다
 collection_filters = {
     "name": {"$regex": "yolo"},
     "tag": "cnn"
 }
 
-# 필터 조건에 맞는 모든 컬렉션의 이터러블을 반환합니다
+# 필터와 일치하는 모든 컬렉션의 반복 가능 객체를 반환합니다
 collections = api.registries().collections(filter=collection_filters)
 ```
 
-`model` 문자열을 포함하고, 태그 `image-classification` 또는 `latest` alias 중 하나가 있는 모든 아티팩트 버전을 찾습니다:
+`model` 문자열을 포함하고, 태그 `image-classification` 또는 `latest` 별칭 중 하나가 있는 모든 아티팩트 버전을 찾습니다:
 
 ```python
-# 문자열 `model`을 포함하고 태그 `image-classification` 또는 `latest` alias를 가진
-# 모든 아티팩트 버전 찾기
+# `model` 문자열을 포함하고, 태그 `image-classification` 또는 `latest` 별칭 중 하나가 있는 모든 아티팩트 버전을 찾습니다
 registry_filters = {
     "name": {"$regex": "model"}
 }
 
-# 논리 $or operator를 사용하여 아티팩트 버전 필터링
+# 논리 연산자 $or를 사용하여 아티팩트 버전을 필터링합니다
 version_filters = {
     "$or": [
         {"tag": "image-classification"},
@@ -163,11 +179,11 @@ version_filters = {
     ]
 }
 
-# 필터 조건에 일치하는 모든 아티팩트 버전의 이터러블 반환
+# 필터와 일치하는 모든 아티팩트 버전의 반복 가능 객체를 반환합니다
 artifacts = api.registries(filter=registry_filters).collections().versions(filter=version_filters)
 ```
 
-앞선 코드 스니펫의 `artifacts` 반복 가능 객체의 각 항목은 `Artifact` 클래스의 인스턴스입니다. 즉, 각 artifact의 `name`, `collection`, `aliases`, `tags`, `created_at` 등과 같은 속성에 액세스할 수 있습니다:
+앞선 코드 스니펫의 `artifacts` 반복 가능 객체의 각 항목은 `Artifact` 클래스의 인스턴스입니다. 즉, 각 아티팩트의 `name`, `collection`, `aliases`, `tags`, `created_at` 등과 같은 속성에 액세스할 수 있습니다:
 
 ```python
 for art in artifacts:
@@ -178,7 +194,7 @@ for art in artifacts:
     print(f"artifact created at: {art.created_at}\n")
 ```
 
-artifact 객체의 전체 속성 목록은 API 레퍼런스 문서의 [Artifacts Class](/ko/models/ref/python/experiments/artifact/)를 참조하세요.
+아티팩트 객체의 전체 속성 목록은 API 레퍼런스 문서의 [Artifacts Class](/ko/models/ref/python/experiments/artifact/)를 참조하세요.
 
 레지스트리나 컬렉션과 관계없이, 2024-01-08부터 2025-03-04 13:10 UTC 사이에 생성된 모든 아티팩트 버전을 필터링합니다:
 
@@ -190,7 +206,7 @@ artifact_filters = {
     "created_at" : {"$gte": "2024-01-08", "$lte": "2025-03-04 13:10:00"},
 }
 
-# 필터 조건과 일치하는 모든 아티팩트 버전의 이터러블을 반환합니다
+# 필터와 일치하는 모든 아티팩트 버전의 반복 가능 객체를 반환합니다
 artifacts = api.registries().collections().versions(filter=artifact_filters)
 ```
 

@@ -1,22 +1,25 @@
 ---
-title: "Aperçu des scorers"
-description: "Évaluez les sorties de l’IA et renvoyez des métriques d’évaluation avec les scorers Weave"
+title: "Aperçu du scoring"
+description: "Évaluez les résultats d'IA et renvoyez des métriques d'évaluation avec les évaluateurs de Weave"
+keywords: [scorers, LLM-as-a-judge, column_map, apply_scorer, evaluation metrics]
 ---
 
-Dans Weave, les scorers servent à évaluer les sorties de l’IA et à renvoyer des métriques d’évaluation. Ils prennent la sortie de l’IA, l’analysent et renvoient un dictionnaire de résultats. Les scorers peuvent utiliser vos données d’entrée comme référence si nécessaire et produire également des informations supplémentaires, comme des explications ou le raisonnement issu de l’évaluation.
+Dans Weave, les évaluateurs évaluent les résultats d&#39;IA et renvoient des métriques d&#39;évaluation. Ils prennent le résultat de l&#39;IA, l&#39;analysent et renvoient un dictionnaire de résultats. Les évaluateurs peuvent utiliser vos données d&#39;entrée comme référence si nécessaire et peuvent aussi produire des informations supplémentaires, comme des explications ou le raisonnement fourni lors de l&#39;évaluation.
+
+Ce guide s&#39;adresse aux développeurs qui souhaitent mesurer la qualité des résultats de leur système d&#39;IA. Il explique comment les évaluateurs s&#39;intègrent aux évaluations Weave, comment créer vos propres évaluateurs, comment appliquer des évaluateurs à des appels individuels et comment analyser les scores obtenus.
 
 <Tabs>
   <Tab title="Python">
-    Les scorers sont transmis à un objet `weave.Evaluation` pendant l’évaluation. Il existe deux types de scorers dans Weave :
+    Passez des évaluateurs à un objet `weave.Evaluation` pendant l&#39;évaluation. Weave prend en charge deux types d&#39;évaluateurs :
 
-    1. **scorers basés sur des fonctions :** fonctions Python simples décorées avec `@weave.op`.
-    2. **scorers basés sur des classes :** classes Python qui héritent de `weave.Scorer` pour des évaluations plus complexes.
+    1. **évaluateurs basés sur des fonctions :** fonctions Python décorées avec `@weave.op`.
+    2. **évaluateurs basés sur des classes :** classes Python qui héritent de `weave.Scorer` pour des évaluations plus complexes.
 
-    Les scorers doivent renvoyer un dictionnaire et peuvent renvoyer plusieurs métriques, des métriques imbriquées et des valeurs non numériques, comme du texte renvoyé par un LLM-scorer sur son raisonnement.
+    Les évaluateurs doivent renvoyer un dictionnaire et peuvent renvoyer plusieurs métriques, des métriques imbriquées et des valeurs non numériques, comme du texte renvoyé par un LLM-évaluateur sur son raisonnement.
   </Tab>
 
   <Tab title="TypeScript">
-    Les scorers sont des ops spéciales transmises à un objet `weave.Evaluation` pendant l’évaluation.
+    Les évaluateurs sont des ops spéciales que vous passez à un objet `weave.Evaluation` pendant l&#39;évaluation.
   </Tab>
 </Tabs>
 
@@ -24,16 +27,17 @@ Dans Weave, les scorers servent à évaluer les sorties de l’IA et à renvoyer
   ## Créez vos propres évaluateurs
 </div>
 
+Les évaluateurs personnalisés vous permettent d’encoder des critères d’évaluation spécifiques à votre cas d’usage, au-delà de ce que couvrent les évaluateurs intégrés. Les sections suivantes décrivent les deux façons de définir un Scorer : comme une fonction, ou comme une classe pour une logique plus complexe.
+
 <Tip>
   **Évaluateurs prêts à l&#39;emploi**
-  Bien que ce guide vous montre comment créer des évaluateurs personnalisés, Weave propose plusieurs [évaluateurs prédéfinis](./builtin_scorers) et [évaluateurs SLM locaux](./weave_local_scorers) que vous pouvez utiliser immédiatement, notamment :
+  Bien que ce guide vous montre comment créer des évaluateurs personnalisés, Weave propose des [évaluateurs prédéfinis](./builtin_scorers) et [évaluateurs SLM locaux](./weave_local_scorers) que vous pouvez utiliser immédiatement, notamment :
 
   * [Détection des hallucinations](./builtin_scorers#hallucinationfreescorer)
   * [Qualité de résumé](./builtin_scorers#summarizationscorer)
   * [Similarité d&#39;embeddings](./builtin_scorers#embeddingsimilarityscorer)
   * [Détection de la toxicité (local)](./weave_local_scorers#weavetoxicityscorerv1)
   * [Évaluation de la pertinence du contexte (local)](./weave_local_scorers#weavecontextrelevancescorerv1)
-  * Et plus encore !
 </Tip>
 
 <div id="function-based-scorers">
@@ -42,7 +46,7 @@ Dans Weave, les scorers servent à évaluer les sorties de l’IA et à renvoyer
 
 <Tabs>
   <Tab title="Python">
-    Il s’agit de fonctions décorées avec `@weave.op` qui renvoient un dictionnaire. Elles conviennent parfaitement à des évaluations simples comme :
+    Il s’agit de fonctions décorées avec `@weave.op` qui renvoient un dictionnaire. Elles conviennent bien à des évaluations simples comme :
 
     ```python lines
     import weave
@@ -57,11 +61,11 @@ Dans Weave, les scorers servent à évaluer les sorties de l’IA et à renvoyer
     )
     ```
 
-    Lors de l’exécution de l’évaluation, `evaluate_uppercase` vérifie si le texte est entièrement en majuscules.
+    Lorsque vous exécutez l’évaluation, `evaluate_uppercase` vérifie si le texte est entièrement en majuscules.
   </Tab>
 
   <Tab title="TypeScript">
-    Il s’agit de fonctions encapsulées avec `weave.op` qui acceptent un objet contenant `modelOutput` et, éventuellement, `datasetRow`. Elles conviennent parfaitement à des évaluations simples comme :
+    Il s’agit de fonctions encapsulées avec `weave.op` qui acceptent un objet contenant `modelOutput` et, éventuellement, `datasetRow`. Elles conviennent bien à des évaluations simples, comme dans l’exemple suivant :
 
     ```typescript lines
     import * as weave from 'weave'
@@ -85,7 +89,7 @@ Dans Weave, les scorers servent à évaluer les sorties de l’IA et à renvoyer
 
 <Tabs>
   <Tab title="Python">
-    Pour des évaluations plus avancées, en particulier lorsque vous devez suivre des métadonnées supplémentaires associées au scorer, essayer différents prompts pour vos évaluateurs LLM ou effectuer plusieurs appels de fonction, vous pouvez utiliser la classe `Scorer`.
+    Pour des évaluations plus avancées, en particulier lorsque vous devez suivre des métadonnées supplémentaires associées au scorer, essayer différents prompts pour vos évaluateurs LLM ou effectuer plusieurs appels de fonction, utilisez la classe `Scorer`.
 
     **Exigences :**
 
@@ -128,7 +132,7 @@ Dans Weave, les scorers servent à évaluer les sorties de l’IA et à renvoyer
 
             Arguments:
                 output: La synthèse générée par un système d’IA
-                text: Le texte original en cours de synthèse
+                text: Le texte original à synthétiser
             """
             processed_text = self.some_complicated_preprocessing(text)
             eval_result = self.call_llm(summary=output, processed_text=processed_text)
@@ -153,17 +157,19 @@ Dans Weave, les scorers servent à évaluer les sorties de l’IA et à renvoyer
   ## Fonctionnement des évaluateurs
 </div>
 
+Cette section explique comment les évaluateurs reçoivent les données de votre évaluation, comment associer les colonnes du jeu de données aux arguments de l’évaluateur, comment faire référence aux variables d’op dans les prompts de scoring, et comment Weave synthétise les scores de chaque ligne en un résultat final.
+
 <div id="scorer-keyword-arguments">
-  ### Arguments par mot-clé du scorer
+  ### Arguments nommés des évaluateurs
 </div>
 
 <Tabs>
   <Tab title="Python">
     Les évaluateurs peuvent accéder à la fois à la sortie de votre système d’IA et aux données d’entrée de la ligne du jeu de données.
 
-    * **Entrée :** Si vous voulez que votre scorer utilise des données de la ligne de votre jeu de données, comme une colonne &quot;label&quot; ou &quot;target&quot;, vous pouvez facilement les mettre à sa disposition en ajoutant un argument par mot-clé `label` ou `target` à la définition de votre scorer.
+    * **Entrée :** Si vous চান que votre évaluateur utilise des données de la ligne de votre jeu de données, comme une colonne `label` ou `target`, ajoutez un argument nommé `label` ou `target` à la définition de votre évaluateur pour les lui rendre accessibles.
 
-    Par exemple, si vous vouliez utiliser une colonne appelée &quot;label&quot; de votre jeu de données, votre fonction de scorer (ou votre méthode de classe `score`) aurait une liste de paramètres comme celle-ci :
+    Par exemple, si vous souhaitez utiliser une colonne nommée `label` de votre jeu de données, votre fonction d’évaluation (ou la méthode de classe `score`) doit avoir une liste de paramètres comme celle-ci :
 
     ```python lines
     @weave.op
@@ -171,15 +177,15 @@ Dans Weave, les scorers servent à évaluer les sorties de l’IA et à renvoyer
         ...
     ```
 
-    Lorsqu’une `Evaluation` Weave est exécutée, la sortie du système d’IA est transmise au paramètre `output`. L’`Evaluation` essaie aussi automatiquement de faire correspondre les noms des arguments supplémentaires du scorer avec les colonnes de votre jeu de données. Si vous ne pouvez pas personnaliser les arguments de votre scorer ou les colonnes du jeu de données, vous pouvez utiliser un mapping de colonnes — voir ci-dessous pour en savoir plus.
+    Lorsqu’une `Evaluation` Weave s’exécute, elle transmet la sortie du système d’IA au paramètre `output`. `Evaluation` essaie également automatiquement d’associer les noms des arguments supplémentaires de l’évaluateur aux colonnes de votre jeu de données. Si vous ne pouvez pas personnaliser les arguments de votre évaluateur ou les colonnes de votre jeu de données, vous pouvez utiliser le mappage de colonnes. Voir la section suivante.
 
-    * **Sortie :** Incluez un paramètre `output` dans la signature de la fonction de votre scorer pour accéder à la sortie du système d’IA.
+    * **Sortie :** Incluez un paramètre `output` dans la signature de la fonction de votre évaluateur pour accéder à la sortie du système d’IA.
 
     ### Mapper les noms de colonnes avec `column_map`
 
-    Il arrive que les noms d’arguments des méthodes `score` ne correspondent pas aux noms de colonnes de votre jeu de données. Vous pouvez résoudre ce problème avec `column_map`.
+    Il arrive que les noms des arguments de la méthode `score` ne correspondent pas aux noms des colonnes de votre jeu de données. Vous pouvez corriger cela à l’aide de `column_map`.
 
-    Si vous utilisez un scorer basé sur une classe, transmettez un dictionnaire à l’attribut `column_map` de `Scorer` lorsque vous initialisez votre classe de scorer. Ce dictionnaire fait correspondre les noms d’arguments de votre méthode `score` aux noms de colonnes du jeu de données, selon le format suivant : `{scorer_keyword_argument: dataset_column_name}`.
+    Si vous utilisez un évaluateur basé sur une classe, transmettez un dictionnaire à l’attribut `column_map` de `Scorer` lors de l’initialisation de votre classe d’évaluateur. Ce dictionnaire associe les noms des arguments de votre méthode `score` aux noms des colonnes du jeu de données, selon le format `{scorer_keyword_argument: dataset_column_name}`.
 
     Exemple :
 
@@ -187,32 +193,32 @@ Dans Weave, les scorers servent à évaluer les sorties de l’IA et à renvoyer
     import weave
     from weave import Scorer
 
-    # Un jeu de données avec des articles de presse à résumer
+    # Un jeu de données d'articles de presse à résumer
     dataset = [
         {"news_article": "The news today was great...", "date": "2030-04-20", "source": "Bright Sky Network"},
         ...
     ]
 
-    # Classe de scorer
+    # Classe d'évaluateur
     class SummarizationScorer(Scorer):
 
         @weave.op
         def score(self, output, text) -> dict:
             """
-                output: synthèse de sortie d’un système de synthèse par LLM
-                text: le texte en cours de synthèse
+                output: synthèse générée par un système de synthèse avec LLM
+                text: le texte à résumer
             """
             ...  # évaluer la qualité de la synthèse
 
-    # créer un scorer avec un mapping de colonne qui associe l’argument `text` à la colonne de données `news_article`
+    # créer un évaluateur avec un mappage de colonnes qui associe l'argument `text` à la colonne de données `news_article`
     scorer = SummarizationScorer(column_map={"text" : "news_article"})
     ```
 
-    Désormais, l’argument `text` de la méthode `score` recevra les données de la colonne `news_article` du jeu de données.
+    Désormais, l’argument `text` de la méthode `score` reçoit les données de la colonne `news_article` du jeu de données.
 
-    **Notes :**
+    **Remarques :**
 
-    * Une autre option équivalente pour mapper vos colonnes consiste à sous-classer `Scorer` et à surcharger la méthode `score` en faisant explicitement correspondre les colonnes.
+    * Une autre option équivalente pour mapper vos colonnes consiste à sous-classer `Scorer` et à surcharger la méthode `score` afin d’associer explicitement les colonnes.
 
     ```python lines
     import weave
@@ -221,8 +227,8 @@ Dans Weave, les scorers servent à évaluer les sorties de l’IA et à renvoyer
     class MySummarizationScorer(SummarizationScorer):
 
         @weave.op
-        def score(self, output: str, news_article: str) -> dict:  # Ajout d’annotations de type
-            # surcharge la méthode score et mappe les colonnes manuellement
+        def score(self, output: str, news_article: str) -> dict:  # Ajouts d'annotations de type
+            # surcharger la méthode score et mapper les colonnes manuellement
             return super().score(output=output, text=news_article)
     ```
   </Tab>
@@ -230,9 +236,10 @@ Dans Weave, les scorers servent à évaluer les sorties de l’IA et à renvoyer
   <Tab title="TypeScript">
     Les évaluateurs peuvent accéder à la fois à la sortie de votre système d’IA et au contenu de la ligne du jeu de données.
 
-    Vous pouvez facilement accéder aux colonnes pertinentes de la ligne du jeu de données en ajoutant un argument par mot-clé `datasetRow` à la définition de votre scorer.
+    Vous pouvez accéder aux colonnes pertinentes de la ligne du jeu de données en ajoutant un argument nommé `datasetRow` à la définition de votre évaluateur.
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     const myScorer = weave.op(
         ({modelOutput, datasetRow}) => {
             return modelOutput * 2 === datasetRow.expectedOutputTimesTwo;
@@ -244,16 +251,17 @@ Dans Weave, les scorers servent à évaluer les sorties de l’IA et à renvoyer
     ### Mapper les noms de colonnes avec `columnMapping`
 
     <Warning>
-      En TypeScript, cette fonctionnalité se trouve actuellement sur l’objet `Evaluation`, et non sur les scorers individuels.
+      En TypeScript, cette fonctionnalité se trouve sur l’objet `Evaluation`, et non sur chaque évaluateur individuellement.
     </Warning>
 
-    Il arrive que les clés de votre `datasetRow` ne correspondent pas exactement à la convention de nommage du scorer, tout en ayant le même sens. Vous pouvez mapper les colonnes à l’aide de l’option `columnMapping` de l’`Evaluation`.
+    Il arrive que les clés de votre `datasetRow` ne correspondent pas exactement à la convention de nommage de l’évaluateur, tout en restant sémantiquement proches. Vous pouvez mapper les colonnes à l’aide de l’option `columnMapping` de `Evaluation`.
 
-    Le mapping se fait toujours du point de vue du scorer, c’est-à-dire `{scorer_key: dataset_column_name}`.
+    Le mappage se fait toujours du point de vue de l’évaluateur, c’est-à-dire `{scorer_key: dataset_column_name}`.
 
     Exemple :
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     const myScorer = weave.op(
         ({modelOutput, datasetRow}) => {
             return modelOutput * 2 === datasetRow.expectedOutputTimesTwo;
@@ -274,7 +282,7 @@ Dans Weave, les scorers servent à évaluer les sorties de l’IA et à renvoyer
   ### Accéder aux variables de vos ops dans les prompts de scoring
 </div>
 
-Dans les prompts de scoring pour les scorers LLM-as-a-judge, vous pouvez faire référence à des variables de votre op. Ces valeurs sont automatiquement extraites lorsque le scorer s’exécute.
+Dans les prompts de scoring pour les scorers LLM-as-a-judge, vous pouvez faire référence à des variables de votre op. Weave extrait automatiquement ces valeurs lorsque le scorer s’exécute.
 
 Pour une fonction comme :
 
@@ -317,18 +325,14 @@ Renvoyez un objet JSON avec votre note et votre justification.
 
 <Tabs>
   <Tab title="Python">
-    Pendant l&#39;évaluation, le scorer est calculé pour chaque ligne de votre jeu de données. Pour produire un score final pour l&#39;évaluation, nous utilisons `auto_summarize`, qui dépend du type de retour de la sortie.
-
-    * Les moyennes sont calculées pour les colonnes numériques
-    * Le nombre et la proportion pour les colonnes booléennes
-    * Les autres types de colonnes sont ignorés
+    Pendant l&#39;évaluation, Weave calcule le scorer pour chaque ligne de votre jeu de données. Pour produire un score final pour l&#39;évaluation, Weave exécute `auto_summarize` en fonction du type de retour de la sortie.
 
     Vous pouvez redéfinir la méthode `summarize` de la classe `Scorer` et fournir votre propre manière de calculer les scores finaux. La fonction `summarize` attend :
 
-    * Un seul paramètre, `score_rows` : il s&#39;agit d&#39;une liste de dictionnaires, où chaque dictionnaire contient les scores renvoyés par la méthode `score` pour une ligne de votre jeu de données.
-    * Elle doit renvoyer un dictionnaire contenant les scores récapitulatifs.
+    * Un seul paramètre `score_rows` : une liste de dictionnaires, où chaque dictionnaire contient les scores renvoyés par la méthode `score` pour une ligne de votre jeu de données.
+    * Elle renvoie un dictionnaire contenant les scores récapitulatifs.
 
-    **Pourquoi est-ce utile ?**
+    **Pourquoi est-ce utile**
 
     Lorsque vous devez scorer toutes les lignes avant de pouvoir déterminer la valeur finale du score pour le jeu de données.
 
@@ -347,29 +351,27 @@ Renvoyez un objet JSON avec votre note et votre justification.
             return {"full_match": full_match}
     ```
 
-    > Dans cet exemple, `auto_summarize` aurait renvoyé par défaut le nombre et la proportion de valeurs True.
+    > Dans cet exemple, `auto_summarize` renverrait par défaut le nombre et la proportion de valeurs True.
 
-    Si vous voulez en savoir plus, consultez l&#39;implémentation de [CorrectnessLLMJudge](/fr/weave/tutorial-rag#optional-defining-a-scorer-class).
+    Pour plus d&#39;informations, voir l&#39;implémentation de [CorrectnessLLMJudge](/fr/weave/tutorial-rag#optional-defining-a-scorer-class).
   </Tab>
 
   <Tab title="TypeScript">
-    Pendant l&#39;évaluation, le scorer est calculé pour chaque ligne de votre jeu de données. Pour produire un score final, nous utilisons une fonction interne, `summarizeResults`, qui agrège les résultats selon le type de sortie.
+    Pendant l&#39;évaluation, Weave calcule le scorer pour chaque ligne de votre jeu de données. Pour produire un score final, Weave utilise une fonction interne, `summarizeResults`, qui agrège les résultats selon le type de sortie.
 
-    * Les moyennes sont calculées pour les colonnes numériques
-    * Le nombre et la proportion pour les colonnes booléennes
-    * Les autres types de colonnes sont ignorés
-
-    Nous ne prenons pas encore en charge la récapitulation personnalisée.
+    Weave ne prend pas en charge la récapitulation personnalisée.
   </Tab>
 </Tabs>
 
-<div id="applying-scorers-to-a-call">
+<div id="apply-scorers-to-a-call">
   ### Appliquer des évaluateurs à un appel
 </div>
 
-Pour appliquer des évaluateurs à vos ops Weave, vous devez utiliser la méthode `.call()`, qui vous donne accès à la fois au résultat de l’opération et à ses informations de suivi. Cela vous permet d’associer les résultats des évaluateurs à des appels spécifiques dans la base de données de Weave.
+En plus d’exécuter des évaluateurs dans le cadre d’une `weave.Evaluation`, vous pouvez les appliquer directement à un appel donné. Cela est utile lorsque vous souhaitez évaluer le trafic de production ou associer des métriques d’évaluation à une invocation d’op spécifique.
 
-Pour plus d’informations sur l’utilisation de la méthode `.call()`, consultez le guide [Calling Ops](../tracking/tracing#calling-ops#getting-a-handle-to-the-call-object-during-execution).
+Pour appliquer des évaluateurs à vos ops Weave, utilisez la méthode `.call()`, qui vous donne accès à la fois au résultat de l’opération et à ses informations de suivi. Cela vous permet d’associer les résultats des évaluateurs à des appels spécifiques dans la base de données de Weave.
+
+Pour plus d’informations sur l’utilisation de la méthode `.call()`, consultez le guide [Calling Ops](../tracking/tracing#getting-a-handle-to-the-call-object-during-execution).
 
 <Tabs>
   <Tab title="Python">
@@ -395,11 +397,11 @@ Pour plus d’informations sur l’utilisation de la méthode `.call()`, consult
 
     **Notes :**
 
-    * Les résultats des évaluateurs sont automatiquement stockés dans la base de données de Weave
-    * Les évaluateurs s’exécutent de manière asynchrone une fois l’opération principale terminée
-    * Vous pouvez consulter les résultats des évaluateurs dans l’interface utilisateur ou les interroger via l’API
+    * Weave stocke automatiquement les résultats des évaluateurs dans sa base de données.
+    * Les évaluateurs s’exécutent de manière asynchrone une fois l’opération principale terminée.
+    * Vous pouvez consulter les résultats des évaluateurs dans l’interface utilisateur ou les interroger via l’API.
 
-    Pour plus d’informations sur l’utilisation des évaluateurs comme garde-fous ou moniteurs, y compris les bonnes pratiques en production et des exemples complets, consultez notre guide [Guardrails and Monitors](./monitors).
+    Pour plus d’informations sur l’utilisation des évaluateurs comme garde-fous ou moniteurs, y compris les bonnes pratiques en production et des exemples complets, consultez le guide [Guardrails and Monitors](./monitors).
   </Tab>
 
   <Tab title="TypeScript">
@@ -416,7 +418,7 @@ Pour plus d’informations sur l’utilisation de la méthode `.call()`, consult
 Vous pouvez utiliser le paramètre `preprocess_model_input` pour modifier les exemples du jeu de données avant qu’ils n’atteignent votre modèle pendant l’évaluation.
 
 <Important>
-  La fonction `preprocess_model_input` transforme uniquement les entrées avant leur transmission à la fonction de prédiction du modèle.
+  La fonction `preprocess_model_input` transforme uniquement les entrées avant que Weave ne les transmette à la fonction de prédiction du modèle.
 
   Les fonctions `scorer` reçoivent toujours les exemples originaux du jeu de données, sans prétraitement.
 </Important>
@@ -427,17 +429,17 @@ Pour plus d’informations sur l’utilisation et pour un exemple, voir [Utilise
   ## Analyse des scores
 </div>
 
-Dans cette section, nous vous montrons comment analyser les scores pour un seul Appel, plusieurs appels et tous les appels évalués par un scorer spécifique.
+Après l’exécution de vos évaluateurs, vous souhaiterez souvent examiner les scores qu’ils ont produits afin de comprendre le comportement du modèle ou de comparer des versions. Les sections suivantes décrivent comment analyser les scores pour un seul Appel, plusieurs appels et tous les appels évalués par un scorer spécifique, à l’aide de l’API et de l’interface Weave.
 
 <div id="analyze-a-single-calls-scores">
-  ### Analyser les scores d’un Appel unique
+  ### Analyser les scores d’un appel unique
 </div>
 
 <div id="single-call-api">
   #### API pour un appel unique
 </div>
 
-Pour récupérer les appels associés à un appel donné, vous pouvez utiliser la méthode `get_call`.
+Pour récupérer un appel unique, utilisez la méthode `get_call`.
 
 ```python lines
 client = weave.init("my-project")
@@ -450,24 +452,24 @@ feedback = list(call.feedback)
 ```
 
 <div id="single-call-ui">
-  #### UI d’un appel individuel
+  #### UI d’un appel unique
 </div>
 
 <Frame>
   ![Onglet Scores d’un appel](/weave/guides/evaluation/img/call_scores_tab.png)
 </Frame>
 
-Les scores d’un appel individuel s’affichent dans le panneau des détails de l’appel, sous l’onglet « Scores ».
+Le panneau des détails de l’appel affiche les scores d’un appel individuel sous l’onglet **Scores**.
 
 <div id="analyze-multiple-calls-scores">
-  ### Analyser les scores de plusieurs Appels
+  ### Analyser les scores de plusieurs appels
 </div>
 
 <div id="multiple-calls-api">
   #### API des appels multiples
 </div>
 
-Pour récupérer plusieurs appels, vous pouvez utiliser la méthode `get_calls`.
+Pour récupérer plusieurs appels, utilisez la méthode `get_calls`.
 
 ```python lines
 client = weave.init("my-project")
@@ -488,17 +490,17 @@ for call in calls:
   ![Onglet Appels multiples](/weave/guides/evaluation/img/traces_table_scores.png)
 </Frame>
 
-Les scores de plusieurs appels sont affichés dans le tableau des traces, dans la colonne « Scores ».
+Le tableau des traces affiche les scores de plusieurs appels dans la colonne « Scores ».
 
 <div id="analyze-all-calls-scored-by-a-specific-scorer">
-  ### Analyser tous les Appels évalués par un scorer spécifique
+  ### Analyser tous les appels évalués par un scorer spécifique
 </div>
 
 <div id="all-calls-by-scorer-api">
   #### API de tous les appels par scorer
 </div>
 
-Pour récupérer tous les appels notés par un scorer spécifique, vous pouvez utiliser la méthode `get_calls`.
+Pour récupérer tous les appels notés par un scorer spécifique, utilisez la méthode `get_calls`.
 
 ```python lines
 client = weave.init("my-project")
@@ -519,13 +521,13 @@ for call in calls:
   #### Tous les appels d’un Scorer dans l’UI
 </div>
 
-Enfin, si vous souhaitez voir tous les appels évalués par un Scorer, accédez à l’onglet Scorers dans l’UI et sélectionnez l’onglet &quot;Programmatic Scorer&quot;. Cliquez sur votre Scorer pour ouvrir la page de détails du Scorer.
+Enfin, si vous souhaitez voir tous les appels évalués par un Scorer, accédez à l’onglet **évaluateurs** dans l’UI et sélectionnez l’onglet **Programmatic Scorer**. Cliquez sur votre Scorer pour ouvrir la page de détails du Scorer.
 
 <Frame>
   ![Page de détails du Scorer](/weave/guides/evaluation/img/scorer_detail_page.png)
 </Frame>
 
-Ensuite, cliquez sur le bouton `View Traces` sous `Scores` pour voir tous les appels évalués par votre Scorer.
+Ensuite, cliquez sur le bouton **View Traces** sous **Scores** pour voir tous les appels évalués par votre Scorer.
 
 <Frame>
   ![Appels filtrés sur la version du Scorer](/weave/guides/evaluation/img/filtered_calls_to_scorer_version.png)

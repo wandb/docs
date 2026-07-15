@@ -5,6 +5,7 @@ keywords: ["W&B Operator", "chart Helm", "CR Kubernetes", "installation de l’o
 ---
 
 import SelfManagedMysqlRequirements from "/snippets/fr/_includes/self-managed-mysql-requirements.mdx";
+import SelfManagedMysqlEolUpgrade from "/snippets/fr/_includes/self-managed-mysql-eol-upgrade.mdx";
 import SelfManagedRedisRequirements from "/snippets/fr/_includes/self-managed-redis-requirements.mdx";
 import SelfManagedObjectStorageRequirements from "/snippets/fr/_includes/self-managed-object-storage-requirements.mdx";
 import ByobProvisioningLink from "/snippets/fr/_includes/byob-provisioning-link.mdx";
@@ -26,12 +27,12 @@ Avant de déployer W&amp;B avec l’opérateur Kubernetes, assurez-vous que votr
 
 1. **Vérifier les exigences de l’infrastructure** : Voir la page des [exigences d’infrastructure pour l’environnement Autogéré](/fr/platform/hosting/self-managed/requirements/) pour plus de détails sur :
 
-* Exigences relatives aux versions logicielles (Kubernetes, MySQL, Redis, Helm)
+* Exigences relatives aux versions logicielles (Kubernetes, MySQL, Redis, Helm, ClickHouse)
   * Exigences matérielles (architecture CPU, recommandations de dimensionnement)
   * Configuration du cluster Kubernetes
   * Exigences relatives au réseau, à SSL/TLS et au DNS
 
-2. **Obtenir une licence W&amp;B Server** : Voir la section [License](/fr/platform/hosting/self-managed/requirements#license) sur la page des exigences.
+2. **Obtenir une licence serveur W&amp;B** : Voir la section [License](/fr/platform/hosting/self-managed/requirements#license) sur la page des exigences.
 3. **Préparer les services externes** : Configurer MySQL, Redis et le stockage d’objets avant le déploiement.
 
 Pour plus d’informations, voir la page de [l’architecture de référence](/fr/platform/hosting/self-managed/ref-arch/).
@@ -40,9 +41,13 @@ Pour plus d’informations, voir la page de [l’architecture de référence](/f
   ### Base de données MySQL
 </div>
 
+<SelfManagedMysqlEolUpgrade />
+
 <SelfManagedMysqlRequirements />
 
 Pour des instructions complètes sur la configuration de MySQL, y compris les paramètres de configuration et la création de la base de données, voir la [section MySQL de la page des exigences](/fr/platform/hosting/self-managed/requirements/#mysql-database).
+
+Si vous effectuez une mise à niveau depuis MySQL 8.0.x, voir [Mettre MySQL à niveau vers 8.4.x](#upgrade-mysql-to-84x).
 
 <div id="redis">
   ### Redis
@@ -1262,6 +1267,76 @@ Vous n’avez plus besoin de mettre à jour l’application W&amp;B Server si vo
 
 L’opérateur met automatiquement à jour votre application W&amp;B Server lorsqu’une nouvelle version du logiciel W&amp;B est publiée.
 
+<div id="upgrade-mysql-to-84x">
+  ## Mettre à niveau MySQL vers 8.4.x
+</div>
+
+MySQL 8.0.x est en fin de vie. Les déploiements autogérés doivent exécuter une version prise en charge de MySQL qui reçoit des correctifs de sécurité et des corrections de bugs critiques. Si vous exécutez MySQL Community, installez ou mettez à niveau **MySQL 8.4.x**. Si vous utilisez un service géré, exécutez une version du moteur que votre fournisseur indique comme prise en charge et corrigée (par exemple Amazon RDS for MySQL, Google Cloud SQL for MySQL ou Azure Database for MySQL). W&amp;B a validé la plateforme avec MySQL 8.4.0 et les versions 8.4.x actuelles.
+
+Ces étapes décrivent la séquence du point de vue de W&amp;B. Pour savoir comment mettre à niveau MySQL lui-même, y compris les sauvegardes et les chemins de mise à niveau entre versions, suivez la documentation de votre distribution MySQL ou de votre fournisseur de cloud. La même séquence s’applique aux déploiements Operator [standard](/fr/platform/hosting/self-managed/operator) et [isolés du réseau](/fr/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped). Dans les environnements isolés du réseau, obtenez le logiciel MySQL 8.4.x via votre processus de distribution interne avant de mettre à niveau la base de données.
+
+<Note>
+  Prévoyez une fenêtre de maintenance et notifiez les utilisateurs avant de commencer. Contactez l’[assistance client](mailto:support@wandb.com) ou votre équipe W&amp;B si vous avez des questions sur la compatibilité ou la topologie de votre déploiement.
+</Note>
+
+1. Consultez les notes de version et la documentation MySQL pour votre version cible, ainsi que pour toutes les versions intermédiaires, afin de connaître les exigences et autres détails.
+2. Préparez la maintenance.
+
+   Avant de commencer la mise à niveau, vous pouvez exécuter le [vérificateur de mise à niveau MySQL Shell](https://dev.mysql.com/doc/mysql-shell/8.4/en/mysql-shell-utilities-upgrade.html) sur votre base de données pour détecter et corriger les problèmes de compatibilité avec votre version cible. Résolvez toutes les erreurs et tous les avertissements signalés dans la sortie du vérificateur avant de continuer. Consultez la documentation de votre distribution MySQL.
+3. Arrêtez MySQL et effectuez une sauvegarde complète de votre base de données MySQL conformément à la documentation de votre distribution MySQL.
+
+   MySQL sera indisponible pendant la mise à niveau. Tant que la base de données est indisponible, les applications clientes W&amp;B ne peuvent pas se connecter et rencontreront des erreurs temporaires.
+4. Mettez à niveau MySQL vers 8.4.x conformément à la documentation de votre distribution MySQL.
+5. Redémarrez MySQL et vérifiez qu’il est opérationnel.
+6. Une fois MySQL opérationnel, exécutez `wandb verify` pour valider votre déploiement W&amp;B. La commande exécute une série de vérifications et affiche les résultats dans `STDOUT`. Si elle signale des problèmes, effectuez les ajustements nécessaires et exécutez-la de nouveau. Pour les étapes de configuration et de connexion, voir [Vérifiez l’installation](#verify-the-installation).
+7. Une fois la validation terminée, les utilisateurs peuvent reprendre les opérations normales.
+
+<div id="clickhouse-compatibility-for-upgrades">
+  ## Compatibilité de ClickHouse pour les mises à niveau
+</div>
+
+Les déploiements autogérés qui utilisent un cluster ClickHouse externe doivent vérifier la compatibilité de ClickHouse avant de mettre à niveau le serveur W&amp;B.
+
+<div id="unsupported-clickhouse-versions">
+  ### Versions de ClickHouse non prises en charge
+</div>
+
+Les déploiements W&amp;B Autogéré qui utilisent les fonctionnalités OLAP de W&amp;B Weave ou de Models nécessitent une version prise en charge de ClickHouse Server et de ClickHouse Keeper.
+
+* Weave ne fonctionne pas avec ClickHouse 26.1 ni 26.2.
+* Les fonctionnalités OLAP de Models décrites dans la section suivante nécessitent ClickHouse 26.2 ou version ultérieure.
+* Les déploiements qui utilisent à la fois les fonctionnalités OLAP de Weave et de Models nécessitent ClickHouse 26.3.
+
+Si votre déploiement W&amp;B Autogéré n&#39;utilise ni Weave ni les fonctionnalités OLAP de Models, ClickHouse n&#39;est pas requis.
+
+<div id="models-olap-features">
+  ### Fonctionnalités OLAP de Models
+</div>
+
+serveur W&amp;B 0.81.0+ introduit des migrations de schéma qui nécessitent ClickHouse 26.2+. Ces migrations s’exécutent lorsque l’une des fonctionnalités OLAP de Models ci-dessous est activée dans vos valeurs Helm :
+
+```yaml
+global:
+  olap:
+    registrySearch:
+      enabled: true
+    runStoreAccelerator:
+      enabled: true
+    history:
+      enabled: true
+```
+
+***Avant* la mise à niveau de W&amp;B Autogéré vers Server v0.81+**, vous devez *soit* :
+
+* définir ces valeurs sur `false` dans vos valeurs Helm, *soit* :
+* mettre à niveau ClickHouse Server et ClickHouse Keeper vers la version 26.2 ou ultérieure (26.3 ou ultérieure si votre déploiement utilise également Weave).
+
+Si ces fonctionnalités sont désactivées ou si vous n&#39;utilisez pas ClickHouse pour les charges de travail OLAP de Models, cette exigence ne s&#39;applique pas à votre mise à niveau.
+
+Les déploiements Cloud dédié et Cloud mutualisé exécutent déjà une version compatible de ClickHouse et ne sont pas concernés.
+
+Pour les notes de version propres à chaque version, voir [Versions du serveur W&amp;B prises en charge](/fr/release-notes/server-releases).
+
 <div id="migrate-self-managed-instances-to-wb-operator">
   ## Migrer des instances Autogéré vers W&amp;B Operator
 </div>
@@ -1865,6 +1940,37 @@ global:
   extraEnv:
     GLOBAL_ENV: "example"
 ```
+
+<div id="set-rate-limits">
+  ### Définir les limites de débit
+</div>
+
+Pour les déploiements en Cloud dédié et Autogéré qui utilisent l’opérateur, vous pouvez aussi configurer des limites de débit en définissant des variables d’environnement dans `spec.values.global.extraEnv`. À titre indicatif, cet exemple définit explicitement chaque limite de débit sur sa valeur par défaut. En pratique, définissez une limite de débit uniquement pour redéfinir la valeur par défaut.
+
+<Important>Pour activer les limites de débit, vous devez définir `GORILLA_LIMITER` sur l’adresse de votre serveur Redis.</Important>
+
+```yaml
+spec:
+  values:
+    global:
+      extraEnv:
+        GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM: "5"
+        GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_COUNT: "5"
+        GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_PER_RUN_COUNT: "0.8"
+        GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_SIZE: "10"
+        GORILLA_DEFAULT_RATE_LIMITS_RUN_UPDATE_COUNT: "10"
+        GORILLA_LIMITER: "redis://$HOST:6379?ttlInSeconds=900"
+```
+
+Se référer au tableau suivant pour plus de détails :
+
+| Environment variable                                   | Default | Description                                                 |
+| ------------------------------------------------------ | ------- | ----------------------------------------------------------- |
+| `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM`               | `5`     | Nombre par défaut de requêtes filestream.                   |
+| `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_COUNT`         | `5`     | Requêtes filestream par seconde.                            |
+| `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_PER_RUN_COUNT` | `0.8`   | Requêtes filestream par run et par seconde.                 |
+| `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_SIZE`          | `10`    | Limite d&#39;ingestion filestream en Mo par seconde.        |
+| `GORILLA_DEFAULT_RATE_LIMITS_RUN_UPDATE_COUNT`         | `10`    | Requêtes de mise à jour des métadonnées de run par seconde. |
 
 <div id="custom-certificate-authority">
   ### Autorité de certification personnalisée

@@ -1,26 +1,44 @@
 ---
 title: レジストリ項目を検索する
-description: "グローバル検索バーまたはクエリを使用して、W&B Registry でレジストリ、コレクション、アーティファクトバージョンを検索する方法を説明します。"
+description: "UI を使用してインタラクティブに、またはクエリを使用してプログラムから、レジストリ、コレクション、アーティファクト バージョンを検索する方法を説明します。"
 ---
 
-[W&amp;B Registry のグローバル検索バー](./search_registry#search-for-registry-items)を使用して、レジストリ、コレクション、アーティファクトバージョンタグ、コレクションタグ、またはエイリアスを検索できます。W&amp;B Python SDK では、クエリを使用して、特定の条件に基づいて[レジストリ、コレクション、アーティファクトバージョンを絞り込む](/ja/models/registry/search_registry#query-registry-items)こともできます。
+レジストリ、コレクション、アーティファクト バージョンは、[W&amp;B Registry でインタラクティブに](/ja/models/registry/search_registry#search-for-registry-items)、または [W&amp;B Python SDK](/ja/models/registry/search_registry#query-registry-items) を使用してプログラムから検索できます。
+
+検索結果には、表示権限のある項目のみが表示されます。
 
 <Info>
   W&amp;B Registry のクエリに使用できる構文と演算子は MongoDB のクエリに似ていますが、同一ではありません。
 </Info>
 
-検索結果には、表示権限のある項目のみが表示されます。
-
 <div id="search-for-registry-items">
-  ## レジストリ内の項目を検索する
+  ## レジストリ項目を検索する
 </div>
 
-W&amp;B App を使用して Registry 項目を検索します。
+[W&amp;B Registry ホームページの検索バー](/ja/models/registry/search_registry#basic-search)を使用して、名前でコレクションやレジストリを検索します。[高度な検索](/ja/models/registry/search_registry#advanced-search)を使用すると、名前、タグ、説明、作成日などの特定の属性を持つレジストリ、コレクション、または アーティファクト バージョン を検索できます。
+
+<div id="basic-search">
+  ### 基本検索
+</div>
+
+W&amp;B Registry のホームページから レジストリ と コレクション を検索します。
 
 1. W&amp;B Registry にアクセスします。
-2. ページ上部の検索バーに検索語を入力します。Enter キーを押して検索します。
+2. ページ上部の検索バーに検索語を入力します。
+3. Enter キーを押して検索します。
 
-入力した語が既存の レジストリ、コレクション 名、アーティファクト バージョンタグ、コレクション タグ、または alias と一致する場合、検索結果が検索バーの下に表示されます。
+<div id="advanced-search">
+  ### 高度な検索
+</div>
+
+高度な検索を使用して、レジストリ、コレクション、またはアーティファクト バージョンを検索できます。フィルターを使用すると、名、タグ、説明、作成日などの属性に基づいて、特定のレジストリ項目を検索できます。
+
+1. W&amp;B Registryにアクセスします。
+2. ホームページ上部の**Advanced**をクリックします。
+3. **Registries**、**Collections**、または**Versions**ボタンを選択します。
+4. **Filters**をクリックします。
+5. 左から順に、フィルターする属性、演算子、値を選択します。複数のフィルターを追加して、検索結果を絞り込むことができます。
+6. Enterキーを押してフィルターを適用します。
 
 <div id="query-registry-items">
   ## レジストリ項目をクエリする
@@ -103,19 +121,19 @@ W&amp;B は、レジストリ項目を絞り込むために、次の比較演算
 ```python
 import wandb
 
-# (省略可) 可読性のために wandb.Api() クラスのインスタンスを作成する
+# (Optional) 読みやすくするために wandb.Api() クラスのインスタンスを作成する
 api = wandb.Api()
 ```
 
 `model` という文字列を含むすべてのレジストリを絞り込みます:
 
 ```python
-# 文字列 `model` を含むすべての Registry をフィルターする
+# `model` という文字列を含むすべてのレジストリをフィルターします
 registry_filters = {
     "name": {"$regex": "model"}
 }
 
-# フィルターに一致するすべての Registry のイテラブルを返す
+# フィルターに一致するすべてのレジストリのイテラブルを返します
 registries = api.registries(filter=registry_filters)
 ```
 
@@ -123,39 +141,39 @@ registries = api.registries(filter=registry_filters)
 
 ```python
 # レジストリに関係なく、コレクション名に文字列 `yolo` を含む
-# すべてのコレクションをフィルターする
+# すべてのコレクションをフィルターします
 collection_filters = {
     "name": {"$regex": "yolo"}
 }
 
-# フィルターに一致するすべてのコレクションのイテラブルを返す
+# フィルターに一致するすべてのコレクションのイテラブルを返します
 collections = api.registries().collections(filter=collection_filters)
 ```
 
 コレクション名に文字列 `yolo` を含み、タグに `cnn` を持つ、レジストリに関係なくすべてのコレクションをフィルターします:
 
 ```python
-# Registryに関係なく、collection名に文字列`yolo`を含み、
-# タグとして`cnn`を持つすべてのcollectionをフィルターする
+# レジストリに関係なく、コレクション名に文字列 `yolo` を含み、タグに `cnn` を持つ
+# すべてのコレクションをフィルターします
 collection_filters = {
     "name": {"$regex": "yolo"},
     "tag": "cnn"
 }
 
-# フィルターに一致するすべてのcollectionのイテラブルを返す
+# フィルターに一致するすべてのコレクションのイテラブルを返します
 collections = api.registries().collections(filter=collection_filters)
 ```
 
 文字列 `model` を含み、タグ `image-classification` またはエイリアス `latest` のいずれかを持つアーティファクト のすべてのバージョンを検索します:
 
 ```python
-# 文字列 `model` を含み、タグ `image-classification` またはエイリアス `latest` を持つ
-# すべての artifact バージョンを検索する
+# 文字列 `model` を含み、タグ `image-classification` またはエイリアス `latest` のいずれかを持つ
+# アーティファクトのすべてのバージョンを検索します
 registry_filters = {
     "name": {"$regex": "model"}
 }
 
-# 論理演算子 $or を使用して artifact バージョンをフィルターする
+# 論理演算子 $or を使用してアーティファクト バージョンをフィルターします
 version_filters = {
     "$or": [
         {"tag": "image-classification"},
@@ -163,7 +181,7 @@ version_filters = {
     ]
 }
 
-# フィルターに一致するすべての artifact バージョンのイテラブルを返す
+# フィルターに一致するすべてのアーティファクト バージョンのイテラブルを返します
 artifacts = api.registries(filter=registry_filters).collections().versions(filter=version_filters)
 ```
 
@@ -180,20 +198,18 @@ for art in artifacts:
 
 アーティファクト オブジェクトの属性の完全な一覧については、API Reference ドキュメントの [Artifacts Class](/ja/models/ref/python/experiments/artifact/) を参照してください。
 
-レジストリ や コレクション に関係なく、2024-01-08 から 2025-03-04 13:10 UTC の間に作成されたすべての アーティファクト バージョンをフィルターします。
+レジストリ や コレクション に関係なく、2024-01-08 から 2025-03-04 13:10 UTC の間に作成されたすべての アーティファクト バージョンをフィルターします:
 
 ```python
-# 2024-01-08から2025-03-04 13:10 UTCの間に作成されたすべてのartifactバージョンを検索する。 
+# 2024-01-08 から 2025-03-04 13:10 UTC の間に作成されたすべてのアーティファクト バージョンを検索します。 
 
 artifact_filters = {
     "alias": "latest",
     "created_at" : {"$gte": "2024-01-08", "$lte": "2025-03-04 13:10:00"},
 }
 
-# フィルターに一致するすべてのartifactバージョンのイテラブルを返す
+# フィルターに一致するすべてのアーティファクト バージョンのイテラブルを返します
 artifacts = api.registries().collections().versions(filter=artifact_filters)
 ```
 
-<Note>
-  `created_at` および `updated_at` のクエリでは、日時を `YYYY-MM-DD HH:MM:SS` 形式で指定します。日付のみでフィルターする場合は、時・分・秒を省略できます。
-</Note>
+<Note>`created_at` および `updated_at` のクエリでは、日時を `YYYY-MM-DD HH:MM:SS` 形式で指定します。日付のみでフィルターする場合は、時・分・秒を省略できます。</Note>

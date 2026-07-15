@@ -1,0 +1,32 @@
+---
+title: "sweep 内で run を再開できますか？"
+keywords: ["Sweeps", "再開"]
+---
+
+W&amp;B sweep 内では、run の再開はサポートされていません。sweep エージェントの実行中に `run_id` を渡すか、`wandb.init(resume=...)` を使用しても、W&amp;B は run ID を無視し、代わりに新しい run を開始します。次の警告が表示されます。
+
+```
+wandb: WARNING Ignoring run_id 'YOUR_RUN_ID' when running a sweep.
+```
+
+これはバグではなく、想定どおりの動作です。sweep エージェントは、各ハイパーパラメーター設定ごとに独立した run を起動するよう設計されています。特定の run を再開すると、sweep コントローラーのジョブ スケジューリングと競合します。
+
+**回避策**
+
+長時間実行される sweep で耐障害性が必要な場合は、次の方法を検討してください。
+
+* **単一の run 内でチェックポイントを保存して再読み込みする**: トレーニング関数内で、一定間隔でモデル チェックポイントを保存します。再起動時には、`train()` の冒頭で最新のチェックポイントを読み込みます。sweep では新しい run が開始されますが、トレーニングは保存された状態から再開されます。
+
+* **SLURM で `--count 1` と requeue を使用する**: 各 sweep エージェントのジョブを `wandb agent --count 1 SWEEP_ID` で送信します。ジョブがプリエンプトされた場合、SLURM によってそのジョブをキューに入れ直すことができ、sweep コントローラーは新しい設定を割り当てます。
+
+* **run を失敗としてマークし、手動で再キューする**: run が途中でクラッシュした場合、sweep コントローラーは最終的にその run を失敗としてマークし、sweep の設定によっては同じ設定を新しいエージェントに割り当てることがあります。
+
+sweep の外で中断されたトレーニング ジョブを続行する必要がある場合は、代わりにスタンドアロン スクリプトで `wandb.init(resume="allow", id="YOUR_RUN_ID")` を使用してください。[Resume runs](/ja/models/runs/resuming) および [Troubleshoot sweeps](/ja/models/sweeps/troubleshoot-sweeps) を参照してください。
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ja/support/models/tags/sweeps)</Badge><Badge stroke shape="pill" color="orange" size="md">[再開](/ja/support/models/tags/resuming)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

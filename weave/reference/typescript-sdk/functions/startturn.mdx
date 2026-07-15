@@ -7,7 +7,7 @@ description: "TypeScript SDK reference"
 
 ▸ **startTurn**(`opts?`): [`Turn`](../classes/turn)
 
-Start a new Turn. If a Session is active, the turn inherits its
+Start a new Turn. If a Conversation is active, the turn inherits its
 `conversationId`; otherwise the turn has no conversation id.
 
 #### Parameters
@@ -20,8 +20,31 @@ Start a new Turn. If a Session is active, the turn inherits its
 
 [`Turn`](../classes/turn)
 
+`Example`
+
+```ts twoslash
+// @noErrors
+weave.startTurn();
+```
+
+`Example`
+
+```ts twoslash
+// @noErrors
+weave.startTurn({
+  agentId: 'research-bot-prod',
+  agentName: 'research-bot',
+  agentDescription: 'Looks up facts on Wikipedia.',
+  agentVersion: '1.4.2',
+  model: 'gpt-4o',
+  userMessage: 'What is the weather in Tokyo?',
+  systemInstructions: ['You are a helpful weather bot.'],
+  startTime: new Date('2026-05-29T10:00:00.000Z'),
+});
+```
+
 #### Defined in
 
-[genai/api.ts:20](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/api.ts#L20)
+[src/genai/api.ts:54](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L54)
 
 ___

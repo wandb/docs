@@ -5,7 +5,7 @@ keywords: ["signals", "monitors", "LLM-as-a-judge", "hallucination", "production
 ---
 
 <Note>
-When tracing agentic applications, use the **Signals** tab on the **Agents** page. See [Signals for agents](/weave/guides/tracking/view-agent-signals).
+This page covers a previous approach to monitoring production traffic. For new implementations, use **Signals** under Weave for Agents. See [View agent signals](/weave/guides/tracking/view-agent-signals).
 </Note>
 
 
@@ -69,11 +69,9 @@ When multiple signals from the same group (Quality or Error) are active, Weave b
 Adding a signal turns on automated scoring so that Weave evaluates new production traces against that signal's criteria. To enable signals:
 
 1. Navigate to [wandb.ai](https://wandb.ai/) and then open your Weave project.
-2. In the Weave project sidebar, select **Monitors**.
-3. At the top of the Monitors page, a row of suggested signal cards appears. Each card shows the signal name, a description, and an **+ Add signal** button.
-4. To add a signal, select the **Add signal** button on the signal card. The signal starts scoring new traces immediately.
-5. To add multiple signals at once, select the **[X] more signals** button. This opens a drawer that lists all available signals grouped by category.
-6. Select the signals you want to turn on, then select **Add signals**.
+1. In the Weave project sidebar, select **Monitors**.
+1. To add a signal to a project with no Monitors enabled, click on its card to activate its checkbox, then click **Setup monitors**.
+1. To add signals to an existing Monitor, select **Browse signals** at the top-right on the **Monitors** page. This opens the **Add signals** drawer, which lists available signals grouped by category (such as Quality classifiers and Error classifiers), each with a checkbox. You can select individual signals, use **Enable all** for a group, or select **Create custom signal**. Then select **Add signals** at the bottom of the drawer. 
 
 After you add signals, Weave automatically scores incoming traces.
 
