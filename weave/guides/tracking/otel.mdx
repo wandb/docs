@@ -30,7 +30,7 @@ Weave uses the `wandb-api-key` header to authenticate requests and resource attr
 The following example shows how to configure authentication and project routing:
 
 <Warning>
-`WEAVE_OTLP_ENDPOINT` below is a local variable, not the OTel SDK's `OTEL_EXPORTER_OTLP_ENDPOINT` environment variable, and it's set to the full traces path (`.../otel/v1/traces`). It's passed explicitly to `endpoint=`/`url:` on the exporter, so the SDK sends requests to that URL verbatim. If you instead `export` a value as the real `OTEL_EXPORTER_OTLP_ENDPOINT` and construct the exporter with no arguments (for example, `OTLPSpanExporter()`), the SDK appends `/v1/traces` itself, so that variable must hold the base URL (`.../otel`) instead, or you get a doubled path (`.../otel/v1/traces/v1/traces`), a `404`, and silently dropped spans. The signal-specific `OTEL_EXPORTER_OTLP_TRACES_ENDPOINT` is also used verbatim, like the local variable here.
+`WEAVE_OTLP_ENDPOINT` below is a local variable, not the OTel SDK's `OTEL_EXPORTER_OTLP_ENDPOINT` environment variable, and it's set to the full traces path (`.../otel/v1/traces`). It's passed explicitly to `endpoint=`/`url:` on the exporter, so the SDK sends requests to that URL verbatim. If you instead `export` a value as the real `OTEL_EXPORTER_OTLP_ENDPOINT` and construct the exporter with no arguments (for example, `OTLPSpanExporter()`), the SDK appends `/v1/traces` itself, so that variable must hold the base URL (`.../otel`) instead, or you get a doubled path (`.../otel/v1/traces/v1/traces`), a `404`, and silently dropped spans. The same is true of `OTEL_EXPORTER_OTLP_TRACES_ENDPOINT`: it also needs the full traces path, since the SDK won't append /v1/traces to it either.
 </Warning>
 
 <CodeGroup>
