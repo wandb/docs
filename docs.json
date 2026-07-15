@@ -580,6 +580,7 @@
                               "weave/guides/tracking/ops",
                               "weave/guides/tools/attributes",
                               "weave/guides/core-types/media",
+                              "weave/guides/tracking/byob-references",
                               "weave/guides/tracking/view-call",
                               "weave/guides/tracking/trace-disable",
                               "weave/guides/tracking/write-ahead-log"
