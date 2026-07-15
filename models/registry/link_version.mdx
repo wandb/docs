@@ -3,13 +3,11 @@ title: Link an artifact version to a collection
 description: "Link an artifact version to a collection in W&B Registry to share it across your organization."
 ---
 
-
 To make an artifact version available to your organization, *link* it to a [collection](/models/registry/create_collection) in
 the W&B Registry. Linking moves the version from a [private, project-level scope to a shared, organization-level scope](/models/registry/create_registry#visibility-types). You
 can link an artifact version [programmatically by using the W&B Python SDK or interactively in the W&B App](/models/registry/link_version#link-an-artifact-to-a-collection).
 
 When you link an artifact, W&B creates a reference between the source artifact and the collection entry. The linked version points to the source artifact version that was logged to a run within a project. You can view both the linked version in the collection and the source version in the project where it was logged.
-
 
 ## Link an artifact to a collection
 
@@ -20,7 +18,6 @@ Before you start, check the following:
 * The types of artifacts that collection permits. For more information about collection types, see "Collection types" within [Create a collection](./create_collection).
 * The registry that the collection belongs to already exists. To check that the registry exists, navigate to the [Registry App and search for](/models/registry/search_registry) the name of the registry.
 </Note>
-
 
 <Tabs>
 <Tab title="Python SDK">
@@ -42,7 +39,6 @@ Pass the destination collection path to the `target_path` parameter. The path co
 ```text
 wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}
 ```
-
 
 ##### Link an artifact from a run
 
@@ -167,8 +163,6 @@ artifact.link(
 </Tab>
 </Tabs>
 
-
-
 {/* <Note>
 **Linked vs source artifact versions**
 
@@ -205,11 +199,9 @@ Below are some common things to double check if you are not able to link an arti
 
 Artifacts logged to W&B with a personal entity can not be linked to the registry. Make sure that you log artifacts using a team entity within your organization. Only artifacts logged within an organization's team can be linked to the organization's registry. 
 
-
 <Note>
 Ensure that you log an artifact with a team entity if you want to link that artifact to a registry.
 </Note>
-
 
 #### Find your team entity
 
