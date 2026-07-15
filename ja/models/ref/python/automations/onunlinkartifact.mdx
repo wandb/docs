@@ -1,0 +1,32 @@
+---
+title: OnUnlinkArtifact
+namespace: automations_namespace
+python_object_type: クラス
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py" />
+
+## <kbd>クラス</kbd> `OnUnlinkArtifact`
+
+artifact version のコレクションとのリンクが解除されます。
+
+### <kbd>メソッド</kbd> `OnUnlinkArtifact.__init__`
+
+```python
+__init__(
+    event_type: 'Literal[UNLINK_ARTIFACT]' = UNLINK_ARTIFACT,
+    scope: 'wandb.automations.scopes._ArtifactSequenceScope | wandb.automations.scopes._ArtifactPortfolioScope | wandb.automations.scopes.ProjectScope',
+    filter: 'wandb.automations._filters.operators.And | wandb.automations._filters.operators.Or | wandb.automations._filters.operators.Nor | wandb.automations._filters.operators.Not | wandb.automations._filters.operators.Lt | wandb.automations._filters.operators.Gt | wandb.automations._filters.operators.Lte | wandb.automations._filters.operators.Gte | wandb.automations._filters.operators.Eq | wandb.automations._filters.operators.Ne | wandb.automations._filters.operators.In | wandb.automations._filters.operators.NotIn | wandb.automations._filters.operators.Exists | wandb.automations._filters.operators.Regex | wandb.automations._filters.operators.Contains | wandb.automations._filters.expressions.FilterExpr | dict[str, Any]' = And(())
+) → None
+```
+
+**引数:**
+
+* `event_type` (Literal[UNLINK&#95;ARTIFACT]):
+* `scope` (wandb.automations.scopes.&#95;ArtifactSequenceScope | wandb.automations.scopes.&#95;ArtifactPortfolioScope | wandb.automations.scopes.ProjectScope): イベントのスコープです。
+* `filter` (wandb.automations.&#95;filters.operators.And | wandb.automations.&#95;filters.operators.Or | wandb.automations.&#95;filters.operators.Nor | wandb.automations.&#95;filters.operators.Not | wandb.automations.&#95;filters.operators.Lt | wandb.automations.&#95;filters.operators.Gt | wandb.automations.&#95;filters.operators.Lte | wandb.automations.&#95;filters.operators.Gte | wandb.automations.&#95;filters.operators.Eq | wandb.automations.&#95;filters.operators.Ne | wandb.automations.&#95;filters.operators.In | wandb.automations.&#95;filters.operators.NotIn | wandb.automations.&#95;filters.operators.Exists | wandb.automations.&#95;filters.operators.Regex | wandb.automations.&#95;filters.operators.Contains | wandb.automations.&#95;filters.expressions.FilterExpr | dict[str, Any]): このイベントがトリガーされるために必要な追加条件 (ある場合) 。
+
+**戻り値:**
+`OnUnlinkArtifact` オブジェクト。

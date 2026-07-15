@@ -1,0 +1,22 @@
+---
+title: "run 名を Run ID に設定するにはどうすればよいですか？"
+keywords: ["Experiments"]
+---
+
+run 名を Run ID で上書きするには、次のコードスニペットを使用します。
+
+```python
+import wandb
+
+with wandb.init() as run:
+   run.name = run.id
+   run.save()
+```
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

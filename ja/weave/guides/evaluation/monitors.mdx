@@ -1,172 +1,146 @@
 ---
-title: "モニターを設定する"
-description: "本番トラフィックを受動的にスコアリングし、傾向や問題を可視化します"
+title: "組み込みシグナルを使った監視"
+description: "W&B は、本番のエージェント向けに組み込みのスコアリング ソリューションを提供します"
+keywords: ["シグナル", "モニター", "LLM-as-a-judge", "ハルシネーション", "本番スコアリング"]
 ---
 
-モニターでは、LLM judges を使用して本番トラフィックを受動的にスコアリングし、LLM アプリケーションにおける傾向や問題を可視化できます。たとえば、アプリケーションの応答をモニタリングして正確性や有用性を確認したり、ユーザー入力をモニタリングして、ユーザーがエージェントに何を尋ねているかの傾向を特定したりできます。モニターはすべてのスコアリング結果を Weave のデータベースに自動的に保存するため、過去の傾向やパターンを分析できます。
+<Note>
+  このページでは、本番トラフィックを監視する以前のアプローチについて説明します。新しい実装では、Weave for Agents の **Signals** を使用してください。[エージェント シグナルを表示する](/ja/weave/guides/tracking/view-agent-signals)を参照してください。
+</Note>
 
-アプリケーションの入力と出力に含まれるテキスト、画像、オーディオをモニタリングできます。
+レイテンシ、トークン数、コストといった標準的なシステムメトリクスだけでは、エージェントの動作を十分に捉えられません。個々のトレースを調べれば深い洞察を得られますが、本番環境で生成される数百万件ものトレースに対してそれを行うのは現実的ではありません。
 
-モニターの設定にあたって、アプリケーションのコードを変更する必要はありません。W&amp;B Weave UI を使用して設定します。
+シグナル は、本番のエージェントに対して自動化された動作ベースのスコアリングを提供することで、この課題に対応する高水準のモニタリングソリューションを実現します。
 
-スコアに基づいてアプリケーションの振る舞いに能動的に介入する必要がある場合は、代わりに [guardrails](/ja/weave/guides/evaluation/guardrails) を使用してください。
+* 自動スコアリング: 本番に入ってくるすべてのトレースが自動的に処理され、一般的な品質上の問題やエラーについてスコアリングされます。
+* インフラストラクチャー: 処理は CoreWeave compute と CoreWeave GPUs によって支えられており、数百万件のトレースにもスケーラブルに対応できます。
 
-<div id="how-to-create-a-monitor-in-weave">
-  ## Weave で モニター を作成する方法
+本番で シグナル を使用すると、次のことが可能になります。
+
+* 動作に関する洞察を得る。システムメトリクスを超えて、エージェントがハルシネーションを起こしていないか、会話パターンに従えているか、根拠となる証拠に基づいて応答できているかを把握できます。
+* リサーチループを加速する。シグナル によって生成されたスコアと失敗分析を使用して弱点を特定し、モデル改善、データアノテーション、または強化学習の検討に活用できます。
+
+<div id="available-signals">
+  ## 利用可能なシグナル
 </div>
 
-Weave で モニター を作成するには、次の手順に従います。
+W&amp;B Weave には組み込みシグナルを備えたモニターが用意されています。これらは、追加のカスタム設定なしでデフォルトで使用でき、本番トレースに対する一般的な品質上の問題やエラーを評価するプリセットの Scorer です。各組み込みシグナルは、ベンチマーク済みの LLM プロンプト を使用してトレースを分類し、検出された問題を表すカンマ区切りのタグとして結果を保存します。
 
-1. [W&amp;B UI](https://wandb.ai/home) を開き、Weave プロジェクトを開きます。
+シグナルはトレースのスコアリングに [Serverless Inference](/ja/inference/) モデルを使用するため、外部のAPIキーは必要ありません。
 
-2. Weave の サイドナビ で **Monitors** を選択し、**+ New Monitor** ボタンをクリックします。すると、**Create new monitor** モーダルダイアログが開きます。
+W&amp;B Weave には、2 つのグループに分かれた 13 個のプリセットシグナルがあります。
 
-3. Create new monitor メニューで、次のフィールドを設定します。
-   * **Name**: 文字または数字で始める必要があります。使用できるのは、文字、数字、ハイフン、アンダースコアです。
-   * **Description** (任意) : モニター の内容を説明します。
-   * **Active monitor** toggle: モニター のオン/オフを切り替えます。
-   * **Calls to monitor**:
-     * **Operations**: モニター 対象の `@weave.op` を 1 つ以上選択します。利用可能な op の一覧に表示される前に、その op を使用したトレースを少なくとも 1 つログする必要があります。
-     * **Filter** (任意) : 対象にする call を絞り込みます (たとえば、`max_tokens` や `top_p` で絞り込めます) 。
-     * **Sampling rate**: score する call の割合です (0% ～ 100%) 。
-       <Tip>
-         Sampling rate を低くすると、各 scoring call にコストがかかるため、コストを抑えられます。
-       </Tip>
-   * **LLM-as-a-judge configuration**:
-     * **Scorer name**: 文字または数字で始める必要があります。使用できるのは、文字、数字、ハイフン、アンダースコアです。
-     * **Score Audio**: 利用可能な LLM モデルをフィルターし、オーディオ対応モデルのみを表示するとともに、Media Scoring JSON Paths フィールドを開きます。
-     * **Score Images**: 利用可能な LLM モデルをフィルターし、画像対応モデルのみを表示するとともに、Media Scoring JSON Paths フィールドを開きます。
-     * **Judge model**: op を score するモデルを選択します。このメニューには、W&amp;B アカウントで設定した商用 LLM モデルに加えて、[Serverless Inference models](/ja/inference/models) も含まれます。オーディオ対応モデルには、名前の横に **Audio Input** ラベルが表示されます。選択したモデルについて、次の Settings を設定します。
-       * **Configuration name**: このモデル設定の名です。
-       * **System prompt**: 判定モデルの役割とペルソナを定義します。たとえば、&quot;You are an impartial AI judge.&quot; です。
-       * **Response format**: 判定モデルが出力する response の形式です。たとえば、`json_object` やプレーンテキストの `text` です。
-       * **Scoring prompt**: op を score するための評価タスクです。scoring prompt では、op から [prompt variables](/ja/weave/guides/evaluation/scorers#access-variables-from-your-ops-in-scoring-prompts) を参照できます。たとえば、&quot;Evaluate whether `{output}` is accurate based on `{ground_truth}`.&quot; のように指定します。
-     * **Media Scoring JSON Paths**: Trace Data からメディアを抽出する JSONPath 式 (RFC 9535) を指定します。path を指定しない場合は、ユーザーメッセージ内の score 可能なすべてのメディアが含まれます。このフィールドは、**Score Audio** または **Score Images** を有効にすると表示されます。
-
-4. モニター の各フィールドを設定したら、**Create monitor** をクリックします。これで モニター が Weave プロジェクトに追加されます。コードがトレースを生成し始めると、モニター の名を選択し、表示された panel のデータを確認することで、**Traces** tab で score を確認できます。
-
-また、Weave UI で モニター の Trace Data を [比較](/ja/weave/guides/tools/comparison) して可視化したり、Traces tab のダウンロードボタン (<Icon icon="download" iconType="regular" />) を使って CSV や JSON などの形式でダウンロードしたりすることもできます。
-
-Weave は、すべての scorer の結果を [Call](/ja/weave/guides/tracking/tracing#calls) object の `feedback` フィールドに自動的に保存します。
-
-<div id="example-create-a-truthfulness-monitor">
-  ### 例: 真実性モニターを作成する
+<div id="quality-signals">
+  ### 品質シグナル
 </div>
 
-次の例では、生成された文の真実性を評価するモニターを作成します。
+品質シグナルは、成功したルートレベルのトレースについて、出力の品質や安全性に関する問題を評価します。
 
-1. 文を生成する関数を定義します。真実の文もあれば、そうでない文もあります。
+| Signal               | What it detects                                    |
+| -------------------- | -------------------------------------------------- |
+| **Hallucination**    | 提供された入力コンテキストと矛盾する、捏造された事実や主張                      |
+| **Low quality**      | 形式が不適切、内容が不十分、または不完全な応答                            |
+| **User frustration** | 繰り返しの質問、否定的な感情、苦情など、ユーザーの不満の兆候                     |
+| **Jailbreaking**     | 安全ガイドラインの回避を試みるプロンプトインジェクションやジェイルブレイク              |
+| **NSFW**             | 入力または出力に含まれる、露骨、暴力的、またはその他の不適切なコンテンツ               |
+| **Lazy**             | 簡潔すぎる、支援を拒否する、作業を先送りするなどの、手間をかけていない応答              |
+| **Forgetful**        | 会話の前半で示されたコンテキストを使えていないこと、または以前に示された事実や指示を無視していること |
 
-<Tabs>
-  <Tab title="Python">
-    ```python
-    import weave
-    import random
-    import openai
+<div id="error-signals">
+  ### エラーシグナル
+</div>
 
-    weave.init("my-team/my-weave-project")
+エラーシグナルは、失敗したトレースを根本原因ごとに分類し、インフラストラクチャーやアプリケーションの問題を特定して解決しやすくします。
 
-    client = openai.OpenAI()
+| Signal                | What it detects                                  |
+| --------------------- | ------------------------------------------------ |
+| **Network Error**     | DNS の障害、タイムアウト、接続のリセット、その他の接続問題                  |
+| **Ratelimited**       | HTTP `429` 応答、クォータの枯渇、上流 API によるスロットリング          |
+| **Request Too Large** | サイズやトークンの制限を超えるリクエスト (コンテキストウィンドウ超過など)           |
+| **Bad Request**       | サーバーがリクエストを拒否したクライアント側のエラー (`429` を除く `4xx`)     |
+| **Bad Response**      | リモートサービスから返された無効、想定外、または使用不能な応答 (`5xx`)          |
+| **Bug**               | `KeyError`、`TypeError`、ロジックエラーなど、アプリケーションコードの不具合 |
 
-    @weave.op()
-    def generate_statement(ground_truth: str) -> str:
-        if random.random() < 0.5:
-            response = client.chat.completions.create(
-                model="gpt-4.1",
-                messages=[
-                    {
-                        "role": "user",
-                        "content": f"Generate a statement that is incorrect based on this fact: {ground_truth}"
-                    }
-                ]
-            )
-            return response.choices[0].message.content
-        else:
-            return ground_truth
+<div id="how-signals-work">
+  ### シグナルの仕組み
+</div>
 
-    generate_statement("The Earth revolves around the Sun.")
-    ```
-  </Tab>
+各シグナルは、LLM-as-a-judge アプローチを使用してトレースを分類します。
 
-  <Tab title="TypeScript">
-    ```typescript
-    import * as weave from 'weave';
-    import OpenAI from 'openai';
+* **トレースの選択**: Quality シグナルは、正常終了したルートレベルのトレースを評価します。Error シグナルは、失敗したトレースを評価します。Weave は子スパンや中間の Call をスコアリングしません。
+* **プロンプトの構築**: Weave は、トレースのメタデータ、inputs、outputs、例外の詳細 (存在する場合) 、およびオペレーションのソースコードを含むプロンプトを構築します。Weave は、シグナルの分類器プロンプトに、検出対象の特定の問題に関する指示を追加します。
+* **LLM によるスコアリング**: 各シグナルについて、Serverless Inference モデルが二値分類 (その問題がトレースに存在するかどうか) を実行します。検出された問題は、カンマ区切りの string tags として返されます (例: `"Low-quality, User-frustration, Forgetful"`) 。
 
-    await weave.init('my-team/my-weave-project');
+同じグループ (Quality または Error) の複数のシグナルが有効になっている場合、Weave はそれらを 1 回の LLM Call にまとめて処理します。モデルは、有効なすべての分類器を 1 回で評価し、それぞれについて結果を返します。
 
-    const client = new OpenAI();
+<div id="add-a-signal-from-the-monitors-page">
+  ## Monitors ページからシグナルを追加する
+</div>
 
-    const generateStatement = weave.op(async (ground_truth: string): Promise<string> => {
-      if (Math.random() < 0.5) {
-        const response = await client.chat.completions.create({
-          model: 'gpt-4.1',
-          messages: [
-            {
-              role: 'user',
-              content: `Generate a statement that is incorrect based on this fact: ${ground_truth}`,
-            },
-          ],
-        });
-        return response.choices[0]?.message?.content ?? '';
-      }
-      return ground_truth;
-    });
+シグナルを追加すると、自動スコアリングが有効になり、Weave がそのシグナルの条件に照らして新しい本番トレースを評価するようになります。シグナルを有効にするには、次の手順に従います。
 
-    await generateStatement("The Earth revolves around the Sun.");
-    ```
-  </Tab>
-</Tabs>
+1. [wandb.ai](https://wandb.ai/) にアクセスし、Weave プロジェクトを開きます。
+2. Weave のプロジェクトのサイドバーで、**Monitors** を選択します。
+3. Monitors が有効になっていない project にシグナルを追加するには、カードをクリックしてチェックボックスをオンにし、**Setup monitors** をクリックします。
+4. 既存の Monitor にシグナルを追加するには、**Monitors** ページの右上にある **Browse signals** を選択します。すると **Add signals** ドロワーが開き、利用可能なシグナルがカテゴリ (Quality 分類器 や Error 分類器 など) ごとにグループ化され、各シグナルにチェックボックスが表示されます。個別のシグナルを選択することも、グループに対して **Enable all** を使用することも、**Create custom signal** を選択することもできます。その後、ドロワーの下部で **Add signals** を選択します。
 
-2. プロジェクトにトレースをログするため、この関数を少なくとも 1 回実行します。これにより、その op を W&amp;B UI でモニタリングできるようになります。
+シグナルを追加すると、Weave は受信したトレースを自動的にスコアリングします。
 
-3. W&amp;B UI で Weave プロジェクトを開き、サイドナビから **Monitors** を選択します。次に **New Monitor** を選択します。
+<div id="manage-active-signals">
+  ## アクティブなシグナルを管理する
+</div>
 
-4. **Create new monitor** メニューで、以下の値を使って各フィールドを設定します。
-   * **Name**: `truthfulness-monitor`
-   * **Description**: `Evaluates the truthfulness of generated statements.`
-   * **Active monitor**: **on** に切り替えます。
-   * **Operations**: `generate_statement` を選択します。
-   * **Sampling rate**: すべての call を score するため、`100%` に設定します。
-   * **Scorer name**: `truthfulness-scorer`
-   * **Judge model**: `o3-mini-2025-01-31`
-   * **System prompt**: `You are an impartial AI judge. Your task is to evaluate the truthfulness of statements.`
-   * **Response format**: `json_object`
-   * **Scoring prompt**:
-     ```text
-     出力文が入力文に基づいて正確かどうかを評価してください。
+シグナルの実行を開始すると、どのシグナルがアクティブかを確認したり、不要になったシグナルをオフにしたりできます。アクティブなシグナルを表示または削除するには、次の手順に従います。
 
-     これは入力文です: {ground_truth}
+1. Monitors ページで、**Manage signals** (<Icon icon="gear" iconType="light" />) ボタンを選択します。カテゴリごとに整理された、現在アクティブなすべてのシグナルの一覧を表示するドロワーが開きます。
+2. シグナルにカーソルを合わせ、**Remove signal** (<Icon icon="trash-can" iconType="light" />) ボタンを選択して、そのシグナルを無効にします。
 
-     これは出力文です: {output}
+シグナルを削除すると、新しいトレースに対するスコアリングは停止します。Weave はそのシグナルの既存のスコアを保持します。
 
-     レスポンスは、次のフィールドを含む JSON オブジェクトにしてください。
-     - is_true: 出力文が入力文に基づいて真か偽かを示す boolean。
-     - reasoning: その文が真または偽である理由。
-     ```
+<div id="use-built-in-signals">
+  ## 組み込みシグナルを使用する
+</div>
 
-5. **Create Monitor** をクリックします。これにより、モニターが Weave プロジェクトに追加されます。
+シグナルが有効になり、トレースの評価が始まると、Weave のさまざまな場所で結果を確認できます。Weave が問題を検出したときにアラートを設定することもできます。以下のセクションでは、シグナルの結果を確認できる場所と、その対処方法について説明します。
 
-6. スコアリング関数をテストするため、スクリプト内で真実性の度合いが異なる文を使って関数を呼び出します。
+<div id="see-tagged-call-traces-on-the-traces-page">
+  ### Traces ページでタグ付きの Call トレースを確認する
+</div>
 
-<Tabs>
-  <Tab title="Python">
-    ```python
-    generate_statement("The Earth revolves around the Sun.")
-    generate_statement("Water freezes at 0 degrees Celsius.")
-    generate_statement("The Great Wall of China was built over several centuries.")
-    ```
-  </Tab>
+個々の function を `@weave.op` decorator を使って Ops としてトレースする場合、Weave はシグナル の結果を Call object の feedback として保存します。これらの結果は **Traces** ページからクエリできます。
 
-  <Tab title="TypeScript">
-    ```typescript
-    await generateStatement("The Earth revolves around the Sun.");
-    await generateStatement("Water freezes at 0 degrees Celsius.");
-    await generateStatement("The Great Wall of China was built over several centuries.");
-    ```
-  </Tab>
-</Tabs>
+**Traces** ページでは、**Signals** 列を使って、特定の動作を示すトレースを確認できます。Signals 列には、条件を満たした タグ が表示されます。これらの タグ にカーソルを合わせると、スコアの信頼度と推論を確認できます。
 
-7. いくつか異なる文でスクリプトを実行した後、W&amp;B UI を開いて **Traces** タブにアクセスします。任意の **LLMAsAJudgeScorer.score** トレースを選択して、結果を確認します。
+![Signals 列の Signals タグにカーソルを合わせると、確信度と推論が表示される Weave Traces view。](/weave/guides/evaluation/img/weave_signals_trace_hover.png)
 
-![モニターのトレース](/weave/guides/evaluation/img/monitors-4.png)
+トレース表の toolbar を使用して、特定の シグナル が trigger されたトレースだけが表示されるように、トレース表をフィルターできます。
+
+シグナル が生成した 分類器 Call を選択して **Trace Details view** を確認すると、Traces ページで シグナル の追加詳細を確認できます。Call の **Output** で、推論については `classifier_meta` を確認してください。たとえば、次のスクリーンショットでは、`Quality-classifiers` シグナル が `Low-quality` に一致し、確信度 (0.9) とこの評価の理由が表示されています。
+
+![quality-classifier のトレースが選択された Weave Traces view。詳細パネルには、信頼度スコアと理由を含む classifiers メタデータを含む Call の詳細が表示されています。](/weave/guides/evaluation/img/weave_signals_trace_reasoning.png)
+
+<div id="see-signals-in-the-project-dashboard">
+  ### project ダッシュボードでシグナルを確認する
+</div>
+
+project レベルでもシグナルを確認できます。
+
+1. プロジェクトのサイドバーで **Project** を選択します。
+2. **Project** ダッシュボードの上部で、**Weave** タブを選択します。
+3. Weave ダッシュボードのパネルで、**Monitor Scores** を確認します。
+
+**Monitor Scores** project パネルでは、project で発生したシグナルの時系列グラフを確認できます。
+
+![project のアクティビティによるシグナルのグラフを表示する Weave project ダッシュボードの Monitor Scores パネル。](/weave/guides/evaluation/img/weave_signals_project_dash.png)
+
+<div id="alert-on-signals">
+  ### シグナルにアラートを設定する
+</div>
+
+UI でシグナルを確認するだけでなく、シグナルがトリガーされたときに Weave から通知を受け取ることもできます。エージェントのパフォーマンスが特定のしきい値を下回ったときに、Slack などのツールを通じてチームに通知する自動トリガーを設定できます。
+
+シグナルがトリガーされたときに通知を受け取るには、[オートメーション](/ja/weave/guides/evaluation/automations)を設定します。
+
+***
+
+組み込みシグナルではカバーできない特定の監視を行うには、[カスタムモニターを設定する](/ja/weave/guides/evaluation/custom-monitors)を参照してください。

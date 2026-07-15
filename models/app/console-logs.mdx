@@ -36,23 +36,52 @@ W&B captures three types of console logs and adds a prefix to indicate each log'
 
 ## Console log settings
 
-To control which types of console output W&B captures and displays, pass a `wandb.Settings` object to `wandb.init()` when you initialize a run. The relevant parameters are `show_errors`, `show_warnings`, `show_info`, and `silent`. For details on each parameter and its default value, see the [`wandb.Settings` reference](/models/ref/python/experiments/settings).
+To control which types of console output W&B captures and displays, pass a [`wandb.Settings`](/models/ref/python/experiments/settings) object to `wandb.init()` when you initialize a run. The relevant parameters include `show_errors`, `show_warnings`, `show_info`, and `silent`. The [Settings reference](/models/ref/python/experiments/settings) lists every parameter and is generated from the SDK, so it stays current as new options are added.
 
-The following example shows how to configure these settings:
+The example below toggles whether informational messages, warnings, and errors from W&B appear in the **Logs** tab. Set `silent=True` to suppress all W&B console output (useful when you want a quiet training script):
 
 ```python
 import wandb
 
 settings = wandb.Settings(
-    show_errors=True,  # Show error messages in the W&B App
-    silent=False,      # Disable all W&B console output
-    show_warnings=True # Show warning messages in the W&B App
+    show_errors=True,
+    silent=False,
+    show_warnings=True,
 )
 
 with wandb.init(settings=settings) as run:
-    # Your training code here
     run.log({"accuracy": 0.95})
 ```
+
+For stdout and stderr capture (`console`), multipart uploads (`console_multipart`, `console_chunk_max_bytes`, `console_chunk_max_seconds`), and troubleshooting, see the sections below and the Settings reference. Distributed training and other edge cases are covered in [Why is console output not captured for my run?](/support/models/articles/why-is-console-output-not-captured-for-my-run).
+
+### Multipart console logging
+
+By default, W&B stores your script's stdout and stderr as a single `output.log` file and uploads it *when the run finishes*. While a run is active, the **Logs** tab streams output for viewing, but `output.log` does not appear on the **Files** tab until the run completes.
+
+Enable multipart console logging when you need downloadable logs while a run is still active, when a run may crash before it finishes, or when you resume a run and want to preserve log output from earlier sessions. Set `console_multipart=True` (SDK v0.22.3 or later) so the SDK writes timestamped chunks under `logs/` and uploads each chunk when it closes. Use `console_chunk_max_bytes` and `console_chunk_max_seconds` to control rollover; see the [Settings reference](/models/ref/python/experiments/settings) for defaults and behavior when both are `0`.
+
+<Note>
+Uploaded chunks are immutable. Terminal control sequences that modify previous lines (for example, progress bars that use carriage returns) only affect the current chunk.
+</Note>
+
+```python
+import wandb
+
+with wandb.init(
+    project="my-project",
+    settings=wandb.Settings(
+        console_multipart=True,
+        console_chunk_max_bytes=1_000_000,  # rotate at ~1 MB
+        console_chunk_max_seconds=60,     # or every 60 seconds, whichever first
+    ),
+) as run:
+    print("Logs upload in chunks while this run is active.")
+```
+
+You must set `console_multipart` at `wandb.init` time. Upload cadence cannot be changed after a run has started.
+
+For troubleshooting (console capture disabled, distributed training, resumed runs, and display limits), see [Why is console output not captured for my run?](/support/models/articles/why-is-console-output-not-captured-for-my-run) and [How do I download the console log file from a run?](/support/models/articles/how-do-i-download-the-console-log-file-from-a-run).
 
 ## Custom logging
 

@@ -67,21 +67,21 @@ Pour installer la bibliothèque `wandb` localement et vous connecter :
 </Tabs>
 
 <div id="log-metrics">
-  ### Consigner des métriques
+  ### Journalisation des métriques
 </div>
 
 ```python
 import wandb
 
-wandb.init(project="visualize-sklearn") as run:
+with wandb.init(project="visualize-sklearn") as run:
 
   y_pred = clf.predict(X_test)
   accuracy = sklearn.metrics.accuracy_score(y_true, y_pred)
 
-  # Pour enregistrer des métriques au fil du temps, utilisez run.log
+  # Pour la journalisation des métriques au fil du temps, utilisez run.log
   run.log({"accuracy": accuracy})
 
-  # OU pour enregistrer une métrique finale à la fin de l'entraînement, vous pouvez aussi utiliser run.summary
+  # OU pour la journalisation d'une métrique finale en fin d'entraînement, vous pouvez aussi utiliser run.summary
   run.summary["accuracy"] = accuracy
 ```
 
@@ -110,7 +110,7 @@ run = wandb.init(project="visualize-sklearn")
 Après avoir entraîné un modèle et effectué des prédictions, vous pouvez générer des graphiques dans wandb pour analyser ces prédictions. Voir la section **Graphiques pris en charge** ci-dessous pour obtenir la liste complète des graphiques pris en charge.
 
 ```python
-# Visualiser un graphique unique
+# Visualiser un graphique individuel
 wandb.sklearn.plot_confusion_matrix(y_true, y_pred, labels)
 ```
 
@@ -118,7 +118,7 @@ wandb.sklearn.plot_confusion_matrix(y_true, y_pred, labels)
   #### Tous les graphiques
 </div>
 
-W&amp;B propose des fonctions comme `plot_classifier`, qui génèrent plusieurs graphiques pertinents :
+W&amp;B propose des fonctions telles que `plot_classifier`, qui permettent d&#39;afficher plusieurs graphiques pertinents :
 
 ```python
 # Visualiser tous les graphiques de classification
@@ -164,10 +164,10 @@ import wandb
 
 with wandb.init(project="visualize-sklearn") as run:
 
-  # effectuez tous les plt.plot(), plt.scatter(), etc. ici.
+  # faites tous les plt.plot(), plt.scatter(), etc. ici.
   # ...
 
-  # au lieu d'appeler plt.show(), faites :
+  # au lieu de faire plt.show(), faites :
   run.log({"plot": plt})
 ```
 

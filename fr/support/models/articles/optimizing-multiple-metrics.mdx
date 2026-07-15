@@ -3,24 +3,24 @@ title: "Optimiser plusieurs métriques"
 keywords: ["Sweeps", "Métriques"]
 ---
 
-Pour optimiser plusieurs métriques dans un seul run, utilisez une somme pondérée de chaque métrique.
+Les Sweeps de W&amp;B optimisent une seule métrique objective. Pour optimiser plusieurs métriques dans un seul run, combinez-les en une somme pondérée et utilisez cette valeur combinée comme objectif du sweep.
 
 ```python
 with wandb.init() as run:
-  # Enregistrer les métriques individuelles
+  # Consigner les métriques individuelles dans le journal
   metric_a = run.summary.get("metric_a", 0.5)
   metric_b = run.summary.get("metric_b", 0.7)
-  # ... enregistrer d'autres métriques si nécessaire
+  # ... consigner d'autres métriques selon les besoins
   metric_n = run.summary.get("metric_n", 0.9)
 
   # Combiner les métriques avec des pondérations
-  # Ajuster les pondérations selon vos objectifs d'optimisation
-  # Par exemple, pour donner plus d'importance à metric_a et metric_n :  
+  # Ajustez les pondérations selon vos objectifs d'optimisation
+  # Par exemple, pour donner plus d'importance à metric_a et metric_n :
   metric_combined = 0.3 * metric_a + 0.2 * metric_b + ... + 1.5 * metric_n
   run.log({"metric_combined": metric_combined})
 ```
 
-Consignez la nouvelle métrique combinée dans le journal et définissez-la comme objectif d’optimisation :
+Après avoir consigné la métrique combinée, définissez-la comme objectif d’optimisation dans votre configuration de sweep :
 
 ```yaml
 metric:

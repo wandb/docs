@@ -3,11 +3,9 @@ description: Apprenez à utiliser les runs épinglés et les runs de référence
 title: Épingler et comparer des runs
 ---
 
-import PinRunsCondensed from '/snippets/fr/_includes/pinned-and-baseline-runs/pin-runs-condensed.mdx';
+Utilisez W&amp;B App pour organiser, identifier et comparer les runs importants, tels que les plus performants, les modèles de Production, les expériences ayant échoué et les runs de référence. Pour ce faire, vous pouvez organiser et comparer les runs avec :
 
-Dans un Workspace comportant de nombreux runs, il peut être difficile de garder une vue d’ensemble de vos meilleurs résultats, de vos modèles de Production, de vos expériences ayant échoué ou de vos points de référence importants. L’application W&amp;B propose des fonctionnalités pour vous aider à organiser et comparer les runs :
-
-* **Runs épinglés** : Épinglez jusqu’à 6 runs pour les garder visibles dans le Workspace et en haut de la liste des runs. Si vous avez un run de référence, vous pouvez épingler jusqu’à 5 runs, car le run de référence est épinglé implicitement.
+* **Runs épinglés** : Épinglez des runs depuis n’importe quel Project de votre Workspace pour les garder visibles en haut de la liste des runs. Vous pouvez épingler jusqu’à 20 runs dans un Workspace, y compris des runs provenant d’autres Projects.
 * **Run de référence** : Définissez un run de référence comme référence pour les comparaisons. Le run de référence est toujours visible dans le Workspace et en haut de la liste des runs. Dans le tableau des runs, les deltas des métriques de synthèse montrent comment chaque run se compare au run de référence. Dans les graphiques en courbes, le run de référence apparaît avec un style visuellement distinct afin de faciliter la comparaison.
 
 ![Graphique en courbes avec run de référence et runs épinglés](/images/models/pinned-and-baseline-runs/baseline-run-visual-distinction.png)
@@ -15,25 +13,60 @@ Dans un Workspace comportant de nombreux runs, il peut être difficile de garder
 Ces fonctionnalités sont particulièrement utiles pour :
 
 * Comparer de nouvelles expériences à votre modèle de Production.
+* [Comparer des runs entre plusieurs Projects](/fr/models/runs/compare-runs#compare-runs-across-projects).
+* [Créer un run de référence pour vos expériences afin d’évaluer les performances des nouveaux runs par rapport à celui-ci.](/fr/models/runs/compare-runs#manage-and-compare-a-baseline-run)
 * Suivre plusieurs modèles candidats pendant l’expérimentation.
 * Évaluer si de nouveaux runs améliorent vos meilleurs résultats.
 
 Voir [Limitations](#limitations).
 
 <div id="pin-runs">
-  ## Épingler des Runs
+  ## Épingler des runs
 </div>
 
-<PinRunsCondensed />
+Épinglez des runs pour les garder facilement accessibles en haut de votre Workspace. Pour masquer un run épinglé ou de référence, cliquez sur l’icône <i class="fa-regular fa-eye" />. Pour afficher un run masqué, cliquez sur l’icône <i class="fa-solid fa-eye-closed" />. Les runs épinglés apparaissent en haut du sélecteur de runs avec une icône d’épingle circulaire, séparés des autres runs par un séparateur visuel.
+
+Pour épingler un run :
+
+1. Accédez à votre Workspace.
+2. Dans le sélecteur de runs ou le tableau des runs, trouvez le run que vous souhaitez épingler.
+3. Cliquez sur le menu **action (<Icon icon="ellipsis" iconType="solid" />)**, puis sélectionnez **Pin run**.
+
+Vous pouvez épingler jusqu’à 20 runs dans un Workspace. Si vous avez un run de référence, vous pouvez épingler jusqu’à 19 runs, car le run de référence est épinglé implicitement.
 
 <Frame>
-  ![Tableau des Runs avec des Runs épinglés](/images/models/pinned-and-baseline-runs/runs-table-with-pinned-runs.png)
+  ![Tableau des runs avec des runs épinglés](/images/models/pinned-and-baseline-runs/runs-table-with-pinned-runs.png)
 </Frame>
 
-Pour désépingler un run, cliquez sur l’icône en forme d’épingle, ou suivez la procédure pour épingler le run, puis sélectionnez **Désépingler le run**.
+Pour désépingler un run, cliquez sur l’icône d’épingle, ou suivez la procédure pour épingler le run, mais sélectionnez **Unpin run** à la place.
 
-<div id="manage-the-baseline-run">
-  ## Gérer le run de référence
+Les runs que vous épinglez dans un projet n’ont d’effet que sur votre [vue Workspace personnelle ou enregistrée](/fr/models/track/workspaces#saved-workspace-views), y compris les [runs épinglés depuis un autre projet](/fr/models/runs/compare-runs#compare-runs-across-projects).
+
+<div id="compare-runs-across-projects">
+  ## Comparer des runs entre plusieurs projets
+</div>
+
+Comparez des runs de différents projets en sélectionnant des runs d’un autre projet et en les [épinglant](/fr/models/runs/compare-runs#pin-runs) à votre Workspace actuel.
+
+1. Accédez au Workspace de votre projet.
+2. Cliquez sur le bouton **Select runs from another project** (petit carré à coins arrondis avec une flèche diagonale) en haut du sélecteur de runs de votre Workspace ou du tableau des runs.
+
+<Frame>
+  ![Tableau des runs avec des runs épinglés depuis un autre projet](/images/runs/compare_runs_ui_element.png)
+</Frame>
+
+3. Dans la fenêtre modale, sélectionnez un projet dans la liste déroulante **Source project**.
+4. Recherchez dans les runs du projet source celui que vous voulez comparer. Vous pouvez rechercher par nom de run ou par ID unique.
+5. Cochez la case en regard de chaque run que vous voulez comparer, puis cliquez sur **Épingler des runs**.
+
+Les runs que vous épinglez depuis un autre projet s’affichent dans le sélecteur de runs ou le tableau des runs. Les runs épinglés depuis d’autres projets comportent une icône en cercle ouvert à côté de leur nom. Pour voir de quel projet provient un run épinglé, survolez son nom.
+
+Les Artifacts, les logs et les autres détails des runs épinglés renvoient au run d’origine. W&amp;B n’importe pas ces données dans le projet ou le Workspace actuels. Pour afficher les détails d’un run épinglé depuis un autre projet, cliquez sur ce run. W&amp;B ouvre les détails du run d’origine dans un nouvel onglet du navigateur.
+
+Pour comparer des runs de différents projets, épinglez les runs que vous voulez comparer, puis utilisez les [graphiques en courbes](/fr/models/app/features/panels/line-plot) pour les comparer visuellement.
+
+<div id="manage-and-compare-a-baseline-run">
+  ## Gérer et comparer le run de référence
 </div>
 
 Vous pouvez désigner un run comme référence du Workspace afin de l&#39;utiliser comme point de comparaison pour évaluer les autres runs de votre Workspace.
@@ -85,7 +118,7 @@ Pour supprimer la désignation de référence :
 4. La référence précédente est automatiquement épinglée afin que vous puissiez la retrouver facilement. Si vous le souhaitez, désépinglez-la en cliquant sur son icône d’épingle.
 
 <div id="compare-runs-to-the-baseline">
-  ## Comparez les runs au run de référence
+  ### Comparez les runs au run de référence
 </div>
 
 Le run de référence est toujours visible dans les graphiques en courbes pour les métriques qu’il a enregistrées. Dans les graphiques en courbes, les lignes du run de référence apparaissent plus épaisses que les autres lignes.
@@ -172,7 +205,7 @@ Cette section montre comment les runs épinglés et les runs de référence peuv
        }
        
        with wandb.init(
-         # Remplacez par le nom de votre équipe et de votre projet
+         # Remplacez par votre équipe et le nom de votre projet
            project="hyperparameter-tuning",
            entity="<team>",
            name=run_name,
@@ -191,7 +224,7 @@ Cette section montre comment les runs épinglés et les runs de référence peuv
                    "loss": loss
                })
 
-   # Créer un run de référence avec la configuration standard
+   # Créer le run de référence avec la configuration standard
    train_model(
        learning_rate=0.001,
        batch_size=64,

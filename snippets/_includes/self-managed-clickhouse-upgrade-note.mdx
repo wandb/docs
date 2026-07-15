@@ -1,0 +1,18 @@
+<Note>
+W&B Server 0.81.0+ introduces schema migrations that require ClickHouse 26.3 or newer when any of the following Models OLAP features are enabled in your Helm values:
+
+```yaml
+global:
+  olap:
+    registrySearch:
+      enabled: true
+    runStoreAccelerator:
+      enabled: true
+    history:
+      enabled: true
+```
+
+**_Before_ upgrading W&B Self-Managed to Server v0.81+**, you must either set these to `false` in your Helm values, or upgrade **both** ClickHouse Server and ClickHouse Keeper to 26.3.
+
+Dedicated Cloud deployments already run a compatible ClickHouse version and are not affected.
+</Note>

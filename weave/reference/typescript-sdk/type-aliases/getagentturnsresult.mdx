@@ -1,0 +1,28 @@
+---
+title: "GetAgentTurnsResult"
+description: "TypeScript SDK reference"
+---
+
+# GetAgentTurnsResult
+
+Ƭ **GetAgentTurnsResult**: `Object`
+
+Result shape returned by [WeaveClient.getAgentTurns](../classes/weaveclient#getagentturns).
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `conversation_id` | `string` |
+| `feedback?` | `Record`\<`string`, `any`\>[] \| ``null`` |
+| `has_more?` | `boolean` |
+| `limit?` | `number` |
+| `offset?` | `number` |
+| `total_turns?` | `number` |
+| `turns?` | [`AgentTurn`](./agentturn)[] |
+
+#### Defined in
+
+[src/weaveClient.ts:252](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L252)
+
+___
