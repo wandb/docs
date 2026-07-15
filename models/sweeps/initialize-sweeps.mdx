@@ -3,9 +3,9 @@ description: "Initialize a sweep using the Python SDK or CLI to start hyperparam
 title: Initialize a sweep
 ---
 
-Initialize a sweep to register your sweep configuration with W&B and return a sweep ID that agents use to fetch run instructions. Initialize a sweep after you define a sweep configuration and before you launch agents, so that you have a sweep ready to coordinate hyperparameter searches across one or more machines.
+After you define a sweep configuration and before you launch agents, initialize a sweep to register its configuration with W&B and receive a sweep ID. Agents use the sweep ID to fetch run instructions. After a sweep is initialized, it's ready to coordinate hyperparameter searches across one or more machines.
 
-W&B uses a _sweep controller_ to manage sweeps on the cloud (standard) or locally across one or more machines. After a run completes, the sweep controller issues a new set of instructions describing a new run to execute. _Agents_ pick up these instructions and perform the runs. In a typical sweep, the controller lives on the W&B server. Agents live on your machines.
+W&B uses a sweep controller to manage sweeps across one or more machines. After a run completes, the controller issues a new set of instructions that describe the next run to execute, and agents pick up these instructions and run them. By default, W&B hosts the controller, and agents run on your machines.
 
 Before you initialize a sweep, you must have a sweep configuration defined either in a YAML file or a nested Python dictionary object in your script. For more information, see [Define sweep configuration](/models/sweeps/define-sweep-configuration).
 
@@ -17,7 +17,7 @@ The sweep and the run must be in the same project. The project name you provide 
 
 <Tabs>
 <Tab title="Python script or notebook">
-Use the W&B SDK to initialize a sweep. Pass the sweep configuration dictionary to the `sweep` parameter. Optionally provide the name of the project for the project parameter (`project`) where you want W&B to store the output of the run. If you don't specify the project, W&B puts the run in an "Uncategorized" project.
+Use the W&B SDK to initialize a sweep. Pass the sweep configuration dictionary to the `sweep` parameter. Optionally set the `project` parameter to the project name where you want W&B to store the output of the run. If you don't specify the project, W&B puts the run in an "Uncategorized" project.
 
 ```python
 import wandb
@@ -37,10 +37,10 @@ sweep_configuration = {
 sweep_id = wandb.sweep(sweep=sweep_configuration, project="project-name")
 ```
 
-The [`wandb.sweep()`](/models/ref/python/functions/sweep) function returns the sweep ID. The sweep ID includes the entity name and the project name. Note the sweep ID, since you pass it to agents when you start them. With the sweep ID, you're ready to launch one or more agents to execute runs.
+The [`wandb.sweep()`](/models/ref/python/functions/sweep) function returns the sweep ID. The sweep ID includes the entity name and the project name. Note the sweep ID, which you pass to agents when you start them. With the sweep ID, you're ready to launch one or more agents to execute runs.
 </Tab>
 <Tab title="CLI">
-Use the W&B CLI to initialize a sweep. Provide the name of your configuration file. Optionally provide the name of the project for the `project` flag. If you don't specify the project, W&B puts the run in an "Uncategorized" project.
+Use the W&B CLI to initialize a sweep. Provide the name of your configuration file. Optionally set the `--project` flag to the project name. If you don't specify the project, W&B puts the run in an "Uncategorized" project.
 
 Use the [`wandb sweep`](/models/ref/cli/wandb-sweep) command to initialize a sweep. The following code example initializes a sweep for a `sweeps_demo` project and uses a `config.yaml` file for the configuration.
 
@@ -48,7 +48,7 @@ Use the [`wandb sweep`](/models/ref/cli/wandb-sweep) command to initialize a swe
 wandb sweep --project sweeps_demo config.yaml
 ```
 
-This command prints out a sweep ID. The sweep ID includes the entity name and the project name. Note the sweep ID, since you pass it to agents when you start them. With the sweep ID, you're ready to launch one or more agents to execute runs.
+This command prints out a sweep ID. The sweep ID includes the entity name and the project name. Note the sweep ID, which you pass to agents when you start them. With the sweep ID, you're ready to launch one or more agents to execute runs.
 </Tab>
 </Tabs>
 

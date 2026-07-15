@@ -4,14 +4,14 @@ description: Search and stop algorithms locally instead of using the W&B cloud-h
 title: Manage algorithms locally
 ---
 
-This page shows you how to run a sweep's search and stopping algorithms locally instead of using the W&B cloud-hosted controller. Use the local controller when you want to inspect and instrument the code to debug issues or develop new algorithms that you can later incorporate into the cloud service.
+This page shows you how to run a sweep's search and stopping algorithms locally instead of using the W&B cloud-hosted controller. Use the local controller to inspect and instrument the code to debug issues or develop new algorithms that you can later incorporate into the cloud-hosted controller.
 
 By default, W&B hosts the hyperparameter controller as a cloud service. W&B agents communicate with the controller to determine the next set of parameters to use for training. The controller also runs early stopping algorithms to determine which runs to stop.
 
 The local controller feature lets you run search and stop algorithms locally.
 
 <Warning>
-This feature supports faster development and debugging of new algorithms for the Sweeps tool. It isn't intended for hyperparameter optimization workloads.
+This feature supports faster development and debugging of new algorithms for the Sweeps tool. It isn't appropriate for hyperparameter optimization workloads.
 </Warning>
 
 ## Prerequisites
@@ -24,48 +24,48 @@ pip install wandb sweeps
 
 The following examples assume you already have a configuration file and a training loop defined in a Python script or Jupyter notebook. For more information, see [Define sweep configuration](/models/sweeps/define-sweep-configuration).
 
-## Run the local controller from the command line
+## Run a local controller from the command line
 
-Initialize a sweep the same way you do when you use hyperparameter controllers hosted by W&B as a cloud service. Specify the `--controller` flag to indicate that you want to use the local controller for sweep jobs:
+Initialize a sweep the same way as when you use hyperparameter controllers hosted by W&B as a cloud service, but pass the `--controller` flag to use the local controller:
 
-```bash
-wandb sweep --controller config.yaml
-```
+1. Initialize the sweep with the `--controller` flag:
 
-Alternatively, you can initialize the sweep and specify the local controller in two steps.
+   ```bash
+   wandb sweep --controller config.yaml
+   ```
 
-To separate the steps, first add the following key-value to your sweep's YAML configuration file:
+2. Note the sweep ID that `wandb sweep` generates, then start the controller. Replace `[SWEEP-ID]` with the sweep ID. You can pass the short sweep ID alone or include the entity and project as a path (`[ENTITY]/[PROJECT]/[SWEEP-ID]`):
+
+   ```bash
+   wandb controller [SWEEP-ID]
+   ```
+
+3. Start one or more sweep agents to run the sweep. Replace `[SWEEP-ID]` with the sweep ID:
+
+   ```bash
+   wandb agent [SWEEP-ID]
+   ```
+
+   For more information, see [Start sweep agents](/models/sweeps/start-sweep-agents).
+
+Alternatively, add the controller to your configuration file so you don't need to pass `--controller` each time you initialize the sweep:
 
 ```yaml
 controller:
   type: local
 ```
 
-Next, initialize the sweep:
+Then initialize the sweep without the flag, and continue with steps 2 and 3:
 
 ```bash
 wandb sweep config.yaml
 ```
 
-`wandb sweep` generates a sweep ID. After you initialize the sweep, start a controller with `wandb controller`. Replace `[SWEEP-ID]` with the sweep ID that `wandb sweep` generated. You can pass the short sweep ID or include the entity and project as a path (`[ENTITY]/[PROJECT]/[SWEEP-ID]`):
-
-```bash
-wandb controller [SWEEP-ID]
-```
-
-After you specify that you want to use a local controller, start one or more sweep agents to run the sweep, the same way you usually do. For more information, see [Start sweep agents](/models/sweeps/start-sweep-agents).
-
-Replace `[SWEEP-ID]` with the sweep ID returned by `wandb sweep`:
-
-```bash
-wandb agent [SWEEP-ID]
-```
-
 ## Run a local controller with W&B Python SDK
 
-The following code snippets demonstrate how to specify and use a local controller with the W&B Python SDK. Each example offers progressively more control over the controller loop, so you can choose the approach that matches how much you need to customize search and scheduling.
+The following code snippets demonstrate how to specify and use a local controller with the W&B Python SDK. Each example offers progressively more control, so you can choose the approach that matches how much you need to customize search and scheduling.
 
-The simplest way to use a controller with the Python SDK is to pass the sweep ID to the [`wandb.controller()`](/models/ref/python/functions/controller) method. Then, use the returned object's `run` method to start the sweep job:
+To use a controller with the Python SDK, pass the sweep ID to the [`wandb.controller()`](/models/ref/python/functions/controller) method, then call the returned object's `run` method to start the sweep job:
 
 ```python
 sweep = wandb.controller(sweep_id)

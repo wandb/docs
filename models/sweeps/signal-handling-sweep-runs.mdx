@@ -20,11 +20,11 @@ When the process exits due to a [catchable signal](#catchable-signals-and-preemp
 
 ## Stale runs and server-side timeouts
 
-Exit codes aren't the only way W&B determines run state. The W&B server also infers run state from activity. If a run neither finishes nor posts new metrics for about 5 minutes, the W&B server marks the run as crashed. That often happens when the training process becomes unresponsive, stops logging, or terminates without a clean exit (for example, after `SIGKILL`). Logging metrics on a steady cadence or exiting with a defined code helps keep run state aligned with what happened.
+W&B determines run state both from exit codes and from the run's activity. If a run neither finishes nor posts new metrics for about 5 minutes, W&B marks the run as crashed. This can occur when the training process becomes unresponsive, stops logging, or terminates without a clean exit (such as by sending `SIGKILL`). Log metrics on a steady cadence or exit with a defined code to help keep run state aligned with what happened.
 
 ## Catchable signals and preemption
 
-Most signals you'll encounter in preemptible environments are catchable, meaning your training script can intercept them and shut down cleanly. You can register custom signal handlers in your training script. When the system delivers a catchable signal, your handler runs. W&B preserves metrics that were already sent, and the agent detects the process exit and starts the next run.
+Most signals in preemptible environments are catchable, meaning your training script can intercept them and shut down cleanly. You can register custom signal handlers in your training script. When the system delivers a catchable signal, your handler runs. W&B preserves metrics it already received. The agent detects the process exit and starts the next run.
 
 **Best practices:**
 
@@ -64,7 +64,7 @@ if __name__ == "__main__":
 
 ## `SIGKILL` (uncatchable)
 
-`SIGKILL` can't be caught or ignored. The process terminates immediately with no chance to run handlers or atexit callbacks. W&B can't write a final summary for the run. The agent still recovers and continues the sweep, but run data for that run is incomplete. Use `SIGKILL` only as a last resort. Prefer `SIGTERM` or `SIGINT` when you need graceful shutdown.
+`SIGKILL` comes from the operating system kernel and can't be caught or ignored. The process terminates immediately with no chance to run handlers or `atexit` callbacks. W&B can't write a final summary for the run. The agent still recovers and continues the sweep, but run data for that run is incomplete. Use `SIGKILL` only as a last resort. Prefer `SIGTERM` or `SIGINT` when you need graceful shutdown.
 
 ## Signal forwarding from agent to child
 

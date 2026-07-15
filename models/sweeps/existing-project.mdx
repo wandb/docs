@@ -3,7 +3,9 @@ description: Tutorial on how to create sweep jobs from a pre-existing W&B projec
 title: 'Tutorial: Create sweep job from project'
 ---
 
-This tutorial explains how to create sweep jobs from a pre-existing W&B project. By the end, you'll have created a baseline project, configured a hyperparameter sweep, and launched agents that run training jobs in parallel. You use the [Fashion MNIST dataset](https://github.com/zalandoresearch/fashion-mnist) to train a PyTorch convolutional neural network to classify images. The [W&B examples repository (PyTorch CNN Fashion)](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cnn-fashion) provides the required code and dataset.
+This tutorial explains how to create sweep jobs from a pre-existing W&B project. It guides you to create a baseline project, configure a hyperparameter sweep, and launch agents that run training jobs in parallel.
+
+You use the [Fashion MNIST dataset](https://github.com/zalandoresearch/fashion-mnist) to train a PyTorch convolutional neural network to classify images. The [W&B examples repository (PyTorch CNN Fashion)](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cnn-fashion) provides the required code and dataset.
 
 Explore the results in this [W&B Dashboard](https://app.wandb.ai/carey/pytorch-cnn-fashion).
 
@@ -11,13 +13,27 @@ Explore the results in this [W&B Dashboard](https://app.wandb.ai/carey/pytorch-c
 
 First, create a baseline project by training the example model at least once. This baseline gives the sweep something to configure against in later steps. Download the PyTorch MNIST dataset example model from the W&B examples GitHub repository. Next, train the model. The training script is within the `examples/pytorch/pytorch-cnn-fashion` directory.
 
-To download and train the example model, follow these steps:
+To download and train the example model:
 
-1. Clone the repository: `git clone https://github.com/wandb/examples.git`.
-2. Open the example directory: `cd examples/pytorch/pytorch-cnn-fashion`.
-3. Run the training script manually: `python train.py`.
+1. Clone the repository:
 
-Optional: Explore the example in the W&B App dashboard. [View an example project page](https://app.wandb.ai/carey/pytorch-cnn-fashion).
+   ```bash
+   git clone https://github.com/wandb/examples.git
+   ```
+
+2. Open the example directory:
+
+   ```bash
+   cd examples/pytorch/pytorch-cnn-fashion
+   ```
+
+3. Run the training script manually:
+
+   ```bash
+   python train.py
+   ```
+
+4. Optional: Explore the example in the W&B App dashboard. [View an example project page](https://app.wandb.ai/carey/pytorch-cnn-fashion).
 
 After this initial run completes, you have a baseline project in W&B that the sweep can build on.
 
@@ -37,13 +53,13 @@ The auto-generated configuration suggests values to sweep over based on the runs
 
 ## Launch agents
 
-After you configure the sweep, launch one or more agents locally to execute the runs. To distribute the work and finish the sweep job more quickly, launch up to 20 agents on different machines in parallel. The agent prints out the next set of parameters to use.
+After you configure the sweep, launch one or more agents to execute the runs. Launch up to 20 agents in parallel across different machines to finish the sweep job more quickly. Each agent prints the next set of parameters to use.
 
 <Frame>
     <img src="/images/sweeps/sweep3.png" alt="Terminal output from a sweep agent printing the next set of hyperparameters" />
 </Frame>
 
-You now have a running sweep that coordinates training jobs across your agents and reports results back to W&B. The following image shows what the dashboard looks like as the example sweep job runs.
+You now have a running sweep that coordinates training jobs across your agents and reports results back to W&B. The following image shows the dashboard with the example sweep job running.
 
 <Frame>
     <img src="/images/sweeps/sweep4.png" alt="Sweep dashboard plotting metrics across parallel training runs" />
@@ -51,10 +67,10 @@ You now have a running sweep that coordinates training jobs across your agents a
 
 ## Seed a new sweep with existing runs
 
-You can also launch a new sweep using existing runs that you've previously logged, which lets you reuse earlier results as a starting point. To seed a new sweep with existing runs, follow these steps:
+To reuse earlier results as a starting point, launch a new sweep using existing runs that you've previously logged:
 
 1. Open your project table.
-2. Select the runs you want to use by enabling their row checkboxes.
+2. Click a run row's checkbox to select the run.
 3. Select the dropdown to create a new sweep.
 
 Your sweep is now set up on the server. Launch one or more agents to start the runs.
@@ -64,5 +80,5 @@ Your sweep is now set up on the server. Launch one or more agents to start the r
 </Frame>
 
 <Note>
-If you start the new sweep as a Bayesian sweep, the selected runs also seed the Gaussian Process.
+If you start the new sweep as a Bayesian sweep, the selected runs also seed the Gaussian process.
 </Note>

@@ -5,11 +5,11 @@ title: Manage sweeps
 
 This page shows you how to control the lifecycle of an active sweep from the command line. You can stop wasted compute, preserve in-progress experiments, or temporarily halt exploration without losing state.
 
-Use the [W&B CLI](/models/ref/cli/wandb-sweep) to pause, resume, stop, and cancel a sweep. Each command has a different effect on whether the sweep creates new runs and on runs that are already executing. In each case, provide the sweep ID that W&B generated when you initialized the sweep.
+Use the [W&B CLI](/models/ref/cli/wandb-sweep) to pause, resume, stop, and cancel a sweep. Each command affects whether the sweep creates new runs and what happens to runs that are already executing. In each case, provide the sweep ID that W&B generated when you initialized the sweep.
 
 ## Pause a sweep
 
-Pause a sweep so it temporarily stops creating new runs. Runs that are already executing continue running until completion. Use the [`wandb sweep --pause`](/models/ref/cli/wandb-sweep) command to pause a sweep. Provide the sweep ID that you want to pause.
+Use the [`wandb sweep --pause`](/models/ref/cli/wandb-sweep) command to pause a sweep, so it temporarily stops creating new runs. Runs that are already executing continue to run until completion. Provide the sweep ID.
 
 ```bash
 wandb sweep --pause entity/project/sweep_ID
@@ -17,7 +17,7 @@ wandb sweep --pause entity/project/sweep_ID
 
 ## Resume a sweep
 
-Resume a paused sweep with the [`wandb sweep --resume`](/models/ref/cli/wandb-sweep) command. The sweep starts creating new runs again according to its search strategy. Provide the sweep ID that you want to resume:
+Resume a paused sweep with the [`wandb sweep --resume`](/models/ref/cli/wandb-sweep) command, so it starts creating new runs again according to its search strategy. Provide the sweep ID.
 
 ```bash
 wandb sweep --resume entity/project/sweep_ID
@@ -25,7 +25,7 @@ wandb sweep --resume entity/project/sweep_ID
 
 ## Stop a sweep
 
-Stop a sweep to prevent the creation of new runs while letting executing runs finish gracefully. Use the [`wandb sweep --stop`](/models/ref/cli/wandb-sweep) command:
+Use the [`wandb sweep --stop`](/models/ref/cli/wandb-sweep) command to stop a sweep. A stopped sweep does not create new runs. Runs that are already executing continue to run until completion. Provide the sweep ID.
 
 ```bash
 wandb sweep --stop entity/project/sweep_ID
@@ -33,36 +33,36 @@ wandb sweep --stop entity/project/sweep_ID
 
 ## Cancel a sweep
 
-Cancel a sweep to immediately terminate all active runs and stop creating new runs. This is the only sweep command that forcibly terminates existing runs. Runs terminate abruptly, and the running processes have no chance to run user-defined signal handlers. Use the [`wandb sweep --cancel`](/models/ref/cli/wandb-sweep) command to cancel a sweep. Provide the sweep ID that you want to cancel. For more information about signals and sweep runs, see [Signal handling and sweep runs](/models/sweeps/signal-handling-sweep-runs).
+Use the [`wandb sweep --cancel`](/models/ref/cli/wandb-sweep) command to cancel a sweep, forcibly terminating all active runs and preventing creation of new runs. Runs terminate abruptly, giving the running processes no chance to run user-defined signal handlers. Provide the sweep ID.
 
 ```bash
 wandb sweep --cancel entity/project/sweep_ID
 ```
 
-For a full list of CLI command options, see the [wandb sweep](/models/ref/cli/wandb-sweep) CLI Reference Guide.
+For more information about signals and sweep runs, see [Signal handling and sweep runs](/models/sweeps/signal-handling-sweep-runs). For a full list of CLI command options, see the [wandb sweep](/models/ref/cli/wandb-sweep) CLI Reference Guide.
 
 <Warning>
-W&B doesn't terminate active [sweeps](/models/sweeps) or agents when you delete a project.
+Deleting a project doesn't stop active [sweeps](/models/sweeps) or their agents. To stop them, cancel or stop the sweep with `wandb sweep --cancel` or `wandb sweep --stop`, then stop each agent process.
 </Warning>
 
 ## Sweep and run statuses
 
-A sweep orchestrates multiple runs to explore hyperparameter combinations. To manage your hyperparameter optimization effectively, you must understand how sweep status and run status interact. The following sections describe how the two statuses differ, what happens when you stop an individual run, and which lifecycle command to choose.
+A sweep orchestrates multiple runs to explore hyperparameter combinations. The following sections describe how sweep status and run status interact, so you can manage your hyperparameter optimizations effectively, including how the two statuses differ, what happens when you stop an individual run, and which lifecycle command to choose.
 
 ### Key differences
 
-- **Sweep status** controls whether the agent creates new runs (Running, Paused, Stopped, Cancelled, Finished, Failed, Crashed).
-- **Run status** reflects the execution state of individual runs (Pending, Running, Finished, Failed, Crashed, Killed).
+- **Sweep status** controls whether the agent creates new runs. Sweep status can be `Running`, `Paused`, `Stopped`, `Cancelled`, `Finished`, `Failed`, or `Crashed`.
+- **Run status** reflects the execution state of individual runs. Run status can be `Pending`, `Running`, `Finished`, `Failed`, `Crashed`, or `Killed`.
 
 ### Stop an individual run
 
-When you [stop a run](/models/runs/stop-runs) in a sweep, the sweep agent automatically starts the next run in the sweep. You can skip poorly performing configurations without interrupting the sweep's overall progress.
+When you [stop a run](/models/runs/stop-runs) in a sweep, the sweep agent automatically starts the next run in the sweep. Use this mechanism to skip poorly performing configurations without interrupting the sweep's overall progress.
 
-### Best practices
+### Recommendations
 
 The following recommendations help you choose the right lifecycle command for the situation, so you avoid losing useful work or holding onto unwanted compute.
 
-- Use `--pause` instead of cancel when you want to temporarily halt exploration without losing running experiments.
+- Use `--pause` instead of cancel to temporarily halt exploration without losing running experiments.
 - Monitor individual run statuses to identify systematic failures.
 - Use `--stop` for graceful termination when you've found satisfactory hyperparameters.
 - Reserve `--cancel` for emergencies when runs consume excessive resources or produce errors.

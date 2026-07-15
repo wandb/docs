@@ -6,7 +6,7 @@ title: Overview
 
 A sweep combines a strategy for exploring hyperparameter values with the code that evaluates them. The strategy can be as simple as trying every option or as complex as Bayesian Optimization and Hyperband ([BOHB](https://arxiv.org/abs/1807.01774)).
 
-This guide shows you how to author a sweep configuration that specifies which hyperparameters to search, which search strategy to use, and how to evaluate each run. Use it when you're setting up a new sweep or adapting an existing configuration to a different search method or parameter space.
+This guide shows you how to define a sweep configuration that specifies which hyperparameters to search, which search strategy to use, and how to evaluate each run. Use it when you're setting up a new sweep or adapting an existing configuration to a different search method or parameter space.
 
 Define a sweep configuration either in a [Python dictionary](https://docs.python.org/3/tutorial/datastructures.html#dictionaries) or a [YAML](https://yaml.org/) file. How you define your sweep configuration depends on how you want to manage your sweep.
 
@@ -18,9 +18,9 @@ The following sections describe how to format your sweep configuration. See [Swe
 
 ## Basic structure
 
-Both sweep configuration format options (YAML and Python dictionary) use key-value pairs and nested structures.
+Sweep configurations are defined using either YAML or a Python dictionary, with key-value pairs and nested structures.
 
-Use top-level keys within your sweep configuration to define qualities of your sweep search. These qualities include the name of the sweep ([`name`](/models/sweeps/sweep-config-keys) key), the parameters to search through ([`parameters`](/models/sweeps/sweep-config-keys#parameters) key), the methodology to search the parameter space ([`method`](/models/sweeps/sweep-config-keys#method) key), and more.
+Use top-level keys within your sweep configuration to define qualities of your sweep search, such as the sweep [`name`](/models/sweeps/sweep-config-keys), the [`parameters`](/models/sweeps/sweep-config-keys#parameters) to search through, and the search [`method`](/models/sweeps/sweep-config-keys#method).
 
 
 For example, the following code snippets show the same sweep configuration defined within a YAML file and within a Python dictionary. The sweep configuration specifies five top-level keys: `program`, `name`, `method`, `metric`, and `parameters`.
@@ -28,7 +28,7 @@ For example, the following code snippets show the same sweep configuration defin
 
 <Tabs>
 <Tab title="CLI">
-Define a sweep configuration in a YAML file if you want to manage sweeps interactively from the command line (CLI).
+To manage sweeps interactively from the command line, define a sweep configuration in a YAML file.
 
 ```yaml title="config.yaml"
 program: train.py
@@ -74,13 +74,11 @@ sweep_configuration = {
 The top-level `parameters` key nests the following keys: `learning_rate`, `batch_size`, `epochs`, and `optimizer`. For each nested key you specify, you can provide one or more values, a distribution, a probability, and more. For more information, see the [parameters](/models/sweeps/sweep-config-keys#parameters) section in [Sweep configuration options](/models/sweeps/sweep-config-keys).
 
 
-## Double nested parameters
+## Double-nested parameters
 
 Use nested parameters when you want to group related hyperparameters together or when your training code expects a nested configuration structure. To define a nested parameter, include an additional `parameters` key under the top-level parameter name.
 
-The following example shows a sweep configuration with nested parameters `nested_category_1`, `nested_category_2`, and `nested_category_3`. Each nested parameter includes the additional parameters `momentum` and `weight_decay`.
-
-The following code snippets show how to define nested parameters in both a YAML file and a Python dictionary:
+The following example shows a sweep configuration with nested parameters `nested_category_1`, `nested_category_2`, and `nested_category_3`, each including the additional parameters `momentum` and `weight_decay`. The following code examples show the configuration in both a YAML file and a Python dictionary:
 
 <Tabs>
 <Tab title="CLI">
@@ -214,18 +212,6 @@ parameters:
 </Tab>
 </Tabs>
 
-{/* Specify a probability distribution for your random variables if you use a Bayesian or random hyperparameter search. For each hyperparameter:
-
-1. Create a top level `parameters` key in your sweep config.
-2. Within the `parameters`key, nest the following:
-   1. Specify the name of hyperparameter you want to optimize.
-   2. Specify the distribution you want to use for the `distribution` key. Nest the `distribution` key-value pair underneath the hyperparameter name.
-   3. Specify one or more values to explore. The value (or values) should be inline with the distribution key.
-      1. (Optional) Use an additional parameters key under the top level parameter name to delineate a nested parameter. */}
-
-{/* For example, the following code snippets show a sweep config both in a YAML config file and a Python script. */}
-
-
 <Warning>
 Nested parameters defined in sweep configuration overwrite keys specified in a W&B run configuration.
 
@@ -265,9 +251,7 @@ During a sweep run, `run.config["nested_param"]` reflects the subtree defined by
 
 ## Sweep configuration template
 
-Use this template as a starting point when authoring a new sweep configuration. It illustrates the most common parameter and early-termination patterns so you can copy it and fill in the values for your own search.
-
-The following template shows how you can configure parameters and specify search constraints. Replace `hyperparameter_name` with the name of your hyperparameter and any values enclosed in brackets.
+Use this template as a starting point for a new sweep configuration. It illustrates the most common parameter and early-termination patterns. Replace `hyperparameter_name` with the name of your hyperparameter and any values enclosed in brackets.
 
 ```yaml title="config.yaml"
 program: [INSERT]
@@ -450,7 +434,7 @@ command:
   - "--test=True"
 ```
 
-The associated Python script (`run.py`) can then parse these command-line arguments using the `argparse` module:
+The associated Python script `run.py` can then parse these command-line arguments using the `argparse` module:
 
 ```python title="run.py"
 # run.py
