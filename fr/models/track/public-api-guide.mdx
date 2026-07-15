@@ -516,10 +516,14 @@ losses = [row["loss"] for row in history]
 ```
 
 <div id="get-paginated-data-from-history">
-  ### Obtenir des données paginées à partir de l’historique
+  ### Obtenir des données paginées dans l’historique
 </div>
 
-Si les métriques sont récupérées lentement par notre backend ou si les requêtes d’API expirent, vous pouvez essayer de réduire la taille de page dans `scan_history` afin d’éviter que les requêtes individuelles n’expirent. La taille de page par défaut est de 500, vous pouvez donc tester différentes valeurs pour voir ce qui fonctionne le mieux :
+Pour récupérer l’historique complet non échantillonné d’un run, utilisez `run.scan_history()`. L’historique non échantillonné inclut chaque enregistrement de l’historique du run. En revanche, la vue échantillonnée de `run.history()` peut omettre certains enregistrements.
+
+Le paramètre `page_size` contrôle le nombre maximum d’enregistrements d’historique récupérés par requête API et vaut par défaut `1000`. Si les requêtes sont lentes ou expirent, essayez une taille de page plus petite. Des pages plus petites peuvent réduire le risque d’expiration, mais nécessitent davantage de requêtes API.
+
+Le paramètre `keys` permet de filtrer indépendamment les métriques renvoyées.
 
 ```python
 import wandb
