@@ -30,6 +30,8 @@ Weave provides this functionality through two different workflows:
 
 Weave provides agent observability for the full lifecycle of agent conversations, including sessions, LLM calls, and tool executions. 
 
+Agent tracing is built on [OpenTelemetry (OTel)](https://opentelemetry.io/docs/concepts/) and the [GenAI semantic conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/). If your agent is already instrumented with OTel, you can send its existing spans to Weave without re-instrumenting your code. Weave accepts any OTel span and stores its attributes so you can query them. Spans that follow the GenAI agent conventions, such as `invoke_agent` and `execute_tool`, render as conversations, turns, and tool calls in the **Agents** view. To learn how to emit these spans from your own agent, see the [custom agents quickstart](/weave/custom-agents-quickstart).
+
 If you're building an agent, start with the [agent integration quickstart](/weave/agent-integration-quickstart) to pick a built-in integration, or follow the [custom agents quickstart](/weave/custom-agents-quickstart) to manually instrument your own. To learn how the Weave SDK models agents, see [Trace your agents](/weave/guides/tracking/trace-agents).
 
 If you're using a supported third-party agent harness, such as Claude Code or OpenAI Agent SDK, Weave instruments it automatically with no additional code. See [Integrations](/weave/guides/integrations) for all supported frameworks.

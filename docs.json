@@ -571,6 +571,7 @@
                               {
                                 "group": "LLM Providers",
                                 "pages": [
+                                  "weave/guides/integrations/inference",
                                   "weave/guides/integrations/bedrock",
                                   "weave/guides/integrations/anthropic",
                                   "weave/guides/integrations/cerebras",
@@ -611,7 +612,8 @@
                               {
                                 "group": "Protocols",
                                 "pages": [
-                                  "weave/guides/integrations/mcp"
+                                  "weave/guides/integrations/mcp",
+                                  "weave/guides/tracking/otel"
                                 ]
                               },
                               "weave/guides/integrations/local_models"
@@ -708,8 +710,7 @@
                           "weave/guides/evaluation/monitors",
                           "weave/guides/evaluation/custom-monitors",
                           "weave/guides/evaluation/automations",
-                          "weave/guides/evaluation/guardrails",
-                          "weave/guides/tracking/otel"
+                          "weave/guides/evaluation/guardrails"
                         ]
                       },
                       {
@@ -6082,6 +6083,10 @@
     ]
   },
   "redirects": [
+    {
+      "destination": "/weave/agent-integration-quickstart",
+      "source": "/weave/guides/tracking/trace-agent-integrations"
+    },
     {
       "destination": "/:slug*",
       "source": "/_print/:slug*"
