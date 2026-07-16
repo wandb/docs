@@ -8,7 +8,7 @@ the W&B Registry. Linking moves the version from a [private, project-level scope
 
 <Note>
 Before you start, check the following:
-* The types of artifacts that collection permits. For more information about collection types, see "Collection types" within [Create a collection](./create_collection).
+* The object types that collection permits. For more information about collection types, see "Collection types" within [Create a collection](./create_collection).
 * The registry that the collection belongs to already exists. To check that the registry exists, navigate to the [Registry App and search for](/models/registry/search_registry) the name of the registry.
 </Note>
 
@@ -48,25 +48,6 @@ weave_client.link_prompt_to_registry(
     )
 ```
 
-## Use a prompt linked to a registry
-
-Use the `weave.get()` method to retrieve a prompt linked to a registry. You can fetch a prompt by its alias or version number. The following code snippet shows how to fetch a prompt by its alias and version number.
-
-Replace the placeholder values enclosed in `<>` with your own:
-
-```python
-import weave
-
-# Fetch by alias
-prompt = weave.get("registry:///my-org/prompts/assistant-prompts:prod")
-
-# Fetch by version
-prompt = weave.get("registry:///my-org/prompts/assistant-prompts:v5")
-
-# Use the prompt
-print(prompt.content)  # "You are a helpful assistant..."
-```
-
 ## View linked prompts in a registry
 
 1. Navigate to the W&B Registry.
@@ -74,4 +55,56 @@ print(prompt.content)  # "You are a helpful assistant..."
 3. Select the name of the collection.
 4. From the list of prompt versions, select the version you want to access. Version numbers are incrementally assigned to each linked artifact version starting with `v0`.
 5. To view details about a prompt version, click the version. From the tabs in this page, you can view that version's overview, prompt, and use.
+
+## Use a prompt linked to a registry
+
+Use the `weave.get()` method to retrieve a prompt linked to a registry. You can fetch a prompt by its alias or version number. The following code snippet shows how to fetch a prompt by its alias and version number.
+
+To fetch a prompt by its alias, use the following URI path:
+
+```text
+registry:///{ORG}/{REGISTRY_NAME}/{COLLECTION_NAME}:{VERSION-OR-ALIAS}
+```
+
+Replace the placeholder values enclosed in `<>` with your own:
+
+<Tabs>
+<Tab title="Fetch by alias">
+
+```python
+# Fetch by alias
+URI_path = f"registry:///{ORG}/{REGISTRY_NAME}/{COLLECTION_NAME}:{ALIAS}"
+
+# Fetch by alias
+prompt = weave.get(URI_path)
+
+# Use the prompt
+print(prompt.content)
+```
+
+</Tab>
+<Tab title="Fetch by version">
+
+```python
+# Fetch by version
+URI_path = f"registry:///{ORG}/{REGISTRY_NAME}/{COLLECTION_NAME}:{VERSION}"
+
+# Fetch by version
+prompt = weave.get(URI_path)
+
+# Use the prompt
+print(prompt.content)
+```
+
+</Tab>
+</Tabs>
+
+
+W&B autogenerates the URI path and sample code to fetch your prompt. To view the sample code:
+
+1. Navigate to the W&B Registry.
+2. Select the name of the registry that you linked the prompt to.
+3. Select the name of the collection.
+4. From the list of prompt versions, select the version you want to access.
+5. Select the **Use** tab to view the sample code to fetch your prompt by alias or version number.
 
