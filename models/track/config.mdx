@@ -255,6 +255,27 @@ To load a configuration file other than `config-defaults.yaml`, use the `--confi
 python train.py --configs other-config.yaml
 ```
 
+### Nested dictionaries in config
+
+`config-defaults.yaml` supports nested dictionaries when a nested mapping is the `value` of a top-level key. You can also pass a nested dictionary directly to `wandb.init()`:
+
+```python
+import wandb
+
+config = {
+    "EPISODE_BUDGET": {
+        "cramped_room": 5000,
+        "coordination_ring": 5000,
+        "counter_circuit_o_1order": 5000,
+    }
+}
+
+with wandb.init(project="my_project", config=config) as run:
+    ...
+```
+
+Some W&B App views display nested config keys in dotted form (for example, `EPISODE_BUDGET.cramped_room`). Public API filters also use dotted keys. In Python, access nested values with normal dictionary indexing: `run.config["EPISODE_BUDGET"]["cramped_room"]`.
+
 ### Example use case for file-based configs
 Suppose you have a YAML file with some metadata for the run, and then a dictionary of hyperparameters in your Python script. You can save both in the nested `config` object:
 
