@@ -189,11 +189,13 @@ def convert_to_mintlify_format(docs_dir):
         if content.startswith("---"):
             continue
 
-        # Remove TypeDoc's in-page breadcrumb line (e.g. "[weave](../README.md) / Conversation").
+        # Remove TypeDoc's in-page breadcrumb line (e.g. "[weave](../README.md) / Conversation";
+        # on the README itself it's just the bare package name "weave" with no link).
         # Mintlify already renders breadcrumbs above the page title, so this line duplicates
         # them below the subhead. typedoc is configured with hideBreadcrumbs, but strip any
         # that slip through (older cached output, config regressions).
         content = re.sub(r'^\[weave\]\([^)]+\)(?: / [^\n]+)+\n+', '', content, flags=re.MULTILINE)
+        content = re.sub(r'\Aweave(?: / [^\n]+)*\n+', '', content)
 
         # Extract title from content
         title_match = re.search(r'^#\s+(.+)$', content, re.MULTILINE)
