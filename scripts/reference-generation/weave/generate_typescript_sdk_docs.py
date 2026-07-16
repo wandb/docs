@@ -153,7 +153,8 @@ def generate_typedoc(sdk_path, output_path):
         "excludeProtected": True,
         "excludeInternal": True,
         "disableSources": False,
-        "cleanOutputDir": True
+        "cleanOutputDir": True,
+        "hideBreadcrumbs": True
     }
     
     config_path = sdk_path / "typedoc.json"
@@ -187,7 +188,13 @@ def convert_to_mintlify_format(docs_dir):
         # Skip if already has frontmatter
         if content.startswith("---"):
             continue
-        
+
+        # Remove TypeDoc's in-page breadcrumb line (e.g. "[weave](../README.md) / Conversation").
+        # Mintlify already renders breadcrumbs above the page title, so this line duplicates
+        # them below the subhead. typedoc is configured with hideBreadcrumbs, but strip any
+        # that slip through (older cached output, config regressions).
+        content = re.sub(r'^\[weave\]\([^)]+\)(?: / [^\n]+)+\n+', '', content, flags=re.MULTILINE)
+
         # Extract title from content
         title_match = re.search(r'^#\s+(.+)$', content, re.MULTILINE)
         title = title_match.group(1) if title_match else md_file.stem
