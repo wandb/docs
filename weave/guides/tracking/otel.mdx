@@ -8,6 +8,10 @@ Weave supports import of OpenTelemetry compatible trace data through a dedicated
 
 This page covers the endpoint details, authentication, end-to-end examples in Python and TypeScript, how to forward traces through an OpenTelemetry Collector, how to organize traces into Weave threads, and the attribute mappings Weave applies to incoming spans.
 
+<Note>
+This endpoint feeds the **Traces** and **Threads** views. To send OTel spans from a multi-turn agent to the **Agents** view, use the agents endpoint instead. See [Send OpenTelemetry spans to the Agents view](/weave/guides/tracking/trace-agents-otel).
+</Note>
+
 ## Endpoint details
 
 * **Path**: `/otel/v1/traces`

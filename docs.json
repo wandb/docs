@@ -550,6 +550,7 @@
                         "pages": [
                           "weave/guides/tracking/trace-agents",
                           "weave/guides/tracking/trace-agent-integrations",
+                          "weave/guides/tracking/trace-agents-otel",
                           "weave/guides/tracking/view-agent-activity",
                           "weave/guides/tracking/view-agent-signals",
                           "weave/guides/tracking/trace-agents-attributes",
