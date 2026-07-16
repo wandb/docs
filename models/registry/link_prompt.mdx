@@ -1,0 +1,77 @@
+---
+title: Link a prompt to a collection
+---
+
+To make a prompt available to your organization, *link* it to a [collection](/models/registry/create_collection) in
+the W&B Registry. Linking moves the version from a [private, project-level scope to a shared, organization-level scope](/models/registry/create_registry#visibility-types).
+
+
+<Note>
+Before you start, check the following:
+* The types of artifacts that collection permits. For more information about collection types, see "Collection types" within [Create a collection](./create_collection).
+* The registry that the collection belongs to already exists. To check that the registry exists, navigate to the [Registry App and search for](/models/registry/search_registry) the name of the registry.
+</Note>
+
+1. Initialize a Weave client with `weave.init()`.
+2. Create a Weave-friendly prompt object with `weave.StringPrompt()`.
+3. Publish the prompt to Weave with [`weave.publish()`](/weave/reference/python-sdk#method-publish).
+4. Link the prompt to a collection in a registry with [`weave_client.link_prompt_to_registry()`](/weave/reference/python-sdk/trace/weave_client#method-link_prompt_to_registry). Pass the destination collection path to the `target_path` parameter. The path consists of the `wandb-registry-` prefix, the registry name, and the collection name:
+    ```text
+    wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}
+    ```
+
+Copy and paste the following code snippet into your Python script, replacing the placeholder values enclosed in `<>` with your own:
+
+```python
+import weave
+
+# Initialize Weave client
+weave_client = weave.init(project = "<project>")
+
+prompt = "<You are a helpful assistant...>"
+
+# Publish the prompt to Weave
+weave_prompt_ref = weave.publish(
+    obj = weave.StringPrompt(prompt),
+    name="<prompt_name>",
+)
+
+# Specify the collection and registry to link the artifact to
+REGISTRY_NAME = "<registry_name>"
+COLLECTION_NAME = "<collection_name>"
+registry_target = f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
+
+# Link the prompt to a collection in the specified registry
+weave_client.link_prompt_to_registry(
+    prompt=weave_prompt_ref,
+    target_path=registry_target
+    )
+```
+
+## Use a prompt linked to a registry
+
+Use the `weave.get()` method to retrieve a prompt linked to a registry. You can fetch a prompt by its alias or version number. The following code snippet shows how to fetch a prompt by its alias and version number.
+
+Replace the placeholder values enclosed in `<>` with your own:
+
+```python
+import weave
+
+# Fetch by alias
+prompt = weave.get("registry:///my-org/prompts/assistant-prompts:prod")
+
+# Fetch by version
+prompt = weave.get("registry:///my-org/prompts/assistant-prompts:v5")
+
+# Use the prompt
+print(prompt.content)  # "You are a helpful assistant..."
+```
+
+## View linked prompts in a registry
+
+1. Navigate to the W&B Registry.
+2. Select the name of the registry that you linked the prompt to.
+3. Select the name of the collection.
+4. From the list of prompt versions, select the version you want to access. Version numbers are incrementally assigned to each linked artifact version starting with `v0`.
+5. To view details about a prompt version, click the version. From the tabs in this page, you can view that version's overview, prompt, and use.
+
