@@ -592,6 +592,10 @@ This renders a markdown block similar to:
 
 Add HTML elements such as headings and lists to structure your report. You can add them interactively with the App UI or programmatically with the W&B SDK.
 
+<Note>
+When you log an image with `wandb.Image`, W&B saves the file under a generated name that includes a content hash, such as `media/images/<key>_<step>_<hash>.png`, instead of the original filename. As a result, an `<img>` tag or markdown image that references the original filename doesn't resolve. To embed a logged image in a report, log the image first, then use the generated file path as the image's `src` value.
+</Note>
+
 <Tabs>
 <Tab title="App UI">
 Enter a forward slash (`/`) in the report to display a dropdown menu. From the dropdown, select a type of text block. For example, to create an H2 heading block, select the `Heading 2` option.
