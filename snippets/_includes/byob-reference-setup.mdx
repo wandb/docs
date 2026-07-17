@@ -20,14 +20,14 @@ Reference media rendering works in three steps:
 2. You log that URI as a string value anywhere in a trace: an Op input or output, or an agent tool result. The field name does not matter.
 3. When you open the trace, Weave resolves the URI to a short-lived [presigned URL](/platform/hosting/data-security/presigned-urls) and renders it inline. The file extension decides how it renders. Common image formats (such as `.png`, `.jpg`, `.gif`) and video formats (such as `.mp4`, `.mov`, `.webm`) render inline. Other formats render as a download link.
 
-Weave only resolves URIs that point at a bucket registered for your team. Supported schemes are `s3://`, `gs://`, and `gcs://`.
+Weave only resolves URIs that point at a bucket registered for your team. Supported schemes are `s3://` and `gs://`.
 
 ## Prerequisites
 
 - This feature is supported only in [W&B Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud).
 - A W&B account and [API key](https://wandb.ai/authorize).
 - A cloud storage bucket you control (S3 or GCS), containing at least one object.
-- Permission to edit your team settings.
+- Organization admin permissions. Adding a reference bucket requires the same permission as creating a team in the organization.
 
 ## Configure your bucket
 
@@ -131,7 +131,10 @@ Register the bucket in your team settings so Weave can presign and display refer
 
 1. Go to your team settings page (`https://wandb.ai/[YOUR-TEAM]/settings`).
 2. In the **Reference buckets** section, select **Add bucket**.
-3. Enter your bucket URI, for example `s3://[YOUR-BUCKET]`, and save.
+3. Select your cloud provider (**AWS** or **Google Cloud**).
+4. For the bucket name, enter `[YOUR-BUCKET]` only — without the `s3://` or `gs://` prefix.
+5. Enter the path to an existing object in the bucket. Weave reads it once to verify it has access.
+6. Save.
 
 <Warning>
 Until the bucket is registered, referenced URIs do not render. Registration is what lets Weave presign and display the object.
