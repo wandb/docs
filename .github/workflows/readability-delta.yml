@@ -88,6 +88,10 @@ jobs:
         env:
           DOCENGINE_TOKEN: ${{ secrets.DOCENGINE_TOKEN }}
         run: |
+          if [ -z "${DOCENGINE_TOKEN:-}" ]; then
+            echo "::notice::Readability check: DOCENGINE_TOKEN not set; skipping docs-skills submodule checkout."
+            exit 0
+          fi
           git config --global url."https://x-access-token:${DOCENGINE_TOKEN}@github.com/".insteadOf "https://github.com/"
           git submodule update --init --recursive .claude
 
@@ -112,7 +116,9 @@ jobs:
         # falls back to the informational notice rather than failing the PR.
         continue-on-error: true
         if: steps.fork.outputs.is_fork != 'true'
-        run: pip install -r scripts/readability/requirements.txt
+        run: |
+          pip install textstat==0.7.13
+          pip install -r scripts/readability/requirements.txt || true
 
       # Resolve base and head SHAs. For pull_request, GitHub provides them. For
       # workflow_dispatch, diff the merge-base of the current ref against the
