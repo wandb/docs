@@ -7,16 +7,15 @@ import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/deepchecks/deepchecks/blob/0.5.0-1-g5380093/docs/source/examples/guides/export_outputs_to_wandb.ipynb" />
 
-DeepChecks を使うと、データの整合性の確認、分布の調査、データ分割の検証、モデルの評価、異なるモデル同士の比較など、機械学習モデルとデータを最小限の手間で検証できます。
+DeepChecks を使うと、機械学習モデルとデータを最小限の手間で検証できます。データの整合性を確認し、分布を調査し、データ分割を検証し、モデルを評価し、異なるモデルを比較できます。このページでは、DeepChecks と W&amp;B のインテグレーションの使い方を説明します。これにより、検証結果やテストスイートを Experiments とあわせてログできます。
 
-[DeepChecks と wandb インテグレーションの詳細はこちら -&gt;](https://docs.deepchecks.com/stable/general/usage/exporting_results/auto_examples/plot_exports_output_to_wandb.html)
+詳細は、[DeepChecks W&amp;B インテグレーションガイド](https://docs.deepchecks.com/stable/general/usage/exporting_results/auto_examples/plot_exports_output_to_wandb.html)を参照してください。
 
-
-<div id="getting-started">
+<div id="get-started">
   ## はじめに
 </div>
 
-DeepChecks で W&amp;B を使用するには、まず [W&amp;B アカウント](https://wandb.ai/site) にサインアップする必要があります。DeepChecks の W&amp;B インテグレーションを使えば、次のようにすぐに使い始められます。
+DeepChecks で W&amp;B を使用するには、まず [W&amp;B アカウント](https://wandb.ai/site) に登録してください。DeepChecks の W&amp;B インテグレーションでは、1 つのチェックを実行し、その結果を W&amp;B に送信するだけで使い始められます。
 
 ```python
 import wandb
@@ -33,7 +32,7 @@ result = ModelErrorAnalysis()
 result.to_wandb()
 ```
 
-DeepChecks のテストスイート全体を W&amp;B にログすることもできます。
+個々のチェックをログするだけでなく、DeepChecks のテストスイート全体を W&amp;B にログすることもできます:
 
 ```python
 import wandb
@@ -46,17 +45,16 @@ from deepchecks.suites import full_suite
 # DeepChecksテストスイートを作成して実行する
 suite_result = full_suite().run(...)
 
-# 結果をwandbにプッシュする
-# wandb.initに必要な設定や引数をここで渡すことができる
+# 結果をwandbにpushする
+# wandb.initに必要な設定や引数をここで渡すことができます
 suite_result.to_wandb(project="my-suite-project", config={"suite-name": "full-suite"})
 ```
-
 
 <div id="example">
   ## 例
 </div>
 
-[このReport](https://wandb.ai/cayush/deepchecks/reports/Validate-your-Data-and-Models-with-Deepchecks-and-W-B--VmlldzoxNjY0ODc5)では、DeepChecks と W&amp;B を組み合わせることで得られる強力な機能を紹介しています。
+このインテグレーションが実際にどのようなものかを確認するには、[Deepchecks と W&amp;B を使用してデータとモデルを検証する report](https://wandb.ai/cayush/deepchecks/reports/Validate-your-Data-and-Models-with-Deepchecks-and-W-B--VmlldzoxNjY0ODc5)をご覧ください。ここでは、DeepChecks と W&amp;B を一緒に使用する方法を紹介しています。
 
 <Frame>
   <img src="/images/integrations/deepchecks_example.png" alt="Deepchecks のデータ検証結果" />

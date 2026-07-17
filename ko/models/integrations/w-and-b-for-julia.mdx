@@ -1,11 +1,11 @@
 ---
-description: "Julia와 W&B를 통합해 Julia 프로그램에서 실험을 추적하고 메트릭을 기록하며 모델 성능을 시각화하세요."
-title: W&B for Julia
+description: "Julia 프로그램에서 실험을 추적하고 메트릭을 기록하며 모델 성능을 시각화할 수 있도록 W&B를 Julia와 통합하세요."
+title: Julia용 W&B
 ---
 
-Julia 프로그래밍 언어로 머신 러닝 실험을 수행하는 사용자를 위해, 커뮤니티 기여자가 [wandb.jl](https://github.com/avik-pal/Wandb.jl)이라는 비공식 Julia 바인딩 세트를 만들었습니다.
+Julia에서 머신 러닝 실험을 실행한다면, 커뮤니티 기여자가 만든 비공식 Julia 바인딩인 [`wandb.jl`](https://github.com/avik-pal/Wandb.jl)을 사용할 수 있습니다.
 
-예제는 wandb.jl 저장소의 [문서](https://github.com/avik-pal/Wandb.jl/tree/main/docs/src/examples)에서 확인할 수 있습니다. 해당 문서의 &quot;Getting Started&quot; 예제는 다음과 같습니다:
+더 많은 예시는 [`wandb.jl` examples 디렉터리](https://github.com/avik-pal/Wandb.jl/tree/main/docs/src/examples)에서 확인하세요. 다음 코드는 `wandb.jl` 저장소의 시작하기 예시입니다:
 
 ```julia
 using Wandb, Dates, Logging
@@ -25,10 +25,10 @@ global_logger(lg)
 for x ∈ 1:50
     acc = log(1 + x + rand() * get_config(lg, "learning_rate") + rand() + get_config(lg, "dropout"))
     loss = 10 - log(1 + x + rand() + x * get_config(lg, "learning_rate") + rand() + get_config(lg, "dropout"))
-    # 스크립트에서 W&B로 메트릭을 기록합니다
+    # 스크립트의 메트릭을 W&B에 기록합니다
     @info "metrics" accuracy=acc loss=loss
 end
 
-# run을 종료합니다
+# run 종료
 close(lg)
 ```
