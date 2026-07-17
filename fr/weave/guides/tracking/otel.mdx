@@ -1310,6 +1310,7 @@ Weave prend en charge les conventions d&#39;attributs des frameworks d&#39;obser
 * **Traceloop**: instrumentation OpenLLMetry (`traceloop.entity.*`, `traceloop.span.kind`).
 * **Google Vertex AI**: attributs d&#39;agent de Vertex AI (`gcp.vertex.agent.*`).
 * **OpenLit**: attributs d&#39;observabilité d&#39;OpenLit (`gen_ai.content.completion`).
+* **Logfire / Pydantic AI**: instrumentation de Pydantic AI par Logfire (`gen_ai.input.messages`, `gen_ai.output.messages`, `pydantic_ai.all_messages`, `final_result`).
 * **Langfuse**: attributs de tracing de Langfuse (`langfuse.startTime`, `langfuse.endTime`).
 
 <div id="attribute-reference">
@@ -1322,6 +1323,8 @@ Weave prend en charge les conventions d&#39;attributs des frameworks d&#39;obser
 | `gen_ai.prompt`                   | `inputs`                      | Prompt du modèle d’IA ou liste de messages.               | Liste, dict, chaîne               | `[{"role":"user","content":"abc"}]`            |
 | `input.value`                     | `inputs`                      | Valeur d’entrée pour l’appel du modèle.                   | Chaîne, liste, dict               | `{"text":"Raconte une blague"}`                |
 | `mlflow.spanInputs`               | `inputs`                      | Données d’entrée du span.                                 | Chaîne, liste, dict               | `["texte d’invite"]`                           |
+| `gen_ai.input.messages`           | `inputs`                      | Messages d’entrée émis par Logfire.                       | Liste, dict, chaîne               | `[{"role":"user","parts":[...]}]`              |
+| `pydantic_ai.all_messages`        | `inputs`                      | Tous les messages d’un run d’agent Pydantic AI.           | Liste                             | `[{"role":"user","content":"abc"}]`            |
 | `traceloop.entity.input`          | `inputs`                      | Données d’entrée de l’entité.                             | Chaîne, liste, dict               | `"Traduisez ceci en français"`                 |
 | `gcp.vertex.agent.tool_call_args` | `inputs`                      | Arguments de l’appel à l’outil.                           | Dict                              | `{"args":{"query":"météo à SF"}}`              |
 | `gcp.vertex.agent.llm_request`    | `inputs`                      | Corps de la requête LLM.                                  | Dict                              | `{"contents":[{"role":"user","parts":[...]}]}` |
@@ -1330,7 +1333,9 @@ Weave prend en charge les conventions d&#39;attributs des frameworks d&#39;obser
 | `ai.response`                     | `outputs`                     | Texte ou données de réponse du modèle.                    | Chaîne, liste, dict               | `"Voici un haïku..."`                          |
 | `gen_ai.completion`               | `outputs`                     | Résultat de génération de l’IA.                           | Chaîne, liste, dict               | `"Texte de complétion"`                        |
 | `output.value`                    | `outputs`                     | Valeur de sortie du modèle.                               | Chaîne, liste, dict               | `{"text":"Texte de réponse"}`                  |
+| `gen_ai.output.messages`          | `outputs`                     | Messages de sortie émis par Logfire.                      | Liste, dict, chaîne               | `[{"role":"assistant","parts":[...]}]`         |
 | `mlflow.spanOutputs`              | `outputs`                     | Données de sortie du span.                                | String, liste, dict               | `["answer"]`                                   |
+| `final_result`                    | `outputs`                     | Sortie finale d’un run d’agent Pydantic AI.               | Chaîne, dict                      | `"Texte de réponse"`                           |
 | `gen_ai.content.completion`       | `outputs`                     | Résultat de complétion de contenu.                        | String                            | `"Texte de réponse"`                           |
 | `traceloop.entity.output`         | `outputs`                     | Données de sortie de l’entité.                            | String, liste, dict               | `"Texte de réponse"`                           |
 | `gcp.vertex.agent.tool_response`  | `outputs`                     | Réponse d’exécution de l’outil.                           | dict, chaîne                      | `{"toolResponse":"ok"}`                        |
@@ -1348,6 +1353,7 @@ Weave prend en charge les conventions d&#39;attributs des frameworks d&#39;obser
 | `llm.token_count.total`           | `usage.total_tokens`          | Nombre total de tokens.                                   | Entier                            | `70`                                           |
 | `gen_ai.system`                   | `attributes.system`           | Prompt système ou consignes.                              | Chaîne de caractères              | `"Vous êtes un assistant utile."`              |
 | `llm.system`                      | `attributes.system`           | Prompt système ou consignes.                              | Chaîne de caractères              | `"Vous êtes un assistant serviable."`          |
+| `gen_ai.system_instructions`      | `attributes.system`           | Prompt système ou consignes.                              | String                            | `"You are a helpful assistant."`               |
 | `weave.span.kind`                 | `attributes.kind`             | Type ou catégorie du span.                                | Chaîne de caractères              | `"llm"`                                        |
 | `traceloop.span.kind`             | `attributes.kind`             | Type ou catégorie du span.                                | String                            | `"llm"`                                        |
 | `openinference.span.kind`         | `attributes.kind`             | Type ou catégorie du span.                                | String                            | `"llm"`                                        |
