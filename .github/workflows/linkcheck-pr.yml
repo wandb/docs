@@ -107,6 +107,28 @@ jobs:
             core.setOutput('head_sha', pr.head.sha);
             core.setOutput('deploy_url', deployUrl);
 
+      - name: Resolve GitHub-style PR diff
+        id: pr-diff
+        if: |
+          (github.event_name == 'deployment_status' &&
+           steps.pr-context.outputs.pr_number != '') ||
+          (github.event_name == 'pull_request' &&
+           github.event.pull_request.head.repo.fork == true)
+        env:
+          TARGET_SHA: ${{ steps.pr-context.outputs.base_sha || github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ steps.pr-context.outputs.head_sha || github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+
+          if ! merge_base_sha=$(git merge-base "$TARGET_SHA" "$HEAD_SHA"); then
+            echo "::error::No merge base between target $TARGET_SHA and head $HEAD_SHA"
+            exit 1
+          fi
+
+          echo "merge_base_sha=$merge_base_sha" >> "$GITHUB_OUTPUT"
+          echo "head_sha=$HEAD_SHA" >> "$GITHUB_OUTPUT"
+          echo "PR diff: $merge_base_sha...$HEAD_SHA (target tip: $TARGET_SHA)"
+
       - name: Get changed documentation files
         id: changed-files
         # Skip this for fork PRs with no doc changes (already checked above)
@@ -120,8 +142,8 @@ jobs:
           github.event_name == 'workflow_dispatch'
         uses: tj-actions/changed-files@9426d40962ed5378910ee2e21d5f8c6fcbf2dd96 # v47.0.6
         with:
-          base_sha: ${{ steps.pr-context.outputs.base_sha || github.event.pull_request.base.sha }}
-          sha: ${{ steps.pr-context.outputs.head_sha || github.event.pull_request.head.sha }}
+          base_sha: ${{ steps.pr-diff.outputs.merge_base_sha }}
+          sha: ${{ steps.pr-diff.outputs.head_sha }}
           files: |
             **/*.mdx
 
@@ -165,6 +187,39 @@ jobs:
             
             core.warning(`Unsupported event type: ${context.eventName}`);
             return null;
+
+      - name: Clear stale comment when no documentation changed
+        if: |
+          github.event_name == 'deployment_status' &&
+          steps.pr-context.outputs.pr_number != '' &&
+          steps.changed-files.outputs.any_changed != 'true'
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
+        with:
+          script: |
+            const identifier = '<!-- lychee-link-checker-comment -->';
+            const prNumber = Number('${{ steps.pr-context.outputs.pr_number }}');
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+            });
+
+            const existingComment = comments.find(comment =>
+              comment.body?.includes(identifier) && comment.user?.login === 'github-actions[bot]'
+            );
+
+            if (!existingComment) {
+              core.info(`No existing link-check comment on PR #${prNumber}.`);
+              return;
+            }
+
+            await github.rest.issues.updateComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: existingComment.id,
+              body: `${identifier}\n## 🔗 Link Checker Results\n\n✅ **No documentation links to check**\n\nThis PR does not change any \`.mdx\` files.`,
+            });
+            core.info(`Cleared stale link-check results on PR #${prNumber}.`);
 
       - name: Debug - Show lychee config being used
         if: |
@@ -215,8 +270,8 @@ jobs:
            github.event_name == 'workflow_dispatch')
         env:
           EVENT_NAME: ${{ github.event_name }}
-          BASE_SHA: ${{ steps.pr-context.outputs.base_sha || github.event.pull_request.base.sha }}
-          HEAD_SHA: ${{ steps.pr-context.outputs.head_sha || github.event.pull_request.head.sha }}
+          BASE_SHA: ${{ steps.pr-diff.outputs.merge_base_sha }}
+          HEAD_SHA: ${{ steps.pr-diff.outputs.head_sha }}
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
         run: |
           set -euo pipefail
@@ -258,7 +313,7 @@ jobs:
            (github.event_name == 'deployment_status' && 
             steps.changed-files.outputs.any_changed == 'true') ||
            github.event_name == 'workflow_dispatch')
-        uses: lycheeverse/lychee-action@8646ba30535128ac92d33dfc9133794bfdd9b411 # v2
+        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2
         with:
           fail: false
           # Don't fail if no files to check
@@ -267,14 +322,16 @@ jobs:
           format: markdown
           # GitHub token for API rate limiting
           token: ${{ secrets.GITHUB_TOKEN }}
-          # Use deployment URL (from Mintlify preview) or fallback to production
-          # Same-repo PRs: Wait for deployment and use preview URL
-          # Fork PRs: Run immediately and check against production (no preview available)
+          # Check internal links against the repository tree. A single --base-url
+          # cannot preserve each changed page's directory when resolving relative links.
+          # Mintlify validation separately verifies the rendered route structure.
           # Inputs come from lychee-pr-inputs.txt (see "Write lychee input file list") so
           # we do not pass every path on the shell argv (ARG_MAX on large PRs).
           args: >-
             --config lychee.toml
-            --base-url ${{ steps.pr-context.outputs.deploy_url || 'https://docs.wandb.ai' }}
+            --root-dir ${{ github.workspace }}
+            --fallback-extensions mdx
+            --index-files index.mdx,.
             --files-from lychee-pr-inputs.txt
 
       - name: Skip comment for fork PR
@@ -308,22 +365,21 @@ jobs:
             
             const identifier = '<!-- lychee-link-checker-comment -->';
             let commentBody = identifier + '\n';
-            
-            const checkedAgainst = deployUrl || 'https://docs.wandb.ai';
+            const previewContext = deployUrl ? `\n_Preview: ${deployUrl}_\n` : '';
             
             if (exitCode === 0) {
               // Success - no broken links
               commentBody += '## 🔗 Link Checker Results\n\n';
               commentBody += '✅ **All links are valid!**\n\n';
               commentBody += 'No broken links were detected.\n';
-              commentBody += `\n_Checked against: ${checkedAgainst}_\n`;
+              commentBody += previewContext;
             } else {
               // Issues found
               try {
                 const report = fs.readFileSync('./lychee/out.md', 'utf8');
                 commentBody += '## 🔗 Link Checker Results\n\n';
                 commentBody += '⚠️ **Some issues were detected**\n\n';
-                commentBody += `_Checked against: ${checkedAgainst}_\n\n`;
+                commentBody += previewContext;
                 commentBody += '---\n\n';
                 commentBody += report;
               } catch (e) {

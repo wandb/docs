@@ -26,12 +26,16 @@ Remplacez `<your-subdomain>` par le domaine W&amp;B unique de votre organisation
   ## Authentification et acheminement
 </div>
 
-Weave utilise l’en-tête `wandb-api-key` pour authentifier les requêtes, ainsi que les attributs de ressource de votre `TracerProvider`, afin d’acheminer les spans vers l’entité et le projet appropriés. Incluez votre clé API W&amp;B dans l’en-tête `wandb-api-key`, puis spécifiez les clés suivantes comme attributs de ressource OpenTelemetry dans votre classe `TracerProvider` :
+Weave utilise l’en-tête `wandb-api-key` pour authentifier les requêtes et les attributs de ressource définis dans votre `TracerProvider` pour acheminer les spans vers la bonne entité et le bon projet. Transmettez votre clé API W&amp;B dans l’en-tête `wandb-api-key`, puis spécifiez les clés suivantes comme attributs de ressource OpenTelemetry dans votre classe `TracerProvider` :
 
-* `wandb.entity` : Le nom de votre équipe W&amp;B ou de votre utilisateur.
-* `wandb.project` : Le nom du projet vers lequel envoyer les traces.
+* `wandb.entity` : le nom de votre équipe W&amp;B ou de votre utilisateur.
+* `wandb.project` : le nom du projet auquel envoyer les traces.
 
-L’exemple suivant montre comment configurer l’authentification et l’acheminement du projet :
+L’exemple suivant montre comment configurer l’authentification et l’acheminement vers le projet :
+
+<Warning>
+  `WEAVE_OTLP_ENDPOINT` ci-dessous est une variable locale, et non la variable d’environnement `OTEL_EXPORTER_OTLP_ENDPOINT` du SDK OTel. Elle est définie avec le chemin complet des traces (`.../otel/v1/traces`). Elle est transmise explicitement à `endpoint=`/`url:` sur l’exporter, de sorte que le SDK envoie les requêtes vers cette URL telle quelle. Si, à la place, vous `export` une valeur comme véritable variable `OTEL_EXPORTER_OTLP_ENDPOINT` et construisez l’exporter sans argument (par exemple, `OTLPSpanExporter()`), le SDK ajoute lui-même `/v1/traces`. Dans ce cas, cette variable doit donc contenir l’URL de base (`.../otel`) à la place, sinon vous obtenez un chemin dupliqué (`.../otel/v1/traces/v1/traces`), une `404` et des spans ignorés silencieusement. Il en va de même pour `OTEL_EXPORTER_OTLP_TRACES_ENDPOINT` : elle doit également contenir le chemin complet des traces, puisque le SDK ne lui ajoute pas non plus `/v1/traces`.
+</Warning>
 
 <CodeGroup>
   ```python Python lines {7,8}
@@ -44,13 +48,13 @@ L’exemple suivant montre comment configurer l’authentification et l’achemi
   ENTITY = "<your-team-name>"
   PROJECT = "<your-project-name>"
 
-  OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+  WEAVE_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
 
   # Créez une clé API sur https://wandb.ai/settings
   WANDB_API_KEY = os.environ["WANDB_API_KEY"]
 
   exporter = OTLPSpanExporter(
-      endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+      endpoint=WEAVE_OTLP_ENDPOINT,
       headers={"wandb-api-key": WANDB_API_KEY},
   )
 
@@ -69,13 +73,13 @@ L’exemple suivant montre comment configurer l’authentification et l’achemi
   const ENTITY = "<your-team-name>";
   const PROJECT = "<your-project-name>";
 
-  const OTEL_EXPORTER_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
+  const WEAVE_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
 
   // Créez une clé API sur https://wandb.ai/settings
   const WANDB_API_KEY = process.env.WANDB_API_KEY!;
 
   const exporter = new OTLPTraceExporter({
-    url: OTEL_EXPORTER_OTLP_ENDPOINT,
+    url: WEAVE_OTLP_ENDPOINT,
     headers: { "wandb-api-key": WANDB_API_KEY },
   });
 
@@ -145,13 +149,13 @@ Installez d’abord les dépendances requises :
     ENTITY = "<your-team-name>"
     PROJECT = "<your-project-name>"
 
-    OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+    WEAVE_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
 
     # Créez une clé API sur https://wandb.ai/settings
     WANDB_API_KEY = os.environ["WANDB_API_KEY"]
 
     exporter = OTLPSpanExporter(
-        endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+        endpoint=WEAVE_OTLP_ENDPOINT,
         headers={"wandb-api-key": WANDB_API_KEY},
     )
 
@@ -213,13 +217,13 @@ Installez d’abord les dépendances requises :
     const ENTITY = "<your-team-name>";
     const PROJECT = "<your-project-name>";
 
-    const OTEL_EXPORTER_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
+    const WEAVE_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
 
     // Créez une clé API sur https://wandb.ai/settings
     const WANDB_API_KEY = process.env.WANDB_API_KEY!;
 
     const exporter = new OTLPTraceExporter({
-      url: OTEL_EXPORTER_OTLP_ENDPOINT,
+      url: WEAVE_OTLP_ENDPOINT,
       headers: { "wandb-api-key": WANDB_API_KEY },
     });
 
@@ -318,13 +322,13 @@ Installez d’abord les dépendances requises :
     ENTITY = "<your-team-name>"
     PROJECT = "<your-project-name>"
 
-    OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+    WEAVE_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
 
     # Créez une clé API sur https://wandb.ai/settings
     WANDB_API_KEY = os.environ["WANDB_API_KEY"]
 
     exporter = OTLPSpanExporter(
-        endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+        endpoint=WEAVE_OTLP_ENDPOINT,
         headers={"wandb-api-key": WANDB_API_KEY},
     )
 
@@ -380,13 +384,13 @@ Installez d’abord les dépendances requises :
     const ENTITY = "<your-team-name>";
     const PROJECT = "<your-project-name>";
 
-    const OTEL_EXPORTER_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
+    const WEAVE_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
 
     // Créez une clé API sur https://wandb.ai/settings
     const WANDB_API_KEY = process.env.WANDB_API_KEY!;
 
     const exporter = new OTLPTraceExporter({
-      url: OTEL_EXPORTER_OTLP_ENDPOINT,
+      url: WEAVE_OTLP_ENDPOINT,
       headers: { "wandb-api-key": WANDB_API_KEY },
     });
 
@@ -491,14 +495,14 @@ Installez d’abord les dépendances requises :
     ENTITY = "<your-team-name>"
     PROJECT = "<your-project-name>"
 
-    OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+    WEAVE_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
 
     # Créez une clé API sur https://wandb.ai/settings
     WANDB_API_KEY = os.environ["WANDB_API_KEY"]
 
     # Configurer l'exportateur OTLP
     exporter = OTLPSpanExporter(
-        endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+        endpoint=WEAVE_OTLP_ENDPOINT,
         headers={"wandb-api-key": WANDB_API_KEY},
     )
 
@@ -563,13 +567,13 @@ Installez d’abord les dépendances requises :
     const ENTITY = "<your-team-name>";
     const PROJECT = "<your-project-name>";
 
-    const OTEL_EXPORTER_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
+    const WEAVE_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
 
     // Créez une clé API sur https://wandb.ai/settings
     const WANDB_API_KEY = process.env.WANDB_API_KEY!;
 
     const exporter = new OTLPTraceExporter({
-      url: OTEL_EXPORTER_OTLP_ENDPOINT,
+      url: WEAVE_OTLP_ENDPOINT,
       headers: { "wandb-api-key": WANDB_API_KEY },
     });
 
@@ -826,10 +830,10 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
       PROJECT = "<your-project-name>"
       WANDB_API_KEY = os.environ["WANDB_API_KEY"]
 
-      OTEL_EXPORTER_OTLP_ENDPOINT = "https://trace.wandb.ai/otel/v1/traces"
+      WEAVE_OTLP_ENDPOINT = "https://trace.wandb.ai/otel/v1/traces"
 
       exporter = OTLPSpanExporter(
-          endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+          endpoint=WEAVE_OTLP_ENDPOINT,
           headers={"wandb-api-key": WANDB_API_KEY},
       )
 
@@ -872,10 +876,10 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
       }
 
       // Configuration d’OTel
-      const OTEL_EXPORTER_OTLP_ENDPOINT = "https://trace.wandb.ai/otel/v1/traces";
+      const WEAVE_OTLP_ENDPOINT = "https://trace.wandb.ai/otel/v1/traces";
 
       const exporter = new OTLPTraceExporter({
-        url: OTEL_EXPORTER_OTLP_ENDPOINT,
+        url: WEAVE_OTLP_ENDPOINT,
         headers: { "wandb-api-key": WANDB_API_KEY },
       });
 
