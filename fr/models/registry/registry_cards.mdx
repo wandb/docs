@@ -5,6 +5,10 @@ description: "Ajoutez des descriptions et de la documentation aux collections de
 
 Ajoutez un texte clair et accessible à vos collections pour aider les utilisateurs à comprendre la finalité de la collection et les Artifacts qu&#39;elle contient.
 
+<Frame>
+  <img src="/images/registry/registry_card.gif" alt="Collection card" />
+</Frame>
+
 Selon la collection, vous pouvez inclure des informations sur les données d&#39;entraînement, l&#39;architecture du modèle, la tâche, la licence, les références et le déploiement. La liste suivante présente quelques éléments qu&#39;il peut être utile de documenter dans une collection :
 
 W&amp;B recommande d&#39;inclure au minimum les détails suivants :
@@ -25,6 +29,7 @@ Si votre collection contient un modèle de machine learning, envisagez d&#39;inc
 * **Tâche** : Le type précis de tâche ou de problème pour lequel le modèle de la collection est conçu. Il s&#39;agit d&#39;une catégorisation de la capacité prévue du modèle.
 * **Désérialiser le modèle** : Indiquez comment un membre de votre équipe peut charger le modèle en mémoire.
 * **Déploiement** : Détails sur la façon et l&#39;endroit où le modèle est déployé, ainsi que des indications sur la manière dont le modèle est intégré à d&#39;autres systèmes d&#39;entreprise, comme des plateformes d&#39;orchestration de flux de travail.
+* **Comparer les métriques** : Comparez les métriques entre différentes versions des artifacts liés à la collection. Cela aide les utilisateurs à comprendre comment le modèle a évolué au fil du temps et comment les différentes versions se comportent sur des tâches spécifiques.
 
 <div id="add-a-description-to-a-collection">
   ## Ajouter une description à une collection
@@ -37,7 +42,13 @@ Ajoutez, de manière interactive ou programmatique, une description à une colle
     1. Accédez à [W&amp;B Registry](https://wandb.ai/registry/).
     2. Cliquez sur une collection.
     3. Sélectionnez **Voir les détails** à côté du nom de la collection.
-    4. Dans le champ **Description**, renseignez des informations sur votre collection. Mettez le texte en forme avec la [syntaxe Markdown](https://www.markdownguide.org/).
+    4. Sélectionnez l’onglet **Collection card**.
+    5. Cliquez sur le bouton **Edit card**.
+    6. Dans l’éditeur de Collection card, ajoutez une description à la collection. Vous pouvez utiliser la mise en forme Markdown pour mettre en forme votre texte.
+
+    <Tip>
+      Mettez le texte en forme avec la [syntaxe Markdown](https://www.markdownguide.org/). Utilisez la barre oblique (`/`) pour afficher une liste déroulante des options de mise en forme Markdown disponibles.
+    </Tip>
   </Tab>
 
   <Tab title="Python SDK">
@@ -67,3 +78,18 @@ Ajoutez, de manière interactive ou programmatique, une description à une colle
     ```
   </Tab>
 </Tabs>
+
+<div id="compare-metrics-across-artifacts-versions">
+  ## Comparer les métriques entre les versions d&#39;artifact
+</div>
+
+Dans l&#39;éditeur de Collection card, vous pouvez comparer les métriques entre différentes versions d&#39;artifact liées à la collection.
+
+1. Dans l&#39;éditeur de Collection card, saisissez une barre oblique (`/`) pour ouvrir une liste déroulante des options de mise en forme Markdown disponibles.
+2. Sélectionnez **Comparer les métriques** pour ajouter un tableau de comparaison des métriques à la Collection card.
+
+L&#39;image suivante montre `val/loss` pour 5 versions d&#39;artifact différentes liées à la collection `transaction-risk-model`.
+
+<Frame>
+  <img src="/images/registry/compare_linked_artifact_versions.png" alt="Comparer et afficher les métriques d'artifact entre les versions dans la Collection card" />
+</Frame>
