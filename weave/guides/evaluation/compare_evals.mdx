@@ -12,25 +12,25 @@ This guide is for Weave users who want to compare logged evaluations in the Weav
 
 To open the Compare evaluations view:
 
-1. In the sidebar, select **Evals**.
+1. In the Weave project sidebar, select **Evals**.
 2. In the evaluations table, select the checkboxes for two or more evaluations that you want to compare.
-3. In the action bar at the top of the table, select **Compare**.
+3. In the evaluation table toolbar, select **Compare**.
 
 <Frame>
-  <img src="/weave/guides/evaluation/img/eval-compare-select.png" alt="Evaluations table with three evaluations selected. The Compare action is highlighted in the action bar at the top of the table." />
+  <img src="/weave/guides/evaluation/img/eval-compare-select.png" alt="Evaluations table with three evaluations selected. The Compare action is highlighted in the evaluation table toolbar." />
 </Frame>
 
-The Compare evaluations view opens with each selected evaluation displayed as a token in the *comparison bar* at the top of the page. The leftmost evaluation is the baseline by default, and each other evaluation is compared against it.
+The **Compare evaluations** view opens with each selected evaluation displayed as a token in the *comparison bar* at the top of the page. The leftmost evaluation is the baseline by default, and each other evaluation is compared against it.
 
 ## Review the comparison
 
 The Compare evaluations view has two tabs:
 
 * **Summary**: Aggregate charts for each metric on the compared evaluations, followed by a properties and metrics table.
-* **Dataset results**: Per-row results, so you can compare outputs example by example.
+* **Dataset results**: A per-example results table for comparing outputs row by row, plus scatter plots for spotting divergences when you compare two evaluations.
 
 <Frame>
-  <img src="/weave/guides/evaluation/img/eval-compare.png" alt="Compare evaluations view with three evaluations. The Summary tab shows aggregate charts across the top and a properties and metrics table below." />
+  <img src="/weave/guides/evaluation/img/eval-compare.png" alt="Compare evaluations view comparing three evaluations. The Summary tab shows aggregate charts across the top and a properties and metrics table below." />
 </Frame>
 
 ### Summary tab
@@ -48,20 +48,24 @@ The properties and metrics table displays the following information for each com
 * **Properties**: Any additional properties recorded on the evaluation.
 * **Metrics**: The aggregate value for each metric produced by the evaluation's scorers.
 
-For numeric metrics, the difference from the baseline is displayed as a colored badge next to the value. A green badge indicates that the value increased relative to the baseline; a red badge indicates that the value decreased relative to the baseline.
+For numeric metrics, the difference from the baseline is displayed as a colored badge next to the value. The color reflects whether the change is in the favorable or unfavorable direction for that metric: by default, higher values are treated as better, so a green badge marks an increase and a red badge marks a decrease. For metrics configured as lower-is-better, the colors are reversed.
 
 To hide properties and metrics that are identical across all compared evaluations, turn on **Diff only**.
 
 Weave surfaces inline warnings in the table when it detects differences that can affect how you interpret the comparison:
 
-* **Dataset inconsistency detected**: Two or more evaluations ran against different versions of the dataset. Metric differences may reflect changes in the data rather than in the model or scorer.
-* **Scoring inconsistency detected**: Two or more evaluations used different versions of the scorer. Metric values may not be directly comparable.
+* **Dataset inconsistency detected**: The dataset varies across the compared evaluations. Aggregate metrics may not be directly comparable, and the Dataset results tab is limited to examples in the intersection of the datasets.
+* **Scoring inconsistency detected**: The scorer varies across the compared evaluations. The scoring logic differs between evaluations, so compare the results with care.
 
 Weave also hides score fields that are not shared across all compared evaluations to keep the summary focused. When fields are hidden, the info banner at the top of the view shows how many. To choose which fields are visible, select **Manage fields**.
 
 ### Dataset results tab
 
-Select **Dataset results** to compare individual dataset rows across the selected evaluations. Each row shows the input, the expected output, and the actual output for every evaluation being compared, so that you can inspect where a specific example diverges.
+Select **Dataset results** to compare individual dataset examples across the selected evaluations. Each row corresponds to one dataset example and shows the dataset input alongside each evaluation's output and scorer metrics, so you can inspect where a specific example diverges. Select a row to open a side-by-side detail view.
+
+When you compare exactly two evaluations, the tab shows two scatter plots above the table. In each plot, a point represents a dataset example, positioned by its metric value in each of the two evaluations, so examples where the evaluations diverge stand out. Select (brush) a region of points to filter the examples shown in the table, and use the **Dimension** menu on each plot to choose which metric it plots. 
+
+The Dataset results tab requires that the compared evaluations share dataset rows. If their datasets have no rows in common, no results table is displayed.
 
 ## Customize the Compare evaluations view
 
@@ -69,15 +73,22 @@ In the Compare evaluations view, you can adjust how evaluations are ordered and 
 
 ### Set a baseline
 
-By default, each evaluation in the Compare evaluations view is compared to the object to its left. However, you can set an evaluation as the *baseline*, which means that all evaluations are compared to the leftmost evaluation in the view. Use a baseline when you want every evaluation measured against a single reference point, such as a known-good run.
+By default, the leftmost evaluation in the comparison bar is the baseline, and every other evaluation is compared against it. You can designate a different evaluation as the baseline when you want a specific evaluation as the reference point for all comparisons.
 
 To set an evaluation as the baseline:
 
 1. In the comparison bar, hold the pointer over the evaluation that you want to set as the baseline.
 2. Click the **action (<Icon icon="ellipsis-vertical" iconType="solid" />)** menu to the right of the ID.
-   <img src="/weave/guides/evaluation/img/comparison-evals-baseline.png" alt="Compare evaluations view showing the Make baseline option for the selected evaluation in the comparison bar." />
+
+   <Frame>
+     <img src="/weave/guides/evaluation/img/comparison-evals-baseline.png" alt="Compare evaluations view showing the Make baseline option for the selected evaluation in the comparison bar." />
+   </Frame>
+
 3. In the list, select **Make baseline**. The UI refreshes with the baseline evaluation in the leftmost position in the comparison bar and `Baseline` next to the ID.
-   <img src="/weave/guides/evaluation/img/comparison-evals-baseline-set.png" alt="Compare evaluations view showing the selected baseline evaluation in the leftmost position of the comparison bar." />
+
+   <Frame>
+     <img src="/weave/guides/evaluation/img/comparison-evals-baseline-set.png" alt="Compare evaluations view showing the selected baseline evaluation in the leftmost position of the comparison bar." />
+   </Frame>
 
 ### Change the comparison order
 
