@@ -1,0 +1,488 @@
+---
+title: "WeaveAdkPlugin"
+description: "TypeScript SDK reference"
+---
+
+[weave](../) / WeaveAdkPlugin
+
+
+
+ADK plugin that emits runner invocations, agent runs, model calls and tool
+executions as GenAI-semconv OTel spans on Weave's agents pipeline.
+
+Implements the full `BasePlugin` surface structurally. ADK's PluginManager
+invokes every callback, so all are present even where a callback is a no-op.
+ADK treats any non-`undefined` return as a short-circuit, so every callback
+swallows its own errors and returns `undefined`.
+
+## Implements
+
+- `BasePlugin`
+
+## Table of contents
+
+### Constructors
+
+- [constructor](./weaveadkplugin#constructor)
+
+### Properties
+
+- [name](./weaveadkplugin#name)
+
+### Methods
+
+- [afterAgentCallback](./weaveadkplugin#afteragentcallback)
+- [afterContextCompaction](./weaveadkplugin#aftercontextcompaction)
+- [afterModelCallback](./weaveadkplugin#aftermodelcallback)
+- [afterRunCallback](./weaveadkplugin#afterruncallback)
+- [afterToolCallback](./weaveadkplugin#aftertoolcallback)
+- [beforeAgentCallback](./weaveadkplugin#beforeagentcallback)
+- [beforeContextCompaction](./weaveadkplugin#beforecontextcompaction)
+- [beforeModelCallback](./weaveadkplugin#beforemodelcallback)
+- [beforeRunCallback](./weaveadkplugin#beforeruncallback)
+- [beforeToolCallback](./weaveadkplugin#beforetoolcallback)
+- [beforeToolSelection](./weaveadkplugin#beforetoolselection)
+- [finishInterruptedInvocation](./weaveadkplugin#finishinterruptedinvocation)
+- [onEventCallback](./weaveadkplugin#oneventcallback)
+- [onModelErrorCallback](./weaveadkplugin#onmodelerrorcallback)
+- [onToolErrorCallback](./weaveadkplugin#ontoolerrorcallback)
+- [onUserMessageCallback](./weaveadkplugin#onusermessagecallback)
+
+## Constructors
+
+### constructor
+
+• **new WeaveAdkPlugin**(): [`WeaveAdkPlugin`](./weaveadkplugin)
+
+#### Returns
+
+[`WeaveAdkPlugin`](./weaveadkplugin)
+
+## Properties
+
+### name
+
+• `Readonly` **name**: ``"weave"``
+
+#### Implementation of
+
+AdkBasePlugin.name
+
+#### Defined in
+
+[src/integrations/googleAdk.ts:590](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L590)
+
+## Methods
+
+### afterAgentCallback
+
+▸ **afterAgentCallback**(`params`): `Promise`\<`undefined`\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `params` | `Object` |
+| `params.agent` | `BaseAgent` |
+| `params.callbackContext` | `Context` |
+
+#### Returns
+
+`Promise`\<`undefined`\>
+
+#### Implementation of
+
+AdkBasePlugin.afterAgentCallback
+
+#### Defined in
+
+[src/integrations/googleAdk.ts:779](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L779)
+
+___
+
+### afterContextCompaction
+
+▸ **afterContextCompaction**(`_params`): `Promise`\<`undefined`\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `_params` | `unknown` |
+
+#### Returns
+
+`Promise`\<`undefined`\>
+
+#### Implementation of
+
+AdkBasePlugin.afterContextCompaction
+
+#### Defined in
+
+[src/integrations/googleAdk.ts:997](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L997)
+
+___
+
+### afterModelCallback
+
+▸ **afterModelCallback**(`params`): `Promise`\<`undefined`\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `params` | `Object` |
+| `params.callbackContext` | `Context` |
+| `params.llmResponse` | `LlmResponse` |
+
+#### Returns
+
+`Promise`\<`undefined`\>
+
+#### Implementation of
+
+AdkBasePlugin.afterModelCallback
+
+#### Defined in
+
+[src/integrations/googleAdk.ts:841](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L841)
+
+___
+
+### afterRunCallback
+
+▸ **afterRunCallback**(`params`): `Promise`\<`undefined`\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `params` | `Object` |
+| `params.invocationContext` | `InvocationContext` |
+
+#### Returns
+
+`Promise`\<`undefined`\>
+
+#### Implementation of
+
+AdkBasePlugin.afterRunCallback
+
+#### Defined in
+
+[src/integrations/googleAdk.ts:713](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L713)
+
+___
+
+### afterToolCallback
+
+▸ **afterToolCallback**(`params`): `Promise`\<`undefined`\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `params` | `Object` |
+| `params.result` | ``null`` \| `Record`\<`string`, `unknown`\> |
+| `params.tool` | `BaseTool` |
+| `params.toolArgs` | `Record`\<`string`, `unknown`\> |
+| `params.toolContext` | `Context` |
+
+#### Returns
+
+`Promise`\<`undefined`\>
+
+#### Implementation of
+
+AdkBasePlugin.afterToolCallback
+
+#### Defined in
+
+[src/integrations/googleAdk.ts:965](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L965)
+
+___
+
+### beforeAgentCallback
+
+▸ **beforeAgentCallback**(`params`): `Promise`\<`undefined`\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `params` | `Object` |
+| `params.agent` | `BaseAgent` |
+| `params.callbackContext` | `Context` |
+
+#### Returns
+
+`Promise`\<`undefined`\>
+
+#### Implementation of
+
+AdkBasePlugin.beforeAgentCallback
+
+#### Defined in
+
+[src/integrations/googleAdk.ts:765](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L765)
+
+___
+
+### beforeContextCompaction
+
+▸ **beforeContextCompaction**(`_params`): `Promise`\<`undefined`\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `_params` | `unknown` |
+
+#### Returns
+
+`Promise`\<`undefined`\>
+
+#### Implementation of
+
+AdkBasePlugin.beforeContextCompaction
+
+#### Defined in
+
+[src/integrations/googleAdk.ts:993](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L993)
+
+___
+
+### beforeModelCallback
+
+▸ **beforeModelCallback**(`params`): `Promise`\<`undefined`\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `params` | `Object` |
+| `params.callbackContext` | `Context` |
+| `params.llmRequest` | `LlmRequest` |
+
+#### Returns
+
+`Promise`\<`undefined`\>
+
+#### Implementation of
+
+AdkBasePlugin.beforeModelCallback
+
+#### Defined in
+
+[src/integrations/googleAdk.ts:804](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L804)
+
+___
+
+### beforeRunCallback
+
+▸ **beforeRunCallback**(`params`): `Promise`\<`undefined`\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `params` | `Object` |
+| `params.invocationContext` | `InvocationContext` |
+
+#### Returns
+
+`Promise`\<`undefined`\>
+
+#### Implementation of
+
+AdkBasePlugin.beforeRunCallback
+
+#### Defined in
+
+[src/integrations/googleAdk.ts:621](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L621)
+
+___
+
+### beforeToolCallback
+
+▸ **beforeToolCallback**(`params`): `Promise`\<`undefined`\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `params` | `Object` |
+| `params.tool` | `BaseTool` |
+| `params.toolArgs` | `Record`\<`string`, `unknown`\> |
+| `params.toolContext` | `Context` |
+
+#### Returns
+
+`Promise`\<`undefined`\>
+
+#### Implementation of
+
+AdkBasePlugin.beforeToolCallback
+
+#### Defined in
+
+[src/integrations/googleAdk.ts:918](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L918)
+
+___
+
+### beforeToolSelection
+
+▸ **beforeToolSelection**(`_params`): `Promise`\<`undefined`\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `_params` | `unknown` |
+
+#### Returns
+
+`Promise`\<`undefined`\>
+
+#### Implementation of
+
+AdkBasePlugin.beforeToolSelection
+
+#### Defined in
+
+[src/integrations/googleAdk.ts:914](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L914)
+
+___
+
+### finishInterruptedInvocation
+
+▸ **finishInterruptedInvocation**(`invocationId`): `void`
+
+Finalizes a run that never reached `afterRunCallback`. ADK only dispatches
+`afterRunCallback` after the event loop drains normally, so a consumer that
+breaks out of `runAsync` early — or an aborted run — leaves the invocation
+(and its spans) open. The auto-instrument runner wrapper calls this from a
+`finally` to close them as interrupted. Idempotent: a no-op once the run
+has already finished (the common, fully-consumed case).
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `invocationId` | `string` |
+
+#### Returns
+
+`void`
+
+#### Defined in
+
+[src/integrations/googleAdk.ts:732](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L732)
+
+___
+
+### onEventCallback
+
+▸ **onEventCallback**(`params`): `Promise`\<`undefined`\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `params` | `Object` |
+| `params.event` | `Event` |
+| `params.invocationContext` | `InvocationContext` |
+
+#### Returns
+
+`Promise`\<`undefined`\>
+
+#### Implementation of
+
+AdkBasePlugin.onEventCallback
+
+#### Defined in
+
+[src/integrations/googleAdk.ts:693](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L693)
+
+___
+
+### onModelErrorCallback
+
+▸ **onModelErrorCallback**(`params`): `Promise`\<`undefined`\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `params` | `Object` |
+| `params.callbackContext` | `Context` |
+| `params.error` | `Error` |
+| `params.llmRequest` | `LlmRequest` |
+
+#### Returns
+
+`Promise`\<`undefined`\>
+
+#### Implementation of
+
+AdkBasePlugin.onModelErrorCallback
+
+#### Defined in
+
+[src/integrations/googleAdk.ts:884](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L884)
+
+___
+
+### onToolErrorCallback
+
+▸ **onToolErrorCallback**(`params`): `Promise`\<`undefined`\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `params` | `Object` |
+| `params.error` | `Error` |
+| `params.tool` | `BaseTool` |
+| `params.toolArgs` | `Record`\<`string`, `unknown`\> |
+| `params.toolContext` | `Context` |
+
+#### Returns
+
+`Promise`\<`undefined`\>
+
+#### Implementation of
+
+AdkBasePlugin.onToolErrorCallback
+
+#### Defined in
+
+[src/integrations/googleAdk.ts:977](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L977)
+
+___
+
+### onUserMessageCallback
+
+▸ **onUserMessageCallback**(`_params`): `Promise`\<`undefined`\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `_params` | `Object` |
+| `_params.invocationContext` | `InvocationContext` |
+| `_params.userMessage` | `Content` |
+
+#### Returns
+
+`Promise`\<`undefined`\>
+
+#### Implementation of
+
+AdkBasePlugin.onUserMessageCallback
+
+#### Defined in
+
+[src/integrations/googleAdk.ts:614](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L614)

@@ -1,18 +1,19 @@
 ---
-title: "Classe : EvaluationLogger"
+title: "EvaluationLogger"
 description: "Référence du SDK TypeScript"
 ---
 
 [weave](../) / EvaluationLogger
 
-EvaluationLogger permet la journalisation incrémentielle des prédictions et des scores.
+EvaluationLogger permet la mise au journal incrémentielle des prédictions et des scores.
 
 Contrairement à la classe Evaluation traditionnelle, qui nécessite un jeu de données défini à l’avance et un traitement par lots,
-EvaluationLogger vous permet d’enregistrer les prédictions au fur et à mesure, avec une attribution flexible des scores.
+EvaluationLogger vous permet de mettre au journal les prédictions au fur et à mesure, avec une attribution flexible des scores.
 
 `Exemple`
 
-```ts
+```ts twoslash
+// @noErrors
 const ev = new EvaluationLogger({name: 'my-eval', dataset: 'my-dataset'});
 
 for (const example of streamingData) {
@@ -27,7 +28,6 @@ for (const example of streamingData) {
 
 await ev.logSummary();
 ```
-
 
 <div id="table-of-contents">
   ## Table des matières
@@ -73,7 +73,7 @@ await ev.logSummary();
   #### Défini dans
 </div>
 
-[evaluationLogger.ts:554](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/evaluationLogger.ts#L554)
+[src/evaluationLogger.ts:573](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L573)
 
 ## Méthodes
 
@@ -107,7 +107,8 @@ Cette méthode renvoie le `ScoreLogger` de façon synchrone. Les opérations sur
 
 `Exemple`
 
-```ts
+```ts twoslash
+// @noErrors
 // Style « fire-and-forget »
 const scoreLogger = evalLogger.logPrediction({input: 'test'}, 'output');
 scoreLogger.logScore('accuracy', 0.95);
@@ -115,12 +116,11 @@ scoreLogger.finish();
 await evalLogger.logSummary(); // Attend la fin de toutes les opérations
 ```
 
-
 <div id="defined-in">
   #### Défini dans
 </div>
 
-[evaluationLogger.ts:641](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/evaluationLogger.ts#L641)
+[src/evaluationLogger.ts:660](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L660)
 
 ***
 
@@ -153,19 +153,19 @@ Utilisez cette méthode si vous devez attendre l&#39;initialisation avant de con
 
 `Exemple`
 
-```ts
-// Style awaitable
+```ts twoslash
+// @noErrors
+// Style avec await
 const scoreLogger = await evalLogger.logPredictionAsync({input: 'test'}, 'output');
 await scoreLogger.logScore('accuracy', 0.95);
 await scoreLogger.finish();
 ```
 
-
 <div id="defined-in">
   #### Défini dans
 </div>
 
-[evaluationLogger.ts:666](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/evaluationLogger.ts#L666)
+[src/evaluationLogger.ts:685](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L685)
 
 ***
 
@@ -199,4 +199,4 @@ elle attendra que toutes les opérations en attente soient terminées.
   #### Défini dans
 </div>
 
-[evaluationLogger.ts:767](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/evaluationLogger.ts#L767)
+[src/evaluationLogger.ts:786](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L786)

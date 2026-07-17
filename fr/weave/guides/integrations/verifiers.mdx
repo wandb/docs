@@ -1,6 +1,7 @@
 ---
 title: Verifiers
 description: "Suivez les environnements RL de Verifiers et l'entraînement d'agents LLM avec Weave, en capturant des conversations multi-tours et des rollouts d'évaluation."
+keywords: ["Verifiers", "apprentissage par renforcement", "entraînement RL", "rollouts", "GSM8K"]
 ---
 
 [Verifiers](https://github.com/willccbb/verifiers) est une bibliothèque de composants modulaires permettant de créer des environnements d&#39;apprentissage par renforcement (RL) et d&#39;entraîner des agents LLM. Les environnements créés avec Verifiers peuvent servir d&#39;évaluations pour les LLM, de pipelines de données synthétiques, de cadres d&#39;exécution d&#39;agents pour tout endpoint compatible OpenAI, ainsi que de support pour l&#39;entraînement RL.
@@ -9,11 +10,11 @@ En plus d&#39;utiliser W&amp;B pour enregistrer vos métriques d&#39;entraîneme
 
 Vous pouvez également utiliser Weave et Verifiers ensemble pour effectuer des évaluations.
 
-Ce guide vous montre comment installer Verifiers, W&amp;B et Weave, et fournit deux exemples d&#39;utilisation de Verifiers avec Weave et W&amp;B.
+Ce guide s&#39;adresse aux ingénieurs ML et aux chercheurs qui souhaitent ajouter de l&#39;observabilité à leurs flux de travail RL basés sur Verifiers. Il vous montre comment installer Verifiers, W&amp;B et Weave, et fournit deux exemples d&#39;utilisation de Verifiers avec Weave et W&amp;B : le traçage des rollouts pendant l&#39;évaluation, et le fine-tuning d&#39;un modèle avec le suivi des expériences et le traçage activés.
 
 ![verifiers wandb run page](/images/weave/verifiers.gif)
 
-<div id="getting-started">
+<div id="get-started">
   ## Premiers pas
 </div>
 
@@ -38,6 +39,8 @@ uv pip install weave wandb
 
 Weave active par défaut le [patching implicite](/fr/weave/guides/integrations#automatic-implicit-patching) pour cette bibliothèque. Cela vous permet d’utiliser Weave avec Verifiers sans devoir recourir à des fonctions explicites de patch d’appels.
 
+Une fois les bibliothèques installées, vous êtes prêt à exécuter les exemples dans les sections suivantes.
+
 <div id="trace-rollouts-and-evaluate">
   ### Tracer les rollouts et évaluer
 </div>
@@ -54,7 +57,7 @@ from openai import OpenAI
 import verifiers as vf
 import weave
 
-os.environ["OPENAI_API_KEY"] = "<YOUR-OPENAI-API-KEY>"
+os.environ["OPENAI_API_KEY"] = "[YOUR-OPENAI-API-KEY]"
 
 # Initialiser Weave
 weave.init("verifiers_demo")
@@ -83,10 +86,10 @@ results = env.evaluate(
 ```
 
 <div id="fine-tune-a-model-with-experiment-tracking-and-tracing">
-  ### Affiner un modèle avec le suivi des expériences et le Tracing
+  ### Affiner un modèle avec le suivi des expériences et le traçage
 </div>
 
-Weave peut être un outil puissant dans vos flux de travail de fine-tuning RL en offrant une meilleure visibilité sur les performances de vos modèles pendant l’entraînement. Utilisé aux côtés de W&amp;B, il vous donne une observabilité complète : W&amp;B suit les métriques d’entraînement et les graphiques de performances, tandis que Weave capture des traces détaillées de chaque interaction pendant le processus d’entraînement.
+Weave offre une meilleure visibilité sur les performances de vos modèles pendant le fine-tuning RL. Lorsque vous l’utilisez aux côtés de W&amp;B, vous bénéficiez d’une observabilité sur l’ensemble du flux de travail. W&amp;B suit les métriques d’entraînement et les graphiques de performances, tandis que Weave capture des traces détaillées de chaque interaction pendant le processus d’entraînement.
 
 Le dépôt `verifiers` inclut des [exemples](https://github.com/PrimeIntellect-ai/verifiers) prêts à l’emploi pour vous aider à démarrer.
 
@@ -119,7 +122,7 @@ CUDA_VISIBLE_DEVICES=1 accelerate launch --num-processes 1 --config-file configs
 ```
 
 <Note>
-  Nous avons testé avec succès cet exemple sur 2xH100 et défini les variables d’environnement suivantes pour améliorer la stabilité :
+  Cet exemple a été testé sur 2xH100 avec les variables d’environnement suivantes définies pour améliorer la stabilité :
 
   ```bash
   # Dans LES DEUX shells (serveur et entraîneur) avant le lancement
@@ -130,7 +133,7 @@ CUDA_VISIBLE_DEVICES=1 accelerate launch --num-processes 1 --config-file configs
   Ces variables désactivent la mémoire unifiée CUDA (CuMem) pour les allocations de mémoire sur le périphérique.
 </Note>
 
-Une fois l’entraînement lancé, vous pouvez [consulter les traces](/fr/weave/guides/tools/weave-in-workspaces) enregistrées pendant votre run dans l’interface utilisateur.
+Une fois l’entraînement lancé, vous pouvez [consulter les traces](/fr/weave/guides/tools/weave-in-workspaces) enregistrées pendant votre run dans l’interface utilisateur. W&amp;B capture les métriques d’entraînement, tandis que Weave enregistre les traces de chaque interaction, ce qui vous donne à la fois une vue d’ensemble des tendances de performances et une visibilité détaillée, étape par étape, sur votre run d’entraînement.
 
 Les traces n’incluent pas `logprobs` pour les méthodes `Environment.a_generate` et `Rubric.score_rollouts`. Cela permet de limiter la taille des charges utiles tout en conservant les données d’origine intactes pour l’entraînement.
 
@@ -138,4 +141,4 @@ Les traces n’incluent pas `logprobs` pour les méthodes `Environment.a_generat
   ## Voir aussi
 </div>
 
-Verifiers offre une intégration native avec W&amp;B Models. Voir le [dépôt Verifiers](https://github.com/PrimeIntellect-ai/verifiers) pour en savoir plus.
+Verifiers offre une intégration native avec W&amp;B Models. Pour plus d&#39;informations, voir le [dépôt Verifiers](https://github.com/willccbb/verifiers).

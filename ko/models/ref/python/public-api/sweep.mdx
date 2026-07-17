@@ -26,12 +26,11 @@ sweep에 연결된 run 집합입니다.
 
 ```python
 __init__(
-    client: 'RetryingClient',
+    service_api: 'ServiceApi',
     entity: 'str',
     project: 'str',
     sweep_id: 'str',
-    attrs: 'Mapping[str, Any] | None' = None,
-    service_api: 'ServiceApi'
+    attrs: 'Mapping[str, Any] | None' = None
 )
 ```
 
@@ -144,13 +143,12 @@ best_run(order=None)
 
 ```python
 get(
-    client: 'RetryingClient',
+    api: 'Api',
     entity: 'str | None' = None,
     project: 'str | None' = None,
     sid: 'str | None' = None,
     order: 'str | None' = None,
-    query: 'Document | None' = None,
-    service_api: 'ServiceApi',
+    query: 'str | None' = None,
     **kwargs
 )
 ```
@@ -159,8 +157,7 @@ get(
 
 **인수:**
 
-* `client`:  API 호환성을 위해 유지되는 레거시 GraphQL 클라이언트입니다.
-* `service_api`:  반환된 스윕에 대해 W&amp;B API 호출을 수행하는 wandb-core 서비스 인터페이스입니다.
+* `api`:  W&amp;B API 인스턴스입니다.
 * `entity`:  프로젝트를 소유한 entity(사용자 이름 또는 팀)입니다.
 * `project`:  스윕를 가져올 프로젝트 이름입니다.
 * `sid`:  쿼리할 스윕 ID입니다.

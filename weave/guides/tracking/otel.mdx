@@ -10,10 +10,10 @@ This page covers the endpoint details, authentication, end-to-end examples in Py
 
 ## Endpoint details
 
-**Path**: `/otel/v1/traces`
-**Method**: `POST`
-**Content-Type**: `application/x-protobuf`
-**Base URL**: The base URL for the OTel trace endpoint depends on your W&B deployment type:
+* **Path**: `/otel/v1/traces`
+* **Method**: `POST`
+* **Content-Type**: `application/x-protobuf`
+* **Base URL**: The base URL for the OTel trace endpoint depends on your W&B deployment type:
 
 - Multi-tenant Cloud: `https://trace.wandb.ai/otel/v1/traces`.
 - Dedicated Cloud and Self-Managed instances: `https://<your-subdomain>.wandb.io/traces/otel/v1/traces`.
@@ -29,6 +29,10 @@ Weave uses the `wandb-api-key` header to authenticate requests and resource attr
 
 The following example shows how to configure authentication and project routing:
 
+<Warning>
+`WEAVE_OTLP_ENDPOINT` below is a local variable, not the OTel SDK's `OTEL_EXPORTER_OTLP_ENDPOINT` environment variable, and it's set to the full traces path (`.../otel/v1/traces`). It's passed explicitly to `endpoint=`/`url:` on the exporter, so the SDK sends requests to that URL verbatim. If you instead `export` a value as the real `OTEL_EXPORTER_OTLP_ENDPOINT` and construct the exporter with no arguments (for example, `OTLPSpanExporter()`), the SDK appends `/v1/traces` itself, so that variable must hold the base URL (`.../otel`) instead, or you get a doubled path (`.../otel/v1/traces/v1/traces`), a `404`, and silently dropped spans. The same is true of `OTEL_EXPORTER_OTLP_TRACES_ENDPOINT`: it also needs the full traces path, since the SDK won't append /v1/traces to it either.
+</Warning>
+
 <CodeGroup>
 ```python Python lines {7,8}
 import os
@@ -40,13 +44,13 @@ WANDB_BASE_URL = "https://trace.wandb.ai"
 ENTITY = "<your-team-name>"
 PROJECT = "<your-project-name>"
 
-OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+WEAVE_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
 
 # Create an API key at https://wandb.ai/settings
 WANDB_API_KEY = os.environ["WANDB_API_KEY"]
 
 exporter = OTLPSpanExporter(
-    endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+    endpoint=WEAVE_OTLP_ENDPOINT,
     headers={"wandb-api-key": WANDB_API_KEY},
 )
 
@@ -64,13 +68,13 @@ const WANDB_BASE_URL = "https://trace.wandb.ai";
 const ENTITY = "<your-team-name>";
 const PROJECT = "<your-project-name>";
 
-const OTEL_EXPORTER_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
+const WEAVE_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
 
 // Create an API key at https://wandb.ai/settings
 const WANDB_API_KEY = process.env.WANDB_API_KEY!;
 
 const exporter = new OTLPTraceExporter({
-  url: OTEL_EXPORTER_OTLP_ENDPOINT,
+  url: WEAVE_OTLP_ENDPOINT,
   headers: { "wandb-api-key": WANDB_API_KEY },
 });
 
@@ -140,13 +144,13 @@ WANDB_BASE_URL = "https://trace.wandb.ai"
 ENTITY = "<your-team-name>"
 PROJECT = "<your-project-name>"
 
-OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+WEAVE_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
 
 # Create an API key at https://wandb.ai/settings
 WANDB_API_KEY = os.environ["WANDB_API_KEY"]
 
 exporter = OTLPSpanExporter(
-    endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+    endpoint=WEAVE_OTLP_ENDPOINT,
     headers={"wandb-api-key": WANDB_API_KEY},
 )
 
@@ -208,13 +212,13 @@ const WANDB_BASE_URL = "https://trace.wandb.ai";
 const ENTITY = "<your-team-name>";
 const PROJECT = "<your-project-name>";
 
-const OTEL_EXPORTER_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
+const WEAVE_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
 
 // Create an API key at https://wandb.ai/settings
 const WANDB_API_KEY = process.env.WANDB_API_KEY!;
 
 const exporter = new OTLPTraceExporter({
-  url: OTEL_EXPORTER_OTLP_ENDPOINT,
+  url: WEAVE_OTLP_ENDPOINT,
   headers: { "wandb-api-key": WANDB_API_KEY },
 });
 
@@ -316,13 +320,13 @@ WANDB_BASE_URL = "https://trace.wandb.ai"
 ENTITY = "<your-team-name>"
 PROJECT = "<your-project-name>"
 
-OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+WEAVE_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
 
 # Create an API key at https://wandb.ai/settings
 WANDB_API_KEY = os.environ["WANDB_API_KEY"]
 
 exporter = OTLPSpanExporter(
-    endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+    endpoint=WEAVE_OTLP_ENDPOINT,
     headers={"wandb-api-key": WANDB_API_KEY},
 )
 
@@ -379,13 +383,13 @@ const WANDB_BASE_URL = "https://trace.wandb.ai";
 const ENTITY = "<your-team-name>";
 const PROJECT = "<your-project-name>";
 
-const OTEL_EXPORTER_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
+const WEAVE_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
 
 // Create an API key at https://wandb.ai/settings
 const WANDB_API_KEY = process.env.WANDB_API_KEY!;
 
 const exporter = new OTLPTraceExporter({
-  url: OTEL_EXPORTER_OTLP_ENDPOINT,
+  url: WEAVE_OTLP_ENDPOINT,
   headers: { "wandb-api-key": WANDB_API_KEY },
 });
 
@@ -493,14 +497,14 @@ WANDB_BASE_URL = "https://trace.wandb.ai"
 ENTITY = "<your-team-name>"
 PROJECT = "<your-project-name>"
 
-OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+WEAVE_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
 
 # Create an API key at https://wandb.ai/settings
 WANDB_API_KEY = os.environ["WANDB_API_KEY"]
 
 # Configure the OTLP exporter
 exporter = OTLPSpanExporter(
-    endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+    endpoint=WEAVE_OTLP_ENDPOINT,
     headers={"wandb-api-key": WANDB_API_KEY},
 )
 
@@ -566,13 +570,13 @@ const WANDB_BASE_URL = "https://trace.wandb.ai";
 const ENTITY = "<your-team-name>";
 const PROJECT = "<your-project-name>";
 
-const OTEL_EXPORTER_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
+const WEAVE_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
 
 // Create an API key at https://wandb.ai/settings
 const WANDB_API_KEY = process.env.WANDB_API_KEY!;
 
 const exporter = new OTLPTraceExporter({
-  url: OTEL_EXPORTER_OTLP_ENDPOINT,
+  url: WEAVE_OTLP_ENDPOINT,
   headers: { "wandb-api-key": WANDB_API_KEY },
 });
 
@@ -825,10 +829,10 @@ ENTITY = "<your-team-name>"
 PROJECT = "<your-project-name>"
 WANDB_API_KEY = os.environ["WANDB_API_KEY"]
 
-OTEL_EXPORTER_OTLP_ENDPOINT = "https://trace.wandb.ai/otel/v1/traces"
+WEAVE_OTLP_ENDPOINT = "https://trace.wandb.ai/otel/v1/traces"
 
 exporter = OTLPSpanExporter(
-    endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+    endpoint=WEAVE_OTLP_ENDPOINT,
     headers={"wandb-api-key": WANDB_API_KEY},
 )
 
@@ -872,10 +876,10 @@ if (!WANDB_API_KEY) {
 }
 
 // OTel Setup
-const OTEL_EXPORTER_OTLP_ENDPOINT = "https://trace.wandb.ai/otel/v1/traces";
+const WEAVE_OTLP_ENDPOINT = "https://trace.wandb.ai/otel/v1/traces";
 
 const exporter = new OTLPTraceExporter({
-  url: OTEL_EXPORTER_OTLP_ENDPOINT,
+  url: WEAVE_OTLP_ENDPOINT,
   headers: { "wandb-api-key": WANDB_API_KEY },
 });
 
@@ -947,7 +951,8 @@ if __name__ == "__main__":
 </Tab>
 <Tab title="TypeScript">
 
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 function example_1_basic_thread_and_turn() {
   console.log("\n=== Example 1: Basic Thread and Turn ===");
 
@@ -1046,7 +1051,8 @@ if __name__ == "__main__":
 </Tab>
 <Tab title="TypeScript">
 
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 function example_2_multiple_turns() {
   console.log("\n=== Example 2: Multiple Turns in Thread ===");
 
@@ -1160,7 +1166,8 @@ if __name__ == "__main__":
 </Tab>
 <Tab title="TypeScript">
 
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 function example_3_complex_nested_structure() {
   console.log("\n=== Example 3: Complex Nested Structure ===");
 
@@ -1264,7 +1271,8 @@ if __name__ == "__main__":
 </Tab>
 <Tab title="TypeScript">
 
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 function example_4_non_turn_operations() {
   console.log("\n=== Example 4: Non-Turn Thread Operations ===");
 
@@ -1375,7 +1383,6 @@ Weave supports attribute conventions from the following observability frameworks
 | `wandb.is_turn`                   | `is_turn`                     | Marks span as conversation turn.            | Boolean                     | `true`                                         |
 | `langfuse.startTime`              | `start_time` (override)       | Override span start timestamp.              | Timestamp (ISO8601/unix ns) | `"2024-01-01T12:00:00Z"`                       |
 | `langfuse.endTime`                | `end_time` (override)         | Override span end timestamp.                | Timestamp (ISO8601/unix ns) | `"2024-01-01T12:00:01Z"`                       |
-
 
 ## Limitations
 

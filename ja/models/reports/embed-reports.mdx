@@ -1,16 +1,21 @@
 ---
-description: W&B レポートを Notion または HTML の iframe 要素に直接埋め込みます。
-title: レポートを埋め込む
+description: W&B report を Notion または HTML の `iframe` 要素に直接埋め込みます。
+title: report を埋め込む
+keywords: ["iframe", "Confluence", "Notion", "Gradio", "Hugging Face Spaces"]
 ---
 
+W&amp;B report を外部のページやツールに埋め込むと、チームは他のドキュメントと並べて最新の実験結果を確認できます。このページでは、report から埋め込みコードを生成し、それを HTML、Confluence、Notion、または Gradio で使用する方法について説明します。
+
 <div id="html-iframe-element">
-  ## HTML iframe 要素
+  ## HTML `iframe` 要素
 </div>
 
-レポート内の右上にある **Share** ボタンを選択します。モーダルウィンドウが表示されます。モーダルウィンドウ内で **Copy embed code** を選択します。コピーしたコードは Inline Frame (IFrame) HTML 要素内で表示されます。コピーしたコードを任意の iframe HTML 要素に貼り付けます。
+HTML `iframe` 要素を使用すると、カスタム HTML を使用できる任意の Web ページに report を埋め込めます。W&amp;B には、report から直接コピーできる埋め込みコードがあらかじめ用意されています。
+
+report の右上で **Share** ボタンを選択してダイアログを開き、**Copy embed code** を選択します。コピーされたスニペットは `iframe` HTML 要素で、カスタム HTML を使用できる任意のページに貼り付けることができます。
 
 <Note>
-  埋め込み時に表示できるのは **public** レポートのみです。
+  埋め込み時に表示できるのは *public* report のみです。
 </Note>
 
 <Frame>
@@ -21,7 +26,7 @@ title: レポートを埋め込む
   ## Confluence
 </div>
 
-以下のアニメーションは、Confluence の IFrame セルにレポートへの直接リンクを挿入する方法を示しています。
+Confluence は、組み込みの `iframe` マクロによる report の埋め込みをサポートしています。以下のアニメーションは、Confluence の `iframe` セルに report への直接リンクを挿入する方法を示しています。
 
 <Frame>
   <img src="/images/reports/embed_iframe_confluence.gif" alt="Confluence への埋め込み" />
@@ -31,7 +36,7 @@ title: レポートを埋め込む
   ## Notion
 </div>
 
-次のアニメーションは、Notion の埋め込みブロックとレポートの埋め込みコードを使って、Notion ドキュメントにレポートを埋め込む方法を示しています。
+Notion の **Embed** ブロックでは、W&amp;B が提供するものと同じ埋め込みコードを使用できます。次のアニメーションは、Notion の **Embed** ブロックと report の埋め込みコードを使って、Notion ドキュメントに report を埋め込む方法を示しています。
 
 <Frame>
   <img src="/images/reports/embed_iframe_notion.gif" alt="Notion への埋め込み" />
@@ -41,7 +46,7 @@ title: レポートを埋め込む
   ## Gradio
 </div>
 
-`gr.HTML` 要素を使用すると、W&amp;B Reports を Gradio Apps に埋め込み、Hugging Face Spaces 内で利用できます。
+Hugging Face Spaces で hosted されているアプリを含む Gradio アプリに W&amp;B report を埋め込むには、Gradio の `gr.HTML` 要素を使用して、report URL を指す `iframe` をレンダリングします。
 
 ```python
 import gradio as gr
@@ -58,6 +63,3 @@ with gr.Blocks() as demo:
     )
 demo.launch()
 ```
-
-
-##

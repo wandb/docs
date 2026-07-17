@@ -1,0 +1,493 @@
+---
+title: "HttpResponse<D, E>"
+description: "Référence du SDK TypeScript"
+---
+
+[weave](../) / HttpResponse
+
+<div id="type-parameters">
+  ## Paramètres de type
+</div>
+
+| Nom | Type                          |
+| :-- | :---------------------------- |
+| `D` | extends `unknown`             |
+| `E` | extends `unknown` = `unknown` |
+
+<div id="hierarchy">
+  ## Hiérarchie
+</div>
+
+* `Réponse`
+
+  ↳ `HttpResponse`
+
+<div id="table-of-contents">
+  ## Table des matières
+</div>
+
+<div id="properties">
+  ### Propriétés
+</div>
+
+* [body](./httpresponse#body)
+* [bodyUsed](./httpresponse#bodyused)
+* [data](./httpresponse#data)
+* [error](./httpresponse#error)
+* [headers](./httpresponse#headers)
+* [ok](./httpresponse#ok)
+* [redirected](./httpresponse#redirected)
+* [status](./httpresponse#status)
+* [statusText](./httpresponse#statustext)
+* [type](./httpresponse#type)
+* [url](./httpresponse#url)
+
+<div id="methods">
+  ### Méthodes
+</div>
+
+* [arrayBuffer](./httpresponse#arraybuffer)
+* [blob](./httpresponse#blob)
+* [bytes](./httpresponse#bytes)
+* [clone](./httpresponse#clone)
+* [formData](./httpresponse#formdata)
+* [json](./httpresponse#json)
+* [text](./httpresponse#text)
+
+## Propriétés
+
+<div id="body">
+  ### body
+</div>
+
+• `Readonly` **body**: `null` | `ReadableStream`&lt;`Uint8Array`&lt;`ArrayBuffer`&gt;&gt;
+
+[Référence MDN](https://developer.mozilla.org/docs/Web/API/Request/body)
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+Réponse.body
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:4468
+
+***
+
+<div id="bodyused">
+  ### bodyUsed
+</div>
+
+• `Readonly` **bodyUsed**: `boolean`
+
+[Référence MDN](https://developer.mozilla.org/docs/Web/API/Request/bodyUsed)
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+Réponse.bodyUsed
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:4470
+
+***
+
+<div id="data">
+  ### data
+</div>
+
+• **data**: `D`
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/generated/traceServerApi.ts:5991](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L5991)
+
+***
+
+<div id="error">
+  ### error
+</div>
+
+• **error** : `E`
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/generated/traceServerApi.ts:5992](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L5992)
+
+***
+
+<div id="headers">
+  ### headers
+</div>
+
+• `Readonly` **headers**: `Headers`
+
+La propriété `headers` en lecture seule de l’interface Réponse contient l’objet `Headers` associé à la réponse.
+
+[Référence MDN](https://developer.mozilla.org/docs/Web/API/Response/headers)
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+Réponse.headers
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:26322
+
+***
+
+<div id="ok">
+  ### ok
+</div>
+
+• `Readonly` **ok**: `boolean`
+
+La propriété `ok` en lecture seule de l’interface Réponse contient un booléen indiquant si la réponse a réussi (statut compris entre 200 et 299) ou non.
+
+[Référence MDN](https://developer.mozilla.org/docs/Web/API/Response/ok)
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+Réponse.ok
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:26328
+
+***
+
+<div id="redirected">
+  ### redirected
+</div>
+
+• `Readonly` **redirected**: `boolean`
+
+La propriété en lecture seule `redirected` de l’interface Réponse indique si la réponse résulte, ou non, d’une requête que vous avez effectuée et qui a ensuite été redirigée.
+
+[Référence MDN](https://developer.mozilla.org/docs/Web/API/Response/redirected)
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+Réponse.redirected
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:26334
+
+***
+
+<div id="status">
+  ### status
+</div>
+
+• `Readonly` **status**: `number`
+
+La propriété `status`, en lecture seule, de l’interface Réponse contient le code de statut HTTP de la réponse.
+
+[Référence MDN](https://developer.mozilla.org/docs/Web/API/Response/status)
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+Réponse.status
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:26340
+
+***
+
+<div id="statustext">
+  ### statusText
+</div>
+
+• `Readonly` **statusText**: `string`
+
+La propriété `statusText` en lecture seule de l’interface Réponse contient le message de statut correspondant au code de statut HTTP indiqué par Réponse.status.
+
+[Référence MDN](https://developer.mozilla.org/docs/Web/API/Response/statusText)
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+Réponse.statusText
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:26346
+
+***
+
+<div id="type">
+  ### type
+</div>
+
+• `Readonly` **type**: `ResponseType`
+
+La propriété `type` en lecture seule de l’interface Réponse contient le type de la réponse.
+
+[Référence MDN](https://developer.mozilla.org/docs/Web/API/Response/type)
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+Réponse.type
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:26352
+
+***
+
+<div id="url">
+  ### url
+</div>
+
+• `Readonly` **url**: `string`
+
+La propriété `url` en lecture seule de l’interface Réponse contient l’URL de la réponse.
+
+[Référence MDN](https://developer.mozilla.org/docs/Web/API/Response/url)
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+Réponse.url
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:26358
+
+## Méthodes
+
+<div id="arraybuffer">
+  ### arrayBuffer
+</div>
+
+▸ **arrayBuffer**(): `Promise`&lt;`ArrayBuffer`&gt;
+
+[Référence MDN](https://developer.mozilla.org/docs/Web/API/Request/arrayBuffer)
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`Promise`&lt;`ArrayBuffer`&gt;
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+Réponse.arrayBuffer
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:4472
+
+***
+
+<div id="blob">
+  ### blob
+</div>
+
+▸ **blob**(): `Promise`&lt;`Blob`&gt;
+
+[Référence MDN](https://developer.mozilla.org/docs/Web/API/Request/blob)
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`Promise`&lt;`Blob`&gt;
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+Réponse.blob
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:4474
+
+***
+
+<div id="bytes">
+  ### bytes
+</div>
+
+▸ **bytes**(): `Promise`&lt;`Uint8Array`&lt;`ArrayBuffer`&gt;&gt;
+
+[Référence MDN](https://developer.mozilla.org/docs/Web/API/Request/bytes)
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`Promise`&lt;`Uint8Array`&lt;`ArrayBuffer`&gt;&gt;
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+Réponse.bytes
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:4476
+
+***
+
+<div id="clone">
+  ### clone
+</div>
+
+▸ **clone**(): `Response`
+
+La méthode `clone()` de l’interface Réponse crée une copie d’un objet de réponse, identique en tout point, mais stockée dans une variable différente.
+
+[Référence MDN](https://developer.mozilla.org/docs/Web/API/Response/clone)
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`Réponse`
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+Réponse.clone
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:26364
+
+***
+
+<div id="formdata">
+  ### formData
+</div>
+
+▸ **formData**(): `Promise`&lt;`FormData`&gt;
+
+[Référence MDN](https://developer.mozilla.org/docs/Web/API/Request/formData)
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`Promise`&lt;`FormData`&gt;
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+Réponse.formData
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:4478
+
+***
+
+<div id="json">
+  ### json
+</div>
+
+▸ **json**(): `Promise`&lt;`any`&gt;
+
+[Référence MDN](https://developer.mozilla.org/docs/Web/API/Request/json)
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`Promise`&lt;`any`&gt;
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+Réponse.json
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:4480
+
+***
+
+<div id="text">
+  ### text
+</div>
+
+▸ **text**(): `Promise`&lt;`string`&gt;
+
+[Référence MDN](https://developer.mozilla.org/docs/Web/API/Request/text)
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`Promise`&lt;`string`&gt;
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+Réponse.text
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:4482

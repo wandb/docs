@@ -1,5 +1,5 @@
 ---
-title: "インターフェース: CallSchema"
+title: "CallSchema"
 description: "TypeScript SDK リファレンス"
 ---
 
@@ -20,6 +20,7 @@ CallSchema
 * [display&#95;name](./callschema#display_name)
 * [ended&#95;at](./callschema#ended_at)
 * [exception](./callschema#exception)
+* [expire&#95;at](./callschema#expire_at)
 * [id](./callschema#id)
 * [inputs](./callschema#inputs)
 * [op&#95;name](./callschema#op_name)
@@ -27,10 +28,17 @@ CallSchema
 * [parent&#95;id](./callschema#parent_id)
 * [project&#95;id](./callschema#project_id)
 * [started&#95;at](./callschema#started_at)
+* [storage&#95;size&#95;bytes](./callschema#storage_size_bytes)
 * [summary](./callschema#summary)
+* [thread&#95;id](./callschema#thread_id)
+* [total&#95;storage&#95;size&#95;bytes](./callschema#total_storage_size_bytes)
 * [trace&#95;id](./callschema#trace_id)
+* [turn&#95;id](./callschema#turn_id)
 * [wb&#95;run&#95;id](./callschema#wb_run_id)
+* [wb&#95;run&#95;step](./callschema#wb_run_step)
+* [wb&#95;run&#95;step&#95;end](./callschema#wb_run_step_end)
 * [wb&#95;user&#95;id](./callschema#wb_user_id)
+* [wb&#95;username](./callschema#wb_username)
 
 ## プロパティ
 
@@ -38,7 +46,7 @@ CallSchema
   ### attributes
 </div>
 
-• **attributes**: `object`
+• **attributes**: `Record`&lt;`string`, `any`&gt;
 
 属性
 
@@ -46,7 +54,7 @@ CallSchema
   #### 定義箇所
 </div>
 
-[generated/traceServerApi.ts:118](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/generated/traceServerApi.ts#L118)
+[src/generated/traceServerApi.ts:1870](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1870)
 
 ***
 
@@ -62,7 +70,7 @@ CallSchema
   #### 定義箇所
 </div>
 
-[generated/traceServerApi.ts:133](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/generated/traceServerApi.ts#L133)
+[src/generated/traceServerApi.ts:1891](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1891)
 
 ***
 
@@ -78,7 +86,7 @@ CallSchema
   #### 定義箇所
 </div>
 
-[generated/traceServerApi.ts:107](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/generated/traceServerApi.ts#L107)
+[src/generated/traceServerApi.ts:1855](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1855)
 
 ***
 
@@ -94,7 +102,7 @@ CallSchema
   #### 定義箇所
 </div>
 
-[generated/traceServerApi.ts:122](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/generated/traceServerApi.ts#L122)
+[src/generated/traceServerApi.ts:1874](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1874)
 
 ***
 
@@ -110,7 +118,24 @@ CallSchema
   #### 定義箇所
 </div>
 
-[generated/traceServerApi.ts:124](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/generated/traceServerApi.ts#L124)
+[src/generated/traceServerApi.ts:1876](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1876)
+
+***
+
+<div id="expire_at">
+  ### expire_at
+</div>
+
+• `Optional` **expire&#95;at**: `null` | `string`
+
+有効期限
+この call の有効期限を示すタイムスタンプです。None は、project に TTL が設定されていないことを意味します (この行は期限切れになりません) 。
+
+<div id="defined-in">
+  #### 定義箇所
+</div>
+
+[src/generated/traceServerApi.ts:1896](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1896)
 
 ***
 
@@ -126,7 +151,7 @@ ID
   #### 定義箇所
 </div>
 
-[generated/traceServerApi.ts:101](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/generated/traceServerApi.ts#L101)
+[src/generated/traceServerApi.ts:1849](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1849)
 
 ***
 
@@ -134,7 +159,7 @@ ID
   ### inputs
 </div>
 
-• **inputs**: `object`
+• **inputs**: `Record`&lt;`string`, `any`&gt;
 
 Inputs
 
@@ -142,7 +167,7 @@ Inputs
   #### 定義箇所
 </div>
 
-[generated/traceServerApi.ts:120](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/generated/traceServerApi.ts#L120)
+[src/generated/traceServerApi.ts:1872](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1872)
 
 ***
 
@@ -158,7 +183,7 @@ op の名前
   #### 定義箇所
 </div>
 
-[generated/traceServerApi.ts:105](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/generated/traceServerApi.ts#L105)
+[src/generated/traceServerApi.ts:1853](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1853)
 
 ***
 
@@ -174,7 +199,7 @@ op の名前
   #### 定義箇所
 </div>
 
-[generated/traceServerApi.ts:126](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/generated/traceServerApi.ts#L126)
+[src/generated/traceServerApi.ts:1878](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1878)
 
 ***
 
@@ -190,7 +215,7 @@ op の名前
   #### 定義箇所
 </div>
 
-[generated/traceServerApi.ts:111](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/generated/traceServerApi.ts#L111)
+[src/generated/traceServerApi.ts:1859](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1859)
 
 ***
 
@@ -206,7 +231,7 @@ op の名前
   #### 定義箇所
 </div>
 
-[generated/traceServerApi.ts:103](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/generated/traceServerApi.ts#L103)
+[src/generated/traceServerApi.ts:1851](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1851)
 
 ***
 
@@ -226,7 +251,23 @@ date-time
   #### 定義箇所
 </div>
 
-[generated/traceServerApi.ts:116](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/generated/traceServerApi.ts#L116)
+[src/generated/traceServerApi.ts:1868](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1868)
+
+***
+
+<div id="storage_size_bytes">
+  ### storage_size_bytes
+</div>
+
+• `Optional` **storage&#95;size&#95;bytes**: `null` | `number`
+
+ストレージサイズ (バイト)
+
+<div id="defined-in">
+  #### 定義箇所
+</div>
+
+[src/generated/traceServerApi.ts:1898](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1898)
 
 ***
 
@@ -234,13 +275,45 @@ date-time
   ### summary
 </div>
 
-• `Optional` **summary**: `object`
+• `Optional` **summary**: `Record`&lt;`string`, `any`&gt;
 
 <div id="defined-in">
   #### 定義箇所
 </div>
 
-[generated/traceServerApi.ts:127](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/generated/traceServerApi.ts#L127)
+[src/generated/traceServerApi.ts:1879](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1879)
+
+***
+
+<div id="thread_id">
+  ### thread_id
+</div>
+
+• `Optional` **thread&#95;id**: `null` | `string`
+
+スレッド ID
+
+<div id="defined-in">
+  #### 定義箇所
+</div>
+
+[src/generated/traceServerApi.ts:1861](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1861)
+
+***
+
+<div id="total_storage_size_bytes">
+  ### total_storage_size_bytes
+</div>
+
+• `Optional` **total&#95;storage&#95;size&#95;bytes**: `null` | `number`
+
+合計ストレージ サイズ (バイト)
+
+<div id="defined-in">
+  #### 定義箇所
+</div>
+
+[src/generated/traceServerApi.ts:1900](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1900)
 
 ***
 
@@ -256,7 +329,23 @@ date-time
   #### 定義箇所
 </div>
 
-[generated/traceServerApi.ts:109](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/generated/traceServerApi.ts#L109)
+[src/generated/traceServerApi.ts:1857](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1857)
+
+***
+
+<div id="turn_id">
+  ### turn_id
+</div>
+
+• `Optional` **turn&#95;id**: `null` | `string`
+
+ターン ID
+
+<div id="defined-in">
+  #### 定義箇所
+</div>
+
+[src/generated/traceServerApi.ts:1863](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1863)
 
 ***
 
@@ -272,7 +361,39 @@ Wb Run ID
   #### 定義箇所
 </div>
 
-[generated/traceServerApi.ts:131](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/generated/traceServerApi.ts#L131)
+[src/generated/traceServerApi.ts:1885](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1885)
+
+***
+
+<div id="wb_run_step">
+  ### wb_run_step
+</div>
+
+• `Optional` **wb&#95;run&#95;step**: `null` | `number`
+
+W&amp;B Run Step
+
+<div id="defined-in">
+  #### 定義箇所
+</div>
+
+[src/generated/traceServerApi.ts:1887](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1887)
+
+***
+
+<div id="wb_run_step_end">
+  ### wb_run_step_end
+</div>
+
+• `Optional` **wb&#95;run&#95;step&#95;end**: `null` | `number`
+
+W&amp;B run の終了ステップ
+
+<div id="defined-in">
+  #### 定義箇所
+</div>
+
+[src/generated/traceServerApi.ts:1889](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1889)
 
 ***
 
@@ -288,4 +409,20 @@ WbユーザーID
   #### 定義箇所
 </div>
 
-[generated/traceServerApi.ts:129](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/generated/traceServerApi.ts#L129)
+[src/generated/traceServerApi.ts:1881](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1881)
+
+***
+
+<div id="wb_username">
+  ### wb_username
+</div>
+
+• `Optional` **wb&#95;username**: `null` | `string`
+
+W&amp;Bユーザー名
+
+<div id="defined-in">
+  #### 定義箇所
+</div>
+
+[src/generated/traceServerApi.ts:1883](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1883)

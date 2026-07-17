@@ -17,12 +17,11 @@ Un registre au sein du registre.
 
 ```python
 __init__(
-    client: 'RetryingClient',
+    service_api: 'ServiceApi',
     organization: 'str',
     entity: 'str',
     name: 'str',
-    attrs: 'RegistryFragment | None' = None,
-    service_api: 'ServiceApi | None' = None
+    attrs: 'RegistryFragment | None' = None
 )
 ```
 
@@ -220,12 +219,20 @@ registry.add_members(my_team)
 ```python
 collections(
     filter: 'dict[str, Any] | None' = None,
+    order: 'str | None' = None,
     per_page: 'PositiveInt' = 100,
     start: 'str | None' = None
 ) → Collections
 ```
 
-Renvoie les collections du registre.
+Renvoie les collections appartenant à ce registre.
+
+**Arguments :**
+
+* `filter` :  Mappage facultatif des filtres à appliquer à la requête de collections.
+* `order` :  Chaîne facultative permettant de spécifier l&#39;ordre des résultats.  S&#39;il est préfixé par &#39;+&#39;, le tri est croissant (par défaut).  S&#39;il est préfixé par &#39;-&#39;, le tri est décroissant.
+* `per_page` :  Nombre de résultats à récupérer par page.  Il n&#39;est généralement pas nécessaire de le modifier.
+* `start` :  Curseur de pagination permettant de reprendre une requête antérieure, obtenu à partir de l&#39;attribut `.cursor` d&#39;un paginateur précédent.
 
 ***
 
@@ -233,13 +240,12 @@ Renvoie les collections du registre.
 
 ```python
 create(
-    client: 'RetryingClient',
+    api: 'Api',
     organization: 'str',
     name: 'str',
     visibility: "Literal['organization', 'restricted']",
     description: 'str | None' = None,
-    artifact_types: 'list[str] | None' = None,
-    service_api: 'ServiceApi | None' = None
+    artifact_types: 'list[str] | None' = None
 ) → Self
 ```
 
@@ -249,8 +255,7 @@ Le nom du registre doit être unique au sein de l’organisation. Cette fonction
 
 **Arguments :**
 
-* `client`:  Client GraphQL hérité conservé pour la compatibilité de l’API.
-* `service_api`:  Interface vers le service wandb-core qui effectue les appels d’API W&amp;B pour le registre créé.
+* `api`:  L’instance d’API W&amp;B.
 * `organization`:  Le nom de l’organisation.
 * `name`:  Le nom du registre (sans le préfixe `wandb-registry-`).
 * `visibility`:  Le niveau de visibilité (`'organization'` ou `'restricted'`).
@@ -259,7 +264,7 @@ Le nom du registre doit être unique au sein de l’organisation. Cette fonction
 
 **Retourne :**
 
-* `Registry`:  L’objet Registry nouvellement créé.
+* `Registre`:  L’objet Registre nouvellement créé.
 
 **Exceptions levées :**
 
@@ -432,4 +437,10 @@ versions(
 ) → Versions
 ```
 
-Renvoie les versions du registre. 
+Renvoie les versions d&#39;artifact de ce registre.
+
+**Arguments :**
+
+* `filter`:  Mappage facultatif des filtres à appliquer à la requête de versions d&#39;artifact.
+* `per_page`:  Le nombre de résultats à récupérer par page.  En général, il n&#39;y a aucune raison de modifier cette valeur.
+* `start`:  Curseur de pagination pour reprendre une requête précédente, capturé à partir de l&#39;attribut `.cursor` d&#39;un paginateur précédent. 

@@ -4,6 +4,10 @@ description: "Use attributes to add metadata to your traces and evaluations."
 keywords: ["weave.attributes", "global_attributes", "trace metadata", "get_current_call", "withAttributes"]
 ---
 
+<Note>
+This page describes attributes for functions traced with the `@weave.op` decorator. If you instrument an agent with the Weave agent SDK, set attributes and events on agent spans (`Turn`, `LLM`, `Tool`, and `SubAgent`) instead. See [Set attributes and events on agent spans](/weave/guides/tracking/trace-agents-attributes).
+</Note>
+
 Attributes in Weave let you attach custom metadata to your traces and evaluations. This metadata can include information like environment names, model versions, experiment IDs, user IDs, or other contextual information to help you organize, filter, and analyze your Weave data.
 
 Attributes are especially helpful for grouping or filtering traces by:
@@ -46,7 +50,8 @@ with weave.attributes({'env': 'production', 'user_id': '12345'}):
 ```
 </Tab>
 <Tab title="TypeScript">
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 import {init, op, withAttributes} from 'weave';
 
 async function main() {
@@ -98,7 +103,8 @@ with weave.attributes({
 ```
 </Tab>
 <Tab title="TypeScript">
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 import {init, op, withAttributes} from 'weave';
 
 async function main() {
@@ -169,7 +175,8 @@ asyncio.run(evaluation.evaluate(model))  # Has all global attributes
 ```
 </Tab>
 <Tab title="TypeScript">
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 import {init, op, withAttributes} from 'weave';
 
 async function main() {
@@ -226,7 +233,8 @@ with weave.attributes({'env': 'staging', 'experiment': 'A'}):
 ```
 </Tab>
 <Tab title="TypeScript">
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 import {init, op, withAttributes} from 'weave';
 
 async function main() {
@@ -307,7 +315,8 @@ Attributes: {'env': 'production', 'version': '1.1.0', 'region': 'us-west-2', 'ex
 
 With the Weave TypeScript SDK, you can get the current attributes with `client.getCurrentAttributes()`. Unlike the Weave Python SDK, you can access TypeScript attributes within a `withAttributes()` context, not just inside an op.
 
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 import * as weave from 'weave';
 import { withAttributes } from 'weave';
 

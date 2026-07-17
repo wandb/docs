@@ -1,28 +1,24 @@
 ---
 title: "Envoyer des traces OpenTelemetry vers Weave"
-description: "Ingérer des données de trace compatibles OpenTelemetry via un point de terminaison dédié"
+description: "Importer des données de trace compatibles OpenTelemetry via un point de terminaison dédié"
+keywords: ["OTLP", "OpenTelemetry Collector", "OpenInference", "OpenLLMetry", "threads"]
 ---
 
-<div id="overview">
-  ## Aperçu
-</div>
+Weave prend en charge l’importation de données de trace compatibles OpenTelemetry via un point de terminaison dédié. Ce point de terminaison vous permet d’envoyer directement vers votre projet Weave des données de trace au format OTLP (OpenTelemetry Protocol). Utilisez cette intégration si vous souhaitez instrumenter votre application selon le standard OpenTelemetry et faire apparaître ces traces aux côtés de vos autres données Weave, sans remplacer votre pipeline d’observabilité existant basé sur OTel.
 
-Weave prend en charge l’ingestion de données de trace compatibles OpenTelemetry via un point de terminaison dédié. Ce point de terminaison vous permet d’envoyer des données de trace au format OTLP (OpenTelemetry Protocol) directement à votre projet Weave.
+Cette page présente les détails du point de terminaison, l’authentification, des exemples complets en Python et TypeScript, comment transférer des traces via un OpenTelemetry Collector, comment organiser les traces en threads Weave, ainsi que les mappages d’attributs que Weave applique aux spans entrants.
 
 <div id="endpoint-details">
   ## Détails du point de terminaison
 </div>
 
-**Chemin** : `/otel/v1/traces`
-**Méthode** : POST
-**Content-Type** : `application/x-protobuf`
-**URL de base** : l’URL de base du point de terminaison de trace OTel dépend de votre type de déploiement W&amp;B :
+* **Chemin** : `/otel/v1/traces`
+* **Méthode** : `POST`
+* **Content-Type** : `application/x-protobuf`
+* **URL de base** : l’URL de base du point de terminaison de trace OTel dépend de votre type de déploiement W&amp;B :
 
-* Cloud mutualisé :
-  `https://trace.wandb.ai/otel/v1/traces`
-
-* Instances Cloud dédié et Autogéré :
-  `https://<your-subdomain>.wandb.io/traces/otel/v1/traces`
+- Cloud mutualisé : `https://trace.wandb.ai/otel/v1/traces`.
+- Instances Cloud dédié et Autogéré : `https://<your-subdomain>.wandb.io/traces/otel/v1/traces`.
 
 Remplacez `<your-subdomain>` par le domaine W&amp;B unique de votre organisation, par exemple `acme.wandb.io`.
 
@@ -30,12 +26,16 @@ Remplacez `<your-subdomain>` par le domaine W&amp;B unique de votre organisation
   ## Authentification et acheminement
 </div>
 
-Incluez votre clé API W&amp;B dans l’en-tête `wandb-api-key`, puis spécifiez les clés suivantes comme attributs de ressource OpenTelemetry dans votre classe `TracerProvider` :
+Weave utilise l’en-tête `wandb-api-key` pour authentifier les requêtes et les attributs de ressource définis dans votre `TracerProvider` pour acheminer les spans vers la bonne entité et le bon projet. Transmettez votre clé API W&amp;B dans l’en-tête `wandb-api-key`, puis spécifiez les clés suivantes comme attributs de ressource OpenTelemetry dans votre classe `TracerProvider` :
 
-* `wandb.entity` : Le nom de votre équipe W&amp;B ou de votre utilisateur.
-* `wandb.project` : Le nom du projet vers lequel envoyer les traces.
+* `wandb.entity` : le nom de votre équipe W&amp;B ou de votre utilisateur.
+* `wandb.project` : le nom du projet auquel envoyer les traces.
 
-L’exemple suivant montre comment configurer l’authentification et l’acheminement du projet :
+L’exemple suivant montre comment configurer l’authentification et l’acheminement vers le projet :
+
+<Warning>
+  `WEAVE_OTLP_ENDPOINT` ci-dessous est une variable locale, et non la variable d’environnement `OTEL_EXPORTER_OTLP_ENDPOINT` du SDK OTel. Elle est définie avec le chemin complet des traces (`.../otel/v1/traces`). Elle est transmise explicitement à `endpoint=`/`url:` sur l’exporter, de sorte que le SDK envoie les requêtes vers cette URL telle quelle. Si, à la place, vous `export` une valeur comme véritable variable `OTEL_EXPORTER_OTLP_ENDPOINT` et construisez l’exporter sans argument (par exemple, `OTLPSpanExporter()`), le SDK ajoute lui-même `/v1/traces`. Dans ce cas, cette variable doit donc contenir l’URL de base (`.../otel`) à la place, sinon vous obtenez un chemin dupliqué (`.../otel/v1/traces/v1/traces`), une `404` et des spans ignorés silencieusement. Il en va de même pour `OTEL_EXPORTER_OTLP_TRACES_ENDPOINT` : elle doit également contenir le chemin complet des traces, puisque le SDK ne lui ajoute pas non plus `/v1/traces`.
+</Warning>
 
 <CodeGroup>
   ```python Python lines {7,8}
@@ -48,13 +48,13 @@ L’exemple suivant montre comment configurer l’authentification et l’achemi
   ENTITY = "<your-team-name>"
   PROJECT = "<your-project-name>"
 
-  OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+  WEAVE_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
 
   # Créez une clé API sur https://wandb.ai/settings
   WANDB_API_KEY = os.environ["WANDB_API_KEY"]
 
   exporter = OTLPSpanExporter(
-      endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+      endpoint=WEAVE_OTLP_ENDPOINT,
       headers={"wandb-api-key": WANDB_API_KEY},
   )
 
@@ -73,13 +73,13 @@ L’exemple suivant montre comment configurer l’authentification et l’achemi
   const ENTITY = "<your-team-name>";
   const PROJECT = "<your-project-name>";
 
-  const OTEL_EXPORTER_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
+  const WEAVE_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
 
   // Créez une clé API sur https://wandb.ai/settings
   const WANDB_API_KEY = process.env.WANDB_API_KEY!;
 
   const exporter = new OTLPTraceExporter({
-    url: OTEL_EXPORTER_OTLP_ENDPOINT,
+    url: WEAVE_OTLP_ENDPOINT,
     headers: { "wandb-api-key": WANDB_API_KEY },
   });
 
@@ -96,20 +96,20 @@ L’exemple suivant montre comment configurer l’authentification et l’achemi
   ## Exemples
 </div>
 
-Les exemples suivants montrent comment envoyer des traces OpenTelemetry vers Weave avec Python et TypeScript.
+Les exemples suivants montrent comment envoyer des traces OpenTelemetry vers Weave à l’aide de Python et de TypeScript. Chaque exemple présente une approche différente : utiliser la bibliothèque d’instrumentation OpenInference, utiliser l’instrumentation OpenLLMetry ou utiliser directement le SDK OpenTelemetry sans package d’instrumentation.
 
-Avant d’exécuter les exemples de code ci-dessous, renseignez les champs suivants :
+Avant d’exécuter les exemples de code suivants, définissez les champs suivants :
 
-1. `WANDB_API_KEY` : vous pouvez l’obtenir dans les [Paramètres utilisateur](https://wandb.ai/settings).
-2. Entité : vous ne pouvez consigner des traces que dans le projet d’une entité à laquelle vous avez accès. Vous pouvez trouver le nom de votre entité en consultant votre tableau de bord W&amp;B à l’adresse [[https://wandb.ai/home](https://wandb.ai/home)], puis en vérifiant le champ **Teams** dans la barre latérale gauche.
-3. Nom du projet : choisissez un nom sympa !
-4. `OPENAI_API_KEY` : vous pouvez l’obtenir depuis le [tableau de bord OpenAI](https://platform.openai.com/api-keys).
+* `WANDB_API_KEY` : vous pouvez l’obtenir dans les [Paramètres utilisateur](https://wandb.ai/settings).
+* Entité : vous pouvez journaliser des traces dans le projet uniquement sous une équipe/entité à laquelle vous avez accès. Pour trouver le nom de votre entité, accédez à votre [tableau de bord W&amp;B](https://wandb.ai/home) et vérifiez le champ **Teams** dans la barre latérale gauche.
+* Nom du projet : choisissez un nom.
+* `OPENAI_API_KEY` : vous pouvez l’obtenir dans le [tableau de bord OpenAI](https://platform.openai.com/api-keys).
 
 <div id="openinference-instrumentation">
   ### Instrumentation OpenInference
 </div>
 
-Cet exemple montre comment utiliser l’instrumentation OpenAI. Il en existe bien d’autres, que vous pouvez trouver dans le [dépôt officiel](https://github.com/Arize-ai/openinference).
+[OpenInference](https://github.com/Arize-ai/openinference) est une bibliothèque d’instrumentation open source d’Arize AI qui capture les appels LLM sous forme de spans OpenTelemetry. Cet exemple montre comment utiliser l’instrumentation OpenAI. Des instrumentations supplémentaires sont disponibles dans le [dépôt officiel](https://github.com/Arize-ai/openinference).
 
 Installez d’abord les dépendances requises :
 
@@ -128,8 +128,7 @@ Installez d’abord les dépendances requises :
 </Tabs>
 
 <Warning>
-  **Recommandation relative aux performances** : utilisez toujours `BatchSpanProcessor` plutôt que `SimpleSpanProcessor` lors de l’envoi de traces vers Weave. `SimpleSpanProcessor` exporte les spans de manière synchrone, ce qui peut
-  affecter les performances des autres charges de travail. Ces exemples illustrent `BatchSpanProcessor`, recommandé en production, car il regroupe les spans de façon asynchrone et efficace.
+  **Recommandation relative aux performances** : utilisez toujours `BatchSpanProcessor` plutôt que `SimpleSpanProcessor` lors de l’envoi de traces vers Weave. `SimpleSpanProcessor` exporte les spans de manière synchrone, ce qui peut affecter les performances des autres charges de travail. Ces exemples illustrent `BatchSpanProcessor`, recommandé en production, car il regroupe les spans de façon asynchrone et efficace.
 </Warning>
 
 <Tabs>
@@ -150,13 +149,13 @@ Installez d’abord les dépendances requises :
     ENTITY = "<your-team-name>"
     PROJECT = "<your-project-name>"
 
-    OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+    WEAVE_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
 
     # Créez une clé API sur https://wandb.ai/settings
     WANDB_API_KEY = os.environ["WANDB_API_KEY"]
 
     exporter = OTLPSpanExporter(
-        endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+        endpoint=WEAVE_OTLP_ENDPOINT,
         headers={"wandb-api-key": WANDB_API_KEY},
     )
 
@@ -218,13 +217,13 @@ Installez d’abord les dépendances requises :
     const ENTITY = "<your-team-name>";
     const PROJECT = "<your-project-name>";
 
-    const OTEL_EXPORTER_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
+    const WEAVE_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
 
     // Créez une clé API sur https://wandb.ai/settings
     const WANDB_API_KEY = process.env.WANDB_API_KEY!;
 
     const exporter = new OTLPTraceExporter({
-      url: OTEL_EXPORTER_OTLP_ENDPOINT,
+      url: WEAVE_OTLP_ENDPOINT,
       headers: { "wandb-api-key": WANDB_API_KEY },
     });
 
@@ -287,7 +286,7 @@ Installez d’abord les dépendances requises :
   ### Instrumentation OpenLLMetry
 </div>
 
-L&#39;exemple suivant montre comment utiliser l’instrumentation OpenAI. D’autres exemples sont disponibles dans le [dépôt OpenLLMetry](https://github.com/traceloop/openllmetry).
+[OpenLLMetry](https://github.com/traceloop/openllmetry) est une bibliothèque d’observabilité open source de Traceloop qui fournit une instrumentation OpenTelemetry pour les fournisseurs de LLM et les frameworks les plus courants. L&#39;exemple suivant montre comment utiliser l’instrumentation OpenAI. D’autres exemples sont disponibles dans le [dépôt OpenLLMetry](https://github.com/traceloop/openllmetry).
 
 Installez d’abord les dépendances requises :
 
@@ -307,7 +306,7 @@ Installez d’abord les dépendances requises :
 
 <Tabs>
   <Tab title="Python">
-    Collez le code suivant dans un fichier Python, par exemple `openllmetry_example.py`. Notez qu’il s’agit du même code que ci-dessus, sauf que `OpenAIInstrumentor` est importé depuis `opentelemetry.instrumentation.openai` au lieu de `openinference.instrumentation.openai` :
+    Collez le code suivant dans un fichier Python, par exemple `openllmetry_example.py`. Il s’agit du même code que dans l’exemple précédent, sauf que `OpenAIInstrumentor` est importé depuis `opentelemetry.instrumentation.openai` au lieu de `openinference.instrumentation.openai` :
 
     ```python lines
     import os
@@ -323,13 +322,13 @@ Installez d’abord les dépendances requises :
     ENTITY = "<your-team-name>"
     PROJECT = "<your-project-name>"
 
-    OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+    WEAVE_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
 
     # Créez une clé API sur https://wandb.ai/settings
     WANDB_API_KEY = os.environ["WANDB_API_KEY"]
 
     exporter = OTLPSpanExporter(
-        endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+        endpoint=WEAVE_OTLP_ENDPOINT,
         headers={"wandb-api-key": WANDB_API_KEY},
     )
 
@@ -369,7 +368,7 @@ Installez d’abord les dépendances requises :
   </Tab>
 
   <Tab title="TypeScript">
-    Collez le code suivant dans un fichier TypeScript comme `openllmetry_example.ts`. Notez que ce code utilise le package d’instrumentation OpenAI de Traceloop :
+    Collez le code suivant dans un fichier TypeScript comme `openllmetry_example.ts`. Ce code utilise le package d’instrumentation OpenAI de Traceloop :
 
     ```typescript lines
     import OpenAI from "openai";
@@ -385,13 +384,13 @@ Installez d’abord les dépendances requises :
     const ENTITY = "<your-team-name>";
     const PROJECT = "<your-project-name>";
 
-    const OTEL_EXPORTER_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
+    const WEAVE_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
 
     // Créez une clé API sur https://wandb.ai/settings
     const WANDB_API_KEY = process.env.WANDB_API_KEY!;
 
     const exporter = new OTLPTraceExporter({
-      url: OTEL_EXPORTER_OTLP_ENDPOINT,
+      url: WEAVE_OTLP_ENDPOINT,
       headers: { "wandb-api-key": WANDB_API_KEY },
     });
 
@@ -459,7 +458,7 @@ Installez d’abord les dépendances requises :
   ### Sans instrumentation
 </div>
 
-Si vous préférez utiliser OTel directement plutôt qu’un package d’instrumentation, c’est possible. Les attributs de span seront analysés conformément aux conventions sémantiques d’OpenTelemetry décrites à l’adresse [https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/).
+Si vous préférez utiliser OTel directement plutôt qu’un package d’instrumentation, c’est possible. Cette approche vous donne un contrôle complet sur les attributs définis sur chaque span. Weave analyse les attributs de span conformément aux conventions sémantiques d’OpenTelemetry décrites à l’adresse [https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/).
 
 Installez d’abord les dépendances requises :
 
@@ -496,14 +495,14 @@ Installez d’abord les dépendances requises :
     ENTITY = "<your-team-name>"
     PROJECT = "<your-project-name>"
 
-    OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+    WEAVE_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
 
     # Créez une clé API sur https://wandb.ai/settings
     WANDB_API_KEY = os.environ["WANDB_API_KEY"]
 
     # Configurer l'exportateur OTLP
     exporter = OTLPSpanExporter(
-        endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+        endpoint=WEAVE_OTLP_ENDPOINT,
         headers={"wandb-api-key": WANDB_API_KEY},
     )
 
@@ -568,13 +567,13 @@ Installez d’abord les dépendances requises :
     const ENTITY = "<your-team-name>";
     const PROJECT = "<your-project-name>";
 
-    const OTEL_EXPORTER_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
+    const WEAVE_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
 
     // Créez une clé API sur https://wandb.ai/settings
     const WANDB_API_KEY = process.env.WANDB_API_KEY!;
 
     const exporter = new OTLPTraceExporter({
-      url: OTEL_EXPORTER_OTLP_ENDPOINT,
+      url: WEAVE_OTLP_ENDPOINT,
       headers: { "wandb-api-key": WANDB_API_KEY },
     });
 
@@ -643,19 +642,19 @@ Installez d’abord les dépendances requises :
   </Tab>
 </Tabs>
 
-Les préfixes d’attribut de span `gen_ai` et `openinference` sont utilisés pour déterminer la convention à utiliser, le cas échéant, lors de l’interprétation de la trace. Si aucune de ces clés n’est détectée, tous les attributs de span sont alors visibles dans la vue de trace. Le span complet est disponible dans le panneau latéral lorsque vous sélectionnez une trace.
+Weave utilise les préfixes d’attribut de span `gen_ai` et `openinference` pour déterminer la convention à utiliser, le cas échéant, lors de l’interprétation de la trace. Si aucune de ces clés n’est détectée, tous les attributs de span sont alors visibles dans la vue de trace. Le span complet est disponible dans le panneau latéral lorsque vous sélectionnez une trace.
 
 <div id="use-an-opentelemetry-collector">
   ## Utiliser un collecteur OpenTelemetry
 </div>
 
-Les exemples ci-dessus exportent les traces directement depuis votre application vers Weave. En production, vous pouvez utiliser un [OpenTelemetry Collector](https://opentelemetry.io/docs/collector/) comme intermédiaire entre votre application et Weave. Le collecteur reçoit les traces de votre application, puis les transmet à un ou plusieurs backends.
+Les exemples précédents exportent les traces directement depuis votre application vers Weave. En production, vous pouvez utiliser un [OpenTelemetry Collector](https://opentelemetry.io/docs/collector/) comme intermédiaire entre votre application et Weave. Le collecteur reçoit les traces de votre application, puis les transmet à un ou plusieurs backends. Cette approche centralise l’authentification, le traitement par lots et la logique d’acheminement en dehors du code de votre application, et vous permet de répartir les traces vers plusieurs backends d’observabilité à partir d’un seul pipeline.
 
 <div id="set-up-a-collector">
   ### Configurer un collecteur
 </div>
 
-L&#39;exemple suivant montre comment :
+Cette section explique comment exécuter un OpenTelemetry Collector local dans Docker et configurer une application pour lui envoyer des traces. L&#39;exemple suivant montre comment :
 
 * Configurer un fichier de configuration pour Docker qui déploie un serveur local (collecteur) à l&#39;écoute des traces OTLP, les regroupe par lots et les achemine vers Weave.
 * Exécuter localement le collecteur avec Docker.
@@ -793,9 +792,9 @@ Si vous définissez `wandb.entity` ou `wandb.project` comme attributs de ressour
   ```
 </CodeGroup>
 
-`OpenAIInstrumentor` intercepte automatiquement les appels OpenAI, crée des traces et les exporte vers le collecteur. Le collecteur gère l’authentification et l’acheminement vers Weave.
+`OpenAIInstrumentor` intercepte les appels OpenAI, crée des traces et les exporte vers le collecteur. Le collecteur gère l’authentification et l’acheminement vers Weave.
 
-Après avoir exécuté le script, vous pouvez [consulter les traces](/fr/weave/guides/tracking/trace-tree) dans Weave UI.
+Après avoir exécuté le script, vous pouvez [consulter les traces](/fr/weave/guides/tracking/trace-tree) dans l’interface Weave.
 
 Pour envoyer des traces vers des backends supplémentaires, ajoutez d’autres exportateurs et incluez-les dans la liste `service.pipelines.traces.exporters`. Par exemple, vous pouvez exporter vers Weave et Jaeger depuis la même instance du Collector.
 
@@ -803,12 +802,12 @@ Pour envoyer des traces vers des backends supplémentaires, ajoutez d’autres e
   ## Organiser les traces OTel en threads
 </div>
 
-Ajoutez des attributs de span spécifiques pour organiser vos traces OpenTelemetry en [threads Weave](/fr/weave/guides/tracking/threads), puis utilisez l’interface Thread de Weave pour analyser les opérations associées, comme les conversations à plusieurs tours ou les sessions utilisateur dans l’interface Thread de Weave.
+Les [threads Weave](/fr/weave/guides/tracking/threads) vous permettent de regrouper des traces associées afin d’analyser des conversations sur plusieurs tours de conversation ou des sessions utilisateur comme une seule unité. Ajoutez des attributs de span spécifiques pour organiser vos traces OpenTelemetry en threads, puis utilisez l’interface Thread de Weave pour analyser les opérations associées, comme les conversations à plusieurs tours de conversation ou les sessions utilisateur.
 
 Ajoutez les attributs suivants à vos spans OTel pour activer le regroupement en threads :
 
-* `wandb.thread_id` : regroupe les spans dans un thread donné
-* `wandb.is_turn` : marque un span comme un tour de conversation (il apparaît comme une ligne dans la vue thread)
+* `wandb.thread_id` : regroupe les spans dans un thread donné.
+* `wandb.is_turn` : marque un span comme un tour de conversation de conversation (il apparaît comme une ligne dans la vue thread).
 
 Les exemples suivants montrent comment organiser des traces OTel en threads Weave. Ils utilisent `wandb.thread_id` pour regrouper les opérations associées et `wandb.is_turn` pour marquer les opérations de haut niveau qui apparaissent comme des lignes dans la vue thread.
 
@@ -831,10 +830,10 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
       PROJECT = "<your-project-name>"
       WANDB_API_KEY = os.environ["WANDB_API_KEY"]
 
-      OTEL_EXPORTER_OTLP_ENDPOINT = "https://trace.wandb.ai/otel/v1/traces"
+      WEAVE_OTLP_ENDPOINT = "https://trace.wandb.ai/otel/v1/traces"
 
       exporter = OTLPSpanExporter(
-          endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+          endpoint=WEAVE_OTLP_ENDPOINT,
           headers={"wandb-api-key": WANDB_API_KEY},
       )
 
@@ -877,10 +876,10 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
       }
 
       // Configuration d’OTel
-      const OTEL_EXPORTER_OTLP_ENDPOINT = "https://trace.wandb.ai/otel/v1/traces";
+      const WEAVE_OTLP_ENDPOINT = "https://trace.wandb.ai/otel/v1/traces";
 
       const exporter = new OTLPTraceExporter({
-        url: OTEL_EXPORTER_OTLP_ENDPOINT,
+        url: WEAVE_OTLP_ENDPOINT,
         headers: { "wandb-api-key": WANDB_API_KEY },
       });
 
@@ -906,18 +905,18 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
   </Tabs>
 </Accordion>
 
-<Accordion title="Tracer un thread simple à un seul tour">
+<Accordion title="Tracer un thread simple à un seul tour de conversation">
   <Tabs>
     <Tab title="Python">
       ```python lines
       def example_1_basic_thread_and_turn():
-          """Exemple 1 : thread simple avec un seul tour"""
-          print("\n=== Exemple 1 : thread simple et tour ===")
+          """Exemple 1 : thread simple avec un seul tour de conversation"""
+          print("\n=== Exemple 1 : thread simple et tour de conversation ===")
 
           # Créer un contexte de thread
           thread_id = "thread_example_1"
 
-          # Ce span représente un tour (enfant direct du thread)
+          # Ce span représente un tour de conversation (enfant direct du thread)
           with tracer.start_as_current_span("process_user_message") as turn_span:
               # Définir les attributs du thread
               turn_span.set_attribute("wandb.thread_id", thread_id)
@@ -928,7 +927,7 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
 
               # Simuler du travail avec des spans imbriqués
               with tracer.start_as_current_span("generate_response") as nested_span:
-                  # Il s'agit d'un appel imbriqué dans le tour, donc is_turn doit être false ou non défini
+                  # Il s'agit d'un appel imbriqué dans le tour de conversation, donc is_turn doit être false ou non défini
                   nested_span.set_attribute("wandb.thread_id", thread_id)
                   # wandb.is_turn n'est pas défini ou est défini sur False pour les appels imbriqués
 
@@ -936,7 +935,7 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
                   nested_span.set_attribute("output.value", response)
 
               turn_span.set_attribute("output.value", response)
-              print(f"Tour terminé dans le thread : {thread_id}")
+              print(f"Tour de conversation terminé dans le thread : {thread_id}")
 
       def main():
           example_1_basic_thread_and_turn()
@@ -947,14 +946,15 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
     </Tab>
 
     <Tab title="TypeScript">
-      ```typescript lines
+      ```typescript twoslash lines
+      // @noErrors
       function example_1_basic_thread_and_turn() {
-        console.log("\n=== Exemple 1 : thread simple et tour ===");
+        console.log("\n=== Exemple 1 : thread simple et tour de conversation ===");
 
         // Créer un contexte de thread
         const threadId = "thread_example_1";
 
-        // Ce span représente un tour (enfant direct du thread)
+        // Ce span représente un tour de conversation (enfant direct du thread)
         tracer.startActiveSpan("process_user_message", (turnSpan) => {
           // Définir les attributs du thread
           turnSpan.setAttribute("wandb.thread_id", threadId);
@@ -967,7 +967,7 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
           
           // Simuler du travail avec des spans imbriqués
           tracer.startActiveSpan("generate_response", (nestedSpan) => {
-            // Il s'agit d'un appel imbriqué dans le tour, donc is_turn doit être false ou non défini
+            // Il s'agit d'un appel imbriqué dans le tour de conversation, donc is_turn doit être false ou non défini
             nestedSpan.setAttribute("wandb.thread_id", threadId);
             // wandb.is_turn n'est pas défini ou est défini sur false pour les appels imbriqués
 
@@ -977,7 +977,7 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
           });
           
           turnSpan.setAttribute("output.value", response!);
-          console.log(`Tour terminé dans le thread : ${threadId}`);
+          console.log(`Tour de conversation terminé dans le thread : ${threadId}`);
           turnSpan.end();
         });
       }
@@ -992,17 +992,17 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
   </Tabs>
 </Accordion>
 
-<Accordion title="Tracer une conversation à plusieurs tours partageant un même ID de thread">
+<Accordion title="Tracer une conversation à plusieurs tours de conversation partageant un même ID de thread">
   <Tabs>
     <Tab title="Python">
       ```python lines
       def example_2_multiple_turns():
-          """Exemple 2 : plusieurs tours dans un seul thread"""
-          print("\n=== Exemple 2 : plusieurs tours dans le thread ===")
+          """Exemple 2 : plusieurs tours de conversation dans un seul thread"""
+          print("\n=== Exemple 2 : plusieurs tours de conversation dans le thread ===")
 
           thread_id = "thread_conversation_123"
 
-          # Tour 1
+          # Tour de conversation 1
           with tracer.start_as_current_span("process_message_turn1") as turn1_span:
               turn1_span.set_attribute("wandb.thread_id", thread_id)
               turn1_span.set_attribute("wandb.is_turn", True)
@@ -1015,9 +1015,9 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
 
               response1 = "Je recommande Python pour les débutants et JavaScript pour le développement web."
               turn1_span.set_attribute("output.value", response1)
-              print(f"Tour 1 terminé dans le thread : {thread_id}")
+              print(f"Tour de conversation 1 terminé dans le thread : {thread_id}")
 
-          # Tour 2
+          # Tour de conversation 2
           with tracer.start_as_current_span("process_message_turn2") as turn2_span:
               turn2_span.set_attribute("wandb.thread_id", thread_id)
               turn2_span.set_attribute("wandb.is_turn", True)
@@ -1030,7 +1030,7 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
 
               response2 = "Python excelle en data science, tandis que JavaScript domine le développement web."
               turn2_span.set_attribute("output.value", response2)
-              print(f"Tour 2 terminé dans le thread : {thread_id}")
+              print(f"Tour de conversation 2 terminé dans le thread : {thread_id}")
 
       def main():
           example_2_multiple_turns()
@@ -1041,13 +1041,14 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
     </Tab>
 
     <Tab title="TypeScript">
-      ```typescript lines
+      ```typescript twoslash lines
+      // @noErrors
       function example_2_multiple_turns() {
-        console.log("\n=== Exemple 2 : plusieurs tours dans le thread ===");
+        console.log("\n=== Exemple 2 : plusieurs tours de conversation dans le thread ===");
 
         const threadId = "thread_conversation_123";
 
-        // Tour 1
+        // Tour de conversation 1
         tracer.startActiveSpan("process_message_turn1", (turn1Span) => {
           turn1Span.setAttribute("wandb.thread_id", threadId);
           turn1Span.setAttribute("wandb.is_turn", true);
@@ -1066,11 +1067,11 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
           const response1 =
             "Je recommande Python pour les débutants et JavaScript pour le développement web.";
           turn1Span.setAttribute("output.value", response1);
-          console.log(`Tour 1 terminé dans le thread : ${threadId}`);
+          console.log(`Tour de conversation 1 terminé dans le thread : ${threadId}`);
           turn1Span.end();
         });
 
-        // Tour 2
+        // Tour de conversation 2
         tracer.startActiveSpan("process_message_turn2", (turn2Span) => {
           turn2Span.setAttribute("wandb.thread_id", threadId);
           turn2Span.setAttribute("wandb.is_turn", true);
@@ -1086,7 +1087,7 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
           const response2 =
             "Python excelle en data science, tandis que JavaScript domine le développement web.";
           turn2Span.setAttribute("output.value", response2);
-          console.log(`Tour 2 terminé dans le thread : ${threadId}`);
+          console.log(`Tour de conversation 2 terminé dans le thread : ${threadId}`);
           turn2Span.end();
         });
       }
@@ -1101,7 +1102,7 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
   </Tabs>
 </Accordion>
 
-<Accordion title="Tracez des opérations profondément imbriquées et marquez uniquement le span le plus externe comme turn">
+<Accordion title="Tracez des opérations profondément imbriquées et marquez uniquement le span le plus externe comme tour de conversation">
   <Tabs>
     <Tab title="Python">
       ```python lines
@@ -1111,7 +1112,7 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
 
           thread_id = "thread_complex_456"
 
-          # Turn avec plusieurs niveaux d'imbrication
+          # Tour de conversation avec plusieurs niveaux d'imbrication
           with tracer.start_as_current_span("handle_complex_request") as turn_span:
               turn_span.set_attribute("wandb.thread_id", thread_id)
               turn_span.set_attribute("wandb.is_turn", True)
@@ -1139,7 +1140,7 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
                   suggest_span.set_attribute("suggestions", json.dumps(suggestions))
 
               turn_span.set_attribute("output.value", "Analysis complete with 2 improvement suggestions")
-              print(f"Complex turn completed in thread: {thread_id}")
+              print(f"Complex tour de conversation completed in thread: {thread_id}")
 
       def main():
           example_3_complex_nested_structure()
@@ -1150,13 +1151,14 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
     </Tab>
 
     <Tab title="TypeScript">
-      ```typescript lines
+      ```typescript twoslash lines
+      // @noErrors
       function example_3_complex_nested_structure() {
         console.log("\n=== Example 3: Complex Nested Structure ===");
 
         const threadId = "thread_complex_456";
 
-        // Turn avec plusieurs niveaux d'imbrication
+        // Tour de conversation avec plusieurs niveaux d'imbrication
         tracer.startActiveSpan("handle_complex_request", (turnSpan) => {
           turnSpan.setAttribute("wandb.thread_id", threadId);
           turnSpan.setAttribute("wandb.is_turn", true);
@@ -1199,7 +1201,7 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
             "output.value",
             "Analysis complete with 2 improvement suggestions"
           );
-          console.log(`Complex turn completed in thread: ${threadId}`);
+          console.log(`Complex tour de conversation completed in thread: ${threadId}`);
           turnSpan.end();
         });
       }
@@ -1214,7 +1216,7 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
   </Tabs>
 </Accordion>
 
-<Accordion title="Tracer les opérations d’arrière-plan appartenant à un thread mais qui ne sont pas des tours">
+<Accordion title="Tracer les opérations d’arrière-plan appartenant à un thread mais qui ne sont pas des tours de conversation">
   <Tabs>
     <Tab title="Python">
       ```python lines
@@ -1224,15 +1226,15 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
 
           thread_id = "thread_background_789"
 
-          # Opération d’arrière-plan faisant partie du thread, mais pas d’un tour
+          # Opération d’arrière-plan faisant partie du thread, mais pas d’un tour de conversation
           with tracer.start_as_current_span("background_indexing") as bg_span:
               bg_span.set_attribute("wandb.thread_id", thread_id)
-              # wandb.is_turn n'est pas défini ou vaut false - ce n'est pas un tour
+              # wandb.is_turn n'est pas défini ou vaut false - ce n'est pas un tour de conversation
               bg_span.set_attribute("wandb.is_turn", False)
               bg_span.set_attribute("operation", "Indexing conversation history")
               print(f"Background operation in thread: {thread_id}")
 
-          # Tour réel dans le même thread
+          # Tour de conversation réel dans le même thread
           with tracer.start_as_current_span("user_query") as turn_span:
               turn_span.set_attribute("wandb.thread_id", thread_id)
               turn_span.set_attribute("wandb.is_turn", True)
@@ -1249,23 +1251,24 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
     </Tab>
 
     <Tab title="TypeScript">
-      ```typescript lines
+      ```typescript twoslash lines
+      // @noErrors
       function example_4_non_turn_operations() {
         console.log("\n=== Example 4: Non-Turn Thread Operations ===");
 
         const threadId = "thread_background_789";
 
-        // Opération d’arrière-plan faisant partie du thread, mais pas d’un tour
+        // Opération d’arrière-plan faisant partie du thread, mais pas d’un tour de conversation
         tracer.startActiveSpan("background_indexing", (bgSpan) => {
           bgSpan.setAttribute("wandb.thread_id", threadId);
-          // wandb.is_turn n'est pas défini ou vaut false - ce n'est pas un tour
+          // wandb.is_turn n'est pas défini ou vaut false - ce n'est pas un tour de conversation
           bgSpan.setAttribute("wandb.is_turn", false);
           bgSpan.setAttribute("operation", "Indexing conversation history");
           console.log(`Background operation in thread: ${threadId}`);
           bgSpan.end();
         });
 
-        // Tour réel dans le même thread
+        // Tour de conversation réel dans le même thread
         tracer.startActiveSpan("user_query", (turnSpan) => {
           turnSpan.setAttribute("wandb.thread_id", threadId);
           turnSpan.setAttribute("wandb.is_turn", true);
@@ -1286,13 +1289,13 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
   </Tabs>
 </Accordion>
 
-Après l’envoi de ces traces, vous pouvez les consulter dans l’interface Weave, sous l’onglet **Threads** : elles y seront regroupées par `thread_id`, et chaque tour apparaîtra sur une ligne distincte.
+Après l’envoi de ces traces, vous pouvez les consulter dans l’interface Weave, sous l’onglet **Threads** : elles y sont regroupées par `thread_id`, et chaque tour de conversation apparaît sur une ligne distincte.
 
 <div id="attribute-mappings">
   ## Correspondance des attributs
 </div>
 
-Weave associe automatiquement les attributs de span OpenTelemetry issus de divers frameworks d’instrumentation à son modèle de données interne. Lorsque plusieurs noms d’attributs sont associés au même champ, Weave les traite par ordre de priorité, ce qui permet à plusieurs frameworks de coexister dans les mêmes traces.
+Weave associe les attributs de span OpenTelemetry issus de divers frameworks d’instrumentation à son modèle de données interne. Cette correspondance signifie que vous n’avez pas besoin de renommer ou de transformer les attributs de votre instrumentation existante pour obtenir une vue détaillée dans Weave. Lorsque plusieurs noms d’attributs sont associés au même champ, Weave les traite par ordre de priorité, ce qui permet aux frameworks de coexister dans les mêmes traces.
 
 <div id="supported-frameworks">
   ### Frameworks pris en charge
@@ -1300,14 +1303,14 @@ Weave associe automatiquement les attributs de span OpenTelemetry issus de diver
 
 Weave prend en charge les conventions d&#39;attributs des frameworks d&#39;observabilité et SDK suivants :
 
-* **OpenTelemetry GenAI**: conventions sémantiques standard pour l&#39;IA générative (`gen_ai.*`)
-* **OpenInference**: bibliothèque d&#39;instrumentation d&#39;Arize AI (`input.value`, `output.value`, `llm.*`, `openinference.*`)
-* **Vercel AI SDK**: attributs du SDK d&#39;IA de Vercel (`ai.prompt`, `ai.response`, `ai.model.*`, `ai.usage.*`)
-* **MLflow**: attributs de tracking de MLflow (`mlflow.spanInputs`, `mlflow.spanOutputs`)
-* **Traceloop**: instrumentation OpenLLMetry (`traceloop.entity.*`, `traceloop.span.kind`)
-* **Google Vertex AI**: attributs d&#39;agent de Vertex AI (`gcp.vertex.agent.*`)
-* **OpenLit**: attributs d&#39;observabilité d&#39;OpenLit (`gen_ai.content.completion`)
-* **Langfuse**: attributs de tracing de Langfuse (`langfuse.startTime`, `langfuse.endTime`)
+* **OpenTelemetry GenAI**: conventions sémantiques standard pour l&#39;IA générative (`gen_ai.*`).
+* **OpenInference**: bibliothèque d&#39;instrumentation d&#39;Arize AI (`input.value`, `output.value`, `llm.*`, `openinference.*`).
+* **Vercel AI SDK**: attributs du SDK d&#39;IA de Vercel (`ai.prompt`, `ai.response`, `ai.model.*`, `ai.usage.*`).
+* **MLflow**: attributs de tracking de MLflow (`mlflow.spanInputs`, `mlflow.spanOutputs`).
+* **Traceloop**: instrumentation OpenLLMetry (`traceloop.entity.*`, `traceloop.span.kind`).
+* **Google Vertex AI**: attributs d&#39;agent de Vertex AI (`gcp.vertex.agent.*`).
+* **OpenLit**: attributs d&#39;observabilité d&#39;OpenLit (`gen_ai.content.completion`).
+* **Langfuse**: attributs de tracing de Langfuse (`langfuse.startTime`, `langfuse.endTime`).
 
 <div id="attribute-reference">
   ### Référence des attributs
@@ -1369,4 +1372,4 @@ Weave prend en charge les conventions d&#39;attributs des frameworks d&#39;obser
   ## Limites
 </div>
 
-* Weave UI ne prend pas en charge le rendu des appels d’outil de trace OTel dans la vue Chat. Ils s’affichent à la place sous forme de JSON brut.
+L&#39;interface Weave ne prend pas en charge le rendu des appels d&#39;outil de trace OTel dans la vue Chat. Ils s&#39;affichent à la place sous forme de JSON brut.

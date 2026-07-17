@@ -3,10 +3,6 @@
   "background": {
     "decoration": "gradient"
   },
-  "banner": {
-    "content": "Help us improve these docs. [Take our quick survey.](https://forms.gle/a843ZFZu8oKqXYVDA)",
-    "dismissible": true
-  },
   "baseUrl": "https://docs.wandb.ai",
   "colors": {
     "dark": "#FCBC32",
@@ -95,7 +91,8 @@
                     "group": "Weights & Biases",
                     "pages": [
                       "product-models",
-                      "product-weave"
+                      "product-weave",
+                      "hivemind"
                     ]
                   },
                   {
@@ -109,6 +106,16 @@
                   {
                     "group": "Platform Details",
                     "pages": [
+                      {
+                        "group": "ARIA",
+                        "pages": [
+                          "aria/overview",
+                          "aria/chat",
+                          "aria/autoresearch",
+                          "aria/governance"
+                        ],
+                        "tag": "Preview"
+                      },
                       {
                         "group": "Configure W&B",
                         "pages": [
@@ -305,6 +312,16 @@
                         ]
                       },
                       {
+                        "group": "Eval Tables",
+                        "pages": [
+                          "models/evaltables",
+                          "models/evaltables/create-an-evaluation-table",
+                          "models/evaltables/visualize-evaluation-tables",
+                          "models/evaltables/compare-runs"
+                        ],
+                        "tag": "Preview"
+                      },
+                      {
                         "group": "Tables",
                         "pages": [
                           "models/tables",
@@ -442,6 +459,7 @@
                               "models/app/features/custom-charts/walkthrough"
                             ]
                           },
+                          "models/app/leet-tui",
                           "models/app/console-logs",
                           "models/app/keyboard-shortcuts"
                         ]
@@ -504,7 +522,6 @@
                     "group": "Reference",
                     "pages": [
                       "models/ref-link-python",
-                      "models/ref-link-public-api",
                       "models/ref-link-cli",
                       "models/ref-link-query-panel",
                       "models/ref-link-workspaces"
@@ -520,8 +537,8 @@
                   {
                     "group": "Get Started",
                     "pages": [
-                      "weave/agents-quickstart",
-                      "weave/quickstart"
+                      "weave/agent-integration-quickstart",
+                      "weave/custom-agents-quickstart"
                     ]
                   },
                   {
@@ -535,6 +552,7 @@
                           "weave/guides/tracking/trace-agent-integrations",
                           "weave/guides/tracking/view-agent-activity",
                           "weave/guides/tracking/view-agent-signals",
+                          "weave/guides/tracking/trace-agents-attributes",
                           "weave/guides/tracking/trace-agents-batch",
                           "weave/guides/tracking/trace-sub-agents"
                         ]
@@ -545,6 +563,7 @@
                           {
                             "group": "Tracing basics",
                             "pages": [
+                              "weave/quickstart",
                               "weave/guides/tracking/tracing",
                               "weave/guides/tracking/create-call",
                               "weave/guides/tracking/trace-tree",
@@ -676,10 +695,8 @@
                           {
                             "group": "Frameworks",
                             "pages": [
-                              "weave/guides/integrations/openai_agents",
                               "weave/guides/integrations/openai-realtime-audio",
-                              "weave/guides/integrations/claude_agent",
-                              "weave/guides/integrations/claude_code",
+                              "weave/guides/integrations/bedrock_agents",
                               "weave/guides/integrations/langchain",
                               "weave/guides/integrations/llamaindex",
                               "weave/guides/integrations/dspy",
@@ -687,7 +704,6 @@
                               "weave/guides/integrations/crewai",
                               "weave/guides/integrations/smolagents",
                               "weave/guides/integrations/pydantic_ai",
-                              "weave/guides/integrations/google_adk",
                               "weave/guides/integrations/vercel_ai_sdk",
                               "weave/guides/integrations/haystack",
                               "weave/guides/integrations/agno",
@@ -710,7 +726,8 @@
                         "group": "Deploy and scale",
                         "pages": [
                           "weave/guides/platform",
-                          "weave/guides/platform/weave-self-managed"
+                          "weave/guides/platform/weave-self-managed",
+                          "weave/guides/platform/ingest-sampling"
                         ]
                       },
                       "weave/guides/platform/weave-projects",
@@ -927,6 +944,7 @@
                           "models/ref/python/data-types",
                           "models/ref/python/data-types/audio",
                           "models/ref/python/data-types/box3d",
+                          "models/ref/python/data-types/evaltable",
                           "models/ref/python/data-types/histogram",
                           "models/ref/python/data-types/html",
                           "models/ref/python/data-types/image",
@@ -994,6 +1012,7 @@
                         "pages": [
                           "models/ref/python/public-api",
                           "models/ref/python/public-api/api",
+                          "models/ref/python/public-api/agentruns",
                           "models/ref/python/public-api/artifactcollection",
                           "models/ref/python/public-api/artifactcollections",
                           "models/ref/python/public-api/artifactfiles",
@@ -1054,15 +1073,6 @@
                               "models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-stop"
                             ]
                           },
-                          {
-                            "group": "beta leet",
-                            "pages": [
-                              "models/ref/cli/wandb-beta/wandb-beta-leet",
-                              "models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-config",
-                              "models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-run",
-                              "models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-symon"
-                            ]
-                          },
                           "models/ref/cli/wandb-beta/wandb-beta-sync"
                         ]
                       },
@@ -1079,6 +1089,15 @@
                           "models/ref/cli/wandb-job/wandb-job-create",
                           "models/ref/cli/wandb-job/wandb-job-describe",
                           "models/ref/cli/wandb-job/wandb-job-list"
+                        ]
+                      },
+                      {
+                        "group": "wandb leet",
+                        "pages": [
+                          "models/ref/cli/wandb-leet",
+                          "models/ref/cli/wandb-leet/wandb-leet-config",
+                          "models/ref/cli/wandb-leet/wandb-leet-run",
+                          "models/ref/cli/wandb-leet/wandb-leet-symon"
                         ]
                       },
                       "models/ref/cli/wandb-login",
@@ -1178,6 +1197,7 @@
                       {
                         "group": "Classes",
                         "pages": [
+                          "weave/reference/typescript-sdk/classes/conversation",
                           "weave/reference/typescript-sdk/classes/dataset",
                           "weave/reference/typescript-sdk/classes/evaluation",
                           "weave/reference/typescript-sdk/classes/evaluationlogger",
@@ -1185,11 +1205,11 @@
                           "weave/reference/typescript-sdk/classes/messagesprompt",
                           "weave/reference/typescript-sdk/classes/objectref",
                           "weave/reference/typescript-sdk/classes/scorelogger",
-                          "weave/reference/typescript-sdk/classes/session",
                           "weave/reference/typescript-sdk/classes/stringprompt",
                           "weave/reference/typescript-sdk/classes/subagent",
                           "weave/reference/typescript-sdk/classes/tool",
                           "weave/reference/typescript-sdk/classes/turn",
+                          "weave/reference/typescript-sdk/classes/weaveadkplugin",
                           "weave/reference/typescript-sdk/classes/weaveclient",
                           "weave/reference/typescript-sdk/classes/weaveobject"
                         ]
@@ -1199,10 +1219,12 @@
                         "pages": [
                           "weave/reference/typescript-sdk/functions/createopenaiagentstracingprocessor",
                           "weave/reference/typescript-sdk/functions/createotelextension",
+                          "weave/reference/typescript-sdk/functions/endconversation",
                           "weave/reference/typescript-sdk/functions/endllm",
                           "weave/reference/typescript-sdk/functions/endsession",
                           "weave/reference/typescript-sdk/functions/endturn",
                           "weave/reference/typescript-sdk/functions/flushotel",
+                          "weave/reference/typescript-sdk/functions/getcurrentconversation",
                           "weave/reference/typescript-sdk/functions/getcurrentllm",
                           "weave/reference/typescript-sdk/functions/getcurrentsession",
                           "weave/reference/typescript-sdk/functions/getcurrentturn",
@@ -1214,6 +1236,7 @@
                           "weave/reference/typescript-sdk/functions/requirecurrentcallstackentry",
                           "weave/reference/typescript-sdk/functions/requirecurrentchildsummary",
                           "weave/reference/typescript-sdk/functions/runisolated",
+                          "weave/reference/typescript-sdk/functions/startconversation",
                           "weave/reference/typescript-sdk/functions/startllm",
                           "weave/reference/typescript-sdk/functions/startsession",
                           "weave/reference/typescript-sdk/functions/startsubagent",
@@ -1222,6 +1245,7 @@
                           "weave/reference/typescript-sdk/functions/weaveaudio",
                           "weave/reference/typescript-sdk/functions/weaveimage",
                           "weave/reference/typescript-sdk/functions/withattributes",
+                          "weave/reference/typescript-sdk/functions/wrapclaudeagentsdk",
                           "weave/reference/typescript-sdk/functions/wrapgooglegenai",
                           "weave/reference/typescript-sdk/functions/wrapopenai"
                         ]
@@ -1231,12 +1255,19 @@
                         "pages": [
                           "weave/reference/typescript-sdk/interfaces/callschema",
                           "weave/reference/typescript-sdk/interfaces/callsfilter",
+                          "weave/reference/typescript-sdk/interfaces/conversationinit",
+                          "weave/reference/typescript-sdk/interfaces/getagentsoptions",
+                          "weave/reference/typescript-sdk/interfaces/getagentspansoptions",
+                          "weave/reference/typescript-sdk/interfaces/getagentturnoptions",
+                          "weave/reference/typescript-sdk/interfaces/getagentturnsoptions",
+                          "weave/reference/typescript-sdk/interfaces/getagentversionsoptions",
                           "weave/reference/typescript-sdk/interfaces/getcallsoptions",
+                          "weave/reference/typescript-sdk/interfaces/httpresponse",
+                          "weave/reference/typescript-sdk/interfaces/httpvalidationerror",
                           "weave/reference/typescript-sdk/interfaces/llminit",
                           "weave/reference/typescript-sdk/interfaces/message",
                           "weave/reference/typescript-sdk/interfaces/query",
                           "weave/reference/typescript-sdk/interfaces/reasoning",
-                          "weave/reference/typescript-sdk/interfaces/sessioninit",
                           "weave/reference/typescript-sdk/interfaces/sortby",
                           "weave/reference/typescript-sdk/interfaces/subagentinit",
                           "weave/reference/typescript-sdk/interfaces/toolinit",
@@ -1249,11 +1280,25 @@
                       {
                         "group": "Type Aliases",
                         "pages": [
+                          "weave/reference/typescript-sdk/type-aliases/agent",
+                          "weave/reference/typescript-sdk/type-aliases/agentmessage",
+                          "weave/reference/typescript-sdk/type-aliases/agentspan",
+                          "weave/reference/typescript-sdk/type-aliases/agentturn",
+                          "weave/reference/typescript-sdk/type-aliases/agentversion",
+                          "weave/reference/typescript-sdk/type-aliases/getagentspansresult",
+                          "weave/reference/typescript-sdk/type-aliases/getagentsresult",
+                          "weave/reference/typescript-sdk/type-aliases/getagentturnresult",
+                          "weave/reference/typescript-sdk/type-aliases/getagentturnsresult",
+                          "weave/reference/typescript-sdk/type-aliases/getagentversionsresult",
                           "weave/reference/typescript-sdk/type-aliases/messagepart",
                           "weave/reference/typescript-sdk/type-aliases/modality",
                           "weave/reference/typescript-sdk/type-aliases/op",
                           "weave/reference/typescript-sdk/type-aliases/opdecorator",
-                          "weave/reference/typescript-sdk/type-aliases/role"
+                          "weave/reference/typescript-sdk/type-aliases/response",
+                          "weave/reference/typescript-sdk/type-aliases/role",
+                          "weave/reference/typescript-sdk/type-aliases/session",
+                          "weave/reference/typescript-sdk/type-aliases/sessioninit",
+                          "weave/reference/typescript-sdk/type-aliases/settings"
                         ]
                       }
                     ]
@@ -1329,7 +1374,10 @@
                   "support/models/tags/administrator",
                   "support/models/tags/alerts",
                   "support/models/tags/anonymous",
+                  "support/models/tags/api",
+                  "support/models/tags/api-keys",
                   "support/models/tags/artifacts",
+                  "support/models/tags/authentication",
                   "support/models/tags/aws",
                   "support/models/tags/billing",
                   "support/models/tags/charts",
@@ -1341,6 +1389,7 @@
                   "support/models/tags/logs",
                   "support/models/tags/metrics",
                   "support/models/tags/notebooks",
+                  "support/models/tags/org-management",
                   "support/models/tags/outage",
                   "support/models/tags/privacy",
                   "support/models/tags/projects",
@@ -1349,13 +1398,16 @@
                   "support/models/tags/resuming",
                   "support/models/tags/run-crashes",
                   "support/models/tags/runs",
+                  "support/models/tags/sdk",
                   "support/models/tags/security",
                   "support/models/tags/storage",
                   "support/models/tags/sweeps",
                   "support/models/tags/tables",
                   "support/models/tags/team-management",
+                  "support/models/tags/teams",
                   "support/models/tags/tensorboard",
                   "support/models/tags/user-management",
+                  "support/models/tags/workspace",
                   "support/models/tags/workspaces",
                   "support/models/tags/wysiwyg"
                 ]
@@ -1461,6 +1513,80 @@
               }
             ],
             "tab": "W&B Launch"
+          },
+          {
+            "hidden": true,
+            "pages": [
+              "support/models",
+              "support/models/tags/academic",
+              "support/models/tags/administrator",
+              "support/models/tags/alerts",
+              "support/models/tags/anonymous",
+              "support/models/tags/api",
+              "support/models/tags/api-keys",
+              "support/models/tags/artifacts",
+              "support/models/tags/authentication",
+              "support/models/tags/aws",
+              "support/models/tags/billing",
+              "support/models/tags/charts",
+              "support/models/tags/connectivity",
+              "support/models/tags/environment-variables",
+              "support/models/tags/experiments",
+              "support/models/tags/hyperparameter",
+              "support/models/tags/inference",
+              "support/models/tags/logs",
+              "support/models/tags/metrics",
+              "support/models/tags/notebooks",
+              "support/models/tags/org-management",
+              "support/models/tags/outage",
+              "support/models/tags/privacy",
+              "support/models/tags/projects",
+              "support/models/tags/python",
+              "support/models/tags/reports",
+              "support/models/tags/resuming",
+              "support/models/tags/run-crashes",
+              "support/models/tags/runs",
+              "support/models/tags/sdk",
+              "support/models/tags/security",
+              "support/models/tags/storage",
+              "support/models/tags/sweeps",
+              "support/models/tags/tables",
+              "support/models/tags/team-management",
+              "support/models/tags/teams",
+              "support/models/tags/tensorboard",
+              "support/models/tags/user-management",
+              "support/models/tags/workspace",
+              "support/models/tags/workspaces",
+              "support/models/tags/wysiwyg"
+            ],
+            "tab": "Support: W&B Models"
+          },
+          {
+            "hidden": true,
+            "pages": [
+              "support/weave",
+              "support/weave/tags/client-info",
+              "support/weave/tags/code-capture",
+              "support/weave/tags/data-capture",
+              "support/weave/tags/evaluation",
+              "support/weave/tags/performance",
+              "support/weave/tags/system-info",
+              "support/weave/tags/trace-data",
+              "support/weave/tags/ui-rendering"
+            ],
+            "tab": "Support: W&B Weave"
+          },
+          {
+            "hidden": true,
+            "pages": [
+              "support/inference",
+              "support/inference/tags/administrator",
+              "support/inference/tags/authentication-access",
+              "support/inference/tags/billing",
+              "support/inference/tags/quotas-rate-limits",
+              "support/inference/tags/server-errors"
+            ],
+            "tab": "Support: W&B Inference"
           }
         ]
       },
@@ -1477,14 +1603,15 @@
                     "group": "Weights & Biases",
                     "pages": [
                       "fr/product-models",
-                      "fr/product-weave"
+                      "fr/product-weave",
+                      "fr/hivemind"
                     ]
                   },
                   {
                     "group": "Propulsé par CoreWeave",
                     "pages": [
                       "fr/product-inference",
-                      "fr/product-serverless-rl",
+                      "fr/product-serverless-training",
                       "fr/product-sandboxes"
                     ]
                   },
@@ -1492,7 +1619,17 @@
                     "group": "Détails de la plateforme",
                     "pages": [
                       {
-                        "group": "Configurez W&B",
+                        "group": "ARIA",
+                        "pages": [
+                          "fr/aria/overview",
+                          "fr/aria/chat",
+                          "fr/aria/autoresearch",
+                          "fr/aria/governance"
+                        ],
+                        "tag": "Preview"
+                      },
+                      {
+                        "group": "Configurer W&B",
                         "pages": [
                           {
                             "group": "Paramètres",
@@ -1687,6 +1824,16 @@
                         ]
                       },
                       {
+                        "group": "Tableaux d’évaluation",
+                        "pages": [
+                          "fr/models/evaltables",
+                          "fr/models/evaltables/create-an-evaluation-table",
+                          "fr/models/evaltables/visualize-evaluation-tables",
+                          "fr/models/evaltables/compare-runs"
+                        ],
+                        "tag": "Preview"
+                      },
+                      {
                         "group": "Tableaux",
                         "pages": [
                           "fr/models/tables",
@@ -1776,7 +1923,7 @@
                         ]
                       },
                       {
-                        "group": "Jobs d’évaluation LLM",
+                        "group": "Jobs d’évaluation des LLM",
                         "pages": [
                           "fr/models/launch",
                           "fr/models/launch/evaluate-model-checkpoint",
@@ -1824,6 +1971,7 @@
                               "fr/models/app/features/custom-charts/walkthrough"
                             ]
                           },
+                          "fr/models/app/leet-tui",
                           "fr/models/app/console-logs",
                           "fr/models/app/keyboard-shortcuts"
                         ]
@@ -1886,7 +2034,6 @@
                     "group": "Référence",
                     "pages": [
                       "fr/models/ref-link-python",
-                      "fr/models/ref-link-public-api",
                       "fr/models/ref-link-cli",
                       "fr/models/ref-link-query-panel",
                       "fr/models/ref-link-workspaces"
@@ -1902,9 +2049,8 @@
                   {
                     "group": "Premiers pas",
                     "pages": [
-                      "fr/weave/quickstart",
-                      "fr/weave/tutorial-eval",
-                      "fr/weave/tutorial-rag"
+                      "fr/weave/agent-integration-quickstart",
+                      "fr/weave/custom-agents-quickstart"
                     ]
                   },
                   {
@@ -1912,11 +2058,24 @@
                     "pages": [
                       "fr/weave/concepts/what-is-weave",
                       {
-                        "group": "Tracez votre application",
+                        "group": "Tracez vos agents",
+                        "pages": [
+                          "fr/weave/guides/tracking/trace-agents",
+                          "fr/weave/guides/tracking/trace-agent-integrations",
+                          "fr/weave/guides/tracking/view-agent-activity",
+                          "fr/weave/guides/tracking/view-agent-signals",
+                          "fr/weave/guides/tracking/trace-agents-attributes",
+                          "fr/weave/guides/tracking/trace-agents-batch",
+                          "fr/weave/guides/tracking/trace-sub-agents"
+                        ]
+                      },
+                      {
+                        "group": "Tracez vos applications",
                         "pages": [
                           {
                             "group": "Notions de base du traçage",
                             "pages": [
+                              "fr/weave/quickstart",
                               "fr/weave/guides/tracking/tracing",
                               "fr/weave/guides/tracking/create-call",
                               "fr/weave/guides/tracking/trace-tree",
@@ -1939,7 +2098,7 @@
                             ]
                           },
                           {
-                            "group": "Utilisez les appels",
+                            "group": "Travaillez avec les appels",
                             "pages": [
                               "fr/weave/guides/tracking/update-call",
                               "fr/weave/guides/tracking/call-schema-reference",
@@ -1955,9 +2114,11 @@
                         ]
                       },
                       {
-                        "group": "Évaluez votre application",
+                        "group": "Évaluez vos agents et applications",
                         "pages": [
                           "fr/weave/guides/core-types/evaluations",
+                          "fr/weave/tutorial-eval",
+                          "fr/weave/tutorial-rag",
                           "fr/weave/guides/core-types/datasets",
                           "fr/weave/guides/evaluation/scorers",
                           "fr/weave/guides/evaluation/builtin_scorers",
@@ -1978,7 +2139,7 @@
                         ]
                       },
                       {
-                        "group": "Gérez les versions de votre travail",
+                        "group": "Versionnez votre travail",
                         "pages": [
                           "fr/weave/tutorial-weave_models",
                           "fr/weave/guides/core-types/models",
@@ -1988,7 +2149,7 @@
                         ]
                       },
                       {
-                        "group": "Surveillez et recueillez des retours",
+                        "group": "Surveillez et recueillez le feedback",
                         "pages": [
                           {
                             "group": "Annotez",
@@ -2000,6 +2161,7 @@
                           },
                           "fr/weave/guides/tracking/redact-pii",
                           "fr/weave/guides/evaluation/monitors",
+                          "fr/weave/guides/evaluation/custom-monitors",
                           "fr/weave/guides/evaluation/automations",
                           "fr/weave/guides/evaluation/guardrails",
                           "fr/weave/guides/tracking/otel"
@@ -2012,7 +2174,19 @@
                           "fr/weave/guides/integrations/autopatching",
                           "fr/weave/guides/integrations/js",
                           {
-                            "group": "Fournisseurs de LLM",
+                            "group": "Traçage des agents",
+                            "pages": [
+                              "fr/weave/guides/integrations/agents/google-adk",
+                              "fr/weave/guides/integrations/agents/openai-agents-sdk",
+                              "fr/weave/guides/integrations/agents/claude-agents-sdk",
+                              "fr/weave/guides/integrations/agents/claude-code-harness",
+                              "fr/weave/guides/integrations/agents/codex-harness",
+                              "fr/weave/guides/integrations/agents/openclaw-harness",
+                              "fr/weave/guides/integrations/agents/pi-dev-harness"
+                            ]
+                          },
+                          {
+                            "group": "Fournisseurs LLM",
                             "pages": [
                               "fr/weave/guides/integrations/bedrock",
                               "fr/weave/guides/integrations/anthropic",
@@ -2033,10 +2207,8 @@
                           {
                             "group": "Frameworks",
                             "pages": [
-                              "fr/weave/guides/integrations/openai_agents",
                               "fr/weave/guides/integrations/openai-realtime-audio",
-                              "fr/weave/guides/integrations/claude_agent",
-                              "fr/weave/guides/integrations/claude_code",
+                              "fr/weave/guides/integrations/bedrock_agents",
                               "fr/weave/guides/integrations/langchain",
                               "fr/weave/guides/integrations/llamaindex",
                               "fr/weave/guides/integrations/dspy",
@@ -2044,7 +2216,6 @@
                               "fr/weave/guides/integrations/crewai",
                               "fr/weave/guides/integrations/smolagents",
                               "fr/weave/guides/integrations/pydantic_ai",
-                              "fr/weave/guides/integrations/google_adk",
                               "fr/weave/guides/integrations/vercel_ai_sdk",
                               "fr/weave/guides/integrations/haystack",
                               "fr/weave/guides/integrations/agno",
@@ -2067,7 +2238,8 @@
                         "group": "Déployez et passez à l’échelle",
                         "pages": [
                           "fr/weave/guides/platform",
-                          "fr/weave/guides/platform/weave-self-managed"
+                          "fr/weave/guides/platform/weave-self-managed",
+                          "fr/weave/guides/platform/ingest-sampling"
                         ]
                       },
                       "fr/weave/guides/platform/weave-projects",
@@ -2178,25 +2350,30 @@
                 ]
               },
               {
-                "item": "Serverless RL",
+                "item": "Serverless Training",
                 "pages": [
-                  "fr/serverless-rl",
-                  "fr/serverless-rl/prerequisites",
-                  "fr/serverless-rl/usage",
-                  "fr/serverless-rl/available-models",
-                  "fr/serverless-rl/usage-limits",
-                  "fr/serverless-rl/use-trained-models",
+                  "fr/serverless-training",
+                  "fr/serverless-training/prerequisites",
+                  "fr/serverless-training/usage-limits",
+                  {
+                    "group": "Serverless RL",
+                    "pages": [
+                      "fr/serverless-training/usage",
+                      "fr/serverless-training/available-models",
+                      "fr/serverless-training/use-trained-models"
+                    ]
+                  },
                   {
                     "group": "Serverless SFT",
                     "pages": [
-                      "fr/serverless-rl/sft",
-                      "fr/serverless-rl/sft/usage"
+                      "fr/serverless-training/sft",
+                      "fr/serverless-training/sft/usage"
                     ]
                   },
                   {
                     "group": "Référence de l’API",
                     "pages": [
-                      "fr/serverless-rl/ref-link-api"
+                      "fr/serverless-training/ref-link-api"
                     ]
                   }
                 ]
@@ -2279,6 +2456,7 @@
                           "fr/models/ref/python/data-types",
                           "fr/models/ref/python/data-types/audio",
                           "fr/models/ref/python/data-types/box3d",
+                          "fr/models/ref/python/data-types/evaltable",
                           "fr/models/ref/python/data-types/histogram",
                           "fr/models/ref/python/data-types/html",
                           "fr/models/ref/python/data-types/image",
@@ -2312,10 +2490,15 @@
                           "fr/models/ref/python/automations/metricthresholdfilter",
                           "fr/models/ref/python/automations/newautomation",
                           "fr/models/ref/python/automations/onaddartifactalias",
+                          "fr/models/ref/python/automations/onaddartifacttag",
+                          "fr/models/ref/python/automations/onaddcollectiontag",
                           "fr/models/ref/python/automations/oncreateartifact",
                           "fr/models/ref/python/automations/onlinkartifact",
+                          "fr/models/ref/python/automations/onremoveartifacttag",
+                          "fr/models/ref/python/automations/onremovecollectiontag",
                           "fr/models/ref/python/automations/onrunmetric",
                           "fr/models/ref/python/automations/onrunstate",
+                          "fr/models/ref/python/automations/onunlinkartifact",
                           "fr/models/ref/python/automations/runstatefilter",
                           "fr/models/ref/python/automations/sendnotification",
                           "fr/models/ref/python/automations/sendwebhook"
@@ -2341,6 +2524,7 @@
                         "pages": [
                           "fr/models/ref/python/public-api",
                           "fr/models/ref/python/public-api/api",
+                          "fr/models/ref/python/public-api/agentruns",
                           "fr/models/ref/python/public-api/artifactcollection",
                           "fr/models/ref/python/public-api/artifactcollections",
                           "fr/models/ref/python/public-api/artifactfiles",
@@ -2401,15 +2585,6 @@
                               "fr/models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-stop"
                             ]
                           },
-                          {
-                            "group": "beta leet",
-                            "pages": [
-                              "fr/models/ref/cli/wandb-beta/wandb-beta-leet",
-                              "fr/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-config",
-                              "fr/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-run",
-                              "fr/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-symon"
-                            ]
-                          },
                           "fr/models/ref/cli/wandb-beta/wandb-beta-sync"
                         ]
                       },
@@ -2426,6 +2601,15 @@
                           "fr/models/ref/cli/wandb-job/wandb-job-create",
                           "fr/models/ref/cli/wandb-job/wandb-job-describe",
                           "fr/models/ref/cli/wandb-job/wandb-job-list"
+                        ]
+                      },
+                      {
+                        "group": "wandb leet",
+                        "pages": [
+                          "fr/models/ref/cli/wandb-leet",
+                          "fr/models/ref/cli/wandb-leet/wandb-leet-config",
+                          "fr/models/ref/cli/wandb-leet/wandb-leet-run",
+                          "fr/models/ref/cli/wandb-leet/wandb-leet-symon"
                         ]
                       },
                       "fr/models/ref/cli/wandb-login",
@@ -2525,13 +2709,19 @@
                       {
                         "group": "Classes",
                         "pages": [
+                          "fr/weave/reference/typescript-sdk/classes/conversation",
                           "fr/weave/reference/typescript-sdk/classes/dataset",
                           "fr/weave/reference/typescript-sdk/classes/evaluation",
                           "fr/weave/reference/typescript-sdk/classes/evaluationlogger",
+                          "fr/weave/reference/typescript-sdk/classes/llm",
                           "fr/weave/reference/typescript-sdk/classes/messagesprompt",
                           "fr/weave/reference/typescript-sdk/classes/objectref",
                           "fr/weave/reference/typescript-sdk/classes/scorelogger",
                           "fr/weave/reference/typescript-sdk/classes/stringprompt",
+                          "fr/weave/reference/typescript-sdk/classes/subagent",
+                          "fr/weave/reference/typescript-sdk/classes/tool",
+                          "fr/weave/reference/typescript-sdk/classes/turn",
+                          "fr/weave/reference/typescript-sdk/classes/weaveadkplugin",
                           "fr/weave/reference/typescript-sdk/classes/weaveclient",
                           "fr/weave/reference/typescript-sdk/classes/weaveobject"
                         ]
@@ -2540,6 +2730,16 @@
                         "group": "Fonctions",
                         "pages": [
                           "fr/weave/reference/typescript-sdk/functions/createopenaiagentstracingprocessor",
+                          "fr/weave/reference/typescript-sdk/functions/createotelextension",
+                          "fr/weave/reference/typescript-sdk/functions/endconversation",
+                          "fr/weave/reference/typescript-sdk/functions/endllm",
+                          "fr/weave/reference/typescript-sdk/functions/endsession",
+                          "fr/weave/reference/typescript-sdk/functions/endturn",
+                          "fr/weave/reference/typescript-sdk/functions/flushotel",
+                          "fr/weave/reference/typescript-sdk/functions/getcurrentconversation",
+                          "fr/weave/reference/typescript-sdk/functions/getcurrentllm",
+                          "fr/weave/reference/typescript-sdk/functions/getcurrentsession",
+                          "fr/weave/reference/typescript-sdk/functions/getcurrentturn",
                           "fr/weave/reference/typescript-sdk/functions/init",
                           "fr/weave/reference/typescript-sdk/functions/instrumentopenaiagents",
                           "fr/weave/reference/typescript-sdk/functions/login",
@@ -2547,9 +2747,17 @@
                           "fr/weave/reference/typescript-sdk/functions/patchrealtimesession",
                           "fr/weave/reference/typescript-sdk/functions/requirecurrentcallstackentry",
                           "fr/weave/reference/typescript-sdk/functions/requirecurrentchildsummary",
+                          "fr/weave/reference/typescript-sdk/functions/runisolated",
+                          "fr/weave/reference/typescript-sdk/functions/startconversation",
+                          "fr/weave/reference/typescript-sdk/functions/startllm",
+                          "fr/weave/reference/typescript-sdk/functions/startsession",
+                          "fr/weave/reference/typescript-sdk/functions/startsubagent",
+                          "fr/weave/reference/typescript-sdk/functions/starttool",
+                          "fr/weave/reference/typescript-sdk/functions/startturn",
                           "fr/weave/reference/typescript-sdk/functions/weaveaudio",
                           "fr/weave/reference/typescript-sdk/functions/weaveimage",
                           "fr/weave/reference/typescript-sdk/functions/withattributes",
+                          "fr/weave/reference/typescript-sdk/functions/wrapclaudeagentsdk",
                           "fr/weave/reference/typescript-sdk/functions/wrapgooglegenai",
                           "fr/weave/reference/typescript-sdk/functions/wrapopenai"
                         ]
@@ -2559,6 +2767,24 @@
                         "pages": [
                           "fr/weave/reference/typescript-sdk/interfaces/callschema",
                           "fr/weave/reference/typescript-sdk/interfaces/callsfilter",
+                          "fr/weave/reference/typescript-sdk/interfaces/conversationinit",
+                          "fr/weave/reference/typescript-sdk/interfaces/getagentsoptions",
+                          "fr/weave/reference/typescript-sdk/interfaces/getagentspansoptions",
+                          "fr/weave/reference/typescript-sdk/interfaces/getagentturnoptions",
+                          "fr/weave/reference/typescript-sdk/interfaces/getagentturnsoptions",
+                          "fr/weave/reference/typescript-sdk/interfaces/getagentversionsoptions",
+                          "fr/weave/reference/typescript-sdk/interfaces/getcallsoptions",
+                          "fr/weave/reference/typescript-sdk/interfaces/httpresponse",
+                          "fr/weave/reference/typescript-sdk/interfaces/httpvalidationerror",
+                          "fr/weave/reference/typescript-sdk/interfaces/llminit",
+                          "fr/weave/reference/typescript-sdk/interfaces/message",
+                          "fr/weave/reference/typescript-sdk/interfaces/query",
+                          "fr/weave/reference/typescript-sdk/interfaces/reasoning",
+                          "fr/weave/reference/typescript-sdk/interfaces/sortby",
+                          "fr/weave/reference/typescript-sdk/interfaces/subagentinit",
+                          "fr/weave/reference/typescript-sdk/interfaces/toolinit",
+                          "fr/weave/reference/typescript-sdk/interfaces/turninit",
+                          "fr/weave/reference/typescript-sdk/interfaces/usage",
                           "fr/weave/reference/typescript-sdk/interfaces/weaveaudio",
                           "fr/weave/reference/typescript-sdk/interfaces/weaveimage"
                         ]
@@ -2566,8 +2792,25 @@
                       {
                         "group": "Alias de types",
                         "pages": [
+                          "fr/weave/reference/typescript-sdk/type-aliases/agent",
+                          "fr/weave/reference/typescript-sdk/type-aliases/agentmessage",
+                          "fr/weave/reference/typescript-sdk/type-aliases/agentspan",
+                          "fr/weave/reference/typescript-sdk/type-aliases/agentturn",
+                          "fr/weave/reference/typescript-sdk/type-aliases/agentversion",
+                          "fr/weave/reference/typescript-sdk/type-aliases/getagentspansresult",
+                          "fr/weave/reference/typescript-sdk/type-aliases/getagentsresult",
+                          "fr/weave/reference/typescript-sdk/type-aliases/getagentturnresult",
+                          "fr/weave/reference/typescript-sdk/type-aliases/getagentturnsresult",
+                          "fr/weave/reference/typescript-sdk/type-aliases/getagentversionsresult",
+                          "fr/weave/reference/typescript-sdk/type-aliases/messagepart",
+                          "fr/weave/reference/typescript-sdk/type-aliases/modality",
                           "fr/weave/reference/typescript-sdk/type-aliases/op",
-                          "fr/weave/reference/typescript-sdk/type-aliases/opdecorator"
+                          "fr/weave/reference/typescript-sdk/type-aliases/opdecorator",
+                          "fr/weave/reference/typescript-sdk/type-aliases/response",
+                          "fr/weave/reference/typescript-sdk/type-aliases/role",
+                          "fr/weave/reference/typescript-sdk/type-aliases/session",
+                          "fr/weave/reference/typescript-sdk/type-aliases/sessioninit",
+                          "fr/weave/reference/typescript-sdk/type-aliases/settings"
                         ]
                       }
                     ]
@@ -2594,13 +2837,13 @@
                 ]
               },
               {
-                "group": "Serverless RL",
+                "group": "Serverless Training",
                 "openapi": {
-                  "directory": "fr/serverless-rl/api-reference",
-                  "source": "fr/serverless-rl/api-reference/openapi.json"
+                  "directory": "fr/serverless-training/api-reference",
+                  "source": "fr/serverless-training/api-reference/openapi.json"
                 },
                 "pages": [
-                  "fr/serverless-rl/api-reference"
+                  "fr/serverless-training/api-reference"
                 ]
               }
             ],
@@ -2643,7 +2886,10 @@
                   "fr/support/models/tags/administrator",
                   "fr/support/models/tags/alerts",
                   "fr/support/models/tags/anonymous",
+                  "fr/support/models/tags/api",
+                  "fr/support/models/tags/api-keys",
                   "fr/support/models/tags/artifacts",
+                  "fr/support/models/tags/authentication",
                   "fr/support/models/tags/aws",
                   "fr/support/models/tags/billing",
                   "fr/support/models/tags/charts",
@@ -2655,6 +2901,7 @@
                   "fr/support/models/tags/logs",
                   "fr/support/models/tags/metrics",
                   "fr/support/models/tags/notebooks",
+                  "fr/support/models/tags/org-management",
                   "fr/support/models/tags/outage",
                   "fr/support/models/tags/privacy",
                   "fr/support/models/tags/projects",
@@ -2663,13 +2910,16 @@
                   "fr/support/models/tags/resuming",
                   "fr/support/models/tags/run-crashes",
                   "fr/support/models/tags/runs",
+                  "fr/support/models/tags/sdk",
                   "fr/support/models/tags/security",
                   "fr/support/models/tags/storage",
                   "fr/support/models/tags/sweeps",
                   "fr/support/models/tags/tables",
                   "fr/support/models/tags/team-management",
+                  "fr/support/models/tags/teams",
                   "fr/support/models/tags/tensorboard",
                   "fr/support/models/tags/user-management",
+                  "fr/support/models/tags/workspace",
                   "fr/support/models/tags/workspaces",
                   "fr/support/models/tags/wysiwyg"
                 ]
@@ -2775,6 +3025,80 @@
               }
             ],
             "tab": "W&B Launch"
+          },
+          {
+            "hidden": true,
+            "pages": [
+              "fr/support/models",
+              "fr/support/models/tags/academic",
+              "fr/support/models/tags/administrator",
+              "fr/support/models/tags/alerts",
+              "fr/support/models/tags/anonymous",
+              "fr/support/models/tags/api",
+              "fr/support/models/tags/api-keys",
+              "fr/support/models/tags/artifacts",
+              "fr/support/models/tags/authentication",
+              "fr/support/models/tags/aws",
+              "fr/support/models/tags/billing",
+              "fr/support/models/tags/charts",
+              "fr/support/models/tags/connectivity",
+              "fr/support/models/tags/environment-variables",
+              "fr/support/models/tags/experiments",
+              "fr/support/models/tags/hyperparameter",
+              "fr/support/models/tags/inference",
+              "fr/support/models/tags/logs",
+              "fr/support/models/tags/metrics",
+              "fr/support/models/tags/notebooks",
+              "fr/support/models/tags/org-management",
+              "fr/support/models/tags/outage",
+              "fr/support/models/tags/privacy",
+              "fr/support/models/tags/projects",
+              "fr/support/models/tags/python",
+              "fr/support/models/tags/reports",
+              "fr/support/models/tags/resuming",
+              "fr/support/models/tags/run-crashes",
+              "fr/support/models/tags/runs",
+              "fr/support/models/tags/sdk",
+              "fr/support/models/tags/security",
+              "fr/support/models/tags/storage",
+              "fr/support/models/tags/sweeps",
+              "fr/support/models/tags/tables",
+              "fr/support/models/tags/team-management",
+              "fr/support/models/tags/teams",
+              "fr/support/models/tags/tensorboard",
+              "fr/support/models/tags/user-management",
+              "fr/support/models/tags/workspace",
+              "fr/support/models/tags/workspaces",
+              "fr/support/models/tags/wysiwyg"
+            ],
+            "tab": "Assistance : W&B Models"
+          },
+          {
+            "hidden": true,
+            "pages": [
+              "fr/support/weave",
+              "fr/support/weave/tags/client-info",
+              "fr/support/weave/tags/code-capture",
+              "fr/support/weave/tags/data-capture",
+              "fr/support/weave/tags/evaluation",
+              "fr/support/weave/tags/performance",
+              "fr/support/weave/tags/system-info",
+              "fr/support/weave/tags/trace-data",
+              "fr/support/weave/tags/ui-rendering"
+            ],
+            "tab": "Assistance : W&B Weave"
+          },
+          {
+            "hidden": true,
+            "pages": [
+              "fr/support/inference",
+              "fr/support/inference/tags/administrator",
+              "fr/support/inference/tags/authentication-access",
+              "fr/support/inference/tags/billing",
+              "fr/support/inference/tags/quotas-rate-limits",
+              "fr/support/inference/tags/server-errors"
+            ],
+            "tab": "Assistance : W&B Inference"
           }
         ]
       },
@@ -2791,14 +3115,15 @@
                     "group": "Weights & Biases",
                     "pages": [
                       "ja/product-models",
-                      "ja/product-weave"
+                      "ja/product-weave",
+                      "ja/hivemind"
                     ]
                   },
                   {
                     "group": "CoreWeave 提供",
                     "pages": [
                       "ja/product-inference",
-                      "ja/product-serverless-rl",
+                      "ja/product-serverless-training",
                       "ja/product-sandboxes"
                     ]
                   },
@@ -2806,7 +3131,17 @@
                     "group": "プラットフォームの詳細",
                     "pages": [
                       {
-                        "group": "W&B を設定する",
+                        "group": "ARIA",
+                        "pages": [
+                          "ja/aria/overview",
+                          "ja/aria/chat",
+                          "ja/aria/autoresearch",
+                          "ja/aria/governance"
+                        ],
+                        "tag": "Preview"
+                      },
+                      {
+                        "group": "W&B の設定",
                         "pages": [
                           {
                             "group": "設定",
@@ -2821,7 +3156,7 @@
                             ]
                           },
                           {
-                            "group": "アイデンティティとアクセス管理（IAM）",
+                            "group": "アイデンティティとアクセス管理 (IAM)",
                             "pages": [
                               "ja/platform/hosting/iam/org_team_struct",
                               {
@@ -2870,7 +3205,7 @@
                         ]
                       },
                       {
-                        "group": "デプロイオプション",
+                        "group": "デプロイメントオプション",
                         "pages": [
                           "ja/platform/hosting",
                           "ja/platform/hosting/hosting-options/multi_tenant_cloud",
@@ -3001,7 +3336,17 @@
                         ]
                       },
                       {
-                        "group": "Tables",
+                        "group": "評価用 表",
+                        "pages": [
+                          "ja/models/evaltables",
+                          "ja/models/evaltables/create-an-evaluation-table",
+                          "ja/models/evaltables/visualize-evaluation-tables",
+                          "ja/models/evaltables/compare-runs"
+                        ],
+                        "tag": "Preview"
+                      },
+                      {
+                        "group": "表",
                         "pages": [
                           "ja/models/tables",
                           "ja/models/tables/tables-walkthrough",
@@ -3022,7 +3367,7 @@
                           "ja/models/artifacts/create-a-new-artifact-version",
                           "ja/models/artifacts/track-external-files",
                           {
-                            "group": "データを管理する",
+                            "group": "データを管理",
                             "pages": [
                               "ja/models/artifacts/delete-artifacts",
                               "ja/models/artifacts/ttl",
@@ -3065,11 +3410,11 @@
                         ]
                       },
                       {
-                        "group": "Automations",
+                        "group": "オートメーション",
                         "pages": [
                           "ja/models/automations",
                           {
-                            "group": "オートメーションを作成する",
+                            "group": "オートメーションを作成",
                             "pages": [
                               "ja/models/automations/create-automations",
                               "ja/models/automations/create-automations/slack",
@@ -3090,7 +3435,7 @@
                         ]
                       },
                       {
-                        "group": "LLM評価ジョブ",
+                        "group": "LLM 評価ジョブ",
                         "pages": [
                           "ja/models/launch",
                           "ja/models/launch/evaluate-model-checkpoint",
@@ -3123,7 +3468,7 @@
                               "ja/models/app/features/panels/parameter-importance",
                               "ja/models/app/features/panels/run-comparer",
                               {
-                                "group": "Query panels",
+                                "group": "クエリ パネル",
                                 "pages": [
                                   "ja/models/app/features/panels/query-panels",
                                   "ja/models/app/features/panels/query-panels/embedding-projector"
@@ -3138,6 +3483,7 @@
                               "ja/models/app/features/custom-charts/walkthrough"
                             ]
                           },
+                          "ja/models/app/leet-tui",
                           "ja/models/app/console-logs",
                           "ja/models/app/keyboard-shortcuts"
                         ]
@@ -3200,7 +3546,6 @@
                     "group": "リファレンス",
                     "pages": [
                       "ja/models/ref-link-python",
-                      "ja/models/ref-link-public-api",
                       "ja/models/ref-link-cli",
                       "ja/models/ref-link-query-panel",
                       "ja/models/ref-link-workspaces"
@@ -3216,9 +3561,8 @@
                   {
                     "group": "スタートガイド",
                     "pages": [
-                      "ja/weave/quickstart",
-                      "ja/weave/tutorial-eval",
-                      "ja/weave/tutorial-rag"
+                      "ja/weave/agent-integration-quickstart",
+                      "ja/weave/custom-agents-quickstart"
                     ]
                   },
                   {
@@ -3226,11 +3570,24 @@
                     "pages": [
                       "ja/weave/concepts/what-is-weave",
                       {
+                        "group": "エージェントをトレースする",
+                        "pages": [
+                          "ja/weave/guides/tracking/trace-agents",
+                          "ja/weave/guides/tracking/trace-agent-integrations",
+                          "ja/weave/guides/tracking/view-agent-activity",
+                          "ja/weave/guides/tracking/view-agent-signals",
+                          "ja/weave/guides/tracking/trace-agents-attributes",
+                          "ja/weave/guides/tracking/trace-agents-batch",
+                          "ja/weave/guides/tracking/trace-sub-agents"
+                        ]
+                      },
+                      {
                         "group": "アプリケーションをトレースする",
                         "pages": [
                           {
                             "group": "トレースの基本",
                             "pages": [
+                              "ja/weave/quickstart",
                               "ja/weave/guides/tracking/tracing",
                               "ja/weave/guides/tracking/create-call",
                               "ja/weave/guides/tracking/trace-tree",
@@ -3269,9 +3626,11 @@
                         ]
                       },
                       {
-                        "group": "アプリケーションを評価する",
+                        "group": "エージェントとアプリケーションを評価する",
                         "pages": [
                           "ja/weave/guides/core-types/evaluations",
+                          "ja/weave/tutorial-eval",
+                          "ja/weave/tutorial-rag",
                           "ja/weave/guides/core-types/datasets",
                           "ja/weave/guides/evaluation/scorers",
                           "ja/weave/guides/evaluation/builtin_scorers",
@@ -3302,10 +3661,10 @@
                         ]
                       },
                       {
-                        "group": "監視とフィードバックの収集",
+                        "group": "監視してフィードバックを収集する",
                         "pages": [
                           {
-                            "group": "アノテーション",
+                            "group": "アノテーションする",
                             "pages": [
                               "ja/weave/guides/tracking/annotation-queues",
                               "ja/weave/guides/tracking/annotation-review",
@@ -3314,19 +3673,32 @@
                           },
                           "ja/weave/guides/tracking/redact-pii",
                           "ja/weave/guides/evaluation/monitors",
+                          "ja/weave/guides/evaluation/custom-monitors",
                           "ja/weave/guides/evaluation/automations",
                           "ja/weave/guides/evaluation/guardrails",
                           "ja/weave/guides/tracking/otel"
                         ]
                       },
                       {
-                        "group": "LLM provider とフレームワークを統合する",
+                        "group": "LLM プロバイダおよびフレームワークと統合する",
                         "pages": [
                           "ja/weave/guides/integrations",
                           "ja/weave/guides/integrations/autopatching",
                           "ja/weave/guides/integrations/js",
                           {
-                            "group": "LLM provider",
+                            "group": "エージェントをトレースする",
+                            "pages": [
+                              "ja/weave/guides/integrations/agents/google-adk",
+                              "ja/weave/guides/integrations/agents/openai-agents-sdk",
+                              "ja/weave/guides/integrations/agents/claude-agents-sdk",
+                              "ja/weave/guides/integrations/agents/claude-code-harness",
+                              "ja/weave/guides/integrations/agents/codex-harness",
+                              "ja/weave/guides/integrations/agents/openclaw-harness",
+                              "ja/weave/guides/integrations/agents/pi-dev-harness"
+                            ]
+                          },
+                          {
+                            "group": "LLM プロバイダ",
                             "pages": [
                               "ja/weave/guides/integrations/bedrock",
                               "ja/weave/guides/integrations/anthropic",
@@ -3347,10 +3719,8 @@
                           {
                             "group": "フレームワーク",
                             "pages": [
-                              "ja/weave/guides/integrations/openai_agents",
                               "ja/weave/guides/integrations/openai-realtime-audio",
-                              "ja/weave/guides/integrations/claude_agent",
-                              "ja/weave/guides/integrations/claude_code",
+                              "ja/weave/guides/integrations/bedrock_agents",
                               "ja/weave/guides/integrations/langchain",
                               "ja/weave/guides/integrations/llamaindex",
                               "ja/weave/guides/integrations/dspy",
@@ -3358,7 +3728,6 @@
                               "ja/weave/guides/integrations/crewai",
                               "ja/weave/guides/integrations/smolagents",
                               "ja/weave/guides/integrations/pydantic_ai",
-                              "ja/weave/guides/integrations/google_adk",
                               "ja/weave/guides/integrations/vercel_ai_sdk",
                               "ja/weave/guides/integrations/haystack",
                               "ja/weave/guides/integrations/agno",
@@ -3381,7 +3750,8 @@
                         "group": "デプロイしてスケールする",
                         "pages": [
                           "ja/weave/guides/platform",
-                          "ja/weave/guides/platform/weave-self-managed"
+                          "ja/weave/guides/platform/weave-self-managed",
+                          "ja/weave/guides/platform/ingest-sampling"
                         ]
                       },
                       "ja/weave/guides/platform/weave-projects",
@@ -3492,25 +3862,30 @@
                 ]
               },
               {
-                "item": "Serverless RL",
+                "item": "Serverless Training",
                 "pages": [
-                  "ja/serverless-rl",
-                  "ja/serverless-rl/prerequisites",
-                  "ja/serverless-rl/usage",
-                  "ja/serverless-rl/available-models",
-                  "ja/serverless-rl/usage-limits",
-                  "ja/serverless-rl/use-trained-models",
+                  "ja/serverless-training",
+                  "ja/serverless-training/prerequisites",
+                  "ja/serverless-training/usage-limits",
+                  {
+                    "group": "Serverless RL",
+                    "pages": [
+                      "ja/serverless-training/usage",
+                      "ja/serverless-training/available-models",
+                      "ja/serverless-training/use-trained-models"
+                    ]
+                  },
                   {
                     "group": "Serverless SFT",
                     "pages": [
-                      "ja/serverless-rl/sft",
-                      "ja/serverless-rl/sft/usage"
+                      "ja/serverless-training/sft",
+                      "ja/serverless-training/sft/usage"
                     ]
                   },
                   {
                     "group": "API リファレンス",
                     "pages": [
-                      "ja/serverless-rl/ref-link-api"
+                      "ja/serverless-training/ref-link-api"
                     ]
                   }
                 ]
@@ -3593,6 +3968,7 @@
                           "ja/models/ref/python/data-types",
                           "ja/models/ref/python/data-types/audio",
                           "ja/models/ref/python/data-types/box3d",
+                          "ja/models/ref/python/data-types/evaltable",
                           "ja/models/ref/python/data-types/histogram",
                           "ja/models/ref/python/data-types/html",
                           "ja/models/ref/python/data-types/image",
@@ -3626,10 +4002,15 @@
                           "ja/models/ref/python/automations/metricthresholdfilter",
                           "ja/models/ref/python/automations/newautomation",
                           "ja/models/ref/python/automations/onaddartifactalias",
+                          "ja/models/ref/python/automations/onaddartifacttag",
+                          "ja/models/ref/python/automations/onaddcollectiontag",
                           "ja/models/ref/python/automations/oncreateartifact",
                           "ja/models/ref/python/automations/onlinkartifact",
+                          "ja/models/ref/python/automations/onremoveartifacttag",
+                          "ja/models/ref/python/automations/onremovecollectiontag",
                           "ja/models/ref/python/automations/onrunmetric",
                           "ja/models/ref/python/automations/onrunstate",
+                          "ja/models/ref/python/automations/onunlinkartifact",
                           "ja/models/ref/python/automations/runstatefilter",
                           "ja/models/ref/python/automations/sendnotification",
                           "ja/models/ref/python/automations/sendwebhook"
@@ -3655,6 +4036,7 @@
                         "pages": [
                           "ja/models/ref/python/public-api",
                           "ja/models/ref/python/public-api/api",
+                          "ja/models/ref/python/public-api/agentruns",
                           "ja/models/ref/python/public-api/artifactcollection",
                           "ja/models/ref/python/public-api/artifactcollections",
                           "ja/models/ref/python/public-api/artifactfiles",
@@ -3715,15 +4097,6 @@
                               "ja/models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-stop"
                             ]
                           },
-                          {
-                            "group": "beta leet",
-                            "pages": [
-                              "ja/models/ref/cli/wandb-beta/wandb-beta-leet",
-                              "ja/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-config",
-                              "ja/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-run",
-                              "ja/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-symon"
-                            ]
-                          },
                           "ja/models/ref/cli/wandb-beta/wandb-beta-sync"
                         ]
                       },
@@ -3740,6 +4113,15 @@
                           "ja/models/ref/cli/wandb-job/wandb-job-create",
                           "ja/models/ref/cli/wandb-job/wandb-job-describe",
                           "ja/models/ref/cli/wandb-job/wandb-job-list"
+                        ]
+                      },
+                      {
+                        "group": "wandb leet",
+                        "pages": [
+                          "ja/models/ref/cli/wandb-leet",
+                          "ja/models/ref/cli/wandb-leet/wandb-leet-config",
+                          "ja/models/ref/cli/wandb-leet/wandb-leet-run",
+                          "ja/models/ref/cli/wandb-leet/wandb-leet-symon"
                         ]
                       },
                       "ja/models/ref/cli/wandb-login",
@@ -3839,13 +4221,19 @@
                       {
                         "group": "クラス",
                         "pages": [
+                          "ja/weave/reference/typescript-sdk/classes/conversation",
                           "ja/weave/reference/typescript-sdk/classes/dataset",
                           "ja/weave/reference/typescript-sdk/classes/evaluation",
                           "ja/weave/reference/typescript-sdk/classes/evaluationlogger",
+                          "ja/weave/reference/typescript-sdk/classes/llm",
                           "ja/weave/reference/typescript-sdk/classes/messagesprompt",
                           "ja/weave/reference/typescript-sdk/classes/objectref",
                           "ja/weave/reference/typescript-sdk/classes/scorelogger",
                           "ja/weave/reference/typescript-sdk/classes/stringprompt",
+                          "ja/weave/reference/typescript-sdk/classes/subagent",
+                          "ja/weave/reference/typescript-sdk/classes/tool",
+                          "ja/weave/reference/typescript-sdk/classes/turn",
+                          "ja/weave/reference/typescript-sdk/classes/weaveadkplugin",
                           "ja/weave/reference/typescript-sdk/classes/weaveclient",
                           "ja/weave/reference/typescript-sdk/classes/weaveobject"
                         ]
@@ -3854,6 +4242,16 @@
                         "group": "関数",
                         "pages": [
                           "ja/weave/reference/typescript-sdk/functions/createopenaiagentstracingprocessor",
+                          "ja/weave/reference/typescript-sdk/functions/createotelextension",
+                          "ja/weave/reference/typescript-sdk/functions/endconversation",
+                          "ja/weave/reference/typescript-sdk/functions/endllm",
+                          "ja/weave/reference/typescript-sdk/functions/endsession",
+                          "ja/weave/reference/typescript-sdk/functions/endturn",
+                          "ja/weave/reference/typescript-sdk/functions/flushotel",
+                          "ja/weave/reference/typescript-sdk/functions/getcurrentconversation",
+                          "ja/weave/reference/typescript-sdk/functions/getcurrentllm",
+                          "ja/weave/reference/typescript-sdk/functions/getcurrentsession",
+                          "ja/weave/reference/typescript-sdk/functions/getcurrentturn",
                           "ja/weave/reference/typescript-sdk/functions/init",
                           "ja/weave/reference/typescript-sdk/functions/instrumentopenaiagents",
                           "ja/weave/reference/typescript-sdk/functions/login",
@@ -3861,9 +4259,17 @@
                           "ja/weave/reference/typescript-sdk/functions/patchrealtimesession",
                           "ja/weave/reference/typescript-sdk/functions/requirecurrentcallstackentry",
                           "ja/weave/reference/typescript-sdk/functions/requirecurrentchildsummary",
+                          "ja/weave/reference/typescript-sdk/functions/runisolated",
+                          "ja/weave/reference/typescript-sdk/functions/startconversation",
+                          "ja/weave/reference/typescript-sdk/functions/startllm",
+                          "ja/weave/reference/typescript-sdk/functions/startsession",
+                          "ja/weave/reference/typescript-sdk/functions/startsubagent",
+                          "ja/weave/reference/typescript-sdk/functions/starttool",
+                          "ja/weave/reference/typescript-sdk/functions/startturn",
                           "ja/weave/reference/typescript-sdk/functions/weaveaudio",
                           "ja/weave/reference/typescript-sdk/functions/weaveimage",
                           "ja/weave/reference/typescript-sdk/functions/withattributes",
+                          "ja/weave/reference/typescript-sdk/functions/wrapclaudeagentsdk",
                           "ja/weave/reference/typescript-sdk/functions/wrapgooglegenai",
                           "ja/weave/reference/typescript-sdk/functions/wrapopenai"
                         ]
@@ -3873,6 +4279,24 @@
                         "pages": [
                           "ja/weave/reference/typescript-sdk/interfaces/callschema",
                           "ja/weave/reference/typescript-sdk/interfaces/callsfilter",
+                          "ja/weave/reference/typescript-sdk/interfaces/conversationinit",
+                          "ja/weave/reference/typescript-sdk/interfaces/getagentsoptions",
+                          "ja/weave/reference/typescript-sdk/interfaces/getagentspansoptions",
+                          "ja/weave/reference/typescript-sdk/interfaces/getagentturnoptions",
+                          "ja/weave/reference/typescript-sdk/interfaces/getagentturnsoptions",
+                          "ja/weave/reference/typescript-sdk/interfaces/getagentversionsoptions",
+                          "ja/weave/reference/typescript-sdk/interfaces/getcallsoptions",
+                          "ja/weave/reference/typescript-sdk/interfaces/httpresponse",
+                          "ja/weave/reference/typescript-sdk/interfaces/httpvalidationerror",
+                          "ja/weave/reference/typescript-sdk/interfaces/llminit",
+                          "ja/weave/reference/typescript-sdk/interfaces/message",
+                          "ja/weave/reference/typescript-sdk/interfaces/query",
+                          "ja/weave/reference/typescript-sdk/interfaces/reasoning",
+                          "ja/weave/reference/typescript-sdk/interfaces/sortby",
+                          "ja/weave/reference/typescript-sdk/interfaces/subagentinit",
+                          "ja/weave/reference/typescript-sdk/interfaces/toolinit",
+                          "ja/weave/reference/typescript-sdk/interfaces/turninit",
+                          "ja/weave/reference/typescript-sdk/interfaces/usage",
                           "ja/weave/reference/typescript-sdk/interfaces/weaveaudio",
                           "ja/weave/reference/typescript-sdk/interfaces/weaveimage"
                         ]
@@ -3880,8 +4304,25 @@
                       {
                         "group": "型エイリアス",
                         "pages": [
+                          "ja/weave/reference/typescript-sdk/type-aliases/agent",
+                          "ja/weave/reference/typescript-sdk/type-aliases/agentmessage",
+                          "ja/weave/reference/typescript-sdk/type-aliases/agentspan",
+                          "ja/weave/reference/typescript-sdk/type-aliases/agentturn",
+                          "ja/weave/reference/typescript-sdk/type-aliases/agentversion",
+                          "ja/weave/reference/typescript-sdk/type-aliases/getagentspansresult",
+                          "ja/weave/reference/typescript-sdk/type-aliases/getagentsresult",
+                          "ja/weave/reference/typescript-sdk/type-aliases/getagentturnresult",
+                          "ja/weave/reference/typescript-sdk/type-aliases/getagentturnsresult",
+                          "ja/weave/reference/typescript-sdk/type-aliases/getagentversionsresult",
+                          "ja/weave/reference/typescript-sdk/type-aliases/messagepart",
+                          "ja/weave/reference/typescript-sdk/type-aliases/modality",
                           "ja/weave/reference/typescript-sdk/type-aliases/op",
-                          "ja/weave/reference/typescript-sdk/type-aliases/opdecorator"
+                          "ja/weave/reference/typescript-sdk/type-aliases/opdecorator",
+                          "ja/weave/reference/typescript-sdk/type-aliases/response",
+                          "ja/weave/reference/typescript-sdk/type-aliases/role",
+                          "ja/weave/reference/typescript-sdk/type-aliases/session",
+                          "ja/weave/reference/typescript-sdk/type-aliases/sessioninit",
+                          "ja/weave/reference/typescript-sdk/type-aliases/settings"
                         ]
                       }
                     ]
@@ -3908,13 +4349,13 @@
                 ]
               },
               {
-                "group": "Serverless RL",
+                "group": "Serverless Training",
                 "openapi": {
-                  "directory": "ja/serverless-rl/api-reference",
-                  "source": "ja/serverless-rl/api-reference/openapi.json"
+                  "directory": "ja/serverless-training/api-reference",
+                  "source": "ja/serverless-training/api-reference/openapi.json"
                 },
                 "pages": [
-                  "ja/serverless-rl/api-reference"
+                  "ja/serverless-training/api-reference"
                 ]
               }
             ],
@@ -3957,7 +4398,10 @@
                   "ja/support/models/tags/administrator",
                   "ja/support/models/tags/alerts",
                   "ja/support/models/tags/anonymous",
+                  "ja/support/models/tags/api",
+                  "ja/support/models/tags/api-keys",
                   "ja/support/models/tags/artifacts",
+                  "ja/support/models/tags/authentication",
                   "ja/support/models/tags/aws",
                   "ja/support/models/tags/billing",
                   "ja/support/models/tags/charts",
@@ -3969,6 +4413,7 @@
                   "ja/support/models/tags/logs",
                   "ja/support/models/tags/metrics",
                   "ja/support/models/tags/notebooks",
+                  "ja/support/models/tags/org-management",
                   "ja/support/models/tags/outage",
                   "ja/support/models/tags/privacy",
                   "ja/support/models/tags/projects",
@@ -3977,13 +4422,16 @@
                   "ja/support/models/tags/resuming",
                   "ja/support/models/tags/run-crashes",
                   "ja/support/models/tags/runs",
+                  "ja/support/models/tags/sdk",
                   "ja/support/models/tags/security",
                   "ja/support/models/tags/storage",
                   "ja/support/models/tags/sweeps",
                   "ja/support/models/tags/tables",
                   "ja/support/models/tags/team-management",
+                  "ja/support/models/tags/teams",
                   "ja/support/models/tags/tensorboard",
                   "ja/support/models/tags/user-management",
+                  "ja/support/models/tags/workspace",
                   "ja/support/models/tags/workspaces",
                   "ja/support/models/tags/wysiwyg"
                 ]
@@ -4089,6 +4537,80 @@
               }
             ],
             "tab": "W&B Launch"
+          },
+          {
+            "hidden": true,
+            "pages": [
+              "ja/support/models",
+              "ja/support/models/tags/academic",
+              "ja/support/models/tags/administrator",
+              "ja/support/models/tags/alerts",
+              "ja/support/models/tags/anonymous",
+              "ja/support/models/tags/api",
+              "ja/support/models/tags/api-keys",
+              "ja/support/models/tags/artifacts",
+              "ja/support/models/tags/authentication",
+              "ja/support/models/tags/aws",
+              "ja/support/models/tags/billing",
+              "ja/support/models/tags/charts",
+              "ja/support/models/tags/connectivity",
+              "ja/support/models/tags/environment-variables",
+              "ja/support/models/tags/experiments",
+              "ja/support/models/tags/hyperparameter",
+              "ja/support/models/tags/inference",
+              "ja/support/models/tags/logs",
+              "ja/support/models/tags/metrics",
+              "ja/support/models/tags/notebooks",
+              "ja/support/models/tags/org-management",
+              "ja/support/models/tags/outage",
+              "ja/support/models/tags/privacy",
+              "ja/support/models/tags/projects",
+              "ja/support/models/tags/python",
+              "ja/support/models/tags/reports",
+              "ja/support/models/tags/resuming",
+              "ja/support/models/tags/run-crashes",
+              "ja/support/models/tags/runs",
+              "ja/support/models/tags/sdk",
+              "ja/support/models/tags/security",
+              "ja/support/models/tags/storage",
+              "ja/support/models/tags/sweeps",
+              "ja/support/models/tags/tables",
+              "ja/support/models/tags/team-management",
+              "ja/support/models/tags/teams",
+              "ja/support/models/tags/tensorboard",
+              "ja/support/models/tags/user-management",
+              "ja/support/models/tags/workspace",
+              "ja/support/models/tags/workspaces",
+              "ja/support/models/tags/wysiwyg"
+            ],
+            "tab": "サポート: W&B Models"
+          },
+          {
+            "hidden": true,
+            "pages": [
+              "ja/support/weave",
+              "ja/support/weave/tags/client-info",
+              "ja/support/weave/tags/code-capture",
+              "ja/support/weave/tags/data-capture",
+              "ja/support/weave/tags/evaluation",
+              "ja/support/weave/tags/performance",
+              "ja/support/weave/tags/system-info",
+              "ja/support/weave/tags/trace-data",
+              "ja/support/weave/tags/ui-rendering"
+            ],
+            "tab": "サポート: W&B Weave"
+          },
+          {
+            "hidden": true,
+            "pages": [
+              "ja/support/inference",
+              "ja/support/inference/tags/administrator",
+              "ja/support/inference/tags/authentication-access",
+              "ja/support/inference/tags/billing",
+              "ja/support/inference/tags/quotas-rate-limits",
+              "ja/support/inference/tags/server-errors"
+            ],
+            "tab": "サポート: W&B Inference"
           }
         ]
       },
@@ -4105,20 +4627,31 @@
                     "group": "Weights & Biases",
                     "pages": [
                       "ko/product-models",
-                      "ko/product-weave"
+                      "ko/product-weave",
+                      "ko/hivemind"
                     ]
                   },
                   {
                     "group": "CoreWeave 제공",
                     "pages": [
                       "ko/product-inference",
-                      "ko/product-serverless-rl",
+                      "ko/product-serverless-training",
                       "ko/product-sandboxes"
                     ]
                   },
                   {
                     "group": "플랫폼 정보",
                     "pages": [
+                      {
+                        "group": "ARIA",
+                        "pages": [
+                          "ko/aria/overview",
+                          "ko/aria/chat",
+                          "ko/aria/autoresearch",
+                          "ko/aria/governance"
+                        ],
+                        "tag": "Preview"
+                      },
                       {
                         "group": "W&B 설정",
                         "pages": [
@@ -4175,7 +4708,7 @@
                         ]
                       },
                       {
-                        "group": "모니터링 및 사용",
+                        "group": "모니터링 및 사용량",
                         "pages": [
                           "ko/platform/hosting/monitoring-usage/audit-logging",
                           "ko/platform/hosting/monitoring-usage/slack-alerts",
@@ -4315,7 +4848,17 @@
                         ]
                       },
                       {
-                        "group": "Tables",
+                        "group": "평가 테이블",
+                        "pages": [
+                          "ko/models/evaltables",
+                          "ko/models/evaltables/create-an-evaluation-table",
+                          "ko/models/evaltables/visualize-evaluation-tables",
+                          "ko/models/evaltables/compare-runs"
+                        ],
+                        "tag": "Preview"
+                      },
+                      {
+                        "group": "테이블",
                         "pages": [
                           "ko/models/tables",
                           "ko/models/tables/tables-walkthrough",
@@ -4379,7 +4922,7 @@
                         ]
                       },
                       {
-                        "group": "Automations",
+                        "group": "자동화",
                         "pages": [
                           "ko/models/automations",
                           {
@@ -4404,7 +4947,7 @@
                         ]
                       },
                       {
-                        "group": "LLM Evaluation 작업",
+                        "group": "LLM 평가 작업",
                         "pages": [
                           "ko/models/launch",
                           "ko/models/launch/evaluate-model-checkpoint",
@@ -4437,7 +4980,7 @@
                               "ko/models/app/features/panels/parameter-importance",
                               "ko/models/app/features/panels/run-comparer",
                               {
-                                "group": "Query panels",
+                                "group": "쿼리 패널",
                                 "pages": [
                                   "ko/models/app/features/panels/query-panels",
                                   "ko/models/app/features/panels/query-panels/embedding-projector"
@@ -4452,6 +4995,7 @@
                               "ko/models/app/features/custom-charts/walkthrough"
                             ]
                           },
+                          "ko/models/app/leet-tui",
                           "ko/models/app/console-logs",
                           "ko/models/app/keyboard-shortcuts"
                         ]
@@ -4514,7 +5058,6 @@
                     "group": "레퍼런스",
                     "pages": [
                       "ko/models/ref-link-python",
-                      "ko/models/ref-link-public-api",
                       "ko/models/ref-link-cli",
                       "ko/models/ref-link-query-panel",
                       "ko/models/ref-link-workspaces"
@@ -4530,9 +5073,8 @@
                   {
                     "group": "시작하기",
                     "pages": [
-                      "ko/weave/quickstart",
-                      "ko/weave/tutorial-eval",
-                      "ko/weave/tutorial-rag"
+                      "ko/weave/agent-integration-quickstart",
+                      "ko/weave/custom-agents-quickstart"
                     ]
                   },
                   {
@@ -4540,11 +5082,24 @@
                     "pages": [
                       "ko/weave/concepts/what-is-weave",
                       {
-                        "group": "애플리케이션 트레이스하기",
+                        "group": "에이전트를 트레이스하세요",
+                        "pages": [
+                          "ko/weave/guides/tracking/trace-agents",
+                          "ko/weave/guides/tracking/trace-agent-integrations",
+                          "ko/weave/guides/tracking/view-agent-activity",
+                          "ko/weave/guides/tracking/view-agent-signals",
+                          "ko/weave/guides/tracking/trace-agents-attributes",
+                          "ko/weave/guides/tracking/trace-agents-batch",
+                          "ko/weave/guides/tracking/trace-sub-agents"
+                        ]
+                      },
+                      {
+                        "group": "애플리케이션을 트레이스하세요",
                         "pages": [
                           {
                             "group": "트레이싱 기본 개념",
                             "pages": [
+                              "ko/weave/quickstart",
                               "ko/weave/guides/tracking/tracing",
                               "ko/weave/guides/tracking/create-call",
                               "ko/weave/guides/tracking/trace-tree",
@@ -4567,7 +5122,7 @@
                             ]
                           },
                           {
-                            "group": "Call 활용하기",
+                            "group": "Call 사용하기",
                             "pages": [
                               "ko/weave/guides/tracking/update-call",
                               "ko/weave/guides/tracking/call-schema-reference",
@@ -4583,9 +5138,11 @@
                         ]
                       },
                       {
-                        "group": "애플리케이션 평가하기",
+                        "group": "에이전트와 애플리케이션을 평가하세요",
                         "pages": [
                           "ko/weave/guides/core-types/evaluations",
+                          "ko/weave/tutorial-eval",
+                          "ko/weave/tutorial-rag",
                           "ko/weave/guides/core-types/datasets",
                           "ko/weave/guides/evaluation/scorers",
                           "ko/weave/guides/evaluation/builtin_scorers",
@@ -4598,7 +5155,7 @@
                         ]
                       },
                       {
-                        "group": "프롬프트와 모델로 실험하기",
+                        "group": "프롬프트와 모델로 실험하세요",
                         "pages": [
                           "ko/weave/guides/tools/playground",
                           "ko/weave/guides/tools/evaluation_playground",
@@ -4606,7 +5163,7 @@
                         ]
                       },
                       {
-                        "group": "작업 버전 관리하기",
+                        "group": "작업을 버전 관리하세요",
                         "pages": [
                           "ko/weave/tutorial-weave_models",
                           "ko/weave/guides/core-types/models",
@@ -4616,10 +5173,10 @@
                         ]
                       },
                       {
-                        "group": "모니터링 및 피드백 수집",
+                        "group": "모니터링하고 피드백을 수집하세요",
                         "pages": [
                           {
-                            "group": "어노테이션",
+                            "group": "주석 달기",
                             "pages": [
                               "ko/weave/guides/tracking/annotation-queues",
                               "ko/weave/guides/tracking/annotation-review",
@@ -4628,17 +5185,30 @@
                           },
                           "ko/weave/guides/tracking/redact-pii",
                           "ko/weave/guides/evaluation/monitors",
+                          "ko/weave/guides/evaluation/custom-monitors",
                           "ko/weave/guides/evaluation/automations",
                           "ko/weave/guides/evaluation/guardrails",
                           "ko/weave/guides/tracking/otel"
                         ]
                       },
                       {
-                        "group": "LLM 공급자 및 프레임워크와 통합하기",
+                        "group": "LLM 공급자 및 프레임워크와 통합하세요",
                         "pages": [
                           "ko/weave/guides/integrations",
                           "ko/weave/guides/integrations/autopatching",
                           "ko/weave/guides/integrations/js",
+                          {
+                            "group": "트레이스 에이전트",
+                            "pages": [
+                              "ko/weave/guides/integrations/agents/google-adk",
+                              "ko/weave/guides/integrations/agents/openai-agents-sdk",
+                              "ko/weave/guides/integrations/agents/claude-agents-sdk",
+                              "ko/weave/guides/integrations/agents/claude-code-harness",
+                              "ko/weave/guides/integrations/agents/codex-harness",
+                              "ko/weave/guides/integrations/agents/openclaw-harness",
+                              "ko/weave/guides/integrations/agents/pi-dev-harness"
+                            ]
+                          },
                           {
                             "group": "LLM 공급자",
                             "pages": [
@@ -4661,10 +5231,8 @@
                           {
                             "group": "프레임워크",
                             "pages": [
-                              "ko/weave/guides/integrations/openai_agents",
                               "ko/weave/guides/integrations/openai-realtime-audio",
-                              "ko/weave/guides/integrations/claude_agent",
-                              "ko/weave/guides/integrations/claude_code",
+                              "ko/weave/guides/integrations/bedrock_agents",
                               "ko/weave/guides/integrations/langchain",
                               "ko/weave/guides/integrations/llamaindex",
                               "ko/weave/guides/integrations/dspy",
@@ -4672,7 +5240,6 @@
                               "ko/weave/guides/integrations/crewai",
                               "ko/weave/guides/integrations/smolagents",
                               "ko/weave/guides/integrations/pydantic_ai",
-                              "ko/weave/guides/integrations/google_adk",
                               "ko/weave/guides/integrations/vercel_ai_sdk",
                               "ko/weave/guides/integrations/haystack",
                               "ko/weave/guides/integrations/agno",
@@ -4692,10 +5259,11 @@
                         ]
                       },
                       {
-                        "group": "배포 및 확장",
+                        "group": "배포하고 확장하세요",
                         "pages": [
                           "ko/weave/guides/platform",
-                          "ko/weave/guides/platform/weave-self-managed"
+                          "ko/weave/guides/platform/weave-self-managed",
+                          "ko/weave/guides/platform/ingest-sampling"
                         ]
                       },
                       "ko/weave/guides/platform/weave-projects",
@@ -4806,25 +5374,30 @@
                 ]
               },
               {
-                "item": "Serverless RL",
+                "item": "Serverless Training",
                 "pages": [
-                  "ko/serverless-rl",
-                  "ko/serverless-rl/prerequisites",
-                  "ko/serverless-rl/usage",
-                  "ko/serverless-rl/available-models",
-                  "ko/serverless-rl/usage-limits",
-                  "ko/serverless-rl/use-trained-models",
+                  "ko/serverless-training",
+                  "ko/serverless-training/prerequisites",
+                  "ko/serverless-training/usage-limits",
+                  {
+                    "group": "Serverless RL",
+                    "pages": [
+                      "ko/serverless-training/usage",
+                      "ko/serverless-training/available-models",
+                      "ko/serverless-training/use-trained-models"
+                    ]
+                  },
                   {
                     "group": "Serverless SFT",
                     "pages": [
-                      "ko/serverless-rl/sft",
-                      "ko/serverless-rl/sft/usage"
+                      "ko/serverless-training/sft",
+                      "ko/serverless-training/sft/usage"
                     ]
                   },
                   {
                     "group": "API 레퍼런스",
                     "pages": [
-                      "ko/serverless-rl/ref-link-api"
+                      "ko/serverless-training/ref-link-api"
                     ]
                   }
                 ]
@@ -4907,6 +5480,7 @@
                           "ko/models/ref/python/data-types",
                           "ko/models/ref/python/data-types/audio",
                           "ko/models/ref/python/data-types/box3d",
+                          "ko/models/ref/python/data-types/evaltable",
                           "ko/models/ref/python/data-types/histogram",
                           "ko/models/ref/python/data-types/html",
                           "ko/models/ref/python/data-types/image",
@@ -4940,10 +5514,15 @@
                           "ko/models/ref/python/automations/metricthresholdfilter",
                           "ko/models/ref/python/automations/newautomation",
                           "ko/models/ref/python/automations/onaddartifactalias",
+                          "ko/models/ref/python/automations/onaddartifacttag",
+                          "ko/models/ref/python/automations/onaddcollectiontag",
                           "ko/models/ref/python/automations/oncreateartifact",
                           "ko/models/ref/python/automations/onlinkartifact",
+                          "ko/models/ref/python/automations/onremoveartifacttag",
+                          "ko/models/ref/python/automations/onremovecollectiontag",
                           "ko/models/ref/python/automations/onrunmetric",
                           "ko/models/ref/python/automations/onrunstate",
+                          "ko/models/ref/python/automations/onunlinkartifact",
                           "ko/models/ref/python/automations/runstatefilter",
                           "ko/models/ref/python/automations/sendnotification",
                           "ko/models/ref/python/automations/sendwebhook"
@@ -4969,6 +5548,7 @@
                         "pages": [
                           "ko/models/ref/python/public-api",
                           "ko/models/ref/python/public-api/api",
+                          "ko/models/ref/python/public-api/agentruns",
                           "ko/models/ref/python/public-api/artifactcollection",
                           "ko/models/ref/python/public-api/artifactcollections",
                           "ko/models/ref/python/public-api/artifactfiles",
@@ -5029,15 +5609,6 @@
                               "ko/models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-stop"
                             ]
                           },
-                          {
-                            "group": "beta leet",
-                            "pages": [
-                              "ko/models/ref/cli/wandb-beta/wandb-beta-leet",
-                              "ko/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-config",
-                              "ko/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-run",
-                              "ko/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-symon"
-                            ]
-                          },
                           "ko/models/ref/cli/wandb-beta/wandb-beta-sync"
                         ]
                       },
@@ -5054,6 +5625,15 @@
                           "ko/models/ref/cli/wandb-job/wandb-job-create",
                           "ko/models/ref/cli/wandb-job/wandb-job-describe",
                           "ko/models/ref/cli/wandb-job/wandb-job-list"
+                        ]
+                      },
+                      {
+                        "group": "wandb leet",
+                        "pages": [
+                          "ko/models/ref/cli/wandb-leet",
+                          "ko/models/ref/cli/wandb-leet/wandb-leet-config",
+                          "ko/models/ref/cli/wandb-leet/wandb-leet-run",
+                          "ko/models/ref/cli/wandb-leet/wandb-leet-symon"
                         ]
                       },
                       "ko/models/ref/cli/wandb-login",
@@ -5153,13 +5733,19 @@
                       {
                         "group": "클래스",
                         "pages": [
+                          "ko/weave/reference/typescript-sdk/classes/conversation",
                           "ko/weave/reference/typescript-sdk/classes/dataset",
                           "ko/weave/reference/typescript-sdk/classes/evaluation",
                           "ko/weave/reference/typescript-sdk/classes/evaluationlogger",
+                          "ko/weave/reference/typescript-sdk/classes/llm",
                           "ko/weave/reference/typescript-sdk/classes/messagesprompt",
                           "ko/weave/reference/typescript-sdk/classes/objectref",
                           "ko/weave/reference/typescript-sdk/classes/scorelogger",
                           "ko/weave/reference/typescript-sdk/classes/stringprompt",
+                          "ko/weave/reference/typescript-sdk/classes/subagent",
+                          "ko/weave/reference/typescript-sdk/classes/tool",
+                          "ko/weave/reference/typescript-sdk/classes/turn",
+                          "ko/weave/reference/typescript-sdk/classes/weaveadkplugin",
                           "ko/weave/reference/typescript-sdk/classes/weaveclient",
                           "ko/weave/reference/typescript-sdk/classes/weaveobject"
                         ]
@@ -5168,6 +5754,16 @@
                         "group": "함수",
                         "pages": [
                           "ko/weave/reference/typescript-sdk/functions/createopenaiagentstracingprocessor",
+                          "ko/weave/reference/typescript-sdk/functions/createotelextension",
+                          "ko/weave/reference/typescript-sdk/functions/endconversation",
+                          "ko/weave/reference/typescript-sdk/functions/endllm",
+                          "ko/weave/reference/typescript-sdk/functions/endsession",
+                          "ko/weave/reference/typescript-sdk/functions/endturn",
+                          "ko/weave/reference/typescript-sdk/functions/flushotel",
+                          "ko/weave/reference/typescript-sdk/functions/getcurrentconversation",
+                          "ko/weave/reference/typescript-sdk/functions/getcurrentllm",
+                          "ko/weave/reference/typescript-sdk/functions/getcurrentsession",
+                          "ko/weave/reference/typescript-sdk/functions/getcurrentturn",
                           "ko/weave/reference/typescript-sdk/functions/init",
                           "ko/weave/reference/typescript-sdk/functions/instrumentopenaiagents",
                           "ko/weave/reference/typescript-sdk/functions/login",
@@ -5175,9 +5771,17 @@
                           "ko/weave/reference/typescript-sdk/functions/patchrealtimesession",
                           "ko/weave/reference/typescript-sdk/functions/requirecurrentcallstackentry",
                           "ko/weave/reference/typescript-sdk/functions/requirecurrentchildsummary",
+                          "ko/weave/reference/typescript-sdk/functions/runisolated",
+                          "ko/weave/reference/typescript-sdk/functions/startconversation",
+                          "ko/weave/reference/typescript-sdk/functions/startllm",
+                          "ko/weave/reference/typescript-sdk/functions/startsession",
+                          "ko/weave/reference/typescript-sdk/functions/startsubagent",
+                          "ko/weave/reference/typescript-sdk/functions/starttool",
+                          "ko/weave/reference/typescript-sdk/functions/startturn",
                           "ko/weave/reference/typescript-sdk/functions/weaveaudio",
                           "ko/weave/reference/typescript-sdk/functions/weaveimage",
                           "ko/weave/reference/typescript-sdk/functions/withattributes",
+                          "ko/weave/reference/typescript-sdk/functions/wrapclaudeagentsdk",
                           "ko/weave/reference/typescript-sdk/functions/wrapgooglegenai",
                           "ko/weave/reference/typescript-sdk/functions/wrapopenai"
                         ]
@@ -5187,6 +5791,24 @@
                         "pages": [
                           "ko/weave/reference/typescript-sdk/interfaces/callschema",
                           "ko/weave/reference/typescript-sdk/interfaces/callsfilter",
+                          "ko/weave/reference/typescript-sdk/interfaces/conversationinit",
+                          "ko/weave/reference/typescript-sdk/interfaces/getagentsoptions",
+                          "ko/weave/reference/typescript-sdk/interfaces/getagentspansoptions",
+                          "ko/weave/reference/typescript-sdk/interfaces/getagentturnoptions",
+                          "ko/weave/reference/typescript-sdk/interfaces/getagentturnsoptions",
+                          "ko/weave/reference/typescript-sdk/interfaces/getagentversionsoptions",
+                          "ko/weave/reference/typescript-sdk/interfaces/getcallsoptions",
+                          "ko/weave/reference/typescript-sdk/interfaces/httpresponse",
+                          "ko/weave/reference/typescript-sdk/interfaces/httpvalidationerror",
+                          "ko/weave/reference/typescript-sdk/interfaces/llminit",
+                          "ko/weave/reference/typescript-sdk/interfaces/message",
+                          "ko/weave/reference/typescript-sdk/interfaces/query",
+                          "ko/weave/reference/typescript-sdk/interfaces/reasoning",
+                          "ko/weave/reference/typescript-sdk/interfaces/sortby",
+                          "ko/weave/reference/typescript-sdk/interfaces/subagentinit",
+                          "ko/weave/reference/typescript-sdk/interfaces/toolinit",
+                          "ko/weave/reference/typescript-sdk/interfaces/turninit",
+                          "ko/weave/reference/typescript-sdk/interfaces/usage",
                           "ko/weave/reference/typescript-sdk/interfaces/weaveaudio",
                           "ko/weave/reference/typescript-sdk/interfaces/weaveimage"
                         ]
@@ -5194,8 +5816,25 @@
                       {
                         "group": "유형 별칭",
                         "pages": [
+                          "ko/weave/reference/typescript-sdk/type-aliases/agent",
+                          "ko/weave/reference/typescript-sdk/type-aliases/agentmessage",
+                          "ko/weave/reference/typescript-sdk/type-aliases/agentspan",
+                          "ko/weave/reference/typescript-sdk/type-aliases/agentturn",
+                          "ko/weave/reference/typescript-sdk/type-aliases/agentversion",
+                          "ko/weave/reference/typescript-sdk/type-aliases/getagentspansresult",
+                          "ko/weave/reference/typescript-sdk/type-aliases/getagentsresult",
+                          "ko/weave/reference/typescript-sdk/type-aliases/getagentturnresult",
+                          "ko/weave/reference/typescript-sdk/type-aliases/getagentturnsresult",
+                          "ko/weave/reference/typescript-sdk/type-aliases/getagentversionsresult",
+                          "ko/weave/reference/typescript-sdk/type-aliases/messagepart",
+                          "ko/weave/reference/typescript-sdk/type-aliases/modality",
                           "ko/weave/reference/typescript-sdk/type-aliases/op",
-                          "ko/weave/reference/typescript-sdk/type-aliases/opdecorator"
+                          "ko/weave/reference/typescript-sdk/type-aliases/opdecorator",
+                          "ko/weave/reference/typescript-sdk/type-aliases/response",
+                          "ko/weave/reference/typescript-sdk/type-aliases/role",
+                          "ko/weave/reference/typescript-sdk/type-aliases/session",
+                          "ko/weave/reference/typescript-sdk/type-aliases/sessioninit",
+                          "ko/weave/reference/typescript-sdk/type-aliases/settings"
                         ]
                       }
                     ]
@@ -5222,13 +5861,13 @@
                 ]
               },
               {
-                "group": "Serverless RL",
+                "group": "Serverless Training",
                 "openapi": {
-                  "directory": "ko/serverless-rl/api-reference",
-                  "source": "ko/serverless-rl/api-reference/openapi.json"
+                  "directory": "ko/serverless-training/api-reference",
+                  "source": "ko/serverless-training/api-reference/openapi.json"
                 },
                 "pages": [
-                  "ko/serverless-rl/api-reference"
+                  "ko/serverless-training/api-reference"
                 ]
               }
             ],
@@ -5271,7 +5910,10 @@
                   "ko/support/models/tags/administrator",
                   "ko/support/models/tags/alerts",
                   "ko/support/models/tags/anonymous",
+                  "ko/support/models/tags/api",
+                  "ko/support/models/tags/api-keys",
                   "ko/support/models/tags/artifacts",
+                  "ko/support/models/tags/authentication",
                   "ko/support/models/tags/aws",
                   "ko/support/models/tags/billing",
                   "ko/support/models/tags/charts",
@@ -5283,6 +5925,7 @@
                   "ko/support/models/tags/logs",
                   "ko/support/models/tags/metrics",
                   "ko/support/models/tags/notebooks",
+                  "ko/support/models/tags/org-management",
                   "ko/support/models/tags/outage",
                   "ko/support/models/tags/privacy",
                   "ko/support/models/tags/projects",
@@ -5291,13 +5934,16 @@
                   "ko/support/models/tags/resuming",
                   "ko/support/models/tags/run-crashes",
                   "ko/support/models/tags/runs",
+                  "ko/support/models/tags/sdk",
                   "ko/support/models/tags/security",
                   "ko/support/models/tags/storage",
                   "ko/support/models/tags/sweeps",
                   "ko/support/models/tags/tables",
                   "ko/support/models/tags/team-management",
+                  "ko/support/models/tags/teams",
                   "ko/support/models/tags/tensorboard",
                   "ko/support/models/tags/user-management",
+                  "ko/support/models/tags/workspace",
                   "ko/support/models/tags/workspaces",
                   "ko/support/models/tags/wysiwyg"
                 ]
@@ -5403,6 +6049,80 @@
               }
             ],
             "tab": "W&B Launch"
+          },
+          {
+            "hidden": true,
+            "pages": [
+              "ko/support/models",
+              "ko/support/models/tags/academic",
+              "ko/support/models/tags/administrator",
+              "ko/support/models/tags/alerts",
+              "ko/support/models/tags/anonymous",
+              "ko/support/models/tags/api",
+              "ko/support/models/tags/api-keys",
+              "ko/support/models/tags/artifacts",
+              "ko/support/models/tags/authentication",
+              "ko/support/models/tags/aws",
+              "ko/support/models/tags/billing",
+              "ko/support/models/tags/charts",
+              "ko/support/models/tags/connectivity",
+              "ko/support/models/tags/environment-variables",
+              "ko/support/models/tags/experiments",
+              "ko/support/models/tags/hyperparameter",
+              "ko/support/models/tags/inference",
+              "ko/support/models/tags/logs",
+              "ko/support/models/tags/metrics",
+              "ko/support/models/tags/notebooks",
+              "ko/support/models/tags/org-management",
+              "ko/support/models/tags/outage",
+              "ko/support/models/tags/privacy",
+              "ko/support/models/tags/projects",
+              "ko/support/models/tags/python",
+              "ko/support/models/tags/reports",
+              "ko/support/models/tags/resuming",
+              "ko/support/models/tags/run-crashes",
+              "ko/support/models/tags/runs",
+              "ko/support/models/tags/sdk",
+              "ko/support/models/tags/security",
+              "ko/support/models/tags/storage",
+              "ko/support/models/tags/sweeps",
+              "ko/support/models/tags/tables",
+              "ko/support/models/tags/team-management",
+              "ko/support/models/tags/teams",
+              "ko/support/models/tags/tensorboard",
+              "ko/support/models/tags/user-management",
+              "ko/support/models/tags/workspace",
+              "ko/support/models/tags/workspaces",
+              "ko/support/models/tags/wysiwyg"
+            ],
+            "tab": "지원팀: W&B Models"
+          },
+          {
+            "hidden": true,
+            "pages": [
+              "ko/support/weave",
+              "ko/support/weave/tags/client-info",
+              "ko/support/weave/tags/code-capture",
+              "ko/support/weave/tags/data-capture",
+              "ko/support/weave/tags/evaluation",
+              "ko/support/weave/tags/performance",
+              "ko/support/weave/tags/system-info",
+              "ko/support/weave/tags/trace-data",
+              "ko/support/weave/tags/ui-rendering"
+            ],
+            "tab": "지원팀: W&B Weave"
+          },
+          {
+            "hidden": true,
+            "pages": [
+              "ko/support/inference",
+              "ko/support/inference/tags/administrator",
+              "ko/support/inference/tags/authentication-access",
+              "ko/support/inference/tags/billing",
+              "ko/support/inference/tags/quotas-rate-limits",
+              "ko/support/inference/tags/server-errors"
+            ],
+            "tab": "지원팀: W&B Inference"
           }
         ]
       }
@@ -5802,6 +6522,10 @@
       "source": "/models/support/change_billing_address"
     },
     {
+      "destination": "/support/models/articles/how-do-i-connect-to-wandb-self-managed",
+      "source": "/support/models/articles/how-do-i-connect-to-a-self-hosted-wb-server"
+    },
+    {
       "destination": "/support/models/articles/how-can-i-change-the-directory-my-sweep-",
       "source": "/models/support/change_directory_sweep_logs_locally"
     },
@@ -6014,8 +6738,12 @@
       "source": "/models/support/how_can_i_disable_logging_of_system_metrics_to_wb"
     },
     {
-      "destination": "/support/models/articles/how-can-i-log-in-to-wb-server",
+      "destination": "/support/models/articles/how-do-i-log-in-to-wandb-self-managed",
       "source": "/models/support/how_can_i_log_in_to_wb_server"
+    },
+    {
+      "destination": "/support/models/articles/how-do-i-log-in-to-wandb-self-managed",
+      "source": "/support/models/articles/how-can-i-log-in-to-wb-server"
     },
     {
       "destination": "/support/models/articles/how-can-i-overwrite-the-logs-from-previo",
@@ -6340,6 +7068,10 @@
     {
       "destination": "/support/models/articles/how-should-i-run-sweeps-on-slurm",
       "source": "/models/support/run_sweeps_slurm"
+    },
+    {
+      "destination": "/support/models/articles/how-should-i-run-sweeps-on-slurm",
+      "source": "/support/models/articles/how-do-i-run-sweeps-with-distributed-training-on-slurm"
     },
     {
       "destination": "/support/models/articles/how-do-i-run-wandb-offline",
@@ -6740,6 +7472,22 @@
     {
       "destination": "/weave/guides/evaluation/monitors",
       "source": "/weave/guides/evaluation/guardrails_and_monitors"
+    },
+    {
+      "destination": "/weave/guides/integrations/agents/claude-agents-sdk",
+      "source": "/weave/guides/integrations/claude_agent"
+    },
+    {
+      "destination": "/weave/guides/integrations/agents/claude-code-harness",
+      "source": "/weave/guides/integrations/claude_code"
+    },
+    {
+      "destination": "/weave/guides/integrations/agents/google-adk",
+      "source": "/weave/guides/integrations/google_adk"
+    },
+    {
+      "destination": "/weave/guides/integrations/agents/openai-agents-sdk",
+      "source": "/weave/guides/integrations/openai_agents"
     },
     {
       "destination": "weave/concepts/what-is-weave",

@@ -11,7 +11,7 @@ import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
   W&amp;B prend en charge TensorBoard intégré pour W&amp;B Cloud mutualisé.
 </Note>
 
-Téléversez vos journaux TensorBoard dans le cloud, partagez rapidement vos résultats avec vos collègues et camarades de classe et conservez votre analyse au même endroit.
+Cette page explique comment synchroniser les journaux TensorBoard avec W&amp;B afin que vous puissiez téléverser vos journaux TensorBoard dans le cloud, partager vos résultats avec vos collègues et camarades de classe et conserver votre analyse au même endroit. Utilisez cette intégration si vous journalisez déjà dans TensorBoard et souhaitez bénéficier d’une visualisation hébergée dans le cloud, du partage et d’une comparaison côte à côte avec les métriques système de W&amp;B.
 
 <Frame>
   <img src="/images/integrations/tensorboard_oneline_code.webp" alt="Code d’intégration TensorBoard" />
@@ -21,31 +21,37 @@ Téléversez vos journaux TensorBoard dans le cloud, partagez rapidement vos ré
   ## Premiers pas
 </div>
 
+Pour activer la synchronisation de TensorBoard, définissez `sync_tensorboard=True` lorsque vous initialisez un run W&amp;B. W&amp;B téléverse automatiquement tous les événements TensorBoard émis par votre code d’entraînement.
+
 ```python
 import wandb
 
 # Démarrer un run wandb avec `sync_tensorboard=True`
-wandb.init(project="my-project", sync_tensorboard=True) as run:
-  # Votre code d'entraînement utilisant TensorBoard
-  ...
+with wandb.init(project="my-project", sync_tensorboard=True) as run:
+    # Votre code d'entraînement utilisant TensorBoard
+    ...
 
 ```
 
 Consultez un [exemple de run avec intégration TensorBoard](https://wandb.ai/rymc/simple-tensorboard-example/runs/oab614zf/tensorboard).
 
-Une fois votre run terminé, vous pouvez accéder à vos fichiers d’événements TensorBoard dans W&amp;B et visualiser vos métriques dans les graphiques natifs de W&amp;B, avec d’autres informations utiles comme l’utilisation du CPU ou du GPU du système, l’état de `git`, la commande de terminal utilisée pour le run, et plus encore.
+Une fois votre run terminé, vous pouvez accéder à vos fichiers d’événements TensorBoard dans W&amp;B et visualiser vos métriques dans les graphiques natifs de W&amp;B. W&amp;B capture également des informations supplémentaires telles que l’utilisation du CPU ou du GPU du système, l’état de `git` et la commande de terminal utilisée pour le run.
 
-<Note>W&amp;B prend en charge TensorBoard avec toutes les versions de TensorFlow. W&amp;B prend également en charge TensorBoard 1.14 et les versions ultérieures avec PyTorch, ainsi que TensorBoardX.</Note>
+<Note>
+  W&amp;B prend en charge TensorBoard avec toutes les versions de TensorFlow. W&amp;B prend également en charge TensorBoard 1.14 et les versions ultérieures avec PyTorch, ainsi que TensorBoardX.
+</Note>
 
 <div id="frequently-asked-questions">
   ## Questions fréquentes
 </div>
 
+Les sections suivantes répondent aux questions les plus courantes sur la personnalisation de l’intégration TensorBoard, notamment la journalisation de métriques supplémentaires, la configuration du patch, la synchronisation de runs historiques et l’utilisation d’environnements notebook.
+
 <div id="how-can-i-log-metrics-to-wb-that-arent-logged-to-tensorboard">
   ### Comment puis-je consigner dans W&amp;B des métriques qui ne sont pas enregistrées dans TensorBoard ?
 </div>
 
-Si vous devez consigner des métriques personnalisées supplémentaires qui ne sont pas enregistrées dans TensorBoard, vous pouvez appeler `wandb.Run.log()` dans votre code : `run.log({"custom": 0.8})`
+Si vous devez consigner des métriques personnalisées supplémentaires qui ne sont pas enregistrées dans TensorBoard, vous pouvez appeler `wandb.Run.log()` dans votre code : `run.log({"custom": 0.8})`.
 
 Le paramètre `step` dans `run.log()` est désactivé lors de la synchronisation avec TensorBoard. Si vous souhaitez définir un nombre d’étapes différent, vous pouvez consigner les métriques avec une métrique d’étape, comme suit :
 
@@ -55,7 +61,7 @@ Le paramètre `step` dans `run.log()` est désactivé lors de la synchronisation
   ### Comment puis-je configurer TensorBoard lorsque je l’utilise avec `wandb` ?
 </div>
 
-Si vous voulez mieux contrôler la manière dont TensorBoard est patché, vous pouvez appeler `wandb.tensorboard.patch()` au lieu de passer `sync_tensorboard=True` à `wandb.init()`.
+Si vous voulez mieux contrôler la manière dont W&amp;B applique un patch à TensorBoard, appelez `wandb.tensorboard.patch()` au lieu de passer `sync_tensorboard=True` à `wandb.init()`.
 
 ```python
 import wandb
@@ -67,9 +73,9 @@ run = wandb.init()
 run.finish()
 ```
 
-Vous pouvez passer `tensorboard_x=False` à cette méthode pour vous assurer que le TensorBoard standard est patché. Si vous utilisez TensorBoard &gt; 1.14 avec PyTorch, vous pouvez passer `pytorch=True` pour vous assurer qu&#39;il est patché. Ces deux options ont des valeurs par défaut intelligentes selon les versions de ces bibliothèques qui ont été importées.
+Pour patcher le TensorBoard standard, passez `tensorboard_x=False` à cette méthode. Si vous utilisez TensorBoard version ultérieure à 1.14 avec PyTorch, passez `pytorch=True` pour le patcher. Ces deux options ont des valeurs par défaut intelligentes selon les versions de ces bibliothèques qui ont été importées.
 
-Par défaut, nous synchronisons également les fichiers `tfevents` ainsi que tous les fichiers `.pbtxt`. Cela nous permet de lancer une instance TensorBoard pour votre compte. Vous verrez un [onglet TensorBoard](https://www.wandb.com/articles/hosted-tensorboard) sur la page du run. Ce comportement peut être désactivé en passant `save=False` à `wandb.tensorboard.patch`
+Par défaut, W&amp;B synchronise également les fichiers `tfevents` ainsi que tous les fichiers `.pbtxt`. Cela permet à W&amp;B de lancer une instance TensorBoard pour votre compte. Vous verrez un [onglet TensorBoard](https://www.wandb.com/articles/hosted-tensorboard) sur la page du run. Pour désactiver ce comportement, passez `save=False` à `wandb.tensorboard.patch`.
 
 ```python
 import wandb
@@ -82,7 +88,7 @@ run.finish()
 ```
 
 <Warning>
-  Vous devez appeler soit `wandb.init()`, soit `wandb.tensorboard.patch()` **avant** d&#39;appeler `tf.summary.create_file_writer()` ou d&#39;instancier un `SummaryWriter` via `torch.utils.tensorboard`.
+  Vous devez appeler soit `wandb.init()`, soit `wandb.tensorboard.patch()` avant d&#39;appeler `tf.summary.create_file_writer()` ou d&#39;instancier un `SummaryWriter` à partir de `torch.utils.tensorboard`.
 </Warning>
 
 <div id="how-do-i-sync-historical-tensorboard-runs">
@@ -95,7 +101,7 @@ Si vous avez des fichiers `tfevents` déjà stockés localement et que vous souh
   ### Comment puis-je utiliser Google Colab ou Jupyter avec TensorBoard ?
 </div>
 
-Si vous exécutez votre code dans un notebook Jupyter ou Colab, assurez-vous d’appeler `wandb.Run.finish()` à la fin de votre entraînement. Cela mettra fin au run wandb et importera les journaux TensorBoard dans W&amp;B pour que vous puissiez les visualiser. Cela n’est pas nécessaire lorsque vous exécutez un script `.py`, car wandb se termine automatiquement à la fin du script.
+Si vous exécutez votre code dans un notebook Jupyter ou Colab, assurez-vous d’appeler `wandb.Run.finish()` à la fin de votre entraînement. Cela met fin au run `wandb` et téléverse les journaux TensorBoard dans W&amp;B pour qu’ils puissent être visualisés. Cela n’est pas nécessaire lorsque vous exécutez un script `.py`, car `wandb` se termine automatiquement à la fin du script.
 
 Pour exécuter des commandes shell dans un environnement de notebook, vous devez les faire précéder d’un `!`, comme dans `!wandb sync directoryname`.
 
@@ -115,7 +121,7 @@ with wandb.init(project="my-project", sync_tensorboard=True) as run:
   ### Puis-je synchroniser des fichiers tfevents stockés dans le cloud ?
 </div>
 
-`wandb` 0.20.0 et les versions ultérieures prennent en charge la synchronisation des fichiers `tfevents` stockés dans S3, GCS ou Azure. `wandb` utilise les identifiants par défaut de chaque fournisseur cloud, correspondant aux commandes du tableau suivant :
+`wandb` 0.20.0 et les versions ultérieures prennent en charge la synchronisation des fichiers `tfevents` stockés dans S3, GCS ou Azure. `wandb` utilise les identifiants par défaut de chaque fournisseur cloud. Le tableau suivant répertorie la commande permettant de configurer les identifiants ainsi que le format attendu du répertoire des journaux pour chaque fournisseur :
 
 | Fournisseur cloud | Identifiants                            | Format du répertoire des journaux     |
 | ----------------- | --------------------------------------- | ------------------------------------- |

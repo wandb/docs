@@ -13,7 +13,8 @@ record on the trace server and surface in the Weave UI/filtering, so they’re
 ideal for tagging runs with request IDs, tenants, experiments, etc.
 
 Example:
-```ts
+```ts twoslash
+// @noErrors
 await withAttributes({requestId: 'abc'}, async () => {
   await myOp();
 });
@@ -38,6 +39,6 @@ await withAttributes({requestId: 'abc'}, async () => {
 
 #### Defined in
 
-[clientApi.ts:201](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/clientApi.ts#L201)
+[src/clientApi.ts:209](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/clientApi.ts#L209)
 
 ___

@@ -33,7 +33,8 @@ A Weave Op is a versioned function that automatically logs all Calls. This guide
   <Tab title="TypeScript">
     To create an Op, wrap a TypeScript function with `weave.op`.
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     import * as weave from 'weave'
 
     function trackMe(v: number) {

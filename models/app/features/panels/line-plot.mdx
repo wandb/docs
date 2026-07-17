@@ -42,11 +42,9 @@ In an [automatic workspace](/models/app/features/panels#workspace-modes), W&B cr
 </Tab>
 <Tab title="Multi-metric line plot">
 
-<Note>
-This feature is in preview, available by invitation only. To request enrollment, contact [support](mailto:support@wandb.com) or your AISE.
-</Note>
+In an [automatic workspace](/models/app/features/panels#workspace-modes), W&B creates a single-metric line plot automatically for each logged metric. 
 
-In an [automatic workspace](/models/app/features/panels#workspace-modes), W&B creates a single-metric line plot automatically for each logged metric. This section shows how to create a single line plot that shows multiple metrics together, defined by a JavaScript regular expression. You can optionally consolidate many single-metric plots into a single multi-metric plot. This can improve the performance of a workspace with many logged metrics, and can help you analyze the results of your runs.
+This section shows how to create a line plot that displays multiple metrics selected with a JavaScript regular expression. A multi-metric line plot lets you compare related metrics in one panel instead of reviewing them across multiple panels.
 
 1. Navigate to your workspace.
 1. To add a line plot globally, click **Add panels** in the control bar near the panel search field.
@@ -111,7 +109,7 @@ Line plot settings are organized into tabs:
 * **Grouping**: Configure whether and how to group and aggregate runs in the plot.
 * **Chart**: Specify titles for the panel and axes, and configure legend visibility and position.
 * **Legend**: Customize the appearance and content of the panel's legend.
-* **Expressions**: Add custom calculated expressions for the axes.
+* **Expressions**: Add custom calculated expressions for the axes. For the full list of operators and example expressions, including arithmetic such as multiplication, see [Expressions](/models/app/features/panels/line-plot/reference#expressions).
 
 For detailed information about each setting, see the [Line plot reference](/models/app/features/panels/line-plot/reference).
 

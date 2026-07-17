@@ -1,15 +1,16 @@
 ---
-title: "클래스: Dataset<R>"
+title: "Dataset<R>"
 description: "TypeScript SDK 레퍼런스"
 ---
 
 [weave](../) / Dataset
 
-손쉽게 저장할 수 있고 자동으로 버전 관리되는 Dataset 객체
+간편하게 저장되고 자동으로 버전 관리되는 Dataset 객체
 
-`예시`
+`Example`
 
-```ts
+```ts twoslash
+// @noErrors
 // 데이터셋 생성
 const dataset = new Dataset({
   id: 'grammar-dataset',
@@ -20,13 +21,12 @@ const dataset = new Dataset({
   ]
 })
 
-// 특정 예시 접근
+// 특정 예시 액세스
 const exampleLabel = dataset.getRow(2).sentence;
 
 // 데이터셋 저장
 const ref = await dataset.save()
 ```
-
 
 ## 타입 매개변수
 
@@ -116,7 +116,7 @@ const ref = await dataset.save()
   #### 정의된 위치
 </div>
 
-[dataset.ts:51](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/dataset.ts#L51)
+[src/dataset.ts:55](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L55)
 
 ## 속성
 
@@ -134,7 +134,7 @@ const ref = await dataset.save()
   #### 정의된 위치
 </div>
 
-[weaveObject.ts:73](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L73)
+[src/weaveObject.ts:71](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L71)
 
 ***
 
@@ -148,7 +148,7 @@ const ref = await dataset.save()
   #### 정의된 위치
 </div>
 
-[dataset.ts:49](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/dataset.ts#L49)
+[src/dataset.ts:53](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L53)
 
 ## 접근자
 
@@ -172,7 +172,7 @@ WeaveObject.description
   #### 정의된 위치
 </div>
 
-[weaveObject.ts:100](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L100)
+[src/weaveObject.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L98)
 
 ***
 
@@ -192,7 +192,7 @@ WeaveObject.description
   #### 정의된 위치
 </div>
 
-[dataset.ts:64](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/dataset.ts#L64)
+[src/dataset.ts:68](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L68)
 
 ***
 
@@ -218,7 +218,7 @@ WeaveObject.name
   #### 정의된 위치
 </div>
 
-[weaveObject.ts:96](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L96)
+[src/weaveObject.ts:94](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L94)
 
 ## 방법
 
@@ -226,19 +226,19 @@ WeaveObject.name
   ### [asyncIterator]
 </div>
 
-▸ **[asyncIterator]**(): `AsyncIterator`&lt;`any`, `any`, `undefined`&gt;
+▸ **[asyncIterator]**(): `AsyncIterator`&lt;`any`, `any`, `any`&gt;
 
 <div id="returns">
   #### 반환값
 </div>
 
-`AsyncIterator`&lt;`any`, `any`, `undefined`&gt;
+`AsyncIterator`&lt;`any`, `any`, `any`&gt;
 
 <div id="defined-in">
   #### 정의된 위치
 </div>
 
-[dataset.ts:68](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/dataset.ts#L68)
+[src/dataset.ts:72](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L72)
 
 ***
 
@@ -266,7 +266,7 @@ WeaveObject.name
   #### 정의된 위치
 </div>
 
-[dataset.ts:74](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/dataset.ts#L74)
+[src/dataset.ts:78](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L78)
 
 ***
 
@@ -286,7 +286,7 @@ WeaveObject.name
   #### 정의된 위치
 </div>
 
-[dataset.ts:60](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/dataset.ts#L60)
+[src/dataset.ts:64](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L64)
 
 ***
 
@@ -310,4 +310,4 @@ WeaveObject.name
   #### 정의된 위치
 </div>
 
-[weaveObject.ts:77](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L77)
+[src/weaveObject.ts:75](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L75)

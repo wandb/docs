@@ -1,19 +1,21 @@
 ---
 title: "評価ベンチマークカタログ"
 description: >
-  LLM Evaluation Jobsで利用可能な評価ベンチマークを参照します
+  LLM 評価ジョブで利用可能な評価ベンチマークを参照します
+mode: wide
+keywords: ["評価ベンチマークカタログ", "タスク ID", "Inspect Evals", "OpenAI スコアラー", "アクセス制限付きのHugging Faceデータセット"]
 ---
 
 import PreviewLink from '/snippets/ja/_includes/llm-eval-jobs/preview.mdx';
 
 <PreviewLink />
 
-このページでは、[LLM Evaluation Jobs](/ja/models/launch) がカテゴリ別に提供する評価ベンチマークを一覧表示します。
+このページでは、[LLM 評価ジョブ](/ja/models/launch) で利用可能な評価ベンチマークを、カテゴリ別にまとめて掲載しています。実行可能なベンチマークの確認、各ベンチマークのタスク ID の特定、追加の認証情報が必要かどうかの確認に使用できます。
 
-一部のベンチマークを実行するには、チーム管理者が必要なAPIキーを[チームスコープのシークレット](/ja/platform/secrets#add-a-secret)として追加する必要があります。評価ジョブの設定時には、チームのどのメンバーでもそのシークレットを指定できます。
+一部のベンチマークでは追加の認証情報が必要です。チームのメンバーが評価ジョブでそれらのベンチマークを使用する前に、チーム管理者がそれらの認証情報を[チームスコープのシークレット](/ja/platform/secrets#add-a-secret)として追加する必要があります。
 
-* **OpenAI Model Scorer** 列が `true` のベンチマークでは、スコアリングにOpenAIのモデルを使用します。組織管理者またはチーム管理者は、OpenAI APIキーをチームシークレットとして追加する必要があります。この要件があるベンチマークで評価ジョブを設定する場合は、**Scorer API key** フィールドにそのシークレットを指定します。
-  * **Gated Hugging Face Dataset** 列にリンクがあるベンチマークでは、アクセス制限付きのHugging Faceデータセットへのアクセスが必要です。組織管理者またはチーム管理者は、Hugging Faceでそのデータセットへのアクセスをリクエストし、Hugging Faceのユーザーアクセストークンを作成して、そのアクセストークンを使ったチームシークレットを設定する必要があります。この要件があるベンチマークを設定する場合は、**Hugging Face Token** フィールドにそのシークレットを指定します。
+* **OpenAI スコアラー** 列が `Yes` のベンチマークでは、スコアリングに OpenAI のモデルを使用します。組織管理者またはチーム管理者は、OpenAI APIキーをチームシークレットとして追加する必要があります。この要件があるベンチマークで評価ジョブを設定する場合は、**Scorer API key** フィールドにそのシークレットを指定します。
+* **アクセス制限付き HF データセット** 列にリンクがあるベンチマークでは、アクセス制限付き HF データセットへのアクセスが必要です。組織管理者またはチーム管理者は、Hugging Face でそのデータセットへのアクセスをリクエストする必要があります。その後、管理者は Hugging Face のユーザーアクセストークンを作成し、そのトークンを使ってチームシークレットを設定します。この要件があるベンチマークを設定する場合は、**Hugging Face Token** フィールドにそのシークレットを指定します。
 
 {/*
     ベンチマークリスト: https://github.com/wandb/launch-jobs/blob/main/jobs/inspect_ai_evals/api_model/sample-schema.json 
@@ -26,26 +28,26 @@ import PreviewLink from '/snippets/ja/_includes/llm-eval-jobs/preview.mdx';
 
 科学、言語、一般的な推論など、さまざまな分野にわたる事実知識を評価します。
 
-| 評価                                                                                            | タスク ID              | <div className="!w-[100px]">OpenAI スコアラー</div> | アクセス制限付き Hugging Face データセット | 説明                        |
-| --------------------------------------------------------------------------------------------- | ------------------- | ---------------------------------------------- | -------------------------- | ------------------------- |
-| [BoolQ](https://github.com/google-research-datasets/boolean-questions)                        | `boolq`             |                                                |                            | 自然言語の質問に基づく二択のはい/いいえ問題    |
-| [GPQA Diamond](https://arxiv.org/abs/2311.12022)                                              | `gpqa_diamond`      |                                                |                            | 大学院レベルの科学問題 (最高品質のサブセット)  |
-| [HLE](https://arxiv.org/abs/2501.14249)                                                       | `hle`               |                                                | はい                         | 人間レベルの評価ベンチマーク            |
-| [Lingoly](https://arxiv.org/abs/2406.06196)                                                   | `lingoly`           |                                                | はい                         | 言語学オリンピックの問題              |
-| [Lingoly Too](https://arxiv.org/abs/2503.02972)                                               | `lingoly_too`       |                                                | はい                         | 拡張版の言語学チャレンジ問題            |
-| [MMIU](https://arxiv.org/abs/2408.02718)                                                      | `mmiu`              |                                                |                            | 大規模マルチタスク言語理解ベンチマーク       |
-| [MMLU (0-shot)](https://github.com/hendrycks/test)                                            | `mmlu_0_shot`       |                                                |                            | 例示なしの大規模マルチタスク言語理解        |
-| [MMLU (5-shot)](https://github.com/hendrycks/test)                                            | `mmlu_5_shot`       |                                                |                            | 5 例付きの大規模マルチタスク言語理解       |
-| [MMLU-Pro](https://arxiv.org/abs/2406.01574)                                                  | `mmlu_pro`          |                                                |                            | MMLU のより難しい版              |
-| [ONET M6](https://github.com/UKGovernmentBEIS/inspect_evals/tree/main/src/inspect_evals/onet) | `onet_m6`           |                                                |                            | 職業知識ベンチマーク                |
-| [PAWS](https://github.com/google-research-datasets/paws)                                      | `paws`              |                                                |                            | 言い換えに対する敵対的な単語置換          |
-| [SevenLLM MCQ (English)](https://arxiv.org/abs/2405.03446)                                    | `sevenllm_mcq_en`   |                                                |                            | 英語の多肢選択式問題                |
-| [SevenLLM MCQ (Chinese)](https://arxiv.org/abs/2405.03446)                                    | `sevenllm_mcq_zh`   |                                                |                            | 中国語の多肢選択式問題               |
-| [SevenLLM QA (English)](https://arxiv.org/abs/2405.03446)                                     | `sevenllm_qa_en`    |                                                |                            | 英語の質問応答                   |
-| [SevenLLM QA (Chinese)](https://arxiv.org/abs/2405.03446)                                     | `sevenllm_qa_zh`    |                                                |                            | 中国語の質問応答                  |
-| [SimpleQA](https://openai.com/index/introducing-simpleqa/)                                    | `simpleqa`          | はい                                             |                            | シンプルな事実ベースの質問応答           |
-| [SimpleQA Verified](https://openai.com/index/introducing-simpleqa/)                           | `simpleqa_verified` |                                                |                            | 回答が検証された SimpleQA のサブセット  |
-| [WorldSense](https://github.com/facebookresearch/worldsense)                                  | `worldsense`        |                                                |                            | 世界知識と常識の理解を評価             |
+| 評価                                                                                            | タスク ID              | <div className="!w-[100px]">OpenAI スコアラー</div> | アクセス制限付き HF データセット | 説明                       |
+| --------------------------------------------------------------------------------------------- | ------------------- | ---------------------------------------------- | ------------------ | ------------------------ |
+| [BoolQ](https://github.com/google-research-datasets/boolean-questions)                        | `boolq`             |                                                |                    | 自然言語の質問に基づく二択のはい/いいえ問題   |
+| [GPQA Diamond](https://arxiv.org/abs/2311.12022)                                              | `gpqa_diamond`      |                                                |                    | 大学院レベルの科学問題 (最高品質のサブセット) |
+| [HLE](https://arxiv.org/abs/2501.14249)                                                       | `hle`               |                                                | はい                 | 人間レベルの評価ベンチマーク           |
+| [Lingoly](https://arxiv.org/abs/2406.06196)                                                   | `lingoly`           |                                                | はい                 | 言語学オリンピックの問題             |
+| [Lingoly Too](https://arxiv.org/abs/2503.02972)                                               | `lingoly_too`       |                                                | はい                 | 拡張版の言語学チャレンジ問題           |
+| [MMIU](https://arxiv.org/abs/2408.02718)                                                      | `mmiu`              |                                                |                    | 大規模マルチタスク言語理解ベンチマーク      |
+| [MMLU (0-shot)](https://github.com/hendrycks/test)                                            | `mmlu_0_shot`       |                                                |                    | 例示なしの大規模マルチタスク言語理解       |
+| [MMLU (5-shot)](https://github.com/hendrycks/test)                                            | `mmlu_5_shot`       |                                                |                    | 5 例付きの大規模マルチタスク言語理解      |
+| [MMLU-Pro](https://arxiv.org/abs/2406.01574)                                                  | `mmlu_pro`          |                                                |                    | MMLU のより難しい版             |
+| [ONET M6](https://github.com/UKGovernmentBEIS/inspect_evals/tree/main/src/inspect_evals/onet) | `onet_m6`           |                                                |                    | 職業知識ベンチマーク               |
+| [PAWS](https://github.com/google-research-datasets/paws)                                      | `paws`              |                                                |                    | 言い換えに対する敵対的な単語置換         |
+| [SevenLLM MCQ (English)](https://arxiv.org/abs/2405.03446)                                    | `sevenllm_mcq_en`   |                                                |                    | 英語の多肢選択式問題               |
+| [SevenLLM MCQ (Chinese)](https://arxiv.org/abs/2405.03446)                                    | `sevenllm_mcq_zh`   |                                                |                    | 中国語の多肢選択式問題              |
+| [SevenLLM QA (English)](https://arxiv.org/abs/2405.03446)                                     | `sevenllm_qa_en`    |                                                |                    | 英語の質問応答                  |
+| [SevenLLM QA (Chinese)](https://arxiv.org/abs/2405.03446)                                     | `sevenllm_qa_zh`    |                                                |                    | 中国語の質問応答                 |
+| [SimpleQA](https://openai.com/index/introducing-simpleqa/)                                    | `simpleqa`          | はい                                             |                    | シンプルな事実ベースの質問応答          |
+| [SimpleQA Verified](https://openai.com/index/introducing-simpleqa/)                           | `simpleqa_verified` |                                                |                    | 回答が検証された SimpleQA のサブセット |
+| [WorldSense](https://github.com/facebookresearch/worldsense)                                  | `worldsense`        |                                                |                    | 世界知識と常識の理解を評価            |
 
 <div id="reasoning">
   ## 推論
@@ -220,14 +222,14 @@ import PreviewLink from '/snippets/ja/_includes/llm-eval-jobs/preview.mdx';
 
 基本的なシステムの検証と事前チェック。
 
-| 評価                                                                                         | タスク ID       | OpenAI スコアラー | アクセス制限付き HF データセット | 説明                  |
-| ------------------------------------------------------------------------------------------ | ------------ | ------------ | ------------------ | ------------------- |
-| [Pre-Flight](https://ukgovernmentbeis.github.io/inspect_evals/evals/knowledge/pre_flight/) | `pre_flight` |              |                    | 基本的なシステムチェックと検証用テスト |
+| 評価                                                              | タスク ID       | OpenAI スコアラー | アクセス制限付き HF データセット | 説明                  |
+| --------------------------------------------------------------- | ------------ | ------------ | ------------------ | ------------------- |
+| [Pre-Flight](https://github.com/UKGovernmentBEIS/inspect_evals) | `pre_flight` |              |                    | 基本的なシステムチェックと検証用テスト |
 
 <div id="next-steps">
   ## 次のステップ
 </div>
 
-* [モデル チェックポイントを評価する](/ja/models/launch/evaluate-model-checkpoint)
-* [ホスト型 API モデルを評価する](/ja/models/launch/evaluate-hosted-model)
-* [AISI Inspect Evals](https://inspect.aisi.org.uk/evals/) で特定のベンチマークの詳細を確認する
+* [モデル チェックポイントを Evaluate する](/ja/models/launch/evaluate-model-checkpoint)
+* [ホスト型 API モデルを Evaluate する](/ja/models/launch/evaluate-hosted-model)
+* 特定のベンチマークの詳細は、[AISI Inspect Evals](https://inspect.aisi.org.uk/evals/) をご覧ください

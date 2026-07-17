@@ -1,69 +1,55 @@
 ---
 description: Découvrez les raccourcis clavier disponibles dans W&B.
 title: Raccourcis clavier
-keywords: ["raccourcis clavier", "LEET", "recherche rapide", "annuler rétablir", "navigation dans les panneaux"]
+keywords: ["raccourcis clavier", "LEET", "recherche rapide", "annuler rétablir", "raccourcis clavier"]
 ---
 
-W&amp;B propose des raccourcis clavier pour vous aider à naviguer plus efficacement et à interagir avec les expériences, les espaces de travail et les données. Ce guide présente les raccourcis clavier de l&#39;application W&amp;B et de l&#39;interface de terminal W&amp;B LEET (Lightweight Experiment Exploration Tool).
+import LEETShortcuts from "/snippets/fr/_includes/leet-keyboard-shortcuts.mdx";
+
+W&amp;B prend en charge les raccourcis clavier pour vous aider à naviguer et à interagir plus efficacement avec les expériences, les Workspace et les données. Ce guide présente les raccourcis clavier de la W&amp;B App et de l&#39;interface de terminal W&amp;B LEET (Lightweight Experiment Exploration Tool).
 
 <Tabs>
   <Tab title="App">
-    Les tableaux suivants répertorient les raccourcis clavier disponibles dans l&#39;application W&amp;B, regroupés selon leur contexte d&#39;utilisation.
+    La W&amp;B App inclut un volet latéral des raccourcis clavier qui répertorie tous les raccourcis disponibles dans le contexte actuel. Ouvrez-le avec **Cmd+/** (macOS) ou **Ctrl+/** (Windows/Linux), ou sélectionnez **Keyboard shortcuts** dans le menu **?** (aide) de la navigation supérieure. Utilisez le champ de recherche du volet latéral pour filtrer les raccourcis par nom.
 
-    ## Gestion du Workspace
+    Les sections **Workspace** et **Fenêtre modale du navigateur multimédia** dépendent du contexte et n&#39;apparaissent que lorsque la zone correspondante est active.
 
-    | Shortcut                                             | Description                                                                                                       |
-    | ---------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-    | **Cmd+Z** (macOS) / **Ctrl+Z** (Windows/Linux)       | Annuler une modification effectuée dans l&#39;interface utilisateur, par exemple dans le Workspace ou un panneau. |
-    | **Cmd+Shift+Z** (macOS) / **Ctrl+Y** (Windows/Linux) | Rétablir une modification précédemment annulée dans le Workspace.                                                 |
+    ## Essentiels
 
-    ## Navigation
+    | Shortcut                                       | Description                                                     |
+    | ---------------------------------------------- | --------------------------------------------------------------- |
+    | **Cmd+/** (macOS) / **Ctrl+/** (Windows/Linux) | Ouvrir le volet latéral des raccourcis clavier.                 |
+    | **Cmd+K** (macOS) / **Ctrl+K** (Windows/Linux) | Ouvrir la boîte de dialogue de recherche globale.               |
+    | **Alt+M**                                      | Basculer entre les thèmes clair et sombre de l&#39;application. |
 
-    | Shortcut                                       | Description                                                                                                                                                                                                                         |
-    | ---------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-    | **Tab**                                        | Naviguer entre les éléments interactifs.                                                                                                                                                                                            |
-    | **Cmd+J** (macOS) / **Ctrl+J** (Windows/Linux) | Basculer entre les onglets Workspaces et Runs dans la barre latérale du projet.                                                                                                                                                     |
-    | **Cmd+.** (macOS) / **Ctrl+.** (Windows/Linux) | Réduire ou restaurer la barre latérale du sélecteur de Runs pour libérer de l&#39;espace à l&#39;écran.                                                                                                                             |
-    | **Cmd+K** (macOS) / **Ctrl+K** (Windows/Linux) | Ouvrir la boîte de dialogue de recherche rapide pour rechercher parmi les projets, les runs et d&#39;autres ressources.                                                                                                             |
-    | **Esc**                                        | Dans toute l&#39;application W&amp;B, quitter les vues de panneau en plein écran, fermer les volets de paramètres, fermer la boîte de dialogue de recherche rapide, fermer un éditeur ou masquer d&#39;autres fenêtres superposées. |
+    ## Workspace
 
-    ## Navigation dans les panneaux
+    | Shortcut                                                   | Description                                                           |
+    | ---------------------------------------------------------- | --------------------------------------------------------------------- |
+    | **Cmd+Z** (macOS) / **Ctrl+Z** (Windows/Linux)             | Annuler la dernière action du Workspace.                              |
+    | **Cmd+Shift+Z** (macOS) / **Ctrl+Shift+Z** (Windows/Linux) | Rétablir la dernière action annulée du Workspace.                     |
+    | **Cmd+S** (macOS) / **Ctrl+S** (Windows/Linux)             | Enregistrer le Workspace actuel.                                      |
+    | **Cmd+J** (macOS) / **Ctrl+J** (Windows/Linux)             | Développer ou réduire la barre latérale des runs.                     |
+    | **Cmd+.** (macOS) / **Ctrl+.** (Windows/Linux)             | Basculer le sélecteur de run réduit.                                  |
+    | **Alt+V**                                                  | Afficher uniquement les runs actuellement visualisés dans les panels. |
 
-    | Shortcut                                                                                                 | Description                                                                                          |
-    | -------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-    | **Left Arrow / Right Arrow**                                                                             | Parcourir les panneaux d&#39;une section en mode plein écran.                                        |
-    | **Esc**                                                                                                  | Quitter la vue du panneau en plein écran et revenir au Workspace.                                    |
-    | **Cmd+Left Arrow / Cmd+Right Arrow** (macOS)<br />**Ctrl+Left Arrow / Ctrl+Right Arrow** (Windows/Linux) | Lors de l&#39;affichage d&#39;un panneau multimédia en plein écran, déplacer le curseur d&#39;étape. |
+    ## Fenêtre modale du navigateur multimédia
 
-    ## Panneaux multimédias
+    Ces raccourcis sont disponibles lorsque vous affichez des médias dans la fenêtre modale en plein écran.
 
-    | Shortcut                                                  | Description                                                                                                                                 |
-    | --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-    | **Cmd + +/-** (macOS)<br />**Ctrl + +/-** (Windows/Linux) | Lors de l&#39;affichage d&#39;une image en plein écran, zoomer ou dézoomer.<br />Une fois zoomé, cliquer-glisser pour déplacer l&#39;image. |
-    | **Cmd+0** (macOS)<br />**Ctrl+0** (Windows/Linux)         | Lors de l&#39;affichage d&#39;une image en plein écran, réinitialiser le zoom à 100 %.                                                      |
-    | **Shift+L**                                               | Lors de l&#39;affichage d&#39;une image en plein écran, ajuster le zoom à la fenêtre.                                                       |
-
-    ## Reports
-
-    | Shortcut               | Description                                                         |
-    | ---------------------- | ------------------------------------------------------------------- |
-    | **Delete / Backspace** | Supprimer la grille de panneaux sélectionnée du rapport.            |
-    | **Enter**              | Insérer un bloc Markdown après avoir saisi `/mark` dans un rapport. |
-    | **Esc**                | Quitter l&#39;éditeur de rapport.                                   |
-    | **Tab**                | Naviguer entre les éléments interactifs dans un rapport.            |
-
-    ## Notes
-
-    Gardez les points suivants à l&#39;esprit lorsque vous utilisez les raccourcis clavier dans l&#39;application W&amp;B :
-
-    * La plupart des raccourcis clavier utilisent **Cmd** sur macOS et **Ctrl** sur Windows/Linux.
-    * L&#39;application W&amp;B implémente une gestion personnalisée pour certains raccourcis par défaut du navigateur.
-    * Certains raccourcis dépendent du contexte et ne fonctionnent que dans des zones spécifiques de l&#39;application.
+    | Shortcut                                       | Description                    |
+    | ---------------------------------------------- | ------------------------------ |
+    | **Cmd++** (macOS) / **Ctrl++** (Windows/Linux) | Zoom avant.                    |
+    | **Cmd+-** (macOS) / **Ctrl+-** (Windows/Linux) | Zoom arrière.                  |
+    | **Cmd+0** (macOS) / **Ctrl+0** (Windows/Linux) | Réinitialiser le zoom à 100 %. |
+    | **Shift+1**                                    | Ajuster le zoom à la fenêtre.  |
   </Tab>
 
   <Tab title="LEET">
-    Les raccourcis clavier suivants fonctionnent dans l&#39;interface de terminal W&amp;B LEET (Lightweight Experiment Exploration Tool), qui vous permet d&#39;explorer des expériences sans quitter la ligne de commande. Pour lancer LEET, exécutez `wandb beta leet` dans votre terminal. Pour plus d&#39;informations, voir [`wandb beta leet`](/fr/models/ref/cli/wandb-beta/wandb-beta-leet/).
+    Ces raccourcis clavier fonctionnent dans l&#39;interface de terminal W&amp;B LEET (Lightweight Experiment Exploration Tool). Pour lancer LEET, exécutez `wandb beta leet` dans votre terminal.
 
-    {/* <LEETShortcuts /> */}
+    Appuyez sur `h` ou `?` dans LEET pour ouvrir la superposition d&#39;aide intégrée correspondant à la vue actuelle. Pour un aperçu du produit et des méthodes de lancement, voir [LEET terminal UI](/fr/models/app/leet-tui).
+
+    <LEETShortcuts />
   </Tab>
 </Tabs>

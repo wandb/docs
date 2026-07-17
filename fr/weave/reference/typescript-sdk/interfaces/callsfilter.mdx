@@ -1,5 +1,5 @@
 ---
-title: "Interface : CallsFilter"
+title: "CallsFilter"
 description: "Référence du SDK TypeScript"
 ---
 
@@ -20,8 +20,10 @@ CallsFilter
 * [op&#95;names](./callsfilter#op_names)
 * [output&#95;refs](./callsfilter#output_refs)
 * [parent&#95;ids](./callsfilter#parent_ids)
+* [thread&#95;ids](./callsfilter#thread_ids)
 * [trace&#95;ids](./callsfilter#trace_ids)
 * [trace&#95;roots&#95;only](./callsfilter#trace_roots_only)
+* [turn&#95;ids](./callsfilter#turn_ids)
 * [wb&#95;run&#95;ids](./callsfilter#wb_run_ids)
 * [wb&#95;user&#95;ids](./callsfilter#wb_user_ids)
 
@@ -39,7 +41,7 @@ ID d&#39;appel
   #### Défini dans
 </div>
 
-[generated/traceServerApi.ts:196](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/generated/traceServerApi.ts#L196)
+[src/generated/traceServerApi.ts:2052](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L2052)
 
 ***
 
@@ -55,7 +57,7 @@ Références d’entrée
   #### Défini dans
 </div>
 
-[generated/traceServerApi.ts:188](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/generated/traceServerApi.ts#L188)
+[src/generated/traceServerApi.ts:2044](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L2044)
 
 ***
 
@@ -71,7 +73,7 @@ Noms d’op
   #### Défini dans
 </div>
 
-[generated/traceServerApi.ts:186](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/generated/traceServerApi.ts#L186)
+[src/generated/traceServerApi.ts:2042](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L2042)
 
 ***
 
@@ -87,7 +89,7 @@ Références de sortie
   #### Défini dans
 </div>
 
-[generated/traceServerApi.ts:190](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/generated/traceServerApi.ts#L190)
+[src/generated/traceServerApi.ts:2046](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L2046)
 
 ***
 
@@ -103,7 +105,23 @@ ID parents
   #### Défini dans
 </div>
 
-[generated/traceServerApi.ts:192](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/generated/traceServerApi.ts#L192)
+[src/generated/traceServerApi.ts:2048](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L2048)
+
+***
+
+<div id="thread_ids">
+  ### thread_ids
+</div>
+
+• `Facultatif` **thread&#95;ids**: `null` | `string`[]
+
+ID des threads
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/generated/traceServerApi.ts:2054](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L2054)
 
 ***
 
@@ -119,7 +137,7 @@ ID de trace
   #### Défini dans
 </div>
 
-[generated/traceServerApi.ts:194](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/generated/traceServerApi.ts#L194)
+[src/generated/traceServerApi.ts:2050](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L2050)
 
 ***
 
@@ -135,7 +153,23 @@ Uniquement les racines de trace
   #### Défini dans
 </div>
 
-[generated/traceServerApi.ts:198](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/generated/traceServerApi.ts#L198)
+[src/generated/traceServerApi.ts:2058](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L2058)
+
+***
+
+<div id="turn_ids">
+  ### turn_ids
+</div>
+
+• `facultatif` **turn&#95;ids**: `null` | `string`[]
+
+ID des tours de conversation
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/generated/traceServerApi.ts:2056](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L2056)
 
 ***
 
@@ -151,7 +185,7 @@ Wb Run Ids
   #### Défini dans
 </div>
 
-[generated/traceServerApi.ts:202](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/generated/traceServerApi.ts#L202)
+[src/generated/traceServerApi.ts:2062](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L2062)
 
 ***
 
@@ -167,4 +201,4 @@ IDs d’utilisateur Wb
   #### Défini dans
 </div>
 
-[generated/traceServerApi.ts:200](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/generated/traceServerApi.ts#L200)
+[src/generated/traceServerApi.ts:2060](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L2060)

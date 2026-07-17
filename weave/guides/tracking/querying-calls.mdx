@@ -138,6 +138,7 @@ The endpoint provides several filtering options so you can target Calls made wit
 The following example demonstrates how to retrieve Calls generated from an Op named `web_app` over two days. Replace `[YOUR-TEAM-NAME/YOUR-PROJECT-NAME]` with your team and project names:
 
 <CodeGroup>
+
 ```python Python lines {10-11,16-24}
 import requests
 import json
@@ -211,6 +212,7 @@ const response = await fetch(url, {
 const data = await response.json();
 console.log(JSON.stringify(data, null, 2));
 ```
+
 </CodeGroup>
 
 The request also specifies how to aggregate the metrics. You can aggregate metrics by `sum`, `count`, `avg`, `min`, `max`, and `count`.
