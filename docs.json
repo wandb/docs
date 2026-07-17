@@ -554,7 +554,8 @@
                           "weave/guides/tracking/view-agent-signals",
                           "weave/guides/tracking/trace-agents-attributes",
                           "weave/guides/tracking/trace-agents-batch",
-                          "weave/guides/tracking/trace-sub-agents"
+                          "weave/guides/tracking/trace-sub-agents",
+                          "weave/guides/tracking/agents-byob-references"
                         ]
                       },
                       {
