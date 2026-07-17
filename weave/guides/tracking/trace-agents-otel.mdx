@@ -4,19 +4,13 @@ description: "Send OTLP trace data from any OpenTelemetry pipeline to the Weave 
 keywords: ["OTLP", "OpenTelemetry", "GenAI semantic conventions", "agents endpoint", "no SDK"]
 ---
 
-W&B Weave agent observability is built on [OpenTelemetry (OTel)](https://opentelemetry.io/docs/concepts/). Weave provides a dedicated OTLP endpoint that ingests spans into the **Agents** view directly, so if your application already emits OTel spans, you can send them to Weave by pointing your existing OTel pipeline at the endpoint. You don't need to install or import the Weave SDK.
+W&B Weave agent observability is built on [OpenTelemetry (OTel)](https://opentelemetry.io/docs/concepts/). Weave provides a dedicated OTLP endpoint that ingests spans into the **Agents** view. If your agent already emits OTel spans, you can send them to Weave by pointing your existing OTel pipeline at the endpoint without installing the Weave SDK.
 
-This page covers the agents endpoint details, authentication, the span attributes that Weave uses to render agent activity, and an environment-variable configuration that requires no code changes at all.
+This page covers how to authenticate with and send spans to the endpoint.
 
-Use this approach when:
+## Authentication
 
-- Your application is already instrumented with OTel, whether through your own `TracerProvider` or a third-party instrumentation library.
-- You want to keep your existing observability pipeline and fan spans out to Weave as an additional backend.
-- You're working in a language that the Weave SDK doesn't support.
-
-If you're instrumenting an agent from scratch in Python or TypeScript, the Weave SDK's agent helpers manage span creation, attributes, and flushing for you. See [Trace your agents](/weave/guides/tracking/trace-agents) instead.
-
-## Endpoint details
+You can send spans to the following endpoint:
 
 * **Path**: `/agents/otel/v1/traces`
 * **Method**: `POST`
@@ -25,13 +19,7 @@ If you're instrumenting an agent from scratch in Python or TypeScript, the Weave
 
 The endpoint accepts OTLP protobuf payloads only. Use a protobuf HTTP exporter such as `opentelemetry-exporter-otlp-proto-http` (Python) or `@opentelemetry/exporter-trace-otlp-proto` (TypeScript). The endpoint also accepts `gzip` and `deflate` content encoding.
 
-<Note>
-This endpoint feeds the **Agents** view. Weave has a second OTLP endpoint, `/otel/v1/traces`, that feeds the **Traces** and **Threads** views. Spans sent to one endpoint don't appear in the views served by the other. To populate both, export the same spans to both endpoints. See [Send OpenTelemetry traces to Weave](/weave/guides/tracking/otel) for the Traces endpoint.
-</Note>
-
-## Authentication
-
-Authenticate with your W&B API key, which you can create at [https://wandb.ai/settings](https://wandb.ai/settings). The endpoint accepts either of the following headers:
+To authenticate with the endpoint, set your [W&B API key](https://wandb.ai/settings) in your `OTLPSpanExporter` configuration using one of the following values:
 
 - `wandb-api-key`: Your W&B API key as the value.
 - `Authorization`: HTTP Basic authentication with `api` as the user and your W&B API key as the password. This form is useful when your exporter or collector only supports standard authorization headers.
@@ -64,17 +52,13 @@ Other GenAI semantic-convention attributes, such as `gen_ai.request.model`, `gen
 
 ## Configure with environment variables only
 
-If your application or collector reads the standard OTel exporter environment variables, you can route spans to Weave without changing any code:
+If your application or collector reads the standard OTel exporter environment variables, you can set the following variables and route spans to Weave without changing any code:
 
 ```bash lines
 export OTEL_EXPORTER_OTLP_TRACES_ENDPOINT="https://trace.wandb.ai/agents/otel/v1/traces"
 export OTEL_EXPORTER_OTLP_TRACES_HEADERS="wandb-api-key=$WANDB_API_KEY"
 export OTEL_RESOURCE_ATTRIBUTES="wandb.entity=<your-team-name>,wandb.project=<your-project-name>"
 ```
-
-<Warning>
-`OTEL_EXPORTER_OTLP_TRACES_ENDPOINT` must contain the full traces path shown above. The OTel SDK sends requests to this URL verbatim. If you use the generic `OTEL_EXPORTER_OTLP_ENDPOINT` variable instead, the SDK appends `/v1/traces` itself, so that variable must hold `https://trace.wandb.ai/agents/otel` or you get a doubled path and silently dropped spans.
-</Warning>
 
 ## Example: emit agent spans without the Weave SDK
 
@@ -92,7 +76,7 @@ npm install @opentelemetry/api @opentelemetry/sdk-trace-node @opentelemetry/sdk-
 ```
 </CodeGroup>
 
-Then run the following code with `WANDB_API_KEY` set in your environment:
+Then set the `WANDB_API_KEY`, `ENTITY`, and `PROJECT` values in the following code, and then run it:
 
 <CodeGroup>
 ```python Python lines
@@ -218,16 +202,5 @@ await provider.shutdown(); // Flush all pending spans before exit.
 
 To add more turns to the same conversation, emit more `invoke_agent` spans with the same `gen_ai.conversation.id`. Each turn is the root span of its own trace, so turns don't need to share a parent span.
 
-## Use instrumentation libraries
+After your application exports spans, open the **Agents** tab of your Weave project.
 
-Third-party instrumentation libraries such as [OpenInference](https://github.com/Arize-ai/openinference) and [OpenLLMetry](https://github.com/traceloop/openllmetry) emit OTel spans automatically for popular LLM providers and frameworks. Because the agents endpoint accepts spans from any OTel pipeline, you can point these libraries at it using the same exporter configuration shown above. Spans render in the Agents view when they carry the `gen_ai.operation.name` values described in [Shape spans for the Agents view](#shape-spans-for-the-agents-view).
-
-You can also forward spans through an [OpenTelemetry Collector](https://opentelemetry.io/docs/collector/) to centralize authentication and fan spans out to Weave alongside your other observability backends. The [collector setup for the Traces endpoint](/weave/guides/tracking/otel#use-an-opentelemetry-collector) applies to the agents endpoint as well. Change the exporter endpoint to `https://trace.wandb.ai/agents/otel`.
-
-## View your traces
-
-After your application exports spans, open the **Agents** tab of your Weave project at `https://wandb.ai/<your-team-name>/<your-project-name>/weave/agents`. Conversations are grouped under the `gen_ai.agent.name` you set, each turn appears as a row in the conversation timeline, and LLM and tool calls nest inside each turn. For details on navigating the view, see [View agent activity](/weave/guides/tracking/view-agent-activity).
-
-## Combine with the Weave SDK
-
-If part of your application uses the Weave SDK, note that `weave.init()` doesn't attach an exporter to a `TracerProvider` that your application already registered. Spans from your own provider only reach Weave if you add the Weave exporter to that provider yourself, using the exporter configuration shown in the example above.
