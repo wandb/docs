@@ -7,27 +7,27 @@ import { ColabLink } from '/snippets/ko/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/openai/OpenAI_API_Autologger_Quickstart.ipynb" />
 
-W&amp;B OpenAI API 인테그레이션을 사용하면 파인튜닝된 모델을 포함한 모든 OpenAI 모델의 요청, 응답, token 수, 모델 메타데이터를 로깅할 수 있습니다.
+W&amp;B OpenAI API 인테그레이션을 사용하면 파인튜닝된 모델을 포함한 모든 OpenAI 모델의 요청, 응답, token 수, 모델 메타데이터를 로깅할 수 있습니다. OpenAI API를 호출하면서 수동 로깅 코드를 추가하지 않고도 프롬프트, Completions, 사용량을 확인하려는 경우 이 인테그레이션을 사용하세요.
+
+API 입력과 출력을 로깅하면 다양한 프롬프트의 성능을 빠르게 평가하고, 서로 다른 모델 설정(예: temperature)을 비교하며, token 사용량 같은 기타 사용 메트릭도 추적할 수 있습니다.
 
 <Note>
   W&amp;B를 사용해 파인튜닝 실험, 모델, 데이터셋을 추적하고 결과를 동료와 공유하는 방법은 [OpenAI 파인튜닝 인테그레이션](./openai-fine-tuning)을 참조하세요.
 </Note>
 
-API 입력과 출력을 로깅하면 다양한 프롬프트의 성능을 빠르게 평가하고, 서로 다른 모델 설정(예: temperature)을 비교하며, token 사용량 같은 기타 사용 메트릭도 추적할 수 있습니다.
-
 <Frame>
-  <img src="/images/integrations/open_ai_autolog.png" alt="OpenAI API 자동 로깅" />
+  <img src="/images/integrations/open_ai_autolog.png" alt="OpenAI API 요청, 응답, token 사용량이 자동으로 로깅된 W&B 트레이스 뷰" />
 </Frame>
 
 <div id="install-openai-python-api-library">
   ## OpenAI Python API 라이브러리 설치
 </div>
 
-W&amp;B autolog 인테그레이션은 OpenAI 0.28.1 이하 버전에서 작동합니다.
+W&amp;B autolog 인테그레이션은 OpenAI 0.28.1 및 이전 버전에서 작동하므로 autologging을 활성화하기 전에 호환되는 버전을 설치해야 합니다.
 
-OpenAI Python API 0.28.1 버전을 설치하려면 다음을 실행하세요.
+OpenAI Python API 0.28.1 버전을 설치하려면:
 
-```python
+```bash
 pip install openai==0.28.1
 ```
 
@@ -35,11 +35,13 @@ pip install openai==0.28.1
   ## OpenAI Python API 사용하기
 </div>
 
-<div id="1-import-autolog-and-initialise-it">
-  ### 1. `autolog` 임포트 및 초기화
+다음 step에서는 autologging을 활성화하고 OpenAI API를 호출한 다음, W&amp;B에서 생성된 트레이스를 확인하는 방법을 설명합니다.
+
+<div id="import-and-initialize-autolog">
+  ### `autolog` 임포트 및 초기화
 </div>
 
-먼저 `wandb.integration.openai`에서 `autolog`를 임포트한 다음 초기화합니다.
+먼저 `wandb.integration.openai`에서 `autolog`를 임포트한 다음 초기화합니다. 이렇게 하면 이후의 모든 OpenAI API Call을 캡처하는 W&amp;B run이 설정됩니다.
 
 ```python
 import os
@@ -49,13 +51,13 @@ from wandb.integration.openai import autolog
 autolog({"project": "gpt5"})
 ```
 
-`wandb.init()`에서 받을 수 있는 인자를 담은 딕셔너리를 `autolog`에 선택적으로 전달할 수 있습니다. 여기에는 프로젝트 이름, 팀 이름, entity 등이 포함됩니다. [`wandb.init()`](/ko/models/ref/python/functions/init)에 대한 자세한 내용은 API 레퍼런스 가이드를 참조하세요.
+`wandb.init()`에서 받을 수 있는 인자를 담은 딕셔너리를 `autolog`에 선택적으로 전달할 수 있습니다. 여기에는 프로젝트 이름, 팀 이름, entity 등이 포함됩니다. 자세한 내용은 [`wandb.init()` API 레퍼런스](/ko/models/ref/python/functions/init)를 참조하세요.
 
-<div id="2-call-the-openai-api">
-  ### 2. OpenAI API 호출
+<div id="call-the-openai-api">
+  ### OpenAI API Call
 </div>
 
-이제 OpenAI API에 보내는 각 call은 자동으로 W&amp;B에 로깅됩니다.
+autolog가 활성화되면 W&amp;B가 OpenAI API에 보내는 각 Call을 자동으로 로깅합니다. 기존 API Call에 별도의 로깅 코드를 추가할 필요가 없습니다.
 
 ```python
 os.environ["OPENAI_API_KEY"] = "XXX"
@@ -72,22 +74,22 @@ chat_request_kwargs = dict(
 response = openai.ChatCompletion.create(**chat_request_kwargs)
 ```
 
-<div id="3-view-your-openai-api-inputs-and-responses">
-  ### 3. OpenAI API 입력과 응답 보기
+<div id="view-your-openai-api-inputs-and-responses">
+  ### OpenAI API 입력과 응답 보기
 </div>
 
-**step 1**에서 `autolog`가 생성한 W&amp;B [run](/ko/models/runs/) 링크를 클릭합니다. 그러면 W&amp;B App의 프로젝트 Workspace로 이동합니다.
+하나 이상의 API 호출을 수행한 후 W&amp;B에서 캡처된 데이터를 확인할 수 있습니다.
 
-생성한 run을 선택하여 사용된 OpenAI LLM의 트레이스 table, 트레이스 타임라인, 모델 아키텍처를 확인합니다.
+`autolog`가 생성한 W&amp;B [run](/ko/models/runs/) 링크를 클릭하세요. 그러면 W&amp;B의 프로젝트 Workspace로 리디렉션됩니다.
+
+생성한 run을 선택하여 트레이스 테이블, 트레이스 타임라인, 그리고 사용된 OpenAI LLM의 모델 아키텍처를 확인하세요.
 
 <div id="turn-off-autolog">
   ## autolog 끄기
 </div>
 
-W&amp;B는 OpenAI API 사용이 끝나면 모든 W&amp;B 프로세스를 종료할 수 있도록 `disable()`을 호출할 것을 권장합니다.
+OpenAI API 사용이 끝나면 모든 W&amp;B 프로세스를 종료하려면 `disable()`을 호출하세요. 이렇게 하면 W&amp;B가 대기 중인 데이터를 모두 플러시하고, 이후 API 호출을 의도치 않게 캡처하지 않도록 할 수 있습니다.
 
 ```python
 autolog.disable()
 ```
-
-이제 inputs와 completion가 W&amp;B에 로깅되어, 분석하거나 동료와 공유할 준비가 됩니다.

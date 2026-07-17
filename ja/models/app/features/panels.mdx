@@ -5,6 +5,8 @@ description: Workspace パネルを使用およびカスタマイズして、ロ
 keywords: ["Workspace パネル", "Quick add", "全画面モード", "パネルセクション", "埋め込みパネル"]
 ---
 
+import { AriaChatBubbles } from '/snippets/AriaChatBubbles.jsx';
+
 Workspace パネルの可視化を使用すると、キーごとに[ログしたデータ](/ja/models/ref/python/experiments/run.md/#method-runlog)を確認したり、ハイパーパラメーターと出力メトリクスの関係を可視化したりできます。 このページでは、Workspace モードの選択方法、パネルの追加と設定、セクションへの整理、コラボレーターとの共有について説明します。
 
 <div id="workspace-modes">
@@ -116,6 +118,10 @@ Workspace にパネルを 1 つずつ、Workspace 全体またはセクション
 </div>
 
 **Quick add** を使用すると、選択した各キーに対応するパネルを、グローバルまたはセクションレベルで自動的に追加できます。
+
+ARIA にパネルの追加を依頼することもできます。
+
+<AriaChatBubbles prompt="train/ 接頭辞配下のすべてのメトリクスに対して、ラインプロットパネルを追加してください。" response="表示中の Runs にログされている各 train/ メトリクスに対してラインプロットパネルを追加し、Workspace 内で整理します。" />
 
 <Note>
   自動 Workspace で削除されたパネルがない場合、ログされたすべてのキーのパネルがすでに Workspace に含まれているため、**Quick add** オプションは表示されません。削除したパネルを再度追加するには、**Quick add** を使用できます。
