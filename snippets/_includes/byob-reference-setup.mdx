@@ -67,16 +67,12 @@ When you view a trace, W&B presigns a short-lived download URL for each referenc
      "CORSRules": [{
        "AllowedHeaders": ["*"],
        "AllowedMethods": ["GET", "HEAD"],
-       "AllowedOrigins": ["*"],
+       "AllowedOrigins": ["https://wandb.ai"],
        "ExposeHeaders": ["ETag"],
        "MaxAgeSeconds": 3000
      }]
    }
    ```
-
-   <Note>
-   For production deployments, restrict `AllowedOrigins` to your app's domain instead of `*`.
-   </Note>
 
    Then apply it to your bucket:
 
@@ -103,16 +99,12 @@ If an object is encrypted with a customer-managed KMS key, its key policy must a
 
    ```json lines
    [{
-     "origin": ["*"],
+     "origin": ["https://wandb.ai"],
      "method": ["GET", "HEAD"],
      "responseHeader": ["ETag"],
      "maxAgeSeconds": 3000
    }]
    ```
-
-   <Note>
-   For production deployments, restrict `origin` to your app's domain instead of `*`.
-   </Note>
 
    Then apply it to your bucket:
 
@@ -133,8 +125,13 @@ Register the bucket in your team settings so Weave can presign and display refer
 2. In the **Reference buckets** section, select **Add bucket**.
 3. Select your cloud provider (**AWS** or **Google Cloud**).
 4. For the bucket name, enter `[YOUR-BUCKET]` only — without the `s3://` or `gs://` prefix.
-5. Enter the path to an existing object in the bucket. Weave reads it once to verify it has access.
-6. Save.
+5. For the object key, enter the key of an existing object in the bucket, for example `photos/cat.png` (the object key only, not a full URL). W&B reads this one object to confirm it has read access and that CORS is configured correctly. This checks access only; once verified, presigning works for any object in the bucket.
+6. Optionally, select **Test connection** to validate the configuration without saving.
+7. Select **Add bucket** to save.
+
+<Frame>
+  ![The Add reference bucket dialog in team settings, with fields for the cloud provider, the bucket name, and an existing object key, plus Test connection and Add bucket buttons.](/weave/guides/tracking/imgs/add-ref-bucket.png)
+</Frame>
 
 <Warning>
 Until the bucket is registered, referenced URIs do not render. Registration is what lets Weave presign and display the object.
