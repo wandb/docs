@@ -1321,13 +1321,14 @@ Weave maps OpenTelemetry span attributes from various instrumentation frameworks
 
 Weave supports attribute conventions from the following observability frameworks and SDKs:
 
-- **OpenTelemetry GenAI**: Standard semantic conventions for generative AI (`gen_ai.*`).
+- **OpenTelemetry GenAI**: Standard semantic conventions for generative AI (`gen_ai.*`), including the current message format (`gen_ai.input.messages`, `gen_ai.output.messages`).
 - **OpenInference**: Arize AI's instrumentation library (`input.value`, `output.value`, `llm.*`, `openinference.*`).
 - **Vercel AI SDK**: Vercel's AI SDK attributes (`ai.prompt`, `ai.response`, `ai.model.*`, `ai.usage.*`).
 - **MLflow**: MLflow tracking attributes (`mlflow.spanInputs`, `mlflow.spanOutputs`).
 - **Traceloop**: OpenLLMetry instrumentation (`traceloop.entity.*`, `traceloop.span.kind`).
 - **Google Vertex AI**: Vertex AI agent attributes (`gcp.vertex.agent.*`).
 - **OpenLit**: OpenLit observability attributes (`gen_ai.content.completion`).
+- **Logfire / Pydantic AI**: Logfire's Pydantic AI instrumentation (`gen_ai.input.messages`, `gen_ai.output.messages`, `pydantic_ai.all_messages`, `final_result`).
 - **Langfuse**: Langfuse tracing attributes (`langfuse.startTime`, `langfuse.endTime`).
 
 ### Attribute reference
@@ -1338,6 +1339,8 @@ Weave supports attribute conventions from the following observability frameworks
 | `gen_ai.prompt`                   | `inputs`                      | AI model prompt or message array.           | List, dict, string          | `[{"role":"user","content":"abc"}]`            |
 | `input.value`                     | `inputs`                      | Input value for model invocation.           | String, list, dict          | `{"text":"Tell a joke"}`                       |
 | `mlflow.spanInputs`               | `inputs`                      | Span input data.                            | String, list, dict          | `["prompt text"]`                              |
+| `gen_ai.input.messages`           | `inputs`                      | Input messages in the OTel GenAI message format. Emitted by Logfire's Pydantic AI instrumentation. | List, dict, string          | `[{"role":"user","parts":[...]}]`             |
+| `pydantic_ai.all_messages`        | `inputs`                      | All messages from a Pydantic AI agent run.  | List                        | `[{"role":"user","content":"abc"}]`           |
 | `traceloop.entity.input`          | `inputs`                      | Entity input data.                          | String, list, dict          | `"Translate this to French"`                   |
 | `gcp.vertex.agent.tool_call_args` | `inputs`                      | Tool call arguments.                        | Dict                        | `{"args":{"query":"weather in SF"}}`           |
 | `gcp.vertex.agent.llm_request`    | `inputs`                      | LLM request payload.                        | Dict                        | `{"contents":[{"role":"user","parts":[...]}]}` |
@@ -1346,7 +1349,9 @@ Weave supports attribute conventions from the following observability frameworks
 | `ai.response`                     | `outputs`                     | Model response text or data.                | String, list, dict          | `"Here is a haiku..."`                         |
 | `gen_ai.completion`               | `outputs`                     | AI completion result.                       | String, list, dict          | `"Completion text"`                            |
 | `output.value`                    | `outputs`                     | Output value from model.                    | String, list, dict          | `{"text":"Answer text"}`                       |
+| `gen_ai.output.messages`          | `outputs`                     | Output messages in the OTel GenAI message format. Emitted by Logfire's Pydantic AI instrumentation. | List, dict, string          | `[{"role":"assistant","parts":[...]}]`        |
 | `mlflow.spanOutputs`              | `outputs`                     | Span output data.                           | String, list, dict          | `["answer"]`                                   |
+| `final_result`                    | `outputs`                     | Final output of a Pydantic AI agent run.    | String, dict                | `"Answer text"`                                |
 | `gen_ai.content.completion`       | `outputs`                     | Content completion result.                  | String                      | `"Answer text"`                                |
 | `traceloop.entity.output`         | `outputs`                     | Entity output data.                         | String, list, dict          | `"Answer text"`                                |
 | `gcp.vertex.agent.tool_response`  | `outputs`                     | Tool execution response.                    | Dict, string                | `{"toolResponse":"ok"}`                        |
@@ -1364,6 +1369,7 @@ Weave supports attribute conventions from the following observability frameworks
 | `llm.token_count.total`           | `usage.total_tokens`          | Total token count.                          | Int                         | `70`                                           |
 | `gen_ai.system`                   | `attributes.system`           | System prompt or instructions.              | String                      | `"You are a helpful assistant."`               |
 | `llm.system`                      | `attributes.system`           | System prompt or instructions.              | String                      | `"You are a helpful assistant."`               |
+| `gen_ai.system_instructions`      | `attributes.system`           | System prompt or instructions.              | String                      | `"You are a helpful assistant."`               |
 | `weave.span.kind`                 | `attributes.kind`             | Span type or category.                      | String                      | `"llm"`                                        |
 | `traceloop.span.kind`             | `attributes.kind`             | Span type or category.                      | String                      | `"llm"`                                        |
 | `openinference.span.kind`         | `attributes.kind`             | Span type or category.                      | String                      | `"llm"`                                        |
