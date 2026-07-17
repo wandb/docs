@@ -1,19 +1,20 @@
 ---
+description: "W&B SDK API を使用して、W&B 専用クラウドのインスタンスから run、メトリクス、Artifacts、Reports をエクスポートします。"
 title: 専用クラウドからデータをエクスポートする
-description: 専用クラウドからデータをエクスポートする
+keywords: ["データを移行する", "データポータビリティ", "W&B データをバックアップする", "Import and Export API"]
 ---
 
-もし専用クラウドインスタンスで管理されているすべてのデータをエクスポートしたい場合、W&B SDK APIを使用して、[インポートおよびエクスポートAPI](/ja/models/ref/python/public-api/)を利用して runs、メトリクス、Artifacts などを抽出できます。以下の表は、いくつかの主要なエクスポートユースケースについて説明しています。
+専用クラウドのインスタンスで管理されているデータをエクスポートするには、[Import and Export API](/ja/models/ref/python/public-api/) を使用して、W&amp;B SDK API から run、メトリクス、Artifacts などを抽出できます。次の表では、主なエクスポートのユースケースをいくつか示します。
 
-| 目的 | ドキュメント |
-|---------|---------------|
-| プロジェクトのメタデータをエクスポート | [Projects API](/ja/models/ref/python/public-api/projects/) |
-| プロジェクト内の runs をエクスポート | [Runs API](/ja/models/ref/python/public-api/runs/) |
-| レポートをエクスポート | [Reports API](/ja/models/reports/clone-and-export-reports/) |
-| Artifacts をエクスポート | [Explore artifact graphs](/ja/models/artifacts/explore-and-traverse-an-artifact-graph/), [Download and use artifacts](/ja/models/artifacts/download-and-use-an-artifact/#download-and-use-an-artifact-stored-on-wb) |
+| 目的                     | ドキュメント                                                                                                                                                                                               |
+| ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| プロジェクトのメタデータをエクスポートする  | [Projects API](/ja/models/ref/python/public-api/projects)                                                                                                                                               |
+| プロジェクト内の run をエクスポートする | [Runs API](/ja/models/ref/python/public-api/runs)                                                                                                                                                       |
+| Reports をエクスポートする      | [Report and Workspace API](/ja/models/reports/clone-and-export-reports/)                                                                                                                                |
+| Artifacts をエクスポートする    | [artifact グラフを探索する](/ja/models/artifacts/explore-and-traverse-an-artifact-graph/), [Artifacts をダウンロードして使用する](/ja/models/artifacts/download-and-use-an-artifact/#download-and-use-an-artifact-stored-on-wb) |
 
-専用クラウドで保管されている Artifacts を [Secure Storage Connector](/ja/platform/app/settings-page/teams/#secure-storage-connector) で管理している場合、W&B SDK APIを使用してアーティファクトをエクスポートする必要はないかもしれません。
+[Secure Storage Connector](/ja/platform/app/settings-page/teams/#secure-storage-connector) を使用して専用クラウドに保存されている Artifacts を管理している場合は、W&amp;B SDK API を使用して Artifacts をエクスポートする必要がないことがあります。
 
 <Note>
-大量の runs や Artifacts などがある場合、W&B SDK APIを使用してすべてのデータをエクスポートするのは遅くなる可能性があります。W&Bは、専用クラウドインスタンスを圧迫しないように、適切なサイズのバッチでエクスポートプロセスを実行することを推奨しています。
+  run、Artifacts、その他のリソースが多数ある場合、SDK API を使用してすべてのデータをエクスポートすると時間がかかることがあります。W&amp;B では、専用クラウドのインスタンスに過大な負荷をかけないよう、適切なサイズのバッチに分けてエクスポート処理を実行することを推奨しています。
 </Note>

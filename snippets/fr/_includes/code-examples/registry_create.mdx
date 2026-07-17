@@ -1,0 +1,19 @@
+---
+title: Créer un registre
+---
+
+```python
+"""
+Créer un nouveau registre dans W&B. Si le registre n'existe pas, W&B le crée.
+"""
+import wandb
+
+# Initialiser l'API W&B
+api = wandb.Api()
+
+# Créer un nouveau registre
+registry = api.create_registry(
+    name="<registry_name>",
+    visibility="<visibility>",  # ex. : "public" ou "private"
+)
+```

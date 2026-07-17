@@ -1,0 +1,42 @@
+---
+title: "weaveImage"
+description: "TypeScript SDK 레퍼런스"
+---
+
+<div id="weaveimage">
+  # weaveImage
+</div>
+
+▸ **weaveImage**(`options`): [`WeaveImage`](../interfaces/weaveimage)
+
+새로운 WeaveImage 객체를 생성합니다
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름        | 유형                | 설명                                                                                                       |
+| :-------- | :---------------- | :------------------------------------------------------------------------------------------------------- |
+| `options` | `WeaveImageInput` | 이 미디어 유형에 대한 옵션입니다. - data: Buffer 형식의 원시 이미지 데이터 - imageType: (선택) 이미지 파일 유형이며 현재는 &#39;png&#39;만 지원됩니다 |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+[`WeaveImage`](../interfaces/weaveimage)
+
+`Example`
+
+```ts twoslash
+// @noErrors
+const imageBuffer = fs.readFileSync('path/to/image.png');
+const weaveImage = weaveImage({ data: imageBuffer });
+```
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/media.ts:28](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/media.ts#L28)
+
+***

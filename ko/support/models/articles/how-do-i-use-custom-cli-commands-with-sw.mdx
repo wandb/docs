@@ -1,0 +1,67 @@
+---
+title: "Sweeps와 함께 맞춤형 CLI 명령을 사용하려면 어떻게 해야 하나요?"
+keywords: ["Sweeps"]
+featured: true
+---
+
+트레이닝 설정이 명령줄 인수를 전달하면 W&amp;B Sweeps를 맞춤형 CLI 명령과 함께 사용할 수 있습니다. 이렇게 하면 스크립트의 인수 처리 방식을 바꾸지 않고도, 이미 특정 CLI 플래그를 기대하는 기존 트레이닝 스크립트에 대해 스윕을 실행할 수 있습니다.
+
+다음 예시에서는 `train.py`라는 Python 스크립트를 실행해 트레이닝을 수행하고, 스크립트가 파싱하는 값을 전달하는 Bash 터미널을 보여줍니다:
+
+```bash
+/usr/bin/env python train.py -b \
+    your-training-config \
+    --batchsize 8 \
+    --lr 0.00001
+```
+
+스윕에서 해당 호출을 재현하려면, 스윕 에이전트가 동일한 명령줄을 생성하도록 스윕 설정 YAML 파일의 `command` 키를 수정하세요. 앞선 예시를 기준으로 하면 설정은 다음과 같습니다:
+
+```yaml
+program:
+  train.py
+method: grid
+parameters:
+  batch_size:
+    value: 8
+  lr:
+    value: 0.0001
+command:
+  - ${env}
+  - python
+  - ${program}
+  - "-b"
+  - your-training-config
+  - ${args}
+```
+
+`${args}` 키는 스윕 설정의 모든 매개변수를 `argparse`용 `--param1 value1 --param2 value2` 형식으로 확장합니다.
+
+스크립트가 `argparse` 외의 추가 인수를 받는 경우, 인식되지 않은 플래그 때문에 파서가 실패하지 않도록 `parse_known_args`를 사용하세요:
+
+```python
+parser = argparse.ArgumentParser()
+args, unknown = parser.parse_known_args()
+```
+
+<Note>
+  환경에 따라 `python`이 Python 2를 의미할 수 있습니다. Python 3를 실행하려면 command 설정에서 `python3`를 사용하세요:
+
+  ```yaml
+  program:
+    script.py
+  command:
+    - ${env}
+    - python3
+    - ${program}
+    - ${args}
+  ```
+</Note>
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[스윕](/ko/support/models/tags/sweeps)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

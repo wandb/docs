@@ -1,0 +1,150 @@
+---
+title: "HuggingFace 데이터셋 평가"
+description: "W&B Weave에서 HuggingFace 데이터셋 평가를 사용하는 방법을 알아보세요"
+keywords: ["HuggingFace", "preprocess_model_input", "평가", "데이터셋", "Scorer"]
+---
+
+<Note>
+  이 노트북은 대화형 노트북입니다. 로컬에서 실행하거나 아래 링크를 사용할 수 있습니다:
+
+  * [Google Colab에서 열기](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/hf_dataset_evals.ipynb)
+  * [GitHub에서 소스 보기](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/hf_dataset_evals.ipynb)
+</Note>
+
+이 노트북에서는 HuggingFace 데이터셋을 Weave `Evaluation`의 입력 소스로 사용하는 방법을 보여줍니다. 이 노트북을 마치면 HuggingFace 데이터셋의 각 행을 인덱스로 참조하고, 각 행을 모델이 기대하는 형식으로 전처리하며, 점수가 매겨진 결과를 Weave에서 추적하는 평가 파이프라인을 실행할 수 있게 됩니다. 이 패턴은 기존 HuggingFace 데이터셋을 먼저 Weave 네이티브 데이터셋으로 변환하지 않고 모델을 평가하려는 경우에 유용합니다.
+
+<Note>
+  이 가이드는 HuggingFace 데이터셋을 Weave 평가와 함께 사용하기 위한 우회 방법을 보여줍니다. 이 방식은 현재 사용할 수 있으며, 외부 데이터셋을 위한 더 매끄러운 인테그레이션도 개발 중입니다.
+</Note>
+
+<div id="setup-and-imports">
+  ## 설정 및 임포트
+</div>
+
+먼저 Weave를 초기화하고 W&amp;B에 연결하세요. 그러면 Weave 프로젝트에서 평가 run과 그 결과를 Weave로 추적할 수 있습니다.
+
+```python lines
+!pip install datasets wandb weave
+
+# 변수 초기화
+HUGGINGFACE_DATASET = "wandb/ragbench-test-sample"
+WANDB_KEY = ""
+WEAVE_TEAM = ""
+WEAVE_PROJECT = ""
+
+# weave 및 필수 라이브러리 초기화
+import asyncio
+
+import nest_asyncio
+import wandb
+from datasets import load_dataset
+
+import weave
+from weave import Evaluation
+
+# wandb에 로그인하고 weave 초기화
+wandb.login(key=WANDB_KEY)
+client = weave.init(f"{WEAVE_TEAM}/{WEAVE_PROJECT}")
+
+# 중첩 이벤트 루프 허용을 위해 nest_asyncio 적용 (일부 노트북 환경에서 필요)
+nest_asyncio.apply()
+```
+
+<div id="load-and-prepare-huggingface-dataset">
+  ## HuggingFace 데이터셋 로드 및 준비
+</div>
+
+다음으로, HuggingFace 데이터셋을 로드하고 평가가 순회할 경량 인덱스를 구축합니다. 데이터셋 행을 직접 Weave에 전달하는 대신 인덱스 레퍼런스 목록을 전달하고, 전처리 중에 이를 전체 행으로 해석합니다. 이 방식은 평가가 원래 HuggingFace 데이터셋에 연결된 상태를 유지하고 해당 데이터셋에 대한 레퍼런스도 보존합니다.
+
+<Note>
+  인덱스에서는 각 행에 고유 식별자가 있도록 `hf_hub_name`을 `hf_id`와 함께 인코딩하세요. Weave는 이 고유한 digest 값을 사용해 평가 중 특정 데이터셋 항목을 추적하고 참조합니다.
+</Note>
+
+```python lines
+# HuggingFace 데이터셋 로드
+ds = load_dataset(HUGGINGFACE_DATASET)
+row_count = ds["train"].num_rows
+
+# 데이터셋의 인덱스 매핑 생성
+# HF 데이터셋 인덱스를 포함하는 딕셔너리 목록을 생성합니다
+# 예시: [{"hf_id": 0}, {"hf_id": 1}, {"hf_id": 2}, ...]
+hf_index = [{"hf_id": i, "hf_hub_name": HUGGINGFACE_DATASET} for i in range(row_count)]
+```
+
+<div id="define-processing-and-evaluation-functions">
+  ## 처리 및 평가 함수 정의
+</div>
+
+인덱스가 준비되면 평가 파이프라인을 구성하는 세 가지 함수를 정의하세요. 하나는 각 인덱스 레퍼런스를 평가에 사용할 수 있는 예시로 변환하고, 하나는 모델의 출력을 채점하며, 다른 하나는 평가 대상 함수 또는 모델을 나타냅니다.
+
+처리 파이프라인은 다음 함수를 사용합니다:
+
+* `preprocess_example`: 인덱스 레퍼런스를 평가에 필요한 실제 데이터로 변환합니다.
+* `hf_eval`: 모델 출력의 채점 방식을 정의합니다.
+* `function_to_evaluate`: 실제로 평가하는 함수 또는 모델입니다.
+
+```python lines
+@weave.op()
+def preprocess_example(example):
+    """
+    Preprocesses each example before evaluation.
+    Args:
+        example: Dict containing hf_id
+    Returns:
+        Dict containing the prompt from the HF dataset
+    """
+    hf_row = ds["train"][example["hf_id"]]
+    return {"prompt": hf_row["question"], "answer": hf_row["response"]}
+
+@weave.op()
+def hf_eval(hf_id: int, output: dict) -> dict:
+    """
+    Scoring function for evaluating model outputs.
+    Args:
+        hf_id: Index in the HF dataset
+        output: The output from the model to evaluate
+    Returns:
+        Dict containing evaluation scores
+    """
+    hf_row = ds["train"][hf_id]
+    return {"scorer_value": True}
+
+@weave.op()
+def function_to_evaluate(prompt: str):
+    """
+    The function that will be evaluated (e.g., your model or pipeline).
+    Args:
+        prompt: Input prompt from the dataset
+    Returns:
+        Dict containing model output
+    """
+    return {"generated_text": "testing "}
+```
+
+<div id="create-and-run-the-evaluation">
+  ## 평가 생성 및 실행
+</div>
+
+마지막으로, 인덱스, Scorer, 전처리 함수를 Weave `Evaluation`에 연결한 다음 모델에 대해 실행하세요. `hf_index`의 각 항목에 대해 Weave는 다음 단계를 수행합니다.
+
+1. `preprocess_example`이 HuggingFace 데이터셋에서 해당 데이터를 가져옵니다.
+2. Weave가 전처리된 데이터를 `function_to_evaluate`에 전달합니다.
+3. `hf_eval`이 출력에 점수를 매깁니다.
+4. Weave가 결과를 추적합니다.
+
+평가가 완료되면 run과 행별 점수를 Weave 프로젝트에서 확인할 수 있습니다.
+
+```python lines
+# 평가 객체 생성
+evaluation = Evaluation(
+    dataset=hf_index,  # 인덱스 매핑 사용
+    scorers=[hf_eval],  # 점수화 함수 목록
+    preprocess_model_input=preprocess_example,  # 입력 데이터 준비 함수
+)
+
+# 비동기로 평가 실행
+async def main():
+    await evaluation.evaluate(function_to_evaluate)
+
+asyncio.run(main())
+```

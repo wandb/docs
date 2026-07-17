@@ -1,0 +1,38 @@
+---
+description: "APIキー、環境変数、ローカルファイルストレージを設定して、Dockerコンテナー内でW&Bを実行する方法。"
+title: Docker
+---
+
+<div id="docker-integration">
+  ## Docker インテグレーション
+</div>
+
+W&amp;B では、コードの実行に使用した Docker イメージへの参照を保存できるため、過去の実験を実行時とまったく同じ環境で復元できます。W&amp;B Python SDK (`wandb`) は、この状態を保持するために `WANDB_DOCKER` 環境変数を参照します。W&amp;B には、この状態を自動的に設定するためのヘルパーがいくつか用意されています。
+
+以下のセクションでは、ローカル開発から Kubernetes ベースのトレーニングまで、さまざまな環境で `WANDB_DOCKER` 環境変数を設定する方法について説明します。
+
+<div id="local-development">
+  ### ローカル開発
+</div>
+
+`wandb docker` は、Dockerコンテナーを起動し、wandb の環境変数を渡してコードをマウントし、wandb がインストールされている状態を確保するコマンドです。デフォルトでは、このコマンドは TensorFlow、PyTorch、Keras、Jupyter がインストールされた Docker イメージ を使用します。同じコマンドで独自の Docker イメージ を起動することもできます: `wandb docker my/image:latest`。このコマンドは現在のディレクトリーをコンテナー内の `/app` ディレクトリーにマウントします。これは `--dir` フラグで変更できます。
+
+<div id="production">
+  ### 本番
+</div>
+
+`wandb docker-run` コマンドは、本番ワークロード向けに提供されています。これは `docker run` コマンドをラップし、認証情報と `WANDB_DOCKER` 環境変数をコマンド呼び出しに追加する、`nvidia-docker` のドロップイン置換です。`--runtime` フラグを渡さず、マシン上で `nvidia-docker` が利用可能な場合は、ランタイムが nvidia に設定されることも保証されます。
+
+<div id="kubernetes">
+  ### Kubernetes
+</div>
+
+Kubernetes でトレーニングのワークロードを実行しており、Kubernetes API が pod に公開されている場合 (これはデフォルトです) 、W&amp;B は API に対して Docker イメージ のダイジェストをクエリし、`WANDB_DOCKER` 環境変数を自動的に設定します。
+
+<div id="restore-the-training-environment">
+  ## トレーニング環境を復元する
+</div>
+
+run 中に `WANDB_DOCKER` 環境変数が設定されると、それを使用して後から元のトレーニング環境を再現できます。
+
+run が `WANDB_DOCKER` 環境変数でインストルメントされている場合、`wandb restore username/project:run_id` を実行すると、コードを復元した新しいブランチがチェックアウトされ、その後、元のコマンドがあらかじめ設定された、トレーニングに使用された正確な Docker イメージ が起動されます。

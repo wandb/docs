@@ -3,7 +3,7 @@ title: Registry
 namespace: public_apis_namespace
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/registries/registry.py" />
 
@@ -17,7 +17,7 @@ A single registry in the Registry.
 
 ```python
 __init__(
-    client: 'Client',
+    service_api: 'ServiceApi',
     organization: 'str',
     entity: 'str',
     name: 'str',
@@ -236,11 +236,22 @@ registry.add_members(my_team)
 ```python
 collections(
     filter: 'dict[str, Any] | None' = None,
-    per_page: 'PositiveInt' = 100
+    order: 'str | None' = None,
+    per_page: 'PositiveInt' = 100,
+    start: 'str | None' = None
 ) → Collections
 ```
 
-Returns the collections belonging to the registry. 
+Returns the collections belonging to this registry. 
+
+
+
+**Args:**
+ 
+ - `filter`:  Optional mapping of filters to apply to the collections query. 
+ - `order`:  Optional string to specify the order of the results.  If prefixed with '+', sorts ascending (default).  If prefixed with '-', sorts descending. 
+ - `per_page`:  The number of results to fetch per page.  Usually there is no reason to change this. 
+ - `start`:  Pagination cursor for resuming a past query, captured  from a previous paginator's `.cursor` attribute. 
 
 ---
 
@@ -248,7 +259,7 @@ Returns the collections belonging to the registry.
 
 ```python
 create(
-    client: 'Client',
+    api: 'Api',
     organization: 'str',
     name: 'str',
     visibility: "Literal['organization', 'restricted']",
@@ -265,7 +276,7 @@ The registry name must be unique within the organization. This function should b
 
 **Args:**
  
- - `client`:  The GraphQL client. 
+ - `api`:  The W&B API instance. 
  - `organization`:  The name of the organization. 
  - `name`:  The name of the registry (without the `wandb-registry-` prefix). 
  - `visibility`:  The visibility level ('organization' or 'restricted'). 
@@ -419,7 +430,7 @@ Updates the role of a member (user or team) within this registry.
 
 
 **Examples:**
- Make all users in the registry admins: ```python
+ Make all users in the registry admins ```python
 import wandb
 
 api = wandb.Api()
@@ -448,9 +459,18 @@ Returns the current member users of this registry.
 ```python
 versions(
     filter: 'dict[str, Any] | None' = None,
-    per_page: 'PositiveInt' = 100
+    per_page: 'PositiveInt' = 100,
+    start: 'str | None' = None
 ) → Versions
 ```
 
-Returns the versions belonging to the registry. 
+Returns the artifact versions belonging to this registry. 
+
+
+
+**Args:**
+ 
+ - `filter`:  Optional mapping of filters to apply to the artifact versions query. 
+ - `per_page`:  The number of results to fetch per page.  Usually there is no reason to change this. 
+ - `start`:  Pagination cursor for resuming a past query, captured  from a previous paginator's `.cursor` attribute. 
 

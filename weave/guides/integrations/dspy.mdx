@@ -1,28 +1,33 @@
 ---
 title: "DSPy"
 description: "Use Weave to automatically track and log calls made using DSPy modules and functions"
+keywords: ["DSPy", "BootstrapFewShot", "ChainOfThought", "tracing", "optimizers"]
 ---
 
-<a target="_blank" href="https://github.com/wandb/examples/blob/master/weave/docs/quickstart_dspy.ipynb">
-  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
-</a>
+import { ColabLink } from '/snippets/_includes/colab-link.mdx';
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-[DSPy](https://dspy-docs.vercel.app/) is a framework for algorithmically optimizing LM prompts and weights, especially when LMs are used one or more times within a pipeline. Weave automatically tracks and logs calls made using DSPy modules and functions.
+<div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_dspy.ipynb" />
+<GitHubLink url="https://github.com/wandb/examples/blob/master/weave/docs/quickstart_dspy.ipynb" />
+</div>
 
-## Tracing
+[DSPy](https://dspy.ai) is a framework for algorithmically optimizing language model (LM) prompts and weights, especially when you use LMs one or more times within a pipeline. W&B Weave automatically tracks and logs calls made with DSPy modules and functions. This guide shows you how to enable Weave tracing for DSPy programs, track custom modules and signatures, and capture traces from DSPy optimizers and evaluations. With these traces, you can debug, analyze, and improve your DSPy applications.
 
-It’s important to store traces of language model applications in a central location, both during development and in production. These traces can be useful for debugging, and as a dataset that will help you improve your application.
+## Traces
 
-Weave will automatically capture traces for [DSPy](https://dspy-docs.vercel.app/). To start tracking, calling `weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")` and use the library as normal.
+This section shows you how to enable automatic tracing of DSPy calls in Weave. Store traces of language model applications in a central location, both during development and in production. These traces are useful for debugging and as a dataset that helps you improve your application.
+
+Weave automatically captures traces for [DSPy](https://dspy.ai). To start tracking, call `weave.init(project_name="[YOUR-WANDB-PROJECT-NAME]")` and use the library as normal. Replace `[YOUR-OPENAI-API-KEY]` with your OpenAI API key and `[YOUR-WANDB-PROJECT-NAME]` with your W&B project name.
 
 ```python lines
 import os
 import dspy
 import weave
 
-os.environ["OPENAI_API_KEY"] = "<YOUR-OPENAI-API-KEY>"
+os.environ["OPENAI_API_KEY"] = "[YOUR-OPENAI-API-KEY]"
 
-weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")
+weave.init(project_name="[YOUR-WANDB-PROJECT-NAME]")
 
 lm = dspy.LM('openai/gpt-4o-mini')
 dspy.configure(lm=lm)
@@ -30,22 +35,22 @@ classify = dspy.Predict("sentence -> sentiment")
 classify(sentence="it's a charming and often affecting journey.")
 ```
 
-[![dspy_trace.png](/weave/guides/integrations/imgs/dspy/dspy_trace.png)](https://wandb.ai/geekyrakshit/dspy-project/weave/calls)
+[![DSPy trace in Weave showing LM call inputs, outputs, and metadata](/weave/guides/integrations/imgs/dspy/dspy_trace.png)](https://wandb.ai/geekyrakshit/dspy-project/weave/calls)
 
-Weave logs all LM calls in your DSPy program, providing details about inputs, outputs, and metadata.
+With tracing enabled, Weave logs every LM call your DSPy program makes to your Weave project, where you can inspect inputs, outputs, and metadata.
 
-## Track your own DSPy Modules and Signatures
+## Track your own DSPy modules and signatures
 
-A `Module` is the building block with learnable parameters for DSPy programs that abstracts a prompting technique. A `Signature` is a declarative specification of input/output behavior of a DSPy Module. Weave automatically tracks all in-built and cutom Signatures and Modules in your DSPy programs.
+Beyond built-in calls, Weave also traces the custom modules and signatures you define. A `Module` is the building block with learnable parameters for DSPy programs that abstracts a prompting technique. A `Signature` is a declarative specification of input/output behavior of a DSPy `Module`. Weave automatically tracks all built-in and custom `Signature` and `Module` objects in your DSPy programs. Replace `[YOUR-OPENAI-API-KEY]` with your OpenAI API key and `[YOUR-WANDB-PROJECT-NAME]` with your W&B project name.
 
 ```python lines
 import os
 import dspy
 import weave
 
-os.environ["OPENAI_API_KEY"] = "<YOUR-OPENAI-API-KEY>"
+os.environ["OPENAI_API_KEY"] = "[YOUR-OPENAI-API-KEY]"
 
-weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")
+weave.init(project_name="[YOUR-WANDB-PROJECT-NAME]")
 
 class Outline(dspy.Signature):
     """Outline a thorough overview of a topic."""
@@ -93,12 +98,12 @@ draft_article = DraftArticle()
 article = draft_article(topic="World Cup 2002")
 ```
 
-[![](/weave/guides/integrations/imgs/dspy/dspy_custom_module.png)](https://wandb.ai/geekyrakshit/dspy-project/weave/calls)
+[![DSPy custom module trace in Weave with module execution flow and trace details](/weave/guides/integrations/imgs/dspy/dspy_custom_module.png)](https://wandb.ai/geekyrakshit/dspy-project/weave/calls)
 
 
-## Optimization and Evaluation of your DSPy Program
+## Optimize and evaluate your DSPy program
 
-Weave also automatically captures traces for DSPy optimizers and Evaluation calls which you can use to improve and evaulate your DSPy program's performance on a development set.
+Weave also captures traces for DSPy optimizers and evaluation calls, which you can use to improve and evaluate your DSPy program's performance on a development set. Replace `[YOUR-OPENAI-API-KEY]` with your OpenAI API key and `[YOUR-WANDB-PROJECT-NAME]` with your W&B project name.
 
 
 ```python lines
@@ -106,8 +111,8 @@ import os
 import dspy
 import weave
 
-os.environ["OPENAI_API_KEY"] = "<YOUR-OPENAI-API-KEY>"
-weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")
+os.environ["OPENAI_API_KEY"] = "[YOUR-OPENAI-API-KEY]"
+weave.init(project_name="[YOUR-WANDB-PROJECT-NAME]")
 
 def accuracy_metric(answer, output, trace=None):
     predicted_answer = output["answer"].lower()
@@ -120,4 +125,4 @@ optimized_module = optimizer.compile(
 )
 ```
 
-[![](/weave/guides/integrations/imgs/dspy/dspy_optimizer.png)](https://wandb.ai/geekyrakshit/dspy-project/weave/calls)
+[![DSPy optimizer trace in Weave with optimization process and performance improvements](/weave/guides/integrations/imgs/dspy/dspy_optimizer.png)](https://wandb.ai/geekyrakshit/dspy-project/weave/calls)

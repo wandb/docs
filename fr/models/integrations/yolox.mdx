@@ -1,0 +1,114 @@
+---
+description: "Intégrez W&B à YOLOX pour suivre l'entraînement de modèles de détection d'objets, consigner des métriques et visualiser les résultats de détection."
+title: YOLOX
+---
+
+import ApiKeyCreateStreamlined from "/snippets/fr/_includes/api-key-create-streamlined.mdx";
+
+[YOLOX](https://github.com/Megvii-BaseDetection/YOLOX) est une version sans ancres de YOLO pour la détection d’objets. Vous pouvez utiliser l’intégration W&amp;B de YOLOX pour activer la journalisation des métriques liées à l’entraînement, à la validation et au système, et valider les prédictions de manière interactive grâce à un seul argument de ligne de commande.
+
+Ce guide vous montre comment vous authentifier auprès de W&amp;B, installer l’intégration et activer la journalisation W&amp;B lors de l’entraînement d’un modèle YOLOX de détection d’objets afin de suivre les métriques et d’inspecter les prédictions dans l’interface utilisateur W&amp;B.
+
+<div id="sign-up-and-create-an-api-key">
+  ## Inscrivez-vous et créez une clé API
+</div>
+
+Une clé API permet d’authentifier votre machine auprès de W&amp;B. Vous pouvez générer une clé API depuis votre profil utilisateur.
+
+<ApiKeyCreateStreamlined />
+
+1. Cliquez sur l’icône de votre profil utilisateur dans le coin supérieur droit.
+2. Sélectionnez **Paramètres utilisateur**, puis faites défiler jusqu’à la section **API Keys**.
+
+<div id="install-the-wandb-library-and-log-in">
+  ## Installez la bibliothèque `wandb` et connectez-vous
+</div>
+
+Pour installer la bibliothèque `wandb` localement et vous connecter :
+
+<Tabs>
+  <Tab title="Ligne de commande">
+    1. Définissez la [variable d&#39;environnement](/fr/models/track/environment-variables/) `WANDB_API_KEY` avec votre clé API. Remplacez les valeurs entre `<>` par les vôtres :
+
+       ```bash
+       export WANDB_API_KEY=<your_api_key>
+       ```
+
+    2. Installez la bibliothèque `wandb` et connectez-vous.
+
+       ```shell
+       pip install wandb
+
+       wandb login
+       ```
+  </Tab>
+
+  <Tab title="Python">
+    ```bash
+    pip install wandb
+    ```
+
+    ```python
+    import wandb
+    wandb.login()
+    ```
+  </Tab>
+
+  <Tab title="Python notebook">
+    ```notebook
+    !pip install wandb
+
+    import wandb
+    wandb.login()
+    ```
+  </Tab>
+</Tabs>
+
+<div id="log-metrics">
+  ## Consigner des métriques
+</div>
+
+Une fois la bibliothèque `wandb` installée et votre machine authentifiée, vous pouvez activer la journalisation W&amp;B depuis le script d&#39;entraînement YOLOX.
+
+Utilisez l&#39;argument de ligne de commande `--logger wandb` pour activer la journalisation avec `wandb`. Vous pouvez aussi transmettre, si nécessaire, tous les arguments attendus par [`wandb.init()`](/fr/models/ref/python/functions/init). Faites précéder chaque argument de `wandb-`.
+
+`num_eval_imges` contrôle le nombre d&#39;images de l&#39;ensemble de validation et de prédictions que W&amp;B consigne dans des tableaux pour l&#39;évaluation du modèle.
+
+Remplacez les espaces réservés suivants avant d&#39;exécuter la commande :
+
+* `<project-name>`: Le nom de votre projet W&amp;B.
+* `<entity>`: Votre entité W&amp;B (nom d&#39;utilisateur ou nom d&#39;équipe).
+* `<run-name>`: Un nom pour ce run d&#39;entraînement.
+* `<run-id>`: Un ID unique pour ce run.
+* `<save-dir>`: Le répertoire dans lequel YOLOX enregistre les points de contrôle du modèle et les journaux.
+* `<num-images>`: Le nombre d&#39;images de validation à consigner.
+* `<bool>`: Indique s&#39;il faut consigner les points de contrôle du modèle (`true` ou `false`).
+
+```shell
+# Se connecter à W&B
+wandb login
+
+# Appeler votre script d'entraînement YOLOX avec l'argument logger wandb
+python tools/train.py .... --logger wandb \
+                wandb-project <project-name> \
+                wandb-entity <entity> \
+                wandb-name <run-name> \
+                wandb-id <run-id> \
+                wandb-save_dir <save-dir> \
+                wandb-num_eval_imges <num-images> \
+                wandb-log_checkpoints <bool>
+```
+
+<div id="example">
+  ## Exemple
+</div>
+
+Une fois votre run d&#39;entraînement lancé, YOLOX transmet en continu les métriques d&#39;entraînement, de validation et système à votre projet W&amp;B, où vous pouvez comparer les runs et inspecter les prédictions. Voir l&#39;exemple suivant pour découvrir à quoi ressemble un tableau de bord rempli.
+
+Voir le [tableau de bord d&#39;exemple avec les métriques d&#39;entraînement et de validation de YOLOX](https://wandb.ai/manan-goel/yolox-nano/runs/3pzfeom).
+
+<Frame>
+  <img src="/images/integrations/yolox_example_dashboard.png" alt="Tableau de bord d'entraînement YOLOX" />
+</Frame>
+
+Si vous avez des questions ou rencontrez des problèmes avec cette intégration W&amp;B, ouvrez une issue sur le [dépôt YOLOX](https://github.com/Megvii-BaseDetection/YOLOX).

@@ -1,0 +1,71 @@
+---
+description: "Spark クラスター 上で実験管理、メトリクスのログ記録、モデル管理を行えるように、W&B を Databricks と統合します。"
+title: Databricks
+---
+
+W&amp;B は、Databricks 環境での W&amp;B の Jupyter notebook エクスペリエンスをカスタマイズすることで、[Databricks](https://www.databricks.com/) と統合されています。このページでは、Spark 上で実行されるノートブックから実験をトラッキングし、メトリクスをログできるように、Databricks クラスターに W&amp;B をインストールして認証する方法を説明します。
+
+<div id="configure-databricks">
+  ## Databricksを設定する
+</div>
+
+DatabricksのノートブックからW&amp;Bを使用するには、クラスターに`wandb`パッケージをインストールし、ノートブックからW&amp;Bにログできるように認証を設定する必要があります。
+
+1. クラスターに`wandb`をインストールする
+
+   クラスターの設定で対象のクラスターを選択し、**Libraries** &gt; **Install New** &gt; **PyPI** をクリックして、`wandb`パッケージを追加します。
+
+2. 認証を設定する
+
+   W&amp;Bアカウントを認証するには、ノートブックが実行時にクエリできるDatabricksシークレットを追加します。これにより、ノートブックにAPIキーをハードコードせずに済みます。
+
+   ```bash
+   # Databricks CLIをインストールする
+   pip install databricks-cli
+
+   # Databricks UIでトークンを生成する
+   databricks configure --token
+
+   # 2つのコマンドのいずれかを使用してスコープを作成します（Databricksでセキュリティ機能が有効かどうかによって異なります）
+   # security add-onあり
+   databricks secrets create-scope --scope wandb
+   # security add-onなし
+   databricks secrets create-scope --scope wandb --initial-manage-principal users
+
+   # https://wandb.ai/settings でAPIキーを作成する
+   databricks secrets put --scope wandb --key api_key
+   ```
+
+<div id="examples">
+  ## 例
+</div>
+
+以下の例では、前述のシークレットを使用してログインし、Databricksノートブックからのログ記録を開始する方法を示します。
+
+<div id="basic-example">
+  ### 基本的な例
+</div>
+
+```python
+import os
+import wandb
+
+api_key = dbutils.secrets.get("wandb", "api_key")
+wandb.login(key=api_key)
+
+with wandb.init() as run:
+    run.log({"foo": 1})
+```
+
+<div id="sweeps">
+  ### Sweeps
+</div>
+
+`wandb.sweep()` または `wandb.agent()` を使用するノートブックでは、entity と project を環境変数で設定する必要があります。
+
+```python
+import os
+
+os.environ["WANDB_ENTITY"] = "my-entity"
+os.environ["WANDB_PROJECT"] = "my-project-that-exists"
+```

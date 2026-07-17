@@ -1,0 +1,243 @@
+---
+title: "Conversation"
+description: "TypeScript SDK リファレンス"
+---
+
+[weave](../) / Conversation
+
+Conversation は、単一の `gen_ai.conversation.id` の下にターンをまとめるクラスです。これ自体は OTel span ではなく、子 span が自身の span に conversation id を付与します。
+
+<div id="table-of-contents">
+  ## 目次
+</div>
+
+<div id="accessors">
+  ### アクセサー
+</div>
+
+* [agentName](./conversation#agentname)
+* [attributes](./conversation#attributes)
+* [conversationId](./conversation#conversationid)
+* [model](./conversation#model)
+* [sessionId](./conversation#sessionid)
+
+<div id="methods">
+  ### メソッド
+</div>
+
+* [end](./conversation#end)
+* [startTurn](./conversation#startturn)
+* [create](./conversation#create)
+
+## アクセサー
+
+<div id="agentname">
+  ### agentName
+</div>
+
+• `get` **agentName**(): `string`
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`string`
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/conversation.ts:94](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L94)
+
+***
+
+<div id="attributes">
+  ### attributes
+</div>
+
+• `get` **attributes**(): `Attributes`
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Attributes`
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/conversation.ts:106](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L106)
+
+***
+
+<div id="conversationid">
+  ### conversationId
+</div>
+
+• `get` **conversationId**(): `string`
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`string`
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/conversation.ts:102](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L102)
+
+***
+
+<div id="model">
+  ### model
+</div>
+
+• `get` **model**(): `string`
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`string`
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/conversation.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L98)
+
+***
+
+<div id="sessionid">
+  ### sessionId
+</div>
+
+<Warning>
+  **非推奨。** 代わりに [Conversation.conversationId](./conversation#conversationid) を使用してください。
+</Warning>
+
+• `get` **sessionId**(): `string`
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`string`
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/conversation.ts:111](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L111)
+
+## メソッド
+
+<div id="end">
+  ### end
+</div>
+
+▸ **end**(`opts?`): `void`
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名       | タイプ              |
+| :------ | :--------------- |
+| `opts?` | `SpanEndOptions` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`void`
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/conversation.ts:168](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L168)
+
+***
+
+<div id="startturn">
+  ### startTurn
+</div>
+
+▸ **startTurn**(`opts?`): [`Turn`](./turn)
+
+この `Conversation` の下に新しい `Turn` を開始します。このターンは会話の `conversationId` を継承します。`opts` で指定されていない場合、`agentName`、`agentId`、`agentDescription`、`agentVersion`、および `model` には会話の値がデフォルトで使用されます。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名      | タイプ                                  |
+| :----- | :----------------------------------- |
+| `opts` | [`TurnInit`](../interfaces/turninit) |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+[`Turn`](./turn)
+
+`例`
+
+```ts twoslash
+// @noErrors
+const turn = conversation.startTurn();
+```
+
+`例`
+
+```ts twoslash
+// @noErrors
+const turn = conversation.startTurn({
+  model: 'gpt-4o',
+  agentName: 'research-bot',
+  agentId: 'research-bot-prod',
+  agentDescription: 'Looks up facts on Wikipedia.',
+  agentVersion: '1.4.2',
+  userMessage: 'What is the weather in Tokyo?',
+  systemInstructions: ['You are a helpful weather bot.'],
+  startTime: new Date('2026-05-29T10:00:00.000Z'),
+});
+```
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/conversation.ts:156](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L156)
+
+***
+
+<div id="create">
+  ### create
+</div>
+
+▸ **create**(`opts?`): [`Conversation`](./conversation)
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名      | タイプ                                                  |
+| :----- | :--------------------------------------------------- |
+| `opts` | [`ConversationInit`](../interfaces/conversationinit) |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+[`Conversation`](./conversation)
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/conversation.ts:115](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L115)

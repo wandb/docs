@@ -1,0 +1,88 @@
+---
+title: NVIDIA NeMo Inference Microservice デプロイジョブ
+description: "スケーラブルなモデルサービングのために、W&B Launch を使用して W&B のモデルアーティファクトを NVIDIA NeMo Inference Microservice にデプロイします。"
+---
+
+このガイドでは、W&amp;B から NVIDIA NeMo Inference Microservice (NIM) にモデルアーティファクトをデプロイし、スケーラブルな推論向けにモデルをサービングする方法を説明します。これを行うには、W&amp;B Launch を使用します。W&amp;B Launch はモデルアーティファクトを NVIDIA NeMo Model 形式に変換し、実行中の NIM/Triton サーバーにデプロイします。これにより、手動で変換しなくても、トラッキングされた W&amp;B モデルを本番対応のエンドポイントに直接デプロイできます。
+
+W&amp;B Launch は以下の互換性のあるモデルタイプを受け入れます。
+
+* [Llama2](https://llama.meta.com/llama2/)
+* [StarCoder](https://github.com/bigcode-project/starcoder)
+
+<Note>
+  デプロイ時間は、モデルとマシンタイプによって異なります。ベースの `Llama2-7b` 設定では、Google Cloud の `a2-ultragpu-1g` で約 1 分かかります。
+</Note>
+
+<div id="quickstart">
+  ## クイックスタート
+</div>
+
+Launch queue を作成し、デプロイ用ジョブを登録し、エージェントを実行して、デプロイを送信するには、次の step に従います。
+
+1. まだ Launch queue がない場合は、[Launch queue を作成](/ja/platform/launch/add-job-to-queue/)します。このキューでは、GPU マシン上でジョブをどのように実行するかを定義します。以下のキュー設定の例を参照してください。
+
+   ```yaml
+   net: host
+   gpus: all # 特定の GPU セット、またはすべてを使用する場合は `all` を指定できます
+   runtime: nvidia # nvidia コンテナーランタイムも必要です
+   volume:
+     - model-store:/model-store/
+   ```
+
+   <Frame>
+     <img src="/images/integrations/nim1.png" alt="W&B UI での Launch queue の設定" />
+   </Frame>
+
+2. このジョブを project 内に作成します。これにより、デプロイ用ジョブのコードが W&amp;B のプロジェクトに登録され、Launch で実行できるようになります。
+
+   ```bash
+   wandb job create -n "deploy-to-nvidia-nemo-inference-microservice" \
+      -e $ENTITY \
+      -p $PROJECT \
+      -E jobs/deploy_to_nvidia_nemo_inference_microservice/job.py \
+      -g andrew/nim-updates \
+      git https://github.com/wandb/launch-jobs
+   ```
+
+3. GPU マシン上でエージェントを起動します。エージェントはキューをポーリングし、送信されたデプロイ用ジョブを実行します。
+   ```bash
+   wandb launch-agent -e $ENTITY -p $PROJECT -q $QUEUE
+   ```
+
+4. [Launch UI](https://wandb.ai/launch) から、必要な設定を指定してデプロイ用の launch job を送信します。CLI から送信することもできます。
+
+   ```bash
+   wandb launch -d gcr.io/playground-111/deploy-to-nemo:latest \
+     -e $ENTITY \
+     -p $PROJECT \
+     -q $QUEUE \
+     -c $CONFIG_JSON_FNAME
+   ```
+
+   <Frame>
+     <img src="/images/integrations/nim2.png" alt="W&B Launch UI から launch job を送信する" />
+   </Frame>
+
+5. Launch UI でデプロイのプロセスをトラッキングできます。
+   <Frame>
+     <img src="/images/integrations/nim3.png" alt="Launch UI でトラッキングされたデプロイの進行状況" />
+   </Frame>
+
+6. デプロイが完了すると、NIM/Triton endpoint がモデルを提供し、inference リクエストを受け付けられる状態になります。モデルをテストするには、endpoint に `curl` を実行します。モデル名は常に `ensemble` です。
+   ```bash
+    #!/bin/bash
+    curl -X POST "http://0.0.0.0:9999/v1/completions" \
+        -H "accept: application/json" \
+        -H "Content-Type: application/json" \
+        -d '{
+            "model": "ensemble",
+            "prompt": "Tell me a joke",
+            "max_tokens": 256,
+            "temperature": 0.5,
+            "n": 1,
+            "stream": false,
+            "stop": "string",
+            "frequency_penalty": 0.0
+            }'
+   ```

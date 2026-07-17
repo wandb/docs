@@ -1,0 +1,29 @@
+---
+title: "Comment puis-je organiser mes graphiques et médias enregistrés dans l’UI de W&B ?"
+keywords: ["Experiments"]
+---
+
+Regroupez les graphiques et médias enregistrés par catégories associées en attribuant aux éléments enregistrés un préfixe commun, ce qui facilite l’examen et la comparaison des métriques dans l’UI de W&amp;B.
+
+Le caractère `/` sépare les panneaux enregistrés dans l’UI de W&amp;B. Par défaut, la partie du nom de l’élément enregistré qui précède le `/` définit un groupe de panneaux appelé **section de panneaux**.
+
+Par exemple, le code suivant journalise des métriques dans deux sections de panneaux, `val` et `train` :
+
+```python
+import wandb
+
+with wandb.init() as run:
+
+   run.log({"val/loss": 1.1, "val/acc": 0.3})
+   run.log({"train/loss": 0.1, "train/acc": 0.94})
+```
+
+Pour modifier la façon dont W&amp;B regroupe les panneaux, utilisez les paramètres de [Workspace](/fr/models/track/project-page#workspace-tab) pour regrouper les panneaux selon le premier segment uniquement ou selon tous les segments séparés par `/`.
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

@@ -1,0 +1,26 @@
+---
+title: 既存のArtifact Link Collectionをログする
+---
+
+```python
+"""
+W&B registryコレクションから既存のartifactをダウンロードしてログする。
+プレースホルダーを実際のregistry名、コレクション名、entity、
+プロジェクト、バージョンに置き換えること。
+"""
+import wandb
+
+# バージョンを含む完全なartifact名を構築する
+registry_name = "<registry_name>"  # registry名を指定する
+collection_name = "<collection_name>" # コレクション名を指定する
+version = 0 # 使用するartifactのバージョンを指定する
+artifact_name_registry = f"wandb-registry-{registry_name}/{collection_name}:v{version}"
+
+# 別のTeamsとプロジェクトでW&B runを初期化する
+with wandb.init(entity="<entity>", project="<project>") as run:
+    # registryからモデルのartifactを使用する
+    registry_model = run.use_artifact(artifact_or_name=artifact_name_registry)
+
+    # モデルをローカルディレクトリにダウンロードする
+    local_model_path = registry_model.download()
+```

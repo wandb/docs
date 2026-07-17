@@ -1,0 +1,77 @@
+---
+title: launch_add
+---
+
+<Card title="Voir le code source" href="https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/_launch_add.py#L34-L131" icon="github" />
+
+Ajoute une expérience Launch W&amp;B à la file d&#39;attente, à partir d&#39;un URI source, d&#39;un job ou de docker&#95;image.
+
+```python
+launch_add(
+    uri: Optional[str] = None,
+    job: Optional[str] = None,
+    config: Optional[Dict[str, Any]] = None,
+    template_variables: Optional[Dict[str, Union[float, int, str]]] = None,
+    project: Optional[str] = None,
+    entity: Optional[str] = None,
+    queue_name: Optional[str] = None,
+    resource: Optional[str] = None,
+    entry_point: Optional[List[str]] = None,
+    name: Optional[str] = None,
+    version: Optional[str] = None,
+    docker_image: Optional[str] = None,
+    project_queue: Optional[str] = None,
+    resource_args: Optional[Dict[str, Any]] = None,
+    run_id: Optional[str] = None,
+    build: Optional[bool] = (False),
+    repository: Optional[str] = None,
+    sweep_id: Optional[str] = None,
+    author: Optional[str] = None,
+    priority: Optional[int] = None
+) -> "public.QueuedRun"
+```
+
+| Arguments            | Description                                                                                                                                                                                                                         |
+| :------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `uri`                | URI de l&#39;expérience à exécuter. URI d&#39;un run wandb ou URI d&#39;un dépôt Git.                                                                                                                                               |
+| `job`                | référence de chaîne vers un wandb.Job, par ex. : wandb/test/my-job:latest                                                                                                                                                           |
+| `config`             | Un dictionnaire contenant la configuration du run. Peut également contenir des arguments spécifiques aux ressources sous la clé &quot;resource&#95;args&quot;                                                                       |
+| `template_variables` | Un dictionnaire contenant les valeurs des variables de modèle pour une file d&#39;attente de runs. Format attendu : `{"VAR_NAME": VAR_VALUE}`                                                                                       |
+| `project`            | projet cible vers lequel envoyer le run lancé                                                                                                                                                                                       |
+| `entity`             | entité cible vers laquelle envoyer le run lancé                                                                                                                                                                                     |
+| `queue`              | le nom de la file d&#39;attente dans laquelle placer le run                                                                                                                                                                         |
+| `priority`           | le niveau de priorité du job, où 1 est la priorité la plus élevée                                                                                                                                                                   |
+| `resource`           | backend d&#39;exécution du run : W&amp;B prend en charge nativement le backend &quot;local-container&quot;                                                                                                                          |
+| `entry_point`        | Point d&#39;entrée à exécuter dans le projet. Par défaut, utilise le point d&#39;entrée du run original pour les URI wandb, ou main.py pour les URI de dépôt Git.                                                                   |
+| `name`               | Nom sous lequel lancer le run.                                                                                                                                                                                                      |
+| `version`            | Pour les projets basés sur Git, soit un hash de commit, soit un nom de branche.                                                                                                                                                     |
+| `docker_image`       | Le nom de l&#39;image Docker à utiliser pour le run.                                                                                                                                                                                |
+| `resource_args`      | Arguments liés aux ressources pour lancer des runs sur un backend distant. Seront stockés dans la configuration Launch générée sous `resource_args`.                                                                                |
+| `run_id`             | chaîne facultative indiquant l&#39;ID du run lancé                                                                                                                                                                                  |
+| `build`              | indicateur facultatif dont la valeur par défaut est false ; si `build` est défini, `queue` doit aussi l&#39;être ; une image est créée, un artifact de job est créé, puis une référence à cet artifact de job est envoyée à `queue` |
+| `repository`         | chaîne facultative permettant de contrôler le nom du dépôt distant, utilisée lors de l&#39;envoi d&#39;images vers un registre                                                                                                      |
+| `project_queue`      | chaîne facultative permettant de contrôler le nom du projet pour la file d&#39;attente. Principalement utilisée pour la rétrocompatibilité avec les files d&#39;attente limitées au projet                                          |
+
+
+<div id="example">
+  #### Exemple :
+</div>
+
+```python
+from wandb.sdk.launch import launch_add
+
+project_uri = "https://github.com/wandb/examples"
+params = {"alpha": 0.5, "l1_ratio": 0.01}
+# Exécuter le projet W&B et créer un environnement docker reproductible
+# sur un hôte local
+api = wandb.apis.internal.Api()
+launch_add(uri=project_uri, parameters=params)
+```
+
+| Renvoie                                                                                                                                                                                                                        | Description |
+| :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------- |
+| une instance de `wandb.api.public.QueuedRun` qui fournit des informations sur le run en file d&#39;attente ou, si `wait_until_started` ou `wait_until_finished` sont appelés, donne accès aux informations du run sous-jacent. |             |
+
+| Exceptions levées                                 | Description |
+| :------------------------------------------------ | :---------- |
+| `wandb.exceptions.LaunchError` en cas d&#39;échec |             |

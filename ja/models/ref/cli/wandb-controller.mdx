@@ -1,17 +1,57 @@
 ---
-title: wandb コントローラ
+title: wandb controller
 ---
 
-**使用法**
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
 
-`wandb コントローラ [OPTIONS] SWEEP_ID`
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/cli.py#L2400" />
 
-**概要**
+<div id="usage">
+  ## 使用方法
+</div>
 
-W&B ローカル sweep コントローラを実行します
+```bash
+controller [OPTIONS] SWEEP_ID
+```
 
-**オプション**
+<div id="description">
+  ## 説明
+</div>
 
-| **オプション** | **説明** |
-| :--- | :--- |
-| `--verbose` | 詳細な出力を表示する |
+W&amp;B ハイパーパラメーター sweep 用のローカル sweep コントローラーを起動します。
+
+指定した sweep をオーケストレーションするローカルプロセスを起動します。W&amp;B から
+sweep の設定を読み取り、設定された探索戦略 (grid、random、ベイズ など) に基づいて
+ハイパーパラメーターの組み合わせを選択し、
+run を sweep エージェントに割り当てます。
+
+デフォルトでは、W&amp;B は sweep コントローラーをマネージド インフラストラクチャー上で実行します。
+代わりにコントローラーをローカルで実行するには、このコマンドを使用します。たとえば、
+このコマンドは動作のデバッグや、接続が制限された環境での運用に
+使用できます。
+
+sweep&#95;id は、sweep の作成時に `wandb sweep` によって出力されます。これは
+sweep の一意の ID で構成され、entity と
+project のパス (entity/project/sweep&#95;id) を含む場合があります。
+
+たとえば、sweep ID が wbyz9876 の sweep に対してローカル sweep コントローラーを起動するには:
+
+```bash
+wandb controller wbyz9876
+```
+
+<div id="arguments">
+  ## 引数
+</div>
+
+| 名          | デフォルト | タイプ  |
+| ---------- | ----- | ---- |
+| `sweep_id` | STR   | True |
+
+<div id="options">
+  ## オプション
+</div>
+
+| Flag        | タイプ      | 説明                                  |
+| ----------- | -------- | ----------------------------------- |
+| `--verbose` | BOOL フラグ | コントローラーの詳細出力を表示します。**デフォルト**: False |

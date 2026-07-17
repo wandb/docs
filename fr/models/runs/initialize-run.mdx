@@ -1,0 +1,200 @@
+---
+title: Initialiser des runs
+description: "Initialisez des runs W&B avec `wandb.init()` pour suivre les expériences, y compris la gestion de runs simultanés dans un même processus."
+---
+
+Initialisez un Run W&amp;B avec [`wandb.init()`](/fr/models/ref/python/functions/init).
+
+Par défaut, W&amp;B suppose que chaque processus Python n&#39;a qu&#39;un seul run actif à la fois lorsque vous appelez `wandb.init()`. Si vous appelez `wandb.init()` une nouvelle fois, W&amp;B renvoie soit le même run, soit termine l&#39;ancien run avant d&#39;en démarrer un nouveau. La façon dont W&amp;B gère plusieurs appels à `wandb.init()` dans un même processus dépend de l&#39;environnement (notebook ou hors notebook) et de la configuration `reinit`.
+
+Pour gérer plusieurs runs actifs dans un même processus, voir [Plusieurs runs dans un même processus](/fr/models/runs/initialize-run#multiple-runs-in-one-process).
+
+<Note>
+  W&amp;B recommande d&#39;utiliser un bloc `with` lorsque vous appelez `wandb.init()`. Cela garantit que W&amp;B finalise correctement le run et envoie toutes les données à la fin du bloc.
+</Note>
+
+<div id="single-run-per-process">
+  ## Un seul run par processus
+</div>
+
+L’exemple de code suivant montre comment importer le SDK Python de W&amp;B et initialiser un run.
+
+```python title="basic.py"
+import wandb
+
+with wandb.init(entity="nico", project="awesome-project") as run:
+    # Votre logique d'entraînement ici
+```
+
+L’extrait de code produit la sortie suivante :
+
+```bash
+🚀 View run exalted-darkness-6 at: 
+https://wandb.ai/nico/awesome-project/runs/pgbn9y21
+Find logs at: wandb/run-20241106_090747-pgbn9y21/logs
+```
+
+La sortie montre que W&amp;B enregistre le run `exalted-darkness-6` dans le projet `awesome-project` sous l’entité `nico`. `pgbn9y21` est l’ID unique du run que W&amp;B génère pour ce run.
+
+<div id="multiple-runs-in-one-process">
+  ## Plusieurs runs dans un même processus
+</div>
+
+Gérez plusieurs runs dans un même processus Python. Cela est utile pour les flux de travail dans lesquels vous souhaitez garder un processus principal actif tout en créant des processus secondaires de courte durée pour des sous-tâches. Voici quelques cas d&#39;utilisation :
+
+* Garder un run « principal » actif tout au long d&#39;un script tout en lançant des runs « secondaires » de courte durée pour des évaluations ou des sous-tâches.
+* Orchestrer des sous-expériences dans un seul fichier.
+* Effectuer la journalisation depuis un processus « principal » vers plusieurs runs représentant différentes tâches ou périodes.
+
+Par défaut, W&amp;B suppose que chaque processus Python n&#39;a qu&#39;un seul run actif à la fois lorsque vous appelez `wandb.init()`. Si vous appelez à nouveau `wandb.init()`, W&amp;B renvoie soit le même run, soit termine l&#39;ancien run avant d&#39;en démarrer un nouveau, selon la configuration.
+
+Ce guide explique comment utiliser `reinit` pour modifier le comportement de `wandb.init()` afin de permettre plusieurs runs dans un même processus Python.
+
+<Note>
+  **Prérequis**
+
+  Pour gérer plusieurs runs dans un même processus Python, vous devez disposer de W&amp;B Python SDK version `v0.19.10` ou ultérieure.
+</Note>
+
+<div id="reinit-options">
+  ### Options de `reinit`
+</div>
+
+Utilisez le paramètre `reinit` pour configurer la façon dont W&amp;B gère les appels multiples à `wandb.init()`. Le tableau suivant décrit les arguments valides et leurs effets :
+
+|                   | Description                                                                                                                                                                                                                                                                                                                                                                               | Crée un run ? | Exemple de cas d&#39;utilisation                                                                                                                                       |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `create_new`      | Créez un nouveau run avec `wandb.init()` sans terminer les runs actifs existants. W&amp;B ne bascule pas automatiquement le `wandb.Run` global vers les nouveaux runs. Vous devez conserver vous-même chaque objet run. Voir l&#39;[exemple de plusieurs runs dans un même processus](/fr/models/runs/initialize-run/#example-multiple-runs-in-one-process) ci-dessous pour plus de détails. | Oui           | Idéal pour créer et gérer des processus concurrents. Par exemple, un run « principal » qui reste actif pendant que vous démarrez ou terminez des runs « secondaires ». |
+| `finish_previous` | Terminez tous les runs actifs avec `run.finish()` avant d&#39;en créer un nouveau avec `wandb.init()`. Comportement par défaut dans les environnements hors notebook.                                                                                                                                                                                                                     | Oui           | Idéal si vous souhaitez scinder des sous-processus séquentiels en runs distincts.                                                                                      |
+| `return_previous` | Renvoie le run inachevé le plus récent. Comportement par défaut dans les environnements notebook.                                                                                                                                                                                                                                                                                         | Non           |                                                                                                                                                                        |
+
+<Note>
+  W&amp;B ne prend pas en charge le mode `create_new` pour les [W&amp;B Integrations](/fr/models/integrations) qui supposent un seul run global, comme Hugging Face Trainer, les callbacks Keras et PyTorch Lightning. Si vous utilisez ces intégrations, vous devez exécuter chaque sous-expérience dans un processus distinct.
+</Note>
+
+<div id="specifying-reinit">
+  ### Définir `reinit`
+</div>
+
+{/* Il existe plusieurs façons de créer et de gérer plusieurs runs dans un même processus Python : */}
+
+* Utilisez `wandb.init()` avec l&#39;argument `reinit` directement :
+  ```python
+  import wandb
+  with wandb.init(reinit="<create_new|finish_previous|return_previous>") as run:
+      # Votre code ici
+  ```
+
+* Utilisez `wandb.init()` et passez un objet `wandb.Settings` au paramètre `settings`. Spécifiez `reinit` dans l&#39;objet `Settings` :
+
+  ```python
+  import wandb
+  with wandb.init(settings=wandb.Settings(reinit="<create_new|finish_previous|return_previous>")) as run:
+      # Votre code ici
+  ```
+
+* Utilisez `wandb.setup()` pour définir l&#39;option `reinit` globalement pour tous les runs du processus en cours. Cela est utile si vous souhaitez configurer ce comportement une seule fois et l&#39;appliquer à tous les appels `wandb.init()` suivants dans ce processus.
+
+  ```python
+  import wandb
+  with wandb.setup(wandb.Settings(reinit="<create_new|finish_previous|return_previous>")) as run:
+       # Votre code ici
+  ```
+
+* Spécifiez la valeur souhaitée pour `reinit` dans la variable d&#39;environnement `WANDB_REINIT`. Le fait de définir une variable d&#39;environnement applique l&#39;option `reinit` aux appels `wandb.init()`.
+
+  ```bash
+  export WANDB_REINIT="<create_new|finish_previous|return_previous>"
+  ```
+
+L&#39;extrait de code suivant donne un aperçu général de la manière de configurer W&amp;B pour créer un nouveau run chaque fois que vous appelez `wandb.init()` :
+
+```python
+import wandb
+
+wandb.setup(wandb.Settings(reinit="create_new"))
+
+with wandb.init() as experiment_results_run:
+    # This run will be used to log the results of each experiment.
+    # You can think of this as a parent run that collects results
+      with wandb.init() as run:
+         # The do_experiment() function logs fine-grained metrics
+         # to the given run and returns result metrics that
+         # you want to track separately.
+         experiment_results = do_experiment(run)
+
+         # Après chaque expérience, enregistrez ses résultats dans un run
+         # parent. Chaque point dans les charts du run parent correspond
+         # aux résultats d'une expérience.
+         experiment_results_run.log(experiment_results)
+```
+
+<div id="example-concurrent-processes">
+  ### Exemple : Processus concurrents
+</div>
+
+Supposons que vous souhaitiez créer un processus principal qui reste ouvert pendant toute la durée d’exécution du script, tout en lançant périodiquement des processus secondaires de courte durée sans fermer le processus principal. Par exemple, ce schéma peut être utile si vous souhaitez entraîner un modèle dans le run principal, tout en calculant des évaluations ou en effectuant d’autres tâches dans des runs distincts.
+
+Pour y parvenir, utilisez `reinit="create_new"` et initialisez plusieurs runs. Pour cet exemple, supposons que &quot;Run A&quot; soit le processus principal qui reste ouvert tout au long du script, tandis que &quot;Run B1&quot; et &quot;Run B2&quot; sont des runs secondaires de courte durée pour des tâches comme l’évaluation.
+
+Dans les grandes lignes, le flux de travail peut ressembler à ceci :
+
+1. Initialisez le processus principal Run A avec `wandb.init()` et journalisez les métriques d’entraînement.
+2. Initialisez Run B1 (avec `wandb.init()`), journalisez des données, puis terminez-le.
+3. Journalisez davantage de données dans Run A.
+4. Initialisez Run B2, journalisez des données, puis terminez-le.
+5. Continuez à journaliser dans Run A.
+6. Enfin, terminez Run A à la fin.
+
+L’exemple de code Python suivant illustre ce flux de travail :
+
+```python
+import wandb
+
+def train(name: str) -> None:
+    """Effectue une itération d'entraînement dans son propre run W&B.
+
+    L'utilisation d'un bloc 'with wandb.init()' avec `reinit="create_new"` garantit que
+    ce sous-run d'entraînement peut être créé même si un autre run (comme notre run de
+    suivi principal) est déjà actif.
+    """
+    with wandb.init(
+        project="my_project",
+        name=name,
+        reinit="create_new"
+    ) as run:
+        # Dans un vrai script, vous exécuteriez vos étapes d'entraînement dans ce bloc.
+        run.log({"train_loss": 0.42})  # Remplacez par vos métriques réelles
+
+def evaluate_loss_accuracy() -> (float, float):
+    """Renvoie la perte et la précision du modèle actuel.
+    
+    Remplacez ce placeholder par votre logique d'évaluation réelle.
+    """
+    return 0.27, 0.91  # Exemples de valeurs de métriques
+
+# Crée un run 'principal' qui reste actif tout au long de plusieurs étapes d'entraînement/évaluation.
+with wandb.init(
+    project="my_project",
+    name="tracking_run",
+    reinit="create_new"
+) as tracking_run:
+    # 1) Entraîner une fois sous un sous-run nommé 'training_1'
+    train("training_1")
+    loss, accuracy = evaluate_loss_accuracy()
+    tracking_run.log({"eval_loss": loss, "eval_accuracy": accuracy})
+
+    # 2) Entraîner à nouveau sous un sous-run nommé 'training_2'
+    train("training_2")
+    loss, accuracy = evaluate_loss_accuracy()
+    tracking_run.log({"eval_loss": loss, "eval_accuracy": accuracy})
+    
+    # Le 'tracking_run' se termine automatiquement à la fin de ce bloc 'with'.
+```
+
+Notez trois points clés de l’exemple précédent :
+
+1. `reinit="create_new"` crée un nouveau run chaque fois que vous appelez `wandb.init()`.
+2. Vous conservez une référence à chaque run. `wandb.run` ne pointe pas automatiquement vers le nouveau run créé avec `reinit="create_new"`. Stockez les nouveaux runs dans des variables comme `run_a`, `run_b1`, etc., et appelez `.log()` ou `.finish()` sur ces objets selon vos besoins.
+3. Vous pouvez terminer les sous-runs quand vous le souhaitez, tout en laissant le run principal ouvert.
+4. Terminez vos runs avec `run.finish()` lorsque vous avez fini d’y faire de la journalisation. Cela garantit que toutes les données sont bien envoyées et que le run est correctement fermé.

@@ -2,17 +2,51 @@
 title: wandb pull
 ---
 
-**사용법**
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-`wandb pull [OPTIONS] RUN`
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/cli.py#L3114" />
 
-**요약**
+<div id="usage">
+  ## 사용
+</div>
 
-Weights & Biases에서 파일 가져오기
+```bash
+pull [OPTIONS] RUN
+```
 
-**옵션**
+<div id="description">
+  ## 설명
+</div>
 
-| **옵션** | **설명** |
-| :--- | :--- |
-| `-p, --project` | 다운로드하려는 project입니다. |
-| `-e, --entity` | 목록의 범위를 지정할 entity입니다. |
+W&amp;B run에서 파일을 다운로드합니다.
+
+지정한 run에 연결된 모든 파일을 가져옵니다. 동일한 내용의 파일이 이미 로컬에
+있으면 해당 파일은 건너뜁니다. 필요에 따라 하위 디렉터리를 생성하여
+W&amp;B의 파일 구조를 그대로 재현합니다.
+
+run을 참조할 때는 run ID를 사용하고, run 인수에 포함되어 있지 않다면 선택적으로 프로젝트와
+entity를 지정하세요.
+
+예를 들어, &quot;foobar&quot; 프로젝트와 &quot;team-awesome&quot; entity에 있는 run ID &quot;abcd1234&quot;인 run에서 파일을 다운로드하려면
+다음을 사용하세요:
+
+```bash
+wandb pull -p foobar -e team-awesome abcd1234
+```
+
+<div id="arguments">
+  ## 인수
+</div>
+
+| 이름    | 기본값 | 유형   |
+| ----- | --- | ---- |
+| `run` | STR | True |
+
+<div id="options">
+  ## 옵션
+</div>
+
+| Flag            | Type | 설명                                                                                               |
+| --------------- | ---- | ------------------------------------------------------------------------------------------------ |
+| `--project, -p` | STR  | 파일을 가져올 대상 run이 있는 프로젝트입니다. **기본값**: None                                                        |
+| `--entity, -e`  | STR  | 프로젝트를 소유한 entity입니다. 설정된 경우 `WANDB_ENTITY` 환경 변수 값을 사용하고, 설정되지 않은 경우 기본 entity를 사용합니다. **기본값**: models |

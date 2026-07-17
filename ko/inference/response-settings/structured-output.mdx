@@ -1,0 +1,86 @@
+---
+title: "구조화된 출력 활성화"
+description: Serverless Inference 응답에서 구조화된 출력을 구성하는 방법
+keywords: ["json_schema", "JSON schema", "schema enforcement", "data extraction", "response_format"]
+---
+
+구조화된 출력은 Serverless Inference 응답을 특정 JSON 스키마로 제한하여 모델의 응답이 사용자가 정의한 필드와 유형을 따르도록 보장합니다. 데이터 추출, 양식 작성 또는 다운스트림 처리처럼 애플리케이션에서 모델 응답을 미리 알려진 필드로 파싱해야 하는 경우 구조화된 출력을 사용하세요.
+
+구조화된 출력은 [JSON mode](/ko/inference/response-settings/json-mode)와 비슷하지만, 사용자가 지정한 스키마도 강제 적용합니다. 가능하면 JSON mode 대신 구조화된 출력을 사용하세요.
+
+구조화된 출력을 활성화하려면 요청에서 `response_format`의 `type`으로 `json_schema`를 지정하세요. 다음 예시는 이벤트 세부 정보를 정의된 스키마로 추출합니다:
+
+<Tabs>
+  <Tab title="Python">
+    ```python
+    import json
+    import openai
+
+    client = openai.OpenAI(
+        base_url='https://api.inference.wandb.ai/v1',
+        api_key="[YOUR-API-KEY]",  # https://wandb.ai/settings에서 API 키를 생성하세요
+    )
+
+    response = client.chat.completions.create(
+        model="openai/gpt-oss-20b",
+        messages=[
+            {"role": "system", "content": "Extract the event information."},
+            {"role": "user", "content": "Alice and Bob are going to a science fair on Friday."},
+        ],
+        response_format={
+            "type": "json_schema",
+            "json_schema": {
+                "name": "CalendarEventResponse",
+                "strict": True,
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "name": {"type": "string"},
+                        "date": {"type": "string"},
+                        "participants": {"type": "array", "items": {"type": "string"}},
+                    },
+                    "required": ["name", "date", "participants"],
+                    "additionalProperties": False,
+                },
+            },
+        },
+    )
+
+    content = response.choices[0].message.content
+    parsed = json.loads(content)
+    print(parsed)
+    ```
+  </Tab>
+
+  <Tab title="Bash">
+    ```bash
+    curl https://api.inference.wandb.ai/v1/chat/completions \
+      -H "Content-Type: application/json" \
+      -H "Authorization: Bearer [YOUR-API-KEY]" \
+      -d '{
+        "model": "openai/gpt-oss-20b",
+        "messages": [
+            {"role": "system", "content": "Extract the event information."},
+            {"role": "user", "content": "Alice and Bob are going to a science fair on Friday."},
+        ],
+        "response_format": {
+            "type": "json_schema",
+            "json_schema": {
+                "name": "CalendarEventResponse",
+                "strict": True,
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "name": {"type": "string"},
+                        "date": {"type": "string"},
+                        "participants": {"type": "array", "items": {"type": "string"}},
+                    },
+                    "required": ["name", "date", "participants"],
+                    "additionalProperties": False,
+                },
+            },
+        },
+      }'
+    ```
+  </Tab>
+</Tabs>

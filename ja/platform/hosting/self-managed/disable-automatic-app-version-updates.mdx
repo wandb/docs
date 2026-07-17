@@ -1,0 +1,50 @@
+---
+title: W&B Server の自動更新を無効にする
+description: W&B Server の自動更新を無効にする方法を説明します。
+keywords: ["バージョンを固定", "アップグレードを凍結", "バージョン ロック", "手動アップグレード"]
+---
+
+このページでは、セルフマネージドの W&amp;B デプロイの管理者向けに、W&amp;B Server の自動 バージョン アップグレードを無効にし、バージョン を特定のリリースに固定する方法を説明します。バージョン を固定すると、アップグレードをいつ実行するかを制御できます。この制御は、アップグレードを社内の変更管理プロセスと調整する必要がある場合や、本番展開前にステージング環境でリリースを検証する必要がある場合に役立ちます。これらの手順は、[W&amp;B Kubernetes Operator](/ja/platform/hosting/self-managed/operator) で管理されているデプロイにのみ適用されます。
+
+<Note>
+  W&amp;B は、W&amp;B Server のメジャー バージョン を、初回 バージョン のリリース日から 12 か月間サポートします。**セルフマネージド** インスタンスをご利用のお客様は、サポートを維持するために適切なタイミングでアップグレードを行う必要があります。サポート対象外の バージョン を使い続けることは避けてください。W&amp;B は、**セルフマネージド** インスタンスをご利用のお客様に対し、サポートを維持し、最新の features、パフォーマンス改善、修正を利用するために、少なくとも四半期に 1 回はデプロイを最新リリースに更新することを推奨します。
+</Note>
+
+<div id="requirements">
+  ## 要件
+</div>
+
+* W&amp;B Kubernetes Operator `v1.13.0` 以降
+* System Console `v2.12.2` 以降
+
+これらの要件を満たしていることを確認するには、対象インスタンスの W&amp;B Custom Resource または Helm チャートを参照してください。`operator-wandb` コンポーネントと `system-console` コンポーネントの `バージョン` の値を確認します。
+
+<div id="disable-automatic-updates">
+  ## 自動更新を無効にする
+</div>
+
+自動更新を無効にするには、System Console を使用して W&amp;B Server を特定のバージョンに固定し、その後 Operator の reconciliation ログを確認して、バージョン固定が有効になっていることを確かめます。
+
+1. `admin` ロールを持つユーザーとして W&amp;B App にログインします。
+2. 上部のユーザーアイコンをクリックし、**System Console** をクリックします。
+3. **Settings** &gt; **Advanced** にアクセスし、**Other** タブを選択します。
+4. **Disable Auto Upgrades** セクションで、**Pin specific version** をオンにします。
+5. **Select a version** ドロップダウンリストをクリックし、W&amp;B Server のバージョンを選択します。
+6. **Save** をクリックします。
+
+   <Frame>
+     <img src="/images/hosting/disable_automatic_updates_saved_and_enabled.png" alt="選択した W&B Server バージョンで Pin specific version がオンになっている System Console" />
+   </Frame>
+
+   自動アップグレードが無効になり、W&amp;B Server は選択したバージョンに固定されます。
+7. 自動アップグレードが無効になっていることを確認します。**Operator** タブに移動し、reconciliation ログで `Version pinning is enabled` という文字列を検索します。
+
+```text
+│info 2025-04-17T17:24:16Z wandb default No changes found
+│info 2025-04-17T17:24:16Z wandb default Active spec found
+│info 2025-04-17T17:24:16Z wandb default Desired spec
+│info 2025-04-17T17:24:16Z wandb default License
+│info 2025-04-17T17:24:16Z wandb default Version Pinning is enabled
+│info 2025-04-17T17:24:16Z wandb default Found Weights & Biases instance, processing the spec...
+│info 2025-04-17T17:24:16Z wandb default === Reconciling Weights & Biases instance...
+```

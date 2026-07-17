@@ -3,7 +3,7 @@ title: Project
 namespace: public_apis_namespace
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py" />
 
@@ -17,16 +17,16 @@ A project is a namespace for runs.
 
 ```python
 __init__(
-    client: 'RetryingClient',
+    service_api: 'ServiceApi',
     entity: 'str',
     project: 'str',
-    attrs: 'dict'
+    attrs: 'Mapping[str, Any]'
 ) → Project
 ```
 
 **Args:**
  
- - `client`:  W&B API client instance. 
+ - `service_api`:  Interface to the wandb-core service that performs  W&B API calls for this project. 
  - `name` (str):  The name of the project. 
  - `entity` (str):  The entity name that owns the project. 
 
@@ -37,7 +37,7 @@ A single project associated with an entity.
 
 **Args:**
  
- - `client`:  The API client used to query W&B. 
+ - `service_api`:  The service API used to query W&B. 
  - `entity`:  The entity which owns the project. 
  - `project`:  The name of the project to query. 
  - `attrs`:  The attributes of the project. 
@@ -53,10 +53,30 @@ A single project associated with an entity.
 
 ---
 
+### <kbd>property</kbd> Project.owner
+
+Returns the project owner as a User object. 
+
+
+
+**Raises:**
+ 
+ - `ValueError`:  when no user information is found for the project. 
+
+
+
+**Returns:**
+ - `public.User`: The owner property value.
+---
+
 ### <kbd>property</kbd> Project.path
 
 Returns the path of the project. The path is a list containing the entity and project name. 
 
+
+
+**Returns:**
+ - `list[str]`: The path property value.
 ---
 
 ### <kbd>property</kbd> Project.url
@@ -65,22 +85,48 @@ Returns the URL of the project.
 
 
 
+
+
+**Returns:**
+ - `str`: The url property value.
 ---
 
 ### <kbd>method</kbd> `Project.artifacts_types`
 
 ```python
-artifacts_types(per_page=50)
+artifacts_types(per_page: 'int' = 50) → public.ArtifactTypes
 ```
 
 Returns all artifact types associated with this project. 
 
 ---
 
+### <kbd>method</kbd> `Project.collections`
+
+```python
+collections(
+    filters: 'Mapping[str, Any] | None' = None,
+    order: 'str | None' = None,
+    per_page: 'int' = 50
+) → public.ProjectArtifactCollections
+```
+
+Returns all artifact collections associated with this project. 
+
+
+
+**Args:**
+ 
+ - `filters`:  Optional mapping of filters to apply to the query. 
+ - `order`:  Optional string to specify the order of the results.  If you prepend order with a + order is ascending (default).  If you prepend order with a - order is descending. 
+ - `per_page`:  The number of artifact collections to fetch per page.  Default is 50. 
+
+---
+
 ### <kbd>method</kbd> `Project.sweeps`
 
 ```python
-sweeps(per_page=50)
+sweeps(per_page: 'int' = 50) → Sweeps
 ```
 
 Return a paginated collection of sweeps in this project. 

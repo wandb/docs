@@ -1,33 +1,44 @@
 ---
-title: クエリ式言語
+title: Query Expression Language の概要
+description: W&B でデータを選択して集計するためのベータ版クエリ言語
 ---
 
-クエリエクスプレッションを使用して、Runs と Projects にまたがるデータを選択および集計します。
-[クエリパネル](/ja/models/app/features/panels/query-panels/)についてさらに学びましょう。
+クエリ式を使用して、複数の run やプロジェクトにまたがるデータを選択し、集計できます。
+[クエリパネル](/ja/models/app/features/panels/query-panels)の詳細を確認してください。
 
-## データ型
+<Tip>
+  公開されている [Query panel examples report](https://wandb.ai/luis_team_test/weave_example_queries/reports/Query-Panel-Examples---Vmlldzo1NzIxOTY2) で、インタラクティブな例を確認してください。パネルの作成方法、run の履歴を順に確認する方法、**Concat** や **Paginate** などの設定オプションの詳細については、[Query panels overview](/ja/models/app/features/panels/query-panels) を参照してください。
+</Tip>
 
-* [artifact](./query-panel/artifact/)
-* [artifactType](./query-panel/artifact-type/)
-* [artifactVersion](./query-panel/artifact-version/)
-* [audio-file](./query-panel/audio-file/)
-* [bokeh-file](./query-panel/bokeh-file/)
-* [boolean](./query-panel/boolean/)
-* [entity](./query-panel/entity/)
-* [file](./query-panel/file/)
-* [float](./query-panel/float/)
-* [html-file](./query-panel/html-file/)
-* [image-file](./query-panel/image-file/)
-* [int](./query-panel/int/)
-* [joined-table](./query-panel/joined-table/)
-* [molecule-file](./query-panel/molecule-file/)
-* [number](./query-panel/number/)
-* [object3D-file](./query-panel/object-3-d-file/)
-* [partitioned-table](./query-panel/partitioned-table/)
-* [project](./query-panel/project/)
-* [pytorch-model-file](./query-panel/pytorch-model-file/)
-* [run](./query-panel/run/)
-* [string](./query-panel/string/)
-* [table](./query-panel/table/)
-* [user](./query-panel/user/)
-* [video-file](./query-panel/video-file/)
+<div id="data-types">
+  ## データ型
+</div>
+
+{/* query-panel-generated-data-types:start */}
+
+* [artifact](./query-panel/artifact)
+* [artifactType](./query-panel/artifact-type)
+* [artifactVersion](./query-panel/artifact-version)
+* [オーディオファイル](./query-panel/audio-file)
+* [bokeh-file](./query-panel/bokeh-file)
+* [boolean](./query-panel/boolean)
+* [entity](./query-panel/entity)
+* [file](./query-panel/file)
+* [float](./query-panel/float)
+* [html-file](./query-panel/html-file)
+* [image-file](./query-panel/image-file)
+* [int](./query-panel/int)
+* [joined-table](./query-panel/joined-table)
+* [molecule-file](./query-panel/molecule-file)
+* [number](./query-panel/number)
+* [object3D-file](./query-panel/object-3-d-file)
+* [partitioned-table](./query-panel/partitioned-table)
+* [プロジェクト](./query-panel/project)
+* [pytorch-model-file](./query-panel/pytorch-model-file)
+* [run](./query-panel/run)
+* [string](./query-panel/string)
+* [表](./query-panel/table)
+* [ユーザー](./query-panel/user)
+* [video-file](./query-panel/video-file)
+
+{/* query-panel-generated-data-types:end */}

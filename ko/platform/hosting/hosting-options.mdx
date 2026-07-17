@@ -1,0 +1,44 @@
+---
+title: 배포 옵션
+description: "조직에 맞는 W&B 배포 유형인 Multi-tenant Cloud, Dedicated Cloud, Self-Managed 중에서 선택하세요."
+keywords: ["자체 호스팅", "배포 비교", "SaaS vs self-managed", "W&B 호스팅 옵션"]
+---
+
+다음 섹션에서는 W&amp;B를 배포하는 다양한 방식을 설명합니다. 이를 통해 조직의 보안, 규정 준수, 운영 요구 사항에 가장 적합한 배포 모델을 선택할 수 있습니다. 옵션은 W&amp;B가 관리하는 공유 인프라부터 자체 환경에서 전적으로 직접 관리하는 배포까지 다양합니다.
+
+<div id="wb-multi-tenant-cloud">
+  ## W&amp;B Multi-tenant Cloud
+</div>
+
+[W&amp;B Multi-tenant Cloud](/ko/platform/hosting/#wb-multi-tenant-cloud)는 업그레이드, 유지 관리, 플랫폼 보안, 용량 계획 수립을 포함해 W&amp;B가 전적으로 관리합니다. Multi-tenant Cloud는 W&amp;B의 Google Cloud 계정 내 [Google Cloud의 북미 리전](https://cloud.google.com/compute/docs/regions-zones)에 배포됩니다. [자체 버킷 사용(BYOB)](/ko/platform/hosting/data-security/secure-storage-connector)을 사용하면 W&amp;B Artifacts 및 기타 관련 민감한 데이터를 자체 클라우드 또는 온프레미스 인프라에 선택적으로 저장할 수 있습니다.
+
+자세한 내용은 [W&amp;B Multi-tenant Cloud](/ko/platform/hosting/#wb-multi-tenant-cloud) 또는 [get started for free](https://app.wandb.ai/login?signup=true)를 참조하세요.
+
+<div id="wb-dedicated-cloud">
+  ## W&amp;B Dedicated Cloud
+</div>
+
+[W&amp;B Dedicated Cloud](/ko/platform/hosting/#wb-dedicated-cloud)은 엔터프라이즈 조직을 위해 설계된, 전용 격리 인프라를 갖춘 완전 관리형 플랫폼입니다. W&amp;B Dedicated Cloud는 W&amp;B의 AWS, Google Cloud 또는 Azure 계정에 배포됩니다. Dedicated Cloud는 Multi-tenant Cloud보다 더 유연하지만 W&amp;B Self-Managed보다 복잡성은 낮습니다. 업그레이드, 유지 관리, 플랫폼 보안, 용량 계획은 W&amp;B가 관리합니다. 각 Dedicated Cloud 인스턴스는 다른 W&amp;B Dedicated Cloud 인스턴스와 분리된 자체 격리 네트워크, 컴퓨팅, 저장소를 가집니다.
+
+고객의 W&amp;B 관련 메타데이터와 데이터는 격리된 클라우드 저장소에 저장되며, 격리된 클라우드 컴퓨팅 서비스를 통해 처리됩니다. [자체 버킷 사용(BYOB)](/ko/platform/hosting/data-security/secure-storage-connector)을 선택하면 아티팩트 및 기타 관련 민감한 데이터를 자체 클라우드 또는 온프레미스 인프라에 저장할 수 있습니다.
+
+W&amp;B Dedicated Cloud에는 보안 및 기타 엔터프라이즈 기능을 지원하는 [엔터프라이즈 라이선스](/ko/platform/hosting/hosting-options/self-managed/)가 포함됩니다.
+
+고급 보안 또는 규정 준수 요구 사항이 있는 조직의 경우 HIPAA 준수, single sign-on, 고객 관리형 암호화 키(CMEK)와 같은 기능을 Enterprise 지원과 함께 사용할 수 있습니다. [자세한 정보 요청하기](https://wandb.ai/site/contact).
+
+자세한 내용은 [W&amp;B Dedicated Cloud](/ko/platform/hosting/#wb-dedicated-cloud)을 참조하거나 [무료로 시작하기](https://app.wandb.ai/login?signup=true)를 확인하세요.
+
+<div id="wb-self-managed">
+  ## W&amp;B Self-Managed
+</div>
+
+[W&amp;B Self-Managed](/ko/platform/hosting/hosting-options/self-managed/)는 온프레미스 또는 사용자가 관리하는 클라우드 인프라에서 전적으로 사용자가 직접 관리하는 방식입니다. 사용자의 IT/DevOps/MLOps 팀은 다음을 책임집니다:
+
+* 배포 환경을 프로비저닝합니다.
+* 해당하는 경우 조직의 정책과 [Security Technical Implementation Guidelines (STIG)](https://en.wikipedia.org/wiki/Security_Technical_Implementation_Guide)에 따라 인프라를 보호합니다.
+* 업그레이드를 관리하고 패치를 적용합니다.
+* Self-Managed W&amp;B Server 인스턴스를 지속적으로 유지 관리합니다.
+
+선택적으로 W&amp;B Self-Managed용 엔터프라이즈 라이선스를 획득할 수 있습니다. 엔터프라이즈 라이선스에는 보안 기능과 기타 엔터프라이즈 환경에 적합한 기능에 대한 지원이 포함됩니다.
+
+자세한 내용은 [W&amp;B Self-Managed](/ko/platform/hosting/hosting-options/self-managed/) 또는 [레퍼런스 아키텍처](/ko/platform/hosting/self-managed/ref-arch/) 가이드라인을 참조하세요.

@@ -1,0 +1,39 @@
+---
+title: Member
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py" />
+
+
+## <kbd>class</kbd> `Member`
+
+チームのメンバー。
+
+### <kbd>method</kbd> `Member.__init__`
+
+```python
+__init__(service_api: 'ServiceApi', team: 'str', attrs: 'Mapping[str, Any]')
+```
+
+**引数:**
+
+* `service_api`:  W&amp;B をクエリするために使用するサービス API のインスタンス
+* `team` (str):  このメンバーが所属するチームの名
+* `attrs` (dict):  メンバーの属性
+
+***
+
+### <kbd>method</kbd> `Member.delete`
+
+```python
+delete()
+```
+
+チームからメンバーを削除します。
+
+**戻り値:**
+成功したかどうかを示すブール値

@@ -1,0 +1,117 @@
+---
+title: "動画をログする"
+description: "moviepy を使用して Weave のトレース内の動画データを自動的にログおよびトラッキングし、UI で再生や分析を行います。"
+keywords: ["moviepy", "VideoFileClip", "MP4", "動画トレース"]
+---
+
+このガイドでは、Weave のトレースで動画データをログおよびトラッキングする方法を説明します。これにより、Weave UI で動画を直接確認、再生、分析できます。対象は、トレースされた関数の動画の入力と出力を自動的に取得したい、動画処理アプリケーションを構築する開発者です。
+
+Weave は [`moviepy`](https://zulko.github.io/moviepy/) を使用して動画を自動的にログします。動画の入力と出力をトレースされた関数に渡すことができ、Weave が動画データのアップロードと保存を自動的に処理します。
+
+<Note>
+  動画のサポートは Python でのみ利用できます。
+</Note>
+
+<div id="usage-prerequisites">
+  ## 使用するための前提条件
+</div>
+
+Weave で動画をログする前に、次の前提条件を満たしてください。
+
+1. `weave` と `moviepy==1.0.3` をインストールします。
+2. W&amp;B アカウントを作成します。
+
+<div id="supported-video-types">
+  ## サポートされている動画タイプ
+</div>
+
+Weave では、さまざまな種類の `moviepy` クリップをそれぞれ異なる方法で扱います。どのタイプを使用しているかを把握すると、Weave が動画データをどのようにアップロードして保存するかを理解しやすくなります。
+
+Weave は、次のような `moviepy` の動画クリップオブジェクトを認識します。
+
+* 動画ファイルから読み込まれた `VideoFileClip` オブジェクト。
+* `ImageClip`、`ColorClip`、`TextClip` などのインメモリクリップ。
+
+<div id="direct-upload-of-file-based-clips">
+  ### ファイルベースのクリップの直接アップロード
+</div>
+
+クリップが`VideoFileClip`で、サポート対象の拡張子を持つ有効なファイル名がある場合、Weave はそのファイルを直接アップロードします。
+
+**サポート対象のファイル拡張子:**
+
+* `.mp4`
+* `.webm`
+* `.gif`
+
+<div id="in-memory-clip-support">
+  ### インメモリクリップのサポート
+</div>
+
+動画オブジェクトがインメモリの場合 (ディスク上にファイルがない場合) 、Weave はそれを `.mp4` ファイルとしてエンコードし、自動的にアップロードします。これは、次のタイプのクリップに適用されます。
+
+* `ImageClip`
+* `ColorClip`
+* `TextClip`
+
+<div id="example-trace-a-video-function">
+  ## 例: 動画関数をトレースする
+</div>
+
+次のコードサンプルは、Weave で動画処理関数をトレースする方法を示しています。このコードサンプルでは、次のことを行います。
+
+1. Weave プロジェクト `video-test` を初期化します。
+2. 読み込んだ `VideoFileClip` から 1 秒のサブクリップを `VideoClip` として抽出する `get_video` 関数を、`weave.op` としてトラッキング対象にして定義します。
+3. クリップを Weave にアップロードしてトラッキングします。
+4. 動画が見つからない場合は、プレースホルダーの MP4 動画を自動生成します。
+
+<Warning>
+  スレッドセーフティの問題を避けるため、`VideoFileClip` オブジェクトは Weave の `op` の外部で作成せず、必ずそのパスを渡してください。
+</Warning>
+
+次のコードスニペットを使用する前に、[使用するための前提条件](#usage-prerequisites) を完了してください。
+
+```python lines
+import os
+import weave
+from moviepy.editor import VideoFileClip, ColorClip, VideoClip
+
+# プロジェクト名を更新するか、'video-test' という名前の新しいプロジェクトを作成してください
+weave.init('video-test')
+
+@weave.op
+def get_video(clip: VideoFileClip) -> VideoClip:
+    """Process a video by path rather than by passing the clip directly.
+
+    This ensures that the VideoFileClip is created and managed within the
+    Weave op's thread context, avoiding thread-safety issues.
+    """
+    new_clip = clip.subclip(0, 1)
+    return new_clip
+
+if __name__ == "__main__":
+    os.makedirs("videos", exist_ok=True)
+
+    # MP4ファイルへのパスを更新してください
+    video_path = './videos/example.mp4'
+
+    # 動画が存在しない場合はダミー動画を生成する
+    # ダミー動画の内容: 5秒間表示される赤い正方形
+    if not os.path.isfile(video_path):
+        print("No video found. Creating dummy video...")
+        dummy_clip = ColorClip(size=(640, 480), color=(255, 0, 0), duration=5)
+        dummy_clip.write_videofile(video_path, fps=24)
+
+    clip = VideoFileClip(video_path, has_mask=False, audio=True)
+    get_video(clip) 
+```
+
+コードサンプルが正常に実行されると、project の **トレース** 表にあるリンクをクリックして動画を表示できます。
+
+<Frame>
+  ![トレース表内の動画処理関数のトレース。](/weave/guides/tracking/imgs/video-trace.png)
+</Frame>
+
+<Frame>
+  ![Weave にアップロードされた MP4 動画。トレースのポップアウトで表示されています。](/weave/guides/tracking/imgs/video-trace-popout.png)
+</Frame>

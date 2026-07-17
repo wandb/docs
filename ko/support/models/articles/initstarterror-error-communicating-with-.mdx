@@ -1,0 +1,32 @@
+---
+title: "InitStartError: wandb 프로세스와 통신 중 오류"
+keywords: ["Experiments", "run 충돌"]
+---
+
+이 오류는 W&amp;B 라이브러리가 데이터를 서버에 동기화하는 프로세스를 시작할 수 없음을 의미합니다.
+
+문제를 해결하려면 사용 중인 환경에 맞는 우회 방법을 적용하세요:
+
+<Tabs>
+  <Tab title="Linux 및 OS X">
+    ```python
+    wandb.init(settings=wandb.Settings(start_method="fork"))
+    ```
+  </Tab>
+
+  <Tab title="Google Colab">
+    `0.13.0` 이전 버전에서는 다음을 사용하세요.
+
+    ```python
+    wandb.init(settings=wandb.Settings(start_method="thread"))
+    ```
+  </Tab>
+</Tabs>
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[run 비정상 종료](/ko/support/models/tags/run-crashes)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

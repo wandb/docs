@@ -1,0 +1,14 @@
+---
+title: "グラフに何も表示されないのはなぜですか？"
+keywords: ["Experiments", "メトリクス"]
+---
+
+&quot;No visualization data logged yet&quot; というメッセージが表示される場合、スクリプトで最初の `wandb.log` の呼び出しがまだ実行されていません。これは、run が 1 つの step を完了するまでに時間がかかる場合に発生することがあります。データをより早くログするには、エポックの最後だけでなく、各エポック内で複数回ログしてください。
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[メトリクス](/ja/support/models/tags/metrics)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

@@ -1,0 +1,79 @@
+---
+title: "하나의 스크립트에서 여러 run을 시작하려면 어떻게 하나요?"
+keywords: ["Experiments"]
+---
+
+하나의 스크립트에서 여러 run을 로깅하려면, 새 run을 시작하기 전에 이전 run을 각각
+종료해야 합니다. 다음 섹션에서는 하나의 스크립트에서 run을 순차적으로 실행하는 두 가지 패턴과
+여러 run을 동시에 활성 상태로 유지하는 별도의 패턴을 설명합니다.
+
+<div id="use-a-context-manager">
+  ## 컨텍스트 관리자를 사용하세요
+</div>
+
+`wandb.init()`를 컨텍스트 관리자로 사용하세요. 이렇게 하면 스크립트에서 예외가 발생할 경우 run이 종료되고 실패로 표시됩니다:
+
+```python
+import wandb
+
+for x in range(10):
+    with wandb.init() as run:
+        for y in range(100):
+            run.log({"metric": x + y})
+```
+
+<div id="call-runfinish-explicitly">
+  ## `run.finish()`를 명시적으로 호출하기
+</div>
+
+`run.finish()`를 명시적으로 call할 수도 있습니다:
+
+```python
+import wandb
+
+for x in range(10):
+    run = wandb.init()
+
+    try:
+        for y in range(100):
+            run.log({"metric": x + y})
+
+    except Exception:
+        run.finish(exit_code=1)
+        raise
+
+    finally:
+        run.finish()
+```
+
+<div id="multiple-active-runs">
+  ## 동시에 활성화된 여러 run
+</div>
+
+`wandb` 0.19.10 이상에서는 run을 순차적으로 실행하는 대신 둘 이상의 run을
+동시에 활성화해야 하는 경우 `reinit` 설정을 `"create_new"`로 지정해
+동시에 활성화된 여러 run을 생성할 수 있습니다.
+
+```python
+import wandb
+
+with wandb.init(reinit="create_new") as tracking_run:
+    for x in range(10):
+        with wandb.init(reinit="create_new") as run:
+            for y in range(100):
+                run.log({"x_plus_y": x + y})
+
+            tracking_run.log({"x": x})
+```
+
+`reinit="create_new"`에 대한 자세한 내용과 W&amp;B
+인테그레이션 관련 유의 사항은 [프로세스당 여러 run](/ko/models/runs/initialize-run)을
+참조하세요.
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

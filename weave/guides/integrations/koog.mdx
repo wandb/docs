@@ -1,11 +1,12 @@
 ---
 title: Koog
-description: "Trace Kotlin-based Koog agents with Weave's built-in OpenTelemetry support, capturing single-run and complex workflow executions, tool calls, prompts, and completions for full observability of your Kotlin AI applications."
+description: "Trace Kotlin-based Koog agents with Weave using OpenTelemetry to capture tool calls, prompts, and completions for AI applications."
+keywords: ["Kotlin", "OTEL", "addWeaveExporter", "agent tracing", "Gradle"]
 ---
 
-[Koog](https://docs.koog.ai/) is a Kotlin-based framework for building single-run and complex workflow agents. Koog includes built-in OpenTelemetry (OTEL) support and can export traces directly to Weave, giving you rich visibility into prompts, completions, tool calls, and end-to-end agent execution.
+[Koog](https://docs.koog.ai/) is a Kotlin-based framework for building single-run and complex workflow agents. Koog includes built-in OpenTelemetry (OTEL) support and can export traces directly to Weave, giving you visibility into prompts, completions, tool calls, and end-to-end agent execution.
 
-With the Weave exporter enabled, Koog forwards OpenTelemetry spans to your Weave project so you can debug, analyze performance, and iterate faster.
+This guide shows you how to configure Koog's Weave exporter so your Kotlin agents forward OpenTelemetry spans to a Weave project. With the exporter enabled, you can debug agent runs, analyze performance, and iterate faster. This guide is for Kotlin developers who are already building agents with Koog and want to add Weave tracing.
 
 <Frame>
 ![Koog](/weave/guides/integrations/imgs/koog.png)
@@ -13,17 +14,19 @@ With the Weave exporter enabled, Koog forwards OpenTelemetry spans to your Weave
 
 ## Prerequisites
 
-Set the following environment variables before running your agent:
+You must set the following environment variables before running your agent so the Weave exporter can authenticate and route traces to the correct project:
+
+Replace `[YOUR-API-KEY]` with your Weave API key and `[YOUR-ENTITY]` with your W&B team or entity name. The `WEAVE_PROJECT_NAME` value can be any project name. Weave creates the project on first use.
 
 ```bash
-export WEAVE_API_KEY="<your-api-key>"
-export WEAVE_ENTITY="<your-entity>"           # your W&B team/entity
-export WEAVE_PROJECT_NAME="koog-tracing"      # any project name; created on first use
+export WEAVE_API_KEY="[YOUR-API-KEY]"
+export WEAVE_ENTITY="[YOUR-ENTITY]"
+export WEAVE_PROJECT_NAME="koog-tracing"
 ```
 
 ## Install Koog (Gradle)
 
-Add Koog to your Kotlin project (Kotlin DSL shown):
+With your environment variables in place, add Koog to your Kotlin project so you can configure the agent and its exporter (Kotlin DSL shown):
 
 ```kotlin
 dependencies {
@@ -35,7 +38,7 @@ See Koog's documentation for [additional installation information](https://docs.
 
 ## Enable Weave export (OpenTelemetry)
 
-Install Koog's OpenTelemetry feature and add the Weave exporter. This maps Koog spans to Weave traces using Weave's OpenTelemetry endpoint.
+After you install Koog, install Koog's OpenTelemetry feature and add the Weave exporter. This maps Koog spans to Weave traces using Weave's OpenTelemetry endpoint.
 
 The following example shows how to use the `addWeaveExporter`:
 
@@ -67,7 +70,7 @@ fun main() = runBlocking {
 }
 ```
 
-The function automatically reads your Weave environment variables, but you can also configure [specific parameters](https://api.koog.ai/agents/agents-features/agents-features-opentelemetry/ai.koog.agents.features.opentelemetry.integration.weave/add-weave-exporter.html?query=fun%20OpenTelemetryConfig.addWeaveExporter(weaveOtelBaseUrl:%20String?%20=%20null,%20weaveEntity:%20String?%20=%20null,%20weaveProjectName:%20String?%20=%20null,%20weaveApiKey:%20String?%20=%20null,%20timeout:%20Duration%20=%2010.seconds)) for the exporter, like this:
+The function automatically reads your Weave environment variables, but you can also configure [specific parameters](https://api.koog.ai/agents/agents-features/agents-features-opentelemetry/ai.koog.agents.features.opentelemetry.integration.weave/add-weave-exporter.html?query=fun%20OpenTelemetryConfig.addWeaveExporter(weaveOtelBaseUrl:%20String?%20=%20null,%20weaveEntity:%20String?%20=%20null,%20weaveProjectName:%20String?%20=%20null,%20weaveApiKey:%20String?%20=%20null,%20timeout:%20Duration%20=%2010.seconds)) for the exporter, as in the following example:
 
 ```kotlin
 install(OpenTelemetry) {
@@ -81,19 +84,19 @@ install(OpenTelemetry) {
 }
 ```
 
-The example above:
+The preceding example:
 
 - Uses `weaveEntity` and `weaveProjectName` to route traces to a specific team and project.
-- Sets `weaveOtelBaseUrl` to your trace endpoint (for example, `https://<your-subdomain>.wandb.io/<path>`). Use the parameter for dedicated Weave instances.
+- Sets `weaveOtelBaseUrl` to your trace endpoint (for example, `https://[YOUR-SUBDOMAIN].wandb.io/[PATH]`). Use the parameter for dedicated Weave instances.
 
-If you're new to using Koog with Weave, we recommend reviewing the following pieces of documentation:
-* [Koog's Weave exporter guide](https://docs.koog.ai/opentelemetry-weave-exporter/) for additional information about the exporter
-* [Koog's OpenTelemetry support guide](https://docs.koog.ai/opentelemetry-support/) for core concepts about how OpenTelemetry works with Koog
-* [Weave OTEL docs](../tracking/otel) for information about how Weave ingests OTLP data
+If you're new to using Koog with Weave, review the following documentation:
+- [Koog's Weave exporter guide](https://docs.koog.ai/opentelemetry-weave-exporter/) for additional information about the exporter
+- [Koog's OpenTelemetry support guide](https://docs.koog.ai/opentelemetry-support/) for core concepts about how OpenTelemetry works with Koog
+- [Weave OTEL docs](../tracking/otel) for information about how Weave ingests OTLP data
 
 ## What gets traced
 
-When enabled, Koog's Weave exporter captures the same spans as Koog's general OTEL integration, including:
+After you run an agent with the exporter enabled, Koog forwards traces to your Weave project. Koog's Weave exporter captures the same spans as Koog's general OTEL integration, including:
 
 - Agent lifecycle events (start, stop, errors)
 - LLM interactions (prompts, completions, token usage, latency)
@@ -104,10 +107,12 @@ You can visualize these traces in the Weave UI to understand performance and qua
 
 ## Example notebook
 
-See Koog's documentation for a [runnable notebooks](https://docs.koog.ai/examples/Weave/) that streams traces to Weave.
+See Koog's documentation for a [runnable notebook](https://docs.koog.ai/examples/Weave/) that streams traces to Weave.
 
 ## Troubleshooting
 
+If your Koog agent isn't exporting traces as expected, check the following:
+
 - If traces are missing, first verify that `WEAVE_API_KEY`, `WEAVE_ENTITY`, and `WEAVE_PROJECT_NAME` are set correctly.
-- Confirm your environment can reach `https://trace.wandb.ai` and that the exporter is configured as shown above.
+- Confirm your environment can reach `https://trace.wandb.ai` and that the exporter is configured as shown in the preceding examples.
 - For additional troubleshooting and sampling guidance, see Koog's [OpenTelemetry support](https://docs.koog.ai/opentelemetry-support/).

@@ -1,0 +1,18 @@
+---
+title: ハイパーパラメーターをログする
+---
+
+```python
+"""W&B の run を初期化し、ハイパーパラメーターをログします。"""
+import wandb
+
+config = {
+    "learning_rate": 0.01,
+    "batch_size": 32,
+    "optimizer": "adam",
+}
+
+with wandb.init(project="<project>", config=config) as run:
+    # トレーニングとロギングのコードをここに記述する
+    pass
+```

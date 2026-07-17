@@ -1,0 +1,49 @@
+---
+title: Dockerfile を指定して、W&B に Docker イメージをビルドさせることはできますか？
+keywords: ["カスタム Dockerfile", "Docker ビルド", "独自の Dockerfile の持ち込み", "Dockerfile からビルド"]
+---
+
+はい。独自の Dockerfile を指定して、W&amp;B Launch に run 用のイメージをビルドさせることができます。これにより、Launch を使用してジョブをキューに入れて実行しながら、ビルド環境を制御できます。この方法は、requirements は安定している一方でコードベースが変化する project に適しています。
+
+<Warning>
+  Dockerfile はマウントを使用する形式で記述してください。詳しくは、[Docker mounts documentation](https://docs.docker.com/build/guide/mounts/)を参照してください。
+</Warning>
+
+Dockerfile を設定したら、次のいずれかの方法で W&amp;B に指定します。
+
+* `Dockerfile.wandb` を使用する
+* W&amp;B CLI を使用する
+* W&amp;B App を使用する
+
+<Tabs>
+  <Tab title="Dockerfile.wandb">
+    W&amp;B run のエントリポイントと同じディレクトリに `Dockerfile.wandb` ファイルを配置します。W&amp;B は組み込みの Dockerfile の代わりにこのファイルを使用します。
+  </Tab>
+
+  <Tab title="W&B CLI">
+    ジョブをキューに入れるには、`wandb launch` コマンドで `--dockerfile` フラグを使用します。
+
+    ```bash
+    wandb launch --dockerfile path/to/Dockerfile
+    ```
+  </Tab>
+
+  <Tab title="W&B App">
+    W&amp;B App でジョブをキューに追加する際は、**Overrides** セクションで Dockerfile のパスを指定します。キーを `"dockerfile"`、値をそのパスとするキーと値のペアとして入力します。
+
+    次の JSON は、ローカルディレクトリの Dockerfile を含める方法を示しています。
+
+    ```json title="W&B App の Launch ジョブ"
+    {
+      "args": [],
+      "run_config": {
+        "lr": 0,
+        "batch_size": 0,
+        "epochs": 0
+      },
+      "entrypoint": [],
+      "dockerfile": "./Dockerfile"
+    }
+    ```
+  </Tab>
+</Tabs>

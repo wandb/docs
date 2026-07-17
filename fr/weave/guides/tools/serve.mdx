@@ -1,0 +1,43 @@
+---
+title: "Serve"
+description: "Exposez vos ops et modèles Weave sous forme de points de terminaison d’API pour fournir des prédictions et exécuter l’inférence en production."
+keywords: ["weave serve", "FastAPI", "service de modèles", "point de terminaison d’inférence"]
+---
+
+Ce guide vous montre comment exposer un W&amp;B Weave Model comme point de terminaison FastAPI à l’aide de `weave serve`, afin de pouvoir interroger le modèle de manière interactive et l’intégrer dans des flux de travail d’inférence en production.
+
+Pour démarrer un serveur FastAPI pour n’importe quel Weave Model, transmettez la référence Weave à `weave serve`. Remplacez `[REF]` par la référence de votre Weave Model.
+
+```bash
+weave serve [REF]
+```
+
+Pour interroger le modèle de manière interactive, ouvrez Swagger UI à l’adresse `http://0.0.0.0:9996/docs`.
+
+<div id="install-fastapi">
+  ## Installer FastAPI
+</div>
+
+`weave serve` utilise FastAPI et Uvicorn pour héberger le modèle. Vous devez donc installer ces deux packages avant de le mettre en service.
+
+```bash
+pip install fastapi uvicorn
+```
+
+<div id="serve-model">
+  ## Mettre un modèle en service
+</div>
+
+Après avoir installé les dépendances, démarrez le serveur dans un terminal. Remplacez `[YOUR-MODEL-REF]` par la référence de votre Weave Model.
+
+```bash
+weave serve [YOUR-MODEL-REF]
+```
+
+Obtenez la référence de votre modèle en accédant au modèle et en la copiant depuis l’interface utilisateur. Elle doit ressembler à ce qui suit, où `[ENTITY]` correspond à votre entité W&amp;B, `[PROJECT-NAME]` au nom de votre projet, `[MODEL-NAME]` au nom du modèle et `[HASH]` au hachage de version du modèle :
+
+```text
+weave://[ENTITY]/[PROJECT-NAME]/[MODEL-NAME]:[HASH]
+```
+
+Pour tester le point de terminaison, ouvrez Swagger UI, cliquez sur le point de terminaison `predict`, puis sur **Try it out**. Vous disposez maintenant d’un point de terminaison FastAPI local qui renvoie les prédictions de votre Weave Model.

@@ -1,0 +1,269 @@
+---
+title: "SubAgent"
+description: "TypeScript SDK リファレンス"
+---
+
+[weave](../) / SubAgent
+
+<div id="hierarchy">
+  ## 階層
+</div>
+
+* `SpanBase`
+
+  ↳ `SubAgent`
+
+<div id="table-of-contents">
+  ## 目次
+</div>
+
+<div id="accessors">
+  ### アクセサー
+</div>
+
+* [モデル](./subagent#model)
+* [名](./subagent#name)
+
+<div id="methods">
+  ### メソッド
+</div>
+
+* [addEvent](./subagent#addevent)
+* [end](./subagent#end)
+* [record](./subagent#record)
+* [setAttributes](./subagent#setattributes)
+* [create](./subagent#create)
+
+## アクセサー
+
+<div id="model">
+  ### モデル
+</div>
+
+• `get` **モデル**(): `string`
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`string`
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[src/genai/subagent.ts:78](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L78)
+
+***
+
+<div id="name">
+  ### 名
+</div>
+
+• `get` **name**(): `string`
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`string`
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[src/genai/subagent.ts:74](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L74)
+
+## メソッド
+
+<div id="addevent">
+  ### addEvent
+</div>
+
+<Warning>
+  **非推奨です。** このデータは代わりに [setAttributes](./subagent#setattributes) を使用して記録してください。
+  OpenTelemetry では Span Event API (`Span.addEvent`) の段階的な廃止が進められています。この
+  メソッドは引き続き動作し、既存の span event データも引き続き有効です。
+  参照: [https://opentelemetry.io/blog/2026/deprecating-span-events/](https://opentelemetry.io/blog/2026/deprecating-span-events/)
+
+  `例`
+
+  ```ts twoslash
+  // @noErrors
+  span.addEvent('context_compacted', {removedMessages: 12});
+  ```
+</Warning>
+
+▸ **addEvent**(`name`, `attributes?`, `startTime?`): `this`
+
+スパン に名前付きイベントを追加します。コンテキストの圧縮、tool ループの検出、
+または guardrail の発動など、スパン 以外の時点を記録する際に便利です。`end()` の後に呼び出すと警告を出し、
+何も行いません。OTel `Span.addEvent` と同様の動作です。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名             | タイプ          |
+| :------------ | :----------- |
+| `name`        | `string`     |
+| `attributes?` | `Attributes` |
+| `startTime?`  | `TimeInput`  |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`this`
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+SpanBase.addEvent
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[src/genai/spanBase.ts:82](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L82)
+
+***
+
+<div id="end">
+  ### end
+</div>
+
+▸ **end**(`opts?`): `void`
+
+現在のフィールド値を読み取り (`start` 以降に `record()` によって行われた変更を反映するため) 、
+スパンを終了します。冪等です。失敗としてマークするには、`error` を渡します。
+終了時刻を過去にさかのぼって設定するには、`endTime` を渡します。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名       | タイプ              |
+| :------ | :--------------- |
+| `opts?` | `SpanEndOptions` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`void`
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[src/genai/subagent.ts:153](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L153)
+
+***
+
+<div id="record">
+  ### record
+</div>
+
+▸ **record**(`opts`): `this`
+
+任意のフィールドを一括で設定します。マージは行わず、置き換えます。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名                          | タイプ        |
+| :------------------------- | :--------- |
+| `opts`                     | `Object`   |
+| `opts.agentDescription?`   | `string`   |
+| `opts.agentId?`            | `string`   |
+| `opts.agentVersion?`       | `string`   |
+| `opts.model?`              | `string`   |
+| `opts.name?`               | `string`   |
+| `opts.systemInstructions?` | `string`[] |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`this`
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[src/genai/subagent.ts:117](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L117)
+
+***
+
+<div id="setattributes">
+  ### setAttributes
+</div>
+
+▸ **setAttributes**(`attributes`): `this`
+
+スパンに複数の属性をまとめて設定します。`end()` の後に呼び出すと、警告を出して何も実行しません。OTel の `Span.setAttributes` (および Python SDK の
+`set_attributes`) に準拠しています。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名            | タイプ          |
+| :----------- | :----------- |
+| `attributes` | `Attributes` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`this`
+
+`例`
+
+```ts twoslash
+// @noErrors
+span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
+```
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+SpanBase.setAttributes
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L63)
+
+***
+
+<div id="create">
+  ### create
+</div>
+
+▸ **create**(`opts`): [`SubAgent`](./subagent)
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名      | タイプ                                                                   |
+| :----- | :-------------------------------------------------------------------- |
+| `opts` | [`SubAgentInit`](../interfaces/subagentinit) &amp; `ChildSpanContext` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+[`SubAgent`](./subagent)
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[src/genai/subagent.ts:93](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L93)

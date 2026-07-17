@@ -1,0 +1,54 @@
+---
+description: "Initialisez un sweep à l'aide du SDK Python ou de la CLI pour lancer des recherches d'hyperparamètres avec votre configuration de sweep."
+title: Initialiser un sweep
+---
+
+Après avoir défini une configuration de sweep, et avant de lancer des agents, initialisez un sweep pour enregistrer sa configuration dans W&amp;B et recevoir un ID de sweep. Les agents utilisent l&#39;ID de sweep pour récupérer les instructions d&#39;exécution. Une fois un sweep initialisé, il est prêt à coordonner des recherches d&#39;hyperparamètres sur une ou plusieurs machines.
+
+W&amp;B utilise un contrôleur de sweep pour gérer les sweeps sur une ou plusieurs machines. Une fois qu&#39;un run est terminé, le contrôleur génère un nouvel ensemble d&#39;instructions décrivant le run suivant à exécuter, puis les agents récupèrent ces instructions et les exécutent. Par défaut, W&amp;B héberge le contrôleur, et les agents s&#39;exécutent sur vos machines.
+
+Avant d&#39;initialiser un sweep, vous devez avoir défini une configuration de sweep soit dans un fichier YAML, soit dans un dictionnaire Python imbriqué dans votre script. Pour plus d&#39;informations, voir [Define sweep configuration](/fr/models/sweeps/define-sweep-configuration).
+
+Les extraits de code suivants montrent comment initialiser des sweeps avec la CLI et dans un notebook Jupyter ou un script Python. Choisissez la méthode qui correspond à votre flux de travail.
+
+<Warning>
+  Le sweep et le run doivent se trouver dans le même projet. Le nom du projet que vous fournissez lorsque vous initialisez W&amp;B ([`wandb.init()`](/fr/models/ref/python/functions/init)) doit correspondre au nom du projet que vous fournissez lorsque vous initialisez un sweep ([`wandb.sweep()`](/fr/models/ref/python/functions/sweep)).
+</Warning>
+
+<Tabs>
+  <Tab title="Script Python ou notebook">
+    Utilisez le SDK W&amp;B pour initialiser un sweep. Passez le dictionnaire de configuration du sweep au paramètre `sweep`. Vous pouvez éventuellement définir le paramètre `project` avec le nom du projet dans lequel vous souhaitez que W&amp;B stocke la sortie du run. Si vous ne spécifiez pas de projet, W&amp;B place le run dans un projet `Uncategorized`.
+
+    ```python
+    import wandb
+
+    # Exemple de configuration de sweep
+    sweep_configuration = {
+        "method": "random",
+        "name": "sweep",
+        "metric": {"goal": "maximize", "name": "val_acc"},
+        "parameters": {
+            "batch_size": {"values": [16, 32, 64]},
+            "epochs": {"values": [5, 10, 15]},
+            "lr": {"max": 0.1, "min": 0.0001},
+        },
+    }
+
+    sweep_id = wandb.sweep(sweep=sweep_configuration, project="project-name")
+    ```
+
+    La fonction [`wandb.sweep()`](/fr/models/ref/python/functions/sweep) renvoie l&#39;ID du sweep. L&#39;ID du sweep inclut le nom de l&#39;entité et le nom du projet. Notez l&#39;ID du sweep : vous le transmettrez aux agents lorsque vous les démarrerez. Avec l&#39;ID du sweep, vous êtes prêt à lancer un ou plusieurs agents pour exécuter des runs.
+  </Tab>
+
+  <Tab title="CLI">
+    Utilisez la CLI W&amp;B pour initialiser un sweep. Fournissez le nom de votre fichier de configuration. Vous pouvez éventuellement définir l&#39;option `--project` avec le nom du projet. Si vous ne spécifiez pas de projet, W&amp;B place le run dans un projet `Uncategorized`.
+
+    Utilisez la commande [`wandb sweep`](/fr/models/ref/cli/wandb-sweep) pour initialiser un sweep. L&#39;exemple de code suivant initialise un sweep pour un projet `sweeps_demo` et utilise un fichier `config.yaml` pour la configuration.
+
+    ```bash
+    wandb sweep --project sweeps_demo config.yaml
+    ```
+
+    Cette commande affiche un ID de sweep. L&#39;ID du sweep inclut le nom de l&#39;entité et le nom du projet. Notez l&#39;ID du sweep : vous le transmettrez aux agents lorsque vous les démarrerez. Avec l&#39;ID du sweep, vous êtes prêt à lancer un ou plusieurs agents pour exécuter des runs.
+  </Tab>
+</Tabs>

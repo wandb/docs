@@ -1,0 +1,138 @@
+---
+description: Hugging Face の Transformers ライブラリと W&B を統合する方法。
+title: Hugging Face Simple Transformers
+---
+
+このページでは、Transformer モデル トレーニングを可視化してトラッキングできるように、Weights &amp; Biases (W&amp;B) を Simple Transformers と統合する方法を説明します。最後まで読むと、Simple Transformers モデルで W&amp;B のロギングを有効にする方法と、一般的な NLP タスクの例をどこで検索するかがわかります。
+
+Simple Transformers は Hugging Face の Transformers ライブラリに基づいており、Transformer モデルをトレーニングして評価できます。モデルの初期化、トレーニング、評価に必要なコードはわずか 3 行です。sequence classification、token classification (NER)、質問応答、language model ファインチューニング、language model トレーニング、language generation、T5 model、Seq2Seq tasks、multi-modal classification、conversational AI をサポートしています。
+
+モデル トレーニングの可視化に W&amp;B を使用するには、`args` 辞書の `wandb_project` 属性に W&amp;B のプロジェクト名を設定します。これにより、すべてのハイパーパラメーター値、トレーニング損失、評価メトリクスが指定したプロジェクトにログされます。
+
+```python
+model = ClassificationModel('roberta', 'roberta-base', args={'wandb_project': 'project-name'})
+```
+
+`wandb.init()` に渡す追加の引数は、`wandb_kwargs` として指定できます。
+
+<div id="structure">
+  ## 構成
+</div>
+
+以下のセクションでは、特定のタスクに対してどのモジュールをimportすればよいかがわかるように、Simple Transformers がどのようにクラスを構成しているかを説明します。このライブラリは、各NLPタスクごとに個別のクラスを持つよう設計されています。類似した機能を持つクラスは、同じグループにまとめられています。
+
+* `simpletransformers.classification` - すべての分類モデルが含まれます。
+  * `ClassificationModel`
+  * `MultiLabelClassificationModel`
+* `simpletransformers.ner` - すべての固有表現認識モデルが含まれます。
+  * `NERModel`
+* `simpletransformers.question_answering` - すべての質問応答モデルが含まれます。
+  * `QuestionAnsweringModel`
+
+以下のセクションでは、一般的な2つのタスクについて最小限の例を示し、`wandb_project` argument を通じて W&amp;B のロギング を有効にする方法を説明します。
+
+<div id="multi-label-classification">
+  ## マルチラベル分類
+</div>
+
+```python
+  model = MultiLabelClassificationModel("distilbert","distilbert-base-uncased",num_labels=6,
+    args={"reprocess_input_data": True, "overwrite_output_dir": True, "num_train_epochs":epochs,'learning_rate':learning_rate,
+                'wandb_project': "simpletransformers"},
+  )
+   # モデルをトレーニングする
+  model.train_model(train_df)
+
+  # モデルを評価する
+  result, model_outputs, wrong_predictions = model.eval_model(eval_df)
+```
+
+<div id="question-answering">
+  ## 質問応答
+</div>
+
+```python
+  train_args = {
+    'learning_rate': wandb.config.learning_rate,
+    'num_train_epochs': 2,
+    'max_seq_length': 128,
+    'doc_stride': 64,
+    'overwrite_output_dir': True,
+    'reprocess_input_data': False,
+    'train_batch_size': 2,
+    'fp16': False,
+    'wandb_project': "simpletransformers"
+}
+
+model = QuestionAnsweringModel('distilbert', 'distilbert-base-cased', args=train_args)
+model.train_model(train_data)
+```
+
+<div id="global-arguments">
+  ## グローバル引数
+</div>
+
+SimpleTransformers は、一般的な自然言語処理タスク向けのクラスに加え、トレーニングスクリプトも提供しています。以下に、ライブラリでサポートされているグローバル引数の完全な一覧と、それぞれのデフォルト値を示します。前述の W&amp;B 固有のオプション以外でトレーニングの動作をカスタマイズしたい場合は、この一覧を参照してください。
+
+```python
+global_args = {
+  "adam_epsilon": 1e-8,
+  "best_model_dir": "outputs/best_model",
+  "cache_dir": "cache_dir/",
+  "config": {},
+  "do_lower_case": False,
+  "early_stopping_consider_epochs": False,
+  "early_stopping_delta": 0,
+  "early_stopping_metric": "eval_loss",
+  "early_stopping_metric_minimize": True,
+  "early_stopping_patience": 3,
+  "encoding": None,
+  "eval_batch_size": 8,
+  "evaluate_during_training": False,
+  "evaluate_during_training_silent": True,
+  "evaluate_during_training_steps": 2000,
+  "evaluate_during_training_verbose": False,
+  "fp16": True,
+  "fp16_opt_level": "O1",
+  "gradient_accumulation_steps": 1,
+  "learning_rate": 4e-5,
+  "local_rank": -1,
+  "logging_steps": 50,
+  "manual_seed": None,
+  "max_grad_norm": 1.0,
+  "max_seq_length": 128,
+  "multiprocessing_chunksize": 500,
+  "n_gpu": 1,
+  "no_cache": False,
+  "no_save": False,
+  "num_train_epochs": 1,
+  "output_dir": "outputs/",
+  "overwrite_output_dir": False,
+  "process_count": cpu_count() - 2 if cpu_count() > 2 else 1,
+  "reprocess_input_data": True,
+  "save_best_model": True,
+  "save_eval_checkpoints": True,
+  "save_model_every_epoch": True,
+  "save_steps": 2000,
+  "save_optimizer_and_scheduler": True,
+  "silent": False,
+  "tensorboard_dir": None,
+  "train_batch_size": 8,
+  "use_cached_eval_features": False,
+  "use_early_stopping": False,
+  "use_multiprocessing": True,
+  "wandb_kwargs": {},
+  "wandb_project": None,
+  "warmup_ratio": 0.06,
+  "warmup_steps": 0,
+  "weight_decay": 0,
+}
+```
+
+<div id="additional-resources">
+  ## 追加リソース
+</div>
+
+より詳しいドキュメントについては、[GitHub 上の simpletransformers](https://github.com/ThilinaRajapakse/simpletransformers)を参照してください。
+
+特に広く使われている GLUE ベンチマークのデータセットのいくつかで Transformer をトレーニングする方法を紹介した W&amp;B report、[Using simpleTransformer on common NLP applications](https://app.wandb.ai/cayush/simpletransformers/reports/Using-simpleTransformer-on-common-NLP-applications---Vmlldzo4Njk2NA)もご覧ください。[Colab でご自身でも試せます](https://colab.research.google.com/drive/1oXROllqMqVvBFcPgTKJRboTq96uWuqSz?usp=sharing)。

@@ -3,7 +3,7 @@ title: MetricChangeFilter
 namespace: automations_namespace
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/_filters/run_metrics.py" />
 
@@ -21,7 +21,7 @@ between the current window and the non-overlapping prior window.
 ```python
 __init__(
     name: 'str',
-    agg: 'Agg | None' = None,
+    agg: 'wandb.automations._filters.run_metrics.Agg | None' = None,
     window: 'int' = 1,
     cmp: 'None' = None,
     threshold: 'Annotated | Annotated',
@@ -34,7 +34,7 @@ __init__(
 **Args:**
  
  - `name` (str): 
- - `agg` (Optional[Agg]): 
+ - `agg` (wandb.automations._filters.run_metrics.Agg | None): 
  - `window` (int): 
  - `cmp` (None): Ignored.
  - `threshold` (Union[Annotated, Annotated]): 

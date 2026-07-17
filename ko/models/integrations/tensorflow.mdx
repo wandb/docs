@@ -1,0 +1,117 @@
+---
+title: TensorFlow
+description: "커스텀 메트릭을 로깅하고 Estimator 훅을 사용하며 TensorBoard 로그를 동기화할 수 있도록 W&B를 TensorFlow와 통합합니다."
+---
+
+import { ColabLink } from '/snippets/ko/_includes/colab-link.mdx';
+
+<ColabLink url="https://colab.research.google.com/drive/1JCpAbjkCFhYMT7LCQ399y35TS3jlMpvM" />
+
+이 페이지에서는 W&amp;B를 TensorFlow와 통합하여 실험을 추적하고, 메트릭을 로깅하며, TensorBoard 로그를 동기화하는 방법을 설명합니다. 이러한 패턴을 따르면 TensorFlow 모델의 트레이닝 데이터를 캡처하고, Estimator 훅이나 수동 로깅을 통해 로깅할 내용을 사용자 지정하고, W&amp;B의 중앙 집중식 대시보드와 함께 기존 TensorBoard 워크플로를 재사용할 수 있습니다. TensorBoard만으로는 부족한 더 풍부한 실험 추적이 필요할 때 이 인테그레이션을 사용하세요.
+
+<div id="get-started">
+  ## 시작하기
+</div>
+
+이미 TensorBoard를 사용 중이라면 wandb와 쉽게 통합할 수 있습니다. 스크립트에서 W&amp;B와 TensorFlow API를 사용할 수 있도록 두 라이브러리를 모두 임포트하세요.
+
+```python
+import tensorflow as tf
+import wandb
+```
+
+<div id="log-custom-metrics">
+  ## 커스텀 메트릭 로깅
+</div>
+
+이 섹션에서는 TensorBoard가 아직 캡처하지 않는 메트릭을 로깅하는 방법을 설명합니다. 이를 통해 표준 TensorBoard 요약과 함께 추가 값도 추적할 수 있습니다.
+
+TensorBoard에 로깅되지 않는 추가 커스텀 메트릭을 로깅해야 한다면, 코드에서 `run.log()`를 호출하면 됩니다. 예를 들어 `run.log({"custom": 0.8})`와 같습니다.
+
+TensorBoard를 동기화할 때는 W&amp;B가 `run.log()`의 step 인수를 비활성화합니다. 다른 step 수를 설정하려면 다음과 같이 step 메트릭과 함께 메트릭을 로깅할 수 있습니다:
+
+```python
+with wandb.init(config=tf.flags.FLAGS, sync_tensorboard=True) as run:
+    run.log({"custom": 0.8, "global_step":global_step}, step=global_step)
+```
+
+<div id="tensorflow-estimators-hook">
+  ## TensorFlow estimators 훅
+</div>
+
+이 섹션에서는 estimator 트레이닝 중 W&amp;B가 캡처하는 항목을 세밀하게 제어할 수 있는 TensorFlow estimators용 W&amp;B 훅을 설명합니다.
+
+무엇을 로깅할지 더 세밀하게 제어하려면, W&amp;B는 TensorFlow estimators용 훅도 제공합니다. 이 훅은 그래프의 모든 `tf.summary` 값을 로깅합니다.
+
+```python
+import tensorflow as tf
+import wandb
+
+run = wandb.init(config=tf.FLAGS)
+
+estimator.train(hooks=[wandb.tensorflow.WandbHook(steps_per_log=1000)])
+run.finish()
+```
+
+<div id="log-manually">
+  ## 수동으로 로깅하기
+</div>
+
+estimator를 사용하지 않거나 특정 summary를 명시적으로 로깅하려는 경우, 이 섹션에서는 `tf.summary` 값을 W&amp;B로 직접 보내는 방법을 보여줍니다.
+
+TensorFlow에서 메트릭을 로깅하는 가장 단순한 방법은 TensorFlow 로거를 사용해 `tf.summary`를 로깅하는 것입니다:
+
+```python
+import wandb
+run = wandb.init(config=tf.flags.FLAGS, sync_tensorboard=True)
+with tf.Session() as sess:
+    # ...
+    wandb.tensorflow.log(tf.summary.merge_all())
+```
+
+TensorFlow 2에서는 `tf.GradientTape`를 사용해 맞춤형 루프로 모델을 트레이닝하는 것이 권장됩니다. 자세한 내용은 [TensorFlow 맞춤형 트레이닝 워크스루](https://www.tensorflow.org/tutorials/customization/custom_training_walkthrough)에서 확인할 수 있습니다. 맞춤형 TensorFlow 트레이닝 루프에 W&amp;B를 추가해 메트릭을 로깅하려면 다음 스니펫을 따르세요:
+
+```python
+    with tf.GradientTape() as tape:
+        # 확률 조회
+        predictions = model(features)
+        # loss 계산
+        loss = loss_func(labels, predictions)
+
+    # 메트릭 로깅
+    run.log({"loss": loss.numpy()})
+    # 그라디언트 조회
+    gradients = tape.gradient(loss, model.trainable_variables)
+    # 가중치 업데이트
+    optimizer.apply_gradients(zip(gradients, model.trainable_variables))
+```
+
+[TensorFlow 2에서 트레이닝 루프를 맞춤 설정하는 전체 예제](https://www.wandb.com/articles/wandb-customizing-training-loops-in-tensorflow-2)를 확인할 수 있습니다.
+
+<div id="differences-between-wb-and-tensorboard">
+  ## W&amp;B와 TensorBoard의 차이
+</div>
+
+TensorBoard와 함께 또는 TensorBoard 대신 W&amp;B를 도입할지 검토하고 있다면, 이 섹션에서 주요 차이점을 확인할 수 있습니다.
+
+W&amp;B는 TensorBoard 사용자가 자주 겪는 한계를 해결하기 위해 만들어졌습니다. W&amp;B가 다른 점은 다음과 같습니다.
+
+* **모델 재현**: W&amp;B는 실험, 탐색, 그리고 나중에 모델을 재현하는 작업을 지원합니다. W&amp;B는 메트릭, 하이퍼파라미터, 코드 버전을 캡처하고, 버전 관리 상태와 모델 체크포인트도 저장할 수 있으므로 프로젝트를 재현 가능하게 만듭니다.
+* **자동 정리**: 협업자로부터 프로젝트를 이어받을 때, 시간이 지난 후 다시 돌아올 때, 또는 예전 프로젝트를 다시 살펴볼 때 W&amp;B를 사용하면 이미 시도한 모델을 확인할 수 있어 불필요하게 실험을 다시 실행하지 않아도 됩니다.
+* **유연한 인테그레이션**: 오픈 소스 Python 패키지를 설치하고 코드에 몇 줄만 추가하면 프로젝트에 W&amp;B를 연동할 수 있습니다. 각 run은 로깅된 메트릭과 기록을 생성합니다.
+* **지속적이고 중앙화된 대시보드**: 로컬 머신, 공유 연구실 클러스터, 또는 클라우드의 스팟 인스턴스에서 모델을 학습하더라도 W&amp;B는 결과를 동일한 중앙 대시보드로 전송합니다. 서로 다른 머신의 TensorBoard 파일을 복사해 정리할 필요가 없습니다.
+* **Tables**: 서로 다른 모델의 결과를 검색, 필터링, 정렬, 그룹화할 수 있습니다. 모델 아티팩트 버전을 검토하고 작업별로 가장 성능이 좋은 모델을 찾을 수 있습니다.
+* **협업을 위한 도구**: W&amp;B를 사용해 머신 러닝 프로젝트를 정리하세요. W&amp;B 링크를 공유하거나 비공개 Teams를 사용해 결과를 공유 프로젝트로 보낼 수 있습니다. Reports는 대화형 시각화와 Markdown 설명을 통해 협업을 지원하므로, 작업 로그를 남기거나 지도교수와 결과를 공유하거나 연구실 또는 팀에 결과를 발표하는 데 활용할 수 있습니다.
+
+W&amp;B를 사용해 보려면 [무료 계정 만들기](https://wandb.ai)를 클릭하세요.
+
+<div id="examples">
+  ## 예시
+</div>
+
+이러한 인테그레이션 패턴이 전체 프로젝트에 어떻게 적용되는지 보려면, 다음 예시를 확인하세요:
+
+* [TensorFlow Estimators를 사용한 MNIST 예시](https://github.com/wandb/examples/blob/master/examples/tensorflow/tf-estimator-mnist/mnist.py).
+* [기본 TensorFlow를 사용한 Fashion MNIST 예시](https://github.com/wandb/examples/blob/master/examples/tensorflow/tf-cnn-fashion/train.py).
+* [MNIST 예시용 W&amp;B 대시보드](https://app.wandb.ai/l2k2/examples-tf-estimator-mnist/runs/p0ifowcb).
+* TensorFlow 2에서 트레이닝 루프 맞춤 설정: [아티클](https://www.wandb.com/articles/wandb-customizing-training-loops-in-tensorflow-2) 및 [대시보드](https://app.wandb.ai/sayakpaul/custom_training_loops_tf).

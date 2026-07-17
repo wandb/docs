@@ -1,0 +1,131 @@
+---
+title: Koog
+description: "OpenTelemetry を使用して Kotlin ベースの Koog エージェントを Weave でトレースし、AI アプリケーションのツール call、プロンプト、コンプリーションを収集します。"
+keywords: ["Kotlin", "OTEL", "addWeaveExporter", "エージェントトレース", "Gradle"]
+---
+
+[Koog](https://docs.koog.ai/) は、単一実行のエージェントから複雑なワークフローエージェントまで構築できる、Kotlin ベースのフレームワークです。Koog には OpenTelemetry (OTEL) サポートが組み込まれており、トレースを Weave に直接エクスポートできるため、プロンプト、コンプリーション、ツール call、エージェントのエンドツーエンドの実行を可視化できます。
+
+このガイドでは、Kotlin エージェントが OpenTelemetry のスパンを Weave プロジェクトに転送するように、Koog の Weave エクスポーターを設定する方法を説明します。エクスポーターを有効にすると、エージェントの Runs をデバッグし、パフォーマンスを分析し、改善の反復をより迅速に行えます。このガイドは、すでに Koog でエージェントを構築していて、Weave のトレースを追加したい Kotlin 開発者を対象としています。
+
+<Frame>
+  ![Koog](/weave/guides/integrations/imgs/koog.png)
+</Frame>
+
+<div id="prerequisites">
+  ## 前提条件
+</div>
+
+Weave エクスポーター が認証を行い、トレースを正しい project に送信できるように、エージェントを実行する前に次の環境変数を設定する必要があります。
+
+`[YOUR-API-KEY]` は Weave APIキーに、`[YOUR-ENTITY]` は W&amp;B のチーム名または entity 名に置き換えてください。`WEAVE_PROJECT_NAME` には任意のプロジェクト名を指定できます。Weave は初回使用時に project を作成します。
+
+```bash
+export WEAVE_API_KEY="[YOUR-API-KEY]"
+export WEAVE_ENTITY="[YOUR-ENTITY]"
+export WEAVE_PROJECT_NAME="koog-tracing"
+```
+
+<div id="install-koog-gradle">
+  ## Koog をインストールする (Gradle)
+</div>
+
+環境変数を設定したら、Koog を Kotlin プロジェクトに追加します。これにより、エージェントとそのエクスポーターを設定できるようになります (Kotlin DSL の例を使用) :
+
+```kotlin
+dependencies {
+    implementation("ai.koog:koog-agents:LATEST_VERSION")
+}
+```
+
+追加のインストール情報については、[Koog のドキュメント](https://docs.koog.ai/)を参照してください。
+
+<div id="enable-weave-export-opentelemetry">
+  ## Weave エクスポートを有効にする (OpenTelemetry)
+</div>
+
+Koog をインストールしたら、Koog の OpenTelemetry 機能をインストールし、Weave エクスポーターを追加します。これにより、Koog のスパンが Weave の OpenTelemetry エンドポイントを介して Weave トレースにマッピングされます。
+
+次の例は、`addWeaveExporter` の使い方を示しています。
+
+```kotlin
+fun main() = runBlocking {
+    val apiKey = "api-key"
+    val entity = System.getenv()["WEAVE_ENTITY"] ?: throw IllegalArgumentException("WEAVE_ENTITY is not set")
+    val projectName = System.getenv()["WEAVE_PROJECT_NAME"] ?: "koog-tracing"
+
+    val agent = AIAgent(
+        executor = simpleOpenAIExecutor(apiKey),
+        llmModel = OpenAIModels.CostOptimized.GPT4oMini,
+        systemPrompt = "You are a code assistant. Provide concise code examples."
+    ) {
+        install(OpenTelemetry) {
+            addWeaveExporter()
+        }
+    }
+
+    println("Running agent with Weave tracing")
+
+    val result = agent.run("""
+        Create a Python function to calculate fibonacci numbers efficiently,
+        include error handling, type hints, and unit tests.
+        Verify the implementation works for n=50.
+    """)
+
+    println("Result: $result\nSee traces on https://wandb.ai/$entity/$projectName/weave/traces")
+}
+```
+
+この関数は Weave の環境変数を自動的に読み取りますが、エクスポーターについては、[特定のパラメーター](https://api.koog.ai/agents/agents-features/agents-features-opentelemetry/ai.koog.agents.features.opentelemetry.integration.weave/add-weave-exporter.html?query=fun%20OpenTelemetryConfig.addWeaveExporter\(weaveOtelBaseUrl:%20String?%20=%20null,%20weaveEntity:%20String?%20=%20null,%20weaveProjectName:%20String?%20=%20null,%20weaveApiKey:%20String?%20=%20null,%20timeout:%20Duration%20=%2010.seconds\)) を指定して、次の例のように設定することもできます。
+
+```kotlin
+install(OpenTelemetry) {
+    addWeaveExporter(
+        weaveOtelBaseUrl = "https://trace.wandb.ai",
+        weaveEntity = System.getenv()["WEAVE_ENTITY"],
+        weaveProjectName = System.getenv()["WEAVE_PROJECT_NAME"],
+        weaveApiKey = System.getenv()["WEAVE_API_KEY"],
+        timeout = 10.seconds
+    )
+}
+```
+
+上記の例では:
+
+* `weaveEntity` と `weaveProjectName` を使用して、トレースを特定のチームとプロジェクトにルーティングします。
+* `weaveOtelBaseUrl` をトレースのエンドポイント (例: `https://[YOUR-SUBDOMAIN].wandb.io/[PATH]`) に設定します。専用の Weave インスタンスでは、このパラメーターを使用してください。
+
+Koog を Weave で使い始めたばかりの場合は、次のドキュメントを確認することをおすすめします。
+
+* エクスポーターの詳細については、[Koog の Weave exporter ガイド](https://docs.koog.ai/opentelemetry-weave-exporter/)
+* OpenTelemetry が Koog とどのように連携するかの基本概念については、[Koog の OpenTelemetry サポートガイド](https://docs.koog.ai/opentelemetry-support/)
+* Weave が OTLP データをどのように取り込むかについては、[Weave OTEL ドキュメント](../tracking/otel)
+
+<div id="what-gets-traced">
+  ## トレースされる内容
+</div>
+
+エクスポーターを有効にしてエージェントを実行すると、Koog はトレースを Weave プロジェクトに転送します。Koog の Weave エクスポーター は、Koog の一般的な OTEL インテグレーションと同じスパンをキャプチャします。これには次が含まれます。
+
+* エージェントのライフサイクルイベント (開始、停止、エラー)
+* LLM とのやり取り (プロンプト、コンプリーション、token 使用量、レイテンシ)
+* ツールおよび API の call (function call と外部リクエスト)
+* システムコンテキスト (モデル名、Koog バージョン、環境メタデータ)
+
+これらのトレースは Weave UI で可視化でき、パフォーマンスと品質の把握に役立ちます。Weave でトレースをキャプチャする方法の概要については、[Weave のトレース概要](../tracking/tracing) を参照してください。
+
+<div id="example-notebook">
+  ## サンプルノートブック
+</div>
+
+Weave にトレースをストリーミングする[実行可能なノートブック](https://docs.koog.ai/examples/Weave/)については、Koog のドキュメントを参照してください。
+
+<div id="troubleshooting">
+  ## トラブルシューティング
+</div>
+
+Koog エージェントが想定どおりにトレースをエクスポートしない場合は、次を確認してください。
+
+* トレースが表示されない場合は、まず `WEAVE_API_KEY`、`WEAVE_ENTITY`、`WEAVE_PROJECT_NAME` が正しく設定されていることを確認してください。
+* お使いの環境から `https://trace.wandb.ai` にアクセスできること、およびエクスポーターが前述の例で示したとおりに設定されていることを確認してください。
+* 追加のトラブルシューティングとサンプリングのガイダンスについては、Koog の [OpenTelemetry サポート](https://docs.koog.ai/opentelemetry-support/) を参照してください。

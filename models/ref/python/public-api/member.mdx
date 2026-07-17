@@ -3,7 +3,7 @@ title: Member
 namespace: public_apis_namespace
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py" />
 
@@ -16,12 +16,12 @@ A member of a team.
 ### <kbd>method</kbd> `Member.__init__`
 
 ```python
-__init__(client, team, attrs)
+__init__(service_api: 'ServiceApi', team: 'str', attrs: 'Mapping[str, Any]')
 ```
 
 **Args:**
  
- - `client` (`wandb.apis.internal.Api`):  The client instance to use 
+ - `service_api`:  The service API instance to use for querying W&B. 
  - `team` (str):  The name of the team this member belongs to 
  - `attrs` (dict):  The member attributes 
 

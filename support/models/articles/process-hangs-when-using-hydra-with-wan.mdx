@@ -1,0 +1,28 @@
+---
+title: "Why does my process stop responding when using Hydra with W&B?"
+keywords: ["Experiments", "Run Crashes"]
+---
+
+This page explains how to resolve unresponsive processes that occur when you start a process with Hydra alongside W&B. If your process stops responding when you start it with Hydra, the likely cause is a multiprocessing conflict between Hydra and W&B.
+
+To fix this, change W&B's multiprocessing protocol to `"thread"`. This avoids the conflict so your process can start cleanly. You can do this in one of two ways:
+
+## Pass a settings parameter to wandb.init
+
+```python
+wandb.init(settings=wandb.Settings(start_method="thread"))
+```
+
+## Set a global environment variable
+
+```bash
+export WANDB_START_METHOD=thread
+```
+
+For more information, see the [Hydra integration guide](/models/integrations/hydra/) and [Distributed training troubleshooting](/models/track/log/distributed-training/).
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Run Crashes](/support/models/tags/run-crashes)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

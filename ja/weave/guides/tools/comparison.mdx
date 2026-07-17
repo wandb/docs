@@ -1,0 +1,194 @@
+---
+title: "トレースやその他のログ情報を比較する"
+description: "コード、トレース、プロンプト、モデル、設定の差分を視覚的に比較する"
+keywords: [比較, 差分, ベースライン, 並べて, トレース]
+---
+
+W&amp;B Weave の比較機能を使用すると、コード、トレース、プロンプト、モデル、モデル設定を視覚的に比較し、差分を確認できます。2 つのオブジェクトを並べて比較したり、より多くのオブジェクトを分析して、差分、パターン、傾向を特定したりできます。これは、プロンプトやモデルを繰り返し改善する場合や、Runs 間の動作の変化をデバッグする場合、あるいは設定が時間の経過とともにどのように変化したかを監査する場合に役立ちます。
+
+このガイドは、UI でログされたオブジェクト間の差分を確認したい Weave ユーザー向けです。比較を開始する方法と、ベースライン比較や数値差分の表示形式など、比較ビューを目的に合わせて調整するために使用できる操作について説明します。
+
+<div id="access-the-comparison-view">
+  ## 比較ビューにアクセスする
+</div>
+
+2 つ以上のログされたオブジェクトの比較ビューを開くには:
+
+1. サイドバーで、比較するオブジェクトのタイプ (たとえば **トレース** や **Models**) を選択します。
+2. 比較したいオブジェクトを選択します。選択方法は、比較するオブジェクトのタイプによって異なります。
+   * **トレース** の場合は、Trace 列の該当する行のチェックボックスをオンにして、比較するトレースを選択します。
+   * **Models** などのオブジェクトの場合は、モデルの Versions ページにアクセスし、比較したいバージョンの横にあるチェックボックスをオンにします。
+3. **Compare** を選択して 比較ビュー を開きます。ページ上部の比較バーには、ドラッグ、並べ替え、削除して比較内容を変更できるインタラクティブな call ID token (たとえば `f02b`、`4a98`) が表示されます。
+4. 利用可能なアクションを使用してビューを絞り込めます。
+
+<div id="customize-the-comparison-view">
+  ## 比較ビューをカスタマイズする
+</div>
+
+比較ビューでは、オブジェクトの表示方法や比較方法を調整できます。以下のセクションでは、利用可能な操作について説明します。
+
+* [summary を表示する](#display-summary)
+* [Calls ビューを表示する](#display-a-calls-view)
+* [差分の表示を変更する](#change-the-diff-display)
+* [並べて表示する](#display-side-by-side)
+* [統合ビューで表示する](#display-in-a-unified-view)
+* [ベースラインを設定する](#set-a-baseline)
+* [ベースラインを削除する](#remove-a-baseline)
+* [比較の順序を変更する](#change-the-comparison-order)
+* [数値差分の表示形式を変更する](#change-numeric-diff-display-format)
+* [ベースラインまたは直前の項目と比較する](#compare-with-baseline-or-previous)
+* [複数オブジェクト比較から1組を選んで比較する](#compare-a-pair-from-a-multi-object-comparison)
+* [比較からオブジェクトを削除する](#remove-an-object-from-comparison)
+
+<div id="display-summary">
+  ### summary を表示する
+</div>
+
+選択したオブジェクトの比較のデフォルトviewは、summary です。この summary には、LLM の入力と出力のプレビューに加えて、トークン数、コスト、レイテンシが含まれます。
+
+<Frame>
+  ![2 つのオブジェクトの Comparison Summary view](/weave/guides/tools/imgs/comparison-2objs-summary.png)
+</Frame>
+
+トレースでは、比較表の上部に表示される色付きのバーに、Ops に適用したカスタムの種類と色が反映されます。この強化された視認性の活用方法について詳しくは、[種類と色を適用する](/ja/weave/guides/tracking/ops#apply-kinds-and-colors)を参照してください。
+
+<div id="display-a-calls-view">
+  ### Calls ビューを表示する
+</div>
+
+各オブジェクトの Calls を比較するには、**Calls** を選択します。このビューでは、次のことができます。
+
+* Call の完全なトレース ツリーを表示します。
+* 基本的なインメモリ テキスト検索を利用できます。
+* call ごとのレイテンシ、コスト、トークン数、Op の種類、フィードバックの表示を切り替えられます。
+
+<Frame>
+  ![2 つのオブジェクトの Calls 比較ビュー](/weave/guides/tools/imgs/comparison-2obs-calls.png)
+</Frame>
+
+<div id="change-the-diff-display">
+  ### 差分表示を変更する
+</div>
+
+デフォルトでは、**Diff only** はオフになっています。変更された行だけを表示するには、**Diff only** をオンにして、表の行をフィルターします。
+
+**Diff only** は並列表示ビューと統合ビューで適用され、その他のビューでは無効です。
+
+<div id="display-side-by-side">
+  ### 並べて表示
+</div>
+
+各オブジェクトを別々の列に並べて比較するには、**Side-by-side** を選択します。
+
+<Frame>
+  ![2 つのオブジェクトの Side-by-side 比較ビュー](/weave/guides/tools/imgs/comparison-2objs-sidebyside.png)
+</Frame>
+
+<div id="display-in-a-unified-view">
+  ### 統合ビューで表示する
+</div>
+
+2 つのオブジェクトを統合ビューで比較するには、**Unified** を選択します。3 つ以上のオブジェクトを比較する場合、このビューは使用できません。
+
+<Frame>
+  ![2 つのオブジェクトの Unified 比較ビュー](/weave/guides/tools/imgs/comparison-2objs-unified.png)
+</Frame>
+
+<div id="set-a-baseline">
+  ### ベースラインを設定する
+</div>
+
+デフォルトでは、比較ビュー 内の各オブジェクトは左隣のオブジェクトと比較されます。ただし、オブジェクトを *ベースライン* として設定することもできます。この場合、すべてのオブジェクトはビューの左端にあるオブジェクトと比較されます。既知の正常な run など、単一の基準点に対してすべてのオブジェクトを比較したい場合は、ベースラインを使用します。
+
+オブジェクトを ベースライン として設定するには、次の手順に従います。
+
+1. 比較バー で、ベースライン として設定するオブジェクトにポインターを合わせます。
+2. ID の右側にある **アクション (<Icon icon="ellipsis-vertical" iconType="solid" />)** メニューをクリックします。
+   ![比較バー で選択したオブジェクトに対する Make baseline オプションを示す 比較ビュー。](/weave/guides/tools/imgs/comparison-2objs-baseline.png)
+3. 一覧で **Make baseline** を選択します。UI が更新され、ベースライン オブジェクトが 比較バー の左端に配置され、ID の横に `Baseline` が表示されます。
+   ![比較バー の左端に配置された、選択した ベースライン オブジェクトを示す 比較ビュー。](/weave/guides/tools/imgs/comparison-2objs-baseline-set.png)
+
+<div id="remove-a-baseline">
+  ### ベースラインを削除
+</div>
+
+オブジェクトをベースラインから削除するには、次の手順に従います。
+
+1. 比較バーで、ベースライン オブジェクトにポインターを合わせます。
+2. ID の右側にある**アクション (<Icon icon="ellipsis-vertical" iconType="solid" />)** メニューをクリックします。
+3. リストで **ベースラインを削除** を選択します。call ID の横に `Baseline` は表示されなくなります。
+
+<div id="change-the-comparison-order">
+  ### 比較順序を変更する
+</div>
+
+比較バー内のオブジェクトをドラッグして、並び順を変更します。これに対応して、比較表の列の順序も変更されます。
+
+比較順序を変更するには:
+
+1. 比較バーで、並べ替えたい ID にポインターを合わせます。
+2. ID の左側にある 6 つの点をクリックしたまま、必要に応じて左または右にドラッグします。
+3. ID を目的の位置に配置します。比較データが更新され、新しい比較順序が反映されます。
+
+<div id="change-numeric-diff-display-format">
+  ### 数値差分の表示形式を変更する
+</div>
+
+`completion_tokens` や `total_tokens` などの数値では、差分を整数またはパーセンテージで表示できます。正の数値を倍率として表示することもできます。
+
+数値差分の表示形式を変更するには、次の手順に従います。
+
+1. 比較表で、差分の表示形式を変更したい数値を検索します。
+   ![整数として表示された数値。](/weave/guides/tools/imgs/comparison-2objs-numericdiffformat.png)
+2. 差分の値をクリックします。表示形式が自動的に整数またはパーセンテージに切り替わります。
+   ![パーセンテージに更新された数値。](/weave/guides/tools/imgs/comparison-2objs-numericdiffformat-updated.png)
+
+<div id="compare-with-baseline-or-previous">
+  ### ベースラインまたは前回のオブジェクトと比較する
+</div>
+
+このオプションは、3 つ以上のオブジェクトを比較している場合にのみ使用できます。[ベースラインを設定](#set-a-baseline)することも、[既存のベースラインを削除](#remove-a-baseline)することもできます。
+
+3 つ以上のオブジェクトでベースライン比較を行うには、次の手順に従います。
+
+1. Side-by-side または Unified Comparison view の右上隅で、リストをクリックします。現在の view 設定に応じて、リストのタイトルは **Compare with previous** または **Compare with baseline** になります。
+2. 現在の view 設定に応じて、**Compare with previous** または **Compare with baseline** を選択します。
+   * **Compare with baseline**: 左端のオブジェクトをベースラインとして設定します。表が更新され、左端の列がベースラインになります。
+   * **Compare with previous**: ベースラインとして設定されるオブジェクトはありません。
+
+<div id="compare-a-pair-from-a-multi-object-comparison">
+  ### 複数オブジェクト比較でペアを比較する
+</div>
+
+このオプションは、3 つ以上のオブジェクトを比較している場合にのみ使用できます。
+
+3 つ以上のオブジェクトを比較している場合は、単一のオブジェクトを隣接するオブジェクトまたはベースラインと比較できます。これにより、比較表ビューが 2 オブジェクト比較と同じ表示に切り替わります。
+
+複数オブジェクト比較でオブジェクトのペアを比較するには、次の手順に従います。
+
+1. 比較バーで、比較する ID を選択します。ベースラインを設定している場合は、選択したオブジェクトがベースラインと比較されます。設定していない場合は、比較バーでそのすぐ左にある ID のオブジェクトと比較されます。
+2. 項目を選択するには、ID をクリックします。UI が更新され、2 項比較の表が表示されます。
+   ![複数オブジェクト比較でペアを比較する。](/weave/guides/tools/imgs/comparison-7objs-diffonly-subset.png)
+
+比較用に最初に選択した 6 つのオブジェクトが表に表示されるようにビューをリセットするには、ID をもう一度クリックします。
+
+<div id="remove-an-object-from-comparison">
+  ### 比較からオブジェクトを削除する
+</div>
+
+このオプションは、3 つ以上のオブジェクトを比較している場合にのみ使用できます。
+
+比較からオブジェクトを削除するには:
+
+1. 比較バーで、比較から削除したいオブジェクトを検索します。
+2. ID の右側にある**アクション (<Icon icon="ellipsis-vertical" iconType="solid" />)**メニューをクリックします。
+3. 一覧で **比較からオブジェクトを削除** を選択します。UI が更新され、削除したオブジェクトを含まない表が表示されます。
+
+<div id="usage-notes">
+  ## 使用上のメモ
+</div>
+
+以下では、比較機能の制限事項と動作について説明します。
+
+* 比較機能は UI でのみ利用できます。
+* 比較できるオブジェクト数に制限はありませんが、UI に表示されるのは最大 6 つまでです。6 つを超えるオブジェクトを比較している場合に、表示されていないオブジェクトを比較表で確認するには、[比較順序を変更](#change-the-comparison-order)してそのオブジェクトが左から最初の 6 つに入るようにするか、または [複数オブジェクト比較から 2 つを比較](#compare-a-pair-from-a-multi-object-comparison)してください。

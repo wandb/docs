@@ -1,27 +1,159 @@
 ---
-title: Import & Export API
+title: Public API Overview
+description: W&B Public API를 사용해 프로그래밍 방식으로 W&B 데이터에 액세스하고 관리합니다
+module: wandb.apis.public
+no_list: true
 ---
 
-## 클래스
+import PublicApiUse from "/snippets/ko/_includes/public-api-use.mdx";
 
-[`class Api`](/ko/models/ref/python/public-api/api/): wandb 서버 를 쿼리하는 데 사용됩니다.
+W&amp;B Public API는 W&amp;B에 저장된 데이터를 프로그래밍 방식으로 쿼리, 내보내기, 업데이트할 수 있도록 지원합니다. 이 API는 사후 분석, 데이터 내보내기, 그리고 run, 아티팩트, sweep의 프로그래밍 방식 관리에 사용하세요. 기본 SDK가 트레이닝 중 실시간 logging을 처리하는 반면, Public API를 사용하면 과거 데이터를 조회하고, 메타데이터를 업데이트하고, 아티팩트를 관리하고, 완료된 실험을 분석할 수 있습니다. 기본 `Api` 클래스는 대부분의 기능에 접근하는 진입점입니다.
 
-[`class File`](/ko/models/ref/python/public-api/file/): File은 wandb에서 저장한 파일과 연결된 클래스입니다.
+<PublicApiUse />
 
-[`class Files`](/ko/models/ref/python/public-api/files/): `File` 오브젝트 의 반복 가능한 컬렉션입니다.
+<div id="available-components">
+  ## 사용 가능한 컴포넌트
+</div>
 
-[`class Job`](/ko/models/ref/python/public-api/job/)
+| 컴포넌트                                                  | 설명                                                         |
+| ----------------------------------------------------- | ---------------------------------------------------------- |
+| [`Api`](/ko/models/ref/python/public-api/api/)           | Public API의 기본 진입점입니다. 조직 전체에서 run, 프로젝트, 아티팩트를 쿼리합니다. |
+| [`Runs`](/ko/models/ref/python/public-api/runs/)         | 이력, 로그, 메트릭을 포함한 개별 트레이닝 run에 액세스하고 관리합니다.                 |
+| [`Artifacts`](/ko/models/artifacts/)                     | 모델 아티팩트, 데이터셋, 기타 버전 관리되는 파일을 쿼리하고 다운로드합니다.            |
+| [`Sweeps`](/ko/models/sweeps/)                           | 하이퍼파라미터 sweep 데이터에 액세스하고 최적화 결과를 분석합니다.                    |
+| [`Projects`](/ko/models/ref/python/public-api/projects/) | 프로젝트를 관리하고 프로젝트 수준의 메타데이터와 설정에 액세스합니다.                     |
+| [`Reports`](/ko/models/reports/create-a-report/)         | 프로그래밍 방식으로 W&amp;B Reports에 액세스하고 관리합니다.                   |
+| [`Team`](/ko/models/ref/python/public-api/team)          | 팀 정보를 쿼리하고 팀 수준 리소스를 관리합니다.                                |
+| [`User`](/ko/models/ref/python/public-api/user)          | 사용자 프로필과 사용자별 데이터에 액세스합니다.                                 |
+| [`Files`](/ko/models/ref/python/public-api/files/)       | run과 연결된 파일을 다운로드하고 관리합니다.                                 |
+| `History`                                             | 트레이닝 중 로깅된 상세 시계열 메트릭에 액세스합니다(`Run.history` 참조).           |
+| [`Automations`](./automations/)                       | 자동화된 워크플로와 작업을 관리합니다.                                      |
+| [`Integrations`](/ko/models/integrations)                | 타사 인테그레이션을 구성하고 관리합니다.                                     |
 
-[`class Project`](/ko/models/ref/python/public-api/project/): Project는 Runs의 네임스페이스입니다.
+<div id="common-use-cases">
+  ## 일반적인 활용 사례
+</div>
 
-[`class Projects`](/ko/models/ref/python/public-api/projects/): `Project` 오브젝트의 반복 가능한 컬렉션입니다.
+<div id="data-export-and-analysis">
+  ### 데이터 내보내기 및 분석
+</div>
 
-[`class QueuedRun`](/ko/models/ref/python/public-api/queuedrun/): 엔티티 및 프로젝트와 연결된 단일 대기열에 있는 Run입니다. `run = queued_run.wait_until_running()` 또는 `run = queued_run.wait_until_finished()`를 호출하여 Run에 엑세스합니다.
+* Jupyter 노트북에서 분석할 수 있도록 run 이력을 데이터프레임으로 내보내기
+* 맞춤형 시각화 또는 보고를 위해 메트릭 다운로드
+* 여러 실험의 결과 집계
 
-[`class Run`](./run): 엔티티 및 프로젝트와 연결된 단일 Run입니다.
+<div id="post-hoc-updates">
+  ### 사후 업데이트
+</div>
 
-[`class RunQueue`](/ko/models/ref/python/public-api/runqueue/)
+* 완료 후 run 메타데이터를 업데이트
+* 완료된 실험에 tags 또는 notes 추가
+* run 설정 또는 요약 수정
 
-[`class Runs`](/ko/models/ref/python/public-api/runs/): 프로젝트와 연결된 Run의 반복 가능한 컬렉션이며, 선택적 필터입니다.
+<div id="artifact-management">
+  ### 아티팩트 관리
+</div>
 
-[`class Sweep`](./sweep): 스윕 과 연결된 Run의 집합입니다.
+* 버전 또는 alias로 아티팩트 쿼리
+* 프로그래밍 방식으로 모델 체크포인트 다운로드
+* 아티팩트 리니지와 의존성 추적
+
+<div id="sweep-analysis">
+  ### Sweep 분석
+</div>
+
+* Sweep 결과와 성능이 가장 좋은 run 확인
+* 하이퍼파라미터 검색 결과 내보내기
+* 파라미터 중요도 분석
+
+<div id="authentication">
+  ## 인증
+</div>
+
+Public API는 Python SDK와 동일한 인증 방식을 사용합니다. 다음과 같은 여러 방법으로 인증할 수 있습니다:
+
+`WANDB_API_KEY` 환경 변수를 사용해 API 키를 설정합니다:
+
+```bash
+export WANDB_API_KEY=your_api_key
+```
+
+`Api` 클래스를 초기화할 때 API 키를 직접 전달하세요:
+
+```python
+api = Api(api_key="your_api_key")
+```
+
+또는 현재 세션을 인증하려면 `wandb.login()`을 사용하세요:
+
+```python
+import wandb
+
+wandb.login()
+api = Api()
+```
+
+<div id="example-usage">
+  ## 사용 예시
+</div>
+
+<div id="download-an-artifact-by-name-and-alias">
+  ### 이름과 alias를 사용해 아티팩트 다운로드하기
+</div>
+
+다음 예제에서는 이름과 alias를 사용해 W&amp;B에 로깅된 아티팩트를 조회한 뒤, 그 내용을 다운로드하는 방법을 보여줍니다.
+
+```python
+import wandb
+
+api = wandb.Api()
+artifact = api.artifact("entity/project/artifact:alias")
+artifact.download()
+```
+
+<div id="download-an-artifact-from-a-registry">
+  ### 레지스트리에서 아티팩트 다운로드
+</div>
+
+다음 예제에서는 W&amp;B 레지스트리에 연결된 아티팩트를 조회하는 방법을 보여줍니다
+
+```python
+import wandb
+
+REGISTRY = "<registry_name>"
+COLLECTION = "<collection_name>"
+VERSION = "<version>"
+
+api = wandb.Api()
+artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{VERSION}"
+
+# 아티팩트 가져오기
+fetched_artifact = api.artifact(name = artifact_name)
+
+# 아티팩트 다운로드. 다운로드된 콘텐츠의 경로 반환
+downloaded_path = fetched_artifact.download()
+```
+
+<div id="query-wb-registry">
+  ### W&amp;B 레지스트리 쿼리
+</div>
+
+Mongo와 유사한 필터를 사용해 W&amp;B 레지스트리, 컬렉션, Artifacts를 쿼리할 수 있습니다. 다음 예제는 정규식을 사용해 이름을 기준으로 컬렉션을 필터링하는 방법을 보여줍니다.
+
+```python
+import wandb
+
+# wandb API 초기화
+api = wandb.Api()
+
+# 레지스트리에 관계없이 컬렉션 이름에 `yolo` 문자열이
+# 포함된 모든 컬렉션 필터링
+collection_filters = {
+    "name": {"$regex": "yolo"}
+}
+
+# 필터 조건에 맞는 모든 컬렉션의 이터러블 반환
+collections = api.registries().collections(filter=collection_filters)
+```
+
+레지스트리, 컬렉션 또는 아티팩트를 쿼리하는 방법에 대한 자세한 내용은 [레지스트리 항목 찾기](/ko/models/registry/search_registry)를 참조하세요.

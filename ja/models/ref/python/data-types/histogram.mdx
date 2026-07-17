@@ -1,48 +1,57 @@
 ---
-title: ヒストグラム
+title: Histogram
+namespace: python_sdk_data_type
+python_object_type: class
 ---
 
-<Card title="View the source code" href="https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/histogram.py#L18-L94" icon="github"/>
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-wandb のヒストグラム用クラス。
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/histogram.py" />
+
+
+## <kbd>class</kbd> `Histogram`
+
+Histogram 用の W&amp;B クラス。
+
+このオブジェクトは、numpy の histogram 関数 [https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html](https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html) とまったく同じように動作します。
+
+**属性:**
+
+* `bins` ([float]):  ビンの境界
+* `histogram` ([int]):  各ビンに含まれる要素数。
+
+### <kbd>method</kbd> `Histogram.__init__`
 
 ```python
-Histogram(
-    sequence: Optional[Sequence] = None,
-    np_histogram: Optional['NumpyHistogram'] = None,
-    num_bins: int = 64
-) -> None
+__init__(
+    sequence: 'Sequence | None' = None,
+    np_histogram: 'NumpyHistogram | None' = None,
+    num_bins: 'int' = 64
+) → None
 ```
 
-このオブジェクトは numpy のヒストグラム関数と同様に動作します。
-https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html
+Histogramオブジェクトを初期化します。
 
-#### 例:
+**引数:**
+sequence: ヒストグラムの入力データ。 np&#95;histogram: 事前計算済みヒストグラムの代替入力。 num&#95;bins: ヒストグラムのビン数。デフォルトのビン数は 64 です。ビン数の最大値は 512 です。
 
-シーケンスからヒストグラムを生成
+**例:**
+シーケンスからヒストグラムを生成します。
 
 ```python
+import wandb
+
 wandb.Histogram([1, 2, 3])
 ```
 
-np.histogram から効率的に初期化。
+np.histogramから効率的に初期化します。
 
 ```python
+import numpy as np
+import wandb
+
 hist = np.histogram(data)
 wandb.Histogram(np_histogram=hist)
 ```
 
-| Args | Description |
-| :--- | :--- |
-|  `sequence` |  (array_like) ヒストグラムの入力データ |
-|  `np_histogram` |  (numpy histogram) あらかじめ計算されたヒストグラムの代替入力 |
-|  `num_bins` |  (int) ヒストグラムのビンの数。デフォルトのビンの数は 64 です。ビンの最大数は 512 です |
-
-| Attributes | Description |
-| :--- | :--- |
-|  `bins` |  ([float]) ビンの境界 |
-|  `histogram` |  ([int]) 各ビンに入る要素の数 |
-
-| Class Variables |  |
-| :--- | :--- |
-|  `MAX_LENGTH`<a id="MAX_LENGTH"></a> |  `512` |
+***

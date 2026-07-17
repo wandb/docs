@@ -1,0 +1,70 @@
+---
+title: "Obtenir une référence à l’objet Call pendant l’exécution"
+description: "Accédez à l’objet W&B Weave `Call` à l’exécution pour le feedback, les noms d’affichage et d’autres métadonnées"
+keywords: [objet Call, op.call, métadonnées d’exécution, feedback, tracing]
+---
+
+Ce guide explique comment obtenir une référence à l’objet Weave `Call` pendant l’exécution de votre code, afin d’inspecter les entrées et les sorties, de mettre à jour des métadonnées ou d’ajouter du feedback à l’exécution. Il s’adresse aux développeurs qui utilisent déjà les Ops de Weave et souhaitent interagir de manière programmatique avec l’objet `Call` sous-jacent.
+
+Lorsque vous utilisez une Op dans Weave, vous pouvez l’appeler directement comme n’importe quelle fonction :
+
+<CodeGroup>
+  ```python Python lines
+  @weave.op
+  def my_op():
+      ...
+
+  my_op()
+  ```
+
+  ```typescript twoslash TypeScript lines
+  // @noErrors
+  function myFunction() {
+      ...
+  }
+
+  const myFunctionOp = weave.op(myFunction)
+  ```
+</CodeGroup>
+
+Pour accéder directement à l’objet `Call`, appelez la méthode `op.call`, qui renvoie à la fois le résultat et l’objet `Call` :
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    @weave.op
+    def my_op():
+    ...
+
+    output, call = my_op.call()
+    ```
+
+    L’objet `call` contient toutes les informations sur le `Call`, y compris les entrées, les sorties et d’autres métadonnées. Utilisez `call` pour définir, mettre à jour, récupérer des propriétés supplémentaires ou ajouter du feedback.
+
+    Si votre Op est une méthode d’une classe, passez l’instance de classe comme premier argument à `call` :
+
+    ```python lines
+    import weave
+
+    # Initialiser Weave Tracing
+    weave.init("intro-example")
+
+    class MyClass:
+        # Décorez votre méthode
+        @weave.op
+        def my_method(self, name: str):
+            return f"Hello, {name}!"
+
+    instance = MyClass()
+
+    # Passez `instance` comme premier argument à `call`.
+    result, call = instance.my_method.call(instance, "World")
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```text
+    Cette fonctionnalité n’est pas encore disponible dans le SDK TypeScript.
+    ```
+  </Tab>
+</Tabs>

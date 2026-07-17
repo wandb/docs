@@ -1,0 +1,135 @@
+---
+title: spaCy
+description: "W&B를 spaCy v3와 통합하여 트레이닝 메트릭을 추적하고 WandbLogger 설정을 통해 모델과 데이터셋을 버전 관리하세요."
+---
+
+import ApiKeyCreateStreamlined from "/snippets/ko/_includes/api-key-create-streamlined.mdx";
+
+[spaCy](https://spacy.io)는 빠르고 정확한 모델을 제공하는 NLP 라이브러리입니다. spaCy v3부터는 W&amp;B를 [`spacy train`](https://spacy.io/api/cli#train)과 함께 사용해 spaCy 모델의 트레이닝 메트릭을 추적하고, 모델과 데이터셋을 저장하고 버전 관리할 수 있습니다. 필요한 것은 설정에 몇 줄만 추가하는 것뿐입니다.
+
+spaCy를 사용한다면, 이 페이지에서는 W&amp;B로 트레이닝 runs을 모니터링하고 실험을 비교하며, `spacy train`으로 생성한 모델과 데이터셋을 버전 관리하는 방법을 설명합니다.
+
+<div id="sign-up-and-create-an-api-key">
+  ## 가입하고 API 키 생성하기
+</div>
+
+API 키는 사용 중인 머신을 W&amp;B에 인증하는 데 사용됩니다. 사용자 프로필에서 API 키를 생성할 수 있습니다.
+
+<ApiKeyCreateStreamlined />
+
+1. 오른쪽 상단에서 사용자 프로필 아이콘을 클릭합니다.
+2. **User Settings**를 선택한 다음 **API Keys** 섹션까지 스크롤합니다.
+
+<div id="install-the-wandb-library-and-log-in">
+  ## `wandb` 라이브러리 설치 및 로그인
+</div>
+
+로컬 환경에 `wandb` 라이브러리를 설치하고 로그인하려면 다음 단계를 따르세요.
+
+<Tabs>
+  <Tab title="명령줄">
+    1. `WANDB_API_KEY` [환경 변수](/ko/models/track/environment-variables/)를 API 키로 설정합니다. `<>`로 묶인 값은 사용자의 값으로 바꾸세요.
+
+       ```bash
+       export WANDB_API_KEY=<your_api_key>
+       ```
+
+    2. `wandb` 라이브러리를 설치하고 로그인합니다.
+
+       ```shell
+       pip install wandb
+
+       wandb login
+       ```
+  </Tab>
+
+  <Tab title="Python">
+    ```bash
+    pip install wandb
+    ```
+
+    ```python
+    import wandb
+    wandb.login()
+    ```
+  </Tab>
+
+  <Tab title="Python 노트북">
+    ```notebook
+    !pip install wandb
+
+    import wandb
+    wandb.login()
+    ```
+  </Tab>
+</Tabs>
+
+<div id="add-the-wandblogger-to-your-spacy-config-file">
+  ## spaCy 설정 파일에 `WandbLogger` 추가하기
+</div>
+
+spaCy 설정 파일은 로깅만이 아니라 트레이닝의 모든 측면(GPU 할당, 최적화기 선택, 데이터셋 경로 등)을 지정합니다. 최소한 `[training.logger]` 아래에서 `@loggers` 키를 `"spacy.WandbLogger.v3"` 값으로 설정하고, `project_name`도 지정해야 합니다.
+
+<Note>
+  spaCy 트레이닝 설정 파일의 작동 방식과 트레이닝을 사용자 지정할 때 전달할 수 있는 다른 옵션에 대한 자세한 내용은 [spaCy&#39;s documentation](https://spacy.io/usage/training)을 참조하세요.
+</Note>
+
+```python
+[training.logger]
+@loggers = "spacy.WandbLogger.v3"
+project_name = "my_spacy_project"
+remove_config_values = ["paths.train", "paths.dev", "corpora.train.path", "corpora.dev.path"]
+log_dataset_dir = "./corpus"
+model_log_interval = 1000
+```
+
+다음 표에서는 `WandbLogger` 설정 옵션을 설명합니다.
+
+| Name                   | Description                                                                                                                               |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `project_name`         | `str`. W&amp;B 프로젝트의 이름입니다. 프로젝트가 아직 없으면 W&amp;B가 자동으로 생성합니다.                                                                             |
+| `remove_config_values` | `List[str]` . W&amp;B에 업로드하기 전에 설정에서 제외할 값의 목록입니다. 기본값은 `[]`입니다.                                                                          |
+| `model_log_interval`   | `Optional int`. 기본값은 `None`입니다. 설정하면 [모델 버전 관리](/ko/models/registry/)와 [아티팩트](/ko/models/artifacts/)가 활성화됩니다. 모델 체크포인트를 로깅하는 간격(step 수)을 지정하세요. |
+| `log_dataset_dir`      | `Optional str`. 경로를 전달하면 W&amp;B가 트레이닝 시작 시 데이터셋을 아티팩트로 업로드합니다. 기본값은 `None`입니다.                                                           |
+| `entity`               | `Optional str` . 지정하면 W&amp;B가 해당 entity에 run을 생성합니다.                                                                                     |
+| `run_name`             | `Optional str` . 지정하면 W&amp;B가 해당 이름으로 run을 생성합니다.                                                                                        |
+
+<div id="start-training">
+  ## 트레이닝 시작
+</div>
+
+spaCy 트레이닝 설정에 `WandbLogger`를 추가한 후에는 평소처럼 `spacy train`을 실행하면 되며, W&amp;B가 run을 자동으로 캡처합니다.
+
+<Tabs>
+  <Tab title="명령줄">
+    ```bash
+    python -m spacy train \
+        config.cfg \
+        --output ./output \
+        --paths.train ./train \
+        --paths.dev ./dev
+    ```
+  </Tab>
+
+  <Tab title="Python">
+    ```python
+    python -m spacy train \
+        config.cfg \
+        --output ./output \
+        --paths.train ./train \
+        --paths.dev ./dev
+    ```
+  </Tab>
+
+  <Tab title="Python 노트북">
+    ```notebook
+    !python -m spacy train \
+        config.cfg \
+        --output ./output \
+        --paths.train ./train \
+        --paths.dev ./dev
+    ```
+  </Tab>
+</Tabs>
+
+트레이닝이 시작되면 spaCy가 트레이닝 run의 [W&amp;B 페이지](/ko/models/runs/)로 연결되는 링크를 출력하며, 이 링크를 통해 W&amp;B 웹 UI에서 해당 run의 실험 추적 [대시보드](/ko/models/track/workspaces/)로 이동할 수 있습니다.

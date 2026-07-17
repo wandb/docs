@@ -1,0 +1,31 @@
+---
+title: 散布図をログする
+---
+
+```python
+"""
+Log a scatter plot to W&B. 
+
+Replace:
+- values enclosed in angle brackets with your own
+- [[1, 2], [2, 3]] in wandb.Table(data=) with your own 2D row-oriented array of values to plot
+
+Pass a 2D row-oriented array of values to data (wandb.Table(data=)), with
+column names specified in the `columns` parameter.
+
+Column names must match the x and y parameters in the `wandb.plot.scatter()` plotting function.
+"""
+import wandb
+
+# 新しいrunを開始する
+with wandb.init(entity="<entity>", project="<project>") as run:
+        
+    # プロットする列を含む表を作成する
+    table = wandb.Table(data=[[1, 2], [2, 3]], columns=["<a_column>", "<b_column>"])
+
+    # 表を使用してさまざまなカスタムチャートにデータを入力する
+    scatter = wandb.plot.scatter(table, x='<a_column>', y='<b_column>', title='<title>')
+
+    # カスタム表をログする（UIのカスタマイズ可能なチャートに表示されます）
+    run.log({'scatter_1': scatter})
+```

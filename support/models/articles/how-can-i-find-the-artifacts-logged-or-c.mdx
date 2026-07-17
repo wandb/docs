@@ -1,0 +1,57 @@
+---
+title: "How can I find the artifacts logged or consumed by a run? How can I find the runs that produced or consumed an artifact?"
+keywords: ["Artifacts"]
+---
+
+This page shows you how to trace the relationships between runs and artifacts in W&B. You can find which run produced or consumed a given artifact, or which artifacts a given run produced or consumed. This is useful for auditing data lineage, debugging pipelines, and understanding how artifacts flow through your experiments.
+
+W&B tracks the artifacts that each run logs and uses to construct an artifact graph. This graph is a bipartite, directed, acyclic graph with nodes that represent runs and artifacts. See [an example artifact graph](https://wandb.ai/shawn/detectron2-11/artifacts/dataset/furniture-small-val/06d5ddd4deeb2a6ebdd5/graph) and click **Explode** to expand the graph.
+
+Use the W&B Public API to navigate the graph programmatically, starting from either an artifact or a run. Choose the tab that matches your starting point.
+
+<Tabs>
+<Tab title="From an artifact">
+
+```python
+api = wandb.Api()
+
+artifact = api.artifact("[PROJECT]/[ARTIFACT]:[ALIAS]")
+
+# Walk up the graph from an artifact:
+producer_run = artifact.logged_by()
+# Walk down the graph from an artifact:
+consumer_runs = artifact.used_by()
+
+# Walk down the graph from a run:
+next_artifacts = consumer_runs[0].logged_artifacts()
+# Walk up the graph from a run:
+previous_artifacts = producer_run.used_artifacts()
+```
+
+</Tab>
+<Tab title="From a run">
+
+```python
+api = wandb.Api()
+
+run = api.run("[ENTITY]/[PROJECT]/[RUN_ID]")
+
+# Walk down the graph from a run:
+produced_artifacts = run.logged_artifacts()
+# Walk up the graph from a run:
+consumed_artifacts = run.used_artifacts()
+
+# Walk up the graph from an artifact:
+earlier_run = consumed_artifacts[0].logged_by()
+# Walk down the graph from an artifact:
+consumer_runs = produced_artifacts[0].used_by()
+```
+
+</Tab>
+</Tabs>
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/support/models/tags/artifacts)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

@@ -1,0 +1,196 @@
+---
+title: PyTorch Geometric
+description: "기하 딥러닝에서 그래프 시각화 및 실험 추적을 위해 W&B를 PyTorch Geometric과 통합하세요."
+---
+
+import ApiKeyCreateStreamlined from "/snippets/ko/_includes/api-key-create-streamlined.mdx";
+
+[PyTorch Geometric](https://github.com/pyg-team/pytorch_geometric) (PyG)는 기하 딥러닝을 위한 라이브러리이며, W&amp;B와 함께 그래프 시각화 및 실험 추적에 활용할 수 있습니다.
+
+이 가이드에서는 W&amp;B 인증 방법, `wandb` 라이브러리 설치 방법, PyVis 또는 Plotly를 사용한 PyG 그래프 시각화 방법, 그리고 PyG 워크플로에서 트레이닝 메트릭을 로깅하는 방법을 설명합니다. 이를 활용해 실험을 추적하고 W&amp;B에서 그래프 시각화를 공유하세요.
+
+PyTorch Geometric를 설치한 후 시작하려면 다음 단계를 따르세요.
+
+<div id="sign-up-and-create-an-api-key">
+  ## 가입하고 API 키 생성하기
+</div>
+
+API 키는 머신이 W&amp;B에 인증되도록 합니다. 사용자 프로필에서 API 키를 생성할 수 있습니다.
+
+<ApiKeyCreateStreamlined />
+
+1. 오른쪽 상단에서 사용자 프로필 아이콘을 클릭합니다.
+2. **User Settings**를 선택한 다음 **API Keys** 섹션으로 스크롤합니다.
+
+<div id="install-the-wandb-library-and-log-in">
+  ## `wandb` 라이브러리 설치 및 로그인
+</div>
+
+로컬에 `wandb` 라이브러리를 설치하고 로그인하려면 다음 단계를 따르세요.
+
+<Tabs>
+  <Tab title="명령줄">
+    1. `WANDB_API_KEY` [환경 변수](/ko/models/track/environment-variables/)를 API 키로 설정합니다. `<>`로 묶인 값은 사용자 환경에 맞게 바꾸세요.
+
+       ```bash
+       export WANDB_API_KEY=<your_api_key>
+       ```
+
+    2. `wandb` 라이브러리를 설치하고 로그인합니다.
+
+       ```bash
+       pip install wandb
+
+       wandb login
+       ```
+  </Tab>
+
+  <Tab title="Python">
+    ```bash
+    pip install wandb
+    ```
+
+    ```python
+    import wandb
+    wandb.login()
+    ```
+  </Tab>
+
+  <Tab title="Python notebook">
+    ```python
+    !pip install wandb
+
+    import wandb
+    wandb.login()
+    ```
+  </Tab>
+</Tabs>
+
+<div id="visualize-the-graphs">
+  ## 그래프 시각화
+</div>
+
+로그인한 후에는 그래프 시각화와 run 데이터를 W&amp;B로 보내기 시작할 수 있습니다.
+
+에지 수, 노드 수 등 입력 그래프에 대한 세부 정보를 저장할 수 있습니다. W&amp;B는 Plotly 차트와 HTML 패널 로깅을 지원하므로 그래프용으로 만든 모든 시각화도 W&amp;B에 로깅할 수 있습니다. 다음 섹션에서는 일반적으로 사용되는 두 가지 접근 방식을 소개합니다. 하나는 대화형 HTML 시각화를 위한 PyVis이고, 다른 하나는 차트 기반 시각화를 위한 Plotly입니다.
+
+<div id="use-pyvis">
+  ### PyVis 사용하기
+</div>
+
+다음 스니펫은 PyVis와 HTML을 사용해 이를 수행하는 방법을 보여줍니다.
+
+```python
+from pyvis.network import Network
+import wandb
+
+with wandb.init(project="graph_vis") as run:
+    net = Network(height="750px", width="100%", bgcolor="#222222", font_color="white")
+
+    # PyG 그래프의 엣지를 PyVis 네트워크에 추가
+    for e in tqdm(g.edge_index.T):
+        src = e[0].item()
+        dst = e[1].item()
+
+        net.add_node(dst)
+        net.add_node(src)
+        
+        net.add_edge(src, dst, value=0.1)
+
+    # PyVis 시각화를 HTML 파일로 저장
+    net.show("graph.html")
+    run.log({"eda/graph": wandb.Html("graph.html")})
+```
+
+<Frame>
+  <img src="/images/integrations/pyg_graph_wandb.png" alt="대화형 그래프 시각화" />
+</Frame>
+
+<div id="use-plotly">
+  ### Plotly 사용하기
+</div>
+
+Plotly를 사용해 그래프 시각화를 만들려면 먼저 PyG 그래프를 networkx 객체로 변환하세요. 그런 다음 노드와 엣지 각각에 대한 Plotly scatter plot을 만드세요. 이 작업에는 다음 스니펫을 사용하세요.
+
+```python
+def create_vis(graph):
+    G = to_networkx(graph)
+    pos = nx.spring_layout(G)
+
+    edge_x = []
+    edge_y = []
+    for edge in G.edges():
+        x0, y0 = pos[edge[0]]
+        x1, y1 = pos[edge[1]]
+        edge_x.append(x0)
+        edge_x.append(x1)
+        edge_x.append(None)
+        edge_y.append(y0)
+        edge_y.append(y1)
+        edge_y.append(None)
+
+    edge_trace = go.Scatter(
+        x=edge_x, y=edge_y,
+        line=dict(width=0.5, color='#888'),
+        hoverinfo='none',
+        mode='lines'
+    )
+
+    node_x = []
+    node_y = []
+    for node in G.nodes():
+        x, y = pos[node]
+        node_x.append(x)
+        node_y.append(y)
+
+    node_trace = go.Scatter(
+        x=node_x, y=node_y,
+        mode='markers',
+        hoverinfo='text',
+        line_width=2
+    )
+
+    fig = go.Figure(data=[edge_trace, node_trace], layout=go.Layout())
+
+    return fig
+
+
+with wandb.init(project="visualize_graph") as run:
+    run.log({"graph": wandb.Plotly(create_vis(graph))})
+```
+
+<Frame>
+  <img src="/images/integrations/pyg_graph_plotly.png" alt="예시 함수를 사용해 생성한 뒤 W&B Table에 로깅한 시각화." />
+</Frame>
+
+<div id="log-metrics">
+  ## 메트릭 로깅
+</div>
+
+그래프 시각화에 더해, W&amp;B를 사용해 실험와 관련 메트릭(예: 손실 함수, 정확도 등)을 추적할 수 있습니다. 트레이닝 루프에 다음 줄을 추가하세요:
+
+```python
+with wandb.init(project="my_project", entity="my_entity") as run:
+    run.log({
+        'train/loss': training_loss,
+        'train/acc': training_acc,
+        'val/loss': validation_loss,
+        'val/acc': validation_acc
+        })
+```
+
+<Frame>
+  <img src="/images/integrations/pyg_metrics.png" alt="에포크에 따른 hits@K 메트릭" />
+</Frame>
+
+그래프 시각화와 트레이닝 메트릭을 W&amp;B에 로깅하면, W&amp;B workspace에서 PyG 실험의 Runs를 비교하고 결과를 공유할 수 있습니다.
+
+<div id="more-resources">
+  ## 추가 자료
+</div>
+
+다음 W&amp;B Reports에서는 PyG의 활용 사례를 확인할 수 있습니다:
+
+* [PyTorch Geometric에서 그래프 신경망을 사용해 Amazon 상품 추천하기](https://wandb.ai/manan-goel/gnn-recommender/reports/Recommending-Amazon-Products-using-Graph-Neural-Networks-in-PyTorch-Geometric--VmlldzozMTA3MzYw#what-does-the-data-look-like?)
+* [PyTorch Geometric을 사용한 포인트 클라우드 분류](https://wandb.ai/geekyrakshit/pyg-point-cloud/reports/Point-Cloud-Classification-using-PyTorch-Geometric--VmlldzozMTExMTE3)
+* [PyTorch Geometric을 사용한 포인트 클라우드 분할](https://wandb.ai/wandb/point-cloud-segmentation/reports/Point-Cloud-Segmentation-using-Dynamic-Graph-CNN--VmlldzozMTk5MDcy)

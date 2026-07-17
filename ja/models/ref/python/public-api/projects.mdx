@@ -1,72 +1,72 @@
 ---
-title: プロジェクト
+title: Projects
+namespace: public_apis_namespace
+python_object_type: class
 ---
 
-<Card title="View the source code" href="https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/projects.py#L20-L76" icon="github"/>
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-`Project` オブジェクトの反復可能なコレクション。
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py" />
 
-```python
-Projects(
-    client, entity, per_page=50
-)
-```
 
-| 属性 | Description |
-| :--- | :--- |
+## <kbd>class</kbd> `Projects`
 
-## メソッド
+`Project` オブジェクトの遅延イテレータ。
 
-### `convert_objects`
+entity が作成して保存したプロジェクトにアクセスするためのイテラブルなインターフェース。
 
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/projects.py#L69-L73)
+### <kbd>method</kbd> `Projects.__init__`
 
 ```python
-convert_objects()
+__init__(
+    service_api: 'ServiceApi',
+    entity: 'str',
+    per_page: 'int' = 50
+) → Projects
 ```
 
-### `next`
+**引数:**
 
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L72-L79)
+* `service_api`:  このコレクションに対する W&amp;B API Call を実行する wandb-core サービスへのインターフェース。
+* `entity` (str):  プロジェクトを取得する対象の entity 名 (ユーザー名またはチーム名) 。
+* `per_page` (int):  リクエストごとに取得するプロジェクト数 (デフォルトは 50) 。
+
+**例:**
 
 ```python
-next()
+from wandb.apis.public.api import Api
+
+# この entity に属するプロジェクトを検索する
+projects = Api().projects(entity="entity")
+
+# ファイルを反復処理する
+for project in projects:
+    print(f"Project: {project.name}")
+    print(f"- URL: {project.url}")
+    print(f"- Created at: {project.created_at}")
+    print(f"- Is benchmark: {project.is_benchmark}")
 ```
 
-### `update_variables`
+`Project` オブジェクトのイテラブルなコレクション。
 
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L52-L53)
+**引数:**
 
-```python
-update_variables()
-```
+* `service_api`:  このコレクションに対して W&amp;B API Call を実行する wandb-core サービスへのインターフェース。
+* `entity`:  プロジェクトを所有する entity。
+* `per_page`:  API へのリクエストごとに取得するプロジェクト数。
 
-### `__getitem__`
+***
 
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L65-L70)
+### <kbd>プロパティ</kbd> Projects.cursor
 
-```python
-__getitem__(
-    index
-)
-```
+次に取得するページの開始位置を示す、内部構造が公開されていないカーソルです。
 
-### `__iter__`
+この値は保存しておき、後でページネーションされたクエリに `start=` として渡すことで、このページネーターが前回終了した位置から反復を再開できます。
 
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L26-L28)
+**戻り値:**
 
-```python
-__iter__()
-```
+* `str | None`: カーソルのプロパティ値です。
 
-### `__len__`
+***
 
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L30-L35)
-
-```python
-__len__()
-```
-
-| クラス変数 | Description |
-| :--- | :--- |
-|  `QUERY`<a id="QUERY"></a> |   |
+### <kbd>プロパティ</kbd> Projects.more

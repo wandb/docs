@@ -1,22 +1,33 @@
 ---
-title: wandb ベータ版
+title: wandb beta
 ---
 
-**使い方**
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
 
-`wandb beta [OPTIONS] COMMAND [ARGS]...`
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/beta.py#L19" />
 
-**概要**
+<div id="usage">
+  ## 使用法
+</div>
 
-wandb CLI コマンドのベータ版です。wandb-core が必要です。
+```bash
+beta [OPTIONS] COMMAND [ARGS]...
+```
 
-**オプション**
+<div id="description">
+  ## 説明
+</div>
 
-| **オプション** | **説明** |
-| :--- | :--- |
+wandb CLI コマンドのベータ版です。
 
-**コマンド**
+これらのコマンドは、wandb のどの version でも変更されたり、完全に動作しなくなったりする可能性があります。
 
-| **コマンド** | **説明** |
-| :--- | :--- |
-| sync | トレーニング run を W&B にアップロードします |
+<div id="subcommands">
+  ## サブコマンド
+</div>
+
+| コマンド              | 説明                                              |
+| ----------------- | ----------------------------------------------- |
+| `wandb beta core` | マルチプロセスのワークロード向けに、共有ローカル wandb-core サービスを管理します。 |
+| `wandb beta leet` | W&amp;B LEET: 軽量実験探索ツール。                        |
+| `wandb beta sync` | PATHS で指定された .wandb ファイルをアップロードします。             |

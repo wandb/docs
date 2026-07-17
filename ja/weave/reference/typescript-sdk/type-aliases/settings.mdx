@@ -1,0 +1,33 @@
+---
+title: "Settings"
+description: "TypeScript SDK リファレンス"
+---
+
+<div id="settings">
+  # Settings
+</div>
+
+Ƭ **Settings**: `Object`
+
+<div id="type-declaration">
+  #### 型宣言
+</div>
+
+| 名                      | タイプ                                                                                                         | 説明                                                                                                                                                                                                                                                                                                                                          |
+| :--------------------- | :---------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `attributes`           | `Record`&lt;`string`, `any`&gt;                                                                             | このクライアントが生成するすべてのトレースに適用される属性のマップです。                                                                                                                                                                                                                                                                                                        |
+| `genai`                | &#123; `batchOptions?`: `BufferConfig` ; `spanProcessor?`: `"batch"` | `"simple"` | `SpanProcessor`  &#125; | -                                                                                                                                                                                                                                                                                                                                           |
+| `genai.batchOptions?`  | `BufferConfig`                                                                                              | `BatchSpanProcessor` の設定です。`spanProcessor === 'batch'` でない場合は無視されます。                                                                                                                                                                                                                                                                        |
+| `genai.spanProcessor?` | `"batch"` | `"simple"` | `SpanProcessor`                                                                    | GenAI スパンのエクスポート方法を指定します。- `'batch'` (デフォルト) : `BatchSpanProcessor`。本番エージェントや長時間稼働するプロセスに適しています。- `'simple'`: `SimpleSpanProcessor`。スパンごとに 1 回 HTTP POST を送信します。スループットよりも確実な `flush` が重要なテストや短命な CLI で有用です。- `SpanProcessor` instance: ユーザーが指定するプロセッサです。そのライフサイクルは呼び出し元が管理します。`/agents/otel/v1/traces` を対象とする Weave OTLP exporter は使用されません。 |
+| `printCallLink`        | `boolean`                                                                                                   | op の Weave UI へのリンクをターミナルに出力します。`デフォルト` `true`                                                                                                                                                                                                                                                                                              |
+| `useOTelV2`            | `boolean`                                                                                                   | OTel 対応インテグレーションを OTel バリアント経由でルーティングします。`デフォルト` `true`                                                                                                                                                                                                                                                                                     |
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/settings.ts:3](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/settings.ts#L3)
+
+<div id="variables">
+  ## 変数
+</div>

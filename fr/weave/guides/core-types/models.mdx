@@ -1,0 +1,88 @@
+---
+title: "Suivre les versions d’une application avec des modèles"
+description: "Suivez les versions de votre application avec des modèles structurés qui combinent données et code."
+keywords: ["weave.Model", "gestion des versions des modèles", "predict op", "weave serve", "suivi de la production"]
+---
+
+Un `Model` est une combinaison de données (qui peuvent inclure la configuration, les poids d’un modèle entraîné ou d’autres informations) et de code qui définit son fonctionnement. En structurant votre code pour qu’il soit compatible avec cette API, vous bénéficiez d’un cadre structuré pour gérer les versions de votre application et suivre plus systématiquement vos expériences.
+
+Ce guide vous montre comment définir un `Model` Weave, l’appeler pour capturer les entrées et les sorties, tirer parti de la gestion automatique des versions lorsque votre code ou vos paramètres changent, exposer le modèle via une API locale et étiqueter les appels de production pour les filtrer. Il s’adresse aux développeurs qui créent des applications basées sur des LLM avec Weave et qui veulent une méthode reproductible pour suivre et comparer les itérations de leur application.
+
+<Tabs>
+  <Tab title="Python">
+    Pour créer un modèle dans Weave, vous avez besoin des éléments suivants :
+
+    * Une classe qui hérite de `weave.Model`
+    * Des définitions de type pour tous les paramètres
+    * Une fonction `predict` typée avec le décorateur `@weave.op()`
+
+    ```python lines
+    from weave import Model
+    import weave
+
+    class YourModel(Model):
+        attribute1: str
+        attribute2: int
+
+        @weave.op()
+        def predict(self, input_data: str) -> dict:
+            # La logique du modèle se place ici
+            prediction = self.attribute1 + ' ' + input_data
+            return {'pred': prediction}
+    ```
+
+    Vous pouvez appeler le modèle comme d’habitude avec :
+
+    ```python lines
+    import weave
+    weave.init('intro-example')
+
+    model = YourModel(attribute1='hello', attribute2=5)
+    model.predict('world')
+    ```
+
+    Cela permet de suivre la configuration du modèle ainsi que les entrées et les sorties chaque fois que vous appelez `predict()`. Vous disposez maintenant d’un `Model` Weave versionné qui enregistre chaque prédiction qu’il produit, et sur lequel s’appuient les sections suivantes.
+
+    ## Gestion automatique des versions des modèles
+
+    Lorsque vous modifiez les paramètres ou le code qui définit votre modèle, Weave journalise ces changements et met à jour la version.
+    Vous pouvez ainsi comparer les prédictions entre différentes versions de votre modèle. Utilisez cette fonctionnalité pour itérer sur les prompts ou essayer un autre LLM, puis comparer les prédictions selon les configurations.
+
+    Par exemple, vous créez ici un nouveau modèle :
+
+    ```python lines
+    import weave
+    weave.init('intro-example')
+
+    model = YourModel(attribute1='howdy', attribute2=10)
+    model.predict('world')
+    ```
+
+    Après cet appel, vous verrez que vous avez maintenant deux versions de ce modèle dans l’interface utilisateur, chacune avec des appels suivis différents.
+
+    ## Exposer des modèles
+
+    Exposer un modèle rend sa fonction `predict` accessible via HTTP, ce qui est utile pour la tester depuis d’autres applications ou la partager avec les membres de votre équipe sans distribuer le code sous-jacent. Pour démarrer un serveur FastAPI pour un modèle Weave, remplacez `[MODEL-REF]` par la référence de votre modèle et exécutez :
+
+    ```bash
+    weave serve [MODEL-REF]
+    ```
+
+    Pour des instructions supplémentaires, voir [serve](/fr/weave/guides/tools/serve).
+
+    ## Suivre les appels de production
+
+    Une fois que vous utilisez votre modèle dans plusieurs environnements, il est utile de distinguer le trafic de production des exécutions de développement ou d’évaluation afin de pouvoir les analyser séparément. Pour séparer les appels de production, ajoutez un attribut aux prédictions pour permettre le filtrage dans l’interface utilisateur ou l’API.
+
+    ```python lines
+    with weave.attributes({'env': 'production'}):
+        model.predict('world')
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```text
+    Cette fonctionnalité n’est pas encore disponible en TypeScript.
+    ```
+  </Tab>
+</Tabs>

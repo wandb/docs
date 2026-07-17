@@ -1,24 +1,86 @@
 ---
-title: wandb アーティファクト put
+title: wandb artifact put
 ---
 
-**使用方法**
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-`wandb artifact put [OPTIONS] PATH`
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/cli.py#L2831" />
 
-**概要**
+<div id="usage">
+  ## 使い方
+</div>
 
-アーティファクトを wandb にアップロードします
+```bash
+put [OPTIONS] PATH
+```
 
-**オプション**
+<div id="description">
+  ## 説明
+</div>
 
-| **オプション** | **説明** |
-| :--- | :--- |
-| `-n, --name` | プッシュするアーティファクトの名前:   project/artifact_name |
-| `-d, --description` | このアーティファクトの説明 |
-| `-t, --type` | アーティファクトのタイプ |
-| `-a, --alias` | このアーティファクトに適用するエイリアス |
-| `--id` | アップロードしたい run を指定します。 |
-| `--resume` | 現在のディレクトリーから前回の run を再開します。 |
-| `--skip_cache` | アーティファクトファイルのアップロード中にキャッシュをスキップします。 |
-| `--policy [mutable\|immutable]` | アーティファクトファイルをアップロードする際のストレージポリシーを設定します。 |
+アーティファクト を W&amp;B にアップロードします。
+
+ファイル、ディレクトリ、または URL 参照を、バージョン管理された アーティファクト としてアップロードします。
+
+PATH には、ローカル ファイル、ローカル ディレクトリ、または参照 アーティファクト として
+ログする URL (`://` を含む) を指定できます。
+
+`--name` を指定しない場合、アーティファクト 名には
+パスのベース名がデフォルトで使用されます。名前から
+project を解析できない場合は、入力を求められます。
+
+たとえば、ローカル ディレクトリ ./data/training 内のすべてのファイルを
+W&amp;B のデータセット アーティファクト としてアップロードするには、次のようにします。
+
+```bash
+wandb artifact put --type dataset ./data/training
+```
+
+`model.pt` を &quot;foobar&quot; project にアップロードし、アーティファクト 名に &quot;trained-model&quot; を
+割り当てるには:
+
+```bash
+wandb artifact put --name foobar/trained-model --type model ./model.pt
+```
+
+アーティファクトに &quot;latest&quot; と &quot;v2.0&quot; の両方のタグを付け、どちらの
+エイリアスからでも参照できるようにするには:
+
+```bash
+wandb artifact put --alias latest --alias v2.0 --type model ./model.pt
+```
+
+データをダウンロードしたり再アップロードしたりせずに、Amazon S3 のパスを参照として記録するには:
+
+```bash
+wandb artifact put --type dataset s3://my-bucket/datasets/training
+```
+
+ドキュメント用に、データセット アーティファクト に人間が読める説明を付けるには:
+
+```bash
+wandb artifact put --type dataset --description "Training data, Jan 2025" ./data/training
+```
+
+<div id="arguments">
+  ## 引数
+</div>
+
+| 名      | デフォルト | タイプ  |
+| ------ | ----- | ---- |
+| `path` | STR   | True |
+
+<div id="options">
+  ## オプション
+</div>
+
+| Flag                | Type      | Description                                                                               |
+| ------------------- | --------- | ----------------------------------------------------------------------------------------- |
+| `--name, -n`        | STR       | `project/artifact_name` 形式の アーティファクト 名です。デフォルトはパスの basename です。**デフォルト**: None            |
+| `--description, -d` | STR       | この アーティファクト の説明です。**デフォルト**: None                                                         |
+| `--type, -t`        | STR       | アーティファクト のタイプです。デフォルトは `データセット` です。**デフォルト**: dataset                                     |
+| `--alias, -a`       | STR       | この アーティファクト に適用するエイリアスです。複数回指定できます。デフォルトは `latest` です。**デフォルト**: [&#39;latest&#39;]       |
+| `--id`              | STR       | この ID を持つ既存の run にアップロードします。**デフォルト**: None                                               |
+| `--resume`          | BOOL Flag | 現在のディレクトリの最後の run を再開します。**デフォルト**: None                                                  |
+| `--skip_cache`      | BOOL Flag | アーティファクト ファイルのアップロード時にキャッシュをスキップします。**デフォルト**: False                                      |
+| `--policy`          | Choice    | アーティファクト ファイルのストレージポリシーを設定します。`mutable` (デフォルト) または `immutable` を指定します。**デフォルト**: mutable |

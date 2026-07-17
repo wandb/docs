@@ -1,0 +1,32 @@
+---
+title: finish()
+namespace: python_sdk_actions
+python_object_type: fonction
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py" />
+
+
+### <kbd>fonction</kbd> `finish`
+
+```python
+finish(exit_code: 'int | None' = None, quiet: 'bool | None' = None) → None
+```
+
+Terminez un run et envoyez toutes les données restantes.
+
+Marque la fin d’un run W&amp;B et garantit que toutes les données sont synchronisées avec le serveur. L’état final du run est déterminé par ses conditions de sortie et son statut de synchronisation.
+
+États du run :
+
+* Running : Run actif qui enregistre des données et/ou envoie des signaux de pulsation.
+* Crashed : Run qui a cessé d’envoyer des signaux de pulsation de manière inattendue.
+* Finished : Run terminé avec succès (`exit_code=0`) avec toutes les données synchronisées.
+* Failed : Run terminé avec des erreurs (`exit_code!=0`).
+
+**Arguments :**
+
+* `exit_code`:  Entier indiquant le statut de sortie du run. Utilisez 0 pour indiquer une réussite ; toute autre valeur marque le run comme ayant échoué.
+* `quiet`:  Obsolète. Configurez la verbosité de la journalisation à l’aide de `wandb.Settings(quiet=...)`.

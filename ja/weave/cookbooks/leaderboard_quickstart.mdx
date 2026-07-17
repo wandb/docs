@@ -1,0 +1,336 @@
+---
+title: "Leaderboard クイックスタート"
+description: "W&B Weave で Leaderboard クイックスタート を使う方法を学びます"
+keywords: [leaderboard, モデル比較, Weave 評価, スコアリング関数]
+---
+
+<Note>
+  これはインタラクティブなノートブックです。ローカルで実行することも、以下のリンクから利用することもできます。
+
+  * [Google Colab で開く](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/leaderboard_quickstart.ipynb)
+  * [GitHub でソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/leaderboard_quickstart.ipynb)
+</Note>
+
+<div id="leaderboard-quickstart">
+  # Leaderboard クイックスタート
+</div>
+
+このクイックスタートでは、W&amp;B Weave Leaderboard を使って、複数のデータセットやスコアリング関数にまたがるモデル性能を比較する方法を紹介します。最後には、複数のモデルを共通の評価セットに対してランク付けした leaderboard を公開できるようになります。これにより、各メトリクスでどのモデルが最も優れているかを特定できます。このガイドは、Weave で評価を実行したことがあり、その結果を並べて比較したい開発者を対象としています。
+
+具体的には、次のことを行います。
+
+1. 架空の郵便番号データのデータセットを生成します。
+2. スコアリング関数をいくつか作成し、ベースラインモデルを評価します。
+3. これらの手法を使って、複数のモデルと評価の組み合わせを評価します。
+4. Weave UI で leaderboard を確認します。
+
+<div id="step-1-generate-a-dataset-of-fake-zip-code-data">
+  ## Step 1: ダミーの郵便番号データのデータセットを生成する
+</div>
+
+まず、ダミーの郵便番号データのリストを生成する関数 `generate_dataset_rows` を作成します。この合成データセットにより、leaderboard で各モデルをスコアリングする際に使用する、一貫した入力セットと期待値が得られます。
+
+```python lines
+import json
+
+from openai import OpenAI
+from pydantic import BaseModel
+
+class Row(BaseModel):
+    zip_code: str
+    city: str
+    state: str
+    avg_temp_f: float
+    population: int
+    median_income: int
+    known_for: str
+
+class Rows(BaseModel):
+    rows: list[Row]
+
+def generate_dataset_rows(
+    location: str = "United States", count: int = 5, year: int = 2022
+):
+    client = OpenAI()
+
+    completion = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {
+                "role": "user",
+                "content": f"Please generate {count} rows of data for random zip codes in {location} for the year {year}.",
+            },
+        ],
+        response_format={
+            "type": "json_schema",
+            "json_schema": {
+                "name": "response_format",
+                "schema": Rows.model_json_schema(),
+            },
+        },
+    )
+
+    return json.loads(completion.choices[0].message.content)["rows"]
+python
+import weave
+
+weave.init("leaderboard-demo")
+```
+
+<div id="step-2-author-scoring-functions">
+  ## Step 2: スコアリング関数を作成する
+</div>
+
+次に、3 つのスコアリング関数を作成します。各 scorer はモデルの出力の異なる側面を評価するため、leaderboard では品質の異なる観点に基づいてモデルを順位付けできます。
+
+1. `check_concrete_fields`: モデルの出力が、想定される都市名と州に一致するかどうかを確認します。
+2. `check_value_fields`: モデルの出力が、想定される人口と世帯収入中央値の 10% 以内に収まっているかどうかを確認します。
+3. `check_subjective_fields`: LLM を使用して、モデルの出力が想定される &quot;known for&quot; フィールドに一致するかどうかを確認します。
+
+```python lines
+@weave.op
+def check_concrete_fields(city: str, state: str, output: dict):
+    return {
+        "city_match": city == output["city"],
+        "state_match": state == output["state"],
+    }
+
+@weave.op
+def check_value_fields(
+    avg_temp_f: float, population: int, median_income: int, output: dict
+):
+    return {
+        "avg_temp_f_err": abs(avg_temp_f - output["avg_temp_f"]) / avg_temp_f,
+        "population_err": abs(population - output["population"]) / population,
+        "median_income_err": abs(median_income - output["median_income"])
+        / median_income,
+    }
+
+@weave.op
+def check_subjective_fields(zip_code: str, known_for: str, output: dict):
+    client = OpenAI()
+
+    class Response(BaseModel):
+        correct_known_for: bool
+
+    completion = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {
+                "role": "user",
+                "content": f"My student was asked what the zip code {zip_code} is best known best for. The right answer is '{known_for}', and they said '{output['known_for']}'. Is their answer correct?",
+            },
+        ],
+        response_format={
+            "type": "json_schema",
+            "json_schema": {
+                "name": "response_format",
+                "schema": Response.model_json_schema(),
+            },
+        },
+    )
+
+    return json.loads(completion.choices[0].message.content)
+```
+
+<div id="step-3-create-an-evaluation">
+  ## Step 3: 評価を作成する
+</div>
+
+次に、ダミーデータとスコアリング関数を使って、評価を定義します。`Evaluation` オブジェクトはデータセットと scorers を組み合わせるため、同じベンチマークに対して任意のモデルを実行できます。
+
+```python lines
+rows = generate_dataset_rows()
+evaluation = weave.Evaluation(
+    name="United States - 2022",
+    dataset=rows,
+    scorers=[
+        check_concrete_fields,
+        check_value_fields,
+        check_subjective_fields,
+    ],
+)
+```
+
+<div id="step-4-evaluate-a-baseline-model">
+  ## Step 4: ベースラインモデルを評価する
+</div>
+
+ここでは、静的なレスポンスを返すベースラインモデルを評価します。ベースラインを確立すると、leaderboard上の基準点が得られるため、後続の各モデルが静的な実装からどれだけ改善したかを測定できます。
+
+```python lines
+@weave.op
+def baseline_model(zip_code: str):
+    return {
+        "city": "New York",
+        "state": "NY",
+        "avg_temp_f": 50.0,
+        "population": 1000000,
+        "median_income": 100000,
+        "known_for": "The Big Apple",
+    }
+
+await evaluation.evaluate(baseline_model)
+```
+
+<div id="step-5-create-more-models">
+  ## Step 5: モデルをさらに作成する
+</div>
+
+次に、ベースラインと比較するために、さらに2つのモデルを作成します。1つのモデルには追加のプロンプトなしで郵便番号だけを与え、もう1つのモデルには構造化されたプロンプトを与えます。leaderboard でそれらを比較すると、回答品質に対するプロンプトのコンテキストの影響がわかります。
+
+```python lines
+@weave.op
+def gpt_4o_mini_no_context(zip_code: str):
+    client = OpenAI()
+
+    completion = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[{"role": "user", "content": f"""Zip code {zip_code}"""}],
+        response_format={
+            "type": "json_schema",
+            "json_schema": {
+                "name": "response_format",
+                "schema": Row.model_json_schema(),
+            },
+        },
+    )
+
+    return json.loads(completion.choices[0].message.content)
+
+await evaluation.evaluate(gpt_4o_mini_no_context)
+python
+@weave.op
+def gpt_4o_mini_with_context(zip_code: str):
+    client = OpenAI()
+
+    completion = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {
+                "role": "user",
+                "content": f"""Please answer the following questions about the zip code {zip_code}:
+                   1. What is the city?
+                   2. What is the state?
+                   3. What is the average temperature in Fahrenheit?
+                   4. What is the population?
+                   5. What is the median income?
+                   6. What is the most well known thing about this zip code?
+                   """,
+            }
+        ],
+        response_format={
+            "type": "json_schema",
+            "json_schema": {
+                "name": "response_format",
+                "schema": Row.model_json_schema(),
+            },
+        },
+    )
+
+    return json.loads(completion.choices[0].message.content)
+
+await evaluation.evaluate(gpt_4o_mini_with_context)
+```
+
+<div id="step-6-create-more-evaluations">
+  ## Step 6: さらに評価を作成する
+</div>
+
+ここでは、モデルと評価の組み合わせをマトリクスとして評価します。各モデルを複数のデータセット (異なる地域や年) に対して実行すると、leaderboard が複数の条件にわたってモデルを順位付けするために必要なデータが生成されます。
+
+```python lines
+scorers = [
+    check_concrete_fields,
+    check_value_fields,
+    check_subjective_fields,
+]
+evaluations = [
+    weave.Evaluation(
+        name="United States - 2022",
+        dataset=weave.Dataset(
+            name="United States - 2022",
+            rows=generate_dataset_rows("United States", 5, 2022),
+        ),
+        scorers=scorers,
+    ),
+    weave.Evaluation(
+        name="California - 2022",
+        dataset=weave.Dataset(
+            name="California - 2022", rows=generate_dataset_rows("California", 5, 2022)
+        ),
+        scorers=scorers,
+    ),
+    weave.Evaluation(
+        name="United States - 2000",
+        dataset=weave.Dataset(
+            name="United States - 2000",
+            rows=generate_dataset_rows("United States", 5, 2000),
+        ),
+        scorers=scorers,
+    ),
+]
+models = [
+    baseline_model,
+    gpt_4o_mini_no_context,
+    gpt_4o_mini_with_context,
+]
+
+for evaluation in evaluations:
+    for model in models:
+        await evaluation.evaluate(
+            model, __weave={"display_name": evaluation.name + ":" + model.__name__}
+        )
+```
+
+<div id="step-7-review-the-leaderboard">
+  ## ステップ 7: Leaderboard を確認する
+</div>
+
+評価結果を公開したら、それらを Leaderboard にまとめて、並べて比較できるようになります。
+
+UI の Leaderboard タブに移動し、**Create Leaderboard** をクリックすると、新しい Leaderboard を作成できます。
+
+Python から直接 Leaderboard を生成することもできます。
+
+```python lines
+from weave.flow import leaderboard
+from weave.trace.ref_util import get_ref
+
+spec = leaderboard.Leaderboard(
+    name="Zip Code World Knowledge",
+    description="""
+This leaderboard compares the performance of models in terms of world knowledge about zip codes.
+
+### Columns
+
+1. **State Match against `United States - 2022`**: The fraction of zip codes that the model correctly identified the state for.
+2. **Avg Temp F Error against `California - 2022`**: The mean absolute error of the model's average temperature prediction.
+3. **Correct Known For against `United States - 2000`**: The fraction of zip codes that the model correctly identified the most well known thing about the zip code.
+""",
+    columns=[
+        leaderboard.LeaderboardColumn(
+            evaluation_object_ref=get_ref(evaluations[0]).uri(),
+            scorer_name="check_concrete_fields",
+            summary_metric_path="state_match.true_fraction",
+        ),
+        leaderboard.LeaderboardColumn(
+            evaluation_object_ref=get_ref(evaluations[1]).uri(),
+            scorer_name="check_value_fields",
+            should_minimize=True,
+            summary_metric_path="avg_temp_f_err.mean",
+        ),
+        leaderboard.LeaderboardColumn(
+            evaluation_object_ref=get_ref(evaluations[2]).uri(),
+            scorer_name="check_subjective_fields",
+            summary_metric_path="correct_known_for.true_fraction",
+        ),
+    ],
+)
+
+ref = weave.publish(spec)
+```
+
+これで、定義した 3 つの評価とスコアリング メトリクスに基づいて各モデルを順位付けする、公開済みの leaderboard が Weave に作成されました。Weave UI では、モデルごとのスコアを確認したり、個々の評価 run を詳しく確認したり、今後のモデルの反復を同じベースラインに対して比較したりできます。

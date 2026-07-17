@@ -1,0 +1,21 @@
+---
+title: "`wandb launch -d` または `wandb job create image` では Docker artifact 全体がアップロードされ、レジストリから pull されないのですか？"
+keywords: ["wandb launch -d", "Docker レジストリ", "イメージのアップロード", "レジストリへの push"]
+---
+
+いいえ。`wandb launch -d` コマンドでイメージがレジストリにアップロードされることはありません。イメージは別途レジストリにアップロードしてください。次の step に従ってください。
+
+1. イメージをビルドします。
+2. イメージをレジストリに push します。
+
+ワークフローは次のとおりです。`[REPO-URL]` はレジストリの URL に、`[TAG]` はイメージタグに置き換えてください。
+
+```bash
+docker build -t [REPO-URL]:[TAG] .
+docker push [REPO-URL]:[TAG]
+wandb launch -d [REPO-URL]:[TAG]
+```
+
+次に、Launch エージェントは、指定されたコンテナーを使用するジョブを開始します。エージェントがコンテナーレジストリからイメージをプルできるようにアクセスを設定する例については、[高度なエージェントのセットアップ](/ja/platform/launch/setup-agent-advanced/#agent-configuration)を参照してください。
+
+Kubernetes の場合は、クラスター内の Pod が、イメージのプッシュ先であるレジストリにアクセスできることを確認してください。

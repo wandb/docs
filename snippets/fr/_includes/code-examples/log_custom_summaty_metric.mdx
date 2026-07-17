@@ -1,0 +1,27 @@
+---
+title: Enregistrer une métrique de synthèse personnalisée
+---
+
+```python
+"""
+Enregistrez une métrique de synthèse personnalisée dans W&B.
+
+Remplacez :
+- les valeurs entre chevrons par les vôtres
+- <summary_function_a> et <summary_function_b> dans run.define_metric() par
+    l'une des valeurs suivantes : "max", "min", "last", "mean", "best" ou "none".
+"""
+import wandb
+import random
+
+with wandb.init() as run:
+    # valeurs de synthèse summary_function_a et summary_function_b pour metric_name_a
+    run.define_metric(name="<metric_name_a>", summary="<summary_function_a>")
+    run.define_metric(name="<metric_name_a>", summary="<summary_function_b>")
+
+    for i in range(10):
+        log_dict = {
+            "metric_name_a": random.uniform(0, 1 / (i + 1)),
+        }
+        run.log(log_dict)
+```

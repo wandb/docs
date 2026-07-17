@@ -1,0 +1,276 @@
+---
+title: 表をログする
+description: "Python SDK を使用して、不変、可変、段階的などのさまざまなログモードで W&B Tables を作成してログします。"
+---
+
+W&amp;B Tables を使用して、表形式データを可視化し、ログできます。W&amp;B Table は 2 次元のデータグリッドで、各列には 1 つのタイプのデータのみが入ります。各行は、W&amp;B の [run](/ja/models/runs/) にログされた 1 つ以上のデータポイントを表します。W&amp;B Tables は、プリミティブ型や数値型に加えて、ネストされたリスト、辞書、リッチメディア型もサポートします。
+
+W&amp;B Table は、W&amp;B における特殊な [データ型](/ja/models/ref/python/data-types/) であり、[artifact](/ja/models/artifacts/) オブジェクトとしてログされます。
+
+W&amp;B Python SDK を使用して、[表オブジェクトを作成してログできます](#create-and-log-a-new-table)。表オブジェクトを作成する際には、表の列とデータ、および [モード](#table-logging-modes) を指定します。このモードによって、ML Experiments の実行中に表がどのようにログされ、更新されるかが決まります。
+
+<Note>
+  `INCREMENTAL` モードは、W&amp;B Server v0.70.0 以降でサポートされます。
+</Note>
+
+<div id="create-and-log-a-table">
+  ## 表を作成してログする
+</div>
+
+1. `wandb.init()` で新しい run を初期化します。
+2. [`wandb.Table`](/ja/models/ref/python/data-types/table) クラスを使用して 表 オブジェクトを作成します。`columns` パラメーターと `data` パラメーターに、それぞれ表の列とデータを指定します。オプションの `log_mode` パラメーターは、`IMMUTABLE` (デフォルト) 、`MUTABLE`、`INCREMENTAL` の 3 つのモードのいずれかに設定することを推奨します。詳細については、次のセクションの [Table Logging Modes](#logging-modes) を参照してください。
+3. `run.log()` を使用して表を W&amp;B にログします。
+
+次の例は、2 つの列 `a` と `b`、および 2 行のデータ `["a1", "b1"]` と `["a2", "b2"]` を持つ表を作成してログする方法を示しています。
+
+```python
+import wandb
+
+# 新しいrunを開始する
+with wandb.init(project="table-demo") as run:
+
+    # 2列2行のデータを持つ表オブジェクトを作成する
+    my_table = wandb.Table(
+        columns=["a", "b"],
+        data=[["a1", "b1"], ["a2", "b2"]],
+        log_mode="IMMUTABLE"
+        )
+
+    # 表をW&Bにログする
+    run.log({"Table Name": my_table})
+```
+
+<div id="logging-modes">
+  ## ログモード
+</div>
+
+[`wandb.Table`](/ja/models/ref/python/data-types/table) の `log_mode` パラメーターは、ML 実験中に表がどのようにログされ、更新されるかを決定します。`log_mode` パラメーターには、`IMMUTABLE`、`MUTABLE`、`INCREMENTAL` の 3 つの引数のいずれかを指定できます。各モードによって、表のログ方法、変更可能な範囲、W&amp;B App での表示方法が異なります。
+
+以下では、3 つのログモード、それぞれの主な違い、および各モードの一般的なユースケースについて説明します。
+
+| Mode          | Definition                           | Use Cases                                                                                | Benefits                                             |
+| ------------- | ------------------------------------ | ---------------------------------------------------------------------------------------- | ---------------------------------------------------- |
+| `IMMUTABLE`   | 一度表を W&amp;B にログすると、その後は変更できません。     | - run の終了時に生成された表形式データを保存し、後で分析する                                                        | - run の終了時にログする場合のオーバーヘッドが最小<br />- すべての行が UI に表示される |
+| `MUTABLE`     | 表を W&amp;B にログした後、既存の表を新しい表で上書きできます。 | - 既存の表に列や行を追加する<br />- 新しい情報を追加して結果を拡充する                                                 | - 表の変更を追跡できる<br />- すべての行が UI に表示される            |
+| `INCREMENTAL` | 機械学習実験の進行中に、表へ新しい行のバッチを継続的に追加します。    | - 表に行をバッチ単位で追加する<br /> - 長時間実行されるトレーニングジョブ<br />- 大規模なデータセットをバッチで処理する<br />- 進行中の結果を監視する | - トレーニング中に UI で更新を確認できる<br />- 増分ごとに step を追って確認できる  |
+
+次のセクションでは、各モードのコードスニペット例と、各モードをいつ使用するべきかに関する考慮事項を示します。
+
+<div id="mutable-mode">
+  ### `MUTABLE` モード
+</div>
+
+`MUTABLE` モードでは、既存の表を新しい表で置き換えることで更新します。`MUTABLE` モードは、反復処理ではないプロセスで既存の表に新しい列や行を追加したい場合に便利です。UI では、初回のログ後に追加された新しい行と列も含め、すべての行と列が表示されます。
+
+<Note>
+  `MUTABLE` モードでは、表をログするたびにテーブルオブジェクトが置き換えられます。新しい表で表を上書きする処理は計算コストが高く、大きな表では時間がかかる場合があります。
+</Note>
+
+次の例では、`MUTABLE` モードで表を作成してログし、その後に新しい列を追加する方法を示します。テーブルオブジェクトは 3 回ログされます。1 回目は初期データ、2 回目は信頼度スコア、3 回目は最終的な予測です。
+
+<Note>
+  次の例では、データを読み込むためのプレースホルダー関数 `load_eval_data()` と、予測を行うためのプレースホルダー関数 `model.predict()` を使用しています。これらはご自身のデータ読み込み関数および予測関数に置き換える必要があります。
+</Note>
+
+```python
+import wandb
+import numpy as np
+
+with wandb.init(project="mutable-table-demo") as run:
+
+    # MUTABLEロギングモードで表オブジェクトを作成する
+    table = wandb.Table(columns=["input", "label", "prediction"],
+                        log_mode="MUTABLE")
+
+    # データを読み込み、予測を行う
+    inputs, labels = load_eval_data() # プレースホルダー関数
+    raw_preds = model.predict(inputs) # プレースホルダー関数
+
+    for inp, label, pred in zip(inputs, labels, raw_preds):
+        table.add_data(inp, label, pred)
+
+    # Step 1: 初期データをログする
+    run.log({"eval_table": table})  # 初期の表をログする
+
+    # Step 2: 信頼度スコアを追加する（例：最大ソフトマックス）
+    confidences = np.max(raw_preds, axis=1)
+    table.add_column("confidence", confidences)
+    run.log({"eval_table": table})  # 信頼度情報を追加する
+
+    # Step 3: 後処理済みの予測を追加する
+    # （例：閾値処理または平滑化された出力）
+    post_preds = (confidences > 0.7).astype(int)
+    table.add_column("final_prediction", post_preds)
+    run.log({"eval_table": table})  # 別の列を追加した最終更新
+```
+
+新しい行のバッチだけを (列は追加せずに) トレーニングループのように段階的に追加したい場合は、代わりに [`INCREMENTAL` モード](#INCREMENTAL-mode) の使用を検討してください。
+
+<div id="incremental-mode">
+  ### INCREMENTAL モード
+</div>
+
+INCREMENTAL モードでは、機械学習の実験中に行のバッチを表にログします。これは、長時間実行されるジョブを監視する場合や、更新のたびに run 中にログすると非効率になる大きな表を扱う場合に適しています。UI では、ログされるたびに新しい行で表が更新されるため、run 全体の完了を待たずに最新のデータを表示できます。また、増分ごとに順にたどって、異なる時点での表を表示することもできます。
+
+<Note>
+  W&amp;B App の run Workspace では、増分は 100 件までという上限があります。100 件を超える増分をログした場合、run Workspace に表示されるのは直近の 100 件のみです。
+</Note>
+
+次の例では、`INCREMENTAL` モードで表を作成してログし、その後に新しい行を追加します。表はトレーニングの各 step (`step`) ごとに 1 回ログされる点に注意してください。
+
+<Note>
+  次の例では、データを読み込むためのプレースホルダー関数 `get_training_batch()`、モデルをトレーニングするためのプレースホルダー関数 `train_model_on_batch()`、予測を行うためのプレースホルダー関数 `predict_on_batch()` を使用しています。これらは、ご自身のデータ読み込み、トレーニング、予測用の関数に置き換える必要があります。
+</Note>
+
+```python
+import wandb
+
+with wandb.init(project="incremental-table-demo") as run:
+
+    # INCREMENTALロギングモードで表を作成する
+    table = wandb.Table(columns=["step", "input", "label", "prediction"],
+                        log_mode="INCREMENTAL")
+
+    # トレーニングループ
+    for step in range(get_num_batches()): # プレースホルダー関数
+        # バッチデータを読み込む
+        inputs, labels = get_training_batch(step) # プレースホルダー関数
+
+        # トレーニングして予測する
+        train_model_on_batch(inputs, labels) # プレースホルダー関数
+        predictions = predict_on_batch(inputs) # プレースホルダー関数
+
+        # バッチデータを表に追加する
+        for input_item, label, prediction in zip(inputs, labels, predictions):
+            table.add_data(step, input_item, label, prediction)
+
+        # 表を段階的にログする
+        run.log({"training_table": table}, step=step)
+```
+
+段階的な logging は、毎回新しい表をログする場合 (`log_mode=MUTABLE`) より、一般に計算効率に優れています。ただし、多数の増分をログすると、W&amp;B App ですべての行が表示されないことがあります。run の進行中に表データを更新して確認しつつ、分析用にすべてのデータも利用できるようにしたい場合は、2 つの表を使うことを検討してください。1 つは `INCREMENTAL` ログモード、もう 1 つは `IMMUTABLE` ログモードです。
+
+次の例では、これを実現するために `INCREMENTAL` と `IMMUTABLE` のログモードを組み合わせる方法を示します。
+
+```python
+import wandb
+
+with wandb.init(project="combined-logging-example") as run:
+
+    # トレーニング中に効率よく更新するための段階的テーブルを作成する
+    incr_table = wandb.Table(columns=["step", "input", "prediction", "label"],
+                            log_mode="INCREMENTAL")
+
+    # トレーニングループ
+    for step in range(get_num_batches()):
+        # バッチを処理する
+        inputs, labels = get_training_batch(step)
+        predictions = model.predict(inputs)
+
+        # 段階的テーブルにデータを追加する
+        for inp, pred, label in zip(inputs, predictions, labels):
+            incr_table.add_data(step, inp, pred, label)
+
+        # 段階的な更新をログする（最終テーブルと区別するために -incr サフィックスを付ける）
+        run.log({"table-incr": incr_table}, step=step)
+
+    # トレーニング終了時に、すべてのデータを含む完全な不変テーブルを作成する
+    # デフォルトの IMMUTABLE モードを使用してデータセット全体を保持する
+    final_table = wandb.Table(columns=incr_table.columns, data=incr_table.data, log_mode="IMMUTABLE")
+    run.log({"table": final_table})
+```
+
+この例では、`incr_table` はトレーニング中に段階的にログされます (`log_mode="INCREMENTAL"`) 。これにより、新しいデータが処理されるたびに、表の更新をログして表示できます。トレーニングの最後に、段階的にログした表のすべてのデータを含む不変の表 (`final_table`) が作成されます。不変の表は、後続の分析に備えて完全なデータセットを保持するためにログされ、W&amp;B App ですべての行を表示できるようになります。
+
+<div id="examples">
+  ## 例
+</div>
+
+<div id="enriching-evaluation-results-with-mutable">
+  ### MUTABLE で評価結果を充実させる
+</div>
+
+```python
+import wandb
+import numpy as np
+
+with wandb.init(project="mutable-logging") as run:
+
+    # Step 1: 初期予測をログする
+    table = wandb.Table(columns=["input", "label", "prediction"], log_mode="MUTABLE")
+    inputs, labels = load_eval_data()
+    raw_preds = model.predict(inputs)
+
+    for inp, label, pred in zip(inputs, labels, raw_preds):
+        table.add_data(inp, label, pred)
+
+    run.log({"eval_table": table})  # 生の予測をログする
+
+    # Step 2: 信頼度スコアを追加する（例: softmax の最大値）
+    confidences = np.max(raw_preds, axis=1)
+    table.add_column("confidence", confidences)
+    run.log({"eval_table": table})  # 信頼度情報を追加する
+
+    # Step 3: 後処理済みの予測を追加する
+    # （例: 閾値処理または平滑化された出力）
+    post_preds = (confidences > 0.7).astype(int)
+    table.add_column("final_prediction", post_preds)
+    run.log({"eval_table": table})
+```
+
+<div id="resuming-runs-with-incremental-tables">
+  ### INCREMENTAL 表で run を再開する
+</div>
+
+run を再開するときに、INCREMENTAL 表へのログを継続できます。
+
+```python
+# runを開始または再開する
+resumed_run = wandb.init(project="resume-incremental", id="your-run-id", resume="must")
+
+# 段階的な表を作成する。以前にログした表のデータを入力する必要はない
+# 増分は引き続きTable artifactに追加される
+table = wandb.Table(columns=["step", "metric"], log_mode="INCREMENTAL")
+
+# ログを継続する
+for step in range(resume_step, final_step):
+    metric = compute_metric(step)
+    table.add_data(step, metric)
+    resumed_run.log({"metrics": table}, step=step)
+
+resumed_run.finish()
+```
+
+<Note>
+  `wandb.Run.define_metric("<table_key>", summary="none")` または `wandb.Run.define_metric("*", summary="none")` を使用して、段階的な表で使用するキーの summary を無効にすると、増分は新しい表にログされます。
+</Note>
+
+<div id="training-with-incremental-batch-training">
+  ### 段階的バッチトレーニングでトレーニングする
+</div>
+
+```python
+
+with wandb.init(project="batch-training-incremental") as run:
+
+    # 段階的な表を作成する
+    table = wandb.Table(columns=["step", "input", "label", "prediction"], log_mode="INCREMENTAL")
+
+    # トレーニングループのシミュレーション
+    for step in range(get_num_batches()):
+        # バッチデータを読み込む
+        inputs, labels = get_training_batch(step)
+
+        # このバッチでモデルをトレーニングする
+        train_model_on_batch(inputs, labels)
+
+        # モデルの推論を実行する
+        predictions = predict_on_batch(inputs)
+
+        # 表にデータを追加する
+        for input_item, label, prediction in zip(inputs, labels, predictions):
+            table.add_data(step, input_item, label, prediction)
+
+        # 表の現在の状態を段階的にログする
+        run.log({"training_table": table}, step=step)
+```

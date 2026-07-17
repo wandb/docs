@@ -1,0 +1,50 @@
+---
+title: "Plantages de run"
+tag: "11"
+generator: "knowledgebase-nav"
+template: "docengine-site/templates/support_tag.mdx.j2"
+---
+
+<Card title="Comment corriger une erreur du type `AttributeError: module 'wandb' has no attribute ...` ?" href="/fr/support/models/articles/how-can-i-fix-an-error-like-attributeerr" arrow="true" horizontal>
+  Si vous rencontrez une erreur du type AttributeError: module &#39;wandb&#39; has no attribute &#39;init&#39; ou AttributeError: module &#39;wandb&#39;  ...
+</Card>
+
+<Card title="Comment corriger `Cuda out of memory` pendant un sweep ?" href="/fr/support/models/articles/cuda-out-of-memory-during-a-sweep" arrow="true" horizontal>
+  Si vous voyez Cuda out of memory pendant un sweep, remaniez votre code pour utiliser une exécution basée sur des processus. Réécrivez votre code sous la forme d’un  ...
+</Card>
+
+<Card title="Comment arrêter un job avec wandb ?" href="/fr/support/models/articles/how-do-i-kill-a-job-with-wandb" arrow="true" horizontal>
+  Pour arrêter un script instrumenté avec W&amp;B, appuyez sur Ctrl+D. Utilisez cette méthode pour annuler un run d’entraînement dont vous n’avez plus besoin.
+</Card>
+
+<Card title="Comment résoudre une erreur de délai d’expiration lors de l’initialisation d’un run dans wandb ?" href="/fr/support/models/articles/how-do-i-resolve-a-run-initialization-ti" arrow="true" horizontal>
+  Une erreur de délai d’expiration lors de l’initialisation d’un run signifie que wandb.init() ne peut pas établir une connexion au service W&amp;B dans le délai imparti ...
+</Card>
+
+<Card title="Si wandb plante, cela peut-il aussi faire planter mon run d’entraînement ?" href="/fr/support/models/articles/if-wandb-crashes-will-it-possibly-crash-" arrow="true" horizontal>
+  W&amp;B s’exécute dans un processus distinct, donc si W&amp;B plante, votre run d’entraînement continue. En cas de panne Internet, W&amp;B continue de réessayer ...
+</Card>
+
+<Card title="InitStartError: erreur de communication avec le processus wandb" href="/fr/support/models/articles/initstarterror-error-communicating-with-" arrow="true" horizontal>
+  Cette erreur indique que la bibliothèque W&amp;B ne peut pas lancer le processus qui synchronise les données avec le serveur. Pour résoudre le  ...
+</Card>
+
+<Card title="L’état de mon run est `crashed` dans l’UI, mais il est toujours en cours d’exécution sur ma machine. Que faire pour récupérer mes données ?" href="/fr/support/models/articles/my-runs-state-is-crashed-on-the-ui-but-i" arrow="true" horizontal>
+  Cet état signifie généralement que vous avez perdu la connexion à votre machine pendant l’entraînement. Pour récupérer vos données, exécutez wandb sync PATH&#95; ...
+</Card>
+
+<Card title="Pourquoi mon processus ne répond-il plus lorsque j’utilise Hydra avec W&B ?" href="/fr/support/models/articles/process-hangs-when-using-hydra-with-wan" arrow="true" horizontal>
+  Cette page explique comment résoudre les problèmes de processus qui ne répondent plus lorsque vous démarrez un processus avec Hydra en parallèle de W&amp;B. I ...
+</Card>
+
+<Card title="Pourquoi mon entraînement se bloque-t-il avec l’entraînement distribué ?" href="/fr/support/models/articles/training-hangs-with-distributed-trainin" arrow="true" horizontal>
+  Cet article vous aide à résoudre les blocages de l’entraînement lorsque vous utilisez W&amp;B avec des frameworks d’entraînement distribué, afin que vos runs puissent st ...
+</Card>
+
+<Card title="Pourquoi un run est-il marqué comme crashed dans W&B alors qu’il s’entraîne correctement en local ?" href="/fr/support/models/articles/why-is-a-run-marked-crashed-in-wb-when-i" arrow="true" horizontal>
+  Un statut crashed indique généralement un problème de connexion. Si le serveur perd l’accès à Internet et que les données cessent d’être synchronisées, W&amp;B ...
+</Card>
+
+<Card title="Pourquoi mon run apparaît-il comme crashed ?" href="/fr/support/models/articles/why-is-my-run-showing-as-crashed" arrow="true" horizontal>
+  W&amp;B marque un run comme Crashed lorsqu’il ne reçoit plus de heartbeats du processus qui a appelé wandb.init(), sans que le pro ...
+</Card>

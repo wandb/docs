@@ -1,0 +1,36 @@
+---
+title: "gcc가 없는 환경에서 wandb Python 라이브러리를 설치하려면 어떻게 해야 하나요?"
+keywords: ["Python"]
+---
+
+이 페이지는 최소 컨테이너 이미지나 제한된 시스템처럼 `gcc`가 없는 환경에서 `wandb` Python 라이브러리를 설치하려는 사용자를 위한 문서입니다. source에서 의존성을 컴파일하지 않고 설치를 완료하려면 다음 단계를 따르세요.
+
+`wandb`를 설치하는 중에 다음과 같은 오류가 발생하는 경우:
+
+```text
+unable to execute 'gcc': No such file or directory
+error: command 'gcc' failed with exit status 1
+```
+
+설치 과정에서 `psutil` 종속성을 소스에서 컴파일하고 있으며, 이 과정에는 `gcc`가 필요합니다. 이를 우회하려면 미리 빌드된 wheel에서 `psutil`을 설치해 컴파일이 필요 없도록 하세요.
+
+`gcc` 없이 `wandb`를 설치하려면:
+
+1. [pywharf `psutil` package repository](https://pywharf.github.io/pywharf-pkg-repo/psutil/)에서 사용 중인 Python 버전과 운영 체제를 확인하세요.
+2. 미리 빌드된 wheel에서 `psutil`을 설치하세요. 예를 들어 Linux의 Python 3.8에 `psutil`을 설치하려면 다음과 같이 하세요.
+
+   ```bash
+   WHEEL_URL=https://github.com/pywharf/pywharf-pkg-repo/releases/download/psutil-5.7.0-cp38-cp38-manylinux2010_x86_64.whl#sha256=adc36dabdff0b9a4c84821ef5ce45848f30b8a01a1d5806316e068b5fd669c6d
+   pip install $WHEEL_URL
+   ```
+3. 설치를 완료하려면 `pip install wandb`를 실행하세요.
+
+`psutil`이 이미 미리 빌드된 wheel로 설치되어 있으므로, `pip`는 원래 `gcc` 오류를 일으켰던 소스 빌드를 건너뛰고 `wandb`를 성공적으로 설치합니다.
+
+***
+
+{/* 자동 생성: 탭 배지 */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Python](/ko/support/models/tags/python)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

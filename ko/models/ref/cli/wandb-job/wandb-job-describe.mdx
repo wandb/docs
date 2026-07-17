@@ -2,15 +2,29 @@
 title: wandb job describe
 ---
 
-**사용법**
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-`wandb job describe [OPTIONS] JOB`
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/cli.py#L2191" />
 
-**요약**
+<div id="usage">
+  ## 사용
+</div>
 
-Launch job에 대해 설명합니다. entity/project/job-name:alias-or-version 형식으로 Launch job을 제공하세요.
+```bash
+describe [OPTIONS] JOB
+```
 
-**옵션**
+<div id="description">
+  ## 설명
+</div>
 
-| **옵션** | **설명** |
-| :--- | :--- |
+Launch 작업에 대해 설명하세요. 다음 형식으로 Launch 작업을 입력하세요
+: entity/프로젝트/job-name:alias-or-version.
+
+<div id="arguments">
+  ## 인수
+</div>
+
+| 이름    | 기본값 | 유형   |
+| ----- | --- | ---- |
+| `job` | STR | True |

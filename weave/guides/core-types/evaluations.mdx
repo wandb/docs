@@ -1,9 +1,12 @@
 ---
 title: "Evaluations overview"
 description: "Evaluation-driven LLM application development to systematically improve applications"
+keywords: ["evaluation", "scorers", "EvaluationLogger", "preprocess_model_input", "trials"]
 ---
 
-_Evaluation-driven LLM application development_ helps you systematically improve LLM applications by systematically measuring their behavior using consistent, curated examples.
+_Evaluation-driven LLM application development_ helps you systematically improve LLM applications by measuring their behavior using consistent, curated examples.
+
+This guide shows you how to set up and run evaluations in Weave so you can measure your LLM application's performance against repeatable test cases, compare changes over time, and identify regressions. It's intended for developers building LLM applications who want to move beyond ad hoc testing into a structured, measurable workflow.
 
 <Tabs>
 <Tab title="Python">
@@ -31,34 +34,35 @@ _Evaluation-driven LLM application development_ helps you systematically improve
 
 To get started with evaluations, complete the following steps:
 
-1. [Create an `Evaluation` object](#1-create-an-evaluation-object)
-2. [Define a dataset of examples](#2-define-a-dataset-of-test-examples)
-3. [Define scoring functions](#3-define-scoring-functions)
-4. [Define a model or function to evaluate](#4-define-a-model-or-function-to-evaluate)
-5. [Run the evaluation](#5-run-the-evaluation)
+1. [Create an `Evaluation` object](#create-an-evaluation-object)
+2. [Define a dataset of examples](#define-a-dataset-of-test-examples)
+3. [Define scoring functions](#define-scoring-functions)
+4. [Define a model or function to evaluate](#define-a-model-or-function-to-evaluate)
+5. [Run the evaluation](#run-the-evaluation)
+
+After completing these steps, you'll have a reusable evaluation configuration and an evaluation run whose results you can inspect in the Weave UI. For a complete evaluation code sample, see the [full evaluation code example](#full-evaluation-code-example). You can also learn more about [advanced evaluation features](#advanced-evaluation-usage) like [Saved views](#saved-views) and [Imperative evaluations](#imperative-evaluations-evaluationlogger).
 
 
-A complete evaluation code sample can be found [here](#full-evaluation-code-sample). You can also learn more about [advanced evaluation features](#advanced-evaluation-usage) like [Saved views](#saved-views) and [Imperative evaluations](#imperative-evaluations-evaluationlogger).
+## Create an `Evaluation` object
 
+Creating an `Evaluation` object is the first step in setting up your evaluation configuration. An `Evaluation` consists of example data, scoring logic, and optional preprocessing. You later use it to run one or more evaluations.
 
-## 1. Create an `Evaluation` object
+Weave takes each example, passes it through your application, and scores the output on multiple custom scoring functions. This gives you a view of the performance of your application, and a rich UI to drill into individual outputs and scores.
 
-Creating an `Evaluation` object is the first step in setting up your evaluation configuration. An `Evaluation` consists of example data, scoring logic, and optional preprocessing. You’ll later use it to run one or more evaluations.
+Custom naming is optional but helps you distinguish between different evaluation configurations and runs in the Weave UI. If you only have one evaluation, you can skip this section.
 
-Weave will take each example, pass it through your application and score the output on multiple custom scoring functions. By doing this, you'll have a view of the performance of your application, and a rich UI to drill into individual outputs and scores.
-
-### (Optional) Custom naming
+### Optional: Custom naming
 
 <Tabs>
 <Tab title="Python">
   There are two types of customizable names in the evaluation flow:
 
   - [_Evaluation object name_ (`evaluation_name`)](#name-the-evaluation-object): A persistent label for your configured `Evaluation` object.
-  - [_Evaluation run display name_ (`__weave["display_name"]`)](#name-individual-evaluation-runs): A label for a specific evaluation execution, shown in the UI. 
+  - [_Evaluation run display name_ (`__weave["display_name"]`)](#name-individual-evaluation-runs): A label for a specific evaluation execution, shown in the UI.
 
   #### Name the `Evaluation` object
 
-  To name the `Evaluation` object itself, pass an `evaluation_name` parameter to the `Evaluation` class. This name helps you identify the Evaluation in code and UI listings.
+  To name the `Evaluation` object itself, pass an `evaluation_name` parameter to the `Evaluation` class. This name helps you identify the `Evaluation` in code and UI listings.
 
   ```python lines
   evaluation = Evaluation(
@@ -68,7 +72,7 @@ Weave will take each example, pass it through your application and score the out
 
   #### Name individual evaluation runs
 
-  To name a specific evaluation run (a call to `evaluate()`), use the `__weave` dictionary with a `display_name`. This affects what is shown in the UI for that run.
+  To name a specific evaluation run (a call to `evaluate()`), use the `__weave` dictionary with a `display_name`. This affects what's shown in the UI for that run.
 
   ```python lines
   evaluation = Evaluation(
@@ -78,9 +82,10 @@ Weave will take each example, pass it through your application and score the out
   ```
 </Tab>
 <Tab title="TypeScript">
-  To name the `Evaluation` object, pass an `id` parameter to the `Evaluation` constructor. This name helps you identify the Evaluation in code and UI listings.
+  To name the `Evaluation` object, pass an `id` parameter to the `Evaluation` constructor. This name helps you identify the `Evaluation` in code and UI listings.
 
-  ```typescript lines
+  ```typescript twoslash lines
+  // @noErrors
   const evaluation = new weave.Evaluation({
     id: 'my-evaluation',
     dataset: dataset,
@@ -90,9 +95,9 @@ Weave will take each example, pass it through your application and score the out
 </Tab>
 </Tabs>
 
-## 2. Define a dataset of test examples
+## Define a dataset of test examples
 
-First, define a [Dataset](../core-types/datasets) object or list of examples with a collection of examples to be evaluated. These examples are often failure cases that you want to test for, similar to unit tests in Test-Driven Development (TDD).
+First, define a [Dataset](../core-types/datasets) object or list of examples with a collection of examples to evaluate. These examples are often failure cases that you want to test for, similar to unit tests in Test-Driven Development (TDD).
 
 <Tabs>
 <Tab title="Python">
@@ -109,7 +114,8 @@ First, define a [Dataset](../core-types/datasets) object or list of examples wit
 <Tab title="TypeScript">
   The following example shows a dataset defined as a `Dataset` object with an array of rows:
 
-  ```typescript lines
+  ```typescript twoslash lines
+  // @noErrors
   const dataset = new weave.Dataset({
     id: 'my-dataset',
     rows: [
@@ -122,21 +128,21 @@ First, define a [Dataset](../core-types/datasets) object or list of examples wit
 </Tab>
 </Tabs>
 
-## 3. Define scoring functions
+## Define scoring functions
 
-Then, create one or more [scoring functions](../evaluation/scorers). These are used to score each example in the `Dataset`.
+Then, create one or more [scoring functions](../evaluation/scorers). Weave uses these to score each example in the `Dataset`.
 
 <Tabs>
 <Tab title="Python">
   Each scoring function must have an `output` parameter, and return a dictionary with the scores. Optionally, you can include other inputs from your examples.
 
-  Scoring functions need to have an `output` keyword argument, but the other arguments are user defined and are taken from the dataset examples. It will only take the necessary keys by using a dictionary key based on the argument name.
+  Scoring functions need to have an `output` keyword argument, but the other arguments are user defined and are taken from the dataset examples. Weave only takes the necessary keys by using a dictionary key based on the argument name.
 
   <Tip>
-  If your scorer expects an `output` argument but isn't receiving it, check if it might be using the legacy `model_output` key. To fix this, update your scorer function to use output as a keyword argument.
+  If your scorer expects an `output` argument but isn't receiving it, check whether it's using the legacy `model_output` key. To fix this, update your scorer function to use `output` as a keyword argument.
   </Tip>
 
-  The following example scorer function `match_score1` uses the `expected` value from the `examples` dictionary for scoring.
+  The following example scorer function `match_score1` uses the `expected` value from the `examples` dictionary for scoring:
 
   ```python lines
   import weave
@@ -155,18 +161,19 @@ Then, create one or more [scoring functions](../evaluation/scorers). These are u
       return {'match': expected == output['generated_text']}
   ```
 
-  ### (Optional) Define a custom `Scorer` class
+  ### Optional: Define a custom `Scorer` class
 
-  In some applications we want to create custom `Scorer` classes - where for example a standardized `LLMJudge` class should be created with specific parameters (for example, chat model, prompt), specific scoring of each row, and specific calculation of an aggregate score.
+  In some applications, you may want to create custom `Scorer` classes. For example, a standardized `LLMJudge` class can be created with specific parameters (for example, chat model, prompt), specific scoring of each row, and specific calculation of an aggregate score.
 
   See the tutorial on defining a `Scorer` class in [Model-Based Evaluation of RAG applications](/weave/tutorial-rag#optional-defining-a-scorer-class) for more information.
 </Tab>
 <Tab title="TypeScript">
   Each scoring function is wrapped with `weave.op` and receives an object with `modelOutput` and `datasetRow` properties.
 
-  The following example scorer function `matchScore` compares the model output to the `expected` value from the dataset row.
+  The following example scorer function `matchScore` compares the model output to the `expected` value from the dataset row:
 
-  ```typescript lines
+  ```typescript twoslash lines
+  // @noErrors
   import * as weave from 'weave';
 
   // Collect your examples into a dataset
@@ -194,11 +201,11 @@ Then, create one or more [scoring functions](../evaluation/scorers). These are u
 </Tab>
 </Tabs>
 
-## 4. Define a model or function to evaluate
+## Define a model or function to evaluate
 
 <Tabs>
 <Tab title="Python">
-  To evaluate a `Model`, call `evaluate` on it using an `Evaluation`. `Models` are used when you have parameters that you want to experiment with and capture in Weave.
+  To evaluate a `Model`, call `.evaluate()` using an `Evaluation`. Use `Model` objects when you have parameters that you want to experiment with and capture in Weave.
 
   ```python lines
   from weave import Model, Evaluation
@@ -221,11 +228,11 @@ Then, create one or more [scoring functions](../evaluation/scorers). These are u
   asyncio.run(evaluation.evaluate(model))
   ```
 
-  This runs `predict` on each example and score the output with each scoring function.
+  This runs `predict` on each example and scores the output with each scoring function.
 
-  ### (Optional) Define a function to evaluate
+  ### Optional: Define a function to evaluate
 
-  Alternatively, you can also evaluate a custom function tracked by `@weave.op()`.
+  Alternatively, you can evaluate a custom function tracked by `@weave.op()`:
 
   ```python lines
   @weave.op
@@ -239,7 +246,8 @@ Then, create one or more [scoring functions](../evaluation/scorers). These are u
 <Tab title="TypeScript">
   In TypeScript, you evaluate functions wrapped with `weave.op`. The function receives the dataset row and returns the model output.
 
-  ```typescript lines
+  ```typescript twoslash lines
+  // @noErrors
   import * as weave from 'weave';
 
   // Initialize Weave
@@ -269,20 +277,20 @@ Then, create one or more [scoring functions](../evaluation/scorers). These are u
 </Tab>
 </Tabs>
 
-## 5. Run the evaluation
+## Run the evaluation
 
-To run an evaluation, call `.evaluate()` on the `Evaluation` object.
+With your `Evaluation` object, dataset, scorers, and model defined, you're ready to execute the evaluation and capture results in Weave. To run an evaluation, call `.evaluate()` on the `Evaluation` object.
 
 <Tabs>
 <Tab title="Python">
-  Assuming an `Evaluation` object called `evaluation` and a `Model` object to evaluate called `model`, the following code instantiates an evaluation run.
+  Assuming an `Evaluation` object called `evaluation` and a `Model` object to evaluate called `model`, the following code instantiates an evaluation run:
 
   ```python lines
   asyncio.run(evaluation.evaluate(model))
   ```
-  ### (Optional) Run multiple trials
+  ### Optional: Run multiple trials
 
-  You can set the `trials` parameter on the `Evaluation` object to run each example multiple times.
+  You can set the `trials` parameter on the `Evaluation` object to run each example multiple times:
 
   ```python lines
   evaluation = Evaluation(
@@ -293,17 +301,19 @@ To run an evaluation, call `.evaluate()` on the `Evaluation` object.
   ```
 </Tab>
 <Tab title="TypeScript">
-  Assuming an `Evaluation` object called `evaluation` and a model function called `myModel`, the following code runs the evaluation.
+  Assuming an `Evaluation` object called `evaluation` and a model function called `myModel`, the following code runs the evaluation:
 
-  ```typescript lines
+  ```typescript twoslash lines
+  // @noErrors
   const results = await evaluation.evaluate({model: myModel});
   ```
 
-  ### (Optional) Run multiple trials
+  ### Optional: Run multiple trials
 
-  You can set the `nTrials` parameter when calling `evaluate()` to run each example multiple times.
+  You can set the `nTrials` parameter when calling `evaluate()` to run each example multiple times:
 
-  ```typescript lines
+  ```typescript twoslash lines
+  // @noErrors
   const results = await evaluation.evaluate({
     model: myModel,
     nTrials: 3,
@@ -312,9 +322,11 @@ To run an evaluation, call `.evaluate()` on the `Evaluation` object.
 </Tab>
 </Tabs>
 
-The run passes each example to the model three times, and each run is scored and displayed independently in Weave.
+The run passes each example to the model three times, and Weave scores and displays each run independently.
 
 ## Full evaluation code example
+
+The following example brings together each of the previous steps in a single, runnable script. Use it as a reference when adapting the evaluation workflow to your own application.
 
 <Tabs>
 <Tab title="Python">
@@ -363,7 +375,8 @@ The run passes each example to the model three times, and each run is scored and
 <Tab title="TypeScript">
   The following code sample demonstrates a complete evaluation run from start to finish. The dataset rows are used by the `matchScore` scoring function to evaluate `myModel`.
 
-  ```typescript lines
+  ```typescript twoslash lines
+  // @noErrors
   import * as weave from 'weave';
 
   // Initialize Weave
@@ -415,22 +428,24 @@ The run passes each example to the model three times, and each run is scored and
 
 ## Advanced evaluation usage
 
+The following sections cover optional features for more complex evaluation workflows, including dataset preprocessing, third-party dataset integration, saved UI views, and an imperative logging API.
+
 ### Format dataset rows before evaluating
 
 <Tabs>
 <Tab title="Python">
   <Warning>
-  The `preprocess_model_input` function is only applied to inputs before passing them to the model's prediction function. Scorer functions always receive the original dataset example, without any preprocessing applied.
+  Weave only applies the `preprocess_model_input` function to inputs before passing them to the model's prediction function. Scorer functions always receive the original dataset example, without any preprocessing applied.
   </Warning>
 
-  The `preprocess_model_input` parameter allows you to transform your dataset examples before they are passed to your evaluation function. This is useful when you need to:
+  The `preprocess_model_input` parameter lets you transform your dataset examples before Weave passes them to your evaluation function. This is useful when you need to:
 
-  - Rename fields to match your model's expected input
-  - Transform data into the correct format
-  - Add or remove fields
-  - Load additional data for each example
+  - Rename fields to match your model's expected input.
+  - Transform data into the correct format.
+  - Add or remove fields.
+  - Load additional data for each example.
 
-  Here's a simple example that shows how to use `preprocess_model_input` to rename fields:
+  Here's an example that shows how to use `preprocess_model_input` to rename fields:
 
   ```python lines
   import weave
@@ -471,22 +486,23 @@ The run passes each example to the model three times, and each run is scored and
   asyncio.run(evaluation.evaluate(function_to_evaluate))
   ```
 
-  In this example, our dataset contains examples with an `input_text` field, but our evaluation function expects a `question` parameter. The `preprocess_example` function transforms each example by renaming the field, allowing the evaluation to work correctly.
+  In this example, the dataset contains examples with an `input_text` field, but the evaluation function expects a `question` parameter. The `preprocess_example` function transforms each example by renaming the field, which lets the evaluation work correctly.
 
   The preprocessing function:
 
-  1. Receives the raw example from your dataset
-  2. Returns a dictionary with the fields your model expects
-  3. Is applied to each example before it's passed to your evaluation function
+  1. Receives the raw example from your dataset.
+  2. Returns a dictionary with the fields your model expects.
+  3. Runs on each example before Weave passes it to your evaluation function.
 
-  This is particularly useful when working with external datasets that may have different field names or structures than what your model expects.
+  This is useful when working with external datasets that may have different field names or structures than what your model expects.
 </Tab>
 <Tab title="TypeScript">
   In TypeScript, you can use `columnMapping` on the `Evaluation` object to map dataset column names to the names your scorers expect. This is useful when your dataset has different field names than your scorer functions expect.
 
   The following example maps the `expectedOutputTimesTwo` column to the `expected` column:
 
-  ```typescript lines
+  ```typescript twoslash lines
+  // @noErrors
   const myScorer = weave.op(
     ({modelOutput, datasetRow}) => {
       return modelOutput * 2 === datasetRow.expectedOutputTimesTwo;
@@ -512,23 +528,21 @@ The run passes each example to the model three times, and each run is scored and
 
 <Tabs>
 <Tab title="Python">
-  We are continuously improving our integrations with third-party services and libraries.
+  You can use `preprocess_model_input` as a workaround for using HuggingFace Datasets in Weave evaluations.
 
-  While we work on building more seamless integrations, you can use `preprocess_model_input` as a temporary workaround for using HuggingFace Datasets in Weave evaluations.
-
-  See our [Using HuggingFace datasets in evaluations cookbook](/weave/cookbooks/hf_dataset_evals) for the current approach.
+  See the [Using HuggingFace datasets in evaluations cookbook](/weave/cookbooks/hf_dataset_evals) for details.
 </Tab>
 <Tab title="TypeScript">
-  ```plaintext
-  This feature is not currently available in TypeScript.
+  ```text
+  This feature is not available in TypeScript.
   ```
 </Tab>
 </Tabs>
 
-### Saved views 
+### Saved views
 
 You can save your Evals table configurations, filters, and sorts as _saved views_ for quick access to your preferred setup. You can configure and access saved views in the UI and with the Python SDK. For more information, see [Saved Views](/weave/guides/tools/saved-views).
 
 ### Imperative evaluations (`EvaluationLogger`)
 
-If you prefer a more flexible evaluation framework, check out Weave's [`EvaluationLogger`](../evaluation/evaluation_logger). The `EvaluationLogger` is available in both Python and TypeScript and offers more flexibility for complex workflows, while the standard evaluation framework provides more structure and guidance.
+If you prefer a more flexible evaluation framework, see Weave's [`EvaluationLogger`](../evaluation/evaluation_logger). The `EvaluationLogger` is available in both Python and TypeScript and offers more flexibility for complex workflows, while the standard evaluation framework provides more structure and guidance.

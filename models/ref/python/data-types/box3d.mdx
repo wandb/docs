@@ -3,7 +3,7 @@ title: box3d()
 namespace: python_sdk_data_type
 python_object_type: function
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/object_3d.py" />
 
@@ -18,8 +18,8 @@ box3d(
     size: 'npt.ArrayLike',
     orientation: 'npt.ArrayLike',
     color: 'RGBColor',
-    label: 'Optional[str]' = None,
-    score: 'Optional[numeric]' = None
+    label: 'str | None' = None,
+    score: 'numeric | None' = None
 ) → Box3D
 ```
 

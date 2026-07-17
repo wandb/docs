@@ -1,19 +1,20 @@
 ---
 title: Bedrock
-description: "Track and monitor Amazon Bedrock LLM calls with Weave, capturing foundation model interactions, converse API usage, and multi-provider model deployments through AWS's unified API for comprehensive observability."
+description: "Track and monitor Amazon Bedrock LLM calls with Weave, capturing foundation model interactions and converse API usage."
+keywords: ["Amazon Bedrock", "boto3", "converse API", "invoke_model", "foundation models"]
 ---
 
-Weave automatically tracks and logs LLM calls made via Amazon Bedrock, AWS's fully managed service that offers foundation models from leading AI companies through a unified API.
+Weave automatically tracks and logs LLM calls made through Amazon Bedrock, AWS's managed service that offers foundation models from multiple AI providers through a unified API. Use this integration to capture Bedrock foundation model interactions and `converse` API usage so you can debug, evaluate, and monitor your Bedrock-based applications.
 
-There are multiple ways to log LLM calls to Weave from Amazon Bedrock. You can use `weave.op` to create reusable operations for tracking any calls to a Bedrock model. Optionally, if you're using Anthropic models, you can use Weave’s built-in integration with Anthropic. 
+You can log LLM calls to Weave from Amazon Bedrock in multiple ways. Use `weave.op` to create reusable operations for tracking any calls to a Bedrock model. Optionally, if you're using Anthropic models, you can use Weave's built-in integration with Anthropic.
 
 <Tip>
-For the latest tutorials, visit [Weights & Biases on Amazon Web Services](https://wandb.ai/site/partners/aws/).
+For the latest tutorials, visit [W&B on Amazon Web Services](https://wandb.ai/site/partners/aws/).
 </Tip>
 
 ## Traces
 
-Weave will automatically capture traces for Bedrock API calls. You can use the Bedrock client as usual after initializing Weave and patching the client:
+Weave automatically captures traces for Bedrock API calls once you patch the client. After you initialize Weave and patch the client, use the Bedrock client as usual:
 
 ```python lines
 import weave
@@ -44,7 +45,7 @@ response_dict = json.loads(response.get('body').read())
 print(response_dict["content"][0]["text"])
 ```
 
-of using the `converse` API:
+The same patched client also captures traces when using the `converse` API:
 
 ```python lines
 messages = [{"role": "user", "content": [{"text": "What is the capital of France?"}]}]
@@ -59,9 +60,9 @@ print(response["output"]["message"]["content"][0]["text"])
 
 ```
 
-## Wrapping with your own ops
+## Wrap calls with your own ops
 
-You can create reusable operations using the `@weave.op()` decorator. Here's an example showing both the `invoke_model` and `converse` APIs:
+Wrap Bedrock calls in your own ops to group related logic, capture custom inputs, and reuse the same tracked function across your application. Create reusable operations with the `@weave.op()` decorator. The following example shows both the `invoke_model` and `converse` APIs:
 
 ```python lines
 @weave.op
@@ -105,12 +106,12 @@ def call_model_converse(
 ```
 
 <Frame>
-![](./imgs/bedrock_converse.png)
+![Bedrock Converse integration with Weave and API call traces and response data](./imgs/bedrock_converse.png)
 </Frame>
 
 ## Create a `Model` for easier experimentation
 
-You can create a Weave Model to better organize your experiments and capture parameters. Here's an example using the `converse` API:
+A Weave `Model` bundles configuration and prediction logic together so you can iterate on parameters and compare runs side by side. Create a Weave `Model` to better organize your experiments and capture parameters. The following example uses the `converse` API:
 
 ```python lines
 class BedrockLLM(weave.Model):
@@ -145,16 +146,16 @@ result = model.predict("What is the best way to handle errors in Python?")
 print(result)
 ```
 
-This approach allows you to version your experiments and easily track different configurations of your Bedrock-based application.
+This approach lets you version your experiments and track different configurations of your Bedrock-based application.
 
 ## Learn more
 
-Learn more about using Amazon Bedrock with Weave
+The following resources provide additional ways to explore and evaluate Amazon Bedrock with Weave.
 
 ### Try Bedrock in the Weave Playground
 
-Do you want to experiment with Amazon Bedrock models in the Weave UI without any set up? Try the [LLM Playground](../tools/playground).
+To experiment with Amazon Bedrock models in the Weave UI without any setup, try the [LLM Playground](../tools/playground).
 
 ### Report: Compare LLMs on Bedrock for text summarization with Weave
 
-The [Compare LLMs on Bedrock for text summarization with Weave](https://wandb.ai/byyoung3/ML_NEWS3/reports/Compare-LLMs-on-Amazon-Bedrock-for-text-summarization-with-W-B-Weave--VmlldzoxMDI1MTIzNw) report explains how to use Bedrock in combination with Weave to evaluate and compare LLMs for summarization tasks, code samples included.
+The [Evaluating LLMs on Amazon Bedrock](https://wandb.ai/byyoung3/ML_NEWS3/reports/Compare-LLMs-on-Amazon-Bedrock-for-text-summarization-with-W-B-Weave--VmlldzoxMDI1MTIzNw) report explains how to use Bedrock in combination with Weave to evaluate and compare LLMs for summarization tasks. The report includes code samples.

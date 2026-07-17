@@ -2,19 +2,59 @@
 title: wandb init
 ---
 
-**사용법**
+import { GitHubLink } from "/snippets/ko/_includes/github-source-link.mdx"
 
-`wandb init [OPTIONS]`
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/cli.py#L400" />
 
-**요약**
+<div id="usage">
+  ## 사용
+</div>
 
-Weights & Biases 와 함께 디렉토리를 구성합니다.
+```bash
+init [OPTIONS]
+```
 
-**옵션**
+<div id="description">
+  ## 설명
+</div>
 
-| **옵션** | **설명** |
-| :--- | :--- |
-| `-p, --project` | 사용할 프로젝트입니다. |
-| `-e, --entity` | 프로젝트 범위를 지정할 엔티티입니다. |
-| `--reset` | 설정을 재설정합니다. |
-| `-m, --mode` | "online", "offline" 또는 "disabled"가 될 수 있습니다. 기본값은 온라인입니다. |
+현재 디렉터리의 W&amp;B 설정을 초기화하거나 업데이트합니다.
+
+프로젝트와 entity를 설정하고, 로컬 W&amp;B 설정을 생성한 다음
+실험 추적을 위해 디렉터리를 준비합니다.
+
+예를 들어, 팀과 프로젝트를 선택할 수 있도록 안내 프롬프트를 사용해
+현재 디렉터리에 W&amp;B를 설정합니다:
+
+```bash
+wandb init
+```
+
+프롬프트 없이 기본 프로젝트를 &quot;foobar&quot;로, 기본 entity를 &quot;team-awesome&quot;로 설정하려면:
+
+```bash
+wandb init --project foobar --entity team-awesome
+```
+
+W&amp;B 모드를 오프라인으로 설정하려면:
+
+```bash
+wandb init --mode offline
+```
+
+현재 디렉터리의 기존 W&amp;B 설정을 재설정하려면:
+
+```bash
+wandb init --reset
+```
+
+<div id="options">
+  ## 옵션
+</div>
+
+| 플래그             | 유형        | 설명                                                                                              |
+| --------------- | --------- | ----------------------------------------------------------------------------------------------- |
+| `--project, -p` | STR       | run을 업로드할 프로젝트를 설정합니다. **기본값**: 없음                                                              |
+| `--entity, -e`  | STR       | 프로젝트의 범위를 지정할 entity를 설정합니다. **기본값**: 없음                                                        |
+| `--reset`       | BOOL Flag | 이 디렉터리의 기존 W&amp;B 설정을 재설정합니다. **기본값**: False                                                   |
+| `--mode, -m`    | STR       | W&amp;B 모드를 설정합니다. &#39;online&#39;, &#39;offline&#39;, &#39;disabled&#39; 중 하나입니다. **기본값**: 없음 |

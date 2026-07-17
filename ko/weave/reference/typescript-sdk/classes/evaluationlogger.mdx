@@ -1,0 +1,202 @@
+---
+title: "EvaluationLogger"
+description: "TypeScript SDK 레퍼런스"
+---
+
+[weave](../) / EvaluationLogger
+
+EvaluationLogger를 사용하면 예측과 점수를 점진적으로 로깅할 수 있습니다.
+
+사전에 데이터셋을 준비하고 일괄 처리해야 하는 기존 Evaluation 클래스와 달리,
+EvaluationLogger를 사용하면 예측이 발생하는 대로 유연하게 점수를 매기며 로깅할 수 있습니다.
+
+`예시`
+
+```ts twoslash
+// @noErrors
+const ev = new EvaluationLogger({name: 'my-eval', dataset: 'my-dataset'});
+
+for (const example of streamingData) {
+  const output = await myModel.predict(example);
+  const pred = ev.logPrediction(example, output);
+
+  if (shouldScore(output)) {
+    pred.logScore("accuracy", calculateAccuracy(output));
+  }
+  pred.finish();
+}
+
+await ev.logSummary();
+```
+
+<div id="table-of-contents">
+  ## 목차
+</div>
+
+<div id="constructors">
+  ### 생성자
+</div>
+
+* [생성자](./evaluationlogger#constructor)
+
+<div id="methods">
+  ### 방법
+</div>
+
+* [logPrediction](./evaluationlogger#logprediction)
+* [logPredictionAsync](./evaluationlogger#logpredictionasync)
+* [logSummary](./evaluationlogger#logsummary)
+
+## 생성자
+
+<div id="constructors">
+  ### 생성자
+</div>
+
+• **new EvaluationLogger**(`options`): [`EvaluationLogger`](./evaluationlogger)
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름        | 유형                        |
+| :-------- | :------------------------ |
+| `options` | `EvaluationLoggerOptions` |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+[`EvaluationLogger`](./evaluationlogger)
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/evaluationLogger.ts:573](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L573)
+
+## 방법
+
+<div id="logprediction">
+  ### logPrediction
+</div>
+
+▸ **logPrediction**(`inputs`, `output`): [`ScoreLogger`](./scorelogger)
+
+입력과 출력을 포함한 예측을 로깅합니다(동기 버전).
+하위 predict call을 포함하는 predict&#95;and&#95;score call을 생성합니다.
+점수를 추가할 수 있도록 즉시 ScoreLogger를 반환합니다.
+
+이 방법은 ScoreLogger를 동기적으로 반환합니다. ScoreLogger에 대한 오퍼레이션(`logScore`, `finish`)은
+큐에 들어가며 초기화가 완료되면 실행됩니다.
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름       | 유형                              |
+| :------- | :------------------------------ |
+| `inputs` | `Record`&lt;`string`, `any`&gt; |
+| `output` | `any`                           |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+[`ScoreLogger`](./scorelogger)
+
+`예시`
+
+```ts twoslash
+// @noErrors
+// Fire-and-forget 방식
+const scoreLogger = evalLogger.logPrediction({input: 'test'}, 'output');
+scoreLogger.logScore('accuracy', 0.95);
+scoreLogger.finish();
+await evalLogger.logSummary(); // 모든 작업이 완료될 때까지 대기
+```
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/evaluationLogger.ts:660](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L660)
+
+***
+
+<div id="logpredictionasync">
+  ### logPredictionAsync
+</div>
+
+▸ **logPredictionAsync**(`inputs`, `output`): `Promise`&lt;[`ScoreLogger`](./scorelogger)&gt;
+
+입력과 출력이 포함된 예측을 로깅합니다(비동기 버전).
+logPrediction()과 유사하지만 prediction call이 완전히 초기화되면
+resolve되는 Promise를 반환합니다.
+
+계속 진행하기 전에 초기화가 완료될 때까지 await해야 하는 경우 이 방법을 사용하세요.
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름       | 유형                              |
+| :------- | :------------------------------ |
+| `inputs` | `Record`&lt;`string`, `any`&gt; |
+| `output` | `any`                           |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`Promise`&lt;[`ScoreLogger`](./scorelogger)&gt;
+
+`예시`
+
+```ts twoslash
+// @noErrors
+// Awaitable 스타일
+const scoreLogger = await evalLogger.logPredictionAsync({input: 'test'}, 'output');
+await scoreLogger.logScore('accuracy', 0.95);
+await scoreLogger.finish();
+```
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/evaluationLogger.ts:685](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L685)
+
+***
+
+<div id="logsummary">
+  ### logSummary
+</div>
+
+▸ **logSummary**(`summary?`): `Promise`&lt;`void`&gt;
+
+summary를 기록하고 evaluation을 마무리합니다.
+summarize call을 생성하고 evaluate call을 마무리합니다.
+
+이 방법은 await 없이도 호출할 수 있지만(fire-and-forget), 내부적으로는
+대기 중인 모든 오퍼레이션이 완료될 때까지 기다립니다.
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름         | 유형                              |
+| :--------- | :------------------------------ |
+| `summary?` | `Record`&lt;`string`, `any`&gt; |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`Promise`&lt;`void`&gt;
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/evaluationLogger.ts:786](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L786)

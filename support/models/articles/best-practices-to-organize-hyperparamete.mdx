@@ -1,0 +1,34 @@
+---
+title: "Best practices to organize hyperparameter searches"
+keywords: ["Hyperparameter", "Sweeps", "Runs"]
+---
+
+When you run many hyperparameter searches, tag your runs so you can group and find related experiments later.
+
+## Tag runs in your code
+
+Pass unique tags when you initialize each run:
+
+```python
+import wandb
+
+with wandb.init(tags=["sweep-3", "lr-0.01"]) as run:
+    # Your training code here
+    pass
+```
+
+For more information about `wandb.init()`, see the [`wandb.init()` reference](/models/ref/python/functions/init) and [Add labels to runs with tags](/models/runs/tags).
+
+## Filter tagged runs in the UI
+
+1. Open your project and go to the **Runs** tab.
+2. Click **Filter** above the runs table.
+3. Choose **Tags**, select an operator such as `is` or `in`, and enter the tag you set in code.
+
+See [Filter runs](/models/runs/filter-runs) for more filter options.
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Hyperparameter](/support/models/tags/hyperparameter)</Badge><Badge stroke shape="pill" color="orange" size="md">[Sweeps](/support/models/tags/sweeps)</Badge><Badge stroke shape="pill" color="orange" size="md">[Runs](/support/models/tags/runs)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

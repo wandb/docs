@@ -1,0 +1,93 @@
+---
+title: Journalisation par lot pour votre agent
+description: Enregistrez manuellement les traces de l’agent pour les frameworks qui ont déjà effectué l’appel au LLM et doivent le consigner.
+---
+
+Pour les frameworks qui ont déjà effectué l’appel au LLM et doivent simplement l’enregistrer, utilisez `weave.log_turn` et `weave.log_conversation`. Tous les spans sont créés et terminés immédiatement, sans laisser de gestionnaires de contexte ouverts.
+
+Les données enregistrées de cette façon peuvent être historiques — aucune conversation en direct n’est nécessaire. Définissez `conversation_id` sur n’importe quelle chaîne stable qui identifie de manière unique la conversation. Les tours de conversation qui partagent le même `conversation_id` sont regroupés en une seule conversation dans la vue **Agents**.
+
+Si vous implémentez votre propre boucle d’agent, utilisez plutôt les API d’instrumentation en temps réel décrites dans [Tracez vos agents](/fr/weave/guides/tracking/trace-agents) à la place.
+
+<div id="log-a-turn">
+  ## Enregistrer un tour de conversation
+</div>
+
+Pour enregistrer un tour de conversation terminé une fois qu’il a eu lieu, utilisez `weave.log_turn`. Il accepte un tour de conversation entièrement formé, y compris tous les spans LLM et d’outil.
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines highlight="1,3,28"
+    weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
+
+    from weave.conversation import LLM, Message, Tool, Usage
+
+    llm_span = LLM(
+        model="gpt-4o",
+        provider_name="openai",
+        input_messages=[Message(role="user", content="What is the weather?")],
+        output_messages=[Message(role="assistant", content="Let me check.")],
+        usage=Usage(input_tokens=100, output_tokens=20),
+    )
+
+    tool_span = Tool(
+        name="get_weather",
+        arguments='{"city": "Tokyo"}',
+        result='"24°C, sunny"',
+    )
+
+    llm_span2 = LLM(
+        model="gpt-4o",
+        provider_name="openai",
+        input_messages=[Message(role="user", content="What is the weather?")],
+        output_messages=[Message(role="assistant", content="It is 24°C and sunny.")],
+        usage=Usage(input_tokens=150, output_tokens=30),
+    )
+
+    # Enregistrer un tour de conversation avec tous ses spans.
+    weave.log_turn(
+        conversation_id="my-conversation-abc",
+        agent_name="weather-bot",
+        messages=[
+            Message(role="user", content="What is the weather in Tokyo?"),
+            Message(role="assistant", content="It is 24°C and sunny in Tokyo."),
+        ],
+        spans=[llm_span, tool_span, llm_span2],
+    )
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    Cette fonctionnalité n’est pas encore disponible dans le SDK TypeScript.
+    ```
+  </Tab>
+</Tabs>
+
+`log_turn` renvoie un `LogResult` contenant les ID de trace des spans émis.
+
+Un paramètre `model` facultatif de `log_turn` définit le modèle sur le span propre au tour de conversation, et non sur les spans LLM enfants. Chaque span `LLM` porte son propre `model` indépendamment. Si un tour de conversation utilise plusieurs modèles, définissez `model` dans `log_turn` sur celui que vous considérez comme le modèle principal pour ce tour de conversation.
+
+<div id="log-a-conversation">
+  ## Enregistrer une conversation
+</div>
+
+Pour importer en bloc une conversation complète à plusieurs tours de conversation, utilisez `weave.log_conversation`. Le paramètre `turns` accepte une liste d&#39;objets `Turn`, chacun étant construit de la même manière que dans l&#39;exemple `log_turn` précédent.
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    weave.log_conversation(
+        conversation_id="my-conversation-abc",
+        agent_name="weather-bot",
+        turns=[turn_1, turn_2],
+    )
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    Cette fonctionnalité n'est pas encore disponible dans le SDK TypeScript.
+    ```
+  </Tab>
+</Tabs>

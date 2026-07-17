@@ -2,17 +2,29 @@
 title: wandb job list
 ---
 
-**使用法**
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
 
-`wandb job list [OPTIONS]`
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/cli.py#L2149" />
 
-**概要**
+<div id="usage">
+  ## 使用法
+</div>
 
-プロジェクト内のジョブを一覧表示
+```bash
+list [OPTIONS]
+```
 
-**オプション**
+<div id="description">
+  ## 説明
+</div>
 
-| **オプション** | **説明** |
-| :--- | :--- |
-| `-p, --project` | ジョブを一覧表示したいプロジェクト。 |
-| `-e, --entity` | ジョブが所属するエンティティ |
+project内のジョブを一覧表示します。
+
+<div id="options">
+  ## オプション
+</div>
+
+| フラグ             | タイプ | 説明                                    |
+| --------------- | --- | ------------------------------------- |
+| `--project, -p` | STR | 一覧表示するジョブが含まれるproject。**デフォルト**: None |
+| `--entity, -e`  | STR | ジョブが属するentity。**デフォルト**: models       |

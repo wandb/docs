@@ -1,0 +1,319 @@
+---
+title: "Dataset<R>"
+description: "TypeScript SDK リファレンス"
+---
+
+[weave](../) / Dataset
+
+簡単に保存でき、自動でバージョン管理される Dataset オブジェクト
+
+`例`
+
+```ts twoslash
+// @noErrors
+// データセットを作成する
+const dataset = new Dataset({
+  id: 'grammar-dataset',
+  rows: [
+    { id: '0', sentence: "He no likes ice cream.", correction: "He doesn't like ice cream." },
+    { id: '1', sentence: "She goed to the store.", correction: "She went to the store." },
+    { id: '2', sentence: "They plays video games all day.", correction: "They play video games all day." }
+  ]
+})
+
+// 特定のサンプルにアクセスする
+const exampleLabel = dataset.getRow(2).sentence;
+
+// データセットを保存する
+const ref = await dataset.save()
+```
+
+## 型パラメーター
+
+| 名   | タイプ                  |
+| :-- | :------------------- |
+| `R` | extends `DatasetRow` |
+
+<div id="hierarchy">
+  ## 階層
+</div>
+
+* [`WeaveObject`](./weaveobject)
+
+  ↳ `Dataset`
+
+<div id="table-of-contents">
+  ## 目次
+</div>
+
+<div id="constructors">
+  ### コンストラクター
+</div>
+
+* [コンストラクター](./dataset#constructor)
+
+<div id="properties">
+  ### プロパティ
+</div>
+
+* [&#95;&#95;savedRef](./dataset#__savedref)
+* [rows](./dataset#rows)
+
+<div id="accessors">
+  ### アクセサ
+</div>
+
+* [説明](./dataset#description)
+* [長さ](./dataset#length)
+* [名](./dataset#name)
+
+<div id="methods">
+  ### Methods
+</div>
+
+* [[asyncIterator]](./dataset#\[asynciterator])
+* [getRow](./dataset#getrow)
+* [save](./dataset#save)
+* [saveAttrs](./dataset#saveattrs)
+
+## コンストラクター
+
+<div id="constructors">
+  ### コンストラクター
+</div>
+
+• **new Dataset**&lt;`R`&gt;(`parameters`): [`Dataset`](./dataset)&lt;`R`&gt;
+
+<div id="type-parameters">
+  #### 型パラメーター
+</div>
+
+| 名   | タイプ                  |
+| :-- | :------------------- |
+| `R` | extends `DatasetRow` |
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名            | タイプ                            |
+| :----------- | :----------------------------- |
+| `parameters` | `DatasetParameters`&lt;`R`&gt; |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+[`Dataset`](./dataset)&lt;`R`&gt;
+
+<div id="overrides">
+  #### オーバーライド
+</div>
+
+[WeaveObject](./weaveobject).[constructor](./weaveobject#constructor)
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/dataset.ts:55](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L55)
+
+## プロパティ
+
+<div id="__savedref">
+  ### __savedRef
+</div>
+
+• `任意` **&#95;&#95;savedRef**: [`ObjectRef`](./objectref) | `Promise`&lt;[`ObjectRef`](./objectref)&gt;
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+[WeaveObject](./weaveobject).[&#95;&#95;savedRef](./weaveobject#__savedref)
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/weaveObject.ts:71](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L71)
+
+***
+
+<div id="rows">
+  ### rows
+</div>
+
+• **rows**: `Table`&lt;`R`&gt;
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/dataset.ts:53](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L53)
+
+## アクセサ
+
+<div id="description">
+  ### description
+</div>
+
+• `get` **description**(): `undefined` | `string`
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`undefined` | `string`
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+WeaveObject.description
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/weaveObject.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L98)
+
+***
+
+<div id="length">
+  ### length
+</div>
+
+• `get` **length**(): `number`
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`number`
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/dataset.ts:68](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L68)
+
+***
+
+<div id="name">
+  ### 名
+</div>
+
+• `get` **name**(): `string`
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`string`
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+WeaveObject.name
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/weaveObject.ts:94](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L94)
+
+## Methods
+
+<div id="asynciterator">
+  ### [asyncIterator]
+</div>
+
+▸ **[asyncIterator]**(): `AsyncIterator`&lt;`any`, `any`, `any`&gt;
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`AsyncIterator`&lt;`any`, `any`, `any`&gt;
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/dataset.ts:72](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L72)
+
+***
+
+<div id="getrow">
+  ### getRow
+</div>
+
+▸ **getRow**(`index`): `R`
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名       | タイプ      |
+| :------ | :------- |
+| `index` | `number` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`R`
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/dataset.ts:78](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L78)
+
+***
+
+<div id="save">
+  ### save
+</div>
+
+▸ **save**(): `Promise`&lt;[`ObjectRef`](./objectref)&gt;
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;[`ObjectRef`](./objectref)&gt;
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/dataset.ts:64](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L64)
+
+***
+
+<div id="saveattrs">
+  ### saveAttrs
+</div>
+
+▸ **saveAttrs**(): `Object`
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Object`
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+[WeaveObject](./weaveobject).[saveAttrs](./weaveobject#saveattrs)
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/weaveObject.ts:75](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L75)

@@ -1,0 +1,43 @@
+---
+title: "Serve"
+description: "Weave の op とモデルを API エンドポイントとして公開し、予測のサービングや本番環境での推論を実行します。"
+keywords: ["weave serve", "FastAPI", "モデルサービング", "推論エンドポイント"]
+---
+
+このガイドでは、`weave serve` を使用して W&amp;B Weave Model を FastAPI エンドポイントとして公開し、モデルをインタラクティブにクエリして本番推論ワークフローに統合する方法を説明します。
+
+任意の Weave Model 用の FastAPI サーバーを起動するには、Weave ref を `weave serve` に渡します。`[REF]` をご使用の Weave Model ref に置き換えてください。
+
+```bash
+weave serve [REF]
+```
+
+モデルをインタラクティブにクエリするには、`http://0.0.0.0:9996/docs` で Swagger UI を開きます。
+
+<div id="install-fastapi">
+  ## FastAPIのインストール
+</div>
+
+`weave serve` はモデルのホスティングに FastAPI と Uvicorn を使用するため、サーブする前に両方のパッケージをインストールする必要があります。
+
+```bash
+pip install fastapi uvicorn
+```
+
+<div id="serve-model">
+  ## モデルをサーブする
+</div>
+
+依存関係をインストールしたら、ターミナルからサーバーを起動してください。`[YOUR-MODEL-REF]` は、ご自身の Weave Model ref に置き換えてください。
+
+```bash
+weave serve [YOUR-MODEL-REF]
+```
+
+モデルに移動し、UI から model ref をコピーして取得します。次のような形式になります。ここで、`[ENTITY]` は W&amp;B entity、`[PROJECT-NAME]` はプロジェクト名、`[MODEL-NAME]` はモデル名、`[HASH]` はモデルのバージョンハッシュです。
+
+```text
+weave://[ENTITY]/[PROJECT-NAME]/[MODEL-NAME]:[HASH]
+```
+
+エンドポイントをテストするには、Swagger UI を開き、`predict` エンドポイントをクリックしてから、**Try it out** をクリックします。これで、Weave Model の予測を返すローカルの FastAPI エンドポイントが利用できるようになります。

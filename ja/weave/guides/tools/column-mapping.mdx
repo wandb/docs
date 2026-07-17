@@ -1,0 +1,53 @@
+---
+title: "データセットの列を別名にマッピングする"
+description: "データセットの列を別の名前にマッピングします。これにより、データセット内の列名を scorer が想定する列名に合わせられます。"
+keywords: ["column_map", "columnMapping", "scorer parameters", "EmbeddingSimilarityScorer"]
+---
+
+<Tabs>
+  <Tab title="Python">
+    Weave Python SDK では、scorer の `column_map` 属性を使用して、scorer が想定するパラメーター名をデータセットの列名にマッピングします。マッピング形式は `{scorer_parameter: dataset_column}` です。
+
+    次の例では、`output` パラメーターと `target` パラメーターを、データセットの `model_output` 列と `answer` 列にマッピングしています。
+
+    ```python
+    from weave.scorers import EmbeddingSimilarityScorer
+
+    similarity_scorer = EmbeddingSimilarityScorer()
+
+    similarity_scorer.column_map = {
+        "output": "model_output",  # モデルが生成したテキスト
+        "target": "answer"         # 期待される応答または参照応答
+    }
+    ```
+
+    scorer の列マッピングについて詳しくは、[`column_map` を使った列名のマッピング](../evaluation/scorers#mapping-column-names-with-column_map)を参照してください。
+  </Tab>
+
+  <Tab title="TypeScript">
+    Weave TypeScript SDK では、列マッピングは個々の scorer ではなく、`Evaluation` オブジェクトの `columnMapping` オプションで設定します。マッピング形式は `{scorer_key: dataset_column}` です。
+
+    次の例では、scorer で使用する `expectedOutputTimesTwo` を、データセット内の `expected` 列にマッピングしています。
+
+    ```typescript twoslash
+    // @noErrors
+    import * as weave from 'weave';
+
+    const myScorer = weave.op(
+      ({modelOutput, datasetRow}) => {
+        return modelOutput * 2 === datasetRow.expectedOutputTimesTwo;
+      },
+      {name: 'myScorer'}
+    );
+
+    const myEval = new weave.Evaluation({
+      id: 'my-evaluation',
+      dataset: [{expected: 2}],
+      scorers: [myScorer],
+      columnMapping: {expectedOutputTimesTwo: 'expected'},
+    });
+    ```
+
+    TypeScript の scorer 引数について詳しくは、[Scorer のキーワード引数](../evaluation/scorers#scorer-keyword-arguments)を参照してください。
+  </Tab>
+</Tabs>

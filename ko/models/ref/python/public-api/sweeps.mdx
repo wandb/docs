@@ -1,0 +1,55 @@
+---
+title: Sweeps
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py" />
+
+
+## <kbd>class</kbd> `Sweeps`
+
+`Sweep` 객체 컬렉션을 순회하는 lazy 이터레이터입니다.
+
+**예시:**
+
+```python
+from wandb.apis.public import Api
+
+sweeps = Api().project(name="project_name", entity="entity").sweeps()
+
+# 스윕을 순회하며 세부 정보 출력
+for sweep in sweeps:
+     print(f"Sweep name: {sweep.name}")
+     print(f"Sweep ID: {sweep.id}")
+     print(f"Sweep URL: {sweep.url}")
+     print("----------")
+``` 
+
+### <kbd>방법</kbd> `Sweeps.__init__`
+
+```python
+__init__(
+    service_api: 'ServiceApi',
+    entity: 'str',
+    project: 'str',
+    per_page: 'int' = 50
+) → Sweeps
+```
+
+반복 가능한 `Sweep` 객체 컬렉션입니다.
+
+**매개변수:**
+
+* `service_api`:  W&amp;B를 쿼리하는 데 사용되는 서비스 API입니다.
+* `entity`:  스윕을 소유한 entity입니다.
+* `project`:  스윕이 포함된 프로젝트입니다.
+* `per_page`:  API에 대한 각 요청마다 가져올 스윕 수입니다.
+
+***
+
+### <kbd>속성</kbd> Sweeps.length
+
+***

@@ -1,0 +1,76 @@
+---
+title: "Metrics"
+tag: "23"
+generator: "knowledgebase-nav"
+template: "docengine-site/templates/support_tag.mdx.j2"
+---
+
+<Card title="How can I change how frequently to log system metrics?" href="/support/models/articles/how-can-i-change-how-frequently-to-log-s" arrow="true" horizontal>
+  To configure the frequency to log system metrics, set _stats_sampling_interval to a number of seconds, expressed as a fl ...
+</Card>
+<Card title="How can I disable logging of system metrics to W&B?" href="/support/models/articles/how-can-i-disable-logging-of-system-metr" arrow="true" horizontal>
+  To disable logging of system metrics, set _disable_stats to True:
+</Card>
+<Card title="How can I log additional metrics after a run completes?" href="/support/models/articles/how-can-i-log-additional-metrics-after-a" arrow="true" horizontal>
+  To add metrics to a run that has already finished, W&B offers several approaches depending on the complexity of your wor ...
+</Card>
+<Card title="How can I overwrite the logs from previous steps?" href="/support/models/articles/how-can-i-overwrite-the-logs-from-previo" arrow="true" horizontal>
+  To overwrite logs from previous steps, use forking and rewind. The ability to fork or rewind a run is in active developm ...
+</Card>
+<Card title="How do I fix `Rate limit exceeded` errors when logging metrics?" href="/support/models/articles/rate-limit-exceeded-on-metric-logging" arrow="true" horizontal>
+  If you receive an HTTP 429 Rate limit exceeded error when you call wandb.log(), you're exceeding the rate limit quota fo ...
+</Card>
+<Card title="How do I fix an `anaconda 400 error` during a sweep?" href="/support/models/articles/anaconda-400-error-during-a-sweep" arrow="true" horizontal>
+  An anaconda 400 error during a sweep often means you didn't log the metric you're optimizing. You might see: The sweep c ...
+</Card>
+<Card title="How do I log NLP metrics and text outputs in W&B?" href="/support/models/articles/how-do-i-log-nlp-metrics-and-text-outputs-in-wandb" arrow="true" horizontal>
+  You can log corpus-level NLP scores (BLEU, ROUGE, perplexity) with wandb.log() and per-example outputs with wandb.Table. ...
+</Card>
+<Card title="How do I log gradients and model weights with wandb.watch()?" href="/support/models/articles/how-do-i-log-gradients-and-model-weights-with-wandb-watch" arrow="true" horizontal>
+  wandb.watch() hooks into a PyTorch model's parameters and gradients and logs histograms of their values at regular inter ...
+</Card>
+<Card title="How do I log metrics on two different time scales?" href="/support/models/articles/how-do-i-log-metrics-on-two-time-scales" arrow="true" horizontal>
+  To log metrics on two different time scales, log indices like batch and epoch alongside your metrics. For example, you m ...
+</Card>
+<Card title="How do I log metrics without saving my code?" href="/support/models/articles/how-do-i-log-metrics-without-saving-code" arrow="true" horizontal>
+  To keep proprietary source code or training data out of W&B for privacy or compliance reasons, limit what W&B captures s ...
+</Card>
+<Card title="How do I plot the maximum of a metric?" href="/support/models/articles/how-do-i-plot-the-maximum-of-a-metric" arrow="true" horizontal>
+  To plot the running maximum of a metric: 1. Create a scatter plot of the metric. 2. Open the Edit menu and select Annota ...
+</Card>
+<Card title="How do I use W&B with JAX?" href="/support/models/articles/how-do-i-use-wandb-with-jax" arrow="true" horizontal>
+  W&B has no JAX-specific integration. However, you can convert JAX device arrays to Python scalars and then use wandb.log ...
+</Card>
+<Card title="How often are system metrics collected?" href="/support/models/articles/how-often-are-system-metrics-collected" arrow="true" horizontal>
+  By default, system metrics are collected every 10 seconds. For higher-resolution metrics, email contact@wandb.com.
+</Card>
+<Card title="Is it possible to save metrics offline and sync them to W&B later?" href="/support/models/articles/is-it-possible-to-save-metrics-offline-a" arrow="true" horizontal>
+  By default, wandb.init starts a process that syncs metrics in real time to the cloud. If you need to run experiments wit ...
+</Card>
+<Card title="Optimizing multiple metrics" href="/support/models/articles/optimizing-multiple-metrics" arrow="true" horizontal>
+  W&B Sweeps optimize a single objective metric. To optimize multiple metrics in a single run, combine them into a weighte ...
+</Card>
+<Card title="What happens when I log millions of steps to W&B? How is that rendered in the browser?" href="/support/models/articles/what-happens-when-i-log-millions-of-step" arrow="true" horizontal>
+  The number of points sent affects the loading time of graphs in the UI. For lines exceeding 1,000 points, the backend sa ...
+</Card>
+<Card title="What if I want to log some metrics on batches and some metrics only on epochs?" href="/support/models/articles/what-if-i-want-to-log-some-metrics-on-ba" arrow="true" horizontal>
+  To log specific metrics in each batch and standardize plots, log the desired x-axis values alongside the metrics. In the ...
+</Card>
+<Card title="Why am I seeing fewer data points than I logged?" href="/support/models/articles/why-am-i-seeing-fewer-data-points-than-i" arrow="true" horizontal>
+  When you visualize metrics against an X-axis other than Step, expect to see fewer data points. You must log metrics at t ...
+</Card>
+<Card title="Why are my metrics missing from wandb.log()?" href="/support/models/articles/why-are-my-metrics-missing-from-wandb-log" arrow="true" horizontal>
+  If metrics logged with wandb.log() are not appearing in the W&B UI, there are several common causes. Offline mode withou ...
+</Card>
+<Card title="Why can't I sort or filter metrics with certain characters?" href="/support/models/articles/why-cant-i-sort-or-filter-metrics-with-c" arrow="true" horizontal>
+  Metric names in W&B must follow GraphQL naming conventions so that you can sort and filter them in the UI. Valid metric  ...
+</Card>
+<Card title="Why does my workspace load slowly?" href="/support/models/articles/workspace-loads-slowly-with-many-metric" arrow="true" horizontal>
+  Workspaces can load slowly when a project has many metrics, runs, or panels. Common causes include high metric counts, e ...
+</Card>
+<Card title="Why is nothing showing up in my graphs?" href="/support/models/articles/why-is-nothing-showing-up-in-my-graphs" arrow="true" horizontal>
+  If the message "No visualization data logged yet" appears, the script hasn't executed the first wandb.log call. This can ...
+</Card>
+<Card title="Why is the same metric appearing more than once?" href="/support/models/articles/why-is-the-same-metric-appearing-more-th" arrow="true" horizontal>
+  When you log multiple data types under the same key, W&B splits them in the database. This results in multiple entries o ...
+</Card>

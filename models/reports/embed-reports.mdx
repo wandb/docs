@@ -1,14 +1,19 @@
 ---
-description: Embed W&B reports directly into Notion or with an HTML IFrame element.
+description: Embed W&B reports directly into Notion or with an HTML `iframe` element.
 title: Embed a report
+keywords: ["iframe", "Confluence", "Notion", "Gradio", "Hugging Face Spaces"]
 ---
 
-## HTML iframe element
+Embed a W&B report in an external page or tool so that your team can view live experiment results alongside other documentation. This page describes how to generate an embed code from a report and use it in HTML, Confluence, Notion, or Gradio.
 
-Select the **Share** button on the upper right hand corner within a report. A modal window will appear. Within the modal window, select **Copy embed code**. The copied code will render within an Inline Frame (IFrame)  HTML element. Paste the copied code into an iframe HTML element of your choice.
+## HTML `iframe` element
+
+Use an HTML `iframe` element to embed a report on any web page that accepts custom HTML. W&B provides a prebuilt embed code that you can copy directly from the report.
+
+In the upper right of a report, select the **Share** button to open a dialog, then select **Copy embed code**. The copied snippet is an `iframe` HTML element that you can paste into any page that accepts custom HTML.
 
 <Note>
-Only **public** reports are viewable when embedded.
+Only *public* reports are viewable when embedded.
 </Note>
 
 <Frame>
@@ -17,7 +22,7 @@ Only **public** reports are viewable when embedded.
 
 ## Confluence
 
-The proceeding animation demonstrates how to insert the direct link to the report within an IFrame cell in Confluence.
+Confluence supports embedded reports through its built-in `iframe` macro. The following animation demonstrates how to insert the direct link to the report within an `iframe` cell in Confluence.
 
 <Frame>
     <img src="/images/reports/embed_iframe_confluence.gif" alt="Embedding in Confluence"  />
@@ -25,7 +30,7 @@ The proceeding animation demonstrates how to insert the direct link to the repor
 
 ## Notion
 
-The proceeding animation demonstrates how to insert a report into a Notion document using an Embed block in Notion and the report's embedded code.
+Notion's **Embed** block accepts the same embed code that W&B provides. The following animation demonstrates how to insert a report into a Notion document using an **Embed** block in Notion and the report's embed code.
 
 <Frame>
     <img src="/images/reports/embed_iframe_notion.gif" alt="Embedding in Notion"  />
@@ -33,7 +38,7 @@ The proceeding animation demonstrates how to insert a report into a Notion docum
 
 ## Gradio
 
-You can use the `gr.HTML` element to embed W&B Reports within Gradio Apps and use them within Hugging Face Spaces.
+To embed a W&B report in a Gradio app, including an app hosted on Hugging Face Spaces, use Gradio's `gr.HTML` element to render an `iframe` that points to the report URL.
 
 ```python
 import gradio as gr
@@ -50,5 +55,3 @@ with gr.Blocks() as demo:
     )
 demo.launch()
 ```
-
-##

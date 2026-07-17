@@ -1,0 +1,68 @@
+---
+title: Launch ジョブを表示
+description: "W&B App と CLI で Launch ジョブの詳細を確認し、利用可能なジョブを一覧表示して、ジョブのステータスを確認します。"
+keywords: ["ジョブステータス", "ジョブを一覧表示", "ジョブを確認", "CLI ジョブ一覧"]
+---
+
+このページでは、キュー内の Launch ジョブの情報を確認する方法を説明します。W&amp;B App でジョブの詳細を確認し、CLI からジョブを一覧表示して、キューに入った run のステータスを確認できます。
+
+<div id="view-jobs">
+  ## ジョブを表示
+</div>
+
+キュー内のジョブを表示するには、W&amp;B App を使用します。
+
+1. [https://wandb.ai/home](https://wandb.ai/home) の W&amp;B App にアクセスします。
+2. 左サイドバーの **Applications** セクションで **Launch** を選択します。
+3. **All entities** ドロップダウンを選択し、launch ジョブが属する entity を選択します。
+4. Launch Application ページで折りたたみ可能な UI を展開すると、その特定のキューに追加されたジョブのリストを表示できます。
+
+<Note>
+  Launch エージェントは、launch ジョブを実行すると run を作成します。つまり、一覧に表示される各 run は、そのキュー内の特定のジョブに対応しています。
+</Note>
+
+たとえば、次の画像には `job-source-launch_demo-canonical` というジョブから作成された 2 つの run が表示されています。このジョブは `Start queue` という名前のキュー内にあります。キュー内の最初の run の名前は `resilient-snowball`、2 番目の run の名前は `earthy-energy-165` です。
+
+<Frame>
+  <img src="/images/launch/launch_jobs_status.png" alt="Launch ジョブのステータス表示" />
+</Frame>
+
+W&amp;B App UI では、launch ジョブから作成された run について、次のような追加情報を確認できます。
+
+* **Run**: そのジョブに割り当てられた W&amp;B run の名前。
+* **Job ID**: ジョブの名前。
+* **Project**: run が属する project の名前。
+* **Status**: キューに入っている run のステータス。
+* **Author**: run を作成した W&amp;B entity。
+* **Creation date**: キューが作成されたタイムスタンプ。
+* **Start time**: ジョブが開始されたタイムスタンプ。
+* **Duration**: ジョブの run が完了するまでにかかった時間 (秒) 。
+
+<div id="list-jobs">
+  ## ジョブを一覧表示する
+</div>
+
+W&amp;B CLI を使用して、project 内のジョブ一覧を表示します。`wandb job list` コマンドを使用し、Launch ジョブが属する project の名前と entity を、それぞれ `--project` フラグと `--entity` フラグで指定します。
+
+`[ENTITY]` はご利用の W&amp;B entity に、`[PROJECT-NAME]` は Launch ジョブが属する project の名前に置き換えてください。
+
+```bash
+wandb job list --entity [ENTITY] --project [PROJECT-NAME]
+```
+
+<div id="check-the-status-of-a-job">
+  ## ジョブのステータスを確認する
+</div>
+
+キューに入った各 run には、Launch のライフサイクルのどの段階にあるかを示すステータスがあります。次の表は、キューに入った run が取りうるステータスを示しています。
+
+| ステータス        | 説明                                                                         |
+| ------------ | -------------------------------------------------------------------------- |
+| **Idle**     | run は、アクティブなエージェントが存在しないキューにあります。                                          |
+| **Queued**   | run は、エージェントによる処理待ちの状態でキューに入っています。                                         |
+| **Pending**  | run はエージェントによって取得されていますが、まだ開始していません。これは、クラスターでリソースを利用できないことが原因である可能性があります。 |
+| **Running**  | run は現在実行中です。                                                              |
+| **Killed**   | ジョブはユーザーによって停止されました。                                                       |
+| **Crashed**  | run はデータの送信を停止したか、正常に開始できませんでした。                                           |
+| **Failed**   | run は 0 以外の終了コードで終了したか、開始に失敗しました。                                          |
+| **Finished** | ジョブは正常に完了しました。                                                             |

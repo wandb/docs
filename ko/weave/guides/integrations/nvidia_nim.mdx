@@ -1,0 +1,192 @@
+---
+title: "NVIDIA NIM"
+description: "ChatNVIDIA 라이브러리를 통해 이루어지는 LLM Call을 트레이스하고 기록하려면 Weave를 사용하세요"
+keywords: ["ChatNVIDIA", "langchain-nvidia-ai-endpoints", "LLM 트레이싱", "NIM"]
+---
+
+`weave.init()`를 호출하면 Weave가 [ChatNVIDIA](https://python.langchain.com/docs/integrations/chat/nvidia_ai_endpoints/) 라이브러리를 통해 이루어지는 LLM Call을 자동으로 추적하고 기록합니다. 이 가이드에서는 ChatNVIDIA를 사용하는 Python 개발자가 트레이스를 캡처하고, 자신의 함수를 Ops로 래핑하고, Weave의 `Model` 클래스를 사용해 실험을 구성하여 LLM 애플리케이션을 더 효율적으로 디버그하고, 개선을 반복하고, 비교하는 방법을 설명합니다.
+
+<Tip>
+  최신 튜토리얼은 [Weights &amp; Biases on NVIDIA](https://wandb.ai/site/partners/nvidia)에서 확인하세요.
+</Tip>
+
+<div id="tracing">
+  ## 트레이싱
+</div>
+
+개발 중이든 프로덕션 환경이든, LLM 애플리케이션의 트레이스를 중앙 데이터베이스에 저장하면 문제를 디버깅하고 애플리케이션을 개선하는 동안 평가에 사용할 까다로운 예시 데이터셋을 구축하는 데 도움이 됩니다. 다음 섹션에서는 ChatNVIDIA call에 대한 자동 트레이싱을 활성화하는 방법을 설명합니다.
+
+<Tabs>
+  <Tab title="Python">
+    Weave는 [ChatNVIDIA Python 라이브러리](https://python.langchain.com/docs/integrations/chat/nvidia_ai_endpoints/)의 트레이스를 자동으로 캡처할 수 있습니다.
+
+    원하는 프로젝트 이름으로 `weave.init([PROJECT-NAME])`을 호출해 캡처를 시작하세요.
+
+    ```python lines {4}
+    from langchain_nvidia_ai_endpoints import ChatNVIDIA
+    import weave
+    client = ChatNVIDIA(model="mistralai/mixtral-8x7b-instruct-v0.1", temperature=0.8, max_tokens=64, top_p=1)
+    weave.init('emoji-bot')
+
+    messages=[
+        {
+          "role": "system",
+          "content": "You are AGI. You will be provided with a message, and your task is to respond using emojis only."
+        }]
+
+    response = client.invoke(messages)
+    ```
+
+    이 코드를 실행하면 Weave가 지정한 프로젝트 이름 아래에 ChatNVIDIA call을 캡처하며, 여기에서 입력, 출력, 메타데이터를 검사할 수 있습니다.
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    이 라이브러리는 Python에서만 제공되므로, 이 기능은 아직 TypeScript에서 사용할 수 없습니다.
+    ```
+  </Tab>
+</Tabs>
+
+<Frame>
+  ![chatnvidia\_trace.png](/weave/guides/integrations/imgs/chatnvidia_trace.png)
+</Frame>
+
+<div id="track-your-own-ops">
+  ## 나만의 op 추적하기
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    함수에 `@weave.op`를 적용하면 입력, 출력, 앱 로직 캡처가 시작되어 앱에서 데이터가 어떻게 흐르는지 디버그할 수 있습니다. op를 깊게 중첩해 추적하려는 함수 트리를 구축할 수도 있습니다. 또한 실험하는 동안 자동 코드 버전 관리가 시작되어 아직 Git에 커밋하지 않은 임시 세부 정보도 캡처할 수 있습니다.
+
+    [ChatNVIDIA Python library](https://python.langchain.com/docs/integrations/chat/nvidia_ai_endpoints/)를 호출하는 [`@weave.op`](/ko/weave/guides/tracking/ops)로 데코레이션된 함수를 만드세요.
+
+    다음 예시에서는 두 개의 함수가 op로 래핑됩니다. 이를 통해 RAG 앱의 retrieval step 같은 중간 step이 앱 동작에 어떤 영향을 주는지 확인할 수 있습니다.
+
+    ```python lines {1,9,11,29,31,33}
+    import weave
+    from langchain_nvidia_ai_endpoints import ChatNVIDIA
+    import requests, random
+    PROMPT="""Emulate the Pokedex from early Pokémon episodes. State the name of the Pokemon and then describe it.
+            Your tone is informative yet sassy, blending factual details with a touch of dry humor. Be concise, no more than 3 sentences. """
+    POKEMON = ['pikachu', 'charmander', 'squirtle', 'bulbasaur', 'jigglypuff', 'meowth', 'eevee']
+    client = ChatNVIDIA(model="mistralai/mixtral-8x7b-instruct-v0.1", temperature=0.7, max_tokens=100, top_p=1)
+
+    @weave.op
+    def get_pokemon_data(pokemon_name):
+        # 이것은 애플리케이션 내의 한 step으로, RAG 앱의 retrieval step과 같습니다
+        url = f"https://pokeapi.co/api/v2/pokemon/{pokemon_name}"
+        response = requests.get(url)
+        if response.status_code == 200:
+            data = response.json()
+            name = data["name"]
+            types = [t["type"]["name"] for t in data["types"]]
+            species_url = data["species"]["url"]
+            species_response = requests.get(species_url)
+            evolved_from = "Unknown"
+            if species_response.status_code == 200:
+                species_data = species_response.json()
+                if species_data["evolves_from_species"]:
+                    evolved_from = species_data["evolves_from_species"]["name"]
+            return {"name": name, "types": types, "evolved_from": evolved_from}
+        else:
+            return None
+
+    @weave.op
+    def pokedex(name: str, prompt: str) -> str:
+        # 이것은 다른 op를 호출하는 루트 op입니다
+        data = get_pokemon_data(name)
+        if not data: return "Error: Unable to fetch data"
+
+        messages=[
+                {"role": "system","content": prompt},
+                {"role": "user", "content": str(data)}
+            ]
+
+        response = client.invoke(messages)
+        return response.content
+
+    weave.init('pokedex-nvidia')
+    # 특정 Pokémon의 데이터를 가져옵니다
+    pokemon_data = pokedex(random.choice(POKEMON), PROMPT)
+    ```
+
+    Weave로 이동한 다음 UI에서 `get_pokemon_data`를 클릭해 해당 step의 입력과 출력을 확인하세요.
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    이 기능은 이 라이브러리가 Python에서만 제공되므로 아직 TypeScript에서는 사용할 수 없습니다.
+    ```
+  </Tab>
+</Tabs>
+
+<Frame>
+  ![nvidia\_pokedex.png](/weave/guides/integrations/imgs/nvidia_pokedex.png)
+</Frame>
+
+<div id="create-a-model-for-easier-experimentation">
+  ## 더 쉽게 실험하려면 `Model` 만들기
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    실험과 관련된 요소가 많아지면 이를 체계적으로 정리하기가 어렵습니다. [`Model`](/ko/weave/guides/core-types/models) 클래스를 사용하면 system 프롬프트나 사용 중인 모델처럼 앱의 실험 세부 정보를 캡처하고 정리할 수 있습니다. 이렇게 하면 앱의 여러 반복 버전을 정리하고 비교하는 데 도움이 됩니다.
+
+    코드 버전을 관리하고 입력과 출력을 캡처하는 것에 더해, [`Model`](/ko/weave/guides/core-types/models)은 애플리케이션의 동작을 제어하는 구조화된 매개변수도 캡처하므로 어떤 매개변수가 가장 효과적이었는지 쉽게 찾을 수 있습니다. 또한 Weave Models를 `serve` 및 [`Evaluation`](/ko/weave/guides/core-types/evaluations)과 함께 사용할 수도 있습니다.
+
+    다음 예시에서는 `model` 및 `system_message`를 바꿔 가며 실험할 수 있습니다. 이 둘 중 하나를 변경할 때마다 `GrammarCorrectorModel`의 새 *version* 이 생성됩니다.
+
+    ```python lines
+    import weave
+    from langchain_nvidia_ai_endpoints import ChatNVIDIA
+
+    weave.init('grammar-nvidia')
+
+    class GrammarCorrectorModel(weave.Model): # `weave.Model`로 변경
+      system_message: str
+
+      @weave.op()
+      def predict(self, user_input): # `predict`로 변경
+        client = ChatNVIDIA(model="mistralai/mixtral-8x7b-instruct-v0.1", temperature=0, max_tokens=100, top_p=1)
+
+        messages=[
+              {
+                  "role": "system",
+                  "content": self.system_message
+              },
+              {
+                  "role": "user",
+                  "content": user_input
+              }
+              ]
+
+        response = client.invoke(messages)
+        return response.content
+
+    corrector = GrammarCorrectorModel(
+        system_message = "You are a grammar checker, correct the following user input.")
+    result = corrector.predict("That was so easy, it was a piece of pie!")
+    print(result)
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    이 기능은 이 라이브러리가 Python에만 제공되므로 아직 TypeScript에서는 사용할 수 없습니다.
+    ```
+  </Tab>
+</Tabs>
+
+<Frame>
+  ![chatnvidia\_model.png](/weave/guides/integrations/imgs/chatnvidia_model.png)
+</Frame>
+
+<div id="usage-info">
+  ## 사용 정보
+</div>
+
+다음 참고 사항에서는 ChatNVIDIA 인테그레이션에서 무엇을 지원하는지 설명합니다.
+
+ChatNVIDIA 인테그레이션은 `invoke`, `stream` 및 해당 비동기 버전을 지원합니다. 또한 도구 사용도 지원합니다.
+ChatNVIDIA는 여러 유형의 모델과 함께 사용하도록 설계되었기 때문에 함수 호출은 지원하지 않습니다.

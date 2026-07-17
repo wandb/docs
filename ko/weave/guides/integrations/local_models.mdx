@@ -1,0 +1,43 @@
+---
+title: 로컬 모델
+description: "Ollama, LMStudio 또는 GPT4All로 오픈 소스 모델을 로컬에서 실행하고, OpenAI SDK 호환을 통해 Weave로 트레이스하세요."
+keywords: ["Ollama", "LMStudio", "GPT4All", "llama.cpp", "llamafile"]
+---
+
+많은 개발자가 Llama 3, Mixtral, Gemma, Phi와 같은 오픈 소스 모델을 자체 하드웨어에서 실행합니다. Weave는 OpenAI SDK 호환을 제공하는 경우 여러 로컬 모델 러너를 기본적으로 지원합니다.
+
+이 가이드에서는 로컬에 호스팅된 모델에 대한 Call을 Weave로 트레이스하여, 호스팅된 LLM 공급자에 대해 하듯 입력, 출력, 메타데이터를 동일한 방식으로 캡처하는 방법을 보여드립니다. 이 문서는 자신의 머신에서 오픈 소스 모델을 실행하면서 해당 Call의 관측성이 필요한 개발자를 위한 것입니다.
+
+<div id="wrap-local-model-functions-with-weaveop">
+  ## 로컬 모델 함수를 `@weave.op()`으로 감싸기
+</div>
+
+로컬 모델이 OpenAI 호환 러너를 통해 액세스되지 않더라도, 자체 모델 호출 함수를 감싸서 트레이스를 캡처할 수 있습니다. `weave.init('<your-project-name>')`로 Weave를 초기화한 다음, LLM Call을 `weave.op()`으로 감싸면 어떤 LLM이든 Weave와 통합할 수 있습니다. 자세한 내용은 [Tracing](/ko/weave/guides/tracking/tracing) 가이드를 참조하세요.
+
+<div id="update-your-openai-sdk-code-to-use-local-models">
+  ## OpenAI SDK 코드가 로컬 모델을 사용하도록 업데이트하기
+</div>
+
+로컬 모델 러너가 OpenAI SDK를 지원하는 경우, 두 가지만 변경하면 기존 OpenAI 클라이언트가 이를 사용하도록 설정할 수 있습니다.
+
+가장 큰 변경 사항은 `openai.OpenAI()`를 초기화할 때 사용하는 `base_url` 매개변수입니다. 이 설정은 OpenAI SDK가 OpenAI hosted API 대신 로컬 서버로 요청을 보내도록 합니다.
+
+```python lines
+client = openai.OpenAI(
+    base_url="http://localhost:1234",
+)
+```
+
+로컬 모델의 경우 `api_key`는 어떤 string 값이든 사용할 수 있지만, 반드시 직접 설정해야 합니다. 그렇지 않으면 OpenAI SDK가 환경 변수에서 해당 값을 읽어와 오류를 표시합니다.
+
+<div id="supported-local-model-runners">
+  ## 지원되는 로컬 모델 러너
+</div>
+
+다음 러너를 사용하면 컴퓨터에서 Hugging Face의 모델을 다운로드하고 실행할 수 있습니다. 각 러너는 OpenAI 호환 엔드포인트를 제공하므로, 앞서 설명한 변경 사항을 적용해 OpenAI SDK가 해당 엔드포인트를 가리키도록 설정할 수 있습니다.
+
+* Nomic [GPT4All](https://www.nomic.ai/gpt4all) - Settings의 Local Server를 통해 지원([FAQ](https://docs.gpt4all.io/gpt4all_help/faq.html))
+* [LMStudio](https://lmstudio.ai/) - Local Server의 OpenAI SDK 지원 [문서](https://lmstudio.ai/docs/developer/core/server)
+* [Ollama](https://ollama.com/) - OpenAI SDK용 [OpenAI 호환성](https://ollama.readthedocs.io/en/openai/)
+* [llama-cpp-python](https://llama-cpp-python.readthedocs.io/en/latest/server/) - OpenAI SDK를 지원하는 `llama.cpp` 실행용 Python 패키지
+* [llamafile](https://github.com/Mozilla-Ocho/llamafile#other-example-llamafiles) - Llamafile을 실행하면 `http://localhost:8080/v1` 에서 OpenAI SDK가 자동으로 지원됩니다

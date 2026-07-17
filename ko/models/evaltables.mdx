@@ -1,0 +1,34 @@
+---
+title: 개요
+description: "W&B에서 Eval Table을 생성하고, 비교하고, 시각화하는 방법을 알아보세요."
+---
+
+Eval Table을 사용하면 여러 Runs에 걸쳐 집계 점수와 예시 수준의 모델 입력, 출력, 점수를 비교할 수 있습니다. Eval Table로 모델 버전이나 트레이닝 step을 비교하고, 집계 점수 변화를 검토하고, 모델 성능 변화의 배경이 되는 예시를 자세히 살펴볼 수 있습니다.
+
+다음 이미지는 `"summer-butterfly-9"`와 `"gentle-flower-8"` 두 run을 비교하는 `"validation_prediction_eval"`이라는 Eval Table을 보여줍니다.
+
+<Frame>
+  <img src="/images/evaltables/overview_basic_compare_two_runs_landing_page_notlabled.png" alt="Eval Table 뷰" />
+</Frame>
+
+**Eval Table** 패널은 세 개의 섹션으로 구성됩니다.
+
+1. run 비교 선택기: [비교하려는 runs](/ko/models/evaltables/compare-runs)을 선택합니다.
+2. 집계 점수: 선택한 run의 집계 점수를 검토하고 서로 간의 차이를 비교합니다. 자세한 내용은 [집계 점수 보기](/ko/models/evaltables/compare-runs#aggregate-scores)를 참조하세요.
+3. 예시: 선택한 runs에서 각 예시의 입력, 출력, 점수를 비교합니다.
+
+다음 이미지는 패널의 각 섹션을 강조 표시합니다.
+
+<Frame>
+  <img src="/images/evaltables/overview_basic_compare_two_runs_landing_page.png" alt="Eval Table 뷰" />
+</Frame>
+
+[W&amp;B Python SDK의 `EvalTable` 클래스를 사용해 Eval Table 만들기](/ko/models/evaltables/create-an-evaluation-table).
+
+기존 [W&amp;B Tables](/ko/models/tables)도 ARIA를 사용해 Eval Table로 변환할 수 있습니다. 자세한 내용은 [W&amp;B Table을 Eval Table로 변환하기](/ko/models/evaltables/create-an-evaluation-table#convert-a-w\&b-table-to-an-eval-table)를 참조하세요.
+
+<Tip>
+  기존 W&amp;B Tables를 Eval Table로 변환하면 렌더링 성능을 개선하고 추가 비교 기능에 액세스할 수 있습니다.
+</Tip>
+
+첫 번째 Eval Table을 만들려면 [Eval Table 만들기](/ko/models/evaltables/create-an-evaluation-table)를 참조하세요.

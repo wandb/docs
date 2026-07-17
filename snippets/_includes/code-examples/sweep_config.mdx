@@ -1,0 +1,103 @@
+```python
+"""
+Example sweep configuration for W&B Sweeps.
+
+sweep_configuration is an example of a single nested sweep configuration
+sweep_configuration_nested is an example of a double nested sweep configuration
+
+Replace:
+- values enclosed in angle brackets with your own
+- integer values, float values, and lists of values with your own hyperparameter search space
+"""
+
+sweep_configuration = {
+    "program": "<program_name>",
+    "name": "<sweep_name>",
+    "method": "<sweep_method>",
+    "metric": {
+        "name": "<metric_name>",
+        "goal": "<goal_type>"
+        },
+    "parameters": {
+        "hyperparameter_1": {
+            "search_constraint_1": 0.0001, 
+            "search_constraint_2": 0.1
+            },
+        "hyperparameter_2": {
+            "values": [16, 32, 64]
+            },
+        "hyperparameter_3": {
+            "values": [5, 10, 15]
+            },
+        "hyperparameter_4": {
+            "values": ["value_1", "value_2"]
+            },
+    },
+}
+
+## Double nested sweep configuration example
+sweep_configuration_nested = {
+  "program": "<program_name>",
+  "name": "<sweep_name>",
+  "method": "<sweep_method>",
+  "metric": {
+    "name": "<metric_name>",
+    "goal": "<goal_type>"
+  },
+  "parameters": {
+    "hyperparameter_1": {
+      "values": ["<value_1>", "<value_2>"]
+    },
+    "hyperparameter_2": {
+      "values": [128, 256, 512]
+    },
+    "hyperparameter_3": {
+      "values": [0.3, 0.4, 0.5]
+    },
+    "hyperparameter_4": {
+      "value": 1
+    },
+    "hyperparameter_5": {
+      "distribution": "<distribution_type>",
+      "search_constraint_1": 0,
+      "search_constraint_2": 0.1
+    },
+    "nested_category_1": {
+      "parameters": {
+        "nested_hyperparameter_1": {
+          "distribution": "<distribution_type>",
+          "search_constraint_1": 0.0,
+          "search_constraint_2": 0.9
+        },
+        "nested_hyperparameter_2": {
+          "values": [0.0001, 0.0005, 0.001]
+        }
+      }
+    },
+    "nested_category_2": {
+      "parameters": {
+        "nested_hyperparameter_1": {
+          "distribution": "<distribution_type>",
+          "search_constraint_1": 0.0,
+          "search_constraint_2": 0.9
+        },
+        "nested_hyperparameter_2": {
+          "values": [0.1, 0.2, 0.3]
+        }
+      }
+    },
+    "nested_category_3": {
+      "parameters": {
+        "nested_hyperparameter_1": {
+          "distribution": "<distribution_type>",
+          "search_constraint_1": 0.5,
+          "search_constraint_2": 0.7
+        },
+        "nested_hyperparameter_2": {
+          "values": [0.2, 0.3, 0.4]
+        }
+      }
+    }
+  }
+}
+```

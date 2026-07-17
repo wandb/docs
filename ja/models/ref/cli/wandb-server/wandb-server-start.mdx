@@ -1,19 +1,64 @@
 ---
-title: wandb サーバー start
+title: wandb server start
 ---
 
-**使用方法**
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-`wandb server start [OPTIONS]`
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/cli.py#L2669" />
 
-**概要**
+<div id="usage">
+  ## 使い方
+</div>
 
-ローカル W&B サーバーを開始します
+```bash
+start [OPTIONS]
+```
 
-**オプション**
+<div id="description">
+  ## 説明
+</div>
 
-| **オプション** | **説明** |
-| :--- | :--- |
-| `-p, --port` | バインドする W&B サーバーのホストポート |
-| `-e, --env` | wandb/local に渡す環境変数 |
-| `--daemon / --no-daemon` | デーモンモードで run またはデーモンモードで run しない |
+Dockerコンテナー内でローカルの W&amp;B Server インスタンスを起動します。
+
+wandb/local Docker image を取得して実行します。指定したホスト
+ポートをコンテナー内のポート 8080 にマッピングし、データを保存するために
+&quot;wandb&quot; という名前の永続的な Docker
+volume をマウントします。
+
+ローカルサーバーを指すように &quot;base&#95;url&quot; 設定を構成し、
+以降の W&amp;B クライアント Call でそのサーバーを使用するようにします。
+APIキーが見つからない場合は、ログインを求めます。
+
+ホストマシンに Docker がインストールされ、実行中である必要があります。
+
+このコマンドは W&amp;B Models UI のみを起動します。ローカルテスト専用に
+提供されています。本番環境では、W&amp;B Kubernetes Operator が推奨される
+W&amp;B Serv[https://docs.wandb.ai/platform/hosting/self-managed/operator](https://docs.wandb.ai/platform/hosting/self-managed/operator)ged/operator のデプロイ方法です。
+
+たとえば、デフォルトポート (8080) でローカルの W&amp;B Server を起動するには、次のようにします。
+
+```bash
+wandb server start
+```
+
+ポート9090でサーバーを起動するには：
+
+```bash
+wandb server start -p 9090
+```
+
+サーバーをフォアグラウンドで起動するには:
+
+```bash
+wandb server start --no-daemon
+```
+
+<div id="options">
+  ## オプション
+</div>
+
+| フラグ          | タイプ       | 説明                                                                       |
+| ------------ | --------- | ------------------------------------------------------------------------ |
+| `--port, -p` | STR       | W&amp;B server をバインドするホスト側のポートです。**デフォルト**: 8080                         |
+| `--env, -e`  | STR       | wandb/local Docker image に渡す環境変数です。**デフォルト**: []                         |
+| `--daemon`   | BOOL Flag | サーバーをバックグラウンドで実行します。フォアグラウンドで実行するには `--no-daemon` を使用します。**デフォルト**: True |

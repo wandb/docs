@@ -1,24 +1,27 @@
 ---
 title: "Introduction to Evaluations"
 description: "Learn how to use introduction to evaluations with W&B Weave"
+keywords: ["Weave Model", "Evaluation API", "scoring function", "LLM evaluation", "Pydantic"]
 ---
 
 <Note>
-This is an interactive notebook. You can run it locally or use the links below:
+This is an interactive notebook. You can run it locally or use the following links:
 - [Open in Google Colab](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/Intro_to_Weave_Hello_Eval.ipynb)
 - [View source on GitHub](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/Intro_to_Weave_Hello_Eval.ipynb)
 </Note>
 
-## 🔑 Prerequisites
+This notebook introduces W&B Weave evaluations by walking you through a minimal end-to-end example. You define a Weave `Model`, run it against a small dataset, score the outputs with a custom scoring function, and review the results in Weave. It's intended for developers who are new to Weave and want a quick, hands-on starting point before exploring more advanced evaluation workflows.
+
+## Prerequisites
 
 Before you can run a Weave evaluation, complete the following prerequisites.
 
-1. Install the W&B Weave SDK and log in with your [API key](https://wandb.ai/settings#api).
+1. Install the W&B Weave SDK and log in with your [API key](https://wandb.ai/settings#apikeys).
 2. Install the OpenAI SDK and log in with your [API key](https://platform.openai.com/api-keys).
 3. Initialize your W&B project.
 
 ```python lines
-# Install dependancies and imports
+# Install dependencies and imports
 !pip install wandb weave openai -q
 
 import os
@@ -34,9 +37,9 @@ import weave
 #####
 print("---")
 print(
-    "You can find your Weights and Biases API key here: https://wandb.ai/settings#api"
+    "Create a W&B API key at: https://wandb.ai/settings#apikeys"
 )
-os.environ["WANDB_API_KEY"] = getpass("Enter your Weights and Biases API key: ")
+os.environ["WANDB_API_KEY"] = getpass("Enter your W&B API key: ")
 print("---")
 print("You can generate your OpenAI API key here: https://platform.openai.com/api-keys")
 os.environ["OPENAI_API_KEY"] = getpass("Enter your OpenAI API key: ")
@@ -47,9 +50,11 @@ print("---")
 weave_client = weave.init("MY_PROJECT_NAME")  # 🐝 Your W&B project name
 ```
 
-## 🐝 Run your first evaluation
+## Run your first evaluation
 
-The following code sample shows how to evaluate an LLM using Weave’s `Model` and `Evaluation` APIs. First, define a Weave model by subclassing `weave.Model`, specifying the model name and prompt format, and tracking a `predict` method with `@weave.op`. The `predict` method sends a prompt to OpenAI and parses the response into a structured output using a Pydantic schema (`FruitExtract`). Then, create a small evaluation dataset consisting of input sentences and expected targets. Next, define a custom scoring function (also tracked using `@weave.op`) that compares the model’s output to the target label. Finally,  wrap everything in a `weave.Evaluation`, specifying your dataset and scorers, and call `evaluate()` to run the evaluation pipeline asynchronously.
+With your environment set up, you're ready to define and run an evaluation.
+
+The following code sample shows how to evaluate an LLM using Weave's `Model` and `Evaluation` APIs. First, define a Weave model by subclassing `weave.Model`, specifying the model name and prompt format, and tracking a `predict` method with `@weave.op`. The `predict` method sends a prompt to OpenAI and parses the response into a structured output using a Pydantic schema (`FruitExtract`). Then, create a small evaluation dataset that consists of input sentences and expected targets. Next, define a custom scoring function (also tracked using `@weave.op`) that compares the model's output to the target label. Finally, wrap everything in a `weave.Evaluation`, specifying your dataset and scorers, and call `evaluate()` to run the evaluation pipeline asynchronously.
 
 ```python lines
 # 1. Construct a Weave model
@@ -120,7 +125,11 @@ evaluation = weave.Evaluation(
 await evaluation.evaluate(model)
 ```
 
-## 🚀 Looking for more examples?
+After the evaluation finishes, Weave logs the model, dataset, and per-example scores to your project so you can inspect the results in the Weave UI.
 
-- Learn how to build an [evlauation pipeline end-to-end](/weave/tutorial-eval). 
-- Learn how to evaluate a [RAG application by building](/weave/tutorial-rag).
+## Looking for more examples
+
+Now that you've run a basic evaluation, you can explore more advanced workflows in the following tutorials:
+
+- Learn how to [build an evaluation pipeline end-to-end](/weave/tutorial-eval).
+- Learn how to [evaluate a RAG application](/weave/tutorial-rag).

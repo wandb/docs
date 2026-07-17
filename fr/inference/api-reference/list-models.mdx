@@ -1,0 +1,70 @@
+---
+title: "Lister les modèles"
+description: "Récupérez la liste des modèles Serverless Inference disponibles et leurs ID à l’aide du point de terminaison models."
+keywords: ["point de terminaison /v1/models", "découvrir des modèles", "ID de modèle", "lister les modèles disponibles"]
+---
+
+Cette page explique comment récupérer tous les modèles disponibles via l’API Serverless Inference, ainsi que leurs ID. Utilisez ce point de terminaison pour découvrir les modèles disponibles par programmation, sélectionner dynamiquement un modèle à l’exécution ou vérifier quels modèles sont accessibles depuis votre compte.
+
+<div id="request-examples">
+  ## Exemples de requêtes
+</div>
+
+Les exemples suivants montrent comment appeler le point de terminaison models depuis Python et en ligne de commande.
+
+<Tabs>
+  <Tab title="Python">
+    ```python
+    import openai
+
+    client = openai.OpenAI(
+        base_url="https://api.inference.wandb.ai/v1",
+        api_key="[YOUR-API-KEY]",
+        project="[YOUR-TEAM]/[YOUR-PROJECT]"  # facultatif, pour le suivi de l’utilisation
+    )
+
+    response = client.models.list()
+
+    for model in response.data:
+        print(model.id)
+    ```
+  </Tab>
+
+  <Tab title="Bash">
+    ```bash
+    curl https://api.inference.wandb.ai/v1/models \
+      -H "Content-Type: application/json" \
+      -H "Authorization: Bearer [YOUR-API-KEY]" \
+      -H "OpenAI-Project: [YOUR-TEAM]/[YOUR-PROJECT]"
+    ```
+  </Tab>
+</Tabs>
+
+<div id="response-format">
+  ## Format de réponse
+</div>
+
+Le point de terminaison renvoie une liste d’objets de modèle dans un format compatible avec OpenAI, afin que vous puissiez traiter la réponse à l’aide des bibliothèques clientes OpenAI standard. Chaque entrée inclut l’ID du modèle que vous fournissez à d’autres points de terminaison de l’API Inférence.
+
+```json
+{
+  "object": "list",
+  "data": [
+    {
+      "id": "deepseek-ai/DeepSeek-V3.1",
+      "object": "model",
+      "created": 0,
+      "owned_by": "system",
+      "root": "deepseek-ai/DeepSeek-V3.1"
+    },
+    {
+      "id": "openai/gpt-oss-20b",
+      "object": "model",
+      "created": 0,
+      "owned_by": "system",
+      "root": "openai/gpt-oss-20b"
+    }
+    // ... autres modèles
+  ]
+}
+```

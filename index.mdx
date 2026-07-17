@@ -1,28 +1,25 @@
 ---
-title: "Weights & Biases Documentation"
-description: "View the documentation for all Weights & Biases products"
-sidebarTitle: "Home"
-mode: wide
+title: "Build AI agents, applications, and models"
+description: "Develop AI models and ship LLM applications with the W&B platform for experiment tracking, evaluation, and observability."
+sidebarTitle: "Docs Home"
+mode: "wide"
 ---
 import {Banner} from "/snippets/Banner.jsx";
-import {HomeWrapper} from "/snippets/home.jsx";
 import {ProductCard} from "/snippets/ProductCard.jsx";
 
-<HomeWrapper>
-<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+## Weights & Biases
+
+<h3 className="home-h3">Develop AI models and ship LLM applications with the W&B platform for experiment tracking, evaluation, and observability.</h3>
+
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4" style={{ marginTop: '2rem', marginBottom: '2rem' }}>
     <ProductCard
         title="W&B Models"
         iconSrc="icons/cropped-models.svg"
         href="/models"
         subtitle="Develop AI models"
+        iconSize={36}
     >
-        Use W&B Models to manage AI model development. Features include training, fine-tuning, reporting, automating hyperparameter sweeps, and utilizing the model registry for versioning and reproducibility.
-        <br/>
-        <br/>
-        • <a href="/models/">Introduction</a><br/>
-        • <a href="/models/quickstart/">Quickstart</a><br/>
-        • <a href="https://www.youtube.com/watch?v=tHAFujRhZLA">YouTube Tutorial</a><br/>
-        • <a href="https://wandb.ai/site/courses/101/">Online Course</a>
+        Manage AI model development with experiment tracking, fine-tuning, reporting, hyperparameter sweeps, and a model registry for versioning and reproducibility.
     </ProductCard>
 
     <ProductCard
@@ -30,45 +27,44 @@ import {ProductCard} from "/snippets/ProductCard.jsx";
         iconSrc="icons/cropped-weave.svg"
         href="/weave"
         subtitle="Use AI models in your app"
-    >   
-        Use W&B Weave to manage AI models in your code. Features include tracing, output evaluation, cost estimates, and a hosted inference service and playground for comparing different large language models (LLMs) and settings.
-        <br/>
-        <br/>
-        • <a href="/weave/">Introduction</a><br/>
-        • <a href="/weave/quickstart">Quickstart</a><br/>
-        • <a href="https://www.youtube.com/watch?v=IQcGGNLN3zo">YouTube Demo</a><br/>
-        • <a href="/weave/guides/tools/playground/">Try the Playground</a><br/>
-        • <a href="/weave/guides/tools/weave-in-workspaces">Use Weave in your W&B runs</a>
-    </ProductCard>
-    
-    <ProductCard
-        title="W&B Inference"
-        iconSrc="icons/cropped-inference.svg"
-        href="/inference/"
-        subtitle="Access foundation models"
+        iconSize={36}
     >
-        Use W&B Inference to access leading open-source foundation models through an OpenAI-compatible API. Features include multiple model options, usage tracking, and integration with Weave for tracing and evaluation.
-        <br/>
-        <br/>
-        • <a href="/inference/">Introduction</a><br/>
-        • <a href="/inference/models/">Available Models</a><br/>
-        • <a href="/inference/api-reference/">API Reference</a><br/>
-        • <a href="https://wandb.ai/inference">Try in Playground</a>
+        Manage AI models in your code with tracing, output evaluation, cost estimates, and a playground to compare large language models (LLMs) and settings.
+    </ProductCard>
+</div>
+
+## Powered by CoreWeave
+
+<h3 className="home-h3">Managed services that run on CoreWeave infrastructure.</h3>
+
+<div className="grid grid-cols-1 md:grid-cols-3 gap-4" style={{ marginTop: '2rem' }}>
+    <ProductCard
+        title="Serverless Inference"
+        iconSrc="icons/cropped-inference.svg"
+        href="/inference"
+        subtitle="Access foundation models"
+        iconSize={36}
+    >
+        Access leading open-source foundation models through an OpenAI-compatible API, with usage tracking and Weave integration for tracing and evaluation.
     </ProductCard>
 
     <ProductCard
-        title="W&B Training"
+        title="Serverless Training"
         iconSrc="icons/cropped-training.svg"
-        href="/training/"
-        subtitle="Post-train your models"
+        href="/serverless-training"
+        subtitle="Post-train and fine-tune models"
+        iconSize={36}
     >
-        Now in public preview, use W&B Training to post-train large language models using serverless reinforcement learning (RL). Features include fully managed GPU infrastructure, integration with ART and RULER, and automatic scaling for multi-turn agentic tasks.
-        <br/>
-        <br/>
-        • <a href="/training/">Introduction</a><br/>
-        • <a href="/training/prerequisites/">Prerequisites</a><br/>
-        • <a href="/training/serverless-rl/">Serverless RL</a><br/>
-        • <a href="/training/api-reference/">API Reference</a>
+        Now in public preview. Post-train and fine-tune LLMs with Serverless RL and Serverless SFT, managed GPU infrastructure, ART and RULER integration, and auto-scaling for multi-turn agentic tasks.
+    </ProductCard>
+
+    <ProductCard
+        title="Serverless Sandboxes"
+        iconSrc="icons/cropped-sdk.svg"
+        href="/sandboxes"
+        subtitle="Run code in isolated environments"
+        iconSize={36}
+    >
+        Now in private preview by invitation. Run code in isolated compute environments with lifecycle management, secrets handling, file access, and a Python SDK.
     </ProductCard>
 </div>
-</HomeWrapper>

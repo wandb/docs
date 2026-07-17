@@ -1,0 +1,234 @@
+---
+title: "Model Context Protocol (MCP) と Weave"
+description: "Weave を使用して、MCP クライアントと MCP サーバー間のアクティビティをトレースします"
+---
+
+<a target="_blank" href="https://colab.research.google.com/drive/174VzXlU5Qcgvjt4OoIWN-guTxJcOefAh?usp=sharing" aria-label="Google Colab で開く">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Colab で開く" />
+</a>
+
+Model Context Protocol (MCP) は、AI アプリケーションが大規模言語モデル (LLM) と情報をやり取りできるようにする標準化された通信プロトコルです。MCP は、LLM がデータソースにアクセスし、外部ツールと連携するためのインターフェースを提供します。しかも、新しいサービスごとに個別のインテグレーションを作成する必要はありません。
+
+Weave インテグレーションを使用すると、MCP クライアントと MCP サーバー間のアクティビティをトレースできます。これにより、MCP ベースのシステム全体にわたるツールのCall、リソースへのアクセス、プロンプト生成を詳細に可視化できるため、MCP アプリケーションのデバッグ、監査、最適化を行えます。
+
+このガイドでは、インテグレーションの仕組み、サーバー側とクライアント側でトレースを有効にする方法、さらに実際に実行できる一連の例について説明します。
+
+<div id="how-it-works">
+  ## 仕組み
+</div>
+
+<Warning>
+  このインテグレーションではクライアント側とサーバー側の操作をそれぞれ個別に取得しており、それらの相互作用をエンドツーエンドで可視化することはできません。エンドツーエンドの可観測性を実現するために、MCP に OpenTelemetry のトレースサポートを追加する提案が現在進められています。詳細は [GitHub discussion #269](https://github.com/modelcontextprotocol/modelcontextprotocol/discussions/269) を参照してください。
+</Warning>
+
+Weave インテグレーションは、コア method に [`weave.op()`](../tracking/ops) デコレータを適用することで、Model Context Protocol (MCP) の主要なコンポーネントを自動的にトレースします。具体的には、[`mcp.server.fastmcp.FastMCP`](https://github.com/modelcontextprotocol/python-sdk/blob/b4c7db6a50a5c88bae1db5c1f7fba44d16eebc6e/src/mcp/server/fastmcp/server.py#L109) クラスと [`mcp.ClientSession`](https://github.com/modelcontextprotocol/python-sdk/blob/b4c7db6a50a5c88bae1db5c1f7fba44d16eebc6e/src/mcp/client/session.py#L84) クラスの method にパッチを適用します。
+
+このインテグレーションにより、Weave は次の MCP コンポーネントをトレースします。
+
+* [ツール](https://modelcontextprotocol.io/specification/2025-06-18/server/tools)
+* [リソース](https://modelcontextprotocol.io/specification/2025-06-18/server/resources)
+* [プロンプト](https://modelcontextprotocol.io/specification/2025-06-18/server/prompts)
+
+[![mcp\_trace\_timeline.png](/weave/guides/integrations/imgs/mcp/mcp_trace_timeline.png)](https://wandb.ai/ayut/mcp_example/weave/traces?filter=%7B%22opVersionRefs%22%3A%5B%22weave%3A%2F%2F%2Fayut%2Fmcp_example%2Fop%2Frun_client%3A*%22%5D%7D\&peekPath=%2Fayut%2Fmcp_example%2Fcalls%2F01966bbe-cc5e-7012-b45f-bf10617d8c1e%3FhideTraceTree%3D0)
+
+<div id="use-the-integration">
+  ## インテグレーションを使用する
+</div>
+
+Weave インテグレーションは、MCP サーバーとクライアントの両方で使用できます。インストール後は、`weave` を import するための 1 行と初期化するための 1 行を追加すると、トレースを有効にできます。
+
+<div id="prerequisites">
+  ### 前提条件
+</div>
+
+始める前に、必須のパッケージをインストールしてください。
+
+```bash
+pip install -qq "mcp[cli]" weave
+```
+
+
+<div id="configuration">
+  ### 設定
+</div>
+
+`MCP_TRACE_LIST_OPERATIONS` 環境変数でMCPインテグレーションを設定します。サーバー側とクライアント側の両方でリスト操作 (`list_tools`、`list_resources`、`list_prompts`) をトレースする場合は、`true` に設定します。
+
+<div id="server-side-integration">
+  ### サーバー側インテグレーション
+</div>
+
+MCP server を構築している場合や、インストルメンテーションを追加する場合は、このセクションを参照してください。MCP server をトレースするには、既存の `FastMCP` の setup に 2 行追加します。1 行は Weave を import するため、もう 1 行はクライアントを初期化するためのものです。追加すると、Weave がツール、リソース、プロンプト の各操作を自動的にトレースします。
+
+```python lines
+# Weave をインポートする（トレースに必須）
+import weave
+from mcp.server.fastmcp import FastMCP
+
+# プロジェクト名で Weave を初期化する
+weave_client = weave.init("my-project")
+
+# MCP server を設定する
+mcp = FastMCP("Demo")
+
+# ツール を定義する（この呼び出しはトレースされます）
+@mcp.tool()
+def add(a: int, b: int) -> int:
+    """Add two numbers."""
+    return a + b
+
+# リソース を定義する（この呼び出しはトレースされます）
+@mcp.resource("greeting://{name}")
+def get_greeting(name: str) -> str:
+    """Return a personalized greeting."""
+    return f"Hello, {name}!"
+
+# プロンプト を定義する（この呼び出しはトレースされます）
+@mcp.prompt()
+def review_code(code: str) -> str:
+    """Return a prompt for reviewing code."""
+    return f"Please review this code:\n\n{code}"
+
+# サーバーを起動する
+mcp.run(transport="stdio")
+```
+
+<div id="client-side-integration">
+  ### クライアント側のインテグレーション
+</div>
+
+MCP クライアントを構築している場合、またはインストルメンテーションを行う場合は、このセクションを参照してください。クライアント側でトレースを有効にするには、2 つの変更も必要です。Weave を import して初期化します。Weave は、すべてのツール呼び出し、リソースへのアクセス、プロンプト リクエストを自動的にトレースします。
+
+```python lines
+# Weave をインポートする（トレースに必須）
+import weave
+from mcp import ClientSession, StdioServerParameters
+from mcp.client.stdio import stdio_client
+
+# プロジェクト名で Weave を初期化する
+weave_client = weave.init("my-project")
+
+# MCP クライアントを設定して実行する
+async with stdio_client(server_params) as (read, write):
+    async with ClientSession(read, write) as session:
+        # セッションを初期化する
+        await session.initialize()
+        
+        # ツールを呼び出す（トレースされます）
+        result = await session.call_tool("add", arguments={"a": 1, "b": 2})
+        
+        # リソースを読み取る（トレースされます）
+        resource = await session.read_resource("greeting://user")
+        
+        # プロンプトを取得する（トレースされます）
+        prompt = await session.get_prompt("review_code", arguments={"code": "print('Hello')"})
+```
+
+<div id="tutorial-mcp_demo-example">
+  ## チュートリアル: `mcp_demo` の例
+</div>
+
+`mcp_demo` の例では、トレースのために MCP と Weave のインテグレーションを示します。クライアント側とサーバー側の両方のコンポーネントを計装し、それらのやり取りの詳細なトレースを取得する方法を紹介します。このコードを実行すると、Weave UI で MCP アプリケーションのクライアント側とサーバー側の両方のトレースを確認でき、ご自身の project に合わせて応用できる具体的な参考例も得られます。
+
+<div id="run-the-example">
+  ### 例を実行する
+</div>
+
+1. docsリポジトリをクローンし、`mcp_demo` の例にアクセスします:
+
+   ```bash
+   git clone https://github.com/wandb/docs
+   cd docs/weave/examples/mcp_demo
+   ```
+
+   この例には、主に次の 2 つのファイルが含まれています:
+
+   * `example_server.py`: `FastMCP` で構築されたデモ用の MCP サーバーです。ツール、リソース、プロンプト を定義します。
+   * `example_client.py`: サーバーに接続し、そのコンポーネントとやり取りするクライアントです。
+
+2. 必須の依存関係を手動でインストールします:
+
+   ```bash
+   pip install mcp[cli] weave
+   ```
+
+3. デモを実行します:
+
+   ```bash
+   python example_client.py example_server.py
+   ```
+
+   このコマンドにより、クライアントとサーバーの両方が起動します。クライアントでは対話型の CLI が起動し、さまざまな機能を試せます。
+
+<div id="client-cli-commands">
+  ### クライアント CLI コマンド
+</div>
+
+クライアントインターフェースは次のコマンドをサポートしています：
+
+| Command                 | Description                                                       |
+| ----------------------- | ----------------------------------------------------------------- |
+| `tools`                 | 利用可能なツールを一覧表示する                                                   |
+| `resources`             | 利用可能なリソースを一覧表示する                                                  |
+| `prompts`               | 利用可能なプロンプトを一覧表示する                                                 |
+| `add <a> <b>`           | 2 つの数値を加算する                                                       |
+| `bmi <weight> <height>` | BMI (体格指数) を計算する                                                  |
+| `weather <city>`        | 指定した都市の天気データを取得する                                                 |
+| `greeting <name>`       | パーソナライズされたあいさつを取得する                                               |
+| `user <id>`             | ユーザーのプロフィールを取得する                                                  |
+| `config`                | アプリの設定を取得する                                                       |
+| `code-review <code>`    | コードレビュー用のプロンプトを生成する                                               |
+| `debug <error>`         | デバッグ用のプロンプトを生成する                                                  |
+| `demo`                  | 利用可能な全機能のデモを実行します。各機能を順番に実行し、Weave UI でのやり取りの完全なトレースタイムラインを生成します。 |
+| `q`                     | セッションを終了する                                                        |
+
+<div id="example-overview">
+  ### 例の概要
+</div>
+
+`example_server.py` サーバーでは、次のものを定義しています。
+
+* *Tools*: `add()`、`calculate_bmi()`、`fetch_weather()` などの関数
+* *リソース*: `greeting://{name}`、`config://app`、`users://{id}/profile` のようなエンドポイント
+* *プロンプト*: `review_code()` や `debug_error()` のようなテンプレート
+
+サーバー側のすべての操作は、`weave.init()` でクライアントを初期化すると、Weave によって自動的にトレースされます。
+
+`example_client.py` クライアントでは、次の方法を示します。
+
+* MCP サーバーに接続する。
+* 利用可能なツール、リソース、プロンプトを確認する。
+* パラメーターを指定してツールを呼び出す。
+* リソース URI を読み取る。
+* 引数を使ってプロンプトを生成する。
+* カスタムの methods と functions で [`weave.op()`](../tracking/ops) を使用する方法を示す。
+
+Weave はクライアント側のすべての call をトレースし、クライアントとサーバー間のやり取りの全体像を把握できるようにします。
+
+<div id="faq">
+  ## FAQ
+</div>
+
+次のセクションでは、Weave の MCP トレースを使用する理由と使い方に関する、よくある質問にお答えします。
+
+<div id="why-mcp-tracing-is-needed">
+  ### MCPトレースが必要な理由
+</div>
+
+LLMアプリケーションの開発者は、次の3つのカテゴリのいずれかに当てはまります。
+
+* *MCPサーバー側の開発者*: MCPクライアントに対して、複数のツール、リソース、プロンプトを公開したい場合です。既存のアプリケーションのツールやリソースを公開している、agent を構築している、またはオーケストレーター agent によって複数の agent を連携させているケースがこれに当たります。
+
+* *MCPクライアント側の開発者*: クライアント側のアプリケーションを複数のMCPサーバーに接続したい場合です。クライアント側ロジックの中核となるのは、どの ツール を Call するか、どのリソースを取得するかを判断するためのLLM Callです。
+
+* *MCPサーバーおよびクライアントの開発者*: サーバーとクライアントの両方を開発している場合です。
+
+最初の2つのカテゴリのいずれかに当てはまる場合は、各 ツール がいつ Call されたか、実行フローがどうなっているか、token 数、さらにサーバーまたはクライアント側ロジック内のさまざまな components のレイテンシを把握したいはずです。
+
+サーバーとクライアントの両方を開発している場合は、統合されたトレースタイムラインによって、サーバー側とクライアント側のロジックの両方を反復改善できます。
+
+いずれの場合でも、可観測性レイヤーがあれば、次のことが可能になります。
+
+* アプリケーションをすばやく反復改善する
+* workflow や実行ロジックを監査する
+* ボトルネックを特定する

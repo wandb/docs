@@ -1,0 +1,101 @@
+---
+title: "Chat completions"
+description: "OpenAI互換のエンドポイントを使用して、チャット補完を作成します"
+keywords: ["/chat/completions", "OpenAI SDK", "テキスト生成", "チャットAPIリクエスト"]
+---
+
+`/chat/completions` エンドポイントを使用してチャット補完を作成します。このエンドポイントは、メッセージの送信とレスポンスの受信について OpenAI 形式に準拠しています。
+
+<div id="requirements">
+  ## 要件
+</div>
+
+チャット補完 を作成するには、以下を指定します。
+
+* Inference サービスのベース URL: `https://api.inference.wandb.ai/v1`.
+* W&amp;B APIキー: `[YOUR-API-KEY]`.
+* W&amp;B チームと project: `[YOUR-TEAM]/[YOUR-PROJECT]` (オプション) 。
+* [利用可能なモデル](/ja/inference/models) から選択したモデル ID。
+
+<div id="request-examples">
+  ## リクエスト例
+</div>
+
+以下の例では、Python と `curl` を使用して チャット補完リクエストを送信する方法を示します。プレースホルダーの値は、ご自身の APIキー、任意のチームと project、およびモデル ID に置き換えてください。
+
+<Tabs>
+  <Tab title="Python">
+    ```python
+    import openai
+
+    client = openai.OpenAI(
+        # カスタムの ベース URL は Serverless Inference を指定します
+        base_url='https://api.inference.wandb.ai/v1',
+
+        # https://wandb.ai/settings で APIキーを作成します
+        # 安全のため、代わりに環境変数 OPENAI_API_KEY として設定することを検討してください
+        api_key="[YOUR-API-KEY]",
+
+        # 任意: 使用状況をトラッキングするためのチームと project
+        project="[YOUR-TEAM]/[YOUR-PROJECT]",
+    )
+
+    # [MODEL-ID] を、利用可能なモデルのリストにある任意のモデル ID に置き換えます
+    response = client.chat.completions.create(
+        model="[MODEL-ID]",
+        messages=[
+            {"role": "system", "content": "[YOUR-SYSTEM-PROMPT]"},
+            {"role": "user", "content": "[YOUR-PROMPT]"}
+        ],
+    )
+
+    print(response.choices[0].message.content)
+    ```
+  </Tab>
+
+  <Tab title="Bash">
+    ```bash
+    curl https://api.inference.wandb.ai/v1/chat/completions \
+      -H "Content-Type: application/json" \
+      -H "Authorization: Bearer [YOUR-API-KEY]" \
+      -H "OpenAI-Project: [YOUR-TEAM]/[YOUR-PROJECT]" \
+      -d '{
+        "model": "[MODEL-ID]",
+        "messages": [
+          { "role": "system", "content": "You are a helpful assistant." },
+          { "role": "user", "content": "Tell me a joke." }
+        ]
+      }'
+    ```
+  </Tab>
+</Tabs>
+
+<div id="response-format">
+  ## レスポンス形式
+</div>
+
+リクエストが成功すると、生成された assistant メッセージと token 使用量の詳細を含む、以下の OpenAI 互換形式のレスポンスが返されます。
+
+```json
+{
+  "id": "chatcmpl-...",
+  "object": "chat.completion",
+  "created": 1234567890,
+  "model": "meta-llama/Llama-3.1-8B-Instruct",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "Here's a joke for you..."
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 25,
+    "completion_tokens": 50,
+    "total_tokens": 75
+  }
+}
+```

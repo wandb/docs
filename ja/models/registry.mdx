@@ -1,0 +1,122 @@
+---
+title: Registry の概要
+description: W&B Registry を使用して、組織全体でアーティファクトのバージョンを管理・共有する
+---
+
+import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
+
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb_registry/zoo_wandb.ipynb" />
+
+W&amp;B Registry は、組織内の [W&amp;B Artifact バージョン](/ja/models/artifacts/create-a-new-artifact-version) を厳選して集約した中央リポジトリです。組織内で [権限を持つ](/ja/models/registry/configure_registry/) Users は、所属するチームに関係なく、[アーティファクト をダウンロードして使用](/ja/models/registry/download_use_artifact/)し、共有し、すべての アーティファクト のライフサイクルを共同で管理できます。
+
+Registry を使用すると、アーティファクト バージョンをトラッキングし、アーティファクト の使用状況や変更履歴を監査し、アーティファクト のガバナンスとコンプライアンスを確保し、[モデル CI/CD などの下流プロセスを自動化](/ja/models/automations/)できます。
+
+要約すると、W&amp;B Registry では次のことができます。
+
+* 機械学習タスクの要件を満たす [アーティファクト バージョンを Promot する](/ja/models/registry/link_version/)ことで、組織内の他のユーザーと共有する。
+* 特定の アーティファクト を検索または参照できるように、[タグを使って アーティファクト を整理する](/ja/models/registry/organize-with-tags/)。
+* [アーティファクト のリネージ](/ja/models/registry/lineage/) をトラッキングし、変更履歴を監査する。
+* [モデル CI/CD などの下流プロセスを自動化する](/ja/models/automations/)。
+* 各 Registry 内の アーティファクト に [組織内の誰がアクセスできるかを管理する](/ja/models/registry/configure_registry/)。
+
+{/* - 「エイリアス」と呼ばれる一意の ID を使って、重要なアーティファクトをすばやく検索したり参照したりできます。 */}
+
+次の画像は、W&amp;B Registry のランディングページです。
+
+画像には、上から順に、スター付きのレジストリ、最近更新されたレジストリ、およびコレクションが表示されています。
+
+<Frame>
+  <img src="/images/registry/registry_landing_page.png" alt="W&B Registry" />
+</Frame>
+
+<div id="learn-the-basics">
+  ## Learn the basics
+</div>
+
+各組織には最初から 2 つの Registry があり、モデルとデータセットの アーティファクト を整理できる **Models** と **Datasets** がそれぞれ含まれています。[組織のニーズに応じて、他の アーティファクト タイプを整理するための Registry を追加で作成する](/ja/models/registry/create_registry)こともできます。
+
+各[*Registry*](/ja/models/registry/configure_registry/)は、1 つ以上の[*コレクション*](/ja/models/registry/create_collection/)で構成されます。各コレクションは、それぞれ異なるタスクやユースケースを表します。
+
+{/* <Frame>
+    <img src="/images/registry/homepage_registry.png" alt="W&B Registry"  />
+  </Frame> */}
+
+アーティファクト を Registry に追加するには、まず [特定の アーティファクト バージョンを W&amp;B にログ](/ja/models/artifacts/create-a-new-artifact-version/)します。アーティファクト をログするたびに、W&amp;B はその アーティファクト に自動的にバージョンを割り当てます。アーティファクト バージョンは 0 始まりのインデックスを使用するため、最初のバージョンは `v0`、2 番目のバージョンは `v1` となり、以降も同様です。
+
+アーティファクト を W&amp;B にログしたら、その特定の アーティファクト バージョンを Registry 内の コレクション にリンクできます。
+
+<Note>
+  &quot;link&quot; という用語は、W&amp;B が アーティファクト を保存している場所と、Registry で アーティファクト にアクセスできる場所をつなぐポインタを指します。アーティファクト を コレクション にリンクしても、W&amp;B が アーティファクト を複製することはありません。
+</Note>
+
+例として、次のコードでは、`"my_model.txt"` という名前のモデル アーティファクト を、`"model"` という Registry 内の `"first-collection"` という名前の コレクション にログしてリンクします。
+
+1. `wandb.init()` で W&amp;B Run を初期化します。
+2. `wandb.Run.log()` で アーティファクト を W&amp;B にログします。
+3. アーティファクト バージョンのリンク先となる コレクション と Registry の名を指定します。
+4. `wandb.Run.link_artifact()` を使用して アーティファクト を コレクション にリンクします。
+
+この Python コードをスクリプトとして保存し、実行してください。W&amp;B Python SDK バージョン 0.18.6 以降が必要です。
+
+```python title="hello_collection.py"
+import wandb
+import random
+
+# アーティファクトをトラッキングするために W&B Run を初期化する
+with wandb.init(project="registry_quickstart") as run:
+    # ログ用のモデルファイルをシミュレートして作成する
+    with open("my_model.txt", "w") as f:
+        f.write("Model: " + str(random.random()))
+
+    # アーティファクトを W&B にログする
+    logged_artifact = run.log_artifact(
+        artifact_or_path="./my_model.txt", 
+        name="gemma-finetuned", 
+        type="model" # アーティファクト タイプを指定する
+    )
+
+    # アーティファクトの公開先となる コレクション と Registry の名を指定する
+    COLLECTION_NAME = "first-collection"
+    REGISTRY_NAME = "model"
+
+    # アーティファクトを Registry にリンクする
+    run.link_artifact(
+        artifact=logged_artifact, 
+        target_path=f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
+    )
+```
+
+指定した Registry 内に、返された run オブジェクトの `wandb.Run.link_artifact(target_path = "")` method で指定したコレクションが存在しない場合、W&amp;B はそのコレクションを自動的に作成します。
+
+前の例の続きとして、スクリプトを実行した後、W&amp;B Registry にアクセスして、自分や組織内の他のメンバーが公開した アーティファクト バージョンを確認します。プロジェクトのサイドバーで **Applications** の下にある **Registry** を選択します。`"Model"` Registry を選択します。Registry 内に、リンクした アーティファクト バージョンを含む `"first-collection"` コレクションが表示されるはずです。
+
+アーティファクト バージョンを Registry 内のコレクションにリンクすると、適切な権限を持つ組織のメンバーは、その アーティファクト バージョンを[表示](/ja/models/registry/lineage)、[ダウンロード](/ja/models/registry/download_use_artifact)、[整理](/ja/models/registry/organize-with-tags)、管理したり、下流の automation を作成したりできるようになります。
+
+<Note>
+  アーティファクト バージョンがメトリクスをログしている場合 (たとえば `wandb.Run.log_artifact()` を使用する場合) 、そのバージョンの詳細ページからメトリクスを確認でき、コレクションのページから アーティファクト バージョン間のメトリクスを比較できます。詳しくは、[Registry 内のリンクされた artifact を表示する](/ja/models/registry/link_version/#view-linked-artifacts-in-a-registry)を参照してください。
+</Note>
+
+<div id="enable-wb-registry">
+  ## W&amp;B Registry を有効にする
+</div>
+
+デプロイタイプに応じて、W&amp;B Registry を有効にするには次の条件を満たしてください。
+
+| デプロイタイプ            | 有効化方法                                                                                                                          |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
+| Multi-tenant Cloud | 対応は不要です。W&amp;B Registry は W&amp;B App で利用できます。                                                                                |
+| 専用クラウド             | お使いのデプロイで W&amp;B Registry を有効にするには、担当のアカウントチームにお問い合わせください。                                                                    |
+| セルフマネージド           | Server v0.71.0 以降では、対応は不要です。Registry はデフォルトで有効です。それ以前のサポート対象の Server バージョンでは、Registry を有効にするには、W&amp;B の担当アカウントチームにお問い合わせください。 |
+
+<div id="resources-to-get-started">
+  ## 利用開始に役立つリソース
+</div>
+
+ユースケースに応じて、W&amp;B Registry の利用開始に役立つ以下のリソースをご覧ください。
+
+* チュートリアル動画をご覧ください:
+  * [W&amp;B の Registry 入門](https://www.youtube.com/watch?v=p4XkVOsjIeM)
+* W&amp;B の [Model CI/CD](https://www.wandb.courses/courses/enterprise-model-management) コースを受講して、次の内容を学びましょう:
+  * W&amp;B Registry を使用して Artifacts を管理・バージョン管理し、リネージをトラッキングし、モデルを異なるライフサイクル段階へ進める方法。
+  * webhook を使用してモデル管理ワークフローを自動化する方法。
+  * モデルの評価、モニタリング、デプロイのために、Registry を外部の ML システムやツールと統合する方法。

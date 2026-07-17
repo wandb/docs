@@ -1,0 +1,53 @@
+---
+title: "W&B Weave"
+description: "W&B Weave로 언어 모델 앱을 추적하고, 테스트하고, 개선하세요"
+mode: wide
+---
+
+W&amp;B Weave는 에이전트와 LLM 애플리케이션을 추적하고, 평가하고, 개선할 수 있게 해주는 관측성 및 평가 플랫폼입니다. Weave로 다음 작업을 수행할 수 있습니다.
+
+* [널리 사용되는 SDK와 하니스로 구축한 에이전트의 트레이스를 추적하고 메트릭을 수집](/ko/weave/agent-integration-quickstart)
+* [맞춤형으로 구축한 에이전트를 수동으로 계측해 트레이스와 메트릭을 수집](/ko/weave/custom-agents-quickstart)
+* [평가](/ko/weave/tutorial-eval)로 LLM 기반 평가자와 맞춤형 scorer를 사용해 애플리케이션의 응답을 평가할 수 있습니다
+
+<div id="get-started">
+  ## 시작하기
+</div>
+
+다음 문서에서는 Weave에서 제공하는 도구의 기본 사용법을 안내합니다.
+
+<CardGroup cols={3}>
+  <Card title="에이전트에 Weave 통합하기" icon="plug" href="/ko/weave/agent-integration-quickstart">
+    에이전트 SDK 또는 하니스에 맞는 기본 제공 인테그레이션을 선택한 다음 Agents view에서 세션, 턴, LLM Call, 도구 Call 트레이싱을 시작하세요.
+  </Card>
+
+  <Card title="맞춤형 에이전트 관측성 설정하기" icon="code" href="/ko/weave/custom-agents-quickstart">
+    Weave SDK로 맞춤형 multi-turn 에이전트를 트레이싱하여 세션, LLM Call, 도구 Call을 OpenTelemetry span으로 캡처하세요.
+  </Card>
+
+  <Card title="Weave UI에서 에이전트 메트릭 보기" icon="chart-line" href="/ko/weave/guides/tracking/view-agent-activity">
+    기본 LLM Call을 트레이싱하고 W&amp;B 계정에서 입력, 출력, 코드를 검토하세요.
+  </Card>
+</CardGroup>
+
+<div id="install-weave">
+  ## Weave 설치
+</div>
+
+W&amp;B Weave는 Python 및 TypeScript 라이브러리를 제공합니다. Weave 라이브러리를 설치하려면 다음 명령어를 실행하세요.
+
+<Tabs>
+  <Tab title="Python">
+    ```bash
+    pip install weave
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```bash
+    pnpm install weave
+    ```
+  </Tab>
+</Tabs>
+
+Weave 라이브러리 사용을 시작하려면 [Weights &amp; Biases (W&amp;B) 계정](https://wandb.ai)을 만들고 [User Settings에서 API 키](https://wandb.ai/settings)를 생성하세요. API 키를 사용하면 W&amp;B 계정에 인증하고 데이터를 전송할 수 있습니다.

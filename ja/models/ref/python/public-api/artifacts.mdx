@@ -1,0 +1,44 @@
+---
+title: Artifacts
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
+
+
+## <kbd>class</kbd> `Artifacts`
+
+プロジェクトに関連付けられた、反復処理可能なアーティファクトバージョンのコレクション。
+
+必要に応じてフィルターを渡すことで、特定の条件に基づいて結果を絞り込めます。
+
+**引数:**
+
+* `service_api`:  これらのアーティファクトバージョンに対する W&amp;B API Call を実行する wandb-core サービスへのインターフェース。
+* `entity`:  プロジェクトを所有する entity (ユーザーまたはチーム) 。
+* `project`:  アーティファクトをクエリする対象のプロジェクトの名。
+* `collection_name`:  クエリするアーティファクトコレクションの名。
+* `type`:  クエリするアーティファクトのタイプ。一般的な例として `"dataset"` や `"model"` があります。
+* `filters`:  クエリに適用するフィルターのオプションのマッピング。
+* `order`:  結果の順序を指定するオプションの文字列。`'+'` が接頭辞として付いている場合は昇順 (デフォルト) で並べ替えます。`'-'` が接頭辞として付いている場合は降順で並べ替えます。
+* `per_page`:  1 ページあたりに取得するアーティファクトバージョンの数。デフォルトは 50 です。
+* `tags`:  tags でアーティファクトを絞り込むためのオプションの文字列、または文字列のリスト。 
+
+### <kbd>プロパティ</kbd> Artifacts.cursor
+
+次に取得するページの先頭を示す不透明なカーソルです。
+
+この値は保存しておき、後でページ分割されたクエリに `start=` として渡すことで、このページネーターが停止した位置からイテレーションを再開できます。
+
+**戻り値:**
+
+* `str | None`: カーソルのプロパティ値です。
+
+***
+
+### <kbd>プロパティ</kbd> Artifacts.more
+
+***

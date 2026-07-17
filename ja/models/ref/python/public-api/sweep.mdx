@@ -1,107 +1,176 @@
 ---
 title: Sweep
+namespace: public_apis_namespace
+python_object_type: class
 ---
 
-<Card title="View the source code" href="https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/sweeps.py#L30-L240" icon="github"/>
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-スイープに関連付けられた一連の runs。
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py" />
+
+
+## <kbd>class</kbd> `Sweep`
+
+sweep に関連付けられた run のセット。
+
+**属性:**
+
+* `runs` (Runs):  run のリスト
+* `id` (str):  Sweep ID
+* `project` (str):  この sweep が属するプロジェクトの名
+* `config` (dict):  sweep の設定を含む辞書
+* `state` (str):  sweep の状態。&quot;Finished&quot;、&quot;Failed&quot;、&quot;Crashed&quot;、または &quot;Running&quot; のいずれかになります。
+* `expected_run_count` (int):  この sweep で想定される run 数 
+
+### <kbd>method</kbd> `Sweep.__init__`
 
 ```python
-Sweep(
-    client, entity, project, sweep_id, attrs=None
+__init__(
+    service_api: 'ServiceApi',
+    entity: 'str',
+    project: 'str',
+    sweep_id: 'str',
+    attrs: 'Mapping[str, Any] | None' = None
 )
 ```
 
-#### 例:
+***
 
-次のようにインスタンス化します:
+### <kbd>プロパティ</kbd> Sweep.config
 
-```
-api = wandb.Api()
-sweep = api.sweep(path / to / sweep)
-```
+この sweep で使用される設定。
 
-| 属性 | Description |
-| :--- | :--- |
-|  `runs` |  (`Runs`) run のリスト |
-|  `id` |  (str) スイープの id |
-|  `project` |  (str) プロジェクトの名前 |
-|  `config` |  (str) スイープ設定の辞書 |
-|  `state` |  (str) スイープの状態 |
-|  `expected_run_count` |  (int) スイープの予想される run の数 |
+***
 
-## メソッド
+### <kbd>プロパティ</kbd> Sweep.entity
 
-### `best_run`
+sweep に関連付けられた entity。
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/sweeps.py#L125-L148)
+**戻り値:**
+
+* `str`: entity プロパティの値。
+
+***
+
+### <kbd>プロパティ</kbd> Sweep.expected_run_count
+
+このsweepで想定されるrun数を返します。run数が無限の場合は None を返します。
+
+**戻り値:**
+
+* `int | None`: expected&#95;run&#95;count プロパティの値。
+
+***
+
+### <kbd>プロパティ</kbd> Sweep.name
+
+sweep の名前。
+
+以下の優先順位で、存在する最初の名前を返します。
+
+1. ユーザーが編集した表示名 2. 作成時に設定された名前 3. Sweep ID
+
+***
+
+### <kbd>プロパティ</kbd> Sweep.order
+
+sweep の並び順のキーを返します。
+
+***
+
+### <kbd>プロパティ</kbd> Sweep.path
+
+プロジェクトのパスを返します。
+
+このパスは、entity、プロジェクト名、sweep ID からなるリストです。
+
+***
+
+### <kbd>プロパティ</kbd> Sweep.url
+
+sweep の URL。
+
+sweep の URL は、entity、プロジェクト、文字列 `"sweeps"`、および sweep ID.run&#95;id から生成されます。SaaS ユーザーの場合、形式は `https://wandb.ai/entity/project/sweeps/sweeps_ID` です。
+
+***
+
+### <kbd>プロパティ</kbd> Sweep.username
+
+非推奨です。代わりに `Sweep.entity` を使用してください。
+
+**戻り値:**
+
+* `str`: username プロパティの値。
+
+***
+
+### <kbd>method</kbd> `Sweep.agent`
 
 ```python
-best_run(
-    order=None
-)
+agent(agent_id: 'str') → Agent
 ```
 
-設定で定義されたメトリックまたは渡された順序でソートされた最良の run を返します。
+ID を指定して、この sweep のエージェントをクエリします。
 
-### `display`
+**引数:**
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/attrs.py#L16-L37)
+* `agent_id`: 検索するエージェントの ID。
+
+***
+
+### <kbd>method</kbd> `Sweep.agents`
 
 ```python
-display(
-    height=420, hidden=(False)
-) -> bool
+agents() → list[Agent]
 ```
 
-このオブジェクトを jupyter に表示します。
+この sweep に含まれるすべてのエージェントの一覧をクエリします。
 
-### `get`
+***
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/sweeps.py#L173-L222)
+### <kbd>method</kbd> `Sweep.best_run`
 
 ```python
-@classmethod
+best_run(order=None)
+```
+
+設定で定義されたメトリクス、または指定された順序でソートされた最良の run を返します。
+
+***
+
+
+### <kbd>クラスメソッド</kbd> `Sweep.get`
+
+```python
 get(
-    client, entity=None, project=None, sid=None, order=None, query=None, **kwargs
+    api: 'Api',
+    entity: 'str | None' = None,
+    project: 'str | None' = None,
+    sid: 'str | None' = None,
+    order: 'str | None' = None,
+    query: 'str | None' = None,
+    **kwargs
 )
 ```
 
 クラウドバックエンドに対してクエリを実行します。
 
-### `load`
+**引数:**
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/sweeps.py#L106-L114)
+* `api`:  W&amp;B API インスタンス。
+* `entity`:  プロジェクトを所有する entity (ユーザー名またはチーム) 。
+* `project`:  sweep を取得する元のプロジェクト名。
+* `sid`:  クエリ対象の sweep ID。
+* `order`:  sweep の run が返される順序。
+* `query`:  クエリの実行に使用するクエリ。
+* `**kwargs`:  クエリに渡す追加のキーワード引数。
 
-```python
-load(
-    force: bool = (False)
-)
-```
+***
 
-### `snake_to_camel`
-
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/attrs.py#L12-L14)
-
-```python
-snake_to_camel(
-    string
-)
-```
-
-### `to_html`
-
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/sweeps.py#L224-L232)
+### <kbd>method</kbd> `Sweep.to_html`
 
 ```python
-to_html(
-    height=420, hidden=(False)
-)
+to_html(height: 'int' = 420, hidden: 'bool' = False) → str
 ```
 
-このスイープを表示する iframe を含む HTML を生成します。
-
-| クラス変数 | Description |
-| :--- | :--- |
-|  `LEGACY_QUERY`<a id="LEGACY_QUERY"></a> |   |
-|  `QUERY`<a id="QUERY"></a> |   |
+この sweep を表示する iframe を含む HTML を生成します。

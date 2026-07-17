@@ -1,0 +1,40 @@
+---
+title: 스윕 초기화
+---
+
+```python
+"""
+W&B Sweep를 초기화합니다.
+
+다음을 교체하세요:
+- 꺾쇠 괄호로 묶인 값을 본인의 값으로 교체
+- sweep_configuration을 본인의 스윕 설정 딕셔너리로 교체. 단일 중첩 및
+    이중 중첩 스윕 설정 예시는 sweep_config.py를 참조하세요.
+"""
+
+import wandb
+
+# 스윕 설정 예시
+sweep_configuration = {
+    "method": "<sweep_method>",
+    "name": "<sweep_name>",
+    "metric": {
+        "goal": "<goal>", 
+        "name": "<metric_name>"
+        },
+    "parameters": {
+        "hyperparameter_1": {
+            "values": [16, 32, 64]
+            },
+        "hyperparameter_2": {
+            "values": [5, 10, 15]
+            },
+        "hyperparameter_3": {
+            "search_constraint_1": 0.1,
+            "search_constraint_2": 0.0001
+            },
+    },
+}
+
+sweep_id = wandb.sweep(sweep=sweep_configuration, project="<project>")
+```

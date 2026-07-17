@@ -1,0 +1,58 @@
+---
+title: Aperçu des options de déploiement
+description: "Comparez les options de déploiement de W&B, notamment Cloud mutualisé, Cloud dédié et les installations autogérées."
+sidebarTitle: Aperçu
+no_list: true
+keywords: ["options d’hébergement", "comparaison des déploiements", "sur site", "SaaS"]
+---
+
+Vous pouvez déployer W&amp;B de différentes façons pour répondre aux exigences de votre organisation en matière d’infrastructure et de sécurité. Cette page aide les administrateurs et les responsables des choix de plateforme à comparer les options de déploiement disponibles, afin que vous puissiez choisir celle qui correspond le mieux à vos besoins en matière de sécurité, de montée en charge et d’exploitation.
+
+<Tip title="Premiers pas">
+  Pour démarrer rapidement, W&amp;B recommande [Cloud mutualisé](https://wandb.ai/home).
+
+  Certaines fonctionnalités nécessitent une licence [Enterprise](https://wandb.ai/site/pricing/). Pour essayer ces fonctionnalités, [inscrivez-vous](https://wandb.ai/site/enterprise-trial/) à un essai Enterprise et choisissez votre type de déploiement.
+</Tip>
+
+<CardGroup cols={1}>
+  <a id="wb-multi-tenant-cloud" aria-label="W&B Cloud mutualisé" />
+
+  <Card title="W&B Cloud mutualisé">
+    Un service entièrement géré, déployé dans l’infrastructure cloud de W&amp;B, qui vous permet d’accéder aux produits W&amp;B à l’échelle souhaitée, avec des options de tarification économiques et des mises à jour continues pour bénéficier des dernières fonctionnalités. W&amp;B recommande Cloud mutualisé pour tester le produit ou pour gérer vos flux de travail d’IA en production si vous n’avez pas besoin de la sécurité d’un déploiement privé, si l’intégration en libre-service est importante et si la maîtrise des coûts est essentielle.
+
+    Pour plus d&#39;informations, voir [W&amp;B Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud).
+  </Card>
+
+  <a id="wb-dedicated-cloud" aria-label="W&B Cloud dédié" />
+
+  <Card title="W&B Cloud dédié">
+    Un service entièrement géré avec une infrastructure dédiée et isolée dans le cloud de W&amp;B. Choisissez cette option si votre organisation doit respecter des exigences strictes de gouvernance, notamment en matière de résidence des données, a besoin de capacités de sécurité avancées et souhaite optimiser les coûts d’exploitation de l’IA en évitant d’avoir à créer et gérer l’infrastructure requise avec les caractéristiques nécessaires en matière de sécurité, de montée en charge et de performances.
+
+    Pour plus d&#39;informations, voir [W&amp;B Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud).
+  </Card>
+
+  <a id="wb-Self-Managed" aria-label="W&B Autogéré" />
+
+  <Card title="W&B Autogéré">
+    Déployez et gérez le serveur W&amp;B sur votre propre infrastructure gérée. Le serveur W&amp;B est un mécanisme packagé autonome permettant d’exécuter la plateforme W&amp;B et les produits W&amp;B pris en charge. W&amp;B recommande cette option si l’ensemble de votre infrastructure existante est sur site, ou si votre organisation a des exigences réglementaires strictes auxquelles W&amp;B Cloud dédié ne répond pas. Avec cette option, vous êtes entièrement responsable du provisionnement, ainsi que de la maintenance continue et des mises à niveau de l’infrastructure nécessaire au fonctionnement du serveur W&amp;B.
+
+    Pour plus d&#39;informations, voir [W&amp;B Autogéré](/fr/platform/hosting/hosting-options/self-managed).
+  </Card>
+</CardGroup>
+
+<div id="key-differences">
+  ## Différences clés
+</div>
+
+Après avoir examiné les options de déploiement précédentes, utilisez le tableau suivant pour comparer la manière dont chaque option répartit les responsabilités en matière d’infrastructure, de sécurité et d’exploitation.
+
+|                                                 | Cloud mutualisé                                                                                                                                                                                                             | Cloud dédié                                                                                                                                                                                                                                 | Autogéré                                      |
+| ----------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------- |
+| Gestion de MySQL / de la base de données        | Entièrement hébergé et géré par W&amp;B                                                                                                                                                                                     | Entièrement hébergé et géré par W&amp;B dans le cloud ou la région choisis par le client                                                                                                                                                    | Entièrement hébergé et géré par le client     |
+| Stockage d’objets (S3/GCS/Blob storage)         | **Option 1** : entièrement hébergé par W&amp;B<br />**Option 2** : le client peut configurer son propre bucket par équipe, à l’aide du [Secure Storage Connector](/fr/platform/hosting/data-security/secure-storage-connector) | **Option 1** : entièrement hébergé par W&amp;B<br />**Option 2** : le client peut configurer son propre bucket par instance ou par équipe, à l’aide du [Secure Storage Connector](/fr/platform/hosting/data-security/secure-storage-connector) | Entièrement hébergé et géré par le client     |
+| Prise en charge du SSO                          | Géré par W&amp;B via Auth0                                                                                                                                                                                                  | **Option 1** : géré par le client<br />**Option 2** : géré par W&amp;B via Auth0                                                                                                                                                            | Entièrement géré par le client                |
+| W&amp;B Service (App)                           | Entièrement géré par W&amp;B                                                                                                                                                                                                | Entièrement géré par W&amp;B                                                                                                                                                                                                                | Entièrement géré par le client                |
+| Sécurité de l’application                       | Entièrement gérée par W&amp;B                                                                                                                                                                                               | Responsabilité partagée entre W&amp;B et le client                                                                                                                                                                                          | Entièrement gérée par le client               |
+| Maintenance (mises à niveau, sauvegardes, etc.) | Gérée par W&amp;B                                                                                                                                                                                                           | Gérée par W&amp;B                                                                                                                                                                                                                           | Gérée par le client                           |
+| Assistance                                      | SLA d’assistance                                                                                                                                                                                                            | SLA d’assistance                                                                                                                                                                                                                            | SLA d’assistance                              |
+| Infrastructure cloud prise en charge            | Google Cloud                                                                                                                                                                                                                | AWS, Google Cloud, Azure                                                                                                                                                                                                                    | AWS, Google Cloud, Azure, bare metal sur site |

@@ -1,18 +1,37 @@
 ---
-title: wandb ステータス
+title: wandb status
 ---
 
-**使用方法**
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-`wandb status [OPTIONS]`
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/cli.py#L3455" />
 
-**概要**
+<div id="usage">
+  ## 使い方
+</div>
 
-設定の表示
+```bash
+status [OPTIONS]
+```
 
+<div id="description">
+  ## 説明
+</div>
 
-**オプション**
+現在のW&amp;B設定を表示します。
 
-| **オプション** | **説明** |
-| :--- | :--- |
-| `--settings / --no-settings` | 現在の設定を表示 |
+ベースURL、APIキー、project、entity、そのほかの最終的に解決された値を含む、現在有効なW&amp;B設定を整形されたJSONとして出力します。
+
+たとえば、現在の設定を表示するには次のようにします。
+
+```bash
+wandb status
+```
+
+<div id="options">
+  ## オプション
+</div>
+
+| フラグ          | タイプ      | 説明                           |
+| ------------ | -------- | ---------------------------- |
+| `--settings` | BOOL フラグ | 現在の設定を表示します。 **デフォルト**: True |

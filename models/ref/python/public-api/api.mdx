@@ -3,7 +3,7 @@ title: Api
 namespace: public_apis_namespace
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/api.py" />
 
@@ -46,16 +46,6 @@ Initialize the API.
 
 ---
 
-### <kbd>property</kbd> Api.client
-
-Returns the client object. 
-
-
-
-**Returns:**
- - `RetryingClient`: The client property value.
----
-
 ### <kbd>property</kbd> Api.default_entity
 
 Returns the default W&B entity. 
@@ -85,7 +75,7 @@ Returns the viewer object.
 **Raises:**
  
  - `ValueError`:  If viewer data is not able to be fetched from W&B. 
- - `requests.RequestException`:  If an error occurs while making the graphql request. 
+ - `WandbApiFailedError`:  If an error occurs while making the GraphQL request. 
 
 
 
@@ -125,7 +115,7 @@ Returns a single artifact.
 
 
 **Examples:**
- In the proceeding code snippets "entity", "project", "artifact", "version", and "alias" are placeholders for your W&B entity, name of the project the artifact is in, the name of the artifact, and artifact's version, respectively. 
+ In the following code snippets "entity", "project", "artifact", "version", and "alias" are placeholders for your W&B entity, name of the project the artifact is in, the name of the artifact, and artifact's version, respectively. 
 
 ```python
 import wandb
@@ -233,7 +223,9 @@ wandb.Api.artifact_collection_exists(type="type", name="collection_name")
 artifact_collections(
     project_name: 'str',
     type_name: 'str',
-    per_page: 'int' = 50
+    order: 'str | None' = None,
+    per_page: 'int' = 50,
+    start: 'str | None' = None
 ) → ArtifactCollections
 ```
 
@@ -245,7 +237,9 @@ Returns a collection of matching artifact collections.
  
  - `project_name`:  The name of the project to filter on. 
  - `type_name`:  The name of the artifact type to filter on. 
+ - `order`:  Optional string to specify the order of the results.  If prefixed with '+', sorts ascending (default).  If prefixed with '-', sorts descending. 
  - `per_page`:  Sets the page size for query pagination.  Usually there is no reason to change this. 
+ - `start`:  Pagination cursor for resuming a past query, captured  from a previous paginator's `.cursor` attribute. 
 
 
 
@@ -313,7 +307,10 @@ Returns the matching `ArtifactType`.
 ### <kbd>method</kbd> `Api.artifact_types`
 
 ```python
-artifact_types(project: 'str | None' = None) → ArtifactTypes
+artifact_types(
+    project: 'str | None' = None,
+    start: 'str | None' = None
+) → ArtifactTypes
 ```
 
 Returns a collection of matching artifact types. 
@@ -323,6 +320,7 @@ Returns a collection of matching artifact types.
 **Args:**
  
  - `project`:  The project name or path to filter on. 
+ - `start`:  Pagination cursor for resuming a past query, captured  from a previous paginator's `.cursor` attribute. 
 
 
 
@@ -347,8 +345,10 @@ Deprecated. Use `Api.artifacts(type_name, name)` method instead.
 artifacts(
     type_name: 'str',
     name: 'str',
+    order: 'str | None' = None,
     per_page: 'int' = 50,
-    tags: 'list[str] | None' = None
+    tags: 'list[str] | None' = None,
+    start: 'str | None' = None
 ) → Artifacts
 ```
 
@@ -357,12 +357,18 @@ Return an `Artifacts` collection.
 
 
 **Args:**
- type_name: The type of artifacts to fetch. name: The artifact's collection name. Optionally append the  entity that logged the artifact as a prefix followed by  a forward slash. per_page: Sets the page size for query pagination. Usually  there is no reason to change this. tags: Only return artifacts with all of these tags. 
+ 
+ - `type_name`:  The type of artifacts to fetch. 
+ - `name`:  The artifact's collection name. Optionally append the  entity that logged the artifact as a prefix followed by  a forward slash. 
+ - `order`:  Optional string to specify the order of the results.  If prefixed with '+', sorts ascending (default).  If prefixed with '-', sorts descending. 
+ - `per_page`:  Sets the page size for query pagination. Usually  there is no reason to change this. 
+ - `tags`:  Only return artifacts with all of these tags. 
+ - `start`:  Pagination cursor for resuming a past query, captured  from a previous paginator's `.cursor` attribute. 
 
 
 
 **Returns:**
-  An iterable `Artifacts` object. 
+ An iterable `Artifacts` object. 
 
 
 
@@ -373,6 +379,35 @@ Return an `Artifacts` collection.
 import wandb
 
 wandb.Api().artifacts(type_name="type", name="entity/project/artifact_name")
+``` 
+
+Pause iteration and resume later from the same position by saving the paginator's `.cursor` and passing it as `start=`: 
+
+```python
+from itertools import islice
+
+import wandb
+
+api = wandb.Api()
+
+# Consume the first page of results, then save the cursor.
+page_size = 10
+artifacts = api.artifacts(
+    type_name="type",
+    name="entity/project/artifact_name",
+    per_page=page_size,
+)
+first_page = list(islice(artifacts, page_size))
+
+saved_cursor = artifacts.cursor
+
+# Later (e.g. in a new process), resume iteration from the saved cursor.
+remaining_artifacts = api.artifacts(
+    type_name="type",
+    name="entity/project/artifact_name",
+    per_page=page_size,
+    start=saved_cursor,
+)
 ``` 
 
 ---
@@ -424,7 +459,8 @@ automation = api.automation(name="other-automation", entity="my-team")
 automations(
     entity: 'str | None' = None,
     name: 'str | None' = None,
-    per_page: 'int' = 50
+    per_page: 'int' = 50,
+    start: 'str | None' = None
 ) → Iterator[Automation]
 ```
 
@@ -439,6 +475,7 @@ If no parameters are provided, the returned iterator will contain all Automation
  - `entity`:  The entity to fetch the automations for. 
  - `name`:  The name of the automation to fetch. 
  - `per_page`:  The number of automations to fetch per page.  Defaults to 50.  Usually there is no reason to change this. 
+ - `start`:  Pagination cursor for resuming a past query, captured  from a previous paginator's `.cursor` attribute. 
 
 
 
@@ -854,7 +891,8 @@ report = api.from_path("team/project/reports/report_name")
 ```python
 integrations(
     entity: 'str | None' = None,
-    per_page: 'int' = 50
+    per_page: 'int' = 50,
+    start: 'str | None' = None
 ) → Iterator[Integration]
 ```
 
@@ -988,7 +1026,9 @@ Parses paths of the form `entity/project/queue_id/run_queue_item_id`.
 registries(
     organization: 'str | None' = None,
     filter: 'dict[str, Any] | None' = None,
-    per_page: 'int' = 100
+    order: 'str | None' = None,
+    per_page: 'int' = 100,
+    start: 'str | None' = None
 ) → Registries
 ```
 
@@ -1000,9 +1040,11 @@ Use the iterator to search and filter registries, collections, or artifact versi
 
 **Args:**
  
- - `organization`:  (str, optional) The organization of the registry to fetch.  If not specified, use the organization specified in the user's settings. 
- - `filter`:  (dict, optional) MongoDB-style filter to apply to each object in the lazy registry iterator.  Fields available to filter for registries are  `name`, `description`, `created_at`, `updated_at`.  Fields available to filter for collections are  `name`, `tag`, `description`, `created_at`, `updated_at`  Fields available to filter for versions are  `tag`, `alias`, `created_at`, `updated_at`, `metadata` 
+ - `organization`:  The organization of the registry to fetch.  If not specified, use the organization specified in the user's settings. 
+ - `filter`:  Optional MongoDB-style filter to apply to each object in the lazy registry iterator.  Fields available to filter for registries are  `name`, `description`, `created_at`, `updated_at`.  Fields available to filter for collections are  `name`, `tag`, `description`, `created_at`, `updated_at`  Fields available to filter for versions are  `tag`, `alias`, `created_at`, `updated_at`, `metadata` 
+ - `order`:  Optional string to specify the order of the results.  If prefixed with '+', sorts ascending (default).  If prefixed with '-', sorts descending. 
  - `per_page`:  Sets the page size for query pagination. 
+ - `start`:  Pagination cursor for resuming a past query, captured  from a previous paginator's `.cursor` attribute. 
 
 
 
@@ -1041,6 +1083,26 @@ Find all artifact versions in the registries that contain "model" and have the t
 api.registries(filter={"name": {"$regex": "model"}}).versions(
     filter={"$or": [{"tag": "prod"}, {"alias": "best"}]}
 )
+``` 
+
+Pause iteration and resume later from the same position by saving the paginator's `.cursor` and passing it as `start=`: 
+
+```python
+from itertools import islice
+
+import wandb
+
+api = wandb.Api()
+
+# Consume the first page of results, then save the cursor.
+page_size = 10
+registries = api.registries(per_page=page_size)
+first_page = list(islice(registries, page_size))
+
+saved_cursor = registries.cursor
+
+# Later (e.g. in a new process), resume iteration from the saved cursor.
+remaining_registries = api.registries(per_page=page_size, start=saved_cursor)
 ``` 
 
 ---
@@ -1160,7 +1222,7 @@ runs(
     filters: 'dict[str, Any] | None' = None,
     order: 'str' = '+created_at',
     per_page: 'int' = 50,
-    include_sweeps: 'bool' = True,
+    include_sweeps: 'bool' = False,
     lazy: 'bool' = True
 )
 ```
@@ -1209,7 +1271,7 @@ For more complex filtering, you can use MongoDB query operators. For details, se
  - `For example`:  `{"config.experiment_name": "foo"}` would find runs with a config entry  of experiment name set to "foo" 
  - `order`:  (str) Order can be `created_at`, `heartbeat_at`, `config.*.value`, or `summary_metrics.*`.  If you prepend order with a + order is ascending (default).  If you prepend order with a - order is descending.  The default order is run.created_at from oldest to newest. 
  - `per_page`:  (int) Sets the page size for query pagination. 
- - `include_sweeps`:  (bool) Whether to include the sweep runs in the results. 
+ - `include_sweeps`:  (bool) Whether to eagerly fetch the sweep object in each run result. 
  - `lazy`:  (bool) Whether to use lazy loading for faster performance.  When True (default), only essential run metadata is loaded initially.  Heavy fields like config, summaryMetrics, and systemMetrics are loaded  on-demand when accessed. Set to False for full data upfront. 
 
 
@@ -1221,13 +1283,16 @@ For more complex filtering, you can use MongoDB query operators. For details, se
 
 **Examples:**
  ```python
+import wandb
+from wandb.apis.public import Api
+
 # Find runs in project where config.experiment_name has been set to "foo"
-api.runs(path="my_entity/project", filters={"config.experiment_name": "foo"})
+Api.runs(path="my_entity/project", filters={"config.experiment_name": "foo"})
 ``` 
 
 ```python
 # Find runs in project where config.experiment_name has been set to "foo" or "bar"
-api.runs(
+Api.runs(
     path="my_entity/project",
     filters={
          "$or": [
@@ -1241,7 +1306,7 @@ api.runs(
 ```python
 # Find runs in project where config.experiment_name matches a regex
 # (anchors are not supported)
-api.runs(
+Api.runs(
     path="my_entity/project",
     filters={"config.experiment_name": {"$regex": "b.*"}},
 )
@@ -1250,14 +1315,14 @@ api.runs(
 ```python
 # Find runs in project where the run name matches a regex
 # (anchors are not supported)
-api.runs(
+Api.runs(
     path="my_entity/project", filters={"display_name": {"$regex": "^foo.*"}}
 )
 ``` 
 
 ```python
 # Find runs in project sorted by ascending loss
-api.runs(path="my_entity/project", order="+summary_metrics.loss")
+Api.runs(path="my_entity/project", order="+summary_metrics.loss")
 ``` 
 
 ---
@@ -1267,7 +1332,8 @@ api.runs(path="my_entity/project", order="+summary_metrics.loss")
 ```python
 slack_integrations(
     entity: 'str | None' = None,
-    per_page: 'int' = 50
+    per_page: 'int' = 50,
+    start: 'str | None' = None
 ) → Iterator[SlackIntegration]
 ```
 
@@ -1518,7 +1584,8 @@ This function only works for local administrators. Use `api.viewer`  to get your
 ```python
 webhook_integrations(
     entity: 'str | None' = None,
-    per_page: 'int' = 50
+    per_page: 'int' = 50,
+    start: 'str | None' = None
 ) → Iterator[WebhookIntegration]
 ```
 

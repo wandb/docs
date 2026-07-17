@@ -1,0 +1,150 @@
+---
+title: "op"
+description: "TypeScript SDK 레퍼런스"
+---
+
+<div id="op">
+  # op
+</div>
+
+▸ **op**&lt;`T`&gt;(`fn`, `options?`): [`Op`](../type-aliases/op)&lt;`T`&gt;
+
+<div id="type-parameters">
+  #### 타입 매개변수
+</div>
+
+| 이름  | 유형                                       |
+| :-- | :--------------------------------------- |
+| `T` | extends (...`args`: `any`[]) =&gt; `any` |
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름         | 유형                     |
+| :--------- | :--------------------- |
+| `fn`       | `T`                    |
+| `options?` | `OpOptions`&lt;`T`&gt; |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+[`Op`](../type-aliases/op)&lt;`T`&gt;
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/op.ts:380](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/op.ts#L380)
+
+▸ **op**&lt;`T`&gt;(`thisArg`, `fn`, `options?`): [`Op`](../type-aliases/op)&lt;`T`&gt;
+
+<div id="type-parameters">
+  #### 타입 매개변수
+</div>
+
+| 이름  | 유형                                       |
+| :-- | :--------------------------------------- |
+| `T` | extends (...`args`: `any`[]) =&gt; `any` |
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름         | 유형                     |
+| :--------- | :--------------------- |
+| `thisArg`  | `any`                  |
+| `fn`       | `T`                    |
+| `options?` | `OpOptions`&lt;`T`&gt; |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+[`Op`](../type-aliases/op)&lt;`T`&gt;
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/op.ts:385](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/op.ts#L385)
+
+▸ **op**(`target`, `propertyKey`, `descriptor`): `TypedPropertyDescriptor`&lt;`any`&gt;
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름            | 유형                                     |
+| :------------ | :------------------------------------- |
+| `target`      | `object`                               |
+| `propertyKey` | `string` | `symbol`                    |
+| `descriptor`  | `TypedPropertyDescriptor`&lt;`any`&gt; |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`TypedPropertyDescriptor`&lt;`any`&gt;
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/op.ts:391](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/op.ts#L391)
+
+▸ **op**&lt;`T`&gt;(`value`, `context`): [`Op`](../type-aliases/op)&lt;`T`&gt;
+
+<div id="type-parameters">
+  #### 타입 매개변수
+</div>
+
+| 이름  | 유형                                       |
+| :-- | :--------------------------------------- |
+| `T` | extends (...`args`: `any`[]) =&gt; `any` |
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름        | 유형                       |
+| :-------- | :----------------------- |
+| `value`   | `T`                      |
+| `context` | `MethodDecoratorContext` |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+[`Op`](../type-aliases/op)&lt;`T`&gt;
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/op.ts:397](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/op.ts#L397)
+
+▸ **op**(`options`): `MethodDecorator`
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름        | 유형                                        |
+| :-------- | :---------------------------------------- |
+| `options` | `Partial`&lt;`OpOptions`&lt;`any`&gt;&gt; |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`MethodDecorator`
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/op.ts:402](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/op.ts#L402)
+
+***

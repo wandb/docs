@@ -1,0 +1,187 @@
+---
+title: Enterprise ライセンス
+description: W&B Enterprise ライセンス、その対象機能、取得方法、および設定方法について説明します。
+keywords: ["ライセンスキー", "ライセンスを適用", "HIPAA", "カスタムロール", "SCIM プロビジョニング"]
+---
+
+Enterprise ライセンスを利用すると、セキュリティ、コンプライアンス、管理の各領域で高度な機能を必要とする組織向けに設計された W&amp;B の機能を使用できるようになります。[Enterprise 向け機能](#enterprise-features)の一覧を参照してください。
+
+Enterprise ライセンスには、次のものが含まれます。
+
+* **Security**: 強化された認証、暗号化、アクセス制御。
+* **Compliance**: 監査ログ、HIPAA コンプライアンスのオプション、データガバナンス制御。
+* **Administration**: SCIM プロビジョニング、カスタムロール、自動化機能などのユーザー管理機能。
+
+このページは、W&amp;B デプロイを担当する管理者向けです。利用可能な Enterprise 向け機能、ライセンスの取得方法、およびデプロイ向けにライセンスを設定して確認する方法について説明します.
+
+<div id="deployment-options">
+  ## デプロイオプション
+</div>
+
+Enterprise ライセンスは、W&amp;B 専用クラウド と セルフマネージド のデプロイで利用できます。使用するデプロイに応じて設定手順は異なります。
+
+* [W&amp;B 専用クラウド](/ja/platform/hosting/hosting-options/dedicated-cloud) は、W&amp;B が管理する専用で分離されたインフラストラクチャーを Google Cloud 上にデプロイして提供します。専用クラウド のデプロイには Enterprise ライセンスが自動的に含まれます。追加の設定は不要で、W&amp;B によるデプロイのプロビジョニングが完了するとすぐにすべての Enterprise 向け機能を利用できます。
+* [W&amp;B セルフマネージド](/ja/platform/hosting/hosting-options/self-managed) は、お客様自身のインフラストラクチャー上にデプロイされるため、デプロイとデータを完全に制御できます。W&amp;B セルフマネージド はエアギャップ環境でのデプロイをサポートします。Enterprise ライセンスがない場合、[Enterprise 向け機能](#enterprise-features) は利用できません。
+
+<div id="obtain-an-enterprise-license">
+  ## Enterprise ライセンス を取得する
+</div>
+
+Enterprise ライセンス の取得方法は、デプロイメントタイプによって異なります。ユースケースに一致するタブを選択して続行してください。
+
+<Tabs>
+  <Tab title="専用クラウド">
+    W&amp;B 専用クラウド には Enterprise ライセンス が含まれているため、追加の対応は不要です。[Enterprise トライアルを開始](https://wandb.ai/site/for-enterprise/dedicated-saas-trial/)するか、要件について相談するには [Sales](https://wandb.ai/site/contact-sales) にお問い合わせください。
+  </Tab>
+
+  <Tab title="セルフマネージド">
+    Enterprise ライセンス をリクエストします。
+
+    * **評価**: [トライアルライセンスをリクエスト](https://wandb.ai/site/for-enterprise/self-hosted-trial)フォームを送信するか、要件について相談するには [Sales](mailto:sales@wandb.ai) にお問い合わせください。
+    * **本番**: デプロイ要件やサイジングについて相談し、ライセンスの詳細を受け取るには [Sales](https://wandb.ai/site/contact-sales) にお問い合わせください。
+
+    <Warning>ライセンスキーは安全に保管し、機密性の高い認証情報として扱ってください。</Warning>
+  </Tab>
+</Tabs>
+
+<div id="configure-an-enterprise-license">
+  ## Enterprise ライセンスを設定する
+</div>
+
+<Info>このセクションは W&amp;B セルフマネージド にのみ該当します。専用クラウドのデプロイでは手動で設定する必要はありません。</Info>
+
+[Enterprise ライセンスを取得](#obtain-an-enterprise-license)したら、デプロイの一部としてプログラムで設定することも、デプロイ後に W&amp;B App で設定することもできます。ご利用のデプロイ方法に対応するタブを選択してください。
+
+<Tabs>
+  <Tab title="Kubernetes Operator">
+    1. ライセンスを設定するため、`operator.yaml` (`WeightsAndBiases` custom resource) を更新します。`[YOUR-LICENSE-KEY]` は、W&amp;B から受け取ったライセンスキーに置き換えてください。
+
+       ```yaml
+       spec:
+         values:
+           global:
+             license: "[YOUR-LICENSE-KEY]"
+       ```
+
+    2. 更新した設定を適用します。
+       ```bash
+       kubectl apply -f operator.yaml
+       ```
+  </Tab>
+
+  <Tab title="Terraform">
+    1. Terraform 変数を更新します。`[YOUR-LICENSE-KEY]` は、W&amp;B から受け取ったライセンスキーに置き換えてください。
+
+       ```hcl
+       variable "license" {
+         default = "[YOUR-LICENSE-KEY]"
+       }
+       ```
+
+    2. Terraform の設定を適用します。
+       ```bash
+       terraform apply -var="license=$LICENSE_KEY"
+       ```
+  </Tab>
+
+  <Tab title="W&B App">
+    環境変数が設定されていない既存のデプロイの場合:
+
+    1. 管理者ユーザーとしてログインします。
+    2. **System Settings** にアクセスします。
+    3. **License** セクションを探します。
+    4. 新しいライセンスキーを入力します。
+    5. 変更を保存します。
+  </Tab>
+
+  <Tab title="Docker">
+    <Warning>Docker への W&amp;B のデプロイは非推奨です。W&amp;B では、Helm または Terraform で管理される [Kubernetes Operator]() デプロイへの移行を強く推奨しています。詳細は [リファレンスアーキテクチャ](/ja/platform/hosting/self-managed/ref-arch.mdx)を参照するか、[サポート](mailto:support@wandb.ai)にお問い合わせください。</Warning>
+    `LICENSE` 環境変数を設定します。`[YOUR-LICENSE-KEY]` は、W&amp;B から受け取ったライセンスキーに置き換えてください。
+
+    ```bash
+    docker run -d \
+      -e LICENSE="[YOUR-LICENSE-KEY]" \
+      -e OTHER_ENV_VARS \
+      wandb/local
+    ```
+  </Tab>
+</Tabs>
+
+次に、[Enterprise ライセンスを確認および管理する](#verify-and-manage-an-enterprise-license)を参照してください。
+
+<div id="verify-and-manage-an-enterprise-license">
+  ## Enterprise ライセンス を確認および管理する
+</div>
+
+ライセンスを設定したら、それが有効であることを確認し、利用可能な機能を確認します。インスタンスまたは組織の管理者として、次の step に従います。
+
+1. W&amp;B App で、右上にあるユーザーのプロフィールアイコンをクリックし、**System Console** をクリックします。
+2. **License** タブに移動します。ダッシュボードには、ライセンスで利用できる機能、有効期限、経時的な Usage の概要が表示されます。エラーが表示された場合は、[Common issues](#common-issues) を参照してください。
+3. ライセンスとその利用可能な機能の詳細を確認するには、**View license online** をクリックします。
+
+   このページから、新しいトライアルライセンスまたは本番ライセンスを注文することもできます。ページ上部の **New license order** をクリックし、フォームを送信します。
+4. 期限切れのライセンスを更新する場合、またはライセンスキーを更新する場合は、**Update License** をクリックします。
+
+<Tip>
+  サービスが中断しないように、W&amp;B は次のタイミングで連絡します。
+
+  * ライセンスの有効期限が切れる 30 日前。
+  * ライセンスの有効期限が切れたとき。
+</Tip>
+
+<div id="enterprise-features">
+  ## Enterprise 向け機能
+</div>
+
+利用可能な Enterprise 向け機能のカテゴリ別の一覧は、[Pricing](https://wandb.ai/site/pricing/) ページで **Cloud-hosted** または **Privately-hosted** をクリックして確認してください。
+
+<div id="common-issues">
+  ## よくある問題
+</div>
+
+Enterprise ライセンスの設定時または使用時に問題が発生した場合は、サポートに連絡する前に、まず以下のよくある問題を確認してください。
+
+<div id="license-not-recognized">
+  ### License が認識されない
+</div>
+
+License が認識されない場合は、次の項目を確認します:
+
+* License キーの形式が正しいことを確認します (余分なスペースがないこと)
+* License の有効期限が切れていないことを確認します
+* License が正しい設定箇所に設定されていることを確認します
+
+<div id="features-not-available-after-setting-license">
+  ### ライセンス設定後に機能を利用できない
+</div>
+
+ライセンスを設定した後も機能を利用できない場合は、次のことをお試しください。
+
+* ライセンスを設定した後、W&amp;B Service を再起動します
+* ライセンスに、利用しようとしている特定の機能が含まれていることを確認します
+* ライセンスの検証エラーがないか、システムログを確認します
+
+<div id="license-expiration-warnings">
+  ### ライセンスの有効期限切れに関する警告
+</div>
+
+ライセンスの有効期限切れに先回りして対応するには:
+
+* **System Settings** ページで有効期限切れの通知を確認します。
+* 監視システムでライセンスの有効期限切れアラートを設定します。
+* account team の連絡先情報を最新の状態に保ちます。
+
+<div id="get-support">
+  ### サポートを受ける
+</div>
+
+Enterprise ライセンスに関するサポートが必要な場合は、担当のアカウントチーム、[Sales](mailto:sales@wandb.ai)、または[サポート](mailto:support@wandb.ai)までお問い合わせください。
+
+<div id="additional-resources">
+  ## 関連リソース
+</div>
+
+* [W&amp;B Pricing](/ja/pricing)
+* [W&amp;B セルフマネージド](/ja/platform/hosting/hosting-options/self-managed)
+* [W&amp;B 専用クラウド](/ja/platform/hosting/hosting-options/dedicated-cloud)
+* [セキュリティとコンプライアンス](/ja/security)

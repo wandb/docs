@@ -1,0 +1,12 @@
+"""
+Set resume behaviour for a run if it is paused, stops, or fails. 
+
+This is useful for long-running experiments that may be interrupted. See
+reference documentation for wandb.init(resume=) for a list of all resume options.
+"""
+import wandb
+
+# Initialize a W&B run with resume behavior
+with wandb.init(project="<project>", resume="<resume_option>") as run:
+    # Training and logging code goes here
+    pass

@@ -1,0 +1,16 @@
+---
+title: "共有マシンで、正しい wandb ユーザーにログするにはどうすればよいですか？"
+keywords: ["ログ"]
+---
+
+複数のユーザーが 1 台のマシンを共有している場合、認証情報を明示的に設定しないと、runs が誤った W&amp;B アカウントにログされることがあります。runs が正しい W&amp;B アカウントにログされるようにするには、認証用に `WANDB_API_KEY` 環境変数を設定してください。この変数を環境変数として読み込んでおけば、ログイン時に正しい認証情報が使用されます。あるいは、スクリプト内でこの環境変数を直接設定することもできます。
+
+このシェルセッションで以降の W&amp;B runs をご自身のアカウントに関連付けるには、APIキー をエクスポートしてください: `export WANDB_API_KEY=[API-KEY]`。`[API-KEY]` はご自身の APIキー に置き換えてください。APIキー は [wandb.ai/settings](https://wandb.ai/settings) で作成できます。
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[ログ](/ja/support/models/tags/logs)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

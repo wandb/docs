@@ -1,0 +1,20 @@
+---
+title: Runs 태그 업데이트
+---
+
+```python
+"""
+활성 run에 하나 이상의 태그를 추가합니다.
+
+run 객체의 `tags` 속성은 튜플입니다. 기존 run에 새 태그를 추가하려면,
+기존 태그와 새 태그를 포함하는 새 튜플로 `tags` 속성을 업데이트하세요.
+"""
+
+import wandb
+
+with wandb.init(entity="<entity>", project="<project>", tags=["<tag1>", "<tag2>"]) as run:
+    # 트레이닝 및 logging 코드를 여기에 작성하세요
+
+    # 기존 태그와 새 태그를 포함하는 새 튜플을 생성하여 기존 태그에 새 태그를 추가합니다.
+    run.tags += ("<tag3>",)
+```

@@ -1,16 +1,38 @@
 ---
-title: wandb オンライン
+title: wandb online
 ---
 
-**使い方**
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-`wandb online [OPTIONS]`
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/cli.py#L3384" />
 
-**概要**
+<div id="usage">
+  ## 使い方
+</div>
 
-W&B 同期を有効にする
+```bash
+online [OPTIONS]
+```
 
-**オプション**
+<div id="description">
+  ## 説明
+</div>
 
-| **オプション** | **説明** |
-| :--- | :--- |
+W&amp;B Runs のクラウド同期を再び有効にします。
+
+オフライン モードの設定を解除すると、このディレクトリで以降に作成される Runs のデータが
+W&amp;B クラウドに同期されます。
+
+以前に実行した `wandb offline` を取り消します。
+
+たとえば、オフラインで作業した後にクラウド同期を再び有効にするには、次のようにします。
+
+```bash
+wandb online
+```
+
+クラウド同期を再度有効にしてから、トレーニングスクリプトを実行します:
+
+```bash
+wandb online && python train.py
+```

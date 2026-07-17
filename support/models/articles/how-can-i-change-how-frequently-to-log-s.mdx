@@ -1,0 +1,16 @@
+---
+title: "How can I change how frequently to log system metrics?"
+keywords: ["Metrics", "Runs"]
+---
+
+To configure the frequency to log [system metrics](/models/ref/python/experiments/system-metrics), set `_stats_sampling_interval` to a number of seconds, expressed as a float. Default: `10.0`.
+
+```python
+wandb.init(settings=wandb.Settings(x_stats_sampling_interval=30.0))
+```
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Metrics](/support/models/tags/metrics)</Badge><Badge stroke shape="pill" color="orange" size="md">[Runs](/support/models/tags/runs)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

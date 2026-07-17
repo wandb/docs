@@ -1,0 +1,59 @@
+---
+title: Reports
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py" />
+
+
+## <kbd>class</kbd> `Reports`
+
+Reports は `BetaReport` オブジェクトの遅延評価イテレータです。
+
+### <kbd>method</kbd> `Reports.__init__`
+
+```python
+__init__(
+    service_api: 'ServiceApi',
+    project: 'Project',
+    name: 'str | None' = None,
+    entity: 'str | None' = None,
+    per_page: 'int' = 50
+)
+```
+
+**引数:**
+
+* `service_api`: このコレクションに対して W&amp;B API Call を実行する wandb-core サービスへのインターフェース。
+* `project` (`wandb.sdk.internal.Project`): Reports を取得する対象のプロジェクト。
+* `name` (str, optional): フィルター対象のレポート名。`None` の場合は、すべての Reports を取得します。
+* `entity` (str, optional): プロジェクトの entity 名。デフォルトでは、プロジェクトの entity が使用されます。
+* `per_page` (int): 1 ページあたりに取得する Reports の数 (デフォルトは 50) 。
+
+***
+
+### <kbd>プロパティ</kbd> Reports.length
+
+***
+
+### <kbd>method</kbd> `Reports.convert_objects`
+
+```python
+convert_objects() → list[BetaReport]
+```
+
+GraphQL のエッジを File オブジェクトに変換します。
+
+***
+
+
+### <kbd>method</kbd> `Reports.update_variables`
+
+```python
+update_variables() → None
+```
+
+ページネーション用のGraphQLクエリ変数を更新します。

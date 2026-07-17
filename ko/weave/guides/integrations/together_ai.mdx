@@ -1,0 +1,44 @@
+---
+title: "Together AI"
+description: "원활한 Tracing과 모델 call 평가를 위해 OpenAI SDK 호환을 사용해 Weave로 Together AI의 오픈 소스 LLM을 추적하세요."
+keywords: ["오픈 소스 LLM", "OpenAI 호환", "Mixtral", "파인튜닝", "모델 호스팅"]
+---
+
+Together AI는 생성형 AI 모델을 구축하고 파인튜닝하는 플랫폼입니다. 오픈 소스 LLM에 중점을 두고 있으며, 고객이 자체 모델을 파인튜닝하고 호스팅할 수 있도록 지원합니다. 이 가이드에서는 Together의 OpenAI SDK 호환을 사용하여 Weave에서 Together AI 모델 Call을 트레이스하고 평가하는 방법을 설명합니다. 다른 Weave 추적 작업과 함께 오픈 소스 LLM의 입력, 출력, 성능을 모니터링할 수 있습니다.
+
+<Info>
+  Weave의 `together` Python 패키지 전체 지원은 현재 개발 중입니다.
+</Info>
+
+그동안 Together는 [OpenAI SDK 호환](https://docs.together.ai/docs/openai-api-compatibility)을 지원하며, Weave는 이를 자동으로 감지해 통합합니다. 추가 설정 없이 표준 OpenAI 클라이언트를 사용해 Together AI 모델을 호출하고 Weave의 자동 Tracing을 사용할 수 있습니다.
+
+Together API로 전환하려면 `api_key`를 [Together API](https://docs.together.ai/docs/quickstart) 키로 설정하고, `base_url`을 `https://api.together.xyz/v1`로, `model`을 [chat models](https://docs.together.ai/docs/inference-models#chat-models) 중 하나로 설정하세요. 다음 예시는 Weave를 초기화한 뒤 Together가 호스팅하는 모델에 대해 chat completion Call을 수행합니다. 실행되면 해당 Call이 Weave 프로젝트에 트레이스로 표시됩니다.
+
+```python lines {5, 10-13}
+import os
+import openai
+import weave
+
+weave.init('together-weave')
+
+system_content = "You are a travel agent. Be descriptive and helpful."
+user_content = "Tell me about San Francisco"
+
+client = openai.OpenAI(
+    api_key=os.environ.get("TOGETHER_API_KEY"),
+    base_url="https://api.together.xyz/v1",
+)
+chat_completion = client.chat.completions.create(
+    model="mistralai/Mixtral-8x7B-Instruct-v0.1",
+    messages=[
+        {"role": "system", "content": system_content},
+        {"role": "user", "content": user_content},
+    ],
+    temperature=0.7,
+    max_tokens=1024,
+)
+response = chat_completion.choices[0].message.content
+print("Together response:\n", response)
+```
+
+이 예제는 시작하는 데 도움이 됩니다. 더 복잡한 사용 사례에서 직접 작성한 함수에 Weave를 통합하는 방법에 대한 자세한 내용은 [OpenAI](/ko/weave/guides/integrations/openai#track-your-own-ops) 가이드를 참조하세요.

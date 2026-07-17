@@ -1,0 +1,21 @@
+---
+title: Self-Managed 오브젝트 저장소 요구 사항
+---
+
+W&amp;B에는 사전 서명된 URL 및 CORS를 지원하는 오브젝트 저장소가 필요합니다.
+
+W&amp;B는 다음 저장소 공급자를 권장합니다.
+
+* [Amazon S3](https://aws.amazon.com/s3/): 확장성, 데이터 가용성, 보안, 성능을 제공하는 오브젝트 저장소 서비스입니다.
+* [Google Cloud Storage](https://cloud.google.com/storage): 대규모 비정형 데이터를 저장하기 위한 관리형 서비스입니다.
+* [Azure Blob Storage](https://azure.microsoft.com/en-us/products/storage/blobs): 대규모 비정형 데이터를 위한 클라우드 기반 오브젝트 저장소입니다.
+* [CoreWeave AI Object Storage](https://docs.coreweave.com/products/storage/object-storage): AI 워크로드에 최적화된 S3 호환 오브젝트 저장소입니다.
+* [MinIO Enterprise (AIStor)](https://www.min.io/product/aistor), [NetApp StorageGRID](https://www.netapp.com/data-storage/storagegrid/) 또는 기타 엔터프라이즈 솔루션과 같은 엔터프라이즈 S3 호환 저장소.
+
+<Note>
+  MinIO Open Source는 [유지 관리 모드](https://github.com/minio/minio) 상태이며, 활발한 개발이 이루어지지 않고 사전 컴파일된 바이너리도 제공되지 않습니다. 프로덕션 배포의 경우, W&amp;B는 관리형 오브젝트 저장소 서비스 또는 MinIO Enterprise (AIStor)와 같은 엔터프라이즈 S3 호환 솔루션을 권장합니다.
+</Note>
+
+공급자를 선택한 후에는 W&amp;B가 해당 버킷에 액세스할 수 있도록 버킷을 설정하세요. IAM 정책, CORS 설정, 액세스 설정을 포함한 자세한 버킷 프로비저닝 지침은 [Bring Your Own Bucket (BYOB) 가이드](/ko/platform/hosting/data-security/secure-storage-connector)를 참조하세요.
+
+용량 및 성능 지침을 포함한 오브젝트 저장소 요구 사항의 전체 목록은 [레퍼런스 아키텍처의 오브젝트 저장소 섹션](/ko/platform/hosting/self-managed/ref-arch/#object-storage)을 참조하세요.

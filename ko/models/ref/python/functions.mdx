@@ -1,0 +1,53 @@
+---
+title: 전역 함수 Overview
+description: init, login, setup, sweep, agent를 포함한 W&B Python SDK의 최상위 함수에 대한 레퍼런스
+module: 
+no_list: true
+---
+
+W&amp;B의 전역 함수는 `wandb.init()` 또는 `wandb.login()`처럼 직접 호출하는 최상위 함수입니다. 특정 클래스에 속한 메서드와 달리, 이러한 함수는 객체를 먼저 인스턴스화하지 않아도 W&amp;B의 핵심 기능에 직접 접근할 수 있게 해줍니다.
+
+<div id="available-functions">
+  ## 사용 가능한 함수
+</div>
+
+| 함수                                                        | 설명                                                                      |
+| --------------------------------------------------------- | ----------------------------------------------------------------------- |
+| [`init()`](/ko/models/ref/python/functions/init)             | W&amp;B에 추적 및 로깅할 새 run을 시작합니다. 일반적으로 ML 트레이닝 파이프라인에서 가장 먼저 호출하는 함수입니다. |
+| [`login()`](/ko/models/ref/python/functions/login)           | 플랫폼에서 머신을 인증할 수 있도록 W&amp;B 로그인 자격 증명을 설정합니다.                           |
+| [`setup()`](/ko/models/ref/python/functions/setup)           | 현재 프로세스와 그 하위 프로세스에서 사용할 수 있도록 W&amp;B를 준비합니다. 다중 프로세스 애플리케이션에 유용합니다.   |
+| [`teardown()`](/ko/models/ref/python/functions/teardown)     | W&amp;B 리소스를 정리하고 백엔드 프로세스를 종료합니다.                                      |
+| [`sweep()`](/ko/models/ref/python/functions/sweep)           | 최적의 모델 설정을 검색하기 위한 하이퍼파라미터 sweep을 초기화합니다.                               |
+| [`agent()`](/ko/models/ref/python/functions/agent)           | 하이퍼파라미터 최적화 실험을 실행할 sweep agent를 생성합니다.                                 |
+| [`controller()`](/ko/models/ref/python/functions/controller) | sweep agent와 해당 실행을 관리하고 제어합니다.                                         |
+| [`restore()`](/ko/models/ref/python/functions/restore)       | 이전 run 또는 실험 상태를 복원해 작업을 재개합니다.                                         |
+| [`finish()`](/ko/models/ref/python/functions/finish)         | run을 종료하고 리소스를 정리합니다.                                                   |
+
+<div id="example">
+  ## 예시
+</div>
+
+가장 일반적인 워크플로는 W&amp;B에 인증하고 run을 초기화한 다음, 트레이닝 루프에서 값(예: 정확도와 손실)을 로깅하는 것부터 시작합니다. 먼저 `wandb`를 임포트하고 전역 함수 `login()`과 `init()`을 사용합니다:
+
+```python
+import wandb
+
+# W&B에 인증
+wandb.login()
+
+# 하이퍼파라미터 및 메타데이터
+config = {
+   "learning_rate": 0.01,
+   "epochs": 10,
+}
+
+# run이 기록될 프로젝트
+project = "my-awesome-project"
+
+# 새 run 초기화
+with wandb.init(project=project, config=config) as run:
+   # 트레이닝 코드를 여기에 작성하세요...
+   
+   # W&B에 값 로깅
+   run.log({"accuracy": 0.9, "loss": 0.1})
+```

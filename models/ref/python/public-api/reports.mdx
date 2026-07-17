@@ -3,7 +3,7 @@ title: Reports
 namespace: public_apis_namespace
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py" />
 
@@ -16,12 +16,18 @@ Reports is a lazy iterator of `BetaReport` objects.
 ### <kbd>method</kbd> `Reports.__init__`
 
 ```python
-__init__(client, project, name=None, entity=None, per_page=50)
+__init__(
+    service_api: 'ServiceApi',
+    project: 'Project',
+    name: 'str | None' = None,
+    entity: 'str | None' = None,
+    per_page: 'int' = 50
+)
 ```
 
 **Args:**
  
- - `client` (`wandb.apis.internal.Api`):  The API client instance to use. 
+ - `service_api`:  Interface to the wandb-core service that performs  W&B API calls for this collection. 
  - `project` (`wandb.sdk.internal.Project`):  The project to fetch reports from. 
  - `name` (str, optional):  The name of the report to filter by. If `None`,  fetches all reports. 
  - `entity` (str, optional):  The entity name for the project. Defaults to  the project entity. 
@@ -48,7 +54,7 @@ __init__(client, project, name=None, entity=None, per_page=50)
 ### <kbd>method</kbd> `Reports.convert_objects`
 
 ```python
-convert_objects()
+convert_objects() → list[BetaReport]
 ```
 
 Converts GraphQL edges to File objects. 
@@ -58,7 +64,7 @@ Converts GraphQL edges to File objects.
 ### <kbd>method</kbd> `Reports.update_variables`
 
 ```python
-update_variables()
+update_variables() → None
 ```
 
 Updates the GraphQL query variables for pagination. 

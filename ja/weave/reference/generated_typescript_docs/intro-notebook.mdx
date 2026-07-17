@@ -1,0 +1,243 @@
+---
+title: イントロノートブック
+---
+
+<div id="weave-with-typescript-quickstart-guide">
+  # TypeScript で始める Weave クイックスタートガイド
+</div>
+
+TypeScript で W&amp;B Weave を使用すると、次のことができます。
+
+* 言語モデルの入力、出力、トレースをログし、デバッグする
+* 言語モデルのユースケース向けに、厳密で同一条件の評価を構築する
+* 実験から評価、本番まで、LLM ワークフロー全体で生成されるあらゆる情報を整理する
+
+詳細は、[Weave ドキュメント](/ja/)を参照してください。
+
+<div id="function-tracking">
+  ## 関数のトラッキング
+</div>
+
+TypeScriptコードでWeaveを使用するには、新しいWeaveプロジェクトを初期化し、トラッキングしたい関数に `weave.op` ラッパーを追加します。
+
+`weave.op` を追加して関数を呼び出したら、W&amp;Bダッシュボードを開き、プロジェクト内でその関数がトラッキングされていることを確認します。
+
+コードは自動的にトラッキングされます。UI のコードタブを確認してください！
+
+```typescript lines
+async function initializeWeaveProject() {
+    const PROJECT = 'weave-examples';
+    await weave.init(PROJECT);
+}
+```
+
+```typescript lines
+const stripUserInput = weave.op(function stripUserInput(userInput: string): string {
+    return userInput.trim();
+});
+```
+
+次の例は、基本的な関数トラッキングの仕組みを示しています。
+
+```typescript lines
+async function demonstrateBasicTracking() {
+    const result = await stripUserInput("    hello    ");
+    console.log('Basic tracking result:', result);
+}
+```
+
+<div id="openai-integration">
+  ## OpenAI インテグレーション
+</div>
+
+Weave は、以下を含む OpenAI のすべての呼び出しを自動的にトラッキングします。
+
+* トークン使用量
+* API コスト
+* リクエスト/レスポンスのペア
+* モデル設定
+
+<Note>
+  Weave は OpenAI に加えて、Anthropic や Mistral など、他の LLM プロバイダの自動ログ記録もサポートしています。一覧は、[インテグレーションのドキュメントの LLM Providers](../../guides/integrations#llm-providers) を参照してください。
+</Note>
+
+```typescript lines
+function initializeOpenAIClient() {
+    return weave.wrapOpenAI(new OpenAI({
+        apiKey: process.env.OPENAI_API_KEY
+    }));
+}
+```
+
+```typescript lines
+async function demonstrateOpenAITracking() {
+    const client = initializeOpenAIClient();
+    const result = await client.chat.completions.create({
+        model: "gpt-4-turbo",
+        messages: [{ role: "user", content: "Hello, how are you?" }],
+    });
+    console.log('OpenAI tracking result:', result);
+}
+```
+
+<div id="nested-function-tracking">
+  ## ネストした関数のトラッキング
+</div>
+
+Weave では、複数のトラッキング対象の関数
+と LLM 呼び出しを組み合わせることで、実行トレース全体を保持したまま複雑なワークフローをトラッキングできます。主な利点は次のとおりです。
+
+* アプリケーションのロジックフローを完全に可視化できる
+* 複雑な一連の処理を簡単にデバッグできる
+* パフォーマンス最適化の機会が得られる
+
+```typescript lines
+async function demonstrateNestedTracking() {
+    const client = initializeOpenAIClient();
+    
+    const correctGrammar = weave.op(async function correctGrammar(userInput: string): Promise<string> {
+        const stripped = await stripUserInput(userInput);
+        const response = await client.chat.completions.create({
+            model: "gpt-4-turbo",
+            messages: [
+                {
+                    role: "system",
+                    content: "You are a grammar checker, correct the following user input."
+                },
+                { role: "user", content: stripped }
+            ],
+            temperature: 0,
+        });
+        return response.choices[0].message.content ?? '';
+    });
+
+    const grammarResult = await correctGrammar("That was so easy, it was a piece of pie!");
+    console.log('Nested tracking result:', grammarResult);
+}
+```
+
+<div id="dataset-management">
+  ## データセット管理
+</div>
+
+[`weave.Dataset`](/ja/weave/guides/core-types/datasets) クラスを使うと、Weave でデータセットを作成・管理できます。[Weave `Models`](/ja/weave/guides/core-types/models) と同様に、`weave.Dataset` は次のような用途に役立ちます。
+
+* データをトラッキングし、バージョン管理する
+* テストケースを整理する
+* チームメンバー間でデータセットを共有する
+* 体系的な評価を行う
+
+```typescript lines
+interface GrammarExample {
+    userInput: string;
+    expected: string;
+}
+```
+
+```typescript lines
+function createGrammarDataset(): weave.Dataset<GrammarExample> {
+    return new weave.Dataset<GrammarExample>({
+        id: 'grammar-correction',
+        rows: [
+            {
+                userInput: "That was so easy, it was a piece of pie!",
+                expected: "That was so easy, it was a piece of cake!"
+            },
+            {
+                userInput: "I write good",
+                expected: "I write well"
+            },
+            {
+                userInput: "LLM's are best",
+                expected: "LLM's are the best"
+            }
+        ]
+    });
+}
+```
+
+<div id="evaluation-framework">
+  ## 評価フレームワーク
+</div>
+
+Weave は、[`Evaluation` クラス](/ja/weave/guides/core-types/evaluations) を使って評価駆動開発をサポートします。評価を行うことで、GenAI アプリケーションを確実に反復改善できます。`Evaluation` クラスでは、次のことができます。
+
+* `Dataset` に対する `Model` のパフォーマンスを評価する
+* カスタムのスコアリング関数を適用する
+* 詳細なパフォーマンスレポートを生成する
+* モデルのバージョン間を比較できるようにする
+
+評価の完全なチュートリアルは、[http://wandb.me/weave&#95;eval&#95;tut](http://wandb.me/weave_eval_tut) を参照してください
+
+```typescript lines
+class OpenAIGrammarCorrector {
+    private oaiClient: ReturnType<typeof weave.wrapOpenAI>;
+    
+    constructor() {
+        this.oaiClient = weave.wrapOpenAI(new OpenAI({
+            apiKey: process.env.OPENAI_API_KEY
+        }));
+        this.predict = weave.op(this, this.predict);
+    }
+
+    async predict(userInput: string): Promise<string> {
+        const response = await this.oaiClient.chat.completions.create({
+            model: 'gpt-4-turbo',
+            messages: [
+                { 
+                    role: "system", 
+                    content: "You are a grammar checker, correct the following user input." 
+                },
+                { role: "user", content: userInput }
+            ],
+            temperature: 0
+        });
+        return response.choices[0].message.content ?? '';
+    }
+}
+```
+
+```typescript lines
+async function runEvaluation() {
+    const corrector = new OpenAIGrammarCorrector();
+    const dataset = createGrammarDataset();
+    
+    const exactMatch = weave.op(
+        function exactMatch({ modelOutput, datasetRow }: { 
+            modelOutput: string; 
+            datasetRow: GrammarExample 
+        }): { match: boolean } {
+            return { match: datasetRow.expected === modelOutput };
+        },
+        { name: 'exactMatch' }
+    );
+
+    const evaluation = new weave.Evaluation({
+        dataset,
+        scorers: [exactMatch],
+    });
+
+    const summary = await evaluation.evaluate({
+        model: weave.op((args: { datasetRow: GrammarExample }) => 
+            corrector.predict(args.datasetRow.userInput)
+        )
+    });
+    console.log('Evaluation summary:', summary);
+}
+```
+
+次の`main`関数で、すべてのデモを実行します。
+
+```typescript lines
+async function main() {
+    try {
+        await initializeWeaveProject();
+        await demonstrateBasicTracking();
+        await demonstrateOpenAITracking();
+        await demonstrateNestedTracking();
+        await runEvaluation();
+    } catch (error) {
+        console.error('Error running demonstrations:', error);
+    }
+}
+```

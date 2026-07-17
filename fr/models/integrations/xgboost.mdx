@@ -1,0 +1,87 @@
+---
+description: "Intégrez W&B à XGBoost pour journaliser automatiquement les métriques de gradient boosting, l’importance des variables et la performance du modèle."
+title: XGBoost
+---
+
+import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
+
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Credit_Scorecards_with_XGBoost_and_W%26B.ipynb" />
+
+Cette page vous montre comment utiliser l’intégration W&amp;B avec XGBoost pour journaliser automatiquement les métriques de gradient boosting, les configurations du modèle, l’importance des variables et les boosters entraînés afin de vous permettre de suivre, comparer et reproduire vos expériences XGBoost.
+
+Le SDK Python W&amp;B (`wandb`) inclut un callback `WandbCallback` pour journaliser les métriques, les configurations et les boosters enregistrés lors de l&#39;entraînement avec XGBoost. Vous pouvez voir ici un [tableau de bord W&amp;B en direct](https://wandb.ai/morg/credit_scorecard) avec les résultats du `WandbCallback` de XGBoost.
+
+<Frame>
+  <img src="/images/integrations/xgb_dashboard.png" alt="Tableau de bord W&B avec XGBoost" />
+</Frame>
+
+<div id="get-started">
+  ## Premiers pas
+</div>
+
+Pour enregistrer les métriques, les configurations et les modèles booster d’XGBoost dans W&amp;B, passez `WandbCallback` à XGBoost :
+
+```python
+import wandb
+from wandb.integration.xgboost import WandbCallback
+from xgboost import XGBClassifier
+
+...
+# Démarrer un run wandb
+with wandb.init() as run:
+  # Passer WandbCallback au modèle
+  bst = XGBClassifier()
+  bst.fit(X_train, y_train, callbacks=[WandbCallback(log_model=True)])
+```
+
+Pour un aperçu complet de la journalisation avec XGBoost et W&amp;B, consultez le [notebook sur la journalisation avec XGBoost et W&amp;B](https://wandb.me/xgboost).
+
+<div id="wandbcallback-reference">
+  ## Référence de `WandbCallback`
+</div>
+
+<div id="functionality">
+  ### Fonctionnalités
+</div>
+
+Passer `WandbCallback` à un modèle XGBoost entraîne les actions suivantes :
+
+* Journalise la configuration du modèle booster dans W&amp;B.
+* Journalise les métriques d’évaluation collectées par XGBoost, telles que `rmse`, la précision, etc., dans W&amp;B.
+* Journalise les métriques d’entraînement collectées par XGBoost (si vous fournissez des données à `eval_set`).
+* Journalise le meilleur score et la meilleure itération.
+* Enregistre et téléverse votre modèle entraîné vers les artefacts W&amp;B (lorsque `log_model = True`).
+* Journalise le graphique d’importance des variables lorsque `log_feature_importance=True` (par défaut).
+* Capture la meilleure métrique d’évaluation dans `wandb.Run.summary` lorsque `define_metric=True` (par défaut).
+
+<div id="arguments">
+  ### Arguments
+</div>
+
+* `log_model` : (boolean) si True, enregistre et téléverse le modèle dans les artefacts W&amp;B.
+
+* `log_feature_importance` : (boolean) si True, journalise un graphique à barres d’importance des variables.
+
+* `importance_type` : (str) l’une des valeurs `{weight, gain, cover, total_gain, total_cover}` pour un modèle basé sur des arbres. `weight` pour un modèle linéaire.
+
+* `define_metric` : (boolean) si True (par défaut), capture les performances du modèle à la meilleure étape de l’entraînement, plutôt qu’à la dernière étape, dans votre `run.summary`.
+
+Consultez le [code source de WandbCallback](https://github.com/wandb/wandb/blob/main/wandb/integration/xgboost/xgboost.py).
+
+Pour plus d’exemples, consultez le [dépôt d’exemples sur GitHub](https://github.com/wandb/examples/tree/master/examples/boosting-algorithms).
+
+<div id="tune-your-hyperparameters-with-sweeps">
+  ## Ajustez vos hyperparamètres avec Sweeps
+</div>
+
+W&amp;B [Sweeps](/fr/models/sweeps/) est une boîte à outils pour configurer, orchestrer et analyser des expériences de test d’hyperparamètres. Cette section montre comment combiner l’intégration XGBoost avec le balayage W&amp;B pour explorer différentes configurations d’hyperparamètres.
+
+Pour améliorer les performances du modèle, ajustez des hyperparamètres comme la profondeur de l’arbre et le taux d’apprentissage.
+
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W%26B_Sweeps_with_XGBoost.ipynb" />
+
+Vous pouvez aussi essayer ce [script Python XGBoost et Sweeps](https://github.com/wandb/examples/blob/master/examples/wandb-sweeps/sweeps-xgboost/xgboost_tune.py).
+
+<Frame>
+  <img src="/images/integrations/xgboost_sweeps_example.png" alt="Comparaison des performances de XGBoost" />
+</Frame>

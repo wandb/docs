@@ -1,0 +1,41 @@
+---
+description: "W&BをLightGBMと統合すると、勾配ブースティングのメトリクス、特徴量重要度、モデル性能を自動的にログできます。"
+title: LightGBM
+---
+
+import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
+
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Simple_LightGBM_Integration.ipynb" />
+
+W&amp;B Python SDK (`wandb`) には、トレーニング メトリクス、特徴量重要度、モデル チェックポイントを自動的に W&amp;B にログする、[LightGBM](https://lightgbm.readthedocs.io/en/latest/) 向けの専用コールバックが用意されています。また、W&amp;B の汎用的なログ機能を使って、ハイパーパラメーター Sweeps のような大規模な実験をトラッキングすることもできます。
+
+このインテグレーションを使用すると、カスタムのログ記録コードを書かずに、勾配ブースティング モデルのモデル性能をモニターし、Runs を比較して、特徴量の寄与を分析できます。
+
+```python
+from wandb.integration.lightgbm import wandb_callback, log_summary
+import lightgbm as lgb
+
+# メトリクスをW&Bにログする
+gbm = lgb.train(..., callbacks=[wandb_callback()])
+
+# 特徴量重要度のplotをログし、モデル チェックポイントをW&Bにアップロードする
+log_summary(gbm, save_model_checkpoint=True)
+```
+
+<Note>
+  実際に動作するコード例については、[GitHub のサンプルリポジトリ](https://github.com/wandb/examples/tree/master/examples/boosting-algorithms)をご覧ください。
+</Note>
+
+<div id="tune-your-hyperparameters-with-sweeps">
+  ## Sweeps を使ってハイパーパラメーターを調整する
+</div>
+
+モデルの最高のパフォーマンスを引き出すには、木の深さや学習率などのハイパーパラメーターを調整します。W&amp;B [Sweeps](/ja/models/sweeps/) は、大規模なハイパーパラメーター探索実験を設定、実行、分析するためのツールキットです。
+
+これらのツールの詳細や、XGBoost で Sweeps を使用する方法の例については、次のインタラクティブな Colab ノートブックを開いてください。
+
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W%26B_Sweeps_with_XGBoost.ipynb" />
+
+<Frame>
+  <img src="/images/integrations/lightgbm_sweeps.png" alt="LightGBM のパフォーマンス比較" />
+</Frame>

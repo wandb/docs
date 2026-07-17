@@ -1,0 +1,178 @@
+---
+title: "クイックスタート: LLM の入力と出力をトラッキングする"
+description: "LLM アプリケーションにトレースを追加してモデルのやり取りをデバッグ・監視しながら、W&B Weave の利用を始めましょう。"
+mode: "wide"
+keywords: ["トレース", "LLM 可観測性", "weave.op", "OpenAI トレース", "トレース クイックスタート"]
+---
+
+import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+import WeaveQuickstartPrereqs from "/snippets/ja/_includes/weave-quickstart-prereqs.mdx";
+
+<div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+  <ColabLink url="https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/traces-quickstart.ipynb" />
+
+  <GitHubLink url="https://github.com/wandb/docs/blob/main/weave/cookbooks/source/traces-quickstart.ipynb" />
+</div>
+
+コードにトレースを追加して、Weave で LLM call をトラッキングする方法を学びます。このクイックスタートでは、OpenAI へのリクエストをトレースし、その結果を Weave UI で確認する手順を紹介します。これは、Weave を初めて使い、デバッグやモニタリングのために LLM アプリケーションを計装したい開発者向けです。
+
+<div id="what-youll-learn">
+  ## このガイドで学べること
+</div>
+
+このガイドでは、次の方法を説明します:
+
+* コードに Weave をインポートして設定する。
+* `weave.op` デコレータ を使用してコードをトラッキングする。
+* Weave UI でトレースを確認する。
+
+<WeaveQuickstartPrereqs />
+
+<div id="log-a-trace-to-a-new-project">
+  ## 新しいプロジェクトにトレースをログする
+</div>
+
+このセクションでは、Weave が入力、出力、コードを記録できるよう、小規模なアプリケーションをインストルメントします。コードのトラッキングを開始し、Weave にトレースをログするには、以下の手順に従ってください。
+
+1. `weave` ライブラリをコードにインポートします。
+2. コード内で `weave.init('your_wb_team/project_name')` を呼び出し、トラッキング情報を W&amp;B の[チーム](/ja/platform/app/settings-page/teams)および [project](/ja/platform/hosting/iam/org_team_struct#project) に送信します。チームを指定しない場合、Weave はトレースを[デフォルトチーム](/ja/platform/app/settings-page/user-settings/#default-team)に送信します。指定した project がチームに存在しない場合は、Weave が自動的に作成します。
+3. トラッキングしたい関数に [`@weave.op()` デコレータ](/ja/weave/guides/tracking/ops)を追加します。Weave はサポートされる LLM への Call を自動的にトラッキングしますが、このデコレータを使用することで特定の関数の入力、出力、コードをトラッキングできます。TypeScript では `weave.op(your_function)` という構文を使用します。
+
+以下のサンプルコードは OpenAI にリクエストを送信し ([OpenAI APIキー](https://platform.openai.com/docs/quickstart)が必要) 、Weave がそのリクエストのトレース情報を記録します。このリクエストでは、入力テキストから恐竜の名前を抽出し、それぞれの食性 (草食または肉食) を識別するよう OpenAI モデルに指示します。
+
+以下のサンプルコードで、Weave を使った最初のプロジェクトをトラッキングします。
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines {1-2,7-8,27-28}
+    # Weave ライブラリをインポートする
+    import weave
+    from openai import OpenAI
+
+    client = OpenAI()
+
+    # Weave はこの関数の入力、出力、コードを自動的にトラッキングする
+    @weave.op()
+    def extract_dinos(sentence: str) -> dict:
+        response = client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {
+                    "role": "system",
+                    "content": """In JSON format extract a list of `dinosaurs`, with their `name`,
+    their `common_name`, and whether its `diet` is a herbivore or carnivore"""
+                },
+                {
+                    "role": "user",
+                    "content": sentence
+                }
+                ],
+                response_format={ "type": "json_object" }
+            )
+        return response.choices[0].message.content
+
+    # Weave を初期化し、データをログするチームと project を設定する
+    weave.init('your-team/traces-quickstart')
+
+    sentence = """I watched as a Tyrannosaurus rex (T. rex) chased after a Triceratops (Trike), \
+    both carnivore and herbivore locked in an ancient dance. Meanwhile, a gentle giant \
+    Brachiosaurus (Brachi) calmly munched on treetops, blissfully unaware of the chaos below."""
+
+    result = extract_dinos(sentence)
+    print(result)
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript twoslash lines {1-2,7-8,20,24-25}
+    // @noErrors
+    // Weave ライブラリをインポートする
+    import * as weave from 'weave';
+    import OpenAI from 'openai';
+
+    const openai = new OpenAI();
+
+    // Weave はこの関数の入力、出力、コードを自動的にトラッキングする  
+    async function extractDinos(input: string) {
+      const response = await openai.chat.completions.create({
+        model: 'gpt-4o',
+        messages: [
+          {
+            role: 'user',
+            content: `In JSON format extract a list of 'dinosaurs', with their 'name', their 'common_name', and whether its 'diet' is a herbivore or carnivore: ${input}`,
+          },
+        ],
+      });
+      return response.choices[0].message.content;
+    }
+    const extractDinosOp = weave.op(extractDinos);
+
+    async function main() {
+
+      // Weave を初期化し、データをログするチームと project を設定する
+      await weave.init('your-team/traces-quickstart');
+
+      const result = await extractDinosOp(
+        'I watched as a Tyrannosaurus rex (T. rex) chased after a Triceratops (Trike), both carnivore and herbivore locked in an ancient dance. Meanwhile, a gentle giant Brachiosaurus (Brachi) calmly munched on treetops, blissfully unaware of the chaos below.'
+      );
+      console.log(result);
+    }
+
+    main();
+
+    ```
+  </Tab>
+</Tabs>
+
+`extract_dinos` 関数を呼び出すと、Weave はトレースを確認するためのリンクをターミナルに出力します。出力は次のようになります。
+
+```text
+weave:  $ pip install weave --upgrade
+weave: Logged in as Weights & Biases user: example-username.
+weave: View Weave data at https://wandb.ai/your-team/traces-quickstart/weave
+weave: 🍩 https://wandb.ai/your-team/traces-quickstart/r/call/019ae171-7f32-7c96-8b42-931a32f900b7
+{
+  "dinosaurs": [
+    {
+      "name": "Tyrannosaurus rex",
+      "common_name": "T. rex",
+      "diet": "carnivore"
+    },
+    {
+      "name": "Triceratops",
+      "common_name": "Trike",
+      "diet": "herbivore"
+    },
+    {
+      "name": "Brachiosaurus",
+      "common_name": "Brachi",
+      "diet": "herbivore"
+    }
+  ]
+}
+```
+
+<div id="see-traces-of-your-application-in-your-project">
+  ## プロジェクトでアプリケーションのトレースを確認する
+</div>
+
+コードによってトレースが生成されたので、Weave UI でその内容を確認できます。ターミナル内のリンクをクリックするか、そのリンクをブラウザに貼り付けて Weave UI を開きます。Weave UI の **Traces** パネルでトレースをクリックすると、入力、出力、レイテンシ、トークン使用量などのデータを確認できます。
+
+![入力、出力、レイテンシ、トークン使用量を含む、extract\_dinos 関数のトレースを表示している Weave UI の Traces パネル。](/images/tutorial_trace_1.png)
+
+これで、最初の Weave トレースをログして確認できました。
+
+<div id="learn-more-about-traces">
+  ## トレース について詳しく学ぶ
+</div>
+
+* [関数をデコレートして call 情報を取得する方法](/ja/weave/guides/tracking/tracing)を学びます。
+* [Playground](/ja/weave/guides/tools/playground)を使って、ログされたトレースに対してさまざまなモデルをテストします。
+* [インテグレーションを確認します](/ja/weave/guides/integrations/)。Weave は、OpenAI、Anthropic、その他多くの LLM ライブラリへの call を自動的にトラッキングします。お使いの LLM ライブラリが Weave のインテグレーションに含まれていない場合は、`@weave.op()` でラップすることで、他の LLM ライブラリやフレームワークへの call をトラッキングできます。
+
+<div id="next-steps">
+  ## 次のステップ
+</div>
+
+まずは [アプリの評価を始める](/ja/weave/tutorial-eval) を参照し、次に [RAG アプリケーションを評価する方法](/ja/weave/tutorial-rag) を確認してください。

@@ -1,0 +1,84 @@
+---
+title: Create a registry
+description: "App UI または Python SDK を使用して、可視性と受け入れ可能なアーティファクトタイプを設定できる W&B Registry を作成します。"
+---
+
+レジストリでは、使用するアーティファクトタイプを柔軟に制御できるほか、レジストリの可視性を制限することもできます。
+
+<div id="create-a-registry">
+  ## Create a registry
+</div>
+
+W&amp;B Registry UI または W&amp;B Python SDK を使用して、レジストリを作成できます。
+
+<Tabs>
+  <Tab title=" W&B Registry UI">
+    1. [https://wandb.ai/registry/](https://wandb.ai/registry/) の W&amp;B Registry にアクセスします。
+    2. **Create registry** ボタンをクリックします。
+    3. **Name** フィールドにレジストリ名を入力します。
+    4. 必要に応じて、レジストリの説明を入力します。
+    5. **Registry visibility** ドロップダウンから、レジストリを表示できる対象を選択します。可視性オプションの詳細については、[Registry visibility types](./configure_registry#registry-visibility-types) を参照してください。
+    6. **Accepted artifacts type** ドロップダウンから、**All types** または **Specify types** を選択します。
+    7. (**Specify types** を選択した場合) レジストリで受け付ける アーティファクトタイプ を 1 つ以上追加します。
+    8. **Create registry** ボタンをクリックします。
+  </Tab>
+
+  <Tab title="Python SDK">
+    プログラムでレジストリを作成するには、[`wandb.Api().create_registry()`](/ja/models/ref/python/#method-apicreate_registry) method を使用します。レジストリの `name` パラメーターには名前を、`visibility` パラメーターには [可視性](#visibility-types) をそれぞれ指定します。
+
+    以下のコードブロックをコピー＆ペーストします。`<>` で囲まれた値は自分の値に置き換えてください。
+
+    ```python
+    import wandb
+
+    registry = wandb.Api().create_registry(
+        name="<registry_name>",
+        visibility="< 'restricted' | 'organization' >",
+    )
+    ```
+
+    レジストリの作成時に指定できるパラメーターの一覧については、[`wandb.Api().create_registry()`](/ja/models/ref/python/#method-apicreate_registry) method reference を参照してください。
+  </Tab>
+</Tabs>
+
+<Note>
+  アーティファクトタイプ は、レジストリの設定に保存した後は、そのレジストリから削除できません。
+</Note>
+
+たとえば、次の画像は、ユーザーが `Fine_Tuned_Models` という名前のレジストリを作成しようとしている様子を示しています。このレジストリは、手動で追加されたメンバーのみに **Restricted** されています。
+
+<div id="visibility-types">
+  ## 可視性のタイプ
+</div>
+
+レジストリの*可視性*によって、そのレジストリにアクセスできるユーザーが決まります。レジストリの可視性を制限することで、指定されたメンバーだけがそのレジストリにアクセスできるようになります。
+
+レジストリで選択できる可視性オプションは 2 種類あります。
+
+| 可視性          | 説明                            |
+| ------------ | ----------------------------- |
+| Restricted   | 招待された組織メンバーのみがレジストリにアクセスできます。 |
+| Organization | 組織内の全員がレジストリにアクセスできます。        |
+
+Team Admin または Registry 管理者は、レジストリの可視性を設定できます。
+
+Restricted の可視性でレジストリを作成したユーザーは、そのレジストリの Registry 管理者として自動的に追加されます。
+
+<div id="configure-the-visibility-of-a-registry">
+  ## レジストリの可視性を設定する
+</div>
+
+Team Admin または Registry 管理者は、レジストリの作成時または作成後に、レジストリの可視性を設定できます。
+
+既存のレジストリの可視性を制限するには、次の手順に従います。
+
+1. [https://wandb.ai/registry/](https://wandb.ai/registry/) の W&amp;B Registry にアクセスします。
+2. レジストリを選択します。
+3. 右上隅にある歯車アイコンをクリックします。
+4. **Registry visibility** ドロップダウンから、目的の可視性を選択します。
+5. **Restricted visibility** を選択した場合:
+   1. このレジストリへのアクセスを許可する組織のメンバーを追加します。**Registry members and roles** セクションまでスクロールし、**Add member** ボタンをクリックします。
+   2. **Member** フィールドに、追加するメンバーのメールアドレスまたはユーザー名を入力します。
+   3. **Add new member** をクリックします。
+
+Team Admin がレジストリの作成時に可視性を設定する方法について詳しくは、[Create a registry](./create_registry#create-a-custom-registry)を参照してください。

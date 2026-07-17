@@ -1,30 +1,54 @@
 ---
-title: sweep 結果を可視化する
-description: W&B App UI で W&B スイープの結果を可視化します。
+description: W&B Sweeps の結果を W&B App UI で可視化します。
+title: sweep の結果を可視化する
 ---
 
-Visualize の結果を W&B Sweeps の W&B App UI で確認しましょう。[https://wandb.ai/home](https://wandb.ai/home) にアクセスして、W&B App UI に移動します。W&B Sweep を初期化した際に指定したプロジェクトを選択します。プロジェクトの[workspace](/ja/models/track/workspaces/)にリダイレクトされます。左側のパネルから **Sweep アイコン** （ほうきのアイコン）を選択します。 [Sweep UI](/ja/models/sweeps/visualize-sweep-results/) で、リストから Sweep の名前を選択します。
+W&amp;B App で W&amp;B Sweeps の結果を可視化できます。Sweep UI には、Runs の比較、どのハイパーパラメーターが最も重要かの把握、sweep 実行の管理に役立つチャートとコントロールが用意されています。このページでは、App で sweep ビューを検索する方法、デフォルトのチャートの見方、それらをカスタマイズする方法を説明します。
 
-デフォルトでは、W&B は W&B Sweep ジョブを開始すると、パラレル座標プロット、パラメータの重要度プロット、そして散布図を自動的に作成します。
+<div id="open-the-sweep-ui">
+  ## Sweep UI を開く
+</div>
 
-<Frame>
-    <img src="/images/sweeps/navigation_sweeps_ui.gif" alt="Sweep UI インターフェースへ移動し、自動生成されたプロットを確認する方法を示すアニメーション。"  />
-</Frame>
+Sweep UI を開くには、[W&amp;B App](https://wandb.ai/home) にアクセスします。sweep を初期化したときに指定したプロジェクトを選択します。W&amp;B により、プロジェクトの [Workspace](/ja/models/track/workspaces) にリダイレクトされます。プロジェクトのサイドバーで、ほうき (**Sweep**) アイコンを選択します。Sweep UI で、一覧から sweep の名を選択します。Sweep UI には project 内のすべての sweep が一覧表示され、個々の sweep の Runs とチャートを確認するためのエントリポイントとして機能します。
 
-パラレル座標チャートは、多数のハイパーパラメーターとモデルメトリクスの関係を一目で要約します。パラレル座標プロットの詳細については、[パラレル座標](/ja/models/app/features/panels/parallel-coordinates/) を参照してください。
-
-<Frame>
-    <img src="/images/sweeps/example_parallel_coordiantes_plot.png" alt="パラレル座標プロットの例。"  />
-</Frame>
-
-左の散布図は、Sweep の間に生成された W&B Runs を比較します。散布図の詳細については、[散布図](/ja/models/app/features/panels/scatter-plot/) を参照してください。
-
-右のパラメータの重要度プロットは、メトリクスの望ましい値と高度に相関するハイパーパラメーターをリストアップします。パラメータの重要度プロットの詳細については、[パラメータの重要度](/ja/models/app/features/panels/parameter-importance/) を参照してください。
+sweep の一覧には、各 sweep の状態 (**State**) 、作成時刻 (**Created**) 、開始したユーザー (**Creator**) 、完了した run 数 (**Run count**) 、合計 **Compute time** が表示されます。離散的な探索空間に対するグリッドサーチでは、W&amp;B は **Est. Runs** (予想される run 数) も表示します。一覧から sweep を開くと、アプリ上で一時停止、再開、停止、またはキャンセルできます。CLI で同じ操作を行う場合は、[Manage sweeps](/ja/models/sweeps/pause-resume-and-cancel-sweeps) を参照してください。
 
 <Frame>
-    <img src="/images/sweeps/scatter_and_parameter_importance.png" alt="散布図（左）とパラメータの重要度プロット（右）の例。"  />
+  <img src="/images/sweeps/navigation_sweeps_ui.gif" alt="プロジェクトのサイドバー内の Sweep UI" />
 </Frame>
 
-自動で使用される従属と独立の値（x と y 軸）を変更できます。各パネル内には **Edit panel** という鉛筆のアイコンがあります。**Edit panel** を選択します。モデルが表示されます。そのモデル内で、グラフの振る舞いを変更することができます。
+<div id="default-visualizations">
+  ## デフォルトの可視化
+</div>
 
-すべてのデフォルトの W&B 可視化オプションの詳細については、[パネル](/ja/models/app/features/panels/) を参照してください。W&B Sweep の一部ではない W&B Runs からプロットを作成する方法については、[Data Visualization docs](/ja/models/tables/) を参照してください。
+デフォルトでは、sweep ジョブを開始すると、W&amp;B によって並列座標プロット、パラメーター重要度プロット、散布図が自動的に作成されます。以下のセクションでは、これらのデフォルトの可視化それぞれと、それらをカスタマイズする方法について説明します。
+
+<div id="parallel-coordinates-plot">
+  ### 並列座標プロット
+</div>
+
+並列座標チャートは、多数のハイパーパラメーターとモデルのメトリクスの関係をひと目で把握できるように要約して表示します。並列座標プロットの詳細は、[Parallel coordinates](/ja/models/app/features/panels/parallel-coordinates) を参照してください。
+
+<Frame>
+  <img src="/images/sweeps/example_parallel_coordiantes_plot.png" alt="並列座標プロットの例" />
+</Frame>
+
+<div id="scatter-plot-and-parameter-importance">
+  ### 散布図とパラメーター重要度
+</div>
+
+散布図 (左) は、sweep 中に生成された Runs を比較します。散布図の詳細は、[Scatter Plots](/ja/models/app/features/panels/scatter-plot) を参照してください。
+
+パラメーター重要度プロット (右) には、メトリクスの望ましい値を最もよく予測し、それらと高い相関を持つハイパーパラメーターが表示されます。パラメーター重要度プロットの詳細は、[Parameter Importance](/ja/models/app/features/panels/parameter-importance) を参照してください。
+
+<Frame>
+  <img src="/images/sweeps/scatter_and_parameter_importance.png" alt="散布図とパラメーター重要度" />
+</Frame>
+
+<div id="customize-panels">
+  ## パネルをカスタマイズする
+</div>
+
+デフォルトの軸では必要な比較が表示されない場合、W&amp;B が自動的に使用する値 (X 軸と Y 軸) を変更できます。各パネルには **Edit panel** という鉛筆アイコンがあります。**Edit panel** を選択してモーダルを開くと、グラフの動作を変更できます。
+
+W&amp;B のデフォルトの可視化オプション全般について詳しくは、[Panels](/ja/models/app/features/panels)を参照してください。sweep に含まれない Runs からプロットを作成する方法については、[Data Visualization docs](/ja/models/tables)を参照してください。

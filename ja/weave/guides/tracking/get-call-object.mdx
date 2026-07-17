@@ -1,0 +1,70 @@
+---
+title: "実行中に Call オブジェクトへの参照を取得する"
+description: "実行時に W&B Weave の `Call` オブジェクトへアクセスして、feedback、表示名、その他のメタデータを利用する"
+keywords: [Call オブジェクト, op.call, 実行時メタデータ, feedback, トレース]
+---
+
+このガイドでは、コードの実行中に Weave の `Call` オブジェクトへの参照を取得する方法を説明します。これにより、入力や出力を確認したり、メタデータを更新したり、実行時に feedback を追加したりできます。対象読者は、すでに Weave Ops を使用していて、基盤となる `Call` オブジェクトをプログラムから操作したい開発者です。
+
+Weave で Op を使用する場合は、通常の関数と同じように直接呼び出せます。
+
+<CodeGroup>
+  ```python Python lines
+  @weave.op
+  def my_op():
+      ...
+
+  my_op()
+  ```
+
+  ```typescript twoslash TypeScript lines
+  // @noErrors
+  function myFunction() {
+      ...
+  }
+
+  const myFunctionOp = weave.op(myFunction)
+  ```
+</CodeGroup>
+
+`Call` オブジェクトに直接アクセスするには、`op.call` メソッドを呼び出します。これにより、実行結果と `Call` オブジェクトの両方が返されます。
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    @weave.op
+    def my_op():
+    ...
+
+    output, call = my_op.call()
+    ```
+
+    `call` オブジェクトには、入力、出力、その他のメタデータなど、`Call` に関するすべての情報が含まれます。`call` を使用して、追加のプロパティの設定、更新、取得や、feedback の追加を行えます。
+
+    Op がクラスのメソッドである場合は、最初の引数としてクラスのインスタンスを `call` に渡します。
+
+    ```python lines
+    import weave
+
+    # Initialize Weave Tracing
+    weave.init("intro-example")
+
+    class MyClass:
+        # メソッドをデコレートします
+        @weave.op
+        def my_method(self, name: str):
+            return f"Hello, {name}!"
+
+    instance = MyClass()
+
+    # 最初の引数として `instance` を `call` に渡します。
+    result, call = instance.my_method.call(instance, "World")
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```text
+    この機能は、TypeScript SDK ではまだ利用できません。
+    ```
+  </Tab>
+</Tabs>

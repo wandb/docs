@@ -1,31 +1,42 @@
 ---
-title: 並列座標
-description: 機械学習実験間で結果を比較する
+description: 機械学習 experiment 間で結果を比較する
+title: 平行座標
+keywords: ["平行座標", "ハイパーパラメーターの比較", "sweep の可視化"]
 ---
 
-大規模なハイパーパラメーターとモデルメトリクスの関係を一目で要約できるのがパラレル座標チャートです。
+平行座標チャートでは、多数のハイパーパラメーターとモデルのメトリクスの関係をひと目で把握できます。
 
 <Frame>
-    <img src="/images/app_ui/parallel_coordinates.gif"  />
+  <img src="/images/app_ui/parallel_coordinates.gif" alt="平行座標プロット" />
 </Frame>
 
-* **軸**: [`wandb.config`](/ja/models/track/config/) からのさまざまなハイパーパラメーターと [`wandb.log`](/ja/models/track/log/) からのメトリクス。
-* **ライン**: 各ラインは単一の run を表します。ラインにマウスを合わせると、その run の詳細がツールチップで表示されます。現在のフィルターに一致するすべてのラインが表示されますが、目をオフにすると、ラインはグレー表示されます。
+平行座標パネルには、次のコンポーネントがあります。
 
-## パラレル座標パネルを作成する
+* **Axes**: [`wandb.Run.config`](/ja/models/tables/evaluate-models) のハイパーパラメーターと、[`wandb.Run.log()`](/ja/models/tables/evaluate-models) のメトリクス。
+* **Lines**: 各ラインは1つの run を表します。ラインにマウスオーバーすると、run の詳細を示すツールチップが表示されます。現在のフィルターに一致するすべてのラインが表示されます。run の目のアイコンをオフにすると、そのラインは薄く表示されます。
 
-1. ワークスペースのランディングページへ移動
-2. **Add Panels** をクリック
-3. **Parallel coordinates** を選択
+<div id="create-a-parallel-coordinates-panel">
+  ## 平行座標 パネルを作成する
+</div>
 
-## パネル設定
+Workspace に平行座標 パネルを追加するには、次の手順に従います。
+
+1. Workspace のランディングページにアクセスします
+2. **Add Panels** をクリックします
+3. **平行座標** を選択します
+
+<div id="panel-settings">
+  ## パネル設定
+</div>
 
 パネルを設定するには、パネルの右上にある編集ボタンをクリックします。
 
-* **ツールチップ**: ホバーすると、各 run の情報が表示されます
-* **タイトル**: 軸のタイトルを編集して、より読みやすくします
-* **勾配**: グラデーションを好きな色の範囲にカスタマイズ
-* **ログスケール**: 各軸は個別にログスケールで表示するように設定できます
-* **軸の反転**: 軸の方向を切り替え—正確性と損失を両方持つカラムがあるときに便利です
+次の設定を調整できます:
 
-[ライブのパラレル座標パネルと対話する](https://app.wandb.ai/example-team/sweep-demo/reports/Zoom-in-on-Parallel-Coordinates-Charts--Vmlldzo5MTQ4Nw)
+* **ツールチップ**: ホバーすると、各 run の情報を示す凡例が表示されます。
+* **タイトル**: 軸タイトルを編集して、より読みやすくできます。
+* **グラデーション**: 好みの色の範囲にグラデーションをカスタマイズできます。
+* **対数スケール**: 各軸はそれぞれ個別に対数スケールで表示するよう設定できます。
+* **軸の反転**: 軸の向きを切り替えます。精度と損失の両方を列として使用している場合に便利です。
+
+インタラクティブな例については、[ライブの平行座標パネル](https://app.wandb.ai/example-team/sweep-demo/reports/Zoom-in-on-Parallel-Coordinates-Charts--Vmlldzo5MTQ4Nw)を参照してください。

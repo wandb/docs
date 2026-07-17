@@ -1,0 +1,172 @@
+---
+title: "Référence du schéma de Appel"
+description: "Référence sur la structure et les propriétés de l'objet Appel"
+keywords: ["CallSchema", "synthèse", "trace", "latency_ms", "utilisation"]
+---
+
+Cette référence décrit le schéma de l&#39;objet Appel dans W&amp;B Weave, notamment ses propriétés, la manière d&#39;écrire des données personnalisées dans le dictionnaire `summary` pendant l&#39;exécution, et comment lire les données de synthèse une fois un Appel terminé. Utilisez cette page lorsque vous devez inspecter, filtrer ou enrichir les données que Weave enregistre pour chaque Appel. Pour plus d&#39;informations sur la requête d&#39;appels, voir [Interroger et exporter les appels](/fr/weave/guides/tracking/querying-calls).
+
+<div id="call-properties">
+  ## Propriétés de l’Appel
+</div>
+
+Le tableau suivant présente les principales propriétés d’un Appel dans Weave. Pour l’implémentation complète, voir ce qui suit :
+
+* [classe : CallSchema](/fr/weave/reference/python-sdk/trace_server/trace_server_interface#class-callschema) dans le SDK Python
+* [Interface : CallSchema](/fr/weave/reference/typescript-sdk/interfaces/callschema) dans le SDK TypeScript
+
+| Propriété      | Type                  | Description                                                                                                                             |
+| -------------- | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`           | string (uuid)         | Identifiant unique de l’Appel                                                                                                           |
+| `project_id`   | string (facultatif)   | Identifiant du projet associé                                                                                                           |
+| `op_name`      | string                | Nom de l’opération (peut être une référence)                                                                                            |
+| `display_name` | string (facultatif)   | Nom lisible de l’Appel                                                                                                                  |
+| `trace_id`     | string (uuid)         | Identifiant de la trace à laquelle cet Appel appartient                                                                                 |
+| `parent_id`    | string (uuid)         | Identifiant de l’Appel parent                                                                                                           |
+| `started_at`   | datetime              | Horodatage auquel l’Appel a commencé                                                                                                    |
+| `attributes`   | Dict[str, Any]        | Métadonnées définies par l’utilisateur pour l’Appel *(en lecture seule pendant l’exécution)*                                            |
+| `inputs`       | Dict[str, Any]        | Paramètres d’entrée de l’Appel                                                                                                          |
+| `ended_at`     | datetime (facultatif) | Horodatage de fin de l’Appel                                                                                                            |
+| `exception`    | string (facultatif)   | Message d’erreur si l’Appel a échoué                                                                                                    |
+| `output`       | Any (facultatif)      | Résultat de l’Appel                                                                                                                     |
+| `summary`      | Optional[SummaryMap]  | Informations de synthèse après l’exécution. Vous pouvez les modifier pendant l’exécution pour enregistrer des métriques personnalisées. |
+| `wb_user_id`   | Optional[str]         | ID utilisateur W&amp;B associé                                                                                                          |
+| `wb_run_id`    | Optional[str]         | ID de run W&amp;B associé                                                                                                               |
+| `deleted_at`   | datetime (facultatif) | Horodatage de suppression de l’Appel, le cas échéant                                                                                    |
+
+<div id="property-details">
+  ## Détails des propriétés
+</div>
+
+Les propriétés de `CallSchema` vous aident à suivre et à gérer les appels :
+
+* Les propriétés `id`, `trace_id` et `parent_id` aident à organiser les appels et à les relier entre eux dans le système.
+* Les informations temporelles (`started_at`, `ended_at`) permettent d’analyser les performances.
+* Les propriétés `attributes` et `inputs` fournissent du contexte pour l’appel. Les attributs sont figés une fois l’appel démarré ; définissez-les donc avant l’invocation à l’aide du gestionnaire de contexte `weave.attributes()`. `output` et `summary` capturent les résultats.
+* Utilisez `wb_user_id` et `wb_run_id` pour associer l’appel à un utilisateur W&amp;B et à un run.
+
+Ensemble, ces propriétés permettent un suivi et une analyse détaillés des appels tout au long de votre projet.
+
+<div id="use-call-summary">
+  ## Utiliser la synthèse d’un Appel
+</div>
+
+Utilisez la propriété `summary` pour associer à un Appel des données personnalisées que vous pourrez analyser après l’exécution, en parallèle des métriques intégrées de Weave. La propriété `summary` est un dictionnaire dans lequel vous pouvez écrire pendant l’exécution d’un Appel. Lorsque l’Appel se termine, Weave fusionne en profondeur vos valeurs avec ses propres données calculées et stocke le résultat.
+
+Le dictionnaire comporte deux zones :
+
+* Vos clés personnalisées : tout ce que vous écrivez directement dans `call.summary`, par exemple `call.summary["accuracy"] = 0.95`. Elles se trouvent au niveau supérieur du dictionnaire de synthèse.
+* `summary["weave"]` : un espace de noms réservé que Weave renseigne automatiquement à la fin de l’Appel. N’écrivez pas directement dans cette clé.
+
+Weave capture également le nombre brut de jetons LLM à partir de la réponse du modèle dans `summary["usage"]` (indexé par nom de modèle). Il s’agit de données sources transmises par le fournisseur, et non d’un calcul de Weave. Le champ `costs` dans `summary["weave"]` correspond à ce que Weave déduit de ces données d’utilisation à l’aide de la tarification des jetons.
+
+Champs calculés par Weave dans `summary["weave"]` :
+
+| Champ        | Description                                                                                                                                                  |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `status`     | Statut d’exécution : `SUCCESS`, `ERROR`, `RUNNING` ou `DESCENDANT_ERROR` (l’Appel a réussi, mais un Appel enfant a échoué).                                  |
+| `latency_ms` | Durée en millisecondes entre `started_at` et `ended_at`. `null` si `status` vaut `RUNNING`.                                                                  |
+| `costs`      | Répartition des coûts par modèle, déduite de `summary["usage"]` et des données de tarification des jetons. Voir [Track costs](/fr/weave/guides/tracking/costs). |
+| `trace_name` | Nom d’Op lisible, extrait de l’URI de référence interne de l’Op. Utilisé pour l’affichage et le filtrage.                                                    |
+
+<div id="write-during-a-call">
+  ### Ajouter des données pendant un Appel
+</div>
+
+Vous pouvez ajouter des données personnalisées pendant votre Appel à l’aide du dictionnaire `summary`.
+
+<Tabs>
+  <Tab title="Python">
+    En Python, attribuez des valeurs à `call.summary` à tout moment de l’exécution à l’aide de `weave.get_current_call()`.
+
+    ```python lines
+    import weave
+
+    @weave.op()
+    def my_op(x):
+        result = do_work(x)
+        call = weave.get_current_call()
+        # Ajoutez des données personnalisées à la synthèse.
+        call.summary["accuracy"] = 0.95
+        call.summary["num_retries"] = 2
+        return result
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    En TypeScript, fournissez une fonction `summarize` en option à `op()`. Elle reçoit le résultat final et renvoie les données de synthèse une fois l’Appel terminé.
+
+    ```typescript twoslash lines
+    // @noErrors
+    const myOp = weave.op(
+      async (x: any) => {
+        const result = await doWork(x);
+        return result;
+      },
+      {
+        name: 'my_op',
+        summarize: (result) => ({
+          accuracy: result.accuracy,
+          numRetries: result.numRetries,
+        }),
+      }
+    );
+    ```
+  </Tab>
+</Tabs>
+
+<div id="read-summary-data">
+  ### Lire les données de synthèse
+</div>
+
+Utilisez `getCall` pour récupérer un Appel unique par son ID, ou `getCalls` pour récupérer plusieurs appels. Dans les deux cas, `summary` correspond au même dictionnaire fusionné.
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    import weave
+    client = weave.init("my-team/my-project")
+
+    # Récupérer un Appel unique par son ID.
+    call = client.get_call("[CALL-ID]")
+    weave_summary = (call.summary or {}).get("weave", {})
+
+    print(weave_summary.get("status"))       # Énumération TraceStatus : SUCCESS, ERROR, RUNNING ou DESCENDANT_ERROR.
+    print(weave_summary.get("latency_ms"))   # Vaut `null` si l'appel est toujours en cours d'exécution.
+    print(weave_summary.get("costs"))        # Répartition des coûts par modèle.
+    print(call.summary.get("usage"))         # Nombre brut de jetons provenant du fournisseur LLM.
+    print(call.summary.get("accuracy"))      # Votre champ personnalisé.
+
+    # Parcourir plusieurs appels avec un filtrage côté serveur.
+    for call in client.get_calls(filter={"op_names": ["weave:///my-team/my-project/op/my_op:*"]}):
+        s = call.summary or {}
+        weave_s = s.get("weave", {})
+        print(call.id, weave_s.get("status"), weave_s.get("latency_ms"), s.get("accuracy"))
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript twoslash lines
+    // @noErrors
+    import * as weave from 'weave';
+    const client = await weave.init('my-team/my-project');
+
+    // Récupérer un Appel unique par son ID.
+    const call = await client.getCall('[CALL-ID]');
+    const weaveSummary = call.summary?.weave;
+
+    console.log(weaveSummary?.status);       // "success", "error", "running" ou "descendant_error".
+    console.log(weaveSummary?.latency_ms);   // Vaut `undefined` si l'appel est toujours en cours d'exécution.
+    console.log(weaveSummary?.costs);        // Répartition des coûts par modèle.
+    console.log(call.summary?.usage);        // Nombre brut de jetons provenant du fournisseur LLM.
+    console.log(call.summary?.accuracy);     // Votre champ personnalisé.
+
+    // Récupérer plusieurs appels avec un filtrage côté serveur.
+    const calls = await client.getCalls({ filter: { op_names: ['weave:///my-team/my-project/op/my_op:*'] } });
+    for (const call of calls) {
+      const weaveS = call.summary?.weave;
+      console.log(call.id, weaveS?.status, weaveS?.latency_ms, call.summary?.accuracy);
+    }
+    ```
+  </Tab>
+</Tabs>

@@ -1,0 +1,50 @@
+---
+title: "J’ai supprimé mon équipe et maintenant je ne peux pas en créer une nouvelle — que dois-je faire ?"
+keywords: ["Teams", "Gestion des équipes", "Gestion de l’organisation"]
+---
+
+Lorsque vous vous inscrivez à W&amp;B, la plateforme crée automatiquement une équipe personnelle portant le même nom que votre nom d’utilisateur. Si vous supprimez cette équipe, il se peut que vous ne puissiez plus créer de projets ou que le bouton **Créer une équipe** ait complètement disparu. Il se peut aussi qu’une erreur « limite de débit dépassée » s’affiche chaque fois que vous vous connectez.
+
+<div id="why-this-happens">
+  ## Pourquoi cela se produit
+</div>
+
+Les comptes W&amp;B doivent appartenir à au moins une équipe pour pouvoir créer des projets et exécuter des expériences. Lorsque l’équipe générée automatiquement est supprimée, le compte n’appartient plus à aucune équipe. Dans cet état :
+
+* Le bouton **Créer une équipe** dans **Paramètres du compte &gt; Teams** peut ne pas s’afficher.
+* Si vous essayez de vous connecter ou d’accéder à votre espace de travail, vous pouvez être immédiatement redirigé vers une page indiquant « limite de débit dépassée » ou « Une erreur d’application s’est produite ».
+* Vous ne pouvez pas créer vous-même une nouvelle équipe pour résoudre le problème : la création d’équipe est bloquée tant que le compte est dans cet état.
+
+<div id="what-to-do">
+  ## Que faire
+</div>
+
+Cet état ne peut pas être résolu via l’interface utilisateur de W&amp;B. Contactez l’assistance W&amp;B et indiquez :
+
+* Votre **nom d’utilisateur** W&amp;B (le nom d’entité affiché dans l’URL de votre profil, par ex. `wandb.ai/your-username`)
+* Le **nom de votre organisation** si vous utilisez une offre Team ou Enterprise
+* Le **nom d’équipe souhaité** que vous voulez faire créer (les noms d’équipe doivent être globalement uniques, en minuscules et sans espaces)
+
+L’assistance créera manuellement une équipe pour votre compte et rétablira votre accès.
+
+**Si vous utilisez une offre Academic ou Free**
+
+Les comptes Academic peuvent ne pas permettre de créer des Teams directement via l’interface utilisateur — le bouton &quot;Créer une équipe&quot; peut être absent même sur un compte récent. Il ne s’agit pas d’un bug ; l’offre Free limite dans certains cas la création d’équipes. Contactez l’assistance avec votre nom d’utilisateur et le nom d’équipe souhaité, et précisez que vous utilisez W&amp;B à des fins académiques ou de recherche.
+
+**Pour éviter cela à l’avenir**
+
+* Ne supprimez pas votre équipe initiale générée automatiquement.
+* Si vous voulez un autre nom d’équipe, voir [Comment puis-je supprimer une équipe de mon compte ?](/fr/support/models/articles/how-do-i-delete-a-team-from-my-account) pour créer une nouvelle équipe avant de supprimer votre seule équipe.
+* Pour vérifier si votre compte appartient à une équipe, accédez à [wandb.ai/settings](https://wandb.ai/settings) et regardez dans **Teams**.
+
+**Connexe : boucle d’erreur de limite de débit dépassée**
+
+Si vous êtes bloqué dans une boucle de redirection avec une erreur &quot;limite de débit dépassée&quot; après avoir supprimé votre équipe, il s’agit d’un symptôme du même problème. L’erreur apparaît parce que la logique d’acheminement de W&amp;B suppose que chaque utilisateur connecté appartient à une équipe. Vous déconnecter puis vous reconnecter ne résoudra pas le problème. Seul le fait de contacter l’assistance permettra de résoudre ce problème.
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Teams](/fr/support/models/tags/teams)</Badge><Badge stroke shape="pill" color="orange" size="md">[Gestion des équipes](/fr/support/models/tags/team-management)</Badge><Badge stroke shape="pill" color="orange" size="md">[Gestion de l’organisation](/fr/support/models/tags/org-management)</Badge>
+
+{/* END GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet */}

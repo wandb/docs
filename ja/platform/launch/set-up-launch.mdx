@@ -1,0 +1,142 @@
+---
+title: Launchを設定する
+description: "キューを設定し、ジョブをコンピュートインフラストラクチャーに送信するためのエージェントをデプロイして、W&B Launchを設定します。"
+keywords: ["キューを作成する", "エージェントをデプロイする", "Launch設定", "先入れ先出しキュー"]
+---
+
+このページでは、W&amp;B から直接、独自のコンピュートインフラストラクチャー (Kubernetes、Amazon SageMaker、Vertex AI など) に機械学習ジョブを送信できるようにするために、W&amp;B Launchの設定に必要な大まかなstepについて説明します。Launchを設定すると、チームでコンピュートリソースを共有し、ジョブをキューに入れ、環境をまたいでRunsを再現できるようになります。
+
+Launchを設定するには、次の作業を完了する必要があります。
+
+1. **キューを設定する**: キューは先入れ先出しで、キュー設定を持ちます。キュー設定は、ターゲットリソース上でジョブをどこでどのように実行するかを制御します。
+2. **エージェントを設定する**: エージェントはマシンまたはインフラストラクチャー上で実行され、1つ以上のキューをポーリングしてLaunchジョブを取得します。ジョブが取得されると、エージェントはイメージがビルドされて利用可能であることを確認します。その後、エージェントはジョブをターゲットリソースに送信します。
+
+両方の手順を完了すると、チームはLaunchジョブをキューに送信し、ターゲットリソース上で自動的に実行できるようになります。
+
+<div id="set-up-a-queue">
+  ## キューを設定する
+</div>
+
+Launch キューが、特定のターゲットリソースと、そのリソース固有の追加設定を指定するように設定します。たとえば、Kubernetes クラスターを参照する Launch キューには、環境変数を含めたり、キュー設定内でカスタム名前空間を設定したりできます。キューを作成するときは、使用するターゲットリソースと、そのリソースに適用する設定の両方を指定します。
+
+エージェントがキューからジョブを受け取ると、キュー設定も同時に受け取ります。エージェントがジョブをターゲットリソースに送信するときは、ジョブ自体のオーバーライドとともにキュー設定も含めます。たとえば、ジョブ設定を使用して、そのジョブインスタンスにのみ適用される Amazon SageMaker のインスタンスタイプを指定できます。この場合、エンドユーザー向けインターフェースとして [キュー設定テンプレート](/ja/platform/launch/setup-queue-advanced/#configure-queue-template) を使用するのが一般的です。
+
+<div id="create-a-queue">
+  ### キューを作成する
+</div>
+
+Launch ジョブの実行場所と設定方法を定義するには、キューを作成します。キューを作成するには、次の手順に従います。
+
+1. [wandb.ai/launch](https://wandb.ai/launch) の Launch App にアクセスします。
+2. 画面右上の **create queue** ボタンをクリックします。
+
+<Frame>
+  <img src="/images/launch/create-queue.gif" alt="Launch キュー の作成" />
+</Frame>
+
+3. **Entity** ドロップダウンメニューから、このキューの所属先となる entity を選択します。
+4. **Queue** フィールドにキューの名を入力します。
+5. **Resource** ドロップダウンから、このキューに追加されたジョブが使用するコンピュートリソースを選択します。
+6. このキューで **Prioritization** を許可するかどうかを選択します。優先順位付けを有効にすると、チームのユーザーは Launch ジョブ をキューに追加する際に優先順位を設定できます。優先度の高いジョブは、優先度の低いジョブより先に実行されます。
+7. **Configuration** フィールドに、JSON または YAML 形式でリソースの設定を入力します。設定ドキュメントの構造と意味は、キューが参照するリソースのタイプによって異なります。詳細については、ターゲットリソース用の専用の設定ページを参照してください。
+
+これで、Launch ジョブを受け取り、選択したターゲットリソースに振り分けるキューが作成されました。次に、このキューからジョブを取得するエージェントを設定します。
+
+<div id="set-up-a-launch-agent">
+  ## Launch エージェントを設定する
+</div>
+
+Launch エージェントは、1 つ以上の Launch キューをポーリングしてジョブを取得する長時間稼働プロセスです。Launch エージェントは、取得元のキューに応じて、先入れ先出し (FIFO) または優先順位順でジョブをキューから取り出します。エージェントがキューからジョブを取り出すと、必要に応じてそのジョブ用のイメージをビルドします。その後、エージェントはキュー設定で指定された設定オプションとともに、ジョブをターゲットリソースに送信します。
+
+<Note>
+  エージェントは柔軟で、多くのユースケースに対応できるように設定できます。エージェントに必要な設定は、具体的なユースケースによって異なります。[Docker](/ja/platform/launch/setup-launch-docker/)、[Amazon SageMaker](/ja/platform/launch/setup-launch-sagemaker/)、[Kubernetes](/ja/platform/launch/setup-launch-kubernetes/)、または [Vertex AI](/ja/platform/launch/setup-vertex/) の専用ページを参照してください。
+</Note>
+
+<Note>
+  W&amp;B では、特定のユーザーの APIキーではなく、サービスアカウントの APIキーを使用してエージェントを起動することを推奨しています。サービスアカウントの APIキーを使用する利点は 2 つあります:
+
+  * エージェントが特定のユーザー個人に依存しません。
+  * Launch を通じて作成された run に紐づく作成者は、エージェントに関連付けられたユーザーではなく、Launch ジョブを送信したユーザーとして Launch に認識されます。
+</Note>
+
+<div id="agent-configuration">
+  ### エージェントの設定
+</div>
+
+Launch エージェントがどのキューをポーリングするか、どの entity のもとで動作するか、また並列でいくつのジョブを実行するかを認識できるように設定します。`launch-config.yaml` という名前の YAML ファイルで Launch エージェントを設定します。デフォルトでは、W&amp;B は `~/.config/wandb/launch-config.yaml` にある設定ファイルを参照します。必要に応じて、Launch エージェントを起動するときに別のディレクトリを指定することもできます。
+
+Launch エージェントの設定ファイルの内容は、Launch エージェントの環境、Launch キューのターゲットリソース、Docker ビルダーの要件、レジストリの要件などによって異なります。
+
+ユースケースにかかわらず、Launch エージェントには次の基本的な設定オプションがあります。
+
+* `max_jobs`: エージェントが並列実行できるジョブの最大数。
+* `entity`: キューが属する entity。
+* `queues`: エージェントが監視する 1 つ以上のキューの名。
+
+<Note>
+  W&amp;B CLI を使用すると、Launch エージェントの共通設定オプションを設定できます (設定用の YAML ファイルを使う代わりに) 。指定できるのは、ジョブの最大数、W&amp;B entity、Launch キューです。詳細については、[`wandb launch-agent`](/ja/models/ref/cli/wandb-launch-agent) コマンドを参照してください。
+</Note>
+
+次の YAML スニペットは、Launch エージェントの基本的な設定キーの指定方法を示しています。`[ENTITY-NAME]` は W&amp;B entity に、`[QUEUE-NAME]` はエージェントがポーリングするキューの名に置き換えてください。
+
+```yaml title="launch-config.yaml"
+# 同時に実行する run の最大数。-1 = 制限なし
+max_jobs: -1
+
+entity: [ENTITY-NAME]
+
+# ポーリングするキューのリスト。
+queues:
+  - [QUEUE-NAME]
+```
+
+<div id="configure-a-container-builder">
+  ### コンテナー ビルダーを設定する
+</div>
+
+Launch エージェントをイメージをビルドするように設定できます。Git リポジトリまたはコード Artifacts から作成した launch ジョブを使用する場合は、コンテナー ビルダーを使用するようにエージェントを設定する必要があります。launch ジョブの作成方法の詳細については、[launch ジョブを作成する](/ja/platform/launch/create-launch-job/)を参照してください。
+
+W&amp;B Launch は 3 つのビルダー オプションをサポートしています。
+
+* Docker: Docker ビルダーは、ローカルの Docker デーモンを使用してイメージをビルドします。
+* [Kaniko](https://github.com/GoogleContainerTools/kaniko):  Kaniko は Google のプロジェクトで、Docker デーモンを利用できない環境でもイメージをビルドできます。
+* Noop: エージェントはジョブのビルドを試行せず、代わりに事前にビルドされたイメージのみをプルします。
+
+<Note>
+  エージェントが Docker デーモンを利用できない環境 (たとえば Kubernetes クラスター) でポーリングしている場合は、Kaniko ビルダーを使用してください。
+
+  Kaniko ビルダーの詳細については、[Kubernetes を設定する](/ja/platform/launch/setup-launch-kubernetes/)を参照してください。
+</Note>
+
+イメージ ビルダーを指定するには、エージェントの設定に `builder` キーを含めます。たとえば、次のコード スニペットは、Docker または Kaniko を使用するよう指定した launch 設定 (`launch-config.yaml`) の一部を示しています。
+
+```yaml title="launch-config.yaml"
+builder:
+  type: docker | kaniko | noop
+```
+
+<div id="configure-a-container-registry">
+  ### コンテナー レジストリを設定する
+</div>
+
+場合によっては、事前にビルドされたイメージをプルしたり、ビルドしたイメージをプッシュしたりできるように、Launch エージェントをレジストリに接続したいことがあります。Launch エージェントをレジストリに接続する一般的なケースには、次のようなものがあります。
+
+* 高性能なワークステーションやクラスターなど、ビルドした環境とは別の環境でジョブを実行したい。
+* エージェントを使用してイメージをビルドし、それらのイメージを Amazon SageMaker または Vertex AI で実行したい。
+* Launch エージェントに、イメージ リポジトリからプルするための認証情報を提供させたい。
+
+エージェントがコンテナー レジストリと連携できるように設定する方法について詳しくは、[Advanced agent setup ページ](/ja/platform/launch/setup-agent-advanced/)を参照してください。
+
+<div id="activate-the-launch-agent">
+  ## Launch エージェント を有効にする
+</div>
+
+エージェントを設定したら、有効にして、指定したキューのポーリングを開始し、ジョブをターゲットリソースにディスパッチできるようにします。`launch-agent` W&amp;B CLI コマンドを使用して Launch エージェント を有効にします。`[QUEUE-1]` と `[QUEUE-2]` は、エージェントがポーリングするキューの名前に置き換えてください。
+
+```bash
+wandb launch-agent -q [QUEUE-1] -q [QUEUE-2] --max-jobs 5
+```
+
+エージェントが起動すると、指定したキューに送信されたジョブを取得し、ターゲットリソースに転送します。
+
+状況によっては、Kubernetes クラスター内から Launch エージェントでキューをポーリングしたい場合があります。詳細は、[高度なキュー設定ページ](/ja/platform/launch/setup-queue-advanced/)を参照してください。

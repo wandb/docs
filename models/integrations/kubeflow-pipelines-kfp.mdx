@@ -1,26 +1,24 @@
 ---
-description: How to integrate W&B with Kubeflow Pipelines.
+description: "Integrate W&B with Kubeflow Pipelines to track experiments and visualize metrics across ML pipeline components."
 title: Kubeflow Pipelines (kfp)
 ---
 
+import ApiKeyCreateStreamlined from "/snippets/_includes/api-key-create-streamlined.mdx";
 
-[Kubeflow Pipelines (kfp) ](https://www.kubeflow.org/docs/components/pipelines/overview/)is a platform for building and deploying portable, scalable machine learning (ML) workflows based on Docker containers.
+[Kubeflow Pipelines (kfp)](https://www.kubeflow.org/docs/components/pipelines/overview/) is a platform for building and deploying portable, scalable machine learning (ML) workflows based on Docker containers.
 
-This integration lets users apply decorators to kfp python functional components to automatically log parameters and artifacts to W&B.
+This guide shows you how to integrate W&B with Kubeflow Pipelines so that parameters and artifacts from your pipeline components are automatically tracked in W&B. By the end, you can apply a decorator to kfp Python functional components to log inputs, outputs, and artifacts to W&B without modifying the body of each component.
 
-This feature was enabled in `wandb==0.12.11` and requires `kfp<2.0.0`
+This feature was enabled in `wandb==0.12.11` and requires `kfp<2.0.0`.
 
 ## Sign up and create an API key
 
 An API key authenticates your machine to W&B. You can generate an API key from your user profile.
 
-<Note>
-For a more streamlined approach, you can generate an API key by going directly to the [W&B authorization page](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
-</Note>
+<ApiKeyCreateStreamlined/>
 
 1. Click your user profile icon in the upper right corner.
 1. Select **User Settings**, then scroll to the **API Keys** section.
-1. Click **Reveal**. Copy the displayed API key. To hide the API key, reload the page.
 
 ## Install the `wandb` library and log in
 
@@ -28,7 +26,7 @@ To install the `wandb` library locally and log in:
 
 <Tabs>
 <Tab title="Command Line">
-1. Set the `WANDB_API_KEY` [environment variable](/models/track/environment-variables/) to your API key.
+1. Set the `WANDB_API_KEY` [environment variable](/models/track/environment-variables/) to your API key. Replace values enclosed in `<>` with your own:
 
     ```bash
     export WANDB_API_KEY=<your_api_key>
@@ -66,7 +64,7 @@ wandb.login()
 
 ## Decorate your components
 
-Add the `@wandb_log` decorator and create your components as usual. This will automatically log the input/outputs parameters and artifacts to W&B each time you run your pipeline.
+With the `wandb` library installed, you can now enable W&B tracking on individual pipeline components. Add the `@wandb_log` decorator and create your components as usual. This automatically logs the input and output parameters and artifacts to W&B each time you run your pipeline.
 
 ```python
 from kfp import components
@@ -83,7 +81,7 @@ add = components.create_component_from_func(add)
 
 ## Pass environment variables to containers
 
-You may need to explicitly pass [environment variables](/models/track/environment-variables/) to your containers. For two-way linking, you should also set the environment variables `WANDB_KUBEFLOW_URL` to the base URL of your Kubeflow Pipelines instance. For example, `https://kubeflow.mysite.com`.
+Each pipeline component runs in its own container, so the W&B credentials available on your local machine aren't automatically propagated to the component. You may need to explicitly pass [environment variables](/models/track/environment-variables/) to your containers so that each component can authenticate to W&B. For two-way linking, you should also set the environment variables `WANDB_KUBEFLOW_URL` to the base URL of your Kubeflow Pipelines instance. For example, `https://kubeflow.mysite.com`.
 
 ```python
 import os
@@ -109,20 +107,22 @@ def example_pipeline(param1: str, param2: int):
 
 ## Access your data programmatically
 
-### Via the Kubeflow Pipelines UI
+Once your pipeline runs are logging to W&B, you can review and retrieve the tracked data in several ways. The following sections describe how to access your runs from the Kubeflow Pipelines UI, the W&B web app, and the W&B Public API.
 
-Click on any Run in the Kubeflow Pipelines UI that has been logged with W&B.
+### Kubeflow Pipelines UI
 
-* Find details about inputs and outputs in the `Input/Output` and `ML Metadata` tabs.
-* View the W&B web app from the `Visualizations` tab.
+Click any run in the Kubeflow Pipelines UI that has been logged with W&B, then:
+
+* Find details about inputs and outputs in the **Input/Output** and **ML Metadata** tabs.
+* View the W&B web app from the **Visualizations** tab.
 
 <Frame>
     <img src="/images/integrations/kubeflow_app_pipelines_ui.png" alt="W&B in Kubeflow UI"  />
 </Frame>
 
-### Via the web app UI
+### W&B web app UI
 
-The web app UI has the same content as the `Visualizations` tab in Kubeflow Pipelines, but with more space. Learn [more about the web app UI here](/models/app).
+The web app UI has the same content as the **Visualizations** tab in Kubeflow Pipelines, but with more space. For details, see the [W&B web app documentation](/models/app).
 
 <Frame>
     <img src="/images/integrations/kubeflow_pipelines.png" alt="Run details"  />
@@ -132,13 +132,13 @@ The web app UI has the same content as the `Visualizations` tab in Kubeflow Pipe
     <img src="/images/integrations/kubeflow_via_app.png" alt="Pipeline DAG"  />
 </Frame>
 
-### Via the Public API (for programmatic access)
+### Public API
 
-* For programmatic access, [see our Public API](/models/ref/python/public-api/).
+For programmatic access, [see the Public API](/models/ref/python/public-api/).
 
-### Concept mapping from Kubeflow Pipelines to W&B
+## Concept mapping from Kubeflow Pipelines to W&B
 
-Here's a mapping of Kubeflow Pipelines concepts to W&B
+The following table maps Kubeflow Pipelines concepts to W&B.
 
 | Kubeflow Pipelines | W&B | Location in W&B |
 | ------------------ | --- | --------------- |
@@ -149,11 +149,11 @@ Here's a mapping of Kubeflow Pipelines concepts to W&B
 
 ## Fine-grain logging
 
-If you want finer control of logging, you can sprinkle in `wandb.log` and `wandb.log_artifact` calls in the component.
+The `@wandb_log` decorator handles inputs and outputs automatically, but it doesn't capture intermediate values such as training metrics across epochs. If you want finer control of logging, you can add `wandb.log()` and `wandb.log_artifact()` calls in the component.
 
-### With explicit `wandb.log_artifacts` calls
+### With explicit `wandb.log_artifact()` calls
 
-In this example below, we are training a model. The `@wandb_log` decorator will automatically track the relevant inputs and outputs. If you want to log the training process, you can explicitly add that logging like so:
+In the following example, you train a model. The `@wandb_log` decorator automatically tracks the relevant inputs and outputs. If you want to log the training process, you can explicitly add that logging like so:
 
 ```python
 @wandb_log
@@ -175,9 +175,9 @@ def train_model(
             run.log_artifact(model_artifact)
 ```
 
-### With implicit wandb integrations
+### With implicit `wandb` integrations
 
-If you're using a [framework integration we support](/models/integrations), you can also pass in the callback directly:
+If you're using a [supported framework integration](/models/integrations), you can also pass in the callback directly:
 
 ```python
 @wandb_log

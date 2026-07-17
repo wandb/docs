@@ -2,23 +2,85 @@
 title: wandb artifact put
 ---
 
-**사용법**
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-`wandb artifact put [OPTIONS] PATH`
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/cli.py#L2831" />
 
-**요약**
+<div id="usage">
+  ## 사용
+</div>
 
-아티팩트를 wandb에 업로드합니다.
+```bash
+put [OPTIONS] PATH
+```
 
-**옵션**
+<div id="description">
+  ## 설명
+</div>
 
-| **옵션** | **설명** |
-| :--- | :--- |
-| `-n, --name` | 업로드할 아티팩트의 이름: 프로젝트/artifact_name |
-| `-d, --description` | 이 아티팩트에 대한 설명 |
-| `-t, --type` | 아티팩트의 유형 |
-| `-a, --alias` | 이 아티팩트에 적용할 에일리어스 |
-| `--id` | 업로드할 run입니다. |
-| `--resume` | 현재 디렉토리에서 마지막 run을 재개합니다. |
-| `--skip_cache` | 아티팩트 파일을 업로드하는 동안 캐싱을 건너뜁니다. |
-| `--policy [mutable\|immutable]` | 아티팩트 파일을 업로드하는 동안 스토리지 정책을 설정합니다. |
+아티팩트를 W&amp;B에 업로드합니다.
+
+파일, 디렉터리 또는 URL 레퍼런스를 버전 관리되는 아티팩트로 업로드합니다.
+
+PATH는 로컬 파일, 로컬 디렉터리 또는 URL
+(`://` 포함)이며, 이를 레퍼런스 아티팩트로 기록할 수 있습니다.
+
+`--name`을 지정하지 않으면 아티팩트 이름은 기본적으로
+경로의 basename이 됩니다. 이름에서 프로젝트를 파싱할 수 없으면
+프로젝트 이름을 입력하라는 메시지가 표시됩니다.
+
+예를 들어, 로컬 디렉터리 ./data/training의 모든 파일을 W&amp;B의
+데이터셋 아티팩트로 업로드하려면 다음과 같이 하세요:
+
+```bash
+wandb artifact put --type dataset ./data/training
+```
+
+model.pt를 &quot;foobar&quot; 프로젝트에 업로드하고 &quot;trained-model&quot;을
+아티팩트 이름으로 부여하려면:
+
+```bash
+wandb artifact put --name foobar/trained-model --type model ./model.pt
+```
+
+아티팩트에 &quot;latest&quot;와 &quot;v2.0&quot; 태그를 모두 지정해 두
+별칭 중 어느 것으로든 참조할 수 있게 하려면:
+
+```bash
+wandb artifact put --alias latest --alias v2.0 --type model ./model.pt
+```
+
+데이터를 다운로드하거나 다시 업로드하지 않고 Amazon S3 경로를 레퍼런스로 기록하려면:
+
+```bash
+wandb artifact put --type dataset s3://my-bucket/datasets/training
+```
+
+문서화를 위해 데이터셋 아티팩트에 사람이 읽기 쉬운 설명을 추가하려면:
+
+```bash
+wandb artifact put --type dataset --description "Training data, Jan 2025" ./data/training
+```
+
+<div id="arguments">
+  ## 인수
+</div>
+
+| 이름     | 기본값 | 유형   |
+| ------ | --- | ---- |
+| `path` | STR | True |
+
+<div id="options">
+  ## 옵션
+</div>
+
+| 플래그                 | 유형        | 설명                                                                                |
+| ------------------- | --------- | --------------------------------------------------------------------------------- |
+| `--name, -n`        | STR       | `project/artifact_name` 형식의 아티팩트 이름입니다. 기본값은 경로의 basename입니다. **기본값**: 없음         |
+| `--description, -d` | STR       | 이 아티팩트에 대한 설명입니다. **기본값**: 없음                                                     |
+| `--type, -t`        | STR       | 아티팩트의 유형입니다. 기본값은 `dataset`입니다. **기본값**: 데이터셋                                     |
+| `--alias, -a`       | STR       | 이 아티팩트에 적용할 별칭입니다. 여러 번 지정할 수 있습니다. 기본값은 `latest`입니다. **기본값**: [&#39;latest&#39;] |
+| `--id`              | STR       | 이 ID를 가진 기존 run에 업로드합니다. **기본값**: 없음                                              |
+| `--resume`          | BOOL Flag | 현재 디렉터리의 마지막 run을 재개합니다. **기본값**: 없음                                              |
+| `--skip_cache`      | BOOL Flag | 아티팩트 파일을 업로드하는 동안 캐싱을 건너뜁니다. **기본값**: False                                       |
+| `--policy`          | Choice    | 아티팩트 파일의 저장소 정책을 설정합니다. `mutable`(기본값) 또는 `immutable` 중 하나입니다. **기본값**: mutable   |

@@ -1,20 +1,23 @@
 ---
 title: Console logs
+description: "View and debug console log messages including info, warnings, and errors from your W&B experiment runs."
+keywords: ["run logs", "wandb logging", "debug runs", "log filtering", "stdout capture"]
 ---
 
+When you run an experiment, you might notice messages printed to your console. W&B captures console logs and displays them in the W&B App. Use these messages to debug and monitor the behavior of your experiment.
 
-When you run an experiment, you may notice various messages printed to your console. W&B captures console logs and displays them in the W&B App. Use these messages to debug and monitor the behavior of your experiment.
+The following sections describe how to view, configure, search, filter, download, and copy console logs for your runs.
 
 ## View console logs
 
-Access console logs for a run in the W&B App:
+Access console logs for a run in the W&B App to inspect messages produced during the run.
 
 1. Navigate to your project in the W&B App.
 2. Select a run within the **Runs** table.
 3. Click the **Logs** tab in the project sidebar.
 
 <Note>
-W&B stores a maximum of 100,000 lines of your logs for a run. In the W&B App, a maximum of 10,000 lines of your logs display at once. Scroll through the logs to display older lines to view all stored lines of logs.
+W&B stores a maximum of 100,000 lines of your logs for a run. In the W&B App, a maximum of 10,000 lines of your logs display at once. To view all stored lines, scroll through the logs to display older lines.
 </Note>
 
 {/* ## Console log fields
@@ -23,72 +26,78 @@ Within the W&B App you can modify the fields shown in the console logs table. */
 
 ## Types of console logs
 
-W&B captures several types of console logs: informational messages, warnings, and errors, with a prefix to indicate the log's severity.
+W&B captures three types of console logs and adds a prefix to indicate each log's severity. The prefix helps you scan logs and identify the messages most relevant to debugging. The following table summarizes each type, ordered from most to least severe.
 
-### Informational messages
-Informational messages provide updates about the run's progress and status. They are typically prefixed with `wandb:`.
-
-```text
-wandb: Starting Run: abc123
-wandb: Run data is saved locally in ./wandb/run-20240125_120000-abc123
-```
-
-### Warning messages
-Warnings about potential issues that don't stop execution are prefixed with `WARNING:`
-
-```text
-WARNING Found .wandb file, not streaming tensorboard metrics.
-WARNING These runs were logged with a previous version of wandb.
-```
-
-### Error messages 
-Error messages for serious issues are prefixed with `ERROR:`. These indicate problems that may prevent the run from completing successfully.
-
-```text
-ERROR Unable to save notebook session history.
-ERROR Failed to save notebook.
-```
+| Severity | Prefix | Description | Example |
+| --- | --- | --- | --- |
+| Error | `ERROR` | Serious issues that might prevent the run from completing successfully. | `ERROR Failed to save notebook.` |
+| Warning | `WARNING` | Potential issues that don't stop execution. | `WARNING Found .wandb file, not streaming tensorboard metrics.` |
+| Info | `wandb:` | Updates about the run's progress and status. | `wandb: Starting Run: abc123` |
 
 ## Console log settings
 
-Within your code, pass the `wandb.Settings` object to `wandb.init()` to configure how W&B handles console logs. Within `wandb.Settings`, you can set the following parameters to control console log behavior:
+To control which types of console output W&B captures and displays, pass a [`wandb.Settings`](/models/ref/python/experiments/settings) object to `wandb.init()` when you initialize a run. The relevant parameters include `show_errors`, `show_warnings`, `show_info`, and `silent`. The [Settings reference](/models/ref/python/experiments/settings) lists every parameter and is generated from the SDK, so it stays current as new options are added.
 
-- `show_errors`: If set to `True`, error messages are displayed in the W&B App. If set to `False`, error messages are not shown.
-- `silent`: If set to `True`, all W&B console output will be suppressed. This is useful for production environments where you want to minimize console noise.
-- `show_warnings`: If set to `True`, warning messages are displayed in the W&B App. If set to `False`, warning messages are not shown.
-- `show_info`: If set to `True`, informational messages are displayed in the W&B App. If set to `False`, informational messages are not shown.
-
-The following example shows how to configure these settings:
+The example below toggles whether informational messages, warnings, and errors from W&B appear in the **Logs** tab. Set `silent=True` to suppress all W&B console output (useful when you want a quiet training script):
 
 ```python
 import wandb
 
 settings = wandb.Settings(
-    show_errors=True,  # Show error messages in the W&B App
-    silent=False,      # Disable all W&B console output
-    show_warnings=True # Show warning messages in the W&B App
+    show_errors=True,
+    silent=False,
+    show_warnings=True,
 )
 
 with wandb.init(settings=settings) as run:
-    # Your training code here
     run.log({"accuracy": 0.95})
 ```
 
+For stdout and stderr capture (`console`), multipart uploads (`console_multipart`, `console_chunk_max_bytes`, `console_chunk_max_seconds`), and troubleshooting, see the sections below and the Settings reference. Distributed training and other edge cases are covered in [Why is console output not captured for my run?](/support/models/articles/why-is-console-output-not-captured-for-my-run).
+
+### Multipart console logging
+
+By default, W&B stores your script's stdout and stderr as a single `output.log` file and uploads it *when the run finishes*. While a run is active, the **Logs** tab streams output for viewing, but `output.log` does not appear on the **Files** tab until the run completes.
+
+Enable multipart console logging when you need downloadable logs while a run is still active, when a run may crash before it finishes, or when you resume a run and want to preserve log output from earlier sessions. Set `console_multipart=True` (SDK v0.22.3 or later) so the SDK writes timestamped chunks under `logs/` and uploads each chunk when it closes. Use `console_chunk_max_bytes` and `console_chunk_max_seconds` to control rollover; see the [Settings reference](/models/ref/python/experiments/settings) for defaults and behavior when both are `0`.
+
+<Note>
+Uploaded chunks are immutable. Terminal control sequences that modify previous lines (for example, progress bars that use carriage returns) only affect the current chunk.
+</Note>
+
+```python
+import wandb
+
+with wandb.init(
+    project="my-project",
+    settings=wandb.Settings(
+        console_multipart=True,
+        console_chunk_max_bytes=1_000_000,  # rotate at ~1 MB
+        console_chunk_max_seconds=60,     # or every 60 seconds, whichever first
+    ),
+) as run:
+    print("Logs upload in chunks while this run is active.")
+```
+
+You must set `console_multipart` at `wandb.init` time. Upload cadence cannot be changed after a run has started.
+
+For troubleshooting (console capture disabled, distributed training, resumed runs, and display limits), see [Why is console output not captured for my run?](/support/models/articles/why-is-console-output-not-captured-for-my-run) and [How do I download the console log file from a run?](/support/models/articles/how-do-i-download-the-console-log-file-from-a-run).
+
 ## Custom logging
 
-W&B captures console logs from your application, but it does not interfere with your own logging setup. You can use Python's built-in `print()` function or the `logging` module to log messages.
+If you already have your own logging setup, you can continue to use it alongside W&B. W&B captures console logs from your application, but it doesn't interfere with your own logging setup. You can use Python's built-in `print()` function or the `logging` module to log messages.
 
 ```python
 import wandb
 
 with wandb.init(project="my-project") as run:
     for i in range(100, 1000, 100):
-        # This will log to W&B and print to console
+        # Logs to W&B and prints to console
         run.log({"epoch": i, "loss": 0.1 * i})
         print(f"epoch: {i} loss: {0.1 * i}")
 ```
 
-The console logs will look similar to the following:
+The console logs look similar to the following:
 
 ```text
 1 epoch:  100 loss: 1.3191105127334595
@@ -102,15 +111,15 @@ The console logs will look similar to the following:
 9 epoch:  900 loss: 0.28154927492141724
 ```
 
-## Time stamps
+## Timestamps
 
-Time stamps are automatically added to each console log entry. This allows you to track when each log message was generated.
+W&B automatically adds timestamps to each console log entry. This lets you track when each log message was generated.
 
-You can toggle the time stamps in the console logs on or off. Within the console page select the **Timestamp visible** dropdown in the top left corner. You can choose to show or hide the time stamps.
+To show or hide timestamps in the console logs, select the **Timestamp visible** drop-down list on the console logs page.
 
 ## Search console logs
 
-Use the search bar at the top of the console logs page to filter logs by keywords. You can search for specific terms, labels, or error messages.
+To quickly locate relevant entries, use the search bar on the console logs page to filter logs by keywords. You can search for specific terms, labels, or error messages.
 
 ## Filter with custom labels
 
@@ -118,17 +127,17 @@ Use the search bar at the top of the console logs page to filter logs by keyword
 Parameters prefixed by `x_` (such as `x_label`) are in public preview. Create a [GitHub issue in the W&B repository](https://github.com/wandb/wandb) to provide feedback.
 </Warning>
 
-You can filter console logs based on the labels you pass as arguments for `x_label` in `wandb.Settings` in the UI search bar located at the top of the console log page. 
+You can filter console logs based on the labels you pass as arguments for `x_label` in `wandb.Settings`. Enter the label in the search bar on the console logs page.
 
 ```python
 import wandb
 
 # Initialize a run in the primary node
 with wandb.init(
-    entity="entity",
-    project="project",
+    entity="[ENTITY-NAME]",
+    project="[PROJECT-NAME]",
     settings=wandb.Settings(
-        x_label="custom_label"  # (Optional) Custom label for filtering logs
+        x_label="[CUSTOM-LABEL]"  # (Optional) Custom label for filtering logs
     )
 ) as run:
     # Your code here
@@ -136,19 +145,18 @@ with wandb.init(
 
 ## Download console logs
 
-Download console logs for a run in the W&B App:
+To save logs locally for offline analysis or sharing, download console logs for a run in the W&B App:
 
 1. Navigate to your project in the W&B App.
 2. Select a run within the **Runs** table.
 3. Click the **Logs** tab in the project sidebar.
-4. Click the download button in the top right corner of the console logs page.
-
+4. Click the download button on the console logs page.
 
 ## Copy console logs
 
-Copy console logs for a run in the W&B App:
+To paste logs into another tool or message, copy console logs for a run in the W&B App:
 
 1. Navigate to your project in the W&B App.
 2. Select a run within the **Runs** table.
 3. Click the **Logs** tab in the project sidebar.
-4. Click the copy button in the top right corner of the console logs page.
+4. Click the copy button on the console logs page.

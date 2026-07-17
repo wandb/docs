@@ -1,0 +1,101 @@
+---
+title: "Chat completions"
+description: "OpenAI 호환 엔드포인트를 사용해 chat completion을 생성합니다"
+keywords: ["/chat/completions", "OpenAI SDK", "텍스트 생성", "chat API 요청"]
+---
+
+`/chat/completions` 엔드포인트를 사용해 chat completion을 생성합니다. 이 엔드포인트는 메시지를 보내고 응답을 받는 데 OpenAI 형식을 따릅니다.
+
+<div id="requirements">
+  ## 요구 사항
+</div>
+
+Chat Completion을 생성하려면 다음이 필요합니다:
+
+* Inference 서비스 기본 URL: `https://api.inference.wandb.ai/v1`.
+* W&amp;B API 키: `[YOUR-API-KEY]`.
+* 담당 W&amp;B 팀 및 프로젝트: `[YOUR-TEAM]/[YOUR-PROJECT]` (선택 사항).
+* [사용 가능한 모델](/ko/inference/models)의 모델 ID.
+
+<div id="request-examples">
+  ## 요청 예시
+</div>
+
+다음 예시는 Python과 `curl`을 사용해 Chat Completion 요청을 보내는 방법을 보여줍니다. 플레이스홀더 값을 자신의 API 키, 선택 사항인 팀 및 프로젝트, 그리고 모델 ID로 바꾸세요.
+
+<Tabs>
+  <Tab title="Python">
+    ```python
+    import openai
+
+    client = openai.OpenAI(
+        # 맞춤형 base URL은 Serverless Inference를 가리킵니다
+        base_url='https://api.inference.wandb.ai/v1',
+
+        # https://wandb.ai/settings 에서 API 키를 생성하세요
+        # 보안을 위해 대신 환경 변수 OPENAI_API_KEY로 설정하는 것이 좋습니다
+        api_key="[YOUR-API-KEY]",
+
+        # 선택 사항: 사용 추적을 위한 팀 및 프로젝트
+        project="[YOUR-TEAM]/[YOUR-PROJECT]",
+    )
+
+    # [MODEL-ID]를 사용 가능한 모델 목록의 모델 ID로 바꾸세요
+    response = client.chat.completions.create(
+        model="[MODEL-ID]",
+        messages=[
+            {"role": "system", "content": "[YOUR-SYSTEM-PROMPT]"},
+            {"role": "user", "content": "[YOUR-PROMPT]"}
+        ],
+    )
+
+    print(response.choices[0].message.content)
+    ```
+  </Tab>
+
+  <Tab title="Bash">
+    ```bash
+    curl https://api.inference.wandb.ai/v1/chat/completions \
+      -H "Content-Type: application/json" \
+      -H "Authorization: Bearer [YOUR-API-KEY]" \
+      -H "OpenAI-Project: [YOUR-TEAM]/[YOUR-PROJECT]" \
+      -d '{
+        "model": "[MODEL-ID]",
+        "messages": [
+          { "role": "system", "content": "You are a helpful assistant." },
+          { "role": "user", "content": "Tell me a joke." }
+        ]
+      }'
+    ```
+  </Tab>
+</Tabs>
+
+<div id="response-format">
+  ## 응답 형식
+</div>
+
+성공적으로 처리된 요청은 생성된 assistant 메시지와 token 사용 세부 정보를 포함한 다음 OpenAI 호환 형식의 응답을 반환합니다.
+
+```json
+{
+  "id": "chatcmpl-...",
+  "object": "chat.completion",
+  "created": 1234567890,
+  "model": "meta-llama/Llama-3.1-8B-Instruct",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "Here's a joke for you..."
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 25,
+    "completion_tokens": 50,
+    "total_tokens": 75
+  }
+}
+```

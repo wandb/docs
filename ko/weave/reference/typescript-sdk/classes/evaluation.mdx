@@ -1,0 +1,297 @@
+---
+title: "Evaluation<R, E, M>"
+description: "TypeScript SDK 레퍼런스"
+---
+
+[weave](../) / Evaluation
+
+scorer 집합과 데이터셋을 포함하는 Evaluation을 설정합니다.
+
+`evaluation.evaluate(model)`을 호출하면 데이터셋의 각 행이 모델에 전달되며, 데이터셋의 column 이름이 `model.predict`의 argument 이름에 맞게 매핑됩니다.
+
+그런 다음 모든 scorer를 호출하고 결과를 weave에 저장합니다.
+
+`예시`
+
+```ts twoslash
+// @noErrors
+// 예시를 데이터셋으로 수집합니다
+const dataset = new weave.Dataset({
+  id: 'my-dataset',
+  rows: [
+    { question: 'What is the capital of France?', expected: 'Paris' },
+    { question: 'Who wrote "To Kill a Mockingbird"?', expected: 'Harper Lee' },
+    { question: 'What is the square root of 64?', expected: '8' },
+  ],
+});
+
+// 맞춤형 점수화 함수를 정의합니다
+const scoringFunction = weave.op(function isEqual({ modelOutput, datasetRow }) {
+  return modelOutput == datasetRow.expected;
+});
+
+// 평가할 함수를 정의합니다
+const model = weave.op(async function alwaysParisModel({ question }) {
+  return 'Paris';
+});
+
+// 평가를 시작합니다
+const evaluation = new weave.Evaluation({
+  id: 'my-evaluation',
+  dataset: dataset,
+  scorers: [scoringFunction],
+});
+
+const results = await evaluation.evaluate({ model });
+```
+
+## 타입 매개변수
+
+| 이름  | 유형                   |
+| :-- | :------------------- |
+| `R` | extends `DatasetRow` |
+| `E` | extends `DatasetRow` |
+| `M` | `M`                  |
+
+<div id="hierarchy">
+  ## 계층
+</div>
+
+* [`WeaveObject`](./weaveobject)
+
+  ↳ `Evaluation`
+
+<div id="table-of-contents">
+  ## 목차
+</div>
+
+<div id="constructors">
+  ### 생성자
+</div>
+
+* [생성자](./evaluation#constructor)
+
+<div id="properties">
+  ### 속성
+</div>
+
+* [&#95;&#95;savedRef](./evaluation#__savedref)
+
+<div id="accessors">
+  ### 접근자
+</div>
+
+* [설명](./evaluation#description)
+* [이름](./evaluation#name)
+
+<div id="methods">
+  ### 메서드
+</div>
+
+* [evaluate](./evaluation#evaluate)
+* [predictAndScore](./evaluation#predictandscore)
+* [saveAttrs](./evaluation#saveattrs)
+
+## 생성자
+
+<div id="constructors">
+  ### 생성자
+</div>
+
+• **new Evaluation**&lt;`R`, `E`, `M`&gt;(`parameters`): [`Evaluation`](./evaluation)&lt;`R`, `E`, `M`&gt;
+
+<div id="type-parameters">
+  #### 타입 매개변수
+</div>
+
+| 이름  | 유형                   |
+| :-- | :------------------- |
+| `R` | extends `DatasetRow` |
+| `E` | extends `DatasetRow` |
+| `M` | `M`                  |
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름           | 유형                                          |
+| :----------- | :------------------------------------------ |
+| `parameters` | `EvaluationParameters`&lt;`R`, `E`, `M`&gt; |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+[`Evaluation`](./evaluation)&lt;`R`, `E`, `M`&gt;
+
+<div id="overrides">
+  #### 오버라이드
+</div>
+
+[WeaveObject](./weaveobject).[constructor](./weaveobject#constructor)
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/evaluation.ts:150](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluation.ts#L150)
+
+## 속성
+
+<div id="__savedref">
+  ### __savedRef
+</div>
+
+• `선택` **&#95;&#95;savedRef**: [`ObjectRef`](./objectref) | `Promise`&lt;[`ObjectRef`](./objectref)&gt;
+
+<div id="inherited-from">
+  #### 상속 출처
+</div>
+
+[WeaveObject](./weaveobject).[&#95;&#95;savedRef](./weaveobject#__savedref)
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/weaveObject.ts:71](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L71)
+
+## 접근자
+
+<div id="description">
+  ### 설명
+</div>
+
+• `get` **설명**(): `undefined` | `string`
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`undefined` | `string`
+
+<div id="inherited-from">
+  #### 상속 출처
+</div>
+
+WeaveObject.description
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/weaveObject.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L98)
+
+***
+
+<div id="name">
+  ### 이름
+</div>
+
+• `get` **name**(): `string`
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`string`
+
+<div id="inherited-from">
+  #### 상속 출처
+</div>
+
+WeaveObject.name
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/weaveObject.ts:94](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L94)
+
+## 메서드
+
+<div id="evaluate">
+  ### evaluate
+</div>
+
+▸ **evaluate**(`«destructured»`): `Promise`&lt;`Record`&lt;`string`, `any`&gt;&gt;
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름                  | 유형                                                                                                | 기본값         |
+| :------------------ | :------------------------------------------------------------------------------------------------ | :---------- |
+| `«destructured»`    | `객체`                                                                                          | `undefined` |
+| › `maxConcurrency?` | `number`                                                                                          | `5`         |
+| › `model`           | `WeaveCallable`&lt;(...`args`: [&#123; `datasetRow`: `R`  &#125;]) =&gt; `Promise`&lt;`M`&gt;&gt; | `undefined` |
+| › `nTrials?`        | `number`                                                                                          | `1`         |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`Promise`&lt;`Record`&lt;`string`, `any`&gt;&gt;
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/evaluation.ts:165](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluation.ts#L165)
+
+***
+
+<div id="predictandscore">
+  ### predictAndScore
+</div>
+
+▸ **predictAndScore**(`«destructured»`): `Promise`&lt;&#123; `model_latency`: `number` = modelLatency; `model_output`: `any` = modelOutput; `model_success`: `boolean` = !modelError; `scores`: &#123; `[key: string]`: `any`;  &#125;  &#125;&gt;
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름                 | 유형                                                                                                |
+| :----------------- | :------------------------------------------------------------------------------------------------ |
+| `«destructured»`   | `객체`                                                                                          |
+| › `columnMapping?` | `ColumnMapping`&lt;`R`, `E`&gt;                                                                   |
+| › `example`        | `R`                                                                                               |
+| › `model`          | `WeaveCallable`&lt;(...`args`: [&#123; `datasetRow`: `E`  &#125;]) =&gt; `Promise`&lt;`M`&gt;&gt; |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`Promise`&lt;&#123; `model_latency`: `number` = modelLatency; `model_output`: `any` = modelOutput; `model_success`: `boolean` = !modelError; `scores`: &#123; `[key: string]`: `any`;  &#125;  &#125;&gt;
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/evaluation.ts:244](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluation.ts#L244)
+
+***
+
+<div id="saveattrs">
+  ### saveAttrs
+</div>
+
+▸ **saveAttrs**(): `객체`
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`객체`
+
+<div id="inherited-from">
+  #### 상속 출처
+</div>
+
+[WeaveObject](./weaveobject).[saveAttrs](./weaveobject#saveattrs)
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/weaveObject.ts:75](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L75)

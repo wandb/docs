@@ -1,0 +1,223 @@
+---
+title: "ObjectRef"
+description: "TypeScript SDK 레퍼런스"
+---
+
+[weave](../) / ObjectRef
+
+저장된 Weave 객체에 대한 참조입니다.
+
+일반적으로 최종 사용자는 이 클래스를 직접 다룰 필요가 없습니다.
+
+ObjectRef에는 Weave의 저장소 시스템에서 저장된 객체를 고유하게 식별하는
+프로젝트 ID, 객체 ID, 다이제스트가 포함됩니다.
+
+`예시`
+
+```ts twoslash
+// @noErrors
+const ref = new ObjectRef('my-project', 'abc123', 'def456');
+const uri = ref.uri(); // weave:///my-project/object/abc123:def456
+```
+
+<div id="table-of-contents">
+  ## 목차
+</div>
+
+<div id="constructors">
+  ### 생성자
+</div>
+
+* [생성자](./objectref#constructor)
+
+<div id="properties">
+  ### 속성
+</div>
+
+* [digest](./objectref#digest)
+* [objectId](./objectref#objectid)
+* [projectId](./objectref#projectid)
+
+<div id="methods">
+  ### 방법
+</div>
+
+* [조회](./objectref#get)
+* [ui&#95;url](./objectref#ui_url)
+* [uri](./objectref#uri)
+* [fromUri](./objectref#fromuri)
+
+## 생성자
+
+<div id="constructors">
+  ### 생성자
+</div>
+
+• **new ObjectRef**(`projectId`, `objectId`, `digest`): [`ObjectRef`](./objectref)
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름          | 유형       |
+| :---------- | :------- |
+| `projectId` | `string` |
+| `objectId`  | `string` |
+| `digest`    | `string` |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+[`ObjectRef`](./objectref)
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/weaveObject.ts:24](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L24)
+
+## 속성
+
+<div id="digest">
+  ### digest
+</div>
+
+• **digest**: `string`
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/weaveObject.ts:27](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L27)
+
+***
+
+<div id="objectid">
+  ### objectId
+</div>
+
+• **objectId**: `string`
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/weaveObject.ts:26](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L26)
+
+***
+
+<div id="projectid">
+  ### projectId
+</div>
+
+• **projectId**: `string`
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/weaveObject.ts:25](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L25)
+
+## 방법
+
+<div id="get">
+  ### 조회
+</div>
+
+▸ **조회**(): `Promise`&lt;`any`&gt;
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`Promise`&lt;`any`&gt;
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/weaveObject.ts:64](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L64)
+
+***
+
+<div id="ui_url">
+  ### ui_url
+</div>
+
+▸ **ui&#95;url**(): `string`
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`string`
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/weaveObject.ts:59](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L59)
+
+***
+
+<div id="uri">
+  ### uri
+</div>
+
+▸ **uri**(): `string`
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`string`
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/weaveObject.ts:55](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L55)
+
+***
+
+<div id="fromuri">
+  ### fromUri
+</div>
+
+▸ **fromUri**(`uri`): [`ObjectRef`](./objectref)
+
+Weave URI 문자열로부터 ObjectRef를 생성합니다.
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름    | 유형       | 설명                                                             |
+| :---- | :------- | :------------------------------------------------------------- |
+| `uri` | `string` | 다음 형식의 Weave URI: `weave:///entity/project/object/name:digest` |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+[`ObjectRef`](./objectref)
+
+새로운 ObjectRef 인스턴스
+
+`Throws`
+
+URI 형식이 잘못되었거나 ObjectRef가 아닌 경우 오류
+
+`예시`
+
+```ts twoslash
+// @noErrors
+const ref = ObjectRef.fromUri('weave:///my-entity/my-project/object/my-dataset:abc123');
+```
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/weaveObject.ts:42](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L42)

@@ -1,0 +1,54 @@
+---
+description: "Intégrez W&B au framework MMF de Meta AI pour suivre les expériences d'entraînement de modèles multimodaux et consigner des métriques."
+title: MMF
+---
+
+Cette page décrit comment utiliser la classe `WandbLogger` de la bibliothèque [MMF de Meta AI](https://github.com/facebookresearch/mmf) pour suivre l&#39;entraînement de votre modèle multimodal avec W&amp;B. L&#39;activation de `WandbLogger` permet à W&amp;B de consigner les métriques d&#39;entraînement et de validation, les métriques système (GPU et CPU), les points de contrôle du modèle et les paramètres de configuration, afin de surveiller les expériences et de comparer les runs sans ajouter de code de journalisation personnalisé.
+
+<div id="features">
+  ## Fonctionnalités
+</div>
+
+Le `WandbLogger` dans MMF prend en charge les fonctionnalités suivantes :
+
+* Métriques d&#39;entraînement et de validation
+* Évolution du taux d&#39;apprentissage
+* Enregistrement des points de contrôle du modèle dans W&amp;B Artifacts
+* Métriques système GPU et CPU
+* Paramètres de configuration de l&#39;entraînement
+
+<div id="configuration-parameters">
+  ## Paramètres de configuration
+</div>
+
+Pour activer la journalisation W&amp;B et personnaliser le suivi des exécutions, définissez les options suivantes dans votre configuration MMF :
+
+```yaml
+training:
+    wandb:
+        enabled: true
+        
+        # Une entité est un nom d'utilisateur ou un nom d'équipe vers lequel vous envoyez des run.
+        # Par défaut, le run est journalisé dans votre compte utilisateur.
+        entity: null
+        
+        # Nom du projet à utiliser lors de la journalisation de l'expérience avec wandb
+        project: mmf
+        
+        # Nom de l'expérience/run à utiliser lors de la journalisation de l'expérience
+        # dans le projet avec wandb. Le nom d'expérience par défaut
+        # est : ${training.experiment_name}
+        name: ${training.experiment_name}
+        
+        # Activer les points de contrôle du modèle, en sauvegardant les points de contrôle dans W&B Artifacts
+        log_model_checkpoint: true
+        
+        # Valeurs d'arguments supplémentaires à transmettre à wandb.init(), par exemple :
+        # job_type: 'train'
+        # tags: ['tag1', 'tag2']
+        
+env:
+    # Pour modifier le chemin vers le répertoire où les métadonnées wandb sont
+    # stockées (Par défaut : env.log_dir) :
+    wandb_logdir: ${env:MMF_WANDB_LOGDIR,}
+```

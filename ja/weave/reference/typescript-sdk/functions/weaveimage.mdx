@@ -1,0 +1,42 @@
+---
+title: "weaveImage"
+description: "TypeScript SDK リファレンス"
+---
+
+<div id="weaveimage">
+  # weaveImage
+</div>
+
+▸ **weaveImage**(`options`): [`WeaveImage`](../interfaces/weaveimage)
+
+WeaveImage オブジェクトを新規作成します
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名         | タイプ               | 説明                                                                                                   |
+| :-------- | :---------------- | :--------------------------------------------------------------------------------------------------- |
+| `options` | `WeaveImageInput` | このメディアタイプのオプションです。- data: Buffer 形式の生の画像データ - imageType:  (任意) 画像ファイルのタイプ。現在サポートされているのは `'png'` のみです |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+[`WeaveImage`](../interfaces/weaveimage)
+
+`例`
+
+```ts twoslash
+// @noErrors
+const imageBuffer = fs.readFileSync('path/to/image.png');
+const weaveImage = weaveImage({ data: imageBuffer });
+```
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/media.ts:28](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/media.ts#L28)
+
+***

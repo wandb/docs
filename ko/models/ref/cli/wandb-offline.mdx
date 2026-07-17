@@ -2,16 +2,40 @@
 title: wandb offline
 ---
 
-**사용법**
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-`wandb offline [OPTIONS]`
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/cli.py#L3411" />
 
-**요약**
+<div id="usage">
+  ## 사용
+</div>
 
-W&B 동기화 비활성화
+```bash
+offline [OPTIONS]
+```
 
+<div id="description">
+  ## 설명
+</div>
 
-**옵션**
+W&amp;B에 로깅한 데이터를 클라우드에 업로드하지 않고 로컬에 저장합니다.
 
-| **옵션** | **설명** |
-| :--- | :--- |
+오프라인 run을 업로드하려면 `wandb online` 또는 `wandb sync`를 사용하세요.
+
+예를 들어, 클라우드에 동기화하지 않고 데이터를 로컬에 로깅하려면 스크립트를 오프라인 모드로 실행하세요:
+
+```bash
+wandb offline && python train.py
+```
+
+스크립트를 오프라인 모드에서 실행하려면:
+
+```bash
+wandb offline && python train.py
+```
+
+나중에 모든 오프라인 run을 클라우드에 동기화하세요:
+
+```bash
+wandb sync --sync-all
+```

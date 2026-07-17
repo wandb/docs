@@ -1,0 +1,97 @@
+---
+title: "W&B run をトレースされた関数呼び出しにリンクする"
+description: "実験管理のために Weave トレースを W&B runs に関連付ける"
+keywords: ["wandb.init", "weave.op", "実験管理", "トレースの関連付け"]
+---
+
+W&amp;B Weave を使用すると、コード内の関数callsをトレースし、それらが実行された [W&amp;B runs](https://docs.wandb.ai/models/runs/) に直接リンクできます。
+`@weave.op()` で関数をトレースし、それを `wandb.init()` コンテキスト内でcallすると、Weave はそのトレースを W&amp;B run に自動的に関連付けます。
+**Traces** 表には、関連付けられた run へのリンクが表示されます。
+
+<div id="view-a-wb-run-in-the-traces-table">
+  ## Traces 表で W&amp;B run を表示する
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    以下の Python コードは、`wandb.init()` コンテキスト内で実行したときに、Weave がトレースされた Ops を W&amp;B
+    runs にどのようにリンクするかを示しています。これらのトレースは
+    Weave UI に表示され、対応する run に関連付けられます。
+
+    W&amp;B run を Weave のトレースとして表示するには、次の手順に従います。
+
+    1. ターミナルで依存関係をインストールします。
+
+    ```bash lines
+    pip install wandb weave
+    ```
+
+    2. W&amp;B にログインします。
+
+    ```bash lines
+    wandb login
+    ```
+
+    3. 次のスクリプトで、`your-team-name/your-project-name` を W&amp;B の entity と project に置き換えます。
+
+    ```python lines
+    import wandb
+    import weave
+
+    def example_wandb(projname):
+        # projname を entity と project に分割
+        entity, project = projname.split("/", 1)
+
+        # トレース用に Weave コンテキストを初期化
+        weave.init(projname)
+
+        # トレース可能な Op を定義
+        @weave.op()
+        def say(message: str) -> str:
+            return f"I said: {message}"
+
+        # 最初の W&B run
+        with wandb.init(
+            entity=entity,
+            project=project,
+            notes="Experiment 1",
+            tags=["baseline", "paper1"],
+        ) as run:
+            say("Hello, world!")
+            say("How are you!")
+            run.log({"messages": 2})
+
+        # 2 番目の W&B run
+        with wandb.init(
+            entity=entity,
+            project=project,
+            notes="Experiment 2",
+            tags=["baseline", "paper1"],
+        ) as run:
+            say("Hello, world from experiment 2!")
+            say("How are you!")
+            run.log({"messages": 2})
+
+    if __name__ == "__main__":
+        # 実際の W&B username/project に置き換えてください
+        example_wandb("your-team-name/your-project-name")
+    ```
+
+    4. スクリプトを実行します。
+
+    ```bash lines
+    python weave_trace_with_wandb.py
+    ```
+
+    5. [W&amp;B App](https://wandb.ai) にアクセスし、プロジェクトを選択します。
+    6. **Weave project sidebar** で **Traces** をクリックします。**Traces** 表に、関連付けられた run へのリンクが表示されます。
+
+    これで、**Traces** 表から任意のトレースを開いて、リンクされた W&amp;B run を確認し、関連する実験コンテキストを確認できます。
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```text
+    この機能は TypeScript SDK ではまだ利用できません。
+    ```
+  </Tab>
+</Tabs>

@@ -1,0 +1,64 @@
+---
+title: "Serverless Inference で Invalid Authentication（401）エラーを解消するにはどうすればよいですか？"
+keywords: ["Inference"]
+---
+
+`401` の Invalid Authentication エラーは、APIキーが無効であるか、W&amp;B プロジェクトの entity または名 が正しくないことを示します。このページのチェック項目を使用して、両方の値が正しいことを確認し、リクエストが認証されるようにしてください。
+
+<div id="verify-your-api-key">
+  ## APIキーを確認する
+</div>
+
+他の原因をトラブルシューティングする前に、有効で現在使用中のAPIキーがあることを確認します。
+
+1. [User Settings](https://wandb.ai/settings) で新しいAPIキーを作成します。
+2. APIキーは安全な場所に保管します。
+
+<div id="check-your-project-configuration">
+  ## プロジェクト設定を確認する
+</div>
+
+リクエストでは、サービスが正しい W&amp;B のチームと project にルーティングできるよう、project を `[YOUR-TEAM]/[YOUR-PROJECT]` として指定する必要があります。`[YOUR-API-KEY]` は W&amp;B の APIキーに、`[YOUR-TEAM]/[YOUR-PROJECT]` は W&amp;B のチームと project に置き換えてください。
+
+**Python の例:**
+
+```python
+client = openai.OpenAI(
+    base_url='https://api.inference.wandb.ai/v1',
+    api_key="[YOUR-API-KEY]",
+    project="[YOUR-TEAM]/[YOUR-PROJECT]",  # W&B のチームとプロジェクトに一致する必要があります
+)
+```
+
+**Bashの例:**
+
+```bash
+curl https://api.inference.wandb.ai/v1/chat/completions \
+  -H "Authorization: Bearer [YOUR-API-KEY]" \
+  -H "OpenAI-Project: [YOUR-TEAM]/[YOUR-PROJECT]"
+```
+
+<div id="common-mistakes">
+  ## よくある間違い
+</div>
+
+* チーム名ではなく、個人のentityを使用している
+* チーム名またはプロジェクト名のスペルを間違えている
+* チームとプロジェクトの間のスラッシュ (`/`) が抜けている
+* 期限切れまたは削除済みのAPIキーを使用している
+
+<div id="troubleshoot-remaining-issues">
+  ## 残っている問題のトラブルシューティング
+</div>
+
+* W&amp;Bアカウントにチームとプロジェクトが存在することを確認してください。
+* 指定したチームへのアクセス権があることを確認してください。
+* 現在のAPIキーが機能しない場合は、新しいAPIキーを作成してください。
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Inference](/ja/support/models/tags/inference)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

@@ -1,0 +1,260 @@
+---
+title: 워크스페이스
+---
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/workspaces/internal.py" />
+
+<Note>
+  W&amp;B Report and Workspace API는 Public Preview 상태입니다.
+</Note>
+
+프로그래밍 방식으로 W&amp;B Workspace API를 사용하기 위한 Python 라이브러리입니다.
+
+```python
+# 임포트 방법
+import wandb_workspaces.workspaces as ws
+import wandb_workspaces.reports.v2 as wr
+
+# 워크스페이스 생성 예시
+ws.Workspace(
+     name="Example W&B Workspace",
+     entity="entity", # 워크스페이스를 소유하는 entity
+     project="project", # 워크스페이스와 연결된 프로젝트
+     sections=[
+         ws.Section(
+             name="Validation Metrics",
+             panels=[
+                 wr.LinePlot(x="Step", y=["val_loss"]),
+                 wr.BarPlot(metrics=["val_accuracy"]),
+                 wr.ScalarChart(metric="f1_score", groupby_aggfunc="mean"),
+             ],
+             is_open=True,
+         ),
+     ],
+)
+workspace.save()
+```
+
+## <kbd>class</kbd> `RunSettings`
+
+runset에 있는 run의 설정입니다(왼쪽 사이드바).
+
+**속성:**
+
+* `color` (str):  UI에서 run의 색상입니다.  16진수(#ff0000), CSS 색상(red), 또는 rgb(rgb(255, 0, 0))를 사용할 수 있습니다.
+* `disabled` (bool):  run이 비활성화되었는지 여부입니다(UI에서 눈이 감긴 상태). 기본값은 `False`입니다.
+
+***
+
+## <kbd>class</kbd> `RunsetSettings`
+
+Workspace에서 runset(run이 표시되는 왼쪽 바)에 대한 설정입니다.
+
+**속성:**
+
+* `query` (str):  runset을 필터링하는 쿼리입니다(정규식 표현식일 수 있으며, 다음 매개변수 참조).
+* `regex_query` (bool):  위의 `query`가 정규식 표현식인지 여부를 제어합니다. 기본값은 `False`입니다.
+* `filters` (Union[str, LList[FilterExpr], Or, And]):  runset용 필터입니다.
+  * FilterExpr 목록인 경우: 필터는 AND로 결합됩니다.
+  * 문자열인 경우: Python 스타일 표현식입니다. 예: &quot;Config(&#39;lr&#39;) = 0.001 and State = &#39;finished&#39;&quot;
+* `Supports operators`:  `=`, `==`, `!=`, `<`, `>`, `<=`, `>=`, `in`, `not in`, `and`, `or`
+  * Or/And 결합자인 경우: OR 로직과 중첩 그룹을 사용할 수 있습니다. 예: Or(And(Config(&quot;lr&quot;) == 0.01, Metric(&quot;State&quot;) == &quot;finished&quot;), Config(&quot;lr&quot;) == 0.1)
+* `groupby` (LList[expr.MetricType]):  runset에서 그룹화할 메트릭 목록입니다. `Metric`, `Summary`, `Config`, `Tags`, 또는 `KeysInfo`로 설정합니다.
+* `order` (LList[expr.Ordering]):  runset에 적용할 메트릭과 정렬 순서의 목록입니다.
+* `run_settings` (Dict[str, RunSettings]):  run 설정의 딕셔너리로, 키는 run의 ID이고 값은 RunSettings 객체입니다.
+* `pinned_columns` (LList[str]):  고정할 열 이름 목록입니다.
+* `Column names use format`:  &quot;run:displayName&quot;, &quot;summary:metric&quot;, &quot;config:param&quot;.
+* `run`: displayName이 없으면 자동으로 추가됩니다.
+* `Example`:  [&quot;summary:accuracy&quot;, &quot;summary:loss&quot;]
+* `baseline_run` (Optional[str]):  기준 run의 W&amp;B run slug입니다(`wandb.Run.id`의 값, 예: `"1mbku38n"` — run URL의 마지막 경로 세그먼트이기도 함). 델타 열과 비교 스타일링에 사용됩니다. 설정하면 W&amp;B 앱의 동작에 맞춰 기준 run이 `pinned_runs`에 자동으로 추가됩니다. Workspace 자체 프로젝트의 run을 참조해야 하며, 프로젝트 간 pin은 아직 이 SDK에서 지원되지 않습니다(UI에서 해당하는 기능은 W&amp;B 앱의 &quot;Add cross-project runs&quot; drawer를 참조하세요).
+* `pinned_runs` (LList[str]):  run 선택기에 계속 표시하고 plot에 대해 항상 가져올 W&amp;B run slug의 순서 있는 목록입니다. GraphQL ID가 아니라 slug 문자열(`wandb.Run.id`)을 전달하세요. W&amp;B 앱에서는 이를 20개 항목으로 제한합니다.
+
+**예시:**
+
+```python
+    # 문자열 필터 사용 (신규)
+    RunsetSettings(
+         filters="Config('learning_rate') = 0.001 and State = 'finished'",
+         pinned_columns=["summary:accuracy", "summary:loss"],
+         baseline_run="1mbku38n",  # wandb.Run.id (URL의 슬러그)
+         pinned_runs=["1mbku38n", "2u1g3j1c"],
+    )
+
+    # FilterExpr 목록 사용 (기존 방식)
+    RunsetSettings(
+         filters=[expr.Config("learning_rate") == 0.001],
+         pinned_columns=["summary:accuracy", "summary:loss"],
+    )
+```
+
+***
+
+### <kbd>방법</kbd> `convert_filterexpr_list_to_string`
+
+```python
+convert_filterexpr_list_to_string()
+```
+
+FilterExpr 목록 또는 Or/And를 문자열 표현식으로 변환합니다.
+
+***
+
+### <kbd>방법</kbd> `ensure_baseline_pinned`
+
+```python
+ensure_baseline_pinned()
+```
+
+W&amp;B 앱의 불변 조건을 그대로 따르세요. 기준 run은 항상 고정된 run이기도 합니다.
+
+프런트엔드의 `setBaselineRun` 액션 핸들러는 `setRunPinnedAndBaseline`을 거치므로, UI에서 생성된 모든 spec에는 `pinnedRunIds`에 기준 ID가 포함됩니다. SDK에서 생성된 spec도 동일하게 일치하도록 여기에서도 같은 규칙을 강제 적용합니다.
+
+***
+
+### <kbd>방법</kbd> `validate_and_setup_columns`
+
+```python
+validate_and_setup_columns()
+```
+
+run:displayName이 있는지 확인한 다음 내부 열 필드를 설정합니다.
+
+***
+
+
+## <kbd>class</kbd> `Section`
+
+Workspace의 섹션을 나타냅니다.
+
+**속성:**
+
+* `name` (str):  섹션의 이름/제목입니다.
+* `panels` (LList[PanelTypes]):  섹션에 있는 패널의 정렬된 목록입니다. 기본적으로 첫 번째는 왼쪽 위에, 마지막은 오른쪽 아래에 위치합니다.
+* `is_open` (bool):  섹션이 열려 있는지 닫혀 있는지를 나타냅니다. 기본값은 닫힘입니다.
+* `pinned` (bool):  섹션이 고정되어 있는지 여부입니다. 고정된 섹션은 Workspace 상단에 표시됩니다. 기본값은 False입니다.
+* `layout_settings` (SectionLayoutSettings):  섹션의 패널 레이아웃 설정입니다.
+* `panel_settings`:  `Section`에 대한 `WorkspaceSettings`와 유사하게, 섹션의 모든 패널에 적용되는 패널 수준 설정입니다.
+
+***
+
+## <kbd>class</kbd> `SectionLayoutSettings`
+
+섹션용 패널 레이아웃 설정으로, 일반적으로 W&amp;B App Workspace UI에서 섹션의 오른쪽 상단에 표시됩니다.
+
+**속성:**
+
+* `columns` (int):  레이아웃의 열 수입니다. 기본값은 3입니다.
+* `rows` (int):  레이아웃의 행 수입니다. 기본값은 2입니다.
+
+***
+
+## <kbd>class</kbd> `SectionPanelSettings`
+
+섹션의 패널 설정입니다. 섹션용 `WorkspaceSettings`와 비슷합니다.
+
+여기에 적용한 설정은 더 세분화된 Panel 설정에 의해 다음 우선순위에 따라 재정의될 수 있습니다: Section &lt; Panel.
+
+**속성:**
+
+* `x_axis` (str):  x축 metric 이름 설정입니다. 기본값은 &quot;Step&quot;입니다.
+* `x_min Optional[float]`:  x축의 최솟값입니다.
+* `x_max Optional[float]`:  x축의 최댓값입니다.
+* `smoothing_type` (Literal[&#39;exponentialTimeWeighted&#39;, &#39;exponential&#39;, &#39;gaussian&#39;, &#39;average&#39;, &#39;none&#39;]):  모든 패널에 적용되는 스무딩 유형입니다.
+* `smoothing_weight` (int):  모든 패널에 적용되는 스무딩 가중치입니다.
+
+***
+
+## <kbd>class</kbd> `Workspace`
+
+섹션, 설정, run set용 설정을 포함하는 W&amp;B Workspace를 나타냅니다.
+
+**속성:**
+
+* `entity` (str):  이 Workspace가 저장될 entity입니다(일반적으로 사용자 또는 팀 이름).
+* `project` (str):  이 Workspace가 저장될 프로젝트입니다.
+* `name`:  Workspace의 이름입니다.
+* `sections` (LList[Section]):  Workspace에 있는 섹션의 순서 있는 목록입니다. 첫 번째 섹션이 Workspace 맨 위에 표시됩니다.
+* `settings` (WorkspaceSettings):  Workspace의 설정으로, 일반적으로 UI에서 Workspace 상단에 표시됩니다.
+* `runset_settings` (RunsetSettings):  Workspace의 runset 설정입니다(run이 표시되는 왼쪽 막대).
+* `auto_generate_panels` (bool):  이 프로젝트에 로깅된 모든 키에 대해 패널을 자동 생성할지 여부입니다. 사용 가능한 모든 데이터가 기본으로 시각화되도록 하려면 이 설정을 권장합니다. 이 값은 Workspace를 생성할 때만 설정할 수 있으며, 이후에는 수정할 수 없습니다.
+
+***
+
+### <kbd>속성</kbd> auto_generate_panels
+
+***
+
+### <kbd>속성</kbd> url
+
+W&amp;B App의 Workspace URL입니다.
+
+***
+
+### <kbd>클래스 메서드</kbd> `from_url`
+
+```python
+from_url(url: str)
+```
+
+URL에서 워크스페이스를 조회합니다.
+
+***
+
+
+### <kbd>방법</kbd> `save`
+
+```python
+save()
+```
+
+현재 워크스페이스를 W&amp;B에 저장합니다.
+
+**반환값:**
+
+* `Workspace`: 저장된 내부 name 및 ID가 적용된 업데이트된 워크스페이스입니다.
+
+***
+
+
+### <kbd>방법</kbd> `save_as_new_view`
+
+```python
+save_as_new_view()
+```
+
+현재 Workspace를 W&amp;B에 새 뷰로 저장합니다.
+
+**반환값:**
+
+* `Workspace`: 저장된 내부 이름과 ID가 포함된 업데이트된 Workspace입니다.
+
+***
+
+
+## <kbd>class</kbd> `WorkspaceSettings`
+
+워크스페이스에 대한 설정으로, 일반적으로 UI에서 워크스페이스 상단에 표시됩니다.
+
+이 객체에는 x축, 스무딩, 이상치, 패널, 툴팁, run, 패널 쿼리 바에 대한 설정이 포함됩니다.
+
+여기에 적용한 설정은 다음 우선순위에 따라 더 세분화된 Section 및 Panel 설정으로 재정의될 수 있습니다: Workspace &lt; Section &lt; Panel
+
+**속성:**
+
+* `x_axis` (str):  x축 metric name 설정입니다.
+* `x_min` (Optional[float]):  x축의 최솟값입니다.
+* `x_max` (Optional[float]):  x축의 최댓값입니다.
+* `smoothing_type` (Literal[&#39;exponentialTimeWeighted&#39;, &#39;exponential&#39;, &#39;gaussian&#39;, &#39;average&#39;, &#39;none&#39;]):  모든 패널에 적용되는 스무딩 유형입니다.
+* `smoothing_weight` (int):  모든 패널에 적용되는 스무딩 가중치입니다.
+* `ignore_outliers` (bool):  모든 패널에서 이상치를 무시합니다.
+* `sort_panels_alphabetically` (bool):  모든 Section의 패널을 알파벳순으로 정렬합니다.
+* `group_by_prefix` (Literal[&quot;first&quot;, &quot;last&quot;]):  첫 번째 또는 마지막 prefix를 기준으로 패널을 그룹화합니다(first 또는 last). 기본값은 `last`입니다.
+* `remove_legends_from_panels` (bool):  모든 패널에서 범례를 제거합니다.
+* `tooltip_number_of_runs` (Literal[&quot;default&quot;, &quot;all&quot;, &quot;none&quot;]):  툴팁에 표시할 run 수입니다.
+* `tooltip_color_run_names` (bool):  툴팁에서 run name을 runset에 맞춰 색상으로 표시할지(True), 표시하지 않을지(False)를 나타냅니다. 기본값은 `True`입니다.
+* `max_runs` (int):  패널별로 표시할 최대 run 수입니다(runset의 처음 10개 run이 표시됨).
+* `point_visualization_method` (Literal[&quot;line&quot;, &quot;point&quot;, &quot;line&#95;point&quot;]):  포인트의 시각화 방법입니다.
+* `panel_search_query` (str):  패널 검색 바의 쿼리입니다(regex 표현식일 수 있음).
+* `auto_expand_panel_search_results` (bool):  패널 검색 결과를 자동으로 확장할지 여부입니다。

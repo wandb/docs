@@ -1,0 +1,87 @@
+---
+description: Team Settings ページで、チームのメンバー、アバター、アラート、プライバシー設定を管理します。
+title: Team Settings を管理する
+keywords: ["チームのプライバシー", "チームのアラート", "チームのアバター", "チーム管理者"]
+---
+
+import EnterpriseOnly from "/snippets/ja/_includes/enterprise-only.mdx";
+
+メンバー、アバター、アラート、プライバシー、使用状況など、チームの設定を変更できます。組織管理者とチーム管理者は、チームの設定を表示および編集できます。
+
+<Note>
+  チームの設定を変更したり、チームからメンバーを削除したりできるのは、Administration アカウントタイプのみです。
+</Note>
+
+<div id="members">
+  ## メンバー
+</div>
+
+メンバー セクションには、保留中の招待の一覧と、チームへの招待を承諾したメンバーが表示されます。一覧の各メンバーには、名前、ユーザー名、メールアドレス、チームロールが表示されます。一覧には、組織から継承される Models と W&amp;B Weave への各メンバーのアクセス権限も表示されます。標準のチームロール **Admin**、**Member**、**View-only** から選択できます。組織で [custom roles](/ja/platform/hosting/iam/access-management/manage-organization#add-and-manage-custom-roles) を作成している場合は、代わりにカスタムロールを割り当てることもできます。
+
+チームの作成方法、Teams の管理方法、チームメンバーシップとロールの管理方法については、[Add and Manage teams](/ja/platform/hosting/iam/access-management/manage-organization#add-and-manage-teams) を参照してください。新しいメンバーを招待できるユーザーの設定や、チームのその他のプライバシー設定を行うには、[プライバシー](#privacy) を参照してください。
+
+<div id="avatar">
+  ## アバター
+</div>
+
+チームのアバターを設定すると、メンバーが W&amp;B App でチームを視覚的に識別しやすくなります。**アバター** セクションに移動し、画像をアップロードしてアバターを設定します。
+
+1. **Update Avatar** を選択すると、ファイルダイアログが表示されます。
+2. ファイルダイアログから、使用する画像を選択します。
+
+<div id="alerts">
+  ## アラート
+</div>
+
+run がクラッシュしたときや完了したとき、またはカスタムアラートを設定して、チームに通知できます。チームは、メールまたは Slack のいずれかでアラートを受信できます。
+
+アラートを受信したいイベントタイプの横にあるスイッチを切り替えます。W&amp;B には、デフォルトで次のイベントタイプのオプションがあります。
+
+* **Runs finished**: run が正常に完了したとき。
+* **Run crashed**: run が正常に完了せず失敗したとき。
+
+アラートの設定と管理の方法について詳しくは、[`wandb.Run.alert()` を使用したアラートの送信](/ja/models/runs/alert)を参照してください。
+
+<div id="slack-notifications">
+  ## Slack 通知
+</div>
+
+新しい artifact が作成されたときや、run のメトリクスが定義したしきい値に達したときなど、Registry またはプロジェクトでイベントが発生した際に、チームの [automations](/ja/models/automations/) が通知を送信する Slack の通知先を設定します。[Slack automation を作成する](/ja/models/automations/create-automations/slack/)を参照してください。
+
+<Info>
+  <EnterpriseOnly />
+</Info>
+
+<div id="webhooks">
+  ## ウェブフック
+</div>
+
+Registry またはプロジェクトでイベントが発生した際に、チームの[automations](/ja/models/automations/)から実行されるウェブフックを設定します。たとえば、新しい artifact が作成されたときや、run のメトリクスが設定したしきい値に達したときです。[webhook automation を作成する](/ja/models/automations/create-automations/slack/)を参照してください。
+
+<Info>
+  <EnterpriseOnly />
+</Info>
+
+<div id="privacy">
+  ## プライバシー
+</div>
+
+プライバシーのデフォルトを変更するには、チームの **Settings** ページにある **プライバシー** セクションにアクセスします。[すべてのチームに同じポリシーが適用されるよう組織管理者がロックしていない](/ja/platform/hosting/privacy-settings#enforce-privacy-settings-for-all-teams)限り、チーム管理者はこれらの設定を編集できます。組織管理者も、設定を確認するためにこのページを開くことはできます。
+
+* 今後作成するプロジェクトを公開にしたり、Reports を公開で共有したりする機能を無効にします。
+* チーム管理者だけでなく、任意のチームメンバーが他のメンバーを招待できるようにします。
+* チームで コードの保存 をデフォルトで有効にするかどうかを管理します。
+
+ナビゲーション手順と、組織レベルの **Enforce default code saving restrictions** コントロールについては、[プライバシー設定を構成する](/ja/platform/hosting/privacy-settings)を参照してください。
+
+<div id="usage">
+  ## 使用状況
+</div>
+
+**使用状況** セクションには、チームが W&amp;B のサーバー上で使用した合計メモリ使用量が表示されます。デフォルトのストレージプランは 100 GB です。ストレージと Pricing の詳細については、[Pricing](https://wandb.ai/site/pricing) ページを参照してください。
+
+<div id="storage">
+  ## ストレージ
+</div>
+
+**ストレージ** セクションでは、チームのデータに使用されているクラウドストレージバケットの設定について説明します。詳細は、[Secure Storage Connector](/ja/platform/app/settings-page/teams/#secure-storage-connector)を参照してください。セルフホスティングしている場合は、[W&amp;B Server](/ja/platform/hosting/data-security/secure-storage-connector)のドキュメントも参照してください。

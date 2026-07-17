@@ -1,0 +1,120 @@
+---
+title: Weights & Biases を使い始める
+description: ユースケースに適した W&B プロダクトを選び、開始方法を学びましょう
+---
+
+<div id="product-comparison">
+  ## プロダクト比較
+</div>
+
+Weights &amp; Biases へようこそ！各プロダクトを使い始める前に、どれが自分のユースケースに最も適しているかを見極めることが重要です。
+
+| Product                                           | Best For                 | Key Features                                                     |
+| ------------------------------------------------- | ------------------------ | ---------------------------------------------------------------- |
+| **[W&amp;B Models](#w%26b-models)**               | MLモデルをゼロからトレーニングする場合     | 実験管理、ハイパーパラメーター最適化、モデルレジストリ、可視化                                  |
+| **[W&amp;B Weave](#w%26b-weave)**                 | LLMアプリケーションの構築           | トレース、プロンプト管理、評価、本番AIアプリのコスト管理                                    |
+| **[Serverless Inference](#serverless-inference)** | 事前学習済みモデルを使用する場合         | ホスト型のオープンソースモデル、APIアクセス、テスト用のモデルプレイグラウンド                         |
+| **[Serverless Training](#serverless-training)**   | モデルのファインチューニングとポストトレーニング | 強化学習 (RL) と教師ありファインチューニング (SFT) を用いたLoRA アダプターやカスタムモデル調整の作成とデプロイ |
+| **[Serverless Sandboxes](#serverless-sandboxes)** | 分離されたコンピュート環境の実行         | トレーニングジョブ、エージェントによるツール使用、再現可能な実験向けのオンデマンドで使い捨て可能なサンドボックス         |
+
+<div id="wb-models">
+  ## W&amp;B Models
+</div>
+
+<Columns cols={2}>
+  <Card title="Models クイックスタート" href="/ja/models/quickstart">
+    W&amp;B の「hello world」で、最初のデータをログする手順を案内します。
+  </Card>
+
+  <Card title="Models の利用を始める" href="/ja/models/models_quickstart">
+    実際の ML 実験を使って Models プロダクト全体を一通り紹介する、本格的なチュートリアルです。
+  </Card>
+
+  <Card title="W&B 101 コース" href="https://wandb.ai/site/courses/101/">
+    実験管理に重点を置き、理解度を確認するためのクイズも含まれる動画中心のコースです。
+  </Card>
+
+  <Card title="YouTube チュートリアル" href="https://www.youtube.com/watch?v=FkTwcxnSPes">
+    モデルがどのようにトレーニング、評価、開発、デプロイされるのか、またそのライフサイクルの各 step で wandb を使用し、より高性能なモデルをより短時間で構築する方法を学べます。
+  </Card>
+</Columns>
+
+<div id="wb-weave">
+  ## W&amp;B Weave
+</div>
+
+<Columns cols={2}>
+  <Card title="Weave クイックスタート" href="/ja/weave/quickstart">
+    コードをデコレートして、LLM の呼び出し時に Weave のトレースをログし、理想的な LLM ワークフロー構築への第一歩を踏み出す方法を学びます。
+  </Card>
+
+  <Card title="Serverless Inference で Weave を学ぶ" href="/ja/weave/quickstart-inference">
+    Serverless Inference でホストされているさまざまなモデルのパフォーマンスを、Weave が実際のユースケースでどのように評価するかを示す本格的なチュートリアルです
+  </Card>
+
+  <Card title="W&B Weave 101 コース" href="https://site.wandb.ai/courses/weave/">
+    言語モデルのワークフローをログし、デバッグし、評価する方法を学べる動画形式のコースで、理解を確かめるためのクイズも含まれています。
+  </Card>
+
+  <Card title="YouTube デモ" href="https://www.youtube.com/watch?v=IQcGGNLN3zo">
+    AI アプリケーションを継続的に評価・監視し、反復的に改善して、品質、レイテンシ、コスト、安全性を向上させる方法を学びます。
+  </Card>
+</Columns>
+
+<div id="serverless-inference">
+  ## Serverless Inference
+</div>
+
+<Columns cols={2}>
+  <Card title="Inference の概要" href="/ja/inference">
+    標準の OpenAI REST API を使って、Serverless Inference でホストされている任意のモデルを呼び出す方法を紹介するクイックスタートです。
+  </Card>
+
+  <Card title="Serverless Inference で Weave を学ぶ" href="/ja/weave/quickstart-inference">
+    Serverless Inference でホストされているさまざまなモデルのパフォーマンスを、Weave が実際のユースケースで評価する様子を紹介する本格的なチュートリアルです。
+  </Card>
+
+  <Card title="Inference Playground を試す" href="https://wandb.ai/inference">
+    Serverless Inference は非常に簡単に使用できます。ホストされている任意のモデルをクリックしてプロンプトを試すと、可観測性レイヤーが動作する様子を確認できます。
+  </Card>
+
+  <Card title="例" href="/ja/inference/examples">
+    Serverless Inference で人気の LLM への呼び出しをトレースし、その結果を評価する簡単な例をいくつか紹介します。
+  </Card>
+</Columns>
+
+<div id="serverless-training">
+  ## Serverless Training
+</div>
+
+<Columns cols={2}>
+  <Card title="クイックスタート" href="https://art.openpipe.ai/getting-started/quick-start">
+    OpenPipe の ART ライブラリと Serverless RL を使って、2048 をプレイするモデルをトレーニングします。
+  </Card>
+
+  <Card title="トレーニング済みモデルを使う" href="/ja/serverless-training/use-trained-models">
+    トレーニング済みモデルを作成したら、コード内での使い方を確認しましょう。
+  </Card>
+</Columns>
+
+<div id="serverless-sandboxes">
+  ## Serverless Sandboxes
+</div>
+
+<Columns cols={2}>
+  <Card title="Sandboxes の概要" href="/ja/sandboxes">
+    Serverless Sandboxes とは何か、また分離された使い捨てのコンピュート環境としてどのような場合に使用するかを学びます。
+  </Card>
+
+  <Card title="サンドボックス を作成する" href="/ja/sandboxes/create-sandbox">
+    Python で最初の サンドボックス を起動し、数秒でコードの実行を開始できます。
+  </Card>
+
+  <Card title="サンドボックス で PyTorch モデルをトレーニングする" href="/ja/sandboxes/mltrain-in-sandbox-tutorial">
+    サンドボックス 内で PyTorch モデルを最初から最後までトレーニングする手順を解説する完全なチュートリアルです。
+  </Card>
+
+  <Card title="サンドボックス でエージェントを呼び出す" href="/ja/sandboxes/invoke-agent-sandbox-tutorial">
+    安全で分離されたツール利用のために、OpenAI エージェントに サンドボックス へのアクセスを付与します。
+  </Card>
+</Columns>

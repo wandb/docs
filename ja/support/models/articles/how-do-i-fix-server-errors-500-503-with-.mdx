@@ -1,0 +1,88 @@
+---
+title: "Serverless Inference でサーバー エラー（500、503）を解消するにはどうすればよいですか？"
+keywords: ["Inference"]
+---
+
+サーバー エラーは、Serverless Inference サービスで一時的な問題が発生していることを示しています。このページでは、これらのエラーを特定し、クライアント コードで適切に処理し、どの時点でサポートに問い合わせるべきかを判断する方法を説明します。
+
+<div id="error-types">
+  ## エラーのタイプ
+</div>
+
+以下のセクションでは、リクエストの問題ではなく、サーバー側の一時的な問題を示すエラーコードについて説明します。
+
+<div id="500-internal-server-error">
+  ### 500 内部サーバーエラー
+</div>
+
+これはサーバー側で一時的に発生している内部エラーです。レスポンスメッセージは次のとおりです: &quot;サーバーでリクエストの処理中にエラーが発生しました。&quot;
+
+<div id="503-service-overloaded">
+  ### 503 サービスの過負荷
+</div>
+
+サービスへのトラフィックが増加しています。レスポンスメッセージは次のとおりです: &quot;推論エンジンは現在過負荷状態です。時間をおいて再度お試しください。&quot;
+
+<div id="handle-server-errors">
+  ## サーバー エラーへの対処
+</div>
+
+これらのエラーは通常一時的なものであるため、再試行する前にサービスが回復する時間を確保できるよう、次の方法を使用してください。
+
+1. 再試行する前に待機します。次の待機時間を使用してください。
+   * `500` エラー: 30〜60 秒待機する
+   * `503` エラー: 60〜120 秒待機する
+
+2. **エクスポネンシャルバックオフを使用する**
+   ```python
+   import time
+   import openai
+
+   def call_with_retry(client, messages, model, max_retries=5):
+       for attempt in range(max_retries):
+           try:
+               return client.chat.completions.create(
+                   model=model,
+                   messages=messages
+               )
+           except Exception as e:
+               if "500" in str(e) or "503" in str(e):
+                   if attempt < max_retries - 1:
+                       wait_time = min(60, (2 ** attempt))
+                       time.sleep(wait_time)
+                   else:
+                       raise
+               else:
+                   raise
+   ```
+
+3. 適切なタイムアウトを設定します。次の調整を適用してください。
+   * HTTP クライアントのタイムアウト値を長めに設定する
+   * より適切に処理するため、非同期操作も検討する
+
+<div id="contact-support">
+  ## サポートに連絡する
+</div>
+
+再試行とバックオフで問題が解決しない場合は、チームがさらに調査できるよう、サポートに連絡してください。
+
+次のいずれかに該当する場合はサポートに連絡してください。
+
+* エラーが10分以上続く
+* 特定の時間帯に失敗が発生する傾向が見られる
+* エラーメッセージに追加の詳細情報が含まれている
+
+サポートに連絡する際は、次の情報を提供してください。
+
+* エラーメッセージとコード
+* エラーが発生した時刻
+* コードスニペット (APIキーは削除してください)
+* W&amp;B の entity 名とプロジェクト名
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Inference](/ja/support/models/tags/inference)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

@@ -1,0 +1,76 @@
+---
+title: run 상태
+description: W&B run이 가질 수 있는 다양한 상태에 대해 알아보세요.
+---
+
+[run 상태](/ko/models/runs/run-states#run-states)는 W&amp;B run의 현재 상태를 나타냅니다. W&amp;B App에서 또는 W&amp;B Python SDK를 사용해 프로그래밍 방식으로 run의 [상태를 확인](/ko/models/runs/run-states#view-the-state-of-a-run)할 수 있습니다.
+
+<div id="run-states">
+  ## run 상태
+</div>
+
+다음 표는 run이 가질 수 있는 상태를 설명합니다:
+
+| State      | 설명                                                               |
+| ---------- | ---------------------------------------------------------------- |
+| `Crashed`  | 내부 프로세스에서 run이 하트비트 전송을 중단한 상태로, 머신에 장애가 발생했을 때 이런 일이 생길 수 있습니다. |
+| `Failed`   | run이 0이 아닌 종료 상태로 끝났습니다.                                         |
+| `Finished` | run이 종료되어 데이터가 완전히 동기화되었거나, `wandb.Run.finish()`가 호출되었습니다.       |
+| `Killed`   | run이 완료되기 전에 강제로 중지되었습니다.                                        |
+| `Running`  | run이 아직 실행 중이며 최근에 하트비트를 전송했습니다.                                 |
+| `Pending`  | run이 예약되었지만 아직 시작되지 않았습니다(sweeps 및 Launch 작업에서 흔히 발생).           |
+
+<div id="run-states-in-sweeps">
+  ### sweep의 run 상태
+</div>
+
+run이 [sweep](/ko/models/sweeps/)의 일부인 경우, run 상태는 sweep의 상태와 별개로 동작합니다.
+
+* **개별 run 상태**는 각 run의 실행 상태를 나타냅니다(Running, Finished, Failed 등).
+* **sweep 상태**는 새 run 생성 여부를 제어할 뿐, 기존 run의 실행 방식까지 제어하지는 않습니다.
+* sweep을 일시 중지하거나 중지해도 이미 실행 중인 run에는 영향을 주지 않습니다.
+* sweep을 취소하는 경우에만 실행 중인 run이 강제로 종료됩니다(상태가 `Killed`로 변경됨).
+
+sweep 상태와 run 상태가 어떻게 상호작용하는지에 대한 자세한 설명은 [Understanding sweep and run statuses](/ko/models/sweeps/pause-resume-and-cancel-sweeps#understanding-sweep-and-run-statuses)를 참조하세요.
+
+<div id="view-the-state-of-a-run">
+  ## run 상태 보기
+</div>
+
+Python SDK 또는 W&amp;B App에서 프로그래밍 방식이나 대화형으로 run의 상태를 확인할 수 있습니다.
+
+<Tabs>
+  <Tab title="Python SDK">
+    [`wandb.Api.Run`](/ko/models/ref/python/public-api/runs) 객체의 `state` 속성을 사용해 run의 현재 상태에 액세스합니다.
+
+    다음 code snippet은 지정한 프로젝트의 모든 run 상태를 조회해 출력합니다. 다음 code snippet을 Python 환경에 복사해 붙여넣으세요. 꺾쇠괄호(`< >`)로 묶인 값은 사용자 환경에 맞게 바꾸세요.
+
+    ```python
+    import wandb
+
+    api = wandb.Api()
+
+    runs = api.runs(path="<entity>/<project>")
+
+    # run 객체의 속성에 액세스
+    for run in runs:
+        print(f"Run: {run.name}")
+        print(f"Run state: {run.state}")
+        print()
+    ```
+
+    서로 다른 기준에 따라 Projects에서 run을 조회하도록 다양한 필터를 적용할 수 있습니다. 프로그래밍 방식으로 run을 필터링하는 방법은 [run 필터링](/ko/models/runs/filter-runs)을 참조하세요.
+  </Tab>
+
+  <Tab title="W&B App">
+    W&amp;B App에서 run의 상태를 확인합니다.
+
+    1. W&amp;B 프로젝트로 이동합니다.
+    2. 프로젝트 sidebar에서 **Workspace** 또는 **Runs** 탭을 선택합니다.
+    3. 확인하려는 run을 검색하거나 스크롤해 찾습니다.
+    4. run을 선택해 run Overview 페이지를 엽니다.
+    5. **Overview** 탭을 선택합니다.
+
+    **State** 필드 옆에서 run의 현재 상태를 확인합니다.
+  </Tab>
+</Tabs>

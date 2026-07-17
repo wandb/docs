@@ -1,0 +1,68 @@
+---
+title: "利用に関する情報と制限"
+linkTitle: "利用と制限"
+description: >
+  Serverless Inference の料金、利用制限、アカウントの制約について説明します
+keywords: ["クレジット", "レート制限", "同時実行制限", "429 エラー", "アカウントティア"]
+---
+
+このページでは、Serverless Inference に適用される料金、利用制限、アカウントの制約について説明します。この情報を参考に利用計画を立て、想定外の請求や中断を避けてください。特に請求を管理している場合や、高い同時実行数で運用している場合は、本番トラフィックを送信する前に確認してください。
+
+<Info>
+  料金、制限、またはアカウントについてこのページで解決しない疑問がある場合は、要件について相談するために [サポート](https://wandb.ai/site/contact) までお問い合わせください。
+</Info>
+
+<div id="pricing">
+  ## 料金
+</div>
+
+モデルの詳細な料金については、[Serverless Inferenceの料金](https://wandb.ai/site/pricing/inference)をご覧ください。
+
+<div id="purchase-more-credits">
+  ## 追加クレジットを購入する
+</div>
+
+Serverless Inference クレジットは、期間限定で Free、Pro、Academic プランに含まれています。Enterprise での提供状況は異なる場合があります。クレジットを使い切ると、次のようになります。
+
+* **Free アカウント**は、Serverless Inference を引き続き使用するには、**Billing** タブで従量課金制の Inference を有効にするか、有料プランにアップグレードする必要があります。[従量課金制を有効にするか、アップグレードする](https://wandb.ai/subscriptions)。
+* W&amp;B は、**Pro プランのユーザー**に対して、[モデルごとの料金](https://wandb.ai/site/pricing/inference)に基づき、超過分を毎月請求します。
+* **Enterprise アカウント**は、アカウントエグゼクティブにお問い合わせください。
+
+<div id="account-tiers-and-default-usage-caps">
+  ## アカウントティアとデフォルトの使用上限
+</div>
+
+各アカウントティアには、コスト管理と予期しない請求の防止に役立つデフォルトの支出上限が設定されています。W&amp;B では、有料の Inference アクセスに前払いが必要です。
+
+次の表は、各ティアのデフォルト上限と、変更を依頼する方法を示しています。上限の変更が必要な場合は、アカウントエグゼクティブまたは[Support](https://wandb.ai/site/contact)に連絡して上限を調整してください。
+
+| Account tier | Default cap   | How to change limit         |
+| ------------ | ------------- | --------------------------- |
+| Free         | $100/month    | Pro または Enterprise にアップグレード |
+| Pro          | $6,000/month  | アカウントエグゼクティブまたはサポートに連絡して手動審査を依頼    |
+| Enterprise   | $700,000/year | アカウントエグゼクティブまたはサポートに連絡して手動審査を依頼    |
+
+<div id="concurrency-limits">
+  ## 同時実行制限
+</div>
+
+同時実行制限は、project またはユーザーが同時に処理できるリクエスト数に上限を設けることで、サービス品質を保護します。同時実行制限を超えると、API は `429 Concurrency limit reached for requests` というレスポンスを返します。このエラーを解消するには、同時に送信するリクエスト数を減らしてください。
+
+W&amp;B では、W&amp;B プロジェクトごと、およびユーザーごとに同時実行制限が適用されます。たとえば、1 つのチームに 3 つの プロジェクト がある場合、各プロジェクトにはそれぞれ独自の同時実行制限枠があります。
+
+ユースケースで制限の引き上げが必要な場合は、要件について相談するために[サポート](https://wandb.ai/site/contact)までお問い合わせください。
+
+<div id="geographic-restrictions">
+  ## 地理的制限
+</div>
+
+Inference サービスは、サポート対象の地域からのみ利用できます。詳細は、[Terms of Service](https://docs.coreweave.com/docs/policies/terms-of-service/terms-of-use#geographic-restrictions)を参照してください。
+
+<div id="next-steps">
+  ## 次のステップ
+</div>
+
+料金、上限、同時実行制限を理解したところで、次はアカウントを設定しましょう。
+
+* 始める前に、[前提条件](/ja/inference/prerequisites/)を確認してください。
+* [利用可能なモデル](/ja/inference/models)と、それぞれの料金を確認してください。

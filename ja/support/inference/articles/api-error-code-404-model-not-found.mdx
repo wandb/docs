@@ -1,0 +1,39 @@
+---
+title: "API エラー コード 404 - モデルが見つかりません"
+keywords: ["サーバー エラー"]
+---
+
+W&amp;B Inference API からの **404** レスポンスは、サーバーが要求されたモデルまたはリソースを見つけられなかったことを意味します。レスポンス本文には **&quot;The requested resource was not found&quot;** のようなメッセージが含まれることが多く、通常、これはリクエスト内のモデル識別子が API で利用可能などのモデルとも一致していないことを示しています。
+
+<div id="why-this-happens">
+  ## これが発生する理由
+</div>
+
+* **モデル ID が正しくない**: リクエスト内のモデル名またはパスのつづりが誤っているか、形式が正しくありません。
+* **モデルを W&amp;B Inference で利用できない**: 他のプロバイダでホストされているすべてのモデルが、W&amp;B Inference API 経由で利用できるわけではありません。リクエストしているモデルは、まだ追加されていない可能性があります。
+* **誤ったベース URL を使用している**: 別のプロバイダのエンドポイントを指定しているにもかかわらず、W&amp;B APIキーを使用している場合、モデル ID は正しく解決されません。
+* **モデルが削除された**: 以前は利用可能だったモデルが、非推奨になったか削除された可能性があります。
+
+<div id="what-you-can-do">
+  ## できること
+</div>
+
+1. **モデル ID を確認する**
+   * 正確なモデル識別子を [利用可能なモデル](/ja/inference/models) で確認してください。
+   * モデル ID では大文字と小文字が区別され、通常は `provider/model-name` 形式です (例: `meta-llama/Llama-3.3-70B-Instruct`) 。
+
+2. **ベース URL を確認する**
+   * W&amp;B Inference のベース URL は `https://api.inference.wandb.ai/v1` です。クライアントがこのホストを使用していることを確認し、Multi-tenant Cloud API ホスト (`https://api.wandb.ai`) や他のプロバイダのエンドポイントは使用しないでください。使用状況のトラッキングのために、一部のクライアントでは [list models API リファレンス](/ja/inference/api-reference/list-models) に示されているように、`team/project` に設定した省略可能な `OpenAI-Project` ヘッダーも送信します。
+
+3. **新しいモデルへのアクセスをリクエストする**
+   * 必要なモデルが現在サポートされていない場合は、[W&amp;B サポート](mailto:support@wandb.com) に連絡して追加を依頼してください。
+
+詳細は、[Serverless Inference](/ja/inference) と [list models API リファレンス](/ja/inference/api-reference/list-models) を参照してください。
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[サーバー エラー](/ja/support/inference/tags/server-errors)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

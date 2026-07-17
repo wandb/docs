@@ -1,31 +1,36 @@
 ---
-title: "Usage Information and Limits"
-linkTitle: "Usage & Limits"
+title: "Usage information and limits"
+linkTitle: "Usage and limits"
 description: >
-  Understand pricing, usage limits, and account restrictions for W&B Inference
+  Understand pricing, usage limits, and account restrictions for Serverless Inference
+keywords: ["credits", "rate limits", "concurrency limits", "429 error", "account tiers"]
 ---
 
-Learn about pricing, limits, and other important usage information before using W&B Inference.
+This page describes the pricing, usage limits, and account restrictions that apply to Serverless Inference. Use this information to plan your usage and avoid unexpected charges or interruptions. Review it before you send production traffic, especially if you manage billing or operate at higher concurrency.
+
+<Info>
+  If you have questions about pricing, limits, or your account that this page doesn't answer, contact [Support](https://wandb.ai/site/contact) to discuss your requirements.
+</Info>
 
 ## Pricing
 
-For detailed model pricing information, visit [W&B Inference pricing](https://wandb.ai/site/pricing/inference).
+For detailed model pricing information, visit [Serverless Inference pricing](https://wandb.ai/site/pricing/inference).
 
 ## Purchase more credits
 
-W&B Inference credits come with Free, Pro, and Academic plans for a limited time. Enterprise availability may vary. When credits run out:
+Serverless Inference credits come with Free, Pro, and Academic plans for a limited time. Enterprise availability may vary. When credits run out:
 
-- **Free accounts** must activate a pay-as-you-go inference (under the **Billing** tab), or upgrade to a paid plan to continue using W&B Inference. [Activate pay-as-you-go or upgrade](https://wandb.ai/subscriptions)
-- **Pro plan users** are billed for overages monthly, based on [model-specific pricing](https://wandb.ai/site/pricing/inference)
-- **Enterprise accounts** should contact their account executive
+- **Free accounts** must activate pay-as-you-go inference on the **Billing** tab, or upgrade to a paid plan to continue using Serverless Inference. [Activate pay-as-you-go or upgrade](https://wandb.ai/subscriptions).
+- W&B bills **Pro plan users** for overages monthly, based on [model-specific pricing](https://wandb.ai/site/pricing/inference).
+- **Enterprise accounts** should contact their account executive.
 
 ## Account tiers and default usage caps
 
 Each account tier has a default spending cap to help manage costs and prevent unexpected charges. W&B requires prepayment for paid Inference access.
 
-Some users may need to change their cap. Contact your account executive or support to adjust your limit.
+The following table shows the default cap for each tier and how to request a change. If you need to change your cap, contact your account executive or [Support](https://wandb.ai/site/contact) to adjust your limit.
 
-| Account Tier | Default Cap | How to Change Limit |
+| Account tier | Default cap | How to change limit |
 |--------------|-------------|---------------------|
 | Free | $100/month | Upgrade to Pro or Enterprise |
 | Pro | $6,000/month | Contact your account executive or support for manual review |
@@ -33,9 +38,11 @@ Some users may need to change their cap. Contact your account executive or suppo
 
 ## Concurrency limits
 
-If you exceed the rate limit, the API returns a `429 Concurrency limit reached for requests` response. To fix this error, reduce the number of concurrent requests. For detailed troubleshooting, see [W&B Inference support articles](/inference/support).
+Concurrency limits protect service quality by capping how many requests a project or user can have in flight at once. If you exceed the concurrency limit, the API returns a `429 Concurrency limit reached for requests` response. To fix this error, reduce the number of concurrent requests.
 
-W&B applies rate limits per W&B project. For example, if you have 3 projects in a team, each project has its own rate limit quota.
+W&B applies concurrency limits per W&B project and per user. For example, if you have three projects in a team, each project has its own concurrency limit quota.
+
+If your use case requires increased limits, contact [Support](https://wandb.ai/site/contact) to discuss your requirements.
 
 ## Geographic restrictions
 
@@ -43,5 +50,7 @@ The Inference service is only available from supported geographic locations. For
 
 ## Next steps
 
-- Review the [prerequisites](/inference/prerequisites/) before getting started.
-- See [available models](/inference/models) and their specific pricing. 
+Now that you understand pricing, caps, and concurrency limits, continue to set up your account:
+
+- Review the [prerequisites](/inference/prerequisites/) before you start.
+- See [available models](/inference/models) and their specific pricing.

@@ -2,17 +2,55 @@
 title: wandb artifact ls
 ---
 
-**사용법**
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-`wandb artifact ls [OPTIONS] PATH`
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/cli.py#L3025" />
 
-**요약**
+<div id="usage">
+  ## 사용
+</div>
 
-wandb 프로젝트의 모든 아티팩트 나열
+```bash
+ls [OPTIONS] PATH
+```
 
+<div id="description">
+  ## 설명
+</div>
 
-**옵션**
+W&amp;B 프로젝트의 모든 아티팩트를 나열합니다.
 
-| **옵션** | **설명** |
-| :--- | :--- |
-| `-t, --type` | 나열할 아티팩트의 유형 |
+프로젝트에서 각 아티팩트 컬렉션의 최신 버전을 표시합니다.
+유형, 마지막 업데이트 시간, 크기, 이름을 보여줍니다.
+
+PATH는 아티팩트를 나열할 대상의 entity와 프로젝트(entity/project)로
+구성됩니다.
+
+예를 들어, &quot;team-awesome&quot; entity 아래의 &quot;foobar&quot;
+프로젝트에 있는 모든 아티팩트를 나열하려면 다음과 같이 하세요:
+
+```bash
+wandb artifact ls team-awesome/foobar
+```
+
+같은 프로젝트에서 유형이 &quot;model&quot;인 아티팩트만 나열하려면:
+
+```bash
+wandb artifact ls --type model team-awesome/foobar
+```
+
+<div id="arguments">
+  ## 인수
+</div>
+
+| 이름     | 기본값 | 유형   |
+| ------ | --- | ---- |
+| `path` | STR | True |
+
+<div id="options">
+  ## 옵션
+</div>
+
+| 플래그          | 유형  | 설명                             |
+| ------------ | --- | ------------------------------ |
+| `--type, -t` | STR | 아티팩트를 유형별로 필터링합니다. **기본값**: 없음 |

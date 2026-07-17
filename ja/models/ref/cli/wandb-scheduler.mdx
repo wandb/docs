@@ -2,16 +2,28 @@
 title: wandb スケジューラー
 ---
 
-**使用方法**
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
 
-`wandb scheduler [OPTIONS] SWEEP_ID`
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/cli.py#L2099" />
 
-**概要**
+<div id="usage">
+  ## 使い方
+</div>
 
-W&B ローンンチ sweep スケジューラーを実行する（実験的）
+```bash
+scheduler [OPTIONS] SWEEP_ID
+```
 
+<div id="description">
+  ## 説明
+</div>
 
-**オプション**
+W&amp;B Launch の sweep スケジューラー を実行する (実験的)。
 
-| **オプション** | **説明** |
-| :--- | :--- |
+<div id="arguments">
+  ## 引数
+</div>
+
+| 名          | デフォルト | タイプ  |
+| ---------- | ----- | ---- |
+| `sweep_id` | STR   | True |

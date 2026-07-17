@@ -1,11 +1,7 @@
 ---
-title: "Class: MessagesPrompt"
+title: "MessagesPrompt"
 description: "TypeScript SDK reference"
 ---
-
-[weave](../) / MessagesPrompt
-
-
 
 ## Hierarchy
 
@@ -33,6 +29,7 @@ description: "TypeScript SDK reference"
 
 - [format](./messagesprompt#format)
 - [saveAttrs](./messagesprompt#saveattrs)
+- [get](./messagesprompt#get)
 
 ## Constructors
 
@@ -56,7 +53,7 @@ Prompt.constructor
 
 #### Defined in
 
-[prompt.ts:33](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/prompt.ts#L33)
+[src/prompt.ts:44](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/prompt.ts#L44)
 
 ## Properties
 
@@ -70,7 +67,7 @@ Prompt.\_\_savedRef
 
 #### Defined in
 
-[weaveObject.ts:49](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/weaveObject.ts#L49)
+[src/weaveObject.ts:71](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L71)
 
 ___
 
@@ -80,7 +77,7 @@ ___
 
 #### Defined in
 
-[prompt.ts:31](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/prompt.ts#L31)
+[src/prompt.ts:42](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/prompt.ts#L42)
 
 ## Accessors
 
@@ -98,7 +95,7 @@ Prompt.description
 
 #### Defined in
 
-[weaveObject.ts:76](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/weaveObject.ts#L76)
+[src/weaveObject.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L98)
 
 ___
 
@@ -116,7 +113,7 @@ Prompt.name
 
 #### Defined in
 
-[weaveObject.ts:72](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/weaveObject.ts#L72)
+[src/weaveObject.ts:94](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L94)
 
 ## Methods
 
@@ -136,7 +133,7 @@ Prompt.name
 
 #### Defined in
 
-[prompt.ts:60](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/prompt.ts#L60)
+[src/prompt.ts:71](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/prompt.ts#L71)
 
 ___
 
@@ -154,4 +151,25 @@ Prompt.saveAttrs
 
 #### Defined in
 
-[weaveObject.ts:53](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/weaveObject.ts#L53)
+[src/weaveObject.ts:75](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L75)
+
+___
+
+### get
+
+▸ **get**(`client`, `uri`): `Promise`\<[`MessagesPrompt`](./messagesprompt)\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `client` | [`WeaveClient`](./weaveclient) |
+| `uri` | `string` |
+
+#### Returns
+
+`Promise`\<[`MessagesPrompt`](./messagesprompt)\>
+
+#### Defined in
+
+[src/prompt.ts:77](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/prompt.ts#L77)

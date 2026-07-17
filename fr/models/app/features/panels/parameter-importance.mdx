@@ -1,0 +1,86 @@
+---
+description: Visualisez les relations entre les hyperparamètres de votre modèle et
+  les métriques de sortie
+title: Importance des paramètres
+keywords: ["importance des hyperparamètres", "importance des variables", "forêt aléatoire", "corrélation", "balayages"]
+---
+
+Le panneau d&#39;importance des paramètres vous aide à déterminer lesquels de vos hyperparamètres prédisent le mieux les valeurs souhaitées de vos métriques et y sont le plus fortement corrélés. Utilisez ce panneau pour orienter vos futures recherches d&#39;hyperparamètres vers les paramètres qui comptent le plus pour les performances du modèle.
+
+<Frame>
+  <img src="/images/general/parameter-importance-1.png" alt="Panneau d'importance des paramètres" />
+</Frame>
+
+La **corrélation** est la corrélation linéaire entre l&#39;hyperparamètre et la métrique choisie (dans ce cas, `val_loss`). Une corrélation élevée signifie que lorsque l&#39;hyperparamètre a une valeur plus élevée, la métrique prend également des valeurs plus élevées, et inversement. La corrélation est une métrique utile, mais elle ne permet pas de capturer les interactions du second ordre entre les entrées, et elle peut devenir difficile à interpréter lorsque vous comparez des entrées de plages différentes.
+
+W&amp;B calcule également une métrique d&#39;**importance**. W&amp;B entraîne une forêt aléatoire avec les hyperparamètres comme entrées et la métrique comme cible, puis indique les valeurs d&#39;importance des variables pour cette forêt aléatoire.
+
+Cette technique est née d&#39;une conversation avec [Jeremy Howard](https://twitter.com/jeremyphoward). Jeremy a été l&#39;un des pionniers de l&#39;utilisation de l&#39;importance des variables dans les forêts aléatoires pour explorer les espaces d&#39;hyperparamètres chez [Fast.ai](https://fast.ai). Pour plus d&#39;informations sur la motivation de cette analyse, voir la [leçon 4 de Fast.ai](https://course18.fast.ai/lessonsml1/lesson4.html) et les [notes du forum sur la leçon 4 de Fast.ai](https://forums.fast.ai/t/wiki-lesson-thread-lesson-4/7540).
+
+Le panneau d&#39;importance des hyperparamètres démêle les interactions complexes entre des hyperparamètres fortement corrélés. Il vous aide ainsi à effectuer le fine-tuning de vos recherches d&#39;hyperparamètres en vous montrant lesquels de vos hyperparamètres comptent le plus pour prédire les performances du modèle.
+
+<div id="create-a-hyperparameter-importance-panel">
+  ## Créer un panneau d’importance des hyperparamètres
+</div>
+
+Pour ajouter un panneau d’importance des hyperparamètres à votre espace de travail :
+
+1. Accédez à votre projet W&amp;B.
+2. Cliquez sur le bouton **Add panels**.
+3. Développez le menu déroulant **CHARTS**, puis choisissez **coordonnées parallèles**.
+
+<Note>
+  Si un panneau vide s’affiche, assurez-vous que vos runs ne sont pas groupés.
+</Note>
+
+<Frame>
+  <img src="/images/app_ui/hyperparameter_importance_panel.gif" alt="Visualisation automatique des paramètres" />
+</Frame>
+
+Avec le gestionnaire des paramètres, vous pouvez définir manuellement les paramètres visibles et masqués.
+
+<Frame>
+  <img src="/images/app_ui/hyperparameter_importance_panel_manual.gif" alt="Définition manuelle des champs visibles et masqués" />
+</Frame>
+
+<div id="interpret-a-hyperparameter-importance-panel">
+  ## Interpréter le panneau d’importance des hyperparamètres
+</div>
+
+Les sections suivantes décrivent comment lire les valeurs d’importance et de corrélation affichées dans le panneau afin que vous puissiez vous en servir dans votre prochain balayage.
+
+<Frame>
+  <img src="/images/general/parameter-importance-4.png" alt="Analyse de l’importance des variables" />
+</Frame>
+
+Ce panneau affiche tous les paramètres transmis à l’objet [wandb.Run.config](/fr/models/track/config/) dans votre script d’entraînement. Il affiche ensuite l’importance des variables et les corrélations entre ces paramètres de configuration et la métrique du modèle que vous sélectionnez (`val_loss` dans ce cas).
+
+<div id="importance">
+  ### Importance
+</div>
+
+La colonne d’importance indique dans quelle mesure chaque hyperparamètre a contribué à prédire la métrique choisie. Imaginez un scénario dans lequel vous commencez à ajuster de nombreux hyperparamètres et utilisez ce graphique pour vous concentrer sur ceux qui méritent d’être explorés plus en détail. Vous pouvez ensuite limiter les balayages suivants aux hyperparamètres les plus importants, ce qui vous aide à trouver un meilleur modèle plus rapidement et à moindre coût.
+
+<Note>
+  W&amp;B calcule les importances à l’aide d’un modèle basé sur des arbres plutôt que d’un modèle linéaire, car les modèles basés sur des arbres tolèrent mieux à la fois les données catégorielles et les données non normalisées.
+</Note>
+
+Dans l’image précédente, vous pouvez voir que `epochs`, `learning_rate`, `batch_size` et `weight_decay` étaient importants.
+
+<div id="correlations">
+  ### Corrélations
+</div>
+
+Les corrélations capturent les relations linéaires entre des hyperparamètres individuels et des valeurs de métriques. Elles permettent de déterminer s&#39;il existe une relation entre l&#39;utilisation d&#39;un hyperparamètre, tel que l&#39;optimiseur SGD, et la `val_loss` (dans ce cas, la réponse est oui). Les valeurs de corrélation vont de -1 à 1 : les valeurs positives indiquent une corrélation linéaire positive, les valeurs négatives indiquent une corrélation linéaire négative, et une valeur de 0 indique l&#39;absence de corrélation. En règle générale, une valeur supérieure à 0,7 dans un sens comme dans l&#39;autre indique une forte corrélation.
+
+Vous pouvez utiliser ce graphique pour explorer plus en détail les valeurs qui présentent la corrélation la plus forte avec votre métrique (dans ce cas, vous pourriez choisir la descente de gradient stochastique ou `adam` plutôt que `rmsprop` ou `nadam`), ou entraîner sur davantage d&#39;époques.
+
+<Note>
+  * Les corrélations montrent une association, pas nécessairement un lien de causalité.
+  * Les corrélations sont sensibles aux valeurs aberrantes, ce qui peut faire passer une relation forte à une relation modérée, en particulier lorsque l&#39;échantillon d&#39;hyperparamètres testés est réduit.
+  * Les corrélations capturent uniquement les relations linéaires entre les hyperparamètres et les métriques. Elles ne capturent pas les fortes relations polynomiales.
+</Note>
+
+Les écarts entre l&#39;importance et les corrélations s&#39;expliquent par le fait que l&#39;importance tient compte des interactions entre hyperparamètres, tandis que la corrélation mesure uniquement les effets de chaque hyperparamètre sur les valeurs des métriques. Les corrélations ne capturent également que les relations linéaires, tandis que l&#39;importance peut capturer des relations plus complexes.
+
+Ensemble, l&#39;importance et les corrélations vous aident à comprendre comment vos hyperparamètres influencent les performances du modèle.

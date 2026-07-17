@@ -1,0 +1,55 @@
+---
+title: "withAttributes"
+description: "TypeScript SDK 레퍼런스"
+---
+
+<div id="withattributes">
+  # withAttributes
+</div>
+
+▸ **withAttributes**&lt;`T`&gt;(`attrs`, `fn`): `Promise`&lt;`T`&gt; | `T`
+
+현재 실행 컨텍스트에 속성을 추가하여 `fn` 내부에서 생성된 모든 calls가
+자동으로 이를 상속하도록 합니다. 속성은 트레이스 서버의 call 기록에
+기록되며 Weave UI/필터링에 표시되므로 request ID, tenant, 실험 등으로 run에 태그를 지정하는 데
+적합합니다.
+
+예시:
+
+```ts twoslash
+// @noErrors
+await withAttributes({requestId: 'abc'}, async () => {
+  await myOp();
+});
+```
+
+<div id="type-parameters">
+  #### 유형 매개변수
+</div>
+
+| 이름  |
+| :-- |
+| `T` |
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름      | 유형                                  |
+| :------ | :---------------------------------- |
+| `attrs` | `Record`&lt;`string`, `any`&gt;     |
+| `fn`    | () =&gt; `T` | `Promise`&lt;`T`&gt; |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`Promise`&lt;`T`&gt; | `T`
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/clientApi.ts:209](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/clientApi.ts#L209)
+
+***

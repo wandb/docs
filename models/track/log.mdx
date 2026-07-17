@@ -3,8 +3,8 @@ description: Keep track of metrics, videos, custom plots, and more
 title: Overview
 ---
 
-import MetricNamingRules from "/snippets/en/_includes/metric-naming-rules.mdx";
-import MetricNamingExamples from "/snippets/en/_includes/metric-naming-examples.mdx";
+import MetricNamingRules from "/snippets/_includes/metric-naming-rules.mdx";
+import MetricNamingExamples from "/snippets/_includes/metric-naming-examples.mdx";
 
 Log a dictionary of metrics, media, or custom objects to a step with the W&B Python SDK. W&B collects the key-value pairs during each step and stores them in one unified dictionary each time you log data with `wandb.Run.log()`. Data logged from your script is saved locally to your machine in a directory called `wandb`, then synced to the W&B cloud or your [private server](/platform/hosting/). 
 
@@ -27,7 +27,7 @@ run.log({'loss': 0.2}, step=step)
 Use `wandb.Run.log()` to log consecutive values for each `step`: 0, 1, 2, and so on. It is not possible to write to a specific history step. W&B only writes to the "current" and "next" step.
 </Warning>
 
-{/* You can set `commit=False` in `run.log` to accumulate metrics, just be sure to eventually call `run.log` with `commit=True` (the default) to persist the metrics.
+{/* You can set `commit=False` in `wandb.Run.log()` to accumulate metrics, just be sure to eventually call `run.log()` with `commit=True` (the default) to persist the metrics.
 
 ```python
 run.log({'loss': 0.2}, commit=False)

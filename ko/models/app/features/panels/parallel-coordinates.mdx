@@ -1,31 +1,42 @@
 ---
-title: Parallel coordinates
-description: 기계 학습 실험 전반에서 결과를 비교하세요.
+description: 머신 러닝 실험 간 결과 비교
+title: 병렬 좌표
+keywords: ["병렬 좌표", "하이퍼파라미터 비교", "스윕 시각화"]
 ---
 
-병렬 좌표 차트는 많은 수의 하이퍼파라미터와 모델 메트릭 간의 관계를 한눈에 요약합니다.
+병렬 좌표 차트는 많은 수의 하이퍼파라미터와 모델 메트릭 사이의 관계를 한눈에 요약해 보여줍니다.
 
 <Frame>
-    <img src="/images/app_ui/parallel_coordinates.gif"  />
+  <img src="/images/app_ui/parallel_coordinates.gif" alt="병렬 좌표 플롯" />
 </Frame>
 
-*   **Axes**: [`wandb.config`](/ko/models/track/config/) 의 다양한 하이퍼파라미터와 [`wandb.log`](/ko/models/track/log/) 의 메트릭.
-*   **Lines**: 각 라인은 단일 run을 나타냅니다. 라인 위에 마우스를 올리면 run에 대한 세부 정보가 담긴 툴팁이 표시됩니다. 현재 필터와 일치하는 모든 라인이 표시되지만, 눈 모양 아이콘을 끄면 라인이 회색으로 표시됩니다.
+병렬 좌표 패널에는 다음 컴포넌트가 있습니다:
 
-## 병렬 좌표 패널 만들기
+* **축**: [`wandb.Run.config`](/ko/models/tables/evaluate-models)의 하이퍼파라미터와 [`wandb.Run.log()`](/ko/models/tables/evaluate-models)의 메트릭입니다.
+* **선**: 각 선은 개별 run을 나타냅니다. 선 위에 마우스를 올리면 run의 세부 정보가 담긴 툴팁이 표시됩니다. 현재 필터와 일치하는 모든 선이 표시됩니다. run의 눈 아이콘을 끄면 해당 선이 흐리게 표시됩니다.
 
-1.  워크스페이스 랜딩 페이지로 이동합니다.
-2.  **패널 추가**를 클릭합니다.
-3.  **병렬 좌표**를 선택합니다.
+<div id="create-a-parallel-coordinates-panel">
+  ## 병렬 좌표 패널 만들기
+</div>
 
-## 패널 설정
+Workspace에 병렬 좌표 패널을 추가하려면 다음을 수행하세요:
 
-패널을 구성하려면 패널 오른쪽 상단에 있는 편집 버튼을 클릭합니다.
+1. Workspace의 랜딩 페이지로 이동합니다.
+2. **패널 추가**를 클릭합니다.
+3. **병렬 좌표**를 선택합니다.
 
-*   **Tooltip**: 마우스 오버 시 각 run에 대한 정보가 담긴 범례가 나타납니다.
-*   **Titles**: 축 제목을 더 읽기 쉽게 편집합니다.
-*   **Gradient**: 원하는 색상 범위로 그레이디언트를 사용자 정의합니다.
-*   **Log scale**: 각 축을 독립적으로 로그 스케일로 보도록 설정할 수 있습니다.
-*   **Flip axis**: 축 방향을 전환합니다. 정확도와 손실을 모두 열로 사용할 때 유용합니다.
+<div id="panel-settings">
+  ## 패널 설정
+</div>
 
-[라이브 병렬 좌표 패널과 상호 작용하기](https://app.wandb.ai/example-team/sweep-demo/reports/Zoom-in-on-Parallel-Coordinates-Charts--Vmlldzo5MTQ4Nw)
+패널을 설정하려면 패널 오른쪽 상단의 편집 버튼을 클릭합니다.
+
+다음 설정을 조정할 수 있습니다:
+
+* **Tooltip**: 마우스를 올리면 각 run 정보가 담긴 범례가 표시됩니다.
+* **Titles**: 축 제목을 더 읽기 쉽게 수정합니다.
+* **Gradient**: 원하는 색상 범위로 그라디언트를 사용자 지정합니다.
+* **Log scale**: 각 축을 서로 독립적으로 로그 스케일로 표시하도록 설정할 수 있습니다.
+* **Flip axis**: 축 방향을 전환합니다. accuracy와 loss가 모두 열로 있을 때 유용합니다.
+
+대화형 예시는 [라이브 병렬 좌표 패널](https://app.wandb.ai/example-team/sweep-demo/reports/Zoom-in-on-Parallel-Coordinates-Charts--Vmlldzo5MTQ4Nw)을 참조하세요.

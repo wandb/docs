@@ -1,73 +1,177 @@
 ---
-title: ユーザー設定を管理する
-description: プロフィール情報、アカウントのデフォルト設定、アラート、ベータ版製品への参加、GitHub インテグレーション、ストレージ使用量、アカウントの有効化、チームの作成をユーザー設定で管理します。
+description: ユーザー設定では、プロフィール情報、アカウントのデフォルト、アラート、
+  ベータ版プロダクトへの参加、GitHub インテグレーション、ストレージ使用量、
+  アカウントの有効化を管理し、チーム を作成できます。
+title: ユーザー設定の管理
+keywords: ["APIキー", "GitHub インテグレーション", "ベータ機能", "アカウント削除"]
 ---
 
-ナビゲートして、 ユーザープロフィールページに移動し、右上のユーザーアイコンを選択します。 ドロップダウンメニューから、**Settings** を選択します。
+import ApiKeyCreate from "/snippets/ja/_includes/api-key-create.mdx";
+import ApiKeySecurity from "/snippets/ja/_includes/api-key-security.mdx";
 
-## Profile
+ユーザー設定では、プロフィール、デフォルトのチーム、APIキー、アラート、インテグレーション、その他のアカウントレベルのオプションを管理できます。このページでは、ユーザー設定の各セクションとその使い方について説明します。
 
-**Profile** セクションでは、アカウント名と所属機関を管理および変更できます。オプションで、経歴、所在地、個人や所属機関のウェブサイトのリンクを追加したり、プロフィール画像をアップロードしたりできます。
+ユーザー設定を開くには、ユーザープロフィールページにアクセスし、画面右上のユーザーアイコンを選択します。ドロップダウンから **Settings** を選択します。
 
-## イントロの編集
+<div id="profile">
+  ## プロフィール
+</div>
 
-イントロを編集するには、プロフィールの上部にある **Edit** をクリックします。 開く WYSIWYG エディターは Markdown をサポートしています。
-1. 行を編集するには、それをクリックします。 時間を短縮するために、`/` を入力し、リストから Markdown を選択できます。
-1. アイテムのドラッグハンドルを使って移動します。
-1. ブロックを削除するには、ドラッグハンドルをクリックしてから **Delete** をクリックします。
-1. 変更を保存するには、**Save** をクリックします。
+**プロフィール**セクションでは、アカウント名や所属機関を管理・変更できます。必要に応じて、自己紹介、所在地、個人または所属機関のウェブサイトへのリンク、プロフィール画像を追加できます。
 
-### SNS バッジの追加
+<div id="edit-your-intro">
+  ### 自己紹介を編集する
+</div>
 
-`@weights_biases` アカウントのフォローバッジを X に追加するには、HTML の `<img>` タグを含む Markdown スタイルのリンクを追加します。そのバッジ画像にリンクさせます。
+自己紹介はプロフィールの上部に表示され、自分を紹介したり、Projects へのリンクを追加したり、関連するアカウントを共有したりするのに適しています。
 
-<Frame>
-[<img src="https://img.shields.io/twitter/follow/weights_biases?style=social" alt="X: @weights_biases"/>](https://x.com/intent/follow?screen_name=weights_biases)
-</Frame>
+自己紹介を編集するには、プロフィール上部の **Edit** をクリックします。開いた WYSIWYG エディターは Markdown をサポートしています。
 
-`<img>` タグでは、`width`、`height`、またはその両方を指定できます。どちらか一方だけを指定すると、画像の比率は維持されます。
+1. 行を編集するには、その行をクリックします。手早く編集するには、`/` と入力し、一覧から Markdown を選択します。
+2. 項目はドラッグハンドルを使って移動できます。
+3. ブロックを削除するには、ドラッグハンドルをクリックしてから **Delete** をクリックします。
+4. 変更を保存するには、**Save** をクリックします。
 
-## Teams
+更新した自己紹介がプロフィールに表示されます。
 
-**Team** セクションで新しいチームを作成します。 新しいチームを作成するには、**New team** ボタンを選択し、次の情報を提供します。
+<div id="add-social-badges">
+  #### ソーシャルバッジを追加する
+</div>
 
-* **Team name** - チームの名前。チーム名はユニークでなければなりません。チーム名は変更できません。
-* **Team type** - **Work** または **Academic** ボタンを選択します。
-* **Company/Organization** - チームの会社または組織の名前を提供します。 ドロップダウンメニューから会社または組織を選択します。 オプションで新しい組織を提供することもできます。
+X の `@weights_biases` アカウントのフォローバッジを追加するには、バッジ画像を参照する HTML の `<img>` タグを含む Markdown 形式のリンクを追加します。
+
+```markdown
+[![X: @weights_biases](https://img.shields.io/twitter/follow/weights_biases?style=social)](https://x.com/intent/follow?screen_name=weights_biases)
+```
+
+`<img>` タグでは、`width`、`height`、またはその両方を指定できます。いずれか一方だけを指定した場合、画像の縦横比は維持されます。
+
+<div id="default-team">
+  ## デフォルトのチーム
+</div>
+
+複数のチームに所属している場合は、**Default team** セクションで、run または Weave trace にチームが指定されていないときに使用するデフォルトのチームを設定できます。1 つのチームにのみ所属している場合は、そのチームがデフォルトとなり、このセクションは表示されません。
+
+デフォルトのチームを設定する手順は、デプロイ形態によって異なります。ご利用の環境に対応するタブを選択してください。
+
+<Tabs>
+  <Tab title="Multi-tenant Cloud">
+    **Default location to create new projects in** の横にあるドロップダウンをクリックし、デフォルトのチームを選択します。
+  </Tab>
+
+  <Tab title="Dedicated Cloud / Self-Managed">
+    1. **Default location to create new projects in** の横にあるドロップダウンをクリックし、デフォルトのチームまたは個人エンティティを選択します。
+    2. **任意:** 管理者が **Account** &gt; **Settings** &gt; **Privacy** で公開 Projects を有効にしている場合は、新しい Projects のデフォルトの公開設定を構成します。**Default project privacy in your personal account** の横にあるボタンをクリックし、**Private** (デフォルト) または **Public** を選択します。
+    3. **任意:** 管理者が **Account** &gt; **Settings** &gt; **Privacy** で [コードのデフォルト保存と差分表示](/ja/models/app/features/panels/code/) を有効にしている場合は、**Enable code saving in your personal account** をクリックして、Runs に対して有効にします。
+  </Tab>
+</Tabs>
 
 <Note>
-管理者アカウントのみがチームを作成できます。
+  自動化された環境でスクリプトを実行するときにデフォルトのチームを指定するには、`WANDB_ENTITY` [環境変数](https://docs.wandb.ai/models/track/environment-variables)でデフォルトの保存先を指定します。
 </Note>
 
-## ベータ機能
+<div id="teams">
+  ## チーム
+</div>
 
-**Beta Features** セクションでは、開発中の新製品の楽しいアドオンやプレビューをオプションで有効にできます。有効にしたいベータ機能の横にある切り替えスイッチを選択します。
+**チーム** セクションには、所属しているすべてのチームが一覧表示されます。
 
-## アラート
+* チーム名をクリックすると、そのチームのページに移動します。
+* さらに参加できるチームへの参加権限がある場合は、**We found teams for you to join** の横にある **View teams** をクリックします。
+* **任意:** **Hide teams in public profile** をオンにします。
 
-Runs がクラッシュしたり、終了したり、カスタムアラートを設定した際に通知を受け取ります。[wandb.alert()](/ja/models/runs/alert/) を使用して電子メールまたは Slack 経由で通知を受け取ります。受け取りたいアラートイベントタイプの横にあるスイッチを切り替えます。
+<Note>
+  チームを作成または管理するには、[チームを管理する](/ja/platform/app/settings-page/teams/)を参照してください。
+</Note>
 
-* **Runs finished**: Weights and Biases の run が正常に完了したかどうか。
-* **Run crashed**: run が終了しなかった場合の通知。
+<div id="api-keys">
+  ## APIキー
+</div>
 
-アラートの設定と管理方法の詳細については、[Send alerts with wandb.alert](/ja/models/runs/alert/) を参照してください。
+**APIキー**セクションでは、W&amp;Bのサービスで認証するための個人用APIキーを管理できます。このセクションから、既存のキーを確認したり、新しいキーを作成したり、不要になったキーを無効化したりできます。
 
-## 個人 GitHub インテグレーション
+<div id="view-your-api-keys">
+  ### APIキーを表示する
+</div>
 
-個人の Github アカウントを接続します。 Github アカウントを接続するには：
+APIキーの表には、次の項目が表示されます。
 
-1. **Connect Github** ボタンを選択します。これにより、オープン認証（OAuth）ページにリダイレクトされます。
-2. **Organization access** セクションでアクセスを許可する組織を選択します。
-3. **Authorize** **wandb** を選択します。
+* **キーID**: 各APIキーの先頭部分で、識別に使用されます。
+* **名**: キーの作成時に指定した説明用の名前です。
+* **作成日時**: キーが作成された日時です。
+* **最終使用日時**: 直近で使用された日時です。
 
-## アカウントの削除
+<Note>
+  セキュリティ保護のため、この表にはキーID (キーの先頭部分) のみが表示されます。完全なシークレットAPIキーが表示されるのは、作成時の一度だけです。
+</Note>
 
-アカウントを削除するには、**Delete Account** ボタンを選択します。
+APIキーの一覧をフィルターするには、キー名またはIDの一部を入力します。
+
+<div id="create-a-new-api-key">
+  ### 新しいAPIキーを作成
+</div>
+
+<ApiKeyCreate />
+
+<div id="delete-an-api-key">
+  ### APIキーを削除する
+</div>
+
+不要になった場合や、漏えいした可能性がある場合は、APIキーを削除してください。APIキーを削除してアクセスを無効にするには、次の手順を実行します。
+
+1. APIキーの表で、削除するキーを探します。
+2. キーの横にある Delete ボタンをクリックします。
+3. 削除を確認します。
+
+W&amp;B では、そのキーは表から削除され、認証には使用できなくなります。
 
 <Warning>
-アカウントの削除は元に戻せません。
+  APIキーを削除すると、そのキーを使用しているスクリプトやサービスのアクセスは即座に無効になります。古いキーを削除する前に、すべてのシステムが新しいキーを使用するように更新されていることを確認してください。
 </Warning>
 
-## ストレージ
+<ApiKeySecurity />
 
-**Storage** セクションでは、Weights and Biases サーバーにおけるアカウントの総メモリ使用量について説明しています。 デフォルトのストレージプランは 100GB です。ストレージと料金の詳細については、[Pricing](https://wandb.ai/site/pricing) ページをご覧ください。
+<div id="beta-features">
+  ## ベータ機能
+</div>
+
+**Beta Features** セクションでは、必要に応じて追加機能や、開発中のプロダクトのプレビューを有効にできます。有効にしたいベータ機能の横にあるトグルスイッチを選択します。
+
+<div id="alerts">
+  ## アラート
+</div>
+
+run がクラッシュしたときや完了したときに通知を受け取ることも、[`wandb.Run.alert()`](/ja/models/runs/alert/) でカスタム アラートを設定することもできます。通知はメールまたは Slack で受け取れます。アラートを受け取りたいイベント タイプの横にあるスイッチを切り替えてください。
+
+* **Runs finished**: W&amp;B Run が正常に完了したときに通知します。
+* **Run crashed**: run が正常に完了しなかったときに通知します。
+
+アラートの設定と管理の詳細については、[Send alerts with `wandb.Run.alert()`](/ja/models/runs/alert/) を参照してください。
+
+<div id="personal-github-integration">
+  ## 個人用 GitHub インテグレーション
+</div>
+
+個人用の GitHub アカウントを接続すると、W&amp;B がユーザーに代わって GitHub リソースにアクセスできるようになります。GitHub アカウントを接続するには、次の手順に従います。
+
+1. **Connect Github** ボタンを選択します。W&amp;B により OAuth 認可ページにリダイレクトされます。
+2. **Organization access** セクションで、アクセスを許可する組織を選択します。
+3. **Authorize wandb** を選択します。
+
+これで、個人用の GitHub アカウントが W&amp;B アカウントにリンクされます。
+
+<div id="delete-your-account">
+  ## アカウントを削除する
+</div>
+
+アカウントを削除するには、**アカウントを削除**ボタンをクリックします。
+
+<Warning>
+  アカウントの削除は元に戻せません。
+</Warning>
+
+<div id="storage">
+  ## ストレージ
+</div>
+
+**Storage** セクションでは、アカウントが W&amp;B サーバー上で使用している合計ストレージ容量について説明します。デフォルトのストレージプランは 100 GB です。ストレージと料金の詳細については、[Pricing](https://wandb.ai/site/pricing) ページを参照してください。

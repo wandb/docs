@@ -1,51 +1,56 @@
 ---
 title: オーディオ
+namespace: python_sdk_data_type
+python_object_type: class
 ---
 
-<Card title="View the source code" href="https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/audio.py#L13-L157" icon="github"/>
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-オーディオクリップ用の Wandb クラス。
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/audio.py" />
+
+
+## <kbd>クラス</kbd> `Audio`
+
+W&amp;Bのオーディオクリップ用クラス。 
+
+### <kbd>method</kbd> `Audio.__init__`
 
 ```python
-Audio(
-    data_or_path, sample_rate=None, caption=None
+__init__(
+    data_or_path: 'str | pathlib.Path | list | np.ndarray',
+    sample_rate: 'int | None' = None,
+    caption: 'str | None' = None
 )
 ```
 
-| Args | Description |
-| :--- | :--- |
-|  `data_or_path` |  (string または numpy array) オーディオファイルへのパス、またはオーディオデータの numpy 配列。 |
-|  `sample_rate` |  (int) サンプルレート、生の numpy 配列のオーディオデータを渡す場合に必要。 |
-|  `caption` |  (string) オーディオと一緒に表示するキャプション。 |
+オーディオファイルへのパス、またはオーディオデータを含む NumPy 配列を受け取ります。
 
-## メソッド
+**引数:**
 
-### `durations`
+* `data_or_path`:  オーディオファイルへのパス、またはオーディオデータを含む NumPy 配列。
+* `sample_rate`:  サンプルレート。生の NumPy 配列のオーディオデータを渡す場合に必須です。
+* `caption`:  オーディオとともに表示するキャプション。
 
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/audio.py#L115-L117)
+***
 
-```python
-@classmethod
-durations(
-    audio_list
-)
-```
 
-### `resolve_ref`
-
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/audio.py#L131-L143)
+### <kbd>クラスメソッド</kbd> `Audio.durations`
 
 ```python
-resolve_ref()
+durations(audio_list)
 ```
 
-### `sample_rates`
+オーディオファイルの再生時間を計算します。
 
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/audio.py#L119-L121)
+***
+
+
+### <kbd>クラスメソッド</kbd> `Audio.sample_rates`
 
 ```python
-@classmethod
-sample_rates(
-    audio_list
-)
+sample_rates(audio_list)
 ```
+
+オーディオファイルのサンプルレートを取得します。
+
+***

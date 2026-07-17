@@ -1,0 +1,38 @@
+---
+title: "run 로깅 시 권한 오류를 해결하려면 어떻게 해야 하나요?"
+keywords: ["Runs", "보안"]
+---
+
+run을 로깅할 때 발생하는 권한 오류는 일반적으로 코드, 자격 증명 또는 배포 설정과 로깅 대상인 W&amp;B entity가 서로 맞지 않음을 의미합니다. 이 페이지에서는 가장 일반적인 원인과 각 원인에 대한 해결 방법을 안내하여, run이 의도한 entity와 프로젝트에 기록될 수 있도록 돕습니다.
+
+W&amp;B entity에 run을 로깅할 때 권한 오류를 해결하려면 다음 사항을 차례대로 확인하세요.
+
+* **entity 및 프로젝트 이름 확인**: 코드에 있는 W&amp;B entity와 프로젝트 이름의 철자 및 대소문자가 정확한지 확인하세요. 오타가 있거나 대소문자가 일치하지 않으면 액세스 권한이 없는 위치로 run이 기록될 수 있습니다.
+* **권한 확인**: 관리자가 대상 entity와 프로젝트에 필요한 권한을 부여했는지 확인하세요.
+* **로그인 자격 증명 확인**: 올바른 W&amp;B 계정에 로그인되어 있는지 확인하세요. 다음 코드로 run을 생성해 테스트해 보세요. `[ENTITY-NAME]` 및 `[PROJECT-NAME]`은 대상 entity와 프로젝트로 바꾸세요.
+  ```python
+  import wandb
+
+  run = wandb.init(entity="[ENTITY-NAME]", project="[PROJECT-NAME]")
+  run.log({"example_metric": 1})
+  run.finish()
+  ```
+* **API 키 설정**: 클라이언트가 의도한 계정으로 인증되도록 `WANDB_API_KEY` 환경 변수를 설정하세요. `[API-KEY]`를 W&amp;B API 키로 바꾸세요.
+  ```bash
+  export WANDB_API_KEY="[API-KEY]"
+  ```
+* **호스트 정보 확인**: 맞춤형 배포의 경우 클라이언트가 올바른 W&amp;B 호스트를 가리키도록 설정하여 run이 올바른 서버로 전송되게 하세요. `[HOST-URL]`을 W&amp;B 호스트 URL로 바꾸세요.
+  ```bash
+  wandb login --relogin --host=[HOST-URL]
+  export WANDB_BASE_URL=[HOST-URL]
+  ```
+
+위 사항을 모두 확인한 후에는 권한 오류 없이 대상 entity와 프로젝트에 run을 초기화하고 로깅할 수 있습니다.
+
+***
+
+{/* 자동 생성: 탭 배지 */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Runs](/ko/support/models/tags/runs)</Badge><Badge stroke shape="pill" color="orange" size="md">[보안](/ko/support/models/tags/security)</Badge>
+
+{/* END AUTO-GENERATED: 탭 배지 */}

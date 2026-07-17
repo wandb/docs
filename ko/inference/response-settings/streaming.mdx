@@ -1,0 +1,53 @@
+---
+title: "스트리밍 응답 활성화"
+description: "Serverless Inference에서 스트리밍 출력을 활성화해 모델 응답을 점진적으로 받을 수 있습니다."
+keywords: ["stream=True", "서버 전송 이벤트", "SSE", "점진적 출력"]
+---
+
+`stream` 옵션을 `true`로 설정하면 모델의 응답이 청크 스트림으로 점진적으로 반환되므로, 전체 응답을 기다리지 않고 도착하는 대로 결과를 표시할 수 있습니다. 이는 모델이 출력을 생성하는 데 시간이 걸릴 때 유용합니다.
+
+모든 호스팅된 모델은 스트리밍 출력을 지원합니다. 특히 [추론 모델](./reasoning)에는 스트리밍을 권장합니다. 스트리밍하지 않는 요청은 모델이 출력을 생성하기 시작하는 데 시간이 오래 걸리면 시간 초과될 수 있기 때문입니다.
+
+다음 예시는 Chat Completion 요청에 스트리밍을 활성화합니다:
+
+<Tabs>
+  <Tab title="Python">
+    ```python
+    import openai
+
+    client = openai.OpenAI(
+        base_url='https://api.inference.wandb.ai/v1',
+        api_key="[YOUR-API-KEY]",  # https://wandb.ai/settings 에서 API 키를 생성하세요
+    )
+
+    stream = client.chat.completions.create(
+        model="openai/gpt-oss-120b",
+        messages=[
+            {"role": "user", "content": "Tell me a rambling joke"}
+        ],
+        stream=True,
+    )
+
+    for chunk in stream:
+        if chunk.choices:
+            print(chunk.choices[0].delta.content or "", end="", flush=True)
+        else:
+            print(chunk) # CompletionUsage 객체 표시
+    ```
+  </Tab>
+
+  <Tab title="Bash">
+    ```bash
+    curl https://api.inference.wandb.ai/v1/chat/completions \
+      -H "Content-Type: application/json" \
+      -H "Authorization: Bearer [YOUR-API-KEY]" \
+      -d '{
+        "model": "openai/gpt-oss-120b",
+        "messages": [
+          { "role": "user", "content": "Tell me a rambling joke" }
+        ],
+        "stream": true
+      }'
+    ```
+  </Tab>
+</Tabs>

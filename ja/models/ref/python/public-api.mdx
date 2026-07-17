@@ -1,27 +1,159 @@
 ---
-title: インポート＆エクスポート API
+title: Public API の概要
+description: W&B Public API を使用して、W&B データにプログラムでアクセスおよび管理します
+module: wandb.apis.public
+no_list: true
 ---
 
-## クラス
+import PublicApiUse from "/snippets/ja/_includes/public-api-use.mdx";
 
-[`class Api`](/ja/models/ref/python/public-api/api/): wandb サーバーをクエリするために使用されます。
+W&amp;B Public API は、W&amp;B に保存されたデータをプログラムからクエリ、エクスポート、更新するためのアクセスを提供します。事後分析、データのエクスポート、run、artifact、sweep のプログラムによる管理には、この API を使用します。メインの SDK はトレーニング中のリアルタイム logging を処理しますが、Public API では、過去のデータの取得、メタデータの更新、artifact の管理、完了した実験に対する分析を行えます。メインの `Api` クラスは、ほとんどの機能のエントリ ポイントです。
 
-[`class File`](/ja/models/ref/python/public-api/file/): File は wandb によって保存されたファイルに関連付けられているクラスです。
+<PublicApiUse />
 
-[`class Files`](/ja/models/ref/python/public-api/files/): `File` オブジェクトの反復可能なコレクション。
+<div id="available-components">
+  ## 利用可能なコンポーネント
+</div>
 
-[`class Job`](/ja/models/ref/python/public-api/job/)
+| Component                                             | Description                                                    |
+| ----------------------------------------------------- | -------------------------------------------------------------- |
+| [`Api`](/ja/models/ref/python/public-api/api/)           | Public API の主要なエントリポイントです。組織全体の run、プロジェクト、Artifacts をクエリできます。 |
+| [`Runs`](/ja/models/ref/python/public-api/runs/)         | history、ログ、メトリクスを含む、個々のトレーニング run にアクセスして管理します。                |
+| [`Artifacts`](/ja/models/artifacts/)                     | モデル Artifacts、データセット、その他のバージョン付きファイルをクエリしてダウンロードします。           |
+| [`Sweeps`](/ja/models/sweeps/)                           | ハイパーパラメーター sweep のデータにアクセスし、最適化結果を分析します。                       |
+| [`Projects`](/ja/models/ref/python/public-api/projects/) | Projects を管理し、プロジェクトレベルのメタデータと設定にアクセスします。                      |
+| [`Reports`](/ja/models/reports/create-a-report/)         | W&amp;B Reports にプログラムからアクセスして管理します。                           |
+| [`Team`](/ja/models/ref/python/public-api/team)          | チーム情報をクエリし、チームレベルのリソースを管理します。                                  |
+| [`User`](/ja/models/ref/python/public-api/user)          | ユーザープロフィールとユーザー固有のデータにアクセスします。                                 |
+| [`Files`](/ja/models/ref/python/public-api/files/)       | run に関連付けられたファイルをダウンロードして管理します。                                |
+| `History`                                             | トレーニング中にログされた詳細な時系列メトリクスにアクセスします (`Run.history` を参照) 。         |
+| [`Automations`](./automations/)                       | 自動化されたワークフローとアクションを管理します。                                      |
+| [`Integrations`](/ja/models/integrations)                | サードパーティのインテグレーションを設定、管理します。                                    |
 
-[`class Project`](/ja/models/ref/python/public-api/project/): プロジェクトは、run の名前空間です。
+<div id="common-use-cases">
+  ## よくあるユースケース
+</div>
 
-[`class Projects`](/ja/models/ref/python/public-api/projects/): `Project` オブジェクトの反復可能なコレクション。
+<div id="data-export-and-analysis">
+  ### データのエクスポートと分析
+</div>
 
-[`class QueuedRun`](/ja/models/ref/python/public-api/queuedrun/): entity と project に関連付けられた単一のキューされた run。`run = queued_run.wait_until_running()` または `run = queued_run.wait_until_finished()` を呼び出して run にアクセスします。
+* Jupyter Notebookで分析できるよう、runの履歴をDataFrame形式でエクスポートします
+* 独自の可視化やレポート作成のためにメトリクスをダウンロードします
+* 複数のExperimentsにまたがる結果を集約します
 
-[`class Run`](./run): entity と project に関連付けられた単一の run。
+<div id="post-hoc-updates">
+  ### 事後更新
+</div>
 
-[`class RunQueue`](/ja/models/ref/python/public-api/runqueue/)
+* 完了後にrunのメタデータを更新する
+* 完了したExperimentsにtagsやメモを追加する
+* runの設定やサマリーを変更する
 
-[`class Runs`](/ja/models/ref/python/public-api/runs/): プロジェクトとオプションのフィルタに関連付けられたいくつかの run の反復可能なコレクション。
+<div id="artifact-management">
+  ### Artifact 管理
+</div>
 
-[`class Sweep`](./sweep): sweep に関連付けられた一連の runs。
+* バージョンまたはエイリアスで Artifact をクエリする
+* プログラムでモデル チェックポイントをダウンロードする
+* Artifact のリネージと依存関係をトラッキングする
+
+<div id="sweep-analysis">
+  ### sweepの分析
+</div>
+
+* sweepの結果や、最も高いパフォーマンスを示したRunsにアクセスする
+* ハイパーパラメーター探索の結果をエクスポートする
+* パラメーターの重要度を分析する
+
+<div id="authentication">
+  ## 認証
+</div>
+
+Public API では、Python SDK と同じ認証方式を使用します。認証方法はいくつかあります。
+
+`WANDB_API_KEY` 環境変数を使用して、APIキーを設定します。
+
+```bash
+export WANDB_API_KEY=your_api_key
+```
+
+`Api` クラスの初期化時に、APIキーを直接渡します。
+
+```python
+api = Api(api_key="your_api_key")
+```
+
+または、現在のセッションを認証するには `wandb.login()` を使用します:
+
+```python
+import wandb
+
+wandb.login()
+api = Api()
+```
+
+<div id="example-usage">
+  ## 使用例
+</div>
+
+<div id="download-an-artifact-by-name-and-alias">
+  ### 名とエイリアスで Artifact をダウンロードする
+</div>
+
+次の例では、W&amp;B にログした Artifact を名とエイリアスで取得し、その内容をダウンロードする方法を示します。
+
+```python
+import wandb
+
+api = wandb.Api()
+artifact = api.artifact("entity/project/artifact:alias")
+artifact.download()
+```
+
+<div id="download-an-artifact-from-a-registry">
+  ### RegistryからArtifactをダウンロードする
+</div>
+
+次の例では、W&amp;B RegistryからリンクされたArtifactを取得する方法を示します
+
+```python
+import wandb
+
+REGISTRY = "<registry_name>"
+COLLECTION = "<collection_name>"
+VERSION = "<version>"
+
+api = wandb.Api()
+artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{VERSION}"
+
+# artifactを取得する
+fetched_artifact = api.artifact(name = artifact_name)
+
+# artifactをダウンロードする。ダウンロードしたコンテンツのパスを返す
+downloaded_path = fetched_artifact.download()
+```
+
+<div id="query-wb-registry">
+  ### W&amp;B Registry をクエリする
+</div>
+
+MongoDB ライクなフィルターを使用して、W&amp;B Registries、Collections、Artifacts をクエリできます。次の例では、正規表現を使用して名で Collections をフィルターする方法を示します。
+
+```python
+import wandb
+
+# wandb APIを初期化する
+api = wandb.Api()
+
+# Registryに関係なく、コレクション名に文字列`yolo`を
+# 含むすべてのコレクションをフィルタリングする
+collection_filters = {
+    "name": {"$regex": "yolo"}
+}
+
+# フィルターに一致するすべてのコレクションのイテラブルを返す
+collections = api.registries().collections(filter=collection_filters)
+```
+
+Registry、collection、またはartifactをクエリする方法の詳細は、[レジストリ項目を検索する](/ja/models/registry/search_registry)を参照してください。

@@ -1,0 +1,147 @@
+---
+title: "トレースから PII をマスクする"
+description: "トレースから個人を特定できる情報を自動的にマスクする"
+keywords: ["PII redaction", "Presidio", "sensitive data protection", "GDPR", "HIPAA"]
+---
+
+<Warning>
+  この機能は Python SDK からのみ利用できます。
+</Warning>
+
+一部の組織では、大規模言語モデル (LLM) のワークフローにおいて、氏名、電話番号、メールアドレスなどの Personally Identifiable Information (PII) を処理しています。このデータを W&amp;B Weave に保存すると、コンプライアンスおよびセキュリティ上のリスクが生じます。ログする前にこのデータを除去しておくことで、[GDPR](https://gdpr.eu/) や [HIPAA](https://www.hhs.gov/hipaa/index.html) などのポリシーへのエージェントの準拠を維持できます。
+
+*Sensitive Data Protection* 機能を使用すると、Weave がトレースをサーバーに送信する前に、[トレース](/ja/weave/guides/tracking)から Personally Identifiable Information (PII) を自動的にマスクできます。この機能は [Microsoft Presidio](https://microsoft.github.io/presidio/) を Weave Python SDK に統合しており、SDK レベルでマスキングの設定を制御できます。
+
+Sensitive Data Protection 機能により、Python SDK に以下の機能が追加されます。
+
+* `redact_pii` 設定。`weave.init()` の呼び出しで有効または無効にすることで、PII マスキングのオン／オフを切り替えられます。
+* `redact_pii = True` の場合に[デフォルトでマスクされる エンティティ](#entities-redacted-by-default) の自動マスキング。
+* 設定可能な `redact_pii_fields` によるマスキングフィールドのカスタマイズ。
+* `redact_pii_exclude_fields` 設定による特定の エンティティ のマスキング対象からの除外。
+
+<div id="enable-pii-redaction">
+  ## PII のマスキングを有効にする
+</div>
+
+このセクションでは、必要な依存関係のインストール、`weave.init()` での PII のマスキングの有効化、および Weave がマスクする エンティティ の任意の調整について説明します。Weave の Sensitive Data Protection 機能を使い始めるには、以下の手順を実行します。
+
+1. 必要な依存関係をインストールします。
+
+   ```bash
+   pip install presidio-analyzer presidio-anonymizer
+   ```
+
+2. マスキングを有効にするように、`weave.init()` call を変更します。`redact_pii=True` を設定すると、[一般的なエンティティはデフォルトでマスクされます](#entities-redacted-by-default)。
+
+   ```python lines
+   import weave
+
+   weave.init("my-project", settings={"redact_pii": True})
+   ```
+
+3. (任意) `redact_pii_fields` パラメーターを使用して、マスキングするフィールドをカスタマイズします。
+
+   ```python lines
+   weave.init("my-project", settings={"redact_pii": True, "redact_pii_fields":["CREDIT_CARD", "US_SSN"]})
+   ```
+
+   検出およびマスクできるエンティティの一覧については、[Presidio でサポートされる PII エンティティ](https://microsoft.github.io/presidio/supported_entities/)を参照してください。
+
+4. (任意) `redact_pii_exclude_fields` パラメーターを使用して、特定のエンティティをマスキング対象から除外します。これは、デフォルトのマスキングは維持しつつ、特定のエンティティタイプは保持したい場合に便利です。次の例は、`EMAIL_ADDRESS` と `PERSON` を除くすべての[デフォルトのエンティティ](#entities-redacted-by-default)をマスクする方法を示しています。
+
+   ```python lines
+   weave.init("my-project", settings={"redact_pii": True, "redact_pii_exclude_fields":["EMAIL_ADDRESS", "PERSON"]})
+   ```
+
+これらの手順を完了すると、Weave は設定された PII エンティティ を Weave サーバーに送信する前にトレースからマスクします。
+
+<div id="entities-redacted-by-default">
+  ## デフォルトでマスクされるエンティティ
+</div>
+
+このセクションでは、`redact_pii_fields`を指定せずに PII のマスキング を有効にしたときに、Weave が自動的にマスクする PII エンティティタイプを一覧で示します。PII のマスキング を有効にすると、Weave は以下のエンティティを自動的にマスクします。
+
+* `CREDIT_CARD`
+* `CRYPTO`
+* `EMAIL_ADDRESS`
+* `ES_NIF`
+* `FI_PERSONAL_IDENTITY_CODE`
+* `IBAN_CODE`
+* `IN_AADHAAR`
+* `IN_PAN`
+* `IP_ADDRESS`
+* `LOCATION`
+* `PERSON`
+* `PHONE_NUMBER`
+* `UK_NHS`
+* `UK_NINO`
+* `US_BANK_NUMBER`
+* `US_DRIVER_LICENSE`
+* `US_PASSPORT`
+* `US_SSN`
+
+<div id="redact-sensitive-keys-with-redact_keys">
+  ## `REDACT_KEYS` を使用した機密キーのマスキング
+</div>
+
+PII のマスキングに加えて、Weave SDK は `REDACT_KEYS` を使用したカスタムキーのマスキングに対応しています。これは、PII のカテゴリには該当しないものの、非公開のままにしておく必要がある追加の機密データを保護したい場合に便利です。たとえば、次のようなものがあります。
+
+* APIキー
+* 認証ヘッダー
+* トークン
+* 内部ID
+* 設定値
+
+<div id="pre-defined-redact_keys">
+  ### 事前定義された `REDACT_KEYS`
+</div>
+
+Weave はデフォルトで、以下の機密キーを自動的にマスクします。
+
+```json
+[
+  "api_key",
+  "auth_headers",
+  "authorization"
+]
+```
+
+<div id="add-your-own-keys">
+  ### 独自のキーを追加する
+</div>
+
+アプリケーションで機密性の高い値を含む別のフィールド名を使用している場合は、デフォルトの `REDACT_KEYS` リストを拡張できます。トレースからマスクしたい独自のキーを追加できます。
+
+```python lines
+import weave
+from weave.utils import sanitize
+
+client = weave.init("my-project", settings={"redact_pii": True})
+
+# マスクするカスタムキーを追加する
+sanitize.add_redact_key("client_id")
+sanitize.add_redact_key("token")
+
+client_id = "123"
+token = "789"
+
+@weave.op
+def test(client_id, token):
+    return client_id + token
+
+test(client_id, token)
+```
+
+Weave UI で確認すると、`client_id` と `token` の値は `"REDACTED"` と表示されます。
+
+```python lines
+client_id = "REDACTED"
+token = "REDACTED"
+```
+
+<div id="usage-information">
+  ## 利用情報
+</div>
+
+* この機能は Python SDK でのみ利用できます。
+* マスキングを有効にすると、Presidio への依存により処理時間が長くなります。

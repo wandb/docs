@@ -1,0 +1,55 @@
+---
+description: W&Bで利用できるキーボードショートカットについて説明します。
+title: キーボードショートカット
+keywords: ["ホットキー", "LEET", "クイック検索", "元に戻す/やり直し", "キーボードショートカット"]
+---
+
+import LEETShortcuts from "/snippets/ja/_includes/leet-keyboard-shortcuts.mdx";
+
+W&amp;B では、Experiments、Workspace、データ内をより効率よく移動し、操作できるように、キーボードショートカットをサポートしています。このガイドでは、W&amp;B App と W&amp;B LEET (Lightweight Experiment Exploration Tool) terminal UI のキーボードショートカットを紹介します。
+
+<Tabs>
+  <Tab title="App">
+    W&amp;B App には、現在のコンテキストで利用可能なすべてのショートカットを一覧表示するキーボードショートカットのドロワーがあります。**Cmd+/** (macOS) または **Ctrl+/** (Windows/Linux) で開くか、上部ナビゲーションの **?** (help) メニューから **Keyboard shortcuts** を選択してください。ドロワー内の検索フィールドを使うと、ショートカットを名前でフィルターできます。
+
+    **Workspace** セクションと **Media browser modal** セクションはコンテキストに応じて表示され、対応する領域がアクティブな場合にのみ表示されます。
+
+    ## 基本
+
+    | Shortcut                                       | Description             |
+    | ---------------------------------------------- | ----------------------- |
+    | **Cmd+/** (macOS) / **Ctrl+/** (Windows/Linux) | キーボードショートカットのドロワーを開きます。 |
+    | **Cmd+K** (macOS) / **Ctrl+K** (Windows/Linux) | グローバル検索ダイアログを開きます。      |
+    | **Alt+M**                                      | ライトテーマとダークテーマを切り替えます。   |
+
+    ## Workspace
+
+    | Shortcut                                                   | Description                     |
+    | ---------------------------------------------------------- | ------------------------------- |
+    | **Cmd+Z** (macOS) / **Ctrl+Z** (Windows/Linux)             | 直前の Workspace での操作を元に戻します。      |
+    | **Cmd+Shift+Z** (macOS) / **Ctrl+Shift+Z** (Windows/Linux) | 直前に取り消した Workspace での操作をやり直します。 |
+    | **Cmd+S** (macOS) / **Ctrl+S** (Windows/Linux)             | 現在の Workspace を保存します。           |
+    | **Cmd+J** (macOS) / **Ctrl+J** (Windows/Linux)             | Runs サイドバーを展開または折りたたみます。        |
+    | **Cmd+.** (macOS) / **Ctrl+.** (Windows/Linux)             | 最小化された run selector の表示を切り替えます。 |
+    | **Alt+V**                                                  | 現在パネルに表示されている Runs のみを表示します。    |
+
+    ## Media browser modal
+
+    これらのショートカットは、メディアを fullscreen modal で表示しているときに利用できます。
+
+    | Shortcut                                       | Description         |
+    | ---------------------------------------------- | ------------------- |
+    | **Cmd++** (macOS) / **Ctrl++** (Windows/Linux) | 拡大します。              |
+    | **Cmd+-** (macOS) / **Ctrl+-** (Windows/Linux) | 縮小します。              |
+    | **Cmd+0** (macOS) / **Ctrl+0** (Windows/Linux) | ズームを 100% にリセットします。 |
+    | **Shift+1**                                    | ビューポートに合わせてズームします。  |
+  </Tab>
+
+  <Tab title="LEET">
+    これらのキーボードショートカットは、W&amp;B LEET (Lightweight Experiment Exploration Tool) terminal UI で使用できます。LEET を起動するには、ターミナルで `wandb beta leet` を実行します。
+
+    LEET 内で `h` または `?` を押すと、現在のビューに対応するアプリ内ヘルプオーバーレイが開きます。プロダクトの概要と起動方法については、[LEET terminal UI](/ja/models/app/leet-tui) を参照してください。
+
+    <LEETShortcuts />
+  </Tab>
+</Tabs>

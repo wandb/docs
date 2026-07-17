@@ -1,17 +1,29 @@
 ---
-title: wandb サーバー stop
+title: wandb server stop
 ---
 
-**使用方法**
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-`wandb server stop [OPTIONS]`
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/cli.py#L2811" />
 
-**概要**
+<div id="usage">
+  ## 使用方法
+</div>
 
-ローカルの W&B サーバーを停止する
+```bash
+stop [OPTIONS]
+```
 
+<div id="description">
+  ## 説明
+</div>
 
-**オプション**
+実行中のローカル W&amp;B サーバーを停止します。
 
-| **オプション** | **説明** |
-| :--- | :--- |
+`wandb server start` で起動した `wandb-local` という名前の Docker コンテナーを停止します。Docker がインストールされている必要があります。
+
+たとえば、ローカル W&amp;B サーバーを停止するには、次のようにします。
+
+```bash
+wandb server stop
+```

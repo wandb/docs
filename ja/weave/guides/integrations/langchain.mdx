@@ -1,0 +1,300 @@
+---
+title: "LangChain"
+description: "Weave を使用して、LangChain Python ライブラリ経由で行われるすべての Call をトラッキングしてログする"
+keywords: ["LangChain", "トレース", "WeaveTracer", "コールバック", "LLM 可観測性"]
+---
+
+<a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_langchain.ipynb" aria-label="Google Colab で開く">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Colab で開く" />
+</a>
+
+Weave は、[LangChain Python ライブラリ](https://github.com/langchain-ai/langchain)を通じて行われる Call をトラッキングしてログします。
+
+LLM を扱ううえで、デバッグは避けて通れません。モデルの Call が失敗したり、出力形式が正しくなかったり、ネストされたモデルの Call によって混乱が生じたりすると、問題の特定は難しくなります。LangChain アプリケーションは多くの場合、複数のステップと LLM Call の呼び出しで構成されるため、チェーンやエージェントの内部動作を把握できることが重要です。
+
+Weave は、[LangChain](https://docs.langchain.com/oss/python/langchain/overview) アプリケーションのトレースを自動的に取得します。これにより、アプリケーションのパフォーマンスをモニターして分析できるため、LLM ワークフローのデバッグや最適化が容易になります。
+
+このガイドは、Weave でトレース、評価、可観測性を追加したい LangChain アプリケーション開発者向けです。自動トレースの有効化、メタデータの追加、トレースの手動制御、そして評価のために LangChain のチェーンを Weave モデルとしてラップする方法を説明します。
+
+<div id="getting-started">
+  ## はじめに
+</div>
+
+まず、スクリプトの先頭で `weave.init()` を呼び出します。`weave.init()` の引数は、Weave がトレースを整理するために使用するプロジェクト名です。
+
+```python lines {6}
+import weave
+from langchain_core.prompts import PromptTemplate
+from langchain_openai import ChatOpenAI
+
+# project 名を指定してWeaveを初期化する
+weave.init("langchain_demo")
+
+llm = ChatOpenAI()
+prompt = PromptTemplate.from_template("1 + {number} = ")
+
+llm_chain = prompt | llm
+
+output = llm_chain.invoke({"number": 2})
+
+print(output)
+```
+
+<div id="track-call-metadata">
+  ## Call メタデータをトラッキングする
+</div>
+
+カスタムメタデータは、Weave UI でトレースをフィルターして分析するのに役立ちます。LangChain の Call のメタデータをトラッキングするには、[`weave.attributes`](/ja/weave/reference/python-sdk#function-attributes) コンテキストマネージャーを使用します。このコンテキストマネージャーを使用すると、チェーンや単一のリクエストなど、特定のコードブロックにカスタムメタデータを設定できます。
+
+```python lines {6,13}
+import weave
+from langchain_core.prompts import PromptTemplate
+from langchain_openai import ChatOpenAI
+
+# プロジェクト名で Weave を初期化する
+weave.init("langchain_demo")
+
+llm = ChatOpenAI()
+prompt = PromptTemplate.from_template("1 + {number} = ")
+
+llm_chain = prompt | llm
+
+with weave.attributes({"my_awesome_attribute": "value"}):
+    output = llm_chain.invoke()
+
+print(output)
+```
+
+Weave は、LangChain Call のトレースに関連付けてメタデータを自動的にトラッキングします。メタデータは Weave の Web インターフェースで確認できます。
+
+[![LangChain のトレースのメタデータ属性を表示する Weave UI](/weave/guides/integrations/imgs/langchain_attributes.png)](https://wandb.ai/parambharat/langchain_demo/weave/traces?cols=%7B%22attributes.weave.client_version%22%3Afalse%2C%22attributes.weave.os_name%22%3Afalse%2C%22attributes.weave.os_release%22%3Afalse%2C%22attributes.weave.os_version%22%3Afalse%2C%22attributes.weave.source%22%3Afalse%2C%22attributes.weave.sys_version%22%3Afalse%7D)
+
+<div id="traces">
+  ## トレース
+</div>
+
+LLM アプリケーションのトレースを一元的なデータベースに保存すると、開発時にも本番環境でも役立ちます。これらのトレースにより、アプリケーションのデバッグや改善に使用できるデータセットが得られます。
+
+Weave は、LangChain アプリケーションのトレースを自動的に取得します。Weave は、LangChain ライブラリを介して行われる呼び出しをトラッキングしてログし、これには プロンプトテンプレート、チェーン、LLM Call、ツール、agent steps が含まれます。トレースは Weave の Web インターフェースで確認できます。
+
+[![LangChain のトレースを表示する Weave UI](/weave/guides/integrations/imgs/langchain_trace.png)](https://wandb.ai/parambharat/langchain_demo/weave/calls)
+
+<div id="trace-calls-manually">
+  ## Call を手動でトレースする
+</div>
+
+自動トレースに加えて、`WeaveTracer` コールバックまたは `weave_tracing_enabled` コンテキストマネージャーを使用して、Call を手動でトレースすることもできます。これらの方法は、LangChain アプリケーション内の個々の部分でリクエスト コールバックを使用するのに似ています。アプリケーション全体ではなく、特定のチェーンや呼び出しをトレースしたい場合に使用します。
+
+以下のセクションでは、それぞれのアプローチについて説明します。
+
+注: Weave はデフォルトで LangChain の `Runnables` をトレースします。これは `weave.init()` を呼び出すと有効になります。`weave.init()` を呼び出す前に環境変数 `WEAVE_TRACE_LANGCHAIN` を `"false"` に設定すると、この動作を無効にできます。これにより、アプリケーション内の特定のチェーンや個々のリクエストに対するトレース動作を制御できます。
+
+<div id="use-weavetracer">
+  ### `WeaveTracer` を使用する
+</div>
+
+`WeaveTracer` コールバックを個々の LangChain コンポーネントに渡すことで、特定のリクエストをトレースできます。
+
+```python lines {11,13,15,22}
+import os
+
+os.environ["WEAVE_TRACE_LANGCHAIN"] = "false" # <- グローバルトレースを明示的に無効にする。
+
+from weave.integrations.langchain import WeaveTracer
+from langchain_core.prompts import PromptTemplate
+from langchain_openai import ChatOpenAI
+import weave
+
+# プロジェクト名でWeaveを初期化する
+weave.init("langchain_demo")  # <-- 環境変数が明示的に `false` に設定されているため、ここではトレースを有効にしない
+
+weave_tracer = WeaveTracer()
+
+config = {"callbacks": [weave_tracer]}
+
+llm = ChatOpenAI()
+prompt = PromptTemplate.from_template("1 + {number} = ")
+
+llm_chain = prompt | llm
+
+output = llm_chain.invoke({"number": 2}, config=config) # <-- このチェーンの呼び出しに対してのみトレースを有効にする。
+
+llm_chain.invoke({"number": 4})  # <-- LangChainのCallではトレースが有効にならないが、OpenAIのCallは引き続きトレースされる
+```
+
+<div id="use-the-weave_tracing_enabled-context-manager">
+  ### コンテキストマネージャー `weave_tracing_enabled` を使用する
+</div>
+
+または、`weave_tracing_enabled` コンテキストマネージャーを使用して、特定のコードブロックでトレースを有効にできます。
+
+```python lines {11,18}
+import os
+
+os.environ["WEAVE_TRACE_LANGCHAIN"] = "false" # <- グローバルトレースを明示的に無効にする。
+
+from weave.integrations.langchain import weave_tracing_enabled
+from langchain_core.prompts import PromptTemplate
+from langchain_openai import ChatOpenAI
+import weave
+
+# project 名を指定して Weave を初期化する
+weave.init("langchain_demo")  # <-- 環境変数が明示的に `false` に設定されているため、ここではトレースを有効にしない
+
+llm = ChatOpenAI()
+prompt = PromptTemplate.from_template("1 + {number} = ")
+
+llm_chain = prompt | llm
+
+with weave_tracing_enabled():  # <-- このチェーンの呼び出しに対してのみトレースを有効にする。
+    output = llm_chain.invoke({"number": 2})
+
+
+llm_chain.invoke({"number": 4})  # <-- langchain の Call ではトレースが有効にならないが、openai の Call は引き続きトレースされる
+```
+
+<div id="configuration">
+  ## 設定
+</div>
+
+`weave.init()` を呼び出すと、環境変数 `WEAVE_TRACE_LANGCHAIN` を `"true"` に設定することでトレースが有効になります。これにより、Weave は LangChain アプリケーションのトレースを自動的に取得します。この動作を無効にするには、環境変数を `"false"` に設定します。
+
+<div id="relation-to-langchain-callbacks">
+  ## LangChain のコールバックとの関係
+</div>
+
+このセクションでは、Weave のトレースが LangChain のコールバック システムとどのように連携するのかを説明します。これにより、アプリケーションに最適なアプローチを選択できます。
+
+<div id="auto-logging">
+  ### 自動ロギング
+</div>
+
+`weave.init()` が提供する自動ロギングは、LangChain アプリケーション内のすべてのコンポーネントにコンストラクタのコールバックを渡すのに似ています。つまり、Weave は、プロンプトテンプレート、チェーン、LLM calls、ツール、agent steps を含むすべてのやり取りを、アプリケーション全体でグローバルにトラッキングします。
+
+<div id="manual-logging">
+  ### 手動ログ記録
+</div>
+
+手動ログ記録の method (`WeaveTracer` と `weave_tracing_enabled`) は、LangChain アプリケーションの個々の部分でリクエストコールバックを使用するのと似ています。これらの method を使うと、Weave がアプリケーションのどの部分をトレースするかをより細かく制御できます。
+
+* **コンストラクターコールバック:** チェーンまたはコンポーネント全体に適用され、すべてのやり取りを一貫してログ記録します。
+* **リクエストコールバック:** 特定のリクエストに適用され、個別の呼び出しを詳細にトレースできます。
+
+Weave を LangChain と統合すると、LLM アプリケーションのログ記録とモニタリングを利用できるようになり、デバッグやパフォーマンス調整が容易になります。
+
+詳細は、[LangChain documentation](https://python.langchain.com/v0.2/docs/how_to/debugging/#tracing)を参照してください。
+
+<div id="models-and-evaluations">
+  ## Modelsと評価
+</div>
+
+異なるユースケースにわたって LLM を整理して評価することは、プロンプト、モデルの設定、推論パラメーターなどのコンポーネントが増えるほど難しくなります。[`weave.Model`](/ja/weave/guides/core-types/models) を使用すると、system prompt や使用するモデルといった実験の詳細を記録して整理できるため、イテレーションを比較しやすくなります。
+
+以下のセクションでは、LangChain の チェーン を `weave.Model` としてラップし、それを評価する方法を示します。
+
+以下の例では、LangChain の チェーン を `WeaveModel` でラップする方法を示します。
+
+```python lines {10,12,16}
+import json
+import asyncio
+
+import weave
+
+from langchain_core.prompts import PromptTemplate
+from langchain_openai import ChatOpenAI
+
+# プロジェクト名でWeaveを初期化する
+weave.init("langchain_demo")
+
+class ExtractFruitsModel(weave.Model):
+    model_name: str
+    prompt_template: str
+
+    @weave.op()
+    async def predict(self, sentence: str) -> dict:
+        llm = ChatOpenAI(model=self.model_name, temperature=0.0)
+        prompt = PromptTemplate.from_template(self.prompt_template)
+
+        llm_chain = prompt | llm
+        response = llm_chain.invoke({"sentence": sentence})
+        result = response.content
+
+        if result is None:
+            raise ValueError("No response from model")
+        parsed = json.loads(result)
+        return parsed
+
+model = ExtractFruitsModel(
+    model_name="gpt-3.5-turbo-1106",
+    prompt_template='Extract fields ("fruit": <str>, "color": <str>, "flavor": <str>) from the following text, as json: {sentence}',
+)
+sentence = "There are many fruits that were found on the recently discovered planet Goocrux. There are neoskizzles that grow there, which are purple and taste like candy."
+
+prediction = asyncio.run(model.predict(sentence))
+
+# Jupyter Notebookを使用している場合は、次を実行してください:
+# prediction = await model.predict(sentence)
+
+print(prediction)
+```
+
+このコードは、Weave UI で可視化できるモデルを作成します。
+
+[![Weave Model としてラップされた LangChain のチェーンを表示する Weave UI](/weave/guides/integrations/imgs/langchain_model.png)](https://wandb.ai/parambharat/langchain_demo/weave/object-versions?filter=%7B%22baseObjectClass%22%3A%22Model%22%7D\&peekPath=%2Fparambharat%2Flangchain_demo%2Fobjects%2FExtractFruitsModel%2Fversions%2FBeoL6WuCH8wgjy6HfmuBMyKzArETg1oAFpYaXZSq1hw%3F%26)
+
+Weave Models は、`serve` や [`評価`](/ja/weave/guides/core-types/evaluations) でも使用できます。
+
+<div id="evaluations">
+  ### 評価
+</div>
+
+評価を使うと、モデルのパフォーマンスを測定できます。[`weave.Evaluation`](/ja/weave/guides/core-types/evaluations) クラスを使うことで、特定のタスクやデータセットに対してモデルがどの程度うまく機能するかを把握できます。これにより、異なるモデルやアプリケーションの各イテレーションを比較しやすくなります。以下の例では、前述のモデルを評価する方法を示します。
+
+```python lines
+
+from weave.scorers import MultiTaskBinaryClassificationF1
+
+sentences = [
+    "There are many fruits that were found on the recently discovered planet Goocrux. There are neoskizzles that grow there, which are purple and taste like candy.",
+    "Pounits are a bright green color and are more savory than sweet.",
+    "Finally, there are fruits called glowls, which have a very sour and bitter taste which is acidic and caustic, and a pale orange tinge to them.",
+]
+labels = [
+    {"fruit": "neoskizzles", "color": "purple", "flavor": "candy"},
+    {"fruit": "pounits", "color": "bright green", "flavor": "savory"},
+    {"fruit": "glowls", "color": "pale orange", "flavor": "sour and bitter"},
+]
+examples = [
+    {"id": "0", "sentence": sentences[0], "target": labels[0]},
+    {"id": "1", "sentence": sentences[1], "target": labels[1]},
+    {"id": "2", "sentence": sentences[2], "target": labels[2]},
+]
+
+@weave.op()
+def fruit_name_score(target: dict, output: dict) -> dict:
+    return {"correct": target["fruit"] == output["fruit"]}
+
+
+evaluation = weave.Evaluation(
+    dataset=examples,
+    scorers=[
+        MultiTaskBinaryClassificationF1(class_names=["fruit", "color", "flavor"]),
+        fruit_name_score,
+    ],
+)
+scores = asyncio.run(evaluation.evaluate(model)))
+# Jupyter Notebook で実行する場合:
+# scores = await evaluation.evaluate(model)
+
+print(scores)
+```
+
+このコードは、Weave UIで可視化できる評価トレースを生成します。
+
+[![LangChain の評価トレースを表示する Weave UI](/weave/guides/integrations/imgs/langchain_eval.png)](https://wandb.ai/parambharat/langchain_demo/weave/calls?filter=%7B%22traceRootsOnly%22%3Atrue%7D\&peekPath=%2Fparambharat%2Flangchain_demo%2Fcalls%2F44c3f26c-d9d3-423e-b434-651ea5174be3)
+
+<div id="known-issues">
+  ## 既知の問題
+</div>
+
+**非同期 Call のトレース**: LangChain の `AsyncCallbackManager` 実装のバグにより、非同期 Call が正しい順序でトレースされません。Weave はこの問題を修正するための [PR](https://github.com/langchain-ai/langchain/pull/23909) を提出しています。そのため、LangChain の `Runnables` で `ainvoke`、`astream`、`abatch` メソッドを使用すると、トレース内の Call の順序が正確でない場合があります。

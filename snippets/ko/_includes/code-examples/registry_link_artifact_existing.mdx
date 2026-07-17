@@ -1,0 +1,24 @@
+---
+title: 기존 artifact를 레지스트리에 연결
+---
+
+```python
+"""
+W&B artifact를 생성하고 레지스트리의 collection에 연결합니다. collection이
+존재하지 않으면 W&B가 생성합니다.
+"""
+import wandb
+
+# artifact 객체 생성
+artifact = wandb.Artifact(name = "<artifact_name>", type = "<artifact_type>")
+
+# 레지스트리 및 collection 이름 정의
+registry_name = "<registry_name>"
+collection_name = "<collection_name>"
+target_path = f"wandb-registry-{registry_name}/{collection_name}"
+
+# run 초기화
+with wandb.init(entity = "<entity>", project = "<project>") as run:
+  # artifact를 collection에 연결합니다. collection이 존재하지 않으면 W&B가 생성합니다.
+  run.link_artifact(artifact = artifact, target_path = target_path)
+```

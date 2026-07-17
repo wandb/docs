@@ -1,0 +1,191 @@
+---
+title: "オブジェクトの追跡とバージョン管理"
+description: "W&B Weave で任意の JSON シリアライズ可能なオブジェクトを追跡およびバージョン管理する"
+keywords: ["オブジェクト", "バージョン管理", "refs", "weave.publish", "weave.ref", "tags", "エイリアス", "オブジェクトタグ", "オブジェクトエイリアス", "set_aliases", "add_tags", "本番エイリアス", "バージョンを昇格する", "バージョンにラベルを付ける"]
+---
+
+このページでは、W&amp;B Weave でバージョン管理されたオブジェクトを公開、取得、削除、および参照する方法について説明します。データセット、モデル、プロンプトなどの構造化データを、複数の run や時間の経過にわたって追跡する必要がある場合にご利用ください。
+
+<div id="objects">
+  ## オブジェクト
+</div>
+
+**オブジェクト** は、バージョン管理され、シリアライズ可能なデータです。Weave はオブジェクトが変更されると自動的にバージョン管理を行い、不変の履歴を作成します。オブジェクトには次のものが含まれます。
+
+* **Datasets**: 評価用の例の集合
+* **Models**: LLM ロジック用の設定とパラメーター
+* **Prompts**: バージョン管理されたプロンプトテンプレート
+
+```python lines
+dataset = weave.Dataset(
+    name="test-cases",
+    rows=[
+        {"input": "What is 2+2?", "expected": "4"},
+        {"input": "What is the capital of France?", "expected": "Paris"},
+    ]
+)
+weave.publish(dataset)
+```
+
+
+<div id="publish-an-object">
+  ## オブジェクトを公開する
+</div>
+
+Weave のシリアル化レイヤーは、オブジェクトを保存し、バージョン管理します。
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    import weave
+    weave.init("your-team-name/your-project-name")
+    # リストを 'cat-names' という名前で保存します
+    weave.publish(['felix', 'jimbo', 'billie'], 'cat-names')
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    TypeScript での公開機能のサポートは限定的です。すべてのオブジェクトがサポートされているわけではありません。
+
+    ```typescript twoslash lines
+    // @noErrors
+    import * as weave from 'weave'
+
+    const client = await weave.init("your-team-name/your-project-name")
+
+    // 配列を 'cat-names' という名前で保存します
+    client.publish(['felix', 'jimbo', 'billie'], 'cat-names')
+    ```
+  </Tab>
+</Tabs>
+
+名前を付けてオブジェクトを保存すると、そのオブジェクトがまだ存在しない場合は、Weave がその最初のバージョンを作成します。
+
+<div id="get-an-object-back">
+  ## 保存したオブジェクトを取得する
+</div>
+
+公開後は、参照を使って保存済みのオブジェクトを取得できます。
+
+<Tabs>
+  <Tab title="Python">
+    `weave.publish()` は Ref を返します。任意の Ref に対して `.get()` を呼び出すことで、元のオブジェクトを取得できます。
+
+    Ref を作成しておき、あとからオブジェクトを取得することもできます。
+
+    ```python lines
+    weave.init("your-team-name/your-project-name")
+    cat_names = weave.ref('cat-names').get()
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext lines
+    この機能はまだ TypeScript では利用できません。
+    ```
+  </Tab>
+</Tabs>
+
+<div id="delete-an-object">
+  ## オブジェクトを削除する
+</div>
+
+オブジェクトの特定のバージョンが不要になった場合は、その ref を使って削除できます。
+
+<Tabs>
+  <Tab title="Python">
+    オブジェクトのバージョンを削除するには、そのオブジェクトの ref で `.delete()` を呼び出します。
+
+    ```python lines
+    weave.init("your-team-name/your-project-name")
+    cat_names_ref = weave.ref('cat-names:v1')
+    cat_names_ref.delete()
+    ```
+
+    削除されたオブジェクトにアクセスするとエラーが返されます。削除されたオブジェクトへの ref を解決すると、削除されたオブジェクトの代わりに `DeletedRef` が返されます。
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    この機能は TypeScript ではまだ利用できません。
+    ```
+  </Tab>
+</Tabs>
+
+<div id="construct-object-refs">
+  ## object ref を作成する
+</div>
+
+Ref は、保存されているオブジェクトとそのバージョンを一意に識別します。以下のセクションでは、URI の構造と、ref を作成する方法について説明します。
+
+Weave では、完全修飾された object ref URI は次のようになります。
+
+```text
+weave:///[YOUR-TEAM-NAME]/[YOUR-PROJECT-NAME]/object/[OBJECT-NAME]:[OBJECT-VERSION]
+```
+
+* `[YOUR-TEAM-NAME]`: W&amp;B entity (ユーザー名またはチーム名)
+* `[YOUR-PROJECT-NAME]`: W&amp;B project
+* `[OBJECT-NAME]`: オブジェクト名
+* `[OBJECT-VERSION]`: バージョンハッシュ、`v0` や `v1` のような string、または `:latest` のような エイリアス のいずれかです。すべてのオブジェクトには `:latest` エイリアス があります。独自の エイリアス を作成するには、[タグ と aliases でオブジェクトのバージョンを整理する](#organize-object-versions-with-tags-and-aliases)を参照してください。
+
+ref はいくつかの異なる形式で構築できます。
+
+* `weave.ref([NAME])`: オブジェクトの `:latest` バージョンを取得します。`weave.init(...)` を呼び出す必要があります。
+* `weave.ref([NAME]:[VERSION])`: オブジェクトの指定したバージョンを取得します。`weave.init(...)` を呼び出す必要があります。
+* `weave.ref([FULLY-QUALIFIED-REF-URI])`: 指定した完全修飾オブジェクト ref URI にあるオブジェクトを取得します。`weave.init()` を呼び出す必要はありません。
+
+<div id="organize-object-versions-with-tags-and-aliases">
+  ## タグとエイリアスでオブジェクトのバージョンを整理する
+</div>
+
+**タグs** と **aliases** を使用して、`Dataset`、`Model`、`Prompt`、または `weave.publish` で公開したその他のオブジェクトを含む、任意の Weave オブジェクトの特定のバージョンにラベルを付けます。これらのラベルはすべての `ObjectRef` で機能するため、同じ API をオブジェクトのタイプを問わず使用できます。
+
+* **Alias:** 単一のバージョンに解決される一意の名前です。エイリアスはいつでも別のバージョンに付け替えられるため、`production` や `staging` のような安定した参照に便利です。すべてのオブジェクトには、最新バージョンを指す `:latest` エイリアスが自動的に付与されます。
+* **タグ:** バージョンに付与する説明用のラベルです。1 つのバージョンに複数のタグを付けることができ、同じタグを複数のバージョンに付けることもできます。`reviewed` や `passed-eval` のように、タグを使ってバージョンを分類したりフィルターしたりできます。
+
+エイリアスまたは特定のバージョンは、ref 内のオブジェクト名に追加して解決できます。
+
+次の例では、データセットの 2 つのバージョンを公開し、その後、各バージョンに対してタグとエイリアスを割り当てたり更新したりします。
+
+<CodeGroup>
+  ```python Python lines
+  import weave
+
+  client = weave.init("[YOUR-TEAM-NAME]/[YOUR-PROJECT-NAME]")
+
+  # オブジェクトの 2 つのバージョンを公開します。
+  dataset_v0 = weave.publish(
+      weave.Dataset(name="test-cases", rows=[{"input": "ping", "expected": "pong"}]),
+  )
+  dataset_v1 = weave.publish(
+      weave.Dataset(name="test-cases", rows=[{"input": "ping", "expected": "pong!"}]),
+  )
+
+  # バージョンにエイリアスを設定します。
+  client.set_aliases(dataset_v0, "staging")
+  client.set_aliases(dataset_v1, "production")
+
+  # エイリアスを使用してオブジェクトを取得します。
+  dataset = weave.ref("test-cases:production").get()
+
+  # project 内のすべてのエイリアスを一覧表示します。
+  client.list_aliases()
+
+  # --- Tags: 特定のバージョンに付くラベル。 ---
+
+  # バージョンにタグを追加します。
+  client.add_tags(dataset_v0, ["reviewed", "passed-eval"])
+  client.add_tags(dataset_v1, ["reviewed", "needs-improvement"])
+
+  # バージョンのタグを取得します。
+  client.get_tags(dataset_v0)  # ["passed-eval", "reviewed"]
+
+  # project 内の重複しないすべてのタグを一覧表示します。
+  client.list_tags()
+  ```
+
+  ```plaintext TypeScript lines
+  この機能は、TypeScript SDK ではまだ利用できません。
+  ```
+</CodeGroup>

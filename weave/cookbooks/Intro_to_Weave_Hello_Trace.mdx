@@ -1,24 +1,27 @@
 ---
 title: "Introduction to Traces"
 description: "Learn how to use introduction to traces with W&B Weave"
+keywords: [tracing, "@weave.op", OpenAI, LLM observability, decorator]
 ---
 
 <Note>
-This is an interactive notebook. You can run it locally or use the links below:
+This is an interactive notebook. You can run it locally or use the following links:
 - [Open in Google Colab](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/Intro_to_Weave_Hello_Trace.ipynb)
 - [View source on GitHub](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/Intro_to_Weave_Hello_Trace.ipynb)
 </Note>
 
+This notebook shows you how to capture your first trace in W&B Weave by decorating an OpenAI-powered function with `@weave.op`. Tracing helps you inspect the inputs, outputs, and intermediate steps of LLM calls so you can debug and improve your applications. This tutorial targets developers who are new to Weave and want a minimal end-to-end example.
+
 ## 🔑 Prerequisites
 
-Before you can begin tracing in Weave, complete the following prerequisites.
+Before you can begin tracing in Weave, complete the following prerequisites. These steps install the required SDKs, authenticate you with W&B and OpenAI, and initialize a project to send traces to.
 
-1. Install the W&B Weave SDK and log in with your [API key](https://wandb.ai/settings#api).
+1. Install the Weave SDK and log in with your [API key](https://wandb.ai/settings#apikeys).
 2. Install the OpenAI SDK and log in with your [API key](https://platform.openai.com/api-keys).
 3. Initialize your W&B project.
 
 ```python lines
-# Install dependancies and imports
+# Install dependencies and imports
 !pip install wandb weave openai -q
 
 import json
@@ -34,9 +37,9 @@ import weave
 #####
 print("---")
 print(
-    "You can find your Weights and Biases API key here: https://wandb.ai/settings#api"
+    "Create a W&B API key at: https://wandb.ai/settings#apikeys"
 )
-os.environ["WANDB_API_KEY"] = getpass("Enter your Weights and Biases API key: ")
+os.environ["WANDB_API_KEY"] = getpass("Enter your W&B API key: ")
 print("---")
 print("You can generate your OpenAI API key here: https://platform.openai.com/api-keys")
 os.environ["OPENAI_API_KEY"] = getpass("Enter your OpenAI API key: ")
@@ -49,7 +52,7 @@ weave_client = weave.init("MY_PROJECT_NAME")  # 🐝 Your W&B project name
 
 ## 🐝 Run your first trace
 
-The following code sample shows how to capture and visualize a trace in Weave using the `@weave.op` decorator. It defines a function called `extract_fruit` that sends a prompt to OpenAI's GPT-4o to extract structured data (fruit, color, and flavor) from a sentence. By decorating the function with `@weave.op`, Weave automatically tracks the function execution, including inputs, outputs, and intermediate steps. When the function is called with a sample sentence, the full trace is saved and viewable in the Weave UI.
+The following code sample shows how to capture and visualize a trace in Weave using the `@weave.op` decorator. It defines a function called `extract_fruit` that sends a prompt to OpenAI's GPT-4o to extract structured data (fruit, color, and flavor) from a sentence. By decorating the function with `@weave.op`, Weave automatically tracks the function execution, including inputs, outputs, and intermediate steps. When you call the function with a sample sentence, Weave saves the full trace and makes it viewable in the Weave UI.
 
 ```python lines
 @weave.op()  # 🐝 Decorator to track requests
@@ -74,8 +77,11 @@ sentence = "There are many fruits that were found on the recently discovered pla
 extract_fruit(sentence)
 ```
 
-## 🚀 Looking for more examples?
-- Check out the [Quickstart guide](/weave/quickstart).
-- Learn more about [advanced tracing topics](/weave/tutorial-tracing_2).
-- Learn more about [tracing in Weave](/weave/guides/tracking/tracing)
+You now have a working Weave project that captures traces from a decorated function, and you can view the trace in the Weave UI.
 
+## 🚀 More examples
+
+Use the following resources to go deeper with Weave tracing:
+- [Quickstart guide](/weave/quickstart)
+- [Advanced tracing topics](/weave/tutorial-tracing_2)
+- [Tracing in Weave](/weave/guides/tracking/tracing)

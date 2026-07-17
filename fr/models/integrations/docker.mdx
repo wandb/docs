@@ -1,0 +1,38 @@
+---
+description: "Exécutez W&B dans des conteneurs Docker en configurant les clés API, les variables d’environnement et le stockage local des fichiers."
+title: Docker
+---
+
+<div id="docker-integration">
+  ## Intégration Docker
+</div>
+
+W&amp;B peut stocker un pointeur vers l’image Docker utilisée pour exécuter votre code, ce qui vous permet de restaurer une expérience précédente dans l’environnement exact dans lequel elle a été exécutée. Le SDK Python W&amp;B (`wandb`) recherche la variable d’environnement `WANDB_DOCKER` pour enregistrer cet état. W&amp;B fournit quelques utilitaires qui définissent automatiquement cet état.
+
+Les sections suivantes décrivent comment définir la variable d’environnement `WANDB_DOCKER` dans différents environnements, du développement local à l’entraînement sur Kubernetes.
+
+<div id="local-development">
+  ### Développement local
+</div>
+
+`wandb docker` est une commande qui lance un conteneur Docker, transmet les variables d’environnement wandb, monte votre code et s’assure que wandb est installé. Par défaut, la commande utilise une image Docker avec TensorFlow, PyTorch, Keras et Jupyter installés. Vous pouvez utiliser la même commande pour lancer votre propre image Docker : `wandb docker my/image:latest`. La commande monte le répertoire courant dans le répertoire `/app` du conteneur. Vous pouvez modifier ce comportement avec l’option `--dir`.
+
+<div id="production">
+  ### Production
+</div>
+
+La commande `wandb docker-run` est destinée aux charges de travail de production. Elle est conçue pour remplacer directement `nvidia-docker` en encapsulant la commande `docker run` et en ajoutant vos identifiants et la variable d&#39;environnement `WANDB_DOCKER` à l&#39;appel. Si vous ne transmettez pas l&#39;option `--runtime` et que `nvidia-docker` est disponible sur la machine, cela garantit également que le runtime est défini sur `nvidia`.
+
+<div id="kubernetes">
+  ### Kubernetes
+</div>
+
+Si vous exécutez vos charges de travail d&#39;entraînement dans Kubernetes et que l&#39;API Kubernetes est exposée à votre pod (ce qui est le cas par défaut), W&amp;B interroge l&#39;API pour récupérer le digest de l&#39;image Docker et définit automatiquement la variable d&#39;environnement `WANDB_DOCKER`.
+
+<div id="restore-the-training-environment">
+  ## Restaurer l’environnement d’entraînement
+</div>
+
+Une fois la variable d’environnement `WANDB_DOCKER` définie pendant un run, vous pouvez l’utiliser pour reproduire ultérieurement l’environnement d’entraînement d’origine.
+
+Si un run a été instrumenté avec la variable d’environnement `WANDB_DOCKER`, l’exécution de `wandb restore username/project:run_id` extrait une nouvelle branche qui restaure votre code, puis lance l’image Docker exacte utilisée pour l’entraînement, préremplie avec la commande d’origine.

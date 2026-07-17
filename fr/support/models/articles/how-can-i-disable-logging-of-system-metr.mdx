@@ -1,0 +1,18 @@
+---
+title: "Comment puis-je désactiver la journalisation des métriques système dans W&B ?"
+keywords: ["Métriques", "Runs"]
+---
+
+Pour désactiver la journalisation des [métriques système](/fr/models/ref/python/experiments/system-metrics), définissez `_disable_stats` sur `True` :
+
+```python
+wandb.init(settings=wandb.Settings(x_disable_stats=True))
+```
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Métriques](/fr/support/models/tags/metrics)</Badge><Badge stroke shape="pill" color="orange" size="md">[Runs](/fr/support/models/tags/runs)</Badge>
+
+{/* FIN DE GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

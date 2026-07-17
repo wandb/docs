@@ -1,0 +1,259 @@
+---
+title: "Weave SDK 릴리스"
+description: "새 기능, 버그 수정, 성능 개선 사항을 포함한 버전별 Weave Python SDK(`weave` 패키지) 릴리스 노트를 확인하세요."
+rss: true
+---
+
+이 페이지에는 [Weave Python SDK](https://pypi.org/project/weave/) (`weave` 패키지)의 릴리스 노트가 포함되어 있습니다. W&amp;B Models Python SDK(`wandb` 패키지)에 대해서는 [W&amp;B SDK 릴리스](/ko/release-notes/sdk-releases)를 참조하세요. 릴리스 패키지와 커밋별 이력은 [GitHub Releases for `wandb/weave`](https://github.com/wandb/weave/releases)에서 확인할 수 있습니다.
+
+<Note>
+  이 항목들은 사용자 대상 SDK 및 Trace server 변경 사항을 요약한 것이며, 내부 전용 테스트, CI, 리팩터링 작업에 대한 세부 사항은 생략합니다. 병합된 모든 변경 사항은 해당 태그의 GitHub 릴리스 항목을 참조하세요.
+</Note>
+
+<Update label="0.52.37" description="2026년 4월 17일">
+  ## Added
+
+  * OpenTelemetry 인테그레이션이 최신 시맨틱 규약을 따릅니다.
+  * 비용 계산 및 공급자 인테그레이션에 캐시 토큰 사용량이 포함됩니다.
+
+  ## Changed
+
+  * 중첩된 하위 쿼리를 선택적으로 건너뛰어 일부 Call 쿼리의 성능을 개선했습니다.
+  * `ClassifierMonitor`를 최상위 `weave` 패키지에서 내보냅니다.
+  * Call API가 더 정교한 필터링을 위해 선택적 `query` 매개변수를 허용합니다.
+
+  ## Fixed
+
+  * 일부 필터 조합에서 평가 results API SQL을 수정했습니다.
+  * TypeScript SDK가 `WANDB_BASE_URL`에서 URL 스킴을 누락할 수 있던 버그를 수정했습니다.
+  * 여러 feedback 행이 있는 Call이 목록 결과에 여러 번 표시될 수 있던 버그를 수정했습니다.
+  * ClickHouse 기반 쿼리의 ISO-8601 타임스탬프 처리를 수정했습니다.
+  * 테이블 이름에 `_local` 접미사를 잘못 추가하던 분산 ClickHouse mutation을 수정했습니다.
+  * OpenAI Agents SDK 흐름을 트레이싱할 때 누락되던 span을 수정했습니다.
+  * 응답에 비텍스트 부분이 포함될 때 Google GenAI 트레이싱이 올바르게 동작하도록 수정했습니다.
+  * 메모리 내 트레이스 파일 아티팩트의 경로 정리와 HTTP 클라이언트의 공급자 호스트 이름 처리를 수정했습니다.
+</Update>
+
+<Update label="0.52.36" description="2026년 4월 1일">
+  ## Added
+
+  * Call 쿼리에서 사람이 읽기 쉬운 사용자 이름을 확인할 수 있습니다.
+  * 일부 흐름에서는 클라이언트를 명시적으로 초기화하지 않아도 `ref.get()`이 작동합니다.
+  * 텍스트 기반 평가 결과를 위한 API 및 저장소 경로와 대규모 평가 세트에 대한 개선된 처리 기능이 추가되었습니다.
+
+  ## Changed
+
+  * LiteLLM은 번들된 인테그레이션과의 호환성을 위해 버전이 고정되었습니다.
+  * Moonshot을 모델 공급자로 사용할 수 있습니다.
+  * 기반이 되는 쓰기 전 로그 인프라가 트레이스 쓰기의 내구성을 개선합니다.
+
+  ## Fixed
+
+  * 스트리밍 generator를 중단할 때 `GeneratorExit`가 잘못 노출될 수 있던 버그를 수정했습니다.
+  * 저장된 객체에 추가 메타데이터 필드가 포함된 경우의 역직렬화를 수정했습니다.
+  * Call에 여러 feedback 행이 있을 때 feedback 필터가 올바르게 동작하도록 수정했습니다.
+  * SQLite 기반 Call 비용 추적과 일괄 upsert에서의 잘못된 `trace_id` 처리를 수정했습니다.
+  * 일시적 오류에 대한 재시도와 더 명확한 migrator 종료 상태를 포함해 ClickHouse 마이그레이션 동작을 개선했습니다.
+  * 1000개가 넘는 Call이 있는 평가 runs가 prediction 및 scoring용으로 로드되지 않을 수 있던 버그를 수정했습니다.
+</Update>
+
+<Update label="0.52.35" description="2026년 3월 19일">
+  ## Added
+
+  * 트레이스 수집을 위한 쓰기 전 로그 지원.
+  * feedback 데이터 분석을 위한 feedback 통계 쿼리.
+
+  ## Changed
+
+  * `Ref.uri`는 `ref.uri()`를 호출하지 않고 속성(`ref.uri`)으로 조회할 수 있습니다.
+  * 환경 변수를 통해 디바운스된 scoring 이력의 최대 크기를 설정할 수 있습니다.
+
+  ## Fixed
+
+  * 음수 숫자 필터 값에 대한 ClickHouse 형 변환을 수정했습니다.
+  * 온클러스터 마이그레이션 중 replicated database engine 오류를 수정했습니다.
+  * `DelegatingTraceServerMixin`이 일부 `ServiceInterface` 방법을 전달하지 않던 문제를 수정했습니다.
+  * `weave.init()` 중 W&amp;B API 호출 시 재시도 동작을 수정했습니다.
+  * `WEAVE_DISABLED`가 설정된 경우 `EvaluationLogger`가 충돌할 수 있던 버그를 수정했습니다.
+  * `RefJSONEncoder`의 예외적인 경우와 하위 클래스의 classmethod 인스턴스화를 수정했습니다.
+</Update>
+
+<Update label="0.52.33" description="2026년 3월 12일">
+  ## Added
+
+  * 객체 태그 및 별칭을 위한 Python SDK 방법과 HTTP 모델.
+  * OpenAI Realtime API를 위한 계측. 여기에는 도구 호출과 선택적인 오디오, 텍스트, 음성 캡처가 포함됩니다(상위 릴리스 노트의 TypeScript 예시 참조).
+
+  ## Fixed
+
+  * 트레이스에서 Anthropic 스트리밍 completions 누적을 수정했습니다.
+  * `RemoteHTTPTraceServer`의 인증된 `PUT` 요청을 수정했습니다.
+  * `calls_complete` 프로젝션에 대한 비용 쿼리 처리를 수정했습니다.
+</Update>
+
+<Update label="0.52.31" description="2026년 3월 10일">
+  ## 추가됨
+
+  * 저장된 객체의 태그 및 별칭에 대한 Trace server 지원.
+  * Claude Agents 트레이싱 인테그레이션.
+  * Realtime 세션의 Timestamp 및 첫 토큰까지 걸리는 시간 메트릭.
+  * Monitor에서 병합된 Scorer를 사용할 수 있습니다.
+
+  ## 변경됨
+
+  * 요청 간 오퍼레이션 레퍼런스 캐시를 통해 OpenTelemetry 성능을 개선했습니다.
+
+  ## 수정됨
+
+  * 내부 필드 이스케이프 및 분산 ClickHouse 설정을 포함해 비용 쿼리 구성의 여러 문제를 수정했습니다.
+  * Pydantic v2 `Run` 객체에 대한 LangChain 인테그레이션 처리 문제를 수정했습니다.
+  * 입력 또는 메타데이터가 없을 때 prediction 및 Scorer resolver에서 발생하는 예외 사례를 수정했습니다.
+  * `calls_complete` 쿼리에서 Vertex AI 텍스트 누적 및 스레드 가시성 문제를 수정했습니다.
+</Update>
+
+<Update label="0.52.30" description="2026년 3월 10일">
+  ## 추가됨
+
+  * 저장된 점수를 다시 계산하기 위한 점수 백필 API.
+  * TypeScript SDK에서 Gemini 요청 추적.
+
+  ## 변경됨
+
+  * 쿼리 성능 향상을 위해 분산 Call 테이블을 `trace_id` 또는 `project_id` 기준으로 샤딩했습니다.
+  * 지연 시간을 줄이기 위해 `calls_complete` 쿼리 계획을 단순화했습니다.
+
+  ## 수정됨
+
+  * Weave UI에서 Gemini 미디어가 렌더링되지 않을 수 있던 버그를 수정했습니다.
+  * 이제 OpenTelemetry 배치 삽입에 비동기 ClickHouse 삽입을 사용합니다.
+  * HTTP 클라이언트에서 `NO_PROXY` 처리 문제를 수정했습니다.
+  * 일부 오류 메시지에서 entity와 team 명명 문제를 수정했습니다.
+</Update>
+
+<Update label="0.52.29" description="2026년 2월 27일">
+  ## 추가됨
+
+  * 사용 API가 완료되지 않은 Call의 메타데이터를 노출합니다.
+  * 더 풍부한 MIME 감지를 위한 선택적 `python-magic` 인테그레이션.
+  * Realtime 스레드가 사용 요약에 포함됩니다.
+  * Weave 객체의 태그 및 별칭에 대한 스키마 지원.
+  * evaluation 테이블용 구조화된 `eval_results` 쿼리 API.
+
+  ## 변경됨
+
+  * ClickHouse에서 Timestamp를 string으로 저장해 인덱싱을 개선했습니다.
+  * Call upsert 시 배치 파일 생성 중 중복 작업을 줄였습니다.
+
+  ## 수정됨
+
+  * generator가 구성된 샘플링 비율을 따르지 않던 버그를 수정했습니다.
+  * Call이 끝날 때 스트림이 즉시 flush되도록 버퍼링을 수정했습니다.
+  * digest 계산을 위한 정렬 쿼리 인덱스 오류와 결정적 JSON 직렬화를 수정했습니다.
+  * OpenTelemetry 표시 이름, `make_safe_name` 처리, 그리고 Pydantic 모델용 LangChain 직렬화를 수정했습니다.
+</Update>
+
+<Update label="0.52.28" description="2026년 2월 14일">
+  ## 추가됨
+
+  * OpenTelemetry 리소스 속성에 W&amp;B run 및 프로젝트 변수를 포함할 수 있습니다.
+  * ORM이 `$lt` 및 `$lte` 비교를 지원합니다.
+  * OpenTelemetry 프로젝트가 `calls_complete` 테이블에 직접 쓸 수 있습니다.
+  * OpenAI Realtime 트레이싱의 정식 출시를 위한 개선 사항.
+
+  ## 변경됨
+
+  * 테이블 스캔 및 Call 통계 쿼리 성능을 개선했습니다.
+
+  ## 수정됨
+
+  * 필터가 잘못 최적화되어 제거된 경우를 포함해 스레드 ID로 Call을 필터링하는 문제를 수정했습니다.
+  * 멱등적인 annotation queue 상태 업데이트를 수정했습니다.
+  * `weave.finish()`가 대기 중인 클라이언트 데이터를 항상 flush하지 않던 버그를 수정했습니다.
+  * `PaginatedIterator`의 iterator 타이핑, `Dataset.select` 메타데이터 보존, 그리고 메모리 부족이 발생할 수 있던 대용량 트레이스 크기 쿼리를 수정했습니다.
+</Update>
+
+<Update label="0.52.26" description="2026년 2월 3일">
+  ## 추가됨
+
+  * 집계된 사용량을 위한 사용 통계 API와 `/trace/usage` 및 `/calls/usage` endpoints.
+  * 고처리량 deployment를 위한 선택적 성능 모드 플래그.
+  * Anthropic structured-parse 패칭.
+  * 저장된 뷰가 `column_order` 필드를 지원합니다.
+
+  ## 변경됨
+
+  * 분산 cluster 쿼리를 위한 `PREWHERE` 최적화를 개선했습니다.
+
+  ## 수정됨
+
+  * 실패한 ClickHouse 삽입으로 버퍼링된 행이 누수될 수 있던 버그를 수정했습니다.
+  * 임포트 시점에 IPython을 임포트하면 콜드 스타트가 느려질 수 있던 버그를 수정했습니다.
+  * 동기 mutation 마이그레이션, `calls_complete`의 summary 필터링, 그리고 Google GenAI 토큰 과다 계산을 수정했습니다.
+  * Monitor가 포함된 OpenTelemetry span 및 Google Cloud Storage의 중복 업로드 처리를 수정했습니다.
+</Update>
+
+<Update label="0.52.25" description="2026년 1월 20일">
+  ## 수정됨
+
+  * 일부 인테그레이션에서 중복된 HTTP 응답 캡처를 제거했습니다.
+  * 이제 Google GenAI 트레이싱이 시스템 지침을 기록합니다.
+  * 이제 Google GenAI 트레이싱이 thinking token을 completion token과 분리해 기록합니다.
+</Update>
+
+<Update label="0.52.24" description="2026년 1월 15일">
+  ## 추가됨
+
+  * Node SDK에서 프롬프트 작업을 위한 TypeScript helper API.
+  * 적절한 경우 Trace server가 Base64 페이로드를 안전하게 자동 변환합니다.
+  * 예정된 비교 기능을 위한 leaderboard 스키마 업데이트.
+  * PII 마스킹을 세밀하게 조정하기 위한 `redact_pii_exclude_fields` 설정.
+  * `LLMAsAJudgeScorer`의 오디오 입력과 인테그레이션용 더 풍부한 op 메타데이터(kind 및 color).
+
+  ## 수정됨
+
+  * 예외 사례에서 올바르지 않은 문자가 op 생성을 막던 문제를 수정했습니다.
+  * HTTPX 클라이언트의 HTTP 및 HTTPS 프록시 처리 문제를 수정했습니다.
+  * generator를 래핑할 때 중첩 트레이싱 문제를 수정했습니다.
+</Update>
+
+<Update label="0.52.23" description="2026년 1월 8일">
+  ## 추가
+
+  * Logfire Pydantic AI 계측 입력 및 출력을 위한 파싱 헬퍼.
+
+  ## 수정
+
+  * 대규모 테이블 evaluation의 비결정적 정렬 순서를 수정했습니다.
+  * 입력 및 출력 토큰이 누락되던 비용 쿼리를 수정했습니다.
+  * 분산 복제 ClickHouse 테이블 관련 문제를 수정하고, Kafka flush 동작이 설정으로 제어되도록 했습니다.
+</Update>
+
+<Update label="0.52.22" description="2026년 1월 8일">
+  ## 추가
+
+  * `LLMStructuredCompletionModels`의 프롬프트와 템플릿 변수가 completion 호출 전반에 걸쳐 유지됩니다.
+
+  ## 수정
+
+  * 일부 환경에서 발생하던 ClickHouse 임포트 호환성 문제를 수정했습니다.
+</Update>
+
+<Update label="0.52.20" description="2025년 11월 26일">
+  ## 추가
+
+  * Completions 스트리밍 API가 프롬프트와 템플릿 변수를 지원합니다.
+  * `ObjectRef.from_uri`가 Weave URI에서 객체를 재구성합니다.
+  * OpenAI Responses API tracing이 `x-request-id` 헤더를 기록합니다.
+  * Bedrock Agents 인테그레이션 지원 범위 확대.
+  * 스팬 메타데이터용 TypeScript SDK `withAttributes` 헬퍼.
+
+  ## 수정
+
+  * OpenAI Agents tracing 프로세서의 메모리 누수를 수정했습니다.
+  * Weave가 비활성화된 상태에서도 ref를 게시할 수 있던 버그를 수정했습니다.
+  * HTTP 클라이언트 코드를 `requests`에서 `httpx`로 마이그레이션할 때 이터레이터 동작을 수정했습니다.
+</Update>
+
+<Tip>
+  0.52.20 이전 릴리스는 [GitHub Releases for `wandb/weave`](https://github.com/wandb/weave/releases)를 참조하세요. 해당 항목은 GitHub의 기본 비교 형식(풀 리퀘스트 링크 및 커밋 접두사)을 사용합니다. 이 문서 페이지는 최신 버전부터 고객 대상 표현으로 업데이트됩니다.
+</Tip>

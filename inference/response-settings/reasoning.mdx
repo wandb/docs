@@ -1,47 +1,89 @@
 ---
 title: "View reasoning information"
-description: How to return and view reasoning in your W&B Inference responses
+description: How to return and view reasoning in your Serverless Inference responses
+keywords: ["chain-of-thought", "thinking mode", "reasoning field", "enable reasoning", "disable reasoning"]
 ---
 
-Reasoning models, like [OpenAI's GPT OSS 20B](https://huggingface.co/openai/gpt-oss-20b), include information about their reasoning steps as part of the output returned in addition to the final answer. This is automatic and no additional input parameters are needed.
+Reasoning models, such as [Google's Gemma 4](https://huggingface.co/google/gemma-4-31B-it), return information about their reasoning steps alongside the final answer. This page explains how to identify reasoning-capable models on Serverless Inference, where to find reasoning output in a response, and how to turn reasoning on or off for models that support toggling it. Use this guide to inspect a model's intermediate reasoning or to control whether reasoning appears in a response.
 
-You can determine whether a model supports reasoning or not by checking the Supported Features sections of its catalog page in the UI.
+To determine whether a model supports reasoning, check the following Supported models table or the **Supported Features** section of its catalog page in the UI.
 
-You can find reasoning information in the `reasoning_content` field of responses. This field is not present in the outputs of other models.
+Reasoning information appears in the `reasoning` field of responses. The value of this field is `null` in the responses of non-reasoning models.
+
+## Supported models with reasoning
+
+The following table lists the models on Serverless Inference that return reasoning output. Each supported model either always includes reasoning, or disables or enables reasoning by default:
+
+{/* takeru reasoning-models - This table is automatically generated, do not edit manually. */}
+| Model ID (for API usage)                       | Reasoning support   |
+| ---------------------------------------------- | ------------------- |
+| `deepseek-ai/DeepSeek-V4-Flash`                | Disabled by default |
+| `deepseek-ai/DeepSeek-V4-Pro`                  | Disabled by default |
+| `google/gemma-4-31B-it`                        | Disabled by default |
+| `MiniMaxAI/MiniMax-M2.5`                       | Always on           |
+| `moonshotai/Kimi-K2.7-Code`                    | Always on           |
+| `moonshotai/Kimi-K2.6`                         | Always on           |
+| `moonshotai/Kimi-K2.5`                         | Always on           |
+| `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-FP8` | Enabled by default  |
+| `nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B`     | Enabled by default  |
+| `openai/gpt-oss-120b`                          | Always on           |
+| `openai/gpt-oss-20b`                           | Always on           |
+| `Qwen/Qwen3.6-35B-A3B`                         | Enabled by default  |
+| `Qwen/Qwen3.6-27B`                             | Enabled by default  |
+| `Qwen/Qwen3.5-35B-A3B`                         | Enabled by default  |
+| `Qwen/Qwen3.5-27B`                             | Enabled by default  |
+| `Qwen/Qwen3-235B-A22B-Thinking-2507`           | Always on           |
+| `zai-org/GLM-5.2`                              | Enabled by default  |
+| `zai-org/GLM-5.1`                              | Enabled by default  |
+
+### Models with `Always on` reasoning
+
+If a model is listed as `Always on` in the preceding [Supported models](#supported-models) table, it always includes reasoning, and you can't disable it.
+
+### Disable reasoning
+
+If a model is listed as `Enabled by default` in the preceding [Supported models](#supported-models) table, you can disable reasoning to reduce token usage or simplify the response. To opt out of reasoning for a request, in `chat_template_kwargs`, set the `enable_thinking` flag to `False` (Python) or `false` (Bash). After the request completes, the response omits the reasoning content:
 
 <Tabs>
   <Tab title="Python">
-    ```python
+    ```python lines highlight={13-17}
     import openai
 
     client = openai.OpenAI(
         base_url='https://api.inference.wandb.ai/v1',
-        api_key="<your-api-key>",  # Available from https://wandb.ai/authorize
+        api_key="[YOUR-API-KEY]",  # Create an API key at https://wandb.ai/settings
     )
 
     response = client.chat.completions.create(
-        model="openai/gpt-oss-20b",
+        model="google/gemma-4-31B-it",
         messages=[
             {"role": "user", "content": "3.11 and 3.8, which is greater?"}
         ],
+        extra_body={
+            "chat_template_kwargs": {
+                "enable_thinking": False
+            }
+        },
     )
-
-    print(response.choices[0].message.reasoning_content)
-    print("--------------------------------")
-    print(response.choices[0].message.content)
     ```
   </Tab>
   <Tab title="Bash">
-    ```bash
+    ```bash lines highlight={9}
     curl https://api.inference.wandb.ai/v1/chat/completions \
       -H "Content-Type: application/json" \
-      -H "Authorization: Bearer <your-api-key>" \
+      -H "Authorization: Bearer [YOUR-API-KEY]" \
       -d '{
-        "model": "openai/gpt-oss-20b",
+        "model": "google/gemma-4-31B-it",
         "messages": [
           { "role": "user", "content": "3.11 and 3.8, which is greater?" }
         ],
+        "chat_template_kwargs": {"enable_thinking": false}
       }'
     ```
   </Tab>
 </Tabs>
+
+### Enable reasoning
+
+If a model is listed as `Disabled by default` in the preceding [Supported models](#supported-models) table, you can enable reasoning by setting the `enable_thinking` flag to `True` (Python) or `true` (Bash) in the preceding code snippet.
+

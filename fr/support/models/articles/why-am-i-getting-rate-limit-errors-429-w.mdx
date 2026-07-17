@@ -1,0 +1,62 @@
+---
+title: "Pourquoi est-ce que je reçois des erreurs de limite de débit (429) avec Serverless Inference ?"
+keywords: ["Inférence"]
+---
+
+Cette page explique pourquoi Serverless Inference renvoie des erreurs de limite de débit `429` et comment les résoudre afin que vos requêtes aboutissent sans dépasser les limites de concurrence autorisées.
+
+Les erreurs de limite de débit (`429`) se produisent lorsque vous dépassez les limites de concurrence.
+
+**Erreur :** &quot;Limite de concurrence atteinte pour les requêtes&quot;
+
+**Solution :** Pour résoudre cette erreur, effectuez l&#39;une des actions suivantes :
+
+* Réduisez le nombre de requêtes parallèles.
+* Ajoutez des temporisations entre les requêtes.
+* Implémentez un backoff exponentiel.
+
+Remarque : les limites de débit s&#39;appliquent à chaque projet W&amp;B.
+
+<div id="best-practices-to-avoid-rate-limits">
+  ## Bonnes pratiques pour éviter les limites de débit
+</div>
+
+Les pratiques suivantes aident votre application à respecter les limites de concurrence et à se rétablir correctement lorsqu’elle atteint ces limites.
+
+* **Mettez en place une logique de nouvelle tentative avec backoff exponentiel :** Le backoff espace les nouvelles tentatives afin que les réponses `429` transitoires se résorbent avant la tentative suivante.
+  ```python
+  import time
+
+  def retry_with_backoff(func, max_retries=3):
+      for i in range(max_retries):
+          try:
+              return func()
+          except Exception as e:
+              if "429" in str(e) and i < max_retries - 1:
+                  time.sleep(2 ** i)
+              else:
+                  raise
+  ```
+
+* **Utilisez le traitement par lots plutôt que des requêtes parallèles.**
+
+* **Surveillez votre utilisation sur la page Billing de W&amp;B.**
+
+<div id="default-spending-caps">
+  ## Plafonds de dépenses par défaut
+</div>
+
+Les comptes ont également des plafonds de dépenses par défaut qui limitent l’utilisation globale de l’Inférence :
+
+* **Comptes Pro :** $6,000 par mois
+* **Comptes Enterprise :** $700,000 par an
+
+Contactez votre responsable de compte ou l’assistance pour modifier les limites.
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Inférence](/fr/support/models/tags/inference)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

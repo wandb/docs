@@ -1,13 +1,19 @@
 ---
-title: 専用クラウドのための IP 許可リストを設定する
+title: Dedicated Cloud の IP allowlisting を設定する
+description: "IP allowlisting を使用して、W&B Dedicated Cloud インスタンスへのアクセスを許可された IP アドレスに制限します。"
+keywords: ["IP ホワイトリスト", "IP 制限", "ネットワーク アクセス制御", "アクセス制限"]
 ---
 
-You can restrict access to your [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud) インスタンスを許可された IP アドレスのリストからのみとすることができます。これは、AI ワークロードから W&B API へのアクセスおよびユーザーのブラウザから W&B アプリの UI へのアクセスにも適用されます。Dedicated Cloud インスタンスに対して IP ホワイトリストが設定されると、W&B は他の許可されていない場所からの要求を拒否します。Dedicated Cloud インスタンスの IP ホワイトリスト設定については、W&B チームにお問い合わせください。
+このページでは、W&amp;B [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated-cloud) における IP allowlisting の仕組みと、お使いのインスタンスでこれをリクエストする方法について説明します。IP allowlisting を使用すると、Dedicated Cloud インスタンスへのアクセスを許可済みの IP アドレス一覧に制限できるため、承認された場所からのトラフィックのみが W&amp;B API と W&amp;B App UI に到達できます。
 
-IP ホワイトリストは、AWS、GCP、Azure 上の Dedicated Cloud インスタンスで利用可能です。
+IP allowlisting は、AI ワークロードから W&amp;B API へのアクセスと、ユーザーのブラウザーから W&amp;B App UI へのアクセスに適用されます。Dedicated Cloud インスタンスに IP allowlisting を設定すると、W&amp;B は許可されていない場所からのリクエストをすべて拒否します。
 
-[セキュアなプライベート接続](/ja/platform/hosting/data-security/private-connectivity/) とともに IP ホワイトリストを使用できます。セキュアなプライベート接続とともに IP ホワイトリストを使用する場合、W&B は AI ワークロードからのすべてのトラフィックおよび可能であればユーザーのブラウザからのトラフィックの大部分にセキュアなプライベート接続を使用し、特権のある場所からのインスタンス管理には IP ホワイトリストを使用することを推奨します。
+IP allowlisting は、AWS、Google Cloud、Azure 上の Dedicated Cloud インスタンスで利用できます。
+
+Dedicated Cloud インスタンスの IP allowlisting を設定するには、担当の W&amp;B チームにお問い合わせください。
+
+IP allowlisting は、[secure private connectivity](./private-connectivity) と組み合わせて使用できます。両方を使用する場合、W&amp;B は、AI ワークロードからのすべてのトラフィックと、ユーザーのブラウザーからのトラフィックの大部分に secure private connectivity を使用し、特権的な場所からのインスタンス管理には IP allowlisting を使用することを推奨します。
 
 <Warning>
-W&B は、個々の `/32` IP アドレスではなく、企業または事業 egress ゲートウェイに割り当てられた [CIDR ブロック](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) の使用を強く推奨します。個々の IP アドレスの使用は、スケーラブルではなく、クラウドごとに厳しい制限があります。
+  W&amp;B は、個別の `/32` IP アドレスではなく、企業または業務用のエグレス ゲートウェイに割り当てられた [CIDR blocks](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) を使用することを推奨します。個別の IP アドレスの使用はスケーラブルではなく、クラウドごとの制限も厳しくなります。
 </Warning>

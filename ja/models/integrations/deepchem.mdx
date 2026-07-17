@@ -1,0 +1,134 @@
+---
+description: "DeepChem ライブラリを W&B と統合して、分子機械学習モデルの実験管理と可視化を行います。"
+title: DeepChem
+---
+
+import ApiKeyCreateStreamlined from "/snippets/ja/_includes/api-key-create-streamlined.mdx";
+
+[DeepChem library](https://github.com/deepchem/deepchem) は、創薬、材料科学、化学、生物学の分野でディープラーニングをより広く活用できるようにするオープンソースツールを提供します。この W&amp;B インテグレーションにより、DeepChem でモデルをトレーニングする際に、実験管理とモデル チェックポイントが追加されます。
+
+このページでは、DeepChem のトレーニング ワークフローに W&amp;B のログ機能を追加して、実験全体でトレーニング損失、評価メトリクス、モデル チェックポイントをトラッキングできるようにする方法を説明します。すでに DeepChem でモデルをトレーニングしている場合は、最小限のコード変更で実験管理を追加できます。
+
+<div id="deepchem-logging-in-3-lines-of-code">
+  ## 3行のコードでDeepChemをロギング
+</div>
+
+```python
+logger = WandbLogger(…)
+model = TorchModel(…, wandb_logger=logger)
+model.fit(…)
+```
+
+DeepChemモデルに `WandbLogger` インスタンスを渡すと、トレーニング run に W&amp;B のロギングが追加されるため、`fit` 中に生成されたメトリクスは自動的に W&amp;B のプロジェクト にストリーミングされます。
+
+<Frame>
+  <img src="/images/integrations/cd.png" alt="DeepChemの分子解析" />
+</Frame>
+
+<div id="report-and-google-colab">
+  ## レポートとGoogle Colab
+</div>
+
+以下のリソースでは、これを自分のコードに組み込む前に、インテグレーションが実際にどのように機能するかを確認できます。
+
+* W&amp;B DeepChem インテグレーションで生成されたチャートの例は、[DeepChemでW&amp;Bを使う: 分子グラフ畳み込みネットワーク](https://wandb.ai/kshen/deepchem_graphconv/reports/Using-W-B-with-DeepChem-Molecular-Graph-Convolutional-Networks--Vmlldzo4MzU5MDc?galleryTag=)の記事で確認できます。
+* すぐに動作するコードを見たい場合は、この[Google Colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/deepchem/W%26B_x_DeepChem.ipynb)をご覧ください。
+
+<div id="track-experiments">
+  ## 実験を管理する
+</div>
+
+このページの残りの部分では、APIキーを設定し、`wandb` ライブラリをインストールして、`TorchModel` または `KerasModel` のログを有効にする方法を説明します。
+
+[KerasModel](https://deepchem.readthedocs.io/en/latest/api_reference/models.html#keras-models) または [TorchModel](https://deepchem.readthedocs.io/en/latest/api_reference/models.html#pytorch-models) タイプの DeepChem モデル向けに W&amp;B を設定します。
+
+<div id="sign-up-and-create-an-api-key">
+  ### サインアップしてAPIキーを発行する
+</div>
+
+APIキーは、お使いのマシンをW&amp;Bに認証するために使用します。APIキーはユーザープロフィールから発行できます。
+
+<ApiKeyCreateStreamlined />
+
+W&amp;B AppでAPIキーを確認するには:
+
+1. 右上にあるユーザープロフィールアイコンをクリックします。
+2. **User Settings** を選択し、**API Keys** セクションまでスクロールします。
+
+<div id="install-the-wandb-library-and-log-in">
+  ### `wandb` ライブラリをインストールしてログインする
+</div>
+
+ローカル環境に `wandb` ライブラリをインストールしてログインするには、次の手順に従います。
+
+<Tabs>
+  <Tab title="コマンドライン">
+    1. `WANDB_API_KEY` [環境変数](/ja/models/track/environment-variables/)に APIキーを設定します。`<>` で囲まれた値は、ご自身の値に置き換えてください。
+
+       ```bash
+       export WANDB_API_KEY=<your_api_key>
+       ```
+
+    2. `wandb` ライブラリをインストールし、ログインします。
+
+       ```shell
+       pip install wandb
+
+       wandb login
+       ```
+  </Tab>
+
+  <Tab title="Python">
+    ```bash
+    pip install wandb
+    ```
+
+    ```python
+    import wandb
+    wandb.login()
+    ```
+  </Tab>
+
+  <Tab title="Python notebook">
+    ```notebook
+    !pip install wandb
+
+    import wandb
+    wandb.login()
+    ```
+  </Tab>
+</Tabs>
+
+<div id="log-your-training-and-evaluation-data-to-wb">
+  ### トレーニングデータと評価データを W&amp;B にログする
+</div>
+
+`wandb` のインストールと認証が完了したら、DeepChem モデルに `WandbLogger` をアタッチして、トレーニングデータと評価データを W&amp;B に送れるようになります。
+
+トレーニング時の損失と評価メトリクスは、自動的に W&amp;B にログされます。任意の評価を有効にするには、DeepChem の [`ValidationCallback`](https://github.com/deepchem/deepchem/blob/master/deepchem/models/callbacks.py) を使用します。`WandbLogger` は `ValidationCallback` を検出し、そこで生成されたメトリクスをログします。
+
+<Tabs>
+  <Tab title="TorchModel">
+    ```python
+    from deepchem.models import TorchModel, ValidationCallback
+
+    vc = ValidationCallback(…)  # 任意
+    model = TorchModel(…, wandb_logger=logger)
+    model.fit(…, callbacks=[vc])
+    logger.finish()
+    ```
+  </Tab>
+
+  <Tab title="KerasModel">
+    ```python
+    from deepchem.models import KerasModel, ValidationCallback
+
+    vc = ValidationCallback(…)  # 任意
+    model = KerasModel(…, wandb_logger=logger)
+    model.fit(…, callbacks=[vc])
+    logger.finish()
+    ```
+  </Tab>
+</Tabs>
+
+`model.fit` の実行後、トレーニング時の損失と `ValidationCallback` によって出力された評価メトリクスが、`WandbLogger` によって作成された run として W&amp;B のプロジェクトに表示されます。

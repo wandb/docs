@@ -1,25 +1,32 @@
 ---
-title: wandb アーティファクト
+title: wandb artifact
 ---
 
-**使用方法**
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
 
-`wandb artifact [OPTIONS] COMMAND [ARGS]...`
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/cli.py#L2826" />
 
-**概要**
+<div id="usage">
+  ## 使用方法
+</div>
 
-アーティファクトと対話するためのコマンド
+```bash
+artifact [OPTIONS] COMMAND [ARGS]...
+```
 
-**オプション**
+<div id="description">
+  ## 説明
+</div>
 
-| **オプション** | **説明** |
-| :--- | :--- |
+W&amp;B アーティファクトのアップロード、ダウンロード、管理を行います。
 
-**コマンド**
+<div id="subcommands">
+  ## サブコマンド
+</div>
 
-| **コマンド** | **説明** |
-| :--- | :--- |
-| cache | アーティファクトキャッシュと対話するためのコマンド |
-| get | wandb からアーティファクトをダウンロード |
-| ls | wandb プロジェクト内のすべてのアーティファクトをリスト表示 |
-| put | wandb にアーティファクトをアップロード |
+| コマンド                   | 説明                                        |
+| ---------------------- | ----------------------------------------- |
+| `wandb artifact cache` | ローカルのアーティファクトキャッシュを管理します。                 |
+| `wandb artifact get`   | パスを指定して W&amp;B からアーティファクトをダウンロードします。     |
+| `wandb artifact ls`    | W&amp;B の project 内のすべてのアーティファクトを一覧表示します。 |
+| `wandb artifact put`   | アーティファクトを W&amp;B にアップロードします。             |

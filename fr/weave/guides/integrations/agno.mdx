@@ -1,0 +1,377 @@
+---
+title: Agno
+description: "Tracez les systèmes multi-agents Agno avec Weave à l’aide d’OpenTelemetry pour capturer les interactions entre agents, les appel d’outil et les flux de travail multimodaux."
+keywords: ["OTEL", "OpenInference", "multi-agent", "AgnoInstrumentor", "appel d’outil"]
+---
+
+Vous pouvez tracer dans Weave les appels des agents et des appel d’outil [Agno](https://docs.agno.com/) à l’aide d’[OpenTelemetry (OTEL)](https://opentelemetry.io/). Agno est un framework Python permettant de créer des systèmes multi-agents avec mémoire, connaissances et raisonnement partagés. Il est conçu pour être léger et indépendant des modèles, et prend en charge des capacités multimodales, notamment le traitement de texte, d’images, d’audio et de vidéo.
+
+Ce guide explique comment tracer les appels des agents et des appel d’outil Agno à l’aide d’OTEL, puis visualiser ces traces dans Weave. Vous apprendrez à installer les dépendances requises, à configurer un traceur OTEL pour envoyer des données à Weave et à instrumenter vos agents et outils Agno.
+
+<Tip>
+  Pour plus d’informations sur le tracing OTEL dans Weave, voir [Envoyer des traces OTEL à Weave](../tracking/otel).
+</Tip>
+
+<div id="prerequisites">
+  ## Prérequis
+</div>
+
+1. Installez les dépendances requises :
+
+   ```bash
+   pip install agno openinference-instrumentation-agno opentelemetry-sdk opentelemetry-exporter-otlp-proto-http
+   ```
+
+2. Définissez votre clé API OpenAI (ou celle d’un autre fournisseur de modèle) dans une variable d’environnement :
+
+   ```bash
+   export OPENAI_API_KEY=your_api_key_here
+   ```
+
+3. [Configurer le Tracing OTEL dans Weave](#configure-otel-tracing-in-weave).
+
+<div id="configure-otel-tracing-in-weave">
+  ### Configurer le Tracing OTEL dans Weave
+</div>
+
+Pour envoyer des traces d’Agno vers Weave, configurez OTEL avec un `TracerProvider` et un `OTLPSpanExporter`. Configurez l’exportateur avec l’[point de terminaison approprié et les en-têtes HTTP requis pour l’authentification et l’identification du projet](#required-configuration).
+
+<Note>
+  Stockez les variables d’environnement sensibles, comme votre clé API et les informations sur votre projet, dans un fichier d’environnement (par exemple `.env`), puis chargez-les avec `os.environ`. Cela permet de sécuriser vos identifiants et de les garder hors de votre code.
+</Note>
+
+<div id="required-configuration">
+  #### Configuration requise
+</div>
+
+Configurez l’exporteur OTLP avec le point de terminaison et les en-têtes suivants :
+
+* **Point de terminaison:** `https://trace.wandb.ai/otel/v1/traces`
+* **En-têtes :**
+  * `Authorization` : authentification Basic avec votre clé API W&amp;B.
+  * `project_id` : le nom de votre entité/projet W&amp;B (par exemple : `myteam/myproject`).
+
+<div id="send-otel-traces-from-agno-to-weave">
+  ## Envoyer des traces OTEL d’Agno vers Weave
+</div>
+
+Une fois les [prérequis](#prerequisites) remplis, vous pouvez envoyer des traces OTEL d’Agno vers Weave. L’extrait de code suivant montre comment configurer un exportateur de spans OTLP et un fournisseur de traceur afin d’envoyer des traces OTEL d’une application Agno vers Weave.
+
+<Warning>
+  Pour que Weave trace correctement Agno, définissez le fournisseur de traceur global *avant* d’utiliser des composants Agno dans votre code.
+</Warning>
+
+```python lines
+# tracing.py
+
+import base64
+import os
+from openinference.instrumentation.agno import AgnoInstrumentor
+from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+from opentelemetry.sdk import trace as trace_sdk
+from opentelemetry.sdk.trace.export import SimpleSpanProcessor
+from opentelemetry import trace
+
+# Load sensitive values from environment variables
+WANDB_BASE_URL = "https://trace.wandb.ai"
+# Your W&B entity/project name e.g. "myteam/myproject"
+PROJECT_ID = os.environ.get("WANDB_PROJECT_ID")
+# Create a W&B API key at https://wandb.ai/settings
+WANDB_API_KEY = os.environ.get("WANDB_API_KEY")
+
+WEAVE_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+AUTH = base64.b64encode(f"api:{WANDB_API_KEY}".encode()).decode()
+
+OTEL_EXPORTER_OTLP_HEADERS = {
+    "Authorization": f"Basic {AUTH}",
+    "project_id": PROJECT_ID,
+}
+
+# Create the OTLP span exporter with endpoint and headers
+exporter = OTLPSpanExporter(
+    endpoint=WEAVE_OTLP_ENDPOINT,
+    headers=OTEL_EXPORTER_OTLP_HEADERS,
+)
+
+# Create a tracer provider and add the exporter
+tracer_provider = trace_sdk.TracerProvider()
+tracer_provider.add_span_processor(SimpleSpanProcessor(exporter))
+
+# Set the global tracer provider BEFORE importing/using Agno
+trace.set_tracer_provider(tracer_provider)
+```
+
+<div id="trace-agno-agents-with-otel">
+  ## Tracez les agents Agno avec OTEL
+</div>
+
+Après avoir configuré le fournisseur de traceur, vous pouvez créer et exécuter des agents Agno avec le Tracing automatique. Instrumentez Agno avant de créer des agents afin de vous assurer que Weave capture toute l’activité ultérieure des agents. L’exemple suivant montre comment créer un agent avec des outils :
+
+```python lines
+from agno.agent import Agent
+from agno.models.openai import OpenAIChat
+from agno.tools.yfinance import YFinanceTools
+
+from dotenv import load_dotenv
+load_dotenv()
+
+# Load AgnoInstrumentor from the file created above
+from tracing import AgnoInstrumentor
+
+# Start instrumenting Agno
+AgnoInstrumentor().instrument()
+
+# Create a finance agent
+finance_agent = Agent(
+    name="Finance Agent",
+    model=OpenAIChat(id="gpt-4o-mini"),
+    tools=[
+        YFinanceTools(
+            stock_price=True,
+            analyst_recommendations=True,
+            company_info=True,
+            company_news=True
+        )
+    ],
+    instructions=["Use tables to display data"],
+    show_tool_calls=True,
+    markdown=True,
+)
+
+# Utiliser l'agent - Weave trace automatiquement cet appel
+finance_agent.print_response(
+    "What is the current stock price of Apple and what are the latest analyst recommendations?",
+    stream=True
+)
+```
+
+Weave trace automatiquement toutes les opérations de l’agent, ce qui vous permet de visualiser le flux d’exécution, les appels au modèle, les étapes de raisonnement et les appels d’outil.
+
+<Frame>
+  ![Visualisation de la trace d’un agent Agno](/weave/guides/integrations/imgs/agno/agno_agent_trace.png)
+</Frame>
+
+<div id="trace-agno-tools-with-otel">
+  ## Tracez les outils Agno avec OTEL
+</div>
+
+Lorsque vous définissez et utilisez des outils avec Agno, la trace capture également ces appels d’outil. L’intégration OTEL instrumente automatiquement à la fois le processus de raisonnement de l’agent et l’exécution de chaque outil, offrant une vue complète du comportement de votre agent.
+
+Voici un exemple avec plusieurs outils :
+
+```python lines
+from agno.agent import Agent
+from agno.models.openai import OpenAIChat
+from agno.tools.duckduckgo import DuckDuckGoTools
+from agno.tools.yfinance import YFinanceTools
+
+from dotenv import load_dotenv
+load_dotenv()
+
+# Charger AgnoInstrumentor depuis le fichier créé ci-dessus
+from tracing import AgnoInstrumentor
+
+# Démarrer l'instrumentation d'Agno
+AgnoInstrumentor().instrument()
+
+# Créer un agent avec plusieurs outils
+research_agent = Agent(
+    name="Research Agent",
+    model=OpenAIChat(id="gpt-4o-mini"),
+    tools=[
+        DuckDuckGoTools(),
+        YFinanceTools(stock_price=True, company_info=True),
+    ],
+    instructions=[
+        "Search for current information and financial data",
+        "Always include sources",
+        "Use tables to display financial data"
+    ],
+    show_tool_calls=True,
+    markdown=True,
+)
+
+# Utiliser l'agent - Weave trace les appels d'outil
+research_agent.print_response(
+    "Research Tesla's recent performance and news. Include stock price and any recent developments.",
+    stream=True
+)
+```
+
+<Frame>
+  ![Une visualisation de la trace des appels d’outil Agno](/weave/guides/integrations/imgs/agno/agno_tool_calls.png)
+</Frame>
+
+<div id="trace-multi-agent-teams-with-otel">
+  ## Tracez les équipes multi-agents avec OTEL
+</div>
+
+L’architecture multi-agent d&#39;Agno vous permet de créer des équipes d&#39;agents qui collaborent et partagent un contexte commun. Weave trace également entièrement ces interactions au sein de l&#39;équipe :
+
+```python lines
+from agno.agent import Agent
+from agno.models.openai import OpenAIChat
+from agno.tools.duckduckgo import DuckDuckGoTools
+from agno.tools.yfinance import YFinanceTools
+
+from dotenv import load_dotenv
+load_dotenv()
+
+# Charger AgnoInstrumentor depuis le fichier tracing.py
+from tracing import AgnoInstrumentor
+
+# Démarrer l'instrumentation d'Agno
+AgnoInstrumentor().instrument()
+
+# Créer des agents spécialisés
+web_agent = Agent(
+    name="Web Agent",
+    role="Search the web for information",
+    model=OpenAIChat(id="gpt-4o-mini"),
+    tools=[DuckDuckGoTools()],
+    instructions="Always include sources",
+    show_tool_calls=True,
+    markdown=True,
+)
+
+finance_agent = Agent(
+    name="Finance Agent",
+    role="Get financial data",
+    model=OpenAIChat(id="gpt-4o-mini"),
+    tools=[YFinanceTools(stock_price=True, analyst_recommendations=True)],
+    instructions="Use tables to display data",
+    show_tool_calls=True,
+    markdown=True,
+)
+
+# Créer une équipe d'agents
+agent_team = Agent(
+    team=[web_agent, finance_agent],
+    model=OpenAIChat(id="gpt-4o"),
+    instructions=["Always include sources", "Use tables to display data"],
+    show_tool_calls=True,
+    markdown=True,
+)
+
+# Utiliser l'équipe - Weave trace toutes les interactions des agents
+agent_team.print_response(
+    "What's the current market sentiment around NVIDIA? Include both news analysis and financial metrics.",
+    stream=True
+)
+```
+
+Cette trace multi-agents montre comment les différents agents se coordonnent dans Weave, en vous offrant une visibilité sur la façon dont les tâches sont réparties et exécutées au sein de votre équipe d&#39;agents.
+
+<Frame>
+  ![Une visualisation de la trace de l'équipe multi-agents Agno](/weave/guides/integrations/imgs/agno/agno_team_trace.png)
+</Frame>
+
+<div id="work-with-reasoning-agents">
+  ## Utiliser des agents de raisonnement
+</div>
+
+Agno fournit des capacités de raisonnement intégrées qui aident les agents à traiter les problèmes étape par étape. Les traces capturent également ces processus de raisonnement :
+
+```python lines
+from agno.agent import Agent
+from agno.models.openai import OpenAIChat
+from agno.tools.reasoning import ReasoningTools
+from agno.tools.yfinance import YFinanceTools
+
+from dotenv import load_dotenv
+load_dotenv()
+
+# Charger AgnoInstrumentor depuis le fichier tracing.py
+from tracing import AgnoInstrumentor
+
+# Démarrer l'instrumentation d'Agno
+AgnoInstrumentor().instrument()
+
+# Créer un agent de raisonnement
+reasoning_agent = Agent(
+    name="Reasoning Finance Agent",
+    model=OpenAIChat(id="gpt-4o"),
+    tools=[
+        ReasoningTools(add_instructions=True),
+        YFinanceTools(
+            stock_price=True,
+            analyst_recommendations=True,
+            company_info=True,
+            company_news=True
+        ),
+    ],
+    instructions="Use tables to display data and show your reasoning process",
+    show_tool_calls=True,
+    markdown=True,
+)
+
+# Utiliser l'agent de raisonnement
+reasoning_agent.print_response(
+    "Should I invest in Apple stock right now? Analyze the current situation and provide a reasoned recommendation.",
+    stream=True
+)
+```
+
+La trace affiche les étapes du raisonnement, montrant comment l’agent décompose des problèmes complexes et prend des décisions.
+
+<Frame>
+  ![Visualisation de la trace de l’agent de raisonnement Agno](/weave/guides/integrations/imgs/agno/agno_reasoning_trace.png)
+</Frame>
+
+<div id="work-with-memory-and-knowledge">
+  ## Utiliser la mémoire et les connaissances
+</div>
+
+Les agents Agno peuvent conserver une mémoire et accéder à des bases de connaissances, ce qui leur permet de conserver le contexte d’une interaction à l’autre. Weave trace également ces opérations :
+
+```python lines
+from agno.agent import Agent
+from agno.models.openai import OpenAIChat
+from agno.memory import AgentMemory
+from agno.storage.sqlite import SqliteStorage
+
+from dotenv import load_dotenv
+load_dotenv()
+
+# Charger AgnoInstrumentor depuis le fichier tracing.py
+from tracing import AgnoInstrumentor
+
+# Démarrer l'instrumentation d'Agno
+AgnoInstrumentor().instrument()
+
+
+# Créer un agent avec mémoire
+memory_agent = Agent(
+    name="Memory Agent",
+    model=OpenAIChat(id="gpt-4o-mini"),
+    memory=AgentMemory(),
+    storage=SqliteStorage(
+        table_name="agent_sessions",
+        db_file="agent_memory.db"
+    ),
+    instructions="Remember our conversation history",
+    show_tool_calls=True,
+    markdown=True,
+)
+
+# Première interaction
+memory_agent.print_response("My name is John and I'm interested in AI investing strategies.")
+
+# Deuxième interaction - l'agent se souvient du contexte précédent
+memory_agent.print_response("What specific AI companies would you recommend for my portfolio?")
+```
+
+<Frame>
+  ![Une visualisation de la trace de l'utilisation de la mémoire d'Agno](/weave/guides/integrations/imgs/agno/agno_memory_use.png)
+</Frame>
+
+Les opérations en mémoire, notamment l&#39;enregistrement et la récupération de l&#39;historique des conversations, apparaissent dans la trace.
+
+<div id="learn-more">
+  ## En savoir plus
+</div>
+
+* [Documentation officielle d&#39;Agno](https://docs.agno.com/)
+* [Documentation officielle d&#39;OTEL](https://opentelemetry.io/)
+* [dépôt GitHub d&#39;Agno](https://github.com/agno-agi/agno)
+* [instrumentation OpenInference pour Agno](https://pypi.org/project/openinference-instrumentation-agno/)

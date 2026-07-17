@@ -12,12 +12,12 @@ Files are uploaded to a Google Cloud bucket managed by W&B when you log artifact
 
 When you delete a version of an artifact, it is marked for soft deletion in our database and removed from your storage cost. When you delete an entire artifact, it is queued for permanent deletion and all of its contents are removed from the W&B bucket. If you have specific needs around file deletion, reach out to [Customer Support](mailto:support@wandb.com).
 
-By default, deleted artifacts are retained for 7 days and can be restored during this period, which is configurable for Dedicated Cloud. Learn more about data retention in [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud#data-retention-policy) or [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud#data-retention-policy).
+By default, deleted artifacts are retained for 7 days and can be restored during this period, which is configurable for Dedicated Cloud. Learn more about data retention in [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud#data-retention-policy) or [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud#data-retention-policy).
 
-For sensitive datasets that cannot reside in a multi-tenant environment, you can use [W&B Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud) or [reference artifacts](/models/artifacts/track-external-files). Reference artifacts track references to private buckets without sending file contents to W&B. Reference artifacts maintain links to files on your buckets or servers. W&B only keeps track of the metadata associated with the files, not the files themselves.
+For sensitive datasets that cannot reside in a multi-tenant environment, you can use [W&B Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) or [reference artifacts](/models/artifacts/track-external-files). Reference artifacts track references to private buckets without sending file contents to W&B. Reference artifacts maintain links to files on your buckets or servers. W&B only keeps track of the metadata associated with the files, not the files themselves.
 
 <Frame>
     <img src="/images/artifacts/data_and_privacy_compliance_2.png" alt="W&B Client Server Cloud diagram"  />
 </Frame>
 
-For more information about deployment options, see [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud) or [Self-Managed](/platform/hosting/hosting-options/self-managed). To discuss your specific requirements, contact [contact@wandb.com](mailto:contact@wandb.com).
+For more information about deployment options, see [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) or [Self-Managed](/platform/hosting/hosting-options/self-managed). To discuss your specific requirements, contact [contact@wandb.com](mailto:contact@wandb.com).

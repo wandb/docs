@@ -1,0 +1,72 @@
+---
+title: "How do I launch multiple runs from one script?"
+keywords: ["Experiments"]
+---
+
+To log multiple runs within a single script, you must finish each previous run
+before you start a new one. The following sections describe two patterns for
+sequencing runs in one script and a separate pattern for keeping multiple runs
+active at the same time.
+
+## Use a context manager
+
+Use `wandb.init()` as a context manager. This pattern finishes the run and
+marks it as failed if your script raises an exception:
+
+```python
+import wandb
+
+for x in range(10):
+    with wandb.init() as run:
+        for y in range(100):
+            run.log({"metric": x + y})
+```
+
+## Call run.finish explicitly
+
+You can also call `run.finish()` explicitly:
+
+```python
+import wandb
+
+for x in range(10):
+    run = wandb.init()
+
+    try:
+        for y in range(100):
+            run.log({"metric": x + y})
+
+    except Exception:
+        run.finish(exit_code=1)
+        raise
+
+    finally:
+        run.finish()
+```
+
+## Multiple active runs
+
+In `wandb` 0.19.10 and later, if you need more than one run active at the same
+time rather than running them sequentially, set the `reinit` setting to
+`"create_new"` to create multiple simultaneously active runs.
+
+```python
+import wandb
+
+with wandb.init(reinit="create_new") as tracking_run:
+    for x in range(10):
+        with wandb.init(reinit="create_new") as run:
+            for y in range(100):
+                run.log({"x_plus_y": x + y})
+
+            tracking_run.log({"x": x})
+```
+
+For more information about `reinit="create_new"`, including caveats about W&B
+integrations, see [Multiple runs per process](/models/runs/initialize-run).
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/support/models/tags/experiments)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

@@ -3,7 +3,7 @@ title: File
 namespace: public_apis_namespace
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/files.py" />
 
@@ -32,7 +32,7 @@ Specify one or more attributes in a dictionary to fine a specific file logged to
 
 **Args:**
  
- - `client`:  The run object that contains the file 
+ - `service_api`:  The service API instance to use for querying W&B. 
  - `attrs` (dict):  A dictionary of attributes that define the file 
  - `run`:  The run object that contains the file 
 
@@ -59,12 +59,16 @@ Returns the size of the file in bytes.
 
 
 
+
+
+**Returns:**
+ - `int`: The size property value.
 ---
 
 ### <kbd>method</kbd> `File.delete`
 
 ```python
-delete()
+delete() → None
 ```
 
 Delete the file from the W&B server. 

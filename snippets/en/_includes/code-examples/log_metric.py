@@ -1,8 +1,0 @@
-"""Initializes a W&B run and logs a metric."""
-import wandb
-
-with wandb.init(project="<project>") as run:
-    # Training and logging code goes here
-
-    # Example of logging a metric
-    run.log({"accuracy": 0.95})

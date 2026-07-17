@@ -1,0 +1,23 @@
+---
+title: 작업 유형별로 Runs 구성
+---
+
+```python
+"""
+Organize runs by their job type.
+
+Add a job type to a run by passing the `job_type` parameter to `wandb.init(job_type="")`.
+"""
+import wandb
+
+entity = "<entity>"
+project = "<project>"
+
+# 작업 유형별로 runs를 생성하고 구성합니다.
+for job_type in ["<JobType1>", "<JobType2>"]: # 작업 유형 이름으로 교체하세요
+    # 각 작업 유형에 대해 두 개의 runs를 생성하는 시뮬레이션입니다.
+    for i in range(2):
+        with wandb.init(entity=entity, project=project, job_type=job_type, name=f"{job_type}_run_{i}") as run:
+            # 트레이닝 및 logging 코드를 여기에 작성하세요
+            pass    
+```

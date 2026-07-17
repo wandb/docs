@@ -1,5 +1,6 @@
 ---
 title: Reference an artifact version with aliases
+description: "Use default, custom, and protected aliases to reference specific artifact versions in W&B Registry."
 ---
 
 Reference a specific [artifact version](/models/artifacts/create-a-new-artifact-version/) with one or more aliases. [W&B automatically assigns aliases](/models/registry/aliases/#default-aliases) to each artifact you link with the same name. You can also [create one or more custom aliases](/models/registry/aliases/#custom-aliases) to reference a specific artifact version.
@@ -14,7 +15,7 @@ Use an alias to reference a specific artifact version. Each alias within a colle
 Use tags to organize and group artifact versions or collections based on a common theme. Multiple artifact versions and collections can share the same tag.
 </Note>
 
-When you add an alias to an artifact version, you can optionally start a [Registry automation](/models/automations/automation-events/#registry) to notify a Slack channel or trigger a webhook.
+When you add an alias to an artifact version, you can optionally start a [Registry automation](/models/automations/automation-events/#registry) to notify a Slack channel or trigger a webhook. If the automation calls a webhook that needs an access token or other sensitive value in the request, store those strings as [team secrets](/platform/secrets) and select them when you configure the webhook for the automation.
 
 ## Default aliases
 
@@ -87,7 +88,7 @@ with wandb.init(entity = "<team_entity>", project = "<project_name>") as run:
 ### Protected aliases
 Use a [protected alias](/models/registry/aliases/#protected-aliases) to both label and identify artifact versions that should not be modified or deleted. For example, consider using a `production` protected alias to label and identify artifact versions that are in used in your organization's machine learning production pipeline.
 
-[Registry admin](/models/registry/configure_registry/#registry-roles) users and [service accounts](/models/support/service_account_useful/) with the **Admin** role can create protected aliases and add or remove protected aliases from an artifact version. Users and service accounts with **Member**, **Viewer**, and **Restricted Viewer** roles cannot unlink a protected version or delete a collection that contains a protected alias. See [Configure registry access](/models/registry/configure_registry/) for details.
+[Registry admin](/models/registry/configure_registry/#registry-roles) users and [service accounts](/support/models/articles/what-is-a-service-account-and-why-is-it-) with the **Admin** role can create protected aliases and add or remove protected aliases from an artifact version. Users and service accounts with **Member**, **Viewer**, and **Restricted Viewer** roles cannot unlink a protected version or delete a collection that contains a protected alias. See [Configure registry access](/models/registry/configure_registry/) for details.
 
 Common protected aliases include:
 

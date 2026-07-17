@@ -1,0 +1,34 @@
+---
+description: "Intégrez W&B à Julia pour suivre les expériences, consigner des métriques et visualiser les performances du modèle à partir de programmes Julia."
+title: W&B pour Julia
+---
+
+Si vous menez des expériences de machine learning avec Julia, vous pouvez utiliser [`wandb.jl`](https://github.com/avik-pal/Wandb.jl), un ensemble non officiel de bindings Julia créé par un contributeur de la communauté.
+
+Pour plus d’exemples, voir le répertoire `examples` de [`wandb.jl`](https://github.com/avik-pal/Wandb.jl/tree/main/docs/src/examples). Le code suivant est l’exemple de premiers pas du dépôt `wandb.jl` :
+
+```julia
+using Wandb, Dates, Logging
+
+# Démarrer une nouvelle run en suivant les hyperparamètres dans la configuration
+lg = WandbLogger(project = "Wandb.jl",
+                 name = "wandbjl-demo-$(now())",
+                 config = Dict("learning_rate" => 0.01,
+                               "dropout" => 0.2,
+                               "architecture" => "CNN",
+                               "dataset" => "CIFAR-100"))
+
+# Utiliser LoggingExtras.jl pour journaliser vers plusieurs loggers simultanément
+global_logger(lg)
+
+# Simulation de la boucle d'entraînement ou d'évaluation
+for x ∈ 1:50
+    acc = log(1 + x + rand() * get_config(lg, "learning_rate") + rand() + get_config(lg, "dropout"))
+    loss = 10 - log(1 + x + rand() + x * get_config(lg, "learning_rate") + rand() + get_config(lg, "dropout"))
+    # Consigner des métriques depuis votre script vers W&B
+    @info "metrics" accuracy=acc loss=loss
+end
+
+# Terminer la run
+close(lg)
+```

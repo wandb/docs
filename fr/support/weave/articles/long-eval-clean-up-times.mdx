@@ -1,0 +1,51 @@
+---
+title: "Temps de nettoyage trop longs pour les évaluations"
+keywords: ["Performance", "Évaluation"]
+---
+
+Cette page décrit deux méthodes à utiliser ensemble pour réduire les temps de nettoyage trop longs lorsque vous exécutez des évaluations W&amp;B Weave sur de grands jeux de données. Elle s&#39;adresse aux utilisateurs qui ont constaté des délais inhabituels après la fin de leur code d&#39;évaluation, avant la fermeture du programme.
+
+Les sections suivantes décrivent comment purger les tâches en arrière-plan en attente et comment augmenter le parallélisme côté client.
+
+<div id="flush-pending-background-work">
+  ## Traiter les tâches en arrière-plan en attente
+</div>
+
+Le vidage force l’exécution des tâches en arrière-plan en attente en parallèle avec votre thread principal, au lieu d’attendre qu’elles se terminent une fois l’exécution de votre code achevée.
+
+Lorsque vous exécutez des évaluations sur de grands jeux de données, la fin de l’exécution du programme peut être sensiblement retardée pendant que le jeu de données est téléversé dans des threads d’arrière-plan. Cela se produit lorsque l’exécution du thread principal se termine avant la fin du nettoyage en arrière-plan. L’appel à `client.flush()` force le traitement de toutes les tâches en arrière-plan dans le thread principal, ce qui garantit leur exécution en parallèle pendant l’exécution du thread principal. Cela peut améliorer les performances lorsque le code utilisateur se termine avant le téléversement des données vers le serveur.
+
+L’exemple suivant traite les tâches en arrière-plan en attente après une évaluation :
+
+```python
+client = weave.init("fast-upload")
+
+# ... configuration de l'évaluation
+result = evaluation.Evaluate(dataset_id="my_dataset_id")
+
+client.flush()
+```
+
+<div id="increase-client-parallelism">
+  ## Augmenter le parallélisme du client
+</div>
+
+Augmenter le parallélisme du client permet à Weave d’utiliser davantage de threads pour les tâches en arrière-plan, comme le téléversement de jeux de données, ce qui peut encore réduire le temps de nettoyage en complément du vidage.
+
+Weave détermine automatiquement le parallélisme du client en fonction de l’environnement, mais vous pouvez le définir manuellement à l’aide de la variable d’environnement suivante :
+
+* `WEAVE_CLIENT_PARALLELISM` : nombre de threads disponibles pour le traitement parallèle. Augmenter cette valeur peut améliorer les performances des tâches en arrière-plan, comme le téléversement de jeux de données.
+
+Vous pouvez également le définir par programmation à l’aide de l’argument `settings` de `weave.init()` :
+
+```python
+client = weave.init("fast-upload", settings={"client_parallelism": 100})
+```
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Performances](/fr/support/weave/tags/performance)</Badge><Badge stroke shape="pill" color="orange" size="md">[Évaluation](/fr/support/weave/tags/evaluation)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

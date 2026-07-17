@@ -1,0 +1,73 @@
+---
+title: Run states
+description: Learn about the different states a W&B run can have.
+---
+
+The [Run state](/models/runs/run-states#run-states) indicates the current status of a W&B run. You can [view the state](/models/runs/run-states#view-the-state-of-a-run) of a run in the W&B App or programmatically using the W&B Python SDK.
+
+## Run states
+The following table describes the possible states a run can be in: 
+
+| State | Description |
+| ----- | ----- |
+| `Crashed` | Run stopped sending heartbeats in the internal process, which can happen if the machine crashes. | 
+| `Failed` | Run ended with a non-zero exit status. | 
+| `Finished`| Run ended and fully synced data, or called `wandb.Run.finish()`. |
+| `Killed` | Run was forcibly stopped before it could finish. |
+| `Running` | Run is still running and has recently sent a heartbeat.  |
+| `Pending` | Run is scheduled but not yet started (common in sweeps and Launch jobs). |
+
+### Run states in sweeps
+
+When runs are part of a [sweep](/models/sweeps/), their states behave independently from the sweep's status:
+
+- **Individual run states** reflect each run's execution status (Running, Finished, Failed, etc.)
+- **Sweep status** controls whether new runs are created, not how existing runs execute
+- Pausing or stopping a sweep doesn't affect already-running runs
+- Only cancelling a sweep forcibly kills running runs (changes their state to `Killed`)
+
+For a detailed explanation of how sweep and run statuses interact, see [Understanding sweep and run statuses](/models/sweeps/pause-resume-and-cancel-sweeps#understanding-sweep-and-run-statuses).
+
+
+## View the state of a run
+
+Programmatically or interactively view a run's state with the Python SDK or W&B App.
+
+<Tabs>
+<Tab title="Python SDK">
+
+Use the `state` property of the [`wandb.Api.Run`](/models/ref/python/public-api/runs) object to access the current state of a run.
+
+The following code snippet retrieves and prints the state of all runs in a specified project. Copy and paste the following code snippet into your Python environment. Replace the values enclosed in angle brackets (`< >`) with your own values:
+
+```python
+import wandb
+
+api = wandb.Api()
+
+runs = api.runs(path="<entity>/<project>")
+
+# Access run object's properties
+for run in runs:
+    print(f"Run: {run.name}")
+    print(f"Run state: {run.state}")
+    print()
+```
+
+You can apply different filters to retrieve runs from your projects based on different criteria. See [Filter runs](/models/runs/filter-runs) to learn more about filtering runs programmatically.
+
+</Tab>
+<Tab title="W&B App">
+
+View the state of a run from the W&B App:
+
+1. Navigate to your W&B project.
+1. Select the **Workspace** or **Runs** tab from the project sidebar.
+1. Search or scroll to the run you want to view.
+1. Select the run to open the run overview page.
+1. Choose the **Overview** tab.
+
+Next to the **State** field, view the current state of the run.
+
+</Tab>
+</Tabs>

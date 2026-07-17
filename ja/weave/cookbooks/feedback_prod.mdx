@@ -1,0 +1,234 @@
+---
+title: "Feedback Prod"
+description: "W&B Weave のフィードバックトラッキング機能を使用して、本番環境における LLM の出力に対するユーザーフィードバックを収集・分析します。"
+keywords: ["ユーザーフィードバック", "thumbs up thumbs down", "Streamlit チャットボット", "本番 LLM", "call.feedback"]
+---
+
+<Note>
+  これはインタラクティブ ノートブックです。ローカルで実行することも、以下のリンクから利用することもできます。
+
+  * [Google Colab で開く](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/feedback_prod.ipynb)
+  * [GitHub でソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/feedback_prod.ipynb)
+</Note>
+
+生成された LLM の応答を自動評価するのは難しい場合があります。応答をより適切に評価して改善するには、問題のある箇所を特定するために、ユーザーからの直接的なフィードバックを追加で収集できます。
+
+このノートブックでは、カスタム チャットボットの応答に関するユーザーフィードバックを収集する方法を紹介します。Streamlit を使ってインターフェースを構築し、LLM とのやり取りとフィードバックを W&amp;B Weave に記録します。最終的には、各応答を Weave にログし、ユーザーによる高評価・低評価のリアクションや自由記述のフィードバックもあわせて記録する、動作するチャットボットが完成します。これにより、本番環境でのやり取りを確認し、改善点を特定できます。
+
+<div id="setup">
+  ## セットアップ
+</div>
+
+まず、必要なパッケージをインストールし、チャットボットが OpenAI API を呼び出して Weave に Call をログできるよう、OpenAI と W&amp;B の APIキーを設定します。
+
+```python lines
+!pip install weave openai streamlit wandb
+!pip install set-env-colab-kaggle-dotenv -q # 環境変数用
+python
+# OpenAI と WandB の APIキーを記載した .env ファイルを追加する
+from set_env import set_env
+
+_ = set_env("OPENAI_API_KEY")
+_ = set_env("WANDB_API_KEY")
+```
+
+次に、`chatbot.py` という名前のファイルを作成し、以下の内容を記述します。このファイルでは、Streamlit のチャットインターフェースを定義し、各レスポンスがトラッキングされるように OpenAI の呼び出しを Weave op でラップし、対応する Weave Call にリアクションとメモを関連付けるフィードバックコントロールを表示します。
+
+```python lines {13,15,27}
+# chatbot.py
+
+import openai
+import streamlit as st
+import wandb
+from set_env import set_env
+
+import weave
+
+_ = set_env("OPENAI_API_KEY")
+_ = set_env("WANDB_API_KEY")
+
+wandb.login()
+
+weave_client = weave.init("feedback-example")
+oai_client = openai.OpenAI()
+
+def init_states():
+    """session_state のキーがまだ存在しない場合に設定します。"""
+    if "messages" not in st.session_state:
+        st.session_state["messages"] = []
+    if "calls" not in st.session_state:
+        st.session_state["calls"] = []
+    if "session_id" not in st.session_state:
+        st.session_state["session_id"] = "123abc"
+
+@weave.op
+def chat_response(full_history):
+    """
+    これまでの会話履歴全体を基に、ストリーミング モードで OpenAI API を呼び出します。
+    full_history は辞書のリストです: [{"role":"user"|"assistant","content":...}, ...]
+    """
+    stream = oai_client.chat.completions.create(
+        model="gpt-4", messages=full_history, stream=True
+    )
+    response_text = st.write_stream(stream)
+    return {"response": response_text}
+
+def render_feedback_buttons(call_idx):
+    """Call に対するサムズアップ/ダウンおよびテキスト フィードバックをレンダリングします。"""
+    col1, col2, col3 = st.columns([1, 1, 4])
+
+    # サムズアップ ボタン
+    with col1:
+        if st.button("👍", key=f"thumbs_up_{call_idx}"):
+            st.session_state.calls[call_idx].feedback.add_reaction("👍")
+            st.success("Thanks for the feedback!")
+
+    # サムズダウン ボタン
+    with col2:
+        if st.button("👎", key=f"thumbs_down_{call_idx}"):
+            st.session_state.calls[call_idx].feedback.add_reaction("👎")
+            st.success("Thanks for the feedback!")
+
+    # テキスト フィードバック
+    with col3:
+        feedback_text = st.text_input("Feedback", key=f"feedback_input_{call_idx}")
+        if (
+            st.button("Submit Feedback", key=f"submit_feedback_{call_idx}")
+            and feedback_text
+        ):
+            st.session_state.calls[call_idx].feedback.add_note(feedback_text)
+            st.success("Feedback submitted!")
+
+def display_old_messages():
+    """st.session_state.messages に保存された会話をフィードバック ボタンとともに表示します。"""
+    for idx, message in enumerate(st.session_state.messages):
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
+
+            # アシスタント メッセージの場合はフィードバック フォームを表示する
+            if message["role"] == "assistant":
+                # st.session_state.calls 内でこのアシスタント メッセージのインデックスを特定する
+                assistant_idx = (
+                    len(
+                        [
+                            m
+                            for m in st.session_state.messages[: idx + 1]
+                            if m["role"] == "assistant"
+                        ]
+                    )
+                    - 1
+                )
+                # サムズアップ/ダウンおよびテキスト フィードバックをレンダリングする
+                if assistant_idx < len(st.session_state.calls):
+                    render_feedback_buttons(assistant_idx)
+
+def display_chat_prompt():
+    """チャット プロンプトの入力ボックスを表示します。"""
+    if prompt := st.chat_input("Ask me anything!"):
+        # 新しいユーザー メッセージを即座にレンダリングする
+        with st.chat_message("user"):
+            st.markdown(prompt)
+
+        # セッションにユーザー メッセージを保存する
+        st.session_state.messages.append({"role": "user", "content": prompt})
+
+        # API 用のチャット履歴を準備する
+        full_history = [
+            {"role": msg["role"], "content": msg["content"]}
+            for msg in st.session_state.messages
+        ]
+
+        with st.chat_message("assistant"):
+            # 会話インスタンスのトラッキング用に Weave 属性を付与する
+            with weave.attributes(
+                {"session": st.session_state["session_id"], "env": "prod"}
+            ):
+                # OpenAI API を呼び出す（ストリーム）
+                result, call = chat_response.call(full_history)
+
+                # アシスタント メッセージを保存する
+                st.session_state.messages.append(
+                    {"role": "assistant", "content": result["response"]}
+                )
+
+                # フィードバックを特定の Response に紐付けるために Weave の Call オブジェクトを保存する
+                st.session_state.calls.append(call)
+
+                # 新しいメッセージ用のフィードバック ボタンをレンダリングする
+                new_assistant_idx = (
+                    len(
+                        [
+                            m
+                            for m in st.session_state.messages
+                            if m["role"] == "assistant"
+                        ]
+                    )
+                    - 1
+                )
+
+                # フィードバック ボタンをレンダリングする
+                if new_assistant_idx < len(st.session_state.calls):
+                    render_feedback_buttons(new_assistant_idx)
+
+def main():
+    st.title("Chatbot with immediate feedback forms")
+    init_states()
+    display_old_messages()
+    display_chat_prompt()
+
+if __name__ == "__main__":
+    main()
+```
+
+これは `streamlit run chatbot.py` で実行できます。
+
+これで、このアプリケーションを操作し、各応答の後でフィードバックボタンをクリックできます。添付されたフィードバックを確認するには、Weave UI にアクセスします。各チャットのやり取りは Weave call として記録され、送信したリアクションやメモは、その応答を生成した call に紐付けられます。
+
+<div id="explanation">
+  ## 説明
+</div>
+
+次のセクションでは、チャットボットで使用している主要な Weave API を順に説明します。ここで紹介するパターンは、ご自身のアプリケーションにも同様に適用できます。
+
+次のデコレータ付きの予測関数を見てみましょう。
+
+```python lines {5}
+import weave
+
+weave.init("feedback-example")
+
+@weave.op
+def predict(input_data):
+    # 予測ロジックをここに記述します
+    some_result = "hello world"
+    return some_result
+```
+
+通常どおり、これを使用してモデルの応答をユーザーに返すことができます。
+
+```python lines
+with weave.attributes(
+    {"session": "123abc", "env": "prod"}
+):  # inputs & outputs と共に任意の属性を call に付与する
+    result = predict(input_data="your data here")  # App UI 経由のユーザーの質問
+```
+
+feedback を添付するには、通常どおりに関数を呼び出すのではなく、`.call()` メソッドを使って取得した `call` オブジェクトが必要です：
+
+```python lines
+result, call = predict.call(input_data="your data here")
+```
+
+この特定の応答にフィードバックを関連付けるには、この`call`オブジェクトが必要です。`call`を実行すると、オペレーションの出力を`result`として利用できます。
+
+`call`オブジェクトを取得したら、その特定の応答に対するユーザーフィードバックを記録できます。
+
+```python lines
+call.feedback.add_reaction("👍")  # App UI を通じたユーザーのリアクション
+```
+
+<div id="conclusion">
+  ## まとめ
+</div>
+
+このチュートリアルでは、Streamlit を使用して、Weave で入力と出力を取得し、あわせてユーザーのフィードバックを取得するための高評価・低評価ボタンを備えたチャット UI を構築しました。

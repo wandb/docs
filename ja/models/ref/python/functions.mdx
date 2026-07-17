@@ -1,0 +1,53 @@
+---
+title: Global Functions の概要
+description: init、login、setup、sweep、エージェントを含む、W&B Python SDK のトップレベル関数のリファレンス。
+module: 
+no_list: true
+---
+
+W&amp;B の Global Functions は、`wandb.init()` や `wandb.login()` のように直接呼び出せるトップレベル関数です。特定のクラスに属する method とは異なり、これらの関数を使えば、オブジェクトを事前にインスタンス化しなくても W&amp;B の中核機能に直接アクセスできます。
+
+<div id="available-functions">
+  ## 利用可能な関数
+</div>
+
+| Function                                                  | Description                                                              |
+| --------------------------------------------------------- | ------------------------------------------------------------------------ |
+| [`init()`](/ja/models/ref/python/functions/init)             | W&amp;B にトラッキングとログするための新しい run を開始します。通常、ML トレーニングパイプラインで最初に呼び出す関数です。 |
+| [`login()`](/ja/models/ref/python/functions/login)           | マシンをプラットフォームに認証するための W&amp;B ログイン認証情報を設定します。                             |
+| [`setup()`](/ja/models/ref/python/functions/setup)           | 現在のプロセスとその子プロセスで使用できるように W&amp;B を準備します。マルチプロセス アプリケーションで役立ちます。          |
+| [`teardown()`](/ja/models/ref/python/functions/teardown)     | W&amp;B のリソースをクリーンアップし、バックエンドプロセスをシャットダウンします。                            |
+| [`sweep()`](/ja/models/ref/python/functions/sweep)           | 最適なモデル設定を探索するためのハイパーパラメーター sweep を初期化します。                                |
+| [`agent()`](/ja/models/ref/python/functions/agent)           | ハイパーパラメーター最適化の実験を実行するための sweep agent を作成します。                             |
+| [`controller()`](/ja/models/ref/python/functions/controller) | sweep agent とその実行を管理・制御します。                                              |
+| [`restore()`](/ja/models/ref/python/functions/restore)       | 以前の run または実験の状態を復元して、作業を再開します。                                          |
+| [`finish()`](/ja/models/ref/python/functions/finish)         | run を終了し、リソースをクリーンアップします。                                                |
+
+<div id="example">
+  ## 例
+</div>
+
+最も一般的なワークフローは、W&amp;B で認証し、run を初期化して、トレーニングループから値 (accuracy や損失など) をログすることから始まります。最初のステップは、`wandb` をインポートし、Global Functions の `login()` と `init()` を使用することです。
+
+```python
+import wandb
+
+# W&B で認証する
+wandb.login()
+
+# ハイパーパラメーターとメタデータ
+config = {
+   "learning_rate": 0.01,
+   "epochs": 10,
+}
+
+# run が記録される project
+project = "my-awesome-project"
+
+# 新しい run を初期化する
+with wandb.init(project=project, config=config) as run:
+   # トレーニングコードをここに記述...
+   
+   # W&B に値をログする
+   run.log({"accuracy": 0.9, "loss": 0.1})
+```

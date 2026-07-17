@@ -1,0 +1,110 @@
+---
+title: W&B 모바일 앱(iOS)
+description: iPhone 또는 iPad에서 트레이닝 run을 추적하고, 콘솔 로그를 검토하고, 선형 플롯과 시스템 메트릭을 확인하고, W&B Models 프로젝트를 탐색하세요.
+keywords: ["iPhone 앱", "iPad 앱", "iOS 앱", "App Store", "모바일 모니터링"]
+---
+
+<Columns cols={4}>
+  <Frame>
+    ![메트릭 차트가 있는 W\&B 모바일 앱 프로젝트 패널](/images/mobile-app/project-panels.png)
+  </Frame>
+
+  <Frame>
+    ![W\&B iOS 앱의 ARIA 탭 및 chat 인터페이스](/images/mobile-app/aria-chat.png)
+  </Frame>
+
+  <Frame>
+    ![W\&B 모바일 앱 프로젝트 목록 및 팀 선택기](/images/mobile-app/projects.png)
+  </Frame>
+
+  <Frame>
+    ![프로젝트의 W\&B 모바일 앱 run 목록](/images/mobile-app/project-runs.png)
+  </Frame>
+</Columns>
+
+iOS용 W&amp;B 모바일 앱을 사용하면 어디서든 W&amp;B Models 프로젝트에 계속 연결된 상태를 유지할 수 있습니다. iPhone 또는 iPad에서 실시간으로 트레이닝 run을 추적하고 run 로그를 조회하고, 선형 플롯과 시스템 메트릭을 확인하고, 프로젝트 이력을 탐색하고, 노트북을 열지 않고도 실험을 모니터링할 수 있도록 팀의 진행 상황을 살펴볼 수 있습니다. 이 페이지에서는 앱의 특성을 설명하고 알림을 설정하는 방법을 보여줍니다.
+
+<Info>
+  모바일 앱은 [Multi-tenant Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud) 계정에서만 사용할 수 있습니다. [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated-cloud) 또는 [Self-managed](/ko/platform/hosting/hosting-options/self-managed) deployment에서는 사용할 수 없습니다.
+</Info>
+
+<div id="download-the-app">
+  ## 앱 다운로드
+</div>
+
+시작하려면 App Store에서 앱을 설치하세요.
+
+<Card title="App Store에서 다운로드" href="https://apps.apple.com/us/app/6755162576" icon="apple" />
+
+<div id="features">
+  ## 기능
+</div>
+
+다음 기능은 모바일 앱에서 사용 가능합니다.
+
+* **프로젝트 탐색**: W&amp;B 프로젝트 전반을 둘러보고 검색하세요.
+  * **전체 프로젝트 이력**: 프로젝트 패널의 메트릭 차트에는 최신 run만 아니라 프로젝트의 *모든 run* 데이터가 포함됩니다.
+  * **프로젝트에 별표 표시**: 가장 중요한 프로젝트를 한눈에 확인하세요. 프로젝트 옆의 별표 아이콘을 클릭해 별표를 표시하세요. 별표가 표시된 프로젝트만 보려면 목록 상단의 **Starred** 탭을 클릭하세요.
+* **실험 추적**: 실험의 run 상태, 메트릭, 선형 플롯을 실시간으로 확인하세요.
+  * **실시간 업데이트**: 새 데이터가 들어오면 차트가 새로 고쳐집니다. 새 run이 시작되면 **Runs** 탭과 프로젝트 run 목록이 자동으로 업데이트됩니다.
+  * **run 개요 탭**: 각 run에서 **Overview** 탭을 열면 메트릭 및 로그와 함께 run 세부 정보의 요약을 확인할 수 있습니다. 중첩된 객체와 배열을 포함한 전체 run 설정 및 요약을 확인하세요. 긴 설정 값은 여러 줄로 줄바꿈되어 표시됩니다. 설정 값을 길게 눌러 복사하세요.
+  * **시스템 메트릭 보기**: 각 run에서 **Metrics** 탭을 열어 W&amp;B가 트레이닝 중 자동으로 로깅하는 [시스템 메트릭](/ko/models/ref/python/experiments/system-metrics)를 확인하세요. 여기에는 GPU 사용량, CPU 사용량, 메모리, 디스크 I/O, 네트워크 트래픽 등이 포함됩니다. 시스템 메트릭은 로깅한 메트릭과 함께 접을 수 있는 **System** 섹션에 표시됩니다. 각 메트릭은 이 탭의 다른 메트릭과 동일한 툴팁 및 검색 동작을 사용하는 선형 차트로 표시됩니다.
+  * **모바일에 최적화된 패널 그룹화**: 패널은 이름별로 자동 그룹화되어 접을 수 있는 섹션으로 표시됩니다. 그룹화되지 않은 메트릭 섹션을 접어 이름이 지정된 섹션에 집중할 수 있습니다. 섹션은 단일 수준(중첩 없음)이며, 그룹화는 W&amp;B 웹 앱의 [workspace 패널](/ko/models/app/features/panels)과 동일한 규칙을 따르므로 데스크톱과 휴대폰 사이를 이동해도 레이아웃이 일관되게 유지됩니다.
+  * **패널에 별표 표시**: 가장 중요한 패널을 한눈에 확인하세요. run 또는 프로젝트를 보고 있을 때 패널 상단의 별표 아이콘을 클릭해 별표를 표시하세요. 별표가 표시된 패널만 보려면 목록 상단의 **Starred** 탭을 클릭하세요.
+  * **메트릭에 별표 표시**: 중요한 메트릭을 상세 보기에서 보고 있을 때 별표 아이콘을 클릭해 별표를 표시하세요.
+  * **패널 검색**: run 또는 프로젝트를 보고 있을 때 화면 하단의 **panel search** 필드를 사용해 각 차트에 표시되는 run을 필터링하세요. [JavaScript 정규 표현식](https://www.w3schools.com/js/js_regexp.asp)을 사용해 run 이름의 패턴을 검색할 수 있습니다.
+  * **차트 툴팁**: 선형 차트에서는 툴팁에 메트릭 값이 소수점 넷째 자리까지 표시되므로 작은 변화도 정확하게 확인할 수 있습니다.
+  * **run 중지**: 진행 중인 run을 보고 있을 때 **액션 (<Icon icon="ellipsis" iconType="solid" />)** 메뉴를 클릭한 다음 **Stop run**을 클릭하세요.
+  * **콘솔 로그 보기**: 활성 상태이거나 완료된 run의 [콘솔 로그](/ko/models/runs/view-logged-runs#logs)를 확인하거나, 완료된 run의 로그를 다운로드할 수 있습니다. 앱은 활성 run에서 새 로그 줄이 있는지 5초마다 확인합니다. 기본적으로 가장 최근 10,000줄이 표시되며, 위로 스크롤해 이전 로그를 볼 수 있습니다. 출력이 큰 경우에도 로그 검색은 빠르게 응답합니다.
+* **Teams 전환**: **팀 선택기**를 사용해 Teams를 전환하세요.
+* **최신 정보 확인**: 알림을 사용하면 노트북을 열지 않고도 실험 업데이트를 확인할 수 있습니다. 더 이상 필요하지 않은 알림은 **Notifications** 탭에서 스와이프해 제거하세요.
+* **ARIA와 채팅**: 모바일 앱에서 ARIA를 사용해 휴대폰에서 벗어나지 않고 질문하고, run을 분석하고, 액션을 수행하세요.
+
+<div id="chat-with-aria">
+  ## ARIA와 채팅하기
+</div>
+
+ARIA(AI Research &amp; Iteration Agent)는 W&amp;B에서 실험을 분석 및 실행하고, 결과를 설명하고, Runs 전반의 패턴을 파악하고, 다음 단계를 추천하고, 시각화와 Reports를 만드는 등 다양한 작업을 도와주는 개인 맞춤형 리서치 어시스턴트입니다.
+
+ARIA와 채팅하려면 하단 내비게이션에서 <img className="inline dark:hidden" alt="ARIA icon" src="/images/agent/aria-logo.svg" style={{ height: "0.95em", width: "0.95em", verticalAlign: "-0.1em", margin: 0 }} /><img className="hidden dark:inline" alt="ARIA icon" src="/images/agent/aria-logo-dark.svg" style={{ height: "0.95em", width: "0.95em", verticalAlign: "-0.1em", margin: 0 }} /> 아이콘을 클릭하세요.
+
+모바일 앱에서 ARIA는 멀티턴 채팅 전반에 걸쳐 컨텍스트를 유지하고, 작업 중에 추론 및 액션 세부 정보를 표시합니다. ARIA가 패널 생성, Runs 필터링, Python 스크립트 생성 및 실행 등의 액션을 수행하면 Shell step이 표시됩니다. 채팅 이력은 동기화되므로 웹 앱과 모바일 앱 사이를 매끄럽게 오갈 수 있습니다.
+
+<Frame>
+  ![W\&B iOS 앱의 ARIA 탭 및 채팅 인터페이스](/images/mobile-app/aria-chat.png)
+</Frame>
+
+ARIA 기능의 전체 개요는 [ARIA 개요](/ko/aria/overview)를 참조하세요.
+
+<div id="set-up-notifications">
+  ## 알림 설정
+</div>
+
+모바일 기기에서 실험 관련 업데이트를 받도록 알림을 설정합니다.
+
+<Frame>
+  ![W\&B 모바일 앱 알림 관리 화면](/images/mobile-app/manage-alerts.png)
+</Frame>
+
+다음 섹션에서는 설정할 수 있는 알림의 종류를 설명합니다. **알림 관리** 화면에는 두 종류의 설정이 한곳에 표시되며, 각 섹션에서 제어하는 내용을 설명하는 짧은 설명도 함께 제공됩니다.
+
+<div id="metric-threshold-alerts">
+  ### 메트릭 임계값 알림
+</div>
+
+메트릭이 지정한 값을 초과할 때 알림을 받으려면 메트릭 임계값 알림을 사용합니다.
+
+1. run으로 이동합니다.
+2. 그래프를 탭해 전체 화면 뷰로 들어갑니다.
+3. 오른쪽 상단의 종 아이콘을 탭합니다.
+4. 이후 run이 지정한 메트릭 임계값을 넘을 때 트리거되는 알림을 설정합니다.
+
+<div id="run-failure-alerts">
+  ### run 실패 알림
+</div>
+
+프로젝트의 run 실패 시 알림을 받으려면 run 실패 알림을 사용합니다.
+
+1. 프로젝트로 이동합니다.
+2. 오른쪽 상단의 **액션 (<Icon icon="ellipsis" iconType="solid" />)** 메뉴를 탭합니다.
+3. 해당 프로젝트에서 이후 run 실패에 대한 알림을 받으려면 **Run failed alert**를 선택합니다.

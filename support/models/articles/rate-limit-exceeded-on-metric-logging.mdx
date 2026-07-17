@@ -1,0 +1,49 @@
+---
+title: "How do I fix `Rate limit exceeded` errors when logging metrics?"
+keywords: ["Metrics", "Experiments"]
+---
+
+If you receive an HTTP `429 Rate limit exceeded` error when you call `wandb.log()`, you're exceeding the rate limit quota for your project. W&B applies rate limits per project, and paid plans have higher limits than free plans.
+
+Use the following steps to reduce your logging load and recover any data that was throttled.
+
+## Stay under the rate limit
+
+1. **Update your W&B SDK**: The latest version includes optimized mechanisms for retrying requests and managing quota usage.
+
+   ```bash
+   pip install --upgrade wandb
+   ```
+
+2. **Reduce logging frequency**: Log metrics less often. For example, log every `N` epochs instead of every epoch:
+
+   ```python
+   for epoch in range(100):
+       if epoch % 5 == 0:
+           wandb.log({"acc": accuracy, "loss": loss})
+   ```
+
+3. **Sync data manually**: If you're rate limited, W&B stores your run data locally. To upload the local run directory at `[RUN-FILE-PATH]` after the rate limit clears:
+
+   ```bash
+   wandb sync [RUN-FILE-PATH]
+   ```
+
+## Rate limit headers
+
+To gauge how close you are to the quota and when you can resume logging, inspect the rate limit headers on the response. When you're rate limited, the response includes these headers:
+
+| Header | Description |
+| --- | --- |
+| `RateLimit-Remaining` | Quota remaining in the current window, on a scale from 0 to 1000 |
+| `RateLimit-Reset` | Seconds until the current quota resets |
+
+If `RateLimit-Remaining` is `0`, wait for the number of seconds in `RateLimit-Reset` before you retry.
+
+For more information, see [Experiments limits and performance](/models/track/limits/).
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Metrics](/support/models/tags/metrics)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/support/models/tags/experiments)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

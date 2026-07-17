@@ -1,0 +1,44 @@
+---
+title: "withAttributes"
+description: "TypeScript SDK reference"
+---
+
+# withAttributes
+
+▸ **withAttributes**\<`T`\>(`attrs`, `fn`): `Promise`\<`T`\> \| `T`
+
+Attach attributes to the current execution context so that any calls created
+inside `fn` automatically inherit them. Attributes are written to the call
+record on the trace server and surface in the Weave UI/filtering, so they’re
+ideal for tagging runs with request IDs, tenants, experiments, etc.
+
+Example:
+```ts twoslash
+// @noErrors
+await withAttributes({requestId: 'abc'}, async () => {
+  await myOp();
+});
+```
+
+#### Type parameters
+
+| Name |
+| :------ |
+| `T` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `attrs` | `Record`\<`string`, `any`\> |
+| `fn` | () => `T` \| `Promise`\<`T`\> |
+
+#### Returns
+
+`Promise`\<`T`\> \| `T`
+
+#### Defined in
+
+[src/clientApi.ts:209](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/clientApi.ts#L209)
+
+___

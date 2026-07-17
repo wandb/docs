@@ -1,0 +1,55 @@
+---
+title: "Weave の環境変数を設定する"
+description: "環境変数を使用して、実行時の Weave の動作を設定する"
+---
+
+Weave では、動作の設定や最適化に使用できる一連の環境変数が用意されています。このページは、アプリケーションコードを変更せずに、トレース、ロギング、キャッシュ、再試行などの実行時の動作を調整したい Weave SDK を使用する開発者向けです。これらの変数は、シェルやスクリプト内で設定し、特定の機能を制御できます。
+
+以下の例では、Weave の環境変数を設定する一般的な 2 つの方法を示します。セッション全体に対して Weave を設定するにはシェルの方法を使用し、スクリプト内から値を設定するには Python の方法を使用してください。
+
+```bash
+# シェルで環境変数を設定する例
+export WEAVE_PARALLELISM=10  # 並列ワーカー数を制御する
+export WEAVE_PRINT_CALL_LINK=false  # call linkの出力を無効にする
+```
+
+```python lines
+# Python で環境変数を設定する例
+import os
+
+os.environ["WEAVE_PARALLELISM"] = "10"
+os.environ["WEAVE_PRINT_CALL_LINK"] = "false"
+```
+
+<div id="available-environment-variables">
+  ## 利用可能な環境変数
+</div>
+
+次の表は、サポートされる各環境変数、そのタイプ、デフォルト値、および制御する動作を示しています。真偽値の変数を設定する際に指定できる値については、真偽値に関する注記を参照してください。
+
+| Variable                        | Type     | Default         | Description                                                                                                                                                                                            |
+| ------------------------------- | -------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `WANDB_API_KEY`                 | `string` | `None`          | 設定すると、APIキーの入力を求められることなく W&amp;B Weave に自動的にログインします。APIキーを発行するには、W&amp;B アカウントにログインし、[User Settings](https://wandb.ai/settings) に移動します。                                                                |
+| `WEAVE_DISABLED`                | `bool`   | `false`         | `true` に設定すると、Weave のすべてのトレースを無効にします。Weave op は通常の関数のように動作します。                                                                                                                                         |
+| `WEAVE_PRINT_CALL_LINK`         | `bool`   | `true`          | Weave op の呼び出し時に Weave UI へのリンクを出力するかどうかを制御します。これには、コード内で `weave.init()` の `settings` 引数を次のように設定して直接指定することもできます: `weave.init("your-project-name", settings={"print_call_link": False})`                |
+| `WEAVE_LOG_LEVEL`               | `str`    | `INFO`          | Weave ロガーのログレベルを制御します。                                                                                                                                                                                 |
+| `WEAVE_CAPTURE_CODE`            | `bool`   | `true`          | 後で再読み込みして使用できるように、op のコードを保存するかどうかを制御します。                                                                                                                                                              |
+| `WEAVE_DEBUG_HTTP`              | `bool`   | `false`         | `true` に設定すると、デバッグ用の HTTP リクエストとレスポンスのログを有効にします。                                                                                                                                                       |
+| `WEAVE_PARALLELISM`             | `int`    | `20`            | 評価で並列に評価する examples の数を制御します。`1` に設定すると、examples は順次実行されます。                                                                                                                                            |
+| `WEAVE_TRACE_LANGCHAIN`         | `bool`   | `true`          | LangChain のグローバルなトレースを制御します。LangChain のトレースを明示的に無効にするには、`false` に設定します。                                                                                                                                |
+| `WEAVE_USE_SERVER_CACHE`        | `bool`   | `true`          | サーバー応答のキャッシュを有効にします。有効にすると、Weave はサーバー応答をディスクにキャッシュするため、繰り返し実行されるクエリはサーバーから再取得する代わりにキャッシュから返されます。                                                                                                      |
+| `WEAVE_SERVER_CACHE_SIZE_LIMIT` | `int`    | `1,000,000,000` | サーバーキャッシュの最大サイズをバイト単位で設定します。キャッシュがこのサイズに達すると、Weave は新しいエントリ用の空きを確保するために古いエントリを自動的に削除します。重要: 基盤となる実装では SQLite を使用しており、この設定に関係なく 4 MB まで増加する Write-Ahead Log (WAL) があります。Weave はプログラムの終了時にこの WAL を削除します。 |
+| `WEAVE_SERVER_CACHE_DIR`        | `str`    | `None`          | Weave がキャッシュファイルを保存するディレクトリを指定します。設定しない場合、Weave は一時ディレクトリを使用します。                                                                                                                                       |
+| `WEAVE_MAX_CALLS_QUEUE_SIZE`    | `int`    | `100000`        | Call キューの最大サイズを設定します。デフォルトは `100000` です。`0` を設定すると、キューは無制限に増加します。                                                                                                                                      |
+| `WEAVE_ENABLE_WAL`              | `bool`   | `false`         | Weave の [Write-Ahead Log (WAL)](/ja/weave/guides/tracking/write-ahead-log) を有効にします。`true` に設定すると、Weave は API リクエストをサーバーに送信する前にディスクへ書き込むため、送信前にプロセスが終了した場合でもリクエストを復旧できます。                                  |
+| `WEAVE_DISABLE_WAL_SENDER`      | `bool`   | `false`         | Weave Write-Ahead Log (WAL) の送信機能を無効にします。`true` に設定すると、Weave はリクエストをディスクに書き込みますが、サーバーには flush しません。デバッグに便利です。                                                                                          |
+| `WEAVE_RETRY_MAX_ATTEMPTS`      | `int`    | `3`             | 失敗したリクエストに対する再試行の最大回数を設定します。                                                                                                                                                                           |
+| `WEAVE_RETRY_MAX_INTERVAL`      | `float`  | `300.0`         | 再試行の最大間隔を秒単位で設定します。                                                                                                                                                                                    |
+| `WANDB_BASE_URL`                | `string` | `None`          | Weave ホスト URL を設定します。`wandb.login()` で求められたときにホスト URL を入力するのと同じです。`weave.init()` を使用する前に `WANDB_BASE_URL` と `WANDB_API_KEY` を指定すると、Weave に自動的にログインして認証できます。                                            |
+
+<Note>
+  すべての真偽値の環境変数では、次の値を使用できます (大文字と小文字は区別されません) :
+
+  * `true`, `1`, `yes`, `on` は `True`
+  * `false`, `0`, `no`, `off` は `False`
+</Note>

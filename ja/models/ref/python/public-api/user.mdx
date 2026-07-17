@@ -1,0 +1,92 @@
+---
+title: User
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/users.py" />
+
+
+## <kbd>class</kbd> `User`
+
+W&amp;B インスタンス上のユーザー。
+
+このクラスでは、ユーザーの APIキーを管理し、Teams への所属情報などにアクセスできます。`create` クラスメソッドを使用して、新しいユーザーを作成できます。
+
+**引数:**
+
+* `service_api`:  W&amp;B のクエリに使用するサービス API インスタンス。
+* `attrs`:  GraphQL スキーマ内の User タイプのサブセット。 
+
+### <kbd>property</kbd> User.api_keys
+
+ユーザーのAPIキーの名前。
+
+このプロパティが返すのはAPIキーの名前であり、キーに関連付けられたシークレットそのものでは*ありません*。キーの名前をAPIキーとして使用することはできません。
+
+ユーザーがAPIキーを持っていない場合、またはAPIキーが読み込まれていない場合、このリストは空です。
+
+**戻り値:**
+
+* `list[str]`: `api_keys` プロパティの値。
+
+***
+
+### <kbd>property</kbd> User.teams
+
+ユーザーが所属するTeamsの名前。
+
+ユーザーがどのTeamsにも所属していない場合、またはTeamsデータが読み込まれていない場合、これは空のリストになります。
+
+**戻り値:**
+
+* `list[str]`: teamsプロパティの値。
+
+***
+
+### <kbd>property</kbd> User.user_api
+
+ユーザーの認証情報を使用する `wandb.Api` インスタンス。
+
+**戻り値:**
+
+* `Api | None`: `user_api` プロパティの値。
+
+***
+
+### <kbd>method</kbd> `User.delete_api_key`
+
+```python
+delete_api_key(api_key: 'str') → bool
+```
+
+ユーザーのAPIキーを削除します。
+
+キーの所有者または管理者のみが削除できます。
+
+**引数:**
+
+* `api_key`:  削除するAPIキーの名前。`api_keys` プロパティから返される名前のいずれかを使用してください。
+
+**戻り値:**
+成功時はTrue、失敗時はfalseです。
+
+***
+
+
+### <kbd>method</kbd> `User.generate_api_key`
+
+```python
+generate_api_key(description: 'str | None' = None) → str | None
+```
+
+新しいAPIキーを生成します。
+
+**引数:**
+
+* `description`: 新しいAPIキーの説明。APIキーの用途を判別するために使用できます。
+
+**戻り値:**
+生成されたAPIキー (名前だけでなく、完全なシークレット) 、または失敗した場合は None。

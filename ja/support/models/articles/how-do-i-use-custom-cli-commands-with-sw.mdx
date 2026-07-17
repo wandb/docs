@@ -1,0 +1,67 @@
+---
+title: "Sweeps でカスタム CLI コマンドを使用するにはどうすればよいですか?"
+keywords: ["Sweeps"]
+featured: true
+---
+
+トレーニング設定でコマンドライン引数を渡せる場合は、W&amp;B Sweeps でカスタム CLI コマンドを使用できます。これにより、スクリプトでの引数の受け取り方を変更しなくても、既存のトレーニングスクリプトが想定している特定の CLI フラグをそのまま使って sweep を実行できます。
+
+次の例では、`train.py` という Python スクリプトをトレーニング用に実行し、スクリプトが解析する値を渡す Bash ターミナルの例を示します。
+
+```bash
+/usr/bin/env python train.py -b \
+    your-training-config \
+    --batchsize 8 \
+    --lr 0.00001
+```
+
+その呼び出しを sweep で再現するには、sweep エージェントが同じコマンドラインを組み立てるように、sweep 設定用 YAML file の `command` キーを変更します。前の例に基づくと、設定は次のようになります。
+
+```yaml
+program:
+  train.py
+method: grid
+parameters:
+  batch_size:
+    value: 8
+  lr:
+    value: 0.0001
+command:
+  - ${env}
+  - python
+  - ${program}
+  - "-b"
+  - your-training-config
+  - ${args}
+```
+
+`${args}` キーは、sweep 設定内のすべてのパラメーターを `argparse` 用に `--param1 value1 --param2 value2` の形式で展開します。
+
+スクリプトが `argparse` 以外の追加の引数も受け取る場合は、認識されないフラグでパーサーがエラーにならないように `parse_known_args` を使用してください。
+
+```python
+parser = argparse.ArgumentParser()
+args, unknown = parser.parse_known_args()
+```
+
+<Note>
+  環境によっては、`python` が Python 2 を指している場合があります。Python 3 を呼び出すには、コマンド設定で `python3` を使用してください。
+
+  ```yaml
+  program:
+    script.py
+  command:
+    - ${env}
+    - python3
+    - ${program}
+    - ${args}
+  ```
+</Note>
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ja/support/models/tags/sweeps)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

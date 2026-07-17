@@ -1,0 +1,14 @@
+---
+title: "最終評価の精度のように、時間が経っても変化しないメトリクスをログするにはどうすればよいですか？"
+keywords: ["Runs"]
+---
+
+最終評価の精度のような単一の変化しない値を記録するには、`run.log` で一度だけログします。たとえば、`run.log({'final_accuracy': 0.9})` は最終精度を記録します。デフォルトでは、`run.log({'final_accuracy': <value>})` は `run.settings['final_accuracy']` を更新し、その値が Runs table に反映されます。
+
+***
+
+{/* 自動生成: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Runs](/ja/support/models/tags/runs)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

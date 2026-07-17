@@ -1,0 +1,88 @@
+---
+title: Job de déploiement vers NVIDIA NeMo Inference Microservice
+description: "Déployez un artifact de modèle W&B vers NVIDIA NeMo Inference Microservice à l’aide de W&B Launch pour servir des modèles à grande échelle."
+---
+
+Ce guide vous montre comment déployer un artifact de modèle depuis W&amp;B vers NVIDIA NeMo Inference Microservice (NIM) afin de servir le modèle pour l’inférence à grande échelle. Pour ce faire, utilisez W&amp;B Launch. W&amp;B Launch convertit les artifacts de modèle au format NVIDIA NeMo Model, puis les déploie sur un serveur NIM/Triton en cours d’exécution. Cela vous permet de déployer directement un modèle W&amp;B suivi vers un point de terminaison prêt pour la production, sans conversion manuelle.
+
+W&amp;B Launch accepte les types de modèles compatibles suivants :
+
+* [Llama2](https://llama.meta.com/llama2/)
+* [StarCoder](https://github.com/bigcode-project/starcoder)
+
+<Note>
+  Le temps de déploiement varie selon le modèle et le type de machine. La configuration de base `Llama2-7b` prend environ 1 minute sur Google Cloud&#39;s `a2-ultragpu-1g`.
+</Note>
+
+<div id="quickstart">
+  ## Démarrage rapide
+</div>
+
+Suivez ces étapes pour créer une file d’attente Launch, enregistrer le job de déploiement, lancer un agent et soumettre le déploiement.
+
+1. [Créez une file d’attente Launch](/fr/platform/launch/add-job-to-queue/) si vous n’en avez pas encore. La file d’attente définit la manière dont le job s’exécute sur votre machine équipée d’un GPU. Voir l’exemple suivant de configuration de la file d’attente.
+
+   ```yaml
+   net: host
+   gpus: all # peut être un ensemble spécifique de GPU ou `all` pour tout utiliser
+   runtime: nvidia # nécessite également le runtime de conteneur NVIDIA
+   volume:
+     - model-store:/model-store/
+   ```
+
+   <Frame>
+     <img src="/images/integrations/nim1.png" alt="Configuration de la file d’attente Launch dans l’interface W&B" />
+   </Frame>
+
+2. Créez ce job dans votre projet. Cela enregistre le code du job de déploiement dans votre projet W&amp;B afin que Launch puisse l’exécuter.
+
+   ```bash
+   wandb job create -n "deploy-to-nvidia-nemo-inference-microservice" \
+      -e $ENTITY \
+      -p $PROJECT \
+      -E jobs/deploy_to_nvidia_nemo_inference_microservice/job.py \
+      -g andrew/nim-updates \
+      git https://github.com/wandb/launch-jobs
+   ```
+
+3. Lancez un agent sur votre machine équipée d’un GPU. L’agent interroge la file d’attente et exécute le job de déploiement lorsque vous le soumettez.
+   ```bash
+   wandb launch-agent -e $ENTITY -p $PROJECT -q $QUEUE
+   ```
+
+4. Soumettez le job Launch de déploiement avec les configurations souhaitées depuis l’[interface W&amp;B Launch](https://wandb.ai/launch). Vous pouvez également le soumettre via la CLI.
+
+   ```bash
+   wandb launch -d gcr.io/playground-111/deploy-to-nemo:latest \
+     -e $ENTITY \
+     -p $PROJECT \
+     -q $QUEUE \
+     -c $CONFIG_JSON_FNAME
+   ```
+
+   <Frame>
+     <img src="/images/integrations/nim2.png" alt="Soumission d’un job Launch depuis l’interface W&B Launch" />
+   </Frame>
+
+5. Vous pouvez suivre le processus de déploiement dans l’interface W&amp;B Launch.
+   <Frame>
+     <img src="/images/integrations/nim3.png" alt="Suivi de la progression du déploiement dans l’interface W&B Launch" />
+   </Frame>
+
+6. Une fois le déploiement terminé, le point de terminaison NIM/Triton sert le modèle et est prêt à recevoir des requêtes d’inférence. Pour tester le modèle, utilisez `curl` sur le point de terminaison. Le nom du modèle est toujours `ensemble`.
+   ```bash
+    #!/bin/bash
+    curl -X POST "http://0.0.0.0:9999/v1/completions" \
+        -H "accept: application/json" \
+        -H "Content-Type: application/json" \
+        -d '{
+            "model": "ensemble",
+            "prompt": "Tell me a joke",
+            "max_tokens": 256,
+            "temperature": 0.5,
+            "n": 1,
+            "stream": false,
+            "stop": "string",
+            "frequency_penalty": 0.0
+            }'
+   ```

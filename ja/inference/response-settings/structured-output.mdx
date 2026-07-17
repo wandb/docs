@@ -1,0 +1,86 @@
+---
+title: "構造化出力を有効にする"
+description: Serverless Inference のレスポンスで構造化出力を設定する方法
+keywords: ["json_schema", "JSON schema", "スキーマの強制", "データ抽出", "response_format"]
+---
+
+構造化出力では、Serverless Inference の応答を特定の JSON schema に制約し、モデルの応答が定義したフィールドとタイプに準拠するようにします。アプリケーションで、データ抽出、フォーム入力、後続の処理などのために、モデルの応答を既知のフィールドへ解析する必要がある場合は、構造化出力を使用します。
+
+構造化出力は [JSONモード](/ja/inference/response-settings/json-mode) に似ていますが、指定したスキーマも強制します。可能であれば、JSONモードではなく構造化出力を使用することをおすすめします。
+
+構造化出力を有効にするには、リクエストの `response_format` の `type` に `json_schema` を指定します。次の例では、イベントの詳細を定義済みのスキーマに抽出します。
+
+<Tabs>
+  <Tab title="Python">
+    ```python
+    import json
+    import openai
+
+    client = openai.OpenAI(
+        base_url='https://api.inference.wandb.ai/v1',
+        api_key="[YOUR-API-KEY]",  # APIキーは https://wandb.ai/settings で作成します
+    )
+
+    response = client.chat.completions.create(
+        model="openai/gpt-oss-20b",
+        messages=[
+            {"role": "system", "content": "Extract the event information."},
+            {"role": "user", "content": "Alice and Bob are going to a science fair on Friday."},
+        ],
+        response_format={
+            "type": "json_schema",
+            "json_schema": {
+                "name": "CalendarEventResponse",
+                "strict": True,
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "name": {"type": "string"},
+                        "date": {"type": "string"},
+                        "participants": {"type": "array", "items": {"type": "string"}},
+                    },
+                    "required": ["name", "date", "participants"],
+                    "additionalProperties": False,
+                },
+            },
+        },
+    )
+
+    content = response.choices[0].message.content
+    parsed = json.loads(content)
+    print(parsed)
+    ```
+  </Tab>
+
+  <Tab title="Bash">
+    ```bash
+    curl https://api.inference.wandb.ai/v1/chat/completions \
+      -H "Content-Type: application/json" \
+      -H "Authorization: Bearer [YOUR-API-KEY]" \
+      -d '{
+        "model": "openai/gpt-oss-20b",
+        "messages": [
+            {"role": "system", "content": "Extract the event information."},
+            {"role": "user", "content": "Alice and Bob are going to a science fair on Friday."},
+        ],
+        "response_format": {
+            "type": "json_schema",
+            "json_schema": {
+                "name": "CalendarEventResponse",
+                "strict": True,
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "name": {"type": "string"},
+                        "date": {"type": "string"},
+                        "participants": {"type": "array", "items": {"type": "string"}},
+                    },
+                    "required": ["name", "date", "participants"],
+                    "additionalProperties": False,
+                },
+            },
+        },
+      }'
+    ```
+  </Tab>
+</Tabs>

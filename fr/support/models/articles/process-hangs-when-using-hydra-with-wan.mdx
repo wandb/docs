@@ -1,0 +1,34 @@
+---
+title: "Pourquoi mon processus cesse-t-il de répondre lorsque j'utilise Hydra avec W&B ?"
+keywords: ["Experiments", "crash de run"]
+---
+
+Cette page explique comment résoudre les problèmes de processus qui ne répondent plus lorsque vous démarrez un processus avec Hydra en parallèle de W&amp;B. Si votre processus cesse de répondre lorsque vous le démarrez avec Hydra, la cause probable est un conflit de multiprocessing entre Hydra et W&amp;B.
+
+Pour corriger cela, modifiez le protocole de multiprocessing de W&amp;B en `"thread"`. Cela évite le conflit afin que votre processus puisse démarrer correctement. Vous pouvez le faire de l&#39;une des deux manières suivantes :
+
+<div id="pass-a-settings-parameter-to-wandbinit">
+  ## Passez le paramètre settings à wandb.init
+</div>
+
+```python
+wandb.init(settings=wandb.Settings(start_method="thread"))
+```
+
+<div id="set-a-global-environment-variable">
+  ## Définir une variable d’environnement globale
+</div>
+
+```bash
+export WANDB_START_METHOD=thread
+```
+
+Pour plus d&#39;informations, voir le [guide d’intégration de Hydra](/fr/models/integrations/hydra/) et le [guide de dépannage de l’entraînement distribué](/fr/models/track/log/distributed-training/).
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Crashs de run](/fr/support/models/tags/run-crashes)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

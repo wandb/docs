@@ -1,0 +1,22 @@
+---
+title: "사람이 읽기 쉬운 run 이름에 프로그래밍 방식으로 접근하려면 어떻게 하나요?"
+keywords: ["Experiments"]
+---
+
+[`wandb.Run`](/ko/models/ref/python/experiments/run)의 `.name` 속성에 액세스하려면 다음 코드를 사용하세요:
+
+```python
+import wandb
+
+with wandb.init() as run:
+   run_name = run.name
+   print(f"The human-readable run name is: {run_name}")
+```
+
+***
+
+{/* AUTO-GENERATED: 탭 배지 */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

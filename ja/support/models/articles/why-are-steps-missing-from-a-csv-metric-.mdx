@@ -1,0 +1,24 @@
+---
+title: "CSV メトリクスのエクスポートで step が欠落するのはなぜですか？"
+keywords: ["Experiments", "Runs"]
+---
+
+エクスポートの制限により、CSV エクスポートや `run.history` API では、run の履歴全体をエクスポートできない場合があります。完全な run 履歴にアクセスするには、Parquet 形式の run 履歴 artifact をダウンロードしてください:
+
+```python
+import wandb
+import pandas as pd
+
+run = wandb.init()
+artifact = run.use_artifact('<entity>/<project>/<run-id>-history:v0', type='wandb-history')
+artifact_dir = artifact.download()
+df = pd.read_parquet('<path to .parquet file>')
+```
+
+***
+
+{/* AUTO-GENERATED: タブバッジ */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Runs](/ja/support/models/tags/runs)</Badge>
+
+{/* END AUTO-GENERATED: タブバッジ */}

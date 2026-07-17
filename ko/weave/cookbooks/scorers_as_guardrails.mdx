@@ -1,0 +1,109 @@
+---
+title: "Scorer를 가드레일로 사용하기"
+description: "W&B Weave에서 scorers를 가드레일로 사용하는 방법을 알아보세요"
+keywords: ["Weave Scorer", "가드레일", "콘텐츠 안전", "런타임 평가", "apply_scorer"]
+---
+
+<Note>
+  이 문서는 대화형 노트북입니다. 로컬에서 실행하거나 아래 링크를 사용할 수 있습니다:
+
+  * [Google Colab에서 열기](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/scorers_as_guardrails.ipynb)
+  * [GitHub에서 소스 보기](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/scorers_as_guardrails.ipynb)
+</Note>
+
+<div id="scorers-as-guardrails">
+  # 가드레일로 사용하는 Scorer
+</div>
+
+Weave Scorer는 Call의 성능을 평가하는 `score` 메서드가 있는 클래스입니다. 기본 규칙부터 LLM을 판정자로 사용하는 방식까지 다양하게 활용할 수 있습니다.
+
+이 노트북은 런타임에 Scorer를 적용해 원치 않는 모델 출력을 차단하거나 필터링하려는 Weave 사용자를 위한 내용입니다. 이 내용을 따라 하면 LLM 응답을 가로채고, Scorer로 평가하고, Scorer가 해당 응답을 안전하지 않다고 판단할 경우 대체 메시지를 반환하는 콘텐츠 안전 가드레일을 구축하게 됩니다. 이런 방식으로 Scorer를 사용하면 오프라인 Experiments를 구동하는 동일한 평가 로직을 재사용해 프로덕션에서 안전 정책을 강제 적용할 수 있습니다.
+
+이 노트북을 마치면 LLM Call을 감싸고 Scorer의 판정에 따라 원래 응답 또는 안전한 대체 응답을 반환하는 `ContentSafetyScorer`를 완성하게 됩니다.
+
+```python lines
+%pip install weave --quiet
+python
+"""
+Example demonstrating how to implement guardrails in Weave.
+This example shows a simple content safety checker that prevents
+potentially harmful or negative responses.
+"""
+
+import weave
+
+# 프로젝트 이름을 지정하여 Weave 초기화
+weave.init("content-safety-guardrails")
+
+class ContentSafetyScorer(weave.Scorer):
+    """A scorer that evaluates content safety based on presence of specified phrases."""
+
+    unsafe_phrases: list[str]
+    case_sensitive: bool = False
+
+    @weave.op
+    def score(self, output: str) -> bool:
+        """
+        Evaluate output safety based on presence of unsafe phrases.
+
+        Args:
+            output: The text output to evaluate
+
+        Returns:
+            bool: True if output is safe, False if unsafe
+        """
+        normalized_output = output if self.case_sensitive else output.lower()
+
+        for phrase in self.unsafe_phrases:
+            normalized_phrase = phrase if self.case_sensitive else phrase.lower()
+            if normalized_phrase in normalized_output:
+                return False
+        return True
+
+@weave.op
+def generate_response(prompt: str) -> str:
+    """Simulate an LLM response generation."""
+    if "test" in prompt.lower():
+        return "I'm sorry, I cannot process that request."
+    elif "help" in prompt.lower():
+        return "I'd be happy to help you with that!"
+    else:
+        return "Here's what you requested: " + prompt
+
+async def process_with_guardrail(prompt: str) -> str:
+    """
+    Process user input with content safety guardrail.
+    Returns the response if safe, or a fallback message if unsafe.
+    """
+    # 안전 Scorer 초기화
+    safety_scorer = ContentSafetyScorer(
+        name="Content Safety Checker",
+        unsafe_phrases=["sorry", "cannot", "unable", "won't", "will not"],
+    )
+
+    # 응답 생성 및 Call 객체 조회
+    response, call = generate_response.call(prompt)
+
+    # 안전 점수화 적용
+    evaluation = await call.apply_scorer(safety_scorer)
+
+    # 안전 검사 결과에 따라 응답 또는 대체 메시지 반환
+    if evaluation.result:
+        return response
+    else:
+        return "I cannot provide that response."
+python
+"""Example usage of the guardrail system."""
+test_prompts = [
+    "Please help me with my homework",
+    "Can you run a test for me?",
+    "Tell me a joke",
+]
+
+print("Testing content safety guardrails:\n")
+
+for prompt in test_prompts:
+    print(f"Input: '{prompt}'")
+    response = await process_with_guardrail(prompt)
+    print(f"Response: {response}\n")
+```

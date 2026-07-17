@@ -1,0 +1,52 @@
+---
+title: "JSONモードを有効にする"
+description: "Serverless InferenceでJSONモードを設定し、モデルの応答から構造化されたJSON出力を取得して、解析しやすくします。"
+keywords: ["json_object", "response_format", "モデル出力を解析", "構造化された応答"]
+---
+
+JSONモードは、自由形式のテキストを処理せずにモデルの応答をプログラムで解析する必要がある場合に便利です。JSONモードを有効にすると、モデルに有効なJSON形式で応答を返すよう指示できます。ただし、応答のスキーマには一貫性がなかったり、特定の構造に従わなかったりする場合があります。一貫した構造化JSON応答が必要な場合は、可能であれば[structured output](/ja/inference/response-settings/structured-output)を使用することをおすすめします。
+
+JSONモードを有効にするには、リクエストで`response_format`として指定します。
+
+<Tabs>
+  <Tab title="Python">
+    ```python
+    import json
+    import openai
+
+    client = openai.OpenAI(
+        base_url='https://api.inference.wandb.ai/v1',
+        api_key="[YOUR-API-KEY]",  # https://wandb.ai/settings でAPIキーを作成します
+    )
+
+    response = client.chat.completions.create(
+        model="openai/gpt-oss-20b",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant that outputs JSON."},
+            {"role": "user", "content": "Give me a list of three fruits with their colors."},
+        ],
+        response_format={"type": "json_object"}  # これでJSONモードを有効にします
+    )
+
+    content = response.choices[0].message.content
+    parsed = json.loads(content)
+    print(parsed)
+    ```
+  </Tab>
+
+  <Tab title="Bash">
+    ```bash
+    curl https://api.inference.wandb.ai/v1/chat/completions \
+      -H "Content-Type: application/json" \
+      -H "Authorization: Bearer [YOUR-API-KEY]" \
+      -d '{
+        "model": "openai/gpt-oss-20b",
+        "messages": [
+            {"role": "system", "content": "You are a helpful assistant that outputs JSON."},
+            {"role": "user", "content": "Give me a list of three fruits with their colors."},
+        ],
+        "response_format": {"type": "json_object"}
+      }'
+    ```
+  </Tab>
+</Tabs>

@@ -1,0 +1,194 @@
+---
+title: "트레이스 및 기타 로깅된 정보 비교"
+description: "코드, 트레이스, 프롬프트, 모델, 설정을 시각적으로 비교하고 차이를 확인합니다"
+keywords: [비교, diff, 베이스라인, 나란히, 트레이스]
+---
+
+W&amp;B Weave 비교 기능을 사용하면 코드, 트레이스, 프롬프트, 모델, 모델 설정을 시각적으로 비교하고 차이를 확인할 수 있습니다. 두 객체를 나란히 비교하거나 더 많은 객체 집합을 분석해 차이, 패턴, 추세를 파악할 수 있습니다. 이는 프롬프트나 모델을 반복 개선하거나, Runs 간 동작 변화를 디버그하거나, 시간이 지나면서 설정이 어떻게 바뀌었는지 감사할 때 유용합니다.
+
+이 가이드는 UI에서 로깅된 객체 간 차이를 살펴보려는 Weave 사용자를 위한 것입니다. 비교를 시작하는 방법과 베이스라인 비교, 숫자 diff 형식 지정 등 비교 뷰를 필요에 맞게 조정하는 데 사용할 수 있는 작업을 설명합니다.
+
+<div id="access-the-comparison-view">
+  ## 뷰 열기
+</div>
+
+로깅된 객체 두 개 이상에 대한 뷰를 열려면 다음 단계를 따르세요.
+
+1. 사이드바에서 비교할 객체 유형을 선택합니다(예: **트레이스** 또는 **Models**).
+2. 비교하려는 객체를 선택합니다. 선택 방법은 비교하는 객체 유형에 따라 다릅니다.
+   * **트레이스**의 경우, Trace 열에서 해당 행의 체크박스를 선택해 비교할 트레이스를 고릅니다.
+   * **Models**와 같은 객체의 경우, 모델 Versions 페이지로 이동한 다음 비교하려는 버전 옆의 체크박스를 선택합니다.
+3. **Compare**를 선택해 뷰를 엽니다. 페이지 상단의 비교 막대에는 대화형 call ID 토큰(예: `f02b`, `4a98`)이 있으며, 이를 드래그하거나 순서를 바꾸거나 제거해 비교 내용을 변경할 수 있습니다.
+4. 사용 가능한 작업을 사용해 뷰를 더 세부적으로 조정할 수 있습니다.
+
+<div id="customize-the-comparison-view">
+  ## 뷰 사용자 지정
+</div>
+
+뷰에서는 객체를 표시하고 비교하는 방식을 조정할 수 있습니다. 다음 섹션에서는 사용 가능한 작업을 설명합니다.
+
+* [summary 표시](#display-summary)
+* [Calls 뷰 표시](#display-a-calls-view)
+* [diff 표시 변경](#change-the-diff-display)
+* [나란히 표시](#display-side-by-side)
+* [통합 뷰로 표시](#display-in-a-unified-view)
+* [기준선 설정](#set-a-baseline)
+* [기준선 제거](#remove-a-baseline)
+* [비교 순서 변경](#change-the-comparison-order)
+* [숫자 diff 표시 형식 변경](#change-numeric-diff-display-format)
+* [기준선 또는 이전 항목과 비교](#compare-with-baseline-or-previous)
+* [다중 객체 비교에서 한 쌍 비교](#compare-a-pair-from-a-multi-object-comparison)
+* [비교에서 객체 제거](#remove-an-object-from-comparison)
+
+<div id="display-summary">
+  ### summary 표시
+</div>
+
+선택한 객체 비교의 기본 뷰는 summary입니다. 이 summary에는 LLM 입력과 출력의 미리보기와 함께 토큰 수, 비용, 지연 시간이 포함됩니다.
+
+<Frame>
+  ![두 객체의 Comparison Summary 뷰](/weave/guides/tools/imgs/comparison-2objs-summary.png)
+</Frame>
+
+트레이스의 경우, 비교 테이블 상단에 표시되는 색상 막대는 Ops에 적용한 맞춤형 kind와 색상을 반영합니다. 이 향상된 가시성 기능을 사용하는 방법에 대한 자세한 내용은 [kind와 색상 적용](/ko/weave/guides/tracking/ops#apply-kinds-and-colors)을 참조하세요.
+
+<div id="display-a-calls-view">
+  ### Calls 뷰 표시
+</div>
+
+각 객체의 Calls를 비교하려면 **Calls**를 선택합니다. 이 뷰에서는 다음이 가능합니다.
+
+* Call의 전체 트레이스 트리를 표시합니다.
+* 기본적인 메모리 내 텍스트 검색을 지원합니다.
+* call별 지연 시간, 비용, 토큰, Op 유형, 피드백의 표시 여부를 전환할 수 있습니다.
+
+<Frame>
+  ![두 객체의 Calls 비교 뷰](/weave/guides/tools/imgs/comparison-2obs-calls.png)
+</Frame>
+
+<div id="change-the-diff-display">
+  ### Diff 표시 변경
+</div>
+
+기본적으로 **Diff only**는 꺼져 있습니다. 테이블 행을 필터링해 변경된 행만 표시하려면 **Diff only**를 켜세요.
+
+**Diff only**는 나란히 배치된 뷰와 통합 뷰에 적용되며, 다른 뷰에서는 비활성화됩니다.
+
+<div id="display-side-by-side">
+  ### 나란히 표시
+</div>
+
+각 객체를 별도 열에 나란히 비교하려면 **Side-by-side**를 선택합니다.
+
+<Frame>
+  ![두 객체의 Side-by-side 비교 뷰](/weave/guides/tools/imgs/comparison-2objs-sidebyside.png)
+</Frame>
+
+<div id="display-in-a-unified-view">
+  ### 통합 뷰로 표시
+</div>
+
+두 객체를 통합 뷰에서 비교하려면 **Unified**를 선택합니다. 두 개보다 많은 객체를 비교할 때는 이 뷰를 사용할 수 없습니다.
+
+<Frame>
+  ![두 객체의 Unified 비교 뷰](/weave/guides/tools/imgs/comparison-2objs-unified.png)
+</Frame>
+
+<div id="set-a-baseline">
+  ### 기준선 설정
+</div>
+
+기본적으로 뷰의 각 객체는 바로 왼쪽에 있는 객체와 비교됩니다. 하지만 객체를 &#95;기준선&#95;으로 설정할 수 있으며, 이렇게 설정하면 모든 객체가 뷰의 가장 왼쪽 객체를 기준으로 비교됩니다. 알려진 정상 run처럼 모든 객체를 하나의 기준점에 대해 비교하려는 경우 기준선을 사용하세요.
+
+객체를 기준선으로 설정하려면 다음과 같이 하세요.
+
+1. 비교 막대에서 기준선으로 설정하려는 객체 위에 포인터를 올립니다.
+2. ID 오른쪽의 **액션 (<Icon icon="ellipsis-vertical" iconType="solid" />)** 메뉴를 클릭합니다.
+   ![비교 막대에서 선택한 객체의 Make baseline 옵션을 보여주는 뷰.](/weave/guides/tools/imgs/comparison-2objs-baseline.png)
+3. 목록에서 **Make baseline**을 선택합니다. 그러면 UI가 새로 고침되고, 비교 막대의 가장 왼쪽에 기준선 객체가 배치되며 ID 옆에 `Baseline`이 표시됩니다.
+   ![비교 막대의 가장 왼쪽에 선택한 기준선 객체가 표시된 뷰.](/weave/guides/tools/imgs/comparison-2objs-baseline-set.png)
+
+<div id="remove-a-baseline">
+  ### 기준선 제거
+</div>
+
+객체를 기준선에서 해제하려면 다음과 같이 하세요.
+
+1. 비교 막대에서 기준선 객체 위에 포인터를 올립니다.
+2. ID 오른쪽의 **액션 (<Icon icon="ellipsis-vertical" iconType="solid" />)** 메뉴를 클릭합니다.
+3. 목록에서 **기준선 제거**를 선택합니다. call ID 옆에 `Baseline`이 더 이상 표시되지 않습니다.
+
+<div id="change-the-comparison-order">
+  ### 비교 순서 변경
+</div>
+
+비교 막대에서 객체를 드래그해 순서를 바꿉니다. 그러면 비교 표의 해당 열 순서도 함께 바뀝니다.
+
+비교 순서를 변경하려면 다음과 같이 하세요.
+
+1. 비교 막대에서 순서를 변경하려는 ID 위에 포인터를 올립니다.
+2. ID 왼쪽의 점 6개를 클릭한 채 필요에 따라 왼쪽이나 오른쪽으로 드래그합니다.
+3. 원하는 위치에 ID를 놓습니다. 비교 데이터가 업데이트된 순서에 맞춰 새로 고쳐집니다.
+
+<div id="change-numeric-diff-display-format">
+  ### 숫자 diff 표시 형식 변경
+</div>
+
+`completion_tokens` 및 `total_tokens`와 같은 숫자 값의 경우 diff를 정수 또는 백분율로 볼 수 있습니다. 또한 양수 숫자 값은 배수로 표시할 수도 있습니다.
+
+숫자 diff의 표시 형식을 변경하려면 다음 단계를 따르세요.
+
+1. Comparison 테이블에서 diff 표시 형식을 변경하려는 숫자 값을 찾습니다.
+   ![정수로 표시된 숫자 값.](/weave/guides/tools/imgs/comparison-2objs-numericdiffformat.png)
+2. diff 값을 클릭합니다. 형식이 자동으로 정수 또는 백분율로 바뀝니다.
+   ![백분율로 업데이트된 숫자 값.](/weave/guides/tools/imgs/comparison-2objs-numericdiffformat-updated.png)
+
+<div id="compare-with-baseline-or-previous">
+  ### 기준선 또는 이전 항목과 비교
+</div>
+
+이 옵션은 3개 이상의 객체를 비교할 때만 사용할 수 있습니다. [기준선을 설정](#set-a-baseline)하거나 [기존 기준선을 제거](#remove-a-baseline)할 수도 있습니다.
+
+3개 이상의 객체로 기준선 비교를 수행하려면 다음 단계를 따르세요.
+
+1. Side-by-side 또는 Unified Comparison 뷰의 오른쪽 상단에서 목록을 클릭합니다. 현재 뷰 설정에 따라 이 목록의 제목은 **Compare with previous** 또는 **Compare with baseline**입니다.
+2. 현재 뷰 설정에 따라 **Compare with previous** 또는 **Compare with baseline** 중 하나를 선택합니다.
+   * **Compare with baseline**: 가장 왼쪽 객체를 기준선으로 설정합니다. 표가 업데이트되어 가장 왼쪽 열이 기준선이 됩니다.
+   * **Compare with previous**: 어떤 객체도 기준선으로 설정되지 않습니다.
+
+<div id="compare-a-pair-from-a-multi-object-comparison">
+  ### 다중 객체 비교에서 객체 한 쌍 비교
+</div>
+
+이 옵션은 3개 이상의 객체를 비교할 때만 사용할 수 있습니다.
+
+3개 이상의 객체를 비교하는 경우, 단일 객체를 인접한 객체 또는 기준선과 비교할 수 있습니다. 이렇게 하면 Comparison 테이블 뷰가 2개 객체 비교와 동일하게 바뀝니다.
+
+다중 객체 비교에서 객체 한 쌍을 비교하려면 다음과 같이 하세요.
+
+1. 비교 막대에서 비교할 ID를 선택합니다. 기준선을 설정한 경우, 뷰에는 선택한 객체와 기준선의 비교가 표시됩니다. 그렇지 않으면 비교 막대에서 해당 객체 바로 왼쪽에 있는 ID와 비교합니다.
+2. 항목을 선택하려면 ID를 클릭합니다. UI가 2개 객체 비교 테이블로 새로고침됩니다.
+   ![다중 객체 비교에서 객체 한 쌍 비교.](/weave/guides/tools/imgs/comparison-7objs-diffonly-subset.png)
+
+비교를 위해 처음 선택한 6개 객체가 테이블에 다시 표시되도록 뷰를 재설정하려면 ID를 다시 클릭합니다.
+
+<div id="remove-an-object-from-comparison">
+  ### 비교에서 객체 제거
+</div>
+
+이 옵션은 객체를 3개 이상 비교할 때만 사용할 수 있습니다.
+
+비교에서 객체를 제거하려면 다음 단계를 따르세요.
+
+1. 비교 막대에서 비교에서 제거하려는 객체를 찾습니다.
+2. ID 오른쪽에 있는 **액션 (<Icon icon="ellipsis-vertical" iconType="solid" />)** 메뉴를 클릭합니다.
+3. 목록에서 **비교에서 객체 제거**를 선택합니다. 그러면 제거한 객체가 더 이상 포함되지 않도록 UI가 새로 고쳐지고 테이블이 업데이트됩니다.
+
+<div id="usage-notes">
+  ## 사용 참고 사항
+</div>
+
+다음 참고 사항에서는 Comparison 기능의 제한 사항과 동작 방식을 설명합니다.
+
+* Comparison 기능은 UI에서만 사용할 수 있습니다.
+* 객체는 원하는 만큼 비교할 수 있지만, UI에는 최대 6개까지만 표시됩니다. 6개가 넘는 객체를 비교할 때 표시되지 않는 객체를 비교 표에서 보려면, 해당 객체가 왼쪽에서 오른쪽 기준 처음 6개 안에 들어오도록 [비교 순서를 변경](#change-the-comparison-order)하거나, [여러 객체 비교에서 두 개만 선택](#compare-a-pair-from-a-multi-object-comparison)하여 확인하세요.

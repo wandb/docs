@@ -1,0 +1,76 @@
+---
+title: "Ops、Call、トレース を理解する"
+description: "Ops、Call、トレース が W&B Weave のトレースシステムの基盤となる仕組みを学びます。"
+keywords: ["Ops", "Calls", "Traces", "Threads", "OpenTelemetry"]
+---
+
+W&amp;B Weave のトレースシステムは、Ops、Call、トレース、スレッド という相互に関連する 4 つの概念に基づいています。このページでは、各概念を定義し、それらの関係を説明します。これにより、アプリケーションをインストルメント化して実行したときに Weave が何を取得するのかを理解できます。
+
+<div id="ops">
+  ## Ops
+</div>
+
+**Op** は、バージョン管理され、トラッキングされる関数です。関数を `@weave.op()` (Python) でデコレートするか、`weave.op()` (TypeScript) でラップすると、Weave はそのコード、入力、出力、実行メタデータを自動的に取得します。Ops は、トレース、評価スコアラー、およびトラッキング対象のあらゆる計算の基本構成要素です。
+
+<CodeGroup>
+  ```python Python
+      @weave.op
+      async def my_function(){
+        ...  }
+  ```
+
+  ```typescript twoslash TypeScript
+  // @noErrors
+  function myFunction() {
+      ...
+  }
+
+  const myFunctionOp = weave.op(myFunction)
+  ```
+</CodeGroup>
+
+<div id="calls">
+  ## Calls
+</div>
+
+**Call** は、Op の実行をログしたものです。Op が実行されるたびに、Weave は次の情報を記録する Call を作成します。
+
+* 入力引数
+* 出力値
+* 実行タイミングとレイテンシ
+* 親子関係 (ネストされた Call の場合)
+* 発生するエラー
+
+Call は Weave UI では **トレース** として表示され、デバッグ、分析、評価のためのデータを提供します。Call オブジェクトの完全な構造とプロパティについては、[Call スキーマリファレンス](/ja/weave/guides/tracking/call-schema-reference)を参照してください。
+
+Call は、[OpenTelemetry](https://opentelemetry.io) のデータモデルにおけるスパンに似ています。Call には次の特徴があります。
+
+* 同じ実行コンテキスト内にある複数の Call の collection である トレース に属する。
+* 親 Call と子 Call を持ち、ツリー構造を形成する。
+
+<div id="traces">
+  ## トレース
+</div>
+
+トレースは、同じ実行コンテキストを共有する Call の完全なツリー構造です。各トレースには ID (`trace_id`) が含まれており、これを使用して Call ツリー全体を取得できます。Call の情報を Call の ID を使用して取得した場合、Weave は指定した Call に関するデータのみを返し、その子 Call のデータは含まれません。
+
+<div id="threads">
+  ## スレッド
+</div>
+
+スレッドは、1 つのセッションまたは会話に関連するトレースのコレクションです。スレッド を使用すると、個々の Call ではなく、会話全体を分析したり、スコアを付けたりできます。
+
+次の図は、スレッド、トレース、Call の関係を示しています。
+
+```text
+Thread: "session-abc"
+  ├── Turn 1 (trace_id: aaa) -> user says "Hi"
+  │     ├── LLM call
+  │     └── format response
+  ├── Turn 2 (trace_id: bbb) -> user says "What is the capital of France?"
+  │     ├── RAG retrieval
+  │     ├── LLM call
+  │     └── format response
+  └── Turn 3 (trace_id: ccc) -> user says "Thanks"
+        └── LLM call
+```

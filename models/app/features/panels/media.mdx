@@ -1,5 +1,7 @@
 ---
 title: Media panels
+description: "Add and configure media panels for images, video, audio, 3D objects, and point clouds in a W&B workspace."
+keywords: ["media panel", "point cloud", "bounding box", "segmentation mask", "compare mode"]
 ---
 
 A media panel visualizes [logged keys for media objects](/models/track/log/media/), including 3D objects, audio, images, video, or point clouds. This page shows how to add and manage media panels in a workspace.
@@ -9,77 +11,102 @@ A media panel visualizes [logged keys for media objects](/models/track/log/media
 </Frame>
 
 ## Add a media panel
-To add a media panel for a logged key using the default configuration, use Quick Add. You can add a media panel globally or to a specific section.
+
+You can add a media panel using Quick Add (which applies the default configuration) or by adding it manually so you can configure it as you create it. In either case, you can add the panel globally to the workspace or to a specific section.
+
+To add a media panel for a logged key using the default configuration, use Quick Add:
 
 1. **Global**: Click **Add panels** in the control bar near the panel search field.
-1. **Section**: Click the section's action `...` menu, then click **Add panels**.
+1. **Section**: Click the section's **action (<Icon icon="ellipsis" iconType="solid"/>)** menu, then click **Add panels**.
 1. In the list of available panels, find the key for the panel, then click **Add**. Repeat this step for each media panel you want to add, then click the **X** at the top right to close the **Quick Add** list.
 1. Optionally, [configure the panel](#configure-a-media-panel).
 
-You can add a media panel globally or to a specific section:
+To add a media panel manually so that you can configure it during creation:
+
 1. **Global**: Click **Add panels** in the control bar near the panel search field.
-1. **Section**: Click the section's action `...` menu, then click **Add panels**.
+1. **Section**: Click the section's **action (<Icon icon="ellipsis" iconType="solid"/>)** menu, then click **Add panels**.
 1. Click the **Media** section to expand it.
-1. Select the type of media the panel visualizes, 3d objects, images, video, or audio. The panel configuration screen displays. Configure the panel, then click **Apply**. Refer to [Configure a media panel](#configure-a-media-panel).
+1. Select the type of media the panel visualizes, 3D objects, images, video, or audio. The panel configuration screen displays. Configure the panel, then click **Apply**. Refer to [Configure a media panel](#configure-a-media-panel).
 
 ## Configure a media panel
-Panels for all media types have the same options.
 
-When you add a media panel manually, its configuration page opens after you select the type of media. To update the configuration for an existing panel, hover over the panel, then click the gear icon that appears at the top right. This section describes the settings available in each tab.
+Panels for all media types have the same options, so the following steps apply regardless of which media type you're working with.
+
+When you add a media panel manually, its configuration page opens after you select the type of media. To update the configuration for an existing panel, hover over the panel, then click the gear icon that appears at the top right. The following sections describe the settings available in each tab.
 
 ### Overlays
-This tab appears for images and point clouds logged with segmentation masks or bounding boxes.
+
+This tab appears for images and point clouds logged with segmentation masks or bounding boxes. Use it to:
+
 - Search and filter overlays by name.
 - Customize overlay colors.
 
 ### Sync
-This tab appears in the workspace and section settings.
+
+This tab appears in the workspace and section settings, and provides the following settings:
+
 - **Sync slider by key**: Configure whether the step sliders for videos in the section move in sync.
-- **Autoplay videos**: Configure whether videos start playing when the page is loaded. 
+- **Autoplay videos**: Configure whether videos start playing when the page loads.
 - **Loop videos**: Configure whether videos in the section restart automatically and play continuously until stopped. Not customizable at the section level. Appears only if the workspace has video media panels.
 
 ### Display
-Customize the panel's overall appearance and behavior.
+
+Customize the panel's overall appearance and behavior:
+
 - Configure the panel's title.
 - Select the media keys to visualize.
 - Customize the panel's slider and playback behavior.
   - Configure the slider key, which defaults to **Step**.
   - Set **Stride length** to the number of steps to advance for each click of the slider.
-  - Turn on or off **Snap to existing step**. If it is turned on, the stepper advances to the next existing step after **Stride length**. Otherwise, it advances by **Stride length** even if that does not align with an existing step.
+  - Turn on or off **Snap to existing step**. If it's turned on, the stepper advances to the next existing step after **Stride length**. Otherwise, it advances by **Stride length** even if that doesn't align with an existing step.
 - **Images**: Turn on or off smoothing.
+- **Videos**: Configure the video seek step interval, which controls how far forward or backward to skip when using the left and right arrow keys.
 - **3d objects**: Configure the background color and point color.
 
 ### Layout
-Customize the display of the panel's individual items.
-- Turn on or off **Grid mode**.
-  - When it is turned on, you can choose a custom X and Y axis to plot on top of each item. More than one item displays in each row, and you limit how many rows to show.
-  - When it is turned off, you can customize the number of columns to use for the panel's content, and you can configure the panel's content, which defaults to **Run**.
+
+Customize the display of the panel's individual items:
+
 - Optionally limit the **Max runs to include** in the panel.
 - Optionally specify a **Media display limit** to limit the number of media items to include per run.
-- **Images and videos**: Turn on or off display of full-size media.
-- **Images**: When **Fit media** is turned on, resize the panel's media to fit the panel's size.
-- **Point clouds**: Optionally turn on the right-handed system for plotting points, rather than the default left-handed system.
+- Set **Panel mode**:
+    - **Gallery** (default): Specify the number of columns and whether the grid shows a single item per run (default), step, or index.
+    - **Grid**: Specify the number of columns, the x axis (defaults to **Log Step**), and the y axis (defaults to **Run**).
+    - **Compare**: Compare up to four media items side by side, optionally fanning out by step or index. See [Compare mode](#compare-mode) for details.
+- **Use original size**: If off (default), W&B scales images and videos in the panel to appear the same size. No effect in **Compare** mode.
+- Configure media fit and scaling behavior:
+    - **Images**: Choose one of **Original image**, **Original size**, or **Fit to available space**. With the latter, W&B scales images in the panel to take up as much room as possible. In **Gallery** mode, each image fills the panel width. In **Grid** mode, each image fills the grid width. No effect in **Compare** mode.
+    - **Videos**: Toggle **Use original size** to control whether to scale media to appear the same size. If inactive (default), W&B scales videos in the panel to take up as much room as possible. In **Gallery** mode, each video fills the panel width. In **Grid** mode, each video fills the grid width. No effect in **Compare** mode.
+- **Right-handed system**: If on, point clouds use the right-handed system for plotting points, rather than the default left-handed system.
 
 ### All media panels in a section
+
+Configure section-level defaults when you want every media panel in a section to share the same settings, overriding any workspace-level defaults.
+
 To customize the default settings for all media panels in a section, overriding workspace settings for media panels:
+
 1. Click the section's gear icon to open its settings.
 1. Click **Media settings**.
-1. Within the drawer that appears, click the **Display**, **Layout**, or **Sync** tab to configure the default media settings for the section. You can configure settings for images, videos, audio, and 3d objects. The settings that appear depend on the section's current media panels.
+1. Within the drawer that appears, click the **Display**, **Layout**, or **Sync** tab to configure the default media settings for the section. You can configure settings for images, videos, audio, and 3D objects. The settings that appear depend on the section's current media panels.
 
 Refer to [Configure a media panel](#configure-a-media-panel) for details about a specific setting for **Display** or **Layout** media setting. The **Sync** tab is available only at the section or workspace level, not for individual media panels.
 
 When **Step slider syncing** is turned on, the section's media panels with the same step slider are kept in sync. To turn on step slider syncing:
 
-    1. Click the **Sync** tab.
-    1. Turn on **Sync slider by key (Step)**.
+1. Click the **Sync** tab.
+1. Turn on **Sync slider by key (Step)**.
 
-### All media panels in a workspace 
+### All media panels in a workspace
+
+Configure workspace-level defaults when you want a consistent baseline for media panels across every section in the workspace.
+
 To customize the default settings for all media panels in a workspace:
+
 1. Click the workspace's settings, which has a gear with the label **Settings**.
 1. Click **Media settings**.
-1. Within the drawer that appears, click the **Display** or **Layout** tab to configure the default media settings for the workspace. You can configure settings for images, videos, audio, and 3d objects. The settings that appear depend on the workspace's current media panels.
+1. Within the drawer that appears, click the **Display** or **Layout** tab to configure the default media settings for the workspace. You can configure settings for images, videos, audio, and 3D objects. The settings that appear depend on the workspace's current media panels.
 
-With the exception of the **Sync** tab, refer to [Configure a media panel](#configure-a-media-panel) for details about a setting. The **Sync** tab is available only at the section or workspace level, not for individual media panels.
+Except for the **Sync** tab, refer to [Configure a media panel](#configure-a-media-panel) for details about a setting. The **Sync** tab is available only at the section or workspace level, not for individual media panels.
 
 When **Step slider syncing** is turned on, the section's media panels with the same step slider are kept in sync. To turn on step slider syncing:
 
@@ -88,12 +115,50 @@ When **Step slider syncing** is turned on, the section's media panels with the s
 
 For details about each setting, refer to [Configure a media panel](#configure-a-media-panel).
 
+## Compare mode
+
+Compare mode lets you select two to four images or videos from any combination of runs, steps, or indices and view them in a single grid. You can compare media without downloading one or more files or switching tabs.
+
+Use compare mode to:
+
+- Confirm that a new checkpoint or run produces better outputs than a baseline or previous checkpoint.
+- Catch regressions by comparing the current run to a known good checkpoint at the same step or index.
+- Validate model outputs against ground truth by viewing reference and generated media side by side.
+- Review how generated images or videos change across training steps or across different checkpoints or runs.
+
+Compare mode is useful for image or video generation workflows like diffusion or generative models, multimodal evaluation, vision experiments, and other workflows where you log media and need to compare it across runs, steps, or indices.
+
+To use compare mode:
+
+1. Open a media panel in your workspace (for images or video).
+1. Set **Panel mode** to **Compare**.
+1. Configure the grid's dimensions and density by specifying the number of columns and the fan-out mode. The best grid geometry depends on how your runs log media.
+    - **Number of columns**: How many items to show per row, from `1` to `4`.
+    - **Fan out**: Control the granularity of media to display per grid row. The best setting depends on how many media items you log per step per run, and whether you need a quick spot check or deep analysis.
+        - **None** (default): No fan-out. Each grid column represents a run, and each grid row represents a logged image or video.
+            <Frame>![Media panel in compare mode with two runs and no fan out](/images/models/compare-mode-fan-out-none.png)</Frame>
+        - **Step**: Fan out along the step axis. Each grid column represents a run, and each grid row shows the first image or video logged at a run:step combination.
+            <Frame>![Media panel in compare mode with two runs and fan out by step](/images/models/compare-mode-fan-out-by-step.png)</Frame>
+        - **Index**: Fan out along the index axis, useful when you log several items per step (for example, `run.log({"images": [img0, img1, img2, img3]})`). Each row cell shows the image or video logged at a given run:step:index combination.
+            <Frame>![Media panel in compare mode with two runs and fan out by index](/images/models/compare-mode-fan-out-by-index.png)</Frame>
+1. Configure whether a given variable affects a single tile (**Individual**) or all tiles (**Linked**).
+    - **Media key**: Defaults to **Linked**.
+    - **Run**: Defaults to **Individual**.
+    - **Step**: Defaults to **Linked**.
+    - **Index**: Defaults to **Linked**.
+
+W&B saves your selection so you can return to the same comparison later without reconfiguring the panel.
+
 ## Interact with a media panel
+
+After you add and configure a media panel, use the following interactions to step through, compare, and inspect logged media:
+
+- To configure a media panel, hover over it and click the gear icon at the top.
+- To move a media panel's step slider, use **Cmd + left or right arrow key** (macOS) or **Ctrl + left or right arrow key** (Windows or Linux). If **Sync slider by key** is turned on for the section or workspace, moving the step slider in one media panel also moves the step slider in other media panels with the same step slider key.
+- Use the stepper at the top of a media panel to step through media runs. To move the step slider, use the UI controls.
 - Click a media panel to view it in full-screen mode. Click the arrow button at the top of the panel to exit full-screen mode.
 - To navigate through a section's panels without exiting full-screen mode, use either the **Previous** and **Next** buttons below the panel or the left and right arrow keys.
-- To move a media panel's step slider, use **CMD + left or right arrow key** (macOS) or **Ctrl + left or right arrow key** (Windows / Linux). If **Sync slider by key** is turned on for the section or workspace, moving the step slider in one media panel also moves the step slider in other media panels with the same step slider key.
-- Use the stepper at the top of a media panel to step through media runs. To move the step slider, use the UI controls.
-- Use the media controls to play, pause, or stop video playback. If **Sync video playback** is turned on, all videos in the section play in sync. If **Loop videos** is turned on, videos in the section restart automatically and play continuously until stopped.
-- To configure a media panel, hover over it and click the gear icon at the top.
+- When viewing an image in full-screen mode, click the zoom control at the top right to zoom in or out. By default, images zoom to fit. Click and drag to pan a zoomed-in image. You can also zoom in, zoom out, reset to 100% zoom, or zoom to fit using keyboard shortcuts. See [Keyboard shortcuts](/models/app/keyboard-shortcuts#media-panels).
 - For an image that was logged with segmentation masks, you can customize their appearance or turn each one on or off. Hover over the panel, then click the lower gear icon.
 - For an image or point cloud that was logged with bounding boxes, you can customize their appearance or turn each one on or off. Hover over the panel, then click the lower gear icon.
+- Use the media controls to play, pause, or stop video playback. Use the left and right arrow keys to skip forward or backward by the configured **video seek step**. If **Sync video playback** is turned on, all videos in the section play in sync. If **Loop videos** is turned on, videos in the section restart automatically and play continuously until stopped.

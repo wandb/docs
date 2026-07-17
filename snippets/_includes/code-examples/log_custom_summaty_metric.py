@@ -1,0 +1,21 @@
+"""
+Log a custom summary metric to W&B.
+
+Replace:
+- values enclosed in angle brackets with your own
+- <summary_function_a> and <summary_function_b> in run.define_metric() with
+    one of "max", "min", "last", "mean", "best", or "none".
+"""
+import wandb
+import random
+
+with wandb.init() as run:
+    # summary_function_a and summary_function_b summary values for metric_name_a
+    run.define_metric(name="<metric_name_a>", summary="<summary_function_a>")
+    run.define_metric(name="<metric_name_a>", summary="<summary_function_b>")
+
+    for i in range(10):
+        log_dict = {
+            "metric_name_a": random.uniform(0, 1 / (i + 1)),
+        }
+        run.log(log_dict)

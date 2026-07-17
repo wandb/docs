@@ -2,15 +2,29 @@
 title: wandb server stop
 ---
 
-**사용법**
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-`wandb server stop [OPTIONS]`
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/cli.py#L2811" />
 
-**요약**
+<div id="usage">
+  ## 사용
+</div>
 
-로컬 W&B 서버를 중지합니다.
+```bash
+stop [OPTIONS]
+```
 
-**옵션**
+<div id="description">
+  ## 설명
+</div>
 
-| **옵션** | **설명** |
-| :--- | :--- |
+실행 중인 로컬 W&amp;B 서버를 중지합니다.
+
+`wandb server start`로 시작된 `wandb-local`이라는 이름의 도커 컨테이너를 중지합니다.
+이 기능을 사용하려면 Docker가 설치되어 있어야 합니다.
+
+예를 들어, 로컬 W&amp;B 서버를 중지하려면 다음과 같이 하세요.
+
+```bash
+wandb server stop
+```

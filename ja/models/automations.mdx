@@ -1,0 +1,93 @@
+---
+title: オートメーション の概要
+sidebarTitle: 概要
+description: W&B で発生するイベントに応じてワークフローをトリガーするには、W&B オートメーション を使用します
+---
+
+import AutomationsMentalModel from "/snippets/ja/_includes/automations/mental-model.mdx";
+import AutomationsActionsList from "/snippets/ja/_includes/automations/actions-list.mdx";
+import AutomationsBestPractices from "/snippets/ja/_includes/automations/best-practices.mdx";
+import AutomationsWhereToFind from "/snippets/ja/_includes/automations/where-to-find-automations.mdx";
+
+オートメーション は、**projects** と **レジストリ** の両方で利用できます。オートメーションを作成する場所、使用できるイベント、スコープの仕組みは、それぞれ異なります。スコープごとのイベントタイプについては、[Automation events and scopes](/ja/models/automations/automation-events) を参照してください。
+
+<AutomationsMentalModel />
+
+```mermaid
+flowchart LR
+  Event[イベント] --> Condition[条件]
+  Condition --> Action[アクション]
+```
+
+**例:** run が失敗した (イベント) 場合に、必要に応じて run 名フィルター (条件) を指定し、Slack 通知 (アクション) を送信します。別の例: alias `production` が追加された (イベント) 場合に、webhook (アクション) を実行します。
+
+<div id="where-to-create-automations">
+  ## オートメーションを作成できる場所
+</div>
+
+<AutomationsWhereToFind />
+
+<div id="use-cases">
+  ## 使用例
+</div>
+
+* **run の監視とアラート**: run が失敗したときや、メトリクスがしきい値を超えたとき (たとえば、損失が NaN になる、または精度が低下する場合) にチームに通知します。
+* **Registry CI/CD**: 新しいモデル バージョンがリンクされたとき、または alias (`staging` や `production` など) が追加されたときに、webhook をトリガーしてテストを実行したり、デプロイしたりします。
+* **project の artifact ワークフロー**: 新しい artifact バージョンが作成されたとき、または project に alias が追加されたときに、後続のジョブを実行したり、Slack に投稿したりします。
+
+イベントとスコープの詳細については、[Automation events and scopes](/ja/models/automations/automation-events) を参照してください。
+
+<div id="automation-actions">
+  ## オートメーションアクション
+</div>
+
+イベントによってオートメーションがトリガーされると、次のいずれかのアクションを実行できます。
+
+<AutomationsActionsList />
+
+実装の詳細については、[Slack オートメーションの作成](/ja/models/automations/create-automations/slack) および [webhook オートメーションの作成](/ja/models/automations/create-automations/webhook) を参照してください。
+
+<div id="how-automations-work">
+  ## オートメーションの動作
+</div>
+
+[オートメーションを作成](/ja/models/automations/create-automations)するには、次の手順を行います。
+
+1. 必要に応じて、アクセストークン、パスワード、機密性の高い設定の詳細など、オートメーションで必要になる機密文字列のために[シークレット](/ja/platform/secrets)を設定します。シークレットは **Team Settings** で定義します。シークレットは、主に webhook オートメーションで、認証情報やトークンを平文で公開したり webhook のペイロードにハードコードしたりすることなく、webhook の外部サービスに安全に渡すために使用されます。
+2. チームレベルの webhook または Slack インテグレーションを設定して、W&amp;B が Slack に投稿したり、ユーザーに代わって webhook を実行したりできるようにします。1 つのオートメーションアクション (webhook または Slack 通知) を複数のオートメーションで使用できます。これらのアクションは **Team Settings** で定義します。
+3. project または レジストリ で、オートメーションを作成します。
+   1. 監視する[イベント](/ja/models/automations/automation-events)を定義します。たとえば、新しい artifact バージョンが追加されたときです。
+   2. イベント発生時に実行するアクション (Slack チャンネルへの投稿や webhook の実行) を定義します。webhook の場合は、必要に応じて、アクセストークンに使用するシークレットや、ペイロードとともに送信するシークレットを指定します。
+
+<div id="recommendations">
+  ## 推奨事項
+</div>
+
+<AutomationsBestPractices />
+
+<div id="limitations">
+  ## 制限事項
+</div>
+
+[run メトリクス Automations](/ja/models/automations/automation-events/#run-metrics-events) と [run メトリクスの z-score 変化 Automations](/ja/models/automations/automation-events/#run-metrics-z-score-change-automations) は、現在 [W&amp;B Multi-tenant Cloud](/ja/platform/hosting/#wb-multi-tenant-cloud) でのみサポートされています。
+
+<div id="next-steps">
+  ## 次のステップ
+</div>
+
+* [オートメーションのチュートリアル](/ja/models/automations/tutorial): run の失敗を通知する project オートメーションと、alias が追加されたときに webhook を実行する Registry オートメーションの作成方法を案内します。このチュートリアルでは W&amp;B App を使用します。
+* [オートメーションを作成](/ja/models/automations/create-automations)。
+* [オートメーションのイベントとスコープ](/ja/models/automations/automation-events)。
+* [シークレットを作成](/ja/platform/secrets)。
+
+{/* Python SDK の `create_automation` のリグレッションが修正されたら、上の Create の箇条書きの後に戻します（内部 WB-34263）:
+  - [API でオートメーションを管理](/models/automations/api).
+  */}
+
+<Info>
+  オートメーションに関する関連チュートリアルをお探しですか？
+
+  * [モデルの評価とデプロイのために GitHub Action を自動でトリガーする方法を学ぶ](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw).
+  * [モデルを SageMaker エンドポイントに自動デプロイするデモ動画を見る](https://www.youtube.com/watch?v=s5CMj_w3DaQ).
+  * [オートメーションを紹介する動画シリーズを見る](https://youtube.com/playlist?list=PLD80i8An1OEGECFPgY-HPCNjXgGu-qGO6\&feature=shared).
+</Info>

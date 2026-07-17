@@ -1,0 +1,34 @@
+---
+title: Aperçu
+description: "Découvrez comment créer, comparer et visualiser des Eval Tables dans W&B."
+---
+
+Les Eval Tables vous aident à comparer les scores agrégés ainsi que les entrées, sorties et scores du modèle pour chaque exemple sur plusieurs exécutions. Utilisez une Eval Table pour comparer des versions de modèle ou des étapes d&#39;entraînement, examiner les variations des scores agrégés et analyser les exemples à l&#39;origine des changements de performances du modèle.
+
+L&#39;image suivante montre une Eval Table appelée `"validation_prediction_eval"` qui compare deux exécutions, `"summer-butterfly-9"` et `"gentle-flower-8"` :
+
+<Frame>
+  <img src="/images/evaltables/overview_basic_compare_two_runs_landing_page_notlabled.png" alt="Vue de l'Eval Table" />
+</Frame>
+
+Un panneau **Eval Table** contient trois sections :
+
+1. Sélecteur de comparaison des exécutions : sélectionnez les [exécutions que vous souhaitez comparer](/fr/models/evaltables/compare-runs).
+2. Scores agrégés : examinez les scores agrégés des exécutions sélectionnées et comparez les différences entre elles. Pour plus d&#39;informations, voir [Afficher les scores agrégés](/fr/models/evaltables/compare-runs#aggregate-scores).
+3. Exemples : comparez les entrées, sorties et scores de chaque exemple entre les exécutions sélectionnées.
+
+L&#39;image suivante met en évidence chaque section du panneau :
+
+<Frame>
+  <img src="/images/evaltables/overview_basic_compare_two_runs_landing_page.png" alt="Vue de l'Eval Table" />
+</Frame>
+
+[Créez une Eval Table avec la classe `EvalTable` du SDK Python W&amp;B](/fr/models/evaltables/create-an-evaluation-table).
+
+Les [tableaux W&amp;B](/fr/models/tables) existants peuvent également être convertis en Eval Tables avec ARIA. Pour plus d&#39;informations, voir [Convertir un tableau W&amp;B en Eval Table](/fr/models/evaltables/create-an-evaluation-table#convert-a-w\&b-table-to-an-eval-table).
+
+<Tip>
+  Convertissez des tableaux W&amp;B existants en Eval Tables pour améliorer les performances de rendu et accéder à des fonctionnalités de comparaison supplémentaires.
+</Tip>
+
+Pour créer votre première Eval Table, voir [Créer une Eval Table](/fr/models/evaltables/create-an-evaluation-table).

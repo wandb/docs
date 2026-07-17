@@ -1,18 +1,51 @@
 ---
-title: wandb アーティファクト cache cleanup
+title: wandb artifact cache cleanup
 ---
 
-**使用方法**
+import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
 
-`wandb artifact cache cleanup [OPTIONS] TARGET_SIZE`
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/cli.py#L3085" />
 
-**概要**
+<div id="usage">
+  ## 使用方法
+</div>
 
-Artifactsのキャッシュから、使用頻度の低いファイルをクリーンアップします
+```bash
+cleanup [OPTIONS] TARGET_SIZE
+```
 
+<div id="description">
+  ## 説明
+</div>
 
-**オプション**
+ローカルの artifact キャッシュのサイズを削減します。
 
-| **オプション** | **説明** |
-| :--- | :--- |
-| `--remove-temp / --no-remove-temp` | 一時ファイルを削除します |
+キャッシュが TARGET&#95;SIZE 以下になるまで、最後にアクセスされた日時が最も古いファイルから順に削除します。TARGET&#95;SIZE には、人間が読みやすい形式 (たとえば 10GB や 500MB) を指定できます。
+
+たとえば、artifact キャッシュを 10 GB に削減するには、次のようにします。
+
+```bash
+wandb artifact cache cleanup 10GB
+```
+
+一時ファイルを削除し、Artifact キャッシュを 5 GB まで減らすには:
+
+```bash
+wandb artifact cache cleanup --remove-temp 5GB
+```
+
+<div id="arguments">
+  ## 引数
+</div>
+
+| 名             | デフォルト | タイプ  |
+| ------------- | ----- | ---- |
+| `target_size` | STR   | True |
+
+<div id="options">
+  ## オプション
+</div>
+
+| フラグ             | タイプ      | 説明                                   |
+| --------------- | -------- | ------------------------------------ |
+| `--remove-temp` | BOOL フラグ | キャッシュから一時ファイルも削除します。**デフォルト**: False |

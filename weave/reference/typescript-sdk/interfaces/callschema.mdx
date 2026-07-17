@@ -1,11 +1,7 @@
 ---
-title: "Interface: CallSchema"
+title: "CallSchema"
 description: "TypeScript SDK reference"
 ---
-
-[weave](../) / CallSchema
-
-
 
 CallSchema
 
@@ -18,6 +14,7 @@ CallSchema
 - [display\_name](./callschema#display_name)
 - [ended\_at](./callschema#ended_at)
 - [exception](./callschema#exception)
+- [expire\_at](./callschema#expire_at)
 - [id](./callschema#id)
 - [inputs](./callschema#inputs)
 - [op\_name](./callschema#op_name)
@@ -25,22 +22,29 @@ CallSchema
 - [parent\_id](./callschema#parent_id)
 - [project\_id](./callschema#project_id)
 - [started\_at](./callschema#started_at)
+- [storage\_size\_bytes](./callschema#storage_size_bytes)
 - [summary](./callschema#summary)
+- [thread\_id](./callschema#thread_id)
+- [total\_storage\_size\_bytes](./callschema#total_storage_size_bytes)
 - [trace\_id](./callschema#trace_id)
+- [turn\_id](./callschema#turn_id)
 - [wb\_run\_id](./callschema#wb_run_id)
+- [wb\_run\_step](./callschema#wb_run_step)
+- [wb\_run\_step\_end](./callschema#wb_run_step_end)
 - [wb\_user\_id](./callschema#wb_user_id)
+- [wb\_username](./callschema#wb_username)
 
 ## Properties
 
 ### attributes
 
-• **attributes**: `object`
+• **attributes**: `Record`\<`string`, `any`\>
 
 Attributes
 
 #### Defined in
 
-[generated/traceServerApi.ts:118](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/generated/traceServerApi.ts#L118)
+[src/generated/traceServerApi.ts:1870](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1870)
 
 ___
 
@@ -52,7 +56,7 @@ Deleted At
 
 #### Defined in
 
-[generated/traceServerApi.ts:133](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/generated/traceServerApi.ts#L133)
+[src/generated/traceServerApi.ts:1891](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1891)
 
 ___
 
@@ -64,7 +68,7 @@ Display Name
 
 #### Defined in
 
-[generated/traceServerApi.ts:107](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/generated/traceServerApi.ts#L107)
+[src/generated/traceServerApi.ts:1855](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1855)
 
 ___
 
@@ -76,7 +80,7 @@ Ended At
 
 #### Defined in
 
-[generated/traceServerApi.ts:122](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/generated/traceServerApi.ts#L122)
+[src/generated/traceServerApi.ts:1874](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1874)
 
 ___
 
@@ -88,7 +92,20 @@ Exception
 
 #### Defined in
 
-[generated/traceServerApi.ts:124](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/generated/traceServerApi.ts#L124)
+[src/generated/traceServerApi.ts:1876](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1876)
+
+___
+
+### expire\_at
+
+• `Optional` **expire\_at**: ``null`` \| `string`
+
+Expire At
+Expiration timestamp for this call. None = no TTL configured for the project (the row will not be expired).
+
+#### Defined in
+
+[src/generated/traceServerApi.ts:1896](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1896)
 
 ___
 
@@ -100,19 +117,19 @@ Id
 
 #### Defined in
 
-[generated/traceServerApi.ts:101](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/generated/traceServerApi.ts#L101)
+[src/generated/traceServerApi.ts:1849](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1849)
 
 ___
 
 ### inputs
 
-• **inputs**: `object`
+• **inputs**: `Record`\<`string`, `any`\>
 
 Inputs
 
 #### Defined in
 
-[generated/traceServerApi.ts:120](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/generated/traceServerApi.ts#L120)
+[src/generated/traceServerApi.ts:1872](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1872)
 
 ___
 
@@ -124,7 +141,7 @@ Op Name
 
 #### Defined in
 
-[generated/traceServerApi.ts:105](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/generated/traceServerApi.ts#L105)
+[src/generated/traceServerApi.ts:1853](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1853)
 
 ___
 
@@ -136,7 +153,7 @@ Output
 
 #### Defined in
 
-[generated/traceServerApi.ts:126](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/generated/traceServerApi.ts#L126)
+[src/generated/traceServerApi.ts:1878](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1878)
 
 ___
 
@@ -148,7 +165,7 @@ Parent Id
 
 #### Defined in
 
-[generated/traceServerApi.ts:111](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/generated/traceServerApi.ts#L111)
+[src/generated/traceServerApi.ts:1859](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1859)
 
 ___
 
@@ -160,7 +177,7 @@ Project Id
 
 #### Defined in
 
-[generated/traceServerApi.ts:103](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/generated/traceServerApi.ts#L103)
+[src/generated/traceServerApi.ts:1851](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1851)
 
 ___
 
@@ -176,17 +193,53 @@ date-time
 
 #### Defined in
 
-[generated/traceServerApi.ts:116](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/generated/traceServerApi.ts#L116)
+[src/generated/traceServerApi.ts:1868](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1868)
+
+___
+
+### storage\_size\_bytes
+
+• `Optional` **storage\_size\_bytes**: ``null`` \| `number`
+
+Storage Size Bytes
+
+#### Defined in
+
+[src/generated/traceServerApi.ts:1898](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1898)
 
 ___
 
 ### summary
 
-• `Optional` **summary**: `object`
+• `Optional` **summary**: `Record`\<`string`, `any`\>
 
 #### Defined in
 
-[generated/traceServerApi.ts:127](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/generated/traceServerApi.ts#L127)
+[src/generated/traceServerApi.ts:1879](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1879)
+
+___
+
+### thread\_id
+
+• `Optional` **thread\_id**: ``null`` \| `string`
+
+Thread Id
+
+#### Defined in
+
+[src/generated/traceServerApi.ts:1861](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1861)
+
+___
+
+### total\_storage\_size\_bytes
+
+• `Optional` **total\_storage\_size\_bytes**: ``null`` \| `number`
+
+Total Storage Size Bytes
+
+#### Defined in
+
+[src/generated/traceServerApi.ts:1900](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1900)
 
 ___
 
@@ -198,7 +251,19 @@ Trace Id
 
 #### Defined in
 
-[generated/traceServerApi.ts:109](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/generated/traceServerApi.ts#L109)
+[src/generated/traceServerApi.ts:1857](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1857)
+
+___
+
+### turn\_id
+
+• `Optional` **turn\_id**: ``null`` \| `string`
+
+Turn Id
+
+#### Defined in
+
+[src/generated/traceServerApi.ts:1863](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1863)
 
 ___
 
@@ -210,7 +275,31 @@ Wb Run Id
 
 #### Defined in
 
-[generated/traceServerApi.ts:131](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/generated/traceServerApi.ts#L131)
+[src/generated/traceServerApi.ts:1885](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1885)
+
+___
+
+### wb\_run\_step
+
+• `Optional` **wb\_run\_step**: ``null`` \| `number`
+
+Wb Run Step
+
+#### Defined in
+
+[src/generated/traceServerApi.ts:1887](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1887)
+
+___
+
+### wb\_run\_step\_end
+
+• `Optional` **wb\_run\_step\_end**: ``null`` \| `number`
+
+Wb Run Step End
+
+#### Defined in
+
+[src/generated/traceServerApi.ts:1889](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1889)
 
 ___
 
@@ -222,4 +311,16 @@ Wb User Id
 
 #### Defined in
 
-[generated/traceServerApi.ts:129](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/generated/traceServerApi.ts#L129)
+[src/generated/traceServerApi.ts:1881](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1881)
+
+___
+
+### wb\_username
+
+• `Optional` **wb\_username**: ``null`` \| `string`
+
+Wb Username
+
+#### Defined in
+
+[src/generated/traceServerApi.ts:1883](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1883)

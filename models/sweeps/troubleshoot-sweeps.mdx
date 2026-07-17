@@ -1,74 +1,80 @@
 ---
-description: Troubleshoot common W&B Sweep issues.
+description: "Troubleshoot common sweep issues including CommError, CUDA out of memory, and wandb agent failures."
 title: Sweeps troubleshooting
 ---
 
-Troubleshoot common error messages with the guidance suggested.
+This page helps you diagnose and resolve common error messages you might encounter when you run W&B Sweeps. The following sections describe an error, explain why it occurs, and recommend how to fix it.
 
-### `CommError, Run does not exist` and `ERROR Error uploading`
+## `CommError, Run does not exist` and `ERROR Error uploading`
 
-Your W&B Run ID might be defined if these two error messages are both returned. As an example, you might have a similar code snippet defined somewhere in your Jupyter Notebooks or Python script:
+Your W&B run ID might be defined if W&B returns both of these error messages. For example, you might have a similar code snippet defined somewhere in your Jupyter Notebooks or Python script:
 
 ```python
 wandb.init(id="some-string")
 ```
 
-You can not set a Run ID for W&B Sweeps because W&B automatically generates random, unique IDs for Runs created by W&B Sweeps.
+You can't set a run ID for sweeps because W&B automatically generates random, unique IDs for runs that sweeps create.
 
-W&B Run IDs need to be unique within a project.
+W&B run IDs need to be unique within a project.
 
-We recommend you pass a name to the name parameter when you initialized W&B, if you want to set a custom name that will appear on tables and graphs. For example:
+If you want to set a custom name that appears on tables and graphs, pass a name to the `name` parameter when you initialize W&B. For example:
 
 ```python
 wandb.init(name="a helpful readable run name")
 ```
 
-### `Cuda out of memory`
+After you remove the `id` argument from `wandb.init()`, the sweep can assign its own unique run IDs, and the upload errors stop.
 
-Refactor your code to use process-based executions if you see this error message. More specifically, rewrite your code to a Python script. In addition, call the W&B Sweep Agent from the CLI, instead of the W&B Python SDK.
+## `CUDA out of memory`
 
-As an example, suppose you rewrite your code to a Python script called  `train.py`. Add the name of the training script (`train.py`) to your YAML Sweep configuration file (`config.yaml` in this example):
+If you see this error message, refactor your code to use process-based executions. When you run each trial in its own process, W&B releases GPU memory between runs.
 
-```yaml
-program: train.py
-method: bayes
-metric:
-  name: validation_loss
-  goal: maximize
-parameters:
-  learning_rate:
-    min: 0.0001
-    max: 0.1
-  optimizer:
-    values: ["adam", "sgd"]
-```
+To refactor your code, complete the following steps:
 
-Next, add the following to your `train.py` Python script:
+1. Rewrite your code as a Python script called `train.py`. Add the name of the training script (`train.py`) to your YAML sweep configuration file (`config.yaml` in this example):
 
-```python
-if _name_ == "_main_":
-    train()
-```
+   ```yaml
+   program: train.py
+   method: bayes
+   metric:
+     name: validation_loss
+     goal: maximize
+   parameters:
+     learning_rate:
+       min: 0.0001
+       max: 0.1
+     optimizer:
+       values: ["adam", "sgd"]
+   ```
 
-Navigate to your CLI and initialize a W&B Sweep with wandb sweep:
+2. Add the following to your `train.py` Python script:
 
-```shell
-wandb sweep config.yaml
-```
+   ```python
+   if __name__ == "__main__":
+       train()
+   ```
 
-Make a note of the W&B Sweep ID that is returned. Next, start the Sweep job with [`wandb agent`](/models/ref/cli/wandb-agent) with the CLI instead of the Python SDK ([`wandb.agent`](/models/ref/python/functions/agent)). Replace `sweep_ID` in the code snippet below with the Sweep ID that was returned in the previous step:
+3. From your CLI, initialize a sweep with `wandb sweep`:
 
-```shell
-wandb agent sweep_ID
-```
+   ```bash
+   wandb sweep config.yaml
+   ```
 
-### `anaconda 400 error`
+4. Note the sweep ID that W&B returns. Start the sweep job with [`wandb agent`](/models/ref/cli/wandb-agent) from the CLI instead of the Python SDK ([`wandb.agent()`](/models/ref/python/functions/agent)). Replace `[SWEEP-ID]` in the following code snippet with the sweep ID that W&B returned in the previous step:
 
-The following error usually occurs when you do not log the metric that you are optimizing:
+   ```bash
+   wandb agent [SWEEP-ID]
+   ```
 
-```shell
+With your training code running as a script under the CLI agent, each trial executes in its own process, and W&B releases GPU memory between runs.
+
+## `anaconda 400 error`
+
+The following error usually occurs when you don't log the metric you're optimizing:
+
+```text
 wandb: ERROR Error while calling W&B API: anaconda 400 error: 
 {"code": 400, "message": "TypeError: bad operand type for unary -: 'NoneType'"}
 ```
 
-Within your YAML file or nested dictionary you specify a key named "metric" to optimize. Ensure that you log (`wandb.log`) this metric. In addition, ensure you use the _exact_ metric name that you defined the sweep to optimize within your Python script or Jupyter Notebook. For more information about configuration files, see [Define sweep configuration](/models/sweeps/define-sweep-configuration/).
+Within your YAML file or nested dictionary, you specify a key named `metric` to optimize. Ensure that you log this metric with `wandb.Run.log()`. Also, ensure you use the exact metric name you defined the sweep to optimize within your Python script or Jupyter Notebook. For more information about configuration files, see [Define sweep configuration](/models/sweeps/define-sweep-configuration).

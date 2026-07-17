@@ -1,0 +1,38 @@
+---
+title: "Comment puis-je corriger une erreur `anaconda 400 error` lors d’un Sweep ?"
+keywords: ["Sweeps", "Métriques"]
+---
+
+Une erreur `anaconda 400 error` lors d’un sweep signifie souvent que vous n’avez pas journalisé la métrique que vous optimisez. Vous pourriez voir :
+
+```text
+wandb: ERROR Error while calling W&B API: anaconda 400 error:
+{"code": 400, "message": "TypeError: bad operand type for unary -: 'NoneType'"}
+```
+
+Le contrôleur de sweep ne trouve pas la métrique dont il a besoin pour comparer les runs. Journalisez exactement la métrique spécifiée dans la configuration de votre sweep. Par exemple, si la configuration de votre sweep spécifie :
+
+```yaml
+metric:
+  name: validation_loss
+  goal: minimize
+```
+
+Ajoutez un appel correspondant à `wandb.log` dans votre boucle d’entraînement :
+
+```python
+# Après avoir calculé validation_loss pour une époque ou une étape :
+# wandb.log({"validation_loss": value})
+```
+
+Le nom de la métrique doit être exactement le même dans votre configuration de sweep et dans votre appel à `wandb.log`.
+
+Pour plus d&#39;informations, voir [Dépannage de Sweeps](/fr/models/sweeps/troubleshoot-sweeps/) et [Définir la configuration du sweep](/fr/models/sweeps/define-sweep-configuration/).
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/fr/support/models/tags/sweeps)</Badge><Badge stroke shape="pill" color="orange" size="md">[Métriques](/fr/support/models/tags/metrics)</Badge>
+
+{/* END GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet */}

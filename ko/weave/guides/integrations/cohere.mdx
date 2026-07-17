@@ -1,0 +1,118 @@
+---
+title: "Cohere"
+description: "Weave를 사용해 Cohere Python 라이브러리를 통해 이루어진 LLM Call을 자동으로 추적하고 로깅합니다"
+---
+
+<a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_cohere.ipynb" aria-label="Google Colab에서 열기">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Colab에서 열기" />
+</a>
+
+`weave.init()`를 호출하면 Weave는 [Cohere Python 라이브러리](https://github.com/cohere-ai/cohere-python)를 통해 이루어진 LLM Call을 자동으로 추적하고 로깅합니다.
+
+<div id="traces">
+  ## 트레이스
+</div>
+
+개발 중은 물론 프로덕션 환경에서도 LLM 애플리케이션의 트레이스를 중앙 데이터베이스에 저장하는 것이 중요합니다. 이러한 트레이스는 디버깅에 사용하고, 애플리케이션을 개선하는 데 도움이 되는 데이터셋으로도 활용합니다.
+
+Weave는 `cohere-python`의 트레이스를 자동으로 캡처합니다. 라이브러리는 평소처럼 사용하세요. 먼저 `weave.init()`를 호출해 시작하세요:
+
+```python lines {8}
+import cohere
+import os
+import weave
+
+# Cohere 라이브러리를 평소처럼 사용하세요
+co = cohere.Client(api_key=os.environ["COHERE_API_KEY"])
+
+weave.init("cohere_project")
+
+response = co.chat(
+    message="How is the weather in Boston?",
+    # 질문에 답하기 전에 웹 검색을 수행합니다. 자체 맞춤형 커넥터를 사용할 수도 있습니다.
+    connectors=[{"id": "web-search"}],
+)
+print(response.text)
+```
+
+`weave.init()`를 호출할 때 W&amp;B team을 지정하지 않으면 Weave는 기본 entity를 사용합니다. 기본 entity를 확인하거나 업데이트하려면 W&amp;B Models 문서의 [User Settings](https://docs.wandb.ai/platform/app/settings-page/user-settings/#default-team)를 참고하세요.
+
+Cohere 모델은 [connectors](https://docs.cohere.com/docs/overview-rag-connectors#using-connectors-to-create-grounded-generations)를 지원하며, 이를 통해 엔드포인트 측에서 다른 API로 요청을 보낼 수 있습니다. 그러면 응답에는 커넥터가 반환한 문서로 연결되는 인용 요소와 함께 생성된 텍스트가 포함됩니다.
+
+[![cohere\_trace.png](/weave/guides/integrations/imgs/cohere_trace.png)](https://wandb.ai/capecape/cohere_dev/weave/calls)
+
+<Note>
+  Weave는 LLM Call을 추적하기 위해 Cohere의 `Client.chat()`, `AsyncClient.chat()`, `Client.chat_stream()`, `AsyncClient.chat_stream()` 메서드를 패치합니다.
+</Note>
+
+<div id="wrap-with-your-own-ops">
+  ## 자체 ops로 래핑하기
+</div>
+
+Weave ops는 실험하는 동안 코드를 자동으로 버전 관리하고 입력과 출력을 캡처하여 결과를 *재현 가능하게* 만듭니다. Cohere의 chat 메서드를 호출하는 함수를 [`@weave.op()`](/ko/weave/guides/tracking/ops)으로 데코레이션해 만들고, Weave가 입력과 출력을 추적합니다. 예시는 다음과 같습니다:
+
+```python lines {9}
+import cohere
+import os
+import weave
+
+co = cohere.Client(api_key=os.environ["COHERE_API_KEY"])
+
+weave.init("cohere_project")
+
+@weave.op()
+def weather(location: str, model: str) -> str:
+    response = co.chat(
+        model=model,
+        message=f"How is the weather in {location}?",
+        # 질문에 답하기 전에 웹 검색을 수행합니다. 자체 맞춤형 커넥터를 사용할 수도 있습니다.
+        connectors=[{"id": "web-search"}],
+    )
+    return response.text
+
+print(weather("Boston", "command"))
+```
+
+[![cohere\_ops.png](/weave/guides/integrations/imgs/cohere_ops.png)](https://wandb.ai/capecape/cohere_dev/weave/calls)
+
+<div id="create-a-model-for-easier-experimentation">
+  ## 더 쉽게 실험할 수 있도록 `Model` 만들기
+</div>
+
+구성 요소가 많아지면 실험을 체계적으로 정리하기가 어렵습니다. [`Model`](/ko/weave/guides/core-types/models) 클래스를 사용하면 시스템 프롬프트나 사용 중인 모델처럼 앱의 실험 관련 세부 정보를 담아 정리할 수 있습니다. 이렇게 하면 앱의 여러 반복 버전을 정리하고 비교하는 데 도움이 됩니다.
+
+[`Model`](/ko/weave/guides/core-types/models)은 코드를 버전 관리하고 입력/출력을 캡처하는 것을 넘어, 애플리케이션의 동작을 제어하는 구조화된 매개변수도 함께 담아 어떤 매개변수가 가장 잘 작동했는지 찾는 데 도움을 줍니다. 또한 Weave Models는 `serve` 및 [`Evaluation`](/ko/weave/guides/core-types/evaluations)과 함께 사용할 수도 있습니다.
+
+다음 예시에서는 `model`과 `temperature`를 바꿔 가며 실험할 수 있습니다. 이 둘 중 하나를 변경할 때마다 `WeatherModel`의 새로운 *version*이 생성됩니다.
+
+```python lines
+import weave
+import cohere
+import os
+
+weave.init('weather-cohere')
+
+class WeatherModel(weave.Model):
+    model: str
+    temperature: float
+  
+    @weave.op()
+    def predict(self, location: str) -> str:
+        co = cohere.Client(api_key=os.environ["COHERE_API_KEY"])
+        response = co.chat(
+            message=f"How is the weather in {location}?",
+            model=self.model,
+            temperature=self.temperature,
+            connectors=[{"id": "web-search"}]
+        )
+        return response.text
+
+weather_model = WeatherModel(
+    model="command",
+    temperature=0.7
+)
+result = weather_model.predict("Boston")
+print(result)
+```
+
+[![cohere\_model.png](/weave/guides/integrations/imgs/cohere_model.png)](https://wandb.ai/capecape/cohere_dev/weave/models)

@@ -1,19 +1,20 @@
 ---
 title: Verifiers
-description: "Track and debug Verifiers RL environments and LLM agent training with Weave, capturing multi-round conversations, evaluation rollouts, and model performance metrics for comprehensive observability of reinforcement learning workflows."
+description: "Track Verifiers RL environments and LLM agent training with Weave, capturing multi-round conversations and evaluation rollouts."
+keywords: ["Verifiers", "reinforcement learning", "RL training", "rollouts", "GSM8K"]
 ---
 
-[Verifiers](https://github.com/willccbb/verifiers) is a library of modular components for creating Reinforcement Learning (RL) environments and training LLM agents. Environments built with Verifiers can serve as LLM evaluations, synthetic data pipelines, agent harnesses for any OpenAI‑compatible endpoint, and RL training.
+[Verifiers](https://github.com/willccbb/verifiers) is a library of modular components for creating Reinforcement Learning (RL) environments and training LLM agents. Environments built with Verifiers can serve as LLM evaluations, synthetic data pipelines, agent harnesses for any OpenAI-compatible endpoint, and RL training.
 
-Along with using W&B to record your training metrics, you can integrate Weave with your Verifiers RL workflows to gain observability into how your model performs during training. Weave records inputs, outputs, and timestamps for each step so you can inspect how data transforms at every turn, debug complex multi‑round conversations, and optimize training results.
+Along with using W&B to record your training metrics, you can integrate Weave with your Verifiers RL workflows to gain observability into how your model performs during training. Weave records inputs, outputs, and timestamps for each step so you can inspect how data transforms at every turn, debug complex multi-round conversations, and optimize training results.
 
 You can also use Weave and Verifiers together to perform evaluations.
 
-This guide shows you how to install Verifiers, W&B, and Weave, and provides two examples of how to use Verifiers with Weave and W&B.
+This guide is for ML engineers and researchers who want to add observability to their Verifiers-based RL workflows. It shows you how to install Verifiers, W&B, and Weave, and provides two examples of how to use Verifiers with Weave and W&B: tracing rollouts during evaluation, and fine-tuning a model with experiment tracking and tracing enabled.
 
 ![verifiers wandb run page](/images/weave/verifiers.gif)
 
-## Getting started
+## Get started
 
 To integrate Verifiers with Weave, start by installing the Verifiers library using `uv` ([recommended by the library's authors](https://github.com/willccbb/verifiers?tab=readme-ov-file#setup)). Use one of the following commands to install the library:
 
@@ -34,7 +35,9 @@ Then install Weave and W&B:
 uv pip install weave wandb
 ```
 
-Weave enables [implicit patching](/weave/guides/integrations#automatic-implicit-patching) for the library by default. This allows you to use Weave with Verifiers without requiring explicit call patch functions.
+Weave enables [implicit patching](/weave/guides/integrations#automatic-implicit-patching) for the library by default. This lets you use Weave with Verifiers without requiring explicit call patch functions.
+
+With the libraries installed, you're ready to run the examples in the following sections.
 
 ### Trace rollouts and evaluate
 
@@ -50,7 +53,7 @@ from openai import OpenAI
 import verifiers as vf
 import weave
 
-os.environ["OPENAI_API_KEY"] = "<YOUR-OPENAI-API-KEY>"
+os.environ["OPENAI_API_KEY"] = "[YOUR-OPENAI-API-KEY]"
 
 # Initialize Weave
 weave.init("verifiers_demo")
@@ -80,9 +83,9 @@ results = env.evaluate(
 
 ### Fine-tune a model with experiment tracking and tracing
 
-Weave can be a powerful tool in your RL fine‑tuning workflows by providing insight into how your models are performing during training. When used alongside W&B, you get comprehensive observability: W&B tracks training metrics and performance charts, while Weave captures detailed traces of each interaction during the training process.
+Weave provides insight into how your models perform during RL fine-tuning. When you use it alongside W&B, you get observability across the workflow. W&B tracks training metrics and performance charts, while Weave captures detailed traces of each interaction during the training process.
 
-The `verifiers` repository includes ready‑to‑run [examples](https://github.com/willccbb/verifiers/tree/main/examples/grpo) to help you get started.
+The `verifiers` repository includes ready-to-run [examples](https://github.com/PrimeIntellect-ai/verifiers) to help you get started.
 
 The following example RL training pipeline runs a local inference server and trains a model using the GSM8K dataset. The model responds with answers to the math problems and the training loop scores the output and updates the model accordingly. W&B logs the training metrics, like loss, reward, and accuracy, while Weave captures the input, output, reasoning, and scoring.
 
@@ -102,7 +105,7 @@ uv sync --all-extras && uv pip install flash-attn --no-build-isolation
 vf-install gsm8k --from-repo
 ```
 
-3. Train your model. The following commands launch the inference server and training loop, respectively. This example workflow sets `report_to=wandb` by default, so you don't need to call `wandb.init` separately. You'll be prompted to authenticate this machine to log metrics to W&B.
+3. Train your model. The following commands launch the inference server and training loop, respectively. This example workflow sets `report_to=wandb` by default, so you don't need to call `wandb.init()` separately. You'll be prompted to authenticate this machine to log metrics to W&B.
 
 
 ```bash
@@ -114,7 +117,7 @@ CUDA_VISIBLE_DEVICES=1 accelerate launch --num-processes 1 --config-file configs
 ```
 
 <Note>
-We successfully tested this example on 2xH100s and set the following environment variables for increased stability:
+This example was tested on 2xH100s with the following environment variables set for increased stability:
 
 ```bash
 # In BOTH shells (server and trainer) before launch
@@ -125,10 +128,10 @@ export NCCL_CUMEM_HOST_ENABLE=0
 These variables disable CUDA Unified Memory (CuMem) for device memory allocations.
 </Note>
 
-Once training begins, you can [view the traces](/weave/guides/tools/weave-in-workspaces) logged during your run in the UI.
+Once training begins, you can [view the traces](/weave/guides/tools/weave-in-workspaces) logged during your run in the UI. W&B captures the training metrics while Weave records the per-interaction traces, giving you both high-level performance trends and detailed step-by-step visibility into your training run.
 
 Traces omit `logprobs` for the `Environment.a_generate` and `Rubric.score_rollouts` methods. This keeps payloads small while leaving the originals intact for training.
 
 ## See also
 
-Verifiers has first‑class integration with W&B Models. See [Monitoring](https://verifiers.readthedocs.io/en/latest/training.html#monitoring) to learn more.
+Verifiers has first-class integration with W&B Models. For more information, see the [Verifiers repository](https://github.com/willccbb/verifiers).

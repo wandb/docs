@@ -1,0 +1,54 @@
+---
+description: "Meta AI の MMF フレームワークと W&B を統合し、マルチモーダル モデルのトレーニング実験をトラッキングして、メトリクスをログします。"
+title: MMF
+---
+
+このページでは、[Meta AI&#39;s MMF](https://github.com/facebookresearch/mmf) ライブラリの `WandbLogger` クラスを使用して、W&amp;B でマルチモーダル モデルのトレーニングをトラッキングする方法について説明します。`WandbLogger` を有効にすると、W&amp;B でトレーニング/検証メトリクス、システム (GPU および CPU) メトリクス、モデル チェックポイント、設定パラメーターをログできます。これにより、カスタムのロギング コードを追加しなくても、Experiments をモニターして Runs を比較できます。
+
+<div id="features">
+  ## 機能
+</div>
+
+MMF の `WandbLogger` は、次の機能をサポートしています。
+
+* トレーニングおよび検証のメトリクス
+* 学習率の推移
+* モデル チェックポイントの W&amp;B Artifacts への保存
+* GPU および CPU のシステムメトリクス
+* トレーニング設定パラメーター
+
+<div id="configuration-parameters">
+  ## 設定パラメーター
+</div>
+
+W&amp;B のログを有効にし、Runs のトラッキング方法をカスタマイズするには、MMF の設定で以下のオプションを指定します。
+
+```yaml
+training:
+    wandb:
+        enabled: true
+        
+        # entity はrunsの送信先となるユーザー名またはチーム名です。
+        # デフォルトでは、runはユーザーアカウントにログされます。
+        entity: null
+        
+        # wandbで実験をログする際に使用するプロジェクト名
+        project: mmf
+        
+        # wandbでプロジェクト配下の実験をログする際に使用する
+        # 実験名／run名。デフォルトの実験名:
+        # is: ${training.experiment_name}
+        name: ${training.experiment_name}
+        
+        # モデルのチェックポイント保存を有効にし、チェックポイントをW&B Artifactsに保存します
+        log_model_checkpoint: true
+        
+        # wandb.init() に渡す追加の引数値（例）:
+        # job_type: 'train'
+        # tags: ['tag1', 'tag2']
+        
+env:
+    # wandbのメタデータが保存されるディレクトリのパスを変更する場合
+    # （デフォルト: env.log_dir）:
+    wandb_logdir: ${env:MMF_WANDB_LOGDIR,}
+```

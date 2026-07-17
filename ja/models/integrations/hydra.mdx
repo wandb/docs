@@ -1,0 +1,122 @@
+---
+description: "Hydra と W&B を統合して、機械学習実験向けの複雑な設定を管理し、ハイパーパラメーターを自動的にログします。"
+title: Hydra
+---
+
+> [Hydra](https://hydra.cc) は、研究用途やそのほかの複雑なアプリケーションの開発を簡素化するオープンソースの Python フレームワークです。主な機能は、設定を組み合わせて階層的な設定を動的に作成し、設定ファイルやコマンドラインからそれをオーバーライドできることです。
+
+このページでは、Hydra ベースの設定管理と W&amp;B の実験管理を組み合わせる方法を説明します。これにより、Hydra の構成可能な設定を維持しながら、W&amp;B の可視化、ハイパーパラメーター最適化、run の比較機能を活用できます。以下のセクションでは、メトリクスのトラッキング、Hydra の設定からハイパーパラメーターをログする方法、マルチプロセッシングのトラブルシューティング、W&amp;B Sweeps を使用したハイパーパラメーターの最適化について説明します。
+
+<div id="track-metrics">
+  ## メトリクスをトラッキングする
+</div>
+
+Hydra で設定された run から W&amp;B にメトリクスを送信するには、通常どおり `wandb.init()` と `wandb.Run.log()` を使います。次の例では、同じ設定で Hydra と W&amp;B の両方を制御できるように、`wandb.entity` と `wandb.project` を Hydra の設定ファイル内で定義しています。
+
+```python
+import wandb
+
+
+@hydra.main(config_path="configs/", config_name="defaults")
+def run_experiment(cfg):
+
+    with wandb.init(entity=cfg.wandb.entity, project=cfg.wandb.project) as run:
+      run.log({"loss": loss})
+```
+
+<div id="track-hyperparameters">
+  ## ハイパーパラメーターをトラッキングする
+</div>
+
+Hydra の設定を W&amp;B にログすると、run のメトリクスとあわせてすべてのハイパーパラメーターを確認できるため、Experiments の比較や再現がしやすくなります。
+
+Hydra は、設定辞書を扱うためのデフォルトのインターフェースとして [OmegaConf](https://omegaconf.readthedocs.io/en/2.1_branch/) を使用します。OmegaConf の設定オブジェクト (たとえば `omegaconf.DictConfig`) は、通常の Python の `dict` インスタンスではありません。
+
+`wandb.Run.config` は読み取り専用のプロパティであるため、OmegaConf の設定オブジェクトを渡そうとして `wandb.Run.config = ...` を実行すると、`AttributeError` が発生します。
+
+`OmegaConf.to_container()` を使って `cfg` を通常の `dict` に変換し、それを `wandb.init(config=...)` に渡してください (または `wandb.Run.config.update(...)` を呼び出してください) 。
+
+```python
+import hydra
+import omegaconf
+import wandb
+
+
+@hydra.main(version_base=None, config_path="configs/", config_name="defaults")
+def run_experiment(cfg):
+    cfg_dict = omegaconf.OmegaConf.to_container(
+        cfg, resolve=True, throw_on_missing=True
+    )
+    # オプション: W&B のメタデータ（entity/project など）を run の設定としてログしないようにする
+    cfg_dict.pop("wandb", None)
+    with wandb.init(
+        entity=cfg.wandb.entity,
+        project=cfg.wandb.project,
+        config=cfg_dict,
+    ) as run:
+        run.log({"loss": loss})
+        model = Model(**run.config["model"]["configs"])
+```
+
+<div id="troubleshoot-multiprocessing">
+  ## マルチプロセッシングのトラブルシューティング
+</div>
+
+プロセスの起動時に応答しなくなる場合は、[分散トレーニングにおける既知のマルチプロセッシングの問題](/ja/models/track/log/distributed-training)が原因の可能性があります。これを解決するには、`wandb.init()` に追加の settings パラメーターを追加して、W&amp;B のマルチプロセッシングプロトコルを変更してください。
+
+```python
+wandb.init(settings=wandb.Settings(start_method="thread"))
+```
+
+または、シェルからグローバル環境変数を設定することでも可能です。
+
+```bash
+export WANDB_START_METHOD=thread
+```
+
+<div id="optimize-hyperparameters">
+  ## ハイパーパラメーターを最適化する
+</div>
+
+[W&amp;B Sweeps](/ja/models/sweeps) は、最小限のコードで W&amp;B Experiments のインサイトと可視化を提供するハイパーパラメーター探索プラットフォームです。Sweeps は、コードを変更しなくても Hydra プロジェクトと連携できます。必要なのは、sweep 対象のパラメーターを記述した設定ファイルだけです。
+
+次の `sweep.yaml` ファイルは一例です:
+
+```yaml
+program: main.py
+method: bayes
+metric:
+  goal: maximize
+  name: test/accuracy
+parameters:
+  dataset:
+    values: [mnist, cifar10]
+
+command:
+  - ${env}
+  - python
+  - ${program}
+  - ${args_no_hyphens}
+```
+
+sweep を起動します:
+
+```bash
+wandb sweep sweep.yaml
+```
+
+W&amp;B はプロジェクト内に自動的に sweep を作成し、`wandb agent` コマンドを返します。sweep を実行する各マシンでそのコマンドを実行します。
+
+<div id="pass-parameters-not-present-in-hydra-defaults">
+  ### Hydra のデフォルト設定にないパラメーターを渡す
+</div>
+
+<a id="pitfall-3-sweep-passing-parameters-not-present-in-defaults" aria-label="Hydra のデフォルト設定にないパラメーターを渡す" />
+
+Hydra では、デフォルトの設定ファイルにない追加のパラメーターを、コマンドの前に `+` を付けることでコマンドライン経由で渡せます。たとえば、追加のパラメーターに値を指定するには、次のように呼び出します。
+
+```bash
+python program.py +experiment=some_experiment
+```
+
+[Hydra Experiments](https://hydra.cc/docs/patterns/configuring_experiments/) の設定時のように、この種の `+` 設定に対して sweep を実行することはできません。これを回避するには、experiment パラメーターをデフォルトの空ファイルで初期化し、各 call でそれらの空の設定を上書きするように W&amp;B Sweep を使用します。詳細については、W&amp;B report [Configuring W&amp;B Projects with Hydra](https://wandb.ai/adrishd/hydra-example/reports/Configuring-W-B-Projects-with-Hydra--VmlldzoxNTA2MzQw?galleryTag=posts\&utm_source=fully_connected\&utm_medium=blog\&utm_campaign=hydra)を参照してください。

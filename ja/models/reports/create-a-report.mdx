@@ -1,62 +1,70 @@
 ---
-title: レポートを作成する
-description: W&B レポートは、App UI を使用するか Weights & Biases SDK を使ってプログラムで作成します。
+description: W&B App またはプログラムで W&B Report を作成します。
+title: report を作成
+keywords: ["report を作成", "wandb-workspaces", "Report API", "プログラムによる report"]
 ---
 
-レポートを作成するには、W&B App UI をインタラクティブに使用するか、W&B Python SDK を使用してプログラムで行います。
-
 <Note>
-この[Google Colab の例](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb)を参照してください。
+  W&amp;B Report and Workspace API は Public Preview です。
 </Note>
 
+W&amp;B Reports を使用すると、Runs の知見、結果、可視化をコラボレーターと共有できます。project のワークスペース、**Reports** タブ、または Report and Workspace API を使ってプログラムから report を作成できます。開始するには、タブを選択してください。
+
+プログラムによる例については、[Report API クイックスタート Google Colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb) を参照してください。
+
 <Tabs>
-<Tab title="App UI">
-1. W&B App でプロジェクトワークスペースに移動します。
-2. ワークスペースの右上隅にある **Create report** をクリックします。
+  <Tab title="W&B App">
+    1. W&amp;B App で project のワークスペースにアクセスします。
 
-   <Frame>
-    <img src="/images/reports/create_a_report_button.png"  />
-    </Frame>
+    2. ワークスペースの右上隅で、**Create report** をクリックします。
 
-3. モーダルが表示されます。最初に使用したいチャートを選択します。レポートのインターフェースから後でチャートを追加または削除することができます。
+       <Frame>
+         <img src="/images/reports/create_a_report_button.png" alt="report 作成ボタン" />
+       </Frame>
 
-    <Frame>
-    <img src="/images/reports/create_a_report_modal.png"  />
-    </Frame>
+    3. モーダルが表示されます。最初に含めるチャートを選択します。report インターフェースから後でチャートを追加または削除できます。
 
-4. **Filter run sets** オプションを選択すると、新しい run がレポートに追加されるのを防げます。このオプションをオンまたはオフに切り替えることができます。**Create report** をクリックすると、レポートタブにドラフトレポートが表示され、作業を続けることができます。
-</Tab>
-<Tab title="Report tab">
-1. W&B App でプロジェクトワークスペースに移動します。
-2. プロジェクト内の **Reports** タブ（クリップボードの画像）を選択します。
-3. レポートページで **Create Report** ボタンを選択します。 
+       <Frame>
+         <img src="/images/reports/create_a_report_modal.png" alt="チャート選択オプションを含む report 作成モーダル" />
+       </Frame>
 
-   <Frame>
-    <img src="/images/reports/create_report_button.png"  />
-    </Frame>
-</Tab>
-<Tab title="W&B Python SDK">
-`wandb` ライブラリを使用してプログラムでレポートを作成します。
+    4. report にこれ以上 Runs が追加されないようにするには、**Filter run sets** を選択します。W&amp;B は下書き report を自動的に保存します。**Reports** タブからアクセスできます。
+  </Tab>
 
-1. W&B SDK と Workspaces API をインストールします:
-    ```bash
-    pip install wandb wandb-workspaces
-    ```
-2. 次に、ワークスペースをインポートします。
-    ```python
-    import wandb
-    import wandb_workspaces.reports.v2 as wr
-    ```       
-3. `wandb_workspaces.reports.v2.Report` を使用してレポートを作成します。Report Class Public API ([`wandb.apis.reports`](/ja/models/ref/python/public-api/api#reports)) を使ってレポートのインスタンスを作成します。プロジェクトに名前を指定します。  
-    ```python
-    report = wr.Report(project="report_standard")
-    ```  
+  <Tab title="Report tab">
+    1. W&amp;B App で project のワークスペースにアクセスします。
+    2. project で **Reports** タブを選択します。
+    3. **Create report** をクリックします。
 
-4. レポートを保存します。レポートは、`save()` メソッドを呼び出すまで W&B サーバーにアップロードされません。
-    ```python
-    report.save()
-    ```
+       <Frame>
+         <img src="/images/reports/create_report_button.png" alt="report 作成ボタン" />
+       </Frame>
+  </Tab>
 
-App UI を使用してインタラクティブに、またはプログラムでレポートを編集する方法については、[Edit a report](/ja/models/reports/edit-a-report/) を参照してください。
-</Tab>
+  <Tab title="Report and Workspace API">
+    プログラムで report を作成します。
+
+    1. W&amp;B SDK (`wandb`) と Report and Workspace API (`wandb-workspaces`) をインストールします。
+       ```bash
+       pip install wandb wandb-workspaces
+       ```
+
+    2. W&amp;B Python SDK と Report and Workspace API を import します。
+       ```python
+       import wandb
+       import wandb_workspaces.reports.v2 as wr
+       ```
+
+    3. `wandb_workspaces.reports.v2.Report` または Report Class Public API ([`wandb.apis.reports`](/ja/models/ref/python/public-api/api#reports)) を使用して report インスタンスを作成します。report に関連付ける project を指定します。
+       ```python
+       report = wr.Report(project="report_standard")
+       ```
+
+    4. report を保存します。W&amp;B は `.save()` method を呼び出すまで report を upload しません。
+       ```python
+       report.save()
+       ```
+
+    詳細は、[report を編集する](/ja/models/reports/edit-a-report) を参照してください。
+  </Tab>
 </Tabs>

@@ -1,0 +1,41 @@
+---
+title: "init"
+description: "TypeScript SDK 레퍼런스"
+---
+
+<div id="init">
+  # init
+</div>
+
+▸ **init**(`project`, `settings?`): `Promise`&lt;[`WeaveClient`](../classes/weaveclient)&gt;
+
+Weave 트레이싱이 작동하는 데 필요한 Weave 클라이언트를 초기화합니다.
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름          | 유형                                                      | 설명                                                                                                                                                                                                                                                                                                                            |
+| :---------- | :------------------------------------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `project`   | `string`                                                | W&amp;B 프로젝트 이름입니다(`project` 또는 `entity/project` 형식일 수 있습니다). W&amp;B 팀(예: `team/project`)을 지정하지 않으면 기본 entity가 사용됩니다. 기본 entity를 찾거나 변경하려면 [https://docs.wandb.ai/platform/app/settings-page/user-settings#default-team](https://docs.wandb.ai/platform/app/settings-page/user-settings#default-team)의 User Settings를 참고하세요. |
+| `settings?` | `Partial`&lt;[`Settings`](../type-aliases/settings)&gt; | (선택) Weave 트레이싱 설정                                                                                                                                                                                                                                                                                                            |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`Promise`&lt;[`WeaveClient`](../classes/weaveclient)&gt;
+
+초기화된 Weave 클라이언트로 해석되는 Promise입니다.
+
+`Throws`
+
+초기화에 실패한 경우
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/clientApi.ts:87](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/clientApi.ts#L87)
+
+***

@@ -1,0 +1,14 @@
+---
+title: "최종 평가 정확도처럼 시간에 따라 변하지 않는 메트릭은 어떻게 log하나요?"
+keywords: ["Runs"]
+---
+
+최종 평가 정확도처럼 변하지 않는 단일 값을 기록하려면 `run.log`를 사용해 한 번만 log하세요. 예를 들어, `run.log({'final_accuracy': 0.9})`는 최종 정확도를 기록합니다. 기본적으로 `run.log({'final_accuracy': <value>})`는 `run.settings['final_accuracy']`를 업데이트하며, 이 값은 Runs 테이블에 반영됩니다.
+
+***
+
+{/* AUTO-GENERATED: 탭 배지 */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Runs](/ko/support/models/tags/runs)</Badge>
+
+{/* 끝 AUTO-GENERATED: 탭 배지 */}

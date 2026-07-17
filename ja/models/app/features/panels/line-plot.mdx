@@ -1,172 +1,283 @@
 ---
-title: 折れ線グラフ
-description: メトリクスを可視化し、軸をカスタマイズし、プロット上で複数のラインを比較します
+description: メトリクスを可視化し、軸をカスタマイズして、折れ線グラフで複数の線を比較する
+title: 折れ線グラフの概要
+keywords: ["折れ線グラフ", "マルチメトリクスパネル", "run comparer", "X軸", "NaN"]
 ---
 
-ラインプロットは、**wandb.log()** でメトリクスを時間経過とともにプロットするとデフォルトで表示されます。複数のラインを同じプロットで比較したり、カスタム軸を計算したり、ラベルをリネームしたりするために、チャート設定をカスタマイズできます。
+import LinePlotCaptureGroups from "/snippets/ja/_includes/line-plot-capture-groups.mdx";
+
+`wandb.Run.log()` で時間の経過に沿ってログされたメトリクスは、デフォルトで折れ線グラフとして表示されます。折れ線グラフでは、複数のメトリクスのプロット、カスタム軸の計算などを行えます。
+
+このページでは、[Workspace](/ja/models/track/workspaces) で折れ線グラフを作成、設定、管理する方法を説明します。
 
 <Frame>
-    <img src="/images/app_ui/line_plot_example.png"  />
+  <img src="/images/app_ui/line_plot_example.png" alt="折れ線グラフの例" />
 </Frame>
 
-## ラインプロット設定を編集する
+<Tip>
+  [CoreWeave Kubernetes Service (CKS)](https://docs.coreweave.com/products/cks) のクラスター上で実行される [run](/ja/models/runs) では、インテグレーションが有効になっている場合、[CoreWeave Mission Control](https://www.coreweave.com/mission-control) がコンピュートインフラストラクチャーを監視できます。エラーが発生すると、W&amp;B はプロジェクトの Workspace 内にある run のプロットにインフラストラクチャー情報を表示します。前提条件と詳細については、[CoreWeave のインフラストラクチャーアラートを可視化する](/ja/models/runs/infrastructure-alerts) を参照してください。
+</Tip>
 
-このセクションでは、個々のラインプロットパネル、セクション内のすべてのラインプロットパネル、またはワークスペース内のすべてのラインプロットパネルの設定を編集する方法を紹介します。
+<div id="add-a-line-plot">
+  ## 折れ線グラフを追加する
+</div>
 
-<Note>
-カスタムの x 軸を使用したい場合は、同じ `wandb.log()` の呼び出しで y 軸と一緒にログを取るようにしてください。
-</Note>
+以下のセクションでは、単一または複数のメトリクスの折れ線グラフを作成する方法を説明します。
 
-### 個別のラインプロット
+<Tabs>
+  <Tab title="単一メトリクスの折れ線グラフ">
+    [automatic workspace](/ja/models/app/features/panels#workspace-modes) では、W&amp;B がログされた各メトリクスに対して単一メトリクスの折れ線グラフを自動的に作成します。次の手順に従って、自動 Workspace で削除した折れ線グラフを再追加するか、手動 Workspace に折れ線グラフを追加します。
 
-個々のラインプロットの設定は、セクションまたはワークスペースのラインプロット設定を上書きします。ラインプロットをカスタマイズするには:
+    1. Workspace にアクセスします。
+    2. 折れ線グラフを Workspace 全体に追加するには、パネル検索フィールド付近のコントロールバーで **Add panels** をクリックします。
 
-1. パネルの上にマウスをホバーさせ、ギアアイコンをクリックします。
-2. 表示されるモーダル内で、[設定](#line-plot-settings) を編集するタブを選択します。
-3. **適用** をクリックします。
+       セクションに直接追加する場合は、セクションの **action (<Icon icon="ellipsis" iconType="solid" />)** メニューをクリックし、**+ Add panels** をクリックします。
+    3. デフォルト設定で単一メトリクスのプロットを追加するには、**Quick panel builder** をクリックします。
+       1. **Single-key panels** タブで、メトリクスにカーソルを合わせて **Add** をクリックします。追加する各パネルについてこの手順を繰り返します。
+       2. **Create [NUMBER] panels** をクリックします。
+    4. カスタムの折れ線グラフを追加するには、**Line plot** をクリックします。
+       1. 対応するタブを使用して、折れ線グラフのデータ、グループ化、表示設定を構成します。詳細については、[Edit line plot settings](#edit-line-plot-settings) を参照してください。
+       2. X 軸または Y 軸に計算式を追加するには、**Expressions** をクリックします。[JavaScript regular expressions](https://www.w3schools.com/js/js_regexp.asp) がサポートされています。
+    5. 追加するパネルのタイプ (チャートなど) を選択します。パネルの設定詳細が、選択したデフォルト値とともに表示されます。
+    6. 必要に応じて、パネルとその表示設定をカスタマイズします。設定オプションは、選択したパネルのタイプによって異なります。各パネルタイプのオプションの詳細については、[Line plots](/ja/models/app/features/panels/line-plot/) または [Bar plots](/ja/models/app/features/panels/bar-plot/) を参照してください。
+    7. **Apply** をクリックします。
+  </Tab>
 
-#### ラインプロット設定
+  <Tab title="複数メトリクスの折れ線グラフ">
+    <Note>
+      この機能はプレビュー版で、招待された場合にのみ利用できます。利用登録を希望する場合は、[support](mailto:support@wandb.com) または担当の AISE にお問い合わせください。
+    </Note>
 
-次の設定をラインプロットに設定できます:
+    [自動 Workspace](/ja/models/app/features/panels#workspace-modes) では、W&amp;B がログされた各メトリクスに対して単一メトリクスの折れ線グラフを自動的に作成します。このセクションでは、JavaScript の正規表現で定義した複数のメトリクスをまとめて表示する 1 つの折れ線グラフを作成する方法を説明します。必要に応じて、多数の単一メトリクスのグラフを 1 つの複数メトリクスのグラフに統合することもできます。これにより、多数のメトリクスがログされている Workspace のパフォーマンスを改善し、Runs の結果を分析しやすくできます。
 
-**データ**: プロットのデータ表示の詳細を設定します。
-* **X**: X 軸に使用する値を選択します (デフォルトは **Step** です)。X 軸を **相対時間** に変更したり、W&B でログを取った値に基づいてカスタム軸を選択したりできます。
-  * **相対時間 (Wall)** はプロセス開始以降の時計時間で、もし 1 日後に run を再開して何かをログした場合、それは 24 時間にプロットされます。
-  * **相対時間 (プロセス)** は実行中のプロセス内の時間で、もし 10 秒間 run を実行し、1 日後に再開した場合、そのポイントは 10 秒にプロットされます。
-  * **ウォール時間** はグラフ上の最初の run 開始からの経過時間を示します。
-  * **Step** はデフォルトで `wandb.log()` が呼び出されるたびに増加し、モデルからログされたトレーニングステップの数を反映することになっています。
-* **Y**: メトリクスや時間経過とともに変化するハイパーパラメーターなど、ログに取られた値から1つ以上の y 軸を選択します。
-* **X軸** および **Y軸** の最小値と最大値 (オプション)。
-* **ポイント集計メソッド**. **ランダムサンプリング** (デフォルト) または **フルフェデリティ**。詳細は [サンプリング](/ja/models/app/features/panels/line-plot/sampling/) を参照。
-* **スムージング**: ラインプロットのスムージングを変更します。デフォルトは **時間加重EMA** です。その他の値には **スムージングなし**, **ランニング平均**, および **ガウシアン** があります。
-* **外れ値**: 外れ値を除外して、デフォルトのプロット最小値および最大値スケールを再設定します。
-* **最大 run またはグループ数**: この数値を増やすことで、ラインプロットに一度により多くのラインを表示します。デフォルトは 10 run です。チャートの一番上に "最初の 10 run を表示中" というメッセージが表示され、利用可能な run が 10 個を超える場合、チャートが表示できる数を制約していることが分かります。
-* **チャートタイプ**: ラインプロット、エリアプロット、および パーセンテージエリアプロットの中で切り替えます。
+    1. Workspace にアクセスします。
+    2. 折れ線グラフをグローバルに追加するには、パネル検索フィールドの近くにあるコントロールバーで **Add panels** をクリックします。
 
-**グルーピング**: プロット内で run をどのようにグループ化し集計するかを設定します。
-* **グループ化基準**: 列を選択し、その列に同じ値を持つすべての run がグループ化されます。
-* **Agg**: 集計— グラフ上のラインの値です。オプションはグループの平均、中央値、最小、最大です。
+       代わりに折れ線グラフをセクションに直接追加するには、セクションの **action (<Icon icon="ellipsis" iconType="solid" />)** メニューをクリックし、**+ Add panels** をクリックします。
+    3. **Quick panel builder** をクリックし、**Multi-metric panels** タブをクリックします。
+    4. **Regex** に、[JavaScript regular expression](https://www.w3schools.com/js/js_regexp.asp) 形式の式を入力します。入力に合わせて UI が更新され、どのメトリクスがその式に一致するかが表示されます。デフォルトでは、グラフ名にはそのグラフで使用している正規表現が表示されます。このグラフには、今後ログされるメトリクスも含め、その式に一致するすべてのメトリクスの線が表示されます。
+    5. 複数メトリクスのグラフを作成する際に、重複する単一メトリクスのパネルを必要に応じて削除するには、**Clean up auto-generated panels** を切り替えます。どのパネルがクリーンアップされるかはプレビューで確認できます。<Note>このオプションをオンにすると、W&amp;B はその式に一致する新たにログされたメトリクスに対して単一メトリクスのグラフを作成しません。代わりに、そのメトリクスはこの複数メトリクスのグラフにのみ表示されます。</Note>
+    6. **Create [NUMBER] panels** をクリックします。
 
-**チャート**: パネル、X軸、Y軸のタイトルを指定し、凡例を表示または非表示に設定し、その位置を設定します。
+    ### 複数メトリクスの正規表現
 
-**凡例**: パネルの凡例の外観をカスタマイズします、もし有効化されている場合。
-* **凡例**: プロットの各ラインに対する凡例のフィールド、それぞれのラインのプロット内の凡例。
-* **凡例テンプレート**: テンプレートの上部に表示される凡例およびマウスオーバー時にプロットに表示される伝説で, 表示したい具体的なテキストおよび変数を定義します。
+    複数メトリクスの折れ線グラフでは、メトリクス名の一致に [JavaScript regular expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions) を使用します。以下のセクションでは、一般的なユースケースを説明し、キャプチャグループが W&amp;B が作成するパネルにどのような影響を与えるかなど、正規表現の仕組みについてさらに詳しく説明します。
 
-**式**: パネルにカスタム計算式を追加します。
-* **Y軸式**: グラフに計算されたメトリクスを追加。ログされたメトリクスやハイパーパラメーターのような設定値を使用してカスタムラインを計算することができます。
-* **X軸式**: 計算された値を使用して x 軸を再スケーリングします。有用な変数には、デフォルトの x 軸の **_step_** などが含まれ、サマリー値を参照するための構文は `${summary:value}` です。
+    #### 一般的なユースケース
 
-### セクション内のすべてのラインプロット
+    以下の例では、実験結果の分析に役立つ複数メトリクスのパネルの使い方をいくつか示します。
 
-ワークスペースの設定を上書きして、セクション内のすべてのラインプロットのデフォルトの設定をカスタマイズするには:
-1. セクションのギアアイコンをクリックして設定を開きます。
-2. 表示されるモーダル内で、**データ** または **表示設定** タブを選択して、セクションのデフォルトの設定を構成します。各 **データ** 設定の詳細については、前述のセクション [個別のラインプロット](#line-plot-settings) を参照してください。各表示設定の詳細については、[セクションレイアウトの構成](/#configure-section-layout) を参照してください。
+    **レイヤーやモデルコンポーネント間でメトリクスを比較する**
+    各レイヤーのメトリクスごとに個別のパネルを作成する代わりに、それらを 1 つのパネルにまとめて表示できます。たとえば、この Python のサンプルコードのように、`layer_0_loss`、`layer_1_loss`、`layer_2_loss` のような一貫した命名でメトリクスをログする場合は、正規表現 `layer_\d+_loss` を使用して、すべてのレイヤーの損失を 1 つのグラフに表示できます。
 
-### ワークスペース内のすべてのラインプロット
-ワークスペース内のすべてのラインプロットのデフォルト設定をカスタマイズするには:
-1. **設定** というラベルの付いたギアがあるワークスペースの設定をクリックします。
-2. **ラインプロット** をクリックします。
-3. 表示されるモーダル内で、**データ** または **表示設定** タブを選択して、ワークスペースのデフォルト設定を構成します。
-    - 各 **データ** 設定の詳細については、前述のセクション [個別のラインプロット](#line-plot-settings) を参照してください。
+    ```python
+    with wandb.init(project="multi-layer-model") as run:
+        for step in range(100):
+            run.log({
+                "layer_0_loss": loss_0,
+                "layer_1_loss": loss_1,
+                "layer_2_loss": loss_2,
+                "step": step
+            })
+    ```
 
-    - 各 **表示設定** セクションの詳細については、[ワークスペース表示設定](/#configure-workspace-layout) を参照してください。ワークスペースレベルで、ラインプロットのデフォルト **ズーム** 振る舞いを構成できます。この設定は、x 軸キーが一致するラインプロット間でズームの同期を制御します。デフォルトでは無効です。
+    **接頭辞または接尾辞で関連するメトリクスをグループ化する**
+    共通の命名パターンを持つメトリクスをまとめて一致させます。例:
 
-## プロット上で平均値を可視化する
+    * `train_.*` は、`train_loss`、`train_accuracy`、`train_f1_score` など、すべてのトレーニングメトリクスに一致します。
+    * `.*_accuracy` は、`train_accuracy`、`val_accuracy`、`test_accuracy` のように、異なるデータセットにまたがる accuracy メトリクスに一致します。
 
-複数の異なる実験があり、その値の平均をプロットで見たい場合は、テーブルのグルーピング機能を使用できます。runテーブルの上部で "グループ化" をクリックし、"すべて" を選択してグラフに平均値を表示します。
+    **特定のメトリクスのバリエーションに一致させる**
+    必要なメトリクスだけに一致させるには、オルタネーションを使用します。たとえば、非キャプチャグループ `(?:layer_0|layer_10)_loss` は、1 層目と 10 層目の損失にのみ一致し、中間の層は除外します。
 
-以下は平均化する前のグラフの例です:
+    #### キャプチャグループ
+
+    <LinePlotCaptureGroups />
+  </Tab>
+</Tabs>
+
+<div id="edit-line-plot-settings">
+  ## 折れ線グラフの設定を編集する
+</div>
+
+以下のセクションでは、個別のラインプロットパネル、セクション内のすべてのラインプロットパネル、またはWorkspace内のすべてのラインプロットパネルの設定を編集する方法を説明します。折れ線グラフの設定の詳細は、[折れ線グラフのリファレンス](/ja/models/app/features/panels/line-plot/reference)を参照してください。
+
+<div id="individual-line-plot">
+  ### 個別の折れ線グラフ
+</div>
+
+折れ線グラフの個別設定は、セクションまたはWorkspaceの折れ線グラフ設定よりも優先されます。折れ線グラフをカスタマイズするには、次の手順に従います。
+
+1. Workspaceにアクセスします。
+2. パネルにマウスカーソルを合わせ、歯車アイコンをクリックします。
+3. 表示されたドロワーで、設定を編集するタブを選択します。
+4. **Apply** をクリックします。
+
+折れ線グラフの設定は、次のタブに分かれています。
+
+* **Data**: x軸、y軸、サンプリング method、スムージング、外れ値、チャートタイプを設定します。
+* **Grouping**: プロット内でrunをグループ化して集計するかどうかと、その方法を設定します。
+* **Chart**: パネルと軸のタイトルを指定し、凡例の表示と位置を設定します。
+* **Legend**: パネルの凡例の見た目と内容をカスタマイズします。
+* **Expressions**: 軸のカスタム計算式を追加します。乗算などの算術演算を含む演算子と式の例の完全な一覧については、[Expressions](/ja/models/app/features/panels/line-plot/reference#expressions)を参照してください。
+
+各設定の詳細については、[折れ線グラフのリファレンス](/ja/models/app/features/panels/line-plot/reference)を参照してください。
+
+<div id="all-line-plots-in-a-section">
+  ### セクション内のすべての折れ線グラフ
+</div>
+
+セクション内のすべての折れ線グラフのデフォルト設定をカスタマイズして、折れ線グラフのWorkspace設定を上書きするには:
+
+1. Workspace にアクセスします。
+2. セクションの歯車アイコンをクリックして、設定を開きます。
+3. 表示されたドロワーで **Data** または **Display preferences** タブを選択し、セクションのデフォルト設定を行います。各 **Data** 設定の詳細については、[折れ線グラフのリファレンス](/ja/models/app/features/panels/line-plot/reference)を参照してください。各表示設定の詳細については、[セクションの Layout を設定する](../#configure-section-layout)を参照してください.
+
+<div id="all-line-plots-in-a-workspace">
+  ### Workspace 内のすべての折れ線グラフ
+</div>
+
+Workspace 内のすべての折れ線グラフのデフォルト設定をカスタマイズするには、次の手順に従います。
+
+1. Workspace にアクセスします。
+2. 歯車の **Settings** ラベルが付いた Workspace 設定アイコンをクリックします。
+3. **Line plots** をクリックします。
+4. 表示されたドロワーで **Data** または **Display preferences** タブを選択し、Workspace のデフォルト設定を構成します。
+   * 各 **Data** 設定の詳細については、[折れ線グラフのリファレンス](/ja/models/app/features/panels/line-plot/reference)を参照してください。
+   * 各 **Display preferences** セクションの詳細については、[Workspace の表示設定](../#configure-workspace-layout)を参照してください。Workspace レベルでは、折れ線グラフのデフォルトの **Zooming** 動作を構成できます。この設定では、x軸キーが一致する折れ線グラフ間でズームを同期するかどうかを制御します。デフォルトではオフになっています。
+
+<div id="visualize-average-values-on-a-plot">
+  ## プロット上で平均値を可視化する
+</div>
+
+複数の異なるExperimentsがあり、それらの値の平均をプロットで確認したい場合は、表のグループ化機能を使用できます。run テーブルの上にある「Group」をクリックし、「All」を選択すると、グラフに平均化された値が表示されます。
+
+次の画像は、平均化前のグラフを示しており、runごとに1本の線があります。
 
 <Frame>
-    <img src="/images/app_ui/demo_precision_lines.png"  />
+  <img src="/images/app_ui/demo_precision_lines.png" alt="個々の精度の線" />
 </Frame>
 
-次の画像は、グループ化されたラインを使用して run における平均値を示すグラフです。
+次の画像は、線をグループ化して複数のrunにまたがる平均値を示したグラフです。
 
 <Frame>
-    <img src="/images/app_ui/demo_average_precision_lines.png"  />
+  <img src="/images/app_ui/demo_average_precision_lines.png" alt="平均化された精度の線" />
 </Frame>
 
-## プロット上で NaN 値を可視化する
+<div id="visualize-nan-value-on-a-plot">
+  ## プロット上でNaN値を可視化する
+</div>
 
-`wandb.log` を使用して、PyTorch テンソルを含む `NaN` 値をラインプロットでプロットすることもできます。例えば:
+`NaN` を返す損失のように、ときどき未定義になるメトリクスをトラッキングする場合は、それらをログすると、W&amp;B の折れ線グラフに表示されます。`wandb.Run.log()` を使うと、PyTorch テンソルを含む `NaN` 値も折れ線グラフにプロットできます。たとえば、次のようになります。
 
 ```python
-wandb.log({"test": [..., float("nan"), ...]})
+with wandb.init() as run:
+    # NaN 値をログする
+    run.log({"test": float("nan")})
 ```
 
 <Frame>
-    <img src="/images/app_ui/visualize_nan.png"  />
+  <img src="/images/app_ui/visualize_nan.png" alt="NaN 値の処理" />
 </Frame>
 
-## 2 つのメトリクスを 1 つのチャートで比較する
+<div id="compare-multiple-metrics-on-one-chart">
+  ## 1つのチャートで複数のメトリクスを比較する
+</div>
+
+1 つ以上の Runs の複数のメトリクスを並べて比較するには、Workspace に **Run comparer** パネルを追加します。
 
 <Frame>
-    <img src="/images/app_ui/visualization_add.gif"  />
+  <img src="/images/app_ui/visualization_add.gif" alt="可視化パネルを追加している様子" />
 </Frame>
 
-1. ページの右上隅にある **パネルを追加** ボタンを選択します。
-2. 表示される左側のパネルで評価のドロップダウンを展開します。
-3. **Run comparer** を選択します。
+1. Workspace にアクセスします。
+2. ページの画面右上にある **Add panels** ボタンを選択します。
+3. 表示されたドロワーで、**評価** ドロップダウンを展開します。
+4. **Run comparer** を選択します。
 
-## ラインプロットの色を変更する
+<div id="change-the-colors-of-the-lines">
+  ## 線の色を変更する
+</div>
 
-時々、run のデフォルトの色が比較には適していないことがあります。この問題を解決するために、wandb は手動で色を変更できる2つの方法を提供しています。
+比較の際に run のデフォルトの色が役に立たない場合、W&amp;B では色を変更する方法を 2 つ用意しています。run テーブルから変更する方法と、チャートの凡例設定から変更する方法です。
 
 <Tabs>
-<Tab title="runテーブルから">
-各 run は初期化時にデフォルトでランダムな色が割り当てられます。
+  <Tab title="run テーブルから">
+    各 run には、初期化時にデフォルトでランダムな色が割り当てられます。
 
-  <Frame>
-    <img src="/images/app_ui/line_plots_run_table_random_colors.png" alt="Random colors given to runs"  />
-</Frame>
+    <Frame>
+      <img src="/images/app_ui/line_plots_run_table_random_colors.png" alt="run に割り当てられたランダムな色" />
+    </Frame>
 
-  どの色をクリックすると、手動で選択できるカラーパレットが表示されます。
+    いずれかの色をクリックするとカラーパレットが表示され、そこで好みの色を手動で選択できます。
 
-  <Frame>
-    <img src="/images/app_ui/line_plots_run_table_color_palette.png" alt="The color palette"  />
-</Frame>
-</Tab>
-<Tab title="チャート凡例設定から">
-1. 設定を編集したいパネルにマウスをホバーさせます。
-2. 表示される鉛筆アイコンを選択します。
-3. **凡例** タブを選択します。
+    <Frame>
+      <img src="/images/app_ui/line_plots_run_table_color_palette.png" alt="カラーパレット" />
+    </Frame>
+  </Tab>
 
-<Frame>
-    <img src="/images/app_ui/plot_style_line_plot_legend.png"  />
-</Frame>
-</Tab>
+  <Tab title="チャートの凡例設定から">
+    1. Workspace にアクセスします。
+    2. 設定を編集するパネルにマウスカーソルを合わせます。
+    3. 表示される鉛筆アイコンを選択します。
+    4. **Legend** タブを選択します。
+
+    <Frame>
+      <img src="/images/app_ui/plot_style_line_plot_legend.png" alt="折れ線グラフの凡例設定" />
+    </Frame>
+  </Tab>
 </Tabs>
 
-## 異なる x 軸で可視化する
+<div id="visualize-on-different-x-axes">
+  ## 異なる x 軸で可視化する
+</div>
 
-実験がかかった絶対時間を見たい場合や、実験が実行された日を見たい場合は、x 軸を切り替えることができます。ここでは、ステップから相対時間、そして壁時間に切り替える例を示します。
-
-<Frame>
-    <img src="/images/app_ui/howto_use_relative_time_or_wall_time.gif"  />
-</Frame>
-
-## エリアプロット
-
-詳細設定タブでさまざまなプロットスタイルをクリックすると、エリアプロットまたはパーセンテージエリアプロットを取得できます。
+既定では、折れ線グラフでは x 軸としてトレーニング step が使用されますが、別の視点でデータを表示するために別の x 軸に切り替えることができます。実験に要した実際の時間を確認したい場合や、実験を実行した日付を確認したい場合は、x 軸を切り替えることができます。以下の例は、steps から相対時間、さらに実時間へ切り替える例です。
 
 <Frame>
-    <img src="/images/app_ui/line_plots_area_plots.gif"  />
+  <img src="/images/app_ui/howto_use_relative_time_or_wall_time.gif" alt="x 軸の時間オプション" />
 </Frame>
 
-## ズーム
+カスタム x 軸を使用するには、y 軸をログするのと同じ call で、そのメトリクスを `wandb.Run.log()` にログします。次に例を示します。
 
-直線をクリックしてドラッグすると垂直および水平方向に同時にズームします。これにより、x軸とy軸のズームが変更されます。
+```python
+with wandb.init() as run:
+    for i in range(100):
+        run.log({"accuracy": acc, "custom_x": i * 10})
+```
+
+詳細は、[ログ軸をカスタマイズする](/ja/models/track/log/customize-logging-axes#customize-log-axes)を参照してください。
+
+<div id="zoom">
+  ## ズーム
+</div>
+
+折れ線グラフの特定の領域をより詳しく確認するには、両方の軸を同時にズームインできます。長方形になるようにクリック＆ドラッグすると、縦方向と横方向を同時にズームできます。これにより、x軸とy軸のズーム範囲が変更されます。
 
 <Frame>
-    <img src="/images/app_ui/line_plots_zoom.gif"  />
+  <img src="/images/app_ui/line_plots_zoom.gif" alt="プロットのズーム機能" />
 </Frame>
 
-## チャートの凡例の非表示
+<div id="hide-chart-legend">
+  ## チャートの凡例を非表示にする
+</div>
 
-この簡単なトグルでラインプロットの凡例をオフにできます:
+チャートの凡例が、プロットに使いたいスペースを取っている場合は、非表示にできます。次のトグルを切り替えるだけで、折れ線グラフの凡例をオフにできます。
 
 <Frame>
-    <img src="/images/app_ui/demo_hide_legend.gif"  />
+  <img src="/images/app_ui/demo_hide_legend.gif" alt="凡例を非表示にするトグル" />
 </Frame>
+
+<div id="create-a-run-metrics-notification">
+  ## run メトリクス通知を作成する
+</div>
+
+[Automations](/ja/models/automations/)を使用すると、指定した条件を run メトリクスが満たしたときにチームに通知できます。オートメーションでは、Slack チャンネルへの投稿や webhook の実行が可能です。
+
+折れ線グラフから、そのグラフに表示されているメトリクスの[run メトリクス通知](/ja/models/automations/automation-events/#run-events)を作成できます。
+
+1. Workspace にアクセスします。
+2. パネルにカーソルを合わせて、ベルのアイコンをクリックします。
+3. 基本設定または高度な設定のコントロールを使用してオートメーションを設定します。たとえば、run フィルターを適用してオートメーションの対象範囲を制限したり、絶対しきい値を設定したりできます。
+
+詳しくは、[Automations](/ja/models/automations/)を参照してください。

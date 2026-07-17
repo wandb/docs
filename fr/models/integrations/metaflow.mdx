@@ -1,0 +1,234 @@
+---
+description: "Intégrez W&B à Metaflow pour suivre les expériences et gérer les flux de travail de machine learning avec la journalisation automatique des métriques et des artifacts."
+title: Metaflow
+---
+
+import ApiKeyCreateStreamlined from "/snippets/fr/_includes/api-key-create-streamlined.mdx";
+
+<div id="overview">
+  ## Aperçu
+</div>
+
+[Metaflow](https://docs.metaflow.org) est un framework créé par Netflix pour créer et exécuter des flux de travail de ML.
+
+Cette intégration vous permet d’appliquer des décorateurs aux [étapes et flows](https://docs.metaflow.org/metaflow/basics) Metaflow afin d’enregistrer automatiquement les paramètres et les artefacts dans W&amp;B, afin que vous puissiez suivre les expériences et inspecter la traçabilité dans l’ensemble des flux de travail que vous créez avec Metaflow sans écrire de code de journalisation personnalisé :
+
+* Décorer une étape permet d’activer ou de désactiver la journalisation pour certains types au sein de cette étape.
+* Décorer le flow permet d’activer ou de désactiver la journalisation pour chaque étape du flow.
+
+<div id="quickstart">
+  ## Démarrage rapide
+</div>
+
+Les sections suivantes expliquent comment vous authentifier auprès de W&amp;B, installer les bibliothèques requises et ajouter le décorateur `wandb_log` à vos étapes et flows Metaflow.
+
+<div id="sign-up-and-create-an-api-key">
+  ### Inscrivez-vous et créez une clé API
+</div>
+
+Une clé API authentifie votre machine auprès de W&amp;B. Vous pouvez générer une clé API depuis votre profil.
+
+<ApiKeyCreateStreamlined />
+
+Pour trouver votre clé API dans W&amp;B App :
+
+1. Cliquez sur l’icône de votre profil en haut à droite.
+2. Sélectionnez **Paramètres utilisateur**, puis faites défiler jusqu’à la section **API Keys**.
+
+<div id="install-the-wandb-library-and-log-in">
+  ### Installez la bibliothèque `wandb` et connectez-vous
+</div>
+
+Pour installer la bibliothèque `wandb` en local et vous connecter :
+
+<Note>
+  Pour `wandb` version 0.19.8 ou antérieure, installez `fastcore` version 1.8.0 ou antérieure (`fastcore<1.8.0`) au lieu de `plum-dispatch`.
+</Note>
+
+<Tabs>
+  <Tab title="Ligne de commande">
+    1. Définissez la [variable d&#39;environnement](/fr/models/track/environment-variables/) `WANDB_API_KEY` avec votre clé API. Remplacez les valeurs entre `<>` par les vôtres :
+
+       ```bash
+       export WANDB_API_KEY=<your_api_key>
+       ```
+
+    2. Installez la bibliothèque `wandb` et connectez-vous.
+
+       ```bash
+       pip install -Uqqq metaflow "plum-dispatch<3.0.0" wandb
+
+       wandb login
+       ```
+  </Tab>
+
+  <Tab title="Python">
+    ```bash
+    pip install -Uqqq metaflow "plum-dispatch<3.0.0" wandb
+    ```
+
+    ```python
+    import wandb
+    wandb.login()
+    ```
+  </Tab>
+
+  <Tab title="notebook Python">
+    ```python
+    !pip install -Uqqq metaflow "plum-dispatch<3.0.0" wandb
+
+    import wandb
+    wandb.login()
+    ```
+  </Tab>
+</Tabs>
+
+<div id="decorate-your-flows-and-steps">
+  ### Décorez vos flows et vos étapes
+</div>
+
+<Tabs>
+  <Tab title="Étape">
+    Décorer une étape permet d’activer ou de désactiver la journalisation pour certains types au sein de cette étape.
+
+    Dans cet exemple, l’intégration journalise tous les datasets et modèles dans `start` :
+
+    ```python
+    from wandb.integration.metaflow import wandb_log
+
+    class WandbExampleFlow(FlowSpec):
+        @wandb_log(datasets=True, models=True, settings=wandb.Settings(...))
+        @step
+        def start(self):
+            self.raw_df = pd.read_csv(...)    # pd.DataFrame -> téléverser comme dataset
+            self.model_file = torch.load(...)  # nn.Module    -> téléverser comme modèle
+            self.next(self.transform)
+    ```
+  </Tab>
+
+  <Tab title="Flow">
+    Décorer un flow revient à décorer toutes les étapes qui le composent avec une configuration par défaut.
+
+    Dans ce cas, toutes les étapes de `WandbExampleFlow` journalisent par défaut les datasets et les modèles, exactement comme si vous décoriez chaque étape avec `@wandb_log(datasets=True, models=True)`.
+
+    ```python
+    from wandb.integration.metaflow import wandb_log
+
+    @wandb_log(datasets=True, models=True)  # décorer tous les @step 
+    class WandbExampleFlow(FlowSpec):
+        @step
+        def start(self):
+            self.raw_df = pd.read_csv(...)    # pd.DataFrame -> téléverser comme dataset
+            self.model_file = torch.load(...)  # nn.Module    -> téléverser comme modèle
+            self.next(self.transform)
+    ```
+  </Tab>
+
+  <Tab title="Flow et étapes">
+    Décorer le flow revient à décorer toutes les étapes avec une configuration par défaut. Cela signifie que si vous décorez ensuite une étape avec un autre `@wandb_log`, celui-ci redéfinit la décoration définie au niveau du flow.
+
+    Dans cet exemple :
+
+    * `start` et `mid` journalisent à la fois les datasets et les modèles.
+    * `end` ne journalise ni les datasets ni les modèles.
+
+    ```python
+    from wandb.integration.metaflow import wandb_log
+
+    @wandb_log(datasets=True, models=True)  # identique à la décoration de start et mid
+    class WandbExampleFlow(FlowSpec):
+      # cette étape journalisera les datasets et les modèles
+      @step
+      def start(self):
+        self.raw_df = pd.read_csv(...)    # pd.DataFrame -> téléverser comme dataset
+        self.model_file = torch.load(...)  # nn.Module    -> téléverser comme modèle
+        self.next(self.mid)
+
+      # cette étape journalisera également les datasets et les modèles
+      @step
+      def mid(self):
+        self.raw_df = pd.read_csv(...)    # pd.DataFrame -> téléverser comme dataset
+        self.model_file = torch.load(...)  # nn.Module    -> téléverser comme modèle
+        self.next(self.end)
+
+      # cette étape redéfinit ce comportement et ne journalisera PAS les datasets NI les modèles
+      @wandb_log(datasets=False, models=False)
+      @step
+      def end(self):
+        self.raw_df = pd.read_csv(...)    
+        self.model_file = torch.load(...)
+    ```
+  </Tab>
+</Tabs>
+
+<div id="access-your-data-programmatically">
+  ## Accédez à vos données par programmation
+</div>
+
+Une fois vos flows et vos étapes décorés, les exécutions envoient des paramètres et des artefacts à W&amp;B chaque fois que le flow s’exécute. Vous pouvez accéder aux informations capturées de trois façons : dans le processus Python d’origine en cours d’enregistrement à l’aide de la [bibliothèque cliente `wandb`](/fr/models/ref/python/), via l’[interface de l’application web](/fr/models/track/workspaces/), ou par programmation à l’aide de l’[API publique](/fr/models/ref/python/public-api/). Les `Parameter`s sont enregistrés dans le [`config`](/fr/models/) de W&amp;B et sont disponibles dans l’[onglet Vue d’ensemble](/fr/models/runs/#overview-tab). Les `datasets`, `models` et `others` sont enregistrés dans [W&amp;B Artefacts](/fr/models/artifacts/) et sont disponibles dans l’[onglet Artefacts](/fr/models/runs/#artifacts-tab). Les types Python de base sont enregistrés dans le dict [`summary`](/fr/models/) de W&amp;B et sont disponibles dans l’onglet Vue d’ensemble. Voir le [guide de l’API publique](/fr/models/track/public-api-guide/) pour en savoir plus sur l’utilisation de l’API afin d’obtenir ces informations par programmation depuis l’extérieur.
+
+<div id="quick-reference">
+  ### Référence rapide
+</div>
+
+| Données                                            | Bibliothèque cliente                          | UI                             |
+| -------------------------------------------------- | --------------------------------------------- | ------------------------------ |
+| `Parameter(...)`                                   | `wandb.Run.config`                            | onglet Vue d’ensemble, Config  |
+| `datasets`, `models`, `others`                     | `wandb.Run.use_artifact("{var_name}:latest")` | onglet Artifacts               |
+| Types Python de base (`dict`, `list`, `str`, etc.) | `wandb.Run.summary`                           | onglet Vue d’ensemble, Summary |
+
+<div id="wandb_log-kwargs">
+  ### Arguments de `wandb_log`
+</div>
+
+| kwarg      | Options                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `datasets` | <ul><li><code>True</code>: Journaliser les variables d’instance correspondant à un jeu de données</li><li><code>False</code></li></ul>                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| `models`   | <ul><li><code>True</code>: Journaliser les variables d’instance correspondant à un modèle</li><li><code>False</code></li></ul>                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| `others`   | <ul><li><code>True</code>: Journaliser tout autre élément sérialisable avec pickle</li><li><code>False</code></li></ul>                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| `settings` | <ul><li><code>wandb.Settings(...)</code>: Spécifiez vos propres paramètres <code>wandb</code> pour cette étape ou ce flow</li><li><code>None</code>: Équivaut à passer <code>wandb.Settings()</code></li></ul><p>Par défaut, si :</p><ul><li><code>settings.run&#95;group</code> vaut <code>None</code>, il est défini sur <code>&#123;flow&#95;name&#125;/&#123;run&#95;id&#125;</code></li><li><code>settings.run&#95;job&#95;type</code> vaut <code>None</code>, il est défini sur <code>&#123;run&#95;job&#95;type&#125;/&#123;step&#95;name&#125;</code></li></ul> |
+
+<div id="frequently-asked-questions">
+  ## Questions fréquentes
+</div>
+
+Les sections suivantes répondent aux questions courantes sur la journalisation, les types de données pris en charge et la traçabilité des artefacts.
+
+<div id="what-exactly-do-you-log">
+  ### Qu’enregistrez-vous exactement
+</div>
+
+`wandb_log` enregistre uniquement les variables d’instance. Les variables locales ne sont jamais enregistrées. Cela permet d’éviter d’enregistrer des données inutiles.
+
+<div id="which-data-types-get-logged">
+  ### Quels types de données sont enregistrés
+</div>
+
+W&amp;B prend en charge les types suivants :
+
+| Paramètre de journalisation  | Type                                                                                                                                      |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| par défaut (toujours activé) | <ul><li><code>dict, list, set, str, int, float, bool</code></li></ul>                                                                     |
+| `datasets`                   | <ul><li><code>pd.DataFrame</code></li><li><code>pathlib.Path</code></li></ul>                                                             |
+| `models`                     | <ul><li><code>nn.Module</code></li><li><code>sklearn.base.BaseEstimator</code></li></ul>                                                  |
+| `others`                     | <ul><li>Tout ce qui est <a href="https://wiki.python.org/moin/UsingPickle">sérialisable avec pickle</a> et sérialisable en JSON</li></ul> |
+
+<div id="configure-logging-behavior">
+  ### Configurer le comportement de journalisation
+</div>
+
+| Type de variable | Comportement                       | Exemple         | Type de données |
+| ---------------- | ---------------------------------- | --------------- | --------------- |
+| Instance         | Enregistré automatiquement         | `self.accuracy` | `float`         |
+| Instance         | Enregistré si `datasets=True`      | `self.df`       | `pd.DataFrame`  |
+| Instance         | Non enregistré si `datasets=False` | `self.df`       | `pd.DataFrame`  |
+| Locale           | Jamais enregistré                  | `accuracy`      | `float`         |
+| Locale           | Jamais enregistré                  | `df`            | `pd.DataFrame`  |
+
+<div id="artifact-lineage-tracking">
+  ### Suivi de la traçabilité des artefacts
+</div>
+
+Si vous avez un artefact qui est la sortie de l’étape A et l’entrée de l’étape B, W&amp;B construit automatiquement le DAG de traçabilité pour vous.
+
+Pour voir un exemple de ce comportement, consultez ce [notebook d’exemple d’intégration Metaflow](https://colab.research.google.com/drive/1wZG-jYzPelk8Rs2gIM3a71uEoG46u_nG#scrollTo=DQQVaKS0TmDU) et la [page Artifacts correspondante](https://wandb.ai/megatruong/metaflow_integration/artifacts/dataset/raw_df/7d14e6578d3f1cfc72fe/graph).

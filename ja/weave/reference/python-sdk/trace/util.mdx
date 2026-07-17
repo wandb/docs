@@ -1,0 +1,197 @@
+---
+title: "util"
+description: "weave.trace.util の Python SDK リファレンス"
+---
+
+import { SourceLink } from '/snippets/ja/_includes/source-link.mdx';
+
+<div id="api-overview">
+  # API 概要
+</div>
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L105" />
+
+## <kbd>class</kbd> `ContextAwareThread`
+
+呼び出し元のコンテキストで関数を実行するスレッド。
+
+これは `threading.Thread` のそのまま置き換え可能な代替実装で、スレッド内でも call が期待どおりに動作することを保証します。Weave では特定の contextvars を設定しておく必要があります (`call&#95;context.py` を参照) が、新しいスレッドは親のコンテキストを自動ではコピーしないため、call コンテキストが失われることがあります。これは望ましくありません。このクラスは contextvar のコピーを自動化するので、ユーザーが期待するとおり、このスレッドは「そのままで動作」します。
+
+このクラスを使わなくても、代わりに次のように記述すれば同じ効果を得られます。
+
+```python
+def run_with_context(func, *args, **kwargs):
+     context = copy_context()
+     def wrapper():
+         context.run(func, *args, **kwargs)
+     return wrapper
+
+thread = threading.Thread(target=run_with_context(your_func, *args, **kwargs))
+thread.start()
+```
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L129" />
+
+### <kbd>method</kbd> `__init__`
+
+```python
+__init__(*args: 'Any', **kwargs: 'Any') → None
+```
+
+***
+
+
+#### <kbd>プロパティ</kbd> daemon
+
+このスレッドがデーモンスレッドであるかどうかを示すブール値です。
+
+これは `start()` が呼び出される前に設定する必要があります。そうしないと、`RuntimeError` が発生します。初期値はこのスレッドを作成したスレッドから継承されます。メインスレッドはデーモンスレッドではないため、メインスレッドで作成されたすべてのスレッドはデフォルトで `daemon = False` になります。
+
+デーモンスレッドのみが残ると、Python プログラム全体が終了します。
+
+***
+
+#### <kbd>プロパティ</kbd> ident
+
+このスレッドのスレッド識別子です。まだ開始されていない場合は None です。
+
+これは 0 以外の整数です。get&#95;ident() 関数を参照してください。スレッド識別子は、スレッドの終了後に別のスレッドが作成されると再利用されることがあります。識別子は、スレッドの終了後も利用できます。
+
+***
+
+#### <kbd>プロパティ</kbd> 名
+
+識別のためだけに使用される文字列です。
+
+特別な意味はありません。複数のスレッドに同じ名を付けることができます。初期名はコンストラクターで設定されます。
+
+***
+
+#### <kbd>プロパティ</kbd> native_id
+
+このスレッドのネイティブな整数のスレッド ID です。まだ開始されていない場合は None になります。
+
+これは 0 以上の整数です。`get_native_id()` 関数を参照してください。これは、カーネルから報告される Thread ID を表します。
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L133" />
+
+### <kbd>method</kbd> `run`
+
+```python
+run() → None
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L45" />
+
+## <kbd>class</kbd> `ContextAwareThreadPoolExecutor`
+
+呼び出し元のコンテキストで関数を実行する ThreadPoolExecutor。
+
+これは concurrent.futures.ThreadPoolExecutor のそのまま置き換え可能な代替実装で、executor 内でも Weave の call が期待どおりに動作するようにします。Weave では特定の contextvars が設定されている必要があります (`call&#95;context.py` を参照) が、新しいスレッドは親のコンテキストを自動的には引き継がないため、call コンテキストが失われることがあります。これは望ましくありません。このクラスは contextvar のコピーを自動化するため、この executor を使用すると、ユーザーが期待するとおりに「そのまま動作」します。
+
+このクラスを使わなくても、代わりに次のように書けば同じ効果を得られます。
+
+```python
+with concurrent.futures.ThreadPoolExecutor() as executor:
+     contexts = [copy_context() for _ in range(len(vals))]
+
+     def _wrapped_fn(*args):
+         return contexts.pop().run(fn, *args)
+
+     executor.map(_wrapped_fn, vals)
+```
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L68" />
+
+### <kbd>method</kbd> `__init__`
+
+```python
+__init__(*args: 'Any', **kwargs: 'Any') → None
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L77" />
+
+### <kbd>method</kbd> `map`
+
+```python
+map(
+    fn: 'Callable',
+    *iterables: 'Iterable[Any]',
+    timeout: 'float | None' = None,
+    chunksize: 'int' = 1
+) → Iterator
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L73" />
+
+### <kbd>method</kbd> `submit`
+
+```python
+submit(fn: 'Callable', *args: 'Any', **kwargs: 'Any') → Any
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L164" />
+
+### <kbd>関数</kbd> `deprecated`
+
+```python
+deprecated(new_name: 'str') → Callable[[Callable[P, R]], Callable[P, R]]
+```
+
+関数を非推奨としてマークし、ユーザーを `new_name` にリダイレクトするデコレータです。
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L137" />
+
+### <kbd>関数</kbd> `is_colab`
+
+```python
+is_colab()
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L146" />
+
+### <kbd>関数</kbd> `is_notebook`
+
+```python
+is_notebook() → bool
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L21" />
+
+### <kbd>関数</kbd> `log_once`
+
+```python
+log_once(log_method: 'Callable[[str], None]', message: 'str') → None
+```
+
+同じタイプのメッセージは、最初の1回だけログし、それ以降は抑制します。これは、ログをスパムせずにエラーをユーザーに通知するのに役立ちます。
+
+これは主に、同じエラーメッセージが何度も発生する可能性がある場合に有用です。たとえば、op の保存に失敗した場合、その op が call されるたびに同じことが起こる可能性が高くなります。あるいは、パッチしたイテレーターにエラーがある場合は、結果を反復処理するたびに発生する可能性が高くなります。これにより、ログを増やしすぎることなく、エラーをユーザーに知らせることができます。
+
+**引数:**
+
+* <b>`log_method`</b>: メッセージのログに使用する method。文字列の引数を受け取る必要があります。
+* <b>`message`</b>: ログするメッセージ。
+  **例:**
+
+```python
+log_once(logger.error, "Failed to save op")
+```

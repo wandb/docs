@@ -1,0 +1,186 @@
+---
+title: "중첩 함수 트레이스"
+description: "W&B Tracing으로 깊게 중첩된 Call 구조를 추적하는 방법을 알아보세요"
+keywords: ["중첩 트레이스", "weave.op", "부모-자식 Call", "weave.attributes", "메타데이터"]
+---
+
+이 튜토리얼에서는 Weave에서 중첩 함수를 트레이스하는 방법을 설명합니다. 이를 통해 하위 함수와 함수 간 부모-자식 관계를 포함해 LLM 기반 애플리케이션의 전체 실행 흐름을 모니터링할 수 있습니다. 이 튜토리얼을 마치면 Weave **Traces** 페이지에서 중첩 트레이스를 캡처하고 시각화하며 메타데이터를 추가할 수 있습니다.
+
+LLM 기반 애플리케이션에는 여러 LLM Call, 추가적인 데이터 처리, 그리고 모니터링이 중요한 검증 로직이 포함될 수 있습니다. Weave에서는 `@weave.op()` 데코레이터(Python)를 사용하거나 `weave.op()`으로 래핑(TypeScript)하여 이러한 중첩 함수와 부모-자식 관계를 추적할 수 있습니다.
+
+애플리케이션의 전체 실행 흐름을 캡처할 수 있도록 함수와 하위 함수는 가능한 한 세분화해 데코레이션하세요. 이렇게 하면 애플리케이션의 동작을 더 잘 이해하고 원하는 방식으로 조정하는 데 도움이 됩니다.
+
+<div id="trace-nested-functions">
+  ## 중첩 함수 트레이스
+</div>
+
+이 섹션에서는 함수와 그 안에 중첩된 하위 함수를 트레이스하는 예제를 단계별로 살펴봅니다. 다음 코드는 [퀵스타트 예제](/ko/weave/quickstart)를 바탕으로 LLM이 반환한 항목 수를 세고 이를 더 상위 수준의 함수로 감싸는 로직을 추가합니다. 또한 이 예제에서는 `weave.op()`을 사용해 모든 함수, 해당 Call 순서, 그리고 부모-자식 관계를 트레이스합니다:
+
+<Tabs>
+  <Tab title="Python">
+    ```python {1,7,26,32,42}
+    import weave
+    import json
+    from openai import OpenAI
+
+    client = OpenAI()
+
+    @weave.op()
+    def extract_dinos(sentence: str) -> dict:
+        response = client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {
+                    "role": "system",
+                    "content": """Extract any dinosaur `name`, their `common_name`, \
+    names and whether its `diet` is a herbivore or carnivore, in JSON format."""
+                },
+                {
+                    "role": "user",
+                    "content": sentence
+                }
+                ],
+                response_format={ "type": "json_object" }
+            )
+        return response.choices[0].message.content
+
+    @weave.op()
+    def count_dinos(dino_data: dict) -> int:
+        # 반환된 목록의 항목 수를 셉니다
+        k = list(dino_data.keys())[0]
+        return len(dino_data[k])
+
+    @weave.op()
+    def dino_tracker(sentence: str) -> dict:
+        # LLM을 사용해 공룡을 추출합니다
+        dino_data = extract_dinos(sentence)
+
+        # 반환된 공룡 수를 셉니다
+        dino_data = json.loads(dino_data)
+        n_dinos = count_dinos(dino_data)
+        return {"n_dinosaurs": n_dinos, "dinosaurs": dino_data}
+
+    weave.init('jurassic-park')
+
+    sentence = """I watched as a Tyrannosaurus rex (T. rex) chased after a Triceratops (Trike), \
+    both carnivore and herbivore locked in an ancient dance. Meanwhile, a gentle giant \
+    Brachiosaurus (Brachi) calmly munched on treetops, blissfully unaware of the chaos below."""
+
+    result = dino_tracker(sentence)
+    print(result)
+    ```
+
+    **중첩 함수**
+
+    앞의 코드를 실행하면 **Traces** 페이지에 중첩된 두 함수(`extract_dinos`와 `count_dinos`)의 입력과 출력이 표시되고, 자동으로 로깅된 OpenAI 트레이스도 함께 표시됩니다.
+
+    ![가운데 트레이스 트리 패널과 선택한 Call의 세부 정보 패널이 표시된 중첩 Weave Traces 페이지](/images/tutorial_tracing_2_nested_dinos.png)
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript twoslash
+    // @noErrors
+    import OpenAI from 'openai';
+    import * as weave from 'weave';
+
+    const openai = new OpenAI();
+
+    const extractDinos = weave.op(async (sentence: string) => {
+      const response = await openai.chat.completions.create({
+        model: 'gpt-4o',
+        messages: [
+          {
+            role: 'system',
+            content:
+              'Extract any dinosaur `name`, their `common_name`, names and whether its `diet` is a herbivore or carnivore, in JSON format.',
+          },
+          {role: 'user', content: sentence},
+        ],
+        response_format: {type: 'json_object'},
+      });
+      return response.choices[0].message.content;
+    });
+
+    const countDinos = weave.op(async (dinoData: string) => {
+      const parsed = JSON.parse(dinoData);
+      return Object.keys(parsed).length;
+    });
+
+    const dinoTracker = weave.op(async (sentence: string) => {
+      const dinoData = await extractDinos(sentence);
+      const nDinos = await countDinos(dinoData);
+      return {nDinos, dinoData};
+    });
+
+    async function main() {
+      await weave.init('jurassic-park');
+
+      const sentence = `I watched as a Tyrannosaurus rex (T. rex) chased after a Triceratops (Trike),
+            both carnivore and herbivore locked in an ancient dance. Meanwhile, a gentle giant
+            Brachiosaurus (Brachi) calmly munched on treetops, blissfully unaware of the chaos below.`;
+
+      const result = await dinoTracker(sentence);
+      console.log(result);
+    }
+
+    main();
+
+    ```
+
+    **중첩 함수**
+
+    앞의 코드를 실행하면 **Traces** 페이지에 중첩된 두 함수(`extract_dinos`와 `count_dinos`)의 입력과 출력이 표시되고, 자동으로 로깅된 OpenAI 트레이스도 함께 표시됩니다.
+
+    {/* TODO: TS 스크린샷으로 업데이트 */}
+
+    ![가운데 트레이스 트리 패널과 선택한 Call의 세부 정보 패널이 표시된 중첩 Weave Traces 페이지](/images/tutorial_tracing_2_nested_dinos.png)
+  </Tab>
+</Tabs>
+
+코드를 실행하면 각 함수 호출과 함수 간 관계를 캡처한 완전한 중첩 트레이스를 Weave에서 확인할 수 있습니다。
+
+<div id="track-metadata">
+  ## 메타데이터 추적
+</div>
+
+이제 Weave가 중첩된 함수를 트레이스하므로, 사용자나 환경처럼 run에 대한 추가 컨텍스트를 해당 트레이스에 더할 수 있습니다. 메타데이터를 추적하려면 `weave.attributes` 컨텍스트 관리자를 사용하고, 호출 시점에 추적할 메타데이터를 딕셔너리로 전달하세요.
+
+이전 예시를 이어서 살펴보면 다음과 같습니다.
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines {1,10-11}
+    import weave
+
+    weave.init('jurassic-park')
+
+    sentence = """I watched as a Tyrannosaurus rex (T. rex) chased after a Triceratops (Trike), \
+    both carnivore and herbivore locked in an ancient dance. Meanwhile, a gentle giant \
+    Brachiosaurus (Brachi) calmly munched on treetops, blissfully unaware of the chaos below."""
+
+    # 앞에서 정의한 함수와 함께 메타데이터 추적
+    with weave.attributes({'user_id': 'lukas', 'env': 'production'}):
+        result = dino_tracker(sentence)
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    이 기능은 아직 TypeScript에서 사용할 수 없습니다.
+    ```
+  </Tab>
+</Tabs>
+
+<Note>
+  사용자 ID나 코드의 환경 상태(개발, 스테이징, 프로덕션)와 같은 메타데이터를 실행 시 추적하세요.
+
+  system 프롬프트와 같은 시스템 설정을 추적하려면 [Weave Models](/ko/weave/guides/core-types/models)를 사용하세요.
+</Note>
+
+attributes 사용에 대한 자세한 내용은 [속성 정의 및 기록](/ko/weave/guides/tools/attributes)을 참조하세요.
+
+<div id="whats-next">
+  ## 다음 단계
+</div>
+
+* [App Versioning 튜토리얼](/ko/weave/tutorial-weave_models)을 따라 임시 프롬프트, 모델, 애플리케이션의 변경 사항을 캡처하고 버전 관리하며 정리해 보세요.

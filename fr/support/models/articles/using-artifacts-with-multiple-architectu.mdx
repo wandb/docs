@@ -1,0 +1,21 @@
+---
+title: "Utiliser des artifacts avec plusieurs architectures et exécutions ?"
+keywords: ["Artifacts"]
+---
+
+Cet article décrit comment organiser les artifacts lorsqu&#39;un projet explore plusieurs architectures de modèle sur de nombreuses exécutions, afin que vous puissiez suivre indépendamment les points de contrôle de chaque architecture.
+
+Vous pouvez gérer les versions d&#39;un modèle de plusieurs façons. Artifacts offre un outil de gestion des versions de modèles adapté à des besoins spécifiques. Pour les projets qui explorent plusieurs architectures de modèle, une approche courante consiste à séparer les artifacts par architecture. Suivez les étapes suivantes :
+
+1. Créez un nouvel artifact pour chaque architecture de modèle distincte. Pour fournir des descriptions détaillées de l&#39;architecture, utilisez l&#39;attribut `metadata` des artifacts, comme vous utilisez `config` pour une exécution. Le fait de séparer les artifacts par architecture permet d&#39;isoler l&#39;historique des versions de chaque modèle.
+2. Pour chaque modèle, enregistrez régulièrement des points de contrôle avec `log_artifact`. W&amp;B construit un historique de ces points de contrôle et attribue au plus récent l&#39;alias `latest`. Pour faire référence au point de contrôle le plus récent d&#39;une architecture de modèle donnée, utilisez `[ARCHITECTURE-NAME]:latest`.
+
+Cette approche vous donne un historique distinct et versionné pour chaque architecture, avec une référence `latest` stable vers son point de contrôle le plus récent.
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/fr/support/models/tags/artifacts)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

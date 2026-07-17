@@ -1,0 +1,49 @@
+To verify the installation, W&B recommends using the [W&B CLI](/models/ref/cli/). The `wandb verify` command runs tests that confirm components and configurations work as expected.
+
+<Note>
+This procedure assumes that you create the first admin user account in a browser.
+</Note>
+
+To verify the installation:
+
+1. Install the W&B CLI:
+
+   ```bash
+   pip install wandb
+   ```
+
+2. Log in to W&B:
+
+   ```bash
+   wandb login --host=https://YOUR_DNS_DOMAIN
+   ```
+
+   For example:
+
+   ```bash
+   wandb login --host=https://wandb.company-name.com
+   ```
+
+3. Verify the installation:
+
+   ```bash
+   wandb verify
+   ```
+
+After the command runs, a successful installation displays the following output:
+
+```console
+Default host selected:  https://wandb.company-name.com
+Find detailed logs for this test at: /var/folders/pn/b3g3gnc11_sbsykqkm3tx5rh0000gp/T/tmpdtdjbxua/wandb
+Checking if logged in...................................................✅
+Checking signed URL upload..............................................✅
+Checking ability to send large payloads through proxy...................✅
+Checking requests to base url...........................................✅
+Checking requests made over signed URLs.................................✅
+Checking CORs configuration of the bucket...............................✅
+Checking wandb package version is up to date............................✅
+Checking logged metrics, saving and downloading a file..................✅
+Checking artifact save and download workflows...........................✅
+```
+
+Contact W&B Support if you encounter errors.

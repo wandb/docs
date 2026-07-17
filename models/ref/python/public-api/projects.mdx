@@ -3,7 +3,7 @@ title: Projects
 namespace: public_apis_namespace
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py" />
 
@@ -19,7 +19,7 @@ An iterable interface to access projects created and saved by the entity.
 
 ```python
 __init__(
-    client: 'RetryingClient',
+    service_api: 'ServiceApi',
     entity: 'str',
     per_page: 'int' = 50
 ) → Projects
@@ -27,7 +27,7 @@ __init__(
 
 **Args:**
  
- - `client` (`wandb.apis.internal.Api`):  The API client instance to use. 
+ - `service_api`:  Interface to the wandb-core service that performs  W&B API calls for this collection. 
  - `entity` (str):  The entity name (username or team) to fetch projects for. 
  - `per_page` (int):  Number of projects to fetch per request (default is 50). 
 
@@ -55,12 +55,30 @@ An iterable collection of `Project` objects.
 
 **Args:**
  
- - `client`:  The API client used to query W&B. 
+ - `service_api`:  The service API used to query W&B. 
  - `entity`:  The entity which owns the projects. 
  - `per_page`:  The number of projects to fetch per request to the API. 
 
 
 ---
+
+### <kbd>property</kbd> Projects.cursor
+
+An opaque cursor that marks the start of the next page to fetch. 
+
+This value may be saved and passed as `start=` to a later paginated query to resume iteration from where this paginator left off. 
+
+
+
+**Returns:**
+ - `str | None`: The cursor property value.
+---
+
+
+### <kbd>property</kbd> Projects.more
+
+
+
 
 
 

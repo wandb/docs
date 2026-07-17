@@ -1,21 +1,41 @@
 ---
-title: wandb ローンンチ-sweep
+title: wandb launch-sweep
 ---
 
-**使用方法**
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-`wandb launch-sweep [OPTIONS] [CONFIG]`
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/cli.py#L1266" />
 
-**概要**
+<div id="usage">
+  ## 使い方
+</div>
 
-W&B Launch Sweep を実行します (実験的機能)。
+```bash
+launch-sweep [OPTIONS] [CONFIG]
+```
 
-**オプション**
+<div id="description">
+  ## 説明
+</div>
 
-| **オプション** | **説明** |
-| :--- | :--- |
-| `-q, --queue` | sweep をプッシュするキューの名前 |
-| `-p, --project` | エージェントが監視するプロジェクトの名前。指定した場合、設定ファイルで渡されたプロジェクトの値を上書きします |
-| `-e, --entity` | 使用するエンティティ。デフォルトは現在ログインしているユーザーです |
-| `-r, --resume_id` | 8文字のsweep IDを渡してlaunch sweep を再開します。キューが必要です |
-| `--prior_run` | このsweep に追加する既存のrun のID |
+W&amp;B の Launch sweep を実行する (実験的) 。
+
+<div id="arguments">
+  ## 引数
+</div>
+
+| 名        | デフォルト | タイプ   |
+| -------- | ----- | ----- |
+| `config` | PATH  | False |
+
+<div id="options">
+  ## オプション
+</div>
+
+| Flag              | Type | Description                                                                |
+| ----------------- | ---- | -------------------------------------------------------------------------- |
+| `--queue, -q`     | STR  | sweep をプッシュする先のキュー名。**デフォルト**: None                                        |
+| `--project, -p`   | STR  | エージェントが監視する project 名。指定した場合、設定ファイルで渡された project の値を上書きします。**デフォルト**: None |
+| `--entity, -e`    | STR  | 使用する entity。デフォルトでは、現在ログインしているユーザーが使用されます。**デフォルト**: None                  |
+| `--resume_id, -r` | STR  | 8 文字の sweep ID を指定して Launch sweep を再開します。キューは必須です。**デフォルト**: None          |
+| `--prior_run, -R` | STR  | この sweep に追加する既存の run の ID。**デフォルト**: None                                 |

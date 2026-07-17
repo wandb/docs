@@ -1,0 +1,27 @@
+---
+title: カスタム summary メトリクスをログする
+---
+
+```python
+"""
+カスタム summary メトリクスを W&B にログします。
+
+以下を置き換えてください:
+- 山括弧で囲まれた値を実際の値に置き換えてください
+- run.define_metric() 内の <summary_function_a> と <summary_function_b> を
+    "max"、"min"、"last"、"mean"、"best"、"none" のいずれかに置き換えてください。
+"""
+import wandb
+import random
+
+with wandb.init() as run:
+    # metric_name_a に対する summary_function_a と summary_function_b の summary 値
+    run.define_metric(name="<metric_name_a>", summary="<summary_function_a>")
+    run.define_metric(name="<metric_name_a>", summary="<summary_function_b>")
+
+    for i in range(10):
+        log_dict = {
+            "metric_name_a": random.uniform(0, 1 / (i + 1)),
+        }
+        run.log(log_dict)
+```

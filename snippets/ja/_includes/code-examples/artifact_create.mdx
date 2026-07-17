@@ -1,0 +1,30 @@
+---
+title: Artifact を作成する
+---
+
+```python
+"""
+W&B artifactを作成してログします。まずartifactオブジェクトを作成し、
+次にファイル、ディレクトリ、または外部参照をartifactに追加します。
+最後に、artifactをW&B runにログします。
+"""
+import wandb
+
+# artifactオブジェクトを作成する
+artifact = wandb.Artifact(name="<artifact_name>", type="<artifact_type>")
+
+# artifactに1つ以上のファイルを追加する
+artifact.add_file(local_path="data/file1.csv")
+
+# artifactにディレクトリを再帰的に追加する
+artifact.add_dir(local_path="data/directory")
+
+# artifactに外部URI参照を追加する
+artifact.add_reference(uri="s3://my-bucket/path/to/data.csv")
+
+with wandb.init(project="<project>") as run:
+    # トレーニングおよびloggingのコードをここに記述する
+
+    # artifactをログする例
+    run.log_artifact(artifact)
+```

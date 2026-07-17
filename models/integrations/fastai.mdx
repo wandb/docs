@@ -1,19 +1,20 @@
 ---
 title: fastai
+description: "Integrate W&B with fastai using the WandbCallback to track experiments, log metrics, and visualize model performance."
 ---
-If you're using **fastai** to train your models, W&B has an easy integration using the `WandbCallback`. Explore the details in[ interactive docs with examples →](https://app.wandb.ai/borisd13/demo_config/reports/Visualize-track-compare-Fastai-models--Vmlldzo4MzAyNA)
+
+import ApiKeyCreateStreamlined from "/snippets/_includes/api-key-create-streamlined.mdx";
+
+You can integrate **fastai** with W&B using the `WandbCallback` class to track experiments, log metrics, and visualize model performance during training. This page shows how to set up authentication, add the callback to your training loop, and configure logging for both single-process and distributed training. Check out these [interactive docs with examples](https://app.wandb.ai/borisd13/demo_config/reports/Visualize-track-compare-Fastai-models--Vmlldzo4MzAyNA) for more details.
 
 ## Sign up and create an API key
 
 An API key authenticates your machine to W&B. You can generate an API key from your user profile.
 
-<Note>
-For a more streamlined approach, you can generate an API key by going directly to the [W&B authorization page](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
-</Note>
+<ApiKeyCreateStreamlined/>
 
 1. Click your user profile icon in the upper right corner.
 1. Select **User Settings**, then scroll to the **API Keys** section.
-1. Click **Reveal**. Copy the displayed API key. To hide the API key, reload the page.
 
 ## Install the `wandb` library and log in
 
@@ -21,7 +22,7 @@ To install the `wandb` library locally and log in:
 
 <Tabs>
 <Tab title="Command Line">
-1. Set the `WANDB_API_KEY` [environment variable](/models/track/environment-variables/) to your API key.
+1. Set the `WANDB_API_KEY` [environment variable](/models/track/environment-variables/) to your API key. Replace values enclosed in `<>` with your own:
 
     ```bash
     export WANDB_API_KEY=<your_api_key>
@@ -47,7 +48,7 @@ wandb.login()
 ```
 </Tab>
 <Tab title="Python notebook">
-```notebook
+```python
 !pip install wandb
 
 import wandb
@@ -57,6 +58,8 @@ wandb.login()
 </Tabs>
 
 ## Add the `WandbCallback` to the `learner` or `fit` method
+
+To start logging your fastai training runs to W&B, attach the `WandbCallback` to either a single `fit` call or the `learner` itself.
 
 ```python
 import wandb
@@ -73,36 +76,36 @@ learn = learner(..., cbs=WandbCallback())
 ```
 
 <Note>
-If you use version 1 of Fastai, refer to the [Fastai v1 docs](/models/integrations/fastai/v1/).
+If you use version 1 of fastai, refer to the [fastai v1 docs](/models/integrations/fastai/v1/).
 </Note>
 
-## WandbCallback Arguments
+## WandbCallback arguments
 
-`WandbCallback` accepts the following arguments:
+Use the following arguments to control what `WandbCallback` logs during training:
 
 | Args                     | Description                                                                                                                                                                                                                                                  |
 | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| log                      | Whether to log the model's: `gradients` , `parameters`, `all` or `None` (default). Losses & metrics are always logged.                                                                                                                                 |
-| log_preds               | whether we want to log prediction samples (default to `True`).                                                                                                                                                                                               |
-| log_preds_every_epoch | whether to log predictions every epoch or at the end (default to `False`)                                                                                                                                                                                    |
-| log_model               | whether we want to log our model (default to False). This also requires `SaveModelCallback`                                                                                                                                                                  |
-| model_name              | The name of the `file` to save, overrides `SaveModelCallback`                                                                                                                                                                                                |
-| log_dataset             | <ul><li><code>False</code> (default)</li><li><code>True</code> will log folder referenced by learn.dls.path.</li><li>a path can be defined explicitly to reference which folder to log.</li></ul><p><em>Note: subfolder "models" is always ignored.</em></p> |
-| dataset_name            | name of logged dataset (default to `folder name`).                                                                                                                                                                                                           |
-| valid_dl                | `DataLoaders` containing items used for prediction samples (default to random items from `learn.dls.valid`.                                                                                                                                                  |
-| n_preds                 | number of logged predictions (default to 36).                                                                                                                                                                                                                |
-| seed                     | used for defining random samples.                                                                                                                                                                                                                            |
+| `log`                      | Whether to log the model's: `gradients`, `parameters`, `all`, or `None` (default). Losses and metrics are always logged.                                                                                                                                 |
+| `log_preds`               | Whether to log prediction samples (default to `True`).                                                                                                                                                                                               |
+| `log_preds_every_epoch` | Whether to log predictions every epoch or at the end (default to `False`).                                                                                                                                                                                   |
+| `log_model`               | Whether to log the model (default to `False`). This also requires `SaveModelCallback`.                                                                                                                                                                 |
+| `model_name`              | The name of the `file` to save, overrides `SaveModelCallback`.                                                                                                                                                                                               |
+| `log_dataset`             | <ul><li><code>False</code> (default).</li><li><code>True</code> logs the folder referenced by `learn.dls.path`.</li><li>A path can be defined explicitly to reference which folder to log.</li></ul><p><em>Note: subfolder "models" is always ignored.</em></p> |
+| `dataset_name`            | Name of the logged dataset (default to `folder name`).                                                                                                                                                                                                       |
+| `valid_dl`                | `DataLoaders` containing items used for prediction samples (default to random items from `learn.dls.valid`).                                                                                                                                                 |
+| `n_preds`                 | Number of logged predictions (default to 36).                                                                                                                                                                                                                |
+| `seed`                     | Used for defining random samples.                                                                                                                                                                                                                            |
 
 For custom workflows, you can manually log your datasets and models:
 
 * `log_dataset(path, name=None, metadata={})`
 * `log_model(path, name=None, metadata={})`
 
-_Note: any subfolder "models" will be ignored._
+_Note: any subfolder "models" is ignored._
 
-## Distributed Training
+## Distributed training
 
-`fastai` supports distributed training by using the context manager `distrib_ctx`. W&B supports this automatically and enables you to track your Multi-GPU experiments out of the box.
+`fastai` supports distributed training by using the context manager `distrib_ctx`. W&B supports this automatically and enables you to track your multi-GPU experiments without additional configuration. The following sections describe how to integrate W&B with distributed training and how to limit logging to the main process.
 
 Review this minimal example:
 
@@ -135,13 +138,13 @@ if __name__ == "__main__":
     train()
 ```
 
-Then, in your terminal you will execute:
+Then, in your terminal, execute:
 
 ```shell
-$ torchrun --nproc_per_node 2 train.py
+torchrun --nproc_per_node 2 train.py
 ```
 
-in this case, the machine has 2 GPUs.
+In this case, the machine has 2 GPUs.
 </Tab>
 <Tab title="Python notebook">
 You can now run distributed training directly inside a notebook.
@@ -178,7 +181,7 @@ notebook_launcher(train, num_processes=2)
 
 ### Log only on the main process
 
-In the examples above, `wandb` launches one run per process. At the end of the training, you will end up with two runs. This can sometimes be confusing, and you may want to log only on the main process. To do so, you will have to detect in which process you are manually and avoid creating runs (calling `wandb.init` in all other processes)
+In the previous examples, W&B launches one run per process. At the end of the training, you have two runs. This can sometimes be confusing, and you may want to log only on the main process. To do so, you must manually detect which process you are in and avoid creating runs (calling `wandb.init()` in all other processes).
 
 <Tabs>
 <Tab title="Script">
@@ -210,10 +213,10 @@ def train():
 if __name__ == "__main__":
     train()
 ```
-in your terminal call:
+In your terminal, call:
 
-```
-$ torchrun --nproc_per_node 2 train.py
+```shell
+torchrun --nproc_per_node 2 train.py
 ```
 </Tab>
 <Tab title="Python notebook">
@@ -251,5 +254,7 @@ notebook_launcher(train, num_processes=2)
 
 ## Examples
 
-* [Visualize, track, and compare Fastai models](https://app.wandb.ai/borisd13/demo_config/reports/Visualize-track-compare-Fastai-models--Vmlldzo4MzAyNA): A thoroughly documented walkthrough.
-* [Image Segmentation on CamVid](https://bit.ly/fastai-wandb): A sample use case of the integration.
+For end-to-end demonstrations of the fastai integration, see the following references:
+
+* [Visualize, track, and compare fastai models](https://app.wandb.ai/borisd13/demo_config/reports/Visualize-track-compare-Fastai-models--Vmlldzo4MzAyNA): A documented walkthrough.
+* [Image segmentation on CamVid](https://colab.research.google.com/drive/1IWrhwcJoncCKHm6VXsNwOr9Yukhz3B49?usp=sharing): A sample use case of the integration.

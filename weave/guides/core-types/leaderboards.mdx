@@ -1,52 +1,57 @@
 ---
 title: "Compare and rank models"
 description: "Compare and rank different model versions based on evaluation metrics"
+keywords: ["leaderboard", "model comparison", "benchmark", "evaluation metrics"]
 ---
 
-Use Weave _Leaderboards_ to evaluate and compare multiple models across multiple metrics and measure accuracy, generation quality, latency, or custom evaluation logic. A leaderboard helps you visualize model performance in a central location, track changes over time, and align on team-wide benchmarks.
+Use Weave Leaderboards to evaluate and compare multiple models across multiple metrics and measure accuracy, generation quality, latency, or custom evaluation logic. A leaderboard helps you visualize model performance in a central location, track changes over time, and align on team-wide benchmarks.
+
+This guide shows you how to create, configure, and publish a leaderboard so your team can compare model versions against shared benchmarks.
 
 Leaderboards are ideal for:
 
-- Tracking model performance regressions
-- Coordinating shared evaluation workflows
+- Tracking model performance regressions.
+- Coordinating shared evaluation workflows.
 
 <Note>
-Leaderboard creation is only available for the Weave UI and Weave Python SDK. TypeScript users can create and manage leaderboards using the [Weave UI](#using-the-ui).
+Leaderboard creation is only available for the Weave UI and Weave Python SDK. TypeScript users can create and manage leaderboards using the [Weave UI](#use-the-ui).
 </Note>
 
-## Create a Leaderboard
+## Create a leaderboard
 
-You can create a leaderboard via the [Weave UI](#ui) or [programmatically](#python).
+You can create a leaderboard through the [Weave UI](#use-the-ui) or [programmatically](#use-the-python-sdk). Choose the UI approach for ad-hoc comparisons, or the Python SDK to integrate leaderboard creation into automated evaluation workflows.
 
-### Using the UI
+### Use the UI
 
-To create and customize leaderboards directly in the Weave UI:
+Use the Weave UI to create and customize leaderboards interactively. Follow these steps:
 
-1. In the Weave UI, Navigate to the **Leaders** section. If it's not visible, click **More** → **Leaders**.
+1. In the Weave UI, navigate to the **Leaders** section. If it's not visible, click **More** → **Leaders**.
 2. Click **+ New Leaderboard**.
-3. In the **Leaderboard Title** field, enter a descriptive name (e.g., `summarization-benchmark-v1`).
+3. In the **Leaderboard Title** field, enter a descriptive name (for example, `summarization-benchmark-v1`).
 4. Optionally, add a description to explain what this leaderboard compares.
 5. [Add columns](#add-columns) to define which evaluations and metrics to display.
-6. Once you're happy with the layout, save and publish your leaderboard to share it with others.
+6. When the layout is ready, save and publish your leaderboard to share it with others.
 
 #### Add columns
 
-Each column in a leaderboard represents a metric from a specific evaluation. To configure a column, you specify:
+Columns define what your leaderboard displays for each model. Each column in a leaderboard represents a metric from a specific evaluation. To configure a column, you specify:
 
 - **Evaluation**: Select an evaluation run from the dropdown (must be previously created).
-- **Scorer**: Choose a scoring function (e.g., `jaccard_similarity`, `simple_accuracy`) used in that evaluation.
-- **Metric**: Choose a summary metric to display (e.g., `mean`, `true_fraction`, etc.).
+- **Scorer**: Choose a scoring function (for example, `jaccard_similarity` or `simple_accuracy`) used in that evaluation.
+- **Metric**: Choose a summary metric to display (for example, `mean` or `true_fraction`).
 
 To add more columns, click **Add Column**.
 
-To edit a column, click its three-dot menu (`⋯`) on the right. You can:
+To edit a column, click the action (<Icon icon="ellipsis" iconType="solid"/>) menu on the right. You can:
 
-- **Move before / after** – Reorder columns
-- **Duplicate** – Copy the column definition
-- **Delete** – Remove the column
-- **Sort ascending** – Set the default sort for the leaderboard (click again to toggle descending)
+- **Move before or after**. Reorder columns.
+- **Duplicate**. Copy the column definition.
+- **Delete**. Remove the column.
+- **Sort ascending**. Set the default sort for the leaderboard (click again to toggle descending).
 
-### Python
+### Use the Python SDK
+
+Use the Python SDK to define, publish, and retrieve leaderboards in code. This approach lets you version leaderboards alongside your evaluation code and run them as part of an automated workflow.
 
 <Tip>
 Looking for a complete, runnable code sample? See the [End-to-end Python example](#end-to-end-python-example).
@@ -129,7 +134,9 @@ To create and publish a leaderboard:
    print(results)
    ```
 
-## End-to-End Python example
+After publishing, your leaderboard is available in the Weave UI under the **Leaders** tab, where your team can view and compare model performance.
+
+## End-to-end Python example
 
 The following example uses Weave Evaluations and creates a leaderboard to compare three summarization models on a shared dataset using a custom metric. It creates a small benchmark, evaluates each model, scores each model with [Jaccard similarity](https://www.learndatasci.com/glossary/jaccard-similarity/), and publishes the results to a Weave leaderboard.
 
@@ -196,7 +203,7 @@ asyncio.run(run_all())
 
 spec = leaderboard.Leaderboard(
     name="Summarization Model Comparison",
-    description="Evaluate summarizer models using Jaccard similarity on 3 short samples.",
+    description="Evaluate summarizer models using Jaccard similarity on three short samples.",
     columns=[
         leaderboard.LeaderboardColumn(
             evaluation_object_ref=get_ref(evaluation).uri(),
@@ -212,12 +219,12 @@ results = leaderboard.get_leaderboard_results(spec, client)
 print(results)
 ```
 
-### View and interpret the Leaderboard
+### View and interpret the leaderboard
 
-After the script finishes running, view the leaderboard:
+After the script publishes the leaderboard, use the Weave UI to inspect the results and compare model performance side by side:
 
-1. In the **Weave UI**, go to the **Leaders** tab. If it's not visible, click **More**, then select **Leaders**.
-2. Click on the name of your leaderboard—e.g. `Summarization Model Comparison`.
+1. In the Weave UI, go to the **Leaders** tab. If it's not visible, click **More**, then select **Leaders**.
+2. Click the name of your leaderboard, for example `Summarization Model Comparison`.
 
 In the leaderboard table, each row represents a given model (`model_humanlike`, `model_vanilla`, `model_messy`). The `mean` column shows the average Jaccard similarity between the model's output and the reference summaries.
 
@@ -227,6 +234,6 @@ In the leaderboard table, each row represents a given model (`model_humanlike`, 
 
 For this example:
 
-- `model_humanlike` performs the best, with \~46% overlap.
-- `model_vanilla` (a naive truncation) gets \~21%.
-- `model_messy` an intentionally bad model, scores \~2%.
+- `model_humanlike` performs the best, with approximately 46 percent overlap.
+- `model_vanilla` (a naive truncation) gets approximately 21 percent.
+- `model_messy`, an intentionally bad model, scores approximately 2 percent.

@@ -1,0 +1,38 @@
+---
+title: ArtifactFiles
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
+
+
+## <kbd>class</kbd> `ArtifactFiles`
+
+artifact内のファイルを対象とするページネーター。 
+
+### <kbd>property</kbd> ArtifactFiles.cursor
+
+次に取得するページの開始位置を示す、内部構造が公開されていないカーソルです。
+
+この値は保存しておき、後続のページ分割されたクエリに `start=` として渡すことで、このページネーターが中断した位置から反復を再開できます。
+
+**戻り値:**
+
+* `str | None`: カーソルのプロパティ値。
+
+***
+
+### <kbd>プロパティ</kbd> ArtifactFiles.more
+
+***
+
+### <kbd>プロパティ</kbd> ArtifactFiles.path
+
+artifactのパスを返します。
+
+**戻り値:**
+
+* `list[str]`: pathプロパティの値。

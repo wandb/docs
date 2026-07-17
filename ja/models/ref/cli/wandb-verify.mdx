@@ -2,17 +2,46 @@
 title: wandb verify
 ---
 
-**使用方法**
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-`wandb verify [OPTIONS]`
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/cli.py#L3553" />
 
-**概要**
+<div id="usage">
+  ## 使用方法
+</div>
 
-ローカルインスタンスを検証する
+```bash
+verify [OPTIONS]
+```
 
+<div id="description">
+  ## 説明
+</div>
 
-**オプション**
+自己ホスト型 W&amp;B インスタンスに対してインテグレーションチェックを実行します。
 
-| **オプション** | **説明** |
-| :--- | :--- |
-| `--host` | W&B の特定のインスタンスをテストします |
+自己ホスト型または専用クラウドの W&amp;B デプロイ環境が正しく設定され、
+正常に稼働していることを検証します。このコマンドは、api.wandb.ai のパブリック W&amp;B
+クラウドに対して実行しないでください。
+
+いずれかの重要なチェックが失敗した場合は、`code 1` で終了します。
+
+たとえば、現在設定されている W&amp;B インスタンスを検証するには:
+
+```bash
+wandb verify --host https://my-wandb-instance.com
+```
+
+特定の自己ホスト型インスタンスを確認するには:
+
+```bash
+wandb verify --host https://my-wandb-server.example.com
+```
+
+<div id="options">
+  ## オプション
+</div>
+
+| フラグ      | タイプ | 説明                                                                    |
+| -------- | --- | --------------------------------------------------------------------- |
+| `--host` | STR | 特定の W&amp;B インスタンスの URL を指定します。既定では、設定済みのベース URL を使用します。**デフォルト**: なし |

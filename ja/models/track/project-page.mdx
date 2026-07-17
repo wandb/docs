@@ -1,305 +1,463 @@
 ---
-title: プロジェクト
-description: モデルのバージョンを比較し、スクラッチワークスペースで結果を探索し、ノートや可視化を保存するために学びをレポートにエクスポートする
+description: モデルのバージョンを比較し、スクラッチWorkspaceで結果を確認して、
+  所見をレポートにエクスポートし、メモや可視化を保存します
+title: Projects
 ---
 
-A *プロジェクト* は、結果の可視化、実験の比較、アーティファクトの閲覧とダウンロード、オートメーションの作成などを行うための中央の場所です。
+import ProjectVisibilitySettings from "/snippets/ja/_includes/project-visibility-settings.mdx";
+
+*プロジェクト* は、結果の可視化、実験の比較、artifact の表示とダウンロード、automation の作成などを行うための中心的な場所です。
 
 <Note>
-各プロジェクトには、その公開範囲を決定する公開設定があります。公開範囲についての詳細は、[プロジェクトの公開範囲](/ja/platform/hosting/iam/access-management/restricted-projects)を参照してください。
+  各プロジェクトには、アクセスできるユーザーを決定する可視性設定があります。プロジェクトにアクセスできるユーザーの詳細については、[プロジェクトの可視性](/ja/platform/hosting/iam/access-management/restricted-projects)を参照してください。
 </Note>
 
-各プロジェクトには、サイドバーからアクセスできる次の項目が含まれています:
+各プロジェクトには、次のタブがあります。
 
-* [**Overview**](/ja/models/track/project-page/#overview-tab): プロジェクトのスナップショット
-* [**Workspace**](/ja/models/track/project-page/#workspace-tab): 個人の可視化サンドボックス
-* [**Runs**](#runs-tab): プロジェクト内のすべての run を一覧表示するテーブル
-* **Automations**: プロジェクトで設定されたオートメーション
-* [**Sweeps**](/ja/models/track/project-page/#sweeps-tab): 自動探索と最適化
-* [**Reports**](/ja/models/track/project-page/#reports-tab): メモ、run、およびグラフの保存されたスナップショット
-* [**Artifacts**](#artifacts-tab): すべての run およびその run に関連するアーティファクトを含む
+* [Overview](/ja/models/track/project-page/#overview-tab): プロジェクトのスナップショット
+* [Workspace](/ja/models/track/project-page/#workspace-tab): 個人用の可視化サンドボックス
+* [Runs](#runs-tab): プロジェクト内のすべての run を一覧表示する表
+* [Automations](#automations-tab): プロジェクトで設定された Automations
+* [Sweeps](/ja/models/sweeps): 自動化された探索と最適化
+* [Reports](/ja/models/track/project-page/#reports-tab): メモ、runs、グラフの保存済みスナップショット
+* [Artifacts](#artifacts-tab): すべての runs と、その run に関連付けられた artifact が含まれます
 
-## Overview タブ
+<div id="overview-tab">
+  ## Overview タブ
+</div>
 
-* **Project name**: プロジェクトの名前。W&B は、指定したプロジェクトフィールド名で run を初期化するときにプロジェクトを作成します。右上隅の **Edit** ボタンを選択することで、いつでもプロジェクト名を変更できます。
-* **Description**: プロジェクトの説明。
-* **Project visibility**: プロジェクトの公開範囲。それにアクセスできる人を決定する公開設定です。詳細は[プロジェクトの公開範囲](/ja/platform/hosting/iam/access-management/restricted-projects)を参照してください。
-* **Last active**: このプロジェクトにデータが最後にログ記録された日時のタイムスタンプ
-* **Owner**: このプロジェクトを所有するエンティティ
-* **Contributors**: このプロジェクトに貢献するユーザーの数
-* **Total runs**: このプロジェクトの総 run 数
-* **Total compute**: プロジェクト内のすべての run 時間を合計して得られるトータル
-* **Undelete runs**: ドロップダウンメニューをクリックし、「Undelete all runs」をクリックしてプロジェクト内の削除された run を復元します。
-* **Delete project**: 右上隅のドットメニューをクリックしてプロジェクトを削除
+W&amp;B では、プロジェクトフィールドに指定した名前で run を初期化すると、プロジェクトが作成されます。
 
-[ライブ例を見る](https://app.wandb.ai/example-team/sweep-demo/overview)
+**Overview** タブでは、プロジェクト名を確認したり、プロジェクトを管理したりできます。
 
-<Frame>
-    <img src="/images/track/overview_tab_image.png"  />
-</Frame>
+* プロジェクトの名前、説明、またはチームを変更するには、右上の **Edit** をクリックします。
+* 最近削除した Runs を復元するには、右上の **action (<Icon icon="ellipsis" iconType="solid" />)** メニューをクリックし、**Undelete recently deleted runs** をクリックします。
+* プロジェクトを削除するには、右上の **action (<Icon icon="ellipsis" iconType="solid" />)** メニューをクリックし、**Delete project** をクリックします。確認ダイアログを読み、指示に従ってください。プロジェクトの削除は元に戻せません。
 
-## Workspace タブ
+**Overview** ページの残りの部分は、**Details** タブと **Project roles** タブに分かれています。
 
-プロジェクトの*ワークスペース*は、実験を比較するための個人的なサンドボックスを提供します。プロジェクトを使用して、比較できるモデルを整理し、異なるアーキテクチャー、ハイパーパラメーター、データセット、プロセッシングなどで同じ問題に取り組みます。
+<div id="details">
+  ### 詳細
+</div>
 
-**Runs Sidebar**: プロジェクト内のすべての run のリスト。
+プロジェクトの詳細には、次の項目が含まれます。
 
-* **Dot menu**: サイドバーの行にカーソルを合わせると、左側にメニューが表示されます。このメニューを使用して、run の名前を変更、run の削除、または active run の停止を行います。
-* **Visibility icon**: グラフで run をオンまたはオフにするために目のアイコンをクリックします。
-* **Color**: run の色を私たちのプリセットの1つまたはカスタムカラーに変更します。
-* **Search**: 名前で run を検索します。これにより、プロットで表示される run もフィルタリングされます。
-* **Filter**: サイドバーフィルターを使用して、表示される run のセットを絞り込みます。
-* **Group**: 設定した列を選択して run を動的にグループ化します。例えば、アーキテクチャーでグループ化することができます。グループ化すると、プロットに平均値に沿った線が表示され、グラフ上のポイントの分散の地域を示す影が表示されます。
-* **Sort**: 最小の損失や最大の精度を持つ run など、value で run をソートします。ソートは、どの run がグラフに表示されるかに影響します。
-* **Expand button**: サイドバーを完全なテーブルに拡張します。
-* **Run count**: 上部のかっこ内の数字は、プロジェクト内のすべての run 数です。数字 (N visualized) は、目のアイコンがオンになっていて、各プロットで可視化可能な run 数です。以下の例では、グラフは183 runのうち最初の10 runのみを表示しています。表示される run の最大数を増やすには、グラフを編集します。
+* **Project visibility**: プロジェクトの公開範囲。誰がアクセスできるかを決定する設定です。詳細は [Project visibility](/ja/platform/hosting/iam/access-management/restricted-projects) を参照してください。
+* **Last active**: このプロジェクトに最後にデータがログされた時刻のタイムスタンプ
+* **Contributors**: このプロジェクトに貢献しているユーザー数
+* **Total runs**: このプロジェクト内の run の総数
+* **Total compute**: プロジェクト内のすべての run 時間を合計した値です
 
-[Runs タブ](#runs-tab)で列をピン止め、非表示、または順序を変更すると、Runs サイドバーにもこれらのカスタマイズが反映されます。
+**Details** タブには、プロジェクトのデータやメトリクスへのアクセスとエクスポート、sweep から最良のモデルをダウンロードする方法などの説明も含まれます。
 
-**Panels layout**: このスクラッチスペースを使用して、結果を探索し、チャートを追加および削除し、異なるメトリクスに基づいてモデルのバージョンを比較します。
-
-[ライブ例を見る](https://app.wandb.ai/example-team/sweep-demo)
+[ライブサンプルプロジェクトを表示](https://wandb.ai/example-team/sweep-demo/overview)
 
 <Frame>
-    <img src="/images/app_ui/workspace_tab_example.png"  />
+  <img src="/images/track/overview_tab_image.png" alt="プロジェクトの Overview タブ" />
 </Frame>
 
-### Add a section of panels
+**Overview** タブからプロジェクトの公開設定を変更するには:
 
-セクションのドロップダウンメニューをクリックし、「Add section」をクリックして、セクションを作成します。セクションの名前を変更したり、ドラッグして順序を再編成したり、セクションを展開または折りたたむことができます。
+<ProjectVisibilitySettings />
 
-各セクションには右上隅にオプションがあります:
+<div id="project-roles">
+  ### Project roles
+</div>
 
-* **Switch to custom layout**: カスタムレイアウトでは、個々のパネルのサイズを変更できます。
-* **Switch to standard layout**: 標準レイアウトでは、セクション内のすべてのパネルのサイズを一括で変更でき、ページネーションが利用できます。
-* **Add section**: ドロップダウンメニューから上または下にセクションを追加するか、ページの下部のボタンをクリックして新しいセクションを追加します。
+**Project roles** タブは、プロジェクトオーナーと **Admin** ロールを持つユーザーにのみ表示されます。プロジェクトにアクセスできるユーザーの一覧表示や検索、メンバーのロール変更を行えます。
+
+<div id="workspace-tab">
+  ## Workspace タブ
+</div>
+
+プロジェクトの*Workspace*は、Experiments を比較するための個人用のサンドボックスです。同じ課題に対して、異なるアーキテクチャー、ハイパーパラメーター、データセット、前処理などで取り組む比較可能なモデルを整理するには、プロジェクトを使用します。
+
+**Runs サイドバー**: プロジェクト内のすべての run の一覧です。
+
+* **action (<Icon icon="ellipsis-vertical" iconType="solid" />)** メニュー: サイドバーの行にカーソルを合わせると、左側にメニューが表示されます。このメニューから、run の名前変更、削除、アクティブな run の停止を行えます。
+* **表示アイコン**: 目のアイコンをクリックして、グラフ上で Runs の表示/非表示を切り替えます
+* **色**: run の色を、用意されているプリセットカラーまたはカスタムカラーに変更します
+* **検索**: 名で Runs を検索します。これにより、プロットに表示される Runs もフィルターされます。
+* **フィルター**: サイドバーのフィルターを使用して、表示する Runs を絞り込みます
+* **グループ**: 設定列を選択して、たとえばアーキテクチャーごとに Runs を動的にグループ化します。グループ化すると、プロットには平均値に沿った線と、グラフ上の点の分散を示す影付きの領域が表示されます。
+* **並べ替え**: Runs の並べ替えに使用する値を選択します。たとえば、損失が最も低い Runs や accuracy が最も高い Runs です。並べ替えは、グラフに表示される Runs に影響します。
+* **展開ボタン**: サイドバーを完全な表に展開します
+* **最小化**: **Cmd+.** (macOS) または **Ctrl+.** (Windows/Linux) を押して、Runs セレクターを折りたたむか復元します。詳しくは [キーボードショートカット](/ja/models/app/keyboard-shortcuts) を参照してください。
+* **run 数**: 上部の括弧内の数は、プロジェクト内の run の総数です。 (N visualized) の数は、目のアイコンがオンになっていて、各プロットで可視化できる run の数です。以下の例では、183 個の run のうち最初の 10 個だけがグラフに表示されています。グラフを編集して、表示可能な run の最大数を増やしてください。
+
+[Runs タブ](#runs-tab)で列を固定、非表示、または並び順を変更すると、Runs サイドバーにもそれらのカスタマイズが反映されます。
+
+**Panels layout**: この作業スペースを使用して結果を確認し、チャートを追加または削除し、異なるメトリクスに基づいてモデルのバージョンを比較します
+
+[ライブの例を見る](https://wandb.ai/example-team/sweep-demo)
+
+<Frame>
+  <img src="/images/app_ui/workspace_tab_example.png" alt="プロジェクトワークスペース" />
+</Frame>
+
+<div id="add-a-section-of-panels">
+  ### パネルのセクションを追加する
+</div>
+
+セクションのドロップダウンメニューをクリックし、**Add section** をクリックして、パネル用の新しいセクションを作成します。セクション名は変更でき、ドラッグして並べ替えたり、展開や折りたたみをしたりできます。
+
+各セクションの右上には次のオプションがあります。
+
+* **Add section**: ドロップダウンメニューから上または下にセクションを追加するか、ページ下部のボタンをクリックして新しいセクションを追加します。
 * **Rename section**: セクションのタイトルを変更します。
 * **Export section to report**: このパネルのセクションを新しいレポートに保存します。
-* **Delete section**: セクション全体とすべてのチャートを削除します。これは、ワークスペースバーのページ下部にあるアンドゥボタンで取り消すことができます。
-* **Add panel**: プラスボタンをクリックしてセクションにパネルを追加します。
+* **Delete section**: セクション全体とすべてのチャートを削除します。これは、Workspaceバーのページ下部にある元に戻すボタンで取り消せます。
+* **Add panel**: プラスボタンをクリックして、セクションにパネルを追加します。
 
-### Move panels between sections
+<div id="move-panels-between-sections">
+  ### セクション間でパネルを移動する
+</div>
 
-ドラッグアンドドロップしてセクションに整理します。また、パネルの右上隅にある「Move」ボタンをクリックしてセクションを選択し、パネルを移動します。
-
-<Frame>
-    <img src="/images/app_ui/move-panel.gif"  />
-</Frame>
-
-### Resize panels
-
-* **Standard layout**: すべてのパネルは同じサイズに保たれ、ページがあります。セクションの右下隅をクリックアンドドラッグして、セクションのサイズを変更します。
-* **Custom layout**: 各パネルは個別にサイズが設定されており、ページはありません。
+パネルをドラッグ＆ドロップして並べ替えたり、セクションごとに整理したりできます。パネル右上の**Move**ボタンをクリックして、移動先のセクションを選択することもできます。
 
 <Frame>
-    <img src="/images/app_ui/resize-panel.gif"  />
+  <img src="/images/app_ui/move-panel.png" alt="セクション間でパネルを移動する" />
 </Frame>
 
-### Search for metrics
+<div id="resize-panels">
+  ### パネルのサイズを変更する
+</div>
 
-ワークスペースの検索ボックスを使用してパネルを絞り込みます。この検索はパネルのタイトルに一致し、デフォルトでは表示されているメトリクスの名前となります。
+すべてのパネルは同じサイズで表示され、複数のページに分かれています。
+セクションの右下隅をクリックしてドラッグすると、セクションのサイズを変更できます。カーソルを合わせると、隅にアイコンが表示されます。
 
 <Frame>
-    <img src="/images/app_ui/search_in_the_workspace.png"  />
+  <img src="/images/app_ui/resize-panel.png" alt="パネルのサイズ変更" />
 </Frame>
 
-## Runs タブ
+<div id="search-for-metrics">
+  ### メトリクスを検索
+</div>
 
-Runs タブを使用して、run をフィルタリング、グループ化、およびソートします。
+Workspace の検索ボックスを使用して、パネルを絞り込みます。この検索はパネルのタイトルを対象としており、タイトルにはデフォルトで、可視化されているメトリクスの名が使われます。
 
 <Frame>
-    <img src="/images/runs/run-table-example.png"  />
+  <img src="/images/app_ui/search_in_the_workspace.png" alt="Workspace の検索" />
 </Frame>
 
-次のタブには、Runs タブで実行できる一般的な操作がいくつか示されています。
+<div id="runs-tab">
+  ## Runs タブ
+</div>
+
+{/* これを /guide/models/track/runs/_index.md と同期させてください */}
+
+Runsタブを使用して、runのフィルタリング、グループ化、並べ替えを行えます。
+
+<Frame>
+  <img src="/images/runs/run-table-example.png" alt="Runs table" />
+</Frame>
+
+以下のタブでは、Runsタブで実行できる一般的な操作の一部を紹介します。
 
 <Tabs>
-<Tab title="Customize columns">
-Runs タブは、プロジェクト内の run の詳細を表示します。デフォルトで多数の列が表示されます。
+  <Tab title="列をカスタマイズ">
+    Runsタブには、プロジェクト内のrunに関する詳細が表示されます。デフォルトでは、多数の列が表示されます。
 
-- すべての列を表示するには、ページを水平にスクロールします。
-- 列の順序を変更するには、列を左右にドラッグします。
-- 列をピン止めするには、列名にカーソルを合わせて、表示されるアクションメニュー `...` をクリックし、次に **Pin column** をクリックします。ピン止めされた列は、ページの左側に、**Name** 列の後に表示されます。ピン止めされた列を取り除くには、**Unpin column** を選択します。
-- 列を非表示にするには、列名にカーソルを合わせて、表示されるアクションメニュー `...` をクリックし、次に **Hide column** をクリックします。現在非表示のすべての列を表示するには、**Columns** をクリックします。
-- 複数の列を一度に表示、非表示、ピン止め、およびピン解除するには、**Columns** をクリックします。
-  - 非表示の列の名前をクリックして表示します。
-  - 表示列の名前をクリックして非表示にします。
-  - 表示列の横のピンアイコンをクリックしてピン止めします。
+    <Note>
+      Runsタブをカスタマイズすると、その内容は[Workspaceタブ](#workspace-tab)の**Runs**セレクターにも反映されます。
+    </Note>
 
-Runs タブをカスタマイズすると、そのカスタマイズは[Workspace タブ](#workspace-tab)の **Runs** セレクタにも反映されます。
-</Tab>
-<Tab title="Sort">
-指定した列の値でテーブル内のすべての行をソートします。
+    * 表示されている列をすべて確認するには、ページを横方向にスクロールします。
+    * 列の順序を変更するには、列を左右にドラッグします。
+    * 列を固定するには、列名にカーソルを合わせ、表示される**action (<Icon icon="ellipsis-vertical" iconType="solid" />)**メニューをクリックしてから、**Pin column** をクリックします。固定された列は、**Name** 列の後、ページの左側に表示されます。固定を解除するには、**Unpin column** を選択します。
+    * 列を非表示にするには、列名にカーソルを合わせ、表示される**action (<Icon icon="ellipsis-vertical" iconType="solid" />)**メニューをクリックしてから、**Hide column** をクリックします。現在非表示の列をすべて確認するには、**Columns** をクリックします。
+    * 複数の列をまとめて表示、非表示、固定、固定解除するには、**Columns** をクリックします。
+      * 非表示の列の名前をクリックすると、再表示されます。
+      * 表示中の列の名前をクリックすると、非表示になります。
+      * 表示中の列の横にある固定アイコンをクリックすると、その列を固定できます。
+  </Tab>
 
-1. 列タイトルにマウスをホバーします。ケバブメニューが表示されます（三つの垂直ドット）。
-2. ケバブメニュー（三つの垂直ドット）を選択します。
-3. **Sort Asc** または **Sort Desc** を選択して、行を昇順または降順にソートします。
+  <Tab title="並べ替え">
+    次のいずれかの方法で、表内のすべての行を指定した列の値で並べ替えます。
 
-<Frame>
-    <img src="/images/data_vis/data_vis_sort_kebob.png" alt="See the digits for which the model most confidently guessed '0'."  />
-</Frame>
+    1. 任意の列ヘッダーにカーソルを合わせたときに表示される**action (<Icon icon="ellipsis-vertical" iconType="solid" />)**メニューをクリックすると、その列の値で表をすばやく並べ替えられます。
+    2. **Sort** ボタンをクリックし、ドロップダウンから目的の列を選択します。このパネルを使うと、優先順位に従って複数の列で並べ替えできます。
 
-上の画像は、`val_acc` というテーブル列のソートオプションを表示する方法を示しています。
-</Tab>
-<Tab title="Filter">
-ダッシュボードの左上の **Filter** ボタンを使って、式に基づいてすべての行をフィルタリングします。
+    <Frame>
+      <img src="/images/data_vis/data_vis_sort_kebob.png" alt="run tableの並べ替えを設定" />
+    </Frame>
 
-<Frame>
-    <img src="/images/data_vis/filter.png" alt="See only examples which the model gets wrong."  />
-</Frame>
+    上の画像は、`val_acc` という名前の表の列の並べ替えオプションを表示する方法を示しています。
+  </Tab>
 
-**Add filter** を選択して、行に1つ以上のフィルターを追加します。3つのドロップダウンメニューが表示され、左から右にかけて、フィルターのタイプは次のようになります: 列名、演算子、および値
+  <Tab title="フィルター">
+    フィルター式を適用して、可視化したいrunを絞り込みます。
 
-|                   | 列名 | バイナリ関係    | 値       |
-| -----------       | ----------- | ----------- | ----------- |
-| 許可される値   | String       |  &equals;, &ne;, &le;, &ge;, IN, NOT IN,  | 整数, 浮動小数点数, 文字列, タイムスタンプ, null |
+    <Frame>
+      <img src="/images/data_vis/filter.png" alt="run tableのフィルターを設定" />
+    </Frame>
 
-式エディタは、オートコンプリートを使用して、列名と論理述語構造などの用語ごとのオプションのリストを表示します。複数の論理述部を使用して「ands」または「or」で式を組み合わせることができます（場合によっては括弧を使用します）。
+    フィルター式の記述方法の詳細については、[フィルター式を作成する](/ja/models/runs/filter-runs#create-a-filter-expression)を参照してください。
+  </Tab>
 
-</Tab>
-<Tab title="Group">
-特定の列の値で **Group by** ボタンを使い、すべての行をグループ化します。
-
-<Frame>
-    <img src="/images/data_vis/group.png" alt="The truth distribution shows small errors: 8s and 2s are confused for 7s and 9s for 2s."  />
-</Frame>
-
-デフォルトでは、これにより他の数値列がヒストグラムに変わり、グループ全体のその列の値の分布を示します。グループ化は、データ内の高レベルのパターンを理解するのに便利です。
-</Tab>
+  <Tab title="グループ化">
+    表の上にある **Group** ボタンをクリックすると、特定の列の値で全行をグループ化できます。runをグループ化する方法の詳細については、[runをグループに整理する](/ja/models/runs/grouping)を参照してください。
+  </Tab>
 </Tabs>
 
-## Reports タブ
+{/* ## Automations タブ */}
 
-結果のスナップショットを一か所で確認し、チームと学びを共有します。
+<div id="automations-tab">
+  ## Automations タブ
+</div>
 
-<Frame>
-    <img src="/images/app_ui/reports-tab.png"  />
-</Frame>
+Artifacts のバージョン管理に関する後続のアクションを自動化します。automation を作成するには、トリガーイベントと、それによって実行されるアクションを定義します。アクションには、webhook の実行や W&amp;B ジョブの起動が含まれます。詳細は [Automations](/ja/models/automations) を参照してください。
 
-## Sweeps タブ
+<div id="sweeps-tab">
+  ## Sweeps タブ
+</div>
 
-[スイープ](/ja/models/sweeps/)をプロジェクトから新たに開始します。
-
-<Frame>
-    <img src="/images/app_ui/sweeps-tab.png"  />
-</Frame>
-
-## Artifacts タブ
-
-プロジェクトに関連付けられたすべての[Artifacts](/ja/models/track/project-page/#artifacts-tab)をトレーニングデータセットや [ファインチューンされたモデル](/ja/models/core/registry/)から[メトリクスやメディアのテーブル](/ja/models/tables/tables-walkthrough/)まで表示します。
-
-
-
-### Metadata パネル
+プロジェクトから新しい[sweep](/ja/models/sweeps)を開始できます。
 
 <Frame>
-    <img src="/images/app_ui/metadata_panel.png"  />
+  <img src="/images/app_ui/sweeps-tab.png" alt="Sweeps タブ" />
 </Frame>
 
-メタデータパネルは、アーティファクトが構築されたときに提供されるメタデータへのアクセスを提供します。このメタデータには、アーティファクトを再構築するために必要な設定引数、詳細情報を見つけるためのURL、またはアーティファクトをログする際に生成されたメトリクスが含まれている場合があります。さらに、アーティファクトを生成する run の設定や、アーティファクトをログする際の履歴メトリクスを見ることができます。
+<div id="reports-tab">
+  ## Reports タブ
+</div>
 
-### Usage パネル
+結果のスナップショットを 1 か所でまとめて確認し、得られた知見をチームと共有できます。
 
 <Frame>
-    <img src="/images/app_ui/usage_panel.png"  />
+  <img src="/images/app_ui/reports-tab.png" alt="Reports タブ" />
 </Frame>
 
-Usage パネルは、ウェブアプリの外部で、例えばローカルマシン上で使用するためにアーティファクトをダウンロードするためのコードスニペットを提供します。このセクションはまた、アーティファクトを出力した run 及びアーティファクトを入力として使用する run へのリンクも示しています。
+レポートを表示するには、プロジェクトのサイドバーで **Reports** タブを選択し、リストからレポートを選択します。
 
-### Files パネル
+<div id="artifacts-tab">
+  ## Artifacts タブ
+</div>
+
+プロジェクトに関連付けられたすべての[Artifacts](/ja/models/artifacts)を表示します。トレーニング用データセットや[ファインチューニングしたモデル](/ja/models/registry)、[メトリクスやメディアの表](/ja/models/tables/tables-walkthrough)などを確認できます。
+
+<div id="metadata-panel">
+  ### メタデータパネル
+</div>
 
 <Frame>
-    <img src="/images/app_ui/files_panel.png"  />
+  <img src="/images/app_ui/metadata_panel.png" alt="Artifact のメタデータパネル" />
 </Frame>
 
-ファイルパネルは、アーティファクトに関連付けられたファイルとフォルダを一覧表示します。W&B は特定のファイルを run 用に自動的にアップロードします。例えば、`requirements.txt` は run が使用した各ライブラリのバージョンを示し、`wandb-metadata.json` および `wandb-summary.json` は run に関する情報を含みます。他のファイルもアーティファクトやメディアなど、run の設定に応じてアップロードされる場合があります。このファイルツリーをナビゲートし、W&B ウェブアプリで直接内容を確認することができます。
+メタデータパネルでは、アーティファクトのメタデータにアクセスできます。このメタデータには、アーティファクトを再構築するために必要な設定引数、詳細情報を確認できる URL、そのアーティファクトをログした run 中に生成されたメトリクスなどが含まれる場合があります。
+アーティファクトを生成した run の設定に加えて、履歴メトリクスも確認できます。
 
-Artifacts に関連付けられた[テーブル](/ja/models/tables/tables-walkthrough/)は、このコンテキストでは特にリッチでインタラクティブです。
-### Lineage パネル
+アーティファクトのメタデータを表示するには、次の手順に従います。
+
+1. プロジェクトのサイドバーで **Artifacts** タブを選択します。
+2. 一覧からアーティファクトを選択して、そのアーティファクトの最新バージョンの詳細ページを表示します。
+3. **Metadata** タブを選択して、そのアーティファクトに関連付けられたメタデータを表示します。
+
+<div id="usage-panel">
+  ### Usage パネル
+</div>
 
 <Frame>
-    <img src="/images/app_ui/lineage_panel.png"  />
+  <img src="/images/app_ui/usage_panel.png" alt="アーティファクトの Usage パネル" />
 </Frame>
 
-リネージパネルは、プロジェクトに関連付けられたすべてのアーティファクトとそれらをお互いに接続する run を表示します。run タイプはブロックとして、アーティファクトは円として表示され、与えられたタイプの run が与えられたタイプのアーティファクトを消費または生成するときに矢印で示されます。左側の列で選択された特定のアーティファクトのタイプが強調表示されます。
+Usage パネルには、ローカルマシンなど Web アプリの外部で使用するためにアーティファクトをダウンロードするコードスニペットが表示されます。このセクションには、アーティファクトを出力した run と、アーティファクトを入力として使用する run へのリンクも表示されます。
 
-個々のアーティファクトバージョンとそれらを接続する特定の run を表示するには、爆発切り替えをクリックしてください。
+アーティファクトの使用状況を表示するには、次の手順に従います。
 
+1. プロジェクトのサイドバーから **Artifacts** タブを選択します。
+2. リストからアーティファクトを選択して、そのアーティファクトの最新バージョンの詳細ページを表示します。
+3. **Usage** タブを選択して、コードスニペットと関連する run を表示します。
 
-### Versions タブ
+<div id="files-panel">
+  ### Files パネル
+</div>
 
 <Frame>
-    <img src="/images/app_ui/versions_tab.png"  />
+  <img src="/images/app_ui/files_panel.png" alt="Artifact files panel" />
 </Frame>
 
-バージョン タブは、アーティファクトのすべてのバージョンと、バージョンがログ記録された時点での Run History の各数値のカラムを示しています。これにより、パフォーマンスを比較し、興味のあるバージョンを迅速に特定することができます。
+Files パネルには、アーティファクト に関連付けられたファイルとフォルダが一覧表示されます。W&amp;B は、run に対して一部のファイルを自動的にアップロードします。たとえば、`requirements.txt` には run で使用された各ライブラリのバージョンが記録され、`wandb-metadata.json` と `wandb-summary.json` には run に関する情報が含まれます。その他にも、run の設定に応じて、Artifacts やメディアなどのファイルがアップロードされる場合があります。
 
-## プロジェクトにスターを付ける
+アーティファクト にログされたファイルを表示するには、次の手順に従います。
 
-プロジェクトにスターを付けると、そのプロジェクトを重要としてマークします。あなたとあなたのチームがスター付きで重要としてマークしたプロジェクトは、組織のホームページの上部に表示されます。
+1. プロジェクトのサイドバーで **Artifacts** タブを選択します。
+2. 一覧から アーティファクト を選択し、その アーティファクト の最新バージョンの詳細ページを表示します。
+3. **Files** タブを選択して、その アーティファクト に関連付けられたすべてのファイルを表示します。
 
-たとえば、次の画像では、`zoo_experiment` と `registry_demo` の 2 つのプロジェクトが重要としてマークされています。これらのプロジェクトは、組織のホームページの上部の **スター付きプロジェクト** セクション内に表示されています。
+<div id="lineage-panel">
+  ### リネージパネル
+</div>
+
 <Frame>
-    <img src="/images/track/star-projects.png"  />
+  <img src="/images/app_ui/lineage_panel.png" alt="アーティファクトのリネージ" />
 </Frame>
 
-プロジェクトを重要としてマークする方法は2つあります: プロジェクトのオーバービュータブ内またはチームのプロファイルページ内です。
+リネージパネルでは、プロジェクトに関連付けられたすべてのアーティファクトと、それらを相互に結び付けるrunを確認できます。runのタイプはブロック、アーティファクトは円で表示され、特定のタイプのrunが特定のタイプのアーティファクトを消費または生成する関係が矢印で示されます。左側の列で選択したアーティファクトのタイプは強調表示されます。
+
+Explodeトグルをクリックすると、個々のアーティファクトバージョンと、それらをつなぐ具体的なrunをすべて表示できます。
+
+<div id="versions-tab">
+  ### Versions タブ
+</div>
+
+<Frame>
+  <img src="/images/app_ui/versions_tab.png" alt="アーティファクトの Versions タブ" />
+</Frame>
+
+Versions タブには、そのアーティファクトのすべてのバージョンが表示されます。特定のバージョンの詳細を表示するには、対象のアーティファクトを選択します。
+
+1. プロジェクトのサイドバーで **Artifacts** タブを選択します。
+2. リストからアーティファクトを選択し、そのアーティファクトの最新バージョンの詳細ページを表示します。
+3. **Versions** タブを選択して、そのアーティファクトのすべてのバージョンを表示します。
+4. ドロップダウン (アーティファクト名の横) から **All Versions** を選択します。
+
+たとえば、前の画像には、`"zoo-wyhak4p0"` という名前のモデルアーティファクトの異なるバージョンが表示されています。
+
+<div id="create-a-project">
+  ## プロジェクトを作成する
+</div>
+
+W&amp;B App でプロジェクトを作成することも、`wandb.init()` の呼び出し時にプロジェクトを指定してプログラムから作成することもできます。
 
 <Tabs>
-<Tab title="Project overview">
-1. W&B App の `https://wandb.ai/<team>/<project-name>` で W&B プロジェクトに移動します。
-2. プロジェクトサイドバーから **Overview** タブを選択します。
-3. 右上隅の **Edit** ボタンの横にある星アイコンを選択します。
+  <Tab title="W&B App">
+    W&amp;B App では、**Projects** ページまたはチームのランディングページからプロジェクトを作成できます。
 
-<Frame>
-    <img src="/images/track/star-project-overview-tab.png"  />
-</Frame>
-</Tab>
-<Tab title="Team profile">
-1. チームのプロファイルページにある `https://wandb.ai/<team>/projects` に移動します。
-2. **Projects** タブを選択します。
-3. スターを付けたいプロジェクトの横にマウスをホバーし、表示された星アイコンをクリックします。
+    **Projects** ページから作成する場合:
 
-たとえば、次の画像は "Compare_Zoo_Models" プロジェクトの横にある星アイコンを示しています。
-<Frame>
-    <img src="/images/track/star-project-team-profile-page.png"  />
-</Frame>
-</Tab>
+    1. 左上のグローバルナビゲーションアイコンをクリックします。プロジェクトのサイドバーが開きます。
+    2. ナビゲーションの **Projects** セクションで **View all** をクリックし、プロジェクトの概要ページを開きます。
+    3. **Create new project** をクリックします。
+    4. **Team** を、プロジェクトを所有するチーム名に設定します。
+    5. **Name** フィールドでプロジェクト名を指定します。
+    6. **Project visibility** を設定します。デフォルトは **Team** です。
+    7. 必要に応じて **Description** を入力します。
+    8. **Create project** をクリックします。
+
+    チームのランディングページから作成する場合:
+
+    1. 左上のグローバルナビゲーションアイコンをクリックします。プロジェクトのサイドバーが開きます。
+    2. ナビゲーションの **Teams** セクションでチーム名をクリックし、そのランディングページを開きます。
+    3. ランディングページで **Create new project** をクリックします。
+    4. **Team** には、表示していたランディングページを所有するチームが自動的に設定されます。必要に応じてチームを変更します。
+    5. **Name** フィールドでプロジェクト名を指定します。
+    6. **Project visibility** を設定します。デフォルトは **Team** です。
+    7. 必要に応じて **Description** を入力します。
+    8. **Create project** をクリックします。
+  </Tab>
+
+  <Tab title="Python SDK">
+    プログラムからプロジェクトを作成するには、`wandb.init()` の呼び出し時に `project` を指定します。プロジェクトがまだ存在しない場合は自動的に作成され、指定した entity によって所有されます。例:
+
+    ```python
+    import wandb with wandb.init(entity="<entity>", project="<project_name>") as run: run.log({"accuracy": .95})
+    ```
+
+    [`wandb.init()` API reference](/ja/models/ref/python/functions/init/#examples) を参照してください。
+  </Tab>
 </Tabs>
 
-組織名を左上隅のアプリ内でクリックし、プロジェクトが組織のランディングページに表示されることを確認します。
+<div id="organization-home-and-recent-activity">
+  ## 組織ホームと Recent Activity
+</div>
 
-## プロジェクトを削除する
+W&amp;B App の組織ホームページには、最近の作業の概要が表示されます。
 
-プロジェクトを削除するには、オーバービュータブの右の三点リーダーをクリックします。
+**Recent Activity** ビューアーには、最近の Runs が表示されます。自分の Runs を表示するには **Your projects** を選択し、同僚の最近の Runs を表示するには **Organization** を選択します。
 
+* アクティビティのリストを絞り込むには、**Search** を使用します。
+* **Sortable columns** を使うと、目的の列で行を並べ替えられます。
+* run にこれらの詳細が含まれている場合は、**メモ** 列と **tags** 列が自動的に表示されます。
 
+**Recent Activity** ビューアーの下には、最近作成した Reports にすばやくアクセスできるセクションがあります。
 
-## プロジェクトにメモを追加する
+<div id="star-a-project">
+  ## プロジェクトにスターを付ける
+</div>
 
-プロジェクトにメモを追加するには、説明オーバービューまたはワークスペース内のマークダウンパネルとして行います。
+プロジェクトにスターを付けると、そのプロジェクトを重要なものとしてマークできます。
 
-### プロジェクトに説明オーバービューを追加
+スターを付けたプロジェクトは、**Projects** ページの上部にまとめて表示されます。左上の **Global navigation menu** にある **Projects** リストでは、最近のプロジェクトを最大 10 件すばやく参照でき、スターを付けたプロジェクトが先頭に表示されます。
 
-ページに追加した説明は、プロファイルの **Overview** タブに表示されます。
+プロジェクトを重要なものとしてマークする方法は 2 つあります。プロジェクトの Overview タブから行う方法と、チームのプロフィールページから行う方法です。
 
-1. W&B プロジェクトに移動
-2. プロジェクトサイドバーから **Overview** タブを選択
-3. 右上隅の **Edit** を選択
-4. **Description** フィールドにメモを追加
-5. **Save** ボタンを選択
+<Tabs>
+  <Tab title="プロジェクトの概要">
+    1. `https://wandb.ai/<team>/<project-name>` で W&amp;B App 上の W&amp;B プロジェクトにアクセスします。
+    2. プロジェクトのサイドバーから **Overview** タブを選択します。
+    3. **Edit** ボタンの横、右上にあるスターアイコンをクリックします。
+
+    <Frame>
+      <img src="/images/track/star-project-overview-tab.png" alt="概要からプロジェクトにスターを付ける" />
+    </Frame>
+  </Tab>
+
+  <Tab title="チームのプロフィール">
+    1. `https://wandb.ai/<team>/projects` でチームのプロフィールページにアクセスします。
+    2. **Projects** タブを選択します。
+    3. スターを付けたいプロジェクトの横にマウスカーソルを合わせ、表示されたスターアイコンをクリックします。
+
+    たとえば、次の画像は &quot;Compare&#95;Zoo&#95;Models&quot; プロジェクトの横に表示されるスターアイコンを示しています。
+
+    <Frame>
+      <img src="/images/track/star-project-team-profile-page.png" alt="チームページからプロジェクトにスターを付ける" />
+    </Frame>
+  </Tab>
+</Tabs>
+
+プロジェクトが表示されていることを確認します。左側のナビゲーションの **Project** セクションで **View all** をクリックして **Project** ページを開きます。名、チーム、またはその他のメタデータで検索またはフィルターして、プロジェクトを検索します。スターを付けたプロジェクトは、**Projects** ページの上部と、左側のナビゲーションにある **Projects** セクションの上部に表示されます。
+
+<div id="delete-a-project">
+  ## プロジェクトを削除する
+</div>
+
+Overview タブの右側にある **action (<Icon icon="ellipsis" iconType="solid" />)** メニューを使用すると、プロジェクトを削除できます。
+
+1. W&amp;B のプロジェクトにアクセスします。
+2. プロジェクトのサイドバーから **Overview** タブを選択します。
+3. 右上にある **action (<Icon icon="ellipsis" iconType="solid" />)** メニューをクリックします。
+4. ドロップダウンメニューから **Delete project** を選択します。
+
+<Frame>
+  <img src="/images/app_ui/delete_project.png" alt="ドロップダウンにプロジェクト削除オプションが表示されたプロジェクト概要メニュー" />
+</Frame>
+
+<Warning>
+  W&amp;B は、プロジェクトを削除してもアクティブな [sweeps](/ja/models/sweeps) やエージェントを終了しません。
+</Warning>
+
+<div id="add-notes-to-a-project">
+  ## プロジェクトにメモを追加する
+</div>
+
+メモは、プロジェクトの説明概要として、または Workspace 内の Markdown パネルとして追加できます。
+
+<div id="add-description-overview-to-a-project">
+  ### プロジェクトに概要説明を追加する
+</div>
+
+ページに追加した説明は、プロフィールの **Overview** タブに表示されます。
+
+1. W&amp;B のプロジェクトにアクセスする
+2. プロジェクトのサイドバーから **Overview** タブを選択する
+3. 右上の **Edit** をクリックする
+4. **Description** フィールドにメモを追加する
+5. **Save** ボタンを選択する
 
 <Note>
-**Create reports to create descriptive notes comparing runs**
+  **複数の run を比較する説明用のメモを作成するには、Reports を作成します**
 
-W&B レポートを作成して、プロットやマークダウンを並べて追加することもできます。異なる run を示すために異なるセクションを使用し、取り組んだことについてのストーリーを語ります。
+  W&amp;B Report を作成して、プロットと Markdown を並べて追加することもできます。異なるセクションを使って異なる run を表示し、取り組んだ内容をストーリーとして伝えられます。
 </Note>
 
-### ワークスペースに run のメモを追加
+<div id="add-notes-to-run-workspace">
+  ### run の Workspace にメモを追加する
+</div>
 
-1. W&B プロジェクトに移動
-2. プロジェクトサイドバーから **Workspace** タブを選択
-3. 右上のコーナーから **Add panels** ボタンを選択
-4. 表示されるモーダルから **TEXT AND CODE** ドロップダウンを選択
-5. **Markdown** を選択
-6. ワークスペース内に表示されるマークダウンパネルにメモを追加します。
+1. W&amp;B のプロジェクト にアクセスします
+2. プロジェクトのサイドバーから **Workspace** タブを選択します
+3. 右上にある **Add panels** ボタンをクリックします
+4. 表示されたモーダルで **TEXT AND CODE** ドロップダウンを選択します
+5. **Markdown** を選択します
+6. Workspace に表示される **Markdown** パネルにメモを追加します

@@ -1,0 +1,38 @@
+---
+description: "Prodigy と W&B を統合して、アノテーションワークフローをトラッキングし、トレーニングのメトリクスをログして、ラベル付きデータセットを管理します。"
+title: Prodigy
+---
+
+[Prodigy](https://prodi.gy/) は、機械学習モデル向けのトレーニングデータや評価データの作成、エラー分析、およびデータの確認とクリーニングに使用するアノテーションツールです。[W&amp;B Tables](/ja/models/tables/tables-walkthrough/) を使用すると、W&amp;B 内でデータセット (そのほかも含む) をログし、可視化、分析、共有できます。
+
+このガイドでは、[W&amp;B インテグレーション with Prodigy](https://github.com/wandb/wandb/blob/master/wandb/integration/prodigy/prodigy.py) の使い方を説明します。これを使用すると、Prodigy でアノテーション済みのデータセットを W&amp;B に直接アップロードし、インタラクティブな表として確認して共有できます。アノテーションの品質を確認したい場合、ラベル付きデータセットのバージョンを比較したい場合、または結果を共同作業者と共有したい場合に使用してください。
+
+次のような数行のコードで:
+
+```python
+import wandb
+from wandb.integration.prodigy import upload_dataset
+
+with wandb.init(project="prodigy"):
+    upload_dataset("news_headlines_ner")
+```
+
+このような、視覚的でインタラクティブかつ共有可能な表を作成できます:
+
+<Frame>
+  <img src="/images/integrations/prodigy_interactive_visual.png" alt="Prodigy アノテーション表" />
+</Frame>
+
+<div id="quickstart">
+  ## クイックスタート
+</div>
+
+`wandb.integration.prodigy.upload_dataset` を使用すると、ローカルの Prodigy データベースからアノテーション済みの Prodigy データセットを、W&amp;B の [表](/ja/models/ref/python/data-types/table) 形式で直接アップロードできます。インストールやセットアップを含む Prodigy の詳細については、[Prodigy documentation](https://prodi.gy/docs/)を参照してください。
+
+データセットをアップロードすると、W&amp;B は画像フィールドと固有表現フィールドをそれぞれ自動的に [`wandb.Image`](/ja/models/ref/python/data-types/image) と [`wandb.Html`](/ja/models/ref/python/data-types/html) に変換するため、表内でインタラクティブな可視化として表示されます。W&amp;B は、これらの可視化を含めるため、生成される表に追加の列を加える場合があります。
+
+<div id="read-through-a-detailed-example">
+  ## 詳細な例を読む
+</div>
+
+インテグレーションで何が可能かを確認するには、W&amp;B Prodigy インテグレーションで生成された可視化の例が掲載された [W&amp;B Tables を使用した Prodigy Datasets の可視化](https://wandb.ai/kshen/prodigy/reports/Visualizing-Prodigy-Datasets-Using-W-B-Tables--Vmlldzo5NDE2MTc) report を参照してください。

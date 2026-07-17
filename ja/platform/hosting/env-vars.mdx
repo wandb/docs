@@ -1,54 +1,84 @@
 ---
+description: "データベース、ストレージ、Redis、IAM の設定用の環境変数を使用して、セルフマネージド W&B Server インストールを設定します。"
 title: 環境変数を設定する
-description: W&B サーバー インストールの設定方法
+keywords: ["GORILLA 変数", "サーバー設定変数", "W&B Server 環境変数", "設定コード"]
 ---
 
-インスタンスレベルの設定を System Settings 管理 UI 経由で設定することに加えて、W&B は環境変数を使用してこれらの値をコードで設定する方法も提供しています。また、[IAM の高度な設定](/ja/platform/hosting/iam/advanced_env_vars/)も参照してください。
+System Settings 管理 UI でインスタンスレベルの設定を行うだけでなく、W&amp;B では環境変数を使用してコード経由でこれらの値を設定することもできます。このページでは、セルフマネージド W&amp;B Server デプロイメントにおけるデータベース、ストレージ、Redis、アイデンティティ プロバイダ、その他のインスタンスレベルの動作を制御するために設定できる環境変数を一覧で示します。これらの変数を使用すると、管理 UI ではなく、コードで設定を管理できます。IAM 固有の変数については、[IAM の高度な設定](./iam/advanced_env_vars)を参照してください。
 
-## 環境変数リファレンス
+<div id="environment-variable-reference">
+  ## 環境変数リファレンス
+</div>
 
-| 環境変数                         | 説明                                                                                                                                                                           |
-|----------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| LICENSE                          | あなたの wandb/local ライセンス                                                                                                                                               |
-| MYSQL                            | MySQL 接続文字列                                                                                                                                                              |
-| BUCKET                           | データを保存するための S3 / GCS バケット                                                                                                                                      |
-| BUCKET_QUEUE                     | オブジェクト作成イベントのための SQS / Google PubSub キュー                                                                                                                   |
-| NOTIFICATIONS_QUEUE              | run イベントを公開するための SQS キュー                                                                                                                                        |
-| AWS_REGION                       | バケットが存在する AWS リージョン                                                                                                                                              |
-| HOST                             | インスタンスの FQD、つまり `https://my.domain.net`                                                                                                          |
-| OIDC_ISSUER                      | Open ID Connect アイデンティティプロバイダーのURL、つまり `https://cognito-idp.us-east-1.amazonaws.com/us-east-1_uiIFNdacd`      |
-| OIDC_CLIENT_ID                   | あなたのアイデンティティプロバイダーにあるアプリケーションのクライアントID                                                                                                    |
-| OIDC_AUTH_METHOD                 | デフォルトは Implicit で、pkceも可能です。詳細は以下を参照してください。                                                                                                        |
-| SLACK_CLIENT_ID                  | アラートに使用したい Slack アプリケーションのクライアント ID                                                                                                                    |
-| SLACK_SECRET                     | アラートに使用したい Slack アプリケーションの秘密キー                                                                                                                         |
-| LOCAL_RESTORE                    | インスタンスにアクセスできない場合、一時的にこれをtrueに設定できます。コンテナのログを確認して一時的な資格情報を取得してください。                                              |
-| REDIS                            | W&B で外部の REDIS インスタンスを設定するために使用できます。                                                                                                                 |
-| LOGGING_ENABLED                  | true に設定すると、アクセスログが stdout にストリームされます。また、この変数を設定しなくてもサイドカーコンテナをマウントし、`/var/log/gorilla.log` を追跡できます。          |
-| GORILLA_ALLOW_USER_TEAM_CREATION | true に設定すると、非管理者ユーザーが新しいチームを作成できるようになります。デフォルトは false です。                                                                         |
-| GORILLA_DATA_RETENTION_PERIOD | 削除された run のデータを何時間保持するか。削除された run データは復元できません。入力値に `h` を付けてください。例えば、`"24h"`。                                        |
-| ENABLE_REGISTRY_UI               | true に設定すると、新しい W&B Registry UI が有効になります。                                                                                          |
+次の表では、各環境変数、制御される動作、およびその値に関する制約について説明します。
+
+| 環境変数                                    | 説明                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `LICENSE`                               | お使いの wandb/local ライセンス                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| `MYSQL`                                 | MySQL の接続文字列                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| `BUCKET`                                | データ保存に使用する S3 / GCS バケット                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| `BUCKET_QUEUE`                          | オブジェクト作成イベント用の SQS / Google PubSub キュー                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| `NOTIFICATIONS_QUEUE`                   | run イベントを発行する SQS キュー                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| `AWS_REGION`                            | バケットが配置されている AWS リージョン                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| `HOST`                                  | インスタンスの FQD。たとえば `https://my.domain.net`                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| `OIDC_ISSUER`                           | OpenID Connect アイデンティティ プロバイダーの URL。たとえば `https://cognito-idp.us-east-1.amazonaws.com/us-east-1_uiIFNdacd`                                                                                                                                                                                                                                                                                                                                                                                                  |
+| `OIDC_CLIENT_ID`                        | アイデンティティ プロバイダー内のアプリケーションのクライアント ID                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| `OIDC_AUTH_METHOD`                      | Implicit (デフォルト) または pkce。詳細については、以下のセクションを参照してください。                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| `SLACK_CLIENT_ID`                       | アラートに使用する Slack アプリケーションのクライアント ID                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| `SLACK_SECRET`                          | アラートに使用する Slack アプリケーションのシークレット                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| `LOCAL_RESTORE`                         | インスタンスにアクセスできない場合は、これを一時的に true に設定できます。一時的な認証情報については、コンテナーのログを確認してください。                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| `REDIS`                                 | W&amp;B で外部 REDIS インスタンスを設定するために使用できます。                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| `LOGGING_ENABLED`                       | true に設定すると、アクセスログが stdout にストリーミングされます。この変数を設定しなくても、sidecar コンテナーをマウントして `/var/log/gorilla.log` を tail することもできます。                                                                                                                                                                                                                                                                                                                                                                                          |
+| `GORILLA_ALLOW_USER_TEAM_CREATION`      | true に設定すると、管理者以外のユーザーも新しいチームを作成できるようになります。デフォルトは false です。                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| `GORILLA_CUSTOMER_SECRET_STORE_SOURCE`  | W&amp;B Weave で使用するチームシークレットを保存するシークレットマネージャーを設定します。サポートされるシークレットマネージャーは次のとおりです: <ul><li><b>内部シークレットマネージャー</b> (デフォルト) : <code>k8s-secretmanager://wandb-secret</code></li><li><b>AWS Secret Manager</b>: <code>aws-secretmanager</code></li><li><b>Google Cloud Secret Manager</b>: <code>gcp-secretmanager</code></li><li><b>Azure</b>: <code>az-secretmanger</code></li></ul>                                                                                                                            |
+| `GORILLA_DATA_RETENTION_PERIOD`         | 削除された Runs のデータを保持する期間を時間単位で指定します。削除された run データは復元できません。入力値には `h` を付けてください。たとえば `"24h"` です。                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| `GORILLA_DISABLE_PERSONAL_ENTITY`       | true に設定すると、[personal entities](/ja/support/models/articles/what-is-the-difference-between-team-and-) を無効にします。個人 entity での新しい個人プロジェクトの作成を防ぎ、既存の個人プロジェクトへの書き込みも防止します。                                                                                                                                                                                                                                                                                                                                           |
+| `GORILLA_GRAPHQL_DISABLE_INTROSPECTION` | true に設定すると、GraphQL introspection を無効にします。`__type` および `__schema` クエリはスキーマデータを返さなくなりますが、リクエスト自体は引き続き成功します。**セルフマネージド** では、Gorilla の設定フィールド `graphql-disable-introspection` を設定した場合も同じ効果があります。この変数は、`WeightsAndBiases` custom resource の `spec.values.global.extraEnv` に設定してください (Operator ガイドの [`global.extraEnv` example](/ja/platform/hosting/self-managed/operator#ldap) を参照) 。**すでに introspection が無効になっているデプロイに接続するクライアント アプリケーションには、[W&amp;B SDK v0.26.0](/ja/release-notes/sdk-releases#0-26-0) 以降が必要です**。 |
+| `GRAPHQL_REJECT_UNAUTHED_REQUESTS`      | **API** サービスで `true` に設定すると、認証済みユーザーが存在しない GraphQL リクエストを拒否します。未認証のリクエストには HTTP 401 が返されます。**セルフマネージド** および **専用クラウド** v0.80.0+ でのみ使用でき、Multi-tenant Cloud では使用できません。この機能はオプトインです。環境変数が未設定、または `true` 以外に設定されている場合、動作は変わりません。設定は API コンポーネントにのみ行ってください (たとえば Helm values の `api.env`)。有効化する前に、匿名の GraphQL アクセスに依存するワークフロー (たとえば、サインインせずに共有 Reports を表示する場合や、公開 Projects など) が、引き続き要件を満たしていることを確認してください。**セルフマネージド** では、Gorilla の設定フィールド `graphql-reject-unauthed-requests` を `true` に設定した場合も同じ効果があります。      |
+| `GORILLA_ARTIFACT_GC_ENABLED`           | true に設定すると、削除された Artifacts のガベージコレクションを有効にします。セルフマネージド デプロイでは必須です。詳細は [Artifacts を削除する](/ja/models/artifacts/delete-artifacts) を参照してください。                                                                                                                                                                                                                                                                                                                                                                     |
+| `WANDB_ARTIFACT_DIR`                    | ダウンロードしたすべての Artifacts の保存先です。未設定の場合、トレーニング スクリプトからの相対パスにある `artifacts` ディレクトリがデフォルトになります。このディレクトリが存在し、実行中のユーザーに書き込み権限があることを確認してください。これは生成されるメタデータファイルの保存場所は制御しません。メタデータファイルの保存場所は、`WANDB_DIR` 環境変数で設定できます。                                                                                                                                                                                                                                                                                                 |
+| `WANDB_DATA_DIR`                        | Artifacts のアップロード時に使用するステージング先です。デフォルトの場所はプラットフォームに依存します。これは `platformdirs` Python パッケージの `user_data_dir` の値を使用するためです。このディレクトリが存在し、実行中のユーザーに書き込み権限があることを確認してください。                                                                                                                                                                                                                                                                                                                                           |
+| `WANDB_DIR`                             | 生成されたすべてのファイルの保存先です。未設定の場合、トレーニング スクリプトからの相対パスにある `wandb` ディレクトリがデフォルトになります。このディレクトリが存在し、実行中のユーザーに書き込み権限があることを確認してください。これはダウンロードした Artifacts の保存場所は制御しません。Artifacts の保存場所は、`WANDB_ARTIFACT_DIR` 環境変数で設定できます。                                                                                                                                                                                                                                                                                                |
+| `WANDB_IDENTITY_TOKEN_FILE`             | [アイデンティティ フェデレーション](/ja/platform/hosting/iam/identity_federation/) で使用する、Java Web Tokens (JWTs) が保存されるローカルディレクトリへの絶対パスです。                                                                                                                                                                                                                                                                                                                                                                                      |
 
 <Note>
-GORILLA_DATA_RETENTION_PERIOD 環境変数は慎重に使用してください。環境変数が設定されるとすぐにデータは削除されます。また、このフラグを有効にする前に、データベースとストレージバケットの両方をバックアップすることをお勧めします。
+  * `GORILLA_DATA_RETENTION_PERIOD` 環境変数は、慎重に使用してください。これは**削除された run データ** (削除フロー後のメディアなど、run に関連付けられたファイルを含む) に適用されます。Artifacts は削除されません。Artifacts の削除については、[Delete an artifact](/ja/models/artifacts/delete-artifacts) で説明しているように、Artifacts の削除と `GORILLA_ARTIFACT_GC_ENABLED` を使用してください。run とファイルの削除がストレージ およびこの設定にどのように関係するかについては、**Delete runs** の [When deleted run data is removed from storage](/ja/models/runs/delete-runs#when-deleted-run-data-is-removed-from-storage) を参照してください。この変数を設定すると、保持期間のウィンドウに従ってデータが削除されます。この値を有効にするまたは変更する前に、データベースと ストレージ バケット の両方をバックアップしてください。
+
+    バケット からの object のバックグラウンド削除は**近似的**であり、特定の時間内に完了する保証はありません。想定される動作、トラブルシューティング、および ストレージ コストとの関係については、[Manage bucket storage and costs](/ja/platform/hosting/managing-bucket-storage) を参照してください。
+  * [Kubernetes Operator](/ja/platform/hosting/self-managed/operator) で `GRAPHQL_REJECT_UNAUTHED_REQUESTS` を有効にするには、API コンポーネントにのみ設定してください。
+
+    ```yaml
+    api:
+    env:
+        GRAPHQL_REJECT_UNAUTHED_REQUESTS: "true"
+    ```
+
+    変更を適用してから、設定を確認する前に API pod のロールアウトが完了するまで待機してください。変数を削除するか別の値に設定すると、この動作を無効にできます。
 </Note>
 
-## 高度な信頼性設定
+<div id="advanced-reliability-settings">
+  ## 高度な信頼性設定
+</div>
 
-### Redis
+以下のセクションでは、W&amp;B Server デプロイメントの信頼性とパフォーマンスを向上させるために適用できるオプション設定について説明します。
 
-外部の Redis サーバーを設定することはオプションですが、プロダクションシステムでは推奨されます。Redis はサービスの信頼性を向上させ、特に大規模プロジェクトでのロード時間を短縮するためのキャッシングを可能にします。ElastiCache などの高可用性 (HA) を備えた管理された Redis サービスを使用し、以下の仕様を備えています:
+<div id="redis">
+  ### Redis
+</div>
 
-- 最小 4GB のメモリ、推奨 8GB
-- Redis バージョン 6.x
-- 転送中の暗号化
-- 認証が有効
+外部 Redis サーバーは必須ではありませんが、本番環境では推奨されます。Redis を使用すると、特に大規模なプロジェクトで、サービスの信頼性が向上し、キャッシュを有効にしてロード時間を短縮できます。高可用性 (HA) を備え、以下の仕様を満たす ElastiCache などのマネージド Redis サービスを使用してください。
 
-W&B で Redis インスタンスを設定するには、`http(s)://YOUR-W&B-SERVER-HOST/system-admin` の W&B 設定ページに移動します。「外部 Redis インスタンスを使用する」オプションを有効にし、Redis 接続文字列を次の形式で入力します:
+* メモリは最小 4 GB、推奨 8 GB
+* Redis バージョン 6.x
+* 転送中暗号化
+* 認証を有効化
+
+W&amp;B で Redis インスタンスを設定するには、`http(s)://YOUR-W&B-SERVER-HOST/system-admin` の W&amp;B Settings ページにアクセスします。**Use an external Redis instance** オプションを有効にし、以下の形式で Redis の接続文字列を入力します。
 
 <Frame>
-    <img src="/images/hosting/configure_redis.png" alt="W&B での REDIS の設定"  />
+  <img src="/images/hosting/configure_redis.png" alt="W&B で Redis を設定する" />
 </Frame>
 
-また、コンテナ上や Kubernetes デプロイメントで環境変数 `REDIS` を使って Redis を設定することもできます。あるいは、`REDIS` を Kubernetes シークレットとして設定することもできます。
+Redis は、コンテナー上または Kubernetes デプロイで環境変数 `REDIS` を使用して設定することもできます。あるいは、`REDIS` を Kubernetes シークレットとして設定することもできます。
 
-このページは、Redis インスタンスがデフォルトのポート `6379` で動作していることを前提としています。異なるポートを設定した場合、認証をセットアップし、さらに Redis インスタンスで TLS を有効にしたい場合、接続文字列の形式は次のようになります: `redis://$USER:$PASSWORD@$HOST:$PORT?tls=true`
+このページでは、Redis インスタンスがデフォルトポート `6379` で実行されていることを前提としています。別のポートを設定し、認証を設定し、`redis` インスタンスで TLS を有効にする場合、接続文字列の形式は次のとおりです。`redis://$USER:$PASSWORD@$HOST:$PORT?tls=true`

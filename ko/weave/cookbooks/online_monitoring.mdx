@@ -1,0 +1,262 @@
+---
+title: "온라인 모니터링"
+description: "W&B Weave를 사용해 프로덕션 환경의 LLM 애플리케이션에 온라인 모니터링을 설정하고 성능 및 품질 메트릭을 추적합니다."
+keywords: ["온라인 모니터링", "프로덕션 대시보드", "트레이스 데이터", "비용 추적", "Streamlit"]
+---
+
+<Note>
+  이 노트북은 대화형 노트북입니다. 로컬에서 실행하거나 아래 링크를 사용할 수 있습니다:
+
+  * [Google Colab에서 열기](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/online_monitoring.ipynb)
+  * [GitHub에서 소스 보기](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/online_monitoring.ipynb)
+</Note>
+
+<div id="integrate-with-weave-production-dashboard">
+  ## Weave로 통합: 프로덕션 대시보드
+</div>
+
+이 노트북에서는 Weave의 API와 함수를 사용해 Weave의 Traces 뷰를 확장하는 프로덕션 모니터링용 맞춤형 대시보드를 만드는 방법을 설명합니다. 이 가이드는 프로덕션 환경에서 LLM 애플리케이션을 운영하면서, 기본 Traces 뷰가 제공하는 범위를 넘어 성능, 비용, 사용자 피드백을 맞춤형으로 살펴보고자 하는 개발자와 ML 엔지니어를 대상으로 합니다. 이 노트북에서는 다음 내용을 중점적으로 다룹니다.
+
+* Weave에서 트레이스, 비용, 피드백 및 기타 메트릭을 가져옵니다.
+* 사용자 피드백과 비용 분포를 집계한 뷰를 생성합니다.
+* 시간 경과에 따른 토큰 사용량과 지연 시간 시각화를 생성합니다.
+
+이 노트북을 마치면 Weave 프로젝트의 트레이스 데이터, 비용, 피드백을 하나의 뷰에 집계하는 맞춤형 대시보드가 완성됩니다. `streamlit`을 설치하고 [production dashboard script](https://github.com/NiWaRe/agent-dev-collection)를 실행하면 자신의 Weave 프로젝트에서 이 대시보드를 사용해 볼 수 있습니다.
+
+<img src="https://github.com/NiWaRe/knowledge-worker-weave/blob/master/screenshots/dashboard_weave_preview.jpg?raw=true" width="1000" alt="Weave를 사용한 예시 프로덕션 대시보드" />
+
+<div id="setup">
+  ## 설정
+</div>
+
+먼저 다음 패키지를 설치하세요:
+
+```python lines
+!pip install streamlit pandas plotly weave
+```
+
+<div id="implementation">
+  ## 구현
+</div>
+
+다음 섹션에서는 Weave 클라이언트 초기화, Call 데이터 가져오기, 그리고 대시보드용 시각화 생성 방법을 안내합니다.
+
+<div id="initialize-the-weave-client-and-define-costs">
+  ### Weave 클라이언트 초기화 및 비용 정의
+</div>
+
+먼저 Weave 클라이언트를 초기화하고 각 모델의 비용을 추가하는 함수를 설정하세요. 이 단계는 이후 비용 쿼리에서 각 Call에 토큰당 가격을 올바르게 할당하는 데 필요합니다.
+
+W&amp;B는 많은 표준 모델에 대한 기본 비용을 제공하며, 자체 사용자 정의 비용과 맞춤형 모델도 추가할 수 있습니다. 다음 예시에서는 일부 모델에는 사용자 정의 비용을 추가하고, 나머지에는 기본 비용을 사용하는 방법을 보여줍니다.
+비용은 Weave에서 각 Call에 대해 추적된 토큰을 기준으로 계산됩니다. 많은 LLM 공급업체 라이브러리에서는 Weave가 토큰 사용량을 자동으로 추적하지만, 어떤 Call이든 사용자 정의 토큰 수를 반환하도록 할 수도 있습니다. 맞춤형 모델의 토큰 수와 비용 계산을 정의하는 방법에 대한 자세한 내용은 [사용자 정의 비용 cookbook](/ko/weave/cookbooks/custom_model_cost#setting-up-a-model-with-weave)을 참조하세요.
+
+```python lines
+PROJECT_NAME = "wandb-smle/weave-cookboook-demo"
+python
+import weave
+
+MODEL_NAMES = [
+    # 모델 이름, 프롬프트 비용, 완성 비용
+    ("gpt-4o-2024-05-13", 0.03, 0.06),
+    ("gpt-4o-mini-2024-07-18", 0.03, 0.06),
+    ("gemini/gemini-1.5-flash", 0.00025, 0.0005),
+    ("gpt-4o-mini", 0.03, 0.06),
+    ("gpt-4-turbo", 0.03, 0.06),
+    ("claude-3-haiku-20240307", 0.01, 0.03),
+    ("gpt-4o", 0.03, 0.06),
+]
+
+def init_weave_client(project_name):
+    try:
+        client = weave.init(project_name)
+        for model, prompt_cost, completion_cost in MODEL_NAMES:
+            client.add_cost(
+                llm_id=model,
+                prompt_token_cost=prompt_cost,
+                completion_token_cost=completion_cost,
+            )
+    except Exception as e:
+        print(f"Failed to initialize Weave client for project '{project_name}': {e}")
+        return None
+    else:
+        return client
+
+client = init_weave_client(PROJECT_NAME)
+```
+
+<div id="fetch-calls-data-from-weave">
+  ### Weave에서 Call 데이터 가져오기
+</div>
+
+클라이언트를 초기화하고 비용 설정을 마쳤다면, 다음 단계는 Weave에서 Call 데이터를 가져오는 것입니다. Call 데이터를 가져오는 방법은 두 가지입니다.
+
+* Call 단위로 데이터 가져오기
+* 고수준 API 사용하기
+
+다음 섹션에서는 각 옵션을 설명합니다.
+
+<div id="fetch-data-call-by-call">
+  #### Call 단위로 데이터 가져오기
+</div>
+
+Weave에서 데이터에 액세스하는 첫 번째 방법은 필터링된 Call 목록을 가져온 다음, 원하는 데이터를 Call 단위로 추출하는 것입니다. 이렇게 하려면 `calls_query_stream` API를 사용해 Weave에서 Call 데이터를 가져오세요.
+
+* `calls_query_stream` API: 이 API는 Weave에서 Call 데이터를 가져옵니다.
+* `filter` dictionary: 이 딕셔너리에는 Call 데이터를 가져오기 위한 필터 매개변수가 들어 있습니다. 자세한 내용은 [CallSchema 레퍼런스](/ko/weave/reference/python-sdk/trace_server/trace_server_interface#class-callschema)를 참조하세요.
+* `expand_columns` list: 이 목록에는 Call 데이터에서 확장할 열이 들어 있습니다.
+* `sort_by` list: 이 목록에는 Call 데이터의 정렬 매개변수가 들어 있습니다.
+* `include_costs` boolean: 이 불리언은 Call 데이터에 비용을 포함할지 여부를 나타냅니다.
+* `include_feedback` boolean: 이 불리언은 Call 데이터에 feedback을 포함할지 여부를 나타냅니다.
+
+```python lines
+import itertools
+from datetime import datetime, timedelta
+
+import pandas as pd
+
+def fetch_calls(client, project_id, start_time, trace_roots_only, limit):
+    filter_params = {
+        "project_id": project_id,
+        "filter": {"started_at": start_time, "trace_roots_only": trace_roots_only},
+        "expand_columns": ["inputs.example", "inputs.model"],
+        "sort_by": [{"field": "started_at", "direction": "desc"}],
+        "include_costs": True,
+        "include_feedback": True,
+    }
+    try:
+        calls_stream = client.server.calls_query_stream(filter_params)
+        calls = list(
+            itertools.islice(calls_stream, limit)
+        )  # 가져올 Call 수가 너무 많으면 개수를 제한합니다
+        print(f"Fetched {len(calls)} calls.")
+    except Exception as e:
+        print(f"Error fetching calls: {e}")
+        return []
+    else:
+        return calls
+
+calls = fetch_calls(client, PROJECT_NAME, datetime.now() - timedelta(days=1), True, 100)
+python
+# 원시 데이터는 Call 객체 목록입니다
+pd.DataFrame([call.dict() for call in calls]).head(3)
+```
+
+Weave의 반환값을 사용해 Call을 처리합니다. 관련 정보를 추출해 딕셔너리 목록에 저장합니다. 그런 다음 딕셔너리 목록을 pandas 데이터프레임으로 변환한 뒤 반환합니다.
+
+```python lines
+import json
+from datetime import datetime
+
+import pandas as pd
+
+def process_calls(calls):
+    records = []
+    for call in calls:
+        feedback = call.summary.get("weave", {}).get("feedback", [])
+        thumbs_up = sum(
+            1
+            for item in feedback
+            if isinstance(item, dict) and item.get("payload", {}).get("emoji") == "👍"
+        )
+        thumbs_down = sum(
+            1
+            for item in feedback
+            if isinstance(item, dict) and item.get("payload", {}).get("emoji") == "👎"
+        )
+        latency = call.summary.get("weave", {}).get("latency_ms", 0)
+
+        records.append(
+            {
+                "Call ID": call.id,
+                "Trace ID": call.trace_id,  # 트레이스 조회에 사용할 수 있는 고유 ID입니다
+                "Display Name": call.display_name,  # UI 또는 프로그래밍 방식으로 설정할 수 있는 선택 이름입니다
+                "Latency (ms)": latency,
+                "Thumbs Up": thumbs_up,
+                "Thumbs Down": thumbs_down,
+                "Started At": pd.to_datetime(getattr(call, "started_at", datetime.min)),
+                "Inputs": json.dumps(call.inputs, default=str),
+                "Outputs": json.dumps(call.output, default=str),
+            }
+        )
+    return pd.DataFrame(records)
+python
+df_calls = process_calls(calls)
+df_calls.head(3)
+```
+
+<div id="use-high-level-apis">
+  #### 고수준 API 사용
+</div>
+
+각 call / calls를 일일이 살펴보는 대신, Weave는 모델 비용, 피드백, 기타 메트릭에 직접 액세스할 수 있는 고수준 API도 제공합니다.
+예를 들어 비용의 경우, 프로젝트에서 사용 중인 모든 LLM의 비용을 가져오기 위해 `query_costs` API를 사용하세요:
+
+```python lines
+# 비용 API를 사용하여 비용 조회
+costs = client.query_costs()
+df_costs = pd.DataFrame([cost.dict() for cost in costs])
+df_costs["total_cost"] = (
+    df_costs["prompt_token_cost"] + df_costs["completion_token_cost"]
+)
+
+# 고유한 llm_id별로 첫 번째 행만 표시
+df_costs
+```
+
+<div id="gather-inputs-and-generate-visualizations">
+  ### 입력 데이터 수집 및 시각화 생성
+</div>
+
+Call 데이터와 비용이 데이터프레임으로 준비되면 plotly를 사용해 시각화를 생성할 수 있습니다. 이 대시보드는 필요에 따라 자유롭게 사용자 지정할 수 있는 기본 대시보드입니다. 더 고급 예시는 [knowledge-worker-weave repo의 Streamlit 예시](https://github.com/NiWaRe/knowledge-worker-weave/blob/master/prod_dashboard.py)를 확인하세요.
+
+```python lines
+import plotly.express as px
+import plotly.graph_objects as go
+
+def plot_feedback_pie_chart(thumbs_up, thumbs_down):
+    fig = go.Figure(
+        data=[
+            go.Pie(
+                labels=["Thumbs Up", "Thumbs Down"],
+                values=[thumbs_up, thumbs_down],
+                marker={"colors": ["#66b3ff", "#ff9999"]},
+                hole=0.3,
+            )
+        ]
+    )
+    fig.update_traces(textinfo="percent+label", hoverinfo="label+percent")
+    fig.update_layout(showlegend=False, title="Feedback Summary")
+    return fig
+
+def plot_model_cost_distribution(df):
+    fig = px.bar(
+        df,
+        x="llm_id",
+        y="total_cost",
+        color="llm_id",
+        title="Cost Distribution by Model",
+    )
+    fig.update_layout(xaxis_title="Model", yaxis_title="Cost (USD)")
+    return fig
+
+# 모든 플롯의 소스 코드를 참조하세요
+python
+plot_feedback_pie_chart(df_calls["Thumbs Up"].sum(), df_calls["Thumbs Down"].sum())
+python
+plot_model_cost_distribution(df_costs)
+```
+
+<div id="conclusion">
+  ## 결론
+</div>
+
+이 쿡북에서는 Weave의 API와 함수를 사용해 맞춤형 프로덕션 모니터링 대시보드를 만드는 방법을 살펴보았습니다. Weave는 데이터를 간편하게 입력할 수 있도록 빠른 인테그레이션을 제공하며, 맞춤형 프로세스를 위한 데이터 추출도 지원합니다.
+
+* **데이터 입력:**
+  * [`@weave-op()`](/ko/weave/quickstart#2-log-a-trace-to-a-new-project) 데코레이터를 사용한 프레임워크 독립적 트레이싱과 CSV에서 Call을 임포트하는 옵션(관련 [임포트 쿡북](/ko/weave/cookbooks/import_from_csv) 참조)
+  * 다양한 프로그래밍 프레임워크와 언어에서 Weave로 로그를 전송할 수 있는 Service API endpoints. 자세한 내용은 [Service API 레퍼런스](https://docs.wandb.ai/weave/reference/service-api/calls/call-start)를 참조하세요.
+* **데이터 출력:**
+  * 데이터를 CSV, TSV, JSONL 또는 JSON 형식으로 다운로드합니다. 자세한 내용은 [Service API 레퍼런스](/ko/weave/reference/service-api)를 참조하세요.
+  * 데이터에 대한 프로그래밍 방식 액세스를 통해 내보냅니다. 이 쿡북에서 설명한 export panel의 &quot;Use Python&quot; section을 참조하세요. 자세한 내용은 [Call 쿼리 및 내보내기](/ko/weave/guides/tracking/tracing#querying-and-exporting-calls)를 참조하세요.
+
+이 맞춤형 대시보드는 Weave의 기본 Traces 뷰를 확장해 프로덕션 환경의 LLM 애플리케이션을 필요에 맞게 모니터링할 수 있도록 합니다. 더 복잡한 대시보드를 보려면 [agent-dev-collection repo의 Streamlit 예시](https://github.com/NiWaRe/agent-dev-collection)를 확인하세요. 여기에서 자신의 Weave 프로젝트 URL을 추가할 수 있습니다.

@@ -1,0 +1,90 @@
+---
+title: インテグレーションの概要
+description: "エージェント SDK、ハーネス、LLM プロバイダ、オーケストレーション フレームワーク向けの Weave のインテグレーションを使って、エージェントと LLM アプリケーションをトレースします。"
+keywords: ["パッチ適用", "エージェント SDK", "エージェント ハーネス", "LLM プロバイダ", "オーケストレーション フレームワーク"]
+---
+
+Weave では、AI スタックと統合する方法が 2 つあります。
+
+* **エージェントをトレース**: エージェント SDK (OpenAI Agents SDK や Google ADK など) で構築したマルチターンのエージェント アプリケーション、またはエージェント ハーネス (Claude Code、Codex、Pi.dev など) 内で実行されるアプリケーション向けです。これらのインテグレーションでは、セッション、ターン、LLM calls、ツールコール を取得し、Weave の **Agents** ビューに表示します。
+* **LLM アプリケーションをトレース**: LLM プロバイダ (OpenAI、Anthropic、Bedrock など) を呼び出すコード、またはオーケストレーション フレームワーク (LangChain、LlamaIndex、DSPy など) を使用するコード向けです。これらのインテグレーションでは、個々の LLM calls とパイプラインのステップを、**Traces** ビューで Weave **Calls** として取得します。
+
+どちらを選べばよいかわからない場合は、新しいマルチターンのエージェント開発には [エージェントをトレースする](/ja/weave/guides/tracking/trace-agents) から、既存の LLM 呼び出しワークフローには [LLM アプリケーションをトレースする](/ja/weave/guides/tracking/tracing) から始めてください。
+
+<div id="trace-agents">
+  ## エージェントをトレースする
+</div>
+
+マルチターンのエージェント アプリケーションを構築していて、セッション、ターン、ツールコールを Weave の **Agents** ビューに表示したい場合は、これらのインテグレーションを使用してください。**Agents** ビューに表示されるエージェント SDK、ハーネス、カスタム インストルメンテーションについては、[エージェントのトレース向けインテグレーション](/ja/weave/guides/tracking/trace-agent-integrations)を参照してください。
+
+<div id="trace-llm-applications">
+  ## LLM アプリケーションをトレースする
+</div>
+
+アプリケーションが LLM プロバイダの API を直接呼び出す場合や、オーケストレーション フレームワークを使用する場合、Weave は多くのライブラリやフレームワークで、トレースを自動的にインターセプトできます (パッチ適用 を使用) 。コードに Weave SDK をインポートし、`weave.init` で初期化すると、Weave は各リクエストを入力、出力、レイテンシ、token 使用量、コストを含む **Call** として記録します。
+
+Weave が autopatch していないライブラリについては、コードに [Weave Ops](/ja/weave/guides/tracking/create-call#2-tracking-of-custom-functions) を手動で適用して、トレースを取得できます。
+
+<div id="llm-providers">
+  ### LLM プロバイダ
+</div>
+
+LLM プロバイダとは、予測を生成するための大規模言語モデルへのアクセスを提供するベンダーです。Weave はこれらのプロバイダーと連携し、それぞれの API とのやり取りをログし、トレースします。
+
+* **[Serverless Inference Service](/ja/inference)**
+* **[Amazon Bedrock](/ja/weave/guides/integrations/bedrock)**
+* **[Anthropic](/ja/weave/guides/integrations/anthropic)**
+* **[Cerebras](/ja/weave/guides/integrations/cerebras)**
+* **[Cohere](/ja/weave/guides/integrations/cohere)**
+* **[Google](/ja/weave/guides/integrations/google)**
+* **[Groq](/ja/weave/guides/integrations/groq)**
+* **[Hugging Face Hub](/ja/weave/guides/integrations/huggingface)**
+* **[LiteLLM](/ja/weave/guides/integrations/litellm)**
+* **[Microsoft Azure](/ja/weave/guides/integrations/azure)**
+* **[MistralAI](/ja/weave/guides/integrations/mistral)**
+* **[NVIDIA NIM](/ja/weave/guides/integrations/nvidia_nim)**
+* **[OpenAI](/ja/weave/guides/integrations/openai)**
+* **[OpenRouter](/ja/weave/guides/integrations/openrouter)**
+* **[Together AI](/ja/weave/guides/integrations/together_ai)**
+* **[ローカルモデル](/ja/weave/guides/integrations/local_models)** (独自のインフラストラクチャー上で実行されるモデル向け)
+
+<div id="frameworks">
+  ### フレームワーク
+</div>
+
+フレームワークは、AI アプリケーションで実行パイプラインをオーケストレーションするために役立ちます。複雑なワークフローを構築するためのツールや抽象化を提供します。Weave はこれらのフレームワークと連携し、パイプライン全体をトレースします。
+
+* **[OpenAI Agents SDK](/ja/weave/guides/integrations/agents/openai-agents-sdk)**
+* **[Claude Agent SDK](/ja/weave/guides/integrations/agents/claude-agents-sdk)**
+* **[Claude Code](/ja/weave/guides/integrations/agents/claude-code-harness)**
+* **[LangChain](/ja/weave/guides/integrations/langchain)**
+* **[LlamaIndex](/ja/weave/guides/integrations/llamaindex)**
+* **[Haystack](/ja/weave/guides/integrations/haystack)**
+* **[DSPy](/ja/weave/guides/integrations/dspy)**
+* **[Instructor](/ja/weave/guides/integrations/instructor)**
+* **[CrewAI](/ja/weave/guides/integrations/crewai)**
+* **[Smolagents](/ja/weave/guides/integrations/smolagents)**
+* **[PydanticAI](/ja/weave/guides/integrations/pydantic_ai)**
+* **[Google Agent Development Kit (ADK)](/ja/weave/guides/integrations/agents/google-adk)**
+* **[AutoGen](/ja/weave/guides/integrations/autogen)**
+* **[Verdict](/ja/weave/guides/integrations/verdict)**
+* **[TypeScript SDK](/ja/weave/guides/integrations/js)**
+* **[Vercel AI SDK](/ja/weave/guides/integrations/vercel_ai_sdk)**
+* **[Agno](/ja/weave/guides/integrations/agno)**
+* **[Koog](/ja/weave/guides/integrations/koog)**
+
+<div id="reinforcement-learning-frameworks">
+  ### 強化学習フレームワーク
+</div>
+
+Weave は、トレーニングと評価の run をトレースするために、強化学習フレームワークと連携します。
+
+* **[Verifiers](/ja/weave/guides/integrations/verifiers)**
+
+<div id="protocols">
+  ### プロトコル
+</div>
+
+Weave は、AI アプリケーションとそれを支えるサービス間の通信を可能にする標準化プロトコルと連携できます。
+
+* **[Model Context Protocol (MCP)](/ja/weave/guides/integrations/mcp)**

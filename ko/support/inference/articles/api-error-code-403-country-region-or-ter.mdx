@@ -1,0 +1,51 @@
+---
+title: "API 오류 코드 403 - 국가, 지역 또는 영토가 지원되지 않음"
+keywords: ["인증 및 액세스"]
+---
+
+&quot;Country, region, or territory not supported&quot;라는 메시지와 함께 `403` 오류가 발생하면, 현재 지원되지 않는 국가, 지역 또는 영토에서 Serverless Inference에 액세스하고 있다는 뜻입니다. 이 문서에서는 이 오류가 발생하는 이유와 서비스에 다시 액세스하는 방법을 설명합니다.
+
+<div id="why-this-happens">
+  ## 이 문제가 발생하는 이유
+</div>
+
+Serverless Inference에는 규정 준수 및 규제 요건으로 인해 지리적 제한이 있습니다. 지원되는 지역에서만 이 서비스에 액세스할 수 있습니다.
+
+<div id="what-you-can-do">
+  ## 할 수 있는 작업
+</div>
+
+오류를 해결하려면 다음 옵션을 통해 현재 위치가 지원 대상인지 확인하고, 가능한 다음 단계를 파악하세요:
+
+* **지리적 제한 확인**: 지원되는 위치 목록은 [지리적 제한](/ko/inference/usage-limits/#geographic-restrictions)에서 확인하고, 해당 국가 또는 지역이 사용 가능한지 검토하세요.
+* **지원되는 위치에서 사용**:
+  * 지원되는 국가 또는 지역에서 서비스에 액세스하세요.
+  * 지원되는 위치에 있는 조직의 리소스를 사용하는 방법도 고려하세요.
+* **담당 계정 팀에 문의**:
+  * Enterprise 고객은 담당 Account Executive와 가능한 옵션을 논의할 수 있습니다.
+  * 일부 조직에는 특별한 계약이 적용될 수 있습니다.
+
+<div id="error-details">
+  ## 오류 세부 정보
+</div>
+
+이 오류가 표시되면:
+
+```json
+{
+  "error": {
+    "code": 403,
+    "message": "Country, region, or territory not supported"
+  }
+}
+```
+
+Serverless Inference는 API 요청 시점의 IP 주소를 통해 사용자의 위치를 확인합니다.
+
+***
+
+{/* AUTO-GENERATED: 탭 배지 */}
+
+<Badge stroke shape="pill" color="orange" size="md">[인증 및 액세스](/ko/support/inference/tags/authentication-access)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

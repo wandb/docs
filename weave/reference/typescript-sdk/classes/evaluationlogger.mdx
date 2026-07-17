@@ -1,11 +1,7 @@
 ---
-title: "Class: EvaluationLogger"
+title: "EvaluationLogger"
 description: "TypeScript SDK reference"
 ---
-
-[weave](../) / EvaluationLogger
-
-
 
 EvaluationLogger enables incremental logging of predictions and scores.
 
@@ -14,7 +10,8 @@ EvaluationLogger allows you to log predictions as they happen, with flexible sco
 
 `Example`
 
-```ts
+```ts twoslash
+// @noErrors
 const ev = new EvaluationLogger({name: 'my-eval', dataset: 'my-dataset'});
 
 for (const example of streamingData) {
@@ -60,7 +57,7 @@ await ev.logSummary();
 
 #### Defined in
 
-[evaluationLogger.ts:554](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/evaluationLogger.ts#L554)
+[src/evaluationLogger.ts:573](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L573)
 
 ## Methods
 
@@ -88,7 +85,8 @@ ScoreLogger (logScore, finish) will be queued and executed when initialization c
 
 `Example`
 
-```ts
+```ts twoslash
+// @noErrors
 // Fire-and-forget style
 const scoreLogger = evalLogger.logPrediction({input: 'test'}, 'output');
 scoreLogger.logScore('accuracy', 0.95);
@@ -98,7 +96,7 @@ await evalLogger.logSummary(); // Waits for everything
 
 #### Defined in
 
-[evaluationLogger.ts:641](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/evaluationLogger.ts#L641)
+[src/evaluationLogger.ts:660](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L660)
 
 ___
 
@@ -125,7 +123,8 @@ Use this if you need to await the initialization before proceeding.
 
 `Example`
 
-```ts
+```ts twoslash
+// @noErrors
 // Awaitable style
 const scoreLogger = await evalLogger.logPredictionAsync({input: 'test'}, 'output');
 await scoreLogger.logScore('accuracy', 0.95);
@@ -134,7 +133,7 @@ await scoreLogger.finish();
 
 #### Defined in
 
-[evaluationLogger.ts:666](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/evaluationLogger.ts#L666)
+[src/evaluationLogger.ts:685](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L685)
 
 ___
 
@@ -160,4 +159,4 @@ it will wait for all pending operations to complete.
 
 #### Defined in
 
-[evaluationLogger.ts:767](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/evaluationLogger.ts#L767)
+[src/evaluationLogger.ts:786](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L786)

@@ -1,0 +1,52 @@
+---
+title: "JSON 모드 활성화"
+description: "더 쉽게 파싱할 수 있도록 모델 응답에서 구조화된 JSON 출력을 얻기 위해 Serverless Inference에서 JSON 모드를 구성합니다."
+keywords: ["json_object", "response_format", "모델 출력 파싱", "구조화된 응답"]
+---
+
+자유 형식 텍스트를 처리하지 않고도 모델 응답을 프로그래밍 방식으로 파싱해야 할 때 JSON 모드가 유용합니다. JSON 모드를 활성화하면 모델이 유효한 JSON 형식으로 응답을 반환하도록 설정합니다. 따라서 후속 코드에서 출력을 더 쉽게 사용할 수 있습니다. 다만 응답의 스키마가 항상 일관되거나 특정 구조를 따르지는 않을 수 있습니다. 일관된 구조의 JSON 응답이 필요하다면, 가능하면 [structured output](/ko/inference/response-settings/structured-output)을 사용하는 것을 권장합니다.
+
+JSON 모드를 활성화하려면 요청에서 `response_format`을 다음과 같이 지정합니다:
+
+<Tabs>
+  <Tab title="Python">
+    ```python
+    import json
+    import openai
+
+    client = openai.OpenAI(
+        base_url='https://api.inference.wandb.ai/v1',
+        api_key="[YOUR-API-KEY]",  # https://wandb.ai/settings 에서 API 키를 생성하세요
+    )
+
+    response = client.chat.completions.create(
+        model="openai/gpt-oss-20b",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant that outputs JSON."},
+            {"role": "user", "content": "Give me a list of three fruits with their colors."},
+        ],
+        response_format={"type": "json_object"}  # 이렇게 하면 JSON 모드가 활성화됩니다
+    )
+
+    content = response.choices[0].message.content
+    parsed = json.loads(content)
+    print(parsed)
+    ```
+  </Tab>
+
+  <Tab title="Bash">
+    ```bash
+    curl https://api.inference.wandb.ai/v1/chat/completions \
+      -H "Content-Type: application/json" \
+      -H "Authorization: Bearer [YOUR-API-KEY]" \
+      -d '{
+        "model": "openai/gpt-oss-20b",
+        "messages": [
+            {"role": "system", "content": "You are a helpful assistant that outputs JSON."},
+            {"role": "user", "content": "Give me a list of three fruits with their colors."},
+        ],
+        "response_format": {"type": "json_object"}
+      }'
+    ```
+  </Tab>
+</Tabs>

@@ -1,0 +1,92 @@
+---
+description: Tutoriel expliquant comment créer des jobs de sweep à partir d'un projet W&B existant.
+title: 'Tutoriel : créer un job de sweep à partir d’un projet'
+---
+
+Ce tutoriel explique comment créer des jobs de sweep à partir d&#39;un projet W&amp;B existant. Il vous guide dans la création d’un projet de référence, la configuration d’un sweep d’hyperparamètres et le lancement d’agents qui exécutent des tâches d’entraînement en parallèle.
+
+Vous utilisez le [jeu de données Fashion MNIST](https://github.com/zalandoresearch/fashion-mnist) pour entraîner un réseau neuronal convolutif PyTorch à classer des images. Le [dépôt W&amp;B examples (PyTorch CNN Fashion)](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cnn-fashion) fournit le code et le jeu de données requis.
+
+Explorez les résultats dans ce [tableau de bord W&amp;B](https://app.wandb.ai/carey/pytorch-cnn-fashion).
+
+<div id="create-a-project">
+  ## Créer un projet
+</div>
+
+Commencez par créer un projet de référence en entraînant le modèle d’exemple au moins une fois. Cette référence fournit au sweep une base de configuration pour les étapes suivantes. Téléchargez le modèle d’exemple PyTorch pour le dataset MNIST depuis le dépôt GitHub W&amp;B examples. Ensuite, entraînez le modèle. Le script d’entraînement se trouve dans le répertoire `examples/pytorch/pytorch-cnn-fashion`.
+
+Pour télécharger et entraîner le modèle d’exemple :
+
+1. Clonez le dépôt :
+
+   ```bash
+   git clone https://github.com/wandb/examples.git
+   ```
+
+2. Accédez au répertoire de l’exemple :
+
+   ```bash
+   cd examples/pytorch/pytorch-cnn-fashion
+   ```
+
+3. Exécutez manuellement le script d’entraînement :
+
+   ```bash
+   python train.py
+   ```
+
+4. Facultatif : explorez l’exemple dans le tableau de bord de W&amp;B App. [Voir une page de projet d’exemple](https://app.wandb.ai/carey/pytorch-cnn-fashion).
+
+Une fois cette exécution initiale terminée, vous disposez d’un projet de référence dans W&amp;B sur lequel le sweep peut s’appuyer.
+
+<div id="create-a-sweep">
+  ## Créer un sweep
+</div>
+
+Une fois votre projet de référence en place, vous pouvez configurer un sweep à partir de ses runs. Depuis la page de votre projet, ouvrez l’[onglet **Sweep**](/fr/models/sweeps/visualize-sweep-results) dans la barre latérale du projet et sélectionnez **Create Sweep**.
+
+<Frame>
+  <img src="/images/sweeps/sweep1.png" alt="Page de projet W&B avec l’onglet Sweep ouvert et le bouton Create Sweep mis en évidence" />
+</Frame>
+
+La configuration générée automatiquement suggère des valeurs à tester pour le sweep en fonction des runs que vous avez déjà effectués. Modifiez la configuration pour spécifier les plages d’hyperparamètres que vous voulez essayer. Lorsque vous lancez le sweep, un nouveau processus démarre sur le serveur de sweep hébergé par W&amp;B. Ce service centralisé coordonne les agents (les machines qui exécutent les tâches d&#39;entraînement).
+
+<Frame>
+  <img src="/images/sweeps/sweep2.png" alt="Éditeur de configuration de sweep générée automatiquement affichant des plages d’hyperparamètres" />
+</Frame>
+
+<div id="launch-agents">
+  ## Lancez des agents
+</div>
+
+Après avoir configuré le sweep, lancez un ou plusieurs agents pour exécuter les runs. Vous pouvez lancer jusqu&#39;à 20 agents en parallèle sur différentes machines pour terminer la tâche de sweep plus rapidement. Chaque agent affiche le prochain ensemble de paramètres à utiliser.
+
+<Frame>
+  <img src="/images/sweeps/sweep3.png" alt="Sortie du terminal d'un agent de balayage affichant le prochain ensemble d'hyperparamètres" />
+</Frame>
+
+Vous avez maintenant un sweep en cours d&#39;exécution qui coordonne les tâches d&#39;entraînement entre vos agents et transmet les résultats à W&amp;B. L&#39;image suivante montre le tableau de bord avec la tâche de sweep d&#39;exemple en cours d&#39;exécution.
+
+<Frame>
+  <img src="/images/sweeps/sweep4.png" alt="Tableau de bord du sweep affichant les métriques de runs d'entraînement parallèles" />
+</Frame>
+
+<div id="seed-a-new-sweep-with-existing-runs">
+  ## Amorcer un nouveau sweep avec des runs existants
+</div>
+
+Pour réutiliser des résultats antérieurs comme point de départ, lancez un nouveau sweep à l’aide de runs existants que vous avez précédemment enregistrés :
+
+1. Ouvrez le tableau de votre projet.
+2. Cliquez sur la case à cocher de la ligne du run pour sélectionner ce run.
+3. Dans le menu déroulant, sélectionnez l’option pour créer un nouveau sweep.
+
+Votre sweep est maintenant configuré sur le serveur. Lancez un ou plusieurs agents pour démarrer les runs.
+
+<Frame>
+  <img src="/images/sweeps/tutorial_sweep_runs.png" alt="Tableau des runs du projet avec des lignes sélectionnées et l'option de création d'un sweep dans le menu déroulant" />
+</Frame>
+
+<Note>
+  Si vous démarrez le nouveau sweep en tant que sweep bayésien, les runs sélectionnés servent également à initialiser le processus gaussien.
+</Note>

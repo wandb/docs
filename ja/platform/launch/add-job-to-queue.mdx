@@ -1,0 +1,112 @@
+---
+title: キューにジョブを追加
+description: "App UI または CLI を使用して W&B Launch キュー に launch ジョブ を追加し、ターゲットリソース上で ML ワークロードをスケジュールします。"
+keywords: ["ジョブをキューに追加", "ジョブを送信", "launch CLI", "優先度キュー", "ジョブの優先度"]
+---
+
+このページでは、launch キュー に launch ジョブ を追加する方法について説明します。ジョブをキューに追加すると、そのキューのターゲットリソースで実行するために送信されます。チームが設定したコンピュート環境で ML ワークロードをスケジュールできます。
+
+<Note>
+  ご自身またはチームの誰かが、すでに launch キュー を設定済みであることを確認してください。詳細は、[Launch を設定する](/ja/platform/launch/set-up-launch/) を参照してください。
+</Note>
+
+<div id="add-jobs-to-your-queue">
+  ## キューにジョブを追加する
+</div>
+
+W&amp;B App を使用してインタラクティブに、または W&amp;B CLI を使用してプログラムから、キューにジョブを追加できます。
+
+<Tabs>
+  <Tab title="W&B App">
+    W&amp;B App を使用してインタラクティブにキューへジョブを追加するには、次の手順に従ってください。
+
+    1. W&amp;B のプロジェクトページにアクセスします。
+    2. プロジェクトのサイドバーで **Jobs** アイコンを選択します。
+
+    <Frame>
+      <img src="/images/launch/project_jobs_tab_gs.png" alt="プロジェクトの Jobs タブ" />
+    </Frame>
+
+    3. **Jobs** ページには、以前に実行した W&amp;B runs から作成された W&amp;B Launch ジョブの一覧が表示されます。
+
+    <Frame>
+      <img src="/images/launch/view_jobs.png" alt="Jobs の一覧" />
+    </Frame>
+
+    4. ジョブ名の横にある **Launch** ボタンを選択します。モーダルが表示されます。
+    5. **Job version** ドロップダウンから、使用する Launch ジョブのバージョンを選択します。Launch ジョブは、他の [W&amp;B artifact](/ja/models/artifacts/create-a-new-artifact-version/) と同様にバージョン管理されます。ジョブの実行に使用するソフトウェアの依存関係やソースコードを変更すると、W&amp;B は同じ Launch ジョブの別バージョンを作成します。
+    6. **Overrides** セクションで、Launch ジョブに設定された任意の入力に新しい値を指定します。一般的な上書き項目には、新しいエントリポイントコマンド、引数、または新しい W&amp;B run の `wandb.Run.config` 内の値があります。
+
+    <Frame>
+      <img src="/images/launch/create_starter_queue_gs.png" alt="キュー設定" />
+    </Frame>
+
+    Launch ジョブを使用した他の W&amp;B runs の値をコピー＆ペーストするには、**Paste from...** ボタンを選択します。
+    7. **Queue** ドロップダウンから、Launch ジョブの追加先となる launch キュー の名前を選択します。
+    8. **Job Priority** ドロップダウンを使用して、Launch ジョブの優先度を指定します。launch キュー が優先順位付けをサポートしていない場合、W&amp;B は優先度を `Medium` に設定します。
+    9. 任意: この手順は、チーム管理者がキュー設定テンプレートを作成している場合にのみ実行してください。**Queue Configurations** フィールドで、チーム管理者が作成した設定オプションの値を指定します。たとえば、次の画像は、チームで使用できる AWS インスタンスタイプをチーム管理者が設定した例を示しています。この場合、チームメンバーはモデルをトレーニングするために `ml.m4.xlarge` または `ml.p3.xlarge` のいずれかのコンピュートインスタンスタイプを選択できます。
+
+    <Frame>
+      <img src="/images/launch/team_member_use_config_template.png" alt="設定テンプレートの選択" />
+    </Frame>
+
+    10. 生成された run が表示される **Destination project** を選択します。この project は、キューと同じ entity に属している必要があります。
+    11. **Launch now** ボタンを選択します。
+
+    これでジョブはキューに追加され、キューのターゲットリソース上で実行されます。生成された run は、選択した宛先 project に表示されます。
+  </Tab>
+
+  <Tab title="W&B CLI">
+    `wandb launch` コマンドを使用して、キューにジョブを追加します。たとえば、[クイックスタート](/ja/platform/launch/walkthrough/) ガイドのスクリプトを使用して、次のハイパーパラメーターの上書きを含む JSON ファイルを作成します。
+
+    ```json title="config.json"
+    {
+      "overrides": {
+          "args": [],
+          "run_config": {
+              "learning_rate": 0,
+              "epochs": 0
+          },   
+          "entry_point": []
+      }
+    }
+    ```
+
+    <Note>
+      JSON 設定ファイルを指定しない場合、W&amp;B Launch はデフォルトのパラメーターを使用します。
+    </Note>
+
+    キュー設定を上書きする場合、または launch キュー に設定リソースが定義されていない場合は、`config.json` ファイルで `resource_args` キーを指定します。たとえば、前述の例を引き続き使用すると、`config.json` ファイルは次のようになります。
+
+    ```json title="config.json"
+    {
+      "overrides": {
+          "args": [],
+          "run_config": {
+              "learning_rate": 0,
+              "epochs": 0
+          },
+          "entry_point": []
+      },
+      "resource_args": {
+            "[RESOURCE-TYPE]" : {
+                "[KEY]": "[VALUE]"
+            }
+      }
+    }
+    ```
+
+    角かっこで囲まれたプレースホルダーは、ご自身の値に置き換えてください。
+
+    `queue` (`-q`) フラグにはキュー名、`job` (`-j`) フラグにはジョブ名、`config` (`-c`) フラグには設定ファイルへのパスを指定します。
+
+    ```bash
+    wandb launch -j [JOB-NAME] -q [QUEUE-NAME] \
+    -e [ENTITY-NAME] -c path/to/config.json
+    ```
+
+    W&amp;B のチーム内で作業している場合は、キューが使用する entity を指定するために `entity` フラグ (`-e`) を設定します。
+
+    コマンドが正常に完了すると、ジョブは指定したキューに追加され、キューのターゲットリソース上で実行されます。
+  </Tab>
+</Tabs>

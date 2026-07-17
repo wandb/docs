@@ -3,7 +3,7 @@ title: Automation
 namespace: automations_namespace
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/automations.py" />
 
@@ -17,31 +17,31 @@ A local instance of a saved W&B automation that supports editing.
 
 ```python
 __init__(
-    typename__: 'Literal' = 'Trigger',
+    typename__: 'Literal['Trigger']' = 'Trigger',
     id: 'str',
     created_at: 'datetime',
-    updated_at: 'datetime | None' = None,
+    updated_at: 'datetime.datetime | None' = None,
     name: 'str',
     description: 'str | None',
     enabled: 'bool',
-    scope: '_ArtifactSequenceScope | _ArtifactPortfolioScope | ProjectScope',
+    scope: 'wandb.automations.scopes._ArtifactSequenceScope | wandb.automations.scopes._ArtifactPortfolioScope | wandb.automations.scopes.ProjectScope',
     event: 'SavedEvent',
-    action: 'SavedLaunchJobAction | SavedNotificationAction | SavedWebhookAction | SavedNoOpAction'
+    action: 'wandb.automations.actions.SavedLaunchJobAction | wandb.automations.actions.SavedNotificationAction | wandb.automations.actions.SavedWebhookAction | wandb.automations.actions.SavedNoOpAction'
 ) → None
 ```
 
 **Args:**
  
- - `typename__` (Literal): 
+ - `typename__` (Literal['Trigger']): 
  - `id` (str): 
  - `created_at` (datetime): The date and time when this automation was created.
- - `updated_at` (Optional[datetime]): The date and time when this automation was last updated, if applicable.
+ - `updated_at` (datetime.datetime | None): The date and time when this automation was last updated, if applicable.
  - `name` (str): The name of this automation.
- - `description` (Optional[str]): An optional description of this automation.
+ - `description` (str | None): An optional description of this automation.
  - `enabled` (bool): Whether this automation is enabled.  Only enabled automations will trigger.
- - `scope` (Union[_ArtifactSequenceScope, _ArtifactPortfolioScope, ProjectScope]): The scope in which the triggering event must occur.
+ - `scope` (wandb.automations.scopes._ArtifactSequenceScope | wandb.automations.scopes._ArtifactPortfolioScope | wandb.automations.scopes.ProjectScope): The scope in which the triggering event must occur.
  - `event` (SavedEvent): The event that will trigger this automation.
- - `action` (Union[SavedLaunchJobAction, SavedNotificationAction, SavedWebhookAction, SavedNoOpAction]): The action that will execute when this automation is triggered.
+ - `action` (wandb.automations.actions.SavedLaunchJobAction | wandb.automations.actions.SavedNotificationAction | wandb.automations.actions.SavedWebhookAction | wandb.automations.actions.SavedNoOpAction): The action that will execute when this automation is triggered.
 
 **Returns:**
  An `Automation` object.

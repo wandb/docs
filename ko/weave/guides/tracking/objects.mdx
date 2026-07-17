@@ -1,0 +1,191 @@
+---
+title: "객체 추적 및 버전 관리"
+description: "W&B Weave에서 모든 JSON 직렬화 가능한 객체를 추적하고 버전 관리합니다"
+keywords: ["objects", "versioning", "refs", "weave.publish", "weave.ref", "tags", "aliases", "object tags", "object aliases", "set_aliases", "add_tags", "production alias", "promote version", "label versions"]
+---
+
+이 페이지에서는 W&amp;B Weave에서 버전 관리되는 객체를 게시, 가져오기, 삭제, 참조하는 방법을 설명합니다. 여러 run과 시간의 흐름에 걸쳐 데이터셋, 모델 또는 prompt와 같은 구조화된 데이터를 추적해야 할 때 사용하세요.
+
+<div id="objects">
+  ## 객체
+</div>
+
+**객체**는 버전 관리되는 직렬화 가능한 데이터입니다. Weave는 객체가 변경되면 자동으로 버전을 관리하고 변경 불가능한 이력을 생성합니다. 객체에는 다음이 포함됩니다.
+
+* **Datasets**: 평가를 위한 예제 모음
+* **Models**: LLM 로직의 설정 및 파라미터
+* **Prompts**: 버전 관리되는 프롬프트 템플릿
+
+```python lines
+dataset = weave.Dataset(
+    name="test-cases",
+    rows=[
+        {"input": "What is 2+2?", "expected": "4"},
+        {"input": "What is the capital of France?", "expected": "Paris"},
+    ]
+)
+weave.publish(dataset)
+```
+
+
+<div id="publish-an-object">
+  ## 객체 게시
+</div>
+
+Weave의 직렬화 계층은 객체를 저장하고 버전을 관리합니다.
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    import weave
+    weave.init("your-team-name/your-project-name")
+    # 목록을 저장하고 이름을 'cat-names'로 지정합니다
+    weave.publish(['felix', 'jimbo', 'billie'], 'cat-names')
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    TypeScript의 게시 기능 지원은 제한적입니다. 모든 객체가 지원되는 것은 아닙니다.
+
+    ```typescript twoslash lines
+    // @noErrors
+    import * as weave from 'weave'
+
+    const client = await weave.init("your-team-name/your-project-name")
+
+    // 배열을 저장하고 이름을 'cat-names'로 지정합니다
+    client.publish(['felix', 'jimbo', 'billie'], 'cat-names')
+    ```
+  </Tab>
+</Tabs>
+
+이름을 지정해 객체를 저장하면, 해당 객체가 아직 없을 경우 Weave가 그 객체의 첫 번째 버전을 생성합니다.
+
+<div id="get-an-object-back">
+  ## 객체 다시 가져오기
+</div>
+
+게시한 후에는 레퍼런스를 사용해 저장된 객체를 가져올 수 있습니다.
+
+<Tabs>
+  <Tab title="Python">
+    `weave.publish()`는 Ref를 반환합니다. 어떤 Ref에서든 `.get()`을 호출해 해당 객체를 다시 가져올 수 있습니다.
+
+    Ref를 생성한 다음 객체를 다시 가져올 수 있습니다.
+
+    ```python lines
+    weave.init("your-team-name/your-project-name")
+    cat_names = weave.ref('cat-names').get()
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext lines
+    이 기능은 아직 TypeScript에서 사용할 수 없습니다.
+    ```
+  </Tab>
+</Tabs>
+
+<div id="delete-an-object">
+  ## 객체 삭제
+</div>
+
+객체의 특정 버전이 더 이상 필요하지 않다면, 해당 ref를 사용해 제거할 수 있습니다.
+
+<Tabs>
+  <Tab title="Python">
+    객체 버전을 삭제하려면 객체의 ref에서 `.delete()`를 호출하세요.
+
+    ```python lines
+    weave.init("your-team-name/your-project-name")
+    cat_names_ref = weave.ref('cat-names:v1')
+    cat_names_ref.delete()
+    ```
+
+    삭제된 객체에 접근하면 오류가 발생합니다. 삭제된 객체를 참조하는 객체를 resolve하면, 삭제된 객체 대신 `DeletedRef`가 반환됩니다.
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    이 기능은 아직 TypeScript에서 사용할 수 없습니다.
+    ```
+  </Tab>
+</Tabs>
+
+<div id="construct-object-refs">
+  ## 객체 ref 만들기
+</div>
+
+ref는 저장된 객체와 버전을 고유하게 식별합니다. 다음 섹션에서는 URI 구조와 ref를 구성하는 방법을 설명합니다.
+
+Weave에서 완전 수식된 객체 ref URI는 다음과 같습니다.
+
+```text
+weave:///[YOUR-TEAM-NAME]/[YOUR-PROJECT-NAME]/object/[OBJECT-NAME]:[OBJECT-VERSION]
+```
+
+* `[YOUR-TEAM-NAME]`: W&amp;B entity(사용자 이름 또는 팀 이름)
+* `[YOUR-PROJECT-NAME]`: W&amp;B 프로젝트
+* `[OBJECT-NAME]`: 객체 이름
+* `[OBJECT-VERSION]`: 버전 해시, `v0` 또는 `v1` 같은 string, 또는 `:latest` 같은 별칭입니다. 모든 객체에는 `:latest` 별칭이 있습니다. 고유한 별칭을 만들려면 [태그와 별칭로 객체 버전 정리하기](#organize-object-versions-with-tags-and-aliases)를 참조하세요.
+
+몇 가지 방식으로 ref를 구성할 수 있습니다:
+
+* `weave.ref([NAME])`: 객체의 `:latest` 버전을 가져옵니다. `weave.init(...)`를 호출해야 합니다.
+* `weave.ref([NAME]:[VERSION])`: 지정한 버전의 객체를 가져옵니다. `weave.init(...)`를 호출해야 합니다.
+* `weave.ref([FULLY-QUALIFIED-REF-URI])`: 지정한 완전 수식된 객체 ref URI에 있는 객체를 가져옵니다. `weave.init()`를 호출할 필요가 없습니다.
+
+<div id="organize-object-versions-with-tags-and-aliases">
+  ## 태그와 별칭으로 객체 버전 정리하기
+</div>
+
+**태그**와 **별칭**을 사용하면 `Dataset`, `Model`, `Prompt`를 비롯해 `weave.publish`로 게시한 모든 Weave 객체의 특정 버전에 레이블을 지정할 수 있습니다. 이러한 레이블은 모든 `ObjectRef`에서 동작하므로, 동일한 API를 객체 유형 전반에 걸쳐 사용할 수 있습니다.
+
+* **별칭:** 단일 버전을 가리키는 고유한 이름입니다. 별칭은 언제든지 다른 버전으로 옮길 수 있으므로 `production`이나 `staging` 같은 안정적인 참조에 유용합니다. 모든 객체에는 가장 최신 버전을 가리키는 `:latest` 별칭이 자동으로 생성됩니다.
+* **태그:** 버전에 연결되는 설명용 레이블입니다. 하나의 버전에는 여러 태그를 붙일 수 있고, 동일한 태그를 여러 버전에 사용할 수도 있습니다. `reviewed` 또는 `passed-eval`처럼 버전을 분류하고 필터링할 때 태그를 사용하세요.
+
+ref에서 객체 이름 뒤에 별칭이나 특정 버전을 붙여 확인할 수 있습니다.
+
+다음 예시에서는 데이터셋의 두 버전을 게시한 다음, 각 버전에 태그와 별칭을 부여하고 업데이트합니다.
+
+<CodeGroup>
+  ```python Python lines
+  import weave
+
+  client = weave.init("[YOUR-TEAM-NAME]/[YOUR-PROJECT-NAME]")
+
+  # 객체의 두 버전을 게시합니다.
+  dataset_v0 = weave.publish(
+      weave.Dataset(name="test-cases", rows=[{"input": "ping", "expected": "pong"}]),
+  )
+  dataset_v1 = weave.publish(
+      weave.Dataset(name="test-cases", rows=[{"input": "ping", "expected": "pong!"}]),
+  )
+
+  # 버전에 별칭을 설정합니다.
+  client.set_aliases(dataset_v0, "staging")
+  client.set_aliases(dataset_v1, "production")
+
+  # 별칭을 사용하여 객체를 조회합니다.
+  dataset = weave.ref("test-cases:production").get()
+
+  # 프로젝트의 모든 별칭을 나열합니다.
+  client.list_aliases()
+
+  # --- 태그: 특정 버전에 붙는 레이블입니다. ---
+
+  # 버전에 태그를 추가합니다.
+  client.add_tags(dataset_v0, ["reviewed", "passed-eval"])
+  client.add_tags(dataset_v1, ["reviewed", "needs-improvement"])
+
+  # 버전의 태그를 조회합니다.
+  client.get_tags(dataset_v0)  # ["passed-eval", "reviewed"]
+
+  # 프로젝트의 모든 고유 태그를 나열합니다.
+  client.list_tags()
+  ```
+
+  ```plaintext TypeScript lines
+  이 기능은 아직 TypeScript SDK에서 사용할 수 없습니다.
+  ```
+</CodeGroup>

@@ -1,0 +1,16 @@
+---
+title: "Que se passe-t-il si la connexion Internet est interrompue pendant l’entraînement d’un modèle ?"
+keywords: ["Variables d’environnement", "Panne"]
+---
+
+Si la bibliothèque ne peut pas se connecter à Internet, elle réessaie en boucle et continue de tenter de transmettre les métriques jusqu’à ce que le réseau soit rétabli. Le programme continue à s’exécuter pendant ce temps.
+
+Pour exécuter le programme sur une machine sans connexion Internet, définissez `WANDB_MODE=offline`. Cette configuration enregistre les métriques localement sur le disque dur. Ensuite, exécutez `wandb sync DIRECTORY` pour transmettre les données au serveur.
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Variables d’environnement](/fr/support/models/tags/environment-variables)</Badge><Badge stroke shape="pill" color="orange" size="md">[Incident](/fr/support/models/tags/outage)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets */}

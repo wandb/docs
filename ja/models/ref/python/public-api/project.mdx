@@ -1,70 +1,129 @@
 ---
-title: プロジェクト
+title: Project
+namespace: public_apis_namespace
+python_object_type: class
 ---
 
-<Card title="View the source code" href="https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/projects.py#L79-L154" icon="github"/>
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-プロジェクトは、run のための名前空間です。
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py" />
 
-```python
-Project(
-    client, entity, project, attrs
-)
-```
 
-| 属性 | Description |
-| :--- | :--- |
+## <kbd>class</kbd> `Project`
 
-## メソッド
+プロジェクトは、run の名前空間です。
 
-### `artifacts_types`
-
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/projects.py#L112-L114)
+### <kbd>method</kbd> `Project.__init__`
 
 ```python
-artifacts_types(
-    per_page=50
-)
+__init__(
+    service_api: 'ServiceApi',
+    entity: 'str',
+    project: 'str',
+    attrs: 'Mapping[str, Any]'
+) → Project
 ```
 
-### `display`
+**引数:**
 
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/attrs.py#L16-L37)
+* `service_api`:  この project に対して W&amp;B API Call を実行する wandb-core サービスへのインターフェース。
+* `name` (str):  project の名。
+* `entity` (str):  project を所有する entity の名。
+
+entity に紐づく単一の project。
+
+**引数:**
+
+* `service_api`:  W&amp;B をクエリするために使用する service API。
+* `entity`:  project を所有する entity。
+* `project`:  クエリする project の名。
+* `attrs`:  project の属性。
+
+***
+
+### <kbd>プロパティ</kbd> Project.id
+
+***
+
+### <kbd>プロパティ</kbd> Project.owner
+
+プロジェクトの所有者を User オブジェクトとして返します。
+
+**例外:**
+
+* `ValueError`: プロジェクトのユーザー情報が見つからない場合。
+
+**戻り値:**
+
+* `public.User`: `owner` プロパティの値。
+
+***
+
+### <kbd>プロパティ</kbd> Project.path
+
+プロジェクトのパスを返します。パスは、entity とプロジェクト名を含むリストです。
+
+**戻り値:**
+
+* `list[str]`: パスのプロパティ値。
+
+***
+
+### <kbd>プロパティ</kbd> Project.url
+
+プロジェクトのURLを返します。
+
+**戻り値:**
+
+* `str`: URLプロパティの値。
+
+***
+
+### <kbd>method</kbd> `Project.artifacts_types`
 
 ```python
-display(
-    height=420, hidden=(False)
-) -> bool
+artifacts_types(per_page: 'int' = 50) → public.ArtifactTypes
 ```
 
-jupyter でこのオブジェクトを表示します。
+このプロジェクトに関連付けられているすべてのアーティファクトタイプを返します。
 
-### `snake_to_camel`
+***
 
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/attrs.py#L12-L14)
+
+### <kbd>method</kbd> `Project.collections`
 
 ```python
-snake_to_camel(
-    string
-)
+collections(
+    filters: 'Mapping[str, Any] | None' = None,
+    order: 'str | None' = None,
+    per_page: 'int' = 50
+) → public.ProjectArtifactCollections
 ```
 
-### `sweeps`
+このプロジェクトに関連付けられているすべてのアーティファクトコレクションを返します。
 
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/projects.py#L116-L154)
+**引数:**
+
+* `filters`:  クエリに適用するフィルターのオプションのマッピング。
+* `order`:  結果の順序を指定するオプションの文字列です。先頭に `+` を付けると昇順 (デフォルト) 、`-` を付けると降順になります。
+* `per_page`:  1 ページあたりに取得するアーティファクトコレクションの数です。デフォルトは 50 です。
+
+***
+
+
+### <kbd>method</kbd> `Project.sweeps`
 
 ```python
-sweeps()
+sweeps(per_page: 'int' = 50) → Sweeps
 ```
 
-### `to_html`
+このプロジェクト内の sweep を、ページ分割されたコレクションとして返します。
 
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/projects.py#L96-L104)
+**引数:**
 
-```python
-to_html(
-    height=420, hidden=(False)
-)
-```
+* `per_page`:  API リクエストごとに取得する sweep の数。
 
-このプロジェクトを表示する iframe を含む HTML を生成します。
+**戻り値:**
+反復可能な `Sweep` オブジェクトのコレクションである `Sweeps` オブジェクト。
+
+***

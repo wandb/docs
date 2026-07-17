@@ -1,0 +1,121 @@
+---
+title: MMEngine
+description: "WandbVisBackend를 통해 OpenMMLab의 MMEngine에서 W&B를 사용해 트레이닝 메트릭, 설정, 시각적 기록을 로깅할 수 있습니다."
+---
+
+이 페이지에서는 OpenMMLab의 MMEngine에서 W&amp;B를 사용해 트레이닝 Runs를 추적하고 시각화하는 방법을 설명합니다. MMEngine 또는 OpenMMLab 컴퓨터 비전 라이브러리로 딥러닝 모델을 트레이닝하면서 메트릭, 설정, 시각화를 W&amp;B에 로깅하려는 경우 이 페이지를 활용하세요.
+
+[OpenMMLab](https://github.com/open-mmlab)의 MMEngine은 PyTorch 기반 딥러닝 모델을 트레이닝하기 위한 핵심 라이브러리입니다. MMEngine은 OpenMMLab 알고리즘 라이브러리를 위한 트레이닝 아키텍처를 구현하며, OpenMMLab 내 30개가 넘는 알고리즘 라이브러리에 공통 실행 기반을 제공합니다. 핵심 컴포넌트로는 트레이닝 엔진, 평가 엔진, 모듈 관리가 있습니다.
+
+MMEngine은 전용 [`WandbVisBackend`](https://mmengine.readthedocs.io/en/latest/api/generated/mmengine.visualization.WandbVisBackend.html#mmengine.visualization.WandbVisBackend)를 통해 [W&amp;B](https://wandb.ai/site)와 직접 통합되며, 이를 사용해 다음 작업을 수행할 수 있습니다:
+
+* 트레이닝 및 평가 메트릭을 로깅합니다.
+* 실험 설정을 로깅하고 관리합니다.
+* 그래프, 이미지, 스칼라 등 추가 기록을 로깅합니다.
+
+<div id="get-started">
+  ## 시작하기
+</div>
+
+`openmim`과 `wandb`를 설치합니다.
+
+<Tabs>
+  <Tab title="명령줄">
+    ```bash
+    pip install -q -U openmim wandb
+    ```
+  </Tab>
+
+  <Tab title="노트북">
+    ```bash
+    !pip install -q -U openmim wandb
+    ```
+  </Tab>
+</Tabs>
+
+다음으로 `mim`을 사용해 `mmengine`와 `mmcv`를 설치합니다.
+
+<Tabs>
+  <Tab title="명령줄">
+    ```bash
+    mim install -q mmengine mmcv
+    ```
+  </Tab>
+
+  <Tab title="노트북">
+    ```bash
+    !mim install -q mmengine mmcv
+    ```
+  </Tab>
+</Tabs>
+
+<div id="use-the-wandbvisbackend-with-mmengine-runner">
+  ## MMEngine runner와 함께 `WandbVisBackend` 사용하기
+</div>
+
+이 섹션에서는 [`mmengine.runner.Runner`](https://mmengine.readthedocs.io/en/latest/api/generated/mmengine.runner.Runner.html#mmengine.runner.Runner)와 함께 `WandbVisBackend`를 사용하는 일반적인 워크플로를 보여줍니다. visualizer는 W&amp;B 백엔드를 감싸므로 MMEngine runner가 트레이닝 중에 로그를 W&amp;B로 전달할 수 있습니다.
+
+1. 시각화 설정에서 `visualizer`를 정의하세요. visualizer는 runner가 설정된 백엔드로 로그를 보내는 데 사용하는 구성 요소입니다.
+
+   ```python
+   from mmengine.visualization import Visualizer
+
+   # 시각화 설정 정의
+   visualization_cfg = dict(
+       name="wandb_visualizer",
+       vis_backends=[
+           dict(
+               type='WandbVisBackend',
+               init_kwargs=dict(project="mmengine"),
+           )
+       ],
+       save_dir="runs/wandb"
+   )
+
+   # 시각화 설정에서 visualizer 가져오기
+   visualizer = Visualizer.get_instance(**visualization_cfg)
+   ```
+
+   `init_kwargs`에는 [W&amp;B run initialization](/ko/models/ref/python/functions/init)의 입력 인수에 대한 딕셔너리를 전달합니다.
+
+2. `visualizer`로 `runner`를 초기화한 다음 `runner.train()`을 호출해 트레이닝을 시작하세요. runner는 visualizer를 사용해 메트릭과 설정을 W&amp;B로 스트리밍합니다.
+
+   ```python
+   from mmengine.runner import Runner
+
+   # PyTorch용 트레이닝 도우미인 mmengine Runner 구축
+   runner = Runner(
+       model,
+       work_dir='runs/gan/',
+       train_dataloader=train_dataloader,
+       train_cfg=train_cfg,
+       optim_wrapper=opt_wrapper_dict,
+       visualizer=visualizer, # visualizer 전달
+   )
+
+   # 트레이닝 시작
+   runner.train()
+   ```
+
+<div id="use-the-wandbvisbackend-with-openmmlab-computer-vision-libraries">
+  ## OpenMMLab 컴퓨터 비전 라이브러리에서 `WandbVisBackend` 사용하기
+</div>
+
+[MMDetection](https://mmdetection.readthedocs.io/)과 같은 OpenMMLab 컴퓨터 비전 라이브러리에서도 `WandbVisBackend`를 사용해 실험을 추적할 수 있습니다. 다음 예시에서는 기본 설정의 `vis_backends` 항목을 재정의하여 기존 visualizer가 W&amp;B에 로깅되도록 합니다.
+
+```python
+# 기본 런타임 설정에서 기본 설정을 상속합니다
+_base_ = ["../_base_/default_runtime.py"]
+
+# 기본 설정의 `visualizer`에 있는 `vis_backends`에
+# `WandbVisBackend` 설정 딕셔너리를 할당합니다
+_base_.visualizer.vis_backends = [
+    dict(
+        type='WandbVisBackend',
+        init_kwargs={
+            'project': 'mmdet',
+            'entity': 'geekyrakshit'
+        },
+    ),
+]
+```

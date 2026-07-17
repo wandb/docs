@@ -1,0 +1,66 @@
+---
+title: plot_table()
+namespace: python_sdk_custom_charts
+python_object_type: function
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/custom_chart.py" />
+
+
+### <kbd>関数</kbd> `plot_table`
+
+```python
+plot_table(
+    vega_spec_name: 'str',
+    data_table: 'wandb.Table',
+    fields: 'dict[str, Any]',
+    string_fields: 'dict[str, Any] | None' = None,
+    split_table: 'bool' = False
+) → CustomChart
+```
+
+Vega-Lite 仕様と `wandb.Table` を使用してカスタムチャートを作成します。
+
+この関数は、Vega-Lite 仕様と、`wandb.Table` オブジェクトで表されるデータ表に基づいてカスタムチャートを作成します。仕様は事前に定義され、W&amp;B バックエンドに保存されている必要があります。この関数は、`wandb.Run.log()` を使用して W&amp;B にログできるカスタムチャートオブジェクトを返します。
+
+**引数:**
+
+* `vega_spec_name`:  可視化構造を定義する Vega-Lite spec の名または識別子。
+* `data_table`:  可視化するデータを含む `wandb.Table` オブジェクト。
+* `fields`:  Vega-Lite spec 内のフィールドと、可視化するデータ表内の対応する列との対応付け。
+* `string_fields`:  カスタム可視化で必要となる文字列定数の値を指定するための dict。
+* `split_table`:  W&amp;B UI でその表を別のセクションに分けるかどうか。`True` の場合、表は &quot;Custom Chart Tables&quot; という名のセクションに表示されます。デフォルトは `False` です。
+
+**戻り値:**
+
+* `CustomChart`:  W&amp;B にログできるカスタムチャートオブジェクト。チャートをログするには、チャートオブジェクトを引数として `wandb.Run.log()` に渡します。
+
+**Raises:**
+
+* `wandb.Error`:  `data_table` が `wandb.Table` オブジェクトではない場合。
+
+**Example:**
+
+```python
+# Vega-Lite仕様とデータ表を使用してカスタムチャートを作成する。
+import wandb
+
+data = [[1, 1], [2, 2], [3, 3], [4, 4], [5, 5]]
+table = wandb.Table(data=data, columns=["x", "y"])
+fields = {"x": "x", "y": "y", "title": "MY TITLE"}
+
+with wandb.init() as run:
+    # トレーニングコードをここに記述する
+
+    # `string_fields`を使用してカスタムタイトルを作成する。
+    my_custom_chart = wandb.plot_table(
+         vega_spec_name="wandb/line/v0",
+         data_table=table,
+         fields=fields,
+         string_fields={"title": "Title"},
+    )
+
+    run.log({"custom_chart": my_custom_chart})
+```

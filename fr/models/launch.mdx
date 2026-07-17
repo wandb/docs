@@ -1,0 +1,67 @@
+---
+description: Évaluer des points de contrôle du modèle ou des modèles d’API hébergés dans W&B, et analyser les résultats à l’aide de classements générés automatiquement.
+title: Jobs d’évaluation de LLM
+---
+
+import PreviewLink from '/snippets/fr/_includes/llm-eval-jobs/preview.mdx';
+
+[LLM Evaluation Jobs](/fr/models/launch) est un framework de benchmarking conçu pour évaluer les performances d&#39;un modèle LLM à l&#39;aide d&#39;une infrastructure gérée par CoreWeave. Choisissez parmi une suite complète de [benchmarks d&#39;évaluation de modèles](/fr/models/launch/evaluations) modernes et conformes aux standards du secteur, puis consultez, analysez et partagez les résultats à l&#39;aide de classements et de graphiques générés automatiquement dans W&amp;B Models. LLM Evaluation Jobs élimine la complexité liée au déploiement et à la maintenance de l&#39;infrastructure GPU.
+
+<PreviewLink />
+
+<div id="how-it-works">
+  ## Fonctionnement
+</div>
+
+Évaluez un point de contrôle du modèle ou un modèle hébergé compatible avec OpenAI, accessible au public, en quelques étapes :
+
+1. Configurez un job d&#39;évaluation dans W&amp;B Models. Définissez ses benchmarks et sa configuration, par exemple pour indiquer s&#39;il doit générer un classement.
+2. Lancez le job d&#39;évaluation.
+3. Consultez et analysez les résultats et le classement.
+
+Chaque fois que vous lancez un job d&#39;évaluation pour le même projet de destination, le classement du projet se met automatiquement à jour.
+
+<Frame>
+  ![Exemple de classement d’un job d’évaluation](/images/models/llm-evaluation-jobs/model-checkpoint-leaderboard-example.png)
+</Frame>
+
+<div id="next-steps">
+  ## Étapes suivantes
+</div>
+
+* Parcourez le [catalogue des benchmarks d’évaluation](/fr/models/launch/evaluations)
+* [Évaluez un point de contrôle du modèle](/fr/models/launch/evaluate-model-checkpoint)
+* [Évaluez un modèle d’API hébergé](/fr/models/launch/evaluate-hosted-model)
+
+<div id="more-details">
+  ## Plus de détails
+</div>
+
+<div id="pricing">
+  ### Tarification
+</div>
+
+LLM Evaluation Jobs évalue un point de contrôle du modèle ou une API hébergée à l’aide de benchmarks populaires sur une infrastructure de calcul CoreWeave entièrement gérée, sans aucune infrastructure à administrer. Vous ne payez que les ressources consommées, et non le temps d’inactivité. La tarification comporte deux composantes : le calcul et le stockage. Le calcul est gratuit pendant la préversion publique, et nous annoncerons les tarifs lors de la disponibilité générale. Les résultats stockés incluent des métriques et des traces pour chaque exemple, enregistrées dans les Runs de Models. Le stockage est facturé mensuellement en fonction du volume de données. Pendant la période de préversion, LLM Evaluation Jobs est disponible uniquement sur le Cloud mutualisé. Voir la page [Tarification](https://wandb.ai/pricing) pour plus de détails.
+
+<div id="job-limits">
+  ### Limites des jobs
+</div>
+
+Chaque job d’évaluation est soumis aux limites suivantes :
+
+* La taille maximale du modèle à évaluer est de 86 Go, contexte compris.
+* Chaque job est limité à deux GPU.
+
+<div id="requirements">
+  ### Prérequis
+</div>
+
+* Pour évaluer un point de contrôle du modèle, les poids du modèle doivent être empaquetés dans un artifact compatible avec VLLM. Voir [Exemple : préparer un modèle](/fr/models/launch/evaluate-model-checkpoint#example-prepare-a-model) pour plus de détails et un exemple de code.
+* Pour évaluer un modèle compatible avec OpenAI, celui-ci doit être accessible via une URL publique, et un administrateur de l’organisation ou de l’équipe doit configurer un secret d’équipe avec la clé API nécessaire à l’authentification.
+* Certains benchmarks utilisent des modèles OpenAI pour la notation. Pour exécuter ces benchmarks, un administrateur de l’organisation ou de l’équipe doit configurer des secrets d’équipe avec les clés API requises. Voir le [catalogue des benchmarks d’évaluation](/fr/models/launch/evaluations) pour déterminer si un benchmark est concerné par cette exigence.
+* Certains benchmarks nécessitent l’accès à des jeux de données à accès restreint dans Hugging Face. Pour exécuter l’un de ces benchmarks, un administrateur de l’organisation ou de l’équipe doit demander l’accès au jeu de données à accès restreint dans Hugging Face, générer un jeton d’accès utilisateur Hugging Face et le configurer comme secret d’équipe. Voir le [catalogue des benchmarks d’évaluation](/fr/models/launch/evaluations) pour déterminer si un benchmark est concerné par cette exigence.
+
+Pour plus de détails et d’instructions sur la façon de remplir ces prérequis, voir :
+
+* [Évaluer un point de contrôle du modèle](/fr/models/launch/evaluate-model-checkpoint)
+* [Évaluer un modèle d’API hébergé](/fr/models/launch/evaluate-hosted-model)

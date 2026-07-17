@@ -1,0 +1,36 @@
+---
+title: agent()
+namespace: python_sdk_actions
+python_object_type: fonction
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/wandb_agent.py" />
+
+
+### <kbd>fonction</kbd> `agent`
+
+```python
+agent(
+    sweep_id: 'str',
+    function: 'Callable | None' = None,
+    entity: 'str | None' = None,
+    project: 'str | None' = None,
+    count: 'int | None' = None,
+    forward_signals: 'bool' = False
+) → None
+```
+
+Démarrez un ou plusieurs agents de balayage.
+
+L’agent de balayage utilise le `sweep_id` pour savoir de quel balayage il fait partie, quelle fonction exécuter et, le cas échéant, combien d’agents lancer.
+
+**Arguments :**
+
+* `sweep_id` :  L’identifiant unique d’un balayage. Un ID de balayage est généré par le CLI W&amp;B ou le SDK Python.
+* `function` :  Une fonction à appeler à la place du &quot;programme&quot; spécifié dans la configuration du balayage.
+* `entity` :  Le nom d’utilisateur ou le nom de l’équipe vers lesquels vous souhaitez envoyer les runs W&amp;B créés par le balayage. Assurez-vous que l’entité indiquée existe déjà. Si vous ne spécifiez pas d’entité, le run sera envoyé à votre entité par défaut, qui correspond généralement à votre nom d’utilisateur.
+* `project` :  Le nom du projet auquel sont envoyés les runs W&amp;B créés par le balayage. Si le projet n’est pas spécifié, le run est envoyé à un projet intitulé &quot;Uncategorized&quot;.
+* `count` :  Le nombre d’essais de la configuration de balayage à exécuter.
+* `forward_signals` :  Indique s’il faut transmettre aux processus enfants les signaux reçus par l’agent. Pris en charge uniquement par l’agent CLI.

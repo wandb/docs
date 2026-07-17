@@ -1,45 +1,46 @@
 ---
-title: Python Library
+title: Python SDK 0.28.0
+description: "설치 지침, 클래스, 함수 문서를 포함한 W&B Python SDK API 레퍼런스를 살펴보세요."
+module:
 ---
 
-wandb를 사용하여 기계 학습 작업을 추적하세요.
+`wandb`로 사용할 수 있는 W&amp;B Python SDK를 사용하면 모델을 트레이닝하고 파인튜닝할 수 있으며, 실험부터 프로덕션까지 모델을 관리할 수 있습니다.
 
-모델을 학습 및 파인튜닝하고, 실험에서 프로덕션까지 모델을 관리합니다.
+> 이 SDK로 트레이닝 및 파인튜닝 오퍼레이션을 수행한 후에는 [Public API](/ko/models/ref/python/public-api)를 사용해 로깅된 데이터를 쿼리하고 분석할 수 있으며, [Reports and Workspaces API](/ko/models/ref/wandb_workspaces)를 사용해 작업을 요약한 웹에 게시 가능한 [리포트](/ko/models/reports/)를 생성할 수 있습니다.
 
-가이드 및 예제는 https://docs.wandb.ai 를 참조하세요.
+<div id="installation-and-setup">
+  ## 설치 및 설정
+</div>
 
-스크립트 및 대화형 노트북은 https://github.com/wandb/examples 를 참조하세요.
+<div id="sign-up-and-create-an-api-key">
+  ### 회원가입하고 API 키 생성하기
+</div>
 
-참조 문서는 https://docs.wandb.com/ref/python 를 참조하세요.
+W&amp;B에서 이 머신을 인증하려면 먼저 [User Settings](https://wandb.ai/settings)에서 API 키를 생성해야 합니다.
 
-## 클래스
+<div id="install-and-import-packages">
+  ### 패키지 설치 및 임포트
+</div>
 
-[`class Artifact`](/ko/models/ref/python/artifact/): 데이터셋 및 모델 버전 관리를 위한 유연하고 가벼운 빌딩 블록입니다.
+W&amp;B 라이브러리를 설치합니다.
 
-[`class Run`](/ko/models/ref/python/run/): wandb에서 기록한 계산 단위입니다. 일반적으로 이는 ML 실험입니다.
+```
+pip install wandb
+```
 
-## 함수
+<div id="import-wb-python-sdk">
+  ### W&amp;B Python SDK 임포트하기:
+</div>
 
-[`agent(...)`](/ko/models/ref/python/agent/): 하나 이상의 스윕 에이전트를 시작합니다.
+```python
+import wandb
 
-[`controller(...)`](/ko/models/ref/python/controller/): 공개 스윕 컨트롤러 생성자입니다.
+# 팀 엔티티를 지정하세요
+entity = "<team_entity>"
 
-[`finish(...)`](/ko/models/ref/python/finish/): run을 종료하고 나머지 데이터를 업로드합니다.
+# run이 기록될 프로젝트
+project = "my-awesome-project"
 
-[`init(...)`](/ko/models/ref/python/init/): 추적 및 W&B 로깅을 위한 새 run을 시작합니다.
-
-[`log(...)`](/ko/models/ref/python/log/): run 데이터를 업로드합니다.
-
-[`login(...)`](/ko/models/ref/python/login/): W&B 로그인 자격 증명을 설정합니다.
-
-[`save(...)`](/ko/models/ref/python/save/): 하나 이상의 파일을 W&B에 동기화합니다.
-
-[`sweep(...)`](/ko/models/ref/python/sweep/): 하이퍼파라미터 스윕을 초기화합니다.
-
-[`watch(...)`](/ko/models/ref/python/watch/): 주어진 PyTorch 모델에 훅을 걸어 그레이디언트와 모델의 계산 그래프를 모니터링합니다.
-
-| 기타 멤버 |  |
-| :--- | :--- |
-| `__version__`<a id="__version__"></a> | `'0.19.8'` |
-| `config`<a id="config"></a> |   |
-| `summary`<a id="summary"></a> |   |
+with wandb.init(entity=entity, project=project) as run:
+   run.log({"accuracy": 0.9, "loss": 0.1})
+```

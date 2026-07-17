@@ -1,0 +1,234 @@
+---
+description: "Metaflow と W&B を統合し、メトリクスと artifact の自動ログ記録によって Experiments を管理し、ML ワークフローを管理します。"
+title: Metaflow
+---
+
+import ApiKeyCreateStreamlined from "/snippets/ja/_includes/api-key-create-streamlined.mdx";
+
+<div id="overview">
+  ## 概要
+</div>
+
+[Metaflow](https://docs.metaflow.org) は、ML ワークフローを作成して実行するために Netflix が開発したフレームワークです。
+
+このインテグレーションでは、Metaflow の [steps and flows](https://docs.metaflow.org/metaflow/basics) にデコレーターを適用することで、パラメーターと Artifacts を W&amp;B に自動的にログし、カスタムのロギングコードを記述しなくても、Metaflow で構築したワークフロー全体で Experiments をトラッキングし、リネージを確認できるようになります。
+
+* ステップ をデコレートすると、その ステップ 内の特定のタイプに対してログするかどうかを切り替えられます。
+* フローをデコレートすると、その フロー 内のすべての ステップ に対してログするかどうかを切り替えられます。
+
+<div id="quickstart">
+  ## クイックスタート
+</div>
+
+以下のセクションでは、W&amp;B で認証し、必要なライブラリをインストールして、Metaflow のステップと フロー に `wandb_log` デコレータを追加する方法を説明します。
+
+<div id="sign-up-and-create-an-api-key">
+  ### サインアップしてAPIキーを発行する
+</div>
+
+APIキーは、お使いのマシンをW&amp;Bに認証するために使用します。APIキーはユーザープロフィールから発行できます。
+
+<ApiKeyCreateStreamlined />
+
+W&amp;B AppでAPIキーを確認するには:
+
+1. 右上にあるユーザープロフィールアイコンをクリックします。
+2. **User Settings** を選択し、**API Keys** セクションまでスクロールします。
+
+<div id="install-the-wandb-library-and-log-in">
+  ### `wandb` ライブラリをインストールしてログインする
+</div>
+
+`wandb` ライブラリをローカルにインストールしてログインするには、次の手順を実行します。
+
+<Note>
+  `wandb` バージョン 0.19.8 以下では、`plum-dispatch` の代わりに `fastcore` バージョン 1.8.0 以下 (`fastcore<1.8.0`) をインストールしてください。
+</Note>
+
+<Tabs>
+  <Tab title="コマンドライン">
+    1. APIキーを `WANDB_API_KEY` [環境変数](/ja/models/track/environment-variables/)に設定します。`<>` で囲まれた値はご自身のものに置き換えてください。
+
+       ```bash
+       export WANDB_API_KEY=<your_api_key>
+       ```
+
+    2. `wandb` ライブラリをインストールしてログインします。
+
+       ```bash
+       pip install -Uqqq metaflow "plum-dispatch<3.0.0" wandb
+
+       wandb login
+       ```
+  </Tab>
+
+  <Tab title="Python">
+    ```bash
+    pip install -Uqqq metaflow "plum-dispatch<3.0.0" wandb
+    ```
+
+    ```python
+    import wandb
+    wandb.login()
+    ```
+  </Tab>
+
+  <Tab title="Python notebook">
+    ```python
+    !pip install -Uqqq metaflow "plum-dispatch<3.0.0" wandb
+
+    import wandb
+    wandb.login()
+    ```
+  </Tab>
+</Tabs>
+
+<div id="decorate-your-flows-and-steps">
+  ### フローとステップをデコレートする
+</div>
+
+<Tabs>
+  <Tab title="ステップ">
+    ステップをデコレートすると、そのステップ内の特定のタイプについてログをオンまたはオフにできます。
+
+    この例では、インテグレーションが `start` 内のすべてのデータセットとモデルをログします。
+
+    ```python
+    from wandb.integration.metaflow import wandb_log
+
+    class WandbExampleFlow(FlowSpec):
+        @wandb_log(datasets=True, models=True, settings=wandb.Settings(...))
+        @step
+        def start(self):
+            self.raw_df = pd.read_csv(...)    # pd.DataFrame -> データセットとしてアップロード
+            self.model_file = torch.load(...)  # nn.Module    -> モデルとしてアップロード
+            self.next(self.transform)
+    ```
+  </Tab>
+
+  <Tab title="フロー">
+    フローをデコレートすることは、構成するすべてのステップをデフォルト設定でデコレートするのと同じです。
+
+    この場合、`WandbExampleFlow` 内のすべてのステップでは、`@wandb_log(datasets=True, models=True)` で各ステップをデコレートした場合と同様に、データセットとモデルがデフォルトでログされます。
+
+    ```python
+    from wandb.integration.metaflow import wandb_log
+
+    @wandb_log(datasets=True, models=True)  # すべての @step をデコレート
+    class WandbExampleFlow(FlowSpec):
+        @step
+        def start(self):
+            self.raw_df = pd.read_csv(...)    # pd.DataFrame -> データセットとしてアップロード
+            self.model_file = torch.load(...)  # nn.Module    -> モデルとしてアップロード
+            self.next(self.transform)
+    ```
+  </Tab>
+
+  <Tab title="フローとステップ">
+    フローをデコレートすることは、すべてのステップをデフォルト設定でデコレートするのと同じです。つまり、後からステップを別の `@wandb_log` でデコレートすると、フローレベルのデコレーションが上書きされます。
+
+    この例では、次のようになります。
+
+    * `start` と `mid` は、データセットとモデルの両方をログします。
+    * `end` は、データセットもモデルもログしません。
+
+    ```python
+    from wandb.integration.metaflow import wandb_log
+
+    @wandb_log(datasets=True, models=True)  # start と mid をデコレートするのと同じ
+    class WandbExampleFlow(FlowSpec):
+      # このステップではデータセットとモデルをログします
+      @step
+      def start(self):
+        self.raw_df = pd.read_csv(...)    # pd.DataFrame -> データセットとしてアップロード
+        self.model_file = torch.load(...)  # nn.Module    -> モデルとしてアップロード
+        self.next(self.mid)
+
+      # このステップでもデータセットとモデルをログします
+      @step
+      def mid(self):
+        self.raw_df = pd.read_csv(...)    # pd.DataFrame -> データセットとしてアップロード
+        self.model_file = torch.load(...)  # nn.Module    -> モデルとしてアップロード
+        self.next(self.end)
+
+      # このステップでは設定が上書きされるため、データセットもモデルもログしません
+      @wandb_log(datasets=False, models=False)
+      @step
+      def end(self):
+        self.raw_df = pd.read_csv(...)    
+        self.model_file = torch.load(...)
+    ```
+  </Tab>
+</Tabs>
+
+<div id="access-your-data-programmatically">
+  ## プログラムからデータにアクセスする
+</div>
+
+flows と steps をデコレートすると、フロー が実行されるたびに、runs からパラメーターと artifacts が W&amp;B に送信されます。記録された情報には、3 つの方法でアクセスできます。ログを記録している元の Python プロセス内で [`wandb` クライアントライブラリ](/ja/models/ref/python/) を使用する方法、[Web アプリの UI](/ja/models/track/workspaces/) を使用する方法、または [Public API](/ja/models/ref/python/public-api/) を使用してプログラムからアクセスする方法です。`Parameter` は W&amp;B の [`config`](/ja/models/) に保存され、[Overview タブ](/ja/models/runs/#overview-tab) で確認できます。`datasets`、`models`、`others` は [W&amp;B Artifacts](/ja/models/artifacts/) に保存され、[Artifacts タブ](/ja/models/runs/#artifacts-tab) で確認できます。基本的な Python の型は W&amp;B の [`summary`](/ja/models/) dict に保存され、Overview タブで確認できます。API を使用して外部からこの情報をプログラムで取得する方法の詳細については、[Public API ガイド](/ja/models/track/public-api-guide/) を参照してください。
+
+<div id="quick-reference">
+  ### クイックリファレンス
+</div>
+
+| データ                                          | クライアントライブラリ                                   | UI                  |
+| -------------------------------------------- | --------------------------------------------- | ------------------- |
+| `Parameter(...)`                             | `wandb.Run.config`                            | Overview タブ、設定      |
+| `datasets`, `models`, `others`               | `wandb.Run.use_artifact("{var_name}:latest")` | Artifacts タブ        |
+| 基本的な Python の型 (`dict`, `list`, `str`, etc.) | `wandb.Run.summary`                           | Overview タブ、Summary |
+
+<div id="wandb_log-kwargs">
+  ### `wandb_log` kwargs
+</div>
+
+| kwarg      | Options                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `datasets` | <ul><li><code>True</code>: データセットであるインスタンス変数をログする</li><li><code>False</code></li></ul>                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| `models`   | <ul><li><code>True</code>: モデルであるインスタンス変数をログする</li><li><code>False</code></li></ul>                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| `others`   | <ul><li><code>True</code>: pickle としてシリアライズ可能なその他すべてのものをログする</li><li><code>False</code></li></ul>                                                                                                                                                                                                                                                                                                                                                                                                         |
+| `settings` | <ul><li><code>wandb.Settings(...)</code>: この ステップ またはフロー用に独自の <code>wandb</code> 設定を指定します</li><li><code>None</code>: <code>wandb.Settings()</code> を渡すのと同じです</li></ul><p>デフォルトでは、以下の場合:</p><ul><li><code>settings.run&#95;group</code> が <code>None</code> の場合、<code>&#123;flow&#95;name&#125;/&#123;run&#95;id&#125;</code> に設定されます</li><li><code>settings.run&#95;job&#95;type</code> が <code>None</code> の場合、<code>&#123;run&#95;job&#95;type&#125;/&#123;step&#95;name&#125;</code> に設定されます</li></ul> |
+
+<div id="frequently-asked-questions">
+  ## よくある質問
+</div>
+
+以下のセクションでは、logging の動作、サポートされるデータタイプ、Artifacts のリネージに関するよくある質問にお答えします。
+
+<div id="what-exactly-do-you-log">
+  ### 具体的に何がログされますか
+</div>
+
+`wandb_log` がログするのはインスタンス変数のみです。ローカル変数がログされることはありません。これにより、不要なデータがログされるのを防げます。
+
+<div id="which-data-types-get-logged">
+  ### どのデータ型がログされますか
+</div>
+
+W&amp;B は次のタイプをサポートしています。
+
+| Logging setting | Type                                                                                                     |
+| --------------- | -------------------------------------------------------------------------------------------------------- |
+| デフォルト (常にオン)    | <ul><li><code>dict, list, set, str, int, float, bool</code></li></ul>                                    |
+| `datasets`      | <ul><li><code>pd.DataFrame</code></li><li><code>pathlib.Path</code></li></ul>                            |
+| `models`        | <ul><li><code>nn.Module</code></li><li><code>sklearn.base.BaseEstimator</code></li></ul>                 |
+| `others`        | <ul><li><a href="https://wiki.python.org/moin/UsingPickle">pickle 化可能</a>で、JSON シリアライズ可能な任意のもの</li></ul> |
+
+<div id="configure-logging-behavior">
+  ### ログする挙動を設定する
+</div>
+
+| 変数の種類  | 挙動                          | 例               | データ型           |
+| ------ | --------------------------- | --------------- | -------------- |
+| インスタンス | 自動でログされる                    | `self.accuracy` | `float`        |
+| インスタンス | `datasets=True` の場合にログされる   | `self.df`       | `pd.DataFrame` |
+| インスタンス | `datasets=False` の場合はログされない | `self.df`       | `pd.DataFrame` |
+| ローカル   | ログされない                      | `accuracy`      | `float`        |
+| ローカル   | ログされない                      | `df`            | `pd.DataFrame` |
+
+<div id="artifact-lineage-tracking">
+  ### Artifactのリネージのトラッキング
+</div>
+
+ステップ Aの出力であり、ステップ Bの入力でもあるartifactがある場合、W&amp;BはリネージDAGを自動的に構築します。
+
+この挙動の例については、この[Metaflow integration example notebook](https://colab.research.google.com/drive/1wZG-jYzPelk8Rs2gIM3a71uEoG46u_nG#scrollTo=DQQVaKS0TmDU)と、対応する[Artifacts page](https://wandb.ai/megatruong/metaflow_integration/artifacts/dataset/raw_df/7d14e6578d3f1cfc72fe/graph)を参照してください

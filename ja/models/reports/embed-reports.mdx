@@ -1,39 +1,52 @@
 ---
-title: レポートを埋め込む
-description: W&B レポートを直接 Notion に埋め込むか、HTML IFrame 要素を使用します。
+description: W&B report を Notion または HTML の `iframe` 要素に直接埋め込みます。
+title: report を埋め込む
+keywords: ["iframe", "Confluence", "Notion", "Gradio", "Hugging Face Spaces"]
 ---
 
-## HTML iframe 要素
+W&amp;B report を外部のページやツールに埋め込むと、チームは他のドキュメントと並べて最新の実験結果を確認できます。このページでは、report から埋め込みコードを生成し、それを HTML、Confluence、Notion、または Gradio で使用する方法について説明します。
 
-レポート内の右上にある **Share** ボタンを選択します。モーダルウィンドウが表示されます。このモーダルウィンドウ内で **Copy embed code** を選択します。コピーされたコードは、インラインフレーム (IFrame) HTML 要素内でレンダリングされます。コピーしたコードを任意の iframe HTML 要素に貼り付けます。
+<div id="html-iframe-element">
+  ## HTML `iframe` 要素
+</div>
+
+HTML `iframe` 要素を使用すると、カスタム HTML を使用できる任意の Web ページに report を埋め込めます。W&amp;B には、report から直接コピーできる埋め込みコードがあらかじめ用意されています。
+
+report の右上で **Share** ボタンを選択してダイアログを開き、**Copy embed code** を選択します。コピーされたスニペットは `iframe` HTML 要素で、カスタム HTML を使用できる任意のページに貼り付けることができます。
 
 <Note>
-埋め込まれた場合、**公開** レポートのみが表示可能です。
+  埋め込み時に表示できるのは *public* report のみです。
 </Note>
 
 <Frame>
-    <img src="/images/reports/get_embed_url.gif"  />
+  <img src="/images/reports/get_embed_url.gif" alt="埋め込みコードの取得" />
 </Frame>
 
-## Confluence
+<div id="confluence">
+  ## Confluence
+</div>
 
-次のアニメーションは、Confluence の IFrame セル内でレポートへの直接リンクを挿入する方法を示しています。
+Confluence は、組み込みの `iframe` マクロによる report の埋め込みをサポートしています。以下のアニメーションは、Confluence の `iframe` セルに report への直接リンクを挿入する方法を示しています。
 
 <Frame>
-    <img src="/images/reports/embed_iframe_confluence.gif"  />
+  <img src="/images/reports/embed_iframe_confluence.gif" alt="Confluence への埋め込み" />
 </Frame>
 
-## Notion
+<div id="notion">
+  ## Notion
+</div>
 
-次のアニメーションは、Notion ドキュメント内で Embed ブロックを使ってレポートを挿入し、そのレポートの埋め込みコードを使用する方法を示しています。
+Notion の **Embed** ブロックでは、W&amp;B が提供するものと同じ埋め込みコードを使用できます。次のアニメーションは、Notion の **Embed** ブロックと report の埋め込みコードを使って、Notion ドキュメントに report を埋め込む方法を示しています。
 
 <Frame>
-    <img src="/images/reports/embed_iframe_notion.gif"  />
+  <img src="/images/reports/embed_iframe_notion.gif" alt="Notion への埋め込み" />
 </Frame>
 
-## Gradio
+<div id="gradio">
+  ## Gradio
+</div>
 
-`gr.HTML` 要素を使用して、Gradio Apps 内で W&B Reports を埋め込み、Hugging Face Spaces で利用することができます。
+Hugging Face Spaces で hosted されているアプリを含む Gradio アプリに W&amp;B report を埋め込むには、Gradio の `gr.HTML` 要素を使用して、report URL を指す `iframe` をレンダリングします。
 
 ```python
 import gradio as gr
@@ -50,5 +63,3 @@ with gr.Blocks() as demo:
     )
 demo.launch()
 ```
-
-##

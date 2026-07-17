@@ -1,0 +1,47 @@
+---
+title: "Pourquoi vois-je moins de points de données que je n’en ai enregistrés ?"
+keywords: ["Experiments", "Métriques"]
+---
+
+Lorsque vous visualisez des métriques en fonction d’un axe X autre que `Step`, il est normal de voir moins de points de données. Vous devez enregistrer les métriques au même `Step` pour les garder synchronisées. W&amp;B n’échantillonne que les métriques enregistrées au même `Step` lors de l’interpolation entre les échantillons.
+
+<div id="log-related-metrics-together">
+  ## Enregistrez ensemble les métriques associées
+</div>
+
+Pour garder les métriques associées alignées sur le même `Step`, regroupez-les dans un seul appel à `log()`. Par exemple, au lieu de :
+
+```python
+import wandb
+with wandb.init() as run:
+    run.log({"Precision": precision})
+    ...
+    run.log({"Recall": recall})
+```
+
+Utilisez un seul appel :
+
+```python
+import wandb
+with wandb.init() as run:
+    run.log({"Precision": precision, "Recall": recall})
+```
+
+Pour contrôler manuellement le paramètre `step`, synchronisez les métriques dans le code :
+
+```python
+with wandb.init() as run:
+    step = 100  # Exemple de valeur d'étape
+    # Journaliser Precision et Recall à la même étape
+    run.log({"Precision": precision, "Recall": recall}, step=step)
+```
+
+Assurez-vous que la valeur `step` reste identique dans les deux appels à `log()` afin que les métriques soient journalisées à la même étape et associées au même échantillon. La valeur `step` doit augmenter de manière monotone à chaque appel. Sinon, W&amp;B ignore la valeur `step`.
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Métriques](/fr/support/models/tags/metrics)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

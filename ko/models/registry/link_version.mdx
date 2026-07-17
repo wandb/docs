@@ -1,0 +1,279 @@
+---
+title: artifact 버전을 컬렉션에 연결하기
+description: "조직 전체에서 공유할 수 있도록 W&B Registry의 컬렉션에 artifact 버전을 연결합니다."
+---
+
+artifact 버전을 조직에서 사용할 수 있게 하려면 W&amp;B Registry의 [컬렉션](/ko/models/registry/create_collection)에 *연결*하세요.
+연결하면 버전이 [비공개 프로젝트 수준 범위에서 공유 조직 수준 범위로](/ko/models/registry/create_registry#visibility-types) 이동합니다. artifact 버전은 [W&amp;B Python SDK를 사용해 프로그래밍 방식으로 연결하거나 W&amp;B App에서 대화형으로 연결할 수 있습니다](/ko/models/registry/link_version#link-an-artifact-to-a-collection).
+
+artifact를 연결하면 W&amp;B는 소스 artifact와 컬렉션 항목 사이에 레퍼런스를 생성합니다. 연결된 버전은 프로젝트 내 run에 로깅된 소스 artifact 버전을 가리킵니다. 컬렉션의 연결된 버전과 해당 버전이 로깅된 프로젝트의 소스 버전을 모두 볼 수 있습니다.
+
+<div id="link-an-artifact-to-a-collection">
+  ## 아티팩트를 컬렉션에 연결하기
+</div>
+
+run 중에 아티팩트를 생성할지, run 없이 생성할지, 또는 기존 아티팩트 버전을 연결할지에 따라 워크플로를 선택하세요.
+
+<Note>
+  시작하기 전에 다음 사항을 확인하세요:
+
+  * 컬렉션에서 허용하는 아티팩트 유형. 컬렉션 유형에 대한 자세한 내용은 [컬렉션 만들기](./create_collection)의 &quot;컬렉션 유형&quot;을 참조하세요.
+  * 컬렉션이 속한 레지스트리가 이미 존재하는지 확인하세요. 레지스트리가 존재하는지 확인하려면 [Registry App and search for](/ko/models/registry/search_registry) 레지스트리 이름을 검색하세요.
+</Note>
+
+<Tabs>
+  <Tab title="Python SDK">
+    [`wandb.Run.link_artifact()`](/ko/models/ref/python/experiments/run#link_artifact) 또는
+    [`wandb.Artifact.link()`](/ko/models/ref/python/experiments/artifact#method-artifactlink)을 사용해 아티팩트 버전을 컬렉션에 프로그래밍 방식으로 연결할 수 있습니다.
+
+    다음 표는 아티팩트 버전을 컬렉션에 연결할 때 사용할 수 있는 메서드와, 각 메서드를 사용할 때 W&amp;B가 무엇을 기록하는지 요약합니다.
+
+    | 사용 사례                            | 방법                                                              | W&amp;B가 기록하는 내용                            |
+    | -------------------------------- | --------------------------------------------------------------- | ------------------------------------------- |
+    | run 중에 아티팩트를 생성하고 컬렉션에 연결        | `wandb.Run.link_artifact()`                                     | 아티팩트를 활성 run의 출력으로 기록한 다음 연결합니다             |
+    | run을 명시적으로 시작하지 않고 아티팩트를 생성하고 연결 | 초안 아티팩트에 `wandb.Artifact.link()` 사용                             | 먼저 아티팩트를 저장합니다. 활성 run이 없으면 자동으로 run을 생성합니다 |
+    | 기존에 커밋된 아티팩트를 연결                 | `wandb.Api().artifact()`에서 가져온 아티팩트에 `wandb.Artifact.link()` 사용 | 새 run을 생성하지 않고 아티팩트를 연결합니다                  |
+
+    대상 컬렉션 경로를 `target_path` 매개변수로 전달하세요. 경로는 `wandb-registry-` 접두사, 레지스트리 이름, 컬렉션 이름으로 구성됩니다:
+
+    ```text
+    wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}
+    ```
+
+    ##### run에서 아티팩트 연결하기
+
+    활성 상태의 run에서 `wandb.Run.link_artifact()`를 사용해 아티팩트 버전을 생성하고 연결하세요. W&amp;B는 연결하기 전에 초안 아티팩트를 run의 출력으로 기록합니다.
+
+    아티팩트 버전을 생성하고 연결하려면 다음 단계를 따르세요.
+
+    1. `wandb.init()`으로 run을 초기화합니다.
+    2. `Artifact` 객체를 만들고 하나 이상의 파일을 추가합니다.
+    3. `wandb.Run.link_artifact()`를 호출하고 대상 컬렉션을 지정합니다.
+
+    꺾쇠괄호(`<>`)로 묶인 값은 실제 값으로 바꾸세요.
+
+    ```python
+    import wandb
+
+    entity = "<team_entity>"          # 팀 엔티티
+    project = "<project_name>"        # 아티팩트가 포함된 프로젝트 이름
+
+    # run 초기화
+    with wandb.init(entity = entity, project = project) as run:
+
+      # 아티팩트 객체 생성
+      # type 매개변수는 아티팩트 객체의 유형과 
+      # 컬렉션 유형을 모두 지정합니다.
+      artifact = wandb.Artifact(name = "<name>", type = "<type>")
+
+      # 아티팩트 객체에 파일을 추가합니다. 
+      # 로컬 머신의 파일 경로를 지정합니다.
+      artifact.add_file(local_path = "<local_path_to_artifact>")
+
+      # 아티팩트를 연결할 컬렉션과 레지스트리를 지정합니다.
+      REGISTRY_NAME = "<registry_name>"  
+      COLLECTION_NAME = "<collection_name>"
+      target_path=f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
+
+      # 아티팩트를 컬렉션에 연결합니다.
+      run.link_artifact(artifact = artifact, target_path = target_path)
+    ```
+
+    ##### 아티팩트 생성 및 연결
+
+    `wandb.Artifact.link()`를 사용하면 run을 명시적으로 초기화하지 않고도 초안 아티팩트를 생성해 연결할 수 있습니다. 연결하기 전에 아티팩트를 저장해야 하면, W&amp;B가 필요에 따라 자동으로 run을 생성합니다.
+
+    아티팩트 버전을 생성하고 연결하려면 다음과 같이 하세요.
+
+    1. `Artifact` 객체를 만들고 파일을 하나 이상 추가합니다.
+    2. `wandb.Artifact.link()`를 호출하고 대상 컬렉션을 지정합니다.
+
+    꺾쇠괄호(`<>`) 안의 값은 사용자 환경에 맞게 바꾸세요.
+
+    ```python
+    import wandb
+
+    # 아티팩트 객체 생성
+    # type 파라미터는 아티팩트 객체의 유형과
+    # 컬렉션 유형을 모두 지정합니다
+    artifact = wandb.Artifact(name = "<name>", type = "<type>")
+
+    # 아티팩트 객체에 파일을 추가합니다.
+    # 로컬 머신의 파일 경로를 지정하세요.
+    artifact.add_file(local_path = "<local_path_to_artifact>")
+
+    # 아티팩트를 연결할 컬렉션과 레지스트리를 지정합니다
+    REGISTRY_NAME = "<registry_name>"  
+    COLLECTION_NAME = "<collection_name>"
+    target_path=f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
+
+    # 아티팩트를 컬렉션에 연결합니다
+    artifact.link(target_path = target_path)
+    ```
+
+    ##### 기존 아티팩트 연결하기
+
+    새 run을 생성하지 않고 기존에 커밋된 아티팩트 버전을 연결하려면 `wandb.Api().artifact()`로 가져온 아티팩트에 `wandb.Artifact.link()`를 사용하세요.
+
+    1. `wandb.Api()`로 Public API 클라이언트를 생성합니다.
+    2. `wandb.Api.artifact()`로 아티팩트 버전을 가져옵니다.
+    3. `wandb.Artifact.link()`를 호출한 다음 대상 컬렉션을 지정합니다.
+
+    ```python
+    import wandb
+
+    api = wandb.Api()
+
+    artifact = api.artifact(
+        "<entity>/<project>/<artifact-name>:<alias-or-version>"
+    )
+
+    artifact.link(
+        target_path="wandb-registry-<registry-name>/<collection-name>",
+        aliases=["latest"],
+    )
+    ```
+  </Tab>
+
+  <Tab title="W&B 레지스트리">
+    1. W&amp;B Registry로 이동합니다.
+       <Frame>
+         <img src="/images/registry/navigate_to_registry_app.png" alt="프로젝트 사이드바가 있는 W&B Registry UI" />
+       </Frame>
+    2. 아티팩트 버전을 연결할 컬렉션 이름 옆에 마우스를 올립니다.
+    3. **View details** 옆에 있는 **action (<Icon icon="ellipsis" iconType="solid" />)** 메뉴를 선택합니다.
+    4. 드롭다운에서 **Link new version**을 선택합니다.
+    5. 표시되는 사이드바에서 **Team** 드롭다운으로 팀 이름을 선택합니다.
+    6. **Project** 드롭다운에서 아티팩트가 있는 프로젝트 이름을 선택합니다.
+    7. **Artifact** 드롭다운에서 아티팩트 이름을 선택합니다.
+    8. **Version** 드롭다운에서 컬렉션에 연결할 아티팩트 버전을 선택합니다.
+
+    {/* TODO: gif 삽입 */}
+  </Tab>
+
+  <Tab title="아티팩트 브라우저">
+    1. W&amp;B App에서 프로젝트의 아티팩트 브라우저로 이동하세요: `https://wandb.ai/<entity>/<project>/artifacts`
+    2. 프로젝트 사이드바에서 Artifacts 아이콘을 선택하세요.
+    3. 레지스트리에 연결할 아티팩트 버전을 클릭하세요.
+    4. **Version overview** 섹션에서 **Link to registry** 버튼을 클릭하세요.
+    5. 화면 오른쪽에 나타나는 모달에서 **Select a register model** 드롭다운 메뉴에서 아티팩트를 선택하세요.
+    6. **Next step**을 클릭하세요.
+    7. (선택 사항) **Aliases** 드롭다운에서 별칭을 선택하세요.
+    8. **Link to registry**를 클릭하세요.
+  </Tab>
+</Tabs>
+
+{/* <Note>
+  **링크된 아티팩트 버전과 소스 아티팩트 버전**
+
+  * 소스 버전: 팀의 프로젝트 안에 있으며 run에 로깅된 아티팩트 버전입니다.
+  * 링크된 버전: 레지스트리에 게시되는 아티팩트 버전입니다. 이는 소스 아티팩트를 가리키는 포인터이며, 정확히 동일한 아티팩트 버전을 레지스트리 범위에서도 사용할 수 있게 한 것입니다.
+  </Note> */}
+
+Registry App에서 [연결된 아티팩트의 메타데이터, 버전 데이터, 사용 정보, 리니지 정보 보기](/ko/models/registry/link_version#view-linked-artifacts-in-a-registry") 등을 확인할 수 있습니다.
+
+<div id="view-linked-artifacts-in-a-registry">
+  ## 레지스트리에서 연결된 artifact 보기
+</div>
+
+W&amp;B 레지스트리에서 메타데이터, 리니지, 사용 정보 등 연결된 artifact에 대한 정보를 확인합니다.
+
+1. W&amp;B 레지스트리로 이동합니다.
+2. artifact를 연결한 레지스트리의 이름을 선택합니다.
+3. collection 이름을 선택합니다.
+4. collection의 artifact가 메트릭을 로깅하는 경우 **메트릭 표시**를 클릭해 버전 간 메트릭을 비교합니다.
+5. artifact 버전 목록에서 액세스하려는 버전을 선택합니다. 버전 번호는 `v0`부터 시작해 연결된 각 artifact 버전에 순차적으로 할당됩니다.
+6. artifact 버전의 세부 정보를 보려면 해당 버전을 클릭합니다. 이 페이지의 탭에서 해당 버전의 메타데이터(로깅된 메트릭 포함), 리니지, 사용 정보를 확인할 수 있습니다.
+
+**Version** 탭의 **Full Name** 필드를 확인하세요. 연결된 artifact의 전체 이름은 레지스트리, collection 이름, 그리고 artifact 버전의 alias 또는 인덱스로 구성됩니다.
+
+```text title="Full name of a linked artifact"
+wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{INTEGER}
+```
+
+코드로 artifact 버전에 액세스하려면 연결된 artifact의 전체 이름이 필요합니다.
+
+<div id="troubleshooting">
+  ## 문제 해결
+</div>
+
+artifact를 연결할 수 없는 경우 아래의 일반적인 항목을 다시 확인하세요.
+
+<div id="logging-artifacts-from-a-personal-account">
+  ### 개인 계정에서 artifact 로깅
+</div>
+
+개인 entity로 W&amp;B에 로깅한 artifact는 레지스트리에 연결할 수 없습니다. 조직 내 팀 entity를 사용해 artifact를 로깅해야 합니다. 조직의 팀 내에서 로깅한 artifact만 조직의 레지스트리에 연결할 수 있습니다.
+
+<Note>
+  artifact를 레지스트리에 연결하려면 팀 entity로 해당 artifact를 로깅해야 합니다.
+</Note>
+
+<div id="find-your-team-entity">
+  #### 팀 entity 찾기
+</div>
+
+W&amp;B에서는 팀 이름을 해당 팀의 entity로 사용합니다. 예를 들어 팀 이름이 **team-awesome**라면 팀 entity는 `team-awesome`입니다.
+
+다음과 같은 방법으로 팀 이름을 확인할 수 있습니다:
+
+1. 팀의 W&amp;B 프로필 페이지로 이동합니다.
+2. 사이트 URL을 복사합니다. URL 형식은 `https://wandb.ai/<team>`입니다. 여기서 `<team>`은 팀 이름이면서 동시에 팀의 entity입니다.
+
+<div id="log-from-a-team-entity">
+  #### 팀 entity에서 로깅하기
+</div>
+
+1. [`wandb.init()`](/ko/models/ref/python/functions/init)으로 run을 초기화할 때 entity로 팀을 지정하세요. run을 초기화할 때 `entity`를 지정하지 않으면 기본 entity가 사용되며, 이 entity는 팀 entity일 수도 있고 아닐 수도 있습니다.
+
+   ```python
+   import wandb   
+
+   with wandb.init(entity='<team_entity>', project='<project_name>') as run:
+       # 여기에 아티팩트를 로깅하세요
+   ```
+
+2. `wandb.Run.log_artifact()`를 사용하거나 Artifact 객체를 만든 다음 파일을 추가하는 방식으로 아티팩트를 run에 로깅합니다.
+
+   ```python
+   artifact = wandb.Artifact(name="<artifact_name>", type="<type>")
+   ```
+
+   아티팩트를 로깅하는 방법은 [아티팩트 구성](/ko/models/artifacts/construct-an-artifact/)을 참조하세요.
+
+3. 아티팩트가 개인 entity에 로깅된 경우, 조직 내 entity에 다시 로깅해야 합니다.
+
+<div id="confirm-the-path-of-a-registry-in-the-wb-app-ui">
+  ### W&amp;B App UI에서 레지스트리 경로 확인
+</div>
+
+W&amp;B App UI에서 레지스트리의 경로를 확인하려면 빈 컬렉션을 만드세요. 이렇게 하려면 아래 단계를 따르세요:
+
+1. [https://wandb.ai/registry/](https://wandb.ai/registry/)에서 W&amp;B 레지스트리로 이동합니다.
+2. 아티팩트를 연결할 레지스트리를 클릭합니다.
+3. 빈 컬렉션을 클릭합니다. 빈 컬렉션이 없으면 새 컬렉션을 만듭니다.
+4. 표시되는 코드 스니펫에서 `.link_artifact()`의 `target_path` 필드를 확인합니다.
+5. (선택) 컬렉션을 삭제합니다.
+
+<Frame>
+  <img src="/images/registry/check_empty_collection.gif" alt="빈 컬렉션 만들기" />
+</Frame>
+
+예를 들어, 위 단계를 완료하면 `target_path` 매개변수가 있는 코드 블록을 확인할 수 있습니다:
+
+```python
+target_path = 
+      "smle-registries-bug-bash/wandb-registry-Golden Datasets/raw_images"
+```
+
+이를 컴포넌트로 나누어 보면, 아티팩트를 프로그래밍 방식으로 연결하는 경로를 만드는 데 필요한 항목을 확인할 수 있습니다.
+
+```python
+ORG_ENTITY_NAME = "smle-registries-bug-bash"
+REGISTRY_NAME = "Golden Datasets"
+COLLECTION_NAME = "raw_images"
+```
+
+<Note>
+  임시 컬렉션의 이름을 아티팩트를 연결하려는 컬렉션의 이름으로 바꾸세요.
+</Note>

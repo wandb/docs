@@ -1,0 +1,83 @@
+---
+title: Appels d’outils
+description: "Utilisez les appels de fonctions et d’outils avec Serverless Inference pour permettre aux modèles d’invoquer des outils externes et des API pendant la génération."
+keywords: ["appel de fonction", "tool_choice", "définition de fonction", "inférence agentique"]
+---
+
+Les appels d’outils vous permettent d’étendre les capacités d’un modèle afin qu’il puisse invoquer des outils dans sa réponse. Cela permet au modèle de récupérer des données en temps réel, de déclencher des actions dans votre application ou, plus généralement, d’aller au-delà de ses données d’entraînement pour répondre à une requête. Serverless Inference ne prend actuellement en charge que les appels de fonctions.
+
+Pour appeler des fonctions, spécifiez-les ainsi que leurs arguments dans votre requête au modèle. Le modèle détermine s’il doit exécuter une fonction pour répondre au prompt et, le cas échéant, fournit les valeurs des arguments.
+
+L’exemple suivant définit une fonction `get_weather` et pose au modèle une question qui nécessite de l’invoquer.
+
+<Tabs>
+  <Tab title="Python">
+    ```python
+    import openai
+
+    client = openai.OpenAI(
+        base_url='https://api.inference.wandb.ai/v1',
+        api_key="[YOUR-API-KEY]",  # Créez une clé API sur https://wandb.ai/settings
+    )
+
+    response = client.chat.completions.create(
+        model="openai/gpt-oss-20b",
+        messages=[
+            {"role": "user", "content": "What is the weather like in San Francisco? Use Fahrenheit."},
+        ],
+        tool_choice="auto",
+        tools=[
+            {
+                "type": "function",
+                "function": {
+                    "name": "get_weather",
+                    "description": "Get the current weather in a given location",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "location": {"type": "string", "description": "City and state, e.g., 'San Francisco, CA'"},
+                            "unit": {"type": "string", "enum": ["celsius", "fahrenheit"]},
+                        },
+                        "required": ["location", "unit"],
+                    },
+                },
+            }
+        ],
+    )
+
+    print(response.choices[0].message.tool_calls)
+    ```
+  </Tab>
+
+  <Tab title="Bash">
+    ```bash
+    curl https://api.inference.wandb.ai/v1/chat/completions \
+      -H "Content-Type: application/json" \
+      -H "Authorization: Bearer [YOUR-API-KEY]" \
+      -d '{
+        "model": "openai/gpt-oss-20b",
+            "messages": [
+                {"role": "user", "content": "What is the weather like in San Francisco? Use Fahrenheit."},
+            ],
+            "tool_choice": "auto",
+            "tools": [
+                {
+                    "type": "function",
+                    "function": {
+                        "name": "get_weather",
+                        "description": "Get the current weather in a given location",
+                        "parameters": {
+                            "type": "object",
+                            "properties": {
+                                "location": {"type": "string", "description": "City and state, e.g., 'San Francisco, CA'"},
+                                "unit": {"type": "string", "enum": ["celsius", "fahrenheit"]},
+                            },
+                            "required": ["location", "unit"],
+                        },
+                    },
+                }
+            ],
+      }'
+    ```
+  </Tab>
+</Tabs>

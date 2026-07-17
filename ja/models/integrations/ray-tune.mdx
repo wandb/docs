@@ -1,0 +1,123 @@
+---
+description: "W&B を Ray Tune と統合して、ハイパーパラメーター調整の試行をトラッキングし、メトリクスをログし、Runs 間で実験結果を比較します。"
+title: Ray Tune
+---
+
+このページでは、W&amp;B を [Ray](https://github.com/ray-project/ray) Tune と併用して、ハイパーパラメーター調整の試行をトラッキングし、メトリクスをログし、Runs 間で実験結果を比較する方法を説明します。W&amp;B では Ray 向けに 2 つの軽量なインテグレーションを提供しており、トレーニングワークフローに最適なものを選択できます。
+
+* `WandbLoggerCallback` 関数は、Tune にレポートされたメトリクスを自動的に W&amp;B にログします。
+* `setup_wandb()` 関数は function API と組み合わせて使用でき、Tune のトレーニング情報を使って W&amp;B Python SDK (`wandb`) を自動的に初期化します。`run.log()` を呼び出してトレーニングプロセスをログするなど、通常どおり W&amp;B API を使用できます。
+
+<div id="configure-the-integration">
+  ## インテグレーションを設定する
+</div>
+
+このセクションでは、Tune の試行メトリクスを W&amp;B に送信する最も直接的な方法である `WandbLoggerCallback` の設定方法を説明します。
+
+```python
+from ray.air.integrations.wandb import WandbLoggerCallback
+```
+
+W&amp;B を設定するには、`tune.run()` の config パラメーターに wandb キーを渡します。使い方については、[例](#example) を参照してください。
+
+このインテグレーションでは、wandb 設定エントリの内容をキーワード引数として `wandb.init()` に渡します。ただし、`WandbLoggerCallback` 自体を設定する設定項目は除きます。
+
+<div id="parameters">
+  ### パラメーター
+</div>
+
+`WandbLoggerCallback` は次のパラメーターを受け取ります。
+
+* `project (str)`: W&amp;B の project 名。必須。
+* `api_key_file (str)`: W&amp;B APIキーを含む file へのパス。
+* `api_key (str)`: W&amp;B APIキー。`api_key_file` を設定する代わりに使用します。
+* `excludes (list)`: ログから除外するメトリクスのリスト。
+* `log_config (bool)`: results 辞書の `config` パラメーターをログするかどうか。デフォルトは `False` です。
+* `upload_checkpoints (bool)`: `True` の場合、モデル チェックポイントをアーティファクトとしてアップロードします。デフォルトは `False` です。
+
+<div id="example">
+  ### 例
+</div>
+
+```python
+from ray import tune, train
+from ray.air.integrations.wandb import WandbLoggerCallback
+
+
+def train_fc(config):
+    for i in range(10):
+        train.report({"mean_accuracy": (i + config["alpha"]) / 10})
+
+
+tuner = tune.Tuner(
+    train_fc,
+    param_space={
+        "alpha": tune.grid_search([0.1, 0.2, 0.3]),
+        "beta": tune.uniform(0.5, 1.0),
+    },
+    run_config=train.RunConfig(
+        callbacks=[
+            WandbLoggerCallback(
+                project="<your-project>", api_key="<your-api-key>", log_config=True
+            )
+        ]
+    ),
+)
+
+results = tuner.fit()
+```
+
+
+<div id="setup_wandb">
+  ## setup_wandb
+</div>
+
+トレーニング関数内から W&amp;B のログを直接制御したい場合は `setup_wandb()` を使用します。たとえば、Tune の report とあわせて、カスタムメトリクスを指定して `run.log()` を呼び出す場合です。
+
+```python
+from ray.air.integrations.wandb import setup_wandb
+```
+
+このユーティリティ関数は、Ray Tune で W&amp;B を使用する際の初期化に役立ちます。基本的な使い方としては、トレーニング関数内で `setup_wandb()` を呼び出します。
+
+```python
+from ray import tune
+from ray.air.integrations.wandb import setup_wandb
+
+
+def train_fn(config):
+    # wandb を初期化する
+    wandb = setup_wandb(config)
+    run = wandb.init(
+        project=config["wandb"]["project"],
+        api_key_file=config["wandb"]["api_key_file"],
+    )
+
+    for i in range(10):
+        loss = config["a"] + config["b"]
+        run.log({"loss": loss})
+        tune.report(loss=loss)
+    run.finish()
+
+
+tuner = tune.Tuner(
+    train_fn,
+    param_space={
+        # 探索空間をここで定義する
+        "a": tune.choice([1, 2, 3]),
+        "b": tune.choice([4, 5, 6]),
+        # wandb の設定
+        "wandb": {"project": "Optimization_Project", "api_key_file": "/path/to/file"},
+    },
+)
+results = tuner.fit()
+```
+
+<div id="example-code">
+  ## コード例
+</div>
+
+エンドツーエンドの参考資料として、このインテグレーションの動作を示す次の例をご覧ください。
+
+* [Colab でインテグレーションを試す](https://wandb.me/raytune-colab): インテグレーションを試せるデモです。
+* [サンプルのダッシュボードを表示](https://wandb.ai/anmolmann/ray_tune): サンプルから生成されたダッシュボードを表示します。

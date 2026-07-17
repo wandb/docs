@@ -1,0 +1,164 @@
+---
+title: Enregistrer et comparer le code
+description: "Activez l’enregistrement du code, comparez le code d’un run W&B à l’autre avec le comparateur de code et capturez l’historique de session Jupyter."
+keywords: ["log_code", "code_dir", "comparateur de code", "historique du notebook Jupyter", "reproductibilité"]
+---
+
+{/* Par défaut, W&B enregistre uniquement le hachage du commit git le plus récent. Vous pouvez activer des fonctionnalités de code supplémentaires pour comparer dynamiquement le code entre vos Experiments dans l’interface utilisateur. */}
+
+Utilisez W&amp;B pour enregistrer votre code, comparer le code d’un run à l’autre, afficher les modifications locales et capturer l’historique de session Jupyter.
+
+<div id="enable-code-saving">
+  ## Activer l’enregistrement du code
+</div>
+
+Configurez l’enregistrement du code pour votre équipe ou votre organisation. Les paramètres au niveau de l’équipe et de l’organisation sont documentés dans [Configurer les paramètres de confidentialité](/fr/platform/hosting/privacy-settings).
+
+<Info>
+  Par défaut, W&amp;B désactive l’enregistrement du code pour toutes les équipes. Avant de pouvoir l’activer pour une équipe, un administrateur de l’organisation doit l’activer au niveau de l’organisation. Voir la section [Organisation](#organization).
+</Info>
+
+<div id="team">
+  ### Équipe
+</div>
+
+Pour activer l’enregistrement du code pour une équipe en tant qu’administrateur de l’équipe, accédez à la page **Settings**, puis à la section **Privacy**, et configurez **Enable code saving by default** pour les runs de l’équipe. Cette option n’est disponible que si un administrateur de l’organisation n’a pas appliqué de restrictions sur l’enregistrement du code à l’échelle de toute l’organisation. Pour les étapes de navigation, voir [Configurer les paramètres de confidentialité d’une équipe](/fr/platform/hosting/privacy-settings#configure-privacy-settings-for-a-team).
+
+<div id="organization">
+  ### Organisation
+</div>
+
+Pour activer l’enregistrement du code pour une organisation en tant qu’administrateur de l’organisation, accédez à **Settings**, allez à la section **Privacy** et activez **Enforce default code saving restrictions** afin que l’enregistrement du code reste désactivé par défaut pour chaque équipe. Tant que ce paramètre est activé, les administrateurs d’équipe ne peuvent pas activer **Enable code saving by default** pour une équipe. Pour la liste complète des contrôles au niveau de l’organisation, voir [Enforce privacy settings for all teams](/fr/platform/hosting/privacy-settings#enforce-privacy-settings-for-all-teams).
+
+<div id="save-code">
+  ## Enregistrer le code
+</div>
+
+{/* Lorsque vous activez l’enregistrement du code, W&B enregistre le code du fichier à l’origine de l’appel à `wandb.init()`. Pour enregistrer du code de bibliothèque supplémentaire, vous avez trois options : */}
+
+Capturez le code source qui a produit un run en tant qu’[artefact](/fr/models/ref/python/experiments/artifact). L’artefact de code est visible dans le Workspace de votre projet.
+
+Il existe deux façons d’enregistrer le code : une approche granulaire et une approche automatique.
+
+<div id="fine-grain-control">
+  ### Contrôle fin
+</div>
+
+Utilisez `wandb.Run.log_code()` pour journaliser des fichiers ou des répertoires spécifiques en tant qu’[artefact](/fr/models/ref/python/experiments/artifact).
+
+Par défaut, W&amp;B parcourt le répertoire actuel et journalise tous les fichiers se terminant par `.py`.
+
+L’exemple suivant montre comment utiliser `wandb.Run.log_code()` pour journaliser le répertoire actuel :
+
+```python
+import wandb
+
+with wandb.init() as run:
+    # Enregistrer le répertoire courant en tant qu'artifact de code
+    run.log_code(root=".")
+```
+
+L’exemple suivant montre comment utiliser `wandb.Run.log_code()` avec les paramètres `include_fn=` et `exclude_fn=` pour indiquer quels fichiers inclure et exclure lorsque vous enregistrez le code :
+
+```python
+import wandb
+
+with wandb.init() as run:
+    run.log_code(
+         root="../",
+         include_fn=lambda path: path.endswith(".py") or path.endswith(".ipynb"),
+         exclude_fn=lambda path, root: os.path.relpath(path, root).startswith(
+             "cache/"
+         ),
+    )
+```
+
+Pour mieux contrôler les types et emplacements des fichiers de code source que W&amp;B enregistre, voir la [Référence](/fr/models/ref/python/experiments/run#log_code).
+
+<div id="automatically-capture-code">
+  ### Capturer automatiquement le code
+</div>
+
+Utilisez `wandb.init(settings=wandb.Settings(code_dir=))` pour capturer automatiquement tout le code du répertoire actuel et de ses sous-répertoires. Par défaut, W&amp;B capture :
+
+* Les fichiers dont le nom se termine par `.py`
+* requirements.txt
+* Dockerfile
+* Exclut tout ce qui se trouve dans `wandb/` ou `.wandb/`
+
+L&#39;exemple suivant montre comment capturer tout le code du répertoire actuel et de ses sous-répertoires :
+
+```python
+import wandb
+
+with wandb.init(settings=wandb.Settings(code_dir=".")) as run:
+    # Votre code d'entraînement ici
+```
+
+Vous pouvez également spécifier un autre répertoire en remplaçant `.` par le chemin du répertoire dont vous souhaitez capturer le contenu.
+
+<div id="view-local-changes">
+  ## Voir les modifications locales
+</div>
+
+W&amp;B génère des fichiers diff lorsque vous journalisez du code avec des modifications indexées ou non indexées dans votre dépôt Git, et vous pouvez afficher ces modifications dans l’interface W&amp;B.
+
+W&amp;B nomme les fichiers diff `diff.patch` ou `diff_<sha>.patch`. Ces fichiers contiennent des modifications locales du code qui ne sont pas encore validées dans Git, par rapport à `HEAD`.
+
+Pour afficher les fichiers diff :
+
+1. Accédez au Workspace de votre projet.
+2. Dans la barre latérale gauche, cliquez sur **Workspace**.
+3. Dans le sélecteur de run, sélectionnez le run dont vous souhaitez afficher le diff.
+4. Sur la page **Aperçu** du run, sélectionnez l’onglet **Files**.
+5. Dans la liste des fichiers, sélectionnez le fichier `diff.patch` ou `diff_<sha>.patch`.
+6. Sélectionnez un fichier dans la liste pour déplier le diff correspondant.
+
+W&amp;B prend en charge deux modes d’affichage du diff entre les runs : *unifié* et *scindé*.
+
+* La vue unifiée affiche le diff dans un seul panneau :
+  <Frame>
+    <img src="/images/app_ui/diff_unified_view.png" alt="Vue unifiée du patch de diff" />
+  </Frame>
+
+* La vue scindée affiche le diff dans deux panneaux, côte à côte :
+
+  <Frame>
+    <img src="/images/app_ui/diff_split_view.png" alt="Vue scindée du patch de diff" />
+  </Frame>
+
+Basculez entre les deux vues en sélectionnant le bouton **Unified** ou **Split** dans le coin supérieur droit de la vue diff, sous le bouton **Download**.
+
+<div id="jupyter-session-history">
+  ## Historique de session Jupyter
+</div>
+
+W&amp;B enregistre l’historique du code exécuté dans votre session de notebook Jupyter. Lorsque vous appelez `wandb.init()` dans Jupyter, W&amp;B ajoute un hook pour enregistrer automatiquement un notebook Jupyter qui contient l’historique du code exécuté dans votre session en cours.
+
+1. Accédez au Workspace du projet qui contient votre code.
+2. Sélectionnez l’onglet **Artifacts** dans la barre latérale du projet.
+3. Développez l’artefact **code**.
+4. Sélectionnez l’onglet **Files**.
+
+<Frame>
+  <img src="/images/app_ui/jupyter_session_history.gif" alt="Historique de session Jupyter" />
+</Frame>
+
+Cela affiche les cellules exécutées pendant votre session, ainsi que toutes les sorties générées par des appels à la méthode `display` d’IPython. Cela vous permet de voir exactement quel code a été exécuté dans Jupyter pour une run donnée. Lorsque c’est possible, W&amp;B enregistre également la version la plus récente du notebook, que vous trouverez aussi dans le répertoire `code`.
+
+<Frame>
+  <img src="/images/app_ui/jupyter_session_history_display.png" alt="Sortie de session Jupyter" />
+</Frame>
+
+<div id="compare-code-across-runs">
+  ## Comparer le code entre les runs
+</div>
+
+Comparez le code utilisé dans différents runs W&amp;B :
+
+1. Cliquez sur le bouton **Add panels** dans le coin supérieur droit de la page.
+2. Ouvrez le menu déroulant **TEXT AND CODE** et sélectionnez **Code**.
+
+<Frame>
+  <img src="/images/app_ui/code_comparer.png" alt="Panneau comparateur de code" />
+</Frame>

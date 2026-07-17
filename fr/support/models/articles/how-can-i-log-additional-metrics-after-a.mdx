@@ -1,0 +1,26 @@
+---
+title: "Comment puis-je consigner des métriques supplémentaires une fois qu’un run est terminé ?"
+keywords: ["Runs", "Métriques"]
+---
+
+Pour ajouter des métriques à un run déjà terminé, W&amp;B propose plusieurs approches selon la complexité de votre flux de travail. Les sections suivantes décrivent deux méthodes pour continuer à consigner des métriques dans une expérience existante.
+
+<div id="group-multiple-runs-for-complex-workflows">
+  ## Regroupez plusieurs runs pour les flux de travail complexes
+</div>
+
+Pour les flux de travail complexes, utilisez plusieurs runs et définissez les paramètres de groupe dans [`wandb.init()`](/fr/models/track/create-an-experiment) sur une valeur unique pour tous les processus au sein d’une même expérience. L’[onglet **Runs**](/fr/models/track/project-page#runs-tab) regroupe le tableau par ID de groupe afin que les visualisations fonctionnent comme prévu. Cette approche permet d’exécuter des expériences et des training runs en parallèle tout en consignant les résultats au même endroit.
+
+<div id="resume-a-run-for-simpler-workflows">
+  ## Reprendre un run pour des flux de travail plus simples
+</div>
+
+Pour les flux de travail plus simples, appelez `wandb.init()` avec `resume=True` et `id=[UNIQUE-ID]`, puis appelez à nouveau `wandb.init()` avec le même `id=[UNIQUE-ID]`. Consignez comme d’habitude avec [`run.log()`](/fr/models/track/log/) ou `run.summary()`, et les valeurs du run se mettent à jour.
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Runs](/fr/support/models/tags/runs)</Badge><Badge stroke shape="pill" color="orange" size="md">[Métriques](/fr/support/models/tags/metrics)</Badge>
+
+{/* END GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

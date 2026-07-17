@@ -1,0 +1,38 @@
+---
+description: "API 키, 환경 변수, 로컬 파일 저장소를 설정해 도커 컨테이너에서 W&B를 실행합니다."
+title: Docker
+---
+
+<div id="docker-integration">
+  ## Docker 인테그레이션
+</div>
+
+W&amp;B는 코드가 실행된 도커 이미지에 대한 참조를 저장할 수 있으므로, 이전 실험을 해당 실험이 실행되었던 정확한 환경으로 복원할 수 있습니다. W&amp;B Python SDK(`wandb`)는 이 상태를 유지하기 위해 `WANDB_DOCKER` 환경 변수를 확인합니다. W&amp;B는 이 상태를 자동으로 설정하는 몇 가지 도우미를 제공합니다.
+
+다음 섹션에서는 로컬 개발부터 Kubernetes 기반 트레이닝까지, 다양한 환경에서 `WANDB_DOCKER` 환경 변수를 설정하는 방법을 설명합니다.
+
+<div id="local-development">
+  ### 로컬 개발
+</div>
+
+`wandb docker`는 도커 컨테이너를 시작하고, wandb 환경 변수를 전달하며, 코드를 마운트하고, wandb가 설치되도록 해 주는 명령어입니다. 기본적으로 이 명령어는 TensorFlow, PyTorch, Keras, Jupyter가 설치된 도커 이미지를 사용합니다. 동일한 명령어로 자체 도커 이미지도 시작할 수 있습니다: `wandb docker my/image:latest`. 이 명령어는 현재 디렉터리를 컨테이너의 `/app` 디렉터리에 마운트합니다. `--dir` 플래그로 이를 변경할 수 있습니다.
+
+<div id="production">
+  ### 프로덕션
+</div>
+
+`wandb docker-run` 명령은 프로덕션 워크로드용으로 제공됩니다. 이 명령은 `docker run` 명령을 감싸고 호출 시 사용자 자격 증명과 `WANDB_DOCKER` 환경 변수를 추가하는 `nvidia-docker`의 바로 대체 가능한 구성 요소입니다. `--runtime` 플래그를 전달하지 않았고 머신에서 `nvidia-docker`를 사용할 수 있는 경우에는 런타임이 nvidia로 설정되도록 합니다.
+
+<div id="kubernetes">
+  ### Kubernetes
+</div>
+
+Kubernetes에서 트레이닝 워크로드를 실행하고 Kubernetes API가 파드에 노출되어 있다면 (기본값이 그렇습니다), W&amp;B는 API를 쿼리해 도커 이미지의 digest를 확인하고 `WANDB_DOCKER` 환경 변수를 자동으로 설정합니다.
+
+<div id="restore-the-training-environment">
+  ## 트레이닝 환경 복원
+</div>
+
+run 중에 `WANDB_DOCKER` 환경 변수가 설정되면, 나중에 원래 트레이닝 환경을 재현하는 데 이를 사용할 수 있습니다.
+
+run이 `WANDB_DOCKER` 환경 변수로 계측된 경우, `wandb restore username/project:run_id`를 실행하면 코드를 복원하는 새 브랜치를 체크아웃한 다음, 원래 명령어가 미리 설정된 트레이닝에 사용된 정확한 도커 이미지를 실행합니다.

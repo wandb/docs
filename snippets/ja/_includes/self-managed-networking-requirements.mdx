@@ -1,0 +1,19 @@
+---
+title: セルフマネージドのネットワーク要件
+---
+
+ネットワーク接続されたデプロイでは、インストール時とランタイム時の両方で、以下のエンドポイントへのアウトバウンド通信を許可してください。
+
+* `https://deploy.wandb.ai`
+* `https://charts.wandb.ai`
+* `https://quay.io` (Prometheus イメージで使用)
+
+<Note>
+  追加のコンテナーレジストリが必要になる場合があります。必要かどうかはデプロイ設定によって異なります。
+
+  * Weave のオンライン評価用に Bufstream と etcd をデプロイする場合は、`https://gcr.io` が必要です。
+</Note>
+
+エアギャップ環境でのデプロイについては、[エアギャップ環境向け Kubernetes Operator](/ja/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped)を参照してください。
+
+トレーニングインフラストラクチャーと各実験管理システムに、W&amp;B とオブジェクトストレージへのアクセスを付与してください。

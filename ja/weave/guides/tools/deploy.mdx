@@ -1,0 +1,23 @@
+---
+title: "Google Cloud へデプロイする"
+description: "Weave モデルと ops をクラウド プラットフォームにデプロイし、推論とサービング向けの本番運用可能な API endpoint として提供します。"
+keywords: ["gcloud", "weave deploy", "model serving", "inference endpoint"]
+---
+
+`weave deploy` コマンドを使用すると、Weave モデルを Google Cloud にデプロイし、推論用に呼び出し可能な本番運用向けの API endpoint として提供できます。
+
+<Note>
+  `weave deploy` を使用するには、使用しているマシンに `gcloud` がインストールされ、設定されている必要があります。`weave deploy gcp` では、コマンドライン引数で設定を直接指定しない場合、既存の `gcloud` 設定が使用されます。
+</Note>
+
+Weave モデルを Google Cloud にデプロイするには、次を実行します。
+
+```bash
+weave deploy gcp [REF]
+```
+
+デプロイ後、コマンドは次の形式の URL を出力します。デプロイしたモデルを操作するには、その URL の `/docs` パスにアクセスしてください。
+
+```text
+Service URL: <PATH_TO_MODEL>. Visit <PATH_TO_MODEL>/docs to interact with your model!
+```

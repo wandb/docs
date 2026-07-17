@@ -1,0 +1,30 @@
+---
+title: "'Failed to query for notebook' 오류는 어떻게 해결하나요?"
+keywords: ["노트북", "환경 변수"]
+---
+
+오류 메시지 `"Failed to query for notebook name, you can set it manually with the WANDB_NOTEBOOK_NAME environment variable,"`가 나타나면 다음 방법 중 하나를 사용해 `WANDB_NOTEBOOK_NAME` 환경 변수를 설정하세요. `[NOTEBOOK-NAME]`을 노트북 이름으로 바꾸세요.
+
+<Tabs>
+  <Tab title="노트북">
+    ```python
+    %env "WANDB_NOTEBOOK_NAME" "[NOTEBOOK-NAME]"
+    ```
+  </Tab>
+
+  <Tab title="Python">
+    ```python
+    import os
+
+    os.environ["WANDB_NOTEBOOK_NAME"] = "[NOTEBOOK-NAME]"
+    ```
+  </Tab>
+</Tabs>
+
+***
+
+{/* AUTO-GENERATED: 탭 배지 */}
+
+<Badge stroke shape="pill" color="orange" size="md">[노트북](/ko/support/models/tags/notebooks)</Badge><Badge stroke shape="pill" color="orange" size="md">[환경 변수](/ko/support/models/tags/environment-variables)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

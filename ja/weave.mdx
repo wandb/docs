@@ -1,0 +1,53 @@
+---
+title: "W&B Weave"
+description: "W&B Weave で言語モデルアプリをトラッキング、テスト、改善"
+mode: wide
+---
+
+W&amp;B Weave は、エージェントと LLM アプリケーションのトラッキング、評価、改善を支援する可観測性および評価のプラットフォームです。Weave を使うと、次のことができます。
+
+* [一般的な SDK やハーネスで構築したエージェントをトレースし、メトリクスを収集する](/ja/weave/agent-integration-quickstart)
+* [独自に構築したエージェントを手動でインストルメントして、トレースとメトリクスを収集する](/ja/weave/custom-agents-quickstart)
+* LLM ジャッジモデルと custom scorers を使って、アプリケーションの応答を[評価](/ja/weave/tutorial-eval)する
+
+<div id="get-started">
+  ## はじめに
+</div>
+
+以下のドキュメントでは、Weave のツールスイートの基本的な使い方を紹介します。
+
+<CardGroup cols={3}>
+  <Card title="エージェントを Weave と統合する" icon="plug" href="/ja/weave/agent-integration-quickstart">
+    エージェント SDK またはハーネス向けの組み込みインテグレーションを選択し、Agents ビューでセッション、ターン、LLM Call、ツール呼び出しのトレースを開始します。
+  </Card>
+
+  <Card title="カスタム エージェントの可観測性を設定する" icon="code" href="/ja/weave/custom-agents-quickstart">
+    Weave SDK を使用してカスタムのマルチターン エージェントをトレースし、セッション、LLM Call、ツール呼び出しを OpenTelemetry のスパンとして取得します。
+  </Card>
+
+  <Card title="Weave UI でエージェントのメトリクスを表示する" icon="chart-line" href="/ja/weave/guides/tracking/view-agent-activity">
+    LLM への基本的な呼び出しをトレースし、入力、出力、コードを W&amp;B アカウントで確認します。
+  </Card>
+</CardGroup>
+
+<div id="install-weave">
+  ## Weaveをインストール
+</div>
+
+W&amp;B Weave は、Python と TypeScript のライブラリを提供しています。Weave ライブラリをインストールするには、次のコマンドを実行します。
+
+<Tabs>
+  <Tab title="Python">
+    ```bash
+    pip install weave
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```bash
+    pnpm install weave
+    ```
+  </Tab>
+</Tabs>
+
+Weave ライブラリの利用を開始するには、[Weights &amp; Biases (W&amp;B) アカウント](https://wandb.ai) を作成し、[User Settings で APIキーを作成](https://wandb.ai/settings) します。APIキーを使用すると、W&amp;B アカウントに認証してデータの送信を開始できます。

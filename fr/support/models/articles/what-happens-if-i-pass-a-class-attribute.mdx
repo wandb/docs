@@ -1,0 +1,14 @@
+---
+title: "Que se passe-t-il si je passe un attribut de classe à wandb.Run.log() ?"
+keywords: ["Experiments"]
+---
+
+Évitez de passer des attributs de classe à `wandb.Run.log()`. Les attributs peuvent changer avant l’exécution de l’appel réseau. Lorsque vous stockez des métriques comme attributs de classe, utilisez une copie profonde pour garantir que la métrique enregistrée correspond à la valeur de l’attribut au moment de l’appel à `wandb.Run.log()`.
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

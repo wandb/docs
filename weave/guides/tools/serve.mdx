@@ -1,31 +1,39 @@
 ---
 title: "Serve"
-description: "Expose your Weave ops and models as API endpoints"
+description: "Expose your Weave ops and models as API endpoints for serving predictions and running inference in production."
+keywords: ["weave serve", "FastAPI", "model serving", "inference endpoint"]
 ---
 
-Given a Weave ref to any Weave Model you can run:
+This guide shows you how to expose a W&B Weave Model as a FastAPI endpoint using `weave serve`, so you can query the model interactively and integrate it into production inference workflows.
 
-```
-weave serve <ref>
+To start a FastAPI server for any Weave Model, pass the Weave ref to `weave serve`. Replace `[REF]` with your Weave Model ref.
+
+```bash
+weave serve [REF]
 ```
 
-to run a FastAPI server for that model. Visit [http://0.0.0.0:9996/docs](http://0.0.0.0:9996/docs) to query the model interactively.
+To query the model interactively, open the Swagger UI at `http://0.0.0.0:9996/docs`.
 
 ## Install FastAPI
+
+`weave serve` uses FastAPI and Uvicorn to host the model, so you must install both packages before serving.
 
 ```bash
 pip install fastapi uvicorn
 ```
 
-## Serve Model
+## Serve model
 
-In a terminal, call:
+After installing the dependencies, start the server from a terminal. Replace `[YOUR-MODEL-REF]` with your Weave Model ref.
 
 ```bash
-weave serve <your model ref>
+weave serve [YOUR-MODEL-REF]
 ```
 
-Get your model ref by navigating to the model and copying it from the UI. It should look like:
-`weave://your_entity/project-name/YourModel:<hash>`
+Get your model ref by navigating to the model and copying it from the UI. It should look like the following, where `[ENTITY]` is your W&B entity, `[PROJECT-NAME]` is your project name, `[MODEL-NAME]` is the model name, and `[HASH]` is the model version hash:
 
-To use it, navigate to the Swagger UI link, click the predict endpoint and then click "Try it out!".
+```text
+weave://[ENTITY]/[PROJECT-NAME]/[MODEL-NAME]:[HASH]
+```
+
+To test the endpoint, open the Swagger UI, click the `predict` endpoint, then click **Try it out**. You now have a local FastAPI endpoint that serves predictions from your Weave Model.

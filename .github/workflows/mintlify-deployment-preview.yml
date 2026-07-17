@@ -19,29 +19,39 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
         with:
           ref: ${{ github.event.deployment.ref }}
 
       - name: Get PR number from deployment ref
         id: get-pr
-        uses: actions/github-script@v8
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         with:
           script: |
             // The deployment ref is the branch name
             const branch = context.payload.deployment.ref;
             const deploymentSha = context.payload.deployment.sha;
             
-            // Find PRs for this branch
+            // Find PRs for this branch (check all states to detect recently merged)
             const prs = await github.rest.pulls.list({
               owner: context.repo.owner,
               repo: context.repo.repo,
               head: `${context.repo.owner}:${branch}`,
-              state: 'open'
+              state: 'all',
+              sort: 'updated',
+              direction: 'desc',
+              per_page: 1
             });
             
             if (prs.data.length > 0) {
               const pr = prs.data[0];
+              
+              // Check if PR is already closed - preview likely torn down
+              if (pr.state === 'closed') {
+                core.warning(`PR #${pr.number} is already ${pr.merged_at ? 'merged' : 'closed'}. Preview likely torn down. Skipping comment update.`);
+                core.setOutput('skip_update', 'true');
+                return null;
+              }
               
               // Check if this deployment is for the latest commit in the PR
               const prHeadSha = pr.head.sha;
@@ -56,12 +66,12 @@ jobs:
               core.setOutput('base_ref', pr.base.ref);
               core.setOutput('base_sha', pr.base.sha);
               core.setOutput('skip_update', 'false');
-              core.info(`Found PR #${pr.number} for branch ${branch}`);
+              core.info(`Found open PR #${pr.number} for branch ${branch}`);
               core.info(`Base branch: ${pr.base.ref} (${pr.base.sha})`);
               core.info(`Deployment SHA matches PR head: ${deploymentSha}`);
               return pr.number;
             } else {
-              core.warning(`No open PR found for branch ${branch}`);
+              core.warning(`No PR found for branch ${branch}`);
               core.setOutput('skip_update', 'true');
               return null;
             }
@@ -69,7 +79,7 @@ jobs:
       - name: Get all PR changed files
         if: steps.get-pr.outputs.pr_number && steps.get-pr.outputs.skip_update != 'true'
         id: changed
-        uses: actions/github-script@v8
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         with:
           script: |
             const prNumber = parseInt('${{ steps.get-pr.outputs.pr_number }}');
@@ -118,7 +128,7 @@ jobs:
 
       - name: Update PR comment with preview links
         if: steps.get-pr.outputs.pr_number && steps.get-pr.outputs.skip_update != 'true' && steps.changed.outputs.any_changed == 'true'
-        uses: actions/github-script@v8
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         env:
           PR_NUMBER: ${{ steps.get-pr.outputs.pr_number }}
           PREVIEW_URL: ${{ github.event.deployment_status.environment_url }}
@@ -149,6 +159,13 @@ jobs:
             core.info(`Mintlify Preview URL: ${previewUrl}`);
             core.info(`Total changed files: ${totalFiles}`);
             core.info(`Added: ${added.length}, Modified: ${modified.length}, Renamed: ${renamed.length}, Removed: ${removed.length}`);
+            
+            // Mintlify page previews only apply to published .mdx routes (not plain .md or scripts/).
+            function isDocPageWithPreview(filepath) {
+              if (filepath.startsWith('scripts/')) return false;
+              if (filepath.endsWith('.md')) return false;
+              return filepath.endsWith('.mdx');
+            }
             
             // Helper function to detect if a file is an image
             function isImageFile(filepath) {
@@ -210,7 +227,7 @@ jobs:
               const toShow = files.slice(0, maxShow);
               toShow.forEach(file => {
                 if (showPreview) {
-                  if (file.endsWith('.mdx') || file.endsWith('.md')) {
+                  if (isDocPageWithPreview(file)) {
                     const title = titleFromPath(file);
                     const url = urlFromPath(file);
                     table += `| \`${file}\` | [${title}](${url}) |\n`;
@@ -249,7 +266,7 @@ jobs:
               hasChanges = true;
               body += `### 🔄 Renamed/Moved (${renamed.length} total)\n\n`;
               
-              const pagesRenamed = renamed.filter(r => r.new.endsWith('.mdx') || r.new.endsWith('.md'));
+              const pagesRenamed = renamed.filter(r => isDocPageWithPreview(r.new));
               const imagesRenamed = renamed.filter(r => !pagesRenamed.some(p => p.new === r.new) && isImageFile(r.new));
               const otherRenamed = renamed.filter(r => !pagesRenamed.some(p => p.new === r.new) && !imagesRenamed.some(i => i.new === r.new));
               
@@ -312,7 +329,7 @@ jobs:
               hasChanges = true;
               body += `### ✨ Added (${added.length} total)\n\n`;
               
-              const pagesAdded = added.filter(f => f.endsWith('.mdx') || f.endsWith('.md'));
+              const pagesAdded = added.filter(f => isDocPageWithPreview(f));
               const imagesAdded = added.filter(f => !pagesAdded.includes(f) && isImageFile(f));
               const otherAdded = added.filter(f => !pagesAdded.includes(f) && !imagesAdded.includes(f));
               
@@ -350,7 +367,7 @@ jobs:
               hasChanges = true;
               body += `### 📝 Changed (${modified.length} total)\n\n`;
               
-              const pagesModified = modified.filter(f => f.endsWith('.mdx') || f.endsWith('.md'));
+              const pagesModified = modified.filter(f => isDocPageWithPreview(f));
               const imagesModified = modified.filter(f => !pagesModified.includes(f) && isImageFile(f));
               const otherModified = modified.filter(f => !pagesModified.includes(f) && !imagesModified.includes(f));
               
@@ -388,7 +405,7 @@ jobs:
               hasChanges = true;
               body += `### 🗑️ Deleted (${removed.length} total)\n\n`;
               
-              const pagesRemoved = removed.filter(f => f.endsWith('.mdx') || f.endsWith('.md'));
+              const pagesRemoved = removed.filter(f => isDocPageWithPreview(f));
               const imagesRemoved = removed.filter(f => !pagesRemoved.includes(f) && isImageFile(f));
               const otherRemoved = removed.filter(f => !pagesRemoved.includes(f) && !imagesRemoved.includes(f));
               

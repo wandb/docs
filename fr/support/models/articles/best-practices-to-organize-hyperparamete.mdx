@@ -1,0 +1,40 @@
+---
+title: "Bonnes pratiques pour organiser des recherches d'hyperparamètres"
+keywords: ["Hyperparamètre", "Sweeps", "Runs"]
+---
+
+Lorsque vous effectuez de nombreuses recherches d&#39;hyperparamètres, ajoutez des tags à vos Runs afin de pouvoir regrouper et retrouver les expériences associées par la suite.
+
+<div id="tag-runs-in-your-code">
+  ## Ajoutez des tags aux Runs dans votre code
+</div>
+
+Définissez des tags uniques lors de l’initialisation de chaque Run :
+
+```python
+import wandb
+
+with wandb.init(tags=["sweep-3", "lr-0.01"]) as run:
+    # Votre code d'entraînement ici
+    pass
+```
+
+Pour plus d&#39;informations sur `wandb.init()`, voir la [référence `wandb.init()`](/fr/models/ref/python/functions/init) et [Ajouter des étiquettes aux Runs avec des tags](/fr/models/runs/tags).
+
+<div id="filter-tagged-runs-in-the-ui">
+  ## Filtrer les Runs par tag dans l’interface utilisateur
+</div>
+
+1. Ouvrez votre projet et accédez à l’onglet **Runs**.
+2. Cliquez sur **Filter** au-dessus du tableau des Runs.
+3. Choisissez **Tags**, sélectionnez un opérateur tel que `is` ou `in`, puis saisissez le tag que vous avez défini dans le code.
+
+Voir [Filter runs](/fr/models/runs/filter-runs) pour plus d’options de filtrage.
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Hyperparamètre](/fr/support/models/tags/hyperparameter)</Badge><Badge stroke shape="pill" color="orange" size="md">[Sweeps](/fr/support/models/tags/sweeps)</Badge><Badge stroke shape="pill" color="orange" size="md">[Runs](/fr/support/models/tags/runs)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

@@ -1,21 +1,22 @@
 ---
 title: MistralAI
-description: "Track and monitor MistralAI model calls with Weave's automatic tracing, capturing chat completions, function calling, and model interactions for open-weight and commercial Mistral models."
+description: "Track and monitor MistralAI model calls with Weave's automatic tracing for chat completions, function calling, and model interactions."
+keywords: ["mistralai", "mistral-large", "chat completions", "LLM tracing", "function calling"]
 ---
 
-<a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_mistral.ipynb">
+<a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_mistral.ipynb" aria-label="Open in Google Colab">
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
 </a>
 
-Weave automatically tracks and logs LLM calls made via the [MistralAI Python library](https://github.com/mistralai/client-python). 
+Weave automatically tracks and logs LLM calls made through the [MistralAI Python library](https://github.com/mistralai/client-python). This guide shows you how to capture traces for MistralAI calls, wrap calls in your own ops for reproducibility, and organize experiments using the `Model` class.
 
-> We support the new Mistral v1.0 SDK, check the migration guide [here](https://github.com/mistralai/client-python/blob/main/MIGRATION.mdx)
+> Weave supports the Mistral v1.0 SDK. For details on upgrading, see the [migration guide](https://github.com/mistralai/client-python/blob/main/MIGRATION.md).
 
 ## Traces
 
-It’s important to store traces of LLM applications in a central database, both during development and in production. You’ll use these traces for debugging, and as a dataset that will help you improve your application.
+It's important to store traces of LLM applications in a central database, both during development and in production. You use these traces for debugging, and as a dataset that helps you improve your application.
 
-Weave will automatically capture traces for [mistralai](https://github.com/mistralai/client-python). You can use the library as usual, start by calling `weave.init()`:
+Weave automatically captures traces for [mistralai](https://github.com/mistralai/client-python). To use the library as usual, start by calling `weave.init()`:
 
 ```python lines
 import weave
@@ -43,13 +44,13 @@ chat_response = client.chat.complete(
 )
 ```
 
-Weave will now track and log all LLM calls made through the MistralAI library. You can view the traces in the Weave web interface.
+Weave now tracks and logs all LLM calls made through the MistralAI library. You can view the traces in the Weave web interface.
 
 [![mistral_trace.png](/weave/guides/integrations/imgs/mistral_trace.png)](https://wandb.ai/capecape/mistralai_project/weave/calls)
 
-## Wrapping with your own ops
+## Wrap calls with your own ops
 
-Weave ops make results *reproducible* by automatically versioning code as you experiment, and they capture their inputs and outputs. Simply create a function decorated with [`@weave.op()`](/weave/guides/tracking/ops) that calls into [`mistralai.client.MistralClient.chat()`](https://docs.mistral.ai/capabilities/completion/) and Weave will track the inputs and outputs for you. Let's see how we can do this for our cheese recommender:
+Once basic tracing works, you can wrap your MistralAI calls in Weave Ops to make them reproducible across experiments. Weave ops make results *reproducible* by automatically versioning code as you experiment, and they capture their inputs and outputs. Create a function decorated with [`@weave.op()`](/weave/guides/tracking/ops) that calls into [`mistralai.client.MistralClient.chat()`](https://docs.mistral.ai/capabilities/completion), and Weave tracks the inputs and outputs for you. The following example shows how to do this for a cheese recommender:
 
 ```python lines {1}
 @weave.op()
@@ -78,11 +79,11 @@ cheese_recommender(region="Netherlands", model="mistral-large-latest")
 
 ## Create a `Model` for easier experimentation
 
-Organizing experimentation is difficult when there are many moving pieces. By using the [`Model`](/weave/guides/core-types/models) class, you can capture and organize the experimental details of your app like your system prompt or the model you're using. This helps organize and compare different iterations of your app. 
+Organizing experimentation is difficult with many moving pieces. By using the [`Model`](/weave/guides/core-types/models) class, you can capture and organize the experimental details of your app like your system prompt or the model you're using. This helps organize and compare different iterations of your app.
 
-In addition to versioning code and capturing inputs/outputs, [`Model`](/weave/guides/core-types/models)s capture structured parameters that control your application’s behavior, making it easy to find what parameters worked best. You can also use Weave Models with `serve`, and [`Evaluation`](/weave/guides/core-types/evaluations)s.
+Besides versioning code and capturing inputs and outputs, [`Model`](/weave/guides/core-types/models)s capture structured parameters that control your application's behavior, making it easy to find what parameters worked best. You can also use Weave Models with `serve`, and [`Evaluation`](/weave/guides/core-types/evaluations)s.
 
-In the example below, you can experiment with `model` and `country`. Every time you change one of these, you'll get a new _version_ of `CheeseRecommender`. 
+In the following example, you can experiment with `model` and `country`. Every time you change one of these, you get a new _version_ of `CheeseRecommender`.
 
 ```python lines
 import weave

@@ -1,0 +1,25 @@
+---
+title: "Comment utiliser W&B avec le multiprocessing, par exemple pour l'entraînement distribué ?"
+keywords: ["Experiments"]
+---
+
+Cet article explique comment utiliser W&amp;B dans des programmes d&#39;entraînement qui s&#39;exécutent sur plusieurs processus, comme les tâches d&#39;entraînement distribué, afin que les runs soient correctement enregistrés sans conflit.
+
+Si un programme d&#39;entraînement utilise plusieurs processus, structurez-le de façon à éviter d&#39;appeler des méthodes W&amp;B depuis des processus qui n&#39;ont pas exécuté `wandb.init()`.
+
+Choisissez l&#39;une des approches suivantes pour gérer l&#39;entraînement multiprocessus :
+
+* Appelez `wandb.init()` dans tous les processus et utilisez l&#39;argument mot-clé [group](/fr/models/runs/grouping) pour créer un groupe partagé. Chaque processus a son propre run W&amp;B, et l&#39;interface utilisateur regroupe les processus d&#39;entraînement.
+* Appelez `wandb.init()` dans un seul processus et transmettez les données à journaliser via des [files d&#39;attente multiprocessing](https://docs.python.org/3/library/multiprocessing.html#exchanging-objects-between-processes).
+
+<Note>
+  Consultez [Journaliser les expériences d&#39;entraînement distribué](/fr/models/track/log/distributed-training) pour des explications détaillées de ces approches, y compris des exemples de code avec Torch DDP.
+</Note>
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

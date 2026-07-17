@@ -1,16 +1,29 @@
 ---
-title: wandb scheduler
+title: wandb 스케줄러
 ---
 
-**사용법**
+import { GitHubLink } from "/snippets/ko/_includes/github-source-link.mdx"
 
-`wandb scheduler [OPTIONS] SWEEP_ID`
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/cli.py#L2099" />
 
-**요약**
+<div id="usage">
+  ## 사용
+</div>
 
-W&B Launch 스윕 스케줄러를 실행합니다 (실험적).
+```bash
+scheduler [OPTIONS] SWEEP_ID
+```
 
-**옵션**
+<div id="description">
+  ## 설명
+</div>
 
-| **옵션** | **설명** |
-| :--- | :--- |
+W&amp;B Launch sweep 스케줄러 실행하기(실험적).
+
+<div id="arguments">
+  ## 인수
+</div>
+
+| 이름         | 기본값 | 유형   |
+| ---------- | --- | ---- |
+| `sweep_id` | STR | True |

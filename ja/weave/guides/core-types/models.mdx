@@ -1,0 +1,88 @@
+---
+title: "モデルでアプリケーションのバージョンをトラッキングする"
+description: "データとコードを組み合わせた構造化モデルで、アプリケーションのバージョンをトラッキングします。"
+keywords: ["weave.Model", "モデルのバージョン管理", "predict op", "weave serve", "本番トラッキング"]
+---
+
+`Model` は、データ (設定、トレーニング済みモデルの重み、その他の情報を含む場合があります) と、モデルの動作を定義するコードを組み合わせたものです。コードをこの API に適合するように構成すると、アプリケーションを構造的にバージョン管理できるようになり、Experiments をより体系的に追跡できます。
+
+このガイドでは、Weave `Model` を定義し、それを呼び出して入力と出力を取得し、コードやパラメーターが変わったときの自動バージョン管理を活用し、ローカル API 経由でモデルを公開し、フィルタリングのために本番の Call にタグを付ける方法を紹介します。Weave を使用して LLM 搭載アプリケーションを構築し、アプリの反復を一貫した方法でトラッキングして比較したい開発者向けの内容です。
+
+<Tabs>
+  <Tab title="Python">
+    Weave でモデルを作成するには、以下が必要です。
+
+    * `weave.Model` を継承するクラス
+    * すべてのパラメーターの型定義
+    * `@weave.op()` デコレーターが付いた、型付きの `predict` 関数
+
+    ```python lines
+    from weave import Model
+    import weave
+
+    class YourModel(Model):
+        attribute1: str
+        attribute2: int
+
+        @weave.op()
+        def predict(self, input_data: str) -> dict:
+            # モデルのロジックはここに記述します
+            prediction = self.attribute1 + ' ' + input_data
+            return {'pred': prediction}
+    ```
+
+    通常どおり、次のようにモデルを呼び出せます。
+
+    ```python lines
+    import weave
+    weave.init('intro-example')
+
+    model = YourModel(attribute1='hello', attribute2=5)
+    model.predict('world')
+    ```
+
+    これにより、`predict()` を呼び出すたびに、入力と出力に加えてモデルの設定もトラッキングされます。これで、実行したすべての予測を記録する、バージョン管理された Weave `Model` が作成されます。以下のセクションでは、これを基に説明を進めます。
+
+    ## モデルの自動バージョン管理
+
+    モデルを定義するパラメーターやコードを変更すると、Weave はそれらの変更をログし、バージョンを更新します。
+    これにより、モデルのバージョン間で予測を比較できます。これを使用してプロンプトを改善したり、別の LLM を試したりして、設定ごとの予測を比較できます。
+
+    たとえば、ここでは新しいモデルを作成します。
+
+    ```python lines
+    import weave
+    weave.init('intro-example')
+
+    model = YourModel(attribute1='howdy', attribute2=10)
+    model.predict('world')
+    ```
+
+    これを呼び出すと、UI にこのモデルの 2 つのバージョンが表示され、それぞれで異なる Call がトラッキングされていることがわかります。
+
+    ## モデルを公開する
+
+    モデルを公開すると、その `predict` 関数が HTTP 経由で利用できるようになります。これは、他のアプリケーションからテストしたり、基盤となるコードを配布せずにチームメンバーと共有したりする場合に便利です。Weave モデル用の FastAPI サーバーを起動するには、`[MODEL-REF]` をモデルへの参照に置き換えて、次を実行します。
+
+    ```bash
+    weave serve [MODEL-REF]
+    ```
+
+    追加の手順については、[serve](/ja/weave/guides/tools/serve) を参照してください。
+
+    ## 本番の Call をトラッキングする
+
+    モデルを複数の環境で使用するようになると、本番トラフィックを開発用や評価用の run と区別できると、個別に分析しやすくなります。本番の Call を分離するには、UI または API でフィルターできるように、予測に属性を追加します。
+
+    ```python lines
+    with weave.attributes({'env': 'production'}):
+        model.predict('world')
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```text
+    この機能はまだ TypeScript では利用できません。
+    ```
+  </Tab>
+</Tabs>

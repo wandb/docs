@@ -1,0 +1,55 @@
+---
+description: Découvrez les raccourcis clavier disponibles dans W&B.
+title: Raccourcis clavier
+keywords: ["raccourcis clavier", "LEET", "recherche rapide", "annuler rétablir", "raccourcis clavier"]
+---
+
+import LEETShortcuts from "/snippets/fr/_includes/leet-keyboard-shortcuts.mdx";
+
+W&amp;B prend en charge les raccourcis clavier pour vous aider à naviguer et à interagir plus efficacement avec les expériences, les Workspace et les données. Ce guide présente les raccourcis clavier de la W&amp;B App et de l&#39;interface de terminal W&amp;B LEET (Lightweight Experiment Exploration Tool).
+
+<Tabs>
+  <Tab title="App">
+    La W&amp;B App inclut un volet latéral des raccourcis clavier qui répertorie tous les raccourcis disponibles dans le contexte actuel. Ouvrez-le avec **Cmd+/** (macOS) ou **Ctrl+/** (Windows/Linux), ou sélectionnez **Keyboard shortcuts** dans le menu **?** (aide) de la navigation supérieure. Utilisez le champ de recherche du volet latéral pour filtrer les raccourcis par nom.
+
+    Les sections **Workspace** et **Fenêtre modale du navigateur multimédia** dépendent du contexte et n&#39;apparaissent que lorsque la zone correspondante est active.
+
+    ## Essentiels
+
+    | Shortcut                                       | Description                                                     |
+    | ---------------------------------------------- | --------------------------------------------------------------- |
+    | **Cmd+/** (macOS) / **Ctrl+/** (Windows/Linux) | Ouvrir le volet latéral des raccourcis clavier.                 |
+    | **Cmd+K** (macOS) / **Ctrl+K** (Windows/Linux) | Ouvrir la boîte de dialogue de recherche globale.               |
+    | **Alt+M**                                      | Basculer entre les thèmes clair et sombre de l&#39;application. |
+
+    ## Workspace
+
+    | Shortcut                                                   | Description                                                           |
+    | ---------------------------------------------------------- | --------------------------------------------------------------------- |
+    | **Cmd+Z** (macOS) / **Ctrl+Z** (Windows/Linux)             | Annuler la dernière action du Workspace.                              |
+    | **Cmd+Shift+Z** (macOS) / **Ctrl+Shift+Z** (Windows/Linux) | Rétablir la dernière action annulée du Workspace.                     |
+    | **Cmd+S** (macOS) / **Ctrl+S** (Windows/Linux)             | Enregistrer le Workspace actuel.                                      |
+    | **Cmd+J** (macOS) / **Ctrl+J** (Windows/Linux)             | Développer ou réduire la barre latérale des runs.                     |
+    | **Cmd+.** (macOS) / **Ctrl+.** (Windows/Linux)             | Basculer le sélecteur de run réduit.                                  |
+    | **Alt+V**                                                  | Afficher uniquement les runs actuellement visualisés dans les panels. |
+
+    ## Fenêtre modale du navigateur multimédia
+
+    Ces raccourcis sont disponibles lorsque vous affichez des médias dans la fenêtre modale en plein écran.
+
+    | Shortcut                                       | Description                    |
+    | ---------------------------------------------- | ------------------------------ |
+    | **Cmd++** (macOS) / **Ctrl++** (Windows/Linux) | Zoom avant.                    |
+    | **Cmd+-** (macOS) / **Ctrl+-** (Windows/Linux) | Zoom arrière.                  |
+    | **Cmd+0** (macOS) / **Ctrl+0** (Windows/Linux) | Réinitialiser le zoom à 100 %. |
+    | **Shift+1**                                    | Ajuster le zoom à la fenêtre.  |
+  </Tab>
+
+  <Tab title="LEET">
+    Ces raccourcis clavier fonctionnent dans l&#39;interface de terminal W&amp;B LEET (Lightweight Experiment Exploration Tool). Pour lancer LEET, exécutez `wandb beta leet` dans votre terminal.
+
+    Appuyez sur `h` ou `?` dans LEET pour ouvrir la superposition d&#39;aide intégrée correspondant à la vue actuelle. Pour un aperçu du produit et des méthodes de lancement, voir [LEET terminal UI](/fr/models/app/leet-tui).
+
+    <LEETShortcuts />
+  </Tab>
+</Tabs>

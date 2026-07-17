@@ -1,6 +1,7 @@
 ---
-title: "Chat Completions"
+title: "Chat completions"
 description: "Create chat completions using the OpenAI-compatible endpoint"
+keywords: ["/chat/completions", "OpenAI SDK", "generate text", "chat API request"]
 ---
 
 Create a chat completion using the `/chat/completions` endpoint. This endpoint follows the OpenAI format for sending messages and receiving responses.
@@ -8,12 +9,14 @@ Create a chat completion using the `/chat/completions` endpoint. This endpoint f
 ## Requirements
 
 To create a chat completion, provide:
-- The Inference service base URL: `https://api.inference.wandb.ai/v1`
-- Your W&B API key: `<your-api-key>`
-- Optional: Your W&B team and project: `<your-team>/<your-project>`
-- A model ID from the [available models](/inference/models)
+- The Inference service base URL: `https://api.inference.wandb.ai/v1`.
+- Your W&B API key: `[YOUR-API-KEY]`.
+- Your W&B team and project: `[YOUR-TEAM]/[YOUR-PROJECT]` (optional).
+- A model ID from the [available models](/inference/models).
 
 ## Request examples
+
+The following examples show how to send a chat completion request using Python and `curl`. Replace the placeholder values with your own API key, optional team and project, and a model ID.
 
 <Tabs>
 <Tab title="Python">
@@ -21,23 +24,23 @@ To create a chat completion, provide:
 import openai
 
 client = openai.OpenAI(
-    # The custom base URL points to W&B Inference
+    # The custom base URL points to Serverless Inference
     base_url='https://api.inference.wandb.ai/v1',
 
-    # Get your API key from https://wandb.ai/authorize
+    # Create an API key at https://wandb.ai/settings
     # Consider setting it in the environment as OPENAI_API_KEY instead for safety
-    api_key="<your-api-key>",
+    api_key="[YOUR-API-KEY]",
 
     # Optional: Team and project for usage tracking
-    project="<your-team>/<your-project>",
+    project="[YOUR-TEAM]/[YOUR-PROJECT]",
 )
 
-# Replace <model-id> with any model ID from the available models list
+# Replace [MODEL-ID] with any model ID from the available models list
 response = client.chat.completions.create(
-    model="<model-id>",
+    model="[MODEL-ID]",
     messages=[
-        {"role": "system", "content": "<your-system-prompt>"},
-        {"role": "user", "content": "<your-prompt>"}
+        {"role": "system", "content": "[YOUR-SYSTEM-PROMPT]"},
+        {"role": "user", "content": "[YOUR-PROMPT]"}
     ],
 )
 
@@ -48,10 +51,10 @@ print(response.choices[0].message.content)
 ```bash
 curl https://api.inference.wandb.ai/v1/chat/completions \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <your-api-key>" \
-  -H "OpenAI-Project: <your-team>/<your-project>" \
+  -H "Authorization: Bearer [YOUR-API-KEY]" \
+  -H "OpenAI-Project: [YOUR-TEAM]/[YOUR-PROJECT]" \
   -d '{
-    "model": "<model-id>",
+    "model": "[MODEL-ID]",
     "messages": [
       { "role": "system", "content": "You are a helpful assistant." },
       { "role": "user", "content": "Tell me a joke." }
@@ -63,7 +66,7 @@ curl https://api.inference.wandb.ai/v1/chat/completions \
 
 ## Response format
 
-The API returns responses in OpenAI-compatible format:
+A successful request returns a response in the following OpenAI-compatible format, including the generated assistant message and token usage details.
 
 ```json
 {

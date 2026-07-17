@@ -1,0 +1,172 @@
+---
+title: "사용 예시"
+linkTitle: "예시"
+description: >
+  실용적인 코드 예시를 통해 Serverless Inference를 사용하는 방법을 알아보세요
+keywords: ["Weave 트레이싱", "모델 평가", "리더보드", "LLM 호출 트레이스"]
+---
+
+이 예시들은 트레이싱, 평가, 비교를 위해 Weave와 함께 Serverless Inference를 사용하는 방법을 보여줍니다. 각 예시를 따라 하면서 모델 호출을 계측하는 방법을 익히고, 그 동작을 관찰하고, 데이터셋을 기준으로 성능을 측정하고, 모델을 나란히 비교해 보세요.
+
+다음 섹션에서는 기본적인 트레이싱 예시와 더 고급 평가 워크플로를 안내합니다. 두 예시 중 어느 것을 실행하든, 먼저 [사전 요구 사항](/ko/inference/prerequisites/)을 완료하세요.
+
+<div id="basic-example-trace-llama-31-8b-with-weave">
+  ## 기본 예제: Weave로 Llama 3.1 8B 트레이스하기
+</div>
+
+이 예제에서는 Llama 3.1 8B 모델에 프롬프트를 보내고 Weave로 call을 트레이스하는 방법을 보여줍니다. 트레이싱은 LLM call의 전체 입력과 출력을 캡처하고, 성능을 모니터링하며, Weave UI에서 결과를 분석할 수 있게 해줍니다.
+
+<Tip>
+  [Weave에서 트레이싱](/ko/weave/guides/tracking/tracing)에 대해 자세히 알아보세요.
+</Tip>
+
+이 예제에서는 다음을 수행합니다:
+
+* Chat Completion 요청을 수행하는 `@weave.op()` 데코레이터가 적용된 함수를 정의합니다.
+* Weave가 트레이스를 기록하고 W&amp;B entity 및 프로젝트에 연결합니다.
+* Weave가 함수를 자동으로 트레이스하여 입력, 출력, 지연 시간, 메타데이터를 로깅합니다.
+* 결과는 터미널에 출력되고, 트레이스는 [https://wandb.ai](https://wandb.ai)의 **트레이스** 탭에 표시됩니다.
+
+```python
+import weave
+import openai
+
+# 트레이싱을 위한 Weave 팀 및 프로젝트 설정
+weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
+
+client = openai.OpenAI(
+    base_url='https://api.inference.wandb.ai/v1',
+
+    # https://wandb.ai/settings 에서 API 키 생성
+    api_key="[YOUR-API-KEY]",
+
+    # 선택 사항: 사용량 추적을 위한 팀 및 프로젝트
+    project="wandb/inference-demo",
+)
+
+# Weave에서 모델 call 트레이스
+@weave.op()
+def run_chat():
+    response = client.chat.completions.create(
+        model="meta-llama/Llama-3.1-8B-Instruct",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": "Tell me a joke."}
+        ],
+    )
+    return response.choices[0].message.content
+
+# 트레이스된 call 실행 및 로깅
+output = run_chat()
+print(output)
+```
+
+코드를 실행한 후 다음 방법으로 Weave에서 트레이스를 확인할 수 있습니다:
+
+* 터미널에 출력된 링크를 클릭합니다. 예: `https://wandb.ai/[YOUR-TEAM]/[YOUR-PROJECT]/r/call/01977f8f-839d-7dda-b0c2-27292ef0e04g`.
+* [https://wandb.ai](https://wandb.ai)로 이동한 후 **트레이스** 탭을 선택합니다.
+
+기본 트레이스가 작동하면 개별 call 확인을 넘어서는 더 풍부한 워크플로로 진행할 수 있습니다.
+
+<div id="advanced-example-use-weave-evaluations-and-leaderboards">
+  ## 고급 예제: Weave 평가 및 리더보드 사용
+</div>
+
+모델 call을 추적하는 것 외에도 성능을 평가하고 리더보드를 게시할 수 있습니다. 이 예제는 질의응답 데이터셋에서 두 모델을 비교하여 동일한 프롬프트에 대해 Llama 3.1 8B와 DeepSeek-V3가 어떤 성능을 보이는지 보여줍니다.
+
+```python
+import os
+import asyncio
+import openai
+import weave
+from weave.flow import leaderboard
+from weave.trace.ref_util import get_ref
+
+# 트레이싱을 위한 Weave 팀 및 프로젝트 설정
+weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
+
+dataset = [
+    {"input": "What is 2 + 2?", "target": "4"},
+    {"input": "Name a primary color.", "target": "red"},
+]
+
+@weave.op
+def exact_match(target: str, output: str) -> float:
+    return float(target.strip().lower() == output.strip().lower())
+
+class WBInferenceModel(weave.Model):
+    model: str
+
+    @weave.op
+    def predict(self, prompt: str) -> str:
+        client = openai.OpenAI(
+            base_url="https://api.inference.wandb.ai/v1",
+            # https://wandb.ai/settings 에서 API 키를 생성하세요
+            api_key="[YOUR-API-KEY]",
+            # 선택 사항: 사용량 추적을 위한 팀 및 프로젝트
+            project="[YOUR-TEAM]/[YOUR-PROJECT]",
+        )
+        resp = client.chat.completions.create(
+            model=self.model,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        return resp.choices[0].message.content
+
+llama = WBInferenceModel(model="meta-llama/Llama-3.1-8B-Instruct")
+deepseek = WBInferenceModel(model="deepseek-ai/DeepSeek-V3-0324")
+
+def preprocess_model_input(example):
+    return {"prompt": example["input"]}
+
+evaluation = weave.Evaluation(
+    name="QA",
+    dataset=dataset,
+    scorers=[exact_match],
+    preprocess_model_input=preprocess_model_input,
+)
+
+async def run_eval():
+    await evaluation.evaluate(llama)
+    await evaluation.evaluate(deepseek)
+
+asyncio.run(run_eval())
+
+spec = leaderboard.Leaderboard(
+    name="Inference Leaderboard",
+    description="Compare models on a QA dataset",
+    columns=[
+        leaderboard.LeaderboardColumn(
+            evaluation_object_ref=get_ref(evaluation).uri(),
+            scorer_name="exact_match",
+            summary_metric_path="mean",
+        )
+    ],
+)
+
+weave.publish(spec)
+```
+
+이 코드를 실행한 후 [https://wandb.ai/](https://wandb.ai/)의 W&amp;B 계정으로 이동한 다음, 다음을 수행하세요.
+
+* **트레이스** 탭을 선택하여 [트레이스를 확인하세요](/ko/weave/guides/tracking/tracing).
+* **Evals** 탭을 선택하여 [모델 평가를 확인하세요](/ko/weave/guides/core-types/evaluations).
+* **Leaders** 탭을 선택하여 [생성된 리더보드를 확인하세요](/ko/weave/guides/core-types/leaderboards).
+
+<Frame>
+  <img src="/images/inference/inference-advanced-evals.png" alt="모델 평가 보기" />
+</Frame>
+
+<Frame>
+  <img src="/images/inference/inference-advanced-leaderboard.png" alt="리더보드 보기" />
+</Frame>
+
+두 예제를 모두 완료하면, 트레이스된 모델 call 세트와 게시된 평가, 그리고 데이터셋의 모델을 비교하는 리더보드를 얻게 됩니다.
+
+<div id="next-steps">
+  ## 다음 단계
+</div>
+
+Serverless Inference를 계속 살펴보려면 다음을 수행하세요:
+
+* 사용 가능한 모든 방법은 [API 레퍼런스](/ko/inference/api-reference/)를 참고하세요.
+* [UI](/ko/inference/ui-guide/)에서 모델을 사용해 보세요.

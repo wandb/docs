@@ -1,0 +1,493 @@
+---
+title: "Weave Service API を使用してトレースする"
+description: "W&B Weave で Service API を通じてトレースを使用する方法を学びます"
+keywords: [Weave Service API, トレースのログ, RAG トレース, ストリームクエリ, LLM オブザーバビリティ]
+---
+
+<Note>
+  これは対話型ノートブックです。ローカルで実行するか、次のリンクを使用できます。
+
+  * [Google Colab で開く](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/weave_via_service_api.ipynb)
+  * [GitHub でソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/weave_via_service_api.ipynb)
+</Note>
+
+このノートブックでは、W&amp;B Weave Service API を使用してトレースを Weave にログする方法を学びます。
+
+1. [シンプルな LLM call と応答のモックを作成し、Weave にログします。](#simple-trace)
+2. [より複雑な LLM call と応答のモックを作成し、Weave にログします。](#complex-trace)
+3. [ログされたトレースに対してサンプルの検索クエリを実行します。](#run-a-lookup-query)
+
+> **ログされたトレースを表示**
+>
+> このガイドのコードを実行したときに作成される Weave トレースはすべて、Weave プロジェクト (`team_id\project_id` で指定) の **Traces** タブに移動し、トレース名を選択すると表示できます。
+
+始める前に、[前提条件](#prerequisites-set-variables-and-endpoints)を完了してください。
+
+<div id="prerequisites-set-variables-and-endpoints">
+  ## 前提条件: 変数とエンドポイントを設定する
+</div>
+
+トレースをログする前に、Service API のエンドポイントを設定し、W&amp;B の認証情報を使用して認証する必要があります。
+
+以下のコードは、Service API へのアクセスに使用する URL エンドポイントを設定します。
+
+* [`https://trace.wandb.ai/call/start`](https://docs.wandb.ai/weave/reference/service-api/calls/call-start)
+* [`https://trace.wandb.ai/call/end`](https://docs.wandb.ai/weave/reference/service-api/calls/call-end)
+* [`https://trace.wandb.ai/calls/stream_query`](https://docs.wandb.ai/weave/reference/service-api/calls/calls-query-stream)
+
+さらに、次の変数も設定する必要があります。
+
+* `project_id`: トレースをログする先の W&amp;B プロジェクト名。
+* `team_id`: W&amp;B チーム名。
+* `wandb_token`: [W&amp;B APIキー](https://wandb.ai/settings)。
+
+```python lines
+import datetime
+import json
+
+import requests
+
+# ヘッダーと URL
+headers = {"Content-Type": "application/json"}
+url_start = "https://trace.wandb.ai/call/start"
+url_end = "https://trace.wandb.ai/call/end"
+url_stream_query = "https://trace.wandb.ai/calls/stream_query"
+
+# W&B 変数
+team_id = ""
+project_id = ""
+wandb_token = ""
+```
+
+<div id="simple-trace">
+  ## シンプルなトレース
+</div>
+
+以下のセクションでは、シンプルなトレースを作成する手順を順に説明します：
+
+1. [シンプルなトレースを開始する](#start-a-simple-trace)
+2. [シンプルなトレースを終了する](#end-a-simple-trace)
+
+<div id="start-a-simple-trace">
+  ### シンプルなトレースを開始する
+</div>
+
+次のコードは、サンプルの LLM call `payload_start` を作成し、`url_start` エンドポイントを使って Weave にログします。`payload_start` オブジェクトは、クエリ `Why is the sky blue?` を含む OpenAI の `gpt-4o` への call を模倣しています。
+
+成功すると、このコードはトレースが開始されたことを示すメッセージを出力します。
+
+```
+Call started. ID: 01939cdc-38d2-7d61-940d-dcca0a56c575, Trace ID: 01939cdc-38d2-7d61-940d-dcd0e76c5f34
+python
+## ------------
+## トレースを開始する
+## ------------
+payload_start = {
+    "start": {
+        "project_id": f"{team_id}/{project_id}",
+        "op_name": "simple_trace",
+        "started_at": datetime.datetime.now().isoformat(),
+        "inputs": {
+            # 展開されたトレースでチャット UI を生成するには、この "messages" スタイルを使用してください。
+            "messages": [{"role": "user", "content": "Why is the sky blue?"}],
+            "model": "gpt-4o",
+        },
+        "attributes": {},
+    }
+}
+response = requests.post(
+    url_start, headers=headers, json=payload_start, auth=("api", wandb_token)
+)
+if response.status_code == 200:
+    data = response.json()
+    call_id = data.get("id")
+    trace_id = data.get("trace_id")
+    print(f"Call started. ID: {call_id}, Trace ID: {trace_id}")
+else:
+    print("Start request failed with status:", response.status_code)
+    print(response.text)
+    exit()
+```
+
+<div id="end-a-simple-trace">
+  ### シンプルなトレースを終了する
+</div>
+
+シンプルなトレースを完了するには、次のコードでサンプルの LLM call `payload_end` を作成し、`url_end` エンドポイントを使って Weave にログします。`payload_end` オブジェクトは、クエリ `Why is the sky blue?` に対する OpenAI&#39;s `gpt-4o` からの応答を模倣したものです。このオブジェクトは、Weave ダッシュボードの Trace view で料金サマリー情報と Chat Completion が生成されるように整形されています。
+
+成功すると、このコードはトレースが完了したことを示すメッセージを出力します:
+
+```
+Call ended.
+python
+## ------------
+## End trace
+## ------------
+payload_end = {
+    "end": {
+        "project_id": f"{team_id}/{project_id}",
+        "id": call_id,
+        "ended_at": datetime.datetime.now().isoformat(),
+        "output": {
+            # 展開されたトレースの Chat UI に Completion を追加するには、この "choices" スタイルを使用します。
+            "choices": [
+                {
+                    "message": {
+                        "content": "It’s due to Rayleigh scattering, where shorter blue wavelengths of sunlight scatter in all directions."
+                    }
+                },
+            ]
+        },
+        # トレース表に料金サマリー情報を生成するには、このようにサマリーを整形します。
+        "summary": {
+            "usage": {
+                "gpt-4o": {
+                    "prompt_tokens": 10,
+                    "completion_tokens": 20,
+                    "total_tokens": 30,
+                    "requests": 1,
+                }
+            }
+        },
+    }
+}
+response = requests.post(
+    url_end, headers=headers, json=payload_end, auth=("api", wandb_token)
+)
+if response.status_code == 200:
+    print("Call ended.")
+else:
+    print("End request failed with status:", response.status_code)
+    print(response.text)
+```
+
+<div id="complex-trace">
+  ## 複雑なトレース
+</div>
+
+シンプルな単一ステップのトレースをログしたので、以下のセクションでは、複数の操作からなるRAGルックアップのように、子スパンを含むより複雑なトレースを作成する手順を説明します。
+
+1. [複雑なトレースを開始する](#start-a-complex-trace)
+2. [RAGドキュメントのルックアップ用の子スパンを追加する](#add-a-child-span-for-a-rag-document-lookup)
+3. [LLM completion call用の子スパンを追加する](#add-a-child-span-for-an-llm-completion-call)
+4. [複雑なトレースを終了する](#end-a-complex-trace)
+
+<div id="start-a-complex-trace">
+  ### 複雑なトレースを開始する
+</div>
+
+次のコードは、複数のスパンを含む、より複雑なトレースを作成する方法を示しています。たとえば、Retrieval-Augmented Generation (RAG) のルックアップを行い、その後に LLM の call を実行するケースです。最初の部分では、操作を表す親トレース (`payload_parent_start`) を初期化します。この場合の操作は、ユーザーのクエリ `Can you summarize the key points of this document?` を処理することです。
+
+`payload_parent_start` オブジェクトは、複数の step から成る ワークフロー の最初の step を模しており、`url_start` エンドポイントを使用してその操作を Weave にログします。
+
+成功すると、このコードは親 call がログされることを示すメッセージを出力します。
+
+```
+Parent call started. ID: 01939d26-0844-7c43-94bb-cdc471b6d65f, Trace ID: 01939d26-0844-7c43-94bb-cdd97dc296c8
+python
+## ------------
+## トレースを開始する（親）
+## ------------
+
+# 親 call: 開始
+payload_parent_start = {
+    "start": {
+        "project_id": f"{team_id}/{project_id}",
+        "op_name": "complex_trace",
+        "started_at": datetime.datetime.now().isoformat(),
+        "inputs": {"question": "Can you summarize the key points of this document?"},
+        "attributes": {},
+    }
+}
+response = requests.post(
+    url_start, headers=headers, json=payload_parent_start, auth=("api", wandb_token)
+)
+if response.status_code == 200:
+    data = response.json()
+    parent_call_id = data.get("id")
+    trace_id = data.get("trace_id")
+    print(f"Parent call started. ID: {parent_call_id}, Trace ID: {trace_id}")
+else:
+    print("Parent start request failed with status:", response.status_code)
+    print(response.text)
+    exit()
+```
+
+<div id="add-a-child-span-for-a-rag-document-lookup">
+  ### RAG ドキュメントルックアップ用の子スパンを追加する
+</div>
+
+次のコードは、前の step で開始した複雑な親トレースに子スパンを追加する方法を示しています。この step では、ワークフローにおける RAG ドキュメントルックアップのサブ 操作 を表現しています。
+
+子トレースは `payload_child_start` オブジェクトで開始され、これには次の内容が含まれます。
+
+* `trace_id`: この子スパンを親トレースに関連付けます。
+* `parent_id`: この子スパンを親 操作 に関連付けます。
+* `inputs`: 検索クエリをログします。例:
+  `"探しているドキュメントの検索クエリです。"`
+
+`url_start` エンドポイント への call が成功すると、子 call が開始され、完了したことを示すメッセージが出力されます。
+
+```
+Child call started. ID: 01939d32-23d6-75f2-9128-36a4a806f179
+Child call ended.
+python
+## ------------
+## 子スパン:
+## 例: RAG ドキュメント検索
+## ------------
+
+# 子 call: 開始
+payload_child_start = {
+    "start": {
+        "project_id": f"{team_id}/{project_id}",
+        "op_name": "rag_document_lookup",
+        "trace_id": trace_id,
+        "parent_id": parent_call_id,
+        "started_at": datetime.datetime.now().isoformat(),
+        "inputs": {
+            "document_search": "This is a search query of the documents I'm looking for."
+        },
+        "attributes": {},
+    }
+}
+response = requests.post(
+    url_start, headers=headers, json=payload_child_start, auth=("api", wandb_token)
+)
+if response.status_code == 200:
+    data = response.json()
+    child_call_id = data.get("id")
+    print(f"Child call started. ID: {child_call_id}")
+else:
+    print("Child start request failed with status:", response.status_code)
+    print(response.text)
+    exit()
+
+# 子 call: 終了
+payload_child_end = {
+    "end": {
+        "project_id": f"{team_id}/{project_id}",
+        "id": child_call_id,
+        "ended_at": datetime.datetime.now().isoformat(),
+        "output": {
+            "document_results": "This will be the RAG'd document text which will be returned from the search query."
+        },
+        "summary": {},
+    }
+}
+response = requests.post(
+    url_end, headers=headers, json=payload_child_end, auth=("api", wandb_token)
+)
+if response.status_code == 200:
+    print("Child call ended.")
+else:
+    print("Child end request failed with status:", response.status_code)
+    print(response.text)
+```
+
+<div id="add-a-child-span-for-an-llm-completion-call">
+  ### LLM completion call の子スパンを追加する
+</div>
+
+次のコードは、複雑な親トレースに別の子スパンを追加し、LLM completion call を表現する方法を示しています。この step では、前の RAG operation で取得したドキュメントコンテキストに基づく LLM の応答生成をモデル化します。
+
+LLM completion トレースは `payload_child_start` オブジェクトで開始され、これには次が含まれます。
+
+* `trace_id`: この子スパンを親トレースに紐付けます。
+* `parent_id`: この子スパンを親ワークフローに関連付けます。
+* `inputs`: ユーザークエリと追加されたドキュメントコンテキストを含む、LLM への入力メッセージをログします。
+* `model`: この operation に使用するモデル (`gpt-4o`) を指定します。
+
+成功すると、コードは LLM の子スパンのトレースが開始されたことを示すメッセージを出力します。
+
+```
+Child call started. ID: 0245acdf-83a9-4c90-90df-dcb2b89f234a
+```
+
+処理が完了した後、`payload_child_end` オブジェクトは、LLM が生成した応答を `output` フィールドにログして、トレースを終了します。コードは Usage のサマリー情報もログします。
+
+成功すると、コードは LLM の子スパンのトレースが開始されて終了したことを示すメッセージを出力します。
+
+```
+Child call started. ID: 0245acdf-83a9-4c90-90df-dcb2b89f234a
+Child call ended.
+python
+## ------------
+## 子スパン:
+## LLM completion call を作成する
+## ------------
+
+# 子 call: 開始
+payload_child_start = {
+    "start": {
+        "project_id": f"{team_id}/{project_id}",
+        "op_name": "llm_completion",
+        "trace_id": trace_id,
+        "parent_id": parent_call_id,
+        "started_at": datetime.datetime.now().isoformat(),
+        "inputs": {
+            "messages": [
+                {
+                    "role": "user",
+                    "content": "With the following document context, could you help me answer:\n Can you summarize the key points of this document?\n [+ appended document context]",
+                }
+            ],
+            "model": "gpt-4o",
+        },
+        "attributes": {},
+    }
+}
+response = requests.post(
+    url_start, headers=headers, json=payload_child_start, auth=("api", wandb_token)
+)
+if response.status_code == 200:
+    data = response.json()
+    child_call_id = data.get("id")
+    print(f"Child call started. ID: {child_call_id}")
+else:
+    print("Child start request failed with status:", response.status_code)
+    print(response.text)
+    exit()
+
+# 子 call: 終了
+payload_child_end = {
+    "end": {
+        "project_id": f"{team_id}/{project_id}",
+        "id": child_call_id,
+        "ended_at": datetime.datetime.now().isoformat(),
+        "output": {
+            "choices": [
+                {"message": {"content": "This is the response generated by the LLM."}},
+            ]
+        },
+        "summary": {
+            "usage": {
+                "gpt-4o": {
+                    "prompt_tokens": 10,
+                    "completion_tokens": 20,
+                    "total_tokens": 30,
+                    "requests": 1,
+                }
+            }
+        },
+    }
+}
+response = requests.post(
+    url_end, headers=headers, json=payload_child_end, auth=("api", wandb_token)
+)
+if response.status_code == 200:
+    print("Child call ended.")
+else:
+    print("Child end request failed with status:", response.status_code)
+    print(response.text)
+```
+
+<div id="end-a-complex-trace">
+  ### 複雑なトレースを終了する
+</div>
+
+次のコードは、親トレースを完了してワークフローの終了を示す方法を示しています。この step では、すべての子 スパン (たとえば、RAG ルックアップ や LLM completion) の結果を集約し、最終的な出力とメタデータをログします。
+
+トレースは `payload_parent_end` オブジェクト を使用して完了します。これには次が含まれます。
+
+* `id`: 最初に親トレースを開始したときの `parent_call_id`。
+* `output`: ワークフローの最終出力を表します。
+* `summary`: ワークフローの使用状況データを集約します。
+* `prompt_tokens`: すべてのプロンプトで使用された token の合計数。
+* `completion_tokens`: すべての応答で生成された token の合計数。
+* `total_tokens`: ワークフロー全体の token 総数。
+* `requests`: 実行された Request の総数 (この場合は `1`) 。
+
+成功すると、コードは次を出力します。
+
+```
+Parent call ended.
+python
+## ------------
+## トレースを終了する
+## ------------
+
+# 親 call: 終了
+payload_parent_end = {
+    "end": {
+        "project_id": f"{team_id}/{project_id}",
+        "id": parent_call_id,
+        "ended_at": datetime.datetime.now().isoformat(),
+        "output": {
+            "choices": [
+                {"message": {"content": "This is the response generated by the LLM."}},
+            ]
+        },
+        "summary": {
+            "usage": {
+                "gpt-4o": {
+                    "prompt_tokens": 10,
+                    "completion_tokens": 20,
+                    "total_tokens": 30,
+                    "requests": 1,
+                }
+            }
+        },
+    }
+}
+response = requests.post(
+    url_end, headers=headers, json=payload_parent_end, auth=("api", wandb_token)
+)
+if response.status_code == 200:
+    print("Parent call ended.")
+else:
+    print("Parent end request failed with status:", response.status_code)
+    print(response.text)
+```
+
+<div id="run-a-lookup-query">
+  ## ルックアップクエリを実行する
+</div>
+
+Weave にログされたトレースは、Service API を使用してプログラムからクエリできます。以下のコードは、前の例で作成したトレースをクエリし、`inputs.model` フィールドが `gpt-4o` と等しいトレースだけをフィルタリングする方法を示しています。
+
+`query_payload` オブジェクトには、次の内容が含まれます。
+
+* `project_id`: クエリ対象のチームとプロジェクトを識別します。
+* `filter`: クエリが **トレースルート** (最上位のトレース) のみを返すようにします。
+* `query`: `$expr` 演算子を使用してフィルタリングロジックを定義します。
+  * `$getField`: `inputs.model` フィールドを取得します。
+  * `$literal`: `inputs.model` が `"gpt-4o"` に等しいトレースに一致します。
+* `limit`: クエリ結果を 10,000 件に制限します。
+* `offset`: 先頭の結果からクエリを開始します。
+* `sort_by`: `started_at` タイムスタンプの降順で結果を並べます。
+* `include_feedback`: 結果からフィードバックデータを除外します。
+
+クエリが成功すると、応答にはクエリパラメーターに一致するトレースデータが含まれます。
+
+```
+{'id': '01939cf3-541f-76d3-ade3-50cfae068b39', 'project_id': 'cool-new-team/uncategorized', 'op_name': 'simple_trace', 'display_name': None, 'trace_id': '01939cf3-541f-76d3-ade3-50d5cfabe2db', 'parent_id': None, 'started_at': '2024-12-06T17:10:12.590000Z', 'attributes': {}, 'inputs': {'messages': [{'role': 'user', 'content': 'Why is the sky blue?'}], 'model': 'gpt-4o'}, 'ended_at': '2024-12-06T17:47:08.553000Z', 'exception': None, 'output': {'choices': [{'message': {'content': 'It’s due to Rayleigh scattering, where shorter blue wavelengths of sunlight scatter in all directions.'}}]}, 'summary': {'usage': {'gpt-4o': {'prompt_tokens': 10, 'completion_tokens': 20, 'requests': 1, 'total_tokens': 30}}, 'weave': {'status': 'success', 'trace_name': 'simple_trace', 'latency_ms': 2215963}}, 'wb_user_id': 'VXNlcjoyMDk5Njc0', 'wb_run_id': None, 'deleted_at': None}
+python
+query_payload = {
+    "project_id": f"{team_id}/{project_id}",
+    "filter": {"trace_roots_only": True},
+    "query": {
+        "$expr": {"$eq": [{"$getField": "inputs.model"}, {"$literal": "gpt-4o"}]}
+    },
+    "limit": 10000,
+    "offset": 0,
+    "sort_by": [{"field": "started_at", "direction": "desc"}],
+    "include_feedback": False,
+}
+response = requests.post(
+    url_stream_query, headers=headers, json=query_payload, auth=("api", wandb_token)
+)
+if response.status_code == 200:
+    print("Query successful!")
+    try:
+        data = response.json()
+        print(data)
+    except json.JSONDecodeError as e:
+        # 代替デコード
+        json_objects = response.text.strip().split("\n")
+        parsed_data = [json.loads(obj) for obj in json_objects]
+        print(parsed_data)
+else:
+    print(f"Query failed with status code: {response.status_code}")
+    print(response.text)
+```

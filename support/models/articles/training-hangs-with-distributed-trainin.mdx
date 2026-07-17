@@ -1,0 +1,53 @@
+---
+title: "Why does my training hang with distributed training?"
+keywords: ["Experiments", "Run Crashes"]
+---
+
+This article helps you resolve training hangs when you use W&B with distributed training frameworks, so your runs can start and finish without stalling.
+
+Two common reasons cause training to stall when you use W&B with distributed training:
+
+- **Stalls at the beginning of training**: W&B's multiprocessing can interfere with the multiprocessing from distributed training frameworks.
+- **Stalls at the end of training**: The W&B process doesn't detect when to exit.
+
+## Fix hangs at the start
+
+If your run stalls as training begins, the cause is usually a conflict between W&B's multiprocessing and the distributed training framework's multiprocessing. To resolve this, enable W&B Service, which is the default for W&B SDK `0.13.0` and later. If you're on an older version, upgrade your SDK:
+
+```bash
+pip install --upgrade wandb
+```
+
+For W&B SDK `0.12.5` through `0.12.x`, enable W&B Service explicitly:
+
+```python
+def main():
+    wandb.require("service")
+    # rest of your script
+```
+
+For W&B SDK `0.12.4` and earlier, set the `WANDB_START_METHOD` environment variable:
+
+```bash
+export WANDB_START_METHOD=thread
+```
+
+After you enable W&B Service (or set the start method on older SDKs), your distributed training run starts without stalling.
+
+## Fix hangs at the end
+
+If your run stalls after training completes, W&B doesn't detect that the run is finished. Call `wandb.finish()` at the end of your training script to signal to W&B that the run is complete:
+
+```python
+wandb.finish()
+```
+
+This call uploads all data and exits the W&B process cleanly.
+
+For more information, see [Distributed training](/models/track/log/distributed-training/).
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Run Crashes](/support/models/tags/run-crashes)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

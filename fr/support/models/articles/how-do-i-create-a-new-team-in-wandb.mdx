@@ -1,0 +1,49 @@
+---
+title: "Comment puis-je créer une nouvelle équipe dans W&B ?"
+keywords: ["Teams", "Gestion de l’organisation"]
+---
+
+Les Teams constituent la principale unité de collaboration dans W&amp;B. Une équipe possède son propre nom d’entité, des Projects partagés et une liste de membres. Toute personne disposant d’un compte W&amp;B peut créer une équipe.
+
+**Créer une équipe**
+
+1. Connectez-vous à [wandb.ai](https://wandb.ai).
+2. Cliquez sur l’icône **+** ou sur **Create new team** dans la barre latérale gauche (ou accédez à [wandb.ai/create-team](https://wandb.ai/create-team)).
+3. Saisissez un **nom d’équipe**. Il devient le nom d’entité de l’équipe (par exemple, `wandb.ai/my-team`). Les noms d’équipe doivent être globalement uniques, en minuscules, et peuvent contenir des lettres, des chiffres et des tirets.
+4. Cliquez sur **Create team**.
+
+Vous devenez automatiquement administrateur de la nouvelle équipe.
+
+**Inviter des membres après la création**
+
+Après avoir créé l’équipe, accédez à **Team settings &gt; Members &gt; Invite members** pour ajouter des collègues. Voir [Comment puis-je inviter un utilisateur dans mon équipe W&amp;B ?](/fr/support/models/articles/how-do-i-invite-a-user-to-my-wb-team) pour plus de détails.
+
+**Choisir un nom d’équipe**
+
+Le nom de l’équipe fait partie de l’URL de chaque projet et run de cette équipe ; choisissez donc un nom qui restera pertinent à long terme. Les noms d’équipe ne peuvent pas être modifiés après leur création sans contacter l’assistance W&amp;B.
+
+**Comptes personnels vs comptes d’équipe**
+
+Votre compte personnel W&amp;B possède sa propre entité (votre nom d’utilisateur), distincte de toutes les équipes auxquelles vous appartenez. Les runs enregistrés dans votre entité personnelle ne sont pas visibles par votre équipe, sauf si vous les enregistrez explicitement dans l’entité d’équipe :
+
+```python
+import wandb
+
+# Journaliser dans un projet d'équipe (visible par tous les membres de l'équipe)
+wandb.init(entity="my-team", project="shared-project")
+
+# Journaliser dans une entité personnelle (visible uniquement par vous)
+wandb.init(entity="my-username", project="personal-experiments")
+```
+
+**Limites de l’équipe**
+
+Avec le forfait gratuit, les équipes disposent d’un nombre limité de licences et d’espace de stockage. Consultez les détails de votre forfait dans **Team settings &gt; Billing** ou sur [wandb.ai/site/pricing](https://wandb.ai/site/pricing).
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badge d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Teams](/fr/support/models/tags/teams)</Badge><Badge stroke shape="pill" color="orange" size="md">[Gestion de l’organisation](/fr/support/models/tags/org-management)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

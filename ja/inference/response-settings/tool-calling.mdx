@@ -1,0 +1,83 @@
+---
+title: ツール呼び出し
+description: "Serverless Inference で function と tool calling を使用すると、生成中にモデルから外部ツールや API を呼び出せるようになります。"
+keywords: ["function 呼び出し", "tool_choice", "function 定義", "agentic inference"]
+---
+
+ツール呼び出しを使用すると、モデルの応答の一部としてツールを呼び出せるようになり、モデルの機能を拡張できます。これにより、モデルはライブデータを取得したり、アプリケーションでアクションをトリガーしたり、トレーニングデータの範囲を超えてリクエストに対応したりできます。Serverless Inference がサポートしているのは function の呼び出しのみです。
+
+function を呼び出すには、モデルへのリクエストに function とその引数を含めて指定します。モデルは、prompt に答えるために function を実行するかどうかを判断し、実行する場合は引数の値を指定します。
+
+次の例では、`get_weather` function を定義し、その呼び出しが必要な質問をモデルに行います。
+
+<Tabs>
+  <Tab title="Python">
+    ```python
+    import openai
+
+    client = openai.OpenAI(
+        base_url='https://api.inference.wandb.ai/v1',
+        api_key="[YOUR-API-KEY]",  # https://wandb.ai/settings で APIキー を作成します
+    )
+
+    response = client.chat.completions.create(
+        model="openai/gpt-oss-20b",
+        messages=[
+            {"role": "user", "content": "What is the weather like in San Francisco? Use Fahrenheit."},
+        ],
+        tool_choice="auto",
+        tools=[
+            {
+                "type": "function",
+                "function": {
+                    "name": "get_weather",
+                    "description": "Get the current weather in a given location",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "location": {"type": "string", "description": "City and state, e.g., 'San Francisco, CA'"},
+                            "unit": {"type": "string", "enum": ["celsius", "fahrenheit"]},
+                        },
+                        "required": ["location", "unit"],
+                    },
+                },
+            }
+        ],
+    )
+
+    print(response.choices[0].message.tool_calls)
+    ```
+  </Tab>
+
+  <Tab title="Bash">
+    ```bash
+    curl https://api.inference.wandb.ai/v1/chat/completions \
+      -H "Content-Type: application/json" \
+      -H "Authorization: Bearer [YOUR-API-KEY]" \
+      -d '{
+        "model": "openai/gpt-oss-20b",
+            "messages": [
+                {"role": "user", "content": "What is the weather like in San Francisco? Use Fahrenheit."},
+            ],
+            "tool_choice": "auto",
+            "tools": [
+                {
+                    "type": "function",
+                    "function": {
+                        "name": "get_weather",
+                        "description": "Get the current weather in a given location",
+                        "parameters": {
+                            "type": "object",
+                            "properties": {
+                                "location": {"type": "string", "description": "City and state, e.g., 'San Francisco, CA'"},
+                                "unit": {"type": "string", "enum": ["celsius", "fahrenheit"]},
+                            },
+                            "required": ["location", "unit"],
+                        },
+                    },
+                }
+            ],
+      }'
+    ```
+  </Tab>
+</Tabs>

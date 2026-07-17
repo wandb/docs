@@ -1,0 +1,79 @@
+---
+title: Eval Tables로 Runs 비교하기
+---
+
+Eval Tables를 사용하면 여러 Runs의 입력, 출력, 점수를 비교할 수 있습니다. W&amp;B는 해당하는 예시를 정렬하고, 선택한 Runs의 집계 점수와 점수 차이를 계산합니다.
+
+<Note>
+  Workspace 수준의 summary 메트릭, 선형 플롯, 고정된 run 또는 기준 run을 사용해 Runs를 비교하려면 [Pin and compare runs](/ko/models/runs/compare-runs)를 참조하세요. Eval Tables는 로깅된 table 내에서 정렬된 예시와 Eval Table 전용 점수를 비교합니다.
+</Note>
+
+Runs를 비교하려면 다음과 같이 하세요.
+
+1. 프로젝트 Workspace로 이동합니다.
+2. Eval Tables 패널까지 스크롤합니다.
+3. **+** 버튼을 선택합니다.
+4. 추가하려는 run을 선택합니다.
+
+W&amp;B는 선택한 Runs에서 역할과 이름이 같은 열을 그룹화합니다. 예를 들어 두 Runs가 동일한 `input_columns`를 사용하면, W&amp;B는 해당 열을 **Inputs** 섹션에 함께 표시합니다. 마찬가지로 W&amp;B는 공통 `output_columns`와 `score_columns`를 **Outputs** 및 **Scores** 섹션에서 그룹화합니다.
+
+다음 스크린샷은 `summer-butterfly-9` run과 `gentle-flower-8` run을 비교하는 Eval Table을 보여줍니다.
+
+<Frame>
+  <img src="/images/evaltables/overview_basic_compare_two_runs.png" alt="Eval Table 뷰" />
+</Frame>
+
+<div id="set-the-reference-run">
+  ## 레퍼런스 run 설정
+</div>
+
+여러 run을 비교할 때 W&amp;B는 기본적으로 가장 왼쪽의 run을 레퍼런스 run으로 지정합니다. 레퍼런스 run은 점수 델타를 계산하는 베이스라인입니다.
+
+다른 레퍼런스 run을 선택하려면 해당 run 위에 마우스를 올리고 메뉴를 연 다음 **Set as reference**를 선택하세요.
+
+<div id="view-aggregate-scores">
+  ## 집계 점수 보기
+</div>
+
+W&amp;B는 선택한 각 run의 각 점수 열마다 집계 값을 계산합니다. 계산 방식은 점수의 데이터 유형에 따라 달라집니다.
+
+| 점수 유형         | 집계 값             |
+| ------------- | ---------------- |
+| 불리언           | `true` 값의 개수와 비율 |
+| 숫자형           | 평균               |
+| string 또는 범주형 | 스칼라 집계 값 없음      |
+| Null          | 계산에서 제외          |
+
+다음 스크린샷은 correct 및 confidence 점수의 집계 값을 강조 표시합니다.
+
+<Frame>
+  <img src="/images/evaltables/overview_basic_compare_two_runs_labled.png" alt="Eval Table 뷰" />
+</Frame>
+
+<div id="compare-score-deltas">
+  ## 점수 델타 비교
+</div>
+
+각 점수 열에 대해 W&amp;B는 레퍼런스 run과 선택된 다른 모든 run 간의 차이를 계산합니다.
+
+W&amp;B는 각 델타를 다음과 같이 계산합니다:
+
+```text
+comparison run value - reference run value
+```
+
+예를 들어, `summer-butterfly-9`가 레퍼런스 run이고 `gentle-flower-8`가 비교 run이라고 가정해 보겠습니다. W&amp;B는 confidence 델타를 다음과 같이 계산합니다:
+
+| `summer-butterfly-9` | `gentle-flower-8` | delta |
+| -------------------- | ----------------- | ----- |
+| 0.43                 | 0.62              | +0.19 |
+| 0.92                 | 0.86              | -0.06 |
+| 0.97                 | 0.85              | -0.12 |
+
+양수 델타는 비교 run의 값이 레퍼런스 run보다 높다는 의미입니다. 음수 델타는 값이 더 낮다는 의미입니다.
+
+다음 스크린샷은 score 델타를 강조해 보여줍니다:
+
+<Frame>
+  <img src="/images/evaltables/overview_basic_compare_two_runs_delta_labled.png" alt="Eval Table 뷰" />
+</Frame>

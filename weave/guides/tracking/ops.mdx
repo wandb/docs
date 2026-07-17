@@ -1,15 +1,16 @@
 ---
-title: "Automatically track function calls using Ops"
-description: "Versioned functions that automatically log all calls in Weave"
+title: "Customize Ops"
+description: "Learn how to color your Ops for better visibility, how to modify what's logged, and how to control the sampling rate"
+keywords: [weave.op, decorator, tracing sample rate, postprocess inputs, op versioning]
 ---
 
-A Weave op is a versioned function that automatically logs all calls.
+A Weave Op is a versioned function that automatically logs all Calls. This guide is for developers who use Weave to instrument their code, and shows you how to create Ops, customize how they appear in the Weave UI, control what data Weave logs, and manage sampling and deletion.
 
 <Tabs>
   <Tab title="Python">
-    To create an op, decorate a python function with `weave.op()`
+    To create an Op, decorate a Python function with `weave.op()`.
 
-    ```python lines lines
+    ```python lines
     import weave
 
     @weave.op()
@@ -20,19 +21,20 @@ A Weave op is a versioned function that automatically logs all calls.
     track_me(15)
     ```
 
-    Calling an op creates a new op version if the code has changed from the last call, and log the inputs and outputs of the function.
+    Calling an Op creates a new Op version if the code changed from the last call, and logs the function's inputs and outputs.
 
 
-    Functions decorated with `@weave.op()` will behave normally (without code versioning and tracking), if you don't call `weave.init('your-project-name')` before calling them.
+    Functions that you decorate with `@weave.op()` behave normally (without code versioning and tracking) if you don't call `weave.init('your-project-name')` before calling them.
 
 
-    Ops can be [served](/weave/guides/tools/serve) or [deployed](/weave/guides/tools/deploy) using the Weave toolbelt.
+    You can [serve](/weave/guides/tools/serve) or [deploy](/weave/guides/tools/deploy) Ops using the Weave toolbelt.
 
   </Tab>
   <Tab title="TypeScript">
-    To create an op, wrap a typescript function with `weave.op`
+    To create an Op, wrap a TypeScript function with `weave.op`.
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     import * as weave from 'weave'
 
     function trackMe(v: number) {
@@ -52,9 +54,11 @@ A Weave op is a versioned function that automatically logs all calls.
 
 ## Customize display names
 
+A custom display name makes it easier to identify an Op in the Weave UI, especially when the function name is generic or auto-generated.
+
 <Tabs>
   <Tab title="Python">
-    You can customize the op's display name by setting the `name` parameter in the `@weave.op` decorator:
+    To customize the Op's display name, set the `name` parameter in the `@weave.op` decorator:
 
     ```python lines
     @weave.op(name="custom_name")
@@ -64,21 +68,75 @@ A Weave op is a versioned function that automatically logs all calls.
 
   </Tab>
   <Tab title="TypeScript">
-    ```plaintext
+    ```text
     This feature is not available in TypeScript yet.
     ```
   </Tab>
 </Tabs>
 
+## Apply kinds and colors
+
+To better organize your Ops in the Weave UI, apply custom kinds and colors by adding the `kind` and `color` arguments to the `@weave.op` decorators in your code. For example, the following code applies an `LLM` `kind` and a `blue` `color` to the parent function, and a `tool` `kind` and a `red` `color` to a nested function:
+
+<Tabs>
+<Tab title="Python">
+```python lines
+import weave
+
+weave.init("[YOUR-TEAM-NAME]/[YOUR-PROJECT-NAME]")
+
+@weave.op(kind="LLM", color="blue")
+def llm_func():
+    @weave.op(kind="tool", color="red")
+    def tool_func():
+        return "tool result"
+
+    tool_result = tool_func()
+    
+    return f"llm result with {tool_result}"
+
+llm_func()
+```
+</Tab>
+<Tab title="TypeScript">
+```text
+This feature is not available in TypeScript yet.
+```
+</Tab>
+</Tabs>
+
+This applies the colors and kinds to your Ops in the Weave UI, like this:
+
+<Frame>
+![The Weave UI, showing a parent call with a `LLM` kind and a `blue` color, and a nested call with a `tool` kind and a `red` color.](/images/weave/weave_colors_kinds.png)
+</Frame>
+
+The available `kind` values are:
+
+* `agent`
+* `llm`
+* `tool`
+* `search`
+
+The available `color` values are:
+
+* `red`
+* `orange`
+* `yellow`
+* `green`
+* `blue`
+* `purple`
+
+
 ## Customize logged inputs and outputs
 
 <Tabs>
   <Tab title="Python">
-    If you want to change the data that is logged to weave without modifying the original function (e.g. to hide sensitive data), you can pass `postprocess_inputs` and `postprocess_output` to the op decorator.
+    To change the data that Weave logs without modifying the original function (for example, to hide sensitive data), pass `postprocess_inputs` and `postprocess_output` to the Op decorator.
 
-    `postprocess_inputs` takes in a dict where the keys are the argument names and the values are the argument values, and returns a dict with the transformed inputs.
+    `postprocess_inputs` takes a dict where the keys are the argument names and the values are the argument values, and returns a dict with the transformed inputs.
 
-    `postprocess_output` takes in any value which would normally be returned by the function and returns the transformed output.
+    `postprocess_output` takes any value that the function would normally return and returns the transformed output.
 
     ```python lines
     from dataclasses import dataclass
@@ -103,13 +161,13 @@ A Weave op is a versioned function that automatically logs all calls.
     def func(a: int, hide_me: str) -> CustomObject:
         return CustomObject(x=a, secret_password=hide_me)
 
-    weave.init('hide-data-example') # 🐝
+    weave.init('hide-data-example')
     func(a=1, hide_me="password123")
     ```
 
   </Tab>
   <Tab title="TypeScript">
-    ```plaintext
+    ```text
     This feature is not available in TypeScript yet.
     ```
   </Tab>
@@ -119,9 +177,11 @@ A Weave op is a versioned function that automatically logs all calls.
 
 <Tabs>
   <Tab title="Python">
-    You can control how frequently an op's calls are traced by setting the `tracing_sample_rate` parameter in the `@weave.op` decorator. This is useful for high-frequency ops where you only need to trace a subset of calls.
+    To control how frequently Weave traces an Op's calls, set the `tracing_sample_rate` parameter in the `@weave.op` decorator. Use this for high-frequency Ops where you only need to trace a subset of calls.
 
-     Note that sampling rates are only applied to root calls. If an op has a sample rate, but is called by another op first, then that sampling rate will be ignored.
+    Collect all traces during agent development to help you shape and understand its behavior. In production, configure trace sampling to lower costs while maintaining observability into your agent's behavior.
+
+    Weave applies sampling rates only to outer-most Ops. If a nested Op has a sample rate but a parent Op calls it first, Weave ignores the sampling rate of the nested Op.
 
     ```python lines
     @weave.op(tracing_sample_rate=0.1)  # Only trace ~10% of calls
@@ -133,34 +193,36 @@ A Weave op is a versioned function that automatically logs all calls.
         return x + 1
     ```
 
-    When an op's call is not sampled:
-    - The function executes normally
-    - No trace data is sent to Weave
-    - Child ops are also not traced for that call
+    When Weave doesn't sample an Op's call:
+    - The function executes normally.
+    - Weave receives no trace data.
+    - Weave doesn't trace child Ops for that call.
 
     The sampling rate must be between 0.0 and 1.0 inclusive.
 
   </Tab>
   <Tab title="TypeScript">
-    ```plaintext
+    ```text
     This feature is not available in TypeScript yet.
     ```
   </Tab>
 </Tabs>
 
-## Control call link output
+## Control Call link output
 
-If you want to suppress the printing of call links during logging, you can set the `WEAVE_PRINT_CALL_LINK` environment variable to `false`. This can be useful if you want to reduce output verbosity and reduce clutter in your logs.
+By default, Weave prints a link to each Call as it logs the Call. To suppress the printing of Call links during logging, set the `WEAVE_PRINT_CALL_LINK` environment variable to `false`. Use this to reduce output verbosity and clutter in your logs.
 
-```bash
+```bash lines
 export WEAVE_PRINT_CALL_LINK=false
 ```
 
-## Deleting an op
+## Delete an Op
+
+Deleting an Op version removes it from your project. Use this to clean up obsolete or unwanted versions.
 
 <Tabs>
   <Tab title="Python">
-    To delete a version of an op, call `.delete()` on the op ref.
+    To delete a version of an Op, call `.delete()` on the Op ref.
 
     ```python lines
     weave.init('intro-example')
@@ -168,11 +230,11 @@ export WEAVE_PRINT_CALL_LINK=false
     my_op_ref.delete()
     ```
 
-    Trying to access a deleted op will result in an error.
+    Accessing a deleted Op returns an error.
 
   </Tab>
   <Tab title="TypeScript">
-    ```plaintext
+    ```text
     This feature is not available in TypeScript yet.
     ```
   </Tab>

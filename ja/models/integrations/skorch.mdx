@@ -1,0 +1,64 @@
+---
+description: "Skorch と W&B を統合して、scikit-learn 互換の PyTorch モデルのトレーニング メトリクスとハイパーパラメーターをログします。"
+title: Skorch
+---
+
+このページでは、カスタムの logging コードを書かずに Skorch のモデル トレーニングをトラッキングできるように、W&amp;B で [Skorch](https://skorch.readthedocs.io/) を使用する方法を説明します。W&amp;B を Skorch と組み合わせて使用すると、各エポック後に、最高のパフォーマンスを示したモデルに加え、すべてのモデル性能メトリクス、モデルのトポロジー、計算リソースを自動的にログできます。`wandb_run.dir` に保存されたすべてのファイルは、自動的に W&amp;B にログされます。
+
+詳細は、この [例の run](https://app.wandb.ai/borisd13/skorch/runs/s20or4ct?workspace=user-borisd13) を参照してください。
+
+<div id="parameters">
+  ## パラメーター
+</div>
+
+次の表は、`WandbLogger` コールバックが受け取るパラメーターを示します。
+
+| パラメーター         | タイプ                                     | 説明                                                                                               |
+| :------------- | :-------------------------------------- | :----------------------------------------------------------------------------------------------- |
+| `wandb_run`    | `wandb.wandb_run`. Run                  | データのログに使用する W&amp;B Run。                                                                         |
+| `save_model`   | `bool` (default=`True`)                 | 最良モデルのチェックポイントを保存して、W&amp;B 上の run にアップロードするかどうか。                                                |
+| `keys_ignored` | `str` or list of `str` (default=`None`) | TensorBoard にログしないキー、またはキーのリスト。指定したキーに加えて、W&amp;B はデフォルトで `event_` で始まるキーや `_best` で終わるキーも無視します。 |
+
+<div id="example-code">
+  ## コード例
+</div>
+
+以下の例では、Skorch で `WandbLogger` を使用するエンドツーエンドの使い方を紹介します。
+
+* [Colab](https://colab.research.google.com/drive/1Bo8SqN1wNPMKv5Bn9NjwGecBxzFlaNZn?usp=sharing): インテグレーションを試すためのシンプルなデモ
+* [ステップバイステップガイド](https://app.wandb.ai/cayush/uncategorized/reports/Automate-Kaggle-model-training-with-Skorch-and-W%26B--Vmlldzo4NTQ1NQ): Skorch モデルのモデル性能をトラッキングするためのガイド
+
+```bash
+pip install wandb
+```
+
+```python
+import wandb
+from skorch.callbacks import WandbLogger
+
+# wandb の run を作成する
+wandb_run = wandb.init()
+
+# ハイパーパラメーターをログする（オプション）
+wandb_run.config.update({"learning rate": 1e-3, "batch size": 32})
+
+net = NeuralNet(..., callbacks=[WandbLogger(wandb_run)])
+net.fit(X, y)
+```
+
+<div id="method-reference">
+  ## メソッドリファレンス
+</div>
+
+次の表は、`WandbLogger` が提供するコールバックメソッドと、Skorch がそれぞれを呼び出すタイミングを示します。
+
+| メソッド                                                    | 説明                                        |
+| :------------------------------------------------------ | :---------------------------------------- |
+| `initialize`()                                          | コールバックの初期状態を(再)設定します。                     |
+| `on_batch_begin`(net[, X, y, training])                 | 各バッチの開始時に呼び出されます。                         |
+| `on_batch_end`(net[, X, y, training])                   | 各バッチの終了時に呼び出されます。                         |
+| `on_epoch_begin`(net[, dataset&#95;train, ...])         | 各エポックの開始時に呼び出されます。                        |
+| `on_epoch_end`(net, **kwargs)                           | history の最後の step の値をログし、最良のモデルを保存します。    |
+| `on_grad_computed`(net, named&#95;parameters[, X, ...]) | 勾配の計算後、更新 step が実行される前に、各バッチにつき一度呼び出されます。 |
+| `on_train_begin`(net, **kwargs)                         | モデルのトポロジーをログし、勾配のフックを追加します。               |
+| `on_train_end`(net[, X, y])                             | トレーニングの終了時に呼び出されます。                       |

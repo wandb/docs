@@ -12,16 +12,35 @@ jobs:
     
     steps:
       - name: Checkout docs repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-      
+          # Do not persist GITHUB_TOKEN as http.https://github.com/.extraheader:
+          # a later `git clone` of docs-code-eval would reuse it and often exit 128.
+          persist-credentials: false
+
+      # Do not use actions/checkout for wandb/docs-code-eval. GITHUB_TOKEN is scoped
+      # to this repository only, so the REST get-repository call for another repo returns
+      # Not Found for a private docs-code-eval. Clone in the script instead.
+
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: '3.11'
+
+      - name: Create docs-code-eval read token
+        id: docs-code-eval-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3
+        with:
+          client-id: ${{ vars.DOCS_SOURCE_READER_CLIENT_ID }}
+          private-key: ${{ secrets.DOCS_SOURCE_READER_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: docs-code-eval
+          permission-contents: read
       
       - name: Run sync script
+        env:
+          DOCS_CODE_EVAL_READ_TOKEN: ${{ steps.docs-code-eval-token.outputs.token }}
+          GIT_TERMINAL_PROMPT: "0"
         run: |
           chmod +x scripts/sync_code_examples.sh
           ./scripts/sync_code_examples.sh
@@ -30,10 +49,10 @@ jobs:
         id: check_changes
         run: |
           if [[ -n $(git status --porcelain) ]]; then
-            echo "changes=true" >> $GITHUB_OUTPUT
+            echo "changes=true" >> "$GITHUB_OUTPUT"
             echo "✅ Changes detected"
           else
-            echo "changes=false" >> $GITHUB_OUTPUT
+            echo "changes=false" >> "$GITHUB_OUTPUT"
             echo "ℹ️  No changes detected"
           fi
       
@@ -43,23 +62,28 @@ jobs:
         run: |
           # Count changed files
           CHANGED_FILES=$(git status --porcelain | wc -l | tr -d ' ')
-          CHANGED_PY=$(git status --porcelain | grep '\.py$' | wc -l | tr -d ' ')
+          CHANGED_PY=$(git status --porcelain | awk '/\.py$/ { count++ } END { print count + 0 }')
           
-          echo "changed_files=$CHANGED_FILES" >> $GITHUB_OUTPUT
-          echo "changed_py=$CHANGED_PY" >> $GITHUB_OUTPUT
+          {
+            echo "changed_files=$CHANGED_FILES"
+            echo "changed_py=$CHANGED_PY"
           
-          # Get short summary
-          echo "summary<<EOF" >> $GITHUB_OUTPUT
-          echo "Synced $CHANGED_FILES file(s) from docs-code-eval:" >> $GITHUB_OUTPUT
-          echo "- $CHANGED_PY Python example(s) updated" >> $GITHUB_OUTPUT
-          echo "- Cheat sheet regenerated" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+            # Get short summary
+            echo "summary<<EOF"
+            echo "Synced $CHANGED_FILES file(s) from docs-code-eval:"
+            echo "- $CHANGED_PY Python example(s) updated"
+            echo "- Cheat sheet regenerated"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
       
       - name: Create Pull Request
         if: steps.check_changes.outputs.changes == 'true'
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          # workflow_dispatch checks out the branch you pick; without this, the PR base
+          # would be that branch instead of the repo default (for example main).
+          base: ${{ github.event.repository.default_branch }}
           commit-message: |
             Sync code examples from docs-code-eval
             
@@ -68,6 +92,9 @@ jobs:
           branch: sync-code-examples-${{ github.run_number }}
           delete-branch: true
           draft: true
+          reviewers: |
+            mdlinville
+            johndmulhausen
           title: "🔄 Sync code examples from docs-code-eval"
           body: |
             ## 🔄 Automated Code Examples Sync
@@ -81,7 +108,7 @@ jobs:
             
             ### Files Updated
             
-            - **Code Examples**: `snippets/en/_includes/code-examples/*.mdx`
+            - **Code Examples**: `snippets/_includes/code-examples/*.mdx`
             - **Cheat Sheet**: `models/ref/sdk-coding-cheat-sheet/`
             
             ### Review Checklist

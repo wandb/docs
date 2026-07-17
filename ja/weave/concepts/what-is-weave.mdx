@@ -1,0 +1,127 @@
+---
+title: "Weave とは？"
+description: "W&B Weave の概要と、LLM アプリケーションの構築、評価、改善にどのように役立つかを学びます"
+keywords: ["LLM オブザーバビリティ", "エージェント トレース", "プロンプトのバージョン管理", "Weave Ops"]
+---
+
+W&amp;B Weave は、信頼性の高い LLM アプリケーションを構築するためのオブザーバビリティおよび評価プラットフォームです。Weave を使うと、AI アプリケーションで何が起きているのかを把握し、パフォーマンスを測定し、継続的かつ体系的に改善できます。
+
+LLM アプリケーションの構築は、従来のソフトウェア開発とは本質的に異なります。LLM の出力は非決定的なため、デバッグは難しくなります。品質は主観的で、コンテキストにも左右されます。プロンプトを少し変えただけでも、予期しない挙動の変化が生じることがあります。従来のテスト手法だけでは十分ではありません。
+
+<div id="core-capabilities">
+  ## 中核機能
+</div>
+
+Weaveは、次の中核機能を提供します。
+
+* エージェントセッションやマルチターン会話、またはアプリケーションコード内の個々の関数呼び出しと出力を**可視化**。
+* 厳選されたテストケースに対してパフォーマンスを測定するための**体系的な評価**。
+* 何が変更されたのかを把握できるようにする、プロンプト、モデル、データの**バージョン追跡**。
+* さまざまなプロンプトやモデルを比較するための**実験**。
+* 人による判断やアノテーションを収集するための**フィードバック収集**。
+* LLMの安全性と品質を確保するために、ガードレールとScorerを使って本番環境で行う**モニタリング**。
+
+<div id="agentic-tracing">
+  ### エージェント向けトレース
+</div>
+
+Weave は、セッション、LLM calls、ツール実行など、エージェントとの会話のライフサイクル全体にわたるエージェント向けのオブザーバビリティを提供します。
+
+エージェントを開発している場合は、組み込みインテグレーションを選択するために [エージェントインテグレーションのクイックスタート](/ja/weave/agent-integration-quickstart) から始めるか、独自のエージェントを手動で計装するには [カスタムエージェントのクイックスタート](/ja/weave/custom-agents-quickstart) に従ってください。Weave SDK がエージェントをどのようにモデル化するかについては、[エージェントをトレースする](/ja/weave/guides/tracking/trace-agents) を参照してください。
+
+Claude Code や OpenAI Agent SDK などのサポート対象のサードパーティ製エージェントハーネスを使用している場合、Weave は追加のコードなしで自動的に計装します。サポートされているすべてのフレームワークについては、[インテグレーション](/ja/weave/guides/integrations) を参照してください。
+
+<div id="application-tracing">
+  ### アプリケーションのトレース
+</div>
+
+個々の関数呼び出し、アプリケーションコード、またはカスタムロジックをトレースする場合は、Weave Ops と Calls を使用します。任意の関数に 1 行追加するだけで、入力、出力、コスト、トークン数、レイテンシをトラッキングできます。
+
+* データが LLM アプリケーション内をどのようにエンドツーエンドで流れるかをトラッキングします。
+* LLM のフィードバックの生成に使用されたソースドキュメントを確認できます。
+* 特定のプロンプトや、回答がどのように生成されるかを詳しく確認できます。
+
+個々の関数をトレースするには、Weave の [Op tracing クイックスタート](/ja/weave/quickstart) に従うか、Weave の [Ops and Calls](/ja/weave/guides/tracking/tracing) の使用方法を確認してください。
+
+Claude Code などのサポートされるサードパーティ製エージェントフレームワークを使用している場合、Weave は追加のコードなしで自動的に計装します。サポートされるすべてのフレームワークについては、[インテグレーション](/ja/weave/guides/integrations) を参照してください。
+
+<div id="evaluations">
+  ### 評価
+</div>
+
+評価を使って LLM アプリケーションのパフォーマンスをベンチマークおよび監視し、品質と信頼性を継続的に向上させます。
+
+* どのモデルやプロンプトのバージョンが、どのようなパフォーマンスにつながったかをトラッキングします。
+* 1 つ以上のスコアリング関数を使って応答を評価するためのメトリクスを定義できます。
+* 複数のメトリクスにわたって、2 つ以上の異なる評価を比較できます。特定のサンプルのパフォーマンスを見比べることもできます。
+
+[評価パイプラインを構築する](/ja/weave/tutorial-eval)
+
+<div id="version-everything">
+  ### あらゆるものをバージョン管理
+</div>
+
+Weave は、プロンプト、データセット、モデルの設定をバージョン管理します。何か問題が起きたときは、何が変わったのかを正確に確認できます。うまくいったときは、その状態を再現できます。
+
+[バージョン管理について詳しく見る](/ja/weave/guides/tracking/objects)
+
+<div id="experiment-with-prompts-and-models">
+  ### プロンプトとモデルを試す
+</div>
+
+APIキーを用意すれば、Weave Playground でプロンプトをテストし、異なる商用モデルの応答を比較できます。
+
+[Weave Playground で試す](/ja/weave/guides/tools/playground)
+
+<div id="collect-feedback">
+  ### フィードバックを収集する
+</div>
+
+本番環境での利用を通じて、人によるフィードバック、アノテーション、修正を収集します。このデータを使用して、より良いテストケースを作成し、アプリケーションを改善します。
+
+[フィードバックを収集する](/ja/weave/guides/tracking/feedback)
+
+<div id="monitor-production">
+  ### 本番環境を監視する
+</div>
+
+評価で使用するのと同じscorerで本番トラフィックをスコアリングします。問題がユーザーに届く前に検知できるよう、ガードレールを設定します。
+
+[ガードレールとモニターを設定する](/ja/weave/guides/evaluation/monitors)
+
+<div id="get-started-with-weave">
+  ## Weave を使い始める
+</div>
+
+Weave は Python と TypeScript 向けの SDK を提供しています。どちらの SDK も、トレース、評価、データセット、および Weave の中核機能をサポートしています。クラスベースの Models や Scorers など、一部の高度な機能は Weave TypeScript SDK では利用できません。
+
+Weave を使い始めるには、次の手順に従います。
+
+1. [https://wandb.ai/site](https://wandb.ai/site/?utm_source=course\&utm_medium=course\&utm_campaign=weave) で W&amp;B アカウントを作成し、[https://wandb.ai/authorize](https://wandb.ai/authorize?utm_source=course\&utm_medium=course\&utm_campaign=weave) で APIキーを取得します。
+2. Weave をインストールします:
+
+<CodeGroup>
+  ```python Python
+  pip install weave
+  ```
+
+  ```typescript TypeScript
+  npm install weave
+  ```
+</CodeGroup>
+
+3. スクリプトで Weave を import し、プロジェクトを初期化します。`<your-team>` を W&amp;B チーム名に、`<your-project>` を W&amp;B のプロジェクト名に置き換えます。
+
+<CodeGroup>
+  ```python Python
+  import weave
+  client = weave.init('<your-team>/<your-project>')
+  ```
+
+  ```typescript TypeScript
+  import * as weave from 'weave';
+  const client = await weave.init('<your-team>/<your-project>');
+  ```
+</CodeGroup>
+
+これで Weave を使う準備が整いました。

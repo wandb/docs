@@ -1,0 +1,35 @@
+"""
+Initialize a W&B Sweep.
+
+Replace:
+- values enclosed in angle brackets with your own
+- sweep_configuration with your own sweep configuration dictionary. See
+    sweep_config.py for examples of single nested and double nested sweep
+    configurations.
+"""
+
+import wandb
+
+# Example sweep configuration
+sweep_configuration = {
+    "method": "<sweep_method>",
+    "name": "<sweep_name>",
+    "metric": {
+        "goal": "<goal>", 
+        "name": "<metric_name>"
+        },
+    "parameters": {
+        "hyperparameter_1": {
+            "values": [16, 32, 64]
+            },
+        "hyperparameter_2": {
+            "values": [5, 10, 15]
+            },
+        "hyperparameter_3": {
+            "search_constraint_1": 0.1,
+            "search_constraint_2": 0.0001
+            },
+    },
+}
+
+sweep_id = wandb.sweep(sweep=sweep_configuration, project="<project>")

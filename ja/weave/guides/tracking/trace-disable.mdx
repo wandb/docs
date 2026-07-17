@@ -1,0 +1,90 @@
+---
+title: "トレースを無効にする"
+description: "W&B Weave のトレースを無効にする、または条件に応じてオフにする方法を説明します"
+keywords: ["WEAVE_DISABLED", "tracing_disabled", "context manager", "disabled flag"]
+---
+
+このページでは、アプリケーションで W&amp;B Weave のトレースを無効にする方法について説明します。これらのオプションは、たとえばローカル開発時、テスト環境、またはトレースが不要な特定のコードパスで、トレースがログされないようにしたい場合に使用します。必要な制御範囲 (プログラム全体、クライアント単位、コードブロック単位) に最も適した方法を選択してください。
+
+<div id="environment-variable">
+  ## 環境変数
+</div>
+
+アプリケーションコードを変更せずにプログラム全体のトレースを無効にしたい場合は、環境変数を使用します。
+
+プログラム全体でトレースを常に無効にしたい場合は、環境変数 `WEAVE_DISABLED=true` を設定できます。
+
+`WEAVE_DISABLED` は関数定義時に一度だけ読み取られます。そのため、この変数を使用して実行時にトレースを切り替えることはできません。
+
+<div id="client-initialization">
+  ## クライアントの初期化
+</div>
+
+特定の Weave クライアントで条件付きにトレースを無効にするには、init の Settings で `disabled` フラグを指定してクライアントを初期化します。
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    import weave
+
+    # クライアントを初期化する
+    client = weave.init(..., settings={"disabled": True})
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    この機能は、TypeScript SDK ではまだ利用できません。
+    ```
+  </Tab>
+</Tabs>
+
+<div id="context-manager">
+  ## コンテキストマネージャー
+</div>
+
+特定のコードブロック内でのみ条件付きにトレースを無効にするには、トレース用のコンテキストマネージャーを使用できます。`with tracing_disabled()` を使用すると、**`with` ブロック内で実行される関数呼び出しに対してのみ**トレースを抑制できます。アプリケーションコード内で使用して、どの call をログしないかを限定できます。
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    import weave
+    from weave.trace.context.call_context import tracing_disabled
+
+    client = weave.init('your-team/your-project-name')
+
+    @weave.op
+    def my_op():
+        ...
+
+    with tracing_disabled():
+        my_op()
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    この機能は、TypeScript SDK ではまだ利用できません。
+    ```
+  </Tab>
+</Tabs>
+
+トレースの動作は関数の定義時に固定されますが、アプリケーションロジックと組み合わせることで、実行時に制御できます。たとえば、コンテキストマネージャーを条件分岐でラップすると、実行時の値に基づいてトレースを動的に有効化または無効にできます。
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    if should_trace:
+        my_op()
+    else:
+        with tracing_disabled():
+            my_op()
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    この機能は、TypeScript SDK ではまだ利用できません。
+    ```
+  </Tab>
+</Tabs>

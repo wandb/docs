@@ -1,0 +1,17 @@
+---
+title: Configurer SMTP
+description: "Configurez un serveur SMTP interne pour envoyer des invitations par e-mail depuis une instance Autogéré du serveur W&B."
+keywords: ["serveur de messagerie", "e-mail sortant", "relais SMTP", "invitations par e-mail", "e-mail TLS"]
+---
+
+Dans serveur W&amp;B, l’ajout d’utilisateurs à l’instance ou à une équipe déclenche l’envoi d’une invitation par e-mail. Par défaut, W&amp;B envoie ces invitations via un serveur de messagerie tiers. Si votre organisation limite le trafic sortant depuis le réseau d’entreprise, il se peut que ces invitations n’atteignent pas l’utilisateur final. Pour contourner ce problème, les administrateurs d’un serveur W&amp;B Autogéré peuvent acheminer les e-mails d’invitation via un serveur SMTP interne.
+
+Pour configurer serveur W&amp;B afin d’utiliser votre serveur SMTP interne, suivez les étapes ci-dessous :
+
+1. Définissez la variable d’environnement `GORILLA_EMAIL_SINK` dans le conteneur Docker ou le déploiement Kubernetes sur `smtp://[USER:PASSWORD]@smtp.host.com:[PORT]`.
+   * `USER` et `PASSWORD` sont facultatifs.
+   * Si vous utilisez un serveur SMTP conçu pour fonctionner sans authentification, définissez la valeur de la variable d’environnement comme suit : `GORILLA_EMAIL_SINK=smtp://smtp.host.com:[PORT]`.
+   * Les numéros de port couramment utilisés pour SMTP sont `587`, `465` et `25`. Le port peut varier selon le type de serveur de messagerie que vous utilisez.
+2. Facultatif : pour configurer l’adresse e-mail d’expéditeur par défaut pour SMTP, initialement définie sur `noreply@wandb.com`, définissez la variable d’environnement `GORILLA_EMAIL_FROM_ADDRESS` sur le serveur avec l’adresse e-mail d’expéditeur de votre choix.
+
+Après avoir défini ces variables d’environnement, serveur W&amp;B achemine les e-mails d’invitation destinés aux nouveaux utilisateurs et aux équipes via votre serveur SMTP interne, en utilisant l’adresse d’expéditeur que vous avez spécifiée.
