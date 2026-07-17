@@ -1,34 +1,9 @@
 ---
-title: "Classe : tour de conversation"
+title: "tour de conversation"
 description: "Référence du SDK TypeScript"
 ---
 
 [weave](../) / tour de conversation
-
-Une invocation d’agent. Elle encapsule généralement le travail nécessaire
-pour répondre à un seul message d’un utilisateur. Elle émet un span `invoke_agent` et sert de racine à la
-trace de ce tour de conversation : elle est toujours démarrée sous `ROOT_CONTEXT` afin de
-ne jamais hériter accidentellement d’un parent provenant d’une autre bibliothèque
-instrumentée avec OTel.
-
-Créé par `weave.startTurn()` (ou `conversation.startTurn()`) et
-terminé avec `end()`. Un seul tour de conversation peut être actif dans une chaîne asynchrone.
-Les enfants (LLM, Tool, SubAgent) s’y rattachent via les méthodes `startLLM`, `startTool`,
-`startSubagent`.
-
-`Exemple`
-
-```ts twoslash
-// @noErrors
-const turn = weave.startTurn({agentName: 'research-bot', model: MODEL});
-try {
-  const llm = turn.startLLM({model: MODEL, providerName: 'openai'});
-  // ...
-  llm.end();
-} finally {
-  turn.end();
-}
-```
 
 <div id="hierarchy">
   ## Hiérarchie
@@ -42,8 +17,8 @@ try {
   ## Table des matières
 </div>
 
-<div id="properties">
-  ### Propriétés
+<div id="accessors">
+  ### Accesseurs
 </div>
 
 * [agentName](./turn#agentname)
@@ -55,6 +30,7 @@ try {
 
 * [addEvent](./turn#addevent)
 * [end](./turn#end)
+* [record](./turn#record)
 * [setAttribute](./turn#setattribute)
 * [setAttributes](./turn#setattributes)
 * [startLLM](./turn#startllm)
@@ -62,19 +38,25 @@ try {
 * [startTool](./turn#starttool)
 * [create](./turn#create)
 
-## Propriétés
+## Accesseurs
 
 <div id="agentname">
   ### agentName
 </div>
 
-• `Readonly` **agentName**: `string`
+• `get` **agentName**(): `string`
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`string`
 
 <div id="defined-in">
   #### Défini dans
 </div>
 
-[src/genai/turn.ts:57](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/turn.ts#L57)
+[src/genai/turn.ts:103](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L103)
 
 ***
 
@@ -82,13 +64,19 @@ try {
   ### model
 </div>
 
-• `Readonly` **model**: `string`
+• `get` **model**(): `string`
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`string`
 
 <div id="defined-in">
   #### Défini dans
 </div>
 
-[src/genai/turn.ts:58](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/turn.ts#L58)
+[src/genai/turn.ts:107](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L107)
 
 ## Méthodes
 
@@ -96,11 +84,25 @@ try {
   ### addEvent
 </div>
 
+<Warning>
+  **Obsolète.** Enregistrez plutôt ces données via [setAttributes](./turn#setattributes).
+  OpenTelemetry abandonne progressivement l’API Span Event (`Span.addEvent`). Ces
+  méthode fonctionne toujours et les données d’événements de span existantes restent valides.
+  Voir [https://opentelemetry.io/blog/2026/deprecating-span-events/](https://opentelemetry.io/blog/2026/deprecating-span-events/)
+
+  `Exemple`
+
+  ```ts twoslash
+  // @noErrors
+  span.addEvent('context_compacted', {removedMessages: 12});
+  ```
+</Warning>
+
 ▸ **addEvent**(`name`, `attributes?`, `startTime?`): `this`
 
 Ajoutez un événement nommé au span. Utile pour marquer des moments qui ne correspondent pas à des spans,
 comme le compactage du contexte, la détection de boucles d&#39;outil ou le déclenchement de garde-fous.
-Émet un avertissement et est sans effet après `end()`. Reproduit le comportement de `Span.addEvent` d’OTel.
+Émet un avertissement et ne fait rien après `end()`. Reproduit le comportement de `Span.addEvent` d’OTel.
 
 <div id="parameters">
   #### Paramètres
@@ -118,13 +120,6 @@ comme le compactage du contexte, la détection de boucles d&#39;outil ou le déc
 
 `this`
 
-`Exemple`
-
-```ts twoslash
-// @noErrors
-span.addEvent('context_compacted', {removedMessages: 12});
-```
-
 <div id="inherited-from">
   #### Hérité de
 </div>
@@ -135,7 +130,7 @@ SpanBase.addEvent
   #### Défini dans
 </div>
 
-[src/genai/spanBase.ts:77](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/spanBase.ts#L77)
+[src/genai/spanBase.ts:82](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L82)
 
 ***
 
@@ -145,7 +140,8 @@ SpanBase.addEvent
 
 ▸ **end**(`opts?`): `void`
 
-Ferme le span tour de conversation. Cette opération est idempotente. Passez `error` pour le marquer comme ayant échoué ; passez
+Lire les valeurs actuelles des champs (pour refléter les mutations effectuées via `record()`
+depuis `start`) et fermer le span. Cette opération est idempotente. Passez `error` pour le marquer comme ayant échoué ; passez
 `endTime` pour antidater la fermeture.
 
 <div id="parameters">
@@ -166,7 +162,45 @@ Ferme le span tour de conversation. Cette opération est idempotente. Passez `er
   #### Défini dans
 </div>
 
-[src/genai/turn.ts:144](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/turn.ts#L144)
+[src/genai/turn.ts:241](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L241)
+
+***
+
+<div id="record">
+  ### record
+</div>
+
+▸ **record**(`opts`): `this`
+
+Définit en bloc n’importe quel sous-ensemble des champs modifiables. Remplace (sans fusionner).
+Utile pour tout attribuer en une seule fois après le renvoi d’un appel au provider.
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom                        | Type                                 |
+| :------------------------- | :----------------------------------- |
+| `opts`                     | `Object`                             |
+| `opts.agentDescription?`   | `string`                             |
+| `opts.agentId?`            | `string`                             |
+| `opts.agentName?`          | `string`                             |
+| `opts.agentVersion?`       | `string`                             |
+| `opts.messages?`           | [`Message`](../interfaces/message)[] |
+| `opts.model?`              | `string`                             |
+| `opts.systemInstructions?` | `string`[]                           |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`this`
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/turn.ts:201](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L201)
 
 ***
 
@@ -202,7 +236,7 @@ Ferme le span tour de conversation. Cette opération est idempotente. Passez `er
   #### Défini dans
 </div>
 
-[src/genai/turn.ts:136](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/turn.ts#L136)
+[src/genai/turn.ts:193](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L193)
 
 ***
 
@@ -247,7 +281,7 @@ SpanBase.setAttributes
   #### Défini dans
 </div>
 
-[src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/spanBase.ts#L63)
+[src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L63)
 
 ***
 
@@ -277,7 +311,7 @@ Démarre un span LLM enfant dans ce tour de conversation.
   #### Défini dans
 </div>
 
-[src/genai/turn.ts:104](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/turn.ts#L104)
+[src/genai/turn.ts:161](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L161)
 
 ***
 
@@ -307,7 +341,7 @@ Démarre un span SubAgent enfant au sein de ce tour de conversation.
   #### Défini dans
 </div>
 
-[src/genai/turn.ts:122](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/turn.ts#L122)
+[src/genai/turn.ts:179](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L179)
 
 ***
 
@@ -337,7 +371,7 @@ Démarre un span enfant de Tool dans ce tour de conversation.
   #### Défini dans
 </div>
 
-[src/genai/turn.ts:113](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/turn.ts#L113)
+[src/genai/turn.ts:170](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L170)
 
 ***
 
@@ -365,4 +399,4 @@ Démarre un span enfant de Tool dans ce tour de conversation.
   #### Défini dans
 </div>
 
-[src/genai/turn.ts:63](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/turn.ts#L63)
+[src/genai/turn.ts:124](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L124)
