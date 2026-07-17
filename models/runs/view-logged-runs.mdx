@@ -3,7 +3,7 @@ title: View a specific run in a project
 description: Learn how to view a specific logged run and its properties using the W&B App or the LEET terminal UI.
 ---
 
-View information about a specific run, such as its current state, artifacts, metrics, and more. Inspecting a run helps you monitor progress, debug experiments, and compare results. You can view and monitor runs using the W&B App in your browser or the `wandb beta leet` terminal UI locally.
+View information about a specific run, such as its current state, artifacts, metrics, and more. Inspecting a run helps you monitor progress, debug experiments, and compare results. You can view and monitor runs using the W&B App in your browser or the `wandb leet` terminal UI locally.
 
 <Tabs>
 <Tab title="W&B App">
@@ -28,22 +28,22 @@ Explore the run's properties by navigating through the tabs: [Overview](/models/
 </Tab>
 <Tab title="LEET">
 
-To view a run locally in your terminal using the `wandb beta leet` terminal UI:
+To view a run locally in your terminal using the `wandb leet` terminal UI:
 
 1. If you started the run locally from a script, navigate to the directory where you ran your code. It contains a `wandb/` directory with a subdirectory per run and a `latest-run/` symbolic link. Each run directory contains a transaction log named in the format `run-[RUN-ID].wandb`.
 
     If you didn't start the run locally but downloaded a `.wandb` transaction log file instead, make a note of its location.
-2. Start `wandb beta leet` using one of these commands:
+2. Start `wandb leet` using one of these commands:
 
    ```bash
    # View the latest run, stored in ./wandb/latest-run/
-   wandb beta leet
+   wandb leet
 
    # Specify a run directory
-   wandb beta leet ./wandb/run-20250813_124246-n67z9ude
+   wandb leet ./wandb/run-20250813_124246-n67z9ude
 
    # Specify a .wandb file
-   wandb beta leet ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
+   wandb leet ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
    ```
 
 LEET displays a three-panel interface:
@@ -60,7 +60,7 @@ Get started with these keyboard shortcuts:
 - `n` or `N`: Navigate between metric pages.
 - `q` or `CMD+C`: Quit.
 
-See [LEET terminal UI](/models/app/leet-tui) for a full guide, or the [`wandb beta leet`](/models/ref/cli/wandb-beta/wandb-beta-leet) CLI reference for shortcut and configuration details.
+See [LEET terminal UI](/models/app/leet-tui) for a full guide, or the [`wandb leet`](/models/ref/cli/wandb-beta/wandb-beta-leet) CLI reference for shortcut and configuration details.
 
 </Tab>
 </Tabs>
