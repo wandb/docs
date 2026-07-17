@@ -3,23 +3,29 @@ title: Serverless Training
 description: Post-entraînez et effectuez le fine-tuning de LLM sur une infrastructure serverless gérée avec Serverless RL et Serverless SFT.
 ---
 
-Utilisez Serverless Training pour post-entraîner et effectuer le fine-tuning de LLM sur une infrastructure serverless gérée. W&amp;B provisionne l&#39;infrastructure d&#39;entraînement ([sur CoreWeave](https://docs.coreweave.com/docs/platform)) pour vous, tout en vous laissant une flexibilité totale dans la configuration de votre environnement. Vous bénéficiez d&#39;un accès instantané à un cluster d&#39;entraînement géré qui s&#39;adapte automatiquement et de manière élastique jusqu&#39;à plusieurs dizaines de GPU. Serverless Training est désormais en préversion publique.
+Utilisez Serverless Training pour post-entraîner et effectuer le fine-tuning de LLM sur une infrastructure serverless gérée. W&amp;B provisionne l’infrastructure d’entraînement ([sur CoreWeave](https://docs.coreweave.com/docs/platform)) pour vous, tout en vous laissant une flexibilité totale dans la configuration de votre environnement. Vous bénéficiez d’un accès instantané à un cluster d’entraînement géré qui s’adapte automatiquement et de manière élastique jusqu’à plusieurs dizaines de GPU. Serverless Training est désormais en préversion publique.
 
 Serverless Training propose deux méthodes complémentaires :
 
-* **[Serverless RL](/fr/serverless-training/usage)** : Post-entraînez des modèles avec l&#39;apprentissage par renforcement afin qu&#39;ils acquièrent de nouveaux comportements et gagnent en fiabilité, en rapidité et en coût lors de l&#39;exécution de tâches agentiques sur plusieurs tours de conversation. Serverless RL sépare les flux de travail RL en phases d&#39;inférence et d&#39;entraînement, puis les multiplexe entre plusieurs jobs afin d&#39;augmenter l&#39;utilisation des GPU et de réduire le temps d&#39;entraînement et les coûts.
-* **[Serverless SFT](/fr/serverless-training/sft)** : Effectuez le fine-tuning de modèles avec apprentissage supervisé sur des jeux de données sélectionnés. Utilisez SFT pour la distillation, pour enseigner un style et un format de sortie, ou pour préparer un modèle avant d&#39;appliquer RL.
+* **[Serverless RL](/fr/serverless-training/usage)** : Post-entraînez des modèles avec l’apprentissage par renforcement afin qu’ils acquièrent de nouveaux comportements et gagnent en fiabilité, en rapidité et en coût lors de l’exécution de tâches agentiques sur plusieurs tours de conversation. Serverless RL sépare les flux de travail RL en phases d’inférence et d’entraînement, puis les multiplexe entre plusieurs jobs afin d’augmenter l’utilisation des GPU et de réduire le temps d’entraînement et les coûts.
+* **[Serverless SFT](/fr/serverless-training/sft)** : Effectuez le fine-tuning de modèles avec apprentissage supervisé sur des jeux de données sélectionnés. Utilisez SFT pour la distillation, pour enseigner un style et un format de sortie, ou pour préparer un modèle avant d’appliquer RL.
 
 Serverless Training est idéal pour des tâches telles que :
 
 * Agents vocaux
-* Assistants de recherche approfondie
+* Assistants de recherche avancée
 * Modèles on-prem
-* Agents d&#39;analyse du marketing de contenu
+* Agents d’analyse marketing de contenu
 
-Serverless Training entraîne des adaptateurs de bas rang (LoRAs) pour spécialiser un modèle pour votre tâche spécifique. Cela étend les capacités du modèle d&#39;origine grâce à une expérience acquise en situation. W&amp;B stocke automatiquement les LoRAs que vous entraînez comme artefacts dans votre compte. Vous pouvez également les enregistrer localement ou chez un tiers à des fins de sauvegarde. Serverless Inference héberge également automatiquement les modèles que vous entraînez via Serverless Training.
+Serverless Training entraîne des adaptateurs de bas rang (LoRAs) pour spécialiser un modèle pour votre tâche spécifique. Cela étend les capacités du modèle d’origine grâce à une expérience acquise en situation. W&amp;B stocke automatiquement les LoRAs que vous entraînez comme artefacts dans votre compte. Vous pouvez également les enregistrer localement ou chez un tiers à des fins de sauvegarde. Serverless Inference héberge également automatiquement les modèles que vous entraînez via Serverless Training.
 
-Voir le [Démarrage rapide](https://art.openpipe.ai/getting-started/quick-start) d&#39;ART ou le [notebook Google Colab](https://colab.research.google.com/github/openpipe/art-notebooks/blob/main/examples/2048/2048.ipynb) pour commencer.
+Voir le [Démarrage rapide](https://art.openpipe.ai/getting-started/quick-start) d’ART ou le [notebook Google Colab](https://colab.research.google.com/github/openpipe/art-notebooks/blob/main/examples/2048/2048.ipynb) pour commencer.
+
+Explorez un [workspace de démonstration public](https://wandb.ai/wandb/demo-project-qwen-email-agent-with-art-weave-models/workspace) qui présente les éléments suivants :
+
+* Entraînez un modèle Qwen avec OpenPipe RULER et les [évaluateurs Weave](/fr/weave/guides/evaluation/scorers#create-your-own-scorers).
+* Suivez la progression de l’entraînement et [créez des graphiques personnalisés](/fr/models/app/features/custom-charts) avec W&amp;B Models.
+* Évaluez les résultats finaux dans un [leaderboard Weave](/fr/weave/cookbooks/leaderboard_quickstart#leaderboard-quickstart).
 
 <div id="why-serverless-training">
   ## Pourquoi Serverless Training ?
