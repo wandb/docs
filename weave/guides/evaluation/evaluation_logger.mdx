@@ -248,7 +248,7 @@ pred.finish()
 
 ## Advanced usage
 
-The `EvaluationLogger` offers flexible patterns beyond the basic workflow to accommodate more complex evaluation scenarios. The following sections describe advanced techniques, including how to use context managers for automatic resource management, separate model execution from logging, work with rich media data, and compare multiple model evaluations side by side.
+The `EvaluationLogger` offers flexible patterns beyond the basic workflow to accommodate more complex evaluation scenarios. The following sections describe advanced techniques, including how to use context managers for automatic resource management, link agent traces to evaluation rows, separate model execution from logging, work with rich media data, and compare multiple model evaluations side by side.
 
 ### Use context managers
 
@@ -370,7 +370,187 @@ While TypeScript doesn't have automatic cleanup with context managers, `logSumma
 </Tab>
 </Tabs>
 
+### Link agent traces to evaluations
 
+In Python, keep each traced agent call inside its `log_prediction()` context. `EvaluationLogger` stamps spans created in that context with the evaluation run, example, and trial metadata that Weave uses to link the trace to its evaluation result.
+
+The following example uses the [OpenAI Agents SDK](../integrations/agents/openai-agents-sdk). The same pattern applies to other agent frameworks that Weave traces. Replace `[TEAM]/[PROJECT]` with your W&B entity and project.
+
+```python lines {18-28}
+import weave
+from agents import Agent, Runner
+from weave import EvaluationLogger
+
+weave.init("[TEAM]/[PROJECT]")
+
+agent = Agent(
+    name="Support agent",
+    instructions="Answer with only the city name.",
+)
+eval_logger = EvaluationLogger(
+    name="support-agent-eval",
+    model="support-agent",
+    dataset="support-prompts",
+)
+question = "What is the capital of France?"
+
+with eval_logger.log_prediction(
+    inputs={"prompt": question},
+    example_id="capital-of-france",
+) as prediction:
+    result = Runner.run_sync(agent, question)
+    output = str(result.final_output or "")
+    prediction.output = output
+    prediction.log_score(
+        scorer="contains_expected_answer",
+        score="paris" in output.lower(),
+    )
+
+eval_logger.log_summary()
+```
+
+If the agent runs before the prediction context starts or after it finishes, Weave records the trace but does not link it to the evaluation result.
+
+#### Set evaluation attributes on raw spans
+
+You don't need to set evaluation attributes on spans created inside the `log_prediction()` context. `EvaluationLogger` sets them automatically. If you send spans with your own OpenTelemetry (OTel) instrumentation, or create spans in another process, set the attributes directly on each span that you want to link. OTel span attributes do not propagate from parent spans to child spans.
+
+The span must be sent to the same Weave project as the evaluation. For information about configuring the destination project, see [Send OpenTelemetry traces to Weave](/weave/guides/tracking/otel).
+
+| Attribute | Type | Description |
+| --- | --- | --- |
+| `weave.eval.run_id` | string | The call ID of the evaluation run (`Evaluation.evaluate`). Required to include the span in the evaluation-level **View spans** result. |
+| `weave.eval.predict_and_score_call_id` | string | The call ID of the `Evaluation.predict_and_score` operation for a specific result and trial. Set this together with `weave.eval.run_id` to link the span to that result. |
+| `weave.eval.kind` | string | The evaluation category. Weave uses `agent` for agent evaluations and `standard` for standard evaluations. |
+| `weave.eval.row_digest` | string | A stable digest that identifies the evaluated dataset row. `EvaluationLogger` derives this value from the prediction inputs unless you provide one. |
+| `weave.eval.example_id` | string | A caller-provided identifier for the evaluated example. |
+| `weave.eval.trial_index` | integer | The zero-based trial number for the dataset row. |
+| `weave.eval.evaluation_name` | string | The evaluation's human-readable name. |
+| `weave.eval.project_id` | string | Project context stamped by the Weave SDK. This attribute does not route or link the span; configure the destination project on the OTel resource instead. |
+
+Only `weave.eval.run_id` and `weave.eval.predict_and_score_call_id` establish the evaluation and result links. The row digest, example ID, trial index, kind, and evaluation name add context and support filtering, but do not create a link by themselves. Use Weave call IDs for the two linkage attributes, not OTel trace or span IDs.
+
+You can obtain both IDs from the [evaluation results query API](/weave/reference/service-api/eval-results/eval-results-query). Each evaluation in the response has an `evaluation_call_id`, and each trial has a `predict_and_score_call_id`.
+
+The following examples assume that `span` is the OpenTelemetry span for the agent operation. Replace each bracketed value with metadata from the evaluation run and result that the span belongs to. You can omit optional attributes that you don't have.
+
+<Tabs>
+<Tab title="Python">
+```python
+span.set_attributes(
+    {
+        "weave.eval.run_id": "[EVALUATION-RUN-CALL-ID]",
+        "weave.eval.predict_and_score_call_id": "[PREDICT-AND-SCORE-CALL-ID]",
+        "weave.eval.kind": "agent",
+        "weave.eval.row_digest": "[ROW-DIGEST]",
+        "weave.eval.example_id": "[EXAMPLE-ID]",
+        "weave.eval.trial_index": 0,
+        "weave.eval.evaluation_name": "[EVALUATION-NAME]",
+    }
+)
+```
+</Tab>
+<Tab title="TypeScript">
+```typescript
+span.setAttributes({
+  'weave.eval.run_id': '[EVALUATION-RUN-CALL-ID]',
+  'weave.eval.predict_and_score_call_id': '[PREDICT-AND-SCORE-CALL-ID]',
+  'weave.eval.kind': 'agent',
+  'weave.eval.row_digest': '[ROW-DIGEST]',
+  'weave.eval.example_id': '[EXAMPLE-ID]',
+  'weave.eval.trial_index': 0,
+  'weave.eval.evaluation_name': '[EVALUATION-NAME]',
+});
+```
+</Tab>
+</Tabs>
+
+#### Propagate evaluation IDs to another service
+
+Entering the `log_prediction()` context creates the `Evaluation.predict_and_score` call before the context body runs. Use the returned `ScoreLogger` to get both call IDs, then send them to the service that runs the agent. Keep the context open until the service returns so that you can log its output and scores on the same evaluation result.
+
+In the evaluation process, replace `[AGENT-SERVICE-URL]` with the endpoint that runs your agent:
+
+```python lines {17-36}
+import requests
+import weave
+from weave import EvaluationLogger
+
+weave.init("[TEAM]/[PROJECT]")
+
+eval_logger = EvaluationLogger(
+    name="support-agent-eval",
+    model="support-agent",
+    dataset="support-prompts",
+)
+question = "What is the capital of France?"
+example_id = "capital-of-france"
+trial_index = 0
+
+with eval_logger.log_prediction(
+    inputs={"prompt": question},
+    example_id=example_id,
+    trial_index=trial_index,
+) as prediction:
+    eval_context = {
+        "weave.eval.run_id": prediction.evaluate_call.id,
+        "weave.eval.predict_and_score_call_id": (
+            prediction.predict_and_score_call.id
+        ),
+        "weave.eval.kind": "agent",
+        "weave.eval.example_id": example_id,
+        "weave.eval.trial_index": trial_index,
+        "weave.eval.evaluation_name": "support-agent-eval",
+    }
+    response = requests.post(
+        "[AGENT-SERVICE-URL]",
+        json={"prompt": question, "eval_context": eval_context},
+        timeout=60,
+    )
+    response.raise_for_status()
+    prediction.output = response.json()["output"]
+
+eval_logger.log_summary()
+```
+
+In the agent service, copy the received attributes onto every agent span that you want to associate with the result. The following function demonstrates the receiving side with a raw OTel span. Configure the service to export spans to the same `[TEAM]/[PROJECT]` as the evaluation.
+
+```python lines {15-25}
+from typing import Any
+
+import weave
+from agents import Agent, Runner
+from opentelemetry import trace
+
+weave.init("[TEAM]/[PROJECT]")
+tracer = trace.get_tracer(__name__)
+agent = Agent(
+    name="Support agent",
+    instructions="Answer with only the city name.",
+)
+
+
+def run_agent(request_body: dict[str, Any]) -> dict[str, str]:
+    eval_context = request_body["eval_context"]
+    with tracer.start_as_current_span(
+        "invoke_agent Support agent",
+        attributes={
+            "gen_ai.operation.name": "invoke_agent",
+            "gen_ai.agent.name": "Support agent",
+            **eval_context,
+        },
+    ):
+        result = Runner.run_sync(agent, request_body["prompt"])
+        return {"output": str(result.final_output or "")}
+```
+
+The wrapper span in this example is linked to the evaluation result. If the agent framework creates additional spans, copy `eval_context` onto those spans as well; OTel does not inherit span attributes from the wrapper.
+
+To inspect linked traces in the UI:
+
+1. Open the evaluation run in **Evals**.
+2. In **Results**, click **View spans** to open **Agents > Spans** filtered to that evaluation.
+3. Open an example preview and click **View spans** to inspect the agent spans linked to that example.
 
 ### Link to an existing dataset
 
