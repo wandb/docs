@@ -1,5 +1,5 @@
 ---
-title: "클래스: Tool"
+title: "Tool"
 description: "TypeScript SDK 레퍼런스"
 ---
 
@@ -70,7 +70,7 @@ try {
   #### 정의 위치
 </div>
 
-[src/genai/tool.ts:52](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L52)
+[src/genai/tool.ts:52](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/tool.ts#L52)
 
 ***
 
@@ -84,7 +84,7 @@ try {
   #### 정의 위치
 </div>
 
-[src/genai/tool.ts:51](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L51)
+[src/genai/tool.ts:51](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/tool.ts#L51)
 
 ***
 
@@ -100,7 +100,7 @@ try {
   #### 정의 위치
 </div>
 
-[src/genai/tool.ts:47](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L47)
+[src/genai/tool.ts:47](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/tool.ts#L47)
 
 ***
 
@@ -114,13 +114,27 @@ try {
   #### 정의 위치
 </div>
 
-[src/genai/tool.ts:53](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L53)
+[src/genai/tool.ts:53](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/tool.ts#L53)
 
 ## 방법
 
 <div id="addevent">
   ### addEvent
 </div>
+
+<Warning>
+  **사용 중단.** 대신 [setAttributes](./tool#setattributes)를 통해 이 데이터를 기록하세요.
+  OpenTelemetry는 Span Event API(`Span.addEvent`)를 단계적으로 폐지하고 있습니다. 이
+  방법은 여전히 작동하며 기존 span-event 데이터도 계속 유효합니다.
+  참조: [https://opentelemetry.io/blog/2026/deprecating-span-events/](https://opentelemetry.io/blog/2026/deprecating-span-events/)
+
+  `예시`
+
+  ```ts twoslash
+  // @noErrors
+  span.addEvent('context_compacted', {removedMessages: 12});
+  ```
+</Warning>
 
 ▸ **addEvent**(`name`, `attributes?`, `startTime?`): `this`
 
@@ -144,13 +158,6 @@ span에 이름이 지정된 event를 추가합니다. 컨텍스트 압축, 도�
 
 `this`
 
-`예시`
-
-```ts twoslash
-// @noErrors
-span.addEvent('context_compacted', {removedMessages: 12});
-```
-
 <div id="inherited-from">
   #### 상속됨
 </div>
@@ -161,7 +168,7 @@ SpanBase.addEvent
   #### 정의 위치
 </div>
 
-[src/genai/spanBase.ts:77](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/spanBase.ts#L77)
+[src/genai/spanBase.ts:82](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L82)
 
 ***
 
@@ -192,7 +199,7 @@ SpanBase.addEvent
   #### 정의 위치
 </div>
 
-[src/genai/tool.ts:87](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L87)
+[src/genai/tool.ts:87](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/tool.ts#L87)
 
 ***
 
@@ -237,7 +244,7 @@ SpanBase.setAttributes
   #### 정의 위치
 </div>
 
-[src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/spanBase.ts#L63)
+[src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L63)
 
 ***
 
@@ -265,4 +272,4 @@ SpanBase.setAttributes
   #### 정의 위치
 </div>
 
-[src/genai/tool.ts:58](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L58)
+[src/genai/tool.ts:58](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/tool.ts#L58)

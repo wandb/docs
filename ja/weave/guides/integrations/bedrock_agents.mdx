@@ -1,0 +1,129 @@
+---
+title: Bedrock Agents
+description: "Weave で Amazon Bedrock Agents の呼び出しをトレースし、エージェントの入力、基盤モデルの使用状況、完了出力を記録します。"
+---
+
+[Amazon Bedrock Agents](https://docs.aws.amazon.com/bedrock/latest/userguide/agents.html) を使用すると、基盤モデル、ナレッジベース、アクショングループをオーケストレーションするマネージド AI エージェントを AWS 上に構築できます。Weave は `bedrock-agent-runtime` クライアントへの Call をトレースするため、基盤モデル、トークン使用量、セッション ID、エージェントの応答を含む各 `invoke_agent` 呼び出しを確認できます。
+
+<Note>
+  Weave TypeScript SDK は現在、Bedrock Agents インテグレーションに対応していません。
+</Note>
+
+<div id="prerequisites">
+  ## 前提条件
+</div>
+
+* W&amp;B APIキー。詳細は、[API keys](/ja/platform/app/settings-page/user-settings#api-keys)を参照してください。
+* Bedrock Agents へのアクセス権があるアカウント用に設定された AWS 認証情報 ([Identity and access management for Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/security-iam.html)を参照してください) 。
+* 既存の Bedrock エージェントとエイリアス。`agentId` と `agentAliasId` を控えておいてください。ご自身の ID に関連付けられているエージェントの一覧は、次の AWS CLI コマンドを実行して確認できます。`<your-region>` は、エージェントが存在するリージョンのスラッグに置き換えてください。
+
+  ```bash
+  aws bedrock-agent list-agents --region us-east-1
+  ```
+
+<div id="installation">
+  ## インストール
+</div>
+
+Weave と AWS SDK for Python をインストールします。
+
+```bash
+pip install weave boto3
+```
+
+<div id="trace-invoke_agent-calls">
+  ## `invoke_agent` Call を トレース する
+</div>
+
+`bedrock-agent-runtime` クライアントを作成し、`patch_client` に渡します。Weave はクライアントのタイプを検出し、`invoke_agent` メソッドをラップします。patch 適用後は、通常どおりクライアントを使用できます。
+
+```python lines highlight="15-17"
+import boto3
+
+import weave
+from weave.integrations.bedrock import patch_client
+
+weave.init("your-team-name/bedrock-agents-demo")
+
+# Bedrock Agents ランタイムクライアントを作成してパッチを適用します。
+bedrock_agent_client = boto3.client("bedrock-agent-runtime", region_name="us-east-1")
+patch_client(bedrock_agent_client)
+
+# エージェントを呼び出します。`enableTrace=True` を設定すると、Weave がオーケストレーション
+# トレースイベントから基盤モデルとトークン使用量を取得できるようになります。
+response = bedrock_agent_client.invoke_agent(
+    agentId="[YOUR-AGENT-ID]",
+    agentAliasId="[YOUR-AGENT-ALIAS-ID]",
+    sessionId="[YOUR-SESSION-ID]",
+    inputText="What is the capital of France?",
+    enableTrace=True,
+)
+
+# ストリーミング補完を読み取り、最終的なレスポンステキストを組み立てます。
+final_text = ""
+for event in response["completion"]:
+    chunk = event.get("chunk")
+    if chunk and "bytes" in chunk:
+        final_text += chunk["bytes"].decode("utf-8")
+
+print(final_text)
+```
+
+各 `invoke_agent` Call は、Weave UI で `BedrockAgentRuntime.invoke_agent` トレースとして表示されます。このトレースには、次の内容が記録されます。
+
+* エージェントへの入力 (`agentId`、`agentAliasId`、`sessionId`、`inputText`) 。
+* completionイベントストリームから抽出された assistant のテキスト。
+* エージェントが使用する基盤モデル (オーケストレーショントレースから抽出) 。
+* エージェントから報告された場合のトークン使用量 (`prompt_tokens`、`completion_tokens`、`total_tokens`) 。
+
+基盤モデルとトークン使用量は `orchestrationTrace` イベントから抽出されます。これは、`invoke_agent` が `enableTrace=True` を指定して呼び出された場合にのみ Bedrock が出力します。このフラグがない場合でも、トレースでは入力と生成された応答テキストは引き続き取得されますが、基盤モデルは `bedrock-agent:<agentId>` にフォールバックし、トークン数は利用できません。
+
+<div id="nest-related-agent-calls-together">
+  ## 関連するエージェントCallをまとめてネストする
+</div>
+
+`invoke_agent` の呼び出しを、前処理、後処理、または連鎖した API 呼び出しなどの関連ロジックとまとめるには、関数を `@weave.op` でラップします。Weave では、パッチを適用した `invoke_agent` のトレースが親 op の内側にネストされます。
+
+```python lines
+@weave.op
+def ask_agent(question: str, session_id: str) -> str:
+    response = bedrock_agent_client.invoke_agent(
+        agentId="[YOUR-AGENT-ID]",
+        agentAliasId="[YOUR-AGENT-ALIAS-ID]",
+        sessionId=session_id,
+        inputText=question,
+        enableTrace=True,
+    )
+    text = ""
+    for event in response["completion"]:
+        chunk = event.get("chunk")
+        if chunk and "bytes" in chunk:
+            text += chunk["bytes"].decode("utf-8")
+    return text
+
+
+answer = ask_agent("Summarize today's open support tickets.", session_id="session-1")
+```
+
+<div id="multi-turn-conversations">
+  ## マルチターン会話
+</div>
+
+Bedrock Agents は、`sessionId` を再利用すると、サービス側で会話の状態を保持します。Weave UI で複数のターンを 1 つのトレースとしてグループ化するには、ターンを `weave.thread` で囲みます。
+
+```python lines
+with weave.thread("support-conversation") as t:
+    for prompt in [
+        "I can't log in to my account.",
+        "I already tried resetting my password.",
+    ]:
+        ask_agent(prompt, session_id=t.thread_id)
+```
+
+Weave では、UI の Threads ビューで、各ターンが個別の行として表示されます。
+
+<div id="view-traces">
+  ## トレースを表示
+</div>
+
+この例を実行すると、Weave が project ダッシュボードへのリンクを表示します。リンクを開くと、各 `invoke_agent` Call のエージェント入力、基盤モデル、トークン使用量、生成されたレスポンスを確認できます。
