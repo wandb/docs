@@ -1,10 +1,8 @@
 ---
-title: Link a prompt to a collection
+title: Link an AI prompt to a collection
 ---
 
-To make a prompt available to your organization, *link* it to a [collection](/models/registry/create_collection) in
-the W&B Registry. Linking moves the version from a [private, project-level scope to a shared, organization-level scope](/models/registry/create_registry#visibility-types).
-
+Track, version, and manage your AI prompts in the W&B Registry by linking them to a collection. *Linking* a prompt to a [collection](/models/registry/create_collection)  moves the version from a [private, project-level scope to a shared, organization-level scope](/models/registry/create_registry#visibility-types).
 
 <Note>
 Before you start, check the following:
@@ -12,8 +10,15 @@ Before you start, check the following:
 * The registry that the collection belongs to already exists. To check that the registry exists, navigate to the [Registry App and search for](/models/registry/search_registry) the name of the registry.
 </Note>
 
+To track and manage your AI prompts, use Weave Python SDK. The Weave Python SDK enables you to create, publish, and link prompt objects to a collection in a registry.
+ 
+The following steps outline how to link a prompt to a collection in a registry:
+
 1. Initialize a Weave client with `weave.init()`.
-2. Create a Weave-friendly prompt object with `weave.StringPrompt()`.
+2. Create a Weave-friendly prompt object with [`weave.StringPrompt()`](/weave/reference/python-sdk#class-stringprompt).
+    <Tip>
+    `weave.StringPrompt` is a built-in prompt class for single-string prompts, such as a system prompt, user prompt, or reusable text template. For more information about creating prompt objects in Weave, and supported prompt types, see [Create prompt objects](/weave/guides/core-types/prompts).
+    </Tip>
 3. Publish the prompt to Weave with [`weave.publish()`](/weave/reference/python-sdk#method-publish).
 4. Link the prompt to a collection in a registry with [`weave_client.link_prompt_to_registry()`](/weave/reference/python-sdk/trace/weave_client#method-link_prompt_to_registry). Pass the destination collection path to the `target_path` parameter. The path consists of the `wandb-registry-` prefix, the registry name, and the collection name:
     ```text
