@@ -691,7 +691,8 @@
                               "weave/guides/integrations/nvidia_nim",
                               "weave/guides/integrations/openai",
                               "weave/guides/integrations/openrouter",
-                              "weave/guides/integrations/together_ai"
+                              "weave/guides/integrations/together_ai",
+                              "weave/guides/integrations/daoxe"
                             ]
                           },
                           {
