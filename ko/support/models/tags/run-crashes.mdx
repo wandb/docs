@@ -1,8 +1,8 @@
 ---
 title: "Run 충돌"
-tag: "10"
+tag: "11"
 generator: "knowledgebase-nav"
-template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
+template: "docengine-site/templates/support_tag.mdx.j2"
 ---
 
 <Card title="`AttributeError: module 'wandb' has no attribute ...`와 같은 오류를 어떻게 해결하나요?" href="/ko/support/models/articles/how-can-i-fix-an-error-like-attributeerr" arrow="true" horizontal>
@@ -43,4 +43,8 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 
 <Card title="로컬에서는 트레이닝이 정상적으로 진행되는데 W&B에서 run이 crashed로 표시되는 이유는 무엇인가요?" href="/ko/support/models/articles/why-is-a-run-marked-crashed-in-wb-when-i" arrow="true" horizontal>
   crashed 상태는 일반적으로 연결 문제를 나타냅니다. 서버가 인터넷 액세스를 잃고 데이터 동기화가 중지되면 W&amp;B ...
+</Card>
+
+<Card title="내 run이 crashed로 표시되는 이유는 무엇인가요?" href="/ko/support/models/articles/why-is-my-run-showing-as-crashed" arrow="true" horizontal>
+  W&amp;B는 wandb.init()를 호출한 프로세스에서 하트비트를 더 이상 받지 못하고, 해당 프로 ...
 </Card>

@@ -1,0 +1,185 @@
+---
+title: "Conversation"
+description: "TypeScript SDK reference"
+---
+
+A Conversation groups Turns under a single `gen_ai.conversation.id`. It is
+not itself an OTel span — children stamp the conversation id onto theirs.
+
+## Table of contents
+
+### Accessors
+
+- [agentName](./conversation#agentname)
+- [attributes](./conversation#attributes)
+- [conversationId](./conversation#conversationid)
+- [model](./conversation#model)
+- [sessionId](./conversation#sessionid)
+
+### Methods
+
+- [end](./conversation#end)
+- [startTurn](./conversation#startturn)
+- [create](./conversation#create)
+
+## Accessors
+
+### agentName
+
+• `get` **agentName**(): `string`
+
+#### Returns
+
+`string`
+
+#### Defined in
+
+[src/genai/conversation.ts:94](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L94)
+
+___
+
+### attributes
+
+• `get` **attributes**(): `Attributes`
+
+#### Returns
+
+`Attributes`
+
+#### Defined in
+
+[src/genai/conversation.ts:106](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L106)
+
+___
+
+### conversationId
+
+• `get` **conversationId**(): `string`
+
+#### Returns
+
+`string`
+
+#### Defined in
+
+[src/genai/conversation.ts:102](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L102)
+
+___
+
+### model
+
+• `get` **model**(): `string`
+
+#### Returns
+
+`string`
+
+#### Defined in
+
+[src/genai/conversation.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L98)
+
+___
+
+### sessionId
+
+<Warning>
+  **Deprecated.** Use [Conversation.conversationId](./conversation#conversationid) instead.
+</Warning>
+
+• `get` **sessionId**(): `string`
+
+#### Returns
+
+`string`
+
+#### Defined in
+
+[src/genai/conversation.ts:111](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L111)
+
+## Methods
+
+### end
+
+▸ **end**(`opts?`): `void`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `opts?` | `SpanEndOptions` |
+
+#### Returns
+
+`void`
+
+#### Defined in
+
+[src/genai/conversation.ts:168](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L168)
+
+___
+
+### startTurn
+
+▸ **startTurn**(`opts?`): [`Turn`](./turn)
+
+Start a new `Turn` under this `Conversation`. The turn inherits the
+conversation's `conversationId`; `agentName`, `agentId`, `agentDescription`,
+`agentVersion` and `model` fall back to the conversation's values when not
+provided on `opts`.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `opts` | [`TurnInit`](../interfaces/turninit) |
+
+#### Returns
+
+[`Turn`](./turn)
+
+`Example`
+
+```ts twoslash
+// @noErrors
+const turn = conversation.startTurn();
+```
+
+`Example`
+
+```ts twoslash
+// @noErrors
+const turn = conversation.startTurn({
+  model: 'gpt-4o',
+  agentName: 'research-bot',
+  agentId: 'research-bot-prod',
+  agentDescription: 'Looks up facts on Wikipedia.',
+  agentVersion: '1.4.2',
+  userMessage: 'What is the weather in Tokyo?',
+  systemInstructions: ['You are a helpful weather bot.'],
+  startTime: new Date('2026-05-29T10:00:00.000Z'),
+});
+```
+
+#### Defined in
+
+[src/genai/conversation.ts:156](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L156)
+
+___
+
+### create
+
+▸ **create**(`opts?`): [`Conversation`](./conversation)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `opts` | [`ConversationInit`](../interfaces/conversationinit) |
+
+#### Returns
+
+[`Conversation`](./conversation)
+
+#### Defined in
+
+[src/genai/conversation.ts:115](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L115)

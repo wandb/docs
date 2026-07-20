@@ -118,12 +118,12 @@ def setup_typescript_project(weave_source):
     try:
         # Install dependencies
         print("  Installing dependencies...")
-        subprocess.run(["npm", "install"], check=True)
-        
+        subprocess.run(["npm", "install", "--legacy-peer-deps"], check=True)
+
         # Install typedoc and markdown plugin with compatible versions
         print("  Installing typedoc...")
         subprocess.run([
-            "npm", "install", "--save-dev",
+            "npm", "install", "--save-dev", "--legacy-peer-deps",
             "typedoc@0.25.13",
             "typedoc-plugin-markdown@3.17.1"
         ], check=True)
@@ -153,7 +153,8 @@ def generate_typedoc(sdk_path, output_path):
         "excludeProtected": True,
         "excludeInternal": True,
         "disableSources": False,
-        "cleanOutputDir": True
+        "cleanOutputDir": True,
+        "hideBreadcrumbs": True
     }
     
     config_path = sdk_path / "typedoc.json"
@@ -187,7 +188,11 @@ def convert_to_mintlify_format(docs_dir):
         # Skip if already has frontmatter
         if content.startswith("---"):
             continue
-        
+
+        # Remove TypeDoc's in-page breadcrumb line. Mintlify manages breadcrumbs already.
+        content = re.sub(r'^\[weave\]\([^)]+\)(?: / [^\n]+)+\n+', '', content, flags=re.MULTILINE)
+        content = re.sub(r'\Aweave(?: / [^\n]+)*\n+', '', content)
+
         # Extract title from content
         title_match = re.search(r'^#\s+(.+)$', content, re.MULTILINE)
         title = title_match.group(1) if title_match else md_file.stem
@@ -198,6 +203,14 @@ def convert_to_mintlify_format(docs_dir):
         
         # Fix escaped angle brackets in title (TypeDoc escapes them as \< and \>)
         title_fixed = title.replace('\\<', '<').replace('\\>', '>')
+
+        # Strip TypeDoc's reflection-kind prefix ("Class: LLM" → "LLM") so the
+        # left nav shows bare symbol names; the nav group already conveys the kind.
+        title_fixed = re.sub(
+            r'^(?:Class|Interface|Function|Type alias|Enumeration|Namespace|Variable|Module):\s+',
+            '',
+            title_fixed,
+        )
         
         # Add Mintlify frontmatter
         frontmatter = f"""---
@@ -300,6 +313,91 @@ description: "TypeScript SDK reference"
         print(f"  ✓ Converted {md_file.name} → {mdx_file.name}")
 
 
+# Matches anchor links that point at the README/landing page in any of the
+# forms TypeDoc + earlier conversion steps leave behind: `](README#X)`,
+# `](./README#X)`, `](readme#X)`, `](./readme#X)`, `](typescript-sdk#X)`,
+# `](./typescript-sdk#X)`.
+_LANDING_ANCHOR_LINK_RE = re.compile(
+    r'\]\((?:\./)?(?:readme|README|typescript-sdk)#([A-Za-z][A-Za-z0-9-]*)\)'
+)
+
+
+_HEADING_KIND_RE = re.compile(r'^### ([A-Za-z][A-Za-z0-9]*)\n\n(\S)', re.MULTILINE)
+
+
+def _build_landing_anchor_map(landing_content):
+    """Walk every `### Name` heading on the consolidated README/landing page
+    and return a dict mapping each heading's original anchor slug (with the
+    `-N` disambiguator TypeDoc uses for duplicates) to a (kind, segment)
+    tuple, where kind is 'function' | 'type-alias' | 'other'.
+
+    For headings that will be extracted (functions, type aliases), `segment`
+    is the lowercased base name — that's the extracted file's stem. For
+    headings that survive on the landing page, `segment` is the
+    **post-extraction** slug: once same-base function/type-alias siblings
+    are pulled out, the surviving 'other' heading collapses back to the
+    plain base slug. That's why `[X](./readme#session-1)`, where `session`
+    is the extracted type alias and `session-1` is the surviving Variable,
+    must resolve to `#session`, not `#session-1`.
+    """
+    heads = []
+    orig_counter = {}
+    for m in _HEADING_KIND_RE.finditer(landing_content):
+        name = m.group(1)
+        first = m.group(2)
+        if first == '▸':
+            kind = 'function'
+        elif first == 'Ƭ':
+            kind = 'type-alias'
+        else:
+            kind = 'other'
+        base = name.lower()
+        n = orig_counter.get(base, 0)
+        orig_slug = base if n == 0 else f'{base}-{n}'
+        orig_counter[base] = n + 1
+        heads.append((base, kind, orig_slug))
+
+    target_by_slug = {}
+    post_counter = {}
+    for base, kind, orig_slug in heads:
+        if kind in ('function', 'type-alias'):
+            target_by_slug[orig_slug] = (kind, base)
+        else:
+            n = post_counter.get(base, 0)
+            post_slug = base if n == 0 else f'{base}-{n}'
+            post_counter[base] = n + 1
+            target_by_slug[orig_slug] = ('other', post_slug)
+    return target_by_slug
+
+
+def _make_landing_anchor_resolver(target_by_slug, functions_prefix,
+                                   type_aliases_prefix, fallback_prefix):
+    """Return a `re.sub` callback that rewrites a landing-page anchor link
+    (e.g. `](README#getCurrentConversation)`) to the right cross-file or
+    in-page link.
+
+    Pre-0.53.0 the extractor could assume every README anchor target was a
+    type alias. v0.53.0 added Conversation-replacement *functions* and a
+    backwards-compat `Session` Variable export — so we now consult the
+    pre-built kind map and route accordingly. Unknown anchors are left
+    untouched so the broken-link checker surfaces them rather than having
+    us silently route them to a wrong path.
+    """
+    def resolve(match):
+        anchor = match.group(1).lower()
+        info = target_by_slug.get(anchor)
+        if info is None:
+            return match.group(0)
+        kind, segment = info
+        if kind == 'function':
+            return f']({functions_prefix}{segment})'
+        if kind == 'type-alias':
+            return f']({type_aliases_prefix}{segment})'
+        return f']({fallback_prefix}{segment})'
+
+    return resolve
+
+
 def extract_members_to_separate_files(docs_path):
     """Extract function and type-alias documentation from typescript-sdk.mdx landing page to separate files."""
     # Check for the landing page
@@ -311,17 +409,41 @@ def extract_members_to_separate_files(docs_path):
         index_file = docs_path / "index.mdx"
         if not index_file.exists():
             return
-    
+
     content = index_file.read_text()
-    
+
     # Check if we need to extract anything
     has_functions = "### Functions" in content
     has_type_aliases = "### Type Aliases" in content or "### Type aliases" in content
-    
+
     if not has_functions and not has_type_aliases:
         return
-    
+
     print("  Extracting consolidated members to separate files...")
+
+    # Pre-scan once so the per-file extraction loops and the post-extraction
+    # landing-page rewrite below can all disambiguate README anchor links
+    # against the same set of symbol kinds (and post-extraction slugs).
+    landing_anchor_map = _build_landing_anchor_map(content)
+
+    resolver_for_function_pages = _make_landing_anchor_resolver(
+        landing_anchor_map,
+        functions_prefix='./',
+        type_aliases_prefix='../type-aliases/',
+        fallback_prefix='../typescript-sdk#',
+    )
+    resolver_for_type_alias_pages = _make_landing_anchor_resolver(
+        landing_anchor_map,
+        functions_prefix='../functions/',
+        type_aliases_prefix='./',
+        fallback_prefix='../typescript-sdk#',
+    )
+    resolver_for_landing_page = _make_landing_anchor_resolver(
+        landing_anchor_map,
+        functions_prefix='./typescript-sdk/functions/',
+        type_aliases_prefix='./typescript-sdk/type-aliases/',
+        fallback_prefix='#',
+    )
     
     # Extract functions
     if has_functions:
@@ -348,14 +470,11 @@ def extract_members_to_separate_files(docs_path):
             func_content = func_content.replace('./typescript-sdk/interfaces/', '../interfaces/')
             func_content = func_content.replace('./typescript-sdk/type-aliases/', '../type-aliases/')
             func_content = func_content.replace('./typescript-sdk/functions/', './')
-            
-            # Fix anchor links to readme/landing page
-            # Links like (./readme#anchor) need to point to type-aliases (which is where they're extracted to)
-            func_content = re.sub(r'\]\(\./readme#([^)]+)\)', r'](../type-aliases/\1)', func_content)
-            func_content = re.sub(r'\]\(readme#([^)]+)\)', r'](../type-aliases/\1)', func_content)
-            
-            # Fix TypeDoc-generated anchor links like (typescript-sdk#op) -> (../type-aliases/op)
-            func_content = re.sub(r'\]\(typescript-sdk#([^)]+)\)', r'](../type-aliases/\1)', func_content)
+
+            # Rewrite anchor links to README/landing-page headings based on
+            # what each anchor actually refers to (function, type alias, or
+            # surviving landing-page symbol).
+            func_content = _LANDING_ANCHOR_LINK_RE.sub(resolver_for_function_pages, func_content)
             
             # Create the function file content
             func_title = func_name
@@ -416,14 +535,11 @@ description: "TypeScript SDK reference"
             alias_content = alias_content.replace('./typescript-sdk/interfaces/', '../interfaces/')
             alias_content = alias_content.replace('./typescript-sdk/functions/', '../functions/')
             alias_content = alias_content.replace('./typescript-sdk/type-aliases/', './')
-            
-            # Fix anchor links to readme/landing page
-            # Links like (./readme#anchor) stay within type-aliases (self-referential)
-            alias_content = re.sub(r'\]\(\./readme#([^)]+)\)', lambda m: f'](./{m.group(1).lower()})', alias_content)
-            alias_content = re.sub(r'\]\(readme#([^)]+)\)', lambda m: f'](./{m.group(1).lower()})', alias_content)
-            
-            # Fix TypeDoc-generated anchor links like (typescript-sdk#op) -> (./op)
-            alias_content = re.sub(r'\]\(typescript-sdk#([^)]+)\)', lambda m: f'](./{m.group(1).lower()})', alias_content)
+
+            # Same disambiguating rewrite as for function pages — except a
+            # same-kind reference here means another type alias (sibling
+            # file), and a different-kind reference is a function.
+            alias_content = _LANDING_ANCHOR_LINK_RE.sub(resolver_for_type_alias_pages, alias_content)
                 
             # Create the type alias file content
             alias_file_content = f"""---
@@ -457,6 +573,16 @@ description: "TypeScript SDK reference"
                     flags=re.DOTALL
                 )
     
+    # Rewrite any remaining README/landing-page anchor links on the landing
+    # page itself. The earlier `fix_readme_anchor` pass in
+    # convert_to_mintlify_format only catches uppercase `](README#X)`, but
+    # the general lowercasing rule rewrites those to `](./readme#X)` before
+    # it runs — so links like `[Session](./readme#session-1)` survive until
+    # here. Using the post-extraction symbol-kind sets also lets us route
+    # surviving landing-page headings (e.g. backwards-compat Variables) to
+    # an in-page anchor rather than a non-existent extracted file.
+    content = _LANDING_ANCHOR_LINK_RE.sub(resolver_for_landing_page, content)
+
     # Write updated content back
     index_file.write_text(content)
     if index_file.name == "typescript-sdk.mdx":
@@ -503,8 +629,95 @@ def organize_for_mintlify(temp_output, final_output):
     
     # Extract functions and type aliases to separate files if they're consolidated
     extract_members_to_separate_files(final_path)
-    
+
+    # Promote `@deprecated` JSDoc tags into prominent Mintlify <Warning>
+    # callouts hoisted under each symbol's heading. Must run AFTER extraction
+    # so the `### name\n\n▸` pattern that extraction relies on is still intact.
+    hoist_deprecation_callouts(final_path)
+
     print("  ✓ Documentation organized")
+
+
+# Matches TypeDoc's @deprecated output:
+#   `Deprecated`
+#
+#   <message paragraph, possibly multiline>
+#
+# Stops at the next heading or `___` separator (or end of file). The non-greedy
+# `.+?` plus the lookahead lets the message itself span multiple soft-wrapped
+# lines without swallowing the section that follows it.
+_DEPRECATED_BLOCK_RE = re.compile(
+    r'\n\n`Deprecated`\n\n(.+?)(?=\n\n(?:#{1,6} |___|\Z))',
+    re.DOTALL,
+)
+
+# Symbol-level headings only. H4 (`#### Returns`, `#### Defined in`) is a
+# *sub*section of a symbol and is deliberately excluded — anchoring the
+# warning there would put it back where TypeDoc already placed it.
+_SYMBOL_HEADING_RE = re.compile(r'^#{1,3} .+$', re.MULTILINE)
+
+
+def hoist_deprecation_callouts(docs_root):
+    """Convert inline `Deprecated` markers into hoisted Mintlify <Warning>s.
+
+    TypeDoc renders `@deprecated` as a plain inline label after the Returns
+    block, which is easy to overlook. For each `Deprecated` marker we:
+      1. Replace it with a Mintlify <Warning> callout for visual weight.
+      2. Move it directly under the nearest preceding symbol heading
+         (H1-H3) so it's the first thing a reader sees for that symbol.
+    """
+    docs_root = Path(docs_root)
+    targets = list(docs_root.rglob("*.mdx"))
+    landing = docs_root.parent / "typescript-sdk.mdx"
+    if landing.exists():
+        targets.append(landing)
+
+    updated = 0
+    for mdx_file in targets:
+        original = mdx_file.read_text()
+        new_content = _hoist_deprecations_in_text(original)
+        if new_content != original:
+            mdx_file.write_text(new_content)
+            updated += 1
+
+    if updated:
+        print(f"  ✓ Hoisted deprecation callouts in {updated} file(s)")
+
+
+def _hoist_deprecations_in_text(content):
+    deprecations = list(_DEPRECATED_BLOCK_RE.finditer(content))
+    if not deprecations:
+        return content
+
+    headings = list(_SYMBOL_HEADING_RE.finditer(content))
+
+    edits = []
+    inserts_by_pos = {}
+
+    for dep in deprecations:
+        message = dep.group(1).strip()
+        warning = f'\n\n<Warning>\n  **Deprecated.** {message}\n</Warning>'
+
+        anchor = 0
+        for h in headings:
+            if h.start() < dep.start():
+                anchor = h.end()
+            else:
+                break
+
+        edits.append((dep.start(), dep.end(), ''))
+        inserts_by_pos.setdefault(anchor, []).append(warning)
+
+    for pos, warns in inserts_by_pos.items():
+        edits.append((pos, pos, ''.join(warns)))
+
+    # Reverse-order application keeps earlier offsets valid.
+    edits.sort(key=lambda e: (e[0], e[1]), reverse=True)
+
+    for start, end, replacement in edits:
+        content = content[:start] + replacement + content[end:]
+
+    return content
 
 
 def cleanup_temp_dirs(*paths):

@@ -1,71 +1,55 @@
 ---
-description: W&B에서 사용할 수 있는 키보드 단축키를 알아보세요.
+description: W&B에서 사용 가능한 키보드 단축키를 알아보세요.
 title: 키보드 단축키
-keywords: ["단축키", "LEET", "빠른 검색", "실행 취소 다시 실행", "패널 내비게이션"]
+keywords: ["단축키", "LEET", "빠른 검색", "실행 취소/다시 실행", "키보드 단축키"]
 ---
 
-W&amp;B는 키보드 단축키를 지원하여 Experiments, 워크스페이스, 데이터를 더 효율적으로 탐색하고 상호작용할 수 있도록 돕습니다. 이 가이드는 W&amp;B App과 W&amp;B LEET(Lightweight Experiment Exploration Tool) 터미널 UI의 키보드 단축키를 설명합니다.
+import LEETShortcuts from "/snippets/ko/_includes/leet-keyboard-shortcuts.mdx";
+
+W&amp;B는 키보드 단축키를 지원하여 Experiments, Workspace, 데이터 전반을 더 효율적으로 탐색하고 상호작용할 수 있도록 돕습니다. 이 가이드에서는 W&amp;B App과 W&amp;B LEET (Lightweight Experiment Exploration Tool) 터미널 UI의 키보드 단축키를 설명합니다.
 
 <Tabs>
   <Tab title="App">
-    다음 표에는 W&amp;B App에서 사용할 수 있는 키보드 단축키가 적용 위치별로 그룹화되어 나와 있습니다.
+    W&amp;B App에는 현재 컨텍스트에서 사용 가능한 모든 단축키를 나열하는 키보드 단축키 드로어가 있습니다. **Cmd+/** (macOS) 또는 **Ctrl+/** (Windows/Linux)로 열거나, 상단 내비게이션의 **?** (도움말) 메뉴에서 **Keyboard shortcuts**를 선택하세요. 드로어의 검색 필드를 사용해 이름으로 단축키를 필터링할 수 있습니다.
 
-    ## 워크스페이스 관리
+    **Workspace** 및 **Media browser modal** 섹션은 컨텍스트에 따라 달라지며, 해당 영역이 활성화된 경우에만 표시됩니다.
 
-    | Shortcut                                             | Description                            |
-    | ---------------------------------------------------- | -------------------------------------- |
-    | **Cmd+Z** (macOS) / **Ctrl+Z** (Windows/Linux)       | 워크스페이스나 패널 수정 등 UI에서 변경한 내용을 실행 취소합니다. |
-    | **Cmd+Shift+Z** (macOS) / **Ctrl+Y** (Windows/Linux) | 워크스페이스에서 이전에 실행 취소한 변경 사항을 다시 적용합니다.   |
+    ## 필수
 
-    ## 내비게이션
+    | 단축키                                            | 설명                           |
+    | ---------------------------------------------- | ---------------------------- |
+    | **Cmd+/** (macOS) / **Ctrl+/** (Windows/Linux) | 키보드 단축키 드로어를 엽니다.            |
+    | **Cmd+K** (macOS) / **Ctrl+K** (Windows/Linux) | 전역 검색 대화상자를 엽니다.             |
+    | **Alt+M**                                      | 밝은 앱 테마와 어두운 앱 테마 사이를 전환합니다. |
 
-    | Shortcut                                       | Description                                                                             |
-    | ---------------------------------------------- | --------------------------------------------------------------------------------------- |
-    | **Tab**                                        | 대화형 요소 사이를 이동합니다.                                                                       |
-    | **Cmd+J** (macOS) / **Ctrl+J** (Windows/Linux) | 프로젝트 사이드바에서 Workspaces 탭과 Runs 탭 사이를 전환합니다.                                             |
-    | **Cmd+.** (macOS) / **Ctrl+.** (Windows/Linux) | 화면 공간을 확보할 수 있도록 Runs 선택기 사이드바를 최소화하거나 복원합니다.                                           |
-    | **Cmd+K** (macOS) / **Ctrl+K** (Windows/Linux) | 빠른 검색 대화상자를 열어 프로젝트, Runs 및 기타 리소스를 검색합니다.                                              |
-    | **Esc**                                        | W&amp;B App 전반에서 전체 화면 패널 뷰를 종료하고, 설정 드로어를 닫고, 빠른 검색 대화상자를 닫고, 편집기를 닫거나, 기타 오버레이를 닫습니다. |
+    ## Workspace
 
-    ## 패널 내비게이션
+    | 단축키                                                        | 설명                                    |
+    | ---------------------------------------------------------- | ------------------------------------- |
+    | **Cmd+Z** (macOS) / **Ctrl+Z** (Windows/Linux)             | 가장 최근의 Workspace 액션을 실행 취소합니다.        |
+    | **Cmd+Shift+Z** (macOS) / **Ctrl+Shift+Z** (Windows/Linux) | 가장 최근에 실행 취소한 Workspace 액션을 다시 실행합니다. |
+    | **Cmd+S** (macOS) / **Ctrl+S** (Windows/Linux)             | 현재 Workspace를 저장합니다.                  |
+    | **Cmd+J** (macOS) / **Ctrl+J** (Windows/Linux)             | Runs 사이드바를 펼치거나 접습니다.                 |
+    | **Cmd+.** (macOS) / **Ctrl+.** (Windows/Linux)             | 최소화된 run 선택기를 표시하거나 숨깁니다.             |
+    | **Alt+V**                                                  | 현재 패널에 시각화된 Runs만 표시합니다.              |
 
-    | Shortcut                                                                                                 | Description                              |
-    | -------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
-    | **Left Arrow / Right Arrow**                                                                             | 전체 화면 모드에서 섹션 내 패널 사이를 이동합니다.            |
-    | **Esc**                                                                                                  | 전체 화면 패널 뷰를 종료하고 워크스페이스로 돌아갑니다.          |
-    | **Cmd+Left Arrow / Cmd+Right Arrow** (macOS)<br />**Ctrl+Left Arrow / Ctrl+Right Arrow** (Windows/Linux) | 전체 화면 모드에서 미디어 패널을 볼 때 step 슬라이더를 이동합니다. |
+    ## Media browser modal
 
-    ## 미디어 패널
+    이 단축키는 전체 화면 모달에서 미디어를 보고 있을 때 사용할 수 있습니다.
 
-    | Shortcut                                                  | Description                                                                |
-    | --------------------------------------------------------- | -------------------------------------------------------------------------- |
-    | **Cmd + +/-** (macOS)<br />**Ctrl + +/-** (Windows/Linux) | 전체 화면에서 이미지를 볼 때 확대하거나 축소합니다.<br />확대한 상태에서는 클릭한 채로 드래그하여 이미지를 이동할 수 있습니다. |
-    | **Cmd + 0** (macOS)<br />**Ctrl + 0** (Windows/Linux)     | 전체 화면에서 이미지를 볼 때 확대 수준을 100%로 재설정합니다.                                      |
-    | **Shift + L**                                             | 전체 화면에서 이미지를 볼 때 화면에 맞게 표시합니다.                                             |
-    | **Click**                                                 | 비디오 패널에서 키보드로 앞으로 또는 뒤로 건너뛰기 전에 비디오를 선택합니다.                                |
-    | **Left Arrow / Right Arrow**                              | 비디오 패널에서 설정된 **video seek step**만큼 앞으로 또는 뒤로 건너뜁니다.                        |
-
-    ## Reports
-
-    | Shortcut               | Description                                  |
-    | ---------------------- | -------------------------------------------- |
-    | **Delete / Backspace** | Reports에서 선택한 패널 그리드를 제거합니다.                 |
-    | **Enter**              | Reports에서 `/mark`를 입력한 후 Markdown 블록을 삽입합니다. |
-    | **Esc**                | Reports 편집기를 종료합니다.                          |
-    | **Tab**                | Reports에서 대화형 요소 사이를 이동합니다.                  |
-
-    ## 참고
-
-    W&amp;B App에서 키보드 단축키를 사용할 때는 다음 사항을 염두에 두세요.
-
-    * 대부분의 키보드 단축키는 macOS에서는 **Cmd**, Windows/Linux에서는 **Ctrl**를 사용합니다.
-    * W&amp;B App은 일부 브라우저 기본 단축키를 맞춤형으로 처리합니다.
-    * 일부 단축키는 컨텍스트에 따라 달라지며 앱의 특정 영역에서만 작동합니다.
+    | 단축키                                            | 설명                   |
+    | ---------------------------------------------- | -------------------- |
+    | **Cmd++** (macOS) / **Ctrl++** (Windows/Linux) | 확대합니다.               |
+    | **Cmd+-** (macOS) / **Ctrl+-** (Windows/Linux) | 축소합니다.               |
+    | **Cmd+0** (macOS) / **Ctrl+0** (Windows/Linux) | 확대/축소를 100%로 재설정합니다. |
+    | **Shift+1**                                    | 뷰포트에 맞게 확대/축소합니다.    |
   </Tab>
 
   <Tab title="LEET">
-    다음 키보드 단축키는 명령줄을 벗어나지 않고도 Experiments를 탐색할 수 있게 해주는 W&amp;B LEET(Lightweight Experiment Exploration Tool) 터미널 UI에서 사용할 수 있습니다. LEET를 시작하려면 터미널에서 `wandb beta leet`를 실행하세요. 자세한 내용은 [`wandb beta leet`](/ko/models/ref/cli/wandb-beta/wandb-beta-leet/)를 참조하세요.
+    이 키보드 단축키는 W&amp;B LEET (Lightweight Experiment Exploration Tool) 터미널 UI에서 작동합니다. LEET를 시작하려면 터미널에서 `wandb beta leet`를 실행하세요.
 
-    {/* <LEETShortcuts /> */}
+    LEET에서 `h` 또는 `?`를 눌러 현재 뷰의 앱 내 도움말 오버레이를 여세요. 제품 개요와 실행 방법은 [LEET 터미널 UI](/ko/models/app/leet-tui)를 참조하세요.
+
+    <LEETShortcuts />
   </Tab>
 </Tabs>

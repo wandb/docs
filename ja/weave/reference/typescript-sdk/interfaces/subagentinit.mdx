@@ -1,9 +1,17 @@
 ---
-title: "インターフェイス: SubAgentInit"
+title: "SubAgentInit"
 description: "TypeScript SDK リファレンス"
 ---
 
 [weave](../) / SubAgentInit
+
+<div id="hierarchy">
+  ## 階層
+</div>
+
+* `SpanInitBase`
+
+  ↳ `SubAgentInit`
 
 <div id="table-of-contents">
   ## 目次
@@ -13,10 +21,57 @@ description: "TypeScript SDK リファレンス"
   ### プロパティ
 </div>
 
+* [agentDescription](./subagentinit#agentdescription)
+* [agentId](./subagentinit#agentid)
+* [agentVersion](./subagentinit#agentversion)
 * [model](./subagentinit#model)
 * [name](./subagentinit#name)
+* [startTime](./subagentinit#starttime)
+* [systemInstructions](./subagentinit#systeminstructions)
 
 ## プロパティ
+
+<div id="agentdescription">
+  ### agentDescription
+</div>
+
+• `Optional` **agentDescription**: `string`
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/subagent.ts:24](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L24)
+
+***
+
+<div id="agentid">
+  ### agentId
+</div>
+
+• `Optional` **agentId**: `string`
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/subagent.ts:23](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L23)
+
+***
+
+<div id="agentversion">
+  ### agentVersion
+</div>
+
+• `Optional` **agentVersion**: `string`
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/subagent.ts:25](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L25)
+
+***
 
 <div id="model">
   ### model
@@ -28,7 +83,7 @@ description: "TypeScript SDK リファレンス"
   #### 定義元
 </div>
 
-[genai/subagent.ts:15](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/subagent.ts#L15)
+[src/genai/subagent.ts:21](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L21)
 
 ***
 
@@ -42,4 +97,38 @@ description: "TypeScript SDK リファレンス"
   #### 定義元
 </div>
 
-[genai/subagent.ts:14](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/subagent.ts#L14)
+[src/genai/subagent.ts:20](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L20)
+
+***
+
+<div id="starttime">
+  ### startTime
+</div>
+
+• `Optional` **startTime**: `TimeInput`
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+SpanInitBase.startTime
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/spanBase.ts:17](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L17)
+
+***
+
+<div id="systeminstructions">
+  ### systemInstructions
+</div>
+
+• `Optional` **systemInstructions**: `string`[]
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/subagent.ts:22](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L22)

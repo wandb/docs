@@ -7,7 +7,7 @@ description: "TypeScript SDK リファレンス"
   # OpDecorator
 </div>
 
-Ƭ **OpDecorator**&lt;`T`&gt;: (`value`: `T`, `context`: `ClassMethodDecoratorContext`) =&gt; `T` | `void` &amp; (`target`: `Object`, `propertyKey`: `string` | `symbol`, `descriptor`: `TypedPropertyDescriptor`&lt;`T`&gt;) =&gt; `TypedPropertyDescriptor`&lt;`T`&gt; | `void`
+Ƭ **OpDecorator**&lt;`T`&gt;: (`value`: `T`, `context`: `ClassMethodDecoratorContext`) =&gt; `T` | `void` &amp; (`target`: `object`, `propertyKey`: `string` | `symbol`, `descriptor`: `TypedPropertyDescriptor`&lt;`T`&gt;) =&gt; `TypedPropertyDescriptor`&lt;`T`&gt; | `void`
 
 デコレータ用のヘルパータイプです。
 これは、従来のデコレータと Stage 3 デコレータの両方で使用できるデコレータ関数を表します。
@@ -17,7 +17,7 @@ target: デコレート対象の関数 (T)
 context: MethodDecoratorContext
 
 従来のデコレータの場合:
-target: プロトタイプ (インスタンスmethod) またはコンストラクタ (static method) 
+target: プロトタイプ (インスタンスmethod) またはコンストラクタ (static method)
 propertyKey: method名
 descriptor: method を含むプロパティディスクリプタ
 
@@ -33,6 +33,6 @@ descriptor: method を含むプロパティディスクリプタ
   #### 定義箇所
 </div>
 
-[opType.ts:41](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/opType.ts#L41)
+[src/opType.ts:41](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/opType.ts#L41)
 
 ***

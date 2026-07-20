@@ -1,0 +1,15 @@
+---
+title: Agents ビューでトレースを表示
+---
+
+<div id="see-your-agent-traces-in-the-agents-view">
+  ### Agents ビューでエージェントのトレースを確認する
+</div>
+
+スクリプトの実行後、`weave.init()` によって project へのリンクが出力されます。**Agents** ビューを開くと、次の内容を確認できます。
+
+* 会話のターンを含むセッション。
+* 各ターンは `invoke_agent` span として表示され、その子要素として `chat` と `execute_tool` がネストされています。
+* 各ステップでの入力全体、モデル、出力、トークン使用量、ツールの実行結果。
+
+Weave で Agents データを表示する方法の詳細については、[エージェントのアクティビティを表示する](/ja/weave/guides/tracking/view-agent-activity)を参照してください。

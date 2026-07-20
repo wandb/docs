@@ -291,43 +291,25 @@ Suivez la procédure ci-dessous lorsque vous souhaitez supprimer de votre projet
   ### Ajouter une nouvelle trace d’agent à un dataset
 </div>
 
-Pour ajouter des traces d’agent, comme des sessions, des tours de conversation et des appels d’outil, à un `Dataset` :
-
-1. Accédez à [wandb.ai](http://wandb.ai) et sélectionnez votre projet.
-
-2. Dans la barre latérale du projet Weave, cliquez sur **Agents**.
-
-3. Dans la barre d’onglets supérieure, cliquez sur **Conversations**.
-
-4. Dans le tableau **Conversations**, sélectionnez une ligne de conversation pour afficher le panneau latéral des détails de la conversation. Ce panneau comporte un en-tête avec le nom de l’agent et un UUID.
-
-5. Dans l’en-tête du panneau latéral des détails de la conversation, cliquez sur l’icône de tableau à droite pour ouvrir le volet latéral **Add example to dataset**.
-
-   ![En-tête du panneau des détails de la conversation de l’agent montrant l’icône de tableau pour ajouter des éléments à un dataset.](/weave/guides/core-types/imgs/agent-conversation-details-header-add-dataset.png)
-
-6. Dans **Choisir un dataset**, utilisez la liste déroulante pour choisir le dataset auquel vous souhaitez ajouter des traces.
-
-7. Dans **Select context**, sélectionnez les messages à ajouter au dataset. Cliquez sur **Next**.
-
-8. Vérifiez vos sélections, puis cliquez sur **Add to dataset**.
+Pour ajouter des tours de conversation d’agent et des Appels d’outil à un `Dataset`, voir [Ajouter des messages d’agent à un dataset](/fr/weave/guides/tracking/view-agent-activity#add-agent-messages-to-a-dataset).
 
 <div id="add-a-new-trace-to-a-dataset">
   ### Ajouter une nouvelle trace à un dataset
 </div>
 
-Pour ajouter à un `Dataset` des traces générées à partir d’opérations et d’appels :
+Pour ajouter à un `Dataset` des traces générées à partir d’opérations et d’Appels (à l’aide du décorateur `@weave.op`) :
 
 1. Accédez au projet Weave que vous souhaitez modifier.
 
 2. Dans la barre latérale, sélectionnez **Traces**.
 
-3. Sélectionnez un ou plusieurs appels avec `Datasets` pour lesquels vous souhaitez créer de nouveaux exemples.
+3. Sélectionnez un ou plusieurs Appels avec `Datasets` pour lesquels vous souhaitez créer de nouveaux exemples.
 
 4. Dans le menu en haut à droite, cliquez sur l’icône **Ajouter les lignes sélectionnées à un dataset** (située à côté de l’icône de corbeille). Si vous le souhaitez, désactivez **Show latest versions** pour afficher toutes les versions de tous les jeux de données disponibles.
 
 5. Dans le menu déroulant **Choisir un dataset**, sélectionnez le `Dataset` auquel vous souhaitez ajouter des exemples. Les options **Configure field mapping** s’affichent.
 
-6. Facultatif : dans **Configure field mapping**, vous pouvez ajuster le mappage des champs de vos appels vers les colonnes correspondantes du jeu de données.
+6. Facultatif : dans **Configure field mapping**, vous pouvez ajuster le mappage des champs de vos Appels vers les colonnes correspondantes du jeu de données.
 
 7. Une fois le mappage des champs configuré, cliquez sur **Next**. Un aperçu de votre nouveau `Dataset` s’affiche.
 

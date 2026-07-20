@@ -1,8 +1,8 @@
 ---
 title: "Experiments"
-tag: "39"
+tag: "51"
 generator: "knowledgebase-nav"
-template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
+template: "docengine-site/templates/support_tag.mdx.j2"
 ---
 
 <Card title="W&B는 `multiprocessing` 라이브러리를 사용하나요?" href="/ko/support/models/articles/does-wb-use-the-multiprocessing-library" arrow="true" horizontal>
@@ -18,7 +18,7 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 </Card>
 
 <Card title="내 Runs에 로깅된 데이터에 직접 프로그래밍 방식으로 액세스하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-can-i-access-the-data-logged-to-my-r" arrow="true" horizontal>
-  history 객체는 wandb.log로 로깅된 메트릭을 추적합니다. history 객체에 액세스하려면 API를 사용하세요:
+  이력 객체는 wandb.log로 로깅된 메트릭을 추적합니다. 이력 객체에 액세스하려면 API를 사용하세요:
 </Card>
 
 <Card title="에포크 또는 step 전반에서 이미지나 미디어를 비교하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-can-i-compare-images-or-media-across" arrow="true" horizontal>
@@ -61,16 +61,28 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
   현재 run을 저장하려면 run object의 .save() 메서드를 호출하세요. 이름은 run object의 name attribute를 사용해 조회하세요.
 </Card>
 
-<Card title="하나의 스크립트에서 여러 run을 Launch하려면 어떻게 하나요?" href="/ko/support/models/articles/how-do-i-launch-multiple-runs-from-one-s" arrow="true" horizontal>
-  하나의 스크립트에서 여러 run을 로깅하려면, 새 run을 시작하기 전에 이전 run을 각각 종료해야 합니다. 다음 ...
+<Card title="하나의 스크립트에서 여러 Runs을 Launch하려면 어떻게 하나요?" href="/ko/support/models/articles/how-do-i-launch-multiple-runs-from-one-s" arrow="true" horizontal>
+  하나의 스크립트에서 여러 Runs을 로깅하려면, 새 run을 시작하기 전에 이전 run을 각각 종료해야 합니다. 다음 ...
+</Card>
+
+<Card title="W&B에서 NLP 메트릭과 텍스트 출력을 로깅하려면 어떻게 하나요?" href="/ko/support/models/articles/how-do-i-log-nlp-metrics-and-text-outputs-in-wandb" arrow="true" horizontal>
+  wandb.log()로 코퍼스 수준의 NLP 점수(BLEU, ROUGE, perplexity)를 로깅하고, wandb.Table로 예시별 출력을 로깅할 수 있습니다. ...
 </Card>
 
 <Card title="값 목록을 로깅하려면 어떻게 하나요?" href="/ko/support/models/articles/how-do-i-log-a-list-of-values" arrow="true" horizontal>
   `wandb.Run.log()`를 사용해 step별 loss와 같은 값 목록을 로깅할 수 있습니다. 다음 예시는 일반적인 두 가지 방법을 보여줍 ...
 </Card>
 
+<Card title="wandb.watch()로 그라디언트와 모델 가중치를 로깅하려면 어떻게 하나요?" href="/ko/support/models/articles/how-do-i-log-gradients-and-model-weights-with-wandb-watch" arrow="true" horizontal>
+  wandb.watch()는 PyTorch 모델의 파라미터와 그라디언트에 훅을 걸고, 일정한 간격으로 해당 값의 히스토그램을 로깅합 ...
+</Card>
+
 <Card title="서로 다른 두 시간 스케일에서 메트릭을 로깅하려면 어떻게 하나요?" href="/ko/support/models/articles/how-do-i-log-metrics-on-two-time-scales" arrow="true" horizontal>
   서로 다른 두 시간 스케일에서 메트릭을 로깅하려면, 메트릭과 함께 batch 및 에포크 같은 인덱스도 로깅하세요. 예를 들어, 다 ...
+</Card>
+
+<Card title="W&B에서 큰 API 결과를 페이지 단위로 조회하려면 어떻게 하나요?" href="/ko/support/models/articles/how-do-i-paginate-through-large-api-results-in-wandb" arrow="true" horizontal>
+  표준 lazy-iterator 패턴과 per&#95;page 파라미터를 사용해 API 결과를 페이지 단위로 조회할 수 있습니다. 또한 u ...
 </Card>
 
 <Card title="범례가 있는 플롯에 여러 선을 그리려면 어떻게 하나요?" href="/ko/support/models/articles/how-do-i-plot-multiple-lines-on-a-plot-w" arrow="true" horizontal>
@@ -87,6 +99,26 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 
 <Card title="run 이름을 Run ID로 설정하려면 어떻게 하나요?" href="/ko/support/models/articles/how-do-i-set-the-run-name-to-the-run-id" arrow="true" horizontal>
   run 이름을 Run ID로 덮어쓰려면 다음 코드 스니펫을 사용하세요:
+</Card>
+
+<Card title="W&B Alerts 및 알림을 설정하려면 어떻게 하나요?" href="/ko/support/models/articles/how-do-i-set-up-wandb-alerts-and-notifications" arrow="true" horizontal>
+  W&amp;B Settings 페이지에서 alerts 및 알림을 설정할 수 있습니다. W&amp;B는 User Settings에서 자동 alerts를 지원합 ...
+</Card>
+
+<Card title="W&B API를 통해 run 설정, tags 및 notes를 업데이트하려면 어떻게 하나요?" href="/ko/support/models/articles/how-do-i-update-run-config-tags-and-notes-via-the-wandb-api" arrow="true" horizontal>
+  run이 종료된 후에는 Public API 가이드를 사용해 실험을 다시 실행하지 않고도 설정, 표시 이름, tags 및 notes를 편집할 수 있습 ...
+</Card>
+
+<Card title="JAX와 함께 W&B를 사용하려면 어떻게 하나요?" href="/ko/support/models/articles/how-do-i-use-wandb-with-jax" arrow="true" horizontal>
+  W&amp;B에는 JAX 전용 인테그레이션이 없습니다. 하지만 JAX device arrays를 Python 스칼라로 변환한 다음 wandb.log ...
+</Card>
+
+<Card title="W&B에서 병렬 좌표 차트를 사용하려면 어떻게 하나요?" href="/ko/support/models/articles/how-do-i-use-the-parallel-coordinates-chart-in-wandb" arrow="true" horizontal>
+  병렬 좌표 차트는 여러 Runs 전반에서 하이퍼파라미터가 메트릭과 어떤 관계가 있는지 보여줍니다. 각 선은 하나의 run이며, 각 ...
+</Card>
+
+<Card title="SLURM에서 Sweeps를 어떻게 실행해야 하나요?" href="/ko/support/models/articles/how-should-i-run-sweeps-on-slurm" arrow="true" horizontal>
+  SLURM 스케줄링 시스템에서 W&amp;B Sweeps를 사용할 때는 스케줄된 각 작업에서 wandb agent --count 1 SWEEP&#95;ID를 실행하세요. 에이전트가 execu ...
 </Card>
 
 <Card title="run 이름을 지정하지 않았습니다. run 이름은 어디에서 오는 건가요?" href="/ko/support/models/articles/i-didnt-name-my-run-where-is-the-run-nam" arrow="true" horizontal>
@@ -117,20 +149,24 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
   전송되는 포인트 수는 UI에서 그래프의 로딩 시간에 영향을 줍니다. 1,000개를 초과하는 선의 경우 백엔드는 sa ...
 </Card>
 
-<Card title="W&B를 프로젝트에 통합하고 싶지만 이미지나 미디어는 업로드하고 싶지 않다면 어떻게 해야 하나요?" href="/ko/support/models/articles/what-if-i-want-to-integrate-wb-into-my-p" arrow="true" horizontal>
-  W&amp;B는 업로드할 파일이나 데이터를 지정해 스칼라만 로깅하는 프로젝트도 지원합니다. 로깅 예시는 ...
+<Card title="W&B를 내 프로젝트에 통합하고 싶지만 이미지나 미디어는 전혀 업로드하고 싶지 않다면 어떻게 하나요?" href="/ko/support/models/articles/what-if-i-want-to-integrate-wb-into-my-p" arrow="true" horizontal>
+  W&amp;B는 업로드할 파일이나 데이터를 지정할 수 있게 해, 스칼라만 로깅하는 프로젝트도 지원합니다. 로깅 예시는 ...
 </Card>
 
-<Card title="일부 메트릭은 배치마다, 일부 메트릭은 에포크에서만 로깅하고 싶다면 어떻게 해야 하나요?" href="/ko/support/models/articles/what-if-i-want-to-log-some-metrics-on-ba" arrow="true" horizontal>
-  각 배치에서 특정 메트릭을 로깅하고 플롯을 일관되게 표시하려면 원하는 x축 값을 메트릭과 함께 로깅하세요. ...
+<Card title="일부 메트릭은 batch에서, 일부 메트릭은 에포크에서만 로깅하려면 어떻게 하나요?" href="/ko/support/models/articles/what-if-i-want-to-log-some-metrics-on-ba" arrow="true" horizontal>
+  각 batch에서 특정 메트릭을 로깅하고 플롯을 일관되게 맞추려면, 원하는 x축 값을 메트릭과 함께 로깅하세요. 이 ...
 </Card>
 
-<Card title="wandb.init 모드의 차이점은 무엇인가요?" href="/ko/support/models/articles/what-is-the-difference-between-wandbinit" arrow="true" horizontal>
-  wandb.init를 호출할 때 클라이언트가 W&amp;B Server와 통신하는 방식을 제어하는 모드를 선택할 수 있습니다. 다음 ...
+<Card title="wandb.init 모드 간 차이점은 무엇인가요?" href="/ko/support/models/articles/what-is-the-difference-between-wandbinit" arrow="true" horizontal>
+  `wandb.init`를 호출하면 클라이언트가 W&amp;B 서버와 통신하는 방식을 제어하는 모드를 선택할 수 있습니다. 다음 ...
 </Card>
 
-<Card title="로깅한 것보다 데이터 포인트가 적게 보이는 이유는 무엇인가요?" href="/ko/support/models/articles/why-am-i-seeing-fewer-data-points-than-i" arrow="true" horizontal>
-  Step이 아닌 다른 X-axis를 기준으로 메트릭을 시각화하면 데이터 포인트가 더 적게 보일 수 있습니다. 메트릭은 ...
+<Card title="내가 로깅한 것보다 데이터 포인트가 더 적게 보이는 이유는 무엇인가요?" href="/ko/support/models/articles/why-am-i-seeing-fewer-data-points-than-i" arrow="true" horizontal>
+  Step 이외의 X-axis를 기준으로 메트릭을 시각화하면 데이터 포인트가 더 적게 표시될 수 있습니다. 메트릭은 t ...
+</Card>
+
+<Card title="wandb.log()에서 내 메트릭이 누락되는 이유는 무엇인가요?" href="/ko/support/models/articles/why-are-my-metrics-missing-from-wandb-log" arrow="true" horizontal>
+  `wandb.log()`로 로깅한 메트릭이 W&amp;B UI에 표시되지 않는다면 몇 가지 일반적인 원인이 있습니다. 오프라인 모드 ...
 </Card>
 
 <Card title="CSV 메트릭 내보내기에서 step이 누락되는 이유는 무엇인가요?" href="/ko/support/models/articles/why-are-steps-missing-from-a-csv-metric-" arrow="true" horizontal>
@@ -141,12 +177,24 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
   W&amp;B의 메트릭 이름은 UI에서 정렬 및 필터링할 수 있도록 GraphQL 명명 규칙을 따라야 합니다. 유효한 메트릭 ...
 </Card>
 
+<Card title="세션 간에 Workspace 설정이 유지되지 않는 이유는 무엇인가요?" href="/ko/support/models/articles/why-do-my-workspace-settings-not-persist" arrow="true" horizontal>
+  Workspace 레이아웃(패널, 필터, 그룹화)은 뷰를 저장할 때만 유지됩니다. 저장하지 않은 변경 사항은 브라우저 세션에만 남아 ...
+</Card>
+
 <Card title="W&B와 함께 Hydra를 사용할 때 프로세스가 응답하지 않는 이유는 무엇인가요?" href="/ko/support/models/articles/process-hangs-when-using-hydra-with-wan" arrow="true" horizontal>
   이 페이지에서는 W&amp;B와 함께 Hydra로 프로세스를 시작할 때 발생하는 프로세스 응답 중지 문제를 해결하는 방법을 설명합니다. ...
 </Card>
 
 <Card title="분산 트레이닝을 사용할 때 트레이닝이 멈추는 이유는 무엇인가요?" href="/ko/support/models/articles/training-hangs-with-distributed-trainin" arrow="true" horizontal>
   이 아티클은 분산 트레이닝 프레임워크와 함께 W&amp;B를 사용할 때 발생하는 트레이닝 중단 문제를 해결해 Runs를 계속 ...
+</Card>
+
+<Card title="내 W&B run의 초기화 또는 업로드가 느린 이유는 무엇인가요?" href="/ko/support/models/articles/why-is-my-wandb-run-slow-to-initialize-or-upload" arrow="true" horizontal>
+  wandb.init()가 느리거나 메트릭 업로드가 느린 경우는 보통 네트워크 지연 시간, 큰 미디어 페이로드, 높은 로깅 빈도 ...
+</Card>
+
+<Card title="내 스윕 에이전트가 새 Runs를 가져오지 않는 이유는 무엇인가요?" href="/ko/support/models/articles/why-is-my-sweep-agent-not-picking-up-new-runs" arrow="true" horizontal>
+  스윕 에이전트가 시작되지만 새 run 설정을 받지 못하거나, run 하나만 받은 뒤 대기 상태로 머문다면 몇 가지 ...
 </Card>
 
 <Card title="그래프에 아무것도 표시되지 않는 이유는 무엇인가요?" href="/ko/support/models/articles/why-is-nothing-showing-up-in-my-graphs" arrow="true" horizontal>

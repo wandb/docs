@@ -1,5 +1,5 @@
 ---
-title: "Classe : ScoreLogger"
+title: "ScoreLogger"
 description: "Référence du SDK TypeScript"
 ---
 
@@ -10,7 +10,8 @@ Renvoyé par EvaluationLogger.logPrediction().
 
 `Exemple`
 
-```ts
+```ts twoslash
+// @noErrors
 const pred = await ev.logPrediction(example, output);
 await pred.logScore("accuracy", 0.95);
 await pred.logScore("relevance", 0.8);
@@ -66,7 +67,7 @@ await pred.finish(); // Finalise la prédiction
   #### Défini dans
 </div>
 
-[evaluationLogger.ts:335](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/evaluationLogger.ts#L335)
+[src/evaluationLogger.ts:338](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L338)
 
 ## Accesseurs
 
@@ -89,7 +90,7 @@ Utilisé par EvaluationLogger pour détecter les prédictions inachevées.
   #### Défini dans
 </div>
 
-[evaluationLogger.ts:365](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/evaluationLogger.ts#L365)
+[src/evaluationLogger.ts:368](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L368)
 
 ## Méthodes
 
@@ -113,7 +114,7 @@ Met à jour les agrégats incrémentiels et libère la mémoire.
   #### Défini dans
 </div>
 
-[evaluationLogger.ts:467](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/evaluationLogger.ts#L467)
+[src/evaluationLogger.ts:470](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L470)
 
 ***
 
@@ -145,4 +146,4 @@ Crée un appel scorer enfant de predict&#95;and&#95;score.
   #### Défini dans
 </div>
 
-[evaluationLogger.ts:376](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/evaluationLogger.ts#L376)
+[src/evaluationLogger.ts:379](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L379)

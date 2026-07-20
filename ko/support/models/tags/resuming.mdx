@@ -1,9 +1,13 @@
 ---
 title: "재개하기"
-tag: "2"
+tag: "3"
 generator: "knowledgebase-nav"
-template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
+template: "docengine-site/templates/support_tag.mdx.j2"
 ---
+
+<Card title="스윕 내에서 run을 재개할 수 있나요?" href="/ko/support/models/articles/can-i-resume-a-run-inside-a-sweep" arrow="true" horizontal>
+  W&amp;B 스윕 내에서는 run 재개가 지원되지 않습니다. 스윕 에이전트가 실행 중일 때 run&#95;id를 전달하거나 wandb.init(resume=...)를 사용하면 ...
+</Card>
 
 <Card title="`resume='must' but run ([RUN-ID]) doesn't exist` 오류는 어떻게 해결하나요?" href="/ko/support/models/articles/how-do-i-fix-the-error-resumemust-but-ru" arrow="true" horizontal>
   `resume='must' but run ( RUN-ID ) doesn't exist` 오류가 발생하면 재개하려는 run이 존재하지 않 ...

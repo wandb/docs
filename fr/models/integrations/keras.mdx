@@ -1,18 +1,18 @@
 ---
 title: Keras
-description: "Utilisez les callbacks Keras de W&B pour suivre les expériences, enregistrer des checkpoints de modèles et visualiser les prédictions pendant l'entraînement."
+description: "Utilisez les callbacks Keras de W&B pour suivre les expériences, enregistrer des points de contrôle de modèles et visualiser les prédictions pendant l'entraînement."
 ---
 
 import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
 
 {/* <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Intro_to_Weights_%26_Biases_keras.ipynb" /> */}
 
-Utilisez les callbacks Keras pour suivre les expériences, enregistrer les points de contrôle du modèle et visualiser les prédictions du modèle. Les callbacks Keras sont disponibles dans le module `wandb.integration.keras` à partir de la version `0.13.4` du SDK Python.
+Utilisez les callbacks Keras de W&amp;B pour suivre les expériences, enregistrer les points de contrôle du modèle et visualiser les prédictions du modèle pendant l&#39;entraînement. Utilisez cette intégration pour ajouter le suivi des expériences et la gestion des versions des modèles à vos flux de travail d&#39;entraînement Keras sans réécrire votre boucle d&#39;entraînement.
 
-L&#39;intégration Keras de W&amp;B fournit les callbacks suivants :
+Les callbacks Keras sont disponibles dans le module `wandb.integration.keras` à partir de la version `0.13.4` du SDK Python. L&#39;intégration Keras de W&amp;B fournit les callbacks suivants :
 
 * **`WandbMetricsLogger`** : Utilisez ce callback pour le [suivi des expériences](/fr/models/track/). Il enregistre vos métriques d&#39;entraînement et de validation, ainsi que les métriques système, dans W&amp;B.
-* **`WandbModelCheckpoint`** : Utilisez ce callback pour enregistrer les points de contrôle de votre modèle dans les [Artifacts](/fr/models/artifacts/) W&amp;B.
+* **`WandbModelCheckpoint`** : Utilisez ce callback pour enregistrer les points de contrôle du modèle de votre modèle dans les [Artifacts](/fr/models/artifacts/) W&amp;B.
 * **`WandbEvalCallback`**: Ce callback de base enregistre les prédictions du modèle dans les [Tables](/fr/models/tables/) W&amp;B pour une visualisation interactive.
 
 <div id="install-and-import-keras-integration">
@@ -25,14 +25,14 @@ Installez la dernière version de W&amp;B.
 pip install -U wandb
 ```
 
-Pour utiliser l’intégration Keras, importez les classes requises à partir de `wandb.integration.keras` :
+Pour utiliser l’intégration Keras, importez les classes requises à partir de `wandb.integration.keras`.
 
 ```python
 import wandb
 from wandb.integration.keras import WandbMetricsLogger, WandbModelCheckpoint, WandbEvalCallback
 ```
 
-Les sections suivantes décrivent en détail chaque fonction de rappel, avec des exemples de code.
+Les sections suivantes décrivent en détail chaque callback, avec des exemples de code.
 
 <div id="track-experiments-with-wandbmetricslogger">
   ## Suivre les expériences avec `WandbMetricsLogger`
@@ -40,9 +40,9 @@ Les sections suivantes décrivent en détail chaque fonction de rappel, avec des
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbMetricLogger_in_your_Keras_workflow.ipynb" />
 
-`wandb.integration.keras.WandbMetricsLogger()` enregistre automatiquement le dictionnaire `logs` de Keras, passé en argument aux méthodes de callback telles que `on_epoch_end`, `on_batch_end`, etc.
+`wandb.integration.keras.WandbMetricsLogger()` enregistre le dictionnaire `logs` de Keras, passé en argument aux méthodes de callback telles que `on_epoch_end` et `on_batch_end`.
 
-L&#39;exemple partiel ci-dessous montre comment utiliser `WandbMetricsLogger()` dans un flux de travail Keras. Commencez par compiler le modèle avec l&#39;optimiseur, la fonction de perte et les métriques souhaités. Ensuite, initialisez un run W&amp;B à l&#39;aide de `wandb.init()`. Enfin, transmettez le callback `WandbMetricsLogger()` à `model.fit()`.
+L&#39;exemple partiel suivant montre comment utiliser `WandbMetricsLogger()` dans un flux de travail Keras. Commencez par compiler le modèle avec l&#39;optimiseur, la fonction de perte et les métriques souhaités. Ensuite, initialisez un run W&amp;B à l&#39;aide de `wandb.init()`. Enfin, transmettez le callback `WandbMetricsLogger()` à `model.fit()`.
 
 ```python
 import wandb
@@ -58,13 +58,13 @@ model.compile(
 # Initialiser un nouveau run W&B
 with wandb.init(config={"batch_size": 64}) as run:
 
-    # Passer le WandbMetricsLogger à model.fit
+    # Transmettre le WandbMetricsLogger à model.fit
     model.fit(
         X_train, y_train, validation_data=(X_test, y_test), callbacks=[WandbMetricsLogger()]
     )
 ```
 
-L’exemple précédent consigne dans W&amp;B les métriques d’entraînement et de validation, telles que `loss`, `accuracy` et `top@5_accuracy`, à la fin de chaque époque. Il consigne également :
+L’exemple précédent consigne dans W&amp;B les métriques d’entraînement et de validation, telles que `loss`, `accuracy` et `top@5_accuracy`, à la fin de chaque époque.
 
 <div id="wandbmetricslogger-reference">
   ### Référence de `WandbMetricsLogger`
@@ -76,14 +76,14 @@ L’exemple précédent consigne dans W&amp;B les métriques d’entraînement e
 | `initial_global_step` | (int) : utilisez cet argument pour journaliser correctement le taux d’apprentissage lorsque vous reprenez l’entraînement à partir d’un `initial_epoch` et qu’un ordonnanceur de taux d’apprentissage est utilisé. Cette valeur peut être calculée comme `step_size * initial_step`. La valeur par défaut est 0. |
 
 <div id="checkpoint-a-model-using-wandbmodelcheckpoint">
-  ## Créer un checkpoint d’un modèle avec `WandbModelCheckpoint`
+  ## Créer un point de contrôle d’un modèle avec `WandbModelCheckpoint`
 </div>
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbModelCheckpoint_in_your_Keras_workflow.ipynb" />
 
 Utilisez le callback `WandbModelCheckpoint` pour enregistrer périodiquement le modèle Keras (au format `SavedModel`) ou les poids du modèle, puis les envoyer à W&amp;B sous forme de `wandb.Artifact` pour la gestion des versions du modèle.
 
-Ce callback est une sous-classe de [`tf.keras.callbacks.ModelCheckpoint()`](https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/ModelCheckpoint). La logique de checkpointing est donc gérée par le callback parent.
+Ce callback est une sous-classe de [`tf.keras.callbacks.ModelCheckpoint()`](https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/ModelCheckpoint). La logique de création de points de contrôle est donc gérée par le callback parent.
 
 Ce callback enregistre :
 
@@ -99,7 +99,7 @@ Utilisez ce callback avec `WandbMetricsLogger()`.
 import wandb
 from wandb.integration.keras import WandbMetricsLogger, WandbModelCheckpoint
 
-# Initialiser un nouveau run W&B
+# Initialiser un nouveau W&B Run
 with wandb.init(config={"bs": 12}) as run:
 
     # Passer le WandbModelCheckpoint à model.fit
@@ -126,15 +126,15 @@ with wandb.init(config={"bs": 12}) as run:
 | `save_best_only`          | (Boolean) : si `save_best_only=True`, enregistre uniquement le dernier modèle ou le modèle considéré comme le meilleur, selon les attributs `monitor` et `mode`.                                                                                                                                                                                                                                                                                |   |
 | `save_weights_only`       | (Boolean) : si True, enregistre uniquement les poids du modèle.                                                                                                                                                                                                                                                                                                                                                                                 |   |
 | `mode`                    | (`auto`, `min` ou `max`) : pour `val_acc`, définissez-le sur `max` ; pour `val_loss`, définissez-le sur `min`, et ainsi de suite.                                                                                                                                                                                                                                                                                                               |   |
-| `save_freq`               | (&quot;epoch&quot; ou int) : lorsque vous utilisez `epoch`, le callback enregistre le modèle après chaque époque. Lorsque vous utilisez un entier, le callback enregistre le modèle à la fin de ce nombre de lots. Notez que lors de la surveillance de métriques de validation telles que `val_acc` ou `val_loss`, `save_freq` doit être défini sur &quot;epoch&quot;, car ces métriques ne sont disponibles qu&#39;à la fin d&#39;une époque. |   |
+| `save_freq`               | (&quot;epoch&quot; ou int) : lorsque vous utilisez &quot;epoch&quot;, le callback enregistre le modèle après chaque époque. Lorsque vous utilisez un entier, le callback enregistre le modèle à la fin de ce nombre de lots. Lors de la surveillance de métriques de validation telles que `val_acc` ou `val_loss`, `save_freq` doit être défini sur &quot;epoch&quot;, car ces métriques ne sont disponibles qu&#39;à la fin d&#39;une époque. |   |
 | `options`                 | (str) : objet `tf.train.CheckpointOptions` facultatif si `save_weights_only` est true, ou objet `tf.saved_model.SaveOptions` facultatif si `save_weights_only` est false.                                                                                                                                                                                                                                                                       |   |
 | `initial_value_threshold` | (float) : valeur initiale à virgule flottante du « meilleur » résultat de la métrique à surveiller.                                                                                                                                                                                                                                                                                                                                             |   |
 
 <div id="log-checkpoints-after-n-epochs">
-  ### Enregistrer des checkpoints après N époques
+  ### Enregistrer des points de contrôle du modèle après `N` époques
 </div>
 
-Par défaut (`save_freq="epoch"`), le callback crée un checkpoint et le téléverse comme artifact après chaque époque. Pour créer un checkpoint après un nombre précis de lots, définissez `save_freq` sur un entier. Pour créer un checkpoint après `N` époques, calculez la cardinalité du dataloader `train` et passez-la à `save_freq` :
+Par défaut (`save_freq="epoch"`), le callback crée un point de contrôle du modèle et le téléverse comme artifact après chaque époque. Pour créer un point de contrôle du modèle après un nombre précis de lots, définissez `save_freq` sur un entier. Pour créer un point de contrôle du modèle après `N` époques, calculez la cardinalité du dataloader `train` et passez-la à `save_freq` :
 
 ```python
 WandbModelCheckpoint(
@@ -143,17 +143,17 @@ WandbModelCheckpoint(
 )
 ```
 
-<div id="efficiently-log-checkpoints-on-a-tpu-architecture">
-  ### Journaliser efficacement les checkpoints sur une architecture TPU
+<div id="log-checkpoints-efficiently-on-a-tpu-architecture">
+  ### Journaliser efficacement les points de contrôle du modèle sur une architecture TPU
 </div>
 
-Lors de la création de checkpoints sur des TPU, vous pouvez rencontrer le message d&#39;erreur `UnimplementedError: File system scheme '[local]' not implemented`. Cela se produit parce que le répertoire du modèle (`filepath`) doit utiliser un chemin de bucket de stockage cloud (`gs://bucket-name/...`), et que ce bucket doit être accessible depuis le serveur TPU. À la place, W&amp;B utilise le chemin local pour créer les checkpoints, qui sont ensuite téléversés en tant qu&#39;artifact.
+Lors de la création de points de contrôle du modèle sur des TPU, vous pouvez rencontrer le message d&#39;erreur `UnimplementedError: File system scheme '[local]' not implemented`. Cela se produit parce que le répertoire du modèle (`filepath`) doit utiliser un chemin de bucket de stockage cloud (`gs://bucket-name/...`), et que ce bucket doit être accessible depuis le serveur TPU. À la place, W&amp;B utilise le chemin local pour créer les points de contrôle du modèle, que W&amp;B téléverse ensuite en tant qu&#39;artifact.
 
 ```python
 checkpoint_options = tf.saved_model.SaveOptions(experimental_io_device="/job:localhost")
 
 WandbModelCheckpoint(
-    filepath="models/,
+    filepath="models/",
     options=checkpoint_options,
 )
 ```
@@ -215,10 +215,10 @@ class WandbClfEvalCallback(WandbEvalCallback):
 
 # ...
 
-# Initialiser un nouveau run W&B
+# Initialiser un nouveau W&B Run
 with wandb.init(config={"hyper": "parameter"}) as run:
 
-    # Ajouter les callbacks à Model.fit
+    # Ajouter les Callbacks à Model.fit
     model.fit(
         X_train,
         y_train,
@@ -244,26 +244,26 @@ with wandb.init(config={"hyper": "parameter"}) as run:
 | `pred_table_columns` | (liste) Liste des noms de colonnes du `pred_table` |
 
 <div id="memory-footprint-details">
-  ### Détails de l&#39;empreinte mémoire
+  ### Détails de l’empreinte mémoire
 </div>
 
-Nous journalisons `data_table` dans W&amp;B lorsque la méthode `on_train_begin` est appelée. Une fois téléversé en tant qu&#39;Artifact W&amp;B, nous obtenons une référence à ce tableau, accessible via la variable de classe `data_table_ref`. `data_table_ref` est une liste 2D qui peut être indexée comme `self.data_table_ref[idx][n]`, où `idx` est le numéro de ligne et `n` le numéro de colonne. Voyons son utilisation dans l&#39;exemple ci-dessous.
+W&amp;B journalise `data_table` lors de l’appel de la méthode `on_train_begin`. Après que W&amp;B l’a téléversé en tant qu’artefact W&amp;B, vous obtenez une référence à ce tableau, accessible via la variable de classe `data_table_ref`. `data_table_ref` est une liste 2D que vous pouvez indexer comme `self.data_table_ref[idx][n]`, où `idx` est le numéro de ligne et `n` le numéro de colonne. Voir son utilisation dans l’exemple suivant.
 
 <div id="customize-the-callback">
   ### Personnaliser le callback
 </div>
 
-Vous pouvez redéfinir les méthodes `on_train_begin` ou `on_epoch_end` pour bénéficier d’un contrôle plus précis. Si vous souhaitez journaliser les échantillons après `N` lots, vous pouvez implémenter la méthode `on_train_batch_end`.
+Pour mieux contrôler quand les données et les prédictions sont enregistrées, vous pouvez redéfinir les méthodes de callback par défaut. Vous pouvez redéfinir les méthodes `on_train_begin` ou `on_epoch_end` pour bénéficier d’un contrôle plus précis. Si vous souhaitez journaliser les échantillons après `N` lots, vous pouvez implémenter la méthode `on_train_batch_end`.
 
 <Note>
-  Si vous implémentez un callback pour visualiser les prédictions du modèle en héritant de `WandbEvalCallback` et que certains points doivent être clarifiés ou corrigés, faites-le-nous savoir en ouvrant une [issue](https://github.com/wandb/wandb/issues).
+  Si vous implémentez un callback pour visualiser les prédictions du modèle en héritant de `WandbEvalCallback` et que certains points doivent être clarifiés ou corrigés, ouvrez une [issue](https://github.com/wandb/wandb/issues).
 </Note>
 
-<div id="wandbcallback-legacy">
-  ## `WandbCallback` [obsolète]
+<div id="legacy-wandbcallback">
+  ## `WandbCallback` obsolète
 </div>
 
-Utilisez la classe `WandbCallback()` de la bibliothèque W&amp;B pour enregistrer automatiquement toutes les métriques et valeurs de perte suivies dans `model.fit()`.
+`WandbCallback` est le callback tout-en-un obsolète. Pour les nouveaux projets, utilisez les callbacks dédiés décrits dans les sections précédentes (`WandbMetricsLogger`, `WandbModelCheckpoint` et `WandbEvalCallback`). Utilisez la classe `WandbCallback()` de la bibliothèque W&amp;B pour enregistrer toutes les métriques et valeurs de perte suivies dans `model.fit()`.
 
 ```python
 import wandb
@@ -283,19 +283,17 @@ Vous pouvez regarder la courte vidéo [Premiers pas avec Keras et W&amp;B en moi
 
 Pour une vidéo plus détaillée, regardez [Intégrer W&amp;B à Keras](https://www.youtube.com/watch?v=Bsudo7jbMow\&ab_channel=Weights%26Biases). Vous pouvez également consulter le [notebook Jupyter Colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Keras_pipeline_with_Weights_and_Biases.ipynb).
 
-<Note>
-  Voir notre [dépôt d&#39;exemples](https://github.com/wandb/examples) pour des scripts, notamment un [exemple Fashion MNIST](https://github.com/wandb/examples/blob/master/examples/keras/keras-cnn-fashion/train.py) et le [tableau de bord W&amp;B](https://wandb.ai/wandb/keras-fashion-mnist/runs/5z1d85qs) qu&#39;il génère.
-</Note>
+Pour des scripts d&#39;exemple supplémentaires, voir le [dépôt d&#39;exemples W&amp;B](https://github.com/wandb/examples), notamment un [exemple Fashion MNIST](https://github.com/wandb/examples/blob/master/examples/keras/keras-cnn-fashion/train.py) et le [tableau de bord W&amp;B](https://wandb.ai/wandb/keras-fashion-mnist/runs/5z1d85qs) qu&#39;il génère.
 
-La classe `WandbCallback` prend en charge un large éventail d&#39;options de configuration de journalisation : spécifier une métrique à surveiller, suivre les poids et les gradients, journaliser les prédictions sur training&#95;data et validation&#95;data, entre autres.
+La classe `WandbCallback` prend en charge des options de configuration de journalisation : spécifier une métrique à surveiller, suivre les poids et les gradients, journaliser les prédictions sur `training_data` et `validation_data`, entre autres.
 
 Consultez la documentation de référence de `keras.WandbCallback` pour plus de détails.
 
-Le `WandbCallback`
+`WandbCallback` :
 
-* Journalise automatiquement les données d&#39;historique de toutes les métriques collectées par Keras : la perte et tout ce qui est transmis à `keras_model.compile()`.
+* Journalise les données d&#39;historique de toutes les métriques collectées par Keras : la perte et tout ce qui est transmis à `keras_model.compile()`.
 * Définit les métriques de synthèse pour le run associé à la « meilleure » étape d&#39;entraînement, telle que définie par les attributs `monitor` et `mode`. Par défaut, il s&#39;agit de l&#39;époque où `val_loss` est minimale. Par défaut, `WandbCallback` enregistre le modèle associé à la meilleure `epoch`.
-* Journalise de façon facultative l&#39;histogramme des gradients et des paramètres.
+* Journalise de façon facultative les histogrammes des gradients et des paramètres.
 * Enregistre de façon facultative les données d&#39;entraînement et de validation pour que wandb puisse les visualiser.
 
 <div id="wandbcallback-reference">
@@ -312,7 +310,7 @@ Le `WandbCallback`
 | `log_weights`              | (booléen) si True, enregistre les histogrammes des poids des couches du modèle.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | `log_gradients`            | (booléen) si True, journalise les histogrammes des gradients d’entraînement                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | `training_data`            | (tuple) Même format `(X,y)` que celui transmis à `model.fit`. Nécessaire pour calculer les gradients ; ce paramètre est obligatoire si `log_gradients` est `True`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| `validation_data`          | (tuple) Même format `(X,y)` que celui transmis à `model.fit`. Un jeu de données à visualiser par wandb. Si vous définissez ce champ, à chaque époque, wandb effectue un petit nombre de prédictions et enregistre les résultats pour une visualisation ultérieure.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| `validation_data`          | (tuple) Même format `(X,y)` que celui transmis à `model.fit`. Un jeu de données à visualiser par wandb. Si vous définissez ce champ, wandb effectue un petit nombre de prédictions à chaque époque et enregistre les résultats pour une visualisation ultérieure.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | `generator`                | (générateur) un générateur qui renvoie des données de validation que wandb peut visualiser. Ce générateur doit renvoyer des tuples `(X,y)`. Vous devez définir `validate_data` ou `generator` pour que wandb puisse visualiser des exemples de données spécifiques.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | `validation_steps`         | (int) si `validation_data` est un générateur, nombre d’étapes nécessaires pour exécuter le générateur sur l’ensemble complet de validation.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | `labels`                   | (liste) Si vous visualisez vos données avec wandb, cette liste d&#39;étiquettes convertit les sorties numériques en chaînes compréhensibles si vous créez un classificateur à plusieurs classes. Pour un classificateur binaire, vous pouvez fournir une liste de deux étiquettes [`label for false`, `label for true`]. Si `validate_data` et `generator` sont tous deux à false, cela n&#39;a aucun effet.                                                                                                                                                                                                                                                                                                                                                                                                                   |
@@ -333,8 +331,8 @@ Le `WandbCallback`
   ## Questions fréquentes
 </div>
 
-<div id="how-do-i-use-keras-multiprocessing-with-wandb">
-  ### Comment puis-je utiliser le mode multiprocessing de `Keras` avec `wandb` ?
+<div id="use-keras-multiprocessing-with-wandb">
+  ### Utiliser le mode multiprocessing de `Keras` avec `wandb`
 </div>
 
 Lorsque vous définissez `use_multiprocessing=True`, cette erreur peut se produire :

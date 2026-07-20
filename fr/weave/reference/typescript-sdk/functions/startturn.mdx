@@ -9,7 +9,7 @@ description: "Référence du SDK TypeScript"
 
 ▸ **startTurn**(`opts?`): [`Turn`](../classes/turn)
 
-Démarre un nouveau tour de conversation. Si une Session est active, le tour hérite de son
+Démarre un nouveau tour de conversation. Si une Conversation est active, le tour hérite de son
 `conversationId` ; sinon, le tour n’a pas d’identifiant de conversation.
 
 <div id="parameters">
@@ -24,12 +24,35 @@ Démarre un nouveau tour de conversation. Si une Session est active, le tour hé
   #### Renvoie
 </div>
 
-[`Turn`](../classes/turn)
+[`tour de conversation`](../classes/turn)
+
+`Exemple`
+
+```ts twoslash
+// @noErrors
+weave.startTurn();
+```
+
+`Exemple`
+
+```ts twoslash
+// @noErrors
+weave.startTurn({
+  agentId: 'research-bot-prod',
+  agentName: 'research-bot',
+  agentDescription: 'Looks up facts on Wikipedia.',
+  agentVersion: '1.4.2',
+  model: 'gpt-4o',
+  userMessage: 'What is the weather in Tokyo?',
+  systemInstructions: ['You are a helpful weather bot.'],
+  startTime: new Date('2026-05-29T10:00:00.000Z'),
+});
+```
 
 <div id="defined-in">
   #### Défini dans
 </div>
 
-[genai/api.ts:20](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/api.ts#L20)
+[src/genai/api.ts:54](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L54)
 
 ***

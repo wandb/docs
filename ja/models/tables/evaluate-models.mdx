@@ -27,22 +27,22 @@ description: W&B Weave と W&B Tables を使って機械学習モデルを評価
   ### はじめに: W&amp;B Registry のモデルを評価する
 </div>
 
-W&amp;B Models Registry からモデルをダウンロードし、Weave で評価します:
+W&amp;B Models Registry からモデルをダウンロードし、Weave を使って評価します:
 
 ```python
 import weave
 import wandb
 from typing import Any
 
-# Weaveを初期化する
+# Weave を初期化する
 weave.init("your-entity/your-project")
 
-# W&B RegistryからロードするChatModelを定義する
+# W&B Registry から読み込む ChatModel を定義する
 class ChatModel(weave.Model):
     model_name: str
     
     def model_post_init(self, __context):
-        # W&B Models Registryからモデルをダウンロードする
+        # W&B Models Registry からモデルをダウンロードする
         with wandb.init(project="your-project", job_type="model_download") as run:
             artifact = run.use_artifact(self.model_name)
             self.model_path = artifact.download()
@@ -53,13 +53,13 @@ class ChatModel(weave.Model):
         # モデルの推論ロジック
         return self.model.generate(query)
 
-# 評価データセットを作成する
+# 評価用データセットを作成する
 dataset = weave.Dataset(name="eval_dataset", rows=[
     {"input": "What is the capital of France?", "expected": "Paris"},
     {"input": "What is 2+2?", "expected": "4"},
 ])
 
-# スコアラーを定義する
+# Scorer を定義する
 @weave.op()
 def exact_match_scorer(expected: str, output: str) -> dict:
     return {"correct": expected.lower() == output.lower()}
@@ -77,10 +77,10 @@ results = await evaluation.evaluate(model)
   ### Weave の評価を W&amp;B Models と統合する
 </div>
 
-[Models and Weave Integration Demo](/ja/weave/cookbooks/Models_and_Weave_Integration_Demo) では、次の一連のワークフロー全体を確認できます。
+[Models と Weave のインテグレーション例](/ja/weave/cookbooks/Models_and_Weave_Integration_Demo) では、次の一連のワークフロー全体を確認できます。
 
 1. **Registry からモデルを読み込む**: W&amp;B Models Registry に保存されたファインチューニング済みモデルをダウンロードする
-2. **評価パイプラインを作成する**: カスタム スコアラー を使用して包括的な評価を構築する
+2. **評価パイプラインを作成する**: カスタム Scorer を使用して包括的な評価を構築する
 3. **結果を W&amp;B にログする**: 評価メトリクスをモデルの run に関連付ける
 4. **評価済みモデルをバージョン管理する**: 改善したモデルを Registry に保存し直す
 
@@ -249,14 +249,14 @@ for epoch in range(num_epochs):
 </Frame>
 
 <div id="example-error-analysis-with-enriched-tables">
-  ### 例: 情報を追加した表を使ったエラー分析
+  ### 例: 拡張したTablesを使ったエラー分析
 </div>
 
 ```python
-# 分析列を追加するための可変テーブルを作成する
+# 分析列を追加するためのミュータブルな表を作成する
 eval_table = wandb.Table(
     columns=["id", "image", "label", "prediction"],
-    log_mode="MUTABLE"  # 後から列を追加できる
+    log_mode="MUTABLE"  # 後から列を追加できるようにする
 )
 
 # 初期予測

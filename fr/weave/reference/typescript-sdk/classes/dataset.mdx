@@ -1,5 +1,5 @@
 ---
-title: "Classe : Dataset<R>"
+title: "Dataset<R>"
 description: "Référence du SDK TypeScript"
 ---
 
@@ -9,7 +9,8 @@ Objet Dataset avec sauvegarde facile et gestion des versions automatique
 
 `Example`
 
-```ts
+```ts twoslash
+// @noErrors
 // Créer un dataset
 const dataset = new Dataset({
   id: 'grammar-dataset',
@@ -115,7 +116,7 @@ const ref = await dataset.save()
   #### Défini dans
 </div>
 
-[dataset.ts:51](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/dataset.ts#L51)
+[src/dataset.ts:55](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L55)
 
 ## Propriétés
 
@@ -135,7 +136,7 @@ const ref = await dataset.save()
   #### Défini dans
 </div>
 
-[weaveObject.ts:73](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveObject.ts#L73)
+[src/weaveObject.ts:71](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L71)
 
 ***
 
@@ -149,7 +150,7 @@ const ref = await dataset.save()
   #### Défini dans
 </div>
 
-[dataset.ts:49](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/dataset.ts#L49)
+[src/dataset.ts:53](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L53)
 
 ## Accesseurs
 
@@ -175,7 +176,7 @@ WeaveObject.description
   #### Défini dans
 </div>
 
-[weaveObject.ts:100](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveObject.ts#L100)
+[src/weaveObject.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L98)
 
 ***
 
@@ -195,7 +196,7 @@ WeaveObject.description
   #### Défini dans
 </div>
 
-[dataset.ts:64](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/dataset.ts#L64)
+[src/dataset.ts:68](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L68)
 
 ***
 
@@ -221,7 +222,7 @@ WeaveObject.name
   #### Défini dans
 </div>
 
-[weaveObject.ts:96](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveObject.ts#L96)
+[src/weaveObject.ts:94](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L94)
 
 ## Méthodes
 
@@ -229,19 +230,19 @@ WeaveObject.name
   ### [asyncIterator]
 </div>
 
-▸ **[asyncIterator]**(): `AsyncIterator`&lt;`any`, `any`, `undefined`&gt;
+▸ **[asyncIterator]**(): `AsyncIterator`&lt;`any`, `any`, `any`&gt;
 
 <div id="returns">
   #### Renvoie
 </div>
 
-`AsyncIterator`&lt;`any`, `any`, `undefined`&gt;
+`AsyncIterator`&lt;`any`, `any`, `any`&gt;
 
 <div id="defined-in">
   #### Défini dans
 </div>
 
-[dataset.ts:68](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/dataset.ts#L68)
+[src/dataset.ts:72](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L72)
 
 ***
 
@@ -269,7 +270,7 @@ WeaveObject.name
   #### Défini dans
 </div>
 
-[dataset.ts:74](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/dataset.ts#L74)
+[src/dataset.ts:78](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L78)
 
 ***
 
@@ -289,7 +290,7 @@ WeaveObject.name
   #### Défini dans
 </div>
 
-[dataset.ts:60](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/dataset.ts#L60)
+[src/dataset.ts:64](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L64)
 
 ***
 
@@ -315,4 +316,4 @@ WeaveObject.name
   #### Défini dans
 </div>
 
-[weaveObject.ts:77](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveObject.ts#L77)
+[src/weaveObject.ts:75](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L75)

@@ -1,0 +1,43 @@
+---
+title: "W&B API를 통해 run 설정, 태그, 메모를 어떻게 업데이트하나요?"
+keywords: ["Runs", "Experiments", "API"]
+---
+
+run이 완료된 후에는 [Public API 가이드](/ko/models/track/public-api-guide)를 사용해 실험을 다시 실행하지 않고도 설정, 표시 이름, 태그, 메모를 수정할 수 있습니다. 태그 개념과 UI 워크플로에 대해서는 [Tags](/ko/models/runs/tags)를 참조하세요. run 중 설정에 대해서는 [Configuration](/ko/models/track/config)을 참조하세요.
+
+아래 예시에서는 `run.update()`를 사용해 보류 중인 변경 사항을 한 번의 API 호출로 저장합니다.
+
+```python
+import wandb
+
+api = wandb.Api()
+run = api.run("my-entity/my-project/run_id_here")
+
+run.config["post_hoc_label"] = "baseline-v2"
+run.name = "resnet50-lr1e-3-aug-v2"
+run.tags.append("reviewed")
+run.notes = "Final baseline. Val accuracy: 92.4%."
+run.update()
+```
+
+<div id="bulk-updates">
+  ## 대량 업데이트
+</div>
+
+여러 run(예: 스윕의 모든 run)에 태그를 지정하거나 주석을 추가하려면 필터를 사용해 순회하면서 각 run마다 `update()`를 호출하세요:
+
+```python
+for run in api.runs("my-entity/my-project", filters={"sweep": "sweep_id_here"}):
+    run.tags.append("sweep-reviewed")
+    run.update()
+```
+
+각 `update()`는 별도의 API 호출입니다. 대량의 항목을 처리할 때는 요청 속도 제한을 피할 수 있도록 각 호출 사이에 짧게 대기하세요.
+
+***
+
+{/* AUTO-GENERATED: 탭 배지 */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Runs](/ko/support/models/tags/runs)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[API](/ko/support/models/tags/api)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

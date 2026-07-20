@@ -1,8 +1,8 @@
 ---
 title: "Run のクラッシュ"
-tag: "10"
+tag: "11"
 generator: "knowledgebase-nav"
-template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
+template: "docengine-site/templates/support_tag.mdx.j2"
 ---
 
 <Card title="`AttributeError: module 'wandb' has no attribute ...` のようなエラーを修正するにはどうすればよいですか?" href="/ja/support/models/articles/how-can-i-fix-an-error-like-attributeerr" arrow="true" horizontal>
@@ -43,4 +43,8 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 
 <Card title="ローカルでは正常にトレーニングしているのに、W&B で run が crashed と表示されるのはなぜですか?" href="/ja/support/models/articles/why-is-a-run-marked-crashed-in-wb-when-i" arrow="true" horizontal>
   crashed ステータスは通常、接続の問題を示しています。サーバーがインターネット接続を失い、データの同期が停止すると、W&amp;B ...
+</Card>
+
+<Card title="私の run が crashed と表示されるのはなぜですか?" href="/ja/support/models/articles/why-is-my-run-showing-as-crashed" arrow="true" horizontal>
+  W&amp;B は、プロセスが正常に終了していないにもかかわらず wandb.init() を呼び出したプロセスからのハートビートを受信しなくなると、run を Crashed としてマークします ...
 </Card>

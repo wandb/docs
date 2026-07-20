@@ -1,35 +1,24 @@
 ---
-title: "Classe : SubAgent"
+title: "SubAgent"
 description: "Référence du SDK TypeScript"
 ---
 
 [weave](../) / SubAgent
 
-Une invocation d’agent imbriquée — utilisée lorsque l’agent actuel délègue une tâche à
-un autre agent identifié par un nom (par ex. un planificateur appelant un chercheur). Émet un
-span `invoke_agent` associé au nom du sous-agent et, éventuellement,
-à son modèle.
+<div id="hierarchy">
+  ## Hiérarchie
+</div>
 
-Créé par `weave.startSubagent()` (ou `turn.startAgent()`, ou
-`llm.startAgent()`) et terminé avec `end()`.
+* `SpanBase`
 
-`Exemple`
-
-```ts
-const sub = weave.startSubagent({name: 'researcher', model: 'gpt-4o'});
-try {
-  // ... orchestrer les appels LLM/Tool du sous-agent ...
-} finally {
-  sub.end();
-}
-```
+  ↳ `SubAgent`
 
 <div id="table-of-contents">
   ## Table des matières
 </div>
 
-<div id="properties">
-  ### Propriétés
+<div id="accessors">
+  ### Accesseurs
 </div>
 
 * [model](./subagent#model)
@@ -39,22 +28,31 @@ try {
   ### Méthodes
 </div>
 
+* [addEvent](./subagent#addevent)
 * [end](./subagent#end)
+* [record](./subagent#record)
+* [setAttributes](./subagent#setattributes)
 * [create](./subagent#create)
 
-## Propriétés
+## Accesseurs
 
 <div id="model">
   ### model
 </div>
 
-• `Readonly` **model**: `string`
+• `get` **model**(): `string`
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`string`
 
 <div id="defined-in">
   #### Défini dans
 </div>
 
-[genai/subagent.ts:41](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/subagent.ts#L41)
+[src/genai/subagent.ts:78](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L78)
 
 ***
 
@@ -62,15 +60,73 @@ try {
   ### nom
 </div>
 
-• `Readonly` **nom**: `string`
+• `get` **nom**(): `string`
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`string`
 
 <div id="defined-in">
   #### Défini dans
 </div>
 
-[genai/subagent.ts:40](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/subagent.ts#L40)
+[src/genai/subagent.ts:74](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L74)
 
 ## Méthodes
+
+<div id="addevent">
+  ### addEvent
+</div>
+
+<Warning>
+  **Obsolète.** Enregistrez plutôt ces données via [setAttributes](./subagent#setattributes).
+  OpenTelemetry abandonne progressivement l’API d’événements de span (`Span.addEvent`). Ces
+  méthode fonctionne toujours et les données d’événements de span existantes restent valides.
+  Voir [https://opentelemetry.io/blog/2026/deprecating-span-events/](https://opentelemetry.io/blog/2026/deprecating-span-events/)
+
+  `Exemple`
+
+  ```ts twoslash
+  // @noErrors
+  span.addEvent('context_compacted', {removedMessages: 12});
+  ```
+</Warning>
+
+▸ **addEvent**(`name`, `attributes?`, `startTime?`): `this`
+
+Ajoute un événement nommé au span. Utile pour marquer des moments qui ne correspondent pas à des spans, comme la compaction du contexte, la détection de boucles d&#39;outil ou le déclenchement de guardrails. Émet un avertissement et n&#39;a aucun effet après `end()`. Reproduit le comportement de `OTel Span.addEvent`.
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom           | Type         |
+| :------------ | :----------- |
+| `name`        | `string`     |
+| `attributes?` | `Attributes` |
+| `startTime?`  | `TimeInput`  |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`this`
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+SpanBase.addEvent
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/spanBase.ts:82](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L82)
+
+***
 
 <div id="end">
   ### end
@@ -78,16 +134,17 @@ try {
 
 ▸ **end**(`opts?`): `void`
 
-Ferme le span du SubAgent. Cette opération est idempotente. Passez `error` pour marquer le span comme ayant échoué.
+Lisez les valeurs actuelles des champs (pour refléter les mutations effectuées via `record()`
+depuis `start`) et fermez le span. Cette opération est idempotente. Passez `error` pour marquer le span comme ayant échoué;
+passez `endTime` pour antidater la fermeture.
 
 <div id="parameters">
   #### Paramètres
 </div>
 
-| Nom           | Type     |
-| :------------ | :------- |
-| `opts?`       | `Object` |
-| `opts.error?` | `Error`  |
+| Nom     | Type             |
+| :------ | :--------------- |
+| `opts?` | `SpanEndOptions` |
 
 <div id="returns">
   #### Renvoie
@@ -99,7 +156,88 @@ Ferme le span du SubAgent. Cette opération est idempotente. Passez `error` pour
   #### Défini dans
 </div>
 
-[genai/subagent.ts:65](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/subagent.ts#L65)
+[src/genai/subagent.ts:153](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L153)
+
+***
+
+<div id="record">
+  ### record
+</div>
+
+▸ **record**(`opts`): `this`
+
+Définit plusieurs champs à la fois. Remplace (sans fusionner).
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom                        | Type       |
+| :------------------------- | :--------- |
+| `opts`                     | `Object`   |
+| `opts.agentDescription?`   | `string`   |
+| `opts.agentId?`            | `string`   |
+| `opts.agentVersion?`       | `string`   |
+| `opts.model?`              | `string`   |
+| `opts.name?`               | `string`   |
+| `opts.systemInstructions?` | `string`[] |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`this`
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/subagent.ts:117](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L117)
+
+***
+
+<div id="setattributes">
+  ### setAttributes
+</div>
+
+▸ **setAttributes**(`attributes`): `this`
+
+Définit plusieurs attributs du span en une seule fois. Affiche un avertissement et n’a aucun effet après
+`end()`. Reprend le comportement de OTel `Span.setAttributes` (et de
+`set_attributes` du SDK Python).
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom          | Type         |
+| :----------- | :----------- |
+| `attributes` | `Attributes` |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`this`
+
+`Exemple`
+
+```ts twoslash
+// @noErrors
+span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
+```
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+SpanBase.setAttributes
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L63)
 
 ***
 
@@ -127,4 +265,4 @@ Ferme le span du SubAgent. Cette opération est idempotente. Passez `error` pour
   #### Défini dans
 </div>
 
-[genai/subagent.ts:44](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/subagent.ts#L44)
+[src/genai/subagent.ts:93](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L93)

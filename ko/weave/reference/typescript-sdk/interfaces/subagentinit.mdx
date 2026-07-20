@@ -1,9 +1,17 @@
 ---
-title: "인터페이스: SubAgentInit"
+title: "SubAgentInit"
 description: "TypeScript SDK 레퍼런스"
 ---
 
 [weave](../) / SubAgentInit
+
+<div id="hierarchy">
+  ## 계층 구조
+</div>
+
+* `SpanInitBase`
+
+  ↳ `SubAgentInit`
 
 <div id="table-of-contents">
   ## 목차
@@ -13,10 +21,57 @@ description: "TypeScript SDK 레퍼런스"
   ### 속성
 </div>
 
+* [agentDescription](./subagentinit#agentdescription)
+* [agentId](./subagentinit#agentid)
+* [agentVersion](./subagentinit#agentversion)
 * [모델](./subagentinit#model)
-* [이름](./subagentinit#name)
+* [name](./subagentinit#name)
+* [startTime](./subagentinit#starttime)
+* [systemInstructions](./subagentinit#systeminstructions)
 
 ## 속성
+
+<div id="agentdescription">
+  ### agentDescription
+</div>
+
+• `선택` **agentDescription**: `string`
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/genai/subagent.ts:24](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L24)
+
+***
+
+<div id="agentid">
+  ### agentId
+</div>
+
+• `선택` **agentId**: `string`
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/genai/subagent.ts:23](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L23)
+
+***
+
+<div id="agentversion">
+  ### agentVersion
+</div>
+
+• `선택` **agentVersion**: `string`
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/genai/subagent.ts:25](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L25)
+
+***
 
 <div id="model">
   ### model
@@ -28,7 +83,7 @@ description: "TypeScript SDK 레퍼런스"
   #### 정의 위치
 </div>
 
-[genai/subagent.ts:15](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/subagent.ts#L15)
+[src/genai/subagent.ts:21](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L21)
 
 ***
 
@@ -42,4 +97,38 @@ description: "TypeScript SDK 레퍼런스"
   #### 정의 위치
 </div>
 
-[genai/subagent.ts:14](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/subagent.ts#L14)
+[src/genai/subagent.ts:20](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L20)
+
+***
+
+<div id="starttime">
+  ### startTime
+</div>
+
+• `선택` **startTime**: `TimeInput`
+
+<div id="inherited-from">
+  #### 상속됨
+</div>
+
+SpanInitBase.startTime
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/genai/spanBase.ts:17](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L17)
+
+***
+
+<div id="systeminstructions">
+  ### systemInstructions
+</div>
+
+• `선택` **systemInstructions**: `string`[]
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/genai/subagent.ts:22](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L22)

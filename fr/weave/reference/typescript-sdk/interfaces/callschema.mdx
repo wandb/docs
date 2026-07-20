@@ -1,5 +1,5 @@
 ---
-title: "Interface : CallSchema"
+title: "CallSchema"
 description: "Référence du SDK TypeScript"
 ---
 
@@ -20,6 +20,7 @@ CallSchema
 * [display&#95;name](./callschema#display_name)
 * [ended&#95;at](./callschema#ended_at)
 * [exception](./callschema#exception)
+* [expire&#95;at](./callschema#expire_at)
 * [id](./callschema#id)
 * [inputs](./callschema#inputs)
 * [op&#95;name](./callschema#op_name)
@@ -27,10 +28,17 @@ CallSchema
 * [parent&#95;id](./callschema#parent_id)
 * [project&#95;id](./callschema#project_id)
 * [started&#95;at](./callschema#started_at)
+* [storage&#95;size&#95;bytes](./callschema#storage_size_bytes)
 * [summary](./callschema#summary)
+* [thread&#95;id](./callschema#thread_id)
+* [total&#95;storage&#95;size&#95;bytes](./callschema#total_storage_size_bytes)
 * [trace&#95;id](./callschema#trace_id)
+* [turn&#95;id](./callschema#turn_id)
 * [wb&#95;run&#95;id](./callschema#wb_run_id)
+* [wb&#95;run&#95;step](./callschema#wb_run_step)
+* [wb&#95;run&#95;step&#95;end](./callschema#wb_run_step_end)
 * [wb&#95;user&#95;id](./callschema#wb_user_id)
+* [wb&#95;username](./callschema#wb_username)
 
 ## Propriétés
 
@@ -38,7 +46,7 @@ CallSchema
   ### attributes
 </div>
 
-• **attributes**: `objet`
+• **attributes**: `Record`&lt;`string`, `any`&gt;
 
 Attributs
 
@@ -46,7 +54,7 @@ Attributs
   #### Défini dans
 </div>
 
-[generated/traceServerApi.ts:120](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/generated/traceServerApi.ts#L120)
+[src/generated/traceServerApi.ts:1870](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1870)
 
 ***
 
@@ -62,7 +70,7 @@ Date de suppression
   #### Défini dans
 </div>
 
-[generated/traceServerApi.ts:135](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/generated/traceServerApi.ts#L135)
+[src/generated/traceServerApi.ts:1891](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1891)
 
 ***
 
@@ -78,7 +86,7 @@ Nom d’affichage
   #### Défini dans
 </div>
 
-[generated/traceServerApi.ts:109](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/generated/traceServerApi.ts#L109)
+[src/generated/traceServerApi.ts:1855](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1855)
 
 ***
 
@@ -94,7 +102,7 @@ Date de fin
   #### Défini dans
 </div>
 
-[generated/traceServerApi.ts:124](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/generated/traceServerApi.ts#L124)
+[src/generated/traceServerApi.ts:1874](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1874)
 
 ***
 
@@ -110,7 +118,24 @@ Exception
   #### Défini dans
 </div>
 
-[generated/traceServerApi.ts:126](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/generated/traceServerApi.ts#L126)
+[src/generated/traceServerApi.ts:1876](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1876)
+
+***
+
+<div id="expire_at">
+  ### expire_at
+</div>
+
+• `Optional` **expire&#95;at**: `null` | `string`
+
+Date d’expiration
+Horodatage d’expiration de cet appel. None = aucun TTL n’est configuré pour le projet (la ligne n’expirera pas).
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/generated/traceServerApi.ts:1896](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1896)
 
 ***
 
@@ -126,7 +151,7 @@ ID
   #### Défini dans
 </div>
 
-[generated/traceServerApi.ts:103](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/generated/traceServerApi.ts#L103)
+[src/generated/traceServerApi.ts:1849](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1849)
 
 ***
 
@@ -134,7 +159,7 @@ ID
   ### inputs
 </div>
 
-• **inputs**: `objet`
+• **inputs**: `Record`&lt;`string`, `any`&gt;
 
 inputs
 
@@ -142,7 +167,7 @@ inputs
   #### Défini dans
 </div>
 
-[generated/traceServerApi.ts:122](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/generated/traceServerApi.ts#L122)
+[src/generated/traceServerApi.ts:1872](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1872)
 
 ***
 
@@ -158,7 +183,7 @@ Nom de l’op
   #### Défini dans
 </div>
 
-[generated/traceServerApi.ts:107](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/generated/traceServerApi.ts#L107)
+[src/generated/traceServerApi.ts:1853](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1853)
 
 ***
 
@@ -174,7 +199,7 @@ Sortie
   #### Défini dans
 </div>
 
-[generated/traceServerApi.ts:128](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/generated/traceServerApi.ts#L128)
+[src/generated/traceServerApi.ts:1878](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1878)
 
 ***
 
@@ -190,7 +215,7 @@ ID du parent
   #### Défini dans
 </div>
 
-[generated/traceServerApi.ts:113](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/generated/traceServerApi.ts#L113)
+[src/generated/traceServerApi.ts:1859](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1859)
 
 ***
 
@@ -206,7 +231,7 @@ ID du projet
   #### Défini dans
 </div>
 
-[generated/traceServerApi.ts:105](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/generated/traceServerApi.ts#L105)
+[src/generated/traceServerApi.ts:1851](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1851)
 
 ***
 
@@ -226,7 +251,23 @@ date-time
   #### Défini dans
 </div>
 
-[generated/traceServerApi.ts:118](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/generated/traceServerApi.ts#L118)
+[src/generated/traceServerApi.ts:1868](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1868)
+
+***
+
+<div id="storage_size_bytes">
+  ### storage_size_bytes
+</div>
+
+• `Facultatif` **storage&#95;size&#95;bytes**: `null` | `number`
+
+Taille de stockage en octets
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/generated/traceServerApi.ts:1898](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1898)
 
 ***
 
@@ -234,13 +275,45 @@ date-time
   ### summary
 </div>
 
-• `facultatif` **summary**: `objet`
+• `facultatif` **summary**: `Record`&lt;`string`, `any`&gt;
 
 <div id="defined-in">
   #### Défini dans
 </div>
 
-[generated/traceServerApi.ts:129](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/generated/traceServerApi.ts#L129)
+[src/generated/traceServerApi.ts:1879](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1879)
+
+***
+
+<div id="thread_id">
+  ### thread_id
+</div>
+
+• `facultatif` **thread&#95;id**: `null` | `string`
+
+ID du thread
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/generated/traceServerApi.ts:1861](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1861)
+
+***
+
+<div id="total_storage_size_bytes">
+  ### total_storage_size_bytes
+</div>
+
+• `Facultatif` **total&#95;storage&#95;size&#95;bytes**: `null` | `number`
+
+Taille totale de stockage en octets
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/generated/traceServerApi.ts:1900](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1900)
 
 ***
 
@@ -256,7 +329,23 @@ ID de trace
   #### Défini dans
 </div>
 
-[generated/traceServerApi.ts:111](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/generated/traceServerApi.ts#L111)
+[src/generated/traceServerApi.ts:1857](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1857)
+
+***
+
+<div id="turn_id">
+  ### turn_id
+</div>
+
+• `facultatif` **turn&#95;id**: `null` | `string`
+
+ID du tour de conversation
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/generated/traceServerApi.ts:1863](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1863)
 
 ***
 
@@ -272,7 +361,39 @@ ID de run Wb
   #### Défini dans
 </div>
 
-[generated/traceServerApi.ts:133](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/generated/traceServerApi.ts#L133)
+[src/generated/traceServerApi.ts:1885](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1885)
+
+***
+
+<div id="wb_run_step">
+  ### wb_run_step
+</div>
+
+• `facultatif` **wb&#95;run&#95;step**: `null` | `number`
+
+Étape de run W&amp;B
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/generated/traceServerApi.ts:1887](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1887)
+
+***
+
+<div id="wb_run_step_end">
+  ### wb_run_step_end
+</div>
+
+• `Optional` **wb&#95;run&#95;step&#95;end**: `null` | `number`
+
+Fin de l’étape du run W&amp;B
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/generated/traceServerApi.ts:1889](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1889)
 
 ***
 
@@ -288,4 +409,20 @@ ID utilisateur Wb
   #### Défini dans
 </div>
 
-[generated/traceServerApi.ts:131](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/generated/traceServerApi.ts#L131)
+[src/generated/traceServerApi.ts:1881](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1881)
+
+***
+
+<div id="wb_username">
+  ### wb_username
+</div>
+
+• `facultatif` **wb&#95;username**: `null` | `string`
+
+Nom d’utilisateur W&amp;B
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/generated/traceServerApi.ts:1883](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1883)

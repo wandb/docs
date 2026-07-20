@@ -195,6 +195,7 @@ wandb.Api.artifact_collection_exists(type="type", name="collection_name")
 artifact_collections(
     project_name: 'str',
     type_name: 'str',
+    order: 'str | None' = None,
     per_page: 'int' = 50,
     start: 'str | None' = None
 ) → ArtifactCollections
@@ -202,10 +203,11 @@ artifact_collections(
 
 조건에 맞는 아티팩트 컬렉션 목록을 반환합니다.
 
-**매개변수:**
+**인수:**
 
 * `project_name`:  필터링할 프로젝트 이름입니다.
-* `type_name`:  필터링할 artifact 유형 이름입니다.
+* `type_name`:  필터링할 아티팩트 유형 이름입니다.
+* `order`:  결과 순서를 지정하는 선택 string입니다.  접두사로 &#39;+&#39;를 붙이면 오름차순으로 정렬됩니다(기본값).  접두사로 &#39;-&#39;를 붙이면 내림차순으로 정렬됩니다.
 * `per_page`:  쿼리 페이지네이션의 페이지 크기를 설정합니다.  일반적으로 이 값을 변경할 이유는 없습니다.
 * `start`:  이전 paginator의 `.cursor` 속성에서 캡처한 값을 사용해 이전 쿼리를 다시 이어가기 위한 페이지네이션 커서입니다.
 
@@ -299,6 +301,7 @@ artifact_versions(type_name, name, per_page=50)
 artifacts(
     type_name: 'str',
     name: 'str',
+    order: 'str | None' = None,
     per_page: 'int' = 50,
     tags: 'list[str] | None' = None,
     start: 'str | None' = None
@@ -311,6 +314,7 @@ artifacts(
 
 * `type_name`: 가져올 아티팩트의 유형입니다.
 * `name`: 아티팩트의 컬렉션 이름입니다. 선택적으로 아티팩트를 로깅한 entity를 접두사로 추가하고 그 뒤에 슬래시를 붙일 수 있습니다.
+* `order`: 결과의 순서를 지정하는 선택 string입니다. `+` 접두사가 있으면 오름차순으로 정렬되고(기본값), `-` 접두사가 있으면 내림차순으로 정렬됩니다.
 * `per_page`: 쿼리 페이지네이션의 페이지 크기를 설정합니다. 일반적으로 이 값을 변경할 이유는 없습니다.
 * `tags`: 지정한 tags를 모두 가진 아티팩트만 반환합니다.
 * `start`: 이전 paginator의 `.cursor` 속성에서 캡처한 값으로, 이전 쿼리를 다시 이어서 실행하기 위한 페이지네이션 커서입니다.
@@ -905,6 +909,7 @@ queued_run(
 registries(
     organization: 'str | None' = None,
     filter: 'dict[str, Any] | None' = None,
+    order: 'str | None' = None,
     per_page: 'int' = 100,
     start: 'str | None' = None
 ) → Registries
@@ -916,10 +921,11 @@ registries(
 
 **매개변수:**
 
-* `organization`: (str, 선택 사항) 가져올 레지스트리의 조직입니다. 지정하지 않으면 사용자 설정에 지정된 조직을 사용합니다.
-* `filter`: (dict, 선택 사항) lazy 레지스트리 이터레이터의 각 객체에 적용할 MongoDB 스타일 필터입니다. 레지스트리에 대해 필터링할 수 있는 필드는 `name`, `description`, `created_at`, `updated_at`입니다. 컬렉션에 대해 필터링할 수 있는 필드는 `name`, `tag`, `description`, `created_at`, `updated_at`입니다. 버전에 대해 필터링할 수 있는 필드는 `tag`, `alias`, `created_at`, `updated_at`, `metadata`입니다.
-* `per_page`: 쿼리 페이지네이션의 페이지 크기를 설정합니다.
-* `start`: 이전 paginator의 `.cursor` 속성에서 캡처한 값으로 이전 쿼리를 이어서 수행하기 위한 페이지네이션 커서입니다.
+* `organization`:  가져올 레지스트리의 조직입니다. 지정하지 않으면 사용자 설정에 지정된 조직을 사용합니다.
+* `filter`:  lazy 레지스트리 이터레이터의 각 객체에 적용할 MongoDB 스타일 필터입니다. 레지스트리에 대해 필터링할 수 있는 필드는 `name`, `description`, `created_at`, `updated_at`입니다. 컬렉션에 대해 필터링할 수 있는 필드는 `name`, `tag`, `description`, `created_at`, `updated_at`입니다. 버전에 대해 필터링할 수 있는 필드는 `tag`, `alias`, `created_at`, `updated_at`, `metadata`입니다.
+* `order`:  결과 순서를 지정하는 선택 사항인 string입니다. `+` 접두사가 있으면 오름차순으로 정렬합니다(기본값). `-` 접두사가 있으면 내림차순으로 정렬합니다.
+* `per_page`:  쿼리 페이지네이션의 페이지 크기를 설정합니다.
+* `start`:  이전 paginator의 `.cursor` 속성에서 캡처한 값으로 이전 쿼리를 이어서 수행하기 위한 페이지네이션 커서입니다.
 
 **반환값:**
 `Registry` 객체의 lazy 이터레이터입니다.
@@ -930,7 +936,7 @@ registries(
 ```python
 import wandb
 
-api = wandb.Api()  # entity가 여러 org에 속한 경우 org를 지정하십시오
+api = wandb.Api()  # 엔터티가 여러 조직(org)에 속한 경우 조직을 지정하세요
 api.registries(filter={"name": {"$regex": "model"}})
 ```
 
@@ -1082,7 +1088,7 @@ runs(
     filters: 'dict[str, Any] | None' = None,
     order: 'str' = '+created_at',
     per_page: 'int' = 50,
-    include_sweeps: 'bool' = True,
+    include_sweeps: 'bool' = False,
     lazy: 'bool' = True
 )
 ```
@@ -1127,7 +1133,7 @@ runs(
 * `For example`: `{"config.experiment_name": "foo"}` 는 실험 이름이 &quot;foo&quot;로 설정된 설정 항목이 있는 run을 찾습니다
 * `order`: (str) 정렬 기준으로 `created_at`, `heartbeat_at`, `config.*.value`, 또는 `summary_metrics.*`를 사용할 수 있습니다. 앞에 +를 붙이면 오름차순(기본값)입니다. 앞에 -를 붙이면 내림차순입니다. 기본 정렬은 가장 오래된 것부터 최신순까지의 run.created&#95;at입니다.
 * `per_page`: (int) 쿼리 페이지네이션의 페이지 크기를 설정합니다.
-* `include_sweeps`: (bool) 결과에 sweep run을 포함할지 여부입니다.
+* `include_sweeps`: (bool) 각 run 결과에서 sweep 객체를 eager 방식으로 가져올지 여부입니다.
 * `lazy`: (bool) 더 빠른 성능을 위해 lazy 로딩을 사용할지 여부입니다. True(기본값)인 경우 처음에는 필수 run 메타데이터만 로드됩니다. config, summaryMetrics, systemMetrics 같은 큰 필드는 접근 시 필요에 따라 로드됩니다. 전체 데이터를 처음부터 로드하려면 False로 설정하세요.
 
 **반환값:**
@@ -1144,7 +1150,7 @@ Api.runs(path="my_entity/project", filters={"config.experiment_name": "foo"})
 ```
 
 ```python
-# config.experiment_name이 "foo" 또는 "bar"로 설정된 프로젝트의 run 찾기
+# config.experiment_name이 "foo" 또는 "bar"로 설정된 프로젝트의 실행(Runs) 찾기
 Api.runs(
     path="my_entity/project",
     filters={
@@ -1174,7 +1180,7 @@ Api.runs(
 ```
 
 ```python
-# 오름차순 loss로 정렬된 프로젝트의 runs 찾기
+# 손실(loss)을 오름차순으로 정렬한 프로젝트의 러닝(Runs) 찾기
 Api.runs(path="my_entity/project", order="+summary_metrics.loss")
 ```
 

@@ -1,5 +1,5 @@
 ---
-title: "Classe : WeaveClient"
+title: "WeaveClient"
 description: "Référence du SDK TypeScript"
 ---
 
@@ -32,6 +32,13 @@ description: "Référence du SDK TypeScript"
 * [finishCall](./weaveclient#finishcall)
 * [finishCallWithException](./weaveclient#finishcallwithexception)
 * [get](./weaveclient#get)
+* [getAgentCustomAttributes](./weaveclient#getagentcustomattributes)
+* [getAgentSpanStats](./weaveclient#getagentspanstats)
+* [getAgentSpans](./weaveclient#getagentspans)
+* [getAgentTurn](./weaveclient#getagentturn)
+* [getAgentTurns](./weaveclient#getagentturns)
+* [getAgentVersions](./weaveclient#getagentversions)
+* [getAgents](./weaveclient#getagents)
 * [getCall](./weaveclient#getcall)
 * [getCallStack](./weaveclient#getcallstack)
 * [getCalls](./weaveclient#getcalls)
@@ -45,6 +52,7 @@ description: "Référence du SDK TypeScript"
 * [saveCallEnd](./weaveclient#savecallend)
 * [saveCallStart](./weaveclient#savecallstart)
 * [saveOp](./weaveclient#saveop)
+* [searchAgents](./weaveclient#searchagents)
 * [serializeAudio](./weaveclient#serializeaudio)
 * [updateCall](./weaveclient#updatecall)
 * [waitForBatchProcessing](./weaveclient#waitforbatchprocessing)
@@ -55,18 +63,18 @@ description: "Référence du SDK TypeScript"
   ### constructeur
 </div>
 
-• **new WeaveClient**(`traceServerApi`, `wandbServerApi`, `projectId`, `settings?`): [`WeaveClient`](./weaveclient)
+• **new WeaveClient**(`«destructured»`): [`WeaveClient`](./weaveclient)
 
 <div id="parameters">
   #### Paramètres
 </div>
 
-| Nom              | Type               |
-| :--------------- | :----------------- |
-| `traceServerApi` | `Api`&lt;`any`&gt; |
-| `wandbServerApi` | `WandbServerApi`   |
-| `projectId`      | `string`           |
-| `settings`       | `Settings`         |
+| Nom                | Type                                        |
+| :----------------- | :------------------------------------------ |
+| `«destructured»`   | `objet`                                     |
+| › `projectId`      | `string`                                    |
+| › `settings?`      | `Partial`&lt;[`Settings`](../#settings)&gt; |
+| › `traceServerApi` | `Api`&lt;`any`&gt;                          |
 
 <div id="returns">
   #### Renvoie
@@ -78,7 +86,7 @@ description: "Référence du SDK TypeScript"
   #### Défini dans
 </div>
 
-[weaveClient.ts:190](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L190)
+[src/weaveClient.ts:459](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L459)
 
 ## Propriétés
 
@@ -92,7 +100,7 @@ description: "Référence du SDK TypeScript"
   #### Défini dans
 </div>
 
-[weaveClient.ts:193](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L193)
+[src/weaveClient.ts:456](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L456)
 
 ***
 
@@ -100,13 +108,13 @@ description: "Référence du SDK TypeScript"
   ### settings
 </div>
 
-• **settings**: `Settings`
+• **settings**: [`Settings`](../#settings)
 
 <div id="defined-in">
   #### Défini dans
 </div>
 
-[weaveClient.ts:194](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L194)
+[src/weaveClient.ts:457](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L457)
 
 ***
 
@@ -120,7 +128,7 @@ description: "Référence du SDK TypeScript"
   #### Défini dans
 </div>
 
-[weaveClient.ts:191](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L191)
+[src/weaveClient.ts:455](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L455)
 
 ## Méthodes
 
@@ -154,7 +162,7 @@ Utilisé dans l’évaluation impérative pour associer les résultats du scorer
   #### Défini dans
 </div>
 
-[weaveClient.ts:1132](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L1132)
+[src/weaveClient.ts:1727](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1727)
 
 ***
 
@@ -191,7 +199,7 @@ Utilisé dans l’évaluation impérative pour associer les résultats du scorer
   #### Défini dans
 </div>
 
-[weaveClient.ts:979](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L979)
+[src/weaveClient.ts:1570](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1570)
 
 ***
 
@@ -225,7 +233,7 @@ Utilisé dans l’évaluation impérative pour associer les résultats du scorer
   #### Défini dans
 </div>
 
-[weaveClient.ts:1039](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L1039)
+[src/weaveClient.ts:1630](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1630)
 
 ***
 
@@ -258,7 +266,7 @@ Utilisé dans l’évaluation impérative pour associer les résultats du scorer
   #### Défini dans
 </div>
 
-[weaveClient.ts:1079](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L1079)
+[src/weaveClient.ts:1672](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1672)
 
 ***
 
@@ -286,7 +294,376 @@ Utilisé dans l’évaluation impérative pour associer les résultats du scorer
   #### Défini dans
 </div>
 
-[weaveClient.ts:435](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L435)
+[src/weaveClient.ts:1025](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1025)
+
+***
+
+<div id="getagentcustomattributes">
+  ### getAgentCustomAttributes
+</div>
+
+▸ **getAgentCustomAttributes**(`options`): `Promise`&lt;[`Réponse`](../#response)&lt;`GetAgentCustomAttributesResult`&gt;&gt;
+
+Découvrez les clés d’attributs personnalisés typés observées sur les spans d’agent dans le
+projet. Chaque ligne de résultat correspond à un triplet `(source, key, value_type)`, ainsi qu’au
+nombre de spans qui le portent ; c’est ce qu’utilisent les API de
+requête/groupe/stats des spans pour référencer les attributs personnalisés.
+
+Filtrez les spans pris en compte en transmettant `query` (un filtre de span
+structuré), `startedAfter` / `startedBefore` (ISO-8601), ou les deux. Utilisez
+`limit` / `offset` pour parcourir les clés découvertes par pages.
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom       | Type                              |
+| :-------- | :-------------------------------- |
+| `options` | `GetAgentCustomAttributesOptions` |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`Promise`&lt;[`Réponse`](../#response)&lt;`GetAgentCustomAttributesResult`&gt;&gt;
+
+`Exemple`
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgentCustomAttributes({
+  query: {
+    $expr: {
+      $eq: [{$getField: 'agent_name'}, {$literal: 'my-agent'}],
+    },
+  },
+  startedAfter: '2026-06-15T00:00:00Z',
+  limit: 200,
+});
+
+for (const attr of resp.data.attributes ?? []) {
+  console.log(`${attr.source}.${attr.key} (${attr.value_type}): ${attr.span_count}`);
+}
+```
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/weaveClient.ts:772](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L772)
+
+***
+
+<div id="getagentspanstats">
+  ### getAgentSpanStats
+</div>
+
+▸ **getAgentSpanStats**(`options`): `Promise`&lt;[`Réponse`](../#response)&lt;`GetAgentSpanStatsResult`&gt;&gt;
+
+Agrégations sur les spans d’agent dans le projet, renvoyées sous forme de lignes + métadonnées de
+colonne adaptées aux visualisations de séries chronologiques / en buckets.
+
+`start` (requis) et `end` définissent la fenêtre temporelle. Chaque entrée de
+`metrics` déclare un champ à extraire et la façon de l’agréger (`sum`,
+`avg`, `count`, percentiles, etc.). Transmettez `granularity` (secondes) pour
+regrouper les lignes par bucket temporel, ou `groupBy` pour ventiler les résultats par agent /
+provider / model / etc. `query` filtre les spans correspondants avant
+l’agrégation.
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom       | Type                       |
+| :-------- | :------------------------- |
+| `options` | `GetAgentSpanStatsOptions` |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`Promise`&lt;[`Réponse`](../#response)&lt;`GetAgentSpanStatsResult`&gt;&gt;
+
+`Exemple`
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgentSpanStats({
+  start: '2026-06-10T00:00:00Z',
+  end: '2026-06-23T00:00:00Z',
+  granularity: 86400, // une ligne par jour
+  metrics: [
+    {
+      alias: 'total_input_tokens',
+      value_type: 'number',
+      aggregations: ['sum'],
+      value: {source: 'field', key: 'input_tokens'},
+    },
+  ],
+  groupBy: [{key: 'agent_name'}],
+});
+
+for (const row of resp.data.rows ?? []) {
+  console.log(row.started_at_bucket, row.agent_name, row.total_input_tokens);
+}
+```
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/weaveClient.ts:621](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L621)
+
+***
+
+<div id="getagentspans">
+  ### getAgentSpans
+</div>
+
+▸ **getAgentSpans**(`options`): `Promise`&lt;[`Réponse`](../#response)&lt;[`GetAgentSpansResult`](../#getagentspansresult)&gt;&gt;
+
+Interroge les spans des agents, avec un filtrage facultatif par nom d’agent et/ou via une
+expression de requête de type Mongo.
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom       | Type                                                         |
+| :-------- | :----------------------------------------------------------- |
+| `options` | [`GetAgentSpansOptions`](../interfaces/getagentspansoptions) |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`Promise`&lt;[`Réponse`](../#response)&lt;[`GetAgentSpansResult`](../#getagentspansresult)&gt;&gt;
+
+`Exemple`
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgentSpans({agentName: 'my-agent', limit: 20});
+
+for (const span of resp.data.spans) {
+  console.log(span.span_id, span.span_name, span.input_tokens);
+}
+```
+
+`Exemple`
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+
+const resp = await client.getAgentSpans({
+  agentName: 'my-agent',
+  query: {
+    $expr: {$gt: [{$getField: 'input_tokens'}, {$literal: 1000}]},
+  },
+});
+
+for (const span of resp.data.spans) {
+  console.log(span.span_id, span.span_name, span.input_tokens);
+}
+```
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/weaveClient.ts:566](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L566)
+
+***
+
+<div id="getagentturn">
+  ### getAgentTurn
+</div>
+
+▸ **getAgentTurn**(`options`): `Promise`&lt;[`Réponse`](../#response)&lt;`AgentTraceChatRes`&gt;&gt;
+
+Obtenez les données (y compris les messages) d’un seul tour de conversation (par traceId).
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom       | Type                                                       |
+| :-------- | :--------------------------------------------------------- |
+| `options` | [`GetAgentTurnOptions`](../interfaces/getagentturnoptions) |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`Promise`&lt;[`Réponse`](../#response)&lt;`AgentTraceChatRes`&gt;&gt;
+
+`Exemple`
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgentTurn({
+  traceId: '01997b8a-2c89-7c4d-9d0e-2f7e5b9a1b2c',
+  includeFeedback: true,
+});
+
+console.log(resp.data.root_span_name, resp.data.total_duration_ms);
+
+for (const message of resp.data.messages ?? []) {
+  if (message.user_message) console.log('user:', message.user_message);
+  if (message.assistant_message) console.log('assistant:', message.assistant_message);
+}
+```
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/weaveClient.ts:655](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L655)
+
+***
+
+<div id="getagentturns">
+  ### getAgentTurns
+</div>
+
+▸ **getAgentTurns**(`options`): `Promise`&lt;[`Réponse`](../#response)&lt;[`GetAgentTurnsResult`](../#getagentturnsresult)&gt;&gt;
+
+Obtenir les données (y compris les messages) de plusieurs tours de conversation (par conversationId).
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom       | Type                                                         |
+| :-------- | :----------------------------------------------------------- |
+| `options` | [`GetAgentTurnsOptions`](../interfaces/getagentturnsoptions) |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`Promise`&lt;[`Réponse`](../#response)&lt;[`GetAgentTurnsResult`](../#getagentturnsresult)&gt;&gt;
+
+`Exemple`
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgentTurns({
+  conversationId: 'trace_c50312356de3487fa90e381c9399b5b4',
+  limit: 20,
+  includeFeedback: true,
+});
+
+for (const turn of resp.data.turns ?? []) {
+  console.log(turn.trace_id, turn.root_span_name);
+  for (const message of turn.messages ?? []) {
+    if (message.user_message) console.log('user:', message.user_message);
+    if (message.assistant_message) console.log('assistant:', message.assistant_message);
+  }
+}
+
+console.log(`total turns: ${resp.data.total_turns}, has more: ${resp.data.has_more}`);
+```
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/weaveClient.ts:688](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L688)
+
+***
+
+<div id="getagentversions">
+  ### getAgentVersions
+</div>
+
+▸ **getAgentVersions**(`options`): `Promise`&lt;[`Réponse`](../#response)&lt;[`GetAgentVersionsResult`](../#getagentversionsresult)&gt;&gt;
+
+Répertorie les versions d’un agent donné.
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom       | Type                                                               |
+| :-------- | :----------------------------------------------------------------- |
+| `options` | [`GetAgentVersionsOptions`](../interfaces/getagentversionsoptions) |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`Promise`&lt;[`Réponse`](../#response)&lt;[`GetAgentVersionsResult`](../#getagentversionsresult)&gt;&gt;
+
+`Exemple`
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgentVersions({agentName: 'my-agent', limit: 20});
+
+for (const version of resp.data.versions) {
+  console.log(version.agent_version, version.total_input_tokens);
+}
+
+console.log(`total count: ${resp.data.total_count}`)
+```
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/weaveClient.ts:522](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L522)
+
+***
+
+<div id="getagents">
+  ### getAgents
+</div>
+
+▸ **getAgents**(`options?`): `Promise`&lt;[`Réponse`](../#response)&lt;[`GetAgentsResult`](../#getagentsresult)&gt;&gt;
+
+Renvoie la liste des agents avec des statistiques agrégées.
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom       | Type                                                 |
+| :-------- | :--------------------------------------------------- |
+| `options` | [`GetAgentsOptions`](../interfaces/getagentsoptions) |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`Promise`&lt;[`Réponse`](../#response)&lt;[`GetAgentsResult`](../#getagentsresult)&gt;&gt;
+
+`Exemple`
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgents({limit: 20});
+
+for (const agent of resp.data.agents) {
+  console.log(agent.agent_name, agent.total_input_tokens);
+}
+
+console.log(`total count: ${resp.data.total_count}`)
+```
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/weaveClient.ts:488](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L488)
 
 ***
 
@@ -315,7 +692,7 @@ Utilisé dans l’évaluation impérative pour associer les résultats du scorer
   #### Défini dans
 </div>
 
-[weaveClient.ts:312](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L312)
+[src/weaveClient.ts:902](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L902)
 
 ***
 
@@ -335,7 +712,7 @@ Utilisé dans l’évaluation impérative pour associer les résultats du scorer
   #### Défini dans
 </div>
 
-[weaveClient.ts:890](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L890)
+[src/weaveClient.ts:1482](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1482)
 
 ***
 
@@ -363,7 +740,7 @@ Utilisé dans l’évaluation impérative pour associer les résultats du scorer
   #### Défini dans
 </div>
 
-[weaveClient.ts:345](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L345)
+[src/weaveClient.ts:935](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L935)
 
 ▸ **getCalls**(`options?`, `includeCosts?`, `limit?`): `Promise`&lt;`Appel`[]&gt;
 
@@ -387,7 +764,7 @@ Utilisé dans l’évaluation impérative pour associer les résultats du scorer
   #### Défini dans
 </div>
 
-[weaveClient.ts:346](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L346)
+[src/weaveClient.ts:936](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L936)
 
 ***
 
@@ -395,7 +772,7 @@ Utilisé dans l’évaluation impérative pour associer les résultats du scorer
   ### getCallsIterator
 </div>
 
-▸ **getCallsIterator**(`options?`, `includeCosts?`, `limit?`): `AsyncIterableIterator`&lt;[`CallSchema`](../interfaces/callschema)&gt;
+▸ **getCallsIterator**(`options?`, `includeCosts?`, `limit?`): `AsyncIterableIterator`&lt;[`CallSchema`](../interfaces/callschema), `any`, `any`&gt;
 
 <div id="parameters">
   #### Paramètres
@@ -411,15 +788,15 @@ Utilisé dans l’évaluation impérative pour associer les résultats du scorer
   #### Renvoie
 </div>
 
-`AsyncIterableIterator`&lt;[`CallSchema`](../interfaces/callschema)&gt;
+`AsyncIterableIterator`&lt;[`CallSchema`](../interfaces/callschema), `any`, `any`&gt;
 
 <div id="defined-in">
   #### Défini dans
 </div>
 
-[weaveClient.ts:367](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L367)
+[src/weaveClient.ts:957](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L957)
 
-▸ **getCallsIterator**(`options?`): `AsyncIterableIterator`&lt;[`CallSchema`](../interfaces/callschema)&gt;
+▸ **getCallsIterator**(`options?`): `AsyncIterableIterator`&lt;[`CallSchema`](../interfaces/callschema), `any`, `any`&gt;
 
 <div id="parameters">
   #### Paramètres
@@ -433,13 +810,13 @@ Utilisé dans l’évaluation impérative pour associer les résultats du scorer
   #### Renvoie
 </div>
 
-`AsyncIterableIterator`&lt;[`CallSchema`](../interfaces/callschema)&gt;
+`AsyncIterableIterator`&lt;[`CallSchema`](../interfaces/callschema), `any`, `any`&gt;
 
 <div id="defined-in">
   #### Défini dans
 </div>
 
-[weaveClient.ts:372](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L372)
+[src/weaveClient.ts:962](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L962)
 
 ***
 
@@ -459,7 +836,7 @@ Utilisé dans l’évaluation impérative pour associer les résultats du scorer
   #### Défini dans
 </div>
 
-[weaveClient.ts:894](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L894)
+[src/weaveClient.ts:1486](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1486)
 
 ***
 
@@ -490,7 +867,7 @@ Lie une version publiée du prompt à un portefeuille du registre.
   #### Défini dans
 </div>
 
-[weaveClient.ts:591](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L591)
+[src/weaveClient.ts:1181](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1181)
 
 ***
 
@@ -519,7 +896,7 @@ Lie une version publiée du prompt à un portefeuille du registre.
   #### Défini dans
 </div>
 
-[weaveClient.ts:300](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L300)
+[src/weaveClient.ts:890](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L890)
 
 ***
 
@@ -545,7 +922,7 @@ Lie une version publiée du prompt à un portefeuille du registre.
   #### Défini dans
 </div>
 
-[weaveClient.ts:898](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L898)
+[src/weaveClient.ts:1490](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1490)
 
 ***
 
@@ -582,7 +959,7 @@ Lie une version publiée du prompt à un portefeuille du registre.
   #### Défini dans
 </div>
 
-[weaveClient.ts:906](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L906)
+[src/weaveClient.ts:1498](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1498)
 
 ***
 
@@ -619,7 +996,7 @@ Lie une version publiée du prompt à un portefeuille du registre.
   #### Défini dans
 </div>
 
-[weaveClient.ts:902](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L902)
+[src/weaveClient.ts:1494](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1494)
 
 ***
 
@@ -647,7 +1024,7 @@ Lie une version publiée du prompt à un portefeuille du registre.
   #### Défini dans
 </div>
 
-[weaveClient.ts:885](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L885)
+[src/weaveClient.ts:1477](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1477)
 
 ***
 
@@ -675,7 +1052,7 @@ Lie une version publiée du prompt à un portefeuille du registre.
   #### Défini dans
 </div>
 
-[weaveClient.ts:880](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L880)
+[src/weaveClient.ts:1472](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1472)
 
 ***
 
@@ -704,7 +1081,64 @@ Lie une version publiée du prompt à un portefeuille du registre.
   #### Défini dans
 </div>
 
-[weaveClient.ts:945](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L945)
+[src/weaveClient.ts:1537](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1537)
+
+***
+
+<div id="searchagents">
+  ### searchAgents
+</div>
+
+▸ **searchAgents**(`options`): `Promise`&lt;[`Réponse`](../#response)&lt;`SearchAgentsResult`&gt;&gt;
+
+Recherche en texte intégral dans les messages des agents du projet. Renvoie les correspondances
+regroupées par conversation, avec un aperçu de chaque message correspondant.
+
+`query` est le terme de recherche en texte intégral. Passez une chaîne vide pour récupérer
+tous les messages correspondant aux filtres structurés (`agentName`,
+`conversationId`, `traceId`) sans tenir compte d’une correspondance textuelle. Utilisez `limit` /
+`offset` pour paginer les résultats.
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom       | Type                  |
+| :-------- | :-------------------- |
+| `options` | `SearchAgentsOptions` |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`Promise`&lt;[`Réponse`](../#response)&lt;`SearchAgentsResult`&gt;&gt;
+
+`Exemple`
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.searchAgents({
+  query: 'Liverpool',
+  agentName: 'Assistant',
+  limit: 20,
+});
+
+for (const conversation of resp.data.results ?? []) {
+  console.log(`${conversation.conversation_id} (${conversation.agent_name})`);
+  for (const match of conversation.matched_messages) {
+    console.log(`  [${match.role}] ${match.content_preview}`);
+  }
+}
+
+console.log(`total conversations: ${resp.data.total_conversations}`);
+```
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/weaveClient.ts:730](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L730)
 
 ***
 
@@ -722,10 +1156,10 @@ Utilisez cette méthode lorsque vous créez manuellement des sorties d’appel (
   #### Paramètres
 </div>
 
-| Nom         | Type     | Valeur par défaut    | Description                                                                   |
-| :---------- | :------- | :------------------- | :---------------------------------------------------------------------------- |
-| `data`      | `Buffer` | `undefined`          | Octets audio bruts (WAV pour une compatibilité optimale avec les navigateurs) |
-| `audioType` | `"wav"`  | `DEFAULT_AUDIO_TYPE` | Format de fichier — actuellement, seul « wav » est pris en charge             |
+| Nom         | Type                              | Valeur par défaut    | Description                                                                   |
+| :---------- | :-------------------------------- | :------------------- | :---------------------------------------------------------------------------- |
+| `data`      | `Buffer`&lt;`ArrayBufferLike`&gt; | `undefined`          | Octets audio bruts (WAV pour une compatibilité optimale avec les navigateurs) |
+| `audioType` | `"wav"`                           | `DEFAULT_AUDIO_TYPE` | Format de fichier — actuellement, seul « wav » est pris en charge             |
 
 <div id="returns">
   #### Renvoie
@@ -737,7 +1171,7 @@ Utilisez cette méthode lorsque vous créez manuellement des sorties d’appel (
   #### Défini dans
 </div>
 
-[weaveClient.ts:832](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L832)
+[src/weaveClient.ts:1424](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1424)
 
 ***
 
@@ -766,7 +1200,7 @@ Utilisez cette méthode lorsque vous créez manuellement des sorties d’appel (
   #### Défini dans
 </div>
 
-[weaveClient.ts:1115](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L1115)
+[src/weaveClient.ts:1710](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1710)
 
 ***
 
@@ -786,4 +1220,4 @@ Utilisez cette méthode lorsque vous créez manuellement des sorties d’appel (
   #### Défini dans
 </div>
 
-[weaveClient.ts:211](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveClient.ts#L211)
+[src/weaveClient.ts:801](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L801)

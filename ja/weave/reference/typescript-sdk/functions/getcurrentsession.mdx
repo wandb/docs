@@ -7,20 +7,22 @@ description: "TypeScript SDK リファレンス"
   # getCurrentSession
 </div>
 
-▸ **getCurrentSession**(): [`Session`](../classes/session) | `undefined`
+<Warning>
+  **非推奨です。** 代わりに [getCurrentConversation](./getcurrentconversation) を使用してください。
+</Warning>
 
-現在の Session を返します。存在しない場合は `undefined` を返します。
+▸ **getCurrentSession**(): [`Conversation`](../classes/conversation) | `undefined`
 
 <div id="returns">
   #### 戻り値
 </div>
 
-[`Session`](../classes/session) | `undefined`
+[`Conversation`](../classes/conversation) | `undefined`
 
 <div id="defined-in">
   #### 定義場所
 </div>
 
-[genai/context.ts:95](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/context.ts#L95)
+[src/genai/context.ts:64](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/context.ts#L64)
 
 ***

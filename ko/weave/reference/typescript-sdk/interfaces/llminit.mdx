@@ -1,9 +1,17 @@
 ---
-title: "인터페이스: LLMInit"
+title: "LLMInit"
 description: "TypeScript SDK 레퍼런스"
 ---
 
 [weave](../) / LLMInit
+
+<div id="hierarchy">
+  ## 계층 구조
+</div>
+
+* `SpanInitBase`
+
+  ↳ `LLMInit`
 
 <div id="table-of-contents">
   ## 목차
@@ -15,6 +23,8 @@ description: "TypeScript SDK 레퍼런스"
 
 * [모델](./llminit#model)
 * [providerName](./llminit#providername)
+* [startTime](./llminit#starttime)
+* [systemInstructions](./llminit#systeminstructions)
 
 ## 속성
 
@@ -28,7 +38,7 @@ description: "TypeScript SDK 레퍼런스"
   #### 정의된 위치
 </div>
 
-[genai/llm.ts:31](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/llm.ts#L31)
+[src/genai/llm.ts:37](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L37)
 
 ***
 
@@ -42,4 +52,38 @@ description: "TypeScript SDK 레퍼런스"
   #### 정의된 위치
 </div>
 
-[genai/llm.ts:32](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/llm.ts#L32)
+[src/genai/llm.ts:38](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L38)
+
+***
+
+<div id="starttime">
+  ### startTime
+</div>
+
+• `선택` **startTime**: `TimeInput`
+
+<div id="inherited-from">
+  #### 상속됨
+</div>
+
+SpanInitBase.startTime
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[src/genai/spanBase.ts:17](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L17)
+
+***
+
+<div id="systeminstructions">
+  ### systemInstructions
+</div>
+
+• `선택` **systemInstructions**: `string`[]
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[src/genai/llm.ts:39](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L39)

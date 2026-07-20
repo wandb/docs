@@ -3,106 +3,217 @@ title: "OpenAI Agents SDK"
 description: "Weave を使用して、OpenAI Agents SDK で構築したエージェントをトレースします。"
 ---
 
-import AgentsPreview from '/snippets/ja/_includes/agents-public-preview.mdx';
+import AgentsViewTraces from '/snippets/ja/_includes/agents-view-traces.mdx';
 
-<AgentsPreview />
-
-[OpenAI Agents SDK](https://github.com/openai/openai-agents-python) は、OpenAI の API 上でエージェントやマルチエージェント ワークフローを構築するための軽量なフレームワークです。Weave は、OpenAI Agents SDK で構築されたエージェントを自動的にトレースし、各エージェントの呼び出し、サブエージェントへのハンドオフ、モデル呼び出し、ツール呼び出しを含むデータを取得します。Weave は、取得したデータを project の **Agents** ビューに表示します。
-
-<Note>
-  Weave TypeScript SDK は、OpenAI Agents SDK の自動パッチ適用をサポートしていません。
-</Note>
+OpenAI Agents SDK は、OpenAI の API 上でエージェントやマルチエージェント ワークフローを構築するための軽量なフレームワークです。Weave は、OpenAI Agents SDK で構築されたエージェントを自動的にトレースし、各エージェントの呼び出し、サブエージェントへのハンドオフ、モデルの Call、ツール呼び出しを含むデータを取得します。Weave は、取得したデータを project の **Agents** ビューに表示します。
 
 <div id="trace-openai-agents-sdk-agents-with-weave">
   ## OpenAI Agents SDK のエージェントを Weave でトレースする
 </div>
 
-Weave SDK は OpenAI Agents SDK に自動でパッチを適用するため、最小限の設定でエージェントのトレースを取得できます。このガイドでは、Weave を初期化したうえで、OpenAI Agents SDK で構築したマルチターンのリサーチエージェントを実行し、セッション全体を通じたすべてのエージェント呼び出し、モデル呼び出し、ツール呼び出しを Weave で取得する方法を説明します。
+<Tabs>
+  <Tab title="Python">
+    Weave SDK は [OpenAI Agents SDK for Python](https://github.com/openai/openai-agents-python) に自動でパッチを適用するため、最小限の設定でエージェントのトレースを取得できます。このガイドでは、Weave を初期化したうえで、OpenAI Agents SDK で構築したマルチターンのリサーチエージェントを実行し、セッション全体を通じて発生するすべてのエージェント呼び出し、Call、ツール呼び出しを Weave で取得する方法を説明します。
 
-<div id="prerequisites">
-  ### 前提条件
-</div>
+    ### 前提条件
 
-始める前に、以下が揃っていることを確認してください。
+    開始する前に、以下を用意してください。
 
-* W&amp;B アカウントと、`WANDB_API_KEY` 環境変数として設定された [APIキー](https://wandb.ai/authorize)。
-* [OpenAI APIキー](https://platform.openai.com/api-keys)。
-* Python 3.10+。
+    * `WANDB_API_KEY` 環境変数として設定した W&amp;B アカウントと [APIキー](https://wandb.ai/authorize)。
+    * [OpenAI APIキー](https://platform.openai.com/api-keys)。
+    * Python 3.10+。
+  </Tab>
+
+  <Tab title="TypeScript">
+    Weave は [OpenAI Agents Node SDK](https://github.com/openai/openai-agents-js) (`@openai/agents`) と連携し、エージェントの run を自動的にトレースします。`@openai/agents` バージョン `0.4.15` 以降が必要です。
+
+    ### 前提条件
+
+    開始する前に、以下を用意してください。
+
+    * `WANDB_API_KEY` 環境変数として設定した W&amp;B アカウントと [APIキー](https://wandb.ai/authorize)。
+    * [OpenAI APIキー](https://platform.openai.com/api-keys)。
+    * Node.js 18+。
+  </Tab>
+</Tabs>
 
 <div id="install-packages">
   ### パッケージをインストールする
 </div>
 
-スクリプトで Weave と OpenAI Agents SDK を利用できるように、開発環境に次のパッケージをインストールします。
+スクリプトで Weave と SDK を利用できるように、開発環境に次のパッケージをインストールします。
 
-```bash
-pip install weave openai-agents requests
-```
+<CodeGroup>
+  ```bash Python
+  pip install weave openai-agents requests
+  ```
+
+  ```bash TypeScript
+  npm install weave @openai/agents zod
+  ```
+</CodeGroup>
 
 <div id="initialize-weave-in-your-code">
   ### コードで Weave を初期化する
 </div>
 
-project に `weave.init` を追加し、W&amp;B のチーム名と project 名を指定してから、通常どおりエージェントを構築します。次のコードでは、`wikipedia_search` 関数ツールと `Research assistant` エージェントを定義し、Weave がトレースを取得しながら、OpenAI Agents SDK の `Runner` で 3 つの質問を実行します。
+<Tabs>
+  <Tab title="Python">
+    project に `weave.init` を追加し、W&amp;B のチーム名と project 名を指定してから、通常どおりエージェントを構築します。次のコードでは、`wikipedia_search` 関数ツールと `Research assistant` エージェントを定義し、Weave がトレースを取得しながら、OpenAI Agents SDK の `Runner` で 3 つの質問を実行します。
 
-```python lines
-import asyncio
-import requests
-import weave
-from agents import Agent, Runner, function_tool
+    ```python lines  highlight="6"
+    import asyncio
+    import requests
+    import weave
+    from agents import Agent, Runner, function_tool
 
-weave.init("<your-team>/<your-project-name>")
+    weave.init("<your-team>/<your-project-name>")
 
-@function_tool
-def wikipedia_search(query: str) -> str:
-    """Search Wikipedia for a topic and return its title and intro paragraph."""
-    r = requests.get(
-        "https://en.wikipedia.org/w/api.php",
-        params={
-            "action": "query", "generator": "search", "gsrsearch": query, "gsrlimit": 1,
-            "prop": "extracts", "exintro": True, "explaintext": True, "format": "json",
+    @function_tool
+    def wikipedia_search(query: str) -> str:
+        """Search Wikipedia for a topic and return its title and intro paragraph."""
+        r = requests.get(
+            "https://en.wikipedia.org/w/api.php",
+            params={
+                "action": "query", "generator": "search", "gsrsearch": query, "gsrlimit": 1,
+                "prop": "extracts", "exintro": True, "explaintext": True, "format": "json",
+            },
+            headers={"User-Agent": "weave-demo"},
+        ).json()
+        page = next(iter(r["query"]["pages"].values()))
+        return f"{page['title']}: {page['extract']}"
+
+    agent = Agent(
+        name="Research assistant",
+        instructions=(
+            "You are a research assistant. Use the wikipedia_search tool to look up "
+            "topics when needed, and cite the article titles you used."
+        ),
+        tools=[wikipedia_search],
+    )
+
+    async def main():
+        history = []
+        for question in [
+            "Who founded Anthropic?",
+            "What is Claude (the AI assistant)?",
+            "Summarize what we discussed in one sentence.",
+        ]:
+            history.append({"role": "user", "content": question})
+            print(f"USER: {question}")
+            result = await Runner.run(agent, input=history)
+            print(f"AGENT: {result.final_output}\n")
+            history = result.to_input_list()
+
+    asyncio.run(main())
+    ```
+
+    この例では、1 つの会話内で 3 つのターンを実行します。最初の 2 つのターンでは Wikipedia のルックアップがトリガーされ、3 つ目では、それまでの会話コンテキストを使用して、ツール呼び出し なしで summary を生成します。`Runner.run` を呼び出すたびに、前回の result の input list を次の request として渡すことで、会話を継続します。
+  </Tab>
+
+  <Tab title="TypeScript">
+    Weave は、`@openai/agents` がインポートされると、モジュールローダーフックを介して自動的にインストルメントします。必要なセットアップは、モジュールシステムによって若干異なります。CommonJS と ESM の違い、および Weave のローダーフックの仕組みについての詳細は、[TypeScript SDK サードパーティインテグレーションガイド](/ja/weave/guides/integrations/js)を参照してください。
+
+    * **CommonJS projects**: 追加の設定は不要です。自動インストルメンテーションが先に実行されるように、`@openai/agents` より前に `weave` を require してください。
+    * **ESM projects**: インストルメンテーションが他のどのモジュールよりも先に読み込まれるように、`--import=weave/instrument` フラグを付けて Node を起動してください。
+
+    次のコードでは、`wikipedia_search` ツールと `Research assistant` エージェントを定義し、Weave がトレースを取得しながら、SDK の `Runner` で 3 つの質問を実行します。`run()` の呼び出しはそれぞれ独立したトップレベルのトレースとして記録されるため、この例では共有の `groupId` を持つ `Runner` を作成し、3 つの呼び出し全体で再利用します。Weave は `groupId` を使用して同じ会話のトレースをグループ化し、`groupId` が設定されていない場合は各トレース自身の ID にフォールバックします。
+
+    ```typescript lines  highlight="33" title="main.mjs"
+    import { randomUUID } from "node:crypto";
+    import * as weave from "weave";
+    import { Agent, Runner, tool, type AgentInputItem } from "@openai/agents";
+    import { z } from "zod";
+
+    const wikipediaSearch = tool({
+        name: "wikipedia_search",
+        description: "Search Wikipedia for a topic and return its title and intro paragraph.",
+        parameters: z.object({
+        query: z.string().describe("The topic to search for"),
+        }),
+        async execute({ query }) {
+        const url = new URL("https://en.wikipedia.org/w/api.php");
+        url.search = new URLSearchParams({
+            action: "query",
+            generator: "search",
+            gsrsearch: query,
+            gsrlimit: "1",
+            prop: "extracts",
+            exintro: "true",
+            explaintext: "true",
+            format: "json",
+        }).toString();
+
+        const response = await fetch(url, { headers: { "User-Agent": "weave-demo" } });
+        const data = await response.json();
+        const page = Object.values(data.query.pages)[0] as { title: string; extract: string };
+        return `${page.title}: ${page.extract}`;
         },
-        headers={"User-Agent": "weave-demo"},
-    ).json()
-    page = next(iter(r["query"]["pages"].values()))
-    return f"{page['title']}: {page['extract']}"
+    });
 
-agent = Agent(
-    name="Research assistant",
-    instructions=(
-        "You are a research assistant. Use the wikipedia_search tool to look up "
-        "topics when needed, and cite the article titles you used."
-    ),
-    tools=[wikipedia_search],
-)
+    async function main() {
+        await weave.init("<your-team>/<your-project-name>");
 
-async def main():
-    history = []
-    for question in [
+        const agent = new Agent({
+        name: "Research assistant",
+        instructions:
+            "You are a research assistant. Use the wikipedia_search tool to look up " +
+            "topics when needed, and cite the article titles you used.",
+        tools: [wikipediaSearch],
+        });
+
+        const runner = new Runner({ groupId: randomUUID() });
+
+        const questions = [
         "Who founded Anthropic?",
         "What is Claude (the AI assistant)?",
         "Summarize what we discussed in one sentence.",
-    ]:
-        history.append({"role": "user", "content": question})
-        print(f"USER: {question}")
-        result = await Runner.run(agent, input=history)
-        print(f"AGENT: {result.final_output}\n")
-        history = result.to_input_list()
+        ];
 
-asyncio.run(main())
-```
+        let history: AgentInputItem[] = [];
+        for (const question of questions) {
+        history.push({ role: "user", content: question });
+        console.log(`USER: ${question}`);
+        const result = await runner.run(agent, history);
+        console.log(`AGENT: ${result.finalOutput}\n`);
+        history = result.history;
+        }
+    }
 
-この例では、1 つの会話内で 3 つのターンを実行します。最初の 2 つのターンでは Wikipedia のルックアップがトリガーされ、3 つ目では、それまでの会話コンテキストを使用して、ツール呼び出し なしで summary を生成します。`Runner.run` を呼び出すたびに、前回の result の input list を次の request として渡すことで、会話を継続します。
+    main();
+    ```
 
-<div id="see-your-agent-traces-in-the-agents-view">
-  ### Agents ビューでエージェントのトレースを確認する
-</div>
+    この例では、1 つの会話内で 3 つのターンを実行します。最初の 2 つのターンでは Wikipedia のルックアップがトリガーされ、3 つ目では、それまでの会話コンテキストを使用して、ツール呼び出しなしで summary を生成します。`runner.run` を呼び出すたびに、前回の result の `history` を次の入力として渡すことで会話を継続し、同じ `groupId` を共有することで、Weave が 3 つのターンすべてを Agents ビューの 1 つのセッションにグループ化します。
 
-スクリプトの実行後、Weave で取得されたアクティビティを確認できます。`weave.init()` は、実行時に project へのリンクを表示します。次の内容を確認するには、**Agents** ビューを開きます。
+    この例を `main.mjs` として保存し、`--import=weave/instrument` フラグを付けて実行することで、ローダーフックが他のモジュールより先に実行されます。
 
-* **Agents** タブ内にある `Research assistant` の行。
-* 3 つのターンを含むセッション。
-* ネストされたモデルの Call とツールの Call を含む `invoke_agent` span として表示される各ターン。
-* 各ステップでの完全な入力、モデル、出力、トークン使用量、Wikipedia の結果。
+    ```bash
+    node --import=weave/instrument main.mjs
+    ```
 
-Weave で Agents データを表示する方法の詳細については、[エージェントのアクティビティを表示する](/ja/weave/guides/tracking/view-agent-activity) を参照してください。
+    ### 手動インストルメンテーション
+
+    手動インストルメンテーションが必要になるのは、モジュールローダーフックを実行できない場合に限られます。たとえば、バンドラーが依存関係を単一ファイルにまとめる場合、Node の CLI フラグをサポートしない環境の場合、またはローダーフックを回避する動的モジュール読み込みパターンを使用する場合などが該当します。
+
+    インストルメンテーションを明示的に登録するには、`instrumentOpenAIAgents()` を使用します。
+
+    ```typescript lines
+    import * as weave from "weave";
+
+    await weave.init("<your-team>/<your-project-name>");
+    await weave.instrumentOpenAIAgents();
+    ```
+
+    トレースプロセッサーを完全に制御する必要がある場合 (たとえば、カスタムプロセッサーを設定したり、条件付きで登録したりする場合) は、直接作成して登録してください。
+
+    ```typescript lines
+    import { addTraceProcessor } from "@openai/agents";
+    import { createOpenAIAgentsTracingProcessor } from "weave";
+
+    const processor = createOpenAIAgentsTracingProcessor();
+    addTraceProcessor(processor);
+    ```
+  </Tab>
+</Tabs>
+
+<AgentsViewTraces />

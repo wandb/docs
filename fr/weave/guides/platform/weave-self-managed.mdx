@@ -4,7 +4,9 @@ description: "Déployer et gérer Weave sur votre propre infrastructure"
 keywords: ["autohébergé", "ClickHouse", "Altinity", "Keeper", "Kubernetes"]
 ---
 
-L’auto-hébergement de W&amp;B Weave vous offre un contrôle accru sur son environnement et sa configuration. Cela peut vous aider à créer un environnement plus isolé et à répondre à des exigences supplémentaires en matière de conformité de sécurité. Ce document vous guide dans le déploiement des composants requis pour exécuter W&amp;B Weave dans un environnement autogéré à l’aide de l’Altinity ClickHouse Operator. À la fin, vous disposerez d’une instance Weave de niveau production exécutée sur votre propre cluster Kubernetes, avec une base de données ClickHouse répliquée et un stockage d’objets compatible S3. Ce guide s’adresse aux administrateurs Kubernetes et aux ingénieurs plateforme responsables du déploiement et de l’exploitation de W&amp;B au sein de leur organisation.
+L’auto-hébergement de W&amp;B Weave vous offre un contrôle accru sur son environnement et sa configuration. Cela peut vous aider à créer un environnement plus isolé et à répondre à des exigences supplémentaires en matière de conformité de sécurité.
+
+Ce document vous guide dans le déploiement des composants requis pour exécuter W&amp;B Weave dans un déploiement [W&amp;B Autogéré](/fr/platform/hosting/hosting-options/self-managed) à l’aide de l’Altinity ClickHouse Operator. À la fin, vous disposerez d’une instance Weave de niveau production exécutée sur votre propre cluster Kubernetes, avec une base de données ClickHouse répliquée et un stockage d’objets compatible S3. Ce guide s’adresse aux administrateurs Kubernetes et aux ingénieurs plateforme responsables du déploiement et de l’exploitation de W&amp;B au sein de leur organisation.
 
 Les déploiements Weave autogérés s’appuient sur [ClickHouseDB](https://clickhouse.com/) pour gérer leur backend. Ce déploiement utilise :
 
@@ -1201,6 +1203,10 @@ image: clickhouse/clickhouse-server:25.10   # Version du serveur
 
 Les versions de Keeper et du serveur doivent correspondre, ou la version de Keeper doit être supérieure ou égale à celle du serveur pour garantir la compatibilité.
 
+<Warning>
+  Mettez à niveau ClickHouse Keeper vers une version compatible lorsque vous mettez à niveau ClickHouse Server. Avant de modifier les versions de ClickHouse pour un déploiement W&amp;B Autogéré, consultez [la compatibilité de ClickHouse pour les mises à niveau](/fr/platform/hosting/self-managed/operator#clickhouse-compatibility-for-upgrades) ainsi que la page [Versions de serveur W&amp;B prises en charge](/fr/release-notes/server-releases). Les fonctionnalités OLAP de Models et Weave peuvent avoir des exigences de version ClickHouse différentes.
+</Warning>
+
 <div id="monitor-clickhouse">
   ### Surveiller ClickHouse
 </div>
@@ -1246,6 +1252,12 @@ Les déploiements de production doivent renforcer la sécurité des valeurs par 
 
 Les procédures suivantes décrivent les mises à niveau courantes de l’opérateur, du serveur ClickHouse et des composants Weave Trace. Mettez à niveau un composant à la fois et vérifiez que le déploiement est en bon état avant de passer au suivant.
 
+<Note>
+  Les déploiements autogérés qui utilisent ClickHouse pour les fonctionnalités OLAP de Weave et de Models doivent respecter les exigences de version des deux produits. Les fonctionnalités OLAP de Models et Weave peuvent avoir des exigences de version de ClickHouse différentes.
+
+  Voir [la compatibilité de ClickHouse pour les mises à niveau](/fr/platform/hosting/self-managed/operator#clickhouse-compatibility-for-upgrades) et [les versions du serveur W&amp;B prises en charge](/fr/release-notes/server-releases) avant de mettre à niveau ClickHouse ou le serveur W&amp;B. Mettez à niveau le serveur ClickHouse et ClickHouse Keeper ensemble.
+</Note>
+
 <div id="upgrade-the-clickhouse-operator">
   ### Mise à niveau de l’opérateur ClickHouse
 </div>
@@ -1260,10 +1272,11 @@ helm upgrade ch-operator altinity/altinity-clickhouse-operator \
   ### Mise à niveau du serveur ClickHouse
 </div>
 
-Mettez à jour la version de l’image dans `ch-server.yaml`, puis appliquez la modification :
+Mettez à jour la version de l’image dans `ch-keeper.yaml` et `ch-server.yaml`, puis appliquez le manifeste du serveur :
 
 ```bash
-# Modifiez ch-server.yaml, modifiez le tag d'image
+# Modifiez ch-keeper.yaml et ch-server.yaml, modifiez les tags d'image
+kubectl apply -f ch-keeper.yaml
 kubectl apply -f ch-server.yaml
 
 # Surveillez les pods
@@ -1287,6 +1300,7 @@ kubectl get pods -n wandb | grep weave-trace
   ## Ressources supplémentaires
 </div>
 
+* [Configurer l’échantillonnage à l’ingestion](/fr/weave/guides/platform/ingest-sampling): Conservez uniquement une partie des traces entrantes pour contrôler les coûts de stockage et de scoring des LLM lorsque le volume de traces est élevé.
 * [Documentation de l’opérateur Altinity ClickHouse](https://docs.altinity.com/altinitykubernetesoperator/)
 * [Documentation de ClickHouse](https://clickhouse.com/docs)
 * [Documentation de Weave de W&amp;B](https://docs.wandb.ai/weave)
