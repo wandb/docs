@@ -47,10 +47,11 @@ Use the [W&B Public API](/models/ref/python/public-api) to add or update tags on
 To update tags on an existing run, access the `wandb.Run.tags` property. The `wandb.Run.tags` property consists of a list of strings. Concatenate the new tag or tags to the existing tags and then call `wandb.Run.update()` to update the run with the new tags. For example:
 
 ```python
-with wandb.Api().run("[ENTITY]/[PROJECT]/[RUN-ID]") as run:
-  run.tags.append("[TAG1]")
-  run.update()
+run = wandb.Api().run("{entity}/{project}/{run-id}")
+run.tags.append("tag1")  # you can choose tags based on run data here
+run.update()
 ```
+
 </Tab>
 <Tab title="Project page">
 This method is best suited to tagging many runs with the same tags.
