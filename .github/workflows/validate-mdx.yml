@@ -47,7 +47,7 @@ jobs:
         run: |
           echo "Check passes: no .mdx, doc JSON/YAML, or image changes in this PR."
 
-      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         if: steps.scope.outputs.needs_validation == 'true'
         with:
           node-version: '20'
@@ -63,7 +63,7 @@ jobs:
       - name: Cache Mintlify CLI
         id: cache-mint
         if: steps.scope.outputs.needs_validation == 'true'
-        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: |
             ${{ steps.npm-config.outputs.npm_cache }}

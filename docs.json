@@ -312,6 +312,16 @@
                         ]
                       },
                       {
+                        "group": "Eval Tables",
+                        "pages": [
+                          "models/evaltables",
+                          "models/evaltables/create-an-evaluation-table",
+                          "models/evaltables/visualize-evaluation-tables",
+                          "models/evaltables/compare-runs"
+                        ],
+                        "tag": "Preview"
+                      },
+                      {
                         "group": "Tables",
                         "pages": [
                           "models/tables",
@@ -544,7 +554,8 @@
                           "weave/guides/tracking/view-agent-signals",
                           "weave/guides/tracking/trace-agents-attributes",
                           "weave/guides/tracking/trace-agents-batch",
-                          "weave/guides/tracking/trace-sub-agents"
+                          "weave/guides/tracking/trace-sub-agents",
+                          "weave/guides/tracking/agents-byob-references"
                         ]
                       },
                       {
@@ -570,6 +581,7 @@
                               "weave/guides/tracking/ops",
                               "weave/guides/tools/attributes",
                               "weave/guides/core-types/media",
+                              "weave/guides/tracking/byob-references",
                               "weave/guides/tracking/view-call",
                               "weave/guides/tracking/trace-disable",
                               "weave/guides/tracking/write-ahead-log"
@@ -686,6 +698,7 @@
                             "group": "Frameworks",
                             "pages": [
                               "weave/guides/integrations/openai-realtime-audio",
+                              "weave/guides/integrations/bedrock_agents",
                               "weave/guides/integrations/langchain",
                               "weave/guides/integrations/llamaindex",
                               "weave/guides/integrations/dspy",
@@ -715,7 +728,8 @@
                         "group": "Deploy and scale",
                         "pages": [
                           "weave/guides/platform",
-                          "weave/guides/platform/weave-self-managed"
+                          "weave/guides/platform/weave-self-managed",
+                          "weave/guides/platform/ingest-sampling"
                         ]
                       },
                       "weave/guides/platform/weave-projects",
@@ -1812,6 +1826,16 @@
                         ]
                       },
                       {
+                        "group": "Tableaux d’évaluation",
+                        "pages": [
+                          "fr/models/evaltables",
+                          "fr/models/evaltables/create-an-evaluation-table",
+                          "fr/models/evaltables/visualize-evaluation-tables",
+                          "fr/models/evaltables/compare-runs"
+                        ],
+                        "tag": "Preview"
+                      },
+                      {
                         "group": "Tableaux",
                         "pages": [
                           "fr/models/tables",
@@ -1901,7 +1925,7 @@
                         ]
                       },
                       {
-                        "group": "Jobs d’évaluation LLM",
+                        "group": "Jobs d’évaluation des LLM",
                         "pages": [
                           "fr/models/launch",
                           "fr/models/launch/evaluate-model-checkpoint",
@@ -2186,6 +2210,7 @@
                             "group": "Frameworks",
                             "pages": [
                               "fr/weave/guides/integrations/openai-realtime-audio",
+                              "fr/weave/guides/integrations/bedrock_agents",
                               "fr/weave/guides/integrations/langchain",
                               "fr/weave/guides/integrations/llamaindex",
                               "fr/weave/guides/integrations/dspy",
@@ -2215,7 +2240,8 @@
                         "group": "Déployez et passez à l’échelle",
                         "pages": [
                           "fr/weave/guides/platform",
-                          "fr/weave/guides/platform/weave-self-managed"
+                          "fr/weave/guides/platform/weave-self-managed",
+                          "fr/weave/guides/platform/ingest-sampling"
                         ]
                       },
                       "fr/weave/guides/platform/weave-projects",
@@ -3312,7 +3338,17 @@
                         ]
                       },
                       {
-                        "group": "Tables",
+                        "group": "評価用 表",
+                        "pages": [
+                          "ja/models/evaltables",
+                          "ja/models/evaltables/create-an-evaluation-table",
+                          "ja/models/evaltables/visualize-evaluation-tables",
+                          "ja/models/evaltables/compare-runs"
+                        ],
+                        "tag": "Preview"
+                      },
+                      {
+                        "group": "表",
                         "pages": [
                           "ja/models/tables",
                           "ja/models/tables/tables-walkthrough",
@@ -3333,7 +3369,7 @@
                           "ja/models/artifacts/create-a-new-artifact-version",
                           "ja/models/artifacts/track-external-files",
                           {
-                            "group": "データを管理する",
+                            "group": "データを管理",
                             "pages": [
                               "ja/models/artifacts/delete-artifacts",
                               "ja/models/artifacts/ttl",
@@ -3376,11 +3412,11 @@
                         ]
                       },
                       {
-                        "group": "Automations",
+                        "group": "オートメーション",
                         "pages": [
                           "ja/models/automations",
                           {
-                            "group": "オートメーションを作成する",
+                            "group": "オートメーションを作成",
                             "pages": [
                               "ja/models/automations/create-automations",
                               "ja/models/automations/create-automations/slack",
@@ -3401,7 +3437,7 @@
                         ]
                       },
                       {
-                        "group": "LLM評価ジョブ",
+                        "group": "LLM 評価ジョブ",
                         "pages": [
                           "ja/models/launch",
                           "ja/models/launch/evaluate-model-checkpoint",
@@ -3434,7 +3470,7 @@
                               "ja/models/app/features/panels/parameter-importance",
                               "ja/models/app/features/panels/run-comparer",
                               {
-                                "group": "Query panels",
+                                "group": "クエリ パネル",
                                 "pages": [
                                   "ja/models/app/features/panels/query-panels",
                                   "ja/models/app/features/panels/query-panels/embedding-projector"
@@ -3686,6 +3722,7 @@
                             "group": "フレームワーク",
                             "pages": [
                               "ja/weave/guides/integrations/openai-realtime-audio",
+                              "ja/weave/guides/integrations/bedrock_agents",
                               "ja/weave/guides/integrations/langchain",
                               "ja/weave/guides/integrations/llamaindex",
                               "ja/weave/guides/integrations/dspy",
@@ -3715,7 +3752,8 @@
                         "group": "デプロイしてスケールする",
                         "pages": [
                           "ja/weave/guides/platform",
-                          "ja/weave/guides/platform/weave-self-managed"
+                          "ja/weave/guides/platform/weave-self-managed",
+                          "ja/weave/guides/platform/ingest-sampling"
                         ]
                       },
                       "ja/weave/guides/platform/weave-projects",
@@ -4812,7 +4850,17 @@
                         ]
                       },
                       {
-                        "group": "Tables",
+                        "group": "평가 테이블",
+                        "pages": [
+                          "ko/models/evaltables",
+                          "ko/models/evaltables/create-an-evaluation-table",
+                          "ko/models/evaltables/visualize-evaluation-tables",
+                          "ko/models/evaltables/compare-runs"
+                        ],
+                        "tag": "Preview"
+                      },
+                      {
+                        "group": "테이블",
                         "pages": [
                           "ko/models/tables",
                           "ko/models/tables/tables-walkthrough",
@@ -4876,7 +4924,7 @@
                         ]
                       },
                       {
-                        "group": "Automations",
+                        "group": "자동화",
                         "pages": [
                           "ko/models/automations",
                           {
@@ -4901,7 +4949,7 @@
                         ]
                       },
                       {
-                        "group": "LLM Evaluation 작업",
+                        "group": "LLM 평가 작업",
                         "pages": [
                           "ko/models/launch",
                           "ko/models/launch/evaluate-model-checkpoint",
@@ -4934,7 +4982,7 @@
                               "ko/models/app/features/panels/parameter-importance",
                               "ko/models/app/features/panels/run-comparer",
                               {
-                                "group": "Query panels",
+                                "group": "쿼리 패널",
                                 "pages": [
                                   "ko/models/app/features/panels/query-panels",
                                   "ko/models/app/features/panels/query-panels/embedding-projector"
@@ -5186,6 +5234,7 @@
                             "group": "프레임워크",
                             "pages": [
                               "ko/weave/guides/integrations/openai-realtime-audio",
+                              "ko/weave/guides/integrations/bedrock_agents",
                               "ko/weave/guides/integrations/langchain",
                               "ko/weave/guides/integrations/llamaindex",
                               "ko/weave/guides/integrations/dspy",
@@ -5215,7 +5264,8 @@
                         "group": "배포하고 확장하세요",
                         "pages": [
                           "ko/weave/guides/platform",
-                          "ko/weave/guides/platform/weave-self-managed"
+                          "ko/weave/guides/platform/weave-self-managed",
+                          "ko/weave/guides/platform/ingest-sampling"
                         ]
                       },
                       "ko/weave/guides/platform/weave-projects",

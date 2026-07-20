@@ -1,17 +1,16 @@
 ---
-title: "Interface: ConversationInit"
+title: "ConversationInit"
 description: "TypeScript SDK reference"
 ---
-
-[weave](../) / ConversationInit
-
-
 
 ## Table of contents
 
 ### Properties
 
+- [agentDescription](./conversationinit#agentdescription)
+- [agentId](./conversationinit#agentid)
 - [agentName](./conversationinit#agentname)
+- [agentVersion](./conversationinit#agentversion)
 - [attributes](./conversationinit#attributes)
 - [conversationId](./conversationinit#conversationid)
 - [model](./conversationinit#model)
@@ -19,13 +18,60 @@ description: "TypeScript SDK reference"
 
 ## Properties
 
+### agentDescription
+
+• `Optional` **agentDescription**: `string`
+
+Human-readable agent description. Propagated as the default
+`agentDescription` to every `Turn` created via `startTurn()` unless
+the turn sets its own; emitted on each turn's `invoke_agent` span as
+`gen_ai.agent.description`.
+
+#### Defined in
+
+[src/genai/conversation.ts:31](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L31)
+
+___
+
+### agentId
+
+• `Optional` **agentId**: `string`
+
+Stable agent identifier. Propagated as the default `agentId` to every
+`Turn` created via `startTurn()` unless the turn sets its own; emitted
+on each turn's `invoke_agent` span as `gen_ai.agent.id`.
+
+#### Defined in
+
+[src/genai/conversation.ts:16](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L16)
+
+___
+
 ### agentName
 
 • `Optional` **agentName**: `string`
 
+Agent name. Propagated as the default `agentName` to every `Turn`
+created via `startTurn()` unless the turn sets its own; emitted on
+each turn's `invoke_agent` span as `gen_ai.agent.name`.
+
 #### Defined in
 
-[src/genai/conversation.ts:9](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L9)
+[src/genai/conversation.ts:23](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L23)
+
+___
+
+### agentVersion
+
+• `Optional` **agentVersion**: `string`
+
+Agent version string. Propagated as the default `agentVersion` to
+every `Turn` created via `startTurn()` unless the turn sets its own;
+emitted on each turn's `invoke_agent` span as `gen_ai.agent.version`.
+
+#### Defined in
+
+[src/genai/conversation.ts:38](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L38)
 
 ___
 
@@ -40,7 +86,7 @@ attribute is unsupported; the span's value wins.
 
 #### Defined in
 
-[src/genai/conversation.ts:20](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L20)
+[src/genai/conversation.ts:52](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L52)
 
 ___
 
@@ -49,11 +95,11 @@ ___
 • `Optional` **conversationId**: `string`
 
 Conversation ID propagated to every span under this conversation as
- `gen_ai.conversation.id`. Auto-generated if omitted.
+`gen_ai.conversation.id`. Auto-generated if omitted.
 
 #### Defined in
 
-[src/genai/conversation.ts:13](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L13)
+[src/genai/conversation.ts:44](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L44)
 
 ___
 
@@ -63,7 +109,7 @@ ___
 
 #### Defined in
 
-[src/genai/conversation.ts:10](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L10)
+[src/genai/conversation.ts:9](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L9)
 
 ___
 
@@ -77,4 +123,4 @@ ___
 
 #### Defined in
 
-[src/genai/conversation.ts:23](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L23)
+[src/genai/conversation.ts:55](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L55)

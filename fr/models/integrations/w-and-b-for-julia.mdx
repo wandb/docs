@@ -1,16 +1,16 @@
 ---
-description: "Intégrez W&B à Julia pour suivre les expériences, consigner des métriques et visualiser les performances du modèle depuis des programmes Julia."
+description: "Intégrez W&B à Julia pour suivre les expériences, consigner des métriques et visualiser les performances du modèle à partir de programmes Julia."
 title: W&B pour Julia
 ---
 
-Si vous exécutez des expériences de machine learning avec le langage de programmation Julia, sachez qu’un contributeur de la communauté a créé un ensemble non officiel de bindings Julia appelé [wandb.jl](https://github.com/avik-pal/Wandb.jl), que vous pouvez utiliser.
+Si vous menez des expériences de machine learning avec Julia, vous pouvez utiliser [`wandb.jl`](https://github.com/avik-pal/Wandb.jl), un ensemble non officiel de bindings Julia créé par un contributeur de la communauté.
 
-Vous trouverez des exemples [dans la documentation](https://github.com/avik-pal/Wandb.jl/tree/main/docs/src/examples) du dépôt wandb.jl. Leur exemple &quot;Getting Started&quot; se trouve ici :
+Pour plus d’exemples, voir le répertoire `examples` de [`wandb.jl`](https://github.com/avik-pal/Wandb.jl/tree/main/docs/src/examples). Le code suivant est l’exemple de premiers pas du dépôt `wandb.jl` :
 
 ```julia
 using Wandb, Dates, Logging
 
-# Démarrer un nouveau run en suivant les hyperparamètres dans la configuration
+# Démarrer une nouvelle run en suivant les hyperparamètres dans la configuration
 lg = WandbLogger(project = "Wandb.jl",
                  name = "wandbjl-demo-$(now())",
                  config = Dict("learning_rate" => 0.01,
@@ -18,17 +18,17 @@ lg = WandbLogger(project = "Wandb.jl",
                                "architecture" => "CNN",
                                "dataset" => "CIFAR-100"))
 
-# Utiliser LoggingExtras.jl pour consigner dans plusieurs journaux simultanément
+# Utiliser LoggingExtras.jl pour journaliser vers plusieurs loggers simultanément
 global_logger(lg)
 
 # Simulation de la boucle d'entraînement ou d'évaluation
 for x ∈ 1:50
     acc = log(1 + x + rand() * get_config(lg, "learning_rate") + rand() + get_config(lg, "dropout"))
     loss = 10 - log(1 + x + rand() + x * get_config(lg, "learning_rate") + rand() + get_config(lg, "dropout"))
-    # Consigner les métriques de votre script dans W&B
+    # Consigner des métriques depuis votre script vers W&B
     @info "metrics" accuracy=acc loss=loss
 end
 
-# Terminer le run
+# Terminer la run
 close(lg)
 ```

@@ -2779,5 +2779,10 @@
         ]
       }
     }
-  }
+  },
+  "servers": [
+    {
+      "url": "https://api.training.wandb.ai"
+    }
+  ]
 }

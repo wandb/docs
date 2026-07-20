@@ -5,6 +5,8 @@ description: Utilisez et personnalisez les panneaux du Workspace pour visualiser
 keywords: ["panneaux du Workspace", "ajout rapide", "mode plein écran", "sections de panneaux", "intégrer un panneau"]
 ---
 
+import { AriaChatBubbles } from '/snippets/AriaChatBubbles.jsx';
+
 Utilisez les visualisations de panneaux du Workspace pour explorer vos [données enregistrées](/fr/models/ref/python/experiments/run.md/#method-runlog) selon leurs clés, visualiser les relations entre les hyperparamètres et les métriques de sortie, et bien plus encore. Cette page explique comment choisir un mode de Workspace, ajouter et configurer des panneaux, les organiser en sections et les partager avec des collaborateurs.
 
 <div id="workspace-modes">
@@ -116,6 +118,10 @@ Ajoutez des panneaux à votre Workspace, un à la fois, soit globalement, soit a
 </div>
 
 Utilisez **ajout rapide** pour ajouter automatiquement un panneau pour chaque clé que vous sélectionnez, soit à l’échelle globale, soit au niveau d’une section.
+
+Vous pouvez également demander à ARIA d’ajouter des panneaux pour vous :
+
+<AriaChatBubbles prompt="Ajoute des panneaux de graphique en courbes pour chaque métrique sous le préfixe train/." response="Je vais ajouter des panneaux de graphique en courbes pour chaque métrique train/ enregistrée dans les runs visibles et les organiser dans votre Workspace." />
 
 <Note>
   Dans un Workspace automatisé sans panneau supprimé, l’option **ajout rapide** n’est pas visible, car le Workspace inclut déjà des panneaux pour toutes les clés enregistrées. Vous pouvez utiliser **ajout rapide** pour ajouter de nouveau un panneau que vous avez supprimé.
