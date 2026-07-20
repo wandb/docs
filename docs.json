@@ -960,7 +960,15 @@
                         "group": "Experiments",
                         "pages": [
                           "models/ref/python/experiments",
-                          "models/ref/python/experiments/artifact",
+                          {
+                          "group": "Artifact",
+                          "pages": [
+                            "models/ref/python/experiments/artifact/artifact",
+                            "models/ref/python/experiments/artifact/artifact-properties",
+                            "models/ref/python/experiments/artifact/artifact-add",
+                            "models/ref/python/experiments/artifact/artifact-dir"
+                          ]
+                          },
                           "models/ref/python/experiments/run",
                           "models/ref/python/experiments/settings",
                           "models/ref/python/experiments/system-metrics"

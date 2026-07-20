@@ -1,0 +1,36 @@
+---
+title: add()
+---
+
+
+```python
+artifact.add(
+    self,
+    obj: 'WBValue',
+    name: 'StrPath',
+    overwrite: 'bool' = False
+    )
+```
+
+Add wandb.WBValue `obj` to the artifact.
+
+## Parameters
+
+| Name | Description |
+|------|-------------|
+| `obj` | The object to add. Currently support one of Bokeh, JoinedTable, PartitionedTable, Table, Classes, ImageMask, BoundingBoxes2D, Audio, Image, Video, Html, Object3D |
+| `name` | The path within the artifact to add the object. |
+| `overwrite` | If True, overwrite existing objects with the same file path if applicable. |
+
+- `obj`: The object to add. Currently support one of Bokeh, JoinedTable, PartitionedTable, Table, Classes, ImageMask, BoundingBoxes2D, Audio, Image, Video, Html, Object3D
+- `name`: The path within the artifact to add the object.
+- `overwrite`: If True, overwrite existing objects with the same file path if applicable.
+
+
+## Raises
+
+| Name | Description |
+|------|-------------|
+| `ArtifactFinalizedError` | You cannot make changes to the current artifact version because it is finalized. Log a new artifact version instead. |
+
+
