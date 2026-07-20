@@ -1,5 +1,5 @@
 ---
-title: "Interface : ConversationInit"
+title: "ConversationInit"
 description: "Référence du SDK TypeScript"
 ---
 
@@ -13,7 +13,10 @@ description: "Référence du SDK TypeScript"
   ### Propriétés
 </div>
 
+* [agentDescription](./conversationinit#agentdescription)
+* [agentId](./conversationinit#agentid)
 * [agentName](./conversationinit#agentname)
+* [agentVersion](./conversationinit#agentversion)
 * [attributes](./conversationinit#attributes)
 * [conversationId](./conversationinit#conversationid)
 * [model](./conversationinit#model)
@@ -21,17 +24,77 @@ description: "Référence du SDK TypeScript"
 
 ## Propriétés
 
+<div id="agentdescription">
+  ### agentDescription
+</div>
+
+• `Facultatif` **agentDescription**: `string`
+
+Description de l’agent compréhensible par un humain. Elle est propagée
+comme valeur `agentDescription` par défaut à chaque `Turn` créé via
+`startTurn()`, sauf si le tour de conversation définit sa propre valeur ;
+elle est émise dans le span `invoke_agent` de chaque tour de conversation
+sous la forme de `gen_ai.agent.description`.
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/conversation.ts:31](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L31)
+
+***
+
+<div id="agentid">
+  ### agentId
+</div>
+
+• `Facultatif` **agentId**: `string`
+
+Identifiant stable de l’agent. Il est propagé comme `agentId` par défaut à chaque
+`Turn` créé via `startTurn()`, sauf si le tour de conversation définit le sien ; il est émis
+dans le span `invoke_agent` de chaque tour de conversation sous la forme de `gen_ai.agent.id`.
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/conversation.ts:16](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L16)
+
+***
+
 <div id="agentname">
   ### agentName
 </div>
 
 • `facultatif` **agentName**: `string`
 
+Nom de l’agent. Transmis comme `agentName` par défaut à chaque `Turn`
+créé via `startTurn()`, sauf si le tour de conversation définit le sien ; émis dans
+le span `invoke_agent` de chaque tour de conversation sous la forme `gen_ai.agent.name`.
+
 <div id="defined-in">
   #### Défini dans
 </div>
 
-[src/genai/conversation.ts:9](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L9)
+[src/genai/conversation.ts:23](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L23)
+
+***
+
+<div id="agentversion">
+  ### agentVersion
+</div>
+
+• `Facultatif` **agentVersion**: `string`
+
+Chaîne de version de l’agent. Utilisée comme valeur `agentVersion` par défaut pour
+chaque tour de conversation créé via `startTurn()`, sauf si le tour de conversation définit sa propre valeur ;
+elle est émise dans le span `invoke_agent` de chaque tour de conversation sous la forme de `gen_ai.agent.version`.
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/conversation.ts:38](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L38)
 
 ***
 
@@ -49,7 +112,7 @@ Toute clé définie ici qui entre en conflit avec l’attribut `gen_ai.*` / `wea
   #### Défini dans
 </div>
 
-[src/genai/conversation.ts:20](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L20)
+[src/genai/conversation.ts:52](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L52)
 
 ***
 
@@ -66,7 +129,7 @@ ID de conversation propagé à chaque span de cette conversation sous la forme d
   #### Défini dans
 </div>
 
-[src/genai/conversation.ts:13](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L13)
+[src/genai/conversation.ts:44](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L44)
 
 ***
 
@@ -80,7 +143,7 @@ ID de conversation propagé à chaque span de cette conversation sous la forme d
   #### Défini dans
 </div>
 
-[src/genai/conversation.ts:10](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L10)
+[src/genai/conversation.ts:9](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L9)
 
 ***
 
@@ -98,4 +161,4 @@ ID de conversation propagé à chaque span de cette conversation sous la forme d
   #### Défini dans
 </div>
 
-[src/genai/conversation.ts:23](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L23)
+[src/genai/conversation.ts:55](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L55)

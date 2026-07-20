@@ -1,0 +1,138 @@
+Use this technique when the media you want to see in Weave already lives in your own bucket:
+
+- Frames from a video pipeline.
+- Screenshots from a browser agent.
+- Images a model wrote to S3.
+
+Instead of re-uploading those bytes into Weave, you log the object's URI as a string and Weave renders the image or video inline from your bucket. Only the URI is sent to Weave; the bytes stay in your bucket. Logging a 2 GB video costs the same as logging its path.
+
+This is different from logging media with the [Content API](/weave/guides/core-types/media#contents-api), which reads the bytes and stores them in Weave.
+
+<Note>
+This is a Weave feature and is separate from [platform BYOB (secure storage connector)](/platform/hosting/data-security/secure-storage-connector), which backs W&B artifact and run storage. Reference media buckets are configured per team and only need read access.
+</Note>
+
+## How it works
+
+Reference media rendering works in three steps:
+
+1. You store a media object in your bucket, for example `s3://[YOUR-BUCKET]/frames/000123.png`.
+2. You log that URI as a string value anywhere in a trace: an Op input or output, or an agent tool result. The field name does not matter.
+3. When you open the trace, Weave resolves the URI to a short-lived [presigned URL](/platform/hosting/data-security/presigned-urls) and renders it inline. The file extension decides how it renders. Common image formats (such as `.png`, `.jpg`, `.gif`) and video formats (such as `.mp4`, `.mov`, `.webm`) render inline. Other formats render as a download link.
+
+Weave only resolves URIs that point at a bucket registered for your team. Supported schemes are `s3://` and `gs://`.
+
+## Prerequisites
+
+- This feature is supported only in [W&B Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud).
+- A W&B account and [API key](https://wandb.ai/authorize).
+- A cloud storage bucket you control (S3 or GCS), containing at least one object.
+- Organization admin permissions. Adding a reference bucket requires the same permission as creating a team in the organization.
+
+## Configure your bucket
+
+Grant W&B read access to the bucket and allow the browser to fetch objects with CORS.
+
+When you view a trace, W&B presigns a short-lived download URL for each referenced object. Grant the W&B integration principal read access on the bucket so presigning can succeed. This is read-only access for inline rendering.
+
+<Tabs>
+<Tab title="AWS S3">
+
+1. Apply a bucket policy that grants the W&B integration principal `s3:GetObject`. Save the following as `bucket-policy.json`, replacing `[YOUR-BUCKET]` with your bucket name:
+
+   ```json lines
+   {
+     "Version": "2012-10-17",
+     "Id": "WandBAccess",
+     "Statement": [{
+       "Sid": "WandbAccess",
+       "Effect": "Allow",
+       "Principal": {"AWS": "arn:aws:iam::725579432336:role/WandbIntegration"},
+       "Action": "s3:GetObject",
+       "Resource": "arn:aws:s3:::[YOUR-BUCKET]/*"
+     }]
+   }
+   ```
+
+   Then apply it to your bucket:
+
+   ```bash
+   aws s3api put-bucket-policy --bucket [YOUR-BUCKET] --policy file://bucket-policy.json
+   ```
+
+2. Apply a CORS configuration so the app can fetch objects in the browser. Save the following as `cors.json`:
+
+   ```json lines
+   {
+     "CORSRules": [{
+       "AllowedHeaders": ["*"],
+       "AllowedMethods": ["GET", "HEAD"],
+       "AllowedOrigins": ["https://wandb.ai"],
+       "ExposeHeaders": ["ETag"],
+       "MaxAgeSeconds": 3000
+     }]
+   }
+   ```
+
+   Then apply it to your bucket:
+
+   ```bash
+   aws s3api put-bucket-cors --bucket [YOUR-BUCKET] --cors-configuration file://cors.json
+   ```
+
+<Note>
+If an object is encrypted with a customer-managed KMS key, its key policy must also grant `arn:aws:iam::725579432336:role/WandbIntegration` `kms:Decrypt`. The bucket policy alone is not sufficient.
+</Note>
+
+</Tab>
+<Tab title="Google Cloud Storage">
+
+1. Grant the W&B integration service account `roles/storage.objectViewer` on the bucket. Replace `[YOUR-BUCKET]` with your bucket name:
+
+   ```bash
+   gcloud storage buckets add-iam-policy-binding gs://[YOUR-BUCKET] \
+     --member="serviceAccount:wandb-integration@wandb-production.iam.gserviceaccount.com" \
+     --role="roles/storage.objectViewer"
+   ```
+
+2. Apply a CORS configuration so the app can fetch objects in the browser. Save the following as `cors.json`:
+
+   ```json lines
+   [{
+     "origin": ["https://wandb.ai"],
+     "method": ["GET", "HEAD"],
+     "responseHeader": ["ETag"],
+     "maxAgeSeconds": 3000
+   }]
+   ```
+
+   Then apply it to your bucket:
+
+   ```bash
+   gcloud storage buckets update gs://[YOUR-BUCKET] --cors-file=cors.json
+   ```
+
+</Tab>
+</Tabs>
+
+At this point, W&B can read objects from your bucket, and the Weave UI can fetch them in the browser.
+
+## Register the reference bucket
+
+Register the bucket in your team settings so Weave can presign and display referenced URIs.
+
+1. Go to your team settings page (`https://wandb.ai/[YOUR-TEAM]/settings`).
+2. In the **Reference buckets** section, select **Add bucket**.
+3. Select your cloud provider (**AWS** or **Google Cloud**).
+4. For the bucket name, enter `[YOUR-BUCKET]` only — without the `s3://` or `gs://` prefix.
+5. For the object key, enter the key of an existing object in the bucket, for example `photos/cat.png` (the object key only, not a full URL). W&B reads this one object to confirm it has read access and that CORS is configured correctly. This checks access only; once verified, presigning works for any object in the bucket.
+6. Optionally, select **Test connection** to validate the configuration without saving.
+7. Select **Add bucket** to save.
+
+<Frame>
+  ![The Add reference bucket dialog in team settings, with fields for the cloud provider, the bucket name, and an existing object key, plus Test connection and Add bucket buttons.](/weave/guides/tracking/imgs/add-ref-bucket.png)
+</Frame>
+
+<Warning>
+Until the bucket is registered, referenced URIs do not render. Registration is what lets Weave presign and display the object.
+</Warning>
