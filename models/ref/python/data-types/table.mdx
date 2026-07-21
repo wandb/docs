@@ -11,7 +11,7 @@ import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
 
-## <kbd>class</kbd> Table
+## <kbd>class</kbd> wandb.Table
 ```python
 columns: 'list[ColumnKey] | None' = None,
 data: 'list[InputRow] | np.ndarray | pd.DataFrame | None' = None,
@@ -115,12 +115,11 @@ Adds one or more computed columns based on existing data.
 
 ##### Examples
 
-```
 table = wandb.Table(columns=["x", "y"], data=[[3, 1], [4, 6]])
     table.add_computed_columns(
         lambda ndx, row: {"diff": row["x"] - row["y"]}
     )
-```
+
     In the callback:
     - `ndx` is an integer representing the index of the row.
     - `row` is a dictionary keyed by existing columns.
