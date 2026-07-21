@@ -560,7 +560,7 @@
                         ]
                       },
                       {
-                        "group": "Trace your applications",
+                        "group": "Trace functions with ops and calls",
                         "pages": [
                           {
                             "group": "Integrate with your LLM provider and frameworks",
@@ -661,7 +661,7 @@
                         ]
                       },
                       {
-                        "group": "Evaluate your agents and applications",
+                        "group": "Evaluate your agents and functions",
                         "pages": [
                           "weave/guides/core-types/evaluations",
                           "weave/tutorial-eval",
