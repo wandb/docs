@@ -1197,6 +1197,7 @@
                     "group": "TypeScript SDK",
                     "pages": [
                       "weave/reference/typescript-sdk",
+                      "weave/reference/typescript-sdk/functions/init",
                       {
                         "group": "Classes",
                         "pages": [
@@ -1231,7 +1232,6 @@
                           "weave/reference/typescript-sdk/functions/getcurrentllm",
                           "weave/reference/typescript-sdk/functions/getcurrentsession",
                           "weave/reference/typescript-sdk/functions/getcurrentturn",
-                          "weave/reference/typescript-sdk/functions/init",
                           "weave/reference/typescript-sdk/functions/instrumentopenaiagents",
                           "weave/reference/typescript-sdk/functions/login",
                           "weave/reference/typescript-sdk/functions/op",
