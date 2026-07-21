@@ -12,18 +12,7 @@ import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
 ## <kbd>class</kbd> Artifacts
-```python
-(service_api: 'ServiceApi',
-entity: 'str',
-project: 'str',
-collection_name: 'str',
-type: 'str',
-filters: 'Mapping[str, Any] | None' = None,
-order: 'str | None' = None,
-per_page: 'int' = 50,
-tags: 'str | list[str] | None' = None,
-start: 'str | None' = None)
-```
+
 
 ## Description
 
@@ -33,17 +22,6 @@ Optionally pass in filters to narrow down the results based on specific criteria
 
 
 
-## Args
-
-- `service_api`: Interface to the wandb-core service that performs W&B API calls for these artifact versions.
-- `entity`: The entity (user or team) that owns the project.
-- `project`: The name of the project to query for artifacts.
-- `collection_name`: The name of the artifact collection to query.
-- `type`: The type of the artifacts to query. Common examples include "dataset" or "model".
-- `filters`: Optional mapping of filters to apply to the query.
-- `order`: Optional string to specify the order of the results. If prefixed with '+', sorts ascending (default). If prefixed with '-', sorts descending.
-- `per_page`: The number of artifact versions to fetch per page. Default is 50.
-- `start`: 
 
 
 

@@ -12,16 +12,7 @@ import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
 ## <kbd>class</kbd> ArtifactCollections
-```python
-(service_api: 'ServiceApi',
-entity: 'str',
-project: 'str',
-type_name: 'str',
-filters: 'Mapping[str, Any] | None' = None,
-order: 'str | None' = None,
-per_page: 'int' = 50,
-start: 'str | None' = None)
-```
+
 
 ## Description
 
@@ -29,15 +20,6 @@ Artifact collections of a specific type in a project.
 
 
 
-## Args
-
-- `service_api`: Interface to the wandb-core service that performs W&B API calls for this collection.
-- `entity`: The entity (user or team) that owns the project.
-- `project`: The name of the project to query for artifact collections.
-- `type_name`: The name of the artifact type for which to fetch collections.
-- `filters`: Optional mapping of filters to apply to the query.
-- `order`: Optional string to specify the order of the results. If prefixed with '+', sorts ascending (default). If prefixed with '-', sorts descending.
-- `start`: 
 
 
 

@@ -12,12 +12,7 @@ import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
 ## <kbd>class</kbd> Run
-```python
-settings: 'Settings',
-config: 'dict[str, Any] | None' = None,
-sweep_config: 'dict[str, Any] | None' = None,
-launch_config: 'dict[str, Any] | None' = None
-```
+
 
 ## Description
 
@@ -46,12 +41,6 @@ created.
 
 
 
-## Args
-
-- `settings`: 
-- `config`: 
-- `sweep_config`: 
-- `launch_config`: 
 
 
 ## Attributes
@@ -71,8 +60,6 @@ import wandb
 with wandb.init(entity="entity", project="project") as run:
     run.log({"accuracy": acc, "loss": loss})
 ```
-
-<!-- lazydoc-ignore-init: internal -->
 
 ## Properties
 
