@@ -4,7 +4,9 @@ description: "Déployer et gérer Weave sur votre propre infrastructure"
 keywords: ["autohébergé", "ClickHouse", "Altinity", "Keeper", "Kubernetes"]
 ---
 
-L’auto-hébergement de W&amp;B Weave vous offre un contrôle accru sur son environnement et sa configuration. Cela peut vous aider à créer un environnement plus isolé et à répondre à des exigences supplémentaires en matière de conformité de sécurité. Ce document vous guide dans le déploiement des composants requis pour exécuter W&amp;B Weave dans un environnement autogéré à l’aide de l’Altinity ClickHouse Operator. À la fin, vous disposerez d’une instance Weave de niveau production exécutée sur votre propre cluster Kubernetes, avec une base de données ClickHouse répliquée et un stockage d’objets compatible S3. Ce guide s’adresse aux administrateurs Kubernetes et aux ingénieurs plateforme responsables du déploiement et de l’exploitation de W&amp;B au sein de leur organisation.
+L’auto-hébergement de W&amp;B Weave vous offre un contrôle accru sur son environnement et sa configuration. Cela peut vous aider à créer un environnement plus isolé et à répondre à des exigences supplémentaires en matière de conformité de sécurité.
+
+Ce document vous guide dans le déploiement des composants requis pour exécuter W&amp;B Weave dans un déploiement [W&amp;B Autogéré](/fr/platform/hosting/hosting-options/self-managed) à l’aide de l’Altinity ClickHouse Operator. À la fin, vous disposerez d’une instance Weave de niveau production exécutée sur votre propre cluster Kubernetes, avec une base de données ClickHouse répliquée et un stockage d’objets compatible S3. Ce guide s’adresse aux administrateurs Kubernetes et aux ingénieurs plateforme responsables du déploiement et de l’exploitation de W&amp;B au sein de leur organisation.
 
 Les déploiements Weave autogérés s’appuient sur [ClickHouseDB](https://clickhouse.com/) pour gérer leur backend. Ce déploiement utilise :
 
@@ -1298,6 +1300,7 @@ kubectl get pods -n wandb | grep weave-trace
   ## Ressources supplémentaires
 </div>
 
+* [Configurer l’échantillonnage à l’ingestion](/fr/weave/guides/platform/ingest-sampling): Conservez uniquement une partie des traces entrantes pour contrôler les coûts de stockage et de scoring des LLM lorsque le volume de traces est élevé.
 * [Documentation de l’opérateur Altinity ClickHouse](https://docs.altinity.com/altinitykubernetesoperator/)
 * [Documentation de ClickHouse](https://clickhouse.com/docs)
 * [Documentation de Weave de W&amp;B](https://docs.wandb.ai/weave)
