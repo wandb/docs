@@ -5,7 +5,7 @@ title: wandb artifact put
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/cli.py#L2831" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L2941" />
 
 
 
@@ -19,43 +19,43 @@ put [OPTIONS] PATH
 
 Upload an artifact to W&B.
 
-    Upload a file, directory, or URL reference as a versioned artifact.
+Upload a file, directory, or URL reference as a versioned artifact.
 
-    The PATH can be a local file, a local directory, or a URL
-    (containing `://`) to log as a reference artifact.
+The PATH can be a local file, a local directory, or a URL
+(containing `://`) to log as a reference artifact.
 
-    If `--name` is not specified, the artifact name defaults to the
-    basename of the path. If the project cannot be parsed from the
-    name, you are prompted to enter one.
+If `--name` is not specified, the artifact name defaults to the
+basename of the path. If the project cannot be parsed from the
+name, you are prompted to enter one.
 
-    For example, to upload all files in a local directory ./data/training as a
-    dataset artifact in W&B:
+For example, to upload all files in a local directory ./data/training as a
+dataset artifact in W&B:
 
 ```bash
 wandb artifact put --type dataset ./data/training
 ```
 
-    To upload model.pt to the "foobar" project and assign "trained-model" as
-    the artifact name:
+To upload model.pt to the "foobar" project and assign "trained-model" as
+the artifact name:
 
 ```bash
 wandb artifact put --name foobar/trained-model --type model ./model.pt
 ```
 
-    To tag the artifact with both "latest" and "v2.0" so it can be
-    referenced by either alias:
+To tag the artifact with both "latest" and "v2.0" so it can be
+referenced by either alias:
 
 ```bash
 wandb artifact put --alias latest --alias v2.0 --type model ./model.pt
 ```
 
-    To record an Amazon S3 path as a reference without downloading or re-uploading the data:
+To record an Amazon S3 path as a reference without downloading or re-uploading the data:
 
 ```bash
 wandb artifact put --type dataset s3://my-bucket/datasets/training
 ```
 
-    To attach a human-readable description to a dataset artifact for documentation:
+To attach a human-readable description to a dataset artifact for documentation:
 
 ```bash
 wandb artifact put --type dataset --description "Training data, Jan 2025" ./data/training

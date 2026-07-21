@@ -5,7 +5,7 @@ title: wandb artifact get
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/cli.py#L2963" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L3073" />
 
 
 
@@ -19,18 +19,18 @@ get [OPTIONS] PATH
 
 Download an artifact from W&B by its path.
 
-    The PATH format is entity/project/artifact_name:version. If
-    the version is omitted, use the "latest" alias.
+The PATH format is entity/project/artifact_name:version. If
+the version is omitted, use the "latest" alias.
 
-    For example, to download the latest version of an artifact called "processed-training-set"
-    from the "foobar" project under the "team-awesome" entity:
+For example, to download the latest version of an artifact called "processed-training-set"
+from the "foobar" project under the "team-awesome" entity:
 
 ```bash
 wandb artifact get team-awesome/foobar/processed-training-set:latest
 ```
 
-    To download a specific version (v2) of the "processed-training-set" artifact
-    to a local directory (./data):
+To download a specific version (v2) of the "processed-training-set" artifact
+to a local directory (./data):
 
 ```bash
 wandb artifact get --root ./data team-awesome/foobar/processed-training-set:v2

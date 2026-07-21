@@ -1,18 +1,41 @@
 ---
 title: OnLinkArtifact
-namespace: automations_namespace
-python_object_type: class
+kind: class
+namespace: wandb.automations.events
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py" />
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py#L238" />
 
 
 
-## <kbd>class</kbd> `OnLinkArtifact`
+## <kbd>class</kbd> OnLinkArtifact
+```python
+*,
+event_type: Literal[LINK_ARTIFACT] = LINK_ARTIFACT,
+scope: Annotated[Union[wandb.automations.scopes._ArtifactSequenceScope, wandb.automations.scopes._ArtifactPortfolioScope, wandb.automations.scopes.ProjectScope, Annotated[wandb.automations.scopes.TeamScope | wandb.automations.scopes.OrgScope, BeforeValidator(func=<function parse_scope>, json_schema_input_type=PydanticUndefined), Discriminator(discriminator='entity_type', custom_error_type=None, custom_error_message=None, custom_error_context=None)]], BeforeValidator(func=<function parse_scope>, json_schema_input_type=PydanticUndefined), Discriminator(discriminator='typename__', custom_error_type=None, custom_error_message=None, custom_error_context=None)],
+filter: Annotated[wandb.automations._filters.operators.And | wandb.automations._filters.operators.Or | wandb.automations._filters.operators.Nor | wandb.automations._filters.operators.Not | wandb.automations._filters.operators.Lt | wandb.automations._filters.operators.Gt | wandb.automations._filters.operators.Lte | wandb.automations._filters.operators.Gte | wandb.automations._filters.operators.Eq | wandb.automations._filters.operators.Ne | wandb.automations._filters.operators.In | wandb.automations._filters.operators.NotIn | wandb.automations._filters.operators.Exists | wandb.automations._filters.operators.Regex | wandb.automations._filters.operators.Contains | wandb.automations._filters.operators.Size | wandb.automations._filters.operators.All | wandb.automations._filters.expressions.FilterExpr | dict[str, Any], Json, BeforeValidator(func=<function ensure_json>, json_schema_input_type=PydanticUndefined), PlainSerializer(func=<function to_json>, return_type=PydanticUndefined, when_used='always'), AfterValidator(func=<function wrap_mutation_event_filter>)] = And(())
+```
+
+
+
 A new artifact is linked to a collection.
 
-Examples:
+
+
+## Args
+
+- `event_type`: 
+- `scope`: The scope of the event.
+- `filter`: Additional conditions(s), if any, that are required for this event to trigger.
+
+
+
+
+## Examples
+
 Define an event that triggers when an artifact is linked to the
 collection "my-collection" with the alias "prod":
 
@@ -30,21 +53,6 @@ event = OnLinkArtifact(
 ```
 
 
-### <kbd>method</kbd> `OnLinkArtifact.__init__`
 
-```python
-__init__(
-    event_type: 'Literal[LINK_ARTIFACT]' = LINK_ARTIFACT,
-    scope: 'wandb.automations.scopes._ArtifactSequenceScope | wandb.automations.scopes._ArtifactPortfolioScope | wandb.automations.scopes.ProjectScope',
-    filter: 'wandb.automations._filters.operators.And | wandb.automations._filters.operators.Or | wandb.automations._filters.operators.Nor | wandb.automations._filters.operators.Not | wandb.automations._filters.operators.Lt | wandb.automations._filters.operators.Gt | wandb.automations._filters.operators.Lte | wandb.automations._filters.operators.Gte | wandb.automations._filters.operators.Eq | wandb.automations._filters.operators.Ne | wandb.automations._filters.operators.In | wandb.automations._filters.operators.NotIn | wandb.automations._filters.operators.Exists | wandb.automations._filters.operators.Regex | wandb.automations._filters.operators.Contains | wandb.automations._filters.expressions.FilterExpr | dict[str, Any]' = And(())
-) → None
-```
 
-**Args:**
- 
- - `event_type` (Literal[LINK_ARTIFACT]): 
- - `scope` (wandb.automations.scopes._ArtifactSequenceScope | wandb.automations.scopes._ArtifactPortfolioScope | wandb.automations.scopes.ProjectScope): The scope of the event.
- - `filter` (wandb.automations._filters.operators.And | wandb.automations._filters.operators.Or | wandb.automations._filters.operators.Nor | wandb.automations._filters.operators.Not | wandb.automations._filters.operators.Lt | wandb.automations._filters.operators.Gt | wandb.automations._filters.operators.Lte | wandb.automations._filters.operators.Gte | wandb.automations._filters.operators.Eq | wandb.automations._filters.operators.Ne | wandb.automations._filters.operators.In | wandb.automations._filters.operators.NotIn | wandb.automations._filters.operators.Exists | wandb.automations._filters.operators.Regex | wandb.automations._filters.operators.Contains | wandb.automations._filters.expressions.FilterExpr | dict[str, Any]): Additional conditions(s), if any, that are required for this event to trigger.
 
-**Returns:**
- An `OnLinkArtifact` object.

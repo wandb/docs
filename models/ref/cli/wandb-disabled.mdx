@@ -5,7 +5,7 @@ title: wandb disabled
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/cli.py#L3480" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L3572" />
 
 
 
@@ -19,27 +19,27 @@ disabled [OPTIONS]
 
 Disable W&B functionality.
 
-    While W&B is in `disabled` mode, it does not log or sync data.
+While W&B is in `disabled` mode, it does not log or sync data.
 
-    Use `wandb enable` to restore W&B functionality.
+Use `wandb enable` to restore W&B functionality.
 
-    Use `wandb offline` to stop cloud syncing while continuning to log data
-    locally.
+Use `wandb offline` to stop cloud syncing while continuning to log data
+locally.
 
-    For example, to turn off W&B so that the train.py script executes without logging or
-    syncing data to W&B:
+For example, to turn off W&B so that the train.py script executes without logging or
+syncing data to W&B:
 
 ```bash
 wandb disabled
 ```
 
-    Next, train the model without logging or syncing to W&B:
+Next, train the model without logging or syncing to W&B:
 
 ```bash
 python train.py  # Does not log or sync data to W&B
 ```
 
-    Restore W&B functionality when ready to log and sync again:
+Restore W&B functionality when ready to log and sync again:
 
 ```bash
 wandb enabled

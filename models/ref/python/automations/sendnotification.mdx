@@ -1,50 +1,69 @@
 ---
 title: SendNotification
-namespace: automations_namespace
-python_object_type: class
+kind: class
+namespace: wandb.automations.actions
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py" />
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py#L141" />
 
 
 
-## <kbd>class</kbd> `SendNotification`
+## <kbd>class</kbd> SendNotification
+```python
+*,
+integration_id: Annotated[str, Strict(strict=True)],
+text: Annotated[str, BeforeValidator(func=<function default_if_none>, json_schema_input_type=PydanticUndefined)] = '',
+level: Annotated[wandb.automations._generated.enums.AlertSeverity, BeforeValidator(func=<function default_if_none>, json_schema_input_type=PydanticUndefined), BeforeValidator(func=<function upper_if_str>, json_schema_input_type=PydanticUndefined)] = <AlertSeverity.INFO: 'INFO'>,
+title: Annotated[str, BeforeValidator(func=<function default_if_none>, json_schema_input_type=PydanticUndefined)] = '',
+action_type: Literal[NOTIFICATION] = NOTIFICATION
+```
+
+
+
 Defines an automation action that sends a (Slack) notification.
 
 
-### <kbd>method</kbd> `SendNotification.__init__`
+
+## Args
+
+- `integration_id`: The ID of the Slack integration that will be used to send the notification.
+- `text`: The message body of the sent notification.
+- `level`: The severity (`INFO`, `WARN`, `ERROR`) of the sent notification.
+- `title`: The title of the sent notification.
+- `action_type`: 
+
+
+
+
+
+
+
+
+## Methods
+
+### <kbd>method</kbd> SendNotification.from_integration()
 
 ```python
-__init__(
-    integration_id: 'str',
-    message: 'str' = '',
-    severity: 'AlertSeverity' = <AlertSeverity.INFO: 'INFO'>,
-    title: 'str' = '',
-    action_type: 'Literal[NOTIFICATION]' = NOTIFICATION
-) → None
-```
-
-**Args:**
- 
- - `integration_id` (str): The ID of the Slack integration that will be used to send the notification.
- - `message` (str): The message body of the sent notification.
- - `severity` (AlertSeverity): The severity (`INFO`, `WARN`, `ERROR`) of the sent notification.
- - `title` (str): The title of the sent notification.
- - `action_type` (Literal[NOTIFICATION]): 
-
-**Returns:**
- An `SendNotification` object.
-
-### <kbd>classmethod</kbd> `SendNotification.from_integration`
-
-```python
-from_integration(
-    integration: 'SlackIntegration',
-    title: 'str' = '',
-    text: 'str' = '',
-    level: 'AlertSeverity' = <AlertSeverity.INFO: 'INFO'>
-) → Self
+integration: 'SlackIntegration', *,
+title: 'str' = '',
+text: 'str' = '',
+level: 'AlertSeverity' = <AlertSeverity.INFO: 'INFO'>
 ```
 
 Define a notification action that sends to the given (Slack) integration.
+
+##### Arguments
+
+- `integration`: 
+- `title`: 
+- `text`: 
+- `level`: 
+
+
+
+
+
+

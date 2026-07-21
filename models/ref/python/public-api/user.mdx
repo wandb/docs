@@ -1,106 +1,118 @@
 ---
 title: User
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.users
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/users.py" />
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/users.py#L26" />
+
+
+
+## <kbd>class</kbd> User
 
 
 
 
-## <kbd>class</kbd> `User`
-A user on a W&B instance. 
+A user on a W&B instance.
 
-This allows managing a user's API keys and accessing information like team memberships. The `create` class method can be used to create a new user. 
-
-
-
-**Args:**
- 
- - `service_api`:  The service API instance to use for querying W&B. 
- - `attrs`:  A subset of the User type in the GraphQL schema. 
-
-
-### <kbd>property</kbd> User.api_keys
-
-Names of the user's API keys. 
-
-This property returns the names of the API keys, *not* the secret associated with the key. The name of the key cannot be used as an API key. 
-
-The list is empty if the user has no API keys or if API keys have not been loaded. 
-
-
-
-**Returns:**
- - `list[str]`: The api_keys property value.
----
-
-### <kbd>property</kbd> User.teams
-
-Names of the user's teams. 
-
-This is an empty list if the user has no team memberships or if teams data was not loaded. 
-
-
-
-**Returns:**
- - `list[str]`: The teams property value.
----
-
-### <kbd>property</kbd> User.user_api
-
-A `wandb.Api` instance using the user's credentials. 
+This allows managing a user's API keys and accessing information like
+team memberships. The `create` class method can be used to create a new
+user.
 
 
 
 
 
-**Returns:**
- - `Api | None`: The user_api property value.
----
 
 
-### <kbd>method</kbd> `User.delete_api_key`
+
+
+## Properties
+
+### <kbd>property</kbd> api_keys
+
+Names of the user's API keys.
+
+This property returns the names of the the API keys, *not* the secret
+associated with the key. The name of the key cannot be used as an API
+key.
+
+The list is empty if the user has no API keys or if API keys have not
+been loaded.
+
+### <kbd>property</kbd> teams
+
+Names of the user's teams.
+
+This is an empty list if the user has no team memberships or if teams
+data was not loaded.
+
+### <kbd>property</kbd> user_api
+
+A `wandb.Api` instance using the user's credentials.
+
+
+
+## Methods
+
+### <kbd>method</kbd> User.create()
 
 ```python
-delete_api_key(api_key: 'str') → bool
+api: 'Api',
+email: 'str',
+admin: 'bool | None' = False
 ```
 
-Delete a user's API key. 
+Create a new user.
 
-Only the owner of the key or an admin can delete it. 
+This is an internal method. Use the `create_user()` method of
+`wandb.Api` instead.
+
+##### Arguments
+
+- `api`: The API instance to use to create the user.
+- `email`: The email for the user.
+- `admin`: Whether this user should be a global instance admin.
 
 
 
-**Args:**
- 
- - `api_key`:  The name of the API key to delete. Use one of  the names returned by the `api_keys` property. 
 
-
-
-**Returns:**
- True on success, false on failure. 
-
----
-
-### <kbd>method</kbd> `User.generate_api_key`
+### <kbd>method</kbd> User.delete_api_key()
 
 ```python
-generate_api_key(description: 'str | None' = None) → str | None
+self,
+api_key: 'str'
 ```
 
-Generate a new API key. 
+Delete a user's API key.
+
+Only the owner of the key or an admin can delete it.
+
+##### Arguments
+
+- `api_key`: The name of the API key to delete. Use one of the names returned by the `api_keys` property.
 
 
 
-**Args:**
- 
- - `description`:  A description for the new API key. This can be  used to identify the purpose of the API key. 
+
+### <kbd>method</kbd> User.generate_api_key()
+
+```python
+self,
+description: 'str | None' = None
+```
+
+Generate a new API key.
+
+##### Arguments
+
+- `description`: A description for the new API key. This can be used to identify the purpose of the API key.
 
 
 
-**Returns:**
- The generated API key (the full secret, not just the name), or None on failure. 
+
+
 

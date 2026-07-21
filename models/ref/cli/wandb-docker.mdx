@@ -5,7 +5,7 @@ title: wandb docker
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/cli.py#L2487" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L2597" />
 
 
 
@@ -19,36 +19,36 @@ docker [OPTIONS] [DOCKER_RUN_ARGS]... [DOCKER_IMAGE]
 
 Run code in a Docker container with W&B configured.
 
-    Start a Docker container, inject the WANDB_DOCKERs environment
-    variable, and mount the current working directory at `/app` by
-    default. Inject WANDB_API_KEY if logged in. Override the
-    container entrypoint to ensure `wandb` is installed.
+Start a Docker container, inject the WANDB_DOCKERs environment
+variable, and mount the current working directory at `/app` by
+default. Inject WANDB_API_KEY if logged in. Override the
+container entrypoint to ensure `wandb` is installed.
 
-    Pass additional arguments to insert them into `docker run` before
-    the image name. Use a default image if none is specified.
+Pass additional arguments to insert them into `docker run` before
+the image name. Use a default image if none is specified.
 
-    Use `--jupyter` to install and start JupyterLab on port 8888.
-    Enable the NVIDIA runtime automatically if NVIDIA Docker is
-    available on the host.
+Use `--jupyter` to install and start JupyterLab on port 8888.
+Enable the NVIDIA runtime automatically if NVIDIA Docker is
+available on the host.
 
-    Requires Docker to be installed and running on the host machine.
+Requires Docker to be installed and running on the host machine.
 
-    To inject W&B environment variables into an existing `docker run`
-    command without modifying the entrypoint, use `wandb docker-run`.
+To inject W&B environment variables into an existing `docker run`
+command without modifying the entrypoint, use `wandb docker-run`.
 
-    For example, to run the default image and mount a dataset into the container:
+For example, to run the default image and mount a dataset into the container:
 
 ```bash
 wandb docker -v /mnt/dataset:/app/data
 ```
 
-    To run a default image and start JupyterLab:
+To run a default image and start JupyterLab:
 
 ```bash
 wandb docker -v /mnt/dataset:/app/data --jupyter
 ```
 
-    To run a GPU-enabled image with a training command:
+To run a GPU-enabled image with a training command:
 
 ```bash
 wandb docker wandb/deepo:keras-gpu --no-tty --cmd "python train.py"

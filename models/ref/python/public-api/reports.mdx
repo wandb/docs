@@ -1,71 +1,83 @@
 ---
 title: Reports
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.reports
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py" />
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py#L27" />
 
 
 
+## <kbd>class</kbd> Reports
+```python
+(service_api: 'ServiceApi',
+project: 'Project',
+name: 'str | None' = None,
+entity: 'str | None' = None,
+per_page: 'int' = 50)
+```
 
-## <kbd>class</kbd> `Reports`
+
+
 Reports is a lazy iterator of `BetaReport` objects.
 
-### <kbd>method</kbd> `Reports.__init__`
+
+
+## Args
+
+- `service_api`: Interface to the wandb-core service that performs W&B API calls for this collection.
+- `project`: The project to fetch reports from.
+- `name`: The name of the report to filter by. If `None`, fetches all reports.
+- `entity`: The entity name for the project. Defaults to the project entity.
+- `per_page`: Number of reports to fetch per page (default is 50).
+
+
+
+
+
+
+
+
+## Methods
+
+### <kbd>method</kbd> Reports.convert_objects()
 
 ```python
-__init__(
-    service_api: 'ServiceApi',
-    project: 'Project',
-    name: 'str | None' = None,
-    entity: 'str | None' = None,
-    per_page: 'int' = 50
-)
+self
 ```
 
-**Args:**
- 
- - `service_api`:  Interface to the wandb-core service that performs  W&B API calls for this collection. 
- - `project` (`wandb.sdk.internal.Project`):  The project to fetch reports from. 
- - `name` (str, optional):  The name of the report to filter by. If `None`,  fetches all reports. 
- - `entity` (str, optional):  The entity name for the project. Defaults to  the project entity. 
- - `per_page` (int):  Number of reports to fetch per page (default is 50). 
+Converts GraphQL edges to File objects.
 
 
 
 
 
-
-
----
-
-
-### <kbd>property</kbd> Reports.length
-
-
-
-
-
----
-
-
-### <kbd>method</kbd> `Reports.convert_objects`
+### <kbd>method</kbd> Paginator.__next__()
 
 ```python
-convert_objects() → list[BetaReport]
+self
 ```
 
-Converts GraphQL edges to File objects. 
+Return the next item from the iterator. When exhausted, raise StopIteration
 
----
 
-### <kbd>method</kbd> `Reports.update_variables`
+
+
+
+### <kbd>method</kbd> Reports.update_variables()
 
 ```python
-update_variables() → None
+self
 ```
 
-Updates the GraphQL query variables for pagination. 
+Updates the GraphQL query variables for pagination.
+
+
+
+
+
+
 
