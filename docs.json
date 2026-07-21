@@ -2712,6 +2712,7 @@
                     "group": "SDK TypeScript",
                     "pages": [
                       "fr/weave/reference/typescript-sdk",
+                      "fr/weave/reference/typescript-sdk/functions/init",
                       {
                         "group": "Classes",
                         "pages": [
@@ -2746,7 +2747,6 @@
                           "fr/weave/reference/typescript-sdk/functions/getcurrentllm",
                           "fr/weave/reference/typescript-sdk/functions/getcurrentsession",
                           "fr/weave/reference/typescript-sdk/functions/getcurrentturn",
-                          "fr/weave/reference/typescript-sdk/functions/init",
                           "fr/weave/reference/typescript-sdk/functions/instrumentopenaiagents",
                           "fr/weave/reference/typescript-sdk/functions/login",
                           "fr/weave/reference/typescript-sdk/functions/op",
@@ -2796,7 +2796,7 @@
                         ]
                       },
                       {
-                        "group": "Alias de types",
+                        "group": "Alias de type",
                         "pages": [
                           "fr/weave/reference/typescript-sdk/type-aliases/agent",
                           "fr/weave/reference/typescript-sdk/type-aliases/agentmessage",
@@ -4227,6 +4227,7 @@
                     "group": "TypeScript SDK",
                     "pages": [
                       "ja/weave/reference/typescript-sdk",
+                      "ja/weave/reference/typescript-sdk/functions/init",
                       {
                         "group": "クラス",
                         "pages": [
@@ -4261,7 +4262,6 @@
                           "ja/weave/reference/typescript-sdk/functions/getcurrentllm",
                           "ja/weave/reference/typescript-sdk/functions/getcurrentsession",
                           "ja/weave/reference/typescript-sdk/functions/getcurrentturn",
-                          "ja/weave/reference/typescript-sdk/functions/init",
                           "ja/weave/reference/typescript-sdk/functions/instrumentopenaiagents",
                           "ja/weave/reference/typescript-sdk/functions/login",
                           "ja/weave/reference/typescript-sdk/functions/op",
@@ -5742,6 +5742,7 @@
                     "group": "TypeScript SDK",
                     "pages": [
                       "ko/weave/reference/typescript-sdk",
+                      "ko/weave/reference/typescript-sdk/functions/init",
                       {
                         "group": "클래스",
                         "pages": [
@@ -5776,7 +5777,6 @@
                           "ko/weave/reference/typescript-sdk/functions/getcurrentllm",
                           "ko/weave/reference/typescript-sdk/functions/getcurrentsession",
                           "ko/weave/reference/typescript-sdk/functions/getcurrentturn",
-                          "ko/weave/reference/typescript-sdk/functions/init",
                           "ko/weave/reference/typescript-sdk/functions/instrumentopenaiagents",
                           "ko/weave/reference/typescript-sdk/functions/login",
                           "ko/weave/reference/typescript-sdk/functions/op",
@@ -5826,7 +5826,7 @@
                         ]
                       },
                       {
-                        "group": "유형 별칭",
+                        "group": "타입 별칭",
                         "pages": [
                           "ko/weave/reference/typescript-sdk/type-aliases/agent",
                           "ko/weave/reference/typescript-sdk/type-aliases/agentmessage",
