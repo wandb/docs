@@ -1,0 +1,115 @@
+---
+title: Weave プロンプトをコレクションにリンクする
+---
+
+Weave のプロンプト オブジェクトをコレクションにリンクすると、W&amp;B Registry で AI プロンプトをトラッキングし、バージョン管理できます。プロンプト オブジェクトを [コレクション](/ja/models/registry/create_collection) に*リンク*すると、プロンプトのバージョンは [private な project レベルのスコープから shared な組織レベルのスコープ](/ja/models/registry/create_registry#visibility-types) に移動します。
+
+<Note>
+  始める前に、次の点を確認してください。
+
+  * コレクションで許可されているオブジェクト タイプ。コレクション タイプの詳細については、[コレクションを作成する](./create_collection) 内の &quot;Collection types&quot; を参照してください。
+  * コレクションが属する Registry がすでに存在していること。Registry が存在するか確認するには、[Registry App and search for](/ja/models/registry/search_registry) にアクセスし、Registry の名を検索してください。
+</Note>
+
+AI プロンプトをトラッキングして管理するには、Weave Python SDK を使用します。Weave Python SDK を使用すると、Registry 内のコレクションにプロンプト オブジェクトを作成、公開、リンクできます。
+
+次の手順では、Registry 内のコレクションにプロンプトをリンクする方法を説明します。
+
+1. `weave.init()` で Weave クライアントを初期化します。
+2. [`weave.StringPrompt()`](/ja/weave/reference/python-sdk#class-stringprompt) などの組み込みプロンプト クラスを使用して、Weave プロンプト オブジェクトを作成します。
+   <Tip>
+     `weave.StringPrompt` は、システム プロンプト、ユーザー プロンプト、再利用可能なテキスト テンプレートなど、single-string プロンプト用の組み込みプロンプト クラスです。Weave でのプロンプト オブジェクトの作成方法や、サポートされるプロンプト タイプの詳細については、[プロンプト オブジェクトを作成する](/ja/weave/guides/core-types/prompts) を参照してください。
+   </Tip>
+3. [`weave.publish()`](/ja/weave/reference/python-sdk#method-publish) を使用して、プロンプトを Weave に公開します。
+4. [`weave_client.link_prompt_to_registry()`](/ja/weave/reference/python-sdk/trace/weave_client#method-link_prompt_to_registry) を使用して、公開したプロンプト バージョンを Registry 内のコレクションにリンクします。リンク先のコレクション パスを `target_path` パラメーターに渡します。このパスは、`wandb-registry-` 接頭辞、Registry 名、コレクション名で構成されます。
+   ```text
+   wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}
+   ```
+
+次のコード スニペットを Python スクリプトにコピー＆ペーストし、`<>` で囲まれたプレースホルダーの値を実際の値に置き換えてください。
+
+```python
+import weave
+
+# Weave クライアントを初期化する
+weave_client = weave.init(project="<project>")
+
+prompt = "<You are a helpful assistant...>"
+
+# prompt オブジェクトを Weave に公開する
+weave_prompt_ref = weave.publish(
+    obj=weave.StringPrompt(prompt),
+    name="<prompt_name>",
+)
+
+# prompt バージョンのリンク先となるコレクションと Registry を指定する
+REGISTRY_NAME = "<registry_name>"
+COLLECTION_NAME = "<collection_name>"
+registry_target = f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
+
+# 公開した prompt バージョンを指定した Registry 内のコレクションにリンクする
+weave_client.link_prompt_to_registry(
+    prompt=weave_prompt_ref,
+    target_path=registry_target,
+)
+```
+
+<div id="view-linked-prompts-in-a-registry">
+  ## Registry でリンクされたプロンプトを表示する
+</div>
+
+1. W&amp;B Registry にアクセスします。
+2. プロンプトをリンクした Registry の名を選択します。
+3. コレクションの名を選択します。
+4. プロンプト バージョンの一覧から、開きたいバージョンを選択します。バージョン番号は、リンクされた各プロンプト バージョンに `v0` から始まる連番として段階的に割り当てられます。
+5. プロンプト バージョンの詳細を表示するには、そのバージョンをクリックします。このページのタブから、そのバージョンの Overview、プロンプト、use を表示できます。
+
+<div id="use-a-prompt-linked-to-a-registry">
+  ## Registry に関連付けられたプロンプトを使用する
+</div>
+
+`weave.get()` メソッドを使用して、Registry に関連付けられたプロンプト オブジェクトを取得できます。プロンプトは、エイリアスまたはバージョン番号を指定して取得できます。次のコードスニペットは、エイリアスとバージョン番号を使ってプロンプトを取得する方法を示しています。
+
+エイリアスでプロンプト オブジェクトを取得するには、次の URI パスを使用します。
+
+```text
+registry:///{ORG}/{REGISTRY_NAME}/{COLLECTION_NAME}:{VERSION-OR-ALIAS}
+```
+
+`<>` で囲まれたプレースホルダー値は、ご自身の値に置き換えてください。
+
+<Tabs>
+  <Tab title="エイリアスで取得">
+    ```python
+    # エイリアスで取得
+    URI_path = f"registry:///{ORG}/{REGISTRY_NAME}/{COLLECTION_NAME}:{ALIAS}"
+
+    # エイリアスで取得
+    prompt = weave.get(URI_path)
+
+    # prompt を使用する
+    print(prompt.content)
+    ```
+  </Tab>
+
+  <Tab title="バージョンで取得">
+    ```python
+    # バージョンで取得
+    URI_path = f"registry:///{ORG}/{REGISTRY_NAME}/{COLLECTION_NAME}:{VERSION}"
+
+    # バージョンで取得
+    prompt = weave.get(URI_path)
+
+    # prompt を使用する
+    print(prompt.content)
+    ```
+  </Tab>
+</Tabs>
+
+W&amp;B は、プロンプト オブジェクトを取得するための URI パスとサンプルコードを自動生成します。サンプルコードを表示するには、次の手順を実行します。
+
+1. W&amp;B Registry にアクセスします。
+2. プロンプト をリンクした Registry の名を選択します。
+3. コレクションの名を選択します。
+4. プロンプト のバージョン一覧から、アクセスするバージョンを選択します。
+5. **Use** タブを選択すると、エイリアスまたはバージョン番号で プロンプト を取得するためのサンプルコードを表示できます。
