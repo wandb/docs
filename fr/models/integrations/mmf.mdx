@@ -3,13 +3,13 @@ description: "Intégrez W&B au framework MMF de Meta AI pour suivre les expérie
 title: MMF
 ---
 
-La classe `WandbLogger` de la bibliothèque [MMF de Meta AI](https://github.com/facebookresearch/mmf) permet à W&amp;B de consigner les métriques d&#39;entraînement et de validation, les métriques système (GPU et CPU), les points de contrôle du modèle et les paramètres de configuration.
+Cette page décrit comment utiliser la classe `WandbLogger` de la bibliothèque [MMF de Meta AI](https://github.com/facebookresearch/mmf) pour suivre l&#39;entraînement de votre modèle multimodal avec W&amp;B. L&#39;activation de `WandbLogger` permet à W&amp;B de consigner les métriques d&#39;entraînement et de validation, les métriques système (GPU et CPU), les points de contrôle du modèle et les paramètres de configuration, afin de surveiller les expériences et de comparer les runs sans ajouter de code de journalisation personnalisé.
 
-<div id="current-features">
-  ## Fonctionnalités actuelles
+<div id="features">
+  ## Fonctionnalités
 </div>
 
-Les fonctionnalités suivantes sont prises en charge par le `WandbLogger` dans MMF :
+Le `WandbLogger` dans MMF prend en charge les fonctionnalités suivantes :
 
 * Métriques d&#39;entraînement et de validation
 * Évolution du taux d&#39;apprentissage
@@ -17,30 +17,30 @@ Les fonctionnalités suivantes sont prises en charge par le `WandbLogger` dans M
 * Métriques système GPU et CPU
 * Paramètres de configuration de l&#39;entraînement
 
-<div id="config-parameters">
+<div id="configuration-parameters">
   ## Paramètres de configuration
 </div>
 
-Les options suivantes sont disponibles dans la configuration MMF pour activer et personnaliser la journalisation de wandb :
+Pour activer la journalisation W&amp;B et personnaliser le suivi des exécutions, définissez les options suivantes dans votre configuration MMF :
 
-```
+```yaml
 training:
     wandb:
         enabled: true
         
-        # Une entité est un nom d'utilisateur ou un nom d'équipe vers lequel vous envoyez des runs.
-        # Par défaut, le run sera enregistré dans votre compte utilisateur.
+        # Une entité est un nom d'utilisateur ou un nom d'équipe vers lequel vous envoyez des run.
+        # Par défaut, le run est journalisé dans votre compte utilisateur.
         entity: null
         
-        # Nom du projet à utiliser lors de l'enregistrement de l'expérience avec wandb
+        # Nom du projet à utiliser lors de la journalisation de l'expérience avec wandb
         project: mmf
         
-        # Nom de l'expérience/run à utiliser lors de l'enregistrement de l'expérience
+        # Nom de l'expérience/run à utiliser lors de la journalisation de l'expérience
         # dans le projet avec wandb. Le nom d'expérience par défaut
         # est : ${training.experiment_name}
         name: ${training.experiment_name}
         
-        # Activer le point de contrôle du modèle, en sauvegardant les points de contrôle du modèle dans W&B Artifacts
+        # Activer les points de contrôle du modèle, en sauvegardant les points de contrôle dans W&B Artifacts
         log_model_checkpoint: true
         
         # Valeurs d'arguments supplémentaires à transmettre à wandb.init(), par exemple :
@@ -48,7 +48,7 @@ training:
         # tags: ['tag1', 'tag2']
         
 env:
-    # Pour modifier le chemin vers le répertoire où les métadonnées wandb seront
-    # stockées (par défaut : env.log_dir) :
+    # Pour modifier le chemin vers le répertoire où les métadonnées wandb sont
+    # stockées (Par défaut : env.log_dir) :
     wandb_logdir: ${env:MMF_WANDB_LOGDIR,}
 ```

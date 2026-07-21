@@ -1,0 +1,85 @@
+---
+title: Create an Eval Table
+description: "Learn how to create an Eval Table in W&B."
+---
+
+Create an Eval Table using the W&B Python SDK or convert an existing [W&B Table](/models/tables) with [ARIA](/aria).
+
+## Create an Eval Table
+
+Use `wandb.EvalTable` class to create an Eval Table. 
+
+For example, suppose you have the following pandas DataFrame:
+
+```python
+import pandas as pd
+import wandb
+
+df = pd.DataFrame(
+    [
+        {
+            "image_id": "img_001",
+            "true_label": "cat",
+            "predicted_label": "cat",
+            "confidence": 0.97,
+            "correct": True,
+        },
+        {
+            "image_id": "img_002",
+            "true_label": "dog",
+            "predicted_label": "cat",
+            "confidence": 0.72,
+            "correct": False,
+        },
+        {
+            "image_id": "img_003",
+            "true_label": "car",
+            "predicted_label": "car",
+            "confidence": 0.89,
+            "correct": True,
+        },
+    ]
+)
+```
+
+{/* ```python
+with wandb.init(project="classifier-table-demo") as run:
+    table = wandb.Table(dataframe=df)
+    run.log({"validation_predictions": table})
+``` */}
+
+Create an Eval Table by passing the DataFrame to `wandb.EvalTable`. Use the `input_columns`, `output_columns`, and `score_columns` arguments to identify the role of each column.
+
+The following example uses:
+
+- `image_id` as the input
+- `predicted_label` as the output
+- `correct` and `confidence` as scores
+
+```python
+with wandb.init(project="classifier-eval-table-demo") as run:
+    eval_table = wandb.EvalTable(
+        dataframe=df,
+        input_columns=["image_id"],
+        output_columns=["predicted_label"],
+        score_columns=["correct", "confidence"],
+    )
+    run.log({"validation_predictions_eval": eval_table})    
+```
+
+
+## Convert a W&B Table to an Eval Table
+
+Use the conversion banner to convert an existing W&B Table to an Eval Table:
+
+1. Navigate to the project that contains the W&B Table.
+2. Select the **Try now** button in the conversion banner. The button opens [ARIA](/aria) with information about which table to convert.
+3. Follow the prompts in ARIA's conversation window.
+
+If you closed the banner or do not see it, open ARIA manually:
+
+1. Select the blue circle in the upper-right corner of the page to open ARIA.
+2. Enter `/convert-eval-table` in the ARIA conversation.
+3. Select Send, represented by the upward-pointing arrow (<Icon icon="arrow-up" iconType="solid"/>) in the lower-right corner of the conversation.
+
+Converting a W&B Table does not modify the original table.

@@ -14,8 +14,10 @@ title: Stable Baselines 3 PyTorch
 [SB3 のトレーニング run の例](https://wandb.ai/wandb/sb3/runs/1jyr6z10)をご覧ください。
 
 <div id="log-your-sb3-experiments">
-  ## SB3 Experimentsをログする
+  ## SB3 実験をログする
 </div>
+
+SB3のトレーニングをW&amp;Bにログするには、モデルの `learn` メソッドに `WandbCallback` を渡します:
 
 ```python
 from wandb.integration.sb3 import WandbCallback
@@ -27,23 +29,24 @@ model.learn(..., callback=WandbCallback())
   <img src="/images/integrations/stable_baselines_demo.gif" alt="W&BでのStable Baselines 3のトレーニング" />
 </Frame>
 
-
 <div id="wandbcallback-arguments">
-  ## WandbCallback の引数
+  ## `WandbCallback` の引数
 </div>
 
-| 引数                   | 用途                                                |
-| :------------------- | :------------------------------------------------ |
-| `verbose`            | sb3 出力の詳細レベル                                      |
-| `model_save_path`    | モデルを保存するフォルダーのパス。デフォルト値は `None` で、その場合モデルはログされません |
-| `model_save_freq`    | モデルを保存する頻度                                        |
-| `gradient_save_freq` | 勾配をログする頻度。デフォルト値は 0 のため、勾配はログされません                |
+次の表では、`WandbCallback` に渡せる引数について説明します。
+
+| Argument             | Usage                                         |
+| :------------------- | :-------------------------------------------- |
+| `verbose`            | SB3 の出力の詳細レベル。                                |
+| `model_save_path`    | モデルを保存するフォルダーのパス。デフォルトは `None` で、モデルはログされません。 |
+| `model_save_freq`    | モデルを保存する頻度。                                   |
+| `gradient_save_freq` | 勾配をログする頻度。デフォルトは `0` で、勾配はログされません。            |
 
 <div id="basic-example">
   ## 基本的な例
 </div>
 
-W&amp;B SB3 インテグレーションでは、TensorBoard から出力されるログを使用してメトリクスをログします
+W&amp;B SB3 インテグレーションでは、TensorBoard が出力するログを使用して、メトリクスをログします。
 
 ```python
 import gym

@@ -3,7 +3,9 @@ description: Hugging Face의 Transformers 라이브러리와 W&B를 통합하는
 title: Hugging Face Simple Transformers
 ---
 
-이 라이브러리는 Hugging Face의 Transformers 라이브러리를 기반으로 합니다. Simple Transformers를 사용하면 Transformer 모델을 빠르게 트레이닝하고 평가할 수 있습니다. 모델을 초기화하고, 트레이닝하고, 평가하는 데는 단 3줄의 코드만 필요합니다. Sequence 분류, Token 분류 (NER), 질문 답변, Language Model Fine-Tuning, Language Model Training, Language Generation, T5 Model, Seq2Seq Tasks, Multi-Modal 분류, Conversational AI를 지원합니다.
+이 페이지에서는 Weights &amp; Biases (W&amp;B)를 Simple Transformers와 통합하여 Transformer 모델 트레이닝을 시각화하고 추적하는 방법을 보여줍니다. 이 페이지를 끝까지 읽으면 Simple Transformers 모델에서 W&amp;B 로깅을 활성화하는 방법과 일반적인 NLP 작업에 대한 예시를 어디에서 찾을 수 있는지 알게 됩니다.
+
+Simple Transformers는 Hugging Face의 Transformers 라이브러리를 기반으로 합니다. Simple Transformers를 사용하면 Transformer 모델을 빠르게 트레이닝하고 평가할 수 있습니다. 모델을 초기화하고, 트레이닝하고, 평가하는 데는 단 3줄의 코드만 필요합니다. Sequence 분류, Token 분류 (NER), 질문 답변, Language Model Fine-Tuning, Language Model Training, Language Generation, T5 Model, Seq2Seq Tasks, Multi-Modal 분류, Conversational AI를 지원합니다.
 
 모델 트레이닝을 시각화하기 위해 W&amp;B를 사용하려면 `args` 딕셔너리의 `wandb_project` 속성에 W&amp;B 프로젝트 이름을 설정하세요. 그러면 모든 하이퍼파라미터 값, 트레이닝 손실, 평가 메트릭이 지정한 프로젝트에 기록됩니다.
 
@@ -17,7 +19,7 @@ model = ClassificationModel('roberta', 'roberta-base', args={'wandb_project': 'p
   ## 구조
 </div>
 
-이 라이브러리는 각 NLP 작업마다 별도의 클래스를 갖도록 설계되었습니다. 유사한 기능을 제공하는 클래스는 함께 묶여 있습니다.
+다음 섹션에서는 Simple Transformers가 클래스를 어떻게 구성하는지 간략히 설명하므로, 특정 작업에 대해 어느 모듈을 임포트해야 하는지 알 수 있습니다. 이 라이브러리는 각 NLP 작업마다 별도의 클래스를 갖도록 설계되었습니다. 유사한 기능을 제공하는 클래스는 함께 묶여 있습니다.
 
 * `simpletransformers.classification` - 모든 분류 모델을 포함합니다.
   * `ClassificationModel`
@@ -27,13 +29,13 @@ model = ClassificationModel('roberta', 'roberta-base', args={'wandb_project': 'p
 * `simpletransformers.question_answering` - 모든 질문 답변 모델을 포함합니다.
   * `QuestionAnsweringModel`
 
-다음은 몇 가지 간단한 예제입니다.
+다음 섹션에서는 일반적인 두 가지 작업에 대한 최소한의 예시를 설명하며, `wandb_project` 인수를 통해 W&amp;B 로깅을 활성화하는 방법을 보여줍니다.
 
-<div id="multilabel-classification">
+<div id="multi-label-classification">
   ## 다중 레이블 분류
 </div>
 
-```text
+```python
   model = MultiLabelClassificationModel("distilbert","distilbert-base-uncased",num_labels=6,
     args={"reprocess_input_data": True, "overwrite_output_dir": True, "num_train_epochs":epochs,'learning_rate':learning_rate,
                 'wandb_project': "simpletransformers"},
@@ -45,12 +47,11 @@ model = ClassificationModel('roberta', 'roberta-base', args={'wandb_project': 'p
   result, model_outputs, wrong_predictions = model.eval_model(eval_df)
 ```
 
-
 <div id="question-answering">
   ## 질문 답변
 </div>
 
-```text
+```python
   train_args = {
     'learning_rate': wandb.config.learning_rate,
     'num_train_epochs': 2,
@@ -67,9 +68,13 @@ model = QuestionAnsweringModel('distilbert', 'distilbert-base-cased', args=train
 model.train_model(train_data)
 ```
 
-SimpleTransformers는 일반적인 모든 자연어 처리 작업을 위한 클래스와 트레이닝 스크립트를 제공합니다. 다음은 라이브러리에서 지원하는 전역 인자의 전체 목록과 각 인자의 기본값입니다.
+<div id="global-arguments">
+  ## 전역 인수
+</div>
 
-```text
+SimpleTransformers는 일반적인 모든 자연어 처리 작업을 위한 클래스와 트레이닝 스크립트를 제공합니다. 다음은 라이브러리에서 지원하는 전역 인자의 전체 목록과 각 인자의 기본값입니다. 앞서 소개한 W&amp;B 관련 옵션 외에 트레이닝 동작을 사용자 지정하려면 이 목록을 참고하세요.
+
+```python
 global_args = {
   "adam_epsilon": 1e-8,
   "best_model_dir": "outputs/best_model",
@@ -124,6 +129,10 @@ global_args = {
 }
 ```
 
+<div id="additional-resources">
+  ## 추가 자료
+</div>
+
 더 자세한 문서는 [GitHub의 simpletransformers](https://github.com/ThilinaRajapakse/simpletransformers)를 참고하세요.
 
-가장 널리 사용되는 GLUE 벤치마크 데이터셋 몇 가지로 transformer를 트레이닝하는 방법을 다루는 [이 W&amp;B 리포트](https://app.wandb.ai/cayush/simpletransformers/reports/Using-simpleTransformer-on-common-NLP-applications---Vmlldzo4Njk2NA)를 확인해 보세요. [colab에서 직접 사용해 보세요](https://colab.research.google.com/drive/1oXROllqMqVvBFcPgTKJRboTq96uWuqSz?usp=sharing).
+가장 널리 사용되는 GLUE 벤치마크 데이터셋 몇 가지에서 transformer를 트레이닝하는 방법을 다루는 W&amp;B report인 [Using simpleTransformer on common NLP applications](https://app.wandb.ai/cayush/simpletransformers/reports/Using-simpleTransformer-on-common-NLP-applications---Vmlldzo4Njk2NA)를 확인해 보세요. [Colab에서 직접 사용해 보세요](https://colab.research.google.com/drive/1oXROllqMqVvBFcPgTKJRboTq96uWuqSz?usp=sharing).
