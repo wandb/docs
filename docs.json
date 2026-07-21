@@ -560,7 +560,7 @@
                         ]
                       },
                       {
-                        "group": "Trace functions with ops and calls",
+                        "group": "Trace functions with Ops and Calls",
                         "pages": [
                           {
                             "group": "Integrate with your LLM provider and frameworks",
