@@ -170,7 +170,8 @@ The following example runs three turns in a single conversation. Each turn:
 3. Opens a second `chat` span to produce the final answer.
 
 <CodeGroup>
-```python lines highlight="9,11,18,37,50,54,68" Python
+```python lines highlight="10,12,19,38,51,55,69" Python
+import weave
 from openai import OpenAI
 
 openai_client = OpenAI()
@@ -249,8 +250,9 @@ with weave.start_conversation(agent_name="research-bot") as conversation:
         print(f"AGENT: {run_turn(history, question)}\n")
 ```
 
-```typescript lines highlight="11,14,25,47,62,70,89" TypeScript twoslash
+```typescript lines highlight="12,15,26,48,63,71,90" TypeScript twoslash
 // @noErrors
+import * as weave from 'weave';
 import OpenAI from 'openai';
 
 const openaiClient = new OpenAI();
