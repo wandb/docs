@@ -22,6 +22,13 @@ export const WandbReport = ({ src, title, height = 640 }) => {
   }
   const frameHeight = typeof height === 'number' && height > 0 ? height : 640;
 
+  // Request W&B's streamlined embed view. `?jupyter=true` is the same parameter
+  // the wandb SDK's Report/Run/Sweep `.to_html()` methods use to render a
+  // cleaner frame in notebooks; it trims the top chrome the full report page
+  // shows. Keep it off the human-facing caption link below, which points at the
+  // normal report URL.
+  const frameSrc = isReportUrl ? `${src}${src.includes('?') ? '&' : '?'}jupyter=true` : src;
+
   // Colors come from the CSS custom properties in scripts/css-minify/colors.css
   // (:root plus a .dark override), so the card chrome tracks light/dark mode at
   // paint time with no JavaScript and no changes to the generated stylesheet.
@@ -38,7 +45,7 @@ export const WandbReport = ({ src, title, height = 640 }) => {
     >
       {isReportUrl && (
         <iframe
-          src={src}
+          src={frameSrc}
           title={frameTitle}
           loading="lazy"
           allow="fullscreen; clipboard-write"
