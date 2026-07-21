@@ -538,7 +538,8 @@
                     "group": "Get Started",
                     "pages": [
                       "weave/agent-integration-quickstart",
-                      "weave/custom-agents-quickstart"
+                      "weave/custom-agents-quickstart",
+                      "weave/agent-evals"
                     ]
                   },
                   {
