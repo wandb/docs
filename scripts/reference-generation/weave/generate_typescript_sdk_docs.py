@@ -124,8 +124,8 @@ def setup_typescript_project(weave_source):
         print("  Installing typedoc...")
         subprocess.run([
             "npm", "install", "--save-dev", "--legacy-peer-deps",
-            "typedoc@0.25.13",
-            "typedoc-plugin-markdown@3.17.1"
+            "typedoc@0.28.20",
+            "typedoc-plugin-markdown@4.12.0"
         ], check=True)
         
         print("  ✓ Dependencies installed")
@@ -154,7 +154,15 @@ def generate_typedoc(sdk_path, output_path):
         "excludeInternal": True,
         "disableSources": False,
         "cleanOutputDir": True,
-        "hideBreadcrumbs": True
+        "hideBreadcrumbs": True,
+        # The Weave repo currently ships a type error in the googleAdk
+        # integration (duplicate @google/genai versions in its dependency
+        # tree). Docs generation doesn't require the project to type-check,
+        # so don't let that abort the build.
+        "skipErrorChecking": True,
+        # typedoc-plugin-markdown v4 also prepends a bold package-name
+        # header to every page; Mintlify provides its own page chrome.
+        "hidePageHeader": True
     }
     
     config_path = sdk_path / "typedoc.json"
@@ -173,6 +181,36 @@ def generate_typedoc(sdk_path, output_path):
         # Clean up config file
         if config_path.exists():
             config_path.unlink()
+
+
+def _escape_mdx_hostile_chars(content):
+    """Escape raw `<`, `{`, and `}` in prose so MDX doesn't parse them as JSX.
+
+    TypeDoc escapes these in the output it generates itself, but comment text
+    inherited from third-party .d.ts files passes through verbatim (e.g.
+    @google/adk ships a corrupted doc comment containing raw code, which
+    TypeDoc 0.28 inherits onto WeaveAdkPlugin's members via its `implements`
+    clause). Fenced code blocks and inline code spans are left untouched;
+    already-escaped characters are not double-escaped.
+    """
+    out_lines = []
+    in_fence = False
+    for line in content.split('\n'):
+        if line.lstrip().startswith('```'):
+            in_fence = not in_fence
+            out_lines.append(line)
+            continue
+        if in_fence:
+            out_lines.append(line)
+            continue
+        # Even indices are prose; odd indices are inline code spans.
+        parts = re.split(r'(``[^`]*``|`[^`]*`)', line)
+        for i in range(0, len(parts), 2):
+            p = re.sub(r'(?<!\\)<(?=[A-Za-z/])', r'\\<', parts[i])
+            p = re.sub(r'(?<!\\)([{}])', r'\\\1', p)
+            parts[i] = p
+        out_lines.append(''.join(parts))
+    return '\n'.join(out_lines)
 
 
 def convert_to_mintlify_format(docs_dir):
@@ -204,13 +242,27 @@ def convert_to_mintlify_format(docs_dir):
         # Fix escaped angle brackets in title (TypeDoc escapes them as \< and \>)
         title_fixed = title.replace('\\<', '<').replace('\\>', '>')
 
+        # typedoc-plugin-markdown v4 wraps deprecated symbols' titles in
+        # strikethrough (`# ~~Variable: startSession~~`); the deprecation is
+        # surfaced via the hoisted <Warning> callout instead.
+        title_fixed = title_fixed.replace('~~', '')
+
         # Strip TypeDoc's reflection-kind prefix ("Class: LLM" → "LLM") so the
         # left nav shows bare symbol names; the nav group already conveys the kind.
+        # v4 writes "Type Alias"; v3 wrote "Type alias".
         title_fixed = re.sub(
-            r'^(?:Class|Interface|Function|Type alias|Enumeration|Namespace|Variable|Module):\s+',
+            r'^(?:Class|Interface|Function|Type [Aa]lias|Enumeration|Namespace|Variable|Module):\s+',
             '',
             title_fixed,
         )
+
+        # v4 suffixes function/method titles with call parens ("login()");
+        # drop them to keep bare symbol names in the nav.
+        title_fixed = re.sub(r'\(\)$', '', title_fixed)
+
+        # Escape MDX-hostile characters in the body before the frontmatter is
+        # prepended (the quoted YAML title must keep its bare < and >).
+        content = _escape_mdx_hostile_chars(content)
         
         # Add Mintlify frontmatter
         frontmatter = f"""---
@@ -256,15 +308,18 @@ description: "TypeScript SDK reference"
         content = re.sub(r'\]\(\.\./interfaces/([^)#]+)(#[^)]+)?\)', lambda m: f'](../interfaces/{m.group(1).lower()}{m.group(2) or ""})', content)
         content = re.sub(r'\]\(\.\./functions/([^)#]+)(#[^)]+)?\)', lambda m: f'](../functions/{m.group(1).lower()}{m.group(2) or ""})', content)
         content = re.sub(r'\]\(\.\./type-aliases/([^)#]+)(#[^)]+)?\)', lambda m: f'](../type-aliases/{m.group(1).lower()}{m.group(2) or ""})', content)
-        
+        content = re.sub(r'\]\(\.\./variables/([^)#]+)(#[^)]+)?\)', lambda m: f'](../variables/{m.group(1).lower()}{m.group(2) or ""})', content)
+
         # 4. Fix relative links without ../ prefix (same directory or subdirectory)
         content = re.sub(r'\]\(classes/([^)#]+)(#[^)]+)?\)', lambda m: f'](../classes/{m.group(1).lower()}{m.group(2) or ""})', content)
         content = re.sub(r'\]\(interfaces/([^)#]+)(#[^)]+)?\)', lambda m: f'](../interfaces/{m.group(1).lower()}{m.group(2) or ""})', content)
         content = re.sub(r'\]\(functions/([^)#]+)(#[^)]+)?\)', lambda m: f'](../functions/{m.group(1).lower()}{m.group(2) or ""})', content)
         content = re.sub(r'\]\(type-aliases/([^)#]+)(#[^)]+)?\)', lambda m: f'](../type-aliases/{m.group(1).lower()}{m.group(2) or ""})', content)
-        
+        content = re.sub(r'\]\(variables/([^)#]+)(#[^)]+)?\)', lambda m: f'](../variables/{m.group(1).lower()}{m.group(2) or ""})', content)
+
         # 5. Fix same-directory class/interface links (start with capital letter, no path separator)
-        content = re.sub(r'\]\(([A-Z][a-zA-Z]+)(#[^)]+)?\)', lambda m: f'](./{m.group(1).lower()}{m.group(2) or ""})', content)
+        # Allow digits and hyphens for TypeDoc's name-collision suffixes (e.g. Session-1)
+        content = re.sub(r'\]\(([A-Z][a-zA-Z0-9-]+)(#[^)]+)?\)', lambda m: f'](./{m.group(1).lower()}{m.group(2) or ""})', content)
         
         # 6. Special fix for README/landing page - it becomes typescript-sdk.mdx at parent level
         if md_file.name == 'README.md':
@@ -274,7 +329,8 @@ description: "TypeScript SDK reference"
             content = re.sub(r'\]\(\.\./interfaces/([^)#]+)(#[^)]+)?\)', lambda m: f'](./typescript-sdk/interfaces/{m.group(1).lower()}{m.group(2) or ""})', content)
             content = re.sub(r'\]\(\.\./functions/([^)#]+)(#[^)]+)?\)', lambda m: f'](./typescript-sdk/functions/{m.group(1).lower()}{m.group(2) or ""})', content)
             content = re.sub(r'\]\(\.\./type-aliases/([^)#]+)(#[^)]+)?\)', lambda m: f'](./typescript-sdk/type-aliases/{m.group(1).lower()}{m.group(2) or ""})', content)
-            
+            content = re.sub(r'\]\(\.\./variables/([^)#]+)(#[^)]+)?\)', lambda m: f'](./typescript-sdk/variables/{m.group(1).lower()}{m.group(2) or ""})', content)
+
             # Fix self-referential anchor links like (README#anchor) that appear in Table of Contents
             # We'll scan the content to determine if each anchor refers to a function or type alias
             # First, extract all type alias names (they have the Ƭ symbol)
@@ -638,23 +694,34 @@ def organize_for_mintlify(temp_output, final_output):
     print("  ✓ Documentation organized")
 
 
-# Matches TypeDoc's @deprecated output:
-#   `Deprecated`
+# Matches TypeDoc's @deprecated output. typedoc-plugin-markdown v4 renders it
+# as a heading section whose level depends on nesting depth (`## Deprecated`
+# at page level, `#### Deprecated` under a member, `##### Deprecated` under an
+# accessor signature):
+#   ## Deprecated
 #
 #   <message paragraph, possibly multiline>
 #
-# Stops at the next heading or `___` separator (or end of file). The non-greedy
-# `.+?` plus the lookahead lets the message itself span multiple soft-wrapped
-# lines without swallowing the section that follows it.
+# (v3 rendered an inline `` `Deprecated` `` label instead; that form is also
+# still matched.) Stops at the next heading or `***`/`___` separator (or end
+# of file). The non-greedy `.+?` plus the lookahead lets the message itself
+# span multiple soft-wrapped lines without swallowing the section that
+# follows it.
 _DEPRECATED_BLOCK_RE = re.compile(
-    r'\n\n`Deprecated`\n\n(.+?)(?=\n\n(?:#{1,6} |___|\Z))',
+    r'\n\n(?:(#{2,5}) Deprecated|`Deprecated`)\n\n(.+?)(?=\n\n(?:#{1,6} |\*\*\*|___)|\n*\Z)',
     re.DOTALL,
 )
 
 # Symbol-level headings only. H4 (`#### Returns`, `#### Defined in`) is a
 # *sub*section of a symbol and is deliberately excluded — anchoring the
-# warning there would put it back where TypeDoc already placed it.
-_SYMBOL_HEADING_RE = re.compile(r'^#{1,3} .+$', re.MULTILINE)
+# warning there would put it back where TypeDoc already placed it. The
+# `Deprecated` headings themselves are excluded too: they belong to the very
+# blocks being removed, so anchoring a later warning to one would insert
+# text into a deleted span.
+_SYMBOL_HEADING_RE = re.compile(r'^#{1,3} (?!Deprecated$).+$', re.MULTILINE)
+
+# Frontmatter block at the very start of a converted .mdx file.
+_FRONTMATTER_RE = re.compile(r'\A---\n.*?\n---\n', re.DOTALL)
 
 
 def hoist_deprecation_callouts(docs_root):
@@ -691,21 +758,42 @@ def _hoist_deprecations_in_text(content):
 
     headings = list(_SYMBOL_HEADING_RE.finditer(content))
 
+    # A page-level deprecation can precede every heading (the H1 was already
+    # moved into frontmatter during conversion), so the fallback anchor must
+    # sit after the frontmatter, never at position 0.
+    fm = _FRONTMATTER_RE.match(content)
+    default_anchor = fm.end() if fm else 0
+
     edits = []
     inserts_by_pos = {}
 
     for dep in deprecations:
-        message = dep.group(1).strip()
+        message = dep.group(2).strip()
         warning = f'\n\n<Warning>\n  **Deprecated.** {message}\n</Warning>'
 
-        anchor = 0
-        for h in headings:
-            if h.start() < dep.start():
-                anchor = h.end()
-            else:
-                break
+        # An `## Deprecated` (H2) section deprecates the page's own symbol —
+        # its H1 heading is already gone (moved into frontmatter), and any H2
+        # headings preceding it (`## Parameters`, `## Examples`, ...) are
+        # sections of the same symbol, not other symbols. Hoist it to the top
+        # of the page. Deeper levels (H4/H5) belong to a member documented
+        # under an H2/H3 heading, so those anchor to the nearest one.
+        if dep.group(1) == '##':
+            anchor = default_anchor
+        else:
+            anchor = default_anchor
+            for h in headings:
+                if h.start() < dep.start():
+                    anchor = h.end()
+                else:
+                    break
 
         edits.append((dep.start(), dep.end(), ''))
+        # Heading-anchored inserts land before the blank line that already
+        # follows the heading; a top-of-page insert lands right before the
+        # first content line, so it needs its own trailing blank line to
+        # keep the following markdown block separate from the JSX element.
+        if anchor == default_anchor:
+            warning += '\n'
         inserts_by_pos.setdefault(anchor, []).append(warning)
 
     for pos, warns in inserts_by_pos.items():

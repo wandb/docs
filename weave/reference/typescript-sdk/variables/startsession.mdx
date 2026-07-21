@@ -1,11 +1,16 @@
 ---
-title: "startConversation"
+title: "startSession"
 description: "TypeScript SDK reference"
 ---
 
-> **startConversation**(`opts?`): [`Conversation`](../interfaces/conversation)
 
-Defined in: [src/genai/api.ts:26](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L26)
+<Warning>
+  **Deprecated.** Use [startConversation](../functions/startconversation) instead.
+</Warning>
+
+> `const` **startSession**: (`opts`) => [`Conversation`](../interfaces/conversation) = `startConversation`
+
+Defined in: [src/genai/api.ts:33](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L33)
 
 Start a new Conversation and install it as the current conversation.
 Subsequent calls to `startTurn` will pick it up automatically.

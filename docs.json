@@ -1202,20 +1202,14 @@
                       {
                         "group": "Classes",
                         "pages": [
-                          "weave/reference/typescript-sdk/classes/conversation",
                           "weave/reference/typescript-sdk/classes/dataset",
                           "weave/reference/typescript-sdk/classes/evaluation",
                           "weave/reference/typescript-sdk/classes/evaluationlogger",
-                          "weave/reference/typescript-sdk/classes/llm",
                           "weave/reference/typescript-sdk/classes/messagesprompt",
                           "weave/reference/typescript-sdk/classes/objectref",
                           "weave/reference/typescript-sdk/classes/scorelogger",
                           "weave/reference/typescript-sdk/classes/stringprompt",
-                          "weave/reference/typescript-sdk/classes/subagent",
-                          "weave/reference/typescript-sdk/classes/tool",
-                          "weave/reference/typescript-sdk/classes/turn",
                           "weave/reference/typescript-sdk/classes/weaveadkplugin",
-                          "weave/reference/typescript-sdk/classes/weaveclient",
                           "weave/reference/typescript-sdk/classes/weaveobject"
                         ]
                       },
@@ -1226,12 +1220,10 @@
                           "weave/reference/typescript-sdk/functions/createotelextension",
                           "weave/reference/typescript-sdk/functions/endconversation",
                           "weave/reference/typescript-sdk/functions/endllm",
-                          "weave/reference/typescript-sdk/functions/endsession",
                           "weave/reference/typescript-sdk/functions/endturn",
                           "weave/reference/typescript-sdk/functions/flushotel",
                           "weave/reference/typescript-sdk/functions/getcurrentconversation",
                           "weave/reference/typescript-sdk/functions/getcurrentllm",
-                          "weave/reference/typescript-sdk/functions/getcurrentsession",
                           "weave/reference/typescript-sdk/functions/getcurrentturn",
                           "weave/reference/typescript-sdk/functions/instrumentopenaiagents",
                           "weave/reference/typescript-sdk/functions/login",
@@ -1242,7 +1234,6 @@
                           "weave/reference/typescript-sdk/functions/runisolated",
                           "weave/reference/typescript-sdk/functions/startconversation",
                           "weave/reference/typescript-sdk/functions/startllm",
-                          "weave/reference/typescript-sdk/functions/startsession",
                           "weave/reference/typescript-sdk/functions/startsubagent",
                           "weave/reference/typescript-sdk/functions/starttool",
                           "weave/reference/typescript-sdk/functions/startturn",
@@ -1259,6 +1250,7 @@
                         "pages": [
                           "weave/reference/typescript-sdk/interfaces/callschema",
                           "weave/reference/typescript-sdk/interfaces/callsfilter",
+                          "weave/reference/typescript-sdk/interfaces/conversation",
                           "weave/reference/typescript-sdk/interfaces/conversationinit",
                           "weave/reference/typescript-sdk/interfaces/getagentsoptions",
                           "weave/reference/typescript-sdk/interfaces/getagentspansoptions",
@@ -1268,16 +1260,21 @@
                           "weave/reference/typescript-sdk/interfaces/getcallsoptions",
                           "weave/reference/typescript-sdk/interfaces/httpresponse",
                           "weave/reference/typescript-sdk/interfaces/httpvalidationerror",
+                          "weave/reference/typescript-sdk/interfaces/llm",
                           "weave/reference/typescript-sdk/interfaces/llminit",
                           "weave/reference/typescript-sdk/interfaces/message",
                           "weave/reference/typescript-sdk/interfaces/query",
                           "weave/reference/typescript-sdk/interfaces/reasoning",
                           "weave/reference/typescript-sdk/interfaces/sortby",
+                          "weave/reference/typescript-sdk/interfaces/subagent",
                           "weave/reference/typescript-sdk/interfaces/subagentinit",
+                          "weave/reference/typescript-sdk/interfaces/tool",
                           "weave/reference/typescript-sdk/interfaces/toolinit",
+                          "weave/reference/typescript-sdk/interfaces/turn",
                           "weave/reference/typescript-sdk/interfaces/turninit",
                           "weave/reference/typescript-sdk/interfaces/usage",
                           "weave/reference/typescript-sdk/interfaces/weaveaudio",
+                          "weave/reference/typescript-sdk/interfaces/weaveclient",
                           "weave/reference/typescript-sdk/interfaces/weaveimage"
                         ]
                       },
@@ -1301,8 +1298,17 @@
                           "weave/reference/typescript-sdk/type-aliases/response",
                           "weave/reference/typescript-sdk/type-aliases/role",
                           "weave/reference/typescript-sdk/type-aliases/session",
+                          "weave/reference/typescript-sdk/type-aliases/session-1",
                           "weave/reference/typescript-sdk/type-aliases/sessioninit",
                           "weave/reference/typescript-sdk/type-aliases/settings"
+                        ]
+                      },
+                      {
+                        "group": "Variables",
+                        "pages": [
+                          "weave/reference/typescript-sdk/variables/endsession",
+                          "weave/reference/typescript-sdk/variables/getcurrentsession",
+                          "weave/reference/typescript-sdk/variables/startsession"
                         ]
                       }
                     ]

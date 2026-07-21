@@ -1,20 +1,44 @@
 ---
-title: "Op"
+title: "Op<T>"
 description: "TypeScript SDK reference"
 ---
 
-# Op
+> **Op**\<`T`\> = `object` & `T` & (...`args`) => `ReturnType`\<`T`\> *extends* `AsyncIterable`\<infer U\> ? `AsyncIterable`\<`Awaited`\<`U`\>\> : `Promise`\<`Awaited`\<`ReturnType`\<`T`\>\>\>
 
-Ƭ **Op**\<`T`\>: \{ `__boundThis?`: [`WeaveObject`](../classes/weaveobject) ; `__isOp`: ``true`` ; `__name`: `string` ; `__parameterNames?`: `ParameterNamesOption` ; `__savedRef?`: `OpRef` \| `Promise`\<`OpRef`\> ; `__wrappedFunction`: `T` ; `invoke`: `CallMethod`\<`T`\>  } & `T` & (...`args`: `Parameters`\<`T`\>) => `ReturnType`\<`T`\> extends `AsyncIterable`\<infer U\> ? `AsyncIterable`\<`Awaited`\<`U`\>\> : `Promise`\<`Awaited`\<`ReturnType`\<`T`\>\>\>
+Defined in: [src/opType.ts:7](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/opType.ts#L7)
 
-#### Type parameters
+## Type Declaration
 
-| Name | Type |
-| :------ | :------ |
-| `T` | extends (...`args`: `any`[]) => `any` |
+### \_\_boundThis?
 
-#### Defined in
+> `optional` **\_\_boundThis?**: [`WeaveObject`](../classes/weaveobject)
 
-[src/opType.ts:7](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/opType.ts#L7)
+### \_\_isOp
 
-___
+> **\_\_isOp**: `true`
+
+### \_\_name
+
+> **\_\_name**: `string`
+
+### \_\_parameterNames?
+
+> `optional` **\_\_parameterNames?**: `ParameterNamesOption`
+
+### \_\_savedRef?
+
+> `optional` **\_\_savedRef?**: `OpRef` \| `Promise`\<`OpRef`\>
+
+### \_\_wrappedFunction
+
+> **\_\_wrappedFunction**: `T`
+
+### invoke
+
+> **invoke**: `CallMethod`\<`T`\>
+
+## Type Parameters
+
+### T
+
+`T` *extends* (...`args`) => `any`

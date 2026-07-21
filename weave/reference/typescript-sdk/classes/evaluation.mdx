@@ -3,6 +3,8 @@ title: "Evaluation<R, E, M>"
 description: "TypeScript SDK reference"
 ---
 
+Defined in: [src/evaluation.ts:139](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluation.ts#L139)
+
 Sets up an evaluation which includes a set of scorers and a dataset.
 
 Calling evaluation.evaluate(model) will pass in rows form a dataset into a model matching
@@ -10,7 +12,7 @@ the names of the columns of the dataset to the argument names in model.predict.
 
 Then it will call all of the scorers and save the results in weave.
 
-`Example`
+## Example
 
 ```ts twoslash
 // @noErrors
@@ -44,183 +46,162 @@ const evaluation = new weave.Evaluation({
 const results = await evaluation.evaluate({ model });
 ```
 
-## Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `R` | extends `DatasetRow` |
-| `E` | extends `DatasetRow` |
-| `M` | `M` |
-
-## Hierarchy
+## Extends
 
 - [`WeaveObject`](./weaveobject)
 
-  ↳ `Evaluation`
+## Type Parameters
 
-## Table of contents
+### R
 
-### Constructors
+`R` *extends* `DatasetRow`
 
-- [constructor](./evaluation#constructor)
+### E
 
-### Properties
+`E` *extends* `DatasetRow`
 
-- [\_\_savedRef](./evaluation#__savedref)
+### M
 
-### Accessors
-
-- [description](./evaluation#description)
-- [name](./evaluation#name)
-
-### Methods
-
-- [evaluate](./evaluation#evaluate)
-- [predictAndScore](./evaluation#predictandscore)
-- [saveAttrs](./evaluation#saveattrs)
+`M`
 
 ## Constructors
 
-### constructor
+### Constructor
 
-• **new Evaluation**\<`R`, `E`, `M`\>(`parameters`): [`Evaluation`](./evaluation)\<`R`, `E`, `M`\>
+> **new Evaluation**\<`R`, `E`, `M`\>(`parameters`): `Evaluation`\<`R`, `E`, `M`\>
 
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `R` | extends `DatasetRow` |
-| `E` | extends `DatasetRow` |
-| `M` | `M` |
+Defined in: [src/evaluation.ts:150](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluation.ts#L150)
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `parameters` | `EvaluationParameters`\<`R`, `E`, `M`\> |
+##### parameters
+
+`EvaluationParameters`\<`R`, `E`, `M`\>
 
 #### Returns
 
-[`Evaluation`](./evaluation)\<`R`, `E`, `M`\>
+`Evaluation`\<`R`, `E`, `M`\>
 
 #### Overrides
 
-[WeaveObject](./weaveobject).[constructor](./weaveobject#constructor)
-
-#### Defined in
-
-[src/evaluation.ts:150](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluation.ts#L150)
+[`WeaveObject`](./weaveobject).[`constructor`](./weaveobject#constructor)
 
 ## Properties
 
-### \_\_savedRef
+### \_\_savedRef?
 
-• `Optional` **\_\_savedRef**: [`ObjectRef`](./objectref) \| `Promise`\<[`ObjectRef`](./objectref)\>
+> `optional` **\_\_savedRef?**: [`ObjectRef`](./objectref) \| `Promise`\<[`ObjectRef`](./objectref)\>
+
+Defined in: [src/weaveObject.ts:71](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L71)
 
 #### Inherited from
 
-[WeaveObject](./weaveobject).[__savedRef](./weaveobject#__savedref)
-
-#### Defined in
-
-[src/weaveObject.ts:71](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L71)
+[`WeaveObject`](./weaveobject).[`__savedRef`](./weaveobject#__savedref)
 
 ## Accessors
 
 ### description
 
-• `get` **description**(): `undefined` \| `string`
+#### Get Signature
 
-#### Returns
+> **get** **description**(): `string` \| `undefined`
 
-`undefined` \| `string`
+Defined in: [src/weaveObject.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L98)
+
+##### Returns
+
+`string` \| `undefined`
 
 #### Inherited from
 
-WeaveObject.description
+[`WeaveObject`](./weaveobject).[`description`](./weaveobject#description)
 
-#### Defined in
-
-[src/weaveObject.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L98)
-
-___
+***
 
 ### name
 
-• `get` **name**(): `string`
+#### Get Signature
 
-#### Returns
+> **get** **name**(): `string`
+
+Defined in: [src/weaveObject.ts:94](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L94)
+
+##### Returns
 
 `string`
 
 #### Inherited from
 
-WeaveObject.name
-
-#### Defined in
-
-[src/weaveObject.ts:94](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L94)
+[`WeaveObject`](./weaveobject).[`name`](./weaveobject#name)
 
 ## Methods
 
-### evaluate
+### evaluate()
 
-▸ **evaluate**(`«destructured»`): `Promise`\<`Record`\<`string`, `any`\>\>
+> **evaluate**(`__namedParameters`): `Promise`\<`Record`\<`string`, `any`\>\>
+
+Defined in: [src/evaluation.ts:165](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluation.ts#L165)
 
 #### Parameters
 
-| Name | Type | Default value |
-| :------ | :------ | :------ |
-| `«destructured»` | `Object` | `undefined` |
-| › `maxConcurrency?` | `number` | `5` |
-| › `model` | `WeaveCallable`\<(...`args`: [\{ `datasetRow`: `R`  }]) => `Promise`\<`M`\>\> | `undefined` |
-| › `nTrials?` | `number` | `1` |
+##### \_\_namedParameters
+
+###### maxConcurrency?
+
+`number` = `5`
+
+###### model
+
+`WeaveCallable`\<(...`args`) => `Promise`\<`M`\>\>
+
+###### nTrials?
+
+`number` = `1`
 
 #### Returns
 
 `Promise`\<`Record`\<`string`, `any`\>\>
 
-#### Defined in
+***
 
-[src/evaluation.ts:165](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluation.ts#L165)
+### predictAndScore()
 
-___
+> **predictAndScore**(`__namedParameters`): `Promise`\<\{ `model_latency`: `number`; `model_output`: `any`; `model_success`: `boolean`; `scores`: \{\[`key`: `string`\]: `any`; \}; \}\>
 
-### predictAndScore
-
-▸ **predictAndScore**(`«destructured»`): `Promise`\<\{ `model_latency`: `number` = modelLatency; `model_output`: `any` = modelOutput; `model_success`: `boolean` = !modelError; `scores`: \{ `[key: string]`: `any`;  }  }\>
+Defined in: [src/evaluation.ts:244](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluation.ts#L244)
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `«destructured»` | `Object` |
-| › `columnMapping?` | `ColumnMapping`\<`R`, `E`\> |
-| › `example` | `R` |
-| › `model` | `WeaveCallable`\<(...`args`: [\{ `datasetRow`: `E`  }]) => `Promise`\<`M`\>\> |
+##### \_\_namedParameters
+
+###### columnMapping?
+
+`ColumnMapping`\<`R`, `E`\>
+
+###### example
+
+`R`
+
+###### model
+
+`WeaveCallable`\<(...`args`) => `Promise`\<`M`\>\>
 
 #### Returns
 
-`Promise`\<\{ `model_latency`: `number` = modelLatency; `model_output`: `any` = modelOutput; `model_success`: `boolean` = !modelError; `scores`: \{ `[key: string]`: `any`;  }  }\>
+`Promise`\<\{ `model_latency`: `number`; `model_output`: `any`; `model_success`: `boolean`; `scores`: \{\[`key`: `string`\]: `any`; \}; \}\>
 
-#### Defined in
+***
 
-[src/evaluation.ts:244](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluation.ts#L244)
+### saveAttrs()
 
-___
+> **saveAttrs**(): `object`
 
-### saveAttrs
-
-▸ **saveAttrs**(): `Object`
+Defined in: [src/weaveObject.ts:75](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L75)
 
 #### Returns
 
-`Object`
+`object`
 
 #### Inherited from
 
-[WeaveObject](./weaveobject).[saveAttrs](./weaveobject#saveattrs)
-
-#### Defined in
-
-[src/weaveObject.ts:75](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L75)
+[`WeaveObject`](./weaveobject).[`saveAttrs`](./weaveobject#saveattrs)

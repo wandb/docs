@@ -3,9 +3,9 @@ title: "withAttributes"
 description: "TypeScript SDK reference"
 ---
 
-# withAttributes
+> **withAttributes**\<`T`\>(`attrs`, `fn`): `T` \| `Promise`\<`T`\>
 
-▸ **withAttributes**\<`T`\>(`attrs`, `fn`): `Promise`\<`T`\> \| `T`
+Defined in: [src/clientApi.ts:209](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/clientApi.ts#L209)
 
 Attach attributes to the current execution context so that any calls created
 inside `fn` automatically inherit them. Attributes are written to the call
@@ -20,25 +20,22 @@ await withAttributes({requestId: 'abc'}, async () => {
 });
 ```
 
-#### Type parameters
+## Type Parameters
 
-| Name |
-| :------ |
-| `T` |
+### T
 
-#### Parameters
+`T`
 
-| Name | Type |
-| :------ | :------ |
-| `attrs` | `Record`\<`string`, `any`\> |
-| `fn` | () => `T` \| `Promise`\<`T`\> |
+## Parameters
 
-#### Returns
+### attrs
 
-`Promise`\<`T`\> \| `T`
+`Record`\<`string`, `any`\>
 
-#### Defined in
+### fn
 
-[src/clientApi.ts:209](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/clientApi.ts#L209)
+() => `T` \| `Promise`\<`T`\>
 
-___
+## Returns
+
+`T` \| `Promise`\<`T`\>

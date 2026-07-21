@@ -3,92 +3,74 @@ title: "GetAgentSpansOptions"
 description: "TypeScript SDK reference"
 ---
 
-Options for [WeaveClient.getAgentSpans](../classes/weaveclient#getagentspans).
+Defined in: [src/weaveClient.ts:160](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L160)
 
-## Table of contents
-
-### Properties
-
-- [agentName](./getagentspansoptions#agentname)
-- [limit](./getagentspansoptions#limit)
-- [offset](./getagentspansoptions#offset)
-- [query](./getagentspansoptions#query)
-- [sortBy](./getagentspansoptions#sortby)
+Options for [WeaveClient.getAgentSpans](./weaveclient#getagentspans).
 
 ## Properties
 
-### agentName
+### agentName?
 
-• `Optional` **agentName**: `string`
+> `optional` **agentName?**: `string`
 
-#### Defined in
+Defined in: [src/weaveClient.ts:161](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L161)
 
-[src/weaveClient.ts:161](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L161)
+***
 
-___
+### limit?
 
-### limit
+> `optional` **limit?**: `number`
 
-• `Optional` **limit**: `number`
+Defined in: [src/weaveClient.ts:171](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L171)
 
-`Min`
+#### Min
 
 0
 
-`Max`
+#### Max
 
 10000
 
-`Default`
+#### Default
 
 ```ts twoslash
 // @noErrors
 100
 ```
 
-#### Defined in
+***
 
-[src/weaveClient.ts:171](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L171)
+### offset?
 
-___
+> `optional` **offset?**: `number`
 
-### offset
+Defined in: [src/weaveClient.ts:176](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L176)
 
-• `Optional` **offset**: `number`
-
-`Min`
+#### Min
 
 0
 
-`Default`
+#### Default
 
 ```ts twoslash
 // @noErrors
 0
 ```
 
-#### Defined in
+***
 
-[src/weaveClient.ts:176](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L176)
+### query?
 
-___
+> `optional` **query?**: [`Query`](./query) \| `null`
 
-### query
-
-• `Optional` **query**: ``null`` \| [`Query`](./query)
+Defined in: [src/weaveClient.ts:165](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L165)
 
 Mongo-style filter on the spans.
 
-#### Defined in
+***
 
-[src/weaveClient.ts:165](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L165)
+### sortBy?
 
-___
+> `optional` **sortBy?**: [`SortBy`](./sortby)[]
 
-### sortBy
-
-• `Optional` **sortBy**: [`SortBy`](./sortby)[]
-
-#### Defined in
-
-[src/weaveClient.ts:177](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L177)
+Defined in: [src/weaveClient.ts:177](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L177)

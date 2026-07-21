@@ -3,10 +3,12 @@ title: "ScoreLogger"
 description: "TypeScript SDK reference"
 ---
 
+Defined in: [src/evaluationLogger.ts:330](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L330)
+
 ScoreLogger manages scoring for a single prediction.
 Returned from EvaluationLogger.logPrediction().
 
-`Example`
+## Example
 
 ```ts twoslash
 // @noErrors
@@ -16,63 +18,48 @@ await pred.logScore("relevance", 0.8);
 await pred.finish(); // Finalizes the prediction
 ```
 
-## Table of contents
-
-### Constructors
-
-- [constructor](./scorelogger#constructor)
-
-### Accessors
-
-- [isFinishCalled](./scorelogger#isfinishcalled)
-
-### Methods
-
-- [finish](./scorelogger#finish)
-- [logScore](./scorelogger#logscore)
-
 ## Constructors
 
-### constructor
+### Constructor
 
-• **new ScoreLogger**(`evalLogger`): [`ScoreLogger`](./scorelogger)
+> **new ScoreLogger**(`evalLogger`): `ScoreLogger`
+
+Defined in: [src/evaluationLogger.ts:338](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L338)
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `evalLogger` | [`EvaluationLogger`](./evaluationlogger) |
+##### evalLogger
+
+[`EvaluationLogger`](./evaluationlogger)
 
 #### Returns
 
-[`ScoreLogger`](./scorelogger)
-
-#### Defined in
-
-[src/evaluationLogger.ts:338](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L338)
+`ScoreLogger`
 
 ## Accessors
 
 ### isFinishCalled
 
-• `get` **isFinishCalled**(): `boolean`
+#### Get Signature
+
+> **get** **isFinishCalled**(): `boolean`
+
+Defined in: [src/evaluationLogger.ts:368](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L368)
 
 Check if finish() has been called.
 Used by EvaluationLogger to detect unfinished predictions.
 
-#### Returns
+##### Returns
 
 `boolean`
 
-#### Defined in
-
-[src/evaluationLogger.ts:368](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L368)
-
 ## Methods
 
-### finish
+### finish()
 
-▸ **finish**(): `Promise`\<`void`\>
+> **finish**(): `Promise`\<`void`\>
+
+Defined in: [src/evaluationLogger.ts:470](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L470)
 
 Finish the scoring process for the prediction.
 Finalizes the predict_and_score call with accumulated scores.
@@ -82,30 +69,31 @@ Updates incremental aggregates and frees memory.
 
 `Promise`\<`void`\>
 
-#### Defined in
+***
 
-[src/evaluationLogger.ts:470](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L470)
+### logScore()
 
-___
+> **logScore**(`scorerName`, `score`): `Promise`\<`void`\>
 
-### logScore
-
-▸ **logScore**(`scorerName`, `score`): `Promise`\<`void`\>
+Defined in: [src/evaluationLogger.ts:379](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L379)
 
 Log a score for this prediction.
 Creates a scorer call as a child of predict_and_score.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `scorerName` | `string` | Name of the scorer (e.g., "accuracy", "f1_score") |
-| `score` | `any` | The score value |
+##### scorerName
+
+`string`
+
+Name of the scorer (e.g., "accuracy", "f1_score")
+
+##### score
+
+`any`
+
+The score value
 
 #### Returns
 
 `Promise`\<`void`\>
-
-#### Defined in
-
-[src/evaluationLogger.ts:379](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L379)
