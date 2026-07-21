@@ -4,6 +4,8 @@ title: Compare run metrics
 keywords: ["run comparer", "diff only", "hyperparameter comparison", "experiment comparison"]
 ---
 
+import { WandbReport } from '/snippets/WandbReport.jsx';
+
 Use the Run Comparer to see differences and similarities across runs in your project. This helps you quickly identify how configuration changes affect metrics so you can decide which experiments to pursue further.
 
 ## Add a Run Comparer panel
@@ -28,3 +30,13 @@ By default, Run Comparer doesn't differentiate runs with different values for [`
 
 When you search, filter, group, or sort the list of runs in the Runs Table, the Run Comparer automatically updates to compare the first 10 runs. Filter or search within the Runs Table to compare similar runs, such as by filtering or sorting the list by `job_type`. Learn more about [filtering runs](/models/runs/filter-runs/).
 </Note>
+
+## Example
+
+Reports capture a run comparison so you can share the conclusion alongside the supporting charts. The [When Inception-ResNet-V2 Is Too Slow report](https://wandb.ai/stacey/estuary/reports/When-Inception-ResNet-V2-is-too-slow--Vmlldzo3MDcxMA) embedded below compares model variants to show which architectures train faster; scroll within it to read the analysis and inspect the panels.
+
+<WandbReport
+  src="https://wandb.ai/stacey/estuary/reports/When-Inception-ResNet-V2-is-too-slow--Vmlldzo3MDcxMA"
+  title="Model speed comparison report: when Inception-ResNet-V2 is too slow"
+  height={720}
+/>

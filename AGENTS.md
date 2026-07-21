@@ -99,6 +99,24 @@ To check or apply style, read the relevant pass file(s) and use them as guidance
     response="A concise example ARIA response"
   />
   ```
+- **Live report embeds**: To show a live, interactive W&B report on a page, import `/snippets/WandbReport.jsx` and render it with `src` (the report URL), `title` (an accessible description), and optional `height` (500–800; default 640):
+
+  ```mdx
+  import { WandbReport } from '/snippets/WandbReport.jsx';
+
+  <WandbReport
+    src="https://wandb.ai/ENTITY/PROJECT/reports/Slug--VmlldzoXXXXXXX"
+    title="Accessible description of the report"
+    height={700}
+  />
+  ```
+
+  Rules for every embed:
+  - **Always pair it with prose and a plain Markdown link** to the same report in the surrounding text, stating what the reader should take from it. Agents, the llms.txt export, and the translation pipeline read MDX source, where the iframe is opaque; the link is also the fallback wherever third-party frames are blocked. This is enforced by CI (`scripts/report-embeds/check_embeds.py`).
+  - **Register the report** in `scripts/report-embeds/registry.yaml` — see [`scripts/report-embeds/README.md`](scripts/report-embeds/README.md) for the fields and workflow.
+  - **The report must be viewable by anonymous visitors**: a report in a public project, or one shared via a view-only link (`Share` → "anyone with the link can view"; see [View-only report links](/models/reports/cross-project-reports#view-only-report-links)). The URL — including any `?accessToken=` — ships in public source and git history, so treat the report as public forever and never embed sensitive data.
+  - **Keep it skinny and sparse**: prefer purpose-built reports (ideally a single panel grid), one or two per page maximum. Each iframe boots the full W&B app, is a fixed height with inner scroll (no auto-resize), and renders its own light theme regardless of the docs dark-mode toggle — so article-length reports show as a tall scroll region, not the whole page at once.
+  - English sources only — never add embeds to `ja/`, `ko/`, or `fr/` copies.
 
 ## Working with the repository
 

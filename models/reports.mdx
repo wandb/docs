@@ -4,6 +4,7 @@ title: Reports overview
 ---
 import { ColabLink } from '/snippets/_includes/colab-link.mdx';
 import { TryProductLink } from '/snippets/_includes/try-product-link.mdx';
+import { WandbReport } from '/snippets/WandbReport.jsx';
 
 <CardGroup cols={4}>
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb" />
@@ -24,7 +25,13 @@ The following image shows a section of a report created from metrics that were l
     <img src="/images/reports/safe-lite-benchmark-with-comments.png" alt="W&B report with benchmark results" max-width="90%"  />
 </Frame>
 
-View the report where the above image was taken from [here](https://wandb.ai/stacey/saferlife/reports/SafeLife-Benchmark-Experiments--Vmlldzo0NjE4MzM).
+View the report where the above image was taken from [here](https://wandb.ai/stacey/saferlife/reports/SafeLife-Benchmark-Experiments--Vmlldzo0NjE4MzM). The same report is embedded live below — scroll within it to explore the benchmark runs, panels, and commentary as readers see them in the W&B app.
+
+<WandbReport
+  src="https://wandb.ai/stacey/saferlife/reports/SafeLife-Benchmark-Experiments--Vmlldzo0NjE4MzM"
+  title="SafeLife benchmark experiments report"
+  height={720}
+/>
 
 ## How it works
 Create a collaborative report with a few clicks.
