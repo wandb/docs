@@ -1,0 +1,128 @@
+---
+title: 'Comparer des évaluations'
+description: 'Comparez visuellement au moins deux évaluations pour repérer les régressions, les améliorations et les différences de scoring entre les runs'
+keywords: [évaluation, comparaison, référence, régression, scorer, métriques]
+---
+
+La vue **Compare evaluations** de W&amp;B Weave vous permet d’examiner côte à côte au moins deux évaluations enregistrées. Utilisez-la pour voir comment les métriques évoluent d’un run à l’autre lorsque vous modifiez un prompt, un modèle ou un scorer, et pour repérer les incohérences dans le dataset ou le scorer avant de tirer des conclusions à partir des résultats.
+
+Ce guide s’adresse aux utilisateurs de Weave qui souhaitent comparer des évaluations enregistrées dans l’interface Weave. Il explique comment ouvrir la vue Compare evaluations, ce qui s’affiche dans les graphiques de synthèse et les tableaux de résultats, ainsi que les actions disponibles pour personnaliser la comparaison, notamment définir une référence, réorganiser les évaluations et retirer une évaluation de la comparaison.
+
+<div id="access-the-compare-evaluations-view">
+  ## Accéder à la vue Compare evaluations
+</div>
+
+Pour ouvrir la vue Compare evaluations :
+
+1. Dans la barre latérale du projet Weave, sélectionnez **Evals**.
+2. Dans le tableau des évaluations, cochez les cases correspondant à au moins deux évaluations à comparer.
+3. Dans la barre d’outils du tableau des évaluations, sélectionnez **Compare**.
+
+<Frame>
+  <img src="/weave/guides/evaluation/img/eval-compare-select.png" alt="Tableau des évaluations avec trois évaluations sélectionnées. L’action Compare est mise en évidence dans la barre d’outils du tableau des évaluations." />
+</Frame>
+
+La vue **Compare evaluations** s’ouvre et affiche chaque évaluation sélectionnée sous forme de jeton dans la *barre de comparaison* en haut de la page. L’évaluation la plus à gauche est la référence par défaut, et toutes les autres évaluations sont comparées à celle-ci.
+
+<div id="review-the-comparison">
+  ## Examiner la comparaison
+</div>
+
+La vue Compare evaluations comporte deux onglets :
+
+* **Summary** : des graphiques agrégés pour chaque métrique des évaluations comparées, suivis d’un tableau des propriétés et des métriques.
+* **Dataset results** : un tableau de résultats par exemple permettant de comparer les sorties ligne par ligne, ainsi que des nuages de points pour repérer les écarts lorsque vous comparez deux évaluations.
+
+<Frame>
+  <img src="/weave/guides/evaluation/img/eval-compare.png" alt="Vue Compare evaluations comparant trois évaluations. L’onglet Summary affiche des graphiques agrégés en haut et un tableau des propriétés et des métriques en dessous." />
+</Frame>
+
+<div id="summary-tab">
+  ### Onglet **Summary**
+</div>
+
+L’onglet **Summary** s’ouvre par défaut. Il contient deux zones :
+
+* **Charts** : un graphique radar qui affiche toutes les valeurs de métriques pour les évaluations comparées, suivi de graphiiques par métrique (diagrammes en barres pour les métriques numériques et graphiques de couverture pour les métriques réussite/échec).
+* **Properties and metrics table** : un tableau sous les graphiques qui répertorie, pour chaque évaluation, la configuration et les scores agrégés.
+
+Le tableau des propriétés et des métriques affiche les informations suivantes pour chaque évaluation comparée :
+
+* **Evaluation** : l’ID de l’évaluation.
+* **Model** : la version du modèle évaluée.
+* **Dataset** : la version du dataset utilisée pour exécuter l’évaluation.
+* **Properties** : toutes les propriétés supplémentaires enregistrées pour l’évaluation.
+* **Metrics** : la valeur agrégée de chaque métrique produite par les scorers de l’évaluation.
+
+Pour les métriques numériques, l’écart par rapport à la référence s’affiche sous la forme d’un badge coloré à côté de la valeur. La couleur indique si la modification va dans le sens favorable ou défavorable pour cette métrique : par défaut, les valeurs plus élevées sont considérées comme meilleures. Un badge vert indique donc une augmentation et un badge rouge une diminution. Pour les métriques configurées avec lower-is-better, les couleurs sont inversées.
+
+Pour masquer les propriétés et les métriques identiques dans toutes les évaluations comparées, activez **Diff only**.
+
+Weave affiche des avertissements directement dans le tableau lorsqu’il détecte des différences susceptibles d’affecter l’interprétation de la comparaison :
+
+* **Dataset inconsistency detected** : le dataset diffère d’une évaluation comparée à l’autre. Les métriques agrégées peuvent ne pas être directement comparables, et l’onglet Dataset results est limité aux exemples présents dans l’intersection des datasets.
+* **Scoring inconsistency detected** : le scorer diffère d’une évaluation comparée à l’autre. La logique d’évaluation n’est pas la même entre les évaluations ; comparez donc les résultats avec prudence.
+
+Weave masque également les champs de score qui ne sont pas communs à toutes les évaluations comparées afin de garder la synthèse centrée sur l’essentiel. Lorsque des champs sont masqués, la bannière d’information en haut de la vue indique combien il y en a. Pour choisir les champs visibles, sélectionnez **Manage fields**.
+
+<div id="dataset-results-tab">
+  ### Onglet Dataset results
+</div>
+
+Sélectionnez **Dataset results** pour comparer des exemples individuels du dataset entre les évaluations sélectionnées. Chaque ligne correspond à un exemple du dataset et affiche l’entrée de ce dataset, ainsi que la sortie et les métriques du scorer pour chaque évaluation, afin de vous permettre d’examiner les cas où un exemple précis diverge. Sélectionnez une ligne pour ouvrir une vue détaillée côte à côte.
+
+Lorsque vous comparez exactement deux évaluations, l’onglet affiche deux nuages de points au-dessus du tableau. Dans chaque graphique, un point représente un exemple du dataset, positionné selon sa valeur de métrique dans chacune des deux évaluations, de sorte que les exemples pour lesquels les évaluations divergent ressortent clairement. Sélectionnez une zone de points (par brossage) pour filtrer les exemples affichés dans le tableau, et utilisez le menu **Dimension** sur chaque graphique pour choisir la métrique affichée.
+
+L’onglet Dataset results exige que les évaluations comparées partagent des lignes de dataset. Si leurs datasets n’ont aucune ligne en commun, aucun tableau de résultats ne s’affiche.
+
+<div id="customize-the-compare-evaluations-view">
+  ## Personnaliser la vue Compare evaluations
+</div>
+
+Dans la vue Compare evaluations, vous pouvez ajuster l’ordre des évaluations et choisir celles à inclure dans la comparaison. Les sections suivantes décrivent les actions disponibles.
+
+<div id="set-a-baseline">
+  ### Définir une référence
+</div>
+
+Par défaut, l’évaluation située le plus à gauche dans la barre de comparaison sert de référence, et toutes les autres évaluations sont comparées à celle-ci. Vous pouvez définir une autre évaluation comme référence si vous souhaitez utiliser une évaluation spécifique comme point de référence pour toutes les comparaisons.
+
+Pour définir une évaluation comme référence :
+
+1. Dans la barre de comparaison, survolez l’évaluation que vous souhaitez définir comme référence.
+
+2. Cliquez sur le menu **action (<Icon icon="ellipsis-vertical" iconType="solid" />)** à droite de l’ID.
+
+   <Frame>
+     <img src="/weave/guides/evaluation/img/comparison-evals-baseline.png" alt="Vue de comparaison des évaluations montrant l’option Make baseline pour l’évaluation sélectionnée dans la barre de comparaison." />
+   </Frame>
+
+3. Dans la liste, sélectionnez **Make baseline**. L’interface utilisateur se met à jour avec l’évaluation de référence à la position la plus à gauche dans la barre de comparaison et `Baseline` à côté de l’ID.
+
+   <Frame>
+     <img src="/weave/guides/evaluation/img/comparison-evals-baseline-set.png" alt="Vue de comparaison des évaluations montrant l’évaluation de référence sélectionnée à la position la plus à gauche de la barre de comparaison." />
+   </Frame>
+
+<div id="change-the-comparison-order">
+  ### Modifier l’ordre de comparaison
+</div>
+
+Faites glisser les évaluations dans la barre de comparaison pour les réorganiser. Cela réorganise également les colonnes correspondantes dans le tableau de comparaison.
+
+Pour modifier l’ordre de comparaison :
+
+1. Dans la barre de comparaison, survolez l’ID que vous souhaitez réorganiser.
+2. Cliquez de manière prolongée sur les six points à gauche de l’ID, puis faites-le glisser vers la gauche ou vers la droite selon vos besoins.
+3. Placez l’ID dans l’ordre souhaité. Les données de comparaison s’actualisent avec le nouvel ordre de comparaison.
+
+<div id="remove-from-comparison">
+  ### Supprimer de la comparaison
+</div>
+
+Cette option est disponible uniquement lorsque vous comparez au moins trois évaluations.
+
+Pour supprimer une évaluation de la comparaison :
+
+1. Dans la barre de comparaison, repérez l’évaluation que vous souhaitez supprimer de la comparaison.
+2. Cliquez sur le menu **d’action (<Icon icon="ellipsis-vertical" iconType="solid" />)** à droite de l’ID.
+3. Dans la liste, sélectionnez **Supprimer de la comparaison**. L’interface utilisateur s’actualise et affiche un tableau mis à jour qui n’inclut plus l’évaluation supprimée.

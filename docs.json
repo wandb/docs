@@ -2130,6 +2130,7 @@
                           "fr/weave/guides/evaluation/weave_local_scorers",
                           "fr/weave/guides/evaluation/evaluation_logger",
                           "fr/weave/guides/evaluation/export_eval",
+                          "fr/weave/guides/evaluation/compare_evals",
                           "fr/weave/guides/core-types/leaderboards",
                           "fr/weave/guides/tools/column-mapping",
                           "fr/weave/guides/evaluation/dynamic_leaderboards"
@@ -3644,6 +3645,7 @@
                           "ja/weave/guides/evaluation/weave_local_scorers",
                           "ja/weave/guides/evaluation/evaluation_logger",
                           "ja/weave/guides/evaluation/export_eval",
+                          "ja/weave/guides/evaluation/compare_evals",
                           "ja/weave/guides/core-types/leaderboards",
                           "ja/weave/guides/tools/column-mapping",
                           "ja/weave/guides/evaluation/dynamic_leaderboards"
@@ -5158,6 +5160,7 @@
                           "ko/weave/guides/evaluation/weave_local_scorers",
                           "ko/weave/guides/evaluation/evaluation_logger",
                           "ko/weave/guides/evaluation/export_eval",
+                          "ko/weave/guides/evaluation/compare_evals",
                           "ko/weave/guides/core-types/leaderboards",
                           "ko/weave/guides/tools/column-mapping",
                           "ko/weave/guides/evaluation/dynamic_leaderboards"
