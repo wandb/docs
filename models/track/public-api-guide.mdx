@@ -1,152 +1,11 @@
 ---
-description: Import data from MLFlow, export or update data that you have saved to
-  W&B
-title: Import and export data
+description: Export or update data that you have saved to W&B
+title: Export and update data
 ---
 
 import ApiKeyCreate from "/snippets/_includes/api-key-create.mdx";
 import ApiKeySecurity from "/snippets/_includes/api-key-security.mdx";
 
-Export data or import data  with W&B Public APIs.
-
-<Note>
-This feature requires python>=3.8
-</Note>
-
-## Import data from MLFlow
-
-W&B supports importing data from MLFlow, including experiments, runs, artifacts, metrics, and other metadata.
-
-Install dependencies:
-
-```shell
-# note: this requires py38+
-pip install wandb[importers]
-```
-
-Log in to W&B. Follow the prompts if you have not logged in before.
-
-```shell
-wandb login
-```
-
-Import all runs from an existing MLFlow server:
-
-```py
-from wandb.apis.importers.mlflow import MlflowImporter
-
-importer = MlflowImporter(mlflow_tracking_uri="...")
-
-runs = importer.collect_runs()
-importer.import_runs(runs)
-```
-
-By default, `importer.collect_runs()` collects all runs from the MLFlow server. If you prefer to upload a special subset, you can construct your own runs iterable and pass it to the importer.
-
-```py
-import mlflow
-from wandb.apis.importers.mlflow import MlflowRun
-
-client = mlflow.tracking.MlflowClient(mlflow_tracking_uri)
-
-runs: Iterable[MlflowRun] = []
-for run in mlflow_client.search_runs(...):
-    runs.append(MlflowRun(run, client))
-
-importer.import_runs(runs)
-```
-
-<Note>
-You might need to [configure the Databricks CLI first](https://docs.databricks.com/dev-tools/cli/index.html) if you import from Databricks MLFlow.
-
-Set `mlflow-tracking-uri="databricks"` in the previous step.
-</Note>
-
-To skip importing artifacts, you can pass `artifacts=False`:
-
-```py
-importer.import_runs(runs, artifacts=False)
-```
-
-To import to a specific W&B entity and project, you can pass a `Namespace`:
-
-```py
-from wandb.apis.importers import Namespace
-
-importer.import_runs(runs, namespace=Namespace(entity, project))
-```
-
-{/* Per DOCS-1043, hiding this information until it gets fixed 
-
-## Import data from another W&B instance
-
-<Note>
-This feature is in beta, and only supports importing from the W&B public cloud.
-</Note>
-
-Install dependencies:
-
-```sh
-# note: this requires py38+
-pip install wandb[importers]
-```
-
-Log in to the source W&B server. Follow the prompts if you have not logged in before.
-
-```sh
-wandb login
-```
-
-Import all runs and artifacts from a source W&B instance to a destination W&B instance. Runs and artifacts are imported to their respective namespaces in the destination instance.
-
-```py
-from wandb.apis.importers.wandb import WandbImporter
-from wandb.apis.importers import Namespace
-
-importer = WandbImporter(
-    src_base_url="https://api.wandb.ai",
-    src_api_key="your-api-key-here",
-    dst_base_url="https://example-target.wandb.io",
-    dst_api_key="target-environment-api-key-here",
-)
-
-# Imports all runs, artifacts, reports
-# from "entity/project" in src to "entity/project" in dst
-importer.import_all(namespaces=[
-    Namespace(entity, project),
-    # ... add more namespaces here
-])
-```
-
-If you prefer to change the destination namespace, you can specify `remapping: dict[Namespace, Namespace]`
-
-```py
-importer.import_all(
-    namespaces=[Namespace(entity, project)],
-    remapping={
-        Namespace(entity, project): Namespace(new_entity, new_project),
-    }
-)
-```
-
-By default, imports are incremental. Subsequent imports try to validate the previous work and write to `.jsonl` files tracking success/failure. If an import succeeded, future validation is skipped. If an import failed, it is retried. To turn this off, set `incremental=False`.
-
-```py
-importer.import_all(
-    namespaces=[Namespace(entity, project)],
-    incremental=False,
-)
-```
-
-### Known issues and limitations
-
-- If the destination namespace does not exist, W&B creates one automatically.
-- If a run or artifact has the same ID in the destination namespace, W&B treats it as an incremental import. The destination run/artifact is validated and retried if it failed in a previous import.
-- No data is ever deleted from the source system.
-
-1. Sometimes when bulk importing (especially large artifacts), you can run into S3 rate limits. If you see `botocore.exceptions.ClientError: An error occurred (SlowDown) when calling the PutObject operation`, you can try spacing out imports by moving just a few namespaces at a time.
-2. Imported run tables appear to be blank in the workspace, but if you nav to the Artifacts tab and click the equivalent run table artifact you should see the table as expected.
-3. System metrics and custom charts (not explicitly logged with `run.log()`) are not imported */}
 
 ## Export data
 
@@ -449,10 +308,9 @@ The snippet below would find the system resource consumptions and then, save the
 ```python
 import wandb
 
-with wandb.Api().run("<entity>/<project>/<run_id>") as run:
-
-    system_metrics = run.history(stream="events")
-    system_metrics.to_csv("sys_metrics.csv")
+run = wandb.Api().run("<entity>/<project>/<run_id>")
+system_metrics = run.history(stream="events")
+system_metrics.to_csv("sys_metrics.csv")
 ```
 
 ### Get unsampled metric data

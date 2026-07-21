@@ -555,7 +555,8 @@
                           "weave/guides/tracking/view-agent-signals",
                           "weave/guides/tracking/trace-agents-attributes",
                           "weave/guides/tracking/trace-agents-batch",
-                          "weave/guides/tracking/trace-sub-agents"
+                          "weave/guides/tracking/trace-sub-agents",
+                          "weave/guides/tracking/agents-byob-references"
                         ]
                       },
                       {
@@ -581,6 +582,7 @@
                               "weave/guides/tracking/ops",
                               "weave/guides/tools/attributes",
                               "weave/guides/core-types/media",
+                              "weave/guides/tracking/byob-references",
                               "weave/guides/tracking/view-call",
                               "weave/guides/tracking/trace-disable",
                               "weave/guides/tracking/write-ahead-log"
