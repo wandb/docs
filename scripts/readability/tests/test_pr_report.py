@@ -136,6 +136,19 @@ def test_aggregate_none_when_nothing_scored():
     assert pr_report.aggregate(results) is None
 
 
+def test_aggregate_normalizes_negative_zero():
+    # A tiny negative average can round to -0.0, which would render as "-0.0"
+    # in the headline even though the direction is "unchanged".
+    results = [
+        {"status": "scored", "fk_delta": -0.01, "after_word_count": 100},
+    ]
+    summary = pr_report.aggregate(results)
+    assert summary["weighted_fk_delta"] == 0.0
+    assert summary["direction"] == "unchanged"
+    # str.format of -0.0 keeps the sign; confirm normalization removed it.
+    assert f"{summary['weighted_fk_delta']:+.1f}" == "+0.0"
+
+
 # ---------------------------------------------------------------------------
 # build_report_markdown
 # ---------------------------------------------------------------------------

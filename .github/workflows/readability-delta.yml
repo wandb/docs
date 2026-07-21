@@ -92,8 +92,11 @@ jobs:
             echo "::notice::Readability check: DOCENGINE_TOKEN not set; skipping docs-skills submodule checkout."
             exit 0
           fi
-          git config --global url."https://x-access-token:${DOCENGINE_TOKEN}@github.com/".insteadOf "https://github.com/"
-          git submodule update --init --recursive .claude
+          # One-shot url rewrite so the token is never written to the runner's
+          # global git config, where later steps (which don't get the secret in
+          # their env) could recover it from ~/.gitconfig.
+          git -c url."https://x-access-token:${DOCENGINE_TOKEN}@github.com/".insteadOf="https://github.com/" \
+            submodule update --init --recursive .claude
 
       - name: Set up Python 3.11
         if: steps.fork.outputs.is_fork != 'true'
@@ -182,6 +185,9 @@ jobs:
           fi
 
       - name: Upsert readability report on PR
+        # Non-fatal: a transient gh api/comment failure (rate limit, network,
+        # permissions) must not fail the PR. The check stays informational.
+        continue-on-error: true
         if: steps.fork.outputs.is_fork != 'true' && github.event_name == 'pull_request'
         env:
           GH_TOKEN: ${{ github.token }}
@@ -204,5 +210,8 @@ jobs:
           fi
 
       - name: Write readability report to job summary
+        # Non-fatal: if comment-body.md is missing due to an earlier unexpected
+        # failure, writing the summary must not fail the otherwise-green job.
+        continue-on-error: true
         if: steps.fork.outputs.is_fork != 'true' && github.event_name == 'workflow_dispatch'
         run: cat comment-body.md >> "${GITHUB_STEP_SUMMARY}"

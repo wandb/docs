@@ -288,6 +288,10 @@ def aggregate(results: List[Dict[str, object]]) -> Optional[Dict[str, object]]:
         return None
 
     weighted_delta = round(weighted_sum / weight_total, 1)
+    # round() can return -0.0 for tiny negative averages, which renders as
+    # "-0.0" in the headline even though the direction is "unchanged". Normalize.
+    if weighted_delta == 0:
+        weighted_delta = 0.0
     if weighted_delta < 0:
         direction = "easier"
     elif weighted_delta > 0:
