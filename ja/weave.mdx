@@ -6,29 +6,49 @@ mode: wide
 
 W&amp;B Weave は、エージェントと LLM アプリケーションのトラッキング、評価、改善を支援する可観測性および評価のプラットフォームです。Weave を使うと、次のことができます。
 
-* [一般的な SDK やハーネスで構築したエージェントをトレースし、メトリクスを収集する](/ja/weave/agent-integration-quickstart)
-* [独自に構築したエージェントを手動でインストルメントして、トレースとメトリクスを収集する](/ja/weave/custom-agents-quickstart)
-* LLM ジャッジモデルと custom scorers を使って、アプリケーションの応答を[評価](/ja/weave/tutorial-eval)する
+* [エージェントをトレースし、メトリクスを収集する](/ja/weave/agent-integration-quickstart) Weave OTel-compatible SDK を使用して一般的な SDK やハーネスで構築された
+* [アプリケーションの LLM Call や任意の関数を手動でインストルメントする](/ja/weave/quickstart) ことで、アプリケーションをトレースし、バージョン管理し、feedback を収集する
+* LLM ジャッジモデルと custom scorers を使って、エージェントまたはアプリケーションの応答を[評価](/ja/weave/tutorial-eval)する
 
 <div id="get-started">
   ## はじめに
 </div>
 
-以下のドキュメントでは、Weave のツールスイートの基本的な使い方を紹介します。
+ワークロードのタイプを選択してから、以下のドキュメントを使って Weave のツールスイートの基本的な使い方を確認してください。ワークロードの違いの詳細については、[Weave とは？](/ja/weave/concepts/what-is-weave) をご覧ください。
 
-<CardGroup cols={3}>
-  <Card title="エージェントを Weave と統合する" icon="plug" href="/ja/weave/agent-integration-quickstart">
-    エージェント SDK またはハーネス向けの組み込みインテグレーションを選択し、Agents ビューでセッション、ターン、LLM Call、ツール呼び出しのトレースを開始します。
-  </Card>
+<Tabs>
+  <Tab title="エージェントをトレースする">
+    <CardGroup cols={3}>
+      <Card title="エージェントを Weave と統合する" icon="plug" href="/ja/weave/agent-integration-quickstart">
+        エージェント SDK またはハーネス向けの組み込みインテグレーションを選択し、Agents ビューでセッション、ターン、LLM Call、ツール呼び出しのトレースを開始します。
+      </Card>
 
-  <Card title="カスタム エージェントの可観測性を設定する" icon="code" href="/ja/weave/custom-agents-quickstart">
-    Weave SDK を使用してカスタムのマルチターン エージェントをトレースし、セッション、LLM Call、ツール呼び出しを OpenTelemetry のスパンとして取得します。
-  </Card>
+      <Card title="カスタム エージェントの可観測性を設定する" icon="code" href="/ja/weave/custom-agents-quickstart">
+        Weave SDK を使用してカスタムのマルチターン エージェントをトレースし、セッション、LLM Call、ツール呼び出しを OpenTelemetry のスパンとして取得します。
+      </Card>
 
-  <Card title="Weave UI でエージェントのメトリクスを表示する" icon="chart-line" href="/ja/weave/guides/tracking/view-agent-activity">
-    LLM への基本的な呼び出しをトレースし、入力、出力、コードを W&amp;B アカウントで確認します。
-  </Card>
-</CardGroup>
+      <Card title="Weave UI でエージェントのメトリクスを表示する" icon="chart-line" href="/ja/weave/guides/tracking/view-agent-activity">
+        LLM への基本的な呼び出しをトレースし、入力、出力、コードを W&amp;B アカウントで確認します。
+      </Card>
+    </CardGroup>
+  </Tab>
+
+  <Tab title="Ops と Calls で関数をトレースする">
+    <CardGroup cols={3}>
+      <Card title="クイックスタート: 関数をインストルメントしてトレースする" icon="chart-line" href="/ja/weave/quickstart">
+        まず LLM への基本的な呼び出しをトレースし、W&amp;B アカウントでデータを確認します。
+      </Card>
+
+      <Card title="アプリケーションの評価を始める" icon="clipboard-check" href="/ja/weave/tutorial-eval">
+        Weave Scorer を使用して評価パイプラインを構築し、アプリケーションのパフォーマンスをテストしてトラッキングする方法を学びます。
+      </Card>
+
+      <Card title="RAG アプリケーションを評価する" icon="search" href="/ja/weave/tutorial-rag">
+        Weave と LLM ジャッジモデルを使用して RAG アプリケーションを構築および評価し、検索品質を測定します。
+      </Card>
+    </CardGroup>
+  </Tab>
+</Tabs>
 
 <div id="install-weave">
   ## Weaveをインストール

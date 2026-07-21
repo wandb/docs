@@ -6,29 +6,49 @@ mode: wide
 
 W&amp;B Weave는 에이전트와 LLM 애플리케이션을 추적하고, 평가하고, 개선할 수 있게 해주는 관측성 및 평가 플랫폼입니다. Weave로 다음 작업을 수행할 수 있습니다.
 
-* [널리 사용되는 SDK와 하니스로 구축한 에이전트의 트레이스를 추적하고 메트릭을 수집](/ko/weave/agent-integration-quickstart)
-* [맞춤형으로 구축한 에이전트를 수동으로 계측해 트레이스와 메트릭을 수집](/ko/weave/custom-agents-quickstart)
-* [평가](/ko/weave/tutorial-eval)로 LLM 기반 평가자와 맞춤형 scorer를 사용해 애플리케이션의 응답을 평가할 수 있습니다
+* [에이전트의 트레이스를 추적하고 메트릭을 수집](/ko/weave/agent-integration-quickstart) Weave OTel 호환 SDK를 사용해 널리 사용되는 SDK와 하니스로 구축한 에이전트에서
+* [애플리케이션의 LLM Call과 임의의 함수를 수동으로 계측](/ko/weave/quickstart)하여 애플리케이션을 트레이스하고, 버전을 관리하고, 애플리케이션에 대한 피드백을 수집
+* [평가](/ko/weave/tutorial-eval)로 LLM 기반 평가자와 맞춤형 scorer를 사용해 에이전트 또는 애플리케이션의 응답을 평가할 수 있습니다
 
 <div id="get-started">
   ## 시작하기
 </div>
 
-다음 문서에서는 Weave에서 제공하는 도구의 기본 사용법을 안내합니다.
+워크로드 유형을 선택한 다음 Weave에서 제공하는 도구 모음의 기본 사용법을 아래 문서에서 익혀 보세요. 워크로드 간 차이에 대한 자세한 내용은 [What is Weave?](/ko/weave/concepts/what-is-weave)를 참조하세요.
 
-<CardGroup cols={3}>
-  <Card title="에이전트에 Weave 통합하기" icon="plug" href="/ko/weave/agent-integration-quickstart">
-    에이전트 SDK 또는 하니스에 맞는 기본 제공 인테그레이션을 선택한 다음 Agents view에서 세션, 턴, LLM Call, 도구 Call 트레이싱을 시작하세요.
-  </Card>
+<Tabs>
+  <Tab title="에이전트 트레이싱하기">
+    <CardGroup cols={3}>
+      <Card title="에이전트에 Weave 통합하기" icon="plug" href="/ko/weave/agent-integration-quickstart">
+        에이전트 SDK 또는 하니스에 맞는 기본 제공 인테그레이션을 선택한 다음 Agents view에서 세션, 턴, LLM Call, 도구 Call 트레이싱을 시작하세요.
+      </Card>
 
-  <Card title="맞춤형 에이전트 관측성 설정하기" icon="code" href="/ko/weave/custom-agents-quickstart">
-    Weave SDK로 맞춤형 multi-turn 에이전트를 트레이싱하여 세션, LLM Call, 도구 Call을 OpenTelemetry span으로 캡처하세요.
-  </Card>
+      <Card title="맞춤형 에이전트 관측성 설정하기" icon="code" href="/ko/weave/custom-agents-quickstart">
+        Weave SDK로 맞춤형 multi-turn 에이전트를 트레이싱하여 세션, LLM Call, 도구 Call을 OpenTelemetry span으로 캡처하세요.
+      </Card>
 
-  <Card title="Weave UI에서 에이전트 메트릭 보기" icon="chart-line" href="/ko/weave/guides/tracking/view-agent-activity">
-    기본 LLM Call을 트레이싱하고 W&amp;B 계정에서 입력, 출력, 코드를 검토하세요.
-  </Card>
-</CardGroup>
+      <Card title="Weave UI에서 에이전트 메트릭 보기" icon="chart-line" href="/ko/weave/guides/tracking/view-agent-activity">
+        기본 LLM Call을 트레이싱하고 W&amp;B 계정에서 입력, 출력, 코드를 검토하세요.
+      </Card>
+    </CardGroup>
+  </Tab>
+
+  <Tab title="Ops와 Calls로 함수 트레이싱하기">
+    <CardGroup cols={3}>
+      <Card title="퀵스타트: 함수 계측 및 트레이싱" icon="chart-line" href="/ko/weave/quickstart">
+        기본 LLM Call을 트레이싱하고 W&amp;B 계정에서 데이터를 검토하는 것부터 시작하세요.
+      </Card>
+
+      <Card title="앱 평가 시작하기" icon="clipboard-check" href="/ko/weave/tutorial-eval">
+        Weave Scorer를 사용하여 애플리케이션의 성능을 테스트하고 추적하는 평가 파이프라인을 구축하는 방법을 알아보세요.
+      </Card>
+
+      <Card title="RAG 애플리케이션 평가하기" icon="search" href="/ko/weave/tutorial-rag">
+        검색 품질을 측정하기 위해 평가자와 함께 Weave를 사용하여 RAG 애플리케이션을 구축하고 평가하세요.
+      </Card>
+    </CardGroup>
+  </Tab>
+</Tabs>
 
 <div id="install-weave">
   ## Weave 설치
