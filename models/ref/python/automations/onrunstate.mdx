@@ -7,7 +7,7 @@ namespace: wandb.automations.events
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py#L414" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py#L419" />
 
 
 
@@ -15,7 +15,7 @@ import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 ```python
 *,
 event_type: Literal[RUN_STATE] = RUN_STATE,
-scope: wandb.automations.scopes.ProjectScope,
+scope: Annotated[Union[wandb.automations.scopes.ProjectScope, Annotated[wandb.automations.scopes.TeamScope | wandb.automations.scopes.OrgScope, BeforeValidator(func=<function parse_scope>, json_schema_input_type=PydanticUndefined), Discriminator(discriminator='entity_type', custom_error_type=None, custom_error_message=None, custom_error_context=None)]], BeforeValidator(func=<function parse_scope>, json_schema_input_type=PydanticUndefined), Discriminator(discriminator='typename__', custom_error_type=None, custom_error_message=None, custom_error_context=None)],
 filter: typing.Annotated[wandb.automations.events.RunStateFilter, Json, BeforeValidator(func=<function ensure_json>, json_schema_input_type=PydanticUndefined), PlainSerializer(func=<function to_json>, return_type=PydanticUndefined, when_used='always')]
 ```
 
@@ -28,8 +28,10 @@ A run state changes.
 ## Args
 
 - `event_type`: 
-- `scope`: The scope of the event: must be a project.
+- `scope`: The scope of the event: must be a project or a team/org entity.
 - `filter`: Run state condition(s) that must be satisfied for this event to trigger.
+
+
 
 
 ## Examples

@@ -7,7 +7,7 @@ namespace: wandb.apis.public.runs
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py#L184" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py#L188" />
 
 
 
@@ -43,8 +43,10 @@ This is generally used indirectly using the `Api.runs` namespace.
 - `order`: Order can be `created_at`, `heartbeat_at`, `config.*.value`, or `summary_metrics.*`. If you prepend order with a + order is ascending (default). If you prepend order with a - order is descending. The default order is run.created_at from oldest to newest.
 - `per_page`: The number of runs to fetch per request (default is 50).
 - `include_sweeps`: Whether to include sweep information in the runs. Defaults to True.
-- `lazy`: 
+- `lazy`: Whether to defer loading heavy fields (config, summaryMetrics, systemMetrics) until they are accessed. Defaults to True.
 - `api_key`: 
+
+
 
 
 

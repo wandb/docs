@@ -7,14 +7,20 @@ namespace: wandb.sdk.data_types.table
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/table.py#L198" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/table.py#L211" />
 
 
 
 ## <kbd>class</kbd> Table
 ```python
-(columns=None, data=None, rows=None, dataframe=None, dtype=None, optional=True, allow_mixed_types=False,
-log_mode: "Literal['IMMUTABLE', 'MUTABLE', 'INCREMENTAL'] | None" = 'IMMUTABLE')
+columns: 'list[ColumnKey] | None' = None,
+data: 'list[InputRow] | np.ndarray | pd.DataFrame | None' = None,
+rows: 'list[InputRow] | None' = None,
+dataframe: 'pd.DataFrame | None' = None,
+dtype: 'Any' = None,
+optional: 'bool | list[bool]' = True,
+allow_mixed_types: 'bool' = False,
+log_mode: 'LogMode | None' = 'IMMUTABLE'
 ```
 
 ## Description
@@ -33,19 +39,27 @@ https://docs.wandb.ai/models/tables
 
 ## Args
 
-- `columns`: (List[str]) Names of the columns in the table. Defaults to ["Input", "Output", "Expected"].
-- `data`: (List[List[any]]) 2D row-oriented array of values.
-- `rows`: (List[List[any]]) 2D row-oriented array of values.
-- `dataframe`: (pandas.DataFrame) DataFrame object used to create the table. When set, `data` and `columns` arguments are ignored.
-- `dtype`: 
-- `optional`: (Union[bool,List[bool]]) Determines if `None` values are allowed. Default to True
+- `columns`: Names of the columns in the table. Defaults to ["Input", "Output", "Expected"].
+- `data`: 2D row-oriented array of values, NumPy array, or pandas DataFrame.
+- `rows`: 2D row-oriented array of values.
+- `dataframe`: pandas DataFrame object used to create the table. When set, `data` and `columns` arguments are ignored.
+- `dtype`: The expected type for the column values, used to validate the
+    data. If not set, types are inferred from the data. It can be:
+    - a single type
+        - a Python built-in type such as `int`, `str`, `bool`, list, dict, or
+        datetime.
+        - a W&B Media type like `wandb.Image` declared under wandb.data_types
+        - a const value
+    - a list of any of the above to assign a different type to each
+      column (should be the same length as `columns`)
+- `optional`: Determines if `None` values are allowed. Defaults to True.
     - If a singular bool value, then the optionality is enforced for all
     columns specified at construction time
     - If a list of bool values, then the optionality is applied to each
     column - should be the same length as `columns`
     applies to all columns. A list of bool values applies to each respective column.
-- `allow_mixed_types`: (bool) Determines if columns are allowed to have mixed types (disables type validation). Defaults to False
-- `log_mode`: Optional[str] Controls how the Table is logged when mutations occur.
+- `allow_mixed_types`: Determines if columns are allowed to have mixed types (disables type validation). Defaults to False
+- `log_mode`: Controls how the Table is logged when mutations occur.
     Options:
     - "IMMUTABLE" (default): Table can only be logged once; subsequent
     logging attempts after the table has been mutated will be no-ops.
@@ -59,21 +73,26 @@ https://docs.wandb.ai/models/tables
 
 
 
+
+
 ## Methods
 
 ### <kbd>method</kbd> Table.add_column()
 
 ```python
-(self, name, data, optional=False)
+self,
+name: 'str',
+data: 'list[Any] | np.ndarray',
+optional: 'bool' = False
 ```
 
 Adds a column of data to the table.
 
 ##### Arguments
 
-- `name`: (str) - the unique name of the column
-- `data`: (list | np.array) - a column of homogeneous data
-- `optional`: (bool) - if null-like values are permitted
+- `name`: The unique name of the column.
+- `data`: A column of homogeneous data.
+- `optional`: If null-like values are permitted.
 
 
 
@@ -81,27 +100,34 @@ Adds a column of data to the table.
 ### <kbd>method</kbd> Table.add_computed_columns()
 
 ```python
-(self, fn)
+self,
+fn: 'Callable[[int, dict[ColumnKey, Any]], dict[str, Any]]'
 ```
 
 Adds one or more computed columns based on existing data.
 
 ##### Arguments
 
-- `fn`: A function which accepts one or two parameters, ndx (int) and
-    row (dict), which is expected to return a dict representing
-    new columns for that row, keyed by the new column names.
-    - `ndx` is an integer representing the index of the row. Only included if `include_ndx`
-          is set to `True`.
-    - `row` is a dictionary keyed by existing columns
+- `fn`: A function which accepts an index and row dict, and returns a dict representing new columns for that row, keyed by the new column names.
 
 
 
+
+##### Examples
+
+table = wandb.Table(columns=["x", "y"], data=[[3, 1], [4, 6]])
+    table.add_computed_columns(
+        lambda ndx, row: {"diff": row["x"] - row["y"]}
+    )
+
+    In the callback:
+    - `ndx` is an integer representing the index of the row.
+    - `row` is a dictionary keyed by existing columns.
 
 ### <kbd>method</kbd> Table.add_data()
 
 ```python
-(self, *data)
+self, *data: 'Any'
 ```
 
 Adds a new row of data to the table.
@@ -121,7 +147,7 @@ The length of the data should match the length of the table column.
 ### <kbd>method</kbd> Table.add_row()
 
 ```python
-(self, *row)
+self, *row: 'Any'
 ```
 
 Deprecated. Use `Table.add_data` method instead.
@@ -136,7 +162,10 @@ Deprecated. Use `Table.add_data` method instead.
 ### <kbd>method</kbd> Table.cast()
 
 ```python
-(self, col_name, dtype, optional=False)
+self,
+col_name: 'ColumnKey',
+dtype: 'Any',
+optional: 'bool' = False
 ```
 
 Casts a column to a specific data type.
@@ -157,16 +186,17 @@ wandb.Classes.
 ### <kbd>method</kbd> Table.get_column()
 
 ```python
-(self, name, convert_to=None)
+self,
+name: 'ColumnKey',
+convert_to: "Literal['numpy'] | None" = None
 ```
 
 Retrieves a column from the table and optionally converts it to a NumPy object.
 
 ##### Arguments
 
-- `name`: (str) - the name of the column
-- `convert_to`: (str, optional)
-    - "numpy": will convert the underlying data to numpy object
+- `name`: The name of the column.
+- `convert_to`: "numpy" will convert the underlying data to a NumPy object.
 
 
 
@@ -174,7 +204,7 @@ Retrieves a column from the table and optionally converts it to a NumPy object.
 ### <kbd>method</kbd> Table.get_dataframe()
 
 ```python
-(self)
+self
 ```
 
 Returns a `pandas.DataFrame` of the table.

@@ -7,7 +7,7 @@ namespace: wandb.apis.public.runs
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py#L595" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py#L598" />
 
 
 
@@ -39,6 +39,28 @@ A single run associated with an entity and project.
 - `include_sweeps`: Whether to include sweeps in the run.
 - `lazy`: 
 - `api_key`: 
+
+
+## Attributes
+
+- `tags` (`[str]`): a list of tags associated with the run
+- `url` (`str`): the url of this run
+- `id` (`str`): unique identifier for the run (defaults to eight characters)
+- `name` (`str`): the name of the run
+- `state` (`str`): one of: running, finished, crashed, killed, preempting, preempted
+- `config` (`dict`): a dict of hyperparameters associated with the run
+- `created_at` (`str`): ISO timestamp when the run was started
+- `system_metrics` (`dict`): the latest system metrics recorded for the run
+- `summary` (`dict`): A mutable dict-like property that holds the current summary. Calling update will persist any changes.
+- `project` (`str`): the project associated with the run
+- `entity` (`str`): the name of the entity associated with the run
+- `project_internal_id` (`int`): the internal id of the project
+- `user` (`str`): the name of the user who created the run
+- `path` (`str`): Unique identifier [entity]/[project]/[run_id]
+- `notes` (`str`): Notes about the run
+- `read_only` (`boolean`): Whether the run is editable
+- `history_keys` (`str`): History metric keys logged with `wandb.Run.log({"key": "value"})`
+- `metadata` (`str`): Metadata about the run from wandb-metadata.json
 
 
 
@@ -325,9 +347,12 @@ Load run data using appropriate fragment based on lazy mode.
 
 ##### Arguments
 
-- `force`: 
+- `force`: If True, re-fetch the run data from the server, even if it is already loaded.
 
 
+##### Raises
+
+- `RunNotFoundError`: If the run is not found, or the run data can not be loaded.
 
 
 ### <kbd>method</kbd> Run.load_full_data()
@@ -446,6 +471,40 @@ Returns an iterable collection of all history records for a run.
 
 
 
+
+### <kbd>method</kbd> Run.stop()
+
+```python
+self
+```
+
+Request that this run stop gracefully.
+
+This sets the run's stop flag on the W&B backend, the same signal
+sent by the "Stop run" button in the W&B App UI. The process running
+the run picks the flag up through its regular heartbeat and shuts
+the run down gracefully, so this is safe for terminating remote runs
+(for example, runs on Kubernetes pods).
+
+Stopping is asynchronous: this method returns once the backend has
+flagged the run, not once the run terminates. Calling it again, or
+on a run that is no longer running, has no effect.
+
+
+
+##### Raises
+
+- ``wandb.Error``: If the request fails.
+
+
+##### Examples
+
+```python
+import wandb
+
+run = wandb.Api().run("entity/project/run_id")
+run.stop()
+```
 
 ### <kbd>method</kbd> Run.to_html()
 

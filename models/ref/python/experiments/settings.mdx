@@ -147,7 +147,7 @@ x_service_transport: str | None = None,
 x_service_wait: float = 30.0,
 x_skip_transaction_log: bool = False,
 x_start_time: float | None = None,
-x_stats_pid: int = 48832,
+x_stats_pid: int = 60059,
 x_stats_sampling_interval: float = 15.0,
 x_stats_neuron_monitor_config_path: str | None = None,
 x_stats_dcgm_exporter: str | None = None,
@@ -188,6 +188,23 @@ The settings are organized into three categories:
    versions.
 3. Computed settings: Read-only settings that are automatically derived from other settings or
    the environment.
+
+Settings are loaded from multiple sources. When the same setting is supplied
+by more than one source, the source listed later wins. From lowest to highest
+precedence:
+
+1. Default values defined on this `Settings` model.
+2. Configuration files (`~/.config/wandb/settings`, or the `settings` file in
+   the directory named by the `WANDB_CONFIG_DIR` environment variable).
+3. Environment variables (those prefixed with `WANDB_`, e.g. `WANDB_MODE`).
+4. Values detected from the runtime environment, such as the hostname, the
+   running program/script path, the Python executable, the Docker image, and
+   Jupyter notebook details.
+5. SageMaker settings, when running in an Amazon SageMaker environment.
+6. The `settings` parameter of `wandb.setup()`.
+7. The `settings` parameter of `wandb.init()`.
+8. Certain `wandb.init()` parameters (for example, `mode=` overrides the
+   `mode` setting).
 
 
 
@@ -510,6 +527,8 @@ The settings are organized into three categories:
 - `x_update_finish_state`: Flag to indicate whether this process can update the run's final state on the server.
 
     Set to False in distributed training when only the main process should determine the final state.
+
+
 
 
 

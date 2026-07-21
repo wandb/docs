@@ -7,7 +7,7 @@ namespace: wandb.apis.public.api
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/api.py#L103" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/api.py#L105" />
 
 
 
@@ -29,6 +29,8 @@ Used for querying the W&B server.
 - `overrides`: You can set `base_url` if you are using a W&B server other than `https://api.wandb.ai`. You can also set defaults for `entity`, `project`, and `run`.
 - `timeout`: HTTP timeout in seconds for API requests. If not specified, the default timeout will be used.
 - `api_key`: API key to use for authentication. If not provided, the API key from the current environment or configuration will be used. Prompts for an API key if none is provided or configured in the environment.
+
+
 
 
 ## Examples
@@ -101,9 +103,6 @@ wandb.Api().artifact(name="entity/project/artifact:alias")
 # Specify the entity, project, artifact's name, and a specific artifact version
 wandb.Api().artifact(name="entity/project/artifact:version")
 ```
-
-Note:
-This method is intended for external use only. Do not call `api.artifact()` within the wandb repository code.
 
 ### <kbd>method</kbd> Api.artifact_collection()
 
@@ -805,6 +804,22 @@ Return a list of jobs, if any, for the given entity and project.
 
 
 
+### <kbd>method</kbd> Api.organization()
+
+```python
+self,
+name: 'str | None' = None
+```
+
+Return the matching `Organization`.
+
+##### Arguments
+
+- `name`: The name of the organization. If omitted, this method will attempt to infer and return the current default organization.
+
+
+
+
 ### <kbd>method</kbd> Api.project()
 
 ```python
@@ -1023,6 +1038,9 @@ Return a single run by parsing path in the form `entity/project/run_id`.
 - `path`: Path to run in the form `entity/project/run_id`. If `api.entity` is set, this can be in the form `project/run_id` and if `api.project` is set this can just be the run_id.
 
 
+##### Raises
+
+- `RunNotFoundError`: If a run is not found, or run data is not able to be loaded.
 
 
 ### <kbd>method</kbd> Api.run_queue()
@@ -1128,16 +1146,18 @@ Api.runs(
 
 ```python
 # Find runs in project where config.experiment_name matches a regex
-# (anchors are not supported)
 Api.runs(
     path="my_entity/project",
     filters={"config.experiment_name": {"$regex": "b.*"}},
 )
 ```
 
+Note:
+    Regular expressions use Google's RE2 syntax:
+    https://github.com/google/re2/wiki/Syntax
+
 ```python
 # Find runs in project where the run name matches a regex
-# (anchors are not supported)
 Api.runs(
     path="my_entity/project", filters={"display_name": {"$regex": "^foo.*"}}
 )

@@ -7,7 +7,7 @@ namespace: wandb.apis.public.sweeps
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py#L53" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py#L59" />
 
 
 
@@ -16,7 +16,8 @@ import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 service_api: 'ServiceApi',
 entity: 'str',
 project: 'str',
-per_page: 'int' = 50
+per_page: 'int' = 50,
+filters: 'dict[str, Any] | None' = None
 ```
 
 ## Description
@@ -31,6 +32,9 @@ A lazy iterator over a collection of `Sweep` objects.
 - `entity`: The entity which owns the sweeps.
 - `project`: The project which contains the sweeps.
 - `per_page`: The number of sweeps to fetch per request to the API.
+- `filters`: (dict) queries for specific sweeps using the runs filters, See wandb/apis/public/api.py:runs for more details.
+
+
 
 
 ## Examples

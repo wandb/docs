@@ -5,7 +5,7 @@ title: wandb sync
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/cli.py#L561" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L562" />
 
 
 
@@ -18,6 +18,10 @@ sync [OPTIONS] [PATH]...
 ## Description
 
 Upload existing local W&B run data to the cloud.
+
+    MIGRATION NOTE: This command is being gradually rerouted to
+    `wandb beta sync`. Some options are only allowed in legacy mode, and others
+    only in beta mode. See option descriptions for info.
 
     Sync offline or incomplete runs from the local `wandb` directory to
     the W&B server. If PATH is provided, sync runs at that path. If no
@@ -92,23 +96,25 @@ wandb sync --clean --clean-old-hours 48 --clean-force
 
 | Flag | Type | Description |
 |------|------|-------------|
+| `--yes` | BOOL Flag | (beta only) Don't prompt for confirmation. **Default**: False |
 | `--id` | STR | Upload to an existing run ID. **Default**: None |
 | `--project, -p` | STR | Set the project to upload the run to. **Default**: None |
 | `--entity, -e` | STR | Set the entity to scope the project to. **Default**: None |
 | `--job_type` | STR | Set the job type to group related runs. **Default**: None |
-| `--sync-tensorboard` | BOOL Flag | Sync TensorBoard tfevent files. On by default for specific paths, off for --sync-all. **Default**: None |
-| `--include-globs` | STR | Include only runs matching these glob patterns (comma-separated). **Default**: None |
-| `--exclude-globs` | STR | Exclude runs matching these glob patterns (comma-separated). **Default**: None |
-| `--include-online` | BOOL Flag | Include runs created in online mode. **Default**: None |
-| `--include-offline` | BOOL Flag | Include runs created in offline mode. **Default**: None |
-| `--include-synced` | BOOL Flag | Include runs that are already synced. **Default**: None |
-| `--mark-synced` | BOOL Flag | Mark runs as synced after upload. **Default**: True |
-| `--sync-all` | BOOL Flag | Sync all unsynced runs in the local wandb directory. **Default**: False |
-| `--clean` | BOOL Flag | Delete local data for runs that are already synced. **Default**: False |
+| `--sync-tensorboard` | BOOL Flag | (legacy only) Sync TensorBoard tfevent files. On by default for specific paths, off for --sync-all. **Default**: None |
+| `--include-globs` | STR | (legacy only) Include only runs matching these glob patterns (comma-separated). **Default**: None |
+| `--exclude-globs` | STR | (legacy only) Exclude runs matching these glob patterns (comma-separated). **Default**: None |
+| `--include-online, --no-skip-online` | BOOL Flag | Include runs created in online mode. **Default**: None |
+| `--include-offline` | BOOL Flag | (legacy only) Include runs created in offline mode. **Default**: None |
+| `--include-synced, --no-skip-synced` | BOOL Flag | Include runs that are already synced. **Default**: None |
+| `--mark-synced` | BOOL Flag | (legacy only) Mark runs as synced after upload. **Default**: True |
+| `--sync-all` | BOOL Flag | (legacy only) Sync all unsynced runs in the local wandb directory. **Default**: False |
+| `--clean` | BOOL Flag | (legacy only) Delete local data for runs that are already synced. **Default**: False |
 | `--clean-old-hours` | INT | Delete only synced runs older than this many hours (use with --clean). **Default**: 24 |
 | `--clean-force` | BOOL Flag | Skip the confirmation prompt if --clean is specified. **Default**: False |
 | `--show` | INT | Set the number of runs to show in the summary. **Default**: 5 |
-| `--append` | BOOL Flag | Append data to an existing run instead of creating a new run. **Default**: False |
-| `--skip-console` | BOOL Flag | Skip uploading console logs. **Default**: False |
+| `--append` | BOOL Flag | (legacy only) Append data to an existing run instead of creating a new run. **Default**: False |
+| `--skip-console` | BOOL Flag | (legacy only) Skip uploading console logs. **Default**: False |
 | `--replace-tags` | STR | Rename tags during sync. Use 'old=new' pairs separated by commas. **Default**: None |
+| `--legacy` | BOOL Flag | Force legacy behavior instead of rerouting to `wandb beta sync`. **Default**: False |
 

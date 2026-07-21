@@ -1,0 +1,46 @@
+---
+title: Organization
+kind: class
+namespace: wandb.apis.public.organizations
+---
+
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
+
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/organizations.py#L27" />
+
+
+
+## <kbd>class</kbd> Organization
+```python
+service_api: 'InitVar[ServiceApi]', *,
+id: 'GQLId',
+name: 'str',
+org_entity: '_OrgEntity'
+```
+
+## Description
+
+A read-only representation of a W&B organization.
+
+Users should never need to instantiate this class directly. Use
+`wandb.Api().organization()` to fetch an existing organization.
+
+
+
+## Args
+
+- `service_api`: 
+- `id`: 
+- `name`: 
+- `org_entity`: 
+
+
+
+
+
+
+
+
+
+

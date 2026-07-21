@@ -37,6 +37,28 @@ to handle team attributes.
 
 
 
+## Examples
+
+Look up a team and invite a member.
+
+```python
+import wandb
+
+api = wandb.Api()
+team = api.team("my-team")
+team.invite("user@example.com")
+```
+
+Create a team and add a service account.
+
+```python
+import wandb
+
+api = wandb.Api()
+team = api.create_team("my-team")
+team.create_service_account("CI service account")
+```
+
 
 
 ## Methods
