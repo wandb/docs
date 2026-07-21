@@ -22,11 +22,12 @@ export const WandbReport = ({ src, title, height = 640 }) => {
   }
   const frameHeight = typeof height === 'number' && height > 0 ? height : 640;
 
-  // Request W&B's streamlined embed view. `?jupyter=true` is the same parameter
-  // the wandb SDK's Report/Run/Sweep `.to_html()` methods use to render a
-  // cleaner frame in notebooks; it trims the top chrome the full report page
-  // shows. Keep it off the human-facing caption link below, which points at the
-  // normal report URL.
+  // Request W&B's notebook-embed view via `?jupyter=true` — the same parameter
+  // the wandb SDK appends in every `.to_html()` (reports, runs, sweeps). The
+  // report renderer does not visibly honor it today (the full page chrome still
+  // shows), so this is forward-looking: it costs nothing now and takes effect if
+  // the app team makes that param strip chrome. The human-facing caption link
+  // below intentionally omits it and points at the normal report URL.
   const frameSrc = isReportUrl ? `${src}${src.includes('?') ? '&' : '?'}jupyter=true` : src;
 
   // Colors come from the CSS custom properties in scripts/css-minify/colors.css

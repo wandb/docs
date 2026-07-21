@@ -81,7 +81,7 @@ def load_registry(path: Path) -> tuple[list[dict], list[Finding]]:
     except yaml.YAMLError as exc:
         return [], [Finding("error", "REGISTRY_UNREADABLE", f"Invalid YAML in {path}: {exc}")]
 
-    if raw is None or raw.get("reports") is None:
+    if not isinstance(raw, dict) or raw.get("reports") is None:
         return [], [Finding("error", "REGISTRY_SHAPE", "Registry must have a top-level `reports:` list")]
     entries = raw["reports"]
     if not isinstance(entries, list):

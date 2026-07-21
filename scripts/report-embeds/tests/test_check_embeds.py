@@ -57,6 +57,13 @@ class RegistrySchemaTests(unittest.TestCase):
         _, findings = self._load_yaml("something: else\n")
         self.assertTrue(any(f.code == "REGISTRY_SHAPE" for f in findings))
 
+    def test_top_level_list_is_shape_error_not_crash(self):
+        # A top-level list/string must yield REGISTRY_SHAPE, not AttributeError.
+        _, findings = self._load_yaml("- a\n- b\n")
+        self.assertTrue(any(f.code == "REGISTRY_SHAPE" for f in findings))
+        _, findings = self._load_yaml("just a string\n")
+        self.assertTrue(any(f.code == "REGISTRY_SHAPE" for f in findings))
+
     def test_bad_id_pattern(self):
         import yaml
         doc = yaml.safe_dump({"reports": [_entry(id="notanid", url="https://wandb.ai/w/p/reports/Foo--notanid")]})
