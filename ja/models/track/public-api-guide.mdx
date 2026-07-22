@@ -33,7 +33,7 @@ APIキーは、マシンをW&amp;Bに認証するために使用します。
   ### run パスを検索する
 </div>
 
-Public APIを使用するには、多くの場合、`<entity>/<project>/<run_id>` 形式の run パスが必要です。アプリのUIで run のページを開き、[Overview タブ ](/ja/models/track/public-api-guide/#overview-tab)をクリックすると、run パスを確認できます。
+Public APIを使用するには、多くの場合、`<entity>/<project>/<run_id>` 形式の run パスが必要です。アプリのUIで Run のページを開き、[Overview タブ](/ja/models/track/public-api-guide/#overview-tab)をクリックすると、run パスを確認できます。
 
 <div id="export-run-data">
   ### run データをエクスポート
@@ -78,10 +78,10 @@ with wandb.init(project="public-api-example") as run:
         )
 ```
 
-以下のセクションでは、上記のrunオブジェクトの属性ごとのさまざまな出力について説明します
+以下のセクションでは、上記のrunオブジェクトの属性ごとのさまざまな出力について説明します。
 
 <div id="runconfig">
-  ##### `run.config`
+  #### `run.config`
 </div>
 
 ```python
@@ -106,7 +106,7 @@ with wandb.init(project="public-api-example") as run:
   ### サンプリング
 </div>
 
-デフォルトのhistory methodでは、メトリクスが固定数のサンプルにサンプリングされます (デフォルトは500で、`samples` &#95;&#95; 引数で変更できます) 。大規模なrunのすべてのデータをエクスポートする場合は、`run.scan_history()` methodを使用できます。詳細は、[API Reference](/ja/models/ref/python/public-api)を参照してください。
+デフォルトのhistory methodでは、メトリクスが固定数のサンプルにサンプリングされます (デフォルトは500で、`samples` 引数で変更できます) 。大規模なrunのすべてのデータをエクスポートする場合は、`run.scan_history()` methodを使用できます。詳細は、[API Reference](/ja/models/ref/python/public-api)を参照してください。
 
 <div id="querying-multiple-runs">
   ### 複数の Runs をクエリする

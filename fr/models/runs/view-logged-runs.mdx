@@ -6,7 +6,7 @@ description: Découvrez comment afficher un run enregistré spécifique et ses p
 Affichez les informations d’un run spécifique, telles que son état actuel, ses artifacts, ses métriques, et plus encore. Vous pouvez afficher et surveiller des runs à l’aide de la W&amp;B App ou de l’interface de terminal `wandb leet`.
 
 <Tabs>
-  <Tab title="WA&B App">
+  <Tab title="W&B App">
     Pour afficher un run spécifique dans la W&amp;B App :
 
     1. Accédez à la [W&amp;B App](https://wandb.ai/home).
@@ -101,7 +101,7 @@ Vous pouvez utiliser la boîte de recherche au-dessus des sections Config et Sum
   W&amp;B ne recherche pas dans les paramètres imbriqués de Config ou de Summary. Par exemple, si vous enregistrez un paramètre de configuration imbriqué avec `wandb.Run.config.update({"model": {"learning_rate": 0.01}})`, W&amp;B ne renvoie pas le paramètre `learning_rate` si vous recherchez `learning_rate` dans la boîte de recherche. Vous ne pouvez trouver le paramètre `learning_rate` qu’en recherchant `model`.
 </Note>
 
-Consultez un exemple d’aperçu de projet [ici](https://wandb.ai/stacey/deep-drive/overview).
+Consultez un exemple d’aperçu de projet [ici](https://wandb.ai/stacey/deep-drive/overview). 
 
 <div id="logs">
   ## Journaux

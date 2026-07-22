@@ -207,9 +207,9 @@ Vous pouvez créer un artefact incrémentiel dans le cadre d’une seule exécut
   ### Runs distribués
 </div>
 
-Utilisez `Artifact.upsert_artifact()` et `Artifact.finish_artifact()` lorsque plusieurs exécutions ajoutent des fichiers à une même version d&#39;artefact.
+Utilisez `Artifact.upsert_artifact()` et `Artifact.finish_artifact()` lorsque plusieurs runs ajoutent des fichiers à une même version d&#39;artefact.
 
-L&#39;exemple suivant montre comment créer une nouvelle version d&#39;artefact à partir d&#39;exécutions distribuées lorsque l&#39;artefact est utilisé comme [entrée pour les exécutions](/fr/models/artifacts/create-a-new-artifact-version#use-as-run-input). La même approche s&#39;applique lorsque l&#39;artefact est [récupéré directement](/fr/models/artifacts/create-a-new-artifact-version#fetch-directly) avec l&#39;API publique.
+L&#39;exemple suivant montre comment créer une nouvelle version d&#39;artefact à partir de runs distribués lorsque l&#39;artefact est utilisé comme [entrée pour les runs](/fr/models/artifacts/create-a-new-artifact-version#use-as-run-input). La même approche s&#39;applique lorsque l&#39;artefact est [récupéré directement](/fr/models/artifacts/create-a-new-artifact-version#fetch-directly) avec l&#39;API publique.
 
 ```python
 import wandb

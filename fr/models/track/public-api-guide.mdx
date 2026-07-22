@@ -33,7 +33,7 @@ Une clé API permet d’authentifier votre machine auprès de W&amp;B.
   ### Trouver le chemin du run
 </div>
 
-Pour utiliser l’API publique, vous aurez souvent besoin du chemin du run, au format `<entity>/<project>/<run_id>`. Dans l’interface de l’application, ouvrez la page d’un run et cliquez sur l’[onglet Vue d’ensemble ](/fr/models/track/public-api-guide/#overview-tab)pour obtenir le chemin du run.
+Pour utiliser l’API publique, vous aurez souvent besoin du chemin du run, au format `<entity>/<project>/<run_id>`. Dans l’interface de l’application, ouvrez la Page du run et cliquez sur l’[onglet Vue d’ensemble](/fr/models/track/public-api-guide/#overview-tab) pour obtenir le chemin du run.
 
 <div id="export-run-data">
   ### Exporter les données d’un run
@@ -78,10 +78,10 @@ with wandb.init(project="public-api-example") as run:
         )
 ```
 
-Les sections suivantes décrivent les différentes sorties associées aux attributs de l’objet run ci-dessus
+Les sections suivantes décrivent les différentes sorties associées aux attributs de l’objet run ci-dessus.
 
 <div id="runconfig">
-  ##### `run.config`
+  #### `run.config`
 </div>
 
 ```python
@@ -106,7 +106,7 @@ Les sections suivantes décrivent les différentes sorties associées aux attrib
   ### Échantillonnage
 </div>
 
-La méthode history par défaut échantillonne les métriques pour n’en conserver qu’un nombre fixe (500 par défaut ; vous pouvez le modifier avec l’argument `samples` &#95;&#95;). Si vous souhaitez exporter toutes les données d’un run de grande taille, vous pouvez utiliser la méthode `run.scan_history()`. Pour en savoir plus, voir la [Référence de l’API](/fr/models/ref/python/public-api).
+La méthode history par défaut échantillonne les métriques pour n’en conserver qu’un nombre fixe (500 par défaut ; vous pouvez le modifier avec l’argument `samples`). Si vous souhaitez exporter toutes les données d’un run de grande taille, vous pouvez utiliser la méthode `run.scan_history()`. Pour en savoir plus, voir la [Référence de l’API](/fr/models/ref/python/public-api).
 
 <div id="querying-multiple-runs">
   ### Interroger plusieurs runs

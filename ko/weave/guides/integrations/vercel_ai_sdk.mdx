@@ -122,13 +122,13 @@ import { generateText } from "ai";
 
 const WANDB_API_KEY = process.env.WANDB_API_KEY!;
 
-// W&B Weave 엔드포인트를 사용하도록 OTel 익스포터를 설정합니다.
+// Configure OTel exporter to use W&B Weave endpoint.
 const exporter = new OTLPTraceExporter({
   url: "https://trace.wandb.ai/otel/v1/traces",
   headers: { "wandb-api-key": WANDB_API_KEY },
 });
 
-// W&B 자격 증명을 설정합니다.
+// Configure your W&B credentials.
 const provider = new NodeTracerProvider({
   resource: resourceFromAttributes({
     "wandb.entity": "[YOUR-TEAM-NAME]",
