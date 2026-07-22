@@ -4,7 +4,7 @@ description: "Learn about W&B Weave and how it helps you build, evaluate, and im
 keywords: ["LLM observability", "agent tracing", "prompt versioning", "Weave Ops"]
 ---
 
-W&B Weave is an observability and evaluation platform for building reliable LLM applications. Weave helps you understand what your AI application is doing, measure how well it performs, and systematically improve it over time.
+W&B Weave is an observability and evaluation platform for building reliable agents and LLM applications. Weave helps you understand what your AI application is doing, measure how well it performs, and systematically improve it over time.
 
 Building LLM applications is fundamentally different from traditional software development. LLM outputs are non-deterministic, making debugging harder. Quality is subjective and context-dependent. Small prompt changes can cause unexpected behavior changes. Traditional testing approaches fall short.
 
@@ -19,17 +19,26 @@ Weave provides the following core functionality:
 - **Feedback collection** to capture human judgments and annotations.
 - **Monitoring** in production using guardrails and scorers for LLM safety and quality.
 
-### Agentic tracing
+## Choose a workflow
 
-Weave provides agentic observability for the full lifecycle of agent conversations, including sessions, LLM calls, and tool executions.
+Weave provides this functionality through two different workflows: 
+
+* Automatic agent tracing 
+* Instrumenting your application's arbitrary LLM calls and functions to trace their input, output, and code
+
+### Trace an Agent
+
+Weave provides agent observability for the full lifecycle of agent conversations, including sessions, LLM calls, and tool executions. 
+
+Agent tracing is built on [OpenTelemetry (OTel)](https://opentelemetry.io/docs/concepts/) and the [GenAI semantic conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/). If your agent is already instrumented with OTel, you can send its existing spans to Weave without re-instrumenting your code. Weave accepts any OTel span and stores its attributes so you can query them. Spans that follow the GenAI agent conventions, such as `invoke_agent` and `execute_tool`, render as conversations, turns, and tool calls in the **Agents** view. To learn how to emit these spans from your own agent, see the [custom agents quickstart](/weave/custom-agents-quickstart).
 
 If you're building an agent, start with the [agent integration quickstart](/weave/agent-integration-quickstart) to pick a built-in integration, or follow the [custom agents quickstart](/weave/custom-agents-quickstart) to manually instrument your own. To learn how the Weave SDK models agents, see [Trace your agents](/weave/guides/tracking/trace-agents).
 
 If you're using a supported third-party agent harness, such as Claude Code or OpenAI Agent SDK, Weave instruments it automatically with no additional code. See [Integrations](/weave/guides/integrations) for all supported frameworks.
 
-### Application tracing
+### Instrument and trace functions
 
-To trace individual function calls, application code, or custom logic, use Weave Ops and Calls. Add one line to any function to track inputs, outputs, cost, token count, and latency.
+To trace individual function calls, application code, or custom logic, use Weave Ops and Calls. Add one line to any function to track inputs, outputs, cost, token count, and latency. You can also:
 
 - Track end-to-end how data flows through your LLM application.
 - See source documents used to produce the LLM feedback.
@@ -37,11 +46,23 @@ To trace individual function calls, application code, or custom logic, use Weave
 
 To trace individual functions, follow the Weave [Op tracing quickstart](/weave/quickstart) or learn to use the Weave [Ops and Calls](/weave/guides/tracking/tracing).
 
-If you're using a supported third-party agent framework, such as Claude Code, Weave instruments it automatically with no additional code. See [Integrations](/weave/guides/integrations) for all supported frameworks.
+The Weave SDK also autopatches with many different frameworks and LLM providers to automatically captures traces from LLM calls in your code. See [Integrations](/weave/guides/integrations) for all supported providers and frameworks.
 
-### Evaluations
+### When to use agent tracing and when to use application instrumentation
 
-Benchmark and monitor your LLM application's performance with evaluations to iteratively improve quality and reliability.
+Choose which workflow to use based on what you want to observe:
+
+- **Use agent tracing if you're building or running an agent.** This is the right fit if you use a supported agent harness or agent SDK, or if you've built a custom agent that you can instrument yourself.
+
+- **Use application instrumentation if you're tracing application code.** This is the right fit for applications structured around discrete calls rather than conversations, such as a RAG pipeline, a summarization endpoint, or custom business logic.
+
+Each approach records traces in its own part of the UI: agent traces appear on the **Agents** page, and `weave.op` calls appear on the **Traces** page. You can use both approaches in the same Weave project, but they produce separate traces.
+
+If you're not sure where to start and your system involves an agent, start with agent tracing using the [agent integration quickstart](/weave/agent-integration-quickstart). Otherwise, start with the [Op tracing quickstart](/weave/quickstart).
+
+## Evaluations
+
+Benchmark and monitor your agent's or LLM application's performance with evaluations to iteratively improve quality and reliability.
 
 - Track which model and prompt versions resulted in what performance.
 - Define metrics to evaluate responses using one or more scoring functions.
@@ -49,13 +70,13 @@ Benchmark and monitor your LLM application's performance with evaluations to ite
 
 [Build an evaluation pipeline](/weave/tutorial-eval)
 
-### Version everything
+## Version everything
 
 Weave tracks versions of your prompts, datasets, and model configurations. When something breaks, you can see exactly what changed. When something works, you can reproduce it.
 
 [Learn about versioning](/weave/guides/tracking/objects)
 
-### Experiment with prompts and models
+## Experiment with prompts and models
 
 Bring your API keys to test prompts and compare responses from different commercial models using the Playground.
 
