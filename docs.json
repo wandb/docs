@@ -363,6 +363,7 @@
                           "models/registry/configure_registry",
                           "models/registry/create_collection",
                           "models/registry/link_version",
+                          "models/registry/link_prompt",
                           "models/registry/aliases",
                           "models/registry/download_use_artifact",
                           "models/registry/search_registry",
