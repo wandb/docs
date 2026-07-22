@@ -199,15 +199,16 @@ def score_entry(
         return {"path": path, "status": "insufficient_prose",
                 "after_word_count": after["word_count"]}
 
+    is_new = status == "A" or before["insufficient_prose"]
     return {
         "path": path,
         "old_path": old_path,
-        "status": "new" if status == "A" or before["insufficient_prose"] else "scored",
+        "status": "new" if is_new else "scored",
         "fk_before": before["metrics"]["flesch_kincaid_grade"] if before["metrics"] else None,
         "fk_after": after["metrics"]["flesch_kincaid_grade"] if after["metrics"] else None,
-        "fk_delta": delta["flesch_kincaid_grade"],
-        "ease_delta": delta["flesch_reading_ease"],
-        "direction": headline["direction"],
+        "fk_delta": None if is_new else delta["flesch_kincaid_grade"],
+        "ease_delta": None if is_new else delta["flesch_reading_ease"],
+        "direction": "n/a" if is_new else headline["direction"],
         "after_word_count": after["word_count"],
     }
 
