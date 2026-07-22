@@ -3,22 +3,17 @@ title: "Search runs"
 description: "Learn how to search for specific runs by name or ID in your project's Runs table or Workspace."
 ---
 
-Use the search box within your project's Runs table or Workspace to find specific [runs by name or ID](/models/runs/run-identifiers).
+Use the search box in your project's Runs table or Workspace to find specific [runs by name or ID](/models/runs/run-identifiers). W&B interprets search queries as regular expressions that use [Google RE2 syntax](https://github.com/google/re2/wiki/Syntax).
 
-<Note>
-By default, the search box uses regular expressions (RegEx) to match your query against run names or IDs.
-</Note>
-
-## Search for runs by name or ID
-1. Click either the **Runs** tab or **Workspace** from the project sidebar.
-2. Click on the search box at the top of the runs table.
-3. Enter the run name or run ID you want to search for.
+## Search for a run by name or ID
+1. From the project sidebar, select **Runs** or **Workspace**.
+2. Select the search box at the top of the runs table.
+3. Enter a run name, run ID, or regular expression that uses RE2 syntax.
 
 ## Turn off regular expressions search
 
-1. Click either the **Runs** tab or **Workspace** from the project sidebar.
-2. Click on the search box at the top of the runs table.
-3. Toggle off the **RegEx** toggle (.*) so that it is gray.
+To search for an exact text string instead of a regular expression:
 
-
-
+1. From the project sidebar, select **Runs** or **Workspace**.
+2. Select the search box at the top of the runs table.
+3. Turn off the RegEx toggle (`.*`). The toggle appears gray when regular expression search is disabled.

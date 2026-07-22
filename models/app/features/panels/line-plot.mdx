@@ -51,13 +51,13 @@ This section shows how to create a line plot that displays multiple metrics sele
 
     To add a line plot directly to a section instead, click the section's **action (<Icon icon="ellipsis" iconType="solid"/>)** menu, then click **+ Add panels**.
 1. Click **Quick panel builder**, then click the **Multi-metric panels** tab.
-1. In **Regex** enter an expression in [JavaScript regular expression](https://www.w3schools.com/js/js_regexp.asp) format. As you type, the UI updates to show which metrics match the expression. By default, the plot name shows the regular expression used by the plot. The plot includes lines for all metrics that match the expression, including metrics logged in the future.
+1. In **Regex** enter an expression with [Google's RE2](https://github.com/google/re2/wiki/Syntax) format. As you type, the UI updates to show which metrics match the expression. By default, the plot name shows the regular expression used by the plot. The plot includes lines for all metrics that match the expression, including metrics logged in the future.
 1. To optionally remove duplicate single-metric panels when the multi-metric plot is created, toggle **Clean up auto-generated panels**. A preview shows which panels are cleaned up. <Note>When this option is turned on, W&B doesn't create a single-metric plot for a newly logged metric that matches the expression. Instead, it appears only in this multi-metric plot.</Note>
 1. Click **Create [NUMBER] panels**.
 
 ### Multi-metric regular expressions
 
-Multi-metric line plots use [JavaScript regular expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions) to match metric names. The following sections describe common use cases and provide more details about how the regular expressions work, such as how capture groups affect the panels that W&B creates.
+Multi-metric line plots use [Google's RE2](https://github.com/google/re2/wiki/Syntax) syntax to match metric names. The following sections describe common use cases and provide more details about how the regular expressions work, such as how capture groups affect the panels that W&B creates.
 
 #### Common use cases
 
