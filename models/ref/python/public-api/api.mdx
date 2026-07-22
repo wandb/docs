@@ -656,9 +656,13 @@ admin_username: 'str | None' = None
 
 Create a new team.
 
+For W&B Multi-tenant Cloud users, set the Default API organization in
+your user settings in the W&B UI before calling `create_team()`.
+This setting determines the organization the new team will belong to.
+
 ##### Arguments
 
-- `team`: The name of the team
+- `team`: The name of the team.
 - `admin_username`: Username of the admin user of the team. Defaults to the current user.
 
 
