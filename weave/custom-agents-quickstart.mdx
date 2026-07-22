@@ -8,7 +8,7 @@ keywords: ["OpenTelemetry", "OTel spans", "multi-turn agent", "tool calls", "tra
 
 The Weave SDK lets you trace agents built with popular SDKs or custom harnesses. This quickstart shows you how to manually integrate Weave into a custom-built multi-turn agent to emit and capture OpenTelemetry spans. For conceptual understanding about Weave for agents, see [Trace your agents](/weave/guides/tracking/trace-agents).
 
-If you're looking to integrate Weave with SDKs or harnesses such as the Claude Agent SDK or Codex, see [Trace agent integrations](/weave/guides/tracking/trace-agent-integrations). Weave autopatches into several agent-building SDKs and agent harnesses for quick integration.
+If you're looking to integrate Weave with SDKs or harnesses such as the Claude Agent SDK or Codex, see [Choose an agent integration](/weave/agent-integration-quickstart). Weave autopatches into several agent-building SDKs and agent harnesses for quick integration.
 
 ## What you'll learn
 
@@ -359,11 +359,11 @@ try {
 
 ## Record token usage and cost
 
-Each `chat` span carries token usage and a model id. Weave renders token counts from usage and derives cost from usage plus the model id, so an incomplete or unpriceable value shows `0 in / 0 out` tokens or `Cost -` even when the rest of the trace looks correct. `record(...)` sets these fields (along with `output_messages`, `response_id`, `reasoning`, and more) in one call; only the fields you pass are applied.
+Each `chat` span carries token usage and a model id. Weave renders token counts from usage and derives cost from usage plus the model id, so an incomplete or unpriceable value shows `0 in / 0 out` tokens or `Cost -` even when the rest of the trace looks correct. `record(...)` sets these fields (along with `output_messages`, `response_id`, `reasoning`, and more) in one call. Only the fields you pass are applied.
 
 Two things must be right for cost to appear:
 
-- **Complete usage.** `input_tokens` is the *total* input, including any cached tokens. Weave prices cache reads and cache writes at their own rates and subtracts them from the input total, so `cache_read_input_tokens` and `cache_creation_input_tokens` must be reported *in addition to* a total `input_tokens` that includes them. For providers with prompt caching (for example Anthropic), cached tokens routinely dominate the input, so omitting them makes usage and cost render as roughly zero.
+- **Complete usage.** `input_tokens` is the *total* input, including any cached tokens. Weave prices cache reads and cache writes at their own rates and subtracts them from the input total, so `cache_read_input_tokens` and `cache_creation_input_tokens` must be reported *in addition to* a total `input_tokens` that includes them. For providers with prompt caching (for example, Anthropic), cached tokens routinely dominate the input, so omitting them makes usage and cost render as roughly zero.
 - **A priceable model id.** Cost is a lookup on the model. Weave prefers `response_model` (the exact model the provider served) and falls back to the `model` you passed to `start_llm`. An alias such as `opus` or `sonnet` is not priceable and renders `Cost -`, so pass the concrete id the response returns (`resp.model`) as `response_model`.
 
 OpenAI counts cached tokens inside `prompt_tokens`, so the example above maps directly. Anthropic reports cached tokens *separately* from `input_tokens`, so add them back into the total Weave prices against:
@@ -422,6 +422,7 @@ Click any turn to inspect the inputs, outputs, tool arguments, and tool results.
 
 To deep-link from your own UI to a conversation in the Weave Agents view, build the URL from your entity, project, and the conversation id. `weave.init()` returns a client that carries `entity` and `project`, and `start_conversation` exposes `conversation_id`.
 
+<CodeGroup>
 ```python lines Python
 from weave.trace.urls import agent_conversation_path
 
@@ -435,7 +436,12 @@ with weave.start_conversation(agent_name="research-bot") as conversation:
     print(f"View this conversation at {url}")
 ```
 
+```plaintext TypeScript lines
+This feature is not available in TypeScript.
+```
+</CodeGroup>
+
 ## Next steps
 
 - Learn how to [trace agents with Weave](/weave/guides/tracking/trace-agents) and what features and options are available in the Weave SDK.
-- See [Trace agent integrations](/weave/guides/tracking/trace-agent-integrations) for more options about how to integrate Weave with your agents.
+- See [Choose an agent integration](/weave/agent-integration-quickstart) for more options about how to integrate Weave with your agents.
