@@ -8,7 +8,7 @@ scanning the `.mdx` sources (no registry to maintain) and checks it.
 ## Files
 
 - `check_embeds.py` — scans English `.mdx` for `<WandbReport>` embeds and checks
-  them (sibling prose link + URL liveness).
+  them (recognizable report URL, on a page, and URL liveness).
 - `tests/test_check_embeds.py` — unit tests (no network).
 
 CI wiring lives in [`.github/workflows/report-embeds.yml`](../../.github/workflows/report-embeds.yml).
@@ -21,14 +21,12 @@ CI wiring lives in [`.github/workflows/report-embeds.yml`](../../.github/workflo
    shared via a view-only ("magic") link (`Share` → "anyone with the link can
    view"). The URL, including any `?accessToken=`, ships in public source and git
    history, so treat the report as public forever. Never embed sensitive data.
-2. On the page, add both the component and a plain Markdown link to the same
-   report in the surrounding prose:
+2. On the page, add the component. It renders a "View Report" button linking to
+   the report, so no separate prose link is needed. The `src` URL is in the MDX
+   source, so agents and the llms.txt export still see it.
 
    ```mdx
    import { WandbReport } from '/snippets/WandbReport.jsx';
-
-   The following [sweep report](https://wandb.ai/ENTITY/PROJECT/reports/Slug--VmlldzoXXXXXXX)
-   shows ... .
 
    <WandbReport
      src="https://wandb.ai/ENTITY/PROJECT/reports/Slug--VmlldzoXXXXXXX"
@@ -36,9 +34,6 @@ CI wiring lives in [`.github/workflows/report-embeds.yml`](../../.github/workflo
      height={700}
    />
    ```
-
-   The prose link is required: agents, the llms.txt export, and the translation
-   pipeline read MDX source, where the iframe is opaque.
 
 3. Validate locally:
 
@@ -50,12 +45,12 @@ CI wiring lives in [`.github/workflows/report-embeds.yml`](../../.github/workflo
 
 ```bash
 python3 -m unittest discover -s scripts/report-embeds/tests -p 'test_*.py' -v
-python3 scripts/report-embeds/check_embeds.py --mode static     # prose link + cap, no network
+python3 scripts/report-embeds/check_embeds.py --mode static     # URL + placement, no network
 python3 scripts/report-embeds/check_embeds.py --mode liveness   # anonymous HTTP per URL
 python3 scripts/report-embeds/check_embeds.py --mode all         # both
 ```
 
-Static errors (missing prose link, embed in a shared snippet, unrecognizable src) fail CI on PRs.
+Static errors (embed in a shared snippet, unrecognizable src) fail CI on PRs.
 Liveness runs on a weekly schedule and files an issue on failure — it does not
 block PRs, because `wandb.ai` rate-limits crawlers and network results are flaky
 (this is also why `wandb.ai` is excluded from the site-wide lychee check).

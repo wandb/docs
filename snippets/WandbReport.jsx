@@ -3,7 +3,7 @@ export const WandbReport = ({ src, title, height = 640 }) => {
   // (sometimes three hyphens before the id), optionally with a ?accessToken=...
   // query when shared via a view-only ("magic") link. Only report pages allow
   // framing — project and run pages block it — so reject anything else and fall
-  // back to the link-only card rather than rendering a frame that won't load.
+  // back to the button-only card rather than rendering a frame that won't load.
   const isReportUrl =
     typeof src === 'string' &&
     /^https:\/\/wandb\.ai\/[^/]+\/[^/]+\/reports\/.*-{2,3}Vmlldz[A-Za-z0-9]+/.test(src);
@@ -27,8 +27,8 @@ export const WandbReport = ({ src, title, height = 640 }) => {
   // regular report renders in a slim embed view. A Fully Connected article
   // ignores the param and keeps its full blog chrome (nav bar, breadcrumb,
   // author, stars), so it looks broken in a frame — embed regular reports, not
-  // FC articles. The human-facing caption link below omits the param and points
-  // at the normal report URL.
+  // FC articles. The View Report button below omits the param and points at the
+  // normal report URL.
   const frameSrc = isReportUrl ? `${src}${src.includes('?') ? '&' : '?'}jupyter=true` : src;
 
   // Colors come from the CSS custom properties in scripts/css-minify/colors.css
@@ -57,19 +57,37 @@ export const WandbReport = ({ src, title, height = 640 }) => {
       )}
       <figcaption
         style={{
+          display: 'flex',
+          justifyContent: 'flex-end',
           padding: '0.6rem 1rem',
           borderTop: isReportUrl ? '1px solid var(--color-stroke)' : 'none',
-          fontSize: '14px',
-          color: 'var(--color-text-secondary)',
         }}
       >
+        {/* "View Report" button matching the in-content button-links
+            (.colab-link / .try-product-link in scripts/css-minify/buttons.css),
+            styled inline so the component stays self-contained. It links to the
+            plain report URL (no ?jupyter=true), so it doubles as the fallback
+            wherever the frame can't load. */}
         <a
           href={src}
           target="_blank"
           rel="noopener noreferrer"
-          style={{ color: 'inherit', textDecoration: 'underline' }}
+          aria-label={`View report: ${frameTitle}`}
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            padding: '8px 14px',
+            border: '1px solid color-mix(in srgb, var(--color-stroke) 70%, transparent)',
+            borderRadius: '12px',
+            fontFamily: 'var(--font-sans)',
+            fontSize: '14px',
+            lineHeight: '20px',
+            color: 'var(--color-text-secondary)',
+            backgroundColor: 'color-mix(in srgb, var(--color-card-hover) 50%, transparent)',
+            textDecoration: 'none',
+          }}
         >
-          View this report in the W&B app →
+          View Report
         </a>
       </figcaption>
     </figure>

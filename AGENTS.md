@@ -111,8 +111,9 @@ To check or apply style, read the relevant pass file(s) and use them as guidance
   />
   ```
 
+  The component renders a "View Report" button linking to the report, so no separate prose link is needed. Still, introduce each embed in the surrounding text so the page reads well and states what the reader should take from it. CI (`scripts/report-embeds/check_embeds.py`) discovers embeds by scanning the `.mdx` sources and checks placement and URL liveness — see [`scripts/report-embeds/README.md`](scripts/report-embeds/README.md).
+
   Rules for every embed:
-  - **Always pair it with prose and a plain Markdown link** to the same report in the surrounding text, stating what the reader should take from it. Agents, the llms.txt export, and the translation pipeline read MDX source, where the iframe is opaque; the link is also the fallback wherever third-party frames are blocked. This is enforced by CI (`scripts/report-embeds/check_embeds.py`, which discovers embeds by scanning the `.mdx` sources — see [`scripts/report-embeds/README.md`](scripts/report-embeds/README.md)).
   - **The report must be viewable by anonymous visitors**: a report in a public project, or one shared via a view-only link (`Share` → "anyone with the link can view"; see [View-only report links](/models/reports/cross-project-reports#view-only-report-links)). The URL — including any `?accessToken=` — ships in public source and git history, so treat the report as public forever and never embed sensitive data.
   - **Regular reports only, not Fully Connected articles.** FC articles keep their full blog chrome in a frame and look broken. Regular reports render in a slim embed view.
   - **Keep it skinny and sparse**: prefer purpose-built reports (ideally a single panel grid), one or two per page maximum. Each iframe boots the full W&B app, is a fixed height with inner scroll (no auto-resize), and renders its own light theme regardless of the docs dark-mode toggle — so article-length reports show as a tall scroll region, not the whole page at once.

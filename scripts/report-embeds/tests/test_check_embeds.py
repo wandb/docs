@@ -32,10 +32,6 @@ class ExtractionTests(unittest.TestCase):
         text = 'x\n<WandbReport\n  src={"https://wandb.ai/w/p/reports/Foo---Vmlldzo2"}\n/>\n'
         self.assertEqual(m.extract_embeds(text), [("https://wandb.ai/w/p/reports/Foo---Vmlldzo2", 2)])
 
-    def test_strip_removes_component(self):
-        text = 'before <WandbReport src="x--Vmlldzo3" /> after'
-        self.assertNotIn("Vmlldzo3", m.strip_embeds(text))
-
 
 class ScanTests(unittest.TestCase):
     def _run(self, files: dict[str, str]):
@@ -47,17 +43,12 @@ class ScanTests(unittest.TestCase):
                 fp.write_text(content, encoding="utf-8")
             return m.scan(root)
 
-    def test_valid_embed_with_prose_link_passes(self):
+    def test_valid_embed_passes(self):
         src = "https://wandb.ai/w/p/reports/Foo--Vmlldzo12345"
-        page = f"See the [report]({src}).\n\n<WandbReport src=\"{src}\" title=\"t\" />\n"
+        page = f'<WandbReport src="{src}" title="t" />\n'
         findings, embeds = self._run({"models/x.mdx": page})
         self.assertEqual(findings, [])
-        self.assertEqual(embeds, [(src, "models/x.mdx", 3)])
-
-    def test_missing_prose_link(self):
-        page = '<WandbReport src="https://wandb.ai/w/p/reports/Foo--Vmlldzo12345" title="t" />\n'
-        findings, _ = self._run({"models/x.mdx": page})
-        self.assertTrue(any(f.code == "MISSING_PROSE_LINK" for f in findings))
+        self.assertEqual(embeds, [(src, "models/x.mdx", 1)])
 
     def test_bad_embed_src(self):
         page = '<WandbReport src="https://wandb.ai/w/p/reports/not-a-report" title="t" />\n'
@@ -67,7 +58,7 @@ class ScanTests(unittest.TestCase):
 
     def test_duplicate_url_deduped_for_liveness(self):
         src = "https://wandb.ai/w/p/reports/Foo--Vmlldzo12345"
-        page = f"[r]({src})\n<WandbReport src=\"{src}\" title=\"t\" />\n"
+        page = f'<WandbReport src="{src}" title="t" />\n'
         findings, embeds = self._run({"models/a.mdx": page, "models/b.mdx": page})
         self.assertEqual(findings, [])
         self.assertEqual(len(embeds), 1)
@@ -80,7 +71,7 @@ class ScanTests(unittest.TestCase):
 
     def test_embed_in_snippet_errors(self):
         src = "https://wandb.ai/w/p/reports/Foo--Vmlldzo12345"
-        findings, _ = self._run({"snippets/_includes/t.mdx": f'[r]({src})\n<WandbReport src="{src}" title="t" />\n'})
+        findings, _ = self._run({"snippets/_includes/t.mdx": f'<WandbReport src="{src}" title="t" />\n'})
         self.assertTrue(any(f.code == "EMBED_IN_SNIPPET" for f in findings))
 
 

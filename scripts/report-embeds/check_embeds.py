@@ -5,7 +5,7 @@ Embeds are discovered by scanning the English `.mdx` sources for the
 `<WandbReport>` component — there is no registry to keep in sync.
 
 Three modes:
-  static   - every embed has a sibling prose link and sits on a page (no network)
+  static   - every embed sits on a page and has a recognizable report URL (no network)
   liveness - anonymous HTTP check that each embedded report URL still renders
   all      - both
 
@@ -86,10 +86,6 @@ def extract_embeds(text: str) -> list[tuple[str, int]]:
     return out
 
 
-def strip_embeds(text: str) -> str:
-    return COMPONENT_RE.sub("", text)
-
-
 def _blank(match: re.Match) -> str:
     # Replace matched span with same-length whitespace so byte offsets — and
     # therefore reported line numbers — are preserved.
@@ -120,16 +116,10 @@ def scan(root: Path) -> tuple[list[Finding], list[tuple[str, str, int]]]:
             findings.append(Finding("EMBED_IN_SNIPPET", "<WandbReport> must be used on a page, not in a shared snippet", rel, occurrences[0][1]))
             continue
 
-        prose = strip_embeds(text)
         for src, line in occurrences:
-            ids = REPORT_ID_RE.findall(src)
-            rid = ids[0] if ids else None
-            if rid is None:
+            if not REPORT_ID_RE.search(src):
                 findings.append(Finding("BAD_EMBED_SRC", f"src `{src}` is not a recognizable report URL (needs --Vmlldz...)", rel, line))
                 continue
-            # Prose-link rule: the id must appear somewhere outside the component.
-            if rid not in prose:
-                findings.append(Finding("MISSING_PROSE_LINK", f"no plain link to report {rid} in the page prose (agents/llms.txt read source, where the iframe is opaque)", rel, line))
             if src not in seen:
                 seen.add(src)
                 embeds.append((src, rel, line))
