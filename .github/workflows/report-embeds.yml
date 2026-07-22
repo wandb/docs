@@ -1,9 +1,12 @@
 name: Report embeds
 
-# Validates the W&B report-embed registry (scripts/report-embeds/registry.yaml)
-# and its use in docs pages. Static checks run on PRs; URL liveness runs weekly
-# and files an issue on failure (it never blocks PRs — wandb.ai rate-limits
-# crawlers, so network results are flaky by design).
+# Checks live W&B report embeds (<WandbReport>) in docs pages. Embeds are
+# discovered by scanning the .mdx sources — there is no registry.
+# - On PRs: static check (every embed has a sibling prose link, sits on a page,
+#   and stays under the per-page cap).
+# - Weekly: URL liveness, filing an issue on failure. Liveness never blocks PRs —
+#   wandb.ai rate-limits crawlers, so network results are flaky by design (this
+#   is also why wandb.ai is excluded from the site-wide lychee check).
 
 on:
   pull_request:
@@ -30,55 +33,30 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          fetch-depth: 0 # needed to diff for the registry-changed gate below
-
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: "3.12"
-
-      - run: pip install pyyaml
-
       - name: Unit tests
         run: python3 -m unittest discover -s scripts/report-embeds/tests -p 'test_*.py' -v
-
-      - name: Registry + MDX consistency
+      - name: Embed consistency (prose link, per-page cap)
         run: python3 scripts/report-embeds/check_embeds.py --mode static --github
-
-      - name: Did the registry change?
-        id: registry-changed
-        if: github.event_name == 'pull_request'
-        uses: tj-actions/changed-files@9426d40962ed5378910ee2e21d5f8c6fcbf2dd96 # v47.0.6
-        with:
-          files: scripts/report-embeds/registry.yaml
-
-      - name: Liveness for registry-touching PRs
-        if: >-
-          github.event_name == 'pull_request' &&
-          steps.registry-changed.outputs.any_changed == 'true'
-        run: python3 scripts/report-embeds/check_embeds.py --mode liveness --github
 
   liveness:
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: "3.12"
-
-      - run: pip install pyyaml
-
-      - name: Full check (static + liveness)
+      - name: Liveness check
         id: check
         continue-on-error: true
-        run: python3 scripts/report-embeds/check_embeds.py --mode all --output-md ./embed-report.md
-
+        run: python3 scripts/report-embeds/check_embeds.py --mode liveness --output-md ./embed-report.md
       - name: Create issue from file
         if: steps.check.outcome == 'failure'
         uses: peter-evans/create-issue-from-file@fca9117c27cdc29c6c4db3b86c48e4115a786710 # v6
         with:
-          title: Fix broken or unregistered report embeds in docs.wandb.ai
+          title: Fix broken report embeds in docs.wandb.ai
           content-filepath: ./embed-report.md
           labels: report, automated issue

@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
-"""Validate the W&B report-embed registry and its use in docs pages.
+"""Check W&B report embeds used in docs pages.
+
+Embeds are discovered by scanning the English `.mdx` sources for the
+`<WandbReport>` component — there is no registry to keep in sync.
 
 Three modes:
-  static   - registry schema + <WandbReport> usage consistency (no network)
-  liveness - anonymous HTTP check that each registered URL still renders
+  static   - every embed has a sibling prose link, sits on a page (not a shared
+             snippet), and pages stay under the per-page cap (no network)
+  liveness - anonymous HTTP check that each embedded report URL still renders
   all      - both
 
-Dependencies: PyYAML only (HTTP uses the standard library).
+No third-party dependencies (standard library only).
 
 The tag name `WandbReport` and the `src` prop below are a contract with
 snippets/WandbReport.jsx. If the component renames either, update COMPONENT_RE
@@ -16,7 +20,6 @@ and SRC_ATTR_RE here (see scripts/report-embeds/README.md).
 from __future__ import annotations
 
 import argparse
-import datetime
 import re
 import sys
 import time
@@ -26,10 +29,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable, Iterator
 
-import yaml
-
 REPO_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_REGISTRY = Path(__file__).resolve().parent / "registry.yaml"
 
 # A report URL ends in `--<id>` or `---<id>` where <id> starts with "Vmlldz".
 REPORT_ID_RE = re.compile(r"-{2,3}(Vmlldz[A-Za-z0-9]+)")
@@ -45,14 +45,13 @@ FENCE_RE = re.compile(r"```.*?```", re.DOTALL)
 MDX_COMMENT_RE = re.compile(r"\{/\*.*?\*/\}", re.DOTALL)
 
 # Locale content is managed by a separate translation pipeline (AGENTS.md);
-# the validator only governs English sources.
+# the checker only governs English sources.
 SKIP_PREFIXES = (
     "ja/", "ko/", "fr/",
     "snippets/ja/", "snippets/ko/", "snippets/fr/",
     "node_modules/", ".git/",
 )
-# Snippets are shared partials, not pages; an embed there makes the registry's
-# `pages` field ambiguous. Embeds belong on pages only.
+# Snippets are shared partials, not pages. Embeds belong on pages only.
 SNIPPETS_PREFIX = "snippets/"
 LOGIN_MARKERS = ("/login", "/signin", "/site/login", "/authorize")
 
@@ -68,87 +67,11 @@ class Finding:
     line: int | None = None
 
 
-# --------------------------------------------------------------------------- #
-# Registry
-# --------------------------------------------------------------------------- #
-def load_registry(path: Path) -> tuple[list[dict], list[Finding]]:
-    """Parse and schema-validate the registry. Returns (entries, findings)."""
-    findings: list[Finding] = []
-    try:
-        raw = yaml.safe_load(path.read_text(encoding="utf-8"))
-    except FileNotFoundError:
-        return [], [Finding("error", "REGISTRY_MISSING", f"Registry not found: {path}")]
-    except yaml.YAMLError as exc:
-        return [], [Finding("error", "REGISTRY_UNREADABLE", f"Invalid YAML in {path}: {exc}")]
-
-    if not isinstance(raw, dict) or raw.get("reports") is None:
-        return [], [Finding("error", "REGISTRY_SHAPE", "Registry must have a top-level `reports:` list")]
-    entries = raw["reports"]
-    if not isinstance(entries, list):
-        return [], [Finding("error", "REGISTRY_SHAPE", "`reports` must be a list")]
-
-    today = datetime.date.today()
-    seen_ids: set[str] = set()
-    valid: list[dict] = []
-
-    for i, entry in enumerate(entries):
-        loc = f"registry.yaml reports[{i}]"
-        if not isinstance(entry, dict):
-            findings.append(Finding("error", "ENTRY_SHAPE", f"{loc}: entry must be a mapping"))
-            continue
-
-        rid = entry.get("id")
-        url = entry.get("url")
-        pages = entry.get("pages")
-
-        for field in ("id", "url", "owner", "purpose", "pages", "last_reviewed"):
-            if entry.get(field) in (None, "", []):
-                findings.append(Finding("error", "MISSING_FIELD", f"{loc}: required field `{field}` is missing or empty"))
-
-        if isinstance(rid, str):
-            if not re.fullmatch(r"Vmlldz[A-Za-z0-9]+", rid):
-                findings.append(Finding("error", "BAD_ID", f"{loc}: id `{rid}` must match Vmlldz[A-Za-z0-9]+"))
-            if rid in seen_ids:
-                findings.append(Finding("error", "DUPLICATE_ID", f"{loc}: duplicate id `{rid}`"))
-            seen_ids.add(rid)
-
-        if isinstance(url, str):
-            if not url.startswith("https://wandb.ai/"):
-                findings.append(Finding("error", "BAD_URL_HOST", f"{loc}: url must start with https://wandb.ai/"))
-            if "/reports/" not in url:
-                findings.append(Finding("error", "BAD_URL_PATH", f"{loc}: url must contain /reports/"))
-            url_ids = REPORT_ID_RE.findall(url)
-            if isinstance(rid, str) and rid not in url_ids:
-                findings.append(Finding("error", "URL_ID_MISMATCH", f"{loc}: url must contain --{rid}"))
-
-        if isinstance(pages, list):
-            for p in pages:
-                if not isinstance(p, str) or not p.endswith(".mdx"):
-                    findings.append(Finding("error", "BAD_PAGE", f"{loc}: page `{p}` must be a repo-relative .mdx path"))
-                    continue
-                if any(p.startswith(pre) for pre in SKIP_PREFIXES):
-                    findings.append(Finding("error", "LOCALE_PAGE", f"{loc}: page `{p}` is a locale/excluded path; register English sources only"))
-                elif not (REPO_ROOT / p).is_file():
-                    findings.append(Finding("error", "PAGE_NOT_FOUND", f"{loc}: page `{p}` does not exist"))
-
-        reviewed = entry.get("last_reviewed")
-        if reviewed is not None:
-            d = reviewed if isinstance(reviewed, datetime.date) else None
-            if d is None:
-                try:
-                    d = datetime.date.fromisoformat(str(reviewed))
-                except ValueError:
-                    findings.append(Finding("error", "BAD_DATE", f"{loc}: last_reviewed `{reviewed}` is not an ISO date (YYYY-MM-DD)"))
-            if d is not None and d > today:
-                findings.append(Finding("error", "FUTURE_DATE", f"{loc}: last_reviewed `{d}` is in the future"))
-
-        height = entry.get("height")
-        if height is not None and not (isinstance(height, int) and height > 0):
-            findings.append(Finding("error", "BAD_HEIGHT", f"{loc}: height must be a positive integer"))
-
-        valid.append(entry)
-
-    return valid, findings
+@dataclass
+class Embed:
+    url: str
+    path: str           # repo-relative page that embeds it
+    line: int
 
 
 # --------------------------------------------------------------------------- #
@@ -190,52 +113,45 @@ def mask_noncontent(text: str) -> str:
     return MDX_COMMENT_RE.sub(_blank, FENCE_RE.sub(_blank, text))
 
 
-def check_mdx(root: Path, entries: list[dict]) -> list[Finding]:
+def scan(root: Path) -> tuple[list[Finding], list[Embed]]:
+    """Scan English .mdx for <WandbReport> embeds.
+
+    Returns (static findings, embeds). `embeds` is deduplicated by URL for the
+    liveness pass; the static findings cover every occurrence.
+    """
     findings: list[Finding] = []
-    by_id = {e["id"]: e for e in entries if isinstance(e.get("id"), str)}
-    # id -> set of pages that actually embed it (English sources)
-    embedded_on: dict[str, set[str]] = {rid: set() for rid in by_id}
+    embeds: list[Embed] = []
+    seen_urls: set[str] = set()
 
     for path in iter_mdx(root):
         rel = path.relative_to(root).as_posix()
         text = mask_noncontent(path.read_text(encoding="utf-8"))
-        embeds = extract_embeds(text)
-        if not embeds:
+        occurrences = extract_embeds(text)
+        if not occurrences:
             continue
 
         if rel.startswith(SNIPPETS_PREFIX):
-            findings.append(Finding("error", "EMBED_IN_SNIPPET", "<WandbReport> must be used on a page, not in a shared snippet", rel, embeds[0][1]))
+            findings.append(Finding("error", "EMBED_IN_SNIPPET", "<WandbReport> must be used on a page, not in a shared snippet", rel, occurrences[0][1]))
             continue
 
-        if len(embeds) > MAX_EMBEDS_PER_PAGE:
-            findings.append(Finding("warning", "TOO_MANY_EMBEDS", f"{len(embeds)} embeds on one page; each boots the full W&B app (cap is {MAX_EMBEDS_PER_PAGE})", rel, embeds[0][1]))
+        if len(occurrences) > MAX_EMBEDS_PER_PAGE:
+            findings.append(Finding("warning", "TOO_MANY_EMBEDS", f"{len(occurrences)} embeds on one page; each boots the full W&B app (cap is {MAX_EMBEDS_PER_PAGE})", rel, occurrences[0][1]))
 
         prose = strip_embeds(text)
-        for src, line in embeds:
+        for src, line in occurrences:
             ids = REPORT_ID_RE.findall(src)
             rid = ids[0] if ids else None
             if rid is None:
                 findings.append(Finding("error", "BAD_EMBED_SRC", f"src `{src}` is not a recognizable report URL (needs --Vmlldz...)", rel, line))
                 continue
-            if rid not in by_id:
-                findings.append(Finding("error", "EMBED_NOT_IN_REGISTRY", f"report {rid} is embedded here but absent from registry.yaml", rel, line))
-            else:
-                embedded_on[rid].add(rel)
-                if rel not in (by_id[rid].get("pages") or []):
-                    findings.append(Finding("error", "PAGE_NOT_LISTED", f"registry entry for {rid} does not list this page in `pages`", rel, line))
             # Prose-link rule: the id must appear somewhere outside the component.
             if rid not in prose:
                 findings.append(Finding("error", "MISSING_PROSE_LINK", f"no plain link to report {rid} in the page prose (agents/llms.txt read source, where the iframe is opaque)", rel, line))
+            if src not in seen_urls:
+                seen_urls.add(src)
+                embeds.append(Embed(src, rel, line))
 
-    for rid, entry in by_id.items():
-        listed = set(entry.get("pages") or [])
-        actual = embedded_on[rid]
-        if not actual:
-            findings.append(Finding("warning", "ORPHAN_ENTRY", f"registry entry {rid} is not embedded by any English page"))
-        for stale in sorted(listed - actual):
-            findings.append(Finding("error", "STALE_PAGES_FIELD", f"registry entry {rid} lists `{stale}` but that page has no matching embed"))
-
-    return findings
+    return findings, embeds
 
 
 # --------------------------------------------------------------------------- #
@@ -275,16 +191,14 @@ def check_url(url: str, *, timeout: int, attempts: int, delay: float) -> Finding
     return Finding("error", "URL_UNREACHABLE", f"{url}: unreachable after {attempts} attempts ({last_err})")
 
 
-def check_liveness(entries: list[dict], *, timeout: int = 30, attempts: int = 3, delay: float = 1.0) -> list[Finding]:
+def check_liveness(embeds: list[Embed], *, timeout: int = 30, attempts: int = 3, delay: float = 1.0) -> list[Finding]:
     findings: list[Finding] = []
-    for entry in entries:
-        url = entry.get("url")
-        if not isinstance(url, str):
-            continue
-        finding = check_url(url, timeout=timeout, attempts=attempts, delay=delay)
+    for embed in embeds:
+        finding = check_url(embed.url, timeout=timeout, attempts=attempts, delay=delay)
         if finding:
+            finding.path, finding.line = embed.path, embed.line
             findings.append(finding)
-        time.sleep(delay)  # be polite; registry is small
+        time.sleep(delay)  # be polite; the embed set is small
     return findings
 
 
@@ -302,7 +216,7 @@ def emit_github_annotations(findings: Iterable[Finding]) -> None:
         print(f"::{kind} {loc}::[{f.code}] {f.message}")
 
 
-def render_markdown(findings: list[Finding], *, checked_urls: int, embeds: int) -> str:
+def render_markdown(findings: list[Finding], *, embeds: int, checked_urls: int) -> str:
     errors = [f for f in findings if f.level == "error"]
     warnings = [f for f in findings if f.level == "warning"]
     lines = ["# Report embed check", ""]
@@ -314,7 +228,7 @@ def render_markdown(findings: list[Finding], *, checked_urls: int, embeds: int) 
     lines.append("| Level | Code | Location | Detail |")
     lines.append("| --- | --- | --- | --- |")
     for f in errors + warnings:
-        where = f.path or "registry.yaml"
+        where = f.path or "-"
         if f.line:
             where += f":{f.line}"
         lines.append(f"| {f.level} | {f.code} | {where} | {f.message} |")
@@ -327,28 +241,21 @@ def render_markdown(findings: list[Finding], *, checked_urls: int, embeds: int) 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--mode", choices=["static", "liveness", "all"], default="static")
-    parser.add_argument("--registry", type=Path, default=DEFAULT_REGISTRY)
     parser.add_argument("--root", type=Path, default=REPO_ROOT)
     parser.add_argument("--github", action="store_true", help="emit GitHub Actions annotations")
     parser.add_argument("--output-md", type=Path, help="write a Markdown report to this file")
     parser.add_argument("--strict", action="store_true", help="treat warnings as failures")
     args = parser.parse_args(argv)
 
-    entries, findings = load_registry(args.registry)
-    if any(f.code in ("REGISTRY_MISSING", "REGISTRY_UNREADABLE", "REGISTRY_SHAPE") for f in findings):
-        for f in findings:
-            print(f"ERROR [{f.code}] {f.message}", file=sys.stderr)
-        return 2
+    static_findings, embeds = scan(args.root)
 
-    embeds_seen = 0
+    findings: list[Finding] = []
     if args.mode in ("static", "all"):
-        findings += check_mdx(args.root, entries)
+        findings += static_findings
+    checked_urls = 0
     if args.mode in ("liveness", "all"):
-        findings += check_liveness(entries)
-
-    # Count embeds for the summary line (cheap re-scan of registry pages only).
-    embeds_seen = sum(len(e.get("pages") or []) for e in entries)
-    checked_urls = len(entries) if args.mode in ("liveness", "all") else 0
+        findings += check_liveness(embeds)
+        checked_urls = len(embeds)
 
     errors = [f for f in findings if f.level == "error"]
     warnings = [f for f in findings if f.level == "warning"]
@@ -361,10 +268,11 @@ def main(argv: list[str] | None = None) -> int:
             print(f"{f.level.upper()} [{f.code}]{where}: {f.message}")
 
     if args.output_md:
-        args.output_md.write_text(render_markdown(findings, checked_urls=checked_urls, embeds=embeds_seen), encoding="utf-8")
+        args.output_md.write_text(render_markdown(findings, embeds=len(embeds), checked_urls=checked_urls), encoding="utf-8")
 
     if not findings:
-        print(f"OK: {len(entries)} registry entrie(s), {embeds_seen} embed page reference(s).")
+        checked = f", {checked_urls} URL(s) checked" if args.mode in ("liveness", "all") else ""
+        print(f"OK: {len(embeds)} report embed(s) found{checked}.")
 
     if errors:
         return 1
