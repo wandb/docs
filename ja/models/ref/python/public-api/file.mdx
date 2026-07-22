@@ -1,15 +1,14 @@
 ---
 title: File
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.files
 ---
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/files.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/files.py#L245" />
 
-
-## <kbd>class</kbd> `File`
+## <kbd>class</kbd> wandb.apis.public.File
 
 W&amp;B に保存されたファイル。
 
@@ -27,66 +26,47 @@ W&amp;B に保存された単一のファイルを表します。ファイルの
 * updated&#95;at (str): 最終更新のタイムスタンプ
 * path&#95;uri (str): バケット内のファイルへのパス。現在は S3 オブジェクトと参照ファイルでのみ利用可能です
 
-**引数:**
+<div id="properties">
+  ## プロパティ
+</div>
 
-* `service_api`:  W&amp;B のクエリに使用する service API インスタンス
-* `attrs` (dict):  ファイルを定義する属性の辞書
-* `run`:  ファイルを含む run オブジェクト 
-
-### <kbd>プロパティ</kbd> File.path_uri
+### <kbd>プロパティ</kbd> path_uri
 
 ストレージバケット内のファイルの URI パスを返します。
 
-**戻り値:**
-
-* `str`: ファイルが S3 に保存されている場合は S3 URI (例: &#39;s3://bucket/path/to/file&#39;) 、参照ファイルの場合は直接 URL、利用できない場合は空文字列。
-
-**戻り値:**
-
-* `str`: path&#95;uri プロパティの値。
-
-***
-
-### <kbd>プロパティ</kbd> File.size
+### <kbd>プロパティ</kbd> size
 
 ファイルのサイズをバイト単位で返します。
 
-**戻り値:**
+<div id="methods">
+  ## メソッド
+</div>
 
-* `int`: size プロパティの値。
-
-***
-
-### <kbd>method</kbd> `File.delete`
+### <kbd>method</kbd> File.delete()
 
 ```python
-delete() → None
+self
 ```
 
 W&amp;B サーバーからこのファイルを削除します。
 
-***
-
-
-### <kbd>method</kbd> `File.download`
+### <kbd>method</kbd> File.download()
 
 ```python
-download(
-    root: 'str' = '.',
-    replace: 'bool' = False,
-    exist_ok: 'bool' = False,
-    api: 'Api | None' = None
-) → io.TextIOWrapper
+self,
+root: 'str' = '.',
+replace: 'bool' = False,
+exist_ok: 'bool' = False,
+api: 'Api | None' = None
 ```
 
 wandb サーバーから、run が以前に保存したファイルをダウンロードします。
 
-**引数:**
+<div id="arguments">
+  ##### 引数
+</div>
 
-* `root`:  ファイルの保存先となるローカルディレクトリ。デフォルトは現在の作業ディレクトリ (&quot;.&quot;) です。
-* `replace`:  `True` の場合、ローカルファイルが存在するとダウンロード時に上書きします。デフォルトは `False` です。
-* `exist_ok`:  `True` の場合、ファイルがすでに存在していても `ValueError` を発生させず、`replace=True` でない限り再ダウンロードもしません。デフォルトは `False` です。
-* `api`:  指定した場合、ファイルのダウンロードに使用する `Api` インスタンス。
-
-**例外:**
-ファイルがすでに存在し、`replace=False` かつ `exist_ok=False` の場合は `ValueError` を発生させます。
+* `root`: ファイルの保存先となるローカルディレクトリ。デフォルトは現在の作業ディレクトリ (`"."`) です。
+* `replace`: `True` の場合、ローカルファイルが存在するとダウンロード時に上書きします。デフォルトは `False` です。
+* `exist_ok`: `True` の場合、ファイルがすでに存在していても `ValueError` を発生させず、`replace=True` でない限り再ダウンロードもしません。デフォルトは `False` です。
+* `api`: 指定した場合、ファイルのダウンロードに使用する `Api` インスタンス。

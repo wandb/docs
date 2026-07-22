@@ -1,19 +1,36 @@
 ---
 title: OnRunMetric
-namespace: automations_namespace
-python_object_type: class
+kind: class
+namespace: wandb.automations.events
 ---
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py#L371" />
 
+## <kbd>클래스</kbd> wandb.automations.OnRunMetric
 
-## <kbd>class</kbd> `OnRunMetric`
+```python
+*,
+event_type: Literal[RUN_METRIC_THRESHOLD, RUN_METRIC_CHANGE, RUN_METRIC_ZSCORE],
+scope: Annotated[Union[wandb.automations.scopes.ProjectScope, Annotated[wandb.automations.scopes.TeamScope | wandb.automations.scopes.OrgScope, BeforeValidator(func=<function parse_scope>, json_schema_input_type=PydanticUndefined), Discriminator(discriminator='entity_type', custom_error_type=None, custom_error_message=None, custom_error_context=None)]], BeforeValidator(func=<function parse_scope>, json_schema_input_type=PydanticUndefined), Discriminator(discriminator='typename__', custom_error_type=None, custom_error_message=None, custom_error_context=None)],
+filter: Annotated[wandb.automations.events.RunMetricFilter, Json, BeforeValidator(func=<function ensure_json>, json_schema_input_type=PydanticUndefined), PlainSerializer(func=<function to_json>, return_type=PydanticUndefined, when_used='always')]
+```
 
-사용자 정의 조건을 충족하는 run 메트릭입니다.
+run 메트릭이 사용자가 정의한 조건을 만족합니다.
 
-예시:
+<div id="args">
+  ## 인수
+</div>
+
+* `event_type`:
+* `scope`: 이벤트 범위입니다. 프로젝트 또는 팀/org entity여야 합니다.
+* `filter`: 이 이벤트가 트리거되기 위해 충족되어야 하는 run 및/또는 메트릭 조건입니다.
+
+<div id="examples">
+  ## 예시
+</div>
+
 메트릭 &quot;my-metric&quot;의 최근 5개 값 평균이 123.45를 초과할 때
 프로젝트 &quot;my-project&quot;의 모든 run에 대해 트리거되는 이벤트를 정의합니다:
 
@@ -29,23 +46,3 @@ event = OnRunMetric(
     filter=RunEvent.metric("my-metric").avg(5).gt(123.45),
 )
 ```
-
-
-### <kbd>방법</kbd> `OnRunMetric.__init__`
-
-```python
-__init__(
-    event_type: 'Literal[RUN_METRIC_THRESHOLD, RUN_METRIC_CHANGE, RUN_METRIC_ZSCORE]',
-    scope: 'ProjectScope',
-    filter: 'RunMetricFilter'
-) → None
-```
-
-**매개변수:**
-
-* `event_type` (Literal[RUN&#95;METRIC&#95;THRESHOLD, RUN&#95;METRIC&#95;CHANGE, RUN&#95;METRIC&#95;ZSCORE]):
-* `scope` (ProjectScope): 이벤트 범위입니다. 프로젝트여야 합니다.
-* `filter` (RunMetricFilter): 이 이벤트가 트리거되기 위해 충족되어야 하는 run 및/또는 메트릭 조건입니다.
-
-**반환값:**
-`OnRunMetric` 객체입니다.

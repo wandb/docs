@@ -1,39 +1,39 @@
 ---
 title: Member
-namespace: public_apis_namespace
-python_object_type: class
+kind: クラス
+namespace: wandb.apis.public.teams
 ---
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py#L24" />
 
+## <kbd>クラス</kbd> wandb.apis.public.Member
 
-## <kbd>class</kbd> `Member`
+```python
+(service_api: 'ServiceApi',
+team: 'str',
+attrs: 'Mapping[str, Any]')
+```
 
 チームのメンバー。
 
-### <kbd>method</kbd> `Member.__init__`
+<div id="args">
+  ## 引数
+</div>
+
+* `service_api`: W&amp;B をクエリするために使用するサービス API のインスタンス
+* `team`: このメンバーが所属するチームの名
+* `attrs`: メンバーの属性
+
+<div id="methods">
+  ## メソッド
+</div>
+
+### <kbd>method</kbd> Member.delete()
 
 ```python
-__init__(service_api: 'ServiceApi', team: 'str', attrs: 'Mapping[str, Any]')
-```
-
-**引数:**
-
-* `service_api`:  W&amp;B をクエリするために使用するサービス API のインスタンス
-* `team` (str):  このメンバーが所属するチームの名
-* `attrs` (dict):  メンバーの属性
-
-***
-
-### <kbd>method</kbd> `Member.delete`
-
-```python
-delete()
+(self)
 ```
 
 チームからメンバーを削除します。
-
-**戻り値:**
-成功したかどうかを示すブール値

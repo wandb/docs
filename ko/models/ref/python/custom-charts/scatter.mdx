@@ -1,41 +1,44 @@
 ---
 title: scatter()
-namespace: python_sdk_custom_charts
-python_object_type: 함수
+kind: 함수
+namespace: wandb.plot.scatter
 ---
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/scatter.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/scatter.py#L12" />
 
-
-### <kbd>함수</kbd> `scatter`
+## <kbd>함수</kbd> wandb.plot.scatter
 
 ```python
-scatter(
-    table: 'wandb.Table',
-    x: 'str',
-    y: 'str',
-    title: 'str' = '',
-    split_table: 'bool' = False
-) → CustomChart
+table: 'wandb.Table',
+x: 'str',
+y: 'str',
+title: 'str' = '',
+split_table: 'bool' = False
 ```
 
 `wandb.Table`의 데이터로 산점도를 만듭니다.
 
-**매개변수:**
+<div id="args">
+  ## 매개변수
+</div>
 
-* `table`:  시각화할 데이터가 들어 있는 W&amp;B Table입니다.
-* `x`:  x축에 사용할 열 이름입니다.
-* `y`:  y축에 사용할 열 이름입니다.
-* `title`:  산점도 차트의 제목입니다.
-* `split_table`:  테이블을 W&amp;B UI의 별도 섹션으로 분리할지 여부입니다. `True`이면 테이블이 &quot;Custom Chart Tables&quot;라는 이름의 섹션에 표시됩니다. 기본값은 `False`입니다.
+* `table`: 시각화할 데이터가 들어 있는 W&amp;B Table입니다.
+* `x`: x축에 사용할 열 이름입니다.
+* `y`: y축에 사용할 열 이름입니다.
+* `title`: 산점도 차트의 제목입니다.
+* `split_table`: 테이블을 W&amp;B UI의 별도 섹션으로 분리할지 여부입니다. `True`이면 테이블이 &quot;Custom Chart Tables&quot;라는 이름의 섹션에 표시됩니다. 기본값은 `False`입니다.
 
-**반환값:**
+<div id="returns">
+  ## 반환값
+</div>
 
-* `CustomChart`:  W&amp;B에 로깅할 수 있는 맞춤형 차트 객체입니다. 차트를 로깅하려면 `wandb.log()`에 전달합니다.
+`CustomChart`: W&amp;B에 로깅할 수 있는 맞춤형 차트 객체입니다. 차트를 로깅하려면 `wandb.log()`에 전달합니다.
 
-**예시:**
+<div id="examples">
+  ## 예시
+</div>
 
 ```python
 import math
@@ -48,17 +51,17 @@ data = [
     for i in range(300)
 ]
 
-# 고도(m) 및 온도(°C) 열이 포함된 W&B 테이블 생성
+# 고도(m) 및 온도(°C) 열이 포함된 W&B table 생성
 table = wandb.Table(data=data, columns=["altitude (m)", "temperature (°C)"])
 
-# W&B run 초기화 및 산점도 로깅
+# W&B run 초기화 및 scatter plot 로깅
 with wandb.init(project="temperature-altitude-scatter") as run:
-    # 산점도 생성 및 로깅
+    # scatter plot 생성 및 로깅
     scatter_plot = wandb.plot.scatter(
-         table=table,
-         x="altitude (m)",
-         y="temperature (°C)",
-         title="Altitude vs Temperature",
+        table=table,
+        x="altitude (m)",
+        y="temperature (°C)",
+        title="Altitude vs Temperature",
     )
     run.log({"altitude-temperature-scatter": scatter_plot})
 ```

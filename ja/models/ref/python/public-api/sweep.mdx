@@ -1,176 +1,171 @@
 ---
 title: Sweep
-namespace: public_apis_namespace
-python_object_type: class
+kind: クラス
+namespace: wandb.apis.public.sweeps
 ---
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py#L272" />
 
-
-## <kbd>class</kbd> `Sweep`
-
-sweep に関連付けられた run のセット。
-
-**属性:**
-
-* `runs` (Runs):  run のリスト
-* `id` (str):  Sweep ID
-* `project` (str):  この sweep が属するプロジェクトの名
-* `config` (dict):  sweep の設定を含む辞書
-* `state` (str):  sweep の状態。&quot;Finished&quot;、&quot;Failed&quot;、&quot;Crashed&quot;、または &quot;Running&quot; のいずれかになります。
-* `expected_run_count` (int):  この sweep で想定される run 数 
-
-### <kbd>method</kbd> `Sweep.__init__`
+## <kbd>クラス</kbd> wandb.apis.public.Sweep
 
 ```python
-__init__(
-    service_api: 'ServiceApi',
-    entity: 'str',
-    project: 'str',
-    sweep_id: 'str',
-    attrs: 'Mapping[str, Any] | None' = None
-)
+(service_api: 'ServiceApi',
+entity: 'str',
+project: 'str',
+sweep_id: 'str',
+attrs: 'Mapping[str, Any] | None' = None)
 ```
 
-***
+sweep に関連付けられた run の一覧。
 
-### <kbd>プロパティ</kbd> Sweep.config
+<div id="args">
+  ## 引数
+</div>
+
+* `service_api`:
+* `entity`:
+* `project`:
+* `sweep_id`:
+* `attrs`: 
+
+<div id="attributes">
+  ## 属性
+</div>
+
+* `runs` (`Runs`): run のリスト
+* `id` (`str`): Sweep ID
+* `project` (`str`): この sweep が属するプロジェクトの名
+* `config` (`dict`): sweep の設定を含む辞書
+* `state` (`str`): sweep の状態。&quot;Finished&quot;、&quot;Failed&quot;、&quot;Crashed&quot;、または &quot;Running&quot; のいずれかになります。
+* `expected_run_count` (`int`): この sweep で想定される run 数
+
+<div id="properties">
+  ## プロパティ
+</div>
+
+### <kbd>プロパティ</kbd> config
 
 この sweep で使用される設定。
 
-***
-
-### <kbd>プロパティ</kbd> Sweep.entity
+### <kbd>プロパティ</kbd> entity
 
 sweep に関連付けられた entity。
 
-**戻り値:**
-
-* `str`: entity プロパティの値。
-
-***
-
-### <kbd>プロパティ</kbd> Sweep.expected_run_count
+### <kbd>プロパティ</kbd> expected_run_count
 
 このsweepで想定されるrun数を返します。run数が無限の場合は None を返します。
 
-**戻り値:**
-
-* `int | None`: expected&#95;run&#95;count プロパティの値。
-
-***
-
-### <kbd>プロパティ</kbd> Sweep.name
+### <kbd>プロパティ</kbd> name
 
 sweep の名前。
 
 以下の優先順位で、存在する最初の名前を返します。
 
-1. ユーザーが編集した表示名 2. 作成時に設定された名前 3. Sweep ID
+1. ユーザーが編集した表示名
+2. 作成時に設定された名前
+3. Sweep ID
 
-***
-
-### <kbd>プロパティ</kbd> Sweep.order
+### <kbd>プロパティ</kbd> order
 
 sweep の並び順のキーを返します。
 
-***
-
-### <kbd>プロパティ</kbd> Sweep.path
+### <kbd>プロパティ</kbd> path
 
 プロジェクトのパスを返します。
 
 このパスは、entity、プロジェクト名、sweep ID からなるリストです。
 
-***
-
-### <kbd>プロパティ</kbd> Sweep.url
+### <kbd>プロパティ</kbd> url
 
 sweep の URL。
 
 sweep の URL は、entity、プロジェクト、文字列 `"sweeps"`、および sweep ID.run&#95;id から生成されます。SaaS ユーザーの場合、形式は `https://wandb.ai/entity/project/sweeps/sweeps_ID` です。
 
-***
-
-### <kbd>プロパティ</kbd> Sweep.username
+### <kbd>プロパティ</kbd> username
 
 非推奨です。代わりに `Sweep.entity` を使用してください。
 
-**戻り値:**
+<div id="methods">
+  ## メソッド
+</div>
 
-* `str`: username プロパティの値。
-
-***
-
-### <kbd>method</kbd> `Sweep.agent`
+### <kbd>メソッド</kbd> Sweep.agent()
 
 ```python
-agent(agent_id: 'str') → Agent
+self,
+agent_id: 'str'
 ```
 
 ID を指定して、この sweep のエージェントをクエリします。
 
-**引数:**
+<div id="arguments">
+  ##### 引数
+</div>
 
 * `agent_id`: 検索するエージェントの ID。
 
-***
-
-### <kbd>method</kbd> `Sweep.agents`
+### <kbd>メソッド</kbd> Sweep.agents()
 
 ```python
-agents() → list[Agent]
+self
 ```
 
 この sweep に含まれるすべてのエージェントの一覧をクエリします。
 
-***
-
-### <kbd>method</kbd> `Sweep.best_run`
+### <kbd>メソッド</kbd> Sweep.best_run()
 
 ```python
-best_run(order=None)
+(self, order=None)
 ```
 
 設定で定義されたメトリクス、または指定された順序でソートされた最良の run を返します。
 
-***
+<div id="arguments">
+  ##### 引数
+</div>
 
+* `order`: 
 
-### <kbd>クラスメソッド</kbd> `Sweep.get`
+### <kbd>メソッド</kbd> Sweep.get()
 
 ```python
-get(
-    api: 'Api',
-    entity: 'str | None' = None,
-    project: 'str | None' = None,
-    sid: 'str | None' = None,
-    order: 'str | None' = None,
-    query: 'str | None' = None,
-    **kwargs
-)
+(api: 'Api',
+entity: 'str | None' = None,
+project: 'str | None' = None,
+sid: 'str | None' = None,
+order: 'str | None' = None,
+query: 'str | None' = None, **kwargs)
 ```
 
 クラウドバックエンドに対してクエリを実行します。
 
-**引数:**
+<div id="arguments">
+  ##### 引数
+</div>
 
-* `api`:  W&amp;B API インスタンス。
-* `entity`:  プロジェクトを所有する entity (ユーザー名またはチーム) 。
-* `project`:  sweep を取得する元のプロジェクト名。
-* `sid`:  クエリ対象の sweep ID。
-* `order`:  sweep の run が返される順序。
-* `query`:  クエリの実行に使用するクエリ。
-* `**kwargs`:  クエリに渡す追加のキーワード引数。
+* `api`: W&amp;B API インスタンス。
+* `entity`: project を所有する entity (ユーザー名またはチーム)。
+* `project`: sweep を取得する元のプロジェクト名。
+* `sid`: クエリ対象の sweep ID。
+* `order`: sweep の run が返される順序。
+* `query`: クエリの実行に使用するクエリ。
+* `kwargs`: 
 
-***
-
-### <kbd>method</kbd> `Sweep.to_html`
+### <kbd>メソッド</kbd> Sweep.to_html()
 
 ```python
-to_html(height: 'int' = 420, hidden: 'bool' = False) → str
+self,
+height: 'int' = 420,
+hidden: 'bool' = False
 ```
 
 この sweep を表示する iframe を含む HTML を生成します。
+
+<div id="arguments">
+  ##### 引数
+</div>
+
+* `height`:
+* `hidden`: 

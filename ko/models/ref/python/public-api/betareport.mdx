@@ -1,106 +1,111 @@
 ---
 title: BetaReport
-namespace: public_apis_namespace
-python_object_type: class
+kind: 클래스
+namespace: wandb.apis.public.reports
 ---
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py#L170" />
 
-
-## <kbd>class</kbd> `BetaReport`
-
-BetaReport는 W&B에서 생성된 리포트와 연관된 클래스입니다. 
-
-리포트의 속성(이름, 설명, 사용자, 스펙, 타임스탬프)에 접근할 수 있게 해주며, 연관된 실행과 섹션을 조회하고 리포트를 HTML로 렌더링하는 메서드를 제공합니다. 
-
-**Attributes:**
-
-- `id` (string):  리포트의 고유 식별자. 
- - `display_name` (string):  사람이 읽기 쉬운 형태의 리포트 표시 이름. 
- - `name` (string):  리포트의 이름. 더 사용자 친화적인 이름에는 `display_name`을 사용하세요. 
- - `description` (string):  리포트에 대한 설명. 
- - `user` (User):  리포트를 생성한 사용자의 정보(username, email)를 담고 있는 딕셔너리. 
- - `spec` (dict):  리포트의 스펙. 
- - `url` (string):  리포트의 URL. 
- - `updated_at` (string):  마지막으로 업데이트된 시각의 타임스탬프. 
- - `created_at` (string):  리포트가 생성된 시각의 타임스탬프. 
-
-### <kbd>방법</kbd> `BetaReport.__init__`
+## <kbd>클래스</kbd> wandb.apis.public.BetaReport
 
 ```python
-__init__(
-    service_api: 'ServiceApi',
-    attrs: 'dict',
-    entity: 'str | None' = None,
-    project: 'str | None' = None
-)
+(service_api: 'ServiceApi',
+attrs: 'dict',
+entity: 'str | None' = None,
+project: 'str | None' = None)
 ```
 
-***
+BetaReport는 W&amp;B에서 생성된 리포트와 연관된 클래스입니다.
 
-### <kbd>속성</kbd> BetaReport.created_at
+리포트의 속성(이름, 설명, 사용자, 스펙, 타임스탬프)에 접근할 수 있게 해주며, 연관된 실행과 섹션을 조회하고 리포트를 HTML로 렌더링하는 메서드를 제공합니다.
 
----
+<div id="args">
+  ## 인수
+</div>
 
-### <kbd>property</kbd> BetaReport.description
+* `service_api`:
+* `attrs`:
+* `entity`:
+* `project`: 
 
----
+<div id="attributes">
+  ## 속성
+</div>
 
-### <kbd>property</kbd> BetaReport.display_name
+* `id` (`string`): 리포트의 고유 식별자입니다.
+* `display_name` (`string`): 리포트의 사람이 읽기 쉬운 표시 이름입니다.
+* `name` (`string`): 리포트의 이름입니다. 사용자에게 더 친숙한 이름을 사용하려면 `display_name`을 사용하세요.
+* `description` (`string`): 리포트의 설명입니다.
+* `user` (`User`): 리포트를 생성한 사용자의 정보(사용자 이름, 이메일)가 포함된 딕셔너리입니다.
+* `spec` (`dict`): 리포트의 spec입니다.
+* `url` (`string`): 리포트의 URL입니다.
+* `updated_at` (`string`): 마지막으로 업데이트된 Timestamp입니다.
+* `created_at` (`string`): 리포트가 생성된 시점의 Timestamp입니다.
 
----
+<div id="attributes">
+  ## 속성
+</div>
 
-### <kbd>property</kbd> BetaReport.id
+### <kbd>속성</kbd> created_at
 
----
+### <kbd>속성</kbd> 설명
 
-### <kbd>속성</kbd> BetaReport.name
+### <kbd>속성</kbd> display_name
 
----
+### <kbd>속성</kbd> id
 
-### <kbd>property</kbd> BetaReport.sections
+### <kbd>속성</kbd> 이름
 
-보고서의 패널 섹션(그룹)을 가져옵니다. 
+### <kbd>속성</kbd> sections
 
----
+리포트의 패널 섹션(그룹)을 가져옵니다.
 
-### <kbd>property</kbd> BetaReport.spec
+### <kbd>속성</kbd> 사양
 
----
+### <kbd>속성</kbd> updated_at
 
-### <kbd>property</kbd> BetaReport.updated_at
+### <kbd>속성</kbd> url
 
----
+### <kbd>속성</kbd> user
 
-### <kbd>property</kbd> BetaReport.url
+<div id="methods">
+  ## 메서드
+</div>
 
----
-
-### <kbd>property</kbd> BetaReport.user
-
----
-
-### <kbd>method</kbd> `BetaReport.runs`
+### <kbd>방법</kbd> BetaReport.runs()
 
 ```python
-runs(
-    section: 'dict[str, Any]',
-    per_page: 'int' = 50,
-    only_selected: 'bool' = True
-) → public.Runs
+self,
+section: 'dict[str, Any]',
+per_page: 'int' = 50,
+only_selected: 'bool' = True
 ```
 
 리포트의 특정 섹션에 연관된 실행을 가져옵니다.
 
-***
+<div id="arguments">
+  ##### 인수
+</div>
 
+* `section`:
+* `per_page`:
+* `only_selected`: 
 
-### <kbd>메서드</kbd> `BetaReport.to_html`
+### <kbd>방법</kbd> BetaReport.to_html()
 
 ```python
-to_html(height: 'int' = 1024, hidden: 'bool' = False) → str
+self,
+height: 'int' = 1024,
+hidden: 'bool' = False
 ```
 
 이 리포트를 표시하는 iframe을 포함한 HTML을 생성합니다.
+
+<div id="arguments">
+  ##### 인수
+</div>
+
+* `height`:
+* `hidden`: 

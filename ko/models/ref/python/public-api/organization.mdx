@@ -1,0 +1,32 @@
+---
+title: 조직
+kind: 클래스
+namespace: wandb.apis.public.organizations
+---
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/organizations.py#LNone" />
+
+## <kbd>클래스</kbd> wandb.apis.public.Organization
+
+```python
+service_api: 'InitVar[ServiceApi]', *,
+id: 'GQLId',
+name: 'str',
+org_entity: '_OrgEntity'
+```
+
+W&amp;B 조직의 읽기 전용 표현입니다.
+
+사용자가 이 클래스를 직접 인스턴스화할 필요는 없습니다. 기존 조직을 가져오려면
+`wandb.Api().organization()`을 사용하세요.
+
+<div id="args">
+  ## 인수
+</div>
+
+* `service_api`:
+* `id`:
+* `name`:
+* `org_entity`: 

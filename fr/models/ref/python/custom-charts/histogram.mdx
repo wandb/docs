@@ -1,39 +1,42 @@
 ---
-title: histogram
-namespace: python_sdk_custom_charts
-python_object_type: fonction
+title: histogram()
+kind: fonction
+namespace: wandb.plot.histogram
 ---
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/histogram.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/histogram.py#L12" />
 
-
-### <kbd>fonction</kbd> `histogram`
+## <kbd>fonction</kbd> wandb.plot.histogram
 
 ```python
-histogram(
-    table: 'wandb.Table',
-    value: 'str',
-    title: 'str' = '',
-    split_table: 'bool' = False
-) → CustomChart
+table: 'wandb.Table',
+value: 'str',
+title: 'str' = '',
+split_table: 'bool' = False
 ```
 
 Construit un histogramme à partir d&#39;un tableau W&amp;B.
 
-**Arguments :**
+<div id="args">
+  ## Arguments
+</div>
 
-* `table`:  Le tableau W&amp;B contenant les données de l&#39;histogramme.
-* `value`:  Le libellé de l&#39;axe des classes (x-axis).
-* `title`:  Le titre de l&#39;histogramme.
-* `split_table`:  Indique si le tableau doit être placé dans une section distincte de l&#39;interface W&amp;B. Si `True`, le tableau sera affiché dans une section nommée  &quot;Custom Chart Tables&quot;. La valeur par défaut est `False`.
+* `table`: Le tableau W&amp;B contenant les données de l&#39;histogramme.
+* `value`: Le libellé de l&#39;axe des classes (x-axis).
+* `title`: Le titre de l&#39;histogramme.
+* `split_table`: Indique si le tableau doit être placé dans une section distincte de l&#39;interface W&amp;B. Si `True`, le tableau sera affiché dans une section nommée &quot;Custom Chart Tables&quot;. La valeur par défaut est `False`.
 
-**Retourne :**
+<div id="returns">
+  ## Retourne
+</div>
 
-* `CustomChart`:  Un objet de graphique personnalisé qui peut être enregistré dans W&amp;B. Pour enregistrer le  graphique, transmettez-le à `wandb.log()`.
+`CustomChart`: Un objet de graphique personnalisé qui peut être enregistré dans W&amp;B. Pour enregistrer le graphique, transmettez-le à `wandb.log()`.
 
-**Exemple :**
+<div id="examples">
+  ## Exemples
+</div>
 
 ```python
 import math

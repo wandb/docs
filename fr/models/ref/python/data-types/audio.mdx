@@ -1,56 +1,59 @@
 ---
 title: Audio
-namespace: python_sdk_data_type
-python_object_type: class
+kind: classe
+namespace: wandb.sdk.data_types.audio
 ---
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/audio.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/audio.py#L19" />
 
-
-## <kbd>class</kbd> `Audio`
-
-Classe W&amp;B pour les extraits audio. 
-
-### <kbd>méthode</kbd> `Audio.__init__`
+## <kbd>classe</kbd> wandb.Audio
 
 ```python
-__init__(
-    data_or_path: 'str | pathlib.Path | list | np.ndarray',
-    sample_rate: 'int | None' = None,
-    caption: 'str | None' = None
-)
+(data_or_path: 'str | pathlib.Path | list | np.ndarray',
+sample_rate: 'int | None' = None,
+caption: 'str | None' = None)
 ```
 
-Accepte un chemin vers un fichier audio ou un tableau NumPy de données audio.
+Classe W&amp;B pour les clips audio.
 
-**Arguments :**
+<div id="args">
+  ## Arguments
+</div>
 
-* `data_or_path`:  Chemin vers un fichier audio ou tableau NumPy de données audio.
-* `sample_rate`:  Taux d’échantillonnage, requis lors du passage d’un tableau NumPy brut de données audio.
-* `caption`:  Légende à afficher avec l’audio.
+* `data_or_path`: Chemin vers un fichier audio ou tableau NumPy de données audio.
+* `sample_rate`: Taux d’échantillonnage, requis lors du passage d’un tableau NumPy brut de données audio.
+* `caption`: Légende à afficher avec l’audio.
 
-***
+<div id="methods">
+  ## Méthodes
+</div>
 
-
-### <kbd>méthode de classe</kbd> `Audio.durations`
+### <kbd>méthode</kbd> Audio.durations()
 
 ```python
-durations(audio_list)
+(audio_list)
 ```
 
 Calculez la durée des fichiers audio.
 
-***
+<div id="arguments">
+  ##### Arguments
+</div>
 
+* `audio_list`: 
 
-### <kbd>méthode de classe</kbd> `Audio.sample_rates`
+### <kbd>méthode</kbd> Audio.sample_rates()
 
 ```python
-sample_rates(audio_list)
+(audio_list)
 ```
 
 Obtenir les taux d’échantillonnage des fichiers audio.
 
-***
+<div id="arguments">
+  ##### Arguments
+</div>
+
+* `audio_list`: 

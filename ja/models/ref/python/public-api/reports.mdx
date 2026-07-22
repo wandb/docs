@@ -1,59 +1,59 @@
 ---
 title: Reports
-namespace: public_apis_namespace
-python_object_type: class
+kind: クラス
+namespace: wandb.apis.public.reports
 ---
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py#L27" />
 
-
-## <kbd>class</kbd> `Reports`
-
-Reports は `BetaReport` オブジェクトの遅延評価イテレータです。
-
-### <kbd>method</kbd> `Reports.__init__`
+## <kbd>クラス</kbd> wandb.apis.public.Reports
 
 ```python
-__init__(
-    service_api: 'ServiceApi',
-    project: 'Project',
-    name: 'str | None' = None,
-    entity: 'str | None' = None,
-    per_page: 'int' = 50
-)
+(service_api: 'ServiceApi',
+project: 'Project',
+name: 'str | None' = None,
+entity: 'str | None' = None,
+per_page: 'int' = 50)
 ```
 
-**引数:**
+Reports は、`BetaReport` オブジェクトを遅延的に返すイテレーターです。
+
+<div id="args">
+  ## 引数
+</div>
 
 * `service_api`: このコレクションに対して W&amp;B API Call を実行する wandb-core サービスへのインターフェース。
-* `project` (`wandb.sdk.internal.Project`): Reports を取得する対象のプロジェクト。
-* `name` (str, optional): フィルター対象のレポート名。`None` の場合は、すべての Reports を取得します。
-* `entity` (str, optional): プロジェクトの entity 名。デフォルトでは、プロジェクトの entity が使用されます。
-* `per_page` (int): 1 ページあたりに取得する Reports の数 (デフォルトは 50) 。
+* `project`: Reports を取得する対象のプロジェクト。
+* `name`: フィルター対象のレポート名。`None` の場合は、すべての Reports を取得します。
+* `entity`: プロジェクトの entity 名。デフォルトでは、プロジェクトの entity が使用されます。
+* `per_page`: 1 ページあたりに取得する Reports の数 (デフォルトは 50) 。
 
-***
+<div id="methods">
+  ## メソッド
+</div>
 
-### <kbd>プロパティ</kbd> Reports.length
-
-***
-
-### <kbd>method</kbd> `Reports.convert_objects`
+### <kbd>メソッド</kbd> Reports.convert_objects()
 
 ```python
-convert_objects() → list[BetaReport]
+self
 ```
 
 GraphQL のエッジを File オブジェクトに変換します。
 
-***
-
-
-### <kbd>method</kbd> `Reports.update_variables`
+### <kbd>メソッド</kbd> Paginator.**next**()
 
 ```python
-update_variables() → None
+self
+```
+
+イテレーターから次の項目を返します。要素がなくなった場合は、StopIteration を発生させます
+
+### <kbd>メソッド</kbd> Reports.update_variables()
+
+```python
+self
 ```
 
 ページネーション用のGraphQLクエリ変数を更新します。

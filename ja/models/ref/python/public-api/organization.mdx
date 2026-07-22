@@ -1,0 +1,32 @@
+---
+title: 組織
+kind: クラス
+namespace: wandb.apis.public.organizations
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/organizations.py#LNone" />
+
+## <kbd>クラス</kbd> wandb.apis.public.Organization
+
+```python
+service_api: 'InitVar[ServiceApi]', *,
+id: 'GQLId',
+name: 'str',
+org_entity: '_OrgEntity'
+```
+
+W&amp;B 組織を表す読み取り専用のオブジェクトです。
+
+ユーザーがこのクラスを直接インスタンス化する必要はありません。既存の組織を取得するには、
+`wandb.Api().organization()` を使用します。
+
+<div id="args">
+  ## 引数
+</div>
+
+* `service_api`:
+* `id`:
+* `name`:
+* `org_entity`: 

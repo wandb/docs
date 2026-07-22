@@ -1,32 +1,28 @@
 ---
 title: OnUnlinkArtifact
-namespace: automations_namespace
-python_object_type: classe
+kind: classe
+namespace: wandb.automations.events
 ---
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py#L262" />
 
-## <kbd>classe</kbd> `OnUnlinkArtifact`
-
-Une version d’artefact est retirée d’une collection.
-
-### <kbd>méthode</kbd> `OnUnlinkArtifact.__init__`
+## <kbd>classe</kbd> wandb.automations.OnUnlinkArtifact
 
 ```python
-__init__(
-    event_type: 'Literal[UNLINK_ARTIFACT]' = UNLINK_ARTIFACT,
-    scope: 'wandb.automations.scopes._ArtifactSequenceScope | wandb.automations.scopes._ArtifactPortfolioScope | wandb.automations.scopes.ProjectScope',
-    filter: 'wandb.automations._filters.operators.And | wandb.automations._filters.operators.Or | wandb.automations._filters.operators.Nor | wandb.automations._filters.operators.Not | wandb.automations._filters.operators.Lt | wandb.automations._filters.operators.Gt | wandb.automations._filters.operators.Lte | wandb.automations._filters.operators.Gte | wandb.automations._filters.operators.Eq | wandb.automations._filters.operators.Ne | wandb.automations._filters.operators.In | wandb.automations._filters.operators.NotIn | wandb.automations._filters.operators.Exists | wandb.automations._filters.operators.Regex | wandb.automations._filters.operators.Contains | wandb.automations._filters.expressions.FilterExpr | dict[str, Any]' = And(())
-) → None
+*,
+event_type: Literal[UNLINK_ARTIFACT] = UNLINK_ARTIFACT,
+scope: Annotated[Union[wandb.automations.scopes._ArtifactSequenceScope, wandb.automations.scopes._ArtifactPortfolioScope, wandb.automations.scopes.ProjectScope, Annotated[wandb.automations.scopes.TeamScope | wandb.automations.scopes.OrgScope, BeforeValidator(func=<function parse_scope>, json_schema_input_type=PydanticUndefined), Discriminator(discriminator='entity_type', custom_error_type=None, custom_error_message=None, custom_error_context=None)]], BeforeValidator(func=<function parse_scope>, json_schema_input_type=PydanticUndefined), Discriminator(discriminator='typename__', custom_error_type=None, custom_error_message=None, custom_error_context=None)],
+filter: Annotated[wandb.automations._filters.operators.And | wandb.automations._filters.operators.Or | wandb.automations._filters.operators.Nor | wandb.automations._filters.operators.Not | wandb.automations._filters.operators.Lt | wandb.automations._filters.operators.Gt | wandb.automations._filters.operators.Lte | wandb.automations._filters.operators.Gte | wandb.automations._filters.operators.Eq | wandb.automations._filters.operators.Ne | wandb.automations._filters.operators.In | wandb.automations._filters.operators.NotIn | wandb.automations._filters.operators.Exists | wandb.automations._filters.operators.Regex | wandb.automations._filters.operators.Contains | wandb.automations._filters.operators.Size | wandb.automations._filters.operators.All | wandb.automations._filters.expressions.FilterExpr | dict[str, Any], Json, BeforeValidator(func=<function ensure_json>, json_schema_input_type=PydanticUndefined), PlainSerializer(func=<function to_json>, return_type=PydanticUndefined, when_used='always'), AfterValidator(func=<function wrap_mutation_event_filter>)] = And(())
 ```
 
-**Arguments :**
+Une version d’artefact n’est plus liée à une collection.
 
-* `event_type` (Literal[UNLINK&#95;ARTIFACT]):
-* `scope` (wandb.automations.scopes.&#95;ArtifactSequenceScope | wandb.automations.scopes.&#95;ArtifactPortfolioScope | wandb.automations.scopes.ProjectScope): La portée de l’événement.
-* `filter` (wandb.automations.&#95;filters.operators.And | wandb.automations.&#95;filters.operators.Or | wandb.automations.&#95;filters.operators.Nor | wandb.automations.&#95;filters.operators.Not | wandb.automations.&#95;filters.operators.Lt | wandb.automations.&#95;filters.operators.Gt | wandb.automations.&#95;filters.operators.Lte | wandb.automations.&#95;filters.operators.Gte | wandb.automations.&#95;filters.operators.Eq | wandb.automations.&#95;filters.operators.Ne | wandb.automations.&#95;filters.operators.In | wandb.automations.&#95;filters.operators.NotIn | wandb.automations.&#95;filters.operators.Exists | wandb.automations.&#95;filters.operators.Regex | wandb.automations.&#95;filters.operators.Contains | wandb.automations.&#95;filters.expressions.FilterExpr | dict[str, Any]): Conditions supplémentaires, le cas échéant, requises pour que cet événement se déclenche.
+<div id="args">
+  ## Arguments
+</div>
 
-**Retourne :**
-Un objet `OnUnlinkArtifact`.
+* `event_type`:
+* `scope`: La portée de l’événement.
+* `filter`: Conditions supplémentaires, le cas échéant, requises pour que cet événement se déclenche.

@@ -1,39 +1,39 @@
 ---
 title: Member
-namespace: public_apis_namespace
-python_object_type: class
+kind: 클래스
+namespace: wandb.apis.public.teams
 ---
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py#L24" />
 
-
-## <kbd>class</kbd> `Member`
-
-팀 구성원입니다.
-
-### <kbd>방법</kbd> `Member.__init__`
+## <kbd>클래스</kbd> wandb.apis.public.Member
 
 ```python
-__init__(service_api: 'ServiceApi', team: 'str', attrs: 'Mapping[str, Any]')
+(service_api: 'ServiceApi',
+team: 'str',
+attrs: 'Mapping[str, Any]')
 ```
 
-**매개변수:**
+팀에 속한 구성원입니다.
 
-* `service_api`:  W&amp;B를 쿼리하는 데 사용할 서비스 API 인스턴스
-* `team` (str):  이 구성원이 속한 팀 이름
-* `attrs` (dict):  구성원의 속성
+<div id="args">
+  ## 인수
+</div>
 
-***
+* `service_api`: W&amp;B를 쿼리하는 데 사용할 서비스 API 인스턴스
+* `team`: 이 구성원이 속한 팀 이름
+* `attrs`: 구성원의 속성
 
-### <kbd>방법</kbd> `Member.delete`
+<div id="methods">
+  ## 메서드
+</div>
+
+### <kbd>방법</kbd> Member.delete()
 
 ```python
-delete()
+(self)
 ```
 
 팀에서 구성원을 제거합니다.
-
-**반환값:**
-성공 여부를 나타내는 불리언 값

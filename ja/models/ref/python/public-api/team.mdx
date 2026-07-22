@@ -1,93 +1,107 @@
 ---
 title: Team
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.teams
 ---
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py#L61" />
 
+## <kbd>クラス</kbd> wandb.apis.public.Team
 
-## <kbd>class</kbd> `Team`
+```python
+(service_api: 'ServiceApi',
+name: 'str',
+attrs: 'Mapping[str, Any] | None' = None)
+```
 
 W&amp;B のチームを表すクラス。
 
 このクラスは、チームの作成、メンバーの招待、サービスアカウントの管理など、W&amp;B のチームを管理するための method を提供します。チーム の属性を扱うために Attrs を継承します。
 
-### <kbd>method</kbd> `Team.__init__`
+<div id="args">
+  ## 引数
+</div>
+
+* `service_api`: W&amp;B をクエリするために使用するサービス API インスタンス
+* `name`: チーム の名
+* `attrs`: チーム の属性を格納したオプションの辞書
+
+<div id="examples">
+  ## 例
+</div>
+
+チームを検索して、メンバーを招待します。
 
 ```python
-__init__(
-    service_api: 'ServiceApi',
-    name: 'str',
-    attrs: 'Mapping[str, Any] | None' = None
-)
+import wandb
+
+api = wandb.Api()
+team = api.team("my-team")
+team.invite("user@example.com")
 ```
 
-**引数:**
-
-* `service_api`:  W&amp;B をクエリするために使用するサービス API インスタンス
-* `name` (str):  チーム の名
-* `attrs` (dict):  チーム の属性を格納したオプションの辞書
-
-**注記:**
-
-> チーム の管理には、適切な権限が必要です。
-
-***
-
-### <kbd>クラスメソッド</kbd> `Team.create`
+チームを作成し、サービスアカウントを追加します。
 
 ```python
-create(api: 'Api', team: 'str', admin_username: 'str | None' = None) → Team
+import wandb
+
+api = wandb.Api()
+team = api.create_team("my-team")
+team.create_service_account("CI service account")
+```
+
+<div id="methods">
+  ## メソッド
+</div>
+
+### <kbd>メソッド</kbd> Team.create()
+
+```python
+api: 'Api',
+team: 'str',
+admin_username: 'str | None' = None
 ```
 
 新しいチームを作成します。
 
-**引数:**
+<div id="arguments">
+  ##### 引数
+</div>
 
-* `api`:  (`Api`) 使用するapiインスタンス
-* `team`:  (str) チームの名前
-* `admin_username`:  (str) チームの管理者ユーザーのユーザー名 (省略可能) 。デフォルトは現在のユーザーです。
+* `api`: (`Api`) 使用するapiインスタンス
+* `team`: (str) チームの名前
+* `admin_username`: (str) チームの管理者ユーザーのユーザー名 (省略可能) 。デフォルトは現在のユーザーです。
 
-**戻り値:**
-`Team` オブジェクト
-
-***
-
-### <kbd>method</kbd> `Team.create_service_account`
+### <kbd>メソッド</kbd> Team.create_service_account()
 
 ```python
-create_service_account(description: 'str') → Member | None
+self,
+description: 'str'
 ```
 
 チーム のサービスアカウントを作成します。
 
-**引数:**
+<div id="arguments">
+  ##### 引数
+</div>
 
-* `description`:  (str) このサービスアカウントの説明
+* `description`: (str) このサービスアカウントの説明
 
-**戻り値:**
-サービスアカウントの `Member` オブジェクト。失敗した場合は None
-
-***
-
-
-### <kbd>method</kbd> `Team.invite`
+### <kbd>メソッド</kbd> Team.invite()
 
 ```python
-invite(username_or_email: 'str', admin: 'bool' = False) → bool
+self,
+username_or_email: 'str',
+admin: 'bool' = False
 ```
 
 ユーザーをチームに招待します。
 
-**引数:**
+<div id="arguments">
+  ##### 引数
+</div>
 
-* `username_or_email`:  (str) 招待するユーザーのユーザー名またはメールアドレス。
-* `admin`:  (bool) このユーザーをチームの管理者にするかどうか。デフォルトは `False` です。
-
-**戻り値:**
-成功した場合は `True`、ユーザーがすでに招待されているか存在しない場合は `False`。
-
-***
+* `username_or_email`: (str) 招待するユーザーのユーザー名またはメールアドレス。
+* `admin`: (bool) このユーザーをチームの管理者にするかどうか。デフォルトは `False` です。

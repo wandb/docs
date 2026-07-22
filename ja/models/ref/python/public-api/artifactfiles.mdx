@@ -1,38 +1,49 @@
 ---
 title: ArtifactFiles
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.artifacts
 ---
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L1021" />
 
+## <kbd>クラス</kbd> wandb.apis.public.ArtifactFiles
 
-## <kbd>class</kbd> `ArtifactFiles`
+artifact内のファイルを対象とするページネーター。
 
-artifact内のファイルを対象とするページネーター。 
+<div id="properties">
+  ## プロパティ
+</div>
 
-### <kbd>property</kbd> ArtifactFiles.cursor
-
-次に取得するページの開始位置を示す、内部構造が公開されていないカーソルです。
-
-この値は保存しておき、後続のページ分割されたクエリに `start=` として渡すことで、このページネーターが中断した位置から反復を再開できます。
-
-**戻り値:**
-
-* `str | None`: カーソルのプロパティ値。
-
-***
-
-### <kbd>プロパティ</kbd> ArtifactFiles.more
-
-***
-
-### <kbd>プロパティ</kbd> ArtifactFiles.path
+### <kbd>プロパティ</kbd> path
 
 artifactのパスを返します。
 
-**戻り値:**
+<div id="methods">
+  ## メソッド
+</div>
 
-* `list[str]`: pathプロパティの値。
+### <kbd>メソッド</kbd> RelayPaginator.convert_objects()
+
+```python
+self
+```
+
+最後に取得したレスポンスデータを、イテレートされるオブジェクトに変換します。
+
+### <kbd>メソッド</kbd> Paginator.**next**()
+
+```python
+self
+```
+
+イテレーターから次の項目を返します。すべての要素を返し終えた場合は、StopIteration を発生させます
+
+### <kbd>メソッド</kbd> Paginator.update_variables()
+
+```python
+self
+```
+
+次のページを取得するためのクエリ変数を更新します。

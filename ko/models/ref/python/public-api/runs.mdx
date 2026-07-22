@@ -1,91 +1,98 @@
 ---
 title: Runs
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.runs
 ---
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py#L188" />
 
+## <kbd>클래스</kbd> wandb.apis.public.Runs
 
-## <kbd>class</kbd> `Runs`
+```python
+(service_api: 'ServiceApi',
+entity: 'str',
+project: 'str',
+filters: 'dict[str, Any] | None' = None,
+order: 'str' = '+created_at',
+per_page: 'int' = 50,
+include_sweeps: 'bool' = False,
+lazy: 'bool' = True,
+api_key: 'str | None' = None)
+```
 
-프로젝트 및 선택 필터와 연결된 `Run` 객체의 lazy 이터레이터입니다.
+프로젝트 및 선택적 필터와 연결된 `Run` 객체의 지연 이터레이터입니다.
 
-필요할 때 W&amp;B Server에서 페이지 단위로 Runs를 조회합니다.
+필요에 따라 W&amp;B server에서 페이지 단위로 Runs를 가져옵니다.
 
 일반적으로 `Api.runs` 네임스페이스를 통해 간접적으로 사용됩니다.
 
-### <kbd>방법</kbd> `Runs.__init__`
+<div id="args">
+  ## 인수
+</div>
+
+* `service_api`: 요청에 사용할 서비스 API입니다.
+* `entity`: 프로젝트를 소유한 entity(사용자 이름 또는 팀)입니다.
+* `project`: run을 가져올 프로젝트 이름입니다.
+* `filters`: run 쿼리에 적용할 필터입니다.
+* `order`: `created_at`, `heartbeat_at`, `config.*.value`, 또는 `summary_metrics.*`를 사용할 수 있습니다. 앞에 `+`를 붙이면 오름차순(기본값)이고, `-`를 붙이면 내림차순입니다. 기본 정렬 순서는 가장 오래된 항목부터 최신 항목까지의 `run.created_at`입니다.
+* `per_page`: 요청당 가져올 run 수입니다(기본값: 50).
+* `include_sweeps`: run에 sweep 정보를 포함할지 여부입니다. 기본값은 True입니다.
+* `lazy`: 액세스할 때까지 무거운 필드(`config`, `summaryMetrics`, `systemMetrics`)의 로드를 지연할지 여부입니다. 기본값은 True입니다.
+* `api_key`: 
+
+<div id="methods">
+  ## 메서드
+</div>
+
+### <kbd>방법</kbd> Runs.histories()
 
 ```python
-__init__(
-    service_api: 'ServiceApi',
-    entity: 'str',
-    project: 'str',
-    filters: 'dict[str, Any] | None' = None,
-    order: 'str' = '+created_at',
-    per_page: 'int' = 50,
-    include_sweeps: 'bool' = False,
-    lazy: 'bool' = True,
-    api_key: 'str | None' = None
-)
-```
-
-**매개변수:**
-
-* `service_api`:  요청에 사용할 서비스 API입니다.
-* `entity`:  프로젝트를 소유한 entity(사용자 이름 또는 팀)입니다.
-* `project`:  run을 가져올 프로젝트 이름입니다.
-* `filters`:  run 쿼리에 적용할 필터입니다.
-* `order`:  `created_at`, `heartbeat_at`, `config.*.value`, 또는 `summary_metrics.*`를 사용할 수 있습니다. 앞에 `+`를 붙이면 오름차순(기본값)이고, `-`를 붙이면 내림차순입니다. 기본 정렬 순서는 가장 오래된 항목부터 최신 항목까지의 `run.created&#95;at`입니다.
-* `per_page`:  요청당 가져올 run 수입니다(기본값: 50).
-* `include_sweeps`:  run에 sweep 정보를 포함할지 여부입니다. 기본값은 True입니다.
-
-***
-
-### <kbd>속성</kbd> Runs.length
-
-***
-
-### <kbd>방법</kbd> `Runs.histories`
-
-```python
-histories(
-    samples: 'int' = 500,
-    keys: 'list[str] | None' = None,
-    x_axis: 'str' = '_step',
-    format: "Literal['default', 'pandas', 'polars']" = 'default',
-    stream: "Literal['default', 'system']" = 'default'
-) → list[dict[str, Any]] | pd.DataFrame | pl.DataFrame
+self,
+samples: 'int' = 500,
+keys: 'list[str] | None' = None,
+x_axis: 'str' = '_step',
+format: "Literal['default', 'pandas', 'polars']" = 'default',
+stream: "Literal['default', 'system']" = 'default'
 ```
 
 필터 조건에 맞는 모든 run의 샘플링된 이력 메트릭을 반환합니다.
 
-**매개변수:**
+<div id="arguments">
+  ##### 인수
+</div>
 
-* `samples`:  각 run별로 반환할 샘플 수
-* `keys`:  특정 키에 대한 메트릭만 반환합니다
-* `x_axis`:  이 메트릭을 xAxis로 사용하며, 기본값은 &#95;step입니다
-* `format`:  데이터를 반환할 형식입니다. 옵션은 &quot;default&quot;, &quot;pandas&quot;, &quot;polars&quot;입니다
-* `stream`:  메트릭에는 &quot;default&quot;, 시스템 메트릭에는 &quot;system&quot;을 사용합니다
+* `samples`: 각 run별로 반환할 샘플 수
+* `keys`: 특정 키에 대한 메트릭만 반환합니다
+* `x_axis`: 이 메트릭을 xAxis로 사용하며, 기본값은 &#95;step입니다
+* `format`: 데이터를 반환할 형식입니다. 옵션은 &quot;default&quot;, &quot;pandas&quot;, &quot;polars&quot;입니다
+* `stream`: 메트릭에는 &quot;default&quot;, 시스템 메트릭에는 &quot;system&quot;을 사용합니다
 
-**반환값:**
-
-* `pandas.DataFrame`:  `format="pandas"`인 경우, 이력 메트릭이 담긴 `pandas.DataFrame`을 반환합니다.
-* `polars.DataFrame`:  `format="polars"`인 경우, 이력 메트릭이 담긴 `polars.DataFrame`을 반환합니다.
-* `list of dicts`:  `format="default"`인 경우, `run_id` 키를 포함한 이력 메트릭이 담긴 `dict` 목록을 반환합니다.
-
-***
-
-
-### <kbd>방법</kbd> `Runs.upgrade_to_full`
+### <kbd>방법</kbd> Paginator.**next**()
 
 ```python
-upgrade_to_full() → None
+self
+```
+
+이터레이터의 다음 항목을 반환합니다. 더 이상 항목이 없으면 `StopIteration` 예외를 발생시킵니다.
+
+### <kbd>방법</kbd> Paginator.update_variables()
+
+```python
+self
+```
+
+다음 페이지를 가져오기 위한 쿼리 변수를 업데이트합니다.
+
+### <kbd>방법</kbd> Runs.upgrade_to_full()
+
+```python
+self
 ```
 
 이 Runs collection을 lazy 모드에서 전체 모드로 업그레이드합니다.
 
-그러면 전체 run 데이터를 가져오도록 전환되며, 이미 로드된 모든 Run 객체도 전체 데이터를 포함하도록 업그레이드됩니다. 여러 run을 업그레이드할 때 성능을 높이기 위해 병렬 로딩을 사용합니다.
+그러면 전체 run 데이터를 가져오도록 전환되며,
+이미 로드된 모든 Run 객체도 전체 데이터를 포함하도록 업그레이드됩니다.
+여러 run을 업그레이드할 때 성능을 높이기 위해 병렬 로딩을 사용합니다.

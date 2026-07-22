@@ -1,40 +1,35 @@
 ---
 title: MetricThresholdFilter
-namespace: automations_namespace
-python_object_type: class
+kind: classe
+namespace: wandb.automations._run_metric_filters
 ---
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/_filters/run_metrics.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/_run_metric_filters.py#L126" />
 
+## <kbd>classe</kbd> wandb.automations.MetricThresholdFilter
 
-## <kbd>classe</kbd> `MetricThresholdFilter`
+```python
+*,
+name: str,
+agg_op: wandb.automations._run_metric_filters.Agg | None = None,
+window_size: Annotated[int, Gt(gt=0)] = 1,
+cmp_op: Literal['$gte', '$gt', '$lt', '$lte'],
+threshold: Union[Annotated[int, Strict(strict=True)], Annotated[float, Strict(strict=True)]]
+```
 
 Filtre qui compare une valeur de métrique **absolue** à un seuil défini par l’utilisateur.
 
 La valeur peut être une valeur unique ou un résultat agrégé sur une fenêtre couvrant
 plusieurs valeurs.
 
-### <kbd>méthode</kbd> `MetricThresholdFilter.__init__`
+<div id="args">
+  ## Arguments
+</div>
 
-```python
-__init__(
-    name: 'str',
-    agg: 'wandb.automations._filters.run_metrics.Agg | None' = None,
-    window: 'int' = 1,
-    cmp: 'Literal['$gte', '$gt', '$lt', '$lte']',
-    threshold: 'Annotated | Annotated'
-) → None
-```
-
-**Arguments :**
-
-* `name` (str):
-* `agg` (wandb.automations.&#95;filters.run&#95;metrics.Agg | None):
-* `window` (int):
-* `cmp` (Literal[&#39;$gte&#39;, &#39;$gt&#39;, &#39;$lt&#39;, &#39;$lte&#39;]) : opérateur de comparaison entre la valeur de la métrique (à gauche) et le seuil (à droite).
-* `threshold` (Union[Annotated, Annotated]):
-
-**Retourne :**
-Un objet `MetricThresholdFilter`.
+* `name`:
+* `agg_op`:
+* `window_size`:
+* `cmp_op`: opérateur de comparaison entre la valeur de la métrique (à gauche) et le seuil (à droite).
+* `threshold`: 

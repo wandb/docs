@@ -1,21 +1,42 @@
 ---
 title: Files
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.files
 ---
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/files.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/files.py#L78" />
 
+## <kbd>class</kbd> wandb.apis.public.Files
 
-## <kbd>class</kbd> `Files`
+```python
+(service_api: 'ServiceApi',
+run: 'Run',
+names: 'list[str] | None' = None,
+per_page: 'int' = 50,
+upload: 'bool' = False,
+pattern: 'str | None' = None)
+```
 
 `File` オブジェクトのコレクションに対する遅延イテレーターです。
 
 run 中に W&amp;B にアップロードされたファイルにアクセスして管理できます。多数のファイルを含むコレクションを反復処理する際には、ページネーションを自動的に処理します。
 
-**例:**
+<div id="args">
+  ## 引数
+</div>
+
+* `service_api`: W&amp;B のクエリに使用するサービス API のインスタンス
+* `run`: ファイルを含む run オブジェクト
+* `names`: ファイルをフィルターするためのファイル名のリスト
+* `per_page`: 1 ページあたりに取得するファイル数
+* `upload`: `True` の場合、各ファイルのアップロード URL を取得します
+* `pattern`: W&amp;B から返されるファイルを照合する際に使用するパターン。このパターンでは MySQL の LIKE 構文を使用します。そのため、`.json` で終わるすべてのファイルに一致させるには `"%.json"` を指定します。`names` と `pattern` の両方を指定した場合は、ValueError が発生します。
+
+<div id="examples">
+  ## 例
+</div>
 
 ```python
 from wandb.apis.public.files import Files
@@ -29,42 +50,22 @@ files = run.files()
 
 # ファイルを反復処理する
 for file in files:
-     print(file.name)
-     print(file.url)
-     print(file.size)
+    print(file.name)
+    print(file.url)
+    print(file.size)
 
-     # ファイルをダウンロードする
-     file.download(root="download_directory", replace=True)
-``` 
-
-### <kbd>method</kbd> `Files.__init__`
-
-```python
-__init__(
-    service_api: 'ServiceApi',
-    run: 'Run',
-    names: 'list[str] | None' = None,
-    per_page: 'int' = 50,
-    upload: 'bool' = False,
-    pattern: 'str | None' = None
-)
+    # ファイルをダウンロードする
+    file.download(root="download_directory", replace=True)
 ```
 
-`File` オブジェクトのコレクションに対する遅延イテレーターを初期化します。
+<div id="methods">
+  ## メソッド
+</div>
 
-ファイルは必要に応じて、W&amp;B サーバーからページ単位で取得されます。
+### <kbd>メソッド</kbd> Paginator.**next**()
 
-**Args:**
+```python
+self
+```
 
-* `service_api`:  W&amp;B のクエリに使用するサービス API のインスタンス
-* `run`:  ファイルを含む run オブジェクト
-* `names` (list, optional):  ファイルをフィルターするためのファイル名のリスト
-* `per_page` (int, optional):  1 ページあたりに取得するファイル数
-* `upload` (bool, optional):  `True` の場合、各ファイルのアップロード URL を取得します
-* `pattern` (str, optional):  W&amp;B から返されるファイルを照合する際に使用するパターン。このパターンでは MySQL の LIKE 構文を使用します。そのため、`.json` で終わるすべてのファイルに一致させるには `&quot;%.json&quot;` を指定します。`names` と `pattern` の両方を指定した場合は、ValueError が発生します。
-
-***
-
-### <kbd>プロパティ</kbd> Files.length
-
-***
+イテレーターから次の項目を返します。最後まで到達した場合は、StopIteration を送出します

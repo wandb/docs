@@ -1,39 +1,42 @@
 ---
-title: histogram
-namespace: python_sdk_custom_charts
-python_object_type: 함수
+title: histogram()
+kind: 함수
+namespace: wandb.plot.histogram
 ---
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/histogram.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/histogram.py#L12" />
 
-
-### <kbd>함수</kbd> `histogram`
+## <kbd>함수</kbd> wandb.plot.histogram
 
 ```python
-histogram(
-    table: 'wandb.Table',
-    value: 'str',
-    title: 'str' = '',
-    split_table: 'bool' = False
-) → CustomChart
+table: 'wandb.Table',
+value: 'str',
+title: 'str' = '',
+split_table: 'bool' = False
 ```
 
 W&amp;B Table에서 히스토그램 차트를 생성합니다.
 
-**매개변수:**
+<div id="args">
+  ## 인수
+</div>
 
-* `table`:  히스토그램용 데이터가 들어 있는 W&amp;B Table입니다.
-* `value`:  bin 축(x-axis)의 레이블입니다.
-* `title`:  히스토그램 차트의 제목입니다.
-* `split_table`:  테이블을 W&amp;B UI의 별도 section으로 분리할지 여부입니다. `True`이면 테이블이 &quot;Custom Chart Tables&quot;라는 이름의 section에 표시됩니다. 기본값은 `False`입니다.
+* `table`: 히스토그램용 데이터가 들어 있는 W&amp;B Table입니다.
+* `value`: bin 축(x-axis)의 레이블입니다.
+* `title`: 히스토그램 차트의 제목입니다.
+* `split_table`: 테이블을 W&amp;B UI의 별도 section으로 분리할지 여부입니다. `True`이면 테이블이 &quot;Custom Chart Tables&quot;라는 이름의 section에 표시됩니다. 기본값은 `False`입니다.
 
-**반환값:**
+<div id="returns">
+  ## 반환값
+</div>
 
-* `CustomChart`:  W&amp;B에 로깅할 수 있는 맞춤형 차트 객체입니다. 차트를 로깅하려면 `wandb.log()`에 전달하세요.
+`CustomChart`: W&amp;B에 로깅할 수 있는 맞춤형 차트 객체입니다. 차트를 로깅하려면 `wandb.log()`에 전달하세요.
 
-**예시:**
+<div id="examples">
+  ## 예시
+</div>
 
 ```python
 import math

@@ -1,40 +1,45 @@
 ---
 title: restore()
-namespace: python_sdk_actions
-python_object_type: 関数
+kind: 関数
+namespace: wandb.sdk.wandb_run
 ---
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py#L4126" />
 
-
-### <kbd>関数</kbd> `restore`
+## <kbd>関数</kbd> wandb.restore
 
 ```python
-restore(
-    name: 'str',
-    run_path: 'str | None' = None,
-    replace: 'bool' = False,
-    root: 'str | None' = None
-) → None | TextIO
+name: 'str',
+run_path: 'str | None' = None,
+replace: 'bool' = False,
+root: 'str | None' = None
 ```
 
 指定したファイルをクラウドストレージからダウンロードします。
 
-ファイルは現在のディレクトリまたは run ディレクトリに保存されます。デフォルトでは、ファイルがまだ存在しない場合にのみダウンロードされます。
+ファイルは現在のディレクトリまたは run ディレクトリに保存されます。
+デフォルトでは、ファイルがまだ存在しない場合にのみダウンロードされます。
 
-**引数:**
+<div id="args">
+  ## 引数
+</div>
 
-* `name`:  ファイルの名。
-* `run_path`:  ファイルの取得元となる run へのオプションのパス。つまり `username/project_name/run_id` です。wandb.init が呼び出されていない場合は必須です。
-* `replace`:  ローカルにすでに存在する場合でもファイルをダウンロードするかどうか
-* `root`:  ファイルのダウンロード先ディレクトリ。デフォルトでは現在のディレクトリ、または wandb.init が呼び出されている場合は run ディレクトリです。
+* `name`: ファイルの名。
+* `run_path`: ファイルの取得元となる run へのオプションのパス。つまり `username/project_name/run_id` です。wandb.init が呼び出されていない場合は必須です。
+* `replace`: ローカルにすでに存在する場合でもファイルをダウンロードするかどうか
+* `root`: ファイルのダウンロード先ディレクトリ。デフォルトでは現在のディレクトリ、または wandb.init が呼び出されている場合は run ディレクトリです。
 
-**戻り値:**
+<div id="returns">
+  ## 戻り値
+</div>
+
 ファイルが見つからない場合は None、それ以外の場合は読み取り用に開かれたファイルオブジェクトを返します。
 
-**Raises:**
+<div id="raises">
+  ## Raises
+</div>
 
-* `CommError`:  W&amp;B が W&amp;B バックエンドに接続できない場合。
-* `ValueError`:  ファイルが見つからない場合、または run&#95;path を見つけられない場合。
+* `CommError`: W&amp;B が W&amp;B バックエンドに接続できない場合。
+* `ValueError`: ファイルが見つからない場合、または run&#95;path を見つけられない場合。

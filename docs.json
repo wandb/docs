@@ -2448,6 +2448,7 @@
                         "pages": [
                           "fr/models/ref/python/functions",
                           "fr/models/ref/python/functions/agent",
+                          "fr/models/ref/python/functions/box3d",
                           "fr/models/ref/python/functions/controller",
                           "fr/models/ref/python/functions/finish",
                           "fr/models/ref/python/functions/init",
@@ -2463,8 +2464,6 @@
                         "pages": [
                           "fr/models/ref/python/data-types",
                           "fr/models/ref/python/data-types/audio",
-                          "fr/models/ref/python/data-types/box3d",
-                          "fr/models/ref/python/data-types/evaltable",
                           "fr/models/ref/python/data-types/histogram",
                           "fr/models/ref/python/data-types/html",
                           "fr/models/ref/python/data-types/image",
@@ -2532,18 +2531,17 @@
                         "pages": [
                           "fr/models/ref/python/public-api",
                           "fr/models/ref/python/public-api/api",
-                          "fr/models/ref/python/public-api/agentruns",
                           "fr/models/ref/python/public-api/artifactcollection",
                           "fr/models/ref/python/public-api/artifactcollections",
                           "fr/models/ref/python/public-api/artifactfiles",
                           "fr/models/ref/python/public-api/artifacts",
                           "fr/models/ref/python/public-api/artifacttype",
                           "fr/models/ref/python/public-api/artifacttypes",
-                          "fr/models/ref/python/public-api/automations",
                           "fr/models/ref/python/public-api/betareport",
                           "fr/models/ref/python/public-api/file",
                           "fr/models/ref/python/public-api/files",
                           "fr/models/ref/python/public-api/member",
+                          "fr/models/ref/python/public-api/organization",
                           "fr/models/ref/python/public-api/project",
                           "fr/models/ref/python/public-api/projects",
                           "fr/models/ref/python/public-api/projectartifactcollections",
@@ -3965,6 +3963,7 @@
                         "pages": [
                           "ja/models/ref/python/functions",
                           "ja/models/ref/python/functions/agent",
+                          "ja/models/ref/python/functions/box3d",
                           "ja/models/ref/python/functions/controller",
                           "ja/models/ref/python/functions/finish",
                           "ja/models/ref/python/functions/init",
@@ -3980,8 +3979,6 @@
                         "pages": [
                           "ja/models/ref/python/data-types",
                           "ja/models/ref/python/data-types/audio",
-                          "ja/models/ref/python/data-types/box3d",
-                          "ja/models/ref/python/data-types/evaltable",
                           "ja/models/ref/python/data-types/histogram",
                           "ja/models/ref/python/data-types/html",
                           "ja/models/ref/python/data-types/image",
@@ -4049,18 +4046,17 @@
                         "pages": [
                           "ja/models/ref/python/public-api",
                           "ja/models/ref/python/public-api/api",
-                          "ja/models/ref/python/public-api/agentruns",
                           "ja/models/ref/python/public-api/artifactcollection",
                           "ja/models/ref/python/public-api/artifactcollections",
                           "ja/models/ref/python/public-api/artifactfiles",
                           "ja/models/ref/python/public-api/artifacts",
                           "ja/models/ref/python/public-api/artifacttype",
                           "ja/models/ref/python/public-api/artifacttypes",
-                          "ja/models/ref/python/public-api/automations",
                           "ja/models/ref/python/public-api/betareport",
                           "ja/models/ref/python/public-api/file",
                           "ja/models/ref/python/public-api/files",
                           "ja/models/ref/python/public-api/member",
+                          "ja/models/ref/python/public-api/organization",
                           "ja/models/ref/python/public-api/project",
                           "ja/models/ref/python/public-api/projects",
                           "ja/models/ref/python/public-api/projectartifactcollections",
@@ -5482,6 +5478,7 @@
                         "pages": [
                           "ko/models/ref/python/functions",
                           "ko/models/ref/python/functions/agent",
+                          "ko/models/ref/python/functions/box3d",
                           "ko/models/ref/python/functions/controller",
                           "ko/models/ref/python/functions/finish",
                           "ko/models/ref/python/functions/init",
@@ -5497,8 +5494,6 @@
                         "pages": [
                           "ko/models/ref/python/data-types",
                           "ko/models/ref/python/data-types/audio",
-                          "ko/models/ref/python/data-types/box3d",
-                          "ko/models/ref/python/data-types/evaltable",
                           "ko/models/ref/python/data-types/histogram",
                           "ko/models/ref/python/data-types/html",
                           "ko/models/ref/python/data-types/image",
@@ -5566,18 +5561,17 @@
                         "pages": [
                           "ko/models/ref/python/public-api",
                           "ko/models/ref/python/public-api/api",
-                          "ko/models/ref/python/public-api/agentruns",
                           "ko/models/ref/python/public-api/artifactcollection",
                           "ko/models/ref/python/public-api/artifactcollections",
                           "ko/models/ref/python/public-api/artifactfiles",
                           "ko/models/ref/python/public-api/artifacts",
                           "ko/models/ref/python/public-api/artifacttype",
                           "ko/models/ref/python/public-api/artifacttypes",
-                          "ko/models/ref/python/public-api/automations",
                           "ko/models/ref/python/public-api/betareport",
                           "ko/models/ref/python/public-api/file",
                           "ko/models/ref/python/public-api/files",
                           "ko/models/ref/python/public-api/member",
+                          "ko/models/ref/python/public-api/organization",
                           "ko/models/ref/python/public-api/project",
                           "ko/models/ref/python/public-api/projects",
                           "ko/models/ref/python/public-api/projectartifactcollections",
@@ -7336,8 +7330,8 @@
       "source": "/ref/python/sdk/*"
     },
     {
-      "destination" : "/models/ref/python/public-api/automations",
-      "source" : "/models/ref/python/automations/automation"
+      "destination": "/models/ref/python/public-api/automations",
+      "source": "/models/ref/python/automations/automation"
     },
     {
       "destination": "/models/ref/wandb_workspaces/:slug*",

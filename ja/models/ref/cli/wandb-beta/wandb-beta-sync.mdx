@@ -4,7 +4,7 @@ title: wandb beta sync
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/beta.py#L51" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/beta.py#L51" />
 
 <div id="usage">
   ## 使用法
@@ -20,7 +20,7 @@ sync [OPTIONS] [PATHS]...
 
 PATHS で指定した .wandb ファイルをアップロードします。
 
-これは `wandb sync` のベータ版の再実装です。機能はまだ完全ではなく、動作も保証されていません。また、wandb のどの version でも、後方互換性のない変更が行われる可能性があります。
+これは、機能が追加され、UX とパフォーマンスが改善された `wandb sync` の改良版です。最終的には `wandb sync` に統合される予定です。
 
 PATHS には、.wandb ファイル、.wandb ファイルを含む run ディレクトリ、または run ディレクトリを含む &quot;wandb&quot; ディレクトリを指定できます。
 
@@ -63,6 +63,8 @@ wandb beta sync ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
 | `--job-type`     | STR       | 同期するすべての run に使用するジョブタイプのオーバーライドです。**デフォルト**:                                                                                                            |
 | `--replace-tags` | STR       | `'old1=new1,old2=new2'` の形式で tags の名前を変更します。**デフォルト**:                                                                                                   |
 | `--skip-synced`  | BOOL Flag | このコマンドですでに同期済みの run をスキップします。**デフォルト**: True                                                                                                             |
+| `--skip-online`  | BOOL Flag | オンラインの run をスキップします。**デフォルト**: True                                                                                                                      |
 | `--dry-run`      | BOOL Flag | 何もアップロードせずに、実行された場合の内容を表示します。**デフォルト**: False                                                                                                            |
+| `--yes`          | BOOL Flag | 確認をスキップします。**デフォルト**: False                                                                                                                              |
 | `-v, --verbose`  | BOOL Flag | より詳細な情報を表示します。**デフォルト**: False                                                                                                                           |
 | `-n`             | INT       | 一度に同期する run の最大数です。同じ run の一部である複数のファイルを同期する場合、ファイルはこの設定に関係なく、開始時刻順に順次同期されます。これは、run を再開した場合や `--id` パラメーターを使用した場合に発生します。**デフォルト**: 5                    |

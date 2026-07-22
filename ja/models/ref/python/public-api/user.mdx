@@ -1,26 +1,24 @@
 ---
 title: User
-namespace: public_apis_namespace
-python_object_type: class
+kind: クラス
+namespace: wandb.apis.public.users
 ---
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/users.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/users.py#L26" />
 
-
-## <kbd>class</kbd> `User`
+## <kbd>クラス</kbd> wandb.apis.public.User
 
 W&amp;B インスタンス上のユーザー。
 
 このクラスでは、ユーザーの APIキーを管理し、Teams への所属情報などにアクセスできます。`create` クラスメソッドを使用して、新しいユーザーを作成できます。
 
-**引数:**
+<div id="properties">
+  ## プロパティ
+</div>
 
-* `service_api`:  W&amp;B のクエリに使用するサービス API インスタンス。
-* `attrs`:  GraphQL スキーマ内の User タイプのサブセット。 
-
-### <kbd>property</kbd> User.api_keys
+### <kbd>property</kbd> api_keys
 
 ユーザーのAPIキーの名前。
 
@@ -28,65 +26,68 @@ W&amp;B インスタンス上のユーザー。
 
 ユーザーがAPIキーを持っていない場合、またはAPIキーが読み込まれていない場合、このリストは空です。
 
-**戻り値:**
-
-* `list[str]`: `api_keys` プロパティの値。
-
-***
-
-### <kbd>property</kbd> User.teams
+### <kbd>property</kbd> teams
 
 ユーザーが所属するTeamsの名前。
 
 ユーザーがどのTeamsにも所属していない場合、またはTeamsデータが読み込まれていない場合、これは空のリストになります。
 
-**戻り値:**
-
-* `list[str]`: teamsプロパティの値。
-
-***
-
-### <kbd>property</kbd> User.user_api
+### <kbd>property</kbd> user_api
 
 ユーザーの認証情報を使用する `wandb.Api` インスタンス。
 
-**戻り値:**
+<div id="methods">
+  ## メソッド
+</div>
 
-* `Api | None`: `user_api` プロパティの値。
-
-***
-
-### <kbd>method</kbd> `User.delete_api_key`
+### <kbd>メソッド</kbd> User.create()
 
 ```python
-delete_api_key(api_key: 'str') → bool
+api: 'Api',
+email: 'str',
+admin: 'bool | None' = False
+```
+
+新しいユーザーを作成します。
+
+これは内部メソッドです。代わりに `wandb.Api` の `create_user()` メソッドを使用してください。
+
+<div id="arguments">
+  ##### 引数
+</div>
+
+* `api`: ユーザーを作成するために使用する API インスタンス。
+* `email`: ユーザーのメールアドレス。
+* `admin`: このユーザーをグローバル インスタンス管理者にするかどうか。
+
+### <kbd>method</kbd> User.delete_api_key()
+
+```python
+self,
+api_key: 'str'
 ```
 
 ユーザーのAPIキーを削除します。
 
 キーの所有者または管理者のみが削除できます。
 
-**引数:**
+<div id="arguments">
+  ##### 引数
+</div>
 
-* `api_key`:  削除するAPIキーの名前。`api_keys` プロパティから返される名前のいずれかを使用してください。
+* `api_key`: 削除するAPIキーの名前。`api_keys` プロパティから返される名前のいずれかを使用してください。
 
-**戻り値:**
-成功時はTrue、失敗時はfalseです。
-
-***
-
-
-### <kbd>method</kbd> `User.generate_api_key`
+### <kbd>method</kbd> User.generate_api_key()
 
 ```python
-generate_api_key(description: 'str | None' = None) → str | None
+self,
+description: 'str | None' = None
 ```
 
 新しいAPIキーを生成します。
 
-**引数:**
+<div id="arguments">
+  ##### 引数
+</div>
 
 * `description`: 新しいAPIキーの説明。APIキーの用途を判別するために使用できます。
-
-**戻り値:**
-生成されたAPIキー (名前だけでなく、完全なシークレット) 、または失敗した場合は None。
