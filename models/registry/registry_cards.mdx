@@ -26,9 +26,9 @@ If your collection contains training data, consider including these additional d
 
 If your collection contains a machine learning model, consider including these additional details:
 * **Architecture**: Information about the model architecture, layers, and any specific design choices.
-* **Task**: The specific type of task or problem that the machine that the collection model is designed to perform. It's a categorization of the model's intended capability.
+* **Task**: The specific type of task or problem that the collection's model is designed to perform. It's a categorization of the model's intended capability.
 * **Deserialize the model**: Provide information on how someone on your team can load the model into memory.
-* **Deployment**: Details on how and where the model is deployed and guidance on how the model is integrated into other enterprise systems, such as a workflow orchestration platforms.
+* **Deployment**: Details on how and where the model is deployed and guidance on how the model is integrated into other enterprise systems, such as workflow orchestration platforms.
 * **Compare metrics**: Compare metrics across different versions of artifacts linked to the collection. This helps users understand how the model has evolved over time and how different versions perform on specific tasks.
 
 
@@ -53,7 +53,7 @@ Format text with [Markdown markup language](https://www.markdownguide.org/). Use
 <Tab title="Python SDK">
 Use the [`wandb.Api().artifact_collection()`](/models/ref/python/public-api/api#artifact_collection) method to access a collection's description. Use the returned object's `description` property to add, or update, a description to the collection.
 
-Specify the collection's type for the `type_name` parameter and the collection's full name for the `name` parameter. A collection's name consists of the prefix “wandb-registry”, the name of the registry, and the name of the collection separated by a forward slashes:
+Specify the collection's type for the `type_name` parameter and the collection's full name for the `name` parameter. A collection's name consists of the prefix “wandb-registry”, the name of the registry, and the name of the collection separated by forward slashes:
 
 ```text
 wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}
@@ -78,7 +78,7 @@ collection.save()
 </Tab>
 </Tabs>
 
-## Compare metrics across artifacts versions
+## Compare metrics across artifact versions
 
 Within the collection card editor, you can compare metrics across different versions of artifacts linked to the collection. 
 

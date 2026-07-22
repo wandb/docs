@@ -8,6 +8,14 @@ import json
 import os
 from pathlib import Path
 
+# Headline TypeScript SDK pages pinned to the top of the nav group, directly
+# after the landing page, so readers see them without expanding a subgroup.
+# Pinned pages are removed from their alphabetical subgroup below. Order here
+# is the order they appear in the nav.
+TYPESCRIPT_PRIORITY_PAGES = [
+    "weave/reference/typescript-sdk/functions/init",
+]
+
 
 def get_generated_python_modules():
     """Scan the weave/reference/python-sdk directory to find all generated modules."""
@@ -190,28 +198,37 @@ def update_docs_json(python_modules, typescript_items, service_endpoints):
     if typescript_group is not None:
         new_pages = ["weave/reference/typescript-sdk"]
 
-        if "classes" in typescript_items and typescript_items["classes"]:
+        # Pin priority pages (e.g. init) right after the landing page, but
+        # only ones that were actually generated this run.
+        all_ts_pages = {p for pages in typescript_items.values() for p in pages}
+        pinned = [p for p in TYPESCRIPT_PRIORITY_PAGES if p in all_ts_pages]
+        new_pages.extend(pinned)
+
+        def _unpinned(subdir):
+            return [p for p in typescript_items.get(subdir, []) if p not in pinned]
+
+        if _unpinned("classes"):
             new_pages.append({
                 "group": "Classes",
-                "pages": typescript_items["classes"]
+                "pages": _unpinned("classes")
             })
 
-        if "functions" in typescript_items and typescript_items["functions"]:
+        if _unpinned("functions"):
             new_pages.append({
                 "group": "Functions",
-                "pages": typescript_items["functions"]
+                "pages": _unpinned("functions")
             })
 
-        if "interfaces" in typescript_items and typescript_items["interfaces"]:
+        if _unpinned("interfaces"):
             new_pages.append({
                 "group": "Interfaces",
-                "pages": typescript_items["interfaces"]
+                "pages": _unpinned("interfaces")
             })
 
-        if "type-aliases" in typescript_items and typescript_items["type-aliases"]:
+        if _unpinned("type-aliases"):
             new_pages.append({
                 "group": "Type Aliases",
-                "pages": typescript_items["type-aliases"]
+                "pages": _unpinned("type-aliases")
             })
 
         typescript_group["pages"] = new_pages

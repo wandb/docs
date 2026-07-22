@@ -29,7 +29,7 @@ An API key authenticates your machine to W&B.
 
 ### Find the run path
 
-To use the Public API, you'll often need the run path which is `<entity>/<project>/<run_id>`. In the app UI, open a run page and click the [Overview tab ](/models/track/public-api-guide/#overview-tab)to get the run path.
+To use the Public API, you'll often need the run path which is `<entity>/<project>/<run_id>`. In the app UI, open a run page and click the [Overview tab](/models/track/public-api-guide/#overview-tab) to get the run path.
 
 
 ### Export run data
@@ -71,9 +71,9 @@ with wandb.init(project="public-api-example") as run:
         )
 ```
 
-The following sections describe the different outputs for the above run object attributes
+The following sections describe the different outputs for the above run object attributes.
 
-##### `run.config`
+#### `run.config`
 
 ```python
 {"n_epochs": 5}
@@ -93,7 +93,7 @@ The following sections describe the different outputs for the above run object a
 
 ### Sampling
 
-The default history method samples the metrics to a fixed number of samples (the default is 500, you can change this with the `samples` __ argument). If you want to export all of the data on a large run, you can use the `run.scan_history()` method. For more details see the [API Reference](/models/ref/python/public-api).
+The default history method samples the metrics to a fixed number of samples (the default is 500, you can change this with the `samples` argument). If you want to export all of the data on a large run, you can use the `run.scan_history()` method. For more details see the [API Reference](/models/ref/python/public-api).
 
 ### Querying multiple runs
 
@@ -308,10 +308,9 @@ The snippet below would find the system resource consumptions and then, save the
 ```python
 import wandb
 
-with wandb.Api().run("<entity>/<project>/<run_id>") as run:
-
-    system_metrics = run.history(stream="events")
-    system_metrics.to_csv("sys_metrics.csv")
+run = wandb.Api().run("<entity>/<project>/<run_id>")
+system_metrics = run.history(stream="events")
+system_metrics.to_csv("sys_metrics.csv")
 ```
 
 ### Get unsampled metric data
