@@ -5,7 +5,7 @@ title: wandb beta core
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/beta.py#L177" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/beta.py#L193" />
 
 
 
@@ -19,17 +19,17 @@ core [OPTIONS] COMMAND [ARGS]...
 
 Manage a shared local wandb-core service for multi-process workloads.
 
-    wandb-core is the local backend process that handles run data,
-    file uploads, and system metrics collection. By default, each
-    process that calls `wandb.init()` starts its own backend. On a
-    machine running many independent workers, that duplicates work
-    and wastes CPU and memory.
+wandb-core is the local backend process that handles run data,
+file uploads, and system metrics collection. By default, each
+process that calls `wandb.init()` starts its own backend. On a
+machine running many independent workers, that duplicates work
+and wastes CPU and memory.
 
-    Use these commands to start one detached wandb-core instance and
-    point multiple workers on the same machine at it with the
-    WANDB_SERVICE environment variable.
+Use these commands to start one detached wandb-core instance and
+point multiple workers on the same machine at it with the
+WANDB_SERVICE environment variable.
 
-    Typical workflow:
+Typical workflow:
 
 ```bash
 wandb beta core start
@@ -47,14 +47,14 @@ python -m your_launcher
 wandb beta core stop
 ```
 
-    For shell scripts, capture the raw WANDB_SERVICE value from stdout:
+For shell scripts, capture the raw WANDB_SERVICE value from stdout:
 
 ```bash
 export WANDB_SERVICE="$(wandb beta core start)"
 ```
 
-    The shared service exits after 10 minutes of idleness by default.
-    Override this with --idle-timeout on the start command.
+The shared service exits after 10 minutes of idleness by default.
+Override this with --idle-timeout on the start command.
 
 ## Subcommands
 

@@ -5,7 +5,7 @@ title: wandb init
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/cli.py#L400" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L402" />
 
 
 
@@ -19,29 +19,29 @@ init [OPTIONS]
 
 Initialize or update W&B configuration for the current directory.
 
-    Set a project and entity, create local W&B settings, and
-    prepare the directory for experiment tracking.
+Set a project and entity, create local W&B settings, and
+prepare the directory for experiment tracking.
 
-    For example, set up W&B for the current directory with guided prompts
-    for team and project selection:
+For example, set up W&B for the current directory with guided prompts
+for team and project selection:
 
 ```bash
 wandb init
 ```
 
-    To set the default project to "foobar" and the default entity to "team-awesome" without prompts:
+To set the default project to "foobar" and the default entity to "team-awesome" without prompts:
 
 ```bash
 wandb init --project foobar --entity team-awesome
 ```
 
-    To set the W&B mode to offline:
+To set the W&B mode to offline:
 
 ```bash
 wandb init --mode offline
 ```
 
-    To reset existing W&B configuration for the current directory:
+To reset existing W&B configuration for the current directory:
 
 ```bash
 wandb init --reset
