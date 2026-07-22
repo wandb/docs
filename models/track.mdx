@@ -28,14 +28,17 @@ Track a machine learning experiment with a few lines of code:
 3. Log metrics ([`wandb.Run.log()`](/models/track/log/)) over time in a training loop, such as accuracy and loss.
 4. Save outputs of a run, like the model weights or a table of predictions.
 
-The following code demonstrates a common W&B experiment tracking workflow:
+The following code demonstrates a common W&B experiment tracking workflow. Replace `my-team` with your W&B team entity and `my-project-name` with your project name.
 
 ```python
-# Start a run.
-#
+import wandb
+
+entity = "<my-team>"  # Set entity to your W&B team name
+project = "my-project-name"  # Set project to your W&B project name
+
 # When this block exits, it waits for logged data to finish uploading.
 # If an exception is raised, the run is marked failed.
-with wandb.init(entity="", project="my-project-name") as run:
+with wandb.init(entity=entity, project="my-project-name") as run:
   # Save mode inputs and hyperparameters.
   run.config.learning_rate = 0.01
 
@@ -54,12 +57,13 @@ with wandb.init(entity="", project="my-project-name") as run:
 
 Depending on your use case, explore the following resources to get started with W&B Experiments:
 
-* Read the [W&B Quickstart](/models/quickstart/) for a step-by-step outline of the W&B Python SDK commands you could use to create, track, and use a dataset artifact.
+* Read the [W&B Quickstart](/models/quickstart/) to learn how to set up W&B and track your first experiment.
+* Try the [Get Started with W&B Models](/models/models_quickstart/) to learn how to use W&B to track, share, and manage model artifacts in your machine learning workflows.
 * Explore this chapter to learn how to:
-  * Create an experiment
-  * Configure experiments
-  * Log data from experiments
-  * View results from experiments
+  * [Create an experiment](/models/track/create-an-experiment)
+  * [Configure experiments](/models/track/config/)
+  * [Log data from experiments](/models/track/log/)
+  * [View results from experiments](/models/track/view-results/)
 * Explore the [W&B Python Library](/models/ref/python/) within the [W&B API Reference Guide](/models/ref/python/).
 
 ## Best practices and tips 
