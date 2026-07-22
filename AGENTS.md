@@ -116,7 +116,7 @@ To check or apply style, read the relevant pass file(s) and use them as guidance
   - **One or two per page**, skinny and purpose-built — each iframe boots the full W&B app at a fixed height, in its own light theme.
   - **English sources only** — not `ja/`, `ko/`, `fr/`.
 
-  CI enforces placement and liveness via `scripts/report-embeds/check_embeds.py`.
+  A weekly CI job (`scripts/report-embeds/check_embeds.py`) verifies each embedded report still renders and files an issue if one breaks. It does not gate PRs.
 
 ## Working with the repository
 

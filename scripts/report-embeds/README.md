@@ -31,8 +31,9 @@ python3 scripts/report-embeds/check_embeds.py            # scan + liveness
 python3 -m unittest discover -s scripts/report-embeds -p 'check_embeds.py'  # unit tests
 ```
 
-CI ([`report-embeds.yml`](../../.github/workflows/report-embeds.yml)) runs this on
-PRs that touch embeds and weekly (filing an issue if a report has gone dead).
+CI ([`report-embeds.yml`](../../.github/workflows/report-embeds.yml)) runs this
+weekly and files an issue if a report has gone dead. It does not run on PRs —
+`wandb.ai` rate-limits crawlers, so network results are too flaky to gate merges.
 
 ## Component coupling
 
