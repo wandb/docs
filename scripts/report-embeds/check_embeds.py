@@ -221,5 +221,47 @@ def main(argv: list[str] | None = None) -> int:
     return 1 if findings else 0
 
 
+# --------------------------------------------------------------------------- #
+# Tests — python3 -m unittest discover -s scripts/report-embeds -p 'check_embeds.py'
+# --------------------------------------------------------------------------- #
+import tempfile
+import unittest
+
+
+class Tests(unittest.TestCase):
+    def _scan(self, files: dict[str, str]):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            for rel, content in files.items():
+                fp = root / rel
+                fp.parent.mkdir(parents=True, exist_ok=True)
+                fp.write_text(content, encoding="utf-8")
+            return scan(root)
+
+    def test_extract(self):
+        self.assertEqual(extract_embeds('<WandbReport src="x--Vmlldzo1" />'), [("x--Vmlldzo1", 1)])
+        self.assertEqual(extract_embeds('a\n<WandbReport\n  src={"y---Vmlldzo2"}\n/>\n'), [("y---Vmlldzo2", 2)])
+
+    def test_valid_and_dedup(self):
+        src = "https://wandb.ai/w/p/reports/Foo--Vmlldzo12345"
+        embed = f'<WandbReport src="{src}" title="t" />\n'
+        findings, embeds = self._scan({"models/a.mdx": embed, "models/b.mdx": embed})
+        self.assertEqual(findings, [])
+        self.assertEqual(embeds, [(src, "models/a.mdx", 1)])  # deduped by URL
+
+    def test_bad_src(self):
+        findings, embeds = self._scan({"models/x.mdx": '<WandbReport src="https://wandb.ai/w/p/reports/nope" />\n'})
+        self.assertEqual([f.code for f in findings], ["BAD_EMBED_SRC"])
+        self.assertEqual(embeds, [])
+
+    def test_snippet_errors_and_masked_ignored(self):
+        src = "https://wandb.ai/w/p/reports/Foo--Vmlldzo12345"
+        embed = f'<WandbReport src="{src}" title="t" />\n'
+        snippet, _ = self._scan({"snippets/_includes/t.mdx": embed})
+        self.assertEqual([f.code for f in snippet], ["EMBED_IN_SNIPPET"])
+        for masked in (f"```mdx\n{embed}```\n", "{/* " + embed + "*/}\n"):
+            self.assertEqual(self._scan({"models/x.mdx": masked}), ([], []))
+
+
 if __name__ == "__main__":
     raise SystemExit(main())

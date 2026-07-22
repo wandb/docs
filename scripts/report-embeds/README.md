@@ -28,7 +28,7 @@ import { WandbReport } from '/snippets/WandbReport.jsx';
 
 ```bash
 python3 scripts/report-embeds/check_embeds.py            # scan + liveness
-python3 -m unittest discover -s scripts/report-embeds/tests -p 'test_*.py'
+python3 -m unittest discover -s scripts/report-embeds -p 'check_embeds.py'  # unit tests
 ```
 
 CI ([`report-embeds.yml`](../../.github/workflows/report-embeds.yml)) runs this on

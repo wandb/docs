@@ -32,7 +32,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Unit tests
-        run: python3 -m unittest discover -s scripts/report-embeds/tests -p 'test_*.py' -v
+        run: python3 -m unittest discover -s scripts/report-embeds -p 'check_embeds.py' -v
       - name: Check embeds
         id: check
         # Block PRs; on schedule/dispatch don't fail the run — file an issue below.
