@@ -932,6 +932,7 @@
                         "group": "Global Functions",
                         "pages": [
                           "models/ref/python/functions",
+                          "models/ref/python/functions/agent",
                           "models/ref/python/functions/box3d",
                           "models/ref/python/functions/controller",
                           "models/ref/python/functions/finish",
