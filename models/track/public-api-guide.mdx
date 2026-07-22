@@ -312,10 +312,9 @@ The following snippet finds the system resource consumptions and saves them to a
 ```python
 import wandb
 
-with wandb.Api().run("<entity>/<project>/<run_id>") as run:
-
-    system_metrics = run.history(stream="events")
-    system_metrics.to_csv("sys_metrics.csv")
+run = wandb.Api().run("<entity>/<project>/<run_id>")
+system_metrics = run.history(stream="events")
+system_metrics.to_csv("sys_metrics.csv")
 ```
 
 ### Get unsampled metric data
