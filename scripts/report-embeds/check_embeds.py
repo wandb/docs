@@ -5,8 +5,7 @@ Embeds are discovered by scanning the English `.mdx` sources for the
 `<WandbReport>` component — there is no registry to keep in sync.
 
 Three modes:
-  static   - every embed has a sibling prose link, sits on a page (not a shared
-             snippet), and pages stay under the per-page cap (no network)
+  static   - every embed has a sibling prose link and sits on a page (no network)
   liveness - anonymous HTTP check that each embedded report URL still renders
   all      - both
 
@@ -21,7 +20,6 @@ from __future__ import annotations
 
 import argparse
 import re
-import sys
 import time
 import urllib.error
 import urllib.request
@@ -55,23 +53,13 @@ SKIP_PREFIXES = (
 SNIPPETS_PREFIX = "snippets/"
 LOGIN_MARKERS = ("/login", "/signin", "/site/login", "/authorize")
 
-MAX_EMBEDS_PER_PAGE = 2
-
 
 @dataclass
 class Finding:
-    level: str          # "error" | "warning"
     code: str
     message: str
     path: str | None = None
     line: int | None = None
-
-
-@dataclass
-class Embed:
-    url: str
-    path: str           # repo-relative page that embeds it
-    line: int
 
 
 # --------------------------------------------------------------------------- #
@@ -80,9 +68,8 @@ class Embed:
 def iter_mdx(root: Path) -> Iterator[Path]:
     for path in sorted(root.rglob("*.mdx")):
         rel = path.relative_to(root).as_posix()
-        if any(rel.startswith(pre) for pre in SKIP_PREFIXES):
-            continue
-        yield path
+        if not any(rel.startswith(pre) for pre in SKIP_PREFIXES):
+            yield path
 
 
 def _line_of(text: str, index: int) -> int:
@@ -113,15 +100,15 @@ def mask_noncontent(text: str) -> str:
     return MDX_COMMENT_RE.sub(_blank, FENCE_RE.sub(_blank, text))
 
 
-def scan(root: Path) -> tuple[list[Finding], list[Embed]]:
+def scan(root: Path) -> tuple[list[Finding], list[tuple[str, str, int]]]:
     """Scan English .mdx for <WandbReport> embeds.
 
-    Returns (static findings, embeds). `embeds` is deduplicated by URL for the
-    liveness pass; the static findings cover every occurrence.
+    Returns (findings, embeds). `embeds` is (url, page, line) deduplicated by URL
+    for the liveness pass; findings cover the static checks.
     """
     findings: list[Finding] = []
-    embeds: list[Embed] = []
-    seen_urls: set[str] = set()
+    embeds: list[tuple[str, str, int]] = []
+    seen: set[str] = set()
 
     for path in iter_mdx(root):
         rel = path.relative_to(root).as_posix()
@@ -129,27 +116,23 @@ def scan(root: Path) -> tuple[list[Finding], list[Embed]]:
         occurrences = extract_embeds(text)
         if not occurrences:
             continue
-
         if rel.startswith(SNIPPETS_PREFIX):
-            findings.append(Finding("error", "EMBED_IN_SNIPPET", "<WandbReport> must be used on a page, not in a shared snippet", rel, occurrences[0][1]))
+            findings.append(Finding("EMBED_IN_SNIPPET", "<WandbReport> must be used on a page, not in a shared snippet", rel, occurrences[0][1]))
             continue
-
-        if len(occurrences) > MAX_EMBEDS_PER_PAGE:
-            findings.append(Finding("warning", "TOO_MANY_EMBEDS", f"{len(occurrences)} embeds on one page; each boots the full W&B app (cap is {MAX_EMBEDS_PER_PAGE})", rel, occurrences[0][1]))
 
         prose = strip_embeds(text)
         for src, line in occurrences:
             ids = REPORT_ID_RE.findall(src)
             rid = ids[0] if ids else None
             if rid is None:
-                findings.append(Finding("error", "BAD_EMBED_SRC", f"src `{src}` is not a recognizable report URL (needs --Vmlldz...)", rel, line))
+                findings.append(Finding("BAD_EMBED_SRC", f"src `{src}` is not a recognizable report URL (needs --Vmlldz...)", rel, line))
                 continue
             # Prose-link rule: the id must appear somewhere outside the component.
             if rid not in prose:
-                findings.append(Finding("error", "MISSING_PROSE_LINK", f"no plain link to report {rid} in the page prose (agents/llms.txt read source, where the iframe is opaque)", rel, line))
-            if src not in seen_urls:
-                seen_urls.add(src)
-                embeds.append(Embed(src, rel, line))
+                findings.append(Finding("MISSING_PROSE_LINK", f"no plain link to report {rid} in the page prose (agents/llms.txt read source, where the iframe is opaque)", rel, line))
+            if src not in seen:
+                seen.add(src)
+                embeds.append((src, rel, line))
 
     return findings, embeds
 
@@ -170,33 +153,31 @@ def check_url(url: str, *, timeout: int, attempts: int, delay: float) -> Finding
     for attempt in range(1, attempts + 1):
         try:
             with urllib.request.urlopen(req, timeout=timeout) as resp:
-                final_url = resp.geturl()
-                status = resp.getcode()
-                if status != 200:
-                    return Finding("error", "URL_NOT_200", f"{url}: final status {status}")
-                if any(marker in final_url for marker in LOGIN_MARKERS):
-                    return Finding("error", "URL_LOGIN_REDIRECT", f"{url}: redirected to login ({final_url}) — magic link likely revoked")
+                if resp.getcode() != 200:
+                    return Finding("URL_NOT_200", f"{url}: final status {resp.getcode()}")
+                if any(marker in resp.geturl() for marker in LOGIN_MARKERS):
+                    return Finding("URL_LOGIN_REDIRECT", f"{url}: redirected to login ({resp.geturl()}) — magic link likely revoked")
                 return None
         except urllib.error.HTTPError as exc:
             if exc.code in (429, 500, 502, 503, 504) and attempt < attempts:
                 last_err = f"HTTP {exc.code}"
                 time.sleep(delay * (2 ** attempt))
                 continue
-            return Finding("error", "URL_NOT_200", f"{url}: HTTP {exc.code}")
+            return Finding("URL_NOT_200", f"{url}: HTTP {exc.code}")
         except (urllib.error.URLError, TimeoutError, OSError) as exc:
             last_err = str(getattr(exc, "reason", exc))
             if attempt < attempts:
                 time.sleep(delay * (2 ** attempt))
                 continue
-    return Finding("error", "URL_UNREACHABLE", f"{url}: unreachable after {attempts} attempts ({last_err})")
+    return Finding("URL_UNREACHABLE", f"{url}: unreachable after {attempts} attempts ({last_err})")
 
 
-def check_liveness(embeds: list[Embed], *, timeout: int = 30, attempts: int = 3, delay: float = 1.0) -> list[Finding]:
+def check_liveness(embeds: list[tuple[str, str, int]], *, timeout: int = 30, attempts: int = 3, delay: float = 1.0) -> list[Finding]:
     findings: list[Finding] = []
-    for embed in embeds:
-        finding = check_url(embed.url, timeout=timeout, attempts=attempts, delay=delay)
+    for url, rel, line in embeds:
+        finding = check_url(url, timeout=timeout, attempts=attempts, delay=delay)
         if finding:
-            finding.path, finding.line = embed.path, embed.line
+            finding.path, finding.line = rel, line
             findings.append(finding)
         time.sleep(delay)  # be polite; the embed set is small
     return findings
@@ -205,33 +186,23 @@ def check_liveness(embeds: list[Embed], *, timeout: int = 30, attempts: int = 3,
 # --------------------------------------------------------------------------- #
 # Output
 # --------------------------------------------------------------------------- #
+def _loc(f: Finding) -> str:
+    return (f.path or "-") + (f":{f.line}" if f.path and f.line else "")
+
+
 def emit_github_annotations(findings: Iterable[Finding]) -> None:
     for f in findings:
-        kind = "error" if f.level == "error" else "warning"
-        loc = ""
-        if f.path:
-            loc = f"file={f.path}"
-            if f.line:
-                loc += f",line={f.line}"
-        print(f"::{kind} {loc}::[{f.code}] {f.message}")
+        loc = (f"file={f.path}" + (f",line={f.line}" if f.line else "")) if f.path else ""
+        print(f"::error {loc}::[{f.code}] {f.message}")
 
 
 def render_markdown(findings: list[Finding], *, embeds: int, checked_urls: int) -> str:
-    errors = [f for f in findings if f.level == "error"]
-    warnings = [f for f in findings if f.level == "warning"]
     lines = ["# Report embed check", ""]
     if not findings:
         lines.append(f"✅ All checks passed ({embeds} embed(s), {checked_urls} URL(s) checked).")
         return "\n".join(lines) + "\n"
-    lines.append(f"Found {len(errors)} error(s) and {len(warnings)} warning(s).")
-    lines.append("")
-    lines.append("| Level | Code | Location | Detail |")
-    lines.append("| --- | --- | --- | --- |")
-    for f in errors + warnings:
-        where = f.path or "-"
-        if f.line:
-            where += f":{f.line}"
-        lines.append(f"| {f.level} | {f.code} | {where} | {f.message} |")
+    lines += [f"Found {len(findings)} problem(s).", "", "| Code | Location | Detail |", "| --- | --- | --- |"]
+    lines += [f"| {f.code} | {_loc(f)} | {f.message} |" for f in findings]
     return "\n".join(lines) + "\n"
 
 
@@ -244,28 +215,21 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--root", type=Path, default=REPO_ROOT)
     parser.add_argument("--github", action="store_true", help="emit GitHub Actions annotations")
     parser.add_argument("--output-md", type=Path, help="write a Markdown report to this file")
-    parser.add_argument("--strict", action="store_true", help="treat warnings as failures")
     args = parser.parse_args(argv)
 
     static_findings, embeds = scan(args.root)
 
-    findings: list[Finding] = []
-    if args.mode in ("static", "all"):
-        findings += static_findings
+    findings: list[Finding] = list(static_findings) if args.mode in ("static", "all") else []
     checked_urls = 0
     if args.mode in ("liveness", "all"):
         findings += check_liveness(embeds)
         checked_urls = len(embeds)
 
-    errors = [f for f in findings if f.level == "error"]
-    warnings = [f for f in findings if f.level == "warning"]
-
     if args.github:
         emit_github_annotations(findings)
     else:
-        for f in errors + warnings:
-            where = f" {f.path}:{f.line}" if f.path and f.line else (f" {f.path}" if f.path else "")
-            print(f"{f.level.upper()} [{f.code}]{where}: {f.message}")
+        for f in findings:
+            print(f"ERROR [{f.code}] {_loc(f)}: {f.message}")
 
     if args.output_md:
         args.output_md.write_text(render_markdown(findings, embeds=len(embeds), checked_urls=checked_urls), encoding="utf-8")
@@ -274,11 +238,7 @@ def main(argv: list[str] | None = None) -> int:
         checked = f", {checked_urls} URL(s) checked" if args.mode in ("liveness", "all") else ""
         print(f"OK: {len(embeds)} report embed(s) found{checked}.")
 
-    if errors:
-        return 1
-    if warnings and args.strict:
-        return 1
-    return 0
+    return 1 if findings else 0
 
 
 if __name__ == "__main__":

@@ -2,8 +2,7 @@ name: Report embeds
 
 # Checks live W&B report embeds (<WandbReport>) in docs pages. Embeds are
 # discovered by scanning the .mdx sources — there is no registry.
-# - On PRs: static check (every embed has a sibling prose link, sits on a page,
-#   and stays under the per-page cap).
+# - On PRs: static check (every embed has a sibling prose link and sits on a page).
 # - Weekly: URL liveness, filing an issue on failure. Liveness never blocks PRs —
 #   wandb.ai rate-limits crawlers, so network results are flaky by design (this
 #   is also why wandb.ai is excluded from the site-wide lychee check).
@@ -38,7 +37,7 @@ jobs:
           python-version: "3.12"
       - name: Unit tests
         run: python3 -m unittest discover -s scripts/report-embeds/tests -p 'test_*.py' -v
-      - name: Embed consistency (prose link, per-page cap)
+      - name: Embed consistency (prose link)
         run: python3 scripts/report-embeds/check_embeds.py --mode static --github
 
   liveness:

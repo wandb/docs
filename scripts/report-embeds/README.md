@@ -8,7 +8,7 @@ scanning the `.mdx` sources (no registry to maintain) and checks it.
 ## Files
 
 - `check_embeds.py` — scans English `.mdx` for `<WandbReport>` embeds and checks
-  them (sibling prose link + per-page cap + URL liveness).
+  them (sibling prose link + URL liveness).
 - `tests/test_check_embeds.py` — unit tests (no network).
 
 CI wiring lives in [`.github/workflows/report-embeds.yml`](../../.github/workflows/report-embeds.yml).
@@ -55,7 +55,7 @@ python3 scripts/report-embeds/check_embeds.py --mode liveness   # anonymous HTTP
 python3 scripts/report-embeds/check_embeds.py --mode all         # both
 ```
 
-Static errors (missing prose link, embed in a shared snippet) fail CI on PRs.
+Static errors (missing prose link, embed in a shared snippet, unrecognizable src) fail CI on PRs.
 Liveness runs on a weekly schedule and files an issue on failure — it does not
 block PRs, because `wandb.ai` rate-limits crawlers and network results are flaky
 (this is also why `wandb.ai` is excluded from the site-wide lychee check).
