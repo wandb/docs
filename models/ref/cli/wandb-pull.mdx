@@ -5,7 +5,7 @@ title: wandb pull
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/cli.py#L3114" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L3225" />
 
 
 
@@ -19,15 +19,15 @@ pull [OPTIONS] RUN
 
 Download files from a W&B run.
 
-    Fetch all files associated with the specified run. Skip files that already
-    exist locally with the same content. Create subdirectories as needed to
-    mirror the structure of the files in W&B.
+Fetch all files associated with the specified run. Skip files that already
+exist locally with the same content. Create subdirectories as needed to
+mirror the structure of the files in W&B.
 
-    Use the run ID to reference the run, and optionally specify the project
-    and entity if not included in the run argument.
+Use the run ID to reference the run, and optionally specify the project
+and entity if not included in the run argument.
 
-    For example, to download files from a run with run ID "abcd1234" in the "foobar" project
-    and "team-awesome" entity:
+For example, to download files from a run with run ID "abcd1234" in the "foobar" project
+and "team-awesome" entity:
 
 ```bash
 wandb pull -p foobar -e team-awesome abcd1234

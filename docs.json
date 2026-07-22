@@ -933,6 +933,7 @@
                         "pages": [
                           "models/ref/python/functions",
                           "models/ref/python/functions/agent",
+                          "models/ref/python/functions/box3d",
                           "models/ref/python/functions/controller",
                           "models/ref/python/functions/finish",
                           "models/ref/python/functions/init",
@@ -948,8 +949,6 @@
                         "pages": [
                           "models/ref/python/data-types",
                           "models/ref/python/data-types/audio",
-                          "models/ref/python/data-types/box3d",
-                          "models/ref/python/data-types/evaltable",
                           "models/ref/python/data-types/histogram",
                           "models/ref/python/data-types/html",
                           "models/ref/python/data-types/image",
@@ -1017,18 +1016,17 @@
                         "pages": [
                           "models/ref/python/public-api",
                           "models/ref/python/public-api/api",
-                          "models/ref/python/public-api/agentruns",
                           "models/ref/python/public-api/artifactcollection",
                           "models/ref/python/public-api/artifactcollections",
                           "models/ref/python/public-api/artifactfiles",
                           "models/ref/python/public-api/artifacts",
                           "models/ref/python/public-api/artifacttype",
                           "models/ref/python/public-api/artifacttypes",
-                          "models/ref/python/public-api/automations",
                           "models/ref/python/public-api/betareport",
                           "models/ref/python/public-api/file",
                           "models/ref/python/public-api/files",
                           "models/ref/python/public-api/member",
+                          "models/ref/python/public-api/organization",
                           "models/ref/python/public-api/project",
                           "models/ref/python/public-api/projects",
                           "models/ref/python/public-api/projectartifactcollections",
@@ -7336,6 +7334,10 @@
     {
       "destination": "/models/ref/python",
       "source": "/ref/python/sdk/*"
+    },
+    {
+      "destination" : "/models/ref/python/public-api/automations",
+      "source" : "/models/ref/python/automations/automation"
     },
     {
       "destination": "/models/ref/wandb_workspaces/:slug*",

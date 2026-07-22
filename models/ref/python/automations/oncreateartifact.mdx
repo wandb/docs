@@ -1,18 +1,41 @@
 ---
 title: OnCreateArtifact
-namespace: automations_namespace
-python_object_type: class
+kind: class
+namespace: wandb.automations.events
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py" />
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py#L336" />
 
 
 
-## <kbd>class</kbd> `OnCreateArtifact`
+## <kbd>class</kbd> wandb.automations.OnCreateArtifact
+```python
+*,
+event_type: Literal[CREATE_ARTIFACT] = CREATE_ARTIFACT,
+scope: Annotated[wandb.automations.scopes._ArtifactSequenceScope | wandb.automations.scopes._ArtifactPortfolioScope, BeforeValidator(func=<function parse_scope>, json_schema_input_type=PydanticUndefined), Discriminator(discriminator='typename__', custom_error_type=None, custom_error_message=None, custom_error_context=None)],
+filter: Annotated[wandb.automations._filters.operators.And | wandb.automations._filters.operators.Or | wandb.automations._filters.operators.Nor | wandb.automations._filters.operators.Not | wandb.automations._filters.operators.Lt | wandb.automations._filters.operators.Gt | wandb.automations._filters.operators.Lte | wandb.automations._filters.operators.Gte | wandb.automations._filters.operators.Eq | wandb.automations._filters.operators.Ne | wandb.automations._filters.operators.In | wandb.automations._filters.operators.NotIn | wandb.automations._filters.operators.Exists | wandb.automations._filters.operators.Regex | wandb.automations._filters.operators.Contains | wandb.automations._filters.operators.Size | wandb.automations._filters.operators.All | wandb.automations._filters.expressions.FilterExpr | dict[str, Any], Json, BeforeValidator(func=<function ensure_json>, json_schema_input_type=PydanticUndefined), PlainSerializer(func=<function to_json>, return_type=PydanticUndefined, when_used='always'), AfterValidator(func=<function wrap_mutation_event_filter>)] = And(())
+```
+
+
+
 A new artifact is created.
 
-Examples:
+
+
+## Args
+
+- `event_type`: 
+- `scope`: The scope of the event: must be an artifact collection.
+- `filter`: Additional conditions(s), if any, that are required for this event to trigger.
+
+
+
+
+## Examples
+
 Define an event that triggers when a new artifact is created in the
 collection "my-collection":
 
@@ -27,21 +50,6 @@ event = OnCreateArtifact(scope=collection)
 ```
 
 
-### <kbd>method</kbd> `OnCreateArtifact.__init__`
 
-```python
-__init__(
-    event_type: 'Literal[CREATE_ARTIFACT]' = CREATE_ARTIFACT,
-    scope: 'wandb.automations.scopes._ArtifactSequenceScope | wandb.automations.scopes._ArtifactPortfolioScope',
-    filter: 'wandb.automations._filters.operators.And | wandb.automations._filters.operators.Or | wandb.automations._filters.operators.Nor | wandb.automations._filters.operators.Not | wandb.automations._filters.operators.Lt | wandb.automations._filters.operators.Gt | wandb.automations._filters.operators.Lte | wandb.automations._filters.operators.Gte | wandb.automations._filters.operators.Eq | wandb.automations._filters.operators.Ne | wandb.automations._filters.operators.In | wandb.automations._filters.operators.NotIn | wandb.automations._filters.operators.Exists | wandb.automations._filters.operators.Regex | wandb.automations._filters.operators.Contains | wandb.automations._filters.expressions.FilterExpr | dict[str, Any]' = And(())
-) → None
-```
 
-**Args:**
- 
- - `event_type` (Literal[CREATE_ARTIFACT]): 
- - `scope` (wandb.automations.scopes._ArtifactSequenceScope | wandb.automations.scopes._ArtifactPortfolioScope): The scope of the event: must be an artifact collection.
- - `filter` (wandb.automations._filters.operators.And | wandb.automations._filters.operators.Or | wandb.automations._filters.operators.Nor | wandb.automations._filters.operators.Not | wandb.automations._filters.operators.Lt | wandb.automations._filters.operators.Gt | wandb.automations._filters.operators.Lte | wandb.automations._filters.operators.Gte | wandb.automations._filters.operators.Eq | wandb.automations._filters.operators.Ne | wandb.automations._filters.operators.In | wandb.automations._filters.operators.NotIn | wandb.automations._filters.operators.Exists | wandb.automations._filters.operators.Regex | wandb.automations._filters.operators.Contains | wandb.automations._filters.expressions.FilterExpr | dict[str, Any]): Additional conditions(s), if any, that are required for this event to trigger.
 
-**Returns:**
- An `OnCreateArtifact` object.
