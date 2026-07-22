@@ -1,11 +1,210 @@
 ---
 title: EvalTable
-namespace: python_sdk_data_type
-python_object_type: class
+kind: class
+namespace: wandb.sdk.data_types.eval_table
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/eval_table.py" />
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/eval_table.py#L28" />
+
+
+
+## <kbd>class</kbd> EvalTable
+```python
+columns: 'list[str | int] | None' = None,
+data: 'list[Iterable[Any]] | np.ndarray | pd.DataFrame | None' = None,
+rows: 'list[Iterable[Any]] | None' = None,
+dataframe: 'pd.DataFrame | None' = None,
+dtype: 'Any' = None,
+optional: 'bool | list[bool]' = True,
+allow_mixed_types: 'bool' = False,
+log_mode: "Literal['IMMUTABLE']" = 'IMMUTABLE', *,
+input_columns: 'list[str] | None' = None,
+output_columns: 'list[str] | None' = None,
+score_columns: 'list[str] | None' = None,
+unsupported_media_mode: 'media_adapters.UnsupportedMediaMode' = 'stub'
+```
+
+## Description
+
+A Table subclass that routes run.log() to the new Eval Tables experience.
+
+When logged via run.log(), an EvalTable is logged as a Weave Eval via
+weave.EvaluationLogger instead of being uploaded as a regular wandb Table
+artifact.
+
+Note: EvalTable is a work-in-progress and is NOT yet officially released or
+supported.
+
+
+
+
+## Args
+
+- `columns`: Names of the columns in the table. If unset, but input_columns, output_columns, or score_columns are set, then we'll just set columns to the union of those, in that order.
+- `data`: 
+- `rows`: 
+- `dataframe`: 
+- `dtype`: 
+- `optional`: 
+- `allow_mixed_types`: 
+- `log_mode`: Controls how the table is logged when the same EvalTable
+    is passed to `run.log()` more than once.
+    - "IMMUTABLE" (default): full table logged on first `run.log()`;
+      subsequent `run.log()` calls are no-ops.
+    - "MUTABLE" and "INCREMENTAL": not currently supported for EvalTable.
+- `input_columns`: Names of the input columns. If set, designates these columns as inputs. Eval comparisons will match rows based on matching values from input columns. If unset, we will inject a "row" index input column so comparisons can match against that.
+- `output_columns`: Names of the output columns. These represents the values to be compared. Any columns not designated as input, output, or score will default to being output columns.
+- `score_columns`: Names of the score columns. These represent derived scores for the outputs. By default, we will auto-summarize any numeric and boolean scores.
+- `unsupported_media_mode`: How to handle unsupported wandb media/value types.
+    - "stub" (default): log unsupported values as short placeholder strings
+      like "[wandb.Html not yet supported]". (This is a temporary flag
+      for use during development.)
+    - "raise": fail fast when unsupported wandb value types are added.
+
+
+
+
+
+
+## Methods
+
+### <kbd>method</kbd> EvalTable.add_column()
+
+```python
+self,
+name: 'str | int',
+data: 'list[Any] | np.ndarray',
+optional: 'bool' = False
+```
+
+Adds a column of data to the table.
+
+##### Arguments
+
+- `name`: (str) - the unique name of the column
+- `data`: (list | np.array) - a column of homogeneous data
+- `optional`: (bool) - if null-like values are permitted
+
+
+
+
+### <kbd>method</kbd> Table.add_computed_columns()
+
+```python
+(self, fn)
+```
+
+Adds one or more computed columns based on existing data.
+
+##### Arguments
+
+- `fn`: A function which accepts one or two parameters, ndx (int) and
+    row (dict), which is expected to return a dict representing
+    new columns for that row, keyed by the new column names.
+    - `ndx` is an integer representing the index of the row. Only included if `include_ndx`
+          is set to `True`.
+    - `row` is a dictionary keyed by existing columns
+
+
+
+
+### <kbd>method</kbd> EvalTable.add_data()
+
+```python
+self, *data: 'Any'
+```
+
+Adds a new row of data to the table.
+
+The maximum amount ofrows in a table is determined by
+`wandb.Table.MAX_ARTIFACT_ROWS`.
+
+The length of the data should match the length of the table column.
+
+##### Arguments
+
+- `data`: 
+
+
+
+
+### <kbd>method</kbd> Table.add_row()
+
+```python
+(self, *row)
+```
+
+Deprecated. Use `Table.add_data` method instead.
+
+##### Arguments
+
+- `row`: 
+
+
+
+
+### <kbd>method</kbd> Table.cast()
+
+```python
+(self, col_name, dtype, optional=False)
+```
+
+Casts a column to a specific data type.
+
+This can be one of the normal python classes, an internal W&B type,
+or an example object, like an instance of wandb.Image or
+wandb.Classes.
+
+##### Arguments
+
+- `col_name`: The name of the column to cast.
+- `dtype`: The target dtype.
+- `optional`: If the column should allow Nones.
+
+
+
+
+### <kbd>method</kbd> Table.get_column()
+
+```python
+(self, name, convert_to=None)
+```
+
+Retrieves a column from the table and optionally converts it to a NumPy object.
+
+##### Arguments
+
+- `name`: (str) - the name of the column
+- `convert_to`: (str, optional)
+    - "numpy": will convert the underlying data to numpy object
+
+
+
+
+### <kbd>method</kbd> Table.get_dataframe()
+
+```python
+(self)
+```
+
+Returns a `pandas.DataFrame` of the table.
+
+
+
+
+
+### <kbd>method</kbd> Table.get_index()
+
+```python
+(self)
+```
+
+Returns an array of row indexes for use in other tables to create links.
+
+
 
 
 

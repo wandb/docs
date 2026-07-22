@@ -1,47 +1,55 @@
 ---
 title: MetricChangeFilter
-namespace: automations_namespace
-python_object_type: class
+kind: class
+namespace: wandb.automations._filters.run_metrics
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/_filters/run_metrics.py" />
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/_filters/run_metrics.py#L153" />
 
 
 
-## <kbd>class</kbd> `MetricChangeFilter`
+## <kbd>class</kbd> MetricChangeFilter
+```python
+*,
+name: str,
+agg_op: wandb.automations._filters.run_metrics.Agg | None = None,
+current_window_size: typing.Annotated[int, Gt(gt=0)] = 1,
+cmp: NoneType = None,
+change_amount: Union[Annotated[int, Gt(gt=0)], Annotated[float, Gt(gt=0)]],
+prior_window_size: typing.Annotated[int, Gt(gt=0)] = <factory>,
+change_type: wandb.automations._filters.run_metrics.ChangeType,
+change_dir: wandb.automations._filters.run_metrics.ChangeDir
+```
+
+## Description
+
 Filter that compares a **change** in a metric value to a user-defined threshold.
 
 The change is calculated over "tumbling" windows, i.e. the difference
 between the current window and the non-overlapping prior window.
 
 
-### <kbd>method</kbd> `MetricChangeFilter.__init__`
 
-```python
-__init__(
-    name: 'str',
-    agg: 'wandb.automations._filters.run_metrics.Agg | None' = None,
-    window: 'int' = 1,
-    cmp: 'None' = None,
-    threshold: 'Annotated | Annotated',
-    prior_window: 'int' = None,
-    change_type: 'ChangeType',
-    change_dir: 'ChangeDir'
-) → None
-```
+## Args
 
-**Args:**
- 
- - `name` (str): 
- - `agg` (wandb.automations._filters.run_metrics.Agg | None): 
- - `window` (int): 
- - `cmp` (None): Ignored.
- - `threshold` (Union[Annotated, Annotated]): 
- - `prior_window` (int): Size of the "prior" metric aggregation window (ignored if `agg` is ``None``).
-   If omitted, defaults to the size of the current window.
- - `change_type` (ChangeType): 
- - `change_dir` (ChangeDir): 
+- `name`: 
+- `agg_op`: 
+- `current_window_size`: 
+- `cmp`: Ignored.
+- `change_amount`: 
+- `prior_window_size`: Size of the "prior" metric aggregation window (ignored if `agg` is ``None``).
 
-**Returns:**
- An `MetricChangeFilter` object.
+    If omitted, defaults to the size of the current window.
+- `change_type`: 
+- `change_dir`: 
+
+
+
+
+
+
+
+

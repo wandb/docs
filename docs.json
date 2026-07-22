@@ -932,7 +932,7 @@
                         "group": "Global Functions",
                         "pages": [
                           "models/ref/python/functions",
-                          "models/ref/python/functions/agent",
+                          "models/ref/python/functions/box3d",
                           "models/ref/python/functions/controller",
                           "models/ref/python/functions/finish",
                           "models/ref/python/functions/init",
@@ -948,7 +948,6 @@
                         "pages": [
                           "models/ref/python/data-types",
                           "models/ref/python/data-types/audio",
-                          "models/ref/python/data-types/box3d",
                           "models/ref/python/data-types/evaltable",
                           "models/ref/python/data-types/histogram",
                           "models/ref/python/data-types/html",
@@ -964,7 +963,15 @@
                         "group": "Experiments",
                         "pages": [
                           "models/ref/python/experiments",
-                          "models/ref/python/experiments/artifact",
+                          {
+                          "group": "Artifact",
+                          "pages": [
+                            "models/ref/python/experiments/artifact/artifact",
+                            "models/ref/python/experiments/artifact/artifact-properties",
+                            "models/ref/python/experiments/artifact/artifact-add",
+                            "models/ref/python/experiments/artifact/artifact-dir"
+                          ]
+                          },
                           "models/ref/python/experiments/run",
                           "models/ref/python/experiments/settings",
                           "models/ref/python/experiments/system-metrics"

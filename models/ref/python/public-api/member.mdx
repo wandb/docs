@@ -1,50 +1,53 @@
 ---
 title: Member
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.teams
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py" />
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py#L24" />
 
 
 
+## <kbd>class</kbd> Member
+```python
+(service_api: 'ServiceApi',
+team: 'str',
+attrs: 'Mapping[str, Any]')
+```
 
-## <kbd>class</kbd> `Member`
+## Description
+
 A member of a team.
 
-### <kbd>method</kbd> `Member.__init__`
+
+
+## Args
+
+- `service_api`: The service API instance to use for querying W&B.
+- `team`: The name of the team this member belongs to
+- `attrs`: The member attributes
+
+
+
+
+
+
+## Methods
+
+### <kbd>method</kbd> Member.delete()
 
 ```python
-__init__(service_api: 'ServiceApi', team: 'str', attrs: 'Mapping[str, Any]')
+(self)
 ```
 
-**Args:**
- 
- - `service_api`:  The service API instance to use for querying W&B. 
- - `team` (str):  The name of the team this member belongs to 
- - `attrs` (dict):  The member attributes 
+Remove a member from a team.
 
 
 
 
 
 
-
-
-
----
-
-### <kbd>method</kbd> `Member.delete`
-
-```python
-delete()
-```
-
-Remove a member from a team. 
-
-
-
-**Returns:**
-  Boolean indicating success 
 
