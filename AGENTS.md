@@ -99,6 +99,24 @@ To check or apply style, read the relevant pass file(s) and use them as guidance
     response="A concise example ARIA response"
   />
   ```
+- **Live report embeds**: import `/snippets/WandbReport.jsx` and render it with `src` (report URL), `title` (accessible description), and optional `height` (500–800; default 640). The component renders its own "View Report" button, so no separate link is needed.
+
+  ```mdx
+  import { WandbReport } from '/snippets/WandbReport.jsx';
+
+  <WandbReport
+    src="https://wandb.ai/ENTITY/PROJECT/reports/Slug--VmlldzoXXXXXXX"
+    title="Accessible description of the report"
+    height={700}
+  />
+  ```
+
+  - **Regular reports only, not Fully Connected articles** — FC articles keep their full blog chrome in a frame and look broken.
+  - **Anonymous-viewable** — a public-project report or a [view-only link](/models/reports/cross-project-reports#view-only-report-links). The URL (with any `?accessToken=`) ships in public source and git history, so treat the report as public forever.
+  - **One or two per page**, skinny and purpose-built — each iframe boots the full W&B app at a fixed height, in its own light theme.
+  - **English sources only** — not `ja/`, `ko/`, `fr/`.
+
+  A weekly CI job (`scripts/report-embeds/check_embeds.py`) verifies each embedded report still renders and files an issue if one breaks. It does not gate PRs.
 
 ## Working with the repository
 

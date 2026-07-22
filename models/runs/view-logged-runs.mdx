@@ -6,7 +6,7 @@ description: Learn how to view a specific logged run and its properties using th
 View information about a specific run, such as its current state, artifacts, metrics, and more. You can view and monitor runs using the W&B App or the `wandb leet` terminal UI.
 
 <Tabs>
-<Tab title="WA&B App">
+<Tab title="W&B App">
 
 To view a specific run in the W&B App:
 
@@ -98,7 +98,7 @@ W&B stores the following information below the overview section:
 * **Config**: List of config parameters saved with [`wandb.Run.config`](/models/track/config/).
 * **Summary**: List of summary parameters saved with [`wandb.Run.log()`](/models/track/log/). By default, W&B sets this value to the last value logged.
 
-You can use the search box aboce the Config and Summary sections to filter for specific parameters. For example, if you enter `acc` in the search box, W&B filters for all parameters with `acc` in their name such as `accuracy` and `val_acc`.
+You can use the search box above the Config and Summary sections to filter for specific parameters. For example, if you enter `acc` in the search box, W&B filters for all parameters with `acc` in their name such as `accuracy` and `val_acc`.
 
 <Note>
 W&B does not search for nested config or summary parameters. For example, if you log a nested config parameter with `wandb.Run.config.update({"model": {"learning_rate": 0.01}})`, W&B does not return the `learning_rate` parameter if you search for `learning_rate` in the search box. You can only find the `learning_rate` parameter by searching for `model`.
