@@ -39,12 +39,3 @@ reports:
       - models/track/log/media.mdx
     last_reviewed: 2026-07-21
     height: 720
-
-  - id: Vmlldzo3MDcxMA
-    url: https://wandb.ai/stacey/estuary/reports/When-Inception-ResNet-V2-is-too-slow--Vmlldzo3MDcxMA
-    owner: "@jmulhausen"
-    purpose: "Public demo (stacey/estuary): model speed comparison for the Run Comparer page"
-    pages:
-      - models/app/features/panels/run-comparer.mdx
-    last_reviewed: 2026-07-21
-    height: 720
