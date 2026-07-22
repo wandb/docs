@@ -1,0 +1,41 @@
+# ---------------------------------------------------------------------------
+# Registry of W&B Reports embedded in docs pages via <WandbReport>.
+# ---------------------------------------------------------------------------
+# Every <WandbReport src="..."> in an English .mdx page MUST have an entry
+# here, and the page MUST also link the report URL in prose (so agents,
+# llms.txt consumers, and the translation pipeline — which read MDX source,
+# where the iframe is opaque — still get the link).
+#
+# Validated by scripts/report-embeds/check_embeds.py (CI: report-embeds.yml).
+# An empty `reports: []` is a valid, passing state.
+#
+# To add an embedded report:
+#   1. Add an entry below. `id` is the trailing --Vmlldzo... token in the URL.
+#   2. On the page, add <WandbReport src="..."/> AND a plain Markdown link to
+#      the same report URL in the surrounding prose.
+#   3. Run: python3 scripts/report-embeds/check_embeds.py --mode static
+#
+# Only reports viewable by anonymous visitors work embedded: a report in a
+# public project, or one shared via a view-only ("magic") link. The URL —
+# including any ?accessToken= — ships in public source and git history, so
+# treat every embedded report as public forever. Never embed sensitive data.
+# ---------------------------------------------------------------------------
+
+reports:
+  - id: Vmlldzo0NjE4MzM
+    url: https://wandb.ai/stacey/saferlife/reports/SafeLife-Benchmark-Experiments--Vmlldzo0NjE4MzM
+    owner: "@jmulhausen"
+    purpose: "Public demo (stacey/saferlife): live benchmark report for the Reports overview"
+    pages:
+      - models/reports.mdx
+    last_reviewed: 2026-07-21
+    height: 720
+
+  - id: Vmlldzo2MzA5Mg
+    url: https://wandb.ai/stacey/lyft/reports/LIDAR-Point-Clouds-of-Driving-Scenes--Vmlldzo2MzA5Mg
+    owner: "@jmulhausen"
+    purpose: "Public demo (stacey/lyft): interactive 3D LIDAR point clouds for the Log media page"
+    pages:
+      - models/track/log/media.mdx
+    last_reviewed: 2026-07-21
+    height: 720
