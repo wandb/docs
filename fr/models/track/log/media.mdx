@@ -4,6 +4,7 @@ title: Journaliser des médias et des objets
 ---
 
 import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
+import { WandbReport } from '/snippets/WandbReport.jsx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Log_(Almost)_Anything_with_W%26B_Media.ipynb" />
 
@@ -329,6 +330,10 @@ Si des histogrammes figurent dans votre summary, ils apparaîtront dans l’ongl
 </div>
 
 Journalisez des nuages de points 3D et des scènes LiDAR avec des boîtes englobantes. Passez un tableau NumPy contenant les coordonnées et les couleurs des points pour le rendu.
+
+Les nuages de points enregistrés sont entièrement interactifs dans l’application W&amp;B. Par exemple, le [rapport LIDAR Point Clouds of Driving Scenes](https://wandb.ai/stacey/lyft/reports/LIDAR-Point-Clouds-of-Driving-Scenes--Vmlldzo2MzA5Mg) intégré ci-dessous montre des scènes du jeu de données Lyft avec des boîtes englobantes 3D. Faites glisser pour faire pivoter la vue et zoomer dans le visualiseur.
+
+<WandbReport src="https://wandb.ai/stacey/lyft/reports/LIDAR-Point-Clouds-of-Driving-Scenes--Vmlldzo2MzA5Mg" title="rapport LIDAR point clouds of driving scenes" height={720} />
 
 ```python
 point_cloud = np.array([[0, 0, 0, COLOR]])
