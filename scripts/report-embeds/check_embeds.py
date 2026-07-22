@@ -2,12 +2,9 @@
 """Check W&B report embeds used in docs pages.
 
 Embeds are discovered by scanning the English `.mdx` sources for the
-`<WandbReport>` component — there is no registry to keep in sync.
-
-Three modes:
-  static   - every embed sits on a page and has a recognizable report URL (no network)
-  liveness - anonymous HTTP check that each embedded report URL still renders
-  all      - both
+`<WandbReport>` component — there is no registry to keep in sync. Every run
+checks placement and a recognizable report URL, then verifies over the network
+that each report still renders anonymously.
 
 No third-party dependencies (standard library only).
 
@@ -186,10 +183,10 @@ def emit_github_annotations(findings: Iterable[Finding]) -> None:
         print(f"::error {loc}::[{f.code}] {f.message}")
 
 
-def render_markdown(findings: list[Finding], *, embeds: int, checked_urls: int) -> str:
+def render_markdown(findings: list[Finding], *, embeds: int) -> str:
     lines = ["# Report embed check", ""]
     if not findings:
-        lines.append(f"✅ All checks passed ({embeds} embed(s), {checked_urls} URL(s) checked).")
+        lines.append(f"✅ All {embeds} embed(s) render anonymously.")
         return "\n".join(lines) + "\n"
     lines += [f"Found {len(findings)} problem(s).", "", "| Code | Location | Detail |", "| --- | --- | --- |"]
     lines += [f"| {f.code} | {_loc(f)} | {f.message} |" for f in findings]
@@ -201,19 +198,13 @@ def render_markdown(findings: list[Finding], *, embeds: int, checked_urls: int) 
 # --------------------------------------------------------------------------- #
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--mode", choices=["static", "liveness", "all"], default="static")
     parser.add_argument("--root", type=Path, default=REPO_ROOT)
     parser.add_argument("--github", action="store_true", help="emit GitHub Actions annotations")
     parser.add_argument("--output-md", type=Path, help="write a Markdown report to this file")
     args = parser.parse_args(argv)
 
-    static_findings, embeds = scan(args.root)
-
-    findings: list[Finding] = list(static_findings) if args.mode in ("static", "all") else []
-    checked_urls = 0
-    if args.mode in ("liveness", "all"):
-        findings += check_liveness(embeds)
-        checked_urls = len(embeds)
+    findings, embeds = scan(args.root)
+    findings += check_liveness(embeds)
 
     if args.github:
         emit_github_annotations(findings)
@@ -222,11 +213,10 @@ def main(argv: list[str] | None = None) -> int:
             print(f"ERROR [{f.code}] {_loc(f)}: {f.message}")
 
     if args.output_md:
-        args.output_md.write_text(render_markdown(findings, embeds=len(embeds), checked_urls=checked_urls), encoding="utf-8")
+        args.output_md.write_text(render_markdown(findings, embeds=len(embeds)), encoding="utf-8")
 
     if not findings:
-        checked = f", {checked_urls} URL(s) checked" if args.mode in ("liveness", "all") else ""
-        print(f"OK: {len(embeds)} report embed(s) found{checked}.")
+        print(f"OK: {len(embeds)} report embed(s) checked.")
 
     return 1 if findings else 0
 

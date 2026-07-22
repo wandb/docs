@@ -1,11 +1,8 @@
 name: Report embeds
 
-# Checks live W&B report embeds (<WandbReport>) in docs pages. Embeds are
-# discovered by scanning the .mdx sources — there is no registry.
-# - On PRs: static check (every embed has a sibling prose link and sits on a page).
-# - Weekly: URL liveness, filing an issue on failure. Liveness never blocks PRs —
-#   wandb.ai rate-limits crawlers, so network results are flaky by design (this
-#   is also why wandb.ai is excluded from the site-wide lychee check).
+# Checks live W&B report embeds (<WandbReport>) in docs pages, discovered by
+# scanning the .mdx sources. Each run checks placement + URL liveness.
+# On PRs it blocks; on the weekly run it files an issue instead (never blocks).
 
 on:
   pull_request:
@@ -24,11 +21,10 @@ concurrency:
 
 permissions:
   contents: read
-  issues: write # scheduled liveness files an issue on failure
+  issues: write # the weekly run files an issue on failure
 
 jobs:
-  static:
-    if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
+  check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -37,23 +33,13 @@ jobs:
           python-version: "3.12"
       - name: Unit tests
         run: python3 -m unittest discover -s scripts/report-embeds/tests -p 'test_*.py' -v
-      - name: Embed consistency (prose link)
-        run: python3 scripts/report-embeds/check_embeds.py --mode static --github
-
-  liveness:
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
-        with:
-          python-version: "3.12"
-      - name: Liveness check
+      - name: Check embeds
         id: check
-        continue-on-error: true
-        run: python3 scripts/report-embeds/check_embeds.py --mode liveness --output-md ./embed-report.md
+        # Block PRs; on schedule/dispatch don't fail the run — file an issue below.
+        continue-on-error: ${{ github.event_name != 'pull_request' }}
+        run: python3 scripts/report-embeds/check_embeds.py --github --output-md ./embed-report.md
       - name: Create issue from file
-        if: steps.check.outcome == 'failure'
+        if: github.event_name != 'pull_request' && steps.check.outcome == 'failure'
         uses: peter-evans/create-issue-from-file@fca9117c27cdc29c6c4db3b86c48e4115a786710 # v6
         with:
           title: Fix broken report embeds in docs.wandb.ai

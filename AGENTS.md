@@ -99,7 +99,7 @@ To check or apply style, read the relevant pass file(s) and use them as guidance
     response="A concise example ARIA response"
   />
   ```
-- **Live report embeds**: To show a live, interactive W&B report on a page, import `/snippets/WandbReport.jsx` and render it with `src` (the report URL), `title` (an accessible description), and optional `height` (500–800; default 640):
+- **Live report embeds**: import `/snippets/WandbReport.jsx` and render it with `src` (report URL), `title` (accessible description), and optional `height` (500–800; default 640). The component renders its own "View Report" button, so no separate link is needed.
 
   ```mdx
   import { WandbReport } from '/snippets/WandbReport.jsx';
@@ -111,13 +111,12 @@ To check or apply style, read the relevant pass file(s) and use them as guidance
   />
   ```
 
-  The component renders a "View Report" button linking to the report, so no separate prose link is needed. Still, introduce each embed in the surrounding text so the page reads well and states what the reader should take from it. CI (`scripts/report-embeds/check_embeds.py`) discovers embeds by scanning the `.mdx` sources and checks placement and URL liveness — see [`scripts/report-embeds/README.md`](scripts/report-embeds/README.md).
+  - **Regular reports only, not Fully Connected articles** — FC articles keep their full blog chrome in a frame and look broken.
+  - **Anonymous-viewable** — a public-project report or a [view-only link](/models/reports/cross-project-reports#view-only-report-links). The URL (with any `?accessToken=`) ships in public source and git history, so treat the report as public forever.
+  - **One or two per page**, skinny and purpose-built — each iframe boots the full W&B app at a fixed height, in its own light theme.
+  - **English sources only** — not `ja/`, `ko/`, `fr/`.
 
-  Rules for every embed:
-  - **The report must be viewable by anonymous visitors**: a report in a public project, or one shared via a view-only link (`Share` → "anyone with the link can view"; see [View-only report links](/models/reports/cross-project-reports#view-only-report-links)). The URL — including any `?accessToken=` — ships in public source and git history, so treat the report as public forever and never embed sensitive data.
-  - **Regular reports only, not Fully Connected articles.** FC articles keep their full blog chrome in a frame and look broken. Regular reports render in a slim embed view.
-  - **Keep it skinny and sparse**: prefer purpose-built reports (ideally a single panel grid), one or two per page maximum. Each iframe boots the full W&B app, is a fixed height with inner scroll (no auto-resize), and renders its own light theme regardless of the docs dark-mode toggle — so article-length reports show as a tall scroll region, not the whole page at once.
-  - English sources only — never add embeds to `ja/`, `ko/`, or `fr/` copies.
+  CI enforces placement and liveness via `scripts/report-embeds/check_embeds.py`.
 
 ## Working with the repository
 
