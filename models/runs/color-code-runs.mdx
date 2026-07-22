@@ -11,7 +11,7 @@ To use metric or configuration-based colors for your runs, you need to configure
 
 1. Navigate to your W&B project.
 2. Select the **Workspace** tab from the project sidebar.
-3. Click on the **Settings** icon in the top right corner.
+3. Click the **Settings** icon in the top right corner.
 4. From the drawer, select **Runs**.
 5. In the **Run colors** section, select **Key-based colors**.
 6. Configure the following options:
@@ -20,14 +20,14 @@ To use metric or configuration-based colors for your runs, you need to configure
     - Set the number of buckets to a value from 2 to 8.
 
 <Note>
-When you use key-based colors, the option to [customize run colors](/models/runs/run-colors) is not available.
+When you use key-based colors, the option to [customize run colors](/models/runs/run-colors) isn't available.
 </Note>
 
 The following sections describe how to set the metric and y value and how to customize the buckets used for assigning colors to runs.
 
 ### Example: Key-based coloring with loss metric
 
-After you configure the settings above and close the drawer, line plots in your **Workspace** tab update to use the new colors. In this example plot, **Key** is set to `loss` and **Y value** is set to `Latest`, so runs are colored with a gradient where darker colors represent higher loss values and lighter colors represent lower loss values.
+After you configure the previous settings and close the drawer, line plots in your **Workspace** tab update to use the new colors. In this example plot, **Key** is set to `loss` and **Y value** is set to `Latest`. Runs are colored with a gradient where darker colors represent higher loss values and lighter colors represent lower loss values.
 
 <Image src="/images/app_ui/run-colors-key-based.png" alt="W&B workspace showing runs colored based on their loss values using key-based coloring." />
 
@@ -91,7 +91,7 @@ Within the **Key** dropdown, `"learning_rate"`, `"batch_size"`, and `"optimizer"
 
 You can choose from the following options:
 
-- **Latest**: Determine color based on Y value at last logged step for each line.
+- **Latest**: Color based on Y value at last logged step for each line.
 - **Max**: Color based on highest Y value logged against the metric.
 - **Min**: Color based on lowest Y value logged against the metric.
 
@@ -128,7 +128,7 @@ Six buckets are defined for the metric, with each bucket representing a range of
 - Bucket 5: (0.8214 - 0.8409)
 - Bucket 6: (0.8409 - Max)
 
-After you close the settings drawer, line plots in the workspace update to use the bucket colors. In the line plot below, the run with the highest accuracy (0.8232) is colored in a deep purple (Bucket 5), while the run with the lowest accuracy (0.7684) is colored in a light orange (Bucket 2). The other runs are colored based on their accuracy values, with the color gradient indicating their relative performance.
+After you close the settings drawer, line plots in the workspace update to use the bucket colors. In the following line plot, the run with the highest accuracy (0.8232) is colored in a deep purple (Bucket 5), while the run with the lowest accuracy (0.7684) is colored in a light orange (Bucket 2). The other runs are colored based on their accuracy values, with the color gradient indicating their relative performance.
 
 <Frame>
     <img src="/images/track/color-code-runs-plot.png" alt="Workspace line plot with runs colored by their maximum accuracy bucket."  />
