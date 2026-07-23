@@ -344,7 +344,7 @@ Creates a new user in your organization.
 | `userName` | string | Yes | The username for the new user |
 | `modelsSeat` | string | No | Models seat level. One of `full`, `viewer`, or `none`. Defaults to `full`. |
 | `weaveRole` | string | No | Weave role level. One of `full`, `viewer`, or `none`. Defaults to `full`. |
-| `registryAccess` | string | No | Registry entitlement. One of `enabled` or `none`. When omitted, effective access is derived from `modelsSeat` and `weaveRole` at read time. Available in **Multi-tenant Cloud**{/* and in **Dedicated Cloud** and **Self-Managed** v0.83.0+ */}. |
+| `registryAccess` | string | No | Registry entitlement. One of `enabled` or `none`. When omitted, effective access is derived from `modelsSeat` and `weaveRole` at read time. Available in **Multi-tenant Cloud** and in **Dedicated Cloud** and **Self-Managed** v0.83.0+. |
 
 #### Example
 
@@ -1130,9 +1130,9 @@ PATCH /scim/Users/abc
 Updates a user's Models seat.
 
 <Note>
-On **Multi-tenant Cloud**{/* and on **Dedicated Cloud** and **Self-Managed** v0.83.0+ */}, Registry access is decoupled from Models seats. Setting `modelsSeat` to `none` no longer revokes Registry access when the user has a non-`none` `weaveRole`. To revoke Registry access on those deployments, use [Update Registry access](#update-registry-access) and set `registryAccess` to `none`.
+On **Multi-tenant Cloud** and on **Dedicated Cloud** and **Self-Managed** v0.83.0+, Registry access is decoupled from Models seats. Setting `modelsSeat` to `none` no longer revokes Registry access when the user has a non-`none` `weaveRole`. To revoke Registry access on those deployments, use [Update Registry access](#update-registry-access) and set `registryAccess` to `none`.
 
-On **Dedicated Cloud** and **Self-Managed**, {/* v0.82.0 and older */} Registry access is still tied to `modelsSeat`. Set `modelsSeat` to `none` to revoke Registry access on those releases.
+On **Dedicated Cloud** and **Self-Managed** v0.82.0 and older, Registry access is still tied to `modelsSeat`. Set `modelsSeat` to `none` to revoke Registry access on those releases.
 </Note>
 
 #### Endpoint
@@ -1277,9 +1277,9 @@ PATCH /scim/Users/abc
 
 Grants or revokes organization-level Registry access for a user. This entitlement is separate from [Registry roles](#add-to-registry) (`registryRoles`), which control per-registry permissions after a user is entitled.
 
-On **Multi-tenant Cloud**, {/* and on **Dedicated Cloud** and **Self-Managed** v0.83.0+ */} users with a non-`none` `modelsSeat` or `weaveRole` are entitled to Registry by default. Set `registryAccess` to `none` to revoke Registry access without changing their Models seat or Weave role.
+On **Multi-tenant Cloud** and on **Dedicated Cloud** and **Self-Managed** v0.83.0+, users with a non-`none` `modelsSeat` or `weaveRole` are entitled to Registry by default. Set `registryAccess` to `none` to revoke Registry access without changing their Models seat or Weave role.
 
-On **Dedicated Cloud** and **Self-Managed**, {/* v0.82.0 and older */} use [Update Models seat](#update-models-seat) and set `modelsSeat` to `none` to revoke Registry access. The `registryAccess` attribute isn't available on those releases.
+On **Dedicated Cloud** and **Self-Managed**, v0.82.0 and older, use [Update Models seat](#update-models-seat) and set `modelsSeat` to `none` to revoke Registry access. The `registryAccess` attribute isn't available on those releases.
 
 When you omit `registryAccess` at create time, the API derives effective access from the user's `modelsSeat` and `weaveRole` when you read the user. An explicit `registryAccess` value overrides that derivation. Users with the billing-only organization role don't receive Registry access through this derivation.
 
@@ -2673,11 +2673,9 @@ W&B maintains two separate SCIM API implementations, and the features differ bet
 | Multiple emails per user        |    &check;      |      -       |
 | Set `modelsSeat` on create/update |    &check;    |    &check;   |
 | Set `weaveRole` on create/update  |    &check;    |    &check;   |
-| Set `registryAccess` on create/update | &check;   | -            |
+| Set `registryAccess` on create/update | &check;   | &check;      |
 | Revoke Registry access with `modelsSeat: none` | - | &check;      |
-| Revoke Registry access with `registryAccess: none` | &check; | - |
-
-{/* Fix with 0.83+ */}
+| Revoke Registry access with `registryAccess: none` | &check; | &check; |
 
 ## Limitations
 
