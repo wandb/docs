@@ -35,8 +35,7 @@ START_MARKER = "{/* new-articles:start */}"
 END_MARKER = "{/* new-articles:end */}"
 
 # Paths that never count as new articles: localized content, reusable
-# snippets, machine-generated reference docs, and auto-synced support
-# articles.
+# snippets, and machine-generated reference docs.
 EXCLUDED_PREFIXES = (
     "fr/",
     "ja/",
@@ -44,11 +43,27 @@ EXCLUDED_PREFIXES = (
     "snippets/",
     "models/ref/",
     "weave/reference/",
-    "support/",
     "docengine",
     ".github/",
     PAGE_PATH,
 )
+
+# Support tag index pages (support/<product>/tags/...) are listings, not
+# articles.
+EXCLUDED_PATH_RE = re.compile(r"^support/[^/]+/tags/")
+
+# Display labels for each article's service, keyed by top-level directory.
+# Directories not listed here fall back to the title-cased directory name.
+CATEGORY_LABELS = {
+    "models": "Models",
+    "weave": "Weave",
+    "platform": "Platform",
+    "inference": "Inference",
+    "serverless-training": "Serverless Training",
+    "sandboxes": "Sandboxes",
+    "support": "Support",
+    "release-notes": "Release Notes",
+}
 
 MONTH_NAMES = [
     "January", "February", "March", "April", "May", "June",
@@ -60,7 +75,7 @@ MONTH_HEADING_RE = re.compile(
 )
 ACCORDION_OPEN_RE = re.compile(r'^<Accordion title="(\d{4})">\s*$')
 ACCORDION_CLOSE_RE = re.compile(r"^</Accordion>\s*$")
-BULLET_RE = re.compile(r"^- \[")
+BULLET_RE = re.compile(r"^- (\[|\*\*)")
 FRONTMATTER_FIELD_RE = re.compile(
     r'^(title|description):\s*(?:"(.*)"|\'(.*)\'|(.*?))\s*$'
 )
@@ -112,6 +127,7 @@ def added_article_paths(session, pr_number):
                 f["status"] == "added"
                 and path.endswith(".mdx")
                 and not path.startswith(EXCLUDED_PREFIXES)
+                and not EXCLUDED_PATH_RE.match(path)
             ):
                 paths.append(path)
         if len(files) < 100:
@@ -141,6 +157,49 @@ def read_frontmatter(path):
             else:
                 description = value
     return (title, description) if title else None
+
+
+def category_label(path):
+    """Return the service label for an article, from its top-level directory."""
+    if "/" not in path:
+        return "General"
+    top = path.split("/", 1)[0]
+    return CATEGORY_LABELS.get(top, top.replace("-", " ").title())
+
+
+# Lines that can't start a body paragraph: imports, JSX components, headings,
+# comments, code fences, blockquotes, lists, tables, and images.
+NON_PARAGRAPH_RE = re.compile(r"^(import |export |<|#|\{/\*|```|>|[-*] |\d+\. |\||!\[)")
+MD_LINK_RE = re.compile(r"!?\[([^\]]*)\]\([^)]*\)")
+SENTENCE_END_RE = re.compile(r"(?<=[.!?])\s")
+
+
+def first_body_sentence(path):
+    """Return the first sentence of an article's body, as a plain string."""
+    try:
+        with open(path, encoding="utf-8") as f:
+            lines = f.read().splitlines()
+    except OSError:
+        return ""
+    # Skip the frontmatter block.
+    body_start = 0
+    if lines and lines[0].strip() == "---":
+        for i, line in enumerate(lines[1:], start=1):
+            if line.strip() == "---":
+                body_start = i + 1
+                break
+    paragraph = []
+    for line in lines[body_start:]:
+        if not line.strip() or NON_PARAGRAPH_RE.match(line.strip()):
+            if paragraph:
+                break
+            continue
+        paragraph.append(line.strip())
+    text = " ".join(paragraph)
+    text = MD_LINK_RE.sub(r"\1", text)
+    text = re.sub(r"[*_`]", "", text)
+    sentence = SENTENCE_END_RE.split(text, 1)[0].strip()
+    return sentence if len(sentence) <= 300 else ""
 
 
 def page_url(path):
@@ -238,7 +297,8 @@ def main():
                 print(f"  skipping {path}: deleted or missing a title")
                 continue
             title, description = frontmatter
-            entry = f"- [{title}]({url})"
+            entry = f"- **{category_label(path)}**: [{title}]({url})"
+            description = description or first_body_sentence(path)
             if description:
                 entry += f": {description}"
             key = (merged_at.year, merged_at.month)
