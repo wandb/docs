@@ -14,7 +14,7 @@ Create a W&B Experiment in four steps:
 1. [Initialize a W&B Run](#initialize-a-wb-run)
 2. [Capture a dictionary of hyperparameters](#capture-a-dictionary-of-hyperparameters)
 3. [Log metrics inside your training loop](#log-metrics-inside-your-training-loop)
-4. [Log an artifact to W&B](#log-an-artifact-to-wb)
+4. [Log an artifact to W&B](/models/track/create-an-experiment#log-an-artifact-to-w%26b)
 
 ### Initialize a W&B run
 Use [`wandb.init()`](/models/ref/python/functions/init) to create a W&B Run.
@@ -125,10 +125,10 @@ The following are some suggested guidelines to consider when you create experime
         # In a different cell:
         run.finish()
         ```
-- **Config**: Track hyperparameters, model architecture, dataset information, and other values needed to reproduce your model. For more information, see[View the config in the Overview section of a run in the W&B App](/models/track/config#view-config-values-in-the-w&b-app). 
+- **Config**: Track hyperparameters, model architecture, dataset information, and other values needed to reproduce your model. For more information, see [View the config in the Overview section of a run in the W&B App](/models/track/config#view-config-values-in-the-w&b-app). 
 - **Project**: Use [projects](/models/track/project-page) to organize experiments in a central location where you can visualize results, compare runs, view and download artifacts, create automations, and more.
 - **Notes**: Add notes to describe the purpose of a run, such as `baseline model` or `tuned hyperparameters`. You can edit notes later from the run overview in the W&B App.
-- **Job types**: [Add job types to your runs](/runs/grouping#organize-runs-by-job-type) to organize and filter runs by task, such as `train`, `test`, or `inference`.
+- **Job types**: [Add job types to your runs](/models/runs/grouping#organize-runs-by-job-type) to organize and filter runs by task, such as `train`, `test`, or `inference`.
 - **Tags**: [Add tags to runs](/models/runs/tags) to label runs with features or attributes that might not be obvious from logged metrics or artifacts.
 
 The following example shows how to initialize a W&B run using these best practices:
