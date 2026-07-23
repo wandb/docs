@@ -3,173 +3,142 @@ title: "StringPrompt"
 description: "TypeScript SDK reference"
 ---
 
-## Hierarchy
+Defined in: [src/prompt.ts:18](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/prompt.ts#L18)
+
+## Extends
 
 - `Prompt`
 
-  ↳ `StringPrompt`
-
-## Table of contents
-
-### Constructors
-
-- [constructor](./stringprompt#constructor)
-
-### Properties
-
-- [\_\_savedRef](./stringprompt#__savedref)
-- [content](./stringprompt#content)
-
-### Accessors
-
-- [description](./stringprompt#description)
-- [name](./stringprompt#name)
-
-### Methods
-
-- [format](./stringprompt#format)
-- [saveAttrs](./stringprompt#saveattrs)
-- [get](./stringprompt#get)
-
 ## Constructors
 
-### constructor
+### Constructor
 
-• **new StringPrompt**(`parameters`): [`StringPrompt`](./stringprompt)
+> **new StringPrompt**(`parameters`): `StringPrompt`
+
+Defined in: [src/prompt.ts:21](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/prompt.ts#L21)
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `parameters` | `StringPromptParameters` |
+##### parameters
+
+`StringPromptParameters`
 
 #### Returns
 
-[`StringPrompt`](./stringprompt)
+`StringPrompt`
 
 #### Overrides
 
-Prompt.constructor
-
-#### Defined in
-
-[src/prompt.ts:21](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/prompt.ts#L21)
+`Prompt.constructor`
 
 ## Properties
 
-### \_\_savedRef
+### \_\_savedRef?
 
-• `Optional` **\_\_savedRef**: [`ObjectRef`](./objectref) \| `Promise`\<[`ObjectRef`](./objectref)\>
+> `optional` **\_\_savedRef?**: [`ObjectRef`](./objectref) \| `Promise`\<[`ObjectRef`](./objectref)\>
+
+Defined in: [src/weaveObject.ts:71](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L71)
 
 #### Inherited from
 
-Prompt.\_\_savedRef
+`Prompt.__savedRef`
 
-#### Defined in
-
-[src/weaveObject.ts:71](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L71)
-
-___
+***
 
 ### content
 
-• **content**: `string`
+> **content**: `string`
 
-#### Defined in
-
-[src/prompt.ts:19](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/prompt.ts#L19)
+Defined in: [src/prompt.ts:19](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/prompt.ts#L19)
 
 ## Accessors
 
 ### description
 
-• `get` **description**(): `undefined` \| `string`
+#### Get Signature
 
-#### Returns
+> **get** **description**(): `string` \| `undefined`
 
-`undefined` \| `string`
+Defined in: [src/weaveObject.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L98)
+
+##### Returns
+
+`string` \| `undefined`
 
 #### Inherited from
 
-Prompt.description
+`Prompt.description`
 
-#### Defined in
-
-[src/weaveObject.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L98)
-
-___
+***
 
 ### name
 
-• `get` **name**(): `string`
+#### Get Signature
 
-#### Returns
+> **get** **name**(): `string`
+
+Defined in: [src/weaveObject.ts:94](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L94)
+
+##### Returns
 
 `string`
 
 #### Inherited from
 
-Prompt.name
-
-#### Defined in
-
-[src/weaveObject.ts:94](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L94)
+`Prompt.name`
 
 ## Methods
 
-### format
+### format()
 
-▸ **format**(`values?`): `string`
+> **format**(`values?`): `string`
+
+Defined in: [src/prompt.ts:26](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/prompt.ts#L26)
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `values` | `Record`\<`string`, `any`\> |
+##### values?
+
+`Record`\<`string`, `any`\> = `{}`
 
 #### Returns
 
 `string`
 
-#### Defined in
+***
 
-[src/prompt.ts:26](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/prompt.ts#L26)
+### saveAttrs()
 
-___
+> **saveAttrs**(): `object`
 
-### saveAttrs
-
-▸ **saveAttrs**(): `Object`
+Defined in: [src/weaveObject.ts:75](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L75)
 
 #### Returns
 
-`Object`
+`object`
 
 #### Inherited from
 
-Prompt.saveAttrs
+`Prompt.saveAttrs`
 
-#### Defined in
+***
 
-[src/weaveObject.ts:75](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L75)
+### get()
 
-___
+> `static` **get**(`client`, `uri`): `Promise`\<`StringPrompt`\>
 
-### get
-
-▸ **get**(`client`, `uri`): `Promise`\<[`StringPrompt`](./stringprompt)\>
+Defined in: [src/prompt.ts:30](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/prompt.ts#L30)
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `client` | [`WeaveClient`](./weaveclient) |
-| `uri` | `string` |
+##### client
+
+[`WeaveClient`](../interfaces/weaveclient)
+
+##### uri
+
+`string`
 
 #### Returns
 
-`Promise`\<[`StringPrompt`](./stringprompt)\>
-
-#### Defined in
-
-[src/prompt.ts:30](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/prompt.ts#L30)
+`Promise`\<`StringPrompt`\>

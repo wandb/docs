@@ -3,31 +3,29 @@ title: "startLLM"
 description: "TypeScript SDK reference"
 ---
 
-# startLLM
+> **startLLM**(`opts`): [`LLM`](../interfaces/llm)
 
-▸ **startLLM**(`opts`): [`LLM`](../classes/llm)
+Defined in: [src/genai/api.ts:77](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L77)
 
 Start an LLM span as a child of the current Turn. Throws if no Turn is
 active.
 
-#### Parameters
+## Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `opts` | [`LLMInit`](../interfaces/llminit) |
+### opts
 
-#### Returns
+[`LLMInit`](../interfaces/llminit)
 
-[`LLM`](../classes/llm)
+## Returns
 
-`Example`
+[`LLM`](../interfaces/llm)
+
+## Examples
 
 ```ts twoslash
 // @noErrors
 weave.startLLM({model: 'gpt-4o-mini', providerName: 'openai'});
 ```
-
-`Example`
 
 ```ts twoslash
 // @noErrors
@@ -38,9 +36,3 @@ weave.startLLM({
   startTime: new Date('2026-05-29T10:00:00.000Z'),
 });
 ```
-
-#### Defined in
-
-[src/genai/api.ts:77](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L77)
-
-___

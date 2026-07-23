@@ -3,12 +3,14 @@ title: "EvaluationLogger"
 description: "TypeScript SDK reference"
 ---
 
+Defined in: [src/evaluationLogger.ts:554](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L554)
+
 EvaluationLogger enables incremental logging of predictions and scores.
 
 Unlike the traditional Evaluation class which requires upfront dataset and batch processing,
 EvaluationLogger allows you to log predictions as they happen, with flexible scoring.
 
-`Example`
+## Example
 
 ```ts twoslash
 // @noErrors
@@ -27,43 +29,31 @@ for (const example of streamingData) {
 await ev.logSummary();
 ```
 
-## Table of contents
-
-### Constructors
-
-- [constructor](./evaluationlogger#constructor)
-
-### Methods
-
-- [logPrediction](./evaluationlogger#logprediction)
-- [logPredictionAsync](./evaluationlogger#logpredictionasync)
-- [logSummary](./evaluationlogger#logsummary)
-
 ## Constructors
 
-### constructor
+### Constructor
 
-• **new EvaluationLogger**(`options`): [`EvaluationLogger`](./evaluationlogger)
+> **new EvaluationLogger**(`options`): `EvaluationLogger`
+
+Defined in: [src/evaluationLogger.ts:573](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L573)
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `options` | `EvaluationLoggerOptions` |
+##### options
+
+`EvaluationLoggerOptions`
 
 #### Returns
 
-[`EvaluationLogger`](./evaluationlogger)
-
-#### Defined in
-
-[src/evaluationLogger.ts:573](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L573)
+`EvaluationLogger`
 
 ## Methods
 
-### logPrediction
+### logPrediction()
 
-▸ **logPrediction**(`inputs`, `output`): [`ScoreLogger`](./scorelogger)
+> **logPrediction**(`inputs`, `output`): [`ScoreLogger`](./scorelogger)
+
+Defined in: [src/evaluationLogger.ts:660](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L660)
 
 Log a prediction with its input and output (synchronous version).
 Creates a predict_and_score call (with child predict call).
@@ -74,16 +64,19 @@ ScoreLogger (logScore, finish) will be queued and executed when initialization c
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `inputs` | `Record`\<`string`, `any`\> |
-| `output` | `any` |
+##### inputs
+
+`Record`\<`string`, `any`\>
+
+##### output
+
+`any`
 
 #### Returns
 
 [`ScoreLogger`](./scorelogger)
 
-`Example`
+#### Example
 
 ```ts twoslash
 // @noErrors
@@ -94,15 +87,13 @@ scoreLogger.finish();
 await evalLogger.logSummary(); // Waits for everything
 ```
 
-#### Defined in
+***
 
-[src/evaluationLogger.ts:660](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L660)
+### logPredictionAsync()
 
-___
+> **logPredictionAsync**(`inputs`, `output`): `Promise`\<[`ScoreLogger`](./scorelogger)\>
 
-### logPredictionAsync
-
-▸ **logPredictionAsync**(`inputs`, `output`): `Promise`\<[`ScoreLogger`](./scorelogger)\>
+Defined in: [src/evaluationLogger.ts:685](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L685)
 
 Log a prediction with its input and output (async version).
 Like logPrediction() but returns a Promise that resolves when
@@ -112,16 +103,19 @@ Use this if you need to await the initialization before proceeding.
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `inputs` | `Record`\<`string`, `any`\> |
-| `output` | `any` |
+##### inputs
+
+`Record`\<`string`, `any`\>
+
+##### output
+
+`any`
 
 #### Returns
 
 `Promise`\<[`ScoreLogger`](./scorelogger)\>
 
-`Example`
+#### Example
 
 ```ts twoslash
 // @noErrors
@@ -131,15 +125,13 @@ await scoreLogger.logScore('accuracy', 0.95);
 await scoreLogger.finish();
 ```
 
-#### Defined in
+***
 
-[src/evaluationLogger.ts:685](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L685)
+### logSummary()
 
-___
+> **logSummary**(`summary?`): `Promise`\<`void`\>
 
-### logSummary
-
-▸ **logSummary**(`summary?`): `Promise`\<`void`\>
+Defined in: [src/evaluationLogger.ts:786](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L786)
 
 Log a summary and finalize the evaluation.
 Creates a summarize call and finishes the evaluate call.
@@ -149,14 +141,10 @@ it will wait for all pending operations to complete.
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `summary?` | `Record`\<`string`, `any`\> |
+##### summary?
+
+`Record`\<`string`, `any`\>
 
 #### Returns
 
 `Promise`\<`void`\>
-
-#### Defined in
-
-[src/evaluationLogger.ts:786](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L786)

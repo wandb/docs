@@ -3,9 +3,9 @@ title: "startTool"
 description: "TypeScript SDK reference"
 ---
 
-# startTool
+> **startTool**(`opts`): [`Tool`](../interfaces/tool)
 
-▸ **startTool**(`opts`): [`Tool`](../classes/tool)
+Defined in: [src/genai/api.ts:110](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L110)
 
 Start a Tool span. Parent resolution (matches the design's "flat by
 default, hierarchical if you nest"):
@@ -14,17 +14,17 @@ default, hierarchical if you nest"):
 
 Throws if neither a Turn nor an LLM is active.
 
-#### Parameters
+## Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `opts` | [`ToolInit`](../interfaces/toolinit) |
+### opts
 
-#### Returns
+[`ToolInit`](../interfaces/toolinit)
 
-[`Tool`](../classes/tool)
+## Returns
 
-`Example`
+[`Tool`](../interfaces/tool)
+
+## Examples
 
 ```ts twoslash
 // @noErrors
@@ -34,8 +34,6 @@ weave.startTool({
   toolCallId: 'call_t1',
 });
 ```
-
-`Example`
 
 ```ts twoslash
 // @noErrors
@@ -46,9 +44,3 @@ weave.startTool({
   startTime: new Date('2026-05-29T10:00:00.800Z'),
 });
 ```
-
-#### Defined in
-
-[src/genai/api.ts:110](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L110)
-
-___

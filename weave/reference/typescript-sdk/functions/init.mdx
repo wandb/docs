@@ -3,31 +3,35 @@ title: "init"
 description: "TypeScript SDK reference"
 ---
 
-# init
+> **init**(`project`, `settings?`): `Promise`\<[`WeaveClient`](../interfaces/weaveclient)\>
 
-▸ **init**(`project`, `settings?`): `Promise`\<[`WeaveClient`](../classes/weaveclient)\>
+Defined in: [src/clientApi.ts:87](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/clientApi.ts#L87)
 
 Initialize the Weave client, which is required for weave tracing to work.
 
-#### Parameters
+## Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `project` | `string` | The W&B project name (can be project or entity/project). If you don't specify a W&B team (e.g., 'team/project'), your default entity is used. To find or update your default entity, refer to User Settings at https://docs.wandb.ai/platform/app/settings-page/user-settings#default-team |
-| `settings?` | `Partial`\<[`Settings`](../type-aliases/settings)\> | (Optional) Weave tracing settings |
+### project
 
-#### Returns
+`string`
 
-`Promise`\<[`WeaveClient`](../classes/weaveclient)\>
+The W&B project name (can be project or entity/project). If you don't
+                  specify a W&B team (e.g., 'team/project'), your default entity is used.
+                  To find or update your default entity, refer to User Settings at
+                  https://docs.wandb.ai/platform/app/settings-page/user-settings#default-team
+
+### settings?
+
+`Partial`\<[`Settings`](../type-aliases/settings)\>
+
+(Optional) Weave tracing settings
+
+## Returns
+
+`Promise`\<[`WeaveClient`](../interfaces/weaveclient)\>
 
 A promise that resolves to the initialized Weave client.
 
-`Throws`
+## Throws
 
 If the initialization fails
-
-#### Defined in
-
-[src/clientApi.ts:87](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/clientApi.ts#L87)
-
-___

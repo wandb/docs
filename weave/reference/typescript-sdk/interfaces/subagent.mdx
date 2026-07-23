@@ -1,0 +1,183 @@
+---
+title: "SubAgent"
+description: "TypeScript SDK reference"
+---
+
+Defined in: [src/genai/subagent.ts:65](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L65)
+
+## Extends
+
+- `SpanBase`
+
+## Accessors
+
+### model
+
+#### Get Signature
+
+> **get** **model**(): `string`
+
+Defined in: [src/genai/subagent.ts:78](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L78)
+
+##### Returns
+
+`string`
+
+***
+
+### name
+
+#### Get Signature
+
+> **get** **name**(): `string`
+
+Defined in: [src/genai/subagent.ts:74](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L74)
+
+##### Returns
+
+`string`
+
+## Methods
+
+### ~~addEvent()~~
+
+<Warning>
+  **Deprecated.** Record this data via [setAttributes](#setattributes) instead.
+OpenTelemetry is phasing out the Span Event API (`Span.addEvent`). This
+method still works and existing span-event data stays valid.
+See https://opentelemetry.io/blog/2026/deprecating-span-events/
+</Warning>
+
+> **addEvent**(`name`, `attributes?`, `startTime?`): `this`
+
+Defined in: [src/genai/spanBase.ts:82](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L82)
+
+Add a named event to the span. Useful for marking non-span moments such as
+context compaction, tool-loop detection, or guardrail trips. Warns and
+no-ops after `end()`. Mirrors OTel `Span.addEvent`.
+
+#### Parameters
+
+##### name
+
+`string`
+
+##### attributes?
+
+`Attributes`
+
+##### startTime?
+
+`TimeInput`
+
+#### Returns
+
+`this`
+
+#### Example
+
+```ts twoslash
+// @noErrors
+span.addEvent('context_compacted', {removedMessages: 12});
+```
+
+#### Inherited from
+
+`SpanBase.addEvent`
+
+***
+
+### end()
+
+> **end**(`opts?`): `void`
+
+Defined in: [src/genai/subagent.ts:153](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L153)
+
+Read current field values (to reflect mutations made via `record()`
+since `start`) and close the span. Idempotent. Pass `error` to mark
+it as failed; pass `endTime` to backdate the close.
+
+#### Parameters
+
+##### opts?
+
+`SpanEndOptions`
+
+#### Returns
+
+`void`
+
+***
+
+### record()
+
+> **record**(`opts`): `this`
+
+Defined in: [src/genai/subagent.ts:117](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L117)
+
+Bulk-set any fields. Replaces (does not merge).
+
+#### Parameters
+
+##### opts
+
+###### agentDescription?
+
+`string`
+
+###### agentId?
+
+`string`
+
+###### agentVersion?
+
+`string`
+
+###### model?
+
+`string`
+
+###### name?
+
+`string`
+
+###### systemInstructions?
+
+`string`[]
+
+#### Returns
+
+`this`
+
+***
+
+### setAttributes()
+
+> **setAttributes**(`attributes`): `this`
+
+Defined in: [src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L63)
+
+Set multiple attributes on the span at once. Warns and no-ops after
+`end()`. Mirrors OTel `Span.setAttributes` (and the Python SDK's
+`set_attributes`).
+
+#### Parameters
+
+##### attributes
+
+`Attributes`
+
+#### Returns
+
+`this`
+
+#### Example
+
+```ts twoslash
+// @noErrors
+span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
+```
+
+#### Inherited from
+
+`SpanBase.setAttributes`

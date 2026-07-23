@@ -1,0 +1,951 @@
+---
+title: "WeaveClient"
+description: "TypeScript SDK reference"
+---
+
+Defined in: [src/weaveClient.ts:445](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L445)
+
+## Properties
+
+### projectId
+
+> **projectId**: `string`
+
+Defined in: [src/weaveClient.ts:456](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L456)
+
+***
+
+### settings
+
+> **settings**: [`Settings`](../type-aliases/settings)
+
+Defined in: [src/weaveClient.ts:457](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L457)
+
+***
+
+### traceServerApi
+
+> **traceServerApi**: `Api`\<`any`\>
+
+Defined in: [src/weaveClient.ts:455](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L455)
+
+## Methods
+
+### addScore()
+
+> **addScore**(`predictCallId`, `scorerCallId`, `runnableRefUri`, `scorerOutput`): `Promise`\<`string`\>
+
+Defined in: [src/weaveClient.ts:1727](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1727)
+
+Add a scorer result (e.g., scorer output) to a call.
+Used in imperative evaluation to attach scorer results to predict calls.
+
+#### Parameters
+
+##### predictCallId
+
+`string`
+
+ID of the predict call to attach feedback to
+
+##### scorerCallId
+
+`string`
+
+ID of the scorer call that generated the feedback
+
+##### runnableRefUri
+
+`string`
+
+URI of the scorer (Op or Object ref)
+
+##### scorerOutput
+
+`any`
+
+Output of the scorer
+
+#### Returns
+
+`Promise`\<`string`\>
+
+***
+
+### createCall()
+
+> **createCall**(`internalCall`, `opRef`, `params`, `parameterNames`, `thisArg`, `currentCall`, `parentCall`, `startTime`, `displayName?`, `attributes?`): `Promise`\<`void`\>
+
+Defined in: [src/weaveClient.ts:1570](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1570)
+
+#### Parameters
+
+##### internalCall
+
+`InternalCall`
+
+##### opRef
+
+`any`
+
+##### params
+
+`any`[]
+
+##### parameterNames
+
+`ParameterNamesOption`
+
+##### thisArg
+
+`any`
+
+##### currentCall
+
+`CallStackEntry`
+
+##### parentCall
+
+`CallStackEntry` \| `undefined`
+
+##### startTime
+
+`Date`
+
+##### displayName?
+
+`string`
+
+##### attributes?
+
+`Record`\<`string`, `any`\>
+
+#### Returns
+
+`Promise`\<`void`\>
+
+***
+
+### finishCall()
+
+> **finishCall**(`call`, `result`, `currentCall`, `parentCall`, `summarize`, `endTime`, `startCallPromise`): `Promise`\<`void`\>
+
+Defined in: [src/weaveClient.ts:1630](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1630)
+
+#### Parameters
+
+##### call
+
+`InternalCall`
+
+##### result
+
+`any`
+
+##### currentCall
+
+`CallStackEntry`
+
+##### parentCall
+
+`CallStackEntry` \| `undefined`
+
+##### summarize
+
+((`result`) => `Record`\<`string`, `any`\>) \| `undefined`
+
+##### endTime
+
+`Date`
+
+##### startCallPromise
+
+`Promise`\<`void`\>
+
+#### Returns
+
+`Promise`\<`void`\>
+
+***
+
+### finishCallWithException()
+
+> **finishCallWithException**(`call`, `error`, `currentCall`, `parentCall`, `endTime`, `startCallPromise`): `Promise`\<`void`\>
+
+Defined in: [src/weaveClient.ts:1672](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1672)
+
+#### Parameters
+
+##### call
+
+`InternalCall`
+
+##### error
+
+`any`
+
+##### currentCall
+
+`CallStackEntry`
+
+##### parentCall
+
+`CallStackEntry` \| `undefined`
+
+##### endTime
+
+`Date`
+
+##### startCallPromise
+
+`Promise`\<`void`\>
+
+#### Returns
+
+`Promise`\<`void`\>
+
+***
+
+### get()
+
+> **get**(`ref`): `Promise`\<`any`\>
+
+Defined in: [src/weaveClient.ts:1025](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1025)
+
+#### Parameters
+
+##### ref
+
+[`ObjectRef`](../classes/objectref)
+
+#### Returns
+
+`Promise`\<`any`\>
+
+***
+
+### getAgentCustomAttributes()
+
+> **getAgentCustomAttributes**(`options`): `Promise`\<[`Response`](../type-aliases/response)\<`GetAgentCustomAttributesResult`\>\>
+
+Defined in: [src/weaveClient.ts:772](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L772)
+
+Discover typed custom-attribute keys observed on agent spans in the
+project. Each result row is one `(source, key, value_type)` triple plus
+a count of how many spans carry it, which is what the spans
+query/group/stats APIs use to reference custom attrs.
+
+Filter the spans considered by passing `query` (a structured span
+filter), `startedAfter` / `startedBefore` (ISO-8601), or both. Use
+`limit` / `offset` to page through the discovered keys.
+
+#### Parameters
+
+##### options
+
+`GetAgentCustomAttributesOptions`
+
+#### Returns
+
+`Promise`\<[`Response`](../type-aliases/response)\<`GetAgentCustomAttributesResult`\>\>
+
+#### Example
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgentCustomAttributes({
+  query: {
+    $expr: {
+      $eq: [{$getField: 'agent_name'}, {$literal: 'my-agent'}],
+    },
+  },
+  startedAfter: '2026-06-15T00:00:00Z',
+  limit: 200,
+});
+
+for (const attr of resp.data.attributes ?? []) {
+  console.log(`${attr.source}.${attr.key} (${attr.value_type}): ${attr.span_count}`);
+}
+```
+
+***
+
+### getAgents()
+
+> **getAgents**(`options?`): `Promise`\<[`Response`](../type-aliases/response)\<[`GetAgentsResult`](../type-aliases/getagentsresult)\>\>
+
+Defined in: [src/weaveClient.ts:488](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L488)
+
+List agents with aggregated stats.
+
+#### Parameters
+
+##### options?
+
+[`GetAgentsOptions`](./getagentsoptions) = `{}`
+
+#### Returns
+
+`Promise`\<[`Response`](../type-aliases/response)\<[`GetAgentsResult`](../type-aliases/getagentsresult)\>\>
+
+#### Example
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgents({limit: 20});
+
+for (const agent of resp.data.agents) {
+  console.log(agent.agent_name, agent.total_input_tokens);
+}
+
+console.log(`total count: ${resp.data.total_count}`)
+```
+
+***
+
+### getAgentSpans()
+
+> **getAgentSpans**(`options`): `Promise`\<[`Response`](../type-aliases/response)\<[`GetAgentSpansResult`](../type-aliases/getagentspansresult)\>\>
+
+Defined in: [src/weaveClient.ts:566](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L566)
+
+Query agent spans, optionally filtered by agent name and/or a mongo-style
+query expression.
+
+#### Parameters
+
+##### options
+
+[`GetAgentSpansOptions`](./getagentspansoptions)
+
+#### Returns
+
+`Promise`\<[`Response`](../type-aliases/response)\<[`GetAgentSpansResult`](../type-aliases/getagentspansresult)\>\>
+
+#### Examples
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgentSpans({agentName: 'my-agent', limit: 20});
+
+for (const span of resp.data.spans) {
+  console.log(span.span_id, span.span_name, span.input_tokens);
+}
+```
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+
+const resp = await client.getAgentSpans({
+  agentName: 'my-agent',
+  query: {
+    $expr: {$gt: [{$getField: 'input_tokens'}, {$literal: 1000}]},
+  },
+});
+
+for (const span of resp.data.spans) {
+  console.log(span.span_id, span.span_name, span.input_tokens);
+}
+```
+
+***
+
+### getAgentSpanStats()
+
+> **getAgentSpanStats**(`options`): `Promise`\<[`Response`](../type-aliases/response)\<`GetAgentSpanStatsResult`\>\>
+
+Defined in: [src/weaveClient.ts:621](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L621)
+
+Agregations over agent spans in the project, returned as rows + column
+metadata suitable for time-series / bucketed visualizations.
+
+`start` (required) and `end` define the time window. Each entry in
+`metrics` declares a field to extract and how to aggregate it (`sum`,
+`avg`, `count`, percentiles, etc.). Pass `granularity` (seconds) to
+bucket rows by time, or `groupBy` to break results out per agent /
+provider / model / etc. `query` filters the underlying spans before
+aggregation.
+
+#### Parameters
+
+##### options
+
+`GetAgentSpanStatsOptions`
+
+#### Returns
+
+`Promise`\<[`Response`](../type-aliases/response)\<`GetAgentSpanStatsResult`\>\>
+
+#### Example
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgentSpanStats({
+  start: '2026-06-10T00:00:00Z',
+  end: '2026-06-23T00:00:00Z',
+  granularity: 86400, // one row per day
+  metrics: [
+    {
+      alias: 'total_input_tokens',
+      value_type: 'number',
+      aggregations: ['sum'],
+      value: {source: 'field', key: 'input_tokens'},
+    },
+  ],
+  groupBy: [{key: 'agent_name'}],
+});
+
+for (const row of resp.data.rows ?? []) {
+  console.log(row.started_at_bucket, row.agent_name, row.total_input_tokens);
+}
+```
+
+***
+
+### getAgentTurn()
+
+> **getAgentTurn**(`options`): `Promise`\<[`Response`](../type-aliases/response)\<`AgentTraceChatRes`\>\>
+
+Defined in: [src/weaveClient.ts:655](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L655)
+
+Get data (including messages) for a single turn (by traceId).
+
+#### Parameters
+
+##### options
+
+[`GetAgentTurnOptions`](./getagentturnoptions)
+
+#### Returns
+
+`Promise`\<[`Response`](../type-aliases/response)\<`AgentTraceChatRes`\>\>
+
+#### Example
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgentTurn({
+  traceId: '01997b8a-2c89-7c4d-9d0e-2f7e5b9a1b2c',
+  includeFeedback: true,
+});
+
+console.log(resp.data.root_span_name, resp.data.total_duration_ms);
+
+for (const message of resp.data.messages ?? []) {
+  if (message.user_message) console.log('user:', message.user_message);
+  if (message.assistant_message) console.log('assistant:', message.assistant_message);
+}
+```
+
+***
+
+### getAgentTurns()
+
+> **getAgentTurns**(`options`): `Promise`\<[`Response`](../type-aliases/response)\<[`GetAgentTurnsResult`](../type-aliases/getagentturnsresult)\>\>
+
+Defined in: [src/weaveClient.ts:688](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L688)
+
+Get data (including messages) for many turns (by conversationId).
+
+#### Parameters
+
+##### options
+
+[`GetAgentTurnsOptions`](./getagentturnsoptions)
+
+#### Returns
+
+`Promise`\<[`Response`](../type-aliases/response)\<[`GetAgentTurnsResult`](../type-aliases/getagentturnsresult)\>\>
+
+#### Example
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgentTurns({
+  conversationId: 'trace_c50312356de3487fa90e381c9399b5b4',
+  limit: 20,
+  includeFeedback: true,
+});
+
+for (const turn of resp.data.turns ?? []) {
+  console.log(turn.trace_id, turn.root_span_name);
+  for (const message of turn.messages ?? []) {
+    if (message.user_message) console.log('user:', message.user_message);
+    if (message.assistant_message) console.log('assistant:', message.assistant_message);
+  }
+}
+
+console.log(`total turns: ${resp.data.total_turns}, has more: ${resp.data.has_more}`);
+```
+
+***
+
+### getAgentVersions()
+
+> **getAgentVersions**(`options`): `Promise`\<[`Response`](../type-aliases/response)\<[`GetAgentVersionsResult`](../type-aliases/getagentversionsresult)\>\>
+
+Defined in: [src/weaveClient.ts:522](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L522)
+
+List versions for a given agent.
+
+#### Parameters
+
+##### options
+
+[`GetAgentVersionsOptions`](./getagentversionsoptions)
+
+#### Returns
+
+`Promise`\<[`Response`](../type-aliases/response)\<[`GetAgentVersionsResult`](../type-aliases/getagentversionsresult)\>\>
+
+#### Example
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgentVersions({agentName: 'my-agent', limit: 20});
+
+for (const version of resp.data.versions) {
+  console.log(version.agent_version, version.total_input_tokens);
+}
+
+console.log(`total count: ${resp.data.total_count}`)
+```
+
+***
+
+### getCall()
+
+> **getCall**(`callId`, `includeCosts?`): `Promise`\<`Call`\>
+
+Defined in: [src/weaveClient.ts:902](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L902)
+
+#### Parameters
+
+##### callId
+
+`string`
+
+##### includeCosts?
+
+`boolean` = `false`
+
+#### Returns
+
+`Promise`\<`Call`\>
+
+***
+
+### getCalls()
+
+#### Call Signature
+
+> **getCalls**(`options?`): `Promise`\<`Call`[]\>
+
+Defined in: [src/weaveClient.ts:935](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L935)
+
+##### Parameters
+
+###### options?
+
+[`GetCallsOptions`](./getcallsoptions)
+
+##### Returns
+
+`Promise`\<`Call`[]\>
+
+#### Call Signature
+
+> **getCalls**(`options?`, `includeCosts?`, `limit?`): `Promise`\<`Call`[]\>
+
+Defined in: [src/weaveClient.ts:936](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L936)
+
+##### Parameters
+
+###### options?
+
+[`CallsFilter`](./callsfilter)
+
+###### includeCosts?
+
+`boolean`
+
+###### limit?
+
+`number`
+
+##### Returns
+
+`Promise`\<`Call`[]\>
+
+***
+
+### getCallsIterator()
+
+#### Call Signature
+
+> **getCallsIterator**(`options?`, `includeCosts?`, `limit?`): `AsyncIterableIterator`\<[`CallSchema`](./callschema)\>
+
+Defined in: [src/weaveClient.ts:957](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L957)
+
+##### Parameters
+
+###### options?
+
+[`CallsFilter`](./callsfilter)
+
+###### includeCosts?
+
+`boolean`
+
+###### limit?
+
+`number`
+
+##### Returns
+
+`AsyncIterableIterator`\<[`CallSchema`](./callschema)\>
+
+#### Call Signature
+
+> **getCallsIterator**(`options?`): `AsyncIterableIterator`\<[`CallSchema`](./callschema)\>
+
+Defined in: [src/weaveClient.ts:962](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L962)
+
+##### Parameters
+
+###### options?
+
+[`GetCallsOptions`](./getcallsoptions)
+
+##### Returns
+
+`AsyncIterableIterator`\<[`CallSchema`](./callschema)\>
+
+***
+
+### getCallStack()
+
+> **getCallStack**(): `CallStack`
+
+Defined in: [src/weaveClient.ts:1482](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1482)
+
+#### Returns
+
+`CallStack`
+
+***
+
+### getCurrentAttributes()
+
+> **getCurrentAttributes**(): `Record`\<`string`, `any`\>
+
+Defined in: [src/weaveClient.ts:1486](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1486)
+
+#### Returns
+
+`Record`\<`string`, `any`\>
+
+***
+
+### linkPromptToRegistry()
+
+> **linkPromptToRegistry**(`prompt`, `options`): `Promise`\<`LinkAssetToRegistryRes`\>
+
+Defined in: [src/weaveClient.ts:1181](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1181)
+
+Link a published prompt version into a registry portfolio.
+
+#### Parameters
+
+##### prompt
+
+`RegistryLinkable`
+
+##### options
+
+`LinkPromptToRegistryOptions`
+
+#### Returns
+
+`Promise`\<`LinkAssetToRegistryRes`\>
+
+***
+
+### publish()
+
+> **publish**(`obj`, `objId?`): `Promise`\<[`ObjectRef`](../classes/objectref)\>
+
+Defined in: [src/weaveClient.ts:890](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L890)
+
+#### Parameters
+
+##### obj
+
+`any`
+
+##### objId?
+
+`string`
+
+#### Returns
+
+`Promise`\<[`ObjectRef`](../classes/objectref)\>
+
+***
+
+### pushNewCall()
+
+> **pushNewCall**(): `object`
+
+Defined in: [src/weaveClient.ts:1490](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1490)
+
+#### Returns
+
+`object`
+
+##### currentCall
+
+> **currentCall**: `CallStackEntry`
+
+##### newStack
+
+> **newStack**: `CallStack`
+
+##### parentCall?
+
+> `optional` **parentCall?**: `CallStackEntry`
+
+***
+
+### runWithAttributes()
+
+> **runWithAttributes**\<`T`\>(`attributes`, `fn`): `T`
+
+Defined in: [src/weaveClient.ts:1498](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1498)
+
+#### Type Parameters
+
+##### T
+
+`T`
+
+#### Parameters
+
+##### attributes
+
+`Record`\<`string`, `any`\>
+
+##### fn
+
+() => `T`
+
+#### Returns
+
+`T`
+
+***
+
+### runWithCallStack()
+
+> **runWithCallStack**\<`T`\>(`callStack`, `fn`): `T`
+
+Defined in: [src/weaveClient.ts:1494](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1494)
+
+#### Type Parameters
+
+##### T
+
+`T`
+
+#### Parameters
+
+##### callStack
+
+`CallStack`
+
+##### fn
+
+() => `T`
+
+#### Returns
+
+`T`
+
+***
+
+### saveCallEnd()
+
+> **saveCallEnd**(`callEnd`): `void`
+
+Defined in: [src/weaveClient.ts:1477](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1477)
+
+#### Parameters
+
+##### callEnd
+
+`EndedCallSchemaForInsert`
+
+#### Returns
+
+`void`
+
+***
+
+### saveCallStart()
+
+> **saveCallStart**(`callStart`): `void`
+
+Defined in: [src/weaveClient.ts:1472](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1472)
+
+#### Parameters
+
+##### callStart
+
+`StartedCallSchemaForInsert`
+
+#### Returns
+
+`void`
+
+***
+
+### saveOp()
+
+> **saveOp**(`op`, `objId?`): `Promise`\<`OpRef`\>
+
+Defined in: [src/weaveClient.ts:1537](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1537)
+
+#### Parameters
+
+##### op
+
+[`Op`](../type-aliases/op)\<(...`args`) => `any`\>
+
+##### objId?
+
+`string`
+
+#### Returns
+
+`Promise`\<`OpRef`\>
+
+***
+
+### searchAgents()
+
+> **searchAgents**(`options`): `Promise`\<[`Response`](../type-aliases/response)\<`SearchAgentsResult`\>\>
+
+Defined in: [src/weaveClient.ts:730](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L730)
+
+Full-text search across agent messages in the project. Returns hits
+grouped by conversation, with a preview of each matched message.
+
+`query` is the full-text search term. Pass an empty string to retrieve
+all messages matching the structured filters (`agentName`,
+`conversationId`, `traceId`) without text matching. Use `limit` /
+`offset` to page through results.
+
+#### Parameters
+
+##### options
+
+`SearchAgentsOptions`
+
+#### Returns
+
+`Promise`\<[`Response`](../type-aliases/response)\<`SearchAgentsResult`\>\>
+
+#### Example
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.searchAgents({
+  query: 'Liverpool',
+  agentName: 'Assistant',
+  limit: 20,
+});
+
+for (const conversation of resp.data.results ?? []) {
+  console.log(`${conversation.conversation_id} (${conversation.agent_name})`);
+  for (const match of conversation.matched_messages) {
+    console.log(`  [${match.role}] ${match.content_preview}`);
+  }
+}
+
+console.log(`total conversations: ${resp.data.total_conversations}`);
+```
+
+***
+
+### serializeAudio()
+
+> **serializeAudio**(`data`, `audioType?`): `Promise`\<`SerializedFileBlob`\>
+
+Defined in: [src/weaveClient.ts:1424](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1424)
+
+Upload raw audio bytes to the Weave content store and return the
+`CustomWeaveType` placeholder that can be embedded in a call output.
+
+Use this when building call outputs manually (e.g. via `saveCallEnd`)
+where the automatic serialization pipeline from `finishCall` is not used.
+
+#### Parameters
+
+##### data
+
+`Buffer`
+
+Raw audio bytes (WAV for best browser compatibility)
+
+##### audioType?
+
+`"wav"` = `DEFAULT_AUDIO_TYPE`
+
+File format — currently only 'wav' is supported
+
+#### Returns
+
+`Promise`\<`SerializedFileBlob`\>
+
+***
+
+### updateCall()
+
+> **updateCall**(`callId`, `displayName`): `Promise`\<`void`\>
+
+Defined in: [src/weaveClient.ts:1710](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1710)
+
+#### Parameters
+
+##### callId
+
+`string`
+
+##### displayName
+
+`string`
+
+#### Returns
+
+`Promise`\<`void`\>
+
+***
+
+### waitForBatchProcessing()
+
+> **waitForBatchProcessing**(): `Promise`\<`void`\>
+
+Defined in: [src/weaveClient.ts:801](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L801)
+
+#### Returns
+
+`Promise`\<`void`\>

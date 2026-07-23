@@ -3,79 +3,64 @@ title: "GetAgentVersionsOptions"
 description: "TypeScript SDK reference"
 ---
 
-Options for [WeaveClient.getAgentVersions](../classes/weaveclient#getagentversions).
+Defined in: [src/weaveClient.ts:133](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L133)
 
-## Table of contents
-
-### Properties
-
-- [agentName](./getagentversionsoptions#agentname)
-- [limit](./getagentversionsoptions#limit)
-- [offset](./getagentversionsoptions#offset)
-- [sortBy](./getagentversionsoptions#sortby)
+Options for [WeaveClient.getAgentVersions](./weaveclient#getagentversions).
 
 ## Properties
 
 ### agentName
 
-• **agentName**: `string`
+> **agentName**: `string`
 
-#### Defined in
+Defined in: [src/weaveClient.ts:134](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L134)
 
-[src/weaveClient.ts:134](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L134)
+***
 
-___
+### limit?
 
-### limit
+> `optional` **limit?**: `number`
 
-• `Optional` **limit**: `number`
+Defined in: [src/weaveClient.ts:140](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L140)
 
-`Min`
+#### Min
 
 0
 
-`Max`
+#### Max
 
 10000
 
-`Default`
+#### Default
 
 ```ts twoslash
 // @noErrors
 100
 ```
 
-#### Defined in
+***
 
-[src/weaveClient.ts:140](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L140)
+### offset?
 
-___
+> `optional` **offset?**: `number`
 
-### offset
+Defined in: [src/weaveClient.ts:145](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L145)
 
-• `Optional` **offset**: `number`
-
-`Min`
+#### Min
 
 0
 
-`Default`
+#### Default
 
 ```ts twoslash
 // @noErrors
 0
 ```
 
-#### Defined in
+***
 
-[src/weaveClient.ts:145](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L145)
+### sortBy?
 
-___
+> `optional` **sortBy?**: [`SortBy`](./sortby)[]
 
-### sortBy
-
-• `Optional` **sortBy**: [`SortBy`](./sortby)[]
-
-#### Defined in
-
-[src/weaveClient.ts:146](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L146)
+Defined in: [src/weaveClient.ts:146](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L146)
