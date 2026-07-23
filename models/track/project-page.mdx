@@ -19,7 +19,7 @@ Each project contains the following tabs:
 * [Workspace](/models/track/project-page/#workspace-tab): personal visualization sandbox
 * [Runs](#runs-tab): A table that lists all the runs in your project
 * [Automations](#automations-tab): Automations configured in your project
-* [Sweeps](/models/sweeps): automated exploration and optimization
+* [Sweeps](#sweeps-tab): automated exploration and optimization
 * [Reports](/models/track/project-page/#reports-tab): saved snapshots of notes, runs, and graphs
 * [Artifacts](#artifacts-tab): Contains all runs and the artifacts associated with that run
 
@@ -64,7 +64,7 @@ A project's *workspace* gives you a personal sandbox to compare experiments. Use
 
 **Runs sidebar**: list of all the runs in your project.
 
-* **action (<Icon icon="ellipsis-vertical" iconType="solid"/>)** menu: Hover over a row in the sidebar to see the menu appear on the left side. Use this menu to rename a run, delete a run, or stop and active run.
+* **Action (<Icon icon="ellipsis" iconType="solid"/>)** menu: Hover over a row in the sidebar to see the menu appear on the left side. Use this menu to rename a run, delete a run, or stop and active run.
 * **Visibility icon**: click the eye to turn on and off runs on graphs
 * **Color**: change the run color to another one of our presets or a custom color
 * **Search**: search runs by name. This also filters visible runs in the plots.
@@ -73,7 +73,7 @@ A project's *workspace* gives you a personal sandbox to compare experiments. Use
 * **Sort**: pick a value to sort your runs by, for example runs with the lowest loss or highest accuracy. Sorting will affect which runs show up on the graphs.
 * **Expand button**: expand the sidebar into the full table
 * **Minimize**: press **Cmd+.** (macOS) or **Ctrl+.** (Windows/Linux) to collapse or restore the Runs selector. See [Keyboard shortcuts](/models/app/keyboard-shortcuts) for details.
-* **Run count**: the number in parentheses at the top is the total number of runs in the project. The number (N visualized) is the number of runs that have the eye turned on and are available to be visualized in each plot. In the example below, the graphs are only showing the first 10 of 183 runs. Edit a graph to increase the max number of runs visible.
+* **Run count**: the number in parentheses at the top is the total number of runs in the project. The number (N selected) is the number of runs that have the eye turned on and are available to be visualized in each plot. In the example below, the graphs are only showing the first 10 of 183 runs. Edit a graph to increase the max number of runs visible.
 
 If you pin, hide, or change the order of columns in the [Runs tab](#runs-tab), the Runs sidebar reflects these customizations.
 
@@ -311,10 +311,13 @@ From a team's landing page:
 To create a project programmatically, specify a `project` when calling `wandb.init()`. If the project does not yet exist, it is created automatically, and is owned by the specified entity. For example:
 
 ```python
-import wandb with wandb.init(entity="<entity>", project="<project_name>") as run: run.log({"accuracy": .95})
+import wandb
+
+with wandb.init(entity="<entity>", project="<project_name>") as run: 
+    run.log({"accuracy": .95})
 ```
 
-Refer to the [`wandb.init()` API reference](/models/ref/python/functions/init/#examples).
+Refer to the [`wandb.init()` reference](/models/ref/python/functions/init/#examples).
 </Tab>
 </Tabs>
 
