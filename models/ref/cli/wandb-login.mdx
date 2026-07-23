@@ -5,7 +5,7 @@ title: wandb login
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/cli.py#L282" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L284" />
 
 
 
@@ -19,67 +19,61 @@ login [OPTIONS] [KEY]...
 
 Authenticate your machine with W&B.
 
-    Store an API key locally for authenticating with W&B services.
-    By default, credentials are stored without server-side verification.
+Store an API key locally for authenticating with W&B services.
+By default, credentials are stored without server-side verification.
 
-    If no API key is provided as an argument, the command looks for
-    credentials in the following order:
+If no API key is provided as an argument, the command looks for
+credentials in the following order:
 
-        1. The WANDB_API_KEY environment variable
+    1. The WANDB_API_KEY environment variable
 
-        2. The api_key setting in a system or workspace settings file (use
-            `wandb status` to see which settings file is used)
+    2. The api_key setting in a system or workspace settings file (use
+        `wandb status` to see which settings file is used)
 
-        3. The .netrc file (~/.netrc, ~/_netrc, or the NETRC env var path)
+    3. The .netrc file (~/.netrc, ~/_netrc, or the NETRC env var path)
 
-        4. An interactive prompt (if a TTY is available)
+    4. An interactive prompt (if a TTY is available)
 
-    For self-hosted or dedicated cloud deployments, specify the server
-    URL with `--host`, or set the WANDB_BASE_URL environment variable.
+For self-hosted or dedicated cloud deployments, specify the server
+URL with `--host`, or set the WANDB_BASE_URL environment variable.
 
-    For example, to log in interactively (prompts for API key):
+For example, to log in interactively (prompts for API key):
 
 ```bash
 wandb login
 ```
 
-    To log in with an explicit API key (WANDB_API_KEY_EXAMPLE):
+To log in with an explicit API key (WANDB_API_KEY_EXAMPLE):
 
 ```bash
 wandb login WANDB_API_KEY_EXAMPLE
 ```
 
-    To log in and verify the API key is valid:
+To log in and verify the API key is valid:
 
 ```bash
 wandb login --verify
 ```
 
-    To log in to the W&B public cloud instead of a configured self-hosted instance:
+To log in to the W&B public cloud instead of a configured self-hosted instance:
 
 ```bash
 wandb login --cloud
 ```
 
-    To log in to a self-hosted W&B instance:
+To log in to a self-hosted W&B instance:
 
 ```bash
 wandb login --host https://my-wandb-server.example.com
 ```
 
-    To force a new login prompt even if already authenticated:
+To force a new login prompt even if already authenticated:
 
 ```bash
 wandb login --relogin
 ```
 
-## API key formats
 
-W&B issues API keys in the `wandb_v1_` format (about 92 characters). Older SDK versions expect exactly 40 characters and reject the new format with `API key must be 40 characters long`. Upgrade the SDK (`pip install -U wandb`) and run `wandb login --relogin`.
-
-Keys generated at [wandb.ai/authorize](https://wandb.ai/authorize) are shown only once at creation. Copy them immediately; you cannot retrieve them again after closing the dialog.
-
-For pinned SDK versions, legacy keys, and related errors, see [Why does my API key fail with 'must be 40 characters long'?](/support/models/articles/why-does-my-api-key-fail-with-must-be-40-characters).
 
 ## Arguments
 
