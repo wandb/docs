@@ -30,28 +30,31 @@ Suivez une expérience de machine learning avec quelques lignes de code :
 
 1. Créez un [W&amp;B Run](/fr/models/runs/).
 2. Enregistrez un dictionnaire d&#39;hyperparamètres, comme le taux d&#39;apprentissage ou le type de modèle, dans votre configuration ([`wandb.Run.config`](/fr/models/track/config/)).
-3. Journalisez des métriques ([`wandb.Run.log()`](/fr/models/track/log/)) au fil de l&#39;entraînement, par exemple l&#39;accuracy et la perte.
+3. Consignez des métriques ([`wandb.Run.log()`](/fr/models/track/log/)) au fil de l&#39;entraînement, par exemple l&#39;accuracy et la perte.
 4. Enregistrez les sorties d&#39;un run, comme les poids du modèle ou un tableau de prédictions.
 
-Le code suivant illustre un flux de travail courant de suivi des expériences avec W&amp;B :
+Le code suivant illustre un flux de travail courant de suivi des expériences avec W&amp;B. Remplacez `my-team` par votre entité d’équipe W&amp;B et `my-project-name` par le nom de votre projet.
 
 ```python
-# Démarrer un run.
-#
-# Lorsque ce bloc se termine, il attend que les données journalisées finissent d'être uploadées.
+import wandb
+
+entity = "<my-team>"  # Définissez l'entité sur le nom de votre équipe W&B
+project = "my-project-name"  # Définissez le projet sur le nom de votre projet W&B
+
+# À la sortie de ce bloc, le système attend que les données enregistrées finissent de se téléverser.
 # Si une exception est levée, le run est marqué comme échoué.
-with wandb.init(entity="", project="my-project-name") as run:
-  # Enregistrer les entrées du modèle et les hyperparamètres.
+with wandb.init(entity=entity, project="my-project-name") as run:
+  # Enregistrez les entrées du modèle et les hyperparamètres.
   run.config.learning_rate = 0.01
 
-  # Exécuter le code de votre expérience.
+  # Exécutez le code de votre expérience.
   for epoch in range(num_epochs):
-    # Effectuer l'entraînement...
+    # Effectuez l'entraînement...
 
-    # Journaliser des métriques au fil du temps pour visualiser les performances du modèle.
+    # Consignez des métriques au fil du temps pour visualiser les performances du modèle.
     run.log({"loss": loss})
 
-  # Uploader les sorties du modèle en tant qu'Artifacts.
+  # Téléversez les sorties du modèle en tant qu'artifacts.
   run.log_artifact(model)
 ```
 
@@ -61,12 +64,13 @@ with wandb.init(entity="", project="my-project-name") as run:
 
 Selon votre cas d’utilisation, explorez les ressources suivantes pour démarrer avec W&amp;B Experiments :
 
-* Lisez le [Démarrage rapide W&amp;B](/fr/models/quickstart/) pour découvrir, étape par étape, les commandes du W&amp;B Python SDK que vous pouvez utiliser pour créer, suivre et utiliser un artifact de jeu de données.
+* Lisez le [Démarrage rapide W&amp;B](/fr/models/quickstart/) pour apprendre à configurer W&amp;B et à suivre votre première expérience.
+* Essayez les [premiers pas avec W&amp;B Models](/fr/models/models_quickstart/) pour apprendre à utiliser W&amp;B afin de suivre, partager et gérer des artifacts de modèles dans vos flux de travail de machine learning.
 * Explorez ce chapitre pour apprendre à :
-  * Créer une expérience
-  * Configurer des expériences
-  * Journaliser les données d’expériences
-  * Consulter les résultats des expériences
+  * [Créer une expérience](/fr/models/track/create-an-experiment)
+  * [Configurer des expériences](/fr/models/track/config/)
+  * [Journaliser les données d’expériences](/fr/models/track/log/)
+  * [Consulter les résultats des expériences](/fr/models/track/workspaces)
 * Explorez la [bibliothèque Python de W&amp;B](/fr/models/ref/python/) dans le [Guide de référence de l’API W&amp;B](/fr/models/ref/python/).
 
 <div id="best-practices-and-tips">

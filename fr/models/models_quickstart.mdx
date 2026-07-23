@@ -66,7 +66,7 @@ config = {
 }
 
 # Utiliser le gestionnaire de contexte pour initialiser et fermer les runs W&B
-with wandb.init(project=PROJECT, entity=TEAM_ENTITY, config=config) as run:    
+with wandb.init(entity=TEAM_ENTITY, project=PROJECT, config=config) as run:    
     # Simuler la boucle d'entraînement
     for epoch in range(config["epochs"]):
         xb = weights + noise  # Données d'entraînement en entrée simulées
@@ -201,8 +201,8 @@ dataset_info = """The dataset used for training consists of synthetic data gener
 model_info = """The model is a simple linear regression model that predicts output based on input data with some noise."""
 
 report = wr.Report(
-    project=PROJECT,
     entity=TEAM_ENTITY,
+    project=PROJECT,
     title="My Awesome Model Training Report",
     description=experiment_summary,
     blocks= [

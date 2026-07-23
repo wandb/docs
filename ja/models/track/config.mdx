@@ -142,7 +142,7 @@ if __name__ == "__main__":
         "-e", "--epochs", type=int, default=50, help="Number of training epochs"
     )
     parser.add_argument(
-        "-lr", "--learning_rate", type=int, default=0.001, help="Learning rate"
+        "-lr", "--learning_rate", type=float, default=0.001, help="Learning rate"
     )
 
     args = parser.parse_args()
@@ -153,12 +153,14 @@ if __name__ == "__main__":
   ### スクリプト全体で設定する
 </div>
 
-`config` オブジェクトには、スクリプト全体を通してさらにパラメーターを追加できます。次のコードスニペットは、`config` オブジェクトに新しいキーと値のペアを追加する方法を示しています。
+`config` オブジェクトには、スクリプト全体を通してさらにパラメーターを追加できます。
+
+次のコードスニペットは、既存の `config` オブジェクトに新しいキーと値のペアを追加する方法を示しています。
 
 ```python
 import wandb
 
-# config 辞書オブジェクトを定義する
+# 設定の辞書オブジェクトを定義する
 config = {
     "hidden_layer_sizes": [32, 64],
     "kernel_sizes": [3],
@@ -171,16 +173,30 @@ config = {
 # W&B を初期化するときに config 辞書を渡す
 with wandb.init(project="config_example", config=config) as run:
     # W&B を初期化した後に config を更新する
-    run.config["dropout"] = 0.2
-    run.config.epochs = 4
+    run.config["epochs"] = 4
     run.config["batch_size"] = 32
 ```
 
-一度に複数の値を更新できます。
+一度に複数の値を追加できます。次のコードスニペットは、既存の `config` オブジェクト内の複数のキーと値のペアを更新する方法を示しています。
 
 ```python
-run.config.update({"lr": 0.1, "channels": 16})
+# 設定の辞書オブジェクトを定義する
+config = {
+    "channels": 24,
+    "lr": 1.0,
+}
+
+with wandb.init(project="config_example", config=config) as run:
+    run.config.update(
+        {
+            "lr": 0.1,
+            "channels": 16,
+        },
+        allow_val_change=True,
+    )
 ```
+
+既存のキーの値を更新する場合は、`allow_val_change=True` を設定してください。このパラメーターを設定しないと、既存のキーの値を更新しようとした際に W&amp;B でエラーが発生します。
 
 <div id="set-the-configuration-after-your-run-finishes">
   ### run の完了後に設定する

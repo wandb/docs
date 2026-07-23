@@ -48,23 +48,34 @@ W&amp;B でマシンを認証するには、APIキーが必要です。
   </Tab>
 
   <Tab title="Python">
-    ```bash
-    pip install wandb
-    ```
+    1. `pip` を使用して W&amp;B Python SDK をインストールします。
 
-    ```python
-    import wandb
+       ```bash
+       pip install wandb
+       ```
 
-    wandb.login()
-    ```
+    2. W&amp;B Python SDK をインポートし、`wandb.login()` を使用して Python スクリプトから W&amp;B にログインします。
+
+       ```python
+       import wandb
+
+       wandb.login()
+       ```
   </Tab>
 
   <Tab title="Python notebook">
-    ```notebook
-    !pip install wandb
-    import wandb
-    wandb.login()
-    ```
+    1. シェルエスケープ (`!`) を使用して W&amp;B Python SDK をインストールします。
+
+       ```notebook
+       !pip install wandb
+       ```
+
+    2. W&amp;B Python SDK をインポートし、`wandb.login()` を使用してノートブックから W&amp;B にログインします。
+
+       ```notebook
+       import wandb
+       wandb.login()
+       ```
   </Tab>
 </Tabs>
 
@@ -144,12 +155,16 @@ with wandb.init(project=project, config=config) as run:
   ## 次のステップ
 </div>
 
-W&amp;B エコシステムのさらに多くの機能を見てみましょう。
+W&amp;B エコシステムの機能をさらに活用しましょう。
 
-1. PyTorch などのフレームワーク、Hugging Face などのライブラリ、SageMaker などのサービスと W&amp;B を組み合わせる [W&amp;B Integration チュートリアル](/ja/models/integrations) をお読みください。
-2. [W&amp;B Reports](/ja/models/reports) を使って、Runs を整理し、可視化を自動化し、知見を要約し、共同作業者と更新内容を共有しましょう。
-3. [W&amp;B Artifacts](/ja/models/artifacts) を作成して、機械学習パイプライン全体を通してデータセット、モデル、依存関係、結果をトラッキングしましょう。
-4. [W&amp;B Sweeps](/ja/models/sweeps) でハイパーパラメーター探索を自動化し、モデルを最適化しましょう。
-5. [一元管理ダッシュボード](/ja/models/tables) で Runs を分析し、モデルの予測を可視化し、知見を共有しましょう。
-6. [W&amp;B AI Academy](https://wandb.ai/site/courses/) にアクセスして、実践的なコースを通じて LLM、MLOps、W&amp;B Models について学びましょう。
-7. [weave-docs.wandb.ai](/ja/weave) にアクセスして、Weave を使って LLM ベースのアプリケーションをトラッキングし、実験し、評価し、デプロイし、改善する方法を学びましょう。
+1. [run](/ja/models/runs) について学び、最初の run を作成しましょう。
+2. [W&amp;B Artifacts](/ja/models/artifacts) を使って、モデル、データセット、その他のファイルをトラッキングしましょう。
+3. [W&amp;B Sweeps](/ja/models/sweeps) でハイパーパラメーター探索を自動化し、モデルを最適化しましょう。
+4. [W&amp;B Registry](/ja/models/registry) でモデル、プロンプト、データセットを共有しましょう。
+5. Runs を分析し、モデルの予測を可視化し、project の [ダッシュボード](/ja/models/track/workspaces) で Artifacts を表示しましょう。
+6. [W&amp;B Reports](/ja/models/reports) を使って知見を要約し、共同作業者と更新情報を共有しましょう。
+7. [W&amp;B Weave](/ja/weave/quickstart) で LLM アプリケーションをトレースして評価しましょう。
+
+{/* これはまだ必要ですか？ */}
+
+{/* 6. 実践的なコースを通じて LLM、MLOps、W&B Models について学ぶには、[W&B AI Academy](https://wandb.ai/site/courses/) をご覧ください。 */}

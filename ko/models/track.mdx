@@ -33,22 +33,25 @@ import { TryProductLink } from '/snippets/ko/_includes/try-product-link.mdx';
 3. 정확도와 손실 같은 메트릭을 트레이닝 루프에서 시간의 흐름에 따라 로깅합니다([`wandb.Run.log()`](/ko/models/track/log/)).
 4. 모델 가중치나 예측 테이블 같은 run 출력물을 저장합니다.
 
-다음 코드는 일반적인 W&amp;B 실험 추적 워크플로를 보여줍니다:
+다음 코드는 일반적인 W&amp;B 실험 추적 워크플로를 보여줍니다. `my-team`은 W&amp;B 팀 엔터티로, `my-project-name`은 프로젝트 이름으로 바꾸세요.
 
 ```python
-# run을 시작합니다.
-#
-# 이 블록이 종료되면, 로깅된 데이터 업로드가 완료될 때까지 기다립니다.
-# 예외가 발생하면 run은 실패로 표시됩니다.
-with wandb.init(entity="", project="my-project-name") as run:
-  # 모드 입력값과 하이퍼파라미터를 저장합니다.
+import wandb
+
+entity = "<my-team>"  # entity를 담당 W&B 팀 이름으로 설정합니다.
+project = "my-project-name"  # project를 W&B 프로젝트 이름으로 설정합니다.
+
+# 이 블록이 종료되면 로깅된 데이터 업로드가 완료될 때까지 기다립니다.
+# 예외가 발생하면 run이 실패로 표시됩니다.
+with wandb.init(entity=entity, project="my-project-name") as run:
+  # 모델 입력과 하이퍼파라미터를 저장합니다.
   run.config.learning_rate = 0.01
 
   # 실험 코드를 실행합니다.
   for epoch in range(num_epochs):
     # 트레이닝을 수행합니다...
 
-    # 모델 성능 시각화를 위해 시간 경과에 따른 메트릭을 로깅합니다.
+    # 모델 성능을 시각화하기 위해 시간의 흐름에 따라 메트릭을 로깅합니다.
     run.log({"loss": loss})
 
   # 모델 출력을 아티팩트로 업로드합니다.
@@ -61,12 +64,13 @@ with wandb.init(entity="", project="my-project-name") as run:
 
 사용 사례에 따라 W&amp;B Experiments를 시작할 때 다음 리소스를 참고하세요:
 
-* 데이터셋 artifact를 생성, 추적, 사용하는 데 활용할 수 있는 W&amp;B Python SDK command를 단계별로 설명한 [W&amp;B 퀵스타트](/ko/models/quickstart/)를 읽어보세요.
+* W&amp;B를 설정하고 첫 번째 실험을 추적하는 방법을 알아보려면 [W&amp;B 퀵스타트](/ko/models/quickstart/)를 읽어보세요.
+* 머신 러닝 워크플로에서 W&amp;B를 사용해 모델 아티팩트를 추적, 공유, 관리하는 방법을 알아보려면 [Get Started with W&amp;B Models](/ko/models/models_quickstart/)를 사용해 보세요.
 * 이 장에서 다음 방법을 알아보세요:
-  * 실험 생성
-  * Experiments 설정
-  * Experiments의 데이터 로깅
-  * Experiments 결과 보기
+  * [실험 생성](/ko/models/track/create-an-experiment)
+  * [Experiments 설정](/ko/models/track/config/)
+  * [Experiments의 데이터 로깅](/ko/models/track/log/)
+  * [Experiments 결과 보기](/ko/models/track/workspaces)
 * [W&amp;B API 레퍼런스 가이드](/ko/models/ref/python/)의 [W&amp;B Python Library](/ko/models/ref/python/)를 살펴보세요.
 
 <div id="best-practices-and-tips">
