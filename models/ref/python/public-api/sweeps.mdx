@@ -1,66 +1,84 @@
 ---
 title: Sweeps
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.sweeps
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py" />
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py#L59" />
+
+
+
+## <kbd>class</kbd> wandb.apis.public.Sweeps
+```python
+service_api: 'ServiceApi',
+entity: 'str',
+project: 'str',
+per_page: 'int' = 50,
+filters: 'dict[str, Any] | None' = None
+```
+
+
+
+A lazy iterator over a collection of `Sweep` objects.
+
+
+
+## Args
+
+- `service_api`: The service API used to query W&B.
+- `entity`: The entity which owns the sweeps.
+- `project`: The project which contains the sweeps.
+- `per_page`: The number of sweeps to fetch per request to the API.
+- `filters`: (dict) queries for specific sweeps using the runs filters, See wandb/apis/public/api.py:runs for more details.
 
 
 
 
-## <kbd>class</kbd> `Sweeps`
-A lazy iterator over a collection of `Sweep` objects. 
+## Examples
 
-
-
-**Examples:**
- ```python
+```python
 from wandb.apis.public import Api
 
 sweeps = Api().project(name="project_name", entity="entity").sweeps()
 
 # Iterate over sweeps and print details
 for sweep in sweeps:
-     print(f"Sweep name: {sweep.name}")
-     print(f"Sweep ID: {sweep.id}")
-     print(f"Sweep URL: {sweep.url}")
-     print("----------")
-``` 
-
-### <kbd>method</kbd> `Sweeps.__init__`
-
-```python
-__init__(
-    service_api: 'ServiceApi',
-    entity: 'str',
-    project: 'str',
-    per_page: 'int' = 50
-) → Sweeps
+    print(f"Sweep name: {sweep.name}")
+    print(f"Sweep ID: {sweep.id}")
+    print(f"Sweep URL: {sweep.url}")
+    print("----------")
 ```
 
-An iterable collection of `Sweep` objects. 
 
 
+## Methods
 
-**Args:**
- 
- - `service_api`:  The service API used to query W&B. 
- - `entity`:  The entity which owns the sweeps. 
- - `project`:  The project which contains the sweeps. 
- - `per_page`:  The number of sweeps to fetch per request to the API. 
+### <kbd>method</kbd> Paginator.__next__()
 
+```python
+self
+```
 
----
-
-
-### <kbd>property</kbd> Sweeps.length
+Return the next item from the iterator. When exhausted, raise StopIteration
 
 
 
 
 
----
+### <kbd>method</kbd> Paginator.update_variables()
+
+```python
+self
+```
+
+Update the query variables for the next page fetch.
+
+
+
+
+
 
 
