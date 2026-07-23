@@ -135,14 +135,16 @@ if __name__ == "__main__":
         "-e", "--epochs", type=int, default=50, help="Number of training epochs"
     )
     parser.add_argument(
-        "-lr", "--learning_rate", type=int, default=0.001, help="Learning rate"
+        "-lr", "--learning_rate", type=float, default=0.001, help="Learning rate"
     )
 
     args = parser.parse_args()
     main(args)
 ```
 ### Set the configuration throughout your script
-You can add more parameters to your config object throughout your script. The following code snippet demonstrates how to add new key-value pairs to your config object:
+You can add more parameters to your config object throughout your script. 
+
+The following code snippet demonstrates how to add new key-value pairs to an existing config object:
 
 ```python
 import wandb
@@ -164,17 +166,26 @@ with wandb.init(project="config_example", config=config) as run:
     run.config["batch_size"] = 32
 ```
 
-You can update multiple values at a time:
+You can add multiple values at a time. The following code snippet shows how to update multiple key-value pairs in an existing config object:
 
 ```python
+# Define a config dictionary object
+config = {
+    "channels": 24,
+    "lr": 1.0,
+}
+
 with wandb.init(project="config_example", config=config) as run:
     run.config.update(
         {
-            "lr": 0.1, 
-            "channels": 16
-            }
-        )
+            "lr": 0.1,
+            "channels": 16,
+        },
+        allow_val_change=True,
+    )
 ```
+
+Make sure you set `allow_val_change=True` if you want to update the value of an existing key. If you do not set this parameter, W&B will raise an error if you try to update the value of an existing key.
 
 ### Set the configuration after your run finishes
 Use the [W&B Public API](/models/ref/python/public-api/) to update a completed run's config. 
