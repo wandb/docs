@@ -63,23 +63,18 @@ This section shows how to configure roles for Registry members. For more informa
 The following sections give more information about Registry roles.
 
 <Note>
-Your [role in a team](/platform/app/settings-page/teams/#team-roles-and-permissions) has no impact or relationship to your role in any registry.
+A team's registry role is separate from each member's [team role](/platform/app/settings-page/teams/#team-roles-and-permissions). If you belong to a team that has been added to a registry, W&B considers the team's assigned registry role, not your role within the team, when it calculates your effective registry role.
 </Note>
 
-### Default roles
-W&B automatically assigns a default **registry role** to a user or team when they are added to a registry. This role determines what they can do in that registry. 
+### Role types
 
-| Entity                                 | Default registry role<br />(Dedicated Cloud / Self-Managed)               | Default registry role<br />(Multi-tenant Cloud)            |
-|----------------------------------------|---------------------------------------------------------------------------|------------------------------------------------------------|
-| Team                                   | Restricted Viewer (Server v0.75.0+) <br />Viewer (Server v0.74.x and below) | Restricted Viewer                               |
-| User or service account (non admin)    | Restricted Viewer (Server v0.75.0+) <br />Viewer (Server v0.74.x and below) | Restricted Viewer                               |
-| Service account (non admin)            | Member<sup><a href="#service_account_footnote">1</a></sup>                | Member<sup><a href="#service_account_footnote">1</a></sup> |
-| Org admin                              | Admin                                                       | Admin                                           |
+W&B Registry has the following roles:
+- **Restricted Viewer**: Provides read-only access to registry artifacts without the ability to create, update, or delete collections, automations, or other registry resources. [This role is available for Dedicated Cloud and Self-Managed Server v0.75.0 or newer](/models/registry/configure_registry#restricted-viewer-role-details).
+- **Viewer**: Provides read-only access to registry artifacts with the ability to view collection details, view linked artifact details, download artifacts, and use artifacts with `wandb.Run.use_artifact()` in the W&B SDK.
+- **Member**: Provides permissions to create, update, and delete collections, automations, and other registry resources. Also provides read access to registry artifacts.
+- **Admin**: Provides all permissions that a Member has, as well as permissions to manage registry settings and user roles.
 
-<a id="service_account_footnote">1</a>: Service accounts cannot have **Viewer** or **Restricted Viewer** roles. See [Service account access](#service-account-access) for how a service account's access is determined.
-
-A registry admin can assign or modify roles for users and teams in the registry.
-See [Configure user roles in a registry](/models/registry/configure_registry/#configure-registry-roles) for more information.
+See [Role permissions](#role-permissions) for more information about the permissions provided by each role.
 
 
 ### Role permissions
@@ -115,18 +110,61 @@ The following table lists each Registry role, along with the permissions provide
 | Add users to a registry                                                                                               | Admin            |                                                            |        |        |   ✓   |
 | Assign or change a user's role in a registry                                                                          | Admin            |                                                            |        |        |   ✓   |
 
-### Inherited Registry role
-The registry's membership list shows each user's inherited (effective) registry role (in light gray) next to the role dropdown in their row.
+
+### Default roles
+W&B automatically assigns a default **registry role** to a user or team when they are added to a registry. The default role is the starting role that appears in the registry's role dropdown. It is not always the user's final, effective role.
+
+The default role depends on the deployment type and the entity type:
+
+| Entity                                 | Default registry role<br />(Dedicated Cloud / Self-Managed)               | Default registry role<br />(Multi-tenant Cloud)            |
+|----------------------------------------|---------------------------------------------------------------------------|------------------------------------------------------------|
+| Team                                   | Restricted Viewer (Server v0.75.0+) <br />Viewer (Server v0.74.x and below) | Restricted Viewer                               |
+| User (non admin)                       | Restricted Viewer (Server v0.75.0+) <br />Viewer (Server v0.74.x and below) | Restricted Viewer                               |
+| Service account (non admin)            | Member<sup><a href="#service_account_footnote">1</a></sup>                | Member<sup><a href="#service_account_footnote">1</a></sup> |
+| Org admin                              | Admin                                                       | Admin                                           |
+
+<a id="service_account_footnote">1</a>: Service accounts cannot have **Viewer** or **Restricted Viewer** roles. See [Service account access](#service-account-access) for how a service account's access is determined.
+
+A registry admin can assign or modify roles for users and teams in the registry.
+See [Configure user roles in a registry](/models/registry/configure_registry/#configure-registry-roles) for more information.
+
+### Effective and inherited registry roles
+A user's *effective registry role* is the role that determines what they can actually do in a registry. The registry's membership list shows this role in light gray next to the role dropdown in the user's row.
 
 <Frame>
     <img src="/images/registry/role_conflict.png" alt="Registry membership list showing the user's effective registry role"  />
 </Frame>
 
-A user's effective role in a particular registry matches their _highest_ role among their role in the organization, the registry, and the team that owns the registry, whether inherited or explicitly assigned. For example:
+W&B calculates the effective role by selecting the user's highest applicable role from these sources:
 
-- A team **Admin** or organization **Admin** with the **Viewer** role in a particular registry owned by the team is effectively an **Admin** of the registry.
-- A registry **Viewer** with the **Member** role in the team is effectively a **Member** of the registry.
-- A team **Viewer** with the **Member** role in a particular registry is effectively a **Member** of the registry.
+- The default registry role for the organization, if it is not a restricted registry.
+- Their assigned role in the registry.
+- The role(s) assigned in the registry to any team(s) they are a part of.
+
+If a higher role comes from the default organization registry role or from a team that has been added to the registry, the user inherits that higher role. For example:
+
+- A user with the **Viewer** role in a registry is effectively an **Admin** if they belong to a team that has the **Admin** role in that registry.
+- A user with the **Viewer** role in a registry is effectively a **Member** if they belong to a team that has the **Member** role in that registry.
+- A user with the **Member** role in a registry is effectively a **Member** even if they belong to a team that has the **Viewer** role in that registry.
+
+In other words, the default or assigned registry role can be lower than the user's effective role.
+
+<Note>
+Service accounts do not inherit elevated registry permissions from their teams. See [Service account access](#service-account-access) for more information.
+</Note>
+
+### Service account access
+
+Service accounts are an exception to inherited registry roles. A service account does not inherit elevated registry permissions from its team. For example, if a team has **Admin** access to a registry, service accounts on that team receive only the automatic service account access level, not **Admin** access.
+
+A registry admin can explicitly grant a service account higher access by [adding the service account to the registry with a Member or Admin role](/models/registry/configure_registry/#add-a-user-or-a-team-to-a-registry).
+
+Automatic service account access depends on registry visibility:
+
+- **Organization visibility**: A service account automatically has **Member** access.
+- **Restricted visibility**: A service account automatically has **Member** access only if one of its teams has **Member** or **Admin** access to the registry. If all of the service account's teams have **Viewer** or **Restricted Viewer** access, the service account does not receive access automatically.
+
+See [Visibility types](/models/registry/create_registry#visibility-types) for more information about registry visibility types.
 
 ### Restricted Viewer role details
 The **Restricted Viewer** role is Generally Available (GA). For Dedicated Cloud and Self-Managed, Server v0.75.0 or newer is required.
