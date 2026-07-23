@@ -2,9 +2,10 @@
 """Update the "New articles" log page (release-notes/new-articles.mdx).
 
 Finds pull requests merged into main during the lookback window, collects the
-English .mdx articles those PRs added, and inserts them into the page under a
-"Month YYYY" heading. Months from the current year are top-level headings;
-months from prior years are collapsed inside an <Accordion title="YYYY"> block.
+English .mdx articles those PRs added, and inserts them into the page as
+<Card> entries grouped by month and then by product. Months from the current
+year are top-level headings; months from prior years are collapsed inside an
+<Accordion title="YYYY"> block.
 
 The script is idempotent: articles already listed on the page are skipped, so
 overlapping lookback windows never produce duplicate entries.
@@ -73,9 +74,11 @@ MONTH_NAMES = [
 MONTH_HEADING_RE = re.compile(
     r"^#{2,3} (" + "|".join(MONTH_NAMES) + r") (\d{4})\s*$"
 )
+PRODUCT_HEADING_RE = re.compile(r"^#{3,4} (.+?)\s*$")
 ACCORDION_OPEN_RE = re.compile(r'^<Accordion title="(\d{4})">\s*$')
 ACCORDION_CLOSE_RE = re.compile(r"^</Accordion>\s*$")
-BULLET_RE = re.compile(r"^- (\[|\*\*)")
+CARD_OPEN_RE = re.compile(r'^<Card title="(.*)" href="([^"]*)"')
+CARD_CLOSE_RE = re.compile(r"</Card>\s*$")
 FRONTMATTER_FIELD_RE = re.compile(
     r'^(title|description):\s*(?:"(.*)"|\'(.*)\'|(.*?))\s*$'
 )
@@ -209,23 +212,57 @@ def page_url(path):
 
 
 def parse_generated_region(region):
-    """Parse the generated region into {(year, month_index): [bullet lines]}."""
+    """Parse the generated region into nested dicts.
+
+    Returns {(year, month_index): {product_label: [(title, url, description)]}}.
+    """
     sections = {}
-    current = None
+    month = None
+    product = None
+    card = None
     for line in region.splitlines():
+        stripped = line.strip()
         heading = MONTH_HEADING_RE.match(line)
+        card_open = CARD_OPEN_RE.match(stripped)
         if heading:
             key = (int(heading.group(2)), MONTH_NAMES.index(heading.group(1)) + 1)
-            current = sections.setdefault(key, [])
-        elif BULLET_RE.match(line) and current is not None:
-            current.append(line.rstrip())
+            month = sections.setdefault(key, {})
+            product = None
         elif ACCORDION_OPEN_RE.match(line) or ACCORDION_CLOSE_RE.match(line):
-            current = None
-        elif line.strip() and current is not None and not line.startswith("#"):
-            # Continuation of a wrapped bullet; keep it with its entry.
-            if current:
-                current[-1] += "\n" + line.rstrip()
+            month = None
+            product = None
+        elif card_open and month is not None and product is not None:
+            title = card_open.group(1).replace("&quot;", '"')
+            card = [title, card_open.group(2), []]
+            if CARD_CLOSE_RE.search(stripped):
+                month.setdefault(product, []).append((card[0], card[1], ""))
+                card = None
+        elif card is not None:
+            if CARD_CLOSE_RE.search(stripped):
+                month.setdefault(product, []).append(
+                    (card[0], card[1], " ".join(card[2]))
+                )
+                card = None
+            elif stripped:
+                card[2].append(stripped)
+        elif PRODUCT_HEADING_RE.match(line) and month is not None:
+            product = PRODUCT_HEADING_RE.match(line).group(1)
     return sections
+
+
+def product_sort_key(label):
+    """Sort products in CATEGORY_LABELS order, then unknown labels A-Z."""
+    known = list(CATEGORY_LABELS.values())
+    return (known.index(label), "") if label in known else (len(known), label)
+
+
+def render_card(title, url, description):
+    title = title.replace('"', "&quot;")
+    lines = [f'<Card title="{title}" href="{url}" arrow="true" horizontal>']
+    if description:
+        lines.append(f"  {description}")
+    lines.append("</Card>")
+    return lines
 
 
 def render_generated_region(sections, current_year):
@@ -234,10 +271,11 @@ def render_generated_region(sections, current_year):
     keys = sorted(sections, reverse=True)
     open_accordion_year = None
     for year, month in keys:
-        if not sections[(year, month)]:
+        products = sections[(year, month)]
+        if not any(products.values()):
             continue
         if year >= current_year:
-            heading_level = "##"
+            month_level = "##"
         else:
             if open_accordion_year != year:
                 if open_accordion_year is not None:
@@ -246,11 +284,17 @@ def render_generated_region(sections, current_year):
                 output.append(f'<Accordion title="{year}">')
                 output.append("")
                 open_accordion_year = year
-            heading_level = "###"
-        output.append(f"{heading_level} {MONTH_NAMES[month - 1]} {year}")
+            month_level = "###"
+        output.append(f"{month_level} {MONTH_NAMES[month - 1]} {year}")
         output.append("")
-        output.extend(sections[(year, month)])
-        output.append("")
+        for label in sorted(products, key=product_sort_key):
+            if not products[label]:
+                continue
+            output.append(f"{month_level}# {label}")
+            output.append("")
+            for title, url, description in products[label]:
+                output.extend(render_card(title, url, description))
+            output.append("")
     if open_accordion_year is not None:
         output.append("</Accordion>")
         output.append("")
@@ -288,21 +332,25 @@ def main():
         )
         for path in added_article_paths(session, pr["number"]):
             url = page_url(path)
-            if f"]({url})" in region or any(
-                f"]({url})" in line for lines in sections.values() for line in lines
-            ):
+            listed_urls = {
+                card[1]
+                for products in sections.values()
+                for cards in products.values()
+                for card in cards
+            }
+            if url in listed_urls:
                 continue
             frontmatter = read_frontmatter(path)
             if frontmatter is None:
                 print(f"  skipping {path}: deleted or missing a title")
                 continue
             title, description = frontmatter
-            entry = f"- **{category_label(path)}**: [{title}]({url})"
             description = description or first_body_sentence(path)
-            if description:
-                entry += f": {description}"
             key = (merged_at.year, merged_at.month)
-            sections.setdefault(key, []).insert(0, entry)
+            product = sections.setdefault(key, {}).setdefault(
+                category_label(path), []
+            )
+            product.insert(0, (title, url, description))
             added += 1
             print(f"  added {url} (PR #{pr['number']}, {merged_at.date()})")
 
