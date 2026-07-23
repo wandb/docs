@@ -12,9 +12,11 @@ Reasoning information appears in the `reasoning` field of responses. The value o
 
 ## Supported models with reasoning
 
-The following table lists the models on Serverless Inference that can return reasoning output.
-Some reasoning models don't provide a user option to disable reasoning. Other models allow the user to control reasoning output, with the default behavior when unspecified listed below.
-Adaptive models determine on a per-request basis whether to return reasoning output, but allow the user to control output also.
+The following table lists the Serverless Inference models that can return reasoning output, and how each one behaves:
+
+- **Always on:** The model always returns reasoning output. You can't disable it.
+- **Enabled by default** / **Disabled by default:** You can turn reasoning output on or off. The table shows the default when you don't specify a setting.
+- **Adaptive; model chooses by default:** The model decides per request whether to return reasoning output. You can override this.
 
 {/* takeru reasoning-models - This table is automatically generated, do not edit manually. */}
 | Model ID (for API usage)                       | Reasoning support                  |
