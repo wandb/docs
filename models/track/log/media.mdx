@@ -3,6 +3,7 @@ description: Log rich media, from 3D point clouds and molecules to HTML and hist
 title: Log media and objects
 ---
 import { ColabLink } from '/snippets/_includes/colab-link.mdx';
+import { WandbReport } from '/snippets/WandbReport.jsx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Log_(Almost)_Anything_with_W%26B_Media.ipynb" />
 
@@ -324,6 +325,14 @@ If histograms are in your summary, they appear on the Overview tab of the [run p
 ## 3D visualizations
 
 Log 3D point clouds and Lidar scenes with bounding boxes. Pass in a NumPy array containing coordinates and colors for the points to render.
+
+Logged point clouds are fully interactive in the W&B app. For example, the [LIDAR Point Clouds of Driving Scenes report](https://wandb.ai/stacey/lyft/reports/LIDAR-Point-Clouds-of-Driving-Scenes--Vmlldzo2MzA5Mg) embedded below shows scenes from the Lyft dataset with 3D bounding boxes. Drag to rotate and zoom within the viewer.
+
+<WandbReport
+  src="https://wandb.ai/stacey/lyft/reports/LIDAR-Point-Clouds-of-Driving-Scenes--Vmlldzo2MzA5Mg"
+  title="LIDAR point clouds of driving scenes report"
+  height={720}
+/>
 
 ```python
 point_cloud = np.array([[0, 0, 0, COLOR]])
