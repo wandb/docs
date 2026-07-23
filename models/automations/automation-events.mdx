@@ -10,6 +10,10 @@ An automation can start when a specific event occurs within an Organization, a T
 Scopes are hierarchical: an Organization contains Teams, which contain projects and registries, which contain collections. An automation observes its event across everything in its scope, including projects, registries, and collections created later. A single event can match automations at more than one scope. Each matching automation triggers independently.
 
 <Note>
+The Team and Organization scopes are available on W&B Multi-tenant Cloud and on W&B Dedicated Cloud (Server v0.83.0 and later). The Registry and Project scopes are available on all deployment types.
+</Note>
+
+<Note>
 To protect against excessive triggering at broad scopes, W&B applies a rate limit and a cooldown per automation. These safeguards can delay or skip repeated triggers of the same automation.
 </Note>
 
