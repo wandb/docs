@@ -62,6 +62,8 @@ CATEGORY_LABELS = {
     "inference": "Inference",
     "serverless-training": "Serverless Training",
     "sandboxes": "Sandboxes",
+    "aria": "ARIA",
+    "hivemind": "HiveMind",
     "support": "Support",
     "release-notes": "Release Notes",
 }
@@ -163,9 +165,13 @@ def read_frontmatter(path):
 
 
 def category_label(path):
-    """Return the service label for an article, from its top-level directory."""
+    """Return the service label for an article, from its top-level directory.
+
+    Root-level pages (like a product's landing page) are matched by filename
+    so that, for example, sandboxes.mdx lands under Sandboxes.
+    """
     if "/" not in path:
-        return "General"
+        return CATEGORY_LABELS.get(path.removesuffix(".mdx"), "General")
     top = path.split("/", 1)[0]
     return CATEGORY_LABELS.get(top, top.replace("-", " ").title())
 
