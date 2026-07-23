@@ -29,6 +29,7 @@ To authenticate your machine with W&B, you need an API key.
 
 <Tabs>
 <Tab title="Command Line">
+
 1. Set the `WANDB_API_KEY` [environment variable](/models/track/environment-variables/).
 
     ```bash
@@ -43,21 +44,35 @@ To authenticate your machine with W&B, you need an API key.
     ```
 </Tab>
 <Tab title="Python">
-```bash
-pip install wandb
-```
-```python
-import wandb
 
-wandb.login()
-```
+1. Install the W&B Python SDK with `pip`:
+
+    ```bash
+    pip install wandb
+    ```
+
+2. Import the W&B Python SDK and log in to W&B from your Python script with `wandb.login()`:
+
+    ```python
+    import wandb
+
+    wandb.login()
+    ```
 </Tab>
 <Tab title="Python notebook">
-```notebook
-!pip install wandb
-import wandb
-wandb.login()
-```
+
+1. Use shell escape (`!`) to install the W&B Python SDK:
+
+    ```notebook
+    !pip install wandb
+    ```
+
+2. Import the W&B Python SDK and log in to W&B from your notebook with `wandb.login()`
+
+    ```notebook
+    import wandb
+    wandb.login()
+    ```
 </Tab>
 </Tabs>
 
