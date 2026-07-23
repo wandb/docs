@@ -8,7 +8,11 @@ import AutomationsActionsList from "/snippets/_includes/automations/actions-list
 import AutomationsBestPractices from "/snippets/_includes/automations/best-practices.mdx";
 import AutomationsWhereToFind from "/snippets/_includes/automations/where-to-find-automations.mdx";
 
-Automations exist for both **projects** and **registries**. Where you create an automation, which events you can use, and how scope works all differ. For event types by scope, see [Automation events and scopes](/models/automations/automation-events).
+You can scope an automation to an **Organization**, a **Team**, a **Registry**, a **Registry collection**, or a **project**. An automation observes the event across everything in its scope, including projects, registries, and collections created later. Where you create an automation, which events you can use, and how scope works all differ. For event types by scope, see [Automation events and scopes](/models/automations/automation-events).
+
+<Note>
+Team-scoped and Organization-scoped automations and the [Automations hub](#automations-hub) are available on W&B Multi-tenant Cloud and on W&B Dedicated Cloud (Server v0.83.0 and later).
+</Note>
 
 <AutomationsMentalModel/>
 
@@ -23,6 +27,21 @@ flowchart LR
 ## Where to create automations
 
 <AutomationsWhereToFind/>
+
+## Automations hub
+
+The **Automations** hub is a global surface in the left navigation that aggregates every automation you can access, across all scopes and projects, in a single list. Use it to discover, inspect, and manage automations without navigating to each project or registry.
+
+From the **Automations** hub, you can:
+
+- View all automations you can access in one list, then filter and sort them (for example, by scope, trigger, or action).
+- Use the quick filter to switch between automations you created and all automations in your organization.
+- Click an automation's name to view its full configuration in a details drawer.
+- View an automation's [execution history](/models/automations/view-automation-history) to check whether it succeeded or failed.
+- Create an automation and choose its scope, without needing to know the scoped entry point first.
+- Select multiple automations and delete them at once.
+
+The **Automations** hub complements the **Automations** tab in each project and registry; those scoped tabs remain available for quick access.
 
 ## Use cases
 
@@ -55,7 +74,8 @@ To [create an automation](/models/automations/create-automations), you:
 <AutomationsBestPractices/>
 
 ## Limitations
-[Run metric automations](/models/automations/automation-events/#run-metrics-events) and [run metrics z-score change automations](/models/automations/automation-events/#run-metrics-z-score-change-automations) are currently supported only in [W&B Multi-tenant Cloud](/platform/hosting/#wb-multi-tenant-cloud).
+- [Run metric automations](/models/automations/automation-events/#run-metrics-events) and [run metrics z-score change automations](/models/automations/automation-events/#run-metrics-z-score-change-automations) are supported only in [W&B Multi-tenant Cloud](/platform/hosting/#wb-multi-tenant-cloud).
+- At the **Team** and **Organization** scopes, the W&B App supports only artifact and collection events. Run-based events aren't available in the App at these scopes. See [Automation events and scopes](/models/automations/automation-events).
 
 ## Next steps
 - [Automations tutorial](/models/automations/tutorial): Guides you to create a project automation to alert on run failures and a Registry automation to run a webhoook when an alias is added. The tutorial uses the W&B App.
