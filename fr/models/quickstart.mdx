@@ -48,23 +48,34 @@ Pour authentifier votre machine auprès de W&amp;B, vous avez besoin d’une cl�
   </Tab>
 
   <Tab title="Python">
-    ```bash
-    pip install wandb
-    ```
+    1. Installez le SDK Python W&amp;B avec `pip` :
 
-    ```python
-    import wandb
+       ```bash
+       pip install wandb
+       ```
 
-    wandb.login()
-    ```
+    2. Importez le SDK Python W&amp;B et connectez-vous à W&amp;B depuis votre script Python avec `wandb.login()` :
+
+       ```python
+       import wandb
+
+       wandb.login()
+       ```
   </Tab>
 
   <Tab title="Python notebook">
-    ```notebook
-    !pip install wandb
-    import wandb
-    wandb.login()
-    ```
+    1. Utilisez l’échappement du shell (`!`) pour installer le SDK Python W&amp;B :
+
+       ```notebook
+       !pip install wandb
+       ```
+
+    2. Importez le SDK Python W&amp;B et connectez-vous à W&amp;B depuis votre notebook avec `wandb.login()`
+
+       ```notebook
+       import wandb
+       wandb.login()
+       ```
   </Tab>
 </Tabs>
 
@@ -139,15 +150,19 @@ Accédez à [wandb.ai/home](https://wandb.ai/home) pour consulter les métriques
 </Frame>
 
 <div id="next-steps">
-  ## Prochaines étapes
+  ## Étapes suivantes
 </div>
 
-Explorez d&#39;autres fonctionnalités de l&#39;écosystème W&amp;B :
+Explorez davantage les fonctionnalités de l’écosystème W&amp;B :
 
-1. Lisez les [tutoriels d&#39;intégration W&amp;B](/fr/models/integrations), qui combinent W&amp;B avec des frameworks comme PyTorch, des bibliothèques comme Hugging Face et des services comme SageMaker.
-2. Organisez les runs, automatisez les visualisations, résumez les résultats et partagez des mises à jour avec vos collaborateurs à l&#39;aide de [W&amp;B Reports](/fr/models/reports).
-3. Créez des [W&amp;B Artifacts](/fr/models/artifacts) pour suivre les jeux de données, les modèles, les dépendances et les résultats tout au long de votre pipeline de machine learning.
-4. Automatisez la recherche d&#39;hyperparamètres et optimisez les modèles avec [W&amp;B Sweeps](/fr/models/sweeps).
-5. Analysez les runs, visualisez les prédictions du modèle et partagez vos observations sur un [tableau de bord central](/fr/models/tables).
-6. Rendez-vous sur [W&amp;B AI Academy](https://wandb.ai/site/courses/) pour découvrir les LLM, le MLOps et W&amp;B Models grâce à des cours pratiques.
-7. Rendez-vous sur [weave-docs.wandb.ai](/fr/weave) pour découvrir comment suivre, expérimenter, évaluer, déployer et améliorer vos applications basées sur les LLM avec Weave.
+1. Découvrez comment créer votre premier [run](/fr/models/runs).
+2. Suivez les modèles, les datasets et les autres fichiers avec [W&amp;B Artifacts](/fr/models/artifacts).
+3. Automatisez les recherches d&#39;hyperparamètres et optimisez les modèles avec [W&amp;B Sweeps](/fr/models/sweeps).
+4. Partagez des modèles, des prompts et des datasets avec [W&amp;B Registry](/fr/models/registry).
+5. Analysez les runs, visualisez les prédictions des modèles et consultez les artefacts dans le [tableau de bord](/fr/models/track/workspaces) de votre projet.
+6. Résumez les résultats et partagez des mises à jour avec vos collaborateurs à l’aide de [W&amp;B Reports](/fr/models/reports).
+7. Tracez et évaluez les applications LLM avec [W&amp;B Weave](/fr/weave/quickstart).
+
+{/* Est-ce encore pertinent ? */}
+
+{/* 6. Visitez [W&B AI Academy](https://wandb.ai/site/courses/) pour vous former aux LLM, au MLOps et à W&B Models grâce à des cours pratiques. */}

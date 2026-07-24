@@ -1,26 +1,24 @@
 ---
 title: User
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.users
 ---
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/users.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/users.py#L26" />
 
-
-## <kbd>클래스</kbd> `User`
+## <kbd>클래스</kbd> wandb.apis.public.User
 
 W&amp;B 인스턴스의 사용자입니다.
 
 이 클래스를 사용하면 사용자의 API 키를 관리하고 팀 멤버십 등의 정보에 액세스할 수 있습니다. 새 사용자를 만들 때는 `create` 클래스 방법을 사용할 수 있습니다.
 
-**매개변수:**
+<div id="properties">
+  ## 속성
+</div>
 
-* `service_api`:  W&amp;B를 쿼리하는 데 사용할 서비스 API 인스턴스입니다.
-* `attrs`:  GraphQL 스키마에 정의된 User 유형의 일부입니다. 
-
-### <kbd>속성</kbd> User.api_keys
+### <kbd>속성</kbd> api_keys
 
 사용자의 API 키 이름입니다.
 
@@ -28,65 +26,69 @@ W&amp;B 인스턴스의 사용자입니다.
 
 사용자에게 API 키가 없거나 API 키를 아직 불러오지 않은 경우 목록은 비어 있습니다.
 
-**반환값:**
-
-* `list[str]`: api&#95;keys 속성 값입니다.
-
-***
-
-### <kbd>속성</kbd> User.teams
+### <kbd>속성</kbd> teams
 
 사용자가 속한 팀의 이름 목록입니다.
 
 사용자가 어떤 팀에도 속해 있지 않거나 팀 데이터를 로드하지 않은 경우 빈 목록입니다.
 
-**반환값:**
-
-* `list[str]`: 팀 속성 값입니다.
-
-***
-
-### <kbd>속성</kbd> User.user_api
+### <kbd>속성</kbd> user_api
 
 사용자의 자격 증명을 사용하는 `wandb.Api` 인스턴스입니다.
 
-**반환값:**
+<div id="methods">
+  ## 메서드
+</div>
 
-* `Api | None`: user&#95;api 속성 값입니다.
-
-***
-
-### <kbd>방법</kbd> `User.delete_api_key`
+### <kbd>방법</kbd> User.create()
 
 ```python
-delete_api_key(api_key: 'str') → bool
+api: 'Api',
+email: 'str',
+admin: 'bool | None' = False
+```
+
+새 사용자를 생성합니다.
+
+이 방법은 내부용 방법입니다. 대신
+`wandb.Api`의 `create_user()` 방법을 사용하세요.
+
+<div id="arguments">
+  ##### 인수
+</div>
+
+* `api`: 사용자 생성에 사용할 API 인스턴스입니다.
+* `email`: 사용자의 이메일입니다.
+* `admin`: 이 사용자를 전역 인스턴스 관리자로 지정할지 여부입니다.
+
+### <kbd>방법</kbd> User.delete_api_key()
+
+```python
+self,
+api_key: 'str'
 ```
 
 사용자의 API 키를 삭제합니다.
 
 키 소유자 또는 관리자만 삭제할 수 있습니다.
 
-**매개변수:**
+<div id="arguments">
+  ##### 인수
+</div>
 
-* `api_key`:  삭제할 API 키의 이름입니다. `api_keys` 속성에서 반환된 이름 중 하나를 사용합니다.
+* `api_key`: 삭제할 API 키의 이름입니다. `api_keys` 속성에서 반환된 이름 중 하나를 사용합니다.
 
-**반환값:**
-성공 시 True, 실패 시 false입니다.
-
-***
-
-
-### <kbd>방법</kbd> `User.generate_api_key`
+### <kbd>방법</kbd> User.generate_api_key()
 
 ```python
-generate_api_key(description: 'str | None' = None) → str | None
+self,
+description: 'str | None' = None
 ```
 
 새 API 키를 생성합니다.
 
-**매개변수:**
+<div id="arguments">
+  ##### 인수
+</div>
 
 * `description`: 새 API 키에 대한 설명입니다. API 키의 용도를 파악하는 데 사용할 수 있습니다.
-
-**반환값:**
-생성된 API 키(이름만이 아니라 전체 시크릿) 또는 실패 시 None입니다.

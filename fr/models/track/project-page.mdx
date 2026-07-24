@@ -18,8 +18,8 @@ Chaque projet contient les onglets suivants :
 * [Workspace](/fr/models/track/project-page/#workspace-tab) : espace personnel de visualisation
 * [Runs](#runs-tab) : tableau répertoriant tous les runs de votre projet
 * [Automations](#automations-tab) : Automations configurées dans votre projet
-* [Sweeps](/fr/models/sweeps) : exploration et optimisation automatisées
-* [Rapports](/fr/models/track/project-page/#reports-tab) : instantanés enregistrés des notes, des runs et des graphiques
+* [Sweeps](#sweeps-tab) : exploration et optimisation automatisées
+* [Reports](/fr/models/track/project-page/#reports-tab) : instantanés enregistrés des notes, des runs et des graphiques
 * [Artifacts](#artifacts-tab) : contient tous les runs et les Artifacts associés à ces runs
 
 <div id="overview-tab">
@@ -74,7 +74,7 @@ Le *workspace* d’un projet vous offre un espace personnel pour comparer des ex
 
 **Barre latérale Runs** : liste de tous les runs de votre projet.
 
-* **Menu d’actions (<Icon icon="ellipsis-vertical" iconType="solid" />)** : survolez une ligne dans la barre latérale pour faire apparaître le menu sur le côté gauche. Utilisez ce menu pour renommer un run, supprimer un run ou arrêter un run actif.
+* **Menu d’actions (<Icon icon="ellipsis" iconType="solid" />)** : survolez une ligne dans la barre latérale pour faire apparaître le menu sur le côté gauche. Utilisez ce menu pour renommer un run, supprimer un run ou arrêter un run actif.
 * **Icône de visibilité** : cliquez sur l’œil pour afficher ou masquer les runs sur les graphiques
 * **Couleur** : modifiez la couleur du run en choisissant l’un de nos préréglages ou une couleur personnalisée
 * **Recherche** : recherchez des runs par nom. Cela filtre également les runs visibles dans les graphiques.
@@ -83,7 +83,7 @@ Le *workspace* d’un projet vous offre un espace personnel pour comparer des ex
 * **Trier** : choisissez une valeur selon laquelle trier vos runs, par exemple les runs avec la perte la plus faible ou la précision la plus élevée. Le tri détermine quels runs s’affichent sur les graphiques.
 * **Bouton d’extension** : développez la barre latérale pour afficher le tableau complet
 * **Réduire** : appuyez sur **Cmd+.** (macOS) ou **Ctrl+.** (Windows/Linux) pour réduire ou restaurer le sélecteur de Runs. Voir [Raccourcis clavier](/fr/models/app/keyboard-shortcuts) pour plus de détails.
-* **Nombre de runs** : le nombre entre parenthèses en haut correspond au nombre total de runs du projet. Le nombre (N visualisés) correspond au nombre de runs dont l’œil est activé et qui peuvent être affichés dans chaque graphique. Dans l’exemple ci-dessous, les graphiques n’affichent que les 10 premiers runs sur 183. Modifiez un graphique pour augmenter le nombre maximal de runs visibles.
+* **Nombre de runs** : le nombre entre parenthèses en haut correspond au nombre total de runs du projet. Le nombre (N sélectionnés) correspond au nombre de runs dont l’œil est activé et qui peuvent être affichés dans chaque graphique. Dans l’exemple ci-dessous, les graphiques n’affichent que les 10 premiers runs sur 183. Modifiez un graphique pour augmenter le nombre maximal de runs visibles.
 
 Si vous épinglez, masquez ou modifiez l’ordre des colonnes dans l’[onglet Runs](#runs-tab), la barre latérale Runs reflète ces personnalisations.
 
@@ -331,7 +331,7 @@ Vous pouvez créer un projet dans W&amp;B App ou par programmation en spécifian
     3. Cliquez sur **Create new project**.
     4. Définissez **Team** sur le nom de l’équipe qui sera propriétaire du projet.
     5. Indiquez un nom pour votre projet dans le champ **Name**.
-    6. Définissez **Project visibility**, qui est définie par défaut sur **Team**.
+    6. Définissez **Visibilité du projet**, qui est définie par défaut sur **Team**.
     7. Vous pouvez également ajouter une **Description**.
     8. Cliquez sur **Create project**.
 
@@ -342,7 +342,7 @@ Vous pouvez créer un projet dans W&amp;B App ou par programmation en spécifian
     3. Sur la page d’accueil, cliquez sur **Create new project**.
     4. **Team** est automatiquement défini sur l’équipe propriétaire de la page d’accueil que vous consultez. Si nécessaire, changez d’équipe.
     5. Indiquez un nom pour votre projet dans le champ **Name**.
-    6. Définissez **Project visibility**, qui est définie par défaut sur **Team**.
+    6. Définissez **Visibilité du projet**, qui est définie par défaut sur **Team**.
     7. Vous pouvez également ajouter une **Description**.
     8. Cliquez sur **Create project**.
   </Tab>
@@ -351,10 +351,13 @@ Vous pouvez créer un projet dans W&amp;B App ou par programmation en spécifian
     Pour créer un projet par programmation, spécifiez un `project` lors de l’appel à `wandb.init()`. Si le projet n’existe pas encore, il est créé automatiquement et appartient à l’entité spécifiée. Par exemple :
 
     ```python
-    import wandb with wandb.init(entity="<entity>", project="<project_name>") as run: run.log({"accuracy": .95})
+    import wandb
+
+    with wandb.init(entity="<entity>", project="<project_name>") as run: 
+        run.log({"accuracy": .95})
     ```
 
-    Consultez la [référence de l’API `wandb.init()`](/fr/models/ref/python/functions/init/#examples).
+    Consultez la [référence `wandb.init()`](/fr/models/ref/python/functions/init/#examples).
   </Tab>
 </Tabs>
 

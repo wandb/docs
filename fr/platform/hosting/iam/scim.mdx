@@ -384,13 +384,13 @@ Crée un nouvel utilisateur au sein de votre organisation.
   #### Paramètres
 </div>
 
-| Paramètre        | Type   | Requis | Description                                                                                                                                                                                                                                                                                                     |
-| ---------------- | ------ | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `emails`         | array  | Oui    | Tableau d’objets e-mail. Doit inclure une adresse e-mail principale                                                                                                                                                                                                                                             |
-| `userName`       | string | Oui    | Nom d’utilisateur du nouvel utilisateur                                                                                                                                                                                                                                                                         |
-| `modelsSeat`     | string | Non    | Niveau de licence Models. L’une des valeurs suivantes : `full`, `viewer` ou `none`. La valeur par défaut est `full`.                                                                                                                                                                                            |
-| `weaveRole`      | string | Non    | Niveau de rôle Weave. L’une des valeurs suivantes : `full`, `viewer` ou `none`. La valeur par défaut est `full`.                                                                                                                                                                                                |
-| `registryAccess` | string | Non    | Droit d’accès au registre. L’une des valeurs suivantes : `enabled` ou `none`. Lorsqu’il n’est pas indiqué, l’accès effectif est déterminé à partir de `modelsSeat` et `weaveRole` au moment de la lecture. Disponible dans **Cloud mutualisé**{/* and in **Cloud dédié** and **Autogéré** v0.83.0+ */}. |
+| Paramètre        | Type   | Requis | Description                                                                                                                                                                                                                                                                                      |
+| ---------------- | ------ | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `emails`         | array  | Oui    | Tableau d’objets e-mail. Doit inclure une adresse e-mail principale                                                                                                                                                                                                                              |
+| `userName`       | string | Oui    | Nom d’utilisateur du nouvel utilisateur                                                                                                                                                                                                                                                          |
+| `modelsSeat`     | string | Non    | Niveau de licence Models. L’une des valeurs suivantes : `full`, `viewer` ou `none`. La valeur par défaut est `full`.                                                                                                                                                                             |
+| `weaveRole`      | string | Non    | Niveau de rôle Weave. L’une des valeurs suivantes : `full`, `viewer` ou `none`. La valeur par défaut est `full`.                                                                                                                                                                                 |
+| `registryAccess` | string | Non    | Droit d’accès au registre. L’une des valeurs suivantes : `enabled` ou `none`. Lorsqu’il n’est pas indiqué, l’accès effectif est déterminé à partir de `modelsSeat` et `weaveRole` au moment de la lecture. Disponible dans **Cloud mutualisé** et dans **Cloud dédié** et **Autogéré** v0.83.0+. |
 
 #### Exemple
 
@@ -1244,9 +1244,9 @@ Attribue à un utilisateur un rôle au niveau de l’organisation.
 Met à jour la licence Models attribuée à un utilisateur.
 
 <Note>
-  Sur **Cloud mutualisé**{/* and on **Dedicated Cloud** and **Self-Managed** v0.83.0+ */}, l&#39;accès à Registry est dissocié des licences Models. Définir `modelsSeat` sur `none` ne révoque plus l&#39;accès à Registry lorsque l&#39;utilisateur a un `weaveRole` différent de `none`. Pour révoquer l&#39;accès à Registry sur ces déploiements, utilisez [Mettre à jour l&#39;accès à Registry](#update-registry-access) et définissez `registryAccess` sur `none`.
+  Sur **Cloud mutualisé** et sur **Cloud dédié** et **Autogéré** v0.83.0+, l&#39;accès à Registry est dissocié des licences Models. Définir `modelsSeat` sur `none` ne révoque plus l&#39;accès à Registry lorsque l&#39;utilisateur a un `weaveRole` différent de `none`. Pour révoquer l&#39;accès à Registry sur ces déploiements, utilisez [Mettre à jour l&#39;accès à Registry](#update-registry-access) et définissez `registryAccess` sur `none`.
 
-  Sur **Cloud dédié** et **Autogéré**, {/* v0.82.0 and older */} l&#39;accès à Registry reste lié à `modelsSeat`. Définissez `modelsSeat` sur `none` pour révoquer l&#39;accès à Registry dans ces versions.
+  Sur **Cloud dédié** et **Autogéré** v0.82.0 et antérieures, l&#39;accès à Registry reste lié à `modelsSeat`. Définissez `modelsSeat` sur `none` pour révoquer l&#39;accès à Registry dans ces versions.
 </Note>
 
 #### Point de terminaison
@@ -1405,9 +1405,9 @@ Met à jour le rôle d&#39;un utilisateur dans Weave.
 
 Accorde ou révoque l’accès au registre au niveau de l’organisation pour un utilisateur. Ce droit est distinct des [rôles du registre](#add-to-registry) (`registryRoles`), qui contrôlent les autorisations pour chaque registre une fois l’utilisateur autorisé.
 
-Sur **Cloud mutualisé**, {/* et sur **Cloud dédié** et **Autogéré** v0.83.0+ */} les utilisateurs ayant un `modelsSeat` ou un `weaveRole` différent de `none` ont accès au registre par défaut. Définissez `registryAccess` sur `none` pour révoquer l’accès au registre sans modifier leur licence Models ni leur rôle Weave.
+Sur **Cloud mutualisé** et sur **Cloud dédié** et **Autogéré** v0.83.0+, les utilisateurs ayant un `modelsSeat` ou un `weaveRole` différent de `none` ont accès au registre par défaut. Définissez `registryAccess` sur `none` pour révoquer l’accès au registre sans modifier leur licence Models ni leur rôle Weave.
 
-Sur **Cloud dédié** et **Autogéré**, {/* v0.82.0 et versions antérieures */} utilisez [Mettre à jour la licence Models](#update-models-seat) et définissez `modelsSeat` sur `none` pour révoquer l’accès au registre. L’attribut `registryAccess` n’est pas disponible dans ces versions.
+Sur **Cloud dédié** et **Autogéré**, v0.82.0 et versions antérieures, utilisez [Mettre à jour la licence Models](#update-models-seat) et définissez `modelsSeat` sur `none` pour révoquer l’accès au registre. L’attribut `registryAccess` n’est pas disponible dans ces versions.
 
 Si vous omettez `registryAccess` lors de la création, l’API détermine l’accès effectif à partir du `modelsSeat` et du `weaveRole` de l’utilisateur lorsque vous récupérez cet utilisateur. Une valeur `registryAccess` explicite prime sur ce calcul. Les utilisateurs ayant un rôle d’organisation limité à la facturation ne reçoivent pas l’accès au registre via ce mécanisme.
 
@@ -2908,11 +2908,9 @@ W&amp;B propose deux implémentations distinctes de l’API SCIM, dont les fonct
 | Plusieurs adresses e-mail par utilisateur                | ✓               | -                       |
 | Définir `modelsSeat` lors de la création/mise à jour     | ✓               | ✓                       |
 | Définir `weaveRole` lors de la création/mise à jour      | ✓               | ✓                       |
-| Définir `registryAccess` lors de la création/mise à jour | ✓               | -                       |
+| Définir `registryAccess` lors de la création/mise à jour | ✓               | ✓                       |
 | Révoquer l’accès au Registry avec `modelsSeat: none`     | -               | ✓                       |
-| Révoquer l’accès au Registry avec `registryAccess: none` | ✓               | -                       |
-
-{/* À corriger avec la version 0.83+ */}
+| Révoquer l’accès au Registry avec `registryAccess: none` | ✓               | ✓                       |
 
 <div id="limitations">
   ## Limitations

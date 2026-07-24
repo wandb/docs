@@ -1,28 +1,41 @@
 ---
 title: ArtifactTypes
-namespace: public_apis_namespace
-python_object_type: class
+kind: classe
+namespace: wandb.apis.public.artifacts
 ---
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L113" />
 
+## <kbd>classe</kbd> wandb.apis.public.ArtifactTypes
 
-## <kbd>class</kbd> `ArtifactTypes`
+Un itérateur paresseux d&#39;objets `ArtifactType` pour un projet donné.
 
-Un itérateur paresseux d&#39;objets `ArtifactType` pour un projet donné. 
+<div id="methods">
+  ## Méthodes
+</div>
 
-### <kbd>propriété</kbd> ArtifactTypes.cursor
+### <kbd>méthode</kbd> RelayPaginator.convert_objects()
 
-Un curseur opaque qui indique le début de la page suivante à récupérer.
+```python
+self
+```
 
-Cette valeur peut être enregistrée et passée via `start=` à une requête paginée ultérieure pour reprendre l’itération là où ce paginateur s’est arrêté.
+Convertissez les données de la dernière réponse récupérée en objets renvoyés par l’itérateur.
 
-**Retourne :**
+### <kbd>méthode</kbd> Paginator.**next**()
 
-* `str | None`: La valeur de propriété du curseur.
+```python
+self
+```
 
-***
+Renvoyer l’élément suivant de l’itérateur. Lorsqu’il est épuisé, lever une exception StopIteration
 
-### <kbd>propriété</kbd> ArtifactTypes.more
+### <kbd>méthode</kbd> Paginator.update_variables()
+
+```python
+self
+```
+
+Mettez à jour les variables de requête pour récupérer la page suivante.

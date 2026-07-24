@@ -1,176 +1,117 @@
 ---
 title: ArtifactCollection
-namespace: public_apis_namespace
-python_object_type: class
+kind: classe
+namespace: wandb.apis.public.artifacts
 ---
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L476" />
 
-
-## <kbd>class</kbd> `ArtifactCollection`
+## <kbd>classe</kbd> wandb.apis.public.ArtifactCollection
 
 Une collection d&#39;artifacts représentant un groupe d&#39;artifacts associés.
 
-**Arguments :**
+<div id="properties">
+  ## Propriétés
+</div>
 
-* `service_api`:  Interface avec le service wandb-core qui effectue les appels d&#39;API W&amp;B pour cette collection.
-* `entity`:  L&#39;entité (utilisateur ou équipe) propriétaire du projet.
-* `project`:  Le nom du projet dans lequel rechercher des collections d&#39;artifacts.
-* `name`:  Le nom de la collection d&#39;artifacts.
-* `type`:  Le type de la collection d&#39;artifacts (par ex., &quot;jeu de données&quot;, &quot;modèle&quot;).
-* `organization`:  Nom de l&#39;organisation, facultatif, le cas échéant.
-* `attrs`:  Mappage facultatif d&#39;attributs pour initialiser la collection d&#39;artifacts. Si aucun n&#39;est fourni, l&#39;objet chargera ses attributs depuis W&amp;B lors de l&#39;initialisation. 
-
-### <kbd>propriété</kbd> ArtifactCollection.aliases
+### <kbd>propriété</kbd> aliases
 
 Les alias de toutes les versions d&#39;artifact contenues dans cette collection.
 
-**Retourne :**
-
-* `list[str]`: La valeur de la propriété `aliases`.
-
-***
-
-### <kbd>propriété</kbd> ArtifactCollection.created_at
+### <kbd>propriété</kbd> created_at
 
 La date de création de la collection d&#39;artifacts.
 
-**Retourne :**
-
-* `str` : La valeur de la propriété created&#95;at.
-
-***
-
-### <kbd>propriété</kbd> ArtifactCollection.description
+### <kbd>propriété</kbd> description
 
 Description de la collection d&#39;artifacts.
 
-**Retourne :**
-
-* `str | None` : La valeur de propriété de la description.
-
-***
-
-### <kbd>propriété</kbd> ArtifactCollection.entity
+### <kbd>propriété</kbd> entité
 
 L’entité (utilisateur ou équipe) propriétaire du projet.
 
-**Retourne :**
-
-* `str` : La valeur de la propriété `entity`.
-
-***
-
-### <kbd>propriété</kbd> ArtifactCollection.id
+### <kbd>propriété</kbd> id
 
 L’identifiant unique de la collection d’artifacts.
 
-**Retourne :**
-
-* `str` : La valeur de la propriété `id`.
-
-***
-
-### <kbd>propriété</kbd> ArtifactCollection.name
+### <kbd>propriété</kbd> nom
 
 Le nom de la collection d&#39;artifacts.
 
-**Retourne :**
-
-* `str` : La valeur de la propriété `name`.
-
-***
-
-### <kbd>propriété</kbd> ArtifactCollection.project
+### <kbd>propriété</kbd> project
 
 Le projet qui contient la collection d&#39;artifacts.
 
-**Retourne :**
-
-* `str` : La valeur de la propriété du projet.
-
-***
-
-### <kbd>propriété</kbd> ArtifactCollection.tags
+### <kbd>propriété</kbd> tags
 
 Les tags de la collection d&#39;artifacts.
 
-**Retourne :**
-
-* `list[str]`: La valeur de la propriété tags.
-
-***
-
-### <kbd>propriété</kbd> ArtifactCollection.type
+### <kbd>propriété</kbd> type
 
 Renvoie le type de la collection d&#39;artifacts.
 
-***
-
-### <kbd>propriété</kbd> ArtifactCollection.updated_at
+### <kbd>propriété</kbd> updated_at
 
 La date de la dernière mise à jour de la collection d’artifacts.
 
-**Retourne :**
+<div id="methods">
+  ## Méthodes
+</div>
 
-* `str | None`: La valeur de la propriété updated&#95;at.
-
-***
-
-### <kbd>méthode</kbd> `ArtifactCollection.artifacts`
+### <kbd>méthode</kbd> ArtifactCollection.artifacts()
 
 ```python
-artifacts(per_page: 'int' = 50, start: 'str | None' = None) → Artifacts
+self,
+per_page: 'int' = 50,
+start: 'str | None' = None
 ```
 
 Obtenir tous les artifacts de la collection.
 
-**Arguments :**
+<div id="arguments">
+  ##### Arguments
+</div>
 
-* `per_page`:  Le nombre d&#39;artifacts à récupérer par page.
-* `start`:  Curseur de pagination pour reprendre une requête antérieure, capturé à partir de l&#39;attribut `.cursor` d&#39;un paginateur précédent.
+* `per_page`: Le nombre d&#39;artifacts à récupérer par page.
+* `start`: Curseur de pagination pour reprendre une requête antérieure, capturé à partir de l&#39;attribut `.cursor` d&#39;un paginateur précédent.
 
-***
-
-### <kbd>méthode</kbd> `ArtifactCollection.change_type`
+### <kbd>méthode</kbd> ArtifactCollection.change_type()
 
 ```python
-change_type(new_type: 'str') → None
+self,
+new_type: 'str'
 ```
 
 Obsolète : modifiez directement le type avec `save`.
 
-***
+<div id="arguments">
+  ##### Arguments
+</div>
 
+* `new_type`: 
 
-### <kbd>méthode</kbd> `ArtifactCollection.delete`
+### <kbd>méthode</kbd> ArtifactCollection.delete()
 
 ```python
-delete() → None
+self
 ```
 
 Supprimez toute la collection d&#39;artifacts.
 
-***
-
-
-### <kbd>méthode</kbd> `ArtifactCollection.is_sequence`
+### <kbd>méthode</kbd> ArtifactCollection.is_sequence()
 
 ```python
-is_sequence() → bool
+self
 ```
 
 Indique si la collection d&#39;artifacts est une séquence.
 
-***
-
-
-### <kbd>méthode</kbd> `ArtifactCollection.save`
+### <kbd>méthode</kbd> ArtifactCollection.save()
 
 ```python
-save() → None
+self
 ```
 
 Enregistrez les modifications apportées à la collection d’artifacts.

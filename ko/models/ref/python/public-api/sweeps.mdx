@@ -1,19 +1,38 @@
 ---
 title: Sweeps
-namespace: public_apis_namespace
-python_object_type: class
+kind: 클래스
+namespace: wandb.apis.public.sweeps
 ---
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py#L59" />
 
+## <kbd>클래스</kbd> wandb.apis.public.Sweeps
 
-## <kbd>class</kbd> `Sweeps`
+```python
+service_api: 'ServiceApi',
+entity: 'str',
+project: 'str',
+per_page: 'int' = 50,
+filters: 'dict[str, Any] | None' = None
+```
 
-`Sweep` 객체 컬렉션을 순회하는 lazy 이터레이터입니다.
+`Sweep` 객체 컬렉션을 지연 방식으로 순회하는 이터레이터입니다.
 
-**예시:**
+<div id="args">
+  ## 인수
+</div>
+
+* `service_api`: W&amp;B를 쿼리하는 데 사용되는 서비스 API입니다.
+* `entity`: 스윕을 소유한 entity입니다.
+* `project`: 스윕이 포함된 프로젝트입니다.
+* `per_page`: API에 대한 각 요청마다 가져올 스윕 수입니다.
+* `filters`: (dict) Runs 필터를 사용해 특정 스윕을 쿼리합니다. 자세한 내용은 wandb/apis/public/api.py:runs를 참조하세요.
+
+<div id="examples">
+  ## 예시
+</div>
 
 ```python
 from wandb.apis.public import Api
@@ -22,34 +41,28 @@ sweeps = Api().project(name="project_name", entity="entity").sweeps()
 
 # 스윕을 순회하며 세부 정보 출력
 for sweep in sweeps:
-     print(f"Sweep name: {sweep.name}")
-     print(f"Sweep ID: {sweep.id}")
-     print(f"Sweep URL: {sweep.url}")
-     print("----------")
-``` 
-
-### <kbd>방법</kbd> `Sweeps.__init__`
-
-```python
-__init__(
-    service_api: 'ServiceApi',
-    entity: 'str',
-    project: 'str',
-    per_page: 'int' = 50
-) → Sweeps
+    print(f"Sweep name: {sweep.name}")
+    print(f"Sweep ID: {sweep.id}")
+    print(f"Sweep URL: {sweep.url}")
+    print("----------")
 ```
 
-반복 가능한 `Sweep` 객체 컬렉션입니다.
+<div id="methods">
+  ## 메서드
+</div>
 
-**매개변수:**
+### <kbd>방법</kbd> Paginator.**next**()
 
-* `service_api`:  W&amp;B를 쿼리하는 데 사용되는 서비스 API입니다.
-* `entity`:  스윕을 소유한 entity입니다.
-* `project`:  스윕이 포함된 프로젝트입니다.
-* `per_page`:  API에 대한 각 요청마다 가져올 스윕 수입니다.
+```python
+self
+```
 
-***
+이터레이터의 다음 항목을 반환합니다. 더 이상 항목이 없으면 StopIteration 예외를 발생시킵니다.
 
-### <kbd>속성</kbd> Sweeps.length
+### <kbd>방법</kbd> Paginator.update_variables()
 
-***
+```python
+self
+```
+
+다음 페이지를 가져올 때 사용할 쿼리 변수를 업데이트합니다.

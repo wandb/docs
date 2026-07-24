@@ -4,7 +4,7 @@ title: wandb login
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/cli.py#L282" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L284" />
 
 <div id="usage">
   ## 사용
@@ -73,16 +73,6 @@ wandb login --host https://my-wandb-server.example.com
 ```bash
 wandb login --relogin
 ```
-
-<div id="api-key-formats">
-  ## API 키 형식
-</div>
-
-W&amp;B는 `wandb_v1_` 형식(약 92자)의 API 키를 발급합니다. 이전 SDK 버전은 정확히 40자 길이만 허용하므로 새 형식은 `API key must be 40 characters long` 오류와 함께 거부됩니다. SDK를 업그레이드하고(`pip install -U wandb`) `wandb login --relogin`을 실행하세요.
-
-[wandb.ai/authorize](https://wandb.ai/authorize)에서 생성한 키는 생성 시 한 번만 표시됩니다. 즉시 복사하세요. 대화 상자를 닫으면 다시 확인할 수 없습니다.
-
-고정된 SDK 버전, 레거시 키 및 관련 오류에 대해서는 [내 API 키가 &#39;must be 40 characters long&#39; 오류와 함께 실패하는 이유는 무엇인가요?](/ko/support/models/articles/why-does-my-api-key-fail-with-must-be-40-characters)를 참조하세요.
 
 <div id="arguments">
   ## 인수

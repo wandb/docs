@@ -1,35 +1,39 @@
 ---
 title: setup()
-namespace: python_sdk_actions
-python_object_type: function
+kind: function
+namespace: wandb.sdk.wandb_setup
 ---
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_setup.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_setup.py#L515" />
 
-
-### <kbd>関数</kbd> `setup`
+## <kbd>関数</kbd> wandb.setup
 
 ```python
-setup(settings: 'Settings | None' = None) → _WandbSetup
+settings: 'Settings | None' = None
 ```
 
 現在のプロセスおよびその子プロセスで W&amp;B を使用できるように準備します。
 
 通常、これは `wandb.init()` から暗黙的に呼び出されるため、たいていは意識する必要はありません。
 
-wandb を複数のプロセスで使用する場合は、子プロセスを開始する前に親プロセスで `wandb.setup()` を呼び出すことで、パフォーマンスやリソース使用率が向上することがあります。
+wandb を複数のプロセスで使用する場合は、子プロセスを開始する前に親プロセスで `wandb.setup()`
+を呼び出すことで、パフォーマンスやリソース使用率が向上することがあります。
 
 `wandb.setup()` は `os.environ` を変更するため、子プロセスが変更後の環境変数を継承することが重要です。
 
 `wandb.teardown()` も参照してください。
 
-**引数:**
+<div id="args">
+  ## 引数
+</div>
 
 * `settings`: グローバルに適用する設定です。これらは後続の `wandb.init()` 呼び出しで上書きできます。
 
-**例:**
+<div id="examples">
+  ## 例
+</div>
 
 ```python
 import multiprocessing
@@ -39,8 +43,8 @@ import wandb
 
 def run_experiment(params):
     with wandb.init(config=params):
-         # 実験を実行
-         pass
+        # 実験を実行する
+        pass
 
 
 if __name__ == "__main__":
@@ -49,20 +53,20 @@ if __name__ == "__main__":
 
     # 実験パラメーターを定義する
     experiment_params = [
-         {"learning_rate": 0.01, "epochs": 10},
-         {"learning_rate": 0.001, "epochs": 20},
+        {"learning_rate": 0.01, "epochs": 10},
+        {"learning_rate": 0.001, "epochs": 20},
     ]
 
     # 複数のプロセスを起動し、それぞれ個別の実験を実行する
     processes = []
     for params in experiment_params:
-         p = multiprocessing.Process(target=run_experiment, args=(params,))
-         p.start()
-         processes.append(p)
+        p = multiprocessing.Process(target=run_experiment, args=(params,))
+        p.start()
+        processes.append(p)
 
-    # すべてのプロセスの完了を待機する
+    # すべてのプロセスの完了を待つ
     for p in processes:
-         p.join()
+        p.join()
 
     # オプション: バックエンドを明示的にシャットダウンする
     wandb.teardown()

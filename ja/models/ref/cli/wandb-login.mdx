@@ -4,7 +4,7 @@ title: wandb login
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/cli.py#L282" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L284" />
 
 <div id="usage">
   ## 使い方
@@ -73,16 +73,6 @@ wandb login --host https://my-wandb-server.example.com
 ```bash
 wandb login --relogin
 ```
-
-<div id="api-key-formats">
-  ## APIキーの形式
-</div>
-
-W&amp;B は `wandb_v1_` 形式 (約92文字) の APIキーを発行します。古い SDK バージョンは APIキーがちょうど40文字であることを想定しているため、新しい形式は `API key must be 40 characters long` というエラーで拒否されます。SDK をアップグレードし (`pip install -U wandb`) 、`wandb login --relogin` を実行してください。
-
-[wandb.ai/authorize](https://wandb.ai/authorize) で生成されたキーは、作成時に一度だけ表示されます。すぐにコピーしてください。ダイアログを閉じると、あとで再取得することはできません。
-
-SDK バージョンの固定、レガシーキー、および関連するエラーについては、[APIキーが「must be 40 characters long」で失敗するのはなぜですか？](/ja/support/models/articles/why-does-my-api-key-fail-with-must-be-40-characters) を参照してください。
 
 <div id="arguments">
   ## 引数

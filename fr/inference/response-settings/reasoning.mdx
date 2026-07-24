@@ -14,30 +14,35 @@ Les informations de raisonnement apparaissent dans le champ `reasoning` des rép
   ## Modèles pris en charge avec raisonnement
 </div>
 
-Le tableau suivant répertorie les modèles de Serverless Inference qui renvoient un raisonnement en sortie. Chaque modèle pris en charge inclut soit toujours le raisonnement, soit a le raisonnement activé ou désactivé par défaut :
+Le tableau suivant répertorie les modèles de Serverless Inference qui peuvent renvoyer un raisonnement en sortie, ainsi que le comportement de chacun :
+
+* **Always on :** Le modèle renvoie toujours un raisonnement en sortie. Vous ne pouvez pas le désactiver.
+* **Activé par défaut** / **Désactivé par défaut :** Vous pouvez activer ou désactiver le raisonnement en sortie. Le tableau indique la valeur par défaut lorsque vous ne spécifiez aucun paramètre.
+* **Adaptatif ; le modèle choisit par défaut :** Le modèle décide, pour chaque requête, s’il renvoie ou non un raisonnement en sortie. Vous pouvez redéfinir ce comportement.
 
 {/* takeru reasoning-models - Ce tableau est généré automatiquement, ne le modifiez pas à la main. */}
 
-| ID du modèle (pour l’utilisation de l’API)     | Prise en charge du raisonnement |
-| ---------------------------------------------- | ------------------------------- |
-| `deepseek-ai/DeepSeek-V4-Flash`                | Désactivé par défaut            |
-| `deepseek-ai/DeepSeek-V4-Pro`                  | Désactivé par défaut            |
-| `google/gemma-4-31B-it`                        | Désactivé par défaut            |
-| `MiniMaxAI/MiniMax-M2.5`                       | Always on                       |
-| `moonshotai/Kimi-K2.7-Code`                    | Always on                       |
-| `moonshotai/Kimi-K2.6`                         | Always on                       |
-| `moonshotai/Kimi-K2.5`                         | Always on                       |
-| `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-FP8` | Activé par défaut               |
-| `nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B`     | Activé par défaut               |
-| `openai/gpt-oss-120b`                          | Always on                       |
-| `openai/gpt-oss-20b`                           | Always on                       |
-| `Qwen/Qwen3.6-35B-A3B`                         | Activé par défaut               |
-| `Qwen/Qwen3.6-27B`                             | Activé par défaut               |
-| `Qwen/Qwen3.5-35B-A3B`                         | Activé par défaut               |
-| `Qwen/Qwen3.5-27B`                             | Activé par défaut               |
-| `Qwen/Qwen3-235B-A22B-Thinking-2507`           | Always on                       |
-| `zai-org/GLM-5.2`                              | Activé par défaut               |
-| `zai-org/GLM-5.1`                              | Activé par défaut               |
+| ID du modèle (pour l’utilisation de l’API)     | Prise en charge du raisonnement          |
+| ---------------------------------------------- | ---------------------------------------- |
+| `deepseek-ai/DeepSeek-V4-Flash`                | Désactivé par défaut                     |
+| `deepseek-ai/DeepSeek-V4-Pro`                  | Désactivé par défaut                     |
+| `google/gemma-4-31B-it`                        | Désactivé par défaut                     |
+| `MiniMaxAI/MiniMax-M3`                         | Adaptatif ; le modèle choisit par défaut |
+| `MiniMaxAI/MiniMax-M2.5`                       | Always on                                |
+| `moonshotai/Kimi-K2.7-Code`                    | Always on                                |
+| `moonshotai/Kimi-K2.6`                         | Always on                                |
+| `moonshotai/Kimi-K2.5`                         | Always on                                |
+| `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-FP8` | Activé par défaut                        |
+| `nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B`     | Activé par défaut                        |
+| `openai/gpt-oss-120b`                          | Always on                                |
+| `openai/gpt-oss-20b`                           | Always on                                |
+| `Qwen/Qwen3.6-35B-A3B`                         | Activé par défaut                        |
+| `Qwen/Qwen3.6-27B`                             | Activé par défaut                        |
+| `Qwen/Qwen3.5-35B-A3B`                         | Activé par défaut                        |
+| `Qwen/Qwen3.5-27B`                             | Activé par défaut                        |
+| `Qwen/Qwen3-235B-A22B-Thinking-2507`           | Always on                                |
+| `zai-org/GLM-5.2`                              | Activé par défaut                        |
+| `zai-org/GLM-5.1`                              | Activé par défaut                        |
 
 <div id="models-with-always-on-reasoning">
   ### Modèles avec le raisonnement `Always on`

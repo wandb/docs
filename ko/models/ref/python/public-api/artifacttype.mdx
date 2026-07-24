@@ -1,79 +1,65 @@
 ---
 title: ArtifactType
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.artifacts
 ---
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L166" />
 
-
-## <kbd>class</kbd> `ArtifactType`
+## <kbd>클래스</kbd> wandb.apis.public.ArtifactType
 
 지정된 유형에 따라 쿼리 조건을 만족하는 artifact 객체입니다.
 
-**매개변수:**
+<div id="properties">
+  ## 속성
+</div>
 
-* `service_api`:  이 artifact 유형에 대해 W&amp;B API 호출을 수행하는 wandb-core 서비스의 인터페이스입니다.
-* `entity`:  프로젝트를 소유한 entity(사용자 또는 팀)입니다.
-* `project`:  artifact 유형을 쿼리할 프로젝트 이름입니다.
-* `type_name`:  artifact 유형의 이름입니다.
-* `attrs`:  ArtifactType을 초기화하는 데 사용할 선택 속성입니다.  생략하면 객체는 초기화 시 W&amp;B에서 속성을 로드합니다. 
-
-### <kbd>속성</kbd> ArtifactType.id
+### <kbd>속성</kbd> id
 
 artifact 유형의 고유 식별자입니다.
 
-**반환값:**
-
-* `str`: id 속성 값입니다.
-
-***
-
-### <kbd>속성</kbd> ArtifactType.name
+### <kbd>속성</kbd> name
 
 artifact 유형의 이름입니다.
 
-**반환값:**
+<div id="methods">
+  ## 메서드
+</div>
 
-* `str`: `name` 속성의 값입니다.
-
-***
-
-### <kbd>방법</kbd> `ArtifactType.collection`
+### <kbd>방법</kbd> ArtifactType.collection()
 
 ```python
-collection(name: 'str') → ArtifactCollection
+self,
+name: 'str'
 ```
 
 이름으로 특정 artifact collection을 조회합니다.
 
-**매개변수:**
+<div id="arguments">
+  ##### 인수
+</div>
 
-* `name` (str): 조회할 artifact collection의 이름입니다.
+* `name`: 조회할 artifact collection의 이름입니다.
 
-***
-
-
-### <kbd>방법</kbd> `ArtifactType.collections`
+### <kbd>방법</kbd> ArtifactType.collections()
 
 ```python
-collections(
-    filters: 'Mapping[str, Any] | None' = None,
-    order: 'str | None' = None,
-    per_page: 'int' = 50,
-    start: 'str | None' = None
-) → ArtifactCollections
+self,
+filters: 'Mapping[str, Any] | None' = None,
+order: 'str | None' = None,
+per_page: 'int' = 50,
+start: 'str | None' = None
 ```
 
 이 artifact 유형에 연결된 모든 artifact collection을 조회합니다.
 
-**매개변수:**
+<div id="arguments">
+  ##### 인수
+</div>
 
-* `filters` (dict):  쿼리에 적용할 필터의 선택 사항인 매핑입니다.
-* `order` (str):  결과 순서를 지정하는 선택 사항인 문자열입니다.  `order` 앞에 `+`를 붙이면 오름차순(기본값)입니다.  `order` 앞에 `-`를 붙이면 내림차순입니다.  기본 순서는 collection ID의 내림차순입니다.
-* `per_page` (int):  페이지당 가져올 artifact collection 수입니다.  기본값은 50입니다.
-* `start`:  이전 paginator의 `.cursor` 속성에서 캡처한, 이전 쿼리를 이어서 실행하기 위한 페이지네이션 커서입니다.
-
-***
+* `filters`: 쿼리에 적용할 필터의 선택 사항인 매핑입니다.
+* `order`: 결과 순서를 지정하는 선택 사항인 문자열입니다. `order` 앞에 `+`를 붙이면 오름차순(기본값)입니다. `order` 앞에 `-`를 붙이면 내림차순입니다. 기본 순서는 collection ID의 내림차순입니다.
+* `per_page`: 페이지당 가져올 artifact collection 수입니다. 기본값은 50입니다.
+* `start`: 이전 paginator의 `.cursor` 속성에서 캡처한, 이전 쿼리를 이어서 실행하기 위한 페이지네이션 커서입니다.

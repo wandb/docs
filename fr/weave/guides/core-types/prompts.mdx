@@ -10,6 +10,10 @@ W&amp;B Weave vous permet de créer des prompts, de les publier et de les faire 
 
 Cette page s’adresse aux ingénieurs IA qui souhaitent créer des objets prompt réutilisables dans Weave et les publier afin que le code de l’application puisse y faire référence. En suivant ce guide, vous apprendrez à créer des prompts sous forme de chaîne unique et sur plusieurs tours de conversation, à les paramétrer avec des valeurs d’exécution et à les publier dans votre projet Weave. Pour savoir comment référencer, récupérer et gérer les versions des prompts publiés, voir [Stocker et suivre les versions des prompts](/fr/weave/guides/core-types/prompts-version.mdx).
 
+<Info>
+  Voir [Lier un prompt à une collection](/fr/models/registry/link_prompt) pour savoir comment lier un objet prompt à une [collection](/fr/models/registry/create_collection) dans un [registry](/fr/models/registry).
+</Info>
+
 Si vos besoins en prompts sont simples, vous pouvez utiliser les classes intégrées `weave.StringPrompt` ou `weave.MessagesPrompt`. Si vos besoins sont plus complexes, vous pouvez les sous-classer, ou sous-classer la classe de base `weave.Prompt` et redéfinir la méthode `format`.
 
 Lorsque vous publiez un prompt avec `weave.publish`, il apparaît dans votre projet Weave sur la [page Prompts](/fr/weave/guides/core-types/prompts-version.mdx#view-prompts), où vous et vos collaborateurs pouvez le parcourir et le réutiliser.

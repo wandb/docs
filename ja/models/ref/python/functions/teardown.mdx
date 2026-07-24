@@ -1,18 +1,17 @@
 ---
 title: teardown()
-namespace: python_sdk_actions
-python_object_type: function
+kind: 関数
+namespace: wandb.sdk.wandb_setup
 ---
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main//Users/noahluna/.pyenv/versions/3.13.0/lib/python3.13/contextlib.py#L574" />
 
-
-### <kbd>関数</kbd> `teardown`
+## <kbd>関数</kbd> wandb.teardown
 
 ```python
-teardown(exit_code: 'int | None' = None) → None
+exit_code: 'int | None' = None
 ```
 
 W&amp;B の処理が完了するまで待機し、リソースを解放します。
@@ -20,3 +19,15 @@ W&amp;B の処理が完了するまで待機し、リソースを解放します
 `run.finish()` で明示的に終了されなかった Runs を完了し、すべてのデータがアップロードされるまで待機します。
 
 `wandb.setup()` を使用したセッションの最後にこれを呼び出すことを推奨します。これは `atexit` フックで自動的に呼び出されますが、Python&#39;s `multiprocessing` モジュールを使用している場合など、一部の環境では確実に動作しません。
+
+<div id="args">
+  ## 引数
+</div>
+
+* `exit_code`: 
+
+<div id="returns">
+  ## 戻り値
+</div>
+
+None

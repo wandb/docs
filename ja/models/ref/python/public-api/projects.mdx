@@ -1,37 +1,36 @@
 ---
 title: Projects
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.projects
 ---
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py#L56" />
 
+## <kbd>class</kbd> wandb.apis.public.Projects
 
-## <kbd>class</kbd> `Projects`
+```python
+service_api: 'ServiceApi',
+entity: 'str',
+per_page: 'int' = 50
+```
 
-`Project` オブジェクトの遅延イテレータ。
+`Project` オブジェクトの遅延イテレーター。
 
 entity が作成して保存したプロジェクトにアクセスするためのイテラブルなインターフェース。
 
-### <kbd>method</kbd> `Projects.__init__`
+<div id="args">
+  ## 引数
+</div>
 
-```python
-__init__(
-    service_api: 'ServiceApi',
-    entity: 'str',
-    per_page: 'int' = 50
-) → Projects
-```
+* `service_api`: このコレクションに対して W&amp;B API Call を実行する wandb-core サービスへのインターフェース。
+* `entity`: プロジェクトを所有する entity。
+* `per_page`: API へのリクエストごとに取得するプロジェクト数。
 
-**引数:**
-
-* `service_api`:  このコレクションに対する W&amp;B API Call を実行する wandb-core サービスへのインターフェース。
-* `entity` (str):  プロジェクトを取得する対象の entity 名 (ユーザー名またはチーム名) 。
-* `per_page` (int):  リクエストごとに取得するプロジェクト数 (デフォルトは 50) 。
-
-**例:**
+<div id="examples">
+  ## 例
+</div>
 
 ```python
 from wandb.apis.public.api import Api
@@ -47,26 +46,30 @@ for project in projects:
     print(f"- Is benchmark: {project.is_benchmark}")
 ```
 
-`Project` オブジェクトのイテラブルなコレクション。
+<div id="methods">
+  ## メソッド
+</div>
 
-**引数:**
+### <kbd>メソッド</kbd> RelayPaginator.convert_objects()
 
-* `service_api`:  このコレクションに対して W&amp;B API Call を実行する wandb-core サービスへのインターフェース。
-* `entity`:  プロジェクトを所有する entity。
-* `per_page`:  API へのリクエストごとに取得するプロジェクト数。
+```python
+self
+```
 
-***
+最後に取得したレスポンスデータを、イテレートされるオブジェクトに変換します。
 
-### <kbd>プロパティ</kbd> Projects.cursor
+### <kbd>メソッド</kbd> Paginator.**next**()
 
-次に取得するページの開始位置を示す、内部構造が公開されていないカーソルです。
+```python
+self
+```
 
-この値は保存しておき、後でページネーションされたクエリに `start=` として渡すことで、このページネーターが前回終了した位置から反復を再開できます。
+イテレーターから次の項目を返します。要素がなくなった場合は StopIteration を送出します
 
-**戻り値:**
+### <kbd>メソッド</kbd> Paginator.update_variables()
 
-* `str | None`: カーソルのプロパティ値です。
+```python
+self
+```
 
-***
-
-### <kbd>プロパティ</kbd> Projects.more
+次のページを取得するためのクエリ変数を更新します。

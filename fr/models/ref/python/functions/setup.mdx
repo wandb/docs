@@ -1,35 +1,41 @@
 ---
 title: setup()
-namespace: python_sdk_actions
-python_object_type: fonction
+kind: fonction
+namespace: wandb.sdk.wandb_setup
 ---
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_setup.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_setup.py#L515" />
 
-
-### <kbd>fonction</kbd> `setup`
+## <kbd>fonction</kbd> wandb.setup
 
 ```python
-setup(settings: 'Settings | None' = None) → _WandbSetup
+settings: 'Settings | None' = None
 ```
 
 Prépare W&amp;B à être utilisé dans le processus en cours et ses processus enfants.
 
 Vous pouvez généralement l’ignorer, car il est appelé implicitement par `wandb.init()`.
 
-Si vous utilisez wandb dans plusieurs processus, appeler `wandb.setup()` dans le processus parent avant de démarrer les processus enfants peut améliorer les performances et l’utilisation des ressources.
+Si vous utilisez wandb dans plusieurs processus, appeler `wandb.setup()`
+dans le processus parent avant de démarrer les processus enfants peut améliorer
+les performances et l’utilisation des ressources.
 
-Notez que `wandb.setup()` modifie `os.environ` et qu’il est important que les processus enfants héritent des variables d’environnement modifiées.
+Notez que `wandb.setup()` modifie `os.environ` et qu’il est important
+que les processus enfants héritent des variables d’environnement modifiées.
 
 Voir aussi `wandb.teardown()`.
 
-**Arguments :**
+<div id="args">
+  ## Arguments
+</div>
 
-* `settings` :  Paramètres de configuration à appliquer globalement. Ils peuvent être remplacés par des appels ultérieurs à `wandb.init()`.
+* `settings`: Paramètres de configuration à appliquer globalement. Ils peuvent être remplacés par des appels ultérieurs à `wandb.init()`.
 
-**Exemple :**
+<div id="examples">
+  ## Exemples
+</div>
 
 ```python
 import multiprocessing
@@ -39,8 +45,8 @@ import wandb
 
 def run_experiment(params):
     with wandb.init(config=params):
-         # Lancer l'expérience
-         pass
+        # Lancer l'expérience
+        pass
 
 
 if __name__ == "__main__":
@@ -49,20 +55,20 @@ if __name__ == "__main__":
 
     # Définir les paramètres de l'expérience
     experiment_params = [
-         {"learning_rate": 0.01, "epochs": 10},
-         {"learning_rate": 0.001, "epochs": 20},
+        {"learning_rate": 0.01, "epochs": 10},
+        {"learning_rate": 0.001, "epochs": 20},
     ]
 
     # Démarrer plusieurs processus, chacun exécutant une expérience distincte
     processes = []
     for params in experiment_params:
-         p = multiprocessing.Process(target=run_experiment, args=(params,))
-         p.start()
-         processes.append(p)
+        p = multiprocessing.Process(target=run_experiment, args=(params,))
+        p.start()
+        processes.append(p)
 
     # Attendre la fin de tous les processus
     for p in processes:
-         p.join()
+        p.join()
 
     # Facultatif : arrêter explicitement le backend
     wandb.teardown()

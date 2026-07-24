@@ -4,7 +4,7 @@ title: wandb server start
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/cli.py#L2669" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L2780" />
 
 <div id="usage">
   ## 使い方
@@ -33,9 +33,10 @@ APIキーが見つからない場合は、ログインを求めます。
 
 このコマンドは W&amp;B Models UI のみを起動します。ローカルテスト専用に
 提供されています。本番環境では、W&amp;B Kubernetes Operator が推奨される
-W&amp;B Serv[https://docs.wandb.ai/platform/hosting/self-managed/operator](https://docs.wandb.ai/platform/hosting/self-managed/operator)ged/operator のデプロイ方法です。
+W&amp;B Server のデプロイ方法です。詳細については、以下を参照してください。
+[https://docs.wandb.ai/platform/hosting/self-managed/operator](https://docs.wandb.ai/platform/hosting/self-managed/operator).
 
-たとえば、デフォルトポート (8080) でローカルの W&amp;B Server を起動するには、次のようにします。
+たとえば、デフォルトポート (8080) でローカルの W&amp;B server を起動するには、次のようにします。
 
 ```bash
 wandb server start

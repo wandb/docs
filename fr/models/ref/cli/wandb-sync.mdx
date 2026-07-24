@@ -4,7 +4,7 @@ title: wandb sync
 
 import { GitHubLink } from "/snippets/fr/_includes/github-source-link.mdx"
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/cli.py#L561" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L563" />
 
 <div id="usage">
   ## Utilisation
@@ -19,6 +19,10 @@ sync [OPTIONS] [PATH]...
 </div>
 
 Téléversez vers le cloud des données locales existantes d&#39;un run W&amp;B.
+
+NOTE DE MIGRATION : cette commande est progressivement réacheminée vers
+`wandb beta sync`. Certaines options sont autorisées uniquement en mode hérité, et d&#39;autres
+uniquement en mode bêta. Voir les descriptions des options pour plus d&#39;informations.
 
 Synchronisez des run hors ligne ou incomplets depuis le répertoire local `wandb` vers
 le serveur W&amp;B. Si PATH est fourni, synchronisez les run à cet emplacement. Si aucun
@@ -92,24 +96,26 @@ wandb sync --clean --clean-old-hours 48 --clean-force
   ## Options
 </div>
 
-| Flag                 | Type      | Description                                                                                                                                 |
-| -------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--id`               | STR       | Téléverser vers un ID de run existant. **Par défaut** : None                                                                                |
-| `--project, -p`      | STR       | Définir le projet dans lequel téléverser le run. **Par défaut** : None                                                                      |
-| `--entity, -e`       | STR       | Définir l’entité à laquelle le projet est rattaché. **Par défaut** : None                                                                   |
-| `--job_type`         | STR       | Définir le type de job pour regrouper les runs associés. **Par défaut** : None                                                              |
-| `--sync-tensorboard` | BOOL Flag | Synchroniser les fichiers tfevent TensorBoard. Activé par défaut pour certains chemins, désactivé pour --sync-all. **Par défaut** : None    |
-| `--include-globs`    | STR       | Inclure uniquement les runs correspondant à ces motifs glob (séparés par des virgules). **Par défaut** : None                               |
-| `--exclude-globs`    | STR       | Exclure les runs correspondant à ces motifs glob (séparés par des virgules). **Par défaut** : None                                          |
-| `--include-online`   | BOOL Flag | Inclure les runs créés en mode en ligne. **Par défaut** : None                                                                              |
-| `--include-offline`  | BOOL Flag | Inclure les runs créés en mode hors ligne. **Par défaut** : None                                                                            |
-| `--include-synced`   | BOOL Flag | Inclure les runs déjà synchronisés. **Par défaut** : None                                                                                   |
-| `--mark-synced`      | BOOL Flag | Marquer les runs comme synchronisés après le téléversement. **Par défaut** : True                                                           |
-| `--sync-all`         | BOOL Flag | Synchroniser tous les runs non synchronisés dans le répertoire local wandb. **Par défaut** : False                                          |
-| `--clean`            | BOOL Flag | Supprimer les données locales des runs déjà synchronisés. **Par défaut** : False                                                            |
-| `--clean-old-hours`  | INT       | Supprimer uniquement les runs synchronisés datant de plus de ce nombre d’heures (à utiliser avec --clean). **Par défaut** : 24              |
-| `--clean-force`      | BOOL Flag | Ignorer la confirmation si --clean est spécifié. **Par défaut** : False                                                                     |
-| `--show`             | INT       | Définir le nombre de runs à afficher dans la synthèse. **Par défaut** : 5                                                                   |
-| `--append`           | BOOL Flag | Ajouter des données à un run existant au lieu d’en créer un nouveau. **Par défaut** : False                                                 |
-| `--skip-console`     | BOOL Flag | Ne pas téléverser les journaux de la console. **Par défaut** : False                                                                        |
-| `--replace-tags`     | STR       | Renommer les tags pendant la synchronisation. Utilisez des paires &#39;ancien=nouveau&#39; séparées par des virgules. **Par défaut** : None |
+| Flag                                 | Type      | Description                                                                                                                                                   |
+| ------------------------------------ | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--yes`                              | BOOL Flag | (bêta uniquement) Ne demande pas de confirmation. **Par défaut**: False                                                                                       |
+| `--id`                               | STR       | Téléverse vers un ID du run existant. **Par défaut**: None                                                                                                    |
+| `--project, -p`                      | STR       | Définit le projet vers lequel téléverser le run. **Par défaut**: None                                                                                         |
+| `--entity, -e`                       | STR       | Définit l&#39;entité à laquelle associer le projet. **Par défaut**: None                                                                                      |
+| `--job_type`                         | STR       | Définit le type de job pour regrouper les runs associés. **Par défaut**: None                                                                                 |
+| `--sync-tensorboard`                 | BOOL Flag | (hérité uniquement) Synchronise les fichiers tfevent de TensorBoard. Activé par défaut pour certains chemins, désactivé avec --sync-all. **Par défaut**: None |
+| `--include-globs`                    | STR       | (hérité uniquement) Inclut uniquement les runs correspondant à ces motifs glob (séparés par des virgules). **Par défaut**: None                               |
+| `--exclude-globs`                    | STR       | (hérité uniquement) Exclut les runs correspondant à ces motifs glob (séparés par des virgules). **Par défaut**: None                                          |
+| `--include-online, --no-skip-online` | BOOL Flag | Inclut les runs créés en mode en ligne. **Par défaut**: None                                                                                                  |
+| `--include-offline`                  | BOOL Flag | (hérité uniquement) Inclut les runs créés en mode hors ligne. **Par défaut**: None                                                                            |
+| `--include-synced, --no-skip-synced` | BOOL Flag | Inclut les runs déjà synchronisés. **Par défaut**: None                                                                                                       |
+| `--mark-synced`                      | BOOL Flag | (hérité uniquement) Marque les runs comme synchronisés après le téléversement. **Par défaut**: True                                                           |
+| `--sync-all`                         | BOOL Flag | (hérité uniquement) Synchronise tous les runs non synchronisés dans le répertoire local wandb. **Par défaut**: False                                          |
+| `--clean`                            | BOOL Flag | (hérité uniquement) Supprime les données locales des runs déjà synchronisés. **Par défaut**: False                                                            |
+| `--clean-old-hours`                  | INT       | Supprime uniquement les runs synchronisés datant de plus de ce nombre d&#39;heures (à utiliser avec --clean). **Par défaut**: 24                              |
+| `--clean-force`                      | BOOL Flag | Ignore la demande de confirmation si --clean est spécifié. **Par défaut**: False                                                                              |
+| `--show`                             | INT       | Définit le nombre de runs à afficher dans la synthèse. **Par défaut**: 5                                                                                      |
+| `--append`                           | BOOL Flag | (hérité uniquement) Ajoute des données à un run existant au lieu de créer un nouveau run. **Par défaut**: False                                               |
+| `--skip-console`                     | BOOL Flag | (hérité uniquement) Ignore le téléversement des journaux de console. **Par défaut**: False                                                                    |
+| `--replace-tags`                     | STR       | Renomme les tags pendant la synchronisation. Utilisez des paires &#39;ancien=nouveau&#39; séparées par des virgules. **Par défaut**: None                     |
+| `--legacy`                           | BOOL Flag | Force le comportement hérité au lieu de rediriger vers `wandb beta sync`. **Par défaut**: False                                                               |

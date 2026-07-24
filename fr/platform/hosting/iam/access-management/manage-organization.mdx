@@ -1,7 +1,7 @@
 ---
 title: Gérer votre organisation
 description: "Gérez les utilisateurs, les équipes, les rôles, les licences et la facturation au sein d’une organisation W&B en tant qu’administrateur de l’organisation."
-keywords: ["inviter des utilisateurs", "administrateur d’organisation", "ajouter des membres de l’équipe", "licences utilisateur"]
+keywords: ["inviter des utilisateurs", "administrateur d’organisation", "ajouter des membres de l’équipe", "licences utilisateur", "provisionnement JIT", "provisionnement juste à temps", "provisionnement automatique"]
 ---
 
 Cette page explique comment administrer une organisation W&amp;B, notamment inviter des utilisateurs, gérer les équipes, attribuer des rôles et des licences, et configurer la facturation. Utilisez ces procédures pour que les membres, les accès et la structure des équipes de votre organisation restent alignés avec l’utilisation que votre entreprise fait de W&amp;B.
@@ -94,7 +94,7 @@ Les administrateurs peuvent inviter des utilisateurs dans leur organisation, ain
   ### Provisionnement automatique des utilisateurs
 </div>
 
-Le provisionnement automatique simplifie l’intégration en permettant aux utilisateurs de rejoindre automatiquement votre organisation via le SSO, afin que les administrateurs n’aient pas à envoyer d’invitations individuelles.
+Le provisionnement automatique simplifie l’intégration en permettant aux utilisateurs de rejoindre automatiquement votre organisation via le SSO, afin que les administrateurs n’aient pas à envoyer d’invitations individuelles. Chez W&amp;B, il s’agit de l’équivalent du provisionnement juste-à-temps (JIT) : un compte est créé lorsqu’un utilisateur dont le domaine de messagerie correspond se connecte pour la première fois via le SSO.
 
 Si vous configurez le SSO et que votre fournisseur SSO l’autorise, un utilisateur W&amp;B dont le domaine de messagerie correspond peut se connecter à votre organisation W&amp;B avec le Single Sign-On (SSO). Le SSO est disponible pour toutes les licences Enterprise.
 
@@ -196,12 +196,103 @@ Vous attribuez initialement un rôle d’organisation à un utilisateur lorsque 
 
 Un utilisateur au sein d’une organisation peut avoir l’un des rôles suivants :
 
-| Rôle                                                | Descriptions                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| --------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Admin                                               | Un administrateur de l’organisation qui peut ajouter des utilisateurs à l’organisation ou les supprimer, modifier les rôles des utilisateurs, gérer les rôles personnalisés, ajouter des équipes, etc. W&amp;B recommande de s’assurer qu’il y a plus d’un administrateur au cas où votre administrateur ne serait pas disponible.                                                                                                                                                                                   |
-| membre                                              | Un utilisateur standard de l’organisation, invité par un administrateur de l’organisation. Un membre de l’organisation ne peut pas inviter d’autres utilisateurs ni gérer les utilisateurs existants dans l’organisation.                                                                                                                                                                                                                                                                                            |
-| Viewer (fonctionnalité Enterprise uniquement)       | Un utilisateur en lecture seule de votre organisation, invité par un administrateur de l’organisation. Un viewer dispose uniquement d’un accès en lecture à l’organisation et aux équipes dont il est membre.                                                                                                                                                                                                                                                                                                        |
-| Custom Roles (fonctionnalité Enterprise uniquement) | Les rôles personnalisés permettent aux administrateurs de l’organisation de créer de nouveaux rôles en héritant des rôles d’organisation **Viewer** ou **membre** précédents, puis en ajoutant des autorisations supplémentaires pour obtenir un contrôle d’accès granulaire. Les administrateurs d’équipe peuvent ensuite attribuer n’importe lequel de ces rôles personnalisés aux utilisateurs de leurs équipes respectives. Voir aussi [Ajouter et gérer des rôles personnalisés](#add-and-manage-custom-roles). |
+| Rôle                                                | Descriptions                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Admin                                               | Un administrateur de l’organisation qui peut ajouter des utilisateurs à l’organisation ou les supprimer, modifier les rôles des utilisateurs, gérer les rôles personnalisés, ajouter des équipes, etc. W&amp;B recommande de s’assurer qu’il y a plus d’un administrateur au cas où votre administrateur ne serait pas disponible.                                                                                                                                                                                                                                                                                                                                                  |
+| membre                                              | Un utilisateur standard de l’organisation, invité par un administrateur de l’organisation. Un membre de l’organisation ne peut pas inviter d’autres utilisateurs ni gérer les utilisateurs existants dans l’organisation.                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| Viewer (fonctionnalité Enterprise uniquement)       | Un utilisateur en lecture seule de votre organisation, invité par un administrateur de l’organisation. Un viewer dispose uniquement d’un accès en lecture à l’organisation et aux équipes dont il est membre.                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| Facturation uniquement (Cloud mutualisé)            | Un rôle axé sur la facturation pour les organisations Cloud mutualisé. Vous pouvez attribuer ce rôle uniquement à l’utilisateur chargé de la facturation de l’organisation. Les utilisateurs avec un rôle de facturation uniquement peuvent gérer les flux de travail de facturation, tels que les abonnements, les factures et les modes de paiement, mais ils ne peuvent pas inviter d’utilisateurs, gérer des équipes ni effectuer d’actions d’administration non liées à la facturation. Les utilisateurs avec un rôle de facturation uniquement sont également retirés de toutes les équipes de l’organisation et ont toujours **aucun accès** à la fois pour Models et Weave. |
+| Custom Roles (fonctionnalité Enterprise uniquement) | Les rôles personnalisés permettent aux administrateurs de l’organisation de créer de nouveaux rôles en héritant des rôles d’organisation **Viewer** ou **membre** précédents, puis en ajoutant des autorisations supplémentaires pour obtenir un contrôle d’accès granulaire. Les administrateurs d’équipe peuvent ensuite attribuer n’importe lequel de ces rôles personnalisés aux utilisateurs de leurs équipes respectives. Voir aussi [Ajouter et gérer des rôles personnalisés](#add-and-manage-custom-roles).                                                                                                                                                                |
+
+<div id="organization-role-permissions">
+  ### Autorisations des rôles de l’organisation
+</div>
+
+Les rôles de l’organisation contrôlent les actions administratives à l’échelle de l’organisation. Ils sont distincts des autres catégories de rôles suivantes :
+
+* Les [rôles d’équipe](#assign-or-update-a-team-members-role) contrôlent ce qu’un utilisateur peut faire au sein d’une équipe donnée.
+* Les [rôles du registre](https://docs.wandb.ai/models/registry/configure_registry#details-about-registry-roles) contrôlent ce qu’un utilisateur peut faire dans un registre donné.
+* Les [licences Models et l’accès à Weave](#assign-or-update-a-users-access) contrôlent l’accès aux produits.
+
+Les tableaux suivants résument ce que les utilisateurs **Member** et **Admin** peuvent faire à l’échelle de l’organisation. Pour les actions à l’échelle de l’équipe, comme la journalisation des runs ou la modification de Reports, voir [Rôles et autorisations d’équipe](/fr/platform/app/settings-page/teams#team-roles-and-permissions). Pour les actions à l’échelle du registre, voir [Autorisations des rôles du registre](/fr/models/registry/configure_registry#role-permissions).
+
+<Note>
+  **Viewer** et les rôles personnalisés sont des fonctionnalités réservées à Enterprise. Un **Viewer** dispose d’un accès en lecture seule aux équipes auxquelles il appartient et ne peut effectuer aucune action d’écriture à l’échelle de l’organisation ou de l’équipe. Les rôles personnalisés héritent de **Viewer** ou de **Member** et ajoutent des autorisations au niveau de l’équipe ; voir [Ajouter et gérer des rôles personnalisés](#add-and-manage-custom-roles).
+</Note>
+
+<div id="user-management">
+  #### Gestion des utilisateurs
+</div>
+
+| Permission                                                                  | Groupe de permissions | Membre | Admin |
+| --------------------------------------------------------------------------- | --------------------- | :----: | :---: |
+| Voir la liste des utilisateurs de l’organisation                            | Lire                  |    X   |   X   |
+| Inviter des utilisateurs dans l’organisation                                | Admin                 |        |   X   |
+| Retirer des utilisateurs de l’organisation                                  | Admin                 |        |   X   |
+| Attribuer ou modifier le rôle d’un utilisateur dans l’organisation          | Admin                 |        |   X   |
+| Attribuer ou modifier la licence Models ou l’accès à Weave d’un utilisateur | Admin                 |        |   X   |
+| Exporter la liste des utilisateurs de l’organisation au format CSV          | Admin                 |        |   X   |
+| Voir l’activité de l’organisation et les tendances d’utilisation            | Lire                  |    X   |   X   |
+
+Lorsque **Enforce team visibility restrictions** est activé, les membres non administrateurs ne peuvent consulter que leur propre profil ou ceux des utilisateurs qui partagent une équipe avec eux. Les administrateurs de l’organisation peuvent consulter le profil de tous les membres. Pour plus d&#39;informations, voir [paramètres de confidentialité](/fr/platform/hosting/privacy-settings#enforce-privacy-settings-for-all-teams).
+
+<div id="teams">
+  #### Teams
+</div>
+
+| Permission                                                         | Permission group | membre | Admin |
+| ------------------------------------------------------------------ | ---------------- | :----: | :---: |
+| Créer des équipes dans l’organisation                              | Admin            |        |   X   |
+| Rejoindre des équipes sur invitation ou via la capture de domaine  | Lire             |    X   |   X   |
+| Voir les membres des équipes dont l’utilisateur fait partie        | Lire             |    X   |   X   |
+| Voir les membres des équipes dont l’utilisateur ne fait pas partie | Lire             |        |   X   |
+| Inviter des utilisateurs dans une équipe sans en être membre       | Admin            |        |   X   |
+| S’ajouter à une équipe                                             | Admin            |        |   X   |
+
+<Note>
+  Dans les déploiements Autogérés, les administrateurs de l’instance peuvent activer, à titre facultatif, la création d’équipes pour les utilisateurs non administrateurs. Cette option est gérée au niveau de l’instance, et non dans les paramètres de l’organisation. Si vous ne savez pas si cette option est activée sur votre instance, contactez votre administrateur de l’instance ou l’assistance W&amp;B.
+</Note>
+
+Les administrateurs de l’organisation se voient attribuer le rôle **Admin** dans les [registres](/fr/models/registry/configure_registry#role-permissions) visibles au niveau de l’organisation.
+
+<div id="organization-settings">
+  #### Paramètres de l’organisation
+</div>
+
+| Autorisation                                                                                                                                           | Groupe d’autorisations | Membre | Admin |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------- | :----: | :---: |
+| Modifier le nom de l’organisation (Cloud mutualisé)                                                                                                    | Admin                  |        |   X   |
+| Configurer la capture de domaine et le provisionnement automatique via SSO                                                                             | Admin                  |        |   X   |
+| Appliquer les [paramètres de confidentialité](/fr/platform/hosting/privacy-settings#enforce-privacy-settings-for-all-teams) à l’échelle de l’organisation | Admin                  |        |   X   |
+| Créer, modifier et supprimer des rôles personnalisés (Enterprise)                                                                                      | Admin                  |        |   X   |
+| Connecter des buckets de stockage externes au niveau de l’organisation (Enterprise)                                                                    | Admin                  |        |   X   |
+
+<div id="billing">
+  #### Facturation
+</div>
+
+| Autorisation                                                            | Groupe d’autorisations | Membre | Admin |
+| ----------------------------------------------------------------------- | ---------------------- | :----: | :---: |
+| Attribuer le rôle d’administrateur de la facturation                    | Admin                  |        |   X   |
+| Gérer les abonnements, les modes de paiement et les changements d’offre | Facturation            |        |   X   |
+| Annuler des abonnements                                                 | Facturation            |        |   X   |
+| Configurer les alertes d’utilisation                                    | Facturation            |        |   X   |
+
+Les utilisateurs désignés comme **administrateurs de la facturation** peuvent effectuer des opérations de facturation, notamment configurer les alertes d’utilisation, même si leur rôle dans l’organisation est **Membre**. Sauf s’ils sont également administrateurs de l’organisation, les administrateurs de la facturation ne peuvent pas effectuer d’autres actions d’administrateur de l’organisation, comme inviter des utilisateurs ou créer des Teams.
+
+Dans le Cloud mutualisé, vous pouvez, si vous le souhaitez, attribuer à l’administrateur de la facturation le rôle d’organisation **Billing only**. Ce rôle est réservé à l’utilisateur de la facturation, supprime son appartenance aux équipes et applique **aucun accès** à Models comme à Weave, tout en conservant les capacités d’administration de la facturation.
+
+<div id="security-and-automation">
+  #### Sécurité et automatisation
+</div>
+
+| Autorisation                                                       | Groupe d’autorisations | membre | Admin |
+| ------------------------------------------------------------------ | ---------------------- | :----: | :---: |
+| S’authentifier auprès de la [SCIM API](/fr/platform/hosting/iam/scim) | Admin                  |        |   X   |
+| Créer et gérer des comptes de service limités à l’organisation     | Admin                  |        |   X   |
+| Afficher et gérer toutes les clés API de l’organisation            | Admin                  |        |   X   |
+
+Les comptes de service limités à l’organisation utilisés pour l’automatisation SCIM disposent d’un accès équivalent à celui d’un administrateur pour les opérations SCIM.
 
 Pour modifier le rôle d’un utilisateur :
 

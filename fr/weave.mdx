@@ -6,29 +6,49 @@ mode: wide
 
 W&amp;B Weave est une plateforme d’observabilité et d’évaluation qui vous aide à suivre, évaluer et améliorer vos agents et applications LLM. Avec Weave, vous pouvez :
 
-* [Tracer votre agent créé avec des SDK et harnesses populaires et collecter des métriques à son sujet](/fr/weave/agent-integration-quickstart)
-* [Instrumenter manuellement des agents personnalisés pour collecter des traces et des métriques](/fr/weave/custom-agents-quickstart)
-* [Évaluer](/fr/weave/tutorial-eval) les réponses de votre application à l’aide de juges LLM et d’évaluateurs personnalisés
+* [Tracer vos agents créés avec des SDK et harnesses populaires à l’aide du SDK Weave compatible OTel, et collecter des métriques à leur sujet](/fr/weave/agent-integration-quickstart)
+* [Instrumenter manuellement les appels LLM et les fonctions arbitraires de votre application](/fr/weave/quickstart) pour tracer, versionner et collecter du feedback sur votre application
+* [Évaluer](/fr/weave/tutorial-eval) les réponses de votre agent ou de votre application à l’aide de juges LLM et d’évaluateurs personnalisés
 
 <div id="get-started">
   ## Premiers pas
 </div>
 
-Les documents suivants vous guident dans les notions de base pour utiliser la suite d’outils de Weave.
+Sélectionnez votre type de charge de travail, puis utilisez les documents suivants pour vous guider dans les notions de base pour utiliser la suite d’outils de Weave. Pour en savoir plus sur la différence entre les charges de travail, consultez [Qu’est-ce que Weave ?](/fr/weave/concepts/what-is-weave)
 
-<CardGroup cols={3}>
-  <Card title="Intégrer Weave à un agent" icon="plug" href="/fr/weave/agent-integration-quickstart">
-    Choisissez une intégration native pour le SDK ou le harness de votre agent, puis commencez à tracer les sessions, les tours de conversation, les appels LLM et les appels d’outil dans la vue Agents.
-  </Card>
+<Tabs>
+  <Tab title="Tracer un agent">
+    <CardGroup cols={3}>
+      <Card title="Intégrer Weave à un agent" icon="plug" href="/fr/weave/agent-integration-quickstart">
+        Choisissez une intégration native pour le SDK ou le harness de votre agent, puis commencez à tracer les sessions, les tours de conversation, les appels LLM et les appels d’outil dans la vue Agents.
+      </Card>
 
-  <Card title="Configurer une observabilité personnalisée pour un agent" icon="code" href="/fr/weave/custom-agents-quickstart">
-    Tracez un agent personnalisé sur plusieurs tours de conversation avec le SDK Weave afin de capturer les sessions, les appels LLM et les appels d’outil sous forme de spans OpenTelemetry.
-  </Card>
+      <Card title="Configurer une observabilité personnalisée pour un agent" icon="code" href="/fr/weave/custom-agents-quickstart">
+        Tracez un agent personnalisé sur plusieurs tours de conversation avec le SDK Weave afin de capturer les sessions, les appels LLM et les appels d’outil sous forme de spans OpenTelemetry.
+      </Card>
 
-  <Card title="Consulter les métriques d’agent dans l’interface Weave" icon="chart-line" href="/fr/weave/guides/tracking/view-agent-activity">
-    Tracez un appel LLM simple et examinez les entrées, les sorties et le code dans votre compte W&amp;B.
-  </Card>
-</CardGroup>
+      <Card title="Consulter les métriques d’agent dans l’interface Weave" icon="chart-line" href="/fr/weave/guides/tracking/view-agent-activity">
+        Tracez un appel LLM simple et examinez les entrées, les sorties et le code dans votre compte W&amp;B.
+      </Card>
+    </CardGroup>
+  </Tab>
+
+  <Tab title="Tracer des fonctions avec Ops et Calls">
+    <CardGroup cols={3}>
+      <Card title="Démarrage rapide : instrumenter et tracer des fonctions" icon="chart-line" href="/fr/weave/quickstart">
+        Commencez par tracer un appel LLM de base et examinez les données dans votre compte W&amp;B.
+      </Card>
+
+      <Card title="Premiers pas pour évaluer votre application" icon="clipboard-check" href="/fr/weave/tutorial-eval">
+        Découvrez comment créer un pipeline d’évaluation à l’aide des évaluateurs Weave afin de tester et de suivre les performances de votre application.
+      </Card>
+
+      <Card title="Évaluer une application RAG" icon="search" href="/fr/weave/tutorial-rag">
+        Créez et évaluez des applications RAG avec Weave à l’aide de juges LLM pour mesurer la qualité de la recherche.
+      </Card>
+    </CardGroup>
+  </Tab>
+</Tabs>
 
 <div id="install-weave">
   ## Installer Weave
@@ -45,7 +65,7 @@ W&amp;B Weave propose des bibliothèques Python et TypeScript. Pour installer la
 
   <Tab title="TypeScript">
     ```bash
-    pnpm install weave
+    npm install weave
     ```
   </Tab>
 </Tabs>

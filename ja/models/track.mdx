@@ -33,25 +33,28 @@ import { TryProductLink } from '/snippets/ja/_includes/try-product-link.mdx';
 3. 精度や損失などのメトリクスを、トレーニングループの中で継続的にログします ([`wandb.Run.log()`](/ja/models/track/log/)) 。
 4. モデルの重みや予測結果の表など、run の出力を保存します。
 
-次のコードは、W&amp;B で一般的な実験管理のワークフローを示しています。
+次のコードは、W&amp;B で一般的な実験管理のワークフローを示しています。`my-team` は W&amp;B のチーム entity に、`my-project-name` はプロジェクト名に置き換えてください。
 
 ```python
-# runを開始する。
-#
-# このブロックを抜けると、ログされたデータのアップロード完了を待機する。
-# 例外が発生した場合、runは失敗としてマークされる。
-with wandb.init(entity="", project="my-project-name") as run:
-  # モデルの入力とハイパーパラメーターを保存する。
+import wandb
+
+entity = "<my-team>"  # エンティティを W&B チーム名に設定します
+project = "my-project-name"  # プロジェクトを W&B プロジェクト名に設定します
+
+# このブロックを抜けると、ログされたデータのアップロードが完了するまで待機します。
+# 例外が発生した場合、run は失敗としてマークされます。
+with wandb.init(entity=entity, project="my-project-name") as run:
+  # モデルの入力とハイパーパラメーターを保存します。
   run.config.learning_rate = 0.01
 
-  # 実験コードを実行する。
+  # 実験コードを実行します。
   for epoch in range(num_epochs):
-    # トレーニングを実行する...
+    # トレーニングを実行します...
 
-    # モデル性能を可視化するため、メトリクスを継続的にログする。
+    # モデル性能を可視化するために、メトリクスを継続的にログします。
     run.log({"loss": loss})
 
-  # モデルの出力をArtifactsとしてアップロードする。
+  # モデルの出力を アーティファクト としてアップロードします。
   run.log_artifact(model)
 ```
 
@@ -59,14 +62,15 @@ with wandb.init(entity="", project="my-project-name") as run:
   ## はじめに
 </div>
 
-ユースケースに応じて、W&amp;B 実験 を使い始める際は、次のリソースをご覧ください。
+ユースケースに応じて、W&amp;B Experiments を使い始める際は、次のリソースをご覧ください。
 
-* データセット artifact を作成し、トラッキングして、使用するために使える W&amp;B Python SDK のコマンドを step ごとに説明した [W&amp;B クイックスタート](/ja/models/quickstart/) をお読みください。
+* W&amp;B を設定し、最初の実験をトラッキングする方法を学ぶには、[W&amp;B クイックスタート](/ja/models/quickstart/) をお読みください。
+* 機械学習ワークフローでモデル アーティファクト をトラッキング、共有、管理するために W&amp;B を使用する方法を学ぶには、[W&amp;B Models を使い始める](/ja/models/models_quickstart/) をお試しください。
 * この章では、次の方法を学べます。
-  * 実験 を作成する
-  * 実験 を設定する
-  * 実験 からデータをログする
-  * 実験 の結果を確認する
+  * [実験 を作成する](/ja/models/track/create-an-experiment)
+  * [実験 を設定する](/ja/models/track/config/)
+  * [実験 からデータをログする](/ja/models/track/log/)
+  * [実験 の結果を確認する](/ja/models/track/workspaces)
 * [W&amp;B API Reference Guide](/ja/models/ref/python/) の [W&amp;B Python Library](/ja/models/ref/python/) もご覧ください。
 
 <div id="best-practices-and-tips">

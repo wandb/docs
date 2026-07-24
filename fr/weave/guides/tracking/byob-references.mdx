@@ -1,0 +1,65 @@
+---
+title: "Référencer des médias dans votre propre bucket (BYOB) avec Weave Op"
+sidebarTitle: "Référencer des médias dans votre propre bucket"
+description: "Affichez des images et des vidéos stockées dans votre propre bucket cloud dans Weave Traces en journalisant leurs URI, sans importer les octets dans Weave."
+keywords: ["BYOB", "bucket de référence", "S3", "URL présignée", "médias", "stockage externe"]
+---
+
+import ByobReferenceSetup from "/snippets/fr/_includes/byob-reference-setup.mdx";
+
+<ByobReferenceSetup />
+
+<div id="log-a-media-reference-using-weave-op-function-tracing">
+  ## Journaliser une référence média avec le traçage des fonctions Weave Op
+</div>
+
+Journalisez l’URI sous forme de chaîne dans une trace. Tout champ de type chaîne dont la valeur est un URI de bucket s’affiche. Aucune annotation « aucun contenu » n’est nécessaire, car les octets restent dans votre bucket. Le Weave Op d’exemple suivant génère des légendes pour des images déjà présentes dans votre bucket et journalise chaque URI avec sa légende. Remplacez `[YOUR-TEAM]`, `[YOUR-PROJECT]` et `[YOUR-BUCKET]` par vos propres valeurs.
+
+<Tip>
+  Si vous ajoutez des médias de référence à une application agentique, consultez plutôt [Médias de référence dans les spans d’agent](/fr/weave/guides/tracking/agents-byob-references).
+</Tip>
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    import weave
+
+    weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
+
+    @weave.op
+    def caption_image(image_uri: str) -> dict:
+        caption = my_captioner(image_uri)  # Votre modèle ou appel d’API.
+        # image_uri s’affiche en ligne à partir de sa valeur ; le nom du champ est arbitraire
+        # et l’extension (.png ici) détermine s’il s’agit d’une image ou d’une vidéo.
+        return {"image": image_uri, "caption": caption}
+
+    caption_image("s3://[YOUR-BUCKET]/photos/cat.png")
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript lines
+    import * as weave from 'weave';
+
+    await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
+
+    const captionImage = weave.op(async function captionImage(imageUri: string) {
+      const caption = await myCaptioner(imageUri); // Votre modèle ou appel d’API.
+      // imageUri s’affiche en ligne à partir de sa valeur ; le nom du champ est arbitraire.
+      return {image: imageUri, caption};
+    });
+
+    await captionImage('s3://[YOUR-BUCKET]/photos/cat.png');
+    ```
+  </Tab>
+</Tabs>
+
+<div id="view-the-reference-in-weave-traces">
+  ## Voir la référence dans Weave Traces
+</div>
+
+Ouvrez la trace à partir du lien affiché par `weave.init()`. L’image ou la vidéo référencée s’affiche directement dans la vue **Traces**. Si Weave ne peut pas résoudre un URI, par exemple parce que l’objet est manquant ou que le bucket n’est pas enregistré, il affiche l’URI brut.
+
+<Frame>
+  ![Image référencée affichée directement dans la vue Weave Traces, résolue à partir d’un URI de bucket pointant vers un objet dans votre propre bucket cloud.](/weave/guides/tracking/imgs/traces-byob.png)
+</Frame>

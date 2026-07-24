@@ -1,45 +1,48 @@
 ---
 title: SendWebhook
-namespace: automations_namespace
-python_object_type: class
+kind: 클래스
+namespace: wandb.automations.actions
 ---
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py#L183" />
 
-
-## <kbd>class</kbd> `SendWebhook`
-
-웹훅 요청을 보내는 자동화 액션을 정의합니다.
-
-### <kbd>방법</kbd> `SendWebhook.__init__`
+## <kbd>클래스</kbd> wandb.automations.SendWebhook
 
 ```python
-__init__(
-    integration_id: 'str',
-    request_payload: 'Annotated | None' = None,
-    action_type: 'Literal[GENERIC_WEBHOOK]' = GENERIC_WEBHOOK
-) → None
+*,
+integration_id: Annotated[str, Strict(strict=True)],
+requestPayload: Optional[Annotated[dict[str, Any], Json, BeforeValidator(func=<function ensure_json>, json_schema_input_type=PydanticUndefined), PlainSerializer(func=<function to_json>, return_type=PydanticUndefined, when_used='always')]] = None,
+action_type: Literal[GENERIC_WEBHOOK] = GENERIC_WEBHOOK
 ```
 
-**매개변수:**
+웹훅 요청을 전송하는 자동화 액션을 정의합니다.
 
-* `integration_id` (str): 요청을 보내는 데 사용할 웹훅 인테그레이션의 ID입니다.
-* `request_payload` (Optional[Annotated]): 웹훅 요청으로 보낼 페이로드이며, 템플릿 변수를 포함할 수 있습니다.
-* `action_type` (Literal[GENERIC&#95;WEBHOOK]):
+<div id="args">
+  ## 매개변수
+</div>
 
-**반환값:**
-`SendWebhook` 객체입니다.
+* `integration_id`: 요청을 보내는 데 사용할 웹훅 인테그레이션의 ID입니다.
+* `requestPayload`: 웹훅 요청으로 보낼 페이로드이며, 템플릿 변수를 포함할 수 있습니다.
+* `action_type`: 
 
+<div id="methods">
+  ## 메서드
+</div>
 
-### <kbd>classmethod</kbd> `SendWebhook.from_integration`
+### <kbd>방법</kbd> SendWebhook.from_integration()
 
 ```python
-from_integration(
-    integration: 'WebhookIntegration',
-    payload: 'JsonEncoded[dict[str, Any]] | None' = None
-) → Self
+integration: 'WebhookIntegration', *,
+payload: 'JsonEncoded[dict[str, Any]] | None' = None
 ```
 
 지정된 (웹훅) 인테그레이션으로 전송하는 웹훅 액션을 정의합니다.
+
+<div id="arguments">
+  ##### 인수
+</div>
+
+* `integration`:
+* `payload`: 

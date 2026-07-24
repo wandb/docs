@@ -66,7 +66,7 @@ config = {
 }
 
 # コンテキストマネージャーを使用して W&B runs を初期化・終了する
-with wandb.init(project=PROJECT, entity=TEAM_ENTITY, config=config) as run:    
+with wandb.init(entity=TEAM_ENTITY, project=PROJECT, config=config) as run:    
     # トレーニングループのシミュレーション
     for epoch in range(config["epochs"]):
         xb = weights + noise  # シミュレートされた入力トレーニングデータ
@@ -201,8 +201,8 @@ dataset_info = """The dataset used for training consists of synthetic data gener
 model_info = """The model is a simple linear regression model that predicts output based on input data with some noise."""
 
 report = wr.Report(
-    project=PROJECT,
     entity=TEAM_ENTITY,
+    project=PROJECT,
     title="My Awesome Model Training Report",
     description=experiment_summary,
     blocks= [

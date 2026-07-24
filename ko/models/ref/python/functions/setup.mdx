@@ -1,18 +1,17 @@
 ---
 title: setup()
-namespace: python_sdk_actions
-python_object_type: function
+kind: 함수
+namespace: wandb.sdk.wandb_setup
 ---
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_setup.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_setup.py#L515" />
 
-
-### <kbd>함수</kbd> `setup`
+## <kbd>함수</kbd> wandb.setup
 
 ```python
-setup(settings: 'Settings | None' = None) → _WandbSetup
+settings: 'Settings | None' = None
 ```
 
 현재 프로세스와 그 자식 프로세스에서 사용할 수 있도록 W&amp;B를 준비합니다.
@@ -25,11 +24,15 @@ setup(settings: 'Settings | None' = None) → _WandbSetup
 
 `wandb.teardown()`도 참조하세요.
 
-**매개변수:**
+<div id="args">
+  ## 인수
+</div>
 
-* `settings`:  전역으로 적용할 설정입니다. 이후 `wandb.init()` 호출에서 재정의할 수 있습니다.
+* `settings`: 전역으로 적용할 설정입니다. 이후 `wandb.init()` 호출에서 재정의할 수 있습니다.
 
-**예시:**
+<div id="examples">
+  ## 예시
+</div>
 
 ```python
 import multiprocessing
@@ -39,31 +42,31 @@ import wandb
 
 def run_experiment(params):
     with wandb.init(config=params):
-         # 실험 실행
-         pass
+        # 실험 실행
+        pass
 
 
 if __name__ == "__main__":
     # 백엔드 시작 및 전역 설정 구성
     wandb.setup(settings={"project": "my_project"})
 
-    # 실험 매개변수 정의
+    # 실험 파라미터 정의
     experiment_params = [
-         {"learning_rate": 0.01, "epochs": 10},
-         {"learning_rate": 0.001, "epochs": 20},
+        {"learning_rate": 0.01, "epochs": 10},
+        {"learning_rate": 0.001, "epochs": 20},
     ]
 
-    # 여러 프로세스 시작 (각각 별도의 실험 실행)
+    # 여러 프로세스를 시작하여 각각 별도의 실험 실행
     processes = []
     for params in experiment_params:
-         p = multiprocessing.Process(target=run_experiment, args=(params,))
-         p.start()
-         processes.append(p)
+        p = multiprocessing.Process(target=run_experiment, args=(params,))
+        p.start()
+        processes.append(p)
 
-    # 모든 프로세스 완료 대기
+    # 모든 프로세스가 완료될 때까지 대기
     for p in processes:
-         p.join()
+        p.join()
 
-    # 선택 사항: 백엔드 명시적 종료
+    # 선택 사항: 백엔드를 명시적으로 종료
     wandb.teardown()
 ```

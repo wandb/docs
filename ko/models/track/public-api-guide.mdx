@@ -1,154 +1,10 @@
 ---
-description: MLFlow에서 데이터를 임포트하고, W&B에 저장한 데이터를 내보내거나
-  업데이트합니다
-title: 데이터 임포트 및 내보내기
+description: W&B에 저장한 데이터를 내보내거나 업데이트합니다
+title: 데이터 내보내기 및 업데이트
 ---
 
 import ApiKeyCreate from "/snippets/ko/_includes/api-key-create.mdx";
 import ApiKeySecurity from "/snippets/ko/_includes/api-key-security.mdx";
-
-W&amp;B Public API를 사용해 데이터를 내보내거나 임포트하세요.
-
-<Note>
-  이 기능을 사용하려면 python&gt;=3.8이 필요합니다.
-</Note>
-
-<div id="import-data-from-mlflow">
-  ## MLFlow에서 데이터 임포트하기
-</div>
-
-W&amp;B는 MLFlow에서 Experiments, Runs, 아티팩트, 메트릭 및 기타 메타데이터를 임포트하는 기능을 지원합니다.
-
-의존성을 설치하세요:
-
-```shell
-# 참고: py38 이상이 필요합니다
-pip install wandb[importers]
-```
-
-W&amp;B에 로그인하세요. 처음 로그인하는 경우 안내에 따라 진행하세요.
-
-```shell
-wandb login
-```
-
-기존 MLFlow 서버의 모든 Runs를 임포트하세요:
-
-```py
-from wandb.apis.importers.mlflow import MlflowImporter
-
-importer = MlflowImporter(mlflow_tracking_uri="...")
-
-runs = importer.collect_runs()
-importer.import_runs(runs)
-```
-
-기본적으로 `importer.collect_runs()`는 MLFlow 서버의 모든 run을 수집합니다. 특정 하위 집합만 업로드하려면 직접 runs iterable을 구성해 importer에 전달할 수 있습니다.
-
-```py
-import mlflow
-from wandb.apis.importers.mlflow import MlflowRun
-
-client = mlflow.tracking.MlflowClient(mlflow_tracking_uri)
-
-runs: Iterable[MlflowRun] = []
-for run in mlflow_client.search_runs(...):
-    runs.append(MlflowRun(run, client))
-
-importer.import_runs(runs)
-```
-
-<Note>
-  Databricks MLflow에서 임포트하는 경우 먼저 [Databricks CLI를 구성해야 할 수 있습니다](https://docs.databricks.com/dev-tools/cli/index.html).
-
-  이전 단계에서 `mlflow-tracking-uri="databricks"`를 설정하세요.
-</Note>
-
-아티팩트를 임포트하지 않으려면 `artifacts=False`를 전달할 수 있습니다:
-
-```py
-importer.import_runs(runs, artifacts=False)
-```
-
-특정 W&amp;B entity와 프로젝트로 임포트하려면 `Namespace`를 전달하면 됩니다:
-
-```py
-from wandb.apis.importers import Namespace
-
-importer.import_runs(runs, namespace=Namespace(entity, project))
-```
-
-{/* DOCS-1043에 따라, 이 정보는 수정될 때까지 숨깁니다 
-
-  ## 다른 W&B 인스턴스에서 데이터 임포트
-
-  <Note>
-  이 기능은 베타 버전이며, W&B 퍼블릭 클라우드에서의 임포트만 지원합니다.
-  </Note>
-
-  의존성을 설치하세요:
-
-  ```sh
-  # 참고: py38+가 필요합니다
-  pip install wandb[importers]
-  ```
-
-  소스 W&B 서버에 로그인하세요. 이전에 로그인한 적이 없다면 안내에 따라 진행하세요.
-
-  ```sh
-  wandb login
-  ```
-
-  소스 W&B 인스턴스의 모든 run 및 아티팩트를 대상 W&B 인스턴스로 임포트합니다. run 및 아티팩트는 대상 인스턴스의 해당 네임스페이스로 각각 임포트됩니다.
-
-  ```py
-  from wandb.apis.importers.wandb import WandbImporter
-  from wandb.apis.importers import Namespace
-
-  importer = WandbImporter(
-    src_base_url="https://api.wandb.ai",
-    src_api_key="your-api-key-here",
-    dst_base_url="https://example-target.wandb.io",
-    dst_api_key="target-environment-api-key-here",
-  )
-
-  # 모든 run, 아티팩트, Reports를 임포트합니다
-  # src의 "entity/project"에서 dst의 "entity/project"로
-  importer.import_all(namespaces=[
-    Namespace(entity, project),
-    # ... 여기에 네임스페이스를 더 추가하세요
-  ])
-  ```
-
-  대상 네임스페이스를 변경하려면 `remapping: dict[Namespace, Namespace]`를 지정할 수 있습니다.
-
-  ```py
-  importer.import_all(
-    namespaces=[Namespace(entity, project)],
-    remapping={
-        Namespace(entity, project): Namespace(new_entity, new_project),
-    }
-  )
-  ```
-
-  기본적으로 임포트는 증분 방식으로 수행됩니다. 이후 임포트에서는 이전 작업을 검증하고, 성공/실패를 추적하는 `.jsonl` 파일에 기록을 남기려고 시도합니다. 임포트가 성공하면 이후 검증은 건너뜁니다. 임포트가 실패하면 다시 시도합니다. 이 동작을 끄려면 `incremental=False`로 설정하세요.
-
-  ```py
-  importer.import_all(
-    namespaces=[Namespace(entity, project)],
-    incremental=False,
-  )
-  ```
-
-  ### 알려진 문제 및 제한 사항
-
-  - 대상 네임스페이스가 없으면 W&B가 자동으로 생성합니다.
-  - 대상 네임스페이스에 동일한 ID를 가진 run 또는 아티팩트가 있으면 W&B는 이를 증분 임포트로 처리합니다. 대상 run/아티팩트는 검증되며, 이전 임포트에서 실패한 경우 다시 시도됩니다.
-  - 소스 시스템의 데이터는 절대 삭제되지 않습니다.
-
-  1. 대량으로 임포트할 때(특히 큰 아티팩트의 경우) S3 요청 속도 제한에 걸릴 수 있습니다. `botocore.exceptions.ClientError: An error occurred (SlowDown) when calling the PutObject operation`가 표시되면, 한 번에 몇 개의 네임스페이스만 옮기면서 임포트 간격을 벌려 보세요.
-  2. 임포트된 run 테이블이 Workspace에서 비어 있는 것처럼 보일 수 있지만, Artifacts 탭으로 이동해 해당 run 테이블 아티팩트를 클릭하면 테이블이 정상적으로 표시됩니다.
-  3. 시스템 메트릭과 맞춤형 차트(`run.log()`로 명시적으로 로깅하지 않은 경우)는 임포트되지 않습니다 */}
 
 <div id="export-data">
   ## 데이터 내보내기
@@ -177,7 +33,7 @@ API 키는 머신을 W&amp;B에 인증하는 데 사용됩니다.
   ### run 경로 찾기
 </div>
 
-Public API를 사용하려면 `<entity>/<project>/<run_id>` 형식의 run 경로가 필요한 경우가 많습니다. 앱 UI에서 run 페이지를 열고 [Overview 탭 ](/ko/models/track/public-api-guide/#overview-tab)을 클릭해 run 경로를 확인하세요.
+Public API를 사용하려면 `<entity>/<project>/<run_id>` 형식의 run 경로가 필요한 경우가 많습니다. 앱 UI에서 run 페이지를 열고 [Overview 탭](/ko/models/track/public-api-guide/#overview-tab)을 클릭해 run 경로를 확인하세요.
 
 <div id="export-run-data">
   ### run 데이터 내보내기
@@ -206,7 +62,7 @@ run 객체에서 가장 자주 사용되는 속성은 다음과 같습니다.
   ### run의 다양한 속성 이해하기
 </div>
 
-다음 코드 예제에서는 run을 생성하고, 데이터를 기록한 뒤 run의 속성에 접근하는 방법을 보여줍니다:
+다음 코드 예제에서는 run을 생성하고, 데이터를 로깅한 뒤 run의 속성에 접근하는 방법을 보여줍니다:
 
 ```python
 import wandb
@@ -222,10 +78,10 @@ with wandb.init(project="public-api-example") as run:
         )
 ```
 
-다음 섹션에서는 위 run 객체 속성별로 생성되는 다양한 출력을 설명합니다
+다음 섹션에서는 위 run 객체 속성별로 생성되는 다양한 출력을 설명합니다.
 
 <div id="runconfig">
-  ##### `run.config`
+  #### `run.config`
 </div>
 
 ```python
@@ -250,7 +106,7 @@ with wandb.init(project="public-api-example") as run:
   ### 샘플링
 </div>
 
-기본 이력 방법에서는 메트릭을 고정된 개수의 샘플로 샘플링합니다(기본값은 500이며, `samples` &#95;&#95; 인수로 변경할 수 있습니다). 큰 run의 모든 데이터를 내보내려면 `run.scan_history()` 방법을 사용할 수 있습니다. 자세한 내용은 [API 레퍼런스](/ko/models/ref/python/public-api)를 참조하세요.
+기본 이력 방법에서는 메트릭을 고정된 개수의 샘플로 샘플링합니다(기본값은 500이며, `samples` 인수로 변경할 수 있습니다). 큰 run의 모든 데이터를 내보내려면 `run.scan_history()` 방법을 사용할 수 있습니다. 자세한 내용은 [API 레퍼런스](/ko/models/ref/python/public-api)를 참조하세요.
 
 <div id="querying-multiple-runs">
   ### 여러 run 쿼리하기
@@ -493,10 +349,9 @@ run.update()
 ```python
 import wandb
 
-with wandb.Api().run("<entity>/<project>/<run_id>") as run:
-
-    system_metrics = run.history(stream="events")
-    system_metrics.to_csv("sys_metrics.csv")
+run = wandb.Api().run("<entity>/<project>/<run_id>")
+system_metrics = run.history(stream="events")
+system_metrics.to_csv("sys_metrics.csv")
 ```
 
 <div id="get-unsampled-metric-data">

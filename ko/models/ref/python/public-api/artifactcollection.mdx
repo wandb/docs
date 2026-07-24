@@ -1,176 +1,117 @@
 ---
 title: ArtifactCollection
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.artifacts
 ---
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L476" />
 
-
-## <kbd>class</kbd> `ArtifactCollection`
+## <kbd>class</kbd> wandb.apis.public.ArtifactCollection
 
 관련된 아티팩트를 그룹으로 나타내는 아티팩트 컬렉션입니다.
 
-**인수:**
+<div id="properties">
+  ## 속성
+</div>
 
-* `service_api`:  이 컬렉션에 대한 W&amp;B API 호출을 수행하는 wandb-core 서비스의 인터페이스입니다.
-* `entity`:  프로젝트를 소유한 entity(사용자 또는 팀)입니다.
-* `project`:  아티팩트 컬렉션을 쿼리할 프로젝트 이름입니다.
-* `name`:  아티팩트 컬렉션의 이름입니다.
-* `type`:  아티팩트 컬렉션의 유형입니다(예: &quot;dataset&quot;, &quot;model&quot;).
-* `organization`:  해당하는 경우 조직 이름(선택 사항)입니다.
-* `attrs`:  아티팩트 컬렉션을 초기화하는 속성 매핑(선택 사항)입니다. 제공하지 않으면 초기화 시 객체가 W&amp;B에서 해당 속성을 로드합니다. 
-
-### <kbd>속성</kbd> ArtifactCollection.aliases
+### <kbd>속성</kbd> aliases
 
 이 컬렉션에 포함된 모든 artifact 버전의 별칭입니다.
 
-**반환값:**
-
-* `list[str]`: aliases 속성 값입니다.
-
-***
-
-### <kbd>속성</kbd> ArtifactCollection.created_at
+### <kbd>속성</kbd> created_at
 
 아티팩트 컬렉션이 생성된 날짜입니다.
 
-**반환값:**
+### <kbd>속성</kbd> 설명
 
-* `str`: `created_at` 속성 값입니다.
+아티팩트 컬렉션의 설명입니다.
 
-***
-
-### <kbd>속성</kbd> ArtifactCollection.description
-
-artifact collection의 설명입니다.
-
-**반환값:**
-
-* `str | None`: 설명 속성 값입니다.
-
-***
-
-### <kbd>property</kbd> ArtifactCollection.entity
+### <kbd>속성</kbd> entity
 
 프로젝트를 소유하는 entity(사용자 또는 팀)입니다.
 
-**반환값:**
+### <kbd>속성</kbd> id
 
-* `str`: entity의 속성 값입니다.
+아티팩트 컬렉션의 고유 식별자입니다.
 
-***
-
-### <kbd>속성</kbd> ArtifactCollection.id
-
-artifact collection의 고유 식별자입니다.
-
-**반환값:**
-
-* `str`: id 속성 값입니다.
-
-***
-
-### <kbd>속성</kbd> ArtifactCollection.name
+### <kbd>속성</kbd> 이름
 
 아티팩트 컬렉션의 이름입니다.
 
-**반환값:**
+### <kbd>속성</kbd> 프로젝트
 
-* `str`: 이름 속성의 값입니다.
+아티팩트 컬렉션이 포함된 프로젝트입니다.
 
-***
+### <kbd>속성</kbd> tags
 
-### <kbd>속성</kbd> ArtifactCollection.project
+아티팩트 컬렉션에 연결된 tags입니다.
 
-artifact collection이 포함된 프로젝트입니다.
-
-**반환값:**
-
-* `str`: 프로젝트의 속성 값입니다.
-
-***
-
-### <kbd>속성</kbd> ArtifactCollection.tags
-
-artifact collection에 연결된 tags입니다.
-
-**반환값:**
-
-* `list[str]`: tags 속성 값입니다.
-
-***
-
-### <kbd>속성</kbd> ArtifactCollection.type
+### <kbd>속성</kbd> type
 
 아티팩트 컬렉션의 유형입니다.
 
-***
+### <kbd>속성</kbd> updated_at
 
-### <kbd>속성</kbd> ArtifactCollection.updated_at
+아티팩트 컬렉션이 마지막으로 업데이트된 날짜입니다.
 
-artifact collection이 마지막으로 업데이트된 날짜입니다.
+<div id="methods">
+  ## 메서드
+</div>
 
-**반환값:**
-
-* `str | None`: updated&#95;at 속성 값입니다.
-
-***
-
-### <kbd>방법</kbd> `ArtifactCollection.artifacts`
+### <kbd>방법</kbd> ArtifactCollection.artifacts()
 
 ```python
-artifacts(per_page: 'int' = 50, start: 'str | None' = None) → Artifacts
+self,
+per_page: 'int' = 50,
+start: 'str | None' = None
 ```
 
 컬렉션에 있는 모든 아티팩트를 조회합니다.
 
-**인수:**
+<div id="arguments">
+  ##### 인수
+</div>
 
-* `per_page`:  페이지당 가져올 아티팩트 수입니다.
-* `start`:  이전 paginator의 `.cursor` 속성에서 가져온, 이전 쿼리를 다시 시작하기 위한 페이지네이션 커서입니다.
+* `per_page`: 페이지당 가져올 아티팩트 수입니다.
+* `start`: 이전 paginator의 `.cursor` 속성에서 가져온, 이전 쿼리를 다시 시작하기 위한 페이지네이션 커서입니다.
 
-***
-
-### <kbd>방법</kbd> `ArtifactCollection.change_type`
+### <kbd>방법</kbd> ArtifactCollection.change_type()
 
 ```python
-change_type(new_type: 'str') → None
+self,
+new_type: 'str'
 ```
 
 사용 중단되었습니다. 대신 `save`로 유형을 직접 변경하세요.
 
-***
+<div id="arguments">
+  ##### 인수
+</div>
 
+* `new_type`: 
 
-### <kbd>방법</kbd> `ArtifactCollection.delete`
-
-```python
-delete() → None
-```
-
-artifact collection 전체를 삭제합니다.
-
-***
-
-
-### <kbd>방법</kbd> `ArtifactCollection.is_sequence`
+### <kbd>방법</kbd> ArtifactCollection.delete()
 
 ```python
-is_sequence() → bool
+self
 ```
 
-artifact collection이 시퀀스인지 반환합니다.
+아티팩트 컬렉션 전체를 삭제합니다.
 
-***
-
-
-### <kbd>방법</kbd> `ArtifactCollection.save`
+### <kbd>방법</kbd> ArtifactCollection.is_sequence()
 
 ```python
-save() → None
+self
 ```
 
-artifact collection의 변경 사항을 저장합니다.
+아티팩트 컬렉션이 시퀀스인지 반환합니다.
+
+### <kbd>방법</kbd> ArtifactCollection.save()
+
+```python
+self
+```
+
+아티팩트 컬렉션의 변경 사항을 저장합니다.

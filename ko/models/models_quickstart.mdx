@@ -49,51 +49,51 @@ PROJECT = "my-awesome-project"
 트레이닝 중 W&amp;B와 상호작용하려면 W&amp;B Python SDK(`wandb.sdk`)를 사용하세요. [`wandb.Run.log()`](/ko/models/ref/python/experiments/run/#method-runlog)로 loss를 로깅한 다음, [`wandb.Artifact`](/ko/models/ref/python/experiments/artifact)로 트레이닝한 모델을 아티팩트로 저장하고, 마지막으로 [`Artifact.add_file`](/ko/models/ref/python/experiments/artifact#add_file)로 모델 파일을 추가합니다.
 
 ```python
-import random # 데이터 시뮬레이션용
+import random # For simulating data
 
 def model(training_data: int) -> int:
     """Model simulation for demonstration purposes."""
     return training_data * 2 + random.randint(-1, 1)  
 
-# 가중치 및 노이즈 시뮬레이션
-weights = random.random() # 랜덤 가중치 초기화
-noise = random.random() / 5  # 노이즈 시뮬레이션을 위한 소규모 랜덤 노이즈
+# Simulate weights and noise
+weights = random.random() # Initialize random weights
+noise = random.random() / 5  # Small random noise to simulate noise
 
-# 하이퍼파라미터 및 설정
+# Hyperparameters and configuration
 config = {
-    "epochs": 10,  # 트레이닝할 에포크 수
-    "learning_rate": 0.01,  # 옵티마이저의 학습률
+    "epochs": 10,  # Number of epochs to train
+    "learning_rate": 0.01,  # Learning rate for the optimizer
 }
 
 # 컨텍스트 매니저를 사용하여 W&B runs 초기화 및 종료
-with wandb.init(project=PROJECT, entity=TEAM_ENTITY, config=config) as run:    
-    # 트레이닝 루프 시뮬레이션
+with wandb.init(entity=TEAM_ENTITY, project=PROJECT, config=config) as run:    
+    # Simulate training loop
     for epoch in range(config["epochs"]):
-        xb = weights + noise  # 시뮬레이션된 입력 트레이닝 데이터
-        yb = weights + noise * 2  # 시뮬레이션된 목표 출력 (입력 노이즈의 두 배)
+        xb = weights + noise  # Simulated input training data
+        yb = weights + noise * 2  # Simulated target output (double the input noise)
         
-        y_pred = model(xb)  # 모델 예측
-        loss = (yb - y_pred) ** 2  # 평균 제곱 오차 loss
+        y_pred = model(xb)  # Model prediction
+        loss = (yb - y_pred) ** 2  # Mean Squared Error loss
 
         print(f"epoch={epoch}, loss={loss}")
-        # 에포크 및 loss를 W&B에 로깅
+        # Log epoch and loss to W&B
         run.log({
             "epoch": epoch,
             "loss": loss,
         })
 
-    # 모델 아티팩트의 고유 이름
+    # Unique name for the model artifact,
     model_artifact_name = f"model-demo"  
 
-    # 시뮬레이션된 모델 파일을 저장할 로컬 경로
+    # Local path to save the simulated model file
     PATH = "model.txt" 
 
-    # 모델을 로컬에 저장
+    # Save model locally
     with open(PATH, "w") as f:
-        f.write(str(weights)) # 모델 가중치를 파일에 저장
+        f.write(str(weights)) # Saving model weights to a file
 
-    # 아티팩트 객체 생성
-    # 로컬에 저장된 모델을 아티팩트 객체에 추가
+    # Create an artifact object
+    # Add locally saved model to artifact object
     artifact = wandb.Artifact(name=model_artifact_name, type="model", description="My trained model")
     artifact.add_file(local_path=PATH)
     artifact.save()
@@ -104,7 +104,7 @@ with wandb.init(project=PROJECT, entity=TEAM_ENTITY, config=config) as run:
 * 트레이닝 중에 메트릭을 로깅하려면 `wandb.Run.log()`를 사용합니다.
 * 모델(데이터셋 등)을 W&amp;B 프로젝트에 아티팩트로 저장하려면 `wandb.Artifact`를 사용합니다.
 
-이제 모델을 트레이닝하고 아티팩트로 저장했으므로, W&amp;B의 레지스트리에 게시할 수 있습니다. 프로젝트에서 아티팩트를 조회하고 Model 레지스트리에 게시할 준비를 하려면 [`wandb.Run.use_artifact()`](/ko/models/ref/python/experiments/run/#method-runuse_artifact)를 사용합니다. `wandb.Run.use_artifact()`는 두 가지 핵심 용도로 사용됩니다.
+이제 모델을 트레이닝하고 아티팩트로 저장했으므로, W&amp;B의 레지스트리에 게시할 수 있습니다. 프로젝트에서 아티팩트를 조회하고 모델 레지스트리에 게시할 준비를 하려면 [`wandb.Run.use_artifact()`](/ko/models/ref/python/experiments/run/#method-runuse_artifact)를 사용합니다. `wandb.Run.use_artifact()`는 두 가지 핵심 용도로 사용됩니다.
 
 * 프로젝트에서 아티팩트 객체를 조회합니다.
 * 아티팩트를 run의 입력으로 표시해 재현성과 추적 가능성을 보장합니다. 자세한 내용은 [Create and view Lineage 맵](/ko/models/registry/lineage)을 참조하세요.
@@ -199,8 +199,8 @@ dataset_info = """The dataset used for training consists of synthetic data gener
 model_info = """The model is a simple linear regression model that predicts output based on input data with some noise."""
 
 report = wr.Report(
-    project=PROJECT,
     entity=TEAM_ENTITY,
+    project=PROJECT,
     title="My Awesome Model Training Report",
     description=experiment_summary,
     blocks= [

@@ -85,10 +85,24 @@ Quick Add(기본 설정 적용)를 사용해 미디어 패널을 추가하거나
   * **Gallery**(기본값): 열 수와 그리드에 run당 단일 항목(기본값), step 또는 인덱스를 표시할지 지정합니다.
   * **Grid**: 열 수, x축(기본값은 **Log Step**), y축(기본값은 **Run**)을 지정합니다.
   * **Compare**: 최대 네 개의 미디어 항목을 나란히 비교하고, 필요에 따라 step 또는 인덱스별로 펼쳐서 볼 수 있습니다. 자세한 내용은 [Compare mode](#compare-mode)를 참조하세요.
-* **Use original size**: 꺼져 있으면(기본값) W&amp;B가 패널의 이미지와 비디오 크기가 같아 보이도록 조정합니다. **Compare** 모드에서는 적용되지 않습니다.
-* 미디어 맞춤 및 크기 조정 동작을 구성합니다:
-  * **이미지**: **Original image**, **Original size**, **Fit to available space** 중 하나를 선택합니다. 마지막 옵션을 사용하면 W&amp;B가 패널의 이미지가 가능한 한 많은 공간을 차지하도록 크기를 조정합니다. **Gallery** 모드에서는 각 이미지가 패널 너비를 채웁니다. **Grid** 모드에서는 각 이미지가 그리드 너비를 채웁니다. **Compare** 모드에서는 적용되지 않습니다.
-  * **비디오**: **Use original size**를 표시/숨기기하여 미디어가 같은 크기로 보이도록 크기를 조정할지 제어합니다. 비활성화되어 있으면(기본값) W&amp;B가 패널의 비디오가 가능한 한 많은 공간을 차지하도록 크기를 조정합니다. **Gallery** 모드에서는 각 비디오가 패널 너비를 채웁니다. **Grid** 모드에서는 각 비디오가 그리드 너비를 채웁니다. **Compare** 모드에서는 적용되지 않습니다.
+* W&amp;B가 미디어 항목을 맞추고 크기를 조정하는 방식을 구성합니다. 이러한 설정은 [**Compare** mode](#compare-mode)에서는 적용되지 않습니다.
+  * **이미지**: W&amp;B가 이미지를 표시하는 방식을 제어하려면 **Image fit and resolution**을 설정합니다. 사용 가능한 옵션은 deployment type에 따라 다릅니다.
+
+    W&amp;B Multi-tenant Cloud에서는 다음 옵션을 사용할 수 있습니다:
+
+    * **Thumbnails**(기본값): 로딩 속도를 최적화하기 위해 썸네일을 사용합니다.
+    * **Original image**: 자세히 확인할 수 있도록 전체 해상도 이미지를 로드합니다.
+    * **Fit to available space**: 전체 해상도 이미지의 크기를 패널에 맞게 조정합니다.
+    * **Original size**: 전체 해상도 이미지를 원래 크기로 로드합니다.
+
+    W&amp;B Dedicated Cloud 또는 W&amp;B Self-Managed에서는 다음 옵션을 사용할 수 있습니다:
+
+    * **Default**(기본값): Panel mode의 기본 이미지 크기를 사용합니다.
+    * **Fit to available space**: 전체 해상도 이미지의 크기를 패널에 맞게 조정합니다.
+    * **Original size**: 전체 해상도 이미지를 원래 크기로 로드합니다.
+
+    Multi-tenant Cloud에서는 이 설정과 관계없이 W&amp;B가 전체 화면 뷰에서 항상 전체 해상도 이미지를 로드합니다.
+  * **비디오**: **Gallery** 모드에서는 **Use original size**를 켜면 비디오를 원래 크기로 표시합니다. 꺼져 있으면(기본값) W&amp;B가 이미지의 종횡비를 유지하면서 비디오가 가능한 한 많은 패널 공간을 채우도록 크기를 조정합니다. **Grid** 모드에서는 각 비디오가 그리드 너비를 채웁니다.
 * **오른손 좌표계**: 켜져 있으면 point cloud는 기본 왼손 좌표계 대신 오른손 좌표계를 사용해 점을 플로팅합니다.
 
 <div id="all-media-panels-in-a-section">

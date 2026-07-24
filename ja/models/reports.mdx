@@ -5,6 +5,7 @@ title: Reports の概要
 
 import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
 import { TryProductLink } from '/snippets/ja/_includes/try-product-link.mdx';
+import { WandbReport } from '/snippets/WandbReport.jsx';
 
 <CardGroup cols={4}>
   <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb" />
@@ -21,13 +22,9 @@ W&amp;B Reports では、次のことができます:
 
 {/* {% embed url="https://www.youtube.com/watch?v=2xeJIv_K_eI" %} */}
 
-次の画像は、トレーニング中にW&amp;Bにログされたメトリクスから作成したレポートのセクションを示しています。
+以下のレポートは、トレーニング中にW&amp;Bにログされたメトリクスから作成されています。レポート内をスクロールしてベンチマークのRuns、パネル、解説を確認するか、W&amp;B アプリで[レポート全体を開いてください](https://wandb.ai/stacey/saferlife/reports/SafeLife-Benchmark-Experiments--Vmlldzo0NjE4MzM)。
 
-<Frame>
-  <img src="/images/reports/safe-lite-benchmark-with-comments.png" alt="ベンチマーク結果を含むW&Bレポート" max-width="90%" />
-</Frame>
-
-上の画像の元になったレポートは[こちら](https://wandb.ai/stacey/saferlife/reports/SafeLife-Benchmark-Experiments--Vmlldzo0NjE4MzM)で確認できます。
+<WandbReport src="https://wandb.ai/stacey/saferlife/reports/SafeLife-Benchmark-Experiments--Vmlldzo0NjE4MzM" title="SafeLife ベンチマーク Experiments レポート" height={720} />
 
 <div id="how-it-works">
   ## 仕組み

@@ -1,33 +1,70 @@
 ---
 title: Molecule
-namespace: python_sdk_data_type
-python_object_type: class
+kind: クラス
+namespace: wandb.sdk.data_types.molecule
 ---
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/molecule.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/molecule.py#L28" />
 
-
-## <kbd>class</kbd> `Molecule`
-
-3D分子データを扱うW&amp;Bクラス。 
-
-### <kbd>method</kbd> `Molecule.__init__`
+## <kbd>クラス</kbd> wandb.Molecule
 
 ```python
-__init__(
-    data_or_path: 'str | pathlib.Path | TextIO',
-    caption: 'str | None' = None,
-    **kwargs: 'str'
-) → None
+data_or_path: 'str | pathlib.Path | TextIO',
+caption: 'str | None' = None, **kwargs: 'str'
 ```
 
-Molecule オブジェクトを初期化します。
+3D分子データ用のW&amp;Bクラスです。
 
-**引数:**
+<div id="args">
+  ## 引数
+</div>
 
-* `data_or_path`:  Molecule は、ファイル名または io object から初期化できます。
-* `caption`:  molecule の表示用キャプション。
+* `data_or_path`: Molecule は、ファイル名または io object から初期化できます。
+* `caption`: 分子 の表示用キャプション。
+* `kwargs`: 
 
-***
+<div id="methods">
+  ## メソッド
+</div>
+
+### <kbd>メソッド</kbd> Molecule.from_rdkit()
+
+```python
+data_or_path: 'RDKitDataType',
+caption: 'str | None' = None,
+convert_to_3d_and_optimize: 'bool' = True,
+mmff_optimize_molecule_max_iterations: 'int' = 200
+```
+
+RDKit がサポートする file/object タイプを wandb.Molecule に変換します。
+
+<div id="arguments">
+  ##### 引数
+</div>
+
+* `data_or_path`: (string, rdkit.Chem.rdchem.Mol) Molecule は、ファイル名または `rdkit.Chem.rdchem.Mol` オブジェクトから初期化できます。
+* `caption`: (string) 表示用に分子に関連付けられたキャプションです。
+* `convert_to_3d_and_optimize`: (bool) 3D 座標を持つ `rdkit.Chem.rdchem.Mol` に変換します。これは計算コストの高い処理であり、複雑な分子では時間がかかる場合があります。
+
+### <kbd>メソッド</kbd> Molecule.from_smiles()
+
+```python
+data: 'str',
+caption: 'str | None' = None,
+sanitize: 'bool' = True,
+convert_to_3d_and_optimize: 'bool' = True,
+mmff_optimize_molecule_max_iterations: 'int' = 200
+```
+
+SMILES文字列をwandb.Moleculeに変換します。
+
+<div id="arguments">
+  ##### 引数
+</div>
+
+* `data`: SMILES 文字列。
+* `caption`: 分子に関連付けられた表示用キャプション。
+* `sanitize`: RDKit の定義に基づいて、分子が化学的に妥当かどうかを確認します。
+* `convert_to_3d_and_optimize`: 3D 座標を持つ `rdkit.Chem.rdchem.Mol` に変換します。これは計算負荷の高い操作であり、複雑な分子では時間がかかる場合があります。

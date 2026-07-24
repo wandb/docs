@@ -1,45 +1,40 @@
 ---
 title: NewAutomation
-namespace: automations_namespace
-python_object_type: class
+kind: classe
+namespace: wandb.automations.automations
 ---
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/automations.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/automations.py#L51" />
 
-
-## <kbd>class</kbd> `NewAutomation`
-
-Nouvelle automatisation à créer.
-
-### <kbd>méthode</kbd> `NewAutomation.__init__`
+## <kbd>classe</kbd> wandb.automations.NewAutomation
 
 ```python
-__init__(
-    name: 'str | None' = None,
-    description: 'str | None' = None,
-    enabled: 'bool | None' = None,
-    event: 'Annotated | None' = None,
-    action: 'Annotated | None' = None
-) → None
+*,
+name: str | None = None,
+description: str | None = None,
+enabled: bool | None = None,
+event: Optional[Annotated[wandb.automations.events.OnLinkArtifact | wandb.automations.events.OnAddArtifactAlias | wandb.automations.events.OnAddArtifactTag | wandb.automations.events.OnRemoveArtifactTag | wandb.automations.events.OnAddCollectionTag | wandb.automations.events.OnRemoveCollectionTag | wandb.automations.events.OnCreateArtifact | wandb.automations.events.OnUnlinkArtifact | wandb.automations.events.OnRunMetric | wandb.automations.events.OnRunState, FieldInfo(annotation=NoneType, required=True, discriminator='event_type')]] = None,
+action: Optional[Annotated[wandb.automations.actions.SendNotification | wandb.automations.actions.SendWebhook | wandb.automations.actions.DoNothing, BeforeValidator(func=<function parse_input_action>, json_schema_input_type=PydanticUndefined), FieldInfo(annotation=NoneType, required=True, discriminator='action_type')]] = None
 ```
 
-**Arguments :**
+Une nouvelle automatisation à créer.
 
-* `name` (str | None) : Le nom de cette automatisation.
-* `description` (str | None) : Une description facultative de cette automatisation.
-* `enabled` (bool | None) : Indique si cette automatisation est activée. Seules les automatisations activées se déclencheront.
-* `event` (Optional[Annotated]) : L&#39;événement qui déclenchera cette automatisation.
-* `action` (Optional[Annotated]) : L&#39;action qui sera exécutée lorsque cette automatisation sera déclenchée.
+<div id="args">
+  ## Arguments
+</div>
 
-**Retourne :**
-Un objet `NewAutomation`.
+* `name` : Le nom de cette automatisation.
+* `description` : Une description facultative de cette automatisation.
+* `enabled` : Indique si cette automatisation est activée. Seules les automatisations activées se déclencheront.
+* `event` : L&#39;événement qui déclenchera cette automatisation.
+* `action` : L&#39;action qui sera exécutée lorsque cette automatisation sera déclenchée.
 
-### <kbd>propriété</kbd> `NewAutomation.scope`
+<div id="properties">
+  ## Propriétés
+</div>
+
+### <kbd>propriété</kbd> scope
 
 La portée dans laquelle l’événement déclencheur doit se produire.
-
-**Retourne :**
-
-* `AutomationScope | None` : La valeur de la propriété `scope`.

@@ -36,6 +36,10 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
 
 以下のセクションでは、各タイプのメディアをログする例を紹介します。各セクションは最小限の例から始まり、その後より高度なシナリオへと展開します。
 
+<Note>
+  バイトデータを Weave にアップロードせずに、ご自身のクラウド バケットにすでにあるメディアを表示するには、[Reference media in your own bucket (BYOB)](/ja/weave/guides/tracking/byob-references)を参照してください。
+</Note>
+
 <div id="log-images">
   ## 画像をログする
 </div>
@@ -324,11 +328,13 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
 
 以下の例では、ドキュメントを生成し、Weave の UI にログします。
 
-<Frame>![Weave での PDF ドキュメントのログ](/images/weave/pdf.png)</Frame>
+<Frame>
+  ![Weave での PDF ドキュメントのログ](/images/weave/pdf.png)
+</Frame>
 
 <Tabs>
   <Tab title="Python">
-    `Annotated[bytes, Content]` 型で関数にアノテーションを付けるか、`Annotated[str, Content[Literal['text']]` でドキュメントのタイプを指定して、ドキュメントをログできます。
+    `Annotated[bytes, Content]` 型で関数にアノテーションを付けるか、`Annotated[str, Content[Literal['text']]]` でドキュメントのタイプを指定して、ドキュメントをログできます。
 
     Weave は `pdf`、`csv`、`md`、`text`、`json`、`xml` のファイルタイプを自動的に処理します。`Annotated[str, Content]` を使って、ファイルパス経由でログすることもできます。
 
@@ -354,7 +360,7 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
         df = pd.DataFrame({
             'Name': ['Alice', 'Bob', 'Charlie'],
             'Age': [25, 30, 35],
-            'City': ['New York', 'London', '東京']
+            'City': ['New York', 'London', 'Tokyo']
         })
         df.to_csv("sample_data.csv", index=False)
 
@@ -387,7 +393,7 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
     weave.init('your-team-name/your-project-name')
 
     def create_absurd_company_handbook():
-        """Create a fictional company handbook with ridiculous policies"""
+        """ばかげたポリシーを含む架空の会社ハンドブックを作成する"""
         c = canvas.Canvas("company_handbook.pdf", pagesize=letter)
         
         c.drawString(100, 750, "ACME Corp Employee Handbook")
@@ -402,7 +408,7 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
 
     @weave.op
     def create_and_query_document(pdf_path: Annotated[str, Content], question: str) -> str:
-        """Extract text from PDF and use RAG to answer questions"""
+        """PDF からテキストを抽出し、RAG を使用して質問に回答する"""
         with open(pdf_path, 'rb') as file:
             pdf_reader = PyPDF2.PdfReader(file)
             text = ""

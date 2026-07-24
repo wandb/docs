@@ -1,28 +1,41 @@
 ---
 title: RunArtifacts
-namespace: public_apis_namespace
-python_object_type: class
+kind: クラス
+namespace: wandb.apis.public.artifacts
 ---
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L964" />
 
+## <kbd>クラス</kbd> wandb.apis.public.RunArtifacts
 
-## <kbd>クラス</kbd> `RunArtifacts`
+特定のrunに関連付けられたartifactのイテラブルなコレクションです。
 
-特定のrunに関連付けられたartifactのイテラブルなコレクションです。 
+<div id="methods">
+  ## メソッド
+</div>
 
-### <kbd>プロパティ</kbd> RunArtifacts.cursor
+### <kbd>メソッド</kbd> RelayPaginator.convert_objects()
 
-次に取得するページの開始位置を示す不透明なカーソルです。
+```python
+self
+```
 
-この値は保存しておき、後続のページネーションされたクエリで `start=` として渡すことで、この paginator の続きから反復を再開できます。
+最後に取得したレスポンスデータを、イテレーション対象のオブジェクトに変換します。
 
-**戻り値:**
+### <kbd>メソッド</kbd> Paginator.**next**()
 
-* `str | None`: cursor のプロパティ値です。
+```python
+self
+```
 
-***
+イテレーターから次の項目を返します。要素がなくなると、StopIteration を送出します
 
-### <kbd>プロパティ</kbd> RunArtifacts.more
+### <kbd>メソッド</kbd> Paginator.update_variables()
+
+```python
+self
+```
+
+次のページを取得するためのクエリ変数を更新します。
