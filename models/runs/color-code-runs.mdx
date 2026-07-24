@@ -107,9 +107,11 @@ To view or edit buckets, open the workspace settings drawer where you enabled ke
 
 1. Navigate to your W&B project and select the **Workspace** tab.
 2. Click the **Settings** icon in the top right corner.
-3. In the drawer, select **Runs**.
-4. In the **Colors** tab, confirm that **Key-based colors** is selected.
-5. From the **Key** dropdown, select a metric or configuration key. After you select a key, the **Y value** dropdown and the **Buckets** section appear below it.
+3. In the drawer, select **Runs**, then select the **Colors** tab.
+4. Set **Run colors** to **Key-based colors**. The **Color palette** setting is hidden and the **Key** dropdown appears.
+5. From the **Key** dropdown, select a metric or configuration key. The controls that appear next depend on the type of key you select:
+    - For a **metric**, use the **Y value** dropdown to choose **Min**, **Max**, or **Latest**, set the **Number of buckets** to a value from 2 to 8, and review the **Buckets** section. Each bucket lists a value range and its color.
+    - For a **configuration** key, use the **Grouping** dropdown to choose **Continuous** or **Discrete**. **Continuous** groups values into numeric **Buckets**. **Discrete** groups values into **Categories** instead of buckets.
 
 The following screenshot shows the **Runs** settings panel with buckets configured for an accuracy metric:
 
