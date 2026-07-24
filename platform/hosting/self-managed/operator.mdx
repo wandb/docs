@@ -238,6 +238,25 @@ For detailed instructions on using these cloud-specific modules, see [Deploy wit
 
 <SelfManagedVerifyInstallation/>
 
+## Apply configuration changes
+
+After the initial install, you can change SSO/OIDC settings, environment variables, or other values in the custom resource (CR). When you do, the operator updates the underlying ConfigMaps, but the running pods don't automatically pick up the change. Kubernetes doesn't restart pods when a mounted ConfigMap changes.
+
+Apply the change in one of two ways:
+
+- **Restart the affected deployments manually.** Deployment names vary by version and install (the app deployment usually carries a `-bc` suffix, for example `<release>-app-bc`). The `app` component covers most auth/SSO changes. List the deployments first, then restart the ones that consume the changed config:
+
+  ```bash
+  kubectl -n <namespace> get deployments
+  kubectl -n <namespace> rollout restart deployment/<name>   # e.g. <release>-app-bc
+  ```
+
+- **Install [Stakater Reloader](https://github.com/stakater/Reloader).** The chart already annotates the deployments with `reloader.stakater.com/auto: "true"`. If the Reloader controller is running in your cluster, it restarts the affected pods automatically when their ConfigMap or Secret changes. Reloader isn't installed by default, so on a fresh cluster you must deploy it yourself for this to work.
+
+<Note>
+If you change SSO/OIDC settings and login still behaves the same, it's almost always because the pods are still running the old config. Restart `app` and `api` (or install Reloader), then try again.
+</Note>
+
 ## Enable the MCP server
 
 The [W&B MCP Server](/platform/mcp-server) ships as an optional subchart in `operator-wandb`. When enabled, the operator deploys an in-cluster MCP server exposed through your existing ingress at `<global.host>/mcp`, so any MCP-compatible client can connect using a W&B API key. This is the same server W&B runs as the hosted offering at `https://mcp.withwandb.com/mcp`, but pointed at your deployment's data.
