@@ -3,9 +3,13 @@ title: Configure registry access
 description: "Configure W&B Registry access by managing users and teams, assigning roles, and setting role-based permissions."
 ---
 
-A registry admin can [configure registry roles](/models/registry/configure_registry/#configure-registry-roles), [add users](/models/registry/configure_registry/#add-a-user-or-a-team-to-a-registry), or [remove users](/models/registry/configure_registry/#remove-a-user-or-team-from-a-registry) from a registry by configuring the registry's settings.
+This page shows registry admins how to control access to a W&B Registry by managing its members and their permissions. Use these procedures to add or remove users and teams, assign or change registry roles, and understand the permissions each role provides.
+
+Registry admins can control access to a W&B Registry by managing members and permissions. Use the registry settings to [configure registry roles](/models/registry/configure_registry/#configure-registry-roles), [add users](/models/registry/configure_registry/#add-a-user-or-a-team-to-a-registry) or teams, and [remove users or teams](/models/registry/configure_registry/#remove-a-user-or-team-from-a-registry).
 
 ## Manage users
+
+The following sections describe how to add users or teams to a registry, remove them, and change a registry's owner.
 
 ### Add a user or a team
 
@@ -13,20 +17,21 @@ Registry admins can add individual users or entire teams to a registry. To add a
 
 1. Navigate to the W&B Registry.
 2. Select the registry you want to add a user or team to.
-3. Click on the gear icon on the upper right hand corner to access the registry settings.
+3. Click the gear icon in the upper right corner to access the registry settings.
 4. In the **Registry access** section, click **Add access**.
-5. Specify one or more user names, emails, or the team names to the **Include users and teams** field.
+5. Specify one or more user names, emails, or team names in the **Include users and teams** field.
 6. Click **Add access**.
 
-Learn more about [configuring user roles in a registry](/models/registry/configure_registry/#configure-registry-roles), or [registry role permissions](/models/registry/configure_registry#role-permissions). 
+For more information, see [Role permissions](#role-permissions).
 
 ### Remove a user or team
+
 A registry admin can remove individual users or entire teams from a registry. To remove a user or team from a registry:
 
 1. Navigate to the W&B Registry at https://wandb.ai/registry/.
 2. Select the registry you want to remove a user from.
-3. Click on the gear icon on the upper right hand corner to access the registry settings.
-4. Navigate to the **Registry access** section and type in the username, email, or team you want to remove.
+3. Click the gear icon in the upper right corner to access the registry settings.
+4. Navigate to the **Registry access** section and type the username, email, or team you want to remove.
 5. Click the **Delete** button.
 
 <Note>
@@ -35,61 +40,62 @@ Removing a user from a team also removes that user's access to the registry.
 
 ### Change the owner of a registry
 
-A registry admin can designate any member as a registry's owner, including a **Restricted Viewer** or a **Viewer**. Registry ownership is primarily for accountability purposes and does not confer any additional permissions beyond those granted by the user's assigned role.
+A registry admin can designate any member as a registry's owner, including a **Restricted Viewer** or a **Viewer**. Registry ownership is for accountability and doesn't confer any additional permissions beyond those granted by the user's assigned role.
 
 To change the owner:
+
 1. Navigate to the W&B Registry at https://wandb.ai/registry/.
 2. Select the registry you want to configure.
-3. Click the gear icon on the upper right hand corner.
+3. Click the gear icon in the upper right corner.
 4. Scroll to the **Registry members and roles** section.
 5. Hover over the row for a member.
 6. Click the **action (<Icon icon="ellipsis" iconType="solid"/>)** menu at the end of the row, then click **Make owner**.
 
 
-## Configure Registry roles
+## Configure registry roles
 
-This section shows how to configure roles for Registry members. For more information about Registry roles, including the cabilities of each role, order of precedence, defaults, and more, see [Details about Registry roles](#details-about-registry-roles).
+This section shows how to configure roles for registry members. The role you assign determines what actions a user or team can perform in the registry. For more information about registry roles, including the capabilities of each role, order of precedence, and defaults, see [Details about registry roles](#details-about-registry-roles).
 
 1. Navigate to the W&B Registry at https://wandb.ai/registry/.
 2. Select the registry you want to configure.
-3. Click the gear icon on the upper right hand corner.
+3. Click the gear icon in the upper right corner.
 4. Scroll to the **Registry members and roles** section.
 5. Within the **Member** field, search for the user or team you want to edit permissions for.
 6. In the **Registry role** column, click the user's role.
 7. From the dropdown, select the role you want to assign to the user.
 
-## Details about Registry roles
+## Details about registry roles
 
-The following sections give more information about Registry roles.
+The following sections give more information about registry roles.
 
 <Note>
 Your [role in a team](/platform/app/settings-page/teams/#team-roles-and-permissions) has no impact or relationship to your role in any registry.
 </Note>
 
 ### Default roles
-W&B automatically assigns a default **registry role** to a user or team when they are added to a registry. This role determines what they can do in that registry. 
 
-| Entity                                 | Default registry role<br />(Dedicated Cloud / Self-Managed)               | Default registry role<br />(Multi-tenant Cloud)            |
+W&B automatically assigns a default **registry role** to a user or team when you add them to a registry. This role determines what they can do in that registry.
+
+| Entity                                 | Default registry role<br />(Dedicated Cloud and Self-Managed)             | Default registry role<br />(Multi-tenant Cloud)            |
 |----------------------------------------|---------------------------------------------------------------------------|------------------------------------------------------------|
-| Team                                   | Restricted Viewer (Server v0.75.0+) <br />Viewer (Server v0.74.x and below) | Restricted Viewer                               |
-| User or service account (non admin)    | Restricted Viewer (Server v0.75.0+) <br />Viewer (Server v0.74.x and below) | Restricted Viewer                               |
-| Service account (non admin)            | Member<sup><a href="#service_account_footnote">1</a></sup>                | Member<sup><a href="#service_account_footnote">1</a></sup> |
+| Team                                   | Restricted Viewer (Server v0.75.0+) <br />Viewer (Server v0.74.x and earlier) | Restricted Viewer                               |
+| User or service account (non-admin)    | Restricted Viewer (Server v0.75.0+) <br />Viewer (Server v0.74.x and earlier) | Restricted Viewer                               |
+| Service account (non-admin)            | Member<sup><a href="#service_account_footnote">1</a></sup>                | Member<sup><a href="#service_account_footnote">1</a></sup> |
 | Org admin                              | Admin                                                       | Admin                                           |
 
-<a id="service_account_footnote">1</a>: Service accounts cannot have **Viewer** or **Restricted Viewer** roles. See [Service account access](#service-account-access) for how a service account's access is determined.
+<a id="service_account_footnote">1</a>: Service accounts can't have **Viewer** or **Restricted Viewer** roles. See [Service account access](#service-account-access) for how a service account's access is determined.
 
-A registry admin can assign or modify roles for users and teams in the registry.
-See [Configure user roles in a registry](/models/registry/configure_registry/#configure-registry-roles) for more information.
-
+A registry admin can assign or modify roles for users and teams in the registry. For more information, see [Configure registry roles](#configure-registry-roles).
 
 ### Role permissions
-The following table lists each Registry role, along with the permissions provided by each role:
+
+The following table lists each registry role, along with the permissions each role provides:
 
 | Permission                                                                                                            | Permission Group | Restricted Viewer<br />(Multi-tenant Cloud, by invitation) | Viewer | Member | Admin |
 |-----------------------------------------------------------------------------------------------------------------------|------------------|------------------------------------------------------------|:------:|:------:|:-----:|
 | View a collection's details                                                                                           | Read             | ✓                                                          |   ✓    |   ✓    |   ✓   |
 | View a linked artifact's details                                                                                      | Read             | ✓                                                          |   ✓    |   ✓    |   ✓   |
-| Usage: Consume an artifact in a registry with use_artifact                                                            | Read             |                                                            |   ✓    |   ✓    |   ✓   |
+| Usage: Consume an artifact in a registry with `wandb.Run.use_artifact()`                                             | Read             |                                                            |   ✓    |   ✓    |   ✓   |
 | Download a linked artifact                                                                                            | Read             |                                                            |   ✓    |   ✓    |   ✓   |
 | Download files from an artifact's file viewer                                                                         | Read             |                                                            |   ✓    |   ✓    |   ✓   |
 | Search a registry                                                                                                     | Read             | ✓                                                          |   ✓    |   ✓    |   ✓   |
@@ -115,27 +121,31 @@ The following table lists each Registry role, along with the permissions provide
 | Add users to a registry                                                                                               | Admin            |                                                            |        |        |   ✓   |
 | Assign or change a user's role in a registry                                                                          | Admin            |                                                            |        |        |   ✓   |
 
-### Inherited Registry role
-The registry's membership list shows each user's inherited (effective) registry role (in light gray) next to the role dropdown in their row.
+### Inherited registry role
+
+The registry's membership list shows each user's inherited (effective) registry role next to the role dropdown in their row.
 
 <Frame>
     <img src="/images/registry/role_conflict.png" alt="Registry membership list showing the user's effective registry role"  />
 </Frame>
 
-A user's effective role in a particular registry matches their _highest_ role among their role in the organization, the registry, and the team that owns the registry, whether inherited or explicitly assigned. For example:
+A user's effective role in a particular registry matches their _highest_ role among the organization, the registry, and the team that owns the registry. This applies whether the role is inherited or explicitly assigned. For example:
 
 - A team **Admin** or organization **Admin** with the **Viewer** role in a particular registry owned by the team is effectively an **Admin** of the registry.
 - A registry **Viewer** with the **Member** role in the team is effectively a **Member** of the registry.
 - A team **Viewer** with the **Member** role in a particular registry is effectively a **Member** of the registry.
 
 ### Restricted Viewer role details
-The **Restricted Viewer** role is Generally Available (GA). For Dedicated Cloud and Self-Managed, Server v0.75.0 or newer is required.
+
+The **Restricted Viewer** role is useful for granting broad visibility into a registry without exposing artifact contents. The following sections describe its availability, behavior, and SDK compatibility.
+
+The **Restricted Viewer** role is Generally Available (GA). For Dedicated Cloud and Self-Managed, Server v0.75.0 or later is required.
 
 This role provides read-only access to registry artifacts without the ability to create, update, or delete collections, automations, or other registry resources.
 
 Unlike a **Viewer**, a **Restricted Viewer**:
-- Cannot download artifact files or access file contents.
-- Cannot use artifacts with `wandb.Run.use_artifact()` in the W&B SDK.
+- Can't download artifact files or access file contents.
+- Can't use artifacts with `wandb.Run.use_artifact()` in the W&B SDK.
 
 #### SDK compatibility
 
@@ -143,13 +153,13 @@ Unlike a **Viewer**, a **Restricted Viewer**:
 
 **SDK version requirement**
 
-To use the W&B SDK to access artifacts as a **Restricted Viewer**, you must use W&B SDK version 0.19.9 or higher. Otherwise, some SDK commands will result in permission errors.
+To use the W&B SDK to access artifacts as a **Restricted Viewer**, you must use W&B SDK version 0.19.9 or later. Otherwise, some SDK commands result in permission errors.
 
 </Note>
 
 When a **Restricted Viewer** uses the SDK, certain functions are not available or work differently.
 
-The following methods are not available and result in permission errors:
+The following methods aren't available and result in permission errors:
 - [`Run.use_artifact()`](/models/ref/python/experiments/run/#method-runuse_artifact)
 - [`Artifact.download()`](/models/ref/python/experiments/artifact/#method-artifactdownload)
 - [`Artifact.file()`](/models/ref/python/experiments/artifact/#method-artifactfile)
@@ -165,7 +175,7 @@ The following methods are limited to artifact metadata:
 
 A user can have different roles in different registries. For example, a user can be a **Restricted Viewer** in Registry A and a **Viewer** in Registry B. In this case:
 
-- The same artifact linked to both registries will have different access levels
-- In Registry A, the user is a **Restricted Viewer** and cannot download files or use the artifact
-- In Registry B, the user is a **Viewer** and can download files and use the artifact
-- In other words, access is determined by the registry in which the artifact is accessed
+- The same artifact linked to both registries has different access levels.
+- In Registry A, the user is a **Restricted Viewer** and can't download files or use the artifact.
+- In Registry B, the user is a **Viewer** and can download files and use the artifact.
+- In other words, the registry in which the user accesses the artifact determines access.
