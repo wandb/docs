@@ -9,6 +9,10 @@ To use metric or configuration-based colors for your runs, you need to configure
 
 ### Turn on key-based colors
 
+<Note>
+Key-based colors are disabled while run grouping is active. Turn off run grouping before you continue.
+</Note>
+
 1. Navigate to your W&B project.
 2. Select the **Workspace** tab from the project sidebar.
 3. Click the **Settings** icon in the top right corner.
@@ -104,7 +108,8 @@ To view or edit buckets, open the workspace settings drawer where you enabled ke
 1. Navigate to your W&B project and select the **Workspace** tab.
 2. Click the **Settings** icon in the top right corner.
 3. In the drawer, select **Runs**.
-4. In the **Colors** tab, confirm that **Key-based colors** is selected. The **Buckets** section appears below the **Key** and **Y value** dropdowns.
+4. In the **Colors** tab, confirm that **Key-based colors** is selected.
+5. From the **Key** dropdown, select a metric or configuration key. After you select a key, the **Y value** dropdown and the **Buckets** section appear below it.
 
 The following screenshot shows the **Runs** settings panel with buckets configured for an accuracy metric:
 
