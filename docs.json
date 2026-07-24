@@ -1358,7 +1358,8 @@
                   "release-notes/weave-sdk-releases"
                 ]
               },
-              "release-notes/release-policies"
+              "release-notes/release-policies",
+              "release-notes/new-articles"
             ],
             "tab": "Release Notes"
           },
