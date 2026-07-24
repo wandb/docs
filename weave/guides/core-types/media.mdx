@@ -34,6 +34,10 @@ The TypeScript SDK supports logging images and audio. To log videos, documents, 
 
 The following sections provide examples of logging each type of media. Each section starts with a minimal example and then expands into more advanced scenarios.
 
+<Note>
+To render media that already lives in your own cloud bucket without uploading the bytes to Weave, see [Reference media in your own bucket (BYOB)](/weave/guides/tracking/byob-references).
+</Note>
+
 ## Log images
 
 The following examples demonstrate how to generate and log images to Weave's UI.
@@ -327,7 +331,7 @@ The following examples generate and log documents to Weave's UI.
 <Tabs>
 <Tab title="Python">
 
-Log documents by annotating functions with `Annotated[bytes, Content]` types, or by specifying the document type with `Annotated[str, Content[Literal['text']]`. 
+Log documents by annotating functions with `Annotated[bytes, Content]` types, or by specifying the document type with `Annotated[str, Content[Literal['text']]]`. 
 
 Weave automatically handles `pdf`, `csv`, `md`, `text`, `json`, and `xml` file types. You can also log using file paths with `Annotated[str, Content]`.
 
@@ -451,7 +455,7 @@ The following examples demonstrate how to log audio to Weave.
 <Tabs>
 <Tab title="Python">
 
-Log audio to Weave by annotating functions with `Annotated[bytes, Content]` types, or by specifying the audio type with `Annotated[str, Content[Literal['mp3']]`. 
+Log audio to Weave by annotating functions with `Annotated[bytes, Content]` types, or by specifying the audio type with `Annotated[str, Content[Literal['mp3']]]`. 
 
 Weave automatically handles `mp3`, `wav`, `flac`, `ogg`, and `m4a` file types. You can also log using file paths with `Annotated[str, Content]`.
 

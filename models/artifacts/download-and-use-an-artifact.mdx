@@ -3,7 +3,7 @@ description: Download and use Artifacts from multiple projects.
 title: Download and use artifacts
 ---
 
-Download and use an artifact that is already stored on the W&B server or construct an artifact object and pass it in to for de-duplication as necessary.
+Download and use an artifact that is already stored on the W&B server or construct an artifact object and pass it in for de-duplication as necessary.
 
 <Note>
 Team members with a Models **Viewer** seat cannot download artifacts.
@@ -99,7 +99,7 @@ artifact.download(path_prefix="images/bikes/")
 ```
 ### Use an artifact from a different project
 
-Specify the name of artifact along with its project name to reference an artifact. You can also reference artifacts across entities by specifying the name of the artifact with its entity name.
+Specify the name of the artifact along with its project name to reference an artifact. You can also reference artifacts across entities by specifying the name of the artifact with its entity name.
 
 The following code example demonstrates how to query an artifact from another project as input to the current W&B run.
 

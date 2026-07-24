@@ -1,7 +1,7 @@
 ---
 title: Manage your organization
 description: "Manage users, teams, roles, seats, and billing within a W&B organization as an organization admin."
-keywords: ["invite users", "org admin", "add team members", "user seats"]
+keywords: ["invite users", "org admin", "add team members", "user seats", "JIT provisioning", "just-in-time provisioning", "auto provisioning"]
 ---
 This page describes how to administer a W&B organization, including how to invite users, manage teams, assign roles and seats, and configure billing. Use these procedures to keep your organization's membership, access, and team structure aligned with how your company uses W&B.
 
@@ -82,7 +82,7 @@ After you select the **Send invite** button, W&B sends an invite link to the use
 
 ### Auto provision users
 
-Auto-provisioning streamlines onboarding by letting users join your organization automatically through SSO, so admins don't need to send individual invitations.
+Auto-provisioning streamlines onboarding by letting users join your organization automatically through SSO, so admins don't need to send individual invitations. This is W&B's equivalent of just-in-time (JIT) provisioning: an account is created the first time a user with a matching email domain signs in through SSO.
 
 If you configure SSO and your SSO provider permits it, a W&B user with a matching email domain can log in to your W&B organization with Single Sign-On (SSO). SSO is available for all Enterprise licenses.
 
@@ -185,7 +185,86 @@ A user within an organization can have one of the following roles:
 | Admin | An organization admin who can add users to the organization or remove them, change user roles, manage custom roles, add teams and more. W&B recommends ensuring there is more than one admin in the event that your admin is unavailable. |
 | Member | A regular user of the organization, invited by an organization admin. An organization member cannot invite other users or manage existing users in the organization. |
 | Viewer (Enterprise-only feature) | A view-only user of your organization, invited by an organization admin. A viewer only has read access to the organization and the underlying teams that they are a member of. |
+| Billing only (Multi-tenant Cloud) | A billing-focused role for Multi-tenant Cloud organizations. You can assign this role only to the organization's billing user. Billing-only users can manage billing workflows, such as subscriptions, invoices, and payment methods, but they can't invite users, manage teams, or perform non-billing admin actions. Billing-only users are also removed from all organization teams and always have **No access** for both Models and Weave. |
 | Custom Roles (Enterprise-only feature) | Custom roles allow organization admins to compose new roles by inheriting from the preceding **Viewer** or **Member** organization roles, and adding additional permissions to achieve fine-grained access control. Team admins can then assign any of those custom roles to users in their respective teams. See also [Add and manage custom roles](#add-and-manage-custom-roles). |
+
+### Organization role permissions
+
+Organization roles control administrative actions at the organization scope. They're separate from these other sets of roles:
+
+- [Team roles](#assign-or-update-a-team-members-role)  control what a user can do inside a specific team.
+- [Registry roles](https://docs.wandb.ai/models/registry/configure_registry#details-about-registry-roles) control what a user can do in a given registry.
+- [Models seats and Weave access](#assign-or-update-a-users-access) control product access.
+
+The following tables summarize what **Member** and **Admin** users can do at the organization level. For team-scoped actions such as logging runs or editing reports, see [Team roles and permissions](/platform/app/settings-page/teams#team-roles-and-permissions). For registry-scoped actions, see [Registry role permissions](/models/registry/configure_registry#role-permissions).
+
+<Note>
+**Viewer** and custom roles are Enterprise-only features. A **Viewer** has read-only access to teams they belong to and can't perform write actions at the organization or team level. Custom roles inherit from **Viewer** or **Member** and add team-level permissions; see [Add and manage custom roles](#add-and-manage-custom-roles).
+</Note>
+
+#### User management
+
+| Permission                                                   | Permission group | Member | Admin |
+| ------------------------------------------------------------ | --------------- | :----: | :---: |
+| View the organization user list                              | Read            |   X    |   X   |
+| Invite users to the organization                             | Admin           |        |   X   |
+| Remove users from the organization                           | Admin           |        |   X   |
+| Assign or change a user's organization role                  | Admin           |        |   X   |
+| Assign or change a user's Models seat or Weave access        | Admin           |        |   X   |
+| Export the organization user list as CSV                     | Admin           |        |   X   |
+| View organization activity and usage trends                  | Read            |   X    |   X   |
+
+When **Enforce team visibility restrictions** is enabled, non-admin members can view profiles only for themselves or for users who share a team with them. Organization admins can view all member profiles. For more information, see [Privacy settings](/platform/hosting/privacy-settings#enforce-privacy-settings-for-all-teams).
+
+#### Teams
+
+| Permission                                                   | Permission group | Member | Admin |
+| ------------------------------------------------------------ | --------------- | :----: | :---: |
+| Create teams in the organization                             | Admin           |        |   X   |
+| Join teams when invited or through domain capture            | Read            |   X    |   X   |
+| View team membership for teams the user belongs to           | Read            |   X    |   X   |
+| View team membership for teams the user doesn't belong to    | Read            |        |   X   |
+| Invite users to a team without being a member of that team   | Admin           |        |   X   |
+| Add themselves to a team                                      | Admin           |        |   X   |
+
+<Note>
+On Self-Managed deployments, instance admins can optionally enable team creation for non-admin users. This option is managed at the instance level, not in organization settings. If you don't know whether your instance has this option enabled, contact your instance admin or W&B support.
+</Note>
+
+Organization admins are assigned the **Admin** role in [registries](/models/registry/configure_registry#role-permissions) that are visible at the organization level.
+
+#### Organization settings
+
+| Permission                                                   | Permission group | Member | Admin |
+| ------------------------------------------------------------ | --------------- | :----: | :---: |
+| Change the organization name (Multi-tenant Cloud)            | Admin           |        |   X   |
+| Configure domain capture and SSO auto-provisioning           | Admin           |        |   X   |
+| Enforce organization-wide [privacy settings](/platform/hosting/privacy-settings#enforce-privacy-settings-for-all-teams) | Admin |        |   X   |
+| Create, edit, and delete custom roles (Enterprise)           | Admin           |        |   X   |
+| Connect external storage buckets at the organization level (Enterprise) | Admin |        |   X   |
+
+#### Billing
+
+| Permission                                                   | Permission group | Member | Admin |
+| ------------------------------------------------------------ | --------------- | :----: | :---: |
+| Assign the billing admin                                     | Admin           |        |   X   |
+| Manage subscriptions, payment methods, and plan upgrades     | Billing         |        |   X   |
+| Cancel subscriptions                                         | Billing         |        |   X   |
+| Configure usage alerts                                       | Billing         |        |   X   |
+
+Users designated as **billing admins** can perform billing actions, including configuring usage alerts, even if their organization role is **Member**. Unless they are also an organization admin, a billing admin can't perform other organization admin actions such as inviting users or creating teams.
+
+On Multi-tenant Cloud, you can optionally assign the billing admin the **Billing only** organization role. This role is restricted to the billing user, removes team membership, and enforces **No access** for both Models and Weave while preserving billing administration capabilities.
+
+#### Security and automation
+
+| Permission                                                   | Permission group | Member | Admin |
+| ------------------------------------------------------------ | --------------- | :----: | :---: |
+| Authenticate to the [SCIM API](/platform/hosting/iam/scim)   | Admin           |        |   X   |
+| Create and manage organization-scoped service accounts        | Admin           |        |   X   |
+| View and manage all organization API keys                    | Admin           |        |   X   |
+
+Organization-scoped service accounts used for SCIM automation have admin-equivalent access for SCIM operations.
 
 To change a user's role:
 

@@ -6,14 +6,16 @@ mode: wide
 
 W&B Weave is an observability and evaluation platform that helps you track, evaluate, and improve your agents and LLM applications. With Weave, you can:
 
-* [Trace and collect metrics about your agent built with popular SDKs and harnesses](/weave/agent-integration-quickstart)
-* [Manually instrument custom-built agents to collect traces and metrics](/weave/custom-agents-quickstart)
-* [Evaluate](/weave/tutorial-eval) your application’s responses using LLM judges and custom scorers
+* [Trace and collect metrics about your agents](/weave/agent-integration-quickstart) built with popular SDKs and harnesses using Weave OTel-compatible SDK
+* [Manually instrument your application's LLM calls and arbitrary functions](/weave/quickstart) to trace, version, and collect feedback about your application
+* [Evaluate](/weave/tutorial-eval) your agent's or application's responses using LLM judges and custom scorers
 
 ## Get started
 
-The following docs guide you through the basics of how to use Weave's suite of tools.
+Select your workload type and then use the following docs to guide you through the basics of how to use Weave's suite of tools. For more information about the difference between workloads, see [What is Weave?](/weave/concepts/what-is-weave)
 
+<Tabs>
+<Tab title="Trace an agent">
 <CardGroup cols={3}>
   <Card
     title="Integrate Weave with an agent"
@@ -40,6 +42,36 @@ The following docs guide you through the basics of how to use Weave's suite of t
   </Card>
 
 </CardGroup>
+</Tab>
+<Tab title="Trace functions with Ops and Calls">
+<CardGroup cols={3}>
+  <Card
+    title="Quickstart: Instrument and trace functions"
+    icon="chart-line"
+    href="/weave/quickstart"
+  >
+    Start by tracing a basic call to an LLM and reviewing the data in your W&B account.
+  </Card>
+
+  <Card
+    title="Get started evaluating your app"
+    icon="clipboard-check"
+    href="/weave/tutorial-eval"
+  >
+    Learn how to build an evaluation pipeline using Weave scorers to test and track your application's performance.
+  </Card>
+
+  <Card
+    title="Evaluate a RAG application"
+    icon="search"
+    href="/weave/tutorial-rag"
+  >
+    Build and evaluate RAG applications using Weave with LLM judges to measure retrieval quality.
+  </Card>
+
+</CardGroup>
+</Tab>
+</Tabs>
 
 ## Install Weave
 
@@ -53,7 +85,7 @@ W&B Weave provides Python and TypeScript libraries. To install the Weave library
   </Tab>
   <Tab title="TypeScript">
     ```bash
-    pnpm install weave
+    npm install weave
     ```
   </Tab>
 </Tabs>
