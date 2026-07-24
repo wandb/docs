@@ -6,7 +6,11 @@ keywords: ["OTLP", "OpenTelemetry Collector", "OpenInference", "OpenLLMetry", "t
 
 Weave prend en charge l’importation de données de trace compatibles OpenTelemetry via un point de terminaison dédié. Ce point de terminaison vous permet d’envoyer directement vers votre projet Weave des données de trace au format OTLP (OpenTelemetry Protocol). Utilisez cette intégration si vous souhaitez instrumenter votre application selon le standard OpenTelemetry et faire apparaître ces traces aux côtés de vos autres données Weave, sans remplacer votre pipeline d’observabilité existant basé sur OTel.
 
-Cette page présente les détails du point de terminaison, l’authentification, des exemples complets en Python et TypeScript, comment transférer des traces via un OpenTelemetry Collector, comment organiser les traces en threads Weave, ainsi que les mappages d’attributs que Weave applique aux spans entrants.
+Cette page présente les détails du point de terminaison, l’authentification, des exemples complets en Python et TypeScript, comment transférer des traces via un OpenTelemetry Collector, comment organiser les traces en threads Weave, ainsi que la correspondance des attributs que Weave applique aux spans entrants.
+
+<Note>
+  Ce point de terminaison alimente les vues **Traces** et **Threads**. Pour envoyer des spans OTel d’un agent sur plusieurs tours de conversation vers la vue **Agents**, utilisez plutôt le point de terminaison des agents. Voir [Envoyer des spans OpenTelemetry vers la vue Agents](/fr/weave/guides/tracking/trace-agents-otel).
+</Note>
 
 <div id="endpoint-details">
   ## Détails du point de terminaison

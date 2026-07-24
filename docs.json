@@ -2079,6 +2079,7 @@
                             ]
                           },
                           "fr/weave/guides/tracking/trace-agents",
+                          "fr/weave/guides/tracking/trace-agents-otel",
                           "fr/weave/guides/tracking/view-agent-activity",
                           "fr/weave/guides/tracking/view-agent-signals",
                           "fr/weave/guides/tracking/trace-agents-attributes",
@@ -3594,6 +3595,7 @@
                             ]
                           },
                           "ja/weave/guides/tracking/trace-agents",
+                          "ja/weave/guides/tracking/trace-agents-otel",
                           "ja/weave/guides/tracking/view-agent-activity",
                           "ja/weave/guides/tracking/view-agent-signals",
                           "ja/weave/guides/tracking/trace-agents-attributes",
@@ -5109,6 +5111,7 @@
                             ]
                           },
                           "ko/weave/guides/tracking/trace-agents",
+                          "ko/weave/guides/tracking/trace-agents-otel",
                           "ko/weave/guides/tracking/view-agent-activity",
                           "ko/weave/guides/tracking/view-agent-signals",
                           "ko/weave/guides/tracking/trace-agents-attributes",
