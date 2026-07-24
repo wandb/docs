@@ -442,7 +442,12 @@ When spans are created inside the `log_prediction()` context, the `EvaluationLog
 | `weave.eval.evaluation_name` | string | (Optional) The evaluation's human-readable name. |
 | `weave.eval.project_id` | string | (Optional) Project context set by the Weave SDK. This attribute doesn't route or link the span. Configure the destination project on the OTel resource instead. |
 
-Send the span to the same Weave project as the evaluation through the `/agents/otel/v1/traces` endpoint. To send spans from an existing OTel pipeline, see [Send OpenTelemetry spans to the Agents view](/weave/guides/tracking/trace-agents-otel); for the endpoint specification, see [Export a GenAI trace](/weave/reference/service-api/agents/export-genai-trace). OTel span attributes don't propagate from parent spans to child spans, so set the attributes on every span that you want to link.
+Send the span to the same Weave project as the evaluation through the `/agents/otel/v1/traces` endpoint. OTel span attributes don't propagate from parent spans to child spans, so set the attributes on every span that you want to link.
+
+For more information about the endpoint:
+
+- To send spans from an existing OTel pipeline, see [Send OpenTelemetry spans to the Agents view](/weave/guides/tracking/trace-agents-otel).
+- For the endpoint specification, see [Export a GenAI trace](/weave/reference/service-api/agents/export-genai-trace).
 
 Only `weave.eval.run_id` and `weave.eval.predict_and_score_call_id` establish the evaluation and result links. The row digest, example ID, trial index, kind, and evaluation name add context and support filtering, but don't create a link by themselves. Use Weave Call IDs for the two linking attributes, not OTel trace or span IDs.
 
