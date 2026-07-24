@@ -3,27 +3,26 @@ description: "Compare, filter, group, sort, and visualize W&B Tables data in mer
 title: Visualize and analyze tables
 ---
 
-Customize your W&B Tables to answer questions about your machine learning model's performance, analyze your data, and more. 
+Customize your W&B Tables to answer questions about your machine learning model's performance, analyze your data, and more.
 
 Interactively explore your data to:
 
 * [Compare two W&B Tables](#table-comparison-options) logged as artifact versions to analyze changes in your data or model performance.
-* Understand higher-level patterns in your data
+* Understand higher-level patterns in your data.
 * [View how values you log to a table change throughout your runs](#visualize-how-values-change-throughout-your-runs).
 
-<Note>
-W&B Tables posses the following behaviors:
-1. **Stateless in an artifact context**: any table logged alongside an artifact version resets to its default state after you close the browser window
-2. **Stateful in a workspace or report context**: any changes you make to a table in a single run workspace, multi-run project workspace, or Report persists.
+W&B Tables have the following behaviors:
 
-For information on how to save your current W&B Table view, see [Save your view](#save-your-view).
-</Note>
+- **Stateless in an artifact context**: any table logged alongside an artifact version resets to its default state after you close the browser window.
+- **Stateful in a workspace or report context**: any changes you make to a table in a single run workspace, multi-run project workspace, or report persist.
+
+For information on how to save your current Table view, see [Save your view](#save-your-view).
 
 
 
 ## Table comparison options
 
-Compare two tables with a [merged view](#merged-view) or a [side-by-side view](#side-by-side-view). For example, the image below demonstrates a table comparison of MNIST data.
+This section describes how to start a comparison and the two views you can switch between. Compare two tables with a [merged view](#merged-view) or a [side-by-side view](#side-by-side-view) to spot changes in your data or model output. For example, the following image demonstrates a table comparison of MNIST data.
 
 <Frame>
     <img src="/images/data_vis/table_comparison.png" alt="Training epoch comparison" max-width="90%"  />
@@ -31,58 +30,58 @@ Compare two tables with a [merged view](#merged-view) or a [side-by-side view](#
 
 Follow these steps to compare two tables:
 
-1. Go to your project in the W&B App.
+1. Go to your project in W&B.
 2. Select the artifacts icon in the project sidebar.
-2. Select an artifact version. 
+3. Select an artifact version. 
 
-In the following image we demonstrate a model's predictions on MNIST validation data after each of five epochs ([view interactive example here](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json)).
+   The following image shows a model's predictions on MNIST validation data after each of five epochs ([view interactive example here](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json)).
 
-<Frame>
-    <img src="/images/data_vis/preds_mnist.png" alt="Click on 'predictions' to view the Table" max-width="90%"  />
-</Frame>
+   <Frame>
+       <img src="/images/data_vis/preds_mnist.png" alt="Click 'predictions' to view the table" max-width="90%"  />
+   </Frame>
 
-
-3. Hover over the second artifact version you want to compare in the sidebar and click **Compare** when it appears. For example, in the image below we select a version labeled as "v4" to compare to MNIST predictions made by the same model after 5 epochs of training. 
+4. Hover over the second artifact version you want to compare in the sidebar and click **Compare** when it appears. For example, in the following image, you select a version labeled as "v4" to compare to MNIST predictions made by the same model after 5 epochs of training. 
 
 <Frame>
     <img src="/images/data_vis/preds_2.png" alt="Model prediction comparison" max-width="90%"  />
 </Frame>
 
-
+After you select a second artifact version, W&B opens a comparison of the two tables that you can explore in either of the following views.
 
 ### Merged view
-{/* To do, add steps */}
+
 Initially you see both tables merged together. The first table selected has index 0 and a blue highlight, and the second table has index 1 and a yellow highlight. [View a live example of merged tables here](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#7dd0cd845c0edb469dec).
 
 <Frame>
     <img src="/images/data_vis/merged_view.png" alt="Merged view" max-width="90%"  />
 </Frame>
 
-From the merged view, you can
+From the merged view, you can:
 
-* **choose the join key**: use the dropdown at the top left to set the column to use as the join key for the two tables. Typically this is the unique identifier of each row, such as the filename of a specific example in your dataset or an incrementing index on your generated samples. Note that it's currently possible to select _any_ column, which may yield illegible tables and slow queries.
-* **concatenate instead of join**: select "concatenating all tables" in this dropdown to _union all the rows_ from both tables into one larger Table instead of joining across their columns
-* **reference each Table explicitly**: use 0, 1, and \* in the filter expression to explicitly specify a column in one or both table instances
-* **visualize detailed numerical differences as histograms**: compare the values in any cell at a glance
+* **Choose the join key**: Use the dropdown at the top left to set the column to use as the join key for the two tables. Typically this is the unique identifier of each row, such as the filename of a specific example in your dataset or an incrementing index on your generated samples. You can select any column, but some choices may yield illegible tables and slow queries.
+* **Concatenate instead of join**: Select "concatenating all tables" in this dropdown to union all the rows from both tables into one larger table instead of joining across their columns.
+* **Reference each table explicitly**: Use `0`, `1`, and `*` in the filter expression to explicitly specify a column in one or both table instances.
+* **Visualize detailed numerical differences as histograms**: Compare the values in any cell at a glance.
 
 ### Side-by-side view
 
-{/* To do */}
-
-To view the two tables side-by-side, change the first dropdown from "Merge Tables: Table" to "List of: Table" and then update the "Page size" respectively. Here the first Table selected is on the left and the second one is on the right. Also, you can compare these tables vertically as well by clicking on the "Vertical" checkbox.
+To view the two tables side-by-side, change the first dropdown from **Merge Tables: Table** to **List of: Table** and then update the **Page size**. Here the first table selected is on the left and the second one is on the right. You can also compare these tables vertically by clicking the **Vertical** checkbox.
 
 <Frame>
     <img src="/images/data_vis/side_by_side.png" alt="Side-by-side table view" max-width="90%"  />
 </Frame>
 
-* **compare the tables at a glance**: apply any operations (sort, filter, group) to both tables in tandem and spot any changes or differences quickly. For example, view the incorrect predictions grouped by guess, the hardest negatives overall, the confidence score distribution by true label, etc.
-* **explore two tables independently**: scroll through and focus on the side/rows of interest
+From the side-by-side view, you can:
+
+* **Compare the tables at a glance**: Apply any operations (sort, filter, group) to both tables in tandem to spot changes or differences. For example, view the incorrect predictions grouped by guess, the hardest negatives overall, or the confidence score distribution by true label.
+* **Explore two tables independently**: Scroll through and focus on the side or rows of interest.
 
 ## Compare artifacts
 
-Compare two W&B Tables logged as artifact versions to analyze changes in your data or model performance. Use the merged view or side-by-side view to compare the tables.
+Compare two W&B Tables logged as artifact versions to analyze changes in your data or model performance. Use the merged view or side-by-side view to inspect differences between tables. The following sections describe two common scenarios: comparing the same model over time and comparing different model variants.
 
 ### Compare tables across time
+
 Log a table in an artifact for each meaningful step of training to analyze model performance over training time. For example, you could log a table at the end of every validation step, after every 50 epochs of training, or any frequency that makes sense for your pipeline. Use the side-by-side view to visualize changes in model predictions.
 
 <Frame>
@@ -112,7 +111,7 @@ For example, compare predictions between a `baseline` and a new model variant, `
 
 ## Visualize how values change throughout your runs
 
-View how values you log to a table change throughout your runs with a step slider. Slide the step slider to view the values logged at different steps. For example, you can view how the loss, accuracy, or other metrics change after each run. 
+View how values you log to a table change throughout your runs with a step slider. Use this view when you want to inspect how a logged value evolves across training, rather than comparing two snapshots. Slide the step slider to view the values logged at different steps. For example, you can view how the loss, accuracy, or other metrics change after each run. 
 
 The slider uses a key to determine the step value. The default key for the slider is `_step`, a special key that W&B automatically logs for you. The `_step` key is an integer that increments by 1 each time you call `wandb.Run.log()` in your code.
 
@@ -124,25 +123,25 @@ To add a step slider to a W&B Table:
 4. Within the query expression editor, select `runs` and press **Enter** on your keyboard.
 5. Click the gear icon to view the settings for the panel.
 6. Set **Render As** selector to **Stepper**.
-7. Set **Stepper Key** to `_step` or the [key to use as the unit](#custom-step-keys) for the step slider.
+7. Set **Stepper Key** to `_step` or the [key to use as the unit](#custom-step-key) for the step slider.
 
-The following image shows a query panel with three W&B runs and the values they logged at step 295.
+The query panel now displays a step slider that you can use to scrub through the values logged at each step. The following image shows a query panel with three W&B runs and the values they logged at step 295.
 
 <Frame>
     <img src="/images/data_vis/stepper_key.png" alt="Step slider feature"  />
 </Frame>
 
-Within the W&B App UI you may notice duplicate values for multiple steps. This duplication can occur if multiple runs log the same value at different steps, or if a run does not log values at every step. If a value is missing for a given step, W&B uses the last value that was logged as the slider key.
+In W&B, you may notice duplicate values for multiple steps. This duplication can occur if multiple runs log the same value at different steps, or if a run doesn't log values at every step. If a value is missing for a given step, W&B uses the last logged value as the slider key.
 
 ### Custom step key
 
 The step key can be any numeric metric that you log in your runs as the step key, such as `epoch` or `global_step`. When you use a custom step key, W&B maps each value of that key to a step (`_step`) in the run.
 
-This table shows how a custom step key `epoch` maps to `_step` values for three different runs: `serene-sponge`, `lively-frog`, and `vague-cloud`. Each row represents a call to `wandb.Run.log()` at a particular `_step` in a run. The columns show the corresponding epoch values, if any, that were logged at those steps. Some `_step` values are omitted to save space.
+This table shows how a custom step key `epoch` maps to `_step` values for three different runs: `serene-sponge`, `lively-frog`, and `vague-cloud`. Each row represents a call to `wandb.Run.log()` at a particular `_step` in a run. The columns show the corresponding epoch values, if any, logged at those steps. Some `_step` values are omitted to save space.
 
-The first time `wandb.Run.log()` was called, none of the runs logged an `epoch` value, so the table shows empty values for `epoch`. 
+The first time you call `wandb.Run.log()`, none of the runs logged an `epoch` value, so the table shows empty values for `epoch`. 
 
-| `_step` | vague-cloud (`epoch`) | lively-frog(`epoch`) |  serene-sponge (`epoch`) |
+| `_step` | `vague-cloud` (`epoch`) | `lively-frog` (`epoch`) | `serene-sponge` (`epoch`) |
 | ------- | ------------- | ----------- | ----------- |
 | 1 | | |  |
 | 2  |   |   | 1  | 
@@ -160,32 +159,26 @@ The first time `wandb.Run.log()` was called, none of the runs logged an `epoch` 
 
 Now, if the slider is set to `epoch = 1`, the following happens:
 
-* `vague-cloud` finds `epoch = 1` and returns the value logged at `_step = 5`
-* `lively-frog` finds `epoch = 1` and returns the value logged at `_step = 4`
-* `serene-sponge` finds `epoch = 1` and returns the value logged at `_step = 2`
+* `vague-cloud` finds `epoch = 1` and returns the value logged at `_step = 5`.
+* `lively-frog` finds `epoch = 1` and returns the value logged at `_step = 4`.
+* `serene-sponge` finds `epoch = 1` and returns the value logged at `_step = 2`.
 
 If the slider is set to `epoch = 9`:
 
-* `vague-cloud` also doesn't log `epoch = 9`, so W&B uses the latest prior value `epoch = 3` and returns the value logged at `_step = 20`
-* `lively-frog` doesn’t log `epoch = 9`, but the latest prior value is `epoch = 5` so it returns the value logged at `_step = 20`
-* `serene-sponge` finds `epoch = 9` and return the value logged at `_step = 18`
-
-{/* | | |
-| ---- | ---- |
-| Run History Tables Stepper | |
-| Run History Plots Stepper | |
-| Stepper | | */}
-
+* `vague-cloud` also doesn't log `epoch = 9`, so W&B uses the latest prior value `epoch = 3` and returns the value logged at `_step = 20`.
+* `lively-frog` doesn't log `epoch = 9`, but the latest prior value is `epoch = 5` so it returns the value logged at `_step = 20`.
+* `serene-sponge` finds `epoch = 9` and returns the value logged at `_step = 18`.
 
 ## Save your view
 
-Tables you interact with in the run workspace, project workspace, or a report automatically saves their view state. If you apply any table operations then close your browser, the table retains the last viewed configuration when you next navigate to the table. 
+This section describes how W&B preserves table state across sessions and how to export a table snapshot to a report. Tables in a run workspace, project workspace, or report automatically save their view state. When you apply table operations and return to the table later, the table restores your last viewed configuration.
 
 <Note>
-Tables you interact with in the artifact context remains stateless.
+Tables you interact with in the artifact context remain stateless.
 </Note>
 
-To save a table from a workspace in a particular state, export it to a W&B Report. To export a table to report:
+To save a table from a workspace in a particular state, export it to a W&B Report. To export a table to a report:
+
 1. Select the **action (<Icon icon="ellipsis-vertical" iconType="solid"/>)** menu in the top right corner of your workspace visualization panel.
 2. Select either **Share panel** or **Add to report**.
 
@@ -196,7 +189,7 @@ To save a table from a workspace in a particular state, export it to a W&B Repor
 
 ## Examples
 
-These reports highlight the different use cases of W&B Tables:
+The following reports highlight the different use cases of W&B Tables:
 
 * [Visualize Predictions Over Time](https://wandb.ai/stacey/mnist-viz/reports/Visualize-Predictions-over-Time--Vmlldzo1OTQxMTk)
 * [How to Compare Tables in Workspaces](https://wandb.ai/stacey/xtable/reports/How-to-Compare-Tables-in-Workspaces--Vmlldzo4MTc0MTA)

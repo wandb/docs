@@ -3,9 +3,11 @@ title: Evaluate models with W&B Weave and W&B Tables
 description: Learn how to evaluate machine learning models using W&B Weave and Tables.
 ---
 
+This page shows you two complementary ways to evaluate models tracked in W&B: use W&B Weave for LLM and GenAI evaluations, and use W&B Tables for prediction analysis across runs and epochs.
+
 ## Evaluate models with Weave
 
-[W&B Weave](/weave) is a purpose-built toolkit for evaluating LLMs and GenAI applications. It provides comprehensive evaluation capabilities including scorers, judges, and detailed tracing to help you understand and improve model performance. Weave integrates with W&B Models, allowing you to evaluate models stored in your Model Registry.
+[W&B Weave](/weave) is a purpose-built toolkit for evaluating LLMs and GenAI applications. It provides evaluation capabilities including scorers, judges, and detailed tracing to help you understand and improve model performance. Weave integrates with W&B Models so you can evaluate models stored in W&B Registry.
 
 <Frame>
     <img src="/images/weave/evals.png" alt="Weave evaluation dashboard showing model performance metrics and traces"  />
@@ -13,15 +15,17 @@ description: Learn how to evaluate machine learning models using W&B Weave and T
 
 ### Key features for model evaluation
 
-* **Scorers and judges**: Pre-built and custom evaluation metrics for accuracy, relevance, coherence, and more
-* **Evaluation datasets**: Structured test sets with ground truth for systematic evaluation
-* **Model versioning**: Track and compare different versions of your models
-* **Detailed tracing**: Debug model behavior with complete input/output traces
-* **Cost tracking**: Monitor API costs and token usage across evaluations
+Weave provides the following capabilities for model evaluation:
 
-### Getting started: Evaluate a model from W&B Registry
+* **Scorers and judges**: Pre-built and custom evaluation metrics for accuracy, relevance, coherence, and more.
+* **Evaluation datasets**: Structured test sets with ground truth for systematic evaluation.
+* **Model versioning**: Track and compare different versions of your models.
+* **Detailed tracing**: Debug model behavior with complete input/output traces.
+* **Cost tracking**: Monitor API costs and token usage across evaluations.
 
-Download a model from W&B Models Registry and evaluate it using Weave:
+### Evaluate a model from Registry
+
+Download a model from W&B Registry and evaluate it using Weave:
 
 ```python
 import weave
@@ -36,7 +40,7 @@ class ChatModel(weave.Model):
     model_name: str
     
     def model_post_init(self, __context):
-        # Download model from W&B Models Registry
+        # Download model from W&B Registry
         with wandb.init(project="your-project", job_type="model_download") as run:
             artifact = run.use_artifact(self.model_name)
             self.model_path = artifact.download()
@@ -69,14 +73,16 @@ results = await evaluation.evaluate(model)
 
 ### Integrate Weave evaluations with W&B Models
 
+To connect Weave evaluation results with the models and runs you track in W&B, use the integration workflow described next.
+
 The [Models and Weave Integration Demo](/weave/cookbooks/Models_and_Weave_Integration_Demo) shows the complete workflow for:
 
-1. **Load models from Registry**: Download fine-tuned models stored in W&B Models Registry
-2. **Create evaluation pipelines**: Build comprehensive evaluations with custom scorers
-3. **Log results back to W&B**: Connect evaluation metrics to your model runs
-4. **Version evaluated models**: Save improved models back to the Registry
+1. **Load models from Registry**: Download fine-tuned models stored in W&B Registry.
+2. **Create evaluation pipelines**: Build evaluations with custom scorers.
+3. **Log results back to W&B**: Connect evaluation metrics to your model runs.
+4. **Version evaluated models**: Save improved models back to the Registry.
 
-Log evaluation results to both Weave and W&B Models:
+Log evaluation results to both Weave and Models:
 
 ```python
 # Run evaluation with W&B tracking
@@ -93,17 +99,19 @@ wandb.run.config.update({
 ### Advanced Weave features
 
 #### Custom scorers and judges
-Create sophisticated evaluation metrics tailored to your use case:
+
+Create evaluation metrics tailored to your use case:
 
 ```python
 @weave.op()
-def llm_judge_scorer(expected: str, output: str, judge_model) -> dict:
+async def llm_judge_scorer(expected: str, output: str, judge_model) -> dict:
     prompt = f"Is this answer correct? Expected: {expected}, Got: {output}"
     judgment = await judge_model.predict(prompt)
     return {"judge_score": judgment}
 ```
 
 #### Batch evaluations
+
 Evaluate multiple model versions or configurations:
 
 ```python
@@ -119,18 +127,21 @@ for model in models:
 
 ### Next steps
 
+For more information, see the following:
+
 * [Complete Weave evaluation tutorial](/weave/tutorial-eval/)
 * [Models and Weave integration example](/weave/cookbooks/Models_and_Weave_Integration_Demo)
 
 
 
-## Evaluate models with tables
+## Evaluate models with W&B Tables
 
-Use W&B Tables to:
-* **Compare model predictions**: View side-by-side comparisons of how different models perform on the same test set
-* **Track prediction changes**: Monitor how predictions evolve across training epochs or model versions
-* **Analyze errors**: Filter and query to find commonly misclassified examples and error patterns
-* **Visualize rich media**: Display images, audio, text, and other media types alongside predictions and metrics
+W&B Tables let you log structured predictions and inspect them interactively in the W&B UI. Use Tables to:
+
+* **Compare model predictions**: View side-by-side comparisons of how different models perform on the same test set.
+* **Track prediction changes**: Monitor how predictions evolve across training epochs or model versions.
+* **Analyze errors**: Filter and query to find commonly misclassified examples and error patterns.
+* **Visualize rich media**: Display images, audio, text, and other media types alongside predictions and metrics.
 
 <Frame>
 ![Example of predictions table showing model outputs alongside ground truth labels](/images/data_vis/tables_sample_predictions.png)
@@ -170,6 +181,7 @@ run.log({"evaluation_results": eval_table})
 ### Advanced table workflows
 
 #### Compare multiple models
+
 Log eval tables from different models to the same key for direct comparison:
 
 ```python
@@ -189,6 +201,7 @@ with wandb.init(project="model-comparison", name="model_b") as run:
 </Frame>
 
 #### Track predictions over time
+
 Log tables at different training epochs to visualize improvement:
 
 ```python
@@ -206,17 +219,20 @@ for epoch in range(num_epochs):
 
 ### Interactive analysis in the W&B UI
 
-Once logged, you can:
-1. **Filter results**: Click on column headers to filter by prediction accuracy, confidence thresholds, or specific classes
-2. **Compare tables**: Select multiple table versions to see side-by-side comparisons
-3. **Query data**: Use the query bar to find specific patterns (for example, `"correct" = false AND "confidence" > 0.8`)
-4. **Group and aggregate**: Group by predicted class to see per-class accuracy metrics
+After you log a table, you can use the W&B UI to explore the results. You can:
+
+* **Filter results**: Click column headers to filter by prediction accuracy, confidence thresholds, or specific classes.
+* **Compare tables**: Select multiple table versions to see side-by-side comparisons.
+* **Query data**: Use the query bar to find specific patterns (for example, `"correct" = false AND "confidence" > 0.8`).
+* **Group and aggregate**: Group by predicted class to see per-class accuracy metrics.
 
 <Frame>
 ![Interactive filtering and querying of evaluation results in W&B Tables](/images/data_vis/wandb_demo_filter_on_a_table.png)
 </Frame>
 
 ### Example: Error analysis with enriched tables
+
+The following example creates a mutable table, logs initial predictions, then adds confidence and error type columns for deeper analysis:
 
 ```python
 # Create a mutable table to add analysis columns
