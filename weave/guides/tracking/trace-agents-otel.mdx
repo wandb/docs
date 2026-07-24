@@ -57,7 +57,7 @@ If your application or collector reads the standard OTel exporter environment va
 ```bash lines
 export OTEL_EXPORTER_OTLP_TRACES_ENDPOINT="https://trace.wandb.ai/agents/otel/v1/traces"
 export OTEL_EXPORTER_OTLP_TRACES_HEADERS="wandb-api-key=$WANDB_API_KEY"
-export OTEL_RESOURCE_ATTRIBUTES="wandb.entity=<your-team-name>,wandb.project=<your-project-name>"
+export OTEL_RESOURCE_ATTRIBUTES="wandb.entity=[YOUR-TEAM],wandb.project=[YOUR-PROJECT]"
 ```
 
 ## Example: emit agent spans without the Weave SDK
@@ -76,7 +76,7 @@ npm install @opentelemetry/api @opentelemetry/sdk-trace-node @opentelemetry/sdk-
 ```
 </CodeGroup>
 
-Then set the `WANDB_API_KEY`, `ENTITY`, and `PROJECT` values in the following code, and then run it:
+Then set the `WANDB_API_KEY`, `[YOUR-TEAM]`, and `[YOUR-PROJECT]` values in the following code, and then run it:
 
 <CodeGroup>
 ```python Python lines
@@ -87,8 +87,8 @@ from opentelemetry.sdk import trace as trace_sdk
 from opentelemetry.sdk.resources import Resource
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
 
-ENTITY = "<your-team-name>"
-PROJECT = "<your-project-name>"
+ENTITY = "[YOUR-TEAM]"
+PROJECT = "[YOUR-PROJECT]"
 
 WEAVE_AGENTS_OTLP_ENDPOINT = "https://trace.wandb.ai/agents/otel/v1/traces"
 
