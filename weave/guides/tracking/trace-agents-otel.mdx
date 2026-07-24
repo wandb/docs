@@ -29,7 +29,7 @@ To authenticate with the endpoint, set your [W&B API key](https://wandb.ai/setti
 Weave routes spans to a project using either OTel resource attributes or a request header:
 
 - **Resource attributes** (recommended): Set `wandb.entity` to your W&B team or user name and `wandb.project` to the project name on your `TracerProvider` resource.
-- **`project_id` header**: Set the value to `<your-team-name>/<your-project-name>`.
+- **`project_id` header**: Set the value to `[YOUR-TEAM]/[YOUR-PROJECT]`.
 
 If both are present, the resource attributes take precedence. Spans that arrive with no entity and project are dropped.
 
@@ -76,10 +76,10 @@ npm install @opentelemetry/api @opentelemetry/sdk-trace-node @opentelemetry/sdk-
 ```
 </CodeGroup>
 
-Then set the `WANDB_API_KEY`, `[YOUR-TEAM]`, and `[YOUR-PROJECT]` values in the following code, and then run it:
+Then set the `WANDB_API_KEY`, `ENTITY`, and `PROJECT` values in the following code, and then run it:
 
 <CodeGroup>
-```python Python lines
+```python Python lines highlight="8,9,14"
 import os
 from opentelemetry import trace
 from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
@@ -93,7 +93,7 @@ PROJECT = "[YOUR-PROJECT]"
 WEAVE_AGENTS_OTLP_ENDPOINT = "https://trace.wandb.ai/agents/otel/v1/traces"
 
 # Create an API key at https://wandb.ai/settings
-WANDB_API_KEY = os.environ["WANDB_API_KEY"]
+WANDB_API_KEY = [YOUR-WANDB-API-KEY]
 
 exporter = OTLPSpanExporter(
     endpoint=WEAVE_AGENTS_OTLP_ENDPOINT,
@@ -141,13 +141,13 @@ import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
 import { Resource } from "@opentelemetry/resources";
 
-const ENTITY = "<your-team-name>";
-const PROJECT = "<your-project-name>";
+const ENTITY = "[YOUR-TEAM]";
+const PROJECT = "[YOUR-PROJECT]";
 
 const WEAVE_AGENTS_OTLP_ENDPOINT = "https://trace.wandb.ai/agents/otel/v1/traces";
 
 // Create an API key at https://wandb.ai/settings
-const WANDB_API_KEY = process.env.WANDB_API_KEY!;
+const WANDB_API_KEY = [YOUR-WANDB-API-KEY]!;
 
 const exporter = new OTLPTraceExporter({
   url: WEAVE_AGENTS_OTLP_ENDPOINT,
