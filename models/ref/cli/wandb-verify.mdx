@@ -5,7 +5,7 @@ title: wandb verify
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/cli.py#L3553" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L3646" />
 
 
 
@@ -19,19 +19,19 @@ verify [OPTIONS]
 
 Run integration checks against a self-hosted W&B instance.
 
-    Validate that a self-hosted or dedicated cloud W&B deployment is configured
-    and operating correctly. Do not run this command against the public W&B
-    cloud at api.wandb.ai.
+Validate that a self-hosted or dedicated cloud W&B deployment is configured
+and operating correctly. Do not run this command against the public W&B
+cloud at api.wandb.ai.
 
-    Exits with `code 1` if any critical check fails.
+Exits with `code 1` if any critical check fails.
 
-    For example, to verify the currently configured W&B instance:
+For example, to verify the currently configured W&B instance:
 
 ```bash
 wandb verify --host https://my-wandb-instance.com
 ```
 
-    To verify a specific self-hosted instance:
+To verify a specific self-hosted instance:
 
 ```bash
 wandb verify --host https://my-wandb-server.example.com
