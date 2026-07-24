@@ -63,11 +63,18 @@ W&B recommends you install with the official W&B Helm chart.
 
 #### Run the container as an un-privileged user
 
-OpenShift and similar orchestrators often reject containers that run as root, so W&B containers must be configured to run as a non-root user that still belongs to the root group. By default, containers use a `$UID` of 999. Specify `$UID` >= 100000 and a `$GID` of 0 if your orchestrator requires the container run with a non-root user.
+OpenShift and similar orchestrators often reject containers that run as root, so W&B containers must be configured to run as a non-root user that still belongs to the root group. By default, containers use a `$UID` of 999. Specify a `runAsUser` and `fsGroup` **within your project's assigned UID range** and a `$GID` of 0 if your orchestrator requires the container run with a non-root user.
 
 <Note>
 W&B must start as the root group (`$GID=0`) for file system permissions to function properly.
 </Note>
+
+Find your OpenShift project's assigned UID range and use the start of that range for both `runAsUser` and `fsGroup`:
+
+```bash
+oc get namespace <your-namespace> -o jsonpath='{.metadata.annotations.openshift\.io/sa\.scc\.uid-range}'
+# e.g. 1000810000/10000  → use 1000810000
+```
 
 Configure security contexts for each W&B component. For example, to configure the API component:
 
@@ -77,15 +84,17 @@ api:
   image:
     repository: wandb/megabinary
     tag: 0.74.1  # Replace with your actual version
-  pod:
-    securityContext:
-      fsGroup: 10001
-      fsGroupChangePolicy: Always
-      runAsGroup: 0
-      runAsNonRoot: true
-      runAsUser: 10001
-      seccompProfile:
-        type: RuntimeDefault
+  # Use the top-level `podSecurityContext` key. The nested `pod.securityContext`
+  # is NOT applied to runAsUser/fsGroup for these components, so pods would stay
+  # at the default UID 999 and be rejected by the `restricted-v2` SCC.
+  podSecurityContext:
+    fsGroup: 1000810000            # must be within your project's UID range
+    fsGroupChangePolicy: Always
+    runAsGroup: 0
+    runAsNonRoot: true
+    runAsUser: 1000810000          # must be within your project's UID range
+    seccompProfile:
+      type: RuntimeDefault
   container:
     securityContext:
       allowPrivilegeEscalation: false
@@ -95,6 +104,10 @@ api:
       privileged: false
       readOnlyRootFilesystem: false
 ```
+
+<Note>
+Both `runAsUser` **and** `fsGroup` must be set within the project's UID range. Setting only `runAsUser` leaves `fsGroup: 0`, which the `restricted-v2` SCC rejects with `fsGroup: Invalid value: []int64{0}: 0 is not an allowed group`.
+</Note>
 
 If needed, configure a custom security context for other components like `app` or `console`. For details, see [Custom security context](#custom-security-context).
 
