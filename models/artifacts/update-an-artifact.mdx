@@ -3,7 +3,7 @@ description: Update an existing artifact while a run is active or using only the
 title: Update an artifact
 ---
 
-Pass desired values to update the `description`, `metadata`, and `alias` of an artifact. Update a run previously logged to W&B with the W&B Public API with ([`wandb.Api`](/models/ref/python/public-api/api)). Use `wandb.Run.save()` to update an artifact when is first initialized and still active. 
+Update the `description`, `metadata`, and `alias` of an existing artifact.
 
 <Note>
 **When to use wandb.Artifact.save() or wandb.Run.log_artifact()**
@@ -12,22 +12,22 @@ Pass desired values to update the `description`, `metadata`, and `alias` of an a
 - Use `wandb.Run.log_artifact()` to create a new artifact and associate it with a specific run.
 </Note>
 
-Use the W&B Public API ([`wandb.Api`](/models/ref/python/public-api/api)) to update an artifact. Use the wandb.Artifact ([`wandb.Artifact`](/models/ref/python/experiments/artifact)) Class while a run is active.
+Use the W&B Public API ([`wandb.Api`](/models/ref/python/public-api/api)) to update an artifact outside of a run, or use the [`wandb.Artifact`](/models/ref/python/experiments/artifact) class while a run is active.
 
 <Warning>
-You can not update the alias of artifact linked to a model in Model Registry.
+You can't update the alias of an artifact linked to a collection in the W&B Registry.
 </Warning>
 
 <Tabs>
 <Tab title="During a run">
-The following code example demonstrates how to update the description of an artifact using the [`wandb.Artifact`](/models/ref/python/experiments/artifact) API:
+The following code example shows how to update the description of an artifact with the [`wandb.Artifact`](/models/ref/python/experiments/artifact) API:
 
 ```python
 import wandb
 
-with wandb.init(project="<example>") as run:
-    artifact = run.use_artifact("<artifact-name>:<alias>")
-    artifact.description = "<description>"
+with wandb.init(project="[EXAMPLE]") as run:
+    artifact = run.use_artifact("[ARTIFACT-NAME]:[ALIAS]")
+    artifact.description = "[DESCRIPTION]"
     artifact.save()
 ```
 </Tab>
@@ -56,25 +56,25 @@ artifact.aliases.append("best")
 # Remove an alias
 artifact.aliases.remove("latest")
 
-# Completely replace the aliases
+# Replace the aliases
 artifact.aliases = ["replaced"]
 
 # Persist all artifact modifications
 artifact.save()
 ```
 
-For more information, see the Weights and Biases [Artifact API](/models/ref/python/experiments/artifact).
+For more information, see the W&B [Artifact API](/models/ref/python/experiments/artifact).
 </Tab>
 <Tab title="With collections">
-You can also update an Artifact collection in the same way as a singular artifact:
+You can also update an artifact collection the same way as a singular artifact. The following example renames a collection and updates its description:
 
 ```python
 import wandb
-with wandb.init(project="<example>") as run:
+with wandb.init(project="[EXAMPLE]") as run:
     api = wandb.Api()
-    artifact = api.artifact_collection(type="<type-name>", collection="<collection-name>")
-    artifact.name = "<new-collection-name>"
-    artifact.description = "<This is where you'd describe the purpose of your collection.>"
+    artifact = api.artifact_collection(type="[TYPE-NAME]", collection="[COLLECTION-NAME]")
+    artifact.name = "[NEW-COLLECTION-NAME]"
+    artifact.description = "[COLLECTION-DESCRIPTION]"
     artifact.save()
 ```
 For more information, see the [Artifacts Collection](/models/ref/python/public-api/api) reference.
