@@ -41,7 +41,7 @@ import * as weave from 'weave';
 await weave.init('[TEAM-NAME]/[PROJECT-NAME]');
 
 const conversation = weave.startConversation({ agentName: 'my-agent' });
-const turn = weave.startTurn({ agentName: 'my-agent' });
+const turn = conversation.startTurn({ agentName: 'my-agent' });
 
 // Stamp attributes on this turn span
 turn.setAttributes({ user_id: '12345', tenant: 'acme', env: 'production' });
