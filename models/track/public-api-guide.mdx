@@ -199,6 +199,8 @@ You can filter by using the MongoDB Query Language.
 
 #### Date
 
+`created_at` values are ISO 8601 timestamps in UTC. Use the same format for the bounds:
+
 ```python
 runs = api.runs(
     "<entity>/<project>",
@@ -389,6 +391,8 @@ api = wandb.Api()
 run = api.run("entity/project/run_id")
 start_time = run.created_at
 ```
+
+`run.created_at` is an ISO 8601 timestamp in UTC (for example, `"2023-01-01T12:00:00Z"`). The same convention applies to the `created_at` and `updated_at` fields on other public API objects, such as `Registry`, `ArtifactCollection`, and `Project`. Convert to a local timezone with `datetime.fromisoformat(start_time.replace("Z", "+00:00"))` and then `.astimezone()`.
 
 ### Upload files to a finished run
 
