@@ -563,6 +563,7 @@
                             ]
                           },
                           "weave/guides/tracking/trace-agents",
+                          "weave/guides/tracking/trace-agents-otel",
                           "weave/guides/tracking/view-agent-activity",
                           "weave/guides/tracking/view-agent-signals",
                           "weave/guides/tracking/trace-agents-attributes",
@@ -819,6 +820,7 @@
                       "inference/response-settings/json-mode",
                       "inference/response-settings/reasoning",
                       "inference/response-settings/streaming",
+                      "inference/response-settings/prefix-caching",
                       "inference/response-settings/structured-output",
                       "inference/response-settings/tool-calling"
                     ]
