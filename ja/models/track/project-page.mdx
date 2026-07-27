@@ -131,14 +131,22 @@ W&amp;B では、プロジェクトフィールドに指定した名前で run �
 </Frame>
 
 <div id="search-for-metrics">
-  ### メトリクスを検索
+  ### メトリクスを検索する
 </div>
 
-Workspace の検索ボックスを使用して、パネルを絞り込みます。この検索はパネルのタイトルを対象としており、タイトルにはデフォルトで、可視化されているメトリクスの名が使われます。
+Workspace の検索ボックスを使用して、タイトルでパネルをフィルタリングします。
+
+<Note>
+  デフォルトでは、W&amp;B はメトリクス名をパネルのタイトルとして使用します。タイトルを変更するには、パネルの右上にある**歯車** (<Icon icon="gear" iconType="solid" />) アイコンをクリックし、**Chart title** フィールドにタイトルを入力します。
+</Note>
 
 <Frame>
-  <img src="/images/app_ui/search_in_the_workspace.png" alt="Workspace の検索" />
+  <img src="/images/app_ui/search_in_the_workspace.png" alt="Workspace 検索" />
 </Frame>
+
+検索結果からパネルを除外するには、検索ボックスの横にある**Hide panels** (<Icon icon="sliders" iconType="solid" />) をクリックして、正規表現を入力します。W&amp;B はフィルターをすぐに適用します。フィルターは削除するまで有効です。
+
+フィルターを削除するには、**Hide panels** (<Icon icon="sliders" iconType="solid" />) をもう一度クリックし、正規表現をクリアします。
 
 <div id="runs-tab">
   ## Runs タブ
