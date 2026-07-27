@@ -14,7 +14,7 @@ Create a W&B Experiment in four steps:
 1. [Initialize a W&B Run](#initialize-a-wb-run)
 2. [Capture a dictionary of hyperparameters](#capture-a-dictionary-of-hyperparameters)
 3. [Log metrics inside your training loop](#log-metrics-inside-your-training-loop)
-4. [Log an artifact to W&B](#log-an-artifact-to-wb)
+4. [Log an artifact to W&B](/models/track/create-an-experiment#log-an-artifact-to-w%26b)
 
 ### Initialize a W&B run
 Use [`wandb.init()`](/models/ref/python/functions/init) to create a W&B Run.
@@ -57,13 +57,13 @@ Call [`run.log()`](/models/ref/python/experiments/run/#method-runlog) to log met
 ```python
 model, dataloader = get_model(), get_data()
 
-for epoch in range(run.config.epochs):
+for epoch in range(run.config["epochs"]):
     for batch in dataloader:
         loss, accuracy = model.training_step()
         run.log({"accuracy": accuracy, "loss": loss})
 ```
 
-For more information on different data types you can log with W&B, see [Log Data During Experiments](/models/track/log/).
+For more information on different data types you can log with W&B, see [Log objects and media](/models/track/log/).
 
 ### Log an artifact to W&B 
 Optionally log a W&B Artifact. Artifacts make it easy to version datasets and models. 
@@ -103,20 +103,20 @@ with wandb.init(
 ```
 
 ## Next steps: Visualize your experiment 
-Use the W&B Dashboard as a central place to organize and visualize results from your machine learning models. With just a few clicks, construct rich, interactive charts like [parallel coordinates plots](/models/app/features/panels/parallel-coordinates/), [parameter importance analyses](/models/app/features/panels/parameter-importance/), and [additional chart types](/models/app/features/panels/).
+Use your project's workspace to organize and visualize results from your machine learning models. You can construct interactive charts like [parallel coordinates plots](/models/app/features/panels/parallel-coordinates/), [parameter importance analyses](/models/app/features/panels/parameter-importance/), and [additional chart types](/models/app/features/panels/).
 
 <Frame>
-    <img src="/images/sweeps/quickstart_dashboard_example.png" alt="Quickstart Sweeps Dashboard example"  />
+    <img src="/images/sweeps/quickstart_dashboard_example.png" alt="Quickstart Sweeps workspace example"  />
 </Frame>
 
-For more information on how to view experiments and specific runs, see [Visualize results from experiments](/models/track/workspaces/).
+For more information on how to view experiments and specific runs, see [View experiment results](/models/track/workspaces/).
 
 
 ## Best practices
 The following are some suggested guidelines to consider when you create experiments:
 
-1. **Finish your runs**: Use `wandb.init()` in a `with` statement to automatically mark the run as finished when the code completes or raises an exception.
-    * In Jupyter notebooks, it may be more convenient to manage the Run object yourself. In this case, you can explicitly call `finish()` on the Run object to mark it complete:
+- **Manage runs with a context manager**: Use `wandb.init()` in a `with` statement to automatically finish the run when the code completes or raises an exception.
+    * In Jupyter notebooks, you might prefer to manage the run object yourself. In this case, call `finish()` to mark it complete:
 
         ```python
         # In a notebook cell:
@@ -125,13 +125,13 @@ The following are some suggested guidelines to consider when you create experime
         # In a different cell:
         run.finish()
         ```
-2. **Config**: Track hyperparameters, architecture, dataset, and anything else you'd like to use to reproduce your model. These will show up in columns— use config columns to group, sort, and filter runs dynamically in the app.
-3. **Project**: A project is a set of experiments you can compare together. Each project gets a dedicated dashboard page, and you can easily turn on and off different groups of runs to compare different model versions.
-4. **Notes**: Set a quick commit message directly from your script. Edit and access notes in the Overview section of a run in the W&B App.
-5. **Tags**: Identify baseline runs and favorite runs. You can filter runs using tags. You can edit tags at a later time on the Overview section of your project's dashboard on the W&B App.
-6. **Create multiple run sets to compare experiments**: When comparing experiments, create multiple run sets to make metrics easy to compare. You can toggle run sets on or off on the same chart or group of charts.
+- **Config**: Track hyperparameters, model architecture, dataset information, and other values needed to reproduce your model. For more information, see [View the config in the Overview section of a run in the W&B App](/models/track/config#view-config-values-in-the-w&b-app). 
+- **Project**: Use [projects](/models/track/project-page) to organize experiments in a central location where you can visualize results, compare runs, view and download artifacts, create automations, and more.
+- **Notes**: Add notes to describe the purpose of a run, such as `baseline model` or `tuned hyperparameters`. You can edit notes later from the run overview in the W&B App.
+- **Job types**: [Add job types to your runs](/models/runs/grouping#organize-runs-by-job-type) to organize and filter runs by task, such as `train`, `test`, or `inference`.
+- **Tags**: [Add tags to runs](/models/runs/tags) to label runs with features or attributes that might not be obvious from logged metrics or artifacts.
 
-The following code snippet demonstrates how to define a W&B Experiment using the best practices listed above:
+The following example shows how to initialize a W&B run using these best practices:
 
 ```python
 import wandb
@@ -152,4 +152,4 @@ with wandb.init(
     ...
 ```
 
-For more information about available parameters when defining a W&B Experiment, see the [`wandb.init()`](/models/ref/python/functions/init) API docs in the [API Reference Guide](/models/ref/python/).
+For more information about available parameters, see [`wandb.init()`](/models/ref/python/functions/init) in the [Python SDK Reference Guide](/models/ref/python/).
