@@ -1,36 +1,41 @@
 ---
 title: ProjectArtifactCollections
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.artifacts
 ---
 
-import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L381" />
 
-## <kbd>class</kbd> `ProjectArtifactCollections`
+## <kbd>class</kbd> wandb.apis.public.ProjectArtifactCollections
 
 プロジェクト内の artifact collection。
 
-**引数:**
+<div id="methods">
+  ## メソッド
+</div>
 
-* `service_api`:  このコレクションに対して W&amp;B API Call を実行する wandb-core サービスへのインターフェース。
-* `entity`:  プロジェクトを所有する entity (ユーザーまたはチーム) 。
-* `project`:  artifact collection をクエリする対象のプロジェクト名。
-* `filters`:  クエリに適用するフィルターのマッピング (任意) 。
-* `order`:  結果の並び順を指定する文字列 (任意) 。`order` の先頭に `+` を付けると昇順 (デフォルト) 、`-` を付けると降順になります。
-* `per_page`:  1 ページあたりに取得する artifact collection の数。デフォルトは 50 です。 
+### <kbd>メソッド</kbd> RelayPaginator.convert_objects()
 
-### <kbd>プロパティ</kbd> ProjectArtifactCollections.cursor
+```python
+self
+```
 
-次に取得するページの開始位置を示す、内部構造を意識する必要のないカーソルです。
+最後に取得したレスポンスデータを、イテレーションで返されるオブジェクトに変換します。
 
-この値は保存しておき、後続のページネーションされたクエリで `start=` として渡すことで、この paginator が前回終了した位置からイテレーションを再開できます。
+### <kbd>メソッド</kbd> Paginator.**next**()
 
-**戻り値:**
+```python
+self
+```
 
-* `str | None`: カーソルのプロパティ値。
+イテレーターから次の項目を返します。すべて取り出した場合は、StopIteration を発生させます
 
-***
+### <kbd>メソッド</kbd> Paginator.update_variables()
 
-### <kbd>プロパティ</kbd> ProjectArtifactCollections.more
+```python
+self
+```
+
+次のページを取得するためのクエリ変数を更新します。

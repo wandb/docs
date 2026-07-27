@@ -1,176 +1,117 @@
 ---
 title: ArtifactCollection
-namespace: public_apis_namespace
-python_object_type: class
+kind: クラス
+namespace: wandb.apis.public.artifacts
 ---
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L476" />
 
-
-## <kbd>class</kbd> `ArtifactCollection`
+## <kbd>class</kbd> wandb.apis.public.ArtifactCollection
 
 関連する アーティファクト のグループを表す アーティファクト コレクション。
 
-**引数:**
+<div id="properties">
+  ## プロパティ
+</div>
 
-* `service_api`:  このコレクションに対して W&amp;B API Call を実行する wandb-core サービスへのインターフェース。
-* `entity`:  プロジェクトを所有する entity (ユーザーまたはチーム) 。
-* `project`:  アーティファクト コレクション をクエリする対象のプロジェクト名。
-* `name`:  アーティファクト コレクション の名。
-* `type`:  アーティファクト コレクション のタイプ (例: &quot;dataset&quot;、&quot;model&quot;) 。
-* `organization`:  該当する場合のオプションの組織名。
-* `attrs`:  アーティファクト コレクション の初期化に使用する属性のオプションのマッピング。指定しない場合、オブジェクトは初期化時に W&amp;B から属性を読み込みます。 
-
-### <kbd>プロパティ</kbd> ArtifactCollection.aliases
+### <kbd>プロパティ</kbd> aliases
 
 このコレクションに含まれるすべての artifact バージョンのエイリアス。
 
-**戻り値:**
-
-* `list[str]`: aliases プロパティの値。
-
-***
-
-### <kbd>プロパティ</kbd> ArtifactCollection.created_at
+### <kbd>プロパティ</kbd> created_at
 
 artifact collection が作成された日時。
 
-**戻り値:**
-
-* `str`: `created_at` プロパティの値。
-
-***
-
-### <kbd>プロパティ</kbd> ArtifactCollection.description
+### <kbd>プロパティ</kbd> description
 
 artifact collection の説明。
 
-**戻り値:**
-
-* `str | None`: 説明の値。
-
-***
-
-### <kbd>プロパティ</kbd> ArtifactCollection.entity
+### <kbd>プロパティ</kbd> entity
 
 プロジェクトの所有者である entity (ユーザーまたはチーム) 。
 
-**戻り値:**
-
-* `str`: entity のプロパティ値。
-
-***
-
-### <kbd>プロパティ</kbd> ArtifactCollection.id
+### <kbd>プロパティ</kbd> id
 
 artifact collection の一意の識別子です。
 
-**戻り値:**
-
-* `str`: id プロパティの値。
-
-***
-
-### <kbd>プロパティ</kbd> ArtifactCollection.name
+### <kbd>プロパティ</kbd> 名
 
 artifact collection の名です。
 
-**戻り値:**
-
-* `str`: `name` プロパティの値。
-
-***
-
-### <kbd>プロパティ</kbd> ArtifactCollection.project
+### <kbd>プロパティ</kbd> project
 
 artifact collection が含まれるプロジェクト。
 
-**戻り値:**
-
-* `str`: プロジェクトのプロパティ値。
-
-***
-
-### <kbd>プロパティ</kbd> ArtifactCollection.tags
+### <kbd>プロパティ</kbd> tags
 
 artifact collection に関連付けられているタグ。
 
-**戻り値:**
+### <kbd>プロパティ</kbd> type
 
-* `list[str]`: tags プロパティの値。
+アーティファクト コレクションのタイプを返します。
 
-***
-
-### <kbd>プロパティ</kbd> ArtifactCollection.type
-
-ArtifactCollection のタイプを返します。
-
-***
-
-### <kbd>プロパティ</kbd> ArtifactCollection.updated_at
+### <kbd>プロパティ</kbd> updated_at
 
 ArtifactCollection が最後に更新された日時。
 
-**戻り値:**
+<div id="methods">
+  ## メソッド
+</div>
 
-* `str | None`: updated&#95;at プロパティの値。
-
-***
-
-### <kbd>method</kbd> `ArtifactCollection.artifacts`
+### <kbd>method</kbd> ArtifactCollection.artifacts()
 
 ```python
-artifacts(per_page: 'int' = 50, start: 'str | None' = None) → Artifacts
+self,
+per_page: 'int' = 50,
+start: 'str | None' = None
 ```
 
 コレクション内のすべてのアーティファクトを取得します。
 
-**引数:**
+<div id="arguments">
+  ##### 引数
+</div>
 
-* `per_page`:  1 ページあたりに取得するアーティファクト数。
-* `start`:  過去のクエリを再開するためのページネーションカーソル。以前の paginator の `.cursor` 属性から取得した値を指定します。
+* `per_page`: 1 ページあたりに取得するアーティファクト数。
+* `start`: 過去のクエリを再開するためのページネーションカーソル。以前の paginator の `.cursor` 属性から取得した値を指定します。
 
-***
-
-### <kbd>method</kbd> `ArtifactCollection.change_type`
+### <kbd>method</kbd> ArtifactCollection.change_type()
 
 ```python
-change_type(new_type: 'str') → None
+self,
+new_type: 'str'
 ```
 
 非推奨です。代わりに `save` でタイプを直接変更してください。
 
-***
+<div id="arguments">
+  ##### 引数
+</div>
 
+* `new_type`: 
 
-### <kbd>method</kbd> `ArtifactCollection.delete`
+### <kbd>method</kbd> ArtifactCollection.delete()
 
 ```python
-delete() → None
+self
 ```
 
 artifact collection 全体を削除します。
 
-***
-
-
-### <kbd>method</kbd> `ArtifactCollection.is_sequence`
+### <kbd>method</kbd> ArtifactCollection.is_sequence()
 
 ```python
-is_sequence() → bool
+self
 ```
 
 artifact collection がシーケンスかどうかを返します。
 
-***
-
-
-### <kbd>method</kbd> `ArtifactCollection.save`
+### <kbd>method</kbd> ArtifactCollection.save()
 
 ```python
-save() → None
+self
 ```
 
 artifact collection に加えた変更内容を保存します。

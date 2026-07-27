@@ -1,45 +1,48 @@
 ---
 title: SendWebhook
-namespace: automations_namespace
-python_object_type: class
+kind: classe
+namespace: wandb.automations.actions
 ---
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py#L183" />
 
+## <kbd>classe</kbd> wandb.automations.SendWebhook
 
-## <kbd>class</kbd> `SendWebhook`
+```python
+*,
+integration_id: Annotated[str, Strict(strict=True)],
+requestPayload: Optional[Annotated[dict[str, Any], Json, BeforeValidator(func=<function ensure_json>, json_schema_input_type=PydanticUndefined), PlainSerializer(func=<function to_json>, return_type=PydanticUndefined, when_used='always')]] = None,
+action_type: Literal[GENERIC_WEBHOOK] = GENERIC_WEBHOOK
+```
 
 Définit une action d’automatisation qui envoie une requête webhook.
 
-### <kbd>méthode</kbd> `SendWebhook.__init__`
+<div id="args">
+  ## Arguments
+</div>
+
+* `integration_id`: L’ID de l’intégration webhook qui sera utilisée pour envoyer la requête.
+* `requestPayload`: La charge utile, éventuellement avec des variables de template, à envoyer dans la requête webhook.
+* `action_type`: 
+
+<div id="methods">
+  ## Méthodes
+</div>
+
+### <kbd>méthode</kbd> SendWebhook.from_integration()
 
 ```python
-__init__(
-    integration_id: 'str',
-    request_payload: 'Annotated | None' = None,
-    action_type: 'Literal[GENERIC_WEBHOOK]' = GENERIC_WEBHOOK
-) → None
-```
-
-**Arguments :**
-
-* `integration_id` (str): L’ID de l’intégration webhook qui sera utilisée pour envoyer la requête.
-* `request_payload` (Optional[Annotated]): La charge utile, éventuellement avec des variables de template, à envoyer dans la requête webhook.
-* `action_type` (Literal[GENERIC&#95;WEBHOOK]):
-
-**Retourne :**
-Un objet `SendWebhook`.
-
-
-### <kbd>méthode de classe</kbd> `SendWebhook.from_integration`
-
-```python
-from_integration(
-    integration: 'WebhookIntegration',
-    payload: 'JsonEncoded[dict[str, Any]] | None' = None
-) → Self
+integration: 'WebhookIntegration', *,
+payload: 'JsonEncoded[dict[str, Any]] | None' = None
 ```
 
 Définissez une action webhook qui envoie à l’intégration (webhook) spécifiée.
+
+<div id="arguments">
+  ##### Arguments
+</div>
+
+* `integration`:
+* `payload`: 
