@@ -1,0 +1,73 @@
+---
+title: pr_curve()
+namespace: python_sdk_custom_charts
+python_object_type: fonction
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/pr_curve.py" />
+
+
+### <kbd>fonction</kbd> `pr_curve`
+
+```python
+pr_curve(
+    y_true: 'Iterable[T] | None' = None,
+    y_probas: 'Iterable[numbers.Number] | None' = None,
+    labels: 'list[str] | None' = None,
+    classes_to_plot: 'list[T] | None' = None,
+    interp_size: 'int' = 21,
+    title: 'str' = 'Precision-Recall Curve',
+    split_table: 'bool' = False
+) → CustomChart
+```
+
+Construit une courbe précision-rappel (PR).
+
+La courbe précision-rappel est particulièrement utile pour évaluer des classificateurs sur des jeux de données déséquilibrés. Une aire élevée sous la courbe PR indique à la fois une précision élevée (un faible taux de faux positifs) et un rappel élevé (un faible taux de faux négatifs). La courbe donne des indications sur l’équilibre entre faux positifs et faux négatifs à différents seuils, ce qui aide à évaluer les performances d’un modèle.
+
+**Arguments :**
+
+* `y_true`:  Vraies étiquettes binaires. La forme doit être (`num_samples`,).
+* `y_probas`:  Scores ou probabilités prédits pour chaque classe. Ces valeurs peuvent être des estimations de probabilité, des scores de confiance ou des valeurs de décision sans seuillage. La forme doit être (`num_samples`, `num_classes`).
+* `labels`:  Liste facultative de noms de classes pour remplacer  les valeurs numériques dans `y_true` afin de faciliter l’interprétation du graphique.  Par exemple, `labels = ['dog', 'cat', 'owl']` remplacera 0 par  &#39;dog&#39;, 1 par &#39;cat&#39; et 2 par &#39;owl&#39; dans le graphique. Si elle n’est pas fournie,  les valeurs numériques de `y_true` seront utilisées.
+* `classes_to_plot`:  Liste facultative de valeurs de classe uniques de  y&#95;true à inclure dans le graphique. Si elle n’est pas spécifiée, toutes les classes uniques  de y&#95;true seront représentées.
+* `interp_size`:  Nombre de points servant à interpoler les valeurs de rappel. Les  valeurs de rappel seront fixées à `interp_size` points uniformément répartis  dans l’intervalle [0, 1], et la précision sera interpolée  en conséquence.
+* `title`:  Titre du graphique. La valeur par défaut est &quot;Courbe précision-rappel&quot;.
+* `split_table`:  Indique si le tableau doit être séparé dans une section distincte  de l’UI W&amp;B. Si `True`, le tableau sera affiché dans une section nommée  &quot;Custom Chart Tables&quot;. La valeur par défaut est `False`.
+
+**Retourne :**
+
+* `CustomChart`:  Un objet de graphique personnalisé qui peut être enregistré dans W&amp;B. Pour enregistrer le  graphique, transmettez-le à `wandb.log()`.
+
+**Exceptions levées :**
+
+* `wandb.Error`:  Si NumPy, pandas ou scikit-learn n’est pas installé.
+
+**Exemple :**
+
+```python
+import wandb
+
+# Exemple de détection de spam (classification binaire)
+y_true = [0, 1, 1, 0, 1]  # 0 = pas spam, 1 = spam
+y_probas = [
+    [0.9, 0.1],  # Probabilités prédites pour le premier échantillon (pas spam)
+    [0.2, 0.8],  # Deuxième échantillon (spam), et ainsi de suite
+    [0.1, 0.9],
+    [0.8, 0.2],
+    [0.3, 0.7],
+]
+
+labels = ["not spam", "spam"]  # Noms de classes facultatifs pour une meilleure lisibilité
+
+with wandb.init(project="spam-detection") as run:
+    pr_curve = wandb.plot.pr_curve(
+         y_true=y_true,
+         y_probas=y_probas,
+         labels=labels,
+         title="Precision-Recall Curve for Spam Detection",
+    )
+    run.log({"pr-curve": pr_curve})
+```

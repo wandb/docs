@@ -1,0 +1,28 @@
+---
+title: RunArtifacts
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
+
+
+## <kbd>class</kbd> `RunArtifacts`
+
+Une collection itérable d&#39;Artifacts associée à un run donné. 
+
+### <kbd>propriété</kbd> RunArtifacts.cursor
+
+Un curseur opaque qui indique le début de la page suivante à récupérer.
+
+Cette valeur peut être enregistrée et transmise via `start=` à une requête paginée ultérieure afin de reprendre l’itération là où cet objet de pagination s’est arrêté.
+
+**Retourne :**
+
+* `str | None` : La valeur de la propriété du curseur.
+
+***
+
+### <kbd>propriété</kbd> RunArtifacts.more

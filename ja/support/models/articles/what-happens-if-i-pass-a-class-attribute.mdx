@@ -1,0 +1,14 @@
+---
+title: "クラス属性を wandb.Run.log() に渡すとどうなりますか？"
+keywords: ["Experiments"]
+---
+
+クラス属性を `wandb.Run.log()` に渡すのは避けてください。ネットワーク call が実行される前に、属性が変更される可能性があります。メトリクスをクラス属性として保存する場合は、`wandb.Run.log()` の call 時点での属性の値とログされたメトリクスが一致するよう、ディープコピーを使用してください。
+
+***
+
+{/* 自動生成: タブバッジ */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

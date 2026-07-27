@@ -1,0 +1,29 @@
+---
+title: Enregistrer un histogramme
+---
+
+```python
+"""
+Log a histogram plot to W&B. 
+
+Replace:
+- values enclosed in angle brackets with your own
+- [[1, 2], [2, 3]] in wandb.Table(data=) with your own 2D row-oriented array of values to plot
+
+Pass a 2D row-oriented array of values to data (wandb.Table(data=)), with
+column names specified in the `columns` parameter.
+"""
+import wandb
+
+# Démarrer un nouveau run
+with wandb.init(entity="<entity>", project="<project>") as run:
+        
+    # Créer un tableau avec les colonnes à tracer
+    table = wandb.Table(data=[[1, 2], [2, 3]] , columns=["<a_column>", "<b_column>"])
+
+    # Utiliser le tableau pour alimenter différents graphiques personnalisés
+    histogram = wandb.plot.histogram(table, value='<b_column>', title='Histogram')
+
+    # Enregistrer les tableaux personnalisés, qui apparaîtront dans les graphiques personnalisables dans l'interface utilisateur
+    run.log({'histogram_1': histogram})
+```

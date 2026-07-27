@@ -1,6 +1,7 @@
 ---
 title: "Evaluate using local scorers"
 description: "Small language models that run locally to evaluate AI system safety and quality"
+keywords: ["local scorers", "RAG evaluation", "PII detection", "hallucination", "toxicity"]
 ---
 
 <a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/scorers_local_weave_scorers.ipynb" aria-label="Open in Google Colab">
@@ -9,49 +10,53 @@ description: "Small language models that run locally to evaluate AI system safet
 
 Weave's local scorers are a suite of small language models that run locally on your machine with minimal latency. These models evaluate the safety and quality of your AI system's inputs, context, and outputs.
 
-Some of these models are fine-tuned by Weights & Biases, while others are state-of-the-art open-source models trained by the community. Weights & Biases (W&B) Reports were used for training and evaluation. You can find the full details in this [list of W&B Reports](https://wandb.ai/c-metrics/weave-scorers/reports/Weave-Scorers-v1--VmlldzoxMDQ0MDE1OA).
+This page describes how to evaluate the safety and quality of your AI system using Weave's local scorers, and walks through each available scorer with usage notes and examples. Use this guide to choose a scorer for your use case, install the dependencies, and add scorers to your AI system's inputs, context, or outputs.
 
-The model weights are publicly available in W&B Artifacts, and are automatically downloaded when you instantiate the scorer class. The artifact paths can be found here if you'd like to download them yourself: `weave.scorers.default_models`
+W&B fine-tunes some of these models, while others are state-of-the-art open source models trained by the community. W&B Reports document the training and evaluation process. For the full details, see this [list of W&B Reports](https://wandb.ai/c-metrics/weave-scorers/reports/Weave-Scorers-v1--VmlldzoxMDQ0MDE1OA).
 
-The object returned by these scorers contains a `passed` boolean attribute indicating whether the input text is safe or high quality, as well as a `metadata` attribute that contains more detail such as the raw score from the model.
+The model weights are publicly available in W&B Artifacts, and Weave automatically downloads them when you instantiate the scorer class. To download them yourself, see the artifact paths in `weave.scorers.default_models`.
 
-While you can run local scorers on CPUs, we recommend using GPUs for best performance.
+These scorers return an object with a `passed` boolean attribute that indicates whether the input text is safe or high quality. The object also includes a `metadata` attribute with more detail, such as the raw score from the model.
+
+You can run local scorers on CPUs, but W&B recommends GPUs for best performance.
 
 <Note>
-Local scorers are only available for the Weave Python SDK. They are not yet available for the Weave TypeScript SDK yet.
+Local scorers are only available for the Weave Python SDK. They aren't yet available for the Weave TypeScript SDK.
 
 To use Weave scorers in TypeScript, see [function-based scorers](/weave/guides/evaluation/scorers#function-based-scorers).
 </Note>
 
     ## Prerequisites
 
-    Before you can use Weave local scorers, install additional dependencies:
+    Before you can use Weave local scorers, install the additional dependencies that bundle the required scorer libraries:
 
     ```bash
     pip install weave[scorers]
     ```
 
+    With the dependencies installed, you're ready to choose a scorer for your evaluation.
+
     ## Select a scorer
 
-    The following local scorers are available. Select a scorer based on your use case.
+    The following local scorers are available. Select a scorer based on your use case, then continue to the matching section below for usage notes and an example.
 
     | Scorer                           | Scenario                                                                                                                                                                      |
     |----------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
     | [WeaveToxicityScorerV1](#weavetoxicityscorerv1)                  | Identify toxic or harmful content in your AI system's inputs and outputs, including hate speech or threats.                                                       |
-    | [WeaveBiasScorerV1](#weavebiasscorerv1)                          | Detect biased or stereotypical content in your AI system's inputs and outputs. Ideal for reducing harmful biases in generated text.                               |
+    | [WeaveBiasScorerV1](#weavebiasscorerv1)                          | Detect biased or stereotypical content in your AI system's inputs and outputs. Useful for reducing harmful biases in generated text.                              |
     | [WeaveHallucinationScorerV1](#weavehallucinationscorerv1)       | Identify whether your RAG system generates hallucinations in its output based on the input and context provided.                                                  |
     | [WeaveContextRelevanceScorerV1](#weavecontextrelevancescorerv1) | Measure whether the AI system's output is relevant to the input and context provided.                                                                             |
     | [WeaveCoherenceScorerV1](#weavecoherencescorerv1)                | Evaluate the coherence and logical structure of the AI system's output.                                                                                           |
     | [WeaveFluencyScorerV1](#weavefluencyscorerv1)                    | Measure whether the AI system's output is fluent.                                                                                                                  |
-    | [WeaveTrustScorerV1](#weavetrustscorerv1)                        | An aggregate scorer that leverages the toxicity, hallucination, context relevance, fluency, and coherence scorers.                                                |
-    | [PresidioScorer](#presidioscorer)                                | Detect Personally Identifiable Information (PII) in your AI system's inputs and outputs using the Presidio library from Microsoft.                                |
+    | [WeaveTrustScorerV1](#weavetrustscorerv1)                        | Combine the toxicity, hallucination, context relevance, fluency, and coherence scorers into a single trust signal.                                            |
+    | [PresidioScorer](#presidioscorer)                                | Detect personally identifiable information (PII) in your AI system's inputs and outputs using the Presidio library from Microsoft.                                |
 
     ## `WeaveBiasScorerV1`
 
-    This scorer assesses gender and race/origin bias along two dimensions:
+    This scorer assesses gender and race or origin bias along two dimensions:
         
-        - Race and Origin: Racism and bias against a country or region of origin, immigration status, ethnicity, etc.
-        - Gender and Sexuality: Sexism, misogyny, homophobia, transphobia, sexual harassment, etc.
+        - Race and Origin: Racism and bias against a country or region of origin, immigration status, or ethnicity.
+        - Gender and Sexuality: Sexism, misogyny, homophobia, transphobia, or sexual harassment.
 
     `WeaveBiasScorerV1` uses a fine-tuned [deberta-small-long-nli](https://huggingface.co/tasksource/deberta-small-long-nli) model. For more details on the model, dataset, and calibration process, see the [WeaveBiasScorerV1 W&B Report](https://wandb.ai/c-metrics/bias-benchmark/reports/Bias-Scorer--VmlldzoxMDM2MTgzNw).
 
@@ -80,8 +85,8 @@ To use Weave scorers in TypeScript, see [function-based scorers](/weave/guides/e
 
     This scorer assesses the input text for toxicity along five dimensions:
     
-        - Race and Origin: Racism and bias against a country or region of origin, immigration status, ethnicity, etc.
-        - Gender and Sexuality: Sexism, misogyny, homophobia, transphobia, sexual harassment, etc.
+        - Race and Origin: Racism and bias against a country or region of origin, immigration status, or ethnicity.
+        - Gender and Sexuality: Sexism, misogyny, homophobia, transphobia, or sexual harassment.
         - Religious: Bias or stereotypes against someone's religion.
         - Ability: Bias related to someone's physical, mental, or intellectual ability or disability.
         - Violence and Abuse: Overly graphic descriptions of violence, threats of violence, or incitement of violence.
@@ -113,7 +118,7 @@ To use Weave scorers in TypeScript, see [function-based scorers](/weave/guides/e
 
     ## `WeaveHallucinationScorerV1`
 
-    This scorer checks if your AI system's output contains any hallucinations based on the input data.
+    This scorer checks whether your AI system's output contains hallucinations based on the input data.
 
     The `WeaveHallucinationScorerV1` uses the open source [HHEM 2.1 model](https://huggingface.co/vectara/hallucination_evaluation_model) from Vectara. For more information, see the [WeaveHallucinationScorerV1 W&B Report](https://wandb.ai/c-metrics/hallucination/reports/Hallucination-Scorer--VmlldzoxMDM3NDA3MA).
 
@@ -146,7 +151,7 @@ To use Weave scorers in TypeScript, see [function-based scorers](/weave/guides/e
 
     ## `WeaveContextRelevanceScorerV1`
 
-    This scorer is designed to be used when evaluating RAG systems. It scores the relevance of the context to the query.
+    Use this scorer to evaluate RAG systems. It scores the relevance of the context to the query.
 
     The `WeaveContextRelevanceScorerV1` uses a fine-tuned [deberta-small-long-nli](https://huggingface.co/tasksource/deberta-small-long-nli) model from tasksource. For more details, see the [WeaveContextRelevanceScorerV1 W&B Report](https://wandb.ai/c-metrics/context-relevance-scorer/reports/Context-Relevance-Scorer--VmlldzoxMDYxNjEyNA).
 
@@ -173,6 +178,8 @@ To use Weave scorers in TypeScript, see [function-based scorers](/weave/guides/e
     print(f"Output is relevant: {result.passed}")
     print(result)
     ```
+
+    ---
 
     ## `WeaveCoherenceScorerV1`
 
@@ -206,7 +213,7 @@ To use Weave scorers in TypeScript, see [function-based scorers](/weave/guides/e
 
     ## `WeaveFluencyScorerV1`
 
-    This scorer checks whether the input text is fluent—that is, easy to read and understand, similar to natural human language. It evaluates grammar, syntax, and overall readability.
+    This scorer checks whether the input text is fluent (readable and similar to natural human language). It evaluates grammar, syntax, and overall readability.
 
     The `WeaveFluencyScorerV1` uses a fine-tuned [ModernBERT-base](https://huggingface.co/answerdotai/ModernBERT-base) model from AnswerDotAI. For more information, see the [WeaveFluencyScorerV1 W&B Report](https://wandb.ai/c-metrics/fluency-eval/reports/Fluency-Scorer--VmlldzoxMTA3NzE2Ng).
 
@@ -235,11 +242,13 @@ To use Weave scorers in TypeScript, see [function-based scorers](/weave/guides/e
 
     ## `WeaveTrustScorerV1`
 
-    The `WeaveTrustScorerV1` is a composite scorer for RAG systems that evaluates the trustworthiness of model outputs by grouping other scorers into two categories: Critical and Advisory. Based on the composite score, it returns a trust level:
+    Use this scorer when you want a single trust signal that combines multiple scorers instead of running each one individually.
 
-    - `high`: No issues detected  
-    - `medium`: Only Advisory issues detected  
-    - `low`: Critical issues detected or input is empty  
+    The `WeaveTrustScorerV1` is a composite scorer for RAG systems. It evaluates the trustworthiness of model outputs by grouping other scorers into two categories: Critical and Advisory. Based on the composite score, it returns a trust level:
+
+    - `high`: No issues detected.
+    - `medium`: Only Advisory issues detected.
+    - `low`: Critical issues detected or input is empty.
 
     Any input that fails a Critical scorer results in a `low` trust level. Failing an Advisory scorer results in `medium`.
 
@@ -254,7 +263,7 @@ To use Weave scorers in TypeScript, see [function-based scorers](/weave/guides/e
 
     ### Usage notes
 
-    - This scorer is designed for evaluating RAG pipelines.  
+    - Use this scorer to evaluate RAG pipelines.  
     - It requires `query`, `context`, and `output` keys for correct scoring.
 
     ### Usage example
@@ -296,13 +305,12 @@ To use Weave scorers in TypeScript, see [function-based scorers](/weave/guides/e
 
     ## `PresidioScorer`
 
-    This scorer uses the [Presidio library](https://github.com/microsoft/presidio) to detect Personally Identifiable Information (PII) in your AI system's inputs and outputs.
+    This scorer uses the [Presidio library](https://github.com/microsoft/presidio) to detect personally identifiable information (PII) in your AI system's inputs and outputs.
 
     ### Usage notes
 
-    - To specify specific entity types, such as emails or phone numbers, pass a list of Presidio entities to the `selected_entities` parameter. Otherwise, Presidio will detect all entity types in its default entities list.
-    - To detect specific entity types, such as emails or phone numbers, pass a list to the `selected_entities` parameter.
-    - You can pass custom recognizers via the `custom_recognizers` parameter as a list of `presidio.EntityRecognizer` instances.
+    - To detect specific entity types, such as emails or phone numbers, pass a list of Presidio entities to the `selected_entities` parameter. Otherwise, Presidio detects all entity types in its default entities list.
+    - You can pass custom recognizers through the `custom_recognizers` parameter as a list of `presidio.EntityRecognizer` instances.
     - To handle non-English input, use the `language` parameter to specify the language.
 
     ### Usage example

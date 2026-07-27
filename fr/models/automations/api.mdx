@@ -1,0 +1,24 @@
+---
+title: Gérer les automatisations avec l’API
+description: Gestion programmatique des automatisations avec l’API Python. La création et la mise à jour peuvent ne pas fonctionner sur certaines versions du client. Préférez le W&B App jusqu’à la publication du correctif du SDK.
+keywords: ["API Python", "automatisation programmatique", "wandb.Api", "scripts d’automatisation", "SDK"]
+---
+
+Gérez les automatisations W&amp;B de manière programmatique avec l’API Python `wandb` lorsque vous automatisez des flux de travail par script plutôt que d’utiliser le W&amp;B App.
+
+<Note>
+  La **création** et la **mise à jour** programmatiques des automatisations via `wandb.Api().create_automation()` et les fonctions utilitaires associées peuvent échouer sur certaines versions du client Python `wandb` en raison d’une vérification de fonctionnalité côté client (par exemple, pour les automatisations basées sur l’état d’exécution). En attendant la publication d’un correctif du SDK, utilisez le [W&amp;B App](/fr/models/automations/create-automations) pour créer et modifier des automatisations. Les méthodes `list`, `get` et `delete` ne sont pas affectées. Suivi interne : WB-34263.
+</Note>
+
+<div id="next-steps">
+  ## Prochaines étapes
+</div>
+
+Consultez les ressources suivantes pour gérer les automatisations et en savoir plus sur leur fonctionnement :
+
+* [Aperçu des automatisations](/fr/models/automations)
+* [Créer une automatisation](/fr/models/automations/create-automations) (W&amp;B App)
+* [Événements et portée des automatisations](/fr/models/automations/automation-events)
+* [Référence de l&#39;API des automatisations](/fr/models/ref/python/public-api/automations) (types Python et méthodes `Api`)
+
+{/* Restaurez depuis l’historique Git les exemples list/get/create/update/delete lorsque la régression du SDK Python aura été corrigée (WB-34263). La révision précédente incluait également un lien vers le notebook du tutoriel Automations (wandb/examples PR 618). */}

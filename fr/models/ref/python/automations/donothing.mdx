@@ -1,0 +1,32 @@
+---
+title: DoNothing
+namespace: automations_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py" />
+
+
+## <kbd>classe</kbd> `DoNothing`
+
+Définit une action d’automatisation qui ne fait délibérément rien.
+
+### <kbd>méthode</kbd> `DoNothing.__init__`
+
+```python
+__init__(
+    no_op: 'bool' = True,
+    action_type: 'Literal[NO_OP]' = NO_OP
+) → None
+```
+
+**Arguments :**
+
+* `no_op` (bool): Champ factice présent uniquement pour répondre aux exigences du schéma backend.
+  Il ne devrait jamais être nécessaire de définir explicitement ce champ, car sa valeur est ignorée.
+* `action_type` (Literal[NO&#95;OP]):
+
+**Retourne :**
+Un objet `DoNothing`.

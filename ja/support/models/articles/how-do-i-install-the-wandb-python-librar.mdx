@@ -1,0 +1,36 @@
+---
+title: "gcc のない環境で wandb Python ライブラリをインストールするにはどうすればよいですか?"
+keywords: ["Python"]
+---
+
+このページは、最小限のコンテナーイメージやアクセスが制限されたシステムなど、`gcc` のない環境で `wandb` Python ライブラリをインストールしたいユーザー向けです。依存関係をソースからコンパイルせずにインストールを完了するには、次の step に従ってください。
+
+`wandb` のインストール時に、次のようなエラーが発生する場合:
+
+```text
+unable to execute 'gcc': No such file or directory
+error: command 'gcc' failed with exit status 1
+```
+
+installer が `psutil` 依存関係をソースからコンパイルしているため、`gcc` が必要です。これを回避するには、コンパイル不要の事前ビルド済み wheel から `psutil` をインストールします。
+
+`gcc` なしで `wandb` をインストールするには、次の手順を実行します。
+
+1. [pywharf `psutil` package repository](https://pywharf.github.io/pywharf-pkg-repo/psutil/) で、使用している Python のバージョンとオペレーティング システムを確認します。
+2. 事前ビルド済み wheel から `psutil` をインストールします。たとえば、Linux 上の Python 3.8 に `psutil` をインストールするには、次のようにします。
+
+   ```bash
+   WHEEL_URL=https://github.com/pywharf/pywharf-pkg-repo/releases/download/psutil-5.7.0-cp38-cp38-manylinux2010_x86_64.whl#sha256=adc36dabdff0b9a4c84821ef5ce45848f30b8a01a1d5806316e068b5fd669c6d
+   pip install $WHEEL_URL
+   ```
+3. インストールを完了するには、`pip install wandb` を実行します。
+
+`psutil` は事前ビルド済み wheel によってすでに要件が満たされているため、`pip` は元の `gcc` エラーの原因となったソースからのビルドをスキップし、`wandb` は正常にインストールされます。
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Python](/ja/support/models/tags/python)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

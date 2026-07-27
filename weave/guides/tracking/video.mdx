@@ -1,29 +1,36 @@
 ---
 title: "Log videos"
 description: "Log and track video data automatically in Weave traces using moviepy for playback and analysis in the UI."
+keywords: ["moviepy", "VideoFileClip", "MP4", "video tracing"]
 ---
 
-Weave automatically logs videos using [`moviepy`](https://zulko.github.io/moviepy/). This allows you to pass video inputs and outputs to traced functions, and Weave will automatically handle uploading and storing video data.
+This guide shows you how to log and track video data in Weave traces so you can inspect, play back, and analyze videos directly in the Weave UI. It's intended for developers building video-processing applications who want automatic capture of video inputs and outputs from their traced functions.
+
+Weave automatically logs videos using [`moviepy`](https://zulko.github.io/moviepy/). You can pass video inputs and outputs to traced functions, and Weave automatically handles uploading and storing video data.
 
 <Note>
-Video support is currently only available in Python.
+Video support is available in Python only.
 </Note>
 
 ## Usage prerequisites
+
+Before you log videos with Weave, complete the following prerequisites:
 
 1. Install `weave` and `moviepy==1.0.3`.
 2. Create a W&B account.
 
 ## Supported video types
 
+Weave handles different types of `moviepy` clips in different ways. Knowing which type you're working with helps you understand how Weave uploads and stores your video data.
+
 Weave recognizes `moviepy` video clip objects, such as:
 
-- A `VideoFileClip` loaded from a video file
-- In-memory clips like `ImageClip`, `ColorClip`, and `TextClip`
+- `VideoFileClip` objects loaded from a video file.
+- In-memory clips like `ImageClip`, `ColorClip`, and `TextClip`.
 
 ### Direct upload of file-based clips
 
-If your clip is a `VideoFileClip` and has a valid filename with a supported extension, Weave will upload the file directly.
+If your clip is a `VideoFileClip` and has a valid filename with a supported extension, Weave uploads the file directly.
 
 **Supported file extensions:**
 
@@ -33,7 +40,7 @@ If your clip is a `VideoFileClip` and has a valid filename with a supported exte
 
 ### In-memory clip support
 
-If the video object is in memory (no file on disk), Weave will encode it as an `.mp4` file and handle the upload automatically. This applies to clips of the following type:
+If the video object is in memory (no file on disk), Weave encodes it as an `.mp4` file and handles the upload automatically. This applies to clips of the following types:
 
 - `ImageClip`
 - `ColorClip`
@@ -44,9 +51,9 @@ If the video object is in memory (no file on disk), Weave will encode it as an `
 The following code sample demonstrates how to trace a video processing function in Weave. The code sample:
 
 1. Initializes a Weave project `video-test`.
-2. Defines a `get_video` function tracked as a `weave.op` that extracts a 1 second subclip of the loaded `VideoFileClip` as a `VideoClip`.
+2. Defines a `get_video` function tracked as a `weave.op` that extracts a 1-second subclip of the loaded `VideoFileClip` as a `VideoClip`.
 3. Uploads and tracks the clip in Weave.
-4. Automatically generates a dummy MP4 video if none is found.
+4. Automatically generates a placeholder MP4 video if none is found.
 
 <Warning>
 To avoid thread-safety issues, always pass the path to `VideoFileClip` objects instead of creating them outside the Weave `op`.

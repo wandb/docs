@@ -1,0 +1,71 @@
+---
+description: "Intégrez W&B à Databricks pour le suivi des expériences, la journalisation des métriques et la gestion des modèles sur des clusters Spark."
+title: Databricks
+---
+
+W&amp;B s’intègre à [Databricks](https://www.databricks.com/) en adaptant l’expérience des notebooks Jupyter de W&amp;B à l’environnement Databricks. Cette page explique comment installer et authentifier W&amp;B sur un cluster Databricks pour pouvoir suivre les expériences et consigner des métriques depuis des notebooks exécutés sur Spark.
+
+<div id="configure-databricks">
+  ## Configurer Databricks
+</div>
+
+Pour utiliser W&amp;B depuis un notebook Databricks, vous devez installer le package `wandb` sur le cluster et configurer l&#39;authentification afin que vos notebooks puissent enregistrer des données dans W&amp;B.
+
+1. Installez `wandb` sur le cluster
+
+   Dans la configuration de votre cluster, choisissez votre cluster, puis cliquez sur **Libraries** &gt; **Install New** &gt; **PyPI**, et ajoutez le package `wandb`.
+
+2. Configurez l&#39;authentification
+
+   Pour authentifier votre compte W&amp;B, ajoutez un secret Databricks que vos notebooks peuvent interroger au moment de l&#39;exécution. Cela évite d&#39;inscrire votre clé API en dur dans les notebooks.
+
+   ```bash
+   # installer la CLI Databricks
+   pip install databricks-cli
+
+   # Générer un jeton depuis l'interface utilisateur de Databricks
+   databricks configure --token
+
+   # Créer un scope avec l'une des deux commandes (selon que vous avez activé ou non les fonctionnalités de sécurité sur Databricks) :
+   # avec le module complémentaire de sécurité
+   databricks secrets create-scope --scope wandb
+   # sans le module complémentaire de sécurité
+   databricks secrets create-scope --scope wandb --initial-manage-principal users
+
+   # Créer une clé API sur https://wandb.ai/settings
+   databricks secrets put --scope wandb --key api_key
+   ```
+
+<div id="examples">
+  ## Exemples
+</div>
+
+Les exemples suivants montrent comment utiliser le secret précédent pour vous connecter et commencer à journaliser depuis un notebook Databricks.
+
+<div id="basic-example">
+  ### Exemple de base
+</div>
+
+```python
+import os
+import wandb
+
+api_key = dbutils.secrets.get("wandb", "api_key")
+wandb.login(key=api_key)
+
+with wandb.init() as run:
+    run.log({"foo": 1})
+```
+
+<div id="sweeps">
+  ### Sweeps
+</div>
+
+Les notebooks qui utilisent `wandb.sweep()` ou `wandb.agent()` doivent définir l’entité et le projet en tant que variables d’environnement :
+
+```python
+import os
+
+os.environ["WANDB_ENTITY"] = "my-entity"
+os.environ["WANDB_PROJECT"] = "my-project-that-exists"
+```

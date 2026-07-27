@@ -1,0 +1,39 @@
+---
+title: "How do I log NLP metrics and text outputs in W&B?"
+keywords: ["Experiments", "Metrics", "Runs"]
+---
+
+You can log corpus-level NLP scores (BLEU, ROUGE, perplexity) with `wandb.log()` and per-example outputs with `wandb.Table`. For general logging patterns, see [Log objects and media](/models/track/log) and [Log tables](/models/track/log/log-tables).
+
+The following example demonstrates how to specifically log BLEU, ROUGE, perplexity, and other scalar scores the same way you log loss:
+
+```python lines
+import wandb
+from sacrebleu.metrics import BLEU
+from rouge_score import rouge_scorer
+
+with wandb.init(project="nmt-project") as run:
+    bleu = BLEU()
+    scorer = rouge_scorer.RougeScorer(["rouge1", "rouge2", "rougeL"])
+
+    for epoch in range(num_epochs):
+        train(model)
+        hypotheses, references = evaluate(model, val_set)
+
+        bleu_score = bleu.corpus_score(hypotheses, [references])
+        rouge_scores = [scorer.score(ref, hyp) for ref, hyp in zip(references, hypotheses)]
+
+        run.log({
+            "epoch": epoch,
+            "val/bleu": bleu_score.score,
+            "val/rouge1": sum(s["rouge1"].fmeasure for s in rouge_scores) / len(rouge_scores),
+            "val/rougeL": sum(s["rougeL"].fmeasure for s in rouge_scores) / len(rouge_scores),
+            "val/perplexity": compute_perplexity(model, val_loader),
+        })
+```
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Metrics](/support/models/tags/metrics)</Badge><Badge stroke shape="pill" color="orange" size="md">[Runs](/support/models/tags/runs)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

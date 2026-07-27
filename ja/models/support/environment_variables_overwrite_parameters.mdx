@@ -1,5 +1,0 @@
----
-title: 環境変数は `wandb.init()` に渡された パラメータ を上書きしますか？
----
-
-`wandb.init` に渡される引数は、環境変数を上書きします。環境変数が設定されていない場合に、システムのデフォルト以外のディレクトリーをデフォルトとして設定するには、 `wandb.init(dir=os.getenv("WANDB_DIR", my_default_override))` を使用してください。

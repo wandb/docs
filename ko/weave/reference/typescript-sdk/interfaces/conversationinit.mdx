@@ -1,0 +1,163 @@
+---
+title: "ConversationInit"
+description: "TypeScript SDK 레퍼런스"
+---
+
+[weave](../) / ConversationInit
+
+<div id="table-of-contents">
+  ## 목차
+</div>
+
+<div id="properties">
+  ### 속성
+</div>
+
+* [agentDescription](./conversationinit#agentdescription)
+* [agentId](./conversationinit#agentid)
+* [agentName](./conversationinit#agentname)
+* [agentVersion](./conversationinit#agentversion)
+* [attributes](./conversationinit#attributes)
+* [conversationId](./conversationinit#conversationid)
+* [model](./conversationinit#model)
+* [sessionId](./conversationinit#sessionid)
+
+## 속성
+
+<div id="agentdescription">
+  ### agentDescription
+</div>
+
+• `Optional` **agentDescription**: `string`
+
+사람이 읽을 수 있는 에이전트 설명입니다. 기본 `agentDescription`으로 전달되며,
+각 `Turn`에서 별도로 설정하지 않는 한 `startTurn()`를 통해 생성되는 모든 `Turn`에 적용됩니다.
+또한 각 `Turn`의 `invoke_agent` span에서 `gen_ai.agent.description`으로 기록됩니다.
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/genai/conversation.ts:31](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L31)
+
+***
+
+<div id="agentid">
+  ### agentId
+</div>
+
+• `Optional` **agentId**: `string`
+
+고정된 에이전트 식별자입니다. Turn에서 자체 `agentId`를 설정하지 않으면
+`startTurn()`을 통해 생성되는 모든 `Turn`에 기본 `agentId`로 전파되며,
+각 Turn의 `invoke_agent` span에 `gen_ai.agent.id`로 기록됩니다.
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/genai/conversation.ts:16](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L16)
+
+***
+
+<div id="agentname">
+  ### agentName
+</div>
+
+• `선택` **agentName**: `string`
+
+에이전트 이름입니다. turn에서 자체 값을 설정하지 않으면 `startTurn()`으로
+생성된 모든 `Turn`에 기본 `agentName`으로 전달됩니다. 각
+turn의 `invoke_agent` span에는 `gen_ai.agent.name`으로 기록됩니다.
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/genai/conversation.ts:23](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L23)
+
+***
+
+<div id="agentversion">
+  ### agentVersion
+</div>
+
+• `선택` **agentVersion**: `string`
+
+에이전트 버전 문자열입니다. turn에서 자체 값을 설정하지 않는 한,
+`startTurn()`을 통해 생성된 모든 `Turn`에 기본 `agentVersion`으로 전달되며,
+각 turn의 `invoke_agent` span에 `gen_ai.agent.version`으로 기록됩니다.
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/genai/conversation.ts:38](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L38)
+
+***
+
+<div id="attributes">
+  ### attributes
+</div>
+
+• `선택` **attributes**: `Attributes`
+
+대화에서 생성되는 모든 span에 적용되는 맞춤형 속성입니다.
+
+여기서 span 자체의 `gen_ai.*` / `weave.*`
+속성과 충돌하는 키는 지원되지 않으며, 이 경우 span의 값이 우선합니다.
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/genai/conversation.ts:52](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L52)
+
+***
+
+<div id="conversationid">
+  ### conversationId
+</div>
+
+• `선택` **conversationId**: `string`
+
+이 대화에 속한 모든 span에 `gen_ai.conversation.id`로 전달되는 대화 ID입니다.
+생략하면 자동 생성됩니다.
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/genai/conversation.ts:44](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L44)
+
+***
+
+<div id="model">
+  ### 모델
+</div>
+
+• `선택` **모델**: `string`
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/genai/conversation.ts:9](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L9)
+
+***
+
+<div id="sessionid">
+  ### sessionId
+</div>
+
+<Warning>
+  **사용 중단되었습니다.** 대신 [ConversationInit.conversationId](./conversationinit#conversationid)를 사용하세요.
+</Warning>
+
+• `선택` **sessionId**: `string`
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/genai/conversation.ts:55](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L55)

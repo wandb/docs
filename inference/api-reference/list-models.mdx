@@ -1,11 +1,14 @@
 ---
-title: "List Models"
-description: "Retrieve a list of all available W&B Inference models and their IDs using the models API endpoint."
+title: "List models"
+description: "Retrieve a list of available Serverless Inference models and their IDs using the models endpoint."
+keywords: ["/v1/models endpoint", "discover models", "model IDs", "list available models"]
 ---
 
-Get all available models and their IDs. Use this to select models dynamically or check what's available.
+This page shows how to retrieve all models available through the Serverless Inference API, along with their IDs. Use this endpoint to discover available models programmatically, select a model dynamically at runtime, or confirm which models your account can access.
 
 ## Request examples
+
+The following examples show how to call the models endpoint from Python and from the command line.
 
 <Tabs>
 <Tab title="Python">
@@ -14,8 +17,8 @@ import openai
 
 client = openai.OpenAI(
     base_url="https://api.inference.wandb.ai/v1",
-    api_key="<your-api-key>",
-    project="<your-team>/<your-project>"  # Optional, for usage tracking
+    api_key="[YOUR-API-KEY]",
+    project="[YOUR-TEAM]/[YOUR-PROJECT]"  # Optional, for usage tracking
 )
 
 response = client.models.list()
@@ -28,15 +31,15 @@ for model in response.data:
 ```bash
 curl https://api.inference.wandb.ai/v1/models \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <your-api-key>" \
-  -H "OpenAI-Project: <your-team>/<your-project>"
+  -H "Authorization: Bearer [YOUR-API-KEY]" \
+  -H "OpenAI-Project: [YOUR-TEAM]/[YOUR-PROJECT]"
 ```
 </Tab>
 </Tabs>
 
 ## Response format
 
-The API returns responses in OpenAI-compatible format:
+The endpoint returns a list of model objects in OpenAI-compatible format, so you can parse the response using standard OpenAI client libraries. Each entry includes the model ID you pass to other Inference API endpoints.
 
 ```json
 {

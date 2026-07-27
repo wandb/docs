@@ -1,0 +1,57 @@
+---
+title: "runIsolated"
+description: "Référence du SDK TypeScript"
+---
+
+<div id="runisolated">
+  # runIsolated
+</div>
+
+▸ **runIsolated**&lt;`T`&gt;(`fn`): `T`
+
+Exécutez `fn` dans un cadre d’état GenAI nouveau et isolé. Toute Conversation / tout tour de conversation / tout LLM
+démarré dans `fn` n’existe que dans ce cadre — il n’entre pas en conflit avec
+d’autres cadres `runIsolated` exécutés simultanément, et n’est pas propagé
+à la chaîne asynchrone externe.
+
+Utilisez cette fonction pour exécuter en toute sécurité des tâches GenAI en parallèle :
+
+```typescript
+  await Promise.all([
+    weave.runIsolated(async () => { ... }),
+    weave.runIsolated(async () => { ... }),
+  ]);
+```
+
+L’utilisation séquentielle de single-flight ne nécessite pas ce wrapper —
+l’état global par défaut du processus s’en charge.
+
+<div id="type-parameters">
+  #### Paramètres de type
+</div>
+
+| Nom |
+| :-- |
+| `T` |
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom  | Type         |
+| :--- | :----------- |
+| `fn` | () =&gt; `T` |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`T`
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/context.ts:54](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/context.ts#L54)
+
+***

@@ -1,0 +1,566 @@
+---
+title: "LLM"
+description: "TypeScript SDK リファレンス"
+---
+
+[weave](../) / LLM
+
+LLM Call です。`gen_ai.*` 属性を持つ `chat` span を生成します。
+
+`weave.startLLM()` (または `turn.startLLM()`) で作成され、
+`end()` で終了します。async コンテキストごとに一度にアクティブにできる LLM は 1 つだけです。`startTool` / `startSubagent` を使用して、その配下に
+tool/subagent の Call をネストしてください。
+
+`inputMessages` / `outputMessages` / `usage` / `reasoning` には、値を直接設定するか、
+ヘルパー関数 (`output`、`think`、`attachMedia`、`record`) を使用して設定します。
+
+記録されたすべてのデータは、`end()` 時に span にフラッシュされます。
+
+`例`
+
+```ts twoslash
+// @noErrors
+const llm = weave.startLLM({model: 'gpt-4o-mini', providerName: 'openai'});
+
+try {
+  llm.inputMessages = [{role: 'user', content: prompt}];
+  const resp = await openai.chat.completions.create({...});
+  llm.output(resp.choices[0].message.content ?? '');
+  llm.record({usage: {inputTokens: resp.usage?.prompt_tokens}});
+} finally {
+  llm.end();
+}
+```
+
+`例`
+
+```ts twoslash
+// @noErrors
+const llm = weave.startLLM({
+  model: 'gpt-4o-mini',
+  providerName: 'openai',
+  systemInstructions: ['You are a helpful weather bot.'],
+  startTime: new Date('2026-05-29T10:00:00.000Z'),
+});
+
+try {
+  // ... LLM を呼び出し、llm.outputMessages / usage を設定する ...
+} finally {
+  llm.end();
+}
+```
+
+<div id="hierarchy">
+  ## 階層
+</div>
+
+* `SpanBase`
+
+  ↳ `LLM`
+
+<div id="table-of-contents">
+  ## 目次
+</div>
+
+<div id="properties">
+  ### プロパティ
+</div>
+
+* [inputMessages](./llm#inputmessages)
+* [model](./llm#model)
+* [outputMessages](./llm#outputmessages)
+* [providerName](./llm#providername)
+* [reasoning](./llm#reasoning)
+* [usage](./llm#usage)
+
+<div id="methods">
+  ### メソッド
+</div>
+
+* [addEvent](./llm#addevent)
+* [attachMedia](./llm#attachmedia)
+* [attachMediaUrl](./llm#attachmediaurl)
+* [end](./llm#end)
+* [output](./llm#output)
+* [record](./llm#record)
+* [setAttributes](./llm#setattributes)
+* [startSubagent](./llm#startsubagent)
+* [startTool](./llm#starttool)
+* [think](./llm#think)
+* [create](./llm#create)
+
+## プロパティ
+
+<div id="inputmessages">
+  ### inputMessages
+</div>
+
+• **inputMessages**: [`Message`](../interfaces/message)[] = `[]`
+
+モデルに送信される入力メッセージです。`end()` の際に
+`gen_ai.input.messages` に書き出されます。
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/llm.ts:93](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L93)
+
+***
+
+<div id="model">
+  ### model
+</div>
+
+• `Readonly` **model**: `string`
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/llm.ts:117](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L117)
+
+***
+
+<div id="outputmessages">
+  ### outputMessages
+</div>
+
+• **outputMessages**: [`Message`](../interfaces/message)[] = `[]`
+
+モデルから返されるアシスタント メッセージです。`end()` の呼び出し時に
+`gen_ai.output.messages` にフラッシュされます。
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/llm.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L98)
+
+***
+
+<div id="providername">
+  ### providerName
+</div>
+
+• `Readonly` **providerName**: `string`
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/llm.ts:118](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L118)
+
+***
+
+<div id="reasoning">
+  ### reasoning
+</div>
+
+• `Optional` **reasoning**: [`Reasoning`](../interfaces/reasoning)
+
+推論の内容です。シリアル化時に、`ReasoningPart` として最後の assistant メッセージに組み込まれます。
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/llm.ts:105](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L105)
+
+***
+
+<div id="usage">
+  ### usage
+</div>
+
+• **usage**: [`Usage`](../interfaces/usage) = `{}`
+
+トークン数とキャッシュの統計情報。`end()` で `gen_ai.usage.*` にフラッシュされます。
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/llm.ts:100](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L100)
+
+## メソッド
+
+<div id="addevent">
+  ### addEvent
+</div>
+
+<Warning>
+  **非推奨。** このデータは代わりに [setAttributes](./llm#setattributes) で記録してください。
+  OpenTelemetry は Span Event API (`Span.addEvent`) を段階的に廃止しています。この
+  メソッドは引き続き動作し、既存の span-event データも引き続き有効です。
+  参照: [https://opentelemetry.io/blog/2026/deprecating-span-events/](https://opentelemetry.io/blog/2026/deprecating-span-events/)
+
+  `例`
+
+  ```ts twoslash
+  // @noErrors
+  span.addEvent('context_compacted', {removedMessages: 12});
+  ```
+</Warning>
+
+▸ **addEvent**(`name`, `attributes?`, `startTime?`): `this`
+
+名前付きのイベントを span に追加します。コンテキストの圧縮、
+tool ループの検出、guardrail のトリガーなど、span 以外の時点を
+記録するのに便利です。`end()` の後に呼び出すと警告が表示され、
+no-op になります。OTel の `Span.addEvent` に対応しています。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名             | タイプ          |
+| :------------ | :----------- |
+| `name`        | `string`     |
+| `attributes?` | `Attributes` |
+| `startTime?`  | `TimeInput`  |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`this`
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+SpanBase.addEvent
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/spanBase.ts:82](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L82)
+
+***
+
+<div id="attachmedia">
+  ### attachMedia
+</div>
+
+▸ **attachMedia**(`opts`): `this`
+
+LLM Call 用のメディア添付をステージします。`content` (インラインの base64 エンコード済みバイト列) 、`uri` (URI reference) 、または `fileId`
+(事前にアップロードされた file ID) のうち、指定できるのは 1 つだけです。添付は `end()` 時に `inputMessages` 内の最後のユーザー
+メッセージに追加されます。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名      | タイプ               |
+| :----- | :---------------- |
+| `opts` | `AttachMediaOpts` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`this`
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/llm.ts:183](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L183)
+
+***
+
+<div id="attachmediaurl">
+  ### attachMediaUrl
+</div>
+
+▸ **attachMediaUrl**(`url`, `opts`): `this`
+
+`attachMedia({uri, modality})` の便利なショートカットです。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名               | タイプ                        |
+| :-------------- | :------------------------- |
+| `url`           | `string`                   |
+| `opts`          | `Object`                   |
+| `opts.modality` | [`Modality`](../#modality) |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`this`
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/llm.ts:192](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L192)
+
+***
+
+<div id="end">
+  ### end
+</div>
+
+▸ **end**(`opts?`): `void`
+
+蓄積された状態をフラッシュして span を閉じます。冪等です。span を失敗としてマークするには、`error` を渡します。終了時刻を過去にさかのぼって設定するには、`endTime` を渡します。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名       | タイプ              |
+| :------ | :--------------- |
+| `opts?` | `SpanEndOptions` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`void`
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/llm.ts:274](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L274)
+
+***
+
+<div id="output">
+  ### output
+</div>
+
+▸ **output**(`content`): `this`
+
+レスポンスにアシスタント メッセージを追加します。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名         | タイプ      |
+| :-------- | :------- |
+| `content` | `string` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`this`
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/llm.ts:155](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L155)
+
+***
+
+<div id="record">
+  ### record
+</div>
+
+▸ **record**(`opts`): `this`
+
+変更可能なフィールドの任意の部分集合を一括で設定します。マージではなく、置き換えです。
+プロバイダの呼び出し結果が返された後に、すべてをまとめて設定する場合に便利です。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名                        | タイプ                                    |
+| :----------------------- | :------------------------------------- |
+| `opts`                   | `Object`                               |
+| `opts.finishReasons?`    | `string`[]                             |
+| `opts.inputMessages?`    | [`Message`](../interfaces/message)[]   |
+| `opts.mediaAttachments?` | `AttachMediaOpts`[]                    |
+| `opts.outputMessages?`   | [`Message`](../interfaces/message)[]   |
+| `opts.outputType?`       | `string`                               |
+| `opts.reasoning?`        | [`Reasoning`](../interfaces/reasoning) |
+| `opts.responseId?`       | `string`                               |
+| `opts.responseModel?`    | `string`                               |
+| `opts.usage?`            | [`Usage`](../interfaces/usage)         |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`this`
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/llm.ts:203](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L203)
+
+***
+
+<div id="setattributes">
+  ### setAttributes
+</div>
+
+▸ **setAttributes**(`attributes`): `this`
+
+spanに複数の属性をまとめて設定します。`end()` の後に呼び出すと、警告が表示され、何も行われません。
+OTel の `Span.setAttributes` (および Python SDK の
+`set_attributes`) に対応しています。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名            | タイプ          |
+| :----------- | :----------- |
+| `attributes` | `Attributes` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`this`
+
+`例`
+
+```ts twoslash
+// @noErrors
+span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
+```
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+SpanBase.setAttributes
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L63)
+
+***
+
+<div id="startsubagent">
+  ### startSubagent
+</div>
+
+▸ **startSubagent**(`opts`): [`SubAgent`](./subagent)
+
+この LLM の配下にネストされた子 SubAgent spanを開始します。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名      | タイプ                                          |
+| :----- | :------------------------------------------- |
+| `opts` | [`SubAgentInit`](../interfaces/subagentinit) |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+[`SubAgent`](./subagent)
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/llm.ts:261](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L261)
+
+***
+
+<div id="starttool">
+  ### startTool
+</div>
+
+▸ **startTool**(`opts`): [`Tool`](./tool)
+
+この LLM の子としてネストされた Tool span を開始します。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名      | タイプ                                  |
+| :----- | :----------------------------------- |
+| `opts` | [`ToolInit`](../interfaces/toolinit) |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+[`Tool`](./tool)
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/llm.ts:252](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L252)
+
+***
+
+<div id="think">
+  ### think
+</div>
+
+▸ **think**(`content`): `this`
+
+モデルの推論/chain-of-thought の内容を設定または追加します。内容は `this.reasoning.content` に蓄積され、シリアル化時に `ReasoningPart` として最後のアシスタント メッセージに組み込まれます。これは Python SDK の on-the-wire 形式と一致します。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名         | タイプ      |
+| :-------- | :------- |
+| `content` | `string` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`this`
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/llm.ts:167](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L167)
+
+***
+
+<div id="create">
+  ### create
+</div>
+
+▸ **create**(`opts`): [`LLM`](./llm)
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名      | タイプ                                                         |
+| :----- | :---------------------------------------------------------- |
+| `opts` | [`LLMInit`](../interfaces/llminit) &amp; `ChildSpanContext` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+[`LLM`](./llm)
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/llm.ts:124](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L124)

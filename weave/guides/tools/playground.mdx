@@ -1,26 +1,27 @@
 ---
 title: "Use the Playground to experiment with prompts"
 description: "Simplify the process of iterating on LLM prompts and responses"
+keywords: ["LLM playground", "prompt engineering", "model comparison", "custom providers", "saved models"]
 ---
 
 <Tip>
-For a limited time, W&B Inference is included in your free tier. W&B Inference provides access to leading open-source foundation models via API and the Weave Playground. 
+For a limited time, Serverless Inference is included in your free tier. Serverless Inference provides access to leading open source foundation models through API and the Weave Playground.
 - [Developer documentation](../integrations/inference)
-- [Product page](https://wandb.ai/site/inference) 
+- [Product page](https://wandb.ai/site/inference)
 </Tip>
 
-Evaluating LLM prompts and responses is challenging. The Weave Playground is designed to simplify the process of iterating on LLM prompts and responses, making it easier to experiment with different models and prompts. With features like prompt editing, message retrying, and model comparison, Playground helps you to quickly test and improve your LLM applications. Playground currently supports models from providers such as OpenAI, Anthropic, and Google, as well as [custom providers](#add-a-custom-provider).
+Evaluating LLM prompts and responses is challenging. The Weave Playground simplifies the process of iterating on LLM prompts and responses, helping you experiment with different models and prompts. With features like prompt editing, message retrying, and model comparison, Playground helps you test and improve your LLM applications. Playground is intended for developers and prompt engineers who want to test, compare, and refine LLM prompts before integrating them into applications. Playground supports models from providers such as OpenAI, Anthropic, and Google, as well as [custom providers](#add-a-custom-provider).
 
-- **Quick access:** Open the 'Playground' from the Weave sidebar menu for a fresh session or from the Call page to test an existing project.
+- **Quick access:** Open the **Playground** from the Weave sidebar menu for a fresh session or from the Call page to test an existing project.
 - **Message controls:** Edit, retry, or delete messages directly within the chat.
 - **Flexible messaging:** Add new messages as either user or system inputs, and send them to the LLM.
 - **Customizable settings:** Configure your preferred LLM provider and adjust model settings.
 - **Multi-LLM support:** Switch between models, with team-level API key management.
 - **Compare models:** Compare how different models respond to prompts.
-- **Custom providers:** Test OpenAI compatible API endpoints for custom models.
-- **Saved models:** Create and configure a reusable model preset for your workflow
+- **Custom providers:** Test OpenAI-compatible API endpoints for custom models.
+- **Saved models:** Create and configure a reusable model preset for your workflow.
 
-Get started with the Playground to optimize your LLM interactions and streamline your prompt engineering process and LLM application development.
+Get started with the Playground to optimize your LLM interactions and streamline your prompt engineering process and LLM application development. The following sections describe how to configure and use the Playground:
 
 - [Add provider credentials and information](#add-provider-credentials-and-information)
 - [Access the Playground](#access-the-playground)
@@ -29,12 +30,12 @@ Get started with the Playground to optimize your LLM interactions and streamline
 - [Message controls](#message-controls)
 - [Compare LLMs](#compare-llms)
 - [Custom providers](#custom-providers)
-- [Saved models](#saved-models) 
+- [Saved models](#saved-models)
 
 
 ## Add provider credentials and information
 
-Before you can use Playground, you must add provider credentials.  Playground currently supports models from many providers. To use one of the available models, add the appropriate information to your team secrets in W&B settings.
+Before you can use Playground, you must add provider credentials so that Playground can authenticate requests to each model provider on your behalf. Playground supports models from many providers. To use one of the available models, you must add the appropriate information to your team secrets in W&B settings.
 
 - Amazon Bedrock:
   - `AWS_ACCESS_KEY_ID`
@@ -54,9 +55,9 @@ Before you can use Playground, you must add provider credentials.  Playground cu
 
 ## Access the Playground
 
-There are two ways to access the Playground:
+You can access the Playground in two ways:
 
-1. _Open a fresh Playground page with a simple system prompt_: In the sidebar of a Weave project, select **Playground**. Playground opens in the same tab.
+1. _Open a fresh Playground page with a default system prompt_: In the sidebar of a Weave project, select **Playground**. Playground opens in the same tab.
 2. _Open Playground for a specific call_:
    1. In the sidebar, select the **Traces** tab. A list of traces displays.
    2. In the list of traces, click the name of the call that you want to view. The call's details page opens.
@@ -68,7 +69,7 @@ There are two ways to access the Playground:
 
 ## Select an LLM
 
-You can switch the LLM using the **Select a model** dropdown in the prompt header (top of the main Playground panel). The available models from various providers are listed below:
+You can switch the LLM using the **Select a model** dropdown in the prompt header (top of the main Playground panel). The following providers are available:
 
 - Amazon Bedrock
 - Anthropic
@@ -85,34 +86,40 @@ The available models depend on the providers configured for your team.
 
 ## Customize Playground settings
 
+You can adjust the parameters of your selected model and add functions for the model to call. The following sections describe how to customize Playground settings.
+
 ### Adjust LLM parameters
 
 You can experiment with different parameter values for your selected model. To adjust parameters in the Playground, do the following:
 
 1. In the prompt header (top of main panel), click the **Chat settings (<Icon icon="sliders" iconType="regular" />)** button to open the **Chat settings** panel.
 2. In the **Chat settings** panel, adjust parameters as desired. You can also toggle Weave call tracking on or off, and [add a function](#add-a-function).
-3. Changes are applied automatically.  Click **Chat settings** again, or the **x** in the upper-right corner, to close the panel.  The hover text for the **Chat settings** button updates to display the settings you have changed.
+3. Changes apply automatically. Click **Chat settings** again, or the **x** in the upper-right corner, to close the panel. The hover text for the **Chat settings** button shows the settings you've changed.
 
 
-If you leave the page, your settings will be lost. To save your settings, [save your model](#save-a-model).
-If you want to discard your changed settings and start over, refresh the page.
+<Note>
+If you leave the page, your settings are lost. To save your settings, [save your model](#save-a-model). If you want to discard your changed settings and start over, refresh the page.
+</Note>
 
 <Frame>
-![The Weave Playground showing the 'Select a model' dropdown open and the Chat settings panel open on the right.](/weave/guides/tools/imgs/playground_settings.png)
+![The Weave Playground showing the Select a model dropdown open and the Chat settings panel open on the right.](/weave/guides/tools/imgs/playground_settings.png)
 </Frame>
 
 
 
-Playground allows you to generate multiple outputs for the same input by setting the number of trials. The default setting is `1`. To adjust the number of trials,  open the **Chat settings** panel and adjust the **Number of trials** setting.
+Playground lets you generate multiple outputs for the same input by setting the number of trials. The default setting is `1`. To adjust the number of trials, open the **Chat settings** panel and adjust the **Number of trials** setting.
 
 ### Add a function
 
-You can test how different models use functions based on input it receives from the user. To add a function for testing in Playground,  in the **Chat settings** panel, click **+ Add function**. Follow the on-screen guidance to define the function and save your changes.
+You can test how different models use functions based on input they receive from the user. To add a function for testing in Playground, in the **Chat settings** panel, click **+ Add function**. Follow the on-screen guidance to define the function and save your changes.
 
 
 
 
 ## Message controls
+
+The Playground chat interface is organized into three areas: the prompt definition area, the messages panel, and the message composer. The following sections describe each area.
+
 ### Prompt definition area
 
 The **Prompt definition area** lets you define the instructions that shape the model's behavior throughout an interaction.
@@ -122,10 +129,10 @@ Use this area to provide context that applies consistently before any messages a
 It includes:
 - **Prompt selector**: Select an existing saved prompt or create a new one.
 - **Message role selector**: Specify the role of the message being defined (**System**, **Assistant**, or **User** role).
-- **Prompt text**: Enter the instruction text that establishes how the model should respond.
-- **Add message** button: lets you include additional messages in the prompt context before execution.
+- **Prompt text**: Enter the instruction text that establishes how the model responds.
+- **Add message** button: Lets you include additional messages in the prompt context before execution.
 
-These messages are sent to the model together and can be used to:
+These messages are sent to the model together, and you can use them to:
 - Add supplemental system-level instructions.
 - Provide example assistant messages to guide responses (such as few-shot prompting).
 - Predefine user messages for testing specific scenarios.
@@ -147,7 +154,7 @@ You can also **Copy**, **Delete**, **Edit**, and **Retry** messages inside the p
 
 Use the **Message composer** to send new messages to the model.
 
-It supports selecting the message role and submitting messages for execution. Most interactions are authored as **User** messages. **System** or **Assistant** messages can be added when testing instructions change.
+It supports selecting the message role and submitting messages for execution. Most interactions are authored as **User** messages. You can add **System** or **Assistant** messages when testing instruction changes.
 
 <Frame>
 ![Weave Playground showing the prompt definition area at the top, message history in the middle, and a message composer for sending new messages at the bottom.](/weave/guides/tools/imgs/playground_chat_input.png)
@@ -156,21 +163,22 @@ It supports selecting the message role and submitting messages for execution. Mo
 
 ## View message history
 
-To view message history, click the **History (<Icon icon="clock-rotate-left" iconType="light" />)** button in the right-side Playground toolbar.  This opens a History panel showing all messages sent for the current project.  
+To view message history, click the **History (<Icon icon="clock-rotate-left" iconType="light" />)** button in the right-side Playground toolbar. This opens a History panel showing all messages sent for the current project.
 
-Selecting an item from the history automatically loads it into an additional chat panel for comparison. 
+Selecting an item from the history loads it into an additional chat panel for comparison.
 
 ## Compare LLMs
 
-Playground allows you to compare LLMs. To perform a comparison, click the **Add Chat (<Icon icon="plus" iconType="solid" />)** button in the right-side Playground toolbar. A second chat opens next to the original chat.
-In the second chat, you have the same functionality as the original chat, such as choosing the model, adjusting the settings, and adding functions.
+Playground lets you compare LLMs side by side so you can evaluate how different models respond to the same prompts. To perform a comparison, click the **Add Chat (<Icon icon="plus" iconType="solid" />)** button in the right-side Playground toolbar. A second chat opens next to the original chat. The second chat has the same functionality as the original chat, such as choosing the model, adjusting the settings, and adding functions.
 
 
 ## Custom providers
 
+In addition to the built-in providers, the Playground supports custom providers that expose OpenAI-compatible API endpoints. The following sections describe how to add, edit, remove, and use custom providers.
+
 ### Add a custom provider
 
-In addition to the built-in providers, you can use the Playground to test OpenAI compatible API endpoints for custom models. Examples include:
+In addition to the built-in providers, you can use the Playground to test OpenAI-compatible API endpoints for custom models. Examples include:
 
 - Older versions of supported model providers
 - Local models
@@ -181,22 +189,20 @@ To add a custom provider to the Playground, do the following:
 2. Select **+ Add AI provider**.
 3. Select **Custom Provider**.
 4. In the pop-up modal, enter the provider information:
-
-- **Provider name**: A name for the provider, such as `openai` or `ollama`.
-- **API key**: The API key for the provider, such as an OpenAI API key.
-- **Base URL**: The base endpoint for the provider, such as `https://api.openai.com/v1/` or an ngrok URL like `https://e452-2600-1700-45f0-3e10-2d3f-796b-d6f2-8ba7.ngrok-free.app`.
-- **Headers**: (Optional) One or more custom HTTP header key-value pairs.
-- **Models**: One or more models for the provider, such as `deepseek-r1` or `qwq`.
-- **Max tokens**: (Optional) For each model, the maximum number of tokens the model can generate in a response.
-
-5. Once you've entered your provider information, click **Add provider**.
-6. Select your new provider and available model(s) from the **Select a model** dropdown.
+   - **Provider name**: A name for the provider, such as `openai` or `ollama`.
+   - **API key**: The API key for the provider, such as an OpenAI API key.
+   - **Base URL**: The base endpoint for the provider, such as `https://api.openai.com/v1/` or an ngrok URL like `https://e452-2600-1700-45f0-3e10-2d3f-796b-d6f2-8ba7.ngrok-free.app`.
+   - **Headers** (Optional): One or more custom HTTP header key-value pairs.
+   - **Models**: One or more models for the provider, such as `deepseek-r1` or `qwq`.
+   - **Max tokens** (Optional): For each model, the maximum number of tokens the model can generate in a response.
+5. After you've entered your provider information, click **Add provider**.
+6. Select your new provider and available models from the **Select a model** dropdown.
 
 <Warning>
 Because of CORS restrictions, you can't call localhost or 127.0.0.1 URLs directly from the Playground. If you're running a local model server (such as Ollama), use a tunneling service like ngrok to expose it securely. For details, see [Use ngrok with Ollama](#use-a-local-model-as-a-custom-provider).
 </Warning>
 
-Now, you can test the custom provider model(s) using standard Playground features. You can also [edit](#edit-a-custom-provider) or [remove](#remove-a-custom-provider) the custom provider.
+After you add a custom provider, you can test the custom provider models using standard Playground features. You can also [edit](#edit-a-custom-provider) or [remove](#remove-a-custom-provider) the custom provider.
 
 ### Edit a custom provider
 
@@ -213,24 +219,24 @@ To edit information for a [previously created custom provider](#add-a-custom-pro
 
 To remove a [previously created custom provider](#add-a-custom-provider), do the following:
 
-1. In the prompt header, click the **Select a model** dropdown.  Then select **+Configure providers**.
+1. In the prompt header, click the **Select a model** dropdown. Then select **+Configure providers**.
   * Alternatively, in the sidebar menu, you can select **Project**, and then select the **AI Providers** tab.
 2. In the **Custom providers** table, find the custom provider you want to update.
 3. In the **Last Updated** column of the entry for your custom provider, click the delete button (the trashcan icon).
-4. In the pop-up modal, confirm that you want to delete the provider. This action cannot be undone.
+4. In the pop-up modal, confirm that you want to delete the provider. You can't undo this action.
 5. Click **Delete**.
 
 ### Use a local model as a custom provider
 
-To test a locally running model in the Playground, use ngrok and Ollama to create a temporary public URL that bypasses CORS restrictions.
+To test a locally running model in the Playground, use ngrok and Ollama to create a temporary public URL that avoids CORS restrictions. This lets the Playground reach a model that is running on your own machine without violating browser security policies.
 
 To set it up, do the following:
 
 1. [Install ngrok](https://ngrok.com/docs/getting-started/#step-1-install) for your operating system.
-2. Start your Ollama model:
+2. Start your Ollama model. Replace `[MODEL]` with the name of the Ollama model you want to run.
 
    ```bash
-   ollama run <model>
+   ollama run [MODEL]
    ```
 
 3. In a separate terminal, create an ngrok tunnel with the required CORS headers:
@@ -238,7 +244,7 @@ To set it up, do the following:
    ```bash
    ngrok http 11434 --response-header-add "Access-Control-Allow-Origin: *" --host-header rewrite
    ```
-4. After ngrok starts, it will display a public URL, such as `https://xxxx-xxxx.ngrok-free.app`. Use this URL as the **Base URL** when you [add a custom provider](#add-a-custom-provider) in the Playground.
+4. After ngrok starts, it displays a public URL, such as `https://xxxx-xxxx.ngrok-free.app`. Use this URL as the **Base URL** when you [add a custom provider](#add-a-custom-provider) in the Playground.
 
 The following diagram illustrates the data flow between your local environment, the ngrok proxy, and the W&B cloud services:
 
@@ -294,6 +300,8 @@ flowchart LR
 
 ## Saved models
 
+Saved models let you preserve a provider, model, parameters, and function hooks as a reusable preset. The following sections describe how to save, use, and update a model.
+
 ### Save a model
 
 You can create and configure a reusable model preset for your workflow. Saving a model lets you quickly load it with your preferred settings, parameters, and function hooks.
@@ -301,27 +309,27 @@ You can create and configure a reusable model preset for your workflow. Saving a
 1. In the prompt header (top of main panel), in the **Select a model** dropdown, select a provider and model.
 2. In the prompt header, click the **Chat settings (<Icon icon="sliders" iconType="regular" />)** button to open the **Chat settings** panel.
 3. In the **Chat settings** panel:
-   - **Model Name** (required): Enter a name for your saved model. 
+   - **Model Name** (required): Enter a name for your saved model.
    - Adjust parameters as desired. You can also toggle Weave call tracking on or off, and [add a function](#add-a-function).
-4. Click **Publish model**. The model is saved and accessible from **Saved Models** in the **Select a model** dropdown. You can now [use](#use-a-saved-model) and [update](#update-a-saved-model) the saved model.
+4. Click **Publish model**. The model is saved and accessible from **Saved Models** in the **Select a model** dropdown. You can then [use](#use-a-saved-model) and [update](#update-a-saved-model) the saved model.
 
 
 
-### Use a saved model 
+### Use a saved model
 
-Quickly switch to a previously [saved model](#save-a-model) to maintain consistency across experiments or sessions. This way you can pick up right where you left off.
+Switch to a previously [saved model](#save-a-model) to maintain consistency across experiments or sessions. This way you can pick up where you left off.
 
 1. In the prompt header, in the **Select a model** dropdown, select **Saved Models**.
-2. From the list of saved models, select the saved model you want to load. The model loads and is ready for use in the Playground.
+2. From the list of saved models, select the saved model you want to load. The model loads and is ready to use in the Playground.
 
 
 
 ### Update a saved model
 
-Edit an existing [saved model](#save-a-model) to fine-tune parameters or refresh its configuration. This ensures your saved models evolve alongside your use cases.
+Edit an existing [saved model](#save-a-model) to fine-tune parameters or refresh its configuration. This way, your saved models evolve alongside your use cases.
 
 1. In the prompt header, in the **Select a model** dropdown, select **Saved Models**.
-2. From the list of saved models, select the saved model you want to update. 
+2. From the list of saved models, select the saved model you want to update.
 3. In the prompt header, click the **Chat settings (<Icon icon="sliders" iconType="regular" />)** button to open the **Chat settings** panel.
 4. In the **Chat settings** panel, adjust parameters as desired. You can also toggle Weave call tracking on or off, and [add a function](#add-a-function).
 5. Click **Update model**. This updates the model and makes it accessible from **Saved Models** in the **Select a model** dropdown. The version of your saved model increments automatically.

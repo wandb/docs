@@ -1,0 +1,29 @@
+---
+title: "W&B UI에서 로깅한 차트와 미디어를 어떻게 정리할 수 있나요?"
+keywords: ["Experiments"]
+---
+
+로깅한 항목의 이름에 공통 접두사를 사용하면 로깅된 차트와 미디어를 관련 그룹으로 정리할 수 있으며, W&amp;B UI에서 메트릭을 더 쉽게 살펴보고 비교할 수 있습니다.
+
+`/` 문자는 W&amp;B UI에서 로깅된 패널을 구분합니다. 기본적으로는 로깅된 항목 이름에서 `/` 앞부분이 **Panel Section**이라고 하는 패널 그룹을 정의합니다.
+
+예를 들어, 다음 코드는 메트릭을 `val`과 `train`의 두 패널 섹션에 로깅합니다:
+
+```python
+import wandb
+
+with wandb.init() as run:
+
+   run.log({"val/loss": 1.1, "val/acc": 0.3})
+   run.log({"train/loss": 0.1, "train/acc": 0.94})
+```
+
+W&amp;B에서 패널을 그룹화하는 방식을 변경하려면 [Workspace](/ko/models/track/project-page#workspace-tab) 설정을 사용해 패널을 첫 번째 세그먼트만 기준으로 그룹화하거나 `/`로 구분된 모든 세그먼트를 기준으로 그룹화하세요.
+
+***
+
+{/* AUTO-GENERATED: 탭 배지 */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

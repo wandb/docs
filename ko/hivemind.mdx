@@ -1,0 +1,118 @@
+---
+title: "W&B HiveMind"
+description: "AI 코딩 세션을 위한 공유 대시보드입니다. 리더보드, 팀 뷰, 효율성 인사이트 등을 통해 Claude Code, Cursor, Codex, Gemini CLI 등의 활동, 비용, 결과를 추적하세요."
+tag: Preview
+---
+
+W&amp;B HiveMind는 AI 코딩 세션을 위한 공유 대시보드입니다. 이 대시보드에서는 팀이 에이전트로 무엇을 하고 있는지, 그 작업에 얼마나 비용이 드는지, 어떤 결과를 만들어내는지를 리더보드, 팀 뷰, 효율성 인사이트 등과 함께 확인할 수 있습니다. 가벼운 HiveMind 데몬이 각 개발자 컴퓨터에서 실행되며, 코딩 에이전트 활동을 감지하고 세션 전사본을 HiveMind 서비스로 전송합니다.
+
+HiveMind는 두 사용자층을 위해 설계되었습니다:
+
+* **개발자와 AI 실무자**는 이전 세션을 검토하고, 팀의 이력을 검색하며, 코딩 에이전트를 활용하는 방식을 개선할 수 있습니다.
+* **엔지니어링 리더**는 팀과 리포지토리 전반에서 AI 코딩 도입 현황, 비용, 결과를 추적할 수 있습니다.
+
+<div id="quickstart">
+  ## 퀵스타트
+</div>
+
+<Tip>
+  HiveMind와 관련 문서는 전용 사이트에서 확인하실 수 있습니다: [hivemind.wandb.tools](https://hivemind.wandb.tools).
+</Tip>
+
+<div id="1-install-the-hivemind-daemon">
+  ### 1. HiveMind 데몬 설치
+</div>
+
+각 팀원의 로컬 시스템에 클라이언트를 설치하고, 인증한 다음, 데몬을 시작하세요. 사용 중인 플랫폼에 맞는 방법을 선택하세요.
+
+<Tabs>
+  <Tab title="독립형 바이너리 (macOS 또는 Linux)">
+    서명된 독립형 바이너리를 사용해 HiveMind를 다운로드하고 설치하세요.
+
+    ```bash
+    curl -fsSL https://hivemind.wandb.tools/install -o hivemind-install.sh | sh
+    hivemind login
+    ```
+
+    * macOS에서 독립형 바이너리를 사용하려면 Apple Silicon이 필요합니다. Intel Mac에서는 대신 `uv`를 사용하세요.
+    * 관리자 권한(`sudo`)은 필요하지 않습니다.
+    * 설치 프로그램은 백그라운드 서비스(macOS에서는 launchd, Linux에서는 systemd)를 등록하므로, 데몬이 계속 실행되고 로그인 시 자동으로 시작됩니다.
+    * 별도의 조치 없이 자동으로 업그레이드됩니다.
+
+    <Tip>JAMF, Intune, Mosyle, Kandji 또는 Workspace ONE 같은 대규모 배포 도구를 사용해 독립형 바이너리를 배포하고 설치하는 방법에 대한 자세한 내용은 HiveMind 문서의 [MDM](https://hivemind.wandb.tools/docs/mdm)을 참조하세요.</Tip>
+  </Tab>
+
+  <Tab title="uv (macOS 또는 Linux)">
+    macOS 또는 Linux에서는 `uv`로 설치하세요.
+
+    ```bash
+    uv tool install wandb-hivemind
+    hivemind login
+    hivemind start
+    ```
+
+    * `uv`는 운영 체제에 맞는 올바른 바이너리를 자동으로 선택합니다.
+    * `hivemind start`를 실행하면 백그라운드 서비스(macOS에서는 launchd, Linux에서는 systemd)가 등록되므로, 데몬이 계속 실행되고 로그인 시 자동으로 시작됩니다.
+    * `uv tool upgrade wandb-hivemind`로 업그레이드하세요.
+  </Tab>
+</Tabs>
+
+HiveMind 데몬은 코딩 에이전트 활동을 모니터링하고 세션 전사본을 HiveMind 서비스로 전송합니다.
+
+<div id="2-access-the-hivemind-dashboard">
+  ### 2. HiveMind 대시보드에 액세스하세요
+</div>
+
+HiveMind 서비스가 팀의 정보를 받기 시작하면 [HiveMind 대시보드](https://hivemind.wandb.tools)에 액세스하여 시간에 따른 팀의 AI 사용을 추적하고, 이해하고, 개선하세요.
+
+HiveMind 대시보드에서 팀은 다음을 수행할 수 있습니다.
+
+* **여러 에이전트의 세션 보기**: 하나의 데몬이 지원되는 모든 에이전트의 세션을 캡처하므로, 에이전트별 설정이 필요하지 않습니다.
+* **지출 및 사용량 추적**: 시간에 따른 예상 비용, 모델 및 팀별 비용, 토큰 사용량, 병합된 pull request당 비용을 확인할 수 있습니다. 비용 수치는 공개된 모델 가격과 세션 토큰 수를 기반으로 한 추정치이며, AI 벤더가 실제로 청구한 금액은 아닙니다.
+* **성과 측정**: 에이전트 활동을 pull request, 병합률, 그리고 에이전트가 작성한 코드가 얼마나 유지되는지와 연결할 수 있습니다.
+* **과거 작업 재사용**: Claude Code, Codex 또는 Cursor에서 `@hivemind`를 사용해 팀의 세션 이력을 검색하고, 관련 컨텍스트를 현재 세션으로 가져올 수 있습니다.
+* **이력에서 학습**: Claude Code 또는 Cursor 같은 로컬 도구에서 기존 세션을 임포트하여 이전 AI 사용에서 새로운 인사이트를 얻을 수 있습니다.
+
+다음 스크린샷은 HiveMind 대시보드의 예시 페이지인 사용 보고서, 리더보드, 그리고 세션의 상세 보기를 보여줍니다. 자세히 보려면 스크린샷을 클릭하세요.
+
+<Columns cols={2}>
+  <Frame>![차트가 포함된 HiveMind 사용 대시보드](/images/hivemind/hivemind-dashboard-pr-outcomes.png)</Frame>
+  <Frame>![상위 15명의 사용자를 보여주는 HiveMind 리더보드](/images/hivemind/hivemind-dashboard-leaderboard.png)</Frame>
+</Columns>
+
+<Columns cols={1}>
+  <Frame>![인사이트가 포함된 HiveMind 세션 상세 정보](/images/hivemind/hivemind-session-insights.png)</Frame>
+</Columns>
+
+<div id="supported-agents">
+  ## 지원되는 에이전트
+</div>
+
+HiveMind는 에이전트별 설정 없이도 다양한 코딩 에이전트의 세션을 캡처합니다. 예를 들어 다음과 같습니다.
+
+* Claude Code
+* Codex
+* Cursor
+* Gemini CLI
+* GitHub Copilot CLI
+* OpenCode
+* Pi
+
+전체 목록은 [hivemind.wandb.tools](https://hivemind.wandb.tools)에서 확인하세요.
+
+데몬이 실행 중이면 지원되는 에이전트를 사용한 후 약 30초 이내에 세션이 대시보드에 표시됩니다.
+
+<div id="hivemind-and-weave">
+  ## HiveMind와 Weave
+</div>
+
+이미 W&amp;B Weave를 사용 중이라면 HiveMind와 함께 사용할 수 있습니다. 두 제품은 서로 다른 단계를 다루며, 각기 다른 질문에 답합니다.
+
+* Weave는 프로덕션 환경에서 AI 애플리케이션이 무엇을 하는지 관찰하며, LLM 및 에이전트 트레이스, 평가, 품질을 추적합니다.
+* HiveMind는 팀이 AI 코딩 에이전트로 소프트웨어를 구축하는 방식을 관찰하며, 세션, 비용, 생산성을 추적합니다.
+
+<div id="next-steps">
+  ## 다음 단계
+</div>
+
+설정, 권한, CLI 레퍼런스, 문제 해결 등에 대한 자세한 내용은 [HiveMind 문서](https://hivemind.wandb.tools/docs/overview)를 참조하세요.

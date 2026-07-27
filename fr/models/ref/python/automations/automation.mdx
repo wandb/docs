@@ -1,0 +1,46 @@
+---
+title: Automatisation
+namespace: automations_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/automations.py" />
+
+## <kbd>class</kbd> `Automation`
+
+Une instance locale d’une automatisation W&amp;B enregistrée, qui peut être modifiée.
+
+### <kbd>méthode</kbd> `Automation.__init__`
+
+```python
+__init__(
+    typename__: 'Literal['Trigger']' = 'Trigger',
+    id: 'str',
+    created_at: 'datetime',
+    updated_at: 'datetime.datetime | None' = None,
+    name: 'str',
+    description: 'str | None',
+    enabled: 'bool',
+    scope: 'wandb.automations.scopes._ArtifactSequenceScope | wandb.automations.scopes._ArtifactPortfolioScope | wandb.automations.scopes.ProjectScope',
+    event: 'SavedEvent',
+    action: 'wandb.automations.actions.SavedLaunchJobAction | wandb.automations.actions.SavedNotificationAction | wandb.automations.actions.SavedWebhookAction | wandb.automations.actions.SavedNoOpAction'
+) → None
+```
+
+**Arguments :**
+
+* `typename__` (Literal[&#39;Trigger&#39;]):
+* `id` (str):
+* `created_at` (datetime): La date et l’heure de création de cette automatisation.
+* `updated_at` (datetime.datetime | None): La date et l’heure de la dernière mise à jour de cette automatisation, le cas échéant.
+* `name` (str): Le nom de cette automatisation.
+* `description` (str | None): Une description facultative de cette automatisation.
+* `enabled` (bool): Indique si cette automatisation est activée. Seules les automatisations activées se déclenchent.
+* `scope` (wandb.automations.scopes.&#95;ArtifactSequenceScope | wandb.automations.scopes.&#95;ArtifactPortfolioScope | wandb.automations.scopes.ProjectScope): La portée dans laquelle l’événement déclencheur doit se produire.
+* `event` (SavedEvent): L’événement qui déclenche cette automatisation.
+* `action` (wandb.automations.actions.SavedLaunchJobAction | wandb.automations.actions.SavedNotificationAction | wandb.automations.actions.SavedWebhookAction | wandb.automations.actions.SavedNoOpAction): L’action exécutée lorsque cette automatisation est déclenchée.
+
+**Retourne :**
+Un objet `Automation`.

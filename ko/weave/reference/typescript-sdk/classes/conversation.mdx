@@ -1,0 +1,247 @@
+---
+title: "Conversation"
+description: "TypeScript SDK 레퍼런스"
+---
+
+[weave](../) / Conversation
+
+Conversation은 여러 Turn을 단일 `gen_ai.conversation.id` 아래로 묶습니다. Conversation
+자체는 OTel span이 아니며, 하위 항목이 자신의 span에 conversation id를 기록합니다.
+
+<div id="table-of-contents">
+  ## 목차
+</div>
+
+<div id="accessors">
+  ### 접근자
+</div>
+
+* [agentName](./conversation#agentname)
+* [attributes](./conversation#attributes)
+* [conversationId](./conversation#conversationid)
+* [model](./conversation#model)
+* [sessionId](./conversation#sessionid)
+
+<div id="methods">
+  ### 메서드
+</div>
+
+* [end](./conversation#end)
+* [startTurn](./conversation#startturn)
+* [create](./conversation#create)
+
+## 접근자
+
+<div id="agentname">
+  ### agentName
+</div>
+
+• `get` **agentName**(): `string`
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`string`
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/genai/conversation.ts:94](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L94)
+
+***
+
+<div id="attributes">
+  ### attributes
+</div>
+
+• `get` **attributes**(): `Attributes`
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`Attributes`
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/genai/conversation.ts:106](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L106)
+
+***
+
+<div id="conversationid">
+  ### conversationId
+</div>
+
+• `get` **conversationId**(): `string`
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`string`
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/genai/conversation.ts:102](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L102)
+
+***
+
+<div id="model">
+  ### model
+</div>
+
+• `get` **model**(): `string`
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`string`
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/genai/conversation.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L98)
+
+***
+
+<div id="sessionid">
+  ### sessionId
+</div>
+
+<Warning>
+  **사용이 중단되었습니다.** 대신 [Conversation.conversationId](./conversation#conversationid)를 사용하세요.
+</Warning>
+
+• `get` **sessionId**(): `string`
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`string`
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/genai/conversation.ts:111](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L111)
+
+## 메서드
+
+<div id="end">
+  ### end
+</div>
+
+▸ **end**(`opts?`): `void`
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름      | 유형               |
+| :------ | :--------------- |
+| `opts?` | `SpanEndOptions` |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`void`
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/genai/conversation.ts:168](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L168)
+
+***
+
+<div id="startturn">
+  ### startTurn
+</div>
+
+▸ **startTurn**(`opts?`): [`Turn`](./turn)
+
+이 `Conversation` 아래에서 새 `Turn`을 시작합니다. 이 turn은
+conversation의 `conversationId`를 상속하며, `opts`에 지정하지 않은 경우
+`agentName`, `agentId`, `agentDescription`,
+`agentVersion`, `model`은 conversation의 값을 기본값으로 사용합니다.
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름     | 유형                                   |
+| :----- | :----------------------------------- |
+| `opts` | [`TurnInit`](../interfaces/turninit) |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+[`Turn`](./turn)
+
+`예시`
+
+```ts twoslash
+// @noErrors
+const turn = conversation.startTurn();
+```
+
+`예시`
+
+```ts twoslash
+// @noErrors
+const turn = conversation.startTurn({
+  model: 'gpt-4o',
+  agentName: 'research-bot',
+  agentId: 'research-bot-prod',
+  agentDescription: 'Looks up facts on Wikipedia.',
+  agentVersion: '1.4.2',
+  userMessage: 'What is the weather in Tokyo?',
+  systemInstructions: ['You are a helpful weather bot.'],
+  startTime: new Date('2026-05-29T10:00:00.000Z'),
+});
+```
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/genai/conversation.ts:156](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L156)
+
+***
+
+<div id="create">
+  ### create
+</div>
+
+▸ **create**(`opts?`): [`Conversation`](./conversation)
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름     | 유형                                                   |
+| :----- | :--------------------------------------------------- |
+| `opts` | [`ConversationInit`](../interfaces/conversationinit) |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+[`Conversation`](./conversation)
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/genai/conversation.ts:115](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L115)

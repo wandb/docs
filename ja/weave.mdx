@@ -1,47 +1,40 @@
 ---
-title: W&B Weave
-description: W&B Weave で言語モデルアプリのトラッキング、テスト、改善を行う
+title: "W&B Weave"
+description: "W&B Weave で言語モデルアプリをトラッキング、テスト、改善"
 mode: wide
 ---
 
-W&B Weave は、LLM application の追跡、評価、改善を支援するオブザーバビリティ（可観測性）および評価プラットフォームです。Weave を使用すると、以下のことが可能になります。
+W&amp;B Weave は、エージェントと LLM アプリケーションのトラッキング、評価、改善を支援する可観測性および評価のプラットフォームです。Weave を使うと、次のことができます。
 
-* LLM application の [オブザーブ（観察）とデバッグ](/weave/quickstart)
-* LLM 評価モデル（LLM judges）やカスタムスコアラーを使用した、アプリケーションの応答の [評価](/weave/tutorial-eval)
+* [一般的な SDK やハーネスで構築したエージェントをトレースし、メトリクスを収集する](/ja/weave/agent-integration-quickstart)
+* [独自に構築したエージェントを手動でインストルメントして、トレースとメトリクスを収集する](/ja/weave/custom-agents-quickstart)
+* LLM ジャッジモデルと custom scorers を使って、アプリケーションの応答を[評価](/ja/weave/tutorial-eval)する
 
-## はじめに
+<div id="get-started">
+  ## はじめに
+</div>
 
-以下のドキュメントでは、Weave の一連のツールを使用するための基本的な方法をガイドします。
+以下のドキュメントでは、Weave のツールスイートの基本的な使い方を紹介します。
 
 <CardGroup cols={3}>
-  <Card
-    title="クイックスタート：LLM の入出力を追跡する"
-    icon="chart-line"
-    href="/weave/quickstart"
-  >
-    LLM への基本的な呼び出しをトレースし、W&B アカウントでデータを確認することから始めましょう。
+  <Card title="エージェントを Weave と統合する" icon="plug" href="/ja/weave/agent-integration-quickstart">
+    エージェント SDK またはハーネス向けの組み込みインテグレーションを選択し、Agents ビューでセッション、ターン、LLM Call、ツール呼び出しのトレースを開始します。
   </Card>
 
-  <Card
-    title="アプリの評価を始める"
-    icon="clipboard-check"
-    href="/weave/tutorial-eval"
-  >
-    Weave のスコアラーを使用して、アプリケーションのパフォーマンスをテストおよび追跡するための評価パイプラインを構築する方法を学びます。
+  <Card title="カスタム エージェントの可観測性を設定する" icon="code" href="/ja/weave/custom-agents-quickstart">
+    Weave SDK を使用してカスタムのマルチターン エージェントをトレースし、セッション、LLM Call、ツール呼び出しを OpenTelemetry のスパンとして取得します。
   </Card>
 
-  <Card
-    title="RAG アプリケーションを評価する"
-    icon="search"
-    href="/weave/tutorial-rag"
-  >
-    Weave と LLM judges を使用して RAG アプリケーションを構築・評価し、検索の質を測定します。
+  <Card title="Weave UI でエージェントのメトリクスを表示する" icon="chart-line" href="/ja/weave/guides/tracking/view-agent-activity">
+    LLM への基本的な呼び出しをトレースし、入力、出力、コードを W&amp;B アカウントで確認します。
   </Card>
 </CardGroup>
 
-## Weave のインストール
+<div id="install-weave">
+  ## Weaveをインストール
+</div>
 
-W&B Weave は Python および TypeScript ライブラリを提供しています。Weave ライブラリをインストールするには、以下のコマンドを実行します。
+W&amp;B Weave は、Python と TypeScript のライブラリを提供しています。Weave ライブラリをインストールするには、次のコマンドを実行します。
 
 <Tabs>
   <Tab title="Python">
@@ -49,6 +42,7 @@ W&B Weave は Python および TypeScript ライブラリを提供していま�
     pip install weave
     ```
   </Tab>
+
   <Tab title="TypeScript">
     ```bash
     pnpm install weave
@@ -56,4 +50,4 @@ W&B Weave は Python および TypeScript ライブラリを提供していま�
   </Tab>
 </Tabs>
 
-Weave ライブラリの使用を開始するには、[Weights & Biases (W&B) アカウント](https://wandb.ai) を作成し、[ユーザー設定 (User Settings)](https://wandb.ai/settings) で [APIキー] を作成してください。APIキー を使用して W&B アカウントの認証を行い、データの送信を開始できます。
+Weave ライブラリの利用を開始するには、[Weights &amp; Biases (W&amp;B) アカウント](https://wandb.ai) を作成し、[User Settings で APIキーを作成](https://wandb.ai/settings) します。APIキーを使用すると、W&amp;B アカウントに認証してデータの送信を開始できます。

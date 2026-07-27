@@ -1,0 +1,51 @@
+---
+title: OnLinkArtifact
+namespace: automations_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py" />
+
+
+## <kbd>class</kbd> `OnLinkArtifact`
+
+Un nouvel artifact est associé à une collection.
+
+Exemples :
+Définissez un événement qui se déclenche lorsqu’un artifact est associé à la
+collection &quot;my-collection&quot; avec l’alias &quot;prod&quot; :
+
+```python
+from wandb import Api
+from wandb.automations import OnLinkArtifact, ArtifactEvent
+
+api = Api()
+collection = api.artifact_collection(name="my-collection", type_name="model")
+
+event = OnLinkArtifact(
+    scope=collection,
+    filter=ArtifactEvent.alias.eq("prod"),
+)
+```
+
+
+### <kbd>méthode</kbd> `OnLinkArtifact.__init__`
+
+```python
+__init__(
+    event_type: 'Literal[LINK_ARTIFACT]' = LINK_ARTIFACT,
+    scope: 'wandb.automations.scopes._ArtifactSequenceScope | wandb.automations.scopes._ArtifactPortfolioScope | wandb.automations.scopes.ProjectScope',
+    filter: 'wandb.automations._filters.operators.And | wandb.automations._filters.operators.Or | wandb.automations._filters.operators.Nor | wandb.automations._filters.operators.Not | wandb.automations._filters.operators.Lt | wandb.automations._filters.operators.Gt | wandb.automations._filters.operators.Lte | wandb.automations._filters.operators.Gte | wandb.automations._filters.operators.Eq | wandb.automations._filters.operators.Ne | wandb.automations._filters.operators.In | wandb.automations._filters.operators.NotIn | wandb.automations._filters.operators.Exists | wandb.automations._filters.operators.Regex | wandb.automations._filters.operators.Contains | wandb.automations._filters.expressions.FilterExpr | dict[str, Any]' = And(())
+) → None
+```
+
+**Arguments :**
+
+* `event_type` (Literal[LINK&#95;ARTIFACT]):
+* `scope` (wandb.automations.scopes.&#95;ArtifactSequenceScope | wandb.automations.scopes.&#95;ArtifactPortfolioScope | wandb.automations.scopes.ProjectScope): La portée de l’événement.
+* `filter` (wandb.automations.&#95;filters.operators.And | wandb.automations.&#95;filters.operators.Or | wandb.automations.&#95;filters.operators.Nor | wandb.automations.&#95;filters.operators.Not | wandb.automations.&#95;filters.operators.Lt | wandb.automations.&#95;filters.operators.Gt | wandb.automations.&#95;filters.operators.Lte | wandb.automations.&#95;filters.operators.Gte | wandb.automations.&#95;filters.operators.Eq | wandb.automations.&#95;filters.operators.Ne | wandb.automations.&#95;filters.operators.In | wandb.automations.&#95;filters.operators.NotIn | wandb.automations.&#95;filters.operators.Exists | wandb.automations.&#95;filters.operators.Regex | wandb.automations.&#95;filters.operators.Contains | wandb.automations.&#95;filters.expressions.FilterExpr | dict[str, Any]): Conditions supplémentaires, le cas échéant, requises pour que cet événement se déclenche.
+
+**Retourne :**
+Un objet `OnLinkArtifact`.

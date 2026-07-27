@@ -1,52 +1,62 @@
 ---
-title: オンライン・モニタリング
-description: W&B Weave を使用したオンラインモニタリング方法について学ぶ
+title: "オンラインモニタリング"
+description: "W&B Weave を使用してパフォーマンスと品質のメトリクスをトラッキングする、本番環境の LLM アプリケーション向けオンラインモニタリングを設定します。"
+keywords: ["オンラインモニタリング", "本番ダッシュボード", "トレースデータ", "コストトラッキング", "Streamlit"]
 ---
 
 <Note>
-これはインタラクティブな ノートブック です。ローカルで実行するか、以下のリンクを使用できます：
-- [Google Colab で開く](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/online_monitoring.ipynb)
-- [GitHub でソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/online_monitoring.ipynb)
+  これはインタラクティブなノートブックです。ローカルで実行するか、以下のリンクを利用できます。
+
+  * [Google Colab で開く](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/online_monitoring.ipynb)
+  * [GitHub でソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/online_monitoring.ipynb)
 </Note>
 
-# Weave との統合：プロダクションダッシュボード
+<div id="integrate-with-weave-production-dashboard">
+  ## Weave で統合する: 本番ダッシュボード
+</div>
 
-GenAI ツールキットの環境は急速に進化しており、新しい フレームワーク、ツール、アプリケーション が常に登場しています。Weave は、GenAI のモニタリングと評価に関するあらゆるニーズに応えるワンストップショップを目指しています。これは同時に、既存の プラットフォーム と統合したり、プロジェクト や組織の特定のニーズに合わせて Weave を拡張したりする必要がある場合があることも意味しています。
+このノートブックでは、Weave の API と関数を使用して、Weave の Traces ビューの拡張として、本番モニタリング向けのカスタム ダッシュボードを作成する方法を説明します。このガイドは、本番環境で LLM アプリケーションを運用しており、デフォルトの Traces ビューだけでは得られないパフォーマンス、コスト、ユーザー フィードバックを、用途に合わせて可視化したい開発者や ML エンジニアを対象としています。このノートブックでは、次の内容に重点を置きます。
 
-このクックブックでは、Weave の強力な API と関数を活用して、Weave の トレース ビューの拡張として、プロダクションモニタリング用のカスタム ダッシュボード を作成する方法をデモします。以下の点に焦点を当てます：
+* Weave からトレース、コスト、フィードバック、その他のメトリクスを取得する。
+* ユーザー フィードバックとコスト分布の集約ビューを作成する。
+* トークン使用量とレイテンシの時系列可視化を作成する。
 
-- Weave から トレース、コスト、フィードバック、その他の メトリクス を取得する
-- ユーザーフィードバックとコスト分布の集計ビューを作成する
-- トークン使用量とレイテンシの経時変化を 可視化 する
+このノートブックを終えるころには、Weave プロジェクトのトレース データ、コスト、フィードバックを単一のビューに集約した、実際に使えるカスタム ダッシュボードが完成します。`streamlit` をインストールして [production dashboard script](https://github.com/NiWaRe/agent-dev-collection) を実行すれば、ご自身の Weave プロジェクトでこのダッシュボードを試せます。
 
-streamlit をインストールし、[このプロダクションダッシュボードスクリプト](https://github.com/NiWaRe/agent-dev-collection) を実行することで、自身の Weave プロジェクト で ダッシュボード を試すことができます！
+<img src="https://github.com/NiWaRe/knowledge-worker-weave/blob/master/screenshots/dashboard_weave_preview.jpg?raw=true" width="1000" alt="Weave を使用した本番ダッシュボードの例" />
 
-<img src="https://github.com/NiWaRe/knowledge-worker-weave/blob/master/screenshots/dashboard_weave_preview.jpg?raw=true" width="1000" alt="Example Production Dashboard with Weave" />
+<div id="setup">
+  ## セットアップ
+</div>
 
-# 1. セットアップ
-
-このチュートリアルに沿って進めるには、以下のパッケージをインストールするだけです：
+まず、以下のパッケージをインストールします。
 
 ```python lines
 !pip install streamlit pandas plotly weave
 ```
 
-# 2. 実装
+<div id="implementation">
+  ## 実装
+</div>
 
-## 2.1 Weave クライアントの初期化とコストの定義
+以下のセクションでは、Weave クライアントの初期化、call データの取得、ダッシュボード用の可視化の生成について順を追って説明します。
 
-まず、Weave クライアントを初期化し、各 モデル のコストを追加する関数を設定します。
+<div id="initialize-the-weave-client-and-define-costs">
+  ### Weave クライアントを初期化してコストを定義する
+</div>
 
-- 多くの標準的な モデル の標準コストが含まれていますが、独自のカスタムコストやカスタム モデル を簡単に追加することもできます。以下では、いくつかの モデル にカスタムコストを追加し、残りは標準コストを使用する方法を示します。
-- コストは、Weave でトラッキングされた各コール（call）のトークンに基づいて計算されます。多くの LLM ベンダーライブラリでは、トークン使用量を自動的にトラッキングしますが、任意のコールに対してカスタムのトークン数を返すことも可能です。カスタム モデル のトークンカウントとコスト計算の定義方法については、こちらのクックブックを参照してください - [custom cost cookbook](/weave/cookbooks/custom_model_cost#setting-up-a-model-with-weave)
+まず、Weave クライアントを初期化し、各モデルのコストを追加する関数を設定します。この手順は、後続のコストクエリで各 Call のトークン単価を適切に対応付けるために必須です。
+
+W&amp;B には多くの一般的なモデル向けの標準コストが含まれており、独自のカスタムコストやカスタムモデルを追加することもできます。次の例では、いくつかのモデルにカスタムコストを追加し、それ以外には標準コストを使用する方法を示します。
+コストは、Weave で各 Call についてトラッキングされたトークン数に基づいて計算されます。多くの LLM ベンダーのライブラリでは、Weave がトークン使用量を自動的にトラッキングしますが、任意の Call に対してカスタムのトークン数を返すこともできます。カスタムモデルのトークン数とコスト計算の定義方法について詳しくは、[custom cost cookbook](/ja/weave/cookbooks/custom_model_cost#setting-up-a-model-with-weave)を参照してください。
 
 ```python lines
 PROJECT_NAME = "wandb-smle/weave-cookboook-demo"
-
+python
 import weave
 
 MODEL_NAMES = [
-    # モデル名, プロンプトコスト, コンプリーションコスト
+    # モデル名、プロンプトコスト、補完コスト
     ("gpt-4o-2024-05-13", 0.03, 0.06),
     ("gpt-4o-mini-2024-07-18", 0.03, 0.06),
     ("gemini/gemini-1.5-flash", 0.00025, 0.0005),
@@ -74,23 +84,29 @@ def init_weave_client(project_name):
 client = init_weave_client(PROJECT_NAME)
 ```
 
-## 2.2 Weave からのコールデータの取得
+<div id="fetch-calls-data-from-weave">
+  ### Weave から Call データを取得する
+</div>
 
-Weave からコール（call）データを取得するには、2つのオプションがあります：
+クライアントを初期化し、コストを設定したら、次のステップは Weave から Call データを取得することです。Call データを取得する方法は 2 つあります。
 
-1. コールごとにデータを取得する
-2. ハイレベルな API を使用する
+* Call ごとにデータを取得する
+* 高レベル API を使用する
 
-### 2.2.1 コールごとにデータを取得する
+以下のセクションでは、それぞれの方法について説明します。
 
-Weave から データ にアクセスする最初のオプションは、フィルタリングされたコールのリストを取得し、必要なデータをコールごとに抽出することです。そのためには、`calls_query_stream` API を使用して Weave からコールの ログ データを取得できます：
+<div id="fetch-data-call-by-call">
+  #### データを Call ごとに取得する
+</div>
 
-- `calls_query_stream` API: Weave からコールの ログ データを取得できる API です。
-- `filter` 辞書: コール データを取得するためのフィルタ パラメータ が含まれます。詳細は [こちら](/weave/reference/python-sdk/trace_server/trace_server_interface#class-callschema) を参照してください。
-- `expand_columns` リスト: コール データ内で展開するカラムを指定します。
-- `sort_by` リスト: コール データのソート パラメータ を含みます。
-- `include_costs` ブール値: コール データにコストを含めるかどうかを指定します。
-- `include_feedback` ブール値: コール データにフィードバックを含めるかどうかを指定します。
+Weave からデータにアクセスする最初の方法は、フィルターされた Call のリストを取得し、必要なデータを Call ごとに抽出することです。これを行うには、`calls_query_stream` API を使用して Weave から Call データを取得します。
+
+* `calls_query_stream` API: Weave から Call データを取得する API です。
+* `filter` dictionary: Call データを取得するためのフィルター パラメーターを含む辞書です。詳しくは、[CallSchema リファレンス](/ja/weave/reference/python-sdk/trace_server/trace_server_interface#class-callschema)を参照してください。
+* `expand_columns` list: Call データ内で展開する列を含むリストです。
+* `sort_by` list: Call データの並べ替えパラメーターを含むリストです。
+* `include_costs` boolean: Call データにコストを含めるかどうかを示す真偽値です。
+* `include_feedback` boolean: Call データにフィードバックを含めるかどうかを示す真偽値です。
 
 ```python lines
 import itertools
@@ -111,7 +127,7 @@ def fetch_calls(client, project_id, start_time, trace_roots_only, limit):
         calls_stream = client.server.calls_query_stream(filter_params)
         calls = list(
             itertools.islice(calls_stream, limit)
-        )  # 取得するコール数が多すぎる場合に備えて制限をかける
+        )  # 取得するCallの数が多すぎる場合に制限する
         print(f"Fetched {len(calls)} calls.")
     except Exception as e:
         print(f"Error fetching calls: {e}")
@@ -120,12 +136,12 @@ def fetch_calls(client, project_id, start_time, trace_roots_only, limit):
         return calls
 
 calls = fetch_calls(client, PROJECT_NAME, datetime.now() - timedelta(days=1), True, 100)
-
-# 生データは Call オブジェクトのリストです
+python
+# 生データはCallオブジェクトのリスト
 pd.DataFrame([call.dict() for call in calls]).head(3)
 ```
 
-Weave からの戻り値を使用すると、コールの プロセッシング は非常に簡単です。関連する 情報を抽出し、辞書 のリストに保存します。その後、辞書 のリストを pandas の DataFrame に変換して返します。
+Weaveからの戻り値を使ってCallを処理します。関連する情報を抽出し、辞書のリストに格納します。次に、その辞書のリストを pandas DataFrame に変換して返します。
 
 ```python lines
 import json
@@ -152,8 +168,8 @@ def process_calls(calls):
         records.append(
             {
                 "Call ID": call.id,
-                "Trace ID": call.trace_id,  # トレースを取得するために使用できるユニークな ID
-                "Display Name": call.display_name,  # UIやプログラムで設定可能なオプション名
+                "Trace ID": call.trace_id,  # トレースの一意の ID。トレースの取得に使用できます
+                "Display Name": call.display_name,  # UI またはプログラムで設定できる省略可能な名前です
                 "Latency (ms)": latency,
                 "Thumbs Up": thumbs_up,
                 "Thumbs Down": thumbs_down,
@@ -163,31 +179,35 @@ def process_calls(calls):
             }
         )
     return pd.DataFrame(records)
-
+python
 df_calls = process_calls(calls)
 df_calls.head(3)
 ```
 
-### 2.2.2 ハイレベルな API の使用
+<div id="use-high-level-apis">
+  #### 高レベル API の使用
+</div>
 
-すべてのコールを個別に調べる代わりに、Weave は モデル のコスト、フィードバック、およびその他の メトリクス に直接 アクセス するためのハイレベルな API も提供しています。
-例えば、コストについては、`query_costs` API を使用して、プロジェクト で使用されているすべての LLM のコストを取得できます。
+個々のcallをすべて確認する代わりに、Weave にはモデルのコスト、フィードバック、そのほかのメトリクスに直接アクセスできる高レベル API も用意されています。
+たとえばコストについては、`query_costs` API を使用して、プロジェクト内で使用されているすべての LLM のコストを取得します。
 
 ```python lines
-# コスト API を使用してコストを取得
+# コスト API を使用してコストを取得する
 costs = client.query_costs()
 df_costs = pd.DataFrame([cost.dict() for cost in costs])
 df_costs["total_cost"] = (
     df_costs["prompt_token_cost"] + df_costs["completion_token_cost"]
 )
 
-# 各 llm_id に対して最初の1行のみを表示
+# 一意の llm_id ごとに最初の行のみを表示する
 df_costs
 ```
 
-## 2.4 インプットの収集と可視化の生成
+<div id="gather-inputs-and-generate-visualizations">
+  ### 入力データを集約して可視化を生成する
+</div>
 
-次に、plotly を使用して 可視化 を生成できます。これは最も基本的な ダッシュボード ですが、好みに合わせてカスタマイズできます！より複雑な例については、[こちら](https://github.com/NiWaRe/knowledge-worker-weave/blob/master/prod_dashboard.py) の Streamlit の例を確認してください。
+Call データとコストを DataFrame として利用できるため、plotly を使って可視化を生成できます。これは用途に応じて自由にカスタマイズできる、出発点となるダッシュボードです。より高度な例については、[knowledge-worker-weave リポジトリ内の Streamlit の例](https://github.com/NiWaRe/knowledge-worker-weave/blob/master/prod_dashboard.py)を参照してください。
 
 ```python lines
 import plotly.express as px
@@ -219,22 +239,24 @@ def plot_model_cost_distribution(df):
     fig.update_layout(xaxis_title="Model", yaxis_title="Cost (USD)")
     return fig
 
-# すべてのプロットについてはソースコードを参照してください
-
+# すべてのプロットのソースコードを参照
+python
 plot_feedback_pie_chart(df_calls["Thumbs Up"].sum(), df_calls["Thumbs Down"].sum())
-
+python
 plot_model_cost_distribution(df_costs)
 ```
 
-# まとめ
+<div id="conclusion">
+  ## 結論
+</div>
 
-このクックブックでは、Weave の API と関数を使用してカスタムのプロダクションモニタリング ダッシュボード を作成する方法をデモしました。Weave は現在、データの簡単な入力のための迅速な インテグレーション と、カスタム プロセス のためのデータ抽出に重点を置いています。
+このクックブックでは、Weave の API と関数を使用して、カスタムの本番モニタリング ダッシュボードを作成する方法を紹介しました。Weave は、高速なインテグレーションによってデータの取り込みを効率化するとともに、カスタム プロセス向けにデータを抽出できることに重点を置いています。
 
-- **データ入力：**
-  - [@weave-op()](/weave/quickstart#2-log-a-trace-to-a-new-project) デコレータによる フレームワーク に依存しない トレース と、CSV からのコールのインポート機能（関連する [import cookbook](/weave/cookbooks/import_from_csv) を参照）。
-  - 様々な プログラミングフレームワーク や言語から Weave に ログ を記録するためのサービス API エンドポイント。詳細は [こちら](https://docs.wandb.ai/weave/reference/service-api/calls/call-start) を参照。
-- **データ出力：**
-  - CSV、TSV、JSONL、JSON 形式での簡単なデータダウンロード。詳細は [こちら](/weave/reference/service-api) を参照。
-  - プログラムによる データアクセス を使用した簡単なエクスポート。このクックブックで説明されているエクスポート パネル の "Use Python" セクションを参照してください。詳細は [こちら](/weave/guides/tracking/tracing#querying-and-exporting-calls) を参照してください。
+* **データ入力:**
+  * [`@weave-op()`](/ja/weave/quickstart#2-log-a-trace-to-a-new-project) デコレータによるフレームワーク非依存のトレースと、CSV から Call をインポートするオプション (関連する [import cookbook](/ja/weave/cookbooks/import_from_csv) を参照してください) 。
+  * さまざまなプログラミング フレームワークや言語から Weave にログするための Service API endpoint。詳細は [Service API リファレンス](https://docs.wandb.ai/weave/reference/service-api/calls/call-start) を参照してください。
+* **データ出力:**
+  * データを CSV、TSV、JSONL、または JSON 形式でダウンロードできます。詳細は [Service API リファレンス](/ja/weave/reference/service-api) を参照してください。
+  * データへのプログラムによるアクセスを使用してエクスポートします。このクックブックで説明したように、エクスポート パネルの「Use Python」セクションを参照してください。詳細は [Querying and exporting calls](/ja/weave/guides/tracking/tracing#querying-and-exporting-calls) を参照してください。
 
-このカスタム ダッシュボード は Weave ネイティブの トレース ビューを拡張し、プロダクション環境における LLM アプリケーション のカスタマイズされたモニタリングを可能にします。より複雑な ダッシュボード を見たい場合は、自身の Weave プロジェクト の URL を追加できる [このリポジトリ](https://github.com/NiWaRe/agent-dev-collection) の Streamlit の例をチェックしてください。
+このカスタム ダッシュボードは、Weave に標準搭載されている Traces ビューを拡張し、本番環境の LLM アプリケーションを用途に応じてモニタリングできるようにします。より複雑なダッシュボードについては、[agent-dev-collection リポジトリの Streamlit example](https://github.com/NiWaRe/agent-dev-collection) を確認してください。ここでは独自の Weave プロジェクト URL を追加できます。

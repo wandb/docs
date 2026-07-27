@@ -1,0 +1,25 @@
+---
+title: "Comment puis-je désactiver le logging ?"
+keywords: ["Logs"]
+---
+
+Vous pouvez empêcher W&amp;B de journaliser des données vers le serveur distant, ou laisser le logging activé tout en masquant ses messages d’avertissement. Utilisez l’approche qui correspond à votre objectif.
+
+Pour arrêter la synchronisation des données vers les serveurs W&amp;B, exécutez la commande `wandb offline`. Cette commande définit la variable d&#39;environnement `WANDB_MODE=offline`, ce qui empêche la synchronisation des données avec le serveur W&amp;B distant dans tous les Projects.
+
+Pour conserver le logging activé tout en réduisant le bruit dans la console, masquez les messages d’avertissement avec le code suivant :
+
+```python
+import logging
+
+logger = logging.getLogger("wandb")
+logger.setLevel(logging.WARNING)
+```
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badge d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Logs](/fr/support/models/tags/logs)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

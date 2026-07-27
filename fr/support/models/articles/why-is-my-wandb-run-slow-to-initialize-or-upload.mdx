@@ -1,0 +1,73 @@
+---
+title: "Pourquoi mon run W&B est-il lent à s'initialiser ou à téléverser ?"
+keywords: ["Runs", "Experiments", "Connectivité"]
+---
+
+Un `wandb.init()` lent ou un téléversement lent des métriques sont généralement dus à la latence réseau, à des charges utiles multimédias volumineuses, à une fréquence de journalisation élevée ou au démarrage lent du processus du service W&amp;B.
+
+<div id="slow-wandbinit">
+  ## `wandb.init()` est lent
+</div>
+
+`wandb.init()` contacte l’API W&amp;B pour créer le run et vérifier les identifiants d’authentification. S’il reste bloqué plus de quelques secondes :
+
+* **Vérifiez la connectivité** : exécutez `curl -I https://api.wandb.ai` pour confirmer que votre machine peut joindre l’API W&amp;B. Les règles de pare-feu ou les configurations de proxy sur les clusters en sont souvent la cause.
+
+* **Augmentez le délai d’expiration de l’initialisation** : si la connexion est intermittente, accordez plus de temps à `wandb.init()` avant qu’il n’abandonne :
+
+  ```python
+  import os
+  os.environ["WANDB_INIT_TIMEOUT"] = "120"   # secondes
+  ```
+
+* **Utilisez le mode hors ligne pendant les tests** : si vous n’avez pas besoin d’une synchronisation en temps réel pendant vos itérations, exécutez en mode hors ligne et synchronisez plus tard. Remplacez `[TIMESTAMP]` et `[ID]` par l’horodatage et l’ID de votre run :
+
+  ```bash
+  WANDB_MODE=offline python train.py
+  wandb sync wandb/run-[TIMESTAMP]-[ID]
+  ```
+
+<div id="slow-metric-uploads-during-training">
+  ## Téléversement lent des métriques pendant l’entraînement
+</div>
+
+W&amp;B téléverse les métriques de manière asynchrone dans des threads d’arrière-plan afin de ne pas bloquer votre boucle d’entraînement. Les téléversements peuvent prendre du retard dans les cas suivants :
+
+* **Vous journalisez trop fréquemment** : appeler `wandb.log()` à chaque étape sur un GPU rapide peut générer plus de données que les threads d’arrière-plan ne peuvent en téléverser. Journalisez plutôt toutes les N étapes :
+
+  ```python
+  if step % 50 == 0:
+      wandb.log({"loss": loss}, step=step)
+  ```
+
+* **Vous journalisez des médias volumineux à chaque étape** : les objets `wandb.Image`, `wandb.Table` et `wandb.Video` sont nettement plus volumineux que les métriques scalaires. Journalisez les médias enrichis à chaque époque ou toutes les N étapes, plutôt qu’à chaque étape.
+
+* **Limites de débit** : si vous rencontrez l’erreur `429 Rate limit exceeded`, voir [Comment puis-je corriger les erreurs de limite de débit dépassée ?](/fr/support/models/articles/rate-limit-exceeded-on-metric-logging).
+
+<div id="run-finalization-is-slow">
+  ## La finalisation du run est lente
+</div>
+
+Une fois que votre script appelle `wandb.finish()` (ou se termine), W&amp;B vide les données restantes encore en mémoire tampon. Cela peut prendre du temps si un volume important de données s’est accumulé pendant l’entraînement. Gardez une fréquence de journalisation raisonnable tout au long de l’entraînement, au lieu de tout regrouper à la fin.
+
+<div id="diagnosing-with-debug-logs">
+  ## Diagnostic à l’aide des journaux de débogage
+</div>
+
+Activez la journalisation de débogage pour voir où le temps est passé :
+
+```bash
+WANDB_DEBUG=true python train.py
+```
+
+Cela consigne des informations détaillées sur le temps d&#39;exécution dans `wandb/debug.log` et `wandb/debug-internal.log`.
+
+Pour plus d&#39;informations, voir [Limites et performances d&#39;Experiments](/fr/models/track/limits) et [Comment puis-je gérer les problèmes de réseau ?](/fr/support/models/articles/how-do-i-deal-with-network-issues).
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Runs](/fr/support/models/tags/runs)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Connectivité](/fr/support/models/tags/connectivity)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

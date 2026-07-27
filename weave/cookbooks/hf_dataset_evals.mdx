@@ -1,6 +1,7 @@
 ---
 title: "HuggingFace Dataset Evaluations"
-description: "Learn how to use huggingface dataset evaluations with W&B Weave"
+description: "Learn how to use HuggingFace dataset evaluations with W&B Weave"
+keywords: ["HuggingFace", "preprocess_model_input", "Evaluation", "datasets", "scorer"]
 ---
 
 <Note>
@@ -9,19 +10,19 @@ This is an interactive notebook. You can run it locally or use the links below:
 - [View source on GitHub](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/hf_dataset_evals.ipynb)
 </Note>
 
-# Using HuggingFace Datasets in evaluations with `preprocess_model_input`
+This notebook shows you how to use a HuggingFace dataset as the input source for a Weave `Evaluation`. By the end, you'll have a working evaluation pipeline that references rows in a HuggingFace dataset by index, preprocesses each row into the format your model expects, and tracks the scored results in Weave. This pattern is useful when you want to evaluate models against existing HuggingFace datasets without first converting them into a Weave-native dataset.
 
-## Note: This is a temporary workaround
-> This guide demonstrates a workaround for using HuggingFace Datasets with Weave evaluations.<br /><br/>
-We are actively working on developing more seamless integrations that will simplify this process.\
-> While this approach works, expect improvements and updates in the near future that will make working with external datasets more straightforward.
+<Note>
+This guide demonstrates a workaround for using HuggingFace datasets with Weave evaluations. The approach works today, and more seamless integrations for external datasets are in development.
+</Note>
 
 ## Setup and imports
-First, we initialize Weave and connect to Weights & Biases for tracking experiments.
+
+First, initialize Weave and connect to W&B so that Weave tracks the evaluation runs and their results in your Weave project.
 
 ```python lines
 !pip install datasets wandb weave
-python
+
 # Initialize variables
 HUGGINGFACE_DATASET = "wandb/ragbench-test-sample"
 WANDB_KEY = ""
@@ -48,13 +49,11 @@ nest_asyncio.apply()
 
 ## Load and prepare HuggingFace dataset
 
-- We load a HuggingFace dataset.
-- Create an index mapping to reference the dataset rows.
-- This index approach allows us to maintain references to the original dataset.
+Next, load the HuggingFace dataset and build a lightweight index that the evaluation iterates over. Rather than passing the dataset rows directly to Weave, pass a list of index references and resolve them to full rows during preprocessing. This approach keeps the evaluation tied to the original HuggingFace dataset and maintains references to it.
 
-> **Note:**<br/>
-In the index, we encode the `hf_hub_name` along with the `hf_id` to ensure each row has a unique identifier.\
-This unique digest value is used for tracking and referencing specific dataset entries during evaluations.
+<Note>
+In the index, encode the `hf_hub_name` along with the `hf_id` to ensure each row has a unique identifier. Weave uses this unique digest value to track and reference specific dataset entries during evaluations.
+</Note>
 
 ```python lines
 # Load the HuggingFace dataset
@@ -69,10 +68,13 @@ hf_index = [{"hf_id": i, "hf_hub_name": HUGGINGFACE_DATASET} for i in range(row_
 
 ## Define processing and evaluation functions
 
-### Processing pipeline
-- `preprocess_example`: Transforms the index reference into the actual data needed for evaluation
-- `hf_eval`: Defines how to score the model outputs
-- `function_to_evaluate`: The actual function/model being evaluated
+With the index in place, define the three functions that make up the evaluation pipeline: one to turn each index reference into a usable example, one to score the model's output, and one representing the model being evaluated.
+
+The processing pipeline uses the following functions:
+
+- `preprocess_example`: Transforms the index reference into the actual data needed for evaluation.
+- `hf_eval`: Defines how to score the model outputs.
+- `function_to_evaluate`: The actual function or model being evaluated.
 
 ```python lines
 @weave.op()
@@ -112,13 +114,16 @@ def function_to_evaluate(prompt: str):
     return {"generated_text": "testing "}
 ```
 
-### Create and run evaluation
+## Create and run the evaluation
 
-- For each index in hf_index:
-  1. `preprocess_example` gets the corresponding data from the HF dataset.
-  2. The preprocessed data is passed to `function_to_evaluate`.
-  3. The output is scored using `hf_eval`.
-  4. Results are tracked in Weave.
+Finally, wire the index, scorer, and preprocessing function into a Weave `Evaluation` and run it against the model. For each entry in `hf_index`, Weave performs the following steps:
+
+1. `preprocess_example` gets the corresponding data from the HuggingFace dataset.
+2. Weave passes the preprocessed data to `function_to_evaluate`.
+3. `hf_eval` scores the output.
+4. Weave tracks the results.
+
+After the evaluation finishes, the run and its per-row scores are available in your Weave project for inspection.
 
 ```python lines
 # Create evaluation object

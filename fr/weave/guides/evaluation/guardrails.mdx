@@ -1,0 +1,250 @@
+---
+title: "Configurer les garde-fous"
+description: "Assurez la sécurité des LLM et mesurez la qualité des réponses dans les applications en production"
+keywords: ["garde-fous", "évaluateur de modération", "détection de PII", "garde-fous Bedrock", "sécurité du contenu"]
+---
+
+Les garde-fous interviennent dans le comportement de votre application LLM en fonction des scores attribués par des juges LLM. Ils s&#39;exécutent en temps réel avant que les réponses n&#39;atteignent les utilisateurs et peuvent bloquer ou modifier des réponses lorsque les scores dépassent les seuils définis. Vous pouvez utiliser des garde-fous pour bloquer les contenus toxiques, filtrer les réponses afin de détecter des information personnelle identifiable (PII), ou bloquer les entrées abusives envoyées par les utilisateurs.
+
+Ce guide explique le fonctionnement des garde-fous Weave, comment ajuster leurs performances, et présente des exemples qui utilisent des évaluateurs intégrés, des évaluateurs personnalisés et AWS Bedrock garde-fous pour protéger les applications LLM en production.
+
+<div id="how-weave-guardrails-work">
+  ## Comment fonctionnent les garde-fous Weave
+</div>
+
+Les garde-fous Weave utilisent des [Weave Évaluateurs](/fr/weave/guides/evaluation/scorers) inline pour évaluer les entrées d&#39;un utilisateur ou les sorties d&#39;un LLM, et ajuster les réponses du LLM en temps réel. Vous pouvez configurer des évaluateurs personnalisés ou utiliser des [évaluateurs intégrés](/fr/weave/guides/evaluation/builtin_scorers) pour évaluer le contenu à diverses fins. Ce guide montre comment utiliser ces deux types d’évaluateurs comme garde-fous.
+
+Si vous souhaitez attribuer passivement un score au trafic de production sans modifier le flux de contrôle de votre application, utilisez plutôt des [monitors](/fr/weave/guides/evaluation/monitors).
+
+Contrairement aux monitors, les garde-fous nécessitent des modifications du code, car ils affectent le flux de contrôle de votre application. Cependant, chaque résultat produit par un évaluateur de garde-fou est automatiquement stocké dans la base de données de Weave. Vos garde-fous servent donc aussi de monitors, sans configuration supplémentaire. Vous pouvez analyser les résultats historiques des évaluateurs, quelle que soit leur utilisation initiale.
+
+<Note>
+  Le SDK TypeScript de Weave ne prend pas en charge les outils requis pour configurer des garde-fous.
+</Note>
+
+<div id="optimize-your-weave-guardrail-performance">
+  ### Optimisez les performances de vos garde-fous Weave
+</div>
+
+Comme les garde-fous peuvent interrompre le flux de contrôle de votre application et infléchir ses réponses, ils peuvent affecter les performances s’ils sont trop complexes. Pour des performances optimales, suivez ces recommandations :
+
+* Gardez une logique de garde-fou simple et rapide.
+* Mettez en cache les résultats fréquents.
+* Évitez les appels lourds à des API externes.
+* Initialisez les garde-fous en dehors de vos fonctions principales pour éviter des coûts d’initialisation répétés.
+
+Initialiser vos garde-fous en dehors de votre fonction principale est particulièrement important lorsque :
+
+* Vos évaluateurs chargent des modèles de machine learning.
+* Vous utilisez des LLM locaux, où la latence est critique.
+* Vos évaluateurs conservent des connexions réseau.
+* Vous avez des applications à fort trafic.
+
+<div id="example-create-a-guardrail-using-a-built-in-moderation-scorer">
+  ## Exemple : Créer un guardrail à l’aide d’un évaluateur de modération intégré
+</div>
+
+L’exemple suivant envoie des prompts d’utilisateur au modèle GPT-4o mini d’OpenAI. La réponse du modèle est ensuite transmise à [l’API de modération d’OpenAI](https://platform.openai.com/docs/guides/moderation) afin de déterminer si la réponse du LLM contient du contenu nuisible ou toxique. La réponse du modèle est transmise à la fonction de guardrail (`generate_safe_response()`), qui utilise `OpenAIModerationScorer` pour vérifier la réponse d’origine du LLM. La logique de la fonction vérifie ensuite la réponse d’évaluation d’OpenAI pour voir si le champ `passed` contient une valeur booléenne, ce qui détermine la manière dont l’application répond.
+
+```python lines {28-45}
+import weave
+import openai
+from weave.scorers import OpenAIModerationScorer
+import asyncio
+
+# Initialiser Weave
+weave.init("your-team-name/your-project-name")
+
+# Initialiser le client OpenAI
+client = openai.OpenAI()  # Uses OPENAI_API_KEY env var
+
+# Initialiser l'évaluateur de modération
+moderation_scorer = OpenAIModerationScorer()
+
+# Envoyer des prompts à OpenAI
+@weave.op
+def generate_response(prompt: str) -> str:
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": prompt}
+        ],
+        max_tokens=200
+    )
+    return response.choices[0].message.content
+
+# La fonction guardrail vérifie les réponses pour détecter la toxicité
+async def generate_safe_response(prompt: str) -> str:
+    """Generate a response with content moderation guardrail."""
+    # Obtenir le résultat et l'objet Call
+    result, call = generate_response.call(prompt)
+    
+    # Appliquer l'évaluateur de modération avant de renvoyer le résultat à l'utilisateur
+    score = await call.apply_scorer(moderation_scorer)
+    print("This is the score object:", score)
+    
+    # Vérifier si le contenu a été signalé
+    if not score.result.get("passed", True): 
+        categories = score.result.get("categories", {})
+        flagged_categories = list(categories.keys()) if categories else []
+        print(f"Content blocked. Flagged categories: {flagged_categories}")
+        return "I'm sorry, I can't provide that response due to content policy restrictions."
+    
+    return result
+
+# Exécuter les exemples
+if __name__ == "__main__":
+    
+    prompts = [
+        "What's the capital of France?",
+        "Tell me a funny fact about dogs.",
+    ]
+    
+    for prompt in prompts:
+        print(f"\nPrompt: {prompt}")
+        response = asyncio.run(generate_safe_response(prompt))
+        print(f"Response: {response}")
+```
+
+Lorsque vous utilisez des évaluateurs LLM-as-a-judge, vous pouvez faire référence à des variables de vos ops dans vos prompts d’évaluation. Par exemple, &quot;Évaluez si `{output}` est exact en vous basant sur `{ground_truth}`.&quot; Voir [variables de prompt](/fr/weave/guides/evaluation/scorers#access-variables-from-your-ops-in-scoring-prompts) pour plus d’informations.
+
+<div id="example-create-a-guardrail-using-a-custom-scorer">
+  ## Exemple : créer un guardrail à l’aide d’un évaluateur personnalisé
+</div>
+
+L’exemple suivant crée un guardrail personnalisé qui détecte les informations personnelles identifiables (PII) dans les réponses du LLM, comme les adresses e-mail, les numéros de téléphone ou les numéros de sécurité sociale. Cela évite d’exposer des informations sensibles dans le contenu généré. La fonction `generate_safe_response` applique le `PIIDetectionScorer` personnalisé.
+
+```python lines {14-39, 57-69}
+import weave
+import openai
+import re
+import asyncio
+from weave import Scorer
+
+weave.init("your-team-name/your-project-name")
+
+client = openai.OpenAI()
+
+class PIIDetectionScorer(Scorer):
+    """Detects PII in LLM outputs to prevent data leaks."""
+    
+    @weave.op
+    def score(self, output: str) -> dict:
+        """
+        Check for common PII patterns in the output.
+        
+        Returns:
+            dict: Contains 'passed' (bool) and 'detected_types' (list)
+        """
+        detected_types = []
+        
+        # Motif e-mail
+        if re.search(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', output):
+            detected_types.append("email")
+        
+        # Motif numéro de téléphone (format américain)
+        if re.search(r'\b\d{3}[-.]?\d{3}[-.]?\d{4}\b', output):
+            detected_types.append("phone")
+        
+        # Motif numéro de sécurité sociale (SSN)
+        if re.search(r'\b\d{3}-\d{2}-\d{4}\b', output):
+            detected_types.append("ssn")
+        
+        return {
+            "passed": len(detected_types) == 0,
+            "detected_types": detected_types
+        }
+
+# Initialiser le scorer en dehors de la fonction pour de meilleures performances
+pii_scorer = PIIDetectionScorer()
+
+@weave.op
+def generate_response(prompt: str) -> str:
+    """Generate a response using an LLM."""
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": prompt}
+        ],
+        max_tokens=200
+    )
+    return response.choices[0].message.content
+
+async def generate_safe_response(prompt: str) -> str:
+    """Generate a response with PII detection guardrail."""
+    result, call = generate_response.call(prompt)
+    
+    # Appliquer le scorer de détection PII
+    score = await call.apply_scorer(pii_scorer)
+    
+    # Bloquer la réponse si des données PII sont détectées
+    if not score.result.get("passed", True):
+        detected_types = score.result.get("detected_types", [])
+        return f"I cannot provide a response that may contain sensitive information (detected: {', '.join(detected_types)})."
+    
+    return result
+
+# Exemple d'utilisation
+if __name__ == "__main__":
+    prompts = [
+        "What's the weather like today?",
+        "Can you help me contact someone at john.doe@example.com?",
+        "Tell me about machine learning.",
+    ]
+    
+    for prompt in prompts:
+        print(f"\nPrompt: {prompt}")
+        response = asyncio.run(generate_safe_response(prompt))
+        print(f"Response: {response}")
+```
+
+<div id="integrate-weave-with-aws-bedrock-guardrails">
+  ## Intégrer Weave avec AWS Bedrock garde-fous
+</div>
+
+Si vous gérez déjà des politiques de contenu dans AWS, vous pouvez les appliquer dans Weave à l’aide du `BedrockGuardrailScorer`, qui utilise AWS Bedrock garde-fous pour détecter et filtrer le contenu selon les politiques configurées.
+
+Avant de configurer une intégration avec Bedrock garde-fous, vous devez disposer des éléments suivants :
+
+* Un compte AWS avec accès à Bedrock.
+* Un [garde-fou configuré dans la console AWS Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-components.html).
+* Le [package Python](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html) `boto3`.
+
+Vous n’avez pas besoin de créer votre propre client Bedrock. Weave le crée pour vous. Pour spécifier une région, transmettez la valeur de région dans le paramètre `bedrock_runtime_kwargs` de l’évaluateur.
+
+Pour obtenir un exemple de création d’un garde-fou dans AWS Bedrock, consultez le [notebook Bedrock garde-fous](https://github.com/aws-samples/amazon-bedrock-samples/blob/main/responsible_ai/bedrock-guardrails/guardrails-api.ipynb).
+
+L’exemple suivant vérifie la génération de texte par rapport aux politiques AWS Bedrock garde-fous avant de renvoyer les résultats aux utilisateurs :
+
+```python
+import weave
+from weave.scorers.bedrock_guardrails import BedrockGuardrailScorer
+
+weave.init("your-team-name/your-project-name")
+
+guardrail_scorer = BedrockGuardrailScorer(
+    guardrail_id="your-guardrail-id",
+    guardrail_version="DRAFT",
+    source="INPUT",
+    bedrock_runtime_kwargs={"region_name": "us-east-1"}
+)
+
+@weave.op
+def generate_text(prompt: str) -> str:
+    # Votre logique de génération de texte ici
+    return "Generated text..."
+
+async def generate_safe_text(prompt: str) -> str:
+    result, call = generate_text.call(prompt)
+
+    score = await call.apply_scorer(guardrail_scorer)
+
+    if not score.result.passed:
+        if score.result.metadata.get("modified_output"):
+            return score.result.metadata["modified_output"]
+        return "I cannot generate that content due to content policy restrictions."
+
+    return result
+```

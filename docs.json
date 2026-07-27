@@ -3076,7 +3076,7 @@
               "fr/support/models/tags/workspaces",
               "fr/support/models/tags/wysiwyg"
             ],
-            "tab": "Assistance : W&B Models"
+            "tab": "Assistance : W&B Models"
           },
           {
             "hidden": true,
@@ -3091,7 +3091,7 @@
               "fr/support/weave/tags/trace-data",
               "fr/support/weave/tags/ui-rendering"
             ],
-            "tab": "Assistance : W&B Weave"
+            "tab": "Assistance : W&B Weave"
           },
           {
             "hidden": true,
@@ -3103,7 +3103,7 @@
               "fr/support/inference/tags/quotas-rate-limits",
               "fr/support/inference/tags/server-errors"
             ],
-            "tab": "Assistance : W&B Inference"
+            "tab": "Assistance : W&B Inference"
           }
         ]
       },

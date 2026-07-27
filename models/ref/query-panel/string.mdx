@@ -16,7 +16,7 @@ Whether the two values are not equal.
 
 ### <a id="string-add"></a>`string-add`
 
-Concatenates two [strings](/models/ref/query-panel/string/)
+Concatenates two [strings](/models/ref/query-panel/string)
 
 | Argument | Description |
 | :--- | :--- |
@@ -154,7 +154,7 @@ The lowercase [string](/models/ref/query-panel/string)
 
 ### <a id="string-partition"></a>`string-partition`
 
-Partitions a [string](/models/ref/query-panel/string) into a _list_ of the [strings](/models/ref/query-panel/string/)
+Partitions a [string](/models/ref/query-panel/string) into a _list_ of the [strings](/models/ref/query-panel/string)
 
 | Argument | Description |
 | :--- | :--- |
@@ -162,7 +162,7 @@ Partitions a [string](/models/ref/query-panel/string) into a _list_ of the [stri
 | `sep` | The separator to split on |
 
 #### Return Value
-A _list_ of [strings](/models/ref/query-panel/string/): the [string](/models/ref/query-panel/string) before the separator, the separator, and the [string](/models/ref/query-panel/string) after the separator
+A _list_ of [strings](/models/ref/query-panel/string): the [string](/models/ref/query-panel/string) before the separator, the separator, and the [string](/models/ref/query-panel/string) after the separator
 
 ### <a id="string-prepend"></a>`string-prepend`
 
@@ -215,7 +215,7 @@ The substring
 
 ### <a id="string-split"></a>`string-split`
 
-Splits a [string](/models/ref/query-panel/string) into a _list_ of [strings](/models/ref/query-panel/string/)
+Splits a [string](/models/ref/query-panel/string) into a _list_ of [strings](/models/ref/query-panel/string)
 
 | Argument | Description |
 | :--- | :--- |
@@ -223,7 +223,7 @@ Splits a [string](/models/ref/query-panel/string) into a _list_ of [strings](/mo
 | `sep` | The separator to split on |
 
 #### Return Value
-The _list_ of [strings](/models/ref/query-panel/string/)
+The _list_ of [strings](/models/ref/query-panel/string)
 
 ### <a id="string-startsWith"></a>`string-startsWith`
 
@@ -261,7 +261,7 @@ The uppercase [string](/models/ref/query-panel/string)
 
 ### <a id="string-levenshtein"></a>`string-levenshtein`
 
-Calculates the Levenshtein distance between two [strings](/models/ref/query-panel/string/).
+Calculates the Levenshtein distance between two [strings](/models/ref/query-panel/string).
 
 | Argument | Description |
 | :--- | :--- |
@@ -269,11 +269,23 @@ Calculates the Levenshtein distance between two [strings](/models/ref/query-pane
 | `str2` | The second [string](/models/ref/query-panel/string). |
 
 #### Return Value
-The Levenshtein distance between the two [strings](/models/ref/query-panel/string/).
+The Levenshtein distance between the two [strings](/models/ref/query-panel/string).
+
+### <a id="local-sqlconnection"></a>`local-sqlconnection`
+
+hello
+
+| Argument | Description |
+| :--- | :--- |
+| `conf` | hello |
+| `size` | hello |
+
+#### Return Value
+hello
 
 
 ## List Ops
-### <a id="string-notEqual"></a>`string-notEqual`
+### <a id="string-notEqual-list"></a>`string-notEqual`
 
 Determines inequality of two values.
 
@@ -285,9 +297,9 @@ Determines inequality of two values.
 #### Return Value
 Whether the two values are not equal.
 
-### <a id="string-add"></a>`string-add`
+### <a id="string-add-list"></a>`string-add`
 
-Concatenates two [strings](/models/ref/query-panel/string/)
+Concatenates two [strings](/models/ref/query-panel/string)
 
 | Argument | Description |
 | :--- | :--- |
@@ -297,7 +309,7 @@ Concatenates two [strings](/models/ref/query-panel/string/)
 #### Return Value
 The concatenated [string](/models/ref/query-panel/string)
 
-### <a id="string-equal"></a>`string-equal`
+### <a id="string-equal-list"></a>`string-equal`
 
 Determines equality of two values.
 
@@ -309,7 +321,7 @@ Determines equality of two values.
 #### Return Value
 Whether the two values are equal.
 
-### <a id="string-append"></a>`string-append`
+### <a id="string-append-list"></a>`string-append`
 
 Appends a suffix to a [string](/models/ref/query-panel/string)
 
@@ -321,7 +333,7 @@ Appends a suffix to a [string](/models/ref/query-panel/string)
 #### Return Value
 The [string](/models/ref/query-panel/string) with the suffix appended
 
-### <a id="string-contains"></a>`string-contains`
+### <a id="string-contains-list"></a>`string-contains`
 
 Checks if a [string](/models/ref/query-panel/string) contains a substring
 
@@ -333,7 +345,7 @@ Checks if a [string](/models/ref/query-panel/string) contains a substring
 #### Return Value
 Whether the [string](/models/ref/query-panel/string) contains the substring
 
-### <a id="string-endsWith"></a>`string-endsWith`
+### <a id="string-endsWith-list"></a>`string-endsWith`
 
 Checks if a [string](/models/ref/query-panel/string) ends with a suffix
 
@@ -345,7 +357,7 @@ Checks if a [string](/models/ref/query-panel/string) ends with a suffix
 #### Return Value
 Whether the [string](/models/ref/query-panel/string) ends with the suffix
 
-### <a id="string-findAll"></a>`string-findAll`
+### <a id="string-findAll-list"></a>`string-findAll`
 
 Finds all occurrences of a substring in a [string](/models/ref/query-panel/string)
 
@@ -357,7 +369,7 @@ Finds all occurrences of a substring in a [string](/models/ref/query-panel/strin
 #### Return Value
 The _list_ of indices of the substring in the [string](/models/ref/query-panel/string)
 
-### <a id="string-isAlnum"></a>`string-isAlnum`
+### <a id="string-isAlnum-list"></a>`string-isAlnum`
 
 Checks if a [string](/models/ref/query-panel/string) is alphanumeric
 
@@ -368,7 +380,7 @@ Checks if a [string](/models/ref/query-panel/string) is alphanumeric
 #### Return Value
 Whether the [string](/models/ref/query-panel/string) is alphanumeric
 
-### <a id="string-isAlpha"></a>`string-isAlpha`
+### <a id="string-isAlpha-list"></a>`string-isAlpha`
 
 Checks if a [string](/models/ref/query-panel/string) is alphabetic
 
@@ -379,7 +391,7 @@ Checks if a [string](/models/ref/query-panel/string) is alphabetic
 #### Return Value
 Whether the [string](/models/ref/query-panel/string) is alphabetic
 
-### <a id="string-isNumeric"></a>`string-isNumeric`
+### <a id="string-isNumeric-list"></a>`string-isNumeric`
 
 Checks if a [string](/models/ref/query-panel/string) is numeric
 
@@ -390,7 +402,7 @@ Checks if a [string](/models/ref/query-panel/string) is numeric
 #### Return Value
 Whether the [string](/models/ref/query-panel/string) is numeric
 
-### <a id="string-lStrip"></a>`string-lStrip`
+### <a id="string-lStrip-list"></a>`string-lStrip`
 
 Strip leading whitespace
 
@@ -401,7 +413,7 @@ Strip leading whitespace
 #### Return Value
 The stripped [string](/models/ref/query-panel/string).
 
-### <a id="string-len"></a>`string-len`
+### <a id="string-len-list"></a>`string-len`
 
 Returns the length of a [string](/models/ref/query-panel/string)
 
@@ -412,7 +424,7 @@ Returns the length of a [string](/models/ref/query-panel/string)
 #### Return Value
 The length of the [string](/models/ref/query-panel/string)
 
-### <a id="string-lower"></a>`string-lower`
+### <a id="string-lower-list"></a>`string-lower`
 
 Converts a [string](/models/ref/query-panel/string) to lowercase
 
@@ -423,9 +435,9 @@ Converts a [string](/models/ref/query-panel/string) to lowercase
 #### Return Value
 The lowercase [string](/models/ref/query-panel/string)
 
-### <a id="string-partition"></a>`string-partition`
+### <a id="string-partition-list"></a>`string-partition`
 
-Partitions a [string](/models/ref/query-panel/string) into a _list_ of the [strings](/models/ref/query-panel/string/)
+Partitions a [string](/models/ref/query-panel/string) into a _list_ of the [strings](/models/ref/query-panel/string)
 
 | Argument | Description |
 | :--- | :--- |
@@ -433,9 +445,9 @@ Partitions a [string](/models/ref/query-panel/string) into a _list_ of the [stri
 | `sep` | The separator to split on |
 
 #### Return Value
-A _list_ of [strings](/models/ref/query-panel/string/): the [string](/models/ref/query-panel/string) before the separator, the separator, and the [string](/models/ref/query-panel/string) after the separator
+A _list_ of [strings](/models/ref/query-panel/string): the [string](/models/ref/query-panel/string) before the separator, the separator, and the [string](/models/ref/query-panel/string) after the separator
 
-### <a id="string-prepend"></a>`string-prepend`
+### <a id="string-prepend-list"></a>`string-prepend`
 
 Prepends a prefix to a [string](/models/ref/query-panel/string)
 
@@ -447,7 +459,7 @@ Prepends a prefix to a [string](/models/ref/query-panel/string)
 #### Return Value
 The [string](/models/ref/query-panel/string) with the prefix prepended
 
-### <a id="string-rStrip"></a>`string-rStrip`
+### <a id="string-rStrip-list"></a>`string-rStrip`
 
 Strip trailing whitespace
 
@@ -458,7 +470,7 @@ Strip trailing whitespace
 #### Return Value
 The stripped [string](/models/ref/query-panel/string).
 
-### <a id="string-replace"></a>`string-replace`
+### <a id="string-replace-list"></a>`string-replace`
 
 Replaces all occurrences of a substring in a [string](/models/ref/query-panel/string)
 
@@ -471,7 +483,7 @@ Replaces all occurrences of a substring in a [string](/models/ref/query-panel/st
 #### Return Value
 The [string](/models/ref/query-panel/string) with the replacements
 
-### <a id="string-slice"></a>`string-slice`
+### <a id="string-slice-list"></a>`string-slice`
 
 Slices a [string](/models/ref/query-panel/string) into a substring based on beginning and end indices
 
@@ -484,9 +496,9 @@ Slices a [string](/models/ref/query-panel/string) into a substring based on begi
 #### Return Value
 The substring
 
-### <a id="string-split"></a>`string-split`
+### <a id="string-split-list"></a>`string-split`
 
-Splits a [string](/models/ref/query-panel/string) into a _list_ of [strings](/models/ref/query-panel/string/)
+Splits a [string](/models/ref/query-panel/string) into a _list_ of [strings](/models/ref/query-panel/string)
 
 | Argument | Description |
 | :--- | :--- |
@@ -494,9 +506,9 @@ Splits a [string](/models/ref/query-panel/string) into a _list_ of [strings](/mo
 | `sep` | The separator to split on |
 
 #### Return Value
-The _list_ of [strings](/models/ref/query-panel/string/)
+The _list_ of [strings](/models/ref/query-panel/string)
 
-### <a id="string-startsWith"></a>`string-startsWith`
+### <a id="string-startsWith-list"></a>`string-startsWith`
 
 Checks if a [string](/models/ref/query-panel/string) starts with a prefix
 
@@ -508,7 +520,7 @@ Checks if a [string](/models/ref/query-panel/string) starts with a prefix
 #### Return Value
 Whether the [string](/models/ref/query-panel/string) starts with the prefix
 
-### <a id="string-strip"></a>`string-strip`
+### <a id="string-strip-list"></a>`string-strip`
 
 Strip whitespace from both ends of a [string](/models/ref/query-panel/string).
 
@@ -519,7 +531,7 @@ Strip whitespace from both ends of a [string](/models/ref/query-panel/string).
 #### Return Value
 The stripped [string](/models/ref/query-panel/string).
 
-### <a id="string-upper"></a>`string-upper`
+### <a id="string-upper-list"></a>`string-upper`
 
 Converts a [string](/models/ref/query-panel/string) to uppercase
 
@@ -530,9 +542,9 @@ Converts a [string](/models/ref/query-panel/string) to uppercase
 #### Return Value
 The uppercase [string](/models/ref/query-panel/string)
 
-### <a id="string-levenshtein"></a>`string-levenshtein`
+### <a id="string-levenshtein-list"></a>`string-levenshtein`
 
-Calculates the Levenshtein distance between two [strings](/models/ref/query-panel/string/).
+Calculates the Levenshtein distance between two [strings](/models/ref/query-panel/string).
 
 | Argument | Description |
 | :--- | :--- |
@@ -540,5 +552,4 @@ Calculates the Levenshtein distance between two [strings](/models/ref/query-pane
 | `str2` | The second [string](/models/ref/query-panel/string). |
 
 #### Return Value
-The Levenshtein distance between the two [strings](/models/ref/query-panel/string/).
-
+The Levenshtein distance between the two [strings](/models/ref/query-panel/string).

@@ -1,0 +1,44 @@
+---
+title: "API 오류 코드 422 - 유효하지 않은 요청 파라미터"
+keywords: ["Server Errors"]
+---
+
+Chat Completion 요청의 유효하지 않은 파라미터는 검증이 수행되는 위치에 따라 **HTTP 422 (Unprocessable Entity)** 또는 **HTTP 400 (Bad Request)** 로 나타나는 경우가 많습니다. 두 경우 모두 요청을 변경하기 전에 응답 본문을 먼저 확인하세요.
+
+<div id="why-this-happens">
+  ## 이런 일이 발생하는 이유
+</div>
+
+* **모델에서 지원하지 않는 파라미터**: 일부 파라미터(`frequency_penalty`, `logprobs`, `response_format` 등)는 모든 모델에서 지원되지 않습니다. 지원되지 않는 파라미터를 전달하면 **400** 또는 **422**가 반환될 수 있습니다.
+* **범위를 벗어난 파라미터 값**: `temperature`와 같은 값은 모델에서 허용하는 유효한 범위(대개 **0–2**)에 있어야 합니다. 범위를 벗어난 값은 대개 **HTTP 400**과 함께 거부되며, `error.message`에 해당 파라미터 이름이 표시됩니다.
+* **잘못된 `messages` payload**: `messages` 필드는 메시지 객체의 목록이어야 합니다. 유형이 잘못되었거나 구조가 올바르지 않으면 일반적으로 응답 본문의 검증 메시지와 함께 **HTTP 400**이 반환됩니다.
+* **유효하지 않은 `response_format` 또는 기타 구조화된 출력 설정**: 모델이 지원하지 않는 형식을 요청하면 오류 응답이 반환될 수 있습니다. 해당 모델에서는 상태 코드와 본문을 가장 신뢰할 수 있는 기준으로 삼으세요.
+
+<div id="what-you-can-do">
+  ## 할 수 있는 작업
+</div>
+
+1. **오류 메시지 본문 확인**
+   * 많은 응답은 `message` 필드(때로는 `param` 또는 `code`도 포함)가 있는 `error` 객체를 사용합니다. 일부 계층에서는 대신 `detail` 필드를 반환합니다. 문제를 해결하기 전에 응답에 포함된 필드가 무엇인지 먼저 확인하세요.
+
+2. **모델의 파라미터 지원 여부 확인**
+   * 각 모델이 허용하는 구체적인 파라미터와 범위는 [사용 가능한 모델](/ko/inference/models)에서 확인하세요.
+
+3. **messages 배열 검증**
+   * 각 메시지에는 `role`(`system`, `user`, 또는 `assistant`)과 `content` string이 있어야 합니다. 도구 Call 메시지에는 추가 필드가 필요합니다. 올바른 스키마는 [Chat Completion API 레퍼런스](/ko/inference/api-reference/chat-completions)를 참조하세요.
+
+4. **base URL 확인**
+   * OpenAI-compatible 클라이언트가 `https://api.wandb.ai`가 아니라 `https://api.inference.wandb.ai/v1`를 가리키도록 설정하세요. Multi-tenant Cloud API 호스트는 Inference Chat Completion을 서빙하지 않습니다. 선택적으로 사용량 귀속을 설정하려면 [모델 목록 API 레퍼런스](/ko/inference/api-reference/list-models)와 같이 `OpenAI-Project` 헤더를 `team/project`로 설정하세요.
+
+5. **지원되지 않는 파라미터 제거**
+   * 다른 공급자의 코드를 조정하는 경우 W&amp;B Inference API 레퍼런스에 없는 파라미터는 제거하세요. 모델이 지원하지 않는 추가 파라미터는 **400** 또는 **422** 응답을 트리거할 수 있습니다.
+
+자세한 내용은 [Serverless Inference](/ko/inference) 및 [Chat Completion API 레퍼런스](/ko/inference/api-reference/chat-completions)를 참조하세요.
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[서버 오류](/ko/support/inference/tags/server-errors)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

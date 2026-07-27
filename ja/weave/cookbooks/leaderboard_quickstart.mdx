@@ -1,26 +1,34 @@
 ---
-title: Leaderboard クイックスタート
-description: thoughtful mini-token-diet   W&B Weave で leaderboard クイックスタートを使用する方法を紹介します
+title: "Leaderboard クイックスタート"
+description: "W&B Weave で Leaderboard クイックスタート を使う方法を学びます"
+keywords: [leaderboard, モデル比較, Weave 評価, スコアリング関数]
 ---
 
 <Note>
-これはインタラクティブなノートブックです。ローカルで実行するか、以下のリンクを使用してください：
-- [Google Colab で開く](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/leaderboard_quickstart.ipynb)
-- [GitHub でソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/leaderboard_quickstart.ipynb)
+  これはインタラクティブなノートブックです。ローカルで実行することも、以下のリンクから利用することもできます。
+
+  * [Google Colab で開く](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/leaderboard_quickstart.ipynb)
+  * [GitHub でソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/leaderboard_quickstart.ipynb)
 </Note>
 
-# Leaderboard クイックスタート
+<div id="leaderboard-quickstart">
+  # Leaderboard クイックスタート
+</div>
 
-このノートブックでは、Weave の Leaderboard を使用して、さまざまな Datasets やスコアリング関数にわたる モデル のパフォーマンスを比較する方法を学びます。具体的には、以下の手順で行います：
+このクイックスタートでは、W&amp;B Weave Leaderboard を使って、複数のデータセットやスコアリング関数にまたがるモデル性能を比較する方法を紹介します。最後には、複数のモデルを共通の評価セットに対してランク付けした leaderboard を公開できるようになります。これにより、各メトリクスでどのモデルが最も優れているかを特定できます。このガイドは、Weave で評価を実行したことがあり、その結果を並べて比較したい開発者を対象としています。
 
-1. 架空の郵便番号データの Datasets を生成する。
-2. スコアリング関数を作成し、baseline モデル を評価する。
-3. これらの手法を用いて、複数の モデル と 評価（Evaluations）の行列を評価する。
-4. Weave UI で Leaderboard を確認する。
+具体的には、次のことを行います。
 
-## ステップ 1: 架空の郵便番号データの Datasets を生成する
+1. 架空の郵便番号データのデータセットを生成します。
+2. スコアリング関数をいくつか作成し、ベースラインモデルを評価します。
+3. これらの手法を使って、複数のモデルと評価の組み合わせを評価します。
+4. Weave UI で leaderboard を確認します。
 
-まず、架空の郵便番号データのリストを生成する関数 `generate_dataset_rows` を作成します。
+<div id="step-1-generate-a-dataset-of-fake-zip-code-data">
+  ## Step 1: ダミーの郵便番号データのデータセットを生成する
+</div>
+
+まず、ダミーの郵便番号データのリストを生成する関数 `generate_dataset_rows` を作成します。この合成データセットにより、leaderboard で各モデルをスコアリングする際に使用する、一貫した入力セットと期待値が得られます。
 
 ```python lines
 import json
@@ -67,17 +75,18 @@ def generate_dataset_rows(
 python
 import weave
 
-# プロジェクトを初期化
 weave.init("leaderboard-demo")
 ```
 
-## ステップ 2: スコアリング関数の作成
+<div id="step-2-author-scoring-functions">
+  ## Step 2: スコアリング関数を作成する
+</div>
 
-次に、3 つのスコアリング関数を作成します：
+次に、3 つのスコアリング関数を作成します。各 scorer はモデルの出力の異なる側面を評価するため、leaderboard では品質の異なる観点に基づいてモデルを順位付けできます。
 
-1. `check_concrete_fields`: モデル の出力が期待される市（city）と州（state）に一致するかをチェックします。
-2. `check_value_fields`: モデル の出力が、期待される人口（population）および世帯年収中央値（median income）の 10% 以内にあるかをチェックします。
-3. `check_subjective_fields`: LLM を使用して、モデル の出力が期待される「有名なもの（known for）」フィールドと一致するかをチェックします。
+1. `check_concrete_fields`: モデルの出力が、想定される都市名と州に一致するかどうかを確認します。
+2. `check_value_fields`: モデルの出力が、想定される人口と世帯収入中央値の 10% 以内に収まっているかどうかを確認します。
+3. `check_subjective_fields`: LLM を使用して、モデルの出力が想定される &quot;known for&quot; フィールドに一致するかどうかを確認します。
 
 ```python lines
 @weave.op
@@ -126,9 +135,11 @@ def check_subjective_fields(zip_code: str, known_for: str, output: dict):
     return json.loads(completion.choices[0].message.content)
 ```
 
-## ステップ 3: シンプルな 評価（Evaluation）の作成
+<div id="step-3-create-an-evaluation">
+  ## Step 3: 評価を作成する
+</div>
 
-次に、生成したデータとスコアリング関数を使用して、シンプルな 評価 オブジェクト を定義します。
+次に、ダミーデータとスコアリング関数を使って、評価を定義します。`Evaluation` オブジェクトはデータセットと scorers を組み合わせるため、同じベンチマークに対して任意のモデルを実行できます。
 
 ```python lines
 rows = generate_dataset_rows()
@@ -143,9 +154,11 @@ evaluation = weave.Evaluation(
 )
 ```
 
-## ステップ 4: baseline モデル を評価する
+<div id="step-4-evaluate-a-baseline-model">
+  ## Step 4: ベースラインモデルを評価する
+</div>
 
-静的なレスポンスを返す baseline モデル を評価します。
+ここでは、静的なレスポンスを返すベースラインモデルを評価します。ベースラインを確立すると、leaderboard上の基準点が得られるため、後続の各モデルが静的な実装からどれだけ改善したかを測定できます。
 
 ```python lines
 @weave.op
@@ -159,13 +172,14 @@ def baseline_model(zip_code: str):
         "known_for": "The Big Apple",
     }
 
-# 評価の実行
 await evaluation.evaluate(baseline_model)
 ```
 
-## ステップ 5: さらに モデル を作成する
+<div id="step-5-create-more-models">
+  ## Step 5: モデルをさらに作成する
+</div>
 
-baseline と比較するために、さらに 2 つの モデル を作成します。
+次に、ベースラインと比較するために、さらに2つのモデルを作成します。1つのモデルには追加のプロンプトなしで郵便番号だけを与え、もう1つのモデルには構造化されたプロンプトを与えます。leaderboard でそれらを比較すると、回答品質に対するプロンプトのコンテキストの影響がわかります。
 
 ```python lines
 @weave.op
@@ -221,9 +235,11 @@ def gpt_4o_mini_with_context(zip_code: str):
 await evaluation.evaluate(gpt_4o_mini_with_context)
 ```
 
-## ステップ 6: さらに 評価（Evaluations）を作成する
+<div id="step-6-create-more-evaluations">
+  ## Step 6: さらに評価を作成する
+</div>
 
-モデル と 評価（Evaluations）の行列を評価します。
+ここでは、モデルと評価の組み合わせをマトリクスとして評価します。各モデルを複数のデータセット (異なる地域や年) に対して実行すると、leaderboard が複数の条件にわたってモデルを順位付けするために必要なデータが生成されます。
 
 ```python lines
 scorers = [
@@ -269,11 +285,15 @@ for evaluation in evaluations:
         )
 ```
 
-## ステップ 7: Leaderboard の確認
+<div id="step-7-review-the-leaderboard">
+  ## ステップ 7: Leaderboard を確認する
+</div>
 
-UI の Leaderboard タブに移動し、「Create Leaderboard」をクリックすることで新しい Leaderboard を作成できます。
+評価結果を公開したら、それらを Leaderboard にまとめて、並べて比較できるようになります。
 
-また、Python から直接 Leaderboard を生成することも可能です：
+UI の Leaderboard タブに移動し、**Create Leaderboard** をクリックすると、新しい Leaderboard を作成できます。
+
+Python から直接 Leaderboard を生成することもできます。
 
 ```python lines
 from weave.flow import leaderboard
@@ -282,13 +302,13 @@ from weave.trace.ref_util import get_ref
 spec = leaderboard.Leaderboard(
     name="Zip Code World Knowledge",
     description="""
-この Leaderboard は、郵便番号に関する一般知識における モデル のパフォーマンスを比較します。
+This leaderboard compares the performance of models in terms of world knowledge about zip codes.
 
-### カラム
+### Columns
 
-1. **State Match against `United States - 2022`**: モデルが州を正しく識別できた郵便番号の割合。
-2. **Avg Temp F Error against `California - 2022`**: モデルの平均気温予測の平均絶対誤差。
-3. **Correct Known For against `United States - 2000`**: モデルがその郵便番号で最も有名なものを正しく識別できた郵便番号の割合。
+1. **State Match against `United States - 2022`**: The fraction of zip codes that the model correctly identified the state for.
+2. **Avg Temp F Error against `California - 2022`**: The mean absolute error of the model's average temperature prediction.
+3. **Correct Known For against `United States - 2000`**: The fraction of zip codes that the model correctly identified the most well known thing about the zip code.
 """,
     columns=[
         leaderboard.LeaderboardColumn(
@@ -312,3 +332,5 @@ spec = leaderboard.Leaderboard(
 
 ref = weave.publish(spec)
 ```
+
+これで、定義した 3 つの評価とスコアリング メトリクスに基づいて各モデルを順位付けする、公開済みの leaderboard が Weave に作成されました。Weave UI では、モデルごとのスコアを確認したり、個々の評価 run を詳しく確認したり、今後のモデルの反復を同じベースラインに対して比較したりできます。

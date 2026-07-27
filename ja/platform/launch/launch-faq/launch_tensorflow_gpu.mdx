@@ -1,8 +1,9 @@
 ---
-title: W&B Launch を GPU 上の Tensorflow で動作させるにはどうすればよいですか？
+title: GPU 上で TensorFlow と連携して W&B Launch を動作させる方法
+keywords: ["TensorFlow GPU", "CUDA launch", "GPU コンテナー", "アクセラレーター イメージ"]
 ---
 
-GPU を使用する TensorFlow ジョブの場合、コンテナビルドにカスタムベースイメージを指定してください。これにより、 Runs の実行中に GPU が適切に活用されるようになります。リソース 設定 の `builder.accelerator.base_image` キー の下にイメージタグを追加します。例：
+GPU で W&amp;B Launch を使用して TensorFlow ジョブを実行するには、コンテナーのビルド用にカスタムのベースイメージを指定してください。これにより、生成されるコンテナーが GPU にアクセスできるようになります。リソース設定の `builder.accelerator.base_image` キーにイメージタグを追加します。たとえば、次のようにします。
 
 ```json
 {
@@ -15,4 +16,6 @@ GPU を使用する TensorFlow ジョブの場合、コンテナビルドにカ�
 }
 ```
 
-W&B の バージョン 0.15.6 より前の場合は、`base_image` の親 キー として `accelerator` の代わりに `cuda` を使用してください。
+<Note>
+  W&amp;B 0.15.6 より前のバージョンでは、`base_image` の親キーには `accelerator` ではなく `cuda` を使用してください。
+</Note>
