@@ -1,0 +1,118 @@
+---
+title: "Mise en cache des préfixes"
+description: "Réduisez la latence des prompts répétés grâce à la mise en cache des préfixes, et isolez la réutilisation du cache avec `cache_salt` si nécessaire."
+---
+
+W&amp;B Inference utilise la mise en cache des préfixes sur les modèles hébergés pris en charge pour accélérer les requêtes répétées ayant des préfixes de prompt identiques.
+
+Lorsqu&#39;une requête partage le même préfixe de prompt qu&#39;une requête antérieure sur le même backend, le modèle réutilise le cache de paires clé-valeur (KV) déjà calculé au lieu de recalculer l&#39;intégralité du préfixe. Cela réduit la latence pour les prompts répétés, les prompts système longs et les charges de travail qui partagent un préfixe stable.
+
+La mise en cache des préfixes est automatique sur les modèles pris en charge. Vous n&#39;avez donc pas besoin de l&#39;activer dans votre requête. Cette page décrit les cas où la mise en cache des préfixes est la plus efficace et comment contrôler l&#39;isolation du cache avec `cache_salt`.
+
+<div id="when-prefix-caching-helps">
+  ## Quand la mise en cache des préfixes est utile
+</div>
+
+La mise en cache des préfixes est particulièrement utile lorsque vous envoyez de façon répétée des requêtes qui partagent un long préfixe commun, par exemple :
+
+* Un long prompt système réutilisé dans de nombreuses requêtes.
+* Un long document commun suivi de différentes questions d’utilisateurs.
+* Des prompts d’évaluation répétés avec seulement de légères modifications d’une requête à l’autre.
+* Des charges de travail sur plusieurs tours de conversation, où une grande partie de l’historique reste inchangée.
+
+<div id="cache-isolation">
+  ## Isolation du cache
+</div>
+
+Dans certains environnements, vous pouvez avoir besoin d’empêcher la réutilisation du cache entre différents utilisateurs ou différentes applications. Le paramètre `cache_salt` permet ce contrôle.
+
+Par défaut, les requêtes avec des préfixes de prompt identiques peuvent réutiliser le cache sur une infrastructure partagée lorsque le backend l’autorise.
+
+Pour limiter la réutilisation du cache à un périmètre de confiance spécifique, définissez le paramètre de requête `cache_salt`. Les requêtes ne réutilisent le cache de préfixe que si le préfixe de prompt et `cache_salt` correspondent tous les deux.
+
+Utilisez `cache_salt` lorsque vous souhaitez autoriser la réutilisation du cache au sein d’un même utilisateur, tenant, session ou périmètre d’application, mais pas entre d’autres appelants.
+
+<div id="how-it-works">
+  ### Fonctionnement
+</div>
+
+La présence et la valeur de `cache_salt` influent sur la réutilisation du cache comme suit :
+
+* Même préfixe de prompt, pas de `cache_salt` : le cache peut être réutilisé entre les requêtes correspondantes.
+* Même préfixe de prompt, même `cache_salt` : le cache peut être réutilisé.
+* Même préfixe de prompt, `cache_salt` différent : le cache est isolé et n’est pas réutilisé d’une valeur de salt à l’autre.
+
+<Note>
+  `cache_salt` doit être une chaîne non vide lorsqu’il est spécifié.
+</Note>
+
+<div id="examples">
+  ## Exemples
+</div>
+
+Les exemples suivants montrent comment envoyer une requête de complétion de chat avec `cache_salt` afin d’isoler la réutilisation du cache.
+
+<Tabs>
+  <Tab title="Python">
+    ```python
+    import openai
+
+    client = openai.OpenAI(
+        base_url="https://api.inference.wandb.ai/v1",
+        api_key="<your-api-key>",
+    )
+
+    response = client.chat.completions.create(
+        model="moonshotai/Kimi-K2.5",
+        messages=[
+            {
+                "role": "system",
+                "content": "You are a careful assistant that answers concisely."
+            },
+            {
+                "role": "user",
+                "content": "Summarize this document in one sentence: <long shared prefix here>"
+            },
+        ],
+        extra_body={
+            "cache_salt": "tenant-a-user-123-secret",
+        },
+    )
+
+    print(response.choices[0].message.content)
+    ```
+  </Tab>
+
+  <Tab title="Bash">
+    ```bash
+    curl https://api.inference.wandb.ai/v1/chat/completions \
+      -H "Content-Type: application/json" \
+      -H "Authorization: Bearer <your-api-key>" \
+      -d '{
+        "model": "moonshotai/Kimi-K2.5",
+        "messages": [
+          { "role": "system", "content": "You are a careful assistant that answers concisely." },
+          { "role": "user", "content": "Summarize this document in one sentence: <long shared prefix here>" }
+        ],
+        "cache_salt": "tenant-a-user-123-secret"
+      }'
+    ```
+  </Tab>
+</Tabs>
+
+<div id="response-behavior">
+  ## Comportement de la réponse
+</div>
+
+Pour confirmer que la mise en cache des préfixes est active pour une requête, vérifiez les détails d’utilisation de la réponse. Sur certains modèles, les détails d’utilisation peuvent inclure le nombre de jetons mis en cache dans `usage.prompt_tokens_details.cached_tokens` lorsque le cache du préfixe est réutilisé. La disponibilité de ce champ varie selon le modèle et le backend.
+
+<div id="related-pages">
+  ## Pages connexes
+</div>
+
+Les pages suivantes abordent des sujets connexes :
+
+* [Complétions de chat](/fr/inference/api-reference/chat-completions)
+* [Activer le streaming des réponses](/fr/inference/response-settings/streaming)
+* [Sortie structurée](/fr/inference/response-settings/structured-output)
+* [Mode JSON](/fr/inference/response-settings/json-mode)

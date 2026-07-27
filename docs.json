@@ -2337,6 +2337,7 @@
                       "fr/inference/response-settings/json-mode",
                       "fr/inference/response-settings/reasoning",
                       "fr/inference/response-settings/streaming",
+                      "fr/inference/response-settings/prefix-caching",
                       "fr/inference/response-settings/structured-output",
                       "fr/inference/response-settings/tool-calling"
                     ]
@@ -3853,6 +3854,7 @@
                       "ja/inference/response-settings/json-mode",
                       "ja/inference/response-settings/reasoning",
                       "ja/inference/response-settings/streaming",
+                      "ja/inference/response-settings/prefix-caching",
                       "ja/inference/response-settings/structured-output",
                       "ja/inference/response-settings/tool-calling"
                     ]
@@ -5369,6 +5371,7 @@
                       "ko/inference/response-settings/json-mode",
                       "ko/inference/response-settings/reasoning",
                       "ko/inference/response-settings/streaming",
+                      "ko/inference/response-settings/prefix-caching",
                       "ko/inference/response-settings/structured-output",
                       "ko/inference/response-settings/tool-calling"
                     ]
