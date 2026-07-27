@@ -1,28 +1,66 @@
 ---
 title: ArtifactTypes
-namespace: public_apis_namespace
-python_object_type: class
----
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
-
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
-
-
-
-
-## <kbd>class</kbd> `ArtifactTypes`
-An lazy iterator of `ArtifactType` objects for a specific project. 
-
-
-### <kbd>property</kbd> ArtifactTypes.cursor
-
-
-
-
-
+kind: class
+namespace: wandb.apis.public.artifacts
 ---
 
-### <kbd>property</kbd> ArtifactTypes.more
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
+
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L113" />
+
+
+
+## <kbd>class</kbd> wandb.apis.public.ArtifactTypes
+
+
+
+
+An lazy iterator of `ArtifactType` objects for a specific project.
+
+
+
+
+
+
+
+
+
+
+
+## Methods
+
+### <kbd>method</kbd> RelayPaginator.convert_objects()
+
+```python
+self
+```
+
+Convert the last fetched response data into the iterated objects.
+
+
+
+
+
+### <kbd>method</kbd> Paginator.__next__()
+
+```python
+self
+```
+
+Return the next item from the iterator. When exhausted, raise StopIteration
+
+
+
+
+
+### <kbd>method</kbd> Paginator.update_variables()
+
+```python
+self
+```
+
+Update the query variables for the next page fetch.
 
 
 

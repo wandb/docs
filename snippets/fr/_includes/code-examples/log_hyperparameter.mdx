@@ -1,0 +1,18 @@
+---
+title: Journaliser un hyperparamètre
+---
+
+```python
+"""Initialise un run W&B et journalise les hyperparamètres."""
+import wandb
+
+config = {
+    "learning_rate": 0.01,
+    "batch_size": 32,
+    "optimizer": "adam",
+}
+
+with wandb.init(project="<project>", config=config) as run:
+    # Le code d'entraînement et de journalisation va ici
+    pass
+```

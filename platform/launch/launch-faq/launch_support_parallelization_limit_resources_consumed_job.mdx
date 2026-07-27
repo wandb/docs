@@ -1,13 +1,14 @@
 ---
-title: Does Launch support parallelization?  How can I limit the resources consumed
+title: Does Launch support parallelization? How can I limit the resources consumed
   by a job?
+keywords: ["multi-GPU", "distributed training", "resource limits", "max_jobs", "CPU GPU limits"]
 ---
 
-Launch supports scaling jobs across multiple GPUs and nodes. Refer to the [Volcano integration guide](/models/tutorials/volcano/) for details.
+Launch supports scaling jobs across multiple GPUs and nodes. For details, see the [Volcano integration guide](/models/integrations).
 
-Each launch agent is configured with a `max_jobs` parameter, which determines the maximum number of simultaneous jobs it can run. Multiple agents can point to a single queue as long as they connect to an appropriate launching infrastructure.
+Each launch agent has a `max_jobs` parameter that sets the maximum number of simultaneous jobs the agent can run. Multiple agents can point to a single queue, as long as they connect to a launching infrastructure that supports them.
 
-You can set limits on CPU, GPU, memory, and other resources at the queue or job run level in the resource configuration. For information on setting up queues with resource limits on Kubernetes, see the [Kubernetes setup guide](/platform/launch/setup-launch-kubernetes/).
+You can set limits on CPU, GPU, memory, and other resources at the queue or job run level in the resource configuration. For information about setting up queues with resource limits on Kubernetes, see the [Kubernetes setup guide](/platform/launch/setup-launch-kubernetes/).
 
 For sweeps, include the following block in the queue configuration to limit the number of concurrent runs:
 

@@ -1,0 +1,120 @@
+---
+title: "GetAgentSpansOptions"
+description: "TypeScript SDK 레퍼런스"
+---
+
+[weave](../) / GetAgentSpansOptions
+
+[WeaveClient.getAgentSpans](../classes/weaveclient#getagentspans)의 옵션입니다.
+
+<div id="table-of-contents">
+  ## 목차
+</div>
+
+<div id="properties">
+  ### 속성
+</div>
+
+* [agentName](./getagentspansoptions#agentname)
+* [limit](./getagentspansoptions#limit)
+* [offset](./getagentspansoptions#offset)
+* [query](./getagentspansoptions#query)
+* [sortBy](./getagentspansoptions#sortby)
+
+## 속성
+
+<div id="agentname">
+  ### agentName
+</div>
+
+• `선택` **agentName**: `string`
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[src/weaveClient.ts:161](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L161)
+
+***
+
+<div id="limit">
+  ### limit
+</div>
+
+• `선택` **limit**: `숫자`
+
+`최소`
+
+0
+
+`최대`
+
+10000
+
+`기본값`
+
+```ts twoslash
+// @noErrors
+100
+```
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[src/weaveClient.ts:171](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L171)
+
+***
+
+<div id="offset">
+  ### offset
+</div>
+
+• `선택` **offset**: `숫자`
+
+`최소`
+
+0
+
+`기본값`
+
+```ts twoslash
+// @noErrors
+0
+```
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[src/weaveClient.ts:176](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L176)
+
+***
+
+<div id="query">
+  ### 쿼리
+</div>
+
+• `선택` **쿼리**: `null` | [`Query`](./query)
+
+span에 적용하는 Mongo 스타일 필터입니다.
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[src/weaveClient.ts:165](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L165)
+
+***
+
+<div id="sortby">
+  ### sortBy
+</div>
+
+• `선택` **sortBy**: [`SortBy`](./sortby)[]
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[src/weaveClient.ts:177](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L177)

@@ -1,0 +1,40 @@
+---
+title: "wandb.log()로 기록한 메트릭이 보이지 않는 이유는 무엇인가요?"
+keywords: ["로그", "메트릭", "Experiments"]
+---
+
+`wandb.log()`로 로깅한 메트릭이 W&amp;B UI에 나타나지 않는다면, 몇 가지 일반적인 원인이 있습니다.
+
+**동기화되지 않은 offline mode**
+
+`WANDB_MODE=offline`이 설정되어 있으면 메트릭은 로컬에 저장되지만 `wandb sync`를 실행하기 전까지는 업로드되지 않습니다. `wandb/` 디렉터리에서 해당 run의 데이터가 로컬에 있는지 확인한 다음 동기화하세요. `[TIMESTAMP]`와 `[ID]`를 run의 Timestamp와 ID로 바꾸세요:
+
+```bash
+wandb sync wandb/run-[TIMESTAMP]-[ID]
+```
+
+**분산 트레이닝에서 조정되지 않은 로깅**
+
+분산 트레이닝에서는 일반적으로 하나의 프로세스에서만 로그를 기록하는 패턴을 사용합니다(보통 rank 0). 여러 프로세스가 조정 없이 동일한 run에 로그를 기록하면 메트릭이 서로 덮어써지거나 누락될 수 있습니다. 하나의 프로세스에서만 로그를 기록하도록 rank를 확인하세요:
+
+```python
+import os
+import wandb
+
+with wandb.init(project="[YOUR-PROJECT]") as run:
+    if int(os.environ.get("RANK", 0)) == 0:
+        loss = ...  # 계산한 메트릭
+        run.log({"loss": loss})
+```
+
+W&amp;B는 [shared mode](/ko/models/track/log/distributed-training)를 사용해 여러 프로세스에서 하나의 run에 조정된 방식으로 함께 로깅하는 것도 지원합니다. rank-0 패턴과 다중 프로세스 패턴은 해당 가이드를 참조하세요.
+
+오프라인 sync에 대해서는 [환경 변수](/ko/models/track/environment-variables)를 참조하세요.
+
+***
+
+{/* 자동 생성: 탭 배지 */}
+
+<Badge stroke shape="pill" color="orange" size="md">[로그](/ko/support/models/tags/logs)</Badge><Badge stroke shape="pill" color="orange" size="md">[메트릭](/ko/support/models/tags/metrics)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge>
+
+{/* END AUTO-GENERATED: 탭 배지 */}

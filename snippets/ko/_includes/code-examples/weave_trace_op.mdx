@@ -1,0 +1,22 @@
+---
+title: Weave 트레이스 Op
+---
+
+```python
+'''
+W&B Weave decorator를 사용하여 모든 함수를 트레이스합니다
+'''
+
+# W&B Weave 임포트
+import weave
+
+# 트레이스할 함수에 Weave decorator 추가
+@weave.op
+def helloUser(name: str):
+    return "Hello, " + name
+
+# 팀 및 프로젝트 이름으로 Weave 초기화
+weave.init('your-team-name/your-project-name')
+
+print(helloUser('<your-name>'))
+```

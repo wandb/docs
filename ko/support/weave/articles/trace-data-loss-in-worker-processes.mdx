@@ -1,0 +1,60 @@
+---
+title: "워커 프로세스에서의 트레이스 데이터 손실"
+keywords: ["Trace Data", "성능"]
+---
+
+Weave는 애플리케이션 성능에 미치는 영향을 최소화하기 위해 백그라운드 스레드에서 트레이스 데이터를 업로드합니다. 하지만 multiprocessing 또는 task queue 시스템이나 Celery와 같은 워커 프로세스를 사용하는 경우, 트레이스 데이터가 손실될 수 있습니다. 이는 백그라운드 스레드가 트레이스 업로드를 완료하기 전에 워커 프로세스가 종료될 때 발생합니다.
+
+워커 프로세스에서 데이터 손실을 방지하려면 워커 작업이 끝나기 전에 `client.flush()` 또는 `client.finish()`를 호출하여 백그라운드 업로드가 완료되도록 하세요. 이는 [AWS Lambda](https://aws.amazon.com/lambda/), [Google Cloud Run](https://cloud.google.com/run), 또는 실행 직후 종료되는 노트북처럼 수명이 짧은 환경에서 특히 유용합니다.
+
+이 두 방법은 용도가 다르므로 환경에 맞는 방법을 선택하세요:
+
+* `weave.flush()`: 별도의 진행 표시 없이 flush를 수행합니다. Weave가 워커 프로세스 또는 지속적 통합(CI) 환경에 통합된 경우에 권장됩니다.
+* `weave.finish()`: 진행률 표시줄이나 status 콜백을 통해 진행 상태 피드백을 제공합니다. 대화형 스크립트나 노트북에 권장됩니다.
+
+두 방법 모두 모든 백그라운드 업로드가 완료될 때까지 차단하므로, 워커 프로세스가 종료될 때 트레이스 데이터가 손실되지 않도록 보장합니다.
+
+다음 예시는 워커가 반환되기 전에 트레이스를 flush하도록 Celery 작업에서 `client.finish()`를 호출하는 방법을 보여줍니다. `[TEAM-NAME]`은 W&amp;B 팀 이름으로, `[PROJECT-NAME]`은 W&amp;B 프로젝트 이름으로 바꾸세요:
+
+```python
+from celery import Celery
+import weave
+
+app = Celery('tasks')
+
+@app.task
+def process_task(input_data):
+    weave.init("[TEAM-NAME]/[PROJECT-NAME]")
+
+    try:
+        # 트레이스를 생성하는 태스크 로직
+        result = your_processing_function(input_data)
+
+        # 태스크가 완료되기 전에 모든 트레이스가 업로드되었는지 확인
+        weave.finish()
+
+        return result
+    finally:
+        pass
+```
+
+대안으로, `with` 컨텍스트 관리자를 사용하면 종료 시 `weave.finish()`가 자동으로 호출되도록 할 수 있습니다:
+
+```python
+with weave.init("[TEAM-NAME]/[PROJECT-NAME]") as client:
+    result = your_processing_function(input_data)
+
+    return result
+```
+
+`weave.flush()`를 사용해 애플리케이션 성능을 개선할 수도 있습니다. 자세한 내용은 [Flushing](/ko/support/weave/articles/long-eval-clean-up-times)을 참조하세요.
+
+데이터 손실에 대한 복원력을 더욱 높이려면 [쓰기 전 로그](/ko/weave/guides/tracking/write-ahead-log)를 활성화하는 것이 좋습니다. 이 기능은 데이터를 서버로 전송하기 전에 트레이스 데이터를 디스크에 기록합니다.
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[트레이스 데이터](/ko/support/weave/tags/trace-data)</Badge><Badge stroke shape="pill" color="orange" size="md">[성능](/ko/support/weave/tags/performance)</Badge>
+
+{/* END AUTO-GENERATED: 탭 배지 */}

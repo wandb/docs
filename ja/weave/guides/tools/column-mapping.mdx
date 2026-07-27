@@ -1,13 +1,14 @@
 ---
-title: Datasets 内の列をマッピングする
-description: Datasets 内のカラムを別の名前にマッピングします。これにより、Datasets 内のカラム名とスコアラーが想定するカラム名を一致させることができます。
+title: "データセットの列を別名にマッピングする"
+description: "データセットの列を別の名前にマッピングします。これにより、データセット内の列名を scorer が想定する列名に合わせられます。"
+keywords: ["column_map", "columnMapping", "scorer parameters", "EmbeddingSimilarityScorer"]
 ---
 
 <Tabs>
   <Tab title="Python">
-    Weave Python SDK では、スコーラーの `column_map` 属性を使用して、スコーラーが期待する引数名とデータセットの列名をマッピングします。マッピングの形式は `{scorer_parameter: dataset_column}` です。
+    Weave Python SDK では、scorer の `column_map` 属性を使用して、scorer が想定するパラメーター名をデータセットの列名にマッピングします。マッピング形式は `{scorer_parameter: dataset_column}` です。
 
-    次の例では、`output` と `target` 引数を、データセットの `model_output` 列と `answer` 列にマッピングしています。
+    次の例では、`output` パラメーターと `target` パラメーターを、データセットの `model_output` 列と `answer` 列にマッピングしています。
 
     ```python
     from weave.scorers import EmbeddingSimilarityScorer
@@ -15,19 +16,21 @@ description: Datasets 内のカラムを別の名前にマッピングします�
     similarity_scorer = EmbeddingSimilarityScorer()
 
     similarity_scorer.column_map = {
-        "output": "model_output",  # モデルによって生成されたテキスト
-        "target": "answer"         # 期待される、または参照用の回答
+        "output": "model_output",  # モデルが生成したテキスト
+        "target": "answer"         # 期待される応答または参照応答
     }
     ```
 
-    スコーラーの列マッピングに関する詳細は、[Mapping Column Names with `column_map`](../evaluation/scorers#mapping-column-names-with-column_map) を参照してください。
+    scorer の列マッピングについて詳しくは、[`column_map` を使った列名のマッピング](../evaluation/scorers#mapping-column-names-with-column_map)を参照してください。
   </Tab>
+
   <Tab title="TypeScript">
-    Weave TypeScript SDK では、列マッピングは個々のスコーラーではなく、`Evaluation` オブジェクトの `columnMapping` オプションで設定します。マッピングの形式は `{scorer_key: dataset_column}` です。
+    Weave TypeScript SDK では、列マッピングは個々の scorer ではなく、`Evaluation` オブジェクトの `columnMapping` オプションで設定します。マッピング形式は `{scorer_key: dataset_column}` です。
 
-    次の例では、（スコーラーで使用される）`expectedOutputTimesTwo` をデータセットの `expected` 列にマッピングしています。
+    次の例では、scorer で使用する `expectedOutputTimesTwo` を、データセット内の `expected` 列にマッピングしています。
 
-    ```typescript
+    ```typescript twoslash
+    // @noErrors
     import * as weave from 'weave';
 
     const myScorer = weave.op(
@@ -45,6 +48,6 @@ description: Datasets 内のカラムを別の名前にマッピングします�
     });
     ```
 
-    TypeScript のスコーラー引数に関する詳細は、[Scorer Keyword Arguments](../evaluation/scorers#scorer-のキーワード引数) を参照してください。
+    TypeScript の scorer 引数について詳しくは、[Scorer のキーワード引数](../evaluation/scorers#scorer-keyword-arguments)を参照してください。
   </Tab>
 </Tabs>

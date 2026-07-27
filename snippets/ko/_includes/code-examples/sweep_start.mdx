@@ -1,0 +1,20 @@
+---
+title: 스윕 시작
+---
+
+```python
+"""
+스윕 에이전트를 실행하기 위한 스윕 작업을 시작합니다.
+
+다음을 교체하세요:
+- 꺾쇠 괄호로 묶인 값을 실제 값으로 교체
+- sweep_id를 스윕 초기화 시 반환되는 스윕의 ID로 교체.
+    스윕을 초기화하고 sweep_id를 가져오는 방법의 예시는 sweep_initialize.py를 참조하세요.
+- count를 스윕에서 실행할 run의 수로 교체
+"""
+
+import wandb
+
+sweep_id, count = "<sweep_id>", 10
+wandb.agent(sweep_id, count=count)
+```

@@ -1,25 +1,28 @@
 ---
-title: 아티팩트 유형 (ArtifactTypes)
+title: ArtifactTypes
 namespace: public_apis_namespace
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
 
 
-
-
 ## <kbd>class</kbd> `ArtifactTypes`
-특정 프로젝트의 `ArtifactType` 오브젝트에 대한 지연 이터레이터(lazy iterator)입니다.
 
+특정 프로젝트의 `ArtifactType` 객체를 순회하는 lazy 이터레이터입니다. 
 
-### <kbd>property</kbd> ArtifactTypes.cursor
+### <kbd>속성</kbd> ArtifactTypes.cursor
 
+다음에 가져올 페이지의 시작 위치를 가리키는 불투명한 커서입니다.
 
+이 값은 저장해 두었다가 나중에 페이지네이션된 쿼리에 `start=`로 전달하여, 이 paginator가 멈춘 지점부터 반복을 재개할 수 있습니다.
 
+**반환값:**
 
+* `str | None`: cursor 속성 값입니다.
 
----
+***
 
-### <kbd>property</kbd> ArtifactTypes.more
+### <kbd>속성</kbd> ArtifactTypes.more

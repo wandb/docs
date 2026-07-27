@@ -1,0 +1,50 @@
+---
+title: "팀을 삭제한 후 새 팀을 만들 수 없습니다. 어떻게 해야 하나요?"
+keywords: ["Teams", "팀 관리", "조직 관리"]
+---
+
+W&amp;B에 가입하면 플랫폼에서 사용자 이름과 동일한 이름의 개인 팀을 자동으로 생성합니다. 이 팀을 삭제하면 더 이상 프로젝트를 만들 수 없거나 **Create team** 버튼이 완전히 사라질 수 있습니다. 또한 로그인할 때마다 &quot;rate limit exceeded&quot; 오류가 표시될 수도 있습니다.
+
+<div id="why-this-happens">
+  ## 이런 일이 발생하는 이유
+</div>
+
+W&amp;B 계정은 프로젝트를 만들고 실험을 실행하려면 최소 한 개의 팀에 속해 있어야 합니다. 자동 생성된 팀이 삭제되면 계정이 팀 소속을 잃게 됩니다. 이 상태에서는 다음과 같은 일이 발생합니다.
+
+* **Account Settings &gt; Teams**의 **Create team** 버튼이 표시되지 않을 수 있습니다.
+* 로그인하거나 워크스페이스로 이동하려고 하면 즉시 &quot;rate limit exceeded&quot; 또는 &quot;An application error occurred&quot; 페이지로 리디렉션될 수 있습니다.
+* 이 문제를 직접 해결하기 위해 새 팀을 만들 수 없습니다 — 계정이 이 상태인 동안에는 팀 생성이 차단됩니다.
+
+<div id="what-to-do">
+  ## 수행할 작업
+</div>
+
+이 상태는 W&amp;B UI에서는 해결할 수 없습니다. W&amp;B 지원팀에 문의할 때 다음 정보를 포함하세요.
+
+* W&amp;B **사용자 이름** (프로필 URL에 표시되는 entity 이름, 예: `wandb.ai/your-username`)
+* 팀 또는 엔터프라이즈 플랜을 사용 중인 경우 **조직 이름**
+* 생성하려는 **팀 이름** (팀 이름은 전역적으로 고유해야 하며, 소문자만 사용하고 공백이 없어야 합니다)
+
+지원팀에서 계정에 사용할 팀을 수동으로 생성하고 액세스를 복구해 드립니다.
+
+**학술 또는 무료 플랜을 사용 중인 경우**
+
+학술 계정은 UI에서 직접 팀을 생성하지 못할 수 있습니다. 새 계정이라도 &quot;Create team&quot; 버튼이 보이지 않을 수 있습니다. 이는 버그가 아닙니다. 무료 플랜에서는 경우에 따라 팀 생성이 제한됩니다. 지원팀에 사용자 이름과 원하는 팀 이름을 전달하고, W&amp;B를 학술 또는 연구 목적으로 사용 중이라는 메모도 함께 포함하세요.
+
+**앞으로 이 문제가 발생하지 않도록 하려면**
+
+* 처음 자동 생성된 팀을 삭제하지 마세요.
+* 다른 팀 이름을 원한다면, 유일한 팀을 삭제하기 전에 새 팀을 만드는 방법은 [내 계정에서 팀을 삭제하려면 어떻게 하나요?](/ko/support/models/articles/how-do-i-delete-a-team-from-my-account)를 참조하세요.
+* 계정이 팀에 속해 있는지 확인하려면 [wandb.ai/settings](https://wandb.ai/settings)로 이동한 후 **Teams** 아래를 확인하세요.
+
+**관련: 요청 속도 제한 초과 반복**
+
+팀을 삭제한 뒤 &quot;rate limit exceeded&quot; 오류와 함께 리디렉션 반복에 빠진 경우, 이는 같은 문제의 증상입니다. 이 오류는 W&amp;B의 routing 로직이 로그인한 모든 사용자가 팀에 속해 있다고 가정하기 때문에 발생합니다. 로그아웃했다가 다시 로그인해도 해결되지 않습니다. 이 문제는 지원팀에 문의해야만 해결할 수 있습니다.
+
+***
+
+{/* AUTO-GENERATED: 탭 배지 */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Teams](/ko/support/models/tags/teams)</Badge><Badge stroke shape="pill" color="orange" size="md">[팀 관리](/ko/support/models/tags/team-management)</Badge><Badge stroke shape="pill" color="orange" size="md">[조직 관리](/ko/support/models/tags/org-management)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

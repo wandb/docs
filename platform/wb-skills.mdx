@@ -1,6 +1,7 @@
 ---
 title: Use W&B Skills
 description: Install W&B Skills to teach your coding agent how to train models, build agents, and analyze experiments using W&B's AI development platform.
+keywords: ["Claude Code skills", "Codex skills", "agent instructions", "coding agent", "skill installation"]
 ---
 
 W&B Skills are reusable instruction sets that teach coding agents how to use W&B effectively. Instead of manually guiding your agent through W&B APIs and best practices, install Skills so that the agent can work with experiment tracking, tracing, evaluations, and monitoring on its own.
@@ -16,7 +17,7 @@ For a full list of supported agents, see the [W&B Skills CLI documentation](http
 
 ## W&B Skills capabilities
 
-Skills covers both the [W&B Models SDK](/models/ref) (training runs, metrics, artifacts, sweeps) and the [Weave SDK](/weave/reference/python-sdk) (traces, evaluations, scorers). Includes helper libraries, reference docs, and data analysis patterns.
+Skills covers both the [W&B Models SDK](/models/ref) (training runs, metrics, artifacts, sweeps) and the [Weave SDK](/weave/reference/python-sdk) (traces, evaluations, scorers). It includes helper libraries, reference docs, and data analysis patterns so your agent can handle the following workflows.
 
 | Workflow | Capabilities |
 |----------|-------------|
@@ -28,21 +29,23 @@ Skills covers both the [W&B Models SDK](/models/ref) (training runs, metrics, ar
 Skills requires the following:
 
 * [Node.js](https://nodejs.org/) (for the `npx` command).
-* A W&B API key. Create one at [wandb.ai/authorize](https://wandb.ai/authorize) and then set it as an environment variable:
-    ```shell
-    export WANDB_API_KEY=<your-api-key>
+* A W&B API key. Create one at [wandb.ai/authorize](https://wandb.ai/authorize) and then set it as an environment variable. Replace `[YOUR-API-KEY]` with your API key:
+    ```bash
+    export WANDB_API_KEY=[YOUR-API-KEY]
     ```
-* (Optional) Set your W&B project name as a `WANDB_PROJECT` environment variable. This allows your agent to target the correct W&B project without you specifying it each time.
+* Optional: Set your W&B project name as a `WANDB_PROJECT` environment variable. This lets your agent target the correct W&B project without you specifying it each time.
 
 ## Install W&B Skills
 
-To install W&B Skills globally, run the following command with the `--global` flag:
+Choose a global installation to make Skills available to all your projects, or a project-specific installation to scope Skills to a single project.
+
+To install W&B Skills globally for all your projects, use the `--global` flag:
 
 ```bash
 npx skills add wandb/skills --skill '*' --yes --global
 ```
 
-To install Skills for a specific project, run the following command from your project directory:
+To install Skills only for the current project, run the install command from your project directory without the `--global` flag:
 
 ```bash
 npx skills add wandb/skills --skill '*' --yes
@@ -54,7 +57,9 @@ You can also install Skills for specific agents using the `--agent` flag:
 npx skills add wandb/skills --agent claude-code --skill '*' --yes --global
 ```
 
-For list of `--agent` and `--skill` options, see the [skills CLI documentation](https://github.com/vercel-labs/skills#supported-agents).
+For a list of `--agent` and `--skill` options, see the [skills CLI documentation](https://github.com/vercel-labs/skills#supported-agents).
+
+After installation completes, your agent has access to W&B Skills and is ready to handle W&B-related tasks.
 
 ## Use W&B Skills
 
@@ -69,7 +74,7 @@ Once installed, you can ask the agent to perform W&B-related tasks for your proj
 
 ## Usage tips
 
-Skills performs better when you use more specific queries versus broader open-ended questions. The following table provides some recommended example prompts versus prompts that are too vague.
+Skills performs better with specific queries than with broad, open-ended questions. The following table compares recommended prompts with prompts that are too vague.
 
 | Recommended | Not recommended |
 |-------------|-----------------|

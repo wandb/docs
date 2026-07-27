@@ -1,0 +1,493 @@
+---
+title: "HttpResponse<D, E>"
+description: "TypeScript SDK 레퍼런스"
+---
+
+[weave](../) / HttpResponse
+
+<div id="type-parameters">
+  ## 유형 매개변수
+</div>
+
+| 이름  | 유형                            |
+| :-- | :---------------------------- |
+| `D` | extends `unknown`             |
+| `E` | extends `unknown` = `unknown` |
+
+<div id="hierarchy">
+  ## 계층 구조
+</div>
+
+* `Response`
+
+  ↳ `HttpResponse`
+
+<div id="table-of-contents">
+  ## 목차
+</div>
+
+<div id="properties">
+  ### 속성
+</div>
+
+* [body](./httpresponse#body)
+* [bodyUsed](./httpresponse#bodyused)
+* [data](./httpresponse#data)
+* [error](./httpresponse#error)
+* [headers](./httpresponse#headers)
+* [ok](./httpresponse#ok)
+* [redirected](./httpresponse#redirected)
+* [status](./httpresponse#status)
+* [statusText](./httpresponse#statustext)
+* [type](./httpresponse#type)
+* [url](./httpresponse#url)
+
+<div id="methods">
+  ### 메서드
+</div>
+
+* [arrayBuffer](./httpresponse#arraybuffer)
+* [blob](./httpresponse#blob)
+* [bytes](./httpresponse#bytes)
+* [clone](./httpresponse#clone)
+* [formData](./httpresponse#formdata)
+* [json](./httpresponse#json)
+* [text](./httpresponse#text)
+
+## 속성
+
+<div id="body">
+  ### body
+</div>
+
+• `Readonly` **body**: `null` | `ReadableStream`&lt;`Uint8Array`&lt;`ArrayBuffer`&gt;&gt;
+
+[MDN 레퍼런스](https://developer.mozilla.org/docs/Web/API/Request/body)
+
+<div id="inherited-from">
+  #### 상속됨
+</div>
+
+Response.body
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:4468
+
+***
+
+<div id="bodyused">
+  ### bodyUsed
+</div>
+
+• `Readonly` **bodyUsed**: `boolean`
+
+[MDN 레퍼런스](https://developer.mozilla.org/docs/Web/API/Request/bodyUsed)
+
+<div id="inherited-from">
+  #### 상속됨
+</div>
+
+Response.bodyUsed
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:4470
+
+***
+
+<div id="data">
+  ### data
+</div>
+
+• **data**: `D`
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/generated/traceServerApi.ts:5991](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L5991)
+
+***
+
+<div id="error">
+  ### error
+</div>
+
+• **error**: `E`
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/generated/traceServerApi.ts:5992](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L5992)
+
+***
+
+<div id="headers">
+  ### headers
+</div>
+
+• `Readonly` **headers**: `Headers`
+
+응답과 함께 제공되는 `headers` 읽기 전용 속성입니다.
+
+[MDN 레퍼런스](https://developer.mozilla.org/docs/Web/API/Response/headers)
+
+<div id="inherited-from">
+  #### 상속됨
+</div>
+
+Response.headers
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:26322
+
+***
+
+<div id="ok">
+  ### ok
+</div>
+
+• `Readonly` **ok**: `boolean`
+
+Response 인터페이스의 `ok` 읽기 전용 속성은 응답이 성공했는지 여부(상태 코드가 200~299 범위인지)를 나타내는 불리언 값입니다.
+
+[MDN 레퍼런스](https://developer.mozilla.org/docs/Web/API/Response/ok)
+
+<div id="inherited-from">
+  #### 상속됨
+</div>
+
+Response.ok
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:26328
+
+***
+
+<div id="redirected">
+  ### redirected
+</div>
+
+• `Readonly` **redirected**: `boolean`
+
+Response 인터페이스의 `redirected` 읽기 전용 속성은 응답이 사용자가 보낸 요청이 리디렉션된 결과로 생성되었는지 여부를 나타냅니다.
+
+[MDN 레퍼런스](https://developer.mozilla.org/docs/Web/API/Response/redirected)
+
+<div id="inherited-from">
+  #### 상속됨
+</div>
+
+Response.redirected
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:26334
+
+***
+
+<div id="status">
+  ### status
+</div>
+
+• `Readonly` **status**: `number`
+
+`Response` 인터페이스의 읽기 전용 `status` 속성은 응답의 HTTP 상태 코드를 나타냅니다.
+
+[MDN 레퍼런스](https://developer.mozilla.org/docs/Web/API/Response/status)
+
+<div id="inherited-from">
+  #### 상속됨
+</div>
+
+Response.status
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:26340
+
+***
+
+<div id="statustext">
+  ### statusText
+</div>
+
+• `Readonly` **statusText**: `string`
+
+Response 인터페이스의 읽기 전용 `statusText` 속성에는 Response.status의 HTTP 상태 코드에 대응하는 상태 메시지가 포함됩니다.
+
+[MDN 레퍼런스](https://developer.mozilla.org/docs/Web/API/Response/statusText)
+
+<div id="inherited-from">
+  #### 상속됨
+</div>
+
+Response.statusText
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:26346
+
+***
+
+<div id="type">
+  ### 유형
+</div>
+
+• `Readonly` **type**: `ResponseType`
+
+Response 인터페이스의 읽기 전용 `type` 속성에는 응답의 유형이 포함됩니다.
+
+[MDN 레퍼런스](https://developer.mozilla.org/docs/Web/API/Response/type)
+
+<div id="inherited-from">
+  #### 상속됨
+</div>
+
+Response.type
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:26352
+
+***
+
+<div id="url">
+  ### url
+</div>
+
+• `Readonly` **url**: `string`
+
+Response 인터페이스의 `url` 읽기 전용 속성은 응답의 URL을 나타냅니다.
+
+[MDN 레퍼런스](https://developer.mozilla.org/docs/Web/API/Response/url)
+
+<div id="inherited-from">
+  #### 상속됨
+</div>
+
+Response.url
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:26358
+
+## 메서드
+
+<div id="arraybuffer">
+  ### arrayBuffer
+</div>
+
+▸ **arrayBuffer**(): `Promise`&lt;`ArrayBuffer`&gt;
+
+[MDN 레퍼런스](https://developer.mozilla.org/docs/Web/API/Request/arrayBuffer)
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`Promise`&lt;`ArrayBuffer`&gt;
+
+<div id="inherited-from">
+  #### 상속됨
+</div>
+
+Response.arrayBuffer
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:4472
+
+***
+
+<div id="blob">
+  ### blob
+</div>
+
+▸ **blob**(): `Promise`&lt;`Blob`&gt;
+
+[MDN 레퍼런스](https://developer.mozilla.org/docs/Web/API/Request/blob)
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`Promise`&lt;`Blob`&gt;
+
+<div id="inherited-from">
+  #### 상속됨
+</div>
+
+Response.blob
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:4474
+
+***
+
+<div id="bytes">
+  ### bytes
+</div>
+
+▸ **bytes**(): `Promise`&lt;`Uint8Array`&lt;`ArrayBuffer`&gt;&gt;
+
+[MDN 레퍼런스](https://developer.mozilla.org/docs/Web/API/Request/bytes)
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`Promise`&lt;`Uint8Array`&lt;`ArrayBuffer`&gt;&gt;
+
+<div id="inherited-from">
+  #### 상속됨
+</div>
+
+Response.bytes
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:4476
+
+***
+
+<div id="clone">
+  ### clone
+</div>
+
+▸ **clone**(): `Response`
+
+Response 인터페이스의 `clone()` 방법은 응답 객체의 복제본을 생성합니다. 이 복제본은 모든 면에서 동일하지만 다른 변수에 저장됩니다.
+
+[MDN 레퍼런스](https://developer.mozilla.org/docs/Web/API/Response/clone)
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`Response`
+
+<div id="inherited-from">
+  #### 상속됨
+</div>
+
+Response.clone
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:26364
+
+***
+
+<div id="formdata">
+  ### formData
+</div>
+
+▸ **formData**(): `Promise`&lt;`FormData`&gt;
+
+[MDN 레퍼런스](https://developer.mozilla.org/docs/Web/API/Request/formData)
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`Promise`&lt;`FormData`&gt;
+
+<div id="inherited-from">
+  #### 상속됨
+</div>
+
+Response.formData
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:4478
+
+***
+
+<div id="json">
+  ### json
+</div>
+
+▸ **json**(): `Promise`&lt;`any`&gt;
+
+[MDN 레퍼런스](https://developer.mozilla.org/docs/Web/API/Request/json)
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`Promise`&lt;`any`&gt;
+
+<div id="inherited-from">
+  #### 상속됨
+</div>
+
+Response.json
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:4480
+
+***
+
+<div id="text">
+  ### text
+</div>
+
+▸ **text**(): `Promise`&lt;`string`&gt;
+
+[MDN 레퍼런스](https://developer.mozilla.org/docs/Web/API/Request/text)
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`Promise`&lt;`string`&gt;
+
+<div id="inherited-from">
+  #### 상속됨
+</div>
+
+Response.text
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+node&#95;modules/typescript/lib/lib.dom.d.ts:4482

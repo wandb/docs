@@ -1,0 +1,158 @@
+---
+title: "ConversationInit"
+description: "TypeScript SDK リファレンス"
+---
+
+[weave](../) / ConversationInit
+
+<div id="table-of-contents">
+  ## 目次
+</div>
+
+<div id="properties">
+  ### プロパティ
+</div>
+
+* [agentDescription](./conversationinit#agentdescription)
+* [agentId](./conversationinit#agentid)
+* [agentName](./conversationinit#agentname)
+* [agentVersion](./conversationinit#agentversion)
+* [属性](./conversationinit#attributes)
+* [conversationId](./conversationinit#conversationid)
+* [モデル](./conversationinit#model)
+* [sessionId](./conversationinit#sessionid)
+
+## プロパティ
+
+<div id="agentdescription">
+  ### agentDescription
+</div>
+
+• `Optional` **agentDescription**: `string`
+
+人が読んで理解できるエージェントの説明です。ターン で独自の `agentDescription` を設定しない限り、`startTurn()` で作成されるすべての `Turn` に、デフォルトの
+`agentDescription` として引き継がれます。また、各 ターン の `invoke_agent` スパン に
+`gen_ai.agent.description` として出力されます。
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[src/genai/conversation.ts:31](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L31)
+
+***
+
+<div id="agentid">
+  ### agentId
+</div>
+
+• `Optional` **agentId**: `string`
+
+一貫したエージェント識別子です。ターン で独自の `agentId` を設定しない限り、`startTurn()` で作成されるすべての
+`Turn` にデフォルトの `agentId` として引き継がれます。また、各 ターン の `invoke_agent` スパン で
+`gen_ai.agent.id` として出力されます。
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[src/genai/conversation.ts:16](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L16)
+
+***
+
+<div id="agentname">
+  ### agentName
+</div>
+
+• `Optional` **agentName**: `string`
+
+エージェント名。各ターンで独自の値を設定しない限り、`startTurn()` で作成されるすべての `Turn` にデフォルトの `agentName` として引き継がれます。また、各ターンの `invoke_agent` スパンでは `gen_ai.agent.name` として出力されます。
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[src/genai/conversation.ts:23](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L23)
+
+***
+
+<div id="agentversion">
+  ### agentVersion
+</div>
+
+• `Optional` **agentVersion**: `string`
+
+エージェントのバージョン文字列です。各 `Turn` で独自の値が設定されていない限り、`startTurn()` で作成されるすべての `Turn` にデフォルトの `agentVersion` として引き継がれます。また、各 `Turn` の `invoke_agent` スパン で `gen_ai.agent.version` として出力されます。
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[src/genai/conversation.ts:38](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L38)
+
+***
+
+<div id="attributes">
+  ### 属性
+</div>
+
+• `Optional` **属性**: `Attributes`
+
+会話で生成されるすべての span に付与されるカスタム属性です。
+
+ここで指定したキーが span 自身の `gen_ai.*` / `weave.*`
+属性と衝突する場合はサポートされず、span 側の値が優先されます。
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[src/genai/conversation.ts:52](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L52)
+
+***
+
+<div id="conversationid">
+  ### conversationId
+</div>
+
+• `Optional` **conversationId**: `string`
+
+この会話に属するすべての スパン に `gen_ai.conversation.id` として伝播される会話 ID です。省略した場合は自動生成されます。
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[src/genai/conversation.ts:44](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L44)
+
+***
+
+<div id="model">
+  ### モデル
+</div>
+
+• `Optional` **モデル**: `string`
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[src/genai/conversation.ts:9](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L9)
+
+***
+
+<div id="sessionid">
+  ### sessionId
+</div>
+
+<Warning>
+  **非推奨です。** 代わりに [ConversationInit.conversationId](./conversationinit#conversationid) を使用してください。
+</Warning>
+
+• `Optional` **sessionId**: `string`
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[src/genai/conversation.ts:55](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L55)

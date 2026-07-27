@@ -1,39 +1,41 @@
 ---
-title: レジストリを削除する
+title: Registry を削除する
+description: "Python SDK または W&B App UI を使用して、Team admin または Registry 管理者として W&B Registry を削除します。"
 ---
 
-このページでは、Team 管理者または Registry 管理者が Registry を削除する方法について説明します。
+このページでは、Team admin または Registry 管理者が Registry を削除する方法を説明します。
 
-- Team 管理者は、組織内のすべての Registry を削除できます。
-- Registry 管理者は、自身が作成した Registry を削除できます。
+* Team admin は、組織内の任意の Registry を削除できます。
+* Registry 管理者は、自分で作成した Registry を削除できます。
 
-Registry を削除すると、その Registry に属するコレクションも削除されますが、Registry にリンクされている Artifacts は削除されません。それらの Artifacts は、元々ログが記録された元の Projects にそのまま残ります。
+Registry を削除すると、その Registry に属する collection も削除されますが、その Registry にリンクされている Artifacts は削除されません。こうした artifact は、ログ先の元のプロジェクトに残ります。
 
 <Tabs>
-<Tab title="Python SDK">
-プログラムで Registry を削除するには、`wandb` API の `delete()` メソッドを使用します。以下の例では、次の手順を示します。
+  <Tab title="Python SDK">
+    `wandb` API の `delete()` method を使用すると、プログラムから Registry を削除できます。次の例では、以下の手順を示します。
 
-1. `api.registry()` を使用して、削除したい Registry を取得します。
-2. 返された Registry オブジェクトに対して `delete()` メソッドを呼び出し、Registry を削除します。
+    1. `api.registry()` を使って、削除する Registry を取得します。
+    2. 返された Registry object に対して `delete()` method を call し、Registry を削除します。
 
-```python
-import wandb
+    ```python
+    import wandb
 
-# W&B API を初期化
-api = wandb.Api()
+    # W&B API を初期化します
+    api = wandb.Api()
 
-# 削除したい Registry を取得
-fetched_registry = api.registry("<registry_name>")
+    # 削除する Registry を取得します
+    fetched_registry = api.registry("<registry_name>")
 
-# Registry を削除
-fetched_registry.delete()
-```
-</Tab>
-<Tab title="W&B App">
-1. https://wandb.ai/registry/ から W&B Registry に移動します。
-2. 削除したい Registry を選択します。
-3. 右上隅の歯車アイコンをクリックして、Registry の settings を表示します。
-4. Registry を削除するには、settings ページの右上隅にあるゴミ箱アイコンをクリックします。
-5. 表示されるモーダルで削除する Registry の名前を入力して確認し、**Delete** をクリックします。
-</Tab>
+    # Registry を削除します
+    fetched_registry.delete()
+    ```
+  </Tab>
+
+  <Tab title="W&B App">
+    1. [https://wandb.ai/registry/](https://wandb.ai/registry/) の W&amp;B Registry にアクセスします。
+    2. 削除する Registry を選択します。
+    3. 右上の gear icon をクリックして、Registry の Settings を表示します。
+    4. Registry を削除するには、Settings ページ右上のごみ箱 icon をクリックします。
+    5. 表示されたモーダルに削除する Registry の名を入力して確認し、**Delete** をクリックします。
+  </Tab>
 </Tabs>

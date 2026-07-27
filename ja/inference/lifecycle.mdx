@@ -1,0 +1,70 @@
+---
+title: "モデルのライフサイクル"
+linkTitle: "ライフサイクル"
+description: >
+  Serverless Inference のモデル ライフサイクルと提供終了について説明します
+keywords: ["モデルの非推奨化", "非推奨のモデル", "モデルの提供終了", "移行ガイド"]
+---
+
+このページでは、Serverless Inference カタログ内のモデルがライフサイクルの各段階をどのように進むか、W&amp;B が今後の変更をどのように通知するか、また、どのモデルが非推奨または提供終了になっているかについて説明します。この情報を基に、削除予定のモデルからの移行を計画してください。
+
+W&amp;B は、Serverless Inference カタログの一部として、新しいモデルを継続的に評価し、リリースしています。
+
+W&amp;B は古いモデルを定期的に見直し、需要が高く品質に優れた提供内容を優先するため、提供終了にする場合があります。
+
+<div id="model-lifecycle-stages">
+  ## モデルライフサイクル段階
+</div>
+
+Serverless Inference の モデル では、ライフサイクルの各段階を表す用語として次を使用します。
+
+* **Experimental**: このモデルは初期の実験に利用できますが、標準の SLA や非推奨プロセスの対象ではありません。
+* **Generally available**: このモデルは完全にサポートされており、使用が推奨されます。
+* **非推奨**: このモデルは削除予定です。できるだけ早く、推奨される代替モデルに移行してください。
+* **提供終了**: このモデルは現在利用できません。提供終了したモデルへのリクエストは失敗し、`HTTP 404` ステータスコードを返します。
+
+<div id="deprecation-process">
+  ## 非推奨化のプロセス
+</div>
+
+W&amp;B が一般提供されているモデルを非推奨化する場合、W&amp;B はそのモデルが提供終了となる少なくとも 2 週間前までに、このページで告知します。
+
+また、W&amp;B は非推奨のモデルを最近使用したユーザーにメールで通知し、
+代替モデルの推奨事項を案内するよう努めています。
+
+**非推奨** 段階にあるモデルは、引き続きリクエストを処理します。
+
+<div id="deprecated-models">
+  ## 非推奨のモデル
+</div>
+
+以下の Serverless Inference モデルは**非推奨**です：
+
+{/* takeru lifecycle-deprecated - この表は自動生成されるため、手動で編集しないでください。 */}
+
+| 非推奨日       | 提供終了日      | モデル ID                               | 推奨代替モデル                                          |
+| ---------- | ---------- | ------------------------------------ | --------------------------------------------------- |
+| 2026-06-30 | 2026-07-20 | `microsoft/Phi-4-mini-instruct`      | `JetBrains/Mellum2-12B-A2.5B-Instruct`              |
+| 2026-06-30 | 2026-07-20 | `nvidia/Kimi-K2.5-NVFP4`             | `moonshotai/Kimi-K2.6`, `moonshotai/Kimi-K2.7-Code` |
+| 2026-06-30 | 2026-07-20 | `Qwen/Qwen3.5-27B`                   | `Qwen/Qwen3.6-27B`                                  |
+| 2026-06-30 | 2026-07-20 | `Qwen/Qwen3-235B-A22B-Instruct-2507` | `Qwen/Qwen3.6-27B`                                  |
+| 2026-06-30 | 2026-07-20 | `Qwen/Qwen3-235B-A22B-Thinking-2507` | `Qwen/Qwen3.6-27B`                                  |
+
+<div id="retired-models">
+  ## 提供終了したモデル
+</div>
+
+以下の Serverless Inference モデルは**提供終了**しています:
+
+{/* takeru lifecycle-retired - この表は自動生成されるため、手動で編集しないでください。 */}
+
+| 廃止日        | モデル ID                                      | 推奨代替モデル                       |
+| ---------- | ------------------------------------------- | ----------------------------- |
+| 2026-05-11 | `zai-org/GLM-5-FP8`                         | `zai-org/GLM-5.1`             |
+| 2026-04-21 | `meta-llama/Llama-4-Scout-17B-16E-Instruct` | `Qwen/Qwen3.5-35B-A3B`        |
+| 2026-03-04 | `deepseek-ai/DeepSeek-R1-0528`              |                               |
+| 2026-03-04 | `deepseek-ai/DeepSeek-V3-0324`              |                               |
+| 2026-03-04 | `moonshotai/Kimi-K2-Instruct`               | `moonshotai/Kimi-K2.5`        |
+| 2026-03-04 | `moonshotai/Kimi-K2-Instruct-0905`          | `moonshotai/Kimi-K2.5`        |
+| 2026-03-04 | `Qwen/Qwen2.5-14B-Instruct`                 | `OpenPipe/Qwen3-14B-Instruct` |
+| 2026-03-04 | `zai-org/GLM-4.5`                           | `zai-org/GLM-5-FP8`           |

@@ -1,0 +1,98 @@
+---
+title: "Métriques"
+tag: "23"
+generator: "knowledgebase-nav"
+template: "docengine-site/templates/support_tag.mdx.j2"
+---
+
+<Card title="Comment puis-je modifier la fréquence de consignation des métriques système ?" href="/fr/support/models/articles/how-can-i-change-how-frequently-to-log-s" arrow="true" horizontal>
+  Pour configurer la fréquence de consignation des métriques système, définissez &#95;stats&#95;sampling&#95;interval sur un nombre de secondes, exprimé sous forme de fl ...
+</Card>
+
+<Card title="Comment puis-je désactiver la consignation des métriques système dans W&B ?" href="/fr/support/models/articles/how-can-i-disable-logging-of-system-metr" arrow="true" horizontal>
+  Pour désactiver la consignation des métriques système, définissez &#95;disable&#95;stats sur True :
+</Card>
+
+<Card title="Comment puis-je consigner des métriques supplémentaires une fois qu'un run est terminé ?" href="/fr/support/models/articles/how-can-i-log-additional-metrics-after-a" arrow="true" horizontal>
+  Pour ajouter des métriques à un run déjà terminé, W&amp;B propose plusieurs approches selon la complexité de votre wor ...
+</Card>
+
+<Card title="Comment puis-je remplacer les journaux des étapes précédentes ?" href="/fr/support/models/articles/how-can-i-overwrite-the-logs-from-previo" arrow="true" horizontal>
+  Pour remplacer les journaux des étapes précédentes, utilisez le forking et rewind. La possibilité de forker ou de rembobiner un run est en cours de dévelop ...
+</Card>
+
+<Card title="Comment puis-je corriger les erreurs `Rate limit exceeded` lors de la consignation des métriques ?" href="/fr/support/models/articles/rate-limit-exceeded-on-metric-logging" arrow="true" horizontal>
+  Si vous recevez une erreur HTTP 429 Rate limit exceeded lorsque vous appelez wandb.log(), vous dépassez le quota de limite de débit po ...
+</Card>
+
+<Card title="Comment puis-je corriger une `anaconda 400 error` pendant un balayage ?" href="/fr/support/models/articles/anaconda-400-error-during-a-sweep" arrow="true" horizontal>
+  Une erreur anaconda 400 pendant un balayage signifie souvent que vous n&#39;avez pas consigné la métrique que vous optimisez. Vous pourriez voir : The sweep c ...
+</Card>
+
+<Card title="Comment puis-je consigner des métriques NLP et des sorties de texte dans W&B ?" href="/fr/support/models/articles/how-do-i-log-nlp-metrics-and-text-outputs-in-wandb" arrow="true" horizontal>
+  Vous pouvez consigner des scores NLP au niveau du corpus (BLEU, ROUGE, perplexité) avec wandb.log() et des sorties pour chaque exemple avec wandb.Table. ...
+</Card>
+
+<Card title="Comment puis-je consigner les gradients et les poids du modèle avec wandb.watch() ?" href="/fr/support/models/articles/how-do-i-log-gradients-and-model-weights-with-wandb-watch" arrow="true" horizontal>
+  wandb.watch() s&#39;attache aux paramètres et aux gradients d&#39;un modèle PyTorch et consigne des histogrammes de leurs valeurs à intervalles réguliers ...
+</Card>
+
+<Card title="Comment puis-je consigner des métriques sur deux échelles de temps différentes ?" href="/fr/support/models/articles/how-do-i-log-metrics-on-two-time-scales" arrow="true" horizontal>
+  Pour consigner des métriques sur deux échelles de temps différentes, consignez des indices comme lot et époque avec vos métriques. Par exemple, vous p ...
+</Card>
+
+<Card title="Comment puis-je consigner des métriques sans enregistrer mon code ?" href="/fr/support/models/articles/how-do-i-log-metrics-without-saving-code" arrow="true" horizontal>
+  Pour éviter que du code source propriétaire ou des données d&#39;entraînement ne soient envoyés à W&amp;B pour des raisons de confidentialité ou de conformité, limitez ce que W&amp;B capture s ...
+</Card>
+
+<Card title="Comment puis-je tracer le maximum d'une métrique ?" href="/fr/support/models/articles/how-do-i-plot-the-maximum-of-a-metric" arrow="true" horizontal>
+  Pour tracer le maximum cumulé d&#39;une métrique : 1. Créez un nuage de points de la métrique. 2. Ouvrez le menu Edit et sélectionnez Annota ...
+</Card>
+
+<Card title="Comment puis-je utiliser W&B avec JAX ?" href="/fr/support/models/articles/how-do-i-use-wandb-with-jax" arrow="true" horizontal>
+  W&amp;B n&#39;a pas d&#39;intégration spécifique à JAX. Cependant, vous pouvez convertir les tableaux JAX du périphérique en scalaires Python, puis utiliser wandb.log ...
+</Card>
+
+<Card title="À quelle fréquence les métriques système sont-elles collectées ?" href="/fr/support/models/articles/how-often-are-system-metrics-collected" arrow="true" horizontal>
+  Par défaut, les métriques système sont collectées toutes les 10 secondes. Pour des métriques à plus haute résolution, envoyez un e-mail à contact@wandb.com.
+</Card>
+
+<Card title="Est-il possible d'enregistrer des métriques hors ligne et de les synchroniser avec W&B plus tard ?" href="/fr/support/models/articles/is-it-possible-to-save-metrics-offline-a" arrow="true" horizontal>
+  Par défaut, wandb.init démarre un processus qui synchronise les métriques en temps réel vers le cloud. Si vous devez exécuter des Experiments ave ...
+</Card>
+
+<Card title="Optimisation de plusieurs métriques" href="/fr/support/models/articles/optimizing-multiple-metrics" arrow="true" horizontal>
+  Les balayages W&amp;B optimisent une seule métrique d’objectif. Pour optimiser plusieurs métriques dans un seul run, combinez-les en une métrique pondé ...
+</Card>
+
+<Card title="Que se passe-t-il lorsque je consigne des millions d’étapes dans W&B ? Comment cela s’affiche-t-il dans le navigateur ?" href="/fr/support/models/articles/what-happens-when-i-log-millions-of-step" arrow="true" horizontal>
+  Le nombre de points envoyés affecte le temps de chargement des graphiques dans l’interface utilisateur. Pour les lignes dépassant 1 000 points, le backend écha ...
+</Card>
+
+<Card title="Et si je veux consigner certaines métriques par lot et d’autres uniquement par époque ?" href="/fr/support/models/articles/what-if-i-want-to-log-some-metrics-on-ba" arrow="true" horizontal>
+  Pour consigner des métriques spécifiques à chaque lot et standardiser les graphiques, consignez les valeurs souhaitées de l’axe X en même temps que les métriques. Dans le ...
+</Card>
+
+<Card title="Pourquoi vois-je moins de points de données que je n’en ai enregistrés ?" href="/fr/support/models/articles/why-am-i-seeing-fewer-data-points-than-i" arrow="true" horizontal>
+  Lorsque vous visualisez des métriques avec un axe X autre que Étape, attendez-vous à voir moins de points de données. Vous devez consigner des métriques à t ...
+</Card>
+
+<Card title="Pourquoi mes métriques sont-elles absentes de wandb.log() ?" href="/fr/support/models/articles/why-are-my-metrics-missing-from-wandb-log" arrow="true" horizontal>
+  Si les métriques consignées avec wandb.log() n’apparaissent pas dans l’interface W&amp;B, plusieurs causes courantes sont possibles. Le mode hors ligne sans ...
+</Card>
+
+<Card title="Pourquoi ne puis-je pas trier ou filtrer les métriques contenant certains caractères ?" href="/fr/support/models/articles/why-cant-i-sort-or-filter-metrics-with-c" arrow="true" horizontal>
+  Les noms de métriques dans W&amp;B doivent respecter les conventions de nommage GraphQL afin que vous puissiez les trier et les filtrer dans l’interface utilisateur. Les noms de métriques valides  ...
+</Card>
+
+<Card title="Pourquoi mon espace de travail se charge-t-il lentement ?" href="/fr/support/models/articles/workspace-loads-slowly-with-many-metric" arrow="true" horizontal>
+  Les espaces de travail peuvent se charger lentement lorsqu’un projet comporte de nombreuses métriques, de nombreux runs ou de nombreux panneaux. Les causes courantes incluent un nombre élevé de métriques, e ...
+</Card>
+
+<Card title="Pourquoi rien ne s’affiche-t-il dans mes graphiques ?" href="/fr/support/models/articles/why-is-nothing-showing-up-in-my-graphs" arrow="true" horizontal>
+  Si le message &quot;Aucune donnée de visualisation n’a encore été enregistrée&quot; apparaît, le script n’a pas encore exécuté le premier appel à wandb.log. Cela peut ...
+</Card>
+
+<Card title="Pourquoi la même métrique apparaît-elle plusieurs fois ?" href="/fr/support/models/articles/why-is-the-same-metric-appearing-more-th" arrow="true" horizontal>
+  Lorsque vous consignez plusieurs types de données sous la même clé, W&amp;B les sépare dans la base de données. Cela entraîne plusieurs entrées o ...
+</Card>

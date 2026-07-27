@@ -1,0 +1,56 @@
+---
+title: Audio
+namespace: python_sdk_data_type
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/audio.py" />
+
+
+## <kbd>class</kbd> `Audio`
+
+Classe W&amp;B pour les extraits audio. 
+
+### <kbd>méthode</kbd> `Audio.__init__`
+
+```python
+__init__(
+    data_or_path: 'str | pathlib.Path | list | np.ndarray',
+    sample_rate: 'int | None' = None,
+    caption: 'str | None' = None
+)
+```
+
+Accepte un chemin vers un fichier audio ou un tableau NumPy de données audio.
+
+**Arguments :**
+
+* `data_or_path`:  Chemin vers un fichier audio ou tableau NumPy de données audio.
+* `sample_rate`:  Taux d’échantillonnage, requis lors du passage d’un tableau NumPy brut de données audio.
+* `caption`:  Légende à afficher avec l’audio.
+
+***
+
+
+### <kbd>méthode de classe</kbd> `Audio.durations`
+
+```python
+durations(audio_list)
+```
+
+Calculez la durée des fichiers audio.
+
+***
+
+
+### <kbd>méthode de classe</kbd> `Audio.sample_rates`
+
+```python
+sample_rates(audio_list)
+```
+
+Obtenir les taux d’échantillonnage des fichiers audio.
+
+***

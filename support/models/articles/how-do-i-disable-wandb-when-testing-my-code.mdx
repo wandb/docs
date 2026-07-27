@@ -1,0 +1,16 @@
+---
+title: "How do I disable W&B while testing my code?"
+keywords: ["Artifacts"]
+---
+
+To configure W&B as a no-op for testing, use `wandb.init(mode="disabled")` or set `WANDB_MODE=disabled`.
+
+<Note>
+Even when you use `wandb.init(mode="disabled")`, W&B still saves artifacts to `WANDB_CACHE_DIR`.
+</Note>
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/support/models/tags/artifacts)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

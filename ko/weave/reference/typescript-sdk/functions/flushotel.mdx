@@ -1,0 +1,34 @@
+---
+title: "flushOTel"
+description: "TypeScript SDK 레퍼런스"
+---
+
+<div id="flushotel">
+  # flushOTel
+</div>
+
+▸ **flushOTel**(): `Promise`&lt;`void`&gt;
+
+활성 span 프로세서에 버퍼링된 모든 GenAI span을 강제로 플러시합니다.
+
+`weave.init()`이 호출되지 않았다면 즉시 완료됩니다. 그렇지 않으면
+기본 span 프로세서가 큐를 모두 비우고 OTLP 내보내기 왕복을 완료할 때까지 기다리는
+`BasicTracerProvider.forceFlush()`에 위임합니다.
+
+`'simple'` 또는 진행 중인 작업이 있을 수 있는 다른 프로세서를 사용할 때는
+프로세스가 종료되기 전에 호출하세요. 또는 내보낸 span을 동기적으로
+확인해야 하는 테스트에서 호출하세요.
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`Promise`&lt;`void`&gt;
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/genai/flush.ts:15](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/flush.ts#L15)
+
+***

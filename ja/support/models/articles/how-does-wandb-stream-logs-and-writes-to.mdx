@@ -1,0 +1,16 @@
+---
+title: "wandb はログをどのようにストリーミングし、ディスクに書き込みますか？"
+keywords: ["環境変数"]
+---
+
+W&amp;B は、イベントをメモリ内のキューに入れ、非同期でディスクに書き込みます。この方法により、障害に対処し、ログ後にデータを同期できる `WANDB_MODE=offline` 設定をサポートします。
+
+ターミナルには、ローカル run ディレクトリへのパスが表示されます。このディレクトリには、データストアとして機能する `.wandb` ファイルが含まれています。画像をログする場合、W&amp;B はクラウドストレージにアップロードする前に、画像を `media/images` サブディレクトリに保存します。
+
+***
+
+{/* 自動生成: タブバッジ */}
+
+<Badge stroke shape="pill" color="orange" size="md">[環境変数](/ja/support/models/tags/environment-variables)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

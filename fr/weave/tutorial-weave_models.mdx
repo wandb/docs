@@ -1,0 +1,181 @@
+---
+title: "Tutoriel : Gestion des versions d’une application"
+description: "Découvrez comment utiliser `Model` Weave pour suivre votre application et gérer ses versions ainsi que celles de ses paramètres"
+keywords: ["weave.Model", "gestion des versions", "suivi des modèles", "export de modèle", "reproductibilité"]
+---
+
+Le suivi des [entrées, sorties et métadonnées](/fr/weave/quickstart), ainsi que des [données qui circulent dans votre application](/fr/weave/tutorial-tracing_2), est essentiel pour comprendre les performances de votre système. Gérer les versions de votre application au fil du temps est tout aussi important, car cela montre comment les modifications apportées à votre code ou à vos paramètres affectent vos sorties. La classe `Model` de Weave suit ces modifications pour vous.
+
+Ce tutoriel s’adresse aux développeurs qui souhaitent comparer et reproduire des résultats entre différentes versions d’une application LLM. À la fin, vous disposerez d’un `Model` Weave versionné qui capture les paramètres et le code de votre application. Vous saurez également comment récupérer et réutiliser une version précédente.
+
+Dans ce tutoriel, vous apprendrez à :
+
+* utiliser `Model` Weave pour suivre votre application et gérer ses versions ainsi que celles de ses paramètres.
+* exporter, modifier et réutiliser un `Model` Weave déjà enregistré.
+
+<div id="use-weavemodel">
+  ## Utiliser `weave.Model`
+</div>
+
+<Warning>
+  La classe `weave.Model` n’est prise en charge qu’en Python.
+</Warning>
+
+Avec les `Model` de Weave, Weave stocke et versionne les paramètres tels que les identifiants du fournisseur du modèle, les prompts, la température, etc. lorsqu’ils changent.
+
+Pour créer un `Model` dans Weave, vous avez besoin des éléments suivants :
+
+* une classe qui hérite de `weave.Model`
+* des définitions de type pour tous les champs de la classe
+* une fonction `invoke` typée avec le décorateur `@weave.op()`
+
+Lorsque vous modifiez les champs de la classe ou le code qui définit votre modèle, ces modifications seront enregistrées et la version sera mise à jour. Vous pouvez ainsi comparer les générations entre différentes versions de votre application.
+
+Dans l’exemple suivant, le nom du modèle, la température et le prompt système seront suivis et versionnés :
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines {26,33-34}
+    import json
+    from openai import OpenAI
+
+    import weave
+
+    @weave.op()
+    def extract_dinos(wmodel: weave.Model, sentence: str) -> dict:
+        response = wmodel.client.chat.completions.create(
+            model=wmodel.model_name,
+            temperature=wmodel.temperature,
+            messages=[
+                {
+                    "role": "system",
+                    "content": wmodel.system_prompt
+                },
+                {
+                    "role": "user",
+                    "content": sentence
+                }
+                ],
+                response_format={ "type": "json_object" }
+            )
+        return response.choices[0].message.content
+
+    # Sous-classe de weave.Model
+    class ExtractDinos(weave.Model):
+        client: OpenAI = None
+        model_name: str
+        temperature: float
+        system_prompt: str
+
+        # Assurez-vous que votre fonction s'appelle `invoke` ou `predict`
+        @weave.op()
+        def invoke(self, sentence: str) -> dict:
+            dino_data  = extract_dinos(self, sentence)
+            return json.loads(dino_data)
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    Cette fonctionnalité n'est pas encore disponible en TypeScript.
+    ```
+  </Tab>
+</Tabs>
+
+Vous pouvez maintenant instancier le modèle et l’appeler avec `invoke` :
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines {7,18}
+    weave.init('jurassic-park')
+    client = OpenAI()
+
+    system_prompt = """Extract any dinosaur `name`, their `common_name`, \
+    names and whether its `diet` is a herbivore or carnivore, in JSON format."""
+
+    dinos = ExtractDinos(
+        client=client,
+        model_name='gpt-4o',
+        temperature=0.4,
+        system_prompt=system_prompt
+    )
+
+    sentence = """I watched as a Tyrannosaurus rex (T. rex) chased after a Triceratops (Trike), \
+    both carnivore and herbivore locked in an ancient dance. Meanwhile, a gentle giant \
+    Brachiosaurus (Brachi) calmly munched on treetops, blissfully unaware of the chaos below."""
+
+    result = dinos.invoke(sentence)
+    print(result)
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    Cette fonctionnalité n'est pas encore disponible en TypeScript.
+    ```
+  </Tab>
+</Tabs>
+
+Après avoir appelé `.invoke()`, la trace dans Weave suit les paramètres du modèle ainsi que le code des fonctions du modèle décorées avec `weave.op()`. Le modèle est également versionné (`v21` dans ce cas). Cliquez sur le modèle pour voir tous les appels qui ont utilisé cette version.
+
+![Réutilisation d’un modèle Weave](/images/tutorial-model_invoke3.png)
+
+Remarque sur l’utilisation de `weave.Model` :
+
+* Si vous le préférez, vous pouvez utiliser `predict` au lieu de `invoke` comme nom de fonction dans votre `Model` Weave.
+* Pour suivre d’autres méthodes de classe avec Weave, décorez-les avec `weave.op()`.
+* Les paramètres commençant par un trait de soulignement sont ignorés par Weave et ne seront pas enregistrés.
+
+<div id="export-and-reuse-a-logged-weavemodel">
+  ## Exporter et réutiliser un `weave.Model` enregistré
+</div>
+
+Maintenant que votre modèle est versionné dans Weave, vous pouvez récupérer n’importe quelle version antérieure et l’exécuter à nouveau sans avoir à le redéfinir dans le code. Cela peut être utile pour reproduire des résultats antérieurs ou pour partager une version spécifique du modèle avec d’autres personnes.
+
+Comme Weave stocke et versionne les Models que vous avez invoqués, vous pouvez les exporter et les réutiliser.
+
+<div id="get-the-model-ref">
+  ### Obtenir la référence du Model
+</div>
+
+Dans la Weave UI, vous pouvez obtenir la référence du Model pour une version donnée.
+
+<div id="use-the-model">
+  ### Utiliser le Model
+</div>
+
+Une fois que vous avez l’URI de l’objet Model, vous pouvez l’exporter et le réutiliser. Le modèle exporté est déjà initialisé et prêt à être utilisé :
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines {2}
+    # le modèle weave exporté est déjà initialisé et prêt à être appelé
+    new_dinos = weave.ref("weave://morgan/jurassic-park/object/ExtractDinos:ey4udBU2MU23heQFJenkVxLBX4bmDsFk7vsGcOWPjY4").get()
+
+    # réassocier le client au client openai
+    new_dinos.client = client
+
+    new_sentence = """I also saw an Ankylosaurus grazing on giant ferns"""
+    new_result = new_dinos.invoke(new_sentence)
+    print(new_result)
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    Cette fonctionnalité n’est pas encore disponible en TypeScript.
+    ```
+  </Tab>
+</Tabs>
+
+Vous pouvez maintenant voir que la nouvelle entrée utilise la même version du Model (v21) :
+
+![Réutilisation d’un modèle Weave](/images/tutorial-model_re-use.png)
+
+Vous disposez maintenant d’un `Model` Weave versionné que vous pouvez faire évoluer, récupérer et réutiliser dans différentes versions de votre application.
+
+<div id="whats-next">
+  ## Et ensuite
+</div>
+
+* Suivez le tutoriel [Créer un pipeline d’évaluation](/fr/weave/tutorial-eval) pour commencer à améliorer vos applications de façon itérative.

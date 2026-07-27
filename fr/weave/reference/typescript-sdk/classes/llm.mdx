@@ -1,0 +1,571 @@
+---
+title: "LLM"
+description: "Référence du SDK TypeScript"
+---
+
+[weave](../) / LLM
+
+Un appel LLM. Émet un span `chat` avec des attributs `gen_ai.*`.
+
+Créé par `weave.startLLM()` (ou `turn.startLLM()`) et terminé par
+`end()`. Un seul LLM peut être actif à la fois dans un contexte asynchrone ; imbriquez
+les appels d’outil/sous-agent sous celui-ci via `startTool` / `startSubagent`.
+
+Renseignez directement `inputMessages` / `outputMessages` / `usage` / `reasoning`,
+ou utilisez les fonctions utilitaires (`output`, `think`, `attachMedia`, `record`).
+
+Toutes les données enregistrées sont vidées vers le span lors de `end()`.
+
+`Exemple`
+
+```ts twoslash
+// @noErrors
+const llm = weave.startLLM({model: 'gpt-4o-mini', providerName: 'openai'});
+
+try {
+  llm.inputMessages = [{role: 'user', content: prompt}];
+  const resp = await openai.chat.completions.create({...});
+  llm.output(resp.choices[0].message.content ?? '');
+  llm.record({usage: {inputTokens: resp.usage?.prompt_tokens}});
+} finally {
+  llm.end();
+}
+```
+
+`Exemple`
+
+```ts twoslash
+// @noErrors
+const llm = weave.startLLM({
+  model: 'gpt-4o-mini',
+  providerName: 'openai',
+  systemInstructions: ['You are a helpful weather bot.'],
+  startTime: new Date('2026-05-29T10:00:00.000Z'),
+});
+
+try {
+  // ... appeler le LLM, renseigner llm.outputMessages / usage ...
+} finally {
+  llm.end();
+}
+```
+
+<div id="hierarchy">
+  ## Hiérarchie
+</div>
+
+* `SpanBase`
+
+  ↳ `LLM`
+
+<div id="table-of-contents">
+  ## Table des matières
+</div>
+
+<div id="properties">
+  ### Propriétés
+</div>
+
+* [inputMessages](./llm#inputmessages)
+* [model](./llm#model)
+* [outputMessages](./llm#outputmessages)
+* [providerName](./llm#providername)
+* [reasoning](./llm#reasoning)
+* [usage](./llm#usage)
+
+<div id="methods">
+  ### Méthodes
+</div>
+
+* [addEvent](./llm#addevent)
+* [attachMedia](./llm#attachmedia)
+* [attachMediaUrl](./llm#attachmediaurl)
+* [end](./llm#end)
+* [output](./llm#output)
+* [record](./llm#record)
+* [setAttributes](./llm#setattributes)
+* [startSubagent](./llm#startsubagent)
+* [startTool](./llm#starttool)
+* [think](./llm#think)
+* [create](./llm#create)
+
+## Propriétés
+
+<div id="inputmessages">
+  ### inputMessages
+</div>
+
+• **inputMessages**: [`Message`](../interfaces/message)[] = `[]`
+
+Messages d’entrée envoyés au modèle. Vidés dans `gen_ai.input.messages` lors de
+`end()`.
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/llm.ts:93](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L93)
+
+***
+
+<div id="model">
+  ### model
+</div>
+
+• `Readonly` **model**: `string`
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/llm.ts:117](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L117)
+
+***
+
+<div id="outputmessages">
+  ### outputMessages
+</div>
+
+• **outputMessages**: [`Message`](../interfaces/message)[] = `[]`
+
+Messages de l’assistant renvoyés par le modèle. Vidés dans
+`gen_ai.output.messages` lors de `end()`.
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/llm.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L98)
+
+***
+
+<div id="providername">
+  ### providerName
+</div>
+
+• `Readonly` **providerName**: `string`
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/llm.ts:118](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L118)
+
+***
+
+<div id="reasoning">
+  ### reasoning
+</div>
+
+• `Facultatif` **reasoning**: [`Reasoning`](../interfaces/reasoning)
+
+Contenu de la chaîne de pensée. Intégré au dernier message de l’assistant sous la forme d’un
+ReasoningPart lors de la sérialisation.
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/llm.ts:105](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L105)
+
+***
+
+<div id="usage">
+  ### usage
+</div>
+
+• **usage**: [`Usage`](../interfaces/usage) = `{}`
+
+Nombre de jetons et statistiques du cache. Vidés vers `gen_ai.usage.*` lors de l&#39;appel à `end()`.
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/llm.ts:100](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L100)
+
+## Méthodes
+
+<div id="addevent">
+  ### addEvent
+</div>
+
+<Warning>
+  **Obsolète.** Enregistrez plutôt ces données via [setAttributes](./llm#setattributes).
+  OpenTelemetry abandonne progressivement l’API Span Event (`Span.addEvent`). Cette
+  méthode fonctionne toujours et les données span-event existantes restent valides.
+  Voir [https://opentelemetry.io/blog/2026/deprecating-span-events/](https://opentelemetry.io/blog/2026/deprecating-span-events/)
+
+  `Example`
+
+  ```ts twoslash
+  // @noErrors
+  span.addEvent('context_compacted', {removedMessages: 12});
+  ```
+</Warning>
+
+▸ **addEvent**(`name`, `attributes?`, `startTime?`): `this`
+
+Ajoute un event nommé au span. Utile pour marquer des moments qui ne correspondent pas à des spans, comme
+la compaction du contexte, la détection de boucles d&#39;outil ou le déclenchement de guardrails. Émet un avertissement et
+ne fait rien après `end()`. Reprend le comportement de OTel `Span.addEvent`.
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom           | Type         |
+| :------------ | :----------- |
+| `name`        | `string`     |
+| `attributes?` | `Attributes` |
+| `startTime?`  | `TimeInput`  |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`this`
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+SpanBase.addEvent
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/spanBase.ts:82](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L82)
+
+***
+
+<div id="attachmedia">
+  ### attachMedia
+</div>
+
+▸ **attachMedia**(`opts`): `this`
+
+Prépare une pièce jointe multimédia pour l’appel LLM. Choisissez exactement l’un des éléments suivants :
+`content` (octets base64 intégrés), `uri` (référence URI) ou `fileId`
+(identifiant de fichier téléversé au préalable). La pièce jointe est associée au dernier message
+utilisateur dans `inputMessages` lors de `end()`.
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom    | Type              |
+| :----- | :---------------- |
+| `opts` | `AttachMediaOpts` |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`this`
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/llm.ts:183](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L183)
+
+***
+
+<div id="attachmediaurl">
+  ### attachMediaUrl
+</div>
+
+▸ **attachMediaUrl**(`url`, `opts`): `this`
+
+Méthode utilitaire pour `attachMedia({uri, modality})`.
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom             | Type                       |
+| :-------------- | :------------------------- |
+| `url`           | `string`                   |
+| `opts`          | `Object`                   |
+| `opts.modality` | [`Modality`](../#modality) |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`this`
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/llm.ts:192](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L192)
+
+***
+
+<div id="end">
+  ### end
+</div>
+
+▸ **end**(`opts?`): `void`
+
+Effectue le vidage de l’état accumulé et ferme le span. Cette opération est idempotente. Passez
+`error` pour marquer le span comme en échec ; passez `endTime` pour antidater la fermeture.
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom     | Type             |
+| :------ | :--------------- |
+| `opts?` | `SpanEndOptions` |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`void`
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/llm.ts:274](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L274)
+
+***
+
+<div id="output">
+  ### output
+</div>
+
+▸ **output**(`content`): `this`
+
+Ajoute un message de l’assistant à la réponse.
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom       | Type     |
+| :-------- | :------- |
+| `content` | `string` |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`this`
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/llm.ts:155](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L155)
+
+***
+
+<div id="record">
+  ### record
+</div>
+
+▸ **record**(`opts`): `this`
+
+Définit en une seule opération n’importe quel sous-ensemble des champs modifiables. Remplace (sans fusionner).
+Utile pour tout attribuer d’un coup après le retour d’un appel au provider.
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom                      | Type                                   |
+| :----------------------- | :------------------------------------- |
+| `opts`                   | `Object`                               |
+| `opts.finishReasons?`    | `string`[]                             |
+| `opts.inputMessages?`    | [`Message`](../interfaces/message)[]   |
+| `opts.mediaAttachments?` | `AttachMediaOpts`[]                    |
+| `opts.outputMessages?`   | [`Message`](../interfaces/message)[]   |
+| `opts.outputType?`       | `string`                               |
+| `opts.reasoning?`        | [`Reasoning`](../interfaces/reasoning) |
+| `opts.responseId?`       | `string`                               |
+| `opts.responseModel?`    | `string`                               |
+| `opts.usage?`            | [`Usage`](../interfaces/usage)         |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`this`
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/llm.ts:203](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L203)
+
+***
+
+<div id="setattributes">
+  ### setAttributes
+</div>
+
+▸ **setAttributes**(`attributes`): `this`
+
+Définit plusieurs attributs sur le span en une seule fois. Émet un avertissement puis n&#39;a aucun effet après
+`end()`. Reflète le comportement de `Span.setAttributes` d&#39;OTel (et de
+`set_attributes` du SDK Python).
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom          | Type         |
+| :----------- | :----------- |
+| `attributes` | `Attributes` |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`this`
+
+`Example`
+
+```ts twoslash
+// @noErrors
+span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
+```
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+SpanBase.setAttributes
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L63)
+
+***
+
+<div id="startsubagent">
+  ### startSubagent
+</div>
+
+▸ **startSubagent**(`opts`): [`SubAgent`](./subagent)
+
+Démarre un span enfant SubAgent imbriqué sous ce LLM.
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom    | Type                                         |
+| :----- | :------------------------------------------- |
+| `opts` | [`SubAgentInit`](../interfaces/subagentinit) |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+[`SubAgent`](./subagent)
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/llm.ts:261](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L261)
+
+***
+
+<div id="starttool">
+  ### startTool
+</div>
+
+▸ **startTool**(`opts`): [`Tool`](./tool)
+
+Démarre un span Tool enfant imbriqué dans ce LLM.
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom    | Type                                 |
+| :----- | :----------------------------------- |
+| `opts` | [`ToolInit`](../interfaces/toolinit) |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+[`Tool`](./tool)
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/llm.ts:252](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L252)
+
+***
+
+<div id="think">
+  ### think
+</div>
+
+▸ **think**(`content`): `this`
+
+Définit ou enrichit le contenu de raisonnement ou de chaîne de pensée du modèle. S’accumule
+dans `this.reasoning.content`. Est fusionné dans le dernier message de l’assistant sous
+forme de `ReasoningPart` au moment de la sérialisation, conformément au format
+transmis par le SDK Python.
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom       | Type     |
+| :-------- | :------- |
+| `content` | `string` |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`this`
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/llm.ts:167](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L167)
+
+***
+
+<div id="create">
+  ### create
+</div>
+
+▸ **create**(`opts`): [`LLM`](./llm)
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom    | Type                                                        |
+| :----- | :---------------------------------------------------------- |
+| `opts` | [`LLMInit`](../interfaces/llminit) &amp; `ChildSpanContext` |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+[`LLM`](./llm)
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/llm.ts:124](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L124)

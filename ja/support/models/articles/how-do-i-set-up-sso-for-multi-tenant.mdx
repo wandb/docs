@@ -1,0 +1,26 @@
+---
+title: "W&B Multi-tenant の SSO を設定するにはどうすればよいですか?"
+keywords: ["セキュリティ"]
+---
+
+W&amp;B は、Auth0 を介して Multi-tenant 向けのシングルサインオン (SSO) をサポートしています。これにより、個別の W&amp;B 認証情報を管理する代わりに、既存の ID プロバイダを使用してユーザーを認証できます。SSO インテグレーションは、Okta や Azure AD など、OpenID Connect (OIDC) 準拠の任意の ID プロバイダをサポートします。
+
+OIDC プロバイダを設定するには、ID プロバイダで次の手順を実行してください。
+
+1. ID プロバイダでシングルページアプリケーションを作成します。
+2. `grant_type` を `implicit` フローに設定します。
+3. コールバック URI を `https://wandb.auth0.com/login/callback` に設定します。
+
+<div id="requirements-for-wb">
+  ## W&amp;B の要件
+</div>
+
+セットアップが完了したら、アプリケーションの `Client ID` と `Issuer URL` をカスタマーサクセスマネージャー (CSM) にお知らせください。W&amp;B はこれらの情報を使用して Auth0 接続を確立し、組織で SSO を有効にします。
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[セキュリティ](/ja/support/models/tags/security)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

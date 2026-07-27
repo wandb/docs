@@ -1,22 +1,22 @@
 ---
-title: ' thoughtful_ some
-
-  teardown()'
+title: teardown()
 namespace: python_sdk_actions
 python_object_type: function
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/" />
 
-### <kbd>function</kbd> `teardown`
+
+### <kbd>関数</kbd> `teardown`
 
 ```python
 teardown(exit_code: 'int | None' = None) → None
 ```
 
-W&B の終了を待機し、リソースを解放します。
+W&amp;B の処理が完了するまで待機し、リソースを解放します。
 
-`run.finish()` を使用して明示的に終了されなかったすべての Runs を完了させ、すべての データ がアップロードされるまで待機します。
+`run.finish()` で明示的に終了されなかった Runs を完了し、すべてのデータがアップロードされるまで待機します。
 
-`wandb.setup()` を使用したセッションの最後で、この関数を呼び出すことを推奨します。通常は `atexit` フック で自動的に呼び出されますが、Python の `multiprocessing` モジュールを使用する場合など、特定の環境下では動作が不安定になる可能性があります。
+`wandb.setup()` を使用したセッションの最後にこれを呼び出すことを推奨します。これは `atexit` フックで自動的に呼び出されますが、Python&#39;s `multiprocessing` モジュールを使用している場合など、一部の環境では確実に動作しません。

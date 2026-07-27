@@ -1,0 +1,24 @@
+/* ==========================================================================
+   Build entry — DO NOT load this file in the browser.
+   This file is the input to the clean-css bundler. It pulls every CSS
+   partial in this directory together in the correct cascade order, then
+   the build emits a single bundled+minified ../../css/styles.css that
+   Mintlify actually serves (referenced by the "stylesheet" key in
+   docs.json). Edit the partials in this directory — never the generated
+   css/styles.css. See ./README.md for the full workflow.
+   ========================================================================== */
+
+/* Tokens */
+@import "./colors.css";      /* brand color tokens — edit here first    */
+@import "./typography.css";  /* font tokens + global h-tag rules        */
+
+/* Page chrome */
+@import "./layout.css";      /* body bg + texture, structural overrides */
+
+/* Navigation */
+@import "./topbar.css";      /* header, logo, nav tabs, dropdowns       */
+@import "./sidebar.css";     /* left sidebar, group headers, TOC        */
+
+/* Components */
+@import "./buttons.css";     /* in-content button-links + primary forms */
+@import "./cards.css";       /* product cards, Mintlify cards, labels   */

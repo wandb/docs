@@ -1,0 +1,246 @@
+---
+title: "Conversation"
+description: "Référence du SDK TypeScript"
+---
+
+[weave](../) / Conversation
+
+Une Conversation regroupe des tours de conversation sous un même `gen_ai.conversation.id`. Ce n’est pas en soi un span OTel : les éléments enfants apposent l’identifiant de conversation sur les leurs.
+
+<div id="table-of-contents">
+  ## Table des matières
+</div>
+
+<div id="accessors">
+  ### Accesseurs
+</div>
+
+* [agentName](./conversation#agentname)
+* [attributes](./conversation#attributes)
+* [conversationId](./conversation#conversationid)
+* [model](./conversation#model)
+* [sessionId](./conversation#sessionid)
+
+<div id="methods">
+  ### Méthodes
+</div>
+
+* [end](./conversation#end)
+* [startTurn](./conversation#startturn)
+* [create](./conversation#create)
+
+## Accesseurs
+
+<div id="agentname">
+  ### agentName
+</div>
+
+• `get` **agentName**(): `string`
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`string`
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/conversation.ts:94](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L94)
+
+***
+
+<div id="attributes">
+  ### attributes
+</div>
+
+• `get` **attributes**(): `Attributes`
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`Attributes`
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/conversation.ts:106](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L106)
+
+***
+
+<div id="conversationid">
+  ### conversationId
+</div>
+
+• `get` **conversationId**(): `string`
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`string`
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/conversation.ts:102](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L102)
+
+***
+
+<div id="model">
+  ### model
+</div>
+
+• `get` **model**(): `string`
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`string`
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/conversation.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L98)
+
+***
+
+<div id="sessionid">
+  ### sessionId
+</div>
+
+<Warning>
+  **Obsolète.** Utilisez plutôt [Conversation.conversationId](./conversation#conversationid).
+</Warning>
+
+• `get` **sessionId**(): `string`
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`string`
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/conversation.ts:111](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L111)
+
+## Méthodes
+
+<div id="end">
+  ### end
+</div>
+
+▸ **end**(`opts?`): `void`
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom     | Type             |
+| :------ | :--------------- |
+| `opts?` | `SpanEndOptions` |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`void`
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/conversation.ts:168](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L168)
+
+***
+
+<div id="startturn">
+  ### startTurn
+</div>
+
+▸ **startTurn**(`opts?`): [`Turn`](./turn)
+
+Démarre un nouveau `Turn` dans cette `Conversation`. Le `Turn` hérite du
+`conversationId` de la conversation ; `agentName`, `agentId`, `agentDescription`,
+`agentVersion` et `model` utilisent par défaut les valeurs de la conversation lorsqu&#39;ils ne sont pas
+fournis dans `opts`.
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom    | Type                                 |
+| :----- | :----------------------------------- |
+| `opts` | [`TurnInit`](../interfaces/turninit) |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+[`Turn`](./turn)
+
+`Exemple`
+
+```ts twoslash
+// @noErrors
+const turn = conversation.startTurn();
+```
+
+`Exemple`
+
+```ts twoslash
+// @noErrors
+const turn = conversation.startTurn({
+  model: 'gpt-4o',
+  agentName: 'research-bot',
+  agentId: 'research-bot-prod',
+  agentDescription: 'Looks up facts on Wikipedia.',
+  agentVersion: '1.4.2',
+  userMessage: 'What is the weather in Tokyo?',
+  systemInstructions: ['You are a helpful weather bot.'],
+  startTime: new Date('2026-05-29T10:00:00.000Z'),
+});
+```
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/conversation.ts:156](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L156)
+
+***
+
+<div id="create">
+  ### create
+</div>
+
+▸ **create**(`opts?`): [`Conversation`](./conversation)
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom    | Type                                                 |
+| :----- | :--------------------------------------------------- |
+| `opts` | [`ConversationInit`](../interfaces/conversationinit) |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+[`Conversation`](./conversation)
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/genai/conversation.ts:115](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L115)

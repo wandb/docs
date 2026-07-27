@@ -1,36 +1,42 @@
 ---
-title: ガードレールとしての Scorers
-description: W&B Weave で scorer をガードレールとして使用する方法について学びます
+title: "scorersをガードレールとして使う"
+description: "W&B Weaveでscorersをガードレールとして使う方法を学びます"
+keywords: ["Weave Scorer", "ガードレール", "コンテンツの安全性", "ランタイム評価", "apply_scorer"]
 ---
 
 <Note>
-これは対話型の ノートブック です。ローカルで実行するか、以下のリンクを使用してください：
-- [Google Colab で開く](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/scorers_as_guardrails.ipynb)
-- [GitHub でソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/scorers_as_guardrails.ipynb)
+  これはインタラクティブなノートブックです。ローカルで実行するか、以下のリンクを利用できます。
+
+  * [Google Colabで開く](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/scorers_as_guardrails.ipynb)
+  * [GitHubでソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/scorers_as_guardrails.ipynb)
 </Note>
 
-# ガードレールとしての Scorers
+<div id="scorers-as-guardrails">
+  # ガードレールとしての Scorers
+</div>
 
-Weave の Scorers は、call のパフォーマンスを評価できる `score` メソッドを持つ特殊なクラスです。これらは、単純なルールから LLM を判定役（LLM-as-a-judge）とする複雑なものまで多岐にわたります。
+Weave Scorers は、call のパフォーマンスを評価する `score` メソッドを持つクラスです。基本的なルールから、判定役としての LLM まで、さまざまなものがあります。
 
-この ノートブック では、LLM が有害なコンテンツや不適切なコンテンツを生成するのを防ぐためのガードレールとして、Scorers を使用する方法を詳しく見ていきます。
+このノートブックは、実行時に Scorers を適用して、望ましくないモデルの出力をブロックまたはフィルターしたい Weave Users 向けです。読み進めながら、LLM のレスポンスをインターセプトし、Scorer で評価し、Scorer がそのレスポンスを安全でないと判定した場合にフォールバックメッセージを返すコンテンツ安全性ガードレールを構築します。このように Scorers を使用すると、オフライン Experiments を支えるのと同じ評価ロジックを再利用して、本番環境で安全性ポリシーを適用できます。
+
+このノートブックを終えるころには、LLM Call をラップし、Scorer の判定に応じて元のレスポンスまたは安全なフォールバックのいずれかを返す、動作する `ContentSafetyScorer` が完成します。
 
 ```python lines
 %pip install weave --quiet
 python
 """
-Weave でガードレールを実装する方法を示す例。
-この例では、潜在的に有害またはネガティブな応答を防ぐための
-シンプルなコンテンツ安全性チェッカーを示します。
+Example demonstrating how to implement guardrails in Weave.
+This example shows a simple content safety checker that prevents
+potentially harmful or negative responses.
 """
 
 import weave
 
-# 分かりやすいプロジェクト名で Weave を初期化
+# わかりやすいプロジェクト名でWeaveを初期化する
 weave.init("content-safety-guardrails")
 
 class ContentSafetyScorer(weave.Scorer):
-    """指定されたフレーズの有無に基づいてコンテンツの安全性を評価する scorer。"""
+    """A scorer that evaluates content safety based on presence of specified phrases."""
 
     unsafe_phrases: list[str]
     case_sensitive: bool = False
@@ -38,13 +44,13 @@ class ContentSafetyScorer(weave.Scorer):
     @weave.op
     def score(self, output: str) -> bool:
         """
-        不適切なフレーズの有無に基づいて出力の安全性を評価します。
+        Evaluate output safety based on presence of unsafe phrases.
 
         Args:
-            output: 評価対象のテキスト出力
+            output: The text output to evaluate
 
         Returns:
-            bool: 出力が安全な場合は True、安全でない場合は False
+            bool: True if output is safe, False if unsafe
         """
         normalized_output = output if self.case_sensitive else output.lower()
 
@@ -56,7 +62,7 @@ class ContentSafetyScorer(weave.Scorer):
 
 @weave.op
 def generate_response(prompt: str) -> str:
-    """LLM の応答生成をシミュレートします。"""
+    """Simulate an LLM response generation."""
     if "test" in prompt.lower():
         return "I'm sorry, I cannot process that request."
     elif "help" in prompt.lower():
@@ -66,28 +72,28 @@ def generate_response(prompt: str) -> str:
 
 async def process_with_guardrail(prompt: str) -> str:
     """
-    コンテンツ安全性のガードレールを使用してユーザー入力を処理します。
-    安全な場合は応答を返し、安全でない場合はフォールバックメッセージを返します。
+    Process user input with content safety guardrail.
+    Returns the response if safe, or a fallback message if unsafe.
     """
-    # 安全性 scorer を初期化
+    # 安全性Scorerを初期化する
     safety_scorer = ContentSafetyScorer(
         name="Content Safety Checker",
         unsafe_phrases=["sorry", "cannot", "unable", "won't", "will not"],
     )
 
-    # 応答を生成し、Call オブジェクトを取得
+    # 応答を生成してCallオブジェクトを取得する
     response, call = generate_response.call(prompt)
 
-    # 安全性スコアリングを適用
+    # 安全性スコアリングを適用する
     evaluation = await call.apply_scorer(safety_scorer)
 
-    # 安全性チェックに基づいて、応答またはフォールバックを返す
+    # 安全性チェックの結果に応じて応答またはフォールバックを返す
     if evaluation.result:
         return response
     else:
         return "I cannot provide that response."
 python
-"""ガードレールシステムの使用例。"""
+"""Example usage of the guardrail system."""
 test_prompts = [
     "Please help me with my homework",
     "Can you run a test for me?",

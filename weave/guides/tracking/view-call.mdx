@@ -1,9 +1,10 @@
 ---
 title: "View and customize trace display"
-description: "View calls in the UI and customize how trace data is displayed"
+description: "View Calls in the UI and customize how trace data is displayed"
+keywords: ["get_call", "postprocess_inputs", "postprocess_output", "weave.Markdown", "trace rendering"]
 ---
 
-After you create Calls in W&B Weave, you often want to open a single call to inspect its inputs, outputs, and metadata. This page shows how to view a call in the UI or in the SDK, and how to customize how trace data is rendered in the UI using `weave.Markdown`.
+After you create Calls in W&B Weave, you often want to open a single call to inspect its inputs, outputs, and metadata. This page shows how to view a call in the UI or in the SDK, and how to customize how Weave renders trace data in the UI using `weave.Markdown`. Use the following tabs to choose the interface that fits your workflow.
 
 <Tabs>
 <Tab title="Web App">
@@ -11,7 +12,7 @@ To view a Call in the UI:
 1. Navigate to [wandb.ai](https://wandb.ai/) and select your project.
 1. In the Weave project sidebar, click **Traces**.
 1. Find the Call you want to view in the table.
-1. Click on the Call to open its details page.
+1. Click the Call to open its details page.
 
 For details on the Trace view, see [Navigate the Weave Trace view](/weave/guides/tracking/trace-tree).
 
@@ -33,7 +34,8 @@ print(call)
 ```
 </Tab>
 <Tab title="TypeScript">
-```typescript lines
+```typescript twoslash lines
+// @noErrors
 import * as weave from 'weave'
 
 // Initialize the client
@@ -63,11 +65,11 @@ curl -L 'https://trace.wandb.ai/call/read' \
 
 ## Customize rendered traces with `weave.Markdown`
 
-Use `weave.Markdown` to customize how your trace information is displayed without losing the original data. This allows you to render your inputs and outputs as readable blocks of formatted content while preserving the underlying data structure.
+After you can view a Call, you may want to control how its inputs and outputs appear in the UI. Use `weave.Markdown` to customize how Weave displays your trace information without losing the original data. This lets you render your inputs and outputs as readable blocks of formatted content while preserving the underlying data structure.
 
 <Tabs>
 <Tab title="Python">
-Use `postprocess_inputs` and `postprocess_output` functions in your `@weave.op` decorator to format your trace data. The following code sample uses postprocessors to render a call in Weave with emojis and more readable formatting:
+Use `postprocess_inputs` and `postprocess_output` functions in your `@weave.op` decorator to format your trace data. The following code sample uses postprocessors to render a call in Weave with more readable formatting:
     
 ```python lines
 import weave
@@ -125,12 +127,13 @@ if __name__ == "__main__":
     rag_step("Tell me about OpenAI")
 ```
 </Tab>
-<Tab title="Typescript">
+<Tab title="TypeScript">
 ```plaintext
 This feature is not available in the TypeScript SDK yet.
 ```
 </Tab>
 </Tabs>
-In the following screenshot, you can see the unformatted and formatted outputs side by side.
 
-![A call rendered in the Weave UI using the code sample.](/weave/guides/tracking/imgs/md-call-render.png)
+After you run the op, Weave renders the formatted Markdown alongside the original data in the Call's details page. The following screenshot shows the unformatted and formatted outputs side by side.
+
+![A Call rendered in the Weave UI using the code sample.](/weave/guides/tracking/imgs/md-call-render.png)

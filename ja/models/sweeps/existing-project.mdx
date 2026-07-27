@@ -1,66 +1,92 @@
 ---
-title: チュートリアル： Project から Sweep ジョブを作成する
-description: 既存の W&B プロジェクトから Sweep ジョブを作成する方法に関するチュートリアルです。
+description: 既存のW&Bprojectからsweepジョブを作成する方法を説明するチュートリアル。
+title: 'チュートリアル: projectからsweepジョブを作成する'
 ---
 
-このチュートリアルでは、既存の W&B Projects から Sweeps ジョブを作成する方法を説明します。 [Fashion MNIST dataset](https://github.com/zalandoresearch/fashion-mnist) を使用して、画像を分類するための PyTorch 畳み込みニューラルネットワークをトレーニングします。必要な コード と データセット は、 [W&B examples repository (PyTorch CNN Fashion)](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cnn-fashion) にあります。
+このチュートリアルでは、既存のW&amp;Bprojectからsweepジョブを作成する方法を説明します。ベースライン projectを作成し、ハイパーパラメーターsweepを設定して、トレーニング ジョブを並列実行するエージェントを起動する手順を案内します。
 
-この [W&B Dashboard](https://app.wandb.ai/carey/pytorch-cnn-fashion) で結果を確認できます。
+[Fashion MNISTデータセット](https://github.com/zalandoresearch/fashion-mnist)を使用して、画像を分類するPyTorchの畳み込みニューラルネットワークをトレーニングします。必要なコードとデータセットは、[W&amp;B examplesリポジトリ (PyTorch CNN Fashion)](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cnn-fashion) にあります。
 
-## 1. プロジェクトの作成
+結果はこの[W&amp;Bダッシュボード](https://app.wandb.ai/carey/pytorch-cnn-fashion)で確認できます。
 
-まず、 ベースライン を作成します。 W&B examples の GitHub リポジトリから PyTorch MNIST データセットの例となる モデル をダウンロードします。次に、モデル を トレーニング します。 トレーニングスクリプト は `examples/pytorch/pytorch-cnn-fashion` ディレクトリー内にあります。
+<div id="create-a-project">
+  ## project を作成する
+</div>
 
-1. リポジトリをクローンします： `git clone https://github.com/wandb/examples.git`
-2. この例のディレクトリに移動します： `cd examples/pytorch/pytorch-cnn-fashion`
-3. 手動で run を実行します： `python train.py`
+まず、example モデルを少なくとも 1 回トレーニングして、ベースラインとなる project を作成します。このベースラインは、後続の手順で sweep が設定を適用する対象になります。W&amp;B examples GitHub リポジトリから、PyTorch MNIST データセットの example モデルをダウンロードします。次に、モデルをトレーニングします。トレーニング スクリプトは `examples/pytorch/pytorch-cnn-fashion` ディレクトリ内にあります。
 
-任意で、 W&B App UI の ダッシュボード に表示される例を確認してください。
+example モデルをダウンロードしてトレーニングするには、次の手順に従います。
 
-[プロジェクトページの例を表示 →](https://app.wandb.ai/carey/pytorch-cnn-fashion)
+1. リポジトリをクローンします。
 
-## 2. Sweep の作成
+   ```bash
+   git clone https://github.com/wandb/examples.git
+   ```
 
-プロジェクト ページから、サイドバーの [Sweep タブ](./sweeps-ui) を開き、 **Create Sweep** を選択します。
+2. example ディレクトリに移動します。
+
+   ```bash
+   cd examples/pytorch/pytorch-cnn-fashion
+   ```
+
+3. トレーニング スクリプトを手動で実行します。
+
+   ```bash
+   python train.py
+   ```
+
+4. 任意: W&amp;B App のダッシュボードで example を確認します。[example の project ページを表示](https://app.wandb.ai/carey/pytorch-cnn-fashion)。
+
+この最初の run が完了すると、W&amp;B に、sweep がその後の基盤として利用できるベースラインの project が作成されます。
+
+<div id="create-a-sweep">
+  ## sweep を作成する
+</div>
+
+ベースラインとなる project を用意したら、その Runs に対して sweep を設定できます。project ページで、プロジェクトのサイドバーにある [**Sweep** タブ](/ja/models/sweeps/visualize-sweep-results) を開き、**Create Sweep** を選択します。
 
 <Frame>
-    <img src="/images/sweeps/sweep1.png" alt="Sweep overview"  />
+  <img src="/images/sweeps/sweep1.png" alt="Sweep タブを開き、Create Sweep ボタンが強調表示された W&B のプロジェクト ページ" />
 </Frame>
 
-自動生成された 設定 は、完了した Runs に基づいてスイープする値を推測します。試行したい ハイパーパラメーター の範囲を指定するように 設定 を編集します。 Sweeps を ローンンチ すると、ホストされている W&B sweep server 上で新しい プロセス が開始されます。この集中型サービスは、トレーニング ジョブを実行するマシンである エージェント を調整します。
+自動生成された設定では、完了済みの Runs に基づいて、sweep の対象となる値が提案されます。試したいハイパーパラメーターの範囲を指定できるように、設定を編集してください。sweep を起動すると、W&amp;B がホストする sweep サーバー上で新しいプロセスが開始されます。この一元管理されたサービスが、エージェント (トレーニング ジョブを実行するマシン) を調整します。
 
 <Frame>
-    <img src="/images/sweeps/sweep2.png" alt="Sweep configuration"  />
+  <img src="/images/sweeps/sweep2.png" alt="ハイパーパラメーターの範囲を示す自動生成された sweep 設定エディター" />
 </Frame>
 
-## 3. エージェントの起動
+<div id="launch-agents">
+  ## エージェントを起動する
+</div>
 
-次に、ローカルで エージェント を起動します。作業を分散させて Sweeps ジョブをより速く完了させたい場合は、異なるマシン上で最大20個の エージェント を並列に起動できます。 エージェント は、次に試行する パラメータ のセットを出力します。
+sweep を設定したら、1 つ以上のエージェントを起動して Runs を実行します。異なるマシンで最大 20 個のエージェントを並列に起動すると、sweep ジョブをより短時間で完了できます。各エージェントは、次に使用するパラメーターのセットを出力します。
 
 <Frame>
-    <img src="/images/sweeps/sweep3.png" alt="Launch agents"  />
+  <img src="/images/sweeps/sweep3.png" alt="次のハイパーパラメーターのセットを出力する sweep エージェントのターミナル出力" />
 </Frame>
 
-これで Sweeps が実行されています。次の画像は、例となる Sweeps ジョブの実行中に ダッシュボード がどのように見えるかを示しています。 [プロジェクトページの例を表示 →](https://app.wandb.ai/carey/pytorch-cnn-fashion)
+これで、各エージェントにまたがるトレーニング ジョブを調整し、結果を W&amp;B に報告する sweep を実行できるようになりました。次の画像は、サンプルの sweep ジョブが実行中のダッシュボードを示しています。
 
 <Frame>
-    <img src="/images/sweeps/sweep4.png" alt="Sweep dashboard"  />
+  <img src="/images/sweeps/sweep4.png" alt="並列トレーニング Runs 全体のメトリクスをプロットした sweep ダッシュボード" />
 </Frame>
 
-## 既存の Runs を使用して新しい Sweep を開始する
+<div id="seed-a-new-sweep-with-existing-runs">
+  ## 既存の Runs を使って新しい sweep を初期化する
+</div>
 
-以前に ログ を記録した既存の Runs を使用して、新しい Sweeps を ローンンチ します。
+以前の結果を出発点として再利用するには、これまでにログした既存の Runs を使って新しい sweep を起動します。
 
-1. プロジェクト のテーブルを開きます。
-2. テーブルの左側にあるチェックボックスで、使用したい Runs を選択します。
-3. ドロップダウンをクリックして、新しい Sweeps を作成します。
+1. project の表を開きます。
+2. run 行のチェックボックスをクリックして、その run を選択します。
+3. ドロップダウンから新しい sweep を作成します。
 
-これで、 Sweeps が サーバー 上でセットアップされます。あとは1つ以上の エージェント を起動して Runs を開始するだけです。
+これで、sweep がサーバー上に設定されます。1 つ以上のエージェントを起動して、run を開始します。
 
 <Frame>
-    <img src="/images/sweeps/tutorial_sweep_runs.png" alt="Seed sweep from runs"  />
+  <img src="/images/sweeps/tutorial_sweep_runs.png" alt="行が選択され、ドロップダウンに sweep の作成オプションが表示されている project の Runs 表" />
 </Frame>
 
 <Note>
-ベイズ最適化（bayesian sweep）として新しい Sweeps を開始する場合、選択された Runs はガウス過程のシードとしても使用されます。
+  新しい sweep をベイズ sweep として開始すると、選択した Runs はガウシアン過程の初期化にも使用されます。
 </Note>

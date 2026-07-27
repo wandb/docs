@@ -1,0 +1,20 @@
+---
+title: Artifact TTL
+---
+
+```python
+"""
+W&B에서 TTL policy를 적용하여 artifact를 생성하고 log합니다.
+"""
+import wandb
+from datetime import timedelta
+
+# TTL policy를 적용하여 artifact 생성
+artifact = wandb.Artifact(name="<artifact_name>", type="<artifact_type>")
+artifact.add_file("<file_path>")
+artifact.ttl = timedelta(days=30)  # TTL policy 설정
+
+with wandb.init(project="<project>", entity="<entity>") as run:
+    # TTL을 적용하여 artifact log
+    run.log_artifact(artifact)
+```

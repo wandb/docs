@@ -3,15 +3,20 @@ description: Explore different parameters or models from a specific point in an 
 title: Fork a run
 ---
 
-<Warning>
-The ability to fork a run is in active development and in private preview. Contact W&B Support at support@wandb.com to request access to this feature.
-</Warning>
+<Note>
+Run forking is in Public Preview for Multi-tenant Cloud and Dedicated Cloud. It is not currently available for Self-Managed deployments. 
+
+Public Preview features are available for production evaluation, but functionality, APIs, and behavior are in active development and may change before General Availability.
+</Note>
 
 You can explore different hyperparameters or models from a specific point in an experiment without impacting the original run. To do this, fork from an existing W&B run.
 
 When you fork from a run, W&B creates a new run using the source run’s [unique ID](/models/runs/run-identifiers#unique-run-identifiers) and a specified step. Summary metrics from the source run are copied to the forked run. The forked run shares all history and files from the source run up to the specified step.
 
 After the fork step, you can log new data to the forked run independently of the original run.
+
+View a [live demo](https://wandb.ai/wandb/test-fork-run/workspace?nw=nwuserjuliarose) of a forked run produced by the code below.
+
 
 <Note>
 * Forking a run requires [`wandb`](https://pypi.org/project/wandb/) SDK version >= 0.16.5

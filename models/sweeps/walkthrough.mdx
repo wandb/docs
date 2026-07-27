@@ -1,18 +1,18 @@
 ---
-description: Sweeps quickstart shows how to define, initialize, and run a sweep. There
-  are four main steps
+description: Define, initialize, and run a sweep to search a hyperparameter space and find the configuration that produces the best model.
 title: 'Tutorial: Define, initialize, and run a sweep'
 ---
 
-This page shows how to define, initialize, and run a sweep. There are four main steps:
+This tutorial shows how to define, initialize, and run a sweep so you can automate hyperparameter search and find the configuration that produces the best model. It's intended for users who are already familiar with logging runs to W&B and want to start tuning hyperparameters at scale.
+
+The tutorial has four main steps:
 
 1. [Set up your training code](#set-up-your-training-code)
 2. [Define the search space with a sweep configuration](#define-the-search-space-with-a-sweep-configuration)
 3. [Initialize the sweep](#initialize-the-sweep)
 4. [Start the sweep agent](#start-the-sweep)
 
-
-Copy and paste the following code into a Jupyter Notebook or Python script:
+To get started, copy and paste the following code into a Jupyter Notebook or Python script. The sections that follow break down each part of this example.
 
 ```python
 # Import the W&B Python Library and log into W&B
@@ -44,13 +44,13 @@ sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
 wandb.agent(sweep_id, function=main, count=10)
 ```
 
-The following sections break down and explains each step in the code sample.
-
-
 ## Set up your training code
+
+The sweep agent calls your training function with each combination of hyperparameter values to try, so the first step is to write a function that accepts those values and reports a metric back to W&B.
+
 Define a training function that takes in hyperparameter values from `wandb.Run.config` and uses them to train a model and return metrics.
 
-Optionally provide the name of the project where you want the output of the W&B Run to be stored (project parameter in [`wandb.init()`](/models/ref/python/functions/init)). If the project is not specified, the run is put in an "Uncategorized" project.
+Optionally provide the name of the project where you want to store the output of the run (project parameter in [`wandb.init()`](/models/ref/python/functions/init)). If you don't specify a project, W&B puts the run in an "Uncategorized" project.
 
 <Note>
 Both the sweep and the run must be in the same project. Therefore, the name you provide when you initialize W&B must match the name of the project you provide when you initialize a sweep.
@@ -71,11 +71,13 @@ def main():
 
 ## Define the search space with a sweep configuration
 
-Specify the hyperparameters to sweep in a dictionary. For configuration options, see [Define sweep configuration](/models/sweeps/define-sweep-configuration/).
+With the training function in place, the next step is to tell W&B which hyperparameters to vary and how to search over them.
 
-The proceeding example demonstrates a sweep configuration that uses a random search (`'method':'random'`). The sweep will randomly select a random set of values listed in the configuration for the batch size, epoch, and the learning rate.
+Specify the hyperparameters to sweep in a dictionary. For configuration options, see [Define sweep configuration](/models/sweeps/define-sweep-configuration).
 
-W&B minimizes the metric specified in the `metric` key when `"goal": "minimize"` is associated with it. In this case, W&B will optimize for minimizing the metric  `score` (`"name": "score"`).
+The following example shows a sweep configuration that uses a random search (`'method':'random'`). The sweep randomly selects a set of values listed in the configuration for the `x` and `y` parameters.
+
+W&B minimizes the metric specified in the `metric` key when `"goal": "minimize"` is associated with it. In this case, W&B optimizes for minimizing the metric `score` (`"name": "score"`).
 
 
 ```python
@@ -90,52 +92,60 @@ sweep_configuration = {
 }
 ```
 
-## Initialize the Sweep
+## Initialize the sweep
 
-W&B uses a _Sweep Controller_ to manage sweeps on the cloud (standard), locally (local) across one or more machines. For more information about Sweep Controllers, see [Search and stop algorithms locally](./local-controller).
+Initializing the sweep registers your search space with W&B and returns an identifier that the agent uses to request hyperparameter combinations.
 
-A sweep identification number is returned when you initialize a sweep:
+W&B uses a _Sweep Controller_ to manage sweeps in the cloud (standard) or locally (local) across one or more machines. For more information about Sweep Controllers, see [Search and stop algorithms locally](/models/sweeps/local-controller).
+
+Initializing a sweep returns a sweep identification number:
 
 ```python
 sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
 ```
 
-For more information about initializing sweeps, see [Initialize sweeps](./initialize-sweeps).
+For more information, see [Initialize sweeps](/models/sweeps/initialize-sweeps).
 
-## Start the Sweep
+## Start the sweep
 
-Use the [`wandb.agent()`](/models/ref/python/functions/agent) API call to start a sweep.
+With the sweep registered, start an agent to execute the runs and explore the search space.
+
+To start a sweep, use the [`wandb.agent()`](/models/ref/python/functions/agent) API call.
 
 ```python
 wandb.agent(sweep_id, function=main, count=10)
 ```
 
+After the agent starts, it requests hyperparameter combinations from W&B, calls your training function for each one, and logs the resulting metrics back to your project.
+
 <Warning>
 **Multiprocessing**
 
-You must wrap your `wandb.agent()` and `wandb.sweep()` calls with `if __name__ == '__main__':` if you use Python standard library's `multiprocessing` or PyTorch's `pytorch.multiprocessing` package. For example:
+If you use the Python standard library's `multiprocessing` package or PyTorch's `pytorch.multiprocessing` package, you must wrap your `wandb.agent()` and `wandb.sweep()` calls with `if __name__ == '__main__':`. For example:
 
 ```python
 if __name__ == '__main__':
-    wandb.agent(sweep_id="<sweep_id>", function="<function>", count="<count>")
+    wandb.agent(sweep_id="[SWEEP-ID]", function="[FUNCTION]", count="[COUNT]")
 ```
 
-Wrapping your code with this convention ensures that it is only executed when the script is run directly, and not when it is imported as a module in a worker process.
+This convention ensures the code runs only when the script runs directly, not when imported as a module in a worker process.
 
-See [Python standard library `multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#the-spawn-and-forkserver-start-methods) or [PyTorch `multiprocessing`](https://docs.pytorch.org/docs/stable/notes/multiprocessing.html#asynchronous-multiprocess-training-e-g-hogwild) for more information about multiprocessing. See https://realpython.com/if-name-main-python/ for information about the `if __name__ == '__main__':` convention.
+For more information about multiprocessing, see [Python standard library `multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#the-spawn-and-forkserver-start-methods) or [PyTorch `multiprocessing`](https://docs.pytorch.org/docs/stable/notes/multiprocessing.html#asynchronous-multiprocess-training-e-g-hogwild). For more information about the `if __name__ == '__main__':` convention, see [Real Python's guide to `__main__`](https://realpython.com/if-name-main-python/).
 </Warning>
 
 
-## Visualize results (optional)
+## Optional: Visualize results
 
-Open your project to see your live results in the W&B App dashboard. With just a few clicks, construct rich, interactive charts like [parallel coordinates plots](/models/app/features/panels/parallel-coordinates/),[ parameter importance analyzes](/models/app/features/panels/parameter-importance/), and [additional chart types](/models/app/features/panels/).
+Once the sweep is running, you can explore how different hyperparameter combinations affect your metric in the W&B App.
+
+Open your project to see your live results in the W&B App dashboard. In a few clicks, build interactive charts such as [parallel coordinates plots](/models/app/features/panels/parallel-coordinates), [parameter importance analyses](/models/app/features/panels/parameter-importance), and [other chart types](/models/app/features/panels).
 
 <Frame>
     <img src="/images/sweeps/quickstart_dashboard_example.png" alt="Sweeps Dashboard example"  />
 </Frame>
 
-For more information about how to visualize results, see [Visualize sweep results](./visualize-sweep-results). For an example dashboard, see this sample [Sweeps Project](https://wandb.ai/anmolmann/pytorch-cnn-fashion/sweeps/pmqye6u3).
+For more information, see [Visualize sweep results](/models/sweeps/visualize-sweep-results). For an example dashboard, see this sample [Sweeps Project](https://wandb.ai/anmolmann/pytorch-cnn-fashion/sweeps/pmqye6u3).
 
-## Stop the agent (optional)
+## Optional: Stop the agent
 
-In the terminal, press `Ctrl+C` to stop the current run. Press it again to terminate the agent.
+In the terminal, press `Ctrl+C` to stop the current run. Press it again to end the agent.

@@ -1,0 +1,15 @@
+"""
+Start a sweep job to run a sweep agent.
+
+Replace:
+- values enclosed in angle brackets with your own
+- sweep_id with the ID of your sweep, which is returned when you initialize a sweep.
+    See sweep_initialize.py for an example of how to initialize a sweep and get
+    the sweep_id.
+- count with the number of runs you want to execute in your sweep
+"""
+
+import wandb
+
+sweep_id, count = "<sweep_id>", 10
+wandb.agent(sweep_id, count=count)

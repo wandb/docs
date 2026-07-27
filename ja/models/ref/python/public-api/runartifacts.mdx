@@ -3,23 +3,26 @@ title: RunArtifacts
 namespace: public_apis_namespace
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
 
 
+## <kbd>クラス</kbd> `RunArtifacts`
 
+特定のrunに関連付けられたartifactのイテラブルなコレクションです。 
 
-## <kbd>class</kbd> `RunArtifacts`
-特定の Run に関連付けられた Artifacts のイテレーション可能なコレクションです。
+### <kbd>プロパティ</kbd> RunArtifacts.cursor
 
+次に取得するページの開始位置を示す不透明なカーソルです。
 
-### <kbd>property</kbd> RunArtifacts.cursor
+この値は保存しておき、後続のページネーションされたクエリで `start=` として渡すことで、この paginator の続きから反復を再開できます。
 
+**戻り値:**
 
+* `str | None`: cursor のプロパティ値です。
 
+***
 
-
----
-
-### <kbd>property</kbd> RunArtifacts.more
+### <kbd>プロパティ</kbd> RunArtifacts.more

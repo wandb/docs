@@ -1,0 +1,172 @@
+---
+title: "Call スキーマ リファレンス"
+description: "Call オブジェクトの構造とプロパティのリファレンス"
+keywords: ["CallSchema", "summary", "trace", "latency_ms", "usage"]
+---
+
+このリファレンスでは、W&amp;B Weave における Call オブジェクトのスキーマについて説明します。これには、プロパティ、実行中に `summary` 辞書にカスタムデータを書き込む方法、Call の完了後に summary データを読み取る方法が含まれます。各 Call について Weave が記録するデータを調べたり、フィルターしたり、拡張したりする必要がある場合は、このページを参照してください。Call をクエリする方法については、[Call のクエリとエクスポート](/ja/weave/guides/tracking/querying-calls)を参照してください。
+
+<div id="call-properties">
+  ## Call のプロパティ
+</div>
+
+以下の表は、Weave における Call の主要なプロパティを示しています。実装の詳細については、以下を参照してください。
+
+* Python SDK の [class: CallSchema](/ja/weave/reference/python-sdk/trace_server/trace_server_interface#class-callschema)
+* TypeScript SDK の [Interface: CallSchema](/ja/weave/reference/typescript-sdk/interfaces/callschema)
+
+| プロパティ          | タイプ                  | 説明                                       |
+| -------------- | -------------------- | ---------------------------------------- |
+| `id`           | string (uuid)        | Call の一意の識別子                             |
+| `project_id`   | string (optional)    | 関連付けられた project の識別子                     |
+| `op_name`      | string               | オペレーションの名前 (参照の場合があります)                  |
+| `display_name` | string (optional)    | Call のわかりやすい表示名                          |
+| `trace_id`     | string (uuid)        | この Call が属する trace の識別子                  |
+| `parent_id`    | string (uuid)        | 親 Call の識別子                              |
+| `started_at`   | datetime             | Call が開始されたタイムスタンプ                       |
+| `attributes`   | Dict[str, Any]       | Call に関するユーザー定義のメタデータ *(実行中は読み取り専用)*     |
+| `inputs`       | Dict[str, Any]       | Call の入力パラメーター                           |
+| `ended_at`     | datetime (optional)  | Call が終了したタイムスタンプ                        |
+| `exception`    | string (optional)    | Call が失敗した場合のエラーメッセージ                    |
+| `output`       | Any (optional)       | Call の結果                                 |
+| `summary`      | Optional[SummaryMap] | 実行後のサマリー情報。実行中にこれを変更して、カスタムメトリクスを記録できます。 |
+| `wb_user_id`   | Optional[str]        | 関連付けられた W&amp;B ユーザー ID                  |
+| `wb_run_id`    | Optional[str]        | 関連付けられた W&amp;B run ID                   |
+| `deleted_at`   | datetime (optional)  | 該当する場合、Call が削除されたタイムスタンプ                |
+
+<div id="property-details">
+  ## プロパティの詳細
+</div>
+
+`CallSchema` のプロパティは、Call のトラッキングと管理に役立ちます。
+
+* `id`、`trace_id`、`parent_id` プロパティは、システム内で Call を整理し、相互の関係を関連付けるのに役立ちます。
+* タイミング情報 (`started_at`、`ended_at`) は、パフォーマンス分析をサポートします。
+* `attributes` と `inputs` プロパティは、Call のコンテキストを提供します。`attributes` は Call の開始後に固定されるため、呼び出し前に `weave.attributes()` コンテキストマネージャーを使用して設定してください。`output` と `summary` は結果を取得します。
+* `wb_user_id` と `wb_run_id` を使用して、Call を W&amp;B ユーザーおよび run にリンクします。
+
+これらのプロパティにより、project 全体を通じて Call の詳細なトラッキングと分析が可能になります。
+
+<div id="use-call-summary">
+  ## Call summary を使用する
+</div>
+
+`summary` プロパティを使用すると、実行後のカスタムデータを Call に追加でき、後で Weave に組み込まれているメトリクスとあわせて分析できます。これは、Call の実行中に書き込める辞書です。Call が終了すると、Weave はユーザーが設定した値を独自に計算したデータとディープマージし、その結果を保存します。
+
+この辞書には 2 つの領域があります。
+
+* カスタムキー: `call.summary["accuracy"] = 0.95` のように、`call.summary` に直接書き込む任意のキーです。これらは summary 辞書のトップレベルに配置されます。
+* `summary["weave"]`: Weave が Call の完了時に自動的に設定する予約済みの名前空間です。このキーには直接書き込まないでください。
+
+Weave は、モデル応答に含まれる生の LLM トークン数も `summary["usage"]` に取得します (キーはモデル名です) 。これは provider からそのまま渡されるソースデータであり、Weave が計算したものではありません。`summary["weave"]` 内の `costs` フィールドは、Weave がその usage データとトークンの pricing を使用して導出したものです。
+
+`summary["weave"]` 内の Weave の計算済みフィールド:
+
+| Field        | Description                                                                                                       |
+| ------------ | ----------------------------------------------------------------------------------------------------------------- |
+| `status`     | 実行ステータス: `SUCCESS`、`ERROR`、`RUNNING`、または `DESCENDANT_ERROR` (Call 自体は成功したものの、子 Call でエラーが発生した状態) 。                |
+| `latency_ms` | `started_at` から `ended_at` までの所要時間 (ミリ秒) です。`status` が `RUNNING` の場合は `null` です。                                  |
+| `costs`      | `summary["usage"]` とトークンの pricing データから導出される、モデルごとのコスト内訳です。[Track costs](/ja/weave/guides/tracking/costs) を参照してください。 |
+| `trace_name` | 人が読める形式の Op 名で、内部 Op 参照 URI から解析されます。表示やフィルターに使用されます。                                                             |
+
+<div id="write-during-a-call">
+  ### Call の実行中に書き込む
+</div>
+
+`summary` 辞書を使うと、Call の実行中にカスタムデータを追加できます。
+
+<Tabs>
+  <Tab title="Python">
+    Python では、`weave.get_current_call()` を使用して、実行中の任意の時点で `call.summary` に値を設定できます。
+
+    ```python lines
+    import weave
+
+    @weave.op()
+    def my_op(x):
+        result = do_work(x)
+        call = weave.get_current_call()
+        # summary にカスタムデータを追加します。
+        call.summary["accuracy"] = 0.95
+        call.summary["num_retries"] = 2
+        return result
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    TypeScript では、`op()` のオプションとして `summarize` 関数を指定します。この関数は最終結果を受け取り、Call の完了時に summary データを返します。
+
+    ```typescript twoslash lines
+    // @noErrors
+    const myOp = weave.op(
+      async (x: any) => {
+        const result = await doWork(x);
+        return result;
+      },
+      {
+        name: 'my_op',
+        summarize: (result) => ({
+          accuracy: result.accuracy,
+          numRetries: result.numRetries,
+        }),
+      }
+    );
+    ```
+  </Tab>
+</Tabs>
+
+<div id="read-summary-data">
+  ### summary データを読み取る
+</div>
+
+`getCall` を使用して ID で単一の Call を取得するか、`getCalls` を使用して複数の Call を取得します。どちらの場合も、`summary` は同じマージ済みの辞書です。
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    import weave
+    client = weave.init("my-team/my-project")
+
+    # ID で単一の Call を取得します。
+    call = client.get_call("[CALL-ID]")
+    weave_summary = (call.summary or {}).get("weave", {})
+
+    print(weave_summary.get("status"))       # TraceStatus 列挙型: SUCCESS、ERROR、RUNNING、または DESCENDANT_ERROR。
+    print(weave_summary.get("latency_ms"))   # Call がまだ実行中の場合は null です。
+    print(weave_summary.get("costs"))        # モデルごとのコスト内訳。
+    print(call.summary.get("usage"))         # LLM プロバイダからの生のトークン数。
+    print(call.summary.get("accuracy"))      # 独自のフィールド。
+
+    # サーバー側のフィルターを使用して複数の Call を反復処理します。
+    for call in client.get_calls(filter={"op_names": ["weave:///my-team/my-project/op/my_op:*"]}):
+        s = call.summary or {}
+        weave_s = s.get("weave", {})
+        print(call.id, weave_s.get("status"), weave_s.get("latency_ms"), s.get("accuracy"))
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript twoslash lines
+    // @noErrors
+    import * as weave from 'weave';
+    const client = await weave.init('my-team/my-project');
+
+    // ID で単一の Call を取得します。
+    const call = await client.getCall('[CALL-ID]');
+    const weaveSummary = call.summary?.weave;
+
+    console.log(weaveSummary?.status);       // "success"、"error"、"running"、または "descendant_error"。
+    console.log(weaveSummary?.latency_ms);   // Call がまだ実行中の場合は undefined です。
+    console.log(weaveSummary?.costs);        // モデルごとのコスト内訳。
+    console.log(call.summary?.usage);        // LLM プロバイダからの生のトークン数。
+    console.log(call.summary?.accuracy);     // 独自のフィールド。
+
+    // サーバー側のフィルターを使用して複数の Call を取得します。
+    const calls = await client.getCalls({ filter: { op_names: ['weave:///my-team/my-project/op/my_op:*'] } });
+    for (const call of calls) {
+      const weaveS = call.summary?.weave;
+      console.log(call.id, weaveS?.status, weaveS?.latency_ms, call.summary?.accuracy);
+    }
+    ```
+  </Tab>
+</Tabs>

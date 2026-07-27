@@ -1,6 +1,7 @@
 ---
 title: "Leaderboard Quickstart"
 description: "Learn how to use leaderboard quickstart with W&B Weave"
+keywords: [leaderboard, model comparison, weave evaluation, scoring functions]
 ---
 
 <Note>
@@ -11,16 +12,18 @@ This is an interactive notebook. You can run it locally or use the links below:
 
 # Leaderboard Quickstart
 
-In this notebook we will learn to use Weave's Leaderboard to compare model performance across different datasets and scoring functions. Specifically, we will:
+This quickstart shows you how to use the W&B Weave Leaderboard to compare model performance across multiple datasets and scoring functions. By the end, you will have published a leaderboard that ranks several models against a shared set of evaluations. You can then identify which model performs best on each metric. This guide is for developers familiar with running Weave evaluations who want to compare results side by side.
 
-1. Generate a dataset of fake zip code data
+Specifically, you will:
+
+1. Generate a dataset of fake zip code data.
 2. Author some scoring functions and evaluate a baseline model.
-3. Use these techniques to evaluate a matrix of models vs evaluations.
+3. Use these techniques to evaluate a matrix of models versus evaluations.
 4. Review the leaderboard in the Weave UI.
 
 ## Step 1: Generate a dataset of fake zip code data
 
-First we will create a function `generate_dataset_rows` that generates a list of fake zip code data.
+First, create a function `generate_dataset_rows` that generates a list of fake zip code data. This synthetic dataset gives the leaderboard a consistent set of inputs and expected values to score each model against.
 
 ```python lines
 import json
@@ -72,11 +75,11 @@ weave.init("leaderboard-demo")
 
 ## Step 2: Author scoring functions
 
-Next we will author 3 scoring functions:
+Next, author three scoring functions. Each scorer evaluates a different aspect of the model output so the leaderboard can rank models on distinct dimensions of quality:
 
 1. `check_concrete_fields`: Checks if the model output matches the expected city and state.
 2. `check_value_fields`: Checks if the model output is within 10% of the expected population and median income.
-3. `check_subjective_fields`: Uses a LLM to check if the model output matches the expected "known for" field.
+3. `check_subjective_fields`: Uses an LLM to check if the model output matches the expected "known for" field.
 
 ```python lines
 @weave.op
@@ -125,9 +128,9 @@ def check_subjective_fields(zip_code: str, known_for: str, output: dict):
     return json.loads(completion.choices[0].message.content)
 ```
 
-## Step 3: Create a simple Evaluation
+## Step 3: Create an evaluation
 
-Next we define a simple evaliation using our fake data and scoring functions.
+Next, define an evaluation using the fake data and scoring functions. The `Evaluation` object pairs the dataset with the scorers, so you can run any model against the same benchmark.
 
 ```python lines
 rows = generate_dataset_rows()
@@ -144,7 +147,7 @@ evaluation = weave.Evaluation(
 
 ## Step 4: Evaluate a baseline model
 
-Now we will evaluate a baseline model which returns a static response.
+Now, evaluate a baseline model that returns a static response. Establishing a baseline gives you a reference point on the leaderboard so you can measure how much each subsequent model improves over a static implementation.
 
 ```python lines
 @weave.op
@@ -161,9 +164,9 @@ def baseline_model(zip_code: str):
 await evaluation.evaluate(baseline_model)
 ```
 
-## Step 5: Create more Models
+## Step 5: Create more models
 
-Now we will create 2 more models to compare against the baseline.
+Now, create two more models to compare against the baseline. One model receives the zip code with no additional prompting, while the other receives a structured prompt. Comparing them on the leaderboard shows the impact of prompt context on answer quality.
 
 ```python lines
 @weave.op
@@ -219,9 +222,9 @@ def gpt_4o_mini_with_context(zip_code: str):
 await evaluation.evaluate(gpt_4o_mini_with_context)
 ```
 
-## Step 6: Create more Evaluations
+## Step 6: Create more evaluations
 
-Now we will evaluate a matrix of models vs evaluations.
+Now, evaluate a matrix of models versus evaluations. Running every model against several datasets (different regions and years) produces the data the leaderboard needs to rank models across multiple conditions.
 
 ```python lines
 scorers = [
@@ -267,11 +270,13 @@ for evaluation in evaluations:
         )
 ```
 
-## Step 7: Review the Leaderboard
+## Step 7: Review the leaderboard
 
-You can create a new leaderboard by navigating to the leaderboard tab in the UI and clicking "Create Leaderboard".
+With the evaluation results published, you can now assemble them into a leaderboard for side-by-side comparison.
 
-We can also generate a leaderboard directly from Python:
+You can create a new leaderboard by navigating to the leaderboard tab in the UI and clicking **Create Leaderboard**.
+
+You can also generate a leaderboard directly from Python:
 
 ```python lines
 from weave.flow import leaderboard
@@ -310,3 +315,5 @@ This leaderboard compares the performance of models in terms of world knowledge 
 
 ref = weave.publish(spec)
 ```
+
+You now have a published leaderboard in Weave that ranks each model against the three evaluations and scoring metrics you defined. From the Weave UI, you can inspect per-model scores, drill into individual evaluation runs, and compare future model iterations against the same baseline.

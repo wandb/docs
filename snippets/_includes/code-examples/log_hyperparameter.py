@@ -1,0 +1,12 @@
+"""Initializes a W&B run and logs hyperparameters."""
+import wandb
+
+config = {
+    "learning_rate": 0.01,
+    "batch_size": 32,
+    "optimizer": "adam",
+}
+
+with wandb.init(project="<project>", config=config) as run:
+    # Training and logging code goes here
+    pass

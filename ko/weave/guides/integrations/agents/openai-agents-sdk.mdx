@@ -1,0 +1,219 @@
+---
+title: "OpenAI Agents SDK"
+description: Weave를 사용해 OpenAI Agents SDK로 구축한 에이전트를 트레이스하세요.
+---
+
+import AgentsViewTraces from '/snippets/ko/_includes/agents-view-traces.mdx';
+
+OpenAI Agents SDK는 OpenAI API를 기반으로 에이전트와 멀티 에이전트 워크플로를 구축할 수 있는 경량 프레임워크입니다. Weave는 OpenAI Agents SDK로 구축된 에이전트를 자동으로 트레이스하며, 각 에이전트 호출, 하위 에이전트 핸드오프, 모델 Call, 도구 Call을 포함해 추적합니다. Weave는 캡처한 데이터를 프로젝트의 **Agents** 뷰에 표시합니다.
+
+<div id="trace-openai-agents-sdk-agents-with-weave">
+  ## Weave로 OpenAI Agents SDK 에이전트 트레이스하기
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    Weave SDK는 [Python용 OpenAI Agents SDK](https://github.com/openai/openai-agents-python)와 자동으로 패치되어, 최소한의 설정만으로 에이전트의 트레이스를 캡처할 수 있습니다. 이 가이드에서는 Weave를 초기화한 다음 OpenAI Agents SDK로 구축한 멀티턴 리서치 에이전트를 실행하여, Weave가 Session 전반에서 모든 에이전트 호출, 모델 Call, 도구 Call을 캡처하도록 설정하는 방법을 설명합니다.
+
+    ### 사전 요구 사항
+
+    시작하기 전에 다음 사항을 준비하세요:
+
+    * `WANDB_API_KEY` 환경 변수로 설정된 W&amp;B 계정과 [API 키](https://wandb.ai/authorize)
+    * [OpenAI API 키](https://platform.openai.com/api-keys)
+    * Python 3.10+
+  </Tab>
+
+  <Tab title="TypeScript">
+    Weave는 [OpenAI Agents Node SDK](https://github.com/openai/openai-agents-js) (`@openai/agents`)와 통합되어 에이전트 Runs를 자동으로 트레이스합니다. `@openai/agents` 버전 `0.4.15` 이상이 필요합니다.
+
+    ### 사전 요구 사항
+
+    시작하기 전에 다음 사항을 준비하세요:
+
+    * `WANDB_API_KEY` 환경 변수로 설정된 W&amp;B 계정과 [API 키](https://wandb.ai/authorize)
+    * [OpenAI API 키](https://platform.openai.com/api-keys)
+    * Node.js 18+
+  </Tab>
+</Tabs>
+
+<div id="install-packages">
+  ### 패키지 설치
+</div>
+
+스크립트에서 Weave 및 OpenAI Agents SDK를 사용할 수 있도록 개발 환경에 다음 패키지를 설치하세요.
+
+<CodeGroup>
+  ```bash Python
+  pip install weave openai-agents requests
+  ```
+
+  ```bash TypeScript
+  npm install weave @openai/agents zod
+  ```
+</CodeGroup>
+
+<div id="initialize-weave-in-your-code">
+  ### 코드에서 Weave 초기화하기
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    프로젝트에 `weave.init`를 추가하고 W&amp;B 팀 및 프로젝트 이름을 지정한 다음, 평소와 같은 방식으로 에이전트를 구축하세요. 다음 코드는 `wikipedia_search` 함수 도구와 `Research assistant` 에이전트를 정의한 뒤, Weave가 트레이스를 캡처하는 동안 OpenAI Agents SDK `Runner`를 통해 세 개의 질문을 실행합니다.
+
+    ```python lines  highlight="6"
+    import asyncio
+    import requests
+    import weave
+    from agents import Agent, Runner, function_tool
+
+    weave.init("<your-team>/<your-project-name>")
+
+    @function_tool
+    def wikipedia_search(query: str) -> str:
+        """Search Wikipedia for a topic and return its title and intro paragraph."""
+        r = requests.get(
+            "https://en.wikipedia.org/w/api.php",
+            params={
+                "action": "query", "generator": "search", "gsrsearch": query, "gsrlimit": 1,
+                "prop": "extracts", "exintro": True, "explaintext": True, "format": "json",
+            },
+            headers={"User-Agent": "weave-demo"},
+        ).json()
+        page = next(iter(r["query"]["pages"].values()))
+        return f"{page['title']}: {page['extract']}"
+
+    agent = Agent(
+        name="Research assistant",
+        instructions=(
+            "You are a research assistant. Use the wikipedia_search tool to look up "
+            "topics when needed, and cite the article titles you used."
+        ),
+        tools=[wikipedia_search],
+    )
+
+    async def main():
+        history = []
+        for question in [
+            "Who founded Anthropic?",
+            "What is Claude (the AI assistant)?",
+            "Summarize what we discussed in one sentence.",
+        ]:
+            history.append({"role": "user", "content": question})
+            print(f"USER: {question}")
+            result = await Runner.run(agent, input=history)
+            print(f"AGENT: {result.final_output}\n")
+            history = result.to_input_list()
+
+    asyncio.run(main())
+    ```
+
+    이 예시에서는 하나의 대화에서 세 번의 turn을 실행합니다. 처음 두 turn은 Wikipedia 조회를 트리거하고, 세 번째 turn은 앞선 대화 컨텍스트를 사용해 도구 Call 없이 요약을 생성합니다. 각 `Runner.run` 호출은 이전 결과의 입력 목록을 다음 요청으로 다시 전달해 대화를 이어갑니다.
+  </Tab>
+
+  <Tab title="TypeScript">
+    Weave는 `@openai/agents`가 임포트될 때 모듈 로더 훅을 통해 자동으로 인스트루먼트합니다. 필요한 설정은 모듈 시스템에 따라 약간 다릅니다. CommonJS와 ESM의 차이 및 Weave의 로더 훅 작동 방식에 대한 자세한 내용은 [TypeScript SDK 서드파티 인테그레이션 가이드](/ko/weave/guides/integrations/js)를 참조하세요.
+
+    * **CommonJS 프로젝트**: 추가 설정은 필요하지 않습니다. 자동 계측이 먼저 실행되도록 `@openai/agents`보다 앞서 `weave`를 require하세요.
+    * **ESM 프로젝트**: 다른 모듈보다 먼저 계측이 로드되도록 `--import=weave/instrument` 플래그를 사용해 Node를 시작하세요.
+
+    다음 코드는 `wikipedia_search` 도구와 `Research assistant` 에이전트를 정의한 뒤, Weave가 트레이스를 캡처하는 동안 SDK의 `Runner`를 통해 세 개의 질문을 실행합니다. 각 `run()` 호출은 별도의 최상위 트레이스로 기록되므로, 이 예시에서는 공유 `groupId`를 가진 `Runner`를 생성하고 세 번의 호출 전체에 걸쳐 재사용합니다. Weave는 `groupId`를 사용해 동일한 대화의 트레이스를 그룹화하며, `groupId`가 설정되지 않은 경우 각 트레이스 자체 ID로 대체합니다.
+
+    ```typescript lines  highlight="33" title="main.mjs"
+    import { randomUUID } from "node:crypto";
+    import * as weave from "weave";
+    import { Agent, Runner, tool, type AgentInputItem } from "@openai/agents";
+    import { z } from "zod";
+
+    const wikipediaSearch = tool({
+        name: "wikipedia_search",
+        description: "Search Wikipedia for a topic and return its title and intro paragraph.",
+        parameters: z.object({
+        query: z.string().describe("The topic to search for"),
+        }),
+        async execute({ query }) {
+        const url = new URL("https://en.wikipedia.org/w/api.php");
+        url.search = new URLSearchParams({
+            action: "query",
+            generator: "search",
+            gsrsearch: query,
+            gsrlimit: "1",
+            prop: "extracts",
+            exintro: "true",
+            explaintext: "true",
+            format: "json",
+        }).toString();
+
+        const response = await fetch(url, { headers: { "User-Agent": "weave-demo" } });
+        const data = await response.json();
+        const page = Object.values(data.query.pages)[0] as { title: string; extract: string };
+        return `${page.title}: ${page.extract}`;
+        },
+    });
+
+    async function main() {
+        await weave.init("<your-team>/<your-project-name>");
+
+        const agent = new Agent({
+        name: "Research assistant",
+        instructions:
+            "You are a research assistant. Use the wikipedia_search tool to look up " +
+            "topics when needed, and cite the article titles you used.",
+        tools: [wikipediaSearch],
+        });
+
+        const runner = new Runner({ groupId: randomUUID() });
+
+        const questions = [
+        "Who founded Anthropic?",
+        "What is Claude (the AI assistant)?",
+        "Summarize what we discussed in one sentence.",
+        ];
+
+        let history: AgentInputItem[] = [];
+        for (const question of questions) {
+        history.push({ role: "user", content: question });
+        console.log(`USER: ${question}`);
+        const result = await runner.run(agent, history);
+        console.log(`AGENT: ${result.finalOutput}\n`);
+        history = result.history;
+        }
+    }
+
+    main();
+    ```
+
+    이 예시에서는 하나의 대화에서 세 번의 턴을 실행합니다. 처음 두 턴은 Wikipedia 조회를 트리거하고, 세 번째 턴은 앞선 대화 컨텍스트를 사용해 도구 Call 없이 요약을 생성합니다. 각 `runner.run` 호출은 이전 결과의 `history`를 다음 입력으로 다시 전달해 대화를 이어가며, 동일한 `groupId`를 공유하므로 Weave가 세 턴 모두를 Agents view의 하나의 Session으로 그룹화합니다.
+
+    예시를 `main.mjs`로 저장하고 `--import=weave/instrument` 플래그를 사용해 실행하면 로더 훅이 다른 모듈보다 먼저 실행됩니다:
+
+    ```bash
+    node --import=weave/instrument main.mjs
+    ```
+
+    ### 수동 계측
+
+    수동 계측은 모듈 로더 훅을 실행할 수 없는 경우에만 필요합니다. 예를 들어 의존성을 단일 파일로 번들링하는 번들러를 사용하는 경우, Node CLI 플래그를 지원하지 않는 환경, 또는 로더 훅을 우회하는 동적 모듈 로딩 패턴을 사용하는 경우가 이에 해당합니다.
+
+    `instrumentOpenAIAgents()`를 사용하여 계측을 명시적으로 등록하세요:
+
+    ```typescript lines
+    import * as weave from "weave";
+
+    await weave.init("<your-team>/<your-project-name>");
+    await weave.instrumentOpenAIAgents();
+    ```
+
+    트레이싱 프로세서를 완전히 제어해야 하는 경우(예: 맞춤형 프로세서를 설정하거나 조건부로 등록하는 경우), 직접 생성하고 등록하세요:
+
+    ```typescript lines
+    import { addTraceProcessor } from "@openai/agents";
+    import { createOpenAIAgentsTracingProcessor } from "weave";
+
+    const processor = createOpenAIAgentsTracingProcessor();
+    addTraceProcessor(processor);
+    ```
+  </Tab>
+</Tabs>
+
+<AgentsViewTraces />

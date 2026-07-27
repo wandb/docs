@@ -1,0 +1,90 @@
+---
+title: Aperçu des intégrations
+description: "Tracez les agents et les applications LLM grâce aux intégrations Weave pour les SDK d’agents, les harnesses, les fournisseurs de LLM et les frameworks d’orchestration."
+keywords: ["patching automatique", "SDK d’agents", "harness d’agents", "fournisseurs de LLM", "frameworks d’orchestration"]
+---
+
+Weave propose deux façons d’intégrer votre stack IA :
+
+* **Tracer les agents** : pour les applications agentiques sur plusieurs tours de conversation créées avec des SDK d’agents (comme l’OpenAI Agents SDK ou Google ADK) ou exécutées dans des harnesses d’agents (comme Claude Code, Codex ou Pi.dev). Ces intégrations capturent les sessions, les tours de conversation, les appels LLM et les appels d’outil, et les affichent dans la vue **Agents** de Weave.
+* **Tracer les applications LLM** : pour le code qui appelle des fournisseurs de LLM (OpenAI, Anthropic, Bedrock et autres) ou utilise des frameworks d’orchestration (LangChain, LlamaIndex, DSPy et autres). Ces intégrations capturent les appels LLM individuels et les étapes du pipeline sous forme de **Appels** dans la vue **Traces**.
+
+Si vous ne savez pas quelle approche choisir, commencez par [Tracer vos agents](/fr/weave/guides/tracking/trace-agents) pour les nouveaux projets d’agents sur plusieurs tours de conversation, ou [Tracer les applications LLM](/fr/weave/guides/tracking/tracing) pour les flux de travail existants basés sur des appels LLM.
+
+<div id="trace-agents">
+  ## Tracer les agents
+</div>
+
+Utilisez ces intégrations lorsque vous créez des applications agentiques sur plusieurs tours de conversation et que vous souhaitez voir les sessions, les tours de conversation et les appels d’outil apparaître dans la vue **Agents** de Weave. Pour les SDK d&#39;agent, les harness d’agent et l&#39;instrumentation personnalisée, voir [Intégrations de traçage des agents](/fr/weave/guides/tracking/trace-agent-integrations).
+
+<div id="trace-llm-applications">
+  ## Tracer les applications LLM
+</div>
+
+Si votre application appelle directement l’API d’un fournisseur de LLM ou utilise un framework d’orchestration, Weave peut automatiquement intercepter les traces (grâce au patching automatique) pour de nombreuses bibliothèques et de nombreux frameworks. Après avoir importé le SDK Weave dans votre code et l’avoir initialisé avec `weave.init`, Weave enregistre chaque requête comme un **Appel** avec les entrées, les sorties, la latence, l’utilisation des jetons et le coût.
+
+Pour les bibliothèques que Weave ne prend pas en charge via le patching automatique, vous pouvez appliquer manuellement [Weave Ops](/fr/weave/guides/tracking/create-call#2-tracking-of-custom-functions) à votre code pour capturer les traces.
+
+<div id="llm-providers">
+  ### Fournisseurs de LLM
+</div>
+
+Les fournisseurs de LLM sont les prestataires qui donnent accès à de grands modèles de langage pour générer des prédictions. Weave s’intègre à ces fournisseurs pour journaliser et tracer les interactions avec leurs API :
+
+* **[Service d’Inférence Serverless](/fr/inference)**
+* **[Amazon Bedrock](/fr/weave/guides/integrations/bedrock)**
+* **[Anthropic](/fr/weave/guides/integrations/anthropic)**
+* **[Cerebras](/fr/weave/guides/integrations/cerebras)**
+* **[Cohere](/fr/weave/guides/integrations/cohere)**
+* **[Google](/fr/weave/guides/integrations/google)**
+* **[Groq](/fr/weave/guides/integrations/groq)**
+* **[Hugging Face Hub](/fr/weave/guides/integrations/huggingface)**
+* **[LiteLLM](/fr/weave/guides/integrations/litellm)**
+* **[Microsoft Azure](/fr/weave/guides/integrations/azure)**
+* **[MistralAI](/fr/weave/guides/integrations/mistral)**
+* **[NVIDIA NIM](/fr/weave/guides/integrations/nvidia_nim)**
+* **[OpenAI](/fr/weave/guides/integrations/openai)**
+* **[OpenRouter](/fr/weave/guides/integrations/openrouter)**
+* **[Together AI](/fr/weave/guides/integrations/together_ai)**
+* **[Modèles locaux](/fr/weave/guides/integrations/local_models)** (pour les modèles exécutés sur votre propre infrastructure)
+
+<div id="frameworks">
+  ### Frameworks
+</div>
+
+Les frameworks aident à orchestrer les pipelines d’exécution des applications d’IA. Ils fournissent des outils et des abstractions pour créer des flux de travail complexes. Weave s’intègre à ces frameworks pour tracer l’ensemble du pipeline :
+
+* **[SDK OpenAI Agents](/fr/weave/guides/integrations/agents/openai-agents-sdk)**
+* **[Claude Agent SDK](/fr/weave/guides/integrations/agents/claude-agents-sdk)**
+* **[Claude Code](/fr/weave/guides/integrations/agents/claude-code-harness)**
+* **[LangChain](/fr/weave/guides/integrations/langchain)**
+* **[LlamaIndex](/fr/weave/guides/integrations/llamaindex)**
+* **[Haystack](/fr/weave/guides/integrations/haystack)**
+* **[DSPy](/fr/weave/guides/integrations/dspy)**
+* **[Instructor](/fr/weave/guides/integrations/instructor)**
+* **[CrewAI](/fr/weave/guides/integrations/crewai)**
+* **[Smolagents](/fr/weave/guides/integrations/smolagents)**
+* **[PydanticAI](/fr/weave/guides/integrations/pydantic_ai)**
+* **[Google Agent Development Kit (ADK)](/fr/weave/guides/integrations/agents/google-adk)**
+* **[AutoGen](/fr/weave/guides/integrations/autogen)**
+* **[Verdict](/fr/weave/guides/integrations/verdict)**
+* **[TypeScript SDK](/fr/weave/guides/integrations/js)**
+* **[Vercel AI SDK](/fr/weave/guides/integrations/vercel_ai_sdk)**
+* **[Agno](/fr/weave/guides/integrations/agno)**
+* **[Koog](/fr/weave/guides/integrations/koog)**
+
+<div id="reinforcement-learning-frameworks">
+  ### Frameworks d’apprentissage par renforcement
+</div>
+
+Weave s’intègre aux frameworks d’apprentissage par renforcement pour tracer les runs d’entraînement et d’évaluation :
+
+* **[Verifiers](/fr/weave/guides/integrations/verifiers)**
+
+<div id="protocols">
+  ### Protocoles
+</div>
+
+Weave s’intègre à des protocoles standardisés qui permettent la communication entre les applications d’IA et les services qui les prennent en charge :
+
+* **[Model Context Protocol (MCP)](/fr/weave/guides/integrations/mcp)**
