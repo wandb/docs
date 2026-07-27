@@ -38,23 +38,23 @@ import { TryProductLink } from '/snippets/ko/_includes/try-product-link.mdx';
 ```python
 import wandb
 
-entity = "<my-team>"  # entity를 담당 W&B 팀 이름으로 설정합니다.
-project = "my-project-name"  # project를 W&B 프로젝트 이름으로 설정합니다.
+entity = "<my-team>"  # Set entity to your W&B team name
+project = "my-project-name"  # Set project to your W&B project name
 
-# 이 블록이 종료되면 로깅된 데이터 업로드가 완료될 때까지 기다립니다.
-# 예외가 발생하면 run이 실패로 표시됩니다.
+# When this block exits, it waits for logged data to finish uploading.
+# If an exception is raised, the run is marked failed.
 with wandb.init(entity=entity, project="my-project-name") as run:
   # 모델 입력과 하이퍼파라미터를 저장합니다.
   run.config.learning_rate = 0.01
 
-  # 실험 코드를 실행합니다.
+  # Run your experiment code.
   for epoch in range(num_epochs):
-    # 트레이닝을 수행합니다...
+    # Do some training...
 
-    # 모델 성능을 시각화하기 위해 시간의 흐름에 따라 메트릭을 로깅합니다.
+    # Log metrics over time to visualize model performance.
     run.log({"loss": loss})
 
-  # 모델 출력을 아티팩트로 업로드합니다.
+  # Upload model outputs as artifacts.
   run.log_artifact(model)
 ```
 
