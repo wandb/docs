@@ -117,11 +117,19 @@ Resize the section by clicking and dragging the lower right corner of the sectio
 
 ### Search for metrics
 
-Use the search box in the workspace to filter down the panels. This search matches the panel titles, which are by default the name of the metrics visualized.
+Use the search box in the workspace to filter panels by title.
+
+<Note>
+By default, W&B uses the metric name as the panel title. To change the title, click the **gear** (<Icon icon="gear" iconType="solid"/>) icon in the upper-right corner of the panel, and then enter a title in the **Chart title** field.
+</Note>
 
 <Frame>
     <img src="/images/app_ui/search_in_the_workspace.png" alt="Workspace search"  />
 </Frame>
+
+To exclude panels from the search results, click **Hide panels** (<Icon icon="sliders" iconType="solid"/>) next to the search box, and then enter a regular expression. W&B applies the filter immediately. The filter remains active until you remove it.
+
+To remove the filter, click **Hide panels** (<Icon icon="sliders" iconType="solid"/>) again and clear the regular expression.
 
 ## Runs tab
 {/* Keep this in sync with /guide/models/track/runs/_index.md */}
