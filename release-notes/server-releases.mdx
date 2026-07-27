@@ -22,19 +22,19 @@ W&B Server 0.83.0 makes the Registry cross-platform accessible. On Dedicated Clo
 
 ## Features
 
-- Team admins can now view team-level usage and billing charts, including an overages banner and searchable team selection, and set spend limits.
+- Team admins can now view team-level [usage and billing](/platform/app/settings-page/billing-settings#plan-usage) charts, including an overages banner and searchable team selection, and set spend limits.
 - When searching for panels, you can now exclude panels whose names match a regex pattern from your search results. The filter remains active until you remove it, so you can use it to narrow a workspace down to the panels that matter most.
     <Frame>
     ![Excluding panels from search results with a regex pattern](/images/release-notes/v0-83-0/exclude-panels-by-regex.png)
     </Frame>
-- When you work with nested run groups, you can now color all the child groups under a parent group at once. Click the icon next to a parent run group's name to color every run in the hierarchy. You can distinguish parent groups at a glance while distinct colors flow down to all subgroups.
+- When you work with nested [run groups](/models/runs/grouping#organize-runs-into-groups), you can now color all the child groups under a parent group at once. Click the icon next to a parent run group's name to color every run in the hierarchy. You can distinguish parent groups at a glance while distinct colors flow down to all subgroups.
     <Frame>
     ![Coloring all runs in a nested run group hierarchy with one click](/images/release-notes/v0-83-0/color-nested-run-groups.gif)
     </Frame>
     - If you turn off **Use grouping from the runs table in charts**, the color carries through to the individual lines, so you can see each run while keeping the parent group's color scheme intact.
     - Click **Reset group colors** to return to the default coloring.
-- In a workspace, you can now hide the sidebar directly from the page. The **Hide sidebar** control is now visible without opening the overflow (**...**) menu.
-- When viewing a large log file, click **Top** or press **Cmd+Home** to scroll to the oldest log, and click **Current** or press **Cmd+End** to scroll to the newest log.
+- In a workspace, you can now hide the sidebar directly from the page by clicking the **Hide sidebar** control (<Icon icon="fa-angle-double-right" iconType="solid" />) without first opening the action menu (<Icon icon="ellipsis" iconType="solid" />).
+- When viewing a large [log file](/models/app/console-logs), click **Top** or press **Cmd+Home** to scroll to the oldest log, and click **Current** or press **Cmd+End** to scroll to the newest log.
 - Improved the responsiveness of organization membership tables, team project tables, and sweep tables.
 - Improved the responsiveness and usability of the metric panel editor.
 - Added baseline metrics for fork history recompute.
@@ -45,7 +45,7 @@ W&B Server 0.83.0 makes the Registry cross-platform accessible. On Dedicated Clo
 
 These features are available in Dedicated Cloud only.
 
-- **Automation Hub** centralizes the creation and management of automations across projects and registries. Find it in the **Core** section of the sidebar.
+- **Automation Hub** centralizes the creation and management of [automations](/models/automations#automations-overview) across projects and registries. Find it in the **Core** section of the sidebar.
 - An automation can now be scoped to an organization, a team, a project, a registry, or a collection. This eliminates the need to duplicate an automation to achieve broad coverage. When creating an automation, click **Edit scopes**.
 
 ### Registry
@@ -53,8 +53,8 @@ These features are available in Dedicated Cloud only.
 These features are available in Dedicated Cloud only.
 
 - All Models and Weave users in an organization now have Registry access by default. Existing per-registry permissions are unchanged. Administrators can revoke a user's organization-level Registry access through SCIM. See [Update Registry access](/platform/hosting/iam/scim#update-registry-access).
-- Weave prompts (`StringPrompt` and `MessagesPrompt`) can now be added to the Registry, so you can version, alias, and reuse prompts across your organization alongside model artifacts.
-- Improved artifact collection overview editing and version grid selection. Auto-generate rich collection cards with dynamic artifact panels for more context.
+- Weave [prompts](/weave/guides/core-types/prompts#create-prompt-objects) (`StringPrompt` and `MessagesPrompt`) can now be added to the Registry, so you can version, alias, and reuse prompts across your organization alongside model artifacts.
+- Improved [artifact collection](/models/registry/create_collection) overview editing and version grid selection. Auto-generate rich collection cards with dynamic artifact panels for more context.
 
 ### Weave
 
@@ -62,9 +62,9 @@ These features are available in Dedicated Cloud only.
 - Token costs are now shown in the UI.
 - Agent reactions (thumbs-up/thumbs-down) now save as tags instead of emoji reactions, so they appear alongside scorer tags and you can filter and chart them by agent.
 - Signals and Playground agents are now hidden by default.
-- Moved dataset manipulation to the **Evaluations** page and improved the experience of creating datapoints.
-- Added an audio player to agent conversations, including a new **Play all** control that plays each file in sequence.
-- Improved the **Agents** tab.
+- Moved dataset manipulation to the [**Evaluations** page](/weave/guides/core-types/evaluations) and improved the experience of creating datapoints.
+- Added an [audio](/weave/cookbooks/audio_with_weave#audio-with-weave) player to agent conversations, including a new **Play all** control that plays each file in sequence.
+- Improved the [**Agents**](/weave/custom-agents-quickstart) tab.
 - Added a **Spans** minimap to agent conversations, with turn-anchored feedback data.
 - Added copy controls to JSON embedded in user messages.
 - Restored tags as the default agent signal type.
