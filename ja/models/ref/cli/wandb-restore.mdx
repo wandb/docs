@@ -2,9 +2,9 @@
 title: wandb restore
 ---
 
-import { GitHubLink } from "/snippets/ja/_includes/github-source-link.mdx"
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/cli.py#L3174" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L3272" />
 
 <div id="usage">
   ## 使用方法
@@ -45,8 +45,8 @@ run 識別子は、次のいずれかの形式で指定できます:
 run&#95;id、project:run&#95;id、entity/project:run&#95;id、または entity/project/run&#95;id 。
 
 たとえば、デフォルト project 内の run ID を持つ run を復元するには
- (WANDB&#95;PROJECT 環境変数に保存されています) および entity
- (WANDB&#95;ENTITY または認証済みユーザーのデフォルト entity から設定されます) :
+(WANDB&#95;PROJECT 環境変数に保存されています) および entity
+(WANDB&#95;ENTITY または認証済みユーザーのデフォルト entity から設定されます) :
 
 ```bash
 wandb restore abcd1234

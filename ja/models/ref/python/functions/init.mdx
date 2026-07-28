@@ -1,59 +1,64 @@
 ---
 title: init()
-namespace: python_sdk_actions
-python_object_type: function
+kind: function
+namespace: wandb.sdk.wandb_init
 ---
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_init.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_init.py#L1182" />
 
-
-### <kbd>関数</kbd> `init`
+## <kbd>関数</kbd> wandb.init
 
 ```python
-init(
-    entity: 'str | None' = None,
-    project: 'str | None' = None,
-    dir: 'StrPath | None' = None,
-    id: 'str | None' = None,
-    name: 'str | None' = None,
-    notes: 'str | None' = None,
-    tags: 'Sequence[str] | None' = None,
-    config: 'dict[str, Any] | str | None' = None,
-    config_exclude_keys: 'list[str] | None' = None,
-    config_include_keys: 'list[str] | None' = None,
-    allow_val_change: 'bool | None' = None,
-    group: 'str | None' = None,
-    job_type: 'str | None' = None,
-    mode: "Literal['online', 'offline', 'disabled', 'shared'] | None" = None,
-    force: 'bool | None' = None,
-    reinit: "bool | Literal[None, 'default', 'return_previous', 'finish_previous', 'create_new']" = None,
-    resume: "bool | Literal['allow', 'never', 'must', 'auto'] | None" = None,
-    resume_from: 'str | None' = None,
-    fork_from: 'str | None' = None,
-    save_code: 'bool | None' = None,
-    tensorboard: 'bool | None' = None,
-    sync_tensorboard: 'bool | None' = None,
-    monitor_gym: 'bool | None' = None,
-    settings: 'Settings | dict[str, Any] | None' = None,
-    anonymous: 'DoNotSet' = <object object at 0x109b16dd0>
-) → Run
+entity: 'str | None' = None,
+project: 'str | None' = None,
+dir: 'StrPath | None' = None,
+id: 'str | None' = None,
+name: 'str | None' = None,
+notes: 'str | None' = None,
+tags: 'Sequence[str] | None' = None,
+config: 'dict[str, Any] | str | None' = None,
+config_exclude_keys: 'list[str] | None' = None,
+config_include_keys: 'list[str] | None' = None,
+allow_val_change: 'bool | None' = None,
+group: 'str | None' = None,
+job_type: 'str | None' = None,
+mode: "Literal['online', 'offline', 'disabled', 'shared'] | None" = None,
+force: 'bool | None' = None,
+reinit: "bool | Literal[None, 'default', 'return_previous', 'finish_previous', 'create_new']" = None,
+resume: "bool | Literal['allow', 'never', 'must', 'auto'] | None" = None,
+resume_from: 'str | None' = None,
+fork_from: 'str | None' = None,
+save_code: 'bool | None' = None,
+tensorboard: 'bool | None' = None,
+sync_tensorboard: 'bool | None' = None,
+monitor_gym: 'bool | None' = None,
+settings: 'Settings | dict[str, Any] | None' = None,
+anonymous: 'DoNotSet' = DoNotSet
 ```
 
 W&amp;B でトラッキングし、ログするための新しい run を開始します。
 
-ML のトレーニングパイプラインでは、トレーニングスクリプトと評価スクリプトの先頭に `wandb.init()` を追加できます。すると、それぞれが W&amp;B で run としてトラッキングされます。
+ML のトレーニングパイプラインでは、トレーニングスクリプトと評価スクリプトの先頭に
+`wandb.init()` を追加できます。すると、それぞれが
+W&amp;B で run としてトラッキングされます。
 
-`wandb.init()` は、run にデータをログするための新しいバックグラウンドプロセスを起動します。また、デフォルトでデータを [https://wandb.ai](https://wandb.ai) に Sync するため、結果をリアルタイムで確認できます。データのログが完了したら、`run.finish()` を呼び出して run を終了するか、run をコンテキストマネージャーとして使用して自動的に呼び出します:
+`wandb.init()` は、run にデータをログするための新しいバックグラウンドプロセスを起動します。また、
+デフォルトでデータを [https://wandb.ai](https://wandb.ai) に Sync するため、結果を
+リアルタイムで確認できます。データのログが完了したら、`run.finish()` を呼び出して
+run を終了するか、run をコンテキストマネージャーとして使用して自動的に呼び出します:
 
-with wandb.init() as run:  ...  # ブロックの最後で run.finish() が実行されます
+with wandb.init() as run:
+...  # ブロックの最後で run.finish() が実行されます
 
 `run.finish()` を呼び出さない場合、スクリプトの終了時に run も終了します。
 
 run ID には、次の特殊文字を含めることはできません `/ \ # ? % :`
 
-**引数:**
+<div id="args">
+  ## 引数
+</div>
 
 * `entity`:  run のログ先となるユーザー名またはチーム名です。entity はあらかじめ存在している必要があるため、run のログを開始する前に、UI でアカウントまたはチームを作成しておいてください。指定しない場合、run にはデフォルトの entity が使用されます。デフォルトの entity を変更するには、Settings に移動し、&quot;Default team&quot; の下にある &quot;Default location to create new projects&quot; を更新してください。
 * `project`:  この run がログされるプロジェクト名。指定しない場合は、git ルートや現在のプログラムファイルを確認するなど、システムに基づくヒューリスティックを使用してプロジェクト名を推定します。プロジェクト名を推定できない場合、プロジェクトのデフォルト値は  `"uncategorized"` になります。
@@ -75,7 +80,8 @@ run ID には、次の特殊文字を含めることはできません `/ \ # ? 
   * `"shared"`:  (実験的な機能です) 。異なるマシン上の場合も含め、複数のプロセスが同じ run に同時にログできるようにします。この方法では、プライマリノードと 1 つ以上のワーカーノードを使用して、同じ run にデータをログします。プライマリノードでは run を初期化します。各ワーカーノードでは、プライマリノードで使用した run ID を使用して run を初期化します。
 * `force`:  スクリプトの実行に W&amp;B へのログインを必須とするかどうかを指定します。`True` の場合、ユーザーは W&amp;B にログインしている必要があり、ログインしていない場合はスクリプトは続行されません。`False` (デフォルト) の場合、ユーザーがログインしていなくてもスクリプトは続行され、その場合はオフラインモードに切り替わります。
 * `reinit`:  &quot;reinit&quot; 設定の短縮形です。run がアクティブな場合の `wandb.init()` の挙動を決定します。
-* `resume`:  指定した`id`で run を再開する際の動作を制御します。  利用可能なオプションは次のとおりです:
+* `resume`: 指定した`id`で run を再開する際の動作を制御します。
+  利用可能なオプションは次のとおりです:
   * `"allow"`: 指定した`id`のrunが存在する場合は、最後のstepから再開します。存在しない場合は、新しいrunを作成します。
   * `"never"`: 指定した`id`のrunが存在する場合は、エラーになります。該当するrunが見つからない場合は、新しいrunを作成します。
   * `"must"`: 指定した`id`のrunが存在する場合は、最後のstepから再開します。runが見つからない場合は、エラーになります。
@@ -88,21 +94,31 @@ run ID には、次の特殊文字を含めることはできません `/ \ # ? 
 * `tensorboard`:  非推奨です。代わりに `sync_tensorboard` を使用してください。
 * `sync_tensorboard`:  TensorBoard または TensorBoardX から W&amp;B のログを自動的に同期し、関連するイベントファイルを保存して W&amp;B UI で参照できるようにします。
 * `monitor_gym`:  OpenAI Gym の使用時に、環境の動画を自動的にログする機能を有効にします。
-* `settings`: 高度なrunの設定を含む辞書または `wandb.Settings` オブジェクトを指定します。 
+* `settings`: 高度なrunの設定を含む辞書または `wandb.Settings` オブジェクトを指定します。
+* `anonymous`: 
 
-**戻り値:**
+<div id="returns">
+  ## 戻り値
+</div>
+
 `Run` オブジェクト。
 
-**送出される例外:**
+<div id="raises">
+  ## 送出される例外
+</div>
 
-* `Error`:  run の初期化中に不明なエラーまたは内部エラーが発生した場合。
-* `AuthenticationError`:  ユーザーが有効な認証情報を提供できなかった場合。
-* `CommError`:  W&amp;B サーバーとの通信で問題が発生した場合。
-* `UsageError`:  ユーザーが無効な引数を指定した場合。
-* `KeyboardInterrupt`:  ユーザーが run を中断した場合。
+* `Error`: run の初期化中に不明なエラーまたは内部エラーが発生した場合。
+* `AuthenticationError`: ユーザーが有効な認証情報を提供できなかった場合。
+* `CommError`: W&amp;B サーバーとの通信で問題が発生した場合。
+* `UsageError`: ユーザーが無効な引数を指定した場合。
+* `KeyboardInterrupt`: ユーザーが run を中断した場合。
 
-**例:**
-`wandb.init()` は `Run` オブジェクトを返します。run オブジェクトを使用してデータをログし、Artifacts を保存し、run のライフサイクルを管理できます。
+<div id="examples">
+  ## 例
+</div>
+
+`wandb.init()` は `Run` オブジェクトを返します。run オブジェクトを使用してデータをログし、
+Artifacts を保存し、run のライフサイクルを管理できます。
 
 ```python
 import wandb
@@ -113,4 +129,4 @@ with wandb.init(config=config) as run:
     acc = 0.95  # 精度の例
     loss = 0.05  # 損失の例
     run.log({"accuracy": acc, "loss": loss})
-``` 
+```
