@@ -92,7 +92,7 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
   **SCIM et gestion des accès**
 
   * L’accès au Registry constitue désormais une autorisation distincte, indépendante des licences Models. Les administrateurs peuvent accorder ou révoquer l’accès d’un utilisateur au Registry à l’échelle de l’organisation sans modifier sa licence Models ni son rôle Weave. Définir `modelsSeat` sur `none` ne révoque plus l’accès au Registry lorsqu’un utilisateur ne possède pas le rôle Weave. Voir [Mettre à jour l’accès au Registry](/fr/platform/hosting/iam/scim#update-registry-access).
-  * Les administrateurs peuvent désormais désactiver la création de comptes de service d’équipe en définissant la variable d’environnement `GORILLA_DISABLE_TEAM_SERVICE_ACCOUNT_CREATION` sur `true`.
+  * Les administrateurs peuvent désormais empêcher la création de comptes de service d’équipe en définissant la variable d’environnement `GORILLA_DISABLE_TEAM_SERVICE_ACCOUNT_CREATION` sur `true`. Voir [Comptes de service à portée d’équipe](/fr/platform/hosting/iam/service-accounts#team-scoped-service-accounts).
 
   **Visibilité des équipes et de l&#39;organisation**
 
