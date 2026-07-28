@@ -3,33 +3,67 @@ title: Log summary metrics
 description: "Track and customize single summary metrics like best accuracy or minimum loss on a W&B run using run.summary."
 ---
 
-In addition to values that change over time during training, it is often important to track a single value that summarizes a model or a preprocessing step. Log this information in a W&B Run's `summary` dictionary. A Run's summary dictionary can handle numpy arrays, PyTorch tensors or TensorFlow tensors. When a value is one of these types we persist the entire tensor in a binary file and store high level metrics in the summary object, such as min, mean, variance, percentiles, and more.
+In addition to values that change over time during training, it is often important to track values that summarizes a model or a preprocessing step. Store this information in a run's `summary` attribute. A run's summary attribute can handle NumPy arrays, PyTorch tensors or TensorFlow tensors. W&B persists NumPy arrays, PyTorch tensors, and TensorFlow tensors in a binary file.
 
-The last value logged with `wandb.Run.log()` is automatically set as the summary dictionary in a W&B Run. If a summary metric dictionary is modified, the previous value is lost.
+{/* store high level metrics in the summary object, such as min, mean, variance, percentiles, and more. */}
 
+The last value logged with `wandb.Run.log()` is automatically set as the run's summary dictionary. If a summary metric dictionary is modified, the previous value is lost.
+
+Log a summary metric during an active run or after a run has completed.
+
+
+<Tabs>
+<Tab title="During a run">
 The following code snippet demonstrates how to provide a custom summary metric to W&B:
 
 ```python
 import wandb
-import argparse
+import random
 
-with wandb.init(config=args) as run:
-  best_accuracy = 0
-  for epoch in range(1, args.epochs + 1):
-      test_loss, test_accuracy = test()
-      if test_accuracy > best_accuracy:
-          run.summary["best_accuracy"] = test_accuracy
-          best_accuracy = test_accuracy
+# Project that the run is recorded to
+project = "summary-demo"
+entity = "<your-entity>" # Replace with your W&B entity name
+
+# Dictionary with hyperparameters
+config = {
+    'epochs' : 10,
+    'lr' : 0.01
+}
+
+with wandb.init(entity=entity, project=project, config=config) as run:
+    offset = random.random() / 5
+    print(f"lr: {config['lr']}")
+
+    # Simulate a training run
+    for epoch in range(2, config['epochs']):
+        acc = 1 - 2**-config['epochs'] - random.random() / config['epochs'] - offset
+        loss = 2**-config['epochs'] + random.random() / config['epochs'] + offset
+        print(f"epoch={config['epochs']}, accuracy={acc}, loss={loss}")
+        run.log({"accuracy": acc, "loss": loss})
+
+        if epoch % 5 == 0:
+            run.summary["best_accuracy"] = acc
+            run.summary["best_loss"] = loss
 ```
-
+</Tab>
+<Tab title="After a run">
 You can update the summary attribute of an existing W&B Run after training has completed. Use the [W&B Public API](/models/ref/python/public-api/) to update the summary attribute:
 
 ```python
 api = wandb.Api()
-run = api.run("username/project/run_id")
+run = api.run("entity/project/run_id")
 run.summary["tensor"] = np.random.random(1000)
 run.summary.update()
 ```
+</Tab>
+</Tabs>
+
+The following image shows what the summary metrics might look like if you copy and run the code snippet above:
+
+<Frame>
+    <img src="/images/track/summary_demo.png" alt="Run summary"  />
+</Frame>
+
 
 ## Customize summary metrics
 
@@ -82,6 +116,8 @@ View summary values in a run's **Overview** page or the project's runs table.
 3. Click the run that logged the summary values. The run page opens with the **Overview** tab shown by default.
 4. View the summary values in the **Summary** section.
 
+The following image shows what the summary metrics might look like in the **Overview** tab if you copy and run the code snippet above:
+
 <Frame>
     <img src="/images/track/customize_summary.png" alt="Run overview"  />
 </Frame>
@@ -91,10 +127,36 @@ View summary values in a run's **Overview** page or the project's runs table.
 2. Select the **Runs** tab.
 3. Within the runs table, you can view the summary values within the columns based on the name of the summary value.
 </Tab>
-<Tab title="W&B Public API">
-You can use the W&B Public API to fetch the summary values of a run. 
+<Tab title="During a run">
+
+Use `wandb.Run.summary` to access the run's summary values during a run. The `wandb.Run.summary` attribute returns a dictionary of key-value pairs.
+
+The following code snippet shows an example of how to access a run's summary values during a run. Replace `"<my-project>"` with your W&B project name:
+
+```python
+import wandb
+
+with wandb.init(project="<my-project>", config=config) as run:
+  run.log({"accuracy": 0.9, "loss": 0.1})
+
+  print(run.summary)  # prints the summary dictionary
+```
+
+</Tab>
+<Tab title="Existing runs">
+Use the W&B Public API to access summary metrics with the `wandb.Api.Run.summary` property.
 
 The following code example demonstrates one way to retrieve the summary values logged to a specific run using the W&B Public API and pandas:
+
+{/* ```python
+import wandb
+
+api = wandb.Api()
+run = api.run("<entity>/<project>/<run_id>")
+
+print(run.name)
+print(dict(run.summary))
+``` */}
 
 ```python
 import wandb
@@ -135,11 +197,142 @@ df = pd.DataFrame(all_runs)
 # Get row based on the column name (run) and convert to dictionary
 df[df['name']==run_name].summary.reset_index(drop=True).to_dict()
 ```
+
+Access summary metrics for multiple runs in a project, iterate over the runs returned by `api.runs()`:
+
+```python
+import wandb
+
+api = wandb.Api()
+runs = api.runs("<entity>/<project>")
+
+for run in runs:
+    print(f"Run name: {run.name}")
+    print(f"Run ID: {run.id}")
+    print(f"Run summary: {dict(run.summary)}")
+    print("----------")
+```
+
+The following JSON object shows an example run summary:
+
+```shell
+Run name: clean-oath-11
+Run ID: mt2dasoz
+Run summary: {'_runtime': 3, '_step': 1000, '_timestamp': 1778541534.834642, '_wandb.runtime': 3, 'train/epoch_ndx': 1000, 'train/train_loss': 0.25498124957084656}
+
+Run name: zesty-snowball-7
+Run ID: qne08r7u
+Run summary: {'_runtime': 3, '_step': 1000, '_timestamp': 1776714833.636171, '_wandb.runtime': 3, 'train/epoch_ndx': 1000, 'train/train_loss': 0.24914199113845825}
+```
+
+</Tab>
+<Tab title="Local filesystem">
+
+W&B stores run summary values in the `wandb-summary.json` file in the run directory. To read the summary values locally, open the `wandb-summary.json` file.
+
+By default, the run directory is located at `./wandb/run-<timestamp>-<run_id>`.
+
 </Tab>
 </Tabs>
 
 
 
+
+
+
+
+
+Access a run's summary in the W&B App, during a run, or from existing runs. You can also access summary values from the local filesystem.
+
+{/* <Tabs> */}
+{/* <Tab title="W&B App">
+
+View a run's summary in the W&B App:
+
+1. Navigate to your project in the W&B App.
+2. Select the run you want to view.
+3. Select the **Overview** tab.
+4. Scroll to the **Summary** section.
+
+You can also view summary values in the project's runs table. Summary values appear as columns based on the metric name.
+
+The following JSON object shows an example run summary:
+
+```json title="Summary"
+{
+  "_runtime": 0,
+  "_step": 99,
+  "_timestamp": 1773696666.303637,
+  "_wandb.runtime": 0,
+  "accuracy": 0.9448340173699504,
+  "loss": 0.0524316074042725
+}
+```
+
+</Tab> */}
+{/* <Tab title="Access summary during a run">
+
+Use `wandb.Run.summary` to access the run's summary values during a run. The `wandb.Run.summary` attribute returns a dictionary of key-value pairs.
+
+The following code snippet shows an example of how to access a run's summary values during a run. Replace `"<my-project>"` with your W&B project name:
+
+```python
+import wandb
+
+with wandb.init(project="<my-project>", config=config) as run:
+  run.log({"accuracy": 0.9, "loss": 0.1})
+
+  print(run.summary)  # prints the summary dictionary
+```
+
+</Tab> */}
+
+{/* <Tab title="Access summary from existing runs">
+
+Use the W&B Public API to access a run's summary metrics with the `wandb.Api.Run.summary` property.
+
+```python
+import wandb
+
+api = wandb.Api()
+run = api.run("<entity>/<project>/<run_id>")
+
+print(run.name)
+print(dict(run.summary))
+```
+
+To access summary metrics for multiple runs in a project, iterate over the runs returned by `api.runs()`:
+
+```python
+import wandb
+
+api = wandb.Api()
+runs = api.runs("<entity>/<project>")
+
+for run in runs:
+    print(f"Run name: {run.name}")
+    print(f"Run ID: {run.id}")
+    print(f"Run summary: {dict(run.summary)}")
+    print("----------")
+```
+
+The following JSON object shows an example run summary:
+
+```shell
+Run name: zesty-snowball-7
+Run ID: qne08r7u
+Run summary: {'_runtime': 3, '_step': 1000, '_timestamp': 1776714833.636171, '_wandb.runtime': 3, 'train/epoch_ndx': 1000, 'train/train_loss': 0.24914199113845825}
+```
+
+</Tab> */}
+{/* <Tab title="Local filesystem">
+
+W&B stores run summary values in the `wandb-summary.json` file in the run directory. To read the summary values locally, open the `wandb-summary.json` file.
+
+By default, the run directory is located at `./wandb/run-<timestamp>-<run_id>`.
+
+</Tab> */}
+{/* </Tabs> */}
 
 
 
