@@ -31,7 +31,7 @@ Then add the following flags to your VERL training command:
 - `actor_rollout_ref.rollout.mode=async`: Enables async rollout for vLLM or SGLang. Tracing has no effect on synchronous rollouts.
 - `trainer.project_name`: The project you want to log traces and metrics to. 
 - `trainer.experiment_name`: The name of your experiment.
-- `trainer.logger=['console','wandb']`: enables the wandb logger alongside Weave so metrics and traces appear in the same project.
+- `trainer.logger=['console','wandb']`: Enables the wandb logger alongside Weave so metrics and traces appear in the same project.
 
 The resulting command looks like this:
 
@@ -51,7 +51,7 @@ Weave is initialized automatically from your W&B project and experiment name. Yo
 
 By default, VERL traces every sample in every rollout, which can produce very large amounts of trace data. You can limit the volume by setting the following fields in your `ppo_trainer.yaml` configuration file:
 
-- `max_samples_per_step_per_worker`: The number of unique samples workers trace per training step.  Set to `null` (default) to trace all samples.
+- `max_samples_per_step_per_worker`: The number of unique samples workers trace per training step.  Defaults to `null` to trace all samples.
 - `token2text`: Set to `True` to add decoded `prompt_text` and `response_text` to the `ToolAgentLoop.run` output. Defaults to `False` for performance. Enable it when you want to read prompts and completions directly in the Weave UI.
 
 The resulting fields look like this in the file:
