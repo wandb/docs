@@ -66,6 +66,23 @@ run テーブル の式エディターを使用して、名、状態、[tags](#f
   <img src="/images/app_ui/filter_runs.gif" alt="タグで Runs をフィルターする" />
 </Frame>
 
+<div id="example-filter-runs-with-a-timestamp">
+  ### 例: タイムスタンプでRunsをフィルタリングする
+</div>
+
+MongoDB Query Language を使用してフィルタリングできます。
+
+次の例では、W&amp;B Public API を使用して、2つのタイムスタンプの間に作成されたRunsをフィルタリングします。
+
+```python
+runs = api.runs(
+    "<entity>/<project>",
+    {"$and": [{"created_at": {"$lt": "YYYY-MM-DDT##", "$gt": "YYYY-MM-DDT##"}}]},
+)
+```
+
+API を使用して Runs をフィルターするその他の例については、[API ガイド](/ja/models/ref/python/public-api/api#method-api-runs)を参照してください。
+
 <div id="example-combine-filters-with-and-and-or-conditions">
   ### 例: AND 条件と OR 条件を組み合わせたフィルターの作成
 </div>

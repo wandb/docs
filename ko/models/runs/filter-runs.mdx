@@ -66,6 +66,23 @@ title: run 필터링
   <img src="/images/app_ui/filter_runs.gif" alt="태그로 run 필터링" />
 </Frame>
 
+<div id="example-filter-runs-with-a-timestamp">
+  ### 예시: 타임스탬프를 사용하여 Runs 필터링
+</div>
+
+MongoDB 쿼리 언어를 사용하여 필터링할 수 있습니다.
+
+다음 예시에서는 W&amp;B Public API를 사용하여 두 타임스탬프 사이에 생성된 Runs를 필터링합니다:
+
+```python
+runs = api.runs(
+    "<entity>/<project>",
+    {"$and": [{"created_at": {"$lt": "YYYY-MM-DDT##", "$gt": "YYYY-MM-DDT##"}}]},
+)
+```
+
+API로 Runs을 필터링하는 추가 예시는 [API 가이드](/ko/models/ref/python/public-api/api#method-api-runs)를 참조하세요.
+
 <div id="example-combine-filters-with-and-and-or-conditions">
   ### 예시: AND 및 OR 조건으로 필터 조합하기
 </div>
