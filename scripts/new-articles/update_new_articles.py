@@ -3,10 +3,9 @@
 
 Finds pull requests merged into main during the lookback window, collects the
 English .mdx articles those PRs added, and inserts them into the page as
-<Card> entries grouped by month and then by product. Months from the current
-year are top-level headings; months from prior years are collapsed inside an
-<Accordion title="YYYY"> block. Month sections older than MAX_AGE_MONTHS are
-dropped on every run, so the page is a rolling six-month window.
+<Card> entries grouped by month and then by product. Month sections older
+than MAX_AGE_MONTHS are dropped on every run, so the page is a rolling
+six-month window.
 
 The script is idempotent: articles already listed on the page are skipped, so
 overlapping lookback windows never produce duplicate entries.
@@ -80,11 +79,9 @@ MONTH_NAMES = [
 ]
 
 MONTH_HEADING_RE = re.compile(
-    r"^#{2,3} (" + "|".join(MONTH_NAMES) + r") (\d{4})\s*$"
+    r"^## (" + "|".join(MONTH_NAMES) + r") (\d{4})\s*$"
 )
-PRODUCT_HEADING_RE = re.compile(r"^#{3,4} (.+?)\s*$")
-ACCORDION_OPEN_RE = re.compile(r'^<Accordion title="(\d{4})">\s*$')
-ACCORDION_CLOSE_RE = re.compile(r"^</Accordion>\s*$")
+PRODUCT_HEADING_RE = re.compile(r"^### (.+?)\s*$")
 CARD_OPEN_RE = re.compile(r'^<Card title="(.*)" href="([^"]*)"')
 CARD_CLOSE_RE = re.compile(r"</Card>\s*$")
 FRONTMATTER_FIELD_RE = re.compile(
@@ -240,9 +237,6 @@ def parse_generated_region(region):
             key = (int(heading.group(2)), MONTH_NAMES.index(heading.group(1)) + 1)
             month = sections.setdefault(key, {})
             product = None
-        elif ACCORDION_OPEN_RE.match(line) or ACCORDION_CLOSE_RE.match(line):
-            month = None
-            product = None
         elif card_open and month is not None and product is not None:
             title = card_open.group(1).replace("&quot;", '"')
             card = [title, card_open.group(2), []]
@@ -296,39 +290,23 @@ def prune_old_months(sections, now=None):
     return removed
 
 
-def render_generated_region(sections, current_year):
-    """Render sections newest-first, collapsing prior years into accordions."""
+def render_generated_region(sections):
+    """Render month sections newest-first."""
     output = []
-    keys = sorted(sections, reverse=True)
-    open_accordion_year = None
-    for year, month in keys:
+    for year, month in sorted(sections, reverse=True):
         products = sections[(year, month)]
         if not any(products.values()):
             continue
-        if year >= current_year:
-            month_level = "##"
-        else:
-            if open_accordion_year != year:
-                if open_accordion_year is not None:
-                    output.append("</Accordion>")
-                    output.append("")
-                output.append(f'<Accordion title="{year}">')
-                output.append("")
-                open_accordion_year = year
-            month_level = "###"
-        output.append(f"{month_level} {MONTH_NAMES[month - 1]} {year}")
+        output.append(f"## {MONTH_NAMES[month - 1]} {year}")
         output.append("")
         for label in sorted(products, key=product_sort_key):
             if not products[label]:
                 continue
-            output.append(f"{month_level}# {label}")
+            output.append(f"### {label}")
             output.append("")
             for title, url, description in products[label]:
                 output.extend(render_card(title, url, description))
             output.append("")
-    if open_accordion_year is not None:
-        output.append("</Accordion>")
-        output.append("")
     return "\n".join(output).strip("\n")
 
 
@@ -391,8 +369,7 @@ def main():
         print("No new articles and nothing expired; page left unchanged")
         return
 
-    current_year = datetime.now(timezone.utc).year
-    body = render_generated_region(sections, current_year)
+    body = render_generated_region(sections)
     with open(PAGE_PATH, "w", encoding="utf-8") as f:
         f.write(f"{head}{START_MARKER}\n{body}\n{END_MARKER}{tail}")
     print(f"Added {added} and expired {removed} article(s) in {PAGE_PATH}")

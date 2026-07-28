@@ -1,10 +1,10 @@
 ---
 title: New articles
-description: "A weekly log of new articles published to the W&B documentation site."
+description: "A log of new articles published to the W&B documentation site."
 date: 2026-07-23
 ---
 
-This page lists articles published to the W&B documentation site during the past six months, with the newest articles at the top. It is updated automatically every Friday, and articles older than six months are removed.
+This page lists articles published to the W&B documentation site during the past six months, with the newest articles at the top. It is updated automatically each week, and articles older than six months are removed.
 
 Within each month, articles are grouped by the part of the documentation they belong to, such as **Models**, **Weave**, or **Support**. Auto-generated reference pages and localized content are not included.
 
@@ -13,9 +13,8 @@ Within each month, articles are grouped by the part of the documentation they be
   scripts/new-articles/update_new_articles.py, which runs weekly via
   .github/workflows/new-articles.yml. Manual edits inside the markers are
   preserved as long as they keep the same structure:
-    - "## Month YYYY" headings for the current year
-    - <Accordion title="YYYY"> blocks with "### Month YYYY" headings for prior years
-    - a product heading (one level below the month) for each product with new articles
+    - a "## Month YYYY" heading per month, newest first
+    - a "### Product" heading for each product with new articles that month
     - one <Card title="..." href="/path/" arrow="true" horizontal> per article,
       with the description as the card body
 */}
