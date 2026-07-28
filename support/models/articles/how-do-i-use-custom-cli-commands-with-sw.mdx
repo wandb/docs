@@ -4,9 +4,9 @@ keywords: ["Sweeps"]
 featured: true
 ---
 
-You can use W&B Sweeps with custom CLI commands if training configuration passes command-line arguments.
+You can use W&B Sweeps with custom CLI commands if training configuration passes command-line arguments. This lets you run sweeps against existing training scripts that already expect specific CLI flags, without modifying how the script consumes its arguments.
 
-In the example below, the code snippet illustrates a bash terminal where a user trains a Python script named `train.py`, providing values that the script parses:
+The following example shows a Bash terminal that trains a Python script named `train.py` and provides values that the script parses:
 
 ```bash
 /usr/bin/env python train.py -b \
@@ -15,7 +15,7 @@ In the example below, the code snippet illustrates a bash terminal where a user 
     --lr 0.00001
 ```
 
-To implement custom commands, modify the `command` key in the YAML file. Based on the previous example, the configuration appears as follows:
+To reproduce that invocation under a sweep, modify the `command` key in the sweep configuration YAML file so the sweep agent builds the same command line. Based on the previous example, the configuration looks like this:
 
 ```yaml
 program:
@@ -37,7 +37,7 @@ command:
 
 The `${args}` key expands to all parameters in the sweep configuration, formatted for `argparse` as `--param1 value1 --param2 value2`.
 
-For additional arguments outside of `argparse`, implement the following:
+If your script accepts additional arguments outside of `argparse`, use `parse_known_args` so unrecognized flags don't cause the parser to fail:
 
 ```python
 parser = argparse.ArgumentParser()
@@ -45,7 +45,7 @@ args, unknown = parser.parse_known_args()
 ```
 
 <Note>
-Depending on the environment, `python` might refer to Python 2. To ensure invocation of Python 3, use `python3` in the command configuration:
+Depending on the environment, `python` might refer to Python 2. To invoke Python 3, use `python3` in the command configuration:
 
 ```yaml
 program:

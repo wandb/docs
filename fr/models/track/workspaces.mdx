@@ -1,7 +1,9 @@
 ---
 description: Un playground pour explorer les données de run avec des visualisations interactives
-title: Voir les résultats des Experiments
+title: Voir les résultats des expériences
 ---
+
+import { AriaChatBubbles } from '/snippets/AriaChatBubbles.jsx';
 
 Le Workspace W&amp;B est votre bac à sable personnel pour personnaliser des graphiques et explorer les résultats des modèles. Un Workspace W&amp;B se compose de *Tables* et de *sections de panneaux* :
 
@@ -40,6 +42,10 @@ Améliorez la collaboration au sein de l’équipe grâce à des vues du Workspa
 1. Accédez à un Workspace personnel ou à une vue enregistrée.
 2. Modifiez le Workspace.
 3. Cliquez sur le **menu d’actions (<Icon icon="ellipsis" iconType="solid" />)** dans le coin supérieur droit de votre Workspace. Cliquez sur **Enregistrer en tant que nouvelle vue**.
+
+Vous pouvez également demander à ARIA d’enregistrer la mise en page actuelle de votre Workspace en tant que nouvelle vue :
+
+<AriaChatBubbles prompt="Enregistre ce Workspace comme nouvelle vue nommée LR comparison afin que mon équipe puisse examiner les expériences de taux d’apprentissage." response="Je vais enregistrer la mise en page actuelle de votre Workspace, y compris les Runs visibles et la disposition des panneaux, comme nouvelle vue enregistrée nommée LR comparison." />
 
 Les nouvelles vues enregistrées apparaissent dans le menu de navigation du Workspace.
 

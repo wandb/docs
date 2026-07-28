@@ -3,43 +3,50 @@ title: "Serverless Inference でレート制限エラー（429）が発生する
 keywords: ["Inference"]
 ---
 
-同時実行制限を超えると、レート制限エラー (429) が発生します。
+このページでは、Serverless Inference が `429` のレート制限エラーを返す理由と、許可された同時実行制限内でリクエストを成功させるための対処方法について説明します。
 
-**エラー:** &quot;リクエストの同時実行制限に達しました&quot;
+レート制限エラー (`429`) は、同時実行制限を超えると発生します。
 
-**解決策:**
+**エラー:** &quot;Concurrency limit reached for requests&quot;
 
-* 並列リクエスト数を減らす
-* リクエスト間に待機時間を入れる
-* 指数バックオフを実装する
-* 注: レート制限は W&amp;B プロジェクトごとに適用されます
+**解決方法:** このエラーを解消するには、次のいずれかを実行してください。
+
+* 並列リクエスト数を減らします。
+* リクエストの間に待機時間を設けます。
+* 指数バックオフを実装します。
+
+注: レート制限は W&amp;B のプロジェクトごとに適用されます。
 
 <div id="best-practices-to-avoid-rate-limits">
   ## レート制限を回避するためのベストプラクティス
 </div>
 
-1. **指数バックオフを用いた再試行ロジックを実装する:**
-   ```python
-   import time
+次のプラクティスは、アプリケーションが同時実行制限内に収まり、制限に達した場合でも適切に回復できるようにするのに役立ちます。
 
-   def retry_with_backoff(func, max_retries=3):
-       for i in range(max_retries):
-           try:
-               return func()
-           except Exception as e:
-               if "429" in str(e) and i < max_retries - 1:
-                   time.sleep(2 ** i)
-               else:
-                   raise
-   ```
+* **指数バックオフを用いた再試行ロジックを実装する:** バックオフにより再試行の間隔が空くため、一時的な `429` 応答が次の試行前に解消されます。
+  ```python
+  import time
 
-2. **並列リクエストの代わりにバッチ処理を使用する**
+  def retry_with_backoff(func, max_retries=3):
+      for i in range(max_retries):
+          try:
+              return func()
+          except Exception as e:
+              if "429" in str(e) and i < max_retries - 1:
+                  time.sleep(2 ** i)
+              else:
+                  raise
+  ```
 
-3. **W&amp;B Billing ページで使用状況を確認する**
+* **並列リクエストの代わりにバッチ処理を使用する。**
+
+* **W&amp;B Billing ページで使用状況を確認する。**
 
 <div id="default-spending-caps">
   ## デフォルトの支出上限
 </div>
+
+アカウントには、Inference の全体的な使用量を制限するデフォルトの支出上限もあります:
 
 * **Pro アカウント:** $6,000/月
 * **Enterprise アカウント:** $700,000/年

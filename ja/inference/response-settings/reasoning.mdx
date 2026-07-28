@@ -1,11 +1,12 @@
 ---
 title: "推論情報を表示する"
 description: Serverless Inference のレスポンスで推論情報を返し、表示する方法
+keywords: ["chain-of-thought", "thinking mode", "reasoning フィールド", "推論を有効にする", "推論を無効にする"]
 ---
 
-[Google&#39;s Gemma 4](https://huggingface.co/google/gemma-4-31B-it) のような推論モデルは、最終的な回答に加えて、推論ステップに関する情報も返します。このページでは、Serverless Inference で推論対応モデルを識別する方法、レスポンス内のどこで推論出力を確認できるか、また推論の切り替えをサポートするモデルで推論のオン/オフを切り替える方法について説明します。
+[Google&#39;s Gemma 4](https://huggingface.co/google/gemma-4-31B-it) のような推論モデルは、最終的な回答に加えて、推論ステップに関する情報も返します。このページでは、Serverless Inference で推論対応モデルを識別する方法、レスポンス内のどこで推論出力を確認できるか、また推論の切り替えをサポートするモデルで推論のオン/オフを切り替える方法について説明します。このガイドを使用すると、モデルの中間的な推論内容を確認したり、レスポンスに推論を含めるかどうかを制御したりできます。
 
-モデルが推論をサポートするかどうかを判断するには、次の サポートされるモデル の表、または UI のそのカタログページにある Supported Features セクションを確認してください。
+モデルが推論をサポートするかどうかを判断するには、次の サポートされるモデル の表、または UI のそのカタログページにある **Supported Features** セクションを確認してください。
 
 推論情報は、レスポンスの `reasoning` フィールドに表示されます。推論非対応モデルのレスポンスでは、このフィールドの値は `null` です。
 
@@ -13,24 +14,35 @@ description: Serverless Inference のレスポンスで推論情報を返し、�
   ## サポートされるモデル (推論対応)
 </div>
 
-次の表は、Serverless Inference で 推論 output を返すモデルを示しています。サポートされる各モデルでは、推論 が常に含まれる場合や、既定で 推論 が無効または有効になっている場合があります。
+次の表は、推論出力を返すことができる Serverless Inference モデルと、それぞれの動作を示しています。
+
+* **常時有効:** モデルは常に推論出力を返します。これを無効にすることはできません。
+* **デフォルトで有効** / **デフォルトで無効:** 推論出力のオンとオフを切り替えられます。表には、設定を指定しない場合のデフォルト値が示されています。
+* **Adaptive; model chooses by default:** モデルがリクエストごとに、推論出力を返すかどうかを決定します。この動作は上書きできます。
 
 {/* takeru reasoning-models - この表は自動生成されるため、手動で編集しないでください。 */}
 
-| モデル ID (API 用)                                 | 推論 サポート  |
-| ---------------------------------------------- | -------- |
-| `deepseek-ai/DeepSeek-V4-Flash`                | デフォルトで無効 |
-| `google/gemma-4-31B-it`                        | デフォルトで有効 |
-| `MiniMaxAI/MiniMax-M2.5`                       | 常時有効     |
-| `moonshotai/Kimi-K2.6`                         | 常時有効     |
-| `moonshotai/Kimi-K2.5`                         | 常時有効     |
-| `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-FP8` | デフォルトで有効 |
-| `openai/gpt-oss-120b`                          | 常時有効     |
-| `openai/gpt-oss-20b`                           | 常時有効     |
-| `Qwen/Qwen3.5-35B-A3B`                         | デフォルトで有効 |
-| `Qwen/Qwen3.5-27B`                             | デフォルトで有効 |
-| `Qwen/Qwen3-235B-A22B-Thinking-2507`           | 常時有効     |
-| `zai-org/GLM-5.1`                              | デフォルトで有効 |
+| モデル ID (API 用)                                 | 推論 サポート            |
+| ---------------------------------------------- | ------------------ |
+| `deepseek-ai/DeepSeek-V4-Flash`                | デフォルトで無効           |
+| `deepseek-ai/DeepSeek-V4-Pro`                  | デフォルトで無効           |
+| `google/gemma-4-31B-it`                        | デフォルトで無効           |
+| `MiniMaxAI/MiniMax-M3`                         | 適応型; デフォルトではモデルが選択 |
+| `MiniMaxAI/MiniMax-M2.5`                       | 常時有効               |
+| `moonshotai/Kimi-K2.7-Code`                    | 常時有効               |
+| `moonshotai/Kimi-K2.6`                         | 常時有効               |
+| `moonshotai/Kimi-K2.5`                         | 常時有効               |
+| `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-FP8` | デフォルトで有効           |
+| `nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B`     | デフォルトで有効           |
+| `openai/gpt-oss-120b`                          | 常時有効               |
+| `openai/gpt-oss-20b`                           | 常時有効               |
+| `Qwen/Qwen3.6-35B-A3B`                         | デフォルトで有効           |
+| `Qwen/Qwen3.6-27B`                             | デフォルトで有効           |
+| `Qwen/Qwen3.5-35B-A3B`                         | デフォルトで有効           |
+| `Qwen/Qwen3.5-27B`                             | デフォルトで有効           |
+| `Qwen/Qwen3-235B-A22B-Thinking-2507`           | 常時有効               |
+| `zai-org/GLM-5.2`                              | デフォルトで有効           |
+| `zai-org/GLM-5.1`                              | デフォルトで有効           |
 
 <div id="models-with-always-on-reasoning">
   ### 推論が `常時有効` のモデル
@@ -42,7 +54,7 @@ description: Serverless Inference のレスポンスで推論情報を返し、�
   ### 推論を無効にする
 </div>
 
-モデルが前述の [サポートされるモデル](#supported-models) の表で `デフォルトで有効` として記載されている場合は、トークン使用量を減らしたり、応答を簡潔にしたりするために、推論を無効にできます。リクエストで推論を無効にするには、`chat_template_kwargs` で `enable_thinking` フラグを `False` (Python) または `false` (Bash) に設定します。
+モデルが前述の [サポートされるモデル](#supported-models) の表で `デフォルトで有効` として記載されている場合は、トークン使用量を減らしたり、応答を簡潔にしたりするために、推論を無効にできます。リクエストで推論を無効にするには、`chat_template_kwargs` で `enable_thinking` フラグを `False` (Python) または `false` (Bash) に設定します。リクエストが完了すると、レスポンスには推論コンテンツが含まれません。
 
 <Tabs>
   <Tab title="Python">
@@ -88,4 +100,4 @@ description: Serverless Inference のレスポンスで推論情報を返し、�
   ### 推論 を有効にする
 </div>
 
-モデルが前述の[サポートされるモデル](#supported-models)の表で`Disabled by default`と記載されている場合は、前述のコードスニペットで`enable_thinking`フラグを`True` (Python) または`true` (Bash) に設定すると、推論 を有効にできます。
+モデルが前述の[サポートされるモデル](#supported-models)の表で`デフォルトで無効`と記載されている場合は、前述のコードスニペットで`enable_thinking`フラグを`True` (Python) または`true` (Bash) に設定すると、推論 を有効にできます。

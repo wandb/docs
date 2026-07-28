@@ -5,6 +5,8 @@ description: "Tracez les pipelines Deepset Haystack avec W&B Weave à l’aide d
 
 [Haystack](https://haystack.deepset.ai/) est un framework open source pour créer des applications de recherche et basées sur des LLM. Deepset maintient un composant WeaveConnector qui transmet les traces des pipelines Haystack à W&amp;B Weave afin que vous puissiez inspecter les exécutions des composants, les prompts et les sorties dans l’interface Weave.
 
+Ce guide s’adresse aux développeurs Haystack qui souhaitent ajouter de l’observabilité à leurs pipelines.
+
 Pour obtenir des informations complètes sur l’API et des exemples supplémentaires, consultez ces ressources Deepset :
 
 * Le [WeaveConnector](https://docs.haystack.deepset.ai/docs/weaveconnector) de Haystack.
@@ -15,9 +17,9 @@ Pour obtenir des informations complètes sur l’API et des exemples supplément
   ## Prérequis
 </div>
 
-Avant de commencer :
+Avant de commencer, vous devez effectuer les opérations suivantes :
 
-* Définissez `WANDB_API_KEY` dans votre environnement à l’aide de votre [clé API W&amp;B](https://wandb.ai/settings).
+* Définissez `WANDB_API_KEY` dans votre environnement à l’aide de votre [clé API W&amp;B](https://wandb.ai/settings). Cela authentifie le connecteur auprès de W&amp;B Weave.
 * Définissez `HAYSTACK_CONTENT_TRACING_ENABLED` sur `true` avant d’exécuter un pipeline afin que Haystack émette des données de tracing que le connecteur pourra transférer.
 
 <div id="install">

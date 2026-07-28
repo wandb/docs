@@ -1,17 +1,20 @@
 ---
 title: "Introduction aux évaluations"
 description: "Découvrez comment utiliser cette introduction aux évaluations avec W&B Weave"
+keywords: ["Modèle Weave", "API d’évaluation", "fonction de score", "évaluation de LLM", "Pydantic"]
 ---
 
 <Note>
-  Il s&#39;agit d&#39;un notebook interactif. Vous pouvez l&#39;exécuter en local ou utiliser les liens ci-dessous :
+  Il s&#39;agit d&#39;un notebook interactif. Vous pouvez l&#39;exécuter en local ou utiliser les liens suivants :
 
   * [Ouvrir dans Google Colab](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/Intro_to_Weave_Hello_Eval.ipynb)
   * [Voir la source sur GitHub](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/Intro_to_Weave_Hello_Eval.ipynb)
 </Note>
 
+Ce notebook présente les évaluations W&amp;B Weave à travers un exemple minimal de bout en bout. Vous définissez un `Model` Weave, l’exécutez sur un petit jeu de données, attribuez un score aux sorties avec une fonction de score personnalisée, puis examinez les résultats dans Weave. Il s’adresse aux développeurs qui découvrent Weave et souhaitent un point de départ rapide et pratique avant d’explorer des flux de travail d’évaluation plus avancés.
+
 <div id="prerequisites">
-  ## 🔑 Prérequis
+  ## Prérequis
 </div>
 
 Avant de pouvoir exécuter une évaluation Weave, assurez-vous d’avoir effectué les prérequis suivants.
@@ -51,8 +54,10 @@ weave_client = weave.init("MY_PROJECT_NAME")  # 🐝 Le nom de votre projet W&B
 ```
 
 <div id="run-your-first-evaluation">
-  ## 🐝 Lancez votre première évaluation
+  ## Lancez votre première évaluation
 </div>
+
+Une fois votre environnement configuré, vous êtes prêt à définir et à exécuter une évaluation.
 
 L’exemple de code suivant montre comment évaluer un LLM à l’aide des API `Model` et `Evaluation` de Weave. Commencez par définir un modèle Weave en héritant de `weave.Model`, en indiquant le nom du modèle et le format du prompt, puis en assurant le suivi d’une méthode `predict` avec `@weave.op`. La méthode `predict` envoie un prompt à OpenAI et convertit la réponse en une sortie structurée à l’aide d’un schéma Pydantic (`FruitExtract`). Créez ensuite un petit jeu de données d’évaluation composé de phrases en entrée et de cibles attendues. Définissez ensuite une fonction de score personnalisée (également suivie avec `@weave.op`) qui compare la sortie du modèle au libellé cible. Enfin, encapsulez le tout dans un `weave.Evaluation`, en spécifiant votre jeu de données et vos évaluateurs, puis appelez `evaluate()` pour exécuter le pipeline d’évaluation de manière asynchrone.
 
@@ -125,9 +130,13 @@ evaluation = weave.Evaluation(
 await evaluation.evaluate(model)
 ```
 
+Une fois l’évaluation terminée, Weave journalise le modèle, le jeu de données et les scores par exemple dans votre projet afin que vous puissiez inspecter les résultats dans l’interface Weave.
+
 <div id="looking-for-more-examples">
-  ## 🚀 Vous cherchez d’autres exemples ?
+  ## Vous cherchez d’autres exemples
 </div>
 
-* Découvrez comment créer un [pipeline d’évaluation de bout en bout](/fr/weave/tutorial-eval).
-* Découvrez comment évaluer une [application RAG en la développant](/fr/weave/tutorial-rag).
+Maintenant que vous avez exécuté une évaluation de base, vous pouvez explorer des flux de travail plus avancés dans les tutoriels suivants :
+
+* Découvrez comment [créer un pipeline d’évaluation de bout en bout](/fr/weave/tutorial-eval).
+* Découvrez comment [évaluer une application RAG](/fr/weave/tutorial-rag).

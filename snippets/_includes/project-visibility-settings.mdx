@@ -1,15 +1,18 @@
-1. In the W&B App, from any page in the project, click **Overview** in the left navigation.
-1. At the top right, click **Edit**.
-1. Choose a new value for **Project visibility**:
+import ProjectVisibilityScopesTable from "/snippets/_includes/project-visibility-scopes-table.mdx";
 
-    - **Team** (default): Only your team can view and edit the project.
-    - **Restricted**: Only invited members can access the project, and public access is turned off.
-    - **Open**: Anyone can submit runs or create reports, but only your team can edit it. Appropriate only for classroom settings, public benchmark competitions, or other non-durable contexts.
-    - **Public**: Anyone can view the project, but only your team can edit it.
+1. Navigate to your W&B project.
+2. From the top of any project page, click the icon next to the project name to edit the project's visibility. The icon reflects the current visibility scope: **Open**, **Public**, **Team**, or **Restricted**. See [Visibility scopes](#visibility-scopes).
+3. From the **Project Visibility** dropdown, select the desired scope, then click **Save**.
+    
+    <ProjectVisibilityScopesTable />
+
+    <Note>
+    **Edit** allows a user to submit runs or create reports in the project.
+    </Note>
 
         <Note>
-        If your W&B admins have turned off **Public** visibility, you cannot choose it. Instead, you can share a view-only [W&B Report](/models/reports/collaborate-on-reports#share-a-report), or contact your W&B organization's admins for assistance.
+        If your W&B organization admins have turned off **Public** visibility for the organization, you cannot choose it. Instead, you can share a view-only [W&B Report](/models/reports/collaborate-on-reports#share-a-report), or contact your W&B organization's admins for assistance.
         </Note>
 1. Click **Save**.
     
-If you update a project to a more strict privacy setting, you may need to re-invite individual users to restore their ability to access the project.
+If you update a project to a stricter privacy setting, you may need to re-invite individual users to restore their access.

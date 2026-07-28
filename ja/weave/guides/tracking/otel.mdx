@@ -1,28 +1,28 @@
 ---
-title: "OpenTelemetry トレースを Weave に送信"
-description: "専用エンドポイント経由で OpenTelemetry 互換の Trace Data を取り込みます"
+title: "OpenTelemetry トレースを Weave に送信する"
+description: "専用のエンドポイントを通じて OpenTelemetry 互換のトレースデータをインポートする"
+keywords: ["OTLP", "OpenTelemetry Collector", "OpenInference", "OpenLLMetry", "スレッド"]
 ---
 
-<div id="overview">
-  ## 概要
-</div>
+Weave は、専用のエンドポイントを通じた OpenTelemetry 互換のトレースデータのインポートをサポートしています。このエンドポイントを使用すると、OTLP (OpenTelemetry Protocol) 形式のトレースデータを Weave プロジェクトに直接送信できます。既存の OTel ベースのオブザーバビリティ パイプラインを置き換えることなく、OpenTelemetry 標準でアプリケーションを計装し、それらのトレースを他の Weave データとあわせて表示したい場合に、このインテグレーションを使用します。
 
-Weave は、専用のエンドポイントを通じて OpenTelemetry 互換の Trace Data の取り込みに対応しています。このエンドポイントを使用すると、OTLP (OpenTelemetry Protocol) 形式の Trace Data を Weave のプロジェクトに直接送信できます。
+このページでは、エンドポイントの詳細、認証、Python と TypeScript によるエンドツーエンドの例、OpenTelemetry Collector を介してトレースを転送する方法、トレースを Weave スレッドに整理する方法、および Weave が受信したスパンに適用する属性マッピングについて説明します。
+
+<Note>
+  このエンドポイントは **Traces** ビューと **スレッド** ビューにデータを送ります。multi-turn agent から **Agents** ビューに OTel スパンを送信するには、代わりに agents エンドポイントを使用してください。詳細は、[OpenTelemetry スパンを Agents ビューに送信する](/ja/weave/guides/tracking/trace-agents-otel)を参照してください。
+</Note>
 
 <div id="endpoint-details">
   ## エンドポイント の詳細
 </div>
 
-**Path**: `/otel/v1/traces`
-**Method**: POST
-**Content-Type**: `application/x-protobuf`
-**Base URL**: OTelトレースエンドポイントのベースURLは、W&amp;Bのデプロイタイプによって異なります。
+* **Path**: `/otel/v1/traces`
+* **Method**: `POST`
+* **Content-Type**: `application/x-protobuf`
+* **Base URL**: OTelトレースエンドポイントのベースURLは、W&amp;Bのデプロイタイプによって異なります。
 
-* Multi-tenant Cloud:
-  `https://trace.wandb.ai/otel/v1/traces`
-
-* 専用クラウドおよびセルフマネージドのインスタンス:
-  `https://<your-subdomain>.wandb.io/traces/otel/v1/traces`
+- Multi-tenant Cloud: `https://trace.wandb.ai/otel/v1/traces`.
+- 専用クラウドおよびセルフマネージドのインスタンス: `https://<your-subdomain>.wandb.io/traces/otel/v1/traces`.
 
 `<your-subdomain>` は、組織固有のW&amp;Bドメイン (例: `acme.wandb.io`) に置き換えてください。
 
@@ -30,12 +30,16 @@ Weave は、専用のエンドポイントを通じて OpenTelemetry 互換の T
   ## 認証とルーティング
 </div>
 
-`wandb-api-key` ヘッダーに W&amp;B APIキーを渡し、続けて次のキーを `TracerProvider` クラスの OpenTelemetry リソース属性として指定します。
+Weave では、`wandb-api-key` ヘッダーを使用してリクエストを認証し、`TracerProvider` のリソース属性を使用してスパンを適切な エンティティ と project にルーティングします。`wandb-api-key` ヘッダーに W&amp;B APIキーを渡したうえで、`TracerProvider` クラスで次のキーを OpenTelemetry の Resource 属性として指定します。
 
 * `wandb.entity`: W&amp;B のチーム名またはユーザー名。
 * `wandb.project`: トレースの送信先となるプロジェクト名。
 
-次の例は、認証とプロジェクトルーティングを設定する方法を示しています。
+次の例は、認証と project ルーティングを設定する方法を示しています。
+
+<Warning>
+  以下の `WEAVE_OTLP_ENDPOINT` はローカル変数であり、OTel SDK の `OTEL_EXPORTER_OTLP_ENDPOINT` 環境変数ではありません。また、完全な traces パス (`.../otel/v1/traces`) に設定されています。これは エクスポーター の `endpoint=`/`url:` に明示的に渡されるため、SDK はその URL に対してリクエストをそのまま送信します。一方、実際の `OTEL_EXPORTER_OTLP_ENDPOINT` に値を `export` し、引数なしで エクスポーター を構築した場合 (たとえば `OTLPSpanExporter()`) 、SDK 側で `/v1/traces` が自動的に追加されます。そのため、この変数には代わりにベース URL (`.../otel`) を設定する必要があります。そうしないと、パスが重複して (`.../otel/v1/traces/v1/traces`) 、`404` が発生し、スパンが黙って破棄されます。`OTEL_EXPORTER_OTLP_TRACES_ENDPOINT` についても同様です。こちらも SDK によって `/v1/traces` は追加されないため、完全な traces パスを指定する必要があります。
+</Warning>
 
 <CodeGroup>
   ```python Python lines {7,8}
@@ -48,13 +52,13 @@ Weave は、専用のエンドポイントを通じて OpenTelemetry 互換の T
   ENTITY = "<your-team-name>"
   PROJECT = "<your-project-name>"
 
-  OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+  WEAVE_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
 
-  # https://wandb.ai/settings で APIキーを作成します
+  # APIキーは https://wandb.ai/settings で作成します
   WANDB_API_KEY = os.environ["WANDB_API_KEY"]
 
   exporter = OTLPSpanExporter(
-      endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+      endpoint=WEAVE_OTLP_ENDPOINT,
       headers={"wandb-api-key": WANDB_API_KEY},
   )
 
@@ -73,13 +77,13 @@ Weave は、専用のエンドポイントを通じて OpenTelemetry 互換の T
   const ENTITY = "<your-team-name>";
   const PROJECT = "<your-project-name>";
 
-  const OTEL_EXPORTER_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
+  const WEAVE_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
 
-  // https://wandb.ai/settings で APIキーを作成します
+  // APIキーは https://wandb.ai/settings で作成します
   const WANDB_API_KEY = process.env.WANDB_API_KEY!;
 
   const exporter = new OTLPTraceExporter({
-    url: OTEL_EXPORTER_OTLP_ENDPOINT,
+    url: WEAVE_OTLP_ENDPOINT,
     headers: { "wandb-api-key": WANDB_API_KEY },
   });
 
@@ -96,20 +100,20 @@ Weave は、専用のエンドポイントを通じて OpenTelemetry 互換の T
   ## 例
 </div>
 
-以下の例では、Python と TypeScript を使用して OpenTelemetry のトレースを Weave に送信する方法を示します。
+以下の例では、Python と TypeScript を使用して OpenTelemetry トレースを Weave に送信する方法を示します。各例では、OpenInference インストルメンテーション ライブラリを使用する方法、OpenLLMetry インストルメンテーションを使用する方法、またはインストルメンテーション パッケージを使わずに OpenTelemetry SDK を直接使用する方法という、異なるアプローチを取り上げています。
 
-以下のコードサンプルを実行する前に、次の項目を設定してください。
+以下のコード サンプルを実行する前に、次の項目を設定してください。
 
-1. `WANDB_API_KEY`: [User Settings](https://wandb.ai/settings) から取得できます。
-2. Entity: トレースをログできるのは、自分がアクセス権を持つ entity 配下のプロジェクトのみです。entity 名は、[[https://wandb.ai/home](https://wandb.ai/home)] の W&amp;B ダッシュボードにアクセスし、左サイドバーの **Teams** フィールドを確認するとわかります。
-3. Project Name: 好きな名前を付けてください。
-4. `OPENAI_API_KEY`: [OpenAI ダッシュボード](https://platform.openai.com/api-keys) から取得できます。
+* `WANDB_API_KEY`: これは [User Settings](https://wandb.ai/settings) から取得できます。
+* Entity: トレースをログできるのは、アクセス権のあるチーム / エンティティ配下の project のみです。エンティティ名を確認するには、[W&amp;B ダッシュボード](https://wandb.ai/home) にアクセスし、左サイドバーの **Teams** フィールドを確認してください。
+* Project name: プロジェクト名を選択してください。
+* `OPENAI_API_KEY`: これは [OpenAI dashboard](https://platform.openai.com/api-keys) から取得できます。
 
 <div id="openinference-instrumentation">
   ### OpenInference インストルメンテーション
 </div>
 
-この例では、OpenAI インストルメンテーションの使い方を示します。利用可能なものはほかにも多数あり、[公式リポジトリ](https://github.com/Arize-ai/openinference)で確認できます。
+[OpenInference](https://github.com/Arize-ai/openinference)は、LLM Call を OpenTelemetry のスパンとして取得する、Arize AI のオープンソースのインストルメンテーションライブラリです。この例では、OpenAI インストルメンテーションの使い方を示します。利用可能なものはほかにも多数あり、[公式リポジトリ](https://github.com/Arize-ai/openinference)で確認できます。
 
 まず、必要な依存関係をインストールします。
 
@@ -149,13 +153,13 @@ Weave は、専用のエンドポイントを通じて OpenTelemetry 互換の T
     ENTITY = "<your-team-name>"
     PROJECT = "<your-project-name>"
 
-    OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+    WEAVE_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
 
     # https://wandb.ai/settings でAPIキーを作成してください
     WANDB_API_KEY = os.environ["WANDB_API_KEY"]
 
     exporter = OTLPSpanExporter(
-        endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+        endpoint=WEAVE_OTLP_ENDPOINT,
         headers={"wandb-api-key": WANDB_API_KEY},
     )
 
@@ -217,13 +221,13 @@ Weave は、専用のエンドポイントを通じて OpenTelemetry 互換の T
     const ENTITY = "<your-team-name>";
     const PROJECT = "<your-project-name>";
 
-    const OTEL_EXPORTER_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
+    const WEAVE_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
 
     // https://wandb.ai/settings で APIキーを作成してください
     const WANDB_API_KEY = process.env.WANDB_API_KEY!;
 
     const exporter = new OTLPTraceExporter({
-      url: OTEL_EXPORTER_OTLP_ENDPOINT,
+      url: WEAVE_OTLP_ENDPOINT,
       headers: { "wandb-api-key": WANDB_API_KEY },
     });
 
@@ -286,7 +290,7 @@ Weave は、専用のエンドポイントを通じて OpenTelemetry 互換の T
   ### OpenLLMetry インストルメンテーション
 </div>
 
-次の例は、OpenAI インストルメンテーションの使い方を示しています。その他の例は [OpenLLMetry repository](https://github.com/traceloop/openllmetry) で確認できます。
+[OpenLLMetry](https://github.com/traceloop/openllmetry) は、Traceloop が提供するオープンソースのオブザーバビリティ ライブラリであり、一般的な LLM プロバイダやフレームワーク向けの OpenTelemetry インストルメンテーションを提供します。次の例は、OpenAI インストルメンテーションの使い方を示しています。その他の例は [OpenLLMetry repository](https://github.com/traceloop/openllmetry) で確認できます。
 
 まず、必要な依存関係をインストールします。
 
@@ -322,13 +326,13 @@ Weave は、専用のエンドポイントを通じて OpenTelemetry 互換の T
     ENTITY = "<your-team-name>"
     PROJECT = "<your-project-name>"
 
-    OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+    WEAVE_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
 
     # https://wandb.ai/settings でAPIキーを作成してください
     WANDB_API_KEY = os.environ["WANDB_API_KEY"]
 
     exporter = OTLPSpanExporter(
-        endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+        endpoint=WEAVE_OTLP_ENDPOINT,
         headers={"wandb-api-key": WANDB_API_KEY},
     )
 
@@ -384,13 +388,13 @@ Weave は、専用のエンドポイントを通じて OpenTelemetry 互換の T
     const ENTITY = "<your-team-name>";
     const PROJECT = "<your-project-name>";
 
-    const OTEL_EXPORTER_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
+    const WEAVE_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
 
     // https://wandb.ai/settings でAPIキーを作成してください
     const WANDB_API_KEY = process.env.WANDB_API_KEY!;
 
     const exporter = new OTLPTraceExporter({
-      url: OTEL_EXPORTER_OTLP_ENDPOINT,
+      url: WEAVE_OTLP_ENDPOINT,
       headers: { "wandb-api-key": WANDB_API_KEY },
     });
 
@@ -446,7 +450,7 @@ Weave は、専用のエンドポイントを通じて OpenTelemetry 互換の T
     })();
     ```
 
-    次のコードを実行します:
+    コードを実行します。
 
     ```bash
     npx ts-node openllmetry_example.ts
@@ -458,7 +462,7 @@ Weave は、専用のエンドポイントを通じて OpenTelemetry 互換の T
   ### インストルメンテーションを使用しない場合
 </div>
 
-インストルメンテーションパッケージの代わりに OTel を直接使用することもできます。span 属性は、[https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/) で説明されている OpenTelemetry のセマンティック規約に従って解析されます。
+インストルメンテーションパッケージの代わりに OTel を直接使用することもできます。この方法では、各 span に設定する属性を完全に制御できます。Weave は、[https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/) で説明されている OpenTelemetry のセマンティック規約に従って span 属性を解析します。
 
 まず、必要な依存関係をインストールします。
 
@@ -495,14 +499,14 @@ Weave は、専用のエンドポイントを通じて OpenTelemetry 互換の T
     ENTITY = "<your-team-name>"
     PROJECT = "<your-project-name>"
 
-    OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+    WEAVE_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
 
     # https://wandb.ai/settings でAPIキーを作成してください
     WANDB_API_KEY = os.environ["WANDB_API_KEY"]
 
     # OTLPエクスポーターを設定する
     exporter = OTLPSpanExporter(
-        endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+        endpoint=WEAVE_OTLP_ENDPOINT,
         headers={"wandb-api-key": WANDB_API_KEY},
     )
 
@@ -567,13 +571,13 @@ Weave は、専用のエンドポイントを通じて OpenTelemetry 互換の T
     const ENTITY = "<your-team-name>";
     const PROJECT = "<your-project-name>";
 
-    const OTEL_EXPORTER_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
+    const WEAVE_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
 
     // https://wandb.ai/settings でAPIキーを作成してください
     const WANDB_API_KEY = process.env.WANDB_API_KEY!;
 
     const exporter = new OTLPTraceExporter({
-      url: OTEL_EXPORTER_OTLP_ENDPOINT,
+      url: WEAVE_OTLP_ENDPOINT,
       headers: { "wandb-api-key": WANDB_API_KEY },
     });
 
@@ -634,7 +638,7 @@ Weave は、専用のエンドポイントを通じて OpenTelemetry 互換の T
     myFunction();
     ```
 
-    次のコードを実行します:
+    コードを実行します。
 
     ```bash
     npx ts-node opentelemetry_example.ts
@@ -642,19 +646,19 @@ Weave は、専用のエンドポイントを通じて OpenTelemetry 互換の T
   </Tab>
 </Tabs>
 
-トレースの解釈時にどの規約を使用するかは、span 属性のプレフィックス `gen_ai` と `openinference` を使って判断されます。どちらのキーも検出されない場合は、すべての span 属性が Trace view に表示されます。トレースを選択すると、サイドパネルで span 全体を確認できます。
+Weave は、トレースの解釈時にどの規約を適用するかを判断するために、スパン属性のプレフィックス `gen_ai` と `openinference` を使用します。どちらのキーも検出されない場合は、すべての スパン属性が Trace view に表示されます。トレースを選択すると、サイドパネルで スパン全体を確認できます。
 
 <div id="use-an-opentelemetry-collector">
   ## OpenTelemetry Collector を使用する
 </div>
 
-上記の例では、トレースをアプリケーションから Weave に直接エクスポートしています。本番環境では、アプリケーションと Weave の間の中継役として [OpenTelemetry Collector](https://opentelemetry.io/docs/collector/) を使用できます。この collector はアプリからトレースを受信し、その後 1 つ以上のバックエンドに転送します。
+上記の例では、トレースをアプリケーションから Weave に直接エクスポートしています。本番環境では、アプリケーションと Weave の間の中継役として [OpenTelemetry Collector](https://opentelemetry.io/docs/collector/) を使用できます。この collector はアプリからトレースを受信し、その後 1 つ以上のバックエンドに転送します。このパターンでは、認証、バッチ処理、ルーティングのロジックをアプリケーションコードの外部に集約でき、単一のパイプラインから複数の オブザーバビリティ バックエンドへトレースを振り分けて送信できます。
 
 <div id="set-up-a-collector">
   ### collector を設定する
 </div>
 
-次の例では、以下の方法を示します。
+このセクションでは、Docker でローカルの OpenTelemetry Collector を実行し、アプリケーションがそこにトレースを送信するよう設定する手順を説明します。次の例では、以下の方法を示します。
 
 * OTLP トレースを受信し、バッチ処理して Weave に転送するローカルサーバー (collector) をデプロイする Docker の設定ファイルを設定する。
 * Docker を使用して、collector をローカルで実行する。
@@ -792,24 +796,24 @@ collector が起動したら、`OTEL_EXPORTER_OTLP_ENDPOINT` 環境変数を設�
   ```
 </CodeGroup>
 
-`OpenAIInstrumentor` は OpenAI の呼び出しを自動的にラップし、トレースを作成して collector にエクスポートします。collector は認証と Weave へのルーティングを処理します。
+`OpenAIInstrumentor` は OpenAI の Call をラップし、トレースを作成して collector にエクスポートします。collector は認証と Weave へのルーティングを処理します。
 
 スクリプトの実行後、Weave UI で[トレースを表示](/ja/weave/guides/tracking/trace-tree)できます。
 
-トレースを追加のバックエンドに送信するには、exporter を追加し、それらを `service.pipelines.traces.exporters` リストに含めます。たとえば、同じ Collector インスタンスから Weave と Jaeger の両方にエクスポートできます。
+トレースを追加のバックエンドに送信するには、エクスポーターを追加し、それらを `service.pipelines.traces.exporters` リストに含めます。たとえば、同じ Collector インスタンスから Weave と Jaeger の両方にエクスポートできます。
 
 <div id="organize-otel-traces-into-threads">
   ## OTel トレースをスレッドに整理する
 </div>
 
-特定の span 属性を追加して OpenTelemetry トレースを [Weave threads](/ja/weave/guides/tracking/threads) に整理すると、Weave の Thread UI を使って、複数ターンの会話やユーザーセッションなどの関連する操作を分析できます。
+[Weave threads](/ja/weave/guides/tracking/threads) を使用すると、関連するトレースをグループ化して、複数ターンの会話やユーザーセッションを 1 つの単位として分析できます。特定のスパン属性を追加して OpenTelemetry トレースをスレッドに整理すると、Weave の Thread UI を使って、複数ターンの会話やユーザーセッションなどの関連する操作を分析できます。
 
-スレッドのグループ化を有効にするには、OTel span に次の属性を追加します。
+スレッドのグループ化を有効にするには、OTel スパンに次の属性を追加します。
 
-* `wandb.thread_id`: span を特定のスレッドにグループ化します
-* `wandb.is_turn`: span を会話のターンとしてマークします (スレッドビューでは行として表示されます)
+* `wandb.thread_id`: スパンを特定のスレッドにグループ化します。
+* `wandb.is_turn`: スパンを会話のターンとしてマークします (スレッドビューでは行として表示されます) 。
 
-以下の例は、OTel トレースを Weave スレッドに整理する方法を示しています。`wandb.thread_id` を使用して関連する操作をグループ化し、`wandb.is_turn` を使用してスレッドビューで行として表示される上位レベルの操作をマークします。
+以下の例は、OTel トレースを Weave スレッドに整理する方法を示しています。`wandb.thread_id` を使用して関連する操作をグループ化し、`wandb.is_turn` を使用してスレッドビューで行として表示される高レベルの操作をマークします。
 
 <Accordion title="初期設定">
   これらの例を実行するには、この設定を使用します。
@@ -830,10 +834,10 @@ collector が起動したら、`OTEL_EXPORTER_OTLP_ENDPOINT` 環境変数を設�
       PROJECT = "<your-project-name>"
       WANDB_API_KEY = os.environ["WANDB_API_KEY"]
 
-      OTEL_EXPORTER_OTLP_ENDPOINT = "https://trace.wandb.ai/otel/v1/traces"
+      WEAVE_OTLP_ENDPOINT = "https://trace.wandb.ai/otel/v1/traces"
 
       exporter = OTLPSpanExporter(
-          endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+          endpoint=WEAVE_OTLP_ENDPOINT,
           headers={"wandb-api-key": WANDB_API_KEY},
       )
 
@@ -848,7 +852,7 @@ collector が起動したら、`OTEL_EXPORTER_OTLP_ENDPOINT` 環境変数を設�
 
       trace.set_tracer_provider(tracer_provider)
 
-      # グローバル tracer provider から tracer を作成します
+      # グローバル トレーサープロバイダーから tracer を作成します
       tracer = trace.get_tracer(__name__)
       ```
     </Tab>
@@ -876,14 +880,14 @@ collector が起動したら、`OTEL_EXPORTER_OTLP_ENDPOINT` 環境変数を設�
       }
 
       // OTel の設定
-      const OTEL_EXPORTER_OTLP_ENDPOINT = "https://trace.wandb.ai/otel/v1/traces";
+      const WEAVE_OTLP_ENDPOINT = "https://trace.wandb.ai/otel/v1/traces";
 
       const exporter = new OTLPTraceExporter({
-        url: OTEL_EXPORTER_OTLP_ENDPOINT,
+        url: WEAVE_OTLP_ENDPOINT,
         headers: { "wandb-api-key": WANDB_API_KEY },
       });
 
-      // span processor を指定して tracer provider を初期化します
+      // span processor を指定してトレーサープロバイダーを初期化します
       const provider = new NodeTracerProvider({
         resource: new Resource({
           "wandb.entity": ENTITY,
@@ -895,10 +899,10 @@ collector が起動したら、`OTEL_EXPORTER_OTLP_ENDPOINT` 環境変数を設�
         ],
       });
 
-      // tracer provider を登録します
+      // トレーサープロバイダーを登録します
       provider.register();
 
-      // グローバル tracer provider から tracer を作成します
+      // グローバル トレーサープロバイダーから tracer を作成します
       const tracer = trace.getTracer("threads-examples");
       ```
     </Tab>
@@ -946,7 +950,8 @@ collector が起動したら、`OTEL_EXPORTER_OTLP_ENDPOINT` 環境変数を設�
     </Tab>
 
     <Tab title="TypeScript">
-      ```typescript lines
+      ```typescript twoslash lines
+      // @noErrors
       function example_1_basic_thread_and_turn() {
         console.log("\n=== Example 1: Basic Thread and Turn ===");
 
@@ -991,7 +996,7 @@ collector が起動したら、`OTEL_EXPORTER_OTLP_ENDPOINT` 環境変数を設�
   </Tabs>
 </Accordion>
 
-<Accordion title="同じスレッド ID を共有する複数ターンの会話をトレースする">
+<Accordion title="同じ thread ID を共有する複数ターンの会話をトレースする">
   <Tabs>
     <Tab title="Python">
       ```python lines
@@ -1040,7 +1045,8 @@ collector が起動したら、`OTEL_EXPORTER_OTLP_ENDPOINT` 環境変数を設�
     </Tab>
 
     <Tab title="TypeScript">
-      ```typescript lines
+      ```typescript twoslash lines
+      // @noErrors
       function example_2_multiple_turns() {
         console.log("\n=== Example 2: Multiple Turns in Thread ===");
 
@@ -1149,7 +1155,8 @@ collector が起動したら、`OTEL_EXPORTER_OTLP_ENDPOINT` 環境変数を設�
     </Tab>
 
     <Tab title="TypeScript">
-      ```typescript lines
+      ```typescript twoslash lines
+      // @noErrors
       function example_3_complex_nested_structure() {
         console.log("\n=== Example 3: Complex Nested Structure ===");
 
@@ -1248,7 +1255,8 @@ collector が起動したら、`OTEL_EXPORTER_OTLP_ENDPOINT` 環境変数を設�
     </Tab>
 
     <Tab title="TypeScript">
-      ```typescript lines
+      ```typescript twoslash lines
+      // @noErrors
       function example_4_non_turn_operations() {
         console.log("\n=== Example 4: Non-Turn Thread Operations ===");
 
@@ -1285,87 +1293,93 @@ collector が起動したら、`OTEL_EXPORTER_OTLP_ENDPOINT` 環境変数を設�
   </Tabs>
 </Accordion>
 
-これらのトレースを送信すると、Weave UI の **Threads** タブで確認できます。`thread_id` ごとにグループ化され、各ターンは個別の行として表示されます。
+これらのトレースを送信すると、Weave UI の **スレッド** タブで確認できます。`thread_id` ごとにグループ化され、各ターンは個別の行として表示されます。
 
 <div id="attribute-mappings">
   ## 属性マッピング
 </div>
 
-Weave は、さまざまなインストルメンテーション フレームワークの OpenTelemetry span 属性を内部データモデルに自動的にマッピングします。複数の属性名が同じフィールドに対応する場合、Weave は優先順位に従ってそれらを適用するため、同じトレース内で複数のフレームワークを共存させることができます。
+Weave は、さまざまなインストルメンテーション フレームワークの OpenTelemetry span 属性を内部データモデルにマッピングします。このマッピングにより、Weave で豊富なビューを得るために既存のインストルメンテーションの属性名を変更したり変換したりする必要はありません。複数の属性名が同じフィールドに対応する場合、Weave は優先順位に従ってそれらを適用するため、同じトレース内で複数のフレームワークを共存させることができます。
 
 <div id="supported-frameworks">
   ### 対応フレームワーク
 </div>
 
-Weave は、以下の可観測性フレームワークおよび SDK の属性規約に対応しています。
+Weave は、以下のオブザーバビリティフレームワークおよび SDK の属性規約に対応しています。
 
-* **OpenTelemetry GenAI**: 生成 AI 向けの標準セマンティック規約 (`gen_ai.*`)
-* **OpenInference**: Arize AI のインストルメンテーションライブラリ (`input.value`, `output.value`, `llm.*`, `openinference.*`)
-* **Vercel AI SDK**: Vercel の AI SDK 属性 (`ai.prompt`, `ai.response`, `ai.model.*`, `ai.usage.*`)
-* **MLflow**: MLflow のトラッキング属性 (`mlflow.spanInputs`, `mlflow.spanOutputs`)
-* **Traceloop**: OpenLLMetry のインストルメンテーション (`traceloop.entity.*`, `traceloop.span.kind`)
-* **Google Vertex AI**: Vertex AI のエージェント属性 (`gcp.vertex.agent.*`)
-* **OpenLit**: OpenLit の可観測性属性 (`gen_ai.content.completion`)
-* **Langfuse**: Langfuse のトレース属性 (`langfuse.startTime`, `langfuse.endTime`)
+* **OpenTelemetry GenAI**: 生成 AI 向けの標準セマンティック規約 (`gen_ai.*`)。
+* **OpenInference**: Arize AI のインストルメンテーションライブラリ (`input.value`, `output.value`, `llm.*`, `openinference.*`)。
+* **Vercel AI SDK**: Vercel の AI SDK 属性 (`ai.prompt`, `ai.response`, `ai.model.*`, `ai.usage.*`)。
+* **MLflow**: MLflow のトラッキング属性 (`mlflow.spanInputs`, `mlflow.spanOutputs`)。
+* **Traceloop**: OpenLLMetry のインストルメンテーション (`traceloop.entity.*`, `traceloop.span.kind`)。
+* **Google Vertex AI**: Vertex AI のエージェント属性 (`gcp.vertex.agent.*`)。
+* **OpenLit**: OpenLit のオブザーバビリティ属性 (`gen_ai.content.completion`)。
+* **Logfire / Pydantic AI**: Logfire の Pydantic AI 向けインストルメンテーション (`gen_ai.input.messages`, `gen_ai.output.messages`, `pydantic_ai.all_messages`, `final_result`)。
+* **Langfuse**: Langfuse のトレース属性 (`langfuse.startTime`, `langfuse.endTime`)。
 
 <div id="attribute-reference">
   ### 属性のリファレンス
 </div>
 
-| 属性フィールド名                          | W&amp;B マッピング                 | 説明                        | タイプ                        | 例                                              |
-| :-------------------------------- | :---------------------------- | :------------------------ | :------------------------- | :--------------------------------------------- |
-| `ai.prompt`                       | `inputs`                      | ユーザーのプロンプトのテキストまたはメッセージ。  | 文字列、list、dict              | `"夏について短い俳句を書いて。"`                             |
-| `gen_ai.prompt`                   | `inputs`                      | AIモデルへのプロンプト、またはメッセージの配列。 | list、dict、文字列              | `[{"role":"user","content":"abc"}]`            |
-| `input.value`                     | `inputs`                      | モデル呼び出し時の入力値。             | 文字列、list、dict              | `{"text":"ジョークを言って"}`                          |
-| `mlflow.spanInputs`               | `inputs`                      | スパンの入力データ。                | 文字列、list、dict              | `["プロンプトテキスト"]`                                |
-| `traceloop.entity.input`          | `inputs`                      | entityの入力データ。             | String、list、dict           | `"これをフランス語に翻訳して"`                              |
-| `gcp.vertex.agent.tool_call_args` | `inputs`                      | ツールcallの引数。               | dict                       | `{"args":{"query":"weather in SF"}}`           |
-| `gcp.vertex.agent.llm_request`    | `inputs`                      | LLMリクエストのペイロード。           | Dict                       | `{"contents":[{"role":"user","parts":[...]}]}` |
-| `input`                           | `inputs`                      | 汎用的な入力値。                  | String, list, dict         | `"このテキストを要約して"`                                |
-| `inputs`                          | `inputs`                      | 汎用的な入力配列。                 | List, dict, string         | `["このテキストを要約してください"]`                          |
-| `ai.response`                     | `outputs`                     | モデルの応答テキストまたはデータ。         | String、list、dict           | `"俳句をどうぞ..."`                                  |
-| `gen_ai.completion`               | `outputs`                     | AIの補完結果。                  | String、list、dict           | `"補完テキスト"`                                     |
-| `output.value`                    | `outputs`                     | モデルの出力値。                  | String、list、dict           | `{"text":"回答テキスト"}`                            |
-| `mlflow.spanOutputs`              | `outputs`                     | スパンの出力データ。                | String、list、dict           | `["answer"]`                                   |
-| `gen_ai.content.completion`       | `outputs`                     | コンテンツ補完の結果。               | String                     | `"回答テキスト"`                                     |
-| `traceloop.entity.output`         | `outputs`                     | entityの出力データ。             | String、list、dict           | `"回答テキスト"`                                     |
-| `gcp.vertex.agent.tool_response`  | `outputs`                     | ツール実行のレスポンス。              | dict、文字列                   | `{"toolResponse":"ok"}`                        |
-| `gcp.vertex.agent.llm_response`   | `outputs`                     | LLMのレスポンスペイロード。           | dict、文字列                   | `{"candidates":[...]}`                         |
-| `output`                          | `outputs`                     | 汎用的な出力値。                  | 文字列、list、dict              | `"回答テキスト"`                                     |
-| `outputs`                         | `outputs`                     | 汎用的な出力配列。                 | list、dict、string           | `["回答テキスト"]`                                   |
-| `gen_ai.usage.input_tokens`       | `usage.input_tokens`          | 消費された入力トークン数。             | Int                        | `42`                                           |
-| `gen_ai.usage.prompt_tokens`      | `usage.prompt_tokens`         | 消費されたプロンプトトークン数。          | Int                        | `30`                                           |
-| `llm.token_count.prompt`          | `usage.prompt_tokens`         | プロンプトのトークン数。              | Int                        | `30`                                           |
-| `ai.usage.promptTokens`           | `usage.prompt_tokens`         | 消費されたプロンプトトークン数。          | Int                        | `30`                                           |
-| `gen_ai.usage.completion_tokens`  | `usage.completion_tokens`     | 生成された補完トークン数。             | Int                        | `40`                                           |
-| `llm.token_count.completion`      | `usage.completion_tokens`     | 補完トークン数。                  | Int                        | `40`                                           |
-| `ai.usage.completionTokens`       | `usage.completion_tokens`     | 生成された補完トークン数。             | Int                        | `40`                                           |
-| `llm.usage.total_tokens`          | `usage.total_tokens`          | リクエストで使用されたトークンの合計数。      | Int                        | `70`                                           |
-| `llm.token_count.total`           | `usage.total_tokens`          | トークンの総数。                  | Int                        | `70`                                           |
-| `gen_ai.system`                   | `attributes.system`           | system prompt または指示。      | String                     | `"あなたは役に立つアシスタントです。"`                          |
-| `llm.system`                      | `attributes.system`           | system prompt または指示。      | String                     | `"あなたは役立つアシスタントです。"`                           |
-| `weave.span.kind`                 | `attributes.kind`             | Span のタイプまたはカテゴリ。         | String                     | `"llm"`                                        |
-| `traceloop.span.kind`             | `attributes.kind`             | スパンのタイプまたはカテゴリ。           | 文字列                        | `"llm"`                                        |
-| `openinference.span.kind`         | `attributes.kind`             | スパンのタイプまたはカテゴリ。           | 文字列                        | `"llm"`                                        |
-| `gen_ai.response.model`           | `attributes.model`            | モデル識別子。                   | 文字列                        | `"gpt-4o"`                                     |
-| `llm.model_name`                  | `attributes.model`            | モデル識別子。                   | 文字列                        | `"gpt-4o-mini"`                                |
-| `ai.model.id`                     | `attributes.model`            | モデル識別子。                   | 文字列                        | `"gpt-4o"`                                     |
-| `llm.provider`                    | `attributes.provider`         | モデルプロバイダ名。                | 文字列                        | `"openai"`                                     |
-| `ai.model.provider`               | `attributes.provider`         | モデルプロバイダ名。                | 文字列                        | `"openai"`                                     |
-| `gen_ai.request`                  | `attributes.model_parameters` | モデル生成のパラメーター。             | dict                       | `{"temperature":0.7,"max_tokens":256}`         |
-| `llm.invocation_parameters`       | `attributes.model_parameters` | モデル呼び出し時のパラメーター。          | dict                       | `{"temperature":0.2}`                          |
-| `wandb.display_name`              | `display_name`                | UI 用のカスタム表示名。             | 文字列                        | `"ユーザーメッセージ"`                                  |
-| `gcp.vertex.agent.session_id`     | `thread_id`                   | セッションまたはスレッドの識別子。         | 文字列                        | `"thread_123"`                                 |
-| `wandb.thread_id`                 | `thread_id`                   | 会話のスレッド識別子。               | 文字列                        | `"thread_123"`                                 |
-| `wb_run_id`                       | `wb_run_id`                   | 関連する W&amp;B run の識別子。    | 文字列                        | `"abc123"`                                     |
-| `wandb.wb_run_id`                 | `wb_run_id`                   | 関連付けられた W&amp;B run の識別子。 | 文字列                        | `"abc123"`                                     |
-| `gcp.vertex.agent.session_id`     | `is_turn`                     | スパンが会話のターンであることを示します。     | ブール値                       | `true`                                         |
-| `wandb.is_turn`                   | `is_turn`                     | スパンが会話のターンであることを示します。     | 真偽値                        | `true`                                         |
-| `langfuse.startTime`              | `start_time` (上書き)            | スパンの開始タイムスタンプを上書きします。     | タイムスタンプ (ISO8601/Unix ns)  | `"2024-01-01T12:00:00Z"`                       |
-| `langfuse.endTime`                | `end_time` (上書き)              | スパンの終了タイムスタンプを上書きします。     | タイムスタンプ (ISO8601/Unix ns)  | `"2024-01-01T12:00:01Z"`                       |
+| 属性フィールド名                          | W&amp;B マッピング                 | 説明                                      | タイプ                       | 例                                              |
+| :-------------------------------- | :---------------------------- | :-------------------------------------- | :------------------------ | :--------------------------------------------- |
+| `ai.prompt`                       | `inputs`                      | ユーザーのプロンプトのテキストまたはメッセージ。                | 文字列、list、dict             | `"夏について短い俳句を書いて。"`                             |
+| `gen_ai.prompt`                   | `inputs`                      | AIモデルへのプロンプト、またはメッセージの配列。               | list、dict、文字列             | `[{"role":"user","content":"abc"}]`            |
+| `input.value`                     | `inputs`                      | モデル呼び出し時の入力値。                           | 文字列、list、dict             | `{"text":"ジョークを言って"}`                          |
+| `mlflow.spanInputs`               | `inputs`                      | スパンの入力データ。                              | 文字列、list、dict             | `["プロンプトテキスト"]`                                |
+| `gen_ai.input.messages`           | `inputs`                      | Logfire によって出力された入力メッセージ。               | List, dict, string        | `[{"role":"user","parts":[...]}]`              |
+| `pydantic_ai.all_messages`        | `inputs`                      | Pydantic AI エージェントの run に含まれるすべてのメッセージ。 | List                      | `[{"role":"user","content":"abc"}]`            |
+| `traceloop.entity.input`          | `inputs`                      | entityの入力データ。                           | String、list、dict          | `"これをフランス語に翻訳して"`                              |
+| `gcp.vertex.agent.tool_call_args` | `inputs`                      | ツールcallの引数。                             | dict                      | `{"args":{"query":"weather in SF"}}`           |
+| `gcp.vertex.agent.llm_request`    | `inputs`                      | LLMリクエストのペイロード。                         | Dict                      | `{"contents":[{"role":"user","parts":[...]}]}` |
+| `input`                           | `inputs`                      | 汎用的な入力値。                                | String, list, dict        | `"このテキストを要約して"`                                |
+| `inputs`                          | `inputs`                      | 汎用的な入力配列。                               | List, dict, string        | `["このテキストを要約してください"]`                          |
+| `ai.response`                     | `outputs`                     | モデルの応答テキストまたはデータ。                       | String、list、dict          | `"俳句をどうぞ..."`                                  |
+| `gen_ai.completion`               | `outputs`                     | AIの補完結果。                                | String、list、dict          | `"補完テキスト"`                                     |
+| `output.value`                    | `outputs`                     | モデルの出力値。                                | String、list、dict          | `{"text":"回答テキスト"}`                            |
+| `gen_ai.output.messages`          | `outputs`                     | Logfire によって出力された出力メッセージ。               | List, dict, string        | `[{"role":"assistant","parts":[...]}]`         |
+| `mlflow.spanOutputs`              | `outputs`                     | スパンの出力データ。                              | String、list、dict          | `["answer"]`                                   |
+| `final_result`                    | `outputs`                     | Pydantic AI エージェントの run の最終出力。          | String, dict              | `"Answer text"`                                |
+| `gen_ai.content.completion`       | `outputs`                     | コンテンツ補完の結果。                             | String                    | `"回答テキスト"`                                     |
+| `traceloop.entity.output`         | `outputs`                     | entityの出力データ。                           | String、list、dict          | `"回答テキスト"`                                     |
+| `gcp.vertex.agent.tool_response`  | `outputs`                     | ツール実行のレスポンス。                            | dict、文字列                  | `{"toolResponse":"ok"}`                        |
+| `gcp.vertex.agent.llm_response`   | `outputs`                     | LLMのレスポンスペイロード。                         | dict、文字列                  | `{"candidates":[...]}`                         |
+| `output`                          | `outputs`                     | 汎用的な出力値。                                | 文字列、list、dict             | `"回答テキスト"`                                     |
+| `outputs`                         | `outputs`                     | 汎用的な出力配列。                               | list、dict、string          | `["回答テキスト"]`                                   |
+| `gen_ai.usage.input_tokens`       | `usage.input_tokens`          | 消費された入力トークン数。                           | Int                       | `42`                                           |
+| `gen_ai.usage.prompt_tokens`      | `usage.prompt_tokens`         | 消費されたプロンプトトークン数。                        | Int                       | `30`                                           |
+| `llm.token_count.prompt`          | `usage.prompt_tokens`         | プロンプトのトークン数。                            | Int                       | `30`                                           |
+| `ai.usage.promptTokens`           | `usage.prompt_tokens`         | 消費されたプロンプトトークン数。                        | Int                       | `30`                                           |
+| `gen_ai.usage.completion_tokens`  | `usage.completion_tokens`     | 生成された補完トークン数。                           | Int                       | `40`                                           |
+| `llm.token_count.completion`      | `usage.completion_tokens`     | 補完トークン数。                                | Int                       | `40`                                           |
+| `ai.usage.completionTokens`       | `usage.completion_tokens`     | 生成された補完トークン数。                           | Int                       | `40`                                           |
+| `llm.usage.total_tokens`          | `usage.total_tokens`          | リクエストで使用されたトークンの合計数。                    | Int                       | `70`                                           |
+| `llm.token_count.total`           | `usage.total_tokens`          | トークンの総数。                                | Int                       | `70`                                           |
+| `gen_ai.system`                   | `attributes.system`           | system prompt または指示。                    | String                    | `"あなたは役に立つアシスタントです。"`                          |
+| `llm.system`                      | `attributes.system`           | system prompt または指示。                    | String                    | `"あなたは役立つアシスタントです。"`                           |
+| `gen_ai.system_instructions`      | `attributes.system`           | system prompt または指示。                    | String                    | `"あなたは役に立つアシスタントです。"`                          |
+| `weave.span.kind`                 | `attributes.kind`             | Span のタイプまたはカテゴリ。                       | String                    | `"llm"`                                        |
+| `traceloop.span.kind`             | `attributes.kind`             | スパンのタイプまたはカテゴリ。                         | 文字列                       | `"llm"`                                        |
+| `openinference.span.kind`         | `attributes.kind`             | スパンのタイプまたはカテゴリ。                         | 文字列                       | `"llm"`                                        |
+| `gen_ai.response.model`           | `attributes.model`            | モデル識別子。                                 | 文字列                       | `"gpt-4o"`                                     |
+| `llm.model_name`                  | `attributes.model`            | モデル識別子。                                 | 文字列                       | `"gpt-4o-mini"`                                |
+| `ai.model.id`                     | `attributes.model`            | モデル識別子。                                 | 文字列                       | `"gpt-4o"`                                     |
+| `llm.provider`                    | `attributes.provider`         | モデルプロバイダ名。                              | 文字列                       | `"openai"`                                     |
+| `ai.model.provider`               | `attributes.provider`         | モデルプロバイダ名。                              | 文字列                       | `"openai"`                                     |
+| `gen_ai.request`                  | `attributes.model_parameters` | モデル生成のパラメーター。                           | dict                      | `{"temperature":0.7,"max_tokens":256}`         |
+| `llm.invocation_parameters`       | `attributes.model_parameters` | モデル呼び出し時のパラメーター。                        | dict                      | `{"temperature":0.2}`                          |
+| `wandb.display_name`              | `display_name`                | UI 用のカスタム表示名。                           | 文字列                       | `"ユーザーメッセージ"`                                  |
+| `gcp.vertex.agent.session_id`     | `thread_id`                   | セッションまたはスレッドの識別子。                       | 文字列                       | `"thread_123"`                                 |
+| `wandb.thread_id`                 | `thread_id`                   | 会話のスレッド識別子。                             | 文字列                       | `"thread_123"`                                 |
+| `wb_run_id`                       | `wb_run_id`                   | 関連する W&amp;B run の識別子。                  | 文字列                       | `"abc123"`                                     |
+| `wandb.wb_run_id`                 | `wb_run_id`                   | 関連付けられた W&amp;B run の識別子。               | 文字列                       | `"abc123"`                                     |
+| `gcp.vertex.agent.session_id`     | `is_turn`                     | スパンが会話のターンであることを示します。                   | ブール値                      | `true`                                         |
+| `wandb.is_turn`                   | `is_turn`                     | スパンが会話のターンであることを示します。                   | 真偽値                       | `true`                                         |
+| `langfuse.startTime`              | `start_time` (上書き)            | スパンの開始タイムスタンプを上書きします。                   | タイムスタンプ (ISO8601/Unix ns) | `"2024-01-01T12:00:00Z"`                       |
+| `langfuse.endTime`                | `end_time` (上書き)              | スパンの終了タイムスタンプを上書きします。                   | タイムスタンプ (ISO8601/Unix ns) | `"2024-01-01T12:00:01Z"`                       |
 
 <div id="limitations">
   ## 制限事項
 </div>
 
-* Weave UI では、Chat view で OTel trace の tool calls をレンダリングできません。代わりに、生の JSON として表示されます。
+Weave UI では、Chat view で OTel trace の tool calls をレンダリングできません。代わりに、生の JSON として表示されます。

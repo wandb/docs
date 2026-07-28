@@ -3,7 +3,7 @@ title: "How do I find an artifact from the best run in a sweep?"
 keywords: ["Artifacts"]
 ---
 
-To retrieve artifacts from the best performing run in a sweep, use the following code:
+To retrieve artifacts from the best-performing run in a sweep, use the following code. It sorts the sweep's runs by validation accuracy, selects the top run, and downloads each artifact that run logged.
 
 ```python
 api = wandb.Api()
@@ -14,6 +14,8 @@ for artifact in best_run.logged_artifacts():
     artifact_path = artifact.download()
     print(artifact_path)
 ```
+
+Each artifact downloads to a local path, which the script prints to the console.
 
 ---
 

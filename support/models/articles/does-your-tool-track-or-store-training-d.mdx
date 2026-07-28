@@ -3,7 +3,7 @@ title: "Does your tool track or store training data?"
 keywords: ["Experiments"]
 ---
 
-Pass a SHA or unique identifier to `wandb.Run.config.update(...)` to associate a dataset with a training run. W&B stores no data unless `wandb.Run.save()` is called with the local file name.
+To associate a dataset with a training run, pass a SHA or unique identifier to `wandb.Run.config.update(...)`. W&B stores no data unless you call `wandb.Run.save()` with the local filename.
 
 ---
 

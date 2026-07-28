@@ -1,107 +1,112 @@
 ---
 title: 'Tutoriel : Configurer W&B Launch sur Vertex AI'
-description: "Configurez W&B Launch sur Google Cloud Vertex AI à l’aide de spécifications CustomJob et d’Artifact Registry pour les charges de travail ML."
+description: "Configurer W&B Launch sur Google Cloud Vertex AI à l’aide de spécifications CustomJob et d’Artifact Registry pour les charges de travail de machine learning."
+keywords: ["entraînement Vertex AI", "CustomJob", "lancement Google Cloud", "lancement GCP", "Artifact Registry"]
 ---
 
-Vous pouvez utiliser W&amp;B Launch pour soumettre des jobs à exécuter en tant que tâches d’entraînement Vertex AI. Avec les tâches d’entraînement Vertex AI, vous pouvez entraîner des modèles de machine learning à l’aide d’algorithmes fournis ou personnalisés sur la plateforme Vertex AI. Une fois un job Launch démarré, Vertex AI gère l’infrastructure sous-jacente, la mise à l’échelle et l’orchestration.
+Ce tutoriel vous guide dans la configuration de W&amp;B Launch pour soumettre des jobs exécutés en tant que tâches d’entraînement Vertex AI, afin de déporter les charges de travail d’entraînement vers l’infrastructure gérée de Google Cloud. Avec les tâches d’entraînement Vertex AI, vous pouvez entraîner des modèles de machine learning à l’aide d’algorithmes fournis ou personnalisés sur la plateforme Vertex AI. Une fois un job Launch démarré, Vertex AI gère l’infrastructure sous-jacente, la mise à l’échelle et l’orchestration. Ce guide s’adresse aux ingénieurs ML et aux administrateurs de plateforme qui utilisent déjà W&amp;B Launch et souhaitent exécuter des jobs sur Google Cloud Vertex AI.
 
-W&amp;B Launch fonctionne avec Vertex AI via la classe `CustomJob` du SDK `google-cloud-aiplatform`. Les paramètres d’un `CustomJob` peuvent être définis via la configuration de la file d’attente Launch. Vertex AI ne peut pas être configuré pour récupérer des images depuis un registre privé situé hors de Google Cloud. Cela signifie que vous devez stocker les images de conteneur dans Google Cloud ou dans un registre public si vous souhaitez utiliser Vertex AI avec W&amp;B Launch. Voir la documentation de Vertex AI pour plus d’informations sur la façon de rendre les images de conteneur accessibles aux jobs Vertex.
+W&amp;B Launch fonctionne avec Vertex AI via la classe `CustomJob` du SDK `google-cloud-aiplatform`. Vous pouvez contrôler les paramètres d’un `CustomJob` à l’aide de la configuration de la file d’attente Launch. Vous ne pouvez pas configurer Vertex AI pour récupérer des images depuis un registre privé situé hors de Google Cloud. Cela signifie que vous devez stocker les images de conteneur dans Google Cloud ou dans un registre public si vous souhaitez utiliser Vertex AI avec W&amp;B Launch. Voir la documentation Vertex AI pour plus d’informations sur la façon de rendre les images de conteneur accessibles aux jobs Vertex.
 
 {/* Schéma des composants de Launch sur Vertex AI */}
-
 
 <div id="prerequisites">
   ## Prérequis
 </div>
 
-1. **Créez un projet Google Cloud, ou accédez à un projet Google Cloud, avec l’API Vertex AI activée.** Voir la [documentation de la console des API Google Cloud](https://support.google.com/googleapi/answer/6158841?hl=en) pour plus d’informations sur l’activation d’une API.
-2. **Créez un dépôt Google Cloud Artifact Registry** pour stocker les images que vous souhaitez exécuter sur Vertex. Voir la [documentation Google Cloud Artifact Registry](https://cloud.google.com/artifact-registry/docs/overview) pour plus d’informations.
-3. **Créez un bucket GCS de staging** pour que Vertex AI y stocke ses métadonnées. Notez que ce bucket doit se trouver dans la même région que vos charges de travail Vertex AI pour pouvoir être utilisé comme bucket de staging. Le même bucket peut être utilisé pour les contextes de staging et de build.
-4. **Créez un compte de service** avec les autorisations nécessaires pour lancer des jobs Vertex AI. Voir la [documentation Google Cloud IAM](https://cloud.google.com/iam/docs/creating-managing-service-accounts) pour plus d’informations sur l’attribution des autorisations aux comptes de service.
-5. **Accordez à votre compte de service l’autorisation de gérer les jobs Vertex**
+Avant de configurer une file d’attente Launch, assurez-vous que les ressources Google Cloud et les autorisations suivantes sont en place :
 
-| Autorisation                   | Portée de la ressource       | Description                                                                                       |
-| ------------------------------ | ---------------------------- | ------------------------------------------------------------------------------------------------- |
-| `aiplatform.customJobs.create` | Projet Google Cloud spécifié | Permet de créer de nouveaux jobs de machine learning dans le projet.                              |
-| `aiplatform.customJobs.list`   | Projet Google Cloud spécifié | Permet de lister les jobs de machine learning dans le projet.                                     |
-| `aiplatform.customJobs.get`    | Projet Google Cloud spécifié | Permet de récupérer des informations sur des jobs de machine learning spécifiques dans le projet. |
+1. **Créez ou accédez à un projet Google Cloud avec l’API Vertex AI activée.** Voir la [documentation Google Cloud API Console](https://support.google.com/googleapi/answer/6158841?hl=en) pour plus d’informations sur l’activation d’une API.
+2. **Créez un dépôt Google Cloud Artifact Registry** pour stocker les images que vous souhaitez exécuter sur Vertex. Voir la [documentation Google Cloud Artifact Registry](https://cloud.google.com/artifact-registry/docs/overview) pour plus d’informations.
+3. **Créez un bucket GCS de staging** pour que Vertex AI y stocke ses métadonnées. Ce bucket doit se trouver dans la même région que vos charges de travail Vertex AI afin de servir de bucket de staging. Vous pouvez utiliser le même bucket pour le staging et les contextes de build.
+4. **Créez un compte de service** avec les autorisations nécessaires pour lancer des jobs Vertex AI. Voir la [documentation Google Cloud IAM](https://cloud.google.com/iam/docs/creating-managing-service-accounts) pour plus d’informations sur l’attribution d’autorisations aux comptes de service.
+5. **Accordez à votre compte de service l’autorisation de gérer les jobs Vertex**, comme indiqué dans le tableau suivant :
+
+| Autorisation                   | Portée de la ressource       | Description                                                                                            |
+| ------------------------------ | ---------------------------- | ------------------------------------------------------------------------------------------------------ |
+| `aiplatform.customJobs.create` | Projet Google Cloud spécifié | Vous permet de créer de nouveaux jobs de machine learning dans le projet.                              |
+| `aiplatform.customJobs.list`   | Projet Google Cloud spécifié | Vous permet de lister les jobs de machine learning dans le projet.                                     |
+| `aiplatform.customJobs.get`    | Projet Google Cloud spécifié | Vous permet de récupérer des informations sur des jobs de machine learning spécifiques dans le projet. |
 
 <Note>
-  Si vous souhaitez que vos charges de travail Vertex AI s’exécutent avec l’identité d’un compte de service non standard, référez-vous à la documentation Vertex AI pour obtenir des instructions sur la création de comptes de service et les autorisations nécessaires. Le champ `spec.service_account` de la configuration de la file d’attente Launch peut être utilisé pour sélectionner un compte de service personnalisé pour vos runs W&amp;B.
+  Si vous souhaitez que vos charges de travail Vertex AI utilisent l’identité d’un compte de service non standard, reportez-vous à la documentation Vertex AI pour obtenir des instructions sur la création des comptes de service et les autorisations nécessaires. Utilisez le champ `spec.service_account` de la configuration de la file d’attente Launch pour sélectionner un compte de service personnalisé pour vos runs W&amp;B.
 </Note>
 
 <div id="configure-a-queue-for-vertex-ai">
   ## Configurer une file d&#39;attente pour Vertex AI
 </div>
 
-La configuration de la file d&#39;attente pour les ressources Vertex AI définit les arguments passés au constructeur `CustomJob` dans le SDK Python Vertex AI, ainsi qu&#39;à la méthode `run` de `CustomJob`. Les configurations de ressources sont stockées sous les clés `spec` et `run` :
+Une fois vos prérequis Google Cloud en place, l&#39;étape suivante consiste à planifier la configuration de la file d&#39;attente que W&amp;B Launch utilise pour soumettre des jobs Vertex AI. La configuration de la file d&#39;attente pour les ressources Vertex AI définit les arguments passés au constructeur `CustomJob` dans le SDK Python Vertex AI, ainsi qu&#39;à la méthode `run` de `CustomJob`. Les configurations de ressources sont stockées sous les clés `spec` et `run` :
 
 * La clé `spec` contient les valeurs des arguments nommés du [constructeur `CustomJob`](https://cloud.google.com/vertex-ai/docs/pipelines/customjob-component) dans le SDK Python Vertex AI.
 * La clé `run` contient les valeurs des arguments nommés de la méthode `run` de la classe `CustomJob` dans le SDK Python Vertex AI.
 
-La personnalisation de l&#39;environnement d&#39;exécution se fait principalement dans la liste `spec.worker_pool_specs`. Une spécification de pool de workers définit un groupe de workers qui exécuteront votre job. La spécification de worker de la configuration par défaut demande une seule machine `n1-standard-4` sans accélérateur. Vous pouvez modifier le type de machine, le type d&#39;accélérateur et le nombre d&#39;accélérateurs selon vos besoins.
+La personnalisation de l&#39;environnement d&#39;exécution se fait dans la liste `spec.worker_pool_specs`. Une spécification de pool de workers définit un groupe de workers qui exécutent votre job. La spécification de worker de la configuration par défaut demande une seule machine `n1-standard-4` sans accélérateur. Vous pouvez modifier le type de machine, le type d&#39;accélérateur et le nombre d&#39;accélérateurs selon vos besoins.
 
-Pour plus d&#39;informations sur les types de machines et d&#39;accélérateurs disponibles, voir la [Vertex AI documentation](https://cloud.google.com/vertex-ai/docs/reference/rest/v1/MachineSpec).
+Pour plus d&#39;informations sur les types de machines et d&#39;accélérateurs disponibles, voir la [documentation Vertex AI](https://cloud.google.com/vertex-ai/docs/reference/rest/v1/MachineSpec).
 
 <div id="create-a-queue">
-  ## Créer une file d&#39;attente
+  ## Créer une file d’attente
 </div>
 
-Créez une file d&#39;attente dans l’application W&amp;B en utilisant Vertex AI comme ressource de calcul :
+Maintenant que vous avez défini la configuration de votre file d’attente, créez une file d’attente dans la W&amp;B App qui utilise Vertex AI comme ressource de calcul :
 
-1. Accédez à la [page Launch](https://wandb.ai/launch).
-2. Cliquez sur le bouton **Créer une file d’attente**.
-3. Sélectionnez l’**Entité** dans laquelle vous souhaitez créer la file d&#39;attente.
-4. Saisissez un nom pour votre file d&#39;attente dans le champ **Nom**.
-5. Sélectionnez **Google Cloud Vertex AI** comme **Ressource**.
-6. Dans le champ **Configuration**, indiquez les informations relatives au `CustomJob` Vertex AI que vous avez défini dans la section précédente. Par défaut, W&amp;B préremplit un corps de requête YAML et JSON similaire à celui-ci :
+1. Accédez à la [page Launch](https://wandb.ai/launch).
 
-```yaml
-spec:
-  worker_pool_specs:
-    - machine_spec:
-        machine_type: n1-standard-4
-        accelerator_type: ACCELERATOR_TYPE_UNSPECIFIED
-        accelerator_count: 0
-      replica_count: 1
-      container_spec:
-        image_uri: ${image_uri}
-  staging_bucket: <REQUIRED>
-run:
-  restart_job_on_worker_restart: false
-```
+2. Cliquez sur le bouton **Create Queue**.
 
-7. Après avoir configuré votre file d’attente, cliquez sur le bouton **Créer une file d’attente**.
+3. Sélectionnez l’**Entity** dans laquelle vous souhaitez créer la file d’attente.
 
-Vous devez au minimum spécifier :
+4. Saisissez un nom pour votre file d’attente dans le champ **Name**.
 
-* `spec.worker_pool_specs` : liste non vide de spécifications de pool de workers.
-* `spec.staging_bucket` : bucket GCS utilisé pour le staging des assets et des métadonnées Vertex AI.
+5. Sélectionnez **Google Cloud Vertex AI** comme **Resource**.
+
+6. Dans le champ **Configuration**, fournissez des informations sur le `CustomJob` Vertex AI que vous avez défini dans [Configurer une file d’attente pour Vertex AI](#configure-a-queue-for-vertex-ai). Par défaut, W&amp;B renseigne un corps de requête YAML et JSON semblable à celui-ci :
+
+   ```yaml
+   spec:
+     worker_pool_specs:
+       - machine_spec:
+           machine_type: n1-standard-4
+           accelerator_type: ACCELERATOR_TYPE_UNSPECIFIED
+           accelerator_count: 0
+         replica_count: 1
+         container_spec:
+           image_uri: ${image_uri}
+     staging_bucket: [STAGING-BUCKET]
+   run:
+     restart_job_on_worker_restart: false
+   ```
+
+7. Une fois votre file d’attente configurée, cliquez sur le bouton **Create Queue**.
+
+Au minimum, vous devez spécifier les champs suivants :
+
+* `spec.worker_pool_specs` : liste non vide de spécifications de pools de workers.
+* `spec.staging_bucket` : bucket GCS utilisé pour le stockage intermédiaire des ressources et des métadonnées Vertex AI.
 
 <Warning>
-  Certains documents de la documentation Vertex AI présentent des spécifications de pool de workers dont toutes les clés sont en camel case, par exemple `workerPoolSpecs`. Le SDK Python de Vertex AI utilise le snake case pour ces clés, par exemple `worker_pool_specs`.
+  Certaines sections de la documentation Vertex AI montrent des spécifications de pools de workers avec toutes les clés en camel case, par exemple `workerPoolSpecs`. Le SDK Python Vertex AI utilise le snake case pour ces clés, par exemple `worker_pool_specs`.
 
-  Chaque clé de la configuration de la file d’attente Launch doit être en snake case.
+  Chaque clé de la configuration de la file d’attente Launch doit utiliser le snake case.
 </Warning>
-
 
 <div id="configure-a-launch-agent">
   ## Configurer un agent Launch
 </div>
 
-L’agent Launch se configure à l’aide d’un fichier de configuration situé, par défaut, à l’emplacement `~/.config/wandb/launch-config.yaml`.
+Une fois la file d’attente créée, configurez un agent Launch pour interroger la file d’attente et envoyer des jobs vers Vertex AI. L’agent Launch se configure à l’aide d’un fichier de configuration situé, par défaut, à l’emplacement `~/.config/wandb/launch-config.yaml`.
 
 ```yaml
-max_jobs: <n-concurrent-jobs>
+max_jobs: [N-CONCURRENT-JOBS]
 queues:
-  - <queue-name>
+  - [QUEUE-NAME]
 ```
 
 Si vous souhaitez que l’agent Launch crée pour vous des images exécutées dans Vertex AI, voir [Configuration avancée de l’agent](./setup-agent-advanced).
-
 
 <div id="set-up-agent-permissions">
   ## Configurer les autorisations de l&#39;agent
 </div>
 
-Il existe plusieurs méthodes pour vous authentifier à l&#39;aide de ce compte de service. Vous pouvez le faire via Workload Identity, un fichier JSON de compte de service téléchargé, des variables d&#39;environnement, l&#39;outil en ligne de commande Google Cloud Platform, ou une combinaison de ces méthodes.
+Enfin, donnez à l&#39;agent Launch les identifiants dont il a besoin pour agir comme le compte de service que vous avez créé lors des prérequis. Il existe plusieurs méthodes pour vous authentifier à l&#39;aide de ce compte de service. Vous pouvez le faire via Workload Identity, un fichier JSON de compte de service téléchargé, des variables d&#39;environnement, l&#39;outil en ligne de commande Google Cloud Platform, ou une combinaison de ces méthodes.

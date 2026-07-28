@@ -3,13 +3,13 @@ title: "ペアワイズ評価とは何ですか？また、どうすればよい
 keywords: ["評価"]
 ---
 
-Weaveの[評価](/ja/weave/guides/core-types/evaluations)でモデルを[スコアリング](/ja/weave/guides/evaluation/scorers)する際、絶対値のメトリクス (例: Model A が `9/10`、Model B が `8/10`) は、相対的なメトリクス (例: Model A のほうが Model B より優れている) よりも、一般に付与しにくい傾向があります。*ペアワイズ評価*では、2つのモデルの出力を相対的に順位付けすることで比較できます。この手法は、テキスト生成、要約、質問応答のような主観的なタスクで、どのモデルの性能がより高いかを判断したい場合に特に有用です。ペアワイズ評価を使用すると、特定の入力に対してどのモデルが最適かを明らかにする、相対的な選好順位を得られます。
+Weave の[評価](/ja/weave/guides/core-types/evaluations)でモデルを[スコア](/ja/weave/guides/evaluation/scorers)付けする場合、絶対値のメトリクス (たとえば、Model A が `9/10`、Model B が `8/10`) は、相対的なメトリクス (たとえば、Model A のほうが Model B より優れている) よりも、通常は付与しにくくなります。*ペアワイズ評価* を使用すると、2 つのモデルの出力を相対的に順位付けして比較できます。この手法は、テキスト生成、要約、質問応答のような主観的なタスクで、どのモデルの性能が優れているかを判断したい場合に役立ちます。ペアワイズ評価では、特定の入力に対してどのモデルが最適かを示す、相対的な選好順位を取得できます。
 
 <Warning>
-  この手法は暫定的な回避策であり、今後のバージョンで変更される可能性があります。現在、ペアワイズ評価をサポートするための、より堅牢なAPIを積極的に開発しています。今後の更新をお待ちください。
+  この方法は回避策であり、今後のリリースで変更される可能性があります。ペアワイズ評価をサポートする、より堅牢な API を提供する予定です。
 </Warning>
 
-次のコードサンプルは、`PreferenceScorer` という[クラスベースのスコアラー](/ja/weave/guides/evaluation/scorers#class-based-scorers)を作成して、Weaveでペアワイズ評価を実装する方法を示しています。`PreferenceScorer` は `ModelA` と `ModelB` の2つのモデルを比較し、入力テキスト内の明示的なヒントに基づいて、モデル出力の相対スコアを返します。
+次のコードサンプルは、`PreferenceScorer` という [class-based scorer](/ja/weave/guides/evaluation/scorers#class-based-scorers) を作成して、Weave でペアワイズ評価を実装する方法を示しています。`PreferenceScorer` は 2 つのモデル `ModelA` と `ModelB` を比較し、入力テキスト内の明示的なヒントに基づいて、モデル出力の相対スコアを返します。
 
 ```python lines
 from weave import Model, Evaluation, Scorer, Dataset
@@ -32,11 +32,11 @@ class ModelB(Model):
 class PreferenceScorer(Scorer):
     @weave.op
     async def _get_other_model_output(self, example: dict) -> Any:
-        """比較のために他のモデルの出力を取得する。
+        """Get output from the other model for comparison.
         Args:
-            example: 他のモデルに渡す入力サンプルデータ
+            example: The input example data to run through the other model
         Returns:
-            他のモデルからの出力
+            The output from the other model
         """
 
         other_model_result = await apply_model_async(
@@ -52,34 +52,34 @@ class PreferenceScorer(Scorer):
 
     @weave.op
     async def score(self, output: dict, input_text: str) -> dict:
-        """プライマリモデルの出力を他のモデルと比較する。
+        """Compare the output of the primary model with the other model.
         Args:
-            output (dict): プライマリモデルからの出力。
-            input_text (str): 出力の生成に使用した入力テキスト。
+            output (dict): The output from the primary model.
+            input_text (str): The input text used to generate the outputs.
         Returns:
-            dict: 比較結果と理由を含むフラットな辞書。
+            dict: A flat dictionary containing the comparison result and reason.
         """
         other_output = await self._get_other_model_output(
             {"input_text": input_text}
         )
         if other_output is None:
-            return {"primary_is_better": False, "reason": "他のモデルが失敗しました"}
+            return {"primary_is_better": False, "reason": "Other model failed"}
 
         if "Prefer model A" in input_text:
             primary_is_better = True
-            reason = "Model A が優れた回答を返しました"
+            reason = "Model A gave a great answer"
         else:
             primary_is_better = False
-            reason = "この種の質問には Model B が適しています"
+            reason = "Model B is preferred for this type of question"
 
         return {"primary_is_better": primary_is_better, "reason": reason}
 
 dataset = Dataset(
     rows=[
-        {"input_text": "Prefer model A: Question 1"},  # Model A が勝利
-        {"input_text": "Prefer model A: Question 2"},  # Model A が勝利
-        {"input_text": "Prefer model B: Question 3"},  # Model B が勝利
-        {"input_text": "Prefer model B: Question 4"},  # Model B が勝利
+        {"input_text": "Prefer model A: Question 1"},  # Model A が優勢
+        {"input_text": "Prefer model A: Question 2"},  # Model A が優勢
+        {"input_text": "Prefer model B: Question 3"},  # Model B が優勢
+        {"input_text": "Prefer model B: Question 4"},  # Model B が優勢
     ]
 )
 
@@ -90,9 +90,11 @@ evaluation = Evaluation(dataset=dataset, scorers=[pref_scorer])
 evaluation.evaluate(model_a)
 ```
 
+この評価を実行すると、`PreferenceScorer` の結果に基づく `ModelA` と `ModelB` の相対的な選好順位が得られます。
+
 ***
 
-{/* AUTO-GENERATED: tab badges */}
+{/* AUTO-GENERATED: タブ バッジ */}
 
 <Badge stroke shape="pill" color="orange" size="md">[評価](/ja/support/weave/tags/evaluation)</Badge>
 

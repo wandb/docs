@@ -1,25 +1,26 @@
 ---
 title: 'Tutoriel : Configurer W&B Launch avec Docker'
-description: "Configurez W&B Launch pour exécuter des jobs de ML à l’aide de Docker sur une machine locale, à la fois comme environnement de l’agent et comme cible de calcul."
+description: "Configurez W&B Launch pour exécuter des jobs de ML avec Docker sur une machine locale, à la fois comme environnement d’agent et comme cible de calcul."
+keywords: ["file d’attente Docker", "Docker local", "agent Docker", "lancement sur machine locale"]
 ---
 
-Le guide suivant explique comment configurer W&amp;B Launch pour utiliser Docker sur une machine locale, à la fois comme environnement de l’agent Launch et comme ressource cible de la file d’attente.
+Ce tutoriel explique comment configurer W&amp;B Launch pour utiliser Docker sur une machine locale, à la fois comme environnement de l’agent Launch et comme ressource cible de la file d’attente. À la fin, vous disposerez d’une file d’attente Launch basée sur Docker, opérationnelle, ainsi que d’un agent Launch local prêt à exécuter des jobs de ML.
 
-Utiliser Docker pour exécuter des jobs et comme environnement de l’agent Launch sur une même machine locale est particulièrement utile si votre infrastructure de calcul est installée sur une machine qui ne dispose pas d’un système de gestion de cluster (comme Kubernetes).
-
-Vous pouvez également utiliser des files d’attente Docker pour exécuter des charges de travail sur de puissantes stations de travail.
+Utiliser Docker pour exécuter des jobs et comme environnement de l’agent Launch sur une même machine locale est utile si vos ressources de calcul se trouvent sur une machine qui ne dispose pas d’un système de gestion de cluster (comme Kubernetes). Vous pouvez également utiliser des files d’attente Docker pour exécuter des charges de travail sur des postes de travail.
 
 <Note>
-  Cette configuration est courante pour les utilisateurs qui effectuent des expériences sur leur machine locale, ou qui disposent d’une machine distante à laquelle ils se connectent en SSH pour soumettre des jobs Launch.
+  Cette configuration est courante pour les utilisateurs qui exécutent des expériences sur leur machine locale ou qui se connectent en SSH à une machine distante pour soumettre des jobs Launch.
 </Note>
 
-Lorsque vous utilisez Docker avec W&amp;B Launch, W&amp;B commence par créer une image, puis crée et exécute un conteneur à partir de cette image. L’image est créée à l’aide de la commande Docker `docker run <image-uri>`. La configuration de la file d’attente est interprétée comme des arguments supplémentaires transmis à la commande `docker run`.
+Lorsque vous utilisez Docker avec Launch, W&amp;B construit d’abord une image, puis crée et exécute un conteneur à partir de cette image. W&amp;B construit l’image à l’aide de la commande Docker `docker run [IMAGE-URI]`. W&amp;B interprète la configuration de la file d’attente comme des arguments supplémentaires transmis à la commande `docker run`.
 
-{/* À l’avenir : insérer un schéma */}
+{/* À venir : insérer un schéma */}
 
 <div id="configure-a-docker-queue">
   ## Configurer une file d’attente Docker
 </div>
+
+Une configuration de file d’attente pour une ressource cible Docker définit la manière dont Launch traduit les options de la file d’attente en une commande `docker run`.
 
 La configuration de la file d’attente Launch (pour une ressource cible Docker) accepte les mêmes options que celles définies dans la commande CLI [`docker run`](/fr/models/ref/cli/wandb-docker-run).
 
@@ -27,8 +28,8 @@ L’agent reçoit les options définies dans la configuration de la file d’att
 
 Deux transformations de syntaxe ont lieu :
 
-1. Les options répétées sont définies dans la configuration de la file d’attente sous forme de liste.
-2. Les options de type indicateur sont définies dans la configuration de la file d’attente sous forme de booléens avec la valeur `true`.
+* Définissez les options répétées dans la configuration de la file d’attente sous forme de liste.
+* Définissez les options de type indicateur dans la configuration de la file d’attente sous forme d’un booléen avec la valeur `true`.
 
 Par exemple, la configuration de file d’attente suivante :
 
@@ -48,15 +49,15 @@ docker run \
   --env MY_ENV_VAR=value \
   --env MY_EXISTING_ENV_VAR \
   --volume "/mnt/datasets:/mnt/datasets" \
-  --rm <image-uri> \
+  --rm [IMAGE-URI] \
   --gpus all
 ```
 
-Les volumes peuvent être spécifiés soit sous forme de liste de chaînes, soit sous forme d’une chaîne unique. Utilisez une liste si vous spécifiez plusieurs volumes.
+Spécifiez les volumes soit sous forme de liste de chaînes, soit sous forme d’une chaîne unique. Utilisez une liste si vous spécifiez plusieurs volumes.
 
-Docker transmet automatiquement depuis l’environnement de l’agent Launch les variables d’environnement auxquelles aucune valeur n’est attribuée. Cela signifie que, si l’agent Launch possède une variable d’environnement `MY_EXISTING_ENV_VAR`, cette variable d’environnement sera disponible dans le conteneur. Cela est utile si vous souhaitez utiliser d’autres clés de configuration sans les publier dans la configuration de la file d’attente.
+Docker transmet depuis l’environnement de l’agent Launch les variables d’environnement auxquelles aucune valeur n’est attribuée. Si l’agent Launch possède une variable d’environnement `MY_EXISTING_ENV_VAR`, cette variable sera disponible dans le conteneur. Cela est utile si vous souhaitez utiliser d’autres clés de configuration sans les publier dans la configuration de la file d’attente.
 
-L’indicateur `--gpus` de la commande `docker run` vous permet de spécifier les GPU disponibles pour un conteneur Docker. Pour plus d’informations sur l’utilisation de l’indicateur `gpus`, voir la [documentation Docker](https://docs.docker.com/config/containers/resource_constraints/#gpu).
+L’indicateur `--gpus` de la commande `docker run` vous permet de spécifier les GPU disponibles pour un conteneur Docker. Pour plus d’informations sur l’indicateur `--gpus`, voir la [documentation Docker](https://docs.docker.com/config/containers/resource_constraints/#gpu).
 
 <Note>
   * Installez le [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker) pour utiliser des GPU dans un conteneur Docker.
@@ -78,7 +79,7 @@ L’indicateur `--gpus` de la commande `docker run` vous permet de spécifier le
   ## Créer une file d’attente
 </div>
 
-Créez une file d’attente qui utilise Docker comme ressource de calcul avec la W&amp;B CLI :
+Pour créer une file d’attente qui utilise Docker comme ressource de calcul, suivez ces étapes :
 
 1. Accédez à la [page Launch](https://wandb.ai/launch).
 2. Cliquez sur le bouton **Créer une file d’attente**.
@@ -86,7 +87,9 @@ Créez une file d’attente qui utilise Docker comme ressource de calcul avec la
 4. Saisissez un nom pour votre file d’attente dans le champ **Nom**.
 5. Sélectionnez **Docker** comme **Ressource**.
 6. Définissez la configuration de votre file d’attente Docker dans le champ **Configuration**.
-7. Cliquez sur le bouton **Créer une file d’attente** pour créer la file d’attente.
+7. Cliquez sur le bouton **Créer une file d’attente**.
+
+Vous disposez maintenant d’une file d’attente Launch basée sur Docker, prête à recevoir des jobs. Ensuite, configurez un agent Launch sur votre machine locale pour récupérer les jobs de cette file d’attente.
 
 <div id="configure-a-launch-agent-on-a-local-machine">
   ## Configurer un agent Launch sur une machine locale
@@ -99,39 +102,39 @@ Configurez l&#39;agent Launch à l&#39;aide d&#39;un fichier de configuration YA
 </Note>
 
 <div id="core-agent-config-options">
-  ## Principales options de configuration de l&#39;agent
+  ### Principales options de configuration de l&#39;agent
 </div>
 
-Les onglets suivants montrent comment définir les principales options de configuration de l&#39;agent avec le W&amp;B CLI et un fichier de configuration YAML :
+Les onglets suivants montrent comment définir les principales options de configuration de l&#39;agent avec le CLI W&amp;B et un fichier de configuration YAML :
 
 <Tabs>
-  <Tab title="W&B CLI">
+  <Tab title="CLI W&B">
     ```bash
-    wandb launch-agent -q <queue-name> --max-jobs <n>
+    wandb launch-agent -q [QUEUE-NAME] --max-jobs [N]
     ```
   </Tab>
 
   <Tab title="Fichier de configuration">
     ```yaml title="launch-config.yaml"
-    max_jobs: <n concurrent jobs>
+    max_jobs: [N-CONCURRENT-JOBS]
     queues:
-    	- <queue-name>
+    	- [QUEUE-NAME]
     ```
   </Tab>
 </Tabs>
 
 <div id="docker-image-builders">
-  ## Outils de création d’images Docker
+  ### Outils de création d’images Docker
 </div>
 
-L’agent Launch sur votre machine peut être configuré pour créer des images Docker. Par défaut, ces images sont stockées dans le dépôt local d’images de votre machine. Pour permettre à votre agent Launch de créer des images Docker, définissez la clé `builder` de la configuration de l’agent Launch sur `docker` :
+Vous pouvez configurer l’agent Launch sur votre machine pour créer des images Docker. Par défaut, ces images sont stockées dans le dépôt local d’images de votre machine. Pour permettre à votre agent Launch de créer des images Docker, définissez la clé `builder` de la configuration de l’agent Launch sur `docker` :
 
 ```yaml title="launch-config.yaml"
 builder:
 	type: docker
 ```
 
-Si vous ne voulez pas que l’agent construise des images Docker et préférez utiliser des images déjà construites depuis un registre, définissez la clé `builder` sur `noop` dans la configuration de l’agent Launch
+Si vous ne voulez pas que l’agent construise des images Docker et préférez utiliser des images déjà construites depuis un registre, définissez la clé `builder` sur `noop` dans la configuration de l’agent Launch :
 
 ```yaml title="launch-config.yaml"
 builder:
@@ -139,10 +142,9 @@ builder:
 ```
 
 <div id="container-registries">
-  ## Registres de conteneurs
+  ### Registres de conteneurs
 </div>
 
-Launch utilise des registres de conteneurs externes comme Dockerhub, Google Container Registry, Azure Container Registry et Amazon ECR.
-Si vous souhaitez exécuter un job dans un environnement différent de celui dans lequel vous l’avez créé, configurez votre agent pour qu’il puisse récupérer des images depuis un registre de conteneurs.
+Launch utilise des registres de conteneurs externes comme Docker Hub, Google Container Registry, Azure Container Registry et Amazon ECR. Si vous souhaitez exécuter un job dans un environnement différent de celui dans lequel vous l’avez créé, configurez votre agent pour qu’il puisse récupérer des images depuis un registre de conteneurs, afin que l’agent puisse récupérer des images qui n’ont pas été créées localement.
 
 Pour en savoir plus sur la façon de connecter l’agent Launch à un registre cloud, consultez la page [Configuration avancée de l’agent](./setup-agent-advanced#agent-configuration).

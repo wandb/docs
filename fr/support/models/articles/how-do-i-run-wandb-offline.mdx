@@ -1,0 +1,20 @@
+---
+title: "Comment puis-je exécuter W&B hors ligne ?"
+keywords: ["Experiments", "Variables d'environnement"]
+---
+
+Pour effectuer un entraînement sur une machine sans accès à Internet et téléverser vos résultats vers W&amp;B plus tard, suivez ces étapes :
+
+1. Définissez la variable d&#39;environnement `WANDB_MODE=offline` pour enregistrer les métriques localement sans connexion Internet.
+2. Lorsque vous êtes prêt à téléverser, exécutez `wandb init` dans votre répertoire pour définir le nom du projet.
+3. Exécutez `wandb sync [RUN-DIRECTORY]` pour transférer vos métriques vers W&amp;B et consulter vos résultats dans l&#39;application web. Remplacez `[RUN-DIRECTORY]` par le chemin de votre répertoire local de run.
+
+Pour confirmer qu&#39;un run est hors ligne, vérifiez `run.settings._offline` ou `run.settings.mode` après avoir appelé `wandb.init()`.
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Variables d’environnement](/fr/support/models/tags/environment-variables)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

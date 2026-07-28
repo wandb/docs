@@ -1,27 +1,26 @@
 ---
 title: ローカルモデル
-description: "Ollama、LMStudio、または GPT4All を使用してオープンソースモデルをローカルで実行し、OpenAI SDK との互換性を利用して Weave でトレースします。"
+description: "Ollama、LMStudio、GPT4All を使用してオープンソースモデルをローカルで実行し、OpenAI SDK との互換性を利用して Weave でトレースします。"
+keywords: ["Ollama", "LMStudio", "GPT4All", "llama.cpp", "llamafile"]
 ---
 
-<div id="local-models">
-  # ローカルモデル
-</div>
+多くの開発者は、Llama 3、Mixtral、Gemma、Phi などのオープンソースモデルを手元のハードウェアで実行しています。Weave は、OpenAI SDK との互換性を備えていれば、複数のローカルモデルランナーを標準でサポートします。
 
-多くの開発者が、Llama-3、Mixtral、Gemma、Phi などのオープンソースモデルをローカル環境にダウンロードして実行しています。これらのモデルをローカルで動かす方法はいくつもありますが、OpenAI SDK との互換性があれば、Weave はその一部を標準でサポートしています。
+このガイドでは、ローカルで実行しているモデルへの Call を Weave でトレースし、ホスト型の LLM プロバイダと同じように入力、出力、メタデータを取得する方法を説明します。対象は、自分のマシンでオープンソースモデルを実行し、それらの Call の可観測性を確保したい開発者です。
 
 <div id="wrap-local-model-functions-with-weaveop">
   ## ローカルモデルの関数を `@weave.op()` でラップする
 </div>
 
-`weave.init('<your-project-name>')` で Weave を初期化し、LLM への呼び出しを `weave.op()` でラップするだけで、任意の LLM を簡単に Weave と統合できます。詳しくは、[トレース](/ja/weave/guides/tracking/tracing) ガイドを参照してください。
+ローカルモデルが OpenAI 互換のランナー経由でアクセスされていない場合でも、独自のモデル呼び出し関数をラップすることでトレースを取得できます。`weave.init('<your-project-name>')` で Weave を初期化し、LLM への Call を `weave.op()` でラップするだけで、任意の LLM を簡単に Weave と統合できます。詳しくは、[トレースガイド](/ja/weave/guides/tracking/tracing) を参照してください。
 
-<div id="updating-your-openai-sdk-code-to-use-local-models">
-  ## ローカルモデルを使用するための OpenAI SDK コードの更新
+<div id="update-your-openai-sdk-code-to-use-local-models">
+  ## ローカルモデルを使用するように OpenAI SDK のコードを更新する
 </div>
 
-OpenAI SDK との互換性をサポートするサービスやフレームワークでは、いずれもいくつかの軽微な変更が必要です。
+ローカルモデルのランナーが OpenAI SDK をサポートしている場合は、2 つ変更するだけで、既存の OpenAI クライアントの接続先をそのランナーに向けられます。
 
-まず最も重要なのは、`openai.OpenAI()` の初期化時に `base_url` を変更することです。
+主な変更点は、`openai.OpenAI()` の初期化時に `base_url` パラメーターを指定することです。これにより、OpenAI SDK は OpenAI がホストする API ではなく、ローカルサーバーにリクエストを送信します。
 
 ```python lines
 client = openai.OpenAI(
@@ -29,16 +28,16 @@ client = openai.OpenAI(
 )
 ```
 
-ローカルモデルの場合、`api_key` には任意の文字列を指定できますが、必ず上書きしてください。そうしないと、OpenAI が環境変数からそれを使用しようとしてエラーになります。
+ローカルモデルの場合、`api_key` には任意の string を指定できますが、必ず明示的に上書きする必要があります。そうしないと、OpenAI SDK が環境変数から `api_key` を読み取ってエラーを表示します。
 
-<div id="openai-sdk-supported-local-model-runners">
-  ## OpenAI SDK をサポートするローカルモデルランナー
+<div id="supported-local-model-runners">
+  ## サポートされているローカルモデルランナー
 </div>
 
-以下は、Hugging Face からモデルをダウンロードしてローカル環境で実行でき、OpenAI SDK との互換性をサポートするアプリの一覧です。
+以下のランナーを使用すると、Hugging Face からモデルをダウンロードし、お使いのコンピュータで実行できます。各ランナーは OpenAI 互換のエンドポイントを提供しているため、前述の変更を使用して OpenAI SDK の接続先として指定できます。
 
-1. Nomic [GPT4All](https://www.nomic.ai/gpt4all) - Settings の Local Server 経由でサポート ([FAQ](https://docs.gpt4all.io/gpt4all_help/faq.html))
-2. [LMStudio](https://lmstudio.ai/) - Local Server による OpenAI SDK サポート [docs](https://lmstudio.ai/docs/developer/core/server)
-3. [Ollama](https://ollama.com/) - OpenAI SDK 向けの [OpenAI compatibility](https://ollama.readthedocs.io/en/openai/)
-4. [llama-cpp-python](https://llama-cpp-python.readthedocs.io/en/latest/server/) Python パッケージ経由の llama.cpp
-5. [llamafile](https://github.com/Mozilla-Ocho/llamafile#other-example-llamafiles) - `http://localhost:8080/v1` は Llamafile の実行時に自動的に OpenAI SDK をサポートします
+* Nomic [GPT4All](https://www.nomic.ai/gpt4all) - Settings の Local Server 経由でサポート ([FAQ](https://docs.gpt4all.io/gpt4all_help/faq.html))
+* [LMStudio](https://lmstudio.ai/) - Local Server の OpenAI SDK サポートに関する[ドキュメント](https://lmstudio.ai/docs/developer/core/server)
+* [Ollama](https://ollama.com/) - OpenAI SDK 向けの [OpenAI compatibility](https://ollama.readthedocs.io/en/openai/)
+* [llama-cpp-python](https://llama-cpp-python.readthedocs.io/en/latest/server/) - OpenAI SDK をサポートした `llama.cpp` を実行するための Python パッケージ
+* [llamafile](https://github.com/Mozilla-Ocho/llamafile#other-example-llamafiles) - Llamafile を実行すると、`http://localhost:8080/v1` は自動的に OpenAI SDK をサポートします

@@ -4,17 +4,18 @@ title: 미디어 및 객체 로깅
 ---
 
 import { ColabLink } from '/snippets/ko/_includes/colab-link.mdx';
+import { WandbReport } from '/snippets/WandbReport.jsx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Log_(Almost)_Anything_with_W%26B_Media.ipynb" />
 
-이미지, 비디오, 오디오 등 다양한 형식을 지원합니다. 리치 미디어를 로그해 결과를 탐색하고 run, 모델, 데이터셋을 시각적으로 비교해 보세요. 아래에서 예제와 사용 방법 가이드를 확인하세요.
+이미지, 비디오, 오디오 등 다양한 형식을 지원합니다. 리치 미디어를 로깅해 결과를 탐색하고 run, 모델, 데이터셋을 시각적으로 비교해 보세요. 아래에서 예제와 사용 방법 가이드를 확인하세요.
 
 <Note>
   자세한 내용은 [데이터 유형 레퍼런스](/ko/models/ref/python/data-types/)를 참조하세요.
 </Note>
 
 <Note>
-  더 자세한 내용은 [모델 예측을 시각화하는 데모 리포트](https://wandb.ai/lavanyashukla/visualize-predictions/reports/Visualize-Model-Predictions--Vmlldzo1NjM4OA)를 확인하거나 [비디오 워크스루](https://www.youtube.com/watch?v=96MxRvx15Ts)를 시청하세요.
+  더 자세한 내용은 [모델 예측 시각화 데모 리포트](https://wandb.ai/lavanyashukla/visualize-predictions/reports/Visualize-Model-Predictions--Vmlldzo1NjM4OA)를 확인하거나 [비디오 워크스루](https://www.youtube.com/watch?v=96MxRvx15Ts)를 시청하세요.
 </Note>
 
 <div id="pre-requisites">
@@ -332,6 +333,10 @@ pip install wandb[media]
 
 바운딩 박스가 포함된 3D 포인트 클라우드와 LiDAR 장면을 로깅합니다. 렌더링할 포인트의 좌표와 색상이 포함된 NumPy 배열을 전달하세요.
 
+로깅된 포인트 클라우드는 W&amp;B 앱에서 완전히 대화형으로 사용할 수 있습니다. 예를 들어, 아래에 임베드된 [LIDAR Point Clouds of Driving Scenes report](https://wandb.ai/stacey/lyft/reports/LIDAR-Point-Clouds-of-Driving-Scenes--Vmlldzo2MzA5Mg)는 3D 바운딩 박스가 포함된 Lyft 데이터셋의 장면을 보여줍니다. 뷰어에서 드래그하여 회전하거나 확대/축소하세요.
+
+<WandbReport src="https://wandb.ai/stacey/lyft/reports/LIDAR-Point-Clouds-of-Driving-Scenes--Vmlldzo2MzA5Mg" title="LIDAR point clouds of driving scenes report" height={720} />
+
 ```python
 point_cloud = np.array([[0, 0, 0, COLOR]])
 
@@ -349,7 +354,7 @@ run.log({"point_cloud": wandb.Object3D(point_cloud)})
 유연한 색상 구성을 위해 세 가지 NumPy 배열 형식을 지원합니다.
 
 * `[[x, y, z], ...]` `nx3`
-* `[[x, y, z, c], ...]` `nx4` `| c는 [1, 14]` 범위의 범주 값입니다` (세그멘테이션에 유용)
+* `[[x, y, z, c], ...]` `nx4` `| c는 [1, 14]` 범위의 범주 값입니다&#96; (세그멘테이션에 유용)
 * `[[x, y, z, r, g, b], ...]` `nx6 | r,g,b`는 빨강, 초록, 파랑 색상 채널의 `[0,255]` 범위 값입니다.
 
 <div id="python-object">

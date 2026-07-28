@@ -1,34 +1,38 @@
 ---
-title: "run のログ時に権限エラーが発生した場合はどうすればよいですか?"
+title: "run のログ記録時に権限エラーが発生する場合はどうすればよいですか?"
 keywords: ["Runs", "Security"]
 ---
 
-W&amp;B の entity に run をログするときに権限エラーが発生する場合は、次の step に従う:
+run のログ記録時に発生する権限エラーは、通常、コード、認証情報、またはデプロイ設定と、ログ先として指定している W&amp;B entity との間に不一致があることを示しています。このページでは、最も一般的な原因と、それぞれの対処方法を説明します。これにより、run を意図した entity と project に書き込めるようになります。
 
-* **entity とプロジェクト名を確認**: コード内の W&amp;B の entity 名とプロジェクト名について、スペルと大文字・小文字の区別が正しいことを確認します。
-* **権限を確認**: 管理者によって必要な権限が付与されていることを確認します。
-* **ログイン認証情報を確認**: 正しい W&amp;B アカウントにログインしていることを確認します。次のコードで run を作成してテストします。
+W&amp;B entity への run のログ記録時に権限エラーを解決するには、次の項目を順に確認してください。
+
+* **entity と project 名を確認する**: コード内の W&amp;B entity 名と project 名のスペルおよび大文字・小文字が正しいことを確認してください。タイプミスや大文字・小文字の不一致があると、アクセス権のない場所に run が送信されます。
+* **権限を確認する**: 対象の entity と project に必要な権限が、管理者によって付与されていることを確認してください。
+* **ログイン認証情報を確認する**: 正しい W&amp;B アカウントにログインしていることを確認してください。次のコードで run を作成してテストできます。`[ENTITY-NAME]` と `[PROJECT-NAME]` は対象の entity と project に置き換えてください。
   ```python
   import wandb
 
-  run = wandb.init(entity="your_entity", project="your_project")
-  run.log({'example_metric': 1})
+  run = wandb.init(entity="[ENTITY-NAME]", project="[PROJECT-NAME]")
+  run.log({"example_metric": 1})
   run.finish()
   ```
-* **APIキーを設定**: `WANDB_API_KEY` 環境変数を使用します。
+* **APIキーを設定する**: クライアントが意図したアカウントで認証されるように、`WANDB_API_KEY` 環境変数を設定してください。`[API-KEY]` は W&amp;B APIキーに置き換えてください。
   ```bash
-  export WANDB_API_KEY='your_api_key'
+  export WANDB_API_KEY="[API-KEY]"
   ```
-* **ホスト情報を確認**: カスタム デプロイでは、ホスト URL を設定します。
+* **ホスト情報を確認する**: custom deployment の場合は、run が正しいサーバーに送信されるよう、クライアントが正しい W&amp;B ホストを参照するようにしてください。`[HOST-URL]` は W&amp;B ホスト URL に置き換えてください。
   ```bash
-  wandb login --relogin --host=<host-url>
-  export WANDB_BASE_URL=<host-url>
+  wandb login --relogin --host=[HOST-URL]
+  export WANDB_BASE_URL=[HOST-URL]
   ```
+
+これらの項目を確認すれば、権限エラーなしで対象の entity と project に run を初期化してログできるようになります。
 
 ***
 
-{/* AUTO-GENERATED: tab badges */}
+{/* AUTO-GENERATED: タブバッジ */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Runs](/ja/support/models/tags/runs)</Badge><Badge stroke shape="pill" color="orange" size="md">[セキュリティ](/ja/support/models/tags/security)</Badge>
 
-{/* END AUTO-GENERATED: tab badges */}
+{/* 自動生成終了: tab badges */}

@@ -1,24 +1,22 @@
 ---
-title: "Classe : ObjectRef"
+title: "ObjectRef"
 description: "Référence du SDK TypeScript"
 ---
-
-[weave](../) / ObjectRef
 
 Représente une référence à un objet Weave enregistré.
 
 En général, les utilisateurs finaux n’auront pas besoin d’interagir directement avec cette classe.
 
-Un ObjectRef contient l’ID du projet, l’ID de l’objet et l’empreinte qui identifient de manière unique
+Un ObjectRef contient l’ID du projet, l’ID de l’objet et le digest qui identifient de manière unique
 un objet enregistré dans le système de stockage de Weave.
 
 `Exemple`
 
-```ts
+```ts twoslash
+// @noErrors
 const ref = new ObjectRef('my-project', 'abc123', 'def456');
 const uri = ref.uri(); // weave:///my-project/object/abc123:def456
 ```
-
 
 <div id="table-of-contents">
   ## Table des matières
@@ -75,7 +73,7 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
   #### Défini dans
 </div>
 
-[weaveObject.ts:26](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L26)
+[src/weaveObject.ts:24](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L24)
 
 ## Propriétés
 
@@ -89,7 +87,7 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
   #### Défini dans
 </div>
 
-[weaveObject.ts:29](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L29)
+[src/weaveObject.ts:27](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L27)
 
 ***
 
@@ -103,7 +101,7 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
   #### Défini dans
 </div>
 
-[weaveObject.ts:28](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L28)
+[src/weaveObject.ts:26](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L26)
 
 ***
 
@@ -117,7 +115,7 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
   #### Défini dans
 </div>
 
-[weaveObject.ts:27](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L27)
+[src/weaveObject.ts:25](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L25)
 
 ## Méthodes
 
@@ -137,7 +135,7 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
   #### Défini dans
 </div>
 
-[weaveObject.ts:66](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L66)
+[src/weaveObject.ts:64](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L64)
 
 ***
 
@@ -157,7 +155,7 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
   #### Défini dans
 </div>
 
-[weaveObject.ts:61](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L61)
+[src/weaveObject.ts:59](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L59)
 
 ***
 
@@ -177,7 +175,7 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
   #### Défini dans
 </div>
 
-[weaveObject.ts:57](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L57)
+[src/weaveObject.ts:55](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L55)
 
 ***
 
@@ -211,13 +209,13 @@ Une erreur si le format de l&#39;URI est invalide ou ne correspond pas à une r�
 
 `Exemple`
 
-```ts
+```ts twoslash
+// @noErrors
 const ref = ObjectRef.fromUri('weave:///my-entity/my-project/object/my-dataset:abc123');
 ```
-
 
 <div id="defined-in">
   #### Défini dans
 </div>
 
-[weaveObject.ts:44](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveObject.ts#L44)
+[src/weaveObject.ts:42](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L42)

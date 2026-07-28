@@ -1,18 +1,17 @@
 ---
-title: "クラス: EvaluationLogger"
+title: "EvaluationLogger"
 description: "TypeScript SDK リファレンス"
 ---
-
-[weave](../) / EvaluationLogger
 
 EvaluationLogger を使うと、予測とスコアを段階的にログできます。
 
 事前にデータセットを用意してバッチ処理を行う必要がある従来の Evaluation クラスとは異なり、
 EvaluationLogger では、予測が発生したタイミングで、柔軟にスコアリングしながらログできます。
 
-`Example`
+`例`
 
-```ts
+```ts twoslash
+// @noErrors
 const ev = new EvaluationLogger({name: 'my-eval', dataset: 'my-dataset'});
 
 for (const example of streamingData) {
@@ -27,7 +26,6 @@ for (const example of streamingData) {
 
 await ev.logSummary();
 ```
-
 
 <div id="table-of-contents">
   ## 目次
@@ -73,7 +71,7 @@ await ev.logSummary();
   #### 定義元
 </div>
 
-[evaluationLogger.ts:554](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/evaluationLogger.ts#L554)
+[src/evaluationLogger.ts:573](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L573)
 
 ## メソッド
 
@@ -107,20 +105,20 @@ ScoreLogger に対する操作 (`logScore`、`finish`) はキューに追加さ�
 
 `例`
 
-```ts
+```ts twoslash
+// @noErrors
 // ファイア・アンド・フォーゲット方式
 const scoreLogger = evalLogger.logPrediction({input: 'test'}, 'output');
 scoreLogger.logScore('accuracy', 0.95);
 scoreLogger.finish();
-await evalLogger.logSummary(); // すべての完了を待機
+await evalLogger.logSummary(); // すべての処理が完了するまで待機
 ```
-
 
 <div id="defined-in">
   #### 定義元
 </div>
 
-[evaluationLogger.ts:641](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/evaluationLogger.ts#L641)
+[src/evaluationLogger.ts:660](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L660)
 
 ***
 
@@ -153,19 +151,19 @@ logPrediction() と同様ですが、
 
 `例`
 
-```ts
-// Awaitableスタイル
+```ts twoslash
+// @noErrors
+// Await可能なスタイル
 const scoreLogger = await evalLogger.logPredictionAsync({input: 'test'}, 'output');
 await scoreLogger.logScore('accuracy', 0.95);
 await scoreLogger.finish();
 ```
 
-
 <div id="defined-in">
   #### 定義元
 </div>
 
-[evaluationLogger.ts:666](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/evaluationLogger.ts#L666)
+[src/evaluationLogger.ts:685](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L685)
 
 ***
 
@@ -199,4 +197,4 @@ summarize call を作成し、evaluate call を完了します。
   #### 定義元
 </div>
 
-[evaluationLogger.ts:767](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/evaluationLogger.ts#L767)
+[src/evaluationLogger.ts:786](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L786)

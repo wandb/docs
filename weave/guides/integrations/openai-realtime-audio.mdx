@@ -1,11 +1,16 @@
 ---
 title: OpenAI Realtime API
 description: Use Weave to automatically trace your calls to the OpenAI Realtime API.
+keywords: ["speech-to-speech", "voice assistant", "WebSockets", "Agents SDK", "audio tracing"]
 ---
 
-Weave's integration with [OpenAI's Realtime API](https://developers.openai.com/api/docs/guides/realtime/) allows you to automatically trace your application's speech-to-speech interactions as they occur. You can use this to capture conversations between your agents and users to review and evaluate agent performance.
+Weave's integration with [OpenAI's Realtime API](https://developers.openai.com/api/docs/guides/realtime/) lets you automatically trace your application's speech-to-speech interactions as they occur. You can use this to capture conversations between your agents and users to review and evaluate agent performance.
+
+This guide shows you how to enable Realtime API tracing in your application and walks through two end-to-end voice assistant examples that you can run locally.
 
 ## Integrate realtime traces
+
+This section shows the minimum code needed to enable Weave tracing for the OpenAI Realtime API in any application.
 
 Weave automatically patches into the OpenAI Realtime API and only requires a few additional lines of code to start capturing audio interactions from your application. The following code imports Weave and the Realtime API integration:
 
@@ -23,9 +28,9 @@ Once imported into your code and executed, Weave automatically traces the intera
 
 ### Run a realtime voice assistant with the OpenAI Agents SDK
 
-This example runs a real-time voice assistant that streams microphone audio to OpenAI's Realtime API and plays back the AI's spoken responses through your local machine's speaker. The application uses the OpenAI Agents SDK with `RealtimeAgent` and `RealtimeRunner`, and enables Weave tracing by patching with `patch_openai_realtime()`.
+This example runs a realtime voice assistant that streams microphone audio to OpenAI's Realtime API and plays back the AI's spoken responses through your local machine's speaker. The application uses the OpenAI Agents SDK with `RealtimeAgent` and `RealtimeRunner`, and enables Weave tracing by patching with `patch_openai_realtime()`. Use this approach when you want the higher-level Agents SDK to manage the Realtime session for you.
 
-To run the example:
+To run the example, complete the following steps:
 
 1. Start your Python environment and install the following libraries:
 
@@ -268,20 +273,20 @@ To run the example:
 
 1. Update the `DEFAULT_WEAVE_PROJECT` value with your team and project names.
 1. Set your `OPENAI_API_KEY` environment variable.
-1. Run the code:
-    ```
+1. Start the voice assistant:
+    ```bash
     python weave_voice_assistant.py
     ```
 
-Once running, press **T** on your keyboard to mute or unmute the mic. The assistant uses server-side voice activity detection to handle turn-taking and interruptions.
+Once the assistant is running, press `T` on your keyboard to mute or unmute the mic. The assistant uses server-side voice activity detection to handle turn-taking and interruptions.
 
 As you speak to the assistant, Weave captures traces that you can explore in the Weave UI, including the audio from the session.
 
-### Run a realtime voice assistant using WebSockets
+### Run a realtime voice assistant with WebSockets
 
-The following example connects directly to the OpenAI Realtime API over WebSockets. It streams microphone audio to the API, plays back spoken responses, and supports tool calling (weather lookups, math evaluation, code execution, and file writing). Weave traces the session the using `weave.init()` and `patch_openai_realtime()`.
+The following example connects directly to the OpenAI Realtime API over WebSockets. It streams microphone audio to the API, plays back spoken responses, and supports tool calling (weather lookups, math evaluation, code execution, and file writing). Weave traces the session using `weave.init()` and `patch_openai_realtime()`. Use this approach when you want full control over the Realtime session without depending on the Agents SDK.
 
-To run the example:
+To run the example, complete the following steps:
 
 1. Start your Python environment and install the following libraries:
 
@@ -796,12 +801,12 @@ To run the example:
 
 1. Update the `weave.init()` call with your team and project names.
 1. Set your `OPENAI_API_KEY` environment variable.
-1. Run the code:
+1. Start the voice assistant:
 
     ```bash
     python weave_ws_voice_assistant.py
     ```
 
-Once running, press **T** on your keyboard to mute or unmute the mic. The assistant uses server-side voice activity detection to handle turn-taking and interruptions.
+Once the assistant is running, press `T` on your keyboard to mute or unmute the mic. The assistant uses server-side voice activity detection to handle turn-taking and interruptions.
 
 As you speak to the assistant, Weave captures traces that you can explore in the Weave UI, including the audio from the session.

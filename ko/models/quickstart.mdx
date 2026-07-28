@@ -7,6 +7,12 @@ import ApiKeyCreate from "/snippets/ko/_includes/api-key-create.mdx";
 import { ColabLink } from '/snippets/ko/_includes/colab-link.mdx';
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
+<div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+  <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/run_quickstart.ipynb" />
+
+  <GitHubLink url="https://github.com/wandb/examples/blob/master/colabs/intro/run_quickstart.ipynb" />
+</div>
+
 규모에 관계없이 모든 머신 러닝 실험을 추적하고 시각화하며 관리하려면 W&amp;B를 설치하세요.
 
 <Note>
@@ -20,14 +26,6 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 사용 중인 머신을 W&amp;B에 인증하려면 API 키가 필요합니다.
 
 <ApiKeyCreate />
-
-이 퀵스타트는 Colab 노트북으로도 제공됩니다:
-
-<div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-  <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/run_quickstart.ipynb" />
-
-  <GitHubLink url="https://github.com/wandb/examples/blob/master/colabs/intro/run_quickstart.ipynb" />
-</div>
 
 <div id="install-the-wandb-library-and-log-in">
   ## `wandb` 라이브러리를 설치하고 로그인합니다
@@ -50,23 +48,34 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
   </Tab>
 
   <Tab title="Python">
-    ```bash
-    pip install wandb
-    ```
+    1. `pip`를 사용해 W&amp;B Python SDK를 설치합니다:
 
-    ```python
-    import wandb
+       ```bash
+       pip install wandb
+       ```
 
-    wandb.login()
-    ```
+    2. W&amp;B Python SDK를 임포트한 다음, Python 스크립트에서 `wandb.login()`으로 W&amp;B에 로그인합니다:
+
+       ```python
+       import wandb
+
+       wandb.login()
+       ```
   </Tab>
 
   <Tab title="Python notebook">
-    ```notebook
-    !pip install wandb
-    import wandb
-    wandb.login()
-    ```
+    1. 셸 이스케이프(`!`)를 사용해 W&amp;B Python SDK를 설치합니다:
+
+       ```notebook
+       !pip install wandb
+       ```
+
+    2. W&amp;B Python SDK를 임포트한 다음, Python notebook에서 `wandb.login()`으로 W&amp;B에 로그인합니다
+
+       ```notebook
+       import wandb
+       wandb.login()
+       ```
   </Tab>
 </Tabs>
 
@@ -85,23 +94,21 @@ wandb.login()
 # run이 기록되는 프로젝트
 project = "my-awesome-project"
 
-# 하이퍼파라미터 딕셔너리
+# 하이퍼파라미터가 담긴 딕셔너리
 config = {
     'epochs' : 10,
     'lr' : 0.01
 }
 
 with wandb.init(project=project, config=config) as run:
-    # 트레이닝 코드 작성
+    # 트레이닝 코드를 여기에 작성
     # run.log()로 W&B에 값 기록
     run.log({"accuracy": 0.9, "loss": 0.1})
 ```
 
 트레이닝 run을 시뮬레이션하고 정확도 및 손실 메트릭을 W&amp;B에 기록하는 전체 예제는 다음 섹션을 참조하세요.
 
-<Info>
-  [run](/ko/models/runs/)은 W&amp;B의 핵심 요소입니다. run을 사용해 [메트릭을 추적](/ko/models/track/)하고, [로그를 생성](/ko/models/track/log/)하고, 아티팩트를 추적하는 등 다양한 작업을 수행할 수 있습니다.
-</Info>
+<Info>[run](/ko/models/runs/)은 W&amp;B의 핵심 요소입니다. run을 사용해 [메트릭을 추적](/ko/models/track/)하고, [로그를 생성](/ko/models/track/log/)하고, 아티팩트를 추적하는 등 다양한 작업을 수행할 수 있습니다.</Info>
 
 <div id="create-a-machine-learning-training-experiment">
   ## 머신 러닝 트레이닝 실험 만들기
@@ -115,10 +122,10 @@ import random
 
 wandb.login()
 
-# run이 기록되는 프로젝트
+# run이 기록될 프로젝트
 project = "my-awesome-project"
 
-# 하이퍼파라미터 딕셔너리
+# 하이퍼파라미터가 담긴 딕셔너리
 config = {
     'epochs' : 10,
     'lr' : 0.01
@@ -146,12 +153,16 @@ with wandb.init(project=project, config=config) as run:
   ## 다음 단계
 </div>
 
-W&amp;B 생태계의 더 많은 기능을 살펴보세요:
+W&amp;B 생태계의 다양한 기능을 더 살펴보세요:
 
-1. PyTorch 같은 프레임워크, Hugging Face 같은 라이브러리, SageMaker 같은 서비스와 W&amp;B를 결합하는 [W&amp;B Integration 튜토리얼](/ko/models/integrations)을 살펴보세요.
-2. [W&amp;B Reports](/ko/models/reports)를 사용해 run을 정리하고, 시각화를 자동화하고, 결과를 요약하고, 협업자와 업데이트를 공유하세요.
-3. 머신 러닝 파이프라인 전반에서 데이터셋, 모델, 의존성, 결과를 추적할 수 있도록 [W&amp;B 아티팩트](/ko/models/artifacts)를 만드세요.
-4. [W&amp;B Sweeps](/ko/models/sweeps)로 하이퍼파라미터 검색을 자동화하고 모델을 최적화하세요.
-5. [중앙 대시보드](/ko/models/tables)에서 run을 분석하고, 모델 예측을 시각화하고, 인사이트를 공유하세요.
-6. 실습형 과정을 통해 LLM, MLOps, W&amp;B Models를 배울 수 있는 [W&amp;B AI Academy](https://wandb.ai/site/courses/)를 방문하세요.
-7. Weave를 사용해 LLM 기반 애플리케이션을 추적하고, 실험하고, 평가하고, 배포하고, 개선하는 방법을 알아보려면 [weave-docs.wandb.ai](/ko/weave)를 방문하세요.
+1. [run](/ko/models/runs)에 대해 알아보고 첫 번째 run을 만들어 보세요.
+2. [W&amp;B Artifacts](/ko/models/artifacts)로 모델, 데이터셋, 기타 파일을 추적하세요.
+3. [W&amp;B Sweeps](/ko/models/sweeps)로 하이퍼파라미터 검색을 자동화하고 모델을 최적화하세요.
+4. [W&amp;B Registry](/ko/models/registry)로 모델, 프롬프트, 데이터셋을 공유하세요.
+5. 프로젝트의 [대시보드](/ko/models/track/workspaces)에서 Runs를 분석하고, 모델 예측을 시각화하고, 아티팩트를 확인하세요.
+6. [W&amp;B Reports](/ko/models/reports)로 결과를 요약하고 협업자와 업데이트를 공유하세요.
+7. [W&amp;B Weave](/ko/weave/quickstart)로 LLM 애플리케이션을 트레이스하고 평가하세요.
+
+{/* 이 내용이 아직도 유효한가요? */}
+
+{/* 6. 실습형 과정을 통해 LLM, MLOps, W&B Models를 배워보려면 [W&B AI Academy](https://wandb.ai/site/courses/)를 방문하세요. */}

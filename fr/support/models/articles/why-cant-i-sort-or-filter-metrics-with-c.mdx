@@ -3,23 +3,27 @@ title: "Pourquoi ne puis-je pas trier ou filtrer les métriques comportant certa
 keywords: ["Experiments", "Métriques"]
 ---
 
-Dans W&amp;B, les noms de métriques doivent respecter les règles de nommage GraphQL afin de pouvoir être correctement triés et filtrés dans l’UI.
+Dans W&amp;B, les noms de métriques doivent respecter les règles de nommage GraphQL afin que vous puissiez les trier et les filtrer dans l’UI.
 
 <div id="valid-metric-names">
   ## Noms de métriques valides
 </div>
 
-* **Caractères autorisés** : lettres (A-Z, a-z), chiffres (0-9) et underscores (&#95;)
-* **Caractère initial** : les noms doivent commencer par une lettre ou un underscore
-* **Motif** : les noms de métriques doivent correspondre à `/^[_a-zA-Z][_a-zA-Z0-9]*$/`
+Les noms de métriques doivent respecter les règles suivantes :
 
-Les métriques qui ne respectent pas ces règles peuvent ne pas pouvoir être triées ou filtrées dans l’UI W&amp;B.
+* **Caractères autorisés** : lettres (`A-Z`, `a-z`), chiffres (`0-9`) et caractères de soulignement (`_`).
+* **Caractère initial** : les noms doivent commencer par une lettre ou un caractère de soulignement.
+* **Motif** : les noms de métriques doivent correspondre à `/^[_a-zA-Z][_a-zA-Z0-9]*$/`.
+
+Si les métriques ne respectent pas ces règles, il se peut que vous ne puissiez pas les trier ou les filtrer dans l’interface W&amp;B.
 
 <div id="examples">
   ## Exemples
 </div>
 
-**Noms de métriques valides :**
+Les exemples suivants montrent des noms de métriques conformes à ces règles et d’autres qui ne le sont pas.
+
+Noms de métriques valides :
 
 ```python
 with wandb.init() as run:
@@ -27,7 +31,7 @@ with wandb.init() as run:
   run.log({"modelAccuracy": 0.95, "learning_rate": 0.001})
 ```
 
-**Noms de métriques non valides (à éviter) :**
+Noms de métriques non valides (à éviter) :
 
 ```python
 with wandb.init() as run:
@@ -41,11 +45,11 @@ with wandb.init() as run:
   ## Solution recommandée
 </div>
 
-Remplacez les caractères non valides par des caractères valides, comme des underscores (`_`) :
+Remplacez les caractères non valides par des caractères valides, comme des caractères de soulignement (`_`) :
 
-* Au lieu de `"test acc"`, utilisez `"test_acc"`
-* Au lieu de `"loss-train"`, utilisez `"loss_train"`
-* Au lieu de `"acc,val"`, utilisez `"acc_val"`
+* Au lieu de `"test acc"`, utilisez `"test_acc"`.
+* Au lieu de `"loss-train"`, utilisez `"loss_train"`.
+* Au lieu de `"acc,val"`, utilisez `"acc_val"`.
 
 Pour plus d&#39;informations, voir [Contraintes de dénomination des métriques](/fr/models/track/log/#metric-naming-constraints).
 

@@ -1,27 +1,32 @@
 ---
-description: Le projecteur d’embeddings de W&B permet aux utilisateurs de visualiser des embeddings multidimensionnels
-  sur un plan 2D à l’aide d’algorithmes courants de réduction de dimension comme PCA, UMAP et t-SNE.
-title: Intégrer des objets
+description: L’Embedding Projector de W&B vous permet de représenter des embeddings multidimensionnels
+  sur un plan 2D à l’aide d’algorithmes courants de réduction de dimensionnalité comme PCA, UMAP et t-SNE.
+title: Créer des embeddings d’objets
+keywords: ["embedding projector", "projection 2D", "réduction de dimensionnalité", "visualisation de vecteurs"]
 ---
 
 <Frame>
-  <img src="/images/weave/embedding_projector.png" alt="Projecteur d’embeddings" />
+  <img src="/images/weave/embedding_projector.png" alt="Embedding projector" />
 </Frame>
 
-Les [embeddings](https://developers.google.com/machine-learning/crash-course/embeddings/video-lecture) servent à représenter des objets (personnes, images, publications, mots, etc.) sous forme de liste de nombres, parfois appelée *vecteur*. Dans les cas d’usage en machine learning et en science des données, les embeddings peuvent être générés de différentes manières pour un large éventail d’applications. Cette page suppose que le lecteur connaît déjà les embeddings et souhaite les analyser visuellement dans W&amp;B.
+Les [embeddings](https://developers.google.com/machine-learning/crash-course/embeddings/video-lecture) représentent des objets tels que des personnes, des images, des publications ou des mots à l’aide d’une liste de nombres, parfois appelée *vecteur*. Dans les cas d’usage en machine learning et en science des données, vous pouvez générer des embeddings à l’aide de différentes approches dans un large éventail d’applications. Cette page suppose que vous connaissez déjà les embeddings et que vous souhaitez les analyser visuellement dans W&amp;B.
+
+Ce guide vous montre comment journaliser des embeddings dans W&amp;B et utiliser l’Embedding Projector pour les représenter sur un plan 2D avec des algorithmes de réduction de dimensionnalité tels que PCA, UMAP et t-SNE. Visualiser les embeddings de cette manière vous aide à explorer des clusters, à examiner les relations entre les points de données et à vérifier que vos embeddings capturent bien la structure attendue.
 
 <div id="embedding-examples">
   ## Exemples d&#39;embeddings
 </div>
 
+Les ressources suivantes montrent l’Embedding Projector en action avant de l’essayer vous-même :
+
 * [Rapport de démonstration interactif](https://wandb.ai/timssweeney/toy_datasets/reports/Feature-Report-W-B-Embeddings-Projector--VmlldzoxMjg2MjY4?accessToken=bo36zrgl0gref1th5nj59nrft9rc4r71s53zr2qvqlz68jwn8d8yyjdz73cqfyhq)
-* [Exemple Colab](https://colab.research.google.com/drive/1DaKL4lZVh3ETyYEM1oJ46ffjpGs8glXA#scrollTo=D--9i6-gXBm_).
+* [Exemple Colab](https://colab.research.google.com/drive/1DaKL4lZVh3ETyYEM1oJ46ffjpGs8glXA#scrollTo=D--9i6-gXBm_)
 
 <div id="hello-world">
-  ### Hello World
+  ### Hello world
 </div>
 
-W&amp;B vous permet de journaliser des embeddings avec la classe `wandb.Table`. Prenez l’exemple suivant de 3 embeddings, chacun composé de 5 dimensions :
+Cet exemple minimal montre le minimum de code nécessaire pour journaliser des embeddings et les visualiser dans le projecteur. W&amp;B vous permet de journaliser des embeddings à l’aide de la classe `wandb.Table`. Considérez l’exemple suivant de trois embeddings, chacun composé de cinq dimensions :
 
 ```python
 import wandb
@@ -39,18 +44,17 @@ with wandb.init(project="embedding_tutorial") as run:
   run.finish()
 ```
 
-Après avoir exécuté le code ci-dessus, le tableau de bord W&amp;B affichera un nouveau tableau contenant vos données. Vous pouvez sélectionner `2D Projection` dans le sélecteur de panneau en haut à droite pour représenter les embeddings en 2 dimensions. L’option `Smart default` sera sélectionnée automatiquement, mais vous pouvez facilement la remplacer dans le menu de configuration accessible en cliquant sur l’icône d’engrenage. Dans cet exemple, nous utilisons automatiquement les 5 dimensions numériques disponibles.
+Après avoir exécuté le code précédent, le tableau de bord W&amp;B contient un nouveau tableau avec vos données. Sélectionnez **2D Projection** dans le sélecteur de panneau en haut à droite pour afficher les embeddings en deux dimensions. W&amp;B choisit automatiquement des paramètres par défaut pertinents, que vous pouvez modifier dans le menu de configuration en cliquant sur l’icône d’engrenage. Dans cet exemple, W&amp;B utilise les cinq dimensions numériques disponibles.
 
 <Frame>
   <img src="/images/app_ui/weave_hello_world.png" alt="exemple de projection 2D" />
 </Frame>
 
-
 <div id="digits-mnist">
   ### Chiffres MNIST
 </div>
 
-Bien que l’exemple ci-dessus illustre les mécanismes de base de la journalisation des embeddings, en pratique, vous travaillez généralement avec un nombre bien plus élevé de dimensions et d’échantillons. Prenons le jeu de données MNIST Digits ([jeu de données UCI ML de chiffres manuscrits](https://archive.ics.uci.edu/ml/datasets/Optical+Recognition+of+Handwritten+Digits)[s](https://archive.ics.uci.edu/ml/datasets/Optical+Recognition+of+Handwritten+Digits)), mis à disposition via [SciKit-Learn](https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_digits.html). Ce jeu de données contient 1 797 enregistrements, chacun comportant 64 dimensions. Il s’agit d’un cas d’usage de classification en 10 classes. Nous pouvons également convertir les données d’entrée en image pour les visualiser.
+L’exemple suivant présente un flux de travail plus réaliste, avec des données de plus grande dimension et des superpositions plus riches. Alors que l’exemple précédent illustre les mécanismes de base de la journalisation des embeddings, vous travaillez généralement avec bien davantage de dimensions et d’échantillons. Considérez le jeu de données MNIST Digits ([jeu de données UCI ML de chiffres manuscrits](https://archive.ics.uci.edu/ml/datasets/Optical+Recognition+of+Handwritten+Digits)), mis à disposition via [SciKit-Learn](https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_digits.html). Ce jeu de données contient 1 797 enregistrements, chacun comportant 64 dimensions. Il s’agit d’un cas d’usage de classification à 10 classes. Vous pouvez également convertir les données d’entrée en image pour la visualisation.
 
 ```python
 import wandb
@@ -77,21 +81,20 @@ with wandb.init(project="embedding_tutorial") as run:
   run.log({"digits": df})
 ```
 
-Après avoir exécuté le code ci-dessus, nous voyons de nouveau un tableau dans l&#39;UI. En sélectionnant `2D Projection`, vous pouvez configurer la définition de l&#39;embedding, la couleur, l&#39;algorithme (PCA, UMAP, t-SNE), les paramètres de l&#39;algorithme, et même la superposition (dans ce cas, l&#39;image s&#39;affiche lorsque vous survolez un point). Dans ce cas précis, il s&#39;agit uniquement de &quot;valeurs par défaut intelligentes&quot;, et vous devriez obtenir quelque chose de très similaire en cliquant simplement sur `2D Projection`. ([Interagissez avec cet exemple du tutoriel sur les embeddings](https://wandb.ai/timssweeney/embedding_tutorial/runs/k6guxhum?workspace=user-timssweeney)).
+Après avoir exécuté le code précédent, l’interface utilisateur affiche à nouveau un tableau. Sélectionnez **2D Projection** pour configurer la définition de l’embedding, la couleur, l’algorithme (PCA, UMAP, t-SNE), ses paramètres et la superposition. Dans ce cas, W&amp;B affiche l’image lorsque vous survolez un point. Il s’agit de valeurs par défaut intelligentes, et vous devriez obtenir un résultat similaire en un seul clic sur **2D Projection**. [Interagissez avec cet exemple du tutoriel sur les embeddings](https://wandb.ai/timssweeney/embedding_tutorial/runs/k6guxhum?workspace=user-timssweeney).
 
 <Frame>
   <img src="/images/weave/embedding_projector.png" alt="Projection des chiffres MNIST" />
 </Frame>
 
-
 <div id="logging-options">
   ## Options de journalisation
 </div>
 
-Vous pouvez journaliser des embeddings dans différents formats :
+Les sections suivantes décrivent les méthodes prises en charge pour structurer les données d&#39;embedding lorsque vous les journalisez dans W&amp;B. Vous pouvez journaliser des embeddings dans plusieurs formats :
 
-1. **Colonne d&#39;embedding unique :** Souvent, vos données sont déjà dans un format de type « matrice ». Dans ce cas, vous pouvez créer une seule colonne d&#39;embedding, où le type de données des valeurs de cellule peut être `list[int]`, `list[float]` ou `np.ndarray`.
-2. **Plusieurs colonnes numériques :** Dans les deux exemples ci-dessus, nous utilisons cette approche et créons une colonne pour chaque dimension. Nous acceptons actuellement des `int` ou `float` Python pour les cellules.
+* **Colonne d&#39;embedding unique :** Souvent, vos données sont déjà dans un format matriciel. Dans ce cas, vous pouvez créer une seule colonne d&#39;embedding, où le type des valeurs des cellules peut être `list[int]`, `list[float]` ou `np.ndarray`.
+* **Plusieurs colonnes numériques :** Les deux exemples précédents utilisent cette approche et créent une colonne pour chaque dimension. W&amp;B accepte des `int` ou `float` Python dans les cellules.
 
 <Frame>
   <img src="/images/weave/logging_options.png" alt="Colonne d'embedding unique" />
@@ -101,19 +104,19 @@ Vous pouvez journaliser des embeddings dans différents formats :
   <img src="/images/weave/logging_option_image_right.png" alt="Plusieurs colonnes numériques" />
 </Frame>
 
-De plus, comme pour tous les tableaux, vous avez plusieurs possibilités pour construire le tableau :
+Comme pour tous les tableaux, vous disposez de plusieurs options pour construire le tableau :
 
-1. Directement à partir d&#39;un **dataframe** avec `wandb.Table(dataframe=df)`
-2. Directement à partir d&#39;une **liste de données** avec `wandb.Table(data=[...], columns=[...])`
-3. Construire le tableau **de manière incrémentielle, ligne par ligne** (idéal si vous avez une boucle dans votre code). Ajoutez des lignes à votre tableau avec `table.add_data(...)`
-4. Ajouter une **colonne d&#39;embedding** à votre tableau (idéal si vous avez une liste de prédictions sous forme d&#39;embeddings) : `table.add_col("col_name", ...)`
-5. Ajouter une **colonne calculée** (idéal si vous avez une fonction ou un modèle à appliquer à votre tableau) : `table.add_computed_columns(lambda row, ndx: {"embedding": model.predict(row)})`
+* Directement à partir d&#39;un **dataframe** avec `wandb.Table(dataframe=df)`.
+* Directement à partir d&#39;une **liste de données** avec `wandb.Table(data=[...], columns=[...])`.
+* Construisez le tableau **de façon incrémentielle, ligne par ligne** (idéal si vous avez une boucle dans votre code). Ajoutez des lignes à votre tableau avec `table.add_data(...)`.
+* Ajoutez une **colonne d&#39;embedding** à votre tableau (idéal si vous avez une liste de prédictions sous forme d&#39;embeddings) : `table.add_col("col_name", ...)`.
+* Ajoutez une **colonne calculée** (idéal si vous avez une fonction ou un modèle à appliquer à votre tableau) : `table.add_computed_columns(lambda row, ndx: {"embedding": model.predict(row)})`.
 
 <div id="plotting-options">
   ## Options de tracé
 </div>
 
-Après avoir sélectionné `2D Projection`, vous pouvez cliquer sur l’icône d’engrenage pour modifier les paramètres de rendu. En plus de sélectionner les colonnes souhaitées (voir ci-dessus), vous pouvez choisir l’algorithme voulu (ainsi que les paramètres souhaités). Ci-dessous, vous pouvez voir les paramètres d’UMAP et de t-SNE, respectivement.
+Après avoir journalisé vos embeddings, vous pouvez ajuster la façon dont ils sont projetés et affichés. Après avoir sélectionné **2D Projection**, vous pouvez cliquer sur l’icône d’engrenage pour modifier les paramètres de rendu. En plus de sélectionner les colonnes souhaitées (voir les sections précédentes), vous pouvez choisir l’algorithme voulu (ainsi que les paramètres souhaités). Les images suivantes montrent les paramètres d’UMAP et de t-SNE.
 
 <Frame>
   <img src="/images/weave/plotting_options_left.png" alt="Paramètres d’UMAP" />
@@ -124,5 +127,5 @@ Après avoir sélectionné `2D Projection`, vous pouvez cliquer sur l’icône d
 </Frame>
 
 <Note>
-  Remarque : nous sous-échantillonnons actuellement un sous-ensemble aléatoire de 1 000 lignes et 50 dimensions pour les trois algorithmes.
+  W&amp;B sous-échantillonne un sous-ensemble aléatoire de 1 000 lignes et 50 dimensions pour les trois algorithmes.
 </Note>

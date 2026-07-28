@@ -1,12 +1,13 @@
 ---
-title: Désactiver les mises à jour automatiques pour W&B Server
-description: Découvrez comment désactiver les mises à jour automatiques pour W&B Server.
+title: Désactiver les mises à jour automatiques pour serveur W&B
+description: Découvrez comment désactiver les mises à jour automatiques pour serveur W&B.
+keywords: ["fixer la version", "geler la mise à niveau", "verrouillage de version", "mise à niveau manuelle"]
 ---
 
-Cette page explique comment désactiver les mises à niveau automatiques de W&amp;B Server et fixer sa version. Ces instructions s&#39;appliquent uniquement aux déploiements gérés par l&#39;[opérateur Kubernetes W&amp;B](/fr/platform/hosting/self-managed/operator).
+Cette page montre aux administrateurs des déploiements W&amp;B **Autogérés** comment désactiver les mises à niveau automatiques de serveur W&amp;B et fixer sa version sur une version spécifique. Le fait de fixer une version vous permet de contrôler le moment où les mises à niveau ont lieu. Ce contrôle est utile lorsque vous devez coordonner les mises à niveau avec des processus internes de gestion des modifications ou valider une version dans un environnement de préproduction avant de la déployer. Ces instructions s&#39;appliquent uniquement aux déploiements gérés par l&#39;[opérateur Kubernetes W&amp;B](/fr/platform/hosting/self-managed/operator).
 
 <Note>
-  W&amp;B prend en charge une version majeure de W&amp;B Server pendant 12 mois à compter de sa date de sortie initiale. Les clients disposant d&#39;instances **Autogérées** sont responsables d&#39;effectuer la mise à niveau à temps pour continuer à bénéficier de l&#39;assistance. Évitez de rester sur une version non prise en charge. W&amp;B recommande vivement aux clients disposant d&#39;instances **Autogérées** de mettre à jour leurs déploiements vers la dernière version au moins une fois par trimestre afin de continuer à bénéficier de l&#39;assistance et de recevoir les dernières fonctionnalités, améliorations des performances et correctifs.
+  W&amp;B prend en charge une version majeure de serveur W&amp;B pendant 12 mois à compter de sa date de sortie initiale. Les clients disposant d&#39;instances **Autogérées** sont responsables d&#39;effectuer la mise à niveau à temps pour continuer à bénéficier de l&#39;assistance. Évitez de rester sur une version non prise en charge. W&amp;B recommande aux clients disposant d&#39;instances **Autogérées** de mettre à jour leurs déploiements vers la dernière version au moins une fois par trimestre afin de continuer à bénéficier de l&#39;assistance et de recevoir les dernières fonctionnalités, améliorations des performances et correctifs.
 </Note>
 
 <div id="requirements">
@@ -22,21 +23,23 @@ Pour vérifier que vous respectez ces prérequis, référez-vous à la ressource
   ## Désactiver les mises à jour automatiques
 </div>
 
+Pour désactiver les mises à jour automatiques, utilisez la System Console pour épingler le serveur W&amp;B à une version spécifique, puis vérifiez dans les journaux de réconciliation de l’opérateur que l’épinglage de version est actif.
+
 1. Connectez-vous à la W&amp;B App avec un utilisateur disposant du rôle `admin`.
 2. Cliquez sur l’icône utilisateur en haut, puis sur **System Console**.
 3. Accédez à **Settings** &gt; **Advanced**, puis sélectionnez l’onglet **Other**.
 4. Dans la section **Disable Auto Upgrades**, activez **Pin specific version**.
-5. Cliquez sur la liste déroulante **Select a version**, puis sélectionnez une version de W&amp;B Server.
+5. Cliquez sur la liste déroulante **Select a version**, puis sélectionnez une version de serveur W&amp;B.
 6. Cliquez sur **Save**.
 
    <Frame>
-     <img src="/images/hosting/disable_automatic_updates_saved_and_enabled.png" alt="Désactivation des mises à jour automatiques enregistrée" />
+     <img src="/images/hosting/disable_automatic_updates_saved_and_enabled.png" alt="System Console affichant Pin specific version activé avec une version de serveur W&B sélectionnée" />
    </Frame>
 
-   Les mises à jour automatiques sont désactivées et W&amp;B Server est épinglé sur la version que vous avez sélectionnée.
+   Les mises à jour automatiques sont désactivées et serveur W&amp;B est épinglé sur la version que vous avez sélectionnée.
 7. Vérifiez que les mises à jour automatiques sont bien désactivées. Accédez à l’onglet **Operator** et recherchez dans les journaux de réconciliation la chaîne `Version pinning is enabled`.
 
-```
+```text
 │info 2025-04-17T17:24:16Z wandb default No changes found
 │info 2025-04-17T17:24:16Z wandb default Active spec found
 │info 2025-04-17T17:24:16Z wandb default Desired spec

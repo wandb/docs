@@ -3,10 +3,10 @@ title: "Comment puis-je utiliser le paramètre `resume` pour reprendre un run da
 keywords: ["Reprise"]
 ---
 
-Pour utiliser le paramètre `resume` dans W&amp;B, définissez l’argument `resume` dans `wandb.init()` en spécifiant `entity`, `project` et `id`. L’argument `resume` accepte les valeurs `"must"` ou `"allow"`.
+Pour utiliser le paramètre `resume` dans W&amp;B, définissez l’argument `resume` dans `wandb.init()` en spécifiant `entity`, `project` et `id`. L’argument `resume` accepte `"must"` ou `"allow"`.
 
 ```python
-  run = wandb.init(entity="your-entity", project="your-project", id="your-run-id", resume="must")
+run = wandb.init(entity="your-entity", project="your-project", id="your-run-id", resume="must")
 ```
 
 ***

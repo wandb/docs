@@ -1,15 +1,14 @@
 ---
 title: "ストリーミング応答を有効にする"
-description: "Serverless Inference でストリーミング出力を有効にすると、生成中のモデル応答を段階的に受け取れます。"
+description: "Serverless Inference でストリーミング出力を有効にすると、モデル応答を段階的に受け取れます。"
+keywords: ["stream=True", "server-sent events", "SSE", "段階的な出力"]
 ---
 
-モデルによっては、応答の生成に時間がかかることがあります。
-`stream` オプションを true に設定すると、応答をチャンクのストリームとして受け取れるため、
-応答全体の生成を待たずに、結果を段階的に表示できます。
+`stream` オプションを `true` に設定すると、モデルの応答がチャンクのストリームとして段階的に返されるため、応答全体を待たずに、到着した結果から表示できます。これは、モデルが出力の生成に時間を要する場合に役立ちます。
 
-ストリーミング出力は、すべての hosted モデルでサポートされます。特に
-[reasoning models](./reasoning) での使用を推奨します。ストリーミングでないリクエストでは、モデルが出力を開始する前に
-長時間考え込むとタイムアウトする可能性があるためです。
+ストリーミング出力は、すべての hosted モデルでサポートされます。[reasoning models](./reasoning) ではストリーミングを推奨します。ストリーミングでないリクエストでは、モデルが出力を開始するまでに時間がかかるとタイムアウトする可能性があるためです。
+
+以下の例では、chat completion リクエストでストリーミングを有効にします。
 
 <Tabs>
   <Tab title="Python">
@@ -18,7 +17,7 @@ description: "Serverless Inference でストリーミング出力を有効にす
 
     client = openai.OpenAI(
         base_url='https://api.inference.wandb.ai/v1',
-        api_key="<your-api-key>",  # https://wandb.ai/settings でAPIキーを作成します
+        api_key="[YOUR-API-KEY]",  # https://wandb.ai/settings でAPIキーを作成します
     )
 
     stream = client.chat.completions.create(
@@ -41,7 +40,7 @@ description: "Serverless Inference でストリーミング出力を有効にす
     ```bash
     curl https://api.inference.wandb.ai/v1/chat/completions \
       -H "Content-Type: application/json" \
-      -H "Authorization: Bearer <your-api-key>" \
+      -H "Authorization: Bearer [YOUR-API-KEY]" \
       -d '{
         "model": "openai/gpt-oss-120b",
         "messages": [

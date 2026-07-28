@@ -4,12 +4,12 @@ keywords: ["Experiments", "環境変数", "メトリクス"]
 featured: true
 ---
 
-デフォルトでは、`wandb.init` はメトリクスをリアルタイムでクラウドにSyncするプロセスを開始します。オフラインで使用するには、2 つの環境変数を設定してオフラインモードを有効にし、後でSyncできるようにします。
+デフォルトでは、`wandb.init` はメトリクスをリアルタイムでクラウドにSyncするプロセスを開始します。インターネット接続なしで experiments を実行する必要がある場合は、オフラインモードを有効にしてメトリクスをローカルにログし、接続が利用可能になったらアップロードできます。このページでは、オフラインモードを設定し、後でデータをSyncする方法を説明します。
 
-次の環境変数を設定します。
+オフラインモードを有効にするには、次の環境変数を設定します。
 
-1. `WANDB_API_KEY=$KEY`。ここで、`$KEY` は [User Settings](https://wandb.ai/settings) で作成した APIキーです。
-2. `WANDB_MODE="offline"`。
+* `WANDB_API_KEY=[YOUR-API-KEY]`。ここで、`[YOUR-API-KEY]` は [User Settings](https://wandb.ai/settings) で作成した APIキーです。
+* `WANDB_MODE="offline"`。
 
 これをスクリプトに実装する例を次に示します。
 
@@ -17,7 +17,7 @@ featured: true
 import wandb
 import os
 
-os.environ["WANDB_API_KEY"] = "YOUR_KEY_HERE"
+os.environ["WANDB_API_KEY"] = "[YOUR-API-KEY]"
 os.environ["WANDB_MODE"] = "offline"
 
 config = {
@@ -39,10 +39,10 @@ with wandb.init(project="offline-demo") as run:
   <img src="/images/experiments/sample_terminal_output.png" alt="オフラインモードの端末出力" />
 </Frame>
 
-作業が完了したら、次のコマンドを実行してデータをクラウドにSyncします:
+インターネットに接続できるようになったら、次のコマンドを実行して、ローカルに保存した run データをクラウドにSyncします。`[DRYRUN-FOLDER-NAME]` はローカルの run フォルダ名に置き換えてください:
 
-```shell
-wandb sync wandb/dryrun-folder-name
+```bash
+wandb sync wandb/[DRYRUN-FOLDER-NAME]
 ```
 
 <Frame>

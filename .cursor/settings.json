@@ -11,6 +11,9 @@
     },
     "glean": {
       "enabled": true
+    },
+    "sourcegraph-cursor-plugin": {
+      "enabled": true
     }
   }
 }

@@ -1,6 +1,7 @@
 ---
-title: "Scorers As Guardrails"
+title: "Scorers as guardrails"
 description: "Learn how to use scorers as guardrails with W&B Weave"
+keywords: ["Weave Scorer", "guardrails", "content safety", "runtime evaluation", "apply_scorer"]
 ---
 
 <Note>
@@ -9,11 +10,13 @@ This is an interactive notebook. You can run it locally or use the links below:
 - [View source on GitHub](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/scorers_as_guardrails.ipynb)
 </Note>
 
-# Scorers as Guardrails
+# Scorers as guardrails
 
-Weave Scorers are special classes with a `score` method that can evaluate the performance of a call. They can range from quite simple rules to complex LLMs as judges. 
+Weave Scorers are classes with a `score` method that evaluates the performance of a call. They can range from basic rules to LLMs as judges.
 
-In this notebook, we will explore how to use Scorers as guardrails to prevent your LLM from generating harmful or inappropriate content.
+This notebook is for Weave users who want to apply Scorers at runtime to block or filter unwanted model outputs. By following along, you build a content safety guardrail that intercepts an LLM response, evaluates it with a Scorer, and returns a fallback message when the Scorer flags the response as unsafe. Using Scorers this way lets you reuse the same evaluation logic that powers offline experiments to enforce safety policies in production.
+
+By the end of this notebook, you have a working `ContentSafetyScorer` that wraps an LLM call and returns either the original response or a safe fallback, depending on the Scorer's verdict.
 
 ```python lines
 %pip install weave --quiet

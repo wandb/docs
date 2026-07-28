@@ -1,9 +1,12 @@
 ---
 title: Serverless Sandboxes
+description: W&B Serverless Sandboxes を使用すると、Python から必要に応じて分離されたコンピュート環境を作成、使用し、不要になったら破棄できます。
 mode: wide
 ---
 
-<Warning>Serverless Sandboxes は招待制のプライベートプレビューとして提供されています。登録をリクエストするには、[サポート](mailto:support@wandb.com) または担当の AISE にお問い合わせください。</Warning>
+<Warning>
+  Serverless Sandboxes はパブリックプレビューです。
+</Warning>
 
 Serverless Sandboxes では、Python を使用して、必要に応じて分離されたコンピュート環境を作成、使用し、不要になったら破棄できます。
 
@@ -29,7 +32,10 @@ Serverless Sandboxes は CoreWeave Sandbox ライブラリを使用して構築�
 
 次の手順に従ってサンドボックスを作成し、その中でコマンドを実行します。
 
-1. サポート チームまたは AISE の担当者から提供されたソースから、W&amp;B Python SDK (`wandb`) をインストールします。
+1. 次のコマンドを使用して、W&amp;B Python SDK (`wandb`) と serverless sandbox の依存関係をインストールします。
+   ```bash
+   pip install wandb[sandbox]
+   ```
 
 2. [`wandb login`](/ja/models/ref/cli/wandb-login) CLI コマンドを使用して W&amp;B にログインします。プロンプトが表示されたら、APIキーを入力してアイデンティティを認証し、W&amp;B アカウントにアクセスします。
 
@@ -63,3 +69,11 @@ Serverless Sandboxes は CoreWeave Sandbox ライブラリを使用して構築�
 
 * [Serverless Sandbox でエージェントを呼び出すチュートリアル](/ja/sandboxes/invoke-agent-sandbox-tutorial)
 * [Serverless Sandbox で PyTorch モデルをトレーニングするチュートリアル](/ja/sandboxes/mltrain-in-sandbox-tutorial)
+
+<div id="integrations">
+  ## インテグレーション
+</div>
+
+以下のサードパーティ製フレームワークは、サンドボックスプロバイダとして Serverless Sandboxes をサポートしています。
+
+* [Harbor](https://github.com/harbor-framework/harbor)

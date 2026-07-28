@@ -1,0 +1,16 @@
+---
+title: "W&B Sweeps をクラウド インフラストラクチャーで使用するにはどうすればよいですか?"
+keywords: ["Sweeps", "AWS"]
+---
+
+AWS Batch や ECS などのクラウド インフラストラクチャーで W&amp;B Sweep を実行するには、どの W&amp;B Sweep エージェントからでも `sweep_id` にアクセスできるように公開し、それらのエージェントが `sweep_id` を読み取って実行できる仕組みを実装します。
+
+たとえば、Amazon EC2 インスタンスを起動し、そこで `wandb agent` を実行します。SQS キューを使用して `sweep_id` を複数の EC2 インスタンスに配信します。各インスタンスはキューから `sweep_id` を読み取り、プロセスを開始します。
+
+***
+
+{/* 自動生成: タブバッジ */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ja/support/models/tags/sweeps)</Badge><Badge stroke shape="pill" color="orange" size="md">[AWS](/ja/support/models/tags/aws)</Badge>
+
+{/* 終了 AUTO-GENERATED: タブバッジ */}

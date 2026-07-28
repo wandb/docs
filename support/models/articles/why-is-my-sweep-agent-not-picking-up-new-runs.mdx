@@ -1,0 +1,34 @@
+---
+title: "Why is my sweep agent not picking up new runs?"
+keywords: ["Sweeps", "Experiments"]
+---
+
+If your sweep agent starts but does not receive new run configurations, or receives one run and then idles, there are several common causes.
+
+**The sweep has exhausted its search space (grid search)**
+
+In `grid` search, the sweep controller assigns every combination of hyperparameter values exactly once. Once all combinations are assigned, no new runs are generated. If you started multiple agents simultaneously, they may have collectively consumed all configurations before any single agent finished its current run.
+
+To confirm: open the sweep page in the W&B UI and check the run count against the total grid size. If they match, the sweep is complete.
+
+**The `--count` flag is limiting the agent**
+
+Running `wandb agent --count [COUNT] [SWEEP-ID]` tells the agent to accept at most `[COUNT]` runs before exiting. If you set `--count 1`, the agent exits after a single run. This is intentional for SLURM and other job schedulers, but can be surprising if you expected the agent to loop.
+
+Remove `--count` (or increase it) to allow the agent to keep pulling runs. Replace `[SWEEP-ID]` with the sweep ID from the W&B UI or the value returned by `wandb.sweep()`:
+
+```bash
+wandb agent [SWEEP-ID]
+```
+
+**The sweep is paused or stopped**
+
+Check the sweep status in the W&B UI (**Sweeps > your sweep > Status**). If the sweep was manually paused or stopped, agents will not receive new configurations until the sweep is resumed.
+
+For more causes and fixes, see [Troubleshoot sweeps](/models/sweeps/troubleshoot-sweeps). For SLURM distributed jobs, see [How should I run sweeps on SLURM?](/support/models/articles/how-should-i-run-sweeps-on-slurm).
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/support/models/tags/sweeps)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/support/models/tags/experiments)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

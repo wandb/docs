@@ -1,6 +1,7 @@
 ---
 title: "CSV からインポート"
 description: "CSV ファイルからデータセットを W&B Weave にインポートして、評価、トレース、モデル比較のワークフローで使用します。"
+keywords: ["CSV インポート", "トレースのインポート", "過去のトレース", "親子 Call", "会話トレース"]
 ---
 
 <Note>
@@ -10,17 +11,19 @@ description: "CSV ファイルからデータセットを W&B Weave にインポ
   * [GitHub でソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/import_from_csv.ipynb)
 </Note>
 
-<div id="import-traces-from-3rd-party-systems">
-  # サードパーティシステムからトレースをインポート
+<div id="import-traces-from-third-party-systems">
+  ## サードパーティシステムからトレースをインポート
 </div>
 
-場合によっては、GenAI アプリケーションのリアルタイムのトレースを取得するために、Weave のシンプルなインテグレーションを Python や JavaScript のコードに組み込めないことがあります。そうした場合でも、後からそれらのトレースを `csv` または `json` 形式で入手できることがよくあります。
+このノートブックでは、CSV ファイル内の過去の会話トレースを W&amp;B Weave にインポートして、分析したり、モデルの動作を比較したり、Weave でインストルメントされていないアプリケーションの外部で生成されたデータに対して評価を実行したりする方法を紹介します。
 
-このクックブックでは、より低レベルな Weave Python API を使って CSV ファイルからデータを抽出し、Weave にインポートして、洞察の獲得や厳密な評価に役立てる方法を紹介します。
+場合によっては、GenAI アプリケーションのリアルタイムのトレースを取得するために、Weave のインテグレーションを Python や JavaScript のコードに組み込めないことがあります。そうした場合でも、後からそれらのトレースを CSV または JSON 形式で入手できることがよくあります。
+
+このノートブックでは、より低レベルな Weave Python API を使って CSV ファイルからデータを抽出し、Weave にインポートして、分析や評価を行う方法を紹介します。
 
 このクックブックで前提とするサンプルデータセットは、次の構造になっています。
 
-```
+```text
 conversation_id,turn_index,start_time,user_input,ground_truth,answer_text
 1234,1,2024-09-04 13:05:39,This is the beginning, ['This was the beginning'], That was the beginning
 1235,1,2024-09-04 13:02:11,This is another trace,, That was another trace
@@ -31,24 +34,26 @@ conversation_id,turn_index,start_time,user_input,ground_truth,answer_text
 
 ```
 
-このクックブックでのインポート時の判断を理解するには、Weaveのトレースが 1:多 の連続した親子関係を持つことを知っておく必要があります。つまり、1 つの親に複数の子を持たせることができ、その親自体が別の親の子になる場合もあります。
+このノートブックでのインポート時の判断を理解するには、Weaveのトレースが 1:多 の連続した親子関係を持つことを覚えておいてください。つまり、1 つの親に複数の子を持たせることができ、その親自体が別の親の子になる場合もあります。
 
-そのため、会話全体のloggingを行えるよう、親の識別子として `conversation_id` を、子の識別子として `turn_index` を使用します。
+このノートブックでは、会話全体のloggingを行えるよう、親の識別子として `conversation_id` を、子の識別子として `turn_index` を使用します。
 
-必要に応じて変数を変更してください。
+ご自身のデータセット、ファイルパス、および W&amp;B project に合わせて、以下のセクションの変数を変更する必要があります。
 
 <div id="set-up-the-environment">
-  # 環境を設定する
+  ## 環境を設定する
 </div>
 
-必要なパッケージをすべてインストールし、インポートします。
-`wandb.login()` で簡単にログインできるよう、環境変数に `WANDB_API_KEY` を設定します (これはシークレットとして colab に渡す必要があります) 。
+必要なパッケージをすべてインストールして `import` します。
+`wandb.login()` でログインできるように、`WANDB_API_KEY` を環境に設定します (Colab にはシークレットとして指定します) 。
 
-`name_of_file` には colab にアップロードするファイル名を設定し、`name_of_wandb_project` にはこれをログする先の W&amp;B のプロジェクトを設定します。
+Colab にアップロードする file の名を `name_of_file` に設定し、ログ先の W&amp;B project を `name_of_wandb_project` に設定します。
 
-***NOTE:*** `name_of_wandb_project` は、トレースのログ先となる Teams を指定するために、`{team_name}/{project_name}` の形式にすることもできます。
+<Note>
+  トレースのログ先チームを指定するには、`name_of_wandb_project` に `[TEAM_NAME]/[PROJECT_NAME]` 形式を指定することもできます。
+</Note>
 
-その後、`weave.init()` を呼び出して Weave クライアントを取得します
+その後、`weave.init()` を呼び出して Weave クライアントを取得します。
 
 ```python lines
 %pip install wandb weave pandas datetime --quiet
@@ -92,25 +97,27 @@ python
 weave_client = weave.init(name_of_wandb_project)
 ```
 
-<div id="data-loading">
-  # データの読み込み
+<div id="load-the-data">
+  ## データを読み込む
 </div>
 
-データを Pandas の dataframe に読み込み、親子関係が正しい順序になるよう、`conversation_id` と `turn_index` でソートします。
+環境の準備ができたら、Weave が想定する親子構造に合うように、CSV データを読み込んで整形します。
 
-その結果、各会話ターンが `conversation_data` に配列として格納された、2 列の pandas DF になります。
+データを pandas の DataFrame に読み込み、`conversation_id` と `turn_index` でソートして、親子関係が正しい順序になるようにします。
+
+その結果、会話のターンが `conversation_data` に配列として格納された、2 列の pandas DataFrame になります。
 
 ```python lines
-## データを読み込んで整形する
+## データの読み込みと整形
 df = pd.read_csv(name_of_file)
 
 sorted_df = df.sort_values(["conversation_id", "turn_index"])
 
-# 各会話のdictの配列を作成するfunction
+# 各会話の辞書配列を作成する関数
 def create_conversation_dict_array(group):
     return group.drop("conversation_id", axis=1).to_dict("records")
 
-# dataframeをconversation_idでグループ化してaggregationを適用する
+# conversation_id でデータフレームをグループ化して集約を適用する
 result_df = (
     sorted_df.groupby("conversation_id")
     .apply(create_conversation_dict_array)
@@ -118,26 +125,28 @@ result_df = (
 )
 result_df.columns = ["conversation_id", "conversation_data"]
 
-# aggregationの結果を確認する
+# 集約結果を確認する
 result_df.head()
 ```
 
 <div id="log-the-traces-to-weave">
-  # トレースを Weave にログする
+  ## トレースを Weave にログする
 </div>
 
-ここでは、pandas の DF をイテレートします。
+データを会話とターンの形式に整えたら、次のステップはそれらのレコードを親 Call と子 Call として Weave に書き込むことです。
 
-* `conversation_id` ごとに親 call を作成します
-* `turn_index` でソートされた turn 配列を順に処理して、子 call を作成します
+pandas DataFrame を反復処理します。
 
-低レベル Python API の重要な概念:
+* `conversation_id` ごとに親 Call を作成します。
+* ターン配列を反復処理して、`turn_index` 順に並べた子 Call を作成します。
 
-* Weave の call は Weave のトレースに相当し、この call には親や子を関連付けることができます
-* Weave の call には、Feedback や Metadata など、ほかの情報を関連付けることもできます。ここでは inputs と outputs のみを関連付けていますが、データにそれらが含まれている場合は、import 時に追加するとよいでしょう。
-* Weave の call には `created` と `finished` があります。これはリアルタイムでトラッキングすることを想定しているためです。今回は事後的な import なので、object を定義して相互に関連付けたあとで、作成と完了をまとめて行います。
-* call の `op` 値は、Weave が同じ構成の call を分類するためのものです。この例では、すべての親 call は `Conversation` タイプ、すべての子 call は `Turn` タイプです。必要に応じて変更できます。
-* call には `inputs` と `output` を持たせることができます。`inputs` は作成時に定義し、`output` は call の完了時に定義します。
+下位レベルの Python API における重要な概念は次のとおりです。
+
+* Weave Call は Weave トレースに相当します。この Call には、親や子を関連付けることができます。
+* Weave Call には、feedback やメタデータなど、ほかの項目を関連付けることもできます。この例では inputs と output のみを関連付けていますが、データにそれらが含まれている場合は、import に追加できます。
+* Weave Call には `created` と `finished` があります。これは、これらがリアルタイムでトラッキングされることを前提としているためです。今回は事後の import であるため、オブジェクトを定義して相互に関連付けたあとで、作成と完了を一度に行います。
+* Call の `op` 値は、同じ構成の Call を Weave がどのように分類するかを示します。この例では、すべての親 Call は `Conversation` タイプで、すべての子 Call は `Turn` タイプです。必要に応じて変更できます。
+* Call は `inputs` と `output` を持つことができます。`inputs` は作成時に定義し、`output` は Call の完了時に定義します。
 
 ```python lines
 # Weave にトレースをログする
@@ -147,7 +156,7 @@ for _, row in result_df.iterrows():
     # 会話の親を定義する。
     # 先ほど定義した weave_client を使って "call" を作成する
     parent_call = weave_client.create_call(
-        # Op の値によってこれを Weave Op として登録し、後でグループとしてまとめて取得できるようにする
+        # Op の値によってこれを Weave の op として登録し、後からグループとしてまとめて取得できるようにする
         op="Conversation",
         # 上位レベルの会話の inputs として、その配下のすべてのターンを設定する
         inputs={
@@ -157,11 +166,11 @@ for _, row in result_df.iterrows():
         },
         # Conversation の親にはさらに上の親は存在しない
         parent=None,
-        # この会話が UI に表示される際の名前
+        # この会話が UI 上に表示される際の名前
         display_name=f"conversation-{row['conversation_id']}",
     )
 
-    # 親の出力を会話内の最後のトレースに設定する
+    # 親の output を会話内の最後のトレースに設定する
     parent_output = row["conversation_data"][len(row["conversation_data"]) - 1]
 
     # 親に対するすべての会話ターンを反復処理し、
@@ -182,11 +191,11 @@ for _, row in result_df.iterrows():
             },
             # 定義した親の子として設定する
             parent=parent_call,
-            # Weave で識別するための名前を指定する
+            # Weave 内で識別するための名前を指定する
             display_name=item_id,
         )
 
-        # call の出力を回答として設定する
+        # call の output を回答として設定する
         output = {
             "answer_text": item["answer_text"],
         }
@@ -197,56 +206,59 @@ for _, row in result_df.iterrows():
     weave_client.finish_call(call=parent_call, output=parent_output)
 ```
 
-<div id="result-traces-are-logged-to-weave">
-  # 結果: トレースが Weave にログされる
+<div id="result-traces-logged-to-weave">
+  ## 結果: Weave にログされたトレース
 </div>
+
+この時点で、CSV データは Weave にインポートされています。これで、定義した `Conversation` および `Turn` オペレーションの下にグループ化された会話とそのターンを Weave UI で確認できます。
 
 トレース:
 
 <Frame>
-  ![image.png](/images/screenshots/csv-1.png)
+  ![Weave UI にインポートされた会話のトレース](/images/screenshots/csv-1.png)
 </Frame>
 
-Operations:
+オペレーション:
 
 <Frame>
-  ![image.png](/images/screenshots/csv-2.png)
+  ![Weave UI の Conversation オペレーションと Turn オペレーション](/images/screenshots/csv-2.png)
 </Frame>
 
-<div id="bonus-export-your-traces-to-run-rigorous-evaluations">
-  # おまけ: トレースをエクスポートして厳密な評価を行いましょう！
+<div id="optional-export-your-traces-to-run-evaluations">
+  ## オプション: トレースをエクスポートして評価を実行する
 </div>
 
-トレースが Weave に取り込まれ、会話の内容を把握できたら、後でそれらを別のプロセスにエクスポートして Weave の評価を実行できます。
+トレースを Weave に取り込み、会話がどのように見えるかを把握したら、それらを別のプロセスにエクスポートして Weave の評価を実行できます。
 
 <Frame>
-  ![image.png](/images/screenshots/csv-3.png)
+  ![Weave プロジェクトからトレースをエクスポート](/images/screenshots/csv-3.png)
 </Frame>
 
-これを行うには、シンプルなクエリ API を使って W&amp;B からすべての会話を取得し、そこからデータセットを作成します。
+これを行うには、query API を使用して W&amp;B からすべての会話を取得し、それらからデータセットを作成します。
 
 ```python lines
-## このセルはデフォルトでは実行されません。このスクリプトを実行するには以下の行をコメントアウトしてください
+## このセルはデフォルトでは実行されません。スクリプトを実行するには以下の行をコメントアウトしてください
 %%script false --no-raise-error
-## 評価用の会話トレースをすべて取得し、評価用データセットを準備する
+## 評価用のすべての会話トレースを取得し、評価用データセットを準備する
 
 # すべての Conversation オブジェクトを取得するクエリフィルターを作成します
-# 以下の ref はプロジェクト固有のものです。UI でプロジェクトの Operations に移動し、
-# "Conversations" オブジェクトをクリックして、サイドパネルの "Use" タブから取得できます。
+# 以下の ref はプロジェクト固有のものです。取得するには、
+# UI でプロジェクトの オペレーション を開き、"Conversations" オブジェクトをクリックして、
+# サイドパネルの "Use" タブを選択してください。
 weave_ref_for_conversation_op = "weave://wandb-smle/import-weave-traces-cookbook/op/Conversation:tzUhDyzVm5bqQsuqh5RT4axEXSosyLIYZn9zbRyenaw"
 filter = weave.trace_server.trace_server_interface.CallsFilter(
     op_names=[weave_ref_for_conversation_op],
   )
 
-# クエリを実行する
+# クエリを実行します
 conversation_traces = weave_client.get_calls(filter=filter)
 
 rows = []
 
-# 会話トレースを反復処理し、データセットの行を構築する
+# 会話トレースを反復処理し、データセットの行を構築します
 for single_conv in conversation_traces:
   # この例では、RAG パイプラインを使用した会話のみを対象とするため、
-  # 該当するタイプの会話をフィルタリングします
+  # 該当する会話をフィルタリングします
   is_rag = False
   for single_trace in single_conv.inputs['conversation_data']:
     if single_trace['ground_truth'] is not None:
@@ -255,18 +267,18 @@ for single_conv in conversation_traces:
   if single_conv.output['ground_truth'] is not None:
       is_rag = True
 
-  # RAG を使用した会話を特定したら、データセットに追加する
+  # RAG を使用した会話を特定したら、データセットに追加します
   if is_rag:
     inputs = []
     ground_truths = []
     answers = []
 
-    # 会話の各ターンを反復処理する
+    # 会話内のすべてのターンを反復処理します
     for turn in single_conv.inputs['conversation_data']:
       inputs.append(turn.get('user_input', ''))
       ground_truths.append(turn.get('ground_truth', ''))
       answers.append(turn.get('answer_text', ''))
-    ## 会話が1ターンのみの場合に対応する
+    ## 会話がシングルターンの場合を考慮します
     if len(single_conv.inputs) != 1 or single_conv.inputs['conversation_data'][0].get('turn_index') != single_conv.output.get('turn_index'):
       inputs.append(single_conv.output.get('user_input', ''))
       ground_truths.append(single_conv.output.get('ground_truth', ''))
@@ -281,17 +293,19 @@ for single_conv in conversation_traces:
     rows.append(data)
 
 # データセットの行を作成したら、Dataset オブジェクトを作成し、
-# 後から取得できるよう Weave に公開する
+# 後から取得できるよう Weave に公開します
 dset = weave.Dataset(name = "conv_traces_for_eval", rows=rows)
 weave.publish(dset)
 ```
 
 <div id="result">
-  # 結果
+  ## 結果
 </div>
 
+エクスポートしたデータセットは Weave に再び公開され、評価の入力として使用できる状態になりました。
+
 <Frame>
-  ![image.png](/images/screenshots/csv-4.png)
+  ![評価で使用できる状態になった、Weave UI で公開済みのデータセット](/images/screenshots/csv-4.png)
 </Frame>
 
 評価の詳細については、新しく作成したデータセットを使って RAG アプリケーションを評価する方法を紹介した[クイックスタート](/ja/weave/tutorial-rag)をご覧ください。

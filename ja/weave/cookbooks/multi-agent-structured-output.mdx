@@ -1,38 +1,33 @@
 ---
 title: "マルチエージェントの構造化出力"
 description: "W&B Weaveでマルチエージェントの構造化出力を使用する方法を学びます"
+keywords: ["マルチエージェント", "構造化出力", "OpenAI", "JSON schema", "agent tracing"]
 ---
 
 <Note>
-  これはインタラクティブなノートブックです。ローカルで実行することも、以下のリンクを利用することもできます。
+  これはインタラクティブなノートブックです。ローカルで実行することも、次のリンクを使用することもできます。
 
-  * [Google Colab で開く](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/multi-agent-structured-output.ipynb)
+  * [Google Colabで開く](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/multi-agent-structured-output.ipynb)
   * [GitHubでソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/multi-agent-structured-output.ipynb)
 </Note>
 
-##
+このチュートリアルでは、OpenAIのStructured Outputs機能を使用するマルチエージェントシステムを構築する方法と、[Weave](/ja/weave)でエージェント間のやり取りをトレースする方法を紹介します。最後には、中間の入力と出力をWeave UIで確認できる、4つのエージェントからなるデータ分析パイプラインが完成します。
 
-<div id="structured-outputs-for-multi-agent-systems">
-  # マルチエージェントシステム向け Structured Outputs
-</div>
+OpenAIは、強い表現のプロンプトを使わなくても、指定したJSON Schemaに常に準拠する応答をモデルが生成できるように、[Structured Outputs](https://openai.com/index/introducing-structured-outputs-in-the-api/)をリリースしました。Structured Outputsを使用すると、形式が正しくない応答を検証したり再試行したりする必要はありません。
 
-OpenAI は、強い調子のプロンプトを使わなくても、指定した JSON Schema に常に従うレスポンスをモデルが生成できるようにするため、[Structured Outputs](https://openai.com/index/introducing-structured-outputs-in-the-api/) をリリースしました。Structured Outputs を使えば、形式が正しくないレスポンスに対して検証や再試行を行う必要がありません。
+パラメーター `strict: true` を使用すると、応答が指定したスキーマに従うことを保証できます。
 
-新しいパラメーター `strict: true` を使用することで、レスポンスが指定したスキーマに従うことを保証できます。
-
-マルチエージェントシステムで Structured Outputs を使用すると、エージェント間で一貫性があり処理しやすいデータをやり取りできるため、連携が向上します。また、明示的な拒否を可能にすることで安全性も高まり、再試行や検証が不要になることでパフォーマンスも向上します。これによりやり取りが簡素化され、システム全体の効率が高まります。
-
-このチュートリアルでは、マルチエージェントシステムで Structured Outputs を活用し、それらを [Weave](/ja/weave) でトレースする方法を示します。
+マルチエージェントシステムで構造化出力を使用すると、エージェント間で一貫性があり、予測可能な形で処理できるデータを生成できます。また、明示的な拒否もサポートされるため、再試行や応答の検証も不要になります。
 
 <Tip>
-  **ソース**: この cookbook は、[OpenAI の Structured Outputs のサンプルコード](https://cookbook.openai.com/examples/structured_outputs_multi_agent) をもとに、Weave を使用した可視化を改善するために一部変更を加えています。
+  **ソース**: このクックブックは、[OpenAIのStructured Outputsのサンプルコード](https://cookbook.openai.com/examples/structured_outputs_multi_agent)をベースに、Weaveでの可視化を改善するための変更をいくつか加えたものです。
 </Tip>
 
-<div id="installing-the-dependencies">
+<div id="install-the-dependencies">
   ## 依存関係のインストール
 </div>
 
-このチュートリアルでは、次のライブラリが必要です。
+まず、このチュートリアルで使用するライブラリをインストールします。このチュートリアルでは、次のライブラリを使用します。
 
 * マルチエージェントシステムを構築するための [OpenAI](https://openai.com/index/openai-api/)。
 * LLM のワークフローをトラッキングし、プロンプト戦略を評価するための [Weave](/ja/weave)。
@@ -41,20 +36,25 @@ OpenAI は、強い調子のプロンプトを使わなくても、指定した 
 !pip install -qU openai weave wandb
 python
 %%capture
-# openai の bug を修正するための一時的な回避策:
+# openai のバグを修正するための一時的な回避策:
 # TypeError: Client.__init__() got an unexpected keyword argument 'proxies'
-# See https://community.openai.com/t/error-with-openai-1-56-0-client-init-got-an-unexpected-keyword-argument-proxies/1040332/15
+# 参照: https://community.openai.com/t/error-with-openai-1-56-0-client-init-got-an-unexpected-keyword-argument-proxies/1040332/15
 !pip install "httpx<0.28"
 ```
 
-wandb.login() で簡単にログインできるよう、環境変数 `WANDB_API_KEY` を設定します (これはシークレットとして Colab に渡す必要があります) 。
+次に、認証情報を設定し、Weave を初期化して、トレースが W&amp;B プロジェクトにログされるようにします。
+
+wandb.login() で簡単にログインできるよう、環境変数 `WANDB_API_KEY` を設定します。これをシークレットとして Colab に渡します。
 
 ログ先の W&amp;B プロジェクトを `name_of_wandb_project` に設定します。
 
-**注**: トレースのログ先チームを指定するには、`name_of_wandb_project` に `{team_name}/{project_name}` 形式を指定することもできます。
-次に、weave.init() を呼び出して Weave クライアントを取得します。
+<Note>
+  トレースのログ先チームを指定するには、`name_of_wandb_project` に `[YOUR-TEAM]/[YOUR-PROJECT]` 形式を指定することもできます。
+</Note>
 
-[OpenAI API](https://openai.com/index/openai-api/) を使用するため、OpenAI の APIキー も必要です。自分の APIキー を取得するには、OpenAI プラットフォームで [sign up](https://platform.openai.com/signup) してください。 (これもシークレットとして Colab に渡す必要があります。)
+次に、`weave.init()` を呼び出して Weave クライアントを取得します。
+
+このチュートリアルでは [OpenAI API](https://openai.com/index/openai-api/) を使用するため、OpenAI APIキー も必要です。自分の APIキー を取得するには、OpenAI プラットフォームで [Sign up](https://platform.openai.com/signup) してください。これもシークレットとして Colab に渡します。
 
 ```python lines
 import base64
@@ -82,18 +82,19 @@ client = OpenAI()
 MODEL = "gpt-4o-2024-08-06"
 ```
 
-<div id="agents-set-up">
-  ## エージェントの設定
+<div id="set-up-the-agents">
+  ## エージェントを設定する
 </div>
 
-今回取り組むユースケースは、データ分析タスクです。
-まず、4つのエージェントから成るシステムを設定しましょう。
+Weave を初期化したら、システムを構成するエージェントを定義します。このチュートリアルのユースケースは、データ分析タスクです。
+まず、4 つのエージェントで構成されるシステムを設定します。
 
-* Triaging エージェント: どのエージェントをcallするかを決定します
-* Data pre-processing Agent: 分析用にデータを準備します。たとえば、データをクリーンアップします
-* Data Analysis Agent: データを分析します
-* Data Visualization Agent: 分析結果を可視化し、インサイトを引き出します
-  まず、これら各エージェントのsystem promptを定義します。
+* トリアージエージェント: どのエージェントを呼び出すかを決定します。
+* データ前処理エージェント: たとえばデータをクリーンアップして、分析できるように準備します。
+* データ分析エージェント: データを分析します。
+* データ可視化エージェント: 分析結果の出力を可視化して、インサイトを引き出します。
+
+まず、これらの各エージェントのシステムプロンプトを定義します。これらのプロンプトでは、各エージェントの役割と、呼び出しを許可するツールを定めます。
 
 ```python lines
 triaging_system_prompt = """You are a Triaging Agent. Your role is to assess the user's query and route it to the relevant agents. The agents available are:
@@ -119,15 +120,15 @@ visualization_system_prompt = """You are a Visualization Agent. Your role is to 
 - create_pie_chart"""
 ```
 
-次に、各エージェントで使用するツールを定義します。
+次に、各エージェントのツールを定義します。
 
-振り分けエージェントを除き、各エージェントには役割に応じた専用のツールを用意します。
+トリアージ エージェントを除き、各エージェントにはその役割に応じた固有のツールがあります。
 
-**データ前処理エージェント** : 1. データのクリーニング, 2. データの変換, 3. データの集計
+**Data pre-processing agent**: データのクリーニング、データの変換、データの集計。
 
-**データ分析エージェント** : 1. 統計分析, 2. 相関分析, 3. 回帰分析
+**Data analysis agent**: 統計分析、相関分析、回帰分析。
 
-**データ可視化エージェント** : 1. 棒グラフの作成, 2. 折れ線グラフの作成, 3. 円グラフの作成
+**Data visualization agent**: 棒チャートの作成、折れ線チャートの作成、円チャートの作成。
 
 ```python lines
 triage_tools = [
@@ -135,18 +136,18 @@ triage_tools = [
         "type": "function",
         "function": {
             "name": "send_query_to_agents",
-            "description": "ユーザーのクエリを、各エージェントの機能に基づいて関連するエージェントに送信します。",
+            "description": "Sends the user query to relevant agents based on their capabilities.",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "agents": {
                         "type": "array",
                         "items": {"type": "string"},
-                        "description": "クエリの送信先となるエージェント名の配列。",
+                        "description": "An array of agent names to send the query to.",
                     },
                     "query": {
                         "type": "string",
-                        "description": "送信するユーザーのクエリ。",
+                        "description": "The user query to send.",
                     },
                 },
                 "required": ["agents", "query"],
@@ -161,13 +162,13 @@ preprocess_tools = [
         "type": "function",
         "function": {
             "name": "clean_data",
-            "description": "重複の削除と欠損値の処理により、指定されたデータをクリーニングします。",
+            "description": "Cleans the provided data by removing duplicates and handling missing values.",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "data": {
                         "type": "string",
-                        "description": "クリーニング対象のデータセット。JSON や CSV などの適切な形式である必要があります。",
+                        "description": "The dataset to clean. Should be in a suitable format such as JSON or CSV.",
                     }
                 },
                 "required": ["data"],
@@ -180,17 +181,17 @@ preprocess_tools = [
         "type": "function",
         "function": {
             "name": "transform_data",
-            "description": "指定されたルールに基づいてデータを変換します。",
+            "description": "Transforms data based on specified rules.",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "data": {
                         "type": "string",
-                        "description": "変換対象のデータ。JSON や CSV などの適切な形式である必要があります。",
+                        "description": "The data to transform. Should be in a suitable format such as JSON or CSV.",
                     },
                     "rules": {
                         "type": "string",
-                        "description": "構造化された形式で指定する、適用する変換ルール。",
+                        "description": "Transformation rules to apply, specified in a structured format.",
                     },
                 },
                 "required": ["data", "rules"],
@@ -203,22 +204,22 @@ preprocess_tools = [
         "type": "function",
         "function": {
             "name": "aggregate_data",
-            "description": "指定された列と操作に基づいてデータを集計します。",
+            "description": "Aggregates data by specified columns and operations.",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "data": {
                         "type": "string",
-                        "description": "集計対象のデータ。JSON や CSV などの適切な形式である必要があります。",
+                        "description": "The data to aggregate. Should be in a suitable format such as JSON or CSV.",
                     },
                     "group_by": {
                         "type": "array",
                         "items": {"type": "string"},
-                        "description": "グループ化に使用する列。",
+                        "description": "Columns to group by.",
                     },
                     "operations": {
                         "type": "string",
-                        "description": "構造化された形式で指定する、実行する集計操作。",
+                        "description": "Aggregation operations to perform, specified in a structured format.",
                     },
                 },
                 "required": ["data", "group_by", "operations"],
@@ -234,7 +235,7 @@ analysis_tools = [
         "type": "function",
         "function": {
             "name": "stat_analysis",
-            "description": "指定されたデータセットに対して統計分析を実行します。",
+            "description": "Performs statistical analysis on the given dataset.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -253,7 +254,7 @@ analysis_tools = [
         "type": "function",
         "function": {
             "name": "correlation_analysis",
-            "description": "データセット内の変数間の相関係数を計算します。",
+            "description": "Calculates correlation coefficients between variables in the dataset.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -264,7 +265,7 @@ analysis_tools = [
                     "variables": {
                         "type": "array",
                         "items": {"type": "string"},
-                        "description": "相関を計算する変数のリスト。",
+                        "description": "List of variables to calculate correlations for.",
                     },
                 },
                 "required": ["data", "variables"],
@@ -277,7 +278,7 @@ analysis_tools = [
         "type": "function",
         "function": {
             "name": "regression_analysis",
-            "description": "データセットに対して回帰分析を実行します。",
+            "description": "Performs regression analysis on the dataset.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -287,12 +288,12 @@ analysis_tools = [
                     },
                     "dependent_var": {
                         "type": "string",
-                        "description": "回帰の目的変数。",
+                        "description": "The dependent variable for regression.",
                     },
                     "independent_vars": {
                         "type": "array",
                         "items": {"type": "string"},
-                        "description": "説明変数のリスト。",
+                        "description": "List of independent variables.",
                     },
                 },
                 "required": ["data", "dependent_var", "independent_vars"],
@@ -308,16 +309,16 @@ visualization_tools = [
         "type": "function",
         "function": {
             "name": "create_bar_chart",
-            "description": "指定されたデータから棒グラフを作成します。",
+            "description": "Creates a bar chart from the provided data.",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "data": {
                         "type": "string",
-                        "description": "棒グラフ用のデータ。JSON や CSV などの適切な形式である必要があります。",
+                        "description": "The data for the bar chart. Should be in a suitable format such as JSON or CSV.",
                     },
-                    "x": {"type": "string", "description": "x 軸に使用する列。"},
-                    "y": {"type": "string", "description": "y 軸に使用する列。"},
+                    "x": {"type": "string", "description": "Column for the x-axis."},
+                    "y": {"type": "string", "description": "Column for the y-axis."},
                 },
                 "required": ["data", "x", "y"],
                 "additionalProperties": False,
@@ -329,16 +330,16 @@ visualization_tools = [
         "type": "function",
         "function": {
             "name": "create_line_chart",
-            "description": "指定されたデータから折れ線グラフを作成します。",
+            "description": "Creates a line chart from the provided data.",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "data": {
                         "type": "string",
-                        "description": "折れ線グラフ用のデータ。JSON や CSV などの適切な形式である必要があります。",
+                        "description": "The data for the line chart. Should be in a suitable format such as JSON or CSV.",
                     },
-                    "x": {"type": "string", "description": "x 軸に使用する列。"},
-                    "y": {"type": "string", "description": "y 軸に使用する列。"},
+                    "x": {"type": "string", "description": "Column for the x-axis."},
+                    "y": {"type": "string", "description": "Column for the y-axis."},
                 },
                 "required": ["data", "x", "y"],
                 "additionalProperties": False,
@@ -350,21 +351,21 @@ visualization_tools = [
         "type": "function",
         "function": {
             "name": "create_pie_chart",
-            "description": "指定されたデータから円グラフを作成します。",
+            "description": "Creates a pie chart from the provided data.",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "data": {
                         "type": "string",
-                        "description": "円グラフ用のデータ。JSON や CSV などの適切な形式である必要があります。",
+                        "description": "The data for the pie chart. Should be in a suitable format such as JSON or CSV.",
                     },
                     "labels": {
                         "type": "string",
-                        "description": "ラベルに使用する列。",
+                        "description": "Column for the labels.",
                     },
                     "values": {
                         "type": "string",
-                        "description": "値に使用する列。",
+                        "description": "Column for the values.",
                     },
                 },
                 "required": ["data", "labels", "values"],
@@ -376,15 +377,15 @@ visualization_tools = [
 ]
 ```
 
-<div id="enable-tracking-of-multi-agent-using-weave">
+<div id="enable-multi-agent-tracking-with-weave">
   ## Weave でマルチエージェントのトラッキングを有効にする
 </div>
 
-次の処理を行うコードロジックを記述する必要があります。
+エージェントとそのツールを定義したら、次のステップはそれらを連携させ、Weave のトレースを有効にすることです。次の処理を行うコード ロジックを記述します。
 
-* ユーザーのクエリをマルチエージェントシステムに渡す
-* マルチエージェントシステムの内部処理を扱う
-* ツール呼び出し を実行する
+* ユーザーのクエリをマルチエージェント システムに渡す処理
+* マルチエージェント システムの内部処理
+* ツール呼び出しの実行
 
 ```python lines
 # クエリの例
@@ -400,13 +401,13 @@ house_size (m3), house_price ($)
 """
 ```
 
-ユーザーのクエリから、呼び出す必要があるツールは `clean_data`、`start_analysis`、`use_line_chart` だと推測できます。
+ユーザーのクエリから、呼び出すツールが `clean_data`、`start_analysis`、`use_line_chart` であることを推測できます。
 
-まず、ツール呼び出しを実行する実行用の関数を定義します。
+まず、ツール呼び出しの実行を担当する実行関数を定義します。
 
-Python 関数に `@weave.op()` をデコレートすると、言語モデルの入力、出力、トレースをログしてデバッグできます。
+Python 関数を `@weave.op()` でデコレートすると、言語モデルの入力、出力、トレースをログしてデバッグできます。
 
-マルチエージェントシステムを作成すると、多くの関数が出てきますが、それらの先頭に `@weave.op()` を追加するだけで十分です。
+マルチエージェント システムには多くの関数が含まれますが、それぞれの先頭に `@weave.op()` を追加するだけで十分です。
 
 ```python lines
 @weave.op()
@@ -451,7 +452,7 @@ def plot_line_chart(data):
     # プロットを表示する
     plt.show()
 
-    # データURLのために画像をbase64でエンコードする
+    # データURLのために画像をbase64エンコードする
     image_data = buf.getvalue()
     base64_encoded_data = base64.b64encode(image_data)
     base64_string = base64_encoded_data.decode("utf-8")
@@ -485,7 +486,7 @@ def execute_tool(tool_calls, messages):
                 }
             )
         elif tool_name == "aggregate_data":
-            # データ集計をシミュレートする
+            # データ集約をシミュレートする
             aggregated_data = {"aggregated_data": "sample_aggregated_data"}
             messages.append(
                 {
@@ -539,10 +540,10 @@ def execute_tool(tool_calls, messages):
     return messages
 ```
 
-次に、各サブエージェント用のツールハンドラーを作成します。これらには、それぞれ固有のプロンプトとツールセットがモデルに渡されます。続いて、その出力は実行関数に渡され、この関数がツール呼び出しを実行します。
+次に、各サブエージェント用のツールハンドラーを作成します。これらには、それぞれ固有のプロンプトとツールセットがモデルに渡されます。次に、その出力は ツール呼び出し を実行する実行関数に渡されます。
 
 ```python lines
-# 各エージェントの処理を担当する関数を定義する
+# 各エージェントの処理を担当する関数を定義します
 @weave.op()
 def handle_data_processing_agent(query, conversation_messages):
     messages = [{"role": "system", "content": processing_system_prompt}]
@@ -595,10 +596,10 @@ def handle_visualization_agent(query, conversation_messages):
     execute_tool(response.choices[0].message.tool_calls, conversation_messages)
 ```
 
-最後に、ユーザーのクエリ処理を担う全体的なツールを作成します。この関数はユーザーのクエリを受け取り、モデルから応答を取得し、それを他のエージェントに渡して実行します。
+最後に、ユーザーのクエリの処理全体を担うツールを作成します。この関数はユーザーのクエリを受け取り、モデルからの応答を取得して、それをほかのエージェントに渡して実行します。
 
 ```python lines
-# ユーザー入力とトリアージを処理する関数
+# ユーザー入力を処理して振り分ける関数
 @weave.op()
 def handle_user_message(user_query, conversation_messages=None):
     if conversation_messages is None:
@@ -673,35 +674,35 @@ def extract_tool_contents(data):
                     else:
                         contents[name] = second_level
             except json.JSONDecodeError:
-                print(f"{name} のJSONデコードエラー")
+                print(f"Error decoding JSON for {name}")
                 contents[name] = None
 
     return contents
 ```
 
-<div id="execute-multi-agent-systems-and-visualization-in-weave">
-  ## Weave でマルチエージェントシステムを実行し、可視化する
+<div id="execute-the-multi-agent-system-and-visualize-in-weave">
+  ## マルチエージェントシステムを実行し、Weaveで可視化する
 </div>
 
-最後に、ユーザーの入力を使ってメインの `handle_user_message` 関数を実行し、結果を確認します。
+各エージェント、ツール、ハンドラーが揃ったので、システムを実行する準備は完了です。最後に、ユーザーの入力を使ってメインの`handle_user_message`関数を実行し、結果を確認します。
 
 ```python lines
 handle_user_message(user_query)
 ```
 
-Weave の URL をクリックすると、実行が次のようにトレースされていることを確認できます。トレースページでは、入力と出力を確認できます。わかりやすくするために、各出力をクリックしたときに表示される結果のスクリーンショットも図に追加しています。Weave は OpenAI API とのインテグレーションを提供しているため、コストは自動的に計算されます。そのため、右端にはコストとレイテンシも表示されていることがわかります。
-![1-1.png](/media/multi-agent-structured-output/1-1.png)
+Weave の URL をクリックすると、実行トレースを確認できます。**Traces** ページでは、入力と出力を確認できます。わかりやすいように、この図には各出力をクリックしたときに表示される結果のスクリーンショットも含めています。Weave は OpenAI API と連携し、コストを自動的に計算します。各トレースには、コストとレイテンシもあわせて表示されます。
+![コストとレイテンシを含むマルチエージェント実行を示す Weave Traces ページ](/media/multi-agent-structured-output/1-1.png)
 
-行をクリックすると、マルチエージェントシステム内で実行された中間処理を確認できます。たとえば、`analysis_agent` の入力と出力を見ると、構造化出力形式になっていることがわかります。OpenAI の 構造化出力 はエージェント間の連携を容易にしますが、システムが複雑になるにつれて、こうしたやり取りがどのような形式で行われているのか把握しにくくなります。Weave を使えば、こうした中間処理やその入力・出力を手に取るように理解できます。
+行をクリックすると、マルチエージェントシステム内で実行された中間プロセスを確認できます。たとえば、`analysis_agent` の入力と出力は structured output 形式で表示されます。OpenAI の Structured Outputs はエージェント同士の連携に役立ちますが、システムが複雑になるにつれて、こうしたやり取りの形式は把握しにくくなります。Weave を使えば、これらの中間プロセスとその入出力を詳しく確認できます。
 
 <Frame>
-  ![3.png](/media/multi-agent-structured-output/3.png)
+  ![analysis agent の structured input と output を示す Weave トレースの詳細](/media/multi-agent-structured-output/3.png)
 </Frame>
 
-Weave でトレースがどのように扱われるのか、ぜひ詳しく見てみてください。
+最後に、Weave でトレースがどのように処理されるかをもう少し詳しく見てみましょう。
 
 <div id="conclusion">
   ## 結論
 </div>
 
-このチュートリアルでは、OpenAI の構造化出力と Weave を使って、inputs、最終出力、中間出力形式をトラッキングしながら、マルチエージェントシステムを手軽に開発する方法を学びました。
+このチュートリアルでは、OpenAI の構造化出力と Weave を使って、inputs、最終出力、中間出力形式をトラッキングしながら、マルチエージェントシステムを開発する方法を学びました。これで、追加のエージェント、ツール、または構造化された応答スキーマで拡張できる、動作する実例ができました。

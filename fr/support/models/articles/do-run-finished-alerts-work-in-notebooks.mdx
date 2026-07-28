@@ -3,7 +3,7 @@ title: "Les alertes « Run Finished » fonctionnent-elles dans les notebooks 
 keywords: ["Alertes", "Notebooks"]
 ---
 
-Non. Les alertes **Run Finished** (activées avec le paramètre **Run Finished** dans les Paramètres utilisateur) ne fonctionnent qu&#39;avec les scripts Python et restent désactivées dans les environnements Jupyter Notebook afin d&#39;éviter l&#39;envoi de notifications à chaque exécution de cellule.
+Non. Les alertes **Run Finished** ne fonctionnent qu&#39;avec les scripts Python. Même si vous avez activé le paramètre **Run Finished** dans les **Paramètres utilisateur**, les alertes restent désactivées dans les notebooks Jupyter afin d&#39;éviter l&#39;envoi de notifications à chaque exécution de cellule.
 
 Utilisez plutôt `run.alert()` dans les notebooks.
 

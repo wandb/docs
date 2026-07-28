@@ -1,21 +1,21 @@
 ---
 title: "LiteLLM"
-description: "Automatically track and log LLM calls made via LiteLLM"
+description: "Automatically track and log LLM calls made through LiteLLM"
 ---
 
 <a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_litellm.ipynb" aria-label="Open in Google Colab">
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
 </a>
 
-Weave automatically tracks and logs LLM calls made via LiteLLM, after `weave.init()` is called.
+Weave automatically tracks and logs LLM calls made through LiteLLM after you call `weave.init()`. This guide explains how to use Weave with LiteLLM to capture traces, wrap calls in versioned ops, organize experiments with a `Model`, and track function-calling behavior. Use it when you're building LLM applications and want observability across the multiple model providers that LiteLLM supports.
 
 ## Traces
 
-It's important to store traces of LLM applications in a central database, both during development and in production. You'll use these traces for debugging, and as a dataset that will help you improve your application.
+It's important to store traces of LLM applications in a central database, both during development and in production. You use these traces for debugging and as a dataset that helps you improve your application.
 
 > **Note:** When using LiteLLM, make sure to import the library using `import litellm` and call the completion function with `litellm.completion()` instead of `from litellm import completion`. This ensures that all functions and parameters are correctly referenced.
 
-Weave will automatically capture traces for LiteLLM. You can use the library as usual, start by calling `weave.init()`:
+Weave automatically captures traces for LiteLLM. Use the library as usual, and start by calling `weave.init()`:
 
 ```python lines {4}
 import litellm
@@ -38,11 +38,11 @@ claude_response = litellm.completion(
 print(claude_response.choices[0].message.content)
 ```
 
-Weave will now track and log all LLM calls made through LiteLLM. You can view the traces in the Weave web interface.
+Weave now tracks and logs all LLM calls made through LiteLLM. You can view the traces in the Weave web interface. With basic tracing in place, the next section shows how to wrap LiteLLM calls in your own Weave ops to gain finer-grained, versioned tracking of your application logic.
 
-## Wrapping with your own ops
+## Wrap with your own ops
 
-Weave ops make results reproducible by automatically versioning code as you experiment, and they capture their inputs and outputs. Simply create a function decorated with `@weave.op()` that calls into LiteLLM's completion function and Weave will track the inputs and outputs for you. Here's an example:
+Weave ops make results reproducible by automatically versioning code as you experiment, and they capture their inputs and outputs. Create a function decorated with `@weave.op()` that calls into LiteLLM's completion function, and Weave tracks the inputs and outputs for you. Here's an example:
 
 ```python lines {4,6}
 import litellm
@@ -65,11 +65,11 @@ print(translate("Hello, how are you?", "Spanish", "claude-3-5-sonnet-20240620"))
 
 ## Create a `Model` for easier experimentation
 
-Organizing experimentation is difficult when there are many moving pieces. By using the `Model` class, you can capture and organize the experimental details of your app like your system prompt or the model you're using. This helps organize and compare different iterations of your app.
+Organizing experimentation is difficult when many pieces move at once. By using the `Model` class, you can capture and organize the experimental details of your app, such as your system prompt or the model you're using. This helps you organize and compare different iterations of your app.
 
-In addition to versioning code and capturing inputs/outputs, Models capture structured parameters that control your application's behavior, making it easy to find what parameters worked best. You can also use Weave Models with `serve`, and Evaluations.
+In addition to versioning code and capturing inputs and outputs, Models capture structured parameters that control your application's behavior, helping you find which parameters work best. You can also use Weave Models with `serve` and Evaluations.
 
-In the example below, you can experiment with different models and temperatures:
+In the following example, you can experiment with different models and temperatures:
 
 ```python lines {4,6,10}
 import litellm
@@ -110,7 +110,7 @@ print(claude_translator.predict(english_text, "Spanish"))
 
 ## Function calling
 
-LiteLLM supports function calling for compatible models. Weave will automatically track these function calls.
+LiteLLM supports function calling for compatible models. Weave automatically tracks these function calls so you can inspect the functions, arguments, and responses alongside your other traces.
 
 ```python lines {4}
 import litellm
@@ -146,6 +146,6 @@ response = litellm.completion(
 print(response)
 ```
 
-We automatically capture the functions you used in the prompt and keep them versioned.
+Weave automatically captures the functions you use in the prompt and keeps them versioned.
 
 [![litellm.gif](/weave/guides/integrations/imgs/litellm.gif)](https://wandb.ai/a-sh0ts/weave_litellm_integration/weave/calls)

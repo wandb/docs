@@ -18,6 +18,8 @@ Stored the app credentials in `wandb/docs`:
 
 The workflows use `actions/create-github-app-token@v3` to create short-lived installation tokens from these credentials.
 
+Workflows that push back to a same-repo PR branch with this token (instead of the default workflow `GITHUB_TOKEN`) include **Compress Images** (`calibreapp-image-actions.yml`), **Build CSS** (`build-css.yml`), and **Knowledgebase Nav** (`knowledgebase-nav.yml`). That way downstream `pull_request` checks (for example **Validate MDX**) still run on the automation commit.
+
 ## Sync Code Examples
 
 **Workflow**: `sync-code-examples.yml`

@@ -1,11 +1,11 @@
 ---
 title: fastai
-description: "WandbCallback을 사용해 fastai를 W&B와 통합하여 실험를 추적하고, 메트릭을 기록하며, 모델 성능을 시각화합니다."
+description: "WandbCallback을 사용해 fastai를 W&B와 통합하여 실험를 추적하고, 메트릭을 로깅하며, 모델 성능을 시각화합니다."
 ---
 
 import ApiKeyCreateStreamlined from "/snippets/ko/_includes/api-key-create-streamlined.mdx";
 
-`WandbCallback` 클래스를 사용해 **fastai**를 W&amp;B와 통합할 수 있습니다. 자세한 내용은 예제가 포함된 [대화형 문서](https://app.wandb.ai/borisd13/demo_config/reports/Visualize-track-compare-Fastai-models--Vmlldzo4MzAyNA)를 확인하세요.
+`WandbCallback` 클래스를 사용해 **fastai**를 W&amp;B와 통합하여 트레이닝 중에 실험을 추적하고, 메트릭을 로깅하며, 모델 성능을 시각화할 수 있습니다. 이 페이지에서는 인증을 설정하고, 트레이닝 루프에 callback을 추가하며, 단일 프로세스 및 분산 트레이닝 모두에 대한 로깅을 구성하는 방법을 설명합니다. 자세한 내용은 예시가 포함된 [대화형 문서](https://app.wandb.ai/borisd13/demo_config/reports/Visualize-track-compare-Fastai-models--Vmlldzo4MzAyNA)를 확인하세요.
 
 <div id="sign-up-and-create-an-api-key">
   ## 가입하고 API 키 만들기
@@ -26,7 +26,7 @@ API 키는 사용 중인 머신을 W&amp;B에 인증하는 데 사용됩니다. 
 
 <Tabs>
   <Tab title="명령줄">
-    1. `WANDB_API_KEY` [환경 변수](/ko/models/track/environment-variables/)를 API 키로 설정합니다.
+    1. `WANDB_API_KEY` [환경 변수](/ko/models/track/environment-variables/)를 API 키로 설정합니다. `<>`로 묶인 값은 사용자 환경에 맞게 바꾸세요.
 
        ```bash
        export WANDB_API_KEY=<your_api_key>
@@ -53,7 +53,7 @@ API 키는 사용 중인 머신을 W&amp;B에 인증하는 데 사용됩니다. 
   </Tab>
 
   <Tab title="Python notebook">
-    ```notebook
+    ```python
     !pip install wandb
 
     import wandb
@@ -65,6 +65,8 @@ API 키는 사용 중인 머신을 W&amp;B에 인증하는 데 사용됩니다. 
 <div id="add-the-wandbcallback-to-the-learner-or-fit-method">
   ## `learner` 또는 `fit` 방법에 `WandbCallback` 추가하기
 </div>
+
+fastai 트레이닝 run을 W&amp;B에 로깅하기 시작하려면, 단일 `fit` 호출에 또는 `learner` 자체에 `WandbCallback`을 추가하세요.
 
 ```python
 import wandb
@@ -80,28 +82,30 @@ learn.fit(..., cbs=WandbCallback())
 learn = learner(..., cbs=WandbCallback())
 ```
 
-<Note>If you use version 1 of Fastai, refer to the [Fastai v1 docs](/ko/models/integrations/fastai/v1/).</Note>
+<Note>
+  If you use version 1 of fastai, refer to the [fastai v1 docs](/ko/models/integrations/fastai/v1/).
+</Note>
 
 <div id="wandbcallback-arguments">
-  ## WandbCallback 매개변수
+  ## WandbCallback 인수
 </div>
 
-`WandbCallback`은 다음 매개변수를 받습니다:
+트레이닝 중 `WandbCallback`이 무엇을 로깅할지 제어하려면 다음 인수를 사용하세요.
 
-| Args                              | Description                                                                                                                                                                                               |
-| --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| log                               | 모델의 `gradients`, `parameters`, `all` 또는 `None`(기본값)을 로깅할지 여부입니다. loss 및 메트릭은 항상 로깅됩니다.                                                                                                                    |
-| log&#95;preds                     | 예측 샘플을 로깅할지 여부입니다(기본값은 `True`).                                                                                                                                                                           |
-| log&#95;preds&#95;every&#95;epoch | 매 에포크마다 예측을 로깅할지, 아니면 마지막에 로깅할지 여부입니다(기본값은 `False`).                                                                                                                                                      |
-| log&#95;model                     | 모델을 로깅할지 여부입니다(기본값은 `False`). 이 옵션을 사용하려면 `SaveModelCallback`도 필요합니다.                                                                                                                                     |
-| model&#95;name                    | 저장할 `file` 이름입니다. `SaveModelCallback`을 재정의합니다.                                                                                                                                                            |
-| log&#95;dataset                   | <ul><li><code>False</code> (기본값)</li><li><code>True</code>이면 learn.dls.path가 가리키는 폴더를 로깅합니다.</li><li>로깅할 폴더를 가리키도록 경로를 명시적으로 지정할 수 있습니다.</li></ul><p><em>참고: &quot;models&quot; 하위 폴더는 항상 무시됩니다.</em></p> |
-| dataset&#95;name                  | 로깅되는 데이터셋의 이름입니다(기본값은 `folder name`).                                                                                                                                                                     |
-| valid&#95;dl                      | 예측 샘플에 사용할 항목이 들어 있는 `DataLoaders`입니다(기본값은 `learn.dls.valid`에서 무작위로 선택한 항목).                                                                                                                              |
-| n&#95;preds                       | 로깅할 예측 수입니다(기본값은 36).                                                                                                                                                                                     |
-| seed                              | 무작위 샘플을 정하는 데 사용됩니다.                                                                                                                                                                                      |
+| 인수                      | 설명                                                                                                                                                                                                             |
+| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `log`                   | 모델의 `gradients`, `parameters`, `all` 또는 `None`(기본값)을 로깅할지 여부입니다. loss와 메트릭은 항상 로깅됩니다.                                                                                                                          |
+| `log_preds`             | 예측 샘플을 로깅할지 여부입니다(기본값: `True`).                                                                                                                                                                                |
+| `log_preds_every_epoch` | 예측을 매 에포크마다 로깅할지, 아니면 마지막에만 로깅할지 여부입니다(기본값: `False`).                                                                                                                                                          |
+| `log_model`             | 모델을 로깅할지 여부입니다(기본값: `False`). 이 옵션을 사용하려면 `SaveModelCallback`도 필요합니다.                                                                                                                                          |
+| `model_name`            | 저장할 `파일` 이름입니다. `SaveModelCallback`를 재정의합니다.                                                                                                                                                                   |
+| `log_dataset`           | <ul><li><code>False</code>(기본값)입니다.</li><li><code>True</code>이면 `learn.dls.path`가 가리키는 폴더를 로깅합니다.</li><li>로깅할 폴더를 지정하려면 경로를 명시적으로 정의할 수 있습니다.</li></ul><p><em>참고: 하위 폴더 &quot;models&quot;는 항상 무시됩니다.</em></p> |
+| `dataset_name`          | 로깅되는 데이터셋의 이름입니다(기본값: `폴더 이름`).                                                                                                                                                                                |
+| `valid_dl`              | 예측 샘플에 사용할 항목이 포함된 `DataLoaders`입니다(기본값: `learn.dls.valid`에서 무작위로 선택한 항목).                                                                                                                                     |
+| `n_preds`               | 로깅할 예측 개수입니다(기본값: 36).                                                                                                                                                                                         |
+| `seed`                  | 무작위 샘플을 결정하는 데 사용됩니다.                                                                                                                                                                                          |
 
-맞춤형 워크플로의 경우 데이터셋과 모델을 수동으로 로깅할 수 있습니다:
+맞춤형 워크플로의 경우 데이터셋과 모델을 수동으로 로깅할 수 있습니다.
 
 * `log_dataset(path, name=None, metadata={})`
 * `log_model(path, name=None, metadata={})`
@@ -112,7 +116,7 @@ learn = learner(..., cbs=WandbCallback())
   ## 분산 트레이닝
 </div>
 
-`fastai`는 컨텍스트 매니저 `distrib_ctx`를 사용해 분산 트레이닝을 지원합니다. W&amp;B는 이를 자동으로 지원하므로, 별도 설정 없이 멀티 GPU 실험을 추적할 수 있습니다.
+`fastai`는 컨텍스트 매니저 `distrib_ctx`를 사용해 분산 트레이닝을 지원합니다. W&amp;B는 이를 자동으로 지원하므로, 별도 설정 없이 멀티 GPU 실험을 추적할 수 있습니다. 다음 섹션에서는 W&amp;B를 분산 트레이닝과 통합하는 방법과 로깅을 메인 프로세스로만 제한하는 방법을 설명합니다.
 
 다음의 최소 예제를 살펴보세요:
 
@@ -148,7 +152,7 @@ learn = learner(..., cbs=WandbCallback())
     그런 다음 터미널에서 다음 명령을 실행합니다:
 
     ```shell
-    $ torchrun --nproc_per_node 2 train.py
+    torchrun --nproc_per_node 2 train.py
     ```
 
     이 경우 이 머신에는 GPU가 2개 있습니다.
@@ -191,7 +195,7 @@ learn = learner(..., cbs=WandbCallback())
   ### 메인 프로세스에서만 로깅하기
 </div>
 
-위 예시에서는 `wandb`가 프로세스마다 하나의 run을 생성합니다. 트레이닝이 끝나면 run이 두 개 생깁니다. 이 때문에 혼란스러울 수 있으므로, 메인 프로세스에서만 로깅하고 싶을 수 있습니다. 이렇게 하려면 현재 어떤 프로세스에서 실행 중인지 직접 확인하고, 다른 모든 프로세스에서는 run을 생성하지 않도록(`wandb.init()`를 호출하지 않도록) 해야 합니다.
+이전 예시에서는 W&amp;B가 프로세스마다 하나의 run을 생성합니다. 트레이닝이 끝나면 run이 두 개 생깁니다. 이 때문에 혼란스러울 수 있으므로, 메인 프로세스에서만 로깅하고 싶을 수 있습니다. 이렇게 하려면 현재 어떤 프로세스에서 실행 중인지 직접 확인하고, 다른 모든 프로세스에서는 run을 생성하지 않도록(`wandb.init()`를 호출하지 않도록) 해야 합니다.
 
 <Tabs>
   <Tab title="스크립트">
@@ -205,32 +209,29 @@ learn = learner(..., cbs=WandbCallback())
     path = rank0_first(lambda: untar_data(URLs.PETS) / "images")
 
     def train():
-    cb = []
-    dls = ImageDataLoaders.from_name_func(
-    path,
-    get_image_files(path),
-    valid_pct=0.2,
-    label_func=lambda x: x[0].isupper(),
-    item_tfms=Resize(224),
-    )
-    if rank_distrib() == 0:
-    run = wandb.init("fastai_ddp", entity="capecape")
-    cb = WandbCallback()
-    learn = vision_learner(dls, resnet34, metrics=error_rate, cbs=cb).to_fp16()
-    with learn.distrib_ctx(sync_bn=False):
-    learn.fit(1)
+        cb = []
+        dls = ImageDataLoaders.from_name_func(
+            path,
+            get_image_files(path),
+            valid_pct=0.2,
+            label_func=lambda x: x[0].isupper(),
+            item_tfms=Resize(224),
+        )
+        if rank_distrib() == 0:
+            run = wandb.init("fastai_ddp", entity="capecape")
+            cb = WandbCallback()
+        learn = vision_learner(dls, resnet34, metrics=error_rate, cbs=cb).to_fp16()
+        with learn.distrib_ctx(sync_bn=False):
+            learn.fit(1)
 
-    if **name** == "**main**":
-    train()
-
+    if __name__ == "__main__":
+        train()
     ```
 
     터미널에서 다음을 실행합니다:
 
-    ```
-
-    $ torchrun --nproc_per_node 2 train.py
-
+    ```shell
+    torchrun --nproc_per_node 2 train.py
     ```
   </Tab>
 
@@ -268,8 +269,10 @@ learn = learner(..., cbs=WandbCallback())
 </Tabs>
 
 <div id="examples">
-  ## 예제
+  ## 예시
 </div>
 
-* [Fastai 모델을 시각화하고 추적하며 비교하기](https://app.wandb.ai/borisd13/demo_config/reports/Visualize-track-compare-Fastai-models--Vmlldzo4MzAyNA): 문서화가 충실한 워크스루입니다.
+fastai 인테그레이션의 엔드 투 엔드 데모는 다음 레퍼런스를 참조하세요:
+
+* [fastai 모델을 시각화하고 추적하며 비교하기](https://app.wandb.ai/borisd13/demo_config/reports/Visualize-track-compare-Fastai-models--Vmlldzo4MzAyNA): 문서화된 워크스루입니다.
 * [CamVid 이미지 분할](https://colab.research.google.com/drive/1IWrhwcJoncCKHm6VXsNwOr9Yukhz3B49?usp=sharing): 이 인테그레이션의 사용 사례 예시입니다.

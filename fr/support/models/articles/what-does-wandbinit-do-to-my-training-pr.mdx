@@ -4,7 +4,9 @@ keywords: ["Variables d’environnement", "Experiments"]
 featured: true
 ---
 
-Lorsque `wandb.init()` s’exécute dans un script d’entraînement, un appel d’API crée un objet run sur les serveurs. Un nouveau processus est lancé pour transmettre et collecter les métriques, ce qui permet au processus principal de fonctionner normalement. Le script écrit dans des fichiers locaux tandis que le processus distinct transmet les données aux serveurs, y compris les métriques système. Pour désactiver la transmission en continu, exécutez `wandb off` depuis le répertoire d’entraînement ou définissez la variable d’environnement `WANDB_MODE` sur `offline`.
+Lorsque `wandb.init()` s’exécute dans un script d’entraînement, un appel d’API crée un objet run sur les serveurs W&amp;B. Un nouveau processus est lancé pour transmettre et collecter les métriques, ce qui permet au processus principal de fonctionner normalement. Le script écrit dans des fichiers locaux tandis que le processus distinct transmet les données aux serveurs W&amp;B, y compris les métriques système.
+
+Pour désactiver la transmission en continu, exécutez `wandb off` depuis le répertoire d’entraînement ou définissez la variable d’environnement `WANDB_MODE` sur `offline`.
 
 ***
 

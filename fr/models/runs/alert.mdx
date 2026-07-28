@@ -29,9 +29,22 @@ Vous pouvez ensuite voir les messages W&amp;B Alerts dans Slack (ou dans votre m
   Si vous utilisez [W&amp;B Server](/fr/platform/hosting/) dans votre Cloud privé ou sur W&amp;B Cloud dédié, reportez-vous à [Configurer les alertes Slack dans W&amp;B Server](/fr/platform/hosting/monitoring-usage/slack-alerts) pour configurer les alertes Slack.
 </Note>
 
-Pour configurer une alerte, suivez ces étapes, détaillées dans les sections suivantes :
+<div id="automated-run-lifecycle-alerts">
+  ## Alertes automatisées du cycle de vie des runs
+</div>
 
-1. Activez les alertes dans les [Paramètres utilisateur](https://wandb.ai/settings) de W&amp;B.
+W&amp;B peut vous notifier lorsqu’un run se termine ou a planté, sans aucune modification du code. Dans vos [Paramètres utilisateur](https://wandb.ai/settings), faites défiler jusqu’à la section **alertes** et activez :
+
+* **Run finished** pour être notifié lorsqu’un run se termine avec succès.
+* **Run crashed** pour être notifié lorsqu’un run s’arrête sans appeler [`run.finish()`](/fr/models/ref/python/experiments/run#finish).
+
+Ces bascules sont propres à chaque utilisateur. Les alertes **Run finished** ne se déclenchent pas pour les runs dans les notebooks Jupyter. Dans les notebooks, utilisez `run.alert()` pour les notifications de fin d’exécution.
+
+Les alertes sont envoyées par e-mail ou via Slack, configurés dans le même panneau Paramètres utilisateur. La configuration de l’envoi est partagée avec les alertes scriptables, décrites dans les sections suivantes, qui vous permettent de déclencher des alertes selon des conditions personnalisées, comme un seuil de métrique ou une valeur de perte NaN.
+
+Pour configurer des alertes scriptables avec `run.alert()`, suivez ces étapes, détaillées dans les sections suivantes :
+
+1. Activez alertes dans vos [Paramètres utilisateur](https://wandb.ai/settings) W&amp;B.
 2. Ajoutez `run.alert()` à votre code.
 3. Testez la configuration.
 

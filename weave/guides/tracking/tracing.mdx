@@ -1,11 +1,15 @@
 ---
 title: "Understand Ops, Calls, and Traces"
 description: "Learn how Ops, Calls, and Traces create the foundation of W&B Weave's tracing system."
+keywords: ["Ops", "Calls", "Traces", "Threads", "OpenTelemetry"]
 ---
+
+W&B Weave's tracing system is built on four related concepts: Ops, Calls, Traces, and Threads. This page defines each concept and explains how they relate to one another, so you can interpret what Weave captures when you instrument and run your application.
 
 ## Ops
 
 An **Op** is a versioned, tracked function. When you decorate a function with `@weave.op()` (Python) or wrap it with `weave.op()` (TypeScript), Weave automatically captures its code, inputs, outputs, and execution metadata. Ops are the building blocks of tracing, evaluation scorers, and any tracked computation.
+
 <CodeGroup>
 ```python Python
     @weave.op
@@ -13,7 +17,8 @@ An **Op** is a versioned, tracked function. When you decorate a function with `@
       ...  }
 ```
 
-```typescript Typescript
+```typescript twoslash TypeScript
+// @noErrors
 function myFunction() {
     ...
 }
@@ -30,33 +35,34 @@ A **Call** is a logged execution of an Op. Every time an Op runs, Weave creates 
 - Output value
 - Timing and latency
 - Parent-child relationships (for nested calls)
-- Any errors that occurred
+- Any errors that occur
 
 Calls show up as **Traces** in the Weave UI and provide the data for debugging, analysis, and evaluation. For the full Call object structure and properties, see the [Call schema reference](/weave/guides/tracking/call-schema-reference).
 
 Calls are similar to spans in the [OpenTelemetry](https://opentelemetry.io) data model. A Call can:
-- Belong to a Trace (a collection of calls in the same execution context)
-- Have parent and child Calls, forming a tree structure
+
+- Belong to a Trace, a collection of Calls in the same execution context.
+- Have parent and child Calls, forming a tree structure.
 
 ## Traces
 
-Traces are full trees of Calls that share the same execution context. Each Trace contains an ID (`trace_id`) you can use to retrieve the entire tree of Calls. Retrieving Call information using the Call's id only returns data about the specified Call and none of its child Calls.
+Traces are full trees of Calls that share the same execution context. Each Trace contains an ID (`trace_id`) you can use to retrieve the entire tree of Calls. If you retrieve Call information using the Call's ID, Weave returns data about the specified Call only, and none of its child Calls.
 
 ## Threads
 
-Threads are collections of traces related to a single session or conversation.  Threads can be used to do analysis or scoring on the [entire conversation] as a whole instead of individual Calls.
+Threads are collections of Traces related to a single session or conversation. You can use Threads to analyze or score the entire conversation instead of individual Calls.
 
-The following diagram illustrates the relationships between threads, traces, and calls:
+The following diagram illustrates the relationships between Threads, Traces, and Calls:
 
-```
+```text
 Thread: "session-abc"
-  ├── Turn 1 (trace_id: aaa) → user says "Hi"
+  ├── Turn 1 (trace_id: aaa) -> user says "Hi"
   │     ├── LLM call
   │     └── format response
-  ├── Turn 2 (trace_id: bbb) → user says "What is the capitol of Paris?"
+  ├── Turn 2 (trace_id: bbb) -> user says "What is the capital of France?"
   │     ├── RAG retrieval
   │     ├── LLM call
   │     └── format response
-  └── Turn 3 (trace_id: ccc) → user says "Thanks"
+  └── Turn 3 (trace_id: ccc) -> user says "Thanks"
         └── LLM call
 ```

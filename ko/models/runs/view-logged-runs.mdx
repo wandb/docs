@@ -3,10 +3,10 @@ title: 프로젝트에서 특정 run 보기
 description: W&B App 또는 LEET 터미널 UI를 사용해 특정 로깅된 run과 해당 속성을 보는 방법을 알아보세요.
 ---
 
-현재 상태, Artifacts, 메트릭 등 특정 run에 대한 정보를 확인할 수 있습니다. W&amp;B App 또는 `wandb beta leet` 터미널 UI를 사용해 run을 확인하고 모니터링할 수 있습니다.
+현재 상태, Artifacts, 메트릭 등 특정 run에 대한 정보를 확인할 수 있습니다. W&amp;B App 또는 `wandb leet` 터미널 UI를 사용해 run을 확인하고 모니터링할 수 있습니다.
 
 <Tabs>
-  <Tab title="WA&B App">
+  <Tab title="W&B App">
     W&amp;B App에서 특정 run을 보려면 다음 단계를 따르세요.
 
     1. [W&amp;B App](https://wandb.ai/home)으로 이동합니다.
@@ -26,22 +26,22 @@ description: W&B App 또는 LEET 터미널 UI를 사용해 특정 로깅된 run�
   </Tab>
 
   <Tab title="LEET">
-    `wandb beta leet` 터미널 UI를 사용해 터미널에서 로컬 run을 보려면 다음 단계를 따르세요.
+    `wandb leet` 터미널 UI를 사용해 터미널에서 로컬 run을 보려면 다음 단계를 따르세요.
 
     1. 스크립트에서 run을 로컬로 시작했다면 코드를 실행한 디렉터리로 이동합니다. 이 디렉터리에는 run별 하위 디렉터리와 `latest-run/` 심볼릭 링크가 있는 `wandb/` 디렉터리가 들어 있습니다. 각 run 디렉터리에는 `run-<run-ID>.wandb` 형식의 이름을 가진 트랜잭션 로그가 들어 있습니다.
 
        run을 로컬에서 시작하지 않고 `.wandb` 트랜잭션 로그 파일만 다운로드한 경우에는 해당 파일의 위치를 기록해 두세요.
-    2. 다음 명령 중 하나로 `wandb beta leet`를 시작합니다.
+    2. 다음 명령 중 하나로 `wandb leet`를 시작합니다.
 
        ```bash
        # ./wandb/latest-run/에 저장된 최신 run 보기
-       wandb beta leet
+       wandb leet
 
        # run 디렉터리 지정
-       wandb beta leet ./wandb/run-20250813_124246-n67z9ude
+       wandb leet ./wandb/run-20250813_124246-n67z9ude
 
        # .wandb 파일 지정
-       wandb beta leet ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
+       wandb leet ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
        ```
 
     LEET는 3개 패널로 구성된 인터페이스를 표시합니다.
@@ -58,7 +58,7 @@ description: W&B App 또는 LEET 터미널 UI를 사용해 특정 로깅된 run�
     * `n` / `N` - 메트릭 페이지 간 이동
     * `q` / `CMD+C` - 종료
 
-    자세한 내용은 [`wandb beta leet`](/ko/models/ref/cli/wandb-beta/wandb-beta-leet) 레퍼런스를 참조하세요.
+    전체 가이드는 [LEET 터미널 UI](/ko/models/app/leet-tui)를, 단축키와 설정에 대한 자세한 내용은 [`wandb leet`](/ko/models/ref/cli/wandb-beta/wandb-beta-leet) CLI 레퍼런스를 참조하세요.
   </Tab>
 </Tabs>
 
@@ -101,7 +101,7 @@ Config 및 Summary 섹션 위의 search box를 사용해 특정 parameter를 필
   W&amp;B는 중첩된 config 또는 summary parameter는 검색하지 않습니다. 예를 들어 `wandb.Run.config.update({"model": {"learning_rate": 0.01}})`로 중첩된 config parameter를 로깅한 경우, search box에서 `learning_rate`를 검색해도 W&amp;B는 `learning_rate` parameter를 반환하지 않습니다. `learning_rate` parameter는 `model`을 검색해야만 찾을 수 있습니다.
 </Note>
 
-예시 프로젝트 Overview는 [여기](https://wandb.ai/stacey/deep-drive/overview)에서 확인할 수 있습니다.
+예시 프로젝트 Overview는 [여기](https://wandb.ai/stacey/deep-drive/overview)에서 확인할 수 있습니다. 
 
 <div id="logs">
   ## 로그

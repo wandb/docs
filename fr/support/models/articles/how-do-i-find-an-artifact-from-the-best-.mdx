@@ -3,7 +3,7 @@ title: "Comment puis-je trouver un artifact provenant du meilleur run d’un bal
 keywords: ["Artifacts"]
 ---
 
-Pour récupérer les Artifacts du run le plus performant d’un balayage, utilisez le code suivant :
+Pour récupérer les Artifacts du run le plus performant d’un balayage, utilisez le code suivant. Il trie les runs du balayage par précision de validation, sélectionne le meilleur run et télécharge chaque artifact enregistré par ce run.
 
 ```python
 api = wandb.Api()
@@ -14,6 +14,8 @@ for artifact in best_run.logged_artifacts():
     artifact_path = artifact.download()
     print(artifact_path)
 ```
+
+Chaque artifact est téléchargé dans un chemin local, que le script affiche dans la console.
 
 ***
 

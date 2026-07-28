@@ -1,17 +1,20 @@
 ---
 title: 샌드박스 라이프사이클
-description: 상태, 상태 변경을 기다리는 방법, 샌드박스를 중지하는 방법을 포함하여 Serverless 샌드박스의 라이프사이클에 대해 알아보세요.
+description: 상태, 상태 변경을 기다리는 방법, 샌드박스를 중지하는 방법을 포함해 Serverless Sandbox의 라이프사이클에 대해 알아보세요.
+keywords: ["SandboxState", "wait_until_complete", "wait_until_ready", "sandbox timeout", "resource cleanup"]
 ---
 
 <Warning>
-  Serverless Sandboxes는 비공개 프리뷰로, 초대를 받은 경우에만 사용할 수 있습니다. 등록을 요청하려면 [지원팀](mailto:support@wandb.com) 또는 AISE에 문의하세요.
+  Serverless Sandboxes는 공개 프리뷰입니다.
 </Warning>
 
-Serverless 샌드박스는 라이프사이클 동안 여러 상태를 거칩니다. 샌드박스의 상태에 따라 사용 가능한 오퍼레이션이 결정됩니다.
+이 페이지에서는 상태 변경을 기다리고 샌드박스를 중지하며, 수명 주기에 맞춰 코드를 구성할 때 적절한 방법을 선택할 수 있도록 Serverless Sandbox의 라이프사이클을 설명합니다. 라이프사이클을 이해하면 경쟁 상태를 방지하고, 시작 실패와 런타임 오류를 구분하며, 리소스를 일관되게 정리하는 데 도움이 됩니다.
 
-대부분의 경우 샌드박스는 `PENDING` 상태에서 시작하고, container가 프로비저닝되는 동안 `CREATING` 상태로 이동한 다음, 사용할 준비가 되면 `RUNNING` 상태가 됩니다.
+W&amp;B Serverless Sandbox는 라이프사이클 동안 여러 상태를 거칩니다. 샌드박스 상태에 따라 사용 가능한 오퍼레이션이 달라집니다.
 
-메인 명령과 함께 샌드박스를 시작하면 해당 command가 샌드박스의 메인 프로세스가 됩니다. 메인 프로세스가 종료되면 샌드박스는 `COMPLETED`(종료 코드 `0`) 또는 `FAILED`(시작 또는 실행 중 오류)와 같은 종료 상태로 들어갑니다. 샌드박스는 외부에서 중지되거나 최대 수명을 초과한 경우 `TERMINATED` 상태가 될 수도 있습니다.
+일반적으로 샌드박스는 `PENDING` 상태에서 시작하고, 컨테이너가 프로비저닝되는 동안 `CREATING` 상태로 이동한 다음, 사용할 준비가 되면 `RUNNING` 상태가 됩니다.
+
+메인 명령으로 샌드박스를 시작하면 해당 명령이 샌드박스의 메인 프로세스가 됩니다. 메인 프로세스가 종료되면 샌드박스는 `COMPLETED`(종료 코드 `0`) 또는 `FAILED`(시작 또는 실행 중 오류)와 같은 종료 상태로 들어갑니다. 샌드박스는 외부에서 중지되거나 최대 수명을 초과하면 `TERMINATED` 상태로 들어갈 수도 있습니다.
 
 ```text
 PENDING -> CREATING -> RUNNING -> COMPLETED
@@ -19,7 +22,7 @@ PENDING -> CREATING -> RUNNING -> COMPLETED
                                -> TERMINATED
 ```
 
-다음 섹션에서는 샌드박스 상태, 준비 완료 또는 완료될 때까지 기다리는 방법, 그리고 샌드박스를 중지하는 방법을 설명합니다. 샌드박스를 생성하고 명령을 실행하는 방법에 대한 자세한 내용은 [샌드박스 만들기](/ko/sandboxes/create-sandbox) 및 [명령 실행](/ko/sandboxes/run-commands)을 참조하세요.
+다음 섹션에서는 샌드박스 상태, 준비 완료 또는 작업 완료까지 대기하는 방법, 그리고 샌드박스를 중지하는 방법을 설명합니다. 샌드박스를 생성하고 명령어를 실행하는 방법에 대한 자세한 내용은 [샌드박스 생성](/ko/sandboxes/create-sandbox) 및 [명령어 실행](/ko/sandboxes/run-commands)을 참조하세요.
 
 <div id="sandbox-states">
   ## 샌드박스 상태
@@ -27,16 +30,16 @@ PENDING -> CREATING -> RUNNING -> COMPLETED
 
 다음 표는 샌드박스의 상태를 요약합니다:
 
-| State      | Description                                 |
-| ---------- | ------------------------------------------- |
-| PENDING    | 샌드박스 요청이 접수되었으며 스케줄링을 기다리고 있습니다.         |
-| CREATING   | container를 프로비저닝하는 중입니다.                    |
-| RUNNING    | 샌드박스가 오퍼레이션을 수행할 준비가 되었습니다.              |
-| COMPLETED  | 메인 프로세스가 종료 코드 0으로 성공적으로 종료되었습니다.           |
-| FAILED     | 샌드박스 또는 메인 프로세스에서 시작 또는 실행 중 오류가 발생했습니다. |
-| TERMINATED | 샌드박스가 외부에서 중지되었거나 최대 수명을 초과하여 종료되었습니다.   |
+| 상태           | 설명                                        |
+| ------------ | ----------------------------------------- |
+| `PENDING`    | 샌드박스 요청이 수락되었으며 스케줄링을 기다리고 있습니다.          |
+| `CREATING`   | 컨테이너를 프로비저닝하는 중입니다.                       |
+| `RUNNING`    | 샌드박스가 오퍼레이션을 수행할 준비가 되었습니다.               |
+| `COMPLETED`  | 메인 프로세스가 종료 코드 `0`으로 성공적으로 종료되었습니다.       |
+| `FAILED`     | 샌드박스 또는 메인 프로세스에 시작 또는 실행 중 오류가 발생했습니다.   |
+| `TERMINATED` | 외부 프로세스가 샌드박스를 중지했거나, 최대 수명을 초과해 종료되었습니다. |
 
-대부분의 오퍼레이션을 수행하려면 샌드박스가 RUNNING 상태여야 합니다. 하지만 많은 오퍼레이션은 계속 진행하기 전에 샌드박스가 준비될 때까지 자동으로 대기합니다.
+대부분의 오퍼레이션에서는 샌드박스가 `RUNNING` 상태여야 합니다. 하지만 많은 오퍼레이션은 계속 진행하기 전에 샌드박스가 준비될 때까지 기다립니다.
 
 샌드박스가 종료 상태에 들어가면 추가 작업에 더 이상 사용할 수 없습니다.
 
@@ -44,7 +47,7 @@ PENDING -> CREATING -> RUNNING -> COMPLETED
   ## 준비 완료 또는 완료 시점까지 기다리기
 </div>
 
-필요에 따라 서로 다른 대기 방법을 사용하세요:
+다음 섹션에서는 샌드박스 상태 변경을 기다리는 두 가지 방법과 각각을 언제 사용해야 하는지 설명합니다. 필요에 따라 서로 다른 대기 방법을 사용하세요:
 
 * `Sandbox.wait()`를 사용하여 [샌드박스를 사용할 수 있을 때까지 기다리세요](/ko/sandboxes/lifecycle#wait-for-a-sandbox-to-start).
 * `Sandbox.wait_until_complete()`를 사용하여 [샌드박스의 메인 프로세스가 끝날 때까지 기다리세요](/ko/sandboxes/lifecycle#wait-for-a-sandbox-to-complete).
@@ -53,7 +56,7 @@ PENDING -> CREATING -> RUNNING -> COMPLETED
   ### 샌드박스가 시작될 때까지 기다리기
 </div>
 
-`Sandbox.wait()`를 사용하면 샌드박스가 RUNNING 상태에 도달할 때까지 명시적으로 기다릴 수 있습니다. 이 방법은 시작 문제를 디버깅하거나, 시작 실패와 이후 명령에서 발생하는 오류를 구분하려는 경우에 유용합니다.
+`Sandbox.wait()`를 사용하면 샌드박스가 `RUNNING` 상태에 도달할 때까지 명시적으로 기다릴 수 있습니다. 이 방법은 시작 문제를 디버깅하거나, 시작 실패와 이후 명령에서 발생하는 오류를 구분하려는 경우에 유용합니다.
 
 예를 들어, 다음 코드는 샌드박스를 생성하고, 준비될 때까지 기다린 다음 명령을 실행합니다.
 
@@ -83,7 +86,7 @@ print(f"Exit code: {sandbox.returncode}")
 
 이 패턴은 `Sandbox.run("python", "train.py")`와 같은 메인 명령로 샌드박스를 시작하고, 샌드박스의 라이프사이클이 해당 명령의 실행에 맞춰지도록 하려는 경우에 유용합니다.
 
-메인 프로세스가 종료되면 샌드박스는 종료 상태에 들어갑니다. 성공적인 run은 일반적으로 COMPLETED로 끝납니다. 프로세스가 실패하면 샌드박스는 FAILED 상태에 들어갈 수 있습니다.
+메인 프로세스가 종료되면 샌드박스는 종료 상태에 들어갑니다. 성공적인 run은 일반적으로 `COMPLETED`로 끝납니다. 프로세스가 실패하면 샌드박스는 `FAILED` 상태에 들어갈 수 있습니다.
 
 대신 명령을 대화형으로 실행해야 하는 경우 `Sandbox.exec()`와 함께 컨텍스트 관리자를 사용하세요:
 
@@ -102,7 +105,7 @@ with Sandbox.run() as sandbox:
 
 샌드박스의 라이프사이클을 명시적으로 제어해야 할 때는 `Sandbox.wait()` 및 `Sandbox.stop()`과 같은 방법을 사용하세요.
 
-대부분의 경우 이러한 방법을 직접 호출할 필요는 없습니다. `Sandbox.exec()`, `Sandbox.read_file()`, `Sandbox.write_file()`와 같은 오퍼레이션은 준비될 때까지 자동으로 기다리며, 컨텍스트 관리자(`with Sandbox.run() as sandbox:`)는 블록을 벗어날 때 샌드박스를 자동으로 중지합니다.
+일반적으로 이러한 방법을 직접 호출할 필요는 없습니다. `Sandbox.exec()`, `Sandbox.read_file()`, `Sandbox.write_file()`와 같은 오퍼레이션은 준비될 때까지 기다리며, 컨텍스트 관리자(`with Sandbox.run() as sandbox:`)는 블록을 벗어날 때 샌드박스를 중지합니다.
 
 <div id="stop-a-sandbox">
   ### 샌드박스 중지

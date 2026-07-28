@@ -3,28 +3,27 @@ title: "Code d'erreur API 403 - Pays, région ou territoire non pris en charge"
 keywords: ["Authentification et accès"]
 ---
 
-Une erreur 403 accompagnée du message « Pays, région ou territoire non pris en charge » signifie que vous accédez à Serverless Inference depuis un emplacement non pris en charge.
+Une erreur `403` accompagnée du message « Pays, région ou territoire non pris en charge » signifie que vous accédez à Serverless Inference depuis un emplacement non pris en charge. Cet article explique pourquoi l&#39;erreur se produit et comment rétablir l&#39;accès au service.
 
 <div id="why-this-happens">
   ## Pourquoi cela arrive
 </div>
 
-Serverless Inference est soumis à des restrictions géographiques en raison d’exigences de conformité et de réglementation. Le service n’est accessible que depuis des zones géographiques prises en charge.
+Serverless Inference est soumis à des restrictions géographiques en raison d’exigences de conformité et de réglementation. Vous ne pouvez accéder au service que depuis des zones géographiques prises en charge.
 
 <div id="what-you-can-do">
   ## Ce que vous pouvez faire
 </div>
 
-1. **Vérifiez les restrictions géographiques**
-   * Consultez les [restrictions géographiques](/fr/inference/usage-limits/#geographic-restrictions) pour connaître la liste actuelle des zones prises en charge
+Pour résoudre l&#39;erreur, examinez les options suivantes afin de vérifier si votre emplacement est pris en charge et d&#39;identifier la marche à suivre :
 
-2. **Utilisez le service depuis un emplacement pris en charge**
-   * Accédez au service lorsque vous vous trouvez dans un pays ou une région pris en charge
-   * Si possible, utilisez les ressources de votre organisation situées dans des emplacements pris en charge
-
-3. **Contactez votre équipe commerciale**
-   * Les clients Enterprise peuvent discuter des options avec leur interlocuteur commercial
-   * Certaines organisations peuvent bénéficier d&#39;accords particuliers
+* **Vérifiez les restrictions géographiques** : consultez les [restrictions géographiques](/fr/inference/usage-limits/#geographic-restrictions) pour obtenir la liste des emplacements pris en charge et vérifier si votre pays ou votre région est éligible.
+* **Utilisez le service depuis un emplacement pris en charge** :
+  * Accédez au service lorsque vous êtes dans un pays ou une région pris en charge.
+  * Envisagez d&#39;utiliser les ressources de votre organisation situées dans des emplacements pris en charge.
+* **Contactez votre équipe de compte** :
+  * Les clients Enterprise peuvent discuter des options avec leur responsable de compte.
+  * Certaines organisations peuvent bénéficier de dispositions particulières.
 
 <div id="error-details">
   ## Détails de l’erreur
@@ -32,7 +31,7 @@ Serverless Inference est soumis à des restrictions géographiques en raison d�
 
 Si vous voyez cette erreur :
 
-```
+```json
 {
   "error": {
     "code": 403,
@@ -41,7 +40,7 @@ Si vous voyez cette erreur :
 }
 ```
 
-Cela est déterminé par l’emplacement associé à votre adresse IP au moment de la requête API.
+Serverless Inference détermine votre emplacement à partir de votre adresse IP au moment de la requête API.
 
 ***
 
@@ -49,4 +48,4 @@ Cela est déterminé par l’emplacement associé à votre adresse IP au moment 
 
 <Badge stroke shape="pill" color="orange" size="md">[Authentification et accès](/fr/support/inference/tags/authentication-access)</Badge>
 
-{/* END GÉNÉRÉ AUTOMATIQUEMENT: tab badges */}
+{/* END GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet */}

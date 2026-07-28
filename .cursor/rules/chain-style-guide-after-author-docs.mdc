@@ -1,0 +1,27 @@
+---
+description: Always run /style-guide immediately after /author-docs to enforce style consistency
+alwaysApply: true
+---
+
+# Chain `/style-guide` after `/author-docs`
+
+When the `/author-docs` skill is used to generate or substantially rewrite documentation, you MUST invoke the `/style-guide` skill on the resulting draft before committing, opening a PR, or marking the task complete.
+
+This rule reinforces Step 8 (Self-review) of the `author-docs` skill, which requires a style pass. The `style-guide` skill applies the Google Developer Style Guide and W&B-specific conventions through structured editing passes that catch issues a single drafting pass misses.
+
+## When this applies
+
+- After any `/author-docs` invocation that produces a new doc or a major rewrite.
+- Before committing, opening a PR, or telling the user the work is done.
+- Even when the draft looks polished. The structured passes catch consistency issues that are easy to miss.
+
+## What to do
+
+1. Finish drafting the document with `/author-docs`.
+2. Immediately invoke `/style-guide` on the drafted file (pass the file path as the argument).
+3. Address the recommendations from the style passes.
+4. Only then proceed to commit, PR, or completion.
+
+## If `/style-guide` is unavailable
+
+Stop and tell the user before proceeding. Do not silently skip the style pass or fall back to applying `AGENTS.md` ad-hoc — the structured multi-pass workflow is the point.

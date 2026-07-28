@@ -3,7 +3,7 @@ title: "Comment récupérer ces ID de version et ETags dans W&B ?"
 keywords: ["Artifacts"]
 ---
 
-Si une référence d&#39;artifact est enregistrée dans W&amp;B et que la gestion des versions est activée sur les buckets, les ID de version apparaissent dans l&#39;interface Amazon S3. Pour récupérer ces ID de version et ETags dans W&amp;B, récupérez l&#39;artifact et accédez aux entrées de manifeste correspondantes. Par exemple :
+Si vous enregistrez une référence d&#39;artifact dans W&amp;B et activez la gestion des versions sur les buckets, les ID de version apparaissent dans l&#39;interface Amazon S3. Pour récupérer ces ID de version et ETags dans W&amp;B, récupérez l&#39;artifact et lisez les entrées de manifeste correspondantes. Par exemple :
 
 ```python
 artifact = run.use_artifact("my_table:latest")

@@ -1,57 +1,68 @@
 ---
 title: Sweeps
-namespace: public_apis_namespace
-python_object_type: class
+kind: classe
+namespace: wandb.apis.public.sweeps
 ---
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py#L59" />
 
+## <kbd>classe</kbd> wandb.apis.public.Sweeps
 
-## <kbd>class</kbd> `Sweeps`
+```python
+service_api: 'ServiceApi',
+entity: 'str',
+project: 'str',
+per_page: 'int' = 50,
+filters: 'dict[str, Any] | None' = None
+```
 
-Un itérateur paresseux parcourant une collection d’objets `Sweep`.
+Un itérateur paresseux d’une collection d’objets `Sweep`.
 
-**Exemples :**
+<div id="args">
+  ## Arguments
+</div>
+
+* `service_api`: L’API de service utilisée pour interroger W&amp;B.
+* `entity`: L’entité à laquelle appartiennent les Sweeps.
+* `project`: Le projet qui contient les Sweeps.
+* `per_page`: Le nombre de Sweeps à récupérer à chaque requête adressée à l’API.
+* `filters`: (dict) permet d’interroger des Sweeps spécifiques à l’aide des filtres de runs. Voir wandb/apis/public/api.py:runs pour plus de détails.
+
+<div id="examples">
+  ## Exemples
+</div>
 
 ```python
 from wandb.apis.public import Api
 
 sweeps = Api().project(name="project_name", entity="entity").sweeps()
 
-# Itérer sur les Sweeps et afficher les détails
+# Parcourir les sweeps et afficher les détails
 for sweep in sweeps:
-     print(f"Sweep name: {sweep.name}")
-     print(f"Sweep ID: {sweep.id}")
-     print(f"Sweep URL: {sweep.url}")
-     print("----------")
+    print(f"Sweep name: {sweep.name}")
+    print(f"Sweep ID: {sweep.id}")
+    print(f"Sweep URL: {sweep.url}")
+    print("----------")
 ```
 
+<div id="methods">
+  ## Méthodes
+</div>
 
-### <kbd>méthode</kbd> `Sweeps.__init__`
+### <kbd>méthode</kbd> Paginator.**next**()
 
 ```python
-__init__(
-    client: 'RetryingClient',
-    entity: 'str',
-    project: 'str',
-    per_page: 'int' = 50
-) → Sweeps
+self
 ```
 
-Une collection itérable d’objets `Sweep`.
+Renvoyer l’élément suivant de l’itérateur. S’il est épuisé, lever `StopIteration`
 
-**Arguments :**
+### <kbd>méthode</kbd> Paginator.update_variables()
 
-* `client`:  Le client API utilisé pour interroger W&amp;B.
-* `entity`:  L’entité à laquelle appartiennent les Sweeps.
-* `project`:  Le projet qui contient les Sweeps.
-* `per_page`:  Le nombre de Sweeps à récupérer à chaque requête adressée à l’API.
+```python
+self
+```
 
-***
-
-
-### <kbd>propriété</kbd> Sweeps.length
-
-***
+Mettez à jour les variables de requête pour récupérer la page suivante.

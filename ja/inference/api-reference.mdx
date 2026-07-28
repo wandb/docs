@@ -1,9 +1,10 @@
 ---
 title: "API の概要"
 description: "エンドポイントや認証を含む、Serverless Inference サービスの完全な REST API リファレンスを確認できます。"
+keywords: ["REST API", "OpenAI互換", "W&B APIキー", "ベース URL", "API 認証"]
 ---
 
-Serverless Inference API を使用して、プログラムから基盤モデルにアクセスする方法について説明します。
+このリファレンスでは、Serverless Inference REST API について説明します。この API を使用すると、ご自身のアプリケーションから基盤モデルをプログラムで呼び出せます。モデルのインフラストラクチャーを管理することなく、サービス、スクリプト、ノートブックにホスト型推論を統合する際に使用できます。
 
 <div id="base-url">
   ## ベース URL
@@ -15,47 +16,49 @@ Inference サービスには次の URL からアクセスできます：
 https://api.inference.wandb.ai/v1
 ```
 
-<Note>
-  **重要**
+<div id="prerequisites">
+  ## 前提条件
+</div>
 
-  このエンドポイントを使用するには、次が必要です。
+Inference APIを呼び出すには、次が必要です。
 
-  * Inference クレジットが付与された W&amp;B アカウント
-  * 有効な W&amp;B API キー
+* InferenceクレジットがあるW&amp;Bアカウント。
+* 有効なW&amp;B APIキー。
 
-  複数のチームに所属している場合や、利用状況を特定のプロジェクトに紐づけたい場合は、チーム ID とプロジェクト ID も必要です。コード サンプルでは、これらは `<your-team>/<your-project>` の形式で表されます。指定しない場合は、デフォルトの entity とプロジェクト名 `inference` が使用されます。
-</Note>
+複数のチームに所属している場合、または使用量をprojectに関連付けたい場合は、チームIDとproject IDも必要です。コード例では、これらは`[YOUR-TEAM]/[YOUR-PROJECT]`として表示されます。これらを指定しない場合、W&amp;Bはデフォルトのentityとproject名`inference`を使用します。
 
 <div id="available-methods">
   ## 利用可能なメソッド
 </div>
 
-Serverless Inference API は、基盤モデルとやり取りするための OpenAI 互換エンドポイントを提供します。
+Inference API は、基盤モデルとやり取りするための OpenAI 互換エンドポイントを提供します。利用可能なメソッドは次のとおりです。
 
-* **[Chat Completions](/ja/inference/api-reference/chat-completions)** - さまざまな基盤モデルを使用してチャット補完を生成します
-* **[List Models](/ja/inference/api-reference/list-models)** - 利用可能なすべてのモデルとその ID を取得します
+* **[Chat Completions](/ja/inference/api-reference/chat-completions)**: 基盤モデルを使用してチャット補完を生成します。
+* **[List Models](/ja/inference/api-reference/list-models)**: 利用可能なすべてのモデルとその ID を取得します。
 
 <div id="authentication">
   ## 認証
 </div>
 
-すべての API リクエストには、W&amp;B の API キーを使用した認証が必要です。[wandb.ai/settings](https://wandb.ai/settings) で API キーを作成してください。
+すべての API リクエストには、W&amp;B の APIキーを使用した認証が必要です。[wandb.ai/settings](https://wandb.ai/settings) で APIキーを作成してください。
 
-リクエストヘッダーに API キーを含めてください:
+リクエストヘッダーに APIキーを含めてください:
 
-* OpenAI SDK の場合: `api_key` パラメーターとして設定します
-* API を直接呼び出す場合: `Authorization: Bearer &lt;your-api-key&gt;` を使用します
+* OpenAI SDK の場合は、`api_key` パラメーターを設定します。
+* API を直接呼び出す場合は、`Authorization: Bearer [YOUR-API-KEY]` を使用します。
 
 <div id="error-handling">
   ## エラー処理
 </div>
 
-すべてのエラーコードとその解決方法については、[API Errors](/ja/support/inference) を参照してください。
+すべてのエラーコードとその解決方法については、[API errors](/ja/support/inference) を参照してください。
 
 <div id="next-steps">
   ## 次のステップ
 </div>
 
-* [使用例](/ja/inference/examples)を試して、API の動作を確認してください
-* [UI](/ja/inference/ui-guide)でモデルを確認してください
-* ご利用のアカウントの[使用制限](/ja/inference/usage-limits)を確認してください
+APIキーを取得したら、次のいずれかに進んでください:
+
+* [使用例](/ja/inference/examples)を試して、API がどのように動作するかを確認してください。
+* [Inference UI](/ja/inference/ui-guide)でモデルを確認してください。
+* ご利用のアカウントの[使用制限](/ja/inference/usage-limits)を確認してください。

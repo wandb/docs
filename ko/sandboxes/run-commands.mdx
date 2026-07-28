@@ -1,21 +1,22 @@
 ---
 title: 샌드박스에서 명령 실행하기
 description: 샌드박스 환경에서 명령을 실행하고 출력과 종료 코드를 조회하는 방법을 알아보세요.
+keywords: ["Sandbox.run", "Sandbox.exec", "Process.result", "SandboxExecutionError", "stdout", "stderr"]
 ---
 
 <Warning>
-  Serverless Sandboxes는 현재 비공개 프리뷰로 제공되며, 초대를 받은 경우에만 사용할 수 있습니다. 등록을 요청하려면 [지원팀](mailto:support@wandb.com) 또는 AISE에 문의하세요.
+  Serverless Sandboxes는 현재 공개 프리뷰입니다.
 </Warning>
 
 <br />
 
-[샌드박스에서 명령 실행](#run-commands-in-a-sandbox), [출력과 종료 코드 조회](#read-output-and-exit-codes), [오류 확인](#check-for-errors)을 할 수 있습니다. 이러한 기능을 사용해 샌드박스에서 스크립트, 트레이닝 작업, 기타 프로세스를 실행하고 결과를 프로그래밍 방식으로 확인하세요.
+[샌드박스에서 명령 실행](#run-commands-in-a-sandbox), [명령 출력과 종료 코드 조회](#read-output-and-exit-codes), [오류 확인](#check-for-sandbox-execution-errors)을 할 수 있습니다. 이러한 기능을 사용해 W&amp;B Serverless Sandbox에서 스크립트, 트레이닝 작업, 기타 프로세스를 실행하고 결과를 프로그래밍 방식으로 확인하세요.
 
 <div id="run-commands-in-a-sandbox">
   ## 샌드박스에서 명령 실행하기
 </div>
 
-사용 사례에 맞게 다음 패턴 중 하나를 사용해 샌드박스에서 명령을 실행하세요:
+샌드박스 클라이언트는 단일 명령을 실행할지, 관련된 여러 명령을 순차적으로 실행할지에 따라 명령 실행을 위한 두 가지 패턴을 지원합니다. 사용 사례에 맞게 다음 패턴 중 하나를 사용해 샌드박스에서 명령을 실행하세요:
 
 * [단일 명령](#run-a-single-command): 명령을 `Sandbox.run()`에 전달한 다음 `Sandbox.wait_until_complete()`를 호출해 완료될 때까지 기다리세요. 배치 작업, 테스트 또는 트레이닝 실행에 가장 적합합니다.
 * [여러 명령](#run-multiple-commands-sequentially): 인수 없이 `Sandbox.run()`을 호출한 다음, 각 step에서 `Sandbox.exec()`를 사용하세요. 설정, 실행, 결과 가져오기를 결합하는 워크플로에 가장 적합합니다.
@@ -57,7 +58,7 @@ with Sandbox.run() as sandbox:
     print(result.stdout)
 ```
 
-`Sandbox.exec()`는 샌드박스에서 명령을 실행하고 `Process` 객체를 반환합니다. 반환된 객체를 사용해 명령이 완료될 때까지 기다리거나, 출력을 조회하거나, 종료 코드를 확인할 수 있습니다.
+`Sandbox.exec()`는 샌드박스에서 명령을 실행하고 `Process` 객체를 반환합니다. 반환된 객체를 사용해 명령이 완료될 때까지 기다리고, 출력을 조회하고, 종료 코드를 확인하세요.
 
 `Sandbox.exec()` 및 해당 매개변수에 대한 자세한 내용은 CoreWeave Sandboxes 레퍼런스 문서의 [`Sandbox.exec()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#exec)를 참조하세요.
 
@@ -65,9 +66,9 @@ with Sandbox.run() as sandbox:
   #### 추가 명령을 위해 샌드박스를 계속 실행 상태로 유지하기
 </div>
 
-경우에 따라 `Sandbox.exec()`로 다른 명령을 실행하는 동안 샌드박스를 계속 사용할 수 있도록, 오래 실행되는 메인 프로세스로 샌드박스를 시작할 수 있습니다.
+때로는 `Sandbox.exec()`로 다른 명령을 실행하는 동안 샌드박스를 계속 사용할 수 있도록, 오래 실행되는 메인 프로세스로 샌드박스를 시작할 수 있습니다.
 
-다음 예제에서는 메인 프로세스로 `sleep infinity`를 사용해 샌드박스를 시작한 다음, Sandbox.exec()으로 샌드박스 내부에서 트레이닝 스크립트를 실행합니다.
+다음 예제에서는 메인 프로세스로 `sleep infinity`를 사용해 샌드박스를 시작한 다음, `Sandbox.exec()`로 샌드박스 내부에서 트레이닝 스크립트를 실행합니다.
 
 ```python
 from wandb.sandbox import Sandbox
@@ -81,7 +82,9 @@ with Sandbox.run("sleep", "infinity") as sandbox:
   ## 출력 및 종료 코드 조회
 </div>
 
-`Sandbox.exec()`는 [`Process`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/types/process) 객체를 반환합니다. `Process.result()`를 호출하면 명령이 완료될 때까지 기다린 후 결과를 가져올 수 있습니다. `Process.result()`에는 표준 출력(`stdout`), 표준 오류(`stderr`), 종료 코드(`returncode`)가 포함됩니다.
+명령을 실행한 후에는 해당 명령의 출력을 조회하고 성공했는지 확인할 수 있습니다. `Sandbox.exec()`는 [`Process`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/types/process) 객체를 반환합니다. 명령이 완료될 때까지 기다리려면 `Process.result()`를 호출하세요.
+
+결과에는 표준 출력(`stdout`), 표준 오류(`stderr`), 종료 코드(`returncode`)가 포함됩니다.
 
 종료 코드를 사용해 명령이 성공했는지 확인하세요. 관례적으로 종료 코드가 0이면 성공을 의미합니다. 가능한 종료 코드와 그 의미는 명령에 따라 달라집니다.
 
@@ -100,7 +103,7 @@ with Sandbox.run() as sandbox:
   ## 샌드박스 실행 오류 확인
 </div>
 
-명령이 0이 아닌 종료 코드로 종료될 때 오류를 발생시키려면 `check=True`(`Sandbox.exec(check=True)`)를 지정하세요. 명령이 0이 아닌 종료 코드로 종료되면 [`SandboxExecutionError`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/exceptions/exceptions#sandboxexecutionerror)가 발생합니다. 이 예제에서는 `might_fail.py` 스크립트를 실행하고 결과를 확인합니다.
+종료 코드를 수동으로 확인하는 대신, 명령이 실패할 때 예외를 발생시키려면 `check=True`를 사용하세요. 명령이 0이 아닌 종료 코드로 종료되면 `Sandbox.exec(check=True)`가 [SandboxExecutionError](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/exceptions/exceptions#sandboxexecutionerror)를 발생시킵니다.
 
 ```python
 from wandb.sandbox import Sandbox, SandboxExecutionError

@@ -1,24 +1,29 @@
 ---
 title: 맞춤형 차트 Overview
 description: Vega 시각화로 W&B 프로젝트에서 맞춤형 차트를 만드세요
+keywords: ["Vega", "wandb.plot_table", "정밀도-재현율 곡선", "ROC 곡선", "GraphQL 쿼리"]
 ---
 
-W&amp;B 프로젝트에서 맞춤형 차트를 만드세요. 임의의 데이터 테이블을 로깅하고 원하는 형태로 정확하게 시각화하세요. [Vega](https://vega.github.io/vega/)의 강력한 기능을 활용해 글꼴, 색상, 툴팁의 세부 사항까지 제어할 수 있습니다.
+import { AriaChatBubbles } from '/snippets/AriaChatBubbles.jsx';
 
-* Code: 예제 [Colab Colab 노트북](https://tiny.cc/custom-charts)을 사용해 보세요.
+맞춤형 차트를 사용하면 W&amp;B가 제공하는 기본값을 넘어, 로깅된 데이터를 원하는 방식으로 정확하게 시각화할 수 있습니다. 정밀도-재현율 곡선, 맞춤형 히스토그램, 여러 실험 오버레이처럼 기본 제공 패널에서 지원하지 않는 관계, 분포 또는 모델 평가 메트릭을 플롯해야 할 때 유용합니다.
+
+W&amp;B 프로젝트에서 맞춤형 차트를 만드세요. 임의의 데이터 테이블을 로깅하고 원하는 형태로 정확하게 시각화하세요. [Vega](https://vega.github.io/vega/)를 사용해 글꼴, 색상, 툴팁의 세부 사항까지 제어할 수 있습니다.
+
+* Code: 예제 [Colab 노트북](https://tiny.cc/custom-charts)을 사용해 보세요.
 * Video: [워크스루 비디오](https://www.youtube.com/watch?v=3-N9OV6bkSM)를 시청하세요.
-* Example: 빠르게 살펴보는 Keras 및 Sklearn [데모 노트북](https://colab.research.google.com/drive/1g-gNGokPWM2Qbc8p1Gofud0_5AoZdoSD?usp=sharing)
+* Example: 빠르게 살펴보는 Keras 및 Sklearn [데모 노트북](https://colab.research.google.com/drive/1g-gNGokPWM2Qbc8p1Gofud0_5AoZdoSD?usp=sharing).
 
 <Frame>
   <img src="/images/app_ui/supported_charts.png" alt="vega.github.io/vega의 지원 차트" max-width="90%" />
 </Frame>
 
 <div id="how-it-works">
-  ### 작동 방식
+  ## 작동 방식
 </div>
 
 1. **데이터 로깅**: 스크립트에서 [설정](/ko/models/track/config/) 및 summary 데이터를 로깅합니다.
-2. **차트 사용자 지정**: [GraphQL](https://graphql.org) 쿼리로 로깅된 데이터를 가져옵니다. 강력한 시각화 문법인 [Vega](https://vega.github.io/vega/)를 사용해 쿼리 결과를 시각화합니다.
+2. **차트 사용자 지정**: [GraphQL](https://graphql.org) 쿼리로 로깅된 데이터를 가져옵니다. 시각화 문법인 [Vega](https://vega.github.io/vega/)를 사용해 쿼리 결과를 시각화합니다.
 3. **차트 로깅**: 스크립트에서 `wandb.plot_table()`을 사용해 자체 프리셋을 호출합니다.
 
 <Frame>
@@ -31,7 +36,9 @@ W&amp;B 프로젝트에서 맞춤형 차트를 만드세요. 임의의 데이터
   ## 스크립트에서 차트 로깅하기
 </div>
 
-<div id="builtin-presets">
+다음 섹션에서는 트레이닝 스크립트에서 직접 차트를 로깅하는 두 가지 방법을 설명합니다. 하나는 일반적으로 사용하는 시각화를 지원하는 기본 제공 차트 프리셋이고, 다른 하나는 자체 Vega 사양을 재사용할 수 있도록 하는 맞춤형 프리셋입니다.
+
+<div id="built-in-presets">
   ### 기본 제공 프리셋
 </div>
 
@@ -89,7 +96,7 @@ W&amp;B에는 스크립트에서 바로 로깅할 수 있는 기본 제공 차�
   <Tab title="막대 차트">
     `wandb.plot.bar()`
 
-    몇 줄의 코드만으로 레이블이 지정된 값 목록을 막대로 나타내는 맞춤형 막대 차트를 기본 제공 방식으로 기록합니다.
+    레이블이 지정된 값 목록을 막대로 나타내는 맞춤형 막대 차트를 기록합니다:
 
     ```python
     with wandb.init() as run:
@@ -116,7 +123,7 @@ W&amp;B에는 스크립트에서 바로 로깅할 수 있는 기본 제공 차�
   <Tab title="히스토그램">
     `wandb.plot.histogram()`
 
-    몇 줄만으로 맞춤형 히스토그램을 기본 기능으로 기록할 수 있습니다. 즉, 값 목록을 발생 횟수/빈도에 따라 bins로 나눕니다. 예를 들어 예측 신뢰도 점수 목록(`scores`)이 있고, 그 분포를 시각화하려는 경우를 생각해 보겠습니다:
+    맞춤형 히스토그램을 기록합니다(값 목록을 발생 횟수 또는 발생 빈도에 따라 bins로 분류). 예를 들어, 예측 신뢰도 점수 목록(`scores`)이 있고 그 분포를 시각화하려는 경우를 가정해 보겠습니다:
 
     ```python
     with wandb.init() as run:
@@ -150,8 +157,8 @@ W&amp;B에는 스크립트에서 바로 로깅할 수 있는 기본 제공 차�
 
     * 예제 집합에 대한 모델의 예측 점수(`predictions`)
     * 해당 예제의 정답 레이블(`ground_truth`)
-    * (선택 사항) 레이블/클래스 이름 목록(`labels=["cat", "dog", "bird"...]`에서 레이블 인덱스 0이 cat, 1 = dog, 2 = bird 등을 의미하는 경우)
-    * (선택 사항) 플롯에 시각화할 레이블의 하위 집합(여전히 목록 형식)
+    * `labels` (선택 사항): 레이블/클래스 이름 목록(`labels=["cat", "dog", "bird"...]`에서 레이블 인덱스 0이 cat, 1 = dog, 2 = bird 등을 의미하는 경우)
+    * `classes_to_plot` (선택 사항): 플롯에 시각화할 레이블의 하위 집합(여전히 목록 형식)
 
     <Frame>
       <img src="/images/app_ui/demo_average_precision_lines.png" alt="정밀도-재현율 곡선" />
@@ -184,8 +191,8 @@ W&amp;B에는 스크립트에서 바로 로깅할 수 있는 기본 제공 차�
 
     * 예제 집합에 대한 모델의 예측 점수(`predictions`)
     * 해당 예제에 대한 정답 레이블(`ground_truth`)
-    * (선택) 레이블/클래스 이름 목록(`labels=["cat", "dog", "bird"...]`에서 레이블 인덱스 0이 cat, 1 = dog, 2 = bird 등을 의미하는 경우)
-    * (선택) 플롯에 시각화할 이 레이블들의 하위 집합(여전히 목록 형식)
+    * `labels` (선택): 레이블 또는 클래스 이름의 목록(`labels=["cat", "dog", "bird"...]`에서 레이블 인덱스 0이 cat, 1 = dog, 2 = bird 등을 의미하는 경우)
+    * `classes_to_plot` (선택): 플롯에 시각화할 이 레이블들의 하위 집합(여전히 목록 형식)
 
     <Frame>
       <img src="/images/app_ui/demo_custom_chart_roc_curve.png" alt="ROC 곡선" />
@@ -225,7 +232,7 @@ my_custom_chart = wandb.plot_table(
   ## 데이터 로깅
 </div>
 
-스크립트에서 다음 데이터 유형을 로깅하고 맞춤형 차트에서 사용할 수 있습니다.
+맞춤형 차트에서 무엇이든 시각화하려면 먼저 차트 편집기가 쿼리할 수 있는 형식으로 스크립트가 기반 데이터를 로깅해야 합니다. 스크립트에서 다음 데이터 유형을 로깅하고 맞춤형 차트에서 사용할 수 있습니다.
 
 * **Config**: 실험의 초기 설정(독립 변수)입니다. 여기에는 트레이닝 시작 시 `wandb.Run.config`에 키로 로깅한 모든 이름 있는 필드가 포함됩니다. 예: `wandb.Run.config.learning_rate = 0.0001`
 * **Summary**: 트레이닝 중 로깅된 단일 값(결과 또는 종속 변수)입니다. 예를 들어 `wandb.Run.log({"val_acc" : 0.8})`와 같습니다. 트레이닝 중 `wandb.Run.log()`를 통해 이 키에 여러 번 기록하면, summary는 해당 키의 마지막 값으로 설정됩니다.
@@ -233,11 +240,11 @@ my_custom_chart = wandb.plot_table(
 * **summaryTable**: 여러 값의 목록을 로깅해야 한다면 `wandb.Table()`을 사용해 해당 데이터를 저장한 다음, 맞춤형 패널에서 쿼리하세요.
 * **historyTable**: 이력 데이터를 확인해야 한다면 맞춤형 차트 패널에서 `historyTable`을 쿼리하세요. `wandb.Table()`을 호출하거나 맞춤형 차트를 로깅할 때마다 해당 step의 이력에 새 테이블이 생성됩니다.
 
-<div id="how-to-log-a-custom-table">
-  ### 맞춤형 테이블을 로깅하는 방법
+<div id="log-a-custom-table">
+  ### 맞춤형 테이블 로깅
 </div>
 
-`wandb.Table()`을 사용해 데이터를 2차원 배열로 로깅합니다. 일반적으로 이 테이블의 각 행은 하나의 데이터 포인트를 나타내며, 각 열은 시각화하려는 각 데이터 포인트의 관련 필드/차원을 나타냅니다. 맞춤형 패널을 설정하면 전체 테이블은 `wandb.Run.log()`에 전달한 키 이름(아래의 `custom_data_table`)으로 접근할 수 있고, 개별 필드는 열 이름(`x`, `y`, `z`)으로 접근할 수 있습니다. 실험 전반에 걸쳐 여러 time step에서 테이블을 로깅할 수 있습니다. 각 테이블의 최대 크기는 10,000행입니다. [Google Colab에서 예제를 사용해 보세요](https://tiny.cc/custom-charts).
+`wandb.Table()`을 사용해 데이터를 2차원 배열로 로깅합니다. 일반적으로 이 테이블의 각 행은 하나의 데이터 포인트를 나타내며, 각 열은 시각화하려는 각 데이터 포인트의 관련 필드 또는 차원을 나타냅니다. 맞춤형 패널을 설정하면 전체 테이블은 `wandb.Run.log()`에 전달한 키 이름(다음 예시의 `custom_data_table`)으로 접근할 수 있습니다. 개별 필드는 열 이름(`x`, `y`, `z`)으로 접근할 수 있습니다. 실험 전반에 걸쳐 여러 time step에서 테이블을 로깅할 수 있습니다. 각 테이블의 최대 크기는 10,000행입니다. [Google Colab 노트북 예시를 사용해 보세요](https://tiny.cc/custom-charts).
 
 ```python
 with wandb.init() as run:
@@ -252,7 +259,11 @@ with wandb.init() as run:
   ## 차트 사용자 지정
 </div>
 
-시작하려면 새 맞춤형 차트를 추가한 다음, 표시 중인 Runs에서 데이터를 선택하도록 쿼리를 편집합니다. 이 쿼리는 [GraphQL](https://graphql.org)을 사용해 run의 설정, summary, 이력 필드에서 데이터를 가져옵니다.
+데이터를 로깅한 후, 가져올 로깅된 값과 렌더링 방식을 선택하여 W&amp;B App에서 차트를 만드세요. 시작하려면 새 맞춤형 차트를 추가한 다음, 표시 중인 Runs에서 데이터를 선택하도록 쿼리를 편집합니다. 이 쿼리는 [GraphQL](https://graphql.org)을 사용해 run의 설정, summary, 이력 필드에서 데이터를 가져옵니다.
+
+설명을 바탕으로 ARIA에게 맞춤형 차트를 만들도록 요청할 수도 있습니다. 프로젝트 워크스페이스에서 ARIA를 열고 원하는 차트를 설명하세요:
+
+<AriaChatBubbles prompt="표시 중인 Runs에 대해 검증 정확도와 트레이닝 loss의 산점도를 만들고, 점 색상은 학습률에 따라 지정하세요." response="표시 중인 Runs에 대해 x축에는 검증 정확도, y축에는 트레이닝 loss를 표시하고, 각 run의 config에 있는 학습률에 따라 점 색상을 지정하는 맞춤형 차트 패널을 추가하겠습니다." />
 
 <div id="build-the-graphql-query">
   ### GraphQL 쿼리 작성하기
@@ -294,45 +305,49 @@ column이 전혀 나타나지 않으면 선택한 Runs에 해당 키가 있는�
 
 우측 상단에서 **Chart**를 선택해 기본 프리셋으로 시작합니다. 다음으로 **Chart fields**를 선택하여 쿼리에서 가져온 데이터를 차트의 해당 필드에 매핑합니다.
 
-다음 이미지는 메트릭을 선택한 다음 이를 아래의 막대 차트 필드에 매핑하는 예를 보여줍니다.
+다음 이미지는 메트릭을 선택한 다음 이를 막대 차트 필드에 매핑하는 방법을 보여줍니다.
 
 <Frame>
   <img src="/images/app_ui/demo_make_a_custom_chart_bar_chart.gif" alt="맞춤형 막대 차트 만들기" max-width="90%" />
 </Frame>
 
-<div id="how-to-edit-vega">
-  ### Vega 편집 방법
+<div id="edit-vega">
+  ### Vega 편집
 </div>
 
-패널 상단의 **Edit**를 클릭해 [Vega](https://vega.github.io/vega/) 편집 모드로 들어갑니다. 여기에서 UI에서 대화형 차트를 만드는 [Vega specification](https://vega.github.io/vega/docs/specification/)을 정의할 수 있습니다. 차트의 모든 요소를 변경할 수 있습니다. 예를 들어 제목을 바꾸거나, 다른 색상 구성표를 선택하거나, 곡선을 연결된 선 대신 일련의 점으로 표시할 수 있습니다. 또한 Vega transform을 사용해 값 배열을 히스토그램으로 binning하는 것처럼 데이터 자체를 변경할 수도 있습니다. 패널 미리보기는 대화형으로 업데이트되므로 Vega 사양이나 쿼리를 편집하면서 변경 사항이 어떻게 반영되는지 확인할 수 있습니다. [Vega documentation and tutorials ](https://vega.github.io/vega/)을 참고하세요.
+패널 상단의 **Edit**를 클릭해 [Vega](https://vega.github.io/vega/) 편집 모드로 들어갑니다. 여기에서 UI에서 대화형 차트를 만드는 [Vega specification](https://vega.github.io/vega/docs/specification/)을 정의할 수 있습니다. 차트의 모든 요소를 변경할 수 있습니다. 예를 들어 제목을 바꾸거나, 다른 색상 구성표를 선택하거나, 곡선을 연결된 선 대신 일련의 점으로 표시할 수 있습니다. 또한 Vega transform을 사용해 값 배열을 히스토그램으로 binning하는 것처럼 데이터 자체를 변경할 수도 있습니다. 패널 미리보기는 대화형으로 업데이트되므로 Vega 사양이나 쿼리를 편집하면서 변경 사항이 어떻게 반영되는지 확인할 수 있습니다. 자세한 내용은 [Vega documentation and tutorials](https://vega.github.io/vega/)을 참조하세요.
 
 **필드 참조**
 
-W&amp;B의 데이터를 차트에 가져오려면 Vega 사양의 아무 위치에나 `"${field:<field-name>}"` 형식의 템플릿 문자열을 추가하세요. 그러면 오른쪽의 **Chart Fields** 영역에 드롭다운이 생성되고, 사용자는 이를 사용해 Vega에 매핑할 쿼리 결과 열을 선택할 수 있습니다.
+W&amp;B의 데이터를 차트에 가져오려면 Vega 사양의 아무 위치에나 `"${field:<field-name>}"` 형식의 템플릿 문자열을 추가하세요. 그러면 오른쪽의 **Chart fields** 영역에 드롭다운이 생성되고, 이를 사용해 Vega에 매핑할 쿼리 결과 열을 선택할 수 있습니다.
 
 필드의 기본값을 설정하려면 다음 구문을 사용하세요: `"${field:<field-name>:<placeholder text>}"`
 
-<div id="saving-chart-presets">
+<div id="save-chart-presets">
   ### 차트 프리셋 저장
 </div>
 
-모달 하단의 버튼을 사용해 특정 시각화 패널에 변경 사항을 적용합니다. 또는 Vega 사양을 저장해 프로젝트의 다른 곳에서도 사용할 수 있습니다. 재사용 가능한 차트 정의를 저장하려면 Vega 편집기 상단의 **다른 이름으로 저장**을 클릭한 다음 프리셋 이름을 지정하세요.
+프리셋을 저장하면 매번 다시 만들지 않고도 패널과 프로젝트 전반에서 동일한 Vega 정의를 재사용할 수 있습니다. 모달 하단의 버튼을 사용해 특정 시각화 패널에 변경 사항을 적용합니다. 또는 Vega 사양을 저장해 프로젝트의 다른 곳에서도 사용할 수 있습니다. 재사용 가능한 차트 정의를 저장하려면 Vega 편집기 상단의 **다른 이름으로 저장**을 클릭한 다음 프리셋 이름을 지정하세요.
 
-<div id="articles-and-guides">
-  ## 아티클 및 가이드
+<div id="reports-and-guides">
+  ## Reports 및 가이드
 </div>
 
-1. [W&amp;B 머신 러닝 시각화 IDE](https://wandb.ai/wandb/posts/reports/The-W-B-Machine-Learning-Visualization-IDE--VmlldzoyNjk3Nzg)
-2. [맞춤형 차트를 사용해 NLP 어텐션 기반 모델 시각화하기](https://wandb.ai/kylegoyette/gradientsandtranslation2/reports/Visualizing-NLP-Attention-Based-Models-Using-Custom-Charts--VmlldzoyNjg2MjM)
-3. [맞춤형 차트를 사용해 어텐션이 그라디언트 흐름에 미치는 영향 시각화하기](https://wandb.ai/kylegoyette/gradientsandtranslation/reports/Visualizing-The-Effect-of-Attention-on-Gradient-Flow-Using-Custom-Charts--VmlldzoyNjg1NDg)
-4. [임의의 곡선 로깅하기](https://wandb.ai/stacey/presets/reports/Logging-Arbitrary-Curves--VmlldzoyNzQyMzA)
+다음 Reports에서는 실제 맞춤형 차트 활용을 보여 주는 엔드투엔드 예시와 더 심층적인 탐구를 확인할 수 있습니다.
+
+* [W&amp;B 머신 러닝 시각화 IDE](https://wandb.ai/wandb/posts/reports/The-W-B-Machine-Learning-Visualization-IDE--VmlldzoyNjk3Nzg)
+* [맞춤형 차트를 사용해 NLP 어텐션 기반 모델 시각화하기](https://wandb.ai/kylegoyette/gradientsandtranslation2/reports/Visualizing-NLP-Attention-Based-Models-Using-Custom-Charts--VmlldzoyNjg2MjM)
+* [맞춤형 차트를 사용해 어텐션이 그라디언트 흐름에 미치는 영향 시각화하기](https://wandb.ai/kylegoyette/gradientsandtranslation/reports/Visualizing-The-Effect-of-Attention-on-Gradient-Flow-Using-Custom-Charts--VmlldzoyNjg1NDg)
+* [임의의 곡선 로깅하기](https://wandb.ai/stacey/presets/reports/Logging-Arbitrary-Curves--VmlldzoyNzQyMzA)
 
 <div id="common-use-cases">
   ## 일반적인 사용 사례
 </div>
 
-* 오차 막대가 포함된 막대 플롯 사용자 지정
-* 사용자 지정 x-y 좌표가 필요한 모델 검증 메트릭 표시(예: 정밀도-재현율 곡선)
-* 서로 다른 두 모델/실험의 데이터 분포를 히스토그램으로 겹쳐 표시
+맞춤형 차트는 기본 Panel로는 필요한 내용을 표현할 수 없을 때 유용합니다. 예를 들면 다음과 같습니다.
+
+* 오차 막대가 있는 막대 플롯을 맞춤 설정
+* 맞춤형 x-y 좌표가 필요한 모델 검증 메트릭 표시(예: precision-recall curve)
+* 서로 다른 두 모델 또는 실험의 데이터 분포를 히스토그램으로 겹쳐 표시
 * 트레이닝 중 여러 시점의 스냅샷을 통해 메트릭 변화를 표시
-* 아직 W&amp;B에서 제공하지 않는 고유한 시각화를 만들기(그리고 이를 세상과 공유하기)
+* W&amp;B에서 아직 사용할 수 없는 고유한 시각화를 만들어 다른 사람과 공유

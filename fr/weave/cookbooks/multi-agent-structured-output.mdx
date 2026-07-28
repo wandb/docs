@@ -1,41 +1,36 @@
 ---
-title: "Sortie structurée multi-agent"
-description: "Apprenez à utiliser la sortie structurée multi-agent avec W&B Weave"
+title: "Sorties structurées multi-agent"
+description: "Découvrez comment utiliser les sorties structurées multi-agent avec W&B Weave"
+keywords: ["multi-agent", "sorties structurées", "OpenAI", "schéma JSON", "traçage d’agent"]
 ---
 
 <Note>
-  Il s&#39;agit d&#39;un notebook interactif. Vous pouvez l&#39;exécuter localement ou utiliser les liens ci-dessous :
+  Ceci est un notebook interactif. Vous pouvez l’exécuter localement ou utiliser les liens suivants :
 
   * [Ouvrir dans Google Colab](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/multi-agent-structured-output.ipynb)
   * [Voir la source sur GitHub](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/multi-agent-structured-output.ipynb)
 </Note>
 
-##
+Ce tutoriel montre comment créer un système multi-agent qui utilise la fonctionnalité de sorties structurées d’OpenAI, ainsi que comment tracer les interactions entre agents avec [Weave](/fr/weave). Au terme de ce tutoriel, vous disposerez d’un pipeline d’analyse de données à quatre agents, dont les entrées et sorties intermédiaires sont visibles dans l’interface Weave.
 
-<div id="structured-outputs-for-multi-agent-systems">
-  # Sorties structurées pour les systèmes multi-agents
-</div>
+OpenAI a lancé [Structured Outputs](https://openai.com/index/introducing-structured-outputs-in-the-api/) pour que le modèle génère toujours des réponses conformes au schéma JSON que vous fournissez, sans avoir recours à des prompts formulés de manière très directive. Avec Structured Outputs, vous n’avez pas besoin de valider ou de relancer les réponses mal formatées.
 
-OpenAI a publié les [sorties structurées](https://openai.com/index/introducing-structured-outputs-in-the-api/) pour permettre aux utilisateurs de s&#39;assurer que le modèle génère toujours des réponses conformes au schéma JSON fourni, sans avoir recours à des prompts formulés de manière insistante. Avec les sorties structurées, il n&#39;est plus nécessaire de valider ni de retenter les réponses mal formatées.
+En utilisant le paramètre `strict: true`, vous pouvez garantir que la réponse respecte le schéma fourni.
 
-En utilisant le nouveau paramètre `strict: true`, nous pouvons garantir que la réponse respecte le schéma fourni.
-
-L&#39;utilisation de sorties structurées dans un système multi-agents améliore la communication en garantissant des données cohérentes et faciles à traiter entre les agents. Elle renforce aussi la sécurité en autorisant des refus explicites et améliore les performances en supprimant le besoin de nouvelles tentatives ou de validations. Cela simplifie les interactions et augmente l&#39;efficacité globale du système.
-
-Ce tutoriel montre comment utiliser les sorties structurées dans un système multi-agent et les tracer avec [Weave](/fr/weave).
+Dans un système multi-agent, les sorties structurées produisent des données cohérentes, traitées de façon prévisible d’un agent à l’autre. Elles prennent également en charge les refus explicites et éliminent la nécessité de relancer ou de valider les réponses.
 
 <Tip>
-  **Source** : Ce cookbook est basé sur [l&#39;exemple de code d&#39;OpenAI pour les sorties structurées](https://cookbook.openai.com/examples/structured_outputs_multi_agent), avec quelques modifications pour améliorer la visualisation avec Weave.
+  **Source** : Ce cookbook est basé sur [un exemple de code des sorties structurées d’OpenAI](https://cookbook.openai.com/examples/structured_outputs_multi_agent), avec quelques modifications pour améliorer la visualisation avec Weave.
 </Tip>
 
-<div id="installing-the-dependencies">
+<div id="install-the-dependencies">
   ## Installation des dépendances
 </div>
 
-Nous avons besoin des bibliothèques suivantes pour ce tutoriel :
+Commencez par installer les bibliothèques dont dépend ce tutoriel. Ce tutoriel utilise les bibliothèques suivantes :
 
-* [OpenAI](https://openai.com/index/openai-api/) pour créer un système multi-agent.
-* [Weave](/fr/weave) pour suivre notre flux de travail avec les LLM et évaluer nos stratégies de prompt.
+* [OpenAI](https://openai.com/index/openai-api/) pour créer le système multi-agent.
+* [Weave](/fr/weave) pour suivre le flux de travail avec les LLM et évaluer les stratégies de prompt.
 
 ```python lines
 !pip install -qU openai weave wandb
@@ -47,14 +42,19 @@ python
 !pip install "httpx<0.28"
 ```
 
-Nous définissons `WANDB_API_KEY` dans nos variables d’environnement afin de pouvoir nous connecter facilement avec `wandb.login()` (cela doit être fourni à Colab en tant que secret).
+Ensuite, configurez les identifiants et initialisez Weave afin que les traces soient consignées dans votre projet W&amp;B.
 
-Nous définissons le projet dans W&amp;B dans lequel nous voulons consigner ces données dans `name_of_wandb_project`.
+Définissez `WANDB_API_KEY` dans votre environnement afin de pouvoir vous connecter avec `wandb.login()`. Fournissez-le à Colab en tant que secret.
 
-**REMARQUE** : `name_of_wandb_project` peut aussi être au format `{team_name}/{project_name}` pour préciser l’équipe dans laquelle consigner les traces.
+Définissez le projet dans W&amp;B dans lequel vous souhaitez consigner les traces dans `name_of_wandb_project`.
+
+<Note>
+  `name_of_wandb_project` peut aussi être au format `[YOUR-TEAM]/[YOUR-PROJECT]` pour préciser l’équipe dans laquelle consigner les traces.
+</Note>
+
 Nous récupérons ensuite un client Weave en appelant `weave.init()`.
 
-Puisque nous utiliserons l’[API OpenAI](https://openai.com/index/openai-api/), nous aurons également besoin d’une clé API OpenAI. Vous pouvez vous [inscrire](https://platform.openai.com/signup) sur la plateforme OpenAI pour obtenir votre propre clé API. (cela doit aussi être fourni à Colab en tant que secret.)
+Puisque ce tutoriel utilise l’[API OpenAI](https://openai.com/index/openai-api/), vous avez également besoin d’une clé API OpenAI. Vous pouvez vous [inscrire](https://platform.openai.com/signup) sur la plateforme OpenAI pour obtenir votre propre clé API. Fournissez-la aussi à Colab en tant que secret.
 
 ```python lines
 import base64
@@ -82,18 +82,19 @@ client = OpenAI()
 MODEL = "gpt-4o-2024-08-06"
 ```
 
-<div id="agents-set-up">
-  ## Configuration des agents
+<div id="set-up-the-agents">
+  ## Configurer les agents
 </div>
 
-Le cas d’usage que nous allons aborder est une tâche d’analyse de données.
-Commençons par configurer notre système de 4 agents :
+Une fois Weave initialisé, définissez les agents qui composent le système. Le cas d’usage de ce tutoriel est une tâche d’analyse de données.
+Commencez par configurer le système à quatre agents :
 
-* Agent de triage : décide quel(s) agent(s) appeler
-* Agent de prétraitement des données : prépare les données pour l’analyse, par exemple en les nettoyant
-* Agent d’analyse de données : effectue l’analyse des données
-* Data Visualization Agent : visualise le résultat de l’analyse pour en extraire des enseignements
-  Nous commencerons par définir les prompts système pour chacun de ces agents.
+* Agent de triage : décide quels agents appeler.
+* Agent de prétraitement des données : prépare les données pour l’analyse, par exemple en les nettoyant.
+* Agent d’analyse des données : effectue l’analyse des données.
+* Agent de visualisation des données : visualise les résultats de l’analyse afin d’en extraire des enseignements.
+
+Commencez par définir les prompts système pour chacun de ces agents. Ces prompts définissent le rôle de chaque agent et les outils qu’il est autorisé à appeler.
 
 ```python lines
 triaging_system_prompt = """You are a Triaging Agent. Your role is to assess the user's query and route it to the relevant agents. The agents available are:
@@ -119,15 +120,15 @@ visualization_system_prompt = """You are a Visualization Agent. Your role is to 
 - create_pie_chart"""
 ```
 
-Nous définirons ensuite les outils de chaque agent.
+Ensuite, définissez les outils de chaque agent.
 
-À l’exception de l’agent de triage, chaque agent disposera d’outils propres à son rôle :
+À l’exception de l’agent de triage, chaque agent dispose d’outils spécifiques à son rôle :
 
-**Agent de prétraitement des données** : 1. Nettoyer les données, 2. Transformer les données, 3. Agréger les données
+**Agent de prétraitement des données** : nettoyer les données, transformer les données et agréger les données.
 
-**Agent d’analyse des données** : 1. Analyse statistique, 2. Analyse de corrélation, 3. Analyse de régression
+**Agent d’analyse des données** : analyse statistique, analyse de corrélation et analyse de régression.
 
-**Agent de visualisation des données** : 1. Créer un graphique en barres, 2. Créer un graphique linéaire, 3. Créer un diagramme circulaire
+**Agent de visualisation des données** : créer un graphique à barres, créer un graphique en courbes et créer un diagramme circulaire.
 
 ```python lines
 triage_tools = [
@@ -135,18 +136,18 @@ triage_tools = [
         "type": "function",
         "function": {
             "name": "send_query_to_agents",
-            "description": "Envoie la requête de l'utilisateur aux agents pertinents en fonction de leurs capacités.",
+            "description": "Sends the user query to relevant agents based on their capabilities.",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "agents": {
                         "type": "array",
                         "items": {"type": "string"},
-                        "description": "Un tableau de noms d'agents auxquels envoyer la requête.",
+                        "description": "An array of agent names to send the query to.",
                     },
                     "query": {
                         "type": "string",
-                        "description": "La requête de l'utilisateur à envoyer.",
+                        "description": "The user query to send.",
                     },
                 },
                 "required": ["agents", "query"],
@@ -161,13 +162,13 @@ preprocess_tools = [
         "type": "function",
         "function": {
             "name": "clean_data",
-            "description": "Nettoie les données fournies en supprimant les doublons et en gérant les valeurs manquantes.",
+            "description": "Cleans the provided data by removing duplicates and handling missing values.",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "data": {
                         "type": "string",
-                        "description": "Le jeu de données à nettoyer. Doit être dans un format approprié tel que JSON ou CSV.",
+                        "description": "The dataset to clean. Should be in a suitable format such as JSON or CSV.",
                     }
                 },
                 "required": ["data"],
@@ -180,17 +181,17 @@ preprocess_tools = [
         "type": "function",
         "function": {
             "name": "transform_data",
-            "description": "Transforme les données selon des règles spécifiées.",
+            "description": "Transforms data based on specified rules.",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "data": {
                         "type": "string",
-                        "description": "Les données à transformer. Doivent être dans un format approprié tel que JSON ou CSV.",
+                        "description": "The data to transform. Should be in a suitable format such as JSON or CSV.",
                     },
                     "rules": {
                         "type": "string",
-                        "description": "Règles de transformation à appliquer, spécifiées dans un format structuré.",
+                        "description": "Transformation rules to apply, specified in a structured format.",
                     },
                 },
                 "required": ["data", "rules"],
@@ -203,22 +204,22 @@ preprocess_tools = [
         "type": "function",
         "function": {
             "name": "aggregate_data",
-            "description": "Agrège les données selon les colonnes et opérations spécifiées.",
+            "description": "Aggregates data by specified columns and operations.",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "data": {
                         "type": "string",
-                        "description": "Les données à agréger. Doivent être dans un format approprié tel que JSON ou CSV.",
+                        "description": "The data to aggregate. Should be in a suitable format such as JSON or CSV.",
                     },
                     "group_by": {
                         "type": "array",
                         "items": {"type": "string"},
-                        "description": "Colonnes de regroupement.",
+                        "description": "Columns to group by.",
                     },
                     "operations": {
                         "type": "string",
-                        "description": "Opérations d'agrégation à effectuer, spécifiées dans un format structuré.",
+                        "description": "Aggregation operations to perform, specified in a structured format.",
                     },
                 },
                 "required": ["data", "group_by", "operations"],
@@ -234,13 +235,13 @@ analysis_tools = [
         "type": "function",
         "function": {
             "name": "stat_analysis",
-            "description": "Effectue une analyse statistique sur le jeu de données fourni.",
+            "description": "Performs statistical analysis on the given dataset.",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "data": {
                         "type": "string",
-                        "description": "Le jeu de données à analyser. Doit être dans un format approprié tel que JSON ou CSV.",
+                        "description": "The dataset to analyze. Should be in a suitable format such as JSON or CSV.",
                     }
                 },
                 "required": ["data"],
@@ -253,18 +254,18 @@ analysis_tools = [
         "type": "function",
         "function": {
             "name": "correlation_analysis",
-            "description": "Calcule les coefficients de corrélation entre les variables du jeu de données.",
+            "description": "Calculates correlation coefficients between variables in the dataset.",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "data": {
                         "type": "string",
-                        "description": "Le jeu de données à analyser. Doit être dans un format approprié tel que JSON ou CSV.",
+                        "description": "The dataset to analyze. Should be in a suitable format such as JSON or CSV.",
                     },
                     "variables": {
                         "type": "array",
                         "items": {"type": "string"},
-                        "description": "Liste des variables pour lesquelles calculer les corrélations.",
+                        "description": "List of variables to calculate correlations for.",
                     },
                 },
                 "required": ["data", "variables"],
@@ -277,22 +278,22 @@ analysis_tools = [
         "type": "function",
         "function": {
             "name": "regression_analysis",
-            "description": "Effectue une analyse de régression sur le jeu de données.",
+            "description": "Performs regression analysis on the dataset.",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "data": {
                         "type": "string",
-                        "description": "Le jeu de données à analyser. Doit être dans un format approprié tel que JSON ou CSV.",
+                        "description": "The dataset to analyze. Should be in a suitable format such as JSON or CSV.",
                     },
                     "dependent_var": {
                         "type": "string",
-                        "description": "La variable dépendante pour la régression.",
+                        "description": "The dependent variable for regression.",
                     },
                     "independent_vars": {
                         "type": "array",
                         "items": {"type": "string"},
-                        "description": "Liste des variables indépendantes.",
+                        "description": "List of independent variables.",
                     },
                 },
                 "required": ["data", "dependent_var", "independent_vars"],
@@ -308,16 +309,16 @@ visualization_tools = [
         "type": "function",
         "function": {
             "name": "create_bar_chart",
-            "description": "Crée un graphique à barres à partir des données fournies.",
+            "description": "Creates a bar chart from the provided data.",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "data": {
                         "type": "string",
-                        "description": "Les données pour le graphique à barres. Doivent être dans un format approprié tel que JSON ou CSV.",
+                        "description": "The data for the bar chart. Should be in a suitable format such as JSON or CSV.",
                     },
-                    "x": {"type": "string", "description": "Colonne pour l'axe des abscisses."},
-                    "y": {"type": "string", "description": "Colonne pour l'axe des ordonnées."},
+                    "x": {"type": "string", "description": "Column for the x-axis."},
+                    "y": {"type": "string", "description": "Column for the y-axis."},
                 },
                 "required": ["data", "x", "y"],
                 "additionalProperties": False,
@@ -329,16 +330,16 @@ visualization_tools = [
         "type": "function",
         "function": {
             "name": "create_line_chart",
-            "description": "Crée un graphique en courbes à partir des données fournies.",
+            "description": "Creates a line chart from the provided data.",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "data": {
                         "type": "string",
-                        "description": "Les données pour le graphique en courbes. Doivent être dans un format approprié tel que JSON ou CSV.",
+                        "description": "The data for the line chart. Should be in a suitable format such as JSON or CSV.",
                     },
-                    "x": {"type": "string", "description": "Colonne pour l'axe des abscisses."},
-                    "y": {"type": "string", "description": "Colonne pour l'axe des ordonnées."},
+                    "x": {"type": "string", "description": "Column for the x-axis."},
+                    "y": {"type": "string", "description": "Column for the y-axis."},
                 },
                 "required": ["data", "x", "y"],
                 "additionalProperties": False,
@@ -350,21 +351,21 @@ visualization_tools = [
         "type": "function",
         "function": {
             "name": "create_pie_chart",
-            "description": "Crée un graphique circulaire à partir des données fournies.",
+            "description": "Creates a pie chart from the provided data.",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "data": {
                         "type": "string",
-                        "description": "Les données pour le graphique circulaire. Doivent être dans un format approprié tel que JSON ou CSV.",
+                        "description": "The data for the pie chart. Should be in a suitable format such as JSON or CSV.",
                     },
                     "labels": {
                         "type": "string",
-                        "description": "Colonne pour les étiquettes.",
+                        "description": "Column for the labels.",
                     },
                     "values": {
                         "type": "string",
-                        "description": "Colonne pour les valeurs.",
+                        "description": "Column for the values.",
                     },
                 },
                 "required": ["data", "labels", "values"],
@@ -376,15 +377,15 @@ visualization_tools = [
 ]
 ```
 
-<div id="enable-tracking-of-multi-agent-using-weave">
-  ## Activer le suivi d’un système multi-agent avec Weave
+<div id="enable-multi-agent-tracking-with-weave">
+  ## Activer le suivi multi-agent avec Weave
 </div>
 
-Nous devons écrire la logique nécessaire pour :
+Une fois les agents et leurs outils définis, l’étape suivante consiste à les faire fonctionner ensemble et à activer le tracing de Weave. Écrivez la logique nécessaire pour :
 
-* gérer la transmission de la requête utilisateur au système multi-agent
-* gérer le fonctionnement interne du système multi-agent
-* exécuter les appels d’outils
+* Gérer la transmission de la requête de l’utilisateur au système multi-agent.
+* Gérer le fonctionnement interne du système multi-agent.
+* Exécuter les appels d’outil.
 
 ```python lines
 # Exemple de requête
@@ -400,13 +401,13 @@ house_size (m3), house_price ($)
 """
 ```
 
-À partir de la requête de l’utilisateur, nous pouvons déduire que les outils à appeler sont `clean_data`, `start_analysis` et `use_line_chart`.
+À partir de la requête de l’utilisateur, vous pouvez déduire que les outils à appeler sont `clean_data`, `start_analysis` et `use_line_chart`.
 
-Nous allons commencer par définir la fonction d’exécution chargée de lancer les appels d’outils.
+Commencez par définir la fonction d’exécution chargée d’exécuter les appels d’outils.
 
-En décorant les fonctions Python avec `@weave.op()`, nous pouvons consigner dans le journal et déboguer les entrées, les sorties et les traces du modèle de langage.
+En décorant les fonctions Python avec `@weave.op()`, vous pouvez consigner et déboguer les entrées, les sorties et les traces du modèle de langage.
 
-Lors de la création d’un système multi-agent, de nombreuses fonctions entreront en jeu, mais il suffit d’ajouter `@weave.op()` au-dessus de chacune d’elles.
+Un système multi-agent implique de nombreuses fonctions, mais il suffit d’ajouter `@weave.op()` au-dessus de chacune d’elles.
 
 ```python lines
 @weave.op()
@@ -443,7 +444,7 @@ def plot_line_chart(data):
     plt.legend()
     plt.grid(True)
 
-    # Enregistrer le graphique dans un tampon BytesIO avant de l'afficher
+    # Enregistrer le graphique dans un buffer BytesIO avant de l'afficher
     buf = BytesIO()
     plt.savefig(buf, format="png")
     buf.seek(0)
@@ -525,13 +526,13 @@ def execute_tool(tool_calls, messages):
                 {"role": "tool", "name": tool_name, "content": json.dumps(bar_chart)}
             )
         elif tool_name == "create_line_chart":
-            # Simuler la création d'un graphique linéaire
+            # Simuler la création d'un graphique en courbes
             line_chart = {"line_chart": plot_line_chart(tool_arguments["data"])}
             messages.append(
                 {"role": "tool", "name": tool_name, "content": json.dumps(line_chart)}
             )
         elif tool_name == "create_pie_chart":
-            # Simuler la création d'un diagramme circulaire
+            # Simuler la création d'un graphique en secteurs
             pie_chart = {"pie_chart": "sample_pie_chart"}
             messages.append(
                 {"role": "tool", "name": tool_name, "content": json.dumps(pie_chart)}
@@ -539,7 +540,7 @@ def execute_tool(tool_calls, messages):
     return messages
 ```
 
-Ensuite, nous allons créer les gestionnaires d’outils pour chacun des sous-agents. Chacun reçoit un prompt et un ensemble d’outils qui lui sont propres, transmis au modèle. Le résultat est ensuite transmis à une fonction d’exécution qui lance les appels d’outils.
+Ensuite, créez les gestionnaires d’outils pour chacun des sous-agents. Chacun reçoit un prompt et un ensemble d’outils qui lui sont propres, transmis au modèle. Le résultat est ensuite transmis à une fonction d’exécution qui exécute les appels d’outil.
 
 ```python lines
 # Définir les fonctions pour gérer le traitement de chaque agent
@@ -595,7 +596,7 @@ def handle_visualization_agent(query, conversation_messages):
     execute_tool(response.choices[0].message.tool_calls, conversation_messages)
 ```
 
-Enfin, nous créons l’outil principal chargé de traiter la requête de l’utilisateur. Cette fonction prend la requête de l’utilisateur, obtient une réponse du modèle et la transmet aux autres agents pour exécution.
+Enfin, créez l’outil principal qui gère le traitement de la requête de l’utilisateur. Cette fonction prend la requête de l’utilisateur, obtient une réponse du modèle, puis la transmet aux autres agents pour qu’ils l’exécutent.
 
 ```python lines
 # Fonction pour gérer les entrées utilisateur et le triage
@@ -673,35 +674,35 @@ def extract_tool_contents(data):
                     else:
                         contents[name] = second_level
             except json.JSONDecodeError:
-                print(f"Erreur de décodage JSON pour {name}")
+                print(f"Error decoding JSON for {name}")
                 contents[name] = None
 
     return contents
 ```
 
-<div id="execute-multi-agent-systems-and-visualization-in-weave">
-  ## Exécuter des systèmes multi-agents et leur visualisation dans Weave
+<div id="execute-the-multi-agent-system-and-visualize-in-weave">
+  ## Exécutez le système multi-agent et visualisez-le dans Weave
 </div>
 
-Enfin, nous exécutons la fonction principale `handle_user_message` à partir de la saisie de l’utilisateur et observons les résultats.
+Une fois tous les agents, outils et gestionnaires en place, le système est prêt à être exécuté. Enfin, exécutez la fonction principale `handle_user_message` à partir de l’entrée de l’utilisateur&#39; et observez les résultats.
 
 ```python lines
 handle_user_message(user_query)
 ```
 
-Lorsque nous cliquons sur l’URL de Weave, nous pouvons voir le Tracing de l’exécution, comme ci-dessous. Sur la page Traces, nous pouvons vérifier l’entrée et la sortie. Par souci de clarté, des captures d’écran des résultats affichés lorsque l’on clique sur chaque sortie ont été ajoutées au diagramme. Weave fournit une intégration avec l’API d’OpenAI, ce qui permet de calculer automatiquement les coûts. Nous pouvons donc également confirmer que le coût et la latence s’affichent tout à droite.
-![1-1.png](/media/multi-agent-structured-output/1-1.png)
+Lorsque vous cliquez sur l’URL Weave, vous pouvez voir la trace d’exécution. Sur la page **Traces**, vous pouvez consulter l’entrée et la sortie. Pour plus de clarté, l’illustration inclut des captures d’écran des résultats affichés lorsque vous cliquez sur chaque sortie. Weave s’intègre à l’API OpenAI et calcule automatiquement les coûts. Le coût et la latence sont également affichés pour chaque trace.
+![Page Weave Traces montrant l’exécution multi-agent avec le coût et la latence](/media/multi-agent-structured-output/1-1.png)
 
-En cliquant sur une ligne, nous pouvons voir les processus intermédiaires exécutés au sein du système multi-agent. Par exemple, en examinant l’entrée et la sortie de `analysis_agent`, nous pouvons voir qu’elles sont au format de sortie structuré. La sortie structurée d’OpenAI facilite la collaboration entre agents, mais à mesure que le système devient plus complexe, il devient plus difficile de comprendre le format dans lequel ces interactions se déroulent. L’utilisation de Weave nous permet de comprendre ces processus intermédiaires ainsi que leurs entrées et sorties, comme si nous les avions sous les yeux.
+Cliquez sur une ligne pour voir les processus intermédiaires exécutés au sein du système multi-agent. Par exemple, l’entrée et la sortie de `analysis_agent` apparaissent sous forme de sorties structurées. Les sorties structurées d’OpenAI aident les agents à collaborer, mais à mesure que le système gagne en complexité, le format de ces interactions devient plus difficile à suivre. Weave vous permet d’inspecter en détail ces processus intermédiaires ainsi que leurs entrées et sorties.
 
 <Frame>
-  ![3.png](/media/multi-agent-structured-output/3.png)
+  ![Détail d’une trace Weave montrant l’entrée et la sortie structurées de l’agent d’analyse](/media/multi-agent-structured-output/3.png)
 </Frame>
 
-Examinons de plus près comment le Tracing est géré dans Weave !
+Examinez de plus près comment le tracing est géré dans Weave.
 
 <div id="conclusion">
   ## Conclusion
 </div>
 
-Dans ce tutoriel, nous avons vu comment développer facilement un système multi-agent à l’aide des sorties structurées et de Weave d’OpenAI pour suivre les entrées, les sorties finales et les formats de sortie intermédiaires.
+Dans ce tutoriel, vous avez appris à développer un système multi-agent à l’aide des sorties structurées d’OpenAI et de Weave pour suivre les entrées, les sorties finales et les formats de sortie intermédiaires. Vous disposez maintenant d’un exemple fonctionnel que vous pouvez enrichir avec des agents, des outils ou des schémas de réponse structurée supplémentaires.

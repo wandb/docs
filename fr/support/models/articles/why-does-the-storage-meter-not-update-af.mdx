@@ -3,9 +3,11 @@ title: "Pourquoi l’indicateur de stockage ne se met-il pas à jour après la s
 keywords: ["Stockage"]
 ---
 
-* L’indicateur de stockage ne se met pas à jour immédiatement après la suppression de runs en raison des délais de traitement.
-* Le système backend a besoin de temps pour se synchroniser et prendre correctement en compte les changements d’utilisation.
-* Si l’indicateur de stockage ne s’est pas encore mis à jour, attendez que les modifications soient traitées.
+L’indicateur de stockage ne se met pas à jour immédiatement après la suppression de runs, d’artifacts ou de fichiers. Lorsque vous supprimez des données depuis l’interface utilisateur ou la CLI, le backend traite la suppression en arrière-plan. Il est donc normal que votre utilisation ne reflète la modification qu’au bout de quelques heures.
+
+Si vous avez dépassé votre limite de stockage, toute restriction d’accès est levée automatiquement dès que votre utilisation repasse sous la limite et que l’indicateur se met à jour. Vous n’avez rien d’autre à faire pendant le traitement.
+
+Si l’indicateur ne s’est toujours pas mis à jour après quelques heures, vérifiez votre utilisation réelle sur la page **Manage storage** à l’adresse `https://wandb.ai/account-settings/[ENTITY]/usage/manage/`, en remplaçant `[ENTITY]` par votre équipe ou votre nom d’utilisateur. Cette page indique quels Projects et quels runs consomment le plus d’espace, afin que vous puissiez cibler ce qu’il faut supprimer ensuite. Si l’utilisation indiquée sur cette page est déjà inférieure à votre limite mais que l’avertissement persiste, [contactez l’assistance](mailto:support@wandb.com).
 
 ***
 
@@ -13,4 +15,4 @@ keywords: ["Stockage"]
 
 <Badge stroke shape="pill" color="orange" size="md">[Stockage](/fr/support/models/tags/storage)</Badge>
 
-{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badge d’onglet */}

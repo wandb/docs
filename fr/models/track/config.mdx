@@ -142,7 +142,7 @@ if __name__ == "__main__":
         "-e", "--epochs", type=int, default=50, help="Number of training epochs"
     )
     parser.add_argument(
-        "-lr", "--learning_rate", type=int, default=0.001, help="Learning rate"
+        "-lr", "--learning_rate", type=float, default=0.001, help="Learning rate"
     )
 
     args = parser.parse_args()
@@ -153,7 +153,9 @@ if __name__ == "__main__":
   ### Définissez la configuration au fil de votre script
 </div>
 
-Vous pouvez ajouter d’autres paramètres à votre objet de configuration au fil de votre script. L’extrait de code suivant montre comment ajouter de nouvelles paires clé-valeur à votre objet de configuration :
+Vous pouvez ajouter d’autres paramètres à votre objet de configuration au fil de votre script.
+
+L’extrait de code suivant montre comment ajouter de nouvelles paires clé-valeur à un objet de configuration existant :
 
 ```python
 import wandb
@@ -171,24 +173,38 @@ config = {
 # Passer le dictionnaire de configuration lors de l'initialisation de W&B
 with wandb.init(project="config_example", config=config) as run:
     # Mettre à jour la configuration après l'initialisation de W&B
-    run.config["dropout"] = 0.2
-    run.config.epochs = 4
+    run.config["epochs"] = 4
     run.config["batch_size"] = 32
 ```
 
-Vous pouvez mettre à jour plusieurs valeurs à la fois :
+Vous pouvez ajouter plusieurs valeurs à la fois. L’extrait de code suivant montre comment mettre à jour plusieurs paires clé-valeur dans un objet de configuration existant :
 
 ```python
-run.config.update({"lr": 0.1, "channels": 16})
+# Définir un objet dictionnaire de configuration
+config = {
+    "channels": 24,
+    "lr": 1.0,
+}
+
+with wandb.init(project="config_example", config=config) as run:
+    run.config.update(
+        {
+            "lr": 0.1,
+            "channels": 16,
+        },
+        allow_val_change=True,
+    )
 ```
 
-<div id="set-the-configuration-after-your-run-has-finished">
+Assurez-vous de définir `allow_val_change=True` si vous souhaitez mettre à jour la valeur d’une clé existante. Si vous ne définissez pas ce paramètre, W&amp;B renverra une erreur si vous essayez de mettre à jour la valeur d’une clé existante.
+
+<div id="set-the-configuration-after-your-run-finishes">
   ### Définissez la configuration une fois votre run terminé
 </div>
 
 Utilisez l’[API publique de W&amp;B](/fr/models/ref/python/public-api/) pour mettre à jour la configuration d’un run terminé.
 
-Vous devez fournir à l’API votre entité, le nom du projet et l’ID du run. Vous trouverez ces informations dans l’objet Run ou dans l’[application W&amp;B](/fr/models/track/workspaces/) :
+Vous devez fournir à l’API votre entité, le nom du projet et l’ID du run. Vous trouverez ces informations dans l’objet Run ou dans la [W&amp;B App](/fr/models/track/workspaces/) :
 
 ```python
 with wandb.init() as run:
@@ -296,6 +312,20 @@ config_dictionary = dict(
 with wandb.init(config=config_dictionary) as run:
     ...
 ```
+
+<div id="view-config-values-in-the-wb-app">
+  ## Afficher les valeurs de configuration dans la W&amp;B App
+</div>
+
+Consultez vos valeurs de configuration dans la section **Config** de l’onglet **Vue d’ensemble** d’un run. Elles sont également disponibles dans la section **References** si vous les épinglez.
+
+1. Accédez à votre projet dans la W&amp;B App.
+2. Cliquez sur le run dont vous souhaitez consulter les valeurs de configuration.
+3. Sélectionnez l’onglet **Vue d’ensemble**.
+4. Faites défiler jusqu’à la section **Config**.
+5. (Facultatif) Cliquez sur **View raw data** pour afficher les valeurs de configuration au format JSON.
+
+Le format JSON brut est utile lorsque vous écrivez des expressions pour créer ou transformer des graphiques en courbes à partir de valeurs de configuration, de métriques enregistrées ou de valeurs de synthèse. Voir [Expressions](/fr/models/app/features/panels/line-plot/reference#expressions) pour plus de détails.
 
 <div id="tensorflow-v1-flags">
   ## Flags de TensorFlow v1

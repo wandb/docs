@@ -1,23 +1,26 @@
 ---
-title: "Désactiver Tracing"
-description: "Découvrez les options permettant de désactiver ou de désactiver conditionnellement le Tracing de W&B Weave"
+title: "Désactiver le tracing"
+description: "Découvrez les options pour désactiver le tracing W&B Weave ou le couper de manière conditionnelle"
+keywords: ["WEAVE_DISABLED", "tracing_disabled", "gestionnaire de contexte", "indicateur de désactivation"]
 ---
 
-Vous disposez de plusieurs options pour contrôler le niveau de Tracing de Weave dans votre application, selon votre environnement et vos besoins.
+Cette page explique comment désactiver le tracing W&amp;B Weave dans votre application. Utilisez ces options lorsque vous souhaitez empêcher l’enregistrement des traces, par exemple pendant le développement local, dans des environnements de test ou pour des sections de code spécifiques où le tracing n’est pas nécessaire. Choisissez l’approche qui correspond le mieux au niveau de contrôle dont vous avez besoin : à l’échelle du programme, par client ou par bloc de code.
 
 <div id="environment-variable">
   ## Variable d’environnement
 </div>
 
-Si vous souhaitez désactiver systématiquement le Tracing pour l’ensemble du programme, vous pouvez définir la variable d’environnement `WEAVE_DISABLED=true`.
+Utilisez une variable d’environnement si vous souhaitez désactiver le Tracing pour l’ensemble du programme sans modifier le code de l’application.
 
-`WEAVE_DISABLED` n’est lue qu’une seule fois, au moment de la définition de la fonction. Cette variable ne peut pas être utilisée pour activer ou désactiver le Tracing à l’exécution.
+Pour désactiver systématiquement le Tracing pour l’ensemble du programme, définissez la variable d’environnement `WEAVE_DISABLED=true`.
+
+`WEAVE_DISABLED` n’est lue qu’une seule fois, au moment de la définition de la fonction. Vous ne pouvez pas utiliser cette variable pour activer ou désactiver le Tracing à l’exécution.
 
 <div id="client-initialization">
   ## Initialisation du client
 </div>
 
-Vous pouvez parfois vouloir activer Tracing de manière conditionnelle pour une initialisation donnée, selon certains critères. Dans ce cas, vous pouvez initialiser le client avec l&#39;indicateur `disabled` dans les paramètres d&#39;initialisation.
+Pour désactiver conditionnellement le tracing pour un client Weave spécifique, initialisez le client avec l’indicateur `disabled` dans les paramètres d’initialisation.
 
 <Tabs>
   <Tab title="Python">
@@ -40,7 +43,7 @@ Vous pouvez parfois vouloir activer Tracing de manière conditionnelle pour une 
   ## Gestionnaire de contexte
 </div>
 
-Pour désactiver conditionnellement le tracing pour un bloc de code spécifique, vous pouvez utiliser un gestionnaire de contexte de tracing. Utilisez `with tracing_disabled()` pour désactiver le tracing **uniquement pour les appels de fonction exécutés dans le bloc `with`**. Utilisez-le dans le code de votre application pour délimiter les appels qui ne doivent pas être enregistrés.
+Pour désactiver conditionnellement le tracing uniquement dans un bloc de code spécifique, vous pouvez utiliser un gestionnaire de contexte de tracing. Utilisez `with tracing_disabled()` pour désactiver le tracing **uniquement pour les appels de fonction exécutés dans le bloc `with`**. Utilisez-le dans le code de votre application pour délimiter les appels qui ne devraient pas être enregistrés.
 
 <Tabs>
   <Tab title="Python">
@@ -66,7 +69,7 @@ Pour désactiver conditionnellement le tracing pour un bloc de code spécifique,
   </Tab>
 </Tabs>
 
-Bien que le comportement du tracing soit défini lorsque les fonctions sont déclarées, cela permet un contrôle à l’exécution lorsqu’il est combiné à la logique de l’application. Par exemple, vous pouvez placer le gestionnaire de contexte dans une condition afin d’activer ou de désactiver dynamiquement le tracing en fonction d’une valeur d’exécution :
+Bien que le comportement du tracing soit défini lorsque les fonctions sont déclarées, vous pouvez l’utiliser pour un contrôle à l’exécution lorsque vous le combinez avec la logique de l’application. Par exemple, vous pouvez placer le gestionnaire de contexte dans une condition afin d’activer ou de désactiver dynamiquement le tracing en fonction d’une valeur d’exécution :
 
 <Tabs>
   <Tab title="Python">

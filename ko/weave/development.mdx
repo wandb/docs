@@ -1,41 +1,47 @@
 ---
 title: '개발'
 description: "업데이트를 W&B Weave 문서 사이트에 게시하기 전에 로컬에서 문서 변경 사항을 미리 보고 테스트합니다."
+keywords: ["Mintlify CLI", "로컬 미리보기", "mintlify dev", "깨진 링크", "MDX"]
 ---
+
+이 가이드는 게시 전에 W&amp;B Weave 문서 변경 사항을 로컬에서 미리 확인하려는 문서 기여자를 위한 것입니다. 로컬 환경에서 Mintlify CLI를 실행하면 편집한 내용이 올바르게 렌더링되는지 확인하고, 깨진 링크를 찾아내고, 배포를 기다리지 않고도 빠르게 반복 작업할 수 있습니다.
 
 <Info>
   **사전 요구 사항**: 계속하기 전에 Node.js(버전 19 이상)를 설치하세요. <br />
   계속하기 전에 `docs.json`으로 전환하고 기존 `mint.json` 파일을 삭제하세요.
 </Info>
 
+<div id="install-and-run-mintlify">
+  ## Mintlify 설치 및 실행
+</div>
+
 운영 체제에서 Mintlify를 설치하고 실행하려면 다음 단계를 따르세요.
 
-**1단계**: Mintlify 설치:
+1. Mintlify 설치:
 
-<CodeGroup>
-  ```bash npm
-  npm i -g mintlify
-  ```
+   <CodeGroup>
+     ```bash npm
+     npm i -g mintlify
+     ```
 
-  ```bash yarn
-  yarn global add mintlify
-  ```
-</CodeGroup>
+     ```bash yarn
+     yarn global add mintlify
+     ```
+   </CodeGroup>
 
-**2단계**: `docs.json` 파일이 있는 `docs` 디렉터리로 이동한 다음, 다음 명령어를 실행합니다:
+2. `docs.json` 파일이 있는 `docs` 디렉터리로 이동한 다음, 로컬 미리보기 서버를 시작합니다:
 
-```bash
-mintlify dev
-```
+   ```bash
+   mintlify dev
+   ```
 
-문서의 로컬 미리보기는 `http://localhost:3000`에서 확인할 수 있습니다.
-
+문서의 로컬 미리보기는 `http://localhost:3000`에서 확인할 수 있습니다. 이제 게시된 Weave 문서 사이트를 반영하는 로컬 환경이 실행됩니다.
 
 <div id="custom-ports">
   ### 사용자 지정 포트
 </div>
 
-기본적으로 Mintlify는 포트 3000을 사용합니다. `--port` 플래그를 사용하면 Mintlify가 실행될 포트를 사용자 지정할 수 있습니다. 예를 들어 Mintlify를 포트 3333에서 실행하려면 다음 명령어를 사용합니다:
+기본적으로 Mintlify는 포트 3000을 사용합니다. 컴퓨터에서 포트 3000이 이미 사용 중이거나 여러 미리보기를 한 번에 실행하려는 경우, `--port` 플래그를 사용하여 Mintlify가 실행될 포트를 사용자 지정할 수 있습니다. 예를 들어 Mintlify를 포트 3333에서 실행하려면 다음 명령어를 사용합니다:
 
 ```bash
 mintlify dev --port 3333
@@ -43,16 +49,15 @@ mintlify dev --port 3333
 
 이미 사용 중인 포트로 Mintlify를 실행하려고 하면, 다음으로 사용할 수 있는 포트를 사용합니다:
 
-```md
+```text
 Port 3000 is already in use. Trying 3001 instead.
 ```
-
 
 <div id="mintlify-versions">
   ## Mintlify 버전
 </div>
 
-각 CLI 릴리스는 특정 Mintlify 버전에 연결됩니다. 로컬 웹사이트가 프로덕션 버전과 일치하지 않으면 CLI를 업데이트하세요.
+로컬 미리보기가 게시된 사이트에서 독자가 보는 내용과 일치하도록 CLI를 프로덕션 Mintlify 버전과 동기화하세요. 각 CLI 릴리스는 특정 Mintlify 버전에 연결됩니다. 로컬 웹사이트가 프로덕션 버전과 일치하지 않으면 CLI를 업데이트하세요.
 
 <CodeGroup>
   ```bash npm
@@ -64,16 +69,15 @@ Port 3000 is already in use. Trying 3001 instead.
   ```
 </CodeGroup>
 
-<div id="validating-links">
+<div id="validate-links">
   ## 링크 검증
 </div>
 
-CLI는 문서에 포함된 레퍼런스 링크를 검증하는 데 도움이 됩니다. 깨진 링크를 파악하려면 다음 명령어를 사용하세요:
+깨진 링크는 독자의 문서 이용 경험을 해치므로, Pull Request를 열기 전에 변경 사항에 깨진 참조가 없는지 확인하세요. CLI를 사용하면 문서의 참조 링크를 검증할 수 있습니다. 깨진 링크를 파악하려면 `mintlify broken-links`를 실행하세요:
 
 ```bash
 mintlify broken-links
 ```
-
 
 <div id="deployment">
   ## 배포
@@ -90,24 +94,26 @@ mintlify broken-links
   ## 코드 서식 지정
 </div>
 
-IDE에서 MDX를 인식하고 서식을 지정할 수 있도록 확장 프로그램 사용을 권장합니다. VSCode를 사용 중이라면 구문 강조 표시용으로 [MDX VSCode extension](https://marketplace.visualstudio.com/items?itemName=unifiedjs.vscode-mdx)을, 코드 서식 지정용으로 [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)를 고려해 보세요.
+일관된 MDX 서식 지정은 변경 사항을 더 쉽게 검토하고 실수로 인한 구문 오류를 줄이는 데 도움이 됩니다. IDE에서 MDX를 인식하고 서식을 지정할 수 있도록 확장 프로그램 사용을 권장합니다. VSCode를 사용 중이라면 구문 강조 표시용으로 [MDX VSCode extension](https://marketplace.visualstudio.com/items?itemName=unifiedjs.vscode-mdx)을, 코드 서식 지정용으로 [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)를 고려해 보세요.
 
 <div id="troubleshooting">
   ## 문제 해결
 </div>
 
-<AccordionGroup>
-  <Accordion title="오류: darwin-arm64 런타임에서 &#x22;sharp&#x22; 모듈을 로드할 수 없습니다">
-    이는 Node 버전이 오래되어 발생할 수 있습니다. 다음을 사용해 보세요:
+다음 섹션에서는 로컬에서 Mintlify CLI를 실행할 때 발생할 수 있는 일반적인 문제와 해결 방법을 설명합니다.
 
-    1. 현재 설치된 mintlify 버전을 제거합니다: `npm remove -g mintlify`
-    2. Node를 v19 이상으로 업그레이드합니다.
-    3. mintlify를 다시 설치합니다: `npm install -g mintlify`
+<AccordionGroup>
+  <Accordion title="오류: darwin-arm64 런타임을 사용해 &#x22;sharp&#x22; 모듈을 로드할 수 없습니다">
+    이는 Node.js 버전이 오래되어 발생할 수 있습니다. 다음을 시도해 보세요.
+
+    1. 설치된 `mintlify`를 제거합니다. `npm remove -g mintlify`
+    2. Node.js를 v19 이상으로 업그레이드합니다.
+    3. `mintlify`를 다시 설치합니다. `npm install -g mintlify`
   </Accordion>
 
   <Accordion title="문제: 알 수 없는 오류가 발생하는 경우">
-    해결 방법: 기기의 루트 디렉터리로 이동해 ~/.mintlify 폴더를 삭제합니다. 그런 다음 `mintlify dev`를 다시 실행합니다.
+    해결 방법: 기기의 루트 디렉터리로 이동하여 `~/.mintlify` 폴더를 삭제하세요. 그런 다음 `mintlify dev`를 다시 실행하세요.
   </Accordion>
 </AccordionGroup>
 
-CLI 버전에서 무엇이 변경되었는지 궁금하신가요? [CLI 변경 로그를 확인하세요.](https://www.npmjs.com/package/mintlify?activeTab=versions)
+CLI 버전에서 무엇이 변경되었는지 궁금하신가요? 자세한 내용은 [CLI 변경 로그](https://www.npmjs.com/package/mintlify?activeTab=versions)를 참조하세요.

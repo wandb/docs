@@ -3,9 +3,11 @@ title: "W&B 정보 메시지를 숨기려면 어떻게 해야 하나요?"
 keywords: ["노트북", "환경 변수"]
 ---
 
+W&amp;B는 기본적으로 info 수준의 로그 메시지를 출력하므로 노트북 출력이 복잡해질 수 있습니다. 이 페이지에서는 이러한 메시지를 줄이거나 숨기는 두 가지 방법을 설명합니다. Python 로거 수준을 조정하거나 W&amp;B 환경 변수를 사용하면 됩니다.
+
 노트북에서 다음과 같은 로그 메시지가 표시되지 않게 하려면:
 
-```
+```text
 INFO SenderThread:11484 [sender.py:finish():979]
 ```
 
@@ -18,7 +20,12 @@ logger = logging.getLogger("wandb")
 logger.setLevel(logging.ERROR)
 ```
 
-로그 출력을 크게 줄이려면 `WANDB_QUIET` 환경 변수를 `True`로 설정하세요. 로그 출력을 완전히 비활성화하려면 `WANDB_SILENT` 환경 변수를 `True`로 설정하세요. 노트북에서는 `wandb.login`을 실행하기 전에 `WANDB_QUIET` 또는 `WANDB_SILENT`를 설정하세요.
+또는 W&amp;B 환경 변수를 사용해 로그 상세 수준을 제어할 수 있습니다:
+
+* 로그 출력을 줄이려면 `WANDB_QUIET` 환경 변수를 `True`로 설정하세요.
+* 로그 출력을 완전히 비활성화하려면 `WANDB_SILENT` 환경 변수를 `True`로 설정하세요.
+
+노트북에서는 `wandb.login`을 실행하기 전에 `WANDB_QUIET` 또는 `WANDB_SILENT`를 설정하세요.
 
 <Tabs>
   <Tab title="노트북">

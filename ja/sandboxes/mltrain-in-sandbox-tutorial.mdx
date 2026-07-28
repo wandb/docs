@@ -1,19 +1,22 @@
 ---
 title: "チュートリアル: PyTorch モデルをトレーニングする"
-description: "このステップごとのチュートリアルでは、Serverless Sandbox 環境で PyTorch モデルをトレーニングする方法を学びます。"
+description: "このステップバイステップのチュートリアルでは、Serverless Sandbox 環境で PyTorch モデルをトレーニングする方法を学びます。"
+keywords: ["W&B 実験管理", "UCI Zoo データセット", "ニューラルネットワーク", "分離された ML トレーニング", "wandb ロギング"]
 ---
 
 <Warning>
-  Serverless Sandboxes は現在プライベートプレビュー中で、招待制でのみご利用いただけます。利用登録をリクエストするには、[サポート](mailto:support@wandb.com) または担当の AISE にお問い合わせください。
+  Serverless Sandboxes は公開プレビューです。
 </Warning>
 
-このチュートリアルでは、Serverless Sandbox 環境で PyTorch モデルをトレーニングします。これを行うには、適切な環境変数を設定して サンドボックス を起動し、必要な依存関係をインストールして、UCI Zoo データセットでシンプルなニューラルネットワークをトレーニングする Python スクリプトを実行します。
+このチュートリアルでは、Serverless Sandbox 環境で PyTorch モデルをトレーニングします。そのために、適切な環境変数を指定してサンドボックスを起動し、必要な依存関係をインストールして、Python スクリプトを実行します。このスクリプトは、UCI Zoo データセットを使ってニューラルネットワークをトレーニングします。
+
+このチュートリアルを完了すると、トレーニング済みの PyTorch モデルファイルがローカルに保存されます。これにより、ローカルのインフラストラクチャーを構成しなくても、Serverless Sandbox を使用して分離された ML トレーニング ワークロードを実行する方法を確認できます。このチュートリアルは、再現可能なトレーニング ジョブ向けに Serverless Sandboxes を評価したい ML 実務者や開発者を対象としています。
 
 <div id="prerequisites">
   ## 前提条件
 </div>
 
-始める前に、以下がそろっていることを確認してください。
+始める前に、以下のセットアップ手順を完了してください。
 
 {/* ### （推奨）Python 仮想環境を作成する
 
@@ -24,21 +27,21 @@ description: "このステップごとのチュートリアルでは、Serverles
   source venv/bin/activate  # Windows では `venv\Scripts\activate` を使用します
   ```  */}
 
-<div id="install-wb-python-sdk">
+<div id="install-the-wb-python-sdk">
   ### W&amp;B Python SDK をインストール
 </div>
 
-W&amp;B Python SDK をインストールします。`pip` を使用してインストールできます。
+W&amp;B Python SDK は、後で Serverless Sandbox を作成して操作する際に使用する `Sandbox` インターフェースを提供します。`pip` を使用してインストールします:
 
 ```bash
 pip install wandb
 ```
 
 <div id="log-in-and-authenticate-with-wb">
-  ## W&amp;B にログインして認証する
+  ### W&amp;B にログインして認証する
 </div>
 
-まだログインしていない場合は、W&amp;B にログインしてください。`wandb login` CLI コマンドを実行し、表示される案内に従って W&amp;B アカウントにログインします。
+W&amp;B Serverless Sandboxes はお使いの W&amp;B アカウントで実行されるため、作成する前に認証する必要があります。`wandb login` CLI コマンドを実行し、表示される案内に従ってログインします。
 
 ```bash
 wandb login
@@ -47,10 +50,12 @@ wandb login
 W&amp;B が認証情報をどのように検索するかについて詳しくは、[`wandb login`](/ja/models/ref/cli/wandb-login) のリファレンスドキュメントを参照してください。
 
 <div id="copy-the-training-script-and-dependencies">
-  ### トレーニング スクリプトと依存関係をコピーする
+  ## トレーニングスクリプトと依存関係をコピーする
 </div>
 
-このチュートリアルに必要なコードにアクセスするには、以下のドロップダウンを展開してください。コードをコピー＆ペーストして、このチュートリアルと同じディレクトリ内にある 3 つの別々のファイルに保存します。次のセクションでは、これらのファイルを読み込み、Serverless Sandbox 環境内で PyTorch モデルをトレーニングするスクリプトを実行します。
+このチュートリアルに必要な 3 つのファイル (requirements ファイル、ハイパーパラメーター ファイル、トレーニングスクリプト) を用意します。次のドロップダウンを展開し、各コードサンプルをこのチュートリアルと同じディレクトリ内の別々のファイルにコピーしてください。
+
+次のセクションでは、これらのファイルを読み込んで、W&amp;B Serverless Sandbox で PyTorch モデルをトレーニングするスクリプトを実行します。
 
 <Accordion title="PyTorch トレーニングモデルスクリプト">
   以下のコードを `requirements.txt` という名前のファイルにコピー＆ペーストしてください。このファイルには、トレーニングスクリプトに必要な依存関係が含まれています。
@@ -71,7 +76,7 @@ W&amp;B が認証情報をどのように検索するかについて詳しくは
   model_type: Multivariate_neural_network_classifier
   ```
 
-  以下のコードを `train.py` という名前のファイルにコピー＆ペーストしてください。このスクリプトは、UCI Zoo データセットでシンプルな PyTorch モデルをトレーニングし、トレーニング済みのモデルを `zoo_wandb.pth` という名前のファイルに保存します。
+  以下のコードを `train.py` という名前のファイルにコピー＆ペーストしてください。このスクリプトは、UCI Zoo データセットで PyTorch モデルをトレーニングし、トレーニング済みのモデルを `zoo_wandb.pth` という名前のファイルに保存します。
 
   ```python title="train.py"
   import argparse
@@ -188,7 +193,7 @@ W&amp;B が認証情報をどのように検索するかについて詳しくは
   ## サンドボックスを作成してトレーニングスクリプトを実行する
 </div>
 
-次のコードスニペットでは、サンドボックスを作成し、その中にトレーニングスクリプトと依存関係をコピーし、トレーニングスクリプトを実行して、生成されたモデルファイルをダウンロードする方法を示します。次のセクションでは、このコードを1行ずつ説明します。
+トレーニングファイルの準備ができたら、1 つの Python スクリプトから W&amp;B Serverless Sandbox を作成して管理します。次のコードスニペットでは、サンドボックスを作成し、その中にトレーニングスクリプトと依存関係をコピーし、トレーニングスクリプトを実行して、生成されたモデルファイルをダウンロードする方法を示します。次のセクションでは、このコードを1行ずつ説明します。
 
 次のコードを Python ファイルにコピー＆ペーストして実行してください。前の手順で作成した `train.py`、`requirements.txt`、`hyperparameters.yaml` と同じディレクトリに保存してください。
 
@@ -201,7 +206,7 @@ from wandb.sandbox import Sandbox, NetworkOptions
 mounted_files = [
     {"mount_path": "train.py", "file_content": Path("train.py").read_bytes()},
     {"mount_path": "requirements.txt", "file_content": Path("requirements.txt").read_bytes()},
-        ]
+        ] 
 
 print("Starting sandbox...")
 with Sandbox.run(
@@ -235,7 +240,9 @@ with Sandbox.run(
 1. (6〜9行目) サンドボックスにマウントするファイル (`train.py` と `requirements.txt`) を指定します。
 2. (12行目) サンドボックスを起動します。サンドボックスは、`python:3.13` コンテナーイメージを使用し、インターネットアクセスを有効にし、最大有効期間を 3600 秒 (1 時間) に設定しています。
 3. (18行目) `hyperparameters.yaml` ファイルをサンドボックスに書き込みます。これにより、トレーニングスクリプト (`train.py`) の実行時にハイパーパラメーターへアクセスできるようになります。
-4. (22行目) 依存関係をインストールします。サンドボックス内で `pip install -r requirements.txt` コマンドを実行し、トレーニングスクリプトに必要な依存関係をインストールします。
-5. (26行目) トレーニングスクリプトを実行します。サンドボックス内で `python train.py --config hyperparameters.yaml` コマンドを実行して、トレーニングを開始します。このスクリプトは UCI Zoo データセットで PyTorch モデルをトレーニングし、トレーニング済みのモデルを `zoo_wandb.pth` という名前のファイルに保存します。
-6. (27〜29行目) 出力と終了コードを表示します。トレーニングスクリプトの実行完了後、デバッグと検証のために、標準出力、標準エラー出力、終了コードをコンソールに表示します。
-7. (33〜34行目) 生成されたモデルファイルをダウンロードします。`read_file()` メソッドを使用してサンドボックスから `zoo_wandb.pth` ファイルを読み取り、ローカルに保存します。
+4. (22行目) 依存関係をインストールします。サンドボックス内で `pip install -r requirements.txt` コマンドが実行され、トレーニングスクリプトに必要な依存関係がインストールされます。
+5. (26行目) トレーニングスクリプトを実行します。サンドボックス内で `python train.py --config hyperparameters.yaml` コマンドが実行され、トレーニングが開始されます。このスクリプトは UCI Zoo データセットで PyTorch モデルをトレーニングし、トレーニング済みのモデルを `zoo_wandb.pth` という名前のファイルに保存します。
+6. (27〜29行目) 出力と終了コードを表示します。トレーニングスクリプトの実行完了後、デバッグと検証のために、標準出力、標準エラー出力、終了コードがコンソールに表示されます。
+7. (33〜34行目) 生成されたモデルファイルをダウンロードします。`read_file()` メソッドでサンドボックスから `zoo_wandb.pth` を読み取り、スクリプトがそれをローカルに保存します。
+
+スクリプトの実行が完了すると、作業ディレクトリに `zoo_wandb.pth` として保存されたトレーニング済みの PyTorch モデルが作成されます。それを生成したサンドボックスは、必要に応じて作成、使用、破棄されます。

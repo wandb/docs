@@ -1,13 +1,14 @@
 ---
 title: "Hugging Face Hub"
 description: "Intégrez Hugging Face Hub à W&B Weave pour suivre et analyser vos applications de machine learning"
+keywords: [Hugging Face Hub, InferenceClient, huggingface_hub, traçage LLM, expérimentation de modèles]
 ---
 
-<Warning>
+<Note>
   Tous les exemples de code présentés sur cette page sont en Python.
-</Warning>
+</Note>
 
-Cette page explique comment intégrer [Hugging Face Hub](https://huggingface.co/) à W&amp;B Weave pour suivre et analyser vos applications de machine learning. Vous apprendrez à consigner les inférences des modèles, à surveiller les appels de fonction et à organiser les expériences grâce aux capacités de Tracing et de gestion des versions de Weave. En suivant les exemples fournis, vous pourrez obtenir des informations précieuses, déboguer efficacement vos applications et comparer différentes configurations de modèles, le tout dans l’interface web de Weave.
+Cette page explique comment intégrer [Hugging Face Hub](https://huggingface.co/) à W&amp;B Weave pour suivre et analyser vos applications de machine learning. Vous apprendrez à consigner les inférences des modèles, à surveiller les appels de fonction et à organiser les expériences grâce aux capacités de traçage et de gestion des versions de Weave. En suivant les exemples fournis, vous pourrez obtenir des informations, déboguer vos applications et comparer différentes configurations de modèles, le tout dans l’interface web de Weave.
 
 <Tip>
   **Essayez Hugging Face Hub avec Weave dans Google Colab**
@@ -22,15 +23,17 @@ Cette page explique comment intégrer [Hugging Face Hub](https://huggingface.co/
   ## Aperçu
 </div>
 
-[Hugging Face Hub](https://huggingface.co/) est une plateforme de machine learning pour les créateurs et les collaborateurs, qui propose une vaste collection de modèles préentraînés et de Datasets pour divers projets.
+Hugging Face Hub est une plateforme de machine learning pour les créateurs et les collaborateurs, qui propose une grande collection de modèles préentraînés et de Datasets pour de nombreux types de projets.
 
 La bibliothèque Python `huggingface_hub` fournit une interface unifiée pour exécuter l’inférence sur plusieurs services pour les modèles hébergés sur le Hub. Vous pouvez appeler ces modèles à l’aide de [`InferenceClient`](https://huggingface.co/docs/huggingface_hub/en/package_reference/inference_client).
 
-Weave capture automatiquement les traces pour [`InferenceClient`](https://huggingface.co/docs/huggingface_hub/en/package_reference/inference_client). Pour commencer le suivi, appelez `weave.init()` et utilisez la bibliothèque normalement.
+Weave capture automatiquement les traces pour `InferenceClient`. Pour commencer le suivi, appelez `weave.init()` et utilisez la bibliothèque normalement.
 
 <div id="prerequisites">
   ## Prérequis
 </div>
+
+Avant de commencer, effectuez les étapes de configuration suivantes pour installer les bibliothèques requises et configurer l&#39;accès au Hugging Face Hub :
 
 1. Avant de pouvoir utiliser `huggingface_hub` avec Weave, vous devez installer les bibliothèques nécessaires ou les mettre à jour vers leur dernière version. La commande suivante installe ou met à jour `huggingface_hub` et `weave` vers la dernière version, s&#39;ils sont déjà installés, tout en réduisant la sortie d&#39;installation.
 
@@ -38,7 +41,7 @@ Weave capture automatiquement les traces pour [`InferenceClient`](https://huggin
    pip install -U huggingface_hub weave -qqq
    ```
 
-2. Pour utiliser l&#39;inférence avec un modèle sur le Hugging Face Hub, configurez votre [User Access Token](https://huggingface.co/docs/hub/security-tokens). Vous pouvez définir ce token depuis votre [page Settings de Hugging Face Hub](https://huggingface.co/login?next=%2Fsettings%2Ftokens) ou par programmation. L&#39;exemple de code suivant invite l&#39;utilisateur à saisir son `HUGGINGFACE_TOKEN` et définit ce token comme variable d&#39;environnement.
+2. Pour utiliser l&#39;inférence avec un modèle sur le Hugging Face Hub, configurez votre [User Access Token](https://huggingface.co/docs/hub/security-tokens). Vous pouvez définir ce token depuis votre [page Settings de Hugging Face Hub](https://huggingface.co/login?next=%2Fsettings%2Ftokens) ou par programmation. L&#39;exemple de code suivant vous invite à saisir votre `HUGGINGFACE_TOKEN` et définit ce token comme variable d&#39;environnement.
 
    ```python lines
    import os
@@ -48,12 +51,12 @@ Weave capture automatiquement les traces pour [`InferenceClient`](https://huggin
    ```
 
 <div id="basic-tracing">
-  ## Tracing de base
+  ## Traçage de base
 </div>
 
-Stocker les traces des applications basées sur des modèles de langage dans un emplacement centralisé est essentiel pendant le développement comme en production. Ces traces facilitent le débogage et constituent de précieux Datasets pour améliorer votre application.
+Stocker les traces des applications basées sur des modèles de langage dans un emplacement centralisé est essentiel pendant le développement comme en production. Ces traces facilitent le débogage et constituent des Datasets pour améliorer votre application.
 
-Weave capture automatiquement les traces de l&#39;[`InferenceClient`](https://huggingface.co/docs/huggingface_hub/en/package_reference/inference_client). Pour commencer le suivi, initialisez Weave en appelant `weave.init()`, puis utilisez la bibliothèque comme d&#39;habitude.
+Weave capture automatiquement les traces de l&#39;`InferenceClient`. Pour commencer le suivi, initialisez Weave en appelant `weave.init()`, puis utilisez la bibliothèque comme d&#39;habitude.
 
 L&#39;exemple suivant montre comment consigner les appels d&#39;inférence vers le Hugging Face Hub à l&#39;aide de Weave :
 
@@ -64,7 +67,7 @@ from huggingface_hub import InferenceClient
 # Initialiser Weave
 weave.init(project_name="quickstart-huggingface")
 
-# Initialiser le client d'inférence Hugging Face
+# Initialiser le Hugging Face Inference Client
 huggingface_client = InferenceClient(
     api_key=os.environ.get("HUGGINGFACE_TOKEN")
 )
@@ -78,7 +81,7 @@ response = huggingface_client.chat_completion(
             "role": "user",
             "content": [
                 {"type": "image_url", "image_url": {"url": image_url}},
-                {"type": "text", "text": "Décrivez cette image en une phrase."},
+                {"type": "text", "text": "Describe this image in one sentence."},
             ],
         }
     ],
@@ -87,7 +90,7 @@ response = huggingface_client.chat_completion(
 )
 ```
 
-Une fois le code ci-dessus exécuté, Weave suit et journalise tous les appels LLM effectués avec le Hugging Face Inference Client. Vous pouvez consulter ces traces dans l’interface web de Weave.
+Une fois le code précédent exécuté, Weave suit et journalise tous les appels LLM effectués avec le Hugging Face Inference Client. Vous pouvez consulter ces traces dans l’interface web de Weave.
 
 <Frame>
   ![Weave journalise chaque appel d’inférence et fournit des détails sur les entrées, les sorties et les métadonnées.](/weave/guides/integrations/imgs/huggingface/trace_call.png)
@@ -104,7 +107,7 @@ Weave affiche également l’appel sous forme de vue de chat dans l’UI, avec l
 
 Pour mieux comprendre comment les données circulent dans votre application, vous pouvez utiliser `@weave.op` pour suivre les appels de fonction. Cela enregistre les entrées, les sorties et la logique d&#39;exécution, ce qui facilite le débogage et l&#39;analyse des performances.
 
-En imbriquant plusieurs ops, vous pouvez créer une arborescence structurée de fonctions suivies. Weave versionne aussi automatiquement votre code, en conservant les états intermédiaires au fil de vos expérimentations, même avant de valider vos modifications dans Git.
+En imbriquant plusieurs ops, vous pouvez créer une arborescence structurée de fonctions suivies. Weave versionne aussi automatiquement votre code, en conservant les états intermédiaires au fil de vos expérimentations, même avant que vous ne validiez vos modifications dans Git.
 
 Pour commencer le suivi, ajoutez le décorateur `@weave.op` aux fonctions que vous souhaitez suivre.
 
@@ -177,11 +180,11 @@ Weave journalise désormais tous les appels de fonction encapsulés avec `@weave
   ## Utilisez des `Model`s pour l’expérimentation
 </div>
 
-La gestion des expériences avec des LLM peut être complexe lorsque plusieurs composants entrent en jeu. La classe Weave [`Model`](../core-types/models) permet de capturer et d’organiser les détails expérimentaux, comme les prompts système et les configurations de modèle, afin de comparer facilement différentes itérations.
+La gestion des expériences avec des LLM peut être complexe lorsque plusieurs composants entrent en jeu. La classe Weave [`Model`](../core-types/models) permet de capturer et d’organiser les détails expérimentaux, comme les prompts système et les configurations de modèle, vous permettant de comparer différentes itérations.
 
-En plus de la gestion des versions du code et de la capture des entrées/sorties, un `Model` stocke des paramètres structurés qui contrôlent le comportement de l’application. Il est ainsi plus facile de suivre quelles configurations ont produit les meilleurs résultats. Vous pouvez également intégrer un `Model` Weave à Weave [Serve](../tools/serve) et aux [Évaluations](../evaluation/scorers) pour obtenir des informations supplémentaires.
+En plus de la gestion des versions du code et de la capture des entrées et des sorties, un `Model` stocke des paramètres structurés qui contrôlent le comportement de l’application. Cela vous aide à suivre quelles configurations ont produit les meilleurs résultats. Vous pouvez également intégrer un `Model` Weave à Weave [Serve](../tools/serve) et aux [Évaluations](../evaluation/scorers) pour obtenir des informations supplémentaires.
 
-L’exemple ci-dessous définit un modèle `CityVisitRecommender` pour des recommandations de voyage. Chaque modification de ses paramètres génère une nouvelle version, ce qui facilite l’expérimentation.
+L’exemple suivant définit un modèle `CityVisitRecommender` pour des recommandations de voyage. Chaque modification de ses paramètres génère une nouvelle version, favorisant une expérimentation itérative.
 
 ```python lines
 import rich
@@ -220,8 +223,8 @@ rich.print(city_visit_recommender.predict("New York City"))
 rich.print(city_visit_recommender.predict("Paris"))
 ```
 
-Weave journalise automatiquement les modèles et suit leurs différentes versions, ce qui facilite l’analyse des performances et de l’historique des expériences.
+Weave journalise automatiquement les modèles et suit leurs différentes versions afin que vous puissiez analyser les performances et l’historique des expériences.
 
 <Frame>
-  ![Weave journalise automatiquement les modèles et suit leurs différentes versions, ce qui facilite l’analyse des performances et de l’historique des expériences.](/weave/guides/integrations/imgs/huggingface/trace_model.png)
+  ![Weave journalise automatiquement les modèles et suit leurs différentes versions afin que vous puissiez analyser les performances et l’historique des expériences.](/weave/guides/integrations/imgs/huggingface/trace_model.png)
 </Frame>

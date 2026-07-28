@@ -1,6 +1,7 @@
 ---
 description: 機械学習 experiment 間で結果を比較する
 title: 平行座標
+keywords: ["平行座標", "ハイパーパラメーターの比較", "sweep の可視化"]
 ---
 
 平行座標チャートでは、多数のハイパーパラメーターとモデルのメトリクスの関係をひと目で把握できます。
@@ -9,12 +10,16 @@ title: 平行座標
   <img src="/images/app_ui/parallel_coordinates.gif" alt="平行座標プロット" />
 </Frame>
 
-* **Axes**: [`wandb.Run.config`](/ja/models/tables/evaluate-models) のさまざまなハイパーパラメーターと、[`wandb.Run.log()`](/ja/models/tables/evaluate-models) のメトリクス。
-* **Lines**: 各ラインは1つの run を表します。ラインにマウスオーバーすると、run の詳細を示すツールチップが表示されます。現在のフィルターに一致するすべてのラインが表示されますが、目のアイコンをオフにすると、ラインはグレーアウトされます。
+平行座標パネルには、次のコンポーネントがあります。
+
+* **Axes**: [`wandb.Run.config`](/ja/models/tables/evaluate-models) のハイパーパラメーターと、[`wandb.Run.log()`](/ja/models/tables/evaluate-models) のメトリクス。
+* **Lines**: 各ラインは1つの run を表します。ラインにマウスオーバーすると、run の詳細を示すツールチップが表示されます。現在のフィルターに一致するすべてのラインが表示されます。run の目のアイコンをオフにすると、そのラインは薄く表示されます。
 
 <div id="create-a-parallel-coordinates-panel">
   ## 平行座標 パネルを作成する
 </div>
+
+Workspace に平行座標 パネルを追加するには、次の手順に従います。
 
 1. Workspace のランディングページにアクセスします
 2. **Add Panels** をクリックします
@@ -26,10 +31,12 @@ title: 平行座標
 
 パネルを設定するには、パネルの右上にある編集ボタンをクリックします。
 
-* **ツールチップ**: ホバーすると、各 run の情報を示す凡例が表示されます
-* **タイトル**: 軸タイトルを編集して、より読みやすくできます
-* **グラデーション**: 好みの色の範囲にグラデーションをカスタマイズできます
-* **対数スケール**: 各軸はそれぞれ個別に対数スケールで表示するよう設定できます
-* **軸の反転**: 軸の向きを切り替えます。精度と損失の両方を列として使用している場合に便利です
+次の設定を調整できます:
 
-[ライブの平行座標パネルを試す](https://app.wandb.ai/example-team/sweep-demo/reports/Zoom-in-on-Parallel-Coordinates-Charts--Vmlldzo5MTQ4Nw)
+* **ツールチップ**: ホバーすると、各 run の情報を示す凡例が表示されます。
+* **タイトル**: 軸タイトルを編集して、より読みやすくできます。
+* **グラデーション**: 好みの色の範囲にグラデーションをカスタマイズできます。
+* **対数スケール**: 各軸はそれぞれ個別に対数スケールで表示するよう設定できます。
+* **軸の反転**: 軸の向きを切り替えます。精度と損失の両方を列として使用している場合に便利です。
+
+インタラクティブな例については、[ライブの平行座標パネル](https://app.wandb.ai/example-team/sweep-demo/reports/Zoom-in-on-Parallel-Coordinates-Charts--Vmlldzo5MTQ4Nw)を参照してください。

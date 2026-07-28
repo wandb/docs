@@ -1,7 +1,10 @@
 ---
 title: 제한 사항 및 예상 동작
 description: Weave의 제한 사항, 알려진 문제, 예상 동작 목록
+keywords: ["재시도", "시간 초과", "트레이스 잘림", "OpenTelemetry", "예외"]
 ---
+
+이 페이지에는 Weave의 제한 사항, 알려진 문제, 예상 동작이 나와 있습니다. 예상치 못한 결과가 발생했을 때 또는 Weave가 edge cases를 어떻게 처리하는지 이해하고 싶을 때 레퍼런스로 활용하세요.
 
 * 재시도 가능한 요청의 경우, Weave는 첫 번째 오류를 받은 뒤 1초 후부터 요청을 재시도하며, 시도 간 대기 시간을 최대 5분까지 두 배씩 늘립니다. 요청은 36시간 후 시간 초과됩니다.
 
@@ -12,7 +15,7 @@ description: Weave의 제한 사항, 알려진 문제, 예상 동작 목록
   result, call = foo.call(__should_raise=True)
   ```
 
-* Dedicated Weave 인스턴스는 다른 OpenTelemetry 인그레스 URL을 사용합니다. 정확한 엔드포인트 정보는 [OpenTelemetry Traces 보내기](/ko/weave/guides/tracking/otel)를 참조하세요.
+* Dedicated Weave 인스턴스는 다른 OpenTelemetry 인그레스 URL을 사용합니다. 공식 엔드포인트에 대한 자세한 내용은 [OpenTelemetry Traces 보내기](/ko/weave/guides/tracking/otel)를 참조하세요.
 
 * Weave는 때때로 큰 트레이스 데이터 객체를 잘라낼 수 있습니다. 이는 기본 트레이스 출력이 Weave가 직렬화하는 방법을 알지 못하는 원시 맞춤형 Python 객체이기 때문입니다. 모든 트레이스 데이터를 반환하려면 다음과 같이 문자열로 이루어진 딕셔너리를 정의하세요.
 

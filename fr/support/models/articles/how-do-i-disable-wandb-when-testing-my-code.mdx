@@ -1,0 +1,18 @@
+---
+title: "Comment puis-je désactiver W&B lorsque je teste mon code ?"
+keywords: ["Artifacts"]
+---
+
+Pour configurer W&amp;B pour qu&#39;il n&#39;effectue aucune opération pendant les tests, utilisez `wandb.init(mode="disabled")` ou définissez `WANDB_MODE=disabled`.
+
+<Note>
+  Même lorsque vous utilisez `wandb.init(mode="disabled")`, W&amp;B enregistre toujours des artefacts dans `WANDB_CACHE_DIR`.
+</Note>
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/fr/support/models/tags/artifacts)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet */}

@@ -3,7 +3,7 @@ title: "Comment puis-je journaliser un artifact dans un run existant ?"
 keywords: ["Artifacts"]
 ---
 
-Il est parfois nécessaire d’indiquer qu’un artifact est la sortie d’un run enregistré précédemment. Dans ce cas, réinitialisez l’ancien run et journalisez de nouveaux artifacts comme suit :
+Parfois, vous devez indiquer qu’un artifact est la sortie d’un run enregistré précédemment. Par exemple, vous pouvez générer un nouveau point de contrôle de modèle ou un nouveau jeu de données qui doit être associé à un run d’entraînement antérieur. Le code suivant réinitialise un run à partir de son ID et y journalise un nouvel artifact :
 
 ```python
 with wandb.init(id="existing_run_id", resume="allow") as run:

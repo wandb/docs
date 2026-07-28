@@ -3,9 +3,13 @@ description: Découvrez comment utiliser W&B Tables avec ce Démarrage rapide de
 title: 'Tutoriel : Journaliser des tableaux, visualiser et interroger les données'
 ---
 
+import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
+
 Le Démarrage rapide ci-dessous montre comment journaliser des tableaux de données, visualiser les données et les interroger.
 
 Sélectionnez le bouton ci-dessous pour essayer un projet d’exemple PyTorch du Démarrage rapide sur le jeu de données MNIST.
+
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/datasets-predictions/W%26B_Tables_Quickstart.ipynb" />
 
 <div id="1-log-a-table">
   ## 1. journaliser un tableau
@@ -29,7 +33,7 @@ Journalisez un tableau avec W&amp;B. Vous pouvez soit créer un nouveau tableau,
     import wandb
 
     with wandb.init(project="table-test") as run:
-        # Créez et enregistrez un nouveau tableau.
+        # Créez et journalisez un nouveau tableau.
         my_table = wandb.Table(columns=["a", "b"], data=[["a1", "b1"], ["a2", "b2"]])
         run.log({"Table Name": my_table})
     ```
@@ -46,12 +50,12 @@ Journalisez un tableau avec W&amp;B. Vous pouvez soit créer un nouveau tableau,
 
     with wandb.init(project="df-table") as run:
         # Créez un nouveau tableau à partir du DataFrame
-        # et enregistrez-le dans W&B.
+        # et journalisez-le dans W&B.
       my_table = wandb.Table(dataframe=df)
       run.log({"Table Name": my_table})
     ```
 
-    Pour plus d&#39;informations sur les types de données pris en charge, consultez [`wandb.Table`](/fr/models/ref/python/data-types/table) dans le guide de référence de l&#39;API W&amp;B.
+    Pour plus d’informations sur les types de données pris en charge, consultez [`wandb.Table`](/fr/models/ref/python/data-types/table) dans le guide de référence de l’API W&amp;B.
   </Tab>
 </Tabs>
 

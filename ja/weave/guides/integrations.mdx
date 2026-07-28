@@ -1,19 +1,35 @@
 ---
 title: インテグレーションの概要
-description: "OpenAI、Anthropic などに対する Weave の自動パッチ適用により、30 を超えるプロバイダーとフレームワークにまたがる LLM calls をトレースして監視します。"
+description: "エージェント SDK、ハーネス、LLM プロバイダ、オーケストレーション フレームワーク向けの Weave のインテグレーションを使って、エージェントと LLM アプリケーションをトレースします。"
+keywords: ["パッチ適用", "エージェント SDK", "エージェント ハーネス", "LLM プロバイダ", "オーケストレーション フレームワーク"]
 ---
 
-W&amp;B Weave は、主要な LLM プロバイダーやオーケストレーションフレームワーク向けの logging インテグレーションを提供します。これらのインテグレーションを使用すると、さまざまなライブラリ経由で行われる calls をシームレスにトレースでき、AI application の監視や分析をより効果的に行えます。
+Weave では、AI スタックと統合する方法が 2 つあります。
 
-application で LLM プロバイダーのライブラリ (OpenAI、Anthropic、Cohere、Mistral など) を使用している場合、それらの API calls を、inputs、outputs、レイテンシ、token usage、コストを含むトレース済みの Calls として W&amp;B Weave に表示したいはずです。こうした支援がなければ、すべての `client.chat.completions.create()` (または同等のもの) を `@weave.op` または手動インストルメンテーションでラップする必要があり、手間がかかるうえに見落としも起きがちです。
+* **エージェントをトレース**: エージェント SDK (OpenAI Agents SDK や Google ADK など) で構築したマルチターンのエージェント アプリケーション、またはエージェント ハーネス (Claude Code、Codex、Pi.dev など) 内で実行されるアプリケーション向けです。これらのインテグレーションでは、セッション、ターン、LLM calls、ツールコール を取得し、Weave の **Agents** ビューに表示します。
+* **LLM アプリケーションをトレース**: LLM プロバイダ (OpenAI、Anthropic、Bedrock など) を呼び出すコード、またはオーケストレーション フレームワーク (LangChain、LlamaIndex、DSPy など) を使用するコード向けです。これらのインテグレーションでは、個々の LLM calls とパイプラインのステップを、**Traces** ビューで Weave **Calls** として取得します。
 
-Weave は、サポートされる LLM クライアントライブラリを自動的にインターセプト (パッチ適用) します。application のコードはそのままで、通常どおりプロバイダー SDK を使用するだけで、各 request が Weave Call として記録されます。最小限の setup で完全なトレースを実現できます。
+どちらを選べばよいかわからない場合は、新しいマルチターンのエージェント開発には [エージェントをトレースする](/ja/weave/guides/tracking/trace-agents) から、既存の LLM 呼び出しワークフローには [LLM アプリケーションをトレースする](/ja/weave/guides/tracking/tracing) から始めてください。
 
-<div id="llm-providers">
-  ## LLM プロバイダー
+<div id="trace-agents">
+  ## エージェントをトレースする
 </div>
 
-LLM プロバイダーとは、予測を生成するための大規模言語モデルへのアクセスを提供するベンダーです。Weave はこれらのプロバイダーと連携し、それぞれの API とのやり取りをログし、トレースします。
+マルチターンのエージェント アプリケーションを構築していて、セッション、ターン、ツールコールを Weave の **Agents** ビューに表示したい場合は、これらのインテグレーションを使用してください。**Agents** ビューに表示されるエージェント SDK、ハーネス、カスタム インストルメンテーションについては、[エージェントのインテグレーションを選択する](/ja/weave/agent-integration-quickstart)を参照してください。
+
+<div id="trace-llm-applications">
+  ## LLM アプリケーションをトレースする
+</div>
+
+アプリケーションが LLM プロバイダの API を直接呼び出す場合や、オーケストレーション フレームワークを使用する場合、Weave は多くのライブラリやフレームワークで、トレースを自動的にインターセプトできます (パッチ適用 を使用) 。コードに Weave SDK をインポートし、`weave.init` で初期化すると、Weave は各リクエストを入力、出力、レイテンシ、token 使用量、コストを含む **Call** として記録します。
+
+Weave が autopatch していないライブラリについては、コードに [Weave Ops](/ja/weave/guides/tracking/create-call#2-tracking-of-custom-functions) を手動で適用して、トレースを取得できます。
+
+<div id="llm-providers">
+  ### LLM プロバイダ
+</div>
+
+LLM プロバイダとは、予測を生成するための大規模言語モデルへのアクセスを提供するベンダーです。Weave はこれらのプロバイダーと連携し、それぞれの API とのやり取りをログし、トレースします。
 
 * **[Serverless Inference Service](/ja/inference)**
 * **[Amazon Bedrock](/ja/weave/guides/integrations/bedrock)**
@@ -30,17 +46,17 @@ LLM プロバイダーとは、予測を生成するための大規模言語モ�
 * **[OpenAI](/ja/weave/guides/integrations/openai)**
 * **[OpenRouter](/ja/weave/guides/integrations/openrouter)**
 * **[Together AI](/ja/weave/guides/integrations/together_ai)**
-
-**[ローカルモデル](/ja/weave/guides/integrations/local_models)**: 独自のインフラストラクチャー上でモデルを実行している場合はこちらを使用します。
+* **[ローカルモデル](/ja/weave/guides/integrations/local_models)** (独自のインフラストラクチャー上で実行されるモデル向け)
 
 <div id="frameworks">
-  ## フレームワーク
+  ### フレームワーク
 </div>
 
-フレームワークは、AI アプリケーションで実際の実行パイプラインをオーケストレーションするために役立ちます。複雑なワークフローを構築するためのツールや抽象化を提供します。Weave はこれらのフレームワークと統合し、パイプライン全体をトレースします。
+フレームワークは、AI アプリケーションで実行パイプラインをオーケストレーションするために役立ちます。複雑なワークフローを構築するためのツールや抽象化を提供します。Weave はこれらのフレームワークと連携し、パイプライン全体をトレースします。
 
-* **[OpenAI Agents SDK](/ja/weave/guides/integrations/openai_agents)**
-* **[Claude Code](/ja/weave/guides/integrations/claude_code)**
+* **[OpenAI Agents SDK](/ja/weave/guides/integrations/agents/openai-agents-sdk)**
+* **[Claude Agent SDK](/ja/weave/guides/integrations/agents/claude-agents-sdk)**
+* **[Claude Code](/ja/weave/guides/integrations/agents/claude-code-harness)**
 * **[LangChain](/ja/weave/guides/integrations/langchain)**
 * **[LlamaIndex](/ja/weave/guides/integrations/llamaindex)**
 * **[Haystack](/ja/weave/guides/integrations/haystack)**
@@ -49,7 +65,7 @@ LLM プロバイダーとは、予測を生成するための大規模言語モ�
 * **[CrewAI](/ja/weave/guides/integrations/crewai)**
 * **[Smolagents](/ja/weave/guides/integrations/smolagents)**
 * **[PydanticAI](/ja/weave/guides/integrations/pydantic_ai)**
-* **[Google Agent Development Kit (ADK)](/ja/weave/guides/integrations/google_adk)**
+* **[Google Agent Development Kit (ADK)](/ja/weave/guides/integrations/agents/google-adk)**
 * **[AutoGen](/ja/weave/guides/integrations/autogen)**
 * **[Verdict](/ja/weave/guides/integrations/verdict)**
 * **[TypeScript SDK](/ja/weave/guides/integrations/js)**
@@ -57,18 +73,18 @@ LLM プロバイダーとは、予測を生成するための大規模言語モ�
 * **[Agno](/ja/weave/guides/integrations/agno)**
 * **[Koog](/ja/weave/guides/integrations/koog)**
 
-<div id="rl-frameworks">
-  ## RLフレームワーク
+<div id="reinforcement-learning-frameworks">
+  ### 強化学習フレームワーク
 </div>
+
+Weave は、トレーニングと評価の run をトレースするために、強化学習フレームワークと連携します。
 
 * **[Verifiers](/ja/weave/guides/integrations/verifiers)**
 
 <div id="protocols">
-  ## プロトコル
+  ### プロトコル
 </div>
 
-Weave は、AI アプリケーションとそれを支えるサービス間の通信を可能にする標準化プロトコルと統合できます。
+Weave は、AI アプリケーションとそれを支えるサービス間の通信を可能にする標準化プロトコルと連携できます。
 
 * **[Model Context Protocol (MCP)](/ja/weave/guides/integrations/mcp)**
-
-詳しくは、上記のリストからインテグレーションを選択し、好みの LLM プロバイダー、フレームワーク、またはプロトコルで Weave を使用する方法を確認してください。LLM API に直接アクセスする場合でも、複雑なパイプラインを構築する場合でも、標準化されたプロトコルを使用する場合でも、Weave には AI アプリケーションを効果的にトレースして分析するためのツールが用意されています。

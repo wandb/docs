@@ -1,9 +1,12 @@
 ---
 title: Gérer les paramètres du Workspace, de la section et du panneau
 description: "Gérez les paramètres du Workspace, de la section et du panneau dans W&B App, y compris les options de mise en page et de configuration du graphique en courbes."
+keywords: ["mise en page du Workspace", "valeurs par défaut du graphique en courbes", "organisation des panneaux", "Paramètres de la section", "options de l’axe X"]
 ---
 
-Sur une page Workspace donnée, il existe trois niveaux de paramètres : le Workspace, les sections et les panneaux. Les [paramètres du Workspace](#workspace-settings) s&#39;appliquent à l&#39;ensemble du Workspace. Les [Paramètres de la section](#section-settings) s&#39;appliquent à tous les panneaux d&#39;une section. Les [Paramètres du panneau](#panel-settings) s&#39;appliquent à chaque panneau individuellement.
+Une page Workspace comporte trois niveaux de paramètres : le Workspace, les sections et les panneaux. Les [paramètres du Workspace](#workspace-settings) s&#39;appliquent à l&#39;ensemble du Workspace. Les [Paramètres de la section](#section-settings) s&#39;appliquent à tous les panneaux d&#39;une section. Les [Paramètres du panneau](#panel-settings) s&#39;appliquent à chaque panneau individuellement.
+
+Cette page décrit comment configurer chaque niveau de paramètres afin de contrôler la mise en page de votre Workspace, d’organiser les panneaux et de personnaliser l’affichage des données. Les sections suivantes décrivent successivement chaque niveau de paramètres.
 
 <div id="workspace-settings">
   ## Paramètres du Workspace
@@ -13,23 +16,25 @@ Les paramètres du Workspace s’appliquent à toutes les sections et à tous le
 
 Pour modifier les paramètres qui s’appliquent à la structure globale de ce Workspace :
 
-1. Accédez à l’espace de travail du projet.
+1. Accédez au Workspace du projet.
 2. Cliquez sur l’icône d’engrenage à côté du bouton **New report** pour afficher les paramètres du Workspace.
-3. Choisissez **Workspace layout** pour modifier la mise en page du Workspace, ou **Line plots** pour configurer les paramètres par défaut des graphiques en courbes dans le Workspace.
+3. Choisissez **mise en page du Workspace** pour modifier la mise en page du Workspace, ou **graphique en courbes** pour configurer les paramètres par défaut des graphiques en courbes dans le Workspace.
 
 <Frame>
   <img src="/images/app_ui/workspace_settings.png" alt="Icône d’engrenage des paramètres du Workspace" />
 </Frame>
 
+Le panneau des paramètres du Workspace s’ouvre, où vous pouvez appliquer les modifications décrites dans les sections suivantes.
+
 <Note>
-  Après avoir personnalisé votre Workspace, vous pouvez utiliser des *modèles de Workspace* pour créer rapidement de nouveaux Workspaces avec les mêmes paramètres. Consultez [modèles de Workspace](/fr/models/track/workspaces/#workspace-templates).
+  Après avoir personnalisé votre Workspace, vous pouvez utiliser des *modèles de Workspace* pour créer de nouveaux Workspaces avec les mêmes paramètres. Consultez [modèles de Workspace](/fr/models/track/workspaces/#workspace-templates).
 </Note>
 
 <div id="workspace-layout-options">
   ### Options de mise en page du Workspace
 </div>
 
-Configurez une mise en page de Workspace pour définir la structure globale du Workspace. Cela inclut la logique de sectionnement et l’organisation des panneaux.
+Configurez la mise en page d’un Workspace pour définir la structure globale du Workspace. Cela inclut la logique de sectionnement et l’organisation des panneaux.
 
 <Frame>
   <img src="/images/app_ui/workspace_layout_settings.png" alt="Options de mise en page du Workspace" />
@@ -61,16 +66,16 @@ Définissez des valeurs par défaut globales et des règles personnalisées pour
 
 Vous pouvez modifier deux paramètres principaux dans les paramètres **graphique en courbes** : **Data** et **Display preferences**. L&#39;onglet **Data** contient les paramètres suivants :
 
-| Paramètre du graphique en courbes        | Description                                                                                                                                                                                 |
-| ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Axe X**                                | L&#39;échelle de l&#39;axe des x dans les graphiques en courbes. Par défaut, l&#39;axe des x est défini sur **Step**. Voir le tableau suivant pour la liste des options de l&#39;axe des x. |
-| **Plage**                                | Paramètres minimum et maximum à afficher pour l&#39;axe des x.                                                                                                                              |
-| **Lissage**                              | Modifiez le lissage du graphique en courbes. Pour plus d&#39;informations sur le lissage, voir [Lisser les graphiques en courbes](/fr/models/app/features/panels/line-plot/smoothing/).        |
-| **Valeurs aberrantes**                   | Redimensionne l&#39;échelle pour exclure les valeurs aberrantes des valeurs min et max par défaut du graphique.                                                                             |
-| **Méthode d&#39;agrégation des points**  | Améliore la précision et les performances de la visualisation des données. Voir [Agrégation des points](/fr/models/app/features/panels/line-plot/sampling/) pour plus d&#39;informations.      |
-| **Nombre maximal de runs ou de groupes** | Limitez le nombre de runs ou de groupes affichés sur le graphique en courbes.                                                                                                               |
+| Paramètre du graphique en courbes        | Description                                                                                                                                                                         |
+| ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Axe X**                                | L&#39;échelle de l&#39;axe X dans les graphiques en courbes. Par défaut, l&#39;axe X est défini sur **Step**. Voir le tableau suivant pour la liste des options de l&#39;axe X. |
+| **Plage**                                | Paramètres minimum et maximum à afficher pour l&#39;axe X.                                                                                                                         |
+| **Lissage**                              | Modifiez le lissage du graphique en courbes. Pour plus d&#39;informations sur le lissage, voir [Lisser les graphiques en courbes](/fr/models/app/features/panels/line-plot/smoothing/). |
+| **Valeurs aberrantes**                   | Redimensionne l&#39;échelle pour exclure les valeurs aberrantes des valeurs min et max par défaut du graphique.                                                                   |
+| **Méthode d&#39;agrégation des points**  | Améliore la précision et les performances de la visualisation des données. Pour plus d&#39;informations, voir [Agrégation des points](/fr/models/app/features/panels/line-plot/sampling/). |
+| **Nombre maximal de runs ou de groupes** | Limitez le nombre de runs ou de groupes affichés sur le graphique en courbes.                                                                                                     |
 
-En plus de **Step**, il existe d&#39;autres options pour l&#39;axe des x :
+Outre **Step**, l&#39;axe X prend en charge les options suivantes :
 
 | Option d&#39;axe X          | Description                                                                                                                                                                                                                                |
 | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -85,13 +90,13 @@ En plus de **Step**, il existe d&#39;autres options pour l&#39;axe des x :
 
 Dans l&#39;onglet **Display preferences**, vous pouvez activer ou désactiver les paramètres suivants :
 
-| Préférence d&#39;affichage                                                                  | Description                                                                              |
-| ------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| **Supprimer les légendes de tous les panneaux**                                             | Supprime la légende du panneau                                                           |
-| **Afficher les noms de runs colorés dans les info-bulles**                                  | Affiche les runs sous forme de texte coloré dans l&#39;info-bulle                        |
-| **Afficher uniquement le run mis en évidence dans l&#39;info-bulle du graphique compagnon** | Affiche uniquement les runs mis en évidence dans l&#39;info-bulle du graphique compagnon |
-| **Nombre de runs affichés dans les info-bulles**                                            | Affiche le nombre de runs dans l&#39;info-bulle                                          |
-| **Afficher les noms complets des runs dans l&#39;info-bulle du graphique principal**        | Affiche le nom complet du run dans l&#39;info-bulle du graphique                         |
+| Préférence d&#39;affichage                                                                  | Description                                                                               |
+| ------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| **Supprimer les légendes de tous les panneaux**                                             | Supprime la légende du panneau.                                                           |
+| **Afficher les noms de runs colorés dans les info-bulles**                                  | Affiche les runs sous forme de texte coloré dans l&#39;info-bulle.                        |
+| **Afficher uniquement le run mis en évidence dans l&#39;info-bulle du graphique compagnon** | Affiche uniquement les runs mis en évidence dans l&#39;info-bulle du graphique compagnon. |
+| **Nombre de runs affichés dans les info-bulles**                                            | Affiche le nombre de runs dans l&#39;info-bulle.                                          |
+| **Afficher les noms complets des runs dans l&#39;info-bulle du graphique principal**        | Affiche le nom complet du run dans l&#39;info-bulle du graphique.                         |
 
 <div id="section-settings">
   ## Paramètres de la section
@@ -142,4 +147,4 @@ Personnalisez les paramètres d’un panneau pour comparer plusieurs courbes sur
   <img src="/images/app_ui/panel_settings_modal.png" alt="Fenêtre modale des paramètres du panneau" />
 </Frame>
 
-Pour obtenir la liste complète des paramètres que vous pouvez appliquer à un panneau, voir [Modifier les paramètres du panneau de graphique linéaire](/fr/models/app/features/panels/line-plot/#edit-line-panel-settings).
+Vos modifications s’appliquent uniquement à ce panneau et prennent effet lorsque vous les enregistrez. Pour obtenir la liste complète des paramètres que vous pouvez appliquer à un panneau, voir [Modifier les paramètres du panneau de graphique linéaire](/fr/models/app/features/panels/line-plot/#edit-line-panel-settings).

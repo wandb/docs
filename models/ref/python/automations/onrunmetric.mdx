@@ -1,18 +1,41 @@
 ---
 title: OnRunMetric
-namespace: automations_namespace
-python_object_type: class
+kind: class
+namespace: wandb.automations.events
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py" />
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py#L371" />
 
 
 
-## <kbd>class</kbd> `OnRunMetric`
+## <kbd>class</kbd> wandb.automations.OnRunMetric
+```python
+*,
+event_type: Literal[RUN_METRIC_THRESHOLD, RUN_METRIC_CHANGE, RUN_METRIC_ZSCORE],
+scope: Annotated[Union[wandb.automations.scopes.ProjectScope, Annotated[wandb.automations.scopes.TeamScope | wandb.automations.scopes.OrgScope, BeforeValidator(func=<function parse_scope>, json_schema_input_type=PydanticUndefined), Discriminator(discriminator='entity_type', custom_error_type=None, custom_error_message=None, custom_error_context=None)]], BeforeValidator(func=<function parse_scope>, json_schema_input_type=PydanticUndefined), Discriminator(discriminator='typename__', custom_error_type=None, custom_error_message=None, custom_error_context=None)],
+filter: Annotated[wandb.automations.events.RunMetricFilter, Json, BeforeValidator(func=<function ensure_json>, json_schema_input_type=PydanticUndefined), PlainSerializer(func=<function to_json>, return_type=PydanticUndefined, when_used='always')]
+```
+
+
+
 A run metric satisfies a user-defined condition.
 
-Examples:
+
+
+## Args
+
+- `event_type`: 
+- `scope`: The scope of the event: must be a project or a team/org entity.
+- `filter`: Run and/or metric condition(s) that must be satisfied for this event to trigger.
+
+
+
+
+## Examples
+
 Define an event that triggers for any run in project "my-project" when
 the average of the last 5 values of metric "my-metric" exceeds 123.45:
 
@@ -30,21 +53,6 @@ event = OnRunMetric(
 ```
 
 
-### <kbd>method</kbd> `OnRunMetric.__init__`
 
-```python
-__init__(
-    event_type: 'Literal[RUN_METRIC_THRESHOLD, RUN_METRIC_CHANGE, RUN_METRIC_ZSCORE]',
-    scope: 'ProjectScope',
-    filter: 'RunMetricFilter'
-) → None
-```
 
-**Args:**
- 
- - `event_type` (Literal[RUN_METRIC_THRESHOLD, RUN_METRIC_CHANGE, RUN_METRIC_ZSCORE]): 
- - `scope` (ProjectScope): The scope of the event: must be a project.
- - `filter` (RunMetricFilter): Run and/or metric condition(s) that must be satisfied for this event to trigger.
 
-**Returns:**
- An `OnRunMetric` object.

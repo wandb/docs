@@ -1,9 +1,10 @@
 ---
 title: "Aperçu de l’API"
 description: "Consultez la référence complète de l’API REST du service Serverless Inference, y compris les endpoints et l’authentification."
+keywords: ["API REST", "compatible OpenAI", "clé API W&B", "URL de base", "authentification API"]
 ---
 
-Découvrez comment utiliser la API Serverless Inference pour accéder par programmation à des modèles fondamentaux.
+Cette référence décrit l’API REST Serverless Inference, qui vous permet d’appeler par programmation des modèles fondamentaux depuis vos propres applications. Utilisez-la pour intégrer l’inférence hébergée à des services, scripts ou notebooks, sans avoir à gérer l’infrastructure des modèles.
 
 <div id="base-url">
   ## URL de base
@@ -15,25 +16,25 @@ Accédez au service d’Inférence à :
 https://api.inference.wandb.ai/v1
 ```
 
-<Note>
-  **Important**
+<div id="prerequisites">
+  ## Prérequis
+</div>
 
-  Pour utiliser cet endpoint, il vous faut :
+Pour appeler l&#39;API d&#39;Inférence, il vous faut :
 
-  * Un compte W&amp;B avec des crédits Inference
-  * Une clé API W&amp;B valide
+* Un compte W&amp;B avec des crédits d&#39;Inférence.
+* Une clé API W&amp;B valide.
 
-  Si vous appartenez à plus d’une team ou souhaitez associer votre utilisation à un projet, vous aurez également besoin des ID de la team et du projet. Dans les exemples de code, ils apparaissent sous la forme `<your-team>/<your-project>`. À défaut, votre entité par défaut et le projet `inference` seront utilisés.
-</Note>
+Si vous appartenez à plusieurs équipes, ou si vous souhaitez imputer votre utilisation à un projet, vous aurez également besoin des ID d&#39;équipe et de projet. Dans les exemples de code, ils apparaissent sous la forme `[YOUR-TEAM]/[YOUR-PROJECT]`. Si vous ne les spécifiez pas, W&amp;B utilise votre entité par défaut et le nom du projet `inference`.
 
 <div id="available-methods">
   ## Méthodes disponibles
 </div>
 
-L’API Serverless Inference fournit des endpoints compatibles avec OpenAI pour interagir avec des modèles fondamentaux :
+L’API d’Inférence fournit des endpoints compatibles avec OpenAI pour interagir avec des modèles fondamentaux. Les méthodes suivantes sont disponibles :
 
-* **[Chat Completions](/fr/inference/api-reference/chat-completions)** - Créez des complétions de chat à l’aide de divers modèles fondamentaux
-* **[List Models](/fr/inference/api-reference/list-models)** - Obtenez tous les modèles disponibles et leurs ID
+* **[Chat Completions](/fr/inference/api-reference/chat-completions)** : Créez des complétions de chat à l’aide de modèles fondamentaux.
+* **[List Models](/fr/inference/api-reference/list-models)** : Obtenez tous les modèles disponibles et leurs ID.
 
 <div id="authentication">
   ## Authentification
@@ -43,19 +44,21 @@ Toutes les requêtes API nécessitent une authentification à l’aide de votre 
 
 Incluez votre clé API dans les en-têtes de la requête :
 
-* Pour OpenAI SDK : définissez-la via le paramètre `api_key`
-* Pour les appels API directs : utilisez `Authorization: Bearer <your-api-key>`
+* Pour le SDK d’OpenAI, définissez le paramètre `api_key`.
+* Pour les appels API directs, utilisez `Authorization: Bearer [YOUR-API-KEY]`.
 
 <div id="error-handling">
   ## Gestion des erreurs
 </div>
 
-Voir [Erreurs de l’API](/fr/support/inference) pour obtenir la liste complète des codes d’erreur et savoir comment les résoudre.
+Pour obtenir la liste complète des codes d’erreur et savoir comment les résoudre, voir [Erreurs de l’API](/fr/support/inference).
 
 <div id="next-steps">
   ## Étapes suivantes
 </div>
 
-* Essayez les [exemples d&#39;utilisation](/fr/inference/examples) pour voir l&#39;API à l&#39;œuvre
-* Explorez les modèles dans l&#39;[UI](/fr/inference/ui-guide)
-* Consultez les [limites d&#39;utilisation](/fr/inference/usage-limits) de votre compte
+Après avoir obtenu votre clé API, poursuivez avec l’une des options suivantes :
+
+* Essayez les [exemples d&#39;utilisation](/fr/inference/examples) pour voir comment l&#39;API fonctionne.
+* Explorez les modèles dans l&#39;[UI Inference](/fr/inference/ui-guide).
+* Consultez les [limites d&#39;utilisation](/fr/inference/usage-limits) de votre compte.

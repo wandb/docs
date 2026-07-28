@@ -3,7 +3,7 @@ title: "How do I switch between accounts on the same machine?"
 keywords: ["Environment Variables"]
 ---
 
-To manage two W&B accounts from the same machine, store both API keys in a file. Use the following code in your repositories to switch between keys securely, preventing secret keys from being checked into source control.
+To manage two W&B accounts from the same machine, store both API keys in a file outside your repository, then load the key you need at runtime. This approach keeps secret keys out of source control.
 
 ```python
 if os.path.exists("~/keys.json"):

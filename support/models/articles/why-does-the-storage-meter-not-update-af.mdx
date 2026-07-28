@@ -3,9 +3,11 @@ title: "Why does the storage meter not update after deleting runs?"
 keywords: ["Storage"]
 ---
 
-- The storage meter does not update immediately after deleting runs due to processing delays. 
-- The backend system requires time to synchronize and reflect changes in usage accurately. 
-- If the storage meter has not updated, wait for the changes to process.
+The storage meter doesn't update immediately after you delete runs, artifacts, or files. When you delete data from the UI or the CLI, the backend processes the deletion in the background, so your usage can take a few hours to reflect the change. This is expected behavior.
+
+If you exceeded your storage limit, any access restriction lifts automatically once your usage falls below the limit and the meter catches up. You don't need to take further action while processing completes.
+
+If the meter still hasn't updated after a few hours, confirm your actual usage on the **Manage storage** page at `https://wandb.ai/account-settings/[ENTITY]/usage/manage/`, replacing `[ENTITY]` with your team or username. This page shows which projects and runs consume the most space, so you can target what to delete next. If your usage there is already under your limit but the warning persists, [contact support](mailto:support@wandb.com).
 
 ---
 

@@ -3,9 +3,9 @@ title: "Comment wandb transmet-il les journaux et écrit-il sur disque ?"
 keywords: ["Variables d’environnement"]
 ---
 
-W&amp;B met les événements en file d’attente en mémoire et les écrit sur disque de façon asynchrone afin de gérer les pannes et de prendre en charge la configuration `WANDB_MODE=offline`, ce qui permet de les synchroniser ensuite.
+W&amp;B met les événements en file d’attente en mémoire et les écrit sur disque de façon asynchrone. Cette approche gère les pannes et prend en charge la configuration `WANDB_MODE=offline`, ce qui permet de synchroniser les données après la journalisation.
 
-Dans le terminal, observez le chemin vers le répertoire local du run. Ce répertoire contient un fichier `.wandb`, qui fait office de magasin de données. Pour la journalisation des images, W&amp;B stocke les images dans le sous-répertoire `media/images` avant de les envoyer vers le stockage cloud.
+Le terminal affiche le chemin vers le répertoire local du run. Ce répertoire contient un fichier `.wandb`, qui fait office de magasin de données. Pour journaliser les images, W&amp;B stocke les images dans le sous-répertoire `media/images` avant de les envoyer vers le stockage cloud.
 
 ***
 

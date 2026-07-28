@@ -3,9 +3,9 @@ title: "Trace data is truncated"
 keywords: ["Trace Data"]
 ---
 
-Sometimes, large trace data is partially cut off in the Weave UI. This problem occurs because default trace output is a raw, custom Python object that Weave doesn't know how to serialize.
+Sometimes, large trace data is cut off in the Weave UI. This happens because the default trace output is a raw, custom Python object that Weave can't serialize. This page shows how to expose the full trace data so it displays in the UI.
 
-To ensure that large trace data isn't cut off, define a dictionary of strings to return all trace data.
+To prevent large trace data from being cut off, define a `to_dict` method that returns a dictionary of strings containing all trace data. Because Weave can serialize dictionaries, this approach gives the UI access to the full object state. The following example shows the pattern:
 
 ```python
 import weave
@@ -25,6 +25,8 @@ def make_my_obj():
     x = "s" * 10_000
     return MyObj(x)
 ```
+
+With this `to_dict` method in place, Weave can serialize the object and display its contents in the trace UI instead of truncating the raw representation.
 
 ---
 

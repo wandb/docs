@@ -3,7 +3,7 @@ title: "Les variables d'environnement remplacent-elles les paramètres passés �
 keywords: ["Variables d'environnement"]
 ---
 
-Les arguments passés à `wandb.init` priment sur les variables d&#39;environnement. Pour définir un répertoire par défaut autre que celui du système lorsque la variable d&#39;environnement n&#39;est pas définie, utilisez `wandb.init(dir=os.getenv("WANDB_DIR", my_default_override))`.
+Les arguments passés à `wandb.init` priment sur les variables d&#39;environnement. Pour respecter une variable d&#39;environnement définie par l&#39;utilisateur tout en prévoyant une valeur de repli, lisez vous-même la variable d&#39;environnement. Par exemple, pour définir un répertoire par défaut autre que celui du système lorsque la variable d&#39;environnement `WANDB_DIR` n&#39;est pas définie, utilisez `wandb.init(dir=os.getenv("WANDB_DIR", my_default_override))`.
 
 ***
 

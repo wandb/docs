@@ -1,9 +1,7 @@
 ---
-title: "클래스: WeaveClient"
+title: "WeaveClient"
 description: "TypeScript SDK 레퍼런스"
 ---
-
-[weave](../) / WeaveClient
 
 <div id="table-of-contents">
   ## 목차
@@ -32,11 +30,19 @@ description: "TypeScript SDK 레퍼런스"
 * [finishCall](./weaveclient#finishcall)
 * [finishCallWithException](./weaveclient#finishcallwithexception)
 * [get](./weaveclient#get)
+* [getAgentCustomAttributes](./weaveclient#getagentcustomattributes)
+* [getAgentSpanStats](./weaveclient#getagentspanstats)
+* [getAgentSpans](./weaveclient#getagentspans)
+* [getAgentTurn](./weaveclient#getagentturn)
+* [getAgentTurns](./weaveclient#getagentturns)
+* [getAgentVersions](./weaveclient#getagentversions)
+* [getAgents](./weaveclient#getagents)
 * [getCall](./weaveclient#getcall)
 * [getCallStack](./weaveclient#getcallstack)
 * [getCalls](./weaveclient#getcalls)
 * [getCallsIterator](./weaveclient#getcallsiterator)
 * [getCurrentAttributes](./weaveclient#getcurrentattributes)
+* [linkPromptToRegistry](./weaveclient#linkprompttoregistry)
 * [publish](./weaveclient#publish)
 * [pushNewCall](./weaveclient#pushnewcall)
 * [runWithAttributes](./weaveclient#runwithattributes)
@@ -44,6 +50,7 @@ description: "TypeScript SDK 레퍼런스"
 * [saveCallEnd](./weaveclient#savecallend)
 * [saveCallStart](./weaveclient#savecallstart)
 * [saveOp](./weaveclient#saveop)
+* [searchAgents](./weaveclient#searchagents)
 * [serializeAudio](./weaveclient#serializeaudio)
 * [updateCall](./weaveclient#updatecall)
 * [waitForBatchProcessing](./weaveclient#waitforbatchprocessing)
@@ -54,18 +61,18 @@ description: "TypeScript SDK 레퍼런스"
   ### 생성자
 </div>
 
-• **new WeaveClient**(`traceServerApi`, `wandbServerApi`, `projectId`, `settings?`): [`WeaveClient`](./weaveclient)
+• **new WeaveClient**(`«destructured»`): [`WeaveClient`](./weaveclient)
 
 <div id="parameters">
   #### 매개변수
 </div>
 
-| 이름               | 유형                 |
-| :--------------- | :----------------- |
-| `traceServerApi` | `Api`&lt;`any`&gt; |
-| `wandbServerApi` | `WandbServerApi`   |
-| `projectId`      | `string`           |
-| `settings`       | `Settings`         |
+| 이름                 | 유형                                          |
+| :----------------- | :------------------------------------------ |
+| `«destructured»`   | `객체`                                    |
+| › `projectId`      | `string`                                    |
+| › `settings?`      | `Partial`&lt;[`Settings`](../#settings)&gt; |
+| › `traceServerApi` | `Api`&lt;`any`&gt;                          |
 
 <div id="returns">
   #### 반환값
@@ -77,7 +84,7 @@ description: "TypeScript SDK 레퍼런스"
   #### 정의된 위치
 </div>
 
-[weaveClient.ts:100](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L100)
+[src/weaveClient.ts:459](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L459)
 
 ## 속성
 
@@ -91,7 +98,7 @@ description: "TypeScript SDK 레퍼런스"
   #### 정의된 위치
 </div>
 
-[weaveClient.ts:103](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L103)
+[src/weaveClient.ts:456](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L456)
 
 ***
 
@@ -99,13 +106,13 @@ description: "TypeScript SDK 레퍼런스"
   ### settings
 </div>
 
-• **settings**: `Settings`
+• **settings**: [`Settings`](../#settings)
 
 <div id="defined-in">
   #### 정의된 위치
 </div>
 
-[weaveClient.ts:104](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L104)
+[src/weaveClient.ts:457](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L457)
 
 ***
 
@@ -119,7 +126,7 @@ description: "TypeScript SDK 레퍼런스"
   #### 정의된 위치
 </div>
 
-[weaveClient.ts:101](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L101)
+[src/weaveClient.ts:455](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L455)
 
 ## 메서드
 
@@ -153,7 +160,7 @@ call에 scorer 결과(예: scorer 출력)를 추가합니다.
   #### 정의된 위치
 </div>
 
-[weaveClient.ts:908](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L908)
+[src/weaveClient.ts:1727](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1727)
 
 ***
 
@@ -190,7 +197,7 @@ call에 scorer 결과(예: scorer 출력)를 추가합니다.
   #### 정의된 위치
 </div>
 
-[weaveClient.ts:763](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L763)
+[src/weaveClient.ts:1570](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1570)
 
 ***
 
@@ -224,7 +231,7 @@ call에 scorer 결과(예: scorer 출력)를 추가합니다.
   #### 정의된 위치
 </div>
 
-[weaveClient.ts:815](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L815)
+[src/weaveClient.ts:1630](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1630)
 
 ***
 
@@ -257,7 +264,7 @@ call에 scorer 결과(예: scorer 출력)를 추가합니다.
   #### 정의된 위치
 </div>
 
-[weaveClient.ts:855](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L855)
+[src/weaveClient.ts:1672](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1672)
 
 ***
 
@@ -285,7 +292,370 @@ call에 scorer 결과(예: scorer 출력)를 추가합니다.
   #### 정의된 위치
 </div>
 
-[weaveClient.ts:289](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L289)
+[src/weaveClient.ts:1025](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1025)
+
+***
+
+<div id="getagentcustomattributes">
+  ### getAgentCustomAttributes
+</div>
+
+▸ **getAgentCustomAttributes**(`options`): `Promise`&lt;[`Response`](../#response)&lt;`GetAgentCustomAttributesResult`&gt;&gt;
+
+프로젝트의 에이전트 span에서 관찰된 유형 지정 맞춤형 속성 키를 조회합니다. 각 결과 행은 `(source, key, value_type)` 트리플 하나와 해당 값을 가진 span 수로 구성되며, spans query/group/stats API는 이 정보를 사용해 맞춤형 속성을 참조합니다.
+
+고려할 span을 필터링하려면 `query`(구조화된 span 필터), `startedAfter` / `startedBefore`(ISO-8601), 또는 둘 다를 전달하세요. 발견된 키를 페이지별로 보려면 `limit` / `offset`을 사용하세요.
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름        | 유형                                |
+| :-------- | :-------------------------------- |
+| `options` | `GetAgentCustomAttributesOptions` |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`Promise`&lt;[`Response`](../#response)&lt;`GetAgentCustomAttributesResult`&gt;&gt;
+
+`예시`
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgentCustomAttributes({
+  query: {
+    $expr: {
+      $eq: [{$getField: 'agent_name'}, {$literal: 'my-agent'}],
+    },
+  },
+  startedAfter: '2026-06-15T00:00:00Z',
+  limit: 200,
+});
+
+for (const attr of resp.data.attributes ?? []) {
+  console.log(`${attr.source}.${attr.key} (${attr.value_type}): ${attr.span_count}`);
+}
+```
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[src/weaveClient.ts:772](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L772)
+
+***
+
+<div id="getagentspanstats">
+  ### getAgentSpanStats
+</div>
+
+▸ **getAgentSpanStats**(`options`): `Promise`&lt;[`Response`](../#response)&lt;`GetAgentSpanStatsResult`&gt;&gt;
+
+프로젝트의 에이전트 spans를 집계하며, 시계열 / 버킷 기반 시각화에 적합한 행 + 열 메타데이터 형태로 반환합니다.
+
+`start`(필수)와 `end`는 시간 범위를 정의합니다. `metrics`의 각 항목은
+추출할 필드와 집계 방식(`sum`,
+`avg`, `count`, 백분위수 등)을 지정합니다. `granularity`(초)를 전달하면
+행을 시간 기준으로 버킷화하고, `groupBy`를 전달하면 결과를 에이전트 /
+공급자 / 모델 / 기타 기준별로 나눌 수 있습니다. `query`는 집계 전에
+기본 spans를 필터링합니다.
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름        | 유형                         |
+| :-------- | :------------------------- |
+| `options` | `GetAgentSpanStatsOptions` |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`Promise`&lt;[`Response`](../#response)&lt;`GetAgentSpanStatsResult`&gt;&gt;
+
+`예시`
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgentSpanStats({
+  start: '2026-06-10T00:00:00Z',
+  end: '2026-06-23T00:00:00Z',
+  granularity: 86400, // 하루에 한 행
+  metrics: [
+    {
+      alias: 'total_input_tokens',
+      value_type: 'number',
+      aggregations: ['sum'],
+      value: {source: 'field', key: 'input_tokens'},
+    },
+  ],
+  groupBy: [{key: 'agent_name'}],
+});
+
+for (const row of resp.data.rows ?? []) {
+  console.log(row.started_at_bucket, row.agent_name, row.total_input_tokens);
+}
+```
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[src/weaveClient.ts:621](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L621)
+
+***
+
+<div id="getagentspans">
+  ### getAgentSpans
+</div>
+
+▸ **getAgentSpans**(`options`): `Promise`&lt;[`Response`](../#response)&lt;[`GetAgentSpansResult`](../#getagentspansresult)&gt;&gt;
+
+에이전트 이름 및/또는 Mongo 스타일
+쿼리 표현식으로 선택적으로 필터링하여 에이전트 span을 조회합니다.
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름        | 유형                                                           |
+| :-------- | :----------------------------------------------------------- |
+| `options` | [`GetAgentSpansOptions`](../interfaces/getagentspansoptions) |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`Promise`&lt;[`Response`](../#response)&lt;[`GetAgentSpansResult`](../#getagentspansresult)&gt;&gt;
+
+`예시`
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgentSpans({agentName: 'my-agent', limit: 20});
+
+for (const span of resp.data.spans) {
+  console.log(span.span_id, span.span_name, span.input_tokens);
+}
+```
+
+`예시`
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+
+const resp = await client.getAgentSpans({
+  agentName: 'my-agent',
+  query: {
+    $expr: {$gt: [{$getField: 'input_tokens'}, {$literal: 1000}]},
+  },
+});
+
+for (const span of resp.data.spans) {
+  console.log(span.span_id, span.span_name, span.input_tokens);
+}
+```
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[src/weaveClient.ts:566](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L566)
+
+***
+
+<div id="getagentturn">
+  ### getAgentTurn
+</div>
+
+▸ **getAgentTurn**(`options`): `Promise`&lt;[`Response`](../#response)&lt;`AgentTraceChatRes`&gt;&gt;
+
+`traceId`를 기준으로 단일 턴의 데이터(메시지 포함)를 조회합니다.
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름        | 유형                                                         |
+| :-------- | :--------------------------------------------------------- |
+| `options` | [`GetAgentTurnOptions`](../interfaces/getagentturnoptions) |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`Promise`&lt;[`Response`](../#response)&lt;`AgentTraceChatRes`&gt;&gt;
+
+`예시`
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgentTurn({
+  traceId: '01997b8a-2c89-7c4d-9d0e-2f7e5b9a1b2c',
+  includeFeedback: true,
+});
+
+console.log(resp.data.root_span_name, resp.data.total_duration_ms);
+
+for (const message of resp.data.messages ?? []) {
+  if (message.user_message) console.log('user:', message.user_message);
+  if (message.assistant_message) console.log('assistant:', message.assistant_message);
+}
+```
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[src/weaveClient.ts:655](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L655)
+
+***
+
+<div id="getagentturns">
+  ### getAgentTurns
+</div>
+
+▸ **getAgentTurns**(`options`): `Promise`&lt;[`Response`](../#response)&lt;[`GetAgentTurnsResult`](../#getagentturnsresult)&gt;&gt;
+
+conversationId를 기준으로 여러 턴의 데이터(메시지 포함)를 조회합니다.
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름        | 유형                                                           |
+| :-------- | :----------------------------------------------------------- |
+| `options` | [`GetAgentTurnsOptions`](../interfaces/getagentturnsoptions) |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`Promise`&lt;[`Response`](../#response)&lt;[`GetAgentTurnsResult`](../#getagentturnsresult)&gt;&gt;
+
+`예시`
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgentTurns({
+  conversationId: 'trace_c50312356de3487fa90e381c9399b5b4',
+  limit: 20,
+  includeFeedback: true,
+});
+
+for (const turn of resp.data.turns ?? []) {
+  console.log(turn.trace_id, turn.root_span_name);
+  for (const message of turn.messages ?? []) {
+    if (message.user_message) console.log('user:', message.user_message);
+    if (message.assistant_message) console.log('assistant:', message.assistant_message);
+  }
+}
+
+console.log(`total turns: ${resp.data.total_turns}, has more: ${resp.data.has_more}`);
+```
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[src/weaveClient.ts:688](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L688)
+
+***
+
+<div id="getagentversions">
+  ### getAgentVersions
+</div>
+
+▸ **getAgentVersions**(`options`): `Promise`&lt;[`Response`](../#response)&lt;[`GetAgentVersionsResult`](../#getagentversionsresult)&gt;&gt;
+
+특정 에이전트의 버전 목록을 조회합니다.
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름        | 유형                                                                 |
+| :-------- | :----------------------------------------------------------------- |
+| `options` | [`GetAgentVersionsOptions`](../interfaces/getagentversionsoptions) |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`Promise`&lt;[`Response`](../#response)&lt;[`GetAgentVersionsResult`](../#getagentversionsresult)&gt;&gt;
+
+`예시`
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgentVersions({agentName: 'my-agent', limit: 20});
+
+for (const version of resp.data.versions) {
+  console.log(version.agent_version, version.total_input_tokens);
+}
+
+console.log(`total count: ${resp.data.total_count}`)
+```
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[src/weaveClient.ts:522](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L522)
+
+***
+
+<div id="getagents">
+  ### getAgents
+</div>
+
+▸ **getAgents**(`options?`): `Promise`&lt;[`Response`](../#response)&lt;[`GetAgentsResult`](../#getagentsresult)&gt;&gt;
+
+집계 통계가 포함된 에이전트 목록을 조회합니다.
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름        | 유형                                                   |
+| :-------- | :--------------------------------------------------- |
+| `options` | [`GetAgentsOptions`](../interfaces/getagentsoptions) |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`Promise`&lt;[`Response`](../#response)&lt;[`GetAgentsResult`](../#getagentsresult)&gt;&gt;
+
+`예시`
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgents({limit: 20});
+
+for (const agent of resp.data.agents) {
+  console.log(agent.agent_name, agent.total_input_tokens);
+}
+
+console.log(`total count: ${resp.data.total_count}`)
+```
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[src/weaveClient.ts:488](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L488)
 
 ***
 
@@ -314,7 +684,7 @@ call에 scorer 결과(예: scorer 출력)를 추가합니다.
   #### 정의된 위치
 </div>
 
-[weaveClient.ts:220](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L220)
+[src/weaveClient.ts:902](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L902)
 
 ***
 
@@ -334,7 +704,7 @@ call에 scorer 결과(예: scorer 출력)를 추가합니다.
   #### 정의된 위치
 </div>
 
-[weaveClient.ts:674](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L674)
+[src/weaveClient.ts:1482](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1482)
 
 ***
 
@@ -342,17 +712,15 @@ call에 scorer 결과(예: scorer 출력)를 추가합니다.
   ### getCalls
 </div>
 
-▸ **getCalls**(`filter?`, `includeCosts?`, `limit?`): `Promise`&lt;`Call`[]&gt;
+▸ **getCalls**(`options?`): `Promise`&lt;`Call`[]&gt;
 
 <div id="parameters">
   #### 매개변수
 </div>
 
-| 이름             | 유형                                         | 기본값     |
-| :------------- | :----------------------------------------- | :------ |
-| `filter`       | [`CallsFilter`](../interfaces/callsfilter) | `{}`    |
-| `includeCosts` | `boolean`                                  | `false` |
-| `limit`        | `number`                                   | `1000`  |
+| 이름         | 유형                                                 |
+| :--------- | :------------------------------------------------- |
+| `options?` | [`GetCallsOptions`](../interfaces/getcallsoptions) |
 
 <div id="returns">
   #### 반환값
@@ -364,7 +732,31 @@ call에 scorer 결과(예: scorer 출력)를 추가합니다.
   #### 정의된 위치
 </div>
 
-[weaveClient.ts:230](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L230)
+[src/weaveClient.ts:935](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L935)
+
+▸ **getCalls**(`options?`, `includeCosts?`, `limit?`): `Promise`&lt;`Call`[]&gt;
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름              | 유형                                         |
+| :-------------- | :----------------------------------------- |
+| `options?`      | [`CallsFilter`](../interfaces/callsfilter) |
+| `includeCosts?` | `boolean`                                  |
+| `limit?`        | `number`                                   |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`Promise`&lt;`Call`[]&gt;
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[src/weaveClient.ts:936](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L936)
 
 ***
 
@@ -372,29 +764,51 @@ call에 scorer 결과(예: scorer 출력)를 추가합니다.
   ### getCallsIterator
 </div>
 
-▸ **getCallsIterator**(`filter?`, `includeCosts?`, `limit?`): `AsyncIterableIterator`&lt;[`CallSchema`](../interfaces/callschema)&gt;
+▸ **getCallsIterator**(`options?`, `includeCosts?`, `limit?`): `AsyncIterableIterator`&lt;[`CallSchema`](../interfaces/callschema), `any`, `any`&gt;
 
 <div id="parameters">
   #### 매개변수
 </div>
 
-| 이름             | 유형                                         | 기본값     |
-| :------------- | :----------------------------------------- | :------ |
-| `filter`       | [`CallsFilter`](../interfaces/callsfilter) | `{}`    |
-| `includeCosts` | `boolean`                                  | `false` |
-| `limit`        | `number`                                   | `1000`  |
+| 이름              | 유형                                         |
+| :-------------- | :----------------------------------------- |
+| `options?`      | [`CallsFilter`](../interfaces/callsfilter) |
+| `includeCosts?` | `boolean`                                  |
+| `limit?`        | `number`                                   |
 
 <div id="returns">
   #### 반환값
 </div>
 
-`AsyncIterableIterator`&lt;[`CallSchema`](../interfaces/callschema)&gt;
+`AsyncIterableIterator`&lt;[`CallSchema`](../interfaces/callschema), `any`, `any`&gt;
 
 <div id="defined-in">
   #### 정의된 위치
 </div>
 
-[weaveClient.ts:244](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L244)
+[src/weaveClient.ts:957](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L957)
+
+▸ **getCallsIterator**(`options?`): `AsyncIterableIterator`&lt;[`CallSchema`](../interfaces/callschema), `any`, `any`&gt;
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름         | 유형                                                 |
+| :--------- | :------------------------------------------------- |
+| `options?` | [`GetCallsOptions`](../interfaces/getcallsoptions) |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`AsyncIterableIterator`&lt;[`CallSchema`](../interfaces/callschema), `any`, `any`&gt;
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[src/weaveClient.ts:962](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L962)
 
 ***
 
@@ -414,7 +828,38 @@ call에 scorer 결과(예: scorer 출력)를 추가합니다.
   #### 정의된 위치
 </div>
 
-[weaveClient.ts:678](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L678)
+[src/weaveClient.ts:1486](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1486)
+
+***
+
+<div id="linkprompttoregistry">
+  ### linkPromptToRegistry
+</div>
+
+▸ **linkPromptToRegistry**(`prompt`, `options`): `Promise`&lt;`LinkAssetToRegistryRes`&gt;
+
+게시된 프롬프트 버전을 레지스트리 포트폴리오에 연결합니다.
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름        | 유형                            |
+| :-------- | :---------------------------- |
+| `prompt`  | `RegistryLinkable`            |
+| `options` | `LinkPromptToRegistryOptions` |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`Promise`&lt;`LinkAssetToRegistryRes`&gt;
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[src/weaveClient.ts:1181](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1181)
 
 ***
 
@@ -443,7 +888,7 @@ call에 scorer 결과(예: scorer 출력)를 추가합니다.
   #### 정의된 위치
 </div>
 
-[weaveClient.ts:208](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L208)
+[src/weaveClient.ts:890](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L890)
 
 ***
 
@@ -469,7 +914,7 @@ call에 scorer 결과(예: scorer 출력)를 추가합니다.
   #### 정의된 위치
 </div>
 
-[weaveClient.ts:682](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L682)
+[src/weaveClient.ts:1490](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1490)
 
 ***
 
@@ -506,7 +951,7 @@ call에 scorer 결과(예: scorer 출력)를 추가합니다.
   #### 정의된 위치
 </div>
 
-[weaveClient.ts:690](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L690)
+[src/weaveClient.ts:1498](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1498)
 
 ***
 
@@ -543,7 +988,7 @@ call에 scorer 결과(예: scorer 출력)를 추가합니다.
   #### 정의된 위치
 </div>
 
-[weaveClient.ts:686](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L686)
+[src/weaveClient.ts:1494](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1494)
 
 ***
 
@@ -569,7 +1014,7 @@ call에 scorer 결과(예: scorer 출력)를 추가합니다.
   #### 정의된 위치
 </div>
 
-[weaveClient.ts:669](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L669)
+[src/weaveClient.ts:1477](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1477)
 
 ***
 
@@ -595,7 +1040,7 @@ call에 scorer 결과(예: scorer 출력)를 추가합니다.
   #### 정의된 위치
 </div>
 
-[weaveClient.ts:664](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L664)
+[src/weaveClient.ts:1472](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1472)
 
 ***
 
@@ -603,7 +1048,7 @@ call에 scorer 결과(예: scorer 출력)를 추가합니다.
   ### saveOp
 </div>
 
-▸ **saveOp**(`op`, `objId?`): `Promise`&lt;`any`&gt;
+▸ **saveOp**(`op`, `objId?`): `Promise`&lt;`OpRef`&gt;
 
 <div id="parameters">
   #### 매개변수
@@ -618,13 +1063,69 @@ call에 scorer 결과(예: scorer 출력)를 추가합니다.
   #### 반환값
 </div>
 
-`Promise`&lt;`any`&gt;
+`Promise`&lt;`OpRef`&gt;
 
 <div id="defined-in">
   #### 정의된 위치
 </div>
 
-[weaveClient.ts:729](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L729)
+[src/weaveClient.ts:1537](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1537)
+
+***
+
+<div id="searchagents">
+  ### searchAgents
+</div>
+
+▸ **searchAgents**(`options`): `Promise`&lt;[`Response`](../#response)&lt;`SearchAgentsResult`&gt;&gt;
+
+프로젝트 내 에이전트 메시지 전체에서 전문 검색을 수행합니다. 일치 항목은 대화별로
+그룹화되어 반환되며, 각 일치 메시지의 미리보기도 함께 제공됩니다.
+
+`query`는 전문 검색어입니다. 빈 string을 전달하면 텍스트 일치 없이 구조화된 필터
+(`agentName`, `conversationId`, `traceId`)에 일치하는 모든 메시지를 가져옵니다. `limit` /
+`offset`을 사용해 결과를 페이지별로 확인하세요.
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름        | 유형                    |
+| :-------- | :-------------------- |
+| `options` | `SearchAgentsOptions` |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`Promise`&lt;[`Response`](../#response)&lt;`SearchAgentsResult`&gt;&gt;
+
+`예시`
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.searchAgents({
+  query: 'Liverpool',
+  agentName: 'Assistant',
+  limit: 20,
+});
+
+for (const conversation of resp.data.results ?? []) {
+  console.log(`${conversation.conversation_id} (${conversation.agent_name})`);
+  for (const match of conversation.matched_messages) {
+    console.log(`  [${match.role}] ${match.content_preview}`);
+  }
+}
+
+console.log(`total conversations: ${resp.data.total_conversations}`);
+```
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[src/weaveClient.ts:730](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L730)
 
 ***
 
@@ -632,7 +1133,7 @@ call에 scorer 결과(예: scorer 출력)를 추가합니다.
   ### serializeAudio
 </div>
 
-▸ **serializeAudio**(`data`, `audioType?`): `Promise`&lt;`any`&gt;
+▸ **serializeAudio**(`data`, `audioType?`): `Promise`&lt;`SerializedFileBlob`&gt;
 
 원시 오디오 바이트를 Weave 콘텐츠 저장소에 업로드하고,
 call 출력에 포함할 수 있는 `CustomWeaveType` 플레이스홀더를 반환합니다.
@@ -640,24 +1141,26 @@ call 출력에 포함할 수 있는 `CustomWeaveType` 플레이스홀더를 반�
 `finishCall`의 자동 직렬화 파이프라인을 사용하지 않는 경우
 (예: `saveCallEnd`를 통해) call 출력을 수동으로 구축할 때 사용하세요.
 
-#### 파라미터
+<div id="parameters">
+  #### 매개변수
+</div>
 
-| 이름          | 유형       | 기본값                  | 설명                                  |
-| :---------- | :------- | :------------------- | :---------------------------------- |
-| `data`      | `Buffer` | `undefined`          | 원시 오디오 바이트(WAV 형식이 브라우저 호환성에 가장 좋음) |
-| `audioType` | `"wav"`  | `DEFAULT_AUDIO_TYPE` | 파일 형식 — 현재는 &#39;wav&#39;만 지원됩니다    |
+| 이름          | 유형                                | 기본값                  | 설명                                  |
+| :---------- | :-------------------------------- | :------------------- | :---------------------------------- |
+| `data`      | `Buffer`&lt;`ArrayBufferLike`&gt; | `undefined`          | 원시 오디오 바이트(WAV 형식이 브라우저 호환성에 가장 좋음) |
+| `audioType` | `"wav"`                           | `DEFAULT_AUDIO_TYPE` | 파일 형식 — 현재는 &#39;wav&#39;만 지원됩니다    |
 
 <div id="returns">
   #### 반환값
 </div>
 
-`Promise`&lt;`any`&gt;
+`Promise`&lt;`SerializedFileBlob`&gt;
 
 <div id="defined-in">
   #### 정의된 위치
 </div>
 
-[weaveClient.ts:616](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L616)
+[src/weaveClient.ts:1424](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1424)
 
 ***
 
@@ -686,7 +1189,7 @@ call 출력에 포함할 수 있는 `CustomWeaveType` 플레이스홀더를 반�
   #### 정의된 위치
 </div>
 
-[weaveClient.ts:891](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L891)
+[src/weaveClient.ts:1710](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1710)
 
 ***
 
@@ -706,4 +1209,4 @@ call 출력에 포함할 수 있는 `CustomWeaveType` 플레이스홀더를 반�
   #### 정의된 위치
 </div>
 
-[weaveClient.ts:121](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/weaveClient.ts#L121)
+[src/weaveClient.ts:801](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L801)

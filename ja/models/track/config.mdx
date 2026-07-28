@@ -142,7 +142,7 @@ if __name__ == "__main__":
         "-e", "--epochs", type=int, default=50, help="Number of training epochs"
     )
     parser.add_argument(
-        "-lr", "--learning_rate", type=int, default=0.001, help="Learning rate"
+        "-lr", "--learning_rate", type=float, default=0.001, help="Learning rate"
     )
 
     args = parser.parse_args()
@@ -153,12 +153,14 @@ if __name__ == "__main__":
   ### スクリプト全体で設定する
 </div>
 
-`config` オブジェクトには、スクリプト全体を通してさらにパラメーターを追加できます。次のコードスニペットは、`config` オブジェクトに新しいキーと値のペアを追加する方法を示しています。
+`config` オブジェクトには、スクリプト全体を通してさらにパラメーターを追加できます。
+
+次のコードスニペットは、既存の `config` オブジェクトに新しいキーと値のペアを追加する方法を示しています。
 
 ```python
 import wandb
 
-# config 辞書オブジェクトを定義する
+# 設定の辞書オブジェクトを定義する
 config = {
     "hidden_layer_sizes": [32, 64],
     "kernel_sizes": [3],
@@ -171,18 +173,32 @@ config = {
 # W&B を初期化するときに config 辞書を渡す
 with wandb.init(project="config_example", config=config) as run:
     # W&B を初期化した後に config を更新する
-    run.config["dropout"] = 0.2
-    run.config.epochs = 4
+    run.config["epochs"] = 4
     run.config["batch_size"] = 32
 ```
 
-一度に複数の値を更新できます。
+一度に複数の値を追加できます。次のコードスニペットは、既存の `config` オブジェクト内の複数のキーと値のペアを更新する方法を示しています。
 
 ```python
-run.config.update({"lr": 0.1, "channels": 16})
+# 設定の辞書オブジェクトを定義する
+config = {
+    "channels": 24,
+    "lr": 1.0,
+}
+
+with wandb.init(project="config_example", config=config) as run:
+    run.config.update(
+        {
+            "lr": 0.1,
+            "channels": 16,
+        },
+        allow_val_change=True,
+    )
 ```
 
-<div id="set-the-configuration-after-your-run-has-finished">
+既存のキーの値を更新する場合は、`allow_val_change=True` を設定してください。このパラメーターを設定しないと、既存のキーの値を更新しようとした際に W&amp;B でエラーが発生します。
+
+<div id="set-the-configuration-after-your-run-finishes">
   ### run の完了後に設定する
 </div>
 
@@ -194,8 +210,8 @@ API には、entity、プロジェクト名、run の ID を渡す必要があ�
 with wandb.init() as run:
     ...
 
-# 以下の値は、現在のスクリプトまたはノートブックから開始された Run オブジェクトから取得するか、
-# W&B App UI からコピーしてください。
+# 以下の値は、現在のスクリプトまたはノートブックから開始した Run オブジェクトから取得するか、
+# W&B App の UI からコピーしてください。
 username = run.entity
 project = run.project
 run_id = run.id
@@ -296,6 +312,20 @@ config_dictionary = dict(
 with wandb.init(config=config_dictionary) as run:
     ...
 ```
+
+<div id="view-config-values-in-the-wb-app">
+  ## W&amp;B App で設定値を表示する
+</div>
+
+run の **Overview** タブにある **Config** セクションで設定値を確認できます。設定値をピン留めすると、**References** セクションでも確認できます。
+
+1. W&amp;B App で対象の project にアクセスします。
+2. 設定値を表示したい run をクリックします。
+3. **Overview** タブを選択します。
+4. **Config** セクションまでスクロールします。
+5. (任意) **View raw data** をクリックすると、JSON 形式で設定値を確認できます。
+
+raw JSON 形式は、設定値、ログ済みのメトリクス、またはサマリー値から折れ線グラフを作成または変換する式を記述する際に便利です。詳細は [式](/ja/models/app/features/panels/line-plot/reference#expressions) を参照してください。
 
 <div id="tensorflow-v1-flags">
   ## TensorFlow v1 フラグ

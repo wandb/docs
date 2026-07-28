@@ -1,18 +1,16 @@
 ---
-title: "Evaluations で動的なリーダーボードを作成する"
-description: "動的なリーダーボードを使うと、評価から直接リーダーボードビューを設定、カスタマイズ、保存、更新できます。"
+title: "Evaluations で動的な Leaderboards を作成する"
+description: "動的な Leaderboards を使用すると、評価から直接 Leaderboard ビューを設定、カスタマイズ、保存、更新できます。"
+keywords: ["dynamic leaderboards", "evaluation views", "saved views", "metric direction", "leaderboard configuration"]
 ---
 
-Weave の評価では、実験結果をリーダーボードとして可視化し、カスタマイズできます。
+このガイドでは、動的な Leaderboards を使用して、Weave Evaluations から直接 Leaderboard ビューを可視化、カスタマイズ、保存、更新する方法を説明します。動的な Leaderboards を使うと、新しい experiment が蓄積されるにつれてモデル性能をトラッキングして比較できるため、毎回作成し直さなくても、継続的に最新のビューを維持できます。このページは、すでに Weave Evaluations を実行していて、結果を共有可能かつ再利用可能なビューに整理したいユーザー向けです。
 
-保存したリーダーボードビューは動的です。
+Weave Evaluations では、experiment の結果を Leaderboards として可視化し、カスタマイズできます。
 
-* 新しい評価 run が追加されると
-* また、結果が保存済みのフィルターに一致すると
+保存済みの Leaderboard ビューは動的です。新しい評価 run を追加し、その結果が保存済みのフィルターに一致すると、手動で再設定しなくても、Leaderboard は自動的に更新されてそれらが含まれます。
 
-手動で再設定しなくても、リーダーボードは自動的に更新され、それらが含まれます。
-
-これにより、ビューを、実験とともに変化し続ける永続的なリーダーボードとして使用できます。
+これにより、experiment とともに進化する永続的な Leaderboards としてビューを使用できます。
 
 <div id="visualize-evaluation-results-in-a-leaderboard">
   ## Leaderboard で評価結果を可視化する
@@ -24,11 +22,11 @@ Weave Leaderboard を作成するには:
 
 1. [wandb.ai](https://wandb.ai) にアクセスします。
 2. Weave のサイドバーメニューで **Evaluations** をクリックします。
-3. 評価表にフィルターを適用して、比較したいモデル、Datasets、または Runs にデータを絞り込みます。
+3. 評価表にフィルターを適用して、比較したいモデル、データセット、または Runs にデータを絞り込みます。
 4. **evaluation table toolbar** で **Visualize** をクリックします。
    Weave により、表で現在フィルターされているデータのみを使用した Leaderboard パネルが自動的に作成されます。
 5. Leaderboard パネルのヘッダーで **Configure** をクリックして、**Edit Leaderboard** パネルを開きます。
-   **Edit Leaderboard** パネルでは、モデル、Datasets、Scorer、メトリクスの表示方法を細かく制御できます。
+   **Edit Leaderboard** パネルでは、モデル、データセット、Scorer、メトリクスの表示方法を細かく制御できます。
 
 以下は、フィルターした評価表が Leaderboard として可視化される様子と、生成された Leaderboard を設定する場所を示したものです。
 
@@ -40,25 +38,25 @@ Weave Leaderboard を作成するには:
   ### 表示/非表示とカスタム名で Leaderboard の要素を設定する
 </div>
 
-以下は、4 つの設定タブ (Models、Datasets、Scorers、Metrics) を含む **Edit Leaderboard** パネルです。
+**Edit Leaderboard** パネルでは、Leaderboard に表示する要素とそのラベル付け方法を制御できます。以下は、4 つの設定タブ (Models、データセット、Scorers、Metrics) を含む **Edit Leaderboard** パネルです。
 
 <Frame>
-  ![右側で Edit Leaderboard パネルが開いており、Models、Datasets、Scorers、Metrics の各タブを使って Leaderboard を設定している Evaluations ページ。](/weave/guides/evaluation/img/edit-leaderboard.png)
+  ![右側で Edit Leaderboard パネルが開いており、Models、データセット、Scorers、Metrics の各タブを使って Leaderboard を設定している Evaluations ページ。](/weave/guides/evaluation/img/edit-leaderboard.png)
 </Frame>
 
 **Edit Leaderboard** パネルでは、次の操作ができます。
 
 * **表示/非表示を切り替える**
-  チェックまたはチェックを外して、Leaderboard に表示するモデル、Datasets、Scorer、メトリクスを選択します。
+  チェックまたはチェックを外して、Leaderboard に表示するモデル、データセット、Scorer、メトリクスを選択します。
 
-* **モデル、Datasets、Scorer の名前を変更する**
+* **モデル、データセット、Scorer の名前を変更する**
   表示用のわかりやすい名前を割り当てます (たとえば、モデルの run 名を `GPT-4` に変更したり、データセット名を `JokesV1` に変更したりできます) 。
 
   名前を変更した項目は次のようになります。
 
-  * Leaderboard にすぐ反映される
-  * 引き続きクリック可能で、サイドパネルで元の参照先を開ける
-  * Leaderboard ビューが使われているすべての場所に自動的に反映される
+  * Leaderboard にすぐ反映される。
+  * 引き続きクリック可能で、サイドパネルで元の参照先を開ける。
+  * Leaderboard ビューが使われているすべての場所に自動的に反映される。
 
 これにより、基になるオブジェクトを変更せずに、意味が明確で人が読みやすい名前を使って experiment を比較しやすくなります。
 
@@ -66,9 +64,11 @@ Weave Leaderboard を作成するには:
   ### Leaderboardのメトリクスの動作と色分けを設定する
 </div>
 
-**Edit Leaderboard** パネルでは、各メトリクスについて次のいずれかを指定できます。
+「よい」パフォーマンスの意味は、メトリクスによって異なります。**Edit Leaderboard** パネルでは、各メトリクスの方向を設定できるため、視覚的な強調表示を意図どおりにできます。
 
-* **値が高いほどよい**、または
+**Edit Leaderboard** パネルでは、各メトリクスについて次のいずれかの方向を指定できます。
+
+* **値が高いほどよい**
 * **値が低いほどよい**
 
 この設定は、Leaderboard の色分けに直接影響します。
@@ -80,17 +80,17 @@ Weave Leaderboard を作成するには:
 これにより、異なるタイプのメトリクス (たとえば、精度、レイテンシ、エラー率) でも、視覚的な判断基準を正確に保てます。
 
 <div id="save-and-reuse-leaderboard-views">
-  ## Leaderboardビューを保存して再利用する
+  ## Leaderboard ビューを保存して再利用する
 </div>
 
-**Edit Leaderboard** パネルで **Save** をクリックすると、カスタマイズしたLeaderboardを再利用可能なビューとして保存できます。
+Leaderboard をカスタマイズしたら、名前付きビューとして保存できます。これにより、自分やチームで後から同じ設定に戻れるようになります。**Edit Leaderboard** パネルで **Save** をクリックすると、カスタマイズした Leaderboard を再利用可能なビューとして保存できます。
 
-保存したLeaderboardビューには、次の内容が含まれます。
+保存された Leaderboard ビューには、次の内容が保存されます。
 
-* 選択したモデル、Datasets、Scorer、メトリクス
-* 変更した表示ラベル名
-* メトリクスの方向設定 (高いほどよいか、低いほどよいか) 
-* 適用したフィルター
+* 選択したモデル、データセット、Scorer、メトリクス。
+* 変更した表示ラベル。
+* メトリクスの方向設定 (高いほどよいか、低いほどよいか) 。
+* 適用したフィルター。
 
 <div id="switch-between-saved-views">
   ### 保存済みビューを切り替える
@@ -99,6 +99,6 @@ Weave Leaderboard を作成するには:
 保存済みビューを開くには、評価ページのタイトル横にある**メニュー (<Icon icon="bars" iconType="solid" />)**をクリックします。次の操作ができます。
 
 * **デフォルト**ビューに戻って、データセット全体を表示する。
-* 保存済みビューを再度開いて、すべてのカスタマイズをすぐに復元する。
+* 保存済みビューを再度開いて、すべてのカスタマイズを復元する。
 
 保存済みビューを再度開くと、名前の変更とメトリクス設定はすべて保持されます。

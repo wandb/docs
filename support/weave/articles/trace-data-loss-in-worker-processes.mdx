@@ -3,18 +3,18 @@ title: "Trace data loss in worker processes"
 keywords: ["Trace Data", "Performance"]
 ---
 
-Weave uploads trace data in background threads to minimize impact on your application's performance. However, when using a multiprocessing or task queue system or a worker processes like Celery, Weave loses trace data if the worker process exits before background threads finish uploading traces.
+Weave uploads trace data in background threads to minimize impact on your application's performance. However, you might lose trace data when you use a multiprocessing or task queue system, or a worker process like Celery. This happens if the worker process exits before background threads finish uploading traces.
 
-To prevent data loss in worker processes, you must ensure that background uploads complete by calling `client.flush()` or `client.finish()` before the worker task completes. This helps when working in short‑lived environments like [AWS Lambda](https://aws.amazon.com/lambda/), [Google Cloud Run](https://cloud.google.com/run), or notebooks that exit right after execution.
+To prevent data loss in worker processes, ensure that background uploads complete by calling `client.flush()` or `client.finish()` before the worker task completes. This helps in short-lived environments like [AWS Lambda](https://aws.amazon.com/lambda/), [Google Cloud Run](https://cloud.google.com/run), or notebooks that exit right after execution.
 
-These methods have different purposes:
+These methods have different purposes, so choose the one that fits your environment:
 
-- `weave.flush()`: Simple, silent flushing. Recommended when Weave is integrated into worker processes or CI environments.
-- `weave.finish()`: Includes progress feedback with a progress bar or status callbacks. Recommended for interactive scripts or notebooks.
+- `weave.flush()`: Provides silent flushing. Recommended when Weave is integrated into worker processes or continuous integration (CI) environments.
+- `weave.finish()`: Provides progress feedback with a progress bar or status callbacks. Recommended for interactive scripts or notebooks.
 
-Both methods block until all background uploads complete, ensuring no trace data is lost when the worker process exits.
+Both methods block until all background uploads complete, which ensures that no trace data is lost when the worker process exits.
 
-The following example demonstrates `client.finish()`:
+The following example shows how to call `client.finish()` from a Celery task to flush traces before the worker returns. Replace `[TEAM-NAME]` with your W&B team name and `[PROJECT-NAME]` with your W&B project name:
 
 ```python
 from celery import Celery
@@ -24,13 +24,13 @@ app = Celery('tasks')
 
 @app.task
 def process_task(input_data):
-    weave.init("your-team-name/your-project-name")
+    weave.init("[TEAM-NAME]/[PROJECT-NAME]")
 
     try:
         # Your task logic that creates traces
         result = your_processing_function(input_data)
 
-        # Ensure all traces are uploaded before task completes
+        # Ensure that all traces are uploaded before the task completes
         weave.finish()
 
         return result
@@ -38,18 +38,18 @@ def process_task(input_data):
         pass
 ```
 
-You can also use the `with` context manager to automatically call `weave.finish()` on exit:
+As an alternative, you can use the `with` context manager to call `weave.finish()` automatically on exit:
 
 ```python
-with weave.init("your-team-name/your-project-name") as client:
+with weave.init("[TEAM-NAME]/[PROJECT-NAME]") as client:
     result = your_processing_function(input_data)
 
     return result
 ```
 
-You can also improve the performance of your application using `weave.flush()`. See [Flushing](/support/weave/articles/long-eval-clean-up-times) for more information.
+You can also improve the performance of your application with `weave.flush()`. For more information, see [Flushing](/support/weave/articles/long-eval-clean-up-times).
 
-For additional resilience against data loss, consider enabling the [write-ahead log](/weave/guides/tracking/write-ahead-log), which writes trace data to disk before sending it to the server.
+For additional resilience against data loss, consider enabling the [write-ahead log](/weave/guides/tracking/write-ahead-log), which writes trace data to disk before it sends the data to the server.
 
 ---
 

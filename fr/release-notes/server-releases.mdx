@@ -6,13 +6,313 @@ rss: true
 ---
 
 import EolReminder from '/snippets/fr/_includes/release-notes-support-eol-reminder.mdx';
+import SelfManagedClickhouseUpgradeNote from '/snippets/fr/_includes/self-managed-clickhouse-upgrade-note.mdx';
 
-Cette page inclut les notes de version des versions de W&amp;B Server prises en charge.
+Cette page inclut les notes de version des versions du serveur W&amp;B prises en charge.
 
-* Pour les versions qui ne sont plus prises en charge, voir [Archived Server releases](/fr/release-notes/server-releases-archived).
-* Pour plus d’informations sur le calendrier de publication et l’assistance de W&amp;B Server, voir [W&amp;B Server release policies](/fr/release-notes/release-policies).
+* Pour les versions qui ne sont plus prises en charge, voir [Versions archivées du serveur](/fr/release-notes/server-releases-archived).
+* Pour plus d’informations sur le calendrier de publication et l’assistance du serveur W&amp;B, voir [Politiques de version du serveur W&amp;B](/fr/release-notes/release-policies).
 
 <EolReminder />
+
+<Update label="v0.83.0" description="22 juillet 2026">
+  W&amp;B Server 0.83.0 rend le Registry accessible depuis toutes les plateformes. Sur Cloud dédié, les utilisateurs de Weave peuvent désormais utiliser le Registry sans licence Models, les prompts Weave peuvent être publiés dans le Registry à des fins de gestion des versions et de réutilisation au sein d&#39;une organisation, et l&#39;accès au Registry à l&#39;échelle de l&#39;organisation est géré via une nouvelle autorisation SCIM. Cette version étend également les contrôles administratifs sur la visibilité de l&#39;équipe, les comptes de service et l&#39;utilisation.
+
+  ## Assistance et fin de vie
+
+  * W&amp;B Server v0.71 est arrivé en fin de vie.
+
+  ## Fonctionnalités
+
+  * Les administrateurs d’équipe peuvent désormais consulter les graphiques d’[utilisation et de facturation](/fr/platform/app/settings-page/billing-settings#plan-usage) de l’équipe, y compris une bannière de dépassement et un sélecteur d’équipe avec recherche, et définir des limites de dépenses.
+  * Lorsque vous recherchez des panneaux, vous pouvez désormais exclure des résultats les panneaux dont le nom correspond à une expression régulière. Le filtre reste actif jusqu’à ce que vous le supprimiez ; vous pouvez ainsi limiter un espace de travail aux panneaux les plus pertinents.
+    <Frame>
+      ![Exclure des panels des résultats de recherche à l’aide d’un modèle regex](/images/release-notes/v0-83-0/exclude-panels-by-regex.png)
+    </Frame>
+  * Lorsque vous travaillez avec des [groupes d’exécutions](/fr/models/runs/grouping#organize-runs-into-groups) imbriqués, vous pouvez désormais colorer simultanément tous les groupes enfants d’un groupe parent. Cliquez sur l’icône à côté du nom d’un groupe d’exécutions parent pour colorer chaque exécution de la hiérarchie. Vous pouvez ainsi distinguer les groupes parents d’un coup d’œil, tandis que des couleurs distinctes sont appliquées à tous les sous-groupes.
+    <Frame>
+      ![Colorer tous les runs d’une hiérarchie de groupes de runs imbriqués en un clic](/images/release-notes/v0-83-0/color-nested-run-groups.gif)
+    </Frame>
+    * Si vous désactivez **Use grouping from the runs table in charts**, les couleurs sont conservées sur les lignes individuelles, ce qui vous permet de voir chaque run tout en préservant la palette de couleurs du groupe parent.
+    * Cliquez sur **Reset group colors** pour rétablir les couleurs par défaut.
+  * Dans un espace de travail, vous pouvez désormais masquer la barre latérale directement depuis la page en cliquant sur **Masquer la barre latérale** (<Icon icon="angle-double-right" iconType="solid" />), sans avoir à ouvrir d’abord le menu d’actions (<Icon icon="ellipsis" iconType="solid" />).
+  * Lors de l’affichage d’un volumineux [fichier journal](/fr/models/app/console-logs), cliquez sur **Top** ou appuyez sur **Cmd+Home** pour accéder au journal le plus ancien, puis cliquez sur **Current** ou appuyez sur **Cmd+End** pour accéder au plus récent.
+  * Amélioration de la réactivité des tableaux des membres de l’organisation, des projets d’équipe et des sweeps.
+  * Amélioration de la réactivité et de l’ergonomie de l’éditeur du panneau de métriques.
+  * Ajout de métriques de référence pour le recalcul de l’historique des forks.
+  * Vous pouvez désormais filtrer et rechercher des artifacts par alias de versions virtuelles. La recherche approximative n’est pas encore prise en charge.
+  * Ajout du nombre de registres et d’artifacts par organisation.
+
+  ### Automatisations
+
+  Ces fonctionnalités sont disponibles uniquement sur Cloud dédié.
+
+  * **Automation Hub** centralise la création et la gestion des [automatisations](/fr/models/automations#automations-overview) dans les Projects et les registries. Vous le trouverez dans la section **Core** de la barre latérale.
+  * Une automatisation peut désormais être limitée à une organisation, une équipe, un projet, un registry ou une collection. Vous n&#39;avez ainsi plus besoin de dupliquer une automatisation pour bénéficier d&#39;une couverture étendue. Lors de la création d&#39;une automatisation, cliquez sur **Edit scopes**.
+
+  ### Registry
+
+  Ces fonctionnalités sont disponibles uniquement sur Cloud dédié.
+
+  * Tous les utilisateurs de Models et de Weave d&#39;une organisation ont désormais accès au Registry par défaut. Les autorisations existantes propres à chaque Registry restent inchangées. Les administrateurs peuvent révoquer l&#39;accès au Registry d&#39;un utilisateur à l&#39;échelle de l&#39;organisation via SCIM. Voir [Mettre à jour l&#39;accès au Registry](/fr/platform/hosting/iam/scim#update-registry-access).
+  * Les [prompts](/fr/weave/guides/core-types/prompts#create-prompt-objects) Weave (`StringPrompt` et `MessagesPrompt`) peuvent désormais être ajoutés au Registry. Vous pouvez ainsi versionner, créer des alias et réutiliser des prompts dans toute votre organisation, aux côtés des artefacts de modèles.
+  * Amélioration de la modification de l&#39;Aperçu des [collections d&#39;artefacts](/fr/models/registry/create_collection) et de la sélection dans la grille des versions. Générez automatiquement des Collection cards enrichies avec des panels d&#39;artefacts dynamiques pour davantage de contexte.
+
+  ### Weave
+
+  * Ajout d’un menu de signaux préconfiguré dans le volet latéral des signaux **New agent**.
+  * Les coûts en jetons sont désormais affichés dans l’interface utilisateur.
+  * Les réactions des agents (pouce levé/pouce baissé) sont désormais enregistrées comme tags plutôt que comme réactions emoji, afin qu’elles apparaissent avec les tags de scorer et que vous puissiez les filtrer et les représenter graphiquement par agent.
+  * Les signaux et les agents Playground sont désormais masqués par défaut.
+  * Déplacement de la manipulation des jeux de données vers la [page **Évaluations**](/fr/weave/guides/core-types/evaluations) et amélioration de la création de points de données.
+  * Ajout d’un lecteur [audio](/fr/weave/cookbooks/audio_with_weave#audio-with-weave) aux conversations d’agents, avec une nouvelle commande **Play all** permettant de lire chaque fichier à la suite.
+  * Amélioration de l’onglet [**Agents**](/fr/weave/custom-agents-quickstart).
+  * Ajout d’une mini-carte **Spans** aux conversations d’agents, avec des données de feedback ancrées aux tours de conversation.
+  * Ajout de commandes de copie pour le JSON intégré aux messages utilisateur.
+  * Rétablissement des tags comme type de signal d’agent par défaut.
+  * Les spans des workers de scoring sont désormais annotés avec les détails de l’entité, du projet, du scorer et du moniteur.
+  * Dans la vue **Agents**, vous pouvez désormais créer des liens vers des spans individuels au sein des conversations.
+
+  ## Améliorations des performances
+
+  * Amélioration des performances et de l’efficacité des interactions de survol et de mise en surbrillance des panneaux.
+  * Amélioration de l’efficacité de l’agrégation des clés d’historique du Workspace.
+  * Amélioration des performances lors du chargement d’un grand nombre d’artefacts dans la barre latérale **Artifacts**.
+  * Amélioration du débit de la boucle de traitement du scoring Weave.
+  * Amélioration des performances et du dimensionnement du pool de threads lorsque Weave insère par lots de nombreux spans d’appels de modèle juge par worker.
+
+  ## Sécurité
+
+  **SCIM et gestion des accès**
+
+  * L’accès au Registry constitue désormais une autorisation distincte, indépendante des licences Models. Les administrateurs peuvent accorder ou révoquer l’accès d’un utilisateur au Registry à l’échelle de l’organisation sans modifier sa licence Models ni son rôle Weave. Définir `modelsSeat` sur `none` ne révoque plus l’accès au Registry lorsqu’un utilisateur ne possède pas le rôle Weave. Voir [Mettre à jour l’accès au Registry](/fr/platform/hosting/iam/scim#update-registry-access).
+  * Les administrateurs peuvent désormais désactiver la création de comptes de service d’équipe en définissant la variable d’environnement `GORILLA_DISABLE_TEAM_SERVICE_ACCOUNT_CREATION` sur `true`.
+
+  **Visibilité des équipes et de l&#39;organisation**
+
+  * Lorsque l’option **Appliquer les restrictions de visibilité de l&#39;équipe** est activée :
+    * Toute tentative d’affichage du profil d’un membre de l’équipe renvoie désormais une réponse HTTP `404`, sauf si le Viewer est membre de l’équipe, administrateur de l’organisation ou administrateur de l’instance.
+    * Dans le **tableau de bord de l’organisation**, l’accès aux onglets **Users** et **Teams** est désormais réservé aux administrateurs de l’organisation.
+  * La visibilité des comptes de service est désormais limitée en fonction du rôle au sein de l’équipe et de l’organisation :
+    * Les comptes de service de l’organisation sont visibles uniquement par les administrateurs de l’organisation. Les comptes de service d’équipe sont visibles uniquement par les membres de l’équipe et les administrateurs de l’organisation.
+    * Le nombre de membres de l’équipe exclut désormais les comptes de service.
+
+  **Contrôle des accès et renforcement de la sécurité**
+
+  * Les informations sensibles de la License et les identifiants d’authentification du stockage d’objets sont désormais masqués dans les journaux de configuration au démarrage.
+
+  ## Correctifs
+
+  * Correction d’un bug où les filtres d’une liste de Reports s’appliquaient individuellement à chaque page plutôt qu’à l’ensemble des Reports.
+  * Correction d’un bug où des Runs masqués pouvaient apparaître dans un graphique en coordonnées parallèles.
+  * Correction d’un bug où des options d’automatisation de Run pouvaient apparaître pour des automatisations limitées à une entité.
+  * Correction d’un bug qui pouvait empêcher les fichiers téléversés via l’API vers un Run terminé d’apparaître sur la page du Run. Nécessite W&amp;B SDK v0.28.1 ou une version ultérieure.
+</Update>
+
+<Update label="v0.82.2" description="7 juillet 2026">
+  ## Correctifs
+
+  * Correctif d’une régression dans v0.82.1 qui empêchait les nouveaux déploiements W&amp;B de terminer la configuration initiale. Les instances qui avaient déjà créé leur premier utilisateur avant la mise à niveau vers v0.82.1 ne sont pas affectées.
+</Update>
+
+<Update label="v0.82.1" description="1er juillet 2026">
+  **1er juillet 2026**
+
+  <SelfManagedClickhouseUpgradeNote />
+
+  <Warning>
+    Une régression dans le serveur W&amp;B v0.82.1 empêche les nouveaux déploiements W&amp;B de terminer la configuration initiale. W&amp;B recommande d’éviter v0.82.1 pour les nouveaux déploiements. Les instances qui avaient déjà créé leur premier utilisateur avant la mise à niveau vers v0.82.1 ne sont pas affectées.
+  </Warning>
+
+  ## Améliorations des performances
+
+  * Amélioration du chargement des graphiques et des Workspace pour les projets comportant un grand nombre de métriques journalisées, notamment grâce à un chargement plus rapide du volet multimédia et à des requêtes de clés d’historique plus efficaces.
+
+  ## Correctifs
+
+  * Correctif d’un bug où l’ajout de clés d’historique à un graphique Vega personnalisé pouvait bloquer lors du chargement du Workspace dans les projets comportant un grand nombre de métriques journalisées.
+  * Correctif d’une boucle infinie pouvant survenir lors du rendu de graphiques en courbes avec des divisions d’axes non logarithmiques.
+  * Correctif d’un bug où l’activation de **Show original** sur un graphique en courbes avec le lissage désactivé pouvait modifier la bande min/max ombrée.
+  * Correctif d’un bug dans les projets Models et Weave où l’ouverture de **Assets** affichait la liste complète des ressources au lieu du sélecteur de ressources catégorisé.
+</Update>
+
+<Update label="v0.82.0" description="23 juin 2026">
+  **23 juin 2026**
+
+  W&amp;B 0.82.0 offre une visibilité plus riche sur les artifacts grâce à des aperçus de collections modifiables et à des graphiques de métriques au niveau des versions, ainsi qu’à des améliorations pratiques pour le Workspace et le tableau des runs. Pour prendre en charge l’administration d’entreprise, vous pouvez désormais attribuer des licences Models et des rôles Weave lors de l’invitation de membres, et les journaux d’audit enregistrent l’activité des clés API.
+
+  <SelfManagedClickhouseUpgradeNote />
+
+  ## Assistance et fin de vie
+
+  * W&amp;B v0.70 a atteint sa fin de vie.
+
+  ## Fonctionnalités
+
+  * Épinglez et comparez des runs provenant de différents projets, ou spécifiez un run d’un autre projet comme run de référence. Voir [Comparer des runs entre projets](/fr/models/runs/compare-runs#compare-runs-across-projects).
+    <Frame>
+      ![Tableau des runs avec des runs épinglés provenant d’un autre projet](/images/runs/compare_runs_ui_element.png)
+    </Frame>
+  * Configurez des automatisations basées sur un changement du statut d’un run ou sur un changement de la valeur d’une métrique d’un run. Voir [Événements de run](/fr/models/automations/automation-events#run-events). Disponible dans Cloud dédié v0.81+. Pas encore disponible en Autogéré.
+  * L’interface utilisateur de W&amp;B affiche désormais la dernière version disponible du SDK W&amp;B, afin que vous puissiez savoir lorsqu’une version plus récente est disponible.
+  * Les onglets du navigateur de Workspace incluent désormais le nom de la vue active dans le titre de la page, ce qui facilite la distinction entre les vues enregistrées d’un onglet à l’autre.
+  * Lors de l’invitation de membres dans une organisation, vous pouvez désormais définir en même temps la licence Models et le rôle Weave de chaque membre.
+
+  ### Registre
+
+  * L’onglet de recherche **Advanced** du registre vous permet de rechercher et de filtrer efficacement les registres, les collections et les versions. Recherchez rapidement par nom d’objet et filtrez les objets par nom, tags, date de création ou de mise à jour, registre parent, etc. Les performances et l’efficacité de la recherche ont été améliorées. Voir [Trouver des éléments du registre](/fr/models/registry/search_registry).
+
+  ### Weave
+
+  * Le proxy LLM Weave signale désormais le coût réparti entre les composants de jetons d’entrée et de sortie, pour une analyse des coûts plus fine.
+  * Weave Playground prend désormais en charge les entrées vidéo pour les modèles de préversion Gemini 3.1.
+
+  ## Sécurité
+
+  * Les [journaux d’audit](/fr/platform/hosting/monitoring-usage/audit-logging) incluent désormais des informations de clé API pour les événements pertinents.
+  * Mise à niveau de Redis vers 8.6.3 pour résoudre les CVE suivantes :
+    * [CVE-2026-25243](https://www.cve.org/CVERecord?id=CVE-2026-25243)
+    * [CVE-2026-23631](https://www.cve.org/CVERecord?id=CVE-2026-23631)
+    * [CVE-2026-23479](https://www.cve.org/CVERecord?id=CVE-2026-23479)
+
+  ## Améliorations des performances
+
+  * Amélioration de l’efficacité de la recherche de panneaux dans les Workspace.
+
+  ## Correctifs
+
+  * Correctif d’une boucle infinie dans les panneaux de graphiques en courbes avec axes linéaires.
+  * Correctif d’un bug lors de l’affichage d’une vidéo journalisée en mode sombre, où le passage en plein écran affichait la vidéo avec les couleurs du mode clair.
+  * Correctif d’un bug où les panneaux Weave dans un Workspace pouvaient perdre leurs filtres appliqués pendant l’actualisation automatique.
+</Update>
+
+<Update label="v0.81.3" description="9 juin 2026">
+  ## Correctifs
+
+  * Suppression d’un API endpoint interne non pris en charge.
+</Update>
+
+<Update label="v0.81.2" description="8 juin 2026">
+  **8 juin 2026**
+
+  ## Correctifs
+
+  * Correctif d’un bug dans Cloud dédié où une fonctionnalité de préversion activée explicitement pouvait être désactivée par erreur après la mise à niveau vers v0.81.1. Les déploiements sont mis à niveau automatiquement et aucune action n’est requise. Contactez l’[assistance](mailto:support@wandb.com) si vous constatez des problèmes.
+</Update>
+
+<Update label="v0.81.1" description="3 juin 2026">
+  **3 juin 2026**
+
+  ## Correctifs
+
+  * Amélioration des performances de la recherche de panneaux dans les Workspace, en particulier pour les recherches basées sur des expressions régulières.
+  * Correctif d’un bug où les téléchargements d’artifacts pouvaient échouer lorsqu’un artifact était lié dans plusieurs registres, car les vérifications d’autorisation étaient évaluées au-delà du contexte actuellement accessible par l’utilisateur.
+  * Correctif d’un bug où le fait de relier à nouveau un artifact déjà lié pouvait déclencher de manière inattendue des automatisations de liaison d’artifact.
+  * Correctif d’un bug où les lectures du moteur de stockage pouvaient échouer après le changement de nom d’un projet avec l’erreur `project [storage_key] not found`.
+  * Correctif d’un bug où les appels d’évaluation Weave pouvaient échouer pour les modèles OpenAI compatibles audio en raison d’un format de réponse non pris en charge.
+</Update>
+
+<Update label="v0.81.0" description="2 juin 2026">
+  **2 juin 2026**
+
+  W&amp;B Server 0.81.0 facilite le débogage et la comparaison des runs grâce à des journaux de runs plus détaillés et interrogeables, un nouveau visualiseur de diff patch pour le code des runs, un filtrage des runs plus flexible, un téléchargement des artefacts amélioré, de nouveaux déclencheurs pour les automatisations, et bien plus encore. Weave ajoute une rétention des traces configurable ainsi que des signaux de moniteur personnalisés avec des flux de travail d&#39;évaluation plus rapides. Pour garantir la sécurité et la stabilité de votre déploiement, cette version inclut des améliorations et des mesures d&#39;atténuation en matière de sécurité, une prise en charge SCIM étendue pour Okta et Microsoft Entra, ainsi que des correctifs de fiabilité pour les artefacts, les espaces de travail et les Reports.
+
+  <SelfManagedClickhouseUpgradeNote />
+
+  ## Assistance et fin de vie
+
+  * W&amp;B Server v0.69 a atteint sa fin de vie.
+
+  ## Fonctionnalités
+
+  * Connectez votre IDE ou votre agent IA au [W&amp;B MCP Server](/fr/platform/mcp-server) pour interroger et analyser vos données W&amp;B ainsi que la documentation officielle de W&amp;B en langage naturel. Il peut fonctionner en mode hébergé ou local.
+
+  * L’affichage amélioré des journaux de run vous aide à déboguer et à analyser les runs longs et actifs :
+    * La recherche par mot-clé prend désormais en charge la navigation en boucle, pour vous permettre de parcourir rapidement toutes les occurrences vers l’avant ou vers l’arrière.
+    * Les logs s’actualisent désormais toutes les quelques secondes lorsqu’un run est actif, et les nouvelles entrées s’ajoutent en continu en bas pour une expérience fluide.
+    * Pour les runs plus longs, vous n’êtes plus limité à l’affichage des 10 000 entrées de log les plus récentes. Faites défiler vers le haut pour charger automatiquement jusqu’à 100 000 anciennes entrées de log, ce qui facilite l’accès à des détails importants depuis le début d’un run, comme l’architecture du modèle et les informations de configuration. Cliquez sur **Jump to bottom** pour revenir rapidement aux entrées les plus récentes.
+    * Dans la **liste** **Runs** ou le **tableau** **Runs**, le fait de sélectionner **View run logs** dans le menu d’actions ouvre les logs dans un nouvel onglet du navigateur.
+
+  * Lorsque vous affichez le code dans l’onglet **Files** d’un run, un nouveau visualiseur de patchs affiche les modifications sous forme de diffs de style GitHub, avec coloration syntaxique, séparation par fichier, vues unifiée et scindée, ainsi que le nombre de lignes modifiées. Vous pouvez copier le patch dans votre presse-papiers, le télécharger ou cliquer sur **Reproduce** pour obtenir les commandes de terminal exactes permettant de restaurer l’état de votre code.
+
+  * Vous pouvez désormais masquer les runs épinglés et de référence dans le sélecteur de runs. Cliquez sur l’icône de visibilité à côté d’un run pour le masquer, ou sur l’icône dans l’en-tête pour afficher ou masquer tous les runs épinglés et de référence.
+
+  * Lorsque vous consultez un run dans un projet, son statut et ses tags s’affichent désormais dans l’en-tête, à côté de son nom.
+
+  * Les filtres de run prennent désormais en charge les conditions `OR` ainsi que le regroupement à l’aide de parenthèses, ce qui vous permet de créer des expressions complexes. Dans l’éditeur de filtres, cliquez sur **Nouveau filtre** pour ajouter des conditions `AND` ou `OR` supplémentaires, ou sur **Nouveau groupe** pour regrouper des conditions, par exemple `job_type = "train" AND (tags = "baseline" OR tags = "production")`. Voir [Filtrer les runs](/fr/models/runs/filter-runs).
+
+  * Les filtres de run permettent désormais de filtrer par ID du run. Pour afficher la colonne ID du run, cliquez sur le bouton de sélection des colonnes, puis sélectionnez **Run ID**. Saisissez ensuite un ID du run partiel ou complet dans le champ de recherche.
+
+  * Pour recadrer l’axe Y sur les graphiques en courbes, vous pouvez désormais cliquer et faire glisser verticalement dans le graphique. Le recadrage d’un axe préserve la vue sur l’autre axe.
+
+  * Configurez l’étape de recherche dans la vidéo pour définir l’incrément de temps lors d’un saut vers l’avant ou l’arrière dans un panneau vidéo à l’aide des touches fléchées du clavier. Vous pouvez personnaliser ce paramètre pour un panneau individuel, une section ou un espace de travail.
+
+  * Vous pouvez désormais naviguer dans les vidéos en plein écran à l’aide des touches fléchées du clavier. Cliquez sur une vidéo pour la sélectionner, puis utilisez les touches fléchées gauche et droite pour parcourir la vidéo étape par étape. Cela peut vous aider à repérer efficacement des problèmes tels que des artefacts de mouvement, du scintillement ou des problèmes de synchronisation.
+
+  * En mode galerie, vous pouvez désormais configurer si les images doivent être mises à l’échelle pour s’adapter à l’affichage ou être affichées dans leurs dimensions d’origine, et vous pouvez personnaliser le mode d’ajustement par défaut pour un espace de travail ou une section.
+
+  * Sur la page **Artifacts**, vous pouvez désormais télécharger l’artefact à partir de l’onglet **Fichiers**.
+
+  * Dans le [graphe de traçabilité](/fr/models/artifacts/explore-and-traverse-an-artifact-graph) d’un artefact, vous pouvez désormais filtrer les exécutions par type de job.
+
+  * Les automatisations prennent en charge des déclencheurs supplémentaires lorsqu’elles sont créées dans l’interface utilisateur :
+    * Lorsqu’un tag est retiré d’un artefact.
+    * Lorsqu’un tag est ajouté à une collection.
+    * Lorsqu’un tag est retiré d’une collection.
+    * Lorsqu’un artefact est retiré d’une collection.
+
+  ### Weave
+
+  * Les administrateurs du projet ou de l’organisation peuvent désormais configurer la durée de conservation des traces Weave :
+    * Spécifiez le TTL par défaut des traces sur la page **Settings** d’un projet.
+    * Spécifiez le TTL d’une trace individuelle à l’aide du champ **Expiration** dans la vue **Details** de la trace.
+  * Vous pouvez désormais créer des signaux personnalisés depuis l’interface Weave. Sur la page **Monitors**, cliquez sur **Add Signal**, puis renseignez un nom de signal, une description et un prompt.
+  * L’interface Weave vous permet désormais de sélectionner ou de mettre à jour un scorer et sa version lors de la modification d’un monitor.
+  * Amélioration des performances de la page **Compare Evaluations** :
+    * La page affiche uniquement les 20 premières évaluations dans les résultats.
+    * Pour affiner davantage les résultats, les filtres de l’utilisateur sont appliqués avant d’afficher les évaluations.
+  * Amélioration des performances des requêtes sur la page **Résultats de l’évaluation** grâce au tri, au filtrage et à la pagination côté serveur.
+  * L’interface Weave affiche désormais les jetons mis en cache.
+
+  ## Améliorations des performances
+
+  * Amélioration des performances des pages **Sweeps** grâce au chargement des agents uniquement lorsque nécessaire, au lieu de charger systématiquement tous les agents.
+  * Pour les espaces de travail volumineux, amélioration des performances à l’ouverture de l’éditeur, lors de la modification des axes, de l’aperçu des mises à jour et de l’application des modifications.
+  * Performances améliorées lors de l’ajout de runs à un Workspace grâce au clonage superficiel d’un chemin critique.
+
+  ## Sécurité
+
+  * Ajout d’une variable d’environnement booléenne `GRAPHQL_REJECT_UNAUTHED_REQUESTS` pour rejeter les requêtes non autorisées lorsqu’elle est définie sur `true`.
+  * Amélioration de la compatibilité de l’API [SCIM](/fr/platform/hosting/iam/scim) lorsque Okta est l’IdP.
+  * L’API SCIM prend désormais en charge le provisionnement automatique des comptes lorsque Microsoft Entra est l’IdP :
+    * Ajout de la prise en charge des expressions complexes combinant les sous-attributs `[bracket]` et `.value`.
+    * Ajout de la prise en charge de plusieurs opérations `PATCH` sur les objets `USER` et `GROUP`.
+    * Un utilisateur précédemment supprimé peut être reprovisionné via SCIM.
+  * Mise à jour de `cryptography` vers la version 46.0.5 pour corriger [CVE-2026-26007](https://github.com/advisories/GHSA-r6ph-v2qm-q3c2).
+  * Mise à jour de `protobuf` vers la version 5.29.6 pour corriger [CVE-2026-0994](https://github.com/advisories/GHSA-7gcm-g887-7qv7).
+  * Mise à jour de `PyJWT` vers la version 2.12.0 pour corriger [CVE-2026-32597](https://github.com/advisories/GHSA-752w-5fwx-jx9f).
+  * Mise à jour de `urllib3` vers la version 2.6.3 pour corriger [CVE-2026-21441](https://github.com/advisories/GHSA-38jv-5279-wg99).
+  * `aiohttp` a été mis à niveau vers la version 3.13.3 pour corriger [CVE-2025-69223](https://github.com/advisories/GHSA-6mq8-rvhq-8wgg).
+  * Mise à jour de `azure-core` vers la version 1.38.0 pour corriger [CVE-2026-21226](https://github.com/advisories/GHSA-jm66-cg57-jjv5).
+  * Mise à jour de `fickling` vers la version 0.1.9 pour corriger [GHSA-5hwf-rc88-82xm](https://github.com/advisories/GHSA-5hwf-rc88-82xm), [GHSA-mxhj-88fx-4pcv](https://github.com/advisories/GHSA-mxhj-88fx-4pcv) et [GHSA-wccx-j62j-r448](https://github.com/advisories/GHSA-wccx-j62j-r448).
+  * Mise à niveau de `litellm` vers la version 1.83.7 afin de corriger les CVE suivantes : [CVE-2026-35030](https://github.com/advisories/GHSA-jjhc-v7c2-5hh6), [CVE-2026-35029](https://github.com/advisories/GHSA-53mr-6c8q-9789), [GHSA-69x8-hrgq-fjj8](https://github.com/advisories/GHSA-69x8-hrgq-fjj8), [GHSA-xqmj-j6mv-4862](https://github.com/advisories/GHSA-xqmj-j6mv-4862).
+  * Mise à jour de `pillow` vers la version 12.2.0 pour corriger [CVE-2026-25990](https://github.com/advisories/GHSA-cfh3-3jmp-rvhc) et [CVE-2026-40192](https://github.com/advisories/GHSA-whj4-6x5x-4v2j).
+  * Passage de `pyasn1` à la version 0.6.3 pour corriger [CVE-2026-23490](https://github.com/advisories/GHSA-63vm-454h-vhhq) et [CVE-2026-30922](https://github.com/advisories/GHSA-jr27-m4p2-rc6r).
+  * Mise à jour de `python-multipart` vers la version 0.0.22 afin de corriger la vulnérabilité [CVE-2026-24486](https://github.com/advisories/GHSA-wp53-j4wj-2cfg).
+
+  ## Correctifs
+
+  * Réduction du risque d’interblocage lors de la création, de la suppression et de la garbage collection des artefacts.
+  * Correctif d’un bug de mise en cache en mémoire dans le moteur de stockage, qui pouvait sous-estimer de manière significative la quantité réelle de mémoire sur le tas retenue par les entrées du cache.
+  * Correctif d’un bug où, si les **paramètres du panneau** de l’espace de travail ou de la section configuraient un axe X spécifique ou un pas spécifique, les utilisateurs ne pouvaient pas redéfinir les paramètres d’un panneau individuel. À la place, le paramètre de l’espace de travail ou de la section imposait sa valeur au panneau.
+  * Amélioration de l’affichage des alias et des tags longs dans la W&amp;B App.
+  * Correctif d’un bug qui entraînait l’affichage de caractères brouillés lors du filtrage des runs à l’aide d’expressions régulières.
+  * Correctif d’un problème de chargement infini de la page lors de l’ouverture d’un lien vers un groupe de runs inexistant.
+  * Correctif d’un bogue : l’abandon d’un brouillon de report redirigeait vers la liste des Reports au lieu du report d’origine.
+  * Correctif d’un bug : un panneau Markdown redimensionné dans un rapport s’affichait avec une hauteur fixe au lieu de la hauteur configurée.
+  * Dans Weave, les types dynamiques non sécurisés ont été remplacés par une gestion plus sûre, au lieu d’exposer des erreurs brutes sur certains chemins de code.
+  * Correctif d’un bug qui empêchait d’écrire des traces Weave dans un projet supprimé puis restauré.
+</Update>
 
 <Update label="v0.80.1" description="6 mai 2026">
   **6 mai 2026**
@@ -119,6 +419,7 @@ Cette page inclut les notes de version des versions de W&amp;B Server prises en 
   * Attribuez des licences pour Models ou des rôles Weave à l’aide de [SCIM](/fr/platform/hosting/iam/automate_iam).
   * Lors de la [récupération des journaux d’audit](/fr/platform/hosting/monitoring-usage/audit-logging#fetch-audit-logs), le paramètre `startDate` détermine quels sont les journaux les plus récents à récupérer.
   * Les administrateurs de l’organisation peuvent désactiver l’introspection GraphQL à l’aide de la variable d’environnement `GORILLA_GRAPHQL_DISABLE_INTROSPECTION` dans **Cloud dédié** comme dans **Autogéré**. Comme alternative en **Autogéré**, vous pouvez définir à la place le champ de configuration Gorilla `graphql-disable-introspection`. Voir [Configurer les variables d’environnement](/fr/platform/hosting/env-vars). **Les applications clientes nécessitent [W&amp;B SDK v0.26.0](/fr/release-notes/sdk-releases#0-26-0)+** pour les déploiements où l’introspection est déjà désactivée.
+  * Les administrateurs de l’organisation dans **Cloud dédié** comme dans **Autogéré** peuvent exiger une authentification pour toutes les requêtes GraphQL en définissant `GRAPHQL_REJECT_UNAUTHED_REQUESTS=true` sur le service API. Ce paramètre est optionnel et ne modifie pas le comportement tant qu’il n’est pas activé. Voir [Configurer les variables d’environnement](/fr/platform/hosting/env-vars).
   * Correctif d’un bug où certains filtres structurés de runs n’étaient pas systématiquement échappés lors de la construction des requêtes SQL, ce qui pouvait permettre à une structure de filtre malveillante d’interférer avec la génération de la requête au-delà de ce qu’un client autorisé devrait pouvoir exprimer. La gestion des filtres applique désormais le même échappement des colonnes utilisé ailleurs, afin que les clés de filtre ne puissent pas modifier la structure de la requête.
   * Correctif d’un bug où des opérations sur les files d’attente d’exécutions liées à Sweeps, ainsi que des suppressions directes de files d’attente, pouvaient, dans certains cas, s’appliquer à des files d’attente ou à des éléments de file d’attente en dehors du périmètre visé par l’appelant. Le contrôle d’autorisation vérifie désormais l’accès à la file d’attente et la propriété des éléments avant la mise en file d’attente depuis Sweeps ou la suppression d’entrées de file d’attente.
   * Correctif d’un bug où les suggestions de clés pour les métadonnées de run pouvaient intégrer des entrées utilisateur non nettoyées dans des requêtes de base de données. Les chemins de clé sont désormais restreints afin que seules des références de colonne sûres et attendues soient utilisées pour les suggestions.
@@ -743,220 +1044,4 @@ Cette page inclut les notes de version des versions de W&amp;B Server prises en 
   * Correction d’un bug pouvant entraîner l’affichage des boîtes englobantes en dehors du média dans un panneau multimédia, au lieu de les superposer au média.
   * Correction d’un bug où l’intégration Google Agent Development Kit ne prenait pas en charge les threads Weave.
   * Correction d’un bug où la colonne **Attributes** était absente des traces Weave soumises via OpenTelemetry.
-</Update>
-
-<Update label="v0.71.0" description="29 juillet 2025">
-  Avec W&amp;B Server 0.71, le registre est activé par défaut pour toutes les organisations. Pour plus de détails sur le déploiement progressif du registre, consultez la note correspondante dans Fonctionnalités. Cette version apporte plusieurs améliorations et correctifs aux workspaces : synchronisation des panneaux multimédias partageant un curseur d&#39;étape commun, navigation plus efficace dans les panneaux en plein écran, et accès à davantage de détails sur la durée totale d&#39;un run et son temps d&#39;exécution actif dans la page Aperçu du run. Les Automations ont été améliorées : vous pouvez désormais déclencher une automation en fonction des tags d&#39;une version d&#39;artifact. {/* more */}
-
-  ## Assistance et fin de vie
-
-  * W&amp;B Server v0.57 a atteint sa fin de vie.
-
-  ## Modifications à venir
-
-  * Nous optimisons le rendu dans le Workspace afin d’accélérer le chargement des workspaces comportant de nombreux panneaux, ainsi que le glisser-déposer des panneaux, pour le rendre plus réactif et plus précis dans les workspaces. **Dans ce cadre, nous prévoyons de supprimer la mise en page « Grille personnalisée » des sections du Workspace dans la prochaine version (0.72).** Les grilles personnalisées resteront disponibles dans Reports. Contactez votre équipe W&amp;B ou l’[assistance](mailto:support@wandb.ai) pour toute question ou inquiétude.
-  * Dans une prochaine version, nous harmoniserons les vues Workspace multi-run et single run afin que, lorsque vous accédez à un single run, vous retrouviez la même mise en page et la même configuration des panneaux que celles définies pour la vue multi-run, y compris les graphiques personnalisés, les mises en page et les paramètres. L’objectif est de vous aider à rester dans le même contexte et à éviter d’avoir à reconfigurer vos vues. Cependant, cela supprimera la possibilité de personnaliser des vues single run distinctes, isolées du reste du Workspace. Contactez votre équipe W&amp;B ou l’[assistance](mailto:support@wandb.ai) si vous avez des questions sur la migration.
-  * Au cours des prochaines versions, nous continuerons à migrer le Model Registry existant au niveau de Teams vers W&amp;B Registry. Pour plus de détails et un rappel du calendrier, voir l’[annonce de disponibilité générale de W&amp;B Registry](#registry_ga_announcement) ci-dessous.
-
-  ## Fonctionnalités
-
-  * <a id="registry_ga_announcement" aria-label="Annonce de la disponibilité générale de W&B Registry" /> Nous migrons progressivement le Model Registry existant au niveau de l’équipe vers W&amp;B Registry au cours des prochaines versions. **Aucune
-    action n’est nécessaire de votre côté ; W&amp;B copiera automatiquement les éléments du Model Registry de chaque équipe vers un registre privé correspondant, créé automatiquement au niveau de l’équipe.**  Les références existantes aux collections de modèles
-    dans votre ancien Model Registry au niveau de l’équipe continueront de fonctionner. 1. Dans Server v0.71 (cette version), Registry est désormais activé par défaut pour toutes les organisations. 2. Server v0.73 (août) inclura
-    une variable d’environnement permettant de désactiver cette migration, qui sera automatiquement exécutée pendant la mise à niveau. La migration prend entre 5 et 30 minutes pour la plupart des organisations. Pendant la migration, la liaison des
-    Artifacts à l’ancien Model Registry de l’équipe ou au nouveau Registry échouera avec une erreur. **L’enregistrement et la récupération des Artifacts ne seront pas affectés**. 3. Dans Server v0.74 (septembre), nous supprimerons
-    cette option et la migration aura lieu pendant la mise à niveau.
-
-    Nous visons une transition vers une nouvelle expérience plus puissante, aussi fluide et peu contraignante que possible. Pour toute question concernant la migration, contactez votre contact W&amp;B.
-
-  * Une automatisation peut désormais être déclenchée en ajoutant un tag à un artifact. Voir [Événements d’artifact](/fr/models/automations/automation-events/#artifact-events).
-
-  * Lorsque vous consultez un panneau en plein écran, passez au panneau précédent ou suivant de la section à l’aide des boutons **Précédent** et **Suivant** ou des touches fléchées gauche et droite.
-
-  * Lorsque vous consultez un panneau multimédia en plein écran, déplacez le curseur d’étape à l’aide des touches **CMD + flèche gauche ou droite** (macOS) ou **Ctrl + flèche gauche ou droite** (Windows / Linux).
-
-  * Vous pouvez désormais synchroniser des panneaux multimédias à l’aide de la même clé de curseur d’étape afin que, lorsque vous avancez le curseur d’étape dans un panneau multimédia, ceux des autres panneaux avancent également. Ouvrez les paramètres du Workspace ou les **Paramètres de la section**, accédez à **Media**, cliquez sur l’onglet **Synchronisation**, puis activez **Synchroniser le curseur par clé (Étape)**.
-
-  * Le Run Comparer comprend une nouvelle section **Meta** contenant des métadonnées sur le run, comme la commande, la version de Python et le type de GPU.
-
-  ### Weave
-
-  * L’outil **Graphiques de trace** vous permet d’explorer, de visualiser et de déboguer des métriques de trace, comme la latence, le coût ou les tokens, au fil du temps grâce à des graphiques interactifs personnalisés. [En savoir plus](/fr/weave/guides/tracking/trace-plots).
-  * **Évaluations en ligne** : Surveillez vos traces dans Cloud dédié en associant des Monitors à vos traces entrantes. Les Monitors s’exécutent en arrière-plan en tant que juges LLM et attribuent un score à un sous-ensemble des appels que vous définissez. Utilisez les Monitors pour suivre le comportement en production, détecter les régressions, collecter des données réelles en production, et plus encore. [En savoir plus](/fr/weave/guides/tracking/trace-plots).
-  * Ajout des intégrations [AutoGen](/fr/weave/guides/integrations/autogen) et [LlamaIndex](/fr/weave/guides/integrations/llamaindex). *AutoGen* est un framework de Microsoft pour créer des agents et des applications d’IA, avec des composants pour l’IA conversationnelle, des fonctionnalités essentielles pour les systèmes multi-agents, des intégrations avec des services externes et des outils de prototypage d’agents sans code. *LlamaIndex* est un framework puissant pour créer des applications pilotées par des LLM, comme des systèmes RAG, des chatbots et des agents.
-  * Amélioration des intégrations avec OpenAI, LangChain, ChromaDB et Verdict, notamment :
-    * Vue de document pour Langchain et ChromaDB.
-    * Rendu de la vue de chat pour LangChain.
-    * Nouveau format d’export pour OpenAI.
-  * Ajout de la prise en charge dans le SDK TypeScript de la création et de la publication de prompts. [En savoir plus](/fr/weave/guides/core-types/prompts).
-  * La nouvelle classe `Content` vous permet de téléverser en toute sécurité des données de tout type MIME, avec un encodage Base64 automatique, une extraction automatique des métadonnées, et bien plus encore.
-
-  ## Correctifs
-
-  * La page **Aperçu** d’un run affiche désormais sa durée de fonctionnement et ses heures suivies. La *durée de fonctionnement* d’un run correspond à sa durée totale, du début à la fin, tandis que ses *heures suivies* correspondent à la durée pendant laquelle le run exécutait activement des expériences ou des calculs.
-  * Lorsque vous zoomez sur un graphique en courbes, puis l’ouvrez en mode plein écran, le graphique en plein écran conserve désormais correctement le même niveau de zoom.
-  * Correction d’un bug : la mise à jour du nombre de groupes affichés dans un graphique n’actualisait pas le graphique.
-  * Lorsque **Afficher l’original** est sélectionné dans les graphiques en courbes, la ligne originale non lissée apparaît désormais plus atténuée que la ligne lissée.
-  * Les graphiques en courbes avec fidélité totale affichent désormais le nombre de runs sur le graphique.
-  * Correction d’un bug pouvant convertir de manière inattendue un graphique explicitement défini comme un graphique en courbes en graphique à barres lorsqu’une seule valeur est présente par run.
-  * Les expressions X-axis peuvent désormais utiliser des champs de configuration imbriqués.
-  * Le lien **Registre** a été supprimé de la barre latérale de la page **Artifacts**. Pour accéder au registre, cliquez sur **Accueil**, puis sur **Registre**.
-  * Les graphiques en courbes dans un Workspace ou une section peuvent afficher, de manière facultative, la plage des bins dans l’infobulle lorsque vous survolez un point. Ouvrez les paramètres du Workspace ou de la section, cliquez sur **Graphiques en courbes**, accédez à l’onglet **Préférences d’affichage**, puis activez **Afficher la plage des bins dans l’infobulle**.
-  * Correction d’un bug : lorsqu’on cliquait sur un lien dans la page de traçabilité des artefacts du **registre**, l’URL et les paramètres du navigateur étaient mis à jour, mais pas le contenu de la page. L’UI se met désormais à jour lorsque l’URL change.
-  * Correction d’un bug dans **Registre** où les tableaux des collections étaient triés comme des chaînes de caractères plutôt que comme des nombres à virgule flottante.
-  * Correction d’un bug dans le **registre** où le panneau d’informations de traçabilité affichait toujours la dernière version de l’artifact sélectionné, même lorsqu’une autre version était sélectionnée.
-  * Correction d’un bug d’affichage sur mobile où la barre de recherche du panneau n’apparaissait pas.
-  * Lorsque vous triez le run selector selon n’importe quel attribut avec la coloration par clé activée, les runs en haut du graphique sont désormais correctement colorés.
-  * Lors de l’utilisation de runs regroupés, les graphiques en coordonnées parallèles affichent désormais correctement le nom du groupe.
-  * **State** s’affiche désormais correctement par défaut dans le tableau Sweeps.
-  * Sweeps s’affichent désormais correctement lorsqu’ils sont regroupés par des noms d’affichage personnalisés.
-  * Correction du retour à la ligne des noms longs dans Sweeps et Reports.
-  * Amélioration du comportement du copier-coller pour les journaux de console. Les numéros de ligne ne sont plus copiés et les horodatages apparaissent désormais sur la même ligne au lieu d’apparaître sur une nouvelle ligne.
-</Update>
-
-<Update label="v0.70.1" description="9 juillet 2025">
-  ## Correctifs
-
-  * Correction d’un bug où le statut des runs plantés n’était pas mis à jour en **Crashed** après une mise à niveau.
-  * Correction d’un bug où la colonne **State** était absente du tableau Runs de **Sweeps**.
-  * Correction d’un bug Weave où le navigateur d’une collection du registre pouvait afficher des fichiers d’une version incorrecte, car le chemin mis en cache d’un fichier manifeste d’artifact dépendait uniquement de l’index de version de l’artifact.
-  * Correction d’un bug Weave qui pouvait empêcher l’analyse correcte d’un JSON pourtant syntaxiquement valide.
-
-  Ces bugs ont été introduits dans la v0.70.0.
-</Update>
-
-<Update label="v0.70.0" description="7 juillet 2025">
-  W&amp;B Server v0.70 intègre de nouvelles fonctionnalités, des améliorations et des améliorations des performances pour vous aider à obtenir et à partager des informations plus efficacement. Par exemple :
-
-  ## Assistance et fin de vie
-
-  * W&amp;B Server v0.56 a atteint sa fin de vie.
-
-  ## Modifications à venir
-
-  * Dans une prochaine version, nous alignerons les vues Workspace multi-run et single-run afin que, lorsque vous ouvrez le détail d’un single run, vous retrouviez la même mise en page et la même configuration de panneaux que celles définies pour la vue multi-run, y compris les graphiques, mises en page et Settings personnalisés. L’objectif est de vous aider à conserver le contexte et à éviter de reconfigurer vos vues. Cependant, cela supprimera la possibilité de personnaliser des vues single-run distinctes, isolées du reste du Workspace. Contactez votre équipe W&amp;B ou l’[assistance](mailto:support@wandb.ai) si vous avez des questions sur la migration.
-  * Au cours des prochaines versions, nous migrerons le Model Registry existant au niveau de l’équipe vers W&amp;B Registry. Pour plus de détails et le calendrier, voir l’[annonce de disponibilité générale de W&amp;B Registry](#registry_ga_announcement) ci-dessous.
-
-  ## Fonctionnalités
-
-  * <a id="registry_ga_announcement" aria-label="Annonce de disponibilité générale de W&B Registry" /> **W&amp;B Registry est désormais disponible en disponibilité générale** ! Registry offre une plus grande diversité de ressources, une meilleure gestion des accès et une meilleure évolutivité, ce qui en fait un véritable hub de collaboration pour les initiatives d’IA au sein de grandes équipes pluridisciplinaires.
-    * Registry peut être activé dès aujourd’hui avec la variable d’environnement `ENABLE_REGISTRY_UI` ou en contactant votre équipe d’assistance W&amp;B.
-    * Nous migrons progressivement les assets existants de Model Registry au niveau des équipes vers W&amp;B Registry au cours des prochaines versions. **Aucune action n’est requise de votre côté. W&amp;B copiera automatiquement les assets de Model Registry de chaque équipe vers un registre privé d’équipe correspondant, créé automatiquement.**  Les références existantes aux collections de modèles dans votre ancien Model Registry d’équipe continueront de fonctionner.
-
-      1. Dans Server v0.71, Registry sera activé par défaut pour toutes les organisations.
-      2. Server v0.73 (août) inclura une variable d’environnement permettant de désactiver cette migration, qui sera sinon exécutée automatiquement lors de la mise à niveau. La migration prend entre 5 et 30 minutes pour la plupart des organisations. Pendant la migration, l’association d’Artifacts à l’ancien Model Registry de l’équipe ou au nouveau Registry échouera avec une erreur. ****Le logging et la récupération des Artifacts** **ne seront pas affectés**.
-      3. Dans Server v0.74 (septembre), nous supprimerons cet indicateur et la migration aura lieu pendant la mise à niveau.
-
-      Nous faisons le nécessaire pour que cette mise à niveau se déroule de façon fluide, avec un minimum de perturbations, vers une nouvelle expérience plus puissante. Contactez votre équipe W&amp;B ou l’[assistance](mailto:support@wandb.ai) pour toute question concernant la migration.
-  * **Supervision de l’infrastructure CoreWeave** : Lors d’un [run W&amp;B](/fr/models/runs) sur l’infrastructure CoreWeave, [CoreWeave Mission Control](https://www.coreweave.com/mission-control) surveille votre infrastructure de calcul, ce qui vous permet de consulter des alertes d’infrastructure telles que des pannes de GPU, des dépassements de seuils thermiques, etc. Si une erreur se produit, CoreWeave transmet ces informations à W&amp;B. W&amp;B ajoute les informations d’infrastructure aux graphiques de votre run dans le Workspace de votre projet. CoreWeave tente de résoudre automatiquement certains problèmes, et W&amp;B affiche ces informations sur la page du run. W&amp;B fournit un lien vers le tableau de bord Grafana du job SLURM pour obtenir des détails au niveau système sur le run. Pour en savoir plus, consultez [Visualiser les alertes de l’infrastructure CoreWeave](/fr/models/app/features/panels/line-plot).
-  * **Suivi des fichiers externes sur CoreWeave** : vous pouvez désormais suivre les fichiers externes stockés dans CoreWeave AI Object Storage à l’aide d’artefacts de référence. Pour en savoir plus, consultez [Suivre des fichiers externes](/fr/models/artifacts/track-external-files).
-  * **Prise en charge du BYOB de CoreWeave** : Cloud dédié et Autogéré prennent désormais en charge CoreWeave AI Object Storage pour les instances et le BYOB au niveau de l’équipe. Le BYOB au niveau de l’équipe pour CoreWeave sur Cloud mutualisé sera bientôt disponible. Pour en savoir plus, consultez [Bring your own bucket (BYOB)](/fr/platform/hosting/data-security/secure-storage-connector).
-  * **Paramètres multimédias groupés** : Comme pour les graphiques en courbes, vous pouvez désormais gérer en une seule fois tous les paramètres de vos panneaux multimédias, à l’échelle d’un Workspace entier ou d’une section spécifique. Configurez facilement les panneaux multimédias pour qu’ils s’affichent par époque ou organisez-les en grilles personnalisées, sans avoir à ajuster chaque panneau séparément. Les paramètres de chaque panneau remplacent les paramètres globaux.
-  * Utilisez les **modèles de Workspace** pour créer rapidement des Workspace avec les mêmes paramètres qu’un Workspace existant. Actuellement, un modèle de Workspace peut définir des paramètres personnalisés pour les graphiques en courbes. Pour en savoir plus, consultez [les modèles de Workspace](/fr/models/track/workspaces/#workspace-templates).
-  * Avec la **journalisation incrémentielle de tableaux**, vous pouvez enregistrer des lots de lignes dans un tableau pendant une expérience de machine learning. C’est particulièrement utile pour surveiller des jobs de longue durée ou lorsque vous travaillez avec de grands tableaux qu’il serait inefficace de réenregistrer à chaque mise à jour pendant le run. Dans l’UI, le tableau est mis à jour avec les nouvelles lignes au fur et à mesure de leur enregistrement, ce qui vous permet de consulter les données les plus récentes sans attendre la fin complète du run. Vous pouvez parcourir les incréments pour afficher le tableau à différents moments. Pour en savoir plus, consultez [Log tables](/fr/models/track/log/log-tables/#adding-data-incrementally).
-
-  ## Correctifs
-
-  * Ajout d’une bannière en haut de la visionneuse du journal si seul un sous-ensemble des lignes est affiché.
-  * Correction d’un bug dans le calcul de la moyenne mobile aux limites des données.
-  * Clarification des libellés d’unité de l’axe x pour les graphiques en temps relatif.
-  * Correction d’un bug dans les graphiques avec lissage où la ligne originale continuait de s’afficher lorsque **Afficher l’original** était décoché.
-  * Correction d’un bug pouvant convertir de manière inattendue un graphique en courbes groupé de fidélité complète avec des expressions en diagramme en barres.
-  * Au survol des histogrammes, une infobulle affiche désormais l’étape de l’axe des x.
-  * Correction d’un bug entraînant un tri incorrect des données exportées depuis un panneau. Les données exportées sont désormais triées par ordre numérique.
-  * Dans le run selector, vous pouvez désormais filtrer et trier par **updated at**.
-  * Ajout d’une option pour définir un système de coordonnées droitier dans les panneaux de nuages de points.
-  * Les slashs finaux sont désormais supprimés des URL des panneaux en plein écran.
-  * Correction d’un bug qui pouvait faire réapparaître une vue enregistrée supprimée si vous actualisiez immédiatement après l’avoir supprimée.
-  * Correction d’un bug d’affichage qui provoquait un bref clignotement lors du rechargement d’une page avec le mode sombre activé.
-  * Correction d’un bug qui entraînait des incréments de curseur incorrects lors de l’utilisation de valeurs non monotones.
-  * Ajout d’une case à cocher pratique et d’une notification lors du déplacement de runs entre groupes.
-  * Correction d’un bug où l’utilisation du caractère générique `*` pour le nom de la métrique dans `wandb.define_metric()` ne permettait pas de faire correspondre les métriques contenant `/` dans leur nom.
-  * W&amp;B ne supprime désormais plus les artifacts sources lorsque les portefeuilles de collection sont nettoyés par le ramasse-miettes.
-  * Correction d’un bug qui permettait à tort la saisie au clavier dans les zones de sélection **Allowed types** et **Registry visibility**.
-  * Les cartes de collection affichent désormais le nom complet du type d&#39;artifact au lieu de l&#39;abréger.
-  * Correction d’un bug : cliquer sur **Historique des actions** dans une collection du registre ouvrait incorrectement la vue **Versions**.
-  * Le registre permet désormais d’ajouter des Artifacts de type `job`.
-  * Les tuiles de traçabilité sont désormais plus larges et affichent davantage de texte avant d’être tronqué.
-  * Texte clarifié dans la configuration de l’automatisation au niveau du projet afin d’employer &quot;artifacts&quot; plutôt que le terme du registre &quot;collections&quot;.
-  * Le navigateur d’Artifacts recherche désormais dans tous les artifacts lors d’une recherche par nom, au lieu d’être limité comme auparavant aux 500 premiers artifacts.
-</Update>
-
-<Update label="v0.69.1" description="10 juin 2025">
-  ## Correctifs
-
-  * Vous pouvez désormais définir l’état initial du run lors de la création d’un run avec `Run.create()`, en définissant le paramètre `state` sur `pending` ou `running`.
-  * Correction d’un bug où un clic sur **Historique des actions** ouvrait par erreur la vue **Version**.
-  * Amélioration des performances mémoire du service de stockage Parquet.
-</Update>
-
-<Update label="v0.69.0" description="28 mai 2025">
-  ## Assistance et fin de vie
-
-  * W&amp;B Server v0.56 est arrivé en fin de vie.
-
-  ## Upgrading
-
-  Pour [mettre à niveau](/fr/platform/hosting/server-upgrade-process/#update-with-helm) vers W&amp;B v0.69.x, vous devez utiliser la version v0.31.4+ du chart Helm `operator-wandb`. Sinon, après la mise à niveau, le conteneur `weave-cache-clear` risque de ne pas démarrer. Assurez-vous que votre déploiement utilise les valeurs suivantes :
-
-  ```yaml
-  chart:
-    url: https://charts.wandb.ai
-    name: operator-wandb
-    version: 0.31.4
-  ```
-
-  Si vous avez des questions ou rencontrez des problèmes lors d&#39;une mise à niveau, contactez l&#39;[assistance](mailto:support@wandb.com).
-
-  ## Fonctionnalités
-
-  * Vous pouvez désormais définir directement dans le Workspace un nom d’affichage personnalisé pour un run. Les noms de run personnalisés apparaissent dans tous les graphiques et tableaux, mais uniquement dans votre Workspace, sans aucun impact sur les vues de vos coéquipiers. Vous bénéficiez ainsi d’une vue plus claire et plus épurée dans votre Workspace, sans libellés du type `*...v6-final-restart...`* dans chaque légende et graphique.
-  * Quand vous filtrez ou regroupez des runs, les couleurs peuvent parfois se chevaucher et devenir difficiles à différencier. La nouvelle option **Réattribuer des couleurs aléatoires** du sélecteur de run assigne aléatoirement des couleurs de la palette par défaut à votre sélection actuelle de runs ou à vos groupes, ce qui permet de mieux les distinguer.
-  * Dans les graphiques en courbes, vous pouvez désormais utiliser **Cmd+Click** sur une courbe pour ouvrir la vue d’un seul run dans un nouvel onglet.
-  * Les panneaux vidéo offrent désormais davantage de commandes de lecture pour lancer la lecture, mettre en pause, naviguer dans la vidéo, afficher en plein écran et ajuster la vitesse de lecture.
-  * Les paramètres de tous les types de panneaux multimédias ont été réorganisés et améliorés.
-  * Vous pouvez désormais personnaliser les couleurs des points et de l’arrière-plan des panneaux de nuage de points.
-  * Les comptes de service au niveau de Teams et de l’organisation peuvent désormais interagir avec le registre.
-  * Le lissage amélioré par moyenne mobile exponentielle pondérée (EMA) fournit des [courbes lissées](/fr/models/app/features/panels/line-plot/smoothing) plus fiables lors du traitement de données complètes, non agrégées. Dans la plupart des cas, le lissage est géré côté serveur pour de meilleures performances. Cette fonctionnalité était en aperçu privé dans la version v0.68.x.
-
-  ### Aperçu privé
-
-  Les fonctionnalités en préversion privée sont disponibles sur invitation uniquement. Pour demander l&#39;accès à une préversion privée, contactez l&#39;[assistance](mailto:support@wandb.com) ou votre AISE.
-
-  * Vous pouvez désormais colorer tous vos runs en fonction d’une métrique secondaire, comme la perte ou des métriques d’efficacité personnalisées. Cela crée une échelle de couleurs avec un gradient clair pour l’ensemble de vos runs dans tous les graphiques, ce qui vous permet de repérer plus rapidement les tendances. [Voir une démo vidéo](https://www.loom.com/share/c6ed484899324de991ef7147fd73785d).
-  * Les [modèles d’espace de travail personnel](/fr/models/track/workspaces/#workspace-templates){/* TODO change to a relref after workspace templates docs merge */} vous permettent d’enregistrer les principaux paramètres des graphiques en courbes et de les réappliquer automatiquement dans de nouvelles vues. Ces paramètres incluent la clé de l’axe x, l’algorithme de lissage, le facteur de lissage, le nombre maximal de lignes, l’utilisation ou non du regroupement du sélecteur de run, ainsi que l’agrégation à appliquer.
-
-  ### Weave
-
-  * [Vues enregistrées](/fr/weave/guides/tools/saved-views) simplifient la collaboration en équipe et vous permettent d’enregistrer les paramètres de filtre et de colonne.
-  * Les PDF et les fichiers génériques sont désormais pris en charge.
-  * La nouvelle [`EvaluationLogger` API](/fr/weave/guides/evaluation/evaluation_logger) permet une journalisation flexible des évaluations, dans un style impératif.
-  * Vous pouvez désormais importer des [annotations humaines](/fr/weave/guides/tracking/feedback#add-human-annotations) dans les Datasets de Weave
-  * [Playground](/fr/weave/guides/tools/playground) prend désormais en charge les configurations enregistrées et les prompts.
-  * Les décorateurs sont désormais pris en charge dans TypeScript.
-  * Ajout de la prise en charge des [fonctions génératrices pour le Tracing](/fr/weave/guides/tracking/tracing#trace-sync-%26-async-generator-functions).
-  * Le nouvel utilitaire [`dataset.add_rows`](/fr/weave/reference/python-sdk/#method-add-rows) améliore l’efficacité de l’ajout de lignes à un jeu de données existant.
-  * Pour vous aider à mieux comprendre votre utilisation, les tailles des traces et des objets sont désormais affichées dans l’UI.
-
-  ## Performances
-
-  * Avec le [SDK `wandb`](/fr/models/quickstart/#install-the-wandb-library-and-log-in) v0.19.11, les artifacts se téléchargent désormais en moyenne 3 à 5 fois plus rapidement. Par exemple, un artifact qui se téléchargeait auparavant à environ 100 Mo/s peut désormais être téléchargé à 450 Mo/s ou plus. Les vitesses de téléchargement réelles varient en fonction de facteurs tels que votre réseau et votre infrastructure de stockage.
-  * Amélioration de la mise en cache sur les pages [Projet](/fr/models/track/project-page) et [Paramètres utilisateur](/fr/platform/app/settings-page/user-settings).
-
-  ## Correctifs
-
-  * Amélioration du processus de démarrage du conteneur `weave-cache-clear` pour garantir la compatibilité avec les environnements virtuels Python.
-  * Ajout d’options pour un affichage plus compact des journaux de la console.
-  * Les écrans de chargement de Workspace sont désormais plus explicites.
-  * Lors de l’ajout d’un panneau depuis un Workspace à un rapport, les Reports du projet en cours s’affichent désormais en premier dans la liste des rapports de destination.
-  * Correction de nombreux cas où les axes Y arrondissaient trop les valeurs, au point d’afficher des doublons.
-  * Correction d’un comportement inattendu lors de la saisie de paramètres de lissage non valides.
-  * Suppression de l’avertissement **Partial Media** des panneaux multimédias. Le comportement des panneaux multimédias reste inchangé.
-  * Lors de l&#39;ajout d&#39;un [filtre de run à partir de tags](/fr/models/runs/filter-runs/#filter-runs-with-tags), le filtre est désormais sélectionné par défaut, comme pour le filtrage sur d&#39;autres champs.
-  * Suppression de l’icône de cloche verte qui pouvait apparaître sur les runs actifs dans le run selector.
-  * Suppression de la page System pour les runs individuels.
-  * Le champ de description du projet prend désormais en charge les retours à la ligne.
-  * Correction des URL des anciennes collections du registre de modèles.
-  * Correction d’un bug à cause duquel la visionneuse Netron ne s’étendait pas pour occuper tout l’espace disponible sur la page.
-  * Lorsque vous cliquez sur **Delete** pour un projet, le nom du projet s’affiche désormais dans la fenêtre modale de confirmation.
 </Update>

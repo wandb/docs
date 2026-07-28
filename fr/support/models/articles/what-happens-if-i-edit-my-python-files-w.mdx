@@ -3,10 +3,10 @@ title: "Que se passe-t-il si je modifie mes fichiers Python pendant l’exécuti
 keywords: ["Sweeps"]
 ---
 
-Pendant l’exécution d’un Sweep :
+Le comportement dépend du fichier que vous modifiez. Pendant l’exécution d’un Sweep :
 
 * Si le script `train.py` utilisé par le Sweep est modifié, le Sweep continue d’utiliser le `train.py` original.
-* Si des fichiers référencés par le script `train.py` sont modifiés, comme des fonctions auxiliaires dans le script `helper.py`, le Sweep se met à utiliser la version mise à jour de `helper.py`.
+* Si des fichiers référencés par le script `train.py` sont modifiés, comme des fonctions auxiliaires dans le script `helper.py`, le Sweep utilise la version mise à jour de `helper.py`.
 
 ***
 

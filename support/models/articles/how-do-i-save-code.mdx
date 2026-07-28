@@ -3,7 +3,7 @@ title: "How do I save code?‌"
 keywords: ["Artifacts"]
 ---
 
-Use `save_code=True` in `wandb.init` to save the main script or notebook that launches the run. To save all code for a run, version the code with Artifacts. The following example demonstrates this process:
+Saving code with each run helps you reproduce experiments and track which version of your code produced a given result. Use `save_code=True` in `wandb.init` to save the main script or notebook that launches the run. To save all code for a run, version the code with W&B Artifacts. The following example demonstrates this process:
 
 ```python
 code_artifact = wandb.Artifact(type="code")

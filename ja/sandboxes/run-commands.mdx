@@ -1,21 +1,22 @@
 ---
 title: サンドボックスでコマンドを実行する
 description: サンドボックス環境でコマンドを実行し、出力と終了コードを読み取る方法を学びます。
+keywords: ["Sandbox.run", "Sandbox.exec", "Process.result", "SandboxExecutionError", "stdout", "stderr"]
 ---
 
 <Warning>
-  Serverless Sandboxes は現在プライベートプレビュー中で、招待を受けたユーザーのみご利用いただけます。利用登録を希望する場合は、[サポート](mailto:support@wandb.com) または担当の AISE にお問い合わせください。
+  Serverless Sandboxes は現在パブリックプレビュー中です。
 </Warning>
 
 <br />
 
-[サンドボックスでコマンドを実行し](#run-commands-in-a-sandbox)、[出力と終了コードを読み取り](#read-output-and-exit-codes)、[エラーを確認](#check-for-errors)できます。これらの機能を使用して、サンドボックス内でスクリプト、トレーニングジョブ、その他のプロセスを実行し、その結果をプログラムで確認できます。
+[サンドボックスでコマンドを実行し](#run-commands-in-a-sandbox)、[コマンド出力と終了コードを読み取り](#read-output-and-exit-codes)、[エラーを確認](#check-for-sandbox-execution-errors)できます。これらの機能を使用して、W&amp;B Serverless Sandbox でスクリプト、トレーニングジョブ、その他のプロセスを実行し、その結果をプログラムで確認できます。
 
 <div id="run-commands-in-a-sandbox">
   ## サンドボックスでコマンドを実行する
 </div>
 
-ユースケースに応じて、サンドボックスでコマンドを実行するには次のいずれかのパターンを使用します。
+サンドボックス クライアントは、単一のコマンドを実行する必要があるか、関連するコマンドのシーケンスを実行する必要があるかに応じて、コマンド実行用の 2 つのパターンをサポートします。ユースケースに応じて、サンドボックスでコマンドを実行するには次のいずれかのパターンを使用します。
 
 * [単一のコマンド](#run-a-single-command): コマンドを `Sandbox.run()` に渡し、完了するまで待機するために `Sandbox.wait_until_complete()` を呼び出します。バッチ ジョブ、テスト、またはトレーニングに適しています。
 * [複数のコマンド](#run-multiple-commands-sequentially): 引数なしで `Sandbox.run()` を呼び出し、その後で各ステップごとに `Sandbox.exec()` を使用します。セットアップ、実行、結果の取得を組み合わせるワークフローに適しています。
@@ -57,7 +58,7 @@ with Sandbox.run() as sandbox:
     print(result.stdout)
 ```
 
-`Sandbox.exec()` メソッドは、サンドボックス内でコマンドを実行し、`Process` オブジェクトを返します。返されたオブジェクトを使用して、コマンドの完了を待機し、出力を読み取り、終了コードを確認できます。
+`Sandbox.exec()` メソッドは、サンドボックス内でコマンドを実行し、`Process` オブジェクトを返します。返されたオブジェクトを使用すると、コマンドの完了を待機し、出力を読み取り、終了コードを確認できます。
 
 `Sandbox.exec()` とそのパラメーターの詳細については、CoreWeave Sandboxes のリファレンスドキュメントにある [`Sandbox.exec()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#exec) を参照してください。
 
@@ -81,11 +82,13 @@ with Sandbox.run("sleep", "infinity") as sandbox:
   ## 出力と終了コードを確認する
 </div>
 
-`Sandbox.exec()` は [`Process`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/types/process) オブジェクトを返します。`Process.result()` を呼び出すと、コマンドの完了を待機して結果を取得できます。`Process.result()` には、標準出力 (`stdout`)、標準エラー (`stderr`)、終了コード (`returncode`) が含まれます。
+コマンドを実行した後、その出力を確認し、成功したかどうかをチェックできます。`Sandbox.exec()` は [`Process`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/types/process) オブジェクトを返します。コマンドの完了を待機するには、`Process.result()` を呼び出します。
+
+結果には、標準出力 (`stdout`)、標準エラー (`stderr`)、終了コード (`returncode`) が含まれます。
 
 終了コードを使用して、コマンドが成功したかどうかを判断できます。慣例として、終了コードが 0 の場合は成功を示します。考えられる終了コードとその意味は、コマンドによって異なります。
 
-たとえば、次のコードスニペットは、標準出力 (`stdout`) と終了コード (`returncode`) を出力する Python コマンドを実行します。コマンドの完了後、標準出力、標準エラー、終了コードがコンソールに出力されます。
+たとえば、次のコードスニペットは、標準出力 (`stdout`) と終了コード (`returncode`) を出力する Python コマンドを実行します。コマンドの完了後、このスニペットは標準出力、標準エラー、終了コードをコンソールに出力します。
 
 ```python
 from wandb.sandbox import Sandbox
@@ -100,7 +103,7 @@ with Sandbox.run() as sandbox:
   ## サンドボックス実行エラーを確認する
 </div>
 
-コマンドが 0 以外の終了コードで終了した場合にエラーを発生させるには、`check=True` (`Sandbox.exec(check=True)`) を指定します。コマンドが 0 以外の終了コードで終了すると、[`SandboxExecutionError`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/exceptions/exceptions#sandboxexecutionerror) が発生します。この例では、スクリプト `might_fail.py` を実行して結果を確認します。
+終了コードを手動で確認する代わりに、コマンドが失敗したときに例外を発生させるには、`check=True` を使用します。コマンドが 0 以外の終了コードで終了すると、`Sandbox.exec(check=True)` は [SandboxExecutionError](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/exceptions/exceptions#sandboxexecutionerror) を発生させます。
 
 ```python
 from wandb.sandbox import Sandbox, SandboxExecutionError

@@ -3,12 +3,13 @@
 Add one or more tags to previously saved runs.
 
 Use the Public API to update tags on stored data after the run has finished or
-when you are working outside the run process.
+when you are working outside the run process. This is useful when you need to
+organize or categorize runs retroactively.
 
-To add a new tag to a run, update the "tags"
-property with a new list that includes the existing tags and the new tag(s).
-The run's path consists of entity/project/run_id
-After updating the tags, call the run's `update()` method to save the changes.
+To add a new tag to a run, update the `tags` property with a new list that
+includes the existing tags and the new tags. The run's path consists of
+`entity/project/run_id`. After updating the tags, you must call the run's
+`update()` method to save the changes.
 """
 import wandb
 

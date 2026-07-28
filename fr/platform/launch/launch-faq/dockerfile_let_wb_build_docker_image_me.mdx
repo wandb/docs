@@ -1,26 +1,27 @@
 ---
-title: Puis-je spécifier un Dockerfile et laisser W&B créer une image Docker pour moi ?
+title: Puis-je spécifier un Dockerfile et laisser W&B construire une image Docker pour moi ?
+keywords: ["Dockerfile personnalisé", "build Docker", "utiliser son propre Dockerfile", "build à partir d’un Dockerfile"]
 ---
 
-Cette fonctionnalité convient aux projets dont les dépendances sont stables, mais dont le code change fréquemment.
+Oui. Vous pouvez fournir votre propre Dockerfile et laisser W&amp;B Launch construire l’image pour votre run. Cela vous permet de contrôler l’environnement de build tout en utilisant Launch pour placer des jobs en file d’attente et les exécuter. Cette approche fonctionne bien pour les projets dont les exigences sont stables, mais dont le code change.
 
 <Warning>
-  Configurez votre Dockerfile pour utiliser des montages. Pour plus de détails, consultez la [documentation sur les mounts sur le site Docker Docs](https://docs.docker.com/build/guide/mounts/).
+  Formatez votre Dockerfile de manière à utiliser des montages. Pour plus de détails, voir la [documentation sur les montages Docker](https://docs.docker.com/build/guide/mounts/).
 </Warning>
 
-Après avoir configuré le Dockerfile, indiquez-le à W&amp;B de l&#39;une des trois façons suivantes :
+Après avoir configuré le Dockerfile, indiquez-le à W&amp;B de l’une des manières suivantes :
 
-* Utilisez Dockerfile.wandb
-* Utilisez W&amp;B CLI
+* Utilisez `Dockerfile.wandb`
+* Utilisez la CLI W&amp;B
 * Utilisez W&amp;B App
 
 <Tabs>
   <Tab title="Dockerfile.wandb">
-    Incluez un fichier `Dockerfile.wandb` dans le même répertoire que le point d&#39;entrée du run W&amp;B. W&amp;B utilise ce fichier à la place du Dockerfile intégré.
+    Incluez un fichier `Dockerfile.wandb` dans le même répertoire que le point d’entrée du run W&amp;B. W&amp;B utilise ce fichier à la place du Dockerfile intégré.
   </Tab>
 
   <Tab title="W&B CLI">
-    Utilisez l&#39;option `--dockerfile` avec la commande `wandb launch` pour ajouter un job à une file d&#39;attente :
+    Pour mettre un job en file d’attente, utilisez l’option `--dockerfile` avec la commande `wandb launch` :
 
     ```bash
     wandb launch --dockerfile path/to/Dockerfile
@@ -28,9 +29,9 @@ Après avoir configuré le Dockerfile, indiquez-le à W&amp;B de l&#39;une des t
   </Tab>
 
   <Tab title="W&B App">
-    Lorsque vous ajoutez un job à une file d&#39;attente dans W&amp;B App, indiquez le chemin du Dockerfile dans la section **Overrides**. Saisissez-le sous forme de paire clé-valeur, avec `"dockerfile"` comme clé et le chemin du Dockerfile comme valeur.
+    Lorsque vous ajoutez un job à une file d’attente dans W&amp;B App, fournissez le chemin du Dockerfile dans la section **Overrides**. Saisissez-le sous forme de paire clé-valeur, avec `"dockerfile"` comme clé et le chemin comme valeur.
 
-    Le JSON suivant montre comment inclure un Dockerfile dans un répertoire local :
+    Le JSON suivant montre comment inclure un Dockerfile à partir d’un répertoire local :
 
     ```json title="job Launch W&B App"
     {

@@ -3,16 +3,18 @@ title: "Why does my training hang with distributed training?"
 keywords: ["Experiments", "Run Crashes"]
 ---
 
-There are two common reasons training hangs when using W&B with distributed training:
+This article helps you resolve training hangs when you use W&B with distributed training frameworks, so your runs can start and finish without stalling.
 
-1. **Hanging at the beginning of training**: W&B's multiprocessing can interfere with the multiprocessing from distributed training frameworks.
-2. **Hanging at the end of training**: The W&B process does not know when it needs to exit.
+Two common reasons cause training to stall when you use W&B with distributed training:
 
-## Fix hanging at the start
+- **Stalls at the beginning of training**: W&B's multiprocessing can interfere with the multiprocessing from distributed training frameworks.
+- **Stalls at the end of training**: The W&B process doesn't detect when to exit.
 
-Enable W&B Service, which is the default for W&B SDK `0.13.0` and above. If you are on an older version, upgrade your SDK:
+## Fix hangs at the start
 
-```shell
+If your run stalls as training begins, the cause is usually a conflict between W&B's multiprocessing and the distributed training framework's multiprocessing. To resolve this, enable W&B Service, which is the default for W&B SDK `0.13.0` and later. If you're on an older version, upgrade your SDK:
+
+```bash
 pip install --upgrade wandb
 ```
 
@@ -24,21 +26,23 @@ def main():
     # rest of your script
 ```
 
-For W&B SDK `0.12.4` and below, set the `WANDB_START_METHOD` environment variable:
+For W&B SDK `0.12.4` and earlier, set the `WANDB_START_METHOD` environment variable:
 
 ```bash
 export WANDB_START_METHOD=thread
 ```
 
-## Fix hanging at the end
+After you enable W&B Service (or set the start method on older SDKs), your distributed training run starts without stalling.
 
-Call `wandb.finish()` at the end of your training script to tell W&B that the run is complete:
+## Fix hangs at the end
+
+If your run stalls after training completes, W&B doesn't detect that the run is finished. Call `wandb.finish()` at the end of your training script to signal to W&B that the run is complete:
 
 ```python
 wandb.finish()
 ```
 
-This ensures all data is uploaded and the W&B process exits cleanly.
+This call uploads all data and exits the W&B process cleanly.
 
 For more information, see [Distributed training](/models/track/log/distributed-training/).
 

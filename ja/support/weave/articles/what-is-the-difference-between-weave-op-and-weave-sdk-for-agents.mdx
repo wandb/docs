@@ -1,0 +1,18 @@
+---
+title: "@weave.op と weave.start_session の違いは何ですか？"
+keywords: ["Agents", "Tracing", "weave.op"]
+---
+
+[`@weave.op`](/ja/weave/guides/tracking/tracing) は個々の Python 関数をトレースし、その結果を **Traces** タブに表示します。
+
+Weave の [agentic tracing](/ja/weave/guides/tracking/trace-agents) (`weave.start_session`、`weave.start_turn`、`weave.start_llm`、`weave.start_tool`) は、複数ターンにわたるエージェントとの対話全体をモデル化し、その結果を **Agents** タブに表示します。
+
+どちらも同じ `weave` API の一部です。どちらを選ぶべきかは、関数やパイプラインをトレースするのか、それとも複数ターンのエージェント型アプリケーションをトレースするのかによって決まります。
+
+***
+
+{/* 自動生成: タブバッジ */}
+
+<Badge stroke shape="pill" color="orange" size="md">[エージェント](/ja/support/weave/tags/agents)</Badge><Badge stroke shape="pill" color="orange" size="md">[トレース](/ja/support/weave/tags/tracing)</Badge><Badge stroke shape="pill" color="orange" size="md">[weave.op](/ja/support/weave/tags/weave-op)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

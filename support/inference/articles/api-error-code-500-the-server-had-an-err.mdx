@@ -3,20 +3,18 @@ title: "API error code 500 - The server had an error while processing your reque
 keywords: ["Server Errors"]
 ---
 
-A 500 error with the message "The server had an error while processing your request" indicates an internal server error on the Serverless Inference side.
+A `500` error with the message `The server had an error while processing your request` indicates an internal server error in Serverless Inference.
 
 ## Why this happens
 
-Internal server errors are typically transient issues caused by temporary problems on the server side. These are not caused by your request or configuration.
+Internal server errors are typically transient and originate on the server side. They aren't caused by your request or configuration.
 
 ## What you can do
 
-1. **Retry after a brief wait**
-   - Wait a few seconds and retry your request
-   - Use exponential backoff for automated retries
+To resolve the error, follow these steps:
 
-2. **Contact support if it persists**
-   - If you continue to see 500 errors after multiple retries, contact [W&B support](mailto:support@wandb.com) with details about your request
+1. **Retry after a brief wait.** Wait a few seconds, then retry your request. For automated retries, use exponential backoff.
+2. **Contact support if the error persists.** If you continue to see `500` errors after multiple retries, contact [W&B support](mailto:support@wandb.com) with details about your request.
 
 ---
 

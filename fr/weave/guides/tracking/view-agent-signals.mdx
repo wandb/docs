@@ -1,0 +1,114 @@
+---
+title: "Surveillez vos agents avec des signaux"
+description: "Utilisez les signaux de W&B Weave pour évaluer les tours de conversation des agents, appliquer des tags et mettre en évidence les problèmes de qualité et de sécurité en production."
+keywords: ["signaux", "surveillance des agents", "évaluateurs", "scores", "tags"]
+---
+
+Dans [Agents view](/fr/weave/guides/tracking/view-agent-activity) de W&amp;B Weave, l&#39;onglet Signals affiche des tags et des scores pour les conversations de votre agent. Les signaux mettent en évidence les problèmes de qualité et de sécurité afin de repérer les anomalies, d’identifier des tendances et de mettre en avant les traces qui nécessitent votre attention. Utilisez les signaux pour évaluer automatiquement la qualité des réponses de votre agent, détecter quand un utilisateur est frustré ou signaler du contenu NSFW.
+
+<div id="get-started">
+  ## Premiers pas
+</div>
+
+Pour afficher les signaux de votre projet :
+
+1. Accédez à [https://wandb.ai](https://wandb.ai) et sélectionnez votre projet.
+2. Dans le menu latéral, sélectionnez **Agents** pour afficher toutes les conversations d’agent enregistrées dans votre projet.
+3. Dans la barre d’onglets, sélectionnez **Signals**.
+
+![L’onglet Signals affichant une liste des tours de conversation évalués pour l’agent.](/weave/guides/tracking/imgs/agent-view-signals.png)
+
+<div id="key-terms">
+  ## Termes clés
+</div>
+
+* **Tour de conversation** : Un échange aller-retour entre l’utilisateur et l’agent.
+* **Score** : Un score numérique entre 0,0 et 1,0 attribué à un span correspondant.
+* **Tags** : Des tags attribués aux spans correspondants, comme &quot;user-frustration&quot; ou &quot;nsfw&quot;.
+
+<div id="signals-table">
+  ## Tableau des signaux
+</div>
+
+L’onglet Signals affiche un tableau des tours de conversation évalués de votre agent. Chaque ligne représente le résultat de l’un de vos moniteurs de signaux. Les colonnes suivantes s’affichent par défaut.
+
+| Colonne             | Description                                                                                                                                                                                                                                                   |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Type**            | La partie de la conversation qui est évaluée. Seul `turn` est pris en charge.                                                                                                                                                                                 |
+| **Scorer**          | Le nom du signal qui a produit ce score.                                                                                                                                                                                                                      |
+| **Dernier message** | Un aperçu du dernier message du tour de conversation évalué, avec le rôle affiché en dessous.                                                                                                                                                                 |
+| **Agent**           | L’agent associé au tour de conversation évalué.                                                                                                                                                                                                               |
+| **Scores**          | Le score numérique de 0,0 à 1,0, ou un tag s’il y a correspondance. Nous vous recommandons d’utiliser une échelle cohérente où 1 indique un bon résultat et 0 un mauvais, mais vos évaluateurs peuvent utiliser n’importe quelle échelle que vous définissez. |
+| **Tendance**        | Affiche un graphique intégré montrant l’évolution de ce signal au fil du temps. Affiche soit la valeur moyenne (pour les scores), soit le nombre d’occurrences (pour les tags).                                                                               |
+| **Quand**           | Le moment où le signal a été évalué.                                                                                                                                                                                                                          |
+
+Utilisez le sélecteur de fenêtre temporelle et la barre **Filtre** pour affiner les résultats par évaluateur, agent, plage de score ou période. La chronologie **Volume de scores** affiche le nombre de signaux que Weave a évalués avec un score ou tagués. Elle reflète les lignes affichées dans le tableau et prend en charge le filtrage par glisser-déposer sur la chronologie.
+
+<div id="create-a-new-signal">
+  ## Créer un nouveau signal
+</div>
+
+Pour commencer à évaluer les tours de conversation de votre agent, créez un ou plusieurs signaux. Sélectionnez **+ New signal** pour ouvrir le volet latéral **Créer des signaux**.
+
+Le volet latéral regroupe les signaux disponibles en deux catégories :
+
+* **Tags** : appliquez automatiquement un libellé aux spans correspondants, comme `user-frustration` ou `nsfw`. Utilisez les tags pour catégoriser les spans ou signaler un comportement indésirable. L’interface utilisateur des signaux n’affiche que les lignes des spans ayant reçu au moins un tag. Un signal de tag peut donc s’exécuter correctement même si vous ne voyez aucun résultat.
+* **Scores** : attribuez un score de 0 à 1 aux spans correspondants. Utilisez les scores pour évaluer les performances de l’agent et mesurer les améliorations au fil du temps.
+
+<div id="preset-signals">
+  ### Signaux prédéfinis
+</div>
+
+Chaque catégorie propose des modèles prédéfinis que vous pouvez sélectionner directement. Sélectionnez n’importe quelle combinaison de modèles prédéfinis dans les deux catégories, puis sélectionnez **Créer [*N*] signaux** pour les créer tous en une seule fois avec les paramètres par défaut.
+
+<div id="tags-presets">
+  #### Préréglages de tags
+</div>
+
+| Modèle                                    | Ce qu’il détecte                                                                                                                                                                                                                                                     |
+| ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Frustration de l’utilisateur**          | L’utilisateur montre des signes de frustration, de colère, de confusion ou d’insatisfaction.                                                                                                                                                                         |
+| **Intention malveillante (Jailbreaking)** | L’utilisateur tente de contourner les protections du système, d’extraire du contenu restreint, d’effectuer une injection de prompt, d’utiliser des techniques de jeu de rôle abusives, ou de manipuler l’agent d’une autre manière pour qu’il ignore ses garde-fous. |
+| **NSFW**                                  | L’entrée de l’utilisateur ou la sortie de l’agent contient du contenu sexuel explicite, de la violence explicite ou d’autres éléments inappropriés dans un cadre professionnel.                                                                                      |
+| **Réponse de faible qualité**             | Sortie de l’agent factuellement incorrecte, hors sujet, évasive, répétitive, manquant de justification lorsqu’elle refuse, ou ne répondant pas correctement à la requête de l’utilisateur.                                                                           |
+
+<div id="ratings-presets">
+  #### Préréglages de score
+</div>
+
+| Modèle                               | Ce qu’il évalue                                                                                                                                                   |
+| ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Satisfaction de l’utilisateur**    | Si l’utilisateur est satisfait (feedback positif, poursuite de l’échange, tâche accomplie) ou insatisfait (plaintes, reformulations répétées, abandon).           |
+| **Bonne intention de l’utilisateur** | Si l’intention de l’utilisateur est bénigne et légitime, par opposition aux tentatives de jailbreak, aux requêtes malveillantes ou à l’injection de prompt.       |
+| **Safe-for-Work**                    | Si la conversation est appropriée dans un contexte professionnel, par opposition à un contenu explicite, violent ou autrement inapproprié sur le lieu de travail. |
+| **Qualité de la réponse**            | Si la réponse de l’agent est exacte, complète et répond directement à la requête de l’utilisateur.                                                                |
+
+<div id="custom-signals">
+  ### Signaux personnalisés
+</div>
+
+Dans le volet latéral **Créer des signaux**, vous pouvez, au bas de chacune des catégories **Tags** et **Scores**, créer un signal personnalisé.
+
+Pour définir votre propre signal, sélectionnez **Tags personnalisés** ou **Score personnalisé**. Cela ouvre un écran de configuration avec les champs suivants.
+
+* **Modèle de prompt** : vous pouvez facultativement baser votre scorer sur un ou plusieurs modèles prédéfinis. La sélection de modèles renseigne le **Prompt du scorer** ; vous pouvez combiner plusieurs modèles ou rédiger un prompt de zéro.
+* **Prompt du scorer** : le prompt envoyé au modèle d&#39;inférence lors du scoring. Weave résout les variables du modèle, telles que `{input_messages}`, `{output_messages}`, `{system_instructions}` et `{agent_name}`, pendant le scoring.
+* **Nom du scorer** : le nom d&#39;affichage de ce signal.
+* **Modèle d&#39;inférence** : le LLM à utiliser pour le scoring. [Serverless Inference](/fr/inference/) est utilisé par défaut ; CoreWeave Serverless Inference consomme des crédits de votre compte W&amp;B.
+* **Avancé** : développez cette section pour configurer des options supplémentaires :
+  * **N&#39;évaluer que les tours de conversation correspondant à** : ajoutez un ou plusieurs filtres pour restreindre les tours de conversation évalués par le signal, par exemple par agent, opération, outil ou modèle. Laissez ce champ vide pour évaluer tous les tours de conversation de l&#39;agent. Weave combine plusieurs filtres avec une logique `AND`.
+  * **Taux d&#39;échantillonnage** : pour les agents à fort trafic, réduisez le taux d&#39;échantillonnage afin de n&#39;évaluer qu&#39;une fraction des tours de conversation correspondants, au lieu de tous les évaluer, et ainsi réduire le coût.
+
+Sélectionnez **Créer un signal** pour enregistrer.
+
+<div id="manage-and-edit-signals">
+  ## Gérer et modifier les signaux
+</div>
+
+Si vous avez créé au moins un signal, sélectionnez le bouton des signaux actifs dans la barre d’outils — libellé avec le nombre de signaux actifs, par exemple **1 active signals** — pour ouvrir un volet latéral qui répertorie tous les signaux actifs du projet. Vous pouvez ensuite activer ou désactiver les signaux, les supprimer ou modifier n’importe quel signal. L’éditeur affiche les mêmes champs de configuration qu’un signal personnalisé.
+
+<div id="troubleshoot-signals">
+  ## Résoudre les problèmes liés aux signaux
+</div>
+
+L’activité des signaux s’affiche sous **Traces** dans la barre latérale du projet. Si vous ne voyez pas les correspondances attendues pour les signaux, utilisez le tableau **Traces** pour le diagnostic. Par exemple, vérifiez le nom du scorer ainsi que la colonne **Status** afin de repérer d’éventuelles erreurs. En cas d’erreur d’exécution du scorer, **Status** affiche un indicateur rouge et inclut les détails de l’erreur.

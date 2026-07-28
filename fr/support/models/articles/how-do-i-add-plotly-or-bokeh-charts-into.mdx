@@ -3,15 +3,15 @@ title: "Comment puis-je ajouter des graphiques Plotly ou Bokeh dans Tables ?"
 keywords: ["Experiments", "Tables", "Graphiques"]
 ---
 
-L’intégration directe de figures Plotly ou Bokeh dans des tableaux n’est pas prise en charge. À la place, exportez les figures au format HTML et incluez ce HTML dans le tableau. Vous trouverez ci-dessous des exemples montrant comment procéder avec des graphiques Plotly et Bokeh interactifs.
+L’intégration directe de figures Plotly ou Bokeh dans des tableaux n’est pas prise en charge. Exportez plutôt les figures au format HTML et incluez ce HTML dans le tableau. Les exemples suivants montrent comment procéder avec des graphiques Plotly et Bokeh interactifs.
 
 <Tabs>
-  <Tab title="Utiliser Plotly">
+  <Tab title="Plotly">
     ```python
     import wandb
     import plotly.express as px
 
-    # Initialiser un nouveau run
+    # Initialiser une nouvelle exécution
     with wandb.init(project="log-plotly-fig-tables", name="plotly_html") as run:
 
         # Créer un tableau
@@ -27,16 +27,16 @@ L’intégration directe de figures Plotly ou Bokeh dans des tableaux n’est pa
         # Définir auto_play sur False empêche les graphiques Plotly animés de se lancer automatiquement
         fig.write_html(path_to_plotly_html, auto_play=False)
 
-        # Ajouter la figure Plotly au tableau en tant que fichier HTML
+        # Ajouter la figure Plotly en tant que fichier HTML au tableau
         table.add_data(wandb.Html(path_to_plotly_html))
 
-        # Consigner le tableau
+        # Journaliser le tableau
         run.log({"test_table": table})
 
     ```
   </Tab>
 
-  <Tab title="Utiliser Bokeh">
+  <Tab title="Bokeh">
     ```python
     from scipy.signal import spectrogram
     import holoviews as hv

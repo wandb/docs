@@ -1,6 +1,7 @@
 ---
 description: Déployer la plateforme W&B dans des environnements Kubernetes isolés du réseau et déconnectés
 title: Déployer sur Kubernetes isolé du réseau
+keywords: ["installation en air gap", "déploiement hors ligne", "cluster déconnecté", "registre privé", "OpenShift"]
 ---
 
 import SelfManagedVersionRequirements from "/snippets/fr/_includes/self-managed-version-requirements.mdx";
@@ -16,17 +17,17 @@ import SelfManagedVerifyInstallation from "/snippets/fr/_includes/self-managed-v
   ## Introduction
 </div>
 
-Ce guide fournit des instructions détaillées pour déployer la plateforme W&amp;B dans des environnements gérés par le client, isolés du réseau (isolés du réseau), entièrement déconnectés ou soumis à des restrictions réseau. Les déploiements isolés du réseau sont courants dans :
+Ce guide fournit des instructions détaillées pour déployer la plateforme W&amp;B dans des environnements gérés par le client, isolés du réseau, déconnectés ou soumis à des restrictions réseau. En suivant ce guide, vous configurez un registre de conteneurs interne et un dépôt Helm pour héberger les images et charts W&amp;B, installez l’opérateur Kubernetes W&amp;B et déployez la plateforme W&amp;B sans nécessiter de connectivité Internet sortante. Ce guide s’adresse aux administrateurs de plateforme et aux ingénieurs DevOps qui gèrent une infrastructure Kubernetes dans des réseaux réglementés ou isolés.
 
-* Les installations gouvernementales sécurisées
-* Les établissements financiers soumis à une isolation réseau stricte
-* Les organisations de santé soumises à des exigences de conformité
-* Les environnements de systèmes de contrôle industriels (ICS)
-* Les centres de recherche disposant de réseaux classifiés
+Les déploiements isolés du réseau sont courants dans les environnements suivants :
 
-Utilisez un registre de conteneurs interne et un dépôt Helm pour héberger les images et charts W&amp;B requis. Exécutez ces commandes dans un terminal shell disposant d’un accès approprié au cluster Kubernetes.
+* Les installations gouvernementales sécurisées.
+* Les établissements financiers soumis à une isolation réseau stricte.
+* Les organisations de santé soumises à des exigences de conformité.
+* Les environnements de systèmes de contrôle industriels (ICS).
+* Les centres de recherche disposant de réseaux classifiés.
 
-Vous pouvez adapter ces commandes à n’importe quel outil CI/CD utilisé pour déployer des applications Kubernetes.
+Exécutez ces commandes dans un terminal shell disposant d’un accès approprié au cluster Kubernetes. Vous pouvez adapter ces commandes à n’importe quel outil CI/CD utilisé pour déployer des applications Kubernetes.
 
 Pour les déploiements Kubernetes on-premises standard avec connectivité Internet, voir [Déployer W&amp;B avec l’opérateur Kubernetes](/fr/platform/hosting/self-managed/operator).
 
@@ -80,11 +81,11 @@ Pour des conseils détaillés sur le provisionnement du stockage d’objets, con
   ### Exigences spécifiques aux environnements isolés du réseau
 </div>
 
-En plus des exigences standard ci-dessus, les déploiements isolés du réseau nécessitent :
+En plus des exigences standard précédentes, les déploiements isolés du réseau nécessitent ce qui suit :
 
-* **Registre interne de conteneurs** : un accès à un registre privé de conteneurs (Harbor, JFrog Artifactory, Nexus, etc.) contenant toutes les images W&amp;B requises
-* **Dépôt Helm interne** : un accès à un dépôt privé de chart Helm contenant les charts Helm W&amp;B
-* **Capacité de transfert d’images** : une méthode permettant de transférer des images de conteneur depuis un système connecté à Internet vers votre registre isolé du réseau
+* **Registre interne de conteneurs** : un accès à un registre privé de conteneurs tel que Harbor, JFrog Artifactory ou Nexus, contenant toutes les images W&amp;B requises.
+* **Dépôt Helm interne** : un accès à un dépôt privé de chart Helm contenant les charts Helm W&amp;B.
+* **Capacité de transfert d’images** : une méthode permettant de transférer des images de conteneur depuis un système connecté à Internet vers votre registre isolé du réseau.
 * **Fichier de licence** : une licence W&amp;B Enterprise valide. Pour obtenir une licence (par exemple, depuis une machine connectée à Internet), voir la section [License](/fr/platform/hosting/self-managed/requirements#license) de la page Requirements, ou contactez votre équipe commerciale W&amp;B.
 
 Pour consulter l’ensemble des exigences d’infrastructure, y compris la configuration du réseau et de l’équilibreur de charge, voir l’[architecture de référence](/fr/platform/hosting/self-managed/ref-arch#infrastructure-requirements).
@@ -93,11 +94,13 @@ Pour consulter l’ensemble des exigences d’infrastructure, y compris la confi
   ## Préparez votre environnement isolé du réseau
 </div>
 
+Les étapes suivantes permettent de préparer votre environnement isolé du réseau à héberger les images de conteneur W&amp;B et les charts Helm. Effectuez ces étapes avant d’installer l’opérateur ou de déployer la plateforme.
+
 <div id="step-1-set-up-internal-container-registry">
   ### Étape 1 : Configurer le registre de conteneurs interne
 </div>
 
-Pour réussir un déploiement isolé du réseau, toutes les images de conteneur requises doivent être disponibles dans votre registre de conteneurs isolé du réseau.
+Comme le cluster Kubernetes ne peut pas extraire d’images depuis des registres publics, toutes les images de conteneur requises doivent être disponibles dans votre registre de conteneurs interne isolé du réseau avant le déploiement.
 
 <Note>
   Il vous incombe de suivre les exigences de l’opérateur W&amp;B et de tenir votre registre de conteneurs à jour avec les dernières images. Pour obtenir la liste la plus récente des images de conteneur et des versions requises, référez-vous au chart Helm ou contactez [l’assistance W&amp;B](mailto:support@wandb.com) ou votre ingénieur d’assistance W&amp;B attitré.
@@ -109,10 +112,10 @@ Pour réussir un déploiement isolé du réseau, toutes les images de conteneur 
 
 Les images principales suivantes sont requises :
 
-* [`docker.io/wandb/controller`](https://hub.docker.com/r/wandb/controller) - opérateur Kubernetes W&amp;B
-* [`docker.io/wandb/local`](https://hub.docker.com/r/wandb/local) - serveur d’application W&amp;B
-* [`docker.io/wandb/console`](https://hub.docker.com/r/wandb/console) - console de gestion W&amp;B
-* [`docker.io/wandb/megabinary`](https://hub.docker.com/r/wandb/megabinary) - microservices W&amp;B (API, executor, glue, parquet)
+* [`docker.io/wandb/controller`](https://hub.docker.com/r/wandb/controller): opérateur Kubernetes W&amp;B.
+* [`docker.io/wandb/local`](https://hub.docker.com/r/wandb/local): serveur d’application W&amp;B.
+* [`docker.io/wandb/console`](https://hub.docker.com/r/wandb/console): console de gestion W&amp;B.
+* [`docker.io/wandb/megabinary`](https://hub.docker.com/r/wandb/megabinary): microservices W&amp;B (API, executor, glue, parquet).
 
 <div id="dependency-containers">
   #### Conteneurs de dépendances
@@ -120,10 +123,10 @@ Les images principales suivantes sont requises :
 
 Les images de dépendances tierces suivantes sont requises :
 
-* [`docker.io/bitnamilegacy/redis`](https://hub.docker.com/r/bitnamilegacy/redis) - Requis pour le déploiement local de Redis pendant les phases de test et de développement. Pour les exigences Redis en Production, voir la [section Redis](#redis) dans les prérequis.
-* [`docker.io/otel/opentelemetry-collector-contrib`](https://hub.docker.com/r/otel/opentelemetry-collector-contrib) - Agent OpenTelemetry pour collecter les métriques et les journaux
-* [`quay.io/prometheus/prometheus`](https://quay.io/repository/prometheus/prometheus) - Prometheus pour la collecte de métriques
-* [`quay.io/prometheus-operator/prometheus-config-reloader`](https://quay.io/repository/prometheus-operator/prometheus-config-reloader) - Dépendance Prometheus
+* [`docker.io/bitnamilegacy/redis`](https://hub.docker.com/r/bitnamilegacy/redis): Requis pour le déploiement local de Redis pendant les phases de test et de développement. Pour les exigences Redis en Production, voir la [section Redis](#redis) dans les prérequis.
+* [`docker.io/otel/opentelemetry-collector-contrib`](https://hub.docker.com/r/otel/opentelemetry-collector-contrib): Agent OpenTelemetry pour collecter les métriques et les journaux.
+* [`quay.io/prometheus/prometheus`](https://quay.io/repository/prometheus/prometheus): Prometheus pour la collecte de métriques.
+* [`quay.io/prometheus-operator/prometheus-config-reloader`](https://quay.io/repository/prometheus-operator/prometheus-config-reloader): Dépendance Prometheus.
 
 <div id="get-the-complete-image-list">
   #### Obtenir la liste complète des images
@@ -142,10 +145,10 @@ Pour extraire la liste complète des images et des versions requises depuis le c
 2. Inspectez les fichiers `values.yaml` pour identifier toutes les images de conteneur et leurs versions :
 
    ```bash
-   # Extraire les références d'image du chart de l'opérateur
+   # Extraire les références d'image du chart operator
    helm show values charts/operator | grep -E "repository:|tag:" | grep -v "^#"
 
-   # Extraire les références d'image du chart de la plateforme
+   # Extraire les références d'image du chart platform
    helm show values charts/operator-wandb | grep -E "repository:|tag:" | grep -v "^#"
    ```
 
@@ -173,16 +176,16 @@ Pour extraire la liste complète des images et des versions requises depuis le c
    bitnamilegacy/redis
    ```
 
-   Pour obtenir les tags de version spécifiques à chaque image, utilisez la première commande ci-dessus (`grep -E "repository:|tag:"`) ; elle affichera à la fois les noms des dépôts et les tags de version correspondants.
+   Pour obtenir les tags de version spécifiques à chaque image, utilisez la première commande précédente (`grep -E "repository:|tag:"`), qui affiche à la fois les noms des dépôts et les tags de version correspondants.
 
 <div id="transfer-images-to-air-gapped-registry">
-  #### Transférer les images vers un registre isolé du réseau
+  #### Transférer des images vers un registre isolé du réseau
 </div>
 
-1. Sur un système connecté à Internet, récupérez et enregistrez toutes les images requises.
+1. Sur un système connecté à Internet, téléchargez et enregistrez toutes les images requises.
 
    <Note>
-     Remplacez les numéros de version dans les exemples ci-dessous par les versions réelles issues de l’inspection de votre chart Helm à l’étape 2 ci-dessus. Les versions indiquées ici sont données à titre d’exemple et deviendront obsolètes.
+     Remplacez les numéros de version dans les exemples suivants par les versions réelles obtenues lors de l&#39;inspection de votre chart Helm à l&#39;étape précédente. Les versions indiquées ici sont données à titre d&#39;exemple et deviennent obsolètes au fil du temps.
    </Note>
 
    Utilisez des variables shell pour gérer les versions de manière cohérente :
@@ -193,12 +196,12 @@ Pour extraire la liste complète des images et des versions requises depuis le c
    APP_VERSION="0.59.2"
    CONSOLE_VERSION="2.12.2"
 
-   # Récupérer les images
+   # Télécharger les images
    docker pull wandb/controller:${CONTROLLER_VERSION}
    docker pull wandb/local:${APP_VERSION}
    docker pull wandb/console:${CONSOLE_VERSION}
    docker pull wandb/megabinary:${APP_VERSION}
-   # ... récupérer toutes les autres images requises avec leurs versions
+   # ... télécharger toutes les autres images requises avec leurs versions
 
    # Enregistrer les images dans des fichiers .tar
    docker save wandb/controller:${CONTROLLER_VERSION} -o wandb-controller-${CONTROLLER_VERSION}.tar
@@ -208,9 +211,9 @@ Pour extraire la liste complète des images et des versions requises depuis le c
    # ... enregistrer toutes les autres images
    ```
 
-2. Transférez les fichiers `.tar` vers votre environnement isolé du réseau à l’aide de la méthode approuvée dans votre organisation (clé USB, transfert de fichiers sécurisé, etc.).
+2. Transférez les fichiers `.tar` vers votre environnement isolé du réseau à l&#39;aide de la méthode approuvée, par exemple une clé USB ou un transfert de fichiers sécurisé.
 
-3. Dans votre environnement isolé du réseau, chargez les images et envoyez-les vers votre registre interne :
+3. Dans votre environnement isolé du réseau, chargez les images et poussez-les vers votre registre interne :
 
    ```bash
    # Définir les mêmes variables de version que ci-dessus
@@ -226,26 +229,26 @@ Pour extraire la liste complète des images et des versions requises depuis le c
    docker load -i wandb-megabinary-${APP_VERSION}.tar
    # ... charger toutes les autres images
 
-   # Ajouter un tag pour le registre interne
+   # Étiqueter pour le registre interne
    docker tag wandb/controller:${CONTROLLER_VERSION} ${INTERNAL_REGISTRY}/wandb/controller:${CONTROLLER_VERSION}
    docker tag wandb/local:${APP_VERSION} ${INTERNAL_REGISTRY}/wandb/local:${APP_VERSION}
    docker tag wandb/console:${CONSOLE_VERSION} ${INTERNAL_REGISTRY}/wandb/console:${CONSOLE_VERSION}
    docker tag wandb/megabinary:${APP_VERSION} ${INTERNAL_REGISTRY}/wandb/megabinary:${APP_VERSION}
-   # ... ajouter un tag à toutes les autres images
+   # ... étiqueter toutes les autres images
 
-   # Envoyer vers le registre interne
+   # Pousser vers le registre interne
    docker push ${INTERNAL_REGISTRY}/wandb/controller:${CONTROLLER_VERSION}
    docker push ${INTERNAL_REGISTRY}/wandb/local:${APP_VERSION}
    docker push ${INTERNAL_REGISTRY}/wandb/console:${CONSOLE_VERSION}
    docker push ${INTERNAL_REGISTRY}/wandb/megabinary:${APP_VERSION}
-   # ... envoyer toutes les autres images
+   # ... pousser toutes les autres images
    ```
 
 <div id="step-2-set-up-internal-helm-chart-repository">
   ### Étape 2 : Configurer le dépôt interne de charts Helm
 </div>
 
-En plus des images de conteneur, assurez-vous que les charts Helm suivants sont disponibles dans votre dépôt Helm interne :
+Une fois les images de conteneur en place, l’opérateur Kubernetes doit également avoir accès aux charts Helm W&amp;B. Assurez-vous que les charts Helm suivants sont disponibles dans votre dépôt Helm interne :
 
 * [chart de l’opérateur W&amp;B](https://github.com/wandb/helm-charts/tree/main/charts/operator)
 * [chart de la plateforme W&amp;B](https://github.com/wandb/helm-charts/tree/main/charts/operator-wandb)
@@ -262,7 +265,7 @@ En plus des images de conteneur, assurez-vous que les charts Helm suivants sont 
    helm pull wandb/operator-wandb --version 0.18.0
    ```
 
-2. Transférez les fichiers de chart `.tgz` vers votre environnement isolé du réseau et importez-les dans votre dépôt Helm interne conformément aux procédures de votre dépôt.
+2. Transférez les fichiers de chart `.tgz` vers votre environnement isolé du réseau et téléversez-les dans votre dépôt Helm interne conformément aux procédures de votre dépôt.
 
    Le chart `operator` déploie l’opérateur Kubernetes W&amp;B (Controller Manager). Le chart `operator-wandb` déploie la plateforme W&amp;B à l’aide des valeurs configurées dans la Ressource personnalisée (CR).
 
@@ -270,7 +273,9 @@ En plus des images de conteneur, assurez-vous que les charts Helm suivants sont 
   ### Étape 3 : Configurer l’accès au dépôt Helm
 </div>
 
-1. Dans votre environnement isolé, configurez Helm pour utiliser votre dépôt interne :
+Configurez votre client Helm local dans l’environnement isolé du réseau pour qu’il pointe vers votre dépôt interne, afin que les commandes d’installation suivantes puissent localiser les charts.
+
+1. Dans votre environnement isolé du réseau, configurez Helm pour utiliser votre dépôt interne :
 
    ```bash
    helm repo add local-repo https://charts.yourdomain.com
@@ -285,8 +290,10 @@ En plus des images de conteneur, assurez-vous que les charts Helm suivants sont 
    ```
 
 <div id="deploy-wb-in-air-gapped-environment">
-  ## Déployer W&amp;B dans un environnement isolé (air-gapped)
+  ## Déployer W&amp;B dans un environnement isolé du réseau
 </div>
+
+Une fois votre registre interne et votre dépôt Helm en place, vous pouvez désormais installer l’opérateur Kubernetes, configurer les services externes et déployer la plateforme W&amp;B.
 
 <div id="step-4-install-the-kubernetes-operator">
   ### Étape 4 : Installer l’opérateur Kubernetes
@@ -305,7 +312,7 @@ L’opérateur Kubernetes W&amp;B (controller manager) gère les composants de l
    ```
 
    <Note>
-     Remplacez le dépôt et le tag par les versions réelles que vous avez transférées vers votre registre interne à l’étape 1. La version indiquée ici (`1.13.3`) est un exemple et deviendra obsolète.
+     Remplacez le dépôt et le tag par les versions réelles que vous avez transférées vers votre registre interne à l’étape 1. La version indiquée ici (`1.13.3`) est un exemple et devient obsolète au fil du temps.
    </Note>
 
 2. Installez l’opérateur et la définition de ressource personnalisée (CRD) :
@@ -325,6 +332,8 @@ L’opérateur Kubernetes W&amp;B (controller manager) gère les composants de l
 
    Vous devriez voir le pod de l’opérateur dans l’état `Running`.
 
+L’opérateur Kubernetes W&amp;B est maintenant installé et prêt à déployer la plateforme W&amp;B depuis votre dépôt de charts interne.
+
 Pour plus de détails sur les valeurs prises en charge, voir le [fichier values du dépôt GitHub de l’opérateur Kubernetes](https://github.com/wandb/helm-charts/blob/main/charts/operator/values.yaml).
 
 <div id="step-5-set-up-mysql-database">
@@ -338,18 +347,16 @@ Avant de configurer la Ressource personnalisée W&amp;B, configurez une base de 
 Pour les paramètres de configuration MySQL, voir la [section de configuration MySQL de l’architecture de référence](/fr/platform/hosting/self-managed/ref-arch#mysql-configuration-parameters).
 
 <div id="step-6-configure-wb-custom-resource">
-  ### Étape 6 : Configurer la ressource personnalisée W&amp;B
+  ### Étape 6 : Configurer la Ressource personnalisée W&amp;B
 </div>
 
-Après avoir installé l’opérateur Kubernetes W&amp;B, configurez la ressource personnalisée (CR) pour qu’elle pointe vers votre dépôt Helm interne et votre registre de conteneurs interne.
-
-Cette configuration garantit que l’opérateur Kubernetes utilise votre registre et votre dépôt internes lors du déploiement des composants requis de la plateforme W&amp;B.
+Après avoir installé l’opérateur Kubernetes W&amp;B, configurez la Ressource personnalisée (CR) pour qu’elle pointe vers votre dépôt Helm interne et votre registre de conteneurs interne. Cette configuration garantit que l’opérateur Kubernetes utilise votre registre et votre dépôt internes lors du déploiement des composants requis de la plateforme W&amp;B, au lieu de tenter d’accéder à des sources publiques.
 
 <Note>
-  L’exemple de configuration ci-dessous inclut des tags de version d’image qui deviendront obsolètes. Remplacez toutes les valeurs `tag:` par les versions réelles que vous avez transférées vers votre registre interne à l’étape 1.
+  L’exemple de configuration suivant inclut des tags de version d’image qui deviennent obsolètes au fil du temps. Remplacez toutes les valeurs `tag:` par les versions réelles que vous avez transférées vers votre registre interne à l’étape 1.
 </Note>
 
-Créez un fichier nommé `wandb.yaml` avec le contenu suivant :
+Créez un fichier appelé `wandb.yaml` avec le contenu suivant :
 
 ```yaml
 apiVersion: apps.wandb.com/v1
@@ -383,14 +390,14 @@ spec:
       mysql:
         database: wandb
         host: mysql.yourdomain.com
-        password: <your-mysql-password>
+        password: [YOUR-MYSQL-PASSWORD]
         port: 3306
         user: wandb
       
       redis:
         host: redis.yourdomain.com
         port: 6379
-        password: <your-redis-password>
+        password: [YOUR-REDIS-PASSWORD]
       
       api:
         enabled: true
@@ -463,21 +470,23 @@ spec:
 ```
 
 <Note>
-  Remplacez toutes les valeurs fictives (noms d’hôte, mots de passe, tags, etc.) par vos valeurs de configuration réelles. L’exemple ci-dessus présente les composants les plus couramment utilisés.
+  Remplacez toutes les valeurs fictives, telles que les noms d’hôte, les mots de passe et les tags, par vos valeurs de configuration réelles. L’exemple précédent présente les composants les plus couramment utilisés.
 </Note>
 
-Selon vos besoins de déploiement, vous devrez peut-être également configurer les dépôts d’images pour des composants supplémentaires, tels que :
+Selon vos besoins de déploiement, vous devrez peut-être également configurer les dépôts d’images pour des composants supplémentaires, notamment les suivants :
 
 * `settingsMigrationJob`
 * `weave-trace`
 * `filestream`
 * `flat-runs-table`
 
-Consultez le [fichier values du dépôt Helm W&amp;B](https://github.com/wandb/helm-charts/blob/main/charts/operator-wandb/values.yaml) pour obtenir la liste complète des composants configurables.
+Référez-vous au [fichier de valeurs du dépôt Helm W&amp;B](https://github.com/wandb/helm-charts/blob/main/charts/operator-wandb/values.yaml) pour consulter la liste complète des composants configurables.
 
 <div id="step-7-deploy-the-wb-platform">
   ### Étape 7 : Déployer la plateforme W&amp;B
 </div>
+
+Le fait d&#39;appliquer la Ressource personnalisée déclenche l&#39;installation par l&#39;opérateur des composants de la plateforme W&amp;B définis dans le chart `operator-wandb`, à partir de la configuration et des références d&#39;image de `wandb.yaml`.
 
 1. Appliquez la Ressource personnalisée W&amp;B pour déployer la plateforme :
 
@@ -485,7 +494,7 @@ Consultez le [fichier values du dépôt Helm W&amp;B](https://github.com/wandb/h
    kubectl apply -f wandb.yaml
    ```
 
-2. Surveillez l&#39;avancement du déploiement :
+2. Surveillez la progression du déploiement :
 
    ```bash
    # Surveiller la création des pods
@@ -494,7 +503,7 @@ Consultez le [fichier values du dépôt Helm W&amp;B](https://github.com/wandb/h
    # Vérifier le statut du déploiement
    kubectl get weightsandbiases -n wandb
 
-   # Consulter les journaux de l'opérateur
+   # Afficher les journaux de l'opérateur
    kubectl logs -n wandb deployment/wandb-operator-controller-manager
    ```
 
@@ -504,7 +513,7 @@ Consultez le [fichier values du dépôt Helm W&amp;B](https://github.com/wandb/h
   ## Configuration d’OpenShift
 </div>
 
-W&amp;B prend entièrement en charge le déploiement sur des clusters Kubernetes OpenShift isolés. Les déploiements OpenShift nécessitent une configuration supplémentaire du contexte de sécurité en raison des politiques de sécurité plus strictes d’OpenShift.
+W&amp;B prend en charge le déploiement sur des clusters Kubernetes OpenShift isolés. Les déploiements OpenShift nécessitent une configuration supplémentaire du contexte de sécurité en raison des politiques de sécurité plus strictes d’OpenShift. Si vous effectuez un déploiement sur OpenShift, appliquez les configurations de cette section en plus des étapes précédentes.
 
 <div id="openshift-security-context-constraints">
   ### Contraintes de contexte de sécurité d’OpenShift
@@ -643,8 +652,8 @@ Si votre cluster OpenShift utilise un registre d’images interne avec authentif
    ```bash
    kubectl create secret docker-registry wandb-registry-secret \
      --docker-server=registry.yourdomain.com \
-     --docker-username=<username> \
-     --docker-password=<password> \
+     --docker-username=[USERNAME] \
+     --docker-password=[PASSWORD] \
      --namespace=wandb
    ```
 
@@ -658,13 +667,13 @@ Si votre cluster OpenShift utilise un registre d’images interne avec authentif
    ```
 
 <div id="openshift-complete-example">
-  ### Exemple complet d’OpenShift
+  ### Exemple complet pour OpenShift
 </div>
 
-Voici un exemple complet de CR pour un déploiement OpenShift en environnement isolé :
+L’exemple suivant montre une CR complète pour un déploiement OpenShift isolé du réseau :
 
 <Note>
-  Remplacez toutes les valeurs `tag:` de cet exemple par les versions réelles que vous avez transférées vers votre registre interne à l’étape 1. Les versions indiquées ici sont données à titre d’exemple et deviendront obsolètes.
+  Remplacez toutes les valeurs `tag:` de cet exemple par les versions réelles que vous avez transférées dans votre registre interne à l’étape 1. Les versions indiquées ici sont fournies à titre d’exemple et deviennent obsolètes avec le temps.
 </Note>
 
 ```yaml
@@ -683,11 +692,11 @@ spec:
   values:
     global:
       host: https://wandb.apps.openshift.yourdomain.com
-      license: <your-license>
+      license: [YOUR-LICENSE]
       
       bucket:
-        accessKey: <your-access-key>
-        secretKey: <your-secret-key>
+        accessKey: [YOUR-ACCESS-KEY]
+        secretKey: [YOUR-SECRET-KEY]
         name: s3.yourdomain.com:9000
         path: wandb
         provider: s3
@@ -696,16 +705,16 @@ spec:
       mysql:
         database: wandb
         host: mysql.yourdomain.com
-        password: <your-mysql-password>
+        password: [YOUR-MYSQL-PASSWORD]
         port: 3306
         user: wandb
       
       redis:
         host: redis.yourdomain.com
         port: 6379
-        password: <your-redis-password>
+        password: [YOUR-REDIS-PASSWORD]
 
-    # Spécifique à OpenShift : utiliser les Routes plutôt que l'Ingress
+    # Spécifique à OpenShift : utiliser des Routes plutôt que l'Ingress
     ingress:
       enabled: false
     
@@ -760,14 +769,16 @@ spec:
 ```
 
 <Note>
-  Contactez [l’assistance W&amp;B](mailto:support@wandb.com) ou votre ingénieur d’assistance W&amp;B attitré pour obtenir des exemples complets de configuration d’OpenShift adaptés à vos exigences de sécurité.
+  Contactez [assistance W&amp;B](mailto:support@wandb.com) ou votre ingénieur d’assistance W&amp;B attitré pour obtenir des exemples complets de configuration d’OpenShift adaptés à vos exigences de sécurité.
 </Note>
 
 <div id="verify-your-installation">
   ## Vérifiez votre installation
 </div>
 
-Après avoir déployé W&amp;B, vérifiez que l’installation fonctionne correctement :
+Après avoir déployé W&amp;B, vérifiez que l’installation fonctionne correctement afin de confirmer que la plateforme est accessible, que les pods sont en bon état et que le déploiement utilise uniquement vos ressources internes.
+
+Suivez les étapes générales de vérification, puis effectuez les vérifications supplémentaires propres aux environnements isolés du réseau dans la section suivante.
 
 <SelfManagedVerifyInstallation />
 
@@ -801,19 +812,20 @@ Pour les déploiements isolés du réseau, vérifiez également les points suiva
   ### Erreurs de récupération d’image
 </div>
 
-Si les pods ne parviennent pas à récupérer les images :
+Si les pods ne parviennent pas à récupérer des images, vérifiez les points suivants :
 
-1. Vérifiez que les images existent dans votre registre interne
-2. Vérifiez que le secret de récupération d’image est correctement configuré
-3. Vérifiez la connectivité réseau depuis les nœuds Kubernetes vers le registre
-4. Vérifiez les identifiants d’authentification du registre
+* Vérifiez que les images sont présentes dans votre registre interne.
+* Vérifiez que le secret de récupération d’image est correctement configuré.
+* Vérifiez la connectivité réseau entre les nœuds Kubernetes et le registre.
+* Vérifiez les identifiants d&#39;authentification du registre.
 
-   ```bash
-   # Tester la récupération d’image manuellement
-   kubectl run test-pull --image=registry.yourdomain.com/wandb/local:0.59.2 --namespace=wandb
-   kubectl logs test-pull -n wandb
-   kubectl delete pod test-pull -n wandb
-   ```
+Pour tester manuellement une récupération d’image :
+
+```bash
+kubectl run test-pull --image=registry.yourdomain.com/wandb/local:0.59.2 --namespace=wandb
+kubectl logs test-pull -n wandb
+kubectl delete pod test-pull -n wandb
+```
 
 <div id="openshift-scc-errors">
   ### Erreurs SCC d’OpenShift
@@ -823,9 +835,9 @@ Si des pods échouent en raison d’erreurs d’autorisation sur OpenShift :
 
 ```bash
 # Vérifier quel SCC est utilisé
-oc get pod <pod-name> -n wandb -o yaml | grep scc
+oc get pod [POD-NAME] -n wandb -o yaml | grep scc
 
-# Vérifier les permissions du compte de service
+# Vérifier les autorisations du compte de service
 oc describe scc wandb-scc
 oc get rolebinding -n wandb
 ```
@@ -834,15 +846,15 @@ oc get rolebinding -n wandb
   ### Chart Helm introuvable
 </div>
 
-Si l’opérateur ne parvient pas à trouver le chart de la plateforme :
+Si l’opérateur ne parvient pas à trouver le chart de la plateforme, vérifiez les points suivants :
 
-1. Vérifiez l’URL du dépôt Helm dans la Ressource personnalisée
-2. Vérifiez que le pod de l’opérateur peut accéder à votre dépôt Helm interne
-3. Vérifiez que le chart existe dans votre dépôt :
+* Vérifiez l’URL du dépôt Helm dans la Ressource personnalisée.
+* Vérifiez que le pod de l’opérateur peut accéder à votre dépôt Helm interne.
+* Vérifiez que le chart existe dans votre dépôt :
 
-   ```bash
-   helm search repo local-repo/operator-wandb
-   ```
+  ```bash
+  helm search repo local-repo/operator-wandb
+  ```
 
 <div id="frequently-asked-questions">
   ## Foire aux questions
@@ -885,11 +897,11 @@ spec:
   ### Comment puis-je empêcher les mises à jour automatiques ?
 </div>
 
-Configurez l’opérateur pour qu’il ne mette pas W&amp;B à jour automatiquement :
+Pour configurer l’opérateur afin qu’il ne mette pas W&amp;B à jour automatiquement, procédez comme suit :
 
-1. Définissez `airgapped: true` dans l’installation de l’opérateur (cela désactive les vérifications automatiques de mise à jour)
-2. Gérez les mises à jour de version en mettant à jour manuellement `spec.chart.version` dans votre Ressource personnalisée
-3. Si nécessaire, désactivez les mises à jour automatiques depuis la console système de W&amp;B
+* Définissez `airgapped: true` dans l’installation de l’opérateur (cela désactive les vérifications automatiques de mise à jour).
+* Gérez les mises à jour de version en mettant à jour manuellement `spec.chart.version` dans votre Ressource personnalisée.
+* Si nécessaire, désactivez les mises à jour automatiques depuis la console système de W&amp;B.
 
 Voir [Désactiver les mises à jour automatiques de la version de l’application](/fr/platform/hosting/self-managed/disable-automatic-app-version-updates) pour plus de détails.
 
@@ -909,33 +921,33 @@ Oui. Lorsque `airgapped: true` est défini dans la configuration de l’opérate
 
 Pour mettre à jour W&amp;B :
 
-1. Téléchargez les nouvelles images de conteneur sur un système connecté à Internet
-2. Transférez les images vers votre registre isolé du réseau
-3. Téléversez les nouveaux charts Helm dans votre dépôt interne
-4. Mettez à jour `spec.chart.version` et les tags d’image dans votre Ressource personnalisée
-5. Appliquez la Ressource personnalisée mise à jour
+1. Téléchargez les nouvelles images de conteneur sur un système connecté à Internet.
+2. Transférez les images vers votre registre isolé du réseau.
+3. Téléversez les nouveaux charts Helm dans votre dépôt interne.
+4. Mettez à jour `spec.chart.version` et les tags d’image dans votre Ressource personnalisée.
+5. Appliquez la Ressource personnalisée mise à jour.
 
-   L’opérateur effectuera une mise à jour progressive des composants W&amp;B.
+   L’opérateur effectue une mise à jour progressive des composants W&amp;B.
 
 <div id="next-steps">
   ## Prochaines étapes
 </div>
 
-Après un déploiement réussi :
+Après un déploiement réussi, effectuez les tâches suivantes :
 
-1. **Configurer l&#39;authentification des utilisateurs** : Configurez [SSO](/fr/platform/hosting/iam/sso) ou d&#39;autres méthodes d&#39;authentification
-2. **Mettre en place la supervision** : Configurez la supervision de votre instance W&amp;B et de votre infrastructure
-3. **Planifier les mises à jour** : Consultez le [processus de mise à niveau du serveur](/fr/platform/hosting/server-upgrade-process) et définissez une cadence de mise à jour
-4. **Configurer les sauvegardes** : Mettez en place des procédures de sauvegarde pour votre base de données MySQL
-5. **Documenter votre processus** : Créez des runbooks pour vos procédures spécifiques de mise à jour en environnement isolé
+* **Configurer l&#39;authentification des utilisateurs** : Configurez [SSO](/fr/platform/hosting/iam/sso) ou d&#39;autres méthodes d&#39;authentification.
+* **Mettre en place la supervision** : Configurez la supervision de votre instance W&amp;B et de votre infrastructure.
+* **Planifier les mises à jour** : Consultez le [processus de mise à niveau du serveur](/fr/platform/hosting/server-upgrade-process) et définissez une cadence de mise à jour.
+* **Configurer les sauvegardes** : Mettez en place des procédures de sauvegarde pour votre base de données MySQL.
+* **Documenter votre processus** : Créez des runbooks pour vos procédures spécifiques de mise à jour en environnement isolé.
 
-<div id="getting-help">
+<div id="get-help">
   ## Obtenir de l’aide
 </div>
 
 Si vous rencontrez des problèmes pendant le déploiement :
 
-* Consultez l’[architecture de référence](/fr/platform/hosting/self-managed/ref-arch) pour obtenir des conseils sur l’infrastructure
-* Consultez le [guide de l’opérateur](/fr/platform/hosting/self-managed/operator) pour plus de détails sur la configuration
-* Contactez [l’assistance W&amp;B](mailto:support@wandb.com) ou votre ingénieur d’assistance W&amp;B dédié
-* Pour les problèmes spécifiques à OpenShift, consultez la documentation Red Hat OpenShift
+* Consultez l’[architecture de référence](/fr/platform/hosting/self-managed/ref-arch) pour obtenir des conseils sur l’infrastructure.
+* Consultez le [guide de l’opérateur](/fr/platform/hosting/self-managed/operator) pour plus de détails sur la configuration.
+* Contactez [l’assistance W&amp;B](mailto:support@wandb.com) ou votre ingénieur d’assistance W&amp;B dédié.
+* Pour les problèmes spécifiques à OpenShift, consultez la documentation Red Hat OpenShift.
