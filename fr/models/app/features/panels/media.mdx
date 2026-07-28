@@ -77,18 +77,32 @@ Personnalisez l’apparence générale et le comportement du volet multimédia 
   ### Mise en page
 </div>
 
-Personnalisez l’affichage des éléments individuels du panneau :
+Personnalisez l’affichage des éléments individuels du volet multimédia :
 
-* Limitez éventuellement le **nombre maximal de runs à inclure** dans le panneau.
+* Limitez éventuellement le **nombre maximal de runs à inclure** dans le volet multimédia.
 * Spécifiez éventuellement une **limite d’affichage des médias** pour limiter le nombre d’éléments multimédias à inclure par run.
 * Définissez le **Panel mode** :
   * **Gallery** (par défaut) : spécifiez le nombre de colonnes et indiquez si la grille affiche un seul élément par run (par défaut), par étape ou par index.
   * **Grid** : spécifiez le nombre de colonnes, l’axe x (par défaut, **Log Step**) et l’axe y (par défaut, **Run**).
   * **Compare** : comparez jusqu’à quatre éléments multimédias côte à côte, en les répartissant éventuellement par étape ou par index. Voir [mode de comparaison](#compare-mode) pour plus de détails.
-* **Utiliser la taille d’origine** : si cette option est désactivée (par défaut), W&amp;B met à l’échelle les images et les vidéos du panneau pour qu’elles apparaissent à la même taille. Aucun effet en mode **Compare**.
-* Configurez l’ajustement des médias et le comportement de mise à l’échelle :
-  * **Images** : choisissez l’une des options **Original image**, **Original size** ou **Fit to available space**. Avec cette dernière, W&amp;B met à l’échelle les images du panneau pour occuper autant d’espace que possible. En mode **Gallery**, chaque image remplit la largeur du panneau. En mode **Grid**, chaque image remplit la largeur de la grille. Aucun effet en mode **Compare**.
-  * **Videos** : basculez **Use original size** pour déterminer si les médias doivent être mis à l’échelle afin d’apparaître à la même taille. Si cette option est inactive (par défaut), W&amp;B met à l’échelle les vidéos du panneau pour occuper autant d’espace que possible. En mode **Gallery**, chaque vidéo remplit la largeur du panneau. En mode **Grid**, chaque vidéo remplit la largeur de la grille. Aucun effet en mode **Compare**.
+* Configurez la façon dont W&amp;B ajuste et met à l’échelle les éléments multimédias. Ces paramètres n’ont aucun effet en [mode **Compare**](#compare-mode).
+  * **Images** : définissez **Image fit and resolution** pour contrôler la façon dont W&amp;B affiche les images. Les options disponibles dépendent de votre type de déploiement.
+
+    Sur le Cloud mutualisé de W&amp;B, les options suivantes sont disponibles :
+
+    * **Thumbnails** (par défaut) : utilisez des miniatures pour optimiser la vitesse de chargement.
+    * **Original image** : chargez les images en pleine résolution pour les examiner en détail.
+    * **Fit to available space** : redimensionnez les images en pleine résolution pour les adapter au volet multimédia.
+    * **Original size** : chargez les images en pleine résolution dans leurs dimensions d’origine.
+
+    Sur le Cloud dédié de W&amp;B ou W&amp;B Autogéré, les options suivantes sont disponibles :
+
+    * **Par défaut** (par défaut) : utilisez les dimensions d’image par défaut pour le mode du volet multimédia.
+    * **Fit to available space** : redimensionnez les images en pleine résolution pour les adapter au volet multimédia.
+    * **Original size** : chargez les images en pleine résolution dans leurs dimensions d’origine.
+
+    Sur le Cloud mutualisé, W&amp;B charge toujours les images en pleine résolution dans la vue plein écran, quel que soit ce paramètre.
+  * **Videos** : en mode **Gallery**, activez **Use original size** pour afficher les vidéos dans leurs dimensions d’origine. Si cette option est désactivée (par défaut), W&amp;B met les vidéos à l’échelle pour qu’elles occupent autant d’espace que possible dans le volet multimédia tout en conservant le rapport d’aspect de l’image. En mode **Grid**, chaque vidéo remplit la largeur de la grille.
 * **Système à main droite** : si cette option est activée, les nuages de points utilisent le système à main droite pour tracer les points, plutôt que le système à main gauche par défaut.
 
 <div id="all-media-panels-in-a-section">
