@@ -1,41 +1,44 @@
 ---
 title: scatter()
-namespace: python_sdk_custom_charts
-python_object_type: fonction
+kind: fonction
+namespace: wandb.plot.scatter
 ---
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/scatter.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/scatter.py#L12" />
 
-
-### <kbd>fonction</kbd> `scatter`
+## <kbd>fonction</kbd> wandb.plot.scatter
 
 ```python
-scatter(
-    table: 'wandb.Table',
-    x: 'str',
-    y: 'str',
-    title: 'str' = '',
-    split_table: 'bool' = False
-) → CustomChart
+table: 'wandb.Table',
+x: 'str',
+y: 'str',
+title: 'str' = '',
+split_table: 'bool' = False
 ```
 
-Construit un graphique de dispersion à partir d’un wandb.Table de données.
+Construit un nuage de points à partir d’un wandb.Table de données.
 
-**Arguments :**
+<div id="args">
+  ## Arguments
+</div>
 
-* `table` :  Le tableau W&amp;B contenant les données à visualiser.
-* `x` :  Le nom de la colonne utilisée pour l’axe des x.
-* `y` :  Le nom de la colonne utilisée pour l’axe des y.
-* `title` :  Le titre du nuage de points.
-* `split_table` :  Indique si le tableau doit être placé dans une section distincte de l’interface W&amp;B. Si `True`, le tableau sera affiché dans une section intitulée &quot;Custom Chart Tables&quot;. La valeur par défaut est `False`.
+* `table` : Le tableau W&amp;B contenant les données à visualiser.
+* `x` : Le nom de la colonne utilisée pour l’axe des x.
+* `y` : Le nom de la colonne utilisée pour l’axe des y.
+* `title` : Le titre du nuage de points.
+* `split_table` : Indique si le tableau doit être placé dans une section distincte de l’interface W&amp;B. Si `True`, le tableau sera affiché dans une section intitulée &quot;Custom Chart Tables&quot;. La valeur par défaut est `False`.
 
-**Retourne :**
+<div id="returns">
+  ## Retourne
+</div>
 
-* `CustomChart` :  Un objet de graphique personnalisé qui peut être enregistré dans W&amp;B. Pour enregistrer le graphique, passez-le à `wandb.log()`.
+`CustomChart` :  Un objet de graphique personnalisé qui peut être enregistré dans W&amp;B. Pour enregistrer le graphique, passez-le à `wandb.log()`.
 
-**Exemple :**
+<div id="examples">
+  ## Exemples
+</div>
 
 ```python
 import math
@@ -51,14 +54,14 @@ data = [
 # Créer un tableau W&B avec les colonnes altitude (m) et température (°C)
 table = wandb.Table(data=data, columns=["altitude (m)", "temperature (°C)"])
 
-# Initialiser le run W&B et enregistrer le graphique de dispersion
+# Initialiser le run W&B et enregistrer le nuage de points
 with wandb.init(project="temperature-altitude-scatter") as run:
-    # Créer et enregistrer le graphique de dispersion
+    # Créer et enregistrer le nuage de points
     scatter_plot = wandb.plot.scatter(
-         table=table,
-         x="altitude (m)",
-         y="temperature (°C)",
-         title="Altitude vs Temperature",
+        table=table,
+        x="altitude (m)",
+        y="temperature (°C)",
+        title="Altitude vs Temperature",
     )
     run.log({"altitude-temperature-scatter": scatter_plot})
 ```

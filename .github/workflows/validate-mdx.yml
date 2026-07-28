@@ -6,6 +6,9 @@ on:
       - main
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 concurrency:
   group: validate-mdx-${{ github.ref }}
   cancel-in-progress: true
@@ -25,6 +28,8 @@ jobs:
       - name: Determine if Mintlify validation is needed
         id: scope
         run: |
+          set -euo pipefail
+
           if [ "${{ github.event_name }}" != "pull_request" ]; then
             echo "needs_validation=true" >> "$GITHUB_OUTPUT"
             echo "Runs full validation for push/workflow_dispatch (not a PR diff)."
@@ -34,9 +39,11 @@ jobs:
           head="${{ github.event.pull_request.head.sha }}"
           # Pathspecs do not support regex alternation like *.(mdx|json); filter with grep instead.
           # Includes .json for docs.json / mint.json / OpenAPI specs that affect generated pages.
-          if git diff --name-only "$base" "$head" | grep -Eq '\.(mdx|json|ya?ml|png|jpe?g|webp)$'; then
+          # Disable rename detection so deleting or renaming a relevant file still triggers validation.
+          changed_files=$(git diff --name-only --no-renames "${base}...${head}")
+          if grep -Eq '(\.(mdx|json|ya?ml|png|jpe?g|webp)$|^scripts/mdx-validation/validate-mdx-mintlify\.sh$)' <<< "$changed_files"; then
             echo "needs_validation=true" >> "$GITHUB_OUTPUT"
-            echo "Found changed Mintlify-relevant files (.mdx, config JSON/YAML, OpenAPI JSON, or images); will run Mintlify validation."
+            echo "Found changed Mintlify-relevant files or validation code; will run Mintlify validation."
           else
             echo "needs_validation=false" >> "$GITHUB_OUTPUT"
             echo "No Mintlify-relevant files in this PR diff; skipping Mintlify install and validation."
@@ -45,7 +52,7 @@ jobs:
       - name: No Mintlify-relevant changes — skipping validation
         if: steps.scope.outputs.needs_validation == 'false'
         run: |
-          echo "Check passes: no .mdx, doc JSON/YAML, or image changes in this PR."
+          echo "Check passes: no Mintlify-relevant file or validation code changes in this PR."
 
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         if: steps.scope.outputs.needs_validation == 'true'
@@ -56,9 +63,12 @@ jobs:
         id: npm-config
         if: steps.scope.outputs.needs_validation == 'true'
         run: |
-          echo "date=$(date +%Y)-$(( $(date +%j) / 4 ))" >> "$GITHUB_OUTPUT"
-          echo "npm_prefix=$(npm config get prefix)" >> "$GITHUB_OUTPUT"
-          echo "npm_cache=$(npm config get cache)" >> "$GITHUB_OUTPUT"
+          {
+            # Force base 10 so a zero-padded day of year such as 008 is not parsed as octal.
+            echo "date=$(date +%Y)-$(( 10#$(date +%j) / 4 ))"
+            echo "npm_prefix=$(npm config get prefix)"
+            echo "npm_cache=$(npm config get cache)"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Cache Mintlify CLI
         id: cache-mint
