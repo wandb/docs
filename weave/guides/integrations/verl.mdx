@@ -29,8 +29,8 @@ Then add the following flags to your VERL training command:
 
 - `actor_rollout_ref.rollout.trace.backend=weave`: Selects Weave as the trace backend.
 - `actor_rollout_ref.rollout.mode=async`: Enables async rollout for vLLM or SGLang. Tracing has no effect on synchronous rollouts.
-- `trainer.project_name`: The project you want to log traces and metrics to. 
-- `trainer.experiment_name`: The name of your experiment.
+- `trainer.project_name`: Sets the project you want to log traces and metrics to. 
+- `trainer.experiment_name`: Sets the name of your experiment.
 - `trainer.logger=['console','wandb']`: Enables the wandb logger alongside Weave so metrics and traces appear in the same project.
 
 The resulting command looks like this:
