@@ -5,7 +5,8 @@ Finds pull requests merged into main during the lookback window, collects the
 English .mdx articles those PRs added, and inserts them into the page as
 <Card> entries grouped by month and then by product. Months from the current
 year are top-level headings; months from prior years are collapsed inside an
-<Accordion title="YYYY"> block.
+<Accordion title="YYYY"> block. Month sections older than MAX_AGE_MONTHS are
+dropped on every run, so the page is a rolling six-month window.
 
 The script is idempotent: articles already listed on the page are skipped, so
 overlapping lookback windows never produce duplicate entries.
@@ -17,6 +18,8 @@ Environment variables:
     LOOKBACK_DAYS             How many days of merged PRs to scan (default: 8,
                               one day more than the weekly cadence so runs
                               overlap rather than leave gaps).
+    MAX_AGE_MONTHS            Retention window for listed articles, in
+                              calendar months (default: 6).
 
 Run from the repository root, with the target branch checked out:
     python scripts/new-articles/update_new_articles.py
@@ -31,6 +34,9 @@ import requests
 
 REPO = os.environ.get("GITHUB_REPOSITORY", "wandb/docs")
 LOOKBACK_DAYS = int(os.environ.get("LOOKBACK_DAYS", "8"))
+# Retention window: month sections this many calendar months old or older are
+# dropped from the page on every run.
+MAX_AGE_MONTHS = int(os.environ.get("MAX_AGE_MONTHS", "6"))
 PAGE_PATH = "release-notes/new-articles.mdx"
 START_MARKER = "{/* new-articles:start */}"
 END_MARKER = "{/* new-articles:end */}"
@@ -271,6 +277,25 @@ def render_card(title, url, description):
     return lines
 
 
+def prune_old_months(sections, now=None):
+    """Drop month sections MAX_AGE_MONTHS or more calendar months old.
+
+    Returns the number of articles removed.
+    """
+    now = now or datetime.now(timezone.utc)
+    current_index = now.year * 12 + now.month
+    removed = 0
+    for key in [
+        k for k in sections
+        if current_index - (k[0] * 12 + k[1]) >= MAX_AGE_MONTHS
+    ]:
+        count = sum(len(cards) for cards in sections[key].values())
+        removed += count
+        print(f"  expired {MONTH_NAMES[key[1] - 1]} {key[0]} ({count} articles)")
+        del sections[key]
+    return removed
+
+
 def render_generated_region(sections, current_year):
     """Render sections newest-first, collapsing prior years into accordions."""
     output = []
@@ -360,15 +385,17 @@ def main():
             added += 1
             print(f"  added {url} (PR #{pr['number']}, {merged_at.date()})")
 
-    if added == 0:
-        print("No new articles found; page left unchanged")
+    removed = prune_old_months(sections)
+
+    if added == 0 and removed == 0:
+        print("No new articles and nothing expired; page left unchanged")
         return
 
     current_year = datetime.now(timezone.utc).year
     body = render_generated_region(sections, current_year)
     with open(PAGE_PATH, "w", encoding="utf-8") as f:
         f.write(f"{head}{START_MARKER}\n{body}\n{END_MARKER}{tail}")
-    print(f"Added {added} article(s) to {PAGE_PATH}")
+    print(f"Added {added} and expired {removed} article(s) in {PAGE_PATH}")
 
 
 if __name__ == "__main__":
