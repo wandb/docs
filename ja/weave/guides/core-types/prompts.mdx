@@ -10,6 +10,10 @@ W&amp;B Weave を使うと、プロンプトを作成して公開し、継続的
 
 このページは、Weave で再利用可能なプロンプトオブジェクトを作成し、アプリケーションコードから参照できるように公開したい AI エンジニア向けです。このガイドに従うことで、単一文字列のプロンプトやマルチターンのプロンプトを作成し、実行時の値でパラメーター化して、Weave プロジェクトに公開する方法を学べます。公開済みプロンプトの参照、取得、バージョン管理については、[プロンプトのバージョンの保存と追跡](/ja/weave/guides/core-types/prompts-version.mdx) を参照してください。
 
+<Info>
+  プロンプトオブジェクトを [Registry](/ja/models/registry) の [コレクション](/ja/models/registry/create_collection) にリンクする方法については、[プロンプトをコレクションにリンクする](/ja/models/registry/link_prompt) を参照してください。
+</Info>
+
 プロンプトの要件がシンプルな場合は、組み込みの `weave.StringPrompt` または `weave.MessagesPrompt` クラスを使用できます。より複雑な要件がある場合は、それらのクラス、または基底クラス `weave.Prompt` をサブクラス化し、`format` method をオーバーライドできます。
 
 `weave.publish` でプロンプトを公開すると、Weave プロジェクトの [Prompts ページ](/ja/weave/guides/core-types/prompts-version.mdx#view-prompts) に表示され、あなたや共同作業者が参照して再利用できます。

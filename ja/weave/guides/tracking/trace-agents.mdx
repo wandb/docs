@@ -59,14 +59,14 @@ Weave は、分散トレースのオープン標準である [OpenTelemetry (OTe
 
 Weave では、エージェントの動作を 1 対多の関係からなる階層としてモデル化します。各エージェントは複数の会話を持つことができ、各会話は複数のターンを持つことができ、各ターンは複数の LLM Call を持つことができ、各 LLM Call は複数のツール呼び出しをトリガーできます。
 
-| 概念           | Weave SDK クラス  | OTel スパン タイプ                                                     | 説明                                                  | 参照ページ                                                                                                                              |
-| ------------ | -------------- | ----------------------------------------------------------------- | --------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| エージェント       | *(no class)*   | *(no スパン, grouped by the `agent_name` 属性)*                | Agents タブ内のエージェント型アプリケーション。1 つ以上の会話を含みます            |                                                                                                                                    |
+| 概念           | Weave SDK クラス  | OTel スパン タイプ                                              | 説明                                                  | 参照ページ                                                                                                                                    |
+| ------------ | -------------- | --------------------------------------------------------- | --------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| エージェント       | *(no class)*   | *(no スパン, grouped by the `agent_name` 属性)*                | Agents タブ内のエージェント型アプリケーション。1 つ以上の会話を含みます            |                                                                                                                                          |
 | 会話           | `Conversation` | *(no スパン, turns are grouped by the `conversation_id` 属性)* | 1 つ以上のターンを含む会話または run                               | [Python](/ja/weave/reference/python-sdk#class-conversation) <br /> [TypeScript](/ja/weave/reference/typescript-sdk/classes/conversation) |
-| ターン          | `Turn`         | `invoke_agent`                                                    | 1 つのユーザーメッセージと、それに対するエージェントの完全な応答                   | [Python](/ja/weave/reference/python-sdk#class-turn) <br /> [TypeScript](/ja/weave/reference/typescript-sdk/classes/turn)                 |
-| LLM Call     | `LLM`          | `chat`                                                            | 言語モデル API への 1 回の Call                              | [Python](/ja/weave/reference/python-sdk#class-llm) <br /> [TypeScript](/ja/weave/reference/typescript-sdk/classes/llm)                   |
-| ツール呼び出し      | `Tool`         | `execute_tool`                                                    | LLM の応答によってトリガーされる 1 回のツール呼び出し                      | [Python](/ja/weave/reference/python-sdk#class-tool) <br /> [TypeScript](/ja/weave/reference/typescript-sdk/classes/tool)                 |
-| サブエージェント呼び出し | `SubAgent`     | `invoke_agent`                                                    | ネストされたエージェント呼び出し。通常は、あるエージェントが別のエージェントに委譲する場合に発生します | [Python](/ja/weave/reference/python-sdk#class-subagent) <br /> [TypeScript](/ja/weave/reference/typescript-sdk/classes/subagent)         |
+| ターン          | `Turn`         | `invoke_agent`                                            | 1 つのユーザーメッセージと、それに対するエージェントの完全な応答                   | [Python](/ja/weave/reference/python-sdk#class-turn) <br /> [TypeScript](/ja/weave/reference/typescript-sdk/classes/turn)                 |
+| LLM Call     | `LLM`          | `chat`                                                    | 言語モデル API への 1 回の Call                              | [Python](/ja/weave/reference/python-sdk#class-llm) <br /> [TypeScript](/ja/weave/reference/typescript-sdk/classes/llm)                   |
+| ツール呼び出し      | `Tool`         | `execute_tool`                                            | LLM の応答によってトリガーされる 1 回のツール呼び出し                      | [Python](/ja/weave/reference/python-sdk#class-tool) <br /> [TypeScript](/ja/weave/reference/typescript-sdk/classes/tool)                 |
+| サブエージェント呼び出し | `SubAgent`     | `invoke_agent`                                            | ネストされたエージェント呼び出し。通常は、あるエージェントが別のエージェントに委譲する場合に発生します | [Python](/ja/weave/reference/python-sdk#class-subagent) <br /> [TypeScript](/ja/weave/reference/typescript-sdk/classes/subagent)         |
 
 次の図は、1 つのエージェントに複数の会話が含まれ、1 つの会話に複数のターンが含まれ、その後も同様に続くことを示しています。
 
@@ -108,7 +108,7 @@ flowchart TB
 会話は、親 スパン ではなく、共有された `conversation_id` 属性によって ターン をグループ化します。そのため、各 ターン はそれぞれ独立した OTel トレースを開始します。この設計は、分散トレースと並列実行をサポートします。クライアントは、サーバー側での集約を行わずに、スパン を OTel collector に直接送信します。
 
 <Tip>
-  Claude Agent SDK や Codex などの SDK やハーネスに Weave を統合するには、[Trace agent integrations](/ja/weave/guides/tracking/trace-agent-integrations) を参照してください。Weave は、エージェント構築 SDK やエージェントハーネスのいくつかに自動でパッチを適用するため、すばやく統合できます。
+  Claude Agent SDK や Codex などの SDK やハーネスに Weave を統合するには、[エージェント インテグレーションを選択](/ja/weave/agent-integration-quickstart) を参照してください。Weave は、エージェント構築 SDK やエージェントハーネスのいくつかに自動でパッチを適用するため、すばやく統合できます。
 </Tip>
 
 <div id="agent-tracing-apis">

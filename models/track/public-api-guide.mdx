@@ -9,32 +9,19 @@ import ApiKeySecurity from "/snippets/_includes/api-key-security.mdx";
 
 ## Export data
 
-Use the Public API to export or update data that you have saved to W&B. Before using this API, log data from your script. For more details, see the [Quickstart](/models/quickstart/).
+Use the Public API to export or update data that you have saved to W&B. Before using this API, log data from your script. Check the [Quickstart](/models/quickstart/) for more details.
 
-Common use cases for the Public API include:
+**Use Cases for the Public API**
 
-- **Export data**: Download a dataframe for custom analysis in a Jupyter Notebook. After you have explored the data, you can sync your findings by creating a new analysis run and logging results, for example: `wandb.init(job_type="analysis")`.
-- **Update existing runs**: Update the data logged in association with a W&B run. For example, you might want to update the config of a set of runs to include additional information, like the architecture or a hyperparameter that wasn't originally logged.
+- **Export Data**: Pull down a dataframe for custom analysis in a Jupyter Notebook. Once you have explored the data, you can sync your findings by creating a new analysis run and logging results, for example: `wandb.init(job_type="analysis")`
+- **Update Existing Runs**: You can update the data logged in association with a W&B run. For example, you might want to update the config of a set of runs to include additional information, like the architecture or a hyperparameter that wasn't originally logged.
 
 See the [Generated Reference Docs](/models/ref/python/public-api/) for details on available functions.
-
-### Create an API key
-
-The Public API requires an API key to authenticate requests from your machine to W&B.
-
-<ApiKeyCreate/>
-
-<ApiKeySecurity/>
-
-
-### Find the run path
-
-Most Public API calls identify a run by its run path, which has the form `<entity>/<project>/<run_id>`. To find the run path, open a run page in the app UI and click the **Overview** tab.
 
 
 ### Export run data
 
-Download data from a finished or active run so that you can analyze it outside of W&B. Common usage includes downloading a dataframe for custom analysis in a Jupyter notebook, or using custom logic in an automated environment.
+Download data from a finished or active run. Common usage includes downloading a dataframe for custom analysis in a Jupyter notebook, or using custom logic in an automated environment.
 
 ```python
 import wandb
@@ -43,7 +30,7 @@ api = wandb.Api()
 run = api.run("<entity>/<project>/<run_id>")
 ```
 
-The most-used attributes of a run object are:
+The most commonly used attributes of a run object are:
 
 | Attribute       | Meaning                                                                                                                                                                                                                                                                                                              |
 | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -51,57 +38,13 @@ The most-used attributes of a run object are:
 | `run.history()` | A list of dictionaries meant to store values that change while the model is training such as loss. The command `run.log()` appends to this object.                                                                                                                                                                 |
 | `run.summary`   | A dictionary of information that summarizes the run's results. This can be scalars like accuracy and loss, or large files. By default, `run.log()` sets the summary to the final value of a logged time series. The contents of the summary can also be set directly. Think of the summary as the run's outputs. |
 
-You can also modify or update the data of past runs. By default, a single instance of an api object caches all network requests. If your use case requires real-time information in a running script, call `api.flush()` to get updated values.
+You can also modify or update the data of past runs. By default a single instance of an api object will cache all network requests. If your use case requires real time information in a running script, call `api.flush()` to get updated values.
 
-### Run attributes
-
-The following code snippet shows how to create a run, log some data, and then access the run's attributes:
-
-```python
-import wandb
-import random
-
-with wandb.init(project="public-api-example") as run:
-    n_epochs = 5
-    config = {"n_epochs": n_epochs}
-    run.config.update(config)
-    for n in range(run.config.get("n_epochs")):
-        run.log(
-            {"val": random.randint(0, 1000), "loss": (random.randint(0, 1000) / 1000.00)}
-        )
-```
-
-The following sections show the outputs for the run object attributes accessed in the previous example.
-
-#### `run.config`
-
-```python
-{"n_epochs": 5}
-```
-    
-#### `run.summary`
-
-```python
-{
-    "_step": 4,
-    "_timestamp": 1644345412,
-    "_wandb": {"runtime": 3},
-    "loss": 0.041,
-    "val": 525,
-}
-```
-
-### Sample size
-
-The default history method samples the metrics to a fixed number of samples (the default is 500, which you can change with the `samples` argument). To export all of the data on a large run, use the `run.scan_history()` method. For more details, see the [API Reference](/models/ref/python/public-api).
-
-### Query multiple runs
-
-Use the following examples to fetch and filter multiple runs at once, which is useful when you want to compare runs in a project or aggregate results across an experiment.
+### Querying multiple runs
 
 <Tabs>
 <Tab title="DataFrame and CSVs">
-This example script finds a project and outputs a CSV of runs with name, configs, and summary stats. Replace `<entity>` and `<project>` with your W&B entity and the name of your project, respectively.
+This example script finds a project and outputs a CSV of runs with name, configs and summary stats. Replace `<entity>` and `<project>` with your W&B entity and the name of your project, respectively.
 
 ```python
 import pandas as pd
@@ -135,7 +78,7 @@ run.finish()
 ```
 </Tab>
 <Tab title="MongoDB Style">
-The W&B API also lets you query across runs in a project with `api.runs()`. A common use case is exporting runs data for custom analysis. The query interface is the same as the one [MongoDB uses](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/).
+The W&B API also provides a way for you to query across runs in a project with api.runs(). The most common use case is exporting runs data for custom analysis. The query interface is the same as the one [MongoDB uses](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/).
 
 ```python
 runs = api.runs(
@@ -148,39 +91,29 @@ print(f"Found {len(runs)} runs")
 </Tabs>
 
 
-Calling `api.runs` returns a `Runs` object that is iterable and acts like a list. By default, the object loads 50 runs at a time in sequence as required. To change the number loaded per page, use the `per_page` keyword argument.
+Calling `api.runs` returns a `Runs` object that is iterable and acts like a list. By default the object loads 50 runs at a time in sequence as required, but you can change the number loaded per page with the `per_page` keyword argument.
 
-`api.runs` also accepts an `order` keyword argument. The default order is `-created_at`. To order results in ascending order, specify `+created_at`. You can also sort by config or summary values. For example, `summary.val_acc` or `config.experiment_name`.
+`api.runs` also accepts an `order` keyword argument. The default order is `-created_at`. To order results ascending, specify `+created_at`. You can also sort by config or summary values. For example, `summary.val_acc` or `config.experiment_name`.
 
 ### Error handling
 
-If errors occur while communicating with W&B servers, W&B raises a `wandb.CommError`. To introspect the original exception, use the `exc` attribute.
-
-### Get the latest git commit through the API
-
-To see the latest git commit in the UI, click a run and then click the **Overview** tab on the run page. The commit is also in the file `wandb-metadata.json`. Using the public API, get the git hash with `run.commit`.
+If errors occur while talking to W&B servers a `wandb.CommError` will be raised. The original exception can be introspected via the `exc` attribute.
 
 ### Get a run's name and ID during an active run
 
-After calling `wandb.init()`, you can access the random run ID or the human-readable run name from your script as follows:
+After calling `wandb.init()` you can access the random run ID or the human readable run name from your script like this:
 
-- Unique run ID (8-character hash): `run.id`
+- Unique run ID (8 character hash): `run.id`
 - Random run name (human readable): `run.name`
 
-To set useful identifiers for your runs, follow these recommendations:
+If you're thinking about ways to set useful identifiers for your runs, here's what we recommend:
 
-- **Run ID**: Leave it as the generated hash. The run ID must be unique across runs in your project.
-- **Run name**: Use something short, readable, and preferably unique so that you can tell the difference between lines on your charts.
-- **Run notes**: A good place for a short description of what you're doing in your run. Set this with `wandb.init(notes="your notes here")`.
-- **Run tags**: Track things dynamically in run tags, and use filters in the UI to filter your table down to only the runs you care about. Set tags from your script and then edit them in the UI, both in the runs table and the **Overview** tab of the run page. For details, see [Tag runs](/models/runs/tags/).
+- **Run ID**: leave it as the generated hash. This needs to be unique across runs in your project.
+- **Run name**: This should be something short, readable, and preferably unique so that you can tell the difference between different lines on your charts.
+- **Run notes**: This is a great place to put a quick description of what you're doing in your run. You can set this with `wandb.init(notes="your notes here")`
+- **Run tags**: Track things dynamically in run tags, and use filters in the UI to filter your table down to just the runs you care about. You can set tags from your script and then edit them in the UI, both in the runs table and the overview tab of the run page. See the detailed instructions [here](/models/runs/tags/).
 
-## Public API examples
-
-The following sections show common patterns for working with the Public API, including reading and filtering runs, updating run data, and downloading files.
-
-### Export data to visualize in matplotlib or seaborn
-
-For common export patterns, see the [API examples](/models/ref/python/public-api/). To download a CSV from your browser, click the download button on a custom plot or on the expanded runs table.
+## Public API Examples
 
 ### Read metrics from a run
 
@@ -197,22 +130,9 @@ if run.state == "finished":
         print(row["_timestamp"], row["accuracy"])
 ```
 
-### Filter runs
-
-To filter runs, use the MongoDB Query Language.
-
-#### Date
-
-```python
-runs = api.runs(
-    "<entity>/<project>",
-    {"$and": [{"created_at": {"$lt": "YYYY-MM-DDT##", "$gt": "YYYY-MM-DDT##"}}]},
-)
-```
-
 ### Read specific metrics from a run
 
-To retrieve specific metrics from a run, use the `keys` argument. The default number of samples when using `run.history()` is 500. Logged steps that don't include a specific metric appear in the output dataframe as `NaN`. The `keys` argument causes the API to sample steps that include the listed metric keys more frequently.
+To pull specific metrics from a run, use the `keys` argument. The default number of samples when using `run.history()` is 500. Logged steps that do not include a specific metric will appear in the output dataframe as `NaN`. The `keys` argument will cause the API to sample steps that include the listed metric keys more frequently.
 
 ```python
 import wandb
@@ -227,7 +147,7 @@ if run.state == "finished":
 
 ### Compare two runs
 
-This example outputs the config parameters that differ between `run1` and `run2`.
+This will output the config parameters that are different between `run1` and `run2`.
 
 ```python
 import pandas as pd
@@ -248,7 +168,7 @@ print(df[df[run1.name] != df[run2.name]])
 
 Outputs:
 
-```text
+```
               c_10_sgd_0.025_0.01_long_switch base_adam_4_conv_2fc
 batch_size                                 32                   16
 n_conv_layers                               5                    4
@@ -257,7 +177,7 @@ optimizer                             rmsprop                 adam
 
 ### Update metrics for a run, after the run has finished
 
-This example sets the accuracy of a previous run to `0.9`. It also modifies the accuracy histogram of a previous run to be the histogram of `numpy_array`.
+This example sets the accuracy of a previous run to `0.9`:
 
 ```python
 import wandb
@@ -266,7 +186,6 @@ api = wandb.Api()
 
 run = api.run("<entity>/<project>/<run_id>")
 run.summary["accuracy"] = 0.9
-run.summary["accuracy_histogram"] = wandb.Histogram(numpy_array)
 run.summary.update()
 ```
 
@@ -286,10 +205,8 @@ run.summary.update()
 ```
 
 <Note>
-Renaming a column only applies to tables. Charts still refer to metrics by their original names.
+Renaming a column only applies to tables. Charts will still refer to metrics by their original names.
 </Note>
-
-
 
 ### Update config for an existing run
 
@@ -305,9 +222,11 @@ run.config["key"] = updated_value
 run.update()
 ```
 
+See [Configure experiments](/models/track/config#existing-run) for more information.
+
 ### Export system resource consumptions to a CSV file
 
-The following snippet finds the system resource consumptions and saves them to a CSV.
+The snippet below would find the system resource consumptions and then, save them to a CSV.
 
 ```python
 import wandb
@@ -319,7 +238,7 @@ system_metrics.to_csv("sys_metrics.csv")
 
 ### Get unsampled metric data
 
-When you retrieve data from history, by default it's sampled to 500 points. To get all the logged data points, use `run.scan_history()`. The following example downloads all the `loss` data points logged in history.
+When you pull data from history, by default it's sampled to 500 points. Get all the logged data points using `run.scan_history()`. Here's an example downloading all the `loss` data points logged in history.
 
 ```python
 import wandb
@@ -350,7 +269,7 @@ run.scan_history(keys=sorted(cols), page_size=100)
 
 ### Export metrics from all runs in a project to a CSV file
 
-This script downloads the runs in a project and produces a dataframe and a CSV of runs including their names, configs, and summary stats. Replace `<entity>` and `<project>` with your W&B entity and the name of your project, respectively.
+This script pulls down the runs in a project and produces a dataframe and a CSV of runs including their names, configs, and summary stats. Replace `<entity>` and `<project>` with your W&B entity and the name of your project, respectively.
 
 ```python
 import pandas as pd
@@ -396,7 +315,7 @@ start_time = run.created_at
 
 ### Upload files to a finished run
 
-The following code snippet uploads a selected file to a finished run.
+The code snippet below uploads a selected file to a finished run.
 
 ```python
 import wandb
@@ -514,7 +433,7 @@ system_metrics.to_csv("sys_metrics.csv")
 
 ### Update summary metrics
 
-To update summary metrics, pass a dictionary.
+You can pass a dictionary to update summary metrics.
 
 ```python
 summary.update({"key": val})
@@ -522,7 +441,7 @@ summary.update({"key": val})
 
 ### Get the command that ran the run
 
-Each run captures the command that launched it on the run overview page. To retrieve this command from the API, run the following:
+Each run captures the command that launched it on the run overview page. To pull this command down from the API, you can run:
 
 ```python
 import wandb
@@ -534,3 +453,7 @@ run = api.run("<entity>/<project>/<run_id>")
 meta = json.load(run.file("wandb-metadata.json").download())
 program = ["python"] + [meta["program"]] + meta["args"]
 ```
+
+{/* ### Sampling
+
+The default history method samples the metrics to a fixed number of samples (the default is 500, you can change this with the `samples` argument). If you want to export all of the data on a large run, you can use the `run.scan_history()` method. For more details see the [API Reference](/models/ref/python/public-api).  */}

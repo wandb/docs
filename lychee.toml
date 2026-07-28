@@ -5,7 +5,7 @@
 # supplies the repository root and Mintlify's .mdx fallback extension at runtime.
 
 # Don't check heading anchors (fragments) - Mintlify generates these dynamically
-include_fragments = false
+include_fragments = "none"
 
 # Suppress progress bars in CI for cleaner logs
 no_progress = true

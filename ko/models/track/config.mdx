@@ -142,7 +142,7 @@ if __name__ == "__main__":
         "-e", "--epochs", type=int, default=50, help="Number of training epochs"
     )
     parser.add_argument(
-        "-lr", "--learning_rate", type=int, default=0.001, help="Learning rate"
+        "-lr", "--learning_rate", type=float, default=0.001, help="Learning rate"
     )
 
     args = parser.parse_args()
@@ -153,7 +153,9 @@ if __name__ == "__main__":
   ### 스크립트 전체에서 설정하기
 </div>
 
-스크립트 전체에 걸쳐 설정 객체에 파라미터를 더 추가할 수 있습니다. 다음 코드 스니펫는 설정 객체에 새 키-값 쌍을 추가하는 방법을 보여줍니다.
+스크립트 전체에 걸쳐 설정 객체에 파라미터를 더 추가할 수 있습니다.
+
+다음 코드 스니펫은 기존 설정 객체에 새 키-값 쌍을 추가하는 방법을 보여줍니다:
 
 ```python
 import wandb
@@ -171,16 +173,30 @@ config = {
 # W&B를 초기화할 때 설정 딕셔너리 전달
 with wandb.init(project="config_example", config=config) as run:
     # W&B 초기화 후 설정 업데이트
-    run.config["dropout"] = 0.2
-    run.config.epochs = 4
+    run.config["epochs"] = 4
     run.config["batch_size"] = 32
 ```
 
-한 번에 여러 값을 업데이트할 수 있습니다:
+한 번에 여러 값을 추가할 수 있습니다. 다음 코드 스니펫은 기존 설정 객체에서 여러 키-값 쌍을 업데이트하는 방법을 보여줍니다:
 
 ```python
-run.config.update({"lr": 0.1, "channels": 16})
+# 설정 딕셔너리 객체 정의
+config = {
+    "channels": 24,
+    "lr": 1.0,
+}
+
+with wandb.init(project="config_example", config=config) as run:
+    run.config.update(
+        {
+            "lr": 0.1,
+            "channels": 16,
+        },
+        allow_val_change=True,
+    )
 ```
+
+기존 키의 값을 업데이트하려면 `allow_val_change=True`를 설정해야 합니다. 이 파라미터를 설정하지 않으면 기존 키의 값을 업데이트하려고 할 때 W&amp;B에서 오류가 발생합니다.
 
 <div id="set-the-configuration-after-your-run-finishes">
   ### run이 종료된 후 설정하기

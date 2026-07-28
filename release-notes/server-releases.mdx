@@ -13,6 +13,101 @@ This page includes release notes for supported releases of W&B Server.
 
 <EolReminder/>
 
+<Update label="v0.83.0" description="July 22, 2026">
+W&B Server 0.83.0 makes the Registry cross-platform accessible. On Dedicated Cloud, Weave users can now use the Registry without a Models seat, Weave prompts can be published to the Registry for versioning and reuse across an organization, and organization-level Registry access is managed through a new SCIM entitlement. This release also expands administrative controls over team visibility, service accounts, and usage.
+
+## Support and end of life
+
+- W&B Server v0.71 has reached end of life.
+
+## Features
+
+- Team admins can now view team-level [usage and billing](/platform/app/settings-page/billing-settings#plan-usage) charts, including an overages banner and searchable team selection, and set spend limits.
+- When searching for panels, you can now exclude panels whose names match a regex pattern from your search results. The filter remains active until you remove it, so you can use it to narrow a workspace down to the panels that matter most.
+    <Frame>
+    ![Excluding panels from search results with a regex pattern](/images/release-notes/v0-83-0/exclude-panels-by-regex.png)
+    </Frame>
+- When you work with nested [run groups](/models/runs/grouping#organize-runs-into-groups), you can now color all the child groups under a parent group at once. Click the icon next to a parent run group's name to color every run in the hierarchy. You can distinguish parent groups at a glance while distinct colors flow down to all subgroups.
+    <Frame>
+    ![Coloring all runs in a nested run group hierarchy with one click](/images/release-notes/v0-83-0/color-nested-run-groups.gif)
+    </Frame>
+    - If you turn off **Use grouping from the runs table in charts**, the color carries through to the individual lines, so you can see each run while keeping the parent group's color scheme intact.
+    - Click **Reset group colors** to return to the default coloring.
+- In a workspace, you can now hide the sidebar directly from the page by clicking the **Hide sidebar** control (<Icon icon="angle-double-right" iconType="solid" />) without first opening the action menu (<Icon icon="ellipsis" iconType="solid" />).
+- When viewing a large [log file](/models/app/console-logs), click **Top** or press **Cmd+Home** to scroll to the oldest log, and click **Current** or press **Cmd+End** to scroll to the newest log.
+- Improved the responsiveness of organization membership tables, team project tables, and sweep tables.
+- Improved the responsiveness and usability of the metric panel editor.
+- Added baseline metrics for fork history recompute.
+- You can now filter and search artifacts by virtual version aliases. Fuzzy matching isn't yet supported.
+- Added counts of registries and artifacts per organization.
+
+### Automations
+
+These features are available in Dedicated Cloud only.
+
+- **Automation Hub** centralizes the creation and management of [automations](/models/automations#automations-overview) across projects and registries. Find it in the **Core** section of the sidebar.
+- An automation can now be scoped to an organization, a team, a project, a registry, or a collection. This eliminates the need to duplicate an automation to achieve broad coverage. When creating an automation, click **Edit scopes**.
+
+### Registry
+
+These features are available in Dedicated Cloud only.
+
+- All Models and Weave users in an organization now have Registry access by default. Existing per-registry permissions are unchanged. Administrators can revoke a user's organization-level Registry access through SCIM. See [Update Registry access](/platform/hosting/iam/scim#update-registry-access).
+- Weave [prompts](/weave/guides/core-types/prompts#create-prompt-objects) (`StringPrompt` and `MessagesPrompt`) can now be added to the Registry, so you can version, alias, and reuse prompts across your organization alongside model artifacts.
+- Improved [artifact collection](/models/registry/create_collection) overview editing and version grid selection. Auto-generate rich collection cards with dynamic artifact panels for more context.
+
+### Weave
+
+- Added a preconfigured signal menu to the **New agent** signal drawer.
+- Token costs are now shown in the UI.
+- Agent reactions (thumbs-up/thumbs-down) now save as tags instead of emoji reactions, so they appear alongside scorer tags and you can filter and chart them by agent.
+- Signals and Playground agents are now hidden by default.
+- Moved dataset manipulation to the [**Evaluations** page](/weave/guides/core-types/evaluations) and improved the experience of creating datapoints.
+- Added an [audio](/weave/cookbooks/audio_with_weave#audio-with-weave) player to agent conversations, including a new **Play all** control that plays each file in sequence.
+- Improved the [**Agents**](/weave/custom-agents-quickstart) tab.
+- Added a **Spans** minimap to agent conversations, with turn-anchored feedback data.
+- Added copy controls to JSON embedded in user messages.
+- Restored tags as the default agent signal type.
+- Scoring-worker spans are now annotated with entity, project, scorer, and monitor details.
+- In the **Agents** view, you can now link to individual spans within conversations.
+
+## Performance improvements
+
+- Improved the performance and efficiency of panel hovering and highlighting interactions.
+- Improved the efficiency of workspace history key aggregation.
+- Improved the performance of loading many artifacts in the **Artifacts** sidebar.
+- Improved the throughput of the Weave scoring consumer loop.
+- Improved performance and thread-pool sizing when Weave batch-inserts many worker judge-call spans.
+
+## Security
+
+**SCIM and access management**
+
+- Registry access is now a distinct entitlement, decoupled from Models seats. Administrators can grant or revoke a user's organization-level Registry access without changing their Models seat or Weave role. Setting `modelsSeat` to `none` no longer revokes Registry access when the user lacks the Weave role. See [Update Registry access](/platform/hosting/iam/scim#update-registry-access).
+- Administrators can now disable the creation of team service accounts by setting the environment variable `GORILLA_DISABLE_TEAM_SERVICE_ACCOUNT_CREATION` to `true`.
+
+**Team and organization visibility**
+
+- When **Enforce team visibility restrictions** is active:
+    - Attempting to view a team member's user profile now returns an HTTP `404` response, unless the viewer is a member of the team or an organization or instance admin.
+    - In the **Organization dashboard**, access to the **Users** and **Teams** tabs is now limited to organization admins.
+- Service account visibility is now restricted based on team and organization role:
+    - Organization service accounts are visible only to organization admins. Team service accounts are visible only to team members and organization admins.
+    - Team member counts now exclude service accounts.
+
+**Access control and hardening**
+
+- Sensitive license details and object storage credentials are now redacted from startup config logs.
+
+## Fixes
+
+- Fixed a bug where filters in a report list applied to each page individually instead of across all reports.
+- Fixed a bug where hidden runs could appear in a parallel coordinates plot.
+- Fixed a bug where run automation options could appear for entity-scoped automations.
+- Fixed a bug that could prevent files uploaded to a finished run through the API from appearing on the run's page. Requires W&B SDK v0.28.1 or later.
+
+</Update>
+
 <Update label="v0.82.2" description="July 7, 2026">
 ## Fixes
 
@@ -886,61 +981,4 @@ W&B 0.72 includes fixes for line plots and media panels, as well as improvements
 - Fixed a bug that could cause bounding boxes to render outside the media in a media panel instead of overlaying the media.
 - Fixed a bug where the Google Agent Development Kit integration did not support Weave Threads.
 - Fixed a bug where the **Attributes** column was missing from Weave traces submitted through OpenTelemetry.
-</Update>
-
-<Update label="v0.71.0" description="July 29, 2025">
-With W&B Server 0.71, Registry is turned on by default for all organizations. For more details about the staged Registry rollout, see the relevant note in Features. This release brings several improvements and fixes to workspaces: Keep media panels with a common step slider in sync, navigate through full-screen panels more efficiently, and find more details about a run’s total duration and time actively running in the Run Overview page. Automations have been enhanced, and you can now trigger an automation based on an artifact version’s tags. {/* more */}
-
-## Support and end of life
-- W&B Server v0.57 has reached end of life.
-
-## Upcoming changes
-- We’re optimizing our rendering behavior in the workspace to provide faster loading in workspaces with many panels, as well as more responsive and accurate drag-and-drop of panels in workspaces. **As part of this, we plan to remove the “Custom grid” layout in workspace sections in the next (0.72) release.** Custom grids will remain available in Reports. Reach out to your W&B team or [support](mailto:support@wandb.ai) for any questions or concerns.
-- In an upcoming release, we will align multi-run and single-run workspace views, so when you drill into a single run, you’ll see the same layout and configuration of panels as you’ve configured for the multi-run view, including any custom charts, layouts, and settings. The goal is help you stay in context and avoid re-work around configuring your views. However, this will remove the ability to customize unique single-run views, isolated from the rest of the workspace. Reach out to your W&B team or [support](mailto:support@wandb.ai) for any questions about the migration.
-- Over the next several releases, we will continue migrating existing team-level Model Registry to W&B Registry. For details and a reminder about the timeline, see the [W&B Registry GA announcement](#registry_ga_announcement) below.
-
-## Features
-- <a id="registry_ga_announcement" aria-label="W&B Registry GA announcement"></a> We're migrating existing team-level Model Registry to W&B Registry in stages over the next several releases. **No action is needed on your end; W&B will automatically copy Model Registry assets for each team to a corresponding automatically-created team-level private registry.**  Existing references to model collections in your old team-level Model Registry will still work.
-    1. In Server v0.71 (this release), Registry is now turned on by default for all organizations.
-    2. Server v0.73 (August) will include an opt-out environment variable that will execute this migration automatically during the upgrade. Migration takes between 5 and 30 minutes for most organizations. During the migration, linking artifacts to either the old team’s Model Registry or the new Registry will fail with an error. **Artifact logging and retrieval will not be affected**.
-    3. In Server v0.74 (September), we will remove this flag and migration will happen during the upgrade.
-
-    We’re optimizing for a seamless, minimally-inconveniencing upgrade to a powerful new experience. Reach out to your W&B for any questions about the migration.
-- An automation can now be triggered by adding a tag to an artifact. See [Artifact events](/models/automations/automation-events/#artifact-events).
-- When viewing a panel in full screen, view the next or previous panel in the section using the **Previous** and **Next** buttons or the left and right arrow keys.
-- When viewing a media panel in full screen, move the step slider with **CMD + left or right arrow** keys (macOS) or **Ctrl + left or right arrow** keys (Windows / Linux).
-- You can now synchronize media panels with the same step slider key so that when you advance the step slider in one media panel, the step sliders for other panels also advance. Open the workspace or section settings, go to **Media**, click the **Sync** tab, then turn on **Sync slider by key (Step)**.
-- The Run Comparer includes a new **Meta** section with metadata about the run, such as the command, Python version, and GPU type.
-
-### Weave
-- The **Trace plots** tool allows you to explore, visualize, and debug trace-level metrics like latency, cost, or tokens over time using custom interactive charts. [Learn more](/weave/guides/tracking/trace-plots).
-- **Online Evaluations**: Monitor your traces in Dedicated Cloud by attaching Monitors to your incoming traces. Monitors run in the background as LLM judges and score a subset of calls that you specify. Use Monitors to track production behavior, catch regressions, collect real-world production data, and more. [Learn more](/weave/guides/tracking/trace-plots).
-- Added [AutoGen](/weave/guides/integrations/autogen) and [LlamaIndex](/weave/guides/integrations/llamaindex) integrations. _AutoGen_ is a framework from Microsoft for building AI agents and applications, with components for conversational AI, core multi-agent functionalities, and integrations with external services, and tools for no-code agent prototyping. _LlamaIndex_ is a powerful framework for building LLM-driven applications like RAG systems, chatbots, and agents.
-- Improved Integrations with OpenAI, LangChain, ChromaDB, Verdict, including:
-  - Document view for Langchain and ChromaDB.
-  - Chat view rendering for LangChain.
-  - A new export format for OpenAI.
-- Added support to the TypeScript SDK for creating and publishing prompts. [Learn more](/weave/guides/core-types/prompts).
-- The new `Content` class allows you safely to upload data of any MIME type, with automatic Base-64 encoding, automatic metadata extraction, and more.
-
-## Fixes
-- A run’s **Overview** page now displays the run’s uptime and tracked hours. A run’s *uptime* represents the run’s total duration from start to finish, while the run’s *tracked hours* represent the duration of time that the run was actively running experiments or computations.
-- When you zoom into a line plot, then open it in full screen mode, the full screen plot now correctly maintains the same zoomed-in view.
-- Fixed a bug where updating the number of groups shown in a plot did not update the plot.
-- When **Show Original** is selected in line plots, the original unsmoothed line is now dimmer than the smoothed line.
-- Full fidelity line plots now show the number of runs in the plot.
-- Fixed a bug that could unexpectedly convert a plot that is explicitly set to a line plot to a bar plot when only one value is present per run.
-- X-axis expressions now support nested config fields.
-- The **Registry** link has been removed from the sidebar on the **Artifacts** page. To access Registry, click **Home**, then click **Registry**.
-- Line plots in a workspace or section can optionally show the bin range in the tooltip when you hover over a point. Open the workspace or section settings, click **Line plots**, go to the **Display preferences** tab, then turn on **Show bin range in tooltip**.
-- Fixed a bug when clicking a link in the **Registry** artifact lineage page would update the URL and parameters in the browser but not update the page contents. The UI now updates when the URL changes.
-- Fixed a bug in **Registry** where collection tables were sorted as strings instead of floats.
-- Fixed a bug in **Registry** where the lineage info drawer would always show the latest version for the selected artifact, even when a different version was selected.
-- Fixed a mobile display bug where the panel search bar was missing.
-- When you sort the run selector by any attribute with coloring by key on, the top runs in the plot are now colored correctly.
-- When using grouped runs, parallel coordinate plots now correctly show the group name.
-- **State** is now correctly shown by default in the Sweeps table.
-- Sweeps now show correctly when grouping by custom display names.
-- Fixed wrapping of long names for Sweeps and Reports.
-- Improved the copy and paste behavior for console logs. Line numbers are no longer copied, and timestamps now appear inline instead of on a new line.
 </Update>

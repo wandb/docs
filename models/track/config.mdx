@@ -6,31 +6,32 @@ import { ColabLink } from '/snippets/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Configs_in_W%26B.ipynb" />
 
-This page shows you how to save the configuration of a W&B run so that you can analyze, compare, and reproduce your experiments later. Use the `config` property of a run to save your training configuration:
+Use the `config` property of a run to save your training configuration: 
+- hyperparameter
+- input settings such as the dataset name or model type
+- any other independent variables for your experiments. 
 
-- Hyperparameters.
-- Input settings such as the dataset name or model type.
-- Any other independent variables for your experiments.
-
-The `wandb.Run.config` property helps you analyze your experiments and reproduce your work. You can group by configuration values in the W&B App, compare the configurations of different W&B runs, and evaluate how each training configuration affects the output. The `config` property is a dictionary-like object that you can compose from multiple dictionary-like objects.
+The `wandb.Run.config` property makes it easy to analyze your experiments and reproduce your work in the future. You can group by configuration values in the W&B App, compare the configurations of different W&B runs, and evaluate how each training configuration affects the output. The `config` property is a dictionary-like object that can be composed from multiple dictionary-like objects.
 
 <Note>
 To save output metrics or dependent variables like loss and accuracy, use `wandb.Run.log()` instead of `wandb.Run.config`.
 </Note>
 
+
+
 ## Set up an experiment configuration
-You typically define configurations at the beginning of a training script. Machine learning workflows vary, so you don't have to.
+Configurations are typically defined in the beginning of a training script. Machine learning workflows may vary, however, so you are not required to define a configuration at the beginning of your training script.
 
-You must use dashes (`-`) or underscores (`_`) instead of periods (`.`) in your config variable names.
+Use dashes (`-`) or underscores (`_`) instead of periods (`.`) in your config variable names.
+	
+Use the dictionary access syntax `["key"]["value"]` instead of the attribute access syntax `config.key.value` if your script accesses `wandb.Run.config` keys below the root.
 
-If your script accesses `wandb.Run.config` keys below the root, you must use the dictionary access syntax `["key"]["value"]` instead of the attribute access syntax `config.key.value`.
-
-The following sections outline common scenarios for how to define your experiment's configuration.
+The following sections outline different common scenarios of how to define your experiments configuration.
 
 ### Set the configuration at initialization
-Pass a dictionary at the beginning of your script when you call the `wandb.init()` API to start a background process that syncs and logs your data as a run.
+Pass a dictionary at the beginning of your script when you call the `wandb.init()` API to generate a background process to sync and log data as a W&B Run.
 
-The following code snippet demonstrates how to define a Python dictionary with configuration values and how to pass that dictionary as an argument when you initialize a run.
+The following code snippet demonstrates how to define a Python dictionary with configuration values and how to pass that dictionary as an argument when you initialize a W&B Run.
 
 ```python
 import wandb
@@ -67,15 +68,15 @@ activation = run.config.get("activation")
 ```
 
 <Note>
-Throughout the Developer Guide and examples, we copy the configuration values into separate variables. This step is optional and improves readability.
+Throughout the Developer Guide and examples we copy the configuration values into separate variables. This step is optional. It is done for readability.
 </Note>
 
 ### Set the configuration with argparse
-You can set your configuration with an argparse object. [argparse](https://docs.python.org/3/library/argparse.html) is a standard library module in Python 3.2 and above. Use it to write scripts that take advantage of command-line arguments.
+You can set your configuration with an argparse object. [argparse](https://docs.python.org/3/library/argparse.html), short for argument parser, is a standard library module in Python 3.2 and above that makes it easy to write scripts that take advantage of all the flexibility and power of command line arguments.
 
-This approach is useful for tracking results from scripts that you launch from the command line.
+This is useful for tracking results from scripts that are launched from the command line.
 
-The following Python script demonstrates how to define a parser object to define and set your experiment config. The functions `train_one_epoch` and `evaluate_one_epoch` simulate a training loop for this demonstration:
+The following Python script demonstrates how to define a parser object to define and set your experiment config. The functions `train_one_epoch` and `evaluate_one_epoch` are provided to simulate a training loop for the purpose of this demonstration:
 
 ```python
 # config_experiment.py
@@ -140,7 +141,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
     main(args)
 ```
-
 ### Set the configuration throughout your script
 You can add more parameters to your config object throughout your script. 
 
@@ -190,7 +190,7 @@ Make sure you set `allow_val_change=True` if you want to update the value of an 
 ### Set the configuration after your run finishes
 Use the [W&B Public API](/models/ref/python/public-api/) to update a completed run's config. 
 
-You must provide the API with your entity, project name, and the run's ID. You can find these details in the run object or in the [W&B App](/models/track/workspaces/):
+You must provide the API with your entity, project name and the run's ID. You can find these details in the Run object or in the [W&B App](/models/track/workspaces/):
 
 ```python
 with wandb.init() as run:
@@ -211,7 +211,7 @@ api_run.update()
 
 ## Highlight config values
 
-Pin important config keys to the **References** section at the top of a run's overview page so that you can find them quickly when reviewing the run.
+Pin config keys to the **References** section at the top of a run's overview page.
 
 Use [`wandb.Run.pin_config_keys`](/models/ref/python/experiments/run#method-run-pin_config_keys) to pin one or more config keys with the Python SDK.
 
@@ -233,18 +233,120 @@ with wandb.init(config=config) as run:
     run.pin_config_keys(["grafana_url"])
 ```
 
-## Use absl flags
+{/* ## `absl.FLAGS`
 
-If your training script uses [`absl` flags](https://abseil.io/docs/python/guides/flags) for configuration, you can pass them directly into your run's config.
+You can also pass in [`absl` flags](https://abseil.io/docs/python/guides/flags).
 
 ```python
 flags.DEFINE_string("model", None, "model to run")  # name, default, help
 
 run.config.update(flags.FLAGS)  # adds absl flags to config
+``` */}
+
+## View config values
+
+Access your config values in the W&B App, during a run, or from existing runs. You can also access config values from your local filesystem.
+
+<Tabs>
+<Tab title="W&B App">
+
+View a run configuration in the W&B App:
+
+1. Navigate to your project in the W&B App.
+2. Select the run you want to view.
+3. Select the **Overview** tab.
+4. Scroll to the **Config** section.
+5. Optional: Click **View raw data** to view the configuration as JSON.
+
+The raw JSON format is useful when you write expressions to create or transform line plots from config values, logged metrics, or summary values. See [Expressions](/models/app/features/panels/line-plot/reference#expressions) for more details. 
+
+</Tab>
+<Tab title="During a run">
+
+Use the [`wandb.Run.config`](/models/ref/python/experiments/run#property-config) property to access a run's configuration values during a run. `wandb.Run.config` returns a dictionary object that contains the configuration key-value pairs.
+
+The following example shows how to access a run's configuration values during a run. Replace the values in the config dictionary with your own hyperparameters, model architecture, dataset name, and other settings. Replace `"<my-project>"` with your W&B project name:
+
+```python
+import wandb
+
+config = {
+    "epochs": 100,
+    "learning_rate": 0.001,
+    "model_type": "CNN",
+    "dataset_id": "cats-0192"
+}
+
+with wandb.init(project="<my-project>", config=config) as run:
+  print(dict(run.config))
 ```
 
-## File-based configs
-If you prefer to keep configuration outside your Python code, you can load it from a YAML file. If you place a file named `config-defaults.yaml` in the same directory as your run script, the run automatically picks up the key-value pairs defined in the file and passes them to `wandb.Run.config`.
+The following snippet shows an example of what your terminal output might look like when you run the code above:
+
+```shell
+{'_runtime': 0.0970615, '_step': 97, 'accuracy': 0.9746484067793967, 'loss': 0.025044765547545846, '_timestamp': 1785255343.65151}
+```
+
+</Tab>
+<Tab title="Existing run">
+
+Use the W&B Public API to access the configuration of a previously logged run. Pass the entity, project name, and run ID to `wandb.Api.run()`, and then access the run’s configuration with the wandb.Api.Run.config property.
+
+Replace `"<entity>"`, `"<project>"`, and `"<run_id>"` in the following example with your W&B entity, project name, and run ID.
+
+```python
+import wandb
+
+api = wandb.Api()
+run = api.run("<entity>/<project>/<run_id>")
+
+print(run.name)
+print(run.config)
+```
+
+To access configuration values for multiple runs in a project, use `wandb.Api.runs()` to retrieve the runs, and then iterate over the returned Run objects:
+
+```python
+import wandb
+
+api = wandb.Api()
+runs = api.runs("<entity>/<project>")
+
+for run in runs:
+    print(f"Run name: {run.name}")
+    print(f"Run ID: {run.id}")
+    print(f"Run config: {run.config}")
+    print("----------")
+```
+
+The following snippet shows an example of what your terminal output might look like when you run the code above:
+
+```shell
+
+Run name: clean-oath-11
+Run ID: mt2dasoz
+Run config: {'epochs': 1000, 'learning_rate': 0.1, 'model_type': 'Multivariate_neural_network_classifier'}
+----------
+
+Run name: zesty-snowball-7
+Run ID: qne08r7u
+Run config: {'epochs': 1000, 'learning_rate': 0.1, 'model_type': 'Multivariate_neural_network_classifier'}
+----------
+```
+
+</Tab>
+<Tab title="Local filesystem">
+
+W&B stores run configuration values in the `config.yaml` file in the run directory. To read the config values locally, open the `config.yaml` file.
+
+By default, the run directory is located at `./wandb/run-<timestamp>-<run_id>`.
+
+</Tab>
+</Tabs>
+
+
+## File-Based Configs
+If you place a file named `config-defaults.yaml` in the same directory as your run script, the run automatically picks up the key-value pairs defined in the file and passes them to `wandb.Run.config`. 
 
 The following code snippet shows a sample `config-defaults.yaml` YAML file:
 
@@ -264,7 +366,7 @@ with wandb.init(config={"epochs": 200, "batch_size": 64}) as run:
     ...
 ```
 
-To load a configuration file other than `config-defaults.yaml`, use the `--configs` command-line argument and specify the path to the file:
+To load a configuration file other than `config-defaults.yaml`, use the `--configs command-line` argument and specify the path to the file:
 
 ```bash
 python train.py --configs other-config.yaml
@@ -289,21 +391,9 @@ with wandb.init(config=config_dictionary) as run:
     ...
 ```
 
-## View config values in the W&B App
-
-View your config values in the **Config** section of a run's Overview tab. The config values are also available in the **References** section if you pin them.
-
-1. Navigate to your project in the W&B App.
-2. Click the run you want to view the config values for.
-3. Select the **Overview** tab.
-4. Scroll to the **Config** section.
-5. (Optional) Click on **View raw data** to view config values in JSON format.
-
-The raw JSON format is useful when you write expressions to create or transform line plots from config values, logged metrics, or summary values. See [Expressions](/models/app/features/panels/line-plot/reference#expressions) for more details. 
-
 ## TensorFlow v1 flags
 
-If you use TensorFlow v1, you can pass TensorFlow flags into the `wandb.Run.config` object directly.
+You can pass TensorFlow flags into the `wandb.Run.config` object directly.
 
 ```python
 with wandb.init() as run:

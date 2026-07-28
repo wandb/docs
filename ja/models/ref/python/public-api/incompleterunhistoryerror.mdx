@@ -1,16 +1,50 @@
 ---
 title: IncompleteRunHistoryError
-namespace: public_apis_namespace
-python_object_type: class
+kind: クラス
+namespace: wandb.apis.public.runhistory.downloads
 ---
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runhistory/downloads.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runhistory/downloads.py#L18" />
 
-
-## <kbd>class</kbd> `IncompleteRunHistoryError`
+## <kbd>クラス</kbd> wandb.apis.public.IncompleteRunHistoryError
 
 run history が不完全な場合に発生します。
 
-履歴が不完全になるのは、通常、run がまだ実行中で、一部のデータがまだ parquet ファイルにエクスポートされていないためです。 
+履歴が不完全になるのは、通常、run がまだ実行中で、一部のデータがまだ
+parquet ファイルにエクスポートされていないためです。
+
+<div id="methods">
+  ## メソッド
+</div>
+
+### <kbd>メソッド</kbd> BaseException.add_note()
+
+```python
+(self, object, /)
+```
+
+Exception.add&#95;note(note) --
+例外にメモを追加します
+
+<div id="arguments">
+  ##### 引数
+</div>
+
+* `object`: 
+
+### <kbd>メソッド</kbd> BaseException.with_traceback()
+
+```python
+(self, object, /)
+```
+
+Exception.with&#95;traceback(tb) --
+self.**traceback** を tb に設定し、self を返します。
+
+<div id="arguments">
+  ##### 引数
+</div>
+
+* `object`: 
