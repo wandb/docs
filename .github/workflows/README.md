@@ -144,3 +144,47 @@ git add .
 git commit -m "Sync code examples from docs-code-eval"
 git push
 ```
+
+## Readability delta
+
+**Workflow**: `readability-delta.yml`
+
+Posts an informational, **non-blocking** PR comment describing how the PR affects the readability of the English docs it changes (DOCS-2626). It reports the *delta* (before/after) for well-established formulas (Flesch-Kincaid grade, Flesch reading ease, Gunning fog, SMOG), word-weighted across the changed pages, plus an optional AI-agent-comprehension rating from a W&B Inference LLM judge.
+
+### Triggers
+
+- **Pull request**: `opened`, `synchronize`, `reopened` on PRs that touch `**/*.mdx`
+- **Manual**: `workflow_dispatch` (writes the report to the job summary instead of a comment)
+
+### What it does
+
+1. Diffs the PR base and head, scoring each changed English `.mdx` file (localized content under `ja/`, `ko/`, and `fr/` is skipped).
+2. Extracts narrative prose and scores it with `textstat` via the analyzer in the `coreweave/docs-skills` submodule (`.claude/scripts/_readability.py`).
+3. Optionally runs the AI agent comprehension judge (W&B Inference) when `WANDB_API_KEY` is set.
+4. Upserts a single PR comment identified by the `<!-- readability-delta-report -->` marker.
+
+The check **never fails** a PR. If scoring is unavailable it posts a brief notice and exits successfully.
+
+### Configuration
+
+- **Python**: 3.11
+- **Permissions**: `contents: read`, `pull-requests: write`
+- **Report glue**: `scripts/readability/pr_report.py`
+- **Scoring logic**: `.claude/scripts/_readability.py` and `_docs_eval_lib.py` (submodule)
+
+### Authentication
+
+- The main checkout uses the default `GITHUB_TOKEN`.
+- The private, cross-org `coreweave/docs-skills` submodule is initialized in a separate step with the `DOCENGINE_TOKEN` secret (the same `x-access-token` credential used for the `gitsubmodule` ecosystem in `.github/dependabot.yml`; it rotates ~every 30 days and needs no `wandb/docs` scope).
+- The AI agent comprehension judge calls W&B Inference with the `WANDB_DOCS_INFERENCE_API_KEY` secret (a W&B API key whose entity has Inference credits), passed to the scorer as `WANDB_API_KEY`. When that secret is absent, the deterministic `textstat` delta still runs.
+
+### Forks
+
+Fork PRs have no access to repo secrets, so the first step detects a fork, posts an Actions notice, and makes the whole job a no-op (still reporting success). Forks are uncommon in `wandb/docs` and coreweave repos cannot use forks at all.
+
+### Related Files
+
+- **Report glue**: `scripts/readability/pr_report.py`
+- **Dependencies**: `scripts/readability/requirements.txt`
+- **Tests**: `scripts/readability/tests/`
+- **Documentation**: `scripts/readability/README.md`
