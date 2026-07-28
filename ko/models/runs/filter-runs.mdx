@@ -102,6 +102,24 @@ API로 Runs을 필터링하는 추가 예시는 [API 가이드](/ko/models/ref/p
   <img src="/images/runs/run_expressions_and_or.png" alt="AND 및 OR 조건으로 필터 조합하기" />
 </Frame>
 
+<div id="example-filter-run-configuration-values-with-contains">
+  ### 예시: `CONTAINS`로 run 설정 값 필터링
+</div>
+
+run [설정](/ko/models/track/config) 필드에 특정 값이 포함되어 있는지에 따라 run을 필터링합니다.
+
+1. 프로젝트 사이드바에서 **Runs**를 선택합니다.
+2. Runs 테이블 위에서 **Filter** (<Icon icon="bars-filter" iconType="solid" />)를 선택합니다.
+3. 첫 번째 메뉴에서 run 설정 필드를 선택합니다.
+4. 두 번째 메뉴에서 **CONTAINS**를 선택합니다.
+5. 세 번째 필드에 필터링할 값을 입력합니다.
+
+다음 이미지는 `epochs` 설정 필드에 값 `100`이 포함된 run을 표시하도록 구성된 필터를 보여 줍니다.
+
+<Frame>
+  <img src="/images/runs/contains_filter.png" alt="run 설정으로 run 필터링" />
+</Frame>
+
 <div id="default-filters">
   ## 기본 필터
 </div>
