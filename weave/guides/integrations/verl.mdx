@@ -1,0 +1,81 @@
+---
+title: VERL
+description: "Trace VERL rollouts in Weave to inspect multi-turn conversations, tool calls, and reward scoring during RL fine-tuning."
+---
+
+[VERL](https://github.com/volcengine/verl) (Volcano Engine Reinforcement Learning) is an open-source RL post-training framework for LLMs. VERL ships with a built-in Weave trace backend that allows you to trace LLM generation and tool calls alongside the training metrics W&B already records.
+
+Use Weave with VERL to:
+
+- Inspect each rollout trajectory step-by-step, including prompts, model responses, and tool invocations.
+- Filter trajectories by step, sample index, rollout number, and experiment name.
+- Compare multiple trajectories side-by-side to debug agent behavior across training steps.
+
+## Prerequisites
+
+- A W&B account and [API key](/platform/app/settings-page/user-settings#api-keys).
+- A VERL installation that supports rollout tracing. Rollout tracing was added in [verl#2345](https://github.com/volcengine/verl/pull/2345).
+- An async rollout configuration. Tracing only applies to asynchronous rollouts; synchronous rollouts are not traced.
+
+## Enable Weave tracing
+
+Set your W&B API key in the environment so VERL can authenticate with your W&B account:
+
+```bash
+export WANDB_API_KEY=[YOUR-WANDB-API-KEY]
+```
+
+Then add the following flags to your VERL training command: 
+
+- `actor_rollout_ref.rollout.trace.backend=weave`: Selects Weave as the trace backend.
+- `actor_rollout_ref.rollout.mode=async`: Enables async rollout for vLLM or SGLang. Tracing has no effect on synchronous rollouts.
+- `trainer.project_name`: Sets the project you want to log traces and metrics to. 
+- `trainer.experiment_name`: Sets the name of your experiment.
+- `trainer.logger=['console','wandb']`: Enables the wandb logger alongside Weave so metrics and traces appear in the same project.
+
+The resulting command looks like this:
+
+```bash
+python -m verl.trainer.main_ppo \
+  actor_rollout_ref.rollout.trace.backend=weave \
+  actor_rollout_ref.rollout.mode=async \
+  trainer.project_name=[YOUR-PROJECT-NAME] \
+  trainer.experiment_name=[YOUR-EXPERIMENT-NAME] \
+  trainer.logger=['console','wandb'] \
+  # ... your other training flags
+```
+
+Weave is initialized automatically from your W&B project and experiment name. You do not need to call `weave.init()`.
+
+## Tune trace volume
+
+By default, VERL traces every sample in every rollout, which can produce very large amounts of trace data. You can limit the volume by setting the following fields in your `ppo_trainer.yaml` configuration file:
+
+- `max_samples_per_step_per_worker`: The number of unique samples workers trace per training step.  Defaults to `null` to trace all samples.
+- `token2text`: Set to `True` to add decoded `prompt_text` and `response_text` to the `ToolAgentLoop.run` output. Defaults to `False` for performance. Enable it when you want to read prompts and completions directly in the Weave UI.
+
+The resulting fields look like this in the file:
+
+```yaml
+actor_rollout_ref:
+  rollout:
+    trace:
+      backend: weave
+      token2text: False
+      max_samples_per_step_per_worker: 5
+```
+
+## View traces
+
+To view the traces emitted during training, open your W&B project page and select **Traces**. Each trace corresponds to a rollout trajectory.
+
+You can select multiple traces and use Weave's comparison view to inspect differences between trajectories. This can help you debug changes in agent behavior across training steps or experiments.
+
+## Trace additional functions
+
+VERL exposes two helpers for extending the default trace coverage:
+
+- `rollout_trace_op`: A decorator that maps to `weave.op` and marks a method on a class instance for tracing. By default, only a small number of methods are decorated. You can add this decorator to methods on your custom agent loop or tool implementations to capture more detail.
+- `rollout_trace_attr`: A context manager that marks the entry of a trajectory and attaches trajectory metadata (sample index, step, rollout number, experiment name). If you introduce a new agent type, wrap its trajectory entrypoint with `rollout_trace_attr` so the trace is associated with the run.
+
+See [VERL's rollout trace documentation](https://verl.readthedocs.io/en/latest/advance/rollout_trace.html) for more configuration information.

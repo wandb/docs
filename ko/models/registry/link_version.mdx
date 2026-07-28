@@ -148,7 +148,7 @@ run 중에 아티팩트를 생성할지, run 없이 생성할지, 또는 기존 
     7. **Artifact** 드롭다운에서 아티팩트 이름을 선택합니다.
     8. **Version** 드롭다운에서 컬렉션에 연결할 아티팩트 버전을 선택합니다.
 
-    {/* TODO: gif 삽입 */}
+    {/* TO DO gif 삽입 */}
   </Tab>
 
   <Tab title="아티팩트 브라우저">
@@ -156,7 +156,7 @@ run 중에 아티팩트를 생성할지, run 없이 생성할지, 또는 기존 
     2. 프로젝트 사이드바에서 Artifacts 아이콘을 선택하세요.
     3. 레지스트리에 연결할 아티팩트 버전을 클릭하세요.
     4. **Version overview** 섹션에서 **Link to registry** 버튼을 클릭하세요.
-    5. 화면 오른쪽에 나타나는 모달에서 **Select a register model** 드롭다운 메뉴에서 아티팩트를 선택하세요.
+    5. 화면 오른쪽에 나타나는 모달에서 **Select a registered model** 드롭다운 메뉴에서 아티팩트를 선택하세요.
     6. **Next step**을 클릭하세요.
     7. (선택 사항) **Aliases** 드롭다운에서 별칭을 선택하세요.
     8. **Link to registry**를 클릭하세요.
@@ -170,28 +170,28 @@ run 중에 아티팩트를 생성할지, run 없이 생성할지, 또는 기존 
   * 링크된 버전: 레지스트리에 게시되는 아티팩트 버전입니다. 이는 소스 아티팩트를 가리키는 포인터이며, 정확히 동일한 아티팩트 버전을 레지스트리 범위에서도 사용할 수 있게 한 것입니다.
   </Note> */}
 
-Registry App에서 [연결된 아티팩트의 메타데이터, 버전 데이터, 사용 정보, 리니지 정보 보기](/ko/models/registry/link_version#view-linked-artifacts-in-a-registry") 등을 확인할 수 있습니다.
+Registry App에서 [연결된 아티팩트의 메타데이터, 버전 데이터, 사용 정보, 리니지 정보 보기](/ko/models/registry/link_version#view-linked-artifacts-in-a-registry) 등을 확인할 수 있습니다.
 
 <div id="view-linked-artifacts-in-a-registry">
-  ## 레지스트리에서 연결된 artifact 보기
+  ## 레지스트리에서 연결된 아티팩트 보기
 </div>
 
-W&amp;B 레지스트리에서 메타데이터, 리니지, 사용 정보 등 연결된 artifact에 대한 정보를 확인합니다.
+W&amp;B 레지스트리에서 메타데이터, 리니지, 사용 정보 등 연결된 아티팩트에 대한 정보를 확인합니다.
 
 1. W&amp;B 레지스트리로 이동합니다.
-2. artifact를 연결한 레지스트리의 이름을 선택합니다.
-3. collection 이름을 선택합니다.
-4. collection의 artifact가 메트릭을 로깅하는 경우 **메트릭 표시**를 클릭해 버전 간 메트릭을 비교합니다.
-5. artifact 버전 목록에서 액세스하려는 버전을 선택합니다. 버전 번호는 `v0`부터 시작해 연결된 각 artifact 버전에 순차적으로 할당됩니다.
-6. artifact 버전의 세부 정보를 보려면 해당 버전을 클릭합니다. 이 페이지의 탭에서 해당 버전의 메타데이터(로깅된 메트릭 포함), 리니지, 사용 정보를 확인할 수 있습니다.
+2. 아티팩트를 연결한 레지스트리의 이름을 선택합니다.
+3. 컬렉션 이름을 선택합니다.
+4. 컬렉션의 아티팩트가 메트릭을 로깅하는 경우 **메트릭 표시**를 클릭해 버전 간 메트릭을 비교합니다.
+5. 아티팩트 버전 목록에서 액세스하려는 버전을 선택합니다. 버전 번호는 `v0`부터 시작해 연결된 각 아티팩트 버전에 순차적으로 할당됩니다.
+6. 아티팩트 버전의 세부 정보를 보려면 해당 버전을 클릭합니다. 이 페이지의 탭에서 해당 버전의 메타데이터(로깅된 메트릭 포함), 리니지, 사용 정보를 확인할 수 있습니다.
 
-**Version** 탭의 **Full Name** 필드를 확인하세요. 연결된 artifact의 전체 이름은 레지스트리, collection 이름, 그리고 artifact 버전의 alias 또는 인덱스로 구성됩니다.
+**Version** 탭의 **Full Name** 필드를 확인하세요. 연결된 아티팩트의 전체 이름은 레지스트리, 컬렉션 이름, 그리고 아티팩트 버전의 alias 또는 인덱스로 구성됩니다.
 
 ```text title="Full name of a linked artifact"
 wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{INTEGER}
 ```
 
-코드로 artifact 버전에 액세스하려면 연결된 artifact의 전체 이름이 필요합니다.
+코드로 아티팩트 버전에 액세스하려면 연결된 아티팩트의 전체 이름이 필요합니다.
 
 <div id="troubleshooting">
   ## 문제 해결

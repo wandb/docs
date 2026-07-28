@@ -1,28 +1,41 @@
 ---
 title: ArtifactTypes
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.artifacts
 ---
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L113" />
 
+## <kbd>class</kbd> wandb.apis.public.ArtifactTypes
 
-## <kbd>class</kbd> `ArtifactTypes`
+特定のプロジェクトにおける`ArtifactType`オブジェクトの遅延評価イテレーター。
 
-特定のプロジェクトにおける`ArtifactType`オブジェクトの遅延評価イテレータ。 
+<div id="methods">
+  ## メソッド
+</div>
 
-### <kbd>プロパティ</kbd> ArtifactTypes.cursor
+### <kbd>メソッド</kbd> RelayPaginator.convert_objects()
 
-次に取得するページの先頭を示す不透明なカーソルです。
+```python
+self
+```
 
-この値は保存しておき、後続のページネーション付きクエリで `start=` として渡すことで、このページネーターが中断した位置からイテレーションを再開できます。
+最後に取得したレスポンスデータを、反復対象のオブジェクトに変換します。
 
-**戻り値:**
+### <kbd>メソッド</kbd> Paginator.**next**()
 
-* `str | None`: cursor のプロパティ値です。
+```python
+self
+```
 
-***
+イテレーターから次の項目を返します。要素がなくなった場合は、StopIteration を発生させます
 
-### <kbd>プロパティ</kbd> ArtifactTypes.more
+### <kbd>メソッド</kbd> Paginator.update_variables()
+
+```python
+self
+```
+
+次のページを取得するためのクエリ変数を更新します。

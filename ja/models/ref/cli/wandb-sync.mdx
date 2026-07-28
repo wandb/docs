@@ -4,7 +4,7 @@ title: wandb sync
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/cli.py#L561" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L563" />
 
 <div id="usage">
   ## 使い方
@@ -19,6 +19,10 @@ sync [OPTIONS] [PATH]...
 </div>
 
 既存のローカル W&amp;B run データをクラウドにアップロードします。
+
+移行に関する注意: このコマンドは段階的に
+`wandb beta sync` に切り替えられています。一部のオプションはレガシーモードでのみ使用でき、その他のオプションは
+ベータモードでのみ使用できます。詳細については、各オプションの説明を参照してください。
 
 ローカルの `wandb` ディレクトリにあるオフラインまたは未完了の Runs を
 W&amp;B サーバーに同期します。PATH が指定されている場合は、そのパスにある
@@ -92,24 +96,26 @@ wandb sync --clean --clean-old-hours 48 --clean-force
   ## オプション
 </div>
 
-| フラグ                  | タイプ       | 説明                                                                                      |
-| -------------------- | --------- | --------------------------------------------------------------------------------------- |
-| `--id`               | STR       | 既存の run ID にアップロードします。**デフォルト**: None                                                   |
-| `--project, -p`      | STR       | run のアップロード先の project を設定します。**デフォルト**: None                                            |
-| `--entity, -e`       | STR       | project のスコープに使用する entity を設定します。**デフォルト**: None                                        |
-| `--job_type`         | STR       | 関連する Runs をグループ化するためのジョブタイプを設定します。**デフォルト**: None                                       |
-| `--sync-tensorboard` | BOOL Flag | TensorBoard の tfevent ファイルを同期します。特定のパスではデフォルトで有効ですが、`--sync-all` では無効です。**デフォルト**: None |
-| `--include-globs`    | STR       | これらの glob パターンに一致する Runs のみを含めます (カンマ区切り) 。**デフォルト**: None                              |
-| `--exclude-globs`    | STR       | これらの glob パターンに一致する Runs を除外します (カンマ区切り) 。**デフォルト**: None                               |
-| `--include-online`   | BOOL Flag | オンラインモードで作成された Runs を含めます。**デフォルト**: None                                               |
-| `--include-offline`  | BOOL Flag | オフラインモードで作成された Runs を含めます。**デフォルト**: None                                               |
-| `--include-synced`   | BOOL Flag | すでに同期済みの Runs を含めます。**デフォルト**: None                                                     |
-| `--mark-synced`      | BOOL Flag | アップロード後に Runs を同期済みとしてマークします。**デフォルト**: True                                            |
-| `--sync-all`         | BOOL Flag | ローカルの wandb ディレクトリ内にある未同期の Runs をすべて同期します。**デフォルト**: False                              |
-| `--clean`            | BOOL Flag | すでに同期済みの Runs のローカルデータを削除します。**デフォルト**: False                                           |
-| `--clean-old-hours`  | INT       | 指定した時間数より古い同期済み Runs のみを削除します (`--clean` と併用) 。**デフォルト**: 24                            |
-| `--clean-force`      | BOOL Flag | `--clean` が指定されている場合、確認プロンプトをスキップします。**デフォルト**: False                                   |
-| `--show`             | INT       | サマリーに表示する Runs の数を設定します。**デフォルト**: 5                                                    |
-| `--append`           | BOOL Flag | 新しい run を作成する代わりに、既存の run にデータを追加します。**デフォルト**: False                                   |
-| `--skip-console`     | BOOL Flag | コンソールログのアップロードをスキップします。**デフォルト**: False                                                 |
-| `--replace-tags`     | STR       | 同期中に tags の名前を変更します。カンマ区切りの `old=new` ペアを使用します。**デフォルト**: None                          |
+| フラグ                                  | 型         | 説明                                                                                                       |
+| ------------------------------------ | --------- | -------------------------------------------------------------------------------------------------------- |
+| `--yes`                              | BOOL Flag |  (beta のみ) 確認を求めません。**デフォルト**: False                                                                     |
+| `--id`                               | STR       | 既存の run ID にアップロードします。**デフォルト**: None                                                                    |
+| `--project, -p`                      | STR       | run のアップロード先の project を設定します。**デフォルト**: None                                                             |
+| `--entity, -e`                       | STR       | project のスコープとなる entity を設定します。**デフォルト**: None                                                           |
+| `--job_type`                         | STR       | 関連する Runs をグループ化するためのジョブタイプを設定します。**デフォルト**: None                                                        |
+| `--sync-tensorboard`                 | BOOL Flag |  (legacy のみ) TensorBoard の tfevent file を同期します。特定のパスではデフォルトで有効になり、`--sync-all` では無効になります。**デフォルト**: None |
+| `--include-globs`                    | STR       |  (legacy のみ) これらの glob パターンに一致する Runs のみを含めます (カンマ区切り) 。**デフォルト**: None                                  |
+| `--exclude-globs`                    | STR       |  (legacy のみ) これらの glob パターンに一致する Runs を除外します (カンマ区切り) 。**デフォルト**: None                                   |
+| `--include-online, --no-skip-online` | BOOL Flag | オンラインモードで作成された Runs を含めます。**デフォルト**: None                                                                |
+| `--include-offline`                  | BOOL Flag |  (legacy のみ) オフラインモードで作成された Runs を含めます。**デフォルト**: None                                                   |
+| `--include-synced, --no-skip-synced` | BOOL Flag | すでに同期済みの Runs を含めます。**デフォルト**: None                                                                      |
+| `--mark-synced`                      | BOOL Flag |  (legacy のみ) アップロード後に Runs を同期済みとしてマークします。**デフォルト**: True                                                |
+| `--sync-all`                         | BOOL Flag |  (legacy のみ) ローカルの wandb ディレクトリ内にある未同期の Runs をすべて同期します。**デフォルト**: False                                  |
+| `--clean`                            | BOOL Flag |  (legacy のみ) すでに同期済みの Runs のローカルデータを削除します。**デフォルト**: False                                               |
+| `--clean-old-hours`                  | INT       | この時間数より古い同期済み Runs のみを削除します (`--clean` と一緒に使用) 。**デフォルト**: 24                                            |
+| `--clean-force`                      | BOOL Flag | `--clean` が指定されている場合、確認プロンプトをスキップします。**デフォルト**: False                                                    |
+| `--show`                             | INT       | summary に表示する Runs の数を設定します。**デフォルト**: 5                                                                 |
+| `--append`                           | BOOL Flag |  (legacy のみ) 新しい run を作成せず、既存の run にデータを追記します。**デフォルト**: False                                           |
+| `--skip-console`                     | BOOL Flag |  (legacy のみ) console logs のアップロードをスキップします。**デフォルト**: False                                               |
+| `--replace-tags`                     | STR       | 同期中にタグ名を変更します。カンマ区切りの `old=new` ペアを使用します。**デフォルト**: None                                                 |
+| `--legacy`                           | BOOL Flag | `wandb beta sync` へ再ルーティングせず、legacy の動作を強制します。**デフォルト**: False                                           |

@@ -1,40 +1,45 @@
 ---
 title: restore()
-namespace: python_sdk_actions
-python_object_type: 함수
+kind: 함수
+namespace: wandb.sdk.wandb_run
 ---
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py#L4126" />
 
-
-### <kbd>함수</kbd> `restore`
+## <kbd>함수</kbd> wandb.restore
 
 ```python
-restore(
-    name: 'str',
-    run_path: 'str | None' = None,
-    replace: 'bool' = False,
-    root: 'str | None' = None
-) → None | TextIO
+name: 'str',
+run_path: 'str | None' = None,
+replace: 'bool' = False,
+root: 'str | None' = None
 ```
 
 지정한 파일을 클라우드 저장소에서 다운로드합니다.
 
-파일은 현재 디렉터리 또는 run 디렉터리에 저장됩니다. 기본적으로는 파일이 아직 존재하지 않을 때만 다운로드합니다.
+파일은 현재 디렉터리 또는 run 디렉터리에 저장됩니다.
+기본적으로는 파일이 아직 존재하지 않을 때만 다운로드합니다.
 
-**매개변수:**
+<div id="args">
+  ## 매개변수
+</div>
 
-* `name`:  파일 이름입니다.
-* `run_path`:  파일을 가져올 run의 경로(선택 사항)입니다. 예: `username/project_name/run_id`  wandb.init를 호출하지 않은 경우 이 값은 필수입니다.
-* `replace`:  로컬에 파일이 이미 있어도 다운로드할지 여부입니다.
-* `root`:  파일을 다운로드할 디렉터리입니다.  기본값은 현재 디렉터리이며, wandb.init를 호출한 경우에는 run 디렉터리입니다.
+* `name`: 파일 이름입니다.
+* `run_path`: 파일을 가져올 run의 경로(선택 사항)입니다. 예: `username/project_name/run_id`  wandb.init를 호출하지 않은 경우 이 값은 필수입니다.
+* `replace`: 로컬에 파일이 이미 있어도 다운로드할지 여부입니다.
+* `root`: 파일을 다운로드할 디렉터리입니다.  기본값은 현재 디렉터리이며, wandb.init를 호출한 경우에는 run 디렉터리입니다.
 
-**반환값:**
+<div id="returns">
+  ## 반환값
+</div>
+
 파일을 찾지 못하면 None을 반환하고, 찾으면 읽기용으로 열린 파일 객체를 반환합니다.
 
-**예외:**
+<div id="raises">
+  ## 예외
+</div>
 
-* `CommError`:  W&amp;B가 W&amp;B 백엔드에 연결할 수 없는 경우입니다.
-* `ValueError`:  파일을 찾을 수 없거나 run&#95;path를 찾을 수 없는 경우입니다.
+* `CommError`: W&amp;B가 W&amp;B 백엔드에 연결할 수 없는 경우입니다.
+* `ValueError`: 파일을 찾을 수 없거나 run&#95;path를 찾을 수 없는 경우입니다.
