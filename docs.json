@@ -2137,7 +2137,8 @@
                                   "fr/weave/guides/integrations/koog",
                                   "fr/weave/guides/integrations/autogen",
                                   "fr/weave/guides/integrations/verdict",
-                                  "fr/weave/guides/integrations/verifiers"
+                                  "fr/weave/guides/integrations/verifiers",
+                                  "fr/weave/guides/integrations/verl"
                                 ]
                               },
                               {
@@ -3654,7 +3655,8 @@
                                   "ja/weave/guides/integrations/koog",
                                   "ja/weave/guides/integrations/autogen",
                                   "ja/weave/guides/integrations/verdict",
-                                  "ja/weave/guides/integrations/verifiers"
+                                  "ja/weave/guides/integrations/verifiers",
+                                  "ja/weave/guides/integrations/verl"
                                 ]
                               },
                               {
@@ -5171,7 +5173,8 @@
                                   "ko/weave/guides/integrations/koog",
                                   "ko/weave/guides/integrations/autogen",
                                   "ko/weave/guides/integrations/verdict",
-                                  "ko/weave/guides/integrations/verifiers"
+                                  "ko/weave/guides/integrations/verifiers",
+                                  "ko/weave/guides/integrations/verl"
                                 ]
                               },
                               {
