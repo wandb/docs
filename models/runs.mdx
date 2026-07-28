@@ -174,9 +174,24 @@ The following JSON object shows an example run summary:
 ```
 
 </Tab>
-<Tab title="Python SDK">
+<Tab title="Access summary during a run">
 
-Access a run summary with the Python SDK:
+Use the `wandb.Run.summary` property to access a run's summary values during a run. The `wandb.Run.summary` property returns a dictionary of key-value pairs.
+
+The following code snippet shows an example of how to access a run's summary values during a run. Replace `"<my-project>"` with your W&B project name:
+
+```python
+import wandb
+
+with wandb.init(project="<my-project>", config=config) as run:
+  run.log({"accuracy": 0.9, "loss": 0.1})
+
+  print(run.summary)  # prints the summary dictionary
+```
+
+</Tab>
+
+<Tab title="Access summary from existing runs">
 
 Use the W&B Public API to access a run's summary metrics with the `wandb.Api.Run.summary` property.
 
@@ -261,7 +276,28 @@ The following JSON object shows an example run configuration:
 ```
 
 </Tab>
-<Tab title="Python SDK">
+<Tab title="Access config during a run">
+
+Use the `wandb.Run.config` property to access a run's configuration values during a run. `wandb.Run.config` returns a dictionary object that contains the configuration key-value pairs.
+
+The following example shows how to access a run's configuration values during a run. Replace the values in the config dictionary with your own hyperparameters, model architecture, dataset name, and other settings. Replace `"<my-project>"` with your W&B project name:
+
+```python
+import wandb
+
+config = {
+    "epochs": 100,
+    "learning_rate": 0.001,
+    "model_type": "CNN",
+    "dataset_id": "cats-0192"
+}
+
+with wandb.init(project="<my-project>", config=config) as run:
+
+  print(run.config)
+```
+</Tab>
+<Tab title="Access config from existing runs">
 
 Use the W&B Public API to access a run's configuration with the `wandb.Api.Run.config` property.
 
