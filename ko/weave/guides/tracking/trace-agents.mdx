@@ -59,10 +59,10 @@ Weave는 분산 트레이싱을 위한 개방형 표준인 [OpenTelemetry (OTel)
 
 Weave는 에이전트 동작을 일대다 관계의 계층 구조로 모델링합니다. 각 에이전트는 여러 대화를 가질 수 있고, 각 대화는 여러 턴을 가질 수 있으며, 각 턴은 여러 LLM Call을 가질 수 있고, 각 LLM Call은 여러 도구 Call을 트리거할 수 있습니다.
 
-| 개념           | Weave SDK 클래스  | OTel span 유형                                | 설명                                                    | 레퍼런스 페이지                                                                                                                           |
-| ------------ | -------------- | ------------------------------------------- | ----------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| 에이전트         | *(클래스 없음)*     | *(span 없음, `agent_name` 속성으로 그룹화됨)*         | Agents 탭의 에이전트형 애플리케이션으로, 하나 이상의 대화를 포함합니다  |                                                                                                                                    |
-| 대화 | `Conversation` | *(span 없음, 턴은 `conversation_id` 속성으로 그룹화됨)* | 하나 이상의 턴을 포함하는 대화 또는 run입니다.                          | [Python](/ko/weave/reference/python-sdk#class-conversation) <br /> [TypeScript](/ko/weave/reference/typescript-sdk/classes/conversation) |
+| 개념           | Weave SDK 클래스  | OTel span 유형                                | 설명                                                    | 레퍼런스 페이지                                                                                                                                 |
+| ------------ | -------------- | ------------------------------------------- | ----------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| 에이전트         | *(클래스 없음)*     | *(span 없음, `agent_name` 속성으로 그룹화됨)*         | Agents 탭의 에이전트형 애플리케이션으로, 하나 이상의 대화를 포함합니다            |                                                                                                                                          |
+| 대화           | `Conversation` | *(span 없음, 턴은 `conversation_id` 속성으로 그룹화됨)* | 하나 이상의 턴을 포함하는 대화 또는 run입니다.                          | [Python](/ko/weave/reference/python-sdk#class-conversation) <br /> [TypeScript](/ko/weave/reference/typescript-sdk/classes/conversation) |
 | 턴            | `Turn`         | `invoke_agent`                              | 사용자 메시지 1개와 에이전트의 전체 응답입니다.                           | [Python](/ko/weave/reference/python-sdk#class-turn) <br /> [TypeScript](/ko/weave/reference/typescript-sdk/classes/turn)                 |
 | LLM Call     | `LLM`          | `chat`                                      | 언어 모델 API에 대한 단일 LLM Call입니다.                         | [Python](/ko/weave/reference/python-sdk#class-llm) <br /> [TypeScript](/ko/weave/reference/typescript-sdk/classes/llm)                   |
 | 도구 Call      | `Tool`         | `execute_tool`                              | LLM 응답으로 트리거되는 단일 도구 Call입니다.                         | [Python](/ko/weave/reference/python-sdk#class-tool) <br /> [TypeScript](/ko/weave/reference/typescript-sdk/classes/tool)                 |
@@ -108,7 +108,7 @@ flowchart TB
 대화는 상위 span이 아니라 공통 `conversation_id` 속성을 기준으로 턴을 그룹화하므로, 각 턴이 자체 OTel 트레이스를 시작합니다. 이 설계는 분산 트레이싱과 병렬 실행을 지원합니다. 클라이언트는 서버 측 집계 없이 span을 OTel collector로 직접 전송합니다.
 
 <Tip>
-  Claude Agent SDK 또는 Codex와 같은 SDK나 하니스와 Weave를 통합하려면 [Trace agent integrations](/ko/weave/guides/tracking/trace-agent-integrations)를 참조하세요. Weave는 빠르게 통합할 수 있도록 여러 에이전트 구축 SDK와 에이전트 하니스에 자동 patch를 적용합니다.
+  Claude Agent SDK 또는 Codex와 같은 SDK나 하니스와 Weave를 통합하려면 [에이전트 인테그레이션 선택하기](/ko/weave/agent-integration-quickstart)를 참조하세요. Weave는 빠르게 통합할 수 있도록 여러 에이전트 구축 SDK와 에이전트 하니스에 자동 patch를 적용합니다.
 </Tip>
 
 <div id="agent-tracing-apis">

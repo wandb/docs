@@ -1,16 +1,49 @@
 ---
 title: IncompleteRunHistoryError
-namespace: public_apis_namespace
-python_object_type: class
+kind: classe
+namespace: wandb.apis.public.runhistory.downloads
 ---
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runhistory/downloads.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runhistory/downloads.py#L18" />
 
-
-## <kbd>class</kbd> `IncompleteRunHistoryError`
+## <kbd>classe</kbd> wandb.apis.public.IncompleteRunHistoryError
 
 Levée lorsque l’historique du run est incomplet.
 
-Un historique incomplet survient lorsque certaines données n’ont pas encore été exportées vers des fichiers parquet, généralement parce que le run est toujours en cours. 
+Un historique incomplet survient lorsque certaines données n’ont pas encore été exportées vers des fichiers parquet, généralement parce que le run est toujours en cours.
+
+<div id="methods">
+  ## Méthodes
+</div>
+
+### <kbd>méthode</kbd> BaseException.add_note()
+
+```python
+(self, object, /)
+```
+
+Exception.add&#95;note(note) --
+ajoute une note à l’exception
+
+<div id="arguments">
+  ##### Arguments
+</div>
+
+* `object`: 
+
+### <kbd>méthode</kbd> BaseException.with_traceback()
+
+```python
+(self, object, /)
+```
+
+Exception.with&#95;traceback(tb) --
+affecter tb à self.**traceback** et renvoyer self.
+
+<div id="arguments">
+  ##### Arguments
+</div>
+
+* `object`: 

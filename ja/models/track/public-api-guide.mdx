@@ -1,153 +1,10 @@
 ---
-description: MLFlow からデータをインポートし、W&B に保存したデータをエクスポートまたは更新する
-title: データのインポートとエクスポート
+description: W&B に保存したデータをエクスポートまたは更新する
+title: データのエクスポートと更新
 ---
 
 import ApiKeyCreate from "/snippets/ja/_includes/api-key-create.mdx";
 import ApiKeySecurity from "/snippets/ja/_includes/api-key-security.mdx";
-
-W&amp;B Public API を使用して、データをエクスポートまたはインポートします。
-
-<Note>
-  この機能を使用するには python&gt;=3.8 が必要です
-</Note>
-
-<div id="import-data-from-mlflow">
-  ## MLFlow からデータをインポートする
-</div>
-
-W&amp;B では、Experiments、Runs、アーティファクト、メトリクス、その他のメタデータなど、MLFlow のデータをインポートできます。
-
-依存関係をインストールします:
-
-```shell
-# 注意: py38以上が必要です
-pip install wandb[importers]
-```
-
-W&amp;B にログインします。初めてログインする場合は、表示される案内に従ってください。
-
-```shell
-wandb login
-```
-
-既存のMLFlowサーバーから、すべてのrunをインポートします：
-
-```py
-from wandb.apis.importers.mlflow import MlflowImporter
-
-importer = MlflowImporter(mlflow_tracking_uri="...")
-
-runs = importer.collect_runs()
-importer.import_runs(runs)
-```
-
-デフォルトでは、`importer.collect_runs()` は MLFlow サーバー上のすべての run を収集します。特定のサブセットだけを upload したい場合は、独自の run の iterable を作成して importer に渡すこともできます。
-
-```py
-import mlflow
-from wandb.apis.importers.mlflow import MlflowRun
-
-client = mlflow.tracking.MlflowClient(mlflow_tracking_uri)
-
-runs: Iterable[MlflowRun] = []
-for run in mlflow_client.search_runs(...):
-    runs.append(MlflowRun(run, client))
-
-importer.import_runs(runs)
-```
-
-<Note>
-  Databricks MLflow からインポートする場合は、最初に [Databricks CLI を設定する](https://docs.databricks.com/dev-tools/cli/index.html)必要があることがあります。
-
-  前の手順で `mlflow-tracking-uri="databricks"` を設定してください。
-</Note>
-
-アーティファクトのインポートをスキップするには、`artifacts=False` を渡します。
-
-```py
-importer.import_runs(runs, artifacts=False)
-```
-
-特定の W&amp;B entity と project にインポートするには、`Namespace` を渡します:
-
-```py
-from wandb.apis.importers import Namespace
-
-importer.import_runs(runs, namespace=Namespace(entity, project))
-```
-
-{/* DOCS-1043 に従い、修正されるまでこの情報を非表示にしています 
-
-  ## 別の W&B インスタンスからデータをインポートする
-
-  <Note>
-  この機能はベータ版で、W&B パブリッククラウドからのインポートのみをサポートしています。
-  </Note>
-
-  依存関係をインストールします:
-
-  ```sh
-  # 注: py38+ が必要です
-  pip install wandb[importers]
-  ```
-
-  ソースの W&B サーバーにログインします。まだログインしたことがない場合は、画面の指示に従ってください。
-
-  ```sh
-  wandb login
-  ```
-
-  ソース W&B インスタンスから宛先 W&B インスタンスに、すべての Runs と artifacts をインポートします。Runs と artifacts は、宛先インスタンス内のそれぞれの namespace にインポートされます。
-
-  ```py
-  from wandb.apis.importers.wandb import WandbImporter
-  from wandb.apis.importers import Namespace
-
-  importer = WandbImporter(
-    src_base_url="https://api.wandb.ai",
-    src_api_key="your-api-key-here",
-    dst_base_url="https://example-target.wandb.io",
-    dst_api_key="target-environment-api-key-here",
-  )
-
-  # すべての Runs、artifacts、Reports をインポートします
-  # src の "entity/project" から dst の "entity/project" へ
-  importer.import_all(namespaces=[
-    Namespace(entity, project),
-    # ... ここに追加の namespace を指定します
-  ])
-  ```
-
-  宛先の namespace を変更したい場合は、`remapping: dict[Namespace, Namespace]` を指定できます。
-
-  ```py
-  importer.import_all(
-    namespaces=[Namespace(entity, project)],
-    remapping={
-        Namespace(entity, project): Namespace(new_entity, new_project),
-    }
-  )
-  ```
-
-  デフォルトでは、インポートは段階的に行われます。以降のインポートでは、前回までの処理結果を検証し、成功/失敗を記録する `.jsonl` ファイルに書き込みます。インポートが成功していれば、以後の検証はスキップされます。インポートが失敗していた場合は、再試行されます。これを無効にするには、`incremental=False` を設定します。
-
-  ```py
-  importer.import_all(
-    namespaces=[Namespace(entity, project)],
-    incremental=False,
-  )
-  ```
-
-  ### 既知の問題と制限
-
-  - 宛先の namespace が存在しない場合、W&B が自動的に作成します。
-  - 宛先の namespace に同じ ID を持つ run または artifact がある場合、W&B はそれを段階的インポートとして扱います。宛先の run/artifact は検証され、以前のインポートで失敗していた場合は再試行されます。
-  - ソースシステムのデータが削除されることはありません。
-
-  1. 一括インポート時（特に大きな artifacts）には、S3 の rate limits に達することがあります。`botocore.exceptions.ClientError: An error occurred (SlowDown) when calling the PutObject operation` が表示された場合は、一度に移行する namespace を少数に絞り、インポートの間隔を空けてみてください。
-  2. インポートされた run tables は Workspace では空白に見えることがありますが、Artifacts タブに移動して対応する run table artifact をクリックすると、想定どおり表を確認できます。
-  3. システムメトリクスおよび custom charts（`run.log()` で明示的にログしていないもの）はインポートされません */}
 
 <div id="export-data">
   ## データをエクスポートする
@@ -176,7 +33,7 @@ APIキーは、マシンをW&amp;Bに認証するために使用します。
   ### run パスを検索する
 </div>
 
-Public APIを使用するには、多くの場合、`<entity>/<project>/<run_id>` 形式の run パスが必要です。アプリのUIで run のページを開き、[Overview タブ ](/ja/models/track/public-api-guide/#overview-tab)をクリックすると、run パスを確認できます。
+Public APIを使用するには、多くの場合、`<entity>/<project>/<run_id>` 形式の run パスが必要です。アプリのUIで Run のページを開き、[Overview タブ](/ja/models/track/public-api-guide/#overview-tab)をクリックすると、run パスを確認できます。
 
 <div id="export-run-data">
   ### run データをエクスポート
@@ -221,10 +78,10 @@ with wandb.init(project="public-api-example") as run:
         )
 ```
 
-以下のセクションでは、上記のrunオブジェクトの属性ごとのさまざまな出力について説明します
+以下のセクションでは、上記のrunオブジェクトの属性ごとのさまざまな出力について説明します。
 
 <div id="runconfig">
-  ##### `run.config`
+  #### `run.config`
 </div>
 
 ```python
@@ -249,7 +106,7 @@ with wandb.init(project="public-api-example") as run:
   ### サンプリング
 </div>
 
-デフォルトのhistory methodでは、メトリクスが固定数のサンプルにサンプリングされます (デフォルトは500で、`samples` &#95;&#95; 引数で変更できます) 。大規模なrunのすべてのデータをエクスポートする場合は、`run.scan_history()` methodを使用できます。詳細は、[API Reference](/ja/models/ref/python/public-api)を参照してください。
+デフォルトのhistory methodでは、メトリクスが固定数のサンプルにサンプリングされます (デフォルトは500で、`samples` 引数で変更できます) 。大規模なrunのすべてのデータをエクスポートする場合は、`run.scan_history()` methodを使用できます。詳細は、[API Reference](/ja/models/ref/python/public-api)を参照してください。
 
 <div id="querying-multiple-runs">
   ### 複数の Runs をクエリする
@@ -492,10 +349,9 @@ run.update()
 ```python
 import wandb
 
-with wandb.Api().run("<entity>/<project>/<run_id>") as run:
-
-    system_metrics = run.history(stream="events")
-    system_metrics.to_csv("sys_metrics.csv")
+run = wandb.Api().run("<entity>/<project>/<run_id>")
+system_metrics = run.history(stream="events")
+system_metrics.to_csv("sys_metrics.csv")
 ```
 
 <div id="get-unsampled-metric-data">
