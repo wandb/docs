@@ -1,47 +1,41 @@
 ---
-title: Automation
-namespace: automations_namespace
-python_object_type: class
+title: オートメーション
+kind: クラス
+namespace: wandb.automations.automations
 ---
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/automations.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/automations.py#L19" />
 
-
-## <kbd>クラス</kbd> `Automation`
-
-保存済みの W&amp;B automation を編集できるローカルインスタンスです。
-
-### <kbd>メソッド</kbd> `Automation.__init__`
+## <kbd>クラス</kbd> wandb.automations.Automation
 
 ```python
-__init__(
-    typename__: 'Literal['Trigger']' = 'Trigger',
-    id: 'str',
-    created_at: 'datetime',
-    updated_at: 'datetime.datetime | None' = None,
-    name: 'str',
-    description: 'str | None',
-    enabled: 'bool',
-    scope: 'wandb.automations.scopes._ArtifactSequenceScope | wandb.automations.scopes._ArtifactPortfolioScope | wandb.automations.scopes.ProjectScope',
-    event: 'SavedEvent',
-    action: 'wandb.automations.actions.SavedLaunchJobAction | wandb.automations.actions.SavedNotificationAction | wandb.automations.actions.SavedWebhookAction | wandb.automations.actions.SavedNoOpAction'
-) → None
+*,
+__typename: Literal['Trigger'] = 'Trigger',
+id: Annotated[str, Strict(strict=True)],
+createdAt: datetime.datetime,
+updatedAt: datetime.datetime | None = None,
+name: str,
+description: str | None,
+enabled: bool,
+scope: Annotated[Union[wandb.automations.scopes._ArtifactSequenceScope, wandb.automations.scopes._ArtifactPortfolioScope, wandb.automations.scopes.ProjectScope, Annotated[wandb.automations.scopes.TeamScope | wandb.automations.scopes.OrgScope, BeforeValidator(func=<function parse_scope>, json_schema_input_type=PydanticUndefined), Discriminator(discriminator='entity_type', custom_error_type=None, custom_error_message=None, custom_error_context=None)]], BeforeValidator(func=<function parse_scope>, json_schema_input_type=PydanticUndefined), Discriminator(discriminator='typename__', custom_error_type=None, custom_error_message=None, custom_error_context=None)],
+event: wandb.automations.events.SavedEvent,
+action: Annotated[wandb.automations.actions.SavedLaunchJobAction | wandb.automations.actions.SavedNotificationAction | wandb.automations.actions.SavedWebhookAction | wandb.automations.actions.SavedNoOpAction, BeforeValidator(func=<function parse_saved_action>, json_schema_input_type=PydanticUndefined)]
 ```
 
-**引数:**
+保存済みの W&amp;B オートメーションを編集できるローカルインスタンスです。
 
-* `typename__` (Literal[&#39;Trigger&#39;]):
-* `id` (str):
-* `created_at` (datetime): このオートメーションが作成された日時。
-* `updated_at` (datetime.datetime | None): 該当する場合、このオートメーションが最後に更新された日時。
-* `name` (str): このオートメーションの名前。
-* `description` (str | None): このオートメーションの説明 (省略可能) 。
-* `enabled` (bool): このオートメーションが有効かどうか。有効なオートメーションのみがトリガーされます。
-* `scope` (wandb.automations.scopes.&#95;ArtifactSequenceScope | wandb.automations.scopes.&#95;ArtifactPortfolioScope | wandb.automations.scopes.ProjectScope): トリガー対象のイベントが発生するスコープ。
-* `event` (SavedEvent): このオートメーションをトリガーするイベント。
-* `action` (wandb.automations.actions.SavedLaunchJobAction | wandb.automations.actions.SavedNotificationAction | wandb.automations.actions.SavedWebhookAction | wandb.automations.actions.SavedNoOpAction): このオートメーションがトリガーされたときに実行されるアクション。
+<div id="args">
+  ## 引数
+</div>
 
-**戻り値:**
-`Automation` オブジェクト。
+* `id`:
+* `createdAt`: このオートメーションが作成された日時。
+* `updatedAt`: 該当する場合、このオートメーションが最後に更新された日時。
+* `name`: このオートメーションの名前。
+* `description`: このオートメーションの任意の説明。
+* `enabled`: このオートメーションが有効かどうか。有効なオートメーションのみがトリガーされます。
+* `scope`: トリガーとなるイベントが発生するスコープ。
+* `event`: このオートメーションをトリガーするイベント。
+* `action`: このオートメーションがトリガーされたときに実行されるアクション。

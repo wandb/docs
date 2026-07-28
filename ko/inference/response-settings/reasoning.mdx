@@ -14,30 +14,35 @@ keywords: ["사고 사슬", "생각 모드", "추론 필드", "추론 활성화"
   ## 추론이 지원되는 모델
 </div>
 
-다음 표에는 추론 출력이 반환되는 Serverless Inference 모델이 나와 있습니다. 지원되는 각 모델은 추론을 항상 포함하거나, 기본적으로 추론이 비활성화되거나 활성화됩니다:
+다음 표에는 추론 출력을 반환할 수 있는 Serverless Inference 모델과 각 모델의 동작 방식이 나와 있습니다:
+
+* **항상 켜짐:** 모델이 항상 추론 출력을 반환합니다. 비활성화할 수 없습니다.
+* **기본적으로 활성화됨** / **기본적으로 비활성화됨:** 추론 출력을 켜거나 끌 수 있습니다. 표에는 설정을 지정하지 않았을 때 적용되는 기본값이 표시됩니다.
+* **적응형; 기본적으로 모델이 선택:** 모델이 각 요청마다 추론 출력을 반환할지 여부를 결정합니다. 이 설정은 재정의할 수 있습니다.
 
 {/* takeru reasoning-models - 이 표는 자동으로 생성되므로 직접 편집하지 마십시오. */}
 
-| 모델 ID(API 사용 시)                                | 추론 지원       |
-| ---------------------------------------------- | ----------- |
-| `deepseek-ai/DeepSeek-V4-Flash`                | 기본적으로 비활성화됨 |
-| `deepseek-ai/DeepSeek-V4-Pro`                  | 기본적으로 비활성화됨 |
-| `google/gemma-4-31B-it`                        | 기본적으로 비활성화됨 |
-| `MiniMaxAI/MiniMax-M2.5`                       | 항상 켜짐       |
-| `moonshotai/Kimi-K2.7-Code`                    | 항상 켜짐       |
-| `moonshotai/Kimi-K2.6`                         | 항상 켜짐       |
-| `moonshotai/Kimi-K2.5`                         | 항상 켜짐       |
-| `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-FP8` | 기본적으로 활성화됨  |
-| `nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B`     | 기본적으로 활성화됨  |
-| `openai/gpt-oss-120b`                          | 항상 켜짐       |
-| `openai/gpt-oss-20b`                           | 항상 켜짐       |
-| `Qwen/Qwen3.6-35B-A3B`                         | 기본적으로 활성화됨  |
-| `Qwen/Qwen3.6-27B`                             | 기본적으로 활성화됨  |
-| `Qwen/Qwen3.5-35B-A3B`                         | 기본적으로 활성화됨  |
-| `Qwen/Qwen3.5-27B`                             | 기본적으로 활성화됨  |
-| `Qwen/Qwen3-235B-A22B-Thinking-2507`           | 항상 켜짐       |
-| `zai-org/GLM-5.2`                              | 기본적으로 활성화됨  |
-| `zai-org/GLM-5.1`                              | 기본적으로 활성화됨  |
+| 모델 ID(API 사용 시)                                | 추론 지원              |
+| ---------------------------------------------- | ------------------ |
+| `deepseek-ai/DeepSeek-V4-Flash`                | 기본적으로 비활성화됨        |
+| `deepseek-ai/DeepSeek-V4-Pro`                  | 기본적으로 비활성화됨        |
+| `google/gemma-4-31B-it`                        | 기본적으로 비활성화됨        |
+| `MiniMaxAI/MiniMax-M3`                         | 적응형; 기본적으로 모델이 선택 |
+| `MiniMaxAI/MiniMax-M2.5`                       | 항상 켜짐              |
+| `moonshotai/Kimi-K2.7-Code`                    | 항상 켜짐              |
+| `moonshotai/Kimi-K2.6`                         | 항상 켜짐              |
+| `moonshotai/Kimi-K2.5`                         | 항상 켜짐              |
+| `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-FP8` | 기본적으로 활성화됨         |
+| `nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B`     | 기본적으로 활성화됨         |
+| `openai/gpt-oss-120b`                          | 항상 켜짐              |
+| `openai/gpt-oss-20b`                           | 항상 켜짐              |
+| `Qwen/Qwen3.6-35B-A3B`                         | 기본적으로 활성화됨         |
+| `Qwen/Qwen3.6-27B`                             | 기본적으로 활성화됨         |
+| `Qwen/Qwen3.5-35B-A3B`                         | 기본적으로 활성화됨         |
+| `Qwen/Qwen3.5-27B`                             | 기본적으로 활성화됨         |
+| `Qwen/Qwen3-235B-A22B-Thinking-2507`           | 항상 켜짐              |
+| `zai-org/GLM-5.2`                              | 기본적으로 활성화됨         |
+| `zai-org/GLM-5.1`                              | 기본적으로 활성화됨         |
 
 <div id="models-with-always-on-reasoning">
   ### `항상 켜짐` 추론이 포함된 모델

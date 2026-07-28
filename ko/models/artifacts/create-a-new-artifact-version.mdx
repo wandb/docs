@@ -238,7 +238,7 @@ with wandb.init(project=project, group=distributed_id) as run:
     logged.wait()
 ```
 
-<Tip title="Draft와 Upsert">
+<Tip title="초안와 Upsert">
   커밋된 아티팩트 버전을 수정할 때는 `Artifact.new_draft()`를 사용하세요.
 
   최종 확정되기 전에 여러 Runs가 하나의 아티팩트 버전에서 함께 작업해야 하는 경우에는 `Artifact.upsert_artifact()`와 `Artifact.finish_artifact()`를 사용하세요.
