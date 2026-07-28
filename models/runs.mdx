@@ -143,18 +143,16 @@ Notes that you add to a specific run appear on the run page in the **Overview** 
 
 ## Run summary
 
-In addition to values that change over time during training, it is often important to track values that summarizes a model or a preprocessing step. Store this information in a run’s [`summary`](/models/ref/python/experiments/run#attributes) attribute.
+Use a run’s [`summary`](/models/ref/python/experiments/run#attributes) attribute to store values that summarize a model, training process, or preprocessing step. Unlike metrics that change over time, summary values typically represent a final or aggregate result.
 
+You can log summary values during an active run or update them after the run finishes. Access them programmatically with the W&B Python SDK or view them in the W&B App.
 
-You can log summary metrics during an active run or after a run has finished. View a run's summary programmatically with the W&B Python SDK or interactively in the W&B App.
-
-
-For more information on how to store and view summary metrics, see [Log summary metrics](/models/track/log/log-summary).
-
+For more information, see [Log summary metrics](/models/track/log/log-summary).
 
 ## Run configuration
 
-Store configuration values to a run to track the input values for a run, such as hyperparameters, model architecture, dataset name, and other settings needed to reproduce your experiment. You can log configuration values during an active run or after a run has finished. View a run's configuration programmatically with the W&B Python SDK or interactively in the W&B App.
+Use a run’s configuration to store the input values and settings for an experiment, such as hyperparameters, model architecture, and dataset name. Configuration values help you track the conditions used to produce a run’s results.
 
-For more information on how to log and view configuration values, see [Configure experiments](/models/track/config).
+You can log configuration values during an active run or update them after the run finishes. Access them programmatically with the W&B Python SDK or view them in the W&B App.
 
+For more information, see [Configure experiments](/models/track/config).

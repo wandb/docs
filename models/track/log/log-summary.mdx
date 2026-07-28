@@ -107,7 +107,7 @@ with wandb.init() as run:
 
 ## View summary metrics
 
-Access a run's summary in the W&B App, during a run, or from existing runs. You can also access summary values from the local filesystem.
+Access a run’s summary in the W&B App, during an active run, from an existing run, or from the local file system.
 
 <Tabs>
 <Tab title="Run Overview">
@@ -129,9 +129,9 @@ The following image shows what the summary metrics might look like in the **Over
 </Tab>
 <Tab title="During a run">
 
-Use `wandb.Run.summary` to access the run's summary values during a run. The `wandb.Run.summary` attribute returns a dictionary of key-value pairs.
+Use `wandb.Run.summary` to access a run’s summary values during an active run. This attribute returns a dictionary of key-value pairs.
 
-The following code snippet shows an example of how to access a run's summary values during a run. Replace `"<my-project>"` with your W&B project name:
+The following example accesses a run’s summary. Replace `"<my-project>"` with your W&B project name:
 
 ```python
 import wandb
@@ -230,109 +230,8 @@ Run summary: {'_runtime': 3, '_step': 1000, '_timestamp': 1776714833.636171, '_w
 
 W&B stores run summary values in the `wandb-summary.json` file in the run directory. To read the summary values locally, open the `wandb-summary.json` file.
 
-By default, the run directory is located at `./wandb/run-<timestamp>-<run_id>`.
+By default, W&B stores run directories at: `./wandb/run-<timestamp>-<run_id>`.
 
 </Tab>
 </Tabs>
-
-
-
-
-
-
-
-{/* 
-Access a run's summary in the W&B App, during a run, or from existing runs. You can also access summary values from the local filesystem. */}
-
-{/* <Tabs> */}
-{/* <Tab title="W&B App">
-
-View a run's summary in the W&B App:
-
-1. Navigate to your project in the W&B App.
-2. Select the run you want to view.
-3. Select the **Overview** tab.
-4. Scroll to the **Summary** section.
-
-You can also view summary values in the project's runs table. Summary values appear as columns based on the metric name.
-
-The following JSON object shows an example run summary:
-
-```json title="Summary"
-{
-  "_runtime": 0,
-  "_step": 99,
-  "_timestamp": 1773696666.303637,
-  "_wandb.runtime": 0,
-  "accuracy": 0.9448340173699504,
-  "loss": 0.0524316074042725
-}
-```
-
-</Tab> */}
-{/* <Tab title="Access summary during a run">
-
-Use `wandb.Run.summary` to access the run's summary values during a run. The `wandb.Run.summary` attribute returns a dictionary of key-value pairs.
-
-The following code snippet shows an example of how to access a run's summary values during a run. Replace `"<my-project>"` with your W&B project name:
-
-```python
-import wandb
-
-with wandb.init(project="<my-project>", config=config) as run:
-  run.log({"accuracy": 0.9, "loss": 0.1})
-
-  print(run.summary)  # prints the summary dictionary
-```
-
-</Tab> */}
-
-{/* <Tab title="Access summary from existing runs">
-
-Use the W&B Public API to access a run's summary metrics with the `wandb.Api.Run.summary` property.
-
-```python
-import wandb
-
-api = wandb.Api()
-run = api.run("<entity>/<project>/<run_id>")
-
-print(run.name)
-print(dict(run.summary))
-```
-
-To access summary metrics for multiple runs in a project, iterate over the runs returned by `api.runs()`:
-
-```python
-import wandb
-
-api = wandb.Api()
-runs = api.runs("<entity>/<project>")
-
-for run in runs:
-    print(f"Run name: {run.name}")
-    print(f"Run ID: {run.id}")
-    print(f"Run summary: {dict(run.summary)}")
-    print("----------")
-```
-
-The following JSON object shows an example run summary:
-
-```shell
-Run name: zesty-snowball-7
-Run ID: qne08r7u
-Run summary: {'_runtime': 3, '_step': 1000, '_timestamp': 1776714833.636171, '_wandb.runtime': 3, 'train/epoch_ndx': 1000, 'train/train_loss': 0.24914199113845825}
-```
-
-</Tab> */}
-{/* <Tab title="Local filesystem">
-
-W&B stores run summary values in the `wandb-summary.json` file in the run directory. To read the summary values locally, open the `wandb-summary.json` file.
-
-By default, the run directory is located at `./wandb/run-<timestamp>-<run_id>`.
-
-</Tab> */}
-{/* </Tabs> */}
-
-
 

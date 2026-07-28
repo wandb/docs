@@ -233,8 +233,6 @@ with wandb.init(config=config) as run:
     run.pin_config_keys(["grafana_url"])
 ```
 
-
-
 {/* ## `absl.FLAGS`
 
 You can also pass in [`absl` flags](https://abseil.io/docs/python/guides/flags).
@@ -252,7 +250,7 @@ Access your config values in the W&B App, during a run, or from existing runs. Y
 <Tabs>
 <Tab title="W&B App">
 
-View a run configuration in the W&B App
+View a run configuration in the W&B App:
 
 1. Navigate to your project in the W&B App.
 2. Select the run you want to view.
@@ -262,7 +260,7 @@ View a run configuration in the W&B App
 
 The raw JSON format is useful when you write expressions to create or transform line plots from config values, logged metrics, or summary values. See [Expressions](/models/app/features/panels/line-plot/reference#expressions) for more details. 
 
-The following JSON object shows an example run configuration:
+{/* The following JSON object shows an example run configuration:
 
 ```json title="Config"
 {
@@ -279,7 +277,7 @@ The following JSON object shows an example run configuration:
     "value": "cats-0192"
   }
 }
-```
+``` */}
 
 </Tab>
 <Tab title="During a run">
@@ -311,9 +309,9 @@ The following snippet shows an example of what your terminal output might look l
 </Tab>
 <Tab title="Existing run">
 
-Use the W&B Public API to access a previously logged run. Access the run's configuration with the [`wandb.Api.Run.config`](/models/ref/python/public-api/run#property-config) property. Provide your entity, project name, and the run's ID to the `wandb.Api.run()` method.
+Use the W&B Public API to access the configuration of a previously logged run. Pass the entity, project name, and run ID to `wandb.Api.run()`, and then access the run’s configuration with the wandb.Api.Run.config property.
 
-Copy and paste the following code snippet into your Python script or notebook. Replace `"<entity>"`, `"<project>"`, and `"<run_id>"` with your W&B entity, project name, and run ID.
+Replace `"<entity>"`, `"<project>"`, and `"<run_id>"` in the following example with your W&B entity, project name, and run ID.
 
 ```python
 import wandb
@@ -325,7 +323,7 @@ print(run.name)
 print(run.config)
 ```
 
-To access configuration values for multiple runs in a project, use the `wandb.Api.runs()` method to get a list of runs in a project, and then iterate over the runs returned by `api.runs()`:
+To access configuration values for multiple runs in a project, use `wandb.Api.runs()` to retrieve the runs, and then iterate over the returned Run objects:
 
 ```python
 import wandb
