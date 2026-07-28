@@ -1,10 +1,47 @@
 ---
-title: "Notes de version du SDK W&B"
-description: "Consultez les notes de version du SDK Python W&B, y compris les nouvelles fonctionnalités, les corrections de bugs et les changements majeurs par version."
+title: "Versions du SDK W&B"
+description: "Consultez les notes de version du SDK Python W&B, y compris les nouvelles fonctionnalités, les corrections de bugs et les modifications incompatibles par version."
 rss: true
 ---
 
-Cette page présente les notes de version du SDK Python W&amp;B (package `wandb`) utilisé avec W&amp;B Models. Pour le SDK Python Weave (package `weave`), voir [Versions du SDK Weave](/fr/release-notes/weave-sdk-releases). Pour le serveur W&amp;B, voir [Notes de version du serveur W&amp;B](/fr/release-notes/server-releases).
+Cette page contient les notes de version du SDK Python W&amp;B (package `wandb`) utilisé avec W&amp;B Models. Pour le SDK Python Weave (package `weave`), consultez [Versions du SDK Weave](/fr/release-notes/weave-sdk-releases). Pour W&amp;B Server, consultez les [notes de version de W&amp;B Server](/fr/release-notes/server-releases).
+
+<Update label="0.28.1" description="16 juillet 2026">
+  ## Modifications notables
+
+  * Cette version requiert protobuf v5+ et ne prend plus en charge protobuf v4.
+  * Cette version n’est plus compatible avec W&amp;B Server v0.69.x et les versions antérieures.
+
+  ## Ajouts
+
+  * `Api().project().sweeps()` accepte un argument `filters` facultatif, qui utilise le même format de filtre que `Api().runs()`.
+  * La nouvelle méthode d’API publique `Run.stop()` (`wandb.Api().run(...).stop()`) demande l’arrêt contrôlé d’un run actif, à l’instar du bouton **Stop run** dans W&amp;B App.
+  * La nouvelle méthode `wandb.Api().organization()` renvoie une `Organization` à partir de son nom. Si vous omettez le nom, elle renvoie votre organisation par défaut actuelle.
+
+  ## Modifications
+
+  * `wandb sync` redirige désormais vers `wandb beta sync` pour les ensembles de paramètres pris en charge. Pour utiliser l’implémentation précédente, transmettez plutôt `--legacy`.
+  * `wandb beta sync` ignore désormais par défaut les runs en ligne, comme `wandb sync`. Pour inclure les runs en ligne, transmettez `--no-skip-online`.
+  * `wandb.sandbox` définit désormais par défaut une durée de vie maximale de 12 heures pour les sandboxes sans serveur (`max_lifetime_seconds=43200`). Pour remplacer cette valeur par défaut, transmettez `max_lifetime_seconds` pour une sandbox individuelle ou définissez-le dans `SandboxDefaults`.
+  * `wandb.Api().runs()` et `wandb.Api().run()` lèvent désormais `RunNotFoundError` lorsque les données d’un run ne peuvent pas être chargées, par exemple lorsque le run est supprimé avant la fin du chargement de ses données.
+  * `run.save()` accepte un nouvel argument `glob`. Transmettez `glob=False` pour désactiver l’expansion glob (`*`, `?` et `[...]`) et traiter le chemin comme un chemin littéral. Cela est utile lorsqu’un nom de fichier contient des métacaractères glob.
+  * Les fichiers et répertoires temporaires de sockets Unix sont désormais supprimés à l’arrêt.
+  * protobuf v4 n’est plus pris en charge.
+
+  ## Suppressions
+
+  * Suppression des implémentations de secours héritées pour le téléchargement de fichiers d’artifacts depuis des versions de W&amp;B Server antérieures à v0.70.0. Sur ces serveurs, `Artifact.files()` et `Artifact.download()` ne fonctionnent plus pour aucun artifact, et les téléchargements de fichiers via `Artifact.get_entry()` et `Artifact.get_path()` ne fonctionnent plus pour les artifacts non référencés. Pour continuer à utiliser ces opérations, mettez à niveau W&amp;B Server vers v0.70.0 ou une version ultérieure.
+  * Suppression des implémentations de secours héritées pour la récupération d’un artifact par nom depuis des versions de W&amp;B Server antérieures à v0.70.0. Sur ces serveurs, `wandb.Api().artifact()` et les autres méthodes qui récupèrent des artifacts par chemin ne fonctionnent plus. Pour continuer à utiliser ces opérations, mettez à niveau W&amp;B Server vers v0.70.0 ou une version ultérieure.
+  * Suppression de la dépendance `GitPython`. Les métadonnées Git sont désormais collectées en appelant directement l’exécutable `git`. La variable d’environnement `GIT_PYTHON_GIT_EXECUTABLE` est toujours prise en compte pour localiser l’exécutable.
+
+  ## Correctifs
+
+  * L’enregistrement d’un artifact de registre lié, par exemple lors de l’ajout d’un alias, n’échoue plus lorsque vous ne disposez pas d’un accès en écriture au projet source.
+  * Les valeurs `NaN` de `np.float16` et `np.float32` enregistrées avec `Run.log()` sont désormais consignées comme `NaN` au lieu d’être ignorées silencieusement, conformément au comportement de `np.float64` et du type `float` natif.
+  * `Run.upload_file()` (via `wandb.Api().run(...)`) associe désormais le fichier téléversé au run dans les déploiements autogérés. Auparavant, les octets du fichier étaient téléversés, mais jamais validés. Le fichier n’apparaissait donc pas dans le run sur les déploiements sans notifications de stockage d’objets.
+  * Les agents de balayage laissent désormais un run en cours se terminer avant de quitter lorsque le sweep est supprimé ou que `Api()` renvoie une erreur 404.
+  * Correction des interblocages introduits dans le SDK v0.25.1. Ces interblocages ont été signalés lors de l’utilisation de PyTorch avec des versions de Python antérieures à la version 3.14, qui utilisent par défaut la méthode de démarrage `fork` de `multiprocessing`. Ils pouvaient également survenir lors de la garbage collection avec certaines fonctionnalités de `wandb.Api`.
+</Update>
 
 <Update label="0.28.0" description="22 juin 2026">
   ## Changements notables
@@ -49,23 +86,23 @@ Cette page présente les notes de version du SDK Python W&amp;B (package `wandb`
 <Update label="0.27.1" description="4 juin 2026">
   ## Ajouts
 
-  * L’API Automatisations prend désormais en charge les événements de marquage d’artifact, de marquage de collection et de dissociation d’artifact.
+  * L’API Automatisations prend désormais en charge les événements de tag d’artifact, de tag de collection et de dissociation d’artifact.
 
   ## Modification
 
-  * Les opérations GraphQL de `wandb.Api` passent désormais par `wandb-core` au lieu de l’ancien client GraphQL Python.
-    * En cas d’échec, les opérations GraphQL de `wandb.Api` lèvent désormais `WandbApiFailedError` au lieu des exceptions HTTP `requests`.
-  * `Run.scan_history()` lit désormais l’historique exporté au format parquet lorsqu’il est disponible, ce qui peut considérablement améliorer le débit pour les runs dont l’historique est volumineux. Cette fonctionnalité a été introduite sous `beta_scan_history` dans le SDK `v0.23.1`.
+  * Les opérations GraphQL de `wandb.Api` sont désormais acheminées via `wandb-core` au lieu du client GraphQL Python hérité.
+    * Les échecs des opérations GraphQL de `wandb.Api` génèrent désormais `WandbApiFailedError` au lieu des exceptions HTTP `requests`.
+  * `Run.scan_history()` lit désormais l’historique Parquet exporté lorsqu’il est disponible, ce qui peut considérablement améliorer le débit pour les runs avec un historique volumineux. Cette fonctionnalité a été introduite sous `beta_scan_history` dans le SDK `v0.23.1`.
 
   ## Suppression
 
-  * Suppression de l’API `wandb.apis.importers` non prise en charge.
-  * Suppression des anciennes intégrations LLM OpenAI, Cohere et LangChain, y compris les anciennes API d’autologging et de Tracing.
-  * Suppression du `WandbCallback` Keras obsolète et de l’ancien package de callback `wandb.integration.yolov8`.
+  * Suppression de l’API non prise en charge `wandb.apis.importers`.
+  * Suppression des intégrations LLM OpenAI, Cohere et LangChain obsolètes, y compris les API héritées d’autojournalisation et de tracing.
+  * Suppression de `WandbCallback` Keras obsolète et du package de callback hérité `wandb.integration.yolov8`.
 
   ## Correctif
 
-  * `wandb.sandbox` rejette désormais les valeurs d’argument invalides pour le placement, le GPU et l’egress.
+  * `wandb.sandbox` rejette désormais les valeurs d’argument non valides pour le placement, le GPU et l’egress.
 </Update>
 
 <Update label="0.27.0" description="13 mai 2026">
