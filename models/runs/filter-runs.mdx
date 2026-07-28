@@ -84,6 +84,7 @@ runs = api.runs(
 ```
 
 See the [API guide](/models/ref/python/public-api/api#method-api-runs) for more examples of filtering runs with the API.
+
 ### Example: Combine filters with AND and OR conditions
 
 This section describes how to create a complex filter expression like `A AND (B OR C)`. In this example, A is `loss <= 1`, B is `State = finished`, and C is `State = crashed`.
@@ -99,6 +100,22 @@ The following image demonstrates how the resulting filter expression appears in 
 
 <Frame>
     <img src="/images/runs/run_expressions_and_or.png" alt="Combine filters with AND and OR conditions" />
+</Frame>
+
+### Example: Filter run configuration values with `CONTAINS`
+
+Filter runs based on whether a run [configuration](/models/track/config) field contains a specific value:
+
+1. From the project sidebar, select **Runs**.
+1. Select **Filter** (<Icon icon="bars-filter" iconType="solid"/>) above the runs table.
+1. Select a run configuration field from the first menu.
+1. Select **CONTAINS** from the second menu.
+1. Enter the value to filter by in the third field.
+
+The following image shows a filter configured to display runs where the `epochs` configuration field contains the value `100`.
+
+<Frame>
+    <img src="/images/runs/contains_filter.png" alt="Filter runs by run config" />
 </Frame>
 
 ## Default filters
