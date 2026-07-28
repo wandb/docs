@@ -15,6 +15,12 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
 
 <EolReminder />
 
+<Update label="v0.83.1" description="28 juillet 2026">
+  ## Correctifs
+
+  * Amélioration de la gestion du cache lorsqu’une requête de l’interface utilisateur visant à charger les métriques des runs est annulée ou échoue.
+</Update>
+
 <Update label="v0.83.0" description="22 juillet 2026">
   W&amp;B Server 0.83.0 rend le Registry accessible depuis toutes les plateformes. Sur Cloud dédié, les utilisateurs de Weave peuvent désormais utiliser le Registry sans licence Models, les prompts Weave peuvent être publiés dans le Registry à des fins de gestion des versions et de réutilisation au sein d&#39;une organisation, et l&#39;accès au Registry à l&#39;échelle de l&#39;organisation est géré via une nouvelle autorisation SCIM. Cette version étend également les contrôles administratifs sur la visibilité de l&#39;équipe, les comptes de service et l&#39;utilisation.
 
@@ -45,14 +51,14 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
 
   ### Automatisations
 
-  Ces fonctionnalités sont disponibles uniquement sur Cloud dédié.
+  Dans la version v0.83.x, les fonctionnalités Automatisations suivantes sont disponibles uniquement sur Cloud dédié :
 
   * **Automation Hub** centralise la création et la gestion des [automatisations](/fr/models/automations#automations-overview) dans les Projects et les registries. Vous le trouverez dans la section **Core** de la barre latérale.
   * Une automatisation peut désormais être limitée à une organisation, une équipe, un projet, un registry ou une collection. Vous n&#39;avez ainsi plus besoin de dupliquer une automatisation pour bénéficier d&#39;une couverture étendue. Lors de la création d&#39;une automatisation, cliquez sur **Edit scopes**.
 
   ### Registry
 
-  Ces fonctionnalités sont disponibles uniquement sur Cloud dédié.
+  Dans la version v0.83.x, les fonctionnalités Registry suivantes sont disponibles uniquement sur Cloud dédié :
 
   * Tous les utilisateurs de Models et de Weave d&#39;une organisation ont désormais accès au Registry par défaut. Les autorisations existantes propres à chaque Registry restent inchangées. Les administrateurs peuvent révoquer l&#39;accès au Registry d&#39;un utilisateur à l&#39;échelle de l&#39;organisation via SCIM. Voir [Mettre à jour l&#39;accès au Registry](/fr/platform/hosting/iam/scim#update-registry-access).
   * Les [prompts](/fr/weave/guides/core-types/prompts#create-prompt-objects) Weave (`StringPrompt` et `MessagesPrompt`) peuvent désormais être ajoutés au Registry. Vous pouvez ainsi versionner, créer des alias et réutiliser des prompts dans toute votre organisation, aux côtés des artefacts de modèles.
