@@ -7153,6 +7153,18 @@
             ],
             "title": "Model Ref"
           },
+          "predict_total_cost": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Somme des coûts de prédiction seule par trial pour cette évaluation (uniquement le coût de `predict()` du modèle, hors coût du Scorer LLM-as-a-judge) ; `None` lorsqu'aucun trial ne signale de coût.",
+            "title": "Predict Total Cost"
+          },
           "predict_total_tokens": {
             "anyOf": [
               {
@@ -7290,6 +7302,12 @@
             ],
             "description": "Filtres appliqués aux lignes groupées. Plusieurs filtres sont combinés avec AND.",
             "title": "Filters"
+          },
+          "include_costs": {
+            "default": false,
+            "description": "Lorsque la valeur est `true`, ajoutez le coût aux appels enfants de prédiction et de scoring afin que la synthèse puisse indiquer `predict_total_cost` pour la prédiction seule. Activation facultative : les autres appelants ignorent le calcul du coût.",
+            "title": "Include Costs",
+            "type": "boolean"
           },
           "include_predict_and_score_children": {
             "default": true,
@@ -7686,6 +7704,17 @@
             "additionalProperties": true,
             "title": "Scores",
             "type": "object"
+          },
+          "total_cost": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Cost"
           },
           "total_tokens": {
             "anyOf": [
@@ -10411,8 +10440,9 @@
           },
           "lifecycleStage": {
             "enum": [
-              "general-availability",
               "experimental",
+              "general-availability",
+              "deprecated",
               "retired"
             ],
             "title": "Lifecyclestage",
@@ -11111,6 +11141,18 @@
             ],
             "description": "Informations sur la tarification."
           },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Description du modèle compréhensible par l'humain.",
+            "title": "Description"
+          },
           "id": {
             "description": "ID du modèle utilisé par l’AI SDK.",
             "title": "Id",
@@ -11184,6 +11226,31 @@
             "description": "Prise en charge du raisonnement de type chain-of-thought.",
             "title": "Reasoning",
             "type": "boolean"
+          },
+          "reasoning_options": {
+            "anyOf": [
+              {
+                "items": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/ReasoningToggle"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ReasoningEffortOption"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ReasoningBudgetTokens"
+                    }
+                  ]
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Indique comment le reasoning est contrôlé. Défini (éventuellement comme une liste vide, ce qui signifie qu'il est toujours activé) lorsque le reasoning est pris en charge ; omis sinon.",
+            "title": "Reasoning Options"
           },
           "release_date": {
             "description": "Date de première publication publique (AAAA-MM-JJ).",
@@ -12692,6 +12759,97 @@
           "$expr"
         ],
         "title": "Query",
+        "type": "object"
+      },
+      "ReasoningBudgetTokens": {
+        "description": "Le reasoning est contrôlé via un budget de jetons.",
+        "properties": {
+          "max": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Budget maximum de reasoning.",
+            "title": "Max"
+          },
+          "min": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Budget minimum de reasoning.",
+            "title": "Min"
+          },
+          "type": {
+            "const": "budget_tokens",
+            "default": "budget_tokens",
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "title": "ReasoningBudgetTokens",
+        "type": "object"
+      },
+      "ReasoningEffortOption": {
+        "description": "Le niveau d'effort du reasoning peut être choisi parmi un ensemble de niveaux.",
+        "properties": {
+          "type": {
+            "const": "effort",
+            "default": "effort",
+            "title": "Type",
+            "type": "string"
+          },
+          "values": {
+            "description": "Niveaux d'effort acceptés (`null` indique une valeur par défaut implicite).",
+            "items": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "none",
+                    "minimal",
+                    "low",
+                    "medium",
+                    "high",
+                    "xhigh",
+                    "max",
+                    "default"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "title": "Values",
+            "type": "array"
+          }
+        },
+        "required": [
+          "values"
+        ],
+        "title": "ReasoningEffortOption",
+        "type": "object"
+      },
+      "ReasoningToggle": {
+        "description": "Le reasoning peut être activé ou désactivé.",
+        "properties": {
+          "type": {
+            "const": "toggle",
+            "default": "toggle",
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "title": "ReasoningToggle",
         "type": "object"
       },
       "RefsReadBatchReq": {

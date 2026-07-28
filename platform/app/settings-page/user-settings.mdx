@@ -143,6 +143,12 @@ Select the **Delete Account** button to delete your account.
 You can't reverse account deletion.
 </Warning>
 
+<Note>
+You can't delete a user account that is the **Billing admin** for an organization that has more than one member. Before deleting such an account, transfer the Billing admin role to another user from the [Billing settings](/platform/app/settings-page/billing-settings#billing-admin) page. If you are the organization's only member, deleting your account also deletes the organization.
+</Note>
+
+To delete an entire organization account rather than a user account, see [How do I delete my organization account?](/support/models/articles/how-do-i-delete-my-organization-account).
+
 ## Storage
 
 The **Storage** section describes the total memory your account has consumed on the W&B servers. The default storage plan is 100 GB. For more information about storage and pricing, see the [Pricing](https://wandb.ai/site/pricing) page.

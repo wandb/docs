@@ -1,27 +1,24 @@
 ---
 title: login()
-namespace: python_sdk_actions
-python_object_type: 함수
+kind: 함수
+namespace: wandb.sdk.wandb_login
 ---
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_login.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_login.py#L21" />
 
-
-### <kbd>함수</kbd> `login`
+## <kbd>함수</kbd> wandb.login
 
 ```python
-login(
-    key: 'str | None' = None,
-    relogin: 'bool | None' = None,
-    host: 'str | None' = None,
-    force: 'bool | None' = None,
-    timeout: 'int | None' = None,
-    verify: 'bool' = False,
-    referrer: 'str | None' = None,
-    anonymous: 'DoNotSet' = <object object at 0x109b16dd0>
-) → bool
+key: 'str | None' = None,
+relogin: 'bool | None' = None,
+host: 'str | None' = None,
+force: 'bool | None' = None,
+timeout: 'int | None' = None,
+verify: 'bool' = False,
+referrer: 'str | None' = None,
+anonymous: 'DoNotSet' = DoNotSet
 ```
 
 W&amp;B에 로그인합니다.
@@ -41,7 +38,9 @@ WANDB&#95;IDENTITY&#95;TOKEN&#95;FILE 환경 변수 등을 통해 identity&#95;t
 * .netrc 파일(~/.netrc, ~/&#95;netrc 또는 NETRC 환경 변수로 지정된 경로)
 * 대화형 프롬프트(사용 가능한 경우)
 
-**매개변수:**
+<div id="args">
+  ## 인수
+</div>
 
 * `key`: 사용할 API 키입니다.
 * `relogin`: true이면 .netrc, 환경 변수 등을 읽지 않고 대화형 프롬프트에서 API 키를 가져옵니다.
@@ -50,12 +49,17 @@ WANDB&#95;IDENTITY&#95;TOKEN&#95;FILE 환경 변수 등을 통해 identity&#95;t
 * `timeout`: 대화형 프롬프트에서 사용자 입력을 기다리는 시간(초)입니다. 비대화형 환경에서 대화형 프롬프트가 잘못 표시되는 경우를 대비한 안전장치로 사용할 수 있습니다.
 * `verify`: W&amp;B 서버로 자격 증명을 확인하고, 실패하면 AuthenticationError를 발생시킵니다.
 * `referrer`: 분석을 위해 URL 로그인 요청에 사용할 referrer입니다.
+* `anonymous`: 
 
-**반환값:**
+<div id="returns">
+  ## 반환값
+</div>
 
-* `bool`: `key`가 설정된 경우입니다.
+`bool`: `key`가 설정된 경우입니다.
 
-**예외:**
+<div id="raises">
+  ## 예외
+</div>
 
 * `AuthenticationError`: `api_key`가 서버 검증에 실패한 경우.
-* `UsageError`: `api_key`를 설정할 수 없고 tty도 없는 경우. 
+* `UsageError`: `api_key`를 설정할 수 없고 tty도 없는 경우.

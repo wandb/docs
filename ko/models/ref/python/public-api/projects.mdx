@@ -1,37 +1,36 @@
 ---
 title: Projects
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.projects
 ---
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py#L56" />
 
+## <kbd>class</kbd> wandb.apis.public.Projects
 
-## <kbd>class</kbd> `Projects`
+```python
+service_api: 'ServiceApi',
+entity: 'str',
+per_page: 'int' = 50
+```
 
-`Project` 객체들을 순회하는 지연(lazy) 이터레이터입니다. 
+`Project` 객체들을 순회하는 지연(lazy) 이터레이터입니다.
 
 엔터티가 생성하고 저장한 프로젝트들에 접근하기 위한 이터러블 인터페이스입니다.
 
-### <kbd>메서드</kbd> `Projects.__init__`
+<div id="args">
+  ## 인수
+</div>
 
-```python
-__init__(
-    service_api: 'ServiceApi',
-    entity: 'str',
-    per_page: 'int' = 50
-) → Projects
-```
+* `service_api`:  이 컬렉션에 대해 W&amp;B API 호출을 수행하는 wandb-core 서비스의 인터페이스입니다.
+* `entity`:  프로젝트를 소유한 엔터티입니다.
+* `per_page`:  API에 대한 각 요청마다 가져올 프로젝트 수입니다.
 
-**인수:**
-
-* `service_api`:  이 컬렉션에 대해 W&amp;B API 호출을 수행하는 wandb-core 서비스 인터페이스입니다.
-* `entity` (str):  프로젝트를 가져올 엔터티 이름(사용자 이름 또는 팀)입니다.
-* `per_page` (int):  요청당 가져올 프로젝트 수입니다(기본값은 50).
-
-**예제:**
+<div id="examples">
+  ## 예시
+</div>
 
 ```python
 from wandb.apis.public.api import Api
@@ -47,26 +46,30 @@ for project in projects:
     print(f"- Is benchmark: {project.is_benchmark}")
 ```
 
-`Project` 객체의 이터러블한 컬렉션입니다.
+<div id="methods">
+  ## 메서드
+</div>
 
-**인수:**
+### <kbd>방법</kbd> RelayPaginator.convert_objects()
 
-* `service_api`:  이 컬렉션에 대해 W&amp;B API 호출을 수행하는 wandb-core 서비스의 인터페이스입니다.
-* `entity`:  프로젝트를 소유한 엔터티입니다.
-* `per_page`:  API에 대한 각 요청마다 가져올 프로젝트 수입니다.
+```python
+self
+```
 
-***
+마지막으로 가져온 응답 데이터를 반복 처리되는 객체로 변환합니다.
 
-### <kbd>속성</kbd> Projects.cursor
+### <kbd>방법</kbd> Paginator.**next**()
 
-다음에 가져올 페이지의 시작 위치를 나타내는 불투명한 커서입니다.
+```python
+self
+```
 
-이 값은 저장해 두었다가 이후 페이지네이션된 쿼리에서 `start=`로 전달해, 이 페이지네이터가 멈춘 지점부터 반복을 재개할 수 있습니다.
+이터레이터의 다음 항목을 반환합니다. 더 이상 항목이 없으면 StopIteration 예외를 발생시킵니다.
 
-**반환값:**
+### <kbd>방법</kbd> Paginator.update_variables()
 
-* `str | None`: 커서 속성 값입니다.
+```python
+self
+```
 
-***
-
-### <kbd>속성</kbd> Projects.more
+다음 페이지를 가져오기 위한 쿼리 변수를 업데이트합니다.

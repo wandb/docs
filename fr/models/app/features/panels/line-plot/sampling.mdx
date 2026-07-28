@@ -161,10 +161,11 @@ Par défaut, W&amp;B utilise le mode de fidélité totale. Pour activer l’éch
   ### Accéder aux données non échantillonnées
 </div>
 
-Si l’échantillonnage aléatoire supprime des points dont vous avez besoin, vous pouvez quand même accéder par programmation à l’historique complet des métriques non échantillonnées. Vous pouvez accéder à l’historique complet des métriques enregistrées au cours d’un run à l’aide de la [W&amp;B Run API](/fr/models/ref/python/public-api/runs). L’exemple suivant montre comment récupérer et traiter les valeurs de perte d’un run spécifique :
+Si l’échantillonnage aléatoire supprime des points dont vous avez besoin, vous pouvez quand même accéder par programmation à l’historique complet des métriques non échantillonnées. Vous pouvez accéder à l’historique complet des métriques enregistrées au cours d’un run à l’aide de l’[API publique](/fr/models/ref/python/public-api/runs). L’exemple suivant montre comment récupérer et traiter les valeurs de perte d’un run spécifique :
 
 ```python
 # Initialiser la W&B API
+api = wandb.Api()
 run = api.run("l2k2/examples-numpy-boston/i0wt6xua")
 
 # Récupérer l'historique de la métrique 'Loss'

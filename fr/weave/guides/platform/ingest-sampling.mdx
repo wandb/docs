@@ -1,0 +1,108 @@
+---
+title: "Configurer l'échantillonnage à l'ingestion pour Weave Autogéré"
+description: "Conservez seulement une partie des traces entrantes pour maîtriser les coûts de stockage et de scoring LLM sur une instance Weave autogérée"
+keywords: ["ingest sampling", "sample rate", "self-managed", "trace server", "WEAVE_INGEST_SAMPLE_RATE", "dry run", "agents"]
+---
+
+L&#39;échantillonnage à l&#39;ingestion vous permet de contrôler la proportion des traces qui arrivent sur une [instance Weave autogérée](/fr/weave/guides/platform/weave-self-managed) et d&#39;éliminer les autres. Cela peut aider à réduire les coûts de stockage et de traitement sur les clusters à fort volume en ne conservant qu&#39;un pourcentage défini de traces.
+
+Ce guide vous explique comment activer cette fonctionnalité sur votre instance Weave autogérée.
+
+<Note>
+  L&#39;échantillonnage à l&#39;ingestion nécessite une version du serveur Weave qui inclut l&#39;échantillonneur. L&#39;échantillonnage des appels `@weave.op` nécessite également le SDK Python Weave 0.53.0 ou version ultérieure, ou le SDK TypeScript Weave 0.16.0 ou version ultérieure. Les spans d’agent ne nécessitent aucun SDK particulier. Pour plus de détails, voir [Exigences et limites](#requirements-and-limitations).
+</Note>
+
+L&#39;échantillonnage à l&#39;ingestion est indépendant de l&#39;échantillonnage côté client. Le paramètre `tracing_sample_rate` du décorateur `@weave.op` permet toujours à une fonction tracée d&#39;échantillonner ses propres appels, mais seul un taux côté serveur s&#39;applique à l&#39;ensemble du déploiement, et les clients individuels ne peuvent ni le modifier ni l&#39;ignorer. Pour plus d&#39;informations, voir [Control sampling rate](/fr/weave/guides/tracking/ops#control-sampling-rate).
+
+<div id="why-use-ingest-sampling">
+  ## Pourquoi utiliser l’échantillonnage à l’ingestion
+</div>
+
+Par défaut, Weave conserve chaque trace envoyée par vos applications, et à volume élevé, conserver des enregistrements complets peut devenir coûteux. Comme l’échantillonnage à l’ingestion supprime une trace sur le serveur avant qu’elle ne soit stockée ou évaluée, vos coûts sont globalement proportionnels à la part de trafic que vous conservez.
+
+Vous définissez le taux d’échantillonnage à l’ingestion en définissant une valeur comprise entre `0` et `1` :
+
+* `1.0` conserve toutes les traces et désactive l’échantillonnage (par défaut).
+* `0.1` conserve 10 % des traces et supprime le reste.
+* `0.0` supprime toutes les traces, à l’exception des évaluations.
+
+<div id="what-ingest-sampling-applies-to">
+  ## À quoi s&#39;applique l&#39;échantillonnage à l&#39;ingestion
+</div>
+
+L&#39;échantillonnage à l&#39;ingestion s&#39;applique à deux types de trafic, et le taux que vous définissez s&#39;applique aux deux :
+
+* Les appels du décorateur `@weave.op`, qui apparaissent dans l&#39;onglet **Traces**.
+* Les spans d&#39;agent envoyés au point de terminaison d&#39;agent tracing (`/agents/otel/v1/traces`), qui apparaissent dans l&#39;onglet **Agents**. Pour plus d&#39;informations, voir [Tracer vos agents](/fr/weave/guides/tracking/trace-agents).
+
+Le trafic suivant n&#39;est jamais échantillonné et est toujours conservé dans son intégralité :
+
+* Les évaluations du SDK Weave. Weave les conserve, car il s&#39;agit de mesures de qualité intentionnelles, et leurs scores seraient erronés s&#39;ils étaient calculés sur des données partielles.
+* Les traces envoyées avec vos propres outils OpenTelemetry vers le point de terminaison OTel brut (`/otel/v1/traces`). Le trafic OpenTelemetry brut ne contient aucun marqueur d&#39;évaluation ; son échantillonnage pourrait donc supprimer silencieusement des évaluations. Pour plus d&#39;informations, voir [Envoyer des traces OpenTelemetry vers Weave](/fr/weave/guides/tracking/otel).
+* Les appels provenant de versions du SDK Weave antérieures aux versions prises en charge. Voir [Exigences et limites](#requirements-and-limitations).
+
+<div id="how-it-works">
+  ## Fonctionnement
+</div>
+
+Le serveur utilise l&#39;ID de la trace et l&#39;[échantillonnage déterministe basé sur le hachage](https://opentelemetry.io/docs/concepts/sampling/) pour déterminer quelles traces rejeter et lesquelles conserver. Si une trace contient plusieurs appels avec le même `trace_id`, la décision du serveur de conserver ou de rejeter une trace s&#39;applique également à tous les appels imbriqués ou spans qui partagent le même ID de trace. Une trace est soit conservée dans son intégralité, soit rejetée dans son intégralité ; elle n&#39;est jamais stockée partiellement.
+
+<Warning>
+  La décision n&#39;est stable que tant que le taux reste fixe. Une trace en cours de traitement au moment où le taux change peut être scindée de part et d&#39;autre de ce changement. Modifiez le taux d&#39;échantillonnage pendant une période de faible trafic.
+</Warning>
+
+<div id="configure-ingest-sampling">
+  ## Configurer l’échantillonnage à l’ingestion
+</div>
+
+Pour configurer l’échantillonnage à l’ingestion, définissez les variables d’environnement suivantes sur le déploiement du trace server, par exemple via vos valeurs Helm :
+
+| Variable                      | Type  | Par défaut | Signification                                                                                                                               |
+| ----------------------------- | ----- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `WEAVE_INGEST_SAMPLE_RATE`    | float | `1.0`      | La proportion de traces à conserver. Une valeur non valide ou hors plage revient à `1.0`.                                                   |
+| `WEAVE_INGEST_SAMPLE_DRY_RUN` | bool  | `false`    | Lorsque `true`, le serveur décide de conserver ou de supprimer chaque trace et comptabilise celles qu’il supprimerait, sans rien supprimer. |
+
+Définissez `WEAVE_INGEST_SAMPLE_RATE` sur la proportion de traces que vous souhaitez conserver, par exemple `0.1`.
+
+<div id="optional-preview-with-a-dry-run">
+  ### Facultatif : aperçu avec une simulation à blanc
+</div>
+
+Vous pouvez prévisualiser l&#39;effet d&#39;un taux d&#39;échantillonnage avant de supprimer quoi que ce soit à l&#39;aide d&#39;une simulation à blanc. Son seul résultat correspond aux métriques d&#39;échantillonnage du serveur, émises sous forme de compteurs vers un backend de métriques tel que Datadog. Si votre déploiement ne collecte pas ces métriques, une simulation à blanc n&#39;a aucun effet visible, et vous pouvez l&#39;ignorer et définir directement le taux.
+
+Si vous collectez ces métriques, exécutez avec `WEAVE_INGEST_SAMPLE_RATE=0.1` et `WEAVE_INGEST_SAMPLE_DRY_RUN=true` pendant une période couvrant un trafic de pointe représentatif, par exemple une journée complète, afin de voir quelle quantité de trafic le serveur supprimerait et quelle quantité de trafic n&#39;est pas éligible à l&#39;échantillonnage. Définissez ensuite `WEAVE_INGEST_SAMPLE_DRY_RUN=false` pour commencer à supprimer des traces.
+
+Les appels et les spans d&#39;agent publient des compteurs distincts, et ces deux ensembles comptent des éléments différents et ne doivent pas être combinés. Chaque compteur porte un tag `route` qui identifie le point de terminaison. Les compteurs d&#39;appels comptent les enregistrements d&#39;appel et les compteurs d&#39;agent comptent les spans, et non des traces entières ; les proportions au sein d&#39;un même ensemble reflètent donc le volume de messages plutôt que le nombre de traces.
+
+Les compteurs suivants couvrent les appels :
+
+| Métrique                              | Ce qu&#39;elle compte                                              |
+| ------------------------------------- | ------------------------------------------------------------------ |
+| `ingest_sampling.seen.otel`           | Enregistrements d&#39;appel évalués par l&#39;échantillonneur.     |
+| `ingest_sampling.evals_kept.otel`     | Appels d&#39;évaluation conservés.                                 |
+| `ingest_sampling.dropped.otel`        | Enregistrements supprimés. Porte un tag `dry_run`.                 |
+| `ingest_sampling.dropped_bytes.otel`  | Octets supprimés. Porte un tag `dry_run`.                          |
+| `ingest_sampling.unsupported.otel`    | Trafic provenant de clients trop anciens pour être échantillonnés. |
+| `ingest_sampling.parse_failures.otel` | Messages reçus sans ID de trace exploitable.                       |
+
+Les compteurs suivants couvrent les spans d&#39;agent :
+
+| Métrique                                                  | Ce qu&#39;elle compte                     |
+| --------------------------------------------------------- | ----------------------------------------- |
+| `weave_trace_server.ingest_sampling.spans.seen`           | Spans évalués par l&#39;échantillonneur.  |
+| `weave_trace_server.ingest_sampling.spans.evals_kept`     | Spans d&#39;évaluation conservés.         |
+| `weave_trace_server.ingest_sampling.spans.dropped`        | Spans supprimés. Porte un tag `dry_run`.  |
+| `weave_trace_server.ingest_sampling.spans.dropped_bytes`  | Octets supprimés. Porte un tag `dry_run`. |
+| `weave_trace_server.ingest_sampling.spans.parse_failures` | Spans reçus sans ID de trace exploitable. |
+
+<div id="requirements-and-limitations">
+  ## Exigences et limites
+</div>
+
+Avant d’activer l’échantillonnage à l’ingestion, consultez les exigences, limites et comportements suivants :
+
+* **Exigences de version du SDK** : le serveur échantillonne les appels uniquement depuis le SDK Python Weave 0.53.0 ou version ultérieure, ou le SDK TypeScript Weave 0.16.0 ou version ultérieure. Ces versions ajoutent les signaux que le serveur utilise pour regrouper les messages d’une trace et reconnaître les appels d’évaluation. Les appels provenant d’anciens SDK ne sont ni échantillonnés ni rejetés ; tant que vos applications ne sont pas mises à niveau, le taux n’a donc aucun effet sur leur trafic. Les spans d’agent incluent un ID de trace dans le protocole OpenTelemetry ; leur échantillonnage n’impose donc aucune exigence de SDK.
+* **Version du serveur** : la prise en charge des spans d’agent a été ajoutée après celle des appels. Si vous avez déjà défini un taux inférieur à `1.0`, la mise à niveau vers une version du serveur qui échantillonne les spans d’agent commencera à échantillonner votre trafic d’agent au même taux.
+* **Les économies dépendent de votre mix de clients** : le trafic qui n’est pas échantillonné, comme celui provenant d’anciens SDK et d’OpenTelemetry brut, ne réduit pas les coûts. Si une grande partie de votre trafic provient de ces sources, les économies seront plus faibles que ce que le taux laisse penser. Une simulation à blanc est le meilleur moyen de le mesurer au préalable.
+* **Monitors et scoring** : une trace écartée n’est ni stockée ni évaluée. Si vous comptez sur des monitors couvrant 100 % du trafic, tenez-en compte avant d’activer l’échantillonnage.
+* **Aucun signal d’exclusion envoyé au client** : une trace écartée reçoit une réponse de réussite normale. Le client n’est pas informé que sa trace a été écartée.

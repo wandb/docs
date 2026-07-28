@@ -24,10 +24,10 @@ description: W&B Weave와 W&B Tables를 사용해 머신 러닝 모델을 평가
 * **비용 추적**: 평가 전반에서 API 비용과 토큰 사용량을 모니터링
 
 <div id="getting-started-evaluate-a-model-from-wb-registry">
-  ### 시작하기: W&amp;B Registry에서 모델 평가하기
+  ### 시작하기: W&amp;B 레지스트리의 모델 평가하기
 </div>
 
-W&amp;B Models Registry에서 모델을 다운로드한 다음 Weave로 평가하세요:
+W&amp;B Models 레지스트리에서 모델을 다운로드한 다음 Weave를 사용해 평가하세요:
 
 ```python
 import weave
@@ -42,7 +42,7 @@ class ChatModel(weave.Model):
     model_name: str
     
     def model_post_init(self, __context):
-        # W&B Models Registry에서 모델 다운로드
+        # W&B Models 레지스트리에서 모델 다운로드
         with wandb.init(project="your-project", job_type="model_download") as run:
             artifact = run.use_artifact(self.model_name)
             self.model_path = artifact.download()
@@ -77,7 +77,7 @@ results = await evaluation.evaluate(model)
   ### W&amp;B Models와 Weave 평가 통합하기
 </div>
 
-[Models and Weave Integration Demo](/ko/weave/cookbooks/Models_and_Weave_Integration_Demo)에서는 다음과 같은 전체 워크플로를 보여줍니다:
+[Models and Weave 인테그레이션 Demo](/ko/weave/cookbooks/Models_and_Weave_Integration_Demo)에서는 다음과 같은 전체 워크플로를 보여줍니다:
 
 1. **레지스트리에서 모델 로드**: W&amp;B Models 레지스트리에 저장된 파인튜닝된 모델을 다운로드합니다
 2. **평가 파이프라인 생성**: 맞춤형 Scorer를 사용해 포괄적인 평가를 구성합니다
@@ -87,11 +87,11 @@ results = await evaluation.evaluate(model)
 평가 결과를 Weave와 W&amp;B Models 모두에 로깅합니다:
 
 ```python
-# W&B tracking으로 evaluation 실행
+# W&B tracking으로 평가 실행
 with weave.attributes({"wandb-run-id": wandb.run.id}):
     summary, call = await evaluation.evaluate.call(evaluation, model)
 
-# W&B Models에 메트릭 기록
+# W&B Models에 메트릭 로깅
 wandb.run.log(summary)
 wandb.run.config.update({
     "weave_eval_url": f"https://wandb.ai/{entity}/{project}/r/call/{call.id}"
@@ -177,14 +177,14 @@ for idx, (input_data, label) in enumerate(test_dataset):
     
     eval_table.add_data(
         idx,
-        wandb.Image(input_data),  # 이미지 또는 기타 미디어 로깅
+        wandb.Image(input_data),  # 이미지 또는 기타 미디어 로깅하기
         label,
         predicted_class,
         confidence,
         label == predicted_class
     )
 
-# 테이블 로깅
+# 테이블 로깅하기
 run.log({"evaluation_results": eval_table})
 ```
 
@@ -196,7 +196,7 @@ run.log({"evaluation_results": eval_table})
   #### 여러 모델 비교
 </div>
 
-서로 다른 모델의 평가 테이블을 같은 키에 로깅해 직접 비교합니다:
+서로 다른 모델의 eval 테이블을 같은 키에 로깅해 직접 비교합니다:
 
 ```python
 # 모델 A 평가
@@ -224,7 +224,7 @@ with wandb.init(project="model-comparison", name="model_b") as run:
 for epoch in range(num_epochs):
     train_model(model, train_data)
     
-    # 이 에포크의 예측을 평가하고 기록합니다
+    # 이 에포크의 예측을 평가하고 로깅합니다
     eval_table = wandb.Table(columns=["image", "truth", "prediction"])
     for image, label in test_subset:
         pred = model(image)
@@ -249,7 +249,7 @@ for epoch in range(num_epochs):
 </Frame>
 
 <div id="example-error-analysis-with-enriched-tables">
-  ### 예시: 정보가 보강된 테이블을 사용한 오류 분석
+  ### 예시: 보강된 테이블을 활용한 오류 분석
 </div>
 
 ```python

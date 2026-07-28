@@ -1,32 +1,28 @@
 ---
 title: DoNothing
-namespace: automations_namespace
-python_object_type: class
+kind: class
+namespace: wandb.automations.actions
 ---
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py#L208" />
 
+## <kbd>클래스</kbd> wandb.automations.DoNothing
 
-## <kbd>클래스</kbd> `DoNothing`
+```python
+*,
+no_op: Annotated[bool, BeforeValidator(func=<function default_if_none>, json_schema_input_type=PydanticUndefined)] = True,
+action_type: Literal[NO_OP] = NO_OP
+```
 
 의도적으로 아무 작업도 수행하지 않는 자동화 액션을 정의합니다.
 
-### <kbd>방법</kbd> `DoNothing.__init__`
+<div id="args">
+  ## 인수
+</div>
 
-```python
-__init__(
-    no_op: 'bool' = True,
-    action_type: 'Literal[NO_OP]' = NO_OP
-) → None
-```
+* `no_op`: 백엔드 스키마 requirements를 충족하기 위해서만 존재하는 플레이스홀더 필드입니다.
 
-**매개변수:**
-
-* `no_op` (bool): 백엔드 스키마 requirements를 충족하기 위해서만 존재하는 플레이스홀더 필드입니다.
   값은 무시되므로 이 필드를 명시적으로 설정할 필요가 없습니다.
-* `action_type` (Literal[NO&#95;OP]):
-
-**반환값:**
-`DoNothing` 객체입니다.
+* `action_type`: 

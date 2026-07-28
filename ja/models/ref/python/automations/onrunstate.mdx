@@ -1,20 +1,37 @@
 ---
 title: OnRunState
-namespace: automations_namespace
-python_object_type: class
+kind: クラス
+namespace: wandb.automations.events
 ---
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py#L418" />
 
+## <kbd>クラス</kbd> wandb.automations.OnRunState
 
-## <kbd>class</kbd> `OnRunState`
+```python
+*,
+event_type: Literal[RUN_STATE] = RUN_STATE,
+scope: Annotated[Union[wandb.automations.scopes.ProjectScope, Annotated[wandb.automations.scopes.TeamScope | wandb.automations.scopes.OrgScope, BeforeValidator(func=<function parse_scope>, json_schema_input_type=PydanticUndefined), Discriminator(discriminator='entity_type', custom_error_type=None, custom_error_message=None, custom_error_context=None)]], BeforeValidator(func=<function parse_scope>, json_schema_input_type=PydanticUndefined), Discriminator(discriminator='typename__', custom_error_type=None, custom_error_message=None, custom_error_context=None)],
+filter: Annotated[wandb.automations.events.RunStateFilter, Json, BeforeValidator(func=<function ensure_json>, json_schema_input_type=PydanticUndefined), PlainSerializer(func=<function to_json>, return_type=PydanticUndefined, when_used='always')]
+```
 
-run の状態が変化したとき。
+run の状態が変わります。
 
-例:
-プロジェクト &quot;my-project&quot; 内の任意の run で、状態が
+<div id="args">
+  ## 引数
+</div>
+
+* `event_type`:
+* `scope`: イベントのスコープ。project または team/org entity である必要があります。
+* `filter`: このイベントがトリガーされるために満たす必要がある run の状態条件。
+
+<div id="examples">
+  ## 例
+</div>
+
+project &quot;my-project&quot; 内の任意の run で、状態が
 &quot;finished&quot; (つまり成功) または &quot;failed&quot; に変化したときに
 トリガーされるイベントを定義します:
 
@@ -30,23 +47,3 @@ event = OnRunState(
     filter=RunEvent.state.in_(["finished", "failed"]),
 )
 ```
-
-
-### <kbd>method</kbd> `OnRunState.__init__`
-
-```python
-__init__(
-    event_type: 'Literal[RUN_STATE]' = RUN_STATE,
-    scope: 'ProjectScope',
-    filter: 'RunStateFilter'
-) → None
-```
-
-**引数:**
-
-* `event_type` (Literal[RUN&#95;STATE]):
-* `scope` (ProjectScope): イベントのスコープ。プロジェクトである必要があります。
-* `filter` (RunStateFilter): このイベントがトリガーされるために満たす必要がある run の状態条件。
-
-**戻り値:**
-`OnRunState` オブジェクト。

@@ -3,6 +3,8 @@ description: インタラクティブな可視化で run データを探索す�
 title: 実験結果を表示する
 ---
 
+import { AriaChatBubbles } from '/snippets/AriaChatBubbles.jsx';
+
 W&amp;B Workspace は、チャートをカスタマイズし、モデルの結果を探索するためのあなただけのサンドボックスです。W&amp;B Workspace は *Tables* と *Panel sections* で構成されています。
 
 * **Tables**: プロジェクトにログされたすべての runs が、そのプロジェクトのテーブルに一覧表示されます。runs の表示／非表示を切り替えたり、色を変更したり、テーブルを展開して各 run のメモ、config、サマリー メトリクスを確認したりできます。
@@ -16,12 +18,12 @@ W&amp;B Workspace は、チャートをカスタマイズし、モデルの結�
   ## Workspace の種類
 </div>
 
-Workspace には大きく分けて **Personal workspaces** と **Saved views** の 2 つのカテゴリがあります。
+Workspace には大きく分けて **Personal workspaces** と **保存済みビュー** の 2 つのカテゴリがあります。
 
 * **Personal workspaces:**  モデルと Data Visualization を詳細に分析するためにカスタマイズ可能な Workspace です。Workspace の所有者だけが編集と変更の保存を行えます。チームメイトは Personal Workspace を閲覧できますが、他の人の Personal Workspace に変更を加えることはできません。
-* **Saved views:** Saved views は Workspace の共同作業用スナップショットです。チーム内の誰でも、saved Workspace ビュー を閲覧、編集、および変更の保存ができます。Saved Workspace ビュー を使うと、experiments や runs などをレビューして議論できます。
+* **保存済みビュー:** 保存済みビュー は Workspace の共同作業用スナップショットです。チーム内の誰でも、保存済み Workspace ビュー を閲覧、編集、および変更の保存ができます。保存済み Workspace ビュー を使うと、experiments や runs などをレビューして議論できます。
 
-次の画像は、Cécile-parker のチームメイトによって作成された複数の Personal workspaces を示しています。このプロジェクトには Saved views はありません。
+次の画像は、Cécile-parker のチームメイトによって作成された複数の Personal workspaces を示しています。このプロジェクトには 保存済みビュー はありません。
 
 <Frame>
   <img src="/images/app_ui/Menu_No_views.jpg" alt="No saved views" />
@@ -40,6 +42,10 @@ Workspace には大きく分けて **Personal workspaces** と **Saved views** �
 1. パーソナル Workspace または保存済みビューに移動します。
 2. Workspace を編集します。
 3. Workspace の右上にある **action (<Icon icon="ellipsis" iconType="solid" />)** メニューをクリックします。**Save as a new view** をクリックします。
+
+ARIA に、現在の Workspace レイアウトを新しいビューとして保存するよう依頼することもできます。
+
+<AriaChatBubbles prompt="この Workspace を LR comparison という名前の新しいビューとして保存してください。チームが learning-rate Experiments を確認できるようにしたいです。" response="現在の Workspace レイアウトを、表示中の Runs とパネルの配置を含めて、LR comparison という名前の新しい保存済みビューとして保存します。" />
 
 新しく保存したビューは、Workspace のナビゲーション メニューに表示されます。
 

@@ -1,41 +1,39 @@
 ---
-description: "W&B를 Ray Tune과 통합해 하이퍼파라미터 튜닝 trial을 추적하고, 메트릭을 기록하며, 실험 결과를 비교합니다."
+description: "W&B를 Ray Tune과 통합하여 하이퍼파라미터 튜닝 trial을 추적하고, 메트릭을 로깅하고, 실험 결과를 비교하세요."
 title: Ray Tune
 ---
 
-W&amp;B는 두 가지 경량 인테그레이션을 제공해 [Ray](https://github.com/ray-project/ray)와 통합됩니다.
+이 페이지에서는 W&amp;B를 [Ray](https://github.com/ray-project/ray) Tune과 함께 사용하여 하이퍼파라미터 튜닝 trial을 추적하고, 메트릭을 로깅하고, Runs 간의 실험 결과를 비교하는 방법을 설명합니다. W&amp;B는 Ray를 위한 두 가지 경량 인테그레이션을 제공하며, 트레이닝 워크플로에 가장 적합한 방식을 선택할 수 있습니다.
 
-* `WandbLoggerCallback` 함수는 Tune에 보고된 메트릭을 Wandb API에 자동으로 기록합니다.
-* `setup_wandb()` 함수는 함수 API와 함께 사용할 수 있으며, Tune의 트레이닝 정보를 사용해 Wandb API를 자동으로 초기화합니다. 이후에는 평소처럼 Wandb API를 사용할 수 있습니다. 예를 들어 `run.log()`를 사용해 트레이닝 과정을 기록할 수 있습니다.
+* `WandbLoggerCallback` 함수는 Tune에 보고된 메트릭을 W&amp;B에 자동으로 로깅합니다.
+* 함수 API와 함께 사용할 수 있는 `setup_wandb()` 함수는 Tune의 트레이닝 정보를 바탕으로 W&amp;B Python SDK(`wandb`)를 자동으로 초기화합니다. `run.log()`를 호출해 트레이닝 과정을 로깅하는 것처럼, W&amp;B API를 평소와 같이 사용할 수 있습니다.
 
 <div id="configure-the-integration">
-  ## 인테그레이션 설정
+  ## 인테그레이션 설정하기
 </div>
+
+이 섹션에서는 Tune trial 메트릭을 W&amp;B로 전송하는 가장 직접적인 방법인 `WandbLoggerCallback`을 설정하는 방법을 설명합니다.
 
 ```python
 from ray.air.integrations.wandb import WandbLoggerCallback
 ```
 
-wandb 설정은 `tune.run()`의 `config` 매개변수에 wandb 키를 전달해 수행합니다(아래 예시 참조).
+W&amp;B를 설정하려면 `tune.run()`의 config 매개변수에 wandb 키를 전달하세요. 사용 방법은 [예시](#example)를 참조하세요.
 
-wandb 설정 항목의 내용은 키워드 인수로 `wandb.init()`에 전달됩니다. 다만 다음 설정은 예외이며, `WandbLoggerCallback` 자체를 설정하는 데 사용됩니다:
-
+이 인테그레이션은 wandb config 항목의 내용을 키워드 인수로 `wandb.init()`에 전달합니다. 단, `WandbLoggerCallback` 자체를 설정하는 항목은 예외입니다.
 
 <div id="parameters">
   ### 매개변수
 </div>
 
-`project (str)`: Wandb 프로젝트의 이름입니다. 필수 항목입니다.
+`WandbLoggerCallback`은 다음 매개변수를 받습니다.
 
-`api_key_file (str)`: Wandb API 키가 들어 있는 파일의 경로입니다.
-
-`api_key (str)`: Wandb API 키입니다. `api_key_file` 대신 설정할 수 있습니다.
-
-`excludes (list)`: 로그에서 제외할 메트릭 목록입니다.
-
-`log_config (bool)`: 결과 딕셔너리의 config 매개변수를 로그에 기록할지 여부입니다. 기본값은 False입니다.
-
-`upload_checkpoints (bool)`:  True이면 모델 체크포인트가 아티팩트로 업로드됩니다. 기본값은 False입니다.
+* `project (str)`: W&amp;B 프로젝트 이름입니다. 필수입니다.
+* `api_key_file (str)`: W&amp;B API 키가 포함된 파일 경로입니다.
+* `api_key (str)`: W&amp;B API 키입니다. `api_key_file` 설정 대신 사용할 수 있습니다.
+* `excludes (list)`: 로그에서 제외할 메트릭 목록입니다.
+* `log_config (bool)`: 결과 딕셔너리의 `config` 매개변수를 로깅할지 여부입니다. 기본값은 `False`입니다.
+* `upload_checkpoints (bool)`: `True`이면 모델 체크포인트를 아티팩트로 업로드합니다. 기본값은 `False`입니다.
 
 <div id="example">
   ### 예시
@@ -74,11 +72,13 @@ results = tuner.fit()
   ## setup_wandb
 </div>
 
+트레이닝 함수 내부에서 W&amp;B 로깅을 직접 제어해야 하는 경우 `setup_wandb()`를 사용하세요. 예를 들어 Tune의 리포팅과 함께 커스텀 메트릭을 사용해 `run.log()`를 호출할 수 있습니다.
+
 ```python
 from ray.air.integrations.wandb import setup_wandb
 ```
 
-이 유틸리티 함수는 Ray Tune과 함께 사용할 수 있도록 Wandb를 초기화하는 데 도움이 됩니다. 기본적인 사용 방법은 트레이닝 함수에서 `setup_wandb()`를 호출하는 것입니다:
+이 유틸리티 함수는 Ray Tune과 함께 사용할 수 있도록 W&amp;B를 초기화하는 데 도움이 됩니다. 기본적인 사용 방법은 트레이닝 함수에서 `setup_wandb()`를 호출하는 것입니다:
 
 ```python
 from ray import tune
@@ -117,7 +117,7 @@ results = tuner.fit()
   ## 예시 코드
 </div>
 
-인테그레이션이 어떻게 작동하는지 확인할 수 있도록 몇 가지 예시를 준비했습니다:
+엔드 투 엔드 레퍼런스로, 이 인테그레이션이 어떻게 작동하는지 보여 주는 다음 예시를 참조하세요:
 
-* [Colab](https://wandb.me/raytune-colab): 인테그레이션을 직접 사용해 볼 수 있는 간단한 데모입니다.
-* [대시보드](https://wandb.ai/anmolmann/ray_tune): 예시에서 생성된 대시보드를 확인할 수 있습니다.
+* [Colab에서 인테그레이션 사용해 보기](https://wandb.me/raytune-colab): 인테그레이션을 직접 사용해 볼 수 있는 데모입니다.
+* [예시 대시보드 보기](https://wandb.ai/anmolmann/ray_tune): 예시로 생성된 대시보드를 확인해 보세요.

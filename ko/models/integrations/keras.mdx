@@ -1,19 +1,19 @@
 ---
 title: Keras
-description: "W&B Keras 콜백을 사용해 실험을 추적하고, 모델 체크포인트를 저장하고, 트레이닝 중 예측을 시각화합니다."
+description: "W&B Keras callback을 사용해 실험을 추적하고, 모델 체크포인트를 저장하고, 트레이닝 중 예측을 시각화합니다."
 ---
 
 import { ColabLink } from '/snippets/ko/_includes/colab-link.mdx';
 
 {/* <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Intro_to_Weights_%26_Biases_keras.ipynb" /> */}
 
-Keras 콜백을 사용해 실험을 추적하고, 모델 체크포인트를 기록하고, 모델 예측을 시각화하세요. Keras 콜백은 Python SDK 버전 `0.13.4` 이상에서 `wandb.integration.keras` 모듈로 사용할 수 있습니다.
+W&amp;B Keras callback을 사용해 실험을 추적하고, 모델 체크포인트를 기록하고, 트레이닝 중 모델 예측을 시각화하세요. 이 인테그레이션을 사용하면 트레이닝 루프를 다시 작성하지 않고도 Keras 트레이닝 워크플로에 실험 추적과 모델 버전 관리를 추가할 수 있습니다.
 
-W&amp;B Keras 인테그레이션은 다음 콜백을 제공합니다:
+Keras callback은 Python SDK 버전 `0.13.4` 이상에서 `wandb.integration.keras` 모듈로 사용할 수 있습니다. W&amp;B Keras 인테그레이션은 다음 callback을 제공합니다:
 
-* **`WandbMetricsLogger`** : [Experiment Tracking](/ko/models/track/)에 이 콜백을 사용하세요. 트레이닝 및 검증 메트릭과 시스템 메트릭을 함께 W&amp;B에 기록합니다.
-* **`WandbModelCheckpoint`** : 모델 체크포인트를 W&amp;B [Artifacts](/ko/models/artifacts/)에 기록하려면 이 콜백을 사용하세요.
-* **`WandbEvalCallback`**: 이 기본 콜백은 대화형 시각화를 위해 모델 예측을 W&amp;B [Tables](/ko/models/tables/)에 기록합니다.
+* **`WandbMetricsLogger`**: [실험 추적](/ko/models/track/)에 이 callback을 사용하세요. 트레이닝 및 검증 메트릭과 시스템 메트릭을 함께 W&amp;B에 기록합니다.
+* **`WandbModelCheckpoint`**: 모델 체크포인트를 W&amp;B [Artifacts](/ko/models/artifacts/)에 기록하려면 이 callback을 사용하세요.
+* **`WandbEvalCallback`**: 이 기본 callback은 대화형 시각화를 위해 모델 예측을 W&amp;B [Tables](/ko/models/tables/)에 기록합니다.
 
 <div id="install-and-import-keras-integration">
   ## Keras 인테그레이션 설치 및 임포트하기
@@ -25,14 +25,14 @@ W&amp;B Keras 인테그레이션은 다음 콜백을 제공합니다:
 pip install -U wandb
 ```
 
-Keras 인테그레이션을 사용하려면 `wandb.integration.keras`에서 필요한 클래스를 임포트하세요:
+Keras 인테그레이션을 사용하려면 `wandb.integration.keras`에서 필요한 클래스를 임포트하세요.
 
 ```python
 import wandb
 from wandb.integration.keras import WandbMetricsLogger, WandbModelCheckpoint, WandbEvalCallback
 ```
 
-다음 섹션에서는 각 콜백을 코드 예제와 함께 자세히 설명합니다.
+다음 섹션에서는 각 callback을 코드 예제와 함께 자세히 설명합니다.
 
 <div id="track-experiments-with-wandbmetricslogger">
   ## `WandbMetricsLogger`로 실험 추적하기
@@ -40,9 +40,9 @@ from wandb.integration.keras import WandbMetricsLogger, WandbModelCheckpoint, Wa
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbMetricLogger_in_your_Keras_workflow.ipynb" />
 
-`wandb.integration.keras.WandbMetricsLogger()`는 `on_epoch_end`, `on_batch_end` 등의 콜백 메서드가 인수로 받는 Keras의 `logs` 딕셔너리를 자동으로 로깅합니다.
+`wandb.integration.keras.WandbMetricsLogger()`는 `on_epoch_end` 및 `on_batch_end`와 같은 callback 메서드가 인수로 받는 Keras의 `logs` 딕셔너리를 로깅합니다.
 
-아래 예시는 Keras 워크플로에서 `WandbMetricsLogger()`를 사용하는 방법을 보여줍니다. 먼저 원하는 옵티마이저, 손실 함수, 메트릭으로 모델을 컴파일합니다. 그런 다음 `wandb.init()`을 사용해 W&amp;B run을 초기화합니다. 마지막으로 `WandbMetricsLogger()` 콜백을 `model.fit()`에 전달합니다.
+다음 예시는 Keras 워크플로에서 `WandbMetricsLogger()`를 사용하는 방법을 보여줍니다. 먼저 원하는 옵티마이저, 손실 함수, 메트릭으로 모델을 컴파일합니다. 그런 다음 `wandb.init()`을 사용해 W&amp;B run을 초기화합니다. 마지막으로 `WandbMetricsLogger()` callback을 `model.fit()`에 전달합니다.
 
 ```python
 import wandb
@@ -64,7 +64,7 @@ with wandb.init(config={"batch_size": 64}) as run:
     )
 ```
 
-이전 예제는 각 에포크가 끝날 때마다 `loss`, `accuracy`, `top@5_accuracy`와 같은 트레이닝 및 검증 메트릭을 W&amp;B에 로깅합니다. 또한 다음 항목도 로깅합니다:
+이전 예제는 각 에포크가 끝날 때마다 `loss`, `accuracy`, `top@5_accuracy`와 같은 트레이닝 및 검증 메트릭을 W&amp;B에 로깅합니다.
 
 <div id="wandbmetricslogger-reference">
   ### `WandbMetricsLogger` 레퍼런스
@@ -118,23 +118,23 @@ with wandb.init(config={"bs": 12}) as run:
   ### `WandbModelCheckpoint` 레퍼런스
 </div>
 
-| 매개변수                      | 설명                                                                                                                                                                                                                              |   |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | - |
-| `filepath`                | (str): 모델 파일을 저장할 경로입니다.                                                                                                                                                                                                        |   |
-| `monitor`                 | (str): 모니터링할 메트릭 이름입니다.                                                                                                                                                                                                         |   |
-| `verbose`                 | (int): 상세 출력 모드로, 0 또는 1입니다. 0이면 아무 메시지도 출력하지 않고, 1이면 콜백이 동작을 수행할 때 메시지를 표시합니다.                                                                                                                                                 |   |
-| `save_best_only`          | (Boolean): `save_best_only=True`이면 `monitor` 및 `mode` 속성에 따라 가장 최근 모델 또는 최적이라고 판단한 모델만 저장합니다.                                                                                                                                   |   |
-| `save_weights_only`       | (Boolean): True이면 모델 가중치만 저장합니다.                                                                                                                                                                                                |   |
-| `mode`                    | (`auto`, `min`, 또는 `max`): 예를 들어 `val_acc`에는 `max`를, `val_loss`에는 `min`을 설정합니다.                                                                                                                                                 |   |
-| `save_freq`               | (&quot;epoch&quot; 또는 int): `epoch`를 사용하면 콜백이 각 에포크 후에 모델을 저장합니다. 정수를 사용하면 지정한 수의 배치가 끝날 때마다 콜백이 모델을 저장합니다. `val_acc`나 `val_loss` 같은 검증 메트릭을 모니터링하는 경우 이러한 메트릭은 에포크가 끝날 때만 사용할 수 있으므로 `save_freq`를 &quot;epoch&quot;로 설정해야 합니다. |   |
-| `options`                 | (str): `save_weights_only`가 true이면 선택적 `tf.train.CheckpointOptions` 객체이고, false이면 선택적 `tf.saved_model.SaveOptions` 객체입니다.                                                                                                       |   |
-| `initial_value_threshold` | (float): 모니터링할 메트릭의 초기 &quot;최적&quot; 값을 나타내는 부동소수점 값입니다.                                                                                                                                                                       |   |
+| 매개변수                      | 설명                                                                                                                                                                                                                                  |   |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | - |
+| `filepath`                | (str): 모델 파일을 저장할 경로입니다.                                                                                                                                                                                                            |   |
+| `monitor`                 | (str): 모니터링할 메트릭 이름입니다.                                                                                                                                                                                                             |   |
+| `verbose`                 | (int): 상세 출력 모드로, 0 또는 1입니다. 0이면 아무 메시지도 출력하지 않고, 1이면 callback이 액션을 수행할 때 메시지를 표시합니다.                                                                                                                                               |   |
+| `save_best_only`          | (Boolean): `save_best_only=True`이면 `monitor` 및 `mode` 속성에 따라 가장 최근 모델 또는 최적이라고 판단한 모델만 저장합니다.                                                                                                                                       |   |
+| `save_weights_only`       | (Boolean): True이면 모델 가중치만 저장합니다.                                                                                                                                                                                                    |   |
+| `mode`                    | (`auto`, `min`, 또는 `max`): 예를 들어 `val_acc`에는 `max`를, `val_loss`에는 `min`을 설정합니다.                                                                                                                                                     |   |
+| `save_freq`               | (&quot;epoch&quot; 또는 int): `"epoch"`를 사용하면 callback이 각 에포크 후에 모델을 저장합니다. 정수를 사용하면 지정한 수의 배치가 끝날 때마다 callback이 모델을 저장합니다. `val_acc`나 `val_loss` 같은 검증 메트릭을 모니터링하는 경우 이러한 메트릭은 에포크가 끝날 때만 사용 가능하므로 `save_freq`를 `"epoch"`로 설정해야 합니다. |   |
+| `options`                 | (str): `save_weights_only`가 true이면 선택적 `tf.train.CheckpointOptions` 객체이고, false이면 선택적 `tf.saved_model.SaveOptions` 객체입니다.                                                                                                           |   |
+| `initial_value_threshold` | (float): 모니터링할 메트릭의 초기 &quot;최적&quot; 값을 나타내는 부동소수점 값입니다.                                                                                                                                                                           |   |
 
 <div id="log-checkpoints-after-n-epochs">
-  ### N 에포크마다 체크포인트 log
+  ### `N` 에포크마다 체크포인트 log
 </div>
 
-기본값(`save_freq="epoch"`)에서는 콜백이 각 에포크가 끝날 때마다 체크포인트를 생성하고 이를 artifact로 upload합니다. 특정 개수의 배치마다 체크포인트를 생성하려면 `save_freq`를 정수로 설정하세요. `N` 에포크마다 체크포인트를 생성하려면 `train` 데이터로더의 카디널리티를 계산해 `save_freq`에 전달하세요:
+기본값(`save_freq="epoch"`)에서는 콜백이 각 에포크가 끝날 때마다 체크포인트를 생성하고 이를 아티팩트로 upload합니다. 특정 개수의 배치마다 체크포인트를 생성하려면 `save_freq`를 정수로 설정하세요. `N` 에포크마다 체크포인트를 생성하려면 `train` 데이터로더의 카디널리티를 계산해 `save_freq`에 전달하세요:
 
 ```python
 WandbModelCheckpoint(
@@ -143,11 +143,11 @@ WandbModelCheckpoint(
 )
 ```
 
-<div id="efficiently-log-checkpoints-on-a-tpu-architecture">
+<div id="log-checkpoints-efficiently-on-a-tpu-architecture">
   ### TPU 아키텍처에서 체크포인트를 효율적으로 기록하기
 </div>
 
-TPU에서 체크포인트를 저장하는 동안 `UnimplementedError: File system scheme '[local]' not implemented` 오류 메시지가 나타날 수 있습니다. 이는 모델 디렉터리(`filepath`)가 클라우드 저장소 버킷 경로(`gs://bucket-name/...`)를 사용해야 하고, 이 버킷에 TPU 서버가 접근할 수 있어야 하기 때문입니다. 반면 W&amp;B는 체크포인트 저장에 로컬 경로를 사용하고, 이후 이를 artifact로 업로드합니다.
+TPU에서 체크포인트를 저장하는 동안 `UnimplementedError: File system scheme '[local]' not implemented` 오류 메시지가 나타날 수 있습니다. 이는 모델 디렉터리(`filepath`)가 클라우드 저장소 버킷 경로(`gs://bucket-name/...`)를 사용해야 하고, 이 버킷에 TPU 서버가 접근할 수 있어야 하기 때문입니다. 반면 W&amp;B는 체크포인트 저장에 로컬 경로를 사용하고, 이후 W&amp;B가 이를 아티팩트로 업로드합니다.
 
 ```python
 checkpoint_options = tf.saved_model.SaveOptions(experimental_io_device="/job:localhost")
@@ -166,7 +166,7 @@ WandbModelCheckpoint(
 
 `WandbEvalCallback()`는 주로 모델 예측용 Keras callback을 만들고, 부차적으로는 데이터셋 시각화에도 사용할 수 있는 추상 기반 클래스입니다.
 
-이 추상 callback은 데이터셋과 태스크에 구애받지 않습니다. 이를 사용하려면 이 기반 `WandbEvalCallback()` callback 클래스를 상속하고 `add_ground_truth` 및 `add_model_prediction` 방법을 구현하세요.
+이 추상 callback은 데이터셋과 태스크와 독립적입니다. 이를 사용하려면 이 기반 `WandbEvalCallback()` callback 클래스를 상속하고 `add_ground_truth` 및 `add_model_prediction` 방법을 구현하세요.
 
 `WandbEvalCallback()`는 다음을 위한 방법을 제공하는 유틸리티 클래스입니다.
 
@@ -247,23 +247,23 @@ with wandb.init(config={"hyper": "parameter"}) as run:
   ### 메모리 사용량 세부 정보
 </div>
 
-`on_train_begin` 방법이 호출되면 `data_table`을 W&amp;B에 기록합니다. `data_table`이 W&amp;B Artifact로 업로드되면 `data_table_ref` 클래스 변수를 통해 이 테이블의 레퍼런스에 접근할 수 있습니다. `data_table_ref`는 `self.data_table_ref[idx][n]`처럼 인덱싱할 수 있는 2차원 목록이며, 여기서 `idx`는 행 번호이고 `n`은 열 번호입니다. 아래 예제에서 사용 예를 살펴보겠습니다.
+W&amp;B는 `on_train_begin` 메서드를 호출할 때 `data_table`을 기록합니다. W&amp;B가 이를 W&amp;B Artifact로 업로드한 후에는 이 테이블에 대한 레퍼런스를 얻게 되며, `data_table_ref` 클래스 변수를 사용해 액세스할 수 있습니다. `data_table_ref`는 `self.data_table_ref[idx][n]`처럼 인덱싱할 수 있는 2차원 리스트이며, 여기서 `idx`는 행 번호이고 `n`은 열 번호입니다. 다음 예시에서 사용법을 확인하세요.
 
 <div id="customize-the-callback">
-  ### 콜백 사용자 지정하기
+  ### callback 사용자 지정하기
 </div>
 
-더 세밀하게 제어하려면 `on_train_begin` 또는 `on_epoch_end` 메서드를 재정의할 수 있습니다. `N`개 배치 후에 샘플을 로깅하려면 `on_train_batch_end` 메서드를 구현하면 됩니다.
+데이터와 예측이 로깅되는 시점을 더 세밀하게 제어하려면 기본 callback 메서드를 재정의할 수 있습니다. 더 세밀하게 제어하려면 `on_train_begin` 또는 `on_epoch_end` 메서드를 재정의할 수 있습니다. `N`개 배치 후에 샘플을 로깅하려면 `on_train_batch_end` 메서드를 구현하면 됩니다.
 
 <Note>
-  `WandbEvalCallback`을 상속해 모델 예측 시각화를 위한 콜백을 구현하는 중이며, 명확히 하거나 수정이 필요한 사항이 있다면 [issue](https://github.com/wandb/wandb/issues)를 열어 알려주세요.
+  `WandbEvalCallback`을 상속해 모델 예측 시각화를 위한 callback을 구현하는 중이며, 명확히 하거나 수정이 필요한 사항이 있다면 [issue](https://github.com/wandb/wandb/issues)를 여세요.
 </Note>
 
-<div id="wandbcallback-legacy">
-  ## `WandbCallback` [레거시]
+<div id="legacy-wandbcallback">
+  ## 레거시 `WandbCallback`
 </div>
 
-W&amp;B 라이브러리의 `WandbCallback()` 클래스를 사용하면 `model.fit()`에서 추적하는 모든 메트릭과 손실 값을 자동으로 저장할 수 있습니다.
+`WandbCallback`는 레거시 올인원 callback입니다. 새 프로젝트의 경우 이전 섹션에서 설명한 전용 callback(`WandbMetricsLogger`, `WandbModelCheckpoint`, `WandbEvalCallback`)을 사용하세요. W&amp;B 라이브러리의 `WandbCallback()` 클래스를 사용하면 `model.fit()`에서 추적하는 모든 메트릭과 손실 값을 저장할 수 있습니다.
 
 ```python
 import wandb
@@ -283,18 +283,16 @@ with wandb.init(config={"hyper": "parameter"}) as run:
 
 더 자세한 내용은 [W&amp;B를 Keras와 통합하기](https://www.youtube.com/watch?v=Bsudo7jbMow\&ab_channel=Weights%26Biases) 비디오를 시청하세요. [Colab Jupyter Notebook](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Keras_pipeline_with_Weights_and_Biases.ipynb)도 살펴볼 수 있습니다.
 
-<Note>
-  스크립트, [Fashion MNIST 예제](https://github.com/wandb/examples/blob/master/examples/keras/keras-cnn-fashion/train.py), 그리고 이 예제가 생성하는 [W&amp;B 대시보드](https://wandb.ai/wandb/keras-fashion-mnist/runs/5z1d85qs)가 포함된 [예제 repo](https://github.com/wandb/examples)도 참조하세요.
-</Note>
+추가 샘플 스크립트는 [W&amp;B 예제 repo](https://github.com/wandb/examples)를 참조하세요. 여기에는 [Fashion MNIST 예제](https://github.com/wandb/examples/blob/master/examples/keras/keras-cnn-fashion/train.py)와 이 예제가 생성하는 [W&amp;B 대시보드](https://wandb.ai/wandb/keras-fashion-mnist/runs/5z1d85qs)가 포함되어 있습니다.
 
-`WandbCallback` 클래스는 다양한 로깅 설정 옵션을 지원합니다. 예를 들어 모니터링할 메트릭 지정, 가중치와 그라디언트 추적, training&#95;data 및 validation&#95;data에 대한 예측 로깅 등이 있습니다.
+`WandbCallback` 클래스는 로깅 설정 옵션을 지원합니다. 예를 들어 모니터링할 메트릭 지정, 가중치와 그라디언트 추적, `training_data` 및 `validation_data`에 대한 예측 로깅 등이 있습니다.
 
 자세한 내용은 `keras.WandbCallback` 레퍼런스 문서를 참조하세요.
 
-`WandbCallback`는 다음을 수행합니다.
+`WandbCallback`:
 
-* Keras가 수집한 모든 메트릭의 이력 데이터를 자동으로 로깅합니다. 여기에는 loss와 `keras_model.compile()`에 전달된 모든 항목이 포함됩니다.
-* `monitor` 및 `mode` 속성으로 정의된 &quot;최적&quot; 트레이닝 step에 연결된 run의 summary 메트릭을 설정합니다. 기본값은 `val_loss`가 가장 작은 에포크입니다. `WandbCallback`는 기본적으로 가장 좋은 `epoch`에 해당하는 모델을 저장합니다.
+* Keras가 수집한 모든 메트릭의 이력 데이터를 로깅합니다. 여기에는 loss와 `keras_model.compile()`에 전달된 모든 항목이 포함됩니다.
+* `monitor` 및 `mode` 속성으로 정의된 &quot;최적&quot; 트레이닝 step에 연결된 run의 summary 메트릭을 설정합니다. 기본값은 `val_loss`가 가장 작은 에포크입니다. 기본적으로 `WandbCallback`는 가장 좋은 `epoch`에 해당하는 모델을 저장합니다.
 * 선택적으로 그라디언트 및 파라미터 히스토그램을 로깅합니다.
 * 선택적으로 wandb에서 시각화할 수 있도록 트레이닝 및 검증 데이터를 저장합니다.
 
@@ -333,8 +331,8 @@ with wandb.init(config={"hyper": "parameter"}) as run:
   ## 자주 묻는 질문
 </div>
 
-<div id="how-do-i-use-keras-multiprocessing-with-wandb">
-  ### `wandb`에서 `Keras` 멀티프로세싱을 어떻게 사용하나요?
+<div id="use-keras-multiprocessing-with-wandb">
+  ### `wandb`에서 `Keras` 멀티프로세싱 사용하기
 </div>
 
 `use_multiprocessing=True`로 설정하면 다음 오류가 발생할 수 있습니다:

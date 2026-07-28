@@ -7,7 +7,9 @@ import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Simple_LightGBM_Integration.ipynb" />
 
-La bibliothèque `wandb` inclut un callback spécial pour [LightGBM](https://lightgbm.readthedocs.io/en/latest/). Il est également facile d’utiliser les fonctionnalités de journalisation génériques de W&amp;B pour suivre des expériences à grande échelle, comme les Sweeps d’hyperparamètres.
+Le SDK Python de W&amp;B (`wandb`) inclut un callback spécial pour [LightGBM](https://lightgbm.readthedocs.io/en/latest/) qui journalise automatiquement les métriques d’entraînement, l’importance des variables et les points de contrôle du modèle dans W&amp;B. Vous pouvez également utiliser les fonctionnalités de journalisation génériques de W&amp;B pour suivre des expériences à grande échelle, telles que les Sweeps d’hyperparamètres.
+
+Utilisez cette intégration pour surveiller les performances des modèles de boosting par gradient, comparer les runs et analyser la contribution des variables sans écrire de code de journalisation personnalisé.
 
 ```python
 from wandb.integration.lightgbm import wandb_callback, log_summary
@@ -21,16 +23,16 @@ log_summary(gbm, save_model_checkpoint=True)
 ```
 
 <Note>
-  Vous cherchez des exemples de code prêts à l’emploi ? Consultez [notre dépôt d’exemples sur GitHub](https://github.com/wandb/examples/tree/master/examples/boosting-algorithms).
+  Pour des exemples de code prêts à l’emploi, consultez [notre dépôt d’exemples sur GitHub](https://github.com/wandb/examples/tree/master/examples/boosting-algorithms).
 </Note>
 
-<div id="tuning-your-hyperparameters-with-sweeps">
+<div id="tune-your-hyperparameters-with-sweeps">
   ## Ajustez vos hyperparamètres avec Sweeps
 </div>
 
-Pour tirer le maximum de performances des modèles, vous devez ajuster les hyperparamètres, comme la profondeur des arbres et le taux d’apprentissage. W&amp;B [Sweeps](/fr/models/sweeps/) est une boîte à outils puissante pour configurer, orchestrer et analyser de vastes expériences d’hyperparamétrage.
+Pour obtenir les meilleures performances des modèles, ajustez les hyperparamètres, comme la profondeur des arbres et le taux d’apprentissage. W&amp;B [Sweeps](/fr/models/sweeps/) est une boîte à outils qui configure, orchestre et analyse de vastes expériences de test d’hyperparamètres.
 
-Pour en savoir plus sur ces outils et voir un exemple d’utilisation de Sweeps avec XGBoost, consultez ce notebook Colab interactif.
+Pour en savoir plus sur ces outils et voir un exemple d’utilisation de Sweeps avec XGBoost, ouvrez le notebook Colab interactif suivant.
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W%26B_Sweeps_with_XGBoost.ipynb" />
 

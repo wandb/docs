@@ -8,6 +8,10 @@ Weave는 전용 엔드포인트를 통해 OpenTelemetry 호환 트레이스 데�
 
 이 페이지에서는 엔드포인트 세부 정보, 인증, Python 및 TypeScript의 엔드투엔드 예시, OpenTelemetry Collector를 통해 트레이스를 전달하는 방법, 트레이스를 Weave 스레드로 구성하는 방법, 그리고 Weave가 들어오는 span에 적용하는 속성 매핑을 설명합니다.
 
+<Note>
+  이 엔드포인트는 **Traces** 및 **Threads** 뷰에 데이터를 제공합니다. 멀티턴 에이전트에서 **Agents** 뷰로 OTel span을 전송하려면 대신 agents 엔드포인트를 사용하세요. [OpenTelemetry spans를 Agents view로 전송](/ko/weave/guides/tracking/trace-agents-otel)을 참조하세요.
+</Note>
+
 <div id="endpoint-details">
   ## 엔드포인트 세부 정보
 </div>
@@ -26,14 +30,16 @@ Weave는 전용 엔드포인트를 통해 OpenTelemetry 호환 트레이스 데�
   ## 인증 및 라우팅
 </div>
 
-Weave는 요청을 인증하기 위해 `wandb-api-key` 헤더를 사용하고, span을 올바른 entity와 프로젝트로 라우팅하기 위해 `TracerProvider`의 리소스 속성을 사용합니다.
+Weave는 요청 인증에 `wandb-api-key` 헤더를 사용하고, span을 올바른 entity 및 프로젝트로 라우팅하기 위해 `TracerProvider`의 리소스 속성을 사용합니다. `wandb-api-key` 헤더에 W&amp;B API 키를 전달한 다음, `TracerProvider` 클래스에서 다음 키를 OpenTelemetry 리소스 속성으로 지정하세요.
 
-`wandb-api-key` 헤더에 W&amp;B API 키를 전달한 후, `TracerProvider` 클래스에서 다음 키를 OpenTelemetry 리소스 속성으로 지정합니다:
-
-* `wandb.entity`: W&amp;B 팀 이름 또는 사용자 이름입니다.
+* `wandb.entity`: W&amp;B 팀 또는 사용자 이름입니다.
 * `wandb.project`: 트레이스를 보낼 프로젝트 이름입니다.
 
-다음 예제는 인증과 프로젝트 라우팅을 구성하는 방법을 보여줍니다:
+다음 예시는 인증 및 프로젝트 라우팅을 구성하는 방법을 보여줍니다.
+
+<Warning>
+  아래의 `WEAVE_OTLP_ENDPOINT`는 OTel SDK의 `OTEL_EXPORTER_OTLP_ENDPOINT` 환경 변수가 아니라 로컬 변수이며, 전체 트레이스 경로(`.../otel/v1/traces`)로 설정됩니다. 이 값은 익스포터의 `endpoint=`/`url:`에 명시적으로 전달되므로 SDK는 요청을 해당 URL로 그대로 전송합니다. 반대로 실제 `OTEL_EXPORTER_OTLP_ENDPOINT`에 값을 `export`하고 인수 없이 익스포터를 생성하면(예: `OTLPSpanExporter()`), SDK가 `/v1/traces`를 자동으로 덧붙입니다. 따라서 이 변수에는 base URL(`.../otel`)이 들어 있어야 합니다. 그렇지 않으면 경로가 중복되어(`.../otel/v1/traces/v1/traces`) `404`가 발생하고 span이 조용히 누락됩니다. `OTEL_EXPORTER_OTLP_TRACES_ENDPOINT`도 마찬가지입니다. 이 경우에도 SDK가 `/v1/traces`를 추가하지 않으므로, 해당 변수에는 전체 트레이스 경로가 들어 있어야 합니다.
+</Warning>
 
 <CodeGroup>
   ```python Python lines {7,8}
@@ -46,13 +52,13 @@ Weave는 요청을 인증하기 위해 `wandb-api-key` 헤더를 사용하고, s
   ENTITY = "<your-team-name>"
   PROJECT = "<your-project-name>"
 
-  OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+  WEAVE_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
 
   # https://wandb.ai/settings 에서 API 키를 생성하세요
   WANDB_API_KEY = os.environ["WANDB_API_KEY"]
 
   exporter = OTLPSpanExporter(
-      endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+      endpoint=WEAVE_OTLP_ENDPOINT,
       headers={"wandb-api-key": WANDB_API_KEY},
   )
 
@@ -71,13 +77,13 @@ Weave는 요청을 인증하기 위해 `wandb-api-key` 헤더를 사용하고, s
   const ENTITY = "<your-team-name>";
   const PROJECT = "<your-project-name>";
 
-  const OTEL_EXPORTER_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
+  const WEAVE_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
 
   // https://wandb.ai/settings 에서 API 키를 생성하세요
   const WANDB_API_KEY = process.env.WANDB_API_KEY!;
 
   const exporter = new OTLPTraceExporter({
-    url: OTEL_EXPORTER_OTLP_ENDPOINT,
+    url: WEAVE_OTLP_ENDPOINT,
     headers: { "wandb-api-key": WANDB_API_KEY },
   });
 
@@ -147,13 +153,13 @@ Weave는 요청을 인증하기 위해 `wandb-api-key` 헤더를 사용하고, s
     ENTITY = "<your-team-name>"
     PROJECT = "<your-project-name>"
 
-    OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+    WEAVE_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
 
     # https://wandb.ai/settings 에서 API 키를 생성하세요.
     WANDB_API_KEY = os.environ["WANDB_API_KEY"]
 
     exporter = OTLPSpanExporter(
-        endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+        endpoint=WEAVE_OTLP_ENDPOINT,
         headers={"wandb-api-key": WANDB_API_KEY},
     )
 
@@ -215,13 +221,13 @@ Weave는 요청을 인증하기 위해 `wandb-api-key` 헤더를 사용하고, s
     const ENTITY = "<your-team-name>";
     const PROJECT = "<your-project-name>";
 
-    const OTEL_EXPORTER_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
+    const WEAVE_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
 
     // https://wandb.ai/settings 에서 API 키를 생성하세요
     const WANDB_API_KEY = process.env.WANDB_API_KEY!;
 
     const exporter = new OTLPTraceExporter({
-      url: OTEL_EXPORTER_OTLP_ENDPOINT,
+      url: WEAVE_OTLP_ENDPOINT,
       headers: { "wandb-api-key": WANDB_API_KEY },
     });
 
@@ -320,13 +326,13 @@ Weave는 요청을 인증하기 위해 `wandb-api-key` 헤더를 사용하고, s
     ENTITY = "<your-team-name>"
     PROJECT = "<your-project-name>"
 
-    OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+    WEAVE_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
 
     # https://wandb.ai/settings 에서 API 키를 생성하세요.
     WANDB_API_KEY = os.environ["WANDB_API_KEY"]
 
     exporter = OTLPSpanExporter(
-        endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+        endpoint=WEAVE_OTLP_ENDPOINT,
         headers={"wandb-api-key": WANDB_API_KEY},
     )
 
@@ -382,13 +388,13 @@ Weave는 요청을 인증하기 위해 `wandb-api-key` 헤더를 사용하고, s
     const ENTITY = "<your-team-name>";
     const PROJECT = "<your-project-name>";
 
-    const OTEL_EXPORTER_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
+    const WEAVE_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
 
     // https://wandb.ai/settings 에서 API 키를 생성하세요.
     const WANDB_API_KEY = process.env.WANDB_API_KEY!;
 
     const exporter = new OTLPTraceExporter({
-      url: OTEL_EXPORTER_OTLP_ENDPOINT,
+      url: WEAVE_OTLP_ENDPOINT,
       headers: { "wandb-api-key": WANDB_API_KEY },
     });
 
@@ -493,14 +499,14 @@ Weave는 요청을 인증하기 위해 `wandb-api-key` 헤더를 사용하고, s
     ENTITY = "<your-team-name>"
     PROJECT = "<your-project-name>"
 
-    OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+    WEAVE_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
 
     # https://wandb.ai/settings 에서 API 키를 생성하세요.
     WANDB_API_KEY = os.environ["WANDB_API_KEY"]
 
-    # OTLP 내보내기 도구를 구성합니다.
+    # OTLP 익스포터를 구성합니다.
     exporter = OTLPSpanExporter(
-        endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+        endpoint=WEAVE_OTLP_ENDPOINT,
         headers={"wandb-api-key": WANDB_API_KEY},
     )
 
@@ -565,13 +571,13 @@ Weave는 요청을 인증하기 위해 `wandb-api-key` 헤더를 사용하고, s
     const ENTITY = "<your-team-name>";
     const PROJECT = "<your-project-name>";
 
-    const OTEL_EXPORTER_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
+    const WEAVE_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
 
     // https://wandb.ai/settings 에서 API 키를 생성하세요.
     const WANDB_API_KEY = process.env.WANDB_API_KEY!;
 
     const exporter = new OTLPTraceExporter({
-      url: OTEL_EXPORTER_OTLP_ENDPOINT,
+      url: WEAVE_OTLP_ENDPOINT,
       headers: { "wandb-api-key": WANDB_API_KEY },
     });
 
@@ -828,10 +834,10 @@ collector가 실행되면 `OTEL_EXPORTER_OTLP_ENDPOINT` 환경 변수를 설정�
       PROJECT = "<your-project-name>"
       WANDB_API_KEY = os.environ["WANDB_API_KEY"]
 
-      OTEL_EXPORTER_OTLP_ENDPOINT = "https://trace.wandb.ai/otel/v1/traces"
+      WEAVE_OTLP_ENDPOINT = "https://trace.wandb.ai/otel/v1/traces"
 
       exporter = OTLPSpanExporter(
-          endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+          endpoint=WEAVE_OTLP_ENDPOINT,
           headers={"wandb-api-key": WANDB_API_KEY},
       )
 
@@ -874,10 +880,10 @@ collector가 실행되면 `OTEL_EXPORTER_OTLP_ENDPOINT` 환경 변수를 설정�
       }
 
       // OTel 설정
-      const OTEL_EXPORTER_OTLP_ENDPOINT = "https://trace.wandb.ai/otel/v1/traces";
+      const WEAVE_OTLP_ENDPOINT = "https://trace.wandb.ai/otel/v1/traces";
 
       const exporter = new OTLPTraceExporter({
-        url: OTEL_EXPORTER_OTLP_ENDPOINT,
+        url: WEAVE_OTLP_ENDPOINT,
         headers: { "wandb-api-key": WANDB_API_KEY },
       });
 
@@ -1308,63 +1314,69 @@ Weave는 다음 관측성 프레임워크 및 SDK의 속성 규약을 지원합�
 * **Traceloop**: OpenLLMetry 계측 속성 (`traceloop.entity.*`, `traceloop.span.kind`).
 * **Google Vertex AI**: Vertex AI agent 속성 (`gcp.vertex.agent.*`).
 * **OpenLit**: OpenLit 관측성 속성 (`gen_ai.content.completion`).
+* **Logfire / Pydantic AI**: Logfire의 Pydantic AI 계측 (`gen_ai.input.messages`, `gen_ai.output.messages`, `pydantic_ai.all_messages`, `final_result`).
 * **Langfuse**: Langfuse 트레이싱 속성 (`langfuse.startTime`, `langfuse.endTime`).
 
 <div id="attribute-reference">
   ### 속성 레퍼런스
 </div>
 
-| 속성 필드명                            | W&amp;B 매핑                    | 설명                       | 유형                      | 예시                                             |
-| :-------------------------------- | :---------------------------- | :----------------------- | :---------------------- | :--------------------------------------------- |
-| `ai.prompt`                       | `inputs`                      | 사용자 프롬프트 텍스트 또는 메시지.     | 문자열, 목록, dict           | `"여름에 관한 짧은 하이쿠를 써줘."`                         |
-| `gen_ai.prompt`                   | `inputs`                      | AI 모델 프롬프트 또는 메시지 배열입니다. | 목록, dict, 문자열           | `[{"role":"user","content":"abc"}]`            |
-| `input.value`                     | `inputs`                      | 모델 호출을 위한 입력 값입니다.       | 문자열, 목록, dict           | `{"text":"농담 하나 해줘"}`                          |
-| `mlflow.spanInputs`               | `inputs`                      | Span 입력 데이터입니다.          | 문자열, 목록, dict           | `["프롬프트 텍스트"]`                                 |
-| `traceloop.entity.input`          | `inputs`                      | entity 입력 데이터.           | 문자열, 목록, dict           | `"이것을 프랑스어로 번역하세요"`                            |
-| `gcp.vertex.agent.tool_call_args` | `inputs`                      | 도구 call 인수.              | Dict                    | `{"args":{"query":"weather in SF"}}`           |
-| `gcp.vertex.agent.llm_request`    | `inputs`                      | LLM 요청 페이로드.             | Dict                    | `{"contents":[{"role":"user","parts":[...]}]}` |
-| `input`                           | `inputs`                      | 범용 입력값.                  | 문자열, 목록, dict           | `"이 텍스트를 요약해 줘"`                               |
-| `inputs`                          | `inputs`                      | 범용 입력 배열.                | 목록, dict, 문자열           | `["이 텍스트를 요약해 줘"]`                             |
-| `ai.response`                     | `outputs`                     | 모델 응답 텍스트 또는 데이터.        | 문자열, 목록, dict           | `"하이쿠를 하나 들려드릴게요..."`                          |
-| `gen_ai.completion`               | `outputs`                     | AI completion 결과.        | 문자열, 목록, dict           | `"생성된 텍스트"`                                    |
-| `output.value`                    | `outputs`                     | 모델의 출력값.                 | 문자열, 목록, dict           | `{"text":"답변 텍스트"}`                            |
-| `mlflow.spanOutputs`              | `outputs`                     | 스팬 출력 데이터.               | String, 목록, dict        | `["answer"]`                                   |
-| `gen_ai.content.completion`       | `outputs`                     | 콘텐츠 완성 결과.               | String                  | `"답변 텍스트"`                                     |
-| `traceloop.entity.output`         | `outputs`                     | entity 출력 데이터.           | String, 목록, dict        | `"답변 텍스트"`                                     |
-| `gcp.vertex.agent.tool_response`  | `outputs`                     | 도구 실행 응답.                | 딕셔너리, 문자열               | `{"toolResponse":"ok"}`                        |
-| `gcp.vertex.agent.llm_response`   | `outputs`                     | LLM 응답 페이로드.             | 딕셔너리, 문자열               | `{"candidates":[...]}`                         |
-| `output`                          | `outputs`                     | 일반 출력 값.                 | 문자열, 목록, 딕셔너리           | `"답변 텍스트"`                                     |
-| `outputs`                         | `outputs`                     | 일반 출력 배열.                | 목록, dict, 문자열           | `["답변 텍스트"]`                                   |
-| `gen_ai.usage.input_tokens`       | `usage.input_tokens`          | 사용된 입력 토큰 수.             | Int                     | `42`                                           |
-| `gen_ai.usage.prompt_tokens`      | `usage.prompt_tokens`         | 사용된 프롬프트 토큰 수.           | Int                     | `30`                                           |
-| `llm.token_count.prompt`          | `usage.prompt_tokens`         | 프롬프트 토큰 수.               | Int                     | `30`                                           |
-| `ai.usage.promptTokens`           | `usage.prompt_tokens`         | 사용된 프롬프트 토큰 수.           | Int                     | `30`                                           |
-| `gen_ai.usage.completion_tokens`  | `usage.completion_tokens`     | 생성된 완료 토큰 수.             | Int                     | `40`                                           |
-| `llm.token_count.completion`      | `usage.completion_tokens`     | 완료 토큰 수.                 | Int                     | `40`                                           |
-| `ai.usage.completionTokens`       | `usage.completion_tokens`     | 생성된 completion token 수.  | Int                     | `40`                                           |
-| `llm.usage.total_tokens`          | `usage.total_tokens`          | Request에 사용된 총 token 수.  | Int                     | `70`                                           |
-| `llm.token_count.total`           | `usage.total_tokens`          | 총 token 수.               | 정수                      | `70`                                           |
-| `gen_ai.system`                   | `attributes.system`           | 시스템 프롬프트 또는 지침.          | 문자열                     | `"당신은 유용한 도우미입니다."`                            |
-| `llm.system`                      | `attributes.system`           | 시스템 프롬프트 또는 지침.          | 문자열                     | `"당신은 도움이 되는 어시스턴트입니다."`                       |
-| `weave.span.kind`                 | `attributes.kind`             | 스팬 유형 또는 카테고리.           | 문자열                     | `"llm"`                                        |
-| `traceloop.span.kind`             | `attributes.kind`             | Span 유형 또는 범주.           | 문자열                     | `"llm"`                                        |
-| `openinference.span.kind`         | `attributes.kind`             | Span 유형 또는 범주.           | 문자열                     | `"llm"`                                        |
-| `gen_ai.response.model`           | `attributes.model`            | 모델 식별자.                  | 문자열                     | `"gpt-4o"`                                     |
-| `llm.model_name`                  | `attributes.model`            | 모델 식별자.                  | 문자열                     | `"gpt-4o-mini"`                                |
-| `ai.model.id`                     | `attributes.model`            | 모델 식별자.                  | 문자열                     | `"gpt-4o"`                                     |
-| `llm.provider`                    | `attributes.provider`         | 모델 제공업체 이름.              | 문자열                     | `"openai"`                                     |
-| `ai.model.provider`               | `attributes.provider`         | 모델 제공업체 이름.              | String                  | `"openai"`                                     |
-| `gen_ai.request`                  | `attributes.model_parameters` | 모델 생성 파라미터.              | Dict                    | `{"temperature":0.7,"max_tokens":256}`         |
-| `llm.invocation_parameters`       | `attributes.model_parameters` | 모델 호출 파라미터.              | Dict                    | `{"temperature":0.2}`                          |
-| `wandb.display_name`              | `display_name`                | UI에 표시할 맞춤형 표시 이름.       | 문자열                     | `"사용자 메시지"`                                    |
-| `gcp.vertex.agent.session_id`     | `thread_id`                   | 세션 또는 스레드 식별자입니다.        | 문자열                     | `"thread_123"`                                 |
-| `wandb.thread_id`                 | `thread_id`                   | 대화의 스레드 식별자입니다.          | 문자열                     | `"thread_123"`                                 |
-| `wb_run_id`                       | `wb_run_id`                   | 연관된 W&amp;B run 식별자입니다.  | 문자열                     | `"abc123"`                                     |
-| `wandb.wb_run_id`                 | `wb_run_id`                   | 연결된 W&amp;B run 식별자입니다.  | 문자열                     | `"abc123"`                                     |
-| `gcp.vertex.agent.session_id`     | `is_turn`                     | span을 대화 턴으로 표시합니다.      | 불리언                     | `true`                                         |
-| `wandb.is_turn`                   | `is_turn`                     | span을 대화 턴으로 표시합니다.      | 불리언                     | `true`                                         |
-| `langfuse.startTime`              | `start_time` (재정의)            | span 시작 타임스탬프를 재정의합니다.   | 타임스탬프 (ISO8601/unix ns) | `"2024-01-01T12:00:00Z"`                       |
-| `langfuse.endTime`                | `end_time` (재정의)              | span 종료 타임스탬프를 재정의합니다.   | 타임스탬프 (ISO8601/unix ns) | `"2024-01-01T12:00:01Z"`                       |
+| 속성 필드명                            | W&amp;B 매핑                    | 설명                               | 유형                      | 예시                                             |
+| :-------------------------------- | :---------------------------- | :------------------------------- | :---------------------- | :--------------------------------------------- |
+| `ai.prompt`                       | `inputs`                      | 사용자 프롬프트 텍스트 또는 메시지.             | 문자열, 목록, dict           | `"여름에 관한 짧은 하이쿠를 써줘."`                         |
+| `gen_ai.prompt`                   | `inputs`                      | AI 모델 프롬프트 또는 메시지 배열입니다.         | 목록, dict, 문자열           | `[{"role":"user","content":"abc"}]`            |
+| `input.value`                     | `inputs`                      | 모델 호출을 위한 입력 값입니다.               | 문자열, 목록, dict           | `{"text":"농담 하나 해줘"}`                          |
+| `mlflow.spanInputs`               | `inputs`                      | Span 입력 데이터입니다.                  | 문자열, 목록, dict           | `["프롬프트 텍스트"]`                                 |
+| `gen_ai.input.messages`           | `inputs`                      | Logfire에서 생성된 입력 메시지입니다.         | 목록, dict, 문자열           | `[{"role":"user","parts":[...]}]`              |
+| `pydantic_ai.all_messages`        | `inputs`                      | Pydantic AI 에이전트 run의 모든 메시지입니다. | 목록                      | `[{"role":"user","content":"abc"}]`            |
+| `traceloop.entity.input`          | `inputs`                      | entity 입력 데이터.                   | 문자열, 목록, dict           | `"이것을 프랑스어로 번역하세요"`                            |
+| `gcp.vertex.agent.tool_call_args` | `inputs`                      | 도구 call 인수.                      | Dict                    | `{"args":{"query":"weather in SF"}}`           |
+| `gcp.vertex.agent.llm_request`    | `inputs`                      | LLM 요청 페이로드.                     | Dict                    | `{"contents":[{"role":"user","parts":[...]}]}` |
+| `input`                           | `inputs`                      | 범용 입력값.                          | 문자열, 목록, dict           | `"이 텍스트를 요약해 줘"`                               |
+| `inputs`                          | `inputs`                      | 범용 입력 배열.                        | 목록, dict, 문자열           | `["이 텍스트를 요약해 줘"]`                             |
+| `ai.response`                     | `outputs`                     | 모델 응답 텍스트 또는 데이터.                | 문자열, 목록, dict           | `"하이쿠를 하나 들려드릴게요..."`                          |
+| `gen_ai.completion`               | `outputs`                     | AI completion 결과.                | 문자열, 목록, dict           | `"생성된 텍스트"`                                    |
+| `output.value`                    | `outputs`                     | 모델의 출력값.                         | 문자열, 목록, dict           | `{"text":"답변 텍스트"}`                            |
+| `gen_ai.output.messages`          | `outputs`                     | Logfire에서 생성된 출력 메시지입니다.         | 목록, dict, 문자열           | `[{"role":"assistant","parts":[...]}]`         |
+| `mlflow.spanOutputs`              | `outputs`                     | 스팬 출력 데이터.                       | String, 목록, dict        | `["answer"]`                                   |
+| `final_result`                    | `outputs`                     | Pydantic AI 에이전트 run의 최종 출력입니다.  | String, dict            | `"Answer text"`                                |
+| `gen_ai.content.completion`       | `outputs`                     | 콘텐츠 완성 결과.                       | String                  | `"답변 텍스트"`                                     |
+| `traceloop.entity.output`         | `outputs`                     | entity 출력 데이터.                   | String, 목록, dict        | `"답변 텍스트"`                                     |
+| `gcp.vertex.agent.tool_response`  | `outputs`                     | 도구 실행 응답.                        | 딕셔너리, 문자열               | `{"toolResponse":"ok"}`                        |
+| `gcp.vertex.agent.llm_response`   | `outputs`                     | LLM 응답 페이로드.                     | 딕셔너리, 문자열               | `{"candidates":[...]}`                         |
+| `output`                          | `outputs`                     | 일반 출력 값.                         | 문자열, 목록, 딕셔너리           | `"답변 텍스트"`                                     |
+| `outputs`                         | `outputs`                     | 일반 출력 배열.                        | 목록, dict, 문자열           | `["답변 텍스트"]`                                   |
+| `gen_ai.usage.input_tokens`       | `usage.input_tokens`          | 사용된 입력 토큰 수.                     | Int                     | `42`                                           |
+| `gen_ai.usage.prompt_tokens`      | `usage.prompt_tokens`         | 사용된 프롬프트 토큰 수.                   | Int                     | `30`                                           |
+| `llm.token_count.prompt`          | `usage.prompt_tokens`         | 프롬프트 토큰 수.                       | Int                     | `30`                                           |
+| `ai.usage.promptTokens`           | `usage.prompt_tokens`         | 사용된 프롬프트 토큰 수.                   | Int                     | `30`                                           |
+| `gen_ai.usage.completion_tokens`  | `usage.completion_tokens`     | 생성된 완료 토큰 수.                     | Int                     | `40`                                           |
+| `llm.token_count.completion`      | `usage.completion_tokens`     | 완료 토큰 수.                         | Int                     | `40`                                           |
+| `ai.usage.completionTokens`       | `usage.completion_tokens`     | 생성된 completion token 수.          | Int                     | `40`                                           |
+| `llm.usage.total_tokens`          | `usage.total_tokens`          | Request에 사용된 총 token 수.          | Int                     | `70`                                           |
+| `llm.token_count.total`           | `usage.total_tokens`          | 총 token 수.                       | 정수                      | `70`                                           |
+| `gen_ai.system`                   | `attributes.system`           | 시스템 프롬프트 또는 지침.                  | 문자열                     | `"당신은 유용한 도우미입니다."`                            |
+| `llm.system`                      | `attributes.system`           | 시스템 프롬프트 또는 지침.                  | 문자열                     | `"당신은 도움이 되는 어시스턴트입니다."`                       |
+| `gen_ai.system_instructions`      | `attributes.system`           | 시스템 프롬프트 또는 지침.                  | 문자열                     | `"당신은 유용한 도우미입니다."`                            |
+| `weave.span.kind`                 | `attributes.kind`             | 스팬 유형 또는 카테고리.                   | 문자열                     | `"llm"`                                        |
+| `traceloop.span.kind`             | `attributes.kind`             | Span 유형 또는 범주.                   | 문자열                     | `"llm"`                                        |
+| `openinference.span.kind`         | `attributes.kind`             | Span 유형 또는 범주.                   | 문자열                     | `"llm"`                                        |
+| `gen_ai.response.model`           | `attributes.model`            | 모델 식별자.                          | 문자열                     | `"gpt-4o"`                                     |
+| `llm.model_name`                  | `attributes.model`            | 모델 식별자.                          | 문자열                     | `"gpt-4o-mini"`                                |
+| `ai.model.id`                     | `attributes.model`            | 모델 식별자.                          | 문자열                     | `"gpt-4o"`                                     |
+| `llm.provider`                    | `attributes.provider`         | 모델 제공업체 이름.                      | 문자열                     | `"openai"`                                     |
+| `ai.model.provider`               | `attributes.provider`         | 모델 제공업체 이름.                      | String                  | `"openai"`                                     |
+| `gen_ai.request`                  | `attributes.model_parameters` | 모델 생성 파라미터.                      | Dict                    | `{"temperature":0.7,"max_tokens":256}`         |
+| `llm.invocation_parameters`       | `attributes.model_parameters` | 모델 호출 파라미터.                      | Dict                    | `{"temperature":0.2}`                          |
+| `wandb.display_name`              | `display_name`                | UI에 표시할 맞춤형 표시 이름.               | 문자열                     | `"사용자 메시지"`                                    |
+| `gcp.vertex.agent.session_id`     | `thread_id`                   | 세션 또는 스레드 식별자입니다.                | 문자열                     | `"thread_123"`                                 |
+| `wandb.thread_id`                 | `thread_id`                   | 대화의 스레드 식별자입니다.                  | 문자열                     | `"thread_123"`                                 |
+| `wb_run_id`                       | `wb_run_id`                   | 연관된 W&amp;B run 식별자입니다.          | 문자열                     | `"abc123"`                                     |
+| `wandb.wb_run_id`                 | `wb_run_id`                   | 연결된 W&amp;B run 식별자입니다.          | 문자열                     | `"abc123"`                                     |
+| `gcp.vertex.agent.session_id`     | `is_turn`                     | span을 대화 턴으로 표시합니다.              | 불리언                     | `true`                                         |
+| `wandb.is_turn`                   | `is_turn`                     | span을 대화 턴으로 표시합니다.              | 불리언                     | `true`                                         |
+| `langfuse.startTime`              | `start_time` (재정의)            | span 시작 타임스탬프를 재정의합니다.           | 타임스탬프 (ISO8601/unix ns) | `"2024-01-01T12:00:00Z"`                       |
+| `langfuse.endTime`                | `end_time` (재정의)              | span 종료 타임스탬프를 재정의합니다.           | 타임스탬프 (ISO8601/unix ns) | `"2024-01-01T12:00:01Z"`                       |
 
 <div id="limitations">
   ## 제한 사항

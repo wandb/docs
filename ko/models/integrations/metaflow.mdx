@@ -11,7 +11,7 @@ import ApiKeyCreateStreamlined from "/snippets/ko/_includes/api-key-create-strea
 
 [Metaflow](https://docs.metaflow.org)는 Netflix에서 만든 ML 워크플로 생성 및 실행용 프레임워크입니다.
 
-이 인테그레이션을 사용하면 Metaflow의 [step 및 플로우](https://docs.metaflow.org/metaflow/basics)에 데코레이터를 적용해 파라미터와 artifact를 W&amp;B에 자동으로 로깅할 수 있습니다.
+이 인테그레이션을 사용하면 Metaflow의 [step 및 플로우](https://docs.metaflow.org/metaflow/basics)에 데코레이터를 적용해 파라미터와 아티팩트를 W&amp;B에 자동으로 로깅할 수 있으며, 맞춤형 로깅 코드를 작성하지 않고도 Metaflow로 구축한 워크플로 전반에서 Experiments를 추적하고 리니지를 확인할 수 있습니다:
 
 * step에 데코레이터를 적용하면 해당 step 내 특정 유형에 대한 로깅을 켜거나 끌 수 있습니다.
 * 플로우에 데코레이터를 적용하면 플로우의 모든 step에 대한 로깅을 켜거나 끌 수 있습니다.
@@ -20,6 +20,8 @@ import ApiKeyCreateStreamlined from "/snippets/ko/_includes/api-key-create-strea
   ## 퀵스타트
 </div>
 
+다음 섹션에서는 W&amp;B에 인증하고, 필요한 라이브러리를 설치한 다음, Metaflow step과 플로우에 `wandb_log` 데코레이터를 추가하는 방법을 설명합니다.
+
 <div id="sign-up-and-create-an-api-key">
   ### 가입하고 API 키 생성하기
 </div>
@@ -27,6 +29,8 @@ import ApiKeyCreateStreamlined from "/snippets/ko/_includes/api-key-create-strea
 API 키는 사용 중인 머신을 W&amp;B에 인증하는 데 사용됩니다. 사용자 프로필에서 API 키를 생성할 수 있습니다.
 
 <ApiKeyCreateStreamlined />
+
+W&amp;B App에서 API 키를 찾으려면 다음과 같이 하세요.
 
 1. 오른쪽 상단에 있는 사용자 프로필 아이콘을 클릭합니다.
 2. **User Settings**를 선택한 다음 **API Keys** 섹션까지 스크롤합니다.
@@ -43,7 +47,7 @@ API 키는 사용 중인 머신을 W&amp;B에 인증하는 데 사용됩니다. 
 
 <Tabs>
   <Tab title="명령줄">
-    1. `WANDB_API_KEY` [환경 변수](/ko/models/track/environment-variables/)에 API 키를 설정합니다.
+    1. `WANDB_API_KEY` [환경 변수](/ko/models/track/environment-variables/)에 API 키를 설정합니다. `<>`로 묶인 값은 사용자의 값으로 바꾸세요.
 
        ```bash
        export WANDB_API_KEY=<your_api_key>
@@ -51,7 +55,7 @@ API 키는 사용 중인 머신을 W&amp;B에 인증하는 데 사용됩니다. 
 
     2. `wandb` 라이브러리를 설치하고 로그인합니다.
 
-       ```shell
+       ```bash
        pip install -Uqqq metaflow "plum-dispatch<3.0.0" wandb
 
        wandb login
@@ -70,7 +74,7 @@ API 키는 사용 중인 머신을 W&amp;B에 인증하는 데 사용됩니다. 
   </Tab>
 
   <Tab title="Python notebook">
-    ```notebook
+    ```python
     !pip install -Uqqq metaflow "plum-dispatch<3.0.0" wandb
 
     import wandb
@@ -87,7 +91,7 @@ API 키는 사용 중인 머신을 W&amp;B에 인증하는 데 사용됩니다. 
   <Tab title="Step">
     step을 데코레이션하면 해당 step 내의 특정 유형에 대한 로깅을 켜거나 끌 수 있습니다.
 
-    이 예제에서는 `start`의 모든 데이터셋과 모델이 로깅됩니다.
+    이 예제에서는 인테그레이션이 `start`의 모든 데이터셋과 모델을 로깅합니다:
 
     ```python
     from wandb.integration.metaflow import wandb_log
@@ -105,7 +109,7 @@ API 키는 사용 중인 머신을 W&amp;B에 인증하는 데 사용됩니다. 
   <Tab title="Flow">
     플로우를 데코레이션하는 것은 플로우를 구성하는 모든 step에 기본값을 적용해 데코레이션하는 것과 같습니다.
 
-    이 경우 `WandbExampleFlow`의 모든 step은 기본적으로 데이터셋과 모델을 로깅하며, 이는 각 step을 `@wandb_log(datasets=True, models=True)`로 데코레이션하는 것과 같습니다.
+    이 경우 `WandbExampleFlow`의 모든 step은 기본적으로 데이터셋과 모델을 로깅하며, 이는 각 step을 `@wandb_log(datasets=True, models=True)`로 데코레이션하는 것과 같습니다:
 
     ```python
     from wandb.integration.metaflow import wandb_log
@@ -120,7 +124,7 @@ API 키는 사용 중인 머신을 W&amp;B에 인증하는 데 사용됩니다. 
     ```
   </Tab>
 
-  <Tab title="Flow and Steps">
+  <Tab title="Flow and steps">
     플로우를 데코레이션하는 것은 모든 step에 기본값을 적용해 데코레이션하는 것과 같습니다. 즉, 나중에 step에 다른 `@wandb_log`를 데코레이션하면 플로우 수준 데코레이션이 재정의됩니다.
 
     이 예제에서는 다음과 같습니다.
@@ -161,7 +165,7 @@ API 키는 사용 중인 머신을 W&amp;B에 인증하는 데 사용됩니다. 
   ## 프로그래밍 방식으로 데이터에 접근하기
 </div>
 
-캡처된 정보에는 세 가지 방법으로 접근할 수 있습니다. 로깅 중인 원래 Python 프로세스 내부에서 [`wandb` client library](/ko/models/ref/python/)를 사용하거나, [web app UI](/ko/models/track/workspaces/)를 사용하거나, [Public API](/ko/models/ref/python/public-api/)를 사용해 프로그래밍 방식으로 접근할 수 있습니다. `Parameter`는 W&amp;B의 [`config`](/ko/models/)에 저장되며 [Overview tab](/ko/models/runs/#overview-tab)에서 확인할 수 있습니다. `datasets`, `models`, `others`는 [W&amp;B Artifacts](/ko/models/artifacts/)에 저장되며 [Artifacts tab](/ko/models/runs/#artifacts-tab)에서 확인할 수 있습니다. 기본 Python 유형은 W&amp;B의 [`summary`](/ko/models/) dict에 저장되며 Overview tab에서 확인할 수 있습니다. 외부에서 API를 사용해 이 정보를 프로그래밍 방식으로 조회하는 방법에 대한 자세한 내용은 [Public API 가이드](/ko/models/track/public-api-guide/)를 참조하세요.
+플로우와 step에 데코레이터를 적용하면 플로우가 실행될 때마다 Runs가 매개변수와 아티팩트를 W&amp;B로 전송합니다. 캡처된 정보에는 세 가지 방법으로 접근할 수 있습니다. 로깅 중인 원래 Python 프로세스 내부에서 [`wandb` 클라이언트 라이브러리](/ko/models/ref/python/)를 사용하거나, [web app UI](/ko/models/track/workspaces/)를 사용하거나, [Public API](/ko/models/ref/python/public-api/)를 사용해 프로그래밍 방식으로 접근할 수 있습니다. `Parameter`는 W&amp;B의 [`config`](/ko/models/)에 저장되며 [Overview tab](/ko/models/runs/#overview-tab)에서 확인할 수 있습니다. `datasets`, `models`, `others`는 [W&amp;B Artifacts](/ko/models/artifacts/)에 저장되며 [Artifacts tab](/ko/models/runs/#artifacts-tab)에서 확인할 수 있습니다. 기본 Python 유형은 W&amp;B의 [`summary`](/ko/models/) dict에 저장되며 Overview tab에서 확인할 수 있습니다. 외부에서 API를 사용해 이 정보를 프로그래밍 방식으로 조회하는 방법에 대한 자세한 내용은 [Public API 가이드](/ko/models/track/public-api-guide/)를 참조하세요.
 
 <div id="quick-reference">
   ### 빠른 레퍼런스
@@ -182,23 +186,25 @@ API 키는 사용 중인 머신을 W&amp;B에 인증하는 데 사용됩니다. 
 | `datasets` | <ul><li><code>True</code>: 데이터셋인 인스턴스 변수를 기록합니다</li><li><code>False</code></li></ul>                                                                                                                                                                                                                                                                                                                                                                                                              |
 | `models`   | <ul><li><code>True</code>: 모델인 인스턴스 변수를 기록합니다</li><li><code>False</code></li></ul>                                                                                                                                                                                                                                                                                                                                                                                                                |
 | `others`   | <ul><li><code>True</code>: pickle로 직렬화할 수 있는 기타 모든 항목을 기록합니다</li><li><code>False</code></li></ul>                                                                                                                                                                                                                                                                                                                                                                                                 |
-| `settings` | <ul><li><code>wandb.Settings(...)</code>: 이 step 또는 flow에 사용할 <code>wandb</code> 설정을 직접 지정합니다</li><li><code>None</code>: <code>wandb.Settings()</code>를 전달하는 것과 같습니다</li></ul><p>기본적으로:</p><ul><li><code>settings.run&#95;group</code>가 <code>None</code>이면 <code>&#123;flow&#95;name&#125;/&#123;run&#95;id&#125;</code>로 설정됩니다</li><li><code>settings.run&#95;job&#95;type</code>가 <code>None</code>이면 <code>&#123;run&#95;job&#95;type&#125;/&#123;step&#95;name&#125;</code>로 설정됩니다</li></ul> |
+| `settings` | <ul><li><code>wandb.Settings(...)</code>: 이 step 또는 플로우에 사용할 <code>wandb</code> 설정을 직접 지정합니다</li><li><code>None</code>: <code>wandb.Settings()</code>를 전달하는 것과 같습니다</li></ul><p>기본적으로:</p><ul><li><code>settings.run&#95;group</code>가 <code>None</code>이면 <code>&#123;flow&#95;name&#125;/&#123;run&#95;id&#125;</code>로 설정됩니다</li><li><code>settings.run&#95;job&#95;type</code>가 <code>None</code>이면 <code>&#123;run&#95;job&#95;type&#125;/&#123;step&#95;name&#125;</code>로 설정됩니다</li></ul> |
 
 <div id="frequently-asked-questions">
   ## 자주 묻는 질문
 </div>
 
-<div id="what-exactly-do-you-log-do-you-log-all-instance-and-local-variables">
-  ### 정확히 무엇을 로깅하나요? 모든 인스턴스 변수와 로컬 변수를 로깅하나요?
+다음 섹션에서는 로깅 동작, 지원되는 데이터 유형, 그리고 아티팩트 리니지에 관한 자주 묻는 질문에 답변합니다.
+
+<div id="what-exactly-do-you-log">
+  ### 정확히 무엇을 로깅하나요
 </div>
 
 `wandb_log`는 인스턴스 변수만 로깅합니다. 로컬 변수는 절대 로깅되지 않습니다. 따라서 불필요한 데이터가 로깅되는 것을 방지할 수 있습니다.
 
 <div id="which-data-types-get-logged">
-  ### 어떤 데이터 유형이 로깅되나요?
+  ### 어떤 데이터 유형이 로깅되나요
 </div>
 
-현재는 다음 유형을 지원합니다:
+W&amp;B는 다음 유형을 지원합니다:
 
 | 로깅 설정      | 유형                                                                                                               |
 | ---------- | ---------------------------------------------------------------------------------------------------------------- |
@@ -207,8 +213,8 @@ API 키는 사용 중인 머신을 W&amp;B에 인증하는 데 사용됩니다. 
 | `models`   | <ul><li><code>nn.Module</code></li><li><code>sklearn.base.BaseEstimator</code></li></ul>                         |
 | `others`   | <ul><li><a href="https://wiki.python.org/moin/UsingPickle">pickle로 직렬화 가능</a>하고 JSON으로 직렬화할 수 있는 모든 항목</li></ul> |
 
-<div id="how-can-i-configure-logging-behavior">
-  ### 로깅 동작은 어떻게 설정하나요?
+<div id="configure-logging-behavior">
+  ### 로깅 동작 구성
 </div>
 
 | 변수 종류 | 동작                           | 예시              | 데이터 유형         |
@@ -219,10 +225,10 @@ API 키는 사용 중인 머신을 W&amp;B에 인증하는 데 사용됩니다. 
 | 로컬    | 로깅되지 않음                      | `accuracy`      | `float`        |
 | 로컬    | 로깅되지 않음                      | `df`            | `pd.DataFrame` |
 
-<div id="is-artifact-lineage-tracked">
-  ### artifact 리니지가 추적되나요?
+<div id="artifact-lineage-tracking">
+  ### Artifact 리니지 추적
 </div>
 
-예. step A의 출력이면서 동시에 step B의 입력인 artifact가 있으면, 리니지 DAG를 자동으로 생성합니다.
+step A의 출력이면서 동시에 step B의 입력인 artifact가 있으면, W&amp;B가 리니지 DAG를 자동으로 생성합니다.
 
-이 동작의 예시는 다음 [notebook](https://colab.research.google.com/drive/1wZG-jYzPelk8Rs2gIM3a71uEoG46u_nG#scrollTo=DQQVaKS0TmDU) 및 해당 [W&amp;B Artifacts 페이지](https://wandb.ai/megatruong/metaflow_integration/artifacts/dataset/raw_df/7d14e6578d3f1cfc72fe/graph)를 참조하세요.
+이 동작의 예시는 다음 [Metaflow integration example notebook](https://colab.research.google.com/drive/1wZG-jYzPelk8Rs2gIM3a71uEoG46u_nG#scrollTo=DQQVaKS0TmDU) 및 해당 [Artifacts page](https://wandb.ai/megatruong/metaflow_integration/artifacts/dataset/raw_df/7d14e6578d3f1cfc72fe/graph)를 참조하세요.

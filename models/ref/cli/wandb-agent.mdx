@@ -5,7 +5,7 @@ title: wandb agent
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/cli.py#L2011" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L2118" />
 
 
 
@@ -19,38 +19,38 @@ agent [OPTIONS] SWEEP_ID
 
 Start a sweep agent.
 
-    Poll the W&B server for hyperparameter configurations from
-    the sweep and start a run for each configuration.
+Poll the W&B server for hyperparameter configurations from
+the sweep and start a run for each configuration.
 
-    The agent exits when the sweep completes, the sweep
-    is stopped, cancelled, or the `--count` limit is reached.
+The agent exits when the sweep completes, the sweep
+is stopped, cancelled, or the `--count` limit is reached.
 
-    Find the sweep ID within the Sweeps tab in the W&B App
-    or in the output of the `wandb sweep` command when you create a new sweep.
+Find the sweep ID within the Sweeps tab in the W&B App
+or in the output of the `wandb sweep` command when you create a new sweep.
 
-    The sweep ID can include the entity and project path
-    (entity/project/sweep_id) or the eight character sweep ID.
+The sweep ID can include the entity and project path
+(entity/project/sweep_id) or the eight character sweep ID.
 
-    For example, to start an agent for a sweep with a sweep ID of wbyz9876:
+For example, to start an agent for a sweep with a sweep ID of wbyz9876:
 
 ```bash
 wandb agent wbyz9876
 ```
 
-    To start an agent with a run limit of 10 runs for the sweep:
+To start an agent with a run limit of 10 runs for the sweep:
 
 ```bash
 wandb agent --count 10 wbyz9876
 ```
 
-    To start an agent for a sweep and save it to a project
-    called "sweeps-project" that belongs to the "team-awesome" entity:
+To start an agent for a sweep and save it to a project
+called "sweeps-project" that belongs to the "team-awesome" entity:
 
 ```bash
 wandb agent -p sweeps-project -e team-awesome wbyz9876
 ```
 
-    To forward signals to child runs for clean shutdown:
+To forward signals to child runs for clean shutdown:
 
 ```bash
 wandb agent --forward-signals wbyz9876

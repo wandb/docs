@@ -1,34 +1,7 @@
 ---
-title: "クラス: Turn"
+title: "Turn"
 description: "TypeScript SDK リファレンス"
 ---
-
-[weave](../) / Turn
-
-エージェントの呼び出しです。通常は、単一の
-ユーザーメッセージに応答するための処理をラップします。`invoke_agent` スパンを生成し、その
-ターンのトレースのルートとして機能します。常に `ROOT_CONTEXT` の下で開始されるため、
-別の OTel でインストルメントされた
-ライブラリから誤って親を継承することはありません。
-
-`weave.startTurn()` (または `conversation.startTurn()`) で作成され、
-`end()` で終了します。非同期チェーンでアクティブにできる Turn は 1 つだけです。
-子要素 (LLM、Tool、SubAgent) は、`startLLM`、`startTool`、
-`startSubagent` メソッドを介して接続されます。
-
-`例`
-
-```ts twoslash
-// @noErrors
-const turn = weave.startTurn({agentName: 'research-bot', model: MODEL});
-try {
-  const llm = turn.startLLM({model: MODEL, providerName: 'openai'});
-  // ...
-  llm.end();
-} finally {
-  turn.end();
-}
-```
 
 <div id="hierarchy">
   ## 階層
@@ -42,8 +15,8 @@ try {
   ## 目次
 </div>
 
-<div id="properties">
-  ### プロパティ
+<div id="accessors">
+  ### アクセサー
 </div>
 
 * [agentName](./turn#agentname)
@@ -55,6 +28,7 @@ try {
 
 * [addEvent](./turn#addevent)
 * [end](./turn#end)
+* [record](./turn#record)
 * [setAttribute](./turn#setattribute)
 * [setAttributes](./turn#setattributes)
 * [startLLM](./turn#startllm)
@@ -62,19 +36,25 @@ try {
 * [startTool](./turn#starttool)
 * [create](./turn#create)
 
-## プロパティ
+## アクセサー
 
 <div id="agentname">
   ### agentName
 </div>
 
-• `Readonly` **agentName**: `string`
+• `get` **agentName**(): `string`
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`string`
 
 <div id="defined-in">
   #### 定義元
 </div>
 
-[src/genai/turn.ts:57](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/turn.ts#L57)
+[src/genai/turn.ts:103](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L103)
 
 ***
 
@@ -82,19 +62,39 @@ try {
   ### model
 </div>
 
-• `Readonly` **model**: `string`
+• `get` **model**(): `string`
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`string`
 
 <div id="defined-in">
   #### 定義元
 </div>
 
-[src/genai/turn.ts:58](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/turn.ts#L58)
+[src/genai/turn.ts:107](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L107)
 
 ## メソッド
 
 <div id="addevent">
   ### addEvent
 </div>
+
+<Warning>
+  **非推奨。** このデータは代わりに [setAttributes](./turn#setattributes) を使用して記録してください。
+  OpenTelemetry は Span Event API (`Span.addEvent`) を段階的に廃止しています。この
+  メソッドは引き続き動作し、既存の span-event データも引き続き有効です。
+  [https://opentelemetry.io/blog/2026/deprecating-span-events/](https://opentelemetry.io/blog/2026/deprecating-span-events/) を参照してください
+
+  `例`
+
+  ```ts twoslash
+  // @noErrors
+  span.addEvent('context_compacted', {removedMessages: 12});
+  ```
+</Warning>
 
 ▸ **addEvent**(`name`, `attributes?`, `startTime?`): `this`
 
@@ -118,13 +118,6 @@ try {
 
 `this`
 
-`例`
-
-```ts twoslash
-// @noErrors
-span.addEvent('context_compacted', {removedMessages: 12});
-```
-
 <div id="inherited-from">
   #### 継承元
 </div>
@@ -135,7 +128,7 @@ SpanBase.addEvent
   #### 定義元
 </div>
 
-[src/genai/spanBase.ts:77](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/spanBase.ts#L77)
+[src/genai/spanBase.ts:82](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L82)
 
 ***
 
@@ -145,7 +138,8 @@ SpanBase.addEvent
 
 ▸ **end**(`opts?`): `void`
 
-Turn スパン を終了します。冪等です。失敗としてマークするには、`error` を渡します。終了時刻を過去にさかのぼって設定するには、`endTime` を渡します。
+現在のフィールド値を読み取り (`start` 以降に `record()`
+によって行われた変更を反映して) 、スパンを終了します。冪等です。失敗としてマークするには、`error` を渡します。終了時刻を過去にさかのぼって設定するには、`endTime` を渡します。
 
 <div id="parameters">
   #### パラメーター
@@ -165,7 +159,45 @@ Turn スパン を終了します。冪等です。失敗としてマークす�
   #### 定義元
 </div>
 
-[src/genai/turn.ts:144](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/turn.ts#L144)
+[src/genai/turn.ts:241](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L241)
+
+***
+
+<div id="record">
+  ### record
+</div>
+
+▸ **record**(`opts`): `this`
+
+変更可能なフィールドの任意のサブセットを一括設定します。マージではなく置換されます。
+provider の呼び出しから結果が返った後に、すべてをまとめて割り当てる場合に便利です。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名                          | タイプ                                  |
+| :------------------------- | :----------------------------------- |
+| `opts`                     | `Object`                             |
+| `opts.agentDescription?`   | `string`                             |
+| `opts.agentId?`            | `string`                             |
+| `opts.agentName?`          | `string`                             |
+| `opts.agentVersion?`       | `string`                             |
+| `opts.messages?`           | [`Message`](../interfaces/message)[] |
+| `opts.model?`              | `string`                             |
+| `opts.systemInstructions?` | `string`[]                           |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`this`
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/turn.ts:201](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L201)
 
 ***
 
@@ -201,7 +233,7 @@ Turn スパン を終了します。冪等です。失敗としてマークす�
   #### 定義元
 </div>
 
-[src/genai/turn.ts:136](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/turn.ts#L136)
+[src/genai/turn.ts:193](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L193)
 
 ***
 
@@ -244,7 +276,7 @@ SpanBase.setAttributes
   #### 定義元
 </div>
 
-[src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/spanBase.ts#L63)
+[src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L63)
 
 ***
 
@@ -274,7 +306,7 @@ SpanBase.setAttributes
   #### 定義元
 </div>
 
-[src/genai/turn.ts:104](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/turn.ts#L104)
+[src/genai/turn.ts:161](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L161)
 
 ***
 
@@ -304,7 +336,7 @@ SpanBase.setAttributes
   #### 定義元
 </div>
 
-[src/genai/turn.ts:122](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/turn.ts#L122)
+[src/genai/turn.ts:179](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L179)
 
 ***
 
@@ -334,7 +366,7 @@ SpanBase.setAttributes
   #### 定義元
 </div>
 
-[src/genai/turn.ts:113](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/turn.ts#L113)
+[src/genai/turn.ts:170](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L170)
 
 ***
 
@@ -362,4 +394,4 @@ SpanBase.setAttributes
   #### 定義元
 </div>
 
-[src/genai/turn.ts:63](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/turn.ts#L63)
+[src/genai/turn.ts:124](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L124)
