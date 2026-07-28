@@ -5,8 +5,6 @@ description: "Track and customize single summary metrics like best accuracy or m
 
 In addition to values that change over time during training, it is often important to track values that summarizes a model or a preprocessing step. Store this information in a run's `summary` attribute. A run's summary attribute can handle NumPy arrays, PyTorch tensors or TensorFlow tensors. W&B persists NumPy arrays, PyTorch tensors, and TensorFlow tensors in a binary file.
 
-{/* store high level metrics in the summary object, such as min, mean, variance, percentiles, and more. */}
-
 The last value logged with `wandb.Run.log()` is automatically set as the run's summary dictionary. If a summary metric dictionary is modified, the previous value is lost.
 
 Log a summary metric during an active run or after a run has completed.
@@ -112,9 +110,9 @@ Access a run’s summary in the W&B App, during an active run, from an existing 
 <Tabs>
 <Tab title="Run Overview">
 1. Navigate to the W&B App.
-2. Select the **Workspace** tab from the project sidebar.
-3. Click the run that logged the summary values. The run page opens with the **Overview** tab shown by default.
-4. View the summary values in the **Summary** section.
+1. Select the **Workspace** tab from the project sidebar.
+1. Click the run that logged the summary values. The run page opens with the **Overview** tab shown by default.
+1. View the summary values in the **Summary** section.
 
 The following image shows what the summary metrics might look like in the **Overview** tab if you copy and run the code snippet above:
 
@@ -124,8 +122,8 @@ The following image shows what the summary metrics might look like in the **Over
 </Tab>
 <Tab title="Run Table">
 1. Navigate to the W&B App.
-2. Select the **Runs** tab.
-3. Within the runs table, you can view the summary values within the columns based on the name of the summary value.
+1. Select the **Runs** tab.
+1. Within the runs table, you can view the summary values within the columns based on the name of the summary value.
 </Tab>
 <Tab title="During a run">
 
@@ -147,16 +145,6 @@ with wandb.init(project="<my-project>", config=config) as run:
 Use the W&B Public API to access summary metrics with the `wandb.Api.Run.summary` property.
 
 The following code example demonstrates one way to retrieve the summary values logged to a specific run using the W&B Public API and pandas:
-
-{/* ```python
-import wandb
-
-api = wandb.Api()
-run = api.run("<entity>/<project>/<run_id>")
-
-print(run.name)
-print(dict(run.summary))
-``` */}
 
 ```python
 import wandb
@@ -234,4 +222,3 @@ By default, W&B stores run directories at: `./wandb/run-<timestamp>-<run_id>`.
 
 </Tab>
 </Tabs>
-
