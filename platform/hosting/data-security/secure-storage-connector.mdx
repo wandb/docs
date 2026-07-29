@@ -384,9 +384,9 @@ For details, see [Create a blob storage container](https://learn.microsoft.com/e
 1. Choose an authentication method:
 
     - **Storage account key**: Generate a storage account access key and record the key and storage account name. For Dedicated Cloud, share these values with your W&B team through a secure sharing mechanism.
-    - **Workload identity**: Don't generate or share a storage account key. The W&B System Console shows the principal ID of the deployment's managed identity. Grant that principal the **Reader** and **Storage Blob Data Contributor** roles on the storage account. W&B configures the identity federation for the deployment.
+    - **Workload identity**: Don't generate or share a storage account key. The W&B System Console shows the principal ID of the deployment's managed identity. Grant that principal the **Reader** and **Storage Blob Data Contributor** roles on the storage account. W&B configures identity federation through one deployment-wide `wandb-bucket-access` Kubernetes ServiceAccount.
 
-    Existing instance-level BYOB configurations that use a storage account key continue to work and don't require migration.
+    Workload identity is an opt-in migration. Existing instance-level BYOB configurations continue to use their storage account key until you change their authentication method.
 
 **Team level BYOB**:
 
@@ -488,7 +488,7 @@ For **Self-Managed**, you can configure instance level BYOB using the W&B App:
 1. Optional: Enter the **Path** to use in the new bucket.
 1. In **Authentication**, select one of the following options:
     - **Storage account key**: Enter the storage account access key. Use this option to retain an existing key-based BYOB configuration.
-    - **Workload identity (user-delegation SAS)**: Copy the displayed **Managed identity principal ID** and grant it the **Reader** and **Storage Blob Data Contributor** roles on the storage account. You don't need to enter a tenant ID or client ID. If this option is unavailable, configure `global.azureStorageIdentity` for the deployment first.
+    - **Workload identity (user-delegation SAS)**: Copy the displayed **Managed identity principal ID** and grant it the **Reader** and **Storage Blob Data Contributor** roles on the storage account. You don't need to enter a tenant ID or client ID. This option requires the `operator-wandb` chart version 0.44.0 or later and a configured `global.azureStorageIdentity`.
 1. Click **Save**.
 
 After you save, W&B uses the configured bucket as the default storage destination for new artifacts and run files at the instance level.
