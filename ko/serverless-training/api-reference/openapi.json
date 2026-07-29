@@ -52,6 +52,7 @@
         "type": "object"
       },
       "Audio": {
+        "additionalProperties": true,
         "description": "모델의 이전 오디오 응답에 대한 데이터입니다.\n[자세히 알아보기](https://platform.openai.com/docs/guides/audio).",
         "properties": {
           "id": {
@@ -83,6 +84,7 @@
         "type": "object"
       },
       "ChatCompletionAssistantMessageParam": {
+        "additionalProperties": true,
         "description": "사용자 메시지에 대한 응답으로 모델이 보낸 메시지입니다.",
         "properties": {
           "audio": {
@@ -122,7 +124,7 @@
           "function_call": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/openai__types__chat__chat_completion_assistant_message_param__FunctionCall"
+                "$ref": "#/components/schemas/FunctionCall"
               },
               {
                 "type": "null"
@@ -201,6 +203,7 @@
         "type": "object"
       },
       "ChatCompletionContentPartImageParam": {
+        "additionalProperties": true,
         "description": "[이미지 입력](https://platform.openai.com/docs/guides/vision)에 대해 알아보세요.",
         "properties": {
           "image_url": {
@@ -220,6 +223,7 @@
         "type": "object"
       },
       "ChatCompletionContentPartInputAudioParam": {
+        "additionalProperties": true,
         "description": "[오디오 입력](https://platform.openai.com/docs/guides/audio)에 대해 알아보세요.",
         "properties": {
           "input_audio": {
@@ -239,6 +243,7 @@
         "type": "object"
       },
       "ChatCompletionContentPartRefusalParam": {
+        "additionalProperties": true,
         "properties": {
           "refusal": {
             "title": "Refusal",
@@ -278,6 +283,7 @@
         "type": "object"
       },
       "ChatCompletionDeveloperMessageParam": {
+        "additionalProperties": true,
         "description": "사용자가 보낸 메시지와 관계없이 모델이 따라야 하는 개발자 제공 지침입니다. o1 모델 및 이후 모델에서는 `developer` 메시지가 기존 `system` 메시지를 대체합니다.",
         "properties": {
           "content": {
@@ -312,6 +318,7 @@
         "type": "object"
       },
       "ChatCompletionFunctionMessageParam": {
+        "additionalProperties": true,
         "properties": {
           "content": {
             "anyOf": [
@@ -343,6 +350,7 @@
         "type": "object"
       },
       "ChatCompletionFunctionToolParam": {
+        "additionalProperties": true,
         "description": "응답을 생성하는 데 사용할 수 있는 함수 도구입니다.",
         "properties": {
           "function": {
@@ -480,10 +488,11 @@
         "type": "object"
       },
       "ChatCompletionMessageCustomToolCallParam": {
+        "additionalProperties": true,
         "description": "모델이 생성한 맞춤형 도구 call입니다.",
         "properties": {
           "custom": {
-            "$ref": "#/components/schemas/openai__types__chat__chat_completion_message_custom_tool_call_param__Custom"
+            "$ref": "#/components/schemas/Custom"
           },
           "id": {
             "title": "Id",
@@ -529,10 +538,11 @@
         "type": "object"
       },
       "ChatCompletionMessageFunctionToolCallParam": {
+        "additionalProperties": true,
         "description": "모델이 생성한 함수 도구 call입니다.",
         "properties": {
           "function": {
-            "$ref": "#/components/schemas/openai__types__chat__chat_completion_message_function_tool_call_param__Function"
+            "$ref": "#/components/schemas/Function"
           },
           "id": {
             "title": "Id",
@@ -590,6 +600,7 @@
         "type": "object"
       },
       "ChatCompletionSystemMessageParam": {
+        "additionalProperties": true,
         "description": "사용자가 보낸 메시지와 관계없이 모델이 따라야 하는 개발자 제공 지침입니다. o1 모델 및 그 이후 모델에서는 이 용도로 대신 `developer` 메시지를 사용하세요.",
         "properties": {
           "content": {
@@ -665,6 +676,7 @@
         "type": "object"
       },
       "ChatCompletionToolMessageParam": {
+        "additionalProperties": true,
         "properties": {
           "content": {
             "anyOf": [
@@ -699,6 +711,7 @@
         "type": "object"
       },
       "ChatCompletionUserMessageParam": {
+        "additionalProperties": true,
         "description": "프롬프트 또는 추가 컨텍스트 정보를 포함한, 최종 사용자가 보낸 메시지입니다.",
         "properties": {
           "content": {
@@ -1316,6 +1329,7 @@
         "type": "object"
       },
       "File": {
+        "additionalProperties": true,
         "description": "텍스트 생성을 위한 [file inputs](https://platform.openai.com/docs/guides/text)에 대해 알아보세요.",
         "properties": {
           "file": {
@@ -1335,6 +1349,7 @@
         "type": "object"
       },
       "FileFile": {
+        "additionalProperties": true,
         "properties": {
           "file_data": {
             "title": "File Data",
@@ -1393,6 +1408,7 @@
         "type": "object"
       },
       "FunctionDefinition": {
+        "additionalProperties": true,
         "properties": {
           "description": {
             "title": "Description",
@@ -1491,6 +1507,7 @@
         "type": "object"
       },
       "ImageURL": {
+        "additionalProperties": true,
         "properties": {
           "detail": {
             "enum": [
@@ -1513,6 +1530,7 @@
         "type": "object"
       },
       "InputAudio": {
+        "additionalProperties": true,
         "properties": {
           "data": {
             "title": "Data",
@@ -1741,9 +1759,41 @@
         "title": "PaginatedResponse[TrainingJobEventResponse]",
         "type": "object"
       },
+      "PydanticException": {
+        "properties": {
+          "message": {
+            "title": "Message",
+            "type": "string"
+          },
+          "traceback": {
+            "title": "Traceback",
+            "type": "string"
+          },
+          "type": {
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "message",
+          "traceback"
+        ],
+        "title": "PydanticException",
+        "type": "object"
+      },
       "SFTTrainingConfig": {
         "description": "SFT 트레이닝 설정 스키마입니다.",
         "properties": {
+          "assistant_turns": {
+            "default": "all",
+            "enum": [
+              "all",
+              "last"
+            ],
+            "title": "Assistant Turns",
+            "type": "string"
+          },
           "batch_size": {
             "anyOf": [
               {
@@ -1877,14 +1927,20 @@
         "type": "object"
       },
       "Trajectory": {
+        "additionalProperties": true,
+        "description": "최신 ART 생성기에서 추가된 트래젝터리 필드를 유지합니다.",
         "properties": {
           "additional_histories": {
-            "default": [],
             "items": {
               "$ref": "#/components/schemas/History"
             },
             "title": "Additional Histories",
             "type": "array"
+          },
+          "exchanges": {
+            "additionalProperties": true,
+            "title": "Exchanges",
+            "type": "object"
           },
           "final_policy_version": {
             "anyOf": [
@@ -1909,7 +1965,6 @@
             "title": "Initial Policy Version"
           },
           "logs": {
-            "default": [],
             "items": {
               "type": "string"
             },
@@ -1917,7 +1972,6 @@
             "type": "array"
           },
           "messages_and_choices": {
-            "default": [],
             "items": {
               "anyOf": [
                 {
@@ -1947,26 +2001,7 @@
             "type": "array"
           },
           "metadata": {
-            "additionalProperties": {
-              "anyOf": [
-                {
-                  "type": "number"
-                },
-                {
-                  "type": "integer"
-                },
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "boolean"
-                },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "default": {},
+            "additionalProperties": true,
             "title": "Metadata",
             "type": "object"
           },
@@ -1984,7 +2019,6 @@
                 }
               ]
             },
-            "default": {},
             "title": "Metrics",
             "type": "object"
           },
@@ -2017,7 +2051,44 @@
         "type": "object"
       },
       "TrajectoryGroup": {
+        "description": "교환 및 그룹 수준의 상태를 포함하는 ART 트래젝터리 그룹입니다.",
         "properties": {
+          "exceptions": {
+            "items": {
+              "$ref": "#/components/schemas/PydanticException"
+            },
+            "title": "Exceptions",
+            "type": "array"
+          },
+          "logs": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Logs",
+            "type": "array"
+          },
+          "metadata": {
+            "additionalProperties": true,
+            "title": "Metadata",
+            "type": "object"
+          },
+          "metrics": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "boolean"
+                }
+              ]
+            },
+            "title": "Metrics",
+            "type": "object"
+          },
           "trajectories": {
             "items": {
               "$ref": "#/components/schemas/Trajectory"
@@ -2026,9 +2097,6 @@
             "type": "array"
           }
         },
-        "required": [
-          "trajectories"
-        ],
         "title": "TrajectoryGroup",
         "type": "object"
       },
@@ -2064,63 +2132,6 @@
         ],
         "title": "ValidationError",
         "type": "object"
-      },
-      "openai__types__chat__chat_completion_assistant_message_param__FunctionCall": {
-        "description": "사용 중단되었으며 `tool_calls`로 대체되었습니다.\n\n모델이 생성한, 호출할 함수의 이름과 인수입니다.",
-        "properties": {
-          "arguments": {
-            "title": "Arguments",
-            "type": "string"
-          },
-          "name": {
-            "title": "Name",
-            "type": "string"
-          }
-        },
-        "required": [
-          "arguments",
-          "name"
-        ],
-        "title": "FunctionCall",
-        "type": "object"
-      },
-      "openai__types__chat__chat_completion_message_custom_tool_call_param__Custom": {
-        "description": "모델이 호출한 맞춤형 도구입니다.",
-        "properties": {
-          "input": {
-            "title": "Input",
-            "type": "string"
-          },
-          "name": {
-            "title": "Name",
-            "type": "string"
-          }
-        },
-        "required": [
-          "input",
-          "name"
-        ],
-        "title": "Custom",
-        "type": "object"
-      },
-      "openai__types__chat__chat_completion_message_function_tool_call_param__Function": {
-        "description": "모델이 호출한 함수입니다.",
-        "properties": {
-          "arguments": {
-            "title": "Arguments",
-            "type": "string"
-          },
-          "name": {
-            "title": "Name",
-            "type": "string"
-          }
-        },
-        "required": [
-          "arguments",
-          "name"
-        ],
-        "title": "Function",
-        "type": "object"
       }
     },
     "securitySchemes": {
@@ -2140,53 +2151,6 @@
       "post": {
         "description": "새 Chat Completion을 생성합니다.",
         "operationId": "create_chat_completion_v1_chat_completions_post",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ChatCompletionRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ChatCompletionResponse"
-                }
-              }
-            },
-            "description": "성공 응답"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            },
-            "description": "검증 오류"
-          }
-        },
-        "security": [
-          {
-            "HTTPBearer": []
-          }
-        ],
-        "summary": "Chat Completion 생성",
-        "tags": [
-          "chat-completions"
-        ]
-      }
-    },
-    "/v1/chat/completions/": {
-      "post": {
-        "description": "새 Chat Completion을 생성합니다.",
-        "operationId": "create_chat_completion_v1_chat_completions__post",
         "requestBody": {
           "content": {
             "application/json": {
