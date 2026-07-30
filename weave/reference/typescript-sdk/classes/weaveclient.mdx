@@ -21,6 +21,7 @@ description: "TypeScript SDK reference"
 - [createCall](./weaveclient#createcall)
 - [finishCall](./weaveclient#finishcall)
 - [finishCallWithException](./weaveclient#finishcallwithexception)
+- [flush](./weaveclient#flush)
 - [get](./weaveclient#get)
 - [getAgentCustomAttributes](./weaveclient#getagentcustomattributes)
 - [getAgentSpanStats](./weaveclient#getagentspanstats)
@@ -35,6 +36,7 @@ description: "TypeScript SDK reference"
 - [getCallsIterator](./weaveclient#getcallsiterator)
 - [getCurrentAttributes](./weaveclient#getcurrentattributes)
 - [linkPromptToRegistry](./weaveclient#linkprompttoregistry)
+- [pendingCallCount](./weaveclient#pendingcallcount)
 - [publish](./weaveclient#publish)
 - [pushNewCall](./weaveclient#pushnewcall)
 - [runWithAttributes](./weaveclient#runwithattributes)
@@ -68,7 +70,7 @@ description: "TypeScript SDK reference"
 
 #### Defined in
 
-[src/weaveClient.ts:459](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L459)
+[src/weaveClient.ts:480](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/weaveClient.ts#L480)
 
 ## Properties
 
@@ -78,7 +80,7 @@ description: "TypeScript SDK reference"
 
 #### Defined in
 
-[src/weaveClient.ts:456](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L456)
+[src/weaveClient.ts:477](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/weaveClient.ts#L477)
 
 ___
 
@@ -88,7 +90,7 @@ ___
 
 #### Defined in
 
-[src/weaveClient.ts:457](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L457)
+[src/weaveClient.ts:478](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/weaveClient.ts#L478)
 
 ___
 
@@ -98,7 +100,7 @@ ___
 
 #### Defined in
 
-[src/weaveClient.ts:455](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L455)
+[src/weaveClient.ts:476](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/weaveClient.ts#L476)
 
 ## Methods
 
@@ -124,28 +126,29 @@ Used in imperative evaluation to attach scorer results to predict calls.
 
 #### Defined in
 
-[src/weaveClient.ts:1727](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1727)
+[src/weaveClient.ts:2034](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/weaveClient.ts#L2034)
 
 ___
 
 ### createCall
 
-▸ **createCall**(`internalCall`, `opRef`, `params`, `parameterNames`, `thisArg`, `currentCall`, `parentCall`, `startTime`, `displayName?`, `attributes?`): `Promise`\<`void`\>
+▸ **createCall**(`internalCall`, `opRef`, `params`, `parameterNames`, `thisArg`, `currentCall`, `parentCall`, `startTime`, `displayName?`, `attributes?`, `eagerCallStart?`): `Promise`\<`void`\>
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `internalCall` | `InternalCall` |
-| `opRef` | `any` |
-| `params` | `any`[] |
-| `parameterNames` | `ParameterNamesOption` |
-| `thisArg` | `any` |
-| `currentCall` | `CallStackEntry` |
-| `parentCall` | `undefined` \| `CallStackEntry` |
-| `startTime` | `Date` |
-| `displayName?` | `string` |
-| `attributes?` | `Record`\<`string`, `any`\> |
+| Name | Type | Default value |
+| :------ | :------ | :------ |
+| `internalCall` | `InternalCall` | `undefined` |
+| `opRef` | `any` | `undefined` |
+| `params` | `any`[] | `undefined` |
+| `parameterNames` | `ParameterNamesOption` | `undefined` |
+| `thisArg` | `any` | `undefined` |
+| `currentCall` | `CallStackEntry` | `undefined` |
+| `parentCall` | `undefined` \| `CallStackEntry` | `undefined` |
+| `startTime` | `Date` | `undefined` |
+| `displayName?` | `string` | `undefined` |
+| `attributes?` | `Record`\<`string`, `any`\> | `undefined` |
+| `eagerCallStart` | `boolean` | `false` |
 
 #### Returns
 
@@ -153,7 +156,7 @@ ___
 
 #### Defined in
 
-[src/weaveClient.ts:1570](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1570)
+[src/weaveClient.ts:1876](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/weaveClient.ts#L1876)
 
 ___
 
@@ -179,7 +182,7 @@ ___
 
 #### Defined in
 
-[src/weaveClient.ts:1630](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1630)
+[src/weaveClient.ts:1937](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/weaveClient.ts#L1937)
 
 ___
 
@@ -204,7 +207,23 @@ ___
 
 #### Defined in
 
-[src/weaveClient.ts:1672](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1672)
+[src/weaveClient.ts:1979](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/weaveClient.ts#L1979)
+
+___
+
+### flush
+
+▸ **flush**(): `Promise`\<`void`\>
+
+Deliver all buffered calls to the server. Await before `process.exit()`.
+
+#### Returns
+
+`Promise`\<`void`\>
+
+#### Defined in
+
+[src/weaveClient.ts:836](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/weaveClient.ts#L836)
 
 ___
 
@@ -224,7 +243,7 @@ ___
 
 #### Defined in
 
-[src/weaveClient.ts:1025](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1025)
+[src/weaveClient.ts:1268](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/weaveClient.ts#L1268)
 
 ___
 
@@ -273,7 +292,7 @@ for (const attr of resp.data.attributes ?? []) {
 
 #### Defined in
 
-[src/weaveClient.ts:772](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L772)
+[src/weaveClient.ts:794](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/weaveClient.ts#L794)
 
 ___
 
@@ -328,7 +347,7 @@ for (const row of resp.data.rows ?? []) {
 
 #### Defined in
 
-[src/weaveClient.ts:621](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L621)
+[src/weaveClient.ts:643](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/weaveClient.ts#L643)
 
 ___
 
@@ -381,7 +400,7 @@ for (const span of resp.data.spans) {
 
 #### Defined in
 
-[src/weaveClient.ts:566](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L566)
+[src/weaveClient.ts:588](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/weaveClient.ts#L588)
 
 ___
 
@@ -421,7 +440,7 @@ for (const message of resp.data.messages ?? []) {
 
 #### Defined in
 
-[src/weaveClient.ts:655](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L655)
+[src/weaveClient.ts:677](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/weaveClient.ts#L677)
 
 ___
 
@@ -465,7 +484,7 @@ console.log(`total turns: ${resp.data.total_turns}, has more: ${resp.data.has_mo
 
 #### Defined in
 
-[src/weaveClient.ts:688](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L688)
+[src/weaveClient.ts:710](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/weaveClient.ts#L710)
 
 ___
 
@@ -501,7 +520,7 @@ console.log(`total count: ${resp.data.total_count}`)
 
 #### Defined in
 
-[src/weaveClient.ts:522](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L522)
+[src/weaveClient.ts:544](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/weaveClient.ts#L544)
 
 ___
 
@@ -537,7 +556,7 @@ console.log(`total count: ${resp.data.total_count}`)
 
 #### Defined in
 
-[src/weaveClient.ts:488](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L488)
+[src/weaveClient.ts:510](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/weaveClient.ts#L510)
 
 ___
 
@@ -558,7 +577,7 @@ ___
 
 #### Defined in
 
-[src/weaveClient.ts:902](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L902)
+[src/weaveClient.ts:1145](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/weaveClient.ts#L1145)
 
 ___
 
@@ -572,7 +591,7 @@ ___
 
 #### Defined in
 
-[src/weaveClient.ts:1482](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1482)
+[src/weaveClient.ts:1788](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/weaveClient.ts#L1788)
 
 ___
 
@@ -592,7 +611,7 @@ ___
 
 #### Defined in
 
-[src/weaveClient.ts:935](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L935)
+[src/weaveClient.ts:1178](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/weaveClient.ts#L1178)
 
 ▸ **getCalls**(`options?`, `includeCosts?`, `limit?`): `Promise`\<`Call`[]\>
 
@@ -610,7 +629,7 @@ ___
 
 #### Defined in
 
-[src/weaveClient.ts:936](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L936)
+[src/weaveClient.ts:1179](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/weaveClient.ts#L1179)
 
 ___
 
@@ -632,7 +651,7 @@ ___
 
 #### Defined in
 
-[src/weaveClient.ts:957](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L957)
+[src/weaveClient.ts:1200](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/weaveClient.ts#L1200)
 
 ▸ **getCallsIterator**(`options?`): `AsyncIterableIterator`\<[`CallSchema`](../interfaces/callschema), `any`, `any`\>
 
@@ -648,7 +667,7 @@ ___
 
 #### Defined in
 
-[src/weaveClient.ts:962](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L962)
+[src/weaveClient.ts:1205](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/weaveClient.ts#L1205)
 
 ___
 
@@ -662,7 +681,7 @@ ___
 
 #### Defined in
 
-[src/weaveClient.ts:1486](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1486)
+[src/weaveClient.ts:1792](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/weaveClient.ts#L1792)
 
 ___
 
@@ -685,7 +704,23 @@ Link a published prompt version into a registry portfolio.
 
 #### Defined in
 
-[src/weaveClient.ts:1181](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1181)
+[src/weaveClient.ts:1424](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/weaveClient.ts#L1424)
+
+___
+
+### pendingCallCount
+
+▸ **pendingCallCount**(): `number`
+
+Calls buffered client-side but not yet delivered to the server.
+
+#### Returns
+
+`number`
+
+#### Defined in
+
+[src/weaveClient.ts:841](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/weaveClient.ts#L841)
 
 ___
 
@@ -706,7 +741,7 @@ ___
 
 #### Defined in
 
-[src/weaveClient.ts:890](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L890)
+[src/weaveClient.ts:1133](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/weaveClient.ts#L1133)
 
 ___
 
@@ -726,7 +761,7 @@ ___
 
 #### Defined in
 
-[src/weaveClient.ts:1490](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1490)
+[src/weaveClient.ts:1796](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/weaveClient.ts#L1796)
 
 ___
 
@@ -753,7 +788,7 @@ ___
 
 #### Defined in
 
-[src/weaveClient.ts:1498](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1498)
+[src/weaveClient.ts:1804](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/weaveClient.ts#L1804)
 
 ___
 
@@ -780,7 +815,7 @@ ___
 
 #### Defined in
 
-[src/weaveClient.ts:1494](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1494)
+[src/weaveClient.ts:1800](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/weaveClient.ts#L1800)
 
 ___
 
@@ -792,7 +827,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `callEnd` | `EndedCallSchemaForInsert` |
+| `callEnd` | `CallEndParams` |
 
 #### Returns
 
@@ -800,19 +835,21 @@ ___
 
 #### Defined in
 
-[src/weaveClient.ts:1477](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1477)
+[src/weaveClient.ts:1750](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/weaveClient.ts#L1750)
 
 ___
 
 ### saveCallStart
 
-▸ **saveCallStart**(`callStart`): `void`
+▸ **saveCallStart**(`callStart`, `opts?`): `void`
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `callStart` | `StartedCallSchemaForInsert` |
+| `opts` | `Object` |
+| `opts.eager?` | `boolean` |
 
 #### Returns
 
@@ -820,7 +857,7 @@ ___
 
 #### Defined in
 
-[src/weaveClient.ts:1472](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1472)
+[src/weaveClient.ts:1715](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/weaveClient.ts#L1715)
 
 ___
 
@@ -841,7 +878,7 @@ ___
 
 #### Defined in
 
-[src/weaveClient.ts:1537](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1537)
+[src/weaveClient.ts:1843](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/weaveClient.ts#L1843)
 
 ___
 
@@ -890,7 +927,7 @@ console.log(`total conversations: ${resp.data.total_conversations}`);
 
 #### Defined in
 
-[src/weaveClient.ts:730](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L730)
+[src/weaveClient.ts:752](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/weaveClient.ts#L752)
 
 ___
 
@@ -917,7 +954,7 @@ where the automatic serialization pipeline from `finishCall` is not used.
 
 #### Defined in
 
-[src/weaveClient.ts:1424](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1424)
+[src/weaveClient.ts:1667](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/weaveClient.ts#L1667)
 
 ___
 
@@ -938,7 +975,7 @@ ___
 
 #### Defined in
 
-[src/weaveClient.ts:1710](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1710)
+[src/weaveClient.ts:2017](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/weaveClient.ts#L2017)
 
 ___
 
@@ -952,4 +989,4 @@ ___
 
 #### Defined in
 
-[src/weaveClient.ts:801](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L801)
+[src/weaveClient.ts:824](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/weaveClient.ts#L824)

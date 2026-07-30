@@ -1230,6 +1230,7 @@
                           "weave/reference/typescript-sdk/functions/endllm",
                           "weave/reference/typescript-sdk/functions/endsession",
                           "weave/reference/typescript-sdk/functions/endturn",
+                          "weave/reference/typescript-sdk/functions/flush",
                           "weave/reference/typescript-sdk/functions/flushotel",
                           "weave/reference/typescript-sdk/functions/getcurrentconversation",
                           "weave/reference/typescript-sdk/functions/getcurrentllm",
