@@ -464,11 +464,11 @@ Envoyez le span au même projet Weave que l’évaluation via le point de termin
 Pour plus d’informations sur le point de terminaison :
 
 * Pour envoyer des spans depuis un pipeline OTel existant, consultez [Envoyer des spans OpenTelemetry vers la vue Agents](/fr/weave/guides/tracking/trace-agents-otel).
-* Pour la spécification du point de terminaison, consultez [Exporter une trace GenAI](/weave/reference/service-api/agents/export-genai-trace).
+* Pour la spécification du point de terminaison, consultez [Exporter une trace GenAI](/fr/weave/reference/service-api/agents/export-genai-trace).
 
 Seuls `weave.eval.run_id` et `weave.eval.predict_and_score_call_id` établissent les liens avec l’évaluation et le résultat. Le digest de ligne, l’ID d’exemple, l’index de trial, la catégorie et le nom de l’évaluation ajoutent du contexte et permettent le filtrage, mais ne créent pas de lien à eux seuls. Utilisez des ID d’appel Weave pour les deux attributs de liaison, et non des ID de trace ou de span OTel.
 
-Vous pouvez obtenir les deux ID à partir de l’[API de requête des résultats d’évaluation](/weave/reference/service-api/eval-results/eval-results-query). Chaque évaluation de la réponse possède un `evaluation_call_id`, et chaque trial possède un `predict_and_score_call_id`.
+Vous pouvez obtenir les deux ID à partir de l’[API de requête des résultats d’évaluation](/fr/weave/reference/service-api/eval-results/eval-results-query). Chaque évaluation de la réponse possède un `evaluation_call_id`, et chaque trial possède un `predict_and_score_call_id`.
 
 Les exemples suivants supposent que `span` est le span OTel de l’opération de l’agent. Remplacez chaque valeur entre crochets par les métadonnées du run d’évaluation et du résultat auxquels appartient le span.
 

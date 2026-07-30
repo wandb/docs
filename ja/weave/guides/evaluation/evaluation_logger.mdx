@@ -464,11 +464,11 @@ Python では、トレースする各エージェント Call を `log_prediction
 エンドポイントの詳細については、次を参照してください。
 
 * 既存の OTel パイプラインからスパンを送信する方法については、[OpenTelemetry スパンを Agents ビューに送信する](/ja/weave/guides/tracking/trace-agents-otel)を参照してください。
-* エンドポイントの仕様については、[GenAI トレースをエクスポートする](/weave/reference/service-api/agents/export-genai-trace)を参照してください。
+* エンドポイントの仕様については、[GenAI トレースをエクスポートする](/ja/weave/reference/service-api/agents/export-genai-trace)を参照してください。
 
 評価と結果のリンクを確立するのは、`weave.eval.run_id` と `weave.eval.predict_and_score_call_id` のみです。行ダイジェスト、例 ID、試行インデックス、kind、評価名はコンテキストの追加やフィルタリングに使用できますが、それ自体ではリンクを作成しません。2 つのリンク属性には、OTel のトレース ID やスパン ID ではなく、Weave Call ID を使用してください。
 
-両方の ID は、[評価結果クエリ API](/weave/reference/service-api/eval-results/eval-results-query)から取得できます。レスポンスの各評価には `evaluation_call_id` があり、各試行には `predict_and_score_call_id` があります。
+両方の ID は、[評価結果クエリ API](/ja/weave/reference/service-api/eval-results/eval-results-query)から取得できます。レスポンスの各評価には `evaluation_call_id` があり、各試行には `predict_and_score_call_id` があります。
 
 次の例では、`span` がエージェント操作の OTel スパンであることを前提としています。各角括弧内の値を、スパンが属する評価 run と結果のメタデータに置き換えてください。
 
