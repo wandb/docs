@@ -17,6 +17,7 @@ description: "TypeScript SDK reference"
 - [agentId](./turninit#agentid)
 - [agentName](./turninit#agentname)
 - [agentVersion](./turninit#agentversion)
+- [attributes](./turninit#attributes)
 - [model](./turninit#model)
 - [startTime](./turninit#starttime)
 - [systemInstructions](./turninit#systeminstructions)
@@ -30,7 +31,7 @@ description: "TypeScript SDK reference"
 
 #### Defined in
 
-[src/genai/turn.ts:37](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L37)
+[src/genai/turn.ts:38](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/genai/turn.ts#L38)
 
 ___
 
@@ -40,7 +41,7 @@ ___
 
 #### Defined in
 
-[src/genai/turn.ts:35](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L35)
+[src/genai/turn.ts:36](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/genai/turn.ts#L36)
 
 ___
 
@@ -50,7 +51,7 @@ ___
 
 #### Defined in
 
-[src/genai/turn.ts:36](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L36)
+[src/genai/turn.ts:37](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/genai/turn.ts#L37)
 
 ___
 
@@ -60,7 +61,21 @@ ___
 
 #### Defined in
 
-[src/genai/turn.ts:38](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L38)
+[src/genai/turn.ts:39](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/genai/turn.ts#L39)
+
+___
+
+### attributes
+
+• `Optional` **attributes**: `Attributes`
+
+Custom attributes set on this turn and passed to every child span.
+Normally seeded from the conversation via `startConversation({ attributes })`;
+set here for a rootless `startTurn({ attributes })` with no conversation.
+
+#### Defined in
+
+[src/genai/turn.ts:45](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/genai/turn.ts#L45)
 
 ___
 
@@ -70,7 +85,7 @@ ___
 
 #### Defined in
 
-[src/genai/turn.ts:32](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L32)
+[src/genai/turn.ts:33](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/genai/turn.ts#L33)
 
 ___
 
@@ -84,7 +99,7 @@ SpanInitBase.startTime
 
 #### Defined in
 
-[src/genai/spanBase.ts:17](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L17)
+[src/genai/spanBase.ts:17](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/genai/spanBase.ts#L17)
 
 ___
 
@@ -94,7 +109,7 @@ ___
 
 #### Defined in
 
-[src/genai/turn.ts:33](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L33)
+[src/genai/turn.ts:34](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/genai/turn.ts#L34)
 
 ___
 
@@ -104,4 +119,4 @@ ___
 
 #### Defined in
 
-[src/genai/turn.ts:34](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L34)
+[src/genai/turn.ts:35](https://github.com/wandb/weave/blob/2648412ec050240bcd227e6f2469daaa11d0b598/sdks/node/src/genai/turn.ts#L35)
