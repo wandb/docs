@@ -92,7 +92,7 @@ In v0.83.x, the following Registry features are available in Dedicated Cloud onl
 **SCIM and access management**
 
 - Registry access is now a distinct entitlement, decoupled from Models seats. Administrators can grant or revoke a user's organization-level Registry access without changing their Models seat or Weave role. Setting `modelsSeat` to `none` no longer revokes Registry access when the user lacks the Weave role. See [Update Registry access](/platform/hosting/iam/scim#update-registry-access).
-- Administrators can now disable the creation of team service accounts by setting the environment variable `GORILLA_DISABLE_TEAM_SERVICE_ACCOUNT_CREATION` to `true`.
+- Administrators can now prevent the creation of team service accounts by setting the environment variable `GORILLA_DISABLE_TEAM_SERVICE_ACCOUNT_CREATION` to `true`. See [Team-scoped service accounts](/platform/hosting/iam/service-accounts#team-scoped-service-accounts).
 
 **Team and organization visibility**
 
