@@ -5,7 +5,7 @@ keywords: ["automation triggers", "artifact alias", "run status", "metric thresh
 ---
 import MultiTenantAndDedicatedCloudOnly from "/snippets/_includes/multi-tenant-and-dedicated-cloud-only.mdx";
 
-An automation can start when a specific event occurs within an Organization, a Team, a Registry, a Registry collection, or a project. This page describes the events that can trigger an automation within each scope, so you can choose the right trigger when you configure an automation. Learn more about automations in the [Automations overview](/models/automations) or [Create an automation](/models/automations/create-automations).
+An automation starts when a specific event occurs within a given scope: an organization, a team, a project, a registry, or a collection. This page describes the events that can trigger an automation within each scope, so you can choose the right trigger when you configure an automation. Learn more about automations in the [Automations overview](/models/automations) or [Create an automation](/models/automations/create-automations).
 
 Scopes are hierarchical: an Organization contains Teams, which contain projects and registries, which contain collections. An automation observes its event across everything in its scope, including projects, registries, and collections created later. A single event can match automations at more than one scope. Each matching automation triggers independently.
 
