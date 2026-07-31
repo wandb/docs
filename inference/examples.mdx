@@ -66,7 +66,7 @@ With the basic trace working, you can move on to a richer workflow that goes bey
 
 ## Advanced example: use Weave evaluations and leaderboards
 
-Besides tracing model calls, you can evaluate performance and publish leaderboards. This example compares two models on a question-answer dataset to show how Llama 3.1 8B and DeepSeek-V3 perform against the same prompts.
+Besides tracing model calls, you can evaluate performance and publish leaderboards. This example compares two models on a question-answer dataset to show how Llama 3.1 8B and DeepSeek V3.1 perform against the same prompts.
 
 ```python
 import os
@@ -107,7 +107,7 @@ class WBInferenceModel(weave.Model):
         return resp.choices[0].message.content
 
 llama = WBInferenceModel(model="meta-llama/Llama-3.1-8B-Instruct")
-deepseek = WBInferenceModel(model="deepseek-ai/DeepSeek-V3-0324")
+deepseek = WBInferenceModel(model="deepseek-ai/DeepSeek-V3.1")
 
 def preprocess_model_input(example):
     return {"prompt": example["input"]}
