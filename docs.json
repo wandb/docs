@@ -698,6 +698,7 @@
                         "pages": [
                           "weave/guides/tools/playground",
                           "weave/guides/tools/evaluation_playground",
+                          "weave/guides/tools/custom-runtimes",
                           "weave/quickstart-inference"
                         ]
                       },
