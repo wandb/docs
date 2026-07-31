@@ -3,19 +3,47 @@ title: "Why does deleting many artifacts at once time out?"
 keywords: ["Artifacts", "Storage", "API"]
 ---
 
-Deleting an artifact that contains many files from the W&B App can time out and return a `context deadline exceeded` error. Deleting a single small file succeeds, but deleting hundreds of artifacts or files at once fails. W&B support has identified this as a known issue with deleting artifacts that contain many files from the UI.
+Deleting many artifacts or files in a single action from the W&B App can time out and return a `context deadline exceeded` error, even when deleting one small file succeeds. The UI also limits how many versions you can select at a time, which makes clearing a large project impractical.
 
-To work around it, delete artifacts programmatically in smaller batches with the [W&B Public API](/models/ref/python/public-api/api).
+To delete at scale, use the [W&B Public API](/models/ref/python/public-api/api) instead. Each version is deleted in its own request, so no single request has to cover the whole set.
 
-## Delete artifacts in batches
-
-The following script steps through a project's artifact types and deletes each version, skipping the artifact types that W&B generates for you. Keep `DRY_RUN = True` for the first pass to review what the script deletes before you commit to it.
-
-Replace the `<entity>` and `<project>` placeholders with your own values. Use your team or username for `<entity>`, not your organization name. Passing an organization name fails with `ValueError: Unable to parse 'ArtifactTypes' response data`.
+In both scripts that follow, replace the `<entity>` and `<project>` placeholders with your own values. Use your team or username for `<entity>`, not your organization name. Passing an organization name fails with `ValueError: Unable to parse 'ArtifactTypes' response data`.
 
 <Warning>
-Artifact deletion is irreversible. Because the script passes `delete_aliases=True`, it also deletes artifact versions that carry an alias such as `latest`. Review the dry-run output before you set `DRY_RUN` to `False`.
+Artifact deletion is irreversible. Both scripts pass `delete_aliases=True`, so they also delete versions that carry an alias such as `latest`. Keep `DRY_RUN = True` and review the output before you set it to `False`.
 </Warning>
+
+## Delete one artifact type
+
+Deleting a single type, such as `model`, is the narrowest option and the one to reach for first:
+
+```python
+import wandb
+
+# Assumes you've run `wandb login` already.
+entity = "<entity>"  # your username or team
+project = "<project>"
+artifact_type = "model"
+
+# Set to False to actually delete. Deletion is irreversible.
+DRY_RUN = True
+
+api = wandb.Api()
+
+for collection in api.artifact_collections(f"{entity}/{project}", artifact_type):
+    for version in collection.artifacts():
+        if DRY_RUN:
+            print(f"[dry-run] would delete {version.name}")
+        else:
+            print(f"Deleting {version.name}")
+            version.delete(delete_aliases=True)
+```
+
+To remove a collection and every version in it at once, call [ArtifactCollection.delete()](/models/ref/python/public-api/artifactcollection#delete) on the collection instead of iterating its versions.
+
+## Delete every artifact in a project
+
+The following script deletes **every** artifact version in the project, apart from the types W&B generates for you. Use it only when you intend to clear the whole project:
 
 ```python
 import wandb
@@ -45,13 +73,11 @@ for art_type in api.artifact_types(project_path):
                 version.delete(delete_aliases=True)
 ```
 
-To narrow the deletion further, filter on `art_type.name` or `collection.name` so the script processes one artifact type or collection at a time.
+Both scripts reach linked artifacts as well as source artifacts. Calling `delete()` on a linked artifact removes only the link and leaves the source artifact and its files in place, so those versions don't free any storage. To confirm that a collection holds source artifacts, check [ArtifactCollection.is_sequence()](/models/ref/python/public-api/artifactcollection).
 
-To remove an entire collection and every version in it, call [ArtifactCollection.delete()](/models/ref/python/public-api/artifactcollection#delete) on the collection instead of deleting versions one at a time.
-
-The script reaches linked artifacts as well as source artifacts. Calling `delete()` on a linked artifact removes only the link and leaves the source artifact and its files in place, so those versions don't free any storage. To confirm that a collection holds source artifacts, check [ArtifactCollection.is_sequence()](/models/ref/python/public-api/artifactcollection).
-
-To delete individual artifact versions interactively instead, use the **Manage storage** page described in [Manage storage](/platform/app/settings-page/storage).
+<Note>
+These scripts address bulk deletion, where one request covering many versions times out. If deleting a **single** artifact fails on its own, splitting the work doesn't apply. [Contact support](mailto:support@wandb.com) with the artifact path and the error.
+</Note>
 
 ## Reclaim the space
 
