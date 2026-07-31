@@ -40,7 +40,11 @@ keywords: ["Slack インテグレーション", "通知", "オートメーショ
   ## オートメーション を作成する
 </div>
 
-[Slack インテグレーションを追加](#add-a-slack-integration)したら、それを使用して通知を送信する オートメーション を作成できます。オートメーション を適用するスコープに応じて、**Registry** または **プロジェクト** を選択します。次に、Slack チャンネルに通知する オートメーション を作成するには、次の step に従います。
+[Slack インテグレーションを追加](#add-a-slack-integration)したら、それを使用して通知を送信する オートメーション を作成できます。オートメーション を適用するスコープに応じて、**Registry** または **project** を選択します。次に、Slack チャンネルに通知する オートメーション を作成するには、次の step に従います。
+
+<Note>
+  オートメーションをより広い範囲に適用するには、グローバルの **Automations** ハブから作成し、**Team** または **Organization** スコープを選択します。手順は以下と同じです。これらのスコープでは、W&amp;B App は artifact と collection のイベントのみをサポートします。[Automations hub](/ja/models/automations#automations-hub)を参照してください。
+</Note>
 
 <Tabs>
   <Tab title="Registry">
@@ -62,11 +66,11 @@ keywords: ["Slack インテグレーション", "通知", "オートメーショ
     これで オートメーション は有効になり、Registry で選択したイベントが発生するたびに、選択した Slack チャンネルに通知します。
   </Tab>
 
-  <Tab title="プロジェクト">
-    プロジェクトでは、W&amp;B 管理者が オートメーション を作成できます。
+  <Tab title="project">
+    project では、W&amp;B 管理者が オートメーション を作成できます。
 
     1. W&amp;B にログインします。
-    2. プロジェクトページに移動し、**オートメーション** タブをクリックしてから **Create automation** をクリックします。
+    2. projectページに移動し、**オートメーション** タブをクリックしてから **Create automation** をクリックします。
 
        または、Workspace の折れ線グラフから直接、そのグラフに表示されているメトリクスに対する [run metric オートメーション](/ja/models/automations/automation-events/#run-events) を作成できます。パネルにマウスオーバーし、パネル上部のベルアイコンをクリックします。
 
@@ -87,7 +91,7 @@ keywords: ["Slack インテグレーション", "通知", "オートメーショ
     6. オートメーション の名を指定します。必要に応じて説明も入力します。
     7. **Create automation** をクリックします。
 
-    これで オートメーション は有効になり、プロジェクトで選択したイベントが発生するたびに、選択した Slack チャンネルに通知します。
+    これで オートメーション は有効になり、project で選択したイベントが発生するたびに、選択した Slack チャンネルに通知します。
   </Tab>
 </Tabs>
 

@@ -9,7 +9,11 @@ import AutomationsActionsList from "/snippets/ja/_includes/automations/actions-l
 import AutomationsBestPractices from "/snippets/ja/_includes/automations/best-practices.mdx";
 import AutomationsWhereToFind from "/snippets/ja/_includes/automations/where-to-find-automations.mdx";
 
-オートメーション は、**projects** と **レジストリ** の両方で利用できます。オートメーションを作成する場所、使用できるイベント、スコープの仕組みは、それぞれ異なります。スコープごとのイベントタイプについては、[Automation events and scopes](/ja/models/automations/automation-events) を参照してください。
+*オートメーション*は、W&amp;B で発生する特定のイベントに応じて Slack 通知を送信したり、webhook を実行したりします。オートメーションのスコープは、組織、チーム、project、レジストリ、またはコレクションに設定できます。オートメーションは、後から作成される project、レジストリ、コレクションを含め、スコープ内のすべてで発生するイベントを監視します。オートメーションを作成する手順と利用可能なイベントは、スコープによって異なります。スコープごとのイベントタイプについては、[Automation events and scopes](/ja/models/automations/automation-events) を参照してください。
+
+<Note>
+  チームスコープおよび組織スコープのオートメーションと [Automations hub](#automations-hub) は、W&amp;B Multi-tenant Cloud および W&amp;B 専用クラウド (Server v0.83.0 以降) で利用できます。
+</Note>
 
 <AutomationsMentalModel />
 
@@ -26,6 +30,23 @@ flowchart LR
 </div>
 
 <AutomationsWhereToFind />
+
+<div id="automations-hub">
+  ## Automations ハブ
+</div>
+
+**Automations** ハブは、左側のナビゲーションにあるグローバルな画面で、アクセス可能なすべてのスコープと project にまたがるすべてのオートメーションを1つのリストに集約します。各 project や Registry に移動しなくても、オートメーションを見つけて確認し、管理できます。
+
+**Automations** ハブでは、次の操作を実行できます。
+
+* スコープのエントリポイントを事前に把握していなくても、オートメーションを作成し、そのスコープを選択できます。
+* アクセス可能なすべてのオートメーションを1つのリストで表示し、フィルターや並べ替えを行えます (例: スコープ、トリガー、アクション別) 。
+* オートメーションの名をクリックして、設定の詳細をすべて表示できます。
+* オートメーションの[実行履歴](/ja/models/automations/view-automation-history)を表示し、成功したか失敗したかを確認できます。
+* クイックフィルターを使用して、自分が作成したオートメーションと組織内のすべてのオートメーションを切り替えられます。
+* 複数のオートメーションを選択し、一度に削除できます。
+
+**Automations** ハブは、各 project と Registry の **Automations** タブを補完する機能です。これらのスコープ別タブも、対象を絞ってすばやくアクセスするために引き続き利用できます。
 
 <div id="use-cases">
   ## 使用例
@@ -69,7 +90,8 @@ flowchart LR
   ## 制限事項
 </div>
 
-[run メトリクス Automations](/ja/models/automations/automation-events/#run-metrics-events) と [run メトリクスの z-score 変化 Automations](/ja/models/automations/automation-events/#run-metrics-z-score-change-automations) は、現在 [W&amp;B Multi-tenant Cloud](/ja/platform/hosting/#wb-multi-tenant-cloud) でのみサポートされています。
+* [run メトリクスのオートメーション](/ja/models/automations/automation-events/#run-metrics-change)および[run メトリクスの z スコア変化オートメーション](/ja/models/automations/automation-events/#run-metrics-z-score-change)は、[W&amp;B Multi-tenant Cloud](/ja/platform/hosting/#wb-multi-tenant-cloud)と[専用クラウド](/ja/platform/hosting/hosting-options/dedicated-cloud)でのみサポートされています。
+* **チーム**および**組織**スコープでは、W&amp;B App でサポートされるのは artifact とコレクションのイベントのみです。これらのスコープでは、run ベースのイベントは W&amp;B App で利用できません。詳細は、[Automation events and scopes](/ja/models/automations/automation-events)を参照してください。
 
 <div id="next-steps">
   ## 次のステップ
@@ -77,11 +99,11 @@ flowchart LR
 
 * [オートメーションのチュートリアル](/ja/models/automations/tutorial): run の失敗を通知する project オートメーションと、alias が追加されたときに webhook を実行する Registry オートメーションの作成方法を案内します。このチュートリアルでは W&amp;B App を使用します。
 * [オートメーションを作成](/ja/models/automations/create-automations)。
-* [オートメーションのイベントとスコープ](/ja/models/automations/automation-events)。
+* [Automation events and scopes](/ja/models/automations/automation-events)。
 * [シークレットを作成](/ja/platform/secrets)。
 
 {/* Python SDK の `create_automation` のリグレッションが修正されたら、上の Create の箇条書きの後に戻します（内部 WB-34263）:
-  - [API でオートメーションを管理](/models/automations/api).
+  - [API でオートメーションを管理](/models/automations/api)。
   */}
 
 <Info>
