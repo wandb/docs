@@ -2217,6 +2217,7 @@
                         "pages": [
                           "fr/weave/guides/tools/playground",
                           "fr/weave/guides/tools/evaluation_playground",
+                          "fr/weave/guides/tools/custom-runtimes",
                           "fr/weave/quickstart-inference"
                         ]
                       },
@@ -3735,6 +3736,7 @@
                         "pages": [
                           "ja/weave/guides/tools/playground",
                           "ja/weave/guides/tools/evaluation_playground",
+                          "ja/weave/guides/tools/custom-runtimes",
                           "ja/weave/quickstart-inference"
                         ]
                       },
@@ -5253,6 +5255,7 @@
                         "pages": [
                           "ko/weave/guides/tools/playground",
                           "ko/weave/guides/tools/evaluation_playground",
+                          "ko/weave/guides/tools/custom-runtimes",
                           "ko/weave/quickstart-inference"
                         ]
                       },
