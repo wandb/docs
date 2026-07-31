@@ -62,10 +62,10 @@ To register a custom runtime from the W&B UI:
 
 The runtime's models then appear in model selectors under a group with the runtime's name. A runtime saved without any runtime IDs remains visible in the selector with an **Add runtime ID** action that reopens the editor.
 
-To edit or remove a runtime, use the edit and delete controls in the runtime's row on the **AI Providers** tab.
+To edit or remove a runtime, use the edit and delete controls in the runtime's row on the **AI Providers** tab. Deleting a runtime can't be undone.
 
 <Warning>
-Weave's servers call the base URL directly, so a `localhost` or `127.0.0.1` URL doesn't work. To test a model running on your own machine, expose it with a tunneling service such as ngrok and register the public URL. For a walkthrough, see [Use a local model as a custom provider](/weave/guides/tools/playground#use-a-local-model-as-a-custom-provider).
+Weave's servers call the base URL directly, so a `localhost` or `127.0.0.1` URL doesn't work. To test a model running on your own machine, expose it with a tunneling service such as ngrok and register the public URL. For a walkthrough, see [Use a local model as a custom runtime](/weave/guides/tools/playground#use-a-local-model-as-a-custom-runtime).
 </Warning>
 
 ## Register a custom runtime with the Python SDK
