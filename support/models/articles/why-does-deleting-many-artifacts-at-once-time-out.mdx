@@ -3,16 +3,18 @@ title: "Why does deleting many artifacts at once time out?"
 keywords: ["Artifacts", "Storage", "API"]
 ---
 
-Deleting an artifact that contains many files from the W&B App can time out and return a `context deadline exceeded` error. Deleting a single small file succeeds, but deleting hundreds of artifacts or files at once fails. This is a known issue.
+Deleting an artifact that contains many files from the W&B App can time out and return a `context deadline exceeded` error. Deleting a single small file succeeds, but deleting hundreds of artifacts or files at once fails. W&B support has identified this as a known issue with deleting artifacts that contain many files from the UI.
 
 To work around it, delete artifacts programmatically in smaller batches with the [W&B Public API](/models/ref/python/public-api/api).
 
 ## Delete artifacts in batches
 
-The following script steps through a project's artifact types and deletes each version, skipping the artifact types that W&B generates for you. Keep `DRY_RUN = True` for the first pass to review what the script deletes before you commit to it. Replace the `<entity>` and `<project>` placeholders with your own values.
+The following script steps through a project's artifact types and deletes each version, skipping the artifact types that W&B generates for you. Keep `DRY_RUN = True` for the first pass to review what the script deletes before you commit to it.
+
+Replace the `<entity>` and `<project>` placeholders with your own values. Use your team or username for `<entity>`, not your organization name. Passing an organization name fails with `ValueError: Unable to parse 'ArtifactTypes' response data`.
 
 <Warning>
-Artifact deletion is irreversible.
+Artifact deletion is irreversible. Because the script passes `delete_aliases=True`, it also deletes artifact versions that carry an alias such as `latest`. Review the dry-run output before you set `DRY_RUN` to `False`.
 </Warning>
 
 ```python
@@ -45,7 +47,11 @@ for art_type in api.artifact_types(project_path):
 
 To narrow the deletion further, filter on `art_type.name` or `collection.name` so the script processes one artifact type or collection at a time.
 
-To delete individual artifact versions interactively instead, use the Storage Explorer at **Billing > Manage Storage**, then select the team and project.
+To remove an entire collection and every version in it, call [ArtifactCollection.delete()](/models/ref/python/public-api/artifactcollection#delete) on the collection instead of deleting versions one at a time.
+
+The script reaches linked artifacts as well as source artifacts. Calling `delete()` on a linked artifact removes only the link and leaves the source artifact and its files in place, so those versions don't free any storage. To confirm that a collection holds source artifacts, check [ArtifactCollection.is_sequence()](/models/ref/python/public-api/artifactcollection).
+
+To delete individual artifact versions interactively instead, use the **Manage storage** page described in [Manage storage](/platform/app/settings-page/storage).
 
 ## Reclaim the space
 
