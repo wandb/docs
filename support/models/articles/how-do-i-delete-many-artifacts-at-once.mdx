@@ -1,0 +1,50 @@
+---
+title: "How do I delete many artifacts at once?"
+keywords: ["Artifacts", "Storage", "API"]
+---
+
+When you need to remove a large number of artifacts, for example to get back under your storage limit, deleting them in the W&B App becomes impractical. Large deletions can time out with a `context deadline exceeded` error, and the artifact list isn't built for clearing hundreds of versions.
+
+Use the [W&B Public API](/models/ref/python/public-api/api) instead. The following script deletes every version of one artifact type in a project.
+
+Replace the `[YOUR-TEAM]` and `[YOUR-PROJECT]` placeholders with your own values. Use your team or username for `[YOUR-TEAM]`, not your organization name. Passing an organization name fails with `ValueError: Unable to parse 'ArtifactTypes' response data`.
+
+<Warning>
+Artifact deletion is irreversible. The script passes `delete_aliases=True`, so it also deletes versions that carry an alias such as `latest`. Keep `DRY_RUN = True` and review the output before you set it to `False`.
+</Warning>
+
+```python
+import wandb
+
+# Assumes you've run `wandb login` already.
+entity = "[YOUR-TEAM]"  # your username or team
+project = "[YOUR-PROJECT]"
+artifact_type = "model"
+
+# Set to False to actually delete. Deletion is irreversible.
+DRY_RUN = True
+
+api = wandb.Api()
+
+for collection in api.artifact_collections(f"{entity}/{project}", artifact_type):
+    for version in collection.artifacts():
+        if DRY_RUN:
+            print(f"[dry-run] would delete {version.name}")
+        else:
+            print(f"Deleting {version.name}")
+            version.delete(delete_aliases=True)
+```
+
+The script deletes versions, not collections. An emptied collection still appears in the project's **Artifacts** tab.
+
+`api.artifact_collections()` returns link collections as well as source collections. When a version comes from a link collection, `version.delete(delete_aliases=True)` removes only the link. The source artifact and its files stay where they are, so that version frees no storage.
+
+## Reclaim the space
+
+Deleted artifacts are soft-deleted first, then removed during garbage collection, so your storage meter doesn't drop immediately. For the timing and how to verify your usage, see [Why does the storage meter not update after deleting runs?](/support/models/articles/why-does-the-storage-meter-not-update-af) and [Delete an artifact](/models/artifacts/delete-artifacts).
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/support/models/tags/artifacts)</Badge><Badge stroke shape="pill" color="orange" size="md">[Storage](/support/models/tags/storage)</Badge><Badge stroke shape="pill" color="orange" size="md">[API](/support/models/tags/api)</Badge>
+{/* END AUTO-GENERATED: tab badges */}
