@@ -19,9 +19,9 @@ Use `DRY_RUN = True` first, review the printed artifact names, and only then set
 import wandb
 
 # Assumes you've run `wandb login` already.
-entity = "[YOUR-TEAM]"  # your username or team
-project = "[YOUR-PROJECT]"
-artifact_type = "model"
+entity = "[YOUR-TEAM]"  # Replace with your team.
+project = "[YOUR-PROJECT]"  # Replace with your project.
+artifact_type = "model"  # This deletes artifacts of type 'model'. Replace with the type of artifact you want to delete. 
 
 # Set to False to actually delete. Deletion is irreversible.
 DRY_RUN = True
