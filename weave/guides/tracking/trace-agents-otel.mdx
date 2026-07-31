@@ -1,0 +1,206 @@
+---
+title: "Send OpenTelemetry spans to the Agents view"
+description: "Send OTLP trace data from any OpenTelemetry pipeline to the Weave agents endpoint, with no Weave SDK required."
+keywords: ["OTLP", "OpenTelemetry", "GenAI semantic conventions", "agents endpoint", "no SDK"]
+---
+
+W&B Weave agent observability is built on [OpenTelemetry (OTel)](https://opentelemetry.io/docs/concepts/). Weave provides a dedicated OTLP endpoint that ingests spans into the **Agents** view. If your agent already emits OTel spans, you can send them to Weave by pointing your existing OTel pipeline at the endpoint without installing the Weave SDK.
+
+This page covers how to authenticate with and send spans to the endpoint.
+
+## Authentication
+
+You can send spans to the following endpoint:
+
+* **Path**: `/agents/otel/v1/traces`
+* **Method**: `POST`
+* **Content-Type**: `application/x-protobuf`
+* **Base URL**: `https://trace.wandb.ai` for Multi-tenant Cloud.
+
+The endpoint accepts OTLP protobuf payloads only. Use a protobuf HTTP exporter such as `opentelemetry-exporter-otlp-proto-http` (Python) or `@opentelemetry/exporter-trace-otlp-proto` (TypeScript). The endpoint also accepts `gzip` and `deflate` content encoding.
+
+To authenticate with the endpoint, set your [W&B API key](https://wandb.ai/settings) in your `OTLPSpanExporter` configuration using one of the following values:
+
+- `wandb-api-key`: Your W&B API key as the value.
+- `Authorization`: HTTP Basic authentication with `api` as the user and your W&B API key as the password. This form is useful when your exporter or collector only supports standard authorization headers.
+
+## Project routing
+
+Weave routes spans to a project using either OTel resource attributes or a request header:
+
+- **Resource attributes** (recommended): Set `wandb.entity` to your W&B team or user name and `wandb.project` to the project name on your `TracerProvider` resource.
+- **`project_id` header**: Set the value to `[YOUR-TEAM]/[YOUR-PROJECT]`.
+
+If both are present, the resource attributes take precedence. Spans that arrive with no entity and project are dropped.
+
+## Shape spans for the Agents view
+
+Weave accepts any OTel span and stores all of its attributes, but the Agents view renders spans that follow the [OTel GenAI semantic conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans/). Set `gen_ai.operation.name` on each span to tell Weave what the span represents:
+
+| `gen_ai.operation.name` | Represents | Rendered as |
+|---|---|---|
+| `invoke_agent` | One complete user-agent exchange. | A turn. |
+| `chat` | One call to a language model API. | An LLM call within a turn. |
+| `execute_tool` | One tool execution. | A tool call. |
+
+Two more attributes control grouping:
+
+- `gen_ai.conversation.id`: Groups turns into a conversation. Use a stable ID for the lifetime of the conversation.
+- `gen_ai.agent.name`: Groups conversations under a named agent in the Agents tab.
+
+Other GenAI semantic-convention attributes, such as `gen_ai.request.model`, `gen_ai.usage.input_tokens`, and `gen_ai.usage.output_tokens`, enrich the rendering with model names and token counts but are optional. For the agent data model that these spans map onto, see [Trace your agents](/weave/guides/tracking/trace-agents#the-agent-data-model).
+
+## Configure with environment variables only
+
+If your application or collector reads the standard OTel exporter environment variables, you can set the following variables and route spans to Weave without changing any code:
+
+```bash lines
+export OTEL_EXPORTER_OTLP_TRACES_ENDPOINT="https://trace.wandb.ai/agents/otel/v1/traces"
+export OTEL_EXPORTER_OTLP_TRACES_HEADERS="wandb-api-key=$WANDB_API_KEY"
+export OTEL_RESOURCE_ATTRIBUTES="wandb.entity=[YOUR-TEAM],wandb.project=[YOUR-PROJECT]"
+```
+
+## Example: emit agent spans without the Weave SDK
+
+The following example instruments a minimal agent turn using only OTel packages. It emits an `invoke_agent` span for the turn, a `chat` span for the LLM call, and an `execute_tool` span for a tool call, then exports them to the Weave agents endpoint.
+
+First, install the required dependencies:
+
+<CodeGroup>
+```bash Python
+pip install opentelemetry-sdk opentelemetry-exporter-otlp-proto-http
+```
+
+```bash TypeScript
+npm install @opentelemetry/api @opentelemetry/sdk-trace-node @opentelemetry/sdk-trace-base @opentelemetry/resources @opentelemetry/exporter-trace-otlp-proto
+```
+</CodeGroup>
+
+Then set the `WANDB_API_KEY`, `ENTITY`, and `PROJECT` values in the following code, and then run it:
+
+<CodeGroup>
+```python Python lines highlight="8,9,14"
+import os
+from opentelemetry import trace
+from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+from opentelemetry.sdk import trace as trace_sdk
+from opentelemetry.sdk.resources import Resource
+from opentelemetry.sdk.trace.export import BatchSpanProcessor
+
+ENTITY = "[YOUR-TEAM]"
+PROJECT = "[YOUR-PROJECT]"
+
+WEAVE_AGENTS_OTLP_ENDPOINT = "https://trace.wandb.ai/agents/otel/v1/traces"
+
+# Create an API key at https://wandb.ai/settings
+WANDB_API_KEY = [YOUR-WANDB-API-KEY]
+
+exporter = OTLPSpanExporter(
+    endpoint=WEAVE_AGENTS_OTLP_ENDPOINT,
+    headers={"wandb-api-key": WANDB_API_KEY},
+)
+
+tracer_provider = trace_sdk.TracerProvider(resource=Resource({
+    "wandb.entity": ENTITY,
+    "wandb.project": PROJECT,
+}))
+tracer_provider.add_span_processor(BatchSpanProcessor(exporter))
+trace.set_tracer_provider(tracer_provider)
+
+tracer = trace.get_tracer("my-agent")
+
+CONVERSATION_ID = "conversation-001"
+
+# One turn: a user asks a question, the agent calls a tool, then answers.
+with tracer.start_as_current_span("invoke_agent my-agent") as turn:
+    turn.set_attribute("gen_ai.operation.name", "invoke_agent")
+    turn.set_attribute("gen_ai.agent.name", "my-agent")
+    turn.set_attribute("gen_ai.conversation.id", CONVERSATION_ID)
+
+    with tracer.start_as_current_span("chat gpt-4o") as llm:
+        llm.set_attribute("gen_ai.operation.name", "chat")
+        llm.set_attribute("gen_ai.conversation.id", CONVERSATION_ID)
+        llm.set_attribute("gen_ai.request.model", "gpt-4o")
+        # Replace with a real LLM call and record its token usage.
+        llm.set_attribute("gen_ai.usage.input_tokens", 100)
+        llm.set_attribute("gen_ai.usage.output_tokens", 20)
+
+        with tracer.start_as_current_span("execute_tool get_weather") as tool:
+            tool.set_attribute("gen_ai.operation.name", "execute_tool")
+            tool.set_attribute("gen_ai.conversation.id", CONVERSATION_ID)
+            tool.set_attribute("gen_ai.tool.name", "get_weather")
+            # Replace with a real tool execution.
+
+tracer_provider.shutdown()  # Flush all pending spans before exit.
+```
+
+```typescript TypeScript lines highlight="7,8,13"
+import { trace } from "@opentelemetry/api";
+import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
+import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base";
+import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
+import { Resource } from "@opentelemetry/resources";
+
+const ENTITY = "[YOUR-TEAM]";
+const PROJECT = "[YOUR-PROJECT]";
+
+const WEAVE_AGENTS_OTLP_ENDPOINT = "https://trace.wandb.ai/agents/otel/v1/traces";
+
+// Create an API key at https://wandb.ai/settings
+const WANDB_API_KEY = [YOUR-WANDB-API-KEY]!;
+
+const exporter = new OTLPTraceExporter({
+  url: WEAVE_AGENTS_OTLP_ENDPOINT,
+  headers: { "wandb-api-key": WANDB_API_KEY },
+});
+
+const provider = new NodeTracerProvider({
+  resource: new Resource({
+    "wandb.entity": ENTITY,
+    "wandb.project": PROJECT,
+  }),
+  spanProcessors: [new BatchSpanProcessor(exporter)],
+});
+
+provider.register();
+
+const tracer = trace.getTracer("my-agent");
+
+const CONVERSATION_ID = "conversation-001";
+
+// One turn: a user asks a question, the agent calls a tool, then answers.
+tracer.startActiveSpan("invoke_agent my-agent", (turn) => {
+  turn.setAttribute("gen_ai.operation.name", "invoke_agent");
+  turn.setAttribute("gen_ai.agent.name", "my-agent");
+  turn.setAttribute("gen_ai.conversation.id", CONVERSATION_ID);
+
+  tracer.startActiveSpan("chat gpt-4o", (llm) => {
+    llm.setAttribute("gen_ai.operation.name", "chat");
+    llm.setAttribute("gen_ai.conversation.id", CONVERSATION_ID);
+    llm.setAttribute("gen_ai.request.model", "gpt-4o");
+    // Replace with a real LLM call and record its token usage.
+    llm.setAttribute("gen_ai.usage.input_tokens", 100);
+    llm.setAttribute("gen_ai.usage.output_tokens", 20);
+
+    tracer.startActiveSpan("execute_tool get_weather", (tool) => {
+      tool.setAttribute("gen_ai.operation.name", "execute_tool");
+      tool.setAttribute("gen_ai.conversation.id", CONVERSATION_ID);
+      tool.setAttribute("gen_ai.tool.name", "get_weather");
+      // Replace with a real tool execution.
+      tool.end();
+    });
+
+    llm.end();
+  });
+
+  turn.end();
+});
+
+await provider.shutdown(); // Flush all pending spans before exit.
+```
+</CodeGroup>
+
+To add more turns to the same conversation, emit more `invoke_agent` spans with the same `gen_ai.conversation.id`. Each turn is the root span of its own trace, so turns don't need to share a parent span.
+
+After your application exports spans, open the **Agents** tab of your Weave project.
+

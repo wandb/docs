@@ -5,6 +5,7 @@ title: Aperçu des Reports
 
 import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
 import { TryProductLink } from '/snippets/fr/_includes/try-product-link.mdx';
+import { WandbReport } from '/snippets/WandbReport.jsx';
 
 <CardGroup cols={4}>
   <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb" />
@@ -21,13 +22,9 @@ Utilisez W&amp;B Reports pour :
 
 {/* {% embed url="https://www.youtube.com/watch?v=2xeJIv_K_eI" %} */}
 
-L’image suivante montre une section d’un rapport créé à partir de métriques enregistrées dans W&amp;B au fil de l’entraînement.
+Le rapport ci-dessous a été créé à partir de métriques enregistrées dans W&amp;B au fil de l’entraînement. Faites défiler son contenu pour explorer les Runs, les panneaux et les commentaires du benchmark, ou [ouvrez le rapport complet](https://wandb.ai/stacey/saferlife/reports/SafeLife-Benchmark-Experiments--Vmlldzo0NjE4MzM) dans la W&amp;B App.
 
-<Frame>
-  <img src="/images/reports/safe-lite-benchmark-with-comments.png" alt="Rapport W&B avec résultats de benchmark" max-width="90%" />
-</Frame>
-
-Consultez le rapport dont est issue l’image ci-dessus [ici](https://wandb.ai/stacey/saferlife/reports/SafeLife-Benchmark-Experiments--Vmlldzo0NjE4MzM).
+<WandbReport src="https://wandb.ai/stacey/saferlife/reports/SafeLife-Benchmark-Experiments--Vmlldzo0NjE4MzM" title="Rapport sur les expériences de benchmark SafeLife" height={720} />
 
 <div id="how-it-works">
   ## Fonctionnement

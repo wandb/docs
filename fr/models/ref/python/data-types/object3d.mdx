@@ -1,42 +1,72 @@
 ---
 title: Object3D
-namespace: python_sdk_data_type
-python_object_type: class
+kind: classe
+namespace: wandb.sdk.data_types.object_3d
 ---
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/object_3d.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/object_3d.py#L245" />
 
-
-## <kbd>class</kbd> `Object3D`
-
-Classe W&amp;B pour les nuages de points 3D. 
-
-### <kbd>méthode</kbd> `Object3D.__init__`
+## <kbd>classe</kbd> wandb.Object3D
 
 ```python
-__init__(
-    data_or_path: 'np.ndarray | str | pathlib.Path | TextIO | dict',
-    caption: 'str | None' = None,
-    **kwargs: 'str | FileFormat3D | None'
-) → None
+data_or_path: 'np.ndarray | str | pathlib.Path | TextIO | dict',
+caption: 'str | None' = None, **kwargs: 'str | FileFormat3D | None'
 ```
 
-Crée un objet W&amp;B Object3D.
+Classe W&amp;B pour les nuages de points 3D.
 
-**Arguments :**
+<div id="args">
+  ## Arguments
+</div>
 
-* `data_or_path` :  Object3D peut être initialisé à partir d’un fichier ou d’un tableau NumPy.
-* `caption` :  Légende associée à l’objet pour l’affichage.
+* `data_or_path`: Object3D peut être initialisé à partir d’un fichier ou d’un tableau NumPy.
+* `caption`: Légende associée à l’objet pour l’affichage.
+* `kwargs`: 
 
-**Exemples :**
-La forme du tableau NumPy doit être l’une des suivantes
+<div id="methods">
+  ## Méthodes
+</div>
 
-```text
-[[x y z],       ...] nx3
-[[x y z c],     ...] nx4 where c is a category with supported range [1, 14]
-[[x y z r g b], ...] nx6 where is rgb is color
+### <kbd>méthode</kbd> Object3D.from_file()
+
+```python
+data_or_path: 'TextIO | str',
+file_type: 'FileFormat3D | None' = None
 ```
 
-***
+Initialise Object3D à partir d’un fichier ou d’un flux.
+
+<div id="arguments">
+  ##### Arguments
+</div>
+
+* `data_or_path` : Chemin vers un fichier ou un flux `TextIO`.
+
+### <kbd>méthode</kbd> Object3D.from_numpy()
+
+```python
+data: 'np.ndarray'
+```
+
+Initialise un Object3D à partir d’un tableau NumPy.
+
+### <kbd>méthode</kbd> Object3D.from_point_cloud()
+
+```python
+points: 'Sequence[Point]',
+boxes: 'Sequence[Box3D]',
+vectors: 'Sequence[Vector3D] | None' = None,
+point_cloud_type: 'PointCloudType' = 'lidar/beta'
+```
+
+Initialise un Object3D à partir d’un objet Python.
+
+<div id="arguments">
+  ##### Arguments
+</div>
+
+* `points` : Les points du nuage de points.
+* `boxes` : Boîtes englobantes 3D permettant d’annoter le nuage de points. Les boîtes englobantes s’affichent dans les visualisations de nuages de points.
+* `vectors` : Chaque vecteur s’affiche dans la visualisation du nuage de points. Peut être utilisé pour indiquer l’orientation des boîtes englobantes. La valeur par défaut est `None`.

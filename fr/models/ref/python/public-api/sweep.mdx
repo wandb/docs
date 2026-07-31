@@ -1,176 +1,171 @@
 ---
 title: Sweep
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.sweeps
 ---
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py#L272" />
 
-
-## <kbd>class</kbd> `Sweep`
-
-L’ensemble des runs associés au balayage.
-
-**Attributs :**
-
-* `runs` (Runs) :  Liste des runs
-* `id` (str) :  ID du balayage
-* `project` (str) :  Nom du projet auquel le balayage appartient
-* `config` (dict) :  Dictionnaire contenant la configuration du balayage
-* `state` (str) :  État du balayage. Peut être &quot;Finished&quot;, &quot;Failed&quot;,  &quot;Crashed&quot; ou &quot;Running&quot;.
-* `expected_run_count` (int) :  Nombre de runs attendus pour le balayage 
-
-### <kbd>méthode</kbd> `Sweep.__init__`
+## <kbd>classe</kbd> wandb.apis.public.Sweep
 
 ```python
-__init__(
-    service_api: 'ServiceApi',
-    entity: 'str',
-    project: 'str',
-    sweep_id: 'str',
-    attrs: 'Mapping[str, Any] | None' = None
-)
+(service_api: 'ServiceApi',
+entity: 'str',
+project: 'str',
+sweep_id: 'str',
+attrs: 'Mapping[str, Any] | None' = None)
 ```
 
-***
+L’ensemble des run associées au balayage.
 
-### <kbd>propriété</kbd> Sweep.config
+<div id="args">
+  ## Arguments
+</div>
+
+* `service_api`:
+* `entity`:
+* `project`:
+* `sweep_id`:
+* `attrs`: 
+
+<div id="attributes">
+  ## Attributs
+</div>
+
+* `runs` (`Runs`) : Liste des runs
+* `id` (`str`) : ID du balayage
+* `project` (`str`) : Nom du projet auquel le balayage appartient
+* `config` (`dict`) : Dictionnaire contenant la configuration du balayage
+* `state` (`str`) : État du balayage. Peut être &quot;Finished&quot;, &quot;Failed&quot;, &quot;Crashed&quot; ou &quot;Running&quot;.
+* `expected_run_count` (`int`) : Nombre de runs attendus pour le balayage
+
+<div id="properties">
+  ## Propriétés
+</div>
+
+### <kbd>propriété</kbd> config
 
 Configuration du balayage utilisée pour ce balayage.
 
-***
-
-### <kbd>propriété</kbd> Sweep.entity
+### <kbd>propriété</kbd> entité
 
 L’entité associée au balayage.
 
-**Retourne :**
-
-* `str` : La valeur de la propriété entité.
-
-***
-
-### <kbd>propriété</kbd> Sweep.expected_run_count
+### <kbd>propriété</kbd> expected_run_count
 
 Retourne le nombre de runs attendus dans le balayage, ou None si le nombre de runs est infini.
 
-**Retourne :**
-
-* `int | None`: La valeur de propriété expected&#95;run&#95;count.
-
-***
-
-### <kbd>propriété</kbd> Sweep.name
+### <kbd>propriété</kbd> name
 
 Le nom du balayage.
 
 Renvoie le premier nom disponible selon l’ordre de priorité suivant :
 
-1. Nom d’affichage modifié par l’utilisateur 2. Nom défini lors de la création 3. ID du balayage
+1. Nom d’affichage modifié par l’utilisateur
+2. Nom défini lors de la création
+3. ID du balayage
 
-***
-
-### <kbd>propriété</kbd> Sweep.order
+### <kbd>propriété</kbd> order
 
 Renvoie la clé d’ordre du balayage.
 
-***
-
-### <kbd>propriété</kbd> Sweep.path
+### <kbd>propriété</kbd> path
 
 Renvoie le chemin du projet.
 
 Le chemin est une liste qui contient l’entité, le nom du projet et l’ID du balayage.
 
-***
-
-### <kbd>propriété</kbd> Sweep.url
+### <kbd>propriété</kbd> url
 
 L’URL du balayage.
 
 L’URL du balayage est générée à partir de l’entité, du projet, du terme « sweeps » et de `ID du balayage.run_id`. Pour les utilisateurs SaaS, elle se présente sous la forme `https://wandb.ai/entity/project/sweeps/sweeps_ID`.
 
-***
-
-### <kbd>propriété</kbd> Sweep.username
+### <kbd>propriété</kbd> username
 
 Obsolète. Utilisez `Sweep.entity` à la place.
 
-**Retourne :**
+<div id="methods">
+  ## Méthodes
+</div>
 
-* `str` : La valeur de la propriété du nom d’utilisateur.
-
-***
-
-### <kbd>méthode</kbd> `Sweep.agent`
+### <kbd>méthode</kbd> Sweep.agent()
 
 ```python
-agent(agent_id: 'str') → Agent
+self,
+agent_id: 'str'
 ```
 
 Récupérer un agent à partir de son ID pour ce balayage.
 
-**Arguments :**
+<div id="arguments">
+  ##### Arguments
+</div>
 
-* `agent_id` : l’ID de l’agent à récupérer.
+* `agent_id`: l’ID de l’agent à récupérer.
 
-***
-
-### <kbd>méthode</kbd> `Sweep.agents`
+### <kbd>méthode</kbd> Sweep.agents()
 
 ```python
-agents() → list[Agent]
+self
 ```
 
 Récupérez la liste de tous les agents de ce balayage.
 
-***
-
-### <kbd>méthode</kbd> `Sweep.best_run`
+### <kbd>méthode</kbd> Sweep.best_run()
 
 ```python
-best_run(order=None)
+(self, order=None)
 ```
 
 Retourne le meilleur run, trié selon la métrique définie dans la configuration ou l’ordre fourni.
 
-***
+<div id="arguments">
+  ##### Arguments
+</div>
 
+* `order`: 
 
-### <kbd>méthode de classe</kbd> `Sweep.get`
+### <kbd>méthode</kbd> Sweep.get()
 
 ```python
-get(
-    api: 'Api',
-    entity: 'str | None' = None,
-    project: 'str | None' = None,
-    sid: 'str | None' = None,
-    order: 'str | None' = None,
-    query: 'str | None' = None,
-    **kwargs
-)
+(api: 'Api',
+entity: 'str | None' = None,
+project: 'str | None' = None,
+sid: 'str | None' = None,
+order: 'str | None' = None,
+query: 'str | None' = None, **kwargs)
 ```
 
 Exécute une requête sur le backend cloud.
 
-**Arguments :**
+<div id="arguments">
+  ##### Arguments
+</div>
 
-* `api`:  L’instance d’API W&amp;B.
-* `entity`:  L’entité (nom d’utilisateur ou équipe) propriétaire du projet.
-* `project`:  Le nom du projet depuis lequel récupérer le balayage.
-* `sid`:  L’ID du balayage à interroger.
-* `order`:  L’ordre dans lequel les runs du balayage sont renvoyés.
-* `query`:  La requête à utiliser pour exécuter la requête.
-* `**kwargs`:  Arguments nommés supplémentaires à transmettre à la requête.
+* `api`: L’instance d’API W&amp;B.
+* `entity`: L’entité (nom d’utilisateur ou équipe) propriétaire du projet.
+* `project`: Le nom du projet depuis lequel récupérer le balayage.
+* `sid`: L’ID du balayage à interroger.
+* `order`: L’ordre dans lequel les runs du balayage sont renvoyés.
+* `query`: La requête à utiliser pour exécuter la requête.
+* `kwargs`: 
 
-***
-
-### <kbd>méthode</kbd> `Sweep.to_html`
+### <kbd>méthode</kbd> Sweep.to_html()
 
 ```python
-to_html(height: 'int' = 420, hidden: 'bool' = False) → str
+self,
+height: 'int' = 420,
+hidden: 'bool' = False
 ```
 
 Génère du HTML contenant une iframe qui affiche ce balayage.
+
+<div id="arguments">
+  ##### Arguments
+</div>
+
+* `height`:
+* `hidden`: 

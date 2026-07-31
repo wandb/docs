@@ -1,59 +1,59 @@
 ---
 title: Reports
-namespace: public_apis_namespace
-python_object_type: class
+kind: 클래스
+namespace: wandb.apis.public.reports
 ---
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py#L27" />
 
-
-## <kbd>class</kbd> `Reports`
-
-Reports는 `BetaReport` 객체를 순회하는 lazy 이터레이터입니다.
-
-### <kbd>방법</kbd> `Reports.__init__`
+## <kbd>클래스</kbd> wandb.apis.public.Reports
 
 ```python
-__init__(
-    service_api: 'ServiceApi',
-    project: 'Project',
-    name: 'str | None' = None,
-    entity: 'str | None' = None,
-    per_page: 'int' = 50
-)
+(service_api: 'ServiceApi',
+project: 'Project',
+name: 'str | None' = None,
+entity: 'str | None' = None,
+per_page: 'int' = 50)
 ```
 
-**매개변수:**
+Reports는 `BetaReport` 객체에 대한 지연 이터레이터입니다.
 
-* `service_api`:  이 컬렉션에 대해 W&amp;B API Call을 수행하는 wandb-core 서비스 인터페이스입니다.
-* `project` (`wandb.sdk.internal.Project`):  Reports를 가져올 프로젝트입니다.
-* `name` (str, 선택):  필터링할 Reports의 이름입니다. `None`이면 모든 Reports를 가져옵니다.
-* `entity` (str, 선택):  프로젝트의 entity 이름입니다. 기본값은 프로젝트의 entity입니다.
-* `per_page` (int):  페이지당 가져올 Reports 수입니다(기본값: 50).
+<div id="args">
+  ## 매개변수
+</div>
 
-***
+* `service_api`: 이 컬렉션에 대해 W&amp;B API Call을 수행하는 wandb-core 서비스 인터페이스입니다.
+* `project`: Reports를 가져올 프로젝트입니다.
+* `name`: 필터링할 Reports의 이름입니다. `None`이면 모든 Reports를 가져옵니다.
+* `entity`: 프로젝트의 entity 이름입니다. 기본값은 프로젝트의 entity입니다.
+* `per_page`: 페이지당 가져올 Reports 수입니다(기본값: 50).
 
-### <kbd>속성</kbd> Reports.length
+<div id="methods">
+  ## 메서드
+</div>
 
-***
-
-### <kbd>방법</kbd> `Reports.convert_objects`
+### <kbd>방법</kbd> Reports.convert_objects()
 
 ```python
-convert_objects() → list[BetaReport]
+self
 ```
 
 GraphQL의 edge를 File 객체로 변환합니다.
 
-***
-
-
-### <kbd>방법</kbd> `Reports.update_variables`
+### <kbd>방법</kbd> Paginator.**next**()
 
 ```python
-update_variables() → None
+self
+```
+
+이터레이터의 다음 항목을 반환합니다. 더 이상 항목이 없으면 StopIteration 예외를 발생시킵니다.
+
+### <kbd>방법</kbd> Reports.update_variables()
+
+```python
+self
 ```
 
 페이지네이션용 GraphQL 쿼리 변수를 업데이트합니다.

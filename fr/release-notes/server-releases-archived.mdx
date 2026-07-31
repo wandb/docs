@@ -15,7 +15,70 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 <EolReminder />
 
 {/* Pour archiver une version, déplacez ses entrées <Update> (y compris les correctifs)
-      de server-releases.mdx juste en dessous */}
+    de server-releases.mdx juste en dessous */}
+
+<Update label="v0.71.0" description="29 juillet 2025">
+  Avec W&amp;B Server 0.71, Registry est activé par défaut pour toutes les organisations. Pour en savoir plus sur le déploiement progressif de Registry, voir la note correspondante dans Fonctionnalités. Cette version apporte plusieurs améliorations et correctifs aux workspaces : gardez les panneaux multimédias synchronisés grâce à un curseur d’étapes commun, naviguez plus efficacement entre les panneaux en plein écran et consultez davantage de détails sur la durée totale d’un run et son temps d’exécution effectif dans la page Run Overview. Les automatisations ont été enrichies : vous pouvez désormais déclencher une automatisation basée sur les tags d’une version d’artifact. {/* more */}
+
+  ## Assistance et fin de vie
+
+  * W&amp;B Server v0.57 est arrivé en fin de vie.
+
+  ## Modifications à venir
+
+  * Nous optimisons le rendu dans le Workspace afin d’accélérer le chargement des Workspaces comportant de nombreux panneaux et de rendre le glisser-déposer des panneaux plus réactif et plus précis. **Dans ce cadre, nous prévoyons de supprimer la mise en page « Grille personnalisée » des sections du Workspace dans la prochaine version (0.72).** Les grilles personnalisées resteront disponibles dans les Reports. Contactez votre équipe W&amp;B ou l’[assistance](mailto:support@wandb.ai) pour toute question.
+  * Dans une prochaine version, nous harmoniserons les vues Workspace multi-run et run unique afin que, lorsque vous accédez à un run unique, vous retrouviez la même mise en page et la même configuration de panneaux que celles définies pour la vue multi-run, y compris les graphiques personnalisés, les mises en page et les paramètres. L’objectif est de vous aider à conserver le contexte et à éviter de devoir reconfigurer vos vues. Toutefois, vous ne pourrez plus personnaliser des vues de run unique distinctes, isolées du reste du Workspace. Contactez votre équipe W&amp;B ou l’[assistance](mailto:support@wandb.ai) pour toute question concernant la migration.
+  * Au cours des prochaines versions, nous poursuivrons la migration des Model Registry existants au niveau des équipes vers W&amp;B Registry. Pour plus de détails et un rappel du calendrier, voir l’[annonce de disponibilité générale de W&amp;B Registry](#registry_ga_announcement) ci-dessous.
+
+  ## Fonctionnalités
+
+  * <a id="registry_ga_announcement" aria-label="Annonce de la disponibilité générale de W&B Registry" /> Nous migrerons progressivement les Model Registry existants au niveau des équipes vers W&amp;B Registry au cours des prochaines versions. **Vous n’avez aucune action à effectuer : W&amp;B copiera automatiquement les ressources Model Registry de chaque équipe vers un registre privé correspondant, créé automatiquement au niveau de l’équipe.**  Les références existantes aux collections de modèles de votre ancien Model Registry au niveau de l’équipe continueront de fonctionner.
+
+    1. Dans Server v0.71 (cette version), Registry est désormais activé par défaut pour toutes les organisations.
+    2. Server v0.73 (août) inclura une variable d’environnement permettant de désactiver la migration, qui sera exécutée automatiquement lors de la mise à niveau. La migration dure entre 5 et 30 minutes pour la plupart des organisations. Pendant la migration, l’association d’artefacts à l’ancien Model Registry de l’équipe ou au nouveau Registry échouera. **La journalisation et la récupération des artefacts ne seront pas affectées**.
+    3. Dans Server v0.74 (septembre), nous supprimerons cette option et la migration sera effectuée lors de la mise à niveau.
+
+    Nous veillons à ce que cette mise à niveau soit fluide et aussi peu contraignante que possible, tout en vous offrant une expérience puissante. Contactez votre interlocuteur W&amp;B pour toute question concernant la migration.
+  * Une automatisation peut désormais être déclenchée par l’ajout d’un tag à un artifact. Voir [Événements liés aux artifacts](/fr/models/automations/automation-events/#artifact-events).
+  * Lorsqu’un volet est affiché en plein écran, utilisez les boutons **Précédent** et **Suivant**, ou les touches fléchées gauche et droite, pour afficher le volet précédent ou suivant de la section.
+  * Lorsqu’un volet multimédia est affiché en plein écran, déplacez le curseur d’étape à l’aide de **CMD + flèche gauche ou droite** (macOS) ou de **Ctrl + flèche gauche ou droite** (Windows / Linux).
+  * Vous pouvez désormais synchroniser les volets multimédias utilisant la même clé de curseur d’étape : lorsque vous avancez le curseur d’étape dans un volet multimédia, ceux des autres volets avancent également. Ouvrez les paramètres du Workspace ou de la section, accédez à **Media**, cliquez sur l’onglet **Sync**, puis activez **Sync slider by key (Step)**.
+  * Le Run Comparer comprend une nouvelle section **Meta** contenant des métadonnées sur le run, telles que la commande, la version de Python et le type de GPU.
+
+  ### Weave
+
+  * L’outil **Trace plots** vous permet d’explorer, de visualiser et de déboguer au fil du temps des métriques au niveau des traces, telles que la latence, le coût ou les jetons, à l’aide de graphiques interactifs personnalisés. [En savoir plus](/fr/weave/guides/tracking/trace-plots).
+  * **Évaluations en ligne** : surveillez vos traces dans le Cloud dédié en joignant des Monitors à vos traces entrantes. Les Monitors s’exécutent en arrière-plan en tant que juges LLM et évaluent un sous-ensemble d’appels que vous définissez. Utilisez les Monitors pour suivre le comportement en production, détecter les régressions, collecter des données réelles de production, et bien plus encore. [En savoir plus](/fr/weave/guides/tracking/trace-plots).
+  * Ajout des intégrations [AutoGen](/fr/weave/guides/integrations/autogen) et [LlamaIndex](/fr/weave/guides/integrations/llamaindex). *AutoGen* est un framework Microsoft permettant de créer des agents et des applications d’IA, avec des composants d’IA conversationnelle, des fonctionnalités multi-agents de base, des intégrations avec des services externes et des outils de prototypage d’agents sans code. *LlamaIndex* est un framework puissant permettant de créer des applications basées sur des LLM, telles que des systèmes RAG, des chatbots et des agents.
+  * Amélioration des intégrations avec OpenAI, LangChain, ChromaDB et Verdict, notamment :
+    * Vue des documents pour LangChain et ChromaDB.
+    * Rendu de la vue de chat pour LangChain.
+    * Nouveau format d’exportation pour OpenAI.
+  * Ajout de la prise en charge, dans le SDK TypeScript, de la création et de la publication de prompts. [En savoir plus](/fr/weave/guides/core-types/prompts).
+  * La nouvelle classe `Content` vous permet de téléverser en toute sécurité des données de tout type MIME, avec encodage automatique en Base64, extraction automatique des métadonnées et bien plus encore.
+
+  ## Correctifs
+
+  * La page **Aperçu** d’un run affiche désormais sa durée d’exécution et ses heures suivies. La *durée d’exécution* d’un run correspond à sa durée totale, du début à la fin, tandis que ses *heures suivies* correspondent au temps pendant lequel le run exécutait activement des expériences ou des calculs.
+  * Lorsque vous zoomez sur un graphique en courbes, puis l’ouvrez en mode plein écran, le graphique en plein écran conserve désormais correctement le même niveau de zoom.
+  * Correction d’un bug où la mise à jour du nombre de groupes affichés dans un graphique ne mettait pas à jour ce dernier.
+  * Lorsque **Afficher l’original** est sélectionné dans les graphiques en courbes, la ligne d’origine non lissée est désormais plus pâle que la ligne lissée.
+  * Les graphiques en courbes en fidélité totale affichent désormais le nombre de runs qu’ils contiennent.
+  * Correction d’un bug qui pouvait convertir de manière inattendue un graphique explicitement défini comme graphique en courbes en graphique à barres lorsqu’une seule valeur était présente par run.
+  * Les expressions de l’axe X prennent désormais en charge les champs de configuration imbriqués.
+  * Le lien **Registry** a été supprimé de la barre latérale de la page **Artifacts**. Pour accéder à Registry, cliquez sur **Home**, puis sur **Registry**.
+  * Les graphiques en courbes d’un espace de travail ou d’une section peuvent éventuellement afficher la plage des compartiments dans l’infobulle lorsque vous survolez un point. Ouvrez les paramètres de l’espace de travail ou de la section, cliquez sur **Graphiques en courbes**, accédez à l’onglet **Préférences d’affichage**, puis activez **Afficher la plage des compartiments dans l’infobulle**.
+  * Correction d’un bug où un clic sur un lien dans la page de traçabilité des artefacts de **Registry** mettait à jour l’URL et les paramètres dans le navigateur, mais pas le contenu de la page. L’interface utilisateur se met désormais à jour lorsque l’URL change.
+  * Correction d’un bug dans **Registry** où les tableaux de collections étaient triés comme des chaînes de caractères plutôt que comme des nombres à virgule flottante.
+  * Correction d’un bug dans **Registry** où le volet latéral des informations de traçabilité affichait toujours la dernière version de l’artefact sélectionné, même lorsqu’une autre version était sélectionnée.
+  * Correction d’un bug d’affichage sur mobile où la barre de recherche de panels était absente.
+  * Lorsque vous triez le sélecteur de runs selon un attribut avec la coloration par clé activée, les runs situés en haut du graphique sont désormais correctement colorés.
+  * Lors de l’utilisation de runs groupés, les graphiques de coordonnées parallèles affichent désormais correctement le nom du groupe.
+  * **État** s’affiche désormais correctement par défaut dans le tableau Sweeps.
+  * Les Sweeps s’affichent désormais correctement lors du regroupement par noms d’affichage personnalisés.
+  * Correction du retour à la ligne des noms longs dans Sweeps et Reports.
+  * Amélioration du comportement de copier-coller pour les journaux de console. Les numéros de ligne ne sont plus copiés et les horodatages apparaissent désormais sur la même ligne plutôt que sur une nouvelle ligne.
+</Update>
 
 <Update label="v0.70.1" description="9 juillet 2025">
   ## Correctifs

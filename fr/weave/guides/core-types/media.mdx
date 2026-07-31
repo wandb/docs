@@ -36,6 +36,10 @@ W&amp;B Weave prend en charge le journal et l&#39;affichage de nombreux types de
 
 Les sections suivantes proposent des exemples de journalisation pour chaque type de média. Chaque section commence par un exemple minimal, puis s’étend à des scénarios plus avancés.
 
+<Note>
+  Pour afficher des médias déjà stockés dans votre propre bucket cloud sans téléverser les octets vers Weave, voir [Référencer des médias dans votre propre bucket (BYOB)](/fr/weave/guides/tracking/byob-references).
+</Note>
+
 <div id="log-images">
   ## Journaliser des images
 </div>
@@ -322,7 +326,7 @@ Les exemples suivants montrent comment générer des vidéos et les journaliser 
   ## Journaliser des documents
 </div>
 
-Les exemples suivants génèrent des documents et les journalisent dans l&#39;interface utilisateur de Weave.
+Les exemples suivants génèrent des documents et les journalisent dans l’interface utilisateur de Weave.
 
 <Frame>
   ![Journalisation de documents PDF dans Weave](/images/weave/pdf.png)
@@ -330,11 +334,11 @@ Les exemples suivants génèrent des documents et les journalisent dans l&#39;in
 
 <Tabs>
   <Tab title="Python">
-    Journalisez des documents en annotant les fonctions avec des types `Annotated[bytes, Content]`, ou en spécifiant le type de document avec `Annotated[str, Content[Literal['text']]`.
+    Journalisez des documents en annotant les fonctions avec des types `Annotated[bytes, Content]`, ou en spécifiant le type de document avec `Annotated[str, Content[Literal['text']]]`.
 
     Weave gère automatiquement les types de fichiers `pdf`, `csv`, `md`, `text`, `json` et `xml`. Vous pouvez également journaliser des fichiers en utilisant leurs chemins avec `Annotated[str, Content]`.
 
-    L&#39;exemple suivant montre comment stocker des copies des fichiers PDF et CSV en entrée, puis stocker le contenu des fichiers renvoyé par la fonction :
+    L’exemple suivant montre comment stocker des copies des fichiers PDF et CSV en entrée, puis stocker le contenu des fichiers renvoyé par la fonction :
 
     ```python lines {25}
     import weave
@@ -431,7 +435,7 @@ Les exemples suivants génèrent des documents et les journalisent dans l&#39;in
     )
     ```
 
-    Weave journalise à la fois le PDF source et la réponse générée, afin que vous puissiez auditer le document à l&#39;origine de chaque réponse.
+    Weave journalise à la fois le PDF source et la réponse générée, afin que vous puissiez auditer le document à l’origine de chaque réponse.
   </Tab>
 
   <Tab title="TypeScript">
@@ -453,7 +457,7 @@ Les exemples suivants montrent comment journaliser de l’audio vers Weave.
 
 <Tabs>
   <Tab title="Python">
-    Journalisez l’audio dans Weave en annotant les fonctions avec des types `Annotated[bytes, Content]`, ou en spécifiant le type audio avec `Annotated[str, Content[Literal['mp3']]`.
+    Journalisez l’audio dans Weave en annotant les fonctions avec des types `Annotated[bytes, Content]`, ou en spécifiant le type audio avec `Annotated[str, Content[Literal['mp3']]]`.
 
     Weave gère automatiquement les types de fichiers `mp3`, `wav`, `flac`, `ogg` et `m4a`. Vous pouvez également journaliser à partir de chemins de fichiers avec `Annotated[str, Content]`.
 

@@ -1,154 +1,10 @@
 ---
-description: Importer des données depuis MLFlow, exporter ou mettre à jour les données que vous avez enregistrées sur
-  W&B
-title: Importer et exporter des données
+description: Exporter ou mettre à jour les données que vous avez enregistrées sur W&B
+title: Exporter et mettre à jour des données
 ---
 
 import ApiKeyCreate from "/snippets/fr/_includes/api-key-create.mdx";
 import ApiKeySecurity from "/snippets/fr/_includes/api-key-security.mdx";
-
-Exportez ou importez des données à l’aide des API publiques de W&amp;B.
-
-<Note>
-  Cette fonctionnalité nécessite python&gt;=3.8
-</Note>
-
-<div id="import-data-from-mlflow">
-  ## Importer des données depuis MLFlow
-</div>
-
-W&amp;B vous permet d&#39;importer des données depuis MLFlow, y compris les experiments, les runs, les artefacts, les métriques et d&#39;autres métadonnées.
-
-Installez les dépendances :
-
-```shell
-# remarque : nécessite py38+
-pip install wandb[importers]
-```
-
-Connectez-vous à W&amp;B. Si c’est votre première connexion, suivez les instructions affichées.
-
-```shell
-wandb login
-```
-
-Importez toutes les exécutions à partir d’un serveur MLFlow existant :
-
-```py
-from wandb.apis.importers.mlflow import MlflowImporter
-
-importer = MlflowImporter(mlflow_tracking_uri="...")
-
-runs = importer.collect_runs()
-importer.import_runs(runs)
-```
-
-Par défaut, `importer.collect_runs()` collecte toutes les exécutions du serveur MLFlow. Si vous préférez téléverser uniquement un sous-ensemble particulier, vous pouvez créer votre propre itérable de runs et le passer à l’importateur.
-
-```py
-import mlflow
-from wandb.apis.importers.mlflow import MlflowRun
-
-client = mlflow.tracking.MlflowClient(mlflow_tracking_uri)
-
-runs: Iterable[MlflowRun] = []
-for run in mlflow_client.search_runs(...):
-    runs.append(MlflowRun(run, client))
-
-importer.import_runs(runs)
-```
-
-<Note>
-  Vous devrez peut-être [configurer d’abord le Databricks CLI](https://docs.databricks.com/dev-tools/cli/index.html) si vous importez depuis Databricks MLflow.
-
-  Lors de l’étape précédente, définissez `mlflow-tracking-uri="databricks"`.
-</Note>
-
-Pour ignorer l’import des artefacts, vous pouvez passer `artifacts=False` :
-
-```py
-importer.import_runs(runs, artifacts=False)
-```
-
-Pour importer dans une entité et un projet W&amp;B spécifiques, vous pouvez fournir un `Namespace` :
-
-```py
-from wandb.apis.importers import Namespace
-
-importer.import_runs(runs, namespace=Namespace(entity, project))
-```
-
-{/* Conformément à DOCS-1043, ces informations sont masquées jusqu’à ce que le problème soit corrigé 
-
-  ## Importer des données depuis une autre instance W&B
-
-  <Note>
-  Cette fonctionnalité est en version bêta et prend uniquement en charge l’importation depuis le cloud public W&B.
-  </Note>
-
-  Installer les dépendances :
-
-  ```sh
-  # remarque : nécessite py38+
-  pip install wandb[importers]
-  ```
-
-  Connectez-vous au serveur W&B source. Suivez les instructions si vous ne vous êtes jamais connecté auparavant.
-
-  ```sh
-  wandb login
-  ```
-
-  Importez tous les runs et artefacts d’une instance W&B source vers une instance W&B de destination. Les runs et les artefacts sont importés dans leurs espaces de noms respectifs sur l’instance de destination.
-
-  ```py
-  from wandb.apis.importers.wandb import WandbImporter
-  from wandb.apis.importers import Namespace
-
-  importer = WandbImporter(
-    src_base_url="https://api.wandb.ai",
-    src_api_key="your-api-key-here",
-    dst_base_url="https://example-target.wandb.io",
-    dst_api_key="target-environment-api-key-here",
-  )
-
-  # Importe tous les runs, artefacts et Reports
-  # de "entity/project" dans src vers "entity/project" dans dst
-  importer.import_all(namespaces=[
-    Namespace(entity, project),
-    # ... ajoutez d’autres espaces de noms ici
-  ])
-  ```
-
-  Si vous préférez modifier l’espace de noms de destination, vous pouvez spécifier `remapping: dict[Namespace, Namespace]`
-
-  ```py
-  importer.import_all(
-    namespaces=[Namespace(entity, project)],
-    remapping={
-        Namespace(entity, project): Namespace(new_entity, new_project),
-    }
-  )
-  ```
-
-  Par défaut, les importations sont incrémentielles. Les importations suivantes tentent de valider l’import précédent et écrivent dans des fichiers `.jsonl` qui consignent les réussites et les échecs. Si une importation a réussi, les validations ultérieures sont ignorées. Si une importation a échoué, elle est réessayée. Pour désactiver ce comportement, définissez `incremental=False`.
-
-  ```py
-  importer.import_all(
-    namespaces=[Namespace(entity, project)],
-    incremental=False,
-  )
-  ```
-
-  ### Problèmes connus et limites
-
-  - Si l’espace de noms de destination n’existe pas, W&B en crée un automatiquement.
-  - Si un run ou un artefact a le même ID dans l’espace de noms de destination, W&B le traite comme une importation incrémentielle. Le run ou l’artefact de destination est validé puis réessayé s’il a échoué lors d’une importation précédente.
-  - Aucune donnée n’est jamais supprimée du système source.
-
-  1. Lors d’une importation en masse (en particulier de gros artefacts), vous pouvez parfois atteindre les limites de débit de S3. Si vous voyez `botocore.exceptions.ClientError: An error occurred (SlowDown) when calling the PutObject operation`, essayez d’espacer les importations en ne déplaçant que quelques espaces de noms à la fois.
-  2. Les tableaux de runs importés peuvent sembler vides dans le workspace, mais si vous accédez à l’onglet Artifacts et cliquez sur l’artefact de tableau de run correspondant, le tableau devrait s’afficher correctement.
-  3. Les métriques système et les graphiques personnalisés (non explicitement enregistrés avec `run.log()`) ne sont pas importés */}
 
 <div id="export-data">
   ## Exporter des données
@@ -177,7 +33,7 @@ Une clé API permet d’authentifier votre machine auprès de W&amp;B.
   ### Trouver le chemin du run
 </div>
 
-Pour utiliser l’API publique, vous aurez souvent besoin du chemin du run, au format `<entity>/<project>/<run_id>`. Dans l’interface de l’application, ouvrez la page d’un run et cliquez sur l’[onglet Vue d’ensemble ](/fr/models/track/public-api-guide/#overview-tab)pour obtenir le chemin du run.
+Pour utiliser l’API publique, vous aurez souvent besoin du chemin du run, au format `<entity>/<project>/<run_id>`. Dans l’interface de l’application, ouvrez la Page du run et cliquez sur l’[onglet Vue d’ensemble](/fr/models/track/public-api-guide/#overview-tab) pour obtenir le chemin du run.
 
 <div id="export-run-data">
   ### Exporter les données d’un run
@@ -222,10 +78,10 @@ with wandb.init(project="public-api-example") as run:
         )
 ```
 
-Les sections suivantes décrivent les différentes sorties associées aux attributs de l’objet run ci-dessus
+Les sections suivantes décrivent les différentes sorties associées aux attributs de l’objet run ci-dessus.
 
 <div id="runconfig">
-  ##### `run.config`
+  #### `run.config`
 </div>
 
 ```python
@@ -250,7 +106,7 @@ Les sections suivantes décrivent les différentes sorties associées aux attrib
   ### Échantillonnage
 </div>
 
-La méthode history par défaut échantillonne les métriques pour n’en conserver qu’un nombre fixe (500 par défaut ; vous pouvez le modifier avec l’argument `samples` &#95;&#95;). Si vous souhaitez exporter toutes les données d’un run de grande taille, vous pouvez utiliser la méthode `run.scan_history()`. Pour en savoir plus, voir la [Référence de l’API](/fr/models/ref/python/public-api).
+La méthode history par défaut échantillonne les métriques pour n’en conserver qu’un nombre fixe (500 par défaut ; vous pouvez le modifier avec l’argument `samples`). Si vous souhaitez exporter toutes les données d’un run de grande taille, vous pouvez utiliser la méthode `run.scan_history()`. Pour en savoir plus, voir la [Référence de l’API](/fr/models/ref/python/public-api).
 
 <div id="querying-multiple-runs">
   ### Interroger plusieurs runs
@@ -493,10 +349,9 @@ L’extrait ci-dessous permet de trouver l’utilisation des ressources système
 ```python
 import wandb
 
-with wandb.Api().run("<entity>/<project>/<run_id>") as run:
-
-    system_metrics = run.history(stream="events")
-    system_metrics.to_csv("sys_metrics.csv")
+run = wandb.Api().run("<entity>/<project>/<run_id>")
+system_metrics = run.history(stream="events")
+system_metrics.to_csv("sys_metrics.csv")
 ```
 
 <div id="get-unsampled-metric-data">
