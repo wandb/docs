@@ -14,6 +14,9 @@ template: "docengine-site/templates/support_tag.mdx.j2"
 <Card title="How do I best log models from runs in a sweep?" href="/support/models/articles/how-do-i-best-log-models-from-runs-in-a-" arrow="true" horizontal>
   To log models in a sweep, create a model artifact for the sweep. Each version represents a different run from the sweep. ...
 </Card>
+<Card title="How do I delete many artifacts at once?" href="/support/models/articles/how-do-i-delete-many-artifacts-at-once" arrow="true" horizontal>
+  When you need to remove a large number of artifacts, for example to get back under your storage limit, deleting them in  ...
+</Card>
 <Card title="How do I disable W&B while testing my code?" href="/support/models/articles/how-do-i-disable-wandb-when-testing-my-code" arrow="true" horizontal>
   To configure W&B as a no-op for testing, use wandb.init(mode="disabled") or set WANDB_MODE=disabled. Even when you use w ...
 </Card>
@@ -49,7 +52,4 @@ template: "docengine-site/templates/support_tag.mdx.j2"
 </Card>
 <Card title="Why can't I link my artifact to the Registry?" href="/support/models/articles/cannot-link-artifact-to-registry-from-p" arrow="true" horizontal>
   If you can't link an artifact to a W&B Registry, the most common cause is that the artifact was logged with a personal e ...
-</Card>
-<Card title="Why does deleting many artifacts at once time out?" href="/support/models/articles/why-does-deleting-many-artifacts-at-once-time-out" arrow="true" horizontal>
-  Deleting many artifacts or files in a single action from the W&B App can time out and return a context deadline exceeded ...
 </Card>
