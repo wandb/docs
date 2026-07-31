@@ -4,13 +4,13 @@ description: "Connect OpenAI-compatible inference endpoints to a Weave project a
 keywords: ["custom runtimes", "custom providers", "OpenAI-compatible endpoint", "register_custom_runtime", "LLM playground", "LLM judge"]
 ---
 
-A custom runtime connects an OpenAI-compatible inference endpoint to a W&B Weave project. After you register a custom runtime, its models appear in model selectors across Weave, so you and your team can chat with the endpoint in the Playground, evaluate it in the Evaluation Playground, or use it as an LLM judge, without anyone writing integration code.
+Register a custom runtime to connect an OpenAI-compatible inference endpoint to a W&B Weave project. After registration, the endpoint’s models appear in model selectors across Weave. You and your team can then use them in the Playground, Evaluation Playground, and LLM-as-a-judge workflows without writing integration code.
 
 Use a custom runtime to connect any of the following:
 
 - An agent or model prototype your team serves behind an OpenAI-compatible API.
 - A self-hosted or local model (for example, one served by Ollama or vLLM).
-- A provider or model version that Weave doesn't ship built-in support for.
+- A provider or model version that Weave doesn't have built-in support for.
 
 You can manage custom runtimes in the W&B UI or programmatically with the Python and TypeScript SDKs. The SDK path is designed for CI/CD: registration is declarative and idempotent, so your pipeline can re-register a runtime on every deploy and Weave converges to the configuration you specify.
 
