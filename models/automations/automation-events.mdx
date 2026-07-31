@@ -7,45 +7,36 @@ import MultiTenantAndDedicatedCloudOnly from "/snippets/_includes/multi-tenant-a
 
 An automation starts when a specific event occurs within a given scope: an organization, a team, a project, a registry, or a collection. This page describes the events that can trigger an automation within each scope, so you can choose the right trigger when you configure an automation. Learn more about automations in the [Automations overview](/models/automations) or [Create an automation](/models/automations/create-automations).
 
-Scopes are hierarchical: an Organization contains Teams, which contain projects and registries, which contain collections. An automation observes its event across everything in its scope, including projects, registries, and collections created later. A single event can match automations at more than one scope. Each matching automation triggers independently.
+Scopes are hierarchical: an Organization contains Teams, which contain projects and registries. Both projects and registries contain collections: a project contains the artifact collections logged to it, and a registry contains the collections that artifact versions are linked to. An automation observes its event across everything in its scope, including projects, registries, and collections created later. A single event can match automations at more than one scope. Each matching automation triggers independently.
+
+To protect against excessive triggering at broad scopes, W&B applies a rate limit and a cooldown per automation. These safeguards can delay or skip repeated triggers of the same automation.
 
 <Note>
 The Team and Organization scopes are available on W&B Multi-tenant Cloud and on W&B Dedicated Cloud (Server v0.83.0 and later). The Registry and Project scopes are available on all deployment types.
 </Note>
 
-<Note>
-To protect against excessive triggering at broad scopes, W&B applies a rate limit and a cooldown per automation. These safeguards can delay or skip repeated triggers of the same automation.
-</Note>
+## Scope reference
+
+| Scope | What the automation watches | Events available in the W&B App |
+|-------|-----------------------------|---------------------------------|
+| [Organization](#organization) | Every Team, project, registry, and collection in the organization, including ones created in the future. | Artifact and collection events, such as when a new version is added or linked, or when an alias or tag is added. Run-based events aren't available. |
+| [Team](#team) | Every project, registry, and collection the Team owns, including ones created in the future. | The same artifact and collection events as the Organization scope. Run-based events aren't available. |
+| [Registry](#registry) | Every collection in one registry, including collections added in the future. | [Registry events](#registry-events): a new version is linked to a collection, or an artifact alias is added. |
+| [Project](#project) | Every collection in one project. Some events let you narrow the scope further. | [Artifact events](#artifact-events) and [run events](#run-events). |
+
+The following sections describe each scope in more detail.
 
 ## Organization
 
-The following sections describe the scopes and events for an automation scoped to an Organization.
+Use the Organization scope to define a policy once and apply it everywhere. For example, notify a compliance Slack channel whenever the `production` alias is added to any artifact in the organization.
 
-### Scopes
-
-An Organization-scoped automation watches for the event across every Team, project, registry, and collection in the organization, including ones created in the future. Use Organization scope to define a policy once and apply it everywhere. For example, notify a compliance Slack channel whenever the `production` alias is added to any artifact in the organization.
-
-### Events
-
-In the W&B App, an Organization-scoped automation can watch for artifact and collection events, such as when a new version is added or linked, or when an alias or tag is added. Run-based events (the [run status change](#run-status-change) and [run metric](#run-metrics-change) events) aren't available at the Organization scope in the App.
+Run-based events (the [run status change](#run-status-change) and [run metric](#run-metrics-change) events) aren't available at the Organization scope in the W&B App.
 
 ## Team
 
-The following sections describe the scopes and events for an automation scoped to a Team.
-
-### Scopes
-
-A Team-scoped automation watches for the event across every project, registry, and collection owned by the Team, including ones created in the future.
-
-### Events
-
-In the W&B App, a Team-scoped automation can watch for the same artifact and collection events as the Organization scope. Run-based events aren't available at the Team scope in the App.
+Use the Team scope to apply a policy to everything one Team owns. A Team-scoped automation watches for the same artifact and collection events as the Organization scope. Run-based events aren't available at the Team scope in the W&B App.
 
 ## Registry
-
-The following sections describe the scopes and events for an automation in a [Registry](/models/registry).
-
-### Scopes
 
 A [Registry](/models/registry) automation watches for the event taking place on any collection within a specific registry, including collections added in the future.
 
@@ -59,11 +50,7 @@ When the automation calls a webhook, it can access the same team-level webhook c
 
 ## Project
 
-The following sections describe the scopes and events for an automation in a [project](/models/track/project-page).
-
-### Scopes
-
-A project-level automation watches for the event taking place on any collection in the project. Depending on the event you specify, you can further limit the scope of the automation.
+A project-level automation watches for the event taking place on any collection in the [project](/models/track/project-page). Depending on the event you specify, you can further limit the scope of the automation.
 
 ### Artifact events
 
