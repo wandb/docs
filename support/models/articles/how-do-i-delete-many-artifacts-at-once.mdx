@@ -7,10 +7,12 @@ When you need to remove a large number of artifacts, for example to get back und
 
 Use the [W&B Public API](/models/ref/python/public-api/api) instead. The following script deletes every version of one artifact type in a project.
 
-Replace the `[YOUR-TEAM]` and `[YOUR-PROJECT]` placeholders with your own values. Use your team or username for `[YOUR-TEAM]`, not your organization name. Passing an organization name fails with `ValueError: Unable to parse 'ArtifactTypes' response data`.
+Replace the `[YOUR-TEAM]` and `[YOUR-PROJECT]` placeholders with your own values. Use your team or username for `[YOUR-TEAM]`, not your organization name.
 
 <Warning>
-Artifact deletion is irreversible. The script passes `delete_aliases=True`, so it also deletes versions that carry an alias such as `latest`. Keep `DRY_RUN = True` and review the output before you set it to `False`.
+Artifact deletion is destructive. When deleting source artifact versions, W&B deletes the artifact and its files. Passing `delete_aliases=True` enables deletion of versions with aliases such as `latest`, and removes those aliases. 
+
+Use `DRY_RUN = True` first, review the printed artifact names, and only then set DRY_RUN = False.
 </Warning>
 
 ```python
@@ -37,7 +39,7 @@ for collection in api.artifact_collections(f"{entity}/{project}", artifact_type)
 
 The script deletes versions, not collections. An emptied collection still appears in the project's **Artifacts** tab.
 
-`api.artifact_collections()` returns link collections as well as source collections. When a version comes from a link collection, `version.delete(delete_aliases=True)` removes only the link. The source artifact and its files stay where they are, so that version frees no storage.
+`wandb.Api.artifact_collections()` returns link collections as well as source collections. When a version comes from a link collection, `version.delete(delete_aliases=True)` removes only the link. The source artifact and its files stay where they are, so that version frees no storage.
 
 ## Reclaim the space
 
