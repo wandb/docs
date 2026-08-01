@@ -3,6 +3,56 @@ title: "Turn"
 description: "TypeScript SDK reference"
 ---
 
+An agent invocation. Typically wraps the work to respond to a single
+user message. Emits an `invoke_agent` span and acts as the root of the
+trace for that turn: it is always started under `ROOT_CONTEXT` so it
+never accidentally inherits a parent from another OTel-instrumented
+library.
+
+Created by `weave.startTurn()` (or `conversation.startTurn()`) and
+terminated with `end()`. Only one Turn may be active in an async chain.
+Children (LLM, Tool, SubAgent) attach via the `startLLM`, `startTool`,
+`startSubagent` methods.
+
+`Example`
+
+```ts twoslash
+// @noErrors
+const turn = weave.startTurn();
+
+try {
+  const llm = turn.startLLM({model: 'gpt-4o', providerName: 'openai'});
+  // ...
+  llm.end();
+} finally {
+  turn.end();
+}
+```
+
+`Example`
+
+```ts twoslash
+// @noErrors
+const turn = weave.startTurn({
+  model: 'gpt-4o',
+  agentName: 'research-bot',
+  agentId: 'research-bot-prod',
+  agentDescription: 'Looks up facts on Wikipedia.',
+  agentVersion: '1.4.2',
+  userMessage: 'What is the weather in Tokyo?',
+  systemInstructions: ['You are a helpful weather bot.'],
+  startTime: new Date('2026-05-29T10:00:00.000Z'),
+});
+
+try {
+  const llm = turn.startLLM({model: 'gpt-4o', providerName: 'openai'});
+  // ...
+  llm.end();
+} finally {
+  turn.end();
+}
+```
+
 ## Hierarchy
 
 - `SpanBase`
@@ -40,7 +90,7 @@ description: "TypeScript SDK reference"
 
 #### Defined in
 
-[src/genai/turn.ts:103](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L103)
+[src/genai/turn.ts:111](https://github.com/wandb/weave/blob/d5e11acb4bb292878563e3dca68e95312f03b6af/sdks/node/src/genai/turn.ts#L111)
 
 ___
 
@@ -54,7 +104,7 @@ ___
 
 #### Defined in
 
-[src/genai/turn.ts:107](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L107)
+[src/genai/turn.ts:115](https://github.com/wandb/weave/blob/d5e11acb4bb292878563e3dca68e95312f03b6af/sdks/node/src/genai/turn.ts#L115)
 
 ## Methods
 
@@ -98,7 +148,7 @@ SpanBase.addEvent
 
 #### Defined in
 
-[src/genai/spanBase.ts:82](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L82)
+[src/genai/spanBase.ts:82](https://github.com/wandb/weave/blob/d5e11acb4bb292878563e3dca68e95312f03b6af/sdks/node/src/genai/spanBase.ts#L82)
 
 ___
 
@@ -122,7 +172,7 @@ it as failed; pass `endTime` to backdate the close.
 
 #### Defined in
 
-[src/genai/turn.ts:241](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L241)
+[src/genai/turn.ts:257](https://github.com/wandb/weave/blob/d5e11acb4bb292878563e3dca68e95312f03b6af/sdks/node/src/genai/turn.ts#L257)
 
 ___
 
@@ -144,6 +194,7 @@ Useful for assigning everything at once after a provider call returns.
 | `opts.agentVersion?` | `string` |
 | `opts.messages?` | [`Message`](../interfaces/message)[] |
 | `opts.model?` | `string` |
+| `opts.outputMessages?` | [`Message`](../interfaces/message)[] |
 | `opts.systemInstructions?` | `string`[] |
 
 #### Returns
@@ -152,7 +203,7 @@ Useful for assigning everything at once after a provider call returns.
 
 #### Defined in
 
-[src/genai/turn.ts:201](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L201)
+[src/genai/turn.ts:213](https://github.com/wandb/weave/blob/d5e11acb4bb292878563e3dca68e95312f03b6af/sdks/node/src/genai/turn.ts#L213)
 
 ___
 
@@ -180,7 +231,7 @@ carries this — the other emitters never shipped a singular form.
 
 #### Defined in
 
-[src/genai/turn.ts:193](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L193)
+[src/genai/turn.ts:205](https://github.com/wandb/weave/blob/d5e11acb4bb292878563e3dca68e95312f03b6af/sdks/node/src/genai/turn.ts#L205)
 
 ___
 
@@ -215,7 +266,7 @@ SpanBase.setAttributes
 
 #### Defined in
 
-[src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L63)
+[src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/d5e11acb4bb292878563e3dca68e95312f03b6af/sdks/node/src/genai/spanBase.ts#L63)
 
 ___
 
@@ -237,7 +288,7 @@ Start a child LLM span under this Turn.
 
 #### Defined in
 
-[src/genai/turn.ts:161](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L161)
+[src/genai/turn.ts:170](https://github.com/wandb/weave/blob/d5e11acb4bb292878563e3dca68e95312f03b6af/sdks/node/src/genai/turn.ts#L170)
 
 ___
 
@@ -259,7 +310,7 @@ Start a child SubAgent span under this Turn.
 
 #### Defined in
 
-[src/genai/turn.ts:179](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L179)
+[src/genai/turn.ts:190](https://github.com/wandb/weave/blob/d5e11acb4bb292878563e3dca68e95312f03b6af/sdks/node/src/genai/turn.ts#L190)
 
 ___
 
@@ -281,7 +332,7 @@ Start a child Tool span under this Turn.
 
 #### Defined in
 
-[src/genai/turn.ts:170](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L170)
+[src/genai/turn.ts:180](https://github.com/wandb/weave/blob/d5e11acb4bb292878563e3dca68e95312f03b6af/sdks/node/src/genai/turn.ts#L180)
 
 ___
 
@@ -301,4 +352,4 @@ ___
 
 #### Defined in
 
-[src/genai/turn.ts:124](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L124)
+[src/genai/turn.ts:133](https://github.com/wandb/weave/blob/d5e11acb4bb292878563e3dca68e95312f03b6af/sdks/node/src/genai/turn.ts#L133)
