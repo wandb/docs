@@ -447,11 +447,11 @@ Send the span to the same Weave project as the evaluation through the `/agents/o
 For more information about the endpoint:
 
 - To send spans from an existing OTel pipeline, see [Send OpenTelemetry spans to the Agents view](/weave/guides/tracking/trace-agents-otel).
-- For the endpoint specification, see [Export a GenAI trace](/weave/reference/service-api/agents/export-genai-trace).
+- For the endpoint specification, see [Export a GenAI trace](https://docs.wandb.ai/weave/reference/service-api/agents/export-genai-trace).
 
 Only `weave.eval.run_id` and `weave.eval.predict_and_score_call_id` establish the evaluation and result links. The row digest, example ID, trial index, kind, and evaluation name add context and support filtering, but don't create a link by themselves. Use Weave Call IDs for the two linking attributes, not OTel trace or span IDs.
 
-You can obtain both IDs from the [evaluation results query API](/weave/reference/service-api/eval-results/eval-results-query). Each evaluation in the response has an `evaluation_call_id`, and each trial has a `predict_and_score_call_id`.
+You can obtain both IDs from the [evaluation results query API](https://docs.wandb.ai/weave/reference/service-api/eval-results/eval-results-query). Each evaluation in the response has an `evaluation_call_id`, and each trial has a `predict_and_score_call_id`.
 
 The following examples assume that `span` is the OTel span for the agent operation. Replace each bracketed value with metadata from the evaluation run and result that the span belongs to.
 
