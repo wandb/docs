@@ -1,0 +1,102 @@
+---
+title: Sweep methods
+sidebarTitle: Methods
+page_kind: class-methods
+parent_slug: sweep
+kind: class
+namespace: wandb.apis.public.sweeps
+---
+
+## <kbd>class</kbd> wandb.apis.public.Sweep
+
+
+
+### <kbd>method</kbd> Sweep.agent()
+
+```python
+self,
+agent_id: 'str'
+```
+
+Query an agent by ID for this sweep.
+
+##### Arguments
+
+- `agent_id`: The ID of the agent to look up.
+
+
+
+
+### <kbd>method</kbd> Sweep.agents()
+
+```python
+self
+```
+
+Query the list of all agents for this sweep.
+
+
+
+
+
+### <kbd>method</kbd> Sweep.best_run()
+
+```python
+(self, order=None)
+```
+
+Return the best run sorted by the metric defined in config or the order passed in.
+
+##### Arguments
+
+- `order`: 
+
+
+
+
+### <kbd>method</kbd> Sweep.get()
+
+```python
+(api: 'Api',
+entity: 'str | None' = None,
+project: 'str | None' = None,
+sid: 'str | None' = None,
+order: 'str | None' = None,
+query: 'str | None' = None, **kwargs)
+```
+
+Execute a query against the cloud backend.
+
+##### Arguments
+
+- `api`: The W&B API instance.
+- `entity`: The entity (username or team) that owns the project.
+- `project`: The name of the project to fetch sweep from.
+- `sid`: The sweep ID to query.
+- `order`: The order in which the sweep's runs are returned.
+- `query`: The query to use to execute the query.
+- `kwargs`: 
+
+
+
+
+### <kbd>method</kbd> Sweep.to_html()
+
+```python
+self,
+height: 'int' = 420,
+hidden: 'bool' = False
+```
+
+Generate HTML containing an iframe displaying this sweep.
+
+##### Arguments
+
+- `height`: 
+- `hidden`: 
+
+
+
+
+
+

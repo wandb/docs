@@ -951,14 +951,44 @@
                         "group": "Data Types",
                         "pages": [
                           "models/ref/python/data-types",
-                          "models/ref/python/data-types/audio",
+                          {
+                            "group": "Audio",
+                            "root": "models/ref/python/data-types/audio",
+                            "pages": [
+                              "models/ref/python/data-types/audio/audio-methods"
+                            ]
+                          },
                           "models/ref/python/data-types/histogram",
                           "models/ref/python/data-types/html",
-                          "models/ref/python/data-types/image",
-                          "models/ref/python/data-types/molecule",
-                          "models/ref/python/data-types/object3d",
+                          {
+                            "group": "Image",
+                            "root": "models/ref/python/data-types/image",
+                            "pages": [
+                              "models/ref/python/data-types/image/image-properties"
+                            ]
+                          },
+                          {
+                            "group": "Molecule",
+                            "root": "models/ref/python/data-types/molecule",
+                            "pages": [
+                              "models/ref/python/data-types/molecule/molecule-methods"
+                            ]
+                          },
+                          {
+                            "group": "Object3D",
+                            "root": "models/ref/python/data-types/object3d",
+                            "pages": [
+                              "models/ref/python/data-types/object3d/object3d-methods"
+                            ]
+                          },
                           "models/ref/python/data-types/plotly",
-                          "models/ref/python/data-types/table",
+                          {
+                            "group": "Table",
+                            "root": "models/ref/python/data-types/table",
+                            "pages": [
+                              "models/ref/python/data-types/table/table-methods"
+                            ]
+                          },
                           "models/ref/python/data-types/video"
                         ]
                       },
@@ -966,9 +996,30 @@
                         "group": "Experiments",
                         "pages": [
                           "models/ref/python/experiments",
-                          "models/ref/python/experiments/artifact",
-                          "models/ref/python/experiments/run",
-                          "models/ref/python/experiments/settings",
+                          {
+                            "group": "Artifact",
+                            "root": "models/ref/python/experiments/artifact",
+                            "pages": [
+                              "models/ref/python/experiments/artifact/artifact-properties",
+                              "models/ref/python/experiments/artifact/artifact-methods"
+                            ]
+                          },
+                          {
+                            "group": "Run",
+                            "root": "models/ref/python/experiments/run",
+                            "pages": [
+                              "models/ref/python/experiments/run/run-properties",
+                              "models/ref/python/experiments/run/run-methods"
+                            ]
+                          },
+                          {
+                            "group": "Settings",
+                            "root": "models/ref/python/experiments/settings",
+                            "pages": [
+                              "models/ref/python/experiments/settings/settings-properties",
+                              "models/ref/python/experiments/settings/settings-methods"
+                            ]
+                          },
                           "models/ref/python/experiments/system-metrics"
                         ]
                       },
@@ -979,11 +1030,23 @@
                           "models/ref/python/automations/automation",
                           "models/ref/python/automations/donothing",
                           "models/ref/python/public-api/downloadhistoryresult",
-                          "models/ref/python/public-api/incompleterunhistoryerror",
+                          {
+                            "group": "IncompleteRunHistoryError",
+                            "root": "models/ref/python/public-api/incompleterunhistoryerror",
+                            "pages": [
+                              "models/ref/python/public-api/incompleterunhistoryerror/incompleterunhistoryerror-methods"
+                            ]
+                          },
                           "models/ref/python/automations/metricchangefilter",
                           "models/ref/python/automations/metriczscorefilter",
                           "models/ref/python/automations/metricthresholdfilter",
-                          "models/ref/python/automations/newautomation",
+                          {
+                            "group": "NewAutomation",
+                            "root": "models/ref/python/automations/newautomation",
+                            "pages": [
+                              "models/ref/python/automations/newautomation/newautomation-properties"
+                            ]
+                          },
                           "models/ref/python/automations/onaddartifactalias",
                           "models/ref/python/automations/onaddartifacttag",
                           "models/ref/python/automations/onaddcollectiontag",
@@ -995,8 +1058,20 @@
                           "models/ref/python/automations/onrunstate",
                           "models/ref/python/automations/onunlinkartifact",
                           "models/ref/python/automations/runstatefilter",
-                          "models/ref/python/automations/sendnotification",
-                          "models/ref/python/automations/sendwebhook"
+                          {
+                            "group": "SendNotification",
+                            "root": "models/ref/python/automations/sendnotification",
+                            "pages": [
+                              "models/ref/python/automations/sendnotification/sendnotification-methods"
+                            ]
+                          },
+                          {
+                            "group": "SendWebhook",
+                            "root": "models/ref/python/automations/sendwebhook",
+                            "pages": [
+                              "models/ref/python/automations/sendwebhook/sendwebhook-methods"
+                            ]
+                          }
                         ]
                       },
                       {
@@ -1018,30 +1093,179 @@
                         "group": "Public API",
                         "pages": [
                           "models/ref/python/public-api",
-                          "models/ref/python/public-api/api",
-                          "models/ref/python/public-api/artifactcollection",
-                          "models/ref/python/public-api/artifactcollections",
-                          "models/ref/python/public-api/artifactfiles",
-                          "models/ref/python/public-api/artifacts",
-                          "models/ref/python/public-api/artifacttype",
-                          "models/ref/python/public-api/artifacttypes",
-                          "models/ref/python/public-api/betareport",
-                          "models/ref/python/public-api/file",
-                          "models/ref/python/public-api/files",
-                          "models/ref/python/public-api/member",
+                          {
+                            "group": "Api",
+                            "root": "models/ref/python/public-api/api",
+                            "pages": [
+                              "models/ref/python/public-api/api/api-properties",
+                              "models/ref/python/public-api/api/api-methods"
+                            ]
+                          },
+                          {
+                            "group": "ArtifactCollection",
+                            "root": "models/ref/python/public-api/artifactcollection",
+                            "pages": [
+                              "models/ref/python/public-api/artifactcollection/artifactcollection-properties",
+                              "models/ref/python/public-api/artifactcollection/artifactcollection-methods"
+                            ]
+                          },
+                          {
+                            "group": "ArtifactCollections",
+                            "root": "models/ref/python/public-api/artifactcollections",
+                            "pages": [
+                              "models/ref/python/public-api/artifactcollections/artifactcollections-methods"
+                            ]
+                          },
+                          {
+                            "group": "ArtifactFiles",
+                            "root": "models/ref/python/public-api/artifactfiles",
+                            "pages": [
+                              "models/ref/python/public-api/artifactfiles/artifactfiles-properties",
+                              "models/ref/python/public-api/artifactfiles/artifactfiles-methods"
+                            ]
+                          },
+                          {
+                            "group": "Artifacts",
+                            "root": "models/ref/python/public-api/artifacts",
+                            "pages": [
+                              "models/ref/python/public-api/artifacts/artifacts-methods"
+                            ]
+                          },
+                          {
+                            "group": "ArtifactType",
+                            "root": "models/ref/python/public-api/artifacttype",
+                            "pages": [
+                              "models/ref/python/public-api/artifacttype/artifacttype-properties",
+                              "models/ref/python/public-api/artifacttype/artifacttype-methods"
+                            ]
+                          },
+                          {
+                            "group": "ArtifactTypes",
+                            "root": "models/ref/python/public-api/artifacttypes",
+                            "pages": [
+                              "models/ref/python/public-api/artifacttypes/artifacttypes-methods"
+                            ]
+                          },
+                          {
+                            "group": "BetaReport",
+                            "root": "models/ref/python/public-api/betareport",
+                            "pages": [
+                              "models/ref/python/public-api/betareport/betareport-properties",
+                              "models/ref/python/public-api/betareport/betareport-methods"
+                            ]
+                          },
+                          {
+                            "group": "File",
+                            "root": "models/ref/python/public-api/file",
+                            "pages": [
+                              "models/ref/python/public-api/file/file-properties",
+                              "models/ref/python/public-api/file/file-methods"
+                            ]
+                          },
+                          {
+                            "group": "Files",
+                            "root": "models/ref/python/public-api/files",
+                            "pages": [
+                              "models/ref/python/public-api/files/files-methods"
+                            ]
+                          },
+                          {
+                            "group": "Member",
+                            "root": "models/ref/python/public-api/member",
+                            "pages": [
+                              "models/ref/python/public-api/member/member-methods"
+                            ]
+                          },
                           "models/ref/python/public-api/organization",
-                          "models/ref/python/public-api/project",
-                          "models/ref/python/public-api/projects",
-                          "models/ref/python/public-api/projectartifactcollections",
-                          "models/ref/python/public-api/registry",
-                          "models/ref/python/public-api/reports",
-                          "models/ref/python/public-api/run",
-                          "models/ref/python/public-api/runartifacts",
-                          "models/ref/python/public-api/runs",
-                          "models/ref/python/public-api/sweep",
-                          "models/ref/python/public-api/sweeps",
-                          "models/ref/python/public-api/team",
-                          "models/ref/python/public-api/user"
+                          {
+                            "group": "Project",
+                            "root": "models/ref/python/public-api/project",
+                            "pages": [
+                              "models/ref/python/public-api/project/project-properties",
+                              "models/ref/python/public-api/project/project-methods"
+                            ]
+                          },
+                          {
+                            "group": "Projects",
+                            "root": "models/ref/python/public-api/projects",
+                            "pages": [
+                              "models/ref/python/public-api/projects/projects-methods"
+                            ]
+                          },
+                          {
+                            "group": "ProjectArtifactCollections",
+                            "root": "models/ref/python/public-api/projectartifactcollections",
+                            "pages": [
+                              "models/ref/python/public-api/projectartifactcollections/projectartifactcollections-methods"
+                            ]
+                          },
+                          {
+                            "group": "Registry",
+                            "root": "models/ref/python/public-api/registry",
+                            "pages": [
+                              "models/ref/python/public-api/registry/registry-properties",
+                              "models/ref/python/public-api/registry/registry-methods"
+                            ]
+                          },
+                          {
+                            "group": "Reports",
+                            "root": "models/ref/python/public-api/reports",
+                            "pages": [
+                              "models/ref/python/public-api/reports/reports-methods"
+                            ]
+                          },
+                          {
+                            "group": "Run",
+                            "root": "models/ref/python/public-api/run",
+                            "pages": [
+                              "models/ref/python/public-api/run/run-properties",
+                              "models/ref/python/public-api/run/run-methods"
+                            ]
+                          },
+                          {
+                            "group": "RunArtifacts",
+                            "root": "models/ref/python/public-api/runartifacts",
+                            "pages": [
+                              "models/ref/python/public-api/runartifacts/runartifacts-methods"
+                            ]
+                          },
+                          {
+                            "group": "Runs",
+                            "root": "models/ref/python/public-api/runs",
+                            "pages": [
+                              "models/ref/python/public-api/runs/runs-methods"
+                            ]
+                          },
+                          {
+                            "group": "Sweep",
+                            "root": "models/ref/python/public-api/sweep",
+                            "pages": [
+                              "models/ref/python/public-api/sweep/sweep-properties",
+                              "models/ref/python/public-api/sweep/sweep-methods"
+                            ]
+                          },
+                          {
+                            "group": "Sweeps",
+                            "root": "models/ref/python/public-api/sweeps",
+                            "pages": [
+                              "models/ref/python/public-api/sweeps/sweeps-methods"
+                            ]
+                          },
+                          {
+                            "group": "Team",
+                            "root": "models/ref/python/public-api/team",
+                            "pages": [
+                              "models/ref/python/public-api/team/team-methods"
+                            ]
+                          },
+                          {
+                            "group": "User",
+                            "root": "models/ref/python/public-api/user",
+                            "pages": [
+                              "models/ref/python/public-api/user/user-properties",
+                              "models/ref/python/public-api/user/user-methods"
+                            ]
+                          }
                         ]
                       }
                     ]

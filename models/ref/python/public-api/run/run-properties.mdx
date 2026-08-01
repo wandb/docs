@@ -1,0 +1,100 @@
+---
+title: Run properties
+sidebarTitle: Properties
+page_kind: class-properties
+parent_slug: run
+kind: class
+namespace: wandb.apis.public.runs
+---
+
+## <kbd>class</kbd> wandb.apis.public.Run
+
+
+
+### <kbd>property</kbd> config
+
+Get run config. Auto-loads full data if in lazy mode.
+
+### <kbd>property</kbd> entity
+
+The entity associated with the run.
+
+### <kbd>property</kbd> id
+
+The unique identifier for the run.
+
+### <kbd>property</kbd> lastHistoryStep
+
+Returns the last step logged in the run's history.
+
+### <kbd>property</kbd> metadata
+
+Metadata about the run from wandb-metadata.json.
+
+Metadata includes the run's description, tags, start time, memory
+usage and more.
+
+### <kbd>property</kbd> name
+
+The name of the run.
+
+### <kbd>property</kbd> path
+
+The path of the run. The path is a list containing the entity, project, and run_id.
+
+### <kbd>property</kbd> rawconfig
+
+Get raw run config including internal keys. Auto-loads full data if in lazy mode.
+
+### <kbd>property</kbd> state
+
+The state of the run.
+
+The following table describes the possible states a run can be in:
+
+| State    | Description |
+| -------- | ----------- |
+| Crashed  | Run stopped sending heartbeats in the internal process, which can happen if the machine crashes. |
+| Failed   | Run ended with a non-zero exit status. |
+| Finished | Run ended and fully synced data, or called `wandb.Run.finish()`. |
+| Killed   | Run was forcibly stopped before it could finish. |
+| Running  | Run is still running and has recently sent a heartbeat. |
+| Pending  | Run is scheduled but not yet started (common in sweeps and Launch jobs). |
+
+### <kbd>property</kbd> storage_id
+
+The unique storage identifier for the run.
+
+### <kbd>property</kbd> summary
+
+Get run summary metrics. Auto-loads full data if in lazy mode.
+
+### <kbd>property</kbd> summary_metrics
+
+Get run summary metrics. Auto-loads full data if in lazy mode.
+
+### <kbd>property</kbd> sweep
+
+The sweep associated with this run. Loads sweep data if include_sweeps is False.
+
+### <kbd>property</kbd> sweep_name
+
+Get sweep name. Always available since sweepName is in lightweight fragment.
+
+### <kbd>property</kbd> system_metrics
+
+Get run system metrics. Auto-loads full data if in lazy mode.
+
+### <kbd>property</kbd> url
+
+The URL of the run.
+
+The run URL is generated from the entity, project, and run_id. For
+SaaS users, it takes the form of `https://wandb.ai/entity/project/run_id`.
+
+### <kbd>property</kbd> username
+
+This API is deprecated. Use `entity` instead.
+
+
+

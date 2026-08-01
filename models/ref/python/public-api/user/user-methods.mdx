@@ -1,0 +1,71 @@
+---
+title: User methods
+sidebarTitle: Methods
+page_kind: class-methods
+parent_slug: user
+kind: class
+namespace: wandb.apis.public.users
+---
+
+## <kbd>class</kbd> wandb.apis.public.User
+
+
+
+### <kbd>method</kbd> User.create()
+
+```python
+api: 'Api',
+email: 'str',
+admin: 'bool | None' = False
+```
+
+Create a new user.
+
+This is an internal method. Use the `create_user()` method of
+`wandb.Api` instead.
+
+##### Arguments
+
+- `api`: The API instance to use to create the user.
+- `email`: The email for the user.
+- `admin`: Whether this user should be a global instance admin.
+
+
+
+
+### <kbd>method</kbd> User.delete_api_key()
+
+```python
+self,
+api_key: 'str'
+```
+
+Delete a user's API key.
+
+Only the owner of the key or an admin can delete it.
+
+##### Arguments
+
+- `api_key`: The name of the API key to delete. Use one of the names returned by the `api_keys` property.
+
+
+
+
+### <kbd>method</kbd> User.generate_api_key()
+
+```python
+self,
+description: 'str | None' = None
+```
+
+Generate a new API key.
+
+##### Arguments
+
+- `description`: A description for the new API key. This can be used to identify the purpose of the API key.
+
+
+
+
+
+

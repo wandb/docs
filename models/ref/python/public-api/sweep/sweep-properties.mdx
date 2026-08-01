@@ -1,0 +1,60 @@
+---
+title: Sweep properties
+sidebarTitle: Properties
+page_kind: class-properties
+parent_slug: sweep
+kind: class
+namespace: wandb.apis.public.sweeps
+---
+
+## <kbd>class</kbd> wandb.apis.public.Sweep
+
+
+
+### <kbd>property</kbd> config
+
+The sweep configuration used for the sweep.
+
+### <kbd>property</kbd> entity
+
+The entity associated with the sweep.
+
+### <kbd>property</kbd> expected_run_count
+
+Return the number of expected runs in the sweep or None for infinite runs.
+
+### <kbd>property</kbd> name
+
+The name of the sweep.
+
+Returns the first name that exists in the following priority order:
+
+1. User-edited display name
+2. Name configured at creation time
+3. Sweep ID
+
+### <kbd>property</kbd> order
+
+Return the order key for the sweep.
+
+### <kbd>property</kbd> path
+
+Returns the path of the project.
+
+The path is a list containing the entity, project name, and sweep ID.
+
+### <kbd>property</kbd> url
+
+The URL of the sweep.
+
+The sweep URL is generated from the entity, project, the term
+"sweeps", and the sweep ID.run_id. For
+SaaS users, it takes the form
+of `https://wandb.ai/entity/project/sweeps/sweeps_ID`.
+
+### <kbd>property</kbd> username
+
+Deprecated. Use `Sweep.entity` instead.
+
+
+

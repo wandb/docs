@@ -1,0 +1,68 @@
+---
+title: Team methods
+sidebarTitle: Methods
+page_kind: class-methods
+parent_slug: team
+kind: class
+namespace: wandb.apis.public.teams
+---
+
+## <kbd>class</kbd> wandb.apis.public.Team
+
+
+
+### <kbd>method</kbd> Team.create()
+
+```python
+api: 'Api',
+team: 'str',
+admin_username: 'str | None' = None
+```
+
+Create a new team.
+
+##### Arguments
+
+- `api`: (`Api`) The api instance to use
+- `team`: (str) The name of the team
+- `admin_username`: (str) optional username of the admin user of the team, defaults to the current user.
+
+
+
+
+### <kbd>method</kbd> Team.create_service_account()
+
+```python
+self,
+description: 'str'
+```
+
+Create a service account for the team.
+
+##### Arguments
+
+- `description`: (str) A description for this service account
+
+
+
+
+### <kbd>method</kbd> Team.invite()
+
+```python
+self,
+username_or_email: 'str',
+admin: 'bool' = False
+```
+
+Invite a user to a team.
+
+##### Arguments
+
+- `username_or_email`: (str) The username or email address of the user you want to invite.
+- `admin`: (bool) Whether to make this user a team admin. Defaults to `False`.
+
+
+
+
+
+

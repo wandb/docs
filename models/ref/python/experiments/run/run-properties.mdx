@@ -1,0 +1,139 @@
+---
+title: Run properties
+sidebarTitle: Properties
+page_kind: class-properties
+parent_slug: run
+kind: class
+namespace: wandb.sdk.wandb_run
+---
+
+## <kbd>class</kbd> wandb.Run
+
+
+
+### <kbd>property</kbd> config
+
+Config object associated with this run.
+
+### <kbd>property</kbd> config_static
+
+Static config object associated with this run.
+
+### <kbd>property</kbd> dir
+
+The directory where files associated with the run are saved.
+
+### <kbd>property</kbd> disabled
+
+True if the run is disabled, False otherwise.
+
+### <kbd>property</kbd> entity
+
+The name of the W&B entity associated with the run.
+
+Entity can be a username or the name of a team or organization.
+
+### <kbd>property</kbd> group
+
+Returns the name of the group associated with this run.
+
+Grouping runs together allows related experiments to be organized and
+visualized collectively in the W&B UI. This is especially useful for
+scenarios such as distributed training or cross-validation, where
+multiple runs should be viewed and managed as a unified experiment.
+
+In shared mode, where all processes share the same run object,
+setting a group is usually unnecessary, since there is only one
+run and no grouping is required.
+
+### <kbd>property</kbd> id
+
+Identifier for this run.
+
+### <kbd>property</kbd> job_type
+
+Name of the job type associated with the run.
+
+View a run's job type in the run's Overview page in the W&B App.
+
+You can use this to categorize runs by their job type, such as
+"training", "evaluation", or "inference". This is useful for organizing
+and filtering runs in the W&B UI, especially when you have multiple
+runs with different job types in the same project. For more
+information, see [Organize runs](https://docs.wandb.ai/models/runs#organize-runs).
+
+### <kbd>property</kbd> name
+
+Display name of the run.
+
+Display names are not guaranteed to be unique and may be descriptive.
+By default, they are randomly generated.
+
+### <kbd>property</kbd> notes
+
+Notes associated with the run, if there are any.
+
+Notes can be a multiline string and can also use markdown and latex
+equations inside `$$`, like `$x + 3$`.
+
+### <kbd>property</kbd> offline
+
+True if the run is offline, False otherwise.
+
+### <kbd>property</kbd> path
+
+Path to the run.
+
+Run paths include entity, project, and run ID, in the format
+`entity/project/run_id`.
+
+### <kbd>property</kbd> project
+
+Name of the W&B project associated with the run.
+
+### <kbd>property</kbd> project_url
+
+URL of the W&B project associated with the run, if there is one.
+
+Offline runs do not have a project URL.
+
+### <kbd>property</kbd> resumed
+
+True if the run was resumed, False otherwise.
+
+### <kbd>property</kbd> settings
+
+A frozen copy of run's Settings object.
+
+### <kbd>property</kbd> start_time
+
+Unix timestamp (in seconds) of when the run started.
+
+### <kbd>property</kbd> step
+
+The W&B step of the next `log()` call.
+
+Raises an error in mode="shared" runs.
+
+### <kbd>property</kbd> sweep_id
+
+Identifier for the sweep associated with the run, if there is one.
+
+### <kbd>property</kbd> sweep_url
+
+URL of the sweep associated with the run, if there is one.
+
+Offline runs do not have a sweep URL.
+
+### <kbd>property</kbd> tags
+
+Tags associated with the run, if there are any.
+
+### <kbd>property</kbd> url
+
+The url for the W&B run, if there is one.
+
+Offline runs will not have a url.
+
+
+
