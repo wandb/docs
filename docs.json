@@ -1347,8 +1347,8 @@
           {
             "pages": [
               "release-notes",
-                "release-notes/release-policies",
-                "release-notes/new-articles",
+              "release-notes/release-policies",
+              "release-notes/new-articles",
               {
                 "group": "W&B Server",
                 "pages": [
@@ -2867,21 +2867,22 @@
           {
             "pages": [
               "fr/release-notes",
+              "fr/release-notes/release-policies",
+              "fr/release-notes/new-articles",
               {
-                "group": "Serveur W&B",
+                "group": "serveur W&B",
                 "pages": [
                   "fr/release-notes/server-releases",
                   "fr/release-notes/server-releases-archived"
                 ]
               },
               {
-                "group": "SDKs W&B",
+                "group": "SDK W&B",
                 "pages": [
                   "fr/release-notes/sdk-releases",
                   "fr/release-notes/weave-sdk-releases"
                 ]
-              },
-              "fr/release-notes/release-policies"
+              }
             ],
             "tab": "Notes de version"
           },
@@ -4386,6 +4387,8 @@
           {
             "pages": [
               "ja/release-notes",
+              "ja/release-notes/release-policies",
+              "ja/release-notes/new-articles",
               {
                 "group": "W&B Server",
                 "pages": [
@@ -4394,13 +4397,12 @@
                 ]
               },
               {
-                "group": "W&B SDKs",
+                "group": "W&B SDK",
                 "pages": [
                   "ja/release-notes/sdk-releases",
                   "ja/release-notes/weave-sdk-releases"
                 ]
-              },
-              "ja/release-notes/release-policies"
+              }
             ],
             "tab": "リリースノート"
           },
@@ -5905,6 +5907,8 @@
           {
             "pages": [
               "ko/release-notes",
+              "ko/release-notes/release-policies",
+              "ko/release-notes/new-articles",
               {
                 "group": "W&B Server",
                 "pages": [
@@ -5913,13 +5917,12 @@
                 ]
               },
               {
-                "group": "W&B SDKs",
+                "group": "W&B SDK",
                 "pages": [
                   "ko/release-notes/sdk-releases",
                   "ko/release-notes/weave-sdk-releases"
                 ]
-              },
-              "ko/release-notes/release-policies"
+              }
             ],
             "tab": "릴리스 노트"
           },

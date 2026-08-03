@@ -1,0 +1,508 @@
+---
+title: Nouveaux articles
+description: "Journal des nouveaux articles publiés sur le site de documentation de W&B."
+date: 2026-07-23
+---
+
+Cette page répertorie les articles publiés sur le site de documentation de W&amp;B au cours des six derniers mois, les plus récents en tête. Elle est mise à jour automatiquement chaque semaine et les articles de plus de six mois sont supprimés.
+
+Chaque mois, les articles sont regroupés selon la section de la documentation à laquelle ils appartiennent, comme **Models**, **Weave** ou **assistance**. Les pages de référence générées automatiquement et le contenu localisé ne sont pas inclus.
+
+{/*
+  Tout ce qui se trouve entre les marqueurs ci-dessous est généré par
+  scripts/new-articles/update_new_articles.py, qui s’exécute chaque semaine via
+  .github/workflows/new-articles.yml. Les modifications manuelles effectuées entre les marqueurs sont
+  conservées tant qu’elles respectent la même structure :
+    - un titre « ## Mois YYYY » par mois, du plus récent au plus ancien
+    - un titre « ### Produit » pour chaque produit comportant de nouveaux articles ce mois-là
+    - une <Card title="..." href="/path/" arrow="true" horizontal> par article,
+      avec la description comme contenu de la carte
+  */}
+
+{/* new-articles:start */}
+
+<div id="july-2026">
+  ## Juillet 2026
+</div>
+
+<div id="models">
+  ### Models
+</div>
+
+<Card title="Lier un prompt Weave à une collection" href="/fr/models/registry/link_prompt/" arrow="true" horizontal>
+  Suivez, versionnez et gérez vos prompts d’IA dans le W&amp;B Registry en reliant des objets de prompt Weave à une collection.
+</Card>
+
+<Card title="Afficher les tableaux d’évaluation" href="/fr/models/evaltables/visualize-evaluation-tables/" arrow="true" horizontal>
+  Lorsque vous créez un tableau d’évaluation, indiquez les colonnes qui contiennent les entrées, les sorties et les scores.
+</Card>
+
+<Card title="Créer un tableau d’évaluation" href="/fr/models/evaltables/create-an-evaluation-table/" arrow="true" horizontal>
+  Découvrez comment créer un tableau d’évaluation dans W&amp;B.
+</Card>
+
+<Card title="Comparer des runs avec des tableaux d’évaluation" href="/fr/models/evaltables/compare-runs/" arrow="true" horizontal>
+  Utilisez les tableaux d’évaluation pour comparer les entrées, les sorties et les scores de plusieurs runs.
+</Card>
+
+<Card title="Aperçu" href="/fr/models/evaltables/" arrow="true" horizontal>
+  Découvrez comment créer, comparer et visualiser des tableaux d’évaluation dans W&amp;B.
+</Card>
+
+<div id="weave">
+  ### Weave
+</div>
+
+<Card title="Comparer les évaluations" href="/fr/weave/guides/evaluation/compare_evals/" arrow="true" horizontal>
+  Comparez visuellement au moins deux évaluations pour identifier les régressions, les améliorations et les différences de scoring entre les runs
+</Card>
+
+<Card title="Référencer des médias dans votre propre bucket (BYOB) avec Weave Op" href="/fr/weave/guides/tracking/byob-references/" arrow="true" horizontal>
+  Affichez dans les traces Weave des images et des vidéos hébergées dans votre propre bucket cloud en journalisant leurs URI, sans importer les octets dans Weave.
+</Card>
+
+<Card title="Référencer des médias dans votre propre bucket (BYOB) avec des spans d'agent" href="/fr/weave/guides/tracking/agents-byob-references/" arrow="true" horizontal>
+  Affichez dans la vue Weave Agents des images et des vidéos hébergées dans votre propre bucket cloud en renvoyant leurs URI depuis les spans d&#39;outil de l&#39;agent, sans importer les octets dans Weave.
+</Card>
+
+<Card title="Configurer l'échantillonnage à l'ingestion pour Weave Autogéré" href="/fr/weave/guides/platform/ingest-sampling/" arrow="true" horizontal>
+  Ne conservez qu&#39;une partie des traces entrantes afin de maîtriser les coûts de stockage et de scoring LLM sur une instance Weave autogérée
+</Card>
+
+<Card title="Bedrock Agents" href="/fr/weave/guides/integrations/bedrock_agents/" arrow="true" horizontal>
+  Tracez les invocations d&#39;Amazon Bedrock Agents avec Weave, en capturant les entrées de l&#39;agent, l&#39;utilisation du modèle de fondation et la sortie de complétion.
+</Card>
+
+<div id="june-2026">
+  ## Juin 2026
+</div>
+
+<div id="models">
+  ### Models
+</div>
+
+<Card title="LEET terminal UI" href="/fr/models/app/leet-tui/" arrow="true" horizontal>
+  Explorez et comparez les runs W&amp;B locaux depuis le terminal à l’aide de LEET (Lightweight Experiment Exploration Tool).
+</Card>
+
+<div id="weave">
+  ### Weave
+</div>
+
+<Card title="Afficher l’activité des agents" href="/fr/weave/guides/tracking/view-agent-activity/" arrow="true" horizontal>
+  Utilisez la vue Agents de W&amp;B Weave pour comprendre ce qu’a fait votre agent, son coût et précisément ce qui a fonctionné ou échoué.
+</Card>
+
+<Card title="Tracer les sous-agents" href="/fr/weave/guides/tracking/trace-sub-agents/" arrow="true" horizontal>
+  Utilisez le span de sous-agent de Weave pour tracer les délégations aux sous-agents et afficher les appels d’agents imbriqués.
+</Card>
+
+<Card title="Tracer vos agents" href="/fr/weave/guides/tracking/trace-agents/" arrow="true" horizontal>
+  Utilisez le SDK Weave pour instrumenter des applications agentiques sur plusieurs tours de conversation et les afficher dans l’onglet Agents.
+</Card>
+
+<Card title="Journalisation par lots pour votre agent" href="/fr/weave/guides/tracking/trace-agents-batch/" arrow="true" horizontal>
+  Enregistrez manuellement les traces d’agent pour les frameworks ayant déjà effectué l’appel LLM et devant l’enregistrer.
+</Card>
+
+<Card title="Extension Pi" href="/fr/weave/guides/integrations/agents/pi-dev-harness/" arrow="true" horizontal>
+  Tracez les sessions agentiques Pi, les appels LLM et les exécutions d’outils dans Weave.
+</Card>
+
+<Card title="Plugin OpenClaw" href="/fr/weave/guides/integrations/agents/openclaw-harness/" arrow="true" horizontal>
+  Suivez les sessions d’agent OpenClaw dans W&amp;B Weave à des fins d’observabilité et de débogage.
+</Card>
+
+<Card title="SDK OpenAI Agents" href="/fr/weave/guides/integrations/agents/openai-agents-sdk/" arrow="true" horizontal>
+  Tracez un agent créé avec le SDK OpenAI Agents à l’aide de Weave.
+</Card>
+
+<Card title="Google ADK" href="/fr/weave/guides/integrations/agents/google-adk/" arrow="true" horizontal>
+  Tracez un agent créé avec l’Agent Development Kit (ADK) de Google à l’aide de Weave.
+</Card>
+
+<Card title="Plugin Codex" href="/fr/weave/guides/integrations/agents/codex-harness/" arrow="true" horizontal>
+  Tracez les sessions agentiques Codex, les appels LLM et les exécutions d’outils dans W&amp;B Weave.
+</Card>
+
+<Card title="Plugin Claude Code" href="/fr/weave/guides/integrations/agents/claude-code-harness/" arrow="true" horizontal>
+  Suivez les sessions Claude Code dans W&amp;B Weave à des fins d’observabilité et de débogage.
+</Card>
+
+<Card title="SDK Claude Agent" href="/fr/weave/guides/integrations/agents/claude-agents-sdk/" arrow="true" horizontal>
+  Tracez un agent créé avec le SDK Claude Agent à l’aide de Weave.
+</Card>
+
+<div id="aria">
+  ### ARIA
+</div>
+
+<Card title="Aperçu" href="/fr/aria/overview/" arrow="true" horizontal>
+  ARIA, l’agent IA de recherche et d’itération de W&amp;B, est votre assistant de recherche personnalisé. Il vous aide à analyser et à exécuter des expériences, à expliquer les résultats, à identifier des tendances entre les runs, à recommander les prochaines étapes, à créer des visualisations et des rapports, et bien plus encore dans W&amp;B.
+</Card>
+
+<Card title="Gouvernance et sécurité" href="/fr/aria/governance/" arrow="true" horizontal>
+  Découvrez comment les Admins W&amp;B peuvent contrôler l’utilisation des données de votre organisation par les fonctionnalités d’IA de W&amp;B telles qu’ARIA.
+</Card>
+
+<Card title="Chat avec ARIA" href="/fr/aria/chat/" arrow="true" horizontal>
+  La page suivante explique comment démarrer un nouveau chat, consulter votre historique de conversation, supprimer des conversations précédentes, détacher la fenêtre de chat, référencer un run spécifique dans votre prompt, ajouter une image à une conversation et fournir du feedback sur les réponses d’ARIA.
+</Card>
+
+<Card title="Utiliser ARIA pour l’autorecherche" href="/fr/aria/autoresearch/" arrow="true" horizontal>
+  Découvrez comment utiliser ARIA, l’agent IA de recherche et d’itération de W&amp;B, pour analyser les résultats et exécuter des expériences.
+</Card>
+
+<div id="hivemind">
+  ### HiveMind
+</div>
+
+<Card title="W&B HiveMind" href="/fr/hivemind/" arrow="true" horizontal>
+  Un tableau de bord partagé pour les sessions de programmation avec l’IA. Suivez l’activité, les dépenses et les résultats dans Claude Code, Cursor, Codex, Gemini CLI et bien plus encore grâce aux leaderboards, aux vues d’équipe et aux informations sur l’efficacité.
+</Card>
+
+<div id="support">
+  ### assistance
+</div>
+
+<Card title="Pourquoi mon estimation du coût ou de l’utilisation des jetons dans Weave diffère-t-elle de celle de mon fournisseur ?" href="/fr/support/weave/articles/why-does-my-weave-cost-or-token-estimate-differ-from-my-provider/" arrow="true" horizontal>
+  Weave affiche des estimations de coût et d’utilisation des jetons basées sur les données capturées lors de vos appels LLM. Les écarts entre les chiffres de Weave et la facture de votre fournisseur peuvent être dus aux problèmes suivants.
+</Card>
+
+<Card title="Pourquoi mon run W&B est-il lent à s’initialiser ou à téléverser des données ?" href="/fr/support/models/articles/why-is-my-wandb-run-slow-to-initialize-or-upload/" arrow="true" horizontal>
+  La lenteur de wandb.init() ou du téléversement des métriques est généralement due à la latence réseau, à des charges utiles multimédias volumineuses, à une fréquence de journalisation élevée ou au démarrage lent du processus de service W&amp;B.
+</Card>
+
+<Card title="Pourquoi mon agent de balayage ne récupère-t-il pas de nouveaux runs ?" href="/fr/support/models/articles/why-is-my-sweep-agent-not-picking-up-new-runs/" arrow="true" horizontal>
+  Si votre agent de balayage démarre, mais ne reçoit pas de nouvelles configurations de run, ou reçoit un run puis reste inactif, plusieurs causes courantes sont possibles.
+</Card>
+
+<Card title="Pourquoi mon run est-il indiqué comme planté ?" href="/fr/support/models/articles/why-is-my-run-showing-as-crashed/" arrow="true" horizontal>
+  W&amp;B marque un run comme Crashed lorsqu’il cesse de recevoir des signaux d’activité du processus qui a appelé wandb.init(), sans que ce processus ait appelé wandb.finish().
+</Card>
+
+<Card title="Pourquoi la sortie de la console n’est-elle pas capturée pour mon run ?" href="/fr/support/models/articles/why-is-console-output-not-captured-for-my-run/" arrow="true" horizontal>
+  W&amp;B capture les sorties stdout et stderr de votre script et les stocke sous le nom output.log dans l’onglet Files du run.
+</Card>
+
+<Card title="Pourquoi ma clé API échoue-t-elle avec « must be 40 characters long » ?" href="/fr/support/models/articles/why-does-my-api-key-fail-with-must-be-40-characters/" arrow="true" horizontal>
+  W&amp;B génère désormais des clés API plus longues (environ 86 caractères).
+</Card>
+
+<Card title="Pourquoi mes paramètres du Workspace ne sont-ils pas conservés entre les sessions ?" href="/fr/support/models/articles/why-do-my-workspace-settings-not-persist/" arrow="true" horizontal>
+  La mise en page du Workspace (panneaux, filtres, Grouping) n’est conservée que lorsque vous enregistrez une vue.
+</Card>
+
+<Card title="Pourquoi mes métriques sont-elles absentes de wandb.log() ?" href="/fr/support/models/articles/why-are-my-metrics-missing-from-wandb-log/" arrow="true" horizontal>
+  Si les métriques enregistrées avec wandb.log() n’apparaissent pas dans l’interface W&amp;B, plusieurs causes courantes sont possibles.
+</Card>
+
+<Card title="J’ai supprimé mon équipe et je ne peux plus en créer une nouvelle : que dois-je faire ?" href="/fr/support/models/articles/i-deleted-my-team-and-now-i-cant-create-a-new-one/" arrow="true" horizontal>
+  Lorsque vous vous inscrivez à W&amp;B, la plateforme crée automatiquement une équipe personnelle portant le même nom que votre nom d’utilisateur.
+</Card>
+
+<Card title="Comment puis-je utiliser W&B avec JAX ?" href="/fr/support/models/articles/how-do-i-use-wandb-with-jax/" arrow="true" horizontal>
+  W&amp;B ne dispose d’aucune intégration spécifique à JAX.
+</Card>
+
+<Card title="Comment puis-je utiliser le graphique de coordonnées parallèles dans W&B ?" href="/fr/support/models/articles/how-do-i-use-the-parallel-coordinates-chart-in-wandb/" arrow="true" horizontal>
+  Le graphique de coordonnées parallèles montre comment les hyperparamètres sont liés aux métriques sur de nombreux runs.
+</Card>
+
+<Card title="Comment mettre à jour la configuration de run, les tags et les notes via l’API W&B ?" href="/fr/support/models/articles/how-do-i-update-run-config-tags-and-notes-via-the-wandb-api/" arrow="true" horizontal>
+  Une fois un run terminé, utilisez le guide de l’API publique pour modifier la configuration, le nom d’affichage, les tags et les notes sans relancer l’expérience.
+</Card>
+
+<Card title="Comment configurer les alertes W&B et les notifications ?" href="/fr/support/models/articles/how-do-i-set-up-wandb-alerts-and-notifications/" arrow="true" horizontal>
+  Vous pouvez configurer des alertes et des notifications à l’aide de la page W&amp;B Settings.
+</Card>
+
+<Card title="Comment parcourir de grands résultats d’API par pages dans W&B ?" href="/fr/support/models/articles/how-do-i-paginate-through-large-api-results-in-wandb/" arrow="true" horizontal>
+  Vous pouvez parcourir les résultats d’API par pages en utilisant le modèle standard d’itérateur paresseux et le paramètre perpage.
+</Card>
+
+<Card title="Comment puis-je journaliser des métriques NLP et des sorties de texte dans W&B ?" href="/fr/support/models/articles/how-do-i-log-nlp-metrics-and-text-outputs-in-wandb/" arrow="true" horizontal>
+  Vous pouvez journaliser des scores NLP à l’échelle du corpus (BLEU, ROUGE, perplexité) avec wandb.log() et des sorties pour chaque exemple avec wandb.Table.
+</Card>
+
+<Card title="Comment puis-je journaliser les gradients et les poids d’un modèle avec wandb.watch() ?" href="/fr/support/models/articles/how-do-i-log-gradients-and-model-weights-with-wandb-watch/" arrow="true" horizontal>
+  wandb.watch() s’attache aux paramètres et aux gradients d’un modèle PyTorch et journalise des histogrammes de leurs valeurs à intervalles réguliers.
+</Card>
+
+<Card title="Comment puis-je inviter un utilisateur dans mon équipe W&B ?" href="/fr/support/models/articles/how-do-i-invite-a-user-to-my-wb-team/" arrow="true" horizontal>
+  Seuls les administrateurs d’équipe peuvent envoyer des invitations.
+</Card>
+
+<Card title="Comment puis-je télécharger le fichier journal de la console d’un run ?" href="/fr/support/models/articles/how-do-i-download-the-console-log-file-from-a-run/" arrow="true" horizontal>
+  W&amp;B stocke la sortie standard et la sortie d’erreur de votre script dans output.log (ou dans des fragments multipart sous logs/).
+</Card>
+
+<Card title="Comment puis-je créer une nouvelle équipe dans W&B ?" href="/fr/support/models/articles/how-do-i-create-a-new-team-in-wandb/" arrow="true" horizontal>
+  Les Teams constituent l’unité principale de collaboration dans W&amp;B.
+</Card>
+
+<Card title="Comment puis-je me connecter à W&B Autogéré ?" href="/fr/support/models/articles/how-do-i-connect-to-wandb-self-managed/" arrow="true" horizontal>
+  W&amp;B Autogéré est un déploiement auto-hébergé qui s’exécute dans votre infrastructure.
+</Card>
+
+<Card title="Puis-je reprendre un run dans un balayage ?" href="/fr/support/models/articles/can-i-resume-a-run-inside-a-sweep/" arrow="true" horizontal>
+  La reprise d’un run n’est pas prise en charge dans un balayage W&amp;B.
+</Card>
+
+<Card title="Code d’erreur API 422 - Paramètres de requête non valides" href="/fr/support/inference/articles/api-error-code-422-invalid-request-parameters/" arrow="true" horizontal>
+  Des paramètres non valides dans les requêtes de complétion de chat entraînent souvent une erreur HTTP 422 (Unprocessable Entity) ou HTTP 400 (Bad Request), selon l’étape où la validation est effectuée.
+</Card>
+
+<Card title="Code d’erreur API 404 - Modèle introuvable" href="/fr/support/inference/articles/api-error-code-404-model-not-found/" arrow="true" horizontal>
+  Une réponse 404 de l’API W&amp;B Inférence signifie que le serveur n’a pas trouvé le modèle ou la ressource demandée.
+</Card>
+
+<Card title="Comment puis-je me connecter à W&B Autogéré ?" href="/fr/support/models/articles/how-do-i-log-in-to-wandb-self-managed/" arrow="true" horizontal>
+  Pour vous authentifier auprès d’une instance W&amp;B Autogéré, configurez le CLI et le SDK avec l’URL de votre instance avant de vous connecter :
+</Card>
+
+<Card title="Quelle API Weave dois-je utiliser pour tracer mon agent ?" href="/fr/support/weave/articles/which-weave-api-should-i-use-for-agents/" arrow="true" horizontal>
+  Cela dépend de ce que vous développez :
+</Card>
+
+<Card title="Quelle est la différence entre @weave.op et weave.start_session ?" href="/fr/support/weave/articles/what-is-the-difference-between-weave-op-and-weave-sdk-for-agents/" arrow="true" horizontal>
+  @weave.op trace des fonctions Python individuelles et affiche les résultats dans l’onglet Traces.
+</Card>
+
+<div id="may-2026">
+  ## Mai 2026
+</div>
+
+<div id="models">
+  ### Models
+</div>
+
+<Card title="Aperçu du tutoriel sur les automatisations" href="/fr/models/automations/tutorial/" arrow="true" horizontal>
+  Découvrez comment créer une alerte en cas d’échec d’un run de projet ou une automatisation d’alias Registry.
+</Card>
+
+<Card title="Tutoriel : automatisation d’alias d’artefact Registry" href="/fr/models/automations/registry-automation-tutorial/" arrow="true" horizontal>
+  Créez une automatisation qui déclenche un webhook lorsqu’un artefact Registry reçoit un alias spécifique, tel que « production ».
+</Card>
+
+<Card title="Tutoriel : automatisation d’alerte en cas d’échec d’un run de projet" href="/fr/models/automations/project-automation-tutorial/" arrow="true" horizontal>
+  Créez une alerte en cas d’échec d’un run qui envoie une notification Slack lorsqu’un run de votre projet échoue.
+</Card>
+
+<Card title="Gérer les automatisations avec l’API" href="/fr/models/automations/api/" arrow="true" horizontal>
+  Gérez les automatisations par programmation avec l’API Python. La création et la mise à jour peuvent être affectées dans certaines versions du client. Préférez W&amp;B App jusqu’à la publication du correctif du SDK.
+</Card>
+
+<div id="april-2026">
+  ## Avril 2026
+</div>
+
+<div id="weave">
+  ### Weave
+</div>
+
+<Card title="Haystack" href="/fr/weave/guides/integrations/haystack/" arrow="true" horizontal>
+  Tracez les pipelines Deepset Haystack avec W&amp;B Weave grâce à l’intégration WeaveConnector.
+</Card>
+
+<Card title="Journal à écriture anticipée" href="/fr/weave/guides/tracking/write-ahead-log/" arrow="true" horizontal>
+  Améliorez la résilience de la capture des données de trace W&amp;B Weave grâce au journal à écriture anticipée.
+</Card>
+
+<Card title="Vercel AI SDK" href="/fr/weave/guides/integrations/vercel_ai_sdk/" arrow="true" horizontal>
+  Tracez les appels Vercel AI SDK dans Weave à l’aide d’OpenTelemetry.
+</Card>
+
+<Card title="Configurer les automatisations" href="/fr/weave/guides/evaluation/automations/" arrow="true" horizontal>
+  Créez des automatisations déclenchées par des événements qui exécutent des actions en fonction des métriques du monitor et de l’activité de trace.
+</Card>
+
+<div id="platform">
+  ### Plateforme
+</div>
+
+<Card title="Gérer le stockage des buckets et les coûts" href="/fr/platform/hosting/managing-bucket-storage/" arrow="true" horizontal>
+  Découvrez comment W&amp;B utilise le stockage d’objets, l’incidence des suppressions sur les octets des buckets, et comment réduire l’utilisation du stockage et les coûts.
+</Card>
+
+<div id="sandboxes">
+  ### Sandboxes
+</div>
+
+<Card title="Secrets" href="/fr/sandboxes/secrets/" arrow="true" horizontal>
+  Découvrez comment gérer les secrets dans Serverless Sandboxes.
+</Card>
+
+<Card title="Exécuter des commandes dans un sandbox" href="/fr/sandboxes/run-commands/" arrow="true" horizontal>
+  Découvrez comment exécuter des commandes dans un environnement sandbox et lire la sortie ainsi que les codes de retour.
+</Card>
+
+<Card title="Tutoriel : entraîner un modèle PyTorch" href="/fr/sandboxes/mltrain-in-sandbox-tutorial/" arrow="true" horizontal>
+  Découvrez comment entraîner un modèle PyTorch dans un environnement Serverless Sandbox grâce à ce tutoriel pas à pas.
+</Card>
+
+<Card title="Cycle de vie d’un sandbox" href="/fr/sandboxes/lifecycle/" arrow="true" horizontal>
+  Découvrez le cycle de vie d’un Serverless Sandbox, notamment ses états, comment attendre leurs changements et comment arrêter un sandbox.
+</Card>
+
+<Card title="Tutoriel : appeler un agent dans un sandbox" href="/fr/sandboxes/invoke-agent-sandbox-tutorial/" arrow="true" horizontal>
+  Découvrez comment appeler un agent OpenAI dans un environnement Serverless Sandbox.
+</Card>
+
+<Card title="Opérations sur les fichiers" href="/fr/sandboxes/file-access/" arrow="true" horizontal>
+  Découvrez comment lire, écrire et monter des fichiers dans Serverless Sandboxes.
+</Card>
+
+<Card title="Créer des sandboxes" href="/fr/sandboxes/create-sandbox/" arrow="true" horizontal>
+  Créez des W&amp;B Serverless Sandboxes qui exécutent du code dans des conteneurs isolés disposant de leur propre système de fichiers, réseau et espace de processus.
+</Card>
+
+<Card title="Serverless Sandboxes" href="/fr/sandboxes/" arrow="true" horizontal>
+  Des environnements de calcul isolés, à la demande, que vous pouvez créer, utiliser et supprimer depuis Python avec W&amp;B Serverless Sandboxes.
+</Card>
+
+<div id="support">
+  ### assistance
+</div>
+
+<Card title="Pourquoi `.call()` ne lève-t-elle pas d’exceptions ?" href="/fr/support/weave/articles/weave-call-does-not-raise-exceptions/" arrow="true" horizontal>
+  Par défaut, la méthode .call() de Weave capture les exceptions et les stocke dans call.exception au lieu de les lever.
+</Card>
+
+<Card title="Pourquoi mon Workspace se charge-t-il lentement ?" href="/fr/support/models/articles/workspace-loads-slowly-with-many-metric/" arrow="true" horizontal>
+  Les Workspace peuvent se charger lentement lorsqu’un projet comporte de nombreuses métriques, runs ou panneaux.
+</Card>
+
+<Card title="Pourquoi mon entraînement se bloque-t-il avec l’entraînement distribué ?" href="/fr/support/models/articles/training-hangs-with-distributed-trainin/" arrow="true" horizontal>
+  Cet article vous aide à résoudre les blocages lors de l’entraînement lorsque vous utilisez W&amp;B avec des frameworks d’entraînement distribué, afin que vos runs puissent démarrer et se terminer sans rester bloqués.
+</Card>
+
+<Card title="Comment puis-je corriger les erreurs de compte de service telles que `Unauthorized` ou les runs manquants ?" href="/fr/support/models/articles/service-account-unauthorized-or-runs-no/" arrow="true" horizontal>
+  Lorsque vous utilisez un compte de service pour automatiser des flux de travail W&amp;B, vous pouvez rencontrer des erreurs d’autorisation ou constater que les runs n’apparaissent pas là où vous les attendez.
+</Card>
+
+<Card title="Comment puis-je corriger les erreurs `Rate limit exceeded` lors de la journalisation des métriques ?" href="/fr/support/models/articles/rate-limit-exceeded-on-metric-logging/" arrow="true" horizontal>
+  Si vous recevez une erreur HTTP 429 Rate limit exceeded lorsque vous appelez wandb.log(), vous dépassez la limite de débit de votre projet.
+</Card>
+
+<Card title="Pourquoi mon processus ne répond-il plus lorsque j’utilise Hydra avec W&B ?" href="/fr/support/models/articles/process-hangs-when-using-hydra-with-wan/" arrow="true" horizontal>
+  Cette page explique comment résoudre les problèmes de processus qui ne répondent plus lorsque vous démarrez un processus avec Hydra et W&amp;B.
+</Card>
+
+<Card title="Pourquoi ma licence Enterprise n’est-elle pas reconnue ?" href="/fr/support/models/articles/enterprise-license-not-recognized/" arrow="true" horizontal>
+  Cette page aide les administrateurs de déploiements W&amp;B Enterprise à diagnostiquer les problèmes courants lorsque W&amp;B ne reconnaît pas une licence Enterprise ou que ses fonctionnalités ne sont pas disponibles après la configuration de la licence.
+</Card>
+
+<Card title="Comment puis-je corriger `Cuda out of memory` pendant un Sweep ?" href="/fr/support/models/articles/cuda-out-of-memory-during-a-sweep/" arrow="true" horizontal>
+  Si vous obtenez l’erreur Cuda out of memory pendant un Sweep, remaniez votre code pour utiliser une exécution basée sur les processus.
+</Card>
+
+<Card title="Comment puis-je corriger `CommError, Run does not exist` pendant un Sweep ?" href="/fr/support/models/articles/commerror-run-does-not-exist-during-swee/" arrow="true" horizontal>
+  Si vous obtenez à la fois CommError, Run does not exist et ERROR Error uploading pendant un Sweep, la cause la plus probable est que vous définissez manuellement un ID de run dans votre code :
+</Card>
+
+<Card title="Pourquoi ne puis-je pas lier mon artefact au Registry ?" href="/fr/support/models/articles/cannot-link-artifact-to-registry-from-p/" arrow="true" horizontal>
+  Si vous ne pouvez pas lier un artefact à un W&amp;B Registry, la cause la plus courante est que l’artefact a été enregistré avec une entité personnelle au lieu d’une entité d’équipe.
+</Card>
+
+<Card title="Comment puis-je corriger une erreur `anaconda 400 error` pendant un Sweep ?" href="/fr/support/models/articles/anaconda-400-error-during-a-sweep/" arrow="true" horizontal>
+  Une erreur anaconda 400 error pendant un Sweep signifie souvent que vous n’avez pas enregistré la métrique que vous optimisez.
+</Card>
+
+<div id="march-2026">
+  ## Mars 2026
+</div>
+
+<div id="models">
+  ### Models
+</div>
+
+<Card title="Gestion des signaux et runs de balayage" href="/fr/models/sweeps/signal-handling-sweep-runs/" arrow="true" horizontal>
+  Découvrez comment les balayages W&amp;B gèrent les signaux UNIX, les codes de sortie et les interruptions dans les runs de balayage.
+</Card>
+
+<div id="weave">
+  ### Weave
+</div>
+
+<Card title="API Realtime d’OpenAI" href="/fr/weave/guides/integrations/openai-realtime-audio/" arrow="true" horizontal>
+  Utilisez Weave pour tracer automatiquement vos appels à l’API Realtime d’OpenAI.
+</Card>
+
+<Card title="Stocker et suivre les versions des prompts" href="/fr/weave/guides/core-types/prompts-version/" arrow="true" horizontal>
+  Récupérez et gérez les versions de vos prompts pour les applications LLM.
+</Card>
+
+<Card title="Réviser les éléments d’une file d’annotation" href="/fr/weave/guides/tracking/annotation-review/" arrow="true" horizontal>
+  Évaluez les éléments de trace et soumettez des commentaires structurés à l’aide d’une interface de révision simplifiée.
+</Card>
+
+<Card title="Configurer des files d’annotation" href="/fr/weave/guides/tracking/annotation-queues/" arrow="true" horizontal>
+  Créez des files d’annotation, acheminez les traces vers des experts métier et exportez des commentaires structurés.
+</Card>
+
+<div id="platform">
+  ### Plateforme
+</div>
+
+<Card title="Application mobile W&B (iOS)" href="/fr/platform/hosting/monitoring-usage/mobile-app/" arrow="true" horizontal>
+  Suivez les runs d&#39;entraînement, consultez les journaux de la console, visualisez des graphiques en courbes et les métriques système, et explorez les projets W&amp;B Models depuis votre iPhone ou iPad.
+</Card>
+
+<Card title="Utiliser W&B Skills" href="/fr/platform/wb-skills/" arrow="true" horizontal>
+  Installez W&amp;B Skills pour apprendre à votre agent de codage à entraîner des modèles, créer des agents et analyser des expériences à l&#39;aide de la plateforme de développement IA de W&amp;B.
+</Card>
+
+<Card title="Limites de débit" href="/fr/platform/hosting/self-managed/rate-limits/" arrow="true" horizontal>
+  Limites de débit facultatives sur les instances autogérées pour garantir la stabilité
+</Card>
+
+<Card title="Régions de Cloud dédié prises en charge" href="/fr/platform/hosting/hosting-options/dedicated-cloud/regions/" arrow="true" horizontal>
+  Consultez toutes les régions AWS, Google Cloud et Azure prises en charge pour les instances de Cloud dédié de W&amp;B.
+</Card>
+
+<Card title="Limites de débit" href="/fr/platform/hosting/hosting-options/dedicated-cloud/rate-limits/" arrow="true" horizontal>
+  Limites de débit par défaut dans Cloud dédié et procédure pour demander des modifications
+</Card>
+
+<Card title="Exporter des données depuis Cloud dédié" href="/fr/platform/hosting/hosting-options/dedicated-cloud/export-data/" arrow="true" horizontal>
+  Exportez des runs, des métriques, des artefacts et des Reports depuis une instance de Cloud dédié de W&amp;B à l&#39;aide de l&#39;API du SDK Python.
+</Card>
+
+<div id="inference">
+  ### Inférence
+</div>
+
+<Card title="Cline avec Serverless Inference" href="/fr/inference/tutorials/integration-cline/" arrow="true" horizontal>
+  >
+</Card>
+
+<div id="february-2026">
+  ## Février 2026
+</div>
+
+<div id="weave">
+  ### Weave
+</div>
+
+<Card title="Gérer les projets Weave" href="/fr/weave/guides/platform/weave-projects/" arrow="true" horizontal>
+  Utilisez les projets Weave pour organiser des ressources connexes, telles que des traces, des prompts, des évaluations, des modèles et des tableaux de bord.
+</Card>
+
+<div id="platform">
+  ### Plateforme
+</div>
+
+<Card title="Utiliser le serveur MCP de W&B" href="/fr/platform/mcp-server/" arrow="true" horizontal>
+  Connectez votre IDE ou votre agent d’IA au serveur Model Context Protocol (MCP) de W&amp;B pour interroger et analyser en langage naturel vos données et votre documentation W&amp;B.
+</Card>
+
+<div id="inference">
+  ### Inférence
+</div>
+
+<Card title="Cycle de vie des modèles" href="/fr/inference/lifecycle/" arrow="true" horizontal>
+  >
+</Card>
+
+{/* new-articles:end */}
