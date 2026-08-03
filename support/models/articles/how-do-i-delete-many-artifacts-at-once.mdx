@@ -39,7 +39,9 @@ for collection in api.artifact_collections(f"{entity}/{project}", artifact_type)
 
 The script deletes versions, not collections. An emptied collection still appears in the project's **Artifacts** tab.
 
-`wandb.Api.artifact_collections()` returns link collections as well as source collections. When a version comes from a link collection, `version.delete(delete_aliases=True)` removes only the link. The source artifact and its files stay where they are, so that version frees no storage.
+`wandb.Api.artifact_collections()` returns link collections as well as source collections. A source collection holds the artifact versions logged to a run in your project. A link collection holds pointers to those versions, published to a registry so the rest of your organization can use them. See [Link an artifact version to a collection](/models/registry/link_version).
+
+When a version comes from a link collection, `version.delete(delete_aliases=True)` removes only the link. The source artifact and its files stay where they are, so that version frees no storage.
 
 ## Reclaim the space
 

@@ -1,17 +1,13 @@
 ---
-title: "Can I rename a team or entity?"
+title: "How do I rename a team or entity?"
 keywords: ["Teams", "Team Management", "Org Management"]
 ---
 
-No. W&B doesn't support renaming a team or entity. A team's name is set when you create the team and can't be changed afterward.
+W&B doesn't support renaming a team or entity. A team's name is set when you create the team and can't be changed afterward. Instead, create a new team with the name and members you want, then move your work into it:
 
-To use a different name, create a new team with the name you want, then move your work into it:
-
-1. Create the new team. See [How do I create a new team in W&B?](/support/models/articles/how-do-i-create-a-new-team-in-wandb).
+1. [Create the new team](/platform/hosting/iam/access-management/manage-organization#create-a-team). If you get a permissions error, your organization restricts who can create teams. Ask an organization admin to create the team for you.
 2. Move your projects or runs into the new team. You can move runs between teams in W&B, but logged artifacts don't move automatically.
-3. If you need an entire project moved, or you aren't able to create the team yourself, [contact support](mailto:support@wandb.com) with the source team, the destination team, and the projects to move. Support schedules the move during a window when nothing is actively logging to either team.
-
-Because the name is permanent, choose it carefully before you create the team.
+3. To move an entire project, [contact support](mailto:support@wandb.com) with the source team, the destination team, and the projects to move. Support schedules the move during a window when nothing is actively logging to either team.
 
 <Note>
 A team's storage location is also fixed at creation. Configure a team's storage location when you create the team. See [Secure storage connector](/platform/hosting/data-security/secure-storage-connector).
