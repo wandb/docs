@@ -101,6 +101,22 @@ strong, b {
   margin-top: 0;
 }
 
+/* New-articles log (release-notes/new-articles): each "Month YYYY" h2 sits
+   directly below a Card, a not-prose sibling that contributes no prose gap,
+   and the rule above zeroes the h2's own top margin — so months butt up
+   against the last card of the previous month. Restore the spacing for
+   month headings, matched by the ids Mintlify derives from the heading text
+   ("february-2026"); the "-2" suffix keeps this from matching headings that
+   merely start with a month name. Currently only the new-articles page
+   generates such headings. */
+h2:is(
+  [id^="january-2"], [id^="february-2"], [id^="march-2"], [id^="april-2"],
+  [id^="may-2"], [id^="june-2"], [id^="july-2"], [id^="august-2"],
+  [id^="september-2"], [id^="october-2"], [id^="november-2"], [id^="december-2"]
+) {
+  margin-top: 3rem;
+}
+
 /* Banner snippet (snippets/Banner.jsx) renders a title overlaid on a dark
    image with a black 40%-opacity scrim. The title must read as light text
    in BOTH light and dark mode. The global h1-h6 rule above forces color to
