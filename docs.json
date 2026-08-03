@@ -1347,6 +1347,8 @@
           {
             "pages": [
               "release-notes",
+                "release-notes/release-policies",
+                "release-notes/new-articles",
               {
                 "group": "W&B Server",
                 "pages": [
@@ -1360,8 +1362,7 @@
                   "release-notes/sdk-releases",
                   "release-notes/weave-sdk-releases"
                 ]
-              },
-              "release-notes/release-policies"
+              }
             ],
             "tab": "Release Notes"
           },
