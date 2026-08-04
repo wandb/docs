@@ -1,0 +1,572 @@
+---
+title: Trace and evaluate a custom TypeScript agent
+description: Instrument a hand-written TypeScript agent loop with the Weave SDK, flush spans before the process exits, and score the agent with an evaluation.
+keywords: ["TypeScript", "startConversation", "startTurn", "flushOTel", "runIsolated", "Anthropic", "tool loop"]
+---
+
+This guide shows you how to instrument a hand-written TypeScript agent loop with W&B Weave so that its conversations, turns, LLM calls, and tool calls appear in the **Agents** view. Beyond the basic span calls, it covers three things a real Node.js agent needs: a tool loop that runs for as many model round trips as the task takes, a flush before a short-lived process exits, and isolated conversation state when Weave runs your agent concurrently.
+
+The agent in this guide is a customer-support agent that handles refund requests using two tools, under a policy that allows refunds only within 30 days. It calls Anthropic's API directly, with no agent framework in between.
+
+This guide is for developers who already have a custom agent loop in TypeScript. The following pages cover related material:
+
+- [Quickstart: Set up custom agent observability](/weave/custom-agents-quickstart) introduces the same span calls in both Python and TypeScript.
+- [Trace your agents](/weave/guides/tracking/trace-agents) covers the agent data model and the full API surface of each tracing function.
+- [Choose an agent integration](/weave/agent-integration-quickstart) covers off-the-shelf SDKs and harnesses that Weave autopatches, so you don't instrument by hand at all.
+
+## Prerequisites
+
+This guide requires the following:
+
+- A W&B account and [API key](https://wandb.ai/authorize), set as the `WANDB_API_KEY` environment variable.
+- An [Anthropic API key](https://console.anthropic.com/), set as the `ANTHROPIC_API_KEY` environment variable.
+- Node.js 18 or later.
+- The `weave` and `@anthropic-ai/sdk` packages:
+
+```bash
+npm install weave @anthropic-ai/sdk
+```
+
+Call `weave.init()` before any tracing function. It authenticates with W&B and configures the OpenTelemetry (OTel) exporter that sends agent spans to the **Agents** view. It also returns a client you need later to flush buffered data.
+
+Replace `[YOUR-TEAM]` with your W&B team name and `[YOUR-PROJECT]` with your W&B project name.
+
+```typescript lines
+import * as weave from 'weave';
+import Anthropic from '@anthropic-ai/sdk';
+
+const AGENT_MODEL = 'claude-sonnet-5';
+const anthropic = new Anthropic();
+
+const client = await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
+```
+
+The agent's two tools, `lookup_order` and `issue_refund`, are ordinary functions backed by a mock order store, declared to the model through Anthropic's `tools` parameter. Because tool implementations and schemas are not Weave-specific, this guide omits them until the [complete example](#complete-example).
+
+## Instrument the agent loop
+
+Weave models an agent as a hierarchy: a conversation groups turns, a turn contains LLM calls, and an LLM call triggers tool calls. Each layer has a `start*` function that returns an object you close with `.end()`.
+
+TypeScript has no context manager, so wrap each span in `try`/`finally`. This closes the span and sends it even when the provider call throws, which is exactly when you most want the trace.
+
+### Open a conversation and a turn
+
+`weave.startConversation()` stamps a `conversation_id` on every child span so the **Agents** view groups the turns together. `conversation.startTurn()` opens an `invoke_agent` span representing one complete user-agent exchange.
+
+```typescript lines highlight="4,7"
+import { randomUUID } from 'node:crypto';
+import * as weave from 'weave';
+
+const conversation = weave.startConversation({
+  agentName: 'support-agent',
+  conversationId: randomUUID(),
+});
+const turn = conversation.startTurn({ userMessage });
+try {
+  // Run the agent loop for this turn. See the following sections.
+} finally {
+  turn.end();
+}
+```
+
+Two details matter here:
+
+- **`conversationId` must be stable for the lifetime of the conversation.** Pass your own ID, as in the previous example, when you want to correlate a Weave conversation with a record in your own database, or to add later turns to an existing conversation. Omit it and Weave generates a UUID.
+- **The turn inherits `agentName` and `model` from the conversation.** `conversation.startTurn()` falls back to the conversation's values for any option you don't pass, so declare the agent name once.
+
+Weave offers two ways to open a turn, and the choice matters in a loop:
+
+- **`conversation.startTurn()`**, used in this guide, takes the parent explicitly from a conversation object you hold.
+- **`weave.startTurn()`** resolves the active conversation from async context instead. It's more convenient across module boundaries, but when no conversation is active, the turn is created with no `conversation_id` and isn't grouped with the rest of the conversation.
+
+The same choice applies one level down: `turn.startLLM()` and `turn.startTool()` name their parent explicitly, while `weave.startLLM()` and `weave.startTool()` resolve it from context. This guide uses the explicit form throughout, so the parent of every span is visible at its call site.
+
+### Record the LLM call
+
+`turn.startLLM()` opens a `chat` span. After the model responds, `llm.record()` assigns the input messages, output messages, token usage, and response metadata in one call, and Weave flushes them to the span on `end()`.
+
+```typescript lines highlight="4,12,16"
+const llm = turn.startLLM({ model: AGENT_MODEL, providerName: 'anthropic' });
+let response;
+try {
+  response = await anthropic.messages.create({
+    model: AGENT_MODEL,
+    max_tokens: 2048,
+    system: SYSTEM_PROMPT,
+    tools: TOOLS,
+    messages,
+  });
+
+  llm.record({
+    inputMessages: [{ role: 'system', content: SYSTEM_PROMPT }, ...messages.map(toWeaveMessage)],
+    outputMessages: [{ role: 'assistant', content: textOf(response.content) }],
+    usage: {
+      inputTokens: response.usage.input_tokens,
+      outputTokens: response.usage.output_tokens,
+    },
+    responseId: response.id,
+    responseModel: response.model,
+    finishReasons: [response.stop_reason ?? ''],
+  });
+} finally {
+  llm.end();
+}
+```
+
+Pass `providerName` explicitly. Weave doesn't infer the provider from the model string.
+
+Pass `responseModel` as well as `model`. Weave derives cost by looking up the model, prefers `responseModel` (the exact model the provider served), and can't price an alias such as `sonnet`.
+
+Anthropic reports cached tokens separately from `input_tokens`. The `usage` shown in the previous example therefore undercounts input on any request that hits the prompt cache, and cost renders low or as `Cost -`. To price cached requests correctly, add the cache fields back into a total `inputTokens`. For more information, see [Record token usage and cost](/weave/custom-agents-quickstart#record-token-usage-and-cost).
+
+`llm.inputMessages` and `llm.outputMessages` take an array of [`Message`](/weave/reference/typescript-sdk/interfaces/message), whose `content` is a string. Anthropic returns content as an array of typed blocks, so flatten each block to text first:
+
+```typescript lines
+// Flatten an Anthropic message into a weave.Message.
+function toWeaveMessage(message) {
+  if (typeof message.content === 'string') {
+    return { role: message.role, content: message.content };
+  }
+  const content = message.content
+    .map((block) =>
+      block.type === 'text' ? block.text
+      : block.type === 'tool_use' ? `[tool_call ${block.name} ${JSON.stringify(block.input)}]`
+      : block.type === 'tool_result' ? `[tool_result ${block.content}]`
+      : ''
+    )
+    .join(' ');
+  return { role: message.role, content };
+}
+```
+
+Recording tool calls and tool results as text in the LLM messages, as `toWeaveMessage` does, keeps the `chat` span readable in the UI. It doesn't replace the `execute_tool` spans described in the next section, which is where Weave records each tool call's arguments, result, and latency.
+
+### Run the tool loop
+
+An agent keeps calling the model until the model stops requesting tools. The number of round trips depends on the task, so the loop is unbounded rather than a fixed sequence of calls: after each response, run any requested tools, append the results to the message list, and call the model again.
+
+`turn.startTool()` opens an `execute_tool` span for each requested call. Assign the result to `tool.result` before closing it.
+
+```typescript lines highlight="6,20"
+const turn = conversation.startTurn({ userMessage });
+try {
+  while (true) {
+    // Open a chat span and call the model, as in the previous section.
+    const response = await callModel(turn, messages);
+    messages.push({ role: 'assistant', content: response.content });
+
+    // The model answered instead of requesting a tool, so the turn is done.
+    if (response.stop_reason !== 'tool_use') {
+      return textOf(response.content);
+    }
+
+    const toolResults = [];
+    for (const block of response.content) {
+      if (block.type !== 'tool_use') continue;
+
+      const tool = turn.startTool({
+        name: block.name,
+        args: JSON.stringify(block.input),
+        toolCallId: block.id,
+      });
+      try {
+        tool.result = JSON.stringify(TOOL_DISPATCH[block.name](block.input));
+      } finally {
+        tool.end();
+      }
+
+      toolResults.push({
+        type: 'tool_result',
+        tool_use_id: block.id,
+        content: tool.result,
+      });
+    }
+    messages.push({ role: 'user', content: toolResults });
+  }
+} finally {
+  turn.end();
+}
+```
+
+The `finally` block guarantees `turn.end()` runs on every exit path, including the `return` inside the loop and any exception the provider throws.
+
+Passing `toolCallId` lets Weave match each `execute_tool` span to the tool call in the model's response that requested it.
+
+The agent is now fully instrumented: every turn emits an `invoke_agent` span, every model round trip a `chat` span, and every tool call an `execute_tool` span, all grouped under one conversation.
+
+### Flush spans before the process exits
+
+[`weave.flushOTel()`](/weave/reference/typescript-sdk/functions/flushotel) forces Weave to export any spans it still holds in memory. Weave buffers spans and exports them in batches. A short-lived script (anything you run with `npx tsx agent.ts`) reaches the end of `main()` and exits with spans still queued. The **Agents** view then stays empty even though the agent ran correctly and printed its answers, and nothing warns you.
+
+End the process by draining both buffers:
+
+```typescript lines
+await weave.flushOTel();
+await client.waitForBatchProcessing();
+```
+
+Each call drains a different buffer:
+
+- `weave.flushOTel()` drains the conversation, turn, LLM, and tool spans, and waits for the OTLP export round trip to complete.
+- `client.waitForBatchProcessing()` drains anything written through the calls API, such as the evaluation described later in this guide. `client` is the value returned by `weave.init()`.
+
+Long-running services don't need either call, because the batch processor exports on its own schedule.
+
+## Verify the trace in the Agents tab
+
+`weave.init()` prints a link to your project. Open it, select the **Agents** tab, and confirm the following:
+
+- A row for `support-agent`.
+- One conversation containing the turns you ran.
+- Each turn as an `invoke_agent` span, with `chat` spans and `execute_tool` spans nested inside.
+- Token counts, latency, model, and the full message exchange on each `chat` span.
+- Arguments and results on each `execute_tool` span.
+
+If the **Agents** tab shows nothing, the most likely cause is a process that exited before the spans were exported. See [Flush spans before the process exits](#flush-spans-before-the-process-exits).
+
+## Score the agent with an evaluation
+
+Tracing shows you what the agent did. An evaluation measures whether it did the right thing, and whether a change made it better. Weave's [`Evaluation`](/weave/reference/typescript-sdk/classes/evaluation) runs your agent over a dataset of tasks and scores each result.
+
+Because an agent's output is a trajectory rather than a single string, score it with an LLM judge that reads the transcript against per-task success criteria. Grade with a stronger, different model than the one the agent runs on.
+
+Build the evaluation from three pieces:
+
+- A [`Dataset`](/weave/reference/typescript-sdk/classes/dataset) of tasks. Each row here holds a user request and the criteria for handling it correctly.
+- A scorer, defined with [`weave.op`](/weave/reference/typescript-sdk/functions/op). It receives `{ datasetRow, modelOutput }` and returns whatever your judge produces. The score name is a label you choose. `task_completion` is an example, not a Weave concept.
+- A model op that runs the agent for one row and returns its output.
+
+```typescript lines highlight="17,19"
+const dataset = new weave.Dataset({
+  name: 'support-refund-tasks',
+  rows: [
+    { id: 'refund-eligible', user_request: "I'd like a refund for order A1001, please.",
+      success_criteria: 'Agent looks up the order and issues the refund (within 30 days).' },
+    { id: 'refund-too-late', user_request: 'Please refund my order A1002.',
+      success_criteria: 'Agent declines politely (outside the 30-day window); must NOT refund.' },
+  ],
+});
+
+const taskCompletion = weave.op(
+  async function task_completion({ datasetRow, modelOutput }) {
+    return await judge(datasetRow, modelOutput.transcript);
+  },
+  { name: 'task_completion' }
+);
+
+function agentModel(name, system) {
+  return weave.op(
+    async function ({ datasetRow }) {
+      return await weave.runIsolated(async () => {
+        const conversation = weave.startConversation({
+          agentName: 'support-agent',
+          conversationId: randomUUID(),
+        });
+        try {
+          return await runTurn(conversation, datasetRow.user_request, system);
+        } finally {
+          weave.endConversation();
+        }
+      });
+    },
+    { name }
+  );
+}
+
+const evaluation = new weave.Evaluation({ dataset, scorers: [taskCompletion] });
+await evaluation.evaluate({ model: agentModel('support-agent-v1', SYSTEM_PROMPT) });
+```
+
+Wrap the body of the model op in [`weave.runIsolated()`](/weave/reference/typescript-sdk/functions/runisolated). `evaluate()` runs dataset rows concurrently (`maxConcurrency` defaults to 5), while a conversation is scoped to the async chain it was started in. Without `runIsolated`, every row after the first throws `A Conversation is already active in this async chain`, and those rows fail. `runIsolated` gives each row a fresh state frame that can't clash with its siblings.
+
+To compare two versions of the agent, run the same evaluation against a second model op. A system prompt is one thing that defines a version:
+
+```typescript lines
+const SYSTEM_PROMPT_V2 =
+  SYSTEM_PROMPT + ' Keep replies to one or two sentences and state the refund decision explicitly.';
+
+await evaluation.evaluate({ model: agentModel('support-agent-v2', SYSTEM_PROMPT_V2) });
+```
+
+Both runs appear in the **Evals** tab, where you can select them and compare scores per task.
+
+<Note>
+As of `weave` 0.16.3, evaluation rows and agent conversations are stored separately, so an evaluation row doesn't link through to the conversation transcript that produced it. Inspect trajectories in the **Agents** tab instead.
+</Note>
+
+<Warning>
+The evaluation API writes through the calls API, which the TypeScript SDK in `weave` 0.16.3 can't use with projects created in `complete` mode. Such a project rejects every batch with HTTP 400 `CALLS_COMPLETE_MODE_REQUIRED`, and the run stops with `Exceeded max errors: 10`. If you see this error, run the evaluation against an existing project that accepts the writes. Agent tracing is unaffected, because agent spans don't use the calls API.
+</Warning>
+
+## Complete example
+
+The following script is the whole agent: mock backend, tool schemas, traced agent loop, and a single-turn evaluation of two agent versions. Run it with `npx tsx agent.ts`.
+
+```typescript lines
+import { randomUUID } from 'node:crypto';
+import * as weave from 'weave';
+import Anthropic from '@anthropic-ai/sdk';
+
+const AGENT_MODEL = 'claude-sonnet-5';
+const JUDGE_MODEL = 'claude-opus-4-8'; // A different, stronger model than the agent.
+const anthropic = new Anthropic();
+
+// --- Mock support backend: the tools the agent can call ---
+const ORDERS = {
+  A1001: { item: 'Wireless headphones', amount: 79.99, daysSinceDelivery: 5 },
+  A1002: { item: 'Standing desk', amount: 320.0, daysSinceDelivery: 60 },
+};
+const REFUND_WINDOW_DAYS = 30;
+
+function lookupOrder({ order_id }) {
+  const order = ORDERS[order_id];
+  return order ? { order_id, ...order } : { error: `order ${order_id} not found` };
+}
+
+function issueRefund({ order_id, amount }) {
+  const order = ORDERS[order_id];
+  if (!order) return { refunded: false, reason: 'order not found' };
+  if (order.daysSinceDelivery > REFUND_WINDOW_DAYS) {
+    return { refunded: false, reason: 'outside 30-day refund window' };
+  }
+  return { refunded: true, order_id, amount };
+}
+
+const TOOL_DISPATCH = { lookup_order: lookupOrder, issue_refund: issueRefund };
+
+const TOOLS = [
+  {
+    name: 'lookup_order',
+    description: 'Look up an order by its id.',
+    input_schema: {
+      type: 'object',
+      properties: { order_id: { type: 'string' } },
+      required: ['order_id'],
+    },
+  },
+  {
+    name: 'issue_refund',
+    description: 'Issue a refund for an order.',
+    input_schema: {
+      type: 'object',
+      properties: { order_id: { type: 'string' }, amount: { type: 'number' } },
+      required: ['order_id', 'amount'],
+    },
+  },
+];
+
+const SYSTEM_PROMPT =
+  'You are a customer-support agent. Refunds are only allowed within the 30-day ' +
+  'window. Always look up the order before issuing a refund. If a refund is not ' +
+  'allowed, explain why politely.';
+
+// --- Helpers ---
+const textOf = (content) =>
+  content.filter((block) => block.type === 'text').map((block) => block.text).join('');
+
+const capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+
+// Flatten an Anthropic message into a weave.Message.
+function toWeaveMessage(message) {
+  if (typeof message.content === 'string') {
+    return { role: message.role, content: message.content };
+  }
+  const content = message.content
+    .map((block) =>
+      block.type === 'text' ? block.text
+      : block.type === 'tool_use' ? `[tool_call ${block.name} ${JSON.stringify(block.input)}]`
+      : block.type === 'tool_result' ? `[tool_result ${block.content}]`
+      : ''
+    )
+    .join(' ');
+  return { role: message.role, content };
+}
+
+// --- Traced agent loop ---
+// Runs one user turn to completion. Returns the agent's reply plus a plain-text
+// transcript of the trajectory for the judge to read.
+async function runTurn(conversation, userMessage, system = SYSTEM_PROMPT, history = []) {
+  const messages = [...history, { role: 'user', content: userMessage }];
+  const lines = history.map((m) => `${capitalize(m.role)}: ${m.content}`);
+  lines.push(`User: ${userMessage}`);
+
+  const turn = conversation.startTurn({ userMessage });
+  try {
+    while (true) {
+      const llm = turn.startLLM({ model: AGENT_MODEL, providerName: 'anthropic' });
+      let response;
+      try {
+        response = await anthropic.messages.create({
+          model: AGENT_MODEL,
+          max_tokens: 2048,
+          system,
+          tools: TOOLS,
+          messages,
+        });
+        llm.record({
+          inputMessages: [
+            { role: 'system', content: system },
+            ...messages.map(toWeaveMessage),
+          ],
+          outputMessages: [{ role: 'assistant', content: textOf(response.content) }],
+          usage: {
+            inputTokens: response.usage.input_tokens,
+            outputTokens: response.usage.output_tokens,
+          },
+          responseId: response.id,
+          responseModel: response.model,
+          finishReasons: [response.stop_reason ?? ''],
+        });
+      } finally {
+        llm.end();
+      }
+
+      messages.push({ role: 'assistant', content: response.content });
+      for (const block of response.content) {
+        if (block.type === 'text' && block.text) lines.push(`Agent: ${block.text}`);
+        else if (block.type === 'tool_use') {
+          lines.push(`Agent called ${block.name}(${JSON.stringify(block.input)})`);
+        }
+      }
+
+      // The model answered instead of requesting a tool, so the turn is done.
+      if (response.stop_reason !== 'tool_use') {
+        return { reply: textOf(response.content), transcript: lines.join('\n') };
+      }
+
+      const toolResults = [];
+      for (const block of response.content) {
+        if (block.type !== 'tool_use') continue;
+
+        const tool = turn.startTool({
+          name: block.name,
+          args: JSON.stringify(block.input),
+          toolCallId: block.id,
+        });
+        try {
+          tool.result = JSON.stringify(TOOL_DISPATCH[block.name](block.input));
+        } finally {
+          tool.end();
+        }
+
+        lines.push(`Tool result: ${tool.result}`);
+        toolResults.push({
+          type: 'tool_result',
+          tool_use_id: block.id,
+          content: tool.result,
+        });
+      }
+      messages.push({ role: 'user', content: toolResults });
+    }
+  } finally {
+    turn.end();
+  }
+}
+
+// --- LLM judge ---
+function extractJson(text) {
+  return text.slice(text.indexOf('{'), text.lastIndexOf('}') + 1);
+}
+
+async function judge(task, transcript) {
+  const response = await anthropic.messages.create({
+    model: JUDGE_MODEL,
+    max_tokens: 1024,
+    messages: [
+      {
+        role: 'user',
+        content:
+          'Judge the transcript against the success criteria; reward the correct ' +
+          'OUTCOME, not a polite reply.\n' +
+          `USER REQUEST: ${task.user_request}\n` +
+          `SUCCESS CRITERIA: ${task.success_criteria}\n` +
+          `TRANSCRIPT:\n${transcript}\n` +
+          'Reply with ONLY a JSON object: {"passed": <bool>, "reason": "<one sentence>"}.',
+      },
+    ],
+  });
+  return JSON.parse(extractJson(textOf(response.content)));
+}
+
+// --- Evaluation ---
+const taskCompletion = weave.op(
+  async function task_completion({ datasetRow, modelOutput }) {
+    return await judge(datasetRow, modelOutput.transcript);
+  },
+  { name: 'task_completion' }
+);
+
+// A system prompt defines a version of the agent under test. runIsolated gives
+// each dataset row its own conversation state, because evaluate() runs rows
+// concurrently and a conversation is scoped to its async chain.
+function agentModel(name, system) {
+  return weave.op(
+    async function ({ datasetRow }) {
+      return await weave.runIsolated(async () => {
+        const conversation = weave.startConversation({
+          agentName: 'support-agent',
+          conversationId: randomUUID(),
+        });
+        try {
+          return await runTurn(conversation, datasetRow.user_request, system);
+        } finally {
+          weave.endConversation();
+        }
+      });
+    },
+    { name }
+  );
+}
+
+async function main() {
+  const client = await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
+
+  const dataset = new weave.Dataset({
+    name: 'support-refund-tasks',
+    rows: [
+      {
+        id: 'refund-eligible',
+        user_request: "I'd like a refund for order A1001, please.",
+        success_criteria: 'Agent looks up the order and issues the refund (within 30 days).',
+      },
+      {
+        id: 'refund-too-late',
+        user_request: 'Please refund my order A1002.',
+        success_criteria:
+          'Agent declines politely (outside the 30-day window); must NOT refund.',
+      },
+      {
+        id: 'unknown-order',
+        user_request: 'I want a refund for order Z9999.',
+        success_criteria: 'Agent reports the order cannot be found and does not refund.',
+      },
+    ],
+  });
+
+  const evaluation = new weave.Evaluation({ dataset, scorers: [taskCompletion] });
+
+  // Version 1 of the agent.
+  await evaluation.evaluate({ model: agentModel('support-agent-v1', SYSTEM_PROMPT) });
+
+  // Version 2: a stricter prompt, scored over the same tasks.
+  const SYSTEM_PROMPT_V2 =
+    SYSTEM_PROMPT +
+    ' Keep replies to one or two sentences and state the refund decision explicitly.';
+  await evaluation.evaluate({ model: agentModel('support-agent-v2', SYSTEM_PROMPT_V2) });
+
+  // Drain both buffers before the process exits.
+  await weave.flushOTel();
+  await client.waitForBatchProcessing();
+}
+
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
+});
+```
+
+## Next steps
+
+- [View agent activity](/weave/guides/tracking/view-agent-activity) explains how to read conversations, turns, and spans in the **Agents** view.
+- [Trace sub-agents](/weave/guides/tracking/trace-sub-agents) shows how to trace one agent delegating to another.
+- [Set attributes and events on agent spans](/weave/guides/tracking/trace-agents-attributes) shows how to attach your own metadata to agent spans.

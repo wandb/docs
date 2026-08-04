@@ -12,6 +12,8 @@ Weave is built on [OpenTelemetry (OTel)](https://opentelemetry.io/docs/concepts/
 
 If you're tracing individual functions as Ops with the `@weave.op` decorator, see [Trace LLM applications](/weave/guides/tracking/tracing) instead.
 
+For a TypeScript-only walkthrough that applies these functions to a complete agent, including an unbounded tool loop, flushing spans before a short-lived script exits, and scoring the agent with an evaluation, see [Trace and evaluate a custom TypeScript agent](/weave/guides/tracking/trace-agents-typescript).
+
 ## Before you begin
 
 To get started, install the `weave` package and initialize your project. This step registers your team and project with Weave so that the SDK routes spans to the correct location in the UI.
