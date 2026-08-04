@@ -163,6 +163,8 @@ jobs:
           JUDGE_FLAG=""
           if [ -n "${WANDB_API_KEY:-}" ]; then
             JUDGE_FLAG="--judge"
+          else
+            echo "::notice::AI agent comprehension judge skipped: WANDB_DOCS_INFERENCE_API_KEY secret is not set."
           fi
           # Never fail the PR: capture failures and fall back to a notice.
           if python scripts/readability/pr_report.py \
@@ -174,6 +176,12 @@ jobs:
               ${JUDGE_FLAG} \
               > comment-body.md 2> report-errors.log; then
             echo "ok=true" >> "$GITHUB_OUTPUT"
+            # Judge failures are non-fatal and land on stderr; show them in the
+            # step log even on success so they are not silently discarded.
+            if [ -s report-errors.log ]; then
+              echo "Diagnostics from pr_report.py (non-fatal):"
+              cat report-errors.log
+            fi
           else
             echo "ok=false" >> "$GITHUB_OUTPUT"
             echo "::warning::Readability report failed to build; see logs."
