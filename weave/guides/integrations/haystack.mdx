@@ -1,40 +1,51 @@
 ---
 title: "Haystack"
-description: "Trace Deepset Haystack pipelines with W&B Weave using the WeaveConnector integration."
+description: "Trace open source Haystack and Haystack Enterprise Platform pipelines with W&B Weave using the WeaveConnector component."
 ---
 
-[Haystack](https://haystack.deepset.ai/) is an open-source framework for building search and LLM applications. Deepset maintains a WeaveConnector component that forwards Haystack pipeline traces to W&B Weave so you can inspect component runs, prompts, and outputs in the Weave UI.
+`WeaveConnector` is a component that forwards [Haystack](https://haystack.deepset.ai/) pipeline traces to W&B Weave. deepset maintains it as part of the Haystack integrations. Add it to a pipeline and Weave records each component run, including prompts, inputs and outputs, token usage, cost, and latency.
 
-This guide is for Haystack developers who want to add observability to their pipelines.
+`WeaveConnector` works in both deepset products, with a different setup path for each:
 
-For full API details and additional examples, see these Deepset resources:
+- **Open source Haystack**: Install the connector package, then add the component to a pipeline in Python.
+- **Haystack Enterprise Platform**: Connect W&B once in the platform UI, then add the component to a pipeline in YAML.
 
-- Haystack's [WeaveConnector](https://docs.haystack.deepset.ai/docs/weaveconnector).
-- Haystack's [Weave integration API reference](https://docs.haystack.deepset.ai/reference/integrations-weave).
-- Haystack's [Trace with W&B Weave](https://docs.cloud.deepset.ai/docs/use-weights-and-biases) example using a RAG pipeline.
+This guide is for Haystack developers who want to add observability to their pipelines. It shows you how to set up `WeaveConnector` in either product and where to find the resulting traces.
 
 ## Prerequisites
 
-Before you begin, you must complete the following:
+Before you begin, get your W&B [API key](https://wandb.ai/settings). Where you supply the key depends on which product you use:
 
-- Set `WANDB_API_KEY` in your environment using your W&B [API key](https://wandb.ai/settings). This authenticates the connector with W&B Weave.
-- Set `HAYSTACK_CONTENT_TRACING_ENABLED` to `true` before you run a pipeline so Haystack emits tracing data the connector can forward.
+- **Open source Haystack**: Set `WANDB_API_KEY` in your environment. If you don't set it, the connector prompts you for a key on first use and stores your answer in the `~/.netrc` file.
+- **Haystack Enterprise Platform**: Enter the key when you connect the W&B integration in the platform UI.
 
-## Install
+You also need credentials for whichever model provider your pipeline calls. The Python example on this page uses `OpenAIChatGenerator`, which reads `OPENAI_API_KEY` from your environment.
 
-Install the required dependencies using `pip`:
+## Trace an open source Haystack pipeline
+
+To trace an open source Haystack pipeline, install the connector package, then add `WeaveConnector` to your pipeline in Python.
+
+### Install the connector
+
+Install the connector package with `pip`:
 
 ```bash lines
 pip install weave-haystack
 ```
 
-The package declares compatible versions of `haystack-ai` and `weave` as dependencies.
+<Warning>
+  deepset's own `WeaveConnector` page instructs you to install `weights_biases-haystack`. That package doesn't exist on PyPI. Install `weave-haystack` instead.
+</Warning>
 
-## Trace a Haystack pipeline with Weave
+The package requires Python 3.10 or later and declares compatible versions of `haystack-ai` and `weave` as dependencies.
 
-The following example adds Haystack's `WeaveConnector` to a Haystack [`Pipeline`](https://docs.haystack.deepset.ai/docs/pipelines) and integrates with W&B Weave to trace and monitor your pipeline components. The `pipeline_name` you pass is used as the Weave project name for traces from that pipeline.
+### Trace a pipeline
 
-In your Haystack pipeline, don't connect `WeaveConnector` to other components.
+Before you run a pipeline, set `HAYSTACK_CONTENT_TRACING_ENABLED` to `true` so that Haystack emits the tracing data that `WeaveConnector` forwards.
+
+The following example adds `WeaveConnector` to a Haystack [`Pipeline`](https://docs.haystack.deepset.ai/docs/pipelines). Weave uses the `pipeline_name` you pass as the project name for traces from that pipeline.
+
+Add `WeaveConnector` to the pipeline, but don't connect it to any other component. The connector never processes pipeline data, so it requires no connections.
 
 ```python lines
 import os
@@ -78,3 +89,57 @@ print(response["llm"]["replies"][0])
 
 After the pipeline runs, open your W&B workspace, select the project named with `pipeline_name`, and go to **Traces** to review the completed trace.
 
+## Trace a Haystack Enterprise Platform pipeline
+
+On the [Haystack Enterprise Platform](https://docs.cloud.deepset.ai/), you connect W&B once at the workspace or organization level, then add `WeaveConnector` to individual pipelines. You don't set `HAYSTACK_CONTENT_TRACING_ENABLED` yourself, because the platform enables content tracing for you.
+
+<Steps>
+  <Step title="Connect W&B to your workspace">
+    Select your profile icon, then select **Settings**. Go to **Workspace > Integrations**, find the **Weights & Biases** provider, and select **Connect**. Enter your W&B API key and the other requested details, then select **Connect** again.
+
+    A workspace-level connection applies to the current workspace only.
+  </Step>
+
+  <Step title="Optional: Connect W&B to your organization">
+    To make the integration available across every workspace, repeat the previous step, but go to **Organization > Integrations** instead of **Workspace > Integrations**.
+  </Step>
+
+  <Step title="Add WeaveConnector to your pipeline">
+    In your pipeline YAML, add `WeaveConnector` as a component and set `pipeline_name` to the name you want the Weave project to use. Don't connect the component to any other component in the pipeline, because the connector never processes pipeline data.
+
+    ```yaml lines
+    WeaveConnector:
+      type: haystack_integrations.components.connectors.weave.weave_connector.WeaveConnector
+      init_parameters:
+        pipeline_name: helpdesk-agent
+    ```
+
+    To build the pipeline visually instead, drag **`WeaveConnector`** from **Connectors** onto the Pipeline Builder canvas and set `pipeline_name` there.
+  </Step>
+
+  <Step title="Query the pipeline and view traces">
+    Weave creates the project the first time you query the pipeline. Open your W&B workspace, select the project named with `pipeline_name`, and go to **Traces** to review the completed traces.
+
+    When you run more than one pipeline, give each one a distinct `pipeline_name` so that you can tell their traces apart.
+  </Step>
+</Steps>
+
+## `WeaveConnector` parameters
+
+`WeaveConnector` takes the following parameters:
+
+| Parameter | Type | Default | Description |
+| --------- | ---- | ------- | ----------- |
+| `pipeline_name` | `str` | Required | The name of the pipeline you want to trace. Weave uses this value as the project name. |
+| `weave_init_kwargs` | `dict[str, Any] \| None` | `None` | Additional arguments to pass to the `WeaveTracer` client, such as a `settings` mapping. |
+
+Haystack starts the tracer when it warms up the component, so you don't need to call `warm_up()` yourself. The connector's `run()` method does nothing except return `pipeline_name`.
+
+## Learn more
+
+For full API details and additional examples, see the following resources:
+
+- deepset's [WeaveConnector](https://docs.haystack.deepset.ai/docs/weaveconnector) component page.
+- deepset's [Weave integration API reference](https://docs.haystack.deepset.ai/reference/integrations-weave).
+- deepset's [Trace with W&B Weave](https://docs.cloud.deepset.ai/docs/use-weights-and-biases) guide for the Haystack Enterprise Platform.
+- W&B's [Build and monitor AI Agents with deepset and Weights & Biases](https://wandb.ai/wandb_fc/deepset-integration/reports/Build-and-monitor-AI-Agents-with-deepset-and-Weights-Biases--VmlldzoxMjM0NDA3Mw) report, which traces a research agent end to end.
