@@ -462,11 +462,11 @@ Python에서는 트레이싱되는 각 에이전트 호출을 `log_prediction()`
 엔드포인트에 대한 자세한 내용은 다음을 참조하세요.
 
 * 기존 OTel 파이프라인에서 span을 전송하려면 [OpenTelemetry span을 Agents 뷰로 전송](/ko/weave/guides/tracking/trace-agents-otel)을 참조하세요.
-* 엔드포인트 사양은 [GenAI 트레이스 내보내기](/ko/weave/reference/service-api/agents/export-genai-trace)를 참조하세요.
+* 엔드포인트 사양은 [GenAI 트레이스 내보내기](/weave/reference/service-api/agents/export-genai-trace)를 참조하세요.
 
 `weave.eval.run_id`와 `weave.eval.predict_and_score_call_id`만 평가 및 결과 연결을 설정합니다. 행 digest, 예시 ID, trial index, kind, 평가 이름은 컨텍스트를 추가하고 필터링을 지원하지만 자체적으로 연결을 만들지는 않습니다. 두 연결 속성에는 OTel 트레이스 또는 span ID가 아닌 Weave Call ID를 사용하세요.
 
-[평가 결과 쿼리 API](/ko/weave/reference/service-api/eval-results/eval-results-query)에서 두 ID를 모두 획득할 수 있습니다. 응답의 각 평가에는 `evaluation_call_id`가 있고, 각 trial에는 `predict_and_score_call_id`가 있습니다.
+[평가 결과 쿼리 API](/weave/reference/service-api/eval-results/eval-results-query)에서 두 ID를 모두 획득할 수 있습니다. 응답의 각 평가에는 `evaluation_call_id`가 있고, 각 trial에는 `predict_and_score_call_id`가 있습니다.
 
 다음 예시에서는 `span`이 에이전트 오퍼레이션의 OTel span이라고 가정합니다. 각 대괄호 값을 해당 span이 속한 평가 run 및 결과의 메타데이터로 바꾸세요.
 
