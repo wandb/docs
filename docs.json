@@ -346,6 +346,7 @@
                             "group": "Manage data",
                             "pages": [
                               "models/artifacts/delete-artifacts",
+                              "models/artifacts/bulk-delete-artifacts",
                               "models/artifacts/ttl",
                               "models/artifacts/storage"
                             ]

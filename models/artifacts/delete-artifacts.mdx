@@ -94,6 +94,10 @@ artifact.delete(delete_aliases=True)
 
 ## Delete multiple artifact versions
 
+<Tip>
+To remove thousands or millions of artifacts, for example to get back under your storage limit, see [Delete artifacts in bulk](./bulk-delete-artifacts). Version-by-version deletion doesn't scale to that volume.
+</Tip>
+
 The following code example shows how to delete multiple artifact versions. Provide the entity, project name, and run ID that created the artifact as arguments to `wandb.Api.run()`. This returns a run object that you can use to access all artifact versions created by that run. Next, iterate through the artifact versions and delete the ones that match your criteria.
 
 <Tip>

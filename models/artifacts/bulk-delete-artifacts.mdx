@@ -1,0 +1,261 @@
+---
+title: Delete artifacts in bulk
+description: Delete many artifacts at once to reclaim storage and get back under your storage limit.
+keywords: ["bulk delete artifacts", "storage limit", "reduce storage", "delete many artifacts", "reclaim storage"]
+---
+
+Delete many artifacts at once when you need to reclaim storage, for example to get back under your storage limit. This page describes how to find what consumes your storage, how to choose a deletion method that scales to thousands or millions of artifacts, and how to confirm that W&B reclaimed the space.
+
+Deleting one artifact version at a time works for a handful of artifacts, but it doesn't scale. Each call to [`wandb.Artifact.delete()`](/models/ref/python/experiments/artifact#method-artifact-delete) is a separate API request, so clearing a million versions means a million requests. Instead, delete at the largest scope that is safe for your data: a single project or collection deletion removes all of the artifacts it contains in one server-side operation.
+
+<Warning>
+Deleted artifacts can't be recovered after garbage collection completes. Download or back up anything you might need before you delete it. See [Download and use an artifact](/models/artifacts/download-and-use-an-artifact).
+</Warning>
+
+## Before you begin
+
+Before you delete artifacts in bulk, confirm the following:
+
+- You use a current release of the W&B Python SDK. If deletions don't appear in the W&B App as expected, upgrade the SDK and retry.
+- You know which artifacts you must keep. Bulk deletion isn't reversible.
+- For team-wide time-to-live (TTL) policies, you are a team admin. Only team admins can set a team's default TTL policy.
+- For artifacts with [protected aliases](/models/registry/aliases#protected-aliases), you are a registry admin. Other users can't delete these artifacts.
+
+## Find what uses your storage
+
+Target the largest consumers first. A single project that logs model checkpoints or rendered media every run usually accounts for most of the total.
+
+To review usage in the W&B App, use either of the following pages:
+
+- The **Manage storage** page at `https://wandb.ai/account-settings/[ENTITY]/usage/manage/`, where `[ENTITY]` is your team or username. This page shows which projects and runs consume the most space.
+- The **Usage & Alerts** page in organization settings, where organization admins can select the **Storage** category to see usage over time. See [Billing settings](/platform/app/settings-page/billing-settings#view-usage-over-time).
+
+To inventory a project programmatically, list its artifact collections and report the size and age of each version. Replace `[ENTITY]` and `[PROJECT]` with your own values:
+
+```python
+import wandb
+
+api = wandb.Api()
+project = api.project(name="[PROJECT]", entity="[ENTITY]")
+
+for collection in project.collections():
+    total_bytes = 0
+    count = 0
+    newest = None
+    for version in collection.artifacts():
+        total_bytes += version.size
+        count += 1
+        if newest is None or version.created_at > newest:
+            newest = version.created_at
+    print(
+        f"{collection.type}/{collection.name}: "
+        f"{count} versions, {total_bytes / 1e9:.2f} GB, last logged {newest}"
+    )
+```
+
+You should see output similar to the following:
+
+```text
+model/checkpoints: 812 versions, 431.60 GB, last logged 2025-11-04T18:22:07
+run_table/predictions: 5104 versions, 88.19 GB, last logged 2025-11-04T18:24:51
+dataset/train-split: 3 versions, 12.04 GB, last logged 2025-06-12T09:03:44
+```
+
+W&B deduplicates files across versions of the same artifact, so the space you reclaim is smaller than the total size the versions report. Deleting a version frees only the files that no other version references. For an example, see [How much storage does each artifact version use?](/support/models/articles/how-much-storage-does-each-artifact-vers).
+
+## Choose the largest safe scope
+
+Pick the coarsest scope that contains only data you are willing to lose. Coarser scopes delete far more artifacts per API request, which makes them faster and less likely to fail partway through.
+
+| Scope | How to delete | When to use it |
+| ----- | ------------- | -------------- |
+| Project | [Delete the project](#delete-a-project) in the W&B App | An experiment or scratch project is finished and you no longer need any of its runs, artifacts, or history. |
+| Artifact collection | [`ArtifactCollection.delete()`](/models/ref/python/public-api/artifactcollection#method-artifactcollection-delete) | You keep the project but want every version of a specific artifact gone, such as a checkpoint sequence with hundreds of versions. |
+| Run and its artifacts | [`Run.delete(delete_artifacts=True)`](/models/ref/python/public-api/run#method-run-delete) | You select runs by state, tag, or date, and their artifacts have no value without them. |
+| Artifact version | [`Artifact.delete(delete_aliases=True)`](/models/ref/python/experiments/artifact#method-artifact-delete) | You must keep some versions in a collection, for example the most recent ones. |
+
+## Delete a project
+
+Deleting a project deletes its runs and artifacts in one operation, which removes the most artifacts per request of any method on this page. Back up anything you need first, because deleting a project isn't reversible.
+
+1. Navigate to the project in the W&B App.
+2. Select the **Overview** tab in the project sidebar.
+3. Click the **action (<Icon icon="ellipsis" iconType="solid"/>)** menu in the upper right corner.
+4. Select **Delete project**.
+5. Read the confirmation dialog and follow its instructions.
+
+<Note>
+W&B doesn't stop active [sweeps](/models/sweeps) or agents when you delete a project. Stop any process that still logs to the project first, or it recreates artifacts you deleted.
+</Note>
+
+## Delete artifact collections
+
+Deleting an artifact collection deletes every version in it. Prefer this scope over per-version deletion whenever you can, because one call removes an entire version history.
+
+The following example deletes every collection in a project except the ones you name in `collections_to_keep`. Replace `[ENTITY]`, `[PROJECT]`, and the collection names with your own values:
+
+```python
+import time
+
+import wandb
+
+api = wandb.Api()
+project = api.project(name="[PROJECT]", entity="[ENTITY]")
+
+collections_to_keep = {"train-split", "production-model"}
+
+for collection in project.collections():
+    if collection.name in collections_to_keep:
+        continue
+    print(f"Deleting {collection.type}/{collection.name}")
+    collection.delete()
+    time.sleep(0.1)
+```
+
+## Delete artifact versions selectively
+
+Delete individual versions when a collection contains artifacts you must keep. Filter versions by age, size, or tag, and set `delete_aliases=True` so that versions with aliases such as `latest` or `best` don't raise an exception.
+
+Select the versions to delete in one pass and write them to a file, then delete them in a second pass. Two passes let you review the list before anything is deleted, and let you resume where you stopped if the deletion is interrupted.
+
+The following example selects versions of one collection that are older than 90 days. [`Artifact.created_at`](/models/ref/python/experiments/artifact#property-created-at) is an ISO 8601 timestamp string. Replace `[ENTITY]`, `[PROJECT]`, `[ARTIFACT-TYPE]`, and `[COLLECTION-NAME]` with your own values:
+
+```python
+import pathlib
+from datetime import datetime, timedelta, timezone
+
+import wandb
+
+api = wandb.Api()
+
+cutoff = datetime.now(timezone.utc) - timedelta(days=90)
+targets = pathlib.Path("artifacts_to_delete.txt")
+selected = []
+total_bytes = 0
+
+for version in api.artifacts(
+    type_name="[ARTIFACT-TYPE]",
+    name="[ENTITY]/[PROJECT]/[COLLECTION-NAME]",
+):
+    created_at = datetime.fromisoformat(version.created_at.replace("Z", "+00:00"))
+    if created_at.tzinfo is None:
+        created_at = created_at.replace(tzinfo=timezone.utc)
+    if created_at >= cutoff:
+        continue
+    selected.append(version.qualified_name)
+    total_bytes += version.size
+
+targets.write_text("\n".join(selected))
+print(f"Selected {len(selected)} versions tracking {total_bytes / 1e9:.2f} GB")
+```
+
+To restrict the selection to versions that carry specific tags, pass `tags` to [`Api.artifacts()`](/models/ref/python/public-api/api#method-api-artifacts).
+
+Review `artifacts_to_delete.txt`, then delete the versions it lists. The script records each deletion, so you can rerun it after an interruption without repeating work:
+
+```python
+import pathlib
+import time
+
+import wandb
+
+api = wandb.Api()
+
+targets = pathlib.Path("artifacts_to_delete.txt")
+completed_log = pathlib.Path("deleted.txt")
+
+completed = set(completed_log.read_text().split()) if completed_log.exists() else set()
+
+with completed_log.open("a") as log:
+    for name in targets.read_text().split():
+        if name in completed:
+            continue
+        api.artifact(name).delete(delete_aliases=True)
+        log.write(f"{name}\n")
+        log.flush()
+        time.sleep(0.1)
+```
+
+To resume the selection pass itself, [`Api.artifacts()`](/models/ref/python/public-api/api#method-api-artifacts) accepts a `start` cursor that continues a previous query from the position saved in the paginator's `cursor` attribute. For more patterns, see [How do I page through large API results in W&B?](/support/models/articles/how-do-i-paginate-through-large-api-results-in-wandb).
+
+## Expire artifacts in bulk with a TTL policy
+
+A team's default TTL policy applies to all existing and future artifacts based on each artifact's creation date, so setting one expires a backlog of old artifacts without any deletion script. Artifacts that already have a version-level TTL policy are unaffected.
+
+To set a default TTL policy for your team, see [Set default TTL policies for a team](/models/artifacts/ttl#set-default-ttl-policies-for-a-team). Only team admins can set it.
+
+TTL policies apply only to user-generated artifacts. W&B can't expire auto-generated artifacts, which include the types `run_table`, `code`, `job`, and any type that starts with `wandb-`. Logged tables and media are stored as auto-generated artifacts, so they often account for much of a project's storage usage. Remove them by deleting their runs, collections, or project instead. For details, see [Manage artifact data retention](/models/artifacts/ttl#auto-generated-artifacts).
+
+## Pace deletions to stay within limits
+
+W&B applies rate limits per project, and a large deletion job places load on the W&B backend. Pace your deletions so that they complete reliably:
+
+- **Delete sequentially.** Run one deletion loop at a time rather than many parallel workers.
+- **Add a short delay between calls.** A brief `time.sleep()` call between deletions keeps a long loop below the rate limit. If you receive HTTP `429` responses, increase the delay.
+- **Keep batches modest.** When you delete runs together with their artifacts, delete a few hundred at a time instead of tens of thousands in a single request. Oversized requests can time out before the backend finishes the work.
+- **Retry with exponential backoff.** Wrap deletions in retry logic so a transient `429` or `500` response doesn't end the whole pass.
+
+The following example deletes finished runs and their artifacts in batches, pausing between batches. Replace `[ENTITY]` and `[PROJECT]` with your own values:
+
+```python
+import time
+
+import wandb
+
+api = wandb.Api()
+runs = api.runs("[ENTITY]/[PROJECT]")
+
+batch_size = 200
+
+for index, run in enumerate(runs, start=1):
+    if run.state != "finished":  # Replace with your own condition
+        continue
+    run.delete(delete_artifacts=True)
+    time.sleep(0.1)
+    if index % batch_size == 0:
+        print(f"Deleted {index} runs")
+        time.sleep(5)
+```
+
+## Troubleshoot deletion errors
+
+The following errors are common during large deletions:
+
+- **An exception reports that the artifact has aliases.** [`Artifact.delete()`](/models/ref/python/experiments/artifact#method-artifact-delete) raises an exception when the version has aliases and `delete_aliases` is `False`. Call `version.delete(delete_aliases=True)`.
+- **A version linked to a registry isn't deleted.** Calling `delete()` on a linked artifact deletes only the link, and the source artifact is unaffected. Use [`Artifact.unlink()`](/models/ref/python/experiments/artifact#method-artifact-unlink) to remove a link deliberately, and delete the source artifact to reclaim its storage.
+- **A version with a protected alias can't be deleted.** Registry admins must remove the [protected alias](/models/registry/aliases#protected-aliases) before anyone can delete the source artifact. See [Protected aliases and deletion permissions](/models/artifacts/delete-artifacts#protected-aliases-and-deletion-permissions).
+- **A TTL policy can't be set.** Artifacts linked to the Registry and auto-generated artifacts can't use TTL policies. Your team admin also controls whether team members can set TTL policies at all.
+- **A large request fails or times out.** Reduce the batch size, then retry the batch that failed. Deletions that already succeeded don't need to be repeated.
+- **The W&B App returns an error when you select many versions at once.** Selecting thousands of versions in the UI isn't a workable path at this scale. Delete the collection or project instead, or delete versions with the Public API.
+
+## Confirm storage was reclaimed
+
+W&B doesn't free storage the moment you delete an artifact:
+
+1. W&B marks deleted artifacts as *soft-deleted*.
+2. A garbage collection process reviews soft-deleted artifacts and deletes their files from storage if no other artifact version uses those files. W&B doesn't guarantee how quickly space is freed. For details, see [Delete an artifact](/models/artifacts/delete-artifacts).
+3. Your reported usage updates after the backend finishes processing, which can take a few hours. If you exceeded your storage limit, any access restriction lifts automatically once your usage falls below the limit. See [Why does the storage meter not update after deleting runs?](/support/models/articles/why-does-the-storage-meter-not-update-af).
+
+Check the **Manage storage** page again after a few hours to confirm that usage dropped. If usage still reflects artifacts you deleted, [contact support](mailto:support@wandb.com).
+
+<Note>
+In W&B Dedicated and W&B Self-Managed deployments, and in any deployment that uses [Bring your own bucket (BYOB)](/platform/hosting/data-security/secure-storage-connector), garbage collection has additional prerequisites, such as the `GORILLA_ARTIFACT_GC_ENABLED` environment variable and bucket versioning. If deleted artifacts never leave your bucket, verify these settings. See [Enable garbage collection based on how W&B is hosted](/models/artifacts/delete-artifacts#enable-garbage-collection-based-on-how-wb-is-hosted) and [Manage bucket storage and costs](/platform/hosting/managing-bucket-storage).
+</Note>
+
+## Prevent storage from growing again
+
+After you're back under your storage limit, reduce how quickly artifacts accumulate:
+
+- Set a [TTL policy](/models/artifacts/ttl) when you create artifacts, so checkpoints expire on a schedule instead of accumulating.
+- Log large files as [reference artifacts](/models/artifacts/track-external-files) to track data that stays in your own bucket.
+- Log fewer checkpoints, or overwrite a single artifact collection instead of creating a version per epoch.
+
+## Related documentation
+
+For more information, see the following resources:
+
+- [Delete an artifact](/models/artifacts/delete-artifacts)
+- [Manage artifact data retention](/models/artifacts/ttl)
+- [Delete runs](/models/runs/delete-runs)
+- [Manage storage](/platform/app/settings-page/storage)
+- [Manage bucket storage and costs](/platform/hosting/managing-bucket-storage)
