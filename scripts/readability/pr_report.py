@@ -42,6 +42,7 @@ See also
 from __future__ import annotations
 
 import argparse
+import html
 import json
 import os
 import subprocess
@@ -221,9 +222,13 @@ def run_comprehension_judge(
     """
     Score AI agent comprehension on the before and after text via W&B Inference.
 
-    Returns a dict with before/after ratings and the delta, or None if the judge
-    is unavailable (no WANDB_API_KEY, missing deps, or an API error). Imported
-    lazily so the deterministic path and the unit tests do not need weave/openai.
+    Returns a dict with before/after ratings, the delta, and an ``error`` string
+    when the judge ran but could not produce a rating (``_call_judge`` swallows
+    API and parse failures and returns ``rating=None`` with the reason in its
+    ``error``/``reasoning`` fields — e.g. an expired WANDB_API_KEY). Returns
+    None if the judge is unavailable (no WANDB_API_KEY or missing deps).
+    Imported lazily so the deterministic path and the unit tests do not need
+    weave/openai.
     """
     if not os.environ.get("WANDB_API_KEY"):
         return None
@@ -252,10 +257,19 @@ def run_comprehension_judge(
         if isinstance(before_rating, int) and isinstance(after_rating, int)
         else None
     )
+    error = None
+    for res in (after_res, before_res):
+        if res is not None and res.get("rating") is None:
+            error = str(res.get("error") or res.get("reasoning") or "no rating returned")
+            break
+    if error:
+        print(f"[readability] comprehension judge returned no rating: {error}",
+              file=sys.stderr)
     return {
         "before_rating": before_rating,
         "after_rating": after_rating,
         "rating_delta": rating_delta,
+        "error": error,
     }
 
 
@@ -317,6 +331,22 @@ def _fmt(value: Optional[float]) -> str:
 
 def _fmt_abs(value: Optional[float]) -> str:
     return "—" if value is None else f"{value:.1f}"
+
+
+def _short(text: str, limit: int = 200) -> str:
+    return text if len(text) <= limit else text[: limit - 1] + "…"
+
+
+def _sanitize_error(text: str, limit: int = 200) -> str:
+    """Make an external error string safe to embed in the report's HTML.
+
+    Judge errors come straight from an API response, so they can contain
+    newlines (which break the single-line <sub> footnote) or characters like
+    `<` and `&` (which the comment renderer would interpret as HTML).
+    Collapse whitespace, truncate, then escape — in that order, so the
+    truncation can never split an escape entity.
+    """
+    return html.escape(_short(" ".join(text.split()), limit))
 
 
 def build_report_markdown(
@@ -389,6 +419,18 @@ def build_report_markdown(
             lines.append(
                 f"| `{path}` | {br if br is not None else '—'} | "
                 f"{ar if ar is not None else '—'} | {rd_str} |"
+            )
+        # Say why ratings are missing instead of leaving unexplained "—" cells.
+        judge_errors = sorted({
+            _sanitize_error(str(j["error"]))
+            for j in judge_by_path.values()
+            if j.get("error")
+        })
+        if judge_errors:
+            lines.append("")
+            lines.append(
+                "<sub>Pages showing — could not be rated: "
+                + "; ".join(judge_errors) + "</sub>"
             )
 
     # --- Corpus baseline context ---
