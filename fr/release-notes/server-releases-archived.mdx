@@ -110,7 +110,7 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
     * Nous migrons progressivement les ressources existantes du Model Registry au niveau de l’équipe vers W&amp;B Registry au cours des prochaines versions. **Aucune action n’est requise de votre part. W&amp;B copiera automatiquement les ressources du Model Registry de chaque équipe vers un registry privé correspondant au niveau de l’équipe, créé automatiquement.**  Les références existantes aux collections de modèles dans votre ancien Model Registry au niveau de l’équipe continueront de fonctionner.
 
       1. Dans Server v0.71, Registry sera activé par défaut pour toutes les organisations.
-      2. Server v0.73 (août) inclura une variable d’environnement de désactivation, et cette migration s’exécutera automatiquement pendant la mise à niveau. La migration prend entre 5 et 30 minutes pour la plupart des organisations. Pendant la migration, l’association d’artefacts à l’ancien Model Registry de l’équipe ou au nouveau Registry échouera avec une erreur. ****La journalisation et la récupération des artefacts** **ne seront pas affectées**.
+      2. Server v0.73 (août) inclura une variable d’environnement de désactivation, et cette migration s’exécutera automatiquement pendant la mise à niveau. La migration prend entre 5 et 30 minutes pour la plupart des organisations. Pendant la migration, l’association d’artefacts à l’ancien Model Registry de l’équipe ou au nouveau Registry échouera avec une erreur. **La journalisation et la récupération des artefacts ne seront pas affectées**.
       3. Dans Server v0.74 (septembre), nous supprimerons cet indicateur et la migration aura lieu pendant la mise à niveau.
 
       Nous visons une mise à niveau fluide, avec un minimum de perturbations, vers une nouvelle expérience plus puissante. Contactez votre équipe W&amp;B ou le [support](mailto:support@wandb.ai) pour toute question sur la migration.
@@ -650,7 +650,7 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 <Update label="v0.47.2" description="1 décembre 2023">
   ## Fonctionnalités
 
-  * Utilisez des rôles personnalisés avec des autorisations spécifiques pour personnaliser le contrôle d&#39;accès au sein d&#39;une équipe**
+  * **Utilisez des rôles personnalisés avec des autorisations spécifiques pour personnaliser le contrôle d&#39;accès au sein d&#39;une équipe**
     Disponible en aperçu pour les clients Enterprise. Pour toute question, contactez votre équipe de compte W&amp;B ou l&#39;assistance.
   * Améliorations mineures de la recherche de runs
   * Redimensionnement automatique de la recherche de runs pour les textes longs
@@ -671,7 +671,7 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
   * Les déploiements sur AWS peuvent désormais utiliser W&amp;B Secrets avec Webhooks et Automations
     Les secrets sont stockés de manière sécurisée dans AWS Secret Manager. Utilisez le module terraform-aws-wandb pour en provisionner un et
   * Mise à jour du tableau des webhooks pour afficher davantage d&#39;informations
-  * Meilleure troncature des chaînes longues pour améliorer leur lisibilité dans l&#39;UI
+  * Meilleure troncature des chaînes longues pour améliorer leur lisibilité dans l&#39;interface utilisateur
   * Réduction du délai de défilement vers une section de rapport
   * Ajout d&#39;un arrière-plan blanc aux panneaux weave1
   * Autorisation des liens profonds pour les panneaux weave1 dans les Reports

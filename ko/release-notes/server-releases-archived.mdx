@@ -110,7 +110,7 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
     * 기존 팀 수준 Model Registry 자산은 앞으로 몇 차례의 릴리스에 걸쳐 단계적으로 W&amp;B Registry로 이전하고 있습니다. **사용자 측에서 별도로 하실 작업은 없습니다. W&amp;B가 각 팀의 Model Registry 자산을 자동으로 생성된 해당 팀 수준의 비공개 Registry로 자동 복사합니다.**  이전 팀 수준 Model Registry의 모델 컬렉션에 대한 기존 레퍼런스도 계속 작동합니다.
 
       1. Server v0.71에서는 모든 조직에 대해 Registry가 기본적으로 활성화됩니다.
-      2. Server v0.73(8월)에는 업그레이드 중 이 마이그레이션을 자동으로 실행하는 옵트아웃 환경 변수가 포함됩니다. 대부분의 조직에서는 마이그레이션에 5~30분이 소요됩니다. 마이그레이션 중에는 이전 팀의 Model Registry 또는 새 Registry에 아티팩트를 연결하려고 하면 오류와 함께 실패합니다. ****아티팩트 로깅 및 조회** **에는 영향이 없습니다**.
+      2. Server v0.73(8월)에는 업그레이드 중 이 마이그레이션을 자동으로 실행하는 옵트아웃 환경 변수가 포함됩니다. 대부분의 조직에서는 마이그레이션에 5~30분이 소요됩니다. 마이그레이션 중에는 이전 팀의 Model Registry 또는 새 Registry에 아티팩트를 연결하려고 하면 오류와 함께 실패합니다. **아티팩트 로깅 및 조회에는 영향이 없습니다**.
       3. Server v0.74(9월)에서는 이 플래그가 제거되며, 마이그레이션은 업그레이드 중에 수행됩니다.
 
       새로운 기능으로 최대한 원활하게 업그레이드하고 불편을 최소화할 수 있도록 최적화하고 있습니다. 마이그레이션에 대해 궁금한 점이 있으면 W&amp;B 팀 또는 [support](mailto:support@wandb.ai)로 문의하세요.
@@ -644,17 +644,17 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
   ## Fixes
 
   * 너무 넓게 표시되던 runs 선택기 열 너비 축소
-  * Custom Roles 프리뷰 기능과 관련된 몇 가지 버그 수정
+  * 커스텀 역할 프리뷰 기능과 관련된 몇 가지 버그 수정
 </Update>
 
 <Update label="v0.47.2" description="December 1, 2023">
   ## Features
 
-  * 특정 권한을 가진 Custom Roles를 사용해 팀 내 액세스 제어를 맞춤 설정하기**
+  * **특정 권한을 가진 커스텀 역할를 사용해 팀 내 액세스 제어를 맞춤 설정하기**
     엔터프라이즈 고객에게 프리뷰로 제공됩니다. 궁금한 점이 있으면 W&amp;B 계정 팀 또는 지원팀에 문의하세요.
   * runs 검색 기능 소규모 개선
   * 긴 텍스트에 대해 runs 검색 영역 자동 크기 조정
-  * webhook 자동화의 경우 Automations 테이블에서 URL, 시크릿, 생성 날짜를 포함한 webhook 세부 정보를 직접 확인
+  * 웹훅 자동화의 경우 Automations 테이블에서 URL, 시크릿, 생성 날짜를 포함한 웹훅 세부 정보를 직접 확인
 
   ## Fixes
 
@@ -668,9 +668,9 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
 <Update label="v0.46.0" description="November 15, 2023">
   ## Features
 
-  * 이제 AWS 배포에서 Webhooks 및 Automations와 함께 W&amp;B Secrets를 사용할 수 있습니다.
+  * 이제 AWS 배포에서 웹훅 및 Automations와 함께 W&amp;B Secrets를 사용할 수 있습니다.
     시크릿은 AWS Secret Manager에 안전하게 저장됩니다. 하나를 프로비저닝하려면 terraform-aws-wandb 모듈을 사용하세요.
-  * 더 많은 정보를 표시하도록 webhooks 테이블 업데이트
+  * 더 많은 정보를 표시하도록 웹훅 테이블 업데이트
   * 긴 문자열을 더 적절히 잘라 UI에서 문자열 사용성 개선
   * 리포트 섹션으로 스크롤되는 데 걸리는 지연 시간 단축
   * weave1 패널에 흰색 배경 추가
@@ -678,7 +678,7 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
   * 리포트에서 weave1 패널 크기 조정 허용
   * 홈페이지 배너에 이제 CLI 로그인 안내가 표시됩니다.
   * 어떤 이유로 초대 이메일을 보낼 수 없어도 사용자 초대가 성공하도록 변경
-  * 에이전트 개요 페이지에 관련 queue 목록 추가
+  * 에이전트 개요 페이지에 관련 큐 목록 추가
 
   ## Fixes
 
@@ -696,7 +696,7 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
 
   * 환경 변수 `GORILLA_ARTIFACT_GC_ENABLED=true`와 클라우드 오브젝트 버저닝 또는 소프트 삭제를 사용하여 아티팩트 가비지 컬렉션 활성화
   * terraform 모듈 terrraform-azurerm-wandb가 이제 Azure Key Vault를 시크릿 저장소로 지원합니다.
-    이제 Azure 배포에서 Webhooks 및 Automations와 함께 W&amp;B Secrets를 사용할 수 있습니다. 시크릿은 Azure Key Vault에 안전하게 저장됩니다.
+    이제 Azure 배포에서 웹훅 및 Automations와 함께 W&amp;B Secrets를 사용할 수 있습니다. 시크릿은 Azure Key Vault에 안전하게 저장됩니다.
 
   ## Fixes
 

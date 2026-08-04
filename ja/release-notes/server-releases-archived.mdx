@@ -110,7 +110,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
     * 今後数回のリリースにわたって、既存のチームレベルの Model Registry アセットを段階的に W&amp;B Registry へ移行します。**お客様側での作業は不要です。W&amp;B が各チームの Model Registry アセットを、対応する自動作成されたチームレベルのプライベート Registry に自動的にコピーします。**  以前のチームレベルの Model Registry 内にあるモデル コレクションへの既存の参照は、引き続き機能します。
 
       1. Server v0.71 では、すべての組織で Registry がデフォルトで有効になります。
-      2. Server v0.73 (8 月) には、アップグレード中にこの移行を自動的に実行するオプトアウト用の環境変数が含まれます。ほとんどの組織では、移行に 5 分から 30 分かかります。移行中は、古いチームの Model Registry または新しい Registry のいずれかに artifact をリンクしようとすると、エラーで失敗します。****artifact のログと取得** **には影響ありません**。
+      2. Server v0.73 (8 月) には、アップグレード中にこの移行を自動的に実行するオプトアウト用の環境変数が含まれます。ほとんどの組織では、移行に 5 分から 30 分かかります。移行中は、古いチームの Model Registry または新しい Registry のいずれかに artifact をリンクしようとすると、エラーで失敗します。**artifact のログと取得には影響ありません**。
       3. Server v0.74 (9 月) では、このフラグを削除し、移行はアップグレード中に実行されます。
 
       強力な新しい機能を、できる限りシームレスかつ影響を最小限に抑えてご利用いただけるよう、アップグレードを進めています。移行についてご不明な点がありましたら、W&amp;B チームまたは [support](mailto:support@wandb.ai) までお問い合わせください。
@@ -637,9 +637,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * Launch の優先度設定に必要なフロントエンド変更をすべて追加
     Launch を使って、他のジョブよりも重要なジョブを実行する方法については、[こちらのブログ](https://wandb.ai/wandb_fc/launch-releases/reports/Introducing-Priority-Based-Job-Management-with-W-B-Launch--Vmlldzo2MzE2NjI2)を参照してください。
   * チームのサービスアカウントにおけるアクセス制御とユーザー属性の付与の挙動については、以下の変更を参照してください。
-    * トレーニング環境でチームが設定されている場合、そのチームのサービスアカウントを使用して、そのチーム内のプライベートまたはパブリックなプロジェクトに run をログできます。さらに、環境で `WANDB_USERNAME` または `WANDB_USER_EMAIL` 変数が設定されており、かつそのユーザーがそのチームに所属している場合に限り、それらの run をそのユーザーに帰属させることができます。
-    * トレーニング環境でチームが設定されておらず、サービスアカウントが使用されている場合、run はそのサービスアカウントのチーム内にある指定プロジェクトにログされます。また、環境で `WANDB_USERNAME` または `WANDB_USER_EMAIL` 変数が設定されており、かつそのユーザーがそのチームに所属している場合に限り、それらの run をそのユーザーに帰属させることができます。
-    * チームのサービスアカウントは、別のチームのプライベートプロジェクトには run をログ**できません**が、別のチームのパブリックプロジェクトには run をログできます。
+    * トレーニング環境でチームが設定されている場合、そのチームのサービスアカウントを使用して、そのチーム内のプライベートまたはパブリックな project に run をログできます。さらに、環境で `WANDB_USERNAME` または `WANDB_USER_EMAIL` 変数が設定されており、かつそのユーザーがそのチームに所属している場合に限り、それらの run をそのユーザーに帰属させることができます。
+    * トレーニング環境でチームが設定されておらず、サービスアカウントが使用されている場合、run はそのサービスアカウントのチーム内にある指定 project にログされます。また、環境で `WANDB_USERNAME` または `WANDB_USER_EMAIL` 変数が設定されており、かつそのユーザーがそのチームに所属している場合に限り、それらの run をそのユーザーに帰属させることができます。
+    * チームのサービスアカウントは、別のチームのプライベートprojectには run をログ**できません**が、別のチームのパブリックprojectには run をログできます。
 
   ## 修正
 
@@ -650,7 +650,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 <Update label="v0.47.2" description="2023年12月1日">
   ## 機能
 
-  * 特定の権限を持つカスタムロールを使用して、チーム内のアクセス制御をカスタマイズ**
+  * **特定の権限を持つカスタムロールを使用して、チーム内のアクセス制御をカスタマイズ**
     Enterprise のお客様向けにプレビュー提供されています。ご不明な点があれば、W&amp;B の account team またはサポートまでお問い合わせください。
   * run 検索を軽微に改善
   * 長いテキストに対応するため、run 検索のサイズを自動調整
@@ -694,8 +694,8 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 <Update label="v0.45.0" description="2023年10月25日">
   ## 機能
 
-  * 環境変数 `GORILLA_ARTIFACT_GC_ENABLED=true` とクラウドオブジェクトのバージョン管理またはソフト削除を使用して、artifact のガベージコレクションを有効化。
-  * terraform module terrraform-azurerm-wandb が、シークレットストアとして Azure Key Vault をサポートするようになりました。
+  * 環境変数 `GORILLA_ARTIFACT_GC_ENABLED=true` とクラウドオブジェクトのバージョン管理またはソフト削除を使用して、アーティファクトのガベージコレクションを有効化。
+  * Terraform モジュール terrraform-azurerm-wandb が、シークレットストアとして Azure Key Vault をサポートするようになりました。
     Azure 上のデプロイで、Webhooks および Automations とともに W&amp;B Secrets を使用できるようになりました。シークレットは Azure Key Vault に安全に保存されます。
 
   ## 修正
