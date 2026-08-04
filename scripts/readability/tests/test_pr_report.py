@@ -220,6 +220,63 @@ def test_build_report_judge_table():
     assert "| `a.mdx` | 1 | 3 | +2 |" in md
 
 
+def test_build_report_judge_table_explains_missing_ratings():
+    # A judge row with rating=None carries the failure reason in "error"
+    # (e.g. an expired WANDB_API_KEY). The report must say why instead of
+    # leaving bare em-dashes (DOCS-3042).
+    results = [
+        {
+            "status": "scored",
+            "path": "a.mdx",
+            "fk_before": 12.0,
+            "fk_after": 10.0,
+            "fk_delta": -2.0,
+            "ease_delta": 4.0,
+            "direction": "easier",
+            "after_word_count": 500,
+        },
+    ]
+    judge = {
+        "a.mdx": {
+            "before_rating": None,
+            "after_rating": None,
+            "rating_delta": None,
+            "error": "Error code: 401 - invalid API key",
+        },
+    }
+    md = pr_report.build_report_markdown(
+        results, pr_report.aggregate(results), judge_by_path=judge
+    )
+    assert "| `a.mdx` | — | — | — |" in md
+    assert "could not be rated" in md
+    assert "Error code: 401 - invalid API key" in md
+
+
+def test_run_comprehension_judge_propagates_error(monkeypatch, tmp_path):
+    # _call_judge never raises for API failures; it returns rating=None with
+    # the reason in "error". run_comprehension_judge must pass that through.
+    import types
+
+    fake = types.ModuleType("_docs_eval_lib")
+    fake._RUBRIC_AI_COMPREHENSION = "rubric"
+    fake._call_judge = lambda rubric, text: {
+        "rating": None,
+        "score": None,
+        "reasoning": "Judge call failed: 401",
+        "error": "Error code: 401 - invalid API key",
+    }
+    monkeypatch.setenv("WANDB_API_KEY", "stale-key")
+    monkeypatch.setitem(sys.modules, "_docs_eval_lib", fake)
+
+    j = pr_report.run_comprehension_judge(tmp_path, "before text", "after text")
+    assert j == {
+        "before_rating": None,
+        "after_rating": None,
+        "rating_delta": None,
+        "error": "Error code: 401 - invalid API key",
+    }
+
+
 def test_build_report_baseline_context_line():
     results = [
         {
