@@ -120,7 +120,7 @@ Register a handler for the signal that your scheduler or platform uses to indica
 2. Perform any required cleanup, such as saving a checkpoint.
 3. Exit with a nonzero status code. A common convention for signal termination is `128 + signum`.
 
- Do not call `mark_preempting()` unconditionally immediately after `wandb.init()`. Doing so can mark every failure, including code bugs, as preemption and requeue the run repeatedly.
+Do not call `mark_preempting()` unconditionally immediately after `wandb.init()`. Doing so can mark every failure, including code bugs, as preemption and requeue the run repeatedly.
 
 For runnable examples, `--forward-signals` on the CLI agent, and a full reference table for different uses of `mark_preempting()`, see [Signal handling and sweep runs](/models/sweeps/signal-handling-sweep-runs).
 
