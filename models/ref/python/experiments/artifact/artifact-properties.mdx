@@ -9,7 +9,7 @@ namespace: wandb.sdk.artifacts.artifact
 
 ## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.Artifact
 
-### <kbd>property</kbd> aliases
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> aliases
 
 List of one or more semantically-friendly references or
 
@@ -20,7 +20,7 @@ Change an artifact's alias with the W&B App UI or programmatically.
 See [Create new artifact versions](https://docs.wandb.ai/models/artifacts/create-a-new-artifact-version)
 for more information.
 
-### <kbd>property</kbd> collection
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> collection
 
 The collection this artifact is retrieved from.
 
@@ -32,51 +32,51 @@ that the artifact version originates from.
 The collection that an artifact originates from is known as
 the source sequence.
 
-### <kbd>property</kbd> commit_hash
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> commit_hash
 
 The hash returned when this artifact was committed.
 
-### <kbd>property</kbd> created_at
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> created_at
 
 Timestamp when the artifact was created.
 
-### <kbd>property</kbd> description
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> description
 
 A description of the artifact.
 
-### <kbd>property</kbd> digest
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> digest
 
 The logical digest of the artifact.
 
 The digest is the checksum of the artifact's contents. If an artifact has the
 same digest as the current `latest` version, then `log_artifact` is a no-op.
 
-### <kbd>property</kbd> entity
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> entity
 
 The name of the entity that the artifact collection belongs to.
 
 If the artifact is a link, the entity will be the entity of the linked artifact.
 
-### <kbd>property</kbd> file_count
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> file_count
 
 The number of files (including references).
 
-### <kbd>property</kbd> history_step
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> history_step
 
 The nearest step which logged history metrics for this artifact's source run.
 
-### <kbd>property</kbd> id
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> id
 
 The artifact's ID.
 
-### <kbd>property</kbd> is_link
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> is_link
 
 Boolean flag indicating if the artifact is a link artifact.
 
 True: The artifact is a link artifact to a source artifact.
 False: The artifact is a source artifact.
 
-### <kbd>property</kbd> linked_artifacts
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> linked_artifacts
 
 Returns a list of all the linked artifacts of a source artifact.
 
@@ -85,20 +85,20 @@ it will return an empty list.
 
 Limited to 500 results.
 
-### <kbd>property</kbd> manifest
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> manifest
 
 The artifact's manifest.
 
 The manifest lists all of its contents, and can't be changed once the artifact
 has been logged.
 
-### <kbd>property</kbd> metadata
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> metadata
 
 User-defined artifact metadata.
 
 Structured data associated with the artifact.
 
-### <kbd>property</kbd> name
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> name
 
 The artifact name and version of the artifact.
 
@@ -106,72 +106,72 @@ A string with the format `{collection}:{alias}`. If fetched before an artifact i
 logged/saved, the name won't contain the alias.
 If the artifact is a link, the name will be the name of the linked artifact.
 
-### <kbd>property</kbd> project
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> project
 
 The name of the project that the artifact collection belongs to.
 
 If the artifact is a link, the project will be the project of the linked artifact.
 
-### <kbd>property</kbd> qualified_name
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> qualified_name
 
 The entity/project/name of the artifact.
 
 If the artifact is a link, the qualified name will be the qualified name of the
 linked artifact path.
 
-### <kbd>property</kbd> size
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> size
 
 The total size of the artifact in bytes.
 
 Includes any references tracked by this artifact.
 
-### <kbd>property</kbd> source_artifact
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> source_artifact
 
 Returns the source artifact, which is the original logged artifact.
 
 If this artifact is a source artifact (`artifact.is_link == False`),
 it will return itself.
 
-### <kbd>property</kbd> source_collection
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> source_collection
 
 The artifact's source collection.
 
 The source collection is the collection that the artifact was logged from.
 
-### <kbd>property</kbd> source_entity
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> source_entity
 
 The name of the entity of the source artifact.
 
-### <kbd>property</kbd> source_name
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> source_name
 
 The artifact name and version of the source artifact.
 
 A string with the format `{source_collection}:{alias}`. Before the artifact
 is saved, contains only the name since the version is not yet known.
 
-### <kbd>property</kbd> source_project
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> source_project
 
 The name of the project of the source artifact.
 
-### <kbd>property</kbd> source_qualified_name
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> source_qualified_name
 
 The source_entity/source_project/source_name of the source artifact.
 
-### <kbd>property</kbd> source_version
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> source_version
 
 The source artifact's version.
 
 A string with the format `v{number}`.
 
-### <kbd>property</kbd> state
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> state
 
 The status of the artifact. One of: "PENDING", "COMMITTED", or "DELETED".
 
-### <kbd>property</kbd> tags
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> tags
 
 List of one or more tags assigned to this artifact version.
 
-### <kbd>property</kbd> ttl
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> ttl
 
 The time-to-live (TTL) policy of an artifact.
 
@@ -182,23 +182,23 @@ An artifact inherits a TTL policy from
 the team default if the team administrator defines a default
 TTL and there is no custom policy set on an artifact.
 
-### <kbd>property</kbd> type
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> type
 
 The artifact's type. Common types include `dataset` or `model`.
 
-### <kbd>property</kbd> updated_at
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> updated_at
 
 The time when the artifact was last updated.
 
-### <kbd>property</kbd> url
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> url
 
 Constructs the URL of the artifact.
 
-### <kbd>property</kbd> use_as
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> use_as
 
 Deprecated.
 
-### <kbd>property</kbd> version
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> version
 
 The artifact's version.
 

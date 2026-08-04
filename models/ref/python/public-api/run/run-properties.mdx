@@ -9,42 +9,42 @@ namespace: wandb.apis.public.runs
 
 ## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.Run
 
-### <kbd>property</kbd> config
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> config
 
 Get run config. Auto-loads full data if in lazy mode.
 
-### <kbd>property</kbd> entity
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> entity
 
 The entity associated with the run.
 
-### <kbd>property</kbd> id
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> id
 
 The unique identifier for the run.
 
-### <kbd>property</kbd> lastHistoryStep
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> lastHistoryStep
 
 Returns the last step logged in the run's history.
 
-### <kbd>property</kbd> metadata
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> metadata
 
 Metadata about the run from wandb-metadata.json.
 
 Metadata includes the run's description, tags, start time, memory
 usage and more.
 
-### <kbd>property</kbd> name
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> name
 
 The name of the run.
 
-### <kbd>property</kbd> path
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> path
 
 The path of the run. The path is a list containing the entity, project, and run_id.
 
-### <kbd>property</kbd> rawconfig
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> rawconfig
 
 Get raw run config including internal keys. Auto-loads full data if in lazy mode.
 
-### <kbd>property</kbd> state
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> state
 
 The state of the run.
 
@@ -59,38 +59,38 @@ The following table describes the possible states a run can be in:
 | Running  | Run is still running and has recently sent a heartbeat. |
 | Pending  | Run is scheduled but not yet started (common in sweeps and Launch jobs). |
 
-### <kbd>property</kbd> storage_id
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> storage_id
 
 The unique storage identifier for the run.
 
-### <kbd>property</kbd> summary
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> summary
 
 Get run summary metrics. Auto-loads full data if in lazy mode.
 
-### <kbd>property</kbd> summary_metrics
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> summary_metrics
 
 Get run summary metrics. Auto-loads full data if in lazy mode.
 
-### <kbd>property</kbd> sweep
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> sweep
 
 The sweep associated with this run. Loads sweep data if include_sweeps is False.
 
-### <kbd>property</kbd> sweep_name
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> sweep_name
 
 Get sweep name. Always available since sweepName is in lightweight fragment.
 
-### <kbd>property</kbd> system_metrics
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> system_metrics
 
 Get run system metrics. Auto-loads full data if in lazy mode.
 
-### <kbd>property</kbd> url
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> url
 
 The URL of the run.
 
 The run URL is generated from the entity, project, and run_id. For
 SaaS users, it takes the form of `https://wandb.ai/entity/project/run_id`.
 
-### <kbd>property</kbd> username
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> username
 
 This API is deprecated. Use `entity` instead.
 
