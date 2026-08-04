@@ -7,11 +7,11 @@ namespace: wandb.automations._filters.run_metrics
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/_filters/run_metrics.py#L202" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/_filters/run_metrics.py#L202" />
 
 
 
-## <kbd>class</kbd> wandb.automations.MetricZScoreFilter
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.automations.MetricZScoreFilter
 ```python
 *,
 name: str,
@@ -28,11 +28,21 @@ Filter that compares a metric's z-score against a user-defined threshold.
 
 ## Args
 
-- `name`: Name of the observed metric.
-- `window_size`: Size of the window to calculate the metric mean and standard deviation over.
-- `threshold`: Threshold for the z-score.
-- `change_dir`: Direction of the z-score change to watch for.
+<ResponseField name="name" type="str">
+Name of the observed metric.
+</ResponseField>
 
+<ResponseField name="window_size" type="Annotated[int, Gt(gt=0)]">
+Size of the window to calculate the metric mean and standard deviation over.
+</ResponseField>
+
+<ResponseField name="threshold" type="Union[Annotated[int, Gt(gt=0)], Annotated[float, Gt(gt=0)]]">
+Threshold for the z-score.
+</ResponseField>
+
+<ResponseField name="change_dir" type="wandb.automations._filters.run_metrics.ChangeDir">
+Direction of the z-score change to watch for.
+</ResponseField>
 
 
 

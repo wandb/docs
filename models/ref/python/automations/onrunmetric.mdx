@@ -7,11 +7,11 @@ namespace: wandb.automations.events
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py#L367" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py#L367" />
 
 
 
-## <kbd>class</kbd> wandb.automations.OnRunMetric
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.automations.OnRunMetric
 ```python
 *,
 event_type: Literal[RUN_METRIC_THRESHOLD, RUN_METRIC_CHANGE, RUN_METRIC_ZSCORE],
@@ -27,10 +27,17 @@ A run metric satisfies a user-defined condition.
 
 ## Args
 
-- `event_type`: 
-- `scope`: The scope of the event: must be a project.
-- `filter`: Run and/or metric condition(s) that must be satisfied for this event to trigger.
+<ResponseField name="event_type" type="Literal[RUN_METRIC_THRESHOLD, RUN_METRIC_CHANGE, RUN_METRIC_ZSCORE]">
 
+</ResponseField>
+
+<ResponseField name="scope" type="wandb.automations.scopes.ProjectScope">
+The scope of the event: must be a project.
+</ResponseField>
+
+<ResponseField name="filter" type="Annotated[wandb.automations.events.RunMetricFilter, Json, BeforeValidator(func= None, json_schema_input_type=PydanticUndefined), PlainSerializer(func= None, return_type=PydanticUndefined, when_used='always')]">
+Run and/or metric condition(s) that must be satisfied for this event to trigger.
+</ResponseField>
 
 
 

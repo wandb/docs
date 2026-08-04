@@ -7,11 +7,14 @@ kind: class
 namespace: wandb.apis.public.users
 ---
 
-## <kbd>class</kbd> wandb.apis.public.User
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.User
 
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> User.create
 
+Create a new user.
 
-### <kbd>method</kbd> User.create()
+This is an internal method. Use the `create_user()` method of
+`wandb.Api` instead.
 
 ```python
 api: 'Api',
@@ -19,53 +22,61 @@ email: 'str',
 admin: 'bool | None' = False
 ```
 
-Create a new user.
-
-This is an internal method. Use the `create_user()` method of
-`wandb.Api` instead.
-
 ##### Arguments
 
-- `api`: The API instance to use to create the user.
-- `email`: The email for the user.
-- `admin`: Whether this user should be a global instance admin.
+<ResponseField name="api" type="Api">
+The API instance to use to create the user.
+</ResponseField>
 
+<ResponseField name="email" type="str">
+The email for the user.
+</ResponseField>
 
+<ResponseField name="admin" type="bool | None">
+Whether this user should be a global instance admin.
+</ResponseField>
 
+##### Returns
 
-### <kbd>method</kbd> User.delete_api_key()
+A `User` object.
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> User.delete_api_key
+
+Delete a user's API key.
+
+Only the owner of the key or an admin can delete it.
 
 ```python
 self,
 api_key: 'str'
 ```
 
-Delete a user's API key.
-
-Only the owner of the key or an admin can delete it.
-
 ##### Arguments
 
-- `api_key`: The name of the API key to delete. Use one of the names returned by the `api_keys` property.
+<ResponseField name="api_key" type="str">
+The name of the API key to delete. Use one of the names returned by the `api_keys` property.
+</ResponseField>
 
+##### Returns
 
+True on success, false on failure.
 
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> User.generate_api_key
 
-### <kbd>method</kbd> User.generate_api_key()
+Generate a new API key.
 
 ```python
 self,
 description: 'str | None' = None
 ```
 
-Generate a new API key.
-
 ##### Arguments
 
-- `description`: A description for the new API key. This can be used to identify the purpose of the API key.
+<ResponseField name="description" type="str | None">
+A description for the new API key. This can be used to identify the purpose of the API key.
+</ResponseField>
 
+##### Returns
 
-
-
-
+The generated API key (the full secret, not just the name), or None on failure.
 

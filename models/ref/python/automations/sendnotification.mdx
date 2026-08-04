@@ -7,11 +7,11 @@ namespace: wandb.automations.actions
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py#L141" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py#L141" />
 
 
 
-## <kbd>class</kbd> wandb.automations.SendNotification
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.automations.SendNotification
 ```python
 *,
 integration_id: Annotated[str, Strict(strict=True)],
@@ -29,12 +29,25 @@ Defines an automation action that sends a (Slack) notification.
 
 ## Args
 
-- `integration_id`: The ID of the Slack integration that will be used to send the notification.
-- `text`: The message body of the sent notification.
-- `level`: The severity (`INFO`, `WARN`, `ERROR`) of the sent notification.
-- `title`: The title of the sent notification.
-- `action_type`: 
+<ResponseField name="integration_id" type="Annotated[str, Strict(strict=True)]">
+The ID of the Slack integration that will be used to send the notification.
+</ResponseField>
 
+<ResponseField name="text" type="Annotated[str, BeforeValidator(func= None, json_schema_input_type=PydanticUndefined)]">
+The message body of the sent notification.
+</ResponseField>
+
+<ResponseField name="level" type="Annotated[wandb.automations._generated.enums.AlertSeverity, BeforeValidator(func= None, json_schema_input_type=PydanticUndefined), BeforeValidator(func= None, json_schema_input_type=PydanticUndefined)]">
+The severity (`INFO`, `WARN`, `ERROR`) of the sent notification.
+</ResponseField>
+
+<ResponseField name="title" type="Annotated[str, BeforeValidator(func= None, json_schema_input_type=PydanticUndefined)]">
+The title of the sent notification.
+</ResponseField>
+
+<ResponseField name="action_type" type="Literal[NOTIFICATION]">
+
+</ResponseField>
 
 
 

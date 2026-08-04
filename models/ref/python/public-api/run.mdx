@@ -7,11 +7,11 @@ namespace: wandb.apis.public.runs
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py#L601" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py#L601" />
 
 
 
-## <kbd>class</kbd> wandb.apis.public.Run
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.Run
 ```python
 (service_api: 'ServiceApi',
 entity: 'str',
@@ -31,15 +31,37 @@ A single run associated with an entity and project.
 
 ## Args
 
-- `service_api`: Interface to the wandb-core service that performs W&B API calls for this run.
-- `entity`: The entity associated with the run.
-- `project`: The project associated with the run.
-- `run_id`: The unique identifier for the run.
-- `attrs`: The attributes of the run.
-- `include_sweeps`: Whether to include sweeps in the run.
-- `lazy`: 
-- `api_key`: 
+<ResponseField name="service_api" type="ServiceApi">
+Interface to the wandb-core service that performs W&B API calls for this run.
+</ResponseField>
 
+<ResponseField name="entity" type="str">
+The entity associated with the run.
+</ResponseField>
+
+<ResponseField name="project" type="str">
+The project associated with the run.
+</ResponseField>
+
+<ResponseField name="run_id" type="str">
+The unique identifier for the run.
+</ResponseField>
+
+<ResponseField name="attrs" type="Mapping | None">
+The attributes of the run.
+</ResponseField>
+
+<ResponseField name="include_sweeps" type="bool">
+Whether to include sweeps in the run.
+</ResponseField>
+
+<ResponseField name="lazy" type="bool">
+
+</ResponseField>
+
+<ResponseField name="api_key" type="str | None">
+
+</ResponseField>
 
 ## Attributes
 
@@ -61,7 +83,6 @@ A single run associated with an entity and project.
 - `read_only` (`boolean`): Whether the run is editable
 - `history_keys` (`str`): History metric keys logged with `wandb.Run.log({"key": "value"})`
 - `metadata` (`str`): Metadata about the run from wandb-metadata.json
-
 
 
 

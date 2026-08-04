@@ -7,11 +7,11 @@ namespace: wandb.apis.public.api
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/api.py#L105" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/api.py#L105" />
 
 
 
-## <kbd>class</kbd> wandb.Api
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.Api
 ```python
 overrides: 'dict[str, Any] | None' = None,
 timeout: 'int | None' = None,
@@ -26,10 +26,17 @@ Used for querying the W&B server.
 
 ## Args
 
-- `overrides`: You can set `base_url` if you are using a W&B server other than `https://api.wandb.ai`. You can also set defaults for `entity`, `project`, and `run`.
-- `timeout`: HTTP timeout in seconds for API requests. If not specified, the default timeout will be used.
-- `api_key`: API key to use for authentication. If not provided, the API key from the current environment or configuration will be used. Prompts for an API key if none is provided or configured in the environment.
+<ResponseField name="overrides" type="dict[str, Any] | None">
+You can set `base_url` if you are using a W&B server other than `https://api.wandb.ai`. You can also set defaults for `entity`, `project`, and `run`.
+</ResponseField>
 
+<ResponseField name="timeout" type="int | None">
+HTTP timeout in seconds for API requests. If not specified, the default timeout will be used.
+</ResponseField>
+
+<ResponseField name="api_key" type="str | None">
+API key to use for authentication. If not provided, the API key from the current environment or configuration will be used. Prompts for an API key if none is provided or configured in the environment.
+</ResponseField>
 
 
 

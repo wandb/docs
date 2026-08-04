@@ -7,27 +7,26 @@ kind: class
 namespace: wandb.apis.public.projects
 ---
 
-## <kbd>class</kbd> wandb.apis.public.Project
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.Project
 
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Project.artifacts_types
 
-
-### <kbd>method</kbd> Project.artifacts_types()
+Returns all artifact types associated with this project.
 
 ```python
 self,
 per_page: 'int' = 50
 ```
 
-Returns all artifact types associated with this project.
-
 ##### Arguments
 
-- `per_page`: 
+<ResponseField name="per_page" type="int">
 
+</ResponseField>
 
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Project.collections
 
-
-### <kbd>method</kbd> Project.collections()
+Returns all artifact collections associated with this project.
 
 ```python
 self,
@@ -36,18 +35,23 @@ order: 'str | None' = None,
 per_page: 'int' = 50
 ```
 
-Returns all artifact collections associated with this project.
-
 ##### Arguments
 
-- `filters`: Optional mapping of filters to apply to the query.
-- `order`: Optional string to specify the order of the results. If you prepend order with a + order is ascending (default). If you prepend order with a - order is descending.
-- `per_page`: The number of artifact collections to fetch per page. Default is 50.
+<ResponseField name="filters" type="Mapping[str, Any] | None">
+Optional mapping of filters to apply to the query.
+</ResponseField>
 
+<ResponseField name="order" type="str | None">
+Optional string to specify the order of the results. If you prepend order with a + order is ascending (default). If you prepend order with a - order is descending.
+</ResponseField>
 
+<ResponseField name="per_page" type="int">
+The number of artifact collections to fetch per page. Default is 50.
+</ResponseField>
 
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Project.sweeps
 
-### <kbd>method</kbd> Project.sweeps()
+Return a paginated collection of sweeps in this project.
 
 ```python
 self,
@@ -56,16 +60,21 @@ filters: 'dict[str, Any] | None' = None,
 order: 'str | None' = None
 ```
 
-Return a paginated collection of sweeps in this project.
-
 ##### Arguments
 
-- `per_page`: The number of sweeps to fetch per request to the API.
-- `filters`: (dict) queries for specific sweeps using the runs filters, See wandb/apis/public/api.py:runs for more details.
-- `order`: 
+<ResponseField name="per_page" type="int">
+The number of sweeps to fetch per request to the API.
+</ResponseField>
 
+<ResponseField name="filters" type="dict[str, Any] | None">
+(dict) queries for specific sweeps using the runs filters, See wandb/apis/public/api.py:runs for more details.
+</ResponseField>
 
+<ResponseField name="order" type="str | None">
 
+</ResponseField>
 
+##### Returns
 
+A `Sweeps` object, which is an iterable collection of `Sweep` objects.
 

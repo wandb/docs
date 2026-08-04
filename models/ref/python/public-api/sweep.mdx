@@ -7,11 +7,11 @@ namespace: wandb.apis.public.sweeps
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py#L272" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py#L272" />
 
 
 
-## <kbd>class</kbd> wandb.apis.public.Sweep
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.Sweep
 ```python
 (service_api: 'ServiceApi',
 entity: 'str',
@@ -28,12 +28,25 @@ The set of runs associated with the sweep.
 
 ## Args
 
-- `service_api`: 
-- `entity`: 
-- `project`: 
-- `sweep_id`: 
-- `attrs`: 
+<ResponseField name="service_api" type="ServiceApi">
 
+</ResponseField>
+
+<ResponseField name="entity" type="str">
+
+</ResponseField>
+
+<ResponseField name="project" type="str">
+
+</ResponseField>
+
+<ResponseField name="sweep_id" type="str">
+
+</ResponseField>
+
+<ResponseField name="attrs" type="Mapping[str, Any] | None">
+
+</ResponseField>
 
 ## Attributes
 
@@ -43,7 +56,6 @@ The set of runs associated with the sweep.
 - `config` (`dict`): Dictionary containing the sweep configuration
 - `state` (`str`): The state of the sweep. Can be "Finished", "Failed", "Crashed", or "Running".
 - `expected_run_count` (`int`): The number of expected runs for the sweep
-
 
 
 

@@ -7,11 +7,11 @@ kind: class
 namespace: wandb.automations.actions
 ---
 
-## <kbd>class</kbd> wandb.automations.SendNotification
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.automations.SendNotification
 
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> SendNotification.from_integration
 
-
-### <kbd>method</kbd> SendNotification.from_integration()
+Define a notification action that sends to the given (Slack) integration.
 
 ```python
 integration: 'SlackIntegration', *,
@@ -20,17 +20,21 @@ text: 'str' = '',
 level: 'AlertSeverity' = <AlertSeverity.INFO: 'INFO'>
 ```
 
-Define a notification action that sends to the given (Slack) integration.
-
 ##### Arguments
 
-- `integration`: 
-- `title`: 
-- `text`: 
-- `level`: 
+<ResponseField name="integration" type="SlackIntegration">
 
+</ResponseField>
 
+<ResponseField name="title" type="str">
 
+</ResponseField>
 
+<ResponseField name="text" type="str">
 
+</ResponseField>
+
+<ResponseField name="level" type="AlertSeverity">
+
+</ResponseField>
 

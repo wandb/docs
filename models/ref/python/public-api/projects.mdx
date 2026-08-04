@@ -7,11 +7,11 @@ namespace: wandb.apis.public.projects
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py#L56" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py#L56" />
 
 
 
-## <kbd>class</kbd> wandb.apis.public.Projects
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.Projects
 ```python
 service_api: 'ServiceApi',
 entity: 'str',
@@ -28,10 +28,17 @@ An iterable interface to access projects created and saved by the entity.
 
 ## Args
 
-- `service_api`: The service API used to query W&B.
-- `entity`: The entity which owns the projects.
-- `per_page`: The number of projects to fetch per request to the API.
+<ResponseField name="service_api" type="ServiceApi">
+The service API used to query W&B.
+</ResponseField>
 
+<ResponseField name="entity" type="str">
+The entity which owns the projects.
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+The number of projects to fetch per request to the API.
+</ResponseField>
 
 
 

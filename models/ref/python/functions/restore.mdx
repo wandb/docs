@@ -7,7 +7,7 @@ namespace: wandb.sdk.wandb_run
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py#L4126" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py#L4126" />
 
 
 
@@ -35,7 +35,6 @@ By default, will only download the file if it doesn't already exist.
 - `replace`: Whether to download the file even if it already exists locally
 - `root`: The directory to download the file to.  Defaults to the current directory or the run directory if wandb.init was called.
 
-
 ## Returns
 
 None if it can't find the file, otherwise a file object open for reading.
@@ -44,7 +43,6 @@ None if it can't find the file, otherwise a file object open for reading.
 
 - `CommError`: If W&B can't connect to the W&B backend.
 - `ValueError`: If the file is not found or can't find run_path.
-
 
 
 

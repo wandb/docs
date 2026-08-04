@@ -7,54 +7,48 @@ kind: class
 namespace: wandb.apis.public.sweeps
 ---
 
-## <kbd>class</kbd> wandb.apis.public.Sweep
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.Sweep
 
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Sweep.agent
 
-
-### <kbd>method</kbd> Sweep.agent()
+Query an agent by ID for this sweep.
 
 ```python
 self,
 agent_id: 'str'
 ```
 
-Query an agent by ID for this sweep.
-
 ##### Arguments
 
-- `agent_id`: The ID of the agent to look up.
+<ResponseField name="agent_id" type="str">
+The ID of the agent to look up.
+</ResponseField>
 
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Sweep.agents
 
-
-
-### <kbd>method</kbd> Sweep.agents()
+Query the list of all agents for this sweep.
 
 ```python
 self
 ```
 
-Query the list of all agents for this sweep.
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Sweep.best_run
 
-
-
-
-
-### <kbd>method</kbd> Sweep.best_run()
+Return the best run sorted by the metric defined in config or the order passed in.
 
 ```python
 (self, order=None)
 ```
 
-Return the best run sorted by the metric defined in config or the order passed in.
-
 ##### Arguments
 
-- `order`: 
+<ResponseField name="order" type="">
 
+</ResponseField>
 
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Sweep.get
 
-
-### <kbd>method</kbd> Sweep.get()
+Execute a query against the cloud backend.
 
 ```python
 (api: 'Api',
@@ -65,22 +59,39 @@ order: 'str | None' = None,
 query: 'str | None' = None, **kwargs)
 ```
 
-Execute a query against the cloud backend.
-
 ##### Arguments
 
-- `api`: The W&B API instance.
-- `entity`: The entity (username or team) that owns the project.
-- `project`: The name of the project to fetch sweep from.
-- `sid`: The sweep ID to query.
-- `order`: The order in which the sweep's runs are returned.
-- `query`: The query to use to execute the query.
-- `kwargs`: 
+<ResponseField name="api" type="Api">
+The W&B API instance.
+</ResponseField>
 
+<ResponseField name="entity" type="str | None">
+The entity (username or team) that owns the project.
+</ResponseField>
 
+<ResponseField name="project" type="str | None">
+The name of the project to fetch sweep from.
+</ResponseField>
 
+<ResponseField name="sid" type="str | None">
+The sweep ID to query.
+</ResponseField>
 
-### <kbd>method</kbd> Sweep.to_html()
+<ResponseField name="order" type="str | None">
+The order in which the sweep's runs are returned.
+</ResponseField>
+
+<ResponseField name="query" type="str | None">
+The query to use to execute the query.
+</ResponseField>
+
+<ResponseField name="kwargs" type="">
+
+</ResponseField>
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Sweep.to_html
+
+Generate HTML containing an iframe displaying this sweep.
 
 ```python
 self,
@@ -88,15 +99,13 @@ height: 'int' = 420,
 hidden: 'bool' = False
 ```
 
-Generate HTML containing an iframe displaying this sweep.
-
 ##### Arguments
 
-- `height`: 
-- `hidden`: 
+<ResponseField name="height" type="int">
 
+</ResponseField>
 
+<ResponseField name="hidden" type="bool">
 
-
-
+</ResponseField>
 

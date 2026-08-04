@@ -7,11 +7,11 @@ kind: class
 namespace: wandb.sdk.data_types.table
 ---
 
-## <kbd>class</kbd> wandb.Table
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.Table
 
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Table.add_column
 
-
-### <kbd>method</kbd> Table.add_column()
+Adds a column of data to the table.
 
 ```python
 self,
@@ -20,41 +20,44 @@ data: 'list[Any] | np.ndarray',
 optional: 'bool' = False
 ```
 
-Adds a column of data to the table.
-
 ##### Arguments
 
-- `name`: The unique name of the column.
-- `data`: A column of homogeneous data.
-- `optional`: If null-like values are permitted.
+<ResponseField name="name" type="str">
+The unique name of the column.
+</ResponseField>
 
+<ResponseField name="data" type="list[Any] | np.ndarray">
+A column of homogeneous data.
+</ResponseField>
 
+<ResponseField name="optional" type="bool">
+If null-like values are permitted.
+</ResponseField>
 
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Table.add_computed_columns
 
-### <kbd>method</kbd> Table.add_computed_columns()
+Adds one or more computed columns based on existing data.
 
 ```python
 self,
 fn: 'Callable[[int, dict[ColumnKey, Any]], dict[str, Any]]'
 ```
 
-Adds one or more computed columns based on existing data.
-
 ##### Arguments
 
-- `fn`: A function which accepts an index and row dict, and returns a dict representing new columns for that row, keyed by the new column names.
-
-
-
+<ResponseField name="fn" type="Callable[[int, dict[ColumnKey, Any]], dict[str, Any]]">
+A function which accepts an index and row dict, and returns a dict representing new columns for that row, keyed by the new column names.
+</ResponseField>
 
 ##### Examples
 
+table = wandb.Table(columns=["x", "y"], data=[[3, 1], [4, 6]])
 
-### <kbd>method</kbd> Table.add_data()
+    In the callback:
+    - `ndx` is an integer representing the index of the row.
+    - `row` is a dictionary keyed by existing columns.
 
-```python
-self, *data: 'Any'
-```
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Table.add_data
 
 Adds a new row of data to the table.
 
@@ -63,29 +66,37 @@ The maximum amount ofrows in a table is determined by
 
 The length of the data should match the length of the table column.
 
+```python
+self, *data: 'Any'
+```
+
 ##### Arguments
 
-- `data`: 
+<ResponseField name="data" type="Any">
 
+</ResponseField>
 
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Table.add_row
 
-
-### <kbd>method</kbd> Table.add_row()
+Deprecated. Use `Table.add_data` method instead.
 
 ```python
 self, *row: 'Any'
 ```
 
-Deprecated. Use `Table.add_data` method instead.
-
 ##### Arguments
 
-- `row`: 
+<ResponseField name="row" type="Any">
 
+</ResponseField>
 
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Table.cast
 
+Casts a column to a specific data type.
 
-### <kbd>method</kbd> Table.cast()
+This can be one of the normal python classes, an internal W&B type,
+or an example object, like an instance of wandb.Image or
+wandb.Classes.
 
 ```python
 self,
@@ -94,22 +105,23 @@ dtype: 'Any',
 optional: 'bool' = False
 ```
 
-Casts a column to a specific data type.
-
-This can be one of the normal python classes, an internal W&B type,
-or an example object, like an instance of wandb.Image or
-wandb.Classes.
-
 ##### Arguments
 
-- `col_name`: The name of the column to cast.
-- `dtype`: The target dtype.
-- `optional`: If the column should allow Nones.
+<ResponseField name="col_name" type="ColumnKey">
+The name of the column to cast.
+</ResponseField>
 
+<ResponseField name="dtype" type="Any">
+The target dtype.
+</ResponseField>
 
+<ResponseField name="optional" type="bool">
+If the column should allow Nones.
+</ResponseField>
 
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Table.get_column
 
-### <kbd>method</kbd> Table.get_column()
+Retrieves a column from the table and optionally converts it to a NumPy object.
 
 ```python
 self,
@@ -117,39 +129,29 @@ name: 'ColumnKey',
 convert_to: "Literal['numpy'] | None" = None
 ```
 
-Retrieves a column from the table and optionally converts it to a NumPy object.
-
 ##### Arguments
 
-- `name`: The name of the column.
-- `convert_to`: "numpy" will convert the underlying data to a NumPy object.
+<ResponseField name="name" type="ColumnKey">
+The name of the column.
+</ResponseField>
 
+<ResponseField name="convert_to" type="Literal['numpy'] | None">
+"numpy" will convert the underlying data to a NumPy object.
+</ResponseField>
 
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Table.get_dataframe
 
-
-### <kbd>method</kbd> Table.get_dataframe()
+Returns a `pandas.DataFrame` of the table.
 
 ```python
 self
 ```
 
-Returns a `pandas.DataFrame` of the table.
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Table.get_index
 
-
-
-
-
-### <kbd>method</kbd> Table.get_index()
+Returns an array of row indexes for use in other tables to create links.
 
 ```python
 (self)
 ```
-
-Returns an array of row indexes for use in other tables to create links.
-
-
-
-
-
-
 

@@ -7,11 +7,11 @@ namespace: wandb.apis.public.projects
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py#L143" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py#L143" />
 
 
 
-## <kbd>class</kbd> wandb.apis.public.Project
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.Project
 ```python
 service_api: 'ServiceApi',
 entity: 'str',
@@ -27,11 +27,21 @@ A project is a namespace for runs.
 
 ## Args
 
-- `service_api`: The service API used to query W&B.
-- `entity`: The entity which owns the project.
-- `project`: The name of the project to query.
-- `attrs`: The attributes of the project.
+<ResponseField name="service_api" type="ServiceApi">
+The service API used to query W&B.
+</ResponseField>
 
+<ResponseField name="entity" type="str">
+The entity which owns the project.
+</ResponseField>
+
+<ResponseField name="project" type="str">
+The name of the project to query.
+</ResponseField>
+
+<ResponseField name="attrs" type="Mapping[str, Any]">
+The attributes of the project.
+</ResponseField>
 
 
 

@@ -7,11 +7,11 @@ namespace: wandb.sdk.data_types.table
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/table.py#L211" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/table.py#L211" />
 
 
 
-## <kbd>class</kbd> wandb.Table
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.Table
 ```python
 columns: 'list[ColumnKey] | None' = None,
 data: 'list[InputRow] | np.ndarray | pd.DataFrame | None' = None,
@@ -39,35 +39,57 @@ https://docs.wandb.ai/models/tables
 
 ## Args
 
-- `columns`: Names of the columns in the table. Defaults to ["Input", "Output", "Expected"].
-- `data`: 2D row-oriented array of values, NumPy array, or pandas DataFrame.
-- `rows`: 2D row-oriented array of values.
-- `dataframe`: pandas DataFrame object used to create the table. When set, `data` and `columns` arguments are ignored.
-- `dtype`: The expected type for the column values, used to validate the
-    data. If not set, types are inferred from the data. It can be:
-    - a single type
-        - a Python built-in type such as `int`, `str`, `bool`, list, dict, or
-        datetime.
-        - a W&B Media type like `wandb.Image` declared under wandb.data_types
-        - a const value
-    - a list of any of the above to assign a different type to each
-      column (should be the same length as `columns`)
-- `optional`: Determines if `None` values are allowed. Defaults to True.
-    - If a singular bool value, then the optionality is enforced for all
-    columns specified at construction time
-    - If a list of bool values, then the optionality is applied to each
-    column - should be the same length as `columns`
-    applies to all columns. A list of bool values applies to each respective column.
-- `allow_mixed_types`: Determines if columns are allowed to have mixed types (disables type validation). Defaults to False
-- `log_mode`: Controls how the Table is logged when mutations occur.
-    Options:
-    - "IMMUTABLE" (default): Table can only be logged once; subsequent
-    logging attempts after the table has been mutated will be no-ops.
-    - "MUTABLE": Table can be re-logged after mutations, creating
-    a new artifact version each time it's logged.
-    - "INCREMENTAL": Table data is logged incrementally, with each log creating
-    a new artifact entry containing the new data since the last log.
+<ResponseField name="columns" type="list[ColumnKey] | None">
+Names of the columns in the table. Defaults to ["Input", "Output", "Expected"].
+</ResponseField>
 
+<ResponseField name="data" type="list[InputRow] | np.ndarray | pd.DataFrame | None">
+2D row-oriented array of values, NumPy array, or pandas DataFrame.
+</ResponseField>
+
+<ResponseField name="rows" type="list[InputRow] | None">
+2D row-oriented array of values.
+</ResponseField>
+
+<ResponseField name="dataframe" type="pd.DataFrame | None">
+pandas DataFrame object used to create the table. When set, `data` and `columns` arguments are ignored.
+</ResponseField>
+
+<ResponseField name="dtype" type="Any">
+The expected type for the column values, used to validate the
+data. If not set, types are inferred from the data. It can be:
+- a single type
+    - a Python built-in type such as `int`, `str`, `bool`, list, dict, or
+    datetime.
+    - a W&B Media type like `wandb.Image` declared under wandb.data_types
+    - a const value
+- a list of any of the above to assign a different type to each
+  column (should be the same length as `columns`)
+</ResponseField>
+
+<ResponseField name="optional" type="bool | list[bool]">
+Determines if `None` values are allowed. Defaults to True.
+- If a singular bool value, then the optionality is enforced for all
+columns specified at construction time
+- If a list of bool values, then the optionality is applied to each
+column - should be the same length as `columns`
+applies to all columns. A list of bool values applies to each respective column.
+</ResponseField>
+
+<ResponseField name="allow_mixed_types" type="bool">
+Determines if columns are allowed to have mixed types (disables type validation). Defaults to False
+</ResponseField>
+
+<ResponseField name="log_mode" type="LogMode | None">
+Controls how the Table is logged when mutations occur.
+Options:
+- "IMMUTABLE" (default): Table can only be logged once; subsequent
+logging attempts after the table has been mutated will be no-ops.
+- "MUTABLE": Table can be re-logged after mutations, creating
+a new artifact version each time it's logged.
+- "INCREMENTAL": Table data is logged incrementally, with each log creating
+a new artifact entry containing the new data since the last log.
+</ResponseField>
 
 
 

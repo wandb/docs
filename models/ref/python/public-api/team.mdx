@@ -7,11 +7,11 @@ namespace: wandb.apis.public.teams
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py#L61" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py#L61" />
 
 
 
-## <kbd>class</kbd> wandb.apis.public.Team
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.Team
 ```python
 (service_api: 'ServiceApi',
 name: 'str',
@@ -30,10 +30,17 @@ to handle team attributes.
 
 ## Args
 
-- `service_api`: The service API instance to use for querying W&B.
-- `name`: The name of the team
-- `attrs`: Optional dictionary of team attributes
+<ResponseField name="service_api" type="ServiceApi">
+The service API instance to use for querying W&B.
+</ResponseField>
 
+<ResponseField name="name" type="str">
+The name of the team
+</ResponseField>
+
+<ResponseField name="attrs" type="Mapping[str, Any] | None">
+Optional dictionary of team attributes
+</ResponseField>
 
 
 

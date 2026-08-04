@@ -7,11 +7,11 @@ namespace: wandb.automations._filters.run_metrics
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/_filters/run_metrics.py#L153" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/_filters/run_metrics.py#L153" />
 
 
 
-## <kbd>class</kbd> wandb.automations.MetricChangeFilter
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.automations.MetricChangeFilter
 ```python
 *,
 name: str,
@@ -35,17 +35,39 @@ between the current window and the non-overlapping prior window.
 
 ## Args
 
-- `name`: 
-- `agg_op`: 
-- `current_window_size`: 
-- `cmp`: Ignored.
-- `change_amount`: 
-- `prior_window_size`: Size of the "prior" metric aggregation window (ignored if `agg` is ``None``).
+<ResponseField name="name" type="str">
 
-    If omitted, defaults to the size of the current window.
-- `change_type`: 
-- `change_dir`: 
+</ResponseField>
 
+<ResponseField name="agg_op" type="wandb.automations._filters.run_metrics.Agg | None">
+
+</ResponseField>
+
+<ResponseField name="current_window_size" type="Annotated[int, Gt(gt=0)]">
+
+</ResponseField>
+
+<ResponseField name="cmp" type="NoneType">
+Ignored.
+</ResponseField>
+
+<ResponseField name="change_amount" type="Union[Annotated[int, Gt(gt=0)], Annotated[float, Gt(gt=0)]]">
+
+</ResponseField>
+
+<ResponseField name="prior_window_size" type="Annotated[int, Gt(gt=0)]">
+Size of the "prior" metric aggregation window (ignored if `agg` is ``None``).
+
+If omitted, defaults to the size of the current window.
+</ResponseField>
+
+<ResponseField name="change_type" type="wandb.automations._filters.run_metrics.ChangeType">
+
+</ResponseField>
+
+<ResponseField name="change_dir" type="wandb.automations._filters.run_metrics.ChangeDir">
+
+</ResponseField>
 
 
 

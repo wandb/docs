@@ -7,11 +7,11 @@ namespace: wandb.apis.public.runs
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py#L188" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py#L188" />
 
 
 
-## <kbd>class</kbd> wandb.apis.public.Runs
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.Runs
 ```python
 (service_api: 'ServiceApi',
 entity: 'str',
@@ -36,16 +36,41 @@ This is generally used indirectly using the `Api.runs` namespace.
 
 ## Args
 
-- `service_api`: The service API to use for requests.
-- `entity`: The entity (username or team) that owns the project.
-- `project`: The name of the project to fetch runs from.
-- `filters`: Filters to apply to the runs query.
-- `order`: Order can be `created_at`, `heartbeat_at`, `config.*.value`, or `summary_metrics.*`. If you prepend order with a + order is ascending (default). If you prepend order with a - order is descending. The default order is run.created_at from oldest to newest.
-- `per_page`: The number of runs to fetch per request (default is 50).
-- `include_sweeps`: Whether to include sweep information in the runs. Defaults to True.
-- `lazy`: Whether to defer loading heavy fields (config, summaryMetrics, systemMetrics) until they are accessed. Defaults to True.
-- `api_key`: 
+<ResponseField name="service_api" type="ServiceApi">
+The service API to use for requests.
+</ResponseField>
 
+<ResponseField name="entity" type="str">
+The entity (username or team) that owns the project.
+</ResponseField>
+
+<ResponseField name="project" type="str">
+The name of the project to fetch runs from.
+</ResponseField>
+
+<ResponseField name="filters" type="dict[str, Any] | None">
+Filters to apply to the runs query.
+</ResponseField>
+
+<ResponseField name="order" type="str">
+Order can be `created_at`, `heartbeat_at`, `config.*.value`, or `summary_metrics.*`. If you prepend order with a + order is ascending (default). If you prepend order with a - order is descending. The default order is run.created_at from oldest to newest.
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+The number of runs to fetch per request (default is 50).
+</ResponseField>
+
+<ResponseField name="include_sweeps" type="bool">
+Whether to include sweep information in the runs. Defaults to True.
+</ResponseField>
+
+<ResponseField name="lazy" type="bool">
+Whether to defer loading heavy fields (config, summaryMetrics, systemMetrics) until they are accessed. Defaults to True.
+</ResponseField>
+
+<ResponseField name="api_key" type="str | None">
+
+</ResponseField>
 
 
 

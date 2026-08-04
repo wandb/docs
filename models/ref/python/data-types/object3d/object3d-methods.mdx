@@ -7,39 +7,34 @@ kind: class
 namespace: wandb.sdk.data_types.object_3d
 ---
 
-## <kbd>class</kbd> wandb.Object3D
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.Object3D
 
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Object3D.from_file
 
-
-### <kbd>method</kbd> Object3D.from_file()
+Initializes Object3D from a file or stream.
 
 ```python
 data_or_path: 'TextIO | str',
 file_type: 'FileFormat3D | None' = None
 ```
 
-Initializes Object3D from a file or stream.
-
 ##### Arguments
 
-- `data_or_path`: A path to a file or a `TextIO` stream.
+<ResponseField name="data_or_path" type="TextIO | str">
+A path to a file or a `TextIO` stream.
+</ResponseField>
 
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Object3D.from_numpy
 
-
-
-### <kbd>method</kbd> Object3D.from_numpy()
+Initializes Object3D from a numpy array.
 
 ```python
 data: 'np.ndarray'
 ```
 
-Initializes Object3D from a numpy array.
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Object3D.from_point_cloud
 
-
-
-
-
-### <kbd>method</kbd> Object3D.from_point_cloud()
+Initializes Object3D from a python object.
 
 ```python
 points: 'Sequence[Point]',
@@ -48,16 +43,17 @@ vectors: 'Sequence[Vector3D] | None' = None,
 point_cloud_type: 'PointCloudType' = 'lidar/beta'
 ```
 
-Initializes Object3D from a python object.
-
 ##### Arguments
 
-- `points`: The points in the point cloud.
-- `boxes`: 3D bounding boxes for labeling the point cloud. Boxes are displayed in point cloud visualizations.
-- `vectors`: Each vector is displayed in the point cloud visualization. Can be used to indicate directionality of bounding boxes. Defaults to None.
+<ResponseField name="points" type="Sequence[Point]">
+The points in the point cloud.
+</ResponseField>
 
+<ResponseField name="boxes" type="Sequence[Box3D]">
+3D bounding boxes for labeling the point cloud. Boxes are displayed in point cloud visualizations.
+</ResponseField>
 
-
-
-
+<ResponseField name="vectors" type="Sequence[Vector3D] | None">
+Each vector is displayed in the point cloud visualization. Can be used to indicate directionality of bounding boxes. Defaults to None.
+</ResponseField>
 

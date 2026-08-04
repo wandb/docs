@@ -7,11 +7,11 @@ namespace: wandb.apis.public.reports
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py#L170" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py#L170" />
 
 
 
-## <kbd>class</kbd> wandb.apis.public.BetaReport
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.BetaReport
 ```python
 (service_api: 'ServiceApi',
 attrs: 'dict',
@@ -31,11 +31,21 @@ sections, and for rendering the report as HTML.
 
 ## Args
 
-- `service_api`: 
-- `attrs`: 
-- `entity`: 
-- `project`: 
+<ResponseField name="service_api" type="ServiceApi">
 
+</ResponseField>
+
+<ResponseField name="attrs" type="dict">
+
+</ResponseField>
+
+<ResponseField name="entity" type="str | None">
+
+</ResponseField>
+
+<ResponseField name="project" type="str | None">
+
+</ResponseField>
 
 ## Attributes
 
@@ -48,7 +58,6 @@ sections, and for rendering the report as HTML.
 - `url` (`string`): The URL of the report.
 - `updated_at` (`string`): Timestamp of last update.
 - `created_at` (`string`): Timestamp when the report was created.
-
 
 
 

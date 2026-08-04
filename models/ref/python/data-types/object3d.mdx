@@ -7,11 +7,11 @@ namespace: wandb.sdk.data_types.object_3d
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/object_3d.py#L245" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/object_3d.py#L245" />
 
 
 
-## <kbd>class</kbd> wandb.Object3D
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.Object3D
 ```python
 data_or_path: 'np.ndarray | str | pathlib.Path | TextIO | dict',
 caption: 'str | None' = None, **kwargs: 'str | FileFormat3D | None'
@@ -25,10 +25,17 @@ W&B class for 3D point clouds.
 
 ## Args
 
-- `data_or_path`: Object3D can be initialized from a file or a numpy array.
-- `caption`: Caption associated with the object for display.
-- `kwargs`: 
+<ResponseField name="data_or_path" type="np.ndarray | str | pathlib.Path | TextIO | dict">
+Object3D can be initialized from a file or a numpy array.
+</ResponseField>
 
+<ResponseField name="caption" type="str | None">
+Caption associated with the object for display.
+</ResponseField>
+
+<ResponseField name="kwargs" type="str | FileFormat3D | None">
+
+</ResponseField>
 
 
 

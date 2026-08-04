@@ -7,11 +7,11 @@ namespace: wandb.apis.public.sweeps
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py#L59" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py#L59" />
 
 
 
-## <kbd>class</kbd> wandb.apis.public.Sweeps
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.Sweeps
 ```python
 service_api: 'ServiceApi',
 entity: 'str',
@@ -28,12 +28,25 @@ A lazy iterator over a collection of `Sweep` objects.
 
 ## Args
 
-- `service_api`: The service API used to query W&B.
-- `entity`: The entity which owns the sweeps.
-- `project`: The project which contains the sweeps.
-- `per_page`: The number of sweeps to fetch per request to the API.
-- `filters`: (dict) queries for specific sweeps using the runs filters, See wandb/apis/public/api.py:runs for more details.
+<ResponseField name="service_api" type="ServiceApi">
+The service API used to query W&B.
+</ResponseField>
 
+<ResponseField name="entity" type="str">
+The entity which owns the sweeps.
+</ResponseField>
+
+<ResponseField name="project" type="str">
+The project which contains the sweeps.
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+The number of sweeps to fetch per request to the API.
+</ResponseField>
+
+<ResponseField name="filters" type="dict[str, Any] | None">
+(dict) queries for specific sweeps using the runs filters, See wandb/apis/public/api.py:runs for more details.
+</ResponseField>
 
 
 

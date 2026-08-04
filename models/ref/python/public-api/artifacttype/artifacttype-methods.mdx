@@ -7,27 +7,26 @@ kind: class
 namespace: wandb.apis.public.artifacts
 ---
 
-## <kbd>class</kbd> wandb.apis.public.ArtifactType
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.ArtifactType
 
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> ArtifactType.collection
 
-
-### <kbd>method</kbd> ArtifactType.collection()
+Get a specific artifact collection by name.
 
 ```python
 self,
 name: 'str'
 ```
 
-Get a specific artifact collection by name.
-
 ##### Arguments
 
-- `name`: The name of the artifact collection to retrieve.
+<ResponseField name="name" type="str">
+The name of the artifact collection to retrieve.
+</ResponseField>
 
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> ArtifactType.collections
 
-
-
-### <kbd>method</kbd> ArtifactType.collections()
+Get all artifact collections associated with this artifact type.
 
 ```python
 self,
@@ -37,17 +36,21 @@ per_page: 'int' = 50,
 start: 'str | None' = None
 ```
 
-Get all artifact collections associated with this artifact type.
-
 ##### Arguments
 
-- `filters`: Optional mapping of filters to apply to the query.
-- `order`: Optional string to specify the order of the results. If prefixed with '+', sorts ascending (default). If prefixed with '-', sorts descending. The default order is the collection ID in descending order.
-- `per_page`: The number of artifact collections to fetch per page. Default is 50.
-- `start`: Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
+<ResponseField name="filters" type="Mapping[str, Any] | None">
+Optional mapping of filters to apply to the query.
+</ResponseField>
 
+<ResponseField name="order" type="str | None">
+Optional string to specify the order of the results. If prefixed with '+', sorts ascending (default). If prefixed with '-', sorts descending. The default order is the collection ID in descending order.
+</ResponseField>
 
+<ResponseField name="per_page" type="int">
+The number of artifact collections to fetch per page. Default is 50.
+</ResponseField>
 
-
-
+<ResponseField name="start" type="str | None">
+Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
+</ResponseField>
 

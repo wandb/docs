@@ -7,26 +7,24 @@ kind: class
 namespace: wandb.automations.actions
 ---
 
-## <kbd>class</kbd> wandb.automations.SendWebhook
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.automations.SendWebhook
 
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> SendWebhook.from_integration
 
-
-### <kbd>method</kbd> SendWebhook.from_integration()
+Define a webhook action that sends to the given (webhook) integration.
 
 ```python
 integration: 'WebhookIntegration', *,
 payload: 'JsonEncoded[dict[str, Any]] | None' = None
 ```
 
-Define a webhook action that sends to the given (webhook) integration.
-
 ##### Arguments
 
-- `integration`: 
-- `payload`: 
+<ResponseField name="integration" type="WebhookIntegration">
 
+</ResponseField>
 
+<ResponseField name="payload" type="JsonEncoded[dict[str, Any]] | None">
 
-
-
+</ResponseField>
 
