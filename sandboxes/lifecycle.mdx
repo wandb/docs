@@ -4,9 +4,9 @@ description: Learn about the lifecycle of a Serverless Sandbox, including its st
 keywords: ["SandboxState", "wait_until_complete", "wait_until_ready", "sandbox timeout", "resource cleanup"]
 ---
 
-<Warning>
-Serverless Sandboxes is in public preview.
-</Warning>
+import SandboxesPreview from '/snippets/_includes/sandboxes-public-preview.mdx';
+
+<SandboxesPreview />
 
 This page describes the lifecycle of a Serverless Sandbox so that you can choose the right method for waiting on state changes, stopping a sandbox, and structuring code around its lifetime. Understanding the lifecycle helps you avoid race conditions, distinguish startup failures from runtime errors, and clean up resources predictably.
 
