@@ -97,7 +97,7 @@ W&B Server v0.70 includes features, enhancements, and performance improvements t
     - Registry can be turned on today with the `ENABLE_REGISTRY_UI` environment variable or by contacting your W&B support team.
     - We’re migrating existing team-level Model Registry assets to W&B Registry in stages over the next several releases. **No action is needed on your end. W&B will automatically copy Model Registry assets for each team to a corresponding automatically-created team-level private registry.**  Existing references to model collections in your old team-level Model Registry will still work.
         1. In Server v0.71, Registry will be on by default for all organizations.
-        1. Server v0.73 (August) will contain an opt-out environment variable that will execute this migration automatically during the upgrade. Migration takes between 5 and 30 minutes for most organizations. During the migration, linking artifacts to either the old team’s Model Registry or the new Registry will fail with an error. ****Artifact logging and retrieval** **will not be affected**.
+        1. Server v0.73 (August) will contain an opt-out environment variable that will execute this migration automatically during the upgrade. Migration takes between 5 and 30 minutes for most organizations. During the migration, linking artifacts to either the old team’s Model Registry or the new Registry will fail with an error. **Artifact logging and retrieval will not be affected**.
         1. In Server v0.74 (September), we will remove this flag and migration will happen during the upgrade.
 
         We’re optimizing for a seamless, minimally-inconveniencing upgrade to a powerful new experience. Reach out to your W&B team or [support](mailto:support@wandb.ai) for any questions about the migration.
@@ -604,7 +604,7 @@ Due to a release versioning issue, 0.56.0 is the next major release after 0.54.0
 <Update label="v0.47.2" description="December 1, 2023">
 
 ## Features
-* Use custom roles with specific permissions to customize access control within a team**
+* **Use custom roles with specific permissions to customize access control within a team**
   Available in preview to enterprise customers. Please reach out to your W&B account team or support for any questions.
 * Minor runs search improvements
 * Auto-resize runs search for long texts
