@@ -42,6 +42,7 @@ See also
 from __future__ import annotations
 
 import argparse
+import html
 import json
 import os
 import subprocess
@@ -336,6 +337,18 @@ def _short(text: str, limit: int = 200) -> str:
     return text if len(text) <= limit else text[: limit - 1] + "…"
 
 
+def _sanitize_error(text: str, limit: int = 200) -> str:
+    """Make an external error string safe to embed in the report's HTML.
+
+    Judge errors come straight from an API response, so they can contain
+    newlines (which break the single-line <sub> footnote) or characters like
+    `<` and `&` (which the comment renderer would interpret as HTML).
+    Collapse whitespace, truncate, then escape — in that order, so the
+    truncation can never split an escape entity.
+    """
+    return html.escape(_short(" ".join(text.split()), limit))
+
+
 def build_report_markdown(
     results: List[Dict[str, object]],
     summary: Optional[Dict[str, object]],
@@ -409,7 +422,9 @@ def build_report_markdown(
             )
         # Say why ratings are missing instead of leaving unexplained "—" cells.
         judge_errors = sorted({
-            _short(str(j["error"])) for j in judge_by_path.values() if j.get("error")
+            _sanitize_error(str(j["error"]))
+            for j in judge_by_path.values()
+            if j.get("error")
         })
         if judge_errors:
             lines.append("")

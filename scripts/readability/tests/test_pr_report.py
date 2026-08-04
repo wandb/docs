@@ -252,6 +252,42 @@ def test_build_report_judge_table_explains_missing_ratings():
     assert "Error code: 401 - invalid API key" in md
 
 
+def test_build_report_judge_error_is_html_escaped():
+    # The error string comes from an external API, so it may contain HTML
+    # metacharacters or newlines. It must be escaped and flattened before
+    # being embedded in the <sub> footnote (Copilot review on PR #3014).
+    results = [
+        {
+            "status": "scored",
+            "path": "a.mdx",
+            "fk_before": 12.0,
+            "fk_after": 10.0,
+            "fk_delta": -2.0,
+            "ease_delta": 4.0,
+            "direction": "easier",
+            "after_word_count": 500,
+        },
+    ]
+    judge = {
+        "a.mdx": {
+            "before_rating": None,
+            "after_rating": None,
+            "rating_delta": None,
+            "error": 'Bad <script>alert("x")</script>\nline two & more',
+        },
+    }
+    md = pr_report.build_report_markdown(
+        results, pr_report.aggregate(results), judge_by_path=judge
+    )
+    assert "<script>" not in md
+    assert "&lt;script&gt;" in md
+    assert "&amp; more" in md
+    # Newlines are collapsed so the footnote stays on one line.
+    footnote = next(line for line in md.splitlines() if "could not be rated" in line)
+    assert "line two" in footnote
+    assert footnote.startswith("<sub>") and footnote.endswith("</sub>")
+
+
 def test_run_comprehension_judge_propagates_error(monkeypatch, tmp_path):
     # _call_judge never raises for API failures; it returns rating=None with
     # the reason in "error". run_comprehension_judge must pass that through.
