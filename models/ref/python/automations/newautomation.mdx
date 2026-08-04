@@ -12,6 +12,13 @@ import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
 ## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.automations.NewAutomation
+
+
+
+A new automation to be created.
+
+
+
 ```python
 *,
 name: str | None = None,
@@ -20,12 +27,6 @@ enabled: bool | None = None,
 event: Optional[Annotated[wandb.automations.events.OnLinkArtifact | wandb.automations.events.OnAddArtifactAlias | wandb.automations.events.OnAddArtifactTag | wandb.automations.events.OnRemoveArtifactTag | wandb.automations.events.OnAddCollectionTag | wandb.automations.events.OnRemoveCollectionTag | wandb.automations.events.OnCreateArtifact | wandb.automations.events.OnUnlinkArtifact | wandb.automations.events.OnRunMetric | wandb.automations.events.OnRunState, FieldInfo(annotation=NoneType, required=True, discriminator='event_type')]] = None,
 action: Optional[Annotated[wandb.automations.actions.SendNotification | wandb.automations.actions.SendWebhook | wandb.automations.actions.DoNothing, BeforeValidator(func=<function parse_input_action>, json_schema_input_type=PydanticUndefined), FieldInfo(annotation=NoneType, required=True, discriminator='action_type')]] = None
 ```
-
-
-
-A new automation to be created.
-
-
 
 ## Args
 

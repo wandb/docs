@@ -9,7 +9,7 @@ namespace: wandb.apis.public.artifacts
 
 ## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.ArtifactCollection
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> ArtifactCollection.artifacts
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> ArtifactCollection.artifacts()
 
 Get all artifacts in the collection.
 
@@ -29,7 +29,7 @@ The number of artifacts to fetch per page.
 Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
 </ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> ArtifactCollection.change_type
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> ArtifactCollection.change_type()
 
 Deprecated, change type directly with `save` instead.
 
@@ -44,7 +44,7 @@ new_type: 'str'
 
 </ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> ArtifactCollection.delete
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> ArtifactCollection.delete()
 
 Delete the entire artifact collection.
 
@@ -52,7 +52,7 @@ Delete the entire artifact collection.
 self
 ```
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> ArtifactCollection.is_sequence
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> ArtifactCollection.is_sequence()
 
 Return whether the artifact collection is a sequence.
 
@@ -60,7 +60,7 @@ Return whether the artifact collection is a sequence.
 self
 ```
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> ArtifactCollection.save
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> ArtifactCollection.save()
 
 Persist any changes made to the artifact collection.
 

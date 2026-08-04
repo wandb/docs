@@ -12,16 +12,6 @@ import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
 ## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.Table
-```python
-columns: 'list[ColumnKey] | None' = None,
-data: 'list[InputRow] | np.ndarray | pd.DataFrame | None' = None,
-rows: 'list[InputRow] | None' = None,
-dataframe: 'pd.DataFrame | None' = None,
-dtype: 'Any' = None,
-optional: 'bool | list[bool]' = True,
-allow_mixed_types: 'bool' = False,
-log_mode: 'LogMode | None' = 'IMMUTABLE'
-```
 
 
 
@@ -36,6 +26,17 @@ This class is the primary class used to generate W&B Tables
 https://docs.wandb.ai/models/tables
 
 
+
+```python
+columns: 'list[ColumnKey] | None' = None,
+data: 'list[InputRow] | np.ndarray | pd.DataFrame | None' = None,
+rows: 'list[InputRow] | None' = None,
+dataframe: 'pd.DataFrame | None' = None,
+dtype: 'Any' = None,
+optional: 'bool | list[bool]' = True,
+allow_mixed_types: 'bool' = False,
+log_mode: 'LogMode | None' = 'IMMUTABLE'
+```
 
 ## Args
 

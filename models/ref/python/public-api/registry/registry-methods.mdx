@@ -9,7 +9,7 @@ namespace: wandb.apis.public.registries.registry
 
 ## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.Registry
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.add_members
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.add_members()
 
 Adds users or teams to this registry.
 
@@ -29,8 +29,13 @@ This registry for further method chaining, if needed.
 
 ##### Raises
 
-- `TypeError`: If no members are passed as arguments.
-- `ValueError`: If unable to infer or parse the user or team IDs.
+<ResponseField name="TypeError">
+If no members are passed as arguments.
+</ResponseField>
+
+<ResponseField name="ValueError">
+If unable to infer or parse the user or team IDs.
+</ResponseField>
 
 ##### Examples
 
@@ -50,7 +55,7 @@ my_team = api.team(name="my-team")
 registry.add_members(my_team)
 ```
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.collections
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.collections()
 
 Returns the collections belonging to this registry.
 
@@ -80,7 +85,7 @@ The number of results to fetch per page. Usually there is no reason to change th
 Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
 </ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.create
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.create()
 
 Create a new registry.
 
@@ -128,9 +133,11 @@ An optional list of allowed artifact types.
 
 ##### Raises
 
-- `ValueError`: If a registry with the same name already exists in the organization or if the creation fails.
+<ResponseField name="ValueError">
+If a registry with the same name already exists in the organization or if the creation fails.
+</ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.delete
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.delete()
 
 Delete the registry. This is irreversible.
 
@@ -138,7 +145,7 @@ Delete the registry. This is irreversible.
 self
 ```
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.load
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.load()
 
 Load registry attributes from the backend.
 
@@ -146,7 +153,7 @@ Load registry attributes from the backend.
 self
 ```
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.members
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.members()
 
 Returns the current members (users and teams) of this registry.
 
@@ -154,7 +161,7 @@ Returns the current members (users and teams) of this registry.
 self
 ```
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.remove_members
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.remove_members()
 
 Removes users or teams from this registry.
 
@@ -174,8 +181,13 @@ This registry for further method chaining, if needed.
 
 ##### Raises
 
-- `TypeError`: If no members are passed as arguments.
-- `ValueError`: If unable to infer or parse the user or team IDs.
+<ResponseField name="TypeError">
+If no members are passed as arguments.
+</ResponseField>
+
+<ResponseField name="ValueError">
+If unable to infer or parse the user or team IDs.
+</ResponseField>
 
 ##### Examples
 
@@ -195,7 +207,7 @@ old_team = api.team(name="old-team")
 registry.remove_members(old_team)
 ```
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.save
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.save()
 
 Save registry attributes to the backend.
 
@@ -203,7 +215,7 @@ Save registry attributes to the backend.
 self
 ```
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.team_members
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.team_members()
 
 Returns the current member teams of this registry.
 
@@ -211,7 +223,7 @@ Returns the current member teams of this registry.
 self
 ```
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.update_member
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.update_member()
 
 Updates the role of a member (user or team) within this registry.
 
@@ -241,7 +253,9 @@ This registry for further method chaining, if needed.
 
 ##### Raises
 
-- `ValueError`: If unable to infer the user or team ID.
+<ResponseField name="ValueError">
+If unable to infer the user or team ID.
+</ResponseField>
 
 ##### Examples
 
@@ -258,7 +272,7 @@ for member in registry.user_members():
     registry.update_member(member.user, role="admin")
 ```
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.user_members
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.user_members()
 
 Returns the current member users of this registry.
 
@@ -266,7 +280,7 @@ Returns the current member users of this registry.
 self
 ```
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.versions
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.versions()
 
 Returns the artifact versions belonging to this registry.
 

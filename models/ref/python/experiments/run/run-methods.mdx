@@ -9,7 +9,7 @@ namespace: wandb.sdk.wandb_run
 
 ## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.Run
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.alert
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.alert()
 
 Create an alert with the given title and text.
 
@@ -39,7 +39,7 @@ The alert level to use, either: `INFO`, `WARN`, or `ERROR`.
 The time to wait (in seconds) before sending another alert with this title.
 </ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.define_metric
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.define_metric()
 
 Customize metrics logged with `wandb.Run.log()`.
 
@@ -88,7 +88,7 @@ If false, then this call is merged with previous `define_metric` calls for the s
 
 An object that represents this call but can otherwise be discarded.
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.display
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.display()
 
 Display this run in Jupyter.
 
@@ -108,7 +108,7 @@ hidden: 'bool' = False
 
 </ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.finish
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.finish()
 
 Finish a run and upload any remaining data.
 
@@ -138,7 +138,7 @@ Integer indicating the run's exit status. Use 0 for success, any other value mar
 Deprecated. Configure logging verbosity using `wandb.Settings(quiet=...)`.
 </ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.finish_artifact
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.finish_artifact()
 
 Finishes a non-finalized artifact as output of a run.
 
@@ -191,7 +191,7 @@ Unique string that all distributed jobs share. If None, defaults to the run's gr
 
 An `Artifact` object.
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.link_artifact
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.link_artifact()
 
 Link the artifact to a collection.
 
@@ -226,7 +226,7 @@ Add one or more aliases to the linked artifact. The "latest" alias is automatica
 
 The linked artifact.
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.link_model
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.link_model()
 
 Log a model artifact version and link it to a registered model in the model registry.
 
@@ -277,10 +277,15 @@ The linked artifact if linking was successful, otherwise `None`.
 
 ##### Raises
 
-- `AssertionError`: If registered_model_name is a path or if model artifact 'name' is of a type that does not contain the substring 'model'.
-- `ValueError`: If name has invalid special characters.
+<ResponseField name="AssertionError">
+If registered_model_name is a path or if model artifact 'name' is of a type that does not contain the substring 'model'.
+</ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.log
+<ResponseField name="ValueError">
+If name has invalid special characters.
+</ResponseField>
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.log()
 
 Upload run data.
 
@@ -398,8 +403,13 @@ If true, finalize and upload the step. If false, then accumulate data for the st
 
 ##### Raises
 
-- `wandb.Error`: If called before `wandb.init()`.
-- `ValueError`: If invalid data is passed.
+<ResponseField name="wandb.Error">
+If called before `wandb.init()`.
+</ResponseField>
+
+<ResponseField name="ValueError">
+If invalid data is passed.
+</ResponseField>
 
 ##### Examples
 
@@ -533,7 +543,7 @@ with wandb.init() as run:
     )
 ```
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.log_artifact
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.log_artifact()
 
 Declare an artifact as an output of a run.
 
@@ -583,7 +593,7 @@ run id  if not specified.
 
 An `Artifact` object.
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.log_code
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.log_code()
 
 Save the current state of your code to a W&B Artifact.
 
@@ -645,7 +655,7 @@ with wandb.init() as run:
     )
 ```
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.log_model
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.log_model()
 
 Logs a model artifact containing the contents inside the 'path' to a run and marks it as an output to this run.
 
@@ -683,9 +693,11 @@ None
 
 ##### Raises
 
-- `ValueError`: If name has invalid special characters.
+<ResponseField name="ValueError">
+If name has invalid special characters.
+</ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.mark_preempting
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.mark_preempting()
 
 Mark this run as preempting.
 
@@ -695,7 +707,7 @@ Also tells the internal process to immediately report this to server.
 self
 ```
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.pin_config_keys
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.pin_config_keys()
 
 Pin config keys to display in the References section on Run Overview.
 
@@ -714,7 +726,7 @@ keys: 'Sequence[str]' = ()
 Config key names to pin, matching keys set via ``run.config``. These are exact key strings (dots and slashes are treated literally, not as path separators). Order is preserved and determines display order.
 </ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.restore
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.restore()
 
 Download the specified file from cloud storage.
 
@@ -753,10 +765,15 @@ None if it can't find the file, otherwise a file object open for reading.
 
 ##### Raises
 
-- `CommError`: If W&B can't connect to the W&B backend.
-- `ValueError`: If the file is not found or can't find run_path.
+<ResponseField name="CommError">
+If W&B can't connect to the W&B backend.
+</ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.save
+<ResponseField name="ValueError">
+If the file is not found or can't find run_path.
+</ResponseField>
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.save()
 
 Sync one or more files to W&B.
 
@@ -819,7 +836,7 @@ Whether to treat `glob_str` as a glob pattern. Defaults to `True` for backward c
 
 Paths to the symlinks created for the matched files. For historical reasons, this may return a boolean in legacy code. ```python import wandb run = wandb.init() run.save("these/are/myfiles/*") # => Saves files in a "these/are/myfiles/" folder in the run. run.save("these/are/myfiles/*", base_path="these") # => Saves files in an "are/myfiles/" folder in the run. run.save("/Users/username/Documents/run123/*.txt") # => Saves files in a "run123/" folder in the run. See note below. run.save("/Users/username/Documents/run123/*.txt", base_path="/Users") # => Saves files in a "username/Documents/run123/" folder in the run. run.save("files/*/saveme.txt") # => Saves each "saveme.txt" file in an appropriate subdirectory #    of "files/". run.save("files/myfile[1].txt", glob=False) # => Saves the literal file "files/myfile[1].txt" without #    interpreting "[1]" as a glob character class. # Explicitly finish the run since a context manager is not used. run.finish() ```
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.status
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.status()
 
 Get sync info from the internal backend, about the current run's sync status.
 
@@ -827,7 +844,7 @@ Get sync info from the internal backend, about the current run's sync status.
 self
 ```
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.unwatch
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.unwatch()
 
 Remove pytorch model topology, gradient and parameter hooks.
 
@@ -842,7 +859,7 @@ models: 'torch.nn.Module | Sequence[torch.nn.Module] | None' = None
 Optional list of pytorch models that have had watch called on them.
 </ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.upsert_artifact
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.upsert_artifact()
 
 Declare (or append to) a non-finalized artifact as output of a run.
 
@@ -893,7 +910,7 @@ Unique string that all distributed jobs share. If None, defaults to the run's gr
 
 An `Artifact` object.
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.use_artifact
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.use_artifact()
 
 Declare an artifact as an input to a run.
 
@@ -962,7 +979,7 @@ artifact_d = run.use_artifact(
 run.finish()
 ```
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.use_model
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.use_model()
 
 Download the files logged in a model artifact 'name'.
 
@@ -987,9 +1004,11 @@ can be in the following forms
 
 ##### Raises
 
-- `AssertionError`: If model artifact 'name' is of a type that does not contain the substring 'model'.
+<ResponseField name="AssertionError">
+If model artifact 'name' is of a type that does not contain the substring 'model'.
+</ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.watch
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.watch()
 
 Hook into given PyTorch model to monitor gradients and the model's computational graph.
 
@@ -1033,9 +1052,11 @@ Whether to log the model's computational graph. (default=False)
 
 ##### Raises
 
-- `ValueError`: If `wandb.init()` has not been called or if any of the models are not instances of `torch.nn.Module`.
+<ResponseField name="ValueError">
+If `wandb.init()` has not been called or if any of the models are not instances of `torch.nn.Module`.
+</ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.write_logs
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.write_logs()
 
 Write text to the run's Logs tab.
 

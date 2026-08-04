@@ -12,6 +12,13 @@ import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
 ## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.automations.Automation
+
+
+
+A local instance of a saved W&B automation that supports editing.
+
+
+
 ```python
 *,
 __typename: Literal['Trigger'] = 'Trigger',
@@ -25,12 +32,6 @@ scope: Annotated[wandb.automations.scopes._ArtifactSequenceScope | wandb.automat
 event: wandb.automations.events.SavedEvent,
 action: Annotated[wandb.automations.actions.SavedLaunchJobAction | wandb.automations.actions.SavedNotificationAction | wandb.automations.actions.SavedWebhookAction | wandb.automations.actions.SavedNoOpAction, BeforeValidator(func=<function parse_saved_action>, json_schema_input_type=PydanticUndefined)]
 ```
-
-
-
-A local instance of a saved W&B automation that supports editing.
-
-
 
 ## Args
 

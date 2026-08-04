@@ -12,12 +12,6 @@ import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
 ## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.Organization
-```python
-service_api: 'InitVar[ServiceApi]', *,
-id: 'GQLId',
-name: 'str',
-org_entity: '_OrgEntity'
-```
 
 
 
@@ -27,6 +21,13 @@ Users should never need to instantiate this class directly. Use
 `wandb.Api().organization()` to fetch an existing organization.
 
 
+
+```python
+service_api: 'InitVar[ServiceApi]', *,
+id: 'GQLId',
+name: 'str',
+org_entity: '_OrgEntity'
+```
 
 ## Args
 

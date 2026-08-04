@@ -9,7 +9,7 @@ namespace: wandb.apis.public.sweeps
 
 ## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.Sweep
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Sweep.agent
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Sweep.agent()
 
 Query an agent by ID for this sweep.
 
@@ -24,7 +24,7 @@ agent_id: 'str'
 The ID of the agent to look up.
 </ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Sweep.agents
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Sweep.agents()
 
 Query the list of all agents for this sweep.
 
@@ -32,7 +32,7 @@ Query the list of all agents for this sweep.
 self
 ```
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Sweep.best_run
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Sweep.best_run()
 
 Return the best run sorted by the metric defined in config or the order passed in.
 
@@ -46,7 +46,7 @@ Return the best run sorted by the metric defined in config or the order passed i
 
 </ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Sweep.get
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Sweep.get()
 
 Execute a query against the cloud backend.
 
@@ -89,7 +89,7 @@ The query to use to execute the query.
 
 </ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Sweep.to_html
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Sweep.to_html()
 
 Generate HTML containing an iframe displaying this sweep.
 

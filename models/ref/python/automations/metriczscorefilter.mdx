@@ -12,6 +12,13 @@ import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
 ## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.automations.MetricZScoreFilter
+
+
+
+Filter that compares a metric's z-score against a user-defined threshold.
+
+
+
 ```python
 *,
 name: str,
@@ -19,12 +26,6 @@ window_size: Annotated[int, Gt(gt=0)] = 30,
 threshold: Union[Annotated[int, Gt(gt=0)], Annotated[float, Gt(gt=0)]] = 3.0,
 change_dir: wandb.automations._filters.run_metrics.ChangeDir = ANY
 ```
-
-
-
-Filter that compares a metric's z-score against a user-defined threshold.
-
-
 
 ## Args
 

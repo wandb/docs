@@ -12,6 +12,45 @@ import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
 ## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.Settings
+
+
+
+Settings for the W&B SDK.
+
+This class manages configuration settings for the W&B SDK,
+ensuring type safety and validation of all settings. Settings are accessible
+as attributes and can be initialized programmatically, through environment
+variables (`WANDB_ prefix`), and with configuration files.
+
+The settings are organized into three categories:
+1. Public settings: Core configuration options that users can safely modify to customize
+   W&B's behavior for their specific needs.
+2. Internal settings: Settings prefixed with 'x_' that handle low-level SDK behavior.
+   These settings are primarily for internal use and debugging. While they can be modified,
+   they are not considered part of the public API and may change without notice in future
+   versions.
+3. Computed settings: Read-only settings that are automatically derived from other settings or
+   the environment.
+
+Settings are loaded from multiple sources. When the same setting is supplied
+by more than one source, the source listed later wins. From lowest to highest
+precedence:
+
+1. Default values defined on this `Settings` model.
+2. Configuration files (`~/.config/wandb/settings`, or the `settings` file in
+   the directory named by the `WANDB_CONFIG_DIR` environment variable).
+3. Environment variables (those prefixed with `WANDB_`, e.g. `WANDB_MODE`).
+4. Values detected from the runtime environment, such as the hostname, the
+   running program/script path, the Python executable, the Docker image, and
+   Jupyter notebook details.
+5. SageMaker settings, when running in an Amazon SageMaker environment.
+6. The `settings` parameter of `wandb.setup()`.
+7. The `settings` parameter of `wandb.init()`.
+8. Certain `wandb.init()` parameters (for example, `mode=` overrides the
+   `mode` setting).
+
+
+
 ```python
 *,
 allow_media_symlink: bool = False,
@@ -147,7 +186,7 @@ x_service_transport: str | None = None,
 x_service_wait: float = 30.0,
 x_skip_transaction_log: bool = False,
 x_start_time: float | None = None,
-x_stats_pid: int = 20783,
+x_stats_pid: int = 43778,
 x_stats_sampling_interval: float = 15.0,
 x_stats_neuron_monitor_config_path: str | None = None,
 x_stats_dcgm_exporter: str | None = None,
@@ -169,44 +208,6 @@ x_sync: bool = False,
 x_sync_dir_suffix: str = '',
 x_update_finish_state: bool = True
 ```
-
-
-
-Settings for the W&B SDK.
-
-This class manages configuration settings for the W&B SDK,
-ensuring type safety and validation of all settings. Settings are accessible
-as attributes and can be initialized programmatically, through environment
-variables (`WANDB_ prefix`), and with configuration files.
-
-The settings are organized into three categories:
-1. Public settings: Core configuration options that users can safely modify to customize
-   W&B's behavior for their specific needs.
-2. Internal settings: Settings prefixed with 'x_' that handle low-level SDK behavior.
-   These settings are primarily for internal use and debugging. While they can be modified,
-   they are not considered part of the public API and may change without notice in future
-   versions.
-3. Computed settings: Read-only settings that are automatically derived from other settings or
-   the environment.
-
-Settings are loaded from multiple sources. When the same setting is supplied
-by more than one source, the source listed later wins. From lowest to highest
-precedence:
-
-1. Default values defined on this `Settings` model.
-2. Configuration files (`~/.config/wandb/settings`, or the `settings` file in
-   the directory named by the `WANDB_CONFIG_DIR` environment variable).
-3. Environment variables (those prefixed with `WANDB_`, e.g. `WANDB_MODE`).
-4. Values detected from the runtime environment, such as the hostname, the
-   running program/script path, the Python executable, the Docker image, and
-   Jupyter notebook details.
-5. SageMaker settings, when running in an Amazon SageMaker environment.
-6. The `settings` parameter of `wandb.setup()`.
-7. The `settings` parameter of `wandb.init()`.
-8. Certain `wandb.init()` parameters (for example, `mode=` overrides the
-   `mode` setting).
-
-
 
 ## Args
 

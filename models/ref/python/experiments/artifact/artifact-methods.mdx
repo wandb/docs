@@ -9,7 +9,7 @@ namespace: wandb.sdk.artifacts.artifact
 
 ## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.Artifact
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.add
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.add()
 
 Add wandb.WBValue `obj` to the artifact.
 
@@ -40,9 +40,11 @@ The added manifest entry
 
 ##### Raises
 
-- `ArtifactFinalizedError`: You cannot make changes to the current artifact version because it is finalized. Log a new artifact version instead.
+<ResponseField name="ArtifactFinalizedError">
+You cannot make changes to the current artifact version because it is finalized. Log a new artifact version instead.
+</ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.add_dir
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.add_dir()
 
 Add a local directory to the artifact.
 
@@ -83,10 +85,15 @@ If `False` (default), throws ValueError if a file was already added in a previou
 
 ##### Raises
 
-- `ArtifactFinalizedError`: You cannot make changes to the current artifact version because it is finalized. Log a new artifact version instead.
-- `ValueError`: Policy must be "mutable" or "immutable"
+<ResponseField name="ArtifactFinalizedError">
+You cannot make changes to the current artifact version because it is finalized. Log a new artifact version instead.
+</ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.add_file
+<ResponseField name="ValueError">
+Policy must be "mutable" or "immutable"
+</ResponseField>
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.add_file()
 
 Add a local file to the artifact.
 
@@ -132,10 +139,15 @@ The added manifest entry.
 
 ##### Raises
 
-- `ArtifactFinalizedError`: You cannot make changes to the current artifact version because it is finalized. Log a new artifact version instead.
-- `ValueError`: Policy must be "mutable" or "immutable"
+<ResponseField name="ArtifactFinalizedError">
+You cannot make changes to the current artifact version because it is finalized. Log a new artifact version instead.
+</ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.add_reference
+<ResponseField name="ValueError">
+Policy must be "mutable" or "immutable"
+</ResponseField>
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.add_reference()
 
 Add a reference denoted by a URI to the artifact.
 
@@ -194,9 +206,11 @@ The added manifest entries.
 
 ##### Raises
 
-- `ArtifactFinalizedError`: You cannot make changes to the current artifact version because it is finalized. Log a new artifact version instead.
+<ResponseField name="ArtifactFinalizedError">
+You cannot make changes to the current artifact version because it is finalized. Log a new artifact version instead.
+</ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.checkout
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.checkout()
 
 Replace the specified root directory with the contents of the artifact.
 
@@ -220,9 +234,11 @@ The path of the checked out contents.
 
 ##### Raises
 
-- `ArtifactNotLoggedError`: If the artifact is not logged.
+<ResponseField name="ArtifactNotLoggedError">
+If the artifact is not logged.
+</ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.delete
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.delete()
 
 Delete an artifact and its files.
 
@@ -245,9 +261,11 @@ If set to `True`, delete all aliases associated with the artifact. If `False`, r
 
 ##### Raises
 
-- `ArtifactNotLoggedError`: If the artifact is not logged.
+<ResponseField name="ArtifactNotLoggedError">
+If the artifact is not logged.
+</ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.download
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.download()
 
 Download the contents of the artifact to the specified root directory.
 
@@ -292,9 +310,11 @@ The path to the downloaded contents.
 
 ##### Raises
 
-- `ArtifactNotLoggedError`: If the artifact is not logged.
+<ResponseField name="ArtifactNotLoggedError">
+If the artifact is not logged.
+</ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.file
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.file()
 
 Download a single file artifact to the directory you specify with `root`.
 
@@ -315,10 +335,15 @@ The full path of the downloaded file.
 
 ##### Raises
 
-- `ArtifactNotLoggedError`: If the artifact is not logged.
-- `ValueError`: If the artifact contains more than one file.
+<ResponseField name="ArtifactNotLoggedError">
+If the artifact is not logged.
+</ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.files
+<ResponseField name="ValueError">
+If the artifact contains more than one file.
+</ResponseField>
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.files()
 
 Iterate over all files stored in this artifact.
 
@@ -349,9 +374,11 @@ An iterator containing `File` objects.
 
 ##### Raises
 
-- `ArtifactNotLoggedError`: If the artifact is not logged.
+<ResponseField name="ArtifactNotLoggedError">
+If the artifact is not logged.
+</ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.finalize
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.finalize()
 
 Finalize the artifact version.
 
@@ -364,7 +391,7 @@ when you log the artifact with `log_artifact`.
 self
 ```
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.get
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.get()
 
 Get the WBValue object located at the artifact relative `name`.
 
@@ -385,9 +412,11 @@ W&B object that can be logged with `run.log()` and visualized in the W&B UI.
 
 ##### Raises
 
-- `ArtifactNotLoggedError`: if the artifact isn't logged or the run is offline.
+<ResponseField name="ArtifactNotLoggedError">
+if the artifact isn't logged or the run is offline.
+</ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.get_added_local_path_name
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.get_added_local_path_name()
 
 Get the artifact relative name of a file added by a local filesystem path.
 
@@ -406,7 +435,7 @@ The local path to resolve into an artifact relative name.
 
 The artifact relative name.
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.get_entry
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.get_entry()
 
 Get the entry with the given name.
 
@@ -427,10 +456,15 @@ A `W&B` object.
 
 ##### Raises
 
-- `ArtifactNotLoggedError`: if the artifact isn't logged or the run is offline.
-- `KeyError`: if the artifact doesn't contain an entry with the given name.
+<ResponseField name="ArtifactNotLoggedError">
+if the artifact isn't logged or the run is offline.
+</ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.get_path
+<ResponseField name="KeyError">
+if the artifact doesn't contain an entry with the given name.
+</ResponseField>
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.get_path()
 
 Deprecated. Use `get_entry(name)`.
 
@@ -445,7 +479,7 @@ name: 'StrPath'
 
 </ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.is_draft
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.is_draft()
 
 Check if artifact is not saved.
 
@@ -457,7 +491,7 @@ self
 
 Boolean. `False` if artifact is saved. `True` if artifact is not saved.
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.json_encode
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.json_encode()
 
 Returns the artifact encoded to the JSON format.
 
@@ -469,7 +503,7 @@ self
 
 A `dict` with `string` keys representing attributes of the artifact.
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.link
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.link()
 
 Link this artifact to a collection.
 
@@ -495,9 +529,11 @@ The linked artifact.
 
 ##### Raises
 
-- `ArtifactNotLoggedError`: If the artifact is not logged.
+<ResponseField name="ArtifactNotLoggedError">
+If the artifact is not logged.
+</ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.logged_by
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.logged_by()
 
 Get the W&B run that originally logged the artifact.
 
@@ -511,9 +547,11 @@ The name of the W&B run that originally logged the artifact.
 
 ##### Raises
 
-- `ArtifactNotLoggedError`: If the artifact is not logged.
+<ResponseField name="ArtifactNotLoggedError">
+If the artifact is not logged.
+</ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.new_draft
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.new_draft()
 
 Create a new draft artifact with the same content as this committed artifact.
 
@@ -531,9 +569,11 @@ An `Artifact` object.
 
 ##### Raises
 
-- `ArtifactNotLoggedError`: If the artifact is not logged.
+<ResponseField name="ArtifactNotLoggedError">
+If the artifact is not logged.
+</ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.new_file
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.new_file()
 
 Open a new temporary file and add it to the artifact.
 
@@ -564,9 +604,11 @@ A new file object that can be written to. Upon closing, the file is automaticall
 
 ##### Raises
 
-- `ArtifactFinalizedError`: You cannot make changes to the current artifact version because it is finalized. Log a new artifact version instead.
+<ResponseField name="ArtifactFinalizedError">
+You cannot make changes to the current artifact version because it is finalized. Log a new artifact version instead.
+</ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.remove
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.remove()
 
 Remove an item from the artifact.
 
@@ -583,10 +625,15 @@ The item to remove. Can be a specific manifest entry or the name of an artifact-
 
 ##### Raises
 
-- `ArtifactFinalizedError`: You cannot make changes to the current artifact version because it is finalized. Log a new artifact version instead.
-- `FileNotFoundError`: If the item isn't found in the artifact.
+<ResponseField name="ArtifactFinalizedError">
+You cannot make changes to the current artifact version because it is finalized. Log a new artifact version instead.
+</ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.save
+<ResponseField name="FileNotFoundError">
+If the item isn't found in the artifact.
+</ResponseField>
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.save()
 
 Persist any changes made to the artifact.
 
@@ -609,7 +656,7 @@ A project to use for the artifact in the case that a run is not already in conte
 A settings object to use when initializing an automatic run. Most commonly used in testing harness.
 </ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.unlink
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.unlink()
 
 Unlink this artifact if it is a linked member of an artifact collection.
 
@@ -619,10 +666,15 @@ self
 
 ##### Raises
 
-- `ArtifactNotLoggedError`: If the artifact is not logged.
-- `ValueError`: If the artifact is not linked to any collection.
+<ResponseField name="ArtifactNotLoggedError">
+If the artifact is not logged.
+</ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.used_by
+<ResponseField name="ValueError">
+If the artifact is not linked to any collection.
+</ResponseField>
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.used_by()
 
 Get a list of the runs that have used this artifact and its linked artifacts.
 
@@ -636,9 +688,11 @@ A list of `Run` objects.
 
 ##### Raises
 
-- `ArtifactNotLoggedError`: If the artifact is not logged.
+<ResponseField name="ArtifactNotLoggedError">
+If the artifact is not logged.
+</ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.verify
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.verify()
 
 Verify that the contents of an artifact match the manifest.
 
@@ -658,10 +712,15 @@ The directory to verify. If None artifact will be downloaded to './artifacts/sel
 
 ##### Raises
 
-- `ArtifactNotLoggedError`: If the artifact is not logged.
-- `ValueError`: If the verification fails.
+<ResponseField name="ArtifactNotLoggedError">
+If the artifact is not logged.
+</ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.wait
+<ResponseField name="ValueError">
+If the verification fails.
+</ResponseField>
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.wait()
 
 If needed, wait for this artifact to finish logging.
 

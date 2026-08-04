@@ -9,7 +9,7 @@ namespace: wandb.apis.public.api
 
 ## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.Api
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.artifact
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.artifact()
 
 Returns a single artifact.
 
@@ -35,8 +35,13 @@ An `Artifact` object.
 
 ##### Raises
 
-- `ValueError`: If the artifact name is not specified.
-- `ValueError`: If the artifact type is specified but does not match the type of the fetched artifact.
+<ResponseField name="ValueError">
+If the artifact name is not specified.
+</ResponseField>
+
+<ResponseField name="ValueError">
+If the artifact type is specified but does not match the type of the fetched artifact.
+</ResponseField>
 
 ##### Examples
 
@@ -61,7 +66,7 @@ wandb.Api().artifact(name="entity/project/artifact:alias")
 wandb.Api().artifact(name="entity/project/artifact:version")
 ```
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.artifact_collection
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.artifact_collection()
 
 Returns a single artifact collection by type.
 
@@ -109,7 +114,7 @@ artifact_example = collections.artifacts()[0]
 artifact_example.download()
 ```
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.artifact_collection_exists
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.artifact_collection_exists()
 
 Whether an artifact collection exists within a specified project and entity.
 
@@ -144,7 +149,7 @@ import wandb
 wandb.Api.artifact_collection_exists(type="type", name="collection_name")
 ```
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.artifact_collections
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.artifact_collections()
 
 Returns a collection of matching artifact collections.
 
@@ -183,7 +188,7 @@ Pagination cursor for resuming a past query, captured from a previous paginator'
 
 An iterable `ArtifactCollections` object.
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.artifact_exists
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.artifact_exists()
 
 Whether an artifact version exists within the specified project and entity.
 
@@ -221,7 +226,7 @@ wandb.Api().artifact_exists("entity/project/artifact:version")
 wandb.Api().artifact_exists("entity/project/artifact:alias")
 ```
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.artifact_type
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.artifact_type()
 
 Returns the matching `ArtifactType`.
 
@@ -245,7 +250,7 @@ If given, a project name or path to filter on.
 
 An `ArtifactType` object.
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.artifact_types
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.artifact_types()
 
 Returns a collection of matching artifact types.
 
@@ -269,7 +274,7 @@ Pagination cursor for resuming a past query, captured from a previous paginator'
 
 An iterable `ArtifactTypes` object.
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.artifact_versions
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.artifact_versions()
 
 Deprecated. Use `Api.artifacts(type_name, name)` method instead.
 
@@ -291,7 +296,7 @@ Deprecated. Use `Api.artifacts(type_name, name)` method instead.
 
 </ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.artifacts
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.artifacts()
 
 Return an `Artifacts` collection.
 
@@ -378,7 +383,7 @@ remaining_artifacts = api.artifacts(
 )
 ```
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.automation
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.automation()
 
 Returns the only Automation matching the parameters.
 
@@ -400,7 +405,9 @@ The entity to fetch the automation for.
 
 ##### Raises
 
-- `ValueError`: If zero or multiple Automations match the search criteria.
+<ResponseField name="ValueError">
+If zero or multiple Automations match the search criteria.
+</ResponseField>
 
 ##### Examples
 
@@ -419,7 +426,7 @@ Get an existing automation named "other-automation", from the entity "my-team":
 automation = api.automation(name="other-automation", entity="my-team")
 ```
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.automations
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.automations()
 
 Returns an iterator over all Automations that match the given parameters.
 
@@ -467,7 +474,7 @@ api = wandb.Api()
 automations = api.automations(entity="my-team")
 ```
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.create_automation
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.create_automation()
 
 Create a new Automation.
 
@@ -524,7 +531,7 @@ automation = api.create_automation(
 )
 ```
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.create_custom_chart
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.create_custom_chart()
 
 Create a custom chart preset and return its id.
 
@@ -572,8 +579,13 @@ The ID of the created chart preset in the format "entity/name"
 
 ##### Raises
 
-- `wandb.Error`: If chart creation fails
-- `UnsupportedError`: If the server doesn't support custom charts
+<ResponseField name="wandb.Error">
+If chart creation fails
+</ResponseField>
+
+<ResponseField name="UnsupportedError">
+If the server doesn't support custom charts
+</ResponseField>
 
 ##### Examples
 
@@ -611,7 +623,7 @@ The ID of the created chart preset in the format "entity/name"
     )
     ```
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.create_project
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.create_project()
 
 Create a new project.
 
@@ -631,7 +643,7 @@ The name of the new project.
 The entity of the new project.
 </ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.create_registry
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.create_registry()
 
 Create a new registry.
 
@@ -685,7 +697,7 @@ registry = api.create_registry(
 )
 ```
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.create_run
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.create_run()
 
 Create a new run.
 
@@ -714,7 +726,7 @@ The entity that owns the project. If no entity is specified, log the run to the 
 
 The newly created `Run`.
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.create_run_queue
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.create_run_queue()
 
 Create a new run queue in W&B Launch.
 
@@ -758,7 +770,7 @@ A dictionary of template variable schemas to use with the config.
 
 The newly created `RunQueue`.
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.create_team
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.create_team()
 
 Create a new team.
 
@@ -782,7 +794,7 @@ Username of the admin user of the team. Defaults to the current user.
 
 A `Team` object.
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.create_user
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.create_user()
 
 Create a new user.
 
@@ -806,7 +818,7 @@ Set user as a global instance administrator.
 
 A `User` object.
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.delete_automation
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.delete_automation()
 
 Delete an automation.
 
@@ -825,7 +837,7 @@ The automation to delete, or its ID.
 
 True if the automation was deleted successfully.
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.flush
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.flush()
 
 Flush the local cache.
 
@@ -837,7 +849,7 @@ with `api.flush()` to get the latest values associated with the run.
 (self)
 ```
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.from_path
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.from_path()
 
 Return a run, sweep, project or report from a path.
 
@@ -874,7 +886,7 @@ sweep = api.from_path("team/project/sweeps/sweep_id")
 report = api.from_path("team/project/reports/report_name")
 ```
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.integrations
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.integrations()
 
 Return an iterator of all integrations for an entity.
 
@@ -899,7 +911,7 @@ Number of integrations to fetch per page. Defaults to 50.  Usually there is no r
 
 </ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.job
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.job()
 
 Return a `Job` object.
 
@@ -923,7 +935,7 @@ The root path to download the job artifact.
 
 A `Job` object.
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.list_jobs
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.list_jobs()
 
 Return a list of jobs, if any, for the given entity and project.
 
@@ -947,7 +959,7 @@ The project for the listed jobs.
 
 A list of matching jobs.
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.organization
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.organization()
 
 Return the matching `Organization`.
 
@@ -966,7 +978,7 @@ The name of the organization. If omitted, this method will attempt to infer and 
 
 An `Organization` object.
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.project
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.project()
 
 Return the `Project` with the given name (and entity, if given).
 
@@ -990,7 +1002,7 @@ Name of the entity requested.  If None, will fall back to the default entity pas
 
 A `Project` object.
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.projects
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.projects()
 
 Get projects for a given entity.
 
@@ -1014,7 +1026,7 @@ Sets the page size for query pagination. Usually there is no reason to change th
 
 A `Projects` object which is an iterable collection of `Project`objects.
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.queued_run
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.queued_run()
 
 Return a single queued run based on the path.
 
@@ -1054,7 +1066,7 @@ run_queue_item_id: 'str', project_queue=None, priority=None)
 
 </ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.registries
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.registries()
 
 Returns a lazy iterator of `Registry` objects.
 
@@ -1150,7 +1162,7 @@ saved_cursor = registries.cursor
 remaining_registries = api.registries(per_page=page_size, start=saved_cursor)
 ```
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.registry
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.registry()
 
 Return a registry given a registry name.
 
@@ -1187,7 +1199,7 @@ registry.description = "This is an updated description"
 registry.save()
 ```
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.reports
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.reports()
 
 Get reports for a given project path.
 
@@ -1227,7 +1239,7 @@ import wandb
 wandb.Api.reports("entity/project")
 ```
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.run
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.run()
 
 Return a single run by parsing path in the form `entity/project/run_id`.
 
@@ -1247,9 +1259,11 @@ A `Run` object.
 
 ##### Raises
 
-- `RunNotFoundError`: If a run is not found, or run data is not able to be loaded.
+<ResponseField name="RunNotFoundError">
+If a run is not found, or run data is not able to be loaded.
+</ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.run_queue
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.run_queue()
 
 Return the named `RunQueue` for entity.
 
@@ -1271,7 +1285,7 @@ name: 'str')
 
 </ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.runs
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.runs()
 
 Returns a `Runs` object, which lazily iterates over `Run` objects.
 
@@ -1394,7 +1408,7 @@ Api.runs(
 Api.runs(path="my_entity/project", order="+summary_metrics.loss")
 ```
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.slack_integrations
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.slack_integrations()
 
 Returns an iterator of Slack integrations for an entity.
 
@@ -1441,7 +1455,7 @@ team_alert_integrations = [
 ]
 ```
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.sweep
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.sweep()
 
 Return a sweep by parsing path in the form `entity/project/sweep_id`.
 
@@ -1459,7 +1473,7 @@ Path to sweep in the form entity/project/sweep_id. If `api.entity` is set, this 
 
 A `Sweep` object.
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.sync_tensorboard
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.sync_tensorboard()
 
 Sync a local directory containing tfevent files to wandb.
 
@@ -1485,7 +1499,7 @@ Sync a local directory containing tfevent files to wandb.
 
 </ResponseField>
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.team
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.team()
 
 Return the matching `Team` with the given name.
 
@@ -1504,7 +1518,7 @@ The name of the team.
 
 A `Team` object.
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.update_automation
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.update_automation()
 
 Update an existing automation.
 
@@ -1564,7 +1578,7 @@ updated_automation = api.update_automation(
 )
 ```
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.upsert_run_queue
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.upsert_run_queue()
 
 Upsert a run queue in W&B Launch.
 
@@ -1613,7 +1627,7 @@ Optional version of prioritization to use. Either "V0" or None
 
 The upserted `RunQueue`.
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.user
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.user()
 
 Return a user from a username or email address.
 
@@ -1635,7 +1649,7 @@ The username or email address of the user.
 
 A `User` object or None if a user is not found.
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.users
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.users()
 
 Return all users from a partial username or email address query.
 
@@ -1657,7 +1671,7 @@ The prefix or suffix of the user you want to find.
 
 An array of `User` objects.
 
-## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.webhook_integrations
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.webhook_integrations()
 
 Returns an iterator of webhook integrations for an entity.
 

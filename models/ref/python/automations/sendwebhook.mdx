@@ -12,18 +12,19 @@ import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
 ## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.automations.SendWebhook
-```python
-*,
-integration_id: Annotated[str, Strict(strict=True)],
-requestPayload: Optional[Annotated[dict[str, Any], Json, BeforeValidator(func=<function ensure_json>, json_schema_input_type=PydanticUndefined), PlainSerializer(func=<function to_json>, return_type=PydanticUndefined, when_used='always')]] = None,
-action_type: Literal[GENERIC_WEBHOOK] = GENERIC_WEBHOOK
-```
 
 
 
 Defines an automation action that sends a webhook request.
 
 
+
+```python
+*,
+integration_id: Annotated[str, Strict(strict=True)],
+requestPayload: Optional[Annotated[dict[str, Any], Json, BeforeValidator(func=<function ensure_json>, json_schema_input_type=PydanticUndefined), PlainSerializer(func=<function to_json>, return_type=PydanticUndefined, when_used='always')]] = None,
+action_type: Literal[GENERIC_WEBHOOK] = GENERIC_WEBHOOK
+```
 
 ## Args
 

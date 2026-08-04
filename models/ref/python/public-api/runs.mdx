@@ -12,6 +12,17 @@ import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
 ## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.Runs
+
+
+
+A lazy iterator of `Run` objects associated with a project and optional filter.
+
+Runs are retrieved in pages from the W&B server as needed.
+
+This is generally used indirectly using the `Api.runs` namespace.
+
+
+
 ```python
 (service_api: 'ServiceApi',
 entity: 'str',
@@ -23,16 +34,6 @@ include_sweeps: 'bool' = False,
 lazy: 'bool' = True,
 api_key: 'str | None' = None)
 ```
-
-
-
-A lazy iterator of `Run` objects associated with a project and optional filter.
-
-Runs are retrieved in pages from the W&B server as needed.
-
-This is generally used indirectly using the `Api.runs` namespace.
-
-
 
 ## Args
 

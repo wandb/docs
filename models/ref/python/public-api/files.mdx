@@ -12,14 +12,6 @@ import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
 ## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.Files
-```python
-(service_api: 'ServiceApi',
-run: 'Run',
-names: 'list[str] | None' = None,
-per_page: 'int' = 50,
-upload: 'bool' = False,
-pattern: 'str | None' = None)
-```
 
 
 
@@ -29,6 +21,15 @@ Access and manage files uploaded to W&B during a run. Handles pagination
 automatically when iterating through large collections of files.
 
 
+
+```python
+(service_api: 'ServiceApi',
+run: 'Run',
+names: 'list[str] | None' = None,
+per_page: 'int' = 50,
+upload: 'bool' = False,
+pattern: 'str | None' = None)
+```
 
 ## Args
 

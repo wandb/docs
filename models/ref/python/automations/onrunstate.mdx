@@ -12,18 +12,19 @@ import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
 ## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.automations.OnRunState
-```python
-*,
-event_type: Literal[RUN_STATE] = RUN_STATE,
-scope: wandb.automations.scopes.ProjectScope,
-filter: Annotated[wandb.automations.events.RunStateFilter, Json, BeforeValidator(func=<function ensure_json>, json_schema_input_type=PydanticUndefined), PlainSerializer(func=<function to_json>, return_type=PydanticUndefined, when_used='always')]
-```
 
 
 
 A run state changes.
 
 
+
+```python
+*,
+event_type: Literal[RUN_STATE] = RUN_STATE,
+scope: wandb.automations.scopes.ProjectScope,
+filter: Annotated[wandb.automations.events.RunStateFilter, Json, BeforeValidator(func=<function ensure_json>, json_schema_input_type=PydanticUndefined), PlainSerializer(func=<function to_json>, return_type=PydanticUndefined, when_used='always')]
+```
 
 ## Args
 

@@ -12,6 +12,13 @@ import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
 ## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.automations.SendNotification
+
+
+
+Defines an automation action that sends a (Slack) notification.
+
+
+
 ```python
 *,
 integration_id: Annotated[str, Strict(strict=True)],
@@ -20,12 +27,6 @@ level: Annotated[wandb.automations._generated.enums.AlertSeverity, BeforeValidat
 title: Annotated[str, BeforeValidator(func=<function default_if_none>, json_schema_input_type=PydanticUndefined)] = '',
 action_type: Literal[NOTIFICATION] = NOTIFICATION
 ```
-
-
-
-Defines an automation action that sends a (Slack) notification.
-
-
 
 ## Args
 
