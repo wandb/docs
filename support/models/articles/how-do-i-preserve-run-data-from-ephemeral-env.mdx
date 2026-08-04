@@ -1,0 +1,16 @@
+---
+title: How do I preserve run data from ephemeral environments?
+keywords: ["Environment Variables", "Logs", "Runs"]
+---
+
+
+Set `WANDB_DIR` to a directory on persistent storage to preserve local run data and diagnostic logs in ephemeral environments. Otherwise, files in the local `wandb/` directory can be lost when the pod or container is deleted.
+
+See the following related articles:
+
+- [How can I define the local location for `wandb` files?](/support/models/articles/how-can-i-define-the-local-location-for-)
+- [Why is my run showing as crashed?](/support/models/articles/why-is-my-run-showing-as-crashed)
+- [Environment variables](/models/track/environment-variables)
+
+
+<Badge stroke shape="pill" color="orange" size="md">[Environment Variables](/support/models/tags/environment-variables)</Badge><Badge stroke shape="pill" color="orange" size="md">[Runs](/support/models/tags/runs)</Badge><Badge stroke shape="pill" color="orange" size="md">[Logs](/support/models/tags/logs)</Badge>
