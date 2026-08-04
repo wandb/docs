@@ -14,16 +14,21 @@ processOpenApiPath):
 
 import json
 import re
+import sys
 from pathlib import Path
 from typing import Dict, List, Tuple
 
 import requests
 
-# Same order as OpenAPIV3.HttpMethods / Mintlify's Object.values(HttpMethods)
-HTTP_METHODS_ORDER = ("get", "put", "post", "delete", "options", "head", "patch", "trace")
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from common.mintlify_openapi_paths import (  # noqa: E402
+    PUBLIC_DOCS_ORIGIN,
+    build_method_path_to_href,
+    iter_operations,
+)
 
 DEFAULT_OPENAPI_DIRECTORY = "weave/reference/service-api"
-PUBLIC_DOCS_ORIGIN = "https://docs.wandb.ai"
 LANDING_PAGE = Path("weave/reference/service-api.mdx")
 
 # Display order for ### headings; unknown tags append after these.
@@ -56,100 +61,14 @@ def fetch_openapi_spec() -> dict:
     return response.json()
 
 
-def prepare_string_to_be_valid_filename(value: str | None) -> str | None:
-    """Match Mintlify prepareStringToBeValidFilename (apiPages/common.js)."""
-    if not value:
-        return None
-    s = value.replace(" ", "-")
-    s = re.sub(r"\{.*?\}", "-", s)
-    s = re.sub(r"^-", "", s)
-    s = re.sub(r"-$", "", s)
-    s = re.sub(r"[{}(),.'\n/]", "", s)
-    while "--" in s:
-        s = s.replace("--", "-")
-    return s.lower()
-
-
-def generate_unique_filename_without_extension(pages: List[str], base: str) -> str:
-    """Match Mintlify generateUniqueFilenameWithoutExtension (apiPages/common.js)."""
-    filename = base
-    if filename in pages:
-        ext = 1
-        filename = f"{base}-{ext}"
-        while filename in pages:
-            ext += 1
-            filename = f"{base}-{ext}"
-    return filename.lower()
-
-
-def _is_hidden(operation: dict) -> bool:
-    return operation.get("x-hidden") is True
-
-
-def _is_excluded(operation: dict) -> bool:
-    return operation.get("x-excluded") is True
-
-
-def build_method_path_to_href(spec: dict, out_dir: str) -> Dict[Tuple[str, str], str]:
-    """
-    Map (HTTP_METHOD, openapi_path) -> site path beginning with /, in Mintlify order.
-    """
-    out_dir = out_dir.strip("/")
-    nav_pages_by_tag: Dict[str, List[str]] = {}
-    href_by_key: Dict[Tuple[str, str], str] = {}
-
-    paths = spec.get("paths") or {}
-    for path, path_item in paths.items():
-        if not path_item or not isinstance(path_item, dict):
-            continue
-        for method in HTTP_METHODS_ORDER:
-            if method not in path_item:
-                continue
-            operation = path_item[method]
-            if not isinstance(operation, dict):
-                continue
-            if _is_excluded(operation) or _is_hidden(operation):
-                continue
-
-            tags = operation.get("tags") or []
-            group_name = tags[0] if tags else "API Reference"
-
-            summary = operation.get("summary")
-            title = prepare_string_to_be_valid_filename(summary)
-            if not title:
-                path_part = prepare_string_to_be_valid_filename(path)
-                title = f"{method}-{path_part}"
-
-            folder = prepare_string_to_be_valid_filename(group_name) or ""
-            base = "/".join(p for p in [out_dir, folder, title] if p)
-
-            pages = nav_pages_by_tag.setdefault(group_name, [])
-            filename = generate_unique_filename_without_extension(pages, base)
-            pages.append(filename)
-            href_by_key[(method.upper(), path)] = f"/{filename}"
-
-    return href_by_key
-
-
 def list_display_rows(spec: dict) -> List[Tuple[str, str, str, str]]:
     """Rows of (method, path, summary, tag0) sorted for the landing page."""
     rows: List[Tuple[str, str, str, str]] = []
-    paths = spec.get("paths") or {}
-    for path, path_item in paths.items():
-        if not path_item or not isinstance(path_item, dict):
-            continue
-        for method in HTTP_METHODS_ORDER:
-            if method not in path_item:
-                continue
-            operation = path_item[method]
-            if not isinstance(operation, dict):
-                continue
-            if _is_excluded(operation) or _is_hidden(operation):
-                continue
-            tags = operation.get("tags") or ["Uncategorized"]
-            tag0 = tags[0]
-            summary = operation.get("summary") or ""
-            rows.append((method.upper(), path, summary, tag0))
+    for method, path, operation in iter_operations(spec):
+        tags = operation.get("tags") or ["Uncategorized"]
+        tag0 = tags[0]
+        summary = operation.get("summary") or ""
+        rows.append((method.upper(), path, summary, tag0))
     rows.sort(key=lambda r: (r[3], r[1], r[0]))
     return rows
 

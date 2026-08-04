@@ -14,7 +14,6 @@ import hashlib
 import os
 from pathlib import Path
 import requests
-import sys
 from typing import Optional, Tuple
 
 # Remote OpenAPI spec URL
@@ -170,54 +169,6 @@ def compare_specs(local_spec: dict, remote_spec: dict) -> Tuple[bool, list]:
     return True, changes
 
 
-def update_docs_json(use_local: bool = False):
-    """Update docs.json to use local or remote OpenAPI spec."""
-    docs_json_path = Path("docs.json")
-    
-    with open(docs_json_path, 'r') as f:
-        docs_config = json.load(f)
-    
-    # Find the Service API openapi configuration
-    # Structure: navigation.languages[].tabs[] -> find "W&B Weave" tab -> pages[] -> find "Reference" group -> pages[] -> find "Service API" group
-    navigation = docs_config.get("navigation", {})
-    languages = navigation.get("languages", [])
-    
-    for language in languages:
-        tabs = language.get("tabs", [])
-        for tab in tabs:
-            # Look for the "W&B Weave" tab
-            if tab.get("tab") == "W&B Weave":
-                pages = tab.get("pages", [])
-                for page in pages:
-                    # Look for the "Reference" group (not "Weave Reference")
-                    if isinstance(page, dict) and page.get("group") == "Reference":
-                        ref_pages = page.get("pages", [])
-                        for ref_page in ref_pages:
-                            # Look for the "Service API" group
-                            if isinstance(ref_page, dict) and ref_page.get("group") == "Service API":
-                                if "openapi" in ref_page:
-                                    if use_local:
-                                        # Use local spec (preserve directory field if it exists)
-                                        directory = ref_page.get("openapi", {}).get("directory") if isinstance(ref_page.get("openapi"), dict) else "weave/reference/service-api"
-                                        ref_page["openapi"] = {
-                                            "source": "weave/reference/service-api/openapi.json",
-                                            "directory": directory
-                                        }
-                                        print("  ✓ Updated docs.json to use local OpenAPI spec")
-                                    else:
-                                        # Use remote spec (prefer GitHub, fallback to live service)
-                                        ref_page["openapi"] = {"source": GITHUB_SPEC_URL}
-                                        print("  ✓ Updated docs.json to use remote OpenAPI spec (GitHub)")
-                                    
-                                    with open(docs_json_path, 'w') as f:
-                                        json.dump(docs_config, f, indent=2)
-                                        f.write('\n')
-                                    return True
-    
-    print("  ✗ Could not find Service API configuration in docs.json")
-    return False
-
-
 def main():
     """Main function."""
     print("Syncing OpenAPI specification...")
@@ -230,7 +181,6 @@ def main():
         # If can't fetch remote, ensure we're using local
         if local_spec_path.exists():
             print("  ⚠ Using existing local spec due to remote fetch failure")
-            update_docs_json(use_local=True)
             return 0
         else:
             print("  ✗ No local spec and couldn't fetch remote spec")
@@ -278,41 +228,11 @@ def main():
             f.write('\n')
         print(f"  ✓ Created local spec at {local_spec_path}")
     
-    # Parse command line arguments
-    use_local = "--use-local" in sys.argv
-    use_remote = "--use-remote" in sys.argv
-    
-    if use_local:
-        update_docs_json(use_local=True)
-    elif use_remote:
-        update_docs_json(use_local=False)
-    else:
-        # Default: Check current configuration
-        docs_json_path = Path("docs.json")
-        with open(docs_json_path, 'r') as f:
-            docs_config = json.load(f)
-        
-        # Check if currently using local or remote by searching for the openapi config
-        # The structure is complex, so let's just search for the pattern in the JSON string
-        json_str = json.dumps(docs_config)
-        
-        # Check if we have the local path or remote config
-        using_local = '"openapi": "weave/reference/service-api/openapi.json"' in json_str or '"openapi": "openapi.json"' in json_str
-        
-        if using_local:
-            print(f"\n  ℹ Currently using local OpenAPI spec ({local_spec_path})")
-        else:
-            # Check which remote is configured
-            json_str = json.dumps(docs_config)
-            using_github = GITHUB_SPEC_URL in json_str
-            if using_github:
-                print(f"\n  ℹ Currently using remote OpenAPI spec from GitHub ({GITHUB_SPEC_URL})")
-            else:
-                print(f"\n  ℹ Currently using remote OpenAPI spec from live service ({LIVE_SPEC_URL})")
-        
-        print("\n  Tip: Use --use-local to configure docs.json to use the local spec")
-        print("       Use --use-remote to configure docs.json to use the remote spec")
-    
+    # Pages are generated from this spec by
+    # scripts/reference-generation/common/generate_openapi_stubs.py, which the workflow
+    # runs next. docs.json no longer carries an `openapi` source to point at, so there is
+    # nothing here to reconfigure.
+    print(f"\n  ℹ Reference pages are generated from {local_spec_path}")
     print("✓ OpenAPI spec sync complete!")
     return 0
 
