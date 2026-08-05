@@ -1312,13 +1312,234 @@
                   },
                   {
                     "group": "Service API",
-                    "openapi": {
-                      "directory": "weave/reference/service-api",
-                      "source": "weave/reference/service-api/openapi.json"
-                    },
                     "pages": [
                       "weave/cookbooks/weave_via_service_api",
-                      "weave/reference/service-api"
+                      "weave/reference/service-api",
+                      {
+                        "group": "Calls",
+                        "pages": [
+                          "weave/reference/service-api/calls/call-start",
+                          "weave/reference/service-api/calls/call-end",
+                          "weave/reference/service-api/calls/call-start-batch",
+                          "weave/reference/service-api/calls/calls-delete",
+                          "weave/reference/service-api/calls/call-update",
+                          "weave/reference/service-api/calls/call-read",
+                          "weave/reference/service-api/calls/calls-query-stats",
+                          "weave/reference/service-api/calls/trace-usage",
+                          "weave/reference/service-api/calls/calls-usage",
+                          "weave/reference/service-api/calls/calls-query-stream",
+                          "weave/reference/service-api/calls/call-stats",
+                          "weave/reference/service-api/calls/calls-complete"
+                        ]
+                      },
+                      {
+                        "group": "Costs",
+                        "pages": [
+                          "weave/reference/service-api/costs/cost-create",
+                          "weave/reference/service-api/costs/cost-query",
+                          "weave/reference/service-api/costs/cost-purge"
+                        ]
+                      },
+                      {
+                        "group": "Feedback",
+                        "pages": [
+                          "weave/reference/service-api/feedback/feedback-create",
+                          "weave/reference/service-api/feedback/feedback-create-batch",
+                          "weave/reference/service-api/feedback/feedback-query",
+                          "weave/reference/service-api/feedback/feedback-purge",
+                          "weave/reference/service-api/feedback/feedback-replace",
+                          "weave/reference/service-api/feedback/feedback-stats",
+                          "weave/reference/service-api/feedback/feedback-aggregate",
+                          "weave/reference/service-api/feedback/feedback-payload-schema"
+                        ]
+                      },
+                      {
+                        "group": "Files",
+                        "pages": [
+                          "weave/reference/service-api/files/file-create",
+                          "weave/reference/service-api/files/file-content",
+                          "weave/reference/service-api/files/files-stats"
+                        ]
+                      },
+                      {
+                        "group": "Objects",
+                        "pages": [
+                          "weave/reference/service-api/objects/obj-create",
+                          "weave/reference/service-api/objects/obj-read",
+                          "weave/reference/service-api/objects/objs-query",
+                          "weave/reference/service-api/objects/obj-delete",
+                          "weave/reference/service-api/objects/obj-add-tags",
+                          "weave/reference/service-api/objects/obj-remove-tags",
+                          "weave/reference/service-api/objects/obj-set-aliases",
+                          "weave/reference/service-api/objects/obj-remove-aliases",
+                          "weave/reference/service-api/objects/tags-list",
+                          "weave/reference/service-api/objects/aliases-list"
+                        ]
+                      },
+                      {
+                        "group": "OpenTelemetry",
+                        "pages": [
+                          "weave/reference/service-api/opentelemetry/export-trace"
+                        ]
+                      },
+                      {
+                        "group": "Refs",
+                        "pages": [
+                          "weave/reference/service-api/refs/refs-read-batch"
+                        ]
+                      },
+                      {
+                        "group": "Service",
+                        "pages": [
+                          "weave/reference/service-api/service/read-root",
+                          "weave/reference/service-api/service/read-version",
+                          "weave/reference/service-api/service/get-caller-location",
+                          "weave/reference/service-api/service/server-info",
+                          "weave/reference/service-api/service/projects-info"
+                        ]
+                      },
+                      {
+                        "group": "Tables",
+                        "pages": [
+                          "weave/reference/service-api/tables/table-create",
+                          "weave/reference/service-api/tables/table-update",
+                          "weave/reference/service-api/tables/table-create-from-digests",
+                          "weave/reference/service-api/tables/table-query",
+                          "weave/reference/service-api/tables/table-query-stats",
+                          "weave/reference/service-api/tables/table-query-stats-batch"
+                        ]
+                      },
+                      {
+                        "group": "Threads",
+                        "pages": [
+                          "weave/reference/service-api/threads/threads-query-stream"
+                        ]
+                      },
+                      {
+                        "group": "Agents",
+                        "pages": [
+                          "weave/reference/service-api/agents/export-genai-trace",
+                          "weave/reference/service-api/agents/genai-spans-query",
+                          "weave/reference/service-api/agents/genai-spans-stats",
+                          "weave/reference/service-api/agents/genai-custom-attrs-schema",
+                          "weave/reference/service-api/agents/genai-agents-query",
+                          "weave/reference/service-api/agents/genai-agent-versions-query",
+                          "weave/reference/service-api/agents/genai-search",
+                          "weave/reference/service-api/agents/genai-traces-chat",
+                          "weave/reference/service-api/agents/genai-conversation-chat",
+                          "weave/reference/service-api/agents/genai-conversation-spans"
+                        ]
+                      },
+                      {
+                        "group": "Annotation Queues",
+                        "pages": [
+                          "weave/reference/service-api/annotation-queues/annotation-queue-create",
+                          "weave/reference/service-api/annotation-queues/annotation-queues-query-stream",
+                          "weave/reference/service-api/annotation-queues/annotation-queue-read",
+                          "weave/reference/service-api/annotation-queues/annotation-queue-update",
+                          "weave/reference/service-api/annotation-queues/annotation-queue-delete",
+                          "weave/reference/service-api/annotation-queues/annotation-queue-add-calls",
+                          "weave/reference/service-api/annotation-queues/annotation-queue-items-query",
+                          "weave/reference/service-api/annotation-queues/annotation-queues-stats",
+                          "weave/reference/service-api/annotation-queues/annotation-queue-item-progress-update"
+                        ]
+                      },
+                      {
+                        "group": "Evaluations",
+                        "pages": [
+                          "weave/reference/service-api/evaluations/evaluate-model",
+                          "weave/reference/service-api/evaluations/evaluation-status",
+                          "weave/reference/service-api/evaluations/rescore-evaluation",
+                          "weave/reference/service-api/evaluations/evaluation-list",
+                          "weave/reference/service-api/evaluations/evaluation-create",
+                          "weave/reference/service-api/evaluations/evaluation-read",
+                          "weave/reference/service-api/evaluations/evaluation-delete"
+                        ]
+                      },
+                      {
+                        "group": "Scores",
+                        "pages": [
+                          "weave/reference/service-api/scores/calls-score",
+                          "weave/reference/service-api/scores/score-list",
+                          "weave/reference/service-api/scores/score-create",
+                          "weave/reference/service-api/scores/score-delete",
+                          "weave/reference/service-api/scores/score-read"
+                        ]
+                      },
+                      {
+                        "group": "Images",
+                        "pages": [
+                          "weave/reference/service-api/images/image-create"
+                        ]
+                      },
+                      {
+                        "group": "Registry",
+                        "pages": [
+                          "weave/reference/service-api/registry/link-to-registry"
+                        ]
+                      },
+                      {
+                        "group": "Ops",
+                        "pages": [
+                          "weave/reference/service-api/ops/op-list",
+                          "weave/reference/service-api/ops/op-create",
+                          "weave/reference/service-api/ops/op-read",
+                          "weave/reference/service-api/ops/op-delete"
+                        ]
+                      },
+                      {
+                        "group": "Datasets",
+                        "pages": [
+                          "weave/reference/service-api/datasets/dataset-list",
+                          "weave/reference/service-api/datasets/dataset-create",
+                          "weave/reference/service-api/datasets/dataset-read",
+                          "weave/reference/service-api/datasets/dataset-delete"
+                        ]
+                      },
+                      {
+                        "group": "Scorers",
+                        "pages": [
+                          "weave/reference/service-api/scorers/scorer-list",
+                          "weave/reference/service-api/scorers/scorer-create",
+                          "weave/reference/service-api/scorers/scorer-read",
+                          "weave/reference/service-api/scorers/scorer-delete"
+                        ]
+                      },
+                      {
+                        "group": "Models",
+                        "pages": [
+                          "weave/reference/service-api/models/model-list",
+                          "weave/reference/service-api/models/model-create",
+                          "weave/reference/service-api/models/model-read",
+                          "weave/reference/service-api/models/model-delete"
+                        ]
+                      },
+                      {
+                        "group": "Evaluation Runs",
+                        "pages": [
+                          "weave/reference/service-api/evaluation-runs/evaluation-run-list",
+                          "weave/reference/service-api/evaluation-runs/evaluation-run-create",
+                          "weave/reference/service-api/evaluation-runs/evaluation-run-delete",
+                          "weave/reference/service-api/evaluation-runs/evaluation-run-read",
+                          "weave/reference/service-api/evaluation-runs/evaluation-run-finish"
+                        ]
+                      },
+                      {
+                        "group": "Predictions",
+                        "pages": [
+                          "weave/reference/service-api/predictions/prediction-list",
+                          "weave/reference/service-api/predictions/prediction-create",
+                          "weave/reference/service-api/predictions/prediction-delete",
+                          "weave/reference/service-api/predictions/prediction-read",
+                          "weave/reference/service-api/predictions/prediction-finish"
+                        ]
+                      },
+                      {
+                        "group": "Eval Results",
+                        "pages": [
+                          "weave/reference/service-api/eval-results/eval-results-query"
+                        ]
+                      }
                     ]
                   }
                 ]
