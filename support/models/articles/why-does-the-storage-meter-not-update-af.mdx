@@ -1,11 +1,11 @@
 ---
-title: "Why does the storage meter not update after deleting runs?"
+title: "Why doesn't my storage usage update after deleting runs?"
 keywords: ["Storage"]
 ---
 
-The storage meter doesn't update immediately after you delete runs, artifacts, or files. When you delete data from the UI or the CLI, the backend processes the deletion in the background. A garbage collection process runs every few hours, so reclaimed space can take up to 24 hours to appear in your available storage. This is expected behavior.
+Your storage usage doesn't update immediately after you delete runs, artifacts, or files. When you delete data from the UI or the CLI, the backend processes the deletion in the background. A garbage collection process runs every few hours, so reclaimed space can take up to 24 hours to appear in your available storage. This is expected behavior.
 
-If you exceeded your storage limit, any access restriction lifts automatically once your usage falls below the limit and the meter catches up. You don't need to take further action while processing completes.
+If you exceeded your storage limit, any access restriction lifts automatically once your usage falls below the limit and W&B finishes processing the deletion. You don't need to take further action while processing completes.
 
 ## If your usage still looks too high
 
