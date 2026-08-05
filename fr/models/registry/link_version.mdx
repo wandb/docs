@@ -173,6 +173,60 @@ Choisissez un flux de travail selon que vous souhaitez créer l’artifact penda
 
 Vous pouvez [consulter les métadonnées, les informations de version, l’utilisation et les informations de traçabilité d’un artifact lié](/fr/models/registry/link_version#view-linked-artifacts-in-a-registry) ainsi que d’autres éléments dans la Registry App.
 
+<div id="unlink-an-artifact-version-from-a-collection">
+  ## Dissocier une version d’artifact d’une collection
+</div>
+
+Utilisez le SDK Python W&amp;B ou W&amp;B Registry pour dissocier une version d’artifact d’une collection.
+
+La dissociation retire la version d’artifact de la collection, mais ne supprime ni la version source de l’artifact ni ses fichiers.
+
+<Warning>
+  L’association d’une version d’artifact à une collection de registre désactive sa stratégie de durée de vie (TTL) et définit sa valeur TTL sur `None`. Si vous dissociez ultérieurement la version, W&amp;B ne restaure pas la valeur TTL précédente et ne conserve pas sa durée initiale. Reconfigurez la TTL après la dissociation si la version en nécessite toujours une.
+
+  Pour plus d’informations sur les stratégies TTL, voir [Gérer la rétention des données d’artifact](/fr/models/artifacts/ttl).
+</Warning>
+
+<Tabs>
+  <Tab title="SDK Python">
+    Pour dissocier une version d’artifact avec le SDK Python W&amp;B :
+
+    1. Créez un client de l’API publique avec `wandb.Api()`.
+    2. Récupérez la version d’artifact liée avec `wandb.Api.artifact()`.
+    3. Appelez [`wandb.Artifact.unlink()`](/fr/models/ref/python/experiments/artifact#method-artifactunlink) pour dissocier la version d’artifact de la collection.
+
+    ```text
+    wandb-registry-<registry_name>/<collection_name>:<version_or_alias>
+    ```
+
+    Remplacez les valeurs d’espace réservé par vos propres valeurs :
+
+    ```python
+    import wandb
+
+    registry_name = "your-registry-name"  # Remplacez par le nom du registre
+    collection_name = "your-collection-name"  # Remplacez par le nom de la collection
+    version = "version-or-alias"  # Remplacez par la version de l’artifact à dissocier
+
+    target_path=f"wandb-registry-{registry_name}/{collection_name}:{version}"
+
+    api = wandb.Api()
+    linked_artifact = api.artifact(name=target_path)
+
+    # Dissocier la version d’artifact de la collection
+    linked_artifact.unlink()
+    ```
+  </Tab>
+
+  <Tab title="W&B Registry">
+    1. Accédez à W&amp;B Registry.
+    2. Sélectionnez le nom du registre qui contient la collection.
+    3. Sélectionnez la collection.
+    4. Sélectionnez la version d’artifact à dissocier.
+    5. Dans l’onglet **Version**, sélectionnez **Unlink version**.
+  </Tab>
+</Tabs>
+
 <div id="view-linked-artifacts-in-a-registry">
   ## Afficher les artifacts liés dans un registre
 </div>
