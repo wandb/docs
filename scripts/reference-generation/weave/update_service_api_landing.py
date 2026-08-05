@@ -25,6 +25,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from common.mintlify_openapi_paths import (  # noqa: E402
     PUBLIC_DOCS_ORIGIN,
     build_method_path_to_href,
+    display_title,
     iter_operations,
 )
 
@@ -67,7 +68,7 @@ def list_display_rows(spec: dict) -> List[Tuple[str, str, str, str]]:
     for method, path, operation in iter_operations(spec):
         tags = operation.get("tags") or ["Uncategorized"]
         tag0 = tags[0]
-        summary = operation.get("summary") or ""
+        summary = display_title(operation.get("summary"))
         rows.append((method.upper(), path, summary, tag0))
     rows.sort(key=lambda r: (r[3], r[1], r[0]))
     return rows

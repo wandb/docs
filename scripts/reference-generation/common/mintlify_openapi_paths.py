@@ -31,6 +31,41 @@ PUBLIC_DOCS_ORIGIN = "https://docs.wandb.ai"
 # Operations with no tag land in this group, matching Mintlify's fallback.
 UNTAGGED_GROUP = "API Reference"
 
+# Acronyms that upstream summary generation title-cases into unreadable forms. The service
+# defines e.g. Create_SFT_Training_Job, but FastAPI derives summary "Create Sft Training
+# Job", so the rendered page reads "Sft". Restoring these is display-only and cannot move a
+# URL: slug derivation lowercases everything, so "Create SFT Training Job" and "Create Sft
+# Training Job" both slugify to "create-sft-training-job". Extend as new ones appear.
+DISPLAY_ACRONYMS = {
+    "Sft": "SFT",
+    "Rl": "RL",
+    "Genai": "GenAI",
+    "Api": "API",
+    "Id": "ID",
+    "Ids": "IDs",
+    "Json": "JSON",
+    "Llm": "LLM",
+    "Otel": "OTel",
+    "Sdk": "SDK",
+    "Ui": "UI",
+    "Uri": "URI",
+    "Url": "URL",
+}
+
+_ACRONYM_RE = re.compile(r"\b(" + "|".join(sorted(DISPLAY_ACRONYMS)) + r")\b")
+
+
+def display_title(summary: Optional[str]) -> str:
+    """
+    A summary rendered for humans, with title-cased acronyms restored.
+
+    Used for page titles and landing-page labels only — never for slugs, so that fixing
+    how a title reads never changes where the page lives.
+    """
+    if not summary:
+        return ""
+    return _ACRONYM_RE.sub(lambda m: DISPLAY_ACRONYMS[m.group(0)], summary)
+
 
 def prepare_string_to_be_valid_filename(value: Optional[str]) -> Optional[str]:
     """Match Mintlify prepareStringToBeValidFilename (apiPages/common.js)."""

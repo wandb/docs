@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 """
-Sync the OpenAPI spec from the remote service and optionally use local copy.
+Sync the OpenAPI spec for the Weave Service API from the remote service.
 
 This script:
 1. Downloads the latest OpenAPI spec from the service
-2. Compares it with the local copy (if exists)
+2. Validates it and compares it with the local copy (if exists)
 3. Updates the local copy if changed
-4. Can optionally update docs.json to use local spec for builds
+
+It does not touch docs.json. Reference pages are generated from the committed spec by
+scripts/reference-generation/common/generate_openapi_stubs.py, which owns both the stub
+pages and the navigation entries that list them.
 """
 
 import json

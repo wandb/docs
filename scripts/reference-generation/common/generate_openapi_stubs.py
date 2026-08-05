@@ -43,6 +43,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from common.mintlify_openapi_paths import (  # noqa: E402
     build_method_path_to_href,
+    display_title,
     group_name_for,
     is_nav_excluded,
     iter_operations,
@@ -179,7 +180,9 @@ def sync_stubs(
 
     titles: Dict[Key, str] = {}
     for method, api_path, operation in iter_operations(spec):
-        titles[(method.upper(), api_path)] = operation.get("summary") or api_path
+        titles[(method.upper(), api_path)] = (
+            display_title(operation.get("summary")) or api_path
+        )
 
     page_by_key: Dict[Key, str] = {}
     created: List[str] = []
