@@ -4,16 +4,18 @@ Sync the Serverless Training API OpenAPI spec from the remote service.
 
 This script:
 1. Downloads the latest OpenAPI spec from the Serverless Training training service
-2. Compares it with the local copy (if exists)
+2. Patches known issues and compares it with the local copy (if exists)
 3. Updates the local copy if changed
-4. Can optionally update docs.json to use local spec for builds
+
+It does not touch docs.json. Reference pages are generated from the committed spec by
+scripts/reference-generation/common/generate_openapi_stubs.py, which owns both the stub
+pages and the navigation entries that list them.
 """
 
 import json
 import hashlib
 from pathlib import Path
 import requests
-import sys
 from typing import Optional, Tuple
 
 
@@ -112,46 +114,6 @@ def compare_specs(local_spec: dict, remote_spec: dict) -> Tuple[bool, list]:
     return True, changes
 
 
-def update_docs_json(use_local: bool = False):
-    """Update docs.json to use local or remote OpenAPI spec."""
-    docs_json_path = Path("docs.json")
-    
-    with open(docs_json_path, 'r') as f:
-        docs_config = json.load(f)
-    
-    # Find the Training API openapi configuration
-    # The structure is complex, so let's search for it
-    json_str = json.dumps(docs_config)
-    
-    # Check if we can find the Serverless Training API configuration
-    if '"group": "API Reference"' in json_str and 'serverless-training/api-reference' in json_str:
-        # Read the file again to modify it
-        with open(docs_json_path, 'r') as f:
-            content = f.read()
-        
-        if use_local:
-            # Replace remote URL with local path
-            content = content.replace(
-                '"openapi": "https://api.training.wandb.ai/openapi.json"',
-                '"openapi": "serverless-training/api-reference/openapi.json"'
-            )
-            print("  ✓ Updated docs.json to use local Serverless Training API spec")
-        else:
-            # Replace local path with remote URL
-            content = content.replace(
-                '"openapi": "serverless-training/api-reference/openapi.json"',
-                '"openapi": "https://api.training.wandb.ai/openapi.json"'
-            )
-            print("  ✓ Updated docs.json to use remote Serverless Training API spec")
-        
-        with open(docs_json_path, 'w') as f:
-            f.write(content)
-        return True
-    
-    print("  ✗ Could not find Serverless Training API configuration in docs.json")
-    return False
-
-
 def main():
     """Main function."""
     print("Syncing Serverless Training API OpenAPI specification...")
@@ -165,7 +127,6 @@ def main():
         # If can't fetch remote, ensure we're using local
         if local_spec_path.exists():
             print("  ⚠ Using existing local spec due to remote fetch failure")
-            update_docs_json(use_local=True)
             return 0
         else:
             print("  ✗ No local spec and couldn't fetch remote spec")
@@ -202,32 +163,11 @@ def main():
             f.write('\n')
         print(f"  ✓ Created local spec at {local_spec_path}")
     
-    # Parse command line arguments
-    use_local = "--use-local" in sys.argv
-    use_remote = "--use-remote" in sys.argv
-    
-    if use_local:
-        update_docs_json(use_local=True)
-    elif use_remote:
-        update_docs_json(use_local=False)
-    else:
-        # Default: Check current configuration
-        docs_json_path = Path("docs.json")
-        with open(docs_json_path, 'r') as f:
-            docs_config = json.load(f)
-        
-        # Check if currently using local or remote
-        json_str = json.dumps(docs_config)
-        using_local = '"openapi": "serverless-training/api-reference/openapi.json"' in json_str
-        
-        if using_local:
-            print(f"\n  ℹ Currently using local Serverless Training API spec ({local_spec_path})")
-        else:
-            print("\n  ℹ Currently using remote Serverless Training API spec (https://api.training.wandb.ai/openapi.json)")
-        
-        print("\n  Tip: Use --use-local to configure docs.json to use the local spec")
-        print("       Use --use-remote to configure docs.json to use the remote spec")
-    
+    # Pages are generated from this spec by
+    # scripts/reference-generation/common/generate_openapi_stubs.py, which the workflow
+    # runs next. docs.json no longer carries an `openapi` source to point at, so there is
+    # nothing here to reconfigure.
+    print(f"\n  ℹ Reference pages are generated from {local_spec_path}")
     print("✓ Serverless Training API spec sync complete!")
     return 0
 
