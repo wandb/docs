@@ -15,8 +15,9 @@ View a run’s console logs in the W&B App to inspect messages generated during 
 1. Navigate to your project in the W&B App.
 1. Select a run from the **Runs** table.
 1. Select the **Logs** tab on the run page.
+1. Optional: For an actively streaming run, select **Jump to bottom** to return to the latest logs after scrolling up.
 
-To show or hide timestamps, use the **Timestamp visible** menu next to the search bar.
+While logs are streaming, an ellipsis icon (<Icon icon="ellipsis" iconType="solid"/>) appears in the upper-right corner. When log polling finishes, W&B replaces the icon with a download button (<Icon icon="arrow-down-to-bracket" iconType="solid"/>).
 
 {/* ## Console log fields
 
@@ -117,7 +118,11 @@ To show or hide timestamps in the console logs, select the **Timestamp visible**
 
 ## Search console logs
 
-To quickly locate relevant entries, use the search bar on the console logs page to filter logs by keywords. You can search for specific terms, labels, or error messages.
+## Search console logs
+
+Use the search bar on the console logs page to find specific text, such as labels, keywords, or error messages.
+
+As new logs stream in, W&B updates the match count.
 
 ## Filter with custom labels
 
@@ -148,7 +153,10 @@ To save logs locally for offline analysis or sharing, download console logs for 
 1. Navigate to your project in the W&B App.
 2. Select a run within the **Runs** table.
 3. Click the **Logs** tab in the project sidebar.
-4. Click the download button on the console logs page.
+4. Click the download log file button (<Icon icon="arrow-down-to-bracket" iconType="solid"/>) on the console logs page.
+
+You might be temporarily unable to download logs while a run is actively streaming them. During streaming, W&B replaces the download button with an ellipsis icon (<Icon icon="ellipsis" iconType="solid"/>). Wait until the run finishes or stops streaming, and then try again.
+
 
 ## Copy console logs
 
