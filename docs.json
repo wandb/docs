@@ -2881,12 +2881,40 @@
               },
               {
                 "group": "Serverless Training",
-                "openapi": {
-                  "directory": "fr/serverless-training/api-reference",
-                  "source": "fr/serverless-training/api-reference/openapi.json"
-                },
                 "pages": [
-                  "fr/serverless-training/api-reference"
+                  "fr/serverless-training/api-reference",
+                  {
+                    "group": "chat-complétion",
+                    "pages": [
+                      "fr/serverless-training/api-reference/chat-completions/create-chat-completion"
+                    ]
+                  },
+                  {
+                    "group": "Models",
+                    "pages": [
+                      "fr/serverless-training/api-reference/models/create-model",
+                      "fr/serverless-training/api-reference/models/list-model-checkpoints",
+                      "fr/serverless-training/api-reference/models/delete-model-checkpoints",
+                      "fr/serverless-training/api-reference/models/delete-model",
+                      "fr/serverless-training/api-reference/models/log"
+                    ]
+                  },
+                  {
+                    "group": "tâches-d’entraînement",
+                    "pages": [
+                      "fr/serverless-training/api-reference/training-jobs/create-rl-training-job",
+                      "fr/serverless-training/api-reference/training-jobs/create-sft-training-job",
+                      "fr/serverless-training/api-reference/training-jobs/get-training-job",
+                      "fr/serverless-training/api-reference/training-jobs/get-training-job-events"
+                    ]
+                  },
+                  {
+                    "group": "état",
+                    "pages": [
+                      "fr/serverless-training/api-reference/health/health-check",
+                      "fr/serverless-training/api-reference/health/system-check"
+                    ]
+                  }
                 ]
               }
             ],
@@ -4401,12 +4429,40 @@
               },
               {
                 "group": "Serverless Training",
-                "openapi": {
-                  "directory": "ja/serverless-training/api-reference",
-                  "source": "ja/serverless-training/api-reference/openapi.json"
-                },
                 "pages": [
-                  "ja/serverless-training/api-reference"
+                  "ja/serverless-training/api-reference",
+                  {
+                    "group": "チャット補完",
+                    "pages": [
+                      "ja/serverless-training/api-reference/chat-completions/create-chat-completion"
+                    ]
+                  },
+                  {
+                    "group": "モデル",
+                    "pages": [
+                      "ja/serverless-training/api-reference/models/create-model",
+                      "ja/serverless-training/api-reference/models/list-model-checkpoints",
+                      "ja/serverless-training/api-reference/models/delete-model-checkpoints",
+                      "ja/serverless-training/api-reference/models/delete-model",
+                      "ja/serverless-training/api-reference/models/log"
+                    ]
+                  },
+                  {
+                    "group": "トレーニングジョブ",
+                    "pages": [
+                      "ja/serverless-training/api-reference/training-jobs/create-rl-training-job",
+                      "ja/serverless-training/api-reference/training-jobs/create-sft-training-job",
+                      "ja/serverless-training/api-reference/training-jobs/get-training-job",
+                      "ja/serverless-training/api-reference/training-jobs/get-training-job-events"
+                    ]
+                  },
+                  {
+                    "group": "ヘルスチェック",
+                    "pages": [
+                      "ja/serverless-training/api-reference/health/health-check",
+                      "ja/serverless-training/api-reference/health/system-check"
+                    ]
+                  }
                 ]
               }
             ],
@@ -5921,12 +5977,40 @@
               },
               {
                 "group": "Serverless Training",
-                "openapi": {
-                  "directory": "ko/serverless-training/api-reference",
-                  "source": "ko/serverless-training/api-reference/openapi.json"
-                },
                 "pages": [
-                  "ko/serverless-training/api-reference"
+                  "ko/serverless-training/api-reference",
+                  {
+                    "group": "채팅-완성",
+                    "pages": [
+                      "ko/serverless-training/api-reference/chat-completions/create-chat-completion"
+                    ]
+                  },
+                  {
+                    "group": "모델",
+                    "pages": [
+                      "ko/serverless-training/api-reference/models/create-model",
+                      "ko/serverless-training/api-reference/models/list-model-checkpoints",
+                      "ko/serverless-training/api-reference/models/delete-model-checkpoints",
+                      "ko/serverless-training/api-reference/models/delete-model",
+                      "ko/serverless-training/api-reference/models/log"
+                    ]
+                  },
+                  {
+                    "group": "트레이닝-작업",
+                    "pages": [
+                      "ko/serverless-training/api-reference/training-jobs/create-rl-training-job",
+                      "ko/serverless-training/api-reference/training-jobs/create-sft-training-job",
+                      "ko/serverless-training/api-reference/training-jobs/get-training-job",
+                      "ko/serverless-training/api-reference/training-jobs/get-training-job-events"
+                    ]
+                  },
+                  {
+                    "group": "상태",
+                    "pages": [
+                      "ko/serverless-training/api-reference/health/health-check",
+                      "ko/serverless-training/api-reference/health/system-check"
+                    ]
+                  }
                 ]
               }
             ],
