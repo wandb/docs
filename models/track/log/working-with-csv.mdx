@@ -3,15 +3,15 @@ description: "Import CSV files into W&B as Tables and Artifacts for visualizatio
 title: Track CSV files with experiments
 ---
 
-Use the W&B Python Library to log a CSV file and visualize it in a [W&B Dashboard](/models/track/workspaces/). W&B Dashboard are the central place to organize and visualize results from your machine learning models. This is particularly useful if you have a [CSV file that contains information of previous machine learning experiments](#import-and-log-your-csv-of-experiments) that are not logged in W&B or if you have [CSV file that contains a dataset](#import-and-log-your-dataset-csv-file).
+Use the W&B Python Library to log a CSV file and visualize it in a [W&B Dashboard](/models/track/workspaces/). W&B Dashboards are the central place to organize and visualize results from your machine learning models. By following this page, you can bring existing CSV data into W&B so you can compare, query, and analyze it alongside other experiments. This is useful if you have a [CSV file that contains information about previous machine learning experiments](#import-and-log-your-csv-of-experiments) that you didn't log in W&B, or if you have a [CSV file that contains a dataset](#import-and-log-your-dataset-csv-file).
 
 ## Import and log your dataset CSV file
 
 {/* {% embed url="https://drive.google.com/file/d/1jBG3M4VnaMgeclRzowYZEYvFxvwb9SXF/view?usp=sharing" %} */}
 
-We suggest you use W&B Artifacts to make the contents of the CSV file easier to re-use.
+This section shows how to import a dataset stored in a CSV file, convert it into a W&B Table, and store it in an artifact for reuse across runs. Use W&B artifacts to make the contents of the CSV file easier to reuse.
 
-1. To get started, first import your CSV file. In the following code snippet, replace the `iris.csv` filename with the name of your CSV filename:
+1. Import your CSV file. In the following code snippet, replace the `iris.csv` filename with the name of your CSV file:
 
 ```python
 import wandb
@@ -21,14 +21,14 @@ import pandas as pd
 new_iris_dataframe = pd.read_csv("iris.csv")
 ```
 
-2. Convert the CSV file to a W&B Table to utilize [W&B Dashboards](/models/track/workspaces/). 
+2. Convert the CSV file to a W&B Table to use with [W&B Dashboards](/models/track/workspaces/):
 
 ```python
 # Convert the DataFrame into a W&B Table
 iris_table = wandb.Table(dataframe=new_iris_dataframe)
 ```
 
-3. Next, create a W&B Artifact and add the table to the Artifact:
+3. Create a W&B artifact and add the table to the artifact:
 
 ```python
 # Add the table to an Artifact to increase the row
@@ -39,9 +39,9 @@ iris_table_artifact.add(iris_table, "iris_table")
 # Log the raw csv file within an artifact to preserve our data
 iris_table_artifact.add_file("iris.csv")
 ```
-For more information about W&B Artifacts, see the [Artifacts chapter](/models/artifacts/).  
+For more information about W&B artifacts, see [Artifacts](/models/artifacts/).
 
-4. Lastly, start a new W&B Run to track and log to W&B with `wandb.init()`:
+4. Start a new W&B run to track and log to W&B with `wandb.init()`:
 
 ```python
 # Start a W&B run to log data
@@ -54,14 +54,14 @@ with wandb.init(project="tables-walkthrough") as run:
     run.log_artifact(iris_table_artifact)
 ```
 
-The `wandb.init()` API spawns a new background process to log data to a Run, and it synchronizes data to wandb.ai (by default). View live visualizations on your W&B Workspace Dashboard. The following image demonstrates the output of the code snippet demonstration.
+The `wandb.init()` API spawns a new background process to log data to a run, and it synchronizes data to `wandb.ai` by default. View live visualizations on your W&B Workspace Dashboard. The following image shows the output of the previous code snippet.
 
 <Frame>
-    <img src="/images/track/import_csv_tutorial.png" alt="CSV file imported into W&B Dashboard"  />
+    <img src="/images/track/import_csv_tutorial.png" alt="CSV file imported into W&B Dashboard" />
 </Frame>
 
 
-The full script with the preceding code snippets is found below:
+The full script with the previous code snippets follows:
 
 ```python
 import wandb
@@ -78,7 +78,7 @@ iris_table = wandb.Table(dataframe=new_iris_dataframe)
 iris_table_artifact = wandb.Artifact("iris_artifact", type="dataset")
 iris_table_artifact.add(iris_table, "iris_table")
 
-# log the raw csv file within an artifact to preserve our data
+# Log the raw csv file within an artifact to preserve our data
 iris_table_artifact.add_file("iris.csv")
 
 # Start a W&B run to log data
@@ -91,18 +91,18 @@ with wandb.init(project="tables-walkthrough") as run:
     run.log_artifact(iris_table_artifact)
 ```
 
-## Import and log your CSV of Experiments
+## Import and log your CSV of experiments
 
 {/* {% embed url="https://drive.google.com/file/d/1PL4RSdopHEptDR5Gi0DEzECXuoW_5B0f/view?usp=sharing" %}
 The below table becomes this W&B Dashboard after conversion
 {% endembed %} */}
 
-In some cases, you might have your experiment details in a CSV file. Common details found in such CSV files include:
+This section shows how to take a CSV file that records past experiments and convert each row into a W&B run so you can visualize and compare them in a Dashboard. Sometimes, you might have your experiment details in a CSV file. Common details in such CSV files include:
 
-* A name for the experiment run
-* Initial [notes](/models/runs/#add-a-note-to-a-run)
-* [Tags](/models/runs/tags/) to differentiate the experiments
-* Configurations needed for your experiment (with the added benefit of being able to utilize our [Sweeps Hyperparameter Tuning](/models/sweeps/)).
+* A name for the experiment run.
+* Initial [notes](/models/runs/#add-a-note-to-a-run).
+* [Tags](/models/runs/tags/) to differentiate the experiments.
+* Configurations needed for your experiment (with the added benefit of being able to use our [Sweeps Hyperparameter Tuning](/models/sweeps/)).
 
 | Experiment   | Model Name       | Notes                                            | Tags          | Num Layers | Final Train Acc | Final Val Acc | Training Losses                       |
 | ------------ | ---------------- | ------------------------------------------------ | ------------- | ---------- | --------------- | ------------- | ------------------------------------- |
@@ -112,9 +112,9 @@ In some cases, you might have your experiment details in a CSV file. Common deta
 | ...          | ...              | ...                                              | ...           | ...        | ...             | ...           |                                       |
 | Experiment N | mnist-X-layers   | NOTES                                            | ...           | ...        | ...             | ...           | \[..., ...]                           |
 
-W&B can take CSV files of experiments and convert it into a W&B Experiment Run. The following code snippets and code script demonstrates how to import and log your CSV file of experiments:
+W&B can take CSV files of experiments and convert each row into a W&B experiment run. The following code snippets and code script show how to import and log your CSV file of experiments:
 
-1. To get started, first read in your CSV file and convert it into a Pandas DataFrame. Replace `"experiments.csv"` with the name of your CSV file:
+1. Read in your CSV file and convert it into a Pandas DataFrame. Replace `"experiments.csv"` with the name of your CSV file:
 
 ```python
 import wandb
@@ -152,7 +152,7 @@ for i, row in loaded_experiment_df.iterrows():
 ```
 
 
-2. Next, start a new W&B Run to track and log to W&B with [`wandb.init()`](/models/ref/python/functions/init):
+2. Start a new W&B run to track and log to W&B with [`wandb.init()`](/models/ref/python/functions/init):
 
     ```python
     with wandb.init(
@@ -160,21 +160,21 @@ for i, row in loaded_experiment_df.iterrows():
     ) as run:
     ```
 
-As an experiment runs, you might want to log every instance of your metrics so they are available to view, query, and analyze with W&B. Use the [`run.log()`](/models/ref/python/experiments/run/#method-runlog) command to accomplish this:
+As an experiment runs, you might want to log every instance of your metrics so they're available to view, query, and analyze with W&B. Use the [`run.log()`](/models/ref/python/experiments/run/#method-runlog) command:
 
 ```python
 run.log({key: val})
 ```
 
-You can optionally log a final summary metric to define the outcome of the run using the [`define_metric`](/models/ref/python/experiments/run#define_metric) API. This example adds the summary metrics to our run with `run.summary.update()`:
+You can optionally log a final summary metric to define the outcome of the run using the [`define_metric`](/models/ref/python/experiments/run#define_metric) API. This example adds the summary metrics to the run with `run.summary.update()`:
 
 ```python
 run.summary.update(summaries)
 ```
 
-For more information about summary metrics, see [Log Summary Metrics](./log-summary).
+For more information about summary metrics, see [Log summary metrics](./log-summary).
 
-Below is the full example script that converts the above sample table into a [W&B Dashboard](/models/track/workspaces/):
+The following full example script converts the previous sample table into a [W&B Dashboard](/models/track/workspaces/):
 
 ```python
 FILENAME = "experiments.csv"
@@ -206,7 +206,7 @@ for i, row in loaded_experiment_df.iterrows():
     for summary_col in SUMMARY_COLS:
         summaries[summary_col] = row[summary_col]
 
-    with  wandb.init(
+    with wandb.init(
         project=PROJECT_NAME, name=run_name, tags=tags, notes=notes, config=config
     ) as run:
 

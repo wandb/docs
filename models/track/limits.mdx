@@ -3,16 +3,18 @@ description: This page describes how logging patterns impact performance in W&B 
 title: Logging at scale and performance
 ---
 
-Performance is usually influenced by a combination of:
+This page helps you understand how your logging patterns affect W&B performance and how to scale experiment tracking in large projects. Use it to plan logging strategies, diagnose slow workspaces, and stay within recommended operating ranges.
 
-* the number of runs in a project
-* the number of steps in each run
-* the number of distinct metrics you log
-* how often you call `wandb.Run.log()`
-* how much data you send in each log call
-* how your workspace is configured
+Several factors usually influence performance:
 
-In most cases, performance issues are caused more often by logging too many distinct metrics than by logging too many steps.
+* The number of runs in a project.
+* The number of steps in each run.
+* The number of distinct metrics you log.
+* How often you call `wandb.Run.log()`.
+* How much data you send in each log call.
+* How your workspace is configured.
+
+Usually, logging too many distinct metrics causes more performance issues than logging too many steps.
 
 ## Key terms
 
@@ -20,7 +22,7 @@ The following terms are used throughout this page.
 
 ### Steps
 
-A **step** is a single logical row of metrics in a run. A step is finalized when `wandb.Run.log()` is called with `commit=True`, or implicitly when neither `commit` nor `step` is specified.
+A **step** is a single logical row of metrics in a run. A step finalizes when you call `wandb.Run.log()` with `commit=True`, or implicitly when you specify neither `commit` nor `step`.
 
 ```python
 import wandb
@@ -103,6 +105,8 @@ throughput = logged points × log frequency
 
 ## Recommendations at scale
 
+This section lists the operating ranges that W&B recommends for large-scale logging. Use these values as targets when planning a project or diagnosing performance issues.
+
 <Warning>
 The recommendations described in this section only apply to W&B Multi-tenant Cloud. If you use a different W&B deployment type, check with your administrator for deployment-specific guidance or limits.
 </Warning>
@@ -119,12 +123,12 @@ The following table summarizes recommended operating ranges for large-scale logg
 | Video throughput               | 40 MB per minute          |
 
 <Note>
-These values are guidelines for maintaining good performance at scale. W&B may continue to accept data beyond these recommendations, but pages can become slower to load and use.
+These values are guidelines for maintaining good performance at scale. W&B might continue to accept data beyond these recommendations, but pages can become slower to load and use.
 </Note>
 
 ## Throughput examples
 
-Different logging patterns can produce the same throughput.
+Different logging patterns can produce the same throughput. The following sections describe how to reach the same throughput targets through different combinations of metrics per call and log frequency.
 
 ### Scalar logging examples
 
@@ -159,7 +163,7 @@ The values listed in the table only apply to W&B Multi-tenant Cloud. If you use 
 
 ## Logging considerations
 
-Use `wandb.Run.log()` to track experiment metrics.
+Use `wandb.Run.log()` to track experiment metrics. The following considerations help you log efficiently and avoid common performance pitfalls.
 
 ### Metric cardinality
 
@@ -190,13 +194,13 @@ with wandb.init() as run:
 
 {/* Metric names must follow GraphQL naming constraints. See [Metric naming constraints](/models/track/log/#metric-naming-constraints). */}
 
-If your workspace suddenly slows down, check whether recent runs introduced a large number of new metric keys. This often appears as many plots with only one or two runs visible. If this happened unintentionally, consider deleting and recreating those runs with a smaller, more stable set of metric names.
+If your workspace suddenly slows down, check whether recent runs introduced many new metric keys. This often appears as many plots with only one or two runs visible. If this happened unintentionally, consider deleting and recreating those runs with a smaller, more stable set of metric names.
 
 ### Value size
 
 Keep the size of a single logged value under 1 MB and the total size of a single `wandb.Run.log()` call under 25 MB.
 
-These recommendations do not apply to `wandb.Media` types such as `wandb.Image` and `wandb.Audio`, which are handled differently.
+These recommendations don't apply to `wandb.Media` types such as `wandb.Image` and `wandb.Audio`, which W&B handles differently.
 
 ```python
 import json
@@ -215,18 +219,18 @@ with wandb.init(project="wide-values") as run:
 Large values can slow plot loading for the entire run, not just for the metric that contains the large value.
 
 <Note>
-W&B still stores logged data that exceeds these recommendations, but pages may load more slowly.
+W&B still stores logged data that exceeds these recommendations, but pages might load more slowly.
 </Note>
 
 ### Log frequency and throughput
 
-Choose a logging frequency that matches the value of the data you are collecting. Logging too often can increase SDK overhead and make the app slower, especially when combined with high metric cardinality or large payloads.
+Choose a logging frequency that matches the value of the data you're collecting. Logging too often can increase SDK overhead and make the app slower, especially when combined with high metric cardinality or large payloads.
 
 As a starting point, keep logging within these guidelines:
 
-* Log frequency: less than 1,000 `wandb.Run.log()` calls per minute
-* Throughput: less than 100,000 logged values per minute
-* Video throughput: less than 40 MB per minute
+* Log frequency: less than 1,000 `wandb.Run.log()` calls per minute.
+* Throughput: less than 100,000 logged values per minute.
+* Video throughput: less than 40 MB per minute.
 
 Batch related metrics into the same step when possible. For example, the following code snippet logs three metrics in the same step, which is more efficient than logging them separately.
 
@@ -284,7 +288,7 @@ with open("large_config.json", "r") as f:
 
 ## Workspace performance
 
-Workspace performance depends on both the underlying project data and workspace configuration.
+Workspace performance depends on both the underlying project data and workspace configuration. This section describes settings and project shapes that affect how quickly a workspace loads and responds.
 
 ### Runs per project
 
@@ -296,7 +300,7 @@ If your team regularly works with only a subset of runs, consider moving older o
 
 By default, a workspace in automatic mode creates standard panels for each logged key. In large projects, this can produce too many panels and slow the workspace.
 
-To improve performance:
+To improve performance, switch to manual mode so the workspace only renders the panels you select:
 
 1. Reset the workspace to manual mode.
 2. Use [Quick add](/models/app/features/panels/#quick-add) to add only the panels you need.
@@ -321,7 +325,7 @@ Create sections based on high-level metric groupings rather than one section per
 
 When logging thousands of metrics per run, use a manual workspace so that you can choose which metrics to visualize.
 
-A focused set of panels loads faster. Metrics that are not plotted are still collected and stored.
+A focused set of panels loads faster. W&B still collects and stores metrics that aren't plotted.
 
 To reset a workspace to manual mode, click the workspace's **action (<Icon icon="ellipsis" iconType="solid"/>)** menu, then click **Reset workspace**. Resetting a workspace has no impact on stored metrics for runs. See [workspace panel management](/models/app/features/panels/).
 
@@ -329,7 +333,7 @@ To reset a workspace to manual mode, click the workspace's **action (<Icon icon=
 
 Keep the number of files uploaded for a single run under 1,000.
 
-If you need to log a large number of files, use W&B Artifacts instead. Exceeding 1,000 files in a single run can slow run pages.
+If you need to log many files, use W&B Artifacts instead. Exceeding 1,000 files in a single run can slow run pages.
 
 ### Reports and workspaces
 
@@ -339,11 +343,13 @@ Use a workspace when you need to compare large numbers of runs or view many plot
 
 ## Python script performance
 
-Logging can add overhead to your training script. The main contributors are:
+Logging can add overhead to your training script. Understanding what drives that overhead helps you keep training loops fast.
 
-1. Large payloads
-2. Network speed and backend configuration
-3. Very frequent calls to `wandb.Run.log()`
+The main contributors are:
+
+* Large payloads.
+* Network speed and backend configuration.
+* Frequent calls to `wandb.Run.log()`.
 
 If you call `wandb.Run.log()` too often, each call can add a small amount of latency to the training loop. Batching multiple metrics into fewer log calls usually improves performance.
 
@@ -351,11 +357,11 @@ If you call `wandb.Run.log()` too often, each call can add a small amount of lat
 Is frequent logging slowing your training runs down? See [this Colab](https://wandb.me/log-hf-colab) for strategies to improve performance by adjusting your logging pattern.
 </Note>
 
-W&B does not enforce hard product limits for these recommendations beyond API rate limiting. If you exceed the guidance on this page, W&B may continue to accept your data, but the app or SDK may become slower.
+W&B doesn't enforce hard product limits for these recommendations beyond API rate limiting. If you exceed the guidance on this page, W&B might continue to accept your data, but the app or SDK might become slower.
 
 ## Rate limits
 
-W&B Multi-tenant Cloud APIs use rate limits to maintain service reliability and availability.
+W&B Multi-tenant Cloud APIs use rate limits to maintain service reliability and availability. This section explains the headers that signal rate-limit status and the limits that apply to metric logging and the GraphQL API.
 
 <Note>
 Rate limits are subject to change.
@@ -365,11 +371,11 @@ If you hit a rate limit, the server returns HTTP `429 Rate limit exceeded` and i
 
 ### Rate-limit HTTP headers
 
-| Header name           | Description                                                       |
-| --------------------- | ----------------------------------------------------------------- |
-| `RateLimit-Limit`     | Quota available in the current time window, scaled from 0 to 1000 |
-| `RateLimit-Remaining` | Remaining quota in the current window, scaled from 0 to 1000      |
-| `RateLimit-Reset`     | Number of seconds until the current quota resets                  |
+| Header name           | Description                                                        |
+| --------------------- | ------------------------------------------------------------------ |
+| `RateLimit-Limit`     | Quota available in the current time window, scaled from 0 to 1,000 |
+| `RateLimit-Remaining` | Remaining quota in the current window, scaled from 0 to 1,000      |
+| `RateLimit-Reset`     | Number of seconds until the current quota resets                   |
 
 ### Metric logging API rate limits
 
@@ -377,7 +383,7 @@ If you hit a rate limit, the server returns HTTP `429 Rate limit exceeded` and i
 
 Rate limits for metric logging apply at the project level and include both request rate and total request size over a rolling time window. Paid plans have higher limits than free plans.
 
-If you exceed a rate limit, the W&B SDK automatically retries requests with backoff. In some cases, this can delay `run.finish()` until the rate-limit window resets.
+If you exceed a rate limit, the W&B SDK automatically retries requests with backoff. Sometimes, this can delay `run.finish()` until the rate-limit window resets.
 
 To reduce the chance of rate limiting:
 
@@ -399,7 +405,7 @@ with wandb.init(project="basic-intro") as run:
             run.log({"acc": accuracy, "loss": loss})
 ```
 
-For manual syncing, use `wandb sync <run-file-path>`. See [`wandb sync`](/models/ref/cli/wandb-sync).
+For manual syncing, use `wandb sync [RUN-FILE-PATH]`, where `[RUN-FILE-PATH]` is the path to the offline run directory. See [`wandb sync`](/models/ref/cli/wandb-sync).
 
 ### GraphQL API rate limits
 
@@ -407,34 +413,33 @@ The W&B app and the [public API](/models/ref/python/public-api/api) use GraphQL 
 
 For Multi-tenant Cloud:
 
-* unauthorized requests are rate-limited per IP address
-* authorized requests are rate-limited per user
-* some SDK requests that specify a project path can also be limited per project based on database query time
+* Unauthorized requests are rate-limited per IP address.
+* Authorized requests are rate-limited per user.
+* Some SDK requests that specify a project path can also be limited per project based on database query time.
 
-Teams and Enterprise plans have higher limits than Free plans.
+If you're on a Teams or Enterprise plan, you have higher limits than on the Free plan.
 
-If you are making a large number of public API requests, wait at least one second between requests when possible. If you receive HTTP `429 Rate limit exceeded` or see `RateLimit-Remaining=0`, wait for the number of seconds in `RateLimit-Reset` before retrying.
+If you're making many public API requests, wait at least 1 second between requests when possible. If you receive HTTP `429 Rate limit exceeded` or see `RateLimit-Remaining=0`, wait for the number of seconds in `RateLimit-Reset` before retrying.
 
-## Troubleshooting slow projects
+## Troubleshoot slow projects
 
-If a project or workspace feels slow, check the following first:
+If a project or workspace feels slow, the following checklist helps you isolate the most common causes before contacting support:
 
-1. Did recent runs introduce a large number of new metric names?
-2. Are you logging too frequently?
-3. Are individual `run.log()` calls very large?
-4. Is the workspace in automatic mode with too many panels or sections?
-5. Does the project contain more runs than your team actively uses?
+* Did recent runs introduce many new metric names?
+* Are you logging too frequently?
+* Are individual `run.log()` calls unusually large?
+* Is the workspace in automatic mode with too many panels or sections?
+* Does the project contain more runs than your team actively uses?
 
-In many cases, performance improves after reducing metric cardinality, batching log calls, and switching large workspaces to manual mode.
-
+Often, performance improves after reducing metric cardinality, batching log calls, and switching large workspaces to manual mode.
 
 ## Browser considerations
 
-The W&B app can be memory-intensive and performs best in Chrome. Depending on your computer's memory, having W&B active in 3+ tabs at once can cause performance to degrade. If you encounter unexpectedly slow performance, consider closing other tabs or applications.
+The W&B app can be memory-intensive and performs best in Chrome. Depending on your computer's memory, having W&B active in three or more tabs at once can cause performance to degrade. If you encounter unexpectedly slow performance, consider closing other tabs or applications.
 
-## Reporting performance issues to W&B
+## Report performance issues to W&B
 
-W&B takes performance seriously and investigates every report of lag. To expedite investigation, when reporting slow loading times consider invoking W&B's built-in performance logger that captures key metrics and performance events. Append the URL parameter `&PERF_LOGGING` to a page that is loading slowly, then share the output of your console with your account team or Support.
+W&B takes performance seriously and investigates every report of lag. To speed up investigation, when reporting slow loading times consider invoking W&B's built-in performance logger that captures key metrics and performance events. Append the URL parameter `&PERF_LOGGING` to a page that's loading slowly, then share the output of your console with your account team or Support.
 
 <Frame>
     <img src="/images/track/adding_perf_logging.gif" alt="Adding PERF_LOGGING"  />
