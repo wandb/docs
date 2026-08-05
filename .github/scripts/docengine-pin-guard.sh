@@ -140,10 +140,22 @@ fi
 
 echo "::add-mask::${READ_TOKEN}"
 
-if ! raw_tags="$(git ls-remote --tags "https://x-access-token:${READ_TOKEN}@github.com/${ENGINE_REPO}.git" 'refs/tags/v*' 2>/dev/null)"; then
-  echo "::error title=DocEngine pin guard::Could not read the tags on ${ENGINE_REPO}. Check that the token being used can read that repository."
+# In CI this script runs inside a checkout made by actions/checkout, which
+# writes an "http.https://github.com/.extraheader" Authorization header (the
+# host repository's own GITHUB_TOKEN) into that checkout's local git config.
+# A custom Authorization header OVERRIDES the credential embedded in the URL
+# below, so without the reset git authenticates every request as the host's
+# GITHUB_TOKEN - which cannot read the private engine repository - and this
+# lookup fails no matter how good READ_TOKEN is. Setting the extraheader to
+# an empty value on the command line clears the accumulated list, so the URL
+# credential is the one that gets sent.
+ls_remote_err="$(mktemp)"
+if ! raw_tags="$(git -c "http.https://github.com/.extraheader=" ls-remote --tags "https://x-access-token:${READ_TOKEN}@github.com/${ENGINE_REPO}.git" 'refs/tags/v*' 2>"${ls_remote_err}")"; then
+  echo "::error title=DocEngine pin guard::Could not read the tags on ${ENGINE_REPO}. Check that the token being used can read that repository. git said: $(tr '\n' ' ' <"${ls_remote_err}")"
+  rm -f "${ls_remote_err}"
   exit 1
 fi
+rm -f "${ls_remote_err}"
 
 # Work out which commit each tag actually points at.
 #
