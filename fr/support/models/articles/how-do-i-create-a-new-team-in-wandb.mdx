@@ -3,24 +3,17 @@ title: "Comment puis-je créer une nouvelle équipe dans W&B ?"
 keywords: ["Teams", "Gestion de l’organisation"]
 ---
 
-Les Teams constituent la principale unité de collaboration dans W&amp;B. Une équipe possède son propre nom d’entité, des Projects partagés et une liste de membres. Toute personne disposant d’un compte W&amp;B peut créer une équipe.
+Les Teams constituent la principale unité de collaboration dans W&amp;B. Une équipe possède son propre nom d’entité, des Projects partagés et une liste de membres. Seul un administrateur de l’organisation peut créer une équipe.
 
-**Créer une équipe**
+Pour connaître la procédure, consultez [Créer une équipe](/fr/platform/hosting/iam/access-management/manage-organization#create-a-team). Pour ajouter des collègues par la suite, consultez [Inviter des utilisateurs dans une équipe](/fr/platform/hosting/iam/access-management/manage-organization#invite-users-to-a-team) ou [Comment puis-je inviter un utilisateur dans mon équipe W&amp;B ?](/fr/support/models/articles/how-do-i-invite-a-user-to-my-wb-team).
 
-1. Connectez-vous à [wandb.ai](https://wandb.ai).
-2. Cliquez sur l’icône **+** ou sur **Create new team** dans la barre latérale gauche (ou accédez à [wandb.ai/create-team](https://wandb.ai/create-team)).
-3. Saisissez un **nom d’équipe**. Il devient le nom d’entité de l’équipe (par exemple, `wandb.ai/my-team`). Les noms d’équipe doivent être globalement uniques, en minuscules, et peuvent contenir des lettres, des chiffres et des tirets.
-4. Cliquez sur **Create team**.
+**Si vous ne pouvez pas créer d’équipe**
 
-Vous devenez automatiquement administrateur de la nouvelle équipe.
-
-**Inviter des membres après la création**
-
-Après avoir créé l’équipe, accédez à **Team settings &gt; Members &gt; Invite members** pour ajouter des collègues. Voir [Comment puis-je inviter un utilisateur dans mon équipe W&amp;B ?](/fr/support/models/articles/how-do-i-invite-a-user-to-my-wb-team) pour plus de détails.
+Si le bouton **Create team** est absent ou si vous obtenez une erreur d’autorisations vous demandant de contacter votre administrateur, soit votre organisation limite la création d’équipes aux administrateurs, soit votre compte se trouve dans un état qui la bloque. Voir [J’ai supprimé mon équipe et je ne peux plus en créer une nouvelle — que dois-je faire ?](/fr/support/models/articles/i-deleted-my-team-and-now-i-cant-create-a-new-one).
 
 **Choisir un nom d’équipe**
 
-Le nom de l’équipe fait partie de l’URL de chaque projet et run de cette équipe ; choisissez donc un nom qui restera pertinent à long terme. Les noms d’équipe ne peuvent pas être modifiés après leur création sans contacter l’assistance W&amp;B.
+Le nom d’une équipe devient son nom d’entité et fait partie de l’URL de chaque projet et run de cette équipe ; choisissez donc un nom qui restera pertinent à long terme. Les noms d’équipe doivent être uniques dans W&amp;B et ne peuvent pas être modifiés après leur création.
 
 **Comptes personnels vs comptes d’équipe**
 
@@ -38,7 +31,9 @@ wandb.init(entity="my-username", project="personal-experiments")
 
 **Limites de l’équipe**
 
-Avec le forfait gratuit, les équipes disposent d’un nombre limité de licences et d’espace de stockage. Consultez les détails de votre forfait dans **Team settings &gt; Billing** ou sur [wandb.ai/site/pricing](https://wandb.ai/site/pricing).
+Les licences Models sont facturées par utilisateur. Consultez [Licences et tarification](/fr/platform/hosting/iam/access-management/manage-organization#seats-and-pricing) pour en savoir plus sur le fonctionnement des licences, les détails de votre forfait dans **Team settings &gt; Billing** ou sur [wandb.ai/site/pricing](https://wandb.ai/site/pricing).
+
+Les comptes académiques peuvent créer un nombre illimité d’équipes. Si votre compte académique est ancien et que vous ne pouvez pas créer d’autre équipe, il se peut qu’une limite d’équipes faible ait été définie lors de sa création. [Contactez l’assistance](mailto:support@wandb.com) pour augmenter cette limite.
 
 ***
 
