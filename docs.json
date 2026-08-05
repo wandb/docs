@@ -1333,12 +1333,40 @@
               },
               {
                 "group": "Serverless Training",
-                "openapi": {
-                  "directory": "serverless-training/api-reference",
-                  "source": "serverless-training/api-reference/openapi.json"
-                },
                 "pages": [
-                  "serverless-training/api-reference"
+                  "serverless-training/api-reference",
+                  {
+                    "group": "chat-completions",
+                    "pages": [
+                      "serverless-training/api-reference/chat-completions/create-chat-completion"
+                    ]
+                  },
+                  {
+                    "group": "models",
+                    "pages": [
+                      "serverless-training/api-reference/models/create-model",
+                      "serverless-training/api-reference/models/list-model-checkpoints",
+                      "serverless-training/api-reference/models/delete-model-checkpoints",
+                      "serverless-training/api-reference/models/delete-model",
+                      "serverless-training/api-reference/models/log"
+                    ]
+                  },
+                  {
+                    "group": "training-jobs",
+                    "pages": [
+                      "serverless-training/api-reference/training-jobs/create-rl-training-job",
+                      "serverless-training/api-reference/training-jobs/create-sft-training-job",
+                      "serverless-training/api-reference/training-jobs/get-training-job",
+                      "serverless-training/api-reference/training-jobs/get-training-job-events"
+                    ]
+                  },
+                  {
+                    "group": "health",
+                    "pages": [
+                      "serverless-training/api-reference/health/health-check",
+                      "serverless-training/api-reference/health/system-check"
+                    ]
+                  }
                 ]
               }
             ],
