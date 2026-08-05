@@ -6,8 +6,9 @@ This script:
 1. Downloads the latest OpenAPI spec from the service
 2. Validates it and compares it with the local copy (if exists)
 3. Updates the local copy if changed
+4. Maintains English-language entries in docs.json. 
 
-It does not touch docs.json. Reference pages are generated from the committed spec by
+Reference pages are generated from the committed spec by
 scripts/reference-generation/common/generate_openapi_stubs.py, which owns both the stub
 pages and the navigation entries that list them.
 """
