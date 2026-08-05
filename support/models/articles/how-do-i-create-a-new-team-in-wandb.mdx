@@ -3,24 +3,17 @@ title: "How do I create a new team in W&B?"
 keywords: ["Teams", "Org Management"]
 ---
 
-Teams are the primary unit of collaboration in W&B. A team has its own entity name, shared projects, and member roster. Anyone with a W&B account can create a team.
+Teams are the primary unit of collaboration in W&B. A team has its own entity name, shared projects, and member roster. Only an organization admin can create a team.
 
-**Creating a team**
+For the procedure, see [Create a team](/platform/hosting/iam/access-management/manage-organization#create-a-team). To add colleagues afterward, see [Invite users to a team](/platform/hosting/iam/access-management/manage-organization#invite-users-to-a-team) or [How do I invite a user to my W&B team?](/support/models/articles/how-do-i-invite-a-user-to-my-wb-team).
 
-1. Log in to [wandb.ai](https://wandb.ai).
-2. Click the **+** icon or **Create new team** in the left sidebar (or navigate to [wandb.ai/create-team](https://wandb.ai/create-team)).
-3. Enter a **team name**. This becomes the team's entity name (e.g., `wandb.ai/my-team`). Team names must be globally unique, lowercase, and can contain letters, numbers, and hyphens.
-4. Click **Create team**.
+**If you can't create a team**
 
-You are automatically made an admin of the new team.
-
-**Inviting members after creation**
-
-After creating the team, go to **Team settings > Members > Invite members** to add colleagues. See [How do I invite a user to my W&B team?](/support/models/articles/how-do-i-invite-a-user-to-my-wb-team) for full details.
+If the **Create team** button is missing, or you get a permissions error telling you to ask your administrator, either your organization restricts team creation to admins or your account is in a state that blocks it. See [I deleted my team and now I can't create a new one — what do I do?](/support/models/articles/i-deleted-my-team-and-now-i-cant-create-a-new-one).
 
 **Choosing a team name**
 
-The team name becomes part of every project and run URL under that team, so choose a name that will remain meaningful long-term. Team names cannot be changed after creation without contacting W&B support.
+A team name becomes the team's entity name and part of every project and run URL under that team, so choose a name that will remain meaningful long-term. Team names must be unique across W&B, and cannot be changed after creation.
 
 **Personal accounts vs. team accounts**
 
@@ -38,7 +31,9 @@ wandb.init(entity="my-username", project="personal-experiments")
 
 **Team limits**
 
-On the free plan, teams support a limited number of seats and storage. Check your plan details at **Team settings > Billing** or [wandb.ai/site/pricing](https://wandb.ai/site/pricing).
+Seats are billed per user on Models. See [Seats and pricing](/platform/hosting/iam/access-management/manage-organization#seats-and-pricing) for how seats work, your plan details at **Team settings > Billing**, or [wandb.ai/site/pricing](https://wandb.ai/site/pricing).
+
+Academic accounts can create an unlimited number of teams. If you have an older academic account and can't create another team, it may carry a low team limit set when the account was created. [Contact support](mailto:support@wandb.com) to have the limit raised.
 
 ---
 
