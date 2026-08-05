@@ -3,29 +3,37 @@ description: "Export W&B Table data to pandas DataFrames and CSV files for offli
 title: Export table data
 ---
 
-Like all W&B Artifacts, Tables can be converted into pandas dataframes for easy data exporting. 
+This page shows you how to export the data in a W&B Table to a pandas DataFrame and then to a CSV file, so that you can analyze or process the data outside of W&B.
 
-## Convert `table` to `artifact`
-First, you'll need to convert the table to an artifact. The easiest way to do this using `artifact.get(table, "table_name")`:
+## Convert a table to an artifact
 
-```python
-# Create and log a new table.
-with wandb.init() as r:
-    artifact = wandb.Artifact("my_dataset", type="dataset")
-    table = wandb.Table(
-        columns=["a", "b", "c"], data=[(i, i * 2, 2**i) for i in range(10)]
-    )
-    artifact.add(table, "my_table")
-    wandb.log_artifact(artifact)
+To work with a logged table as a Table object, add the table to an artifact, log the artifact, then retrieve the table from the artifact:
 
-# Retrieve the created table using the artifact you created.
-with wandb.init() as r:
-    artifact = r.use_artifact("my_dataset:latest")
-    table = artifact.get("my_table")
-```
+1. Add the table to an artifact with `artifact.add(table, "my_table")`, then log the artifact:
 
-## Convert `artifact` to Dataframe
-Then, convert the table into a dataframe:
+   ```python
+   # Create and log a new table.
+   with wandb.init() as r:
+       artifact = wandb.Artifact("my_dataset", type="dataset")
+       table = wandb.Table(
+           columns=["a", "b", "c"], data=[(i, i * 2, 2**i) for i in range(10)]
+       )
+       artifact.add(table, "my_table")
+       wandb.log_artifact(artifact)
+   ```
+
+2. Retrieve the table with `wandb.Artifact.get("my_table")`:
+
+   ```python
+   # Retrieve the created table using the artifact you created.
+   with wandb.init() as r:
+       artifact = r.use_artifact("my_dataset:latest")
+       table = artifact.get("my_table")
+   ```
+
+## Convert the artifact to a DataFrame
+
+With the table retrieved from the artifact, convert it into a pandas DataFrame:
 
 ```python
 # Following from the last code example:
@@ -33,14 +41,18 @@ df = table.get_dataframe()
 ```
 
 ## Export data
-Now you can export using any method dataframe supports:
+
+With your data in a pandas DataFrame, you can export it using any method that pandas supports. For example, the following exports the data to a CSV file:
 
 ```python
-# Converting the table data to .csv
+# Convert the table data to .csv
 df.to_csv("example.csv", encoding="utf-8")
 ```
 
-# Next Steps
-- Check out the [reference documentation](/models/artifacts/construct-an-artifact/) on `artifacts`.
-- Go through our [Tables Walkthrough](/models/tables/tables-walkthrough/) guide.
-- Check out the [Dataframe](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html) reference docs.
+## Next steps
+
+For more information, see the following resources:
+
+- [Construct an artifact](/models/artifacts/construct-an-artifact/) for reference documentation on artifacts.
+- [Tables walkthrough](/models/tables/tables-walkthrough/) for a guided tutorial.
+- [pandas DataFrame reference](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html) for DataFrame API documentation.
