@@ -49,6 +49,12 @@
   var MARKER = 'data-wandb-404-suggest';
   /** Locale prefixes this site serves; used to normalize and to filter sitemap URLs. */
   var LOCALES = { en: 1, ko: 1, ja: 1, fr: 1 };
+  /** Mintlify's documented hook for the 404 view's outer wrapper. */
+  var HOOK_CONTAINER = 'not-found-container';
+  /** Mintlify's documented hook for its own list of recommended pages. */
+  var HOOK_RECS = 'not-found-recommended-pages-list';
+  /** Any one of these documented hooks is enough to identify the 404 view. */
+  var HOOKS_404 = [HOOK_CONTAINER, HOOK_RECS, 'not-found-title'];
   /**
    * Landing pages used only if /sitemap.xml cannot be fetched. Deliberately
    * tiny — enough to rescue the common "typo in a top-level slug" case.
@@ -408,21 +414,71 @@
     return pageListPromise;
   }
 
+  // ------------------------------------------------------------- DOM hooks
+
+  /**
+   * Find an element by one of Mintlify's documented DOM hook names, trying
+   * every form the hook could actually take in the rendered markup: class
+   * (`.name`), bare element (`name`), then id (`#name`).
+   *
+   * Why all three: Mintlify documents the 404 hooks under "Element selectors",
+   * which it defines as targeted "with no `#` or `.` prefix" — read literally,
+   * `not-found-container` would be a tag name. But names from that same
+   * documented list demonstrably render as *classes*: this repo's own
+   * production CSS matches `textarea.chat-assistant-input` and
+   * `button.chat-assistant-send-button`, written from live-DOM inspection. The
+   * `not-found-*` hooks have never been observed in a live DOM either way, and
+   * guessing wrong on the insertion anchor would silently downgrade the panel's
+   * placement, so cover every form instead. An element name that matches no
+   * real tag is harmless to `querySelector`.
+   *
+   * Each form gets its own query rather than one comma-separated list, because
+   * `querySelector` returns the first match in DOCUMENT order, not selector
+   * order — a page containing more than one form could otherwise resolve to the
+   * less likely of the two.
+   *
+   * @param {ParentNode} root element (or document) to search within
+   * @param {string[]} names documented hook names, most preferred first
+   * @returns {Element|null}
+   */
+  function queryHook(root, names) {
+    if (!root || typeof root.querySelector !== 'function') return null;
+    var forms = ['.', '', '#'];
+    for (var f = 0; f < forms.length; f++) {
+      for (var n = 0; n < names.length; n++) {
+        var el = root.querySelector(forms[f] + names[n]);
+        if (el) return el;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * The element the panel is injected into: Mintlify's 404 container when it
+   * can be found, else the page's main content region. Shared by render() and
+   * run() so the "already injected?" check always looks at the same node the
+   * panel would be added to.
+   * @returns {Element|null}
+   */
+  function findHost() {
+    return queryHook(document, [HOOK_CONTAINER]) ||
+           document.querySelector('#content-area') ||
+           document.querySelector('main');
+  }
+
   // ------------------------------------------------------------- detection
 
   /**
    * Whether the current page is Mintlify's 404 page.
-   * Primary signal: Mintlify's documented 404 class hooks. Those are described
+   * Primary signal: Mintlify's documented 404 DOM hooks. Those are described
    * as "subject to change", so a title / visible-text probe backs them up.
    * @returns {boolean}
    */
   function isNotFoundPage() {
-    // Preferred signal: Mintlify's documented 404 class hooks.
-    if (document.querySelector('.not-found-container, .not-found-recommended-pages-list, .not-found-title')) {
-      return true;
-    }
+    // Preferred signal: Mintlify's documented 404 hooks, in any form.
+    if (queryHook(document, HOOKS_404)) return true;
 
-    // Fallback, for if those class names change. It must not fire on real docs
+    // Fallback, for if those hook names change. It must not fire on real docs
     // pages that merely *discuss* 404s — this site ships
     // support/inference/articles/api-error-code-404-model-not-found, whose
     // title contains "404". Every real content page renders an `#page-title`
@@ -523,9 +579,7 @@
    * @param {string} deadPath
    */
   function render(results, deadPath) {
-    var host = document.querySelector('.not-found-container') ||
-               document.querySelector('#content-area') ||
-               document.querySelector('main');
+    var host = findHost();
     if (!host || host.querySelector('[' + MARKER + ']')) return;
 
     var query = queryFromPath(deadPath);
@@ -613,8 +667,10 @@
     if (actions.childNodes.length) panel.appendChild(actions);
 
     // Sit directly above Mintlify's own recommendation list when we can find
-    // it, so our answer is read first; otherwise lead the container.
-    var recs = host.querySelector('.not-found-recommended-pages-list');
+    // it, so our answer is read first. If no form of that hook resolves, lead
+    // the host instead of trailing it — first child, never appended — so the
+    // panel still comes before Mintlify's list on the page.
+    var recs = queryHook(host, [HOOK_RECS]);
     var anchor = recs ? (recs.closest('div') || recs) : null;
     if (anchor && anchor.parentNode) anchor.parentNode.insertBefore(panel, anchor);
     else host.insertBefore(panel, host.firstChild);
@@ -640,7 +696,7 @@
     var deadPath = window.location.pathname;
     if (deadPath === lastHandledPath) return;
     if (!isNotFoundPage()) return;
-    var host = document.querySelector('.not-found-container, #content-area, main');
+    var host = findHost();
     if (host && host.querySelector('[' + MARKER + ']')) return;
 
     lastHandledPath = deadPath;
