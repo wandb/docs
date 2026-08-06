@@ -406,21 +406,21 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
   ## 修正
 
-  * version のアップグレードに伴う基盤データベースのスキーマ変更が、プラットフォームの起動時にタイムアウトすることがある問題を修正しました。
-  * 基盤となる parquet store service にさらなるパフォーマンス改善を加え、ユーザーのチャート読み込み時間をさらに短縮しました。Parquet store service は、専用クラウドおよび [W&amp;B kubernetes operator](https://docs.wandb.ai/platform/hosting/operator) を使用するセルフマネージドインスタンスでのみ利用できます。
-  * 基盤となる parquet store service における CPU 使用率の高騰に対処し、効率的なチャート読み込みの信頼性を向上させました。Parquet store service は、専用クラウドおよび [W&amp;B kubernetes operator](https://docs.wandb.ai/platform/hosting/operator) を使用するセルフマネージドインスタンスでのみ利用できます。
+  * バージョン のアップグレードに伴う基盤データベースのスキーマ変更が、プラットフォームの起動時にタイムアウトすることがある問題を修正しました。
+  * 基盤となる parquet store service にさらなるパフォーマンス改善を加え、ユーザーのチャート読み込み時間をさらに短縮しました。Parquet store service は、専用クラウドおよび [W&amp;B kubernetes operator](/ja/platform/hosting/self-managed/operator) を使用するセルフマネージドインスタンスでのみ利用できます。
+  * 基盤となる parquet store service における CPU 使用率の高騰に対処し、効率的なチャート読み込みの信頼性を向上させました。Parquet store service は、専用クラウドおよび [W&amp;B kubernetes operator](/ja/platform/hosting/self-managed/operator) を使用するセルフマネージドインスタンスでのみ利用できます。
 </Update>
 
 <Update label="v0.60.0" description="2024年9月26日">
   <Note>
-    version のバージョン管理上の問題により、0.60.0 は 0.58.0 の次のメジャーリリースです。0.59.0 は 0.58.0 向けのパッチリリースの 1 つでした。
+    バージョン のバージョン管理上の問題により、0.60.0 は 0.58.0 の次のメジャーリリースです。0.59.0 は 0.58.0 向けのパッチリリースの 1 つでした。
   </Note>
 
   ## 機能
 
   * Web Content Accessibility Guidelines (WCAG) 標準の Level AA 2.2 における 1.1.1 準拠に向けた最終更新。
-  * W&amp;B は、W&amp;B kubernetes operator を使用するセルフマネージドインスタンスで、自動 version アップグレードを無効にできるようになりました。これは担当の W&amp;B チームに依頼できます。
-    W&amp;B では、各 version のサポート終了期間が 6 か月であるため、すべてのインスタンスで定期的なアップグレードが必要です。W&amp;B は 6 か月より古い version をサポートしません。
+  * W&amp;B は、W&amp;B kubernetes operator を使用するセルフマネージドインスタンスで、自動 バージョン アップグレードを無効にできるようになりました。これは担当の W&amp;B チームに依頼できます。
+    W&amp;B では、各 バージョン のサポート終了期間が 6 か月であるため、すべてのインスタンスで定期的なアップグレードが必要です。W&amp;B は 6 か月より古い バージョン をサポートしません。
 
   ## 修正
 
@@ -555,7 +555,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   ## 機能
 
   * Workspaceバーの**アクション (<Icon icon="ellipsis" iconType="solid" />)** メニューで「新しいビューとして保存」をクリックすると、任意のWorkspaceで複数のビューを保存できるようになりました。
-    詳細は、[保存済みWorkspaceビュー](https://docs.wandb.ai/models/app/pages/workspaces#create-saved-workspace-views)を参照してください。
+    詳細は、[保存済みWorkspaceビュー](/ja/models/app/features/cascade-settings)を参照してください。
 
     <Frame>
       ![保存済みビューを示す画像](https://github.com/wandb/server/assets/7208315/862a36ac-8ce4-49e7-8677-d87d54ab1e54)
@@ -568,17 +568,17 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * Launch で run を複製する際に、複製元の run で使用されたオーバーライド、キュー、およびテンプレート変数の値があらかじめ選択されるようになりました。
   * インスタンス管理者には、組織ダッシュボードに `Teams` タブが表示されるようになりました。必要に応じて特定のチームに参加するために使用できます。たとえば、組織のガイドラインに沿ってチームの活動を監視したり、チーム管理者が不在の際にチームを支援したりできます。
   * SCIM User API は、GET endpoint のレスポンスに `groups` 属性を含めるようになりました。これには、ユーザーが所属しているグループ / Teams の id が含まれます。
-  * Google Cloud 上のすべての専用クラウドインスタンスは、新しい [W&amp;B Kubernetes Operator](https://docs.wandb.ai/platform/hosting/operator/) を使用して管理されるようになりました。これに伴い、新しい Parquet Store サービスも利用できるようになりました。
+  * Google Cloud 上のすべての専用クラウドインスタンスは、新しい [W&amp;B Kubernetes Operator](/ja/platform/hosting/self-managed/operator) を使用して管理されるようになりました。これに伴い、新しい Parquet Store サービスも利用できるようになりました。
     Parquet store では、blob storage に run history データを parquet 形式で高性能かつコスト効率よく保存できます。AWS と Azure 上の専用クラウドインスタンスは、すでに Operator を使用して管理されており、parquet store も含まれています。
-  * AWS 上の専用クラウドインスタンスは、リレーショナルデータストレージの最新 version を使用するよう更新され、コンピュートインフラストラクチャーも、より高いパフォーマンスを備えた新しい世代にアップグレードされました。
+  * AWS 上の専用クラウドインスタンスは、リレーショナルデータストレージの最新 バージョン を使用するよう更新され、コンピュートインフラストラクチャーも、より高いパフォーマンスを備えた新しい世代にアップグレードされました。
 
-  > **事前のお知らせ**: Automations で Webhooks を使用しているすべてのお客様は、各 endpoint に有効な A レコードを追加することを強くお勧めします。次の version 以降、IP アドレスベースの Webhook URL は使用できなくなる予定です。これは、SSRF 脆弱性および関連するその他の脅威ベクトルから保護するためです。
+  > **事前のお知らせ**: Automations で Webhooks を使用しているすべてのお客様は、各 endpoint に有効な A レコードを追加することを強くお勧めします。次の バージョン 以降、IP アドレスベースの Webhook URL は使用できなくなる予定です。これは、SSRF 脆弱性および関連するその他の脅威ベクトルから保護するためです。
 
   ## 修正
 
   * 式タブが折れ線グラフで表示されない問題を修正しました。
   * グラフおよび Runs table で Sweeps ごとにグループ化した場合に、sweeps の表示名を使用するようにしました。
-  * ジョブ version を選択したときに Runs ページへ自動的に移動するようにしました。
+  * ジョブ バージョン を選択したときに Runs ページへ自動的に移動するようにしました。
 </Update>
 
 <Update label="v0.50.2" description="2024年2月26日">
