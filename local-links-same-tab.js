@@ -60,8 +60,12 @@
   /** Chevron path matching Mintlify's sidebar group chevron (ChevronRightIcon, 18x18). */
   var CHEVRON_PATH = 'M6.5 2.75L12.75 9L6.5 15.25';
 
-  /** Classes matching Mintlify's own sidebar group chevron styling. */
-  var CHEVRON_CLASS = 'size-3 text-gray-400 group-hover:text-gray-600 dark:text-gray-600 dark:group-hover:text-gray-400 shrink-0';
+  /**
+   * Classes matching Mintlify's own sidebar group chevron (DropdownArrowIcon):
+   * its base ChevronRightIcon classes plus the sizing overrides the sidebar
+   * adds (w-2 wins over size-3 in the compiled CSS, giving the 8px width).
+   */
+  var CHEVRON_CLASS = 'size-3 transition-transform text-gray-400 group-hover:text-gray-600 dark:text-gray-600 dark:group-hover:text-gray-400 shrink-0 w-2 h-[1lh] -mr-0.5';
 
   /**
    * Replaces the arrow (external-link) icon with a chevron on a sidebar nav link.
