@@ -1,0 +1,63 @@
+---
+title: "여러 아티팩트를 한 번에 삭제하려면 어떻게 하나요?"
+keywords: ["Artifacts", "저장소", "Python API"]
+---
+
+저장소 사용량을 줄이는 등 많은 아티팩트 버전을 삭제해야 하는 경우 W&amp;B App 대신 [W&amp;B Public API](/ko/models/ref/python/public-api/api)를 사용하세요. App에서 대량 삭제를 수행하면 `context deadline exceeded` 오류로 인해 시간 초과될 수 있으며, 아티팩트 목록은 수백 개의 버전을 삭제하도록 설계되지 않았습니다.
+
+다음 스크립트는 프로젝트에서 지정한 유형의 모든 아티팩트 버전을 삭제합니다.
+
+`[YOUR-TEAM]` 및 `[YOUR-PROJECT]` 자리 표시자를 실제 값으로 바꾸세요. `[YOUR-TEAM]`에는 조직 이름이 아닌 팀 또는 사용자 이름을 사용하세요.
+
+<Warning>
+  아티팩트 삭제는 되돌릴 수 없습니다. 소스 아티팩트 버전을 삭제하면 W&amp;B에서 아티팩트와 해당 파일을 삭제합니다. `delete_aliases=True`를 전달하면 `latest`와 같은 별칭이 있는 버전도 삭제할 수 있으며, 해당 별칭도 제거됩니다.
+
+  먼저 `DRY_RUN = True`로 설정하고 출력된 아티팩트 이름을 검토한 후에만 DRY&#95;RUN = False로 설정하세요.
+</Warning>
+
+```python
+import wandb
+
+# 이미 `wandb login`을 실행했다고 가정합니다.
+entity = "[YOUR-TEAM]"  # 사용할 팀으로 바꾸세요.
+project = "[YOUR-PROJECT]"  # 사용할 프로젝트로 바꾸세요.
+artifact_type = "model"  # 삭제할 아티팩트 유형으로 바꾸세요.
+
+# 삭제할 버전을 검토하기 전까지는 True로 유지하세요.
+DRY_RUN = True
+
+api = wandb.Api()
+
+for collection in api.artifact_collections(f"{entity}/{project}", artifact_type):
+    for version in collection.artifacts():
+        if DRY_RUN:
+            print(f"[dry-run] {version.name} 삭제 예정")
+        else:
+            print(f"{version.name} 삭제 중")
+            version.delete(delete_aliases=True)
+```
+
+스크립트는 컬렉션이 아닌 아티팩트 버전을 삭제합니다. 비어 있는 컬렉션도 프로젝트의 **Artifacts** 탭에는 계속 표시됩니다.
+
+`wandb.Api.artifact_collections()`는 소스 컬렉션과 링크 컬렉션을 모두 반환합니다.
+
+* 소스 컬렉션에는 프로젝트의 run에 로깅된 아티팩트 버전이 포함됩니다.
+* 링크 컬렉션에는 레지스트리의 컬렉션처럼 다른 컬렉션에 연결된 아티팩트 버전에 대한 레퍼런스가 포함됩니다.
+
+자세한 내용은 [아티팩트 버전을 컬렉션에 연결하기](/ko/models/registry/link_version)를 참조하세요.
+
+버전이 링크 컬렉션의 버전인 경우 `version.delete(delete_aliases=True)`는 연결만 제거합니다. 소스 아티팩트와 해당 파일은 그대로 유지되므로 이 버전을 삭제해도 저장소 공간이 확보되지 않습니다.
+
+<div id="reclaim-the-space">
+  ## 공간 확보
+</div>
+
+삭제된 아티팩트는 먼저 소프트 삭제된 후 가비지 컬렉션 과정에서 제거되므로 저장소 사용량이 즉시 줄어들지는 않습니다. 시점 및 사용량 확인 방법은 [run을 삭제한 후에도 저장소 사용량이 업데이트되지 않는 이유는 무엇인가요?](/ko/support/models/articles/why-does-the-storage-meter-not-update-af) 및 [아티팩트 삭제](/ko/models/artifacts/delete-artifacts)를 참조하세요.
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/ko/support/models/tags/artifacts)</Badge><Badge stroke shape="pill" color="orange" size="md">[저장소](/ko/support/models/tags/storage)</Badge><Badge stroke shape="pill" color="orange" size="md">[Python API](/ko/support/models/tags/python-api)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

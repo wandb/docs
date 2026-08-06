@@ -231,7 +231,7 @@ run 개요 페이지 상단의 **References** 섹션에 설정 키를 고정하�
 
 Python SDK에서 [`wandb.Run.pin_config_keys`](/ko/models/ref/python/experiments/run#method-run-pin_config_keys)를 사용해 하나 이상의 설정 키를 고정할 수 있습니다.
 
-예를 들어, Grafana 대시보드를 사용해 트레이닝 runs를 모니터링하는 경우 대시보드 URL을 설정에 추가하고 `grafana_url` 키를 고정하세요:
+예를 들어, Grafana 대시보드를 사용해 트레이닝 Runs를 모니터링하는 경우 대시보드 URL을 설정에 추가하고 `grafana_url` 키를 고정하세요:
 
 ```python
 config = {
@@ -249,17 +249,113 @@ with wandb.init(config=config) as run:
     run.pin_config_keys(["grafana_url"])
 ```
 
-<div id="abslflags">
-  ## `absl.FLAGS`
+{/* ## `absl.FLAGS`
+
+  [`absl` 플래그](https://abseil.io/docs/python/guides/flags)도 전달할 수 있습니다.
+
+  ```python
+  flags.DEFINE_string("model", None, "실행할 모델")  # 이름, 기본값, 도움말
+
+  run.config.update(flags.FLAGS)  # absl 플래그를 설정에 추가
+  ``` */}
+
+<div id="view-config-values">
+  ## 설정 값 보기
 </div>
 
-[`absl` 플래그](https://abseil.io/docs/python/guides/flags)를 전달할 수도 있습니다.
+W&amp;B App, run 중 또는 기존 Runs에서 설정 값에 액세스할 수 있습니다. 로컬 파일 시스템에서도 설정 값에 액세스할 수 있습니다.
 
-```python
-flags.DEFINE_string("model", None, "model to run")  # name, default, help
+<Tabs>
+  <Tab title="W&B App">
+    W&amp;B App에서 run 설정을 확인합니다.
 
-run.config.update(flags.FLAGS)  # absl 플래그를 설정에 추가
-```
+    1. W&amp;B App에서 프로젝트로 이동합니다.
+    2. 확인하려는 run을 선택합니다.
+    3. **Overview** 탭을 선택합니다.
+    4. **Config** 섹션까지 스크롤합니다.
+    5. 선택 사항: **View raw data**를 클릭하여 설정을 JSON 형식으로 확인합니다.
+
+    원시 JSON 형식은 설정 값, 로깅된 메트릭 또는 요약 값을 기반으로 선형 플롯을 생성하거나 변환하는 표현식을 작성할 때 유용합니다. 자세한 내용은 [Expressions](/ko/models/app/features/panels/line-plot/reference#expressions)를 참조하세요.
+  </Tab>
+
+  <Tab title="run 중">
+    [`wandb.Run.config`](/ko/models/ref/python/experiments/run#property-config) 속성을 사용하여 run 중에 설정 값에 액세스할 수 있습니다. `wandb.Run.config`는 설정 키-값 쌍이 포함된 딕셔너리 객체를 반환합니다.
+
+    다음 예시는 run 중에 설정 값에 액세스하는 방법을 보여 줍니다. config 딕셔너리의 값을 사용자의 하이퍼파라미터, 모델 아키텍처, 데이터셋 이름 및 기타 설정으로 바꾸세요. `"<my-project>"`를 W&amp;B 프로젝트 이름으로 바꾸세요.
+
+    ```python
+    import wandb
+
+    config = {
+        "epochs": 100,
+        "learning_rate": 0.001,
+        "model_type": "CNN",
+        "dataset_id": "cats-0192"
+    }
+
+    with wandb.init(project="<my-project>", config=config) as run:
+      print(dict(run.config))
+    ```
+
+    다음 스니펫은 위 코드를 실행했을 때의 터미널 출력 예시입니다.
+
+    ```shell
+    {'_runtime': 0.0970615, '_step': 97, 'accuracy': 0.9746484067793967, 'loss': 0.025044765547545846, '_timestamp': 1785255343.65151}
+    ```
+  </Tab>
+
+  <Tab title="기존 run">
+    W&amp;B Public API를 사용하여 이전에 로깅된 run의 설정에 액세스할 수 있습니다. entity, 프로젝트 이름 및 run ID를 `wandb.Api.run()`에 전달한 다음 `wandb.Api.Run.config` 속성을 통해 run 설정에 액세스합니다.
+
+    다음 예시의 `"<entity>"`, `"<project>"`, `"<run_id>"`를 W&amp;B entity, 프로젝트 이름 및 run ID로 바꾸세요.
+
+    ```python
+    import wandb
+
+    api = wandb.Api()
+    run = api.run("<entity>/<project>/<run_id>")
+
+    print(run.name)
+    print(run.config)
+    ```
+
+    프로젝트에서 여러 Runs의 설정 값에 액세스하려면 `wandb.Api.runs()`를 사용하여 Runs을 조회한 후 반환된 Run 객체를 반복 처리합니다.
+
+    ```python
+    import wandb
+
+    api = wandb.Api()
+    runs = api.runs("<entity>/<project>")
+
+    for run in runs:
+        print(f"Run name: {run.name}")
+        print(f"Run ID: {run.id}")
+        print(f"Run config: {run.config}")
+        print("----------")
+    ```
+
+    다음 스니펫은 위 코드를 실행했을 때의 터미널 출력 예시입니다.
+
+    ```shell
+
+    Run name: clean-oath-11
+    Run ID: mt2dasoz
+    Run config: {'epochs': 1000, 'learning_rate': 0.1, 'model_type': 'Multivariate_neural_network_classifier'}
+    ----------
+
+    Run name: zesty-snowball-7
+    Run ID: qne08r7u
+    Run config: {'epochs': 1000, 'learning_rate': 0.1, 'model_type': 'Multivariate_neural_network_classifier'}
+    ----------
+    ```
+  </Tab>
+
+  <Tab title="로컬 파일 시스템">
+    W&amp;B는 run 디렉터리의 `config.yaml` 파일에 run 설정 값을 저장합니다. 로컬에서 설정 값을 확인하려면 `config.yaml` 파일을 여세요.
+
+    기본적으로 run 디렉터리는 `./wandb/run-<timestamp>-<run_id>`에 있습니다.
+  </Tab>
+</Tabs>
 
 <div id="file-based-configs">
   ## 파일 기반 설정
@@ -312,20 +408,6 @@ config_dictionary = dict(
 with wandb.init(config=config_dictionary) as run:
     ...
 ```
-
-<div id="view-config-values-in-the-wb-app">
-  ## W&amp;B App에서 설정 값 보기
-</div>
-
-run의 **Overview** 탭에 있는 **Config** 섹션에서 설정 값을 확인할 수 있습니다. 설정 값을 고정하면 **References** 섹션에서도 확인할 수 있습니다.
-
-1. W&amp;B App에서 프로젝트로 이동합니다.
-2. 설정 값을 확인할 run을 클릭합니다.
-3. **Overview** 탭을 선택합니다.
-4. **Config** 섹션까지 스크롤합니다.
-5. (선택) JSON 형식으로 설정 값을 보려면 **View raw data**를 클릭합니다.
-
-원시 JSON 형식은 설정 값, 로깅된 메트릭 또는 summary 값을 사용해 선형 플롯을 생성하거나 변환하는 표현식을 작성할 때 유용합니다. 자세한 내용은 [Expressions](/ko/models/app/features/panels/line-plot/reference#expressions)를 참조하세요.
 
 <div id="tensorflow-v1-flags">
   ## TensorFlow v1 플래그

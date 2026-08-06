@@ -4,6 +4,10 @@ description: "전용 엔드포인트를 통해 OpenTelemetry 호환 트레이스
 keywords: ["OTLP", "OpenTelemetry Collector", "OpenInference", "OpenLLMetry", "스레드"]
 ---
 
+<Warning>
+  Weave의 새 Agents 뷰로 OTel span을 전송하려면 [Weave의 새 OTel 네이티브 워크플로](/ko/weave/guides/tracking/trace-agents-otel)를 사용하는 것이 좋습니다. 원시 OTLP 트레이스 수집 데이터를 Weave의 표준 Traces 뷰로 전송하려는 경우에만 이 가이드를 사용하세요.
+</Warning>
+
 Weave는 전용 엔드포인트를 통해 OpenTelemetry 호환 트레이스 데이터를 임포트할 수 있도록 지원합니다. 이 엔드포인트를 사용하면 OTLP(OpenTelemetry Protocol) 형식의 트레이스 데이터를 Weave 프로젝트로 직접 전송할 수 있습니다. 기존 OTel 기반 관측성 파이프라인을 대체하지 않으면서, 애플리케이션을 OpenTelemetry 표준으로 계측하고 해당 트레이스를 다른 Weave 데이터와 함께 표시하려는 경우 이 인테그레이션을 사용하세요.
 
 이 페이지에서는 엔드포인트 세부 정보, 인증, Python 및 TypeScript의 엔드투엔드 예시, OpenTelemetry Collector를 통해 트레이스를 전달하는 방법, 트레이스를 Weave 스레드로 구성하는 방법, 그리고 Weave가 들어오는 span에 적용하는 속성 매핑을 설명합니다.
