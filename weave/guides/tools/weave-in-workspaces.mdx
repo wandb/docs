@@ -1,7 +1,7 @@
 ---
 title: "Use Weave with W&B training runs"
 description: "Integrate Weave traces with W&B training runs to view function execution details alongside ML metrics in workspace dashboards."
-keywords: ["workspaces", "training runs", "traces", "wandb.run", "artifacts"]
+keywords: ["workspaces", "training runs", "traces", "wandb.run", "wandb.init", "trace linking", "experiment tracking", "artifacts"]
 ---
 
 # Log traces during model training runs
@@ -87,6 +87,21 @@ To navigate to a workspace from the UI:
 3. If you've set up your workspace as an automatic workspace, the workspace automatically populates with data visualizations and information about your run. The trace data for your run is under the **Weave** section of the workspace. If your workspace is a manual workspace, you can add Weave panels by clicking **Add panels** and selecting panels from the **Weave** section of the Add Panels menu.
 
 For more information about workspaces, see [View experiments results](https://docs.wandb.ai/models/track/workspaces).
+
+## View a linked run in the Traces table
+
+When you call a function decorated with `@weave.op` inside a `wandb.init()` context, Weave automatically associates the trace with the active [W&B run](/models/runs). The **Traces** table in the Weave UI links each trace to its associated runs.
+
+To view the runs linked to your traces:
+
+1. Run a script that calls traced functions inside a `wandb.init()` context, such as the training example in [Use Weave panels](#use-weave-panels).
+2. Navigate to the [W&B app](https://wandb.ai) and select your project.
+3. In the **Weave** project sidebar, click **Traces**. The **Traces** table displays links to any associated runs.
+4. Open a trace from the **Traces** table to inspect the linked W&B run and review its experiment context.
+
+<Note>
+Linking traces to W&B runs is not yet available in the TypeScript SDK.
+</Note>
 
 ## Associate traces with a specific W&B run
 
