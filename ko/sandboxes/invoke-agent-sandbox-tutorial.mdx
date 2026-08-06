@@ -4,9 +4,9 @@ description: "Serverless Sandbox 환경에서 OpenAI 에이전트를 호출하�
 keywords: ["튜토리얼", "샌드박스에서 에이전트 호출"]
 ---
 
-<Warning>
-  Serverless Sandboxes는 현재 공개 프리뷰입니다.
-</Warning>
+import SandboxesPreview from '/snippets/ko/_includes/sandboxes-public-preview.mdx';
+
+<SandboxesPreview />
 
 이 튜토리얼에서는 W&amp;B Serverless Sandbox에서 에이전트를 호출합니다. 필수 환경 변수를 사용해 샌드박스를 시작하고, 의존성을 설치한 다음, 단순한 OpenAI 에이전트를 생성하고 호출하는 Python 스크립트를 실행합니다. 이 에이전트는 tool call을 사용해 특정 위치의 날씨를 조회하고 말장난이 섞인 예보를 반환합니다.
 
@@ -14,7 +14,7 @@ keywords: ["튜토리얼", "샌드박스에서 에이전트 호출"]
   이 튜토리얼에서는 에이전트의 언어 모델로 OpenAI를 사용하며, 이를 위해 OpenAI API 키가 필요합니다.
 </Note>
 
-{/* 이렇게 하면 로컬 설정에 영향을 주지 않고, 안전하게 격리된 환경에서 에이전트의 동작을 테스트하고 반복적으로 개선할 수 있습니다. */}
+{{/* 이렇게 하면 로컬 설정에 영향을 주지 않고, 안전하게 격리된 환경에서 에이전트의 동작을 테스트하고 반복적으로 개선할 수 있습니다. */}}
 
 <div id="prerequisites">
   ## 사전 요구 사항

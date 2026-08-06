@@ -249,17 +249,113 @@ with wandb.init(config=config) as run:
     run.pin_config_keys(["grafana_url"])
 ```
 
-<div id="abslflags">
-  ## `absl.FLAGS`
+{/* ## `absl.FLAGS`
+
+  Vous pouvez également transmettre des [flags `absl`](https://abseil.io/docs/python/guides/flags).
+
+  ```python
+  flags.DEFINE_string("model", None, "modèle à exécuter")  # nom, valeur par défaut, aide
+
+  run.config.update(flags.FLAGS)  # ajoute les flags absl à la configuration
+  ``` */}
+
+<div id="view-config-values">
+  ## Afficher les valeurs de configuration
 </div>
 
-Vous pouvez également transmettre des flags [`absl`](https://abseil.io/docs/python/guides/flags).
+Accédez à vos valeurs de configuration dans W&amp;B App, pendant l’exécution d’un run ou à partir de runs existants. Vous pouvez également y accéder depuis votre système de fichiers local.
 
-```python
-flags.DEFINE_string("model", None, "model to run")  # nom, défaut, aide
+<Tabs>
+  <Tab title="W&B App">
+    Affichez la configuration d’un run dans W&amp;B App :
 
-run.config.update(flags.FLAGS)  # ajoute les flags absl à la configuration
-```
+    1. Accédez à votre projet dans W&amp;B App.
+    2. Sélectionnez le run que vous souhaitez afficher.
+    3. Sélectionnez l’onglet **Overview**.
+    4. Faites défiler la page jusqu’à la section **Config**.
+    5. Facultatif : cliquez sur **View raw data** pour afficher la configuration au format JSON.
+
+    Le format JSON brut est utile pour écrire des expressions qui permettent de créer ou de transformer des graphiques en courbes à partir de valeurs de configuration, de métriques enregistrées ou de valeurs de synthèse. Voir [Expressions](/fr/models/app/features/panels/line-plot/reference#expressions) pour plus de détails.
+  </Tab>
+
+  <Tab title="Pendant un run">
+    Utilisez la propriété [`wandb.Run.config`](/fr/models/ref/python/experiments/run#property-config) pour accéder aux valeurs de configuration d’un run pendant son exécution. `wandb.Run.config` renvoie un dictionnaire contenant les paires clé-valeur de configuration.
+
+    L’exemple suivant montre comment accéder aux valeurs de configuration d’un run pendant son exécution. Remplacez les valeurs du dictionnaire `config` par vos propres hyperparamètres, l’architecture de votre modèle, le nom du jeu de données et d’autres paramètres. Remplacez `"<my-project>"` par le nom de votre projet W&amp;B :
+
+    ```python
+    import wandb
+
+    config = {
+        "epochs": 100,
+        "learning_rate": 0.001,
+        "model_type": "CNN",
+        "dataset_id": "cats-0192"
+    }
+
+    with wandb.init(project="<my-project>", config=config) as run:
+      print(dict(run.config))
+    ```
+
+    L’extrait suivant montre à quoi peut ressembler la sortie de votre terminal lorsque vous exécutez le code ci-dessus :
+
+    ```shell
+    {'_runtime': 0.0970615, '_step': 97, 'accuracy': 0.9746484067793967, 'loss': 0.025044765547545846, '_timestamp': 1785255343.65151}
+    ```
+  </Tab>
+
+  <Tab title="Run existant">
+    Utilisez l’API publique de W&amp;B pour accéder à la configuration d’un run précédemment enregistré. Transmettez l’entité, le nom du projet et l’ID du run à `wandb.Api.run()`, puis accédez à la configuration du run via la propriété `wandb.Api.Run.config`.
+
+    Remplacez `"<entity>"`, `"<project>"` et `"<run_id>"` dans l’exemple suivant par votre entité W&amp;B, le nom de votre projet et l’ID du run.
+
+    ```python
+    import wandb
+
+    api = wandb.Api()
+    run = api.run("<entity>/<project>/<run_id>")
+
+    print(run.name)
+    print(run.config)
+    ```
+
+    Pour accéder aux valeurs de configuration de plusieurs runs d’un projet, utilisez `wandb.Api.runs()` pour récupérer les runs, puis parcourez les objets Run renvoyés :
+
+    ```python
+    import wandb
+
+    api = wandb.Api()
+    runs = api.runs("<entity>/<project>")
+
+    for run in runs:
+        print(f"Run name: {run.name}")
+        print(f"Run ID: {run.id}")
+        print(f"Run config: {run.config}")
+        print("----------")
+    ```
+
+    L’extrait suivant montre à quoi peut ressembler la sortie de votre terminal lorsque vous exécutez le code ci-dessus :
+
+    ```shell
+
+    Run name: clean-oath-11
+    Run ID: mt2dasoz
+    Run config: {'epochs': 1000, 'learning_rate': 0.1, 'model_type': 'Multivariate_neural_network_classifier'}
+    ----------
+
+    Run name: zesty-snowball-7
+    Run ID: qne08r7u
+    Run config: {'epochs': 1000, 'learning_rate': 0.1, 'model_type': 'Multivariate_neural_network_classifier'}
+    ----------
+    ```
+  </Tab>
+
+  <Tab title="Système de fichiers local">
+    W&amp;B stocke les valeurs de configuration d’un run dans le fichier `config.yaml` du répertoire du run. Pour lire les valeurs de configuration localement, ouvrez le fichier `config.yaml`.
+
+    Par défaut, le répertoire du run se trouve à l’emplacement `./wandb/run-<timestamp>-<run_id>`.
+  </Tab>
+</Tabs>
 
 <div id="file-based-configs">
   ## Configurations basées sur des fichiers
@@ -312,20 +408,6 @@ config_dictionary = dict(
 with wandb.init(config=config_dictionary) as run:
     ...
 ```
-
-<div id="view-config-values-in-the-wb-app">
-  ## Afficher les valeurs de configuration dans la W&amp;B App
-</div>
-
-Consultez vos valeurs de configuration dans la section **Config** de l’onglet **Vue d’ensemble** d’un run. Elles sont également disponibles dans la section **References** si vous les épinglez.
-
-1. Accédez à votre projet dans la W&amp;B App.
-2. Cliquez sur le run dont vous souhaitez consulter les valeurs de configuration.
-3. Sélectionnez l’onglet **Vue d’ensemble**.
-4. Faites défiler jusqu’à la section **Config**.
-5. (Facultatif) Cliquez sur **View raw data** pour afficher les valeurs de configuration au format JSON.
-
-Le format JSON brut est utile lorsque vous écrivez des expressions pour créer ou transformer des graphiques en courbes à partir de valeurs de configuration, de métriques enregistrées ou de valeurs de synthèse. Voir [Expressions](/fr/models/app/features/panels/line-plot/reference#expressions) pour plus de détails.
 
 <div id="tensorflow-v1-flags">
   ## Flags de TensorFlow v1

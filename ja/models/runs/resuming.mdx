@@ -111,13 +111,23 @@ with wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="a
   ## プリエンプト可能な Sweeps run を再開する
 </div>
 
-プリエンプションを正しく処理すると、中断された[sweep](/ja/models/sweeps/) run は自動的にキューに入れ直され、別の agent が取得できるようになります。このパターンは、sweep agent がプリエンプト可能な環境で実行される場合に特に有効です。たとえば、プリエンプト可能なキュー内の SLURM ジョブ、EC2 Spot インスタンス、Google Cloud のプリエンプト可能 VM などです。
+プリエンプションシグナルを処理することで、W&amp;B は中断された [sweep](/ja/models/sweeps/) run を別のエージェントが実行できるよう自動的にキューに入れ直します。このパターンは、SLURM のプリエンプト可能なキュー、Amazon EC2 Spot Instance、Google Cloud のプリエンプト可能な VM など、sweep エージェントをプリエンプト可能なコンピューティング環境で実行する場合に役立ちます。
 
-以下の動作は、[`wandb agent`](/ja/models/ref/cli/wandb-agent) CLI で sweep agent を実行する場合に適用されます。この CLI は、トレーニングプログラムを**サブプロセス**として起動します。一方、Python API の [`wandb.agent()`](/ja/models/ref/python/functions/agent) のみを使用する場合には、これは完全には当てはまりません。この経路では、トレーニング関数は別プロセスではなくスレッド内で実行されるため、OS シグナルの配信と転送が CLI agent のモデルと一致しないからです。
+以下の手順は、[`wandb agent`](/ja/models/ref/cli/wandb-agent) CLI を使用して sweep エージェントを起動する場合に適用されます。CLI はトレーニングプログラムを**サブプロセス**として起動します。Python API の [`wandb.agent()`](/ja/models/ref/python/functions/agent) のみを使用する場合、これらの手順は完全には適用されません。Python API はトレーニング関数をスレッド内で実行するため、OS シグナルの配信と転送は CLI エージェントの動作とは異なります。
 
-**推奨パターン:** スケジューラまたはプラットフォームで使われるプリエンプションシグナル (たとえば `SIGUSR1` や `SIGTERM`) のシグナルハンドラーを登録してください。ハンドラーでは、run がアクティブなときに [`mark_preempting()`](/ja/models/ref/python/experiments/run#mark_preempting) を呼び出し、必要なクリーンアップ (checkpoint の保存など) を行ってから、非ゼロのコードで終了します (一般的には、シグナルによる終了時に `128 + signum` を使います) 。`wandb.init()` の直後に、無条件で `mark_preempting()` を呼び出してはいけません。そうすると、コードの bug を含むあらゆる失敗がプリエンプションとしてマークされ、run が繰り返しキューに入れ直される可能性があります。
+<div id="handle-a-preemption-signal">
+  ### プリエンプションシグナルを処理する
+</div>
 
-実行可能な例、CLI agent での `--forward-signals`、および `mark_preempting()` のさまざまな使い方をまとめた詳細な表については、[Signal handling and sweep runs](/ja/models/sweeps/signal-handling-sweep-runs) を参照してください。
+スケジューラまたはプラットフォームで使われるプリエンプションシグナル (たとえば `SIGUSR1` や `SIGTERM`) のシグナルハンドラーを登録してください。ハンドラーでは、次の操作を行います。
+
+1. run がアクティブなときに、[`mark_preempting()`](/ja/models/ref/python/experiments/run#mark_preempting) を呼び出します。
+2. checkpoint の保存など、必要なクリーンアップを行います。
+3. 非ゼロのコードで終了します。シグナルによる終了時には、一般的に `128 + signum` を使います。
+
+`wandb.init()` の直後に、無条件で `mark_preempting()` を呼び出してはいけません。そうすると、コードの bug を含むあらゆる失敗がプリエンプションとしてマークされ、run が繰り返しキューに入れ直される可能性があります。
+
+実行可能な例、CLI エージェント での `--forward-signals`、および `mark_preempting()` のさまざまな使い方をまとめた詳細な表については、[Signal handling and sweep runs](/ja/models/sweeps/signal-handling-sweep-runs) を参照してください。
 
 このパターンに従うと、W&amp;B はおおむね次のように run の状態を記録します。
 
@@ -126,6 +136,10 @@ with wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="a
 | 終了コード 0 で run が正常に完了する                                                                                    | FINISHED                                       |
 | 非ゼロの終了コードで run が失敗する                                                                                      | FAILED                                         |
 | run が未処理のシグナル (たとえば `SIGKILL`) を受信する                                                                      | 約 5 分後に CRASHED                                |
-| run が処理済みのプリエンプションシグナル (たとえば `SIGTERM` または `SIGUSR1`) を受信し、ハンドラーが `mark_preempting()` を呼び出し、プロセスが非ゼロで終了する | PREEMPTED。run は次の agent request に備えてキューに入れられます |
+| run が処理済みのプリエンプションシグナル (たとえば `SIGTERM` または `SIGUSR1`) を受信し、ハンドラーが `mark_preempting()` を呼び出し、プロセスが非ゼロで終了する | PREEMPTED。run は次の エージェント request に備えてキューに入れられます |
 
-Sweep agent は、sweep が search アルゴリズムから新しいハイパーパラメーターの組み合わせを生成する前に、run キューを先に消化します。キューが空になると、sweep は通常のスケジューリングを再開します。
+<Info>
+  sweep エージェント がプリエンプトされた run を取得した場合、トレーニングプロセスは 60 分以内に `wandb.init()` を呼び出す必要があります。run の取得後、`wandb.init()` を呼び出す前にプロセスが失敗するなどして初期化が行われなかった場合、60 分間のリース期限が切れるまで、W&amp;B はその run を別の エージェント が利用できるようにしません。
+</Info>
+
+Sweep エージェント は、sweep search アルゴリズムに新しいハイパーパラメーターの組み合わせをリクエストする前に、キューに入れ直された run を処理します。キューが空になると、sweep は通常のスケジューリングを再開します。

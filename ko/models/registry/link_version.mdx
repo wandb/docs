@@ -172,6 +172,60 @@ run 중에 아티팩트를 생성할지, run 없이 생성할지, 또는 기존 
 
 Registry App에서 [연결된 아티팩트의 메타데이터, 버전 데이터, 사용 정보, 리니지 정보 보기](/ko/models/registry/link_version#view-linked-artifacts-in-a-registry) 등을 확인할 수 있습니다.
 
+<div id="unlink-an-artifact-version-from-a-collection">
+  ## 컬렉션에서 아티팩트 버전 연결 해제
+</div>
+
+W&amp;B Python SDK 또는 W&amp;B 레지스트리를 사용하여 컬렉션에서 아티팩트 버전의 연결을 해제합니다.
+
+연결을 해제하면 컬렉션에서 아티팩트 버전이 제거되지만, 소스 아티팩트 버전이나 해당 파일은 삭제되지 않습니다.
+
+<Warning>
+  아티팩트 버전을 레지스트리 컬렉션에 연결하면 해당 TTL(Time-to-Live) 정책이 비활성화되고 TTL이 `None`으로 설정됩니다. 이후 버전의 연결을 해제해도 W&amp;B는 이전 TTL을 복원하거나 원래 기간을 유지하지 않습니다. 버전에 여전히 TTL이 필요한 경우 연결을 해제한 후 TTL을 다시 설정하세요.
+
+  TTL 정책에 대한 자세한 내용은 [아티팩트 데이터 보존 관리](/ko/models/artifacts/ttl)를 참조하세요.
+</Warning>
+
+<Tabs>
+  <Tab title="Python SDK">
+    W&amp;B Python SDK를 사용하여 아티팩트 버전의 연결을 해제하려면 다음을 수행하세요.
+
+    1. `wandb.Api()`로 Public API 클라이언트를 생성합니다.
+    2. `wandb.Api.artifact()`로 연결된 아티팩트 버전을 조회합니다.
+    3. [`wandb.Artifact.unlink()`](/ko/models/ref/python/experiments/artifact#method-artifactunlink)를 호출하여 컬렉션에서 아티팩트 버전의 연결을 해제합니다.
+
+    ```text
+    wandb-registry-<registry_name>/<collection_name>:<version_or_alias>
+    ```
+
+    자리 표시자 값을 실제 값으로 바꾸세요.
+
+    ```python
+    import wandb
+
+    registry_name = "your-registry-name"  # 레지스트리 이름으로 바꾸세요
+    collection_name = "your-collection-name"  # 컬렉션 이름으로 바꾸세요
+    version = "version-or-alias"  # 연결을 해제할 아티팩트 버전으로 바꾸세요
+
+    target_path=f"wandb-registry-{registry_name}/{collection_name}:{version}"
+
+    api = wandb.Api()
+    linked_artifact = api.artifact(name=target_path)
+
+    # 컬렉션에서 아티팩트 버전 연결 해제
+    linked_artifact.unlink()
+    ```
+  </Tab>
+
+  <Tab title="W&B 레지스트리">
+    1. W&amp;B 레지스트리로 이동합니다.
+    2. 컬렉션이 포함된 레지스트리 이름을 선택합니다.
+    3. 컬렉션을 선택합니다.
+    4. 연결을 해제할 아티팩트 버전을 선택합니다.
+    5. **Version** 탭에서 **Unlink version**을 선택합니다.
+  </Tab>
+</Tabs>
+
 <div id="view-linked-artifacts-in-a-registry">
   ## 레지스트리에서 연결된 아티팩트 보기
 </div>
