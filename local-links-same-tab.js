@@ -60,8 +60,12 @@
   /** Chevron path matching Mintlify's sidebar group chevron (ChevronRightIcon, 18x18). */
   var CHEVRON_PATH = 'M6.5 2.75L12.75 9L6.5 15.25';
 
-  /** Classes matching Mintlify's own sidebar group chevron styling. */
-  var CHEVRON_CLASS = 'size-3 text-gray-400 group-hover:text-gray-600 dark:text-gray-600 dark:group-hover:text-gray-400 shrink-0';
+  /**
+   * Classes matching Mintlify's own sidebar group chevron (DropdownArrowIcon):
+   * its base ChevronRightIcon classes plus the sizing overrides the sidebar
+   * adds (w-2 wins over size-3 in the compiled CSS, giving the 8px width).
+   */
+  var CHEVRON_CLASS = 'size-3 transition-transform text-gray-400 group-hover:text-gray-600 dark:text-gray-600 dark:group-hover:text-gray-400 shrink-0 w-2 h-[1lh] -mr-0.5';
 
   /**
    * Replaces the arrow (external-link) icon with a chevron on a sidebar nav link.
@@ -85,18 +89,23 @@
     var svg = svgs[svgs.length - 1];
     if (svg.getAttribute('data-chevron') === '1') return;
 
+    var paths = svg.querySelectorAll('path');
+    if (!paths.length) return;
+
+    // Attribute-only mutation: React owns these nodes, and adding or removing
+    // children makes its next reconciliation throw and unmount the sidebar.
+    // The arrow icon has two paths; give both the same chevron geometry so
+    // they overlap and render as a single chevron.
     svg.setAttribute('class', CHEVRON_CLASS);
     svg.setAttribute('fill', 'none');
     svg.setAttribute('stroke-width', '2');
-    while (svg.firstChild) svg.removeChild(svg.firstChild);
-
-    var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    path.setAttribute('d', CHEVRON_PATH);
-    path.setAttribute('stroke', 'currentColor');
-    path.setAttribute('stroke-width', '2');
-    path.setAttribute('stroke-linecap', 'round');
-    path.setAttribute('stroke-linejoin', 'round');
-    svg.appendChild(path);
+    for (var i = 0; i < paths.length; i++) {
+      paths[i].setAttribute('d', CHEVRON_PATH);
+      paths[i].setAttribute('stroke', 'currentColor');
+      paths[i].setAttribute('stroke-width', '2');
+      paths[i].setAttribute('stroke-linecap', 'round');
+      paths[i].setAttribute('stroke-linejoin', 'round');
+    }
     svg.setAttribute('data-chevron', '1');
   }
 
