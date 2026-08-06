@@ -172,6 +172,60 @@ artifact を run 中に作成するか、run なしで作成するか、既存�
 
 Registry App では、[リンクされたアーティファクトのメタデータ、バージョンデータ、使用状況、リネージ情報](/ja/models/registry/link_version#view-linked-artifacts-in-a-registry) などを確認できます。
 
+<div id="unlink-an-artifact-version-from-a-collection">
+  ## コレクションから アーティファクト バージョンのリンクを解除する
+</div>
+
+W&amp;B Python SDK または W&amp;B Registry を使用して、コレクションから アーティファクト バージョンのリンクを解除します。
+
+リンクを解除すると、アーティファクト バージョンはコレクションから削除されますが、ソース アーティファクト バージョンやそのファイルは削除されません。
+
+<Warning>
+  アーティファクト バージョンを Registry のコレクションにリンクすると、存続期間 (TTL) ポリシーが無効化され、TTL が `None` に設定されます。後でバージョンのリンクを解除しても、W&amp;B は以前の TTL を復元せず、元の期間も保持しません。バージョンに引き続き TTL が必要な場合は、リンク解除後に TTL を再設定してください。
+
+  TTL ポリシーの詳細については、[アーティファクト データ保持を管理する](/ja/models/artifacts/ttl)を参照してください。
+</Warning>
+
+<Tabs>
+  <Tab title="Python SDK">
+    W&amp;B Python SDK で アーティファクト バージョンのリンクを解除するには、次の手順に従います。
+
+    1. `wandb.Api()` を使用して Public API クライアントを作成します。
+    2. `wandb.Api.artifact()` を使用してリンク済みの アーティファクト バージョンを取得します。
+    3. [`wandb.Artifact.unlink()`](/ja/models/ref/python/experiments/artifact#method-artifactunlink) を呼び出して、コレクションから アーティファクト バージョンのリンクを解除します。
+
+    ```text
+    wandb-registry-<registry_name>/<collection_name>:<version_or_alias>
+    ```
+
+    プレースホルダーをご自身の値に置き換えます。
+
+    ```python
+    import wandb
+
+    registry_name = "your-registry-name"  # Registry の名前に置き換えます
+    collection_name = "your-collection-name"  # コレクションの名前に置き換えます
+    version = "version-or-alias"  # リンクを解除する アーティファクト のバージョンに置き換えます
+
+    target_path=f"wandb-registry-{registry_name}/{collection_name}:{version}"
+
+    api = wandb.Api()
+    linked_artifact = api.artifact(name=target_path)
+
+    # コレクションから アーティファクト バージョンのリンクを解除します
+    linked_artifact.unlink()
+    ```
+  </Tab>
+
+  <Tab title="W&B Registry">
+    1. W&amp;B Registry にアクセスします。
+    2. コレクションを含む Registry の名前を選択します。
+    3. コレクションを選択します。
+    4. リンクを解除する アーティファクト バージョンを選択します。
+    5. **Version** タブで、**Unlink version** を選択します。
+  </Tab>
+</Tabs>
+
 <div id="view-linked-artifacts-in-a-registry">
   ## Registry 内のリンクされた アーティファクト を表示する
 </div>
