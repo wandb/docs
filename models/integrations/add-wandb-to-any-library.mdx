@@ -306,7 +306,7 @@ run.config.update(
 
 For more information, see [Configure experiments](/models/track/config).
 
-## Log metrics
+### Log metrics
 
 Log metrics such as loss or accuracy during training. Create a dictionary where each key is the name of a metric and the value is the metric value. Pass this dictionary to [`wandb.Run.log()`](/models/ref/python/experiments/run#method-run-log).
 
@@ -502,7 +502,7 @@ W&B recommends that you keep the sweep configuration separate from the underlyin
 
 For more information, see [Sweeps](/models/sweeps).
 
-### Support distributed training
+## Support distributed training
 
 If your library supports multiple processes or machines, define which processes create runs and log data.
 
