@@ -92,6 +92,16 @@
                     "pages": [
                       "product-models",
                       "product-weave",
+                      {
+                        "group": "W&B ARIA",
+                        "pages": [
+                          "aria/overview",
+                          "aria/chat",
+                          "aria/autoresearch",
+                          "aria/governance"
+                        ],
+                        "tag": "Preview"
+                      },
                       "hivemind"
                     ]
                   },
@@ -106,16 +116,7 @@
                   {
                     "group": "Platform Details",
                     "pages": [
-                      {
-                        "group": "ARIA",
-                        "pages": [
-                          "aria/overview",
-                          "aria/chat",
-                          "aria/autoresearch",
-                          "aria/governance"
-                        ],
-                        "tag": "Preview"
-                      },
+                      
                       {
                         "group": "Configure W&B",
                         "pages": [
