@@ -15,12 +15,12 @@ Before adding W&B to your library, decide:
 
 - Whether `wandb` is a required or optional dependency.
 - Whether your library or its caller initializes the run.
-- Whether users can run your library without saving or uploading W&B data.
+- Whether you can run your library without saving or uploading W&B data.
 - Which configuration, metrics, and artifacts your library logs.
 
 These decisions determine how your library imports W&B, manages run lifecycles, and behaves when W&B is unavailable.
 
-## Decide how users install W&B
+## Decide how to install W&B
 
 Choose whether to install W&B automatically with your library or expose it as an optional feature.
 
@@ -51,7 +51,7 @@ Consider specifying a compatible version range based on the W&B features your in
 
 ### Make W&B an optional dependency
 
-If W&B is an optional feature, allow users to install and run your library without `wandb`.
+If W&B is an optional feature, enable installation of your library without `wandb`.
 
 Declare W&B as an optional dependency in `pyproject.toml`:
 
@@ -69,7 +69,7 @@ wandb = [
 ]
 ```
 
-Users can install the integration with:
+Then install the integration with:
 
 ```bash
 pip install "my_awesome_lib[wandb]"
@@ -77,7 +77,7 @@ pip install "my_awesome_lib[wandb]"
 
 ## Authenticate users
 
-W&B uses API keys to authenticate users and machines. Before users can log runs from your library, they must generate an API key and make it available to the `wandb` client.
+W&B uses API keys to authenticate users and machines. Before you can log runs from your library, you must generate an API key and make it available to the `wandb` client.
 
 W&B supports authentication through the CLI, environment variables, and `wandb.login()`.
 
@@ -117,14 +117,14 @@ Avoid calling `wandb.login()` automatically from reusable library code because i
 
 ## Make W&B logging optional
 
-Allow users to choose whether W&B saves or uploads run data.
+Choose whether W&B saves or uploads run data.
 
 | Mode | Behavior |
 | --- | --- |
 | `disabled` | Deactivates W&B logging. W&B does not save or upload run data. Calls to W&B methods have no effect. |
-| `offline` | Saves run data locally without uploading it. Users can upload the run later with [`wandb sync`](/models/ref/cli/wandb-sync). |
+| `offline` | Saves run data locally without uploading it. You can upload the run later with [`wandb sync`](/models/ref/cli/wandb-sync). |
 
-Use `disabled` when users do not want to save run data. Use `offline` when they want to save data locally for later upload.
+Use `disabled` when you do not want to save run data. Use `offline` when they want to save data locally for later upload.
 
 ### Use `disabled` mode
 
@@ -141,7 +141,7 @@ Or set `WANDB_MODE` in the environment:
 export WANDB_MODE=disabled
 ```
 
-Users can also set the mode with the W&B CLI:
+You can also set the mode with the W&B CLI:
 
 ```bash
 wandb disabled
@@ -170,7 +170,7 @@ import os
 os.environ["WANDB_MODE"] = "offline"
 ```
 
-Users can also set the mode with the W&B CLI:
+You can also set the mode with the W&B CLI:
 
 ```bash
 wandb offline
@@ -261,7 +261,7 @@ After you initialize the run, log metrics, artifacts, and other data to W&B. For
 
 ## Log configuration and metrics
 
-Log configuration values and metrics to W&B so users can compare, filter, group, and reproduce runs.
+Log configuration values and metrics to W&B so you, and members of your team, can compare, filter, group, and reproduce runs.
 
 ### Log configuration values
 
@@ -292,7 +292,7 @@ with wandb.init(entity="your-entity", project="your-project-name", config=config
     # Training logic.
 ```
 
-Configuration values help users [compare](/models/runs/compare-runs), [filter](/models/runs/filter-runs), [group](/models/runs/grouping), and [reproduce](/models/track/reproduce_experiments) runs.
+Configuration values help you [compare](/models/runs/compare-runs), [filter](/models/runs/filter-runs), [group](/models/runs/grouping), and [reproduce](/models/track/reproduce_experiments) runs.
 
 Some values might not be available when the run starts. Add them later with `run.config.update()`:
 
@@ -359,7 +359,7 @@ For more information, see [Define a custom log axis](/models/track/log/custom-lo
 
 ## Track models and datasets with artifacts
 
-In addition to metrics, you can persist the models and datasets your library produces or consumes so that users can reproduce and compare runs.
+In addition to metrics, you can persist the models and datasets your library produces or consumes so that you, and members of your team, can reproduce and compare runs.
 
 Use [W&B Artifacts](/models/artifacts) to version models, datasets, and other files that your library produces or consumes.
 
@@ -373,7 +373,7 @@ Before adding artifact support, decide:
 
 ### Log model checkpoints
 
-Log model checkpoints as artifacts so users can recover, version, and share trained weights. Include the run ID in the artifact name to associate each checkpoint with its source run.
+Log model checkpoints as artifacts so you can recover, version, and share trained weights. Include the run ID in the artifact name to associate each checkpoint with its source run.
 
 The following example logs a checkpoint every 10 epochs. It creates an artifact whose name includes the run ID, adds model weights from a local directory, and logs the artifact with a [custom alias](/models/artifacts/create-a-custom-alias).
 
@@ -437,7 +437,7 @@ For more information about creating, managing, and using artifacts, see [Artifac
 
 ### Download artifacts
 
-Download artifacts that your library produces or consumes so that users can reproduce and compare runs. Use the [W&B Public API](/models/ref/python/public-api) to download an artifact without creating a run or recording a run input relationship.
+Download artifacts that your library produces or consumes so that you can reproduce and compare runs. Use the [W&B Public API](/models/ref/python/public-api) to download an artifact without creating a run or recording a run input relationship.
 
 ```python
 import wandb
@@ -494,7 +494,7 @@ For more information, see [Link an artifact version to a collection](/models/reg
 
 ## Tune hyperparameters
 
-If your library supports hyperparameter tuning, integrate [W&B Sweeps](/models/sweeps) to let users run grid, random, or Bayesian searches.
+If your library supports hyperparameter tuning, integrate [W&B Sweeps](/models/sweeps) to run grid, random, or Bayesian searches.
 
 <Tip>
 W&B recommends that you keep the sweep configuration separate from the underlying training logic. The training function should read its parameters from `run.config` rather than depending directly on sweep-specific logic.
