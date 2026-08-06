@@ -5,155 +5,192 @@ description: Best practices for integrating W&B into your Python library for exp
 
 import ApiKeyCreateStreamlined from "/snippets/_includes/api-key-create-streamlined.mdx";
 
-This guide explains how to integrate W&B into a Python library so that your users can track experiments, monitor system metrics, and manage models when they use your code. It's intended for library authors and maintainers who want to expose W&B functionality through their own framework, SDK, or reusable training code.
+This guide describes patterns for integrating W&B into a Python library, framework, or SDK. It focuses on dependency management, run ownership, authentication, optional logging, and distributed execution.
 
-Follow these recommendations if you're integrating W&B into a complex codebase (such as a training framework, SDK, or reusable library) where the codebase is more involved than a single Python training script or Jupyter notebook.
+Use this guide when your integration spans reusable library code rather than a single training script or notebook. For an introduction to W&B, see [Experiment Tracking](/models/track).
 
-<Tip>
-If you're new to W&B, review the core guides (for example, [Experiment Tracking](/models/track)) before continuing.
-</Tip>
+## Design the integration
 
-The following sections walk through the major integration decisions in order: how to install W&B, how to authenticate, how to start and configure runs, how to log metrics and artifacts, and how to support distributed training and hyperparameter sweeps.
+Before adding W&B to your library, decide:
+
+- Whether `wandb` is a required or optional dependency.
+- Whether your library or its caller initializes the run.
+- Whether users can run your library without saving or uploading W&B data.
+- Which configuration, metrics, and artifacts your library logs.
+
+These decisions determine how your library imports W&B, manages run lifecycles, and behaves when W&B is unavailable.
 
 ## Decide how users install W&B
 
-Before you start, decide whether W&B should be a required dependency or an optional feature of your library. This choice impacts how you import the W&B Python SDK (`wandb`), how you document installation, and how you handle environments where `wandb` isn't present.
+Choose whether to install W&B automatically with your library or expose it as an optional feature.
 
 ### Require W&B as a dependency
 
-If W&B is central to your library's functionality, add `wandb` to your dependencies so that it's installed automatically alongside your library. For example, if your library uses `torch` and `wandb`, you can add the following to your `requirements.txt` file:
+If W&B is central to your library, add `wandb` to its dependencies.
 
-```txt title="requirements.txt" icon="terminal"
-torch==1.8.0 
-...
-wandb==0.13.*
+For a `requirements.txt` file:
+
+```txt title="requirements.txt" type="text"
+torch
+wandb
 ```
 
-Similarly, if your library uses `torch` and `wandb`, you can add the following to your `pyproject.toml` file:
+For a `pyproject.toml` file:
 
-```toml title="pyproject.toml" icon="terminal"
+```toml title="pyproject.toml" type="toml"
 [project]
 name = "my_awesome_lib"
 version = "0.1.0"
 dependencies = [
     "torch",
-    "wandb"
+    "wandb",
 ]
 ```
+
+Consider specifying a compatible version range based on the W&B features your integration uses.
 
 ### Make W&B an optional dependency
 
-If W&B is an optional feature, allow your library to run without it installed so that users who don't need experiment tracking can still use your code.
+If W&B is an optional feature, allow users to install and run your library without `wandb`.
 
-You can either import `wandb` conditionally in Python or declare it as an optional dependency in `pyproject.toml`.
+Declare W&B as an optional dependency in `pyproject.toml`:
 
-<Tabs>
-<Tab title="Python">
-
-Detect whether `wandb` is available and raise a clear error if a user enables W&B features without installing it:
-
-```python
-try:
-    import wandb
-    _WANDB_AVAILABLE = True
-except ImportError:
-    _WANDB_AVAILABLE = False
-```
-</Tab>
-<Tab title="pyproject.toml">
-
-Declare `wandb` as an optional dependency to your `pyproject.toml` file:
-
-```toml
+```toml title="pyproject.toml"
 [project]
 name = "my_awesome_lib"
 version = "0.1.0"
 dependencies = [
     "torch",
-    "sklearn"
 ]
 
 [project.optional-dependencies]
-dev = [
-    "wandb"
+wandb = [
+    "wandb",
 ]
 ```
-</Tab>
-</Tabs>
 
+Users can install the integration with:
+
+```bash
+pip install "my_awesome_lib[wandb]"
+```
 
 ## Authenticate users
 
 W&B uses API keys to authenticate users and machines. Before users can log runs from your library, they must generate an API key and make it available to the `wandb` client.
 
-### Create an API key
+W&B supports authentication through the CLI, environment variables, and `wandb.login()`.
 
-An API key authenticates a client or machine to W&B. Generate an API key from your user profile so that you can use it for the login steps that follow.
+### Create an API key
 
 <ApiKeyCreateStreamlined/>
 
-1. Click your user profile icon in the upper right corner.
-1. Select **User Settings**, then scroll to the **API Keys** section.
+### Authenticate from the command line
 
-### Install and log in to W&B
+From your terminal, run:
 
-After you have an API key, install the `wandb` library locally and log in so that subsequent runs can authenticate to W&B. Choose the tab that matches your environment.
+```bash
+wandb login
+```
 
-<Tabs>
-<Tab title="Command Line">
-1. Set the `WANDB_API_KEY` [environment variable](/models/track/environment-variables) to your API key:
+W&B prompts you to enter an API key.
 
-    ```bash
-    export WANDB_API_KEY=your_api_key
-    ```
+Alternatively, set the `WANDB_API_KEY` environment variable:
 
-1. Install the `wandb` library and log in:
+```bash
+export WANDB_API_KEY="<api_key>"
+```
 
-    ```bash
-    pip install wandb
+For more information, see [Environment variables](/models/track/environment-variables).
 
-    wandb login
-    ```
-</Tab>
-<Tab title="Python">
+### Authenticate from Python
 
-1. Navigate to your terminal and install the Python SDK.
-    ```bash
-    pip install wandb
-    ```
-
-1. Log in to W&B from your Python script or notebook. W&B prompts you to enter
-your API key.
-    ```python
-    import wandb
-    wandb.login()
-    ```
-</Tab>
-<Tab title="Python notebook">
-Copy and paste the following code snippet into a cell in your Jupyter notebook and run it. W&B prompts you to enter your API key.
+In an interactive Python environment or notebook, call:
 
 ```python
-!pip install wandb
-
 import wandb
+
 wandb.login()
 ```
-</Tab>
-</Tabs>
+
+Avoid calling `wandb.login()` automatically from reusable library code because it can interrupt noninteractive workflows.
+
+## Make W&B logging optional
+
+Allow users to choose whether W&B saves or uploads run data.
+
+| Mode | Behavior |
+| --- | --- |
+| `disabled` | Deactivates W&B logging. W&B does not save or upload run data. Calls to W&B methods have no effect. |
+| `offline` | Saves run data locally without uploading it. Users can upload the run later with [`wandb sync`](/models/ref/cli/wandb-sync). |
+
+Use `disabled` when users do not want to save run data. Use `offline` when they want to save data locally for later upload.
+
+### Use `disabled` mode
+
+Pass `mode="disabled"` to `wandb.init()`:
+
+```python
+with wandb.init(mode="disabled") as run:
+    # Training logic.
+```
+
+Or set `WANDB_MODE` in the environment:
+
+```bash
+export WANDB_MODE=disabled
+```
+
+Users can also set the mode with the W&B CLI:
+
+```bash
+wandb disabled
+```
+
+### Use `offline` mode
+
+Pass `mode="offline"` to `wandb.init()`:
+
+```python
+with wandb.init(mode="offline") as run:
+    # Training logic.
+```
+
+Or set `WANDB_MODE` in the environment:
+
+```bash
+export WANDB_MODE=offline
+```
+
+In Python, set the environment variable before calling `wandb.init()`:
+
+```python
+import os
+
+os.environ["WANDB_MODE"] = "offline"
+```
+
+Users can also set the mode with the W&B CLI:
+
+```bash
+wandb offline
+```
+
+Upload an offline run later with:
+
+```bash
+wandb sync <run_directory>
+```
 
 ## Initialize a run
 
-After you set up authentication, the next step is to initialize a W&B run so that your library has somewhere to log metrics, configs, and artifacts.
+After authenticating, initialize a [run](/models/runs) to log metrics, configuration values, and artifacts from your library.
 
-A *run* represents a single unit of computation, such as a training experiment. Most libraries create one run per training job. For more information about runs, see [W&B Runs](/models/runs). You initialize a run with [`wandb.init()`](/models/ref/python/functions/init) and specify a name for your project and your team entity (team name). If you don't specify a project, W&B stores your run in a default project called `"uncategorized"`.
+Call [`wandb.init()`](/models/ref/python/functions/init) and specify the project and team entity. If you omit the project, W&B stores the run in the default `"uncategorized"` project.
 
-A common pattern is to wrap your training loop in a context manager (`with`) so that the run is automatically closed when the training job finishes. This ensures that all metrics, configs, and artifacts are uploaded to W&B before the process exits.
+Use `wandb.init()` as a context manager around the training loop. When the block exits, W&B finishes the run and processes pending data before the process ends.
 
-<Note>
-If you don't use a context manager, you must call `wandb.Run.finish()` to close the run and log all the data to W&B. Closing the run guarantees that all metrics, configs, and artifacts are uploaded before the process exits.
-</Note>
-
-For example, suppose you had the following training loop in your library:
+For example, suppose your library contains the following training loop:
 
 ```python icon="python" title="Python"
 import random # For simulating data
@@ -217,61 +254,63 @@ with wandb.init(entity="your-entity", project="your-project-name", config=config
 <Tip>
 **When to call `wandb.init()`**
 
-Call `wandb.init()` as early as possible. W&B captures stdout, stderr, and error messages, which makes debugging easier.
-
-Wrap your entire training loop in a `wandb.init()` context manager to ensure that all relevant information is captured in the run. This includes any error messages, which can be crucial for debugging.
+Call `wandb.init()` before the work you want W&B to monitor. Use it as a context manager around the entire training loop so the run captures relevant standard output, standard error, and error messages for debugging.
 </Tip>
 
-Once you have the run initialized, you can log metrics, artifacts, and other data to W&B. For more information, see [Log metrics and data](#log-metrics-and-data).
+After you initialize the run, log metrics, artifacts, and other data to W&B. For more information, see [Log metrics and data](#log-metrics-and-data).
 
-## Define a run config
+## Log configuration and metrics
 
-When you initialize a run, you can provide a [configuration](/models/track/config) dictionary that records hyperparameters and other metadata related to your training script. The config dictionary is a key-value store that allows you to log and track hyperparameters, model architecture, dataset information, and other relevant metadata for your training runs. This information is useful for [comparing](/models/runs/compare-runs) runs, [filtering](/models/runs/filter-runs) results, [grouping](/models/runs/grouping) experiments, and [reproducing](/models/track/reproduce_experiments) experiments later.
+Log configuration values and metrics to W&B so users can compare, filter, group, and reproduce runs.
 
-The config dictionary consists of key-value pairs. The keys are strings that represent the name of the configuration parameter, and the values can be any JSON-serializable type (for example, strings, numbers, lists, or dictionaries). 
+### Log configuration values
 
-For example, in your training script you might define the following config dictionary to log hyperparameters, model architecture, and dataset information:
+Pass a [configuration](/models/track/config) dictionary to `wandb.init()` to record hyperparameters and other metadata.
 
-```python title="Python" icon="python"
+Use descriptive keys and JSON-serializable values:
+
+```python
 config = {
     "batch_size": 32,
     "learning_rate": 0.001,
     "optimizer": "adam",
     "model": {
         "type": "resnet",
-        "depth": 50
+        "depth": 50,
     },
     "dataset": {
         "name": "CIFAR-10",
-        "num_classes": 10
-    }
+        "num_classes": 10,
+    },
 }
 ```
 
-When you initialize a run, pass the `config` dictionary to `wandb.init()`:
+Pass the dictionary to `wandb.init()`:
 
-```python title="Python" icon="python"
-with wandb.init(project="your-project", config=config) as run:
-    # Training logic here
+```python
+with wandb.init(entity="your-entity", project="your-project-name", config=config) as run:
+    # Training logic.
 ```
 
-View a run's config values in the W&B App, during a run, or from existing runs. You can also access config values from your local filesystem. See [View config values](/models/track/config#view-config-values) for more information.
+Configuration values help users [compare](/models/runs/compare-runs), [filter](/models/runs/filter-runs), [group](/models/runs/grouping), and [reproduce](/models/track/reproduce_experiments) runs.
 
-<Tip>
-Some configuration values, such as the number of model parameters, might not be available when you initialize a run with `wandb.init()`. Add or update these values [during the run](/models/track/config#set-the-configuration-throughout-your-script) or [after the run](/models/track/config#set-the-configuration-after-your-run-finishes) finishes. 
+Some values might not be available when the run starts. Add them later with `run.config.update()`:
+
+```python
+run.config.update(
+    {
+        "model_parameters": 3500,
+    }
+)
+```
 
 For more information, see [Configure experiments](/models/track/config).
-</Tip>
 
-## Log metrics and artifacts
+## Log metrics
 
-After you initialize a run, you can log [metrics, media, custom objects](/models/track/log), and [artifacts](/models/artifacts) such as models, datasets, code and more to W&B. W&B logs metrics and data to the run so that you can visualize, compare, and reproduce your experiments. You can log scalar metrics, [media](/models/track/log/media), structured data, and [artifacts](/models/artifacts).
+Log metrics such as loss or accuracy during training. Create a dictionary where each key is the name of a metric and the value is the metric value. Pass this dictionary to [`wandb.Run.log()`](/models/ref/python/experiments/run#method-run-log).
 
-### Log metrics
-
-A common task is to log scalar metrics such as loss or accuracy during training. To log scalar metrics, create a dictionary where each key is the name of a metric and pass this dictionary to [`wandb.Run.log()`](/models/ref/python/experiments/run#method-run-log).
-
-As an example, the following code snippet logs training and validation scalar metrics and code to W&B:
+The following code snippet logs training and validation scalar metrics to W&B:
 
 ```python icon="python" title="Python"
 import wandb
@@ -284,22 +323,22 @@ with wandb.init(entity="your-entity", project="your-project-name") as run:
         "val/accuracy": 0.7
     }
     run.log(metrics)
-    run.log_code(".")
 ```
 
-Use metric name prefixes to group related metrics in W&B. Common prefixes include `train/` and `val/` for training and validation metrics, respectively, but you can use any prefix that makes sense for your use case.
+Use prefixes such as `train/` and `val/` to group related metrics.
 
-See [Log metrics and data](/models/track/log) for more information about how to log different types, what data is automatically logged by W&B, and best practices.
+For guidance on logging supported data types, automatically tracked data, and best practices, see [Log metrics and data](/models/track/log).
 
-To track datasets and models you use in your training scripts, see [Log models and datasets with artifacts](#track-models-and-datasets-with-artifacts).
+To track datasets and models, see [Log models and datasets with artifacts](#track-models-and-datasets-with-artifacts).
 
-### Customize log axis
+### Define a custom log axis
 
-By default, W&B logs metrics as steps. Each step corresponds to a `wandb.Run.log()` API call. You can customize the x-axis of your charts to use a different metric as the step value. For example, you might want to log metrics against a global step counter or an epoch number instead of the default step value.
+By default, W&B plots logged metrics against an automatically incremented step. Each call to `wandb.Run.log()` advances the step.
 
-Define a custom log x-axis with `wandb.Run.define_metric()`. Specify the metric name and the step metric to use for the x-axis. 
+Use `wandb.Run.define_metric()` to plot a metric against another value, such as an epoch or global step.
 
-As an example, the following code snippet creates a custom x-axis called "`x_axis_squared`". The value of the custom x-axis is the square of the for loop index `i` (`i**2`). The y-axis consists of mock values for validation loss (`"validation_loss"`) using Python’s built-in `random` module:
+The following example defines `x_axis_squared` as the x-axis for `validation_loss`. For each loop iteration, `x_axis_squared` is the square of the index `i`, and `validation_loss` is a randomly generated value:
+
 
 ```python title="Python" icon="python"
 import wandb
@@ -322,19 +361,21 @@ For more information, see [Define a custom log axis](/models/track/log/custom-lo
 
 In addition to metrics, you can persist the models and datasets your library produces or consumes so that users can reproduce and compare runs.
 
-Use [W&B Artifacts](/models/artifacts) to track and version models and datasets. Artifacts provide storage and versioning for machine learning assets, and they automatically track lineage to show how data and models are related.
+Use [W&B Artifacts](/models/artifacts) to version models, datasets, and other files that your library produces or consumes.
 
-Consider the following when integrating artifacts into your library:
+Before adding artifact support, decide:
 
-* Whether to log model checkpoints or datasets as artifacts (in case you want to make it optional).
-* Artifact input references (for example, `entity/project/artifact`).
-* Logging frequency of model checkpoints or datasets. For example, every epoch or every 500 steps.
+- Which files to log.
+- Whether artifact logging is optional.
+- How frequently to log checkpoints.
+- How to name artifacts and aliases.
+- Which artifacts represent run inputs and outputs.
 
-### Track model checkpoints
+### Log model checkpoints
 
-Logging model checkpoints as artifacts lets users recover, version, and share trained weights. A common approach is to log checkpoints as artifacts using the unique run ID that W&B generates as part of the artifact name.
+Log model checkpoints as artifacts so users can recover, version, and share trained weights. Include the run ID in the artifact name to associate each checkpoint with its source run.
 
-The following code example logs a model when the epoch number is divisible by 10 (`epoch % 10 == 0`). It creates an artifact with a name that includes the unique run ID, adds the model weights from a local directory, and logs the artifact to W&B with a [custom alias](/models/artifacts/create-a-custom-alias) for reference.
+The following example logs a checkpoint every 10 epochs. It creates an artifact whose name includes the run ID, adds model weights from a local directory, and logs the artifact with a [custom alias](/models/artifacts/create-a-custom-alias).
 
 ```python title="Python" icon="python"
 import wandb
@@ -356,11 +397,11 @@ with wandb.init(entity="your-entity", project="your-project-name") as run:
         run.log_artifact(artifact, aliases=f"epoch_{epoch}")
 ```
 
-### Track inputs of a run
+### Track run inputs
 
-Mark an artifact as the input (or dependency) of a run with the [`wandb.Run.use_artifact()`](/models/ref/python/experiments/run#method-run-use_artifact) method. Specify the name of the artifact and an optional alias to reference a specific version of that artifact. 
+Mark an artifact as the input (or dependency) of a run with the [`wandb.Run.use_artifact()`](/models/ref/python/experiments/run#method-run-use_artifact) method. 
 
-The name of the artifact is in the format `artifact_name:version` or `artifact_name:alias`.
+Specify the name of the artifact and an optional alias to reference a specific version of that artifact. The name of the artifact is in the format `artifact_name:version` or `artifact_name:alias`.
 
 ```python title="Python" icon="python"
 import wandb
@@ -371,9 +412,12 @@ with wandb.init(entity="your-entity", project="your-project") as run:
   artifact = run.use_artifact(artifact_or_name="artifact-name", aliases="<alias>")
 ```
 
-### Track outputs of a run
+### Track run outputs
 
-Use [`wandb.Run.log_artifact()`](/models/ref/python/experiments/run#log_artifact) to declare an artifact as an output of a run. First, create an artifact with the `wandb.Artifact()` constructor. Then, log the artifact as an output of the run with `wandb.Run.log_artifact()`.
+Use [`wandb.Run.log_artifact()`](/models/ref/python/experiments/run#log_artifact) to log an artifact as an output of a run. 
+
+1. Create an artifact with `wandb.Artifact()`.
+2. Log the artifact as an output of the run with `wandb.Run.log_artifact()`.
 
 ```python
 import wandb
@@ -393,47 +437,29 @@ For more information about creating, managing, and using artifacts, see [Artifac
 
 ### Download artifacts
 
-After you log artifacts, you can download previously logged artifacts from W&B to use in training or inference code. The right approach depends on whether you already have an active run.
+Download artifacts that your library produces or consumes so that users can reproduce and compare runs. Use the [W&B Public API](/models/ref/python/public-api) to download an artifact without creating a run or recording a run input relationship.
 
-If you have a run context, use [`wandb.Run.use_artifact()`](/models/ref/python/experiments/run) to reference an artifact in W&B and then call [`wandb.Artifact.download()`](/models/ref/python/experiments/artifact) to download it to a local directory. Using `wandb.Run.use_artifact()` also records the artifact as an input to the current run, preserving lineage.
-
-```python title="Python" icon="python"
-with wandb.init(entity="your-entity", project="your-project") as run:
-    artifact = run.use_artifact("user/project/artifact:latest")
-    local_path = artifact.download()
-```
-
-Use the [W&B Public API](/models/ref/python/public-api) to reference and download an artifact without initializing a run. This is useful in scenarios such as distributed environments or when you perform inference, where you might not want to create a new run.
-
-```python title="Python" icon="python"
+```python
 import wandb
-artifact = wandb.Api().artifact("user/project/artifact:latest")
+
+api = wandb.Api()
+
+artifact = api.artifact(
+    "<entity>/<project>/<artifact_name>:<alias_or_version>"
+)
+
 local_path = artifact.download()
 ```
 
-For more information, see [Download and use artifacts](/models/artifacts/download-and-use-an-artifact).
-
-Share and manage artifacts with your team by linking them to a [W&B Registry](/models/registry). For more information, see [Link an artifact version to a collection](#link-artifacts-to-the-w%26b-registry).
-
-## Tune hyperparameters
-
-If your library supports hyperparameter tuning, you can integrate [W&B Sweeps](/models/sweeps) to automate hyperparameter search. Pick from popular search methods such as Bayesian, grid search, and random to search the hyperparameter space.
-
-For more information, see [Sweeps](/models/sweeps).
+For information on downloading artifacts, see [Download and use artifacts](/models/registry/download_use_artifact).
 
 ## Link artifacts to the W&B Registry
 
-[W&B Registry](/models/registry) is a curated central repository of W&B Artifact versions within your organization. Users who have permission within your organization can download and use artifacts, share, and collaboratively manage the lifecycle of all artifacts, regardless of the team that the user belongs to. A registry is organized into collections, which are groups of related artifacts. 
+Use [W&B Registry](/models/registry) to share and manage artifact versions across teams.
 
-<Tip>
-Ensure that the registry you want to link an artifact to already exists. If the collection you specify in the returned run object's `wandb.Run.link_artifact(target_path = "")` method does not exist within the registry you specify, W&B automatically creates a collection for you.
-</Tip>
+The destination registry must already exist. If the specified collection does not exist, W&B creates it when you link the artifact version.
 
-The following code example shows one approach to logging and linking an artifact:
-
-1. Initialize a run with `wandb.init()`.
-2. Create an Artifact object and add one or more files.
-3. Call `wandb.Run.link_artifact()` and specify the destination collection.
+The following example logs an artifact and links it to a collection in a registry:
 
 ```python
 import wandb
@@ -441,11 +467,11 @@ import random
 
 # Specify the name of the collection and registry
 # you want to publish the artifact to
-COLLECTION_NAME = "first-collection"
-REGISTRY_NAME = "my-registry"
+COLLECTION_NAME = "collection-name"
+REGISTRY_NAME = "registry-name"
 
 # Initialize a W&B Run to track the artifact
-with wandb.init(project="registry_quickstart") as run:
+with wandb.init(project="project-name") as run:
     # Create a simulated model file so that you can log it
     with open("my_model.txt", "w") as f:
         f.write("Model: " + str(random.random()))
@@ -453,8 +479,8 @@ with wandb.init(project="registry_quickstart") as run:
     # Log the artifact to W&B
     logged_artifact = run.log_artifact(
         artifact_or_path="./my_model.txt", 
-        name="mnist_model",
-        type="model" # Specifies artifact type
+        name="artifact-name",
+        type="artifact-type" # Specifies artifact type
     )
 
     # Link the artifact to the registry
@@ -463,88 +489,26 @@ with wandb.init(project="registry_quickstart") as run:
         target_path=f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
     )
 ```
-There are multiple ways to link an artifact to a collection in the Registry. For more information, see [Link an artifact version to a collection](/models/registry/link_version).
 
-## Considerations
+For more information, see [Link an artifact version to a collection](/models/registry/link_version).
 
-The following sections describe additional considerations when integrating W&B into your library.
+## Tune hyperparameters
 
-### Make W&B logging optional
+If your library supports hyperparameter tuning, integrate [W&B Sweeps](/models/sweeps) to let users run grid, random, or Bayesian searches.
 
-Consider making W&B logging optional so that users can run your library without sending run data to W&B. You can choose a mode based on whether you want to discard the data or save it locally for later upload.
+<Tip>
+W&B recommends that you keep the sweep configuration separate from the underlying training logic. The training function should read its parameters from `run.config` rather than depending directly on sweep-specific logic.
+</Tip>
 
-| Mode | Behavior |
-| --- | --- |
-| `disabled` | Deactivates W&B logging. W&B does not save or upload run data. Calls to W&B methods have no effect, so the existing integration can remain in your code. |
-| `offline` | Saves run data locally without uploading it to W&B. Upload the run later with the [`wandb sync`](/models/ref/cli/wandb-sync) command. |
-
-<Note>
-**What mode to use?**
-
-Use `disabled` when you do not want to save run data. Use `offline` when you want to save the data locally and upload it later.
-</Note>
-
-<Tabs>
-<Tab title="Disabled mode">
-
-The following code snippet shows how to run your library in [`disabled` mode](/models/ref/cli/wandb-disabled). In this mode, W&B does not save or upload run data. Calls to W&B methods have no effect, so the existing integration can remain in your code.
-
-Pass `"disabled"` when you initialize a run with `wandb.init()`:
-
-```python title="Python" icon="python"
-with wandb.init(mode="disabled") as run:
-    # Training logic here
-```
-
-Set `WANDB_MODE` to `disabled` in your environment:
-
-```shell title="shell" icon="terminal"
-export WANDB_MODE=disabled
-```
-
-Use the following command to run your library in `disabled` mode from the command line:
-
-```shell title="shell" icon="terminal"
-wandb disabled
-```
-
-</Tab>
-<Tab title="Offline mode">
-
-The following code snippet shows how to run your library in [`offline` mode](/models/ref/cli/wandb-offline). In this mode, W&B saves run data locally without uploading it to W&B. You can upload the run later with the [`wandb sync`](/models/ref/cli/wandb-sync) command.
-
-In a Python script or notebook, you can set the environment variable as follows:
-
-```python title="Python" icon="python"
-os.environ['WANDB_MODE'] = 'offline'
-```
-
-You can also pass `"offline"` when you initialize a run with `wandb.init()`:
-
-```python title="Python" icon="python"
-with wandb.init(mode="offline") as run:
-    # Training logic here
-```
-
-Set `WANDB_MODE` to `offline` in your environment:
-
-```shell title="shell" icon="terminal"
-export WANDB_MODE=offline
-```
-
-Use the following command to run your library in offline mode from the command line:
-
-```shell title="shell" icon="terminal"
-wandb offline
-```
-</Tab>
-</Tabs>
+For more information, see [Sweeps](/models/sweeps).
 
 ### Support distributed training
 
-If your library can run training across multiple processes or machines, decide how W&B should behave in that setting so that logs are coherent and not duplicated. For frameworks that support distributed environments, you can adapt any of the following workflows:
+If your library supports multiple processes or machines, define which processes create runs and log data.
 
-* Log only from the main process (recommended).
-* Log from every process and group runs using a shared `group` name.
+Common approaches include:
+
+- Log only from the main process. This approach avoids duplicate metrics and artifacts.
+- Create one run for each process and group the runs with a shared `group` value.
 
 For more information, see [Log distributed training experiments](/models/track/log/distributed-training).
