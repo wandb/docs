@@ -85,18 +85,23 @@
     var svg = svgs[svgs.length - 1];
     if (svg.getAttribute('data-chevron') === '1') return;
 
+    var paths = svg.querySelectorAll('path');
+    if (!paths.length) return;
+
+    // Attribute-only mutation: React owns these nodes, and adding or removing
+    // children makes its next reconciliation throw and unmount the sidebar.
+    // The arrow icon has two paths; give both the same chevron geometry so
+    // they overlap and render as a single chevron.
     svg.setAttribute('class', CHEVRON_CLASS);
     svg.setAttribute('fill', 'none');
     svg.setAttribute('stroke-width', '2');
-    while (svg.firstChild) svg.removeChild(svg.firstChild);
-
-    var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    path.setAttribute('d', CHEVRON_PATH);
-    path.setAttribute('stroke', 'currentColor');
-    path.setAttribute('stroke-width', '2');
-    path.setAttribute('stroke-linecap', 'round');
-    path.setAttribute('stroke-linejoin', 'round');
-    svg.appendChild(path);
+    for (var i = 0; i < paths.length; i++) {
+      paths[i].setAttribute('d', CHEVRON_PATH);
+      paths[i].setAttribute('stroke', 'currentColor');
+      paths[i].setAttribute('stroke-width', '2');
+      paths[i].setAttribute('stroke-linecap', 'round');
+      paths[i].setAttribute('stroke-linejoin', 'round');
+    }
     svg.setAttribute('data-chevron', '1');
   }
 
