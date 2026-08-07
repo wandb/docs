@@ -247,10 +247,6 @@ Utilisez W&amp;B pour comparer les runs en fonction de leurs paramètres de conf
 
 Par exemple, dans l’image suivante, la taille de lot (`batch_size`) est définie comme paramètre de configuration et est visible (voir la première colonne) dans le tableau Runs. Cela permet aux utilisateurs de filtrer et de comparer les runs en fonction de leur taille de lot :
 
-<Frame>
-  <img src="/images/integrations/integrations_add_any_lib_runs_page.png" alt="tableau Runs de W&B" />
-</Frame>
-
 Les valeurs typiques des paramètres de configuration incluent :
 
 * Le nom du modèle, sa version, les paramètres d’architecture et les hyperparamètres.
@@ -316,11 +312,6 @@ with wandb.init(...) as run:
     }
     run.log(metrics)
 ```
-
-<Frame>
-  <img src="/images/integrations/integrations_add_any_lib_log.png" alt="W&B Workspace" />
-</Frame>
-
 Pour plus d&#39;informations, voir [`wandb.Run.log()`](/fr/models/ref/python/experiments/run#method-run-log).
 
 <div id="control-the-x-axis">
@@ -387,9 +378,6 @@ En plus des métriques, vous pouvez conserver les modèles et les Datasets que v
 
 Utilisez [W&amp;B Artefacts](/fr/models/artifacts/) pour suivre les modèles et les Datasets et en assurer la gestion des versions. Les artefacts fournissent le stockage et la gestion des versions des ressources de machine learning, et assurent automatiquement la traçabilité afin de montrer comment les données et les modèles sont liés.
 
-<Frame>
-  <img src="/images/integrations/integrations_add_any_lib_dag.png" alt="Datasets stockés et points de contrôle du modèle dans W&B" />
-</Frame>
 
 Tenez compte des points suivants lorsque vous intégrez les artefacts à votre bibliothèque :
 
