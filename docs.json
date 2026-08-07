@@ -2622,12 +2622,12 @@
                 "pages": [
                   "fr/serverless-training",
                   "fr/serverless-training/prerequisites",
+                  "fr/serverless-training/available-models",
                   "fr/serverless-training/usage-limits",
                   {
                     "group": "Serverless RL",
                     "pages": [
                       "fr/serverless-training/usage",
-                      "fr/serverless-training/available-models",
                       "fr/serverless-training/use-trained-models"
                     ]
                   },
@@ -4392,12 +4392,12 @@
                 "pages": [
                   "ja/serverless-training",
                   "ja/serverless-training/prerequisites",
+                  "ja/serverless-training/available-models",
                   "ja/serverless-training/usage-limits",
                   {
                     "group": "Serverless RL",
                     "pages": [
                       "ja/serverless-training/usage",
-                      "ja/serverless-training/available-models",
                       "ja/serverless-training/use-trained-models"
                     ]
                   },
@@ -6162,12 +6162,12 @@
                 "pages": [
                   "ko/serverless-training",
                   "ko/serverless-training/prerequisites",
+                  "ko/serverless-training/available-models",
                   "ko/serverless-training/usage-limits",
                   {
                     "group": "Serverless RL",
                     "pages": [
                       "ko/serverless-training/usage",
-                      "ko/serverless-training/available-models",
                       "ko/serverless-training/use-trained-models"
                     ]
                   },
