@@ -1,0 +1,36 @@
+---
+title: "Comment puis-je installer la bibliothèque Python wandb dans des environnements sans gcc ?"
+keywords: ["Python"]
+---
+
+Cette page s’adresse aux utilisateurs qui souhaitent installer la bibliothèque Python `wandb` dans des environnements sans `gcc`, comme des images de conteneur minimales ou des systèmes à accès restreint. Suivez ces étapes pour effectuer l’installation sans compiler les dépendances à partir du code source.
+
+Si une erreur se produit lors de l’installation de `wandb` et indique :
+
+```text
+unable to execute 'gcc': No such file or directory
+error: command 'gcc' failed with exit status 1
+```
+
+Le programme d’installation compile la dépendance `psutil` à partir du code source, ce qui nécessite `gcc`. Pour contourner ce problème, installez `psutil` à partir d’une wheel précompilée afin d’éviter toute compilation.
+
+Pour installer `wandb` sans `gcc` :
+
+1. Déterminez votre version de Python et votre système d’exploitation sur le [dépôt du package `psutil` de pywharf](https://pywharf.github.io/pywharf-pkg-repo/psutil/).
+2. Installez `psutil` à partir d’une wheel précompilée. Par exemple, pour installer `psutil` avec Python 3.8 sous Linux :
+
+   ```bash
+   WHEEL_URL=https://github.com/pywharf/pywharf-pkg-repo/releases/download/psutil-5.7.0-cp38-cp38-manylinux2010_x86_64.whl#sha256=adc36dabdff0b9a4c84821ef5ce45848f30b8a01a1d5806316e068b5fd669c6d
+   pip install $WHEEL_URL
+   ```
+3. Exécutez `pip install wandb` pour terminer l’installation.
+
+Comme `psutil` est déjà installé via la wheel précompilée, `pip` ignore la compilation à partir du code source qui a déclenché l’erreur `gcc` initiale, et `wandb` s’installe correctement.
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Python](/fr/support/models/tags/python)</Badge>
+
+{/* END GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet */}

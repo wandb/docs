@@ -1,21 +1,23 @@
 ---
 title: NVIDIA NeMo Inference Microservice Deploy Job
+description: "Deploy a W&B model artifact to NVIDIA NeMo Inference Microservice using W&B Launch for scalable model serving."
 ---
-Deploy a model artifact from W&B to a NVIDIA NeMo Inference Microservice. To do this, use W&B Launch. W&B Launch converts model artifacts to NVIDIA NeMo Model and deploys to a running NIM/Triton server.
+This guide shows you how to deploy a model artifact from W&B to an NVIDIA NeMo Inference Microservice (NIM) so you can serve the model for scalable inference. To do this, use W&B Launch. W&B Launch converts model artifacts to NVIDIA NeMo Model format and deploys them to a running NIM/Triton server. This lets you take a tracked W&B model directly to a production-ready endpoint without manual conversion.
 
-W&B Launch currently accepts the following compatible model types:
+W&B Launch accepts the following compatible model types:
 
-1. [Llama2](https://llama.meta.com/llama2/)
-2. [StarCoder](https://github.com/bigcode-project/starcoder)
-3. NV-GPT (coming soon)
+- [Llama2](https://llama.meta.com/llama2/)
+- [StarCoder](https://github.com/bigcode-project/starcoder)
 
 <Note>
-Deployment time varies by model and machine type. The base Llama2-7b config takes about 1 minute on Google Cloud's `a2-ultragpu-1g`.
+Deployment time varies by model and machine type. The base `Llama2-7b` config takes about 1 minute on Google Cloud's `a2-ultragpu-1g`.
 </Note>
 
 ## Quickstart
 
-1. [Create a launch queue](/platform/launch/add-job-to-queue/) if you don't have one already. See an example queue config below.
+Follow these steps to create a launch queue, register the deployment job, run an agent, and submit the deployment.
+
+1. [Create a launch queue](/platform/launch/add-job-to-queue/) if you don't have one already. The queue defines how the job runs on your GPU machine. See the following example queue configuration.
 
    ```yaml
    net: host
@@ -26,10 +28,10 @@ Deployment time varies by model and machine type. The base Llama2-7b config take
    ```
 
    <Frame>
-    <img src="/images/integrations/nim1.png" alt="image"  />
+    <img src="/images/integrations/nim1.png" alt="Launch queue configuration in the W&B UI"  />
    </Frame>
 
-2. Create this job in your project:
+2. Create this job in your project. This registers the deployment job code with your W&B project so Launch can run it.
 
    ```bash
    wandb job create -n "deploy-to-nvidia-nemo-inference-microservice" \
@@ -40,27 +42,28 @@ Deployment time varies by model and machine type. The base Llama2-7b config take
       git https://github.com/wandb/launch-jobs
    ```
 
-3. Launch an agent on your GPU machine:
+3. Launch an agent on your GPU machine. The agent polls the queue and executes the deployment job when you submit it.
    ```bash
    wandb launch-agent -e $ENTITY -p $PROJECT -q $QUEUE
    ```
-4. Submit the deployment launch job with your desired configs from the [Launch UI](https://wandb.ai/launch)
-   1. You can also submit via the CLI:
-      ```bash
-      wandb launch -d gcr.io/playground-111/deploy-to-nemo:latest \
-        -e $ENTITY \
-        -p $PROJECT \
-        -q $QUEUE \
-        -c $CONFIG_JSON_FNAME
-      ```
-      <Frame>
-      <img src="/images/integrations/nim2.png" alt="image"  />
-      </Frame>
+4. Submit the deployment launch job with your desired configurations from the [Launch UI](https://wandb.ai/launch). You can also submit through the CLI.
+
+   ```bash
+   wandb launch -d gcr.io/playground-111/deploy-to-nemo:latest \
+     -e $ENTITY \
+     -p $PROJECT \
+     -q $QUEUE \
+     -c $CONFIG_JSON_FNAME
+   ```
+
+   <Frame>
+   <img src="/images/integrations/nim2.png" alt="Submitting a launch job from the W&B Launch UI"  />
+   </Frame>
 5. You can track the deployment process in the Launch UI.
    <Frame>
-    <img src="/images/integrations/nim3.png" alt="image"  />
+    <img src="/images/integrations/nim3.png" alt="Deployment progress tracked in the Launch UI"  />
    </Frame>
-6. Once complete, you can immediately curl the endpoint to test the model. The model name is always `ensemble`.
+6. After the deployment completes, the NIM/Triton endpoint serves the model and is ready for inference requests. To test the model, `curl` the endpoint. The model name is always `ensemble`.
    ```bash
     #!/bin/bash
     curl -X POST "http://0.0.0.0:9999/v1/completions" \

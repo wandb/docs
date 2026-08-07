@@ -1,0 +1,23 @@
+---
+title: "How can I delete multiple runs in bulk instead of one at a time?"
+keywords: ["Projects", "Runs"]
+---
+
+From the **Runs** tab in your Workspace, select the checkbox next to each run to delete, then click **Delete**.
+
+To filter runs by a condition rather than selecting them manually, use the [public API](/models/ref/python/public-api/api) to delete multiple runs in a single operation. Replace `[ENTITY]` and `[PROJECT]` with your entity and project names, and replace `[CONDITION]` with a Python expression that evaluates to `True` for runs you want to delete:
+
+```python
+import wandb
+
+api = wandb.Api()
+runs = api.runs('[ENTITY]/[PROJECT]')
+for run in runs:
+    if [CONDITION]:
+        run.delete()
+```
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Projects](/support/models/tags/projects)</Badge><Badge stroke shape="pill" color="orange" size="md">[Runs](/support/models/tags/runs)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

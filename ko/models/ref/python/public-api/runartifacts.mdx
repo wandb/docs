@@ -1,25 +1,41 @@
 ---
 title: RunArtifacts
-namespace: public_apis_namespace
-python_object_type: class
----
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
-
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
-
-
-
-
-## <kbd>class</kbd> `RunArtifacts`
-특정 run 과 관련된 Artifacts 의 반복 가능한 컬렉션입니다. 
-
-
-### <kbd>property</kbd> RunArtifacts.cursor
-
-
-
-
-
+kind: 클래스
+namespace: wandb.apis.public.artifacts
 ---
 
-### <kbd>property</kbd> RunArtifacts.more
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L964" />
+
+## <kbd>클래스</kbd> wandb.apis.public.RunArtifacts
+
+특정 run과 연결된 artifact로 이루어진 순회 가능한 collection입니다.
+
+<div id="methods">
+  ## 메서드
+</div>
+
+### <kbd>방법</kbd> RelayPaginator.convert_objects()
+
+```python
+self
+```
+
+마지막으로 가져온 Response 데이터를 반복 처리할 객체로 변환합니다.
+
+### <kbd>방법</kbd> Paginator.**next**()
+
+```python
+self
+```
+
+이터레이터의 다음 항목을 반환합니다. 더 이상 항목이 없으면 StopIteration 예외를 발생시킵니다
+
+### <kbd>방법</kbd> Paginator.update_variables()
+
+```python
+self
+```
+
+다음 페이지를 가져오기 위한 쿼리 변수를 업데이트합니다.

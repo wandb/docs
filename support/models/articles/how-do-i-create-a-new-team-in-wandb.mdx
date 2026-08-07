@@ -1,0 +1,42 @@
+---
+title: "How do I create a new team in W&B?"
+keywords: ["Teams", "Org Management"]
+---
+
+Teams are the primary unit of collaboration in W&B. A team has its own entity name, shared projects, and member roster. Only an organization admin can create a team.
+
+For the procedure, see [Create a team](/platform/hosting/iam/access-management/manage-organization#create-a-team). To add colleagues afterward, see [Invite users to a team](/platform/hosting/iam/access-management/manage-organization#invite-users-to-a-team) or [How do I invite a user to my W&B team?](/support/models/articles/how-do-i-invite-a-user-to-my-wb-team).
+
+**If you can't create a team**
+
+If the **Create team** button is missing, or you get a permissions error telling you to ask your administrator, either your organization restricts team creation to admins or your account is in a state that blocks it. See [I deleted my team and now I can't create a new one — what do I do?](/support/models/articles/i-deleted-my-team-and-now-i-cant-create-a-new-one).
+
+**Choosing a team name**
+
+A team name becomes the team's entity name and part of every project and run URL under that team, so choose a name that will remain meaningful long-term. Team names must be unique across W&B, and cannot be changed after creation.
+
+**Personal accounts vs. team accounts**
+
+Your personal W&B account has its own entity (your username) that is separate from any teams you belong to. Runs logged to your personal entity are not visible to your team unless you explicitly log them to the team entity:
+
+```python
+import wandb
+
+# Log to a team project (visible to all team members)
+wandb.init(entity="my-team", project="shared-project")
+
+# Log to personal entity (only visible to you)
+wandb.init(entity="my-username", project="personal-experiments")
+```
+
+**Team limits**
+
+Seats are billed per user on Models. See [Seats and pricing](/platform/hosting/iam/access-management/manage-organization#seats-and-pricing) for how seats work, your plan details at **Team settings > Billing**, or [wandb.ai/site/pricing](https://wandb.ai/site/pricing).
+
+Academic accounts can create an unlimited number of teams. If you have an older academic account and can't create another team, it may carry a low team limit set when the account was created. [Contact support](mailto:support@wandb.com) to have the limit raised.
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Teams](/support/models/tags/teams)</Badge><Badge stroke shape="pill" color="orange" size="md">[Org Management](/support/models/tags/org-management)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

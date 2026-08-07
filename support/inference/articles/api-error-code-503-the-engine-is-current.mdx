@@ -1,0 +1,27 @@
+---
+title: "API error code 503: The engine is currently overloaded"
+keywords: ["Server Errors"]
+---
+
+A `503` error with the message "The engine is currently overloaded, please try again later" means the Serverless Inference server is experiencing high traffic and can't process your request. This page explains why the error occurs and how to mitigate it.
+
+## Why this happens
+
+During periods of high demand, the inference engine can become temporarily overloaded. This condition typically resolves on its own as traffic subsides.
+
+## What you can do
+
+Use the following strategies to recover from a `503` response and reduce the chance of encountering it again:
+
+- **Retry after a short delay**:
+   - Wait a few seconds before retrying your request.
+   - Use exponential backoff to avoid adding to the congestion.
+- **Spread out requests**:
+   - If you're sending many requests, space them out over time.
+   - Implement request queuing to smooth traffic spikes.
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Server Errors](/support/inference/tags/server-errors)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

@@ -1,14 +1,22 @@
 ---
 title: "Trace your code"
 description: "Instrument your running code so its execution appears as detailed traces in W&B Weave."
+keywords: ["weave.op", "Call tracking", "LLM tracing", "ThreadPoolExecutor", "autopatching"]
 ---
 
-To see your running code as detailed traces in Weave you create Calls. You can do that in three main ways:
+This guide shows you how to instrument your application so that its execution appears as detailed traces in W&B Weave. Traces help you debug, evaluate, and monitor LLM-powered code by capturing inputs, outputs, and the structure of each operation as a Call.
 
-## 1. Automatic tracking of LLM library calls
-Weave integrates automatically with many common integrations and frameworks, such as `openai`, `anthropic`, `cohere`, `mistral`, and `LangChain`.  
-Import the LLM or framework library, initialize your Weave project, and then Weave automatically traces all of Calls made to the LLM or platform to your project
- without any additional code changes.  For a complete list of supported library integrations, see [Integrations overview](/weave/guides/integrations/).
+To see your running code as detailed traces in Weave, you create Calls. The following sections describe the three main ways to do this, from least to most manual:
+
+- Automatic tracking of LLM library calls.
+- Tracking of custom functions with `weave.op`.
+- Manual Call tracking using the API directly.
+
+Choose the approach that fits how much control you need over what gets traced.
+
+## Automatic tracking of LLM library calls
+
+Weave integrates automatically with many common libraries and frameworks, such as `openai`, `anthropic`, `cohere`, `mistral`, and `LangChain`. Import the LLM or framework library and initialize your Weave project. Weave then automatically traces all Calls made to the LLM or platform to your project without any additional code changes. For a complete list of supported library integrations, see [Integrations overview](/weave/guides/integrations/).
 
 <Tabs>
   <Tab title="Python">
@@ -40,7 +48,8 @@ Import the LLM or framework library, initialize your Weave project, and then Wea
   </Tab>
   <Tab title="TypeScript">
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     import OpenAI from 'openai'
     import * as weave from 'weave'
 
@@ -63,20 +72,20 @@ Import the LLM or framework library, initialize your Weave project, and then Wea
     });
     ```
 
-    For a complete setup guide for JS / TS projects, see the [TypeScript SDK: Third-Party Integration Guide](/weave/guides/integrations/js).
+    For a complete setup guide for JavaScript and TypeScript projects, see the [TypeScript SDK: Third-Party Integration Guide](/weave/guides/integrations/js).
 
   </Tab>
 </Tabs>
 
 If you want more control over automatic behavior, see [Configure automatic LLM call tracking](/weave/guides/integrations/autopatching).
 
-## 2. Tracking of custom functions
+## Track custom functions
 
-Often LLM applications have additional logic (such as pre/post processing, prompts, and more) that you want to track.
+LLM applications often have additional logic, such as pre-processing and post-processing, prompts, and more, that you want to track. Use this approach when you want Weave to capture your own functions alongside the LLM calls it traces automatically.
 
 <Tabs>
   <Tab title="Python">
-    Weave allows you to manually track these Calls using the [`@weave.op`](/weave/reference/python-sdk/#function-op) decorator. For example:
+    Weave lets you manually track these Calls using the [`@weave.op`](/weave/reference/python-sdk/#function-op) decorator. For example:
 
     ```python lines
     import weave
@@ -96,9 +105,10 @@ Often LLM applications have additional logic (such as pre/post processing, promp
     You can also track [methods on classes](#track-class-and-object-methods).
   </Tab>
   <Tab title="TypeScript">
-    Weave allows you to manually track these Calls by wrapping your function with [`weave.op`](/weave/reference/typescript-sdk/functions/op). For example:
+    Weave lets you manually track these Calls by wrapping your function with [`weave.op`](/weave/reference/typescript-sdk/functions/op). For example:
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     import * as weave from 'weave'
 
     await weave.init('intro-example')
@@ -112,13 +122,15 @@ Often LLM applications have additional logic (such as pre/post processing, promp
 
     You can also define the wrapping inline:
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     const myFunctionOp = weave.op((name: string) => `Hello, ${name}!`)
     ```
 
-    This works for both functions as well as methods on classes:
+    This works for both functions and methods on classes:
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     class MyClass {
         constructor() {
             this.myMethod = weave.op(this.myMethod)
@@ -135,7 +147,7 @@ Often LLM applications have additional logic (such as pre/post processing, promp
 
 ### Track class and object methods
 
-You can also track class and object methods. You can track any method in a class by decorating the method with `weave.op`.
+In addition to standalone functions, you can track class and object methods. You can track any method in a class by decorating the method with `weave.op`.
 
 <Tabs>
   <Tab title="Python">
@@ -171,7 +183,8 @@ You can also track class and object methods. You can track any method in a class
 
     You can apply `@weave.op` to instance methods for tracing.
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     class Foo {
         @weave.op
         async predict(prompt: string) {
@@ -182,7 +195,8 @@ You can also track class and object methods. You can track any method in a class
 
     You can also apply `@weave.op` to static methods to monitor utility functions within a class.
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     class MathOps {
         @weave.op
         static square(n: number): number {
@@ -195,7 +209,8 @@ You can also track class and object methods. You can track any method in a class
 
 
 ### Trace parallel (multi-threaded) function calls
-By default, parallel Calls all show up in Weave as separate root Calls. To get correct nesting under the same parent Op, use a `ThreadPoolExecutor`.
+
+By default, parallel Calls all appear in Weave as separate root Calls, which makes the trace hierarchy hard to follow. To get correct nesting under the same parent Op, use a `ThreadPoolExecutor`.
 <Tabs>
   <Tab title="Python">
 
@@ -224,18 +239,18 @@ By default, parallel Calls all show up in Weave as separate root Calls. To get c
 
   </Tab>
   <Tab title="TypeScript">
-    ```plaintext
+    ```text
     This feature is not available in the TypeScript SDK yet.
     ```
   </Tab>
 </Tabs>
-In the Weave UI, this produces a single parent Call with five nested child Calls, so that you get a fully hierarchical trace even though the increments run in parallel.
+In the Weave UI, this produces a single parent Call with five nested child Calls. You get a fully hierarchical trace even though the increments run in parallel.
 
 ![The Trace UI, showing a single parent Call for `outer`, with five nested child Calls.](/weave/guides/tracking/imgs/threadpoolexecutor.png)
 
-## 3. Manual Call tracking
+## Manual Call tracking
 
-You can also manually create Calls using the API directly.
+If neither automatic integration nor the `weave.op` decorator fits your workflow, you can manually create Calls using the API directly. This approach gives you full control over when a Call starts and ends, at the cost of more boilerplate.
 
 <Tabs>
   <Tab title="Python">
@@ -261,7 +276,7 @@ You can also manually create Calls using the API directly.
     </Tab>
     <Tab title="TypeScript">
 
-    ```plaintext
+    ```text
     This feature is not available in the TypeScript SDK yet.
     ```
   </Tab>

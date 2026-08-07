@@ -1,0 +1,43 @@
+---
+title: MetricChangeFilter
+kind: classe
+namespace: wandb.automations._run_metric_filters
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/_run_metric_filters.py#L153" />
+
+## <kbd>classe</kbd> wandb.automations.MetricChangeFilter
+
+```python
+*,
+name: str,
+agg_op: wandb.automations._run_metric_filters.Agg | None = None,
+current_window_size: Annotated[int, Gt(gt=0)] = 1,
+cmp: NoneType = None,
+change_amount: Union[Annotated[int, Gt(gt=0)], Annotated[float, Gt(gt=0)]],
+prior_window_size: Annotated[int, Gt(gt=0)] = <factory>,
+change_type: wandb.automations._run_metric_filters.ChangeType,
+change_dir: wandb.automations._run_metric_filters.ChangeDir
+```
+
+Filtre qui compare une **variation** de la valeur d’une métrique à un seuil défini par l’utilisateur.
+
+La variation est calculée sur des fenêtres « tumbling », c.-à-d. comme la différence
+entre la fenêtre actuelle et la fenêtre précédente, sans chevauchement.
+
+<div id="args">
+  ## Arguments
+</div>
+
+* `name`:
+* `agg_op`:
+* `current_window_size`:
+* `cmp`: Ignoré.
+* `change_amount`:
+* `prior_window_size`: Taille de la fenêtre d’agrégation de la métrique « précédente » (ignorée si `agg` est `None`).
+
+  Si elle est omise, sa taille correspond par défaut à celle de la fenêtre actuelle.
+* `change_type`:
+* `change_dir`: 

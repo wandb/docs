@@ -1,0 +1,26 @@
+---
+title: "run を1件ずつではなく、複数まとめて一括削除するにはどうすればよいですか？"
+keywords: ["Projects", "Runs"]
+---
+
+Workspace の **Runs** タブで、削除する各 run の横にあるチェックボックスを選択し、**Delete** をクリックします。
+
+手動で選択する代わりに、条件で run をフィルタリングする場合は、[public API](/ja/models/ref/python/public-api/api)を使用して、複数の run を1回の操作で削除できます。`[ENTITY]` と `[PROJECT]` は entity 名と project 名に置き換え、`[CONDITION]` は削除したい run に対して `True` と評価される Python 式に置き換えます。
+
+```python
+import wandb
+
+api = wandb.Api()
+runs = api.runs('[ENTITY]/[PROJECT]')
+for run in runs:
+    if [CONDITION]:
+        run.delete()
+```
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Projects](/ja/support/models/tags/projects)</Badge><Badge stroke shape="pill" color="orange" size="md">[Runs](/ja/support/models/tags/runs)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

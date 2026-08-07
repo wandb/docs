@@ -1,0 +1,154 @@
+---
+title: Eval Tables 보기
+---
+
+Eval Table을 만들 때는 어떤 열에 입력, 출력, 점수가 포함되는지 지정하세요. W&amp;B는 해당 열을 Eval Table의 각 대응 섹션으로 그룹화합니다.
+
+다음 예시는 EvalTable 객체의 기본 구조를 보여줍니다.
+
+```python
+import wandb
+
+wandb.EvalTable(
+    input_columns=["column1", "column2"],
+    output_columns=["output_column1", "output_column2"],
+    score_columns=["score_column1", "score_column2"],
+)
+```
+
+다음 각 인수에 하나 이상의 열 이름을 전달하세요:
+
+* `input_columns`: 이미지, 프롬프트, 정답 레이블처럼 모델에 제공되는 데이터입니다.
+* `output_columns`: 예측이나 생성된 응답처럼 모델이 생성한 값입니다.
+* `score_columns`: 출력을 평가하는 데 사용되는 메트릭 또는 기타 값입니다.
+
+W&amp;B는 이러한 열을 Eval Table의 Inputs, Outputs, Scores 섹션에 표시합니다.
+
+<Info>
+  이 페이지의 예시는 [Create an Eval Table](/ko/models/evaltables/create-an-evaluation-table)의 코드를 사용합니다. 전체 예제를 보거나 복사하려면 **View code**를 펼치세요.
+
+  <Accordion title="View code" defaultOpen={false}>
+    ```python
+    import pandas as pd
+    import wandb
+
+    df = pd.DataFrame(
+        [
+            {
+                "image_id": "img_001",
+                "true_label": "cat",
+                "predicted_label": "cat",
+                "confidence": 0.97,
+                "correct": True,
+            },
+            {
+                "image_id": "img_002",
+                "true_label": "dog",
+                "predicted_label": "cat",
+                "confidence": 0.72,
+                "correct": False,
+            },
+            {
+                "image_id": "img_003",
+                "true_label": "car",
+                "predicted_label": "car",
+                "confidence": 0.89,
+                "correct": True,
+            },
+        ]
+    )
+
+    df["correct"] = df["correct"].astype(object)  # 기본 Python bool 값을 유지합니다
+
+    with wandb.init(project="classifier-eval-table-demo") as run:
+        eval_table = wandb.EvalTable(
+            dataframe=df,
+            input_columns=["image_id", "true_label"],
+            output_columns=["predicted_label"],
+            score_columns=["correct", "confidence"],
+        )
+        run.log({"validation_predictions_eval": eval_table})
+    ```
+  </Accordion>
+</Info>
+
+예를 들어, [Create an Eval Table](/ko/models/evaltables/create-an-evaluation-table)의 코드 예시를 살펴보겠습니다:
+
+```python
+import wandb
+
+with wandb.init(project="classifier-eval-table-demo") as run:
+    eval_table = wandb.EvalTable(
+        dataframe=df,
+        input_columns=["image_id", "true_label"],
+        output_columns=["predicted_label"],
+        score_columns=["correct", "confidence"],
+    )
+    run.log({"validation_predictions_eval": eval_table})
+```
+
+이 예시에서는 다음과 같습니다.
+
+* **Inputs** 섹션에는 `image_id` 및 `true_label` 열이 있습니다.
+* **Outputs** 섹션에는 `predicted_label` 열이 있습니다.
+* **Scores** 섹션에는 `correct` 및 `confidence` 열이 있습니다.
+
+다음 이미지는 이러한 섹션을 보여줍니다.
+
+<Frame>
+  <img src="/images/evaltables/single_run_eval_table_labled.png" alt="Eval Table 뷰" />
+</Frame>
+
+<div id="detail-view">
+  ## 상세 뷰
+</div>
+
+행을 선택하면 해당 예시의 상세 뷰가 열립니다. 상세 뷰에는 예시의 입력, 출력, 점수가 표시됩니다.
+
+다음 이미지는 Eval Table의 첫 번째 행에 대한 상세 뷰를 보여줍니다.
+
+<Frame>
+  <img src="/images/evaltables/single_run_eval_table_panel.png" alt="Eval Table 예시 세부 정보" />
+</Frame>
+
+테이블에 열이 많거나 여러 Runs의 결과를 비교할 때는 상세 뷰를 사용해 예시를 확인하세요.
+
+현재 테이블 뷰에서 예시 간에 이동하려면 **Inputs** 섹션 위에 있는 위쪽 또는 아래쪽 화살표를 선택하세요.
+
+<div id="filter-data">
+  ## 데이터 필터링
+</div>
+
+필터를 사용해 특정 조건에 일치하는 행만 표시할 수 있습니다.
+
+필터를 추가하려면 다음과 같이 하세요.
+
+1. 테이블 위의 **Filter** 버튼을 선택하세요.
+2. 드롭다운에서 필터링할 열을 선택하세요.
+3. 연산자를 선택하세요.
+4. 값을 지정하세요.
+
+W&amp;B는 필터를 테이블에 자동으로 적용하고, 조건에 일치하는 행만 표시합니다.
+
+<Frame>
+  <img src="/images/evaltables/filter.png" alt="Eval Table 필터" />
+</Frame>
+
+여러 필터를 적용할 수 있습니다. 필터를 제거하려면 해당 필터 옆의 `X`를 선택하세요.
+
+<div id="show-or-hide-columns">
+  ## 열 표시 또는 숨기기
+</div>
+
+**Columns** 메뉴를 사용해 Eval Table에 표시할 열을 제어하세요. 사용 가능한 열은 테이블에 로깅된 데이터에 따라 달라집니다.
+
+열을 표시하거나 숨기려면 다음 단계를 따르세요.
+
+1. 테이블 위의 **Columns**를 선택합니다.
+2. 표시할 열은 선택하고, 숨길 열은 선택 해제합니다.
+
+다음 이미지는 사용 가능한 모든 열이 선택된 **Columns** 메뉴를 보여줍니다.
+
+<Frame>
+  <img src="/images/evaltables/eval_column_options.png" alt="Eval Table 열" />
+</Frame>

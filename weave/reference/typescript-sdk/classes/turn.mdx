@@ -1,0 +1,304 @@
+---
+title: "Turn"
+description: "TypeScript SDK reference"
+---
+
+## Hierarchy
+
+- `SpanBase`
+
+  ↳ `Turn`
+
+## Table of contents
+
+### Accessors
+
+- [agentName](./turn#agentname)
+- [model](./turn#model)
+
+### Methods
+
+- [addEvent](./turn#addevent)
+- [end](./turn#end)
+- [record](./turn#record)
+- [setAttribute](./turn#setattribute)
+- [setAttributes](./turn#setattributes)
+- [startLLM](./turn#startllm)
+- [startSubagent](./turn#startsubagent)
+- [startTool](./turn#starttool)
+- [create](./turn#create)
+
+## Accessors
+
+### agentName
+
+• `get` **agentName**(): `string`
+
+#### Returns
+
+`string`
+
+#### Defined in
+
+[src/genai/turn.ts:103](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L103)
+
+___
+
+### model
+
+• `get` **model**(): `string`
+
+#### Returns
+
+`string`
+
+#### Defined in
+
+[src/genai/turn.ts:107](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L107)
+
+## Methods
+
+### addEvent
+
+<Warning>
+  **Deprecated.** Record this data via [setAttributes](./turn#setattributes) instead.
+OpenTelemetry is phasing out the Span Event API (`Span.addEvent`). This
+method still works and existing span-event data stays valid.
+See https://opentelemetry.io/blog/2026/deprecating-span-events/
+
+`Example`
+
+```ts twoslash
+// @noErrors
+span.addEvent('context_compacted', {removedMessages: 12});
+```
+</Warning>
+
+▸ **addEvent**(`name`, `attributes?`, `startTime?`): `this`
+
+Add a named event to the span. Useful for marking non-span moments such as
+context compaction, tool-loop detection, or guardrail trips. Warns and
+no-ops after `end()`. Mirrors OTel `Span.addEvent`.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `name` | `string` |
+| `attributes?` | `Attributes` |
+| `startTime?` | `TimeInput` |
+
+#### Returns
+
+`this`
+
+#### Inherited from
+
+SpanBase.addEvent
+
+#### Defined in
+
+[src/genai/spanBase.ts:82](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L82)
+
+___
+
+### end
+
+▸ **end**(`opts?`): `void`
+
+Read current field values (to reflect mutations made via `record()`
+since `start`) and close the span. Idempotent. Pass `error` to mark
+it as failed; pass `endTime` to backdate the close.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `opts?` | `SpanEndOptions` |
+
+#### Returns
+
+`void`
+
+#### Defined in
+
+[src/genai/turn.ts:241](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L241)
+
+___
+
+### record
+
+▸ **record**(`opts`): `this`
+
+Bulk-set any subset of the mutable fields. Replaces (does not merge).
+Useful for assigning everything at once after a provider call returns.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `opts` | `Object` |
+| `opts.agentDescription?` | `string` |
+| `opts.agentId?` | `string` |
+| `opts.agentName?` | `string` |
+| `opts.agentVersion?` | `string` |
+| `opts.messages?` | [`Message`](../interfaces/message)[] |
+| `opts.model?` | `string` |
+| `opts.systemInstructions?` | `string`[] |
+
+#### Returns
+
+`this`
+
+#### Defined in
+
+[src/genai/turn.ts:201](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L201)
+
+___
+
+### setAttribute
+
+<Warning>
+  **Deprecated.** Use [setAttributes](./turn#setattributes) instead, which mirrors the Python
+SDK's `set_attributes` and OTel's `Span.setAttributes`. Retained as a thin
+alias so existing single-attribute callers keep working. Only `Turn`
+carries this — the other emitters never shipped a singular form.
+</Warning>
+
+▸ **setAttribute**(`key`, `value`): `this`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `key` | `string` |
+| `value` | `AttributeValue` |
+
+#### Returns
+
+`this`
+
+#### Defined in
+
+[src/genai/turn.ts:193](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L193)
+
+___
+
+### setAttributes
+
+▸ **setAttributes**(`attributes`): `this`
+
+Set multiple attributes on the span at once. Warns and no-ops after
+`end()`. Mirrors OTel `Span.setAttributes` (and the Python SDK's
+`set_attributes`).
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `attributes` | `Attributes` |
+
+#### Returns
+
+`this`
+
+`Example`
+
+```ts twoslash
+// @noErrors
+span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
+```
+
+#### Inherited from
+
+SpanBase.setAttributes
+
+#### Defined in
+
+[src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L63)
+
+___
+
+### startLLM
+
+▸ **startLLM**(`opts`): [`LLM`](./llm)
+
+Start a child LLM span under this Turn.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `opts` | [`LLMInit`](../interfaces/llminit) |
+
+#### Returns
+
+[`LLM`](./llm)
+
+#### Defined in
+
+[src/genai/turn.ts:161](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L161)
+
+___
+
+### startSubagent
+
+▸ **startSubagent**(`opts`): [`SubAgent`](./subagent)
+
+Start a child SubAgent span under this Turn.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `opts` | [`SubAgentInit`](../interfaces/subagentinit) |
+
+#### Returns
+
+[`SubAgent`](./subagent)
+
+#### Defined in
+
+[src/genai/turn.ts:179](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L179)
+
+___
+
+### startTool
+
+▸ **startTool**(`opts`): [`Tool`](./tool)
+
+Start a child Tool span under this Turn.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `opts` | [`ToolInit`](../interfaces/toolinit) |
+
+#### Returns
+
+[`Tool`](./tool)
+
+#### Defined in
+
+[src/genai/turn.ts:170](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L170)
+
+___
+
+### create
+
+▸ **create**(`opts?`): [`Turn`](./turn)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `opts` | [`TurnInit`](../interfaces/turninit) & \{ `conversationId?`: `string`  } |
+
+#### Returns
+
+[`Turn`](./turn)
+
+#### Defined in
+
+[src/genai/turn.ts:124](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L124)

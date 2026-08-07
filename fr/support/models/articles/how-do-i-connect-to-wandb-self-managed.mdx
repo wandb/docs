@@ -1,0 +1,53 @@
+---
+title: "Comment puis-je me connecter à W&B Autogéré ?"
+keywords: ["Administrateur", "Gestion des utilisateurs", "Variables d'environnement"]
+---
+
+[W&amp;B Autogéré](/fr/platform/hosting/hosting-options/self-managed) est un déploiement hébergé sur votre propre infrastructure. Configurez le SDK et la CLI pour qu’ils pointent vers l’URL de votre instance plutôt que vers l’API du [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud) (`api.wandb.ai`). Pour les commandes de connexion, `WANDB_BASE_URL` et `--host`, voir [`wandb login`](/fr/models/ref/cli/wandb-login) et [les variables d’environnement](/fr/models/track/environment-variables).
+
+<div id="verify-the-connection">
+  ## Vérifier la connexion
+</div>
+
+```bash
+wandb status
+```
+
+Vérifiez que l’hôte correspond à l’URL de votre instance et que la clé API est présente (masquée).
+
+<div id="ssl-certificate-issues">
+  ## Problèmes SSL / de certificat
+</div>
+
+Si votre instance utilise un certificat auto-signé ou un certificat d’une autorité de certification interne, définissez le bundle d’autorités de certification avant d’initialiser W&amp;B :
+
+```bash
+export REQUESTS_CA_BUNDLE=/path/to/ca-bundle.crt
+```
+
+<div id="switching-between-multi-tenant-cloud-and-self-managed">
+  ## Passer de Cloud mutualisé à Autogéré, et inversement
+</div>
+
+Pour réutiliser Cloud mutualisé, supprimez `WANDB_BASE_URL` et exécutez `wandb login` sans `--host` :
+
+```bash
+unset WANDB_BASE_URL
+wandb login
+```
+
+<div id="common-issues">
+  ## Problèmes courants
+</div>
+
+* **401 sur `wandb.init()`** : les clés API ne sont pas partagées entre Cloud mutualisé et une instance autogérée. Créez une clé dans le profil de votre instance autogérée.
+* **Connexion refusée / délai d’expiration** : vérifiez l’URL de l’instance ainsi que l’accès VPN ou réseau à votre déploiement.
+* **Licence non reconnue** : Voir [Pourquoi mon Enterprise license n’est-elle pas reconnue ?](/fr/support/models/articles/enterprise-license-not-recognized).
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Administrateur](/fr/support/models/tags/administrator)</Badge><Badge stroke shape="pill" color="orange" size="md">[Gestion des utilisateurs](/fr/support/models/tags/user-management)</Badge><Badge stroke shape="pill" color="orange" size="md">[Variables d’environnement](/fr/support/models/tags/environment-variables)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

@@ -1,0 +1,88 @@
+---
+title: "Serverless Inference에서 서버 오류(500, 503)는 어떻게 해결하나요?"
+keywords: ["Inference"]
+---
+
+서버 오류는 Serverless Inference 서비스에 일시적인 문제가 있음을 의미합니다. 이 페이지에서는 이러한 오류를 파악하고, 클라이언트 코드에서 이를 적절히 처리하는 방법과 언제 지원팀에 문의해야 하는지 안내합니다.
+
+<div id="error-types">
+  ## 오류 유형
+</div>
+
+다음 섹션에서는 요청 자체의 문제가 아니라 일시적인 서버 측 문제를 나타내는 오류 코드를 설명합니다.
+
+<div id="500-internal-server-error">
+  ### 500 내부 서버 오류
+</div>
+
+이 오류는 서버 측에서 일시적으로 발생하는 내부 오류입니다. 응답 메시지는 &quot;서버가 요청을 처리하는 중 오류가 발생했습니다.&quot;입니다.
+
+<div id="503-service-overloaded">
+  ### 503 서비스 과부하
+</div>
+
+서비스에 트래픽이 많이 몰리고 있습니다. 응답 메시지는 다음과 같습니다: &quot;엔진이 현재 과부하 상태이므로, 나중에 다시 사용해 보세요.&quot;
+
+<div id="handle-server-errors">
+  ## 서버 오류 처리
+</div>
+
+이러한 오류는 일반적으로 일시적이므로, 다음 기법을 사용하면 재시도하기 전에 서비스가 복구할 시간을 확보할 수 있습니다.
+
+1. 재시도하기 전에 기다리세요. 다음 대기 시간을 사용하세요:
+   * `500` 오류: 30~60초 기다리세요.
+   * `503` 오류: 60~120초 기다리세요.
+
+2. 지수 백오프를 사용하세요.
+   ```python
+   import time
+   import openai
+
+   def call_with_retry(client, messages, model, max_retries=5):
+       for attempt in range(max_retries):
+           try:
+               return client.chat.completions.create(
+                   model=model,
+                   messages=messages
+               )
+           except Exception as e:
+               if "500" in str(e) or "503" in str(e):
+                   if attempt < max_retries - 1:
+                       wait_time = min(60, (2 ** attempt))
+                       time.sleep(wait_time)
+                   else:
+                       raise
+               else:
+                   raise
+   ```
+
+3. 적절한 타임아웃을 설정하세요. 다음과 같이 조정하세요:
+   * HTTP 클라이언트의 타임아웃 값을 늘리세요.
+   * 더 나은 처리를 위해 비동기 오퍼레이션을 고려하세요.
+
+<div id="contact-support">
+  ## 지원팀에 문의하기
+</div>
+
+재시도와 백오프로도 문제가 해결되지 않으면, 팀에서 추가로 조사할 수 있도록 지원팀에 문의하세요.
+
+다음과 같은 경우 지원팀에 문의하세요:
+
+* 오류가 10분 이상 지속되는 경우
+* 특정 시간대에 실패가 반복되는 경우
+* 오류 메시지에 추가 세부 정보가 포함된 경우
+
+지원팀에 문의할 때는 다음 정보를 제공하세요:
+
+* 오류 메시지 및 코드
+* 오류가 발생한 시간
+* 코드 스니펫(API 키 제거)
+* W&amp;B entity 및 프로젝트 이름
+
+***
+
+{/* AUTO-GENERATED: 탭 배지 */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Inference](/ko/support/models/tags/inference)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

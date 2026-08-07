@@ -1,0 +1,68 @@
+---
+title: Sweeps
+kind: classe
+namespace: wandb.apis.public.sweeps
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py#L59" />
+
+## <kbd>classe</kbd> wandb.apis.public.Sweeps
+
+```python
+service_api: 'ServiceApi',
+entity: 'str',
+project: 'str',
+per_page: 'int' = 50,
+filters: 'dict[str, Any] | None' = None
+```
+
+Un itérateur paresseux d’une collection d’objets `Sweep`.
+
+<div id="args">
+  ## Arguments
+</div>
+
+* `service_api`: L’API de service utilisée pour interroger W&amp;B.
+* `entity`: L’entité à laquelle appartiennent les Sweeps.
+* `project`: Le projet qui contient les Sweeps.
+* `per_page`: Le nombre de Sweeps à récupérer à chaque requête adressée à l’API.
+* `filters`: (dict) permet d’interroger des Sweeps spécifiques à l’aide des filtres de runs. Voir wandb/apis/public/api.py:runs pour plus de détails.
+
+<div id="examples">
+  ## Exemples
+</div>
+
+```python
+from wandb.apis.public import Api
+
+sweeps = Api().project(name="project_name", entity="entity").sweeps()
+
+# Parcourir les sweeps et afficher les détails
+for sweep in sweeps:
+    print(f"Sweep name: {sweep.name}")
+    print(f"Sweep ID: {sweep.id}")
+    print(f"Sweep URL: {sweep.url}")
+    print("----------")
+```
+
+<div id="methods">
+  ## Méthodes
+</div>
+
+### <kbd>méthode</kbd> Paginator.**next**()
+
+```python
+self
+```
+
+Renvoyer l’élément suivant de l’itérateur. S’il est épuisé, lever `StopIteration`
+
+### <kbd>méthode</kbd> Paginator.update_variables()
+
+```python
+self
+```
+
+Mettez à jour les variables de requête pour récupérer la page suivante.

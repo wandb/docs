@@ -1,26 +1,49 @@
 ---
 title: ArtifactFiles
-namespace: public_apis_namespace
-python_object_type: class
----
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
-
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
-
-## <kbd>class</kbd> `ArtifactFiles`
-아티팩트 내의 파일들을 위한 페이저(paginator)입니다.
-
-### <kbd>property</kbd> ArtifactFiles.cursor
-
+kind: 클래스
+namespace: wandb.apis.public.artifacts
 ---
 
-### <kbd>property</kbd> ArtifactFiles.more
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
----
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L1021" />
 
-### <kbd>property</kbd> ArtifactFiles.path
+## <kbd>클래스</kbd> wandb.apis.public.ArtifactFiles
+
+아티팩트 내 파일을 위한 페이지네이터입니다.
+
+<div id="properties">
+  ## 속성
+</div>
+
+### <kbd>속성</kbd> path
 
 아티팩트의 경로를 반환합니다.
 
-**반환 값:**
- - `list[str]`: 경로 속성 값.
+<div id="methods">
+  ## 메서드
+</div>
+
+### <kbd>방법</kbd> RelayPaginator.convert_objects()
+
+```python
+self
+```
+
+마지막으로 가져온 응답 데이터를 순회할 객체로 변환합니다.
+
+### <kbd>방법</kbd> Paginator.**next**()
+
+```python
+self
+```
+
+이터레이터의 다음 항목을 반환합니다. 더 이상 항목이 없으면 StopIteration 예외를 발생시킵니다.
+
+### <kbd>방법</kbd> Paginator.update_variables()
+
+```python
+self
+```
+
+다음 페이지를 가져오기 위한 쿼리 변수를 업데이트합니다.

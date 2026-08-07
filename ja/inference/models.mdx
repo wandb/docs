@@ -1,48 +1,90 @@
 ---
-title: 利用可能な Models
-description: W&B Inference で利用可能なファウンデーション Models を閲覧する
+title: "利用可能なモデル"
+description: >
+  Serverless Inference で利用できる基盤モデルを確認
 mode: wide
+keywords: ["モデルカタログ", "DeepSeek", "Llama", "Qwen", "MoE", "マルチモーダルモデル"]
 ---
 
-W&B Inference は、いくつかのオープンソースの基盤 モデル への アクセス を提供します。各 モデル にはそれぞれ異なる強みと ユースケース があります。
+Serverless Inference では、複数のオープンソース基盤モデルを利用できます。各モデルには、それぞれ異なる強みとユースケースがあります。
 
-## モデル カタログ
+<div id="generally-available-models">
+  ## 一般提供されているモデル
+</div>
 
-| モデル | モデル ID (API 使用時) | タイプ | コンテキストウィンドウ | パラメータ | 説明 |
-|-------|--------------------------|------|----------------|------------|-------------|
-| DeepSeek R1-0528 | `deepseek-ai/DeepSeek-R1-0528` | Text | 161K | 37B-680B (Active-Total) | 複雑な コーディング 、数学、構造化文書の 分析 を含む、精密な推理タスクに最適化 |
-| DeepSeek V3-0324 | `deepseek-ai/DeepSeek-V3-0324` | Text | 161K | 37B-680B (Active-Total) | 高度な複雑さを持つ言語 プロセッシング と包括的な文書 分析 に合わせて調整された、堅牢な Mixture-of-Experts モデル |
-| DeepSeek V3.1 | `deepseek-ai/DeepSeek-V3.1` | Text | 128K | 37B-671B (Active-Total) | プロンプトテンプレートを介して思考モードと非思考モードの両方をサポートする大型ハイブリッド モデル |
-| Meta Llama 3.1 8B | `meta-llama/Llama-3.1-8B-Instruct` | Text | 128K | 8B (Total) | 応答性の高い多言語 チャットボット インタラクションに最適化された効率的な対話型 モデル |
-| Meta Llama 3.1 70B | `meta-llama/Llama-3.1-70B-Instruct` | Text | 128K | 70B (Total) | 応答性の高い多言語 チャットボット インタラクションに最適化された効率的な対話型 モデル |
-| Meta Llama 3.3 70B | `meta-llama/Llama-3.3-70B-Instruct` | Text | 128K | 70B (Total) | 対話タスク、詳細な指示への追従、 コーディング に優れた多言語 モデル |
-| Meta Llama 4 Scout | `meta-llama/Llama-4-Scout-17B-16E-Instruct` | Text, Vision | 64K | 17B-109B (Active-Total) | テキストと画像の理解を統合したマルチモーダル モデル で、視覚タスクと複合 分析 に理想的 |
-| Microsoft Phi 4 Mini 3.8B | `microsoft/Phi-4-mini-instruct` | Text | 128K | 3.8B (Active-Total) | リソース制約のある 環境 での高速なレスポンスに最適な、コンパクトで効率的な モデル |
-| Moonshot AI Kimi K2 | `moonshotai/Kimi-K2-Instruct` | Text | 128K | 32B-1T (Active-Total) | 複雑な ツール の利用、推論、 コード 合成に最適化された Mixture-of-Experts モデル |
-| Moonshot AI Kimi K2 Instruct 0905 | `moonshotai/Kimi-K2-Instruct-0905` | Text | 262K | 32B-1T | Kimi K2 Mixture-of-Experts 言語 モデル の最新 バージョン 。320億の活性 パラメータ と合計1兆の パラメータ を特徴とする |
-| OpenAI GPT OSS 20B | `openai/gpt-oss-20b` | Text | 131K | 3.6B-20B (Active-Total) | 推論機能を備え、OpenAIのHarmonyレスポンス形式でトレーニングされた低レイテンシの Mixture-of-Experts モデル |
-| OpenAI GPT OSS 120B | `openai/gpt-oss-120b` | Text | 131K | 5.1B-117B (Active-Total) | 高度な推論、 エージェント 的な ユースケース 、および汎用目的のために設計された効率的な Mixture-of-Experts モデル |
-| OpenPipe Qwen3 14B Instruct | `OpenPipe/Qwen3-14B-Instruct` | Text | 32.8K | 14.8B (Active-Total) | 効率的な多言語、高密度、命令 チューニング 済み モデル 。ファインチューニングによる エージェント 構築のために OpenPipe によって最適化 |
-| Qwen2.5 14B Instruct | `Qwen/Qwen2.5-14B-Instruct` | Text | 32.8K | 14.7B-14.7B (Active-Total) | ツール 利用と構造化出力のサポートを備えた、高密度の多言語命令 チューニング 済み モデル |
-| Qwen3 235B A22B Thinking-2507 | `Qwen/Qwen3-235B-A22B-Thinking-2507` | Text | 262K | 22B-235B (Active-Total) | 構造化された推論、数学、およびロングフォーム生成に最適化された高性能 Mixture-of-Experts モデル |
-| Qwen3 235B A22B-2507 | `Qwen/Qwen3-235B-A22B-Instruct-2507` | Text | 262K | 22B-235B (Active-Total) | 論理的推論に最適化された、効率的な多言語 Mixture-of-Experts 命令 チューニング 済み モデル |
-| Qwen3 Coder 480B A35B | `Qwen/Qwen3-Coder-480B-A35B-Instruct` | Text | 262K | 35B-480B (Active-Total) | 関数呼び出し、 ツール 利用、および長いコンテキストの推論などの コーディング タスクに最適化された Mixture-of-Experts モデル |
-| Z.AI GLM 4.5 | `zai-org/GLM-4.5` | Text | 131K | 32B-355B (Active-Total) | 推論、 コード 、 エージェント のために ユーザー が制御可能な思考/非思考モードを備えた Mixture-of-Experts モデル |
+次のモデルは[一般提供](/ja/inference/lifecycle#model-lifecycle-stages)されています：
 
-## モデル ID の使用
+{/* takeru inference-models - この表は自動生成されています。手動で編集しないでください。 */}
 
-API を使用する際は、上記の表にある ID を使用して モデル を指定します。例：
+| モデル                         | モデル ID (API 使用時)                           | タイプ       | コンテキストウィンドウ | パラメーター                | 説明                                                                                                     |
+| --------------------------- | ------------------------------------------ | --------- | ----------- | --------------------- | ------------------------------------------------------------------------------------------------------ |
+| DeepSeek V4-Flash           | `deepseek-ai/DeepSeek-V4-Flash`            | テキスト      | 1049k       | 13B-284B (アクティブ-合計)   | DeepSeek V4-Flash は、1M のコンテキスト長を備え、コーディング、推論、エージェント型ワークロードに適した MoE モデルです。                              |
+| DeepSeek V4-Flash-0731      | `deepseek-ai/DeepSeek-V4-Flash-0731`       | テキスト      | 262k        | 13B-284B (アクティブ-合計)   | DeepSeek V4-Flash-0731 は、コーディング、推論、エージェント型ワークロードに適した MoE モデルです。                                        |
+| DeepSeek V4-Pro             | `deepseek-ai/DeepSeek-V4-Pro`              | テキスト      | 1049k       | 49B-1.6T (アクティブ-合計)   | DeepSeek V4-Pro は、49B のアクティブパラメーターを備えた 1.6T パラメーターの MoE モデルであり、高度な推論、コーディング、複雑なエージェント型ワークロードに優れています。   |
+| DeepSeek V3.1               | `deepseek-ai/DeepSeek-V3.1`                | テキスト      | 161k        | 37B-671B (アクティブ-合計)   | プロンプトテンプレートを通じて、思考モードと思考なしモードの両方をサポートする大規模なハイブリッドモデル。                                                  |
+| Google Gemma 4 31B          | `google/gemma-4-31B-it`                    | テキスト、画像   | 262k        | 31B (合計)              | Gemma 4 31B Dense は、高度な推論、エージェント型ワークフロー、長いコンテキストに対応するよう設計されており、140 以上の言語でネイティブにトレーニングされています。           |
+| IBM Granite 4.1 8B          | `ibm-granite/granite-4.1-8b`               | テキスト      | 131k        | 8B (合計)               | Granite 4.1 8B は、長いコンテキストに対応し、強化されたツール呼び出し、指示追従、チャット機能を備えた Instruct モデルです。                             |
+| JetBrains Mellum2 12B A2.5B | `JetBrains/Mellum2-12B-A2.5B-Instruct`     | テキスト      | 131k        | 2.5B-12B (アクティブ-合計)   | Mellum2-12B-A2.5B-Instruct は、131K コンテキストを備え、コーディング、ツール使用、低レイテンシの AI ワークフロー向けに構築された高速な MoE モデルです。       |
+| Meta Llama 3.3 70B          | `meta-llama/Llama-3.3-70B-Instruct`        | テキスト      | 128k        | 70B (合計)              | 会話タスク、詳細な指示への追従、コーディングに優れた多言語モデル。                                                                      |
+| Meta Llama 3.1 70B          | `meta-llama/Llama-3.1-70B-Instruct`        | テキスト      | 128k        | 700億 (合計)             | 応答性の高い多言語チャットボットとのやり取り向けに最適化された、効率的な会話モデル。                                                             |
+| Meta Llama 3.1 8B           | `meta-llama/Llama-3.1-8B-Instruct`         | テキスト      | 128k        | 8B (合計)               | 応答性の高い多言語チャットボット向けに最適化された、効率的な会話モデル。                                                                   |
+| MiniMax M3                  | `MiniMaxAI/MiniMax-M3`                     | テキスト、画像   | 262k        | 23B-428B (アクティブ-合計)   | MiniMax M3 は、23B のアクティブパラメーターを備え、コーディングやエージェント型ワークフロー向けに最適化されたマルチモーダル MoE モデルです。                       |
+| Moonshot AI Kimi K2.7 Code  | `moonshotai/Kimi-K2.7-Code`                | テキスト、画像   | 262k        | 32B-1T (アクティブ-合計)     | Kimi K2.7 Code は、320億のアクティブパラメーターと合計1兆のパラメーターを備え、長期間にわたるエージェント型コーディングとソフトウェアエンジニアリング向けに特化した MoE モデルです。 |
+| Moonshot AI Kimi K2.6       | `moonshotai/Kimi-K2.6`                     | テキスト、画像   | 262k        | 32B-1T (アクティブ-合計)     | Kimi K2.6 は、320億のアクティブパラメーターと合計1兆のパラメーターを備えた、マルチモーダルのMixture-of-Experts言語モデルです。                        |
+| NVIDIA Nemotron 3 Ultra     | `nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B` | テキスト      | 262k        | 55B-550B (アクティブ-合計)   | Nemotron 3 Ultra は、コーディング、ディープリサーチ、エンタープライズオートメーションにおける長時間動作するエージェント向けに設計された、強力な MoE モデルです。            |
+| OpenAI GPT OSS 120B         | `openai/gpt-oss-120b`                      | テキスト      | 131k        | 5.1B-117B (アクティブ-合計)  | 高度な推論、エージェント型、および汎用のユースケース向けに設計された、効率的なMixture-of-Expertsモデル。                                          |
+| OpenAI GPT OSS 20B          | `openai/gpt-oss-20b`                       | テキスト      | 131k        | 36億～200億 (アクティブ～総計)   | OpenAIのHarmonyレスポンス形式でトレーニングされた、推論能力を備える低レイテンシのMixture-of-Expertsモデル。                                  |
+| OpenPipe Qwen3 14B Instruct | `OpenPipe/Qwen3-14B-Instruct`              | テキスト      | 32.8k       | 14.8B (合計)            | OpenPipeがファインチューニングによるエージェント構築向けに最適化した、効率的な多言語対応の高密度な指示チューニング済みモデル。                                    |
+| Qwen3.6 35B A3B             | `Qwen/Qwen3.6-35B-A3B`                     | テキスト、ビジョン | 262k        | 3B-35B (アクティブ-総計)     | Qwen3.6-35B-A3B は、エージェント型コーディングワークフロー向けに最適化された、262K コンテキストの MoE マルチモーダルモデルです。                          |
+| Qwen3.6 27B                 | `Qwen/Qwen3.6-27B`                         | テキスト、ビジョン | 262k        | 27B (合計)              | Qwen3.6-27B は、262K のコンテキストを備え、フラッグシップレベルのエージェント型コーディング向けに構築された 27B の高密度マルチモーダルモデルです。                   |
+| Qwen3.5 35B A3B             | `Qwen/Qwen3.5-35B-A3B`                     | テキスト、ビジョン | 262k        | 3B-35B (アクティブ-総計)     | Qwen3.5-35B-A3Bは、チャット、推論、エージェント型タスクにわたって、効率的かつ高スループットな推論を実現するよう設計された、オープンウェイトのマルチモーダルMoEモデルです。         |
+| Qwen3 30B A3B               | `Qwen/Qwen3-30B-A3B-Instruct-2507`         | テキスト      | 262k        | 3.3B-30.5B (アクティブ-総計) | Qwen3-30B-A3B-Instruct-2507 は、推論、コーディング、長文コンテキストの理解を強化した、30.5B の MoE 命令チューニング済みモデルです。                  |
+| Z.AI GLM 5.2                | `zai-org/GLM-5.2`                          | テキスト      | 262k        | 40B-744B (アクティブ-合計)   | GLM-5.2 は、400億のアクティブパラメーターと合計7,440億のパラメーターを備えたMixture-of-Experts言語モデルです。                               |
+
+<div id="experimental-models">
+  ## 実験的なモデル
+</div>
+
+以下のモデルは[実験的](/ja/inference/lifecycle#model-lifecycle-stages)です：
+
+{/* takeru inference-models-experimental - この表は自動生成されるため、手動で編集しないでください。 */}
+
+*現在のところありません*
+
+<div id="deprecated-models">
+  ## 非推奨のモデル
+</div>
+
+次のモデルは[非推奨](/ja/inference/lifecycle#model-lifecycle-stages)です。
+
+{/* takeru inference-models-deprecated - この表は自動生成されています。手動で編集しないでください。 */}
+
+| モデル                          | モデル ID (API で使用)                               | タイプ  | コンテキストウィンドウ | パラメーター                  | 説明                                                                             |
+| ---------------------------- | ---------------------------------------------- | ---- | ----------- | ----------------------- | ------------------------------------------------------------------------------ |
+| MiniMax M2.5                 | `MiniMaxAI/MiniMax-M2.5`                       | テキスト | 197k        | 10B-230B (Active-Total) | 高スループット、低レイテンシ、優れたコーディング能力を実現するために設計された、非常にスパースなアーキテクチャを持つ MoE モデル。            |
+| NVIDIA Nemotron 3 Super 120B | `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-FP8` | テキスト | 262k        | 12B-120B (Active-Total) | Nemotron 3 は、優れたエージェント機能、推論、会話能力を提供するよう設計された LatentMoE モデルです。                  |
+| Qwen3 Coder 480B A35B        | `Qwen/Qwen3-Coder-480B-A35B-Instruct`          | テキスト | 262k        | 35B-480B (Active-Total) | 関数呼び出し、ツールの使用、長いコンテキストでの推論などのエージェント型コーディングタスク向けに最適化された Mixture-of-Experts モデル。 |
+| Z.AI GLM 5.1                 | `zai-org/GLM-5.1`                              | テキスト | 203k        | 40B-744B (Active-Total) | 長期にわたるエージェント型エンジニアリングと高度な推論に対応する強力な MoE モデル。                                   |
+
+<div id="use-model-ids">
+  ## モデル ID を使用する
+</div>
+
+API を呼び出してモデルを指定するには、前述の表にある `Model ID` を使用します。たとえば:
 
 ```python
-# モデル ID を使用してチャット補完を作成する例
 response = client.chat.completions.create(
     model="meta-llama/Llama-3.1-8B-Instruct",
     messages=[...]
 )
 ```
 
-## 次のステップ
+<div id="next-steps">
+  ## 次のステップ
+</div>
 
-- 各 モデル の [利用制限と価格](/inference/usage-limits/) を確認する
-- これらの モデル の使用方法について [API リファレンス](/inference/api-reference/) を参照する
-- [W&B Playground](/inference/ui-guide/) で モデル を試す
+モデルを選択したら、次のいずれかのリソースを参照してください。
+
+* 各モデルの[利用制限と料金](/ja/inference/usage-limits/)を確認してください。
+* これらのモデルの使い方については、[API リファレンス](/ja/inference/api-reference/)を参照してください。
+* [W&amp;B Playground](/ja/inference/ui-guide/)でモデルを試してください。

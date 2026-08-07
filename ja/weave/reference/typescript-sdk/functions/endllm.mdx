@@ -1,0 +1,55 @@
+---
+title: "endLLM"
+description: "TypeScript SDK リファレンス"
+---
+
+<div id="endllm">
+  # endLLM
+</div>
+
+▸ **endLLM**(`opts?`): `void`
+
+現在アクティブなLLMを終了します。アクティブなLLMがない場合は何も行いません。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名       | タイプ              |
+| :------ | :--------------- |
+| `opts?` | `SpanEndOptions` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`void`
+
+`例`
+
+```ts twoslash
+// @noErrors
+weave.endLLM();
+```
+
+`例`
+
+```ts twoslash
+// @noErrors
+weave.endLLM({endTime: new Date('2026-05-29T10:00:00.800Z')});
+```
+
+`例`
+
+```ts twoslash
+// @noErrors
+weave.endLLM({error: new Error('llm call failed')});
+```
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/api.ts:202](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L202)
+
+***

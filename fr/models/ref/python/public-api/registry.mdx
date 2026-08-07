@@ -1,0 +1,343 @@
+---
+title: Registre
+kind: classe
+namespace: wandb.apis.public.registries.registry
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/registries/registry.py#L38" />
+
+## <kbd>classe</kbd> wandb.apis.public.Registry
+
+```python
+(service_api: 'ServiceApi',
+organization: 'str',
+entity: 'str',
+name: 'str',
+attrs: 'RegistryFragment | None' = None)
+```
+
+Un seul registre dans le Registre.
+
+<div id="args">
+  ## Arguments
+</div>
+
+* `service_api`:
+* `organization`:
+* `entity`:
+* `name`:
+* `attrs`: 
+
+<div id="properties">
+  ## Propriétés
+</div>
+
+### <kbd>propriété</kbd> allow_all_artifact_types
+
+Indique si tous les types d&#39;artifacts sont autorisés dans le registre.
+
+Si `True`, des artifacts de tout type peuvent être ajoutés. Si `False`, les artifacts sont limités aux types répertoriés dans `artifact_types`.
+
+### <kbd>propriété</kbd> artifact_types
+
+Renvoie les types d&#39;artifact autorisés dans le registre.
+
+Si `allow_all_artifact_types` vaut `True`, `artifact_types` reflète les
+types précédemment enregistrés ou actuellement utilisés dans le registre.
+Si `allow_all_artifact_types` vaut `False`, les artifacts sont limités aux
+types figurant dans `artifact_types`.
+
+Remarque :
+Les types d&#39;artifact précédemment enregistrés ne peuvent pas être supprimés.
+
+### <kbd>propriété</kbd> created_at
+
+Horodatage de création du registre.
+
+### <kbd>propriété</kbd> description
+
+Description du registre.
+
+### <kbd>propriété</kbd> entité
+
+Entité de l’organisation du registre.
+
+### <kbd>propriété</kbd> full_name
+
+Nom complet du registre, préfixe `wandb-registry-` inclus.
+
+### <kbd>propriété</kbd> id
+
+L’ID unique de ce registre.
+
+### <kbd>propriété</kbd> nom
+
+Nom du registre sans le préfixe `wandb-registry-`.
+
+### <kbd>propriété</kbd> organisation
+
+Nom de l’organisation du registre.
+
+### <kbd>propriété</kbd> chemin
+
+### <kbd>propriété</kbd> updated_at
+
+Horodatage de la dernière mise à jour du registre.
+
+### <kbd>propriété</kbd> visibility
+
+Visibilité du registre.
+
+<div id="methods">
+  ## Méthodes
+</div>
+
+### <kbd>méthode</kbd> Registry.add_members()
+
+```python
+self, *members: 'User | UserMember | Team | TeamMember | str'
+```
+
+Ajoute des Users ou des équipes à ce registre.
+
+<div id="arguments">
+  ##### Arguments
+</div>
+
+* `members`: Les Users ou équipes à ajouter au registre. Accepte des objets `User`, des objets `Team` ou leurs ID sous forme de chaîne.
+
+<div id="raises">
+  ##### Exceptions levées
+</div>
+
+* `TypeError`: Si aucun membre n’est passé en argument.
+* `ValueError`: S’il est impossible de déduire ou d’analyser les ID d’utilisateur ou d’équipe.
+
+<div id="examples">
+  ##### Exemples
+</div>
+
+```python
+import wandb
+
+api = wandb.Api()
+
+# Récupérer un registre existant
+registry = api.registry(name="my-registry", organization="my-org")
+
+user1 = api.user(username="some-user")
+user2 = api.user(username="other-user")
+registry.add_members(user1, user2)
+
+my_team = api.team(name="my-team")
+registry.add_members(my_team)
+```
+
+### <kbd>méthode</kbd> Registry.collections()
+
+```python
+self,
+filter: 'dict[str, Any] | None' = None,
+order: 'str | None' = None,
+per_page: 'PositiveInt' = 100,
+start: 'str | None' = None
+```
+
+Renvoie les collections appartenant à ce registre.
+
+<div id="arguments">
+  ##### Arguments
+</div>
+
+* `filter` : Mappage facultatif des filtres à appliquer à la requête de collections.
+* `order` : Chaîne facultative permettant de spécifier l&#39;ordre des résultats. S&#39;il est préfixé par &#39;+&#39;, le tri est croissant (par défaut). S&#39;il est préfixé par &#39;-&#39;, le tri est décroissant.
+* `per_page` : Nombre de résultats à récupérer par page. Il n&#39;est généralement pas nécessaire de le modifier.
+* `start` : Curseur de pagination permettant de reprendre une requête antérieure, obtenu à partir de l&#39;attribut `.cursor` d&#39;un paginateur précédent.
+
+### <kbd>méthode</kbd> Registry.create()
+
+```python
+api: 'Api',
+organization: 'str',
+name: 'str',
+visibility: "Literal['organization', 'restricted']",
+description: 'str | None' = None,
+artifact_types: 'list[str] | None' = None
+```
+
+Créer un nouveau registre.
+
+Le nom du registre doit être unique au sein de l’organisation.
+Cette fonction doit être appelée via `api.create_registry()`
+
+<div id="arguments">
+  ##### Arguments
+</div>
+
+* `api`: L’instance d’API W&amp;B.
+* `organization`: Le nom de l’organisation.
+* `name`: Le nom du registre (sans le préfixe `wandb-registry-`).
+* `visibility`: Le niveau de visibilité (`'organization'` ou `'restricted'`).
+* `description`: Une description facultative du registre.
+* `artifact_types`: Une liste facultative des types d’artifact autorisés.
+
+<div id="raises">
+  ##### Exceptions levées
+</div>
+
+* `ValueError`: Si un registre portant le même nom existe déjà dans l’organisation, ou si sa création échoue.
+
+### <kbd>méthode</kbd> Registry.delete()
+
+```python
+self
+```
+
+Supprimez le registre. Cette action est irréversible.
+
+### <kbd>méthode</kbd> Registry.load()
+
+```python
+self
+```
+
+Charge les attributs du registre à partir du backend.
+
+### <kbd>méthode</kbd> Registry.members()
+
+```python
+self
+```
+
+Renvoie les membres actuels (Users et équipes) de ce registre.
+
+### <kbd>méthode</kbd> Registry.remove_members()
+
+```python
+self, *members: 'User | UserMember | Team | TeamMember | str'
+```
+
+Supprime des Users ou des équipes de ce registre.
+
+<div id="arguments">
+  ##### Arguments
+</div>
+
+* `members`: Les Users ou équipes à supprimer du registre. Accepte des objets `User`, des objets `Team` ou leurs ID sous forme de chaîne.
+
+<div id="raises">
+  ##### Exceptions levées
+</div>
+
+* `TypeError`: Si aucun membre n&#39;est passé en argument.
+* `ValueError`: S&#39;il est impossible de déduire ou d&#39;analyser les ID d&#39;utilisateur ou d&#39;équipe.
+
+<div id="examples">
+  ##### Exemples
+</div>
+
+```python
+import wandb
+
+api = wandb.Api()
+
+# Récupérer un registre existant
+registry = api.registry(name="my-registry", organization="my-org")
+
+user1 = api.user(username="some-user")
+user2 = api.user(username="other-user")
+registry.remove_members(user1, user2)
+
+old_team = api.team(name="old-team")
+registry.remove_members(old_team)
+```
+
+### <kbd>méthode</kbd> Registry.save()
+
+```python
+self
+```
+
+Enregistrer les attributs du registre dans le backend.
+
+### <kbd>méthode</kbd> Registry.team_members()
+
+```python
+self
+```
+
+Renvoie les équipes actuellement membres de ce registre.
+
+### <kbd>méthode</kbd> Registry.update_member()
+
+```python
+self,
+member: 'User | UserMember | Team | TeamMember | str',
+role: 'MemberRole | str'
+```
+
+Met à jour le rôle d’un membre (utilisateur ou équipe) dans ce registre.
+
+<div id="arguments">
+  ##### Arguments
+</div>
+
+* `member`:  L’utilisateur ou l’équipe dont le rôle doit être mis à jour.  Accepte un objet `User`, un objet `Team` ou leur ID sous forme de chaîne.
+* `role`:  Le nouveau rôle à attribuer au membre. Peut être l’un des suivants :
+  * &quot;admin&quot;
+  * &quot;member&quot;
+  * &quot;viewer&quot;
+  * &quot;restricted&#95;viewer&quot; (si pris en charge par le serveur W&amp;B)
+
+<div id="raises">
+  ##### Exceptions levées
+</div>
+
+* `ValueError`: S’il est impossible de déterminer l’ID de l’utilisateur ou de l’équipe.
+
+<div id="examples">
+  ##### Exemples
+</div>
+
+Faites de tous les utilisateurs du registre des administrateurs
+
+```python
+import wandb
+
+api = wandb.Api()
+
+# Récupérer un registre existant
+registry = api.registry(name="my-registry", organization="my-org")
+
+for member in registry.user_members():
+    registry.update_member(member.user, role="admin")
+```
+
+### <kbd>méthode</kbd> Registry.user_members()
+
+```python
+self
+```
+
+Renvoie les utilisateurs actuellement membres de ce registre.
+
+### <kbd>méthode</kbd> Registry.versions()
+
+```python
+self,
+filter: 'dict[str, Any] | None' = None,
+per_page: 'PositiveInt' = 100,
+start: 'str | None' = None
+```
+
+Renvoie les versions d&#39;artifact de ce registre.
+
+<div id="arguments">
+  ##### Arguments
+</div>
+
+* `filter`: Mappage facultatif des filtres à appliquer à la requête de versions d&#39;artifact.
+* `per_page`: Le nombre de résultats à récupérer par page. En général, il n&#39;y a aucune raison de modifier cette valeur.
+* `start`: Curseur de pagination pour reprendre une requête précédente, capturé à partir de l&#39;attribut `.cursor` d&#39;un paginateur précédent.

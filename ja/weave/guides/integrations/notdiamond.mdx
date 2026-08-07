@@ -1,31 +1,44 @@
 ---
-title: Not Diamond ¬◇
-description: Not Diamond を使用して、精度を最大限に高めつつコストを節約しながら、ニーズに合った適切な モデル へプロンプトをルーティングします
+title: "Not Diamond ¬◇"
+description: "Not Diamond を使用して、精度を最大化しコストを抑えながら、ニーズに最適なモデルにプロンプトを振り分けます"
+keywords: ["Not Diamond", "モデルルーティング", "カスタムルーター", "LLM ルーティング", "preference ID"]
 ---
 
-複雑な LLM ワークフローを構築する際、ユーザーは精度、コスト、または呼び出しのレイテンシに応じて異なるモデルにプロンプトを送信する必要がある場合があります。 [Not Diamond][nd] を使用すると、これらのワークフロー内のプロンプトをニーズに合った適切なモデルにルーティングでき、モデルコストを抑えながら精度を最大化できます。
+複雑な LLM ワークフローを構築する際には、精度、
+コスト、または call のレイテンシに応じて、異なるモデルにプロンプトを送る必要がある場合があります。[Not Diamond][nd] を使用すると、これらのワークフロー内でプロンプトを
+ニーズに最適なモデルへ振り分けることができ、
+モデルのコストを抑えながら精度の最大化に役立ちます。
 
-## クイックスタート
+このガイドでは、ルーティングされたモデルの Call を Weave が自動的にトレースできるように Not Diamond を W&amp;B Weave と統合する方法と、独自のパフォーマンスデータに基づいてプロンプトを振り分けるために Weave Evaluations を使用してカスタムルーターをトレーニングする方法を説明します。
 
-[アカウントを作成][account] し、 [APIキーを生成][keys] していることを確認してください。その後、環境変数 `NOTDIAMOND_API_KEY` として API キーを追加します。
+<div id="get-started">
+  ## はじめに
+</div>
 
-![[APIキーの作成](/weave/guides/integrations/imgs/notdiamond/api-keys.png)]
+Weave で Not Diamond を使用するには、Not Diamond のアカウントとAPIキーが必要です。[アカウントを作成][account] し、[APIキーを生成][keys] してから、API
+キーを環境変数 `NOTDIAMOND_API_KEY` として設定してください。
 
-ここから、以下のことが行えます。
+![APIキーを作成](/weave/guides/integrations/imgs/notdiamond/api-keys.png)
 
-- [クイックスタートガイド] を試す
-- W&B Weave と Not Diamond を使用して [カスタムルーターを構築する][custom router]
-- [Not Diamond とチャット][chat] してルーティングの動作を確認する
+ここから、次のいずれかを実行できます。
 
-## トレース
+* [クイックスタートガイド]を試す。
+* Weave と Not Diamond を使って[カスタムルーターを構築する][custom router]。
+* [Not Diamond とチャットして][chat]、ルーティングの動作を確認する。
 
-Weave は [Not Diamond の Python ライブラリ][python] と連携し、 [自動的に API 呼び出しをログに記録][ops] します。ワークフローの開始時に `weave.init()` を実行するだけで、あとは通常通りルーティングされたプロバイダーを使用できます。
+<div id="tracing">
+  ## トレース
+</div>
+
+Weave は [Not Diamond の Python ライブラリ][python] と連携し、[API Call を自動的にログする][ops] ため、
+ルーティングの判断やプロバイダーの応答を、他の Weave トレースとあわせて確認できます。
+ワークフローの開始時に `weave.init()` を実行し、その後は通常どおりルーティングされた
+プロバイダーを使用してください:
 
 ```python lines
 from notdiamond import NotDiamond
 
 import weave
-# Weaveを初期化
 weave.init('notdiamond-quickstart')
 
 client = NotDiamond()
@@ -37,21 +50,25 @@ session_id, provider = client.chat.completions.model_select(
     model=['openai/gpt-4o', 'anthropic/claude-3-5-sonnet-20240620']
 )
 
-print("LLM called: ", provider.provider)  # openai, anthropic など
-print("Provider model: ", provider.model) # gpt-4o, claude-3-5-sonnet-20240620 など
+print("LLM called: ", provider.provider)  # openai、anthropic など
+print("Provider model: ", provider.model) # gpt-4o、claude-3-5-sonnet-20240620 など
 ```
 
-## カスタムルーティング
+<div id="custom-routing">
+  ## カスタムルーティング
+</div>
 
-また、 [Evaluations][evals] に基づいて独自の [カスタムルーター][custom router] をトレーニングすることもできます。これにより、特定の use case における評価パフォーマンスに従って Not Diamond がプロンプトをルーティングできるようになります。
+特殊なユースケースでは、[評価][evals]に基づいて独自の[カスタムルーター]をトレーニングできます。これにより、
+Not Diamond はデフォルトのルーティング ポリシーではなく、評価のパフォーマンスに基づいてプロンプトをルーティングできるようになります。
 
-まず、カスタムルーターをトレーニングします。
+まず、カスタムルーター をトレーニングします。`train_router` 呼び出しでは、後で使用するトレーニング済みルーターを識別するための
+`preference_id` が返されます。
 
 ```python lines
 from weave.flow.eval import EvaluationResults
 from weave.integrations.notdiamond.custom_router import train_router
 
-# gpt-4o と Claude 3.5 Sonnet で Evaluation を構築
+# gpt-4oとClaude 3.5 SonnetのEvaluationを構築する
 evaluation = weave.Evaluation(...)
 gpt_4o = weave.Model(...)
 sonnet = weave.Model(...)
@@ -69,7 +86,8 @@ preference_id = train_router(
 )
 ```
 
-この preference ID を `model_select` リクエストで再利用することで、評価データに基づいてパフォーマンスを最大化し、コストを最小限に抑えるようにプロンプトをルーティングできます。
+この preference ID を任意の `model_select` リクエストに渡すと、カスタムルーターを再利用して、
+評価データに基づき、パフォーマンスを最大化しつつコストを最小化するようにプロンプトをルーティングできます。
 
 ```python lines
 from notdiamond import NotDiamond
@@ -85,26 +103,38 @@ session_id, provider = client.chat.completions.model_select(
     ],
     model=['openai/gpt-4o', 'anthropic/claude-3-5-sonnet-20240620'],
 
-    # この preference ID を渡すことでカスタムルーターを再利用します
+    # このpreference IDを渡すことでカスタムルーターを再利用できます
     preference_id=preference_id
 )
 
-print("LLM called: ", provider.provider)  # openai, anthropic など
-print("Provider model: ", provider.model) # gpt-4o, claude-3-5-sonnet-20240620 など
+print("LLM called: ", provider.provider)  # openai、anthropicなど
+print("Provider model: ", provider.model) # gpt-4o、claude-3-5-sonnet-20240620など
 ```
 
-## 追加のサポート
+<div id="additional-support">
+  ## 追加サポート
+</div>
 
-さらなるサポートについては、 [ドキュメント][docs] を参照するか、 [メッセージを送信][support] してください。
+さらにサポートが必要な場合は、[ドキュメント][docs]を確認するか、[メッセージを送信][support]してください。
 
 [account]: https://app.notdiamond.ai
+
 [chat]: https://chat.notdiamond.ai
+
 [custom router]: https://docs.notdiamond.ai/docs/router-training-quickstart
+
 [docs]: https://docs.notdiamond.ai
+
 [evals]: /weave/guides/core-types/evaluations
+
 [keys]: https://app.notdiamond.ai/keys
+
 [nd]: https://www.notdiamond.ai/
+
 [ops]: /weave/guides/tracking/ops
+
 [python]: https://github.com/Not-Diamond/notdiamond-python
+
 [quickstart guide]: https://docs.notdiamond.ai/docs/quickstart-routing
+
 [support]: mailto:support@notdiamond.ai

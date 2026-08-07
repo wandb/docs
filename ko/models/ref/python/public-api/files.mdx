@@ -1,66 +1,71 @@
 ---
 title: Files
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.files
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/files.py" />
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-## <kbd>class</kbd> `Files`
-`File` 오브젝트 컬렉션에 대한 lazy iterator입니다.
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/files.py#L78" />
 
-Run 중에 W&B에 업로드된 파일을 엑세스하고 관리합니다. 대규모 파일 컬렉션을 반복할 때 페이지네이션을 자동으로 처리합니다.
+## <kbd>class</kbd> wandb.apis.public.Files
 
-**Example:**
- ```python
+```python
+(service_api: 'ServiceApi',
+run: 'Run',
+names: 'list[str] | None' = None,
+per_page: 'int' = 50,
+upload: 'bool' = False,
+pattern: 'str | None' = None)
+```
+
+`File` 객체 컬렉션에 대한 lazy 이터레이터입니다.
+
+run 중에 W&amp;B에 업로드된 파일에 접근하고 관리합니다. 많은 파일 컬렉션을 순회할 때 페이지네이션을 자동으로 처리합니다.
+
+<div id="args">
+  ## 인수
+</div>
+
+* `service_api`: W&amp;B를 쿼리하는 데 사용할 서비스 API 인스턴스
+* `run`: 파일이 포함된 run 객체
+* `names`: 파일을 필터링할 파일 이름 목록
+* `per_page`: 페이지당 가져올 파일 수
+* `upload`: `True`이면 각 파일의 upload URL을 가져옵니다
+* `pattern`: W&amp;B에서 파일을 반환할 때 매칭할 패턴입니다. 이 패턴은 mySQL의 LIKE 구문을 사용하므로, .json으로 끝나는 모든 파일과 매칭하려면 &quot;%.json&quot;을 사용합니다. names와 pattern이 모두 지정되면 ValueError가 발생합니다.
+
+<div id="examples">
+  ## 예시
+</div>
+
+```python
 from wandb.apis.public.files import Files
 from wandb.apis.public.api import Api
 
-# 예시 run 오브젝트
+# 예시 run 객체
 run = Api().run("entity/project/run-id")
 
-# run 내의 파일들을 반복하기 위해 Files 오브젝트 생성
-files = Files(api.client, run)
+# run의 파일 조회
+files = run.files()
 
-# 파일 반복 처리
+# 파일 순회
 for file in files:
-     print(file.name)
-     print(file.url)
-     print(file.size)
+    print(file.name)
+    print(file.url)
+    print(file.size)
 
-     # 파일 다운로드
-     file.download(root="download_directory", replace=True)
-``` 
-
-### <kbd>method</kbd> `Files.__init__`
-
-```python
-__init__(
-    client: 'RetryingClient',
-    run: 'Run',
-    names: 'list[str] | None' = None,
-    per_page: 'int' = 50,
-    upload: 'bool' = False,
-    pattern: 'str | None' = None
-)
+    # 파일 다운로드
+    file.download(root="download_directory", replace=True)
 ```
 
-`File` 오브젝트 컬렉션에 대한 lazy iterator를 초기화합니다.
+<div id="methods">
+  ## 메서드
+</div>
 
-파일은 필요에 따라 W&B 서버 에서 페이지 단위로 가져옵니다.
+### <kbd>방법</kbd> Paginator.**next**()
 
-**Args:**
- 
- - `client`: 파일을 포함하고 있는 run 오브젝트 
- - `run`: 파일을 포함하고 있는 run 오브젝트 
- - `names` (list, optional): 파일을 필터링하기 위한 파일 이름 리스트 
- - `per_page` (int, optional): 페이지당 가져올 파일 수 
- - `upload` (bool, optional): `True`인 경우, 각 파일에 대한 업로드 URL을 가져옵니다. 
- - `pattern` (str, optional): W&B에서 파일을 반환할 때 일치시킬 패턴. 이 패턴은 MySQL의 LIKE 구문을 사용하므로, .json으로 끝나는 모든 파일을 매칭하려면 "%.json"이 됩니다. names와 pattern이 모두 제공되면 ValueError가 발생합니다. 
+```python
+self
+```
 
----
-
-### <kbd>property</kbd> Files.length
-
----
+이터레이터의 다음 항목을 반환합니다. 더 이상 반환할 항목이 없으면 StopIteration을 발생시킵니다.

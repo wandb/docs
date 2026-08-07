@@ -1,12 +1,16 @@
 ---
 title: MMEngine
+description: "Use W&B with OpenMMLab's MMEngine through the WandbVisBackend to log training metrics, configs, and visual records."
 ---
-MMEngine by [OpenMMLab](https://github.com/open-mmlab) is a foundational library for training deep learning models based on PyTorch. MMEngine implements a next-generation training architecture for the OpenMMLab algorithm library, providing a unified execution foundation for over 30 algorithm libraries within OpenMMLab. Its core components include the training engine, evaluation engine, and module management.
+This page shows you how to use W&B with OpenMMLab's MMEngine to track and visualize training runs. Use it if you train deep learning models with MMEngine or OpenMMLab computer vision libraries and want to log metrics, configs, and visualizations to W&B.
 
-[W&B](https://wandb.ai/site) is directly integrated into MMEngine through a dedicated [`WandbVisBackend`](https://mmengine.readthedocs.io/en/latest/api/generated/mmengine.visualization.WandbVisBackend.html#mmengine.visualization.WandbVisBackend) that can be used to
-- log training and evaluation metrics.
-- log and manage experiment configs.
-- log additional records such as graph, images, scalars, etc.
+MMEngine by [OpenMMLab](https://github.com/open-mmlab) is a foundational library for training deep learning models based on PyTorch. MMEngine implements a training architecture for the OpenMMLab algorithm library, providing a unified execution foundation for over 30 algorithm libraries within OpenMMLab. Its core components include the training engine, evaluation engine, and module management.
+
+MMEngine integrates directly with [W&B](https://wandb.ai/site) through a dedicated [`WandbVisBackend`](https://mmengine.readthedocs.io/en/latest/api/generated/mmengine.visualization.WandbVisBackend.html#mmengine.visualization.WandbVisBackend) that you can use to:
+
+- Log training and evaluation metrics.
+- Log and manage experiment configs.
+- Log additional records such as graphs, images, and scalars.
 
 ## Get started
 
@@ -14,12 +18,12 @@ Install `openmim` and `wandb`.
 
 <Tabs>
 <Tab title="Command Line">
-``` bash
+```bash
 pip install -q -U openmim wandb
 ```
 </Tab>
 <Tab title="Notebook">
-``` bash
+```bash
 !pip install -q -U openmim wandb
 ```
 </Tab>
@@ -29,22 +33,22 @@ Next, install `mmengine` and `mmcv` using `mim`.
 
 <Tabs>
 <Tab title="Command Line">
-``` bash
+```bash
 mim install -q mmengine mmcv
 ```
 </Tab>
 <Tab title="Notebook">
-``` bash
+```bash
 !mim install -q mmengine mmcv
 ```
 </Tab>
 </Tabs>
 
-## Use the `WandbVisBackend` with MMEngine Runner
+## Use the `WandbVisBackend` with MMEngine runner
 
-This section demonstrates a typical workflow using `WandbVisBackend` using [`mmengine.runner.Runner`](https://mmengine.readthedocs.io/en/latest/api/generated/mmengine.runner.Runner.html#mmengine.runner.Runner).
+This section demonstrates a typical workflow using `WandbVisBackend` with [`mmengine.runner.Runner`](https://mmengine.readthedocs.io/en/latest/api/generated/mmengine.runner.Runner.html#mmengine.runner.Runner). The visualizer wraps the W&B backend so the MMEngine runner can route logs to W&B during training.
 
-1. Define a `visualizer` from a visualization config.
+1. Define a `visualizer` from a visualization config. The visualizer is what the runner uses to dispatch logs to the configured backend.
 
     ```python
     from mmengine.visualization import Visualizer
@@ -65,11 +69,9 @@ This section demonstrates a typical workflow using `WandbVisBackend` using [`mme
     visualizer = Visualizer.get_instance(**visualization_cfg)
     ```
 
-    <Note>
     You pass a dictionary of arguments for [W&B run initialization](/models/ref/python/functions/init) input parameters to `init_kwargs`.
-    </Note>
 
-2. Initialize a `runner` with the `visualizer`, and call `runner.train()`.
+2. Initialize a `runner` with the `visualizer`, and call `runner.train()` to start training. The runner uses the visualizer to stream metrics and configs to W&B.
 
     ```python
     from mmengine.runner import Runner
@@ -90,7 +92,7 @@ This section demonstrates a typical workflow using `WandbVisBackend` using [`mme
 
 ## Use the `WandbVisBackend` with OpenMMLab computer vision libraries
 
-The `WandbVisBackend` can also be used easily to track experiments with OpenMMLab computer vision libraries such as [MMDetection](https://mmdetection.readthedocs.io/).
+You can also use the `WandbVisBackend` to track experiments with OpenMMLab computer vision libraries such as [MMDetection](https://mmdetection.readthedocs.io/). The following example overrides the `vis_backends` entry from a base config so that the existing visualizer logs to W&B.
 
 ```python
 # inherit base configs from the default runtime configs

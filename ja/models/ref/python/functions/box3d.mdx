@@ -1,0 +1,103 @@
+---
+title: box3d()
+kind: 関数
+namespace: wandb.sdk.data_types.object_3d
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/object_3d.py#L122" />
+
+## <kbd>関数</kbd> wandb.box3d
+
+```python
+*,
+center: 'npt.ArrayLike',
+size: 'npt.ArrayLike',
+orientation: 'npt.ArrayLike',
+color: 'RGBColor',
+label: 'str | None' = None,
+score: 'numeric | None' = None
+```
+
+3D バウンディング ボックスです。バウンディング ボックスは、中心、サイズ、向きで指定します。
+
+<div id="args">
+  ## 引数
+</div>
+
+* `center`: 長さ 3 の ndarray で表されるボックスの中心点。
+* `size`: 長さ 3 の ndarray で表される、ボックスの X、Y、Z 方向の寸法。
+* `orientation`: グローバル XYZ 座標をボックスのローカル XYZ 座標に変換する回転です。非ゼロ四元数 r + xi + yj + zk に対応する長さ 4 の ndarray `[r, x, y, z]` で指定します。
+* `color`: `0 <= r,g,b <= 1` を満たす `(r, g, b)` タプルで表されるボックスの色。
+* `label`: ボックスの省略可能なラベル。
+* `score`: ボックスの省略可能なスコア。通常は、検出の信頼度を示すために使用します。
+
+<div id="returns">
+  ## 戻り値
+</div>
+
+Box3D オブジェクトです。
+
+<div id="examples">
+  ## 例
+</div>
+
+次の例では、X 軸、Y 軸、Z 軸を中心に回転する 60 個のボックスを含むポイントクラウドを作成します。
+
+```python
+import wandb
+
+import math
+import numpy as np
+from scipy.spatial.transform import Rotation
+
+
+with wandb.init() as run:
+    run.log(
+        {
+            "points": wandb.Object3D.from_point_cloud(
+                points=np.random.uniform(-5, 5, size=(100, 3)),
+                boxes=[
+                    wandb.box3d(
+                        center=(0.3 * t - 3, 0, 0),
+                        size=(0.1, 0.1, 0.1),
+                        orientation=Rotation.from_euler(
+                            "xyz", [t * math.pi / 10, 0, 0]
+                        ).as_quat(),
+                        color=(0.5 + t / 40, 0.5, 0.5),
+                        label=f"box {t}",
+                        score=0.9,
+                    )
+                    for t in range(20)
+                ]
+                + [
+                    wandb.box3d(
+                        center=(0, 0.3 * t - 3, 0.3),
+                        size=(0.1, 0.1, 0.1),
+                        orientation=Rotation.from_euler(
+                            "xyz", [0, t * math.pi / 10, 0]
+                        ).as_quat(),
+                        color=(0.5, 0.5 + t / 40, 0.5),
+                        label=f"box {t}",
+                        score=0.9,
+                    )
+                    for t in range(20)
+                ]
+                + [
+                    wandb.box3d(
+                        center=(0.3, 0.3, 0.3 * t - 3),
+                        size=(0.1, 0.1, 0.1),
+                        orientation=Rotation.from_euler(
+                            "xyz", [0, 0, t * math.pi / 10]
+                        ).as_quat(),
+                        color=(0.5, 0.5, 0.5 + t / 40),
+                        label=f"box {t}",
+                        score=0.9,
+                    )
+                    for t in range(20)
+                ],
+            ),
+        }
+    )
+```

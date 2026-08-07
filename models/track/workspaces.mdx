@@ -3,6 +3,8 @@ description: A playground for exploring run data with interactive visualizations
 title: View experiments results
 ---
 
+import { AriaChatBubbles } from '/snippets/AriaChatBubbles.jsx';
+
 W&B workspace is your personal sandbox to customize charts and explore model results. A W&B workspace consists of *Tables* and *Panel sections*: 
 
 * **Tables**: All runs logged to your project are listed in the project's table. Turn on and off runs, change colors, and expand the table to see notes, config, and summary metrics for each run.
@@ -15,10 +17,10 @@ W&B workspace is your personal sandbox to customize charts and explore model res
 ## Workspace types
 There are two main workspace categories: **Personal workspaces** and **Saved views**. 
 
-* **Personal workspaces:**  A customizable workspace for in-depth analysis of models and data visualizations. Only the owner of the workspace can edit and save changes. Teammates can view a personal workspace but teammates can not make changes to someone else's personal workspace. 
+* **Personal workspaces:** A customizable workspace for in-depth analysis of models and data visualizations. Only the owner of the workspace can edit and save changes. Teammates can view a personal workspace but teammates can not make changes to someone else's personal workspace. 
 * **Saved views:** Saved views are collaborative snapshots of a workspace. Anyone on your team can view, edit, and save changes to saved workspace views. Use saved workspace views for reviewing and discussing experiments, runs, and more.
 
-The proceeding image shows multiple personal workspaces created by Cécile-parker's teammates. In this project, there are no saved views:
+The following image shows multiple personal workspaces created by Cécile-parker's teammates. In this project, there are no saved views:
 <Frame>
     <img src="/images/app_ui/Menu_No_views.jpg" alt="No saved views"  />
 </Frame>
@@ -30,7 +32,14 @@ Improve team collaboration with tailored workspace views. Create Saved Views to 
 
 1. Navigate to a personal workspace or a saved view.
 2. Make edits to the workspace.
-3. Click on the meatball menu (three horizontal dots) at the top right corner of your workspace. Click on **Save as a new view**.
+3. Click the **action (<Icon icon="ellipsis" iconType="solid"/>)** menu at the top right corner of your workspace. Click **Save as a new view**.
+
+You can also ask ARIA to save your current workspace layout as a new view:
+
+<AriaChatBubbles
+  prompt="Save this workspace as a new view called LR comparison so my team can review learning-rate experiments."
+  response="I'll save your current workspace layout, including the visible runs and panel arrangement, as a new saved view named LR comparison."
+/>
 
 New saved views appear in the workspace navigation menu.
 
@@ -53,7 +62,7 @@ A confirmation dialog appears when you save your updates to a workspace view. If
 Remove saved views that are no longer needed.
 
 1. Navigate to the saved view you want to remove.
-2. Select the three horizontal lines (**...**) at the top right of the view.
+2. Select the **menu (<Icon icon="bars" iconType="solid"/>)** button at the top right of the view.
 3. Choose **Delete view**.
 4. Confirm the deletion to remove the view from your workspace menu.
 
@@ -123,7 +132,7 @@ By default, new workspaces use these default settings for line plots:
 | Show X range in tooltip  | Off |
 | Tooltip runs             | Default |
 | Sync zoom across charts  | Off |
-| Show higlighted run only | Off | 
+| Show highlighted run only | Off | 
 
 
 ### Configure your workspace template
@@ -135,7 +144,7 @@ By default, new workspaces use these default settings for line plots:
 
 ### Save your workspace template
 
-1. At the top of the workspace, click the action menu `...` near the **Undo** and **Redo** arrow icons.
+1. At the top of the workspace, click the **action (<Icon icon="ellipsis" iconType="solid"/>)** menu near the **Undo** and **Redo** arrow icons.
 1. Click **Save personal workspace template**.
 1. Review the settings for the template, then click **Save**.
 
@@ -151,7 +160,7 @@ To update your workspace template:
 
 1. Open any workspace.
 1. Modify the workspace's settings. For example, set the number of runs to include to `11`.
-1. To save the changes to the template, click the action menu `...` near the **Undo** and **Redo** arrow icons, then click **Update personal workspace template**.
+1. To save the changes to the template, click the **action (<Icon icon="ellipsis" iconType="solid"/>)** menu near the **Undo** and **Redo** arrow icons, then click **Update personal workspace template**.
 1. Verify the settings, then click **Update**. The template is updated, and reapplied to all workspaces that use it.
 
 ### Delete your workspace template

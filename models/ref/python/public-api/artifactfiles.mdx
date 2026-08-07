@@ -1,43 +1,76 @@
 ---
 title: ArtifactFiles
-namespace: public_apis_namespace
-python_object_type: class
----
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
-
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
-
-
-
-
-## <kbd>class</kbd> `ArtifactFiles`
-A paginator for files in an artifact. 
-
-
-### <kbd>property</kbd> ArtifactFiles.cursor
-
-
-
-
-
+kind: class
+namespace: wandb.apis.public.artifacts
 ---
 
-### <kbd>property</kbd> ArtifactFiles.more
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
+
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L1021" />
+
+
+
+## <kbd>class</kbd> wandb.apis.public.ArtifactFiles
+
+
+
+
+A paginator for files in an artifact.
 
 
 
 
 
----
-
-### <kbd>property</kbd> ArtifactFiles.path
-
-Returns the path of the artifact. 
 
 
 
 
+## Properties
+
+### <kbd>property</kbd> path
+
+Returns the path of the artifact.
 
 
-**Returns:**
- - `list[str]`: The path property value.
+
+## Methods
+
+### <kbd>method</kbd> RelayPaginator.convert_objects()
+
+```python
+self
+```
+
+Convert the last fetched response data into the iterated objects.
+
+
+
+
+
+### <kbd>method</kbd> Paginator.__next__()
+
+```python
+self
+```
+
+Return the next item from the iterator. When exhausted, raise StopIteration
+
+
+
+
+
+### <kbd>method</kbd> Paginator.update_variables()
+
+```python
+self
+```
+
+Update the query variables for the next page fetch.
+
+
+
+
+
+
+

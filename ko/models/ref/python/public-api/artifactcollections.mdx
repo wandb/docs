@@ -1,25 +1,41 @@
 ---
 title: ArtifactCollections
-namespace: public_apis_namespace
-python_object_type: class
----
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
-
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
-
-## <kbd>class</kbd> `ArtifactCollections`
-Projects 내의 특정 타입에 대한 Artifact 컬렉션입니다.
-
-**Args:**
-
- - `client`: W&B 쿼리에 사용할 클라이언트 인스턴스입니다.
- - `entity`: Projects 를 소유한 Entity (사용자 또는 팀)입니다.
- - `project`: Artifact 컬렉션을 조회할 Projects 의 이름입니다.
- - `type_name`: 컬렉션을 가져올 Artifact 타입의 이름입니다.
- - `per_page`: 페이지당 가져올 Artifact 컬렉션의 수입니다. 기본값은 50입니다.
-
-### <kbd>property</kbd> ArtifactCollections.cursor
-
+kind: 클래스
+namespace: wandb.apis.public.artifacts
 ---
 
-### <kbd>property</kbd> ArtifactCollections.more
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L283" />
+
+## <kbd>클래스</kbd> wandb.apis.public.ArtifactCollections
+
+프로젝트의 특정 유형에 속한 artifact collection입니다.
+
+<div id="methods">
+  ## 메서드
+</div>
+
+### <kbd>방법</kbd> RelayPaginator.convert_objects()
+
+```python
+self
+```
+
+마지막으로 가져온 응답 데이터를 순회되는 객체로 변환합니다.
+
+### <kbd>방법</kbd> Paginator.**next**()
+
+```python
+self
+```
+
+이터레이터의 다음 항목을 반환합니다. 더 이상 항목이 없으면 StopIteration 예외를 발생시킵니다.
+
+### <kbd>방법</kbd> Paginator.update_variables()
+
+```python
+self
+```
+
+다음 페이지를 가져오기 위한 쿼리 변수를 업데이트합니다.

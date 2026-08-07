@@ -1,0 +1,59 @@
+---
+title: "분산 트레이닝에서 트레이닝이 멈추는 이유는 무엇인가요?"
+keywords: ["Experiments", "Run Crashes"]
+---
+
+이 문서는 W&amp;B를 분산 트레이닝 프레임워크와 함께 사용할 때 발생하는 트레이닝 멈춤 문제를 해결하여 Runs가 중단 없이 시작되고 완료되도록 도와드립니다.
+
+W&amp;B를 분산 트레이닝과 함께 사용할 때 트레이닝이 멈추는 일반적인 이유는 두 가지입니다:
+
+* **트레이닝 시작 시 멈춤**: W&amp;B의 멀티프로세싱이 분산 트레이닝 프레임워크의 멀티프로세싱과 간섭할 수 있습니다.
+* **트레이닝 종료 시 멈춤**: W&amp;B 프로세스가 언제 종료해야 하는지 알지 못합니다.
+
+<div id="fix-hangs-at-the-start">
+  ## 시작 시 멈춤 현상 해결
+</div>
+
+run이 트레이닝을 시작할 때 멈춘다면, 원인은 대개 W&amp;B의 멀티프로세싱과 분산 트레이닝 프레임워크의 멀티프로세싱이 충돌하기 때문입니다. 이를 해결하려면 W&amp;B Service를 활성화하세요. W&amp;B SDK `0.13.0` 이상에서는 기본적으로 활성화되어 있습니다. 이전 버전을 사용 중이라면 SDK를 업그레이드하세요:
+
+```bash
+pip install --upgrade wandb
+```
+
+W&amp;B SDK `0.12.5`~`0.12.x`에서는 W&amp;B Service를 명시적으로 활성화하세요:
+
+```python
+def main():
+    wandb.require("service")
+    # 나머지 스크립트
+```
+
+W&amp;B SDK `0.12.4` 및 이전 버전에서는 `WANDB_START_METHOD` 환경 변수를 설정하세요:
+
+```bash
+export WANDB_START_METHOD=thread
+```
+
+W&amp;B Service를 활성화하거나(이전 SDK에서는 시작 방법을 설정하면) 분산 트레이닝 run이 멈추지 않고 시작됩니다.
+
+<div id="fix-hangs-at-the-end">
+  ## 마지막에 멈추는 문제 해결
+</div>
+
+트레이닝이 완료된 후 run이 멈춘다면, W&amp;B가 run이 종료되었음을 감지하지 못한 것입니다. 트레이닝 스크립트 마지막에 `wandb.finish()`를 호출하여 W&amp;B에 run이 완료되었음을 알리세요:
+
+```python
+wandb.finish()
+```
+
+이 호출은 모든 데이터를 업로드하고 W&amp;B 프로세스를 정상적으로 종료합니다.
+
+자세한 내용은 [분산 트레이닝](/ko/models/track/log/distributed-training/)을 참조하세요.
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Run Crashes](/ko/support/models/tags/run-crashes)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

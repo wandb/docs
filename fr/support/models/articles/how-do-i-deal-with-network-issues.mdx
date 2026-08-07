@@ -1,0 +1,26 @@
+---
+title: "Comment résoudre les problèmes de réseau ?"
+keywords: ["Connectivité"]
+---
+
+Cette page vous aide à résoudre les erreurs SSL et réseau qui empêchent W&amp;B de synchroniser vos données d&#39;entraînement, afin que vous puissiez continuer à exécuter vos expériences même sur des réseaux peu fiables ou restreints.
+
+Si vous rencontrez des erreurs SSL ou réseau, telles que `wandb: Network error (ConnectionError), entering retry loop`, utilisez l&#39;une des solutions suivantes :
+
+* Mettez à jour le certificat SSL. Sur un serveur Ubuntu, exécutez `update-ca-certificates`. Un certificat SSL valide est requis pour synchroniser en toute sécurité les journaux d&#39;entraînement.
+* Si la connexion réseau est instable, utilisez le mode hors ligne en définissant la [variable d&#39;environnement facultative](/fr/models/track/environment-variables#optional-environment-variables) `WANDB_MODE` sur `offline`, puis synchronisez les fichiers plus tard depuis un appareil disposant d&#39;un accès à Internet.
+* Vous pouvez également utiliser [W&amp;B Private Hosting](/fr/platform/hosting/), qui fonctionne en local et évite toute synchronisation avec des serveurs cloud.
+
+Si vous voyez spécifiquement l&#39;erreur `SSL CERTIFICATE_VERIFY_FAILED`, le problème peut provenir d&#39;un pare-feu d&#39;entreprise qui intercepte le trafic. Pointez la bibliothèque `requests` vers votre bundle CA local afin que W&amp;B fasse confiance au certificat du pare-feu :
+
+```bash
+export REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
+```
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Connectivité](/fr/support/models/tags/connectivity)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

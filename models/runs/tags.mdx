@@ -1,10 +1,11 @@
 ---
 title: Add labels to runs with tags
+description: "Add, update, and remove tags on W&B runs using the Python SDK, Public API, or the W&B App UI for organization."
 ---
 
 Add tags to label runs with particular features that might not be obvious from the logged metrics or artifact data. 
 
-For example, you can add a tag to a run to indicated that run's model is `in_production`, that run is `preemptible`, this run represents the `baseline`, and so forth.
+For example, you can add a tag to a run to indicate that a run's model is `in_production`, that run is `preemptible`, this run represents the `baseline`, and so forth.
 
 ## Add tags to one or more runs
 
@@ -46,10 +47,11 @@ Use the [W&B Public API](/models/ref/python/public-api) to add or update tags to
 To update tags on an existing run, access the `wandb.Run.tags` property. `wandb.Run.tags` property consists of a list of strings. Concatenate the new tag or tags to the existing tags and then call `wandb.Run.update()` to update the run with the new tags. For example:
 
 ```python
-with wandb.Api().run("{entity}/{project}/{run-id}") as run:
-  run.tags.append("<tag1>")
-  run.update()
+run = wandb.Api().run("{entity}/{project}/{run-id}")
+run.tags.append("tag1")  # you can choose tags based on run data here
+run.update()
 ```
+
 </Tab>
 <Tab title="Project page">
 This method is best suited to tagging large numbers of runs with the same tag or tags.
@@ -78,7 +80,7 @@ Follow these steps to remove tags from a run in the W&B App.
 
 <Tabs>
 <Tab title="Project page">
-This method is best suited to removing tags from a large numbers of runs.
+This method is best suited to removing tags from a large number of runs.
 
 1. In the Run sidebar of the project, select the table icon in the upper-right. This will expand the sidebar into the full runs table.
 2. Hover over a run in the table to see a checkbox on the left or look in the header row for a checkbox to select all runs.

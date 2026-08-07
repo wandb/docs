@@ -1,0 +1,65 @@
+---
+title: "How do I use custom CLI commands with sweeps?"
+keywords: ["Sweeps"]
+featured: true
+---
+
+You can use W&B Sweeps with custom CLI commands if training configuration passes command-line arguments. This lets you run sweeps against existing training scripts that already expect specific CLI flags, without modifying how the script consumes its arguments.
+
+The following example shows a Bash terminal that trains a Python script named `train.py` and provides values that the script parses:
+
+```bash
+/usr/bin/env python train.py -b \
+    your-training-config \
+    --batchsize 8 \
+    --lr 0.00001
+```
+
+To reproduce that invocation under a sweep, modify the `command` key in the sweep configuration YAML file so the sweep agent builds the same command line. Based on the previous example, the configuration looks like this:
+
+```yaml
+program:
+  train.py
+method: grid
+parameters:
+  batch_size:
+    value: 8
+  lr:
+    value: 0.0001
+command:
+  - ${env}
+  - python
+  - ${program}
+  - "-b"
+  - your-training-config
+  - ${args}
+```
+
+The `${args}` key expands to all parameters in the sweep configuration, formatted for `argparse` as `--param1 value1 --param2 value2`.
+
+If your script accepts additional arguments outside of `argparse`, use `parse_known_args` so unrecognized flags don't cause the parser to fail:
+
+```python
+parser = argparse.ArgumentParser()
+args, unknown = parser.parse_known_args()
+```
+
+<Note>
+Depending on the environment, `python` might refer to Python 2. To invoke Python 3, use `python3` in the command configuration:
+
+```yaml
+program:
+  script.py
+command:
+  - ${env}
+  - python3
+  - ${program}
+  - ${args}
+```
+</Note>
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/support/models/tags/sweeps)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

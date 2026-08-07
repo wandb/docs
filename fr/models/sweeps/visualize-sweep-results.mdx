@@ -1,0 +1,54 @@
+---
+description: Visualisez les résultats de vos Sweeps W&B dans l'interface W&B App.
+title: Visualiser les résultats d'un sweep
+---
+
+Visualisez les résultats de vos Sweeps W&amp;B avec la W&amp;B App. L&#39;interface Sweep fournit des graphiques et des commandes qui vous aident à comparer les runs, à comprendre quels hyperparamètres comptent le plus et à gérer l&#39;exécution du sweep. Utilisez cette page pour trouver la vue du sweep dans l&#39;application, interpréter les graphiques par défaut et les personnaliser.
+
+<div id="open-the-sweep-ui">
+  ## Ouvrir l&#39;interface Sweep
+</div>
+
+Pour ouvrir l&#39;interface Sweep, accédez à la [W&amp;B App](https://wandb.ai/home). Choisissez le projet que vous avez indiqué lorsque vous avez initialisé un sweep. W&amp;B vous redirige vers le [Workspace](/fr/models/track/workspaces) de votre projet. Sélectionnez l&#39;icône de balai (**Sweep**) dans la barre latérale du projet. Dans l&#39;interface Sweep, sélectionnez le nom de votre sweep dans la liste. L&#39;interface Sweep répertorie tous les sweeps du projet et sert de point d&#39;entrée pour inspecter les runs et les graphiques d&#39;un sweep donné.
+
+La liste des sweeps affiche l&#39;état de chaque sweep (**State**), sa date de création (**Created**), la personne qui l&#39;a lancé (**Creator**), le nombre de runs terminés (**Run count**) et le **Compute time** total. Pour une recherche sur grille sur un espace de recherche discret, W&amp;B affiche également **Est. Runs** (le nombre attendu de runs). Ouvrez un sweep depuis la liste pour le mettre en pause, le reprendre, l&#39;arrêter ou l&#39;annuler depuis l&#39;application. Pour accéder aux mêmes commandes avec le CLI, voir [Gérer les sweeps](/fr/models/sweeps/pause-resume-and-cancel-sweeps).
+
+<Frame>
+  <img src="/images/sweeps/navigation_sweeps_ui.gif" alt="Interface Sweep dans la barre latérale du projet" />
+</Frame>
+
+<div id="default-visualizations">
+  ## Visualisations par défaut
+</div>
+
+Par défaut, W&amp;B crée un graphique en coordonnées parallèles, un graphique d&#39;importance des paramètres et un nuage de points lorsque vous démarrez un job de sweep. Les sections suivantes décrivent chacune de ces visualisations par défaut et expliquent comment les personnaliser.
+
+<div id="parallel-coordinates-plot">
+  ### Graphique en coordonnées parallèles
+</div>
+
+Les graphiques en coordonnées parallèles résument d&#39;un seul coup d&#39;œil la relation entre un grand nombre d&#39;hyperparamètres et les métriques du modèle. Pour plus d&#39;informations sur les graphiques en coordonnées parallèles, voir [coordonnées parallèles](/fr/models/app/features/panels/parallel-coordinates).
+
+<Frame>
+  <img src="/images/sweeps/example_parallel_coordiantes_plot.png" alt="Exemple de graphique en coordonnées parallèles" />
+</Frame>
+
+<div id="scatter-plot-and-parameter-importance">
+  ### Nuage de points et importance des paramètres
+</div>
+
+Le nuage de points (à gauche) compare les runs générés pendant le sweep. Pour plus d&#39;informations sur les nuages de points, voir [Scatter Plots](/fr/models/app/features/panels/scatter-plot).
+
+Le graphique d&#39;importance des paramètres (à droite) répertorie les hyperparamètres qui sont les meilleurs prédicteurs de valeurs souhaitables de vos métriques, et qui leur sont fortement corrélés. Pour plus d&#39;informations sur les graphiques d&#39;importance des paramètres, voir [Parameter Importance](/fr/models/app/features/panels/parameter-importance).
+
+<Frame>
+  <img src="/images/sweeps/scatter_and_parameter_importance.png" alt="Nuage de points et importance des paramètres" />
+</Frame>
+
+<div id="customize-panels">
+  ## Personnaliser les panneaux
+</div>
+
+Si les axes par défaut n’affichent pas la comparaison souhaitée, vous pouvez modifier les valeurs dépendantes et indépendantes (axe X et axe Y) que W&amp;B utilise automatiquement. Chaque panneau comporte une icône en forme de crayon intitulée **Edit panel**. Choisissez **Edit panel** pour ouvrir une fenêtre modale dans laquelle vous pouvez modifier le comportement du graphique.
+
+Pour plus d’informations sur toutes les options de visualisation par défaut de W&amp;B, voir [Panels](/fr/models/app/features/panels). Consultez la [documentation Data Visualization](/fr/models/tables) pour savoir comment créer des graphiques à partir de runs qui ne font pas partie d’un sweep.

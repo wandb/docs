@@ -1,0 +1,64 @@
+---
+title: "Comment puis-je résoudre les erreurs « Invalid Authentication » (401) avec l’Inférence sans serveur ?"
+keywords: ["Inférence"]
+---
+
+Une erreur `401` « Invalid Authentication » signifie que votre clé API n’est pas valide ou que l’entité ou le nom de votre projet W&amp;B est incorrect. Utilisez les vérifications de cette page pour confirmer que les deux valeurs sont correctes afin que les requêtes puissent s’authentifier.
+
+<div id="verify-your-api-key">
+  ## Vérifiez votre clé API
+</div>
+
+Assurez-vous que vous disposez d’une clé API valide et à jour avant de rechercher d’autres causes.
+
+1. Créez une nouvelle clé API dans les [Paramètres utilisateur](https://wandb.ai/settings).
+2. Conservez votre clé API en lieu sûr.
+
+<div id="check-your-project-configuration">
+  ## Vérifiez la configuration de votre projet
+</div>
+
+Les requêtes doivent spécifier le projet au format `[YOUR-TEAM]/[YOUR-PROJECT]` afin que le service puisse les acheminer vers l’équipe W&amp;B et le projet appropriés. Remplacez `[YOUR-API-KEY]` par votre clé API W&amp;B, et `[YOUR-TEAM]/[YOUR-PROJECT]` par votre équipe W&amp;B et votre projet.
+
+**Exemple Python :**
+
+```python
+client = openai.OpenAI(
+    base_url='https://api.inference.wandb.ai/v1',
+    api_key="[YOUR-API-KEY]",
+    project="[YOUR-TEAM]/[YOUR-PROJECT]",  # Doit correspondre à votre équipe W&B et à votre projet
+)
+```
+
+**Exemple Bash :**
+
+```bash
+curl https://api.inference.wandb.ai/v1/chat/completions \
+  -H "Authorization: Bearer [YOUR-API-KEY]" \
+  -H "OpenAI-Project: [YOUR-TEAM]/[YOUR-PROJECT]"
+```
+
+<div id="common-mistakes">
+  ## Erreurs courantes
+</div>
+
+* Utiliser une entité personnelle au lieu du nom de l’équipe.
+* Faire une faute dans le nom de l’équipe ou du projet.
+* Oublier la barre oblique entre l’équipe et le projet.
+* Utiliser une clé API expirée ou supprimée.
+
+<div id="troubleshoot-remaining-issues">
+  ## Résoudre les problèmes restants
+</div>
+
+* Vérifiez que l’équipe et le projet existent dans votre compte W&amp;B.
+* Assurez-vous d&#39;avoir accès à l’équipe indiquée.
+* Si la clé API actuelle ne fonctionne pas, créez-en une nouvelle.
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Inférence](/fr/support/models/tags/inference)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

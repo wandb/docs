@@ -1,5 +1,5 @@
 ---
-description: Resume a paused or exited W&B Run
+description: "Resume paused, stopped, or crashed W&B runs using the resume parameter options in wandb.init()."
 title: Resume a run
 ---
 
@@ -22,7 +22,8 @@ W&B recommends that you use `resume="allow"` and specify the specific run ID you
 The `resume="auto"` option does not require you to specify a run ID but it can lead to unexpected behavior if you have multiple runs that fail in the same directory or if the file directory structure changes. You must also ensure that you restart the run from the same directory as the failed process when you use `resume="auto"`. 
 </Note>
 
-For all the examples below, replace values enclosed within `<>` with your own.
+For all the examples below, replace values enclosed within `<>` with your own. 
+<Tip>[View a live demo of a resumed run](https://wandb.ai/wandb/resume-run/workspace?nw=nwuserjuliarose).</Tip>
 
 ## Resume a run that must use the same run ID
 If a run is stopped, crashes, or fails, you can resume it using the same run ID. To do so, initialize a run and specify the following:
@@ -33,7 +34,7 @@ If a run is stopped, crashes, or fails, you can resume it using the same run ID.
 The following code snippet shows how to accomplish this with the W&B Python SDK:
 
 ```python
-with wandb.init(entity="<entity>", project="<project>", resume="must") as run:
+with wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="must") as run:
         # Your training code here
 ```
 
@@ -105,18 +106,35 @@ If you can not share a filesystem, specify the `WANDB_RUN_ID` environment variab
 
 
 ## Resume preemptible Sweeps runs
-Automatically requeue interrupted [sweep](/models/sweeps/) runs. This is particularly useful if you run a sweep agent in a compute environment that is subject to preemption such as a SLURM job in a preemptible queue, an EC2 spot instance, or a Google Cloud preemptible VM.
 
-Use the [`mark_preempting`](/models/ref/python/experiments/run#mark_preempting) function to automatically requeue interrupted sweep runs. For example:
+Handle preemption signals so W&B can automatically requeue interrupted [sweep](/models/sweeps/) runs for another agent. This pattern is useful when the sweep agent runs on preemptible compute, such as a SLURM preemptible queue, an Amazon EC2 Spot Instance, or a Google Cloud preemptible VM.
 
-```python
-with wandb.init() as run:
-    run.mark_preempting()
-```
-The following table outlines how W&B handles runs based on the exit status of the a sweep run.
+The instructions below apply when you start sweep agents with the [`wandb agent`](/models/ref/cli/wandb-agent) CLI. The CLI starts your training program as a **subprocess**. The instructions do not fully apply when you use only the Python API [`wandb.agent()`](/models/ref/python/functions/agent). The Python API runs the training function in a thread, so OS signal delivery and forwarding differ from the CLI agent behavior.
 
-|Status| Behavior |
-|------| ---------|
-|Status code 0| Run is considered to have terminated successfully and it will not be requeued.  |
-|Nonzero status| W&B automatically appends the run to a run queue associated with the sweep.|
-|No status| Run is added to the sweep run queue. Sweep agents consume runs off the run queue until the queue is empty. Once the queue is empty, the sweep queue resumes generating new runs based on the sweep search algorithm.|
+
+### Handle a preemption signal
+
+Register a handler for the signal that your scheduler or platform uses to indicate preemption, such as `SIGUSR1` or `SIGTERM`. In the handler:
+
+1. In the handler, call [`mark_preempting()`](/models/ref/python/experiments/run#mark_preempting) when a run is active
+2. Perform any required cleanup, such as saving a checkpoint.
+3. Exit with a nonzero status code. A common convention for signal termination is `128 + signum`.
+
+Do not call `mark_preempting()` unconditionally immediately after `wandb.init()`. Doing so can mark every failure, including code bugs, as preemption and requeue the run repeatedly.
+
+For runnable examples, `--forward-signals` on the CLI agent, and a full reference table for different uses of `mark_preempting()`, see [Signal handling and sweep runs](/models/sweeps/signal-handling-sweep-runs).
+
+When you follow that pattern, W&B records run state roughly as follows:
+
+| Scenario | Run state |
+| --- | --- |
+| Run completes normally with exit code 0 | FINISHED |
+| Run fails with a non-zero exit code | FAILED |
+| Run receives an unhandled signal (for example `SIGKILL`) | CRASHED after about five minutes |
+| Run receives a handled preemption signal (for example `SIGTERM` or `SIGUSR1`), the handler calls `mark_preempting()`, and the process exits non-zero | PREEMPTED; the run is queued for the next agent request |
+
+<Info>
+When a sweep agent fetches a preempted run, the training process must call `wandb.init()` within 60 minutes. If initialization does not occur, such as when the process fails after fetching the run but before calling `wandb.init()`, W&B does not make the run available to another agent until the 60-minute lease expires.
+</Info>
+
+Sweep agents process requeued runs before requesting new hyperparameter combinations from the sweep search algorithm. After the queue is empty, the sweep resumes normal scheduling.

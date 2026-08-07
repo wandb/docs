@@ -7,7 +7,7 @@ no_list: true
 
 Custom charts in W&B are programmable through a group of functions in the `wandb.plot` namespace. These functions create interactive visualizations in W&B project dashboards, and support common ML visualizations such as confusion matrices, ROC curves, and distribution plots. 
 
-## Available Chart Functions
+## Available chart functions
 
 | Function | Description |
 |----------|-------------|
@@ -21,22 +21,22 @@ Custom charts in W&B are programmable through a group of functions in the `wandb
 | [`line_series()`](/models/ref/python/custom-charts/line_series/) | Plot multiple line series on a single chart. |
 | [`plot_table()`](/models/ref/python/custom-charts/plot_table/) | Create custom charts using Vega-Lite specifications. |
 
-## Common Use Cases
+## Common use cases
 
-### Model Evaluation
+### Model evaluation
 - **Classification**: `confusion_matrix()`, `roc_curve()`, and `pr_curve()` for classifier evaluation
 - **Regression**: `scatter()` for prediction vs. actual plots and `histogram()` for residual analysis
 - **Vega-Lite Charts**: `plot_table()` for domain-specific visualizations
 
-### Training Monitoring
+### Training monitoring
 - **Learning Curves**: `line()` or `line_series()` for tracking metrics over epochs
 - **Hyperparameter Comparison**: `bar()` charts for comparing configurations
 
-### Data Analysis
+### Data analysis
 - **Distribution Analysis**: `histogram()` for feature distributions
 - **Correlation Analysis**: `scatter()` plots for variable relationships
 
-## Getting Started
+## Getting started
 
 ### Log a confusion matrix
 

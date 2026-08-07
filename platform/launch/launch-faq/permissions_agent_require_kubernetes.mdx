@@ -1,5 +1,8 @@
 ---
 title: What permissions does the agent require in Kubernetes?
+keywords: ["RBAC agent", "Kubernetes RBAC", "agent permissions", "ClusterRole"]
 ---
 
-The following Kubernetes manifest creates a role named `wandb-launch-agent` in the `wandb` namespace. This role allows the agent to create pods, configmaps, secrets, and access pod logs in the `wandb` namespace. The `wandb-cluster-role` enables the agent to create pods, access pod logs, create secrets, jobs, and check job status across any specified namespace.
+This page describes the Kubernetes permissions that the W&B Launch agent requires to run jobs in your cluster. Use this information to configure role-based access control (RBAC) for the agent before you deploy it.
+
+The following Kubernetes manifest creates a Role named `wandb-launch-agent` in the `wandb` namespace. This Role lets the agent create Pods, ConfigMaps, and Secrets, and access Pod logs in the `wandb` namespace. The `wandb-cluster-role` lets the agent create Pods, access Pod logs, create Secrets and Jobs, and check Job status across any specified namespace.

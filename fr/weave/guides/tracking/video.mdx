@@ -1,0 +1,117 @@
+---
+title: "Journaliser des vidéos"
+description: "Journalisez et suivez automatiquement les données vidéo dans les traces Weave à l’aide de moviepy pour la lecture et l’analyse dans l’interface utilisateur."
+keywords: ["moviepy", "VideoFileClip", "MP4", "traçage vidéo"]
+---
+
+Ce guide vous montre comment journaliser et suivre des données vidéo dans les traces Weave afin de pouvoir inspecter, lire et analyser des vidéos directement dans l’interface Weave. Il s’adresse aux développeurs qui créent des applications de traitement vidéo et qui souhaitent capturer automatiquement les vidéos en entrée et en sortie de leurs fonctions tracées.
+
+Weave journalise automatiquement les vidéos à l’aide de [`moviepy`](https://zulko.github.io/moviepy/). Vous pouvez passer des vidéos en entrée et en sortie à des fonctions tracées, et Weave gère automatiquement le téléversement et le stockage des données vidéo.
+
+<Note>
+  La prise en charge des vidéos n’est disponible qu’en Python.
+</Note>
+
+<div id="usage-prerequisites">
+  ## Prérequis d’utilisation
+</div>
+
+Avant de journaliser des vidéos avec Weave, assurez-vous de respecter les prérequis suivants :
+
+1. Installez `weave` et `moviepy==1.0.3`.
+2. Créez un compte W&amp;B.
+
+<div id="supported-video-types">
+  ## Types de vidéos pris en charge
+</div>
+
+Weave gère différents types de clips `moviepy` de manière différente. Savoir avec quel type vous travaillez vous aide à comprendre comment Weave téléverse et stocke vos données vidéo.
+
+Weave reconnaît les objets clip vidéo `moviepy`, tels que :
+
+* Les objets `VideoFileClip` chargés depuis un fichier vidéo.
+* Les clips en mémoire, comme `ImageClip`, `ColorClip` et `TextClip`.
+
+<div id="direct-upload-of-file-based-clips">
+  ### Téléversement direct de clips sous forme de fichiers
+</div>
+
+Si votre clip est un `VideoFileClip` et possède un nom de fichier valide avec une extension prise en charge, Weave téléverse directement le fichier.
+
+**Extensions de fichier prises en charge :**
+
+* `.mp4`
+* `.webm`
+* `.gif`
+
+<div id="in-memory-clip-support">
+  ### Prise en charge des clips en mémoire
+</div>
+
+Si l&#39;objet vidéo est en mémoire (aucun fichier sur disque), Weave l&#39;encode au format `.mp4` et gère automatiquement le téléversement. Cela s&#39;applique aux clips des types suivants :
+
+* `ImageClip`
+* `ColorClip`
+* `TextClip`
+
+<div id="example-trace-a-video-function">
+  ## Exemple : tracer une fonction vidéo
+</div>
+
+L’extrait de code suivant montre comment tracer une fonction de traitement vidéo dans Weave. Cet extrait de code :
+
+1. Initialise un projet Weave `video-test`.
+2. Définit une fonction `get_video`, suivie en tant que `weave.op`, qui extrait un sous-clip d’une seconde du `VideoFileClip` chargé sous forme de `VideoClip`.
+3. Téléverse le clip et en assure le suivi dans Weave.
+4. Génère automatiquement une vidéo MP4 de remplacement si aucune n’est trouvée.
+
+<Warning>
+  Pour éviter les problèmes de sécurité des threads, transmettez toujours le chemin du fichier aux objets `VideoFileClip` au lieu de les créer en dehors de l’`op` Weave.
+</Warning>
+
+Avant d’utiliser l’extrait de code suivant, remplissez les [prérequis d’utilisation](#usage-prerequisites).
+
+```python lines
+import os
+import weave
+from moviepy.editor import VideoFileClip, ColorClip, VideoClip
+
+# Mettez à jour avec le nom de votre projet, ou créez un nouveau projet nommé 'video-test'
+weave.init('video-test')
+
+@weave.op
+def get_video(clip: VideoFileClip) -> VideoClip:
+    """Process a video by path rather than by passing the clip directly.
+
+    This ensures that the VideoFileClip is created and managed within the
+    Weave op's thread context, avoiding thread-safety issues.
+    """
+    new_clip = clip.subclip(0, 1)
+    return new_clip
+
+if __name__ == "__main__":
+    os.makedirs("videos", exist_ok=True)
+
+    # Mettez à jour le chemin pour pointer vers votre fichier MP4
+    video_path = './videos/example.mp4'
+
+    # Générer une vidéo factice si elle n'existe pas
+    # Contenu de la vidéo factice : un carré rouge affiché pendant 5 secondes
+    if not os.path.isfile(video_path):
+        print("No video found. Creating dummy video...")
+        dummy_clip = ColorClip(size=(640, 480), color=(255, 0, 0), duration=5)
+        dummy_clip.write_videofile(video_path, fps=24)
+
+    clip = VideoFileClip(video_path, has_mask=False, audio=True)
+    get_video(clip) 
+```
+
+Une fois l’exemple de code exécuté avec succès, vous pouvez afficher votre vidéo en cliquant sur le lien dans le tableau **Traces** de votre projet.
+
+<Frame>
+  ![Trace d’une fonction de traitement vidéo dans le tableau Traces.](/weave/guides/tracking/imgs/video-trace.png)
+</Frame>
+
+<Frame>
+  ![Une vidéo MP4 téléversée dans Weave, affichée dans la fenêtre contextuelle Traces.](/weave/guides/tracking/imgs/video-trace-popout.png)
+</Frame>

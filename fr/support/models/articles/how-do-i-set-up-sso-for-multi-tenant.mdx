@@ -1,0 +1,26 @@
+---
+title: "Comment puis-je configurer le SSO pour l’offre W&B multilocataire ?"
+keywords: ["Sécurité"]
+---
+
+W&amp;B prend en charge l’authentification unique (SSO) pour l’offre multilocataire via Auth0, afin que vos utilisateurs puissent s’authentifier avec votre fournisseur d’identité existant au lieu de gérer des identifiants W&amp;B distincts. L’intégration SSO prend en charge tout fournisseur d’identité compatible avec OpenID Connect (OIDC), comme Okta ou Azure AD.
+
+Pour configurer un fournisseur OIDC, effectuez les étapes suivantes dans votre fournisseur d’identité :
+
+1. Créez une application monopage auprès du fournisseur d’identité.
+2. Définissez `grant_type` sur le flux `implicit`.
+3. Définissez l’URI de rappel sur `https://wandb.auth0.com/login/callback`.
+
+<div id="requirements-for-wb">
+  ## Exigences pour W&amp;B
+</div>
+
+Après avoir terminé la configuration, contactez votre customer success manager (CSM) en lui fournissant le `Client ID` et l’`Issuer URL` de l’application. W&amp;B utilise ces informations pour établir une connexion Auth0 et activer le SSO pour votre organisation.
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Sécurité](/fr/support/models/tags/security)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

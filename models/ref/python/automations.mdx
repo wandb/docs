@@ -8,7 +8,7 @@ no_list: true
 The W&B Automations API enables programmatic creation and management of automated workflows that respond to events in your ML pipeline. Configure actions to trigger when specific conditions are met, such as model performance thresholds or artifact creation.
 
 
-### Core Classes
+### Core classes
 
 | Class | Description |
 |-------|-------------|
@@ -39,9 +39,9 @@ The W&B Automations API enables programmatic creation and management of automate
 | [`MetricThresholdFilter`](/models/ref/python/automations/metricthresholdfilter/) | Filter runs based on metric value comparisons against thresholds. |
 | [`MetricChangeFilter`](/models/ref/python/automations/metricchangefilter/) | Filter runs based on metric value changes over time. |
 
-## Common Use Cases
+## Common use cases
 
-### Model Performance Monitoring
+### Model performance monitoring
 - Alert when model accuracy drops below a threshold
 - Notify team when training loss plateaus
 - Trigger retraining pipelines based on performance metrics
@@ -51,17 +51,17 @@ The W&B Automations API enables programmatic creation and management of automate
 - Trigger deployment workflows when artifacts are tagged
 - Automate downstream processing when datasets are updated
 
-### Experiment Tracking
+### Experiment tracking
 - Alert on failed or crashed runs
 - Notify when long-running experiments complete
 - Send daily summaries of experiment metrics
 
-### Integration Workflows
+### Integration workflows
 - Update external tracking systems via webhooks
 - Sync model registry with deployment platforms
 - Trigger CI/CD pipelines based on W&B events
 
-## Example Usage
+## Example usage
 
 The following example creates an automation that sends a Slack notification whenever a metric called `custom-metric` exceeds 10. `custom-metric` is expected to be logged during training using `wandb.Run.log({"custom-metric": value })`.
 

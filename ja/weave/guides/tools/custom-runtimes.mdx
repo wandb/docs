@@ -1,0 +1,110 @@
+---
+title: "カスタムランタイムを追加する"
+description: "OpenAI-compatible 推論エンドポイントをカスタムランタイムとして Weave プロジェクトに接続し、UI または Python と TypeScript SDK から管理します。"
+keywords: ["カスタムランタイム", "カスタムプロバイダー", "OpenAI-compatible エンドポイント", "register_custom_runtime", "LLM playground", "LLM judge"]
+---
+
+カスタムランタイムを登録して、OpenAI-compatible 推論エンドポイントを W&amp;B Weave プロジェクトに接続します。登録すると、エンドポイントのモデルが Weave 全体のモデルセレクターに表示されます。インテグレーションコードを記述しなくても、チームで Playground、Evaluation Playground、LLM-as-a-judge ワークフローからこれらのモデルを使用できます。
+
+カスタムランタイムを使用すると、次のいずれにも接続できます。
+
+* チームが OpenAI-compatible API の背後で提供するエージェントまたはモデルのプロトタイプ。
+* セルフホストまたはローカルで実行するモデル (例: Ollama または vLLM で提供されるモデル) 。
+* Weave が組み込みでサポートしていないプロバイダーまたはモデルバージョン。
+
+カスタムランタイムは W&amp;B UI で管理できるほか、Python および TypeScript SDK を使用してプログラムから管理することもできます。SDK を使用する方法は CI/CD 向けに設計されています。登録は宣言的かつ冪等であるため、パイプラインでデプロイのたびにランタイムを再登録でき、Weave は指定した設定に収束します。
+
+<div id="where-you-can-use-custom-runtimes">
+  ## カスタムランタイムを使用できる場所
+</div>
+
+登録したカスタムランタイムのモデルは、以下の場所にあるモデルセレクターに表示されます。
+
+* [Playground](/ja/weave/guides/tools/playground): エンドポイントとインタラクティブにチャットできます。
+* [Evaluation Playground](/ja/weave/guides/tools/evaluation_playground): エンドポイントを評価し、他のモデルと比較できます。
+* [Signals](/ja/weave/guides/evaluation/monitors): 受信トレースをスコアリングする judge モデルとしてエンドポイントを使用できます。
+* Scorer の反復処理と Agent Signals のモデルセレクター。
+* Weave completions API: モデル ID `custom::<runtime-name>::<runtime-id>` を `completions/create` エンドポイントに渡すと、プログラムからエンドポイントに対してトレース付きの完了を実行できます。詳細は、[サービス API リファレンス](/ja/weave/reference/service-api)を参照してください。
+
+<div id="add-a-custom-runtime">
+  ## カスタムランタイムを追加する
+</div>
+
+コードまたは Weave UI を使用して、project にカスタムランタイムを追加できます。カスタムランタイムを追加するには、次のランタイム情報が必要です。
+
+| フィールド              | 説明                                                                             |
+| ------------------ | ------------------------------------------------------------------------------ |
+| 名                  | project 内でランタイムを識別します。モデルセレクターではグループ名として表示されます。                                |
+| ベース URL            | Weave が完了リクエストを送信する OpenAI-compatible エンドポイントです。W&amp;B のサーバーから到達可能である必要があります。 |
+| ランタイム ID           | エンドポイントが提供する 1 つ以上のモデル ID です。各 ID は選択可能なモデルとして表示されます。                          |
+| 最大トークン数            | モデルが 1 回の応答で生成できるトークンの最大数です。ランタイム ID ごとに設定します。デフォルトは 4096 です。                  |
+| APIキーのシークレット (任意)  | エンドポイントの APIキーを格納する[チームシークレット](/ja/platform/secrets)の名です。                         |
+| ヘッダー (任意)          | エンドポイントへのすべてのリクエストで送信されるカスタム HTTP ヘッダーです。                                      |
+
+<div id="add-a-custom-runtime-using-code">
+  ### コードを使用してカスタムランタイムを追加する
+</div>
+
+前のセクションで説明したランタイム情報に基づいて、次の登録リクエストの該当するフィールドを更新し、実行してproject内にカスタムランタイムを作成または更新します。プログラムによる登録には、バージョン0.53.4以降の`weave` Pythonパッケージ、またはバージョン0.16.5以降の`weave` npmパッケージが必要です。
+
+<Tabs>
+  <Tab title="Python">
+    ```python
+    import weave
+
+    client = weave.init("[YOUR-TEAM-NAME]/[YOUR-PROJECT-NAME]")
+
+    client.register_custom_runtime(
+        name="support-agent",
+        base_url="https://agent.example/v1",
+        api_key_secret="AGENT_API_KEY",
+        headers={"X-Tenant-ID": "customer-1"},
+        runtime_ids=[
+            "support-v12",
+            weave.CustomRuntimeID(id="support-canary", max_tokens=8192),
+        ],
+    )
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript
+    import * as weave from 'weave';
+
+    const client = await weave.init('[YOUR-TEAM-NAME]/[YOUR-PROJECT-NAME]');
+
+    await client.registerCustomRuntime({
+      name: 'support-agent',
+      baseUrl: 'https://agent.example/v1',
+      apiKeySecret: 'AGENT_API_KEY',
+      headers: {'X-Tenant-ID': 'customer-1'},
+      runtimeIds: ['support-v12', {id: 'support-canary', maxTokens: 8192}],
+    });
+    ```
+  </Tab>
+</Tabs>
+
+ランタイムを追加すると、そのランタイム ID は`custom::<runtime-name>::<runtime-id>`として参照されます。呼び出しが成功すると、UIで登録したランタイムと同様に、ランタイム名の下のモデルセレクターにランタイムのモデルが表示されます。
+
+<Note>
+  ランタイムを更新した後、キャッシュの有効期限が切れるまで最大60秒間、Inferenceで以前の設定が引き続き使用される場合があります。
+</Note>
+
+<div id="register-a-custom-runtime-in-the-ui">
+  ## UI でカスタムランタイムを登録する
+</div>
+
+W&amp;B UI からカスタムランタイムを登録するには、次の手順に従います。
+
+1. Weave のサイドバーで **Project** を選択し、**AI Providers** タブを選択します。または、Playground のモデルセレクターで **Configure providers** をクリックします。
+2. **Add custom runtime** をクリックします。設定用の drawer が開きます。
+3. drawer で、ランタイムの名前、ベース URL、1 つ以上のランタイム ID を入力します。必要に応じて、APIキーのシークレットとカスタムヘッダーを追加します。
+4. ランタイムを保存します。
+
+<Frame>
+  ![カスタムランタイム設定メニュー](/weave/guides/tools/imgs/custom-runtime.png)
+</Frame>
+
+ランタイムのモデルは、そのランタイム名のグループとしてモデルセレクターに表示されます。ランタイム ID を指定せずに保存したランタイムもセレクターに表示され、**Add runtime ID** アクションからエディターを再度開けます。
+
+ランタイムを編集または削除するには、**AI Providers** タブのランタイムの行にある編集および削除コントロールを使用します。ランタイムを削除すると、元に戻せません。

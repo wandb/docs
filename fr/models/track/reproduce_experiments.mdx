@@ -1,0 +1,51 @@
+---
+title: Reproduire des expériences
+description: "Reproduisez une expérience W&B d’un membre de l’équipe en téléchargeant le code, les dépendances et la configuration associés à partir d’un run."
+---
+
+Reproduisez une expérience créée par un membre de l’équipe afin de vérifier et de valider ses résultats. Vous pouvez reproduire l’expérience soit en clonant le dépôt GitHub utilisé par votre collègue pour créer l’expérience, soit en téléchargeant le script Python ou le notebook qui a servi à la créer. Choisissez l’option qui vous convient le mieux.
+
+Obtenez le code qui a servi à créer l’expérience ainsi que les dépendances requises pour l’exécuter. Pour cela, suivez les étapes ci-dessous.
+
+<Tabs>
+  <Tab title="Répliquer l’état du code avec un dépôt GitHub">
+    Les étapes suivantes montrent comment répliquer l’état du code du dépôt GitHub :
+
+    1. Accédez au projet dans lequel le run est enregistré.
+    2. Sélectionnez l’onglet **Workspace** dans la barre latérale du projet.
+    3. Cliquez sur le run que vous souhaitez reproduire. La page du run s’ouvre avec l’onglet **Overview** affiché par défaut.
+    4. Passez le curseur sur le bouton **Reproduce this run** à côté du champ **Command**. Une fenêtre modale s’affiche avec les étapes pour reproduire l’expérience. Elle explique comment configurer l’état du code ainsi que la commande à exécuter pour reproduire l’expérience.
+
+       <img src="/images/experiments/reproduce_run_button.png" alt="Bouton Reproduce this run" width="500" />
+
+    Vous pouvez également reproduire manuellement une expérience en suivant les étapes ci-dessous :
+
+    1. Faites un copier-coller du champ **Git repository** dans votre terminal pour cloner le dépôt. L’extrait de code suivant montre un exemple. Remplacez `your-repo` par le nom de votre dépôt :
+       ```bash
+       git clone https://github.com/your-repo.git && cd your-repo
+       ```
+    2. Faites un copier-coller du champ **Git state** dans votre terminal pour extraire exactement le commit utilisé par votre collègue pour créer l’expérience. L’extrait de code suivant montre comment procéder. Remplacez les valeurs indiquées dans l’extrait de code suivant par les vôtres :
+       ```bash
+       git checkout -b "<run-name>" 0123456789012345678901234567890123456789
+       ```
+  </Tab>
+
+  <Tab title="Télécharger le code source">
+    Les étapes suivantes montrent comment télécharger le script Python ou le notebook qui a servi à créer l’expérience :
+
+    1. Accédez au projet dans lequel le run est enregistré.
+    2. Sélectionnez l’onglet **Workspace** dans la barre latérale du projet.
+    3. Cliquez sur le run que vous souhaitez reproduire. La page du run s’ouvre avec l’onglet **Overview** affiché par défaut.
+    4. Dans l’onglet **Overview** (affiché par défaut), notez dans le champ **Command** le nom du script qui a servi à créer l’expérience.
+    5. Sélectionnez l’onglet **Code** sur la page du run.
+    6. Cliquez sur **Download** à côté du fichier correspondant au script ou au notebook.
+    7. Sur la page du run, sélectionnez l’onglet **Files**.
+    8. Téléchargez le fichier `requirements.txt` et enregistrez-le dans votre répertoire de travail. Ce répertoire doit contenir soit le dépôt GitHub cloné, soit le script Python ou notebook téléchargé.
+    9. Installez les dépendances spécifiées dans le fichier `requirements.txt`.
+       ```bash
+       pip install -r requirements.txt
+       ```
+  </Tab>
+</Tabs>
+
+{/* Une fois que vous avez le code, vous pouvez exécuter le script ou le notebook pour reproduire l’expérience. Vous devrez peut-être vous placer dans le répertoire où se trouve le script ou le notebook avant de l’exécuter. */}

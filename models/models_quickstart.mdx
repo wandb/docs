@@ -1,5 +1,6 @@
 ---
 title: Get Started with W&B Models
+description: "Get started with W&B Models by tracking experiments, logging metrics, and visualizing results in a few lines of code."
 ---
 
 Learn when and how to use W&B to track, share, and manage model artifacts in your machine learning workflows. This page covers logging experiments, generating reports, and accessing logged data using the appropriate W&B API for each task.
@@ -60,7 +61,7 @@ config = {
 }
 
 # Use context manager to initialize and close W&B runs
-with wandb.init(project=PROJECT, entity=TEAM_ENTITY, config=config) as run:    
+with wandb.init(entity=TEAM_ENTITY, project=PROJECT, config=config) as run:    
     # Simulate training loop
     for epoch in range(config["epochs"]):
         xb = weights + noise  # Simulated input training data
@@ -161,7 +162,7 @@ For more information on how to retrieve artifacts from a registry, see [Download
 Depending on your machine learning framework, you may need to recreate the model architecture before loading the weights. This is left as an exercise for the reader, as it depends on the specific framework and model you are using. 
 
 
-## Share your finds with a report
+## Share your findings with a report
 
 <Note>
 W&B Report and Workspace API is in Public Preview.
@@ -187,8 +188,8 @@ dataset_info = """The dataset used for training consists of synthetic data gener
 model_info = """The model is a simple linear regression model that predicts output based on input data with some noise."""
 
 report = wr.Report(
-    project=PROJECT,
     entity=TEAM_ENTITY,
+    project=PROJECT,
     title="My Awesome Model Training Report",
     description=experiment_summary,
     blocks= [

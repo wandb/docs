@@ -1,39 +1,34 @@
 ---
 title: MetricThresholdFilter
-namespace: automations_namespace
-python_object_type: class
+kind: クラス
+namespace: wandb.automations._run_metric_filters
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/_filters/run_metrics.py" />
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/_run_metric_filters.py#L126" />
 
-
-## <kbd>class</kbd> `MetricThresholdFilter`
-**絶対的な** メトリクス の 値 を ユーザー 定義のしきい値と比較するフィルタです。
-
-値 は単一の 値 、または複数 値 のウィンドウにわたる集計 結果 の場合があります。
-
-
-### <kbd>method</kbd> `MetricThresholdFilter.__init__`
+## <kbd>クラス</kbd> wandb.automations.MetricThresholdFilter
 
 ```python
-__init__(
-    name: 'str',
-    agg: 'Agg | None' = None,
-    window: 'int' = 1,
-    cmp: 'Literal['$gte', '$gt', '$lt', '$lte']',
-    threshold: 'Annotated | Annotated'
-) → None
+*,
+name: str,
+agg_op: wandb.automations._run_metric_filters.Agg | None = None,
+window_size: Annotated[int, Gt(gt=0)] = 1,
+cmp_op: Literal['$gte', '$gt', '$lt', '$lte'],
+threshold: Union[Annotated[int, Strict(strict=True)], Annotated[float, Strict(strict=True)]]
 ```
 
-**Args:**
- 
- - `name` (str): 
- - `agg` (Optional[Agg]): 
- - `window` (int): 
- - `cmp` (Literal['$gte', '$gt', '$lt', '$lte']): メトリクス の 値 （左）としきい値（右）の比較演算子。
- - `threshold` (Union[Annotated, Annotated]): 
+**絶対的な**メトリクス値をユーザー定義のしきい値と比較するフィルター。
 
-**Returns:**
- `MetricThresholdFilter` オブジェクト 。
+この値は単一の値の場合もあれば、複数の値に対するウィンドウ内の集計結果の場合もあります。
+
+<div id="args">
+  ## 引数
+</div>
+
+* `name`:
+* `agg_op`:
+* `window_size`:
+* `cmp_op`: メトリクス値 (左) としきい値 (右) の間で使用する比較演算子。
+* `threshold`: 

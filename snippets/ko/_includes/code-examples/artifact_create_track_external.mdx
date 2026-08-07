@@ -1,0 +1,23 @@
+---
+title: 외부 Track용 Artifact 생성
+---
+
+```python
+"""
+클라우드 저장소 bucket 경로에 레퍼런스를 추가하여 외부 artifact를 추적합니다.
+"""
+
+import wandb
+
+# artifact 객체 생성
+artifact = wandb.Artifact(name="<artifact_name>", type="<artifact_type>")
+
+# bucket 경로에 레퍼런스 추가
+artifact.add_reference(uri = "uri/to/your/bucket/path")
+
+# W&B run 초기화
+with wandb.init(project="<project>") as run:
+
+  # artifact 메타데이터 로깅
+  run.log_artifact(artifact)
+```

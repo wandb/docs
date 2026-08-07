@@ -1,41 +1,74 @@
 ---
-title: サマリーメトリクスのログ投稿内
+title: サマリー メトリクスをログする
+description: "run.summary を使用して、最良の accuracy や最小の損失など、W&B Run の個別のサマリー メトリクスをトラッキングおよびカスタマイズします。"
 ---
 
-トレーニング中に時間の経過とともに変化する値に加えて、モデルや前処理ステップを要約する単一の値を追跡することが重要な場合がよくあります。この情報は、W&B Run の `summary` 辞書に ログ を記録します。Run の summary 辞書は、numpy 配列、PyTorch テンソル、または TensorFlow テンソルを扱うことができます。値がこれらの型のいずれかである場合、テンソル全体をバイナリファイルとして保存し、最小値、平均値、分散、パーセンタイルなどの上位レベルの メトリクス を summary オブジェクトに保存します。
+トレーニング中に時間とともに変化する値に加えて、モデルや前処理ステップを要約する値をトラッキングすることも重要です。この情報は run の `summary` 属性に保存します。run の `summary` 属性では、NumPy 配列、PyTorch テンソル、TensorFlow テンソルを扱うことができます。W&amp;B は NumPy 配列、PyTorch テンソル、TensorFlow テンソルをバイナリ file に永続化します。
 
-`wandb.Run.log()` で最後に ログ 記録された値は、自動的に W&B Run の summary 辞書として設定されます。summary メトリクス の辞書が変更されると、前の値は失われます。
+`wandb.Run.log()` で最後にログした値は、run のサマリー辞書として自動的に設定されます。サマリー メトリクス辞書を変更すると、以前の値は失われます。
 
-次の コードスニペット は、カスタムの summary メトリクス を W&B に提供する方法を示しています。
+アクティブな run の実行中、または run の完了後にサマリー メトリクスをログできます。
 
-```python
-import wandb
-import argparse
+<Tabs>
+  <Tab title="run の実行中">
+    次のコード スニペットは、カスタムのサマリー メトリクスを W&amp;B に設定する方法を示しています。
 
-with wandb.init(config=args) as run:
-  best_accuracy = 0
-  for epoch in range(1, args.epochs + 1):
-      test_loss, test_accuracy = test()
-      if test_accuracy > best_accuracy:
-          # summaryを更新して最高精度を記録
-          run.summary["best_accuracy"] = test_accuracy
-          best_accuracy = test_accuracy
-```
+    ```python
+    import wandb
+    import random
 
-トレーニング終了後に、既存の W&B Run の summary 属性を更新することもできます。[W&B Public API](/models/ref/python/public-api/) を使用して summary 属性を更新します。
+    # run を記録する project
+    project = "summary-demo"
+    entity = "<your-entity>" # W&B entity 名に置き換えます
 
-```python
-api = wandb.Api()
-run = api.run("username/project/run_id")
-run.summary["tensor"] = np.random.random(1000)
-run.summary.update()
-```
+    # ハイパーパラメーターを含む辞書
+    config = {
+        'epochs' : 10,
+        'lr' : 0.01
+    }
 
-## summary メトリクスのカスタマイズ
+    with wandb.init(entity=entity, project=project, config=config) as run:
+        offset = random.random() / 5
+        print(f"lr: {config['lr']}")
 
-カスタム summary メトリクス は、`run.summary` 内でトレーニングの最適なステップにおける モデル のパフォーマンスを取得するのに役立ちます。例えば、最終的な値ではなく、最大精度や最小損失値をキャプチャしたい場合があります。
+        # トレーニング run をシミュレートします
+        for epoch in range(2, config['epochs']):
+            acc = 1 - 2**-config['epochs'] - random.random() / config['epochs'] - offset
+            loss = 2**-config['epochs'] + random.random() / config['epochs'] + offset
+            print(f"epoch={config['epochs']}, accuracy={acc}, loss={loss}")
+            run.log({"accuracy": acc, "loss": loss})
 
-デフォルトでは、summary は history からの最終値を使用します。summary メトリクス をカスタマイズするには、`define_metric` で `summary` 引数 を渡します。以下の値を受け入れます。
+            if epoch % 5 == 0:
+                run.summary["best_accuracy"] = acc
+                run.summary["best_loss"] = loss
+    ```
+  </Tab>
+
+  <Tab title="run の完了後">
+    トレーニングの完了後に、既存の W&amp;B Run の `summary` 属性を更新できます。`summary` 属性を更新するには、[W&amp;B Public API](/ja/models/ref/python/public-api/) を使用します。
+
+    ```python
+    api = wandb.Api()
+    run = api.run("entity/project/run_id")
+    run.summary["tensor"] = np.random.random(1000)
+    run.summary.update()
+    ```
+  </Tab>
+</Tabs>
+
+次の画像は、上記のコード スニペットをコピーして実行した場合のサマリー メトリクスの例を示しています。
+
+<Frame>
+  <img src="/images/track/summary_demo.png" alt="Run のサマリー" />
+</Frame>
+
+<div id="customize-summary-metrics">
+  ## サマリーメトリクスをカスタマイズする
+</div>
+
+カスタムサマリーメトリクスを使用すると、トレーニング中の最良のstepにおけるモデル性能を `run.summary` に記録できます。たとえば、最終値ではなく、精度の最大値や損失の最小値を記録したい場合があります。
+
+デフォルトでは、summary は履歴の最後の値を使用します。サマリーメトリクスをカスタマイズするには、`define_metric` に `summary` 引数を渡します。指定できる値は次のとおりです。
 
 * `"min"`
 * `"max"`
@@ -44,9 +77,9 @@ run.summary.update()
 * `"last"`
 * `"none"`
 
-`"best"` を使用できるのは、オプションの `objective` 引数 を `"minimize"` または `"maximize"` に設定した場合のみです。
+`"best"` を使用できるのは、省略可能な `objective` 引数も `"minimize"` または `"maximize"` に設定した場合のみです。
 
-次の例では、損失と精度の最小値と最大値を summary に追加しています。
+次の例では、損失と精度の最小値および最大値を summary に追加します。
 
 ```python
 import wandb
@@ -55,11 +88,11 @@ import random
 random.seed(1)
 
 with wandb.init() as run:
-    # 損失の最小値と最大値をsummaryに設定
+    # 損失のsummaryの最小値と最大値
     run.define_metric("loss", summary="min")
     run.define_metric("loss", summary="max")
 
-    # 精度の最小値と最大値をsummaryに設定
+    # accuracyのsummaryの最小値と最大値
     run.define_metric("acc", summary="min")
     run.define_metric("acc", summary="max")
 
@@ -71,68 +104,123 @@ with wandb.init() as run:
         run.log(log_dict)
 ```
 
-## summary メトリクスの表示
+<div id="view-summary-metrics">
+  ## サマリー メトリクスを表示する
+</div>
 
-summary の値は、Run の **Overview** ページまたは プロジェクト の Runs テーブルで確認できます。
+アクティブな run 中、既存の run、またはローカル ファイルシステムから、W&amp;B App で run のサマリーにアクセスできます。
 
-<Tabs><Tab title="Run Overview">
-1. W&B App に移動します。
-2. **Workspace** タブを選択します。
-3. Runs のリストから、summary の値を ログ 記録した Run の名前をクリックします。
-4. **Overview** タブを選択します。
-5. **Summary** セクションで summary の値を確認します。
+<Tabs>
+  <Tab title="Run Overview">
+    1. W&amp;B App にアクセスします。
+    2. project のサイドバーから **Workspace** タブを選択します。
+    3. サマリー値をログした run をクリックします。デフォルトで **Overview** タブが表示された Run page が開きます。
+    4. **Summary** セクションでサマリー値を確認します。
 
-<Frame>
-    <img src="/images/track/customize_summary.png" alt="Run overview"  />
-</Frame>
-</Tab>
-<Tab title="Run Table">
-1. W&B App に移動します。
-2. **Runs** タブを選択します。
-3. Runs テーブル内で、summary 値の名前に基づいた列で summary の値を確認できます。
-</Tab>
-<Tab title="W&B Public API">
-W&B Public API を使用して、Run の summary 値を取得できます。
+    次の画像は、上記のコード スニペットをコピーして実行した場合に、**Overview** タブに表示されるサマリー メトリクスの例です。
 
-次のコード例は、W&B Public API と pandas を使用して、特定の Run に ログ 記録された summary 値を取得する方法の 1 つを示しています。
+    <Frame>
+      <img src="/images/track/customize_summary.png" alt="Run overview" />
+    </Frame>
+  </Tab>
 
-```python
-import wandb
-import pandas
+  <Tab title="Run Table">
+    1. W&amp;B App にアクセスします。
+    2. **Runs** タブを選択します。
+    3. run テーブルでは、サマリー値の名前に対応する列でサマリー値を確認できます。
+  </Tab>
 
-entity = "<your-entity>"
-project = "<your-project>"
-run_name = "<your-run-name>" # summary値を持つRunの名前
+  <Tab title="run 中">
+    アクティブな run 中に run のサマリー値にアクセスするには、`wandb.Run.summary` を使用します。この属性はキーと値のペアからなる辞書を返します。
 
-all_runs = []
+    次の例では、run のサマリーにアクセスします。`"<my-project>"` を W&amp;B の project 名に置き換えてください。
 
-for run in api.runs(f"{entity}/{project_name}"):
-    print("Fetching details for run: ", run.id, run.name)
-    run_data = {
-              "id": run.id,
-              "name": run.name,
-              "url": run.url,
-              "state": run.state,
-              "tags": run.tags,
-              "config": run.config,
-              "created_at": run.created_at,
-              "system_metrics": run.system_metrics,
-              "summary": run.summary,
-              "project": run.project,
-              "entity": run.entity,
-              "user": run.user,
-              "path": run.path,
-              "notes": run.notes,
-              "read_only": run.read_only,
-              "history_keys": run.history_keys,
-              "metadata": run.metadata,
-          }
-    all_runs.append(run_data)
-  
-# DataFrameに変換
-df = pd.DataFrame(all_runs)
+    ```python
+    import wandb
 
-# 列名（run）に基づいて行を取得し、辞書に変換
-df[df['name']==run_name].summary.reset_index(drop=True).to_dict()
-```
-</Tab></Tabs>
+    with wandb.init(project="<my-project>", config=config) as run:
+      run.log({"accuracy": 0.9, "loss": 0.1})
+
+      print(run.summary)  # サマリー辞書を出力します
+    ```
+  </Tab>
+
+  <Tab title="既存の run">
+    `wandb.Api.Run.summary` プロパティを使用して、W&amp;B Public API からサマリー メトリクスにアクセスします。
+
+    次のコード例は、W&amp;B Public API と pandas を使用して、特定の run にログされたサマリー値を取得する方法の一例です。
+
+    ```python
+    import wandb
+    import pandas
+
+    entity = "<your-entity>"
+    project = "<your-project>"
+    run_name = "<your-run-name>" # サマリー値を持つ run の名前
+
+    all_runs = []
+
+    for run in api.runs(f"{entity}/{project_name}"):
+        print("Fetching details for run: ", run.id, run.name)
+        run_data = {
+                  "id": run.id,
+                  "name": run.name,
+                  "url": run.url,
+                  "state": run.state,
+                  "tags": run.tags,
+                  "config": run.config,
+                  "created_at": run.created_at,
+                  "system_metrics": run.system_metrics,
+                  "summary": run.summary,
+                  "project": run.project,
+                  "entity": run.entity,
+                  "user": run.user,
+                  "path": run.path,
+                  "notes": run.notes,
+                  "read_only": run.read_only,
+                  "history_keys": run.history_keys,
+                  "metadata": run.metadata,
+              }
+        all_runs.append(run_data)
+      
+    # DataFrame に変換する  
+    df = pd.DataFrame(all_runs)
+
+    # 列名（run）に基づいて行を取得し、辞書に変換する
+    df[df['name']==run_name].summary.reset_index(drop=True).to_dict()
+    ```
+
+    project 内の複数の run のサマリー メトリクスにアクセスするには、`api.runs()` が返す run を反復処理します。
+
+    ```python
+    import wandb
+
+    api = wandb.Api()
+    runs = api.runs("<entity>/<project>")
+
+    for run in runs:
+        print(f"Run name: {run.name}")
+        print(f"Run ID: {run.id}")
+        print(f"Run summary: {dict(run.summary)}")
+        print("----------")
+    ```
+
+    次の JSON オブジェクトは、run サマリーの例を示しています。
+
+    ```shell
+    Run name: clean-oath-11
+    Run ID: mt2dasoz
+    Run summary: {'_runtime': 3, '_step': 1000, '_timestamp': 1778541534.834642, '_wandb.runtime': 3, 'train/epoch_ndx': 1000, 'train/train_loss': 0.25498124957084656}
+
+    Run name: zesty-snowball-7
+    Run ID: qne08r7u
+    Run summary: {'_runtime': 3, '_step': 1000, '_timestamp': 1776714833.636171, '_wandb.runtime': 3, 'train/epoch_ndx': 1000, 'train/train_loss': 0.24914199113845825}
+    ```
+  </Tab>
+
+  <Tab title="ローカル ファイルシステム">
+    W&amp;B は、run ディレクトリ内の `wandb-summary.json` file に run のサマリー値を保存します。サマリー値をローカルで読み取るには、`wandb-summary.json` file を開きます。
+
+    デフォルトでは、W&amp;B は run ディレクトリを次の場所に保存します: `./wandb/run-<timestamp>-<run_id>`。
+  </Tab>
+</Tabs>

@@ -1,0 +1,41 @@
+---
+title: "Comment puis-je journaliser les métriques NLP et les sorties textuelles dans W&B ?"
+keywords: ["Experiments", "Métriques", "Runs"]
+---
+
+Vous pouvez journaliser les scores NLP à l’échelle du corpus (BLEU, ROUGE, perplexité) avec `wandb.log()` et les sorties pour chaque exemple avec `wandb.Table`. Pour les approches générales de journalisation, voir [Journaliser des objets et des médias](/fr/models/track/log) et [Journaliser des tableaux](/fr/models/track/log/log-tables).
+
+L’exemple suivant montre comment journaliser spécifiquement BLEU, ROUGE, la perplexité et d’autres scores scalaires, de la même manière que la perte :
+
+```python lines
+import wandb
+from sacrebleu.metrics import BLEU
+from rouge_score import rouge_scorer
+
+with wandb.init(project="nmt-project") as run:
+    bleu = BLEU()
+    scorer = rouge_scorer.RougeScorer(["rouge1", "rouge2", "rougeL"])
+
+    for epoch in range(num_epochs):
+        train(model)
+        hypotheses, references = evaluate(model, val_set)
+
+        bleu_score = bleu.corpus_score(hypotheses, [references])
+        rouge_scores = [scorer.score(ref, hyp) for ref, hyp in zip(references, hypotheses)]
+
+        run.log({
+            "epoch": epoch,
+            "val/bleu": bleu_score.score,
+            "val/rouge1": sum(s["rouge1"].fmeasure for s in rouge_scores) / len(rouge_scores),
+            "val/rougeL": sum(s["rougeL"].fmeasure for s in rouge_scores) / len(rouge_scores),
+            "val/perplexity": compute_perplexity(model, val_loader),
+        })
+```
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Métriques](/fr/support/models/tags/metrics)</Badge><Badge stroke shape="pill" color="orange" size="md">[Exécutions](/fr/support/models/tags/runs)</Badge>
+
+{/* END GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet */}

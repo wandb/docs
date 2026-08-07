@@ -1,0 +1,60 @@
+---
+title: "Perte de données de trace dans les processus worker"
+keywords: ["Données de trace", "Performances"]
+---
+
+Weave téléverse les données de trace dans des threads d’arrière-plan afin de minimiser l’impact sur les performances de votre application. Cependant, vous risquez de perdre des données de trace si vous utilisez un système de multiprocessing, une file d’attente de tâches ou un processus worker comme Celery. Cela se produit si le processus worker se termine avant que les threads d’arrière-plan n’aient fini de téléverser les traces.
+
+Pour éviter toute perte de données dans les processus worker, assurez-vous que les téléversements en arrière-plan sont terminés en appelant `client.flush()` ou `client.finish()` avant la fin de la tâche worker. Cela est particulièrement utile dans les environnements de courte durée comme [AWS Lambda](https://aws.amazon.com/lambda/), [Google Cloud Run](https://cloud.google.com/run) ou les notebooks qui s’arrêtent juste après l’exécution.
+
+Ces méthodes ont des objectifs différents ; choisissez donc celle qui convient à votre environnement :
+
+* `weave.flush()` : effectue le vidage sans afficher de sortie. Recommandé lorsque Weave est intégré à des processus worker ou à des environnements d’intégration continue (CI).
+* `weave.finish()` : affiche la progression au moyen d’une barre de progression ou de fonctions de rappel d’état. Recommandé pour les scripts interactifs ou les notebooks.
+
+Les deux méthodes bloquent jusqu’à la fin de tous les téléversements en arrière-plan, ce qui garantit qu’aucune donnée de trace n’est perdue lorsque le processus worker se termine.
+
+L’exemple suivant montre comment appeler `client.finish()` depuis une tâche Celery afin de vider les traces avant la fin du worker. Remplacez `[TEAM-NAME]` par le nom de votre équipe W&amp;B et `[PROJECT-NAME]` par le nom de votre projet W&amp;B :
+
+```python
+from celery import Celery
+import weave
+
+app = Celery('tasks')
+
+@app.task
+def process_task(input_data):
+    weave.init("[TEAM-NAME]/[PROJECT-NAME]")
+
+    try:
+        # La logique de votre tâche qui crée des traces
+        result = your_processing_function(input_data)
+
+        # S'assurer que toutes les traces sont téléversées avant la fin de la tâche
+        weave.finish()
+
+        return result
+    finally:
+        pass
+```
+
+Vous pouvez aussi utiliser le gestionnaire de contexte `with` pour appeler automatiquement `weave.finish()` à la fin du bloc :
+
+```python
+with weave.init("[TEAM-NAME]/[PROJECT-NAME]") as client:
+    result = your_processing_function(input_data)
+
+    return result
+```
+
+Vous pouvez également améliorer les performances de votre application avec `weave.flush()`. Pour plus d&#39;informations, voir [Flushing](/fr/support/weave/articles/long-eval-clean-up-times).
+
+Pour une meilleure protection contre la perte de données, envisagez d&#39;activer le [journal à écriture anticipée](/fr/weave/guides/tracking/write-ahead-log), qui écrit les données de trace sur disque avant de les envoyer au serveur.
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Données de trace](/fr/support/weave/tags/trace-data)</Badge><Badge stroke shape="pill" color="orange" size="md">[Performances](/fr/support/weave/tags/performance)</Badge>
+
+{/* FIN DE LA SECTION GÉNÉRÉE AUTOMATIQUEMENT : badges d’onglet */}

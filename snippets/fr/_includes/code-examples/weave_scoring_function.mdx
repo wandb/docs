@@ -1,0 +1,24 @@
+---
+title: Fonction de scoring de Weave
+---
+
+```python
+'''
+Define custom scoring function
+'''
+
+import weave
+
+# Collectez vos exemples
+examples = [
+    {"question": "What is the capital of France?", "expected": "Paris"},
+    {"question": "Who wrote 'To Kill a Mockingbird'?", "expected": "Harper Lee"},
+    {"question": "What is the square root of 64?", "expected": "8"},
+]
+
+# Définissez une fonction de scoring personnalisée
+@weave.op()
+def match_score1(expected: str, output: dict) -> dict:
+    # Définissez la logique pour évaluer l'output
+    return {'match': expected == output['generated_text']}
+```

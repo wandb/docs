@@ -1,0 +1,17 @@
+---
+title: "Choose an agent integration"
+description: Pick a built-in Weave integration for your agent SDK or harness and start sending conversations, turns, LLM calls, and tool calls to the Agents view.
+keywords: ["agent integrations", "autopatch", "agent SDKs", "agent harnesses", "tracing"]
+---
+
+import AgentIntegrationPaths from '/snippets/_includes/agent-integration-paths.mdx';
+
+W&B Weave traces multi-turn agents built with popular SDKs and harnesses without hand-instrumenting each turn. Install a plugin for your agent harness, or call `weave.init()` in code that uses a supported agent SDK, and Weave autopatches the framework. Conversations, turns, LLM calls, and tool calls render in the **Agents** view of your project.
+
+Choose from one of the following supported integrations.
+
+<AgentIntegrationPaths />
+
+## Next steps
+
+Once your first conversation reaches Weave, see [View activity in the Agents view](/weave/guides/tracking/view-agent-activity) to explore conversations, turns, and tool calls.

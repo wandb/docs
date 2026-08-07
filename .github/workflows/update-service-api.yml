@@ -13,11 +13,11 @@ jobs:
     
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v6
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       # Shallow clone - no git history needed, only checks git status
       
     - name: Set up Python
-      uses: actions/setup-python@v6
+      uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
       with:
         python-version: '3.11'
         
@@ -58,7 +58,19 @@ jobs:
       run: |
         echo "Converting Service API links to fully qualified URLs..."
         python scripts/reference-generation/weave/fix_service_api_links.py
-        
+
+    # Runs unconditionally, not just when the spec changed: the generator is idempotent,
+    # so it is a no-op in the common case, and running it always lets it heal drift (for
+    # example a stub deleted by hand) rather than letting nav and pages diverge silently.
+    - name: Generate API reference pages and navigation
+      id: stubs
+      run: |
+        echo "Generating stub pages from the Weave Service API OpenAPI spec..."
+        OUTPUT=$(python scripts/reference-generation/common/generate_openapi_stubs.py --spec weave 2>&1)
+        echo "$OUTPUT"
+        SUMMARY=$(echo "$OUTPUT" | grep '^STUBS_SUMMARY ' | head -1 | cut -d' ' -f2-)
+        echo "summary=${SUMMARY:-unavailable}" >> $GITHUB_OUTPUT
+
     - name: Check for changes
       id: check-changes
       run: |
@@ -73,7 +85,7 @@ jobs:
     - name: Create Pull Request
       if: steps.check-changes.outputs.has_changes == 'true'
       id: create-pr
-      uses: peter-evans/create-pull-request@v8
+      uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         base: main
@@ -90,10 +102,18 @@ jobs:
           - Synced latest OpenAPI specification from the Weave service
           - Updated Service API landing page with current endpoints
           - Fixed Service API links to use fully qualified URLs
-          
+          - Regenerated operation pages and navigation
+
+          **Operation pages**: `${{ steps.stubs.outputs.summary }}`
+
           ### Review Checklist
           - [ ] Verify new endpoints are correctly listed
           - [ ] Check that removed endpoints (if any) are intentional
+          - [ ] **If both `created` and `pruned` are above zero, check whether an endpoint was
+                renamed rather than replaced.** A rename changes the page URL, and the old URL
+                will 404 — page filenames are deliberately frozen otherwise, so this is the one
+                case that moves a URL. Confirm it is intended and that any hand-written prose on
+                the pruned page was carried over.
           - [ ] Confirm all Service API links work correctly
           
           ---

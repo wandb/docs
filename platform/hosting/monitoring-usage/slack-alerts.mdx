@@ -1,24 +1,26 @@
 ---
 title: Configure Slack alerts
+description: "Create and configure a Slack application to receive W&B Server alerts, notifications, and monitoring updates."
+keywords: ["Slack webhook", "Slack app", "OAuth scopes", "server notifications", "Slack integration"]
 ---
 
-Integrate W&B Server with [Slack](https://slack.com/).
+Integrate W&B Server with [Slack](https://slack.com/) so that your W&B instance can dispatch alerts and notifications to a Slack workspace your team already uses. This page walks W&B Server administrators through creating a Slack application, configuring its OAuth scopes and redirect URL, and registering the application with W&B.
 <Note>
 Watch a [video demonstrating setting up Slack alerts on W&B Dedicated Cloud deployment](https://www.youtube.com/watch?v=JmvKb-7u-oU) (6 min).
 </Note>
 
 ## Create the Slack application
 
-Follow the procedure below to create a Slack application.
+W&B Server uses a custom Slack application as the bridge for delivering alerts. Follow this procedure to create that application in the Slack workspace where you want to receive notifications.
 
-1. Visit https://api.slack.com/apps and select **Create an App**.
+1. Visit [https://api.slack.com/apps](https://api.slack.com/apps) and select **Create an App**.
 
     <Frame>
         <img src="/images/hosting/create_an_app.png" alt="Create an App button"  />
     </Frame>
 
 2. Provide a name for your app in the **App Name** field.
-3. Select a Slack workspace where you want to develop your app in. Ensure that the Slack workspace you use is the same workspace you intend to use for alerts.
+3. Select a Slack workspace where you want to develop your app. Ensure that the Slack workspace you use is the same workspace you intend to use for alerts.
 
     <Frame>
         <img src="/images/hosting/name_app_workspace.png" alt="App name and workspace selection"  />
@@ -26,47 +28,53 @@ Follow the procedure below to create a Slack application.
 
 ## Configure the Slack application
 
-1. On the left sidebar, select **OAth & Permissions**.
+After you create the Slack application, grant it the permissions to post messages and accept the redirect from W&B during the OAuth handshake.
+
+1. On the left sidebar, select **OAuth & Permissions**.
 
     <Frame>
         <img src="/images/hosting/add_an_oath.png" alt="OAuth & Permissions menu"  />
     </Frame>
 
-2. Within the Scopes section, provide the bot with the **incoming_webhook** scope. Scopes give your app permission to perform actions in your development workspace.
+2. In the **Scopes** section, grant the bot the `incoming_webhook` scope. Scopes give your app permission to perform actions in your development workspace.
 
-    For more information about OAuth scopes for Bots, see the Understanding OAuth scopes for Bots tutorial in the Slack API documentation.
+    For more information about OAuth scopes for bots, see [Understanding OAuth scopes for bots](https://api.slack.com/legacy/oauth-scopes) in the Slack API documentation.
 
     <Frame>
     <img src="/images/hosting/save_urls.png" alt="Bot token scopes"  />
     </Frame>
 
-3. Configure the Redirect URL to point to your W&B installation. Use the same URL that your host URL is set to in your local system settings. You can specify multiple URLs if you have different DNS mappings to your instance.
+3. Configure the **Redirect URL** to point to your W&B installation. Use the same URL that you set as your host URL in your local system settings. You can specify multiple URLs if you have different DNS mappings to your instance.
 
     <Frame>
     <img src="/images/hosting/redirect_urls.png" alt="Redirect URLs configuration"  />
     </Frame>
 
 4. Select **Save URLs**.
-5. You can optionally specify an IP range under **Restrict API Token Usage**, allow-list the IP or IP range of your W&B instances. Limiting the allowed IP address helps further secure your Slack application.
+5. Optional: Under **Restrict API Token Usage**, specify an IP or IP range to allowlist for your W&B instances. Limiting the allowed IP address helps secure your Slack application.
 
 ## Register your Slack application with W&B
 
-1. Navigate to the **System Settings** or **System Console** page of your W&B instance, depending on your deployment
+Register the Slack application you configured with your W&B instance so that W&B can use it to dispatch alerts.
 
-2. Depending on the System page you are on follow one of the below options:
+1. Navigate to the **System Settings** or **System Console** page of your W&B instance, depending on your deployment.
 
-    - If you are in the **System Console**: go to **Settings** then to **Notifications**
+2. Depending on the System page you're on, follow one of the following options:
+
+    - If you're in the **System Console**: go to **Settings** then to **Notifications**.
 
         <Frame>
         <img src="/images/hosting/register_slack_app_console.png" alt="System Console notifications"  />
         </Frame>
 
-    - If you are in the **System Settings**: toggle the **Enable a custom Slack application to dispatch alerts** to enable a custom Slack application
+    - If you're in the **System Settings**: toggle the **Enable a custom Slack application to dispatch alerts** to enable a custom Slack application.
 
         <Frame>
         <img src="/images/hosting/register_slack_app.png" alt="Enable Slack application toggle"  />
         </Frame>
 
-3. Supply your **Slack client ID** and **Slack secret** then click **Save**. Navigate to Basic Information in Settings to find your application’s client ID and secret.
+3. Supply your **Slack client ID** and **Slack secret**, then select **Save**. To find your application's client ID and secret, navigate to **Basic Information** in **Settings**.
 
-4. Verify that everything is working by setting up a Slack integration in the W&B app.
+4. To verify that everything works, set up a Slack integration in the W&B app.
+
+Your W&B Server is now registered with the Slack application and can dispatch alerts to the configured Slack workspace.

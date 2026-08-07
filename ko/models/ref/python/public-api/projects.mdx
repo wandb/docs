@@ -1,60 +1,75 @@
 ---
-title: 프로젝트
-namespace: public_apis_namespace
-python_object_type: class
+title: Projects
+kind: class
+namespace: wandb.apis.public.projects
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py" />
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-## <kbd>class</kbd> `Projects`
-`Project` 오브젝트의 지연 이터레이터 (lazy iterator)입니다.
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py#L56" />
 
-해당 Entities 가 생성하고 저장한 Projects 에 엑세스하기 위한 이터러블 인터페이스입니다.
-
-### <kbd>method</kbd> `Projects.__init__`
+## <kbd>class</kbd> wandb.apis.public.Projects
 
 ```python
-__init__(
-    client: 'RetryingClient',
-    entity: 'str',
-    per_page: 'int' = 50
-) → Projects
+service_api: 'ServiceApi',
+entity: 'str',
+per_page: 'int' = 50
 ```
 
-**Args:**
+`Project` 객체들을 순회하는 지연(lazy) 이터레이터입니다.
 
- - `client` (`wandb.apis.internal.Api`): 사용할 API 클라이언트 인스턴스입니다.
- - `entity` (str): Projects 를 가져올 Entities 이름 (사용자 이름 또는 Teams)입니다.
- - `per_page` (int): 요청당 가져올 Projects 의 수입니다 (기본값은 50).
+엔터티가 생성하고 저장한 프로젝트들에 접근하기 위한 이터러블 인터페이스입니다.
 
-**Example:**
- ```python
+<div id="args">
+  ## 인수
+</div>
+
+* `service_api`:  이 컬렉션에 대해 W&amp;B API 호출을 수행하는 wandb-core 서비스의 인터페이스입니다.
+* `entity`:  프로젝트를 소유한 엔터티입니다.
+* `per_page`:  API에 대한 각 요청마다 가져올 프로젝트 수입니다.
+
+<div id="examples">
+  ## 예시
+</div>
+
+```python
 from wandb.apis.public.api import Api
 
-# 이 entity에 속한 projects 찾기
+# 이 엔터티에 속한 프로젝트 찾기
 projects = Api().projects(entity="entity")
 
-# 파일들에 대해 반복문 실행
+# 파일 반복
 for project in projects:
     print(f"Project: {project.name}")
     print(f"- URL: {project.url}")
     print(f"- Created at: {project.created_at}")
     print(f"- Is benchmark: {project.is_benchmark}")
-``` 
+```
 
-`Project` 오브젝트의 이터러블 컬렉션입니다.
+<div id="methods">
+  ## 메서드
+</div>
 
-**Args:**
+### <kbd>방법</kbd> RelayPaginator.convert_objects()
 
- - `client`: W&B에 쿼리하는 데 사용되는 API 클라이언트입니다.
- - `entity`: Projects 를 소유한 Entities 입니다.
- - `per_page`: API 요청당 가져올 Projects 의 수입니다.
+```python
+self
+```
 
----
+마지막으로 가져온 응답 데이터를 반복 처리되는 객체로 변환합니다.
 
-### <kbd>property</kbd> Projects.cursor
+### <kbd>방법</kbd> Paginator.**next**()
 
----
+```python
+self
+```
 
-### <kbd>property</kbd> Projects.more
+이터레이터의 다음 항목을 반환합니다. 더 이상 항목이 없으면 StopIteration 예외를 발생시킵니다.
+
+### <kbd>방법</kbd> Paginator.update_variables()
+
+```python
+self
+```
+
+다음 페이지를 가져오기 위한 쿼리 변수를 업데이트합니다.
