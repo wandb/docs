@@ -671,7 +671,6 @@
                           "weave/guides/tracking/costs",
                           "weave/guides/tools/saved-views",
                           "weave/guides/tracking/trace-plots",
-                          "weave/guides/tracking/trace-to-run",
                           "weave/guides/tools/weave-in-workspaces"
                         ]
                       },
@@ -7160,6 +7159,10 @@
     {
       "destination": "/weave/agent-integration-quickstart",
       "source": "/weave/guides/tracking/trace-agent-integrations"
+    },
+    {
+      "destination": "/weave/guides/tools/weave-in-workspaces",
+      "source": "/weave/guides/tracking/trace-to-run"
     },
     {
       "destination": "/:slug*",
