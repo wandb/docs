@@ -1,0 +1,21 @@
+---
+title: Exigences de stockage d’objets pour les déploiements Autogérés
+---
+
+W&amp;B requiert un stockage d’objets prenant en charge les URL pré-signées et CORS.
+
+W&amp;B recommande les fournisseurs de stockage suivants :
+
+* [Amazon S3](https://aws.amazon.com/s3/) : service de stockage d’objets offrant évolutivité, disponibilité des données, sécurité et performances.
+* [Google Cloud Storage](https://cloud.google.com/storage) : service géré pour stocker des données non structurées à grande échelle.
+* [Azure Blob Storage](https://azure.microsoft.com/en-us/products/storage/blobs) : service de stockage d’objets cloud pour les données non structurées à grande échelle.
+* [CoreWeave AI Object Storage](https://docs.coreweave.com/products/storage/object-storage) : stockage d’objets compatible S3 optimisé pour les charges de travail d’IA.
+* Stockage compatible S3 de niveau entreprise, comme [MinIO Enterprise (AIStor)](https://www.min.io/product/aistor), [NetApp StorageGRID](https://www.netapp.com/data-storage/storagegrid/) ou d’autres solutions d’entreprise.
+
+<Note>
+  MinIO Open Source est en [mode maintenance](https://github.com/minio/minio), sans développement actif ni binaires précompilés. Pour les déploiements en production, W&amp;B recommande les services de stockage d’objets gérés ou les solutions compatibles S3 de niveau entreprise, comme MinIO Enterprise (AIStor).
+</Note>
+
+Après avoir sélectionné un fournisseur, configurez le bucket afin que W&amp;B puisse y accéder. Pour obtenir des instructions détaillées sur le provisionnement du bucket, notamment les stratégies IAM, la configuration CORS et la configuration des accès, voir le [guide Bring Your Own Bucket (BYOB)](/fr/platform/hosting/data-security/secure-storage-connector).
+
+Pour la liste complète des exigences de stockage d’objets, y compris les recommandations relatives à la capacité et aux performances, voir la [section sur le stockage d’objets de l’architecture de référence](/fr/platform/hosting/self-managed/ref-arch/#object-storage).

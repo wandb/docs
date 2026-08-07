@@ -1,0 +1,179 @@
+---
+title: Exigences de l’infrastructure autogérée
+description: Exigences logicielles et d’infrastructure pour les déploiements W&B Autogéré
+keywords: ["exigences matérielles", "version de Kubernetes", "version de MySQL", "exigences en CPU et en mémoire", "exigences pour Redis"]
+---
+
+import SelfManagedVersionRequirements from "/snippets/fr/_includes/self-managed-version-requirements.mdx";
+import SelfManagedHardwareRequirements from "/snippets/fr/_includes/self-managed-hardware-requirements.mdx";
+import SelfManagedMysqlRequirements from "/snippets/fr/_includes/self-managed-mysql-requirements.mdx";
+import SelfManagedMysqlEolUpgrade from "/snippets/fr/_includes/self-managed-mysql-eol-upgrade.mdx";
+import SelfManagedMysqlDatabaseCreation from "/snippets/fr/_includes/self-managed-mysql-database-creation.mdx";
+import SelfManagedRedisRequirements from "/snippets/fr/_includes/self-managed-redis-requirements.mdx";
+import SelfManagedObjectStorageRequirements from "/snippets/fr/_includes/self-managed-object-storage-requirements.mdx";
+import ByobProvisioningLink from "/snippets/fr/_includes/byob-provisioning-link.mdx";
+import SelfManagedNetworkingRequirements from "/snippets/fr/_includes/self-managed-networking-requirements.mdx";
+import SelfManagedSslTlsRequirements from "/snippets/fr/_includes/self-managed-ssl-tls-requirements.mdx";
+import SelfManagedObtainLicense from "/snippets/fr/_includes/self-managed-obtain-license.mdx";
+
+Cette page décrit les exigences d’infrastructure et les prérequis logiciels pour déployer W&amp;B Autogéré. Elle s’adresse aux ingénieurs plateforme et infrastructure qui planifient une installation Autogérée. Consultez ces prérequis avant de commencer votre déploiement afin de confirmer que votre environnement peut prendre en charge le serveur W&amp;B.
+
+<Note>
+  W&amp;B recommande des types de déploiement entièrement gérés, tels que [W&amp;B Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud) ou [W&amp;B Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud). Les services W&amp;B entièrement gérés sont simples à utiliser et sécurisés, avec une configuration minimale, voire aucune configuration.
+</Note>
+
+Pour des recommandations d’architecture détaillées, voir l’[architecture de référence](/fr/platform/hosting/self-managed/ref-arch/).
+
+<div id="software-version-requirements">
+  ## Exigences relatives aux versions logicielles
+</div>
+
+<SelfManagedVersionRequirements />
+
+<div id="hardware-requirements">
+  ## Configuration matérielle requise
+</div>
+
+<SelfManagedHardwareRequirements />
+
+Pour obtenir des recommandations détaillées sur le dimensionnement selon votre cas d’utilisation (Models uniquement, Weave uniquement, ou les deux), consultez la [section sur le dimensionnement de l’architecture de référence](/fr/platform/hosting/self-managed/ref-arch/#sizing).
+
+<div id="kubernetes">
+  ## Kubernetes
+</div>
+
+le serveur W&amp;B est déployé sous la forme d’un [opérateur Kubernetes](/fr/platform/hosting/self-managed/operator/) qui gère plusieurs pods. Votre cluster Kubernetes doit respecter les exigences suivantes :
+
+* **Version** : Voir la section [Exigences relatives aux versions logicielles](#software-version-requirements) précédente.
+* **Contrôleur d’ingress** : Un contrôleur d’ingress entièrement configuré et opérationnel (Nginx, Istio, Traefik ou ingress d’un cloud provider).
+* **Volumes persistants** : Capacité à provisionner des volumes persistants.
+* **Architecture CPU** : Intel ou AMD 64 bits (ARM n’est pas pris en charge).
+
+W&amp;B prend en charge le déploiement sur des [clusters Kubernetes OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift) dans des environnements cloud, sur site et isolés du réseau. Pour obtenir des instructions de configuration spécifiques, voir la [section OpenShift](/fr/platform/hosting/self-managed/operator/#openshift-kubernetes-clusters) dans le guide de l’opérateur.
+
+Pour connaître l’ensemble des exigences Kubernetes, y compris la configuration de l’équilibreur de charge et de l’ingress, voir la [section Kubernetes de l’architecture de référence](/fr/platform/hosting/self-managed/ref-arch/#kubernetes).
+
+<div id="mysql-database">
+  ## Base de données MySQL
+</div>
+
+<SelfManagedMysqlEolUpgrade />
+
+<SelfManagedMysqlRequirements />
+
+W&amp;B recommande d’utiliser des services de base de données managés tels qu’AWS RDS Aurora MySQL, Google Cloud SQL for MySQL ou Azure Database for MySQL pour les déploiements en Production. Les services managés assurent des sauvegardes automatisées, la supervision, la haute disponibilité, l’application des correctifs et réduisent la complexité opérationnelle.
+
+<div id="mysql-configuration-parameters">
+  ### Paramètres de configuration MySQL
+</div>
+
+Si vous utilisez votre propre instance MySQL, configurez MySQL avec les paramètres suivants pour assurer la compatibilité avec le serveur W&amp;B :
+
+```ini
+binlog_format = 'ROW'
+binlog_row_image = 'MINIMAL'
+innodb_flush_log_at_trx_commit = 1
+innodb_online_alter_log_max_size = 268435456
+max_prepared_stmt_count = 1048576
+sort_buffer_size = '67108864'
+sync_binlog = 1
+```
+
+W&amp;B a validé ces paramètres en termes de performances et de fiabilité.
+
+<div id="database-creation">
+  ### Création de la base de données
+</div>
+
+Si vous n’utilisez pas un service MySQL géré qui provisionne automatiquement la base de données, suivez ces instructions pour créer manuellement la base de données MySQL et l’utilisateur utilisés par le serveur W&amp;B :
+
+<SelfManagedMysqlDatabaseCreation />
+
+Pour des considérations supplémentaires, notamment sur les sauvegardes, les performances, la surveillance et la disponibilité, voir la [section MySQL de l’architecture de référence](/fr/platform/hosting/self-managed/ref-arch/#mysql).
+
+<div id="redis">
+  ## Redis
+</div>
+
+Le serveur W&amp;B utilise Redis pour la mise en cache et la coordination des tâches en arrière-plan.
+
+<SelfManagedRedisRequirements />
+
+W&amp;B peut se connecter à une instance Redis dans l’un des environnements suivants :
+
+* [AWS Elasticache](https://aws.amazon.com/pm/elasticache/).
+* [Google Cloud Memory Store](https://cloud.google.com/memorystore?hl=en).
+* [Azure Cache for Redis](https://azure.microsoft.com/en-us/products/cache).
+* Un déploiement Redis hébergé dans votre cloud ou sur votre infrastructure sur site.
+
+<div id="clickhouse">
+  ## ClickHouse
+</div>
+
+Weave et certaines fonctionnalités OLAP de Models dans les déploiements autogérés utilisent ClickHouse. ClickHouse n&#39;est pas requis pour chaque installation autogérée.
+
+Les versions minimales de ClickHouse dépendent des fonctionnalités W&amp;B que vous activez et de la version du serveur W&amp;B que vous utilisez. Avant de mettre à niveau le serveur W&amp;B ou de modifier votre version de ClickHouse, voir [Compatibilité de ClickHouse pour les mises à niveau](/fr/platform/hosting/self-managed/operator#clickhouse-compatibility-for-upgrades) dans le guide de l&#39;opérateur ainsi que les notes de compatibilité dans [Versions du serveur W&amp;B prises en charge](/fr/release-notes/server-releases).
+
+Pour les procédures de déploiement, voir [Déployer Weave dans un environnement autogéré](/fr/weave/guides/platform/weave-self-managed).
+
+<div id="object-storage">
+  ## Stockage d’objets
+</div>
+
+Le serveur W&amp;B nécessite un bucket de stockage d’objets pour stocker des artefacts, des médias et les données d’exécution.
+
+<SelfManagedObjectStorageRequirements />
+
+<ByobProvisioningLink />
+
+<div id="configure-wb-to-use-your-bucket">
+  ### Configurer W&amp;B pour utiliser votre bucket
+</div>
+
+Une fois votre bucket provisionné, vous devez configurer W&amp;B pour l’utiliser dans les valeurs Helm de l’opérateur afin que le serveur W&amp;B puisse lire depuis le bucket et y écrire. Voir la [section de configuration du stockage d’objets de l’opérateur](/fr/platform/hosting/self-managed/operator/#object-storage-bucket) pour plus de détails.
+
+<div id="networking">
+  ## Réseau
+</div>
+
+La configuration réseau rend le serveur W&amp;B accessible aux utilisateurs et aux charges de travail de machine learning. Les sections suivantes présentent les exigences relatives au DNS, à l’équilibreur de charge et à l’ingress.
+
+<SelfManagedNetworkingRequirements />
+
+<div id="dns">
+  ### DNS
+</div>
+
+Le nom de domaine complet (FQDN) du déploiement W&amp;B doit pointer vers l&#39;adresse IP de l&#39;ingress ou de l&#39;équilibreur de charge au moyen d&#39;un enregistrement A.
+
+<div id="load-balancer-and-ingress">
+  ### Équilibreur de charge et ingress
+</div>
+
+L’opérateur Kubernetes W&amp;B expose des services à l’aide d’un contrôleur d’ingress Kubernetes, qui les achemine vers les points de terminaison de service en fonction des chemins d’URL. Le contrôleur d’ingress doit être accessible depuis toutes les machines qui exécutent des charges de travail de machine learning ou accèdent au service via un navigateur web.
+
+Pour plus de détails sur les options d’équilibreur de charge, les exigences du contrôleur d’ingress et des exemples de configuration, voir la [section sur l’équilibreur de charge de l’architecture de référence](/fr/platform/hosting/self-managed/ref-arch/#load-balancer-and-ingress).
+
+<div id="ssltls">
+  ## SSL/TLS
+</div>
+
+<SelfManagedSslTlsRequirements />
+
+<div id="license">
+  ## Licence
+</div>
+
+Une licence serveur W&amp;B valide est requise pour tous les déploiements autogérés. Sans licence, le serveur W&amp;B ne peut pas démarrer.
+
+<SelfManagedObtainLicense />
+
+<div id="next-steps">
+  ## Étapes suivantes
+</div>
+
+Après avoir confirmé que votre infrastructure répond à ces exigences, consultez le guide de déploiement correspondant à votre environnement :
+
+* **Déploiements cloud et sur site** : Voir [Déployer W&amp;B avec l’opérateur Kubernetes](/fr/platform/hosting/self-managed/operator) pour les options de déploiement avec Helm et Terraform.
+* **Déploiements en environnement isolé du réseau** : Voir [Déployer sur Kubernetes en environnement isolé](/fr/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped) pour les environnements déconnectés.
+* **Toutes les méthodes de déploiement** : Voir [Déployer avec l’opérateur Kubernetes](/fr/platform/hosting/self-managed/operator) pour le guide de référence du déploiement avec l’opérateur.

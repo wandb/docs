@@ -1,0 +1,102 @@
+---
+description: Des algorithmes de pointe pour entraîner vos réseaux neuronaux
+title: MosaicML Composer
+---
+
+import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
+
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/mosaicml/MosaicML_Composer_and_wandb.ipynb" />
+
+[Composer](https://github.com/mosaicml/composer) est une bibliothèque conçue pour entraîner des réseaux neuronaux plus efficacement, plus rapidement et à moindre coût. Elle comprend des méthodes pour accélérer l’entraînement et améliorer la généralisation. Composer dispose également d’une API [Trainer](https://docs.mosaicml.com/projects/composer/en/stable/trainer/using_the_trainer.html) facultative pour combiner de nombreuses améliorations différentes.
+
+Utilisez W&amp;B avec Composer pour suivre, visualiser et comparer vos runs d’entraînement. Composer inclut une journalisation W&amp;B intégrée via [WandBLogger](https://docs.mosaicml.com/projects/composer/en/stable/trainer/file_uploading.html#weights-biases-artifacts).
+
+<div id="start-logging-to-wb">
+  ## Commencez à journaliser avec W&amp;B
+</div>
+
+Pour commencer à journaliser vos runs d’entraînement Composer dans W&amp;B, transmettez une instance de `composer.loggers.WandBLogger` à `composer.Trainer` :
+
+```python
+from composer import Trainer
+from composer.loggers import WandBLogger
+
+trainer = Trainer(..., logger=WandBLogger())
+```
+
+<Frame>
+  <img src="/images/integrations/n6P7K4M.gif" alt="Tableaux de bord interactifs" />
+</Frame>
+
+<div id="use-composers-wandblogger">
+  ## Utiliser le `WandBLogger` de Composer
+</div>
+
+Les sections suivantes décrivent comment le `WandBLogger` s’intègre au `Trainer` de Composer.
+
+La bibliothèque Composer utilise la classe [WandBLogger](https://docs.mosaicml.com/projects/composer/en/stable/trainer/file_uploading.html#weights-biases-artifacts) dans le `Trainer` pour journaliser des métriques dans W&amp;B. Instanciez le logger et passez-le au `Trainer` :
+
+```python
+wandb_logger = WandBLogger(project="gpt-5", log_artifacts=True)
+trainer = Trainer(logger=wandb_logger)
+```
+
+<div id="logger-arguments">
+  ## Arguments du logger
+</div>
+
+Pour connaître les paramètres que vous pouvez utiliser pour personnaliser la façon dont `WandBLogger` enregistre vos run, consultez la [documentation Composer](https://docs.mosaicml.com/projects/composer/en/stable/api_reference/generated/composer.loggers.WandBLogger.html).
+
+L’exemple suivant montre une utilisation typique qui transmet des notes d’exécution et un dictionnaire `config` via `init_kwargs` :
+
+```python
+init_kwargs = {"notes":"Testing higher learning rate in this experiment", 
+               "config":{"arch":"Llama",
+                         "use_mixed_precision":True
+                         }
+               }
+
+wandb_logger = WandBLogger(log_artifacts=True, init_kwargs=init_kwargs)
+```
+
+<div id="log-prediction-samples">
+  ## Journaliser des échantillons de prédictions
+</div>
+
+En plus des métriques scalaires, vous pouvez journaliser des médias enrichis, comme des prédictions de modèle, dans W&amp;B pour un examen qualitatif. Vous pouvez utiliser le système de [callbacks de Composer](https://docs.mosaicml.com/projects/composer/en/stable/trainer/callbacks.html) pour contrôler à quel moment vous journalisez dans W&amp;B avec `WandBLogger`. L’exemple suivant journalise un échantillon d’images de validation et de prédictions :
+
+```python
+import wandb
+from composer import Callback, State, Logger
+
+class LogPredictions(Callback):
+    def __init__(self, num_samples=100, seed=1234):
+        super().__init__()
+        self.num_samples = num_samples
+        self.data = []
+        
+    def eval_batch_end(self, state: State, logger: Logger):
+        """Calcule les prédictions par lot et les stocke dans self.data"""
+        
+        if state.timer.epoch == state.max_duration: #à la dernière époque de validation
+            if len(self.data) < self.num_samples:
+                n = self.num_samples
+                x, y = state.batch_pair
+                outputs = state.outputs.argmax(-1)
+                data = [[wandb.Image(x_i), y_i, y_pred] for x_i, y_i, y_pred in list(zip(x[:n], y[:n], outputs[:n]))]
+                self.data += data
+            
+    def eval_end(self, state: State, logger: Logger):
+        with wandb.init() as run:
+            "Create a wandb.Table and logs it"
+            columns = ['image', 'ground truth', 'prediction']
+            table = wandb.Table(columns=columns, data=self.data[:self.num_samples])
+            run.log({'sample_table':table}, step=int(state.timer.batch))         
+...
+
+trainer = Trainer(
+    ...
+    loggers=[WandBLogger()],
+    callbacks=[LogPredictions()]
+)
+```

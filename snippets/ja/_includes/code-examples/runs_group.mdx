@@ -1,0 +1,23 @@
+---
+title: Runs グループ
+---
+
+```python
+"""
+1つ以上のrunをグループに追加します。
+
+`wandb.init(group="")` でrunを初期化する際に、`group` パラメーターの引数としてグループ名を渡してください。
+"""
+import wandb
+
+entity = "<entity>"
+project = "<project>"
+
+# 以下では、各グループに3つのrunを含む、合計3つのグループを作成します。 
+for group in ["<GroupA>", "<GroupB>", "<GroupC>"]: # 任意のグループ名に置き換えてください
+    # 各グループに3つのrunを作成するシミュレーションです。
+    for i in range(3):
+        with wandb.init(entity=entity, project=project, group=group, name=f"{group}_run_{i}") as run:
+            # トレーニングおよびloggingのコードをここに記述します
+            pass    
+```

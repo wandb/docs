@@ -1,0 +1,80 @@
+---
+title: "Référencer des médias dans votre propre bucket (BYOB) à l’aide des spans d’agent"
+sidebarTitle: "Référencer des médias dans votre propre bucket"
+description: "Affichez des images et des vidéos stockées dans votre propre bucket cloud dans la vue Agents de Weave en renvoyant leurs URI depuis les tool spans de l’agent, sans importer les octets dans Weave."
+keywords: ["BYOB", "bucket de référence", "span d’agent", "résultat d’outil", "médias", "vue Agents"]
+---
+
+import ByobReferenceSetup from "/snippets/fr/_includes/byob-reference-setup.mdx";
+
+<ByobReferenceSetup />
+
+<div id="log-a-media-reference-using-agent-spans">
+  ## Consigner une référence de média à l’aide de spans d’agent
+</div>
+
+Renvoyez un URI de bucket comme résultat d’un outil d’agent, et Weave l’affiche directement dans la vue **Agents**, sur l’appel d’outil qui l’a produit. L’exemple suivant ouvre une conversation, un tour de conversation et un span d’outil, puis définit un URI de bucket comme résultat de l’outil. Remplacez `[YOUR-TEAM]`, `[YOUR-PROJECT]` et `[YOUR-BUCKET]` par vos propres valeurs.
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    import weave
+
+    weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
+
+    # Un outil qui renvoie un objet déjà présent dans votre bucket.
+    def get_frame(frame_id: int) -> str:
+        return f"s3://[YOUR-BUCKET]/frames/{frame_id:06d}.png"
+
+    with weave.start_conversation(agent_name="frame-labeler") as conversation:
+        with weave.start_turn(user_message="Show me frame 123", model="gpt-4o-mini"):
+            with weave.start_tool(
+                name="get_frame",
+                arguments='{"frame_id": 123}',
+                tool_call_id="call_1",
+            ) as tool:
+                # Le résultat est une chaîne URI de bucket ; elle s'affiche directement dans la vue Agents.
+                tool.result = get_frame(123)
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript lines
+    import * as weave from 'weave';
+
+    await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
+
+    // Un outil qui renvoie un objet déjà présent dans votre bucket.
+    function getFrame(frameId: number): string {
+      return `s3://[YOUR-BUCKET]/frames/${String(frameId).padStart(6, '0')}.png`;
+    }
+
+    const conversation = weave.startConversation({agentName: 'frame-labeler'});
+    const turn = weave.startTurn({model: 'gpt-4o-mini'});
+    const tool = weave.startTool({
+      name: 'getFrame',
+      args: JSON.stringify({frameId: 123}),
+      toolCallId: 'call_1',
+    });
+    // Le résultat est une chaîne URI de bucket ; elle s'affiche directement dans la vue Agents.
+    tool.result = getFrame(123);
+    tool.end();
+    turn.end();
+    conversation.end();
+    ```
+  </Tab>
+</Tabs>
+
+<Note>
+  Cet exemple utilise les spans d’agent Weave. Pour la configuration complète sur plusieurs tours de conversation, y compris les appels LLM et une boucle d’agent complète, voir le [démarrage rapide des agents personnalisés](/fr/weave/custom-agents-quickstart).
+</Note>
+
+<div id="view-the-reference-in-weave-agents">
+  ## Afficher la référence dans Weave Agents
+</div>
+
+Ouvrez la conversation à partir du lien affiché par `weave.init()`. L&#39;image ou la vidéo référencée s&#39;affiche directement dans la **vue Agents**, au niveau de l&#39;appel d&#39;outil qui a renvoyé l&#39;URI. Si Weave ne parvient pas à résoudre une URI, par exemple parce que l&#39;objet est introuvable ou que le bucket n&#39;est pas enregistré, il affiche simplement la chaîne URI brute.
+
+<Frame>
+  ![Une image référencée s'affiche directement dans un appel d'outil de la vue Weave Agents, résolue à partir d'un URI de bucket pointant vers un objet dans votre propre bucket cloud.](/weave/guides/tracking/imgs/agents-byob.png)
+</Frame>

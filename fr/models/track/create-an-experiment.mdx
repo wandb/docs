@@ -1,0 +1,179 @@
+---
+description: "Créez une expérience W&B à l’aide du SDK Python pour suivre l’initialisation des runs, les hyperparamètres et l’enregistrement des métriques."
+title: Créer une expérience
+---
+
+Utilisez le SDK Python de W&amp;B pour suivre des expériences de machine learning. Vous pouvez ensuite consulter les résultats dans un tableau de bord interactif ou exporter vos données vers Python pour y accéder par programmation avec l’[API publique W&amp;B](/fr/models/ref/python/public-api/).
+
+Ce guide explique comment utiliser les composants de base de W&amp;B pour créer une expérience W&amp;B.
+
+<div id="how-to-create-a-wb-experiment">
+  ## Comment créer une expérience W&amp;B
+</div>
+
+Créez une expérience W&amp;B en quatre étapes :
+
+1. [Initialiser un run W&amp;B](#initialize-a-wb-run)
+2. [Enregistrer un dictionnaire d&#39;hyperparamètres](#capture-a-dictionary-of-hyperparameters)
+3. [Consigner des métriques dans votre boucle d&#39;entraînement](#log-metrics-inside-your-training-loop)
+4. [Enregistrer un artefact dans W&amp;B](/fr/models/track/create-an-experiment#log-an-artifact-to-w%26b)
+
+<div id="initialize-a-wb-run">
+  ### Initialiser un run W&amp;B
+</div>
+
+Utilisez [`wandb.init()`](/fr/models/ref/python/functions/init) pour créer un run W&amp;B.
+
+L’extrait suivant crée un run dans un projet W&amp;B nommé `“cat-classification”`, avec la description `“My first experiment”`, afin d’identifier plus facilement ce run. Les tags `“baseline”` et `“paper1”` sont inclus pour rappeler qu’il s’agit d’une expérience de référence destinée à une future publication d’article.
+
+```python
+import wandb
+
+with wandb.init(
+    project="cat-classification",
+    notes="My first experiment",
+    tags=["baseline", "paper1"],
+) as run:
+    ...
+```
+
+`wandb.init()` renvoie un objet [Run](/fr/models/ref/python/experiments/run).
+
+<Note>
+  Remarque : les Runs sont ajoutés à des projets existants si ce projet existe déjà lorsque vous appelez `wandb.init()`. Par exemple, si vous avez déjà un projet nommé `“cat-classification”`, ce projet continuera d’exister et ne sera pas supprimé. À la place, un nouveau run est ajouté à ce projet.
+</Note>
+
+<div id="capture-a-dictionary-of-hyperparameters">
+  ### Enregistrez un dictionnaire d’hyperparamètres
+</div>
+
+Enregistrez un dictionnaire d’hyperparamètres, comme le taux d’apprentissage ou le type de modèle. Les paramètres du modèle que vous consignez dans la configuration vous seront ensuite utiles pour organiser vos résultats et y effectuer des requêtes.
+
+```python
+with wandb.init(
+    ...,
+    config={"epochs": 100, "learning_rate": 0.001, "batch_size": 128},
+) as run:
+    ...
+```
+
+Pour en savoir plus sur la configuration d’une expérience, voir [Configurer Experiments](./config).
+
+<div id="log-metrics-inside-your-training-loop">
+  ### Consigner des métriques dans votre boucle d’entraînement
+</div>
+
+Appelez [`run.log()`](/fr/models/ref/python/experiments/run/#method-runlog) pour consigner des métriques à chaque étape d’entraînement, comme l’accuracy et la perte.
+
+```python
+model, dataloader = get_model(), get_data()
+
+for epoch in range(run.config["epochs"]):
+    for batch in dataloader:
+        loss, accuracy = model.training_step()
+        run.log({"accuracy": accuracy, "loss": loss})
+```
+
+Pour plus d’informations sur les différents types de données que vous pouvez journaliser avec W&amp;B, voir [Journaliser des objets et des médias](/fr/models/track/log/).
+
+<div id="log-an-artifact-to-wb">
+  ### Journaliser un Artifact dans W&amp;B
+</div>
+
+Vous pouvez aussi journaliser un W&amp;B Artifact. Les Artifacts facilitent le versionnage des jeux de données et des modèles.
+
+```python
+# Vous pouvez sauvegarder n'importe quel fichier ou même un répertoire. Cet exemple suppose
+# que le modèle possède une méthode save() qui génère un fichier ONNX.
+model.save("path_to_model.onnx")
+run.log_artifact("path_to_model.onnx", name="trained-model", type="model")
+```
+
+Pour en savoir plus sur [Artifacts](/fr/models/artifacts/) ou sur la gestion des versions des modèles dans le [registre](/fr/models/registry/).
+
+<div id="putting-it-all-together">
+  ### Tout réunir
+</div>
+
+Le script complet, avec les extraits de code précédents, se trouve ci-dessous :
+
+```python
+import wandb
+
+with wandb.init(
+    project="cat-classification",
+    notes="",
+    tags=["baseline", "paper1"],
+    # Enregistrer les hyperparamètres du run.
+    config={"epochs": 100, "learning_rate": 0.001, "batch_size": 128},
+) as run:
+    # Configurer le modèle et les données.
+    model, dataloader = get_model(), get_data()
+
+    # Lancez l'entraînement en enregistrant les métriques pour visualiser les performances du modèle.
+    for epoch in range(run.config["epochs"]):
+        for batch in dataloader:
+            loss, accuracy = model.training_step()
+            run.log({"accuracy": accuracy, "loss": loss})
+
+    # Charger le modèle entraîné en tant qu'artifact.
+    model.save("path_to_model.onnx")
+    run.log_artifact("path_to_model.onnx", name="trained-model", type="model")
+```
+
+<div id="next-steps-visualize-your-experiment">
+  ## Étapes suivantes : visualisez votre expérience
+</div>
+
+Utilisez le Workspace de votre projet pour organiser et visualiser les résultats de vos modèles de machine learning. Vous pouvez créer des graphiques interactifs, comme des [graphiques en coordonnées parallèles](/fr/models/app/features/panels/parallel-coordinates/), des [analyses d’importance des paramètres](/fr/models/app/features/panels/parameter-importance/) et d’[autres types de graphiques](/fr/models/app/features/panels/).
+
+<Frame>
+  <img src="/images/sweeps/quickstart_dashboard_example.png" alt="Exemple de Workspace Sweeps du Démarrage rapide" />
+</Frame>
+
+Pour en savoir plus sur l’affichage des expériences et de Runs spécifiques, voir [Afficher les résultats des expériences](/fr/models/track/workspaces/).
+
+<div id="best-practices">
+  ## Bonnes pratiques
+</div>
+
+Voici quelques recommandations à suivre lorsque vous créez des expériences :
+
+* **Gérer les runs avec un gestionnaire de contexte** : utilisez `wandb.init()` dans un bloc `with` pour terminer automatiquement le run lorsque le code se termine ou lève une exception.
+  * Dans les notebooks Jupyter, vous préférerez peut-être gérer le run vous-même. Dans ce cas, appelez `finish()` pour le marquer comme terminé :
+
+    ```python
+    # Dans une cellule de notebook :
+    run = wandb.init()
+
+    # Dans une autre cellule :
+    run.finish()
+    ```
+* **Configuration** : suivez les hyperparamètres, l&#39;architecture du modèle, les informations sur le dataset et les autres valeurs nécessaires pour reproduire votre modèle. Pour plus d&#39;informations, voir [Afficher la configuration dans la section Aperçu d&#39;un run dans l&#39;application W&amp;B](/fr/models/track/config#view-config-values-in-the-w\&b-app).
+* **Project** : utilisez les [Projects](/fr/models/track/project-page) pour organiser les expériences dans un espace centralisé où vous pouvez visualiser les résultats, comparer les runs, afficher et télécharger des artefacts, créer des automatisations, et plus encore.
+* **Notes** : ajoutez des notes pour décrire l&#39;objectif d&#39;un run, par exemple `baseline model` ou `tuned hyperparameters`. Vous pourrez modifier ces notes plus tard depuis l&#39;aperçu du run dans l&#39;application W&amp;B.
+* **Types de job** : [ajoutez des types de job à vos runs](/fr/models/runs/grouping#organize-runs-by-job-type) pour organiser et filtrer les runs par tâche, par exemple `train`, `test` ou `inference`.
+* **Tags** : [ajoutez des tags aux runs](/fr/models/runs/tags) pour étiqueter les runs avec des fonctionnalités ou des attributs qui ne ressortent pas forcément des métriques ou des artefacts enregistrés.
+
+L&#39;exemple suivant montre comment initialiser un run W&amp;B en appliquant ces bonnes pratiques :
+
+```python
+import wandb
+
+config = {
+    "learning_rate": 0.01,
+    "momentum": 0.2,
+    "architecture": "CNN",
+    "dataset_id": "cats-0192",
+}
+
+with wandb.init(
+    project="detect-cats",
+    notes="tweak baseline",
+    tags=["baseline", "paper1"],
+    config=config,
+) as run:
+    ...
+```
+
+Pour plus d’informations sur les paramètres disponibles, voir [`wandb.init()`](/fr/models/ref/python/functions/init) dans le [Guide de référence du SDK Python](/fr/models/ref/python/).

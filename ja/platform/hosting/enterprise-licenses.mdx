@@ -1,145 +1,187 @@
 ---
-title: エンタープライズライセンス
-description: W&B Enterprise ライセンス、含まれる機能、およびライセンスの取得と 設定 方法について説明します。
+title: Enterprise ライセンス
+description: W&B Enterprise ライセンス、その対象機能、取得方法、および設定方法について説明します。
+keywords: ["ライセンスキー", "ライセンスを適用", "HIPAA", "カスタムロール", "SCIM プロビジョニング"]
 ---
 
-Enterprise ライセンスは、セキュリティ、コンプライアンス、または管理の面で強化された機能を必要とする組織向けに設計された W&B 機能をアンロックします。[Enterprise 機能](#enterprise-features) のリストをご覧ください。
+Enterprise ライセンスを利用すると、セキュリティ、コンプライアンス、管理の各領域で高度な機能を必要とする組織向けに設計された W&amp;B の機能を使用できるようになります。[Enterprise 向け機能](#enterprise-features)の一覧を参照してください。
 
-- **セキュリティ**: 強化された認証、暗号化、アクセス制御。
-- **コンプライアンス**: 操作ログ（監査ログ）、HIPAA コンプライアンスオプション、データガバナンス管理。
-- **管理**: SCIM プロビジョニング、カスタムロール、自動化機能などのユーザー管理機能。
+Enterprise ライセンスには、次のものが含まれます。
 
-このページでは、Enterprise ライセンスの包括的な概要を説明します。これには、有効になる機能、取得方法、デプロイメントでの設定方法などが含まれます。
+* **Security**: 強化された認証、暗号化、アクセス制御。
+* **Compliance**: 監査ログ、HIPAA コンプライアンスのオプション、データガバナンス制御。
+* **Administration**: SCIM プロビジョニング、カスタムロール、自動化機能などのユーザー管理機能。
 
-## デプロイメントオプション
-Enterprise ライセンスは、W&B 専用クラウド および セルフマネージドデプロイメントで利用可能です。
+このページは、W&amp;B デプロイを担当する管理者向けです。利用可能な Enterprise 向け機能、ライセンスの取得方法、およびデプロイ向けにライセンスを設定して確認する方法について説明します.
 
-- [W&B 専用クラウド](/platform/hosting/hosting-options/dedicated_cloud) は、W&B が管理し Google Cloud にデプロイされるシングルテナントのインフラストラクチャーを提供します。専用クラウドのデプロイメントには Enterprise ライセンスが自動的に含まれています。追加の設定は不要で、プロビジョニング後すぐにすべての Enterprise 機能を利用できます。
-- [W&B セルフマネージド](/platform/hosting/hosting-options/self-managed) は、お客様自身のインフラストラクチャーにデプロイされ、デプロイメントとデータを完全に制御できます。エアギャップ環境でのデプロイもサポートされています。Enterprise ライセンスがない場合、[Enterprise 機能](#enterprise-features) は利用できません。
+<div id="deployment-options">
+  ## デプロイオプション
+</div>
 
-## Enterprise ライセンスの取得
-このセクションでは、Enterprise ライセンスの取得方法について説明します。ユースケースに合わせてタブを選択してください。
+Enterprise ライセンスは、W&amp;B 専用クラウド と セルフマネージド のデプロイで利用できます。使用するデプロイに応じて設定手順は異なります。
 
-<Tabs>
-<Tab title="専用クラウド">
-W&B 専用クラウドには Enterprise ライセンスが含まれているため、アクションは不要です。[Enterprise トライアルを開始する](https://wandb.ai/site/for-enterprise/dedicated-saas-trial/) か、[営業担当 (Sales)](https://wandb.ai/site/contact-sales) に連絡して要件をご相談ください。
+* [W&amp;B 専用クラウド](/ja/platform/hosting/hosting-options/dedicated-cloud) は、W&amp;B が管理する専用で分離されたインフラストラクチャーを Google Cloud 上にデプロイして提供します。専用クラウド のデプロイには Enterprise ライセンスが自動的に含まれます。追加の設定は不要で、W&amp;B によるデプロイのプロビジョニングが完了するとすぐにすべての Enterprise 向け機能を利用できます。
+* [W&amp;B セルフマネージド](/ja/platform/hosting/hosting-options/self-managed) は、お客様自身のインフラストラクチャー上にデプロイされるため、デプロイとデータを完全に制御できます。W&amp;B セルフマネージド はエアギャップ環境でのデプロイをサポートします。Enterprise ライセンスがない場合、[Enterprise 向け機能](#enterprise-features) は利用できません。
 
-</Tab>
-<Tab title="セルフマネージド">
-Enterprise ライセンスをリクエストする：
+<div id="obtain-an-enterprise-license">
+  ## Enterprise ライセンス を取得する
+</div>
 
-- **評価**: [トライアルライセンスのリクエスト](https://wandb.ai/site/for-enterprise/self-hosted-trial) を送信するか、[営業担当 (Sales)](mailto:sales@wandb.ai) に連絡して要件をご相談ください。
-- **プロダクション**: [営業担当 (Sales)](https://wandb.ai/site/contact-sales) に連絡して、デプロイメントの要件とサイジングを相談し、ライセンスの詳細を受け取ってください。
-
-<Warning>ライセンスキーは安全に保管し、機密性の高い認証情報として扱ってください。</Warning>
-
-</Tab>
-</Tabs>
-
-## Enterprise ライセンスの設定
-
-<Info>このセクションは W&B セルフマネージドにのみ関連します。</Info>
-
-[Enterprise ライセンスを取得](#obtain-an-enterprise-license) した後、プログラムで設定するか、デプロイ後に W&B アプリ内で設定できます。手順についてはタブを選択してください。
+Enterprise ライセンス の取得方法は、デプロイメントタイプによって異なります。ユースケースに一致するタブを選択して続行してください。
 
 <Tabs>
-<Tab title="Helm">
-1. `values.yaml` ファイルを更新します：
-    ```yaml
-    wandb:
-      license: "YOUR_LICENSE_KEY_HERE"
-    ```
+  <Tab title="専用クラウド">
+    W&amp;B 専用クラウド には Enterprise ライセンス が含まれているため、追加の対応は不要です。[Enterprise トライアルを開始](https://wandb.ai/site/for-enterprise/dedicated-saas-trial/)するか、要件について相談するには [Sales](https://wandb.ai/site/contact-sales) にお問い合わせください。
+  </Tab>
 
-2. Helm リリースをアップグレードします：
-    ```bash
-    # Helm リリースをアップグレードする
-    helm upgrade wandb wandb/wandb \
-      --namespace wandb \
-      --reuse-values \
-      --set license=$LICENSE_KEY
-    ```
-</Tab>
-<Tab title="Terraform">
-1. Terraform 変数を更新します：
-    ```hcl
-    # Terraform 変数を更新する
-    variable "license" {
-      default = "YOUR_LICENSE_KEY_HERE"
-    }
-    ```
+  <Tab title="セルフマネージド">
+    Enterprise ライセンス をリクエストします。
 
-2. Terraform 設定を適用します：
-    ```bash
-    # Terraform 設定を適用する
-    terraform apply -var="license=$LICENSE_KEY"
-    ```
-</Tab>
-<Tab title="W&B App">
-環境変数の設定がない既存のデプロイメントの場合：
+    * **評価**: [トライアルライセンスをリクエスト](https://wandb.ai/site/for-enterprise/self-hosted-trial)フォームを送信するか、要件について相談するには [Sales](mailto:sales@wandb.ai) にお問い合わせください。
+    * **本番**: デプロイ要件やサイジングについて相談し、ライセンスの詳細を受け取るには [Sales](https://wandb.ai/site/contact-sales) にお問い合わせください。
 
-1. 管理者ユーザーとしてログインします
-2. **System Settings** に移動します
-3. **License** セクションを探します
-4. 新しいライセンスキーを入力します
-5. 変更を保存します
-</Tab>
-<Tab title="Docker">
-<Warning>Docker への W&B のデプロイは非推奨となりました。W&B では、Helm または Terraform で管理される [Kubernetes Operator]() デプロイメントへの移行を強く推奨しています。詳細は [リファレンスアーキテクチャー](/platform/hosting/self-managed/ref-arch.mdx) を参照するか、[サポート (Support)](mailto:support@wandb.ai) までお問い合わせください。</Warning>
-ライセンスキーを環境変数として設定します：
-```bash
-# ライセンスキーを環境変数として設定して実行する
-docker run -d \
-  -e LICENSE="YOUR_LICENSE_KEY_HERE" \
-  -e OTHER_ENV_VARS \
-  wandb/local
-```
-</Tab>
+    <Warning>ライセンスキーは安全に保管し、機密性の高い認証情報として扱ってください。</Warning>
+  </Tab>
 </Tabs>
 
-次に、[Enterprise ライセンスの確認](#verify-or-update-an-enterprise-license) を行います。
+<div id="configure-an-enterprise-license">
+  ## Enterprise ライセンスを設定する
+</div>
 
-## Enterprise ライセンスの確認と管理
+<Info>このセクションは W&amp;B セルフマネージド にのみ該当します。専用クラウドのデプロイでは手動で設定する必要はありません。</Info>
 
-インスタンスまたは組織の管理者として、以下の手順で Enterprise ライセンスを確認・管理してください。
-1. W&B アプリで、右上のユーザープロフィールアイコンをクリックし、**System Console** をクリックします。
-1. **License** タブに移動します。ダッシュボードに、ライセンスの権限、有効期限、および期間ごとの使用状況が表示されます。エラーが表示される場合は、[よくある問題](#common-issues) を参照してください。
-1. ライセンスとその権限に関する詳細情報を確認するには、**View license online** をクリックします。
+[Enterprise ライセンスを取得](#obtain-an-enterprise-license)したら、デプロイの一部としてプログラムで設定することも、デプロイ後に W&amp;B App で設定することもできます。ご利用のデプロイ方法に対応するタブを選択してください。
 
-    このページから、新しいトライアルまたはプロダクションライセンスを注文することもできます。ページ上部の **New license order** をクリックしてフォームを送信してください。
-1. 期限切れのライセンスを更新したり、ライセンスキーをアップデートしたりするには、**Update License** をクリックします。
-    <Tip>
-    サービスを中断なく継続できるよう、W&B は以下のタイミングでご連絡いたします：
-    - ライセンス期限が切れる 30 日前
-    - ライセンス期限が切れた時
-    </Tip>
+<Tabs>
+  <Tab title="Kubernetes Operator">
+    1. ライセンスを設定するため、`operator.yaml` (`WeightsAndBiases` custom resource) を更新します。`[YOUR-LICENSE-KEY]` は、W&amp;B から受け取ったライセンスキーに置き換えてください。
 
+       ```yaml
+       spec:
+         values:
+           global:
+             license: "[YOUR-LICENSE-KEY]"
+       ```
 
-## Enterprise 機能
-利用可能な Enterprise 機能の完全なカテゴリ別リストについては、[料金 (Pricing)](https://wandb.ai/site/pricing/) ページを参照し、**Cloud-hosted** または **Privately-hosted** をクリックしてください。
+    2. 更新した設定を適用します。
+       ```bash
+       kubectl apply -f operator.yaml
+       ```
+  </Tab>
 
-## よくある問題
+  <Tab title="Terraform">
+    1. Terraform 変数を更新します。`[YOUR-LICENSE-KEY]` は、W&amp;B から受け取ったライセンスキーに置き換えてください。
 
+       ```hcl
+       variable "license" {
+         default = "[YOUR-LICENSE-KEY]"
+       }
+       ```
 
-### ライセンスが認識されない
-- ライセンスキーの形式が正しいか確認してください（余分なスペースがないかなど）
-- ライセンスの有効期限が切れていないか確認してください
-- ライセンスが正しい設定場所に設定されているか確認してください
+    2. Terraform の設定を適用します。
+       ```bash
+       terraform apply -var="license=$LICENSE_KEY"
+       ```
+  </Tab>
 
-### ライセンス設定後に機能が利用できない
-- ライセンスを設定した後、W&B サービスを再起動してください
-- アクセスしようとしている特定の機能がライセンスに含まれているか確認してください
-- ライセンスの検証エラーがないか、システムログを確認してください
+  <Tab title="W&B App">
+    環境変数が設定されていない既存のデプロイの場合:
 
-### ライセンス期限切れの警告
-- System Settings ページで有効期限の通知を確認してください
-- モニタリングシステムでライセンス期限切れのアラートを設定してください
-- アカウント担当者の連絡先情報を最新の状態に保ってください
+    1. 管理者ユーザーとしてログインします。
+    2. **System Settings** にアクセスします。
+    3. **License** セクションを探します。
+    4. 新しいライセンスキーを入力します。
+    5. 変更を保存します。
+  </Tab>
 
-### サポートを受ける
-Enterprise ライセンスに関するサポートが必要な場合は、アカウント担当チーム、[営業担当 (Sales)](mailto:sales@wandb.ai)、または [サポート (Support)](mailto:support@wandb.ai) までお問い合わせください。
+  <Tab title="Docker">
+    <Warning>Docker への W&amp;B のデプロイは非推奨です。W&amp;B では、Helm または Terraform で管理される [Kubernetes Operator]() デプロイへの移行を強く推奨しています。詳細は [リファレンスアーキテクチャ](/ja/platform/hosting/self-managed/ref-arch.mdx)を参照するか、[サポート](mailto:support@wandb.ai)にお問い合わせください。</Warning>
+    `LICENSE` 環境変数を設定します。`[YOUR-LICENSE-KEY]` は、W&amp;B から受け取ったライセンスキーに置き換えてください。
 
-## その他のリソース
-- [W&B 料金プラン](/pricing)
-- [W&B セルフマネージド](/platform/hosting/hosting-options/self-managed)
-- [W&B 専用クラウド](/platform/hosting/hosting-options/dedicated_cloud)
-- [セキュリティとコンプライアンス](/security)
+    ```bash
+    docker run -d \
+      -e LICENSE="[YOUR-LICENSE-KEY]" \
+      -e OTHER_ENV_VARS \
+      wandb/local
+    ```
+  </Tab>
+</Tabs>
+
+次に、[Enterprise ライセンスを確認および管理する](#verify-and-manage-an-enterprise-license)を参照してください。
+
+<div id="verify-and-manage-an-enterprise-license">
+  ## Enterprise ライセンス を確認および管理する
+</div>
+
+ライセンスを設定したら、それが有効であることを確認し、利用可能な機能を確認します。インスタンスまたは組織の管理者として、次の step に従います。
+
+1. W&amp;B App で、右上にあるユーザーのプロフィールアイコンをクリックし、**System Console** をクリックします。
+2. **License** タブに移動します。ダッシュボードには、ライセンスで利用できる機能、有効期限、経時的な Usage の概要が表示されます。エラーが表示された場合は、[Common issues](#common-issues) を参照してください。
+3. ライセンスとその利用可能な機能の詳細を確認するには、**View license online** をクリックします。
+
+   このページから、新しいトライアルライセンスまたは本番ライセンスを注文することもできます。ページ上部の **New license order** をクリックし、フォームを送信します。
+4. 期限切れのライセンスを更新する場合、またはライセンスキーを更新する場合は、**Update License** をクリックします。
+
+<Tip>
+  サービスが中断しないように、W&amp;B は次のタイミングで連絡します。
+
+  * ライセンスの有効期限が切れる 30 日前。
+  * ライセンスの有効期限が切れたとき。
+</Tip>
+
+<div id="enterprise-features">
+  ## Enterprise 向け機能
+</div>
+
+利用可能な Enterprise 向け機能のカテゴリ別の一覧は、[Pricing](https://wandb.ai/site/pricing/) ページで **Cloud-hosted** または **Privately-hosted** をクリックして確認してください。
+
+<div id="common-issues">
+  ## よくある問題
+</div>
+
+Enterprise ライセンスの設定時または使用時に問題が発生した場合は、サポートに連絡する前に、まず以下のよくある問題を確認してください。
+
+<div id="license-not-recognized">
+  ### License が認識されない
+</div>
+
+License が認識されない場合は、次の項目を確認します:
+
+* License キーの形式が正しいことを確認します (余分なスペースがないこと)
+* License の有効期限が切れていないことを確認します
+* License が正しい設定箇所に設定されていることを確認します
+
+<div id="features-not-available-after-setting-license">
+  ### ライセンス設定後に機能を利用できない
+</div>
+
+ライセンスを設定した後も機能を利用できない場合は、次のことをお試しください。
+
+* ライセンスを設定した後、W&amp;B Service を再起動します
+* ライセンスに、利用しようとしている特定の機能が含まれていることを確認します
+* ライセンスの検証エラーがないか、システムログを確認します
+
+<div id="license-expiration-warnings">
+  ### ライセンスの有効期限切れに関する警告
+</div>
+
+ライセンスの有効期限切れに先回りして対応するには:
+
+* **System Settings** ページで有効期限切れの通知を確認します。
+* 監視システムでライセンスの有効期限切れアラートを設定します。
+* account team の連絡先情報を最新の状態に保ちます。
+
+<div id="get-support">
+  ### サポートを受ける
+</div>
+
+Enterprise ライセンスに関するサポートが必要な場合は、担当のアカウントチーム、[Sales](mailto:sales@wandb.ai)、または[サポート](mailto:support@wandb.ai)までお問い合わせください。
+
+<div id="additional-resources">
+  ## 関連リソース
+</div>
+
+* [W&amp;B Pricing](/ja/pricing)
+* [W&amp;B セルフマネージド](/ja/platform/hosting/hosting-options/self-managed)
+* [W&amp;B 専用クラウド](/ja/platform/hosting/hosting-options/dedicated-cloud)
+* [セキュリティとコンプライアンス](/ja/security)

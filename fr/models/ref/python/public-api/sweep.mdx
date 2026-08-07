@@ -1,0 +1,171 @@
+---
+title: Sweep
+kind: class
+namespace: wandb.apis.public.sweeps
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py#L272" />
+
+## <kbd>classe</kbd> wandb.apis.public.Sweep
+
+```python
+(service_api: 'ServiceApi',
+entity: 'str',
+project: 'str',
+sweep_id: 'str',
+attrs: 'Mapping[str, Any] | None' = None)
+```
+
+L’ensemble des run associées au balayage.
+
+<div id="args">
+  ## Arguments
+</div>
+
+* `service_api`:
+* `entity`:
+* `project`:
+* `sweep_id`:
+* `attrs`: 
+
+<div id="attributes">
+  ## Attributs
+</div>
+
+* `runs` (`Runs`) : Liste des runs
+* `id` (`str`) : ID du balayage
+* `project` (`str`) : Nom du projet auquel le balayage appartient
+* `config` (`dict`) : Dictionnaire contenant la configuration du balayage
+* `state` (`str`) : État du balayage. Peut être &quot;Finished&quot;, &quot;Failed&quot;, &quot;Crashed&quot; ou &quot;Running&quot;.
+* `expected_run_count` (`int`) : Nombre de runs attendus pour le balayage
+
+<div id="properties">
+  ## Propriétés
+</div>
+
+### <kbd>propriété</kbd> config
+
+Configuration du balayage utilisée pour ce balayage.
+
+### <kbd>propriété</kbd> entité
+
+L’entité associée au balayage.
+
+### <kbd>propriété</kbd> expected_run_count
+
+Retourne le nombre de runs attendus dans le balayage, ou None si le nombre de runs est infini.
+
+### <kbd>propriété</kbd> name
+
+Le nom du balayage.
+
+Renvoie le premier nom disponible selon l’ordre de priorité suivant :
+
+1. Nom d’affichage modifié par l’utilisateur
+2. Nom défini lors de la création
+3. ID du balayage
+
+### <kbd>propriété</kbd> order
+
+Renvoie la clé d’ordre du balayage.
+
+### <kbd>propriété</kbd> path
+
+Renvoie le chemin du projet.
+
+Le chemin est une liste qui contient l’entité, le nom du projet et l’ID du balayage.
+
+### <kbd>propriété</kbd> url
+
+L’URL du balayage.
+
+L’URL du balayage est générée à partir de l’entité, du projet, du terme « sweeps » et de `ID du balayage.run_id`. Pour les utilisateurs SaaS, elle se présente sous la forme `https://wandb.ai/entity/project/sweeps/sweeps_ID`.
+
+### <kbd>propriété</kbd> username
+
+Obsolète. Utilisez `Sweep.entity` à la place.
+
+<div id="methods">
+  ## Méthodes
+</div>
+
+### <kbd>méthode</kbd> Sweep.agent()
+
+```python
+self,
+agent_id: 'str'
+```
+
+Récupérer un agent à partir de son ID pour ce balayage.
+
+<div id="arguments">
+  ##### Arguments
+</div>
+
+* `agent_id`: l’ID de l’agent à récupérer.
+
+### <kbd>méthode</kbd> Sweep.agents()
+
+```python
+self
+```
+
+Récupérez la liste de tous les agents de ce balayage.
+
+### <kbd>méthode</kbd> Sweep.best_run()
+
+```python
+(self, order=None)
+```
+
+Retourne le meilleur run, trié selon la métrique définie dans la configuration ou l’ordre fourni.
+
+<div id="arguments">
+  ##### Arguments
+</div>
+
+* `order`: 
+
+### <kbd>méthode</kbd> Sweep.get()
+
+```python
+(api: 'Api',
+entity: 'str | None' = None,
+project: 'str | None' = None,
+sid: 'str | None' = None,
+order: 'str | None' = None,
+query: 'str | None' = None, **kwargs)
+```
+
+Exécute une requête sur le backend cloud.
+
+<div id="arguments">
+  ##### Arguments
+</div>
+
+* `api`: L’instance d’API W&amp;B.
+* `entity`: L’entité (nom d’utilisateur ou équipe) propriétaire du projet.
+* `project`: Le nom du projet depuis lequel récupérer le balayage.
+* `sid`: L’ID du balayage à interroger.
+* `order`: L’ordre dans lequel les runs du balayage sont renvoyés.
+* `query`: La requête à utiliser pour exécuter la requête.
+* `kwargs`: 
+
+### <kbd>méthode</kbd> Sweep.to_html()
+
+```python
+self,
+height: 'int' = 420,
+hidden: 'bool' = False
+```
+
+Génère du HTML contenant une iframe qui affiche ce balayage.
+
+<div id="arguments">
+  ##### Arguments
+</div>
+
+* `height`:
+* `hidden`: 

@@ -1,0 +1,94 @@
+---
+title: "Balayages"
+tag: "22"
+generator: "knowledgebase-nav"
+template: "docengine-site/templates/support_tag.mdx.j2"
+---
+
+<Card title="Bonnes pratiques pour organiser les recherches d'hyperparamètres" href="/fr/support/models/articles/best-practices-to-organize-hyperparamete" arrow="true" horizontal>
+  Lorsque vous lancez de nombreuses recherches d&#39;hyperparamètres, ajoutez des tags à vos runs afin de pouvoir regrouper et retrouver les expériences associées plus tard. Taggez les runs i ...
+</Card>
+
+<Card title="Puis-je reprendre un run dans un balayage ?" href="/fr/support/models/articles/can-i-resume-a-run-inside-a-sweep" arrow="true" horizontal>
+  La reprise d&#39;un run n&#39;est pas prise en charge dans un balayage W&amp;B. Si vous transmettez un run&#95;id ou utilisez wandb.init(resume=...) pendant qu&#39;un agent de ba ...
+</Card>
+
+<Card title="Comment puis-je modifier le répertoire dans lequel mon balayage journalise localement ?" href="/fr/support/models/articles/how-can-i-change-the-directory-my-sweep-" arrow="true" horizontal>
+  Définissez le répertoire de journalisation des données de run en configurant la variable d&#39;environnement WANDB&#95;DIR. Par exemple :
+</Card>
+
+<Card title="Comment puis-je reprendre un balayage à l'aide de code Python ?" href="/fr/support/models/articles/how-can-i-resume-a-sweep-using-python-co" arrow="true" horizontal>
+  Pour reprendre un balayage, transmettez le sweep&#95;id à la fonction wandb.agent().
+</Card>
+
+<Card title="Comment journaliser au mieux les modèles à partir des runs d'un balayage ?" href="/fr/support/models/articles/how-do-i-best-log-models-from-runs-in-a-" arrow="true" horizontal>
+  Pour journaliser des modèles dans un balayage, créez un artefact de modèle pour le balayage. Chaque version représente un run différent du balayage. ...
+</Card>
+
+<Card title="Comment activer la journalisation du code avec Balayages ?" href="/fr/support/models/articles/how-do-i-enable-code-logging-with-sweeps" arrow="true" horizontal>
+  Pour activer la journalisation du code pour les balayages, ajoutez wandb.log&#95;code() après avoir initialisé le W&amp;B Run. Cette étape est nécessaire même lorsque ...
+</Card>
+
+<Card title="Comment corriger `CommError, Run does not exist` pendant un balayage ?" href="/fr/support/models/articles/commerror-run-does-not-exist-during-swee" arrow="true" horizontal>
+  Si vous voyez à la fois CommError, Run does not exist et ERROR Error uploading pendant un balayage, la cause la plus probable est que vo ...
+</Card>
+
+<Card title="Comment corriger `Cuda out of memory` pendant un balayage ?" href="/fr/support/models/articles/cuda-out-of-memory-during-a-sweep" arrow="true" horizontal>
+  Si vous voyez Cuda out of memory pendant un balayage, remaniez votre code pour utiliser une exécution basée sur des processus. Réécrivez votre code sous forme de  ...
+</Card>
+
+<Card title="Comment corriger une `anaconda 400 error` pendant un balayage ?" href="/fr/support/models/articles/anaconda-400-error-during-a-sweep" arrow="true" horizontal>
+  Une anaconda 400 error pendant un balayage signifie souvent que vous n&#39;avez pas journalisé la métrique que vous optimisez. Vous pourriez voir : The sweep c ...
+</Card>
+
+<Card title="Comment signaler des variables booléennes comme hyperparamètres ?" href="/fr/support/models/articles/how-do-i-flag-boolean-variables-as-hyperparameters" arrow="true" horizontal>
+  Pour transmettre des hyperparamètres sous forme d&#39;indicateurs booléens, utilisez la macro dans la section commande de votre configuration de balayage. La macro au ...
+</Card>
+
+<Card title="Comment relancer une recherche sur grille ?" href="/fr/support/models/articles/how-do-i-rerun-a-grid-search" arrow="true" horizontal>
+  Si une recherche sur grille se termine mais que certains W&amp;B Runs ont planté, supprimez ces runs pour les relancer. Sélectionnez ensuite le bouton Reprendre sur  ...
+</Card>
+
+<Card title="Comment définir des valeurs d'hyperparamètre par défaut dans un balayage ?" href="/fr/support/models/articles/how-do-i-set-default-hyperparameter-values-in-a-sweep" arrow="true" horizontal>
+  Vous n&#39;avez pas besoin de fournir une valeur pour chaque hyperparamètre dans un balayage W&amp;B. Vous pouvez définir des valeurs par défaut et laisser le balayage les remplac ...
+</Card>
+
+<Card title="Comment utiliser balayage W&B avec SageMaker ?" href="/fr/support/models/articles/how-do-i-use-sweeps-with-sagemaker" arrow="true" horizontal>
+  Vous pouvez utiliser le balayage W&amp;B avec Amazon SageMaker pour exécuter des recherches d&#39;hyperparamètres sur des tâches d&#39;entraînement SageMaker. Pour vous authentifier  ...
+</Card>
+
+<Card title="Comment utiliser balayage W&B avec une infrastructure cloud ?" href="/fr/support/models/articles/how-do-i-use-sweeps-with-cloud-infrastructure" arrow="true" horizontal>
+  Pour exécuter un balayage W&amp;B sur une infrastructure cloud telle qu&#39;AWS Batch ou ECS, publiez le sweep&#95;id afin que n&#39;importe quel agent de balayage W&amp;B puisse ca ...
+</Card>
+
+<Card title="Comment puis-je utiliser des commandes CLI personnalisées avec des balayages ?" href="/fr/support/models/articles/how-do-i-use-custom-cli-commands-with-sw" arrow="true" horizontal>
+  Vous pouvez utiliser des balayages W&amp;B avec des commandes CLI personnalisées si la configuration d’entraînement transmet des arguments de ligne de commande. Cela vous permet d’e ...
+</Card>
+
+<Card title="Comment puis-je utiliser le graphique en coordonnées parallèles dans W&B ?" href="/fr/support/models/articles/how-do-i-use-the-parallel-coordinates-chart-in-wandb" arrow="true" horizontal>
+  Le graphique en coordonnées parallèles montre comment les hyperparamètres sont liés aux métriques sur de nombreuses exécutions. Chaque ligne correspond à une exécution ; chaque  ...
+</Card>
+
+<Card title="Comment exécuter des balayages sur SLURM ?" href="/fr/support/models/articles/how-should-i-run-sweeps-on-slurm" arrow="true" horizontal>
+  Pour utiliser des balayages avec le système d’ordonnancement SLURM, exécutez wandb agent --count 1 SWEEP&#95;ID dans chaque job planifié. Cette commande e ...
+</Card>
+
+<Card title="Peut-on ajouter des valeurs supplémentaires à un balayage, ou faut-il en démarrer un nouveau ?" href="/fr/support/models/articles/is-there-a-way-to-add-extra-values-to-a-" arrow="true" horizontal>
+  Une fois qu’un balayage W&amp;B a démarré, vous ne pouvez pas modifier sa configuration. Cependant, vous pouvez accéder à n’importe quelle vue de tableau, sélectionner r ...
+</Card>
+
+<Card title="Optimiser plusieurs métriques" href="/fr/support/models/articles/optimizing-multiple-metrics" arrow="true" horizontal>
+  Les balayages W&amp;B optimisent une seule métrique cible. Pour optimiser plusieurs métriques dans une seule exécution, combinez-les dans une pondéra ...
+</Card>
+
+<Card title="Que se passe-t-il si je modifie mes fichiers Python pendant l’exécution d’un balayage ?" href="/fr/support/models/articles/what-happens-if-i-edit-my-python-files-w" arrow="true" horizontal>
+  Le comportement dépend du fichier que vous modifiez. Pendant l’exécution d’un balayage : si le script train.py utilisé par le balayage est modifié ...
+</Card>
+
+<Card title="Qu’est-ce que la colonne `Est. Runs` ?" href="/fr/support/models/articles/what-is-the-est-runs-column" arrow="true" horizontal>
+  W&amp;B fournit un nombre estimé de run générés lors de la création d’un balayage W&amp;B avec un espace de recherche discret. Ce total re ...
+</Card>
+
+<Card title="Pourquoi mon agent de balayage ne récupère-t-il pas de nouvelles exécutions ?" href="/fr/support/models/articles/why-is-my-sweep-agent-not-picking-up-new-runs" arrow="true" horizontal>
+  Si votre agent de balayage démarre mais ne reçoit pas de nouvelles configurations d’exécution, ou reçoit une exécution puis reste inactif, il existe plusieu ...
+</Card>

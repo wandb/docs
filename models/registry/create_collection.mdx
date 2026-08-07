@@ -1,5 +1,6 @@
 ---
 title: Create a collection
+description: "Create a collection of linked artifact versions within a W&B Registry and configure accepted artifact types."
 ---
 
 
@@ -119,7 +120,7 @@ Where `registry_name` is the name of the registry and `collection_name` is the n
 W&B automatically creates a collection for you if you try to link an artifact to a collection that does not exist. If you specify a collection that does exists, W&B links the artifact to the existing collection.
 </Note>
 
-The following code snippet shows how to programmatically create a collection. Ensure to replace other the values enclosed in `<>` with your own:
+The following code snippet shows how to programmatically create a collection. Ensure to replace the values enclosed in `<>` with your own:
 
 ```python
 import wandb
@@ -157,7 +158,3 @@ The following steps describe how to interactively create a collection using the 
 10. From the **Artifact** collection dropdown, select your artifact.
 11. From the **Version** dropdown, select the artifact version you want to link to your collection.
 12. Click on the **Create collection** button.
-
-<Frame>
-    <img src="/images/registry/create_collection.gif" alt="Create a new collection"  />
-</Frame>

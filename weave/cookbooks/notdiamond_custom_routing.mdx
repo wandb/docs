@@ -1,41 +1,44 @@
 ---
-title: "NotDiamond Custom Routing"
-description: "Learn how to use notdiamond custom routing with W&B Weave"
+title: "Not Diamond custom routing"
+description: "Learn how to use Not Diamond custom routing with W&B Weave"
+keywords: ["Not Diamond", "custom routing", "LLM routing", "HumanEval", "meta-model"]
 ---
 
 <Note>
-This is an interactive notebook. You can run it locally or use the links below:
+This is an interactive notebook. You can run it locally or use the following links:
 - [Open in Google Colab](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/notdiamond_custom_routing.ipynb)
 - [View source on GitHub](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/notdiamond_custom_routing.ipynb)
 </Note>
 
-# Custom Routing for LLM Prompts with Not Diamond
-
-This notebook demonstrates how to use Weave with [Not Diamond's custom routing](https://docs.notdiamond.ai/docs/router-training-quickstart) to route LLM prompts to the most appropriate model based on evaluation results.
+This notebook demonstrates how to use Weave with [Not Diamond's custom routing](https://docs.notdiamond.ai/docs/router-training-quickstart) to route LLM prompts to the most appropriate model based on evaluation results. By the end, you have trained a custom router for coding prompts, used it to select a target model for a new prompt, and evaluated its performance against the best individual model.
 
 ## Routing prompts
 
-When building complex LLM workflows users may need to prompt different models according to accuracy, cost, or call latency.
-Users can use [Not Diamond](https://www.notdiamond.ai/) to route prompts in these workflows to the right model for their needs, helping maximize accuracy while saving on model costs.
+This section explains why custom routing is useful when working with multiple LLMs.
 
-For any given distribution of data, rarely will one single model outperform every other model on every single query. By combining together multiple models into a "meta-model" that learns when to call each LLM, you can beat every individual model's performance and even drive down costs and latency in the process.
+When building complex LLM workflows, you may need to prompt different models according to accuracy, cost, or call latency.
+You can use [Not Diamond](https://www.notdiamond.ai/) to route prompts in these workflows to the right model for your needs, helping maximize accuracy while saving on model costs.
+
+For any given distribution of data, rarely does a single model outperform every other model on every query. By combining multiple models into a "meta-model" that learns when to call each LLM, you can beat every individual model's performance and even drive down costs and latency.
 
 ## Custom routing
 
-You need three things to train a custom router for your prompts:
+The following inputs are required to train a custom router for your prompts:
 
-1. A set of LLM prompts: Prompts must be strings and should be representative of the prompts used in our application.
-1. LLM responses: The responses from candidate LLMs for each input. Candidate LLMs can include both our supported LLMs and your own custom models.
-1. Evaluation scores for responses to the inputs from candidate LLMs: Scores are numbers, and can be any metric that fit your needs.
+1. **A set of LLM prompts**: Prompts must be strings and should be representative of the prompts used in your application.
+1. **LLM responses**: The responses from candidate LLMs for each input. Candidate LLMs can include both supported LLMs and your own custom models.
+1. **Evaluation scores for responses to the inputs from candidate LLMs**: Scores are numbers, and can be any metric that fits your needs.
 
-By submitting these to the Not Diamond API you can then train a custom router tuned to each of your workflows.
+By submitting these to the Not Diamond API, you can then train a custom router tuned to each of your workflows.
 
-## Setting up the training data
+## Set up the training data
 
-In practice, you will use your own Evaluations to train a custom router. For this example notebook, however, you will use LLM responses
+In this section, you prepare the training and test data that the custom router learns from.
+
+In practice, you use your own Evaluations to train a custom router. For this example notebook, however, you use LLM responses
 for [the HumanEval dataset](https://github.com/openai/human-eval) to train a custom router for coding tasks.
 
-We start by downloading the dataset we have prepared for this example, then parsing LLM responses into EvaluationResults for each model.
+Start by downloading the dataset prepared for this example, then parse LLM responses into `EvaluationResults` for each model. This split of training and test data is used in later sections to train the router and to evaluate its out-of-sample performance.
 
 ```python lines
 !curl -L "https://drive.google.com/uc?export=download&id=1q1zNZHioy9B7M-WRjsJPkfvFosfaHX38" -o humaneval.csv
@@ -72,10 +75,10 @@ for model, evaluation_results in model_evals.items():
     )
 ```
 
-## Training a custom router
+## Train a custom router
 
-Now that you have EvaluationResults, you can train a custom router. Make sure you have [created an account](https://app.notdiamond.ai/keys) and
-[generated an API key](https://app.notdiamond.ai/keys), then insert your API key below.
+With the `EvaluationResults` prepared, you can now submit them to Not Diamond to train a custom router. Make sure you have [created an account](https://app.notdiamond.ai/keys) and
+[generated an API key](https://app.notdiamond.ai/keys), then insert your API key in the following code. The API key authenticates the training request.
 
 <Frame>
 ![Create an API key](/weave/guides/integrations/imgs/notdiamond/api-keys.png)
@@ -101,7 +104,7 @@ preference_id = train_router(
 )
 ```
 
-You can then follow the training process for your custom router via the Not Diamond app.
+You can then follow the training process for your custom router through the Not Diamond app.
 
 <Frame>
 ![Check on router training progress](/weave/guides/integrations/imgs/notdiamond/router-preferences.png)
@@ -153,17 +156,20 @@ print(f"Session ID: {session_id}")
 print(f"Target Model: {routing_target_model}")
 ```
 
-This example also used Not Diamond's compatibility with Weave auto-tracing. You can see the results in the Weave UI.
+This example also used Not Diamond's compatibility with Weave autotracing. You can see the results in the Weave UI.
 
 ![Weave UI for custom routing](/weave/guides/integrations/imgs/notdiamond/weave-trace.png)
-## Evaluating your custom router
 
-Once you have trained your custom router, you can evaluate either its
+## Evaluate your custom router
 
-- in-sample performance by submitting the training prompts, or
-- out-of-sample performance by submitting new or held-out prompts
+This section shows how to measure whether the custom router improves on the best individual model.
 
-Below, we submit the test set to the custom router to evaluate its performance.
+Once you've trained your custom router, you can evaluate its performance in one of the following ways:
+
+- In-sample performance by submitting the training prompts.
+- Out-of-sample performance by submitting new or held-out prompts.
+
+In the following example, you submit the test set to the custom router to evaluate its performance.
 
 ```python lines
 from weave.integrations.notdiamond.custom_router import evaluate_router
@@ -198,9 +204,9 @@ await nd_eval.evaluate(nd_model)
 
 In this instance, the Not Diamond "meta-model" routes prompts across several different models.
 
-Training the custom router via Weave will also run evaluations and upload results to the Weave UI. Once the custom router process is completed, you can review the results in the Weave UI.
+Training the custom router through Weave also runs evaluations and uploads results to the Weave UI. Once the custom router process completes, you can review the results in the Weave UI.
 
-In the UI we see that the Not Diamond "meta-model" outperforms the best-performing model by routing prompts to other models with higher likelihood of answering the prompt accurately.
+In the UI, you can see that the Not Diamond "meta-model" outperforms the best-performing model by routing prompts to other models with higher likelihood of answering the prompt accurately.
 
 <Frame>
 ![Evaluating Not Diamond](/weave/guides/integrations/imgs/notdiamond/evaluations.png)

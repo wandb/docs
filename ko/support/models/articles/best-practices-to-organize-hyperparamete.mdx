@@ -1,0 +1,40 @@
+---
+title: "하이퍼파라미터 검색을 체계적으로 관리하는 모범 사례"
+keywords: ["하이퍼파라미터", "Sweeps", "Runs"]
+---
+
+여러 하이퍼파라미터 검색을 실행하는 경우, 나중에 관련 실험을 그룹화하고 찾을 수 있도록 Runs에 태그를 지정하세요.
+
+<div id="tag-runs-in-your-code">
+  ## 코드에서 Runs에 태그 지정하기
+</div>
+
+각 Runs을 초기화할 때 고유한 태그를 전달하세요:
+
+```python
+import wandb
+
+with wandb.init(tags=["sweep-3", "lr-0.01"]) as run:
+    # 트레이닝 코드를 여기에 작성하세요
+    pass
+```
+
+`wandb.init()`에 대한 자세한 내용은 [`wandb.init()` 레퍼런스](/ko/models/ref/python/functions/init) 및 [태그를 사용해 Runs에 레이블 추가](/ko/models/runs/tags)를 참조하세요.
+
+<div id="filter-tagged-runs-in-the-ui">
+  ## UI에서 태그가 지정된 Runs 필터링하기
+</div>
+
+1. 프로젝트를 열고 **Runs** 탭으로 이동하세요.
+2. Runs 테이블 위의 **Filter**를 클릭하세요.
+3. **Tags**를 선택하고 `is` 또는 `in` 같은 연산자를 선택한 다음, 코드에서 설정한 태그를 입력하세요.
+
+추가 필터 옵션은 [Runs 필터링](/ko/models/runs/filter-runs)을 참조하세요.
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[하이퍼파라미터](/ko/support/models/tags/hyperparameter)</Badge><Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ko/support/models/tags/sweeps)</Badge><Badge stroke shape="pill" color="orange" size="md">[Runs](/ko/support/models/tags/runs)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

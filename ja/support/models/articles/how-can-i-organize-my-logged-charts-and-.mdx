@@ -1,0 +1,29 @@
+---
+title: "W&B UI でログしたチャートとメディアを整理するにはどうすればよいですか？"
+keywords: ["Experiments"]
+---
+
+ログした項目に共通の接頭辞を付けて名前を付けると、ログしたチャートやメディアを関連するグループに整理でき、W&amp;B UI でメトリクスを確認したり比較したりしやすくなります。
+
+`/` 文字は、W&amp;B UI でログされたパネルを区切るために使われます。デフォルトでは、ログされた項目の名のうち `/` より前の部分によって、**Panel Section** と呼ばれるパネルのグループが定義されます。
+
+たとえば、次のコードはメトリクスを `val` と `train` の 2 つのパネルセクションにログします。
+
+```python
+import wandb
+
+with wandb.init() as run:
+
+   run.log({"val/loss": 1.1, "val/acc": 0.3})
+   run.log({"train/loss": 0.1, "train/acc": 0.94})
+```
+
+W&amp;B でパネルのグループ化方法を変更するには、[Workspace](/ja/models/track/project-page#workspace-tab) の設定で、`/` で区切られた最初のセグメントまたはすべてのセグメントに応じて、パネルをグループ化します。
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

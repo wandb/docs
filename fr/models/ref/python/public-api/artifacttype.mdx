@@ -1,0 +1,65 @@
+---
+title: ArtifactType
+kind: classe
+namespace: wandb.apis.public.artifacts
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L166" />
+
+## <kbd>classe</kbd> wandb.apis.public.ArtifactType
+
+Un objet artifact qui correspond à une requête basée sur le type spécifié.
+
+<div id="properties">
+  ## Propriétés
+</div>
+
+### <kbd>propriété</kbd> id
+
+L’ID unique du type d’artifact.
+
+### <kbd>propriété</kbd> nom
+
+Nom du type d&#39;artifact.
+
+<div id="methods">
+  ## Méthodes
+</div>
+
+### <kbd>méthode</kbd> ArtifactType.collection()
+
+```python
+self,
+name: 'str'
+```
+
+Obtenir une collection d&#39;artifacts spécifique à partir de son nom.
+
+<div id="arguments">
+  ##### Arguments
+</div>
+
+* `name`: Le nom de la collection d&#39;artifacts à récupérer.
+
+### <kbd>méthode</kbd> ArtifactType.collections()
+
+```python
+self,
+filters: 'Mapping[str, Any] | None' = None,
+order: 'str | None' = None,
+per_page: 'int' = 50,
+start: 'str | None' = None
+```
+
+Obtenir toutes les collections d&#39;artifacts associées à ce type d&#39;artifact.
+
+<div id="arguments">
+  ##### Arguments
+</div>
+
+* `filters`: Mappage facultatif des filtres à appliquer à la requête.
+* `order`: Chaîne facultative permettant de spécifier l’ordre des résultats. S’il est préfixé par &#39;+&#39;, le tri est croissant (par défaut). S’il est préfixé par &#39;-&#39;, le tri est décroissant. Par défaut, l’ordre utilisé est l’ID de la collection, par ordre décroissant.
+* `per_page`: Le nombre de collections d&#39;artifacts à récupérer par page. La valeur par défaut est 50.
+* `start`: Curseur de pagination pour reprendre une requête antérieure, capturé à partir de l’attribut `.cursor` d’un paginateur précédent.

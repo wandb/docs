@@ -1,0 +1,226 @@
+---
+title: Enregistrer des métriques de synthèse
+description: "Suivez et personnalisez des métriques de synthèse individuelles, telles que la meilleure précision ou la perte minimale, pour un W&B Run à l’aide de run.summary."
+---
+
+Outre les valeurs qui évoluent au fil du temps pendant l’entraînement, il est souvent important de suivre les valeurs qui résument un modèle ou une étape de prétraitement. Stockez ces informations dans l’attribut `summary` d’un run. L’attribut `summary` d’un run peut contenir des tableaux NumPy, des tenseurs PyTorch ou des tenseurs TensorFlow. W&amp;B enregistre les tableaux NumPy, les tenseurs PyTorch et les tenseurs TensorFlow dans un fichier binaire.
+
+La dernière valeur enregistrée avec `wandb.Run.log()` est automatiquement définie dans le dictionnaire de synthèse du run. Si un dictionnaire de métriques de synthèse est modifié, la valeur précédente est perdue.
+
+Enregistrez une métrique de synthèse pendant un run actif ou après la fin d’un run.
+
+<Tabs>
+  <Tab title="Pendant un run">
+    L’extrait de code suivant montre comment fournir une métrique de synthèse personnalisée à W&amp;B :
+
+    ```python
+    import wandb
+    import random
+
+    # Projet dans lequel le run est enregistré
+    project = "summary-demo"
+    entity = "<your-entity>" # Remplacez par le nom de votre entité W&B
+
+    # Dictionnaire des hyperparamètres
+    config = {
+        'epochs' : 10,
+        'lr' : 0.01
+    }
+
+    with wandb.init(entity=entity, project=project, config=config) as run:
+        offset = random.random() / 5
+        print(f"lr: {config['lr']}")
+
+        # Simuler un run d’entraînement
+        for epoch in range(2, config['epochs']):
+            acc = 1 - 2**-config['epochs'] - random.random() / config['epochs'] - offset
+            loss = 2**-config['epochs'] + random.random() / config['epochs'] + offset
+            print(f"epoch={config['epochs']}, accuracy={acc}, loss={loss}")
+            run.log({"accuracy": acc, "loss": loss})
+
+            if epoch % 5 == 0:
+                run.summary["best_accuracy"] = acc
+                run.summary["best_loss"] = loss
+    ```
+  </Tab>
+
+  <Tab title="Après un run">
+    Vous pouvez mettre à jour l’attribut `summary` d’un W&amp;B Run existant une fois l’entraînement terminé. Utilisez l’[API publique W&amp;B](/fr/models/ref/python/public-api/) pour mettre à jour l’attribut `summary` :
+
+    ```python
+    api = wandb.Api()
+    run = api.run("entity/project/run_id")
+    run.summary["tensor"] = np.random.random(1000)
+    run.summary.update()
+    ```
+  </Tab>
+</Tabs>
+
+L’image suivante montre à quoi peuvent ressembler les métriques de synthèse si vous copiez et exécutez l’extrait de code ci-dessus :
+
+<Frame>
+  <img src="/images/track/summary_demo.png" alt="Synthèse du run" />
+</Frame>
+
+<div id="customize-summary-metrics">
+  ## Personnaliser les métriques de synthèse
+</div>
+
+Les métriques de synthèse personnalisées sont utiles pour enregistrer les performances du modèle à la meilleure étape de l&#39;entraînement dans votre `run.summary`. Par exemple, vous pouvez vouloir enregistrer la précision maximale ou la valeur minimale de la perte, plutôt que la valeur finale.
+
+Par défaut, le summary utilise la valeur finale de l&#39;historique. Pour personnaliser les métriques de synthèse, passez l&#39;argument `summary` à `define_metric`. Il accepte les valeurs suivantes :
+
+* `"min"`
+* `"max"`
+* `"mean"`
+* `"best"`
+* `"last"`
+* `"none"`
+
+Vous pouvez utiliser `"best"` uniquement si vous définissez également l&#39;argument facultatif `objective` sur `"minimize"` ou `"maximize"`.
+
+L&#39;exemple suivant ajoute au summary les valeurs minimale et maximale de la perte et de la précision :
+
+```python
+import wandb
+import random
+
+random.seed(1)
+
+with wandb.init() as run:
+    # Valeurs min et max du résumé pour la perte
+    run.define_metric("loss", summary="min")
+    run.define_metric("loss", summary="max")
+
+    # Valeurs min et max du résumé pour la précision
+    run.define_metric("acc", summary="min")
+    run.define_metric("acc", summary="max")
+
+    for i in range(10):
+        log_dict = {
+            "loss": random.uniform(0, 1 / (i + 1)),
+            "acc": random.uniform(1 / (i + 1), 1),
+        }
+        run.log(log_dict)
+```
+
+<div id="view-summary-metrics">
+  ## Afficher les métriques de synthèse
+</div>
+
+Accédez à la synthèse d’un run dans la W&amp;B App, pendant l’exécution d’un run, à partir d’un run existant ou depuis le système de fichiers local.
+
+<Tabs>
+  <Tab title="Aperçu du run">
+    1. Accédez à la W&amp;B App.
+    2. Sélectionnez l’onglet **Workspace** dans la barre latérale du projet.
+    3. Cliquez sur le run qui a enregistré les valeurs de synthèse. La page du run s’ouvre avec l’onglet **Overview** affiché par défaut.
+    4. Consultez les valeurs de synthèse dans la section **Summary**.
+
+    L’image suivante montre à quoi peuvent ressembler les métriques de synthèse dans l’onglet **Overview** si vous copiez et exécutez l’extrait de code ci-dessus :
+
+    <Frame>
+      <img src="/images/track/customize_summary.png" alt="Aperçu du run" />
+    </Frame>
+  </Tab>
+
+  <Tab title="Table des runs">
+    1. Accédez à la W&amp;B App.
+    2. Sélectionnez l’onglet **Runs**.
+    3. Dans la table des runs, consultez les valeurs de synthèse dans les colonnes correspondant au nom de chaque valeur.
+  </Tab>
+
+  <Tab title="Pendant un run">
+    Utilisez `wandb.Run.summary` pour accéder aux valeurs de synthèse d’un run actif. Cet attribut renvoie un dictionnaire de paires clé-valeur.
+
+    L’exemple suivant accède à la synthèse d’un run. Remplacez `"<my-project>"` par le nom de votre projet W&amp;B :
+
+    ```python
+    import wandb
+
+    with wandb.init(project="<my-project>", config=config) as run:
+      run.log({"accuracy": 0.9, "loss": 0.1})
+
+      print(run.summary)  # affiche le dictionnaire de synthèse
+    ```
+  </Tab>
+
+  <Tab title="Runs existants">
+    Utilisez l’API publique W&amp;B pour accéder aux métriques de synthèse via la propriété `wandb.Api.Run.summary`.
+
+    L’exemple de code suivant montre comment récupérer les valeurs de synthèse enregistrées pour un run spécifique à l’aide de l’API publique W&amp;B et de pandas :
+
+    ```python
+    import wandb
+    import pandas
+
+    entity = "<your-entity>"
+    project = "<your-project>"
+    run_name = "<your-run-name>" # Nom du run contenant les valeurs de synthèse
+
+    all_runs = []
+
+    for run in api.runs(f"{entity}/{project_name}"):
+        print("Fetching details for run: ", run.id, run.name)
+        run_data = {
+                  "id": run.id,
+                  "name": run.name,
+                  "url": run.url,
+                  "state": run.state,
+                  "tags": run.tags,
+                  "config": run.config,
+                  "created_at": run.created_at,
+                  "system_metrics": run.system_metrics,
+                  "summary": run.summary,
+                  "project": run.project,
+                  "entity": run.entity,
+                  "user": run.user,
+                  "path": run.path,
+                  "notes": run.notes,
+                  "read_only": run.read_only,
+                  "history_keys": run.history_keys,
+                  "metadata": run.metadata,
+              }
+        all_runs.append(run_data)
+      
+    # Convertir en DataFrame  
+    df = pd.DataFrame(all_runs)
+
+    # Obtenir la ligne correspondant au nom du run et la convertir en dictionnaire
+    df[df['name']==run_name].summary.reset_index(drop=True).to_dict()
+    ```
+
+    Pour accéder aux métriques de synthèse de plusieurs runs d’un projet, parcourez les runs renvoyés par `api.runs()` :
+
+    ```python
+    import wandb
+
+    api = wandb.Api()
+    runs = api.runs("<entity>/<project>")
+
+    for run in runs:
+        print(f"Run name: {run.name}")
+        print(f"Run ID: {run.id}")
+        print(f"Run summary: {dict(run.summary)}")
+        print("----------")
+    ```
+
+    L’objet JSON suivant présente un exemple de synthèse de run :
+
+    ```shell
+    Run name: clean-oath-11
+    Run ID: mt2dasoz
+    Run summary: {'_runtime': 3, '_step': 1000, '_timestamp': 1778541534.834642, '_wandb.runtime': 3, 'train/epoch_ndx': 1000, 'train/train_loss': 0.25498124957084656}
+
+    Run name: zesty-snowball-7
+    Run ID: qne08r7u
+    Run summary: {'_runtime': 3, '_step': 1000, '_timestamp': 1776714833.636171, '_wandb.runtime': 3, 'train/epoch_ndx': 1000, 'train/train_loss': 0.24914199113845825}
+    ```
+  </Tab>
+
+  <Tab title="Système de fichiers local">
+    W&amp;B stocke les valeurs de synthèse d’un run dans le fichier `wandb-summary.json` situé dans le répertoire du run. Pour lire les valeurs de synthèse localement, ouvrez le fichier `wandb-summary.json`.
+
+    Par défaut, W&amp;B stocke les répertoires de runs à l’emplacement suivant : `./wandb/run-<timestamp>-<run_id>`.
+  </Tab>
+</Tabs>

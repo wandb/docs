@@ -1,0 +1,14 @@
+---
+title: "Comment puis-je définir des variables booléennes comme hyperparamètres ?"
+keywords: ["Sweeps"]
+---
+
+Pour transmettre des hyperparamètres sous forme d’indicateurs booléens, utilisez la macro `${args_no_boolean_flags}` dans la section `command` de la configuration de votre sweep. La macro inclut automatiquement les paramètres booléens sous forme d’indicateurs. Si `param` vaut `True`, la commande reçoit `--param`. Si `param` vaut `False`, la macro omet l’indicateur.
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/fr/support/models/tags/sweeps)</Badge>
+
+{/* END GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet */}

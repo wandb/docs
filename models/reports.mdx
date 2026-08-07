@@ -2,8 +2,9 @@
 description: Project management and collaboration tools for machine learning projects
 title: Reports overview
 ---
-import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
-import { TryProductLink } from '/snippets/en/_includes/try-product-link.mdx';
+import { ColabLink } from '/snippets/_includes/colab-link.mdx';
+import { TryProductLink } from '/snippets/_includes/try-product-link.mdx';
+import { WandbReport } from '/snippets/WandbReport.jsx';
 
 <CardGroup cols={4}>
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb" />
@@ -14,17 +15,17 @@ Use W&B Reports to:
 - Organize Runs.
 - Embed and automate visualizations.
 - Describe your findings.
-- Share updates with collaborators, either as a LaTeX zip file a PDF.
+- Share updates with collaborators, either as a LaTeX zip file or a PDF.
 
 {/* {% embed url="https://www.youtube.com/watch?v=2xeJIv_K_eI" %} */}
 
-The following image shows a section of a report created from metrics that were logged to W&B over the course of training. 
+The report below was created from metrics logged to W&B over the course of training. Scroll within it to explore the benchmark runs, panels, and commentary, or [open the full report](https://wandb.ai/stacey/saferlife/reports/SafeLife-Benchmark-Experiments--Vmlldzo0NjE4MzM) in the W&B app.
 
-<Frame>
-    <img src="/images/reports/safe-lite-benchmark-with-comments.png" alt="W&B report with benchmark results" max-width="90%"  />
-</Frame>
-
-View the report where the above image was taken from [here](https://wandb.ai/stacey/saferlife/reports/SafeLife-Benchmark-Experiments--Vmlldzo0NjE4MzM).
+<WandbReport
+  src="https://wandb.ai/stacey/saferlife/reports/SafeLife-Benchmark-Experiments--Vmlldzo0NjE4MzM"
+  title="SafeLife benchmark experiments report"
+  height={720}
+/>
 
 ## How it works
 Create a collaborative report with a few clicks.
@@ -42,14 +43,14 @@ Create a collaborative report with a few clicks.
 6. Click **Publish to project**.
 7. Click the **Share** button to share your report with collaborators. 
 
-See the [Create a report](/models/reports/create-a-report/) page for more information on how to create reports interactively an programmatically with the W&B Python SDK.
+See the [Create a report](/models/reports/create-a-report/) page for more information on how to create reports interactively and programmatically with the W&B Python SDK.
 
 ## How to get started
 Depending on your use case, explore the following resources to get started with W&B Reports:
 
 * Check out our [video demonstration](https://www.youtube.com/watch?v=2xeJIv_K_eI) to get an overview of W&B Reports.
 * Explore the [Reports gallery](/models/reports/reports-gallery/) for examples of live reports.
-* Try the [Programmatic Workspaces](/models/tutorials/workspaces) tutorial to learn how to create and customize your workspace.
+* Try the [Programmatic Workspaces](https://colab.research.google.com/github/wandb/wandb-workspaces/blob/Update-wandb-workspaces-tuturial/Workspace_tutorial.ipynb) notebook to learn how to create and customize your workspace.
 * Read curated Reports in [W&B Fully Connected](https://wandb.me/fc).
 
 ## Recommended practices and tips 

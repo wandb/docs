@@ -1,0 +1,37 @@
+---
+title: Histogram
+kind: classe
+namespace: wandb.sdk.data_types.histogram
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/histogram.py#L21" />
+
+## <kbd>classe</kbd> wandb.Histogram
+
+```python
+sequence: 'Sequence | None' = None,
+np_histogram: 'NumpyHistogram | None' = None,
+num_bins: 'int' = 64
+```
+
+Classe W&amp;B pour les histogrammes.
+
+Cet objet fonctionne exactement comme la fonction `histogram` de NumPy
+[https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html](https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html)
+
+<div id="args">
+  ## Arguments
+</div>
+
+* `sequence`: Données d’entrée de l’histogramme.
+* `np_histogram`: Entrée alternative correspondant à un histogramme précalculé.
+* `num_bins`: Nombre d’intervalles de l’histogramme.  Le nombre d’intervalles par défaut est de 64. Le nombre maximal d’intervalles est de 512.
+
+<div id="attributes">
+  ## Attributs
+</div>
+
+* `bins` (`[float]`) : Limites des intervalles
+* `histogram` (`[int]`) : Nombre d&#39;éléments dans chaque intervalle.

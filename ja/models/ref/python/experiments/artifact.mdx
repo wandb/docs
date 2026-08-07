@@ -1,1115 +1,732 @@
 ---
-title: アーティファクト
-namespace: python_sdk_actions
-python_object_type: class
+title: Artifact
+kind: class
+namespace: wandb.sdk.artifacts.artifact
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/artifacts/artifact.py" />
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-## <kbd>class</kbd> `Artifact`
-データセットやモデルの バージョン管理 のための、柔軟で軽量なビルディングブロックです。
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/artifacts/artifact.py#L112" />
 
-空の W&B Artifact を構築します。 `add` で始まる メソッド を使用して、アーティファクト のコンテンツを追加します。 アーティファクト に必要なすべてのファイルが含まれたら、 `run.log_artifact()` を呼び出して ログ を記録できます。
-
-### <kbd>method</kbd> `Artifact.__init__`
+## <kbd>class</kbd> wandb.Artifact
 
 ```python
-__init__(
-    name: 'str',
-    type: 'str',
-    description: 'str | None' = None,
-    metadata: 'dict[str, Any] | None' = None,
-    incremental: 'bool' = False,
-    use_as: 'str | None' = None,
-    storage_region: 'str | None' = None
-) → None
+name: 'str',
+type: 'str',
+description: 'str | None' = None,
+metadata: 'dict[str, Any] | None' = None,
+incremental: 'bool' = False,
+use_as: 'str | None' = None,
+storage_region: 'str | None' = None
 ```
 
-**Args:**
- 
- - `name` (str):  アーティファクト の人間が読みやすい名前。W&B App UI またはプログラムで特定の アーティファクト を識別するためにこの名前を使用します。 `use_artifact` Public API を使用して、インタラクティブに アーティファクト を参照できます。名前には、英数字、アンダースコア、ハイフン、ドットを含めることができます。名前は プロジェクト 内で一意である必要があります。
- - `type` (str):  アーティファクト のタイプ。 アーティファクト の整理と識別の両方にタイプを使用します。英数字、アンダースコア、ハイフン、ドットを含む任意の文字列を使用できます。一般的なタイプには `dataset` や `model` があります。 アーティファクト を W&B モデルレジストリ にリンクしたい場合は、タイプ文字列に `model` を含めてください。一部のタイプは内部使用のために予約されており、 ユーザー が設定することはできません（`job` や `wandb-` で始まるタイプなど）。
- - `description (str | None) = None`:  アーティファクト の説明。 モデル または データセット の Artifacts の場合、チームの標準化された モデル または データセット カードのドキュメントを追加します。 アーティファクト の説明は、 `Artifact.description` 属性、または W&B App UI から確認できます。W&B は W&B App 内で説明を markdown としてレンダリングします。
- - `metadata (dict[str, Any] | None) = None`:  アーティファクト に関する追加情報。 メタデータ は キー と 値 のペアの 辞書 として指定します。合計で最大 100 個の キー を指定できます。
- - `incremental`:  既存の アーティファクト を修正するには、代わりに `Artifact.new_draft()` メソッド を使用してください。
- - `use_as`:  非推奨です。
+データセットとモデルのバージョン管理のための、柔軟で軽量な基本構成要素です。
 
+空の W&amp;B Artifact を作成します。`add` で始まる method を使って Artifact の内容を
+追加します。必要なファイルをすべて Artifact に追加したら、
+`run.log_artifact()` を呼び出してログします。
 
+<div id="args">
+  ## 引数
+</div>
 
-**Returns:**
-  `Artifact` オブジェクト。
+* `name`: artifact の人間が読み取れる名前です。この名前を使うと、W&amp;B App UI 上またはプログラムから特定の artifact を識別できます。`use_artifact` Public API を使えば、artifact をインタラクティブに参照することもできます。名前には、英字、数字、アンダースコア、ハイフン、ドットを使用できます。名前はプロジェクト内で一意である必要があります。
+* `type`: artifact のタイプです。artifact のタイプは、Artifacts を整理し、相互に区別するために使用します。英字、数字、アンダースコア、ハイフン、ドットを含む任意の文字列を使用できます。一般的なタイプには `dataset` や `model` があります。artifact を W&amp;B Model Registry にリンクしたい場合は、タイプ文字列に `model` を含めてください。なお、一部のタイプは内部使用のために予約されており、ユーザーは設定できません。これには `job` や `wandb-` で始まるタイプが含まれます。
+* `description`: artifact の説明です。Model または Dataset Artifacts の場合は、標準化されたチームのモデルカードまたはデータセットカード用のドキュメントを追加します。artifact の説明は、`Artifact.description` 属性を使ってプログラムから確認することも、W&amp;B App UI で確認することもできます。W&amp;B App では、説明は markdown として表示されます。
+* `metadata`: artifact に関する追加情報です。metadata はキーと値のペアからなる辞書として指定します。指定できるキーの総数は 100 個までです。
+* `incremental`: 既存の artifact を変更するには、代わりに `Artifact.new_draft()` method を使用してください。
+* `use_as`: 非推奨。
+* `storage_region`: 
 
+<div id="properties">
+  ## プロパティ
+</div>
 
+### <kbd>property</kbd> aliases
 
+アーティファクトバージョンに割り当てられた、意味が分かりやすい参照名または識別用の「ニックネーム」の一覧。1 つ以上設定できます。
 
+エイリアスは、プログラムから参照できる変更可能な参照です。
+アーティファクトのエイリアスは、W&amp;B App UI またはプログラムから変更できます。
+詳しくは、[Create new artifact versions](https://docs.wandb.ai/models/artifacts/create-a-new-artifact-version)
+を参照してください。
 
+### <kbd>プロパティ</kbd> collection
 
+この artifact を取得したコレクション。
 
----
+コレクションは、順序付けられた artifact バージョンのグループです。この artifact がリンク先のコレクションから取得された場合は、そのコレクションを返します。そうでない場合は、その artifact バージョンの元のコレクションを返します。
 
-### <kbd>property</kbd> Artifact.aliases
+artifact の元のコレクションは、ソースシーケンスと呼ばれます。
 
-アーティファクト バージョン に割り当てられた、1 つ以上のセマンティックな参照、または識別用の「ニックネーム」のリストです。
+### <kbd>プロパティ</kbd> commit_hash
 
-エイリアス は、プログラムで参照可能な可変の参照です。 アーティファクト の エイリアス は、W&B App UI またはプログラムで変更できます。詳細については、 [Create new artifact versions](https://docs.wandb.ai/guides/artifacts/create-a-new-artifact-version) を参照してください。
+この Artifact のコミット時に返されるハッシュ値。
 
+### <kbd>プロパティ</kbd> created_at
 
+artifact が作成された日時。
 
-**Returns:**
- - `list[str]`: aliases プロパティの 値。
----
+### <kbd>property</kbd> 説明
 
-### <kbd>property</kbd> Artifact.collection
+Artifact の説明。
 
-この アーティファクト が取得されたコレクションです。
+### <kbd>プロパティ</kbd> digest
 
-コレクションは、 アーティファクト バージョン の順序付けられたグループです。この アーティファクト がリンクされているコレクションから取得された場合は、そのコレクションを返します。それ以外の場合は、 アーティファクト バージョン の発生元のコレクションを返します。
+artifact の論理ダイジェスト。
 
-アーティファクト の発生元のコレクションは、ソースシーケンスとして知られています。
+ダイジェストは artifact の内容を表すチェックサムです。artifact のダイジェストが現在の `latest` バージョンと同じ場合、`log_artifact` は何もしません。
 
+### <kbd>property</kbd> entity
 
+artifact collection が属する entity の名。
 
-**Returns:**
- - `ArtifactCollection`: collection プロパティの 値。
----
+artifact が link の場合、entity はリンク先の artifact の entity になります。
 
-### <kbd>property</kbd> Artifact.commit_hash
+### <kbd>プロパティ</kbd> file_count
 
-この アーティファクト がコミットされたときに返されたハッシュです。
+ファイル数 (参照を含む) 。
 
+### <kbd>プロパティ</kbd> history_step
 
+このartifactのソース run で history メトリクスがログされた、最も近い step。
 
-**Returns:**
- - `str`: commit_hash プロパティの 値。
----
+### <kbd>プロパティ</kbd> id
 
-### <kbd>property</kbd> Artifact.created_at
+artifact の ID。
 
-アーティファクト が作成されたタイムスタンプです。
+### <kbd>プロパティ</kbd> is_link
 
+artifact がリンクアーティファクトかどうかを示すブールフラグです。
 
+True: artifact はソースアーティファクトへのリンクアーティファクトです。
+False: artifact はソースアーティファクトです。
 
-**Returns:**
- - `str`: created_at プロパティの 値。
----
+### <kbd>プロパティ</kbd> linked_artifacts
 
-### <kbd>property</kbd> Artifact.description
+ソース Artifact にリンクされているすべての Artifact の一覧を返します。
 
-アーティファクト の説明です。
+この Artifact がリンク Artifact (`artifact.is_link == True`) の場合は、空の一覧を返します。
 
+結果は 500 件までに制限されます。
 
+### <kbd>property</kbd> manifest
 
-**Returns:**
- - `str | None`: description プロパティの 値。
----
+Artifact のマニフェスト。
 
-### <kbd>property</kbd> Artifact.digest
+マニフェストにはその内容がすべて一覧表示され、Artifact がログされると変更できません。
 
-アーティファクト の論理ダイジェストです。
+### <kbd>プロパティ</kbd> metadata
 
-ダイジェストは、 アーティファクト のコンテンツのチェックサムです。 アーティファクト が現在の `latest` バージョン と同じダイジェストを持っている場合、 `log_artifact` は何も実行しません。
+ユーザー定義のartifactメタデータ。
 
+artifactに関連付けられた構造化データ。
 
+### <kbd>プロパティ</kbd> 名
 
-**Returns:**
- - `str`: digest プロパティの 値。
----
+artifact の名とバージョンです。
 
+`{collection}:{alias}` 形式の文字列です。artifact がログまたは保存される前に取得した場合、名には alias は含まれません。artifact がリンクの場合、名はリンク先の artifact の名になります。
 
-### <kbd>property</kbd> Artifact.entity
+### <kbd>プロパティ</kbd> project
 
-アーティファクト コレクションが属する Entity の名前です。
+artifact collection が属するプロジェクトの名。
 
-アーティファクト がリンクである場合、Entity はリンク先 アーティファクト の Entity になります。
+artifact が link の場合、プロジェクトはリンク先の artifact のプロジェクトになります。
 
+### <kbd>プロパティ</kbd> qualified_name
 
+artifact の entity/プロジェクト/名です。
 
-**Returns:**
- - `str`: entity プロパティの 値。
----
+artifact がリンクの場合、qualified name はリンク先の artifact パスの qualified name になります。
 
-### <kbd>property</kbd> Artifact.file_count
+### <kbd>プロパティ</kbd> size
 
-ファイルの数（参照を含む）です。
+Artifact の合計サイズ (バイト単位) 。
 
+この Artifact がトラッキングしている参照も含まれます。
 
+### <kbd>プロパティ</kbd> source_artifact
 
-**Returns:**
- - `int`: file_count プロパティの 値。
----
+元のログ済み artifact であるソース artifact を返します。
 
-### <kbd>property</kbd> Artifact.history_step
+この artifact がソース artifact (`artifact.is_link == False`) の場合は、自身を返します。
 
-この アーティファクト のソース run の履歴 メトリクス を記録した最も近いステップです。
+### <kbd>プロパティ</kbd> source_collection
 
+Artifact のソース collection。
 
+ソース collection は、Artifact がログされた元の collection です。
 
-**Examples:**
- ```python
-run = artifact.logged_by()
-if run and (artifact.history_step is not None):
-     history = run.sample_history(
-         min_step=artifact.history_step,
-         max_step=artifact.history_step + 1,
-         keys=["my_metric"],
-     )
-``` 
+### <kbd>プロパティ</kbd> source_entity
 
+ソースartifactのentity名。
 
+### <kbd>プロパティ</kbd> source_name
 
-**Returns:**
- - `int | None`: history_step プロパティの 値。
----
+ソース artifact の artifact 名とバージョン。
 
-### <kbd>property</kbd> Artifact.id
+`{source_collection}:{alias}` 形式の文字列です。artifact が保存される前は、バージョンがまだ確定していないため、名前のみが含まれます。
 
-アーティファクト の ID です。
+### <kbd>プロパティ</kbd> source_project
 
+ソース Artifact のプロジェクト名。
 
+### <kbd>property</kbd> source_qualified_name
 
-**Returns:**
- - `str | None`: id プロパティの 値。
----
+元のartifactの source&#95;entity/source&#95;project/source&#95;name。
 
+### <kbd>プロパティ</kbd> source_version
 
-### <kbd>property</kbd> Artifact.is_link
+ソース artifact のバージョン。
 
-アーティファクト がリンク アーティファクト かどうかを示すブールフラグです。
+`v{number}` 形式の文字列。
 
-True: アーティファクト はソース アーティファクト へのリンク アーティファクト です。False: アーティファクト はソース アーティファクト です。
+### <kbd>プロパティ</kbd> state
 
+Artifact のステータスです。次のいずれかになります: &quot;PENDING&quot;、&quot;COMMITTED&quot;、または &quot;DELETED&quot;。
 
+### <kbd>プロパティ</kbd> tags
 
-**Returns:**
- - `bool`: is_link プロパティの 値。
----
+このアーティファクトのバージョンに割り当てられた、1 つ以上のタグのリスト。
 
-### <kbd>property</kbd> Artifact.linked_artifacts
+### <kbd>プロパティ</kbd> ttl
 
-ソース アーティファクト のすべてのリンク アーティファクト のリストを返します。
+artifact の time-to-live (TTL) ポリシー。
 
-この アーティファクト がリンク アーティファクト である場合（`artifact.is_link == True`）、空のリストを返します。
+TTL ポリシーの期間を過ぎると、Artifacts はその後まもなく削除されます。`None` に設定すると、その artifact では TTL ポリシーが無効になり、チームのデフォルト TTL が存在していても削除対象としてスケジュールされません。チーム管理者がデフォルト TTL を定義しており、artifact にカスタムポリシーが設定されていない場合、artifact はチームのデフォルトの TTL ポリシーを継承します。
 
-500 件の結果に制限されています。
+### <kbd>プロパティ</kbd> type
 
+Artifact のタイプです。一般的なタイプには `dataset` や `model` などがあります。
 
+### <kbd>プロパティ</kbd> updated_at
 
-**Returns:**
- - `list[Artifact]`: linked_artifacts プロパティの 値。
----
+Artifact が最後に更新された日時です。
 
-### <kbd>property</kbd> Artifact.manifest
+### <kbd>プロパティ</kbd> url
 
-アーティファクト のマニフェストです。
+アーティファクトのURLを生成します。
 
-マニフェストはそのすべてのコンテンツをリストし、 アーティファクト が ログ に記録された後は変更できません。
+### <kbd>プロパティ</kbd> use_as
 
+非推奨。
 
+### <kbd>プロパティ</kbd> version
 
-**Returns:**
- - `ArtifactManifest`: manifest プロパティの 値。
----
+Artifact のバージョン。
 
-### <kbd>property</kbd> Artifact.metadata
+`v{number}` 形式の文字列です。link artifact の場合、バージョンはリンク先の collection のものになります。
 
-ユーザー 定義の アーティファクト メタデータ です。
+<div id="methods">
+  ## メソッド
+</div>
 
-アーティファクト に関連付けられた構造化 データ です。
-
-
-
-**Returns:**
- - `dict`: metadata プロパティの 値。
----
-
-### <kbd>property</kbd> Artifact.name
-
-アーティファクト 名と アーティファクト の バージョン です。
-
-`{collection}:{alias}` 形式の文字列です。 アーティファクト が ログ /保存される前に取得された場合、名前には エイリアス が含まれません。 アーティファクト がリンクである場合、名前はリンク先 アーティファクト の名前になります。
-
-
-
-**Returns:**
- - `str`: name プロパティの 値。
----
-
-### <kbd>property</kbd> Artifact.project
-
-アーティファクト コレクションが属する プロジェクト の名前です。
-
-アーティファクト がリンクである場合、 プロジェクト はリンク先 アーティファクト の プロジェクト になります。
-
-
-
-**Returns:**
- - `str`: project プロパティの 値。
----
-
-### <kbd>property</kbd> Artifact.qualified_name
-
-アーティファクト の Entity/ プロジェクト /名前です。
-
-アーティファクト がリンクである場合、qualified name はリンクされた アーティファクト パスの qualified name になります。
-
-
-
-**Returns:**
- - `str`: qualified_name プロパティの 値。
----
-
-### <kbd>property</kbd> Artifact.size
-
-アーティファクト の合計サイズ（バイト単位）です。
-
-この アーティファクト によって追跡されるすべての参照が含まれます。
-
-
-
-**Returns:**
- - `int`: size プロパティの 値。
----
-
-### <kbd>property</kbd> Artifact.source_artifact
-
-最初に ログ に記録された アーティファクト であるソース アーティファクト を返します。
-
-この アーティファクト がソース アーティファクト である場合（`artifact.is_link == False`）、それ自体を返します。
-
-
-
-**Returns:**
- - `Artifact`: source_artifact プロパティの 値。
----
-
-### <kbd>property</kbd> Artifact.source_collection
-
-アーティファクト のソースコレクションです。
-
-ソースコレクションは、 アーティファクト が ログ に記録された元のコレクションです。
-
-
-
-**Returns:**
- - `ArtifactCollection`: source_collection プロパティの 値。
----
-
-### <kbd>property</kbd> Artifact.source_entity
-
-ソース アーティファクト の Entity の名前です。
-
-
-
-**Returns:**
- - `str`: source_entity プロパティの 値。
----
-
-### <kbd>property</kbd> Artifact.source_name
-
-ソース アーティファクト の アーティファクト 名と バージョン です。
-
-`{source_collection}:{alias}` 形式の文字列です。 アーティファクト が保存される前は、 バージョン がまだ不明なため、名前のみが含まれます。
-
-
-
-**Returns:**
- - `str`: source_name プロパティの 値。
----
-
-### <kbd>property</kbd> Artifact.source_project
-
-ソース アーティファクト の プロジェクト の名前です。
-
-
-
-**Returns:**
- - `str`: source_project プロパティの 値。
----
-
-### <kbd>property</kbd> Artifact.source_qualified_name
-
-ソース アーティファクト の source_entity/source_project/source_name です。
-
-
-
-**Returns:**
- - `str`: source_qualified_name プロパティの 値。
----
-
-### <kbd>property</kbd> Artifact.source_version
-
-ソース アーティファクト の バージョン です。
-
-`v{number}` 形式の文字列です。
-
-
-
-**Returns:**
- - `str`: source_version プロパティの 値。
----
-
-### <kbd>property</kbd> Artifact.state
-
-アーティファクト のステータスです。"PENDING"、"COMMITTED"、または "DELETED" のいずれかです。
-
-
-
-**Returns:**
- - `str`: state プロパティの 値。
----
-
-### <kbd>property</kbd> Artifact.tags
-
-この アーティファクト バージョン に割り当てられた 1 つ以上のタグのリストです。
-
-
-
-**Returns:**
- - `list[str]`: tags プロパティの 値。
----
-
-### <kbd>property</kbd> Artifact.ttl
-
-アーティファクト の time-to-live (TTL) ポリシーです。
-
-アーティファクト は、TTL ポリシーの期間が経過した後、まもなく削除されます。 `None` に設定すると、 アーティファクト は TTL ポリシーを無効化し、チームのデフォルト TTL があっても削除がスケジュールされません。チーム管理者がデフォルト TTL を定義しており、 アーティファクト にカスタムポリシーが設定されていない場合、 アーティファクト はチームのデフォルトから TTL ポリシーを継承します。
-
-
-
-**Raises:**
- 
- - `ArtifactNotLoggedError`:  アーティファクト が ログ に記録または保存されていない場合、継承された TTL を取得できません。
-
-
-
-**Returns:**
- - `timedelta | None`: ttl プロパティの 値。
----
-
-### <kbd>property</kbd> Artifact.type
-
-アーティファクト のタイプです。一般的なタイプには `dataset` や `model` があります。
-
-
-
-**Returns:**
- - `str`: type プロパティの 値。
----
-
-### <kbd>property</kbd> Artifact.updated_at
-
-アーティファクト が最後に更新された時間です。
-
-
-
-**Returns:**
- - `str`: updated_at プロパティの 値。
----
-
-### <kbd>property</kbd> Artifact.url
-
-アーティファクト の URL を構築します。
-
-
-
-**Returns:**
- 
- - `str`:  アーティファクト の URL。 
-
-
-
-**Returns:**
- - `str`: url プロパティの 値。
----
-
-### <kbd>property</kbd> Artifact.use_as
-
-非推奨です。
-
-
-
-**Returns:**
- - `str | None`: use_as プロパティの 値。
----
-
-### <kbd>property</kbd> Artifact.version
-
-アーティファクト の バージョン です。
-
-`v{number}` 形式の文字列です。これがリンク アーティファクト の場合、 バージョン はリンクされたコレクションからのものになります。
-
-
-
-
-
-**Returns:**
- - `str`: version プロパティの 値。
----
-
-### <kbd>method</kbd> `Artifact.add`
+### <kbd>method</kbd> Artifact.add()
 
 ```python
-add(
-    obj: 'WBValue',
-    name: 'StrPath',
-    overwrite: 'bool' = False
-) → ArtifactManifestEntry
+self,
+obj: 'WBValue',
+name: 'StrPath',
+overwrite: 'bool' = False
 ```
 
-wandb.WBValue `obj` を アーティファクト に追加します。
+artifact に wandb.WBValue `obj` を追加します。
 
+<div id="arguments">
+  ##### 引数
+</div>
 
+* `obj`: 追加するオブジェクト。現在サポートされているのは、Bokeh、JoinedTable、PartitionedTable、Table、Classes、ImageMask、BoundingBoxes2D、Audio、Image、Video、Html、Object3D のいずれかです。
+* `name`: オブジェクトを追加する artifact 内のパス。
+* `overwrite`: True の場合、該当する場合は同じファイルパスを持つ既存のオブジェクトを上書きします。
 
-**Args:**
- 
- - `obj`:  追加する オブジェクト。現在は Bokeh, JoinedTable, PartitionedTable, Table, Classes, ImageMask, BoundingBoxes2D, Audio, Image, Video, Html, Object3D のいずれかをサポートしています。
- - `name`:  オブジェクトを追加する アーティファクト 内のパス。
- - `overwrite`:  True の場合、該当する場合に同じファイルパスを持つ既存の オブジェクト を上書きします。
+##### 例外
 
+* `ArtifactFinalizedError`: 現在の artifact バージョンは確定済みのため、変更できません。代わりに新しい artifact バージョンをログしてください。
 
-
-**Returns:**
- 追加されたマニフェストエントリ。
-
-
-
-**Raises:**
- 
- - `ArtifactFinalizedError`:  現在の アーティファクト バージョン は確定されているため、変更を加えることはできません。代わりに新しい アーティファクト バージョン を ログ に記録してください。
-
----
-
-### <kbd>method</kbd> `Artifact.add_dir`
+### <kbd>method</kbd> Artifact.add_dir()
 
 ```python
-add_dir(
-    local_path: 'str',
-    name: 'str | None' = None,
-    skip_cache: 'bool | None' = False,
-    policy: "Literal['mutable', 'immutable'] | None" = 'mutable',
-    merge: 'bool' = False
-) → None
+self,
+local_path: 'str',
+name: 'str | None' = None,
+skip_cache: 'bool | None' = False,
+policy: "Literal['mutable', 'immutable'] | None" = 'mutable',
+merge: 'bool' = False
 ```
 
-ローカル ディレクトリー を アーティファクト に追加します。
+ローカルディレクトリを artifact に追加します。
 
+<div id="arguments">
+  ##### 引数
+</div>
 
+* `local_path`: ローカルディレクトリのパス。
+* `name`: artifact 内のサブディレクトリ名。指定した名前は、W&amp;B App UI で artifact の `type` 配下にネストされて表示されます。デフォルトでは artifact のルートです。
+* `skip_cache`: `True` に設定すると、W&amp;B はアップロード中にファイルをキャッシュへコピーまたは移動しません
+* `policy`: デフォルトは &quot;mutable&quot; です。
+  * mutable: アップロード中の破損を防ぐため、ファイルの一時コピーを作成します。
+  * immutable: 保護を無効にし、ユーザーがファイルを削除または変更しないことを前提とします。
+* `merge`: `False` (デフォルト) の場合、以前の `add_dir` 呼び出しですでに追加されたファイルの内容が変更されていると `ValueError` を送出します。`True` の場合、内容が変更された既存ファイルを上書きします。新しいファイルは常に追加され、既存ファイルが削除されることはありません。ディレクトリ全体を置き換えるには、`add_dir(local_path, name=my_prefix)` を使用してディレクトリ追加時に名前を指定し、`remove(my_prefix)` を呼び出してそのディレクトリを削除してから、再度追加してください。
 
-**Args:**
- 
- - `local_path`:  ローカル ディレクトリー のパス。
- - `name`:  アーティファクト 内のサブディレクトリー名。指定した名前は W&B App UI で アーティファクト の `type` ごとにネストされて表示されます。デフォルトは アーティファクト のルートです。
- - `skip_cache`:  `True` に設定すると、アップロード中にファイルをキャッシュにコピー/移動しません。
- - `policy`:  デフォルトは "mutable" です。
-        - mutable: アップロード中の破損を防ぐために、ファイルのテンポラリコピーを作成します。
-        - immutable: 保護を無効にし、 ユーザー がファイルを削除または変更しないことに依存します。
- - `merge`:  `False`（デフォルト）の場合、以前の add_dir 呼び出しで既に追加されたファイルの内容が変更されていると ValueError をスローします。 `True` の場合、変更された内容で既存のファイルを上書きします。常に新しいファイルを追加し、ファイルを削除することはありません。 ディレクトリー 全体を置き換えるには、 `add_dir(local_path, name=my_prefix)` を使用して ディレクトリー を追加するときに名前を渡し、 `remove(my_prefix)` を呼び出して ディレクトリー を削除してから、再度追加してください。
+##### 例外
 
+* `ArtifactFinalizedError`: 現在のartifactバージョンは確定済みのため、変更できません。代わりに新しいartifactバージョンをログしてください。
+* `ValueError`: Policy は &quot;mutable&quot; または &quot;immutable&quot; である必要があります
 
-
-**Raises:**
- 
- - `ArtifactFinalizedError`:  現在の アーティファクト バージョン は確定されているため、変更を加えることはできません。代わりに新しい アーティファクト バージョン を ログ に記録してください。
- - `ValueError`:  ポリシーは "mutable" または "immutable" である必要があります。
-
----
-
-### <kbd>method</kbd> `Artifact.add_file`
+### <kbd>method</kbd> Artifact.add_file()
 
 ```python
-add_file(
-    local_path: 'str',
-    name: 'str | None' = None,
-    is_tmp: 'bool | None' = False,
-    skip_cache: 'bool | None' = False,
-    policy: "Literal['mutable', 'immutable'] | None" = 'mutable',
-    overwrite: 'bool' = False
-) → ArtifactManifestEntry
+self,
+local_path: 'str',
+name: 'str | None' = None,
+is_tmp: 'bool | None' = False,
+skip_cache: 'bool | None' = False,
+policy: "Literal['mutable', 'immutable'] | None" = 'mutable',
+overwrite: 'bool' = False
 ```
 
-ローカルファイルを アーティファクト に追加します。
+ローカルファイルをartifactに追加します。
 
+<div id="arguments">
+  ##### 引数
+</div>
 
+* `local_path`: 追加するファイルのパス。
+* `name`: 追加するファイルに使用する、artifact内のパス。デフォルトではファイルのベース名が使用されます。
+* `is_tmp`: true の場合、競合を避けるため、ファイル名は決定論的に変更されます。
+* `skip_cache`: `True` の場合、アップロード後にファイルをキャッシュへコピーしません。
+* `policy`: デフォルトでは &quot;mutable&quot; に設定されます。&quot;mutable&quot; を指定すると、アップロード中の破損を防ぐためにファイルの一時コピーを作成します。&quot;immutable&quot; を指定すると、保護を無効にし、ユーザーがファイルを削除または変更しないことを前提とします。
+* `overwrite`: `True` の場合、ファイルがすでに存在していれば上書きします。
 
-**Args:**
- 
- - `local_path`:  追加するファイルへのパス。
- - `name`:  追加されるファイルに使用する アーティファクト 内のパス。デフォルトはファイルのベース名です。
- - `is_tmp`:  True の場合、衝突を避けるためにファイル名が決定論的に変更されます。
- - `skip_cache`:  `True` の場合、アップロード後にファイルをキャッシュにコピーしません。
- - `policy`:  デフォルトで "mutable" に設定されます。 "mutable" に設定されている場合、アップロード中の破損を防ぐためにファイルのテンポラリコピーを作成します。 "immutable" に設定されている場合、保護を無効にし、 ユーザー がファイルを削除または変更しないことに依存します。
- - `overwrite`:  `True` の場合、ファイルが既に存在すれば上書きします。
+<div id="raises">
+  ##### Raises
+</div>
 
+* `ArtifactFinalizedError`: 現在のartifactバージョンは確定済みのため、変更できません。代わりに新しいartifactバージョンをログしてください。
+* `ValueError`: Policy は &quot;mutable&quot; または &quot;immutable&quot; である必要があります
 
-
-**Returns:**
- 追加されたマニフェストエントリ。
-
-
-
-**Raises:**
- 
- - `ArtifactFinalizedError`:  現在の アーティファクト バージョン は確定されているため、変更を加えることはできません。代わりに新しい アーティファクト バージョン を ログ に記録してください。
- - `ValueError`:  ポリシーは "mutable" または "immutable" である必要があります。
-
----
-
-### <kbd>method</kbd> `Artifact.add_reference`
+### <kbd>method</kbd> Artifact.add_reference()
 
 ```python
-add_reference(
-    uri: 'ArtifactManifestEntry | str',
-    name: 'StrPath | None' = None,
-    checksum: 'bool' = True,
-    max_objects: 'int | None' = None
-) → Sequence[ArtifactManifestEntry]
+self,
+uri: 'ArtifactManifestEntry | str',
+name: 'StrPath | None' = None,
+checksum: 'bool' = True,
+max_objects: 'int | None' = None
 ```
 
-URI で示される参照を アーティファクト に追加します。
+URI で指定した参照を アーティファクト に追加します。
 
-アーティファクト に追加するファイルや ディレクトリー とは異なり、参照は W&B にアップロードされません。詳細については、 [Track external files](https://docs.wandb.ai/guides/artifacts/track-external-files) を参照してください。
+アーティファクト に追加するファイルやディレクトリとは異なり、参照は W&amp;B にアップロードされません。詳細は[外部ファイルをトラッキングする](https://docs.wandb.ai/models/artifacts/track-external-files)を参照してください。
 
-デフォルトでは、以下のスキームがサポートされています：
+デフォルトでは、次のスキームがサポートされます。
 
+* http(s): ファイルのサイズとダイジェストは、サーバーから返される `Content-Length` および `ETag` レスポンスヘッダーから推定されます。
+* s3: チェックサムとサイズはオブジェクトのメタデータから取得されます。bucket のバージョン管理が有効な場合は、バージョン ID もトラッキングされます。
+* gs: チェックサムとサイズはオブジェクトのメタデータから取得されます。bucket のバージョン管理が有効な場合は、バージョン ID もトラッキングされます。
+* https, `*.blob.core.windows.net` に一致するドメイン
+* Azure: チェックサムとサイズは blob のメタデータから取得されます。storage account のバージョン管理が有効な場合は、バージョン ID もトラッキングされます。
+* file: チェックサムとサイズはファイルシステムから取得されます。このスキームは、ファイルをトラッキングしたいものの、必ずしもアップロードはしたくない場合に、NFS 共有やその他の外部マウントされたボリューム内のファイルを扱うのに便利です。
 
-- http(s): ファイルのサイズとダイジェストは、 サーバー から返される `Content-Length` および `ETag` レスポンスヘッダーから推測されます。
-- s3: チェックサムとサイズは オブジェクト メタデータ から取得されます。 バケット の バージョン管理 が有効な場合、 バージョン ID も追跡されます。
-- gs: チェックサムとサイズは オブジェクト メタデータ から取得されます。 バケット の バージョン管理 が有効な場合、 バージョン ID も追跡されます。
-- https, `*.blob.core.windows.net` に一致するドメイン
-- Azure: チェックサムとサイズは blob メタデータ から取得されます。ストレージアカウントの バージョン管理 が有効な場合、 バージョン ID も追跡されます。
-- file: チェックサムとサイズはファイルシステムから取得されます。このスキームは、追跡したいが必ずしもアップロードしたくないファイルを含む NFS 共有やその他の外部マウントボリュームがある場合に便利です。
+その他のスキームでは、ダイジェストは URI のハッシュのみとなり、サイズは空欄のままになります。
 
-その他のスキームの場合、ダイジェストは URI のハッシュになり、サイズは空白のままになります。
+<div id="arguments">
+  ##### 引数
+</div>
 
+* `uri`: 追加する参照の URI パス。別の アーティファクト のエントリへの参照を保存するには、`Artifact.get_entry` が返すオブジェクトを URI パスとして指定することもできます。
+* `name`: この参照の内容を配置する アーティファクト 内のパス。
+* `checksum`: 参照 URI にあるリソースのチェックサムを計算するかどうか。自動整合性検証を有効にするため、チェックサムの計算を強く推奨します。チェックサムの計算を無効にすると アーティファクト の作成は高速になりますが、参照ディレクトリは走査されないため、ディレクトリ内のオブジェクトは アーティファクト に保存されません。参照オブジェクトを追加する場合は `checksum=False` に設定することを推奨します。この場合、新しいバージョンは参照 URI が変更されたときにのみ作成されます。
+* `max_objects`: ディレクトリまたは bucket store prefix を指す参照を追加する際に対象とするオブジェクトの最大数。デフォルトでは、Amazon S3、GCS、Azure、およびローカルファイルで許可されるオブジェクトの最大数は 10,000,000 です。その他の URI スキームには最大数はありません。
 
+##### 例外
 
-**Args:**
- 
- - `uri`:  追加する参照の URI パス。URI パスには、別の アーティファクト のエントリへの参照を保存するために `Artifact.get_entry` から返された オブジェクト を指定できます。
- - `name`:  この参照のコンテンツを配置する アーティファクト 内のパス。
- - `checksum`:  参照 URI にあるリソースのチェックサムを実行するかどうか。完全性の自動検証が可能になるため、チェックサムの実行を強くお勧めします。チェックサムを無効にすると アーティファクト の作成速度は上がりますが、参照 ディレクトリー が反復処理されないため、 ディレクトリー 内の オブジェクト は アーティファクト に保存されません。参照 オブジェクト を追加する際は `checksum=False` に設定することをお勧めします。その場合、参照 URI が変更された場合にのみ新しい バージョン が作成されます。
- - `max_objects`:  ディレクトリー または バケット ストアのプレフィックスを指す参照を追加するときに考慮する オブジェクト の最大数。デフォルトでは、Amazon S3、GCS、Azure、およびローカルファイルの最大許容 オブジェクト 数は 10,000,000 です。他の URI スキーマに最大数はありません。
+* `ArtifactFinalizedError`: 現在の artifact バージョンは確定済みのため、変更できません。代わりに新しい artifact バージョンをログしてください。
 
-
-
-**Returns:**
- 追加されたマニフェストエントリ。
-
-
-
-**Raises:**
- 
- - `ArtifactFinalizedError`:  現在の アーティファクト バージョン は確定されているため、変更を加えることはできません。代わりに新しい アーティファクト バージョン を ログ に記録してください。
-
----
-
-### <kbd>method</kbd> `Artifact.checkout`
+### <kbd>method</kbd> Artifact.checkout()
 
 ```python
-checkout(root: 'str | None' = None) → str
+self,
+root: 'str | None' = None
 ```
 
-指定したルート ディレクトリー を アーティファクト の内容で置き換えます。
+指定したルートディレクトリを、artifact の内容で置き換えます。
 
-警告：これにより、 アーティファクト に含まれていない `root` 内のすべてのファイルが削除されます。
+WARNING: artifact に含まれていない `root` 内のファイルはすべて削除されます。
 
+<div id="arguments">
+  ##### 引数
+</div>
 
+* `root`: この artifact のファイルで置き換える対象のディレクトリ。
 
-**Args:**
- 
- - `root`:  この アーティファクト のファイルで置き換える ディレクトリー。
+##### 例外
 
+* `ArtifactNotLoggedError`: artifact がログされていない場合。
 
-
-**Returns:**
- チェックアウトされたコンテンツのパス。
-
-
-
-**Raises:**
- 
- - `ArtifactNotLoggedError`:  アーティファクト が ログ に記録されていない場合。
-
----
-
-### <kbd>method</kbd> `Artifact.delete`
+### <kbd>method</kbd> Artifact.delete()
 
 ```python
-delete(delete_aliases: 'bool' = False) → None
+self,
+delete_aliases: 'bool' = False
 ```
 
-アーティファクト とそのファイルを削除します。
+artifact とそのファイルを削除します。
 
-リンクされた アーティファクト に対して呼び出された場合、リンクのみが削除され、ソース アーティファクト は影響を受けません。
+リンクされた artifact に対して call した場合、削除されるのはリンクのみで、ソース artifact には影響しません。
 
-ソース アーティファクト とコレクションの間のリンクを削除するには、 `Artifact.delete()` の代わりに `Artifact.unlink()` を使用してください。
+ソース artifact と collection の間のリンクを削除するには、`Artifact.delete()` ではなく `Artifact.unlink()` を使用してください。
 
+<div id="arguments">
+  ##### 引数
+</div>
 
+* `delete_aliases`: `True` に設定すると、artifact に関連付けられているすべての alias を削除します。`False` の場合、artifact に既存の alias があると例外を送出します。artifact がリンク先の collection から取得されたものである場合、このパラメーターは無視されます。
 
-**Args:**
- 
- - `delete_aliases`:  `True` に設定すると、 アーティファクト に関連付けられたすべての エイリアス を削除します。 `False` の場合、 アーティファクト に既存の エイリアス があると例外を発生させます。この パラメータ は、 アーティファクト がリンク先のコレクションから取得された場合は無視されます。
+##### 例外
 
+* `ArtifactNotLoggedError`: artifact がログされていない場合。
 
-
-**Raises:**
- 
- - `ArtifactNotLoggedError`:  アーティファクト が ログ に記録されていない場合。
-
----
-
-### <kbd>method</kbd> `Artifact.download`
+### <kbd>method</kbd> Artifact.download()
 
 ```python
-download(
-    root: 'StrPath | None' = None,
-    allow_missing_references: 'bool' = False,
-    skip_cache: 'bool | None' = None,
-    path_prefix: 'StrPath | None' = None,
-    multipart: 'bool | None' = None
-) → FilePathStr
+self,
+root: 'StrPath | None' = None,
+allow_missing_references: 'bool' = False,
+skip_cache: 'bool | None' = None,
+path_prefix: 'StrPath | None' = None,
+multipart: 'bool | None' = None
 ```
 
-アーティファクト の内容を指定したルート ディレクトリー にダウンロードします。
+artifact の内容を、指定したルートディレクトリにダウンロードします。
 
-`root` 内にある既存のファイルは変更されません。 `root` の内容を アーティファクト と完全に一致させたい場合は、 `download` を呼び出す前に `root` を明示的に削除してください。
+`root` 内にある既存のファイルは変更されません。`root` の内容を artifact と完全に一致させたい場合は、`download` を呼び出す前に `root` を明示的に削除してください。
 
+<div id="arguments">
+  ##### 引数
+</div>
 
+* `root`: W&amp;B が artifact のファイルを保存するディレクトリ。
+* `allow_missing_references`: `True` に設定すると、参照ファイルのダウンロード中に無効な参照パスは無視されます。
+* `skip_cache`: `True` に設定すると、ダウンロード時に artifact キャッシュをスキップし、W&amp;B は各ファイルをデフォルトのルートまたは指定したダウンロードディレクトリにダウンロードします。
+* `path_prefix`: 指定した場合、指定したプレフィックスで始まるパスを持つファイルのみダウンロードされます。UNIX 形式 (フォワードスラッシュ) を使用します。
+* `multipart`: `None` (デフォルト) に設定すると、各ファイルのサイズが 2GB を超える場合、multipart ダウンロードを使用して artifact を並列にダウンロードします。`True` または `False` に設定すると、ファイルサイズに関係なく、artifact は並列または逐次でダウンロードされます。
 
-**Args:**
- 
- - `root`:  W&B が アーティファクト のファイルを保存する ディレクトリー。
- - `allow_missing_references`:  `True` に設定すると、参照ファイルのダウンロード中に無効な参照パスを無視します。
- - `skip_cache`:  `True` に設定すると、ダウンロード時に アーティファクト キャッシュをスキップし、W&B は各ファイルをデフォルトのルートまたは指定されたダウンロード ディレクトリー にダウンロードします。
- - `path_prefix`:  指定した場合、指定されたプレフィックスで始まるパスを持つファイルのみがダウンロードされます。unix 形式（フォワードスラッシュ）を使用します。
- - `multipart`:  `None`（デフォルト）に設定すると、個々のファイルサイズが 2GB を超える場合にマルチパートダウンロードを使用して並列にダウンロードされます。 `True` または `False` に設定すると、ファイルサイズに関係なく並列またはシリアルにダウンロードされます。
+##### 例外
 
+* `ArtifactNotLoggedError`: artifact がログされていない場合。
 
-
-**Returns:**
- ダウンロードされたコンテンツへのパス。
-
-
-
-**Raises:**
- 
- - `ArtifactNotLoggedError`:  アーティファクト が ログ に記録されていない場合。
-
----
-
-### <kbd>method</kbd> `Artifact.file`
+### <kbd>method</kbd> Artifact.file()
 
 ```python
-file(root: 'str | None' = None) → StrPath
+self,
+root: 'str | None' = None
 ```
 
-単一のファイル アーティファクト を `root` で指定した ディレクトリー にダウンロードします。
+`root` で指定したディレクトリに、単一ファイルのArtifactをダウンロードします。
 
+<div id="arguments">
+  ##### 引数
+</div>
 
+* `root`: ファイルの保存先となるルートディレクトリ。デフォルトは `./artifacts/self.name/` です。
 
-**Args:**
- 
- - `root`:  ファイルを保存するルート ディレクトリー。デフォルトは `./artifacts/self.name/` です。
+##### 送出する例外
 
+* `ArtifactNotLoggedError`: Artifactがログされていない場合。
+* `ValueError`: Artifactに複数のファイルが含まれている場合。
 
-
-**Returns:**
- ダウンロードされたファイルのフルパス。
-
-
-
-**Raises:**
- 
- - `ArtifactNotLoggedError`:  アーティファクト が ログ に記録されていない場合。
- - `ValueError`:  アーティファクト に複数のファイルが含まれている場合。
-
----
-
-### <kbd>method</kbd> `Artifact.files`
+### <kbd>method</kbd> Artifact.files()
 
 ```python
-files(names: 'list[str] | None' = None, per_page: 'int' = 50) → ArtifactFiles
+self,
+names: 'list[str] | None' = None,
+per_page: 'int' = 50,
+start: 'str | None' = None
 ```
 
-この アーティファクト に保存されているすべてのファイルを反復処理します。
+この アーティファクト に保存されているすべてのファイルをイテレートします。
 
+<div id="arguments">
+  ##### 引数
+</div>
 
+* `names`: 一覧取得する対象の、アーティファクト のルートからの相対ファイルパス。
+* `per_page`: リクエストごとに返すファイル数。
+* `start`: 過去のクエリを再開するためのページネーションカーソル。前回の paginator の `.cursor` 属性から取得します。
 
-**Args:**
- 
- - `names`:  リストしたい アーティファクト のルートからの相対ファイル名パス。
- - `per_page`:  1 回のリクエストで返すファイルの数。
+##### 例外
 
+* `ArtifactNotLoggedError`: artifact がログされていない場合。
 
-
-**Returns:**
- `File` オブジェクト を含むイテレータ。
-
-
-
-**Raises:**
- 
- - `ArtifactNotLoggedError`:  アーティファクト が ログ に記録されていない場合。
-
----
-
-### <kbd>method</kbd> `Artifact.finalize`
+### <kbd>method</kbd> Artifact.finalize()
 
 ```python
-finalize() → None
+self
 ```
 
-アーティファクト バージョン を確定します。
+artifact バージョンを確定します。
 
-アーティファクト は特定の アーティファクト バージョン として ログ に記録されるため、一度確定されると アーティファクト バージョン を変更することはできません。 アーティファクト にさらに データ を ログ 記録するには、新しい アーティファクト バージョン を作成してください。 `log_artifact` で アーティファクト を ログ 記録すると、 アーティファクト は自動的に確定されます。
+artifact は特定の artifact バージョンとしてログされるため、いったん確定するとその artifact
+バージョンは変更できません。artifact にさらにデータをログするには、新しい artifact バージョンを作成してください。artifact は `log_artifact`
+でログすると自動的に自動確定されます。
 
----
-
-### <kbd>method</kbd> `Artifact.get`
+### <kbd>method</kbd> Artifact.get()
 
 ```python
-get(name: 'str') → WBValue | None
+self,
+name: 'str'
 ```
 
-アーティファクト 相対の `name` にある WBValue オブジェクト を取得します。
+artifact 内の相対 `name` にある WBValue object を取得します。
 
+<div id="arguments">
+  ##### 引数
+</div>
 
+* `name`: 取得する artifact 内の相対パス名。
 
-**Args:**
- 
- - `name`:  取得する アーティファクト 相対名。
+##### 発生する例外
 
+* `ArtifactNotLoggedError`: artifact がログされていない場合、または run がオフラインの場合。
 
-
-**Returns:**
- `run.log()` で ログ 記録でき、W&B UI で視覚化できる W&B オブジェクト。
-
-
-
-**Raises:**
- 
- - `ArtifactNotLoggedError`:  アーティファクト が ログ に記録されていないか、 run がオフラインの場合。
-
----
-
-### <kbd>method</kbd> `Artifact.get_added_local_path_name`
+### <kbd>method</kbd> Artifact.get_added_local_path_name()
 
 ```python
-get_added_local_path_name(local_path: 'str') → str | None
+self,
+local_path: 'str'
 ```
 
-ローカルファイルシステムパスによって追加されたファイルの アーティファクト 相対名を取得します。
+ローカルファイルシステム上のパスで追加されたファイルの artifact 相対名を取得します。
 
+<div id="arguments">
+  ##### 引数
+</div>
 
+* `local_path`: artifact 相対名に変換するローカルパス。
 
-**Args:**
- 
- - `local_path`:  アーティファクト 相対名に解決するローカルパス。
-
-
-
-**Returns:**
- アーティファクト 相対名。
-
----
-
-### <kbd>method</kbd> `Artifact.get_entry`
+### <kbd>method</kbd> Artifact.get_entry()
 
 ```python
-get_entry(name: 'StrPath') → ArtifactManifestEntry
+self,
+name: 'StrPath'
 ```
 
-指定された名前のエントリを取得します。
+指定した名のエントリを取得します。
 
+<div id="arguments">
+  ##### 引数
+</div>
 
+* `name`: 取得する artifact の相対名
 
-**Args:**
- 
- - `name`:  取得する アーティファクト 相対名。
+##### 発生する例外
 
+* `ArtifactNotLoggedError`: artifact がログされていない場合、または run がオフラインの場合。
+* `KeyError`: artifact に指定した名のエントリが含まれていない場合。
 
-
-**Returns:**
- `W&B` オブジェクト。
-
-
-
-**Raises:**
- 
- - `ArtifactNotLoggedError`:  アーティファクト が ログ に記録されていないか、 run がオフラインの場合。
- - `KeyError`:  アーティファクト に指定された名前のエントリが含まれていない場合。
-
----
-
-### <kbd>method</kbd> `Artifact.get_path`
+### <kbd>method</kbd> Artifact.get_path()
 
 ```python
-get_path(name: 'StrPath') → ArtifactManifestEntry
+self,
+name: 'StrPath'
 ```
 
-非推奨です。 `get_entry(name)` を使用してください。
+非推奨です。`get_entry(name)` を使用してください。
 
----
+<div id="arguments">
+  ##### 引数
+</div>
 
-### <kbd>method</kbd> `Artifact.is_draft`
+* `name`: 
+
+### <kbd>method</kbd> Artifact.is_draft()
 
 ```python
-is_draft() → bool
+self
 ```
 
-アーティファクト が保存されていないかどうかを確認します。
+artifact が未保存かどうかを確認します。
 
-
-
-**Returns:**
-  ブール値。 アーティファクト が保存されている場合は `False`、保存されていない場合は `True`。
-
----
-
-### <kbd>method</kbd> `Artifact.json_encode`
+### <kbd>method</kbd> Artifact.json_encode()
 
 ```python
-json_encode() → dict[str, Any]
+self
 ```
 
-JSON 形式にエンコードされた アーティファクト を返します。
+artifactをJSON形式にエンコードしたものを返します。
 
-
-
-**Returns:**
-  アーティファクト の属性を表す `string` キー を持つ `dict`。
-
----
-
-### <kbd>method</kbd> `Artifact.link`
+### <kbd>method</kbd> Artifact.link()
 
 ```python
-link(target_path: 'str', aliases: 'Iterable[str] | None' = None) → Artifact
+self,
+target_path: 'str',
+aliases: 'Iterable[str] | None' = None
 ```
 
-この アーティファクト をコレクションにリンクします。
+この artifact をコレクションにリンクします。
 
+<div id="arguments">
+  ##### 引数
+</div>
 
+* `target_path`: コレクションのパス。パスは、プレフィックス &quot;wandb-registry-&quot; に続けて、レジストリ名とコレクション名を指定した `wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}` の形式です。
+* `aliases`: リンクした artifact に 1 つ以上のエイリアスを追加します。&quot;latest&quot; エイリアスは、リンクした artifact のうち最新のものに自動的に適用されます。
 
-**Args:**
- 
- - `target_path`:  コレクションのパス。パスは、プレフィックス "wandb-registry-" と レジストリ 名、およびコレクション名 `wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}` で構成されます。
- - `aliases`:  リンクされた アーティファクト に 1 つ以上の エイリアス を追加します。 "latest" エイリアス は、リンクした最新の アーティファクト に自動的に適用されます。
+##### 例外
 
+* `ArtifactNotLoggedError`: artifact がログされていない場合。
 
-
-**Raises:**
- 
- - `ArtifactNotLoggedError`:  アーティファクト が ログ に記録されていない場合。
-
-
-
-**Returns:**
- リンクされた アーティファクト。
-
----
-
-### <kbd>method</kbd> `Artifact.logged_by`
+### <kbd>method</kbd> Artifact.logged_by()
 
 ```python
-logged_by() → Run | None
+self
 ```
 
-最初に アーティファクト を ログ 記録した W&B run を取得します。
+artifact を最初にログした W&amp;B run を取得します。
 
+##### 例外
 
+* `ArtifactNotLoggedError`: artifact がログされていない場合。
 
-**Returns:**
-  最初に アーティファクト を ログ 記録した W&B run の名前。
-
-
-
-**Raises:**
- 
- - `ArtifactNotLoggedError`:  アーティファクト が ログ に記録されていない場合。
-
----
-
-### <kbd>method</kbd> `Artifact.new_draft`
+### <kbd>method</kbd> Artifact.new_draft()
 
 ```python
-new_draft() → Artifact
+self
 ```
 
-このコミット済み アーティファクト と同じコンテンツを持つ新しいドラフト アーティファクト を作成します。
+このコミット済みartifactと同じ内容を持つ新しいドラフトartifactを作成します。
 
-既存の アーティファクト を修正すると、「増分 アーティファクト 」として知られる新しい アーティファクト バージョン が作成されます。返された アーティファクト は拡張または修正して、新しい バージョン として ログ 記録できます。
+既存のartifactを変更すると、「段階的artifact」と呼ばれる新しいartifactバージョンが作成されます。返されるartifactは拡張または変更でき、新しいバージョンとしてログできます。
 
+##### 例外
 
+* `ArtifactNotLoggedError`: artifact がログされていない場合。
 
-**Returns:**
-  `Artifact` オブジェクト。
-
-
-
-**Raises:**
- 
- - `ArtifactNotLoggedError`:  アーティファクト が ログ に記録されていない場合。
-
----
-
-### <kbd>method</kbd> `Artifact.new_file`
+### <kbd>method</kbd> Artifact.new_file()
 
 ```python
-new_file(
-    name: 'str',
-    mode: 'str' = 'x',
-    encoding: 'str | None' = None
-) → Iterator[IO]
+self,
+name: 'str',
+mode: 'str' = 'x',
+encoding: 'str | None' = None
 ```
 
-新しいテンポラリファイルを開き、それを アーティファクト に追加します。
+新しい一時ファイルを開き、アーティファクト に追加します。
 
+<div id="arguments">
+  ##### 引数
+</div>
 
+* `name`: アーティファクト に追加する新しいファイルの名。
+* `mode`: 新しいファイルを開くときに使用するファイルアクセスモード。
+* `encoding`: 新しいファイルを開くときに使用するエンコーディング。
 
-**Args:**
- 
- - `name`:  アーティファクト に追加する新しいファイルの名前。
- - `mode`:  新しいファイルを開くために使用するファイル アクセス モード。
- - `encoding`:  新しいファイルを開くために使用するエンコーディング。
+##### 例外
 
+* `ArtifactFinalizedError`: 現在の artifact バージョンは確定済みのため、変更できません。代わりに新しい artifact バージョンをログしてください。
 
-
-**Returns:**
- 書き込み可能な新しいファイル オブジェクト。閉じると、ファイルは自動的に アーティファクト に追加されます。
-
-
-
-**Raises:**
- 
- - `ArtifactFinalizedError`:  現在の アーティファクト バージョン は確定されているため、変更を加えることはできません。代わりに新しい アーティファクト バージョン を ログ に記録してください。
-
----
-
-### <kbd>method</kbd> `Artifact.remove`
+### <kbd>method</kbd> Artifact.remove()
 
 ```python
-remove(item: 'StrPath | ArtifactManifestEntry') → None
+self,
+item: 'StrPath | ArtifactManifestEntry'
 ```
 
-アーティファクト からアイテムを削除します。
+artifact から項目を削除します。
 
+<div id="arguments">
+  ##### 引数
+</div>
 
+* `item`: 削除する項目です。特定の manifest エントリ、または artifact 相対パスの名を指定できます。`item` がディレクトリに一致する場合、そのディレクトリ内のすべての項目が削除されます。
 
-**Args:**
- 
- - `item`:  削除するアイテム。特定のマニフェストエントリ、または アーティファクト 相対パスの名前を指定できます。アイテムが ディレクトリー に一致する場合、その ディレクトリー 内のすべてのアイテムが削除されます。
+<div id="raises">
+  ##### Raises
+</div>
 
+* `ArtifactFinalizedError`: 現在の artifact バージョンは確定済みのため、変更できません。代わりに新しい artifact バージョンをログしてください。
+* `FileNotFoundError`: artifact 内に `item` が見つからない場合。
 
-
-**Raises:**
- 
- - `ArtifactFinalizedError`:  現在の アーティファクト バージョン は確定されているため、変更を加えることはできません。代わりに新しい アーティファクト バージョン を ログ に記録してください。
- - `FileNotFoundError`:  アイテムが アーティファクト 内で見つからない場合。
-
----
-
-### <kbd>method</kbd> `Artifact.save`
+### <kbd>method</kbd> Artifact.save()
 
 ```python
-save(
-    project: 'str | None' = None,
-    settings: 'wandb.Settings | None' = None
-) → None
+self,
+project: 'str | None' = None,
+settings: 'wandb.Settings | None' = None
 ```
 
-アーティファクト に加えられた変更を永続化します。
+artifact に加えた変更をすべて保存します。
 
-現在 run 内にいる場合、その run がこの アーティファクト を ログ 記録します。現在 run 内にいない場合、この アーティファクト を追跡するためにタイプ "auto" の run が作成されます。
+現在 run コンテキスト内にいる場合、その run がこの artifact をログします。現在 run コンテキスト内にいない場合は、この artifact をトラッキングするために、タイプが &quot;auto&quot; の run が作成されます。
 
+<div id="arguments">
+  ##### 引数
+</div>
 
+* `project`: run がまだコンテキスト内にない場合に、artifact に使用するプロジェクト。
+* `settings`: 自動 run の初期化時に使用する設定オブジェクト。主にテストハーネスで使用します。
 
-**Args:**
- 
- - `project`:  run がまだコンテキストにない場合に、 アーティファクト に使用する プロジェクト。
- - `settings`:  自動 run を初期化するときに使用する 設定 オブジェクト。テストハーネスで最も一般的に使用されます。
-
----
-
-### <kbd>method</kbd> `Artifact.unlink`
+### <kbd>method</kbd> Artifact.unlink()
 
 ```python
-unlink() → None
+self
 ```
 
-この アーティファクト が アーティファクト コレクションのリンクされたメンバーである場合、リンクを解除します。
+この artifact が artifact collection にリンクされたメンバーである場合は、この artifact のリンクを解除します。
 
+##### 発生する例外
 
+* `ArtifactNotLoggedError`: artifact がログされていない場合。
+* `ValueError`: artifact がどの collection にもリンクされていない場合。
 
-**Raises:**
- 
- - `ArtifactNotLoggedError`:  アーティファクト が ログ に記録されていない場合。
- - `ValueError`:  アーティファクト がどのコレクションにもリンクされていない場合。
-
----
-
-### <kbd>method</kbd> `Artifact.used_by`
+### <kbd>method</kbd> Artifact.used_by()
 
 ```python
-used_by() → list[Run]
+self
 ```
 
-この アーティファクト およびそのリンクされた アーティファクト を使用した run のリストを取得します。
+このartifactおよびそれにリンクされたartifactを使用したrunのリストを取得します。
 
+##### 例外
 
+* `ArtifactNotLoggedError`: artifact がログされていない場合。
 
-**Returns:**
-  `Run` オブジェクト のリスト。
-
-
-
-**Raises:**
- 
- - `ArtifactNotLoggedError`:  アーティファクト が ログ に記録されていない場合。
-
----
-
-### <kbd>method</kbd> `Artifact.verify`
+### <kbd>method</kbd> Artifact.verify()
 
 ```python
-verify(root: 'str | None' = None) → None
+self,
+root: 'str | None' = None
 ```
 
-アーティファクト の内容がマニフェストと一致することを確認します。
+アーティファクトの内容がマニフェストと一致していることを確認します。
 
-ディレクトリー 内のすべてのファイルのチェックサムが計算され、そのチェックサムが アーティファクト のマニフェストと照合されます。参照は検証されません。
+ディレクトリ内のすべてのファイルのチェックサムを計算し、そのチェックサムをアーティファクトのマニフェストと照合します。参照は検証されません。
 
+<div id="arguments">
+  ##### 引数
+</div>
 
+* `root`: 検証するディレクトリです。None の場合、アーティファクトは &#39;./artifacts/self.name/&#39; にダウンロードされます。
 
-**Args:**
- 
- - `root`:  検証する ディレクトリー。None の場合、 アーティファクト は './artifacts/self.name/' にダウンロードされます。
+##### 発生する例外
 
+* `ArtifactNotLoggedError`: アーティファクトがログされていない場合。
+* `ValueError`: 検証に失敗した場合。
 
-
-**Raises:**
- 
- - `ArtifactNotLoggedError`:  アーティファクト が ログ に記録されていない場合。
- - `ValueError`:  検証に失敗した場合。
-
----
-
-### <kbd>method</kbd> `Artifact.wait`
+### <kbd>method</kbd> Artifact.wait()
 
 ```python
-wait(timeout: 'int | None' = None) → Artifact
+self,
+timeout: 'int | None' = None
 ```
 
-必要に応じて、この アーティファクト の ログ 記録が完了するまで待機します。
+必要に応じて、このArtifactのログ記録が完了するまで待機します。
 
+<div id="arguments">
+  ##### 引数
+</div>
 
-
-**Args:**
- 
- - `timeout`:  待機する時間（秒単位）。
-
-
-
-**Returns:**
- `Artifact` オブジェクト。
+* `timeout`: 待機する時間 (秒) 。

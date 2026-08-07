@@ -1,0 +1,199 @@
+---
+title: Codex 플러그인
+description: W&B Weave에서 Codex 에이전트 기반 세션, LLM Call, 도구 실행을 트레이스하세요.
+keywords: ["OpenAI Codex", "OTEL", "에이전트 트레이싱", "Stop 훅", "rollout"]
+---
+
+Weave Codex 플러그인은 모든 Codex 턴을 자동으로 트레이스하고 구조화된 데이터를 W&amp;B Weave로 전송합니다. Codex 워크플로를 전혀 변경하지 않아도 모든 모델 Call, 도구 실행, 추론 step이 로깅됩니다. 이 트레이스를 사용해 Session을 디버깅하고, 도구 사용을 감사하고, Runs 전반의 비용과 지연 시간을 모니터링하세요.
+
+이 플러그인은 Codex 자체의 rollout Session 파일(`~/.codex/sessions/**/rollout-*.jsonl`)을 읽어 span을 재구성합니다. fire-and-forget Stop 훅을 통해 Codex의 핵심 경로와 분리되어 완전히 실행되므로, Codex가 네트워크 응답을 기다리는 일은 없습니다.
+
+<Warning>
+  기본적으로 이 플러그인은 span 콘텐츠를 캡처합니다. 여기에는 프롬프트, 모델의 응답과 추론, 도구 Call 인수, 그리고 도구 결과가 포함됩니다. 도구 결과에는 셸 명령어, 명령어 출력, 파일 내용이 포함됩니다. 이 데이터는 사용자의 Weave 인스턴스로 전송됩니다.
+
+  PII 스크러빙과 민감한 데이터 마스킹은 구현되어 있지 않습니다. 구조, token 사용량, 모델, 타이밍만 전송하고 프롬프트, 코드, 출력은 전송하지 않으려면 `WEAVE_CODEX_CAPTURE_CONTENT=0`으로 설정하세요. 보안 또는 규정 준수 요구 사항 때문에 이 데이터를 Weave로 전송할 수 없다면, 이 플러그인을 설치하지 마세요.
+</Warning>
+
+<div id="prerequisites">
+  ## 사전 요구 사항
+</div>
+
+* [Node.js](https://nodejs.org/) v20 이상
+* 훅 시스템을 지원하는 [OpenAI Codex CLI](https://github.com/openai/codex)
+* W&amp;B 계정과 `WANDB_API_KEY` 환경 변수로 설정한 [API 키](https://wandb.ai/authorize)
+* 트레이스를 수신할 Weave 프로젝트(`[YOUR-TEAM]/[YOUR-PROJECT]`)
+
+<div id="install-the-plugin">
+  ## 플러그인 설치
+</div>
+
+<Steps>
+  <Step title="패키지 설치">
+    ```bash lines
+    npm install -g weave-codex
+    ```
+  </Step>
+
+  <Step title="자격 증명 및 프로젝트 설정">
+    ```bash lines
+    wandb login
+    export WEAVE_PROJECT="YOUR-TEAM/YOUR-PROJECT"
+    ```
+
+    `wandb login` 대신 `WANDB_API_KEY`를 환경 변수로 직접 설정할 수도 있습니다. 전체 우선순위 규칙은 [자격 증명 결정 순서](#credential-resolution-order)를 참조하세요.
+  </Step>
+
+  <Step title="Stop 훅 설치">
+    ```bash lines
+    weave-codex install
+    ```
+
+    그러면 `~/.codex/hooks.json`에 Stop 훅이 병합됩니다. 각 Codex 턴이 완료되면 이 훅은 분리된 워커를 생성하여 세션별 커서 이후의 새 rollout 라인을 읽고, span을 재구성한 다음 Weave로 내보냅니다.
+  </Step>
+
+  <Step title="Codex에서 훅 승인">
+    Codex는 새로 추가된 훅을 신뢰되지 않는 것으로 표시하며, 승인하기 전까지는 실행하지 않습니다. 다음에 `codex`를 실행할 때 프롬프트가 표시되면 `weave-codex` 훅을 승인하세요.
+
+    또는 프롬프트를 건너뛰려면 `~/.codex/config.toml`에서 `bypass_hook_trust = true`를 설정하세요.
+
+    모든 항목이 올바르게 설정되었는지 확인하려면 `weave-codex status`를 실행하세요.
+  </Step>
+</Steps>
+
+이제 Codex를 평소처럼 실행하면 완료된 각 턴이 약 1초 이내에 Weave에 표시됩니다.
+
+<div id="view-codex-traces-in-weave">
+  ## Weave에서 Codex 트레이스 보기
+</div>
+
+Codex 세션을 하나 이상 실행한 후 Weave UI에서 프로젝트를 여세요:
+
+1. [https://wandb.ai](https://wandb.ai)로 이동하여 프로젝트를 선택합니다.
+2. 사이드바에서 멀티턴 채팅 뷰와 에이전트별 버전 그룹화를 보려면 **Agents**를 선택하고, 원시 span 트리를 보려면 **Traces**를 선택합니다.
+3. 전체 턴 계층 구조를 확인할 대화를 선택합니다.
+
+Agents 뷰에 대한 자세한 내용은 [에이전트 활동 보기](/ko/weave/guides/tracking/view-agent-activity)를 참조하세요.
+
+플러그인은 [GenAI semantic conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/)를 따라 Codex 턴마다 OTEL 트레이스를 하나씩 내보냅니다:
+
+| Span                  | 생성 시점       | 주요 속성                                                                                                         |
+| --------------------- | ----------- | ------------------------------------------------------------------------------------------------------------- |
+| `invoke_agent codex`  | 턴별(루트 span) | 에이전트 이름 또는 버전, `gen_ai.conversation.id`, 모델, 총 token 사용량, 사용자 프롬프트와 최종 응답(콘텐츠 캡처가 켜져 있는 경우)                   |
+| `chat <model>`        | 모델 Call별    | `gen_ai.usage.*` (입력, 출력, 캐시된, 추론 token), 종료 이유, `server.address`, 어시스턴트 출력(콘텐츠 캡처가 켜져 있는 경우)                 |
+| `execute_tool <name>` | 도구 실행별      | `gen_ai.tool.name`, `gen_ai.tool.call.id`, 인수와 결과(콘텐츠 캡처가 켜져 있는 경우), 그리고 MCP Call에는 `mcp.server.name`도 포함됩니다. |
+
+Weave는 `gen_ai.conversation.id`를 사용해 Agents 뷰에서 여러 턴을 하나의 대화로 그룹화하며, 이 값은 모든 span에서 Codex 세션 ID로 설정됩니다. span Timestamp는 rollout 파일 Timestamp를 기준으로 소급 적용되므로, 기간은 실제 실행 시간을 반영합니다.
+
+모든 속성이 GenAI semantic conventions를 따르므로, 트레이스는 모든 OTEL 호환 백엔드에서도 표시됩니다.
+
+<div id="known-limitations">
+  ### 알려진 제한 사항
+</div>
+
+* `codex`(대화형 TUI) 및 `codex exec` 명령어는 지원됩니다. `codex mcp` 및 `app-server` 명령어는 훅이 전혀 트리거되지 않으므로 지원 범위에 포함되지 않습니다.
+* 생성된 하위 에이전트는 `spawn_agent` 도구 Call로만 표시됩니다. 해당 에이전트 자체의 모델 Call과 도구 실행은 캡처되지 않습니다.
+* 중단되었거나 오류가 발생한 턴에서는 Stop 훅이 트리거되지 않으므로, 해당 내용은 캡처되지 않습니다.
+
+<div id="configuration-reference">
+  ## 설정 레퍼런스
+</div>
+
+이 섹션에는 플러그인 동작을 사용자 지정하는 데 사용할 수 있는 설정이 나와 있습니다. 설정 및 런타임 파일은 `~/.weave-codex/`에 저장되며, 여기에는 `settings.json`, 훅 shim, 세션별 커서, 그리고 `logs/collector.log`에 있는 로그 파일이 포함됩니다.
+
+| 설정            | 환경 변수                         | `settings.json` 키 | 기본값                            |
+| ------------- | ----------------------------- | ----------------- | ------------------------------ |
+| W&amp;B API 키 | `WANDB_API_KEY`               | `wandb_api_key`   | `~/.netrc` (`wandb login`을 통해) |
+| Weave 프로젝트    | `WEAVE_PROJECT`               | `weave_project`   | 없음 (필수, `entity/project`)      |
+| base URL      | `WANDB_BASE_URL`              | `wandb_base_url`  | `https://trace.wandb.ai`       |
+| 콘텐츠 캡처        | `WEAVE_CODEX_CAPTURE_CONTENT` | `capture_content` | `true`                         |
+| 디버그 로깅        | `WEAVE_CODEX_DEBUG`           | `debug`           | 꺼짐 (오류는 항상 기록됨)                |
+
+<div id="credential-resolution-order">
+  ### 자격 증명 결정 순서
+</div>
+
+플러그인은 다음 순서대로 자격 증명을 확인합니다:
+
+1. 환경 변수 (`WANDB_API_KEY`, `WEAVE_PROJECT`)
+2. `~/.weave-codex/settings.json`
+3. Weave 호스트에 대한 `~/.netrc` 항목
+
+<div id="wb-dedicated-cloud-or-self-hosted-instances">
+  ### W&amp;B Dedicated Cloud 또는 자체 호스팅 인스턴스
+</div>
+
+Codex를 실행하기 전에 `WANDB_BASE_URL` 값을 설치한 호스트로 설정하세요:
+
+```bash lines
+export WANDB_BASE_URL=https://YOUR-INSTANCE.wandb.io
+```
+
+<div id="check-plugin-status">
+  ## 플러그인 상태 확인
+</div>
+
+다음 CLI 명령어를 사용하여 플러그인 상태를 확인하거나 문제를 해결할 수 있습니다:
+
+```bash lines
+weave-codex status
+```
+
+각 줄에는 `✓`(정상), `✗`(조치 필요), 또는 `-`(아직 활성화되지 않았지만 오류는 아님)가 표시됩니다. Weave에 턴이 표시되지 않으면 collector 로그를 확인하세요:
+
+```bash lines
+cat ~/.weave-codex/logs/collector.log
+```
+
+<div id="troubleshooting">
+  ## 문제 해결
+</div>
+
+다음 섹션에서는 일반적인 문제와 이를 해결하는 방법을 설명합니다. `~/.weave-codex/logs/collector.log`의 collector 로그는 가장 중요한 진단 정보 소스입니다. `debug` 설정과 관계없이 오류는 항상 로깅됩니다.
+
+<div id="no-traces-appear-after-running-codex">
+  ### Codex를 실행한 후에도 트레이스가 표시되지 않는 경우
+</div>
+
+1. `weave-codex status`를 실행하세요. 모든 검사가 통과하는지 확인하세요.
+2. 훅이 신뢰된 상태인지 확인하세요. 처음 실행할 때 승인 prompt를 건너뛰었다면 `codex`를 다시 실행한 뒤 prompt가 표시되면 승인하세요. 또는 `~/.codex/config.toml`에서 `bypass_hook_trust = true`를 설정하세요.
+3. `WEAVE_PROJECT`가 올바른 `entity/project` 슬러그로 설정되어 있는지 확인하세요. `weave-codex status`는 최종적으로 해석된 프로젝트를 출력합니다.
+4. 인증 소스를 확인하세요. `weave-codex status`는 최종적으로 사용되는 자격 증명 소스를 출력합니다. `WANDB_API_KEY env`로 표시되는데 키를 다른 위치에 설정했다면 플러그인이 잘못된 값을 읽습니다.
+
+<div id="turns-appear-but-inputoutput-text-is-empty">
+  ### 대화 턴은 표시되지만 입력/출력 텍스트가 비어 있습니다
+</div>
+
+콘텐츠 캡처가 비활성화되어 있을 수 있습니다. `WEAVE_CODEX_CAPTURE_CONTENT`가 `0`으로 설정되지 않았는지, 그리고 `~/.weave-codex/settings.json`에서 `capture_content`가 `false`로 설정되지 않았는지 확인하세요.
+
+<div id="errors-sending-traces-to-weave">
+  ### Weave로 트레이스를 전송할 때 발생하는 오류
+</div>
+
+플러그인이 활성화되어 있고 span도 생성되지만 Weave에 표시되지 않는 경우, collector 로그에서 export 오류를 확인한 뒤 이 표와 대조하세요.
+
+| 증상                                  | 가장 가능성 높은 원인           | 해결 방법                                                                                                   |
+| ----------------------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------- |
+| `trace.wandb.ai`에서 401 또는 403 응답 반환 | 유효하지 않거나 범위가 제한된 API 키 | 키가 현재 유효한지, 그리고 팀이 해당 entity와 프로젝트를 소유하고 있는지 확인하세요. `weave-codex status`로 확인된 credential source도 점검하세요. |
+| agents 엔드포인트에서 404 응답 반환            | 잘못된 base URL           | Dedicated Cloud 설치에서는 `WANDB_BASE_URL`을 설치 호스트로 설정하세요.                                                  |
+| 연결 거부 또는 DNS 오류                     | DNS, 프록시 또는 방화벽 문제     | 호스트가 포트 443을 통해 `trace.wandb.ai`(cloud) 또는 설치 호스트(Dedicated Cloud)에 연결할 수 있는지 확인하세요.                    |
+
+<div id="hook-locked-environments">
+  ### 훅 제한 환경
+</div>
+
+Codex 설정에서 `allow_managed_hooks_only`가 설정되어 있으면 맞춤형 훅을 직접 추가할 수 없습니다. 이 경우 대체 트리거로 Codex의 `notify` 프로그램을 사용하세요:
+
+```toml lines
+# ~/.codex/config.toml
+notify = ["sh", "/Users/you/.weave-codex/stop-hook.sh"]
+```
+
+<div id="uninstall">
+  ## 제거
+</div>
+
+```bash lines
+weave-codex uninstall
+```
+
+이 작업은 `~/.codex/hooks.json`에서 `weave-codex` 항목만 제거합니다.

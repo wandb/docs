@@ -1,0 +1,35 @@
+---
+title: DownloadHistoryResult
+kind: クラス
+namespace: wandb.apis.public.runhistory.downloads
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runhistory/downloads.py#L26" />
+
+## <kbd>クラス</kbd> wandb.apis.public.DownloadHistoryResult
+
+```python
+paths: 'list[pathlib.Path]',
+contains_live_data: 'bool',
+errors: 'dict[pathlib.Path, str] | None' = None
+```
+
+run の history エクスポートのダウンロード結果です。
+
+<div id="args">
+  ## 引数
+</div>
+
+* `paths`:
+* `contains_live_data`:
+* `errors`: 
+
+<div id="attributes">
+  ## 属性
+</div>
+
+* `paths`: ダウンロードされた history ファイルのパス。
+* `errors`: ダウンロードに失敗したファイルについて、ファイルパスをエラーメッセージに対応付けた辞書。すべてのダウンロードが成功した場合は None。
+* `contains_live_data`: run に、まだ parquet ファイルにエクスポートされていないライブデータが含まれているかどうか。

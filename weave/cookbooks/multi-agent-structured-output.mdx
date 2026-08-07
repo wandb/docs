@@ -1,36 +1,33 @@
 ---
-title: "Multi Agent Structured Output"
-description: "Learn how to use multi agent structured output with W&B Weave"
+title: "Multi-agent structured output"
+description: "Learn how to use multi-agent structured output with W&B Weave"
+keywords: ["multi-agent", "structured outputs", "OpenAI", "JSON schema", "agent tracing"]
 ---
 
 <Note>
-This is an interactive notebook. You can run it locally or use the links below:
+This is an interactive notebook. You can run it locally or use the following links:
 - [Open in Google Colab](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/multi-agent-structured-output.ipynb)
 - [View source on GitHub](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/multi-agent-structured-output.ipynb)
 </Note>
 
-##
+This tutorial demonstrates how to build a multi-agent system that uses OpenAI's structured outputs feature, and how to trace agent interactions with [Weave](/weave). By the end, you have a four-agent data analysis pipeline whose intermediate inputs and outputs are visible in the Weave UI.
 
-# Structured Outputs for Multi-Agent Systems
+OpenAI released [Structured Outputs](https://openai.com/index/introducing-structured-outputs-in-the-api/) so the model always generates responses that adhere to your supplied JSON Schema without strongly worded prompts. With Structured Outputs, you don't need to validate or retry incorrectly formatted responses.
 
-OpenAI relased [Structured Outputs](https://openai.com/index/introducing-structured-outputs-in-the-api/) to enable users to ensure the model will always generate responses that adhere to your supplied JSON Schema without strongly worded prompts. With Structured Outputs, we don't need to validate or retry incorrectly formatted responses.
+By using the parameter `strict: true`, you can guarantee the response abides by a provided schema.
 
-By using the new parameter `strict: true`, we are able to guarantee the response abides by a provided schema.
-
-The use of structured outputs in a multi-agent system enhances communication by ensuring consistent, easily processed data between agents. It also improves safety by allowing explicit refusals and boosts performance by eliminating the need for retries or validations. This simplifies interactions and increases overall system efficiency.
-
-This tutorial demonstrates how we can utilize structured outputs in multi-agent system and trace them with [Weave](/weave).
+Structured outputs in a multi-agent system produce consistent, predictably processed data between agents. They also support explicit refusals and remove the need for retries or response validation.
 
 <Tip>
 **Source**: This cookbook is based on [sample code from OpenAI's structured outputs](https://cookbook.openai.com/examples/structured_outputs_multi_agent), with some modifications added for improved visualization using Weave.
 </Tip>
 
-## Installing the Dependencies
+## Install the dependencies
 
-We need the following libraries for this tutorial:
+First, install the libraries the tutorial depends on. This tutorial uses the following libraries:
 
-- [OpenAI](https://openai.com/index/openai-api/) to create multi-agent system.
-- [Weave](/weave) to track our LLM workflow and evaluate our prompting strategies.
+- [OpenAI](https://openai.com/index/openai-api/) to create the multi-agent system.
+- [Weave](/weave) to track the LLM workflow and evaluate prompting strategies.
 
 ```python lines
 !pip install -qU openai weave wandb
@@ -42,14 +39,19 @@ python
 !pip install "httpx<0.28"
 ```
 
-We set `WANDB_API_KEY` in our env so that we may easily login with wandb.login() (this should be given to the colab as a secret).
+Next, configure credentials and initialize Weave so traces are logged to your W&B project.
 
-We set the project in W&B we want to log this into in `name_of_wandb_project`.
+Set `WANDB_API_KEY` in your environment so you can log in with `wandb.login()`. Provide this to Colab as a secret.
 
-**NOTE**: `name_of_wandb_project` may also be in the format of `{team_name}/{project_name}` to specify a team to log the traces into.
-We then fetch a weave client by calling weave.init()
+Set the W&B project to log into in `name_of_wandb_project`.
 
-Since we'll be using [OpenAI API](https://openai.com/index/openai-api/), we will also need an OpenAI API key. You can [sign up](https://platform.openai.com/signup) on the OpenAI platform to get your own API key. (this should be given to the colab as a secret too.)
+<Note>
+`name_of_wandb_project` may also be in the format of `[YOUR-TEAM]/[YOUR-PROJECT]` to specify a team to log the traces into.
+</Note>
+
+Then fetch a Weave client by calling `weave.init()`.
+
+Because this tutorial uses the [OpenAI API](https://openai.com/index/openai-api/), you also need an OpenAI API key. [Sign up](https://platform.openai.com/signup) on the OpenAI platform to get your own API key. Provide this to Colab as a secret too.
 
 ```python lines
 import base64
@@ -77,16 +79,17 @@ client = OpenAI()
 MODEL = "gpt-4o-2024-08-06"
 ```
 
-## Agents set up
+## Set up the agents
 
-The use case we will tackle is a data analysis task.
-Let's first set up our 4-agents system:
+With Weave initialized, define the agents that make up the system. The use case for this tutorial is a data analysis task.
+First, set up the four-agent system:
 
-- Triaging agent: Decides which agent(s) to call
-- Data pre-processing Agent: Prepares data for analysis - for example by cleaning it up
-- Data Analysis Agent: Performs analysis on the data
-- Data Visualization Agent: Visualizes the output of the analysis to extract insights
-  We will start by defining the system prompts for each of these agents.
+- Triaging agent: Decides which agents to call.
+- Data pre-processing agent: Prepares data for analysis, for example by cleaning it up.
+- Data analysis agent: Performs analysis on the data.
+- Data visualization agent: Visualizes the output of the analysis to extract insights.
+
+Start by defining the system prompts for each of these agents. These prompts establish each agent's role and the tools it's allowed to call.
 
 ```python lines
 triaging_system_prompt = """You are a Triaging Agent. Your role is to assess the user's query and route it to the relevant agents. The agents available are:
@@ -112,15 +115,15 @@ visualization_system_prompt = """You are a Visualization Agent. Your role is to 
 - create_pie_chart"""
 ```
 
-We will then define the tools for each agent.
+Next, define the tools for each agent.
 
-Apart from the triaging agent, each agent will be equipped with tools specific to their role:
+Apart from the triaging agent, each agent has tools specific to its role:
 
-**Data pre-processing agent** : 1. Clean data, 2. Transform data, 3. Aggregate data
+**Data pre-processing agent**: Clean data, transform data, and aggregate data.
 
-**Data analysis agent** : 1. Statistical analysis, 2. Correlation analysis, 3. Regression Analysis
+**Data analysis agent**: Statistical analysis, correlation analysis, and regression analysis.
 
-**Data visualization agent** : 1. Create bar chart, 2. Create line chart, 3. Create pie chart
+**Data visualization agent**: Create bar chart, create line chart, and create pie chart.
 
 ```python lines
 triage_tools = [
@@ -369,13 +372,13 @@ visualization_tools = [
 ]
 ```
 
-## Enable tracking of multi-agent using Weave
+## Enable multi-agent tracking with Weave
 
-We need to write the code logic to:
+With the agents and their tools defined, the next step is to wire them together and enable Weave tracing. Write the code logic to:
 
-- handle passing the user query to the multi-agent system
-- handle the internal workings of the multi-agent system
-- execute the tool calls
+- Handle passing the user query to the multi-agent system.
+- Handle the internal workings of the multi-agent system.
+- Execute the tool calls.
 
 ```python lines
 # Example query
@@ -391,13 +394,13 @@ house_size (m3), house_price ($)
 """
 ```
 
-From the user query, we can infer that the tools we would need to call are `clean_data`, `start_analysis` and `use_line_chart`.
+From the user query, you can infer that the tools to call are `clean_data`, `start_analysis`, and `use_line_chart`.
 
-We will begin by defining the execution function responsible for running tool calls.
+Begin by defining the execution function responsible for running tool calls.
 
-By decorating Python functions with `@weave.op()`, we can log and debug language model inputs, outputs, and traces.
+By decorating Python functions with `@weave.op()`, you can log and debug language model inputs, outputs, and traces.
 
-When creating a multi-agent system, many functions will appear, but it's sufficient to simply add `@weave.op()` on top of them.
+A multi-agent system involves many functions, but it's sufficient to add `@weave.op()` on top of each one.
 
 ```python lines
 @weave.op()
@@ -530,7 +533,7 @@ def execute_tool(tool_calls, messages):
     return messages
 ```
 
-Next, we will create the tool handlers for each of the sub-agents. These have a unique prompt and tool set passed to the model. The output is then passed to an execution function which runs the tool calls.
+Next, create the tool handlers for each of the sub-agents. These have a unique prompt and tool set passed to the model. The output is then passed to an execution function that runs the tool calls.
 
 ```python lines
 # Define the functions to handle each agent's processing
@@ -586,7 +589,7 @@ def handle_visualization_agent(query, conversation_messages):
     execute_tool(response.choices[0].message.tool_calls, conversation_messages)
 ```
 
-Finally, we create the overarching tool to handle processing the user query. This function takes the user query, gets a response from the model and handles passing it to the other agents to execute.
+Finally, create the overarching tool to handle processing the user query. This function takes the user query, gets a response from the model, and passes it to the other agents to execute.
 
 ```python lines
 # Function to handle user input and triaging
@@ -670,25 +673,25 @@ def extract_tool_contents(data):
     return contents
 ```
 
-## Execute multi-agent systems and visualization in Weave
+## Execute the multi-agent system and visualize in Weave
 
-Finally, we execute the primary `handle_user_message` function using the user's input and observe the results.
+With every agent, tool, and handler in place, the system is ready to run. Finally, execute the primary `handle_user_message` function using the user's input and observe the results.
 
 ```python lines
 handle_user_message(user_query)
 ```
 
-When we click on the URL for Weave, we can see that the execution is being traced as follows. On the Traces page, we can check the input and output. For clarity, screenshots of the results displayed when each output is clicked have been added to the diagram. Weave provides integration with OpenAI's API, which allows costs to be automatically calculated. So, we can confirm cost and latency are also displayed on the far right.
-![1-1.png](/media/multi-agent-structured-output/1-1.png)
+When you click the Weave URL, you can see the execution trace. On the **Traces** page, you can check the input and output. For clarity, the diagram includes screenshots of the results displayed when you click each output. Weave integrates with the OpenAI API and automatically calculates costs. Cost and latency are also displayed alongside each trace.
+![Weave Traces page showing the multi-agent execution with cost and latency](/media/multi-agent-structured-output/1-1.png)
 
-By clicking on a line, we can see the intermediate processes that were executed within the multi-agent system. For example, by looking at the input and output of the `analysis_agent`, we can see that it is in a structured output format. OpenAI's structured output facilitates collaboration between agents, but as the system becomes more complex, it becomes harder to grasp the format in which these interactions are taking place. Using Weave allows us to understand these intermediate processes and their inputs and outputs as if we were holding them in your hand.
+Click a line to see the intermediate processes that ran within the multi-agent system. For example, the input and output of the `analysis_agent` appear in a structured output format. OpenAI's structured outputs help agents collaborate, but as the system grows more complex, the format of these interactions becomes harder to follow. Weave lets you inspect these intermediate processes and their inputs and outputs in detail.
 
 <Frame>
-![3.png](/media/multi-agent-structured-output/3.png)
+![Weave trace detail showing the analysis agent's structured input and output](/media/multi-agent-structured-output/3.png)
 </Frame>
 
-Please take a closer look at how tracing is handled in Weave!
+Take a closer look at how tracing is handled in Weave.
 
 ## Conclusion
 
-In this tutorial, we learned how to conveniently develop a multi-agent system using structured output and Weave, provided by OpenAI for tracking inputs, final outputs, and intermediate output formats.
+In this tutorial, you learned how to develop a multi-agent system using OpenAI's structured output and Weave for tracking inputs, final outputs, and intermediate output formats. You now have a working example you can extend with additional agents, tools, or structured response schemas.

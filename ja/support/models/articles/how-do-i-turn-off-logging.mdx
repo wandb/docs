@@ -1,0 +1,25 @@
+---
+title: "ログ記録をオフにするにはどうすればよいですか?"
+keywords: ["ログ"]
+---
+
+W&amp;B がリモート サーバーにデータをログ記録しないようにすることも、ログ記録は有効のまま警告メッセージを抑制することもできます。目的に合った方法を使用してください。
+
+W&amp;B サーバーへのデータの同期を停止するには、`wandb offline` コマンドを実行します。このコマンドは環境変数 `WANDB_MODE=offline` を設定し、すべてのプロジェクトでデータがリモートの W&amp;B サーバーに同期されないようにします。
+
+ログ記録は有効のままコンソールのノイズを減らすには、次のコードで警告メッセージを抑制します。
+
+```python
+import logging
+
+logger = logging.getLogger("wandb")
+logger.setLevel(logging.WARNING)
+```
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[ログ](/ja/support/models/tags/logs)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

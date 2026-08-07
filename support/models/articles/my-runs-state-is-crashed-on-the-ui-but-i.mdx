@@ -1,0 +1,12 @@
+---
+title: "My run's state is `crashed` on the UI but is still running on my machine. What do I do to get my data back?"
+keywords: ["Experiments", "Run Crashes"]
+---
+
+This state usually means you lost connection to your machine during training. To recover your data, run [`wandb sync [PATH_TO_RUN]`](/models/ref/cli/wandb-sync). The path to your run is the folder in your `wandb` directory whose name matches the run ID of the ongoing run.
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Run Crashes](/support/models/tags/run-crashes)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

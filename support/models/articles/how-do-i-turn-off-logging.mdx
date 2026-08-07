@@ -1,0 +1,23 @@
+---
+title: "How do I turn off logging?"
+keywords: ["Logs"]
+---
+
+You can stop W&B from logging data to the remote server, or keep logging enabled but suppress its warning messages. Use the approach that matches your goal.
+
+To stop syncing data to W&B servers, run the `wandb offline` command. This command sets the environment variable `WANDB_MODE=offline`, which prevents data from syncing to the remote W&B server across all projects.
+
+To keep logging enabled but reduce console noise, suppress warning messages with the following code:
+
+```python
+import logging
+
+logger = logging.getLogger("wandb")
+logger.setLevel(logging.WARNING)
+```
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Logs](/support/models/tags/logs)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

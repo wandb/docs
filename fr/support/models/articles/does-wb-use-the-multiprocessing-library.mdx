@@ -1,0 +1,21 @@
+---
+title: "W&B utilise-t-il la bibliothèque `multiprocessing` ?"
+keywords: ["Experiments"]
+---
+
+Oui, W&amp;B utilise la bibliothèque `multiprocessing`. Par conséquent, les scripts qui appellent directement W&amp;B doivent protéger leur point d’entrée afin que les processus enfants ne réexécutent pas le code de niveau supérieur. Le message d’erreur suivant indique ce problème :
+
+```
+An attempt has been made to start a new process before the current process 
+has finished its bootstrapping phase.
+```
+
+Pour résoudre cette erreur, ajoutez une garde du point d’entrée avec `if __name__ == "__main__":`. Vous avez besoin de cette garde lorsque vous exécutez W&amp;B directement depuis le script. Elle garantit que les processus de travail créés par `multiprocessing` ne réexécutent pas votre code d’entraînement.
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge>
+
+{/* END GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet */}

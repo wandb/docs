@@ -1,0 +1,41 @@
+---
+description: "Intégrez W&B à Amazon SageMaker pour le suivi des expériences, la journalisation des métriques et la gestion des modèles sur l’infrastructure AWS."
+title: SageMaker
+---
+
+W&amp;B s’intègre à [Amazon SageMaker](https://aws.amazon.com/sagemaker/) pour lire automatiquement les hyperparamètres, regrouper les Runs distribués et reprendre les runs à partir des checkpoints.
+
+<div id="authentication">
+  ## Authentification
+</div>
+
+W&amp;B recherche un fichier nommé `secrets.env` dans le même répertoire que le script d&#39;entraînement et charge son contenu dans l&#39;environnement lorsque vous appelez `wandb.init()`. Pour générer un fichier `secrets.env`, appelez `wandb.sagemaker_auth(path="source_dir")` dans le script que vous utilisez pour lancer vos expériences. Ajoutez ce fichier à votre `.gitignore`.
+
+<div id="existing-estimators">
+  ## Estimateurs existants
+</div>
+
+Si vous utilisez l’un des estimateurs préconfigurés de SageMaker, ajoutez un fichier `requirements.txt` à votre répertoire source contenant `wandb` :
+
+```text
+wandb
+```
+
+Si vous utilisez un estimateur qui fonctionne avec Python 2, installez `psutil` depuis cette [wheel](https://pythonwheels.com) avant d’installer `wandb` :
+
+```text
+https://wheels.galaxyproject.org/packages/psutil-5.4.8-cp27-cp27mu-manylinux1_x86_64.whl
+wandb
+```
+
+Pour un exemple complet, voir l’[exemple SageMaker sur GitHub](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cifar10-sagemaker). Pour en savoir plus sur l’exécution de Sweeps avec SageMaker, voir l’[article de blog W&amp;B sur les Sweeps avec SageMaker](https://wandb.ai/site/articles/running-sweeps-with-sagemaker).
+
+Pour obtenir un tutoriel sur le déploiement d’un analyseur de sentiment avec SageMaker et W&amp;B, voir [Deploy Sentiment Analyzer Using SageMaker and W&amp;B](https://wandb.ai/authors/sagemaker/reports/Deploy-Sentiment-Analyzer-Using-SageMaker-and-W-B--VmlldzoxODA1ODE).
+
+<Warning>
+  L’agent de balayage W&amp;B fonctionne correctement dans un job SageMaker uniquement lorsque l’intégration SageMaker est désactivée. Pour désactiver l’intégration SageMaker, mettez à jour votre appel à `wandb.init()` :
+
+  ```python
+  wandb.init(..., settings=wandb.Settings(sagemaker_disable=True))
+  ```
+</Warning>

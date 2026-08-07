@@ -1,0 +1,43 @@
+---
+title: "Why am I seeing fewer data points than I logged?"
+keywords: ["Experiments", "Metrics"]
+---
+
+When you visualize metrics against an X-axis other than `Step`, expect to see fewer data points. You must log metrics at the same `Step` to keep them synchronized. W&B only samples metrics logged at the same `Step` when it interpolates between samples.
+
+## Log related metrics together
+
+To keep related metrics aligned on the same `Step`, bundle them into a single `log()` call. For example, instead of:
+
+```python
+import wandb
+with wandb.init() as run:
+    run.log({"Precision": precision})
+    ...
+    run.log({"Recall": recall})
+```
+
+Use a single call:
+
+```python
+import wandb
+with wandb.init() as run:
+    run.log({"Precision": precision, "Recall": recall})
+```
+
+To manually control the `step` parameter, synchronize metrics in the code:
+
+```python
+with wandb.init() as run:
+    step = 100  # Example step value
+    # Log Precision and Recall at the same step
+    run.log({"Precision": precision, "Recall": recall}, step=step)
+```
+
+Make sure the `step` value remains the same in both `log()` calls so that the metrics log under the same `step` and sample together. The `step` value must increase monotonically in each call. Otherwise, W&B ignores the `step` value.
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Metrics](/support/models/tags/metrics)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

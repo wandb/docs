@@ -1,0 +1,14 @@
+---
+title: Rate limits
+description: Optional rate limits on Self-Managed instances for stability
+keywords: ["API throttling", "rate limiting", "request limits", "server stability", "429 rate limit"]
+---
+import RateLimitsDefaultsAndNotification from "/snippets/_includes/rate-limits-defaults-and-notification.mdx";
+
+You can configure rate limits on your W&B Self-Managed instance to maintain stability and prevent one user or workload from affecting others. These limits are optional. If you don't set them, the instance doesn't enforce any limits.
+
+## Default limits and notification
+
+<RateLimitsDefaultsAndNotification />
+
+W&B recommends these defaults for typical production workloads. If your workloads consistently exceed these limits, you can adjust them (or leave them unset) according to your instance size and shared usage. See [Set rate limits](/platform/hosting/self-managed/operator#set-rate-limits). Contact [W&B support](mailto:support@wandb.com) if you need help sizing these limits for your deployment.

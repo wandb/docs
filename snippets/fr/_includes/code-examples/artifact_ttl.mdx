@@ -1,0 +1,20 @@
+---
+title: Artifact Ttl
+---
+
+```python
+"""
+Créer et enregistrer un artifact avec une politique TTL dans W&B.
+"""
+import wandb
+from datetime import timedelta
+
+# Créer un artifact avec une politique TTL
+artifact = wandb.Artifact(name="<artifact_name>", type="<artifact_type>")
+artifact.add_file("<file_path>")
+artifact.ttl = timedelta(days=30)  # Définir la politique TTL
+
+with wandb.init(project="<project>", entity="<entity>") as run:
+    # Enregistrer l'artifact avec la politique TTL
+    run.log_artifact(artifact)
+```

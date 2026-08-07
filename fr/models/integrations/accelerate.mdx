@@ -1,0 +1,94 @@
+---
+description: L'entraînement et l'inférence à grande échelle en toute simplicité, avec efficacité et flexibilité
+title: Hugging Face Accelerate
+---
+
+Hugging Face Accelerate est une bibliothèque qui permet d&#39;exécuter le même code PyTorch sur n&#39;importe quelle configuration distribuée, afin de simplifier l&#39;entraînement des modèles et l&#39;inférence à grande échelle.
+
+Accelerate inclut un suivi W&amp;B, et cette page montre comment l&#39;utiliser pour consigner des métriques, la configuration et des artefacts à partir de runs d&#39;entraînement distribués dans W&amp;B. Pour plus d&#39;informations, voir [Accelerate Trackers in Hugging Face](https://huggingface.co/docs/accelerate/main/en/usage_guides/tracking).
+
+<div id="start-logging-with-accelerate">
+  ## Commencez à journaliser avec Accelerate
+</div>
+
+Cette section montre comment configurer Accelerate pour journaliser les données d&#39;expérience dans W&amp;B pendant l&#39;entraînement. Pour démarrer avec Accelerate et W&amp;B, suivez ce pseudocode :
+
+```python
+from accelerate import Accelerator
+
+# Indiquer à l'objet Accelerator de journaliser avec wandb
+accelerator = Accelerator(log_with="wandb")
+
+# Initialiser votre run wandb en transmettant les paramètres wandb et toute information de configuration
+accelerator.init_trackers(
+    project_name="my_project", 
+    config={"dropout": 0.1, "learning_rate": 1e-2},
+    init_kwargs={"wandb": {"entity": "my-wandb-team"}}
+    )
+
+...
+
+# Journaliser dans wandb en appelant accelerator.log() ; step est facultatif
+accelerator.log({"train_loss": 1.12, "valid_loss": 0.8}, step=global_step)
+
+
+# S'assurer que le suivi wandb se termine correctement
+accelerator.end_training()
+```
+
+Plus en détail :
+
+1. Passez `log_with="wandb"` lorsque vous initialisez la classe `Accelerator`.
+2. Appelez la méthode [`init_trackers`](https://huggingface.co/docs/accelerate/main/en/package_reference/accelerator#accelerate.Accelerator.init_trackers) et transmettez-lui :
+   * Un nom de projet via `project_name`.
+   * Tous les paramètres que vous souhaitez passer à [`wandb.init()`](/fr/models/ref/python/functions/init) via un `dict` imbriqué dans `init_kwargs`.
+   * Toute autre information de configuration de l&#39;expérience que vous souhaitez journaliser dans votre run wandb, via `config`.
+3. Utilisez la méthode `wandb.Run.log()` pour journaliser dans W&amp;B. L&#39;argument `step` est facultatif.
+4. Appelez `.end_training()` lorsque l&#39;entraînement est terminé.
+
+<div id="access-the-wb-tracker">
+  ## Accéder au suivi W&amp;B
+</div>
+
+Une fois qu’Accelerate journalise dans W&amp;B, vous pouvez avoir besoin d’accéder directement à l’objet run W&amp;B sous-jacent pour journaliser des artefacts, des graphiques personnalisés ou d’autres données que le suivi W&amp;B n’expose pas. Pour accéder au suivi W&amp;B, utilisez la méthode `Accelerator.get_tracker()`. Passez la chaîne correspondant à l’attribut `.name` d’un outil de suivi ; la méthode renvoie alors cet outil de suivi sur le processus `main`.
+
+```python
+wandb_tracker = accelerator.get_tracker("wandb")
+
+```
+
+Vous pouvez ensuite interagir comme d’habitude avec l’objet run de `wandb` :
+
+```python
+wandb_tracker.log_artifact(some_artifact_to_log)
+```
+
+<Warning>
+  Les suivis intégrés à Accelerate s’exécutent automatiquement sur le bon processus. Ainsi, si un suivi n’a besoin d’être exécuté que sur le processus principal, il le sera automatiquement.
+
+  Pour supprimer complètement l’encapsulation d’Accelerate, vous pouvez obtenir le même résultat avec :
+
+  ```python
+  wandb_tracker = accelerator.get_tracker("wandb", unwrap=True)
+  with accelerator.on_main_process:
+      wandb_tracker.log_artifact(some_artifact_to_log)
+  ```
+</Warning>
+
+<div id="accelerate-articles">
+  ## Articles sur Accelerate
+</div>
+
+Pour un guide pas à pas plus approfondi sur l’utilisation d’Accelerate avec W&amp;B, consultez l’article suivant.
+
+<details>
+  <summary>HuggingFace Accelerate optimisé avec W&amp;B</summary>
+
+  Cet article examine ce que HuggingFace Accelerate a à offrir et explique comment effectuer un entraînement et une évaluation distribués, tout en enregistrant les résultats dans W&amp;B.
+
+  Lire le [rapport Hugging Face Accelerate optimisé avec W&amp;B](https://wandb.ai/gladiator/HF%20Accelerate%20+%20W\&B/reports/Hugging-Face-Accelerate-Super-Charged-with-Weights-Biases--VmlldzoyNzk3MDUx?utm_source=docs\&utm_medium=docs\&utm_campaign=accelerate-docs).
+</details>
+
+<br />
+
+<br />

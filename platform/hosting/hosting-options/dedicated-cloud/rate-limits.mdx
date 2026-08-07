@@ -1,0 +1,16 @@
+---
+title: Rate limits
+description: Default rate limits on Dedicated Cloud and how to request changes
+keywords: ["API rate limit", "throughput limit", "SDK throttling", "429 error", "rate limit increase"]
+---
+import RateLimitsDefaultsAndNotification from "/snippets/_includes/rate-limits-defaults-and-notification.mdx";
+
+W&B Dedicated Cloud applies rate limits to maintain instance stability. W&B can adjust limits when you scale up training or need higher throughput. Use this page to understand the default limits that apply to your Dedicated Cloud instance and how to request an increase if your workloads need more capacity.
+
+## Default limits and notification
+
+The following section lists the default rate limits and describes how the W&B SDK behaves when you exceed a limit.
+
+<RateLimitsDefaultsAndNotification />
+
+W&B recommends these defaults for typical production workloads. See [Set rate limits](/platform/hosting/self-managed/operator#set-rate-limits). If your workloads consistently exceed these limits, contact [W&B support](mailto:support@wandb.com) or your Account Solutions Engineer (AISE) to request higher limits. Provide details of your experimental setup and usage patterns so that W&B can scope an appropriate adjustment.

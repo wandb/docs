@@ -1,26 +1,36 @@
 ---
 title: controller()
-namespace: python_sdk_actions
-python_object_type: function
+kind: 함수
+namespace: wandb.sdk.wandb_sweep
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_sweep.py" />
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-### <kbd>function</kbd> `controller`
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_sweep.py#L100" />
+
+## <kbd>함수</kbd> wandb.controller
 
 ```python
-controller(
-    sweep_id_or_config: Optional[str, Dict] = None,
-    entity: Optional[str] = None,
-    project: Optional[str] = None
-) → _WandbController
+sweep_id_or_config: 'str | dict | None' = None,
+entity: 'str | None' = None,
+project: 'str | None' = None
 ```
 
-공개용 스윕 컨트롤러 생성자입니다.
+공개 스윕 컨트롤러 생성자입니다.
 
-**Examples:**
- ```python
+<div id="args">
+  ## 인수
+</div>
+
+* `sweep_id_or_config`:
+* `entity`:
+* `project`: 
+
+<div id="examples">
+  ## 예시
+</div>
+
+```python
 import wandb
 
 tuner = wandb.controller(...)

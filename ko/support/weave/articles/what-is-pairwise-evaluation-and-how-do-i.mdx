@@ -1,0 +1,101 @@
+---
+title: "쌍대 비교 평가란 무엇이며 어떻게 수행하나요?"
+keywords: ["평가"]
+---
+
+Weave [evaluation](/ko/weave/guides/core-types/evaluations)에서 모델을 [score](/ko/weave/guides/evaluation/scorers)할 때, 절대값 메트릭(예: 모델 A는 `9/10`, 모델 B는 `8/10`)은 일반적으로 상대적 기준(예: 모델 A가 모델 B보다 더 우수함)보다 부여하기가 더 어렵습니다. *쌍대 비교 평가*를 사용하면 두 모델의 출력을 서로 비교해 상대적으로 순위를 매길 수 있습니다. 이 접근 방식은 텍스트 생성, 요약, 질문 응답처럼 주관적인 작업에서 어떤 모델이 더 잘 수행하는지 확인하려는 경우에 유용합니다. 쌍대 비교 평가를 사용하면 특정 입력에 대해 어떤 모델이 더 나은지 보여주는 상대적 선호 순위를 얻을 수 있습니다.
+
+<Warning>
+  이 접근 방식은 임시 우회책이며 향후 릴리스에서 변경될 수 있습니다. 쌍대 비교 평가를 지원하는 더 안정적인 API가 계획되어 있습니다.
+</Warning>
+
+다음 코드 샘플은 `PreferenceScorer`라는 [class-based scorer](/ko/weave/guides/evaluation/scorers#class-based-scorers)를 만들어 Weave에서 쌍대 비교 평가를 구현하는 방법을 보여줍니다. `PreferenceScorer`는 `ModelA`와 `ModelB` 두 모델을 비교하고, 입력 텍스트의 명시적인 힌트를 바탕으로 모델 출력의 상대 점수를 반환합니다.
+
+```python lines
+from weave import Model, Evaluation, Scorer, Dataset
+from weave.flow.model import ApplyModelError, apply_model_async
+
+class ModelA(Model):
+    @weave.op
+    def predict(self, input_text: str):
+        if "Prefer model A" in input_text:
+            return {"response": "This is a great answer from Model A"}
+        return {"response": "Meh, whatever"}
+
+class ModelB(Model):
+    @weave.op
+    def predict(self, input_text: str):
+        if "Prefer model B" in input_text:
+            return {"response": "This is a thoughtful answer from Model B"}
+        return {"response": "I don't know"}
+
+class PreferenceScorer(Scorer):
+    @weave.op
+    async def _get_other_model_output(self, example: dict) -> Any:
+        """Get output from the other model for comparison.
+        Args:
+            example: The input example data to run through the other model
+        Returns:
+            The output from the other model
+        """
+
+        other_model_result = await apply_model_async(
+            self.other_model,
+            example,
+            None,
+        )
+
+        if isinstance(other_model_result, ApplyModelError):
+            return None
+
+        return other_model_result.model_output
+
+    @weave.op
+    async def score(self, output: dict, input_text: str) -> dict:
+        """Compare the output of the primary model with the other model.
+        Args:
+            output (dict): The output from the primary model.
+            input_text (str): The input text used to generate the outputs.
+        Returns:
+            dict: A flat dictionary containing the comparison result and reason.
+        """
+        other_output = await self._get_other_model_output(
+            {"input_text": input_text}
+        )
+        if other_output is None:
+            return {"primary_is_better": False, "reason": "Other model failed"}
+
+        if "Prefer model A" in input_text:
+            primary_is_better = True
+            reason = "Model A gave a great answer"
+        else:
+            primary_is_better = False
+            reason = "Model B is preferred for this type of question"
+
+        return {"primary_is_better": primary_is_better, "reason": reason}
+
+dataset = Dataset(
+    rows=[
+        {"input_text": "Prefer model A: Question 1"},  # Model A가 더 낫습니다
+        {"input_text": "Prefer model A: Question 2"},  # Model A가 더 낫습니다
+        {"input_text": "Prefer model B: Question 3"},  # Model B가 더 낫습니다
+        {"input_text": "Prefer model B: Question 4"},  # Model B가 더 낫습니다
+    ]
+)
+
+model_a = ModelA()
+model_b = ModelB()
+pref_scorer = PreferenceScorer(other_model=model_b)
+evaluation = Evaluation(dataset=dataset, scorers=[pref_scorer])
+evaluation.evaluate(model_a)
+```
+
+이 평가를 실행하면 `PreferenceScorer` 결과를 기준으로 `ModelA`와 `ModelB`의 상대적 선호도 순위를 확인할 수 있습니다.
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[평가](/ko/support/weave/tags/evaluation)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

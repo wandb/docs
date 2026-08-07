@@ -1,0 +1,53 @@
+---
+title: "startLLM"
+description: "TypeScript SDK リファレンス"
+---
+
+<div id="startllm">
+  # startLLM
+</div>
+
+▸ **startLLM**(`opts`): [`LLM`](../classes/llm)
+
+現在の Turn の子として、LLM span を開始します。アクティブな Turn がない場合は、例外をスローします。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名      | タイプ                                |
+| :----- | :--------------------------------- |
+| `opts` | [`LLMInit`](../interfaces/llminit) |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+[`LLM`](../classes/llm)
+
+`例`
+
+```ts twoslash
+// @noErrors
+weave.startLLM({model: 'gpt-4o-mini', providerName: 'openai'});
+```
+
+`例`
+
+```ts twoslash
+// @noErrors
+weave.startLLM({
+  model: 'gpt-4o-mini',
+  providerName: 'openai',
+  systemInstructions: ['You are a helpful weather bot.'],
+  startTime: new Date('2026-05-29T10:00:00.000Z'),
+});
+```
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[src/genai/api.ts:77](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L77)
+
+***

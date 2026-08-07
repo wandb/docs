@@ -1,0 +1,39 @@
+---
+title: "How do I update run config, tags, and notes via the W&B API?"
+keywords: ["Runs", "Experiments", "API"]
+---
+
+After a run finishes, use the [Public API guide](/models/track/public-api-guide) to edit config, display name, tags, and notes without re-running the experiment. For tag concepts and UI workflows, see [Tags](/models/runs/tags). For config during a run, see [Configuration](/models/track/config).
+
+The examples below use `run.update()` to persist pending changes in one API call.
+
+```python
+import wandb
+
+api = wandb.Api()
+run = api.run("my-entity/my-project/run_id_here")
+
+run.config["post_hoc_label"] = "baseline-v2"
+run.name = "resnet50-lr1e-3-aug-v2"
+run.tags.append("reviewed")
+run.notes = "Final baseline. Val accuracy: 92.4%."
+run.update()
+```
+
+## Bulk updates
+
+To tag or annotate many runs (for example, all runs from a sweep), iterate with filters and call `update()` per run:
+
+```python
+for run in api.runs("my-entity/my-project", filters={"sweep": "sweep_id_here"}):
+    run.tags.append("sweep-reviewed")
+    run.update()
+```
+
+Each `update()` is a separate API call. For large sets, add a short sleep between calls to avoid rate limits.
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Runs](/support/models/tags/runs)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[API](/support/models/tags/api)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

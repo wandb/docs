@@ -1,60 +1,82 @@
 ---
+description: 다양한 설치 방법에서 W&B 버전과 라이선스를 업데이트하는 방법을 안내합니다.
 title: W&B 라이선스 및 버전 업데이트
-description: 다양한 설치 방법별 W&B 버전 및 라이선스 업데이트 가이드.
+keywords: ["server upgrade", "license renewal", "Helm upgrade", "Terraform update", "version migration"]
 ---
 
-W&B Server 설치 시 사용했던 것과 동일한 메소드를 사용하여 W&B Server 버전 및 라이선스를 업데이트하세요. 다음 표는 다양한 배포 방식에 따라 라이선스와 버전을 업데이트하는 방법을 설명합니다.
+이 가이드는 기존 self-managed 배포에서 W&amp;B Server 버전과 라이선스 키를 업데이트하는 방법을 W&amp;B Server 관리자에게 안내합니다. 서버와 라이선스를 최신 상태로 유지하면 최신 특성 및 수정 사항에 액세스할 수 있으며, W&amp;B Server를 계속 사용할 자격도 유지됩니다.
 
+W&amp;B Server를 설치할 때 사용한 것과 동일한 방법으로 W&amp;B Server 버전 및 라이선스를 업데이트하세요. 다음 표에는 배포 방법별로 라이선스와 버전을 업데이트하는 방법이 나와 있습니다.
 
-| 릴리스 유형 | 설명 |
-| ---------------- | ------------------ |
-| [Terraform](#update-with-terraform) | W&B는 클라우드 배포를 위해 세 가지 공용 Terraform 모듈을 지원합니다: [AWS](https://registry.terraform.io/modules/wandb/wandb/aws/latest), [Google Cloud](https://registry.terraform.io/modules/wandb/wandb/google/latest), [Azure](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest). |
-| [Helm](#update-with-helm) | [Helm Chart](https://github.com/wandb/helm-charts)를 사용하여 기존 Kubernetes 클러스터에 W&B를 설치할 수 있습니다. |
+| 릴리스 유형                              | 설명                                                                                                                                                                                                                                                                                 |
+| ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Terraform](#update-with-terraform) | W&amp;B는 클라우드 배포를 위한 세 가지 공개 Terraform 모듈([AWS](https://registry.terraform.io/modules/wandb/wandb/aws/latest), [Google Cloud](https://registry.terraform.io/modules/wandb/wandb/google/latest), [Azure](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest))을 지원합니다. |
+| [Helm](#update-with-helm)           | 기존 Kubernetes 클러스터에 W&amp;B를 설치하려면 [Helm 차트](https://github.com/wandb/helm-charts)를 사용하세요.                                                                                                                                                                                         |
 
-## Terraform으로 업데이트하기
+<div id="update-with-terraform">
+  ## Terraform으로 업데이트
+</div>
 
-Terraform을 사용하여 라이선스와 버전을 업데이트합니다. 아래 표는 클라우드 플랫폼별 W&B 관리 Terraform 모듈 목록입니다.
+W&amp;B에서 유지 관리하는 Terraform 모듈 중 하나로 W&amp;B Server를 배포한 경우, Terraform을 사용해 라이선스 키와 W&amp;B 버전을 현재 배포에 그대로 업데이트할 수 있습니다. 다음 표에는 클라우드 제공업체별 W&amp;B 관리 Terraform 모듈이 나와 있습니다.
 
-| 클라우드 제공업체 | Terraform 모듈 |
-|-----|-----|
-| AWS | [AWS Terraform 모듈](https://registry.terraform.io/modules/wandb/wandb/aws/latest) |
-| Google Cloud | [Google Cloud Terraform 모듈](https://registry.terraform.io/modules/wandb/wandb/google/latest) |
-| Azure | [Azure Terraform 모듈](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest) |
+| 클라우드 제공업체    | Terraform 모듈                                                                                     |
+| ------------ | ------------------------------------------------------------------------------------------------ |
+| AWS          | [AWS Terraform module](https://registry.terraform.io/modules/wandb/wandb/aws/latest)             |
+| Google Cloud | [Google Cloud Terraform module](https://registry.terraform.io/modules/wandb/wandb/google/latest) |
+| Azure        | [Azure Terraform module](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest)       |
 
-1. 먼저, 해당 클라우드 제공업체에 맞는 W&B 유지 관리 Terraform 모듈로 이동합니다. 위의 표를 참조하여 클라우드 제공업체에 적합한 Terraform 모듈을 찾으세요.
-2. Terraform 설정 내의 `wandb_app` 모듈 설정에서 `wandb_version` 및 `license`를 업데이트합니다.
+1. 사용 중인 클라우드 제공업체에 맞는 W&amp;B에서 유지 관리하는 Terraform 모듈로 이동합니다. 앞의 표를 참조하여 클라우드 제공업체에 맞는 Terraform 모듈을 찾으세요.
+
+2. Terraform 설정에서 Terraform `wandb_app` 모듈 설정의 `wandb_version` 및 `license`를 업데이트합니다:
 
    ```hcl
    module "wandb_app" {
-       source  = "wandb/wandb/<cloud-specific-module>"
+       source  = "wandb/wandb/[CLOUD-SPECIFIC-MODULE]"
        version = "new_version"
-       license       = "new_license_key" # 새로운 라이선스 키
+       license       = "new_license_key" # 새 라이선스 키
        wandb_version = "new_wandb_version" # 원하는 W&B 버전
        ...
    }
    ```
-3. `terraform plan` 및 `terraform apply` 코맨드로 Terraform 설정을 적용합니다.
+
+3. `terraform plan` 및 `terraform apply`를 사용해 Terraform 설정을 적용합니다.
+
    ```bash
    terraform init
    terraform apply
    ```
 
-4. (선택 사항) `terraform.tfvars` 또는 다른 `.tfvars` 파일을 사용하는 경우.
+4. 선택: `terraform.tfvars` 또는 다른 `.tfvars` 파일을 사용하는 경우, 새 W&amp;B 버전과 라이선스 키로 파일을 업데이트하거나 생성합니다.
 
-   새로운 W&B 버전과 라이선스 키로 `terraform.tfvars` 파일을 업데이트하거나 생성합니다.
    ```bash
    terraform plan -var-file="terraform.tfvars"
    ```
-   설정을 적용합니다. Terraform 워크스페이스 디렉토리에서 다음을 실행하세요:  
+
+   Terraform Workspace 디렉터리에서 설정을 적용합니다.
+
    ```bash
    terraform apply -var-file="terraform.tfvars"
    ```
 
-## Helm으로 업데이트하기
+Terraform이 변경 사항을 적용하면 배포가 지정한 W&amp;B 버전으로 실행되고 업데이트된 라이선스 키를 사용합니다.
 
-### spec을 사용하여 W&B 업데이트
+<div id="update-with-helm">
+  ## Helm으로 업데이트
+</div>
 
-1. Helm 차트의 `*.yaml` 설정 파일에서 `image.tag` 및 `license` 값을 수정하여 새 버전을 지정합니다.
+<Warning>
+  `wandb` Helm 차트는 사용 중단되었으며 더 이상 지원되지 않습니다. 이 차트는 단일 파드를 배포했으며, 현재는 [W&amp;B Kubernetes Operator](/ko/platform/hosting/self-managed/operator)로 대체되었습니다. 아직 이 차트를 사용 중이라면 [마이그레이션 가이드](/ko/platform/hosting/self-managed/operator#migrate-self-managed-instances-to-wb-operator)를 따라 Operator로 마이그레이션하세요.
+</Warning>
+
+Helm 기반 업데이트 경로는 두 가지를 사용할 수 있습니다. 기존 Helm values 파일에서 업데이트하거나, upgrade 명령에서 새 라이선스와 이미지 태그를 직접 설정할 수 있습니다. 다음 섹션에서는 각 접근 방식을 설명합니다.
+
+<div id="update-wb-with-spec">
+  ### spec을 사용해 W&amp;B 업데이트
+</div>
+
+추적되는 `*.yaml` values 파일에서 Helm 설정을 관리하는 경우 이 방법을 사용하세요.
+
+1. Helm 차트 `*.yaml` 설정 파일에서 `image.tag` 또는 `license` 값, 또는 둘 다를 수정해 새 버전을 지정합니다:
 
    ```yaml
    license: 'new_license'
@@ -63,7 +85,7 @@ Terraform을 사용하여 라이선스와 버전을 업데이트합니다. 아�
      tag: 'new_version'
    ```
 
-2. 다음 코맨드를 실행하여 Helm 업그레이드를 수행합니다.
+2. values 파일을 사용해 Helm 저장소를 업데이트하고 W&amp;B 릴리스를 업그레이드합니다:
 
    ```bash
    helm repo update
@@ -72,16 +94,20 @@ Terraform을 사용하여 라이선스와 버전을 업데이트합니다. 아�
      -f ${wandb_install_spec.yaml}
    ```
 
-### 라이선스 및 버전을 직접 업데이트
+<div id="update-license-and-version-directly">
+  ### 라이선스 및 버전을 직접 업데이트
+</div>
 
-1. 새로운 라이선스 키와 이미지 태그를 환경 변수로 설정합니다.
+이 방법을 사용하면 values 파일을 편집하지 않고도 라이선스와 이미지 태그를 업데이트하고, 기존 Helm 릴리스 설정을 재사용할 수 있습니다.
+
+1. 새 라이선스 키와 이미지 태그를 환경 변수로 설정합니다.
 
    ```bash
    export LICENSE='new_license'
    export TAG='new_version'
    ```
 
-2. 아래 코맨드로 Helm 릴리스를 업그레이드하여, 기존 설정에 새로운 값을 병합합니다.
+2. 아래 명령으로 Helm 릴리스를 업그레이드하여 새 값을 기존 설정에 병합합니다.
 
    ```bash
    helm repo update
@@ -90,13 +116,15 @@ Terraform을 사용하여 라이선스와 버전을 업데이트합니다. 아�
      --reuse-values --set license=$LICENSE --set image.tag=$TAG
    ```
 
-자세한 내용은 공용 저장소의 [업그레이드 가이드](https://github.com/wandb/helm-charts/blob/main/upgrade)를 참조하세요.
+자세한 내용은 공개 저장소의 [업그레이드 가이드](https://github.com/wandb/helm-charts/blob/main/upgrade)를 참조하세요.
 
-## 관리자 UI로 업데이트하기
+<div id="update-with-admin-ui">
+  ## admin UI에서 업데이트
+</div>
 
-이 메소드는 W&B 서버 컨테이너에 환경 변수로 라이선스가 설정되지 않은 경우에만 작동하며, 주로 Self-Managed Docker 설치 환경에서 사용됩니다.
+배포 설정을 변경하지 않고 W&amp;B App 내부의 admin UI를 사용하여 라이선스 키를 교체할 수 있습니다. 이 방법은 일반적으로 Self-Managed Docker 설치에서 W&amp;B Server container의 환경 변수로 설정되지 않은 라이선스를 업데이트할 때만 작동합니다. 이 방법은 라이선스만 업데이트하며, 실행 중인 W&amp;B Server 버전은 변경하지 않습니다.
 
-1. [W&B 배포 페이지](https://deploy.wandb.ai/)에서 새로운 라이선스를 취득합니다. 이때 업그레이드하려는 배포의 조직 및 배포 ID와 일치하는지 확인하세요.
-2. W&B 앱의 **License** 페이지에 엑세스합니다. **Settings** > **License**를 클릭하거나 `<host-url>/console/settings/license`로 이동합니다.
-3. 라이선스 관리 섹션으로 이동합니다.
-4. 새로운 라이선스 키를 입력하고 변경 사항을 저장합니다.
+1. [W&amp;B Deployment Page](https://deploy.wandb.ai/)에서 새 라이선스를 획득하고, 업그레이드하려는 배포의 올바른 조직 및 deployment ID와 일치하는지 확인하세요.
+2. W&amp;B App에서 **License** 페이지에 액세스하세요. **Settings** &gt; **License**를 클릭하거나 `HOST_URL/console/settings/license`로 이동하세요. 여기서 `HOST_URL`은 W&amp;B Server 호스트 URL입니다.
+3. 라이선스 관리 섹션으로 이동하세요.
+4. 새 라이선스 키를 입력하고 변경 사항을 저장하세요.

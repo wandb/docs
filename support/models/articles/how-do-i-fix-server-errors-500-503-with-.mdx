@@ -1,0 +1,74 @@
+---
+title: "How do I fix server errors (500, 503) with Serverless Inference?"
+keywords: ["Inference"]
+---
+
+Server errors indicate temporary issues with the Serverless Inference service. This page helps you identify these errors, handle them gracefully in your client code, and decide when to escalate to support.
+
+## Error types
+
+The following sections describe the error codes that indicate transient server-side problems rather than issues with your request.
+
+### 500 internal server error
+
+This is a temporary internal error on the server side. The response message is: "The server had an error while processing your request."
+
+### 503 service overloaded
+
+The service is experiencing high traffic. The response message is: "The engine is currently overloaded, please try again later."
+
+## Handle server errors
+
+Because these errors are usually transient, the following techniques give the service time to recover before you retry.
+
+1. Wait before retrying. Use the following wait times:
+   - `500` errors: Wait 30 to 60 seconds.
+   - `503` errors: Wait 60 to 120 seconds.
+
+2. Use exponential backoff.
+   ```python
+   import time
+   import openai
+   
+   def call_with_retry(client, messages, model, max_retries=5):
+       for attempt in range(max_retries):
+           try:
+               return client.chat.completions.create(
+                   model=model,
+                   messages=messages
+               )
+           except Exception as e:
+               if "500" in str(e) or "503" in str(e):
+                   if attempt < max_retries - 1:
+                       wait_time = min(60, (2 ** attempt))
+                       time.sleep(wait_time)
+                   else:
+                       raise
+               else:
+                   raise
+   ```
+
+3. Set appropriate timeouts. Apply the following adjustments:
+   - Increase timeout values for your HTTP client.
+   - Consider async operations for better handling.
+
+## Contact support
+
+If retries and backoff don't resolve the issue, contact support so the team can investigate further.
+
+Contact support if any of the following apply:
+- Errors persist for more than 10 minutes.
+- You see patterns of failures at specific times.
+- Error messages contain additional details.
+
+When you contact support, provide the following information:
+- Error messages and codes.
+- Time when errors occurred.
+- Your code snippet (remove API keys).
+- W&B entity and project names.
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Inference](/support/models/tags/inference)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

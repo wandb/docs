@@ -1,0 +1,70 @@
+---
+title: "실행 중 `Call` object 핸들 가져오기"
+description: "피드백, 표시 이름 및 기타 메타데이터를 위해 런타임에 W&B Weave `Call` object에 액세스하세요"
+keywords: [Call object, op.call, 런타임 메타데이터, 피드백, tracing]
+---
+
+이 가이드에서는 코드가 실행되는 동안 Weave `Call` object의 핸들을 가져오는 방법을 설명합니다. 이를 통해 런타임에 입력과 출력을 확인하고, 메타데이터를 업데이트하거나, 피드백을 연결할 수 있습니다. 이 가이드는 이미 Weave Ops를 사용하고 있으며, 내부의 `Call` object와 프로그래밍 방식으로 상호작용하려는 개발자를 대상으로 합니다.
+
+Weave에서 Op를 사용할 때는 다른 함수처럼 직접 호출할 수 있습니다:
+
+<CodeGroup>
+  ```python Python lines
+  @weave.op
+  def my_op():
+      ...
+
+  my_op()
+  ```
+
+  ```typescript twoslash TypeScript lines
+  // @noErrors
+  function myFunction() {
+      ...
+  }
+
+  const myFunctionOp = weave.op(myFunction)
+  ```
+</CodeGroup>
+
+`Call` object에 직접 액세스하려면 `op.call` 메서드를 호출하세요. 그러면 결과와 `Call` object가 함께 반환됩니다:
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    @weave.op
+    def my_op():
+    ...
+
+    output, call = my_op.call()
+    ```
+
+    `call` object에는 입력, 출력, 기타 메타데이터를 포함해 `Call`에 관한 모든 정보가 들어 있습니다. `call`을 사용해 속성을 설정하거나 업데이트하고, 추가 속성을 조회하거나, 피드백을 추가할 수 있습니다.
+
+    Op가 클래스의 메서드인 경우 `call`의 첫 번째 인수로 클래스 인스턴스를 전달하세요:
+
+    ```python lines
+    import weave
+
+    # Initialize Weave Tracing
+    weave.init("intro-example")
+
+    class MyClass:
+        # Decorate your method
+        @weave.op
+        def my_method(self, name: str):
+            return f"Hello, {name}!"
+
+    instance = MyClass()
+
+    # Pass `instance` as the first argument to `call`.
+    result, call = instance.my_method.call(instance, "World")
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```text
+    이 기능은 아직 TypeScript SDK에서 사용할 수 없습니다.
+    ```
+  </Tab>
+</Tabs>

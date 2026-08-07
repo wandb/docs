@@ -187,12 +187,18 @@ def get_param_info(param) -> Dict[str, Any]:
     else:
         info['opts_str'] = f'`{info["name"]}`'
     
-    # Format default value
-    if info['default'] is not None and info['default'] != () and not callable(info['default']):
-        info['default_str'] = f" (default: {info['default']})"
+    # Format default value (only show user-facing defaults; hide sentinels like Sentinel.UNSET)
+    default_val = info['default']
+    if default_val is not None and default_val != () and not callable(default_val):
+        default_repr = repr(default_val)
+        type_name = type(default_val).__name__
+        if type_name == "Sentinel" or "Sentinel" in default_repr or "UNSET" in default_repr:
+            info['default_str'] = ""
+        else:
+            info['default_str'] = f" (default: {default_val})"
     else:
         info['default_str'] = ""
-    
+
     return info
 
 def extract_command_info(cmd: Command, parent_name: str = "") -> Dict[str, Any]:
@@ -255,13 +261,13 @@ def generate_markdown(cmd_info: Dict[str, Any], file_dir_path: str = "", project
     
     # Check if there's a snippet file for this command
     command_name = cmd_info['full_name'].replace('cli', 'wandb').replace(' ', '-')
-    snippet_path = project_root / "snippets/en/_includes/cli" / f"{command_name}.mdx" if project_root else None
+    snippet_path = project_root / "snippets/_includes/cli" / f"{command_name}.mdx" if project_root else None
     
     if snippet_path and snippet_path.exists():
         # Add import and include the snippet
         # Convert command name to PascalCase for the component name
         component_name = ''.join(word.capitalize() for word in command_name.split('-'))
-        lines.append(f'import {component_name} from "/snippets/en/_includes/cli/{command_name}.mdx";')
+        lines.append(f'import {component_name} from "/snippets/_includes/cli/{command_name}.mdx";')
         lines.append("")
         lines.append(f"<{component_name}/>")
         lines.append("")
@@ -269,12 +275,12 @@ def generate_markdown(cmd_info: Dict[str, Any], file_dir_path: str = "", project
         # Add commented-out template for adding intro content later
         lines.append("{/*")
         lines.append(f"  To add introductory content for this command:")
-        lines.append(f"  1. Create the snippet file: /snippets/en/_includes/cli/{command_name}.mdx")
+        lines.append(f"  1. Create the snippet file: /snippets/_includes/cli/{command_name}.mdx")
         lines.append(f"  2. Add your intro content to that file")
         lines.append(f"  3. Delete this entire comment block and keep only the two lines below:")
         lines.append("")
         component_name = ''.join(word.capitalize() for word in command_name.split('-'))
-        lines.append(f'import {component_name} from "/snippets/en/_includes/cli/{command_name}.mdx";')
+        lines.append(f'import {component_name} from "/snippets/_includes/cli/{command_name}.mdx";')
         lines.append("")
         lines.append(f"<{component_name}/>")
         lines.append("")
@@ -404,7 +410,7 @@ def generate_index_markdown(cmd_info: Dict[str, Any], subcommands_only: bool = F
     
     # Check if there's a snippet file for this command/index
     command_name = cmd_info['full_name'].replace('cli', 'wandb').replace(' ', '-')
-    snippet_path = project_root / "snippets/en/_includes/cli" / f"{command_name}.mdx" if project_root else None
+    snippet_path = project_root / "snippets/_includes/cli" / f"{command_name}.mdx" if project_root else None
     
     # Add snippet or template for manual content
     has_snippet = snippet_path and snippet_path.exists()
@@ -412,7 +418,7 @@ def generate_index_markdown(cmd_info: Dict[str, Any], subcommands_only: bool = F
         # Add import and include the snippet
         # Convert command name to PascalCase for the component name
         component_name = ''.join(word.capitalize() for word in command_name.split('-'))
-        lines.append(f'import {component_name} from "/snippets/en/_includes/cli/{command_name}.mdx";')
+        lines.append(f'import {component_name} from "/snippets/_includes/cli/{command_name}.mdx";')
         lines.append("")
         lines.append(f"<{component_name}/>")
         lines.append("")
@@ -420,12 +426,12 @@ def generate_index_markdown(cmd_info: Dict[str, Any], subcommands_only: bool = F
         # For main CLI page only, show commented template when no snippet exists
         lines.append("{/*")
         lines.append(f"  To add introductory content for this command:")
-        lines.append(f"  1. Create the snippet file: /snippets/en/_includes/cli/{command_name}.mdx")
+        lines.append(f"  1. Create the snippet file: /snippets/_includes/cli/{command_name}.mdx")
         lines.append(f"  2. Add your intro content to that file")
         lines.append(f"  3. Delete this entire comment block and keep only the two lines below:")
         lines.append("")
         component_name = ''.join(word.capitalize() for word in command_name.split('-'))
-        lines.append(f'import {component_name} from "/snippets/en/_includes/cli/{command_name}.mdx";')
+        lines.append(f'import {component_name} from "/snippets/_includes/cli/{command_name}.mdx";')
         lines.append("")
         lines.append(f"<{component_name}/>")
         lines.append("")
@@ -728,7 +734,7 @@ def main():
     if output_dir.exists() and any(output_dir.iterdir()):
         if args.interactive:
             print(f"⚠️  Warning: This will regenerate documentation in {output_dir}")
-            print("   Note: Manual content should be in snippet files (/snippets/en/_includes/cli/*.mdx)")
+            print("   Note: Manual content should be in snippet files (/snippets/_includes/cli/*.mdx)")
             response = input("Continue? (y/N): ")
             if response.lower() != 'y':
                 print("Aborted.")

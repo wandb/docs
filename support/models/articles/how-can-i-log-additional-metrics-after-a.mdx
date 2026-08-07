@@ -1,0 +1,20 @@
+---
+title: "How can I log additional metrics after a run completes?"
+keywords: ["Runs", "Metrics"]
+---
+
+To add metrics to a run that has already finished, W&B offers several approaches depending on the complexity of your workflow. The following sections describe two patterns to continue logging to an existing experiment.
+
+## Group multiple runs for complex workflows
+
+For complex workflows, use multiple runs and set the group parameters in [`wandb.init()`](/models/track/create-an-experiment) to a unique value for all processes within a single experiment. The [**Runs** tab](/models/track/project-page#runs-tab) groups the table by group ID so visualizations work as expected. This approach enables concurrent experiments and training runs while logging results in one location.
+
+## Resume a run for simpler workflows
+
+For simpler workflows, call `wandb.init()` with `resume=True` and `id=[UNIQUE-ID]`, then call `wandb.init()` again with the same `id=[UNIQUE-ID]`. Log as usual with [`run.log()`](/models/track/log/) or `run.summary()`, and the run values update.
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Runs](/support/models/tags/runs)</Badge><Badge stroke shape="pill" color="orange" size="md">[Metrics](/support/models/tags/metrics)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

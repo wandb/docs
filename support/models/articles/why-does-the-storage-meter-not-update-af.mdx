@@ -1,0 +1,28 @@
+---
+title: "Why doesn't my storage usage update after deleting runs?"
+keywords: ["Storage"]
+---
+
+Your storage usage doesn't update immediately after you delete runs, artifacts, or files. When you delete data from the UI or the CLI, the backend processes the deletion in the background. A garbage collection process runs every few hours, so reclaimed space can take up to 24 hours to appear in your available storage. This is expected behavior.
+
+If you exceeded your storage limit, any access restriction lifts automatically once your usage falls below the limit and W&B finishes processing the deletion. You don't need to take further action while processing completes.
+
+## If your usage still looks too high
+
+Deleting a run deletes the artifacts it logged only if you choose to. When you delete a run in the W&B App, a prompt asks whether to delete the associated artifacts, and [`Run.delete()`](/models/ref/python/public-api/run#method-run-delete) takes a `delete_artifacts` argument that defaults to `False`. See [Delete runs](/models/runs/delete-runs).
+
+Artifacts you keep consume storage until you delete them separately, so a project can still count toward your storage usage even when it appears to hold no files.
+
+To find and remove the data that still counts against your limit:
+
+1. Confirm your actual usage on the **Manage storage** page at `https://wandb.ai/account-settings/[ENTITY]/usage/manage/`, replacing `[ENTITY]` with your team or username. This page shows which projects and runs consume the most space.
+2. For any project that uses more storage than you expect, open the project's **Artifacts** tab and delete the artifact versions you no longer need. W&B first marks a deleted artifact as soft-deleted, then reclaims the underlying files during garbage collection. For details, see [Delete an artifact](/models/artifacts/delete-artifacts).
+3. If deleting many files at once fails or times out, see [How do I delete many artifacts at once?](/support/models/articles/how-do-i-delete-many-artifacts-at-once).
+
+If your usage on the **Manage storage** page is already under your limit but the warning persists after 24 hours, [contact support](mailto:support@wandb.com).
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Storage](/support/models/tags/storage)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

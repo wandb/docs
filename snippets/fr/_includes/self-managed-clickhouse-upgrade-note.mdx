@@ -1,0 +1,22 @@
+---
+title: Note de mise à niveau de ClickHouse pour l’environnement autogéré
+---
+
+<Note>
+  Le serveur W&amp;B 0.81.0+ introduit des migrations de schéma qui nécessitent ClickHouse 26.3 ou une version ultérieure lorsque l’une des fonctionnalités OLAP suivantes de Models est activée dans vos valeurs Helm :
+
+  ```yaml
+  global:
+    olap:
+      registrySearch:
+        enabled: true
+      runStoreAccelerator:
+        enabled: true
+      history:
+        enabled: true
+  ```
+
+  ***Avant* de mettre à niveau W&amp;B Autogéré vers Server v0.81+**, vous devez soit définir ces valeurs sur `false` dans vos valeurs Helm, soit mettre à niveau **à la fois** ClickHouse Server et ClickHouse Keeper vers la version 26.3.
+
+  Les déploiements Cloud dédié utilisent déjà une version compatible de ClickHouse et ne sont pas concernés.
+</Note>

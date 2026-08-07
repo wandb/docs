@@ -1,0 +1,58 @@
+---
+title: "startTurn"
+description: "TypeScript SDK リファレンス"
+---
+
+<div id="startturn">
+  # startTurn
+</div>
+
+▸ **startTurn**(`opts?`): [`Turn`](../classes/turn)
+
+新しいターンを開始します。Conversation がアクティブな場合、ターンはその
+`conversationId` を引き継ぎます。アクティブでない場合、ターンには conversation ID がありません。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名      | タイプ                                  |
+| :----- | :----------------------------------- |
+| `opts` | [`TurnInit`](../interfaces/turninit) |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+[`Turn`](../classes/turn)
+
+`例`
+
+```ts twoslash
+// @noErrors
+weave.startTurn();
+```
+
+`例`
+
+```ts twoslash
+// @noErrors
+weave.startTurn({
+  agentId: 'research-bot-prod',
+  agentName: 'research-bot',
+  agentDescription: 'Looks up facts on Wikipedia.',
+  agentVersion: '1.4.2',
+  model: 'gpt-4o',
+  userMessage: 'What is the weather in Tokyo?',
+  systemInstructions: ['You are a helpful weather bot.'],
+  startTime: new Date('2026-05-29T10:00:00.000Z'),
+});
+```
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[src/genai/api.ts:54](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L54)
+
+***

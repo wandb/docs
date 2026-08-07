@@ -1,0 +1,43 @@
+---
+title: Appel de trace dans Weave
+---
+
+```python
+'''
+Tracer une requête de base vers un LLM à l'aide de l'autopatching de W&B Weave.
+'''
+
+# Importer W&B
+import weave
+from openai import OpenAI
+
+client = OpenAI()
+
+# Définir une fonction qui envoie une requête à un LLM pris en charge par Weave
+def llm_request(question: str) -> dict:
+    response = client.chat.completions.create(
+    model="gpt-4o",
+    messages=[
+        {
+            "role": "system",
+            "content": """You are a helpful assistant."""
+        },
+        {
+            "role": "user",
+            "content": question
+        }
+        ],
+        response_format={ "type": "text" }
+    )
+    return response.choices[0].message.content
+
+# Initialiser Weave avec les noms de votre équipe et de votre projet
+weave.init('<your-team-name>/<your-project-name>')
+
+question = "What is the capitol of Paris?"
+
+# Appeler la fonction après l'initialisation de Weave
+result = llm_request(question)
+
+print(result)
+```

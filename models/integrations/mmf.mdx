@@ -1,31 +1,31 @@
 ---
-description: How to integrate W&B with Meta AI's MMF.
+description: "Integrate W&B with Meta AI's MMF framework to track multimodal model training experiments and log metrics."
 title: MMF
 ---
 
-The `WandbLogger` class in [Meta AI's MMF](https://github.com/facebookresearch/mmf) library will enable W&B to log the training/validation metrics, system (GPU and CPU) metrics, model checkpoints and configuration parameters.
+This page describes how to use the `WandbLogger` class in [Meta AI's MMF](https://github.com/facebookresearch/mmf) library to track your multimodal model training with W&B. Enabling `WandbLogger` lets you log training and validation metrics, system (GPU and CPU) metrics, model checkpoints, and configuration parameters, so you can monitor experiments and compare runs without adding custom logging code.
 
-## Current features
+## Features
 
-The following features are currently supported by the `WandbLogger` in MMF:
+The `WandbLogger` in MMF supports the following features:
 
-* Training & Validation metrics
-* Learning Rate over time
-* Model Checkpoint saving to W&B Artifacts
+* Training and validation metrics
+* Learning rate over time
+* Model checkpoint saving to W&B Artifacts
 * GPU and CPU system metrics
 * Training configuration parameters
 
-## Config parameters
+## Configuration parameters
 
-The following options are available in MMF config to enable and customize the wandb logging:
+To turn on W&B logging and customize how runs are tracked, set the following options in your MMF configuration:
 
-```
+```yaml
 training:
     wandb:
         enabled: true
         
         # An entity is a username or team name where you're sending runs.
-        # By default it will log the run to your user account.
+        # By default, it logs the run to your user account.
         entity: null
         
         # Project name to be used while logging the experiment with wandb
@@ -44,7 +44,7 @@ training:
         # tags: ['tag1', 'tag2']
         
 env:
-    # To change the path to the directory where wandb metadata would be 
+    # To change the path to the directory where wandb metadata is 
     # stored (Default: env.log_dir):
     wandb_logdir: ${env:MMF_WANDB_LOGDIR,}
 ```

@@ -1,0 +1,143 @@
+---
+description: "Visualisez et parcourez les graphes de traçabilité des artifacts pour suivre les entrées et les sorties des runs W&B sous forme de graphe acyclique orienté."
+title: Explorer les graphes de traçabilité des artifacts
+---
+
+W&amp;B suit les entrées et les sorties des runs à l&#39;aide de graphes acycliques orientés (DAG), appelés *graphes de traçabilité*. Les graphes de traçabilité sont des représentations visuelles des relations entre les artifacts et les runs dans une expérience de ML. Ils montrent comment les données et les modèles
+circulent à travers les différentes étapes du cycle de vie du machine learning, de l&#39;ingestion de données brutes à l&#39;entraînement et à l&#39;évaluation des modèles.
+
+Le suivi de la traçabilité des artifacts offre plusieurs avantages clés :
+
+* **Reproductibilité** : permet aux équipes de reproduire des expériences, des modèles et des résultats à des fins de débogage, d&#39;expérimentation et de validation.
+* **Gestion des versions** : suit les modifications apportées aux artifacts au fil du temps, ce qui permet aux équipes de revenir à des versions antérieures des données ou des modèles si nécessaire.
+* **Audit** : maintient un historique détaillé des artifacts et des transformations pour prendre en charge la conformité et la gouvernance.
+* **Collaboration** : améliore le travail d&#39;équipe en rendant l&#39;historique des expériences transparent, en réduisant les efforts redondants et en accélérant le développement.
+
+<div id="view-an-artifacts-lineage-graph">
+  ## Afficher le graphe de traçabilité d’un artifact
+</div>
+
+Pour afficher le graphe de traçabilité d’un artifact :
+
+1. Accédez au Workspace de votre projet dans la W&amp;B App.
+2. Cliquez sur l’onglet **Artifacts** dans la barre latérale du projet.
+3. Sélectionnez un artifact, puis cliquez sur l’onglet **Lineage**.
+
+<div id="navigate-lineage-graphs">
+  ## Naviguer dans les graphes de traçabilité
+</div>
+
+Le graphe de traçabilité est une représentation visuelle des relations entre les Artifacts et les Runs dans une expérience de ML. Utilisez la W&amp;B App UI ou le SDK Python pour explorer et parcourir le graphe de traçabilité d&#39;un artifact.
+
+<Tabs>
+  <Tab title="W&B App UI">
+    Les nœuds avec des icônes vertes représentent des runs. Les nœuds avec des icônes bleues représentent des artifacts. Les flèches entre les nœuds indiquent les entrées et les sorties d&#39;un run ou d&#39;un artifact.
+
+    Les nœuds d&#39;artifact affichent le nom de l&#39;artifact ainsi que sa version, sous la forme `<artifact_name>:<version>`. Le type d&#39;un artifact s&#39;affiche au-dessus de son nom.
+
+    <Note>
+      Vous pouvez voir le type et le nom de l&#39;artifact à la fois dans la barre latérale gauche et dans le nœud du graphe de traçabilité.
+    </Note>
+
+    Les nœuds de run affichent le nom du run.
+
+    <Frame>
+      <img src="/images/artifacts/lineage2.png" alt="Nœuds de run et d'artifact" />
+    </Frame>
+
+    Cliquez sur n&#39;importe quel run pour afficher plus d&#39;informations à son sujet, comme son heure de début, sa durée, son auteur, son type de job, etc. Cliquez sur n&#39;importe quel artifact pour afficher plus d&#39;informations à son sujet, comme ses alias, son heure de création, son type, sa version, sa description, le run qui a enregistré l&#39;artifact, la taille du fichier, etc.
+
+    <Frame>
+      <img src="/images/artifacts/lineage3a.gif" alt="Aperçu d'un run" />
+    </Frame>
+
+    Les Runs qui créent plusieurs versions du même artifact sont regroupés dans un cluster. Cliquez sur une version spécifique de l&#39;artifact répertoriée dans le cluster pour afficher les informations propres à cette version.
+
+    <Frame>
+      <img src="/images/artifacts/lineage_multiple_artifact_versions.png" alt="Cluster de versions d'artifact dans un graphe de traçabilité" />
+    </Frame>
+
+    Cliquez sur un nœud et faites-le glisser pour réorganiser le graphe et personnaliser la mise en page. Vous pouvez également zoomer et dézoomer sur le graphe pour mieux voir les nœuds et leurs relations.
+
+    <Frame>
+      <img src="/images/artifacts/lineage_rearrange_nodes.gif" alt="Réorganisation des nœuds dans un graphe de traçabilité" />
+    </Frame>
+
+    Survolez un nœud avec la souris et cliquez sur l&#39;icône en forme d&#39;œil pour masquer ou afficher un nœud dans le graphe. Cela permet de désencombrer le graphe afin de vous concentrer sur des nœuds spécifiques et leurs relations.
+  </Tab>
+
+  <Tab title="W&B Python SDK">
+    Naviguez dans un graphe par programmation à l&#39;aide du W&amp;B Python SDK. Utilisez les méthodes
+    [`logged_by()`](/fr/models/ref/python/experiments/artifact#method-artifact-logged-by) et [`used_by()`](/fr/models/ref/python/experiments/artifact#method-artifact-used-by) d&#39;un objet artifact pour parcourir le graphe :
+
+    ```python
+    with wandb.init() as run:
+        artifact = run.use_artifact("artifact_name:latest")
+
+        # Parcourir le graphe dans les deux sens à partir d'un artifact :
+        producer_run = artifact.logged_by()
+        consumer_runs = artifact.used_by()
+    ```
+  </Tab>
+</Tabs>
+
+<div id="enable-lineage-graph-tracking">
+  ## Activer le suivi du graphe de traçabilité
+</div>
+
+Pour activer le suivi du graphe de traçabilité, vous devez marquer des artifacts comme [entrées](/fr/models/artifacts/explore-and-traverse-an-artifact-graph) ou
+[sorties](/fr/models/artifacts/explore-and-traverse-an-artifact-graph#track-the-output-of-a-run) d’un run à l’aide du W&amp;B Python SDK.
+
+<div id="track-the-input-of-a-run">
+  ### Suivre l’entrée d’un run
+</div>
+
+Marquez un artifact comme entrée (ou dépendance) d’un run avec la
+méthode [`wandb.Run.use_artifact()`](/fr/models/ref/python/experiments/run#method-runuse_artifact).
+Indiquez le nom de l’artifact et un alias facultatif pour désigner une version spécifique de cet artifact. Le nom de l’artifact
+est au format `<artifact_name>:<version>` ou `<artifact_name>:<alias>`.
+
+Remplacez les valeurs entre chevrons (`< >`) par les vôtres :
+
+```python
+import wandb
+
+# Initialiser un run
+with wandb.init(entity="<entity>", project="<project>") as run:
+  # Obtenir l'artifact, le marquer comme dépendance
+  artifact = run.use_artifact(artifact_or_name="<name>", aliases="<alias>")
+```
+
+<div id="track-the-output-of-a-run">
+  ### Suivre la sortie d&#39;un run
+</div>
+
+Utilisez [`wandb.Run.log_artifact()`](/fr/models/ref/python/experiments/run#log_artifact) pour déclarer un artifact comme sortie d&#39;un run. Commencez par créer un artifact avec le constructeur [`wandb.Artifact()`](/fr/models/ref/python/experiments/artifact#wandb.Artifact). Ensuite, enregistrez l&#39;artifact comme sortie du run avec `wandb.Run.log_artifact()`.
+
+Remplacez les valeurs entre chevrons (`< >`) par vos propres valeurs :
+
+```python
+import wandb
+
+# Initialiser un run
+with wandb.init(entity="<entity>", project="<project>") as run:
+  
+  # Créer un artifact
+  artifact = wandb.Artifact(name = "<artifact_name>", type = "<artifact_type>")
+  artifact.add_file(local_path = "<local_filepath>", name="<optional-name>")
+
+  # Enregistrer l'artifact en tant que sortie du run
+  run.log_artifact(artifact_or_path = artifact)
+```
+
+<div id="artifact-clusters">
+  ## Clusters d’Artifacts
+</div>
+
+Lorsqu’un niveau du graphe comporte au moins cinq runs ou Artifacts, un cluster est créé. Un cluster comprend une barre de recherche permettant de trouver des versions spécifiques de runs ou d’Artifacts et d’extraire un nœud individuel du cluster afin de poursuivre l’examen de la traçabilité d’un nœud qu’il contient.
+
+Cliquer sur un nœud ouvre un aperçu du nœud. Cliquer sur la flèche extrait le run ou l’Artifact individuel afin que vous puissiez examiner la traçabilité du nœud extrait.
+
+<Frame>
+  <img src="/images/artifacts/lineage3b.gif" alt="Recherche dans un cluster de runs" />
+</Frame>

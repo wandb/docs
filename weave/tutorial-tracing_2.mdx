@@ -1,20 +1,18 @@
 ---
-title: "Track Application Logic"
-description: "Learn how to track data flow and metadata in your LLM applications"
+title: "Trace nested functions"
+description: "Learn how to track deeply nested Call structures with W&B tracing"
+keywords: ["nested traces", "weave.op", "parent-child calls", "weave.attributes", "metadata"]
 ---
 
-In the [Track LLM inputs & outputs](/weave/quickstart) tutorial, the basics of tracking the inputs and outputs of your LLMs was covered.
+This tutorial shows you how to trace nested functions in Weave so you can monitor the full execution flow of an LLM-powered application, including its sub-functions and their parent-child relationships. By the end, you'll be able to capture, visualize, and add metadata to nested traces in the Weave **Traces** page.
 
-In this tutorial you will learn how to:
+LLM-powered applications can contain multiple LLM calls, additional data processing, and validation logic that's important to monitor. You can track these nested functions and their parent-child relationships in Weave using the `@weave.op()` decorator (Python), or wrap it with `weave.op()` (TypeScript).
 
-- **Track data** as it flows through your application
-- **Track metadata** at call time
+Decorate functions and sub-functions as granularly as possible to capture the application's complete execution flow. This helps you better understand and shape your application's behavior.
 
-## Tracking nested function calls
+## Trace nested functions
 
-LLM-powered applications can contain multiple LLMs calls and additional data processing and validation logic that is important to monitor. Even deep nested call structures common in many apps, Weave will keep track of the parent-child relationships in nested functions as long as `weave.op()` is added to every function you'd like to track.
-
-Building on the [quickstart example](/weave/quickstart), the following code adds additional logic to count the returned items from the LLM and wrap them all in a higher level function. Additionally, the example uses `weave.op()` to trace every function, its call order, and its parent-child relationship:
+This section steps through an example that traces a function and its nested sub-functions. The following code builds on the [quickstart example](/weave/quickstart) and adds logic to count the returned items from the LLM and wrap them in a higher-level function. Additionally, the example uses `weave.op()` to trace every function, its call order, and its parent-child relationship:
 
 <Tabs>
   <Tab title="Python">
@@ -53,7 +51,7 @@ Building on the [quickstart example](/weave/quickstart), the following code adds
 
     @weave.op()
     def dino_tracker(sentence: str) -> dict:
-        # extract dinosaurs using a LLM
+        # extract dinosaurs using an LLM
         dino_data = extract_dinos(sentence)
 
         # count the number of dinosaurs returned
@@ -72,14 +70,15 @@ Building on the [quickstart example](/weave/quickstart), the following code adds
     ```
     **Nested functions**
 
-    When you run the above code, you see the the inputs and outputs from the two nested functions (`extract_dinos` and `count_dinos`), as well as the automatically-logged OpenAI trace.
+    When you run the preceding code, the **Traces** page shows the inputs and outputs from the two nested functions (`extract_dinos` and `count_dinos`), as well as the automatically-logged OpenAI trace.
 
-    ![Nested Weave Trace](/images/tutorial_tracing_2_nested_dinos.png)
+    ![Nested Weave Traces page showing the center trace tree panel and the details panel for the selected Call](/images/tutorial_tracing_2_nested_dinos.png)
 
   </Tab>
   <Tab title="TypeScript">
 
-    ```typescript
+    ```typescript twoslash
+    // @noErrors
     import OpenAI from 'openai';
     import * as weave from 'weave';
 
@@ -129,19 +128,21 @@ Building on the [quickstart example](/weave/quickstart), the following code adds
 
     **Nested functions**
 
-    When you run the above code, you see the the inputs and outputs from the two nested functions (`extractDinos` and `countDinos`), as well as the automatically-logged OpenAI trace.
 
+    When you run the preceding code, the **Traces** page shows the inputs and outputs from the two nested functions (`extract_dinos` and `count_dinos`), as well as the automatically-logged OpenAI trace.
     {/* TODO: Update to TS screenshot */}
-    ![Nested Weave Trace](/images/tutorial_tracing_2_nested_dinos.png)
+    ![Nested Weave Traces page showing the center trace tree panel and the details panel for the selected Call](/images/tutorial_tracing_2_nested_dinos.png)
 
   </Tab>
 </Tabs>
 
-## Tracking metadata
+After running the code, you have a complete nested trace in Weave that captures each function call and its relationship to the others.
 
-You can track metadata by using the `weave.attributes` context manager and passing it a dictionary of the metadata to track at call time.
+## Track metadata
 
-Continuing our example from above:
+Now that Weave traces your nested functions, you can enrich those traces with additional context about the run, such as the user or environment. You can track metadata by using the `weave.attributes` context manager and passing it a dictionary of the metadata to track at call time.
+
+Continuing the previous example:
 
 <Tabs>
   <Tab title="Python">
@@ -154,7 +155,7 @@ Continuing our example from above:
     both carnivore and herbivore locked in an ancient dance. Meanwhile, a gentle giant \
     Brachiosaurus (Brachi) calmly munched on treetops, blissfully unaware of the chaos below."""
 
-    # track metadata alongside our previously defined function
+    # track metadata alongside the previously defined function
     with weave.attributes({'user_id': 'lukas', 'env': 'production'}):
         result = dino_tracker(sentence)
     ```
@@ -162,17 +163,19 @@ Continuing our example from above:
   </Tab>
   <Tab title="TypeScript">
     ```plaintext
-    This feature is not available in TypeScript yet.  Stay tuned!
+    This feature is not available in TypeScript yet.
     ```
   </Tab>
 </Tabs>
 
 <Note>
-We recommend tracking metadata at run time, such as your user IDs and your code's environment status (development, staging, or production).
+Track metadata at run time, such as your user IDs and your code's environment status (development, staging, or production).
 
-To track system settings, such as a system prompt, we recommend using [Weave Models](/weave/guides/core-types/models)
+To track system settings, such as a system prompt, use [Weave Models](/weave/guides/core-types/models).
 </Note>
 
-## What's next?
+For more information on using attributes, see [Define and log attributes](/weave/guides/tools/attributes).
+
+## What's next
 
 - Follow the [App Versioning tutorial](/weave/tutorial-weave_models) to capture, version, and organize ad-hoc prompt, model, and application changes.

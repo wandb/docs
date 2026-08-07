@@ -59,7 +59,7 @@ If you still need alternatives:
 The primary way to generate reference documentation is through the GitHub Actions workflows:
 
 #### Full Reference Generation
-1. Go to the [Actions tab](https://github.com/wandb/mintlifytest/actions) in the repository
+1. Go to the [Actions tab](https://github.com/wandb/docs/actions) in the repository
 2. Select "Generate Weave references" workflow
 3. Click "Run workflow"
 4. Enter the Weave version:

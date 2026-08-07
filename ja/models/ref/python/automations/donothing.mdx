@@ -1,32 +1,28 @@
 ---
 title: DoNothing
-namespace: automations_namespace
-python_object_type: class
+kind: クラス
+namespace: wandb.automations.actions
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py" />
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py#L208" />
 
-
-## <kbd>class</kbd> `DoNothing`
-意図的に何もしない オートメーション アクションを定義します。
-
-
-### <kbd>method</kbd> `DoNothing.__init__`
+## <kbd>クラス</kbd> wandb.automations.DoNothing
 
 ```python
-__init__(
-    no_op: 'bool' = True,
-    action_type: 'Literal[NO_OP]' = NO_OP
-) → None
+*,
+no_op: Annotated[bool, BeforeValidator(func=<function default_if_none>, json_schema_input_type=PydanticUndefined)] = True,
+action_type: Literal[NO_OP] = NO_OP
 ```
 
-**Args:**
- 
- - `no_op` (bool): バックエンドのスキーマ要件を満たすためにのみ存在するプレースホルダーフィールド。
-   この値は無視されるため、明示的に設定する必要はありません。
- - `action_type` (Literal[NO_OP]): 
+意図的に何もしないオートメーションアクションを定義します。
 
-**Returns:**
- `DoNothing` オブジェクト 。
+<div id="args">
+  ## 引数
+</div>
+
+* `no_op`: バックエンドのスキーマ要件を満たすためだけに存在するプレースホルダーフィールドです。
+
+  このフィールドの値は無視されるため、明示的に設定する必要はありません。
+* `action_type`: 

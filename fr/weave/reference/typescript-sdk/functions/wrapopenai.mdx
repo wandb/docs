@@ -1,0 +1,51 @@
+---
+title: "wrapOpenAI"
+description: "Référence du SDK TypeScript"
+---
+
+<div id="wrapopenai">
+  # wrapOpenAI
+</div>
+
+▸ **wrapOpenAI**&lt;`T`&gt;(`openai`): `T`
+
+Encapsule l’API OpenAI pour activer le tracing des fonctions lors des appels à OpenAI.
+
+<div id="type-parameters">
+  #### Paramètres de type
+</div>
+
+| Nom | Type                |
+| :-- | :------------------ |
+| `T` | extends `OpenAIAPI` |
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom      | Type |
+| :------- | :--- |
+| `openai` | `T`  |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`T`
+
+`Example`
+
+```ts twoslash
+// @noErrors
+const openai = wrapOpenAI(new OpenAI());
+const result = await openai.chat.completions.create({
+  model: 'gpt-3.5-turbo',
+  messages: [{ role: 'user', content: 'Hello, world!' }]
+});
+```
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[src/integrations/openai.ts:723](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/openai.ts#L723)

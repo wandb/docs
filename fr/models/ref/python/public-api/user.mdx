@@ -1,0 +1,93 @@
+---
+title: User
+kind: class
+namespace: wandb.apis.public.users
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/users.py#L26" />
+
+## <kbd>class</kbd> wandb.apis.public.User
+
+Un utilisateur sur une instance W&amp;B.
+
+Cette classe permet de gérer les clés API d’un utilisateur et d’accéder à des informations telles que les équipes auxquelles il appartient. La méthode de classe `create` peut être utilisée pour créer un nouvel utilisateur.
+
+<div id="properties">
+  ## Propriétés
+</div>
+
+### <kbd>propriété</kbd> api_keys
+
+Noms des clés API de l&#39;utilisateur.
+
+Cette propriété renvoie les noms des clés API, *et non* le secret associé à chaque clé. Le nom d&#39;une clé ne peut pas être utilisé comme clé API.
+
+La liste est vide si l&#39;utilisateur n&#39;a pas de clés API ou si celles-ci n&#39;ont pas été chargées.
+
+### <kbd>propriété</kbd> teams
+
+Noms des équipes auxquelles l’utilisateur appartient.
+
+Il s’agit d’une liste vide si l’utilisateur n’appartient à aucune équipe ou si les données des équipes n’ont pas été chargées.
+
+### <kbd>propriété</kbd> user_api
+
+Une instance `wandb.Api` qui utilise les identifiants de l’utilisateur.
+
+<div id="methods">
+  ## Méthodes
+</div>
+
+### <kbd>méthode</kbd> User.create()
+
+```python
+api: 'Api',
+email: 'str',
+admin: 'bool | None' = False
+```
+
+Créez un nouvel utilisateur.
+
+Il s&#39;agit d&#39;une méthode interne. Utilisez plutôt la méthode `create_user()` de `wandb.Api`.
+
+<div id="arguments">
+  ##### Arguments
+</div>
+
+* `api` : L’instance d’API à utiliser pour créer l’utilisateur.
+* `email` : L’adresse e-mail de l’utilisateur.
+* `admin` : Indique si cet utilisateur doit être admin global de l’instance.
+
+### <kbd>méthode</kbd> User.delete_api_key()
+
+```python
+self,
+api_key: 'str'
+```
+
+Supprime une clé API d’un utilisateur.
+
+Seul le propriétaire de la clé ou un administrateur peut la supprimer.
+
+<div id="arguments">
+  ##### Arguments
+</div>
+
+* `api_key`: Le nom de la clé API à supprimer. Utilisez l’un des noms renvoyés par la propriété `api_keys`.
+
+### <kbd>méthode</kbd> User.generate_api_key()
+
+```python
+self,
+description: 'str | None' = None
+```
+
+Générez une nouvelle clé API.
+
+<div id="arguments">
+  ##### Arguments
+</div>
+
+* `description`: Une description de la nouvelle clé API. Elle peut être utilisée pour identifier l’usage de la clé API.

@@ -1,69 +1,61 @@
 ---
-description: Deploy W&B Self-Managed in production
-title: Self-Managed
+description: Deploy W&B Self-Managed on cloud or on-premises infrastructure
+title: W&B Self-Managed deployment overview
+sidebarTitle: Deployment overview
+keywords: ["self-hosted W&B", "on-premises deployment", "private cloud", "W&B Server", "helm chart"]
 ---
 
-## Use W&B Self-Managed on cloud or on-prem infrastructure
-
-<Note>
-W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) or [W&B Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
-</Note>
-
-Deploy W&B Server on your [AWS, Google Cloud, or Azure cloud account](#deploy-wb-server-within-Self-Managed-cloud-accounts) or within your [on-premises infrastructure](#deploy-wb-server-in-on-prem-infrastructure). 
-
-Your IT/DevOps/MLOps team is responsible for:
-- Provisioning your deployment.
-- Securing your infrastructure in accordance with your organization's policies, [Security Technical Implementation Guidelines (STIG)](https://en.wikipedia.org/wiki/Security_Technical_Implementation_Guide), if applicable.
-- Maintaining compliance with your organization's regulatory requirements, such as [Service and Organization Controls (SOC) 2 Type 2](https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2) and [Health Insurance Portability and Accountability Act of 1996 (HIPAA)](https://www.hhs.gov/hipaa/for-professionals/index.html).
-- Managing upgrades and applying patches.
-- Continuously maintaining your W&B Self-Managed W&B deployment.
 
 <Tip>
-If your organization is subject to regulatory requirements, consider deploying on [W&B Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud.mdx), which is maintained by W&B.
+W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) or [W&B Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud). W&B fully managed services are secure to use, with minimal configuration required.
+</Tip>
+
+W&B Self-Managed lets you run W&B Server in infrastructure you control, so you can meet internal policies for data residency, network isolation, and compliance. This overview is for IT, DevOps, and MLOps teams who plan, deploy, and operate W&B Server on their own cloud account or on-premises infrastructure.
+
+Deploy W&B Server on your [AWS, Google Cloud, or Azure cloud account](#deploy-wb-server-within-Self-Managed-cloud-accounts) or within your [on-premises infrastructure](#deploy-wb-server-in-on-prem-infrastructure).
+
+Your IT, DevOps, or MLOps team has the following responsibilities:
+- Provision your deployment.
+- Secure your infrastructure in accordance with your organization's policies, [Security Technical Implementation Guidelines (STIG)](https://en.wikipedia.org/wiki/Security_Technical_Implementation_Guide), if applicable.
+- Maintain compliance with your organization's regulatory requirements, such as [Service and Organization Controls (SOC) 2 Type 2](https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2) and [Health Insurance Portability and Accountability Act of 1996 (HIPAA)](https://www.hhs.gov/hipaa/for-professionals/index.html).
+- Manage upgrades and apply patches.
+- Maintain your W&B Self-Managed deployment on an ongoing basis.
+
+<Info>
+If your organization is subject to regulatory requirements, consider deploying on [W&B Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud), which is maintained by W&B.
 - W&B Dedicated Cloud's hosting platform meets the requirements of SOC 2 Type 2.
 - When configured appropriately, a W&B Dedicated Cloud deployment complies with HIPAA.
 
 Refer to the [W&B Security Portal](https://security.wandb.ai/) to request more information.
-</Tip>
+</Info>
 
-{/* Check [Obtain your W&B Server license](#obtain-your-wb-server-license) to complete the setup. */}
+## About the W&B Kubernetes Operator
 
-## Deploy W&B Server within Self-Managed cloud accounts
+W&B Self-Managed installations are delivered and managed through a Kubernetes operator, which handles the day-to-day complexity of running W&B Server.
 
-W&B recommends that you use official W&B Terraform scripts to deploy W&B Server into your AWS, Google Cloud, or Azure cloud account.
+Use the W&B Kubernetes Operator to deploy W&B Self-Managed. The operator simplifies deploying, administering, troubleshooting, and scaling W&B.
 
-See specific cloud provider documentation for more information on how to set up W&B Server in [AWS](/platform/hosting/self-managed/aws-tf), [Google Cloud](/platform/hosting/self-managed/gcp-tf), or [Azure](/platform/hosting/self-managed/azure-tf).
+The operator connects to a central [deploy.wandb.ai](https://deploy.wandb.ai) server to request the latest specification changes for a given release channel and apply them. The operator receives updates as long as the license is valid. The operator uses [Helm](https://helm.sh/) both to install itself and to manage the W&B Kubernetes stack. The deployment consists of multiple pods, one per service, and each pod name is prefixed with `wandb-`.
 
-## Deploy W&B Server in on-prem infrastructure
+Configuration follows a hierarchy: **Release Channel Values** (defaults from W&B), **User Input Values** (overrides via the System Console), and **Custom Resource Values** (your spec overrides both).
 
-To set up W&B Server in your on-premises infrastructure, you need to configure several infrastructure components. Some of those components include, but are not limited to: 
+Use the following resources based on your deployment target:
+- To deploy W&B Self-Managed in public cloud or on-premises infrastructure, see [Deploy W&B with Kubernetes Operator](/platform/hosting/self-managed/operator).
+- To deploy W&B Self-Managed to a custom cloud platform that isn't AWS, the requirements are similar to the requirements to deploy in [on-premises infrastructure](#deploy-wb-server-in-on-prem-infrastructure).
+- To deploy W&B Self-Managed in air-gapped environments, see [Deploy on Air-Gapped Kubernetes](/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped).
 
-- (Strongly recommended) Kubernetes cluster
-- MySQL 8 database cluster
+You can optionally configure rate limits on your instance to maintain stability. For more information, see [Rate limits](/platform/hosting/self-managed/rate-limits).
+
+## Required infrastructure
+
+Before you deploy, make sure the following infrastructure is available. All W&B Self-Managed deployment options depend on these components:
+- Kubernetes
+- MySQL 8.4.x database
 - Amazon S3-compatible object storage
-- Redis cache cluster
+- Redis cache
 
-See [Install on on-prem infrastructure](/platform/hosting/self-managed/bare-metal) for detailed instructions to install W&B Server on your on-prem infrastructure. W&B can provide recommendations for the different components and provide guidance through the installation process.
-
-## Deploy W&B Server on a custom cloud platform
-
-You can deploy W&B Server to a cloud platform that is not AWS, Google Cloud, or Azure. Requirements for that are similar to that for deploying in [on-prem infrastructure](#deploy-wb-server-in-on-prem-infrastructure).
+W&B can provide recommendations for the different components and provide guidance through the installation process. For more information, see [Requirements](/platform/hosting/self-managed/requirements).
 
 ## Obtain your W&B Server license
 
-You need a W&B trial license to complete your configuration of the W&B server. Open the [Deploy Manager](https://deploy.wandb.ai/deploy) to generate a free trial license. 
-
-<Note>
-If you do not already have a W&B account, create one to generate your free license.
-
-If you need an enterprise license for W&B Server which includes support for important security & other enterprise-friendly capabilities, [submit this form](https://wandb.ai/site/for-enterprise/self-hosted-trial) or reach out to your W&B team.
-</Note>
-
-The URL redirects you to a **Get a License for W&B Local** form. Provide the following information:
-
-1. Choose a deployment type from the **Choose Platform** step.
-2. Select the owner of the license or add a new organization in the **Basic Information** step.
-3. Provide a name for the instance in the **Name of Instance** field and optionally provide a description in the **Description** field in the **Get a License** step.
-4. Select the **Generate License Key** button.
-
-A page displays with an overview of your deployment along with the license associated with the instance.
+A W&B Server license authorizes your deployment. You must obtain a license before installation. For step-by-step instructions, see [License](/platform/hosting/self-managed/requirements#license) on the Requirements page.

@@ -1,18 +1,18 @@
 ---
-description: How to integrate W&B with DeepChecks.
+description: "Integrate W&B with Deepchecks to validate ML models and datasets with automated testing and experiment tracking."
 title: DeepChecks
 ---
-import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
+import { ColabLink } from '/snippets/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/deepchecks/deepchecks/blob/0.5.0-1-g5380093/docs/source/examples/guides/export_outputs_to_wandb.ipynb" />
 
-DeepChecks helps you validate your machine learning models and data, such as verifying your data’s integrity, inspecting its distributions, validating data splits, evaluating your model and comparing between different models, all with minimal effort.
+DeepChecks helps you validate your machine learning models and data with minimal effort. You can verify your data's integrity, inspect its distributions, validate data splits, evaluate your model, and compare different models. This page shows how to use the DeepChecks integration with W&B so you can log validation results and test suites alongside your experiments.
 
-[Read more about DeepChecks and the wandb integration ->](https://docs.deepchecks.com/stable/general/usage/exporting_results/auto_examples/plot_exports_output_to_wandb.html)
+For more information, see the [DeepChecks W&B integration guide](https://docs.deepchecks.com/stable/general/usage/exporting_results/auto_examples/plot_exports_output_to_wandb.html).
 
-## Getting Started
+## Get started
 
-To use DeepChecks with W&B you will first need to sign up for a [W&B account](https://wandb.ai/site). With the W&B integration in DeepChecks you can quickly get started like so:
+To use DeepChecks with W&B, first sign up for a [W&B account](https://wandb.ai/site). With the W&B integration in DeepChecks, you can get started by running a single check and pushing the result to W&B:
 
 ```python
 import wandb
@@ -29,7 +29,7 @@ result = ModelErrorAnalysis()
 result.to_wandb()
 ```
 
-You can also log an entire DeepChecks test suite to W&B.
+In addition to logging individual checks, you can log an entire DeepChecks test suite to W&B:
 
 ```python
 import wandb
@@ -49,10 +49,10 @@ suite_result.to_wandb(project="my-suite-project", config={"suite-name": "full-su
 
 ## Example
 
-[This Report](https://wandb.ai/cayush/deepchecks/reports/Validate-your-Data-and-Models-with-Deepchecks-and-W-B--VmlldzoxNjY0ODc5) shows off the power of using DeepChecks and W&B.
+To see what the integration looks like in practice, explore the [Validate your data and models with Deepchecks and W&B report](https://wandb.ai/cayush/deepchecks/reports/Validate-your-Data-and-Models-with-Deepchecks-and-W-B--VmlldzoxNjY0ODc5), which demonstrates how to use DeepChecks and W&B together.
 
 <Frame>
     <img src="/images/integrations/deepchecks_example.png" alt="Deepchecks data validation results"  />
 </Frame>
 
-Any questions or issues about this W&B integration? Open an issue in the [DeepChecks github repository](https://github.com/deepchecks/deepchecks) and we'll catch it and get you an answer.
+If you have questions or issues about this W&B integration, open an issue in the [DeepChecks GitHub repository](https://github.com/deepchecks/deepchecks) and we'll get you an answer.

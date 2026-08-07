@@ -1,59 +1,78 @@
 ---
-title: W&B のライセンスと バージョン の更新
-description: 異なるインストール方法における W&B の バージョン とライセンスの更新に関する ガイド。
+description: さまざまなインストール方法で W&B のバージョンとライセンスを更新するためのガイド。
+title: W&B のライセンスとバージョンを更新する
+keywords: ["server upgrade", "license renewal", "Helm upgrade", "Terraform update", "version migration"]
 ---
 
-W&B Server のバージョンとライセンスの更新は、W&B Server をインストールした際と同じメソッドを使用して行います。以下の表は、デプロイメント方法に基づいたライセンスとバージョンの更新方法をまとめたものです。
+このガイドでは、既存のセルフマネージドデプロイにおける W&amp;B Server のバージョンとライセンスキーを更新する方法を、W&amp;B Server 管理者向けに説明します。サーバーとライセンスを最新の状態に保つことで、最新の機能や修正を利用できるほか、W&amp;B Server を継続して使用する権利も維持できます。
 
-| リリースタイプ | 説明 |
-| ---------------- | ------------------ |
-| [Terraform](#update-with-terraform) | W&B はクラウドデプロイメント用に 3 つのパブリック Terraform モジュールをサポートしています: [AWS](https://registry.terraform.io/modules/wandb/wandb/aws/latest)、[Google Cloud](https://registry.terraform.io/modules/wandb/wandb/google/latest)、[Azure](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest)。 |
-| [Helm](#update-with-helm) | [Helm Chart](https://github.com/wandb/helm-charts) を使用して、既存の Kubernetes クラスターに W&B をインストールできます。 |
+W&amp;B Server のバージョンとライセンスは、W&amp;B Server のインストール時と同じ方法で更新してください。次の表は、デプロイ方法ごとにライセンスとバージョンを更新する方法を示しています。
 
-## Terraform を使用した更新
+| Release type                        | Description                                                                                                                                                                                                                                                                              |
+| ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Terraform](#update-with-terraform) | W&amp;B は、クラウドデプロイ向けに 3 つの公開 Terraform モジュールをサポートしています。[AWS](https://registry.terraform.io/modules/wandb/wandb/aws/latest)、[Google Cloud](https://registry.terraform.io/modules/wandb/wandb/google/latest)、[Azure](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest) です。 |
+| [Helm](#update-with-helm)           | [Helm チャート](https://github.com/wandb/helm-charts) を使用して、既存の Kubernetes クラスターに W&amp;B をインストールできます。                                                                                                                                                                                       |
 
-Terraform を使用してライセンスとバージョンを更新します。以下の表に、クラウドプラットフォームごとの W&B 管理 Terraform モジュールを示します。
+<div id="update-with-terraform">
+  ## Terraform を使用して更新する
+</div>
 
-| クラウドプロバイダー | Terraform モジュール |
-|-----|-----|
-| AWS | [AWS Terraform モジュール](https://registry.terraform.io/modules/wandb/wandb/aws/latest) |
-| Google Cloud | [Google Cloud Terraform モジュール](https://registry.terraform.io/modules/wandb/wandb/google/latest) |
-| Azure | [Azure Terraform モジュール](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest) |
+W&amp;B が管理する Terraform モジュールのいずれかを使用して W&amp;B Server をデプロイした場合は、Terraform を使用してライセンスキーと W&amp;B バージョンの両方をその場で更新します。次の表は、クラウドプラットフォーム別の W&amp;B 管理 Terraform モジュールを示します。
 
-1. まず、お使いのクラウドプロバイダーに対応する W&B 管理の Terraform モジュールを確認します。上の表を参照して、適切なモジュールを見つけてください。
-2. Terraform 設定内の `wandb_app` モジュール設定で、`wandb_version` と `license` を更新します。
+| Cloud provider | Terraform module                                                                                 |
+| -------------- | ------------------------------------------------------------------------------------------------ |
+| AWS            | [AWS Terraform module](https://registry.terraform.io/modules/wandb/wandb/aws/latest)             |
+| Google Cloud   | [Google Cloud Terraform module](https://registry.terraform.io/modules/wandb/wandb/google/latest) |
+| Azure          | [Azure Terraform module](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest)       |
+
+1. 利用しているクラウドプロバイダ向けの、W&amp;B が管理する Terraform モジュールにアクセスします。前の表を参照して、利用しているクラウドプロバイダに一致する Terraform モジュールを検索してください。
+
+2. Terraform の設定で、Terraform の `wandb_app` モジュール設定にある `wandb_version` と `license` を更新します。
 
    ```hcl
    module "wandb_app" {
-       source  = "wandb/wandb/<cloud-specific-module>"
+       source  = "wandb/wandb/[CLOUD-SPECIFIC-MODULE]"
        version = "new_version"
        license       = "new_license_key" # 新しいライセンスキー
-       wandb_version = "new_wandb_version" # 希望する W&B バージョン
+       wandb_version = "new_wandb_version" # 使用する W&B バージョン
        ...
    }
    ```
-3. `terraform plan` と `terraform apply` を実行して、Terraform 設定を適用します。
+
+3. `terraform plan` と `terraform apply` を使用して Terraform の設定を適用します。
    ```bash
    terraform init
    terraform apply
    ```
 
-4. （任意） `terraform.tfvars` やその他の `.tfvars` ファイルを使用している場合。
-
-   新しい W&B バージョンとライセンスキーで `terraform.tfvars` ファイルを更新または作成します。
+4. 任意: `terraform.tfvars` またはその他の `.tfvars` ファイルを使用している場合は、新しい W&amp;B バージョンとライセンスキーを含むファイルを更新するか、新規作成します。
    ```bash
    terraform plan -var-file="terraform.tfvars"
    ```
-   設定を適用します。Terraform の ワークスペース ディレクトリーで以下を実行してください。
+   Terraform Workspace ディレクトリから、設定を適用します。
    ```bash
    terraform apply -var-file="terraform.tfvars"
    ```
 
-## Helm を使用した更新
+Terraform による変更の適用後、デプロイでは指定した W&amp;B バージョンが実行され、更新されたライセンスキーが使用されます。
 
-### スペックによる W&B の更新
+<div id="update-with-helm">
+  ## Helm を使用して更新
+</div>
 
-1. Helm チャートの `*.yaml` 設定ファイルで `image.tag` や `license` の値を変更し、新しいバージョンを指定します。
+<Warning>
+  `wandb` Helm チャートは非推奨であり、サポートが終了しました。このチャートは単一の pod をデプロイするものでしたが、現在は [W&amp;B Kubernetes Operator](/ja/platform/hosting/self-managed/operator) に置き換えられています。現在もこのチャートを使用している場合は、[移行ガイド](/ja/platform/hosting/self-managed/operator#migrate-self-managed-instances-to-wb-operator) に従って Operator へ移行してください。
+</Warning>
+
+Helm ベースの更新方法は 2 つあります。既存の Helm values ファイルから更新する方法と、新しい License と image tag を upgrade コマンドで直接設定する方法です。以下のセクションでは、それぞれの方法について説明します。
+
+<div id="update-wb-with-spec">
+  ### spec を使って W&amp;B を更新
+</div>
+
+トラッキングしている `*.yaml` の values ファイルで Helm の設定を管理している場合は、この方法を使用します。
+
+1. Helm チャートの `*.yaml` 設定ファイルで、`image.tag` または `license` の値、あるいはその両方を変更して、新しいバージョンを指定します。
 
    ```yaml
    license: 'new_license'
@@ -62,7 +81,7 @@ Terraform を使用してライセンスとバージョンを更新します。�
      tag: 'new_version'
    ```
 
-2. 次のコマンドを実行して Helm のアップグレードを実行します。
+2. values ファイルを使用して Helm repository を更新し、W&amp;B release をアップグレードします。
 
    ```bash
    helm repo update
@@ -71,9 +90,13 @@ Terraform を使用してライセンスとバージョンを更新します。�
      -f ${wandb_install_spec.yaml}
    ```
 
-### ライセンスとバージョンを直接更新する
+<div id="update-license-and-version-directly">
+  ### ライセンスとバージョンを直接更新する
+</div>
 
-1. 新しいライセンスキーとイメージタグを環境変数として設定します。
+この方法を使用すると、values ファイル を編集せずにライセンスとイメージタグを更新でき、既存の Helm リリース設定を再利用できます。
+
+1. 新しいライセンスキーとイメージタグを環境変数に設定します。
 
    ```bash
    export LICENSE='new_license'
@@ -89,13 +112,15 @@ Terraform を使用してライセンスとバージョンを更新します。�
      --reuse-values --set license=$LICENSE --set image.tag=$TAG
    ```
 
-詳細については、パブリックリポジトリ内の [アップグレードガイド](https://github.com/wandb/helm-charts/blob/main/upgrade) を参照してください。
+詳細は、パブリックリポジトリの[アップグレードガイド](https://github.com/wandb/helm-charts/blob/main/upgrade)を参照してください。
 
-## 管理 UI による更新
+<div id="update-with-admin-ui">
+  ## admin UI で更新
+</div>
 
-このメソッドは、W&B サーバーコンテナの環境変数でライセンスが設定されていない場合にのみ機能します。通常、セルフマネージド Docker インストールが該当します。
+デプロイ設定を変更せずに、W&amp;B App 内の admin UI を使用してライセンスキーをローテーションできます。この方法は、W&amp;B Server コンテナーで環境変数を使って設定していないライセンスを更新する場合にのみ利用でき、通常はセルフマネージドの Docker インストールが該当します。この方法で更新されるのはライセンスのみで、実行中の W&amp;B Server バージョンは変更されません。
 
-1. [W&B デプロイメントページ](https://deploy.wandb.ai/) から新しいライセンスを取得します。その際、アップグレード対象のデプロイメントの正しい組織およびデプロイメント ID と一致していることを確認してください。
-2. W&B App の **License** ページにアクセスします。 **Settings** > **License** をクリックするか、 `<host-url>/console/settings/license` に直接アクセスしてください。
-3. ライセンス管理セクションに移動します。
+1. [W&amp;B Deployment Page](https://deploy.wandb.ai/) から新しいライセンスを取得し、アップグレードする対象のデプロイに対して、正しい組織と deployment ID に一致していることを確認します。
+2. W&amp;B App の **License** ページにアクセスします。**Settings** &gt; **License** をクリックするか、`HOST_URL/console/settings/license` にアクセスします。ここで、`HOST_URL` は W&amp;B Server のホスト URL です。
+3. ライセンス管理のセクションにアクセスします。
 4. 新しいライセンスキーを入力し、変更を保存します。

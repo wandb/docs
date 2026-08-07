@@ -1,0 +1,73 @@
+---
+title: "W&B run の初期化やアップロードが遅いのはなぜですか？"
+keywords: ["Runs", "Experiments", "接続性"]
+---
+
+`wandb.init()` の実行が遅い場合やメトリクスのアップロードが遅い場合、原因としては通常、ネットワーク遅延、大きなメディア ペイロード、ログ頻度が高いこと、または W&amp;B service プロセスの起動が遅いことが挙げられます。
+
+<div id="slow-wandbinit">
+  ## wandb.init() が遅い
+</div>
+
+`wandb.init()` は W&amp;B API にアクセスして run を作成し、認証情報を確認します。数秒以上応答しない場合は、次を確認してください。
+
+* **接続を確認する**: `curl -I https://api.wandb.ai` を実行して、お使いのマシンから W&amp;B API に到達できることを確認してください。クラスター上のファイアウォールルールやプロキシ設定が一般的な原因です。
+
+* **init のタイムアウトを延長する**: 接続が断続的な場合は、`wandb.init()` がタイムアウトするまでの時間を長くしてください。
+
+  ```python
+  import os
+  os.environ["WANDB_INIT_TIMEOUT"] = "120"   # 秒
+  ```
+
+* **テスト中はオフラインモードを使用する**: 試行錯誤の際にリアルタイム同期が不要であれば、オフラインで実行して後で sync してください。`[TIMESTAMP]` と `[ID]` は、run のタイムスタンプと ID に置き換えてください。
+
+  ```bash
+  WANDB_MODE=offline python train.py
+  wandb sync wandb/run-[TIMESTAMP]-[ID]
+  ```
+
+<div id="slow-metric-uploads-during-training">
+  ## トレーニング中のメトリクスのアップロードが遅い
+</div>
+
+W&amp;B はメトリクスをバックグラウンドスレッドで非同期にアップロードするため、トレーニングループがブロックされることはありません。次のような場合は、アップロードが追いつかなくなることがあります。
+
+* **ログする頻度が高すぎる**: 高速な GPU で毎ステップ `wandb.log()` を呼び出すと、バックグラウンドスレッドがアップロードできる量を上回るデータが生成されることがあります。代わりに、N ステップごとにログしてください。
+
+  ```python
+  if step % 50 == 0:
+      wandb.log({"loss": loss}, step=step)
+  ```
+
+* **毎ステップ大きなメディアをログしている**: `wandb.Image`、`wandb.Table`、`wandb.Video` オブジェクトは、スカラーのメトリクスよりも大幅にサイズが大きくなります。リッチメディアは毎ステップではなく、エポックごと、または N ステップごとにログしてください。
+
+* **レート制限**: `429 Rate limit exceeded` エラーが発生する場合は、[rate limit exceeded エラーを修正するにはどうすればよいですか？](/ja/support/models/articles/rate-limit-exceeded-on-metric-logging)を参照してください。
+
+<div id="run-finalization-is-slow">
+  ## run の終了処理が遅い
+</div>
+
+スクリプトで `wandb.finish()` を呼び出した後 (またはスクリプトが終了した後) 、W&amp;B はバッファリングされた残りのデータをフラッシュします。トレーニング中に大量のバックログがたまっている場合は、これに時間がかかることがあります。最後にまとめて処理するのではなく、トレーニング全体を通して適切な頻度でログするようにしてください。
+
+<div id="diagnosing-with-debug-logs">
+  ## デバッグログを使った診断
+</div>
+
+デバッグログを有効にすると、どこに時間がかかっているかを確認できます。
+
+```bash
+WANDB_DEBUG=true python train.py
+```
+
+これにより、詳細なタイミング情報が `wandb/debug.log` と `wandb/debug-internal.log` に書き込まれます。
+
+詳細は、[Experiments の制限とパフォーマンス](/ja/models/track/limits) および [ネットワークの問題に対処するにはどうすればよいですか？](/ja/support/models/articles/how-do-i-deal-with-network-issues) を参照してください。
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Runs](/ja/support/models/tags/runs)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[接続性](/ja/support/models/tags/connectivity)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

@@ -1,81 +1,118 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
-# Check if there are any MDX files in the changeset
-if [ -n "$GITHUB_BASE_REF" ]; then
-  # In a PR context, check changed files
-  echo "Checking for changed MDX files in PR..."
-  
-  # Get the list of changed files
-  CHANGED_MDX=$(git diff --name-only "origin/$GITHUB_BASE_REF"...HEAD -- '*.mdx' 2>/dev/null | grep -E '\.mdx$' || true)
-  
-  if [ -z "$CHANGED_MDX" ]; then
+# Match .github/workflows/validate-mdx.yml: pages (.mdx), Mintlify config / OpenAPI (.json, .yaml),
+# common doc assets, and this validation script. OpenAPI and docs.json drive generated MDX at build time.
+MINTLIFY_RELEVANT_REGEX='(\.(mdx|json|ya?ml|png|jpe?g|webp)$|^scripts/mdx-validation/validate-mdx-mintlify\.sh$)'
+CHECK=${1:-all}
+
+case "$CHECK" in
+  all|validate|broken-links) ;;
+  *)
+    echo "Usage: $0 [all|validate|broken-links]"
+    exit 2
+    ;;
+esac
+
+# In CI pull_request runs, prefer explicit base/head SHAs (reliable; origin/$GITHUB_BASE_REF
+# may not exist after checkout). PR_BASE_SHA / PR_HEAD_SHA are set from the workflow.
+if [ -n "${PR_BASE_SHA:-}" ] && [ -n "${PR_HEAD_SHA:-}" ]; then
+  echo "Checking for Mintlify-relevant files in PR (${PR_BASE_SHA:0:7}...${PR_HEAD_SHA:0:7})..."
+  CHANGED_FILES=$(git diff --name-only --no-renames "${PR_BASE_SHA}...${PR_HEAD_SHA}")
+  CHANGED_RELEVANT=$(grep -E "$MINTLIFY_RELEVANT_REGEX" <<< "$CHANGED_FILES" || true)
+elif [ -n "${GITHUB_BASE_REF:-}" ]; then
+  # Local or legacy CI: compare against remote base ref
+  echo "Checking for Mintlify-relevant files in PR..."
+  CHANGED_FILES=$(git diff --name-only --no-renames "origin/${GITHUB_BASE_REF}...HEAD")
+  CHANGED_RELEVANT=$(grep -E "$MINTLIFY_RELEVANT_REGEX" <<< "$CHANGED_FILES" || true)
+else
+  CHANGED_RELEVANT=""
+fi
+
+if { [ -n "${PR_BASE_SHA:-}" ] && [ -n "${PR_HEAD_SHA:-}" ]; } || [ -n "${GITHUB_BASE_REF:-}" ]; then
+  if [ -z "$CHANGED_RELEVANT" ]; then
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    echo "NO MDX FILES CHANGED"
+    echo "NO MINTLIFY-RELEVANT FILES CHANGED"
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    echo "No MDX files found in this PR. Skipping validation."
+    echo "Nothing in this PR affects Mintlify content or config. Skipping validation."
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     exit 0
   fi
-  
-  echo "Found changed MDX files:"
-  echo "$CHANGED_MDX" | sed 's/^/  /'
+  echo "Found changed files (Mintlify-relevant):"
+  while IFS= read -r changed_file; do
+    echo "  $changed_file"
+  done <<< "$CHANGED_RELEVANT"
   echo ""
 fi
 
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "VALIDATING DOCUMENTATION BUILD"
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "Running: mint validate"
-echo ""
-
-# Run mint validate - exits with non-zero if there are any errors or warnings
-if mint validate; then
+run_validate() {
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo "VALIDATING DOCUMENTATION BUILD"
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo "Running: mint validate"
   echo ""
+
+  # mint validate exits with non-zero if there are any errors or warnings.
+  if mint validate; then
+    echo ""
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "✅ MINTLIFY VALIDATION PASSED"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "No errors or warnings detected"
+  else
+    echo ""
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "❌ MINTLIFY VALIDATION FAILED"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "Errors or warnings were detected. Please fix them or"
+    echo "file an issue if you believe they are incorrect:"
+    echo "https://github.com/wandb/docs/issues/new"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    exit 1
+  fi
+}
+
+run_broken_links() {
   echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  echo "✅ MINTLIFY VALIDATION PASSED"
+  echo "CHECKING FOR BROKEN LINKS"
   echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  echo "No errors or warnings detected"
-else
+  echo "Running: mint broken-links"
   echo ""
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  echo "❌ MINTLIFY VALIDATION FAILED"
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  echo "Errors or warnings were detected. Please fix them or"
-  echo "file an issue if you believe they are incorrect:"
-  echo "https://github.com/wandb/docs/issues/new"
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  exit 1
-fi
 
-echo ""
+  # mint broken-links exits with non-zero if broken links are found.
+  if mint broken-links; then
+    echo ""
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "✅ NO BROKEN LINKS FOUND"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  else
+    echo ""
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "❌ BROKEN LINKS DETECTED"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "Please fix the broken links reported above"
+    exit 1
+  fi
+}
 
-# Run broken links check
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "CHECKING FOR BROKEN LINKS"
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "Running: mint broken-links"
-echo ""
+case "$CHECK" in
+  validate)
+    run_validate
+    ;;
+  broken-links)
+    run_broken_links
+    ;;
+  all)
+    run_validate
+    echo ""
+    run_broken_links
+    echo ""
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "✅ ALL VALIDATION CHECKS PASSED"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "- No validation errors or warnings"
+    echo "- No broken links"
+    ;;
+esac
 
-# Run mint broken-links - it will exit with non-zero if broken links are found
-if mint broken-links; then
-  echo ""
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  echo "✅ NO BROKEN LINKS FOUND"
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-else
-  echo ""
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  echo "❌ BROKEN LINKS DETECTED"
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  echo "Please fix the broken links reported above"
-  exit 1
-fi
-
-echo ""
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "✅ ALL VALIDATION CHECKS PASSED"
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "- No validation errors or warnings"
-echo "- No broken links"
 exit 0

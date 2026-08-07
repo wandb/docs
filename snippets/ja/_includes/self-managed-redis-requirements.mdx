@@ -1,0 +1,12 @@
+---
+title: セルフマネージド Redis の要件
+---
+
+W&amp;B は単一ノードの Redis 7.x デプロイに依存しており、W&amp;B の components はこれをジョブキューイングとデータのキャッシュに使用します。テストや概念実証の用途では、W&amp;B Self-Managed にローカル Redis デプロイが含まれています。このバンドル版のデプロイは、本番環境での使用には適していません。
+
+本番デプロイでは、W&amp;B は次の環境にある Redis instance に接続できます。
+
+* [Amazon ElastiCache](https://aws.amazon.com/elasticache/)
+* [Google Cloud Memorystore](https://cloud.google.com/memorystore?hl=en)
+* [Azure Cache for Redis](https://azure.microsoft.com/en-us/products/cache)
+* クラウドまたはオンプレミスのインフラストラクチャーでセルフホストする Redis

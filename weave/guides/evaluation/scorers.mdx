@@ -1,43 +1,47 @@
 ---
-title: "Scoring Overview"
+title: "Scoring overview"
 description: "Evaluate AI outputs and return evaluation metrics with Weave Scorers"
+keywords: [scorers, LLM-as-a-judge, column_map, apply_scorer, evaluation metrics]
 ---
 
-In Weave, Scorers are used to evaluate AI outputs and return evaluation metrics. They take the AI's output, analyze it, and return a dictionary of results. Scorers can use your input data as reference if needed and can also output extra information, such as explanations or reasonings from the evaluation.
+In Weave, Scorers evaluate AI outputs and return evaluation metrics. They take the AI's output, analyze it, and return a dictionary of results. Scorers can use your input data as reference if needed and can also output extra information, such as explanations or reasoning from the evaluation.
+
+This guide is for developers who want to measure the quality of their AI system's outputs. It explains how Scorers fit into Weave evaluations, how to build your own Scorers, how to apply Scorers to individual calls, and how to analyze the resulting scores.
 
 <Tabs>
   <Tab title="Python">
-    Scorers are passed to a `weave.Evaluation` object during evaluation. There are two types of Scorers in weave:
+    Pass Scorers to a `weave.Evaluation` object during evaluation. Weave supports two types of Scorers:
 
-    1. **Function-based Scorers:** Simple Python functions decorated with `@weave.op`.
+    1. **Function-based Scorers:** Python functions decorated with `@weave.op`.
     2. **Class-based Scorers:** Python classes that inherit from `weave.Scorer` for more complex evaluations.
 
-    Scorers must return a dictionary and can return multiple metrics, nested metrics and non-numeric values such as text returned from a LLM-evaluator about its reasoning.
+    Scorers must return a dictionary and can return multiple metrics, nested metrics, and non-numeric values such as text returned from an LLM-evaluator about its reasoning.
 
   </Tab>
   <Tab title="TypeScript">
-    Scorers are special ops passed to a `weave.Evaluation` object during evaluation.
+    Scorers are special ops that you pass to a `weave.Evaluation` object during evaluation.
   </Tab>
 </Tabs>
 
-## Create your own Scorers
+## Create your own scorers
+
+Custom Scorers let you encode evaluation criteria that are specific to your use case, beyond what the built-in Scorers cover. The following sections describe the two ways to define a Scorer: as a function, or as a class for more complex logic.
 
 <Tip>
-**Ready-to-Use Scorers**
-While this guide shows you how to create custom scorers, Weave comes with a variety of [predefined scorers](./builtin_scorers.mdx) and [local SLM scorers](./weave_local_scorers.mdx) that you can use right away, including:
+**Ready-to-use scorers**
+Although this guide shows you how to create custom scorers, Weave comes with [predefined scorers](./builtin_scorers) and [local SLM scorers](./weave_local_scorers) that you can use right away, including:
 - [Hallucination detection](./builtin_scorers#hallucinationfreescorer)
 - [Summarization quality](./builtin_scorers#summarizationscorer)
 - [Embedding similarity](./builtin_scorers#embeddingsimilarityscorer)
 - [Toxicity detection (local)](./weave_local_scorers#weavetoxicityscorerv1)
-- [Context Relevance scoring (local)](./weave_local_scorers#weavecontextrelevancescorerv1)
-- And more!
+- [Context relevance scoring (local)](./weave_local_scorers#weavecontextrelevancescorerv1)
 </Tip>
 
-### Function-based Scorers
+### Function-based scorers
 
 <Tabs>
   <Tab title="Python">
-    These are functions decorated with `@weave.op` that return a dictionary. They're great for simple evaluations like:
+    Function-based Scorers are functions decorated with `@weave.op` that return a dictionary. They work well for straightforward evaluations like:
 
     ```python lines
     import weave
@@ -52,11 +56,11 @@ While this guide shows you how to create custom scorers, Weave comes with a vari
     )
     ```
 
-    When the evaluation is run, `evaluate_uppercase` checks if the text is all uppercase.
+    When you run the evaluation, `evaluate_uppercase` checks whether the text is all uppercase.
 
   </Tab>
   <Tab title="TypeScript">
-    These are functions wrapped with `weave.op` that accept an object with `modelOutput` and optionally `datasetRow`.  They're great for simple evaluations like:
+    These are functions wrapped with `weave.op` that accept an object with `modelOutput` and optionally `datasetRow`. They work well for straightforward evaluations like the following example:
     ```typescript lines
     import * as weave from 'weave'
 
@@ -74,11 +78,11 @@ While this guide shows you how to create custom scorers, Weave comes with a vari
   </Tab>
 </Tabs>
 
-### Class-based Scorers
+### Class-based scorers
 
 <Tabs>
   <Tab title="Python">
-    For more advanced evaluations, especially when you need to keep track of additional scorer metadata, try different prompts for your LLM-evaluators, or make multiple function calls, you can use the `Scorer` class.
+    For more advanced evaluations, especially when you need to track additional scorer metadata, try different prompts for your LLM-evaluators, or make multiple function calls, use the `Scorer` class.
 
     **Requirements:**
 
@@ -121,7 +125,7 @@ While this guide shows you how to create custom scorers, Weave comes with a vari
 
             Args:
                 output: The summary generated by an AI system
-                text: The original text being summarized
+                text: The original text to summarize
             """
             processed_text = self.some_complicated_preprocessing(text)
             eval_result = self.call_llm(summary=output, processed_text=processed_text)
@@ -132,7 +136,7 @@ While this guide shows you how to create custom scorers, Weave comes with a vari
         scorers=[summarization_scorer])
     ```
 
-    This class evaluates how good a summary is by comparing it to the original text.
+    This class evaluates the quality of a summary by comparing it to the original text.
 
   </Tab>
   <Tab title="TypeScript">
@@ -142,17 +146,19 @@ While this guide shows you how to create custom scorers, Weave comes with a vari
   </Tab>
 </Tabs>
 
-## How Scorers Work
+## How scorers work
 
-### Scorer Keyword Arguments
+This section explains how Scorers receive data from your evaluation, how to map dataset columns to Scorer arguments, how to reference op variables in scoring prompts, and how Weave summarizes per-row scores into a final result.
+
+### Scorer keyword arguments
 
 <Tabs>
   <Tab title="Python">
     Scorers can access both the output from your AI system and the input data from the dataset row.
 
-    - **Input:** If you would like your scorer to use data from your dataset row, such as a "label" or "target" column then you can easily make this available to the scorer by adding a `label` or `target` keyword argument to your scorer definition.
+    - **Input:** If you want your scorer to use data from your dataset row, such as a `label` or `target` column, make this available to the scorer by adding a `label` or `target` keyword argument to your scorer definition.
 
-    For example if you wanted to use a column called "label" from your dataset then your scorer function (or `score` class method) would have a parameter list like this:
+    For example, if you want to use a column called `label` from your dataset, your scorer function (or `score` class method) has a parameter list like this:
 
     ```python lines
     @weave.op
@@ -160,15 +166,15 @@ While this guide shows you how to create custom scorers, Weave comes with a vari
         ...
     ```
 
-    When a weave `Evaluation` is run, the output of the AI system is passed to the `output` parameter. The `Evaluation` also automatically tries to match any additional scorer argument names to your dataset columns. If customizing your scorer arguments or dataset columns is not feasible, you can use column mapping - see below for more.
+    When a Weave `Evaluation` runs, it passes the output of the AI system to the `output` parameter. The `Evaluation` also automatically tries to match any additional scorer argument names to your dataset columns. If customizing your scorer arguments or dataset columns isn't feasible, you can use column mapping. See the following section.
 
     - **Output:** Include an `output` parameter in your scorer function's signature to access the AI system's output.
 
-    ### Mapping Column Names with `column_map`
+    ### Mapping column names with `column_map`
 
-    Sometimes, the `score` methods' argument names don't match the column names in your dataset. You can fix this using a `column_map`.
+    Sometimes the `score` method's argument names don't match the column names in your dataset. You can fix this using a `column_map`.
 
-    If you're using a class-based scorer, pass a dictionary to the `column_map` attribute of `Scorer` when you initialize your scorer class. This dictionary maps your `score` method's argument names to the dataset's column names, in the order: `{scorer_keyword_argument: dataset_column_name}`.
+    If you're using a class-based scorer, pass a dictionary to the `column_map` attribute of `Scorer` when you initialize your scorer class. This dictionary maps your `score` method's argument names to the dataset's column names, in the order `{scorer_keyword_argument: dataset_column_name}`.
 
     Example:
 
@@ -176,7 +182,7 @@ While this guide shows you how to create custom scorers, Weave comes with a vari
     import weave
     from weave import Scorer
 
-    # A dataset with news articles to be summarized
+    # A dataset of news articles to summarize
     dataset = [
         {"news_article": "The news today was great...", "date": "2030-04-20", "source": "Bright Sky Network"},
         ...
@@ -188,8 +194,8 @@ While this guide shows you how to create custom scorers, Weave comes with a vari
         @weave.op
         def score(self, output, text) -> dict:
             """
-                output: output summary from a LLM summarization system
-                text: the text being summarized
+                output: output summary from an LLM summarization system
+                text: the text to summarize
             """
             ...  # evaluate the quality of the summary
 
@@ -197,11 +203,11 @@ While this guide shows you how to create custom scorers, Weave comes with a vari
     scorer = SummarizationScorer(column_map={"text" : "news_article"})
     ```
 
-    Now, the `text` argument in the `score` method will receive data from the `news_article` dataset column.
+    Now, the `text` argument in the `score` method receives data from the `news_article` dataset column.
 
     **Notes:**
 
-    - Another equivalent option to map your columns is to subclass the `Scorer` and overload the `score` method mapping the columns explicitly.
+    - Another equivalent option to map your columns is to subclass the `Scorer` and overload the `score` method, mapping the columns explicitly.
 
     ```python lines
     import weave
@@ -219,9 +225,10 @@ While this guide shows you how to create custom scorers, Weave comes with a vari
   <Tab title="TypeScript">
     Scorers can access both the output from your AI system and the contents of the dataset row.
 
-    You can easily access relevant columns from the dataset row by adding a `datasetRow` keyword argument to your scorer definition.
+    You can access relevant columns from the dataset row by adding a `datasetRow` keyword argument to your scorer definition.
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     const myScorer = weave.op(
         ({modelOutput, datasetRow}) => {
             return modelOutput * 2 === datasetRow.expectedOutputTimesTwo;
@@ -230,20 +237,21 @@ While this guide shows you how to create custom scorers, Weave comes with a vari
     );
     ```
 
-    ### Mapping Column Names with `columnMapping`
+    ### Mapping column names with `columnMapping`
     <Warning>
 
-    In TypeScript, this feature is currently on the `Evaluation` object, not individual scorers.
+    In TypeScript, this feature is on the `Evaluation` object, not individual scorers.
 
     </Warning>
 
-    Sometimes your `datasetRow` keys will not exactly match the scorer's naming scheme, but they are semantically similar. You can map the columns using the `Evaluation`'s `columnMapping` option.
+    Sometimes your `datasetRow` keys don't exactly match the scorer's naming scheme, but they're semantically similar. You can map the columns using the `Evaluation`'s `columnMapping` option.
 
-    The mapping is always from the scorer's perspective, i.e. `{scorer_key: dataset_column_name}`.
+    The mapping is always from the scorer's perspective, that is, `{scorer_key: dataset_column_name}`.
 
     Example:
 
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     const myScorer = weave.op(
         ({modelOutput, datasetRow}) => {
             return modelOutput * 2 === datasetRow.expectedOutputTimesTwo;
@@ -261,21 +269,57 @@ While this guide shows you how to create custom scorers, Weave comes with a vari
   </Tab>
 </Tabs>
 
+### Access variables from your ops in scoring prompts
+
+In scoring prompts for LLM-as-a-judge scorers, you can reference variables from your op. Weave automatically extracts these values when the scorer runs.
+
+For a function like:
+
+```python
+@weave.op
+def summarize_article(article: str, max_length: int) -> str:
+    # Your summarization logic here
+    return summary
+```
+
+The following variables are available:
+
+| Variable | Description |
+|----------|-------------|
+| `{article}` | The value of the input argument `article` |
+| `{max_length}` | The value of the input argument `max_length` |
+| `{inputs}` | A JSON dictionary of all input arguments |
+| `{output}` | The result returned by your op |
+
+Example scoring prompt:
+
+```text
+Evaluate the quality of this summary.
+
+Original article: {article}
+Summary: {output}
+Maximum length requested: {max_length}
+
+Rate the summary on a scale of 1-10 based on:
+- Accuracy: Does it accurately represent the article?
+- Completeness: Does it cover the key points?
+- Conciseness: Is it appropriately brief?
+
+Return a JSON object with your rating and reasoning.
+```
+
 ### Final summarization of the scorer
 
 <Tabs>
   <Tab title="Python">
-    During evaluation, the scorer will be computed for each row of your dataset. To provide a final score for the evaluation we provide an `auto_summarize` depending on the returning type of the output.
-    - Averages are computed for numerical columns
-    - Count and fraction for boolean columns
-    - Other column types are ignored
+    During evaluation, Weave computes the scorer for each row of your dataset. To provide a final score for the evaluation, Weave runs `auto_summarize` based on the return type of the output.
 
-    You can override the `summarize` method on the `Scorer` class and provide your own way of computing the final scores. The `summarize` function expects:
+    You can override the `summarize` method on the `Scorer` class and provide your own way to compute the final scores. The `summarize` function expects:
 
-    - A single parameter `score_rows`: This is a list of dictionaries, where each dictionary contains the scores returned by the `score` method for a single row of your dataset.
-    - It should return a dictionary containing the summarized scores.
+    - A single parameter `score_rows`: a list of dictionaries, where each dictionary contains the scores returned by the `score` method for a single row of your dataset.
+    - It returns a dictionary containing the summarized scores.
 
-    **Why this is useful?**
+    **Why this is useful**
 
     When you need to score all rows before deciding on the final value of the score for the dataset.
 
@@ -294,27 +338,26 @@ While this guide shows you how to create custom scorers, Weave comes with a vari
             return {"full_match": full_match}
     ```
 
-    > In this example, the default `auto_summarize` would have returned the count and proportion of True.
+    > In this example, the default `auto_summarize` would return the count and proportion of True.
 
-    If you want to learn more, check the implementation of [CorrectnessLLMJudge](/weave/tutorial-rag#optional-defining-a-scorer-class).
+    For more information, see the implementation of [CorrectnessLLMJudge](/weave/tutorial-rag#optional-defining-a-scorer-class).
 
   </Tab>
   <Tab title="TypeScript">
-    During evaluation, the scorer will be computed for each row of your dataset.  To provide a final score, we use an internal `summarizeResults` function that aggregates depending on the output type.
-    - Averages are computed for numerical columns
-    - Count and fraction for boolean columns
-    - Other column types are ignored
+    During evaluation, Weave computes the scorer for each row of your dataset. To provide a final score, Weave uses an internal `summarizeResults` function that aggregates depending on the output type.
 
-    We don't currently support custom summarization.
+    Weave doesn't support custom summarization.
 
   </Tab>
 </Tabs>
 
-### Applying Scorers to a Call
+### Apply scorers to a call
 
-To apply scorers to your Weave ops, you'll need to use the `.call()` method which provides access to both the operation's result and its tracking information. This allows you to associate scorer results with specific calls in Weave's database.
+In addition to running Scorers as part of a `weave.Evaluation`, you can apply them directly to an individual call. This is useful when you want to score production traffic or attach evaluation metrics to a specific op invocation.
 
-For more information on how to use the `.call()` method, see the [Calling Ops](../tracking/tracing#calling-ops#getting-a-handle-to-the-call-object-during-execution) guide.
+To apply scorers to your Weave ops, use the `.call()` method, which provides access to both the operation's result and its tracking information. This lets you associate scorer results with specific calls in Weave's database.
+
+For more information about using the `.call()` method, see the [Calling Ops](../tracking/tracing#getting-a-handle-to-the-call-object-during-execution) guide.
 
 <Tabs>
   <Tab title="Python">
@@ -339,11 +382,11 @@ For more information on how to use the `.call()` method, see the [Calling Ops](.
     ```
 
     **Notes:**
-    - Scorer results are automatically stored in Weave's database
-    - Scorers run asynchronously after the main operation completes
-    - You can view scorer results in the UI or query them via the API
+    - Weave automatically stores scorer results in its database.
+    - Scorers run asynchronously after the main operation completes.
+    - You can view scorer results in the UI or query them through the API.
 
-    For more detailed information about using scorers as guardrails or monitors, including production best practices and complete examples, see our [Guardrails and Monitors guide](./guardrails_and_monitors).
+    For more detailed information about using scorers as guardrails or monitors, including production best practices and complete examples, see the [Guardrails and Monitors guide](./monitors).
 
   </Tab>
   <Tab title="TypeScript">
@@ -353,27 +396,27 @@ For more information on how to use the `.call()` method, see the [Calling Ops](.
   </Tab>
 </Tabs>
 
-### Use `preprocess_model_input` 
+### Use `preprocess_model_input`
 
-You can use the `preprocess_model_input` parameter to modify dataset examples before they reach your model during evaluation. 
+You can use the `preprocess_model_input` parameter to modify dataset examples before they reach your model during evaluation.
 
 <Important>
-The `preprocess_model_input` function only transforms inputs before they are passed to the model’s prediction function.
+The `preprocess_model_input` function only transforms inputs before Weave passes them to the model's prediction function.
 
 Scorer functions always receive the original dataset examples, without any preprocessing applied.
 </Important>
 
 For usage information and an example, see [Using `preprocess_model_input` to format dataset rows before evaluating](../core-types/evaluations#using-preprocess_model_input-to-format-dataset-rows-before-evaluating).
 
-## Score Analysis
+## Score analysis
 
-In this section, we'll show you how to analyze the scores for a single call, multiple calls, and all calls scored by a specific scorer.
+After your Scorers run, you'll often want to inspect the scores they produced to understand model behavior or compare versions. The following sections describe how to analyze the scores for a single call, multiple calls, and all calls scored by a specific Scorer, using both the API and the Weave UI.
 
-### Analyze a single Call's Scores
+### Analyze a single call's scores
 
-#### Single Call API
+#### Single call API
 
-To retrieve the calls for a single call, you can use the `get_call` method.
+To retrieve a single call, use the `get_call` method.
 
 ```python lines
 client = weave.init("my-project")
@@ -385,19 +428,19 @@ call = client.get_call("call-uuid-here")
 feedback = list(call.feedback)
 ```
 
-#### Single Call UI
+#### Single call UI
 
 <Frame>
 ![Call Scores Tab](./img/call_scores_tab.png)
 </Frame>
 
-Scores for an individual call are displayed in the call details page under the "Scores" tab.
+The Call details panel displays scores for an individual call under the **Scores** tab.
 
-### Analyze multiple Calls' Scores
+### Analyze multiple calls' scores
 
-#### Multiple Calls API
+#### Multiple calls API
 
-To retrieve the calls for multiple calls, you can use the `get_calls` method.
+To retrieve multiple calls, use the `get_calls` method.
 
 ```python lines
 client = weave.init("my-project")
@@ -410,19 +453,19 @@ for call in calls:
     feedback = list(call.feedback)
 ```
 
-#### Multiple Calls UI
+#### Multiple calls UI
 
 <Frame>
 ![Multiple Calls Tab](./img/traces_table_scores.png)
 </Frame>
 
-Scores for multiple calls are displayed in the traces table under the "Scores" column.
+The traces table displays scores for multiple calls under the **Scores** column.
 
-### Analyze all Calls scored by a specific Scorer
+### Analyze all calls scored by a specific scorer
 
-#### All Calls by Scorer API
+#### All calls by scorer API
 
-To retrieve all calls scored by a specific scorer, you can use the `get_calls` method.
+To retrieve all calls scored by a specific scorer, use the `get_calls` method.
 
 ```python lines
 client = weave.init("my-project")
@@ -439,21 +482,21 @@ for call in calls:
     feedback = list(call.feedback)
 ```
 
-#### All Calls by Scorer UI
+#### All calls by scorer UI
 
-Finally, if you would like to see all the calls scored by a Scorer, navigate to the Scorers Tab in the UI and select "Programmatic Scorer" tab. Click your Scorer to open the Scorer details page.
+Finally, if you want to see all the calls scored by a Scorer, navigate to the **Scorers** tab in the UI and select the **Programmatic Scorer** tab. Click your Scorer to open the Scorer details page.
 
 <Frame>
 ![Scorer Details Page](./img/scorer_detail_page.png)
 </Frame>
 
-Next, click the `View Traces` button under `Scores` to view all the calls scored by your Scorer.
+Next, click the **View Traces** button under **Scores** to view all the calls scored by your Scorer.
 
 <Frame>
 ![Filtered Calls to Scorer Version](./img/filtered_calls_to_scorer_version.png)
 </Frame>
 
-This will default to the selected version of the Scorer. You can remove the version filter to see all the calls scored by any version of the Scorer.
+This defaults to the selected version of the Scorer. You can remove the version filter to see all the calls scored by any version of the Scorer.
 
 <Frame>
 ![Filtered Calls to Scorer Name](./img/filtered_calls_scorer_name.png)

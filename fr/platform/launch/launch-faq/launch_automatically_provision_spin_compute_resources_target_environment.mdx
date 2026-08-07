@@ -1,0 +1,12 @@
+---
+title: Launch peut-il provisionner automatiquement (et arrêter) des ressources de calcul pour moi
+  dans l’environnement cible ?
+keywords: ["mise à l’échelle automatique", "provisionnement automatique", "instances Spot", "autoscaler de nœuds", "mise à l’échelle des ressources de calcul"]
+---
+
+Le provisionnement et la mise à l’échelle automatiques des ressources de calcul par Launch dépendent de l’environnement cible :
+
+* **Amazon SageMaker and Vertex AI**: Ces plateformes provisionnent automatiquement les ressources.
+* **Kubernetes**: Les autoscalers ajustent les ressources en fonction de la demande. Les architectes solution de W&amp;B peuvent vous aider à configurer votre infrastructure Kubernetes afin d’activer les nouvelles tentatives, l’autoscaling et les pools de nœuds d’instances Spot.
+
+Pour obtenir de l’assistance, contactez [W&amp;B support](mailto:support@wandb.com) ou utilisez votre canal Slack partagé.

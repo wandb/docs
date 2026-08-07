@@ -1,0 +1,54 @@
+---
+title: "Activer les réponses en streaming"
+description: "Activez la sortie en streaming avec Serverless Inference pour recevoir les réponses du modèle de façon incrémentielle."
+keywords: ["stream=True", "événements envoyés par le serveur", "SSE", "sortie incrémentielle"]
+---
+
+Définir l&#39;option `stream` sur `true` renvoie la réponse du modèle de façon incrémentielle sous la forme d&#39;un flux
+de fragments, afin que vous puissiez afficher les résultats à mesure qu&#39;ils arrivent au lieu d&#39;attendre la réponse complète. Cela est utile lorsque les modèles mettent du temps à générer une sortie.
+
+Tous les modèles hébergés prennent en charge la sortie en streaming. Nous recommandons le streaming pour les [modèles de raisonnement](./reasoning), car les requêtes sans streaming peuvent expirer si le modèle met longtemps à commencer à produire une sortie.
+
+Les exemples suivants activent le streaming pour une requête de complétion de chat :
+
+<Tabs>
+  <Tab title="Python">
+    ```python
+    import openai
+
+    client = openai.OpenAI(
+        base_url='https://api.inference.wandb.ai/v1',
+        api_key="[YOUR-API-KEY]",  # Créez une clé API sur https://wandb.ai/settings
+    )
+
+    stream = client.chat.completions.create(
+        model="openai/gpt-oss-120b",
+        messages=[
+            {"role": "user", "content": "Tell me a rambling joke"}
+        ],
+        stream=True,
+    )
+
+    for chunk in stream:
+        if chunk.choices:
+            print(chunk.choices[0].delta.content or "", end="", flush=True)
+        else:
+            print(chunk) # Afficher l'objet CompletionUsage
+    ```
+  </Tab>
+
+  <Tab title="Bash">
+    ```bash
+    curl https://api.inference.wandb.ai/v1/chat/completions \
+      -H "Content-Type: application/json" \
+      -H "Authorization: Bearer [YOUR-API-KEY]" \
+      -d '{
+        "model": "openai/gpt-oss-120b",
+        "messages": [
+          { "role": "user", "content": "Tell me a rambling joke" }
+        ],
+        "stream": true
+      }'
+    ```
+  </Tab>
+</Tabs>
