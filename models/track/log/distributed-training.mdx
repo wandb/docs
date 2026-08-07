@@ -159,16 +159,16 @@ To track multiple processes to a single run, you must have:
 - W&B Server v0.68 or newer.
 </Note>
 
-In this approach you use a primary node and one or more worker nodes. Within the primary node you initialize a W&B run. For each worker node, initialize a run using the run ID used by the primary node. During training each worker node logs to the same run ID as the primary node. W&B aggregates metrics from all nodes and displays them in the W&B App UI.
+In this approach you use a primary node and one or more worker nodes. Before you launch the nodes, generate a run ID and configure every node to use that same run ID. During training, each node logs to the same run ID. W&B aggregates metrics from all nodes and displays them in the W&B App UI.
 
-Within the primary node, initialize a W&B run with [`wandb.init()`](/models/ref/python/functions/init). Pass in a `wandb.Settings` object to the `settings` parameter (`wandb.init(settings=wandb.Settings()`) with the following:
+Generate the run ID in your launcher, scheduler, or orchestration framework, then set the `WANDB_RUN_ID` environment variable for every node before the training process starts. W&B reads `WANDB_RUN_ID` automatically when you call `wandb.init()`. Do not read `WANDB_RUN_ID` in your training code or use `WANDB_` environment variables for custom coordination logic.
+
+Within the primary node, initialize a W&B run with [`wandb.init()`](/models/ref/python/functions/init). Pass in a `wandb.Settings` object to the `settings` parameter (`wandb.init(settings=wandb.Settings()`)) with the following:
 
 1. The `mode` parameter set to `"shared"` to enable shared mode.
 2. A unique label for [`x_label`](https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L638). You use the value you specify for `x_label` to identify which node the data is coming from in logs and system metrics in the W&B App UI. If left unspecified, W&B creates a label for you using the hostname and a random hash.
 3. Set the [`x_primary`](https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L660) parameter to `True` to indicate that this is the primary node.
 4. Optionally provide a list of GPU indexes ([0,1,2]) to `x_stats_gpu_device_ids` to specify which GPUs W&B tracks metrics for. If you do not provide a list, W&B tracks metrics for all GPUs on the machine.
-
-Make note of the run ID of the primary node. Each worker node needs the run ID of the primary node.
 
 <Note>
 `x_primary=True` distinguishes a primary node from worker nodes. Primary nodes are the only nodes that upload files shared across nodes such as configuration files, telemetry and more. Worker nodes do not upload these files.
@@ -179,52 +179,39 @@ For each worker node, initialize a W&B run with [`wandb.init()`](/models/ref/pyt
    * The `mode` parameter set to `"shared"` to enable shared mode.
    * A unique label for `x_label`. You use the value you specify for `x_label` to identify which node the data is coming from in logs and system metrics in the W&B App UI. If left unspecified, W&B creates a label for you using the hostname and a random hash.
    * Set the `x_primary` parameter to `False` to indicate that this is a worker node.
-2. Pass the run ID used by the primary node to the `id` parameter.
-3. Optionally set [`x_update_finish_state`](https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L772) to `False`. This prevents non-primary nodes from updating the [run's state](/models/runs/run-states#run-states) to `finished` prematurely, ensuring the run state remains consistent and managed by the primary node.
+2. Optionally set [`x_update_finish_state`](https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L772) to `False`. This prevents non-primary nodes from updating the [run's state](/models/runs/run-states#run-states) to `finished` prematurely, ensuring the run state remains consistent and managed by the primary node.
 
 <Note>
 * Use the same entity and project for all nodes. This helps ensure the correct run ID is found.
-* Consider defining an environment variable on each worker node to set the run ID of the primary node.
+* Set `WANDB_RUN_ID` for all nodes before each process starts. The exact mechanism depends on your launcher, scheduler, or orchestration framework.
+* Do not pass the primary node's `WANDB_SERVICE` environment variable to worker nodes. Each worker must start its own W&B SDK backend. Configure this in the environment you use to launch workers instead of modifying `os.environ` after the process has started.
 </Note>
 
-The following sample code demonstrates the high level requirements for tracking multiple processes to a single run:
+The following sample code demonstrates the high level requirements for tracking multiple processes to a single run. It assumes that your launcher sets the same `WANDB_RUN_ID` for every node before starting the training process:
 
 ```python
 import wandb
 
-entity = "<team_entity>"
-project = "<project_name>"
+entity = "your-entity"
+project = "project-name"
+rank = 0  # Set this from your launcher, scheduler, or framework.
 
-# Initialize a run in the primary node
+settings_kwargs = dict(
+    x_label=f"rank_{rank}",
+    mode="shared",
+    x_primary=(rank == 0),
+)
+
+if rank != 0:
+    settings_kwargs["x_update_finish_state"] = False
+
+settings = wandb.Settings(**settings_kwargs)
+
+# W&B automatically uses WANDB_RUN_ID from the process environment.
 run = wandb.init(
     entity=entity,
     project=project,
-	settings=wandb.Settings(
-        x_label="rank_0", 
-        mode="shared", 
-        x_primary=True,
-        x_stats_gpu_device_ids=[0, 1],  # (Optional) Only track metrics for GPU 0 and 1
-        )
-)
-
-# Note the run ID of the primary node.
-# Each worker node needs this run ID.
-run_id = run.id
-
-# Initialize a run in a worker node using the run ID of the primary node
-run = wandb.init(
-    entity=entity, # Use the same entity as the primary node
-    project=project, # Use the same project as the primary node
-	settings=wandb.Settings(x_label="rank_1", mode="shared", x_primary=False),
-	id=run_id,
-)
-
-# Initialize a run in a worker node using the run ID of the primary node
-run = wandb.init(
-    entity=entity, # Use the same entity as the primary node
-    project=project, # Use the same project as the primary node
-	settings=wandb.Settings(x_label="rank_2", mode="shared", x_primary=False),
-	id=run_id,
+    settings=settings,
 )
 ```
 
