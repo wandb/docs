@@ -735,7 +735,8 @@
                         "pages": [
                           "weave/guides/platform",
                           "weave/guides/platform/weave-self-managed",
-                          "weave/guides/platform/ingest-sampling"
+                          "weave/guides/platform/ingest-sampling",
+                          "weave/guides/platform/server-caching"
                         ]
                       },
                       "weave/guides/platform/weave-projects",
