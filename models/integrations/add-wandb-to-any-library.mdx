@@ -261,7 +261,7 @@ The [next section](#log-configuration-and-metrics) describes in detail how to lo
 
 ## Log configuration and metrics
 
-Log configuration values and metrics to W&B so you, and members of your team, can [compare](/models/runs/compare-runs), [filter](/models/runs/filter-runs#example-filter-run-configuration-values-with-contains), group, and [reproduce](/models/track/reproduce_experiments) experiments.
+Log configuration values and metrics to W&B so you, and members of your team, can [compare](/models/runs/compare-runs), [filter](/models/runs/filter-runs#example-filter-run-configuration-values-with-contains), [group](/models/runs/grouping), and [reproduce](/models/track/reproduce_experiments) experiments.
 
 ### Log configuration values
 
@@ -291,8 +291,6 @@ Pass the dictionary to `wandb.init()`:
 with wandb.init(entity="your-entity", project="your-project-name", config=config) as run:
     # Training logic.
 ```
-
-Configuration values help you [compare](/models/runs/compare-runs), [filter](/models/runs/filter-runs), [group](/models/runs/grouping), and [reproduce](/models/track/reproduce_experiments) runs.
 
 Some values might not be available when the run starts. Add them later with `run.config.update()`:
 
@@ -329,7 +327,7 @@ Use prefixes such as `train/` and `val/` to group related metrics.
 
 For guidance on logging supported data types, automatically tracked data, and best practices, see [Log metrics and data](/models/track/log).
 
-To track datasets and models, see [Log models and datasets with artifacts](#track-models-and-datasets-with-artifacts).
+See the [Log models and datasets with artifacts](#track-models-and-datasets-with-artifacts) section for guidance on logging models and datasets as artifacts.
 
 ### Define a custom log axis
 
@@ -414,7 +412,7 @@ with wandb.init(entity="your-entity", project="your-project") as run:
 
 ### Track run outputs
 
-Use [`wandb.Run.log_artifact()`](/models/ref/python/experiments/run#log_artifact) to log an artifact as an output of a run. 
+Use [`wandb.Run.log_artifact()`](/models/ref/python/experiments/run#method-run-log_artifact) to log an artifact as an output of a run. 
 
 1. Create an artifact with `wandb.Artifact()`.
 2. Log the artifact as an output of the run with `wandb.Run.log_artifact()`.
@@ -457,7 +455,12 @@ For information on downloading artifacts, see [Download and use artifacts](/mode
 
 Use [W&B Registry](/models/registry) to share and manage artifact versions across teams.
 
-The destination registry must already exist. If the specified collection does not exist, W&B creates it when you link the artifact version.
+Before you link an artifact version, decide:
+- Which artifact versions to share.
+- Which [collections](/models/registry/create_collection) to link them to.
+- Which [registry](/models/registry) to publish them in.
+
+Check that the destination registry exists. If the specified collection does not exist, W&B creates it when you link the artifact version.
 
 The following example logs an artifact and links it to a collection in a registry:
 
@@ -497,7 +500,7 @@ For more information, see [Link an artifact version to a collection](/models/reg
 If your library supports hyperparameter tuning, integrate [W&B Sweeps](/models/sweeps) to run grid, random, or Bayesian searches.
 
 <Tip>
-W&B recommends that you keep the sweep configuration separate from the underlying training logic. The training function should read its parameters from `run.config` rather than depending directly on sweep-specific logic.
+W&B recommends that you keep the sweep configuration separate from the underlying training logic. The training function should read its parameters from `wandb.Run.config` rather than depending directly on sweep-specific logic.
 </Tip>
 
 For more information, see [Sweeps](/models/sweeps).
