@@ -2505,7 +2505,8 @@
                         "pages": [
                           "fr/weave/guides/platform",
                           "fr/weave/guides/platform/weave-self-managed",
-                          "fr/weave/guides/platform/ingest-sampling"
+                          "fr/weave/guides/platform/ingest-sampling",
+                          "fr/weave/guides/platform/server-caching"
                         ]
                       },
                       "fr/weave/guides/platform/weave-projects",
@@ -4274,7 +4275,8 @@
                         "pages": [
                           "ja/weave/guides/platform",
                           "ja/weave/guides/platform/weave-self-managed",
-                          "ja/weave/guides/platform/ingest-sampling"
+                          "ja/weave/guides/platform/ingest-sampling",
+                          "ja/weave/guides/platform/server-caching"
                         ]
                       },
                       "ja/weave/guides/platform/weave-projects",
@@ -6043,7 +6045,8 @@
                         "pages": [
                           "ko/weave/guides/platform",
                           "ko/weave/guides/platform/weave-self-managed",
-                          "ko/weave/guides/platform/ingest-sampling"
+                          "ko/weave/guides/platform/ingest-sampling",
+                          "ko/weave/guides/platform/server-caching"
                         ]
                       },
                       "ko/weave/guides/platform/weave-projects",
