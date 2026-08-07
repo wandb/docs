@@ -3,20 +3,24 @@ title: Move a run to a different project or team
 description: Move runs between projects or teams using the W&B App.
 ---
 
+This page describes how to use the W&B App to move one or more runs from their current project to a different project, including across teams. Move runs when you want to reorganize work, consolidate related experiments, or transfer ownership of a run to a different team.
+
 <Note>
-Before you begin, ensure you have the necessary permissions to move runs between projects or teams. You must have access to the run at its current and new locations.
+Before you begin, make sure that you have the necessary permissions to move runs between projects or teams. You must have access to the run at its current and new locations.
 </Note>
 
-To move runs from one project to another or between teams:
+To move runs between projects or teams, follow these steps in the W&B App:
 
 1. Navigate to the project that contains the runs you want to move.
 2. Select the **Runs** tab from the project sidebar.
 3. Select the checkbox next to the runs you want to move.
-4. Click the **Move to project** button above the table.
+4. Select the **Move to project** button above the table.
 5. Select the destination team and project from the dropdown.
 
+After the move completes, the selected runs appear in the destination project and are removed from the original project.
+
 <Note>
-When you move a run, historical artifacts associated with it are not moved. To move an artifact manually, you can use the [`wandb artifact get`](/models/ref/cli/wandb-artifact/wandb-artifact-get/) SDK command or the [`Api.artifact` API](/models/ref/python/public-api/api/#artifact) to download the artifact, then use [`wandb artifact put`](/models/ref/cli/wandb-artifact/wandb-artifact-put/) or the `Api.artifact` API to upload it to the run's new location.
+When you move a run, W&B doesn't move the historical artifacts associated with it. To move an artifact manually, use the [`wandb artifact get`](/models/ref/cli/wandb-artifact/wandb-artifact-get/) SDK command or the [`Api.artifact` API](/models/ref/python/public-api/api/#artifact) to download the artifact. Then, use [`wandb artifact put`](/models/ref/cli/wandb-artifact/wandb-artifact-put/) or the `Api.artifact` API to upload it to the run's new location.
 </Note>
 
 {/* ## Move runs to a group
