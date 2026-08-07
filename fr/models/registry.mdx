@@ -53,8 +53,9 @@ Par exemple, l&#39;exemple de code suivant journalise et lie un artifact de mod�
 
 1. Initialisez un run W&amp;B avec `wandb.init()`.
 2. Journalisez l&#39;artifact dans W&amp;B avec `wandb.Run.log()`.
-3. Indiquez le nom de la collection et du registre auxquels lier votre version d&#39;artifact.
-4. Liez l&#39;artifact à la collection à l&#39;aide de `wandb.Run.link_artifact()`.
+3. Vérifiez que le registre existe.
+4. Indiquez le nom de la collection et du registre auxquels lier votre version d&#39;artifact.
+5. Liez l&#39;artifact à la collection à l&#39;aide de `wandb.Run.link_artifact()`.
 
 Enregistrez ce code Python dans un script, puis exécutez-le. La version 0.18.6 ou ultérieure du SDK Python W&amp;B est requise.
 
@@ -71,7 +72,7 @@ with wandb.init(project="registry_quickstart") as run:
     # Journaliser l'artifact dans W&B
     logged_artifact = run.log_artifact(
         artifact_or_path="./my_model.txt", 
-        name="gemma-finetuned", 
+        name="mnist_model", 
         type="model" # Spécifie le type d'artifact
     )
 
