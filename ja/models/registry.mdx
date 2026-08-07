@@ -53,8 +53,9 @@ Registry を使用すると、アーティファクト バージョンをトラ�
 
 1. `wandb.init()` で W&amp;B Run を初期化します。
 2. `wandb.Run.log()` で アーティファクト を W&amp;B にログします。
-3. アーティファクト バージョンのリンク先となる コレクション と Registry の名を指定します。
-4. `wandb.Run.link_artifact()` を使用して アーティファクト を コレクション にリンクします。
+3. Registry が存在することを確認します。
+4. アーティファクト バージョンのリンク先となる コレクション と Registry の名を指定します。
+5. `wandb.Run.link_artifact()` を使用して アーティファクト を コレクション にリンクします。
 
 この Python コードをスクリプトとして保存し、実行してください。W&amp;B Python SDK バージョン 0.18.6 以降が必要です。
 
@@ -71,7 +72,7 @@ with wandb.init(project="registry_quickstart") as run:
     # アーティファクトを W&B にログする
     logged_artifact = run.log_artifact(
         artifact_or_path="./my_model.txt", 
-        name="gemma-finetuned", 
+        name="mnist_model", 
         type="model" # アーティファクト タイプを指定する
     )
 

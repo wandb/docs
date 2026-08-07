@@ -2505,7 +2505,8 @@
                         "pages": [
                           "fr/weave/guides/platform",
                           "fr/weave/guides/platform/weave-self-managed",
-                          "fr/weave/guides/platform/ingest-sampling"
+                          "fr/weave/guides/platform/ingest-sampling",
+                          "fr/weave/guides/platform/server-caching"
                         ]
                       },
                       "fr/weave/guides/platform/weave-projects",
@@ -2621,12 +2622,12 @@
                 "pages": [
                   "fr/serverless-training",
                   "fr/serverless-training/prerequisites",
+                  "fr/serverless-training/available-models",
                   "fr/serverless-training/usage-limits",
                   {
                     "group": "Serverless RL",
                     "pages": [
                       "fr/serverless-training/usage",
-                      "fr/serverless-training/available-models",
                       "fr/serverless-training/use-trained-models"
                     ]
                   },
@@ -4274,7 +4275,8 @@
                         "pages": [
                           "ja/weave/guides/platform",
                           "ja/weave/guides/platform/weave-self-managed",
-                          "ja/weave/guides/platform/ingest-sampling"
+                          "ja/weave/guides/platform/ingest-sampling",
+                          "ja/weave/guides/platform/server-caching"
                         ]
                       },
                       "ja/weave/guides/platform/weave-projects",
@@ -4390,12 +4392,12 @@
                 "pages": [
                   "ja/serverless-training",
                   "ja/serverless-training/prerequisites",
+                  "ja/serverless-training/available-models",
                   "ja/serverless-training/usage-limits",
                   {
                     "group": "Serverless RL",
                     "pages": [
                       "ja/serverless-training/usage",
-                      "ja/serverless-training/available-models",
                       "ja/serverless-training/use-trained-models"
                     ]
                   },
@@ -6043,7 +6045,8 @@
                         "pages": [
                           "ko/weave/guides/platform",
                           "ko/weave/guides/platform/weave-self-managed",
-                          "ko/weave/guides/platform/ingest-sampling"
+                          "ko/weave/guides/platform/ingest-sampling",
+                          "ko/weave/guides/platform/server-caching"
                         ]
                       },
                       "ko/weave/guides/platform/weave-projects",
@@ -6159,12 +6162,12 @@
                 "pages": [
                   "ko/serverless-training",
                   "ko/serverless-training/prerequisites",
+                  "ko/serverless-training/available-models",
                   "ko/serverless-training/usage-limits",
                   {
                     "group": "Serverless RL",
                     "pages": [
                       "ko/serverless-training/usage",
-                      "ko/serverless-training/available-models",
                       "ko/serverless-training/use-trained-models"
                     ]
                   },
@@ -8347,12 +8350,12 @@
       "source": "/ref/python/sdk/*"
     },
     {
-      "destination" : "/models/ref/python/public-api",
-      "source" : "/models/ref/python/public-api/agentruns"
+      "destination": "/models/ref/python/public-api",
+      "source": "/models/ref/python/public-api/agentruns"
     },
     {
       "destination": "/models/ref/python/automations",
-    "source": "/models/ref/python/public-api/automations"
+      "source": "/models/ref/python/public-api/automations"
     },
     {
       "destination": "/models/ref/wandb_workspaces/:slug*",
