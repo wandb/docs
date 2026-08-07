@@ -14,9 +14,9 @@ Use this guide when your integration spans reusable library code rather than a s
 Before adding W&B to your library, decide:
 
 - Whether `wandb` is a required or optional dependency.
-- Whether your library or its caller initializes the run.
 - Whether you can run your library without saving or uploading W&B data.
 - Which configuration, metrics, and artifacts your library logs.
+- How your library handles distributed training and multiple processes.
 
 These decisions determine how your library imports W&B, manages run lifecycles, and behaves when W&B is unavailable.
 
@@ -184,7 +184,7 @@ wandb sync <run_directory>
 
 ## Initialize a run
 
-After authenticating, initialize a [run](/models/runs) to log metrics, configuration values, and artifacts from your library.
+After authenticating, initialize a [run](/models/runs) to log metrics, [configuration](/models/track/config) values, and [artifacts](/models/artifacts) from your library.
 
 Call [`wandb.init()`](/models/ref/python/functions/init) and specify the project and team entity. If you omit the project, W&B stores the run in the default `"uncategorized"` project.
 
@@ -213,9 +213,9 @@ for epoch in range(epochs):
     print(f"epoch={epoch}, loss={loss}")
 ```
 
-To integrate W&B, wrap the training loop in a context manager, initialize a run, pass the config dictionary as an argument to `wandb.init(config=)`, and log metrics to the run (`wandb.Run.log()`):
+Wrap the training loop in a context manager, initialize a run, pass a config dictionary as an argument to `wandb.init(config=)`, and log metrics to the run (`wandb.Run.log()`):
 
-```python icon="python" title="Python"
+```python icon="python" title="Python" highlight={2,13-16,19,30-33}
 import random # For simulating data
 import wandb
 
@@ -257,11 +257,11 @@ with wandb.init(entity="your-entity", project="your-project-name", config=config
 Call `wandb.init()` before the work you want W&B to monitor. Use it as a context manager around the entire training loop so the run captures relevant standard output, standard error, and error messages for debugging.
 </Tip>
 
-After you initialize the run, log metrics, artifacts, and other data to W&B. For more information, see [Log metrics and data](#log-metrics-and-data).
+The [next section](#log-configuration-and-metrics) describes in detail how to log configuration values, metrics, and artifacts from your library.
 
 ## Log configuration and metrics
 
-Log configuration values and metrics to W&B so you, and members of your team, can compare, filter, group, and reproduce runs.
+Log configuration values and metrics to W&B so you, and members of your team, can [compare](/models/runs/compare-runs), [filter](/models/runs/filter-runs#example-filter-run-configuration-values-with-contains), group, and [reproduce](/models/track/reproduce_experiments) experiments.
 
 ### Log configuration values
 
