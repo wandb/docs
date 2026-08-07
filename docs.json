@@ -8347,8 +8347,12 @@
       "source": "/ref/python/sdk/*"
     },
     {
-      "destination": "/models/ref/python/public-api/automations",
-      "source": "/models/ref/python/automations/automation"
+      "destination" : "/models/ref/python/public-api",
+      "source" : "/models/ref/python/public-api/agentruns"
+    },
+    {
+      "destination": "/models/ref/python/automations",
+    "source": "/models/ref/python/public-api/automations"
     },
     {
       "destination": "/models/ref/wandb_workspaces/:slug*",
