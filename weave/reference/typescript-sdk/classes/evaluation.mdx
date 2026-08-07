@@ -3,14 +3,14 @@ title: "Evaluation<R, E, M>"
 description: "TypeScript SDK reference"
 ---
 
-Defined in: [src/evaluation.ts:139](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluation.ts#L139)
-
 Sets up an evaluation which includes a set of scorers and a dataset.
 
 Calling evaluation.evaluate(model) will pass in rows form a dataset into a model matching
 the names of the columns of the dataset to the argument names in model.predict.
 
 Then it will call all of the scorers and save the results in weave.
+
+Defined in: [src/evaluation.ts:139](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluation.ts#L139)
 
 ## Example
 
@@ -88,9 +88,9 @@ Defined in: [src/evaluation.ts:150](https://github.com/wandb/weave/blob/8c5f077e
 
 ## Properties
 
-### \_\_savedRef?
+### \_\_savedRef
 
-> `optional` **\_\_savedRef?**: [`ObjectRef`](./objectref) \| `Promise`\<[`ObjectRef`](./objectref)\>
+> `optional` **\_\_savedRef**: [`ObjectRef`](./objectref) \| `Promise`\<[`ObjectRef`](./objectref)\>
 
 Defined in: [src/weaveObject.ts:71](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L71)
 

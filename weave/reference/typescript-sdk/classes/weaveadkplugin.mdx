@@ -3,8 +3,6 @@ title: "WeaveAdkPlugin"
 description: "TypeScript SDK reference"
 ---
 
-Defined in: [src/integrations/googleAdk.ts:589](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L589)
-
 ADK plugin that emits runner invocations, agent runs, model calls and tool
 executions as GenAI-semconv OTel spans on Weave's agents pipeline.
 
@@ -12,6 +10,8 @@ Implements the full `BasePlugin` surface structurally. ADK's PluginManager
 invokes every callback, so all are present even where a callback is a no-op.
 ADK treats any non-`undefined` return as a short-circuit, so every callback
 swallows its own errors and returns `undefined`.
+
+Defined in: [src/integrations/googleAdk.ts:589](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L589)
 
 ## Implements
 
@@ -45,12 +45,12 @@ Defined in: [src/integrations/googleAdk.ts:590](https://github.com/wandb/weave/b
 
 > **afterAgentCallback**(`params`): `Promise`\<`undefined`\>
 
-Defined in: [src/integrations/googleAdk.ts:779](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L779)
-
 Callback executed after an agent's primary logic has completed.
 
 This callback can be used to inspect, log, or modify the agent's final
 result before it is returned.
+
+Defined in: [src/integrations/googleAdk.ts:779](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L779)
 
 #### Parameters
 
@@ -86,12 +86,12 @@ An optional `Content` object. If a value is returned, it will
 
 > **afterContextCompaction**(`_params`): `Promise`\<`undefined`\>
 
-Defined in: [src/integrations/googleAdk.ts:997](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L997)
-
 Callback executed after context compaction.
 
 This callback provides an opportunity to inspect the context
 after it has been compacted.
+
+Defined in: [src/integrations/googleAdk.ts:997](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L997)
 
 #### Parameters
 
@@ -113,12 +113,12 @@ after it has been compacted.
 
 > **afterModelCallback**(`params`): `Promise`\<`undefined`\>
 
-Defined in: [src/integrations/googleAdk.ts:841](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L841)
-
 Callback executed after a response is received from the model.
 
 This is the ideal place to log model responses, collect metrics on token
 usage, or perform post-processing on the raw `LlmResponse`.
+
+Defined in: [src/integrations/googleAdk.ts:841](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L841)
 
 #### Parameters
 
@@ -154,12 +154,12 @@ An optional value. A non-`undefined` return may be used by the
 
 > **afterRunCallback**(`params`): `Promise`\<`undefined`\>
 
-Defined in: [src/integrations/googleAdk.ts:713](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L713)
-
 Callback executed after an ADK runner run has completed.
 
 This is the final callback in the ADK lifecycle, suitable for cleanup,
 final logging, or reporting tasks.
+
+Defined in: [src/integrations/googleAdk.ts:713](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L713)
 
 #### Parameters
 
@@ -187,12 +187,12 @@ undefined
 
 > **afterToolCallback**(`params`): `Promise`\<`undefined`\>
 
-Defined in: [src/integrations/googleAdk.ts:965](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L965)
-
 Callback executed after a tool has been called.
 
 This callback allows for inspecting, logging, or modifying the result
 returned by a tool.
+
+Defined in: [src/integrations/googleAdk.ts:965](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L965)
 
 #### Parameters
 
@@ -241,12 +241,12 @@ An optional dictionary. If a dictionary is returned, it will
 
 > **beforeAgentCallback**(`params`): `Promise`\<`undefined`\>
 
-Defined in: [src/integrations/googleAdk.ts:765](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L765)
-
 Callback executed before an agent's primary logic is invoked.
 
 This callback can be used for logging, setup, or to short-circuit the
 agent's execution by returning a value.
+
+Defined in: [src/integrations/googleAdk.ts:765](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L765)
 
 #### Parameters
 
@@ -282,12 +282,12 @@ An optional `Content` object. If a value is returned, it will
 
 > **beforeContextCompaction**(`_params`): `Promise`\<`undefined`\>
 
-Defined in: [src/integrations/googleAdk.ts:993](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L993)
-
 Callback executed before context compaction.
 
 This callback provides an opportunity to inspect or modify the context
 before it is compacted.
+
+Defined in: [src/integrations/googleAdk.ts:993](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L993)
 
 #### Parameters
 
@@ -309,13 +309,13 @@ before it is compacted.
 
 > **beforeModelCallback**(`params`): `Promise`\<`undefined`\>
 
-Defined in: [src/integrations/googleAdk.ts:804](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L804)
-
 Callback executed before a request is sent to the model.
 
 This provides an opportunity to inspect, log, or modify the `LlmRequest`
 object. It can also be used to implement caching by returning a cached
 `LlmResponse`, which would skip the actual model call.
+
+Defined in: [src/integrations/googleAdk.ts:804](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L804)
 
 #### Parameters
 
@@ -351,12 +351,12 @@ An optional value. The interpretation of a non-`undefined`
 
 > **beforeRunCallback**(`params`): `Promise`\<`undefined`\>
 
-Defined in: [src/integrations/googleAdk.ts:621](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L621)
-
 Callback executed before the ADK runner runs.
 
 This is the first callback to be called in the lifecycle, ideal for global
 setup or initialization tasks.
+
+Defined in: [src/integrations/googleAdk.ts:621](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L621)
 
 #### Parameters
 
@@ -387,12 +387,12 @@ An optional `Event` to be returned to the ADK. Returning a value
 
 > **beforeToolCallback**(`params`): `Promise`\<`undefined`\>
 
-Defined in: [src/integrations/googleAdk.ts:918](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L918)
-
 Callback executed before a tool is called.
 
 This callback is useful for logging tool usage, input validation, or
 modifying the arguments before they are passed to the tool.
+
+Defined in: [src/integrations/googleAdk.ts:918](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L918)
 
 #### Parameters
 
@@ -435,12 +435,12 @@ An optional dictionary. If a dictionary is returned, it will stop
 
 > **beforeToolSelection**(`_params`): `Promise`\<`undefined`\>
 
-Defined in: [src/integrations/googleAdk.ts:914](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L914)
-
 Callback executed before a tool is selected.
 
 This callback provides an opportunity to inspect, log, or modify the
 available tools before they are selected.
+
+Defined in: [src/integrations/googleAdk.ts:914](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L914)
 
 #### Parameters
 
@@ -466,14 +466,14 @@ An optional value. A non-`undefined` return may be used by the
 
 > **finishInterruptedInvocation**(`invocationId`): `void`
 
-Defined in: [src/integrations/googleAdk.ts:732](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L732)
-
 Finalizes a run that never reached `afterRunCallback`. ADK only dispatches
 `afterRunCallback` after the event loop drains normally, so a consumer that
 breaks out of `runAsync` early — or an aborted run — leaves the invocation
 (and its spans) open. The auto-instrument runner wrapper calls this from a
 `finally` to close them as interrupted. Idempotent: a no-op once the run
 has already finished (the common, fully-consumed case).
+
+Defined in: [src/integrations/googleAdk.ts:732](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L732)
 
 #### Parameters
 
@@ -491,12 +491,12 @@ has already finished (the common, fully-consumed case).
 
 > **onEventCallback**(`params`): `Promise`\<`undefined`\>
 
-Defined in: [src/integrations/googleAdk.ts:693](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L693)
-
 Callback executed after an event is yielded from runner.
 
 This is the ideal place to make modification to the event before the event
 is handled by the underlying agent app.
+
+Defined in: [src/integrations/googleAdk.ts:693](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L693)
 
 #### Parameters
 
@@ -519,8 +519,10 @@ The context for the entire invocation.
 `Promise`\<`undefined`\>
 
 An optional value. A non-`undefined` return may be used by the
-    framework to modify or replace the response. Returning `undefined`
-    allows the original response to be used.
+    framework to modify or replace the response. Copy `params.event` when
+    constructing a replacement to preserve fields that are not being
+    modified, such as event actions. Returning `undefined` allows the
+    original response to be used.
 
 #### Implementation of
 
@@ -532,12 +534,12 @@ An optional value. A non-`undefined` return may be used by the
 
 > **onModelErrorCallback**(`params`): `Promise`\<`undefined`\>
 
-Defined in: [src/integrations/googleAdk.ts:884](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L884)
-
 Callback executed when a model call encounters an error.
 
 This callback provides an opportunity to handle model errors gracefully,
 potentially providing alternative responses or recovery mechanisms.
+
+Defined in: [src/integrations/googleAdk.ts:884](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L884)
 
 #### Parameters
 
@@ -580,8 +582,6 @@ An optional LlmResponse. If an LlmResponse is returned, it will be
 
 > **onToolErrorCallback**(`params`): `Promise`\<`undefined`\>
 
-Defined in: [src/integrations/googleAdk.ts:977](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L977)
-
 Callback executed when a tool call encounters an error.
  tool: BaseTool;
  toolArgs: Record\<string, unknown>;
@@ -596,6 +596,8 @@ Callback executed when a tool call encounters an error.
 
 This callback provides an opportunity to handle tool errors gracefully,
 potentially providing alternative responses or recovery mechanisms.
+
+Defined in: [src/integrations/googleAdk.ts:977](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L977)
 
 #### Parameters
 
@@ -643,13 +645,13 @@ An optional dictionary. If a dictionary is returned, it will be
 
 > **onUserMessageCallback**(`_params`): `Promise`\<`undefined`\>
 
-Defined in: [src/integrations/googleAdk.ts:614](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L614)
-
 Callback executed when a user message is received before an invocation
 starts.
 
 This callback helps logging and modifying the user message before the
 runner starts the invocation.
+
+Defined in: [src/integrations/googleAdk.ts:614](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L614)
 
 #### Parameters
 

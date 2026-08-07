@@ -48,11 +48,16 @@ def download_weave_source(version="main"):
                 text=True,
                 check=True
             )
-            # Parse the output to get the latest version tag
+            # Parse the output to get the latest version tag. The weave repo
+            # tags Python releases as vX.Y.Z and TypeScript SDK releases as
+            # vX.Y.Z-ts; only -ts tags correspond to npm releases of the SDK
+            # documented here, so anything else must be skipped (a newer
+            # Python tag would otherwise win the sort and document
+            # unreleased TS APIs).
             for line in result.stdout.strip().split('\n'):
                 if '\trefs/tags/' in line and not line.endswith('^{}'):
                     tag = line.split('\trefs/tags/')[-1]
-                    if tag.startswith('v') and not 'dev' in tag and not 'rc' in tag:
+                    if tag.startswith('v') and tag.endswith('-ts') and not 'dev' in tag and not 'rc' in tag:
                         version = tag
                         print(f"  Using latest release: {version}")
                         break
@@ -213,6 +218,77 @@ def _escape_mdx_hostile_chars(content):
     return '\n'.join(out_lines)
 
 
+def _strip_redundant_optional_markers(content):
+    """Drop the trailing `?` from optional members' headings and bold names.
+
+    typedoc-plugin-markdown v4 marks an optional property twice: the heading
+    and bold signature name carry a trailing `?` (`### display_name?`) AND
+    the signature line carries an `optional` tag. Keep the tag, drop the
+    `?`. Only headings whose signature line has the `optional` tag are
+    touched — on function-parameter headings (`### host?`) the `?` is the
+    sole optionality marker, so it stays.
+
+    Anchor slugs are unaffected: slug generation strips `?` anyway.
+    """
+    # Heading directly followed by an `optional`-tagged signature blockquote.
+    content = re.sub(
+        r'(?m)^(#{1,6} (?:~~)?[^\n?]+)\?((?:~~)?)\n\n(?=> (?:`[a-z]+` )*`optional` )',
+        r'\1\2\n\n',
+        content,
+    )
+    # The bold name inside the signature line itself.
+    content = re.sub(
+        r'(?m)^(> (?:`[a-z]+` )*`optional` \*\*[^*\n]+?)\?((?:~~)?\*\*)',
+        r'\1\2',
+        content,
+    )
+    return content
+
+
+def _move_source_links_after_description(content):
+    """Move `Defined in: [...]` lines below the member's description.
+
+    v4 places the source link between the signature and the description
+    text, so the description — the thing readers actually want — gets
+    pushed below the metadata. Relocate each source link to the end of its
+    block (just before the next heading, `***` separator, or end of file),
+    restoring the v3-era reading order: signature, description, source.
+    """
+    lines = content.split('\n')
+    out = []
+    pending = None
+    skip_blank = False
+    in_fence = False
+
+    def flush():
+        nonlocal pending
+        if pending is not None:
+            if out and out[-1] != '':
+                out.append('')
+            out.append(pending)
+            out.append('')
+            pending = None
+
+    for line in lines:
+        if line.lstrip().startswith('```'):
+            in_fence = not in_fence
+        if not in_fence:
+            if skip_blank and line == '':
+                skip_blank = False
+                continue
+            skip_blank = False
+            if line.startswith('Defined in: ['):
+                flush()  # consecutive source links (overloads): keep order
+                pending = line
+                skip_blank = True
+                continue
+            if pending is not None and (line.startswith('#') or line == '***'):
+                flush()
+        out.append(line)
+    flush()
+    return '\n'.join(out)
+
+
 def convert_to_mintlify_format(docs_dir):
     """Convert TypeDoc markdown to Mintlify MDX format."""
     print(f"\nConverting to Mintlify format...")
@@ -263,6 +339,11 @@ def convert_to_mintlify_format(docs_dir):
         # Escape MDX-hostile characters in the body before the frontmatter is
         # prepended (the quoted YAML title must keep its bare < and >).
         content = _escape_mdx_hostile_chars(content)
+
+        # De-duplicate v4's optional markers and restore the
+        # signature → description → source-link reading order.
+        content = _strip_redundant_optional_markers(content)
+        content = _move_source_links_after_description(content)
         
         # Add Mintlify frontmatter
         frontmatter = f"""---

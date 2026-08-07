@@ -13,9 +13,9 @@ Defined in: [src/settings.ts:3](https://github.com/wandb/weave/blob/8c5f077eb11c
 
 > `readonly` **attributes**: `Record`\<`string`, `any`\>
 
-Defined in: [src/settings.ts:14](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/settings.ts#L14)
-
 A map of attributes applied to every trace produced by this client.
+
+Defined in: [src/settings.ts:14](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/settings.ts#L14)
 
 ***
 
@@ -25,15 +25,15 @@ A map of attributes applied to every trace produced by this client.
 
 Defined in: [src/settings.ts:23](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/settings.ts#L23)
 
-#### batchOptions?
+#### batchOptions
 
-> `optional` **batchOptions?**: `BufferConfig`
+> `optional` **batchOptions**: `BufferConfig`
 
 `BatchSpanProcessor` configuration. Ignored unless `spanProcessor === 'batch'`.
 
-#### spanProcessor?
+#### spanProcessor
 
-> `optional` **spanProcessor?**: `"batch"` \| `"simple"` \| `SpanProcessor`
+> `optional` **spanProcessor**: `"batch"` \| `"simple"` \| `SpanProcessor`
 
 How GenAI spans are exported.
 
@@ -52,9 +52,9 @@ How GenAI spans are exported.
 
 > `readonly` **printCallLink**: `boolean`
 
-Defined in: [src/settings.ts:9](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/settings.ts#L9)
-
 Prints links in terminal to Weave UI for ops.
+
+Defined in: [src/settings.ts:9](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/settings.ts#L9)
 
 #### Default
 
@@ -66,9 +66,9 @@ Prints links in terminal to Weave UI for ops.
 
 > **useOTelV2**: `boolean`
 
-Defined in: [src/settings.ts:21](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/settings.ts#L21)
-
 Routes OTel-capable integrations through their OTel variant.
+
+Defined in: [src/settings.ts:21](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/settings.ts#L21)
 
 #### Default
 

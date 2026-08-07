@@ -5,14 +5,14 @@ description: "TypeScript SDK reference"
 
 > **startTool**(`opts`): [`Tool`](../interfaces/tool)
 
-Defined in: [src/genai/api.ts:110](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L110)
-
 Start a Tool span. Parent resolution (matches the design's "flat by
 default, hierarchical if you nest"):
 - If an LLM is active, the Tool nests under it.
 - Otherwise, the Tool is a sibling under the current Turn.
 
 Throws if neither a Turn nor an LLM is active.
+
+Defined in: [src/genai/api.ts:110](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L110)
 
 ## Parameters
 

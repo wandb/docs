@@ -3,14 +3,14 @@ title: "Tool"
 description: "TypeScript SDK reference"
 ---
 
-Defined in: [src/genai/tool.ts:43](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/tool.ts#L43)
-
 A tool invocation. Emits an `execute_tool` span carrying the tool name,
 the JSON-encoded arguments, the tool-call id, and the result.
 
 Created by `weave.startTool()` (or `turn.startTool()`, or
 `llm.startTool()`) and terminated with `end()`. Assign `result` before
 calling `end()` to record the tool's output on the span.
+
+Defined in: [src/genai/tool.ts:43](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/tool.ts#L43)
 
 ## Example
 
@@ -50,13 +50,13 @@ Defined in: [src/genai/tool.ts:51](https://github.com/wandb/weave/blob/8c5f077eb
 
 ***
 
-### result?
+### result
 
-> `optional` **result?**: `string`
-
-Defined in: [src/genai/tool.ts:47](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/tool.ts#L47)
+> `optional` **result**: `string`
 
 Tool output as a string. Recorded on `gen_ai.tool.call.result` at `end()`.
+
+Defined in: [src/genai/tool.ts:47](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/tool.ts#L47)
 
 ***
 
@@ -79,11 +79,11 @@ See https://opentelemetry.io/blog/2026/deprecating-span-events/
 
 > **addEvent**(`name`, `attributes?`, `startTime?`): `this`
 
-Defined in: [src/genai/spanBase.ts:82](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L82)
-
 Add a named event to the span. Useful for marking non-span moments such as
 context compaction, tool-loop detection, or guardrail trips. Warns and
 no-ops after `end()`. Mirrors OTel `Span.addEvent`.
+
+Defined in: [src/genai/spanBase.ts:82](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L82)
 
 #### Parameters
 
@@ -120,10 +120,10 @@ span.addEvent('context_compacted', {removedMessages: 12});
 
 > **end**(`opts?`): `void`
 
-Defined in: [src/genai/tool.ts:87](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/tool.ts#L87)
-
 Flush `result` to the span and close it. Idempotent. Pass `error` to mark
 the span as failed; pass `endTime` to backdate the close.
+
+Defined in: [src/genai/tool.ts:87](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/tool.ts#L87)
 
 #### Parameters
 
@@ -141,11 +141,11 @@ the span as failed; pass `endTime` to backdate the close.
 
 > **setAttributes**(`attributes`): `this`
 
-Defined in: [src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L63)
-
 Set multiple attributes on the span at once. Warns and no-ops after
 `end()`. Mirrors OTel `Span.setAttributes` (and the Python SDK's
 `set_attributes`).
+
+Defined in: [src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L63)
 
 #### Parameters
 

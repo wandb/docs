@@ -35,10 +35,10 @@ Defined in: [src/weaveClient.ts:455](https://github.com/wandb/weave/blob/8c5f077
 
 > **addScore**(`predictCallId`, `scorerCallId`, `runnableRefUri`, `scorerOutput`): `Promise`\<`string`\>
 
-Defined in: [src/weaveClient.ts:1727](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1727)
-
 Add a scorer result (e.g., scorer output) to a call.
 Used in imperative evaluation to attach scorer results to predict calls.
+
+Defined in: [src/weaveClient.ts:1727](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1727)
 
 #### Parameters
 
@@ -228,8 +228,6 @@ Defined in: [src/weaveClient.ts:1025](https://github.com/wandb/weave/blob/8c5f07
 
 > **getAgentCustomAttributes**(`options`): `Promise`\<[`Response`](../type-aliases/response)\<`GetAgentCustomAttributesResult`\>\>
 
-Defined in: [src/weaveClient.ts:772](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L772)
-
 Discover typed custom-attribute keys observed on agent spans in the
 project. Each result row is one `(source, key, value_type)` triple plus
 a count of how many spans carry it, which is what the spans
@@ -238,6 +236,8 @@ query/group/stats APIs use to reference custom attrs.
 Filter the spans considered by passing `query` (a structured span
 filter), `startedAfter` / `startedBefore` (ISO-8601), or both. Use
 `limit` / `offset` to page through the discovered keys.
+
+Defined in: [src/weaveClient.ts:772](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L772)
 
 #### Parameters
 
@@ -275,9 +275,9 @@ for (const attr of resp.data.attributes ?? []) {
 
 > **getAgents**(`options?`): `Promise`\<[`Response`](../type-aliases/response)\<[`GetAgentsResult`](../type-aliases/getagentsresult)\>\>
 
-Defined in: [src/weaveClient.ts:488](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L488)
-
 List agents with aggregated stats.
+
+Defined in: [src/weaveClient.ts:488](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L488)
 
 #### Parameters
 
@@ -309,10 +309,10 @@ console.log(`total count: ${resp.data.total_count}`)
 
 > **getAgentSpans**(`options`): `Promise`\<[`Response`](../type-aliases/response)\<[`GetAgentSpansResult`](../type-aliases/getagentspansresult)\>\>
 
-Defined in: [src/weaveClient.ts:566](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L566)
-
 Query agent spans, optionally filtered by agent name and/or a mongo-style
 query expression.
+
+Defined in: [src/weaveClient.ts:566](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L566)
 
 #### Parameters
 
@@ -358,8 +358,6 @@ for (const span of resp.data.spans) {
 
 > **getAgentSpanStats**(`options`): `Promise`\<[`Response`](../type-aliases/response)\<`GetAgentSpanStatsResult`\>\>
 
-Defined in: [src/weaveClient.ts:621](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L621)
-
 Agregations over agent spans in the project, returned as rows + column
 metadata suitable for time-series / bucketed visualizations.
 
@@ -369,6 +367,8 @@ metadata suitable for time-series / bucketed visualizations.
 bucket rows by time, or `groupBy` to break results out per agent /
 provider / model / etc. `query` filters the underlying spans before
 aggregation.
+
+Defined in: [src/weaveClient.ts:621](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L621)
 
 #### Parameters
 
@@ -411,9 +411,9 @@ for (const row of resp.data.rows ?? []) {
 
 > **getAgentTurn**(`options`): `Promise`\<[`Response`](../type-aliases/response)\<`AgentTraceChatRes`\>\>
 
-Defined in: [src/weaveClient.ts:655](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L655)
-
 Get data (including messages) for a single turn (by traceId).
+
+Defined in: [src/weaveClient.ts:655](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L655)
 
 #### Parameters
 
@@ -449,9 +449,9 @@ for (const message of resp.data.messages ?? []) {
 
 > **getAgentTurns**(`options`): `Promise`\<[`Response`](../type-aliases/response)\<[`GetAgentTurnsResult`](../type-aliases/getagentturnsresult)\>\>
 
-Defined in: [src/weaveClient.ts:688](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L688)
-
 Get data (including messages) for many turns (by conversationId).
+
+Defined in: [src/weaveClient.ts:688](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L688)
 
 #### Parameters
 
@@ -491,9 +491,9 @@ console.log(`total turns: ${resp.data.total_turns}, has more: ${resp.data.has_mo
 
 > **getAgentVersions**(`options`): `Promise`\<[`Response`](../type-aliases/response)\<[`GetAgentVersionsResult`](../type-aliases/getagentversionsresult)\>\>
 
-Defined in: [src/weaveClient.ts:522](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L522)
-
 List versions for a given agent.
+
+Defined in: [src/weaveClient.ts:522](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L522)
 
 #### Parameters
 
@@ -659,9 +659,9 @@ Defined in: [src/weaveClient.ts:1486](https://github.com/wandb/weave/blob/8c5f07
 
 > **linkPromptToRegistry**(`prompt`, `options`): `Promise`\<`LinkAssetToRegistryRes`\>
 
-Defined in: [src/weaveClient.ts:1181](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1181)
-
 Link a published prompt version into a registry portfolio.
+
+Defined in: [src/weaveClient.ts:1181](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1181)
 
 #### Parameters
 
@@ -719,9 +719,9 @@ Defined in: [src/weaveClient.ts:1490](https://github.com/wandb/weave/blob/8c5f07
 
 > **newStack**: `CallStack`
 
-##### parentCall?
+##### parentCall
 
-> `optional` **parentCall?**: `CallStackEntry`
+> `optional` **parentCall**: `CallStackEntry`
 
 ***
 
@@ -843,8 +843,6 @@ Defined in: [src/weaveClient.ts:1537](https://github.com/wandb/weave/blob/8c5f07
 
 > **searchAgents**(`options`): `Promise`\<[`Response`](../type-aliases/response)\<`SearchAgentsResult`\>\>
 
-Defined in: [src/weaveClient.ts:730](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L730)
-
 Full-text search across agent messages in the project. Returns hits
 grouped by conversation, with a preview of each matched message.
 
@@ -852,6 +850,8 @@ grouped by conversation, with a preview of each matched message.
 all messages matching the structured filters (`agentName`,
 `conversationId`, `traceId`) without text matching. Use `limit` /
 `offset` to page through results.
+
+Defined in: [src/weaveClient.ts:730](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L730)
 
 #### Parameters
 
@@ -890,13 +890,13 @@ console.log(`total conversations: ${resp.data.total_conversations}`);
 
 > **serializeAudio**(`data`, `audioType?`): `Promise`\<`SerializedFileBlob`\>
 
-Defined in: [src/weaveClient.ts:1424](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1424)
-
 Upload raw audio bytes to the Weave content store and return the
 `CustomWeaveType` placeholder that can be embedded in a call output.
 
 Use this when building call outputs manually (e.g. via `saveCallEnd`)
 where the automatic serialization pipeline from `finishCall` is not used.
+
+Defined in: [src/weaveClient.ts:1424](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1424)
 
 #### Parameters
 
