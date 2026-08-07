@@ -1,0 +1,18 @@
+---
+title: エフェメラル環境の run データを保持するにはどうすればよいですか？
+keywords: ["環境変数", "Logs", "Runs"]
+---
+
+エフェメラル環境でローカルの run データと診断ログを保持するには、`WANDB_DIR` を永続ストレージ上のディレクトリに設定します。設定しない場合、pod またはコンテナーが削除されると、ローカルの `wandb/` ディレクトリ内のファイルが失われる可能性があります。
+
+以下の関連記事を参照してください。
+
+* [`wandb` ファイルのローカル保存先を指定するにはどうすればよいですか？](/ja/support/models/articles/how-can-i-define-the-local-location-for-)
+* [run が crashed と表示されるのはなぜですか？](/ja/support/models/articles/why-is-my-run-showing-as-crashed)
+* [環境変数](/ja/models/track/environment-variables)
+
+{/* AUTO-GENERATED: タブバッジ */}
+
+<Badge stroke shape="pill" color="orange" size="md">[環境変数](/ja/support/models/tags/environment-variables)</Badge><Badge stroke shape="pill" color="orange" size="md">[ログ](/ja/support/models/tags/logs)</Badge><Badge stroke shape="pill" color="orange" size="md">[Runs](/ja/support/models/tags/runs)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

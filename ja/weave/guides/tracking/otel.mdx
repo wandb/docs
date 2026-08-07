@@ -4,12 +4,16 @@ description: "専用のエンドポイントを通じて OpenTelemetry 互換の
 keywords: ["OTLP", "OpenTelemetry Collector", "OpenInference", "OpenLLMetry", "スレッド"]
 ---
 
+<Warning>
+  OTel スパンを Weave の新しい Agents ビューに送信するには、[Weave の新しい OTel ネイティブ ワークフロー](/ja/weave/guides/tracking/trace-agents-otel)を使用することをお勧めします。生の OTLP トレースデータを Weave の標準 Traces ビューに取り込む場合にのみ、このガイドを使用してください。
+</Warning>
+
 Weave は、専用のエンドポイントを通じた OpenTelemetry 互換のトレースデータのインポートをサポートしています。このエンドポイントを使用すると、OTLP (OpenTelemetry Protocol) 形式のトレースデータを Weave プロジェクトに直接送信できます。既存の OTel ベースのオブザーバビリティ パイプラインを置き換えることなく、OpenTelemetry 標準でアプリケーションを計装し、それらのトレースを他の Weave データとあわせて表示したい場合に、このインテグレーションを使用します。
 
 このページでは、エンドポイントの詳細、認証、Python と TypeScript によるエンドツーエンドの例、OpenTelemetry Collector を介してトレースを転送する方法、トレースを Weave スレッドに整理する方法、および Weave が受信したスパンに適用する属性マッピングについて説明します。
 
 <Note>
-  このエンドポイントは **Traces** ビューと **スレッド** ビューにデータを送ります。multi-turn agent から **Agents** ビューに OTel スパンを送信するには、代わりに agents エンドポイントを使用してください。詳細は、[OpenTelemetry スパンを Agents ビューに送信する](/ja/weave/guides/tracking/trace-agents-otel)を参照してください。
+  このエンドポイントは **Traces** ビューと **スレッド** ビューにデータを送ります。multi-turn エージェント から **Agents** ビューに OTel スパンを送信するには、代わりに agents エンドポイントを使用してください。詳細は、[OpenTelemetry スパンを Agents ビューに送信する](/ja/weave/guides/tracking/trace-agents-otel)を参照してください。
 </Note>
 
 <div id="endpoint-details">

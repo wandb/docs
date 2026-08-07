@@ -19,22 +19,6 @@ Public API를 사용해 W&amp;B에 저장한 데이터를 내보내거나 업데
 
 자세한 내용은 사용 가능한 함수에 대한 [생성된 레퍼런스 문서](/ko/models/ref/python/public-api/)를 참조하세요.
 
-<div id="create-an-api-key">
-  ### API 키 생성
-</div>
-
-API 키는 머신을 W&amp;B에 인증하는 데 사용됩니다.
-
-<ApiKeyCreate />
-
-<ApiKeySecurity />
-
-<div id="find-the-run-path">
-  ### run 경로 찾기
-</div>
-
-Public API를 사용하려면 `<entity>/<project>/<run_id>` 형식의 run 경로가 필요한 경우가 많습니다. 앱 UI에서 run 페이지를 열고 [Overview 탭](/ko/models/track/public-api-guide/#overview-tab)을 클릭해 run 경로를 확인하세요.
-
 <div id="export-run-data">
   ### run 데이터 내보내기
 </div>
@@ -57,56 +41,6 @@ run 객체에서 가장 자주 사용되는 속성은 다음과 같습니다.
 | `run.summary`   | run의 결과를 요약한 정보가 담긴 딕셔너리입니다. accuracy, loss 같은 스칼라 값일 수도 있고 큰 파일일 수도 있습니다. 기본적으로 `run.log()`는 로깅된 시계열의 마지막 값으로 summary를 설정합니다. summary의 내용은 직접 설정할 수도 있습니다. summary를 run의 outputs라고 생각하면 됩니다. |
 
 과거 run의 데이터도 수정하거나 업데이트할 수 있습니다. 기본적으로 API 객체 인스턴스 하나가 모든 네트워크 요청을 캐시합니다. 실행 중인 스크립트에서 실시간 정보가 필요하다면 `api.flush()`를 호출해 업데이트된 값을 가져오세요.
-
-<div id="understanding-different-run-attributes">
-  ### run의 다양한 속성 이해하기
-</div>
-
-다음 코드 예제에서는 run을 생성하고, 데이터를 로깅한 뒤 run의 속성에 접근하는 방법을 보여줍니다:
-
-```python
-import wandb
-import random
-
-with wandb.init(project="public-api-example") as run:
-    n_epochs = 5
-    config = {"n_epochs": n_epochs}
-    run.config.update(config)
-    for n in range(run.config.get("n_epochs")):
-        run.log(
-            {"val": random.randint(0, 1000), "loss": (random.randint(0, 1000) / 1000.00)}
-        )
-```
-
-다음 섹션에서는 위 run 객체 속성별로 생성되는 다양한 출력을 설명합니다.
-
-<div id="runconfig">
-  #### `run.config`
-</div>
-
-```python
-{"n_epochs": 5}
-```
-
-<div id="runsummary">
-  #### `run.summary`
-</div>
-
-```python
-{
-    "_step": 4,
-    "_timestamp": 1644345412,
-    "_wandb": {"runtime": 3},
-    "loss": 0.041,
-    "val": 525,
-}
-```
-
-<div id="sampling">
-  ### 샘플링
-</div>
-
-기본 이력 방법에서는 메트릭을 고정된 개수의 샘플로 샘플링합니다(기본값은 500이며, `samples` 인수로 변경할 수 있습니다). 큰 run의 모든 데이터를 내보내려면 `run.scan_history()` 방법을 사용할 수 있습니다. 자세한 내용은 [API 레퍼런스](/ko/models/ref/python/public-api)를 참조하세요.
 
 <div id="querying-multiple-runs">
   ### 여러 run 쿼리하기
@@ -171,12 +105,6 @@ with wandb.init(project="public-api-example") as run:
 
 W&amp;B 서버와 통신하는 중 오류가 발생하면 `wandb.CommError`가 발생합니다. 원본 예외는 `exc` 속성을 통해 확인할 수 있습니다.
 
-<div id="get-the-latest-git-commit-through-the-api">
-  ### API를 통해 최신 git 커밋 조회
-</div>
-
-UI에서 run을 클릭한 다음 run 페이지의 Overview 탭을 클릭하면 최신 git 커밋을 확인할 수 있습니다. 이 정보는 `wandb-metadata.json` 파일에서도 확인할 수 있습니다. Public API를 사용하면 `run.commit`으로 git 해시를 조회할 수 있습니다.
-
 <div id="get-a-runs-name-and-id-during-an-active-run">
   ### 활성 run 중에 run 이름과 ID 조회하기
 </div>
@@ -197,12 +125,6 @@ run에 유용한 식별자를 설정하는 방법을 고민하고 있다면, 다
   ## Public API 예시
 </div>
 
-<div id="export-data-to-visualize-in-matplotlib-or-seaborn">
-  ### matplotlib 또는 seaborn에서 시각화할 수 있도록 데이터 내보내기
-</div>
-
-몇 가지 일반적인 내보내기 패턴은 [API examples](/ko/models/ref/python/public-api/)에서 확인하세요. 맞춤형 플롯이나 확장된 Runs table에서 다운로드 버튼을 클릭해 브라우저에서 CSV를 다운로드할 수도 있습니다.
-
 <div id="read-metrics-from-a-run">
   ### run에서 메트릭 조회
 </div>
@@ -218,23 +140,6 @@ run = api.run("<entity>/<project>/<run_id>")
 if run.state == "finished":
     for i, row in run.history().iterrows():
         print(row["_timestamp"], row["accuracy"])
-```
-
-<div id="filter-runs">
-  ### run 필터링
-</div>
-
-MongoDB Query Language를 사용해 필터링할 수 있습니다.
-
-<div id="date">
-  #### 날짜
-</div>
-
-```python
-runs = api.runs(
-    "<entity>/<project>",
-    {"$and": [{"created_at": {"$lt": "YYYY-MM-DDT##", "$gt": "YYYY-MM-DDT##"}}]},
-)
 ```
 
 <div id="read-specific-metrics-from-a-run">
@@ -287,10 +192,10 @@ optimizer                             rmsprop                 adam
 ```
 
 <div id="update-metrics-for-a-run-after-the-run-has-finished">
-  ### run이 종료된 후 해당 run의 메트릭 업데이트
+  ### run이 완료된 후 해당 run의 메트릭 업데이트
 </div>
 
-이 예제에서는 이전 run의 정확도를 `0.9`로 설정합니다. 또한 이전 run의 정확도 히스토그램을 `numpy_array`의 히스토그램으로 변경합니다.
+이 예제에서는 이전 run의 정확도를 `0.9`로 설정합니다:
 
 ```python
 import wandb
@@ -299,7 +204,6 @@ api = wandb.Api()
 
 run = api.run("<entity>/<project>/<run_id>")
 run.summary["accuracy"] = 0.9
-run.summary["accuracy_histogram"] = wandb.Histogram(numpy_array)
 run.summary.update()
 ```
 
@@ -339,6 +243,8 @@ run = api.run("<entity>/<project>/<run_id>")
 run.config["key"] = updated_value
 run.update()
 ```
+
+자세한 내용은 [실험 구성](/ko/models/track/config#existing-run)을 참조하세요.
 
 <div id="export-system-resource-consumptions-to-a-csv-file">
   ### 시스템 리소스 사용량을 CSV 파일로 내보내기
@@ -599,3 +505,7 @@ run = api.run("<entity>/<project>/<run_id>")
 meta = json.load(run.file("wandb-metadata.json").download())
 program = ["python"] + [meta["program"]] + meta["args"]
 ```
+
+{/* ### 샘플링
+
+  기본 이력 방법은 메트릭을 고정된 수의 샘플로 샘플링합니다(기본값은 500이며, `samples` 인수로 변경할 수 있습니다). 대규모 run의 모든 데이터를 내보내려면 `run.scan_history()` 방법을 사용할 수 있습니다. 자세한 내용은 [API Reference](/models/ref/python/public-api)를 참조하세요.  */}

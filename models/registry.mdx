@@ -50,8 +50,9 @@ As an example, the following code example logs and links a model artifact called
 
 1. Initialize a W&B Run with `wandb.init()`.
 2. Log the artifact to W&B with `wandb.Run.log()`.
-3. Specify the name of the collection and registry to link your artifact version to.
-4. Link the artifact to the collection using `wandb.Run.link_artifact()`.
+3. Check the registry exists.
+4. Specify the name of the collection and registry to link your artifact version to.
+5. Link the artifact to the collection using `wandb.Run.link_artifact()`.
 
 Save this Python code to a script and run it. W&B Python SDK version 0.18.6 or newer is required.
 
@@ -68,7 +69,7 @@ with wandb.init(project="registry_quickstart") as run:
     # Log the artifact to W&B
     logged_artifact = run.log_artifact(
         artifact_or_path="./my_model.txt", 
-        name="gemma-finetuned", 
+        name="mnist_model", 
         type="model" # Specifies artifact type
     )
 
