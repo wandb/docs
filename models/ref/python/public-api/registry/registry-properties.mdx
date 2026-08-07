@@ -1,0 +1,70 @@
+---
+title: Registry properties
+sidebarTitle: Properties
+page_kind: class-properties
+parent_slug: registry
+kind: class
+namespace: wandb.apis.public.registries.registry
+---
+
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.Registry
+
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> allow_all_artifact_types
+
+Return whether all artifact types are allowed in the registry.
+
+If `True`, artifacts of any type can be added. If `False`, artifacts are
+restricted to the types listed in `artifact_types`.
+
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> artifact_types
+
+Returns the artifact types allowed in the registry.
+
+If `allow_all_artifact_types` is `True` then `artifact_types` reflects the
+types previously saved or currently used in the registry.
+If `allow_all_artifact_types` is `False` then artifacts are restricted to the
+types in `artifact_types`.
+
+Note:
+    Previously saved artifact types cannot be removed.
+
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> created_at
+
+Timestamp of when the registry was created.
+
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> description
+
+Description of the registry.
+
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> entity
+
+Organization entity of the registry.
+
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> full_name
+
+Full name of the registry including the `wandb-registry-` prefix.
+
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> id
+
+The unique ID for this registry.
+
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> name
+
+Name of the registry without the `wandb-registry-` prefix.
+
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> organization
+
+Organization name of the registry.
+
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> path
+
+
+
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> updated_at
+
+Timestamp of when the registry was last updated.
+
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> visibility
+
+Visibility of the registry.
+

@@ -1,0 +1,111 @@
+---
+title: Sweep methods
+sidebarTitle: Methods
+page_kind: class-methods
+parent_slug: sweep
+kind: class
+namespace: wandb.apis.public.sweeps
+---
+
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.Sweep
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Sweep.agent()
+
+Query an agent by ID for this sweep.
+
+```python
+self,
+agent_id: 'str'
+```
+
+##### Arguments
+
+<ResponseField name="agent_id" type="str">
+The ID of the agent to look up.
+</ResponseField>
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Sweep.agents()
+
+Query the list of all agents for this sweep.
+
+```python
+self
+```
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Sweep.best_run()
+
+Return the best run sorted by the metric defined in config or the order passed in.
+
+```python
+(self, order=None)
+```
+
+##### Arguments
+
+<ResponseField name="order" type="">
+
+</ResponseField>
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Sweep.get()
+
+Execute a query against the cloud backend.
+
+```python
+(api: 'Api',
+entity: 'str | None' = None,
+project: 'str | None' = None,
+sid: 'str | None' = None,
+order: 'str | None' = None,
+query: 'str | None' = None, **kwargs)
+```
+
+##### Arguments
+
+<ResponseField name="api" type="Api">
+The W&B API instance.
+</ResponseField>
+
+<ResponseField name="entity" type="str | None">
+The entity (username or team) that owns the project.
+</ResponseField>
+
+<ResponseField name="project" type="str | None">
+The name of the project to fetch sweep from.
+</ResponseField>
+
+<ResponseField name="sid" type="str | None">
+The sweep ID to query.
+</ResponseField>
+
+<ResponseField name="order" type="str | None">
+The order in which the sweep's runs are returned.
+</ResponseField>
+
+<ResponseField name="query" type="str | None">
+The query to use to execute the query.
+</ResponseField>
+
+<ResponseField name="kwargs" type="">
+
+</ResponseField>
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Sweep.to_html()
+
+Generate HTML containing an iframe displaying this sweep.
+
+```python
+self,
+height: 'int' = 420,
+hidden: 'bool' = False
+```
+
+##### Arguments
+
+<ResponseField name="height" type="int">
+
+</ResponseField>
+
+<ResponseField name="hidden" type="bool">
+
+</ResponseField>
+

@@ -1,0 +1,33 @@
+---
+title: User properties
+sidebarTitle: Properties
+page_kind: class-properties
+parent_slug: user
+kind: class
+namespace: wandb.apis.public.users
+---
+
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.User
+
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> api_keys
+
+Names of the user's API keys.
+
+This property returns the names of the the API keys, *not* the secret
+associated with the key. The name of the key cannot be used as an API
+key.
+
+The list is empty if the user has no API keys or if API keys have not
+been loaded.
+
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> teams
+
+Names of the user's teams.
+
+This is an empty list if the user has no team memberships or if teams
+data was not loaded.
+
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> user_api
+
+A `wandb.Api` instance using the user's credentials.
+

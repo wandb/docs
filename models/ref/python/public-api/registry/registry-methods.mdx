@@ -1,0 +1,307 @@
+---
+title: Registry methods
+sidebarTitle: Methods
+page_kind: class-methods
+parent_slug: registry
+kind: class
+namespace: wandb.apis.public.registries.registry
+---
+
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.Registry
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.add_members()
+
+Adds users or teams to this registry.
+
+```python
+self, *members: 'User | UserMember | Team | TeamMember | str'
+```
+
+##### Arguments
+
+<ResponseField name="members" type="User | UserMember | Team | TeamMember | str">
+The users or teams to add to the registry. Accepts `User` objects, `Team` objects, or their string IDs.
+</ResponseField>
+
+##### Returns
+
+This registry for further method chaining, if needed.
+
+##### Raises
+
+<ResponseField name="TypeError">
+If no members are passed as arguments.
+</ResponseField>
+
+<ResponseField name="ValueError">
+If unable to infer or parse the user or team IDs.
+</ResponseField>
+
+##### Examples
+
+```python
+import wandb
+
+api = wandb.Api()
+
+# Fetch an existing registry
+registry = api.registry(name="my-registry", organization="my-org")
+
+user1 = api.user(username="some-user")
+user2 = api.user(username="other-user")
+registry.add_members(user1, user2)
+
+my_team = api.team(name="my-team")
+registry.add_members(my_team)
+```
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.collections()
+
+Returns the collections belonging to this registry.
+
+```python
+self,
+filter: 'dict[str, Any] | None' = None,
+order: 'str | None' = None,
+per_page: 'PositiveInt' = 100,
+start: 'str | None' = None
+```
+
+##### Arguments
+
+<ResponseField name="filter" type="dict[str, Any] | None">
+Optional mapping of filters to apply to the collections query.
+</ResponseField>
+
+<ResponseField name="order" type="str | None">
+Optional string to specify the order of the results. If prefixed with '+', sorts ascending (default). If prefixed with '-', sorts descending.
+</ResponseField>
+
+<ResponseField name="per_page" type="PositiveInt">
+The number of results to fetch per page. Usually there is no reason to change this.
+</ResponseField>
+
+<ResponseField name="start" type="str | None">
+Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
+</ResponseField>
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.create()
+
+Create a new registry.
+
+The registry name must be unique within the organization.
+This function should be called using `api.create_registry()`
+
+```python
+api: 'Api',
+organization: 'str',
+name: 'str',
+visibility: "Literal['organization', 'restricted']",
+description: 'str | None' = None,
+artifact_types: 'list[str] | None' = None
+```
+
+##### Arguments
+
+<ResponseField name="api" type="Api">
+The W&B API instance.
+</ResponseField>
+
+<ResponseField name="organization" type="str">
+The name of the organization.
+</ResponseField>
+
+<ResponseField name="name" type="str">
+The name of the registry (without the `wandb-registry-` prefix).
+</ResponseField>
+
+<ResponseField name="visibility" type="Literal['organization', 'restricted']">
+The visibility level ('organization' or 'restricted').
+</ResponseField>
+
+<ResponseField name="description" type="str | None">
+An optional description for the registry.
+</ResponseField>
+
+<ResponseField name="artifact_types" type="list[str] | None">
+An optional list of allowed artifact types.
+</ResponseField>
+
+##### Returns
+
+`Registry`: The newly created Registry object.
+
+##### Raises
+
+<ResponseField name="ValueError">
+If a registry with the same name already exists in the organization or if the creation fails.
+</ResponseField>
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.delete()
+
+Delete the registry. This is irreversible.
+
+```python
+self
+```
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.load()
+
+Load registry attributes from the backend.
+
+```python
+self
+```
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.members()
+
+Returns the current members (users and teams) of this registry.
+
+```python
+self
+```
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.remove_members()
+
+Removes users or teams from this registry.
+
+```python
+self, *members: 'User | UserMember | Team | TeamMember | str'
+```
+
+##### Arguments
+
+<ResponseField name="members" type="User | UserMember | Team | TeamMember | str">
+The users or teams to remove from the registry. Accepts `User` objects, `Team` objects, or their string IDs.
+</ResponseField>
+
+##### Returns
+
+This registry for further method chaining, if needed.
+
+##### Raises
+
+<ResponseField name="TypeError">
+If no members are passed as arguments.
+</ResponseField>
+
+<ResponseField name="ValueError">
+If unable to infer or parse the user or team IDs.
+</ResponseField>
+
+##### Examples
+
+```python
+import wandb
+
+api = wandb.Api()
+
+# Fetch an existing registry
+registry = api.registry(name="my-registry", organization="my-org")
+
+user1 = api.user(username="some-user")
+user2 = api.user(username="other-user")
+registry.remove_members(user1, user2)
+
+old_team = api.team(name="old-team")
+registry.remove_members(old_team)
+```
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.save()
+
+Save registry attributes to the backend.
+
+```python
+self
+```
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.team_members()
+
+Returns the current member teams of this registry.
+
+```python
+self
+```
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.update_member()
+
+Updates the role of a member (user or team) within this registry.
+
+```python
+self,
+member: 'User | UserMember | Team | TeamMember | str',
+role: 'MemberRole | str'
+```
+
+##### Arguments
+
+<ResponseField name="member" type="User | UserMember | Team | TeamMember | str">
+The user or team to update the role of. Accepts a `User` object, `Team` object, or their string ID.
+</ResponseField>
+
+<ResponseField name="role" type="MemberRole | str">
+The new role to assign to the member. May be one of:
+- "admin"
+- "member"
+- "viewer"
+- "restricted_viewer" (if supported by the W&B server)
+</ResponseField>
+
+##### Returns
+
+This registry for further method chaining, if needed.
+
+##### Raises
+
+<ResponseField name="ValueError">
+If unable to infer the user or team ID.
+</ResponseField>
+
+##### Examples
+
+Make all users in the registry admins
+```python
+import wandb
+
+api = wandb.Api()
+
+# Fetch an existing registry
+registry = api.registry(name="my-registry", organization="my-org")
+
+for member in registry.user_members():
+    registry.update_member(member.user, role="admin")
+```
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.user_members()
+
+Returns the current member users of this registry.
+
+```python
+self
+```
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.versions()
+
+Returns the artifact versions belonging to this registry.
+
+```python
+self,
+filter: 'dict[str, Any] | None' = None,
+per_page: 'PositiveInt' = 100,
+start: 'str | None' = None
+```
+
+##### Arguments
+
+<ResponseField name="filter" type="dict[str, Any] | None">
+Optional mapping of filters to apply to the artifact versions query.
+</ResponseField>
+
+<ResponseField name="per_page" type="PositiveInt">
+The number of results to fetch per page. Usually there is no reason to change this.
+</ResponseField>
+
+<ResponseField name="start" type="str | None">
+Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
+</ResponseField>
+

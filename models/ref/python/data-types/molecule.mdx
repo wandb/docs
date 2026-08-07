@@ -7,15 +7,11 @@ namespace: wandb.sdk.data_types.molecule
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/molecule.py#L28" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/molecule.py#L28" />
 
 
 
-## <kbd>class</kbd> wandb.Molecule
-```python
-data_or_path: 'str | pathlib.Path | TextIO',
-caption: 'str | None' = None, **kwargs: 'str'
-```
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.Molecule
 
 
 
@@ -23,60 +19,24 @@ W&B class for 3D Molecular data.
 
 
 
+```python
+data_or_path: 'str | pathlib.Path | TextIO',
+caption: 'str | None' = None, **kwargs: 'str'
+```
+
 ## Args
 
-- `data_or_path`: Molecule can be initialized from a file name or an io object.
-- `caption`: Caption associated with the molecule for display.
-- `kwargs`: 
+<ResponseField name="data_or_path" type="str | pathlib.Path | TextIO">
+Molecule can be initialized from a file name or an io object.
+</ResponseField>
 
+<ResponseField name="caption" type="str | None">
+Caption associated with the molecule for display.
+</ResponseField>
 
+<ResponseField name="kwargs" type="str">
 
-
-
-
-
-
-## Methods
-
-### <kbd>method</kbd> Molecule.from_rdkit()
-
-```python
-data_or_path: 'RDKitDataType',
-caption: 'str | None' = None,
-convert_to_3d_and_optimize: 'bool' = True,
-mmff_optimize_molecule_max_iterations: 'int' = 200
-```
-
-Convert RDKit-supported file/object types to wandb.Molecule.
-
-##### Arguments
-
-- `data_or_path`: (string, rdkit.Chem.rdchem.Mol) Molecule can be initialized from a file name or an rdkit.Chem.rdchem.Mol object.
-- `caption`: (string) Caption associated with the molecule for display.
-- `convert_to_3d_and_optimize`: (bool) Convert to rdkit.Chem.rdchem.Mol with 3D coordinates. This is an expensive operation that may take a long time for complicated molecules.
-
-
-
-
-### <kbd>method</kbd> Molecule.from_smiles()
-
-```python
-data: 'str',
-caption: 'str | None' = None,
-sanitize: 'bool' = True,
-convert_to_3d_and_optimize: 'bool' = True,
-mmff_optimize_molecule_max_iterations: 'int' = 200
-```
-
-Convert SMILES string to wandb.Molecule.
-
-##### Arguments
-
-- `data`: SMILES string.
-- `caption`: Caption associated with the molecule for display.
-- `sanitize`: Check if the molecule is chemically reasonable by the RDKit's definition.
-- `convert_to_3d_and_optimize`: Convert to rdkit.Chem.rdchem.Mol with 3D coordinates. This is a computationally intensive operation that may take a long time for complicated molecules.
-
+</ResponseField>
 
 
 

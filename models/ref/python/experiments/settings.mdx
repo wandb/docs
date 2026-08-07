@@ -7,11 +7,50 @@ namespace: wandb.sdk.wandb_settings
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L60" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L60" />
 
 
 
-## <kbd>class</kbd> wandb.Settings
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.Settings
+
+
+
+Settings for the W&B SDK.
+
+This class manages configuration settings for the W&B SDK,
+ensuring type safety and validation of all settings. Settings are accessible
+as attributes and can be initialized programmatically, through environment
+variables (`WANDB_ prefix`), and with configuration files.
+
+The settings are organized into three categories:
+1. Public settings: Core configuration options that users can safely modify to customize
+   W&B's behavior for their specific needs.
+2. Internal settings: Settings prefixed with 'x_' that handle low-level SDK behavior.
+   These settings are primarily for internal use and debugging. While they can be modified,
+   they are not considered part of the public API and may change without notice in future
+   versions.
+3. Computed settings: Read-only settings that are automatically derived from other settings or
+   the environment.
+
+Settings are loaded from multiple sources. When the same setting is supplied
+by more than one source, the source listed later wins. From lowest to highest
+precedence:
+
+1. Default values defined on this `Settings` model.
+2. Configuration files (`~/.config/wandb/settings`, or the `settings` file in
+   the directory named by the `WANDB_CONFIG_DIR` environment variable).
+3. Environment variables (those prefixed with `WANDB_`, e.g. `WANDB_MODE`).
+4. Values detected from the runtime environment, such as the hostname, the
+   running program/script path, the Python executable, the Docker image, and
+   Jupyter notebook details.
+5. SageMaker settings, when running in an Amazon SageMaker environment.
+6. The `settings` parameter of `wandb.setup()`.
+7. The `settings` parameter of `wandb.init()`.
+8. Certain `wandb.init()` parameters (for example, `mode=` overrides the
+   `mode` setting).
+
+
+
 ```python
 *,
 allow_media_symlink: bool = False,
@@ -147,7 +186,7 @@ x_service_transport: str | None = None,
 x_service_wait: float = 30.0,
 x_skip_transaction_log: bool = False,
 x_start_time: float | None = None,
-x_stats_pid: int = 3570,
+x_stats_pid: int = 62075,
 x_stats_sampling_interval: float = 15.0,
 x_stats_neuron_monitor_config_path: str | None = None,
 x_stats_dcgm_exporter: str | None = None,
@@ -170,504 +209,639 @@ x_sync_dir_suffix: str = '',
 x_update_finish_state: bool = True
 ```
 
-
-
-Settings for the W&B SDK.
-
-This class manages configuration settings for the W&B SDK,
-ensuring type safety and validation of all settings. Settings are accessible
-as attributes and can be initialized programmatically, through environment
-variables (`WANDB_ prefix`), and with configuration files.
-
-The settings are organized into three categories:
-1. Public settings: Core configuration options that users can safely modify to customize
-   W&B's behavior for their specific needs.
-2. Internal settings: Settings prefixed with 'x_' that handle low-level SDK behavior.
-   These settings are primarily for internal use and debugging. While they can be modified,
-   they are not considered part of the public API and may change without notice in future
-   versions.
-3. Computed settings: Read-only settings that are automatically derived from other settings or
-   the environment.
-
-Settings are loaded from multiple sources. When the same setting is supplied
-by more than one source, the source listed later wins. From lowest to highest
-precedence:
-
-1. Default values defined on this `Settings` model.
-2. Configuration files (`~/.config/wandb/settings`, or the `settings` file in
-   the directory named by the `WANDB_CONFIG_DIR` environment variable).
-3. Environment variables (those prefixed with `WANDB_`, e.g. `WANDB_MODE`).
-4. Values detected from the runtime environment, such as the hostname, the
-   running program/script path, the Python executable, the Docker image, and
-   Jupyter notebook details.
-5. SageMaker settings, when running in an Amazon SageMaker environment.
-6. The `settings` parameter of `wandb.setup()`.
-7. The `settings` parameter of `wandb.init()`.
-8. Certain `wandb.init()` parameters (for example, `mode=` overrides the
-   `mode` setting).
-
-
-
 ## Args
 
-- `allow_media_symlink`: Whether to symlink media files to the run directory.
-
-    If true, media files will be symlinked or hardlinked to the
-    run directory instead of copied. This may result in faster
-    logging and reduced disk usage. However, deleting or modifying
-    the original files before upload to the W&B server will be
-    reflected in the uploaded data.
-- `allow_offline_artifacts`: Flag to allow table artifacts to be synced in offline mode.
-
-    To revert to the old behavior, set this to False.
-- `allow_val_change`: Flag to allow modification of `Config` values after they've been set.
-- `anonymous`: Deprecated and will be removed.
-- `api_key`: The W&B API key.
-- `azure_account_url_to_access_key`: Mapping of Azure account URLs to their corresponding access keys for Azure integration.
-- `app_url_override`: Override for the 'app' URL for the W&B UI.
-
-    The `app_url` is normally computed based on `base_url`, but this can be
-    used to set it explicitly.
-
-    WANDB_APP_URL is the corresponding environment variable.
-- `base_url`: The URL of the W&B backend for data synchronization.
-- `code_dir`: Directory containing the code to be tracked by W&B.
-- `config_paths`: Paths to files to load configuration from into the `Config` object.
-- `console`: The type of console capture to be applied.
-
-    Possible values are:
-    - "auto" - Automatically selects the console capture method based on the
-      system environment and settings.
-    - "off" - Disables console capture.
-    - "redirect" - Redirects low-level file descriptors for capturing output.
-    - "wrap" - Overrides the write methods of sys.stdout/sys.stderr. Will be
-      mapped to either "wrap_raw" or "wrap_emu" based on the state of the system.
-    - "wrap_raw" - Same as "wrap" but captures raw output directly instead of
-      through an emulator. Derived from the `wrap` setting and should not be set manually.
-    - "wrap_emu" - Same as "wrap" but captures output through an emulator.
-      Derived from the `wrap` setting and should not be set manually.
-- `console_multipart`: Enable multipart console logging.
-
-    When True, the SDK writes console output to timestamped files
-    under the `logs/` directory instead of a single `output.log`.
-
-    Each part is uploaded as soon as it is closed, giving users live
-    access to logs while the run is active. Rollover cadence is
-    controlled by `console_chunk_max_bytes` and/or `console_chunk_max_seconds`.
-    If both limits are `0`, all logs are uploaded once at run finish.
-
-    Note: Uploaded chunks are immutable; terminal control sequences
-    that modify previous lines (e.g., progress bars using carriage returns)
-    only affect the current chunk.
-- `console_chunk_max_bytes`: Size-based rollover threshold for multipart console logs, in bytes.
-
-    Starts a new console log file when the current part reaches this
-    size. Has an effect only when `console_multipart` is `True`.
-    Can be combined with `console_chunk_max_seconds`; whichever limit is
-    hit first triggers the rollover. A value of `0` disables the
-    size-based limit.
-- `console_chunk_max_seconds`: Time-based rollover threshold for multipart console logs, in seconds.
-
-    Starts a new console log file after this many seconds have elapsed
-    since the current part began. Requires `console_multipart` to be
-    `True`.  May be used with `console_chunk_max_bytes`; the first limit
-    reached closes the part. A value of `0` disables the time-based
-    limit.
-- `capture_loggers`: Names of Python loggers to capture into the run's Logs tab.
-
-    A mapping of logger name to minimum log level. When set, wandb installs a
-    logging.Handler on each named logger and removes it when the run finishes.
-    Log records emitted by those loggers are published as console output to the
-    run, similar to stdout/stderr capture.
-
-    Log records are formatted the same as `logging.basicConfig()`, like
-    `INFO:my_module:Some message.` This is not currently customizable.
-
-    To capture all logs, pass the name of the root logger, which is 'root'.
-
-    This is independent of the `console` setting: both can be active
-    simultaneously.
-
-    Example:
-    ```python
-    wandb.init(
-        settings=wandb.Settings(
-            console="off",
-            capture_loggers={
-                "my_app": "INFO",
-                "my_app.training": "ERROR",
-            },
-        ),
-    )
-    ```
-- `credentials_file`: Path to file for writing temporary access tokens.
-- `disable_code`: Whether to disable capturing the code.
-- `disable_git`: Whether to disable capturing the git state.
-- `disable_git_fork_point`: Whether to disable inferring fork point from remote branches
-
-    When set to True, the SDK will use the latest commit from the upstream
-    branch, if one is set. Otherwise skip generating the diff patch.
-
-    When set to False, the SDK will try to use the latest commit from the upstream branch,
-    if one is set.
-    Otherwise, it will find the closest commit from all remote branches.
-    This may impact performance for repos with many upstream branches.
-- `disable_job_creation`: Whether to disable the creation of a job artifact for W&B Launch.
-- `docker`: The Docker image used to execute the script.
-- `email`: The email address of the user.
-- `entity`: The W&B entity, such as a user or a team.
-- `organization`: The W&B organization.
-- `force`: Whether to pass the `force` flag to `wandb.login()`.
-- `fork_from`: Specifies a point in a previous execution of a run to fork from.
-
-    The point is defined by the run ID, a metric, and its value.
-    Currently, only the metric '_step' is supported.
-- `git_commit`: The git commit hash to associate with the run.
-- `git_remote`: The git remote to associate with the run.
-- `git_remote_url`: The URL of the git remote repository.
-- `git_root`: Root directory of the git repository.
-- `host`: Hostname of the machine running the script.
-- `http_proxy`: Custom proxy servers for http requests to W&B.
-- `https_proxy`: Custom proxy servers for https requests to W&B.
-- `identity_token_file`: Path to file containing an identity token (JWT) for authentication.
-- `ignore_globs`: Unix glob patterns relative to `files_dir` specifying files to exclude from upload.
-- `init_timeout`: Time in seconds to wait for the `wandb.init` call to complete before timing out.
-- `finish_timeout`: Time in seconds to wait for data to upload at the end of a run.
-
-    Setting this can limit costs caused by slow uploads to W&B at the end of a
-    run, with the trade-off that the run will be marked crashed and may be
-    missing some data. The default is for `run.finish()` to block until all
-    data finishes uploading.
-
-    If this is set to a number greater than zero, W&B gives up on uploading a
-    run's data after this many seconds at the end of a run, unblocking your
-    script. After some time, the run becomes Crashed or Failed in the UI. Any
-    unuploaded data is still stored on disk and can be uploaded with `wandb
-    sync`.
-
-    Use the `finish_timeout_raises` setting to raise an error in addition to
-    printing a warning message.
-
-    Runs shut down by `wandb.teardown()` (which automatically runs at the end
-    of a script in an atexit hook) will also respect this setting.
-- `finish_timeout_raises`: Whether to raise a TimeoutError if finish_timeout expires.
-
-    Using this together with the `finish_timeout` setting causes `run.finish()`
-    to raise a TimeoutError after a timeout in addition to printing a message.
-
-    Note that `run.finish()` is called implicitly when using a Run as a context
-    manager:
-
-        with wandb.init() as run:
-            ...  # run.finish() executes at the end of the `with` block
-
-    This does not cause `wandb.teardown()` to raise an error (since it runs
-    at the end of a script anyway).
-- `insecure_disable_ssl`: Whether to insecurely disable SSL verification.
-- `job_name`: Name of the Launch job running the script.
-- `job_source`: Source type for Launch.
-- `label_disable`: Whether to disable automatic labeling features.
-- `launch_config_path`: Path to the launch configuration file.
-- `login_timeout`: Time in seconds to wait for login operations before timing out.
-- `mode`: The operating mode for W&B logging and synchronization.
-- `notebook_name`: Name of the notebook if running in a Jupyter-like environment.
-- `program`: Path to the script that created the run, if available.
-- `program_abspath`: The absolute path from the root repository directory to the script that
-    created the run.
-
-    Root repository directory is defined as the directory containing the
-    .git directory, if it exists. Otherwise, it's the current working directory.
-- `program_relpath`: The relative path to the script that created the run.
-- `project`: The W&B project ID.
-- `quiet`: Flag to suppress non-essential output.
-- `reinit`: What to do when `wandb.init()` is called while a run is active.
-
-    Options:
-    - "default": Use "finish_previous" in notebooks and "return_previous"
-        otherwise.
-    - "return_previous": Return the most recently created run
-        that is not yet finished. This does not update `wandb.run`; see
-        the "create_new" option.
-    - "finish_previous": Finish all active runs, then return a new run.
-    - "create_new": Create a new run without modifying other active runs.
-        Does not update `wandb.run` and top-level functions like `wandb.log`.
-        Because of this, some older integrations that rely on the global run
-        will not work.
-
-    Can also be a boolean, but this is deprecated. False is the same as
-    "return_previous", and True is the same as "finish_previous".
-- `relogin`: Flag to force a new login attempt.
-- `resume`: Specifies the resume behavior for the run.
-
-    Options:
-    - "must": Resumes from an existing run with the same ID. If no such run exists,
-       it will result in failure.
-    - "allow": Attempts to resume from an existing run with the same ID. If none is
-       found, a new run will be created.
-    - "never": Always starts a new run. If a run with the same ID already exists,
-       it will result in failure.
-    - "auto": Automatically resumes from the most recent failed run on the same
-       machine.
-- `resume_from`: Specifies a point in a previous execution of a run to resume from.
-
-    The point is defined by the run ID, a metric, and its value.
-    Currently, only the metric '_step' is supported.
-- `root_dir`: The root directory to use as the base for all run-related paths.
-
-    In particular, this is used to derive the wandb directory and the run directory.
-- `run_group`: Group identifier for related runs.
-
-    Used for grouping runs in the UI.
-- `run_id`: The ID of the run.
-- `run_job_type`: Type of job being run (e.g., training, evaluation).
-- `run_name`: Human-readable name for the run.
-- `run_notes`: Additional notes or description for the run.
-- `run_tags`: Tags to associate with the run for organization and filtering.
-- `sagemaker_disable`: Flag to disable SageMaker-specific functionality.
-- `save_code`: Whether to save the code associated with the run.
-- `settings_system`: Path to the system-wide settings file.
-- `stop_fn`: A callback to execute to stop the run.
-
-    A run can be stopped through the web UI, or after a fatal error
-    (if configured via a setting).
-
-    By default, to stop a run, W&B sends a SIGINT to the main thread.
-    Set this callback to override this behavior, like to use a different
-    signal or to take some other action before interrupting.
-
-    The callback runs in a separate thread. It runs soon after a stop is
-    requested, but not immediately.
-- `max_end_of_run_history_metrics`: Maximum number of history sparklines to display at the end of a run.
-- `max_end_of_run_summary_metrics`: Maximum number of summary metrics to display at the end of a run.
-- `show_errors`: Whether to display error messages.
-- `show_info`: Whether to display informational messages.
-- `show_warnings`: Whether to display warning messages.
-- `silent`: Flag to suppress all output.
-- `stop_on_fatal_error`: Whether to stop the run after a fatal error.
-
-    After W&B hits an unrecoverable error while uploading data, it prints
-    a message and stops uploading, but still allows logging more data.
-    This is usually desirable: your training metrics get stored on disk
-    and can be recovered using `wandb sync`, even if they aren't uploaded.
-
-    This is not useful if your files get deleted after training.
-    In that case, setting this to True will stop the run after a fatal error,
-    as if the stop button was pressed in the web UI.
-- `strict`: Whether to enable strict mode for validation and error checking.
-- `summary_timeout`: Time in seconds to wait for summary operations before timing out.
-- `sweep_id`: Identifier of the sweep this run belongs to.
-- `sweep_param_path`: Path to the sweep parameters configuration.
-- `symlink`: Whether to use symlinks (True by default except on Windows).
-- `sync_tensorboard`: Whether to synchronize TensorBoard logs with W&B.
-- `table_raise_on_max_row_limit_exceeded`: Whether to raise an exception when table row limits are exceeded.
-- `use_dot_wandb`: Whether to use a hidden `.wandb` or visible `wandb` directory for run data.
-
-    If True, the SDK uses `.wandb`. If False, `wandb`.
-    If not set, defaults to `.wandb` if it already exists, otherwise `wandb`.
-- `username`: Username.
-- `x_disable_meta`: Flag to disable the collection of system metadata.
-- `x_disable_stats`: Flag to disable the collection of system metrics.
-- `x_extra_http_headers`: Additional headers to add to all outgoing HTTP requests.
-- `x_label`: Label to assign to system metrics and console logs collected for the run.
-
-    This is used to group data by on the frontend and can be used to distinguish data
-    from different processes in a distributed training job.
-- `x_primary`: Determines whether to save internal wandb files and metadata.
-
-    In a distributed setting, this is useful for avoiding file overwrites
-    from secondary processes when only system metrics and logs are needed,
-    as the primary process handles the main logging.
-- `x_save_requirements`: Flag to save the requirements file.
-- `x_server_side_derived_summary`: Flag to delegate automatic computation of summary from history to the server.
-
-    This does not disable user-provided summary updates.
-- `x_service_wait`: Time in seconds to wait for the wandb-core internal service to start.
-- `x_skip_transaction_log`: Whether to skip saving the run events to the transaction log.
-
-    This is only relevant for online runs. Can be used to reduce the amount of
-    data written to disk.
+<ResponseField name="allow_media_symlink" type="bool">
+Whether to symlink media files to the run directory.
+
+If true, media files will be symlinked or hardlinked to the
+run directory instead of copied. This may result in faster
+logging and reduced disk usage. However, deleting or modifying
+the original files before upload to the W&B server will be
+reflected in the uploaded data.
+</ResponseField>
+
+<ResponseField name="allow_offline_artifacts" type="bool">
+Flag to allow table artifacts to be synced in offline mode.
+
+To revert to the old behavior, set this to False.
+</ResponseField>
+
+<ResponseField name="allow_val_change" type="bool">
+Flag to allow modification of `Config` values after they've been set.
+</ResponseField>
+
+<ResponseField name="anonymous" type="object">
+Deprecated and will be removed.
+</ResponseField>
+
+<ResponseField name="api_key" type="str | None">
+The W&B API key.
+</ResponseField>
+
+<ResponseField name="azure_account_url_to_access_key" type="dict[str, str] | None">
+Mapping of Azure account URLs to their corresponding access keys for Azure integration.
+</ResponseField>
+
+<ResponseField name="app_url_override" type="str | None">
+Override for the 'app' URL for the W&B UI.
+
+The `app_url` is normally computed based on `base_url`, but this can be
+used to set it explicitly.
+
+WANDB_APP_URL is the corresponding environment variable.
+</ResponseField>
+
+<ResponseField name="base_url" type="str">
+The URL of the W&B backend for data synchronization.
+</ResponseField>
+
+<ResponseField name="code_dir" type="str | None">
+Directory containing the code to be tracked by W&B.
+</ResponseField>
+
+<ResponseField name="config_paths" type="collections.abc.Sequence[str] | None">
+Paths to files to load configuration from into the `Config` object.
+</ResponseField>
+
+<ResponseField name="console" type="Literal['auto', 'off', 'wrap', 'redirect', 'wrap_raw', 'wrap_emu']">
+The type of console capture to be applied.
+
+Possible values are:
+- "auto" - Automatically selects the console capture method based on the
+  system environment and settings.
+- "off" - Disables console capture.
+- "redirect" - Redirects low-level file descriptors for capturing output.
+- "wrap" - Overrides the write methods of sys.stdout/sys.stderr. Will be
+  mapped to either "wrap_raw" or "wrap_emu" based on the state of the system.
+- "wrap_raw" - Same as "wrap" but captures raw output directly instead of
+  through an emulator. Derived from the `wrap` setting and should not be set manually.
+- "wrap_emu" - Same as "wrap" but captures output through an emulator.
+  Derived from the `wrap` setting and should not be set manually.
+</ResponseField>
+
+<ResponseField name="console_multipart" type="bool">
+Enable multipart console logging.
+
+When True, the SDK writes console output to timestamped files
+under the `logs/` directory instead of a single `output.log`.
+
+Each part is uploaded as soon as it is closed, giving users live
+access to logs while the run is active. Rollover cadence is
+controlled by `console_chunk_max_bytes` and/or `console_chunk_max_seconds`.
+If both limits are `0`, all logs are uploaded once at run finish.
+
+Note: Uploaded chunks are immutable; terminal control sequences
+that modify previous lines (e.g., progress bars using carriage returns)
+only affect the current chunk.
+</ResponseField>
+
+<ResponseField name="console_chunk_max_bytes" type="int">
+Size-based rollover threshold for multipart console logs, in bytes.
+
+Starts a new console log file when the current part reaches this
+size. Has an effect only when `console_multipart` is `True`.
+Can be combined with `console_chunk_max_seconds`; whichever limit is
+hit first triggers the rollover. A value of `0` disables the
+size-based limit.
+</ResponseField>
+
+<ResponseField name="console_chunk_max_seconds" type="int">
+Time-based rollover threshold for multipart console logs, in seconds.
+
+Starts a new console log file after this many seconds have elapsed
+since the current part began. Requires `console_multipart` to be
+`True`.  May be used with `console_chunk_max_bytes`; the first limit
+reached closes the part. A value of `0` disables the time-based
+limit.
+</ResponseField>
 
-    Should be used with caution, as it removes the gurantees about
-    recoverability.
-- `x_stats_sampling_interval`: Sampling interval for the system monitor in seconds.
-- `x_stats_open_metrics_endpoints`: OpenMetrics `/metrics` endpoints to monitor for system metrics.
-- `x_stats_open_metrics_filters`: Filter to apply to metrics collected from OpenMetrics `/metrics` endpoints.
+<ResponseField name="capture_loggers" type="dict[str, str] | None">
+Names of Python loggers to capture into the run's Logs tab.
 
-    Supports two formats:
-     - `{"metric regex pattern, including endpoint name as prefix": {"label": "label value regex pattern"}}`
-     - `("metric regex pattern 1", "metric regex pattern 2", ...)`
-- `x_stats_open_metrics_http_headers`: HTTP headers to add to OpenMetrics requests.
-- `x_stats_disk_paths`: System paths to monitor for disk usage.
-- `x_stats_cpu_count`: System CPU count.
+A mapping of logger name to minimum log level. When set, wandb installs a
+logging.Handler on each named logger and removes it when the run finishes.
+Log records emitted by those loggers are published as console output to the
+run, similar to stdout/stderr capture.
 
-    If set, overrides the auto-detected value in the run metadata.
-- `x_stats_cpu_logical_count`: Logical CPU count.
+Log records are formatted the same as `logging.basicConfig()`, like
+`INFO:my_module:Some message.` This is not currently customizable.
 
-    If set, overrides the auto-detected value in the run metadata.
-- `x_stats_gpu_count`: GPU device count.
+To capture all logs, pass the name of the root logger, which is 'root'.
 
-    If set, overrides the auto-detected value in the run metadata.
-- `x_stats_gpu_type`: GPU device type.
+This is independent of the `console` setting: both can be active
+simultaneously.
 
-    If set, overrides the auto-detected value in the run metadata.
-- `x_stats_gpu_device_ids`: GPU device indices to monitor.
-
-    If not set, the system monitor captures metrics for all GPUs.
-    Assumes 0-based indexing matching CUDA/ROCm device enumeration.
-- `x_stats_track_process_tree`: Monitor the entire process tree for resource usage, starting from `x_stats_pid`.
-
-    When `True`, the system monitor aggregates the RSS, CPU%, and thread count
-    from the process with PID `x_stats_pid` and all of its descendants.
-    This can have a performance overhead and is disabled by default.
-- `x_stats_no_cgroup`: Disable cgroup v2 CPU and memory limits for system metric percentages.
-- `x_sync_dir_suffix`: Suffix to add to the run's directory name (sync_dir).
-
-    This is set in wandb.init() to avoid naming conflicts.
-    If set, it is joined to the default name with a dash.
-- `x_update_finish_state`: Flag to indicate whether this process can update the run's final state on the server.
-
-    Set to False in distributed training when only the main process should determine the final state.
-
-
-
-
-
-
-## Properties
-
-### <kbd>property</kbd> app_url
-
-The URL for the W&B UI, usually https://wandb.ai.
-
-This is different from `base_url` (like https://api.wandb.ai) which
-is used to access W&B APIs programmatically.
-
-### <kbd>property</kbd> colab_url
-
-The URL to the Colab notebook, if running in Colab.
-
-### <kbd>property</kbd> deployment
-
-
-
-### <kbd>property</kbd> files_dir
-
-Absolute path to the local directory where the run's files are stored.
-
-### <kbd>property</kbd> is_local
-
-
-
-### <kbd>property</kbd> log_dir
-
-The directory for storing log files.
-
-### <kbd>property</kbd> log_internal
-
-The path to the file to use for internal logs.
-
-### <kbd>property</kbd> log_symlink_internal
-
-The path to the symlink to the internal log file of the most recent run.
-
-### <kbd>property</kbd> log_symlink_user
-
-The path to the symlink to the user-process log file of the most recent run.
-
-### <kbd>property</kbd> log_user
-
-The path to the file to use for user-process logs.
-
-### <kbd>property</kbd> project_url
-
-The W&B URL where the project can be viewed.
-
-### <kbd>property</kbd> resume_fname
-
-The path to the resume file.
-
-### <kbd>property</kbd> run_mode
-
-The mode of the run. Can be either "run" or "offline-run".
-
-### <kbd>property</kbd> run_url
-
-The W&B URL where the run can be viewed.
-
-### <kbd>property</kbd> settings_workspace
-
-The path to the workspace settings file.
-
-### <kbd>property</kbd> sweep_url
-
-The W&B URL where the sweep can be viewed.
-
-### <kbd>property</kbd> sync_dir
-
-The directory for storing the run's files.
-
-### <kbd>property</kbd> sync_file
-
-Path to the append-only binary transaction log file.
-
-### <kbd>property</kbd> sync_symlink_latest
-
-Path to the symlink to the most recent run's transaction log file.
-
-### <kbd>property</kbd> timespec
-
-The time specification for the run.
-
-### <kbd>property</kbd> wandb_dir
-
-Full path to the wandb directory.
-
-
-
-## Methods
-
-### <kbd>method</kbd> Settings.validate_anonymous()
-
+Example:
 ```python
-value: 'object'
+wandb.init(
+    settings=wandb.Settings(
+        console="off",
+        capture_loggers={
+            "my_app": "INFO",
+            "my_app.training": "ERROR",
+        },
+    ),
+)
 ```
+</ResponseField>
 
+<ResponseField name="credentials_file" type="str">
+Path to file for writing temporary access tokens.
+</ResponseField>
 
+<ResponseField name="disable_code" type="bool">
+Whether to disable capturing the code.
+</ResponseField>
 
-##### Arguments
+<ResponseField name="disable_git" type="bool">
+Whether to disable capturing the git state.
+</ResponseField>
 
-- `value`: 
+<ResponseField name="disable_git_fork_point" type="bool">
+Whether to disable inferring fork point from remote branches
 
+When set to True, the SDK will use the latest commit from the upstream
+branch, if one is set. Otherwise skip generating the diff patch.
 
+When set to False, the SDK will try to use the latest commit from the upstream branch,
+if one is set.
+Otherwise, it will find the closest commit from all remote branches.
+This may impact performance for repos with many upstream branches.
+</ResponseField>
 
+<ResponseField name="disable_job_creation" type="bool">
+Whether to disable the creation of a job artifact for W&B Launch.
+</ResponseField>
 
-### <kbd>method</kbd> Settings.validate_x_extra_http_headers()
+<ResponseField name="docker" type="str | None">
+The Docker image used to execute the script.
+</ResponseField>
 
-```python
-(value)
-```
+<ResponseField name="email" type="str | None">
+The email address of the user.
+</ResponseField>
 
+<ResponseField name="entity" type="str | None">
+The W&B entity, such as a user or a team.
+</ResponseField>
 
+<ResponseField name="organization" type="str | None">
+The W&B organization.
+</ResponseField>
 
-##### Arguments
+<ResponseField name="force" type="bool">
+Whether to pass the `force` flag to `wandb.login()`.
+</ResponseField>
 
-- `value`: 
+<ResponseField name="fork_from" type="wandb.sdk.lib.run_moment.RunMoment | None">
+Specifies a point in a previous execution of a run to fork from.
 
+The point is defined by the run ID, a metric, and its value.
+Currently, only the metric '_step' is supported.
+</ResponseField>
 
+<ResponseField name="git_commit" type="str | None">
+The git commit hash to associate with the run.
+</ResponseField>
 
+<ResponseField name="git_remote" type="str">
+The git remote to associate with the run.
+</ResponseField>
 
-### <kbd>method</kbd> Settings.validate_x_stats_coreweave_metadata_base_url()
+<ResponseField name="git_remote_url" type="str | None">
+The URL of the git remote repository.
+</ResponseField>
 
-```python
-(value)
-```
+<ResponseField name="git_root" type="str | None">
+Root directory of the git repository.
+</ResponseField>
 
+<ResponseField name="host" type="str | None">
+Hostname of the machine running the script.
+</ResponseField>
 
+<ResponseField name="http_proxy" type="str | None">
+Custom proxy servers for http requests to W&B.
+</ResponseField>
 
-##### Arguments
+<ResponseField name="https_proxy" type="str | None">
+Custom proxy servers for https requests to W&B.
+</ResponseField>
 
-- `value`: 
+<ResponseField name="identity_token_file" type="str | None">
+Path to file containing an identity token (JWT) for authentication.
+</ResponseField>
 
+<ResponseField name="ignore_globs" type="collections.abc.Sequence[str]">
+Unix glob patterns relative to `files_dir` specifying files to exclude from upload.
+</ResponseField>
+
+<ResponseField name="init_timeout" type="float">
+Time in seconds to wait for the `wandb.init` call to complete before timing out.
+</ResponseField>
+
+<ResponseField name="finish_timeout" type="float">
+Time in seconds to wait for data to upload at the end of a run.
+
+Setting this can limit costs caused by slow uploads to W&B at the end of a
+run, with the trade-off that the run will be marked crashed and may be
+missing some data. The default is for `run.finish()` to block until all
+data finishes uploading.
+
+If this is set to a number greater than zero, W&B gives up on uploading a
+run's data after this many seconds at the end of a run, unblocking your
+script. After some time, the run becomes Crashed or Failed in the UI. Any
+unuploaded data is still stored on disk and can be uploaded with `wandb
+sync`.
+
+Use the `finish_timeout_raises` setting to raise an error in addition to
+printing a warning message.
+
+Runs shut down by `wandb.teardown()` (which automatically runs at the end
+of a script in an atexit hook) will also respect this setting.
+</ResponseField>
+
+<ResponseField name="finish_timeout_raises" type="bool">
+Whether to raise a TimeoutError if finish_timeout expires.
+
+Using this together with the `finish_timeout` setting causes `run.finish()`
+to raise a TimeoutError after a timeout in addition to printing a message.
+
+Note that `run.finish()` is called implicitly when using a Run as a context
+manager:
+
+    with wandb.init() as run:
+        ...  # run.finish() executes at the end of the `with` block
+
+This does not cause `wandb.teardown()` to raise an error (since it runs
+at the end of a script anyway).
+</ResponseField>
+
+<ResponseField name="insecure_disable_ssl" type="bool">
+Whether to insecurely disable SSL verification.
+</ResponseField>
+
+<ResponseField name="job_name" type="str | None">
+Name of the Launch job running the script.
+</ResponseField>
+
+<ResponseField name="job_source" type="Optional[Literal['repo', 'artifact', 'image']]">
+Source type for Launch.
+</ResponseField>
+
+<ResponseField name="label_disable" type="bool">
+Whether to disable automatic labeling features.
+</ResponseField>
+
+<ResponseField name="launch_config_path" type="str | None">
+Path to the launch configuration file.
+</ResponseField>
+
+<ResponseField name="login_timeout" type="float | None">
+Time in seconds to wait for login operations before timing out.
+</ResponseField>
+
+<ResponseField name="mode" type="Literal['online', 'offline', 'shared', 'disabled', 'dryrun', 'run']">
+The operating mode for W&B logging and synchronization.
+</ResponseField>
+
+<ResponseField name="notebook_name" type="str | None">
+Name of the notebook if running in a Jupyter-like environment.
+</ResponseField>
+
+<ResponseField name="program" type="str | None">
+Path to the script that created the run, if available.
+</ResponseField>
+
+<ResponseField name="program_abspath" type="str | None">
+The absolute path from the root repository directory to the script that
+created the run.
+
+Root repository directory is defined as the directory containing the
+.git directory, if it exists. Otherwise, it's the current working directory.
+</ResponseField>
+
+<ResponseField name="program_relpath" type="str | None">
+The relative path to the script that created the run.
+</ResponseField>
+
+<ResponseField name="project" type="str | None">
+The W&B project ID.
+</ResponseField>
+
+<ResponseField name="quiet" type="bool">
+Flag to suppress non-essential output.
+</ResponseField>
+
+<ResponseField name="reinit" type="Union[Literal['default', 'return_previous', 'finish_previous', 'create_new'], bool]">
+What to do when `wandb.init()` is called while a run is active.
+
+Options:
+- "default": Use "finish_previous" in notebooks and "return_previous"
+    otherwise.
+- "return_previous": Return the most recently created run
+    that is not yet finished. This does not update `wandb.run`; see
+    the "create_new" option.
+- "finish_previous": Finish all active runs, then return a new run.
+- "create_new": Create a new run without modifying other active runs.
+    Does not update `wandb.run` and top-level functions like `wandb.log`.
+    Because of this, some older integrations that rely on the global run
+    will not work.
+
+Can also be a boolean, but this is deprecated. False is the same as
+"return_previous", and True is the same as "finish_previous".
+</ResponseField>
+
+<ResponseField name="relogin" type="bool">
+Flag to force a new login attempt.
+</ResponseField>
+
+<ResponseField name="resume" type="Optional[Literal['allow', 'must', 'never', 'auto']]">
+Specifies the resume behavior for the run.
+
+Options:
+- "must": Resumes from an existing run with the same ID. If no such run exists,
+   it will result in failure.
+- "allow": Attempts to resume from an existing run with the same ID. If none is
+   found, a new run will be created.
+- "never": Always starts a new run. If a run with the same ID already exists,
+   it will result in failure.
+- "auto": Automatically resumes from the most recent failed run on the same
+   machine.
+</ResponseField>
+
+<ResponseField name="resume_from" type="wandb.sdk.lib.run_moment.RunMoment | None">
+Specifies a point in a previous execution of a run to resume from.
+
+The point is defined by the run ID, a metric, and its value.
+Currently, only the metric '_step' is supported.
+</ResponseField>
+
+<ResponseField name="root_dir" type="str">
+The root directory to use as the base for all run-related paths.
+
+In particular, this is used to derive the wandb directory and the run directory.
+</ResponseField>
+
+<ResponseField name="run_group" type="str | None">
+Group identifier for related runs.
+
+Used for grouping runs in the UI.
+</ResponseField>
+
+<ResponseField name="run_id" type="str | None">
+The ID of the run.
+</ResponseField>
+
+<ResponseField name="run_job_type" type="str | None">
+Type of job being run (e.g., training, evaluation).
+</ResponseField>
+
+<ResponseField name="run_name" type="str | None">
+Human-readable name for the run.
+</ResponseField>
+
+<ResponseField name="run_notes" type="str | None">
+Additional notes or description for the run.
+</ResponseField>
+
+<ResponseField name="run_tags" type="tuple[str, ...] | None">
+Tags to associate with the run for organization and filtering.
+</ResponseField>
+
+<ResponseField name="sagemaker_disable" type="bool">
+Flag to disable SageMaker-specific functionality.
+</ResponseField>
+
+<ResponseField name="save_code" type="bool | None">
+Whether to save the code associated with the run.
+</ResponseField>
+
+<ResponseField name="settings_system" type="str | None">
+Path to the system-wide settings file.
+</ResponseField>
+
+<ResponseField name="stop_fn" type="collections.abc.Callable[[], None] | None">
+A callback to execute to stop the run.
+
+A run can be stopped through the web UI, or after a fatal error
+(if configured via a setting).
+
+By default, to stop a run, W&B sends a SIGINT to the main thread.
+Set this callback to override this behavior, like to use a different
+signal or to take some other action before interrupting.
+
+The callback runs in a separate thread. It runs soon after a stop is
+requested, but not immediately.
+</ResponseField>
+
+<ResponseField name="max_end_of_run_history_metrics" type="int">
+Maximum number of history sparklines to display at the end of a run.
+</ResponseField>
+
+<ResponseField name="max_end_of_run_summary_metrics" type="int">
+Maximum number of summary metrics to display at the end of a run.
+</ResponseField>
+
+<ResponseField name="show_errors" type="bool">
+Whether to display error messages.
+</ResponseField>
+
+<ResponseField name="show_info" type="bool">
+Whether to display informational messages.
+</ResponseField>
+
+<ResponseField name="show_warnings" type="bool">
+Whether to display warning messages.
+</ResponseField>
+
+<ResponseField name="silent" type="bool">
+Flag to suppress all output.
+</ResponseField>
+
+<ResponseField name="stop_on_fatal_error" type="bool">
+Whether to stop the run after a fatal error.
+
+After W&B hits an unrecoverable error while uploading data, it prints
+a message and stops uploading, but still allows logging more data.
+This is usually desirable: your training metrics get stored on disk
+and can be recovered using `wandb sync`, even if they aren't uploaded.
+
+This is not useful if your files get deleted after training.
+In that case, setting this to True will stop the run after a fatal error,
+as if the stop button was pressed in the web UI.
+</ResponseField>
+
+<ResponseField name="strict" type="bool | None">
+Whether to enable strict mode for validation and error checking.
+</ResponseField>
+
+<ResponseField name="summary_timeout" type="int">
+Time in seconds to wait for summary operations before timing out.
+</ResponseField>
+
+<ResponseField name="sweep_id" type="str | None">
+Identifier of the sweep this run belongs to.
+</ResponseField>
+
+<ResponseField name="sweep_param_path" type="str | None">
+Path to the sweep parameters configuration.
+</ResponseField>
+
+<ResponseField name="symlink" type="bool">
+Whether to use symlinks (True by default except on Windows).
+</ResponseField>
+
+<ResponseField name="sync_tensorboard" type="bool | None">
+Whether to synchronize TensorBoard logs with W&B.
+</ResponseField>
+
+<ResponseField name="table_raise_on_max_row_limit_exceeded" type="bool">
+Whether to raise an exception when table row limits are exceeded.
+</ResponseField>
+
+<ResponseField name="use_dot_wandb" type="bool | None">
+Whether to use a hidden `.wandb` or visible `wandb` directory for run data.
+
+If True, the SDK uses `.wandb`. If False, `wandb`.
+If not set, defaults to `.wandb` if it already exists, otherwise `wandb`.
+</ResponseField>
+
+<ResponseField name="username" type="str | None">
+Username.
+</ResponseField>
+
+<ResponseField name="x_disable_meta" type="bool">
+Flag to disable the collection of system metadata.
+</ResponseField>
+
+<ResponseField name="x_disable_stats" type="bool">
+Flag to disable the collection of system metrics.
+</ResponseField>
+
+<ResponseField name="x_extra_http_headers" type="dict[str, str] | None">
+Additional headers to add to all outgoing HTTP requests.
+</ResponseField>
+
+<ResponseField name="x_label" type="str | None">
+Label to assign to system metrics and console logs collected for the run.
+
+This is used to group data by on the frontend and can be used to distinguish data
+from different processes in a distributed training job.
+</ResponseField>
+
+<ResponseField name="x_primary" type="bool">
+Determines whether to save internal wandb files and metadata.
+
+In a distributed setting, this is useful for avoiding file overwrites
+from secondary processes when only system metrics and logs are needed,
+as the primary process handles the main logging.
+</ResponseField>
+
+<ResponseField name="x_save_requirements" type="bool">
+Flag to save the requirements file.
+</ResponseField>
+
+<ResponseField name="x_server_side_derived_summary" type="bool">
+Flag to delegate automatic computation of summary from history to the server.
+
+This does not disable user-provided summary updates.
+</ResponseField>
+
+<ResponseField name="x_service_wait" type="float">
+Time in seconds to wait for the wandb-core internal service to start.
+</ResponseField>
+
+<ResponseField name="x_skip_transaction_log" type="bool">
+Whether to skip saving the run events to the transaction log.
+
+This is only relevant for online runs. Can be used to reduce the amount of
+data written to disk.
+
+Should be used with caution, as it removes the gurantees about
+recoverability.
+</ResponseField>
+
+<ResponseField name="x_stats_sampling_interval" type="float">
+Sampling interval for the system monitor in seconds.
+</ResponseField>
+
+<ResponseField name="x_stats_open_metrics_endpoints" type="dict[str, str] | None">
+OpenMetrics `/metrics` endpoints to monitor for system metrics.
+</ResponseField>
+
+<ResponseField name="x_stats_open_metrics_filters" type="dict[str, dict[str, str]] | collections.abc.Sequence[str] | None">
+Filter to apply to metrics collected from OpenMetrics `/metrics` endpoints.
+
+Supports two formats:
+ - `{"metric regex pattern, including endpoint name as prefix": {"label": "label value regex pattern"}}`
+ - `("metric regex pattern 1", "metric regex pattern 2", ...)`
+</ResponseField>
+
+<ResponseField name="x_stats_open_metrics_http_headers" type="dict[str, str] | None">
+HTTP headers to add to OpenMetrics requests.
+</ResponseField>
+
+<ResponseField name="x_stats_disk_paths" type="collections.abc.Sequence[str] | None">
+System paths to monitor for disk usage.
+</ResponseField>
+
+<ResponseField name="x_stats_cpu_count" type="int | None">
+System CPU count.
+
+If set, overrides the auto-detected value in the run metadata.
+</ResponseField>
+
+<ResponseField name="x_stats_cpu_logical_count" type="int | None">
+Logical CPU count.
+
+If set, overrides the auto-detected value in the run metadata.
+</ResponseField>
+
+<ResponseField name="x_stats_gpu_count" type="int | None">
+GPU device count.
+
+If set, overrides the auto-detected value in the run metadata.
+</ResponseField>
+
+<ResponseField name="x_stats_gpu_type" type="str | None">
+GPU device type.
+
+If set, overrides the auto-detected value in the run metadata.
+</ResponseField>
+
+<ResponseField name="x_stats_gpu_device_ids" type="collections.abc.Sequence[int] | None">
+GPU device indices to monitor.
+
+If not set, the system monitor captures metrics for all GPUs.
+Assumes 0-based indexing matching CUDA/ROCm device enumeration.
+</ResponseField>
+
+<ResponseField name="x_stats_track_process_tree" type="bool">
+Monitor the entire process tree for resource usage, starting from `x_stats_pid`.
+
+When `True`, the system monitor aggregates the RSS, CPU%, and thread count
+from the process with PID `x_stats_pid` and all of its descendants.
+This can have a performance overhead and is disabled by default.
+</ResponseField>
+
+<ResponseField name="x_stats_no_cgroup" type="bool">
+Disable cgroup v2 CPU and memory limits for system metric percentages.
+</ResponseField>
+
+<ResponseField name="x_sync_dir_suffix" type="str">
+Suffix to add to the run's directory name (sync_dir).
+
+This is set in wandb.init() to avoid naming conflicts.
+If set, it is joined to the default name with a dash.
+</ResponseField>
+
+<ResponseField name="x_update_finish_state" type="bool">
+Flag to indicate whether this process can update the run's final state on the server.
+
+Set to False in distributed training when only the main process should determine the final state.
+</ResponseField>
 
 
 

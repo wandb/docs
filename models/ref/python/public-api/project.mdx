@@ -7,17 +7,11 @@ namespace: wandb.apis.public.projects
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py#L142" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py#L143" />
 
 
 
-## <kbd>class</kbd> wandb.apis.public.Project
-```python
-service_api: 'ServiceApi',
-entity: 'str',
-project: 'str',
-attrs: 'Mapping[str, Any]'
-```
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.Project
 
 
 
@@ -25,94 +19,30 @@ A project is a namespace for runs.
 
 
 
+```python
+service_api: 'ServiceApi',
+entity: 'str',
+project: 'str',
+attrs: 'Mapping[str, Any]'
+```
+
 ## Args
 
-- `service_api`: The service API used to query W&B.
-- `entity`: The entity which owns the project.
-- `project`: The name of the project to query.
-- `attrs`: The attributes of the project.
+<ResponseField name="service_api" type="ServiceApi">
+The service API used to query W&B.
+</ResponseField>
 
+<ResponseField name="entity" type="str">
+The entity which owns the project.
+</ResponseField>
 
+<ResponseField name="project" type="str">
+The name of the project to query.
+</ResponseField>
 
-
-
-
-## Properties
-
-### <kbd>property</kbd> id
-
-
-
-### <kbd>property</kbd> owner
-
-Returns the project owner as a User object.
-
-### <kbd>property</kbd> path
-
-Returns the path of the project. The path is a list containing the
-entity and project name.
-
-### <kbd>property</kbd> url
-
-Returns the URL of the project.
-
-
-
-## Methods
-
-### <kbd>method</kbd> Project.artifacts_types()
-
-```python
-self,
-per_page: 'int' = 50
-```
-
-Returns all artifact types associated with this project.
-
-##### Arguments
-
-- `per_page`: 
-
-
-
-
-### <kbd>method</kbd> Project.collections()
-
-```python
-self,
-filters: 'Mapping[str, Any] | None' = None,
-order: 'str | None' = None,
-per_page: 'int' = 50
-```
-
-Returns all artifact collections associated with this project.
-
-##### Arguments
-
-- `filters`: Optional mapping of filters to apply to the query.
-- `order`: Optional string to specify the order of the results. If you prepend order with a + order is ascending (default). If you prepend order with a - order is descending.
-- `per_page`: The number of artifact collections to fetch per page. Default is 50.
-
-
-
-
-### <kbd>method</kbd> Project.sweeps()
-
-```python
-self,
-per_page: 'int' = 50,
-filters: 'dict[str, Any] | None' = None,
-order: 'str | None' = None
-```
-
-Return a paginated collection of sweeps in this project.
-
-##### Arguments
-
-- `per_page`: The number of sweeps to fetch per request to the API.
-- `filters`: (dict) queries for specific sweeps using the runs filters, See wandb/apis/public/api.py:runs for more details.
-- `order`: 
-
+<ResponseField name="attrs" type="Mapping[str, Any]">
+The attributes of the project.
+</ResponseField>
 
 
 

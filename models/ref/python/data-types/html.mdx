@@ -7,16 +7,11 @@ namespace: wandb.sdk.data_types.html
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/html.py#L22" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/html.py#L22" />
 
 
 
-## <kbd>class</kbd> wandb.Html
-```python
-data: 'str | pathlib.Path | TextIO',
-inject: 'bool' = True,
-data_is_not_path: 'bool' = False
-```
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.Html
 
 
 
@@ -24,16 +19,25 @@ W&B class for logging HTML content to W&B.
 
 
 
+```python
+data: 'str | pathlib.Path | TextIO',
+inject: 'bool' = True,
+data_is_not_path: 'bool' = False
+```
+
 ## Args
 
-- `data`: A string that is a path to a file with the extension ".html", or a string or IO object containing literal HTML.
-- `inject`: Add a stylesheet to the HTML object. If set to False the HTML will pass through unchanged.
-- `data_is_not_path`: If set to False, the data will be treated as a path to a file.
+<ResponseField name="data" type="str | pathlib.Path | TextIO">
+A string that is a path to a file with the extension ".html", or a string or IO object containing literal HTML.
+</ResponseField>
 
+<ResponseField name="inject" type="bool">
+Add a stylesheet to the HTML object. If set to False the HTML will pass through unchanged.
+</ResponseField>
 
-
-
-
+<ResponseField name="data_is_not_path" type="bool">
+If set to False, the data will be treated as a path to a file.
+</ResponseField>
 
 
 

@@ -7,17 +7,11 @@ namespace: wandb.apis.public.organizations
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/organizations.py#LNone" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/organizations.py#LNone" />
 
 
 
-## <kbd>class</kbd> wandb.apis.public.Organization
-```python
-service_api: 'InitVar[ServiceApi]', *,
-id: 'GQLId',
-name: 'str',
-org_entity: '_OrgEntity'
-```
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.Organization
 
 
 
@@ -28,17 +22,30 @@ Users should never need to instantiate this class directly. Use
 
 
 
+```python
+service_api: 'InitVar[ServiceApi]', *,
+id: 'GQLId',
+name: 'str',
+org_entity: '_OrgEntity'
+```
+
 ## Args
 
-- `service_api`: 
-- `id`: 
-- `name`: 
-- `org_entity`: 
+<ResponseField name="service_api" type="InitVar[ServiceApi]">
 
+</ResponseField>
 
+<ResponseField name="id" type="GQLId">
 
+</ResponseField>
 
+<ResponseField name="name" type="str">
 
+</ResponseField>
+
+<ResponseField name="org_entity" type="_OrgEntity">
+
+</ResponseField>
 
 
 

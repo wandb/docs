@@ -7,16 +7,11 @@ namespace: wandb.automations.actions
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py#L208" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py#L208" />
 
 
 
-## <kbd>class</kbd> wandb.automations.DoNothing
-```python
-*,
-no_op: Annotated[bool, BeforeValidator(func=<function default_if_none>, json_schema_input_type=PydanticUndefined)] = True,
-action_type: Literal[NO_OP] = NO_OP
-```
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.automations.DoNothing
 
 
 
@@ -24,17 +19,23 @@ Defines an automation action that intentionally does nothing.
 
 
 
+```python
+*,
+no_op: Annotated[bool, BeforeValidator(func=<function default_if_none>, json_schema_input_type=PydanticUndefined)] = True,
+action_type: Literal[NO_OP] = NO_OP
+```
+
 ## Args
 
-- `no_op`: Placeholder field which exists only to satisfy backend schema requirements.
+<ResponseField name="no_op" type="Annotated[bool, BeforeValidator(func= None, json_schema_input_type=PydanticUndefined)]">
+Placeholder field which exists only to satisfy backend schema requirements.
 
-    There should never be a need to set this field explicitly, as its value is ignored.
-- `action_type`: 
+There should never be a need to set this field explicitly, as its value is ignored.
+</ResponseField>
 
+<ResponseField name="action_type" type="Literal[NO_OP]">
 
-
-
-
+</ResponseField>
 
 
 

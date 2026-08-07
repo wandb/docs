@@ -7,17 +7,11 @@ namespace: wandb.automations.actions
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py#L183" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py#L183" />
 
 
 
-## <kbd>class</kbd> wandb.automations.SendWebhook
-```python
-*,
-integration_id: Annotated[str, Strict(strict=True)],
-requestPayload: Optional[Annotated[dict[str, Any], Json, BeforeValidator(func=<function ensure_json>, json_schema_input_type=PydanticUndefined), PlainSerializer(func=<function to_json>, return_type=PydanticUndefined, when_used='always')]] = None,
-action_type: Literal[GENERIC_WEBHOOK] = GENERIC_WEBHOOK
-```
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.automations.SendWebhook
 
 
 
@@ -25,35 +19,26 @@ Defines an automation action that sends a webhook request.
 
 
 
-## Args
-
-- `integration_id`: The ID of the webhook integration that will be used to send the request.
-- `requestPayload`: The payload, possibly with template variables, to send in the webhook request.
-- `action_type`: 
-
-
-
-
-
-
-
-
-## Methods
-
-### <kbd>method</kbd> SendWebhook.from_integration()
-
 ```python
-integration: 'WebhookIntegration', *,
-payload: 'JsonEncoded[dict[str, Any]] | None' = None
+*,
+integration_id: Annotated[str, Strict(strict=True)],
+requestPayload: Optional[Annotated[dict[str, Any], Json, BeforeValidator(func=<function ensure_json>, json_schema_input_type=PydanticUndefined), PlainSerializer(func=<function to_json>, return_type=PydanticUndefined, when_used='always')]] = None,
+action_type: Literal[GENERIC_WEBHOOK] = GENERIC_WEBHOOK
 ```
 
-Define a webhook action that sends to the given (webhook) integration.
+## Args
 
-##### Arguments
+<ResponseField name="integration_id" type="Annotated[str, Strict(strict=True)]">
+The ID of the webhook integration that will be used to send the request.
+</ResponseField>
 
-- `integration`: 
-- `payload`: 
+<ResponseField name="requestPayload" type="Optional[Annotated[dict[str, Any], Json, BeforeValidator(func= None, json_schema_input_type=PydanticUndefined), PlainSerializer(func= None, return_type=PydanticUndefined, when_used='always')]]">
+The payload, possibly with template variables, to send in the webhook request.
+</ResponseField>
 
+<ResponseField name="action_type" type="Literal[GENERIC_WEBHOOK]">
+
+</ResponseField>
 
 
 
