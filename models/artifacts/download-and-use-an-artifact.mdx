@@ -36,7 +36,7 @@ Use `wandb.Run.use_artifact()` to download an artifact as part of a W&B run. W&B
 ```python
 import wandb    
 
-with wandb.init(project="<example>", job_type="<job-type>") as run:
+with wandb.init(project="[EXAMPLE]", job_type="[JOB-TYPE]") as run:
     # Indicate the artifact to use. Format is "name:alias"
     artifact = run.use_artifact("bike-dataset:latest")
 
@@ -83,7 +83,7 @@ $ wandb artifact get project/artifact:alias --root mnist/
 You can optionally download part of an artifact based on a prefix. Use the `path_prefix=` (`wandb.Artifact.download(path_prefix=)`) parameter to download a single file or the content of a sub-folder.
 
 ```python
-with wandb.init(project="<example>", job_type="<job-type>") as run:
+with wandb.init(project="[EXAMPLE]", job_type="[JOB-TYPE]") as run:
     # Indicate the artifact to use. Format is "name:alias"
     artifact = run.use_artifact("bike-dataset:latest")
 
@@ -104,7 +104,7 @@ Specify the name of the artifact along with its project name to reference an art
 The following code example demonstrates how to query an artifact from another project as input to the current W&B run.
 
 ```python
-with wandb.init(project="<example>", job_type="<job-type>") as run:
+with wandb.init(project="[EXAMPLE]", job_type="[JOB-TYPE]") as run:
     # Query W&B for an artifact from another project and mark it
     # as an input to this run.
     artifact = run.use_artifact("my-project/artifact:alias")
@@ -122,7 +122,7 @@ Simultaneously construct and use an artifact. Create an artifact object and pass
 ```python
 import wandb
 
-with wandb.init(project="<example>", job_type="<job-type>") as run:
+with wandb.init(project="[EXAMPLE]", job_type="[JOB-TYPE]") as run:
     artifact = wandb.Artifact("reference model")
     artifact.add_file("model.h5")
     run.use_artifact(artifact)

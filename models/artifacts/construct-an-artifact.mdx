@@ -1,5 +1,5 @@
 ---
-description: Create and log a W&B Artifact. Learn how to add one or more files or a URI reference to an Artifact.
+description: Create and log a W&B artifact. Learn how to add one or more files or a URI reference to an artifact.
 title: Create an artifact
 ---
 
@@ -9,7 +9,7 @@ For information on how to track external files, such as files stored in Amazon S
 
 ## Construct an artifact
 
-Construct a [W&B Artifact](/models/ref/python/experiments/artifact) in three steps:
+Construct a [W&B artifact](/models/ref/python/experiments/artifact) in three steps:
 
 1. [Create an artifact Python object with `wandb.Artifact()`](/models/artifacts/construct-an-artifact#create-an-artifact-python-object-with-wandb-artifact)
 2. [Add one or more files to the artifact](/models/artifacts/construct-an-artifact#add-one-or-more-files-to-the-artifact)
@@ -20,27 +20,25 @@ Construct a [W&B Artifact](/models/ref/python/experiments/artifact) in three ste
 Initialize the [`wandb.Artifact()`](/models/ref/python/experiments/artifact) class to create an artifact object. Specify the following parameters:
 
 * **Name**: The name of your artifact. The name should be unique, descriptive, and memorable.
-* **Type**: The type of artifact. The type should be simple, descriptive, and correspond to a single step of your machine learning pipeline. Common artifact types include `'dataset'` or `'model'`.
+* **Type**: The type of artifact. The type should be short, descriptive, and correspond to a single step of your machine learning pipeline. Common artifact types include `'dataset'` or `'model'`.
 
 
-<Note>
-W&B uses the "name" and "type" you provide to create a directed acyclic graph in the W&B App. See the [Explore and traverse artifact graphs](./explore-and-traverse-an-artifact-graph) for more information.
-</Note>
+W&B uses the `name` and `type` you provide to create a directed acyclic graph in the W&B App. See [Explore and traverse artifact graphs](./explore-and-traverse-an-artifact-graph) for more information.
 
 
 <Warning>
-Artifacts can not have the same name, regardless of type. In other words, you can not create an artifact named `cats` of type `dataset` and another artifact with the same name of type `model`.
+Artifacts can't have the same name, regardless of type. In other words, you can't create an artifact named `cats` of type `dataset` and another artifact with the same name of type `model`.
 </Warning>
 
-You can optionally provide a description and metadata when you initialize an artifact object. For more information on available attributes and parameters, see the [`wandb.Artifact`](/models/ref/python/experiments/artifact) Class definition in the Python SDK Reference Guide.
+You can optionally provide a description and metadata when you initialize an artifact object. For more information about available attributes and parameters, see the [`wandb.Artifact`](/models/ref/python/experiments/artifact) class definition in the Python SDK Reference Guide.
 
-Copy and paste the following code snippet to create an artifact object. Replace the `<name>` and `<type>` placeholders with your own values:
+Copy and paste the following code snippet to create an artifact object. Replace the `[NAME]` and `[TYPE]` placeholders with your own values:
 
 ```python
 import wandb
 
 # Create an artifact object
-artifact = wandb.Artifact(name="<name>", type="<type>")
+artifact = wandb.Artifact(name="[NAME]", type="[TYPE]")
 ```
 
 ### Add one or more files to the artifact
@@ -50,51 +48,51 @@ artifact = wandb.Artifact(name="<name>", type="<type>")
 To add a single file, use the artifact object's [`Artifact.add_file()`](/models/ref/python/experiments/artifact#add_file) method:
 
 ```python
-artifact.add_file(local_path="path/to/file.txt", name="<name>")
+artifact.add_file(local_path="path/to/file.txt", name="[NAME]")
 ```
 
 To add a directory, use the [`Artifact.add_dir()`](/models/ref/python/experiments/artifact#add_dir) method:
 
 ```python
-artifact.add_dir(local_path="path/to/directory", name="<name>")
+artifact.add_dir(local_path="path/to/directory", name="[NAME]")
 ```
 
-See the next section, [Add files to an artifact](/models/artifacts/construct-an-artifact#add-files-to-an-artifact), for more information on how to add different file types to an artifact.
+See [Add files to an artifact](/models/artifacts/construct-an-artifact#add-files-to-an-artifact), for more information about adding different file types to an artifact.
 
 ### Save your artifact to the W&B server
 
-Save your artifact to the W&B server. Use the run object's [`wandb.Run.log_artifact()`](/models/ref/python/experiments/run#log_artifact) method to save the artifact.
+Use the run object's [`wandb.Run.log_artifact()`](/models/ref/python/experiments/run#log_artifact) method to save the artifact.
 
 ```python
-with wandb.init(project="<project>", job_type="<job-type>") as run:
+with wandb.init(project="[PROJECT]", job_type="[JOB-TYPE]") as run:
     run.log_artifact(artifact)
 ```
 
 <Tip>
-**When to use to use `wandb.Run.log_artifact()`  or `Artifact.save()`**
+**When to use `wandb.Run.log_artifact()` or `Artifact.save()`**
 
 - Use `wandb.Run.log_artifact()` to create a new artifact and associate it with a specific run.
 - Use `Artifact.save()` to update an existing artifact without creating a new run.
 </Tip>
 
 
-Putting this all together, the following code snippet demonstrates how to create a dataset artifact, add a file to the artifact, and save the artifact to W&B:
+Putting this all together, the following code snippet shows how to create a dataset artifact, add a file to the artifact, and save the artifact to W&B:
 
 ```python
 import wandb
 
-artifact = wandb.Artifact(name="<name>", type="<type>")
-artifact.add_file(local_path="path/to/file.txt", name="<name>")
-artifact.add_dir(local_path="path/to/directory", name="<name>")
+artifact = wandb.Artifact(name="[NAME]", type="[TYPE]")
+artifact.add_file(local_path="path/to/file.txt", name="[NAME]")
+artifact.add_dir(local_path="path/to/directory", name="[NAME]")
 
-with wandb.init(project="<project>", job_type="<job-type>") as run:
+with wandb.init(project="[PROJECT]", job_type="[JOB-TYPE]") as run:
     run.log_artifact(artifact)
 ```
 
 Each time you log an artifact with the same name and type, W&B creates a new version of that artifact. For more information, see [Create a new artifact version](/models/artifacts/create-a-new-artifact-version).
 
 <Warning>
-W&B performs calls `wandb.Run.log_artifact()` asynchronously for performant uploads. This can cause surprising behavior when logging artifacts in a loop. For example:
+W&B performs `wandb.Run.log_artifact()` calls asynchronously for faster uploads. This can cause surprising behavior when you log artifacts in a loop. For example:
 
 ```python
 with wandb.init() as run:
@@ -109,12 +107,12 @@ with wandb.init() as run:
         run.log_artifact(a)
 ```
 
-The artifact version **v0** might not have an index of 0 in its metadata because artifacts may be logged in an arbitrary order.
+The artifact version **v0** is not guaranteed to have an index of 0 in its metadata because W&B might log artifacts in an arbitrary order.
 </Warning>
 
 ## Add files to an artifact
 
-The following sections demonstrate how to add different types of objects to an artifact. Assume you have a directory with the following structure as you read through the examples:
+The following sections show how to add different types of objects to an artifact. Assume you have a directory with the following structure as you read through the examples:
 
 ```text
 root-directory
@@ -136,7 +134,7 @@ Use [`wandb.Artifact.add_file()`](/models/ref/python/experiments/artifact#method
 import wandb
 
 # Initialize an artifact object
-artifact = wandb.Artifact(name="<name>", type="<type>")
+artifact = wandb.Artifact(name="[NAME]", type="[TYPE]")
 
 # Add a single file
 artifact.add_file(local_path="path/file.format")
@@ -172,7 +170,7 @@ new/path/hello_world.txt
 The following table shows how different API calls produce different artifact contents:
 
 
-| API Call                                                  | Resulting artifact |
+| API call                                                  | Resulting artifact |
 | --------------------------------------------------------- | ------------------ |
 | `artifact.new_file('hello.txt')`                          | `hello.txt`        |
 | `artifact.add_file('model.h5')`                           | `model.h5`           |
@@ -188,24 +186,22 @@ Use the [`wandb.Artifact.add_dir()`](/models/ref/python/experiments/artifact#met
 import wandb
 
 # Initialize an artifact object
-artifact = wandb.Artifact(name="<name>", type="<type>")
+artifact = wandb.Artifact(name="[NAME]", type="[TYPE]")
 
 # Add a local directory to the artifact
-artifact.add_dir(local_path="path/file.format", name="optional-prefix")
+artifact.add_dir(local_path="path/to/directory", name="optional-prefix")
 ```
 
-The following table show how different API calls produce different artifact contents:
+The following table shows how different API calls produce different artifact contents:
 
-| API Call                                    | Resulting artifact                                     |
+| API call                                    | Resulting artifact                                     |
 | ------------------------------------------- | ------------------------------------------------------ |
 | `artifact.add_dir('images')`                | <p><code>cat.png</code></p><p><code>dog.png</code></p> |
 | `artifact.add_dir('images', name='images')` | <p><code>images/cat.png</code></p><p><code>images/dog.png</code></p> |
 
 ### Add a URI reference
 
-Artifacts track checksums and other information for reproducibility if the URI has a scheme that the W&B library supports.
-
-Add an external URI reference to an artifact with the [`wandb.Artifact.add_reference()`](/models/ref/python/experiments/artifact#method-artifact-add-reference) method. Replace the `'uri'` string with your own URI. Optionally pass the desired path within the artifact for the name parameter.
+To point an artifact to content stored outside of W&B (such as in an object store) without copying the underlying bytes, add an external URI reference with the [`wandb.Artifact.add_reference()`](/models/ref/python/experiments/artifact#method-artifact-add-reference) method. Artifacts track checksums and other information for reproducibility if the URI has a scheme that the W&B library supports. Replace the `'uri'` string with your own URI. Optionally pass the desired path within the artifact for the name parameter.
 
 ```python
 # Add a URI reference
@@ -214,9 +210,9 @@ artifact.add_reference(uri="uri", name="optional-name")
 
 Artifacts support the following URI schemes:
 
-* `http(s)://`: A path to a file accessible over HTTP. The artifact will track checksums in the form of etags and size metadata if the HTTP server supports the `ETag` and `Content-Length` response headers.
-* `s3://`: A path to an object or object prefix in S3. The artifact will track checksums and versioning information (if the bucket has object versioning enabled) for the referenced objects. Object prefixes are expanded to include the objects under the prefix, up to a maximum of 10,000 objects.
-* `gs://`: A path to an object or object prefix in GCS. The artifact will track checksums and versioning information (if the bucket has object versioning enabled) for the referenced objects. Object prefixes are expanded to include the objects under the prefix, up to a maximum of 10,000 objects.
+* `http(s)://`: A path to a file accessible over HTTP. The artifact tracks checksums in the form of etags and size metadata if the HTTP server supports the `ETag` and `Content-Length` response headers.
+* `s3://`: A path to an object or object prefix in S3. The artifact tracks checksums and versioning information (if the bucket has object versioning enabled) for the referenced objects. W&B expands object prefixes to include the objects under the prefix, up to a maximum of 10,000 objects.
+* `gs://`: A path to an object or object prefix in GCS. The artifact tracks checksums and versioning information (if the bucket has object versioning enabled) for the referenced objects. W&B expands object prefixes to include the objects under the prefix, up to a maximum of 10,000 objects.
 
 The following table shows how different API calls produce different artifact contents:
 
@@ -236,7 +232,7 @@ For large datasets or distributed training, multiple parallel runs might need to
 import wandb
 import time
 
-# This example uses Ray to runs in parallel
+# This example uses Ray to run in parallel
 # for demonstration purposes.
 import ray
 
@@ -256,7 +252,7 @@ group_name = "writer-group-{}".format(round(time.time()))
 @ray.remote
 def train(i):
     """
-    Our writer job. Each writer will add one image to the artifact.
+    The writer job. Each writer adds one image to the artifact.
     """
     with wandb.init(group=group_name) as run:
         artifact = wandb.Artifact(name=artifact_name, type=artifact_type)
@@ -267,7 +263,7 @@ def train(i):
         # Add the table to folder in the artifact
         artifact.add(table, "{}/table_{}".format(parts_path, i))
 
-        # Upserting the artifact creates or appends data to the artifact
+        # Upsert the artifact to create or append data to the artifact
         run.upsert_artifact(artifact)
 
 
@@ -278,7 +274,7 @@ result_ids = [train.remote(i) for i in range(num_parallel)]
 # been added before finishing the artifact.
 ray.get(result_ids)
 
-# Once all the writers are finished, finish the artifact
+# After all the writers finish, finish the artifact
 # to mark it ready.
 with wandb.init(group=group_name) as run:
     artifact = wandb.Artifact(artifact_name, type=artifact_type)
@@ -287,21 +283,21 @@ with wandb.init(group=group_name) as run:
     # and add it to the artifact.
     artifact.add(wandb.data_types.PartitionedTable(parts_path), table_name)
 
-    # Finish artifact finalizes the artifact, disallowing future "upserts"
+    # Finish the artifact to finalize it, disallowing future "upserts"
     # to this version.
     run.finish_artifact(artifact)
 ```
 
 ## Find path for logged artifacts and other metadata
 
-The following code snippet shows how to use the [W&B Public API](/models/ref/python/public-api/) to list the files in a run, including their names and URLs. Replace the `<entity/project/run-id>` placeholder with your own values:
+The following code snippet shows how to use the [W&B Public API](/models/ref/python/public-api/) to list the files in a run, including their names and URLs. Replace the `[ENTITY]/[PROJECT]/[RUN-ID]` placeholder with your own values:
 
 ```python
 from wandb.apis.public.files import Files
 from wandb.apis.public.api import Api
 
 # Example run object
-run = Api().run("<entity/project/run-id>")
+run = Api().run("[ENTITY]/[PROJECT]/[RUN-ID]")
 
 # Create a Files object to iterate over files in the run
 files = Files(api.client, run)
@@ -313,4 +309,4 @@ for file in files:
     print(f"Path to file in the bucket: {file.direct_url}")
 ```
 
-See the [File](/models/ref/python/public-api/file) Class for more information on available attributes and methods.
+See the [File](/models/ref/python/public-api/file) class for more information about available attributes and methods.
