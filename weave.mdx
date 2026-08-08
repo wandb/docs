@@ -73,21 +73,27 @@ Select your workload type and then use the following docs to guide you through t
 </Tab>
 </Tabs>
 
-## Install Weave
+## Automatically instrument Weave
 
-W&B Weave provides Python and TypeScript libraries. To install the Weave library, run the following command:
+To automatically instrument your agents to use Weave, update the following prompt with your project name and [W&B API key](https://wandb.ai/settings) environment variables, then pass the prompt to your agent:
 
-<Tabs>
-  <Tab title="Python">
-    ```bash
-    pip install weave
-    ```
-  </Tab>
-  <Tab title="TypeScript">
-    ```bash
-    npm install weave
-    ```
-  </Tab>
-</Tabs>
+```text
+Fetch and then use the following skill to instrument all agents with Weave:
 
-To start using the Weave library, create a [Weights & Biases (W&B) account](https://wandb.ai) and an [API key at User Settings](https://wandb.ai/settings). The API key allows you to authenticate to your W&B account and start sending data to it.
+https://raw.githubusercontent.com/wandb/weave/refs/heads/master/skills/weave-instrument/SKILL.md
+
+Project configuration:
+WEAVE_PROJECT=$[YOUR-PROJECT-NAME]
+WEAVE_API_KEY=$[WANDB-API-KEY]`;
+```
+
+Your agent installs Weave's auto-instrumentation skill and uses it to:
+
+1. Install the Weave package, authenticate with W&B, and add `weave.init("YOUR-TEAM-NAME/WEAVE_PROJECT")` to agent entry points.
+1. Identify the codebase's language, LLM/agent libraries, agent's structure (loop, model calls, tool dispatch, sub-agents), and any existing OTel setup.
+1. Help you structure your trace data and properly instrument your application.
+1. Verify the configuration works by sending traces to your Weave project.
+
+Once you've completed the configuration, your agents automatically start sending traces to Weave. 
+
+If you want to manually instrument an agent, see [Quickstart: Set up custom agent observability](/weave/custom-agents-quickstart).
