@@ -9,7 +9,11 @@ import AutomationsActionsList from "/snippets/ko/_includes/automations/actions-l
 import AutomationsBestPractices from "/snippets/ko/_includes/automations/best-practices.mdx";
 import AutomationsWhereToFind from "/snippets/ko/_includes/automations/where-to-find-automations.mdx";
 
-자동화는 **projects**와 **registries** 둘 다에서 지원됩니다. 자동화를 생성하는 위치, 사용할 수 있는 이벤트, 그리고 범위가 작동하는 방식은 각각 다릅니다. 범위별 이벤트 유형은 [자동화 이벤트 및 범위](/ko/models/automations/automation-events)를 참조하세요.
+*자동화*는 W&amp;B의 특정 이벤트에 대응하여 Slack 알림을 보내거나 웹훅을 실행합니다. 자동화의 범위는 조직, 팀, 프로젝트, 레지스트리 또는 컬렉션으로 지정할 수 있습니다. 자동화는 나중에 생성되는 프로젝트, 레지스트리 및 컬렉션을 포함해 범위 내의 모든 항목에서 이벤트를 감시합니다. 자동화를 만드는 step과 사용 가능한 이벤트는 범위에 따라 다릅니다. 범위별 이벤트 유형은 [자동화 이벤트 및 범위](/ko/models/automations/automation-events)를 참조하세요.
+
+<Note>
+  팀 범위 및 조직 범위 자동화와 [Automations 허브](#automations-hub)는 W&amp;B Multi-tenant Cloud 및 W&amp;B Dedicated Cloud(Server v0.83.0 이상)에서 사용할 수 있습니다.
+</Note>
 
 <AutomationsMentalModel />
 
@@ -26,6 +30,23 @@ flowchart LR
 </div>
 
 <AutomationsWhereToFind />
+
+<div id="automations-hub">
+  ## Automations 허브
+</div>
+
+**Automations** 허브는 왼쪽 내비게이션에 있는 전역 화면으로, 액세스할 수 있는 모든 범위와 프로젝트의 자동화를 하나의 목록으로 모아 볼 수 있습니다. 각 프로젝트나 레지스트리로 이동하지 않고도 자동화를 찾고, 확인하고, 관리할 수 있습니다.
+
+**Automations** 허브에서 다음을 수행할 수 있습니다.
+
+* 범위별 진입점을 미리 알 필요 없이 자동화를 만들기 위해 범위를 선택합니다.
+* 액세스할 수 있는 모든 자동화를 하나의 목록에서 확인한 다음 필터링하고 정렬합니다(예: 범위, 트리거 또는 액션 기준).
+* 자동화 이름을 클릭하여 전체 설정 세부 정보를 확인합니다.
+* 자동화의 [실행 이력](/ko/models/automations/view-automation-history)을 확인하여 성공 또는 실패 여부를 확인합니다.
+* 빠른 필터를 사용하여 내가 만든 자동화와 조직의 모든 자동화 간에 전환합니다.
+* 여러 자동화를 선택하여 한 번에 삭제합니다.
+
+**Automations** 허브는 각 프로젝트와 레지스트리의 **Automations** 탭을 보완합니다. 이러한 범위별 탭은 특정 대상에 빠르게 액세스할 수 있도록 계속 제공됩니다.
 
 <div id="use-cases">
   ## 사용 사례
@@ -69,14 +90,15 @@ flowchart LR
   ## 제한 사항
 </div>
 
-[run 메트릭 자동화](/ko/models/automations/automation-events/#run-metrics-events) 및 [run 메트릭 z-score 변화 자동화](/ko/models/automations/automation-events/#run-metrics-z-score-change-automations)는 현재 [W&amp;B Multi-tenant Cloud](/ko/platform/hosting/#wb-multi-tenant-cloud)에서만 지원됩니다.
+* [run 메트릭 자동화](/ko/models/automations/automation-events/#run-metrics-change) 및 [run 메트릭 z-점수 변경 자동화](/ko/models/automations/automation-events/#run-metrics-z-score-change)는 [W&amp;B Multi-tenant Cloud](/ko/platform/hosting/#wb-multi-tenant-cloud) 및 [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated-cloud)에서만 지원됩니다.
+* **팀** 및 **조직** 범위에서 W&amp;B App은 아티팩트 및 컬렉션 이벤트만 지원합니다. 이 범위에서는 W&amp;B App에서 run 기반 이벤트를 사용할 수 없습니다. 자세한 내용은 [자동화 이벤트 및 범위](/ko/models/automations/automation-events)를 참조하세요.
 
 <div id="next-steps">
   ## 다음 단계
 </div>
 
 * [Automations 튜토리얼](/ko/models/automations/tutorial): run 실패 시 알림을 보내는 프로젝트 자동화와 별칭이 추가될 때 웹훅을 실행하는 레지스트리 자동화를 만드는 방법을 안내합니다. 이 튜토리얼에서는 W&amp;B App을 사용합니다.
-* [자동화를 생성](/ko/models/automations/create-automations).
+* [자동화 만들기](/ko/models/automations/create-automations).
 * [자동화 이벤트 및 범위](/ko/models/automations/automation-events).
 * [시크릿 생성](/ko/platform/secrets).
 

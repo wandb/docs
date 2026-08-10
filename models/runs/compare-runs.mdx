@@ -164,79 +164,90 @@ The following scenarios show how pinned and baseline runs can help guide your ex
   3. Use line plots to compare runs against the baseline.
   4. Continue to update the baseline as you find better configurations.
 
-## Example workflow
+## Example: Compare runs from hyperparameter tuning experiments
 
-The following example illustrates how pinned and baseline runs help you compare runs.
+This section illustrates how pinned and baseline runs can help you to compare runs.
 
-1. Run this example code, which simulates a hyperparameter-tuning scenario with a series of runs. Replace values enclosed in angle brackets (for example, `<team-name>`) with your own values.
+For example, the following code simulates a hyperparameter-tuning scenario with a series of runs.
 
-    ```python
-    import wandb
-    import random
-    import math
+```python expandable
+import wandb
+import random
+import math
 
-    def train_model(learning_rate, batch_size, run_name, tags=None):
-        """Simulate training a model with given hyperparameters."""
-        config = {
-            "learning_rate": learning_rate,
-            "batch_size": batch_size,
-            "optimizer": "adam",
-            "architecture": "resnet50"
-        }
-        
-        with wandb.init(
-          # Replace with your team and project name
-            project="hyperparameter-tuning",
-            entity="<team-name>",
-            name=run_name,
-            config=config,
-            tags=tags or []
-        ) as run:
-            # Simulate training loop
-            for epoch in range(50):
-                # Simulated metrics
-                accuracy = 0.6 + 0.3 * (1 - math.exp(-learning_rate * epoch / 10))
-                loss = 1.0 * math.exp(-learning_rate * epoch / 10)
-                
-                run.log({
-                    "epoch": epoch,
-                    "accuracy": accuracy,
-                    "loss": loss
-                })
+def train_model(learning_rate, batch_size, run_name, tags=None):
+    """Simulate training a model with given hyperparameters."""
+    config = {
+        "learning_rate": learning_rate,
+        "batch_size": batch_size,
+        "optimizer": "adam",
+        "architecture": "resnet50"
+    }
+    
+    with wandb.init(
+      # Replace with your team and project name
+        project="hyperparameter-tuning",
+        entity="your-team-name", # Replace with your team name
+        name=run_name,
+        config=config,
+        tags=tags or []
+    ) as run:
+        # Simulate training loop
+        for epoch in range(50):
+            # Simulated metrics
+            accuracy = 0.6 + 0.3 * (1 - math.exp(-learning_rate * epoch / 10))
+            loss = 1.0 * math.exp(-learning_rate * epoch / 10)
+            
+            run.log({
+                "epoch": epoch,
+                "accuracy": accuracy,
+                "loss": loss
+            })
 
-    # Create baseline run with standard configuration
-    train_model(
-        learning_rate=0.001,
-        batch_size=64,
-        run_name="baseline-config",
-        tags=["baseline", "production"]
-    )
+# Create baseline run with standard configuration
+train_model(
+    learning_rate=0.001,
+    batch_size=64,
+    run_name="baseline-config",
+    tags=["baseline", "production"]
+)
 
-    # Experiment with different learning rates
-    train_model(
-        learning_rate=0.003,
-        batch_size=64,
-        run_name="lr-experiment-0.003",
-        tags=["experiment"]
-    )
+# Experiment with different learning rates
+train_model(
+    learning_rate=0.003,
+    batch_size=64,
+    run_name="lr-experiment-0.003",
+    tags=["experiment"]
+)
 
-    train_model(
-        learning_rate=0.0001,
-        batch_size=64,
-        run_name="lr-experiment-0.0001",
-        tags=["experiment"]
-    )
-    ```
+train_model(
+    learning_rate=0.0001,
+    batch_size=64,
+    run_name="lr-experiment-0.0001",
+    tags=["experiment"]
+)
+```
 
-    After you run this code, your workspace has three runs.
-2. Set `baseline-config` as your baseline run.
-3. Pin `baseline-config` to keep it visible.
-4. Compare the experiment runs against the baseline.
-  - In the runs table, review the summary metric deltas next to each run's values to compare the run to the baseline.
-  - In line plots, compare the performance of one or more runs to the baseline, which is always visible.
-5. Pin promising experiments for further investigation. In this example, after 50 epochs, `lr-experiment-0.003` has the highest accuracy (`~0.64`) and the lowest loss (`~0.86`).
+After the runs complete, navigate to the W&B App to view the runs in your workspace. You can pin promising experiments and set the baseline run to compare the performance of new runs against it:
 
-{/* TODO screenshot */}
+1. Navigate to your W&B project.
+2. Select the **Runs** tab.
+3. [Filter](/models/runs/filter-runs) for the run that has the `baseline` tag and set it as your [baseline](#set-a-baseline-run) run.
+4. [Pin](#pin-runs) `baseline-config` to make the run visible at the top of the runs table.
+5. Compare the experiment runs against the baseline.
+    - Select the vertical ellipsis menu next to the `accuracy` column, then set **Metric directionality** to **Higher values are best**. The delta for each run's accuracy is now shown in the runs table.
+    - Select the vertical ellipsis menu next to the `loss` column, then set **Metric directionality** to **Lower values are best**. The delta for each run's loss is now shown in the runs table.
+
+    <Frame>
+      <img src="/images/runs/compare_metric_deltas.png"   />
+    </Frame>
+6. Use the line plots to visually compare the runs against the baseline. The baseline run appears with a bold dashed line, and you can hover over the plot to see how each run compares at a given epoch.
+
+    For example, the following image shows how the runs `lr-experiment-0.003` and `lr-experiment-0.0001` compare with the baseline run `baseline-config`.
+
+    <Frame>
+      <img src="/images/runs/example_compare_pinned_runs.png"   />
+    </Frame>
 
 ## Limitations
 

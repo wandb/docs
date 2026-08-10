@@ -6,16 +6,45 @@ keywords: ["déclencheurs d’automatisation", "alias d’artifact", "statut du 
 
 import MultiTenantAndDedicatedCloudOnly from "/snippets/fr/_includes/multi-tenant-and-dedicated-cloud-only.mdx";
 
-Une automatisation peut démarrer lorsqu’un événement spécifique se produit dans un projet ou un registre. Cette page décrit les événements pouvant déclencher une automatisation dans chacune de ces portées, afin que vous puissiez choisir le bon déclencheur lors de la configuration d’une automatisation. Pour en savoir plus sur les automatisations, consultez l’[Aperçu des automatisations](/fr/models/automations) ou [Créer une automatisation](/fr/models/automations/create-automations).
+Une automatisation démarre lorsqu’un événement spécifique se produit dans une portée donnée : une organisation, une équipe, un projet, un registre ou une collection. Cette page décrit les événements pouvant déclencher une automatisation dans chacune de ces portées, afin que vous puissiez choisir le bon déclencheur lors de la configuration d’une automatisation. Pour en savoir plus sur les automatisations, consultez l’[Aperçu des automatisations](/fr/models/automations) ou [Créer une automatisation](/fr/models/automations/create-automations).
+
+Les portées sont hiérarchiques : une organisation contient des équipes, qui contiennent des projets et des registres. Les projets et les registres contiennent tous deux des collections : un projet contient les collections d’artifacts qui y sont enregistrées, et un registre contient les collections auxquelles les versions d’artifact sont liées. Une automatisation surveille son événement dans tous les éléments de sa portée, y compris les projets, registres et collections créés ultérieurement. Un même événement peut correspondre à des automatisations dans plusieurs portées. Chaque automatisation correspondante se déclenche indépendamment.
+
+Pour vous protéger contre les déclenchements excessifs dans les portées étendues, W&amp;B applique une limite de débit et un délai de récupération par automatisation. Ces protections peuvent retarder ou ignorer les déclenchements répétés d’une même automatisation.
+
+<Note>
+  Les portées équipe et organisation sont disponibles sur W&amp;B Cloud mutualisé et sur W&amp;B Cloud dédié (Server v0.83.0 et versions ultérieures). Les portées registre et projet sont disponibles sur tous les types de déploiement.
+</Note>
+
+<div id="scope-reference">
+  ## Référence des portées
+</div>
+
+| Portée                        | Ce que l’automatisation surveille                                                                                      | Événements disponibles dans la W&amp;B App                                                                                                                                                                     |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Organisation](#organization) | Toutes les équipes, tous les projets, registres et collections de l’organisation, y compris ceux créés ultérieurement. | Événements liés aux artifacts et aux collections, par exemple lorsqu’une nouvelle version est ajoutée ou liée, ou qu’un alias ou un tag est ajouté. Les événements basés sur les runs ne sont pas disponibles. |
+| [Équipe](#team)               | Tous les projets, registres et collections dont l’équipe est propriétaire, y compris ceux créés ultérieurement.        | Les mêmes événements liés aux artifacts et aux collections qu’à l’échelle de l’organisation. Les événements basés sur les runs ne sont pas disponibles.                                                        |
+| [Registre](#registry)         | Toutes les collections d’un registre, y compris celles ajoutées ultérieurement.                                        | [Événements de registre](#registry-events) : une nouvelle version est liée à une collection ou un alias d’artifact est ajouté.                                                                                 |
+| [Projet](#project)            | Toutes les collections d’un projet. Certains événements vous permettent de restreindre davantage la portée.            | [Événements d’artifact](#artifact-events) et [événements de run](#run-events).                                                                                                                                 |
+
+Les sections suivantes décrivent chaque portée plus en détail.
+
+<div id="organization">
+  ## Organisation
+</div>
+
+Utilisez la portée de l’organisation pour définir une politique une seule fois et l’appliquer partout. Par exemple, notifiez un canal Slack dédié à la conformité chaque fois que l’alias `production` est ajouté à un artifact de l’organisation.
+
+Les événements basés sur les runs (les événements [de changement de statut d’un run](#run-status-change) et [de modification des métriques d’un run](#run-metrics-change)) ne sont pas disponibles à l’échelle de l’organisation dans W&amp;B App.
+
+<div id="team">
+  ## Équipe
+</div>
+
+Utilisez la portée Équipe pour appliquer une politique à toutes les ressources détenues par une équipe. Une automatisation limitée à une équipe surveille les mêmes événements d’artefacts et de collections que la portée Organisation. Les événements basés sur les runs ne sont pas disponibles à la portée Équipe dans W&amp;B App.
 
 <div id="registry">
   ## Registre
-</div>
-
-Les sections suivantes décrivent les périmètres et les événements d’une automatisation dans un [registre](/fr/models/registry).
-
-<div id="scopes">
-  ### Périmètres
 </div>
 
 Une automatisation de [registre](/fr/models/registry) surveille l’événement qui se produit dans n’importe quelle collection d’un registre donné, y compris les collections ajoutées ultérieurement.
@@ -33,11 +62,7 @@ Lorsque l&#39;automatisation appelle un webhook, elle peut accéder aux mêmes c
   ## Projet
 </div>
 
-Les sections suivantes décrivent les périmètres et les événements d’une automatisation dans un [projet](/fr/models/track/project-page).
-
-### Portées
-
-Une automatisation au niveau du projet surveille l’événement qui se produit sur n’importe quelle collection du projet. Selon l’événement que vous spécifiez, vous pouvez encore restreindre le périmètre de l’automatisation.
+Une automatisation au niveau du projet surveille l’événement qui se produit sur n’importe quelle collection du [projet](/fr/models/track/project-page). Selon l’événement que vous spécifiez, vous pouvez encore restreindre la portée de l’automatisation.
 
 <div id="artifact-events">
   ### Événements d&#39;artifact

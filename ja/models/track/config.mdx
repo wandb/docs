@@ -249,17 +249,113 @@ with wandb.init(config=config) as run:
     run.pin_config_keys(["grafana_url"])
 ```
 
-<div id="abslflags">
-  ## `absl.FLAGS`
+{/* ## `absl.FLAGS`
+
+  [`absl` フラグ](https://abseil.io/docs/python/guides/flags)を渡すこともできます。
+
+  ```python
+  flags.DEFINE_string("model", None, "実行するモデル")  # 名、デフォルト、ヘルプ
+
+  run.config.update(flags.FLAGS)  # absl フラグを設定に追加
+  ``` */}
+
+<div id="view-config-values">
+  ## 設定値を表示する
 </div>
 
-[`absl` フラグ](https://abseil.io/docs/python/guides/flags)を指定することもできます。
+W&amp;B App、run の実行中、または既存の run から設定値にアクセスできます。ローカルファイルシステムから設定値にアクセスすることもできます。
 
-```python
-flags.DEFINE_string("model", None, "model to run")  # 名前、デフォルト値、ヘルプ
+<Tabs>
+  <Tab title="W&B App">
+    W&amp;B App で run の設定を表示するには、次の手順に従います。
 
-run.config.update(flags.FLAGS)  # absl フラグを設定に追加する
-```
+    1. W&amp;B App でプロジェクトにアクセスします。
+    2. 表示する run を選択します。
+    3. **Overview** タブを選択します。
+    4. **Config** セクションまでスクロールします。
+    5. 任意で、**View raw data** をクリックして設定を JSON 形式で表示します。
+
+    生の JSON 形式は、設定値、ログされたメトリクス、summary 値を使用して折れ線グラフを作成または変換する式を記述する際に便利です。詳細については、[Expressions](/ja/models/app/features/panels/line-plot/reference#expressions) を参照してください。
+  </Tab>
+
+  <Tab title="run の実行中">
+    [`wandb.Run.config`](/ja/models/ref/python/experiments/run#property-config) プロパティを使用すると、run の実行中に設定値にアクセスできます。`wandb.Run.config` は、設定のキーと値のペアを含む辞書オブジェクトを返します。
+
+    次の例は、run の実行中に設定値にアクセスする方法を示しています。設定辞書内の値をご自身のハイパーパラメーター、モデルアーキテクチャ、データセット名、その他の設定に置き換えてください。`"<my-project>"` は W&amp;B のプロジェクト名に置き換えてください。
+
+    ```python
+    import wandb
+
+    config = {
+        "epochs": 100,
+        "learning_rate": 0.001,
+        "model_type": "CNN",
+        "dataset_id": "cats-0192"
+    }
+
+    with wandb.init(project="<my-project>", config=config) as run:
+      print(dict(run.config))
+    ```
+
+    次のスニペットは、上記のコードを実行したときのターミナル出力例を示しています。
+
+    ```shell
+    {'_runtime': 0.0970615, '_step': 97, 'accuracy': 0.9746484067793967, 'loss': 0.025044765547545846, '_timestamp': 1785255343.65151}
+    ```
+  </Tab>
+
+  <Tab title="既存の run">
+    W&amp;B Public API を使用して、以前にログされた run の設定にアクセスできます。entity、プロジェクト名、run ID を `wandb.Api.run()` に渡してから、`wandb.Api.Run.config` プロパティで run の設定にアクセスします。
+
+    次の例の `"<entity>"`、`"<project>"`、`"<run_id>"` を、それぞれ W&amp;B entity、プロジェクト名、run ID に置き換えてください。
+
+    ```python
+    import wandb
+
+    api = wandb.Api()
+    run = api.run("<entity>/<project>/<run_id>")
+
+    print(run.name)
+    print(run.config)
+    ```
+
+    プロジェクト内の複数の run の設定値にアクセスするには、`wandb.Api.runs()` を使用して Runs を取得し、返された Run オブジェクトを反復処理します。
+
+    ```python
+    import wandb
+
+    api = wandb.Api()
+    runs = api.runs("<entity>/<project>")
+
+    for run in runs:
+        print(f"Run name: {run.name}")
+        print(f"Run ID: {run.id}")
+        print(f"Run config: {run.config}")
+        print("----------")
+    ```
+
+    次のスニペットは、上記のコードを実行したときのターミナル出力例を示しています。
+
+    ```shell
+
+    Run name: clean-oath-11
+    Run ID: mt2dasoz
+    Run config: {'epochs': 1000, 'learning_rate': 0.1, 'model_type': 'Multivariate_neural_network_classifier'}
+    ----------
+
+    Run name: zesty-snowball-7
+    Run ID: qne08r7u
+    Run config: {'epochs': 1000, 'learning_rate': 0.1, 'model_type': 'Multivariate_neural_network_classifier'}
+    ----------
+    ```
+  </Tab>
+
+  <Tab title="ローカルファイルシステム">
+    W&amp;B は、run ディレクトリ内の `config.yaml` ファイルに run の設定値を保存します。ローカルで設定値を読み取るには、`config.yaml` ファイルを開きます。
+
+    デフォルトでは、run ディレクトリは `./wandb/run-<timestamp>-<run_id>` にあります。
+  </Tab>
+</Tabs>
 
 <div id="file-based-configs">
   ## ファイルベースの設定
@@ -312,20 +408,6 @@ config_dictionary = dict(
 with wandb.init(config=config_dictionary) as run:
     ...
 ```
-
-<div id="view-config-values-in-the-wb-app">
-  ## W&amp;B App で設定値を表示する
-</div>
-
-run の **Overview** タブにある **Config** セクションで設定値を確認できます。設定値をピン留めすると、**References** セクションでも確認できます。
-
-1. W&amp;B App で対象の project にアクセスします。
-2. 設定値を表示したい run をクリックします。
-3. **Overview** タブを選択します。
-4. **Config** セクションまでスクロールします。
-5. (任意) **View raw data** をクリックすると、JSON 形式で設定値を確認できます。
-
-raw JSON 形式は、設定値、ログ済みのメトリクス、またはサマリー値から折れ線グラフを作成または変換する式を記述する際に便利です。詳細は [式](/ja/models/app/features/panels/line-plot/reference#expressions) を参照してください。
 
 <div id="tensorflow-v1-flags">
   ## TensorFlow v1 フラグ

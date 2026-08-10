@@ -19,22 +19,6 @@ Utilisez l’API publique pour exporter ou mettre à jour les données que vous 
 
 Voir la [documentation de référence générée](/fr/models/ref/python/public-api/) pour plus de détails sur les fonctions disponibles.
 
-<div id="create-an-api-key">
-  ### Créer une clé API
-</div>
-
-Une clé API permet d’authentifier votre machine auprès de W&amp;B.
-
-<ApiKeyCreate />
-
-<ApiKeySecurity />
-
-<div id="find-the-run-path">
-  ### Trouver le chemin du run
-</div>
-
-Pour utiliser l’API publique, vous aurez souvent besoin du chemin du run, au format `<entity>/<project>/<run_id>`. Dans l’interface de l’application, ouvrez la Page du run et cliquez sur l’[onglet Vue d’ensemble](/fr/models/track/public-api-guide/#overview-tab) pour obtenir le chemin du run.
-
 <div id="export-run-data">
   ### Exporter les données d’un run
 </div>
@@ -57,56 +41,6 @@ Les attributs les plus couramment utilisés d&#39;un objet run sont :
 | `run.summary`   | Un dictionnaire d&#39;informations qui résume les résultats du run. Il peut s&#39;agir de scalaires comme la précision et la perte, ou de fichiers volumineux. Par défaut, `run.log()` définit le summary sur la dernière valeur d&#39;une série temporelle enregistrée. Le contenu du summary peut aussi être défini directement. Considérez le summary comme les sorties du run. |
 
 Vous pouvez également modifier ou mettre à jour les données de runs passés. Par défaut, une seule instance d&#39;un objet API met en cache toutes les requêtes réseau. Si votre cas d&#39;utilisation nécessite des informations en temps réel dans un script en cours d&#39;exécution, appelez `api.flush()` pour obtenir des valeurs mises à jour.
-
-<div id="understanding-different-run-attributes">
-  ### Comprendre les différents attributs d’un run
-</div>
-
-L’extrait de code suivant montre comment créer un run, consigner des données, puis accéder aux attributs du run :
-
-```python
-import wandb
-import random
-
-with wandb.init(project="public-api-example") as run:
-    n_epochs = 5
-    config = {"n_epochs": n_epochs}
-    run.config.update(config)
-    for n in range(run.config.get("n_epochs")):
-        run.log(
-            {"val": random.randint(0, 1000), "loss": (random.randint(0, 1000) / 1000.00)}
-        )
-```
-
-Les sections suivantes décrivent les différentes sorties associées aux attributs de l’objet run ci-dessus.
-
-<div id="runconfig">
-  #### `run.config`
-</div>
-
-```python
-{"n_epochs": 5}
-```
-
-<div id="runsummary">
-  #### `run.summary`
-</div>
-
-```python
-{
-    "_step": 4,
-    "_timestamp": 1644345412,
-    "_wandb": {"runtime": 3},
-    "loss": 0.041,
-    "val": 525,
-}
-```
-
-<div id="sampling">
-  ### Échantillonnage
-</div>
-
-La méthode history par défaut échantillonne les métriques pour n’en conserver qu’un nombre fixe (500 par défaut ; vous pouvez le modifier avec l’argument `samples`). Si vous souhaitez exporter toutes les données d’un run de grande taille, vous pouvez utiliser la méthode `run.scan_history()`. Pour en savoir plus, voir la [Référence de l’API](/fr/models/ref/python/public-api).
 
 <div id="querying-multiple-runs">
   ### Interroger plusieurs runs
@@ -171,12 +105,6 @@ L’appel à `api.runs` renvoie un objet `Runs` itérable qui se comporte comme 
 
 Si des erreurs surviennent lors de la communication avec les serveurs W&amp;B, une exception `wandb.CommError` est levée. Vous pouvez examiner l’exception d’origine via l’attribut `exc`.
 
-<div id="get-the-latest-git-commit-through-the-api">
-  ### Obtenir le dernier commit git via l’API
-</div>
-
-Dans l’UI, cliquez sur un run, puis sur l’onglet Vue d’ensemble de la page du run pour afficher le dernier commit git. Il figure également dans le fichier `wandb-metadata.json` . Avec l’API publique, vous pouvez obtenir le hachage git avec `run.commit`.
-
 <div id="get-a-runs-name-and-id-during-an-active-run">
   ### Obtenir le nom et l’ID d’un run pendant un run actif
 </div>
@@ -197,12 +125,6 @@ Si vous cherchez un bon moyen de définir des identifiants utiles pour vos runs,
   ## Exemples d’utilisation de l’API publique
 </div>
 
-<div id="export-data-to-visualize-in-matplotlib-or-seaborn">
-  ### Exporter des données pour les visualiser dans matplotlib ou seaborn
-</div>
-
-Consultez nos [exemples d’API](/fr/models/ref/python/public-api/) pour voir quelques méthodes d’export courantes. Vous pouvez aussi cliquer sur le bouton de téléchargement d’un graphique personnalisé ou de la vue développée du tableau Runs pour télécharger un fichier CSV depuis votre navigateur.
-
 <div id="read-metrics-from-a-run">
   ### Lire les métriques d’un run
 </div>
@@ -218,23 +140,6 @@ run = api.run("<entity>/<project>/<run_id>")
 if run.state == "finished":
     for i, row in run.history().iterrows():
         print(row["_timestamp"], row["accuracy"])
-```
-
-<div id="filter-runs">
-  ### Filtrer les runs
-</div>
-
-Vous pouvez filtrer à l’aide du langage de requête MongoDB.
-
-<div id="date">
-  #### Date
-</div>
-
-```python
-runs = api.runs(
-    "<entity>/<project>",
-    {"$and": [{"created_at": {"$lt": "YYYY-MM-DDT##", "$gt": "YYYY-MM-DDT##"}}]},
-)
 ```
 
 <div id="read-specific-metrics-from-a-run">
@@ -290,7 +195,7 @@ optimizer                             rmsprop                 adam
   ### Mettre à jour les métriques d’un run après la fin du run
 </div>
 
-Cet exemple définit `accuracy` d’un run précédent à `0.9`. Il modifie également l’histogramme de `accuracy` d’un run précédent pour qu’il devienne l’histogramme de `numpy_array`.
+Cet exemple définit `accuracy` d’un run précédent à `0.9` :
 
 ```python
 import wandb
@@ -299,7 +204,6 @@ api = wandb.Api()
 
 run = api.run("<entity>/<project>/<run_id>")
 run.summary["accuracy"] = 0.9
-run.summary["accuracy_histogram"] = wandb.Histogram(numpy_array)
 run.summary.update()
 ```
 
@@ -339,6 +243,8 @@ run = api.run("<entity>/<project>/<run_id>")
 run.config["key"] = updated_value
 run.update()
 ```
+
+Voir [Configurer les expériences](/fr/models/track/config#existing-run) pour en savoir plus.
 
 <div id="export-system-resource-consumptions-to-a-csv-file">
   ### Exporter l’utilisation des ressources système vers un fichier CSV
@@ -599,3 +505,7 @@ run = api.run("<entity>/<project>/<run_id>")
 meta = json.load(run.file("wandb-metadata.json").download())
 program = ["python"] + [meta["program"]] + meta["args"]
 ```
+
+{/* ### Échantillonnage
+
+  La méthode `history` par défaut échantillonne les métriques selon un nombre fixe d’échantillons (500 par défaut, modifiable à l’aide de l’argument `samples`). Pour exporter toutes les données d’un run volumineux, utilisez la méthode `run.scan_history()`. Pour plus de détails, voir la [Référence de l’API](/models/ref/python/public-api).  */}
