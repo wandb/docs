@@ -107,7 +107,7 @@ jobs:
       ENGINE_REPO: coreweave/docengine
     steps:
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         # No submodules and no token here on purpose. Reading which commit is
         # recorded needs nothing more than this repository's own files; only the
         # tag lookup further down needs credentials.
