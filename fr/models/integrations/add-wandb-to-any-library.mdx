@@ -139,9 +139,9 @@ wandb.login()
 
 Choisissez si W&amp;B enregistre ou téléverse les données de run.
 
-| Mode       | Comportement                                                                                                                                                                   |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `disabled` | Désactive la journalisation W&amp;B. W&amp;B n’enregistre ni ne téléverse les données de run. Les appels aux méthodes W&amp;B n’ont aucun effet.                      |
+| Mode       | Comportement                                                                                                                                                 |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `disabled` | Désactive la journalisation W&amp;B. W&amp;B n’enregistre ni ne téléverse les données de run. Les appels aux méthodes W&amp;B n’ont aucun effet.             |
 | `offline`  | Enregistre les données de run localement sans les téléverser. Vous pourrez téléverser le run ultérieurement avec [`wandb sync`](/fr/models/ref/cli/wandb-sync). |
 
 Utilisez `disabled` si vous ne souhaitez pas enregistrer les données de run. Utilisez `offline` si vous souhaitez enregistrer les données localement pour les téléverser ultérieurement.

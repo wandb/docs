@@ -46,7 +46,7 @@ W&amp;B 레지스트리는 조직 내 [W&amp;B 아티팩트 버전](/ko/models/a
 아티팩트를 W&amp;B에 로깅한 후에는 해당 아티팩트의 특정 버전을 레지스트리의 컬렉션에 연결할 수 있습니다.
 
 <Note>
-  &quot;연결하다&quot;는 W&amp;B가 아티팩트를 저장하는 위치와 레지스트리에서 해당 아티팩트에 접근할 수 있는 위치를 연결하는 포인터를 의미합니다. W&amp;B는 아티팩트를 컬렉션에 연결할 때 아티팩트를 복제하지 않습니다.
+  &quot;연결하다&quot;는 W&amp;B가 아티팩트를 저장하는 위치와 레지스트리에서 해당 아티팩트에 액세스할 수 있는 위치를 연결하는 포인터를 의미합니다. W&amp;B는 아티팩트를 컬렉션에 연결할 때 아티팩트를 복제하지 않습니다.
 </Note>
 
 예를 들어, 다음 코드 예제는 `"my_model.txt"`라는 모델 아티팩트를 `"model"`이라는 레지스트리 내 `"first-collection"`이라는 컬렉션에 로깅하고 연결합니다.
@@ -90,7 +90,7 @@ with wandb.init(project="registry_quickstart") as run:
 
 W&amp;B는 반환된 run 객체의 `wandb.Run.link_artifact(target_path = "")` 메서드에서 지정한 컬렉션이 지정한 레지스트리 내에 없으면 해당 컬렉션을 자동으로 생성합니다.
 
-이전 예제에 이어, 스크립트를 실행한 후 W&amp;B 레지스트리로 이동하여 나와 조직의 다른 멤버가 게시한 아티팩트 버전을 확인합니다. 프로젝트 사이드바에서 **Applications** 아래의 **Registry**를 선택합니다. `"Model"` 레지스트리를 선택합니다. 레지스트리 내에서 연결된 아티팩트 버전이 포함된 `"first-collection"` 컬렉션을 확인할 수 있습니다.
+이전 예제에 이어, 스크립트를 실행한 후 W&amp;B 레지스트리로 이동하여 나와 조직의 다른 멤버가 게시한 아티팩트 버전을 확인합니다. 프로젝트 사이드바에서 **Applications** 아래의 **레지스트리**를 선택합니다. `"Model"` 레지스트리를 선택합니다. 레지스트리 내에서 연결된 아티팩트 버전이 포함된 `"first-collection"` 컬렉션을 확인할 수 있습니다.
 
 레지스트리 내의 컬렉션에 아티팩트 버전을 연결하면, 적절한 권한이 있는 조직 멤버는 아티팩트 버전을 [확인](/ko/models/registry/lineage)하고, [다운로드](/ko/models/registry/download_use_artifact)하고, [구성](/ko/models/registry/organize-with-tags)하고, 관리하며, 다운스트림 automation을 생성하는 등의 작업을 할 수 있습니다.
 

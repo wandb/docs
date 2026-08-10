@@ -33,28 +33,28 @@ Registry を使用すると、アーティファクト バージョンをトラ�
   ## Learn the basics
 </div>
 
-各組織には最初から 2 つの Registry があり、モデルとデータセットの アーティファクト を整理できる **Models** と **Datasets** がそれぞれ含まれています。[組織のニーズに応じて、他の アーティファクト タイプを整理するための Registry を追加で作成する](/ja/models/registry/create_registry)こともできます。
+各組織には最初から 2 つの レジストリ があり、モデルとデータセットの アーティファクト を整理できる **Models** と **Datasets** がそれぞれ含まれています。[組織のニーズに応じて、他の アーティファクト タイプを整理するための レジストリ を追加で作成する](/ja/models/registry/create_registry)こともできます。
 
-各[*Registry*](/ja/models/registry/configure_registry/)は、1 つ以上の[*コレクション*](/ja/models/registry/create_collection/)で構成されます。各コレクションは、それぞれ異なるタスクやユースケースを表します。
+各[*レジストリ*](/ja/models/registry/configure_registry/)は、1 つ以上の[*コレクション*](/ja/models/registry/create_collection/)で構成されます。各コレクションは、それぞれ異なるタスクやユースケースを表します。
 
 {/* <Frame>
     <img src="/images/registry/homepage_registry.png" alt="W&B Registry"  />
   </Frame> */}
 
-アーティファクト を Registry に追加するには、まず [特定の アーティファクト バージョンを W&amp;B にログ](/ja/models/artifacts/create-a-new-artifact-version/)します。アーティファクト をログするたびに、W&amp;B はその アーティファクト に自動的にバージョンを割り当てます。アーティファクト バージョンは 0 始まりのインデックスを使用するため、最初のバージョンは `v0`、2 番目のバージョンは `v1` となり、以降も同様です。
+アーティファクト を レジストリ に追加するには、まず [特定の アーティファクト バージョンを W&amp;B にログ](/ja/models/artifacts/create-a-new-artifact-version/)します。アーティファクト をログするたびに、W&amp;B はその アーティファクト に自動的にバージョンを割り当てます。アーティファクト バージョンは 0 始まりのインデックスを使用するため、最初のバージョンは `v0`、2 番目のバージョンは `v1` となり、以降も同様です。
 
-アーティファクト を W&amp;B にログしたら、その特定の アーティファクト バージョンを Registry 内の コレクション にリンクできます。
+アーティファクト を W&amp;B にログしたら、その特定の アーティファクト バージョンを レジストリ 内の コレクション にリンクできます。
 
 <Note>
-  &quot;link&quot; という用語は、W&amp;B が アーティファクト を保存している場所と、Registry で アーティファクト にアクセスできる場所をつなぐポインタを指します。アーティファクト を コレクション にリンクしても、W&amp;B が アーティファクト を複製することはありません。
+  &quot;link&quot; という用語は、W&amp;B が アーティファクト を保存している場所と、レジストリ で アーティファクト にアクセスできる場所をつなぐポインタを指します。アーティファクト を コレクション にリンクしても、W&amp;B が アーティファクト を複製することはありません。
 </Note>
 
-例として、次のコードでは、`"my_model.txt"` という名前のモデル アーティファクト を、`"model"` という Registry 内の `"first-collection"` という名前の コレクション にログしてリンクします。
+例として、次のコードでは、`"my_model.txt"` という名前のモデル アーティファクト を、`"model"` という レジストリ 内の `"first-collection"` という名前の コレクション にログしてリンクします。
 
 1. `wandb.init()` で W&amp;B Run を初期化します。
 2. `wandb.Run.log()` で アーティファクト を W&amp;B にログします。
-3. Registry が存在することを確認します。
-4. アーティファクト バージョンのリンク先となる コレクション と Registry の名を指定します。
+3. レジストリ が存在することを確認します。
+4. アーティファクト バージョンのリンク先となる コレクション と レジストリ の名を指定します。
 5. `wandb.Run.link_artifact()` を使用して アーティファクト を コレクション にリンクします。
 
 この Python コードをスクリプトとして保存し、実行してください。W&amp;B Python SDK バージョン 0.18.6 以降が必要です。
@@ -87,14 +87,14 @@ with wandb.init(project="registry_quickstart") as run:
     )
 ```
 
-指定した Registry 内に、返された run オブジェクトの `wandb.Run.link_artifact(target_path = "")` method で指定したコレクションが存在しない場合、W&amp;B はそのコレクションを自動的に作成します。
+指定した レジストリ 内に、返された run オブジェクトの `wandb.Run.link_artifact(target_path = "")` method で指定したコレクションが存在しない場合、W&amp;B はそのコレクションを自動的に作成します。
 
-前の例の続きとして、スクリプトを実行した後、W&amp;B Registry にアクセスして、自分や組織内の他のメンバーが公開した アーティファクト バージョンを確認します。プロジェクトのサイドバーで **Applications** の下にある **Registry** を選択します。`"Model"` Registry を選択します。Registry 内に、リンクした アーティファクト バージョンを含む `"first-collection"` コレクションが表示されるはずです。
+前の例の続きとして、スクリプトを実行した後、W&amp;B レジストリ にアクセスして、自分や組織内の他のメンバーが公開した アーティファクト バージョンを確認します。プロジェクトのサイドバーで **Applications** の下にある **レジストリ** を選択します。`"Model"` レジストリ を選択します。レジストリ 内に、リンクした アーティファクト バージョンを含む `"first-collection"` コレクションが表示されるはずです。
 
-アーティファクト バージョンを Registry 内のコレクションにリンクすると、適切な権限を持つ組織のメンバーは、その アーティファクト バージョンを[表示](/ja/models/registry/lineage)、[ダウンロード](/ja/models/registry/download_use_artifact)、[整理](/ja/models/registry/organize-with-tags)、管理したり、下流の automation を作成したりできるようになります。
+アーティファクト バージョンを レジストリ 内のコレクションにリンクすると、適切な権限を持つ組織のメンバーは、その アーティファクト バージョンを[表示](/ja/models/registry/lineage)、[ダウンロード](/ja/models/registry/download_use_artifact)、[整理](/ja/models/registry/organize-with-tags)、管理したり、下流の automation を作成したりできるようになります。
 
 <Note>
-  アーティファクト バージョンがメトリクスをログしている場合 (たとえば `wandb.Run.log_artifact()` を使用する場合) 、そのバージョンの詳細ページからメトリクスを確認でき、コレクションのページから アーティファクト バージョン間のメトリクスを比較できます。詳しくは、[Registry 内のリンクされた artifact を表示する](/ja/models/registry/link_version/#view-linked-artifacts-in-a-registry)を参照してください。
+  アーティファクト バージョンがメトリクスをログしている場合 (たとえば `wandb.Run.log_artifact()` を使用する場合) 、そのバージョンの詳細ページからメトリクスを確認でき、コレクションのページから アーティファクト バージョン間のメトリクスを比較できます。詳しくは、[レジストリ 内のリンクされた artifact を表示する](/ja/models/registry/link_version/#view-linked-artifacts-in-a-registry)を参照してください。
 </Note>
 
 <div id="enable-wb-registry">
