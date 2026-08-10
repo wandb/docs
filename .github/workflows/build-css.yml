@@ -56,21 +56,19 @@ jobs:
 
       - name: Commit and push if styles.css changed
         env:
-          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          APP_SLUG: ${{ steps.app-token.outputs.app-slug }}
         run: |
           if [[ -z "$(git status --porcelain css/styles.css)" ]]; then
             echo "css/styles.css is already in sync with the partials — nothing to commit."
             exit 0
           fi
-          # Identify the commit author as the GitHub App's bot user. Calling
-          # /user with an installation token returns the bot's login
-          # (<app-slug>[bot]) and numeric id; the noreply email format
-          # <id>+<login>@users.noreply.github.com is what GitHub recognizes
-          # as authored by the App.
-          APP_LOGIN=$(gh api /user --jq '.login')
-          APP_ID=$(gh api /user --jq '.id')
+          # Identify the commit author as the GitHub App's bot user
+          # (<app-slug>[bot]) using the app-slug output from the token step.
+          # Installation tokens cannot call `gh api /user` (it returns
+          # HTTP 403), so derive the identity without an API call.
+          APP_LOGIN="${APP_SLUG}[bot]"
           git config user.name  "$APP_LOGIN"
-          git config user.email "${APP_ID}+${APP_LOGIN}@users.noreply.github.com"
+          git config user.email "${APP_LOGIN}@users.noreply.github.com"
           git add css/styles.css
           git commit -m "Rebuild css/styles.css from scripts/css-minify partials"
           git push origin HEAD:${{ github.head_ref }}
