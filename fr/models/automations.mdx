@@ -9,7 +9,11 @@ import AutomationsActionsList from "/snippets/fr/_includes/automations/actions-l
 import AutomationsBestPractices from "/snippets/fr/_includes/automations/best-practices.mdx";
 import AutomationsWhereToFind from "/snippets/fr/_includes/automations/where-to-find-automations.mdx";
 
-Il existe des automatisations à la fois pour les **Projects** et les **registres**. L’emplacement où vous créez une automatisation, les événements que vous pouvez utiliser et le fonctionnement de la portée varient. Pour connaître les types d’événements par portée, voir [événements et portée des automatisations](/fr/models/automations/automation-events).
+*Les automatisations* envoient des notifications Slack ou déclenchent des webhooks en réponse à des événements spécifiques dans W&amp;B. Vous pouvez définir la portée d’une automatisation au niveau d’une organisation, d’une équipe, d’un projet, d’un registre ou d’une collection. Une automatisation surveille l’événement dans l’ensemble des ressources incluses dans sa portée, y compris les projets, registres et collections créés ultérieurement. La procédure de création d’une automatisation et les événements disponibles dépendent de sa portée. Pour connaître les types d’événements par portée, voir [événements et portée des automatisations](/fr/models/automations/automation-events).
+
+<Note>
+  Les automatisations à l’échelle d’une équipe ou d’une organisation, ainsi que le [hub Automatisations](#automations-hub), sont disponibles sur Cloud mutualisé de W&amp;B et sur W&amp;B Cloud dédié (Server v0.83.0 et versions ultérieures).
+</Note>
 
 <AutomationsMentalModel />
 
@@ -26,6 +30,23 @@ flowchart LR
 </div>
 
 <AutomationsWhereToFind />
+
+<div id="automations-hub">
+  ## Hub Automatisations
+</div>
+
+Le hub **Automatisations** est une section globale de la navigation de gauche qui regroupe, dans une liste unique, toutes les automatisations auxquelles vous avez accès, toutes portées et projets confondus. Utilisez-le pour découvrir, examiner et gérer les automatisations sans devoir accéder à chaque projet ou registre.
+
+Depuis le hub **Automatisations**, vous pouvez :
+
+* Créer une automatisation et choisir sa portée, sans avoir à connaître au préalable le point d&#39;entrée correspondant.
+* Afficher dans une seule liste toutes les automatisations auxquelles vous avez accès, puis les filtrer et les trier (par exemple, par portée, déclencheur ou action).
+* Cliquer sur le nom d&#39;une automatisation pour afficher les détails complets de sa configuration.
+* Afficher l&#39;[historique d&#39;exécution](/fr/models/automations/view-automation-history) d&#39;une automatisation pour vérifier si elle a réussi ou échoué.
+* Utiliser le filtre rapide pour basculer entre les automatisations que vous avez créées et toutes les automatisations de votre organisation.
+* Sélectionner plusieurs automatisations et les supprimer en une seule fois.
+
+Le hub **Automatisations** complète l&#39;onglet **Automatisations** de chaque projet et registre ; ces onglets spécifiques à une portée restent disponibles pour un accès ciblé rapide.
 
 <div id="use-cases">
   ## Cas d’utilisation
@@ -66,10 +87,11 @@ Pour [créer une automatisation](/fr/models/automations/create-automations), vou
 <AutomationsBestPractices />
 
 <div id="limitations">
-  ## Limites
+  ## Limitations
 </div>
 
-Les [automatisations des métriques de run](/fr/models/automations/automation-events/#run-metrics-events) et les [automatisations de changement du z-score des métriques de run](/fr/models/automations/automation-events/#run-metrics-z-score-change-automations) sont actuellement prises en charge uniquement dans [W&amp;B Multi-tenant Cloud](/fr/platform/hosting/#wb-multi-tenant-cloud).
+* Les [automatisations sur les métriques des runs](/fr/models/automations/automation-events/#run-metrics-change) et les [automatisations sur les variations du score z des métriques des runs](/fr/models/automations/automation-events/#run-metrics-z-score-change) sont prises en charge uniquement dans le [Cloud mutualisé de W&amp;B](/fr/platform/hosting/#wb-multi-tenant-cloud) et le [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud).
+* Aux portées **Équipe** et **Organisation**, W&amp;B App ne prend en charge que les événements liés aux artefacts et aux collections. Les événements basés sur les runs ne sont pas disponibles dans W&amp;B App à ces portées. Voir [événements et portée des automatisations](/fr/models/automations/automation-events).
 
 <div id="next-steps">
   ## Étapes suivantes

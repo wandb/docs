@@ -12,19 +12,18 @@ Les sections suivantes décrivent comment consulter, configurer, rechercher, fil
   ## Afficher les journaux de console
 </div>
 
-Accédez aux journaux de console d&#39;un run dans W&amp;B App pour examiner les messages produits pendant le run.
+Affichez les journaux de console d&#39;un run dans W&amp;B App pour examiner les messages générés pendant le run.
 
 1. Accédez à votre projet dans W&amp;B App.
 2. Sélectionnez un run dans le tableau **Runs**.
-3. Cliquez sur l&#39;onglet **Logs** dans la barre latérale du projet.
+3. Sélectionnez l&#39;onglet **Logs** sur la page du run.
+4. Facultatif : pour un run dont les journaux sont diffusés en continu, sélectionnez **Jump to bottom** pour revenir aux journaux les plus récents après avoir fait défiler la page vers le haut.
 
-<Note>
-  W&amp;B stocke au maximum 100 000 lignes de journaux pour un run. Dans W&amp;B App, 10 000 lignes de journaux au maximum s&#39;affichent à la fois. Pour voir toutes les lignes stockées, faites défiler les journaux afin d&#39;afficher les lignes plus anciennes.
-</Note>
+Pendant la diffusion des journaux, une icône de points de suspension (<Icon icon="ellipsis" iconType="solid" />) apparaît dans le coin supérieur droit. Lorsque l&#39;interrogation des journaux est terminée, W&amp;B remplace l&#39;icône par un bouton de téléchargement (<Icon icon="arrow-down-to-bracket" iconType="solid" />).
 
-{/* ## Champs des journaux de la console
+{/* ## Champs des journaux de console
 
-  Dans W&B App, vous pouvez modifier les champs affichés dans le tableau des journaux de la console. */}
+  Dans W&B App, vous pouvez modifier les champs affichés dans le tableau des journaux de console. */}
 
 <div id="types-of-console-logs">
   ## Types de journaux de console
@@ -130,10 +129,16 @@ W&amp;B ajoute automatiquement des horodatages à chaque entrée des journaux de
 Pour afficher ou masquer les horodatages dans les journaux de console, sélectionnez la liste déroulante **Timestamp visible** sur la page des journaux de console.
 
 <div id="search-console-logs">
-  ## Rechercher dans les journaux de la console
+  ## Rechercher dans les journaux de console
 </div>
 
-Pour localiser rapidement les entrées pertinentes, utilisez la barre de recherche sur la page des journaux de la console pour filtrer les journaux à l’aide de mots-clés. Vous pouvez rechercher des termes, des libellés ou des messages d’erreur spécifiques.
+<div id="search-console-logs">
+  ## Rechercher dans les journaux de console
+</div>
+
+Utilisez la barre de recherche sur la page des journaux de console pour trouver du texte spécifique, tel que des libellés, des mots-clés ou des messages d’erreur.
+
+À mesure que de nouveaux journaux arrivent, W&amp;B met à jour le nombre de correspondances.
 
 <div id="filter-with-custom-labels">
   ## Filtrer avec des libellés personnalisés
@@ -168,7 +173,9 @@ Pour enregistrer les journaux localement afin de les analyser hors ligne ou de l
 1. Accédez à votre projet dans la W&amp;B App.
 2. Sélectionnez un run dans le tableau **Runs**.
 3. Cliquez sur l’onglet **Logs** dans la barre latérale du projet.
-4. Cliquez sur le bouton de téléchargement sur la page des journaux de console.
+4. Cliquez sur le bouton permettant de télécharger le fichier journal (<Icon icon="arrow-down-to-bracket" iconType="solid" />) sur la page des journaux de console.
+
+Il se peut que vous ne puissiez temporairement pas télécharger les journaux lorsqu’un run les diffuse activement. Pendant la diffusion, W&amp;B remplace le bouton de téléchargement par une icône de points de suspension (<Icon icon="ellipsis" iconType="solid" />). Attendez que le run se termine ou cesse la diffusion, puis réessayez.
 
 <div id="copy-console-logs">
   ## Copier les journaux de console
