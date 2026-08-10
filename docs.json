@@ -735,7 +735,8 @@
                         "pages": [
                           "weave/guides/platform",
                           "weave/guides/platform/weave-self-managed",
-                          "weave/guides/platform/ingest-sampling"
+                          "weave/guides/platform/ingest-sampling",
+                          "weave/guides/platform/server-caching"
                         ]
                       },
                       "weave/guides/platform/weave-projects",
@@ -851,12 +852,12 @@
                 "pages": [
                   "serverless-training",
                   "serverless-training/prerequisites",
+                  "serverless-training/available-models",
                   "serverless-training/usage-limits",
                   {
                     "group": "Serverless RL",
                     "pages": [
                       "serverless-training/usage",
-                      "serverless-training/available-models",
                       "serverless-training/use-trained-models"
                     ]
                   },
@@ -8346,8 +8347,12 @@
       "source": "/ref/python/sdk/*"
     },
     {
-      "destination": "/models/ref/python/public-api/automations",
-      "source": "/models/ref/python/automations/automation"
+      "destination" : "/models/ref/python/public-api",
+      "source" : "/models/ref/python/public-api/agentruns"
+    },
+    {
+      "destination": "/models/ref/python/automations",
+    "source": "/models/ref/python/public-api/automations"
     },
     {
       "destination": "/models/ref/wandb_workspaces/:slug*",
