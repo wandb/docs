@@ -6,6 +6,38 @@ rss: true
 
 This page includes release notes for the W&B Python SDK (`wandb` package) used with W&B Models. For the Weave Python SDK (`weave` package), see [Weave SDK releases](/release-notes/weave-sdk-releases). For W&B Server, see [W&B Server release notes](/release-notes/server-releases).
 
+<Update label="0.28.1" description="July 16, 2026">
+## Notable changes
+- This version requires protobuf v5+ and drops support for probuf v4.
+- This version drops compatibility with W&B Server v0.69.x and older.
+
+## Added
+- `Api().project().sweeps()` accepts an optional `filters` argument, which uses the same filter format as `Api().runs()`.
+- The new public API method `Run.stop()` (`wandb.Api().run(...).stop()`) requests that an active run stop gracefully, equivalent to the **Stop run** button in the W&B App.
+- The new method `wandb.Api().organization()` returns an `Organization` by name. If you omit the name, it returns your current default organization.
+
+## Changed
+- `wandb sync` now routes to `wandb beta sync` for supported sets of parameters. To use the previous implementation instead, pass `--legacy`.
+- `wandb beta sync` now skips online runs by default, matching `wandb sync`. To include online runs, pass `--no-skip-online`.
+- `wandb.sandbox` now defaults serverless sandboxes to a maximum lifetime of 12 hours (`max_lifetime_seconds=43200`). To override the default, pass `max_lifetime_seconds` for an individual sandbox or set it in `SandboxDefaults`.
+- `wandb.Api().runs()` and `wandb.Api().run()` now raise `RunNotFoundError` when a run's data fails to load, such as when the run is deleted before its data finishes loading.
+- `run.save()` accepts a new `glob` argument. Pass `glob=False` to turn off glob expansion (`*`, `?`, and `[...]`) and treat the path as a literal path. This is useful when a filename contains glob metacharacters.
+- Temporary Unix socket files and directories are now removed at shutdown.
+- protobuf v4 is no longer supported.
+
+## Removed
+- Removed legacy fallback implementations for downloading artifact files from W&B Server releases older than v0.70.0. On these servers, `Artifact.files()` and `Artifact.download()` no longer work for any artifact, and `Artifact.get_entry()` and `Artifact.get_path()` file downloads no longer work for non-reference artifacts. To keep using these operations, upgrade W&B Server to v0.70.0 or newer.
+- Removed legacy fallback implementations for fetching an artifact by name from W&B Server releases older than v0.70.0. On these servers, `wandb.Api().artifact()` and other methods that fetch artifacts by path no longer work. To keep using these operations, upgrade W&B Server to v0.70.0 or newer.
+- Removed the `GitPython` dependency. Git metadata is now collected by invoking the `git` executable directly. The `GIT_PYTHON_GIT_EXECUTABLE` environment variable is still honored for locating the executable.
+
+## Fixed
+- Saving a linked registry artifact, such as when adding an alias, no longer fails when you lack write access to the source project.
+- `np.float16` and `np.float32` `NaN` values logged with `Run.log()` are now recorded as `NaN` instead of being silently dropped, matching the behavior of `np.float64` and native `float`.
+- `Run.upload_file()` (through `wandb.Api().run(...)`) now registers the uploaded file with the run on Self-Managed deployments. Previously, the file's bytes were uploaded but never committed, so the file didn't appear on the run in deployments without object-store notifications.
+- Sweep agents now let an in-progress run finish before exiting when the sweep is deleted or `Api()` returns a 404 error.
+- Fixed deadlocks introduced in SDK v0.25.1. These deadlocks were reported when using PyTorch with Python versions earlier than 3.14, which use the `fork` `multiprocessing` start method by default. They could also occur during garbage collection when using some `wandb.Api` functionality.
+</Update>
+
 <Update label="0.28.0" description="June 22, 2026">
 ## Notable changes
 - This version drops compatibility with server versions older than 0.65.0.
@@ -29,7 +61,7 @@ This page includes release notes for the W&B Python SDK (`wandb` package) used w
 - When a `wandb.Image` is logged inside a `wandb.Table` with multiple box or mask layers with distinct `class_labels`, each layer's labels are now preserved in new `box_class_maps` or `mask_class_maps` fields in the `table.json`. Previously, a single `class_map` would be incorrectly overwritten by each set of class labels.
 - Artifact file operations now consistently require normalized relative paths.
 - To fix silent failures when `$TMPDIR` is missing or unwritable, logging an artifact using a `WandbLogger` or `run.log_artifact` now writes the manifest file to the artifact's staging directory instead of the OS temp dir.
-- Fixed a bug where logging artifacts in shared mode (`wandb.init(mode="shared")`)  with code-saving enabled would raise an error.
+- Fixed a bug where logging artifacts in shared mode (`wandb.init(mode="shared")`) with code-saving enabled would raise an error.
 - To create a `diff.patch` file, the `git_root` setting is now used by default, falling back to the `root_dir` setting.
 - Apple system metrics like GPU, CPU, power, and temperature are now collected on Apple M5 Macs.
 - File download progress is now shown when exporting history using `wandb.Api().run(...).download_history_exports`.

@@ -110,7 +110,7 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
     * Nous migrons progressivement les ressources existantes du Model Registry au niveau de l’équipe vers W&amp;B Registry au cours des prochaines versions. **Aucune action n’est requise de votre part. W&amp;B copiera automatiquement les ressources du Model Registry de chaque équipe vers un registry privé correspondant au niveau de l’équipe, créé automatiquement.**  Les références existantes aux collections de modèles dans votre ancien Model Registry au niveau de l’équipe continueront de fonctionner.
 
       1. Dans Server v0.71, Registry sera activé par défaut pour toutes les organisations.
-      2. Server v0.73 (août) inclura une variable d’environnement de désactivation, et cette migration s’exécutera automatiquement pendant la mise à niveau. La migration prend entre 5 et 30 minutes pour la plupart des organisations. Pendant la migration, l’association d’artefacts à l’ancien Model Registry de l’équipe ou au nouveau Registry échouera avec une erreur. ****La journalisation et la récupération des artefacts** **ne seront pas affectées**.
+      2. Server v0.73 (août) inclura une variable d’environnement de désactivation, et cette migration s’exécutera automatiquement pendant la mise à niveau. La migration prend entre 5 et 30 minutes pour la plupart des organisations. Pendant la migration, l’association d’artefacts à l’ancien Model Registry de l’équipe ou au nouveau Registry échouera avec une erreur. **La journalisation et la récupération des artefacts ne seront pas affectées**.
       3. Dans Server v0.74 (septembre), nous supprimerons cet indicateur et la migration aura lieu pendant la mise à niveau.
 
       Nous visons une mise à niveau fluide, avec un minimum de perturbations, vers une nouvelle expérience plus puissante. Contactez votre équipe W&amp;B ou le [support](mailto:support@wandb.ai) pour toute question sur la migration.
@@ -407,8 +407,8 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
   ## Correctifs
 
   * Correction d’un problème où les modifications du schéma de la base de données sous-jacente lors des mises à niveau pouvaient expirer au démarrage de la plateforme.
-  * Ajout d’autres améliorations des performances au service de stockage Parquet sous-jacent afin d’améliorer encore les temps de chargement des graphiques pour les utilisateurs. Le service de stockage Parquet est disponible uniquement sur Cloud dédié et sur les instances autogérées basées sur l’[opérateur Kubernetes W&amp;B](https://docs.wandb.ai/platform/hosting/operator).
-  * Résolution d’un problème d’utilisation élevée du CPU dans le service de stockage Parquet sous-jacent afin de rendre le chargement rapide des graphiques plus fiable pour les utilisateurs. Le service de stockage Parquet est disponible uniquement sur Cloud dédié et sur les instances autogérées basées sur l’[opérateur Kubernetes W&amp;B](https://docs.wandb.ai/platform/hosting/operator).
+  * Ajout d’autres améliorations des performances au service Parquet Store sous-jacent afin d’améliorer encore les temps de chargement des graphiques pour les utilisateurs. Le service Parquet Store est disponible uniquement sur Cloud dédié et sur les instances autogérées basées sur l’[opérateur Kubernetes W&amp;B](/fr/platform/hosting/self-managed/operator).
+  * Résolution d’un problème d’utilisation élevée du CPU dans le service Parquet Store sous-jacent afin de rendre le chargement rapide des graphiques plus fiable pour les utilisateurs. Le service Parquet Store est disponible uniquement sur Cloud dédié et sur les instances autogérées basées sur l’[opérateur Kubernetes W&amp;B](/fr/platform/hosting/self-managed/operator).
 </Update>
 
 <Update label="v0.60.0" description="26 septembre 2024">
@@ -425,7 +425,7 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
   ## Correctifs
 
   * Correction d’un bug permettant aux administrateurs d’instance sur Cloud dédié et sur les instances autogérées d’accéder aux workspaces dans des entités personnelles.
-  * Les endpoints GET SCIM Groups et Users filtrent désormais les comptes de service dans les réponses. Seuls les utilisateurs qui ne sont pas des comptes de service sont désormais renvoyés par ces endpoints.
+  * Les points de terminaison GET SCIM Groups et Users filtrent désormais les comptes de service dans les réponses. Seuls les utilisateurs qui ne sont pas des comptes de service sont désormais renvoyés par ces points de terminaison.
   * Correction d’un bug de gestion des utilisateurs en supprimant la possibilité pour les administrateurs d’équipe de supprimer simultanément un utilisateur de l’instance entière tout en le supprimant d’une équipe. Les administrateurs d’instance ou d’organisation sont chargés de supprimer un utilisateur de l’instance entière / organisation.
 
   ## Améliorations des performances
@@ -555,7 +555,7 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
   ## Fonctionnalités
 
   * Vous pouvez désormais enregistrer plusieurs vues pour n’importe quel workspace en cliquant sur &quot;Save as a new view&quot; dans le menu **d’action (<Icon icon="ellipsis" iconType="solid" />)** de la barre du workspace.
-    Voir [Saved workspace views](https://docs.wandb.ai/models/app/pages/workspaces#create-saved-workspace-views) pour en savoir plus.
+    Voir [Saved workspace views](/fr/models/app/features/cascade-settings) pour en savoir plus.
 
     <Frame>
       ![Image montrant des vues enregistrées](https://github.com/wandb/server/assets/7208315/862a36ac-8ce4-49e7-8677-d87d54ab1e54)
@@ -564,11 +564,11 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
     Lorsque vous créez un **projet restreint** au sein d’une équipe, vous pouvez ajouter des membres spécifiques de l’équipe. Contrairement aux autres portées de visibilité des projets, tous les membres d’une équipe n’obtiennent pas implicitement l’accès à un projet restreint.
   * **Performances améliorées de la page d’aperçu du run** : le chargement est désormais 91 % plus rapide, et la fonctionnalité de recherche a été améliorée de 99,9 %. Profitez également de la recherche RegEx pour les données Config et Summary.
   * **La nouvelle UX du DAG de traçabilité des Artifacts** introduit le clustering pour 5 nœuds ou plus au même niveau, une fenêtre d’aperçu pour examiner les détails d’un nœud, ainsi qu’une réduction significative du temps de chargement du graphe.
-  * Les valeurs des variables de template utilisées pour un run exécuté par Launch, par exemple le type et la quantité de GPU, sont désormais affichées dans la liste des runs de la file d&#39;attente. Cela permet de voir plus facilement quels runs demandent quelles ressources.
-  * Le clonage d’un run avec Launch présélectionne désormais les overrides, la file d&#39;attente et les valeurs des variables de template utilisées par le run cloné.
+  * Les valeurs des variables de modèle utilisées pour un run exécuté par Launch, par exemple le type et la quantité de GPU, sont désormais affichées dans la liste des runs de la file d&#39;attente. Cela permet de voir plus facilement quels runs demandent quelles ressources.
+  * Le clonage d’un run avec Launch présélectionne désormais les overrides, la file d&#39;attente et les valeurs des variables de modèle utilisées par le run cloné.
   * Les administrateurs d’instance verront désormais un onglet `Teams` dans le tableau de bord de l’organisation. Il peut être utilisé pour rejoindre une équipe spécifique si nécessaire, que ce soit pour surveiller l’activité de l’équipe conformément aux directives de l’organisation ou pour aider l’équipe lorsque les administrateurs d’équipe ne sont pas disponibles.
   * L’API SCIM User renvoie désormais l’attribut `groups` dans le point de terminaison GET, y compris l’identifiant des groupes / équipes auxquels un utilisateur appartient.
-  * Toutes les instances Cloud dédié sur Google Cloud sont désormais gérées à l’aide du nouvel [opérateur Kubernetes W&amp;B](https://docs.wandb.ai/platform/hosting/operator/). Le nouveau service Parquet Store est également désormais disponible.
+  * Toutes les instances Cloud dédié sur Google Cloud sont désormais gérées à l’aide du nouvel [opérateur Kubernetes W&amp;B](/fr/platform/hosting/self-managed/operator). Le nouveau service Parquet Store est également désormais disponible.
     Parquet store permet un stockage performant et économique des données d’historique de run au format parquet dans le stockage de blobs. Les instances Cloud dédié sur AWS et Azure sont déjà gérées à l’aide de l’opérateur et incluent le parquet store.
   * Les instances Cloud dédié sur AWS ont été mises à jour pour utiliser la dernière version du stockage de données relationnelles, et l’infrastructure de calcul a été mise à niveau vers une génération plus récente offrant de meilleures performances.
 
@@ -577,7 +577,7 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
   ## Correctifs
 
   * Correction d’un problème où l’onglet Expressions ne s’affichait pas pour les graphiques en courbes.
-  * Le nom d’affichage est désormais utilisé pour les Sweeps lors du regroupement par Sweeps dans les charts et le tableau des Runs.
+  * Le nom d’affichage est désormais utilisé pour les Sweeps lors du regroupement par Sweeps dans les graphiques et le tableau des Runs.
   * Navigation automatique vers la page des runs lors de la sélection de la version d’un job.
 </Update>
 
@@ -650,7 +650,7 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 <Update label="v0.47.2" description="1 décembre 2023">
   ## Fonctionnalités
 
-  * Utilisez des rôles personnalisés avec des autorisations spécifiques pour personnaliser le contrôle d&#39;accès au sein d&#39;une équipe**
+  * **Utilisez des rôles personnalisés avec des autorisations spécifiques pour personnaliser le contrôle d&#39;accès au sein d&#39;une équipe**
     Disponible en aperçu pour les clients Enterprise. Pour toute question, contactez votre équipe de compte W&amp;B ou l&#39;assistance.
   * Améliorations mineures de la recherche de runs
   * Redimensionnement automatique de la recherche de runs pour les textes longs
@@ -671,7 +671,7 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
   * Les déploiements sur AWS peuvent désormais utiliser W&amp;B Secrets avec Webhooks et Automations
     Les secrets sont stockés de manière sécurisée dans AWS Secret Manager. Utilisez le module terraform-aws-wandb pour en provisionner un et
   * Mise à jour du tableau des webhooks pour afficher davantage d&#39;informations
-  * Meilleure troncature des chaînes longues pour améliorer leur lisibilité dans l&#39;UI
+  * Meilleure troncature des chaînes longues pour améliorer leur lisibilité dans l&#39;interface utilisateur
   * Réduction du délai de défilement vers une section de rapport
   * Ajout d&#39;un arrière-plan blanc aux panneaux weave1
   * Autorisation des liens profonds pour les panneaux weave1 dans les Reports

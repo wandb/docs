@@ -66,6 +66,23 @@ Filtrez les runs en fonction de leurs tags :
   <img src="/images/app_ui/filter_runs.gif" alt="Filtrer les runs par tags" />
 </Frame>
 
+<div id="example-filter-runs-with-a-timestamp">
+  ### Exemple : filtrer les runs par Horodatage
+</div>
+
+Vous pouvez effectuer un filtrage à l’aide du langage de requête MongoDB.
+
+L’exemple suivant filtre les runs créés entre deux horodatages à l’aide de l’API publique W&amp;B :
+
+```python
+runs = api.runs(
+    "<entity>/<project>",
+    {"$and": [{"created_at": {"$lt": "YYYY-MM-DDT##", "$gt": "YYYY-MM-DDT##"}}]},
+)
+```
+
+Voir le [guide de l’API](/fr/models/ref/python/public-api/api#method-api-runs) pour d’autres exemples de filtrage de runs avec l’API.
+
 <div id="example-combine-filters-with-and-and-or-conditions">
   ### Exemple : combiner des filtres avec des conditions AND et OR
 </div>
@@ -83,6 +100,24 @@ L’image suivante montre comment l’expression de filtre obtenue s’affiche d
 
 <Frame>
   <img src="/images/runs/run_expressions_and_or.png" alt="Combiner des filtres avec des conditions AND et OR" />
+</Frame>
+
+<div id="example-filter-run-configuration-values-with-contains">
+  ### Exemple : filtrer les valeurs de configuration des runs avec `CONTAINS`
+</div>
+
+Filtrez les runs selon qu’un champ de [configuration](/fr/models/track/config) contient une valeur spécifique :
+
+1. Dans la barre latérale du projet, sélectionnez **Runs**.
+2. Sélectionnez **Filtre** (<Icon icon="bars-filter" iconType="solid" />) au-dessus du tableau des runs.
+3. Sélectionnez un champ de configuration de run dans le premier menu.
+4. Sélectionnez **CONTAINS** dans le deuxième menu.
+5. Saisissez la valeur à filtrer dans le troisième champ.
+
+L’image suivante montre un filtre configuré pour afficher les runs dont le champ de configuration `epochs` contient la valeur `100`.
+
+<Frame>
+  <img src="/images/runs/contains_filter.png" alt="Filtrer les runs par configuration de run" />
 </Frame>
 
 <div id="default-filters">

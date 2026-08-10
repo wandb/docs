@@ -66,6 +66,23 @@ run テーブル の式エディターを使用して、名、状態、[tags](#f
   <img src="/images/app_ui/filter_runs.gif" alt="タグで Runs をフィルターする" />
 </Frame>
 
+<div id="example-filter-runs-with-a-timestamp">
+  ### 例: タイムスタンプでRunsをフィルタリングする
+</div>
+
+MongoDB Query Language を使用してフィルタリングできます。
+
+次の例では、W&amp;B Public API を使用して、2つのタイムスタンプの間に作成されたRunsをフィルタリングします。
+
+```python
+runs = api.runs(
+    "<entity>/<project>",
+    {"$and": [{"created_at": {"$lt": "YYYY-MM-DDT##", "$gt": "YYYY-MM-DDT##"}}]},
+)
+```
+
+API を使用して Runs をフィルターするその他の例については、[API ガイド](/ja/models/ref/python/public-api/api#method-api-runs)を参照してください。
+
 <div id="example-combine-filters-with-and-and-or-conditions">
   ### 例: AND 条件と OR 条件を組み合わせたフィルターの作成
 </div>
@@ -83,6 +100,24 @@ run テーブル の式エディターを使用して、名、状態、[tags](#f
 
 <Frame>
   <img src="/images/runs/run_expressions_and_or.png" alt="AND 条件と OR 条件を組み合わせたフィルターの作成" />
+</Frame>
+
+<div id="example-filter-run-configuration-values-with-contains">
+  ### 例: `CONTAINS` を使用して run の設定値をフィルタリングする
+</div>
+
+run の[設定](/ja/models/track/config)フィールドに特定の値が含まれているかどうかで、Runs をフィルタリングします。
+
+1. プロジェクトのサイドバーで、**Runs** を選択します。
+2. run テーブルの上にある **フィルター** (<Icon icon="bars-filter" iconType="solid" />) を選択します。
+3. 1 つ目のメニューから run の設定フィールドを選択します。
+4. 2 つ目のメニューから **CONTAINS** を選択します。
+5. 3 つ目のフィールドに、フィルタリングする値を入力します。
+
+次の画像は、`epochs` 設定フィールドに値 `100` が含まれる Runs を表示するように設定されたフィルターを示しています。
+
+<Frame>
+  <img src="/images/runs/contains_filter.png" alt="run の設定で Runs をフィルタリング" />
 </Frame>
 
 <div id="default-filters">

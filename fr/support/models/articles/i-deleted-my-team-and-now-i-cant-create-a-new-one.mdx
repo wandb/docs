@@ -9,11 +9,19 @@ Lorsque vous vous inscrivez à W&amp;B, la plateforme crée automatiquement une 
   ## Pourquoi cela se produit
 </div>
 
-Les comptes W&amp;B doivent appartenir à au moins une équipe pour pouvoir créer des projets et exécuter des expériences. Lorsque l’équipe générée automatiquement est supprimée, le compte n’appartient plus à aucune équipe. Dans cet état :
+Les comptes W&amp;B doivent appartenir à au moins une équipe pour pouvoir créer des projets et exécuter des expériences. Lorsqu’un compte n’appartient à aucune équipe, il entre dans un état où :
 
 * Le bouton **Créer une équipe** dans **Paramètres du compte &gt; Teams** peut ne pas s’afficher.
 * Si vous essayez de vous connecter ou d’accéder à votre espace de travail, vous pouvez être immédiatement redirigé vers une page indiquant « limite de débit dépassée » ou « Une erreur d’application s’est produite ».
 * Vous ne pouvez pas créer vous-même une nouvelle équipe pour résoudre le problème : la création d’équipe est bloquée tant que le compte est dans cet état.
+
+Supprimer votre équipe est une façon d’atteindre cet état, mais ce n’est pas la seule. Un compte peut également se retrouver sans équipe dans les cas suivants :
+
+* Sur un nouveau compte, si l’équipe initiale n’est pas créée lors de l’inscription.
+* Après avoir ajouté ou modifié une adresse e-mail sur votre compte, telle qu’une adresse e-mail institutionnelle ou étudiante.
+* Après avoir modifié votre profil.
+
+Les symptômes et la solution sont les mêmes dans tous les cas.
 
 <div id="what-to-do">
   ## Que faire
@@ -23,13 +31,15 @@ Cet état ne peut pas être résolu via l’interface utilisateur de W&amp;B. Co
 
 * Votre **nom d’utilisateur** W&amp;B (le nom d’entité affiché dans l’URL de votre profil, par ex. `wandb.ai/your-username`)
 * Le **nom de votre organisation** si vous utilisez une offre Team ou Enterprise
-* Le **nom d’équipe souhaité** que vous voulez faire créer (les noms d’équipe doivent être globalement uniques, en minuscules et sans espaces)
+* Le **nom d’équipe souhaité** que vous voulez faire créer (les noms d’équipe doivent être uniques dans l’ensemble de W&amp;B)
 
-L’assistance créera manuellement une équipe pour votre compte et rétablira votre accès.
+L’assistance créera manuellement une équipe pour votre compte et rétablira votre accès. Choisissez soigneusement le nom d’équipe : vous ne pouvez pas renommer une équipe après sa création. Voir [Comment puis-je renommer une équipe ou une entité ?](/fr/support/models/articles/how-do-i-rename-a-team-or-entity).
 
-**Si vous utilisez une offre Academic ou Free**
+**Si vous utilisez une offre académique ou Free**
 
-Les comptes Academic peuvent ne pas permettre de créer des Teams directement via l’interface utilisateur — le bouton &quot;Créer une équipe&quot; peut être absent même sur un compte récent. Il ne s’agit pas d’un bug ; l’offre Free limite dans certains cas la création d’équipes. Contactez l’assistance avec votre nom d’utilisateur et le nom d’équipe souhaité, et précisez que vous utilisez W&amp;B à des fins académiques ou de recherche.
+Le bouton **Créer une équipe** peut être absent même sur un compte récent. Seul un administrateur de l’organisation peut créer une équipe ; vérifiez donc si vous détenez ce rôle. Pour plus de détails, voir [Teams](/fr/platform/app/settings-page/teams).
+
+Les comptes académiques n’ont aucune limite quant au nombre d’équipes. Si vous ne pouvez toujours pas créer l’équipe dont vous avez besoin, contactez l’assistance avec votre nom d’utilisateur et le nom d’équipe souhaité, et précisez que vous utilisez W&amp;B à des fins académiques ou de recherche.
 
 **Pour éviter cela à l’avenir**
 
@@ -39,7 +49,9 @@ Les comptes Academic peuvent ne pas permettre de créer des Teams directement vi
 
 **Connexe : boucle d’erreur de limite de débit dépassée**
 
-Si vous êtes bloqué dans une boucle de redirection avec une erreur &quot;limite de débit dépassée&quot; après avoir supprimé votre équipe, il s’agit d’un symptôme du même problème. L’erreur apparaît parce que la logique d’acheminement de W&amp;B suppose que chaque utilisateur connecté appartient à une équipe. Vous déconnecter puis vous reconnecter ne résoudra pas le problème. Seul le fait de contacter l’assistance permettra de résoudre ce problème.
+Si vous êtes bloqué dans une boucle de redirection avec une erreur &quot;limite de débit dépassée&quot;, il s’agit d’un symptôme du même problème, que vous ayez supprimé une équipe ou non. L’erreur apparaît parce que la logique d’acheminement de W&amp;B suppose que chaque utilisateur connecté appartient à une équipe.
+
+Malgré son libellé, il ne s’agit pas d’une véritable limite de débit ; les conseils de [Limites de débit](/fr/models/track/limits#rate-limits) ne s’appliquent donc pas ici. Attendre qu’une fenêtre de limite de débit se réinitialise, vous déconnecter puis vous reconnecter, vider votre cache ou utiliser une fenêtre de navigation privée ne résoudra pas le problème. Seul le fait de contacter l’assistance permettra de résoudre ce problème.
 
 ***
 

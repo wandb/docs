@@ -13,6 +13,14 @@ This page includes release notes for supported releases of W&B Server.
 
 <EolReminder/>
 
+<Update label="v0.83.1" description="July 28, 2026">
+
+## Fixes
+
+- Improved cache handling when a UI request to load run metrics is canceled or fails.
+
+</Update>
+
 <Update label="v0.83.0" description="July 22, 2026">
 W&B Server 0.83.0 makes the Registry cross-platform accessible. On Dedicated Cloud, Weave users can now use the Registry without a Models seat, Weave prompts can be published to the Registry for versioning and reuse across an organization, and organization-level Registry access is managed through a new SCIM entitlement. This release also expands administrative controls over team visibility, service accounts, and usage.
 
@@ -43,14 +51,14 @@ W&B Server 0.83.0 makes the Registry cross-platform accessible. On Dedicated Clo
 
 ### Automations
 
-These features are available in Dedicated Cloud only.
+In v0.83.x, the following Automations features are available in Dedicated Cloud only:
 
 - **Automation Hub** centralizes the creation and management of [automations](/models/automations#automations-overview) across projects and registries. Find it in the **Core** section of the sidebar.
 - An automation can now be scoped to an organization, a team, a project, a registry, or a collection. This eliminates the need to duplicate an automation to achieve broad coverage. When creating an automation, click **Edit scopes**.
 
 ### Registry
 
-These features are available in Dedicated Cloud only.
+In v0.83.x, the following Registry features are available in Dedicated Cloud only:
 
 - All Models and Weave users in an organization now have Registry access by default. Existing per-registry permissions are unchanged. Administrators can revoke a user's organization-level Registry access through SCIM. See [Update Registry access](/platform/hosting/iam/scim#update-registry-access).
 - Weave [prompts](/weave/guides/core-types/prompts#create-prompt-objects) (`StringPrompt` and `MessagesPrompt`) can now be added to the Registry, so you can version, alias, and reuse prompts across your organization alongside model artifacts.
@@ -84,7 +92,7 @@ These features are available in Dedicated Cloud only.
 **SCIM and access management**
 
 - Registry access is now a distinct entitlement, decoupled from Models seats. Administrators can grant or revoke a user's organization-level Registry access without changing their Models seat or Weave role. Setting `modelsSeat` to `none` no longer revokes Registry access when the user lacks the Weave role. See [Update Registry access](/platform/hosting/iam/scim#update-registry-access).
-- Administrators can now disable the creation of team service accounts by setting the environment variable `GORILLA_DISABLE_TEAM_SERVICE_ACCOUNT_CREATION` to `true`.
+- Administrators can now prevent the creation of team service accounts by setting the environment variable `GORILLA_DISABLE_TEAM_SERVICE_ACCOUNT_CREATION` to `true`. See [Team-scoped service accounts](/platform/hosting/iam/service-accounts#team-scoped-service-accounts).
 
 **Team and organization visibility**
 

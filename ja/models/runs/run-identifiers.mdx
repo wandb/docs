@@ -49,7 +49,7 @@ W&amp;B Python SDK を使用してプログラムから、または W&amp;B App 
     4. 表示したい run を選択します。
     5. **Overview** タブを選択します。
 
-    W&amp;B では、**Run path** フィールドに run ID が表示されます。run path は、チーム名、プロジェクト名、および run ID で構成されます。一意の ID は run path の最後の部分です。
+    W&amp;B では、**Run path** フィールドに run ID が表示されます。run パスは、チーム名、プロジェクト名、および run ID で構成されます。一意の ID は run パスの最後の部分です。
 
     たとえば、次の画像では一意の run ID は `9mxi1arc` です。
 
@@ -108,6 +108,22 @@ import wandb
 with wandb.init(entity="<project>", project="<project>", name="<run-name>") as run:
     # ここにコードを記述
 ```
+
+<div id="find-the-run-path">
+  ### run パスを検索する
+</div>
+
+run パスは、entity、project、run ID で run を識別します。
+
+```text
+`<entity>/<project>/<run_id>`. 
+```
+
+1. W&amp;B プロジェクトにアクセスします。
+2. **Workspace** または **Runs** タブを選択します。
+3. run パスを確認したい run を検索するか、スクロールして探します。
+4. run をクリックして、run の **Overview** ページを開きます。
+5. **Run path** フィールドから run パスをコピー＆ペーストします。
 
 <div id="rename-a-run">
   ### run の名前を変更する
