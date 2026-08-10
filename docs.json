@@ -8623,6 +8623,42 @@
     {
       "destination": "/platform/hosting/self-managed/operator",
       "source": "/ko/platform/hosting/self-managed/azure-tf"
+    },
+    {
+      "destination": "/weave/reference/typescript-sdk/interfaces/conversation",
+      "source": "/weave/reference/typescript-sdk/classes/conversation"
+    },
+    {
+      "destination": "/weave/reference/typescript-sdk/interfaces/llm",
+      "source": "/weave/reference/typescript-sdk/classes/llm"
+    },
+    {
+      "destination": "/weave/reference/typescript-sdk/interfaces/subagent",
+      "source": "/weave/reference/typescript-sdk/classes/subagent"
+    },
+    {
+      "destination": "/weave/reference/typescript-sdk/interfaces/tool",
+      "source": "/weave/reference/typescript-sdk/classes/tool"
+    },
+    {
+      "destination": "/weave/reference/typescript-sdk/interfaces/turn",
+      "source": "/weave/reference/typescript-sdk/classes/turn"
+    },
+    {
+      "destination": "/weave/reference/typescript-sdk/interfaces/weaveclient",
+      "source": "/weave/reference/typescript-sdk/classes/weaveclient"
+    },
+    {
+      "destination": "/weave/reference/typescript-sdk/variables/endsession",
+      "source": "/weave/reference/typescript-sdk/functions/endsession"
+    },
+    {
+      "destination": "/weave/reference/typescript-sdk/variables/getcurrentsession",
+      "source": "/weave/reference/typescript-sdk/functions/getcurrentsession"
+    },
+    {
+      "destination": "/weave/reference/typescript-sdk/variables/startsession",
+      "source": "/weave/reference/typescript-sdk/functions/startsession"
     }
   ],
   "seo": {
