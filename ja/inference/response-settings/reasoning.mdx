@@ -14,30 +14,33 @@ keywords: ["chain-of-thought", "thinking mode", "reasoning フィールド", "�
   ## サポートされるモデル (推論対応)
 </div>
 
-次の表は、Serverless Inference で 推論出力 を返すモデルを示しています。サポートされる各モデルでは、推論 が常に含まれるか、既定で 推論 が無効または有効になっています。
+次の表は、推論出力を返すことができる Serverless Inference モデルと、それぞれの動作を示しています。
 
-{/* takeru reasoning-models - この表は自動的に生成されるため、手動で編集しないでください。 */}
+* **常時有効:** モデルは常に推論出力を返します。これを無効にすることはできません。
+* **デフォルトで有効** / **デフォルトで無効:** 推論出力のオンとオフを切り替えられます。表には、設定を指定しない場合のデフォルト値が示されています。
+* **適応型; デフォルトではモデルが選択:** モデルがリクエストごとに、推論出力を返すかどうかを決定します。この動作は上書きできます。
 
-| モデル ID (API 用)                                 | 推論 サポート  |
-| ---------------------------------------------- | -------- |
-| `deepseek-ai/DeepSeek-V4-Flash`                | デフォルトで無効 |
-| `deepseek-ai/DeepSeek-V4-Pro`                  | デフォルトで無効 |
-| `google/gemma-4-31B-it`                        | デフォルトで無効 |
-| `MiniMaxAI/MiniMax-M2.5`                       | 常時有効     |
-| `moonshotai/Kimi-K2.7-Code`                    | 常時有効     |
-| `moonshotai/Kimi-K2.6`                         | 常時有効     |
-| `moonshotai/Kimi-K2.5`                         | 常時有効     |
-| `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-FP8` | デフォルトで有効 |
-| `nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B`     | デフォルトで有効 |
-| `openai/gpt-oss-120b`                          | 常時有効     |
-| `openai/gpt-oss-20b`                           | 常時有効     |
-| `Qwen/Qwen3.6-35B-A3B`                         | デフォルトで有効 |
-| `Qwen/Qwen3.6-27B`                             | デフォルトで有効 |
-| `Qwen/Qwen3.5-35B-A3B`                         | デフォルトで有効 |
-| `Qwen/Qwen3.5-27B`                             | デフォルトで有効 |
-| `Qwen/Qwen3-235B-A22B-Thinking-2507`           | 常時有効     |
-| `zai-org/GLM-5.2`                              | デフォルトで有効 |
-| `zai-org/GLM-5.1`                              | デフォルトで有効 |
+{/* takeru reasoning-models - この表は自動生成されるため、手動で編集しないでください。 */}
+
+| モデル ID (API 用)                                 | 推論 サポート            |
+| ---------------------------------------------- | ------------------ |
+| `deepseek-ai/DeepSeek-V4-Flash`                | デフォルトで無効           |
+| `deepseek-ai/DeepSeek-V4-Flash-0731`           | デフォルトで無効           |
+| `deepseek-ai/DeepSeek-V4-Pro`                  | デフォルトで無効           |
+| `google/gemma-4-31B-it`                        | デフォルトで無効           |
+| `MiniMaxAI/MiniMax-M3`                         | 適応型; デフォルトではモデルが選択 |
+| `MiniMaxAI/MiniMax-M2.5`                       | 常時有効               |
+| `moonshotai/Kimi-K2.7-Code`                    | 常時有効               |
+| `moonshotai/Kimi-K2.6`                         | 常時有効               |
+| `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-FP8` | デフォルトで有効           |
+| `nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B`     | デフォルトで有効           |
+| `openai/gpt-oss-120b`                          | 常時有効               |
+| `openai/gpt-oss-20b`                           | 常時有効               |
+| `Qwen/Qwen3.6-35B-A3B`                         | デフォルトで有効           |
+| `Qwen/Qwen3.6-27B`                             | デフォルトで有効           |
+| `Qwen/Qwen3.5-35B-A3B`                         | デフォルトで有効           |
+| `zai-org/GLM-5.2`                              | デフォルトで有効           |
+| `zai-org/GLM-5.1`                              | デフォルトで有効           |
 
 <div id="models-with-always-on-reasoning">
   ### 推論が `常時有効` のモデル

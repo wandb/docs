@@ -92,6 +92,16 @@
                     "pages": [
                       "product-models",
                       "product-weave",
+                      {
+                        "group": "W&B ARIA",
+                        "pages": [
+                          "aria/overview",
+                          "aria/chat",
+                          "aria/autoresearch",
+                          "aria/governance"
+                        ],
+                        "tag": "Preview"
+                      },
                       "hivemind"
                     ]
                   },
@@ -106,16 +116,6 @@
                   {
                     "group": "Platform Details",
                     "pages": [
-                      {
-                        "group": "ARIA",
-                        "pages": [
-                          "aria/overview",
-                          "aria/chat",
-                          "aria/autoresearch",
-                          "aria/governance"
-                        ],
-                        "tag": "Preview"
-                      },
                       {
                         "group": "Configure W&B",
                         "pages": [
@@ -363,6 +363,7 @@
                           "models/registry/configure_registry",
                           "models/registry/create_collection",
                           "models/registry/link_version",
+                          "models/registry/link_prompt",
                           "models/registry/aliases",
                           "models/registry/download_use_artifact",
                           "models/registry/search_registry",
@@ -538,7 +539,7 @@
                     "group": "Get Started",
                     "pages": [
                       "weave/agent-integration-quickstart",
-                      "weave/custom-agents-quickstart",
+                      "weave/guides/tracking/trace-agents-otel",
                       "weave/quickstart"
                     ]
                   },
@@ -562,6 +563,7 @@
                             ]
                           },
                           "weave/guides/tracking/trace-agents",
+                          "weave/guides/tracking/trace-agents-otel",
                           "weave/guides/tracking/view-agent-activity",
                           "weave/guides/tracking/view-agent-signals",
                           "weave/guides/tracking/trace-agents-attributes",
@@ -617,7 +619,8 @@
                                   "weave/guides/integrations/koog",
                                   "weave/guides/integrations/autogen",
                                   "weave/guides/integrations/verdict",
-                                  "weave/guides/integrations/verifiers"
+                                  "weave/guides/integrations/verifiers",
+                                  "weave/guides/integrations/verl"
                                 ]
                               },
                               {
@@ -695,6 +698,7 @@
                         "pages": [
                           "weave/guides/tools/playground",
                           "weave/guides/tools/evaluation_playground",
+                          "weave/guides/tools/custom-runtimes",
                           "weave/quickstart-inference"
                         ]
                       },
@@ -731,7 +735,8 @@
                         "pages": [
                           "weave/guides/platform",
                           "weave/guides/platform/weave-self-managed",
-                          "weave/guides/platform/ingest-sampling"
+                          "weave/guides/platform/ingest-sampling",
+                          "weave/guides/platform/server-caching"
                         ]
                       },
                       "weave/guides/platform/weave-projects",
@@ -818,6 +823,7 @@
                       "inference/response-settings/json-mode",
                       "inference/response-settings/reasoning",
                       "inference/response-settings/streaming",
+                      "inference/response-settings/prefix-caching",
                       "inference/response-settings/structured-output",
                       "inference/response-settings/tool-calling"
                     ]
@@ -846,12 +852,12 @@
                 "pages": [
                   "serverless-training",
                   "serverless-training/prerequisites",
+                  "serverless-training/available-models",
                   "serverless-training/usage-limits",
                   {
                     "group": "Serverless RL",
                     "pages": [
                       "serverless-training/usage",
-                      "serverless-training/available-models",
                       "serverless-training/use-trained-models"
                     ]
                   },
@@ -932,6 +938,7 @@
                         "pages": [
                           "models/ref/python/functions",
                           "models/ref/python/functions/agent",
+                          "models/ref/python/functions/box3d",
                           "models/ref/python/functions/controller",
                           "models/ref/python/functions/finish",
                           "models/ref/python/functions/init",
@@ -947,8 +954,6 @@
                         "pages": [
                           "models/ref/python/data-types",
                           "models/ref/python/data-types/audio",
-                          "models/ref/python/data-types/box3d",
-                          "models/ref/python/data-types/evaltable",
                           "models/ref/python/data-types/histogram",
                           "models/ref/python/data-types/html",
                           "models/ref/python/data-types/image",
@@ -1016,18 +1021,17 @@
                         "pages": [
                           "models/ref/python/public-api",
                           "models/ref/python/public-api/api",
-                          "models/ref/python/public-api/agentruns",
                           "models/ref/python/public-api/artifactcollection",
                           "models/ref/python/public-api/artifactcollections",
                           "models/ref/python/public-api/artifactfiles",
                           "models/ref/python/public-api/artifacts",
                           "models/ref/python/public-api/artifacttype",
                           "models/ref/python/public-api/artifacttypes",
-                          "models/ref/python/public-api/automations",
                           "models/ref/python/public-api/betareport",
                           "models/ref/python/public-api/file",
                           "models/ref/python/public-api/files",
                           "models/ref/python/public-api/member",
+                          "models/ref/python/public-api/organization",
                           "models/ref/python/public-api/project",
                           "models/ref/python/public-api/projects",
                           "models/ref/python/public-api/projectartifactcollections",
@@ -1315,13 +1319,234 @@
                   },
                   {
                     "group": "Service API",
-                    "openapi": {
-                      "directory": "weave/reference/service-api",
-                      "source": "weave/reference/service-api/openapi.json"
-                    },
                     "pages": [
                       "weave/cookbooks/weave_via_service_api",
-                      "weave/reference/service-api"
+                      "weave/reference/service-api",
+                      {
+                        "group": "Calls",
+                        "pages": [
+                          "weave/reference/service-api/calls/call-start",
+                          "weave/reference/service-api/calls/call-end",
+                          "weave/reference/service-api/calls/call-start-batch",
+                          "weave/reference/service-api/calls/calls-delete",
+                          "weave/reference/service-api/calls/call-update",
+                          "weave/reference/service-api/calls/call-read",
+                          "weave/reference/service-api/calls/calls-query-stats",
+                          "weave/reference/service-api/calls/trace-usage",
+                          "weave/reference/service-api/calls/calls-usage",
+                          "weave/reference/service-api/calls/calls-query-stream",
+                          "weave/reference/service-api/calls/call-stats",
+                          "weave/reference/service-api/calls/calls-complete"
+                        ]
+                      },
+                      {
+                        "group": "Costs",
+                        "pages": [
+                          "weave/reference/service-api/costs/cost-create",
+                          "weave/reference/service-api/costs/cost-query",
+                          "weave/reference/service-api/costs/cost-purge"
+                        ]
+                      },
+                      {
+                        "group": "Feedback",
+                        "pages": [
+                          "weave/reference/service-api/feedback/feedback-create",
+                          "weave/reference/service-api/feedback/feedback-create-batch",
+                          "weave/reference/service-api/feedback/feedback-query",
+                          "weave/reference/service-api/feedback/feedback-purge",
+                          "weave/reference/service-api/feedback/feedback-replace",
+                          "weave/reference/service-api/feedback/feedback-stats",
+                          "weave/reference/service-api/feedback/feedback-aggregate",
+                          "weave/reference/service-api/feedback/feedback-payload-schema"
+                        ]
+                      },
+                      {
+                        "group": "Files",
+                        "pages": [
+                          "weave/reference/service-api/files/file-create",
+                          "weave/reference/service-api/files/file-content",
+                          "weave/reference/service-api/files/files-stats"
+                        ]
+                      },
+                      {
+                        "group": "Objects",
+                        "pages": [
+                          "weave/reference/service-api/objects/obj-create",
+                          "weave/reference/service-api/objects/obj-read",
+                          "weave/reference/service-api/objects/objs-query",
+                          "weave/reference/service-api/objects/obj-delete",
+                          "weave/reference/service-api/objects/obj-add-tags",
+                          "weave/reference/service-api/objects/obj-remove-tags",
+                          "weave/reference/service-api/objects/obj-set-aliases",
+                          "weave/reference/service-api/objects/obj-remove-aliases",
+                          "weave/reference/service-api/objects/tags-list",
+                          "weave/reference/service-api/objects/aliases-list"
+                        ]
+                      },
+                      {
+                        "group": "OpenTelemetry",
+                        "pages": [
+                          "weave/reference/service-api/opentelemetry/export-trace"
+                        ]
+                      },
+                      {
+                        "group": "Refs",
+                        "pages": [
+                          "weave/reference/service-api/refs/refs-read-batch"
+                        ]
+                      },
+                      {
+                        "group": "Service",
+                        "pages": [
+                          "weave/reference/service-api/service/read-root",
+                          "weave/reference/service-api/service/read-version",
+                          "weave/reference/service-api/service/get-caller-location",
+                          "weave/reference/service-api/service/server-info",
+                          "weave/reference/service-api/service/projects-info"
+                        ]
+                      },
+                      {
+                        "group": "Tables",
+                        "pages": [
+                          "weave/reference/service-api/tables/table-create",
+                          "weave/reference/service-api/tables/table-update",
+                          "weave/reference/service-api/tables/table-create-from-digests",
+                          "weave/reference/service-api/tables/table-query",
+                          "weave/reference/service-api/tables/table-query-stats",
+                          "weave/reference/service-api/tables/table-query-stats-batch"
+                        ]
+                      },
+                      {
+                        "group": "Threads",
+                        "pages": [
+                          "weave/reference/service-api/threads/threads-query-stream"
+                        ]
+                      },
+                      {
+                        "group": "Agents",
+                        "pages": [
+                          "weave/reference/service-api/agents/export-genai-trace",
+                          "weave/reference/service-api/agents/genai-spans-query",
+                          "weave/reference/service-api/agents/genai-spans-stats",
+                          "weave/reference/service-api/agents/genai-custom-attrs-schema",
+                          "weave/reference/service-api/agents/genai-agents-query",
+                          "weave/reference/service-api/agents/genai-agent-versions-query",
+                          "weave/reference/service-api/agents/genai-search",
+                          "weave/reference/service-api/agents/genai-traces-chat",
+                          "weave/reference/service-api/agents/genai-conversation-chat",
+                          "weave/reference/service-api/agents/genai-conversation-spans"
+                        ]
+                      },
+                      {
+                        "group": "Annotation Queues",
+                        "pages": [
+                          "weave/reference/service-api/annotation-queues/annotation-queue-create",
+                          "weave/reference/service-api/annotation-queues/annotation-queues-query-stream",
+                          "weave/reference/service-api/annotation-queues/annotation-queue-read",
+                          "weave/reference/service-api/annotation-queues/annotation-queue-update",
+                          "weave/reference/service-api/annotation-queues/annotation-queue-delete",
+                          "weave/reference/service-api/annotation-queues/annotation-queue-add-calls",
+                          "weave/reference/service-api/annotation-queues/annotation-queue-items-query",
+                          "weave/reference/service-api/annotation-queues/annotation-queues-stats",
+                          "weave/reference/service-api/annotation-queues/annotation-queue-item-progress-update"
+                        ]
+                      },
+                      {
+                        "group": "Evaluations",
+                        "pages": [
+                          "weave/reference/service-api/evaluations/evaluate-model",
+                          "weave/reference/service-api/evaluations/evaluation-status",
+                          "weave/reference/service-api/evaluations/rescore-evaluation",
+                          "weave/reference/service-api/evaluations/evaluation-list",
+                          "weave/reference/service-api/evaluations/evaluation-create",
+                          "weave/reference/service-api/evaluations/evaluation-read",
+                          "weave/reference/service-api/evaluations/evaluation-delete"
+                        ]
+                      },
+                      {
+                        "group": "Scores",
+                        "pages": [
+                          "weave/reference/service-api/scores/calls-score",
+                          "weave/reference/service-api/scores/score-list",
+                          "weave/reference/service-api/scores/score-create",
+                          "weave/reference/service-api/scores/score-delete",
+                          "weave/reference/service-api/scores/score-read"
+                        ]
+                      },
+                      {
+                        "group": "Images",
+                        "pages": [
+                          "weave/reference/service-api/images/image-create"
+                        ]
+                      },
+                      {
+                        "group": "Registry",
+                        "pages": [
+                          "weave/reference/service-api/registry/link-to-registry"
+                        ]
+                      },
+                      {
+                        "group": "Ops",
+                        "pages": [
+                          "weave/reference/service-api/ops/op-list",
+                          "weave/reference/service-api/ops/op-create",
+                          "weave/reference/service-api/ops/op-read",
+                          "weave/reference/service-api/ops/op-delete"
+                        ]
+                      },
+                      {
+                        "group": "Datasets",
+                        "pages": [
+                          "weave/reference/service-api/datasets/dataset-list",
+                          "weave/reference/service-api/datasets/dataset-create",
+                          "weave/reference/service-api/datasets/dataset-read",
+                          "weave/reference/service-api/datasets/dataset-delete"
+                        ]
+                      },
+                      {
+                        "group": "Scorers",
+                        "pages": [
+                          "weave/reference/service-api/scorers/scorer-list",
+                          "weave/reference/service-api/scorers/scorer-create",
+                          "weave/reference/service-api/scorers/scorer-read",
+                          "weave/reference/service-api/scorers/scorer-delete"
+                        ]
+                      },
+                      {
+                        "group": "Models",
+                        "pages": [
+                          "weave/reference/service-api/models/model-list",
+                          "weave/reference/service-api/models/model-create",
+                          "weave/reference/service-api/models/model-read",
+                          "weave/reference/service-api/models/model-delete"
+                        ]
+                      },
+                      {
+                        "group": "Evaluation Runs",
+                        "pages": [
+                          "weave/reference/service-api/evaluation-runs/evaluation-run-list",
+                          "weave/reference/service-api/evaluation-runs/evaluation-run-create",
+                          "weave/reference/service-api/evaluation-runs/evaluation-run-delete",
+                          "weave/reference/service-api/evaluation-runs/evaluation-run-read",
+                          "weave/reference/service-api/evaluation-runs/evaluation-run-finish"
+                        ]
+                      },
+                      {
+                        "group": "Predictions",
+                        "pages": [
+                          "weave/reference/service-api/predictions/prediction-list",
+                          "weave/reference/service-api/predictions/prediction-create",
+                          "weave/reference/service-api/predictions/prediction-delete",
+                          "weave/reference/service-api/predictions/prediction-read",
+                          "weave/reference/service-api/predictions/prediction-finish"
+                        ]
+                      },
+                      {
+                        "group": "Eval Results",
+                        "pages": [
+                          "weave/reference/service-api/eval-results/eval-results-query"
+                        ]
+                      }
                     ]
                   }
                 ]
@@ -1336,12 +1561,40 @@
               },
               {
                 "group": "Serverless Training",
-                "openapi": {
-                  "directory": "serverless-training/api-reference",
-                  "source": "serverless-training/api-reference/openapi.json"
-                },
                 "pages": [
-                  "serverless-training/api-reference"
+                  "serverless-training/api-reference",
+                  {
+                    "group": "chat-completions",
+                    "pages": [
+                      "serverless-training/api-reference/chat-completions/create-chat-completion"
+                    ]
+                  },
+                  {
+                    "group": "models",
+                    "pages": [
+                      "serverless-training/api-reference/models/create-model",
+                      "serverless-training/api-reference/models/list-model-checkpoints",
+                      "serverless-training/api-reference/models/delete-model-checkpoints",
+                      "serverless-training/api-reference/models/delete-model",
+                      "serverless-training/api-reference/models/log"
+                    ]
+                  },
+                  {
+                    "group": "training-jobs",
+                    "pages": [
+                      "serverless-training/api-reference/training-jobs/create-rl-training-job",
+                      "serverless-training/api-reference/training-jobs/create-sft-training-job",
+                      "serverless-training/api-reference/training-jobs/get-training-job",
+                      "serverless-training/api-reference/training-jobs/get-training-job-events"
+                    ]
+                  },
+                  {
+                    "group": "health",
+                    "pages": [
+                      "serverless-training/api-reference/health/health-check",
+                      "serverless-training/api-reference/health/system-check"
+                    ]
+                  }
                 ]
               }
             ],
@@ -1350,6 +1603,8 @@
           {
             "pages": [
               "release-notes",
+              "release-notes/release-policies",
+              "release-notes/new-articles",
               {
                 "group": "W&B Server",
                 "pages": [
@@ -1363,8 +1618,7 @@
                   "release-notes/sdk-releases",
                   "release-notes/weave-sdk-releases"
                 ]
-              },
-              "release-notes/release-policies"
+              }
             ],
             "tab": "Release Notes"
           },
@@ -1614,6 +1868,16 @@
                     "pages": [
                       "fr/product-models",
                       "fr/product-weave",
+                      {
+                        "group": "W&B ARIA",
+                        "pages": [
+                          "fr/aria/overview",
+                          "fr/aria/chat",
+                          "fr/aria/autoresearch",
+                          "fr/aria/governance"
+                        ],
+                        "tag": "Preview"
+                      },
                       "fr/hivemind"
                     ]
                   },
@@ -1629,17 +1893,7 @@
                     "group": "Détails de la plateforme",
                     "pages": [
                       {
-                        "group": "ARIA",
-                        "pages": [
-                          "fr/aria/overview",
-                          "fr/aria/chat",
-                          "fr/aria/autoresearch",
-                          "fr/aria/governance"
-                        ],
-                        "tag": "Preview"
-                      },
-                      {
-                        "group": "Configurer W&B",
+                        "group": "Configurez W&B",
                         "pages": [
                           {
                             "group": "Paramètres",
@@ -1885,6 +2139,7 @@
                           "fr/models/registry/configure_registry",
                           "fr/models/registry/create_collection",
                           "fr/models/registry/link_version",
+                          "fr/models/registry/link_prompt",
                           "fr/models/registry/aliases",
                           "fr/models/registry/download_use_artifact",
                           "fr/models/registry/search_registry",
@@ -2060,7 +2315,8 @@
                     "group": "Premiers pas",
                     "pages": [
                       "fr/weave/agent-integration-quickstart",
-                      "fr/weave/custom-agents-quickstart"
+                      "fr/weave/guides/tracking/trace-agents-otel",
+                      "fr/weave/quickstart"
                     ]
                   },
                   {
@@ -2070,18 +2326,89 @@
                       {
                         "group": "Tracez vos agents",
                         "pages": [
+                          {
+                            "group": "Intégrer Weave à des agents",
+                            "pages": [
+                              "fr/weave/guides/integrations/agents/google-adk",
+                              "fr/weave/guides/integrations/agents/openai-agents-sdk",
+                              "fr/weave/guides/integrations/agents/claude-agents-sdk",
+                              "fr/weave/guides/integrations/agents/claude-code-harness",
+                              "fr/weave/guides/integrations/agents/codex-harness",
+                              "fr/weave/guides/integrations/agents/openclaw-harness",
+                              "fr/weave/guides/integrations/agents/pi-dev-harness"
+                            ]
+                          },
                           "fr/weave/guides/tracking/trace-agents",
-                          "fr/weave/guides/tracking/trace-agent-integrations",
+                          "fr/weave/guides/tracking/trace-agents-otel",
                           "fr/weave/guides/tracking/view-agent-activity",
                           "fr/weave/guides/tracking/view-agent-signals",
                           "fr/weave/guides/tracking/trace-agents-attributes",
                           "fr/weave/guides/tracking/trace-agents-batch",
-                          "fr/weave/guides/tracking/trace-sub-agents"
+                          "fr/weave/guides/tracking/trace-sub-agents",
+                          "fr/weave/guides/tracking/agents-byob-references"
                         ]
                       },
                       {
-                        "group": "Tracez vos applications",
+                        "group": "Tracer des fonctions avec des Ops et des Calls",
                         "pages": [
+                          {
+                            "group": "Intégration avec votre fournisseur de LLM et vos frameworks",
+                            "pages": [
+                              "fr/weave/guides/integrations",
+                              "fr/weave/guides/integrations/autopatching",
+                              "fr/weave/guides/integrations/js",
+                              {
+                                "group": "Fournisseurs de LLM",
+                                "pages": [
+                                  "fr/weave/guides/integrations/inference",
+                                  "fr/weave/guides/integrations/bedrock",
+                                  "fr/weave/guides/integrations/anthropic",
+                                  "fr/weave/guides/integrations/cerebras",
+                                  "fr/weave/guides/integrations/cohere",
+                                  "fr/weave/guides/integrations/google",
+                                  "fr/weave/guides/integrations/groq",
+                                  "fr/weave/guides/integrations/huggingface",
+                                  "fr/weave/guides/integrations/litellm",
+                                  "fr/weave/guides/integrations/azure",
+                                  "fr/weave/guides/integrations/mistral",
+                                  "fr/weave/guides/integrations/nvidia_nim",
+                                  "fr/weave/guides/integrations/openai",
+                                  "fr/weave/guides/integrations/openrouter",
+                                  "fr/weave/guides/integrations/together_ai"
+                                ]
+                              },
+                              {
+                                "group": "Frameworks",
+                                "pages": [
+                                  "fr/weave/guides/integrations/openai-realtime-audio",
+                                  "fr/weave/guides/integrations/bedrock_agents",
+                                  "fr/weave/guides/integrations/langchain",
+                                  "fr/weave/guides/integrations/llamaindex",
+                                  "fr/weave/guides/integrations/dspy",
+                                  "fr/weave/guides/integrations/instructor",
+                                  "fr/weave/guides/integrations/crewai",
+                                  "fr/weave/guides/integrations/smolagents",
+                                  "fr/weave/guides/integrations/pydantic_ai",
+                                  "fr/weave/guides/integrations/vercel_ai_sdk",
+                                  "fr/weave/guides/integrations/haystack",
+                                  "fr/weave/guides/integrations/agno",
+                                  "fr/weave/guides/integrations/koog",
+                                  "fr/weave/guides/integrations/autogen",
+                                  "fr/weave/guides/integrations/verdict",
+                                  "fr/weave/guides/integrations/verifiers",
+                                  "fr/weave/guides/integrations/verl"
+                                ]
+                              },
+                              {
+                                "group": "Protocoles",
+                                "pages": [
+                                  "fr/weave/guides/integrations/mcp",
+                                  "fr/weave/guides/tracking/otel"
+                                ]
+                              },
+                              "fr/weave/guides/integrations/local_models"
+                            ]
+                          },
                           {
                             "group": "Notions de base du traçage",
                             "pages": [
@@ -2094,7 +2421,7 @@
                             ]
                           },
                           {
-                            "group": "Opérations avancées",
+                            "group": "Ops avancées",
                             "pages": [
                               "fr/weave/guides/tracking/trace-generator-func",
                               "fr/weave/tutorial-tracing_2",
@@ -2102,13 +2429,14 @@
                               "fr/weave/guides/tracking/ops",
                               "fr/weave/guides/tools/attributes",
                               "fr/weave/guides/core-types/media",
+                              "fr/weave/guides/tracking/byob-references",
                               "fr/weave/guides/tracking/view-call",
                               "fr/weave/guides/tracking/trace-disable",
                               "fr/weave/guides/tracking/write-ahead-log"
                             ]
                           },
                           {
-                            "group": "Travaillez avec les appels",
+                            "group": "Utiliser les Calls",
                             "pages": [
                               "fr/weave/guides/tracking/update-call",
                               "fr/weave/guides/tracking/call-schema-reference",
@@ -2124,7 +2452,7 @@
                         ]
                       },
                       {
-                        "group": "Évaluez vos agents et applications",
+                        "group": "Évaluez vos agents et vos fonctions",
                         "pages": [
                           "fr/weave/guides/core-types/evaluations",
                           "fr/weave/tutorial-eval",
@@ -2135,6 +2463,7 @@
                           "fr/weave/guides/evaluation/weave_local_scorers",
                           "fr/weave/guides/evaluation/evaluation_logger",
                           "fr/weave/guides/evaluation/export_eval",
+                          "fr/weave/guides/evaluation/compare_evals",
                           "fr/weave/guides/core-types/leaderboards",
                           "fr/weave/guides/tools/column-mapping",
                           "fr/weave/guides/evaluation/dynamic_leaderboards"
@@ -2145,6 +2474,7 @@
                         "pages": [
                           "fr/weave/guides/tools/playground",
                           "fr/weave/guides/tools/evaluation_playground",
+                          "fr/weave/guides/tools/custom-runtimes",
                           "fr/weave/quickstart-inference"
                         ]
                       },
@@ -2173,75 +2503,7 @@
                           "fr/weave/guides/evaluation/monitors",
                           "fr/weave/guides/evaluation/custom-monitors",
                           "fr/weave/guides/evaluation/automations",
-                          "fr/weave/guides/evaluation/guardrails",
-                          "fr/weave/guides/tracking/otel"
-                        ]
-                      },
-                      {
-                        "group": "Intégrez votre fournisseur LLM et vos frameworks",
-                        "pages": [
-                          "fr/weave/guides/integrations",
-                          "fr/weave/guides/integrations/autopatching",
-                          "fr/weave/guides/integrations/js",
-                          {
-                            "group": "Traçage des agents",
-                            "pages": [
-                              "fr/weave/guides/integrations/agents/google-adk",
-                              "fr/weave/guides/integrations/agents/openai-agents-sdk",
-                              "fr/weave/guides/integrations/agents/claude-agents-sdk",
-                              "fr/weave/guides/integrations/agents/claude-code-harness",
-                              "fr/weave/guides/integrations/agents/codex-harness",
-                              "fr/weave/guides/integrations/agents/openclaw-harness",
-                              "fr/weave/guides/integrations/agents/pi-dev-harness"
-                            ]
-                          },
-                          {
-                            "group": "Fournisseurs LLM",
-                            "pages": [
-                              "fr/weave/guides/integrations/bedrock",
-                              "fr/weave/guides/integrations/anthropic",
-                              "fr/weave/guides/integrations/cerebras",
-                              "fr/weave/guides/integrations/cohere",
-                              "fr/weave/guides/integrations/google",
-                              "fr/weave/guides/integrations/groq",
-                              "fr/weave/guides/integrations/huggingface",
-                              "fr/weave/guides/integrations/litellm",
-                              "fr/weave/guides/integrations/azure",
-                              "fr/weave/guides/integrations/mistral",
-                              "fr/weave/guides/integrations/nvidia_nim",
-                              "fr/weave/guides/integrations/openai",
-                              "fr/weave/guides/integrations/openrouter",
-                              "fr/weave/guides/integrations/together_ai"
-                            ]
-                          },
-                          {
-                            "group": "Frameworks",
-                            "pages": [
-                              "fr/weave/guides/integrations/openai-realtime-audio",
-                              "fr/weave/guides/integrations/bedrock_agents",
-                              "fr/weave/guides/integrations/langchain",
-                              "fr/weave/guides/integrations/llamaindex",
-                              "fr/weave/guides/integrations/dspy",
-                              "fr/weave/guides/integrations/instructor",
-                              "fr/weave/guides/integrations/crewai",
-                              "fr/weave/guides/integrations/smolagents",
-                              "fr/weave/guides/integrations/pydantic_ai",
-                              "fr/weave/guides/integrations/vercel_ai_sdk",
-                              "fr/weave/guides/integrations/haystack",
-                              "fr/weave/guides/integrations/agno",
-                              "fr/weave/guides/integrations/koog",
-                              "fr/weave/guides/integrations/autogen",
-                              "fr/weave/guides/integrations/verdict",
-                              "fr/weave/guides/integrations/verifiers"
-                            ]
-                          },
-                          {
-                            "group": "Protocoles",
-                            "pages": [
-                              "fr/weave/guides/integrations/mcp"
-                            ]
-                          },
-                          "fr/weave/guides/integrations/local_models"
+                          "fr/weave/guides/evaluation/guardrails"
                         ]
                       },
                       {
@@ -2336,6 +2598,7 @@
                       "fr/inference/response-settings/json-mode",
                       "fr/inference/response-settings/reasoning",
                       "fr/inference/response-settings/streaming",
+                      "fr/inference/response-settings/prefix-caching",
                       "fr/inference/response-settings/structured-output",
                       "fr/inference/response-settings/tool-calling"
                     ]
@@ -2450,6 +2713,7 @@
                         "pages": [
                           "fr/models/ref/python/functions",
                           "fr/models/ref/python/functions/agent",
+                          "fr/models/ref/python/functions/box3d",
                           "fr/models/ref/python/functions/controller",
                           "fr/models/ref/python/functions/finish",
                           "fr/models/ref/python/functions/init",
@@ -2465,8 +2729,6 @@
                         "pages": [
                           "fr/models/ref/python/data-types",
                           "fr/models/ref/python/data-types/audio",
-                          "fr/models/ref/python/data-types/box3d",
-                          "fr/models/ref/python/data-types/evaltable",
                           "fr/models/ref/python/data-types/histogram",
                           "fr/models/ref/python/data-types/html",
                           "fr/models/ref/python/data-types/image",
@@ -2534,18 +2796,17 @@
                         "pages": [
                           "fr/models/ref/python/public-api",
                           "fr/models/ref/python/public-api/api",
-                          "fr/models/ref/python/public-api/agentruns",
                           "fr/models/ref/python/public-api/artifactcollection",
                           "fr/models/ref/python/public-api/artifactcollections",
                           "fr/models/ref/python/public-api/artifactfiles",
                           "fr/models/ref/python/public-api/artifacts",
                           "fr/models/ref/python/public-api/artifacttype",
                           "fr/models/ref/python/public-api/artifacttypes",
-                          "fr/models/ref/python/public-api/automations",
                           "fr/models/ref/python/public-api/betareport",
                           "fr/models/ref/python/public-api/file",
                           "fr/models/ref/python/public-api/files",
                           "fr/models/ref/python/public-api/member",
+                          "fr/models/ref/python/public-api/organization",
                           "fr/models/ref/python/public-api/project",
                           "fr/models/ref/python/public-api/projects",
                           "fr/models/ref/python/public-api/projectartifactcollections",
@@ -2716,6 +2977,7 @@
                     "group": "SDK TypeScript",
                     "pages": [
                       "fr/weave/reference/typescript-sdk",
+                      "fr/weave/reference/typescript-sdk/functions/init",
                       {
                         "group": "Classes",
                         "pages": [
@@ -2750,7 +3012,6 @@
                           "fr/weave/reference/typescript-sdk/functions/getcurrentllm",
                           "fr/weave/reference/typescript-sdk/functions/getcurrentsession",
                           "fr/weave/reference/typescript-sdk/functions/getcurrentturn",
-                          "fr/weave/reference/typescript-sdk/functions/init",
                           "fr/weave/reference/typescript-sdk/functions/instrumentopenaiagents",
                           "fr/weave/reference/typescript-sdk/functions/login",
                           "fr/weave/reference/typescript-sdk/functions/op",
@@ -2800,7 +3061,7 @@
                         ]
                       },
                       {
-                        "group": "Alias de types",
+                        "group": "Alias de type",
                         "pages": [
                           "fr/weave/reference/typescript-sdk/type-aliases/agent",
                           "fr/weave/reference/typescript-sdk/type-aliases/agentmessage",
@@ -2827,13 +3088,234 @@
                   },
                   {
                     "group": "API de service",
-                    "openapi": {
-                      "directory": "fr/weave/reference/service-api",
-                      "source": "fr/weave/reference/service-api/openapi.json"
-                    },
                     "pages": [
                       "fr/weave/cookbooks/weave_via_service_api",
-                      "fr/weave/reference/service-api"
+                      "fr/weave/reference/service-api",
+                      {
+                        "group": "Appels",
+                        "pages": [
+                          "fr/weave/reference/service-api/calls/call-start",
+                          "fr/weave/reference/service-api/calls/call-end",
+                          "fr/weave/reference/service-api/calls/call-start-batch",
+                          "fr/weave/reference/service-api/calls/calls-delete",
+                          "fr/weave/reference/service-api/calls/call-update",
+                          "fr/weave/reference/service-api/calls/call-read",
+                          "fr/weave/reference/service-api/calls/calls-query-stats",
+                          "fr/weave/reference/service-api/calls/trace-usage",
+                          "fr/weave/reference/service-api/calls/calls-usage",
+                          "fr/weave/reference/service-api/calls/calls-query-stream",
+                          "fr/weave/reference/service-api/calls/call-stats",
+                          "fr/weave/reference/service-api/calls/calls-complete"
+                        ]
+                      },
+                      {
+                        "group": "Coûts",
+                        "pages": [
+                          "fr/weave/reference/service-api/costs/cost-create",
+                          "fr/weave/reference/service-api/costs/cost-query",
+                          "fr/weave/reference/service-api/costs/cost-purge"
+                        ]
+                      },
+                      {
+                        "group": "Feedback",
+                        "pages": [
+                          "fr/weave/reference/service-api/feedback/feedback-create",
+                          "fr/weave/reference/service-api/feedback/feedback-create-batch",
+                          "fr/weave/reference/service-api/feedback/feedback-query",
+                          "fr/weave/reference/service-api/feedback/feedback-purge",
+                          "fr/weave/reference/service-api/feedback/feedback-replace",
+                          "fr/weave/reference/service-api/feedback/feedback-stats",
+                          "fr/weave/reference/service-api/feedback/feedback-aggregate",
+                          "fr/weave/reference/service-api/feedback/feedback-payload-schema"
+                        ]
+                      },
+                      {
+                        "group": "Fichiers",
+                        "pages": [
+                          "fr/weave/reference/service-api/files/file-create",
+                          "fr/weave/reference/service-api/files/file-content",
+                          "fr/weave/reference/service-api/files/files-stats"
+                        ]
+                      },
+                      {
+                        "group": "Objets",
+                        "pages": [
+                          "fr/weave/reference/service-api/objects/obj-create",
+                          "fr/weave/reference/service-api/objects/obj-read",
+                          "fr/weave/reference/service-api/objects/objs-query",
+                          "fr/weave/reference/service-api/objects/obj-delete",
+                          "fr/weave/reference/service-api/objects/obj-add-tags",
+                          "fr/weave/reference/service-api/objects/obj-remove-tags",
+                          "fr/weave/reference/service-api/objects/obj-set-aliases",
+                          "fr/weave/reference/service-api/objects/obj-remove-aliases",
+                          "fr/weave/reference/service-api/objects/tags-list",
+                          "fr/weave/reference/service-api/objects/aliases-list"
+                        ]
+                      },
+                      {
+                        "group": "OpenTelemetry",
+                        "pages": [
+                          "fr/weave/reference/service-api/opentelemetry/export-trace"
+                        ]
+                      },
+                      {
+                        "group": "Réfs.",
+                        "pages": [
+                          "fr/weave/reference/service-api/refs/refs-read-batch"
+                        ]
+                      },
+                      {
+                        "group": "Service",
+                        "pages": [
+                          "fr/weave/reference/service-api/service/read-root",
+                          "fr/weave/reference/service-api/service/read-version",
+                          "fr/weave/reference/service-api/service/get-caller-location",
+                          "fr/weave/reference/service-api/service/server-info",
+                          "fr/weave/reference/service-api/service/projects-info"
+                        ]
+                      },
+                      {
+                        "group": "Tableaux",
+                        "pages": [
+                          "fr/weave/reference/service-api/tables/table-create",
+                          "fr/weave/reference/service-api/tables/table-update",
+                          "fr/weave/reference/service-api/tables/table-create-from-digests",
+                          "fr/weave/reference/service-api/tables/table-query",
+                          "fr/weave/reference/service-api/tables/table-query-stats",
+                          "fr/weave/reference/service-api/tables/table-query-stats-batch"
+                        ]
+                      },
+                      {
+                        "group": "Threads",
+                        "pages": [
+                          "fr/weave/reference/service-api/threads/threads-query-stream"
+                        ]
+                      },
+                      {
+                        "group": "Agents",
+                        "pages": [
+                          "fr/weave/reference/service-api/agents/export-genai-trace",
+                          "fr/weave/reference/service-api/agents/genai-spans-query",
+                          "fr/weave/reference/service-api/agents/genai-spans-stats",
+                          "fr/weave/reference/service-api/agents/genai-custom-attrs-schema",
+                          "fr/weave/reference/service-api/agents/genai-agents-query",
+                          "fr/weave/reference/service-api/agents/genai-agent-versions-query",
+                          "fr/weave/reference/service-api/agents/genai-search",
+                          "fr/weave/reference/service-api/agents/genai-traces-chat",
+                          "fr/weave/reference/service-api/agents/genai-conversation-chat",
+                          "fr/weave/reference/service-api/agents/genai-conversation-spans"
+                        ]
+                      },
+                      {
+                        "group": "Files d’annotation",
+                        "pages": [
+                          "fr/weave/reference/service-api/annotation-queues/annotation-queue-create",
+                          "fr/weave/reference/service-api/annotation-queues/annotation-queues-query-stream",
+                          "fr/weave/reference/service-api/annotation-queues/annotation-queue-read",
+                          "fr/weave/reference/service-api/annotation-queues/annotation-queue-update",
+                          "fr/weave/reference/service-api/annotation-queues/annotation-queue-delete",
+                          "fr/weave/reference/service-api/annotation-queues/annotation-queue-add-calls",
+                          "fr/weave/reference/service-api/annotation-queues/annotation-queue-items-query",
+                          "fr/weave/reference/service-api/annotation-queues/annotation-queues-stats",
+                          "fr/weave/reference/service-api/annotation-queues/annotation-queue-item-progress-update"
+                        ]
+                      },
+                      {
+                        "group": "Évaluations",
+                        "pages": [
+                          "fr/weave/reference/service-api/evaluations/evaluate-model",
+                          "fr/weave/reference/service-api/evaluations/evaluation-status",
+                          "fr/weave/reference/service-api/evaluations/rescore-evaluation",
+                          "fr/weave/reference/service-api/evaluations/evaluation-list",
+                          "fr/weave/reference/service-api/evaluations/evaluation-create",
+                          "fr/weave/reference/service-api/evaluations/evaluation-read",
+                          "fr/weave/reference/service-api/evaluations/evaluation-delete"
+                        ]
+                      },
+                      {
+                        "group": "Scores",
+                        "pages": [
+                          "fr/weave/reference/service-api/scores/calls-score",
+                          "fr/weave/reference/service-api/scores/score-list",
+                          "fr/weave/reference/service-api/scores/score-create",
+                          "fr/weave/reference/service-api/scores/score-delete",
+                          "fr/weave/reference/service-api/scores/score-read"
+                        ]
+                      },
+                      {
+                        "group": "Images",
+                        "pages": [
+                          "fr/weave/reference/service-api/images/image-create"
+                        ]
+                      },
+                      {
+                        "group": "Registre",
+                        "pages": [
+                          "fr/weave/reference/service-api/registry/link-to-registry"
+                        ]
+                      },
+                      {
+                        "group": "Opérations",
+                        "pages": [
+                          "fr/weave/reference/service-api/ops/op-list",
+                          "fr/weave/reference/service-api/ops/op-create",
+                          "fr/weave/reference/service-api/ops/op-read",
+                          "fr/weave/reference/service-api/ops/op-delete"
+                        ]
+                      },
+                      {
+                        "group": "Datasets",
+                        "pages": [
+                          "fr/weave/reference/service-api/datasets/dataset-list",
+                          "fr/weave/reference/service-api/datasets/dataset-create",
+                          "fr/weave/reference/service-api/datasets/dataset-read",
+                          "fr/weave/reference/service-api/datasets/dataset-delete"
+                        ]
+                      },
+                      {
+                        "group": "Évaluateurs",
+                        "pages": [
+                          "fr/weave/reference/service-api/scorers/scorer-list",
+                          "fr/weave/reference/service-api/scorers/scorer-create",
+                          "fr/weave/reference/service-api/scorers/scorer-read",
+                          "fr/weave/reference/service-api/scorers/scorer-delete"
+                        ]
+                      },
+                      {
+                        "group": "Models",
+                        "pages": [
+                          "fr/weave/reference/service-api/models/model-list",
+                          "fr/weave/reference/service-api/models/model-create",
+                          "fr/weave/reference/service-api/models/model-read",
+                          "fr/weave/reference/service-api/models/model-delete"
+                        ]
+                      },
+                      {
+                        "group": "Runs d’évaluation",
+                        "pages": [
+                          "fr/weave/reference/service-api/evaluation-runs/evaluation-run-list",
+                          "fr/weave/reference/service-api/evaluation-runs/evaluation-run-create",
+                          "fr/weave/reference/service-api/evaluation-runs/evaluation-run-delete",
+                          "fr/weave/reference/service-api/evaluation-runs/evaluation-run-read",
+                          "fr/weave/reference/service-api/evaluation-runs/evaluation-run-finish"
+                        ]
+                      },
+                      {
+                        "group": "Prédictions",
+                        "pages": [
+                          "fr/weave/reference/service-api/predictions/prediction-list",
+                          "fr/weave/reference/service-api/predictions/prediction-create",
+                          "fr/weave/reference/service-api/predictions/prediction-delete",
+                          "fr/weave/reference/service-api/predictions/prediction-read",
+                          "fr/weave/reference/service-api/predictions/prediction-finish"
+                        ]
+                      },
+                      {
+                        "group": "Résultats d’évaluation",
+                        "pages": [
+                          "fr/weave/reference/service-api/eval-results/eval-results-query"
+                        ]
+                      }
                     ]
                   }
                 ]
@@ -2848,12 +3330,40 @@
               },
               {
                 "group": "Serverless Training",
-                "openapi": {
-                  "directory": "fr/serverless-training/api-reference",
-                  "source": "fr/serverless-training/api-reference/openapi.json"
-                },
                 "pages": [
-                  "fr/serverless-training/api-reference"
+                  "fr/serverless-training/api-reference",
+                  {
+                    "group": "chat-complétion",
+                    "pages": [
+                      "fr/serverless-training/api-reference/chat-completions/create-chat-completion"
+                    ]
+                  },
+                  {
+                    "group": "Models",
+                    "pages": [
+                      "fr/serverless-training/api-reference/models/create-model",
+                      "fr/serverless-training/api-reference/models/list-model-checkpoints",
+                      "fr/serverless-training/api-reference/models/delete-model-checkpoints",
+                      "fr/serverless-training/api-reference/models/delete-model",
+                      "fr/serverless-training/api-reference/models/log"
+                    ]
+                  },
+                  {
+                    "group": "tâches-d’entraînement",
+                    "pages": [
+                      "fr/serverless-training/api-reference/training-jobs/create-rl-training-job",
+                      "fr/serverless-training/api-reference/training-jobs/create-sft-training-job",
+                      "fr/serverless-training/api-reference/training-jobs/get-training-job",
+                      "fr/serverless-training/api-reference/training-jobs/get-training-job-events"
+                    ]
+                  },
+                  {
+                    "group": "état",
+                    "pages": [
+                      "fr/serverless-training/api-reference/health/health-check",
+                      "fr/serverless-training/api-reference/health/system-check"
+                    ]
+                  }
                 ]
               }
             ],
@@ -2862,21 +3372,22 @@
           {
             "pages": [
               "fr/release-notes",
+              "fr/release-notes/release-policies",
+              "fr/release-notes/new-articles",
               {
-                "group": "Serveur W&B",
+                "group": "serveur W&B",
                 "pages": [
                   "fr/release-notes/server-releases",
                   "fr/release-notes/server-releases-archived"
                 ]
               },
               {
-                "group": "SDKs W&B",
+                "group": "SDK W&B",
                 "pages": [
                   "fr/release-notes/sdk-releases",
                   "fr/release-notes/weave-sdk-releases"
                 ]
-              },
-              "fr/release-notes/release-policies"
+              }
             ],
             "tab": "Notes de version"
           },
@@ -3126,6 +3637,16 @@
                     "pages": [
                       "ja/product-models",
                       "ja/product-weave",
+                      {
+                        "group": "W&B ARIA",
+                        "pages": [
+                          "ja/aria/overview",
+                          "ja/aria/chat",
+                          "ja/aria/autoresearch",
+                          "ja/aria/governance"
+                        ],
+                        "tag": "Preview"
+                      },
                       "ja/hivemind"
                     ]
                   },
@@ -3141,17 +3662,7 @@
                     "group": "プラットフォームの詳細",
                     "pages": [
                       {
-                        "group": "ARIA",
-                        "pages": [
-                          "ja/aria/overview",
-                          "ja/aria/chat",
-                          "ja/aria/autoresearch",
-                          "ja/aria/governance"
-                        ],
-                        "tag": "Preview"
-                      },
-                      {
-                        "group": "W&B の設定",
+                        "group": "W&B を設定する",
                         "pages": [
                           {
                             "group": "設定",
@@ -3166,7 +3677,7 @@
                             ]
                           },
                           {
-                            "group": "アイデンティティとアクセス管理 (IAM)",
+                            "group": "アイデンティティとアクセス管理（IAM）",
                             "pages": [
                               "ja/platform/hosting/iam/org_team_struct",
                               {
@@ -3215,7 +3726,7 @@
                         ]
                       },
                       {
-                        "group": "デプロイメントオプション",
+                        "group": "デプロイオプション",
                         "pages": [
                           "ja/platform/hosting",
                           "ja/platform/hosting/hosting-options/multi_tenant_cloud",
@@ -3397,6 +3908,7 @@
                           "ja/models/registry/configure_registry",
                           "ja/models/registry/create_collection",
                           "ja/models/registry/link_version",
+                          "ja/models/registry/link_prompt",
                           "ja/models/registry/aliases",
                           "ja/models/registry/download_use_artifact",
                           "ja/models/registry/search_registry",
@@ -3572,7 +4084,8 @@
                     "group": "スタートガイド",
                     "pages": [
                       "ja/weave/agent-integration-quickstart",
-                      "ja/weave/custom-agents-quickstart"
+                      "ja/weave/guides/tracking/trace-agents-otel",
+                      "ja/weave/quickstart"
                     ]
                   },
                   {
@@ -3582,18 +4095,89 @@
                       {
                         "group": "エージェントをトレースする",
                         "pages": [
+                          {
+                            "group": "Weave をエージェントと統合する",
+                            "pages": [
+                              "ja/weave/guides/integrations/agents/google-adk",
+                              "ja/weave/guides/integrations/agents/openai-agents-sdk",
+                              "ja/weave/guides/integrations/agents/claude-agents-sdk",
+                              "ja/weave/guides/integrations/agents/claude-code-harness",
+                              "ja/weave/guides/integrations/agents/codex-harness",
+                              "ja/weave/guides/integrations/agents/openclaw-harness",
+                              "ja/weave/guides/integrations/agents/pi-dev-harness"
+                            ]
+                          },
                           "ja/weave/guides/tracking/trace-agents",
-                          "ja/weave/guides/tracking/trace-agent-integrations",
+                          "ja/weave/guides/tracking/trace-agents-otel",
                           "ja/weave/guides/tracking/view-agent-activity",
                           "ja/weave/guides/tracking/view-agent-signals",
                           "ja/weave/guides/tracking/trace-agents-attributes",
                           "ja/weave/guides/tracking/trace-agents-batch",
-                          "ja/weave/guides/tracking/trace-sub-agents"
+                          "ja/weave/guides/tracking/trace-sub-agents",
+                          "ja/weave/guides/tracking/agents-byob-references"
                         ]
                       },
                       {
-                        "group": "アプリケーションをトレースする",
+                        "group": "Ops と Calls を使用して関数をトレースする",
                         "pages": [
+                          {
+                            "group": "LLM プロバイダやフレームワークと統合する",
+                            "pages": [
+                              "ja/weave/guides/integrations",
+                              "ja/weave/guides/integrations/autopatching",
+                              "ja/weave/guides/integrations/js",
+                              {
+                                "group": "LLM プロバイダ",
+                                "pages": [
+                                  "ja/weave/guides/integrations/inference",
+                                  "ja/weave/guides/integrations/bedrock",
+                                  "ja/weave/guides/integrations/anthropic",
+                                  "ja/weave/guides/integrations/cerebras",
+                                  "ja/weave/guides/integrations/cohere",
+                                  "ja/weave/guides/integrations/google",
+                                  "ja/weave/guides/integrations/groq",
+                                  "ja/weave/guides/integrations/huggingface",
+                                  "ja/weave/guides/integrations/litellm",
+                                  "ja/weave/guides/integrations/azure",
+                                  "ja/weave/guides/integrations/mistral",
+                                  "ja/weave/guides/integrations/nvidia_nim",
+                                  "ja/weave/guides/integrations/openai",
+                                  "ja/weave/guides/integrations/openrouter",
+                                  "ja/weave/guides/integrations/together_ai"
+                                ]
+                              },
+                              {
+                                "group": "フレームワーク",
+                                "pages": [
+                                  "ja/weave/guides/integrations/openai-realtime-audio",
+                                  "ja/weave/guides/integrations/bedrock_agents",
+                                  "ja/weave/guides/integrations/langchain",
+                                  "ja/weave/guides/integrations/llamaindex",
+                                  "ja/weave/guides/integrations/dspy",
+                                  "ja/weave/guides/integrations/instructor",
+                                  "ja/weave/guides/integrations/crewai",
+                                  "ja/weave/guides/integrations/smolagents",
+                                  "ja/weave/guides/integrations/pydantic_ai",
+                                  "ja/weave/guides/integrations/vercel_ai_sdk",
+                                  "ja/weave/guides/integrations/haystack",
+                                  "ja/weave/guides/integrations/agno",
+                                  "ja/weave/guides/integrations/koog",
+                                  "ja/weave/guides/integrations/autogen",
+                                  "ja/weave/guides/integrations/verdict",
+                                  "ja/weave/guides/integrations/verifiers",
+                                  "ja/weave/guides/integrations/verl"
+                                ]
+                              },
+                              {
+                                "group": "プロトコル",
+                                "pages": [
+                                  "ja/weave/guides/integrations/mcp",
+                                  "ja/weave/guides/tracking/otel"
+                                ]
+                              },
+                              "ja/weave/guides/integrations/local_models"
+                            ]
+                          },
                           {
                             "group": "トレースの基本",
                             "pages": [
@@ -3614,13 +4198,14 @@
                               "ja/weave/guides/tracking/ops",
                               "ja/weave/guides/tools/attributes",
                               "ja/weave/guides/core-types/media",
+                              "ja/weave/guides/tracking/byob-references",
                               "ja/weave/guides/tracking/view-call",
                               "ja/weave/guides/tracking/trace-disable",
                               "ja/weave/guides/tracking/write-ahead-log"
                             ]
                           },
                           {
-                            "group": "Call を扱う",
+                            "group": "Calls を使用する",
                             "pages": [
                               "ja/weave/guides/tracking/update-call",
                               "ja/weave/guides/tracking/call-schema-reference",
@@ -3636,7 +4221,7 @@
                         ]
                       },
                       {
-                        "group": "エージェントとアプリケーションを評価する",
+                        "group": "エージェントと関数を評価する",
                         "pages": [
                           "ja/weave/guides/core-types/evaluations",
                           "ja/weave/tutorial-eval",
@@ -3647,6 +4232,7 @@
                           "ja/weave/guides/evaluation/weave_local_scorers",
                           "ja/weave/guides/evaluation/evaluation_logger",
                           "ja/weave/guides/evaluation/export_eval",
+                          "ja/weave/guides/evaluation/compare_evals",
                           "ja/weave/guides/core-types/leaderboards",
                           "ja/weave/guides/tools/column-mapping",
                           "ja/weave/guides/evaluation/dynamic_leaderboards"
@@ -3657,6 +4243,7 @@
                         "pages": [
                           "ja/weave/guides/tools/playground",
                           "ja/weave/guides/tools/evaluation_playground",
+                          "ja/weave/guides/tools/custom-runtimes",
                           "ja/weave/quickstart-inference"
                         ]
                       },
@@ -3685,75 +4272,7 @@
                           "ja/weave/guides/evaluation/monitors",
                           "ja/weave/guides/evaluation/custom-monitors",
                           "ja/weave/guides/evaluation/automations",
-                          "ja/weave/guides/evaluation/guardrails",
-                          "ja/weave/guides/tracking/otel"
-                        ]
-                      },
-                      {
-                        "group": "LLM プロバイダおよびフレームワークと統合する",
-                        "pages": [
-                          "ja/weave/guides/integrations",
-                          "ja/weave/guides/integrations/autopatching",
-                          "ja/weave/guides/integrations/js",
-                          {
-                            "group": "エージェントをトレースする",
-                            "pages": [
-                              "ja/weave/guides/integrations/agents/google-adk",
-                              "ja/weave/guides/integrations/agents/openai-agents-sdk",
-                              "ja/weave/guides/integrations/agents/claude-agents-sdk",
-                              "ja/weave/guides/integrations/agents/claude-code-harness",
-                              "ja/weave/guides/integrations/agents/codex-harness",
-                              "ja/weave/guides/integrations/agents/openclaw-harness",
-                              "ja/weave/guides/integrations/agents/pi-dev-harness"
-                            ]
-                          },
-                          {
-                            "group": "LLM プロバイダ",
-                            "pages": [
-                              "ja/weave/guides/integrations/bedrock",
-                              "ja/weave/guides/integrations/anthropic",
-                              "ja/weave/guides/integrations/cerebras",
-                              "ja/weave/guides/integrations/cohere",
-                              "ja/weave/guides/integrations/google",
-                              "ja/weave/guides/integrations/groq",
-                              "ja/weave/guides/integrations/huggingface",
-                              "ja/weave/guides/integrations/litellm",
-                              "ja/weave/guides/integrations/azure",
-                              "ja/weave/guides/integrations/mistral",
-                              "ja/weave/guides/integrations/nvidia_nim",
-                              "ja/weave/guides/integrations/openai",
-                              "ja/weave/guides/integrations/openrouter",
-                              "ja/weave/guides/integrations/together_ai"
-                            ]
-                          },
-                          {
-                            "group": "フレームワーク",
-                            "pages": [
-                              "ja/weave/guides/integrations/openai-realtime-audio",
-                              "ja/weave/guides/integrations/bedrock_agents",
-                              "ja/weave/guides/integrations/langchain",
-                              "ja/weave/guides/integrations/llamaindex",
-                              "ja/weave/guides/integrations/dspy",
-                              "ja/weave/guides/integrations/instructor",
-                              "ja/weave/guides/integrations/crewai",
-                              "ja/weave/guides/integrations/smolagents",
-                              "ja/weave/guides/integrations/pydantic_ai",
-                              "ja/weave/guides/integrations/vercel_ai_sdk",
-                              "ja/weave/guides/integrations/haystack",
-                              "ja/weave/guides/integrations/agno",
-                              "ja/weave/guides/integrations/koog",
-                              "ja/weave/guides/integrations/autogen",
-                              "ja/weave/guides/integrations/verdict",
-                              "ja/weave/guides/integrations/verifiers"
-                            ]
-                          },
-                          {
-                            "group": "プロトコル",
-                            "pages": [
-                              "ja/weave/guides/integrations/mcp"
-                            ]
-                          },
-                          "ja/weave/guides/integrations/local_models"
+                          "ja/weave/guides/evaluation/guardrails"
                         ]
                       },
                       {
@@ -3848,6 +4367,7 @@
                       "ja/inference/response-settings/json-mode",
                       "ja/inference/response-settings/reasoning",
                       "ja/inference/response-settings/streaming",
+                      "ja/inference/response-settings/prefix-caching",
                       "ja/inference/response-settings/structured-output",
                       "ja/inference/response-settings/tool-calling"
                     ]
@@ -3962,6 +4482,7 @@
                         "pages": [
                           "ja/models/ref/python/functions",
                           "ja/models/ref/python/functions/agent",
+                          "ja/models/ref/python/functions/box3d",
                           "ja/models/ref/python/functions/controller",
                           "ja/models/ref/python/functions/finish",
                           "ja/models/ref/python/functions/init",
@@ -3977,8 +4498,6 @@
                         "pages": [
                           "ja/models/ref/python/data-types",
                           "ja/models/ref/python/data-types/audio",
-                          "ja/models/ref/python/data-types/box3d",
-                          "ja/models/ref/python/data-types/evaltable",
                           "ja/models/ref/python/data-types/histogram",
                           "ja/models/ref/python/data-types/html",
                           "ja/models/ref/python/data-types/image",
@@ -4046,18 +4565,17 @@
                         "pages": [
                           "ja/models/ref/python/public-api",
                           "ja/models/ref/python/public-api/api",
-                          "ja/models/ref/python/public-api/agentruns",
                           "ja/models/ref/python/public-api/artifactcollection",
                           "ja/models/ref/python/public-api/artifactcollections",
                           "ja/models/ref/python/public-api/artifactfiles",
                           "ja/models/ref/python/public-api/artifacts",
                           "ja/models/ref/python/public-api/artifacttype",
                           "ja/models/ref/python/public-api/artifacttypes",
-                          "ja/models/ref/python/public-api/automations",
                           "ja/models/ref/python/public-api/betareport",
                           "ja/models/ref/python/public-api/file",
                           "ja/models/ref/python/public-api/files",
                           "ja/models/ref/python/public-api/member",
+                          "ja/models/ref/python/public-api/organization",
                           "ja/models/ref/python/public-api/project",
                           "ja/models/ref/python/public-api/projects",
                           "ja/models/ref/python/public-api/projectartifactcollections",
@@ -4228,6 +4746,7 @@
                     "group": "TypeScript SDK",
                     "pages": [
                       "ja/weave/reference/typescript-sdk",
+                      "ja/weave/reference/typescript-sdk/functions/init",
                       {
                         "group": "クラス",
                         "pages": [
@@ -4262,7 +4781,6 @@
                           "ja/weave/reference/typescript-sdk/functions/getcurrentllm",
                           "ja/weave/reference/typescript-sdk/functions/getcurrentsession",
                           "ja/weave/reference/typescript-sdk/functions/getcurrentturn",
-                          "ja/weave/reference/typescript-sdk/functions/init",
                           "ja/weave/reference/typescript-sdk/functions/instrumentopenaiagents",
                           "ja/weave/reference/typescript-sdk/functions/login",
                           "ja/weave/reference/typescript-sdk/functions/op",
@@ -4339,13 +4857,234 @@
                   },
                   {
                     "group": "サービス API",
-                    "openapi": {
-                      "directory": "ja/weave/reference/service-api",
-                      "source": "ja/weave/reference/service-api/openapi.json"
-                    },
                     "pages": [
                       "ja/weave/cookbooks/weave_via_service_api",
-                      "ja/weave/reference/service-api"
+                      "ja/weave/reference/service-api",
+                      {
+                        "group": "Call",
+                        "pages": [
+                          "ja/weave/reference/service-api/calls/call-start",
+                          "ja/weave/reference/service-api/calls/call-end",
+                          "ja/weave/reference/service-api/calls/call-start-batch",
+                          "ja/weave/reference/service-api/calls/calls-delete",
+                          "ja/weave/reference/service-api/calls/call-update",
+                          "ja/weave/reference/service-api/calls/call-read",
+                          "ja/weave/reference/service-api/calls/calls-query-stats",
+                          "ja/weave/reference/service-api/calls/trace-usage",
+                          "ja/weave/reference/service-api/calls/calls-usage",
+                          "ja/weave/reference/service-api/calls/calls-query-stream",
+                          "ja/weave/reference/service-api/calls/call-stats",
+                          "ja/weave/reference/service-api/calls/calls-complete"
+                        ]
+                      },
+                      {
+                        "group": "コスト",
+                        "pages": [
+                          "ja/weave/reference/service-api/costs/cost-create",
+                          "ja/weave/reference/service-api/costs/cost-query",
+                          "ja/weave/reference/service-api/costs/cost-purge"
+                        ]
+                      },
+                      {
+                        "group": "フィードバック",
+                        "pages": [
+                          "ja/weave/reference/service-api/feedback/feedback-create",
+                          "ja/weave/reference/service-api/feedback/feedback-create-batch",
+                          "ja/weave/reference/service-api/feedback/feedback-query",
+                          "ja/weave/reference/service-api/feedback/feedback-purge",
+                          "ja/weave/reference/service-api/feedback/feedback-replace",
+                          "ja/weave/reference/service-api/feedback/feedback-stats",
+                          "ja/weave/reference/service-api/feedback/feedback-aggregate",
+                          "ja/weave/reference/service-api/feedback/feedback-payload-schema"
+                        ]
+                      },
+                      {
+                        "group": "Files",
+                        "pages": [
+                          "ja/weave/reference/service-api/files/file-create",
+                          "ja/weave/reference/service-api/files/file-content",
+                          "ja/weave/reference/service-api/files/files-stats"
+                        ]
+                      },
+                      {
+                        "group": "オブジェクト",
+                        "pages": [
+                          "ja/weave/reference/service-api/objects/obj-create",
+                          "ja/weave/reference/service-api/objects/obj-read",
+                          "ja/weave/reference/service-api/objects/objs-query",
+                          "ja/weave/reference/service-api/objects/obj-delete",
+                          "ja/weave/reference/service-api/objects/obj-add-tags",
+                          "ja/weave/reference/service-api/objects/obj-remove-tags",
+                          "ja/weave/reference/service-api/objects/obj-set-aliases",
+                          "ja/weave/reference/service-api/objects/obj-remove-aliases",
+                          "ja/weave/reference/service-api/objects/tags-list",
+                          "ja/weave/reference/service-api/objects/aliases-list"
+                        ]
+                      },
+                      {
+                        "group": "OpenTelemetry",
+                        "pages": [
+                          "ja/weave/reference/service-api/opentelemetry/export-trace"
+                        ]
+                      },
+                      {
+                        "group": "ref",
+                        "pages": [
+                          "ja/weave/reference/service-api/refs/refs-read-batch"
+                        ]
+                      },
+                      {
+                        "group": "サービス",
+                        "pages": [
+                          "ja/weave/reference/service-api/service/read-root",
+                          "ja/weave/reference/service-api/service/read-version",
+                          "ja/weave/reference/service-api/service/get-caller-location",
+                          "ja/weave/reference/service-api/service/server-info",
+                          "ja/weave/reference/service-api/service/projects-info"
+                        ]
+                      },
+                      {
+                        "group": "Tables",
+                        "pages": [
+                          "ja/weave/reference/service-api/tables/table-create",
+                          "ja/weave/reference/service-api/tables/table-update",
+                          "ja/weave/reference/service-api/tables/table-create-from-digests",
+                          "ja/weave/reference/service-api/tables/table-query",
+                          "ja/weave/reference/service-api/tables/table-query-stats",
+                          "ja/weave/reference/service-api/tables/table-query-stats-batch"
+                        ]
+                      },
+                      {
+                        "group": "スレッド",
+                        "pages": [
+                          "ja/weave/reference/service-api/threads/threads-query-stream"
+                        ]
+                      },
+                      {
+                        "group": "エージェント",
+                        "pages": [
+                          "ja/weave/reference/service-api/agents/export-genai-trace",
+                          "ja/weave/reference/service-api/agents/genai-spans-query",
+                          "ja/weave/reference/service-api/agents/genai-spans-stats",
+                          "ja/weave/reference/service-api/agents/genai-custom-attrs-schema",
+                          "ja/weave/reference/service-api/agents/genai-agents-query",
+                          "ja/weave/reference/service-api/agents/genai-agent-versions-query",
+                          "ja/weave/reference/service-api/agents/genai-search",
+                          "ja/weave/reference/service-api/agents/genai-traces-chat",
+                          "ja/weave/reference/service-api/agents/genai-conversation-chat",
+                          "ja/weave/reference/service-api/agents/genai-conversation-spans"
+                        ]
+                      },
+                      {
+                        "group": "アノテーションキュー",
+                        "pages": [
+                          "ja/weave/reference/service-api/annotation-queues/annotation-queue-create",
+                          "ja/weave/reference/service-api/annotation-queues/annotation-queues-query-stream",
+                          "ja/weave/reference/service-api/annotation-queues/annotation-queue-read",
+                          "ja/weave/reference/service-api/annotation-queues/annotation-queue-update",
+                          "ja/weave/reference/service-api/annotation-queues/annotation-queue-delete",
+                          "ja/weave/reference/service-api/annotation-queues/annotation-queue-add-calls",
+                          "ja/weave/reference/service-api/annotation-queues/annotation-queue-items-query",
+                          "ja/weave/reference/service-api/annotation-queues/annotation-queues-stats",
+                          "ja/weave/reference/service-api/annotation-queues/annotation-queue-item-progress-update"
+                        ]
+                      },
+                      {
+                        "group": "評価",
+                        "pages": [
+                          "ja/weave/reference/service-api/evaluations/evaluate-model",
+                          "ja/weave/reference/service-api/evaluations/evaluation-status",
+                          "ja/weave/reference/service-api/evaluations/rescore-evaluation",
+                          "ja/weave/reference/service-api/evaluations/evaluation-list",
+                          "ja/weave/reference/service-api/evaluations/evaluation-create",
+                          "ja/weave/reference/service-api/evaluations/evaluation-read",
+                          "ja/weave/reference/service-api/evaluations/evaluation-delete"
+                        ]
+                      },
+                      {
+                        "group": "スコア",
+                        "pages": [
+                          "ja/weave/reference/service-api/scores/calls-score",
+                          "ja/weave/reference/service-api/scores/score-list",
+                          "ja/weave/reference/service-api/scores/score-create",
+                          "ja/weave/reference/service-api/scores/score-delete",
+                          "ja/weave/reference/service-api/scores/score-read"
+                        ]
+                      },
+                      {
+                        "group": "イメージ",
+                        "pages": [
+                          "ja/weave/reference/service-api/images/image-create"
+                        ]
+                      },
+                      {
+                        "group": "Registry",
+                        "pages": [
+                          "ja/weave/reference/service-api/registry/link-to-registry"
+                        ]
+                      },
+                      {
+                        "group": "Ops",
+                        "pages": [
+                          "ja/weave/reference/service-api/ops/op-list",
+                          "ja/weave/reference/service-api/ops/op-create",
+                          "ja/weave/reference/service-api/ops/op-read",
+                          "ja/weave/reference/service-api/ops/op-delete"
+                        ]
+                      },
+                      {
+                        "group": "Datasets",
+                        "pages": [
+                          "ja/weave/reference/service-api/datasets/dataset-list",
+                          "ja/weave/reference/service-api/datasets/dataset-create",
+                          "ja/weave/reference/service-api/datasets/dataset-read",
+                          "ja/weave/reference/service-api/datasets/dataset-delete"
+                        ]
+                      },
+                      {
+                        "group": "Scorer",
+                        "pages": [
+                          "ja/weave/reference/service-api/scorers/scorer-list",
+                          "ja/weave/reference/service-api/scorers/scorer-create",
+                          "ja/weave/reference/service-api/scorers/scorer-read",
+                          "ja/weave/reference/service-api/scorers/scorer-delete"
+                        ]
+                      },
+                      {
+                        "group": "Models",
+                        "pages": [
+                          "ja/weave/reference/service-api/models/model-list",
+                          "ja/weave/reference/service-api/models/model-create",
+                          "ja/weave/reference/service-api/models/model-read",
+                          "ja/weave/reference/service-api/models/model-delete"
+                        ]
+                      },
+                      {
+                        "group": "評価 run",
+                        "pages": [
+                          "ja/weave/reference/service-api/evaluation-runs/evaluation-run-list",
+                          "ja/weave/reference/service-api/evaluation-runs/evaluation-run-create",
+                          "ja/weave/reference/service-api/evaluation-runs/evaluation-run-delete",
+                          "ja/weave/reference/service-api/evaluation-runs/evaluation-run-read",
+                          "ja/weave/reference/service-api/evaluation-runs/evaluation-run-finish"
+                        ]
+                      },
+                      {
+                        "group": "予測",
+                        "pages": [
+                          "ja/weave/reference/service-api/predictions/prediction-list",
+                          "ja/weave/reference/service-api/predictions/prediction-create",
+                          "ja/weave/reference/service-api/predictions/prediction-delete",
+                          "ja/weave/reference/service-api/predictions/prediction-read",
+                          "ja/weave/reference/service-api/predictions/prediction-finish"
+                        ]
+                      },
+                      {
+                        "group": "評価結果",
+                        "pages": [
+                          "ja/weave/reference/service-api/eval-results/eval-results-query"
+                        ]
+                      }
                     ]
                   }
                 ]
@@ -4360,12 +5099,40 @@
               },
               {
                 "group": "Serverless Training",
-                "openapi": {
-                  "directory": "ja/serverless-training/api-reference",
-                  "source": "ja/serverless-training/api-reference/openapi.json"
-                },
                 "pages": [
-                  "ja/serverless-training/api-reference"
+                  "ja/serverless-training/api-reference",
+                  {
+                    "group": "チャット補完",
+                    "pages": [
+                      "ja/serverless-training/api-reference/chat-completions/create-chat-completion"
+                    ]
+                  },
+                  {
+                    "group": "モデル",
+                    "pages": [
+                      "ja/serverless-training/api-reference/models/create-model",
+                      "ja/serverless-training/api-reference/models/list-model-checkpoints",
+                      "ja/serverless-training/api-reference/models/delete-model-checkpoints",
+                      "ja/serverless-training/api-reference/models/delete-model",
+                      "ja/serverless-training/api-reference/models/log"
+                    ]
+                  },
+                  {
+                    "group": "トレーニングジョブ",
+                    "pages": [
+                      "ja/serverless-training/api-reference/training-jobs/create-rl-training-job",
+                      "ja/serverless-training/api-reference/training-jobs/create-sft-training-job",
+                      "ja/serverless-training/api-reference/training-jobs/get-training-job",
+                      "ja/serverless-training/api-reference/training-jobs/get-training-job-events"
+                    ]
+                  },
+                  {
+                    "group": "ヘルスチェック",
+                    "pages": [
+                      "ja/serverless-training/api-reference/health/health-check",
+                      "ja/serverless-training/api-reference/health/system-check"
+                    ]
+                  }
                 ]
               }
             ],
@@ -4374,6 +5141,8 @@
           {
             "pages": [
               "ja/release-notes",
+              "ja/release-notes/release-policies",
+              "ja/release-notes/new-articles",
               {
                 "group": "W&B Server",
                 "pages": [
@@ -4382,13 +5151,12 @@
                 ]
               },
               {
-                "group": "W&B SDKs",
+                "group": "W&B SDK",
                 "pages": [
                   "ja/release-notes/sdk-releases",
                   "ja/release-notes/weave-sdk-releases"
                 ]
-              },
-              "ja/release-notes/release-policies"
+              }
             ],
             "tab": "リリースノート"
           },
@@ -4638,6 +5406,16 @@
                     "pages": [
                       "ko/product-models",
                       "ko/product-weave",
+                      {
+                        "group": "W&B ARIA",
+                        "pages": [
+                          "ko/aria/overview",
+                          "ko/aria/chat",
+                          "ko/aria/autoresearch",
+                          "ko/aria/governance"
+                        ],
+                        "tag": "Preview"
+                      },
                       "ko/hivemind"
                     ]
                   },
@@ -4652,16 +5430,6 @@
                   {
                     "group": "플랫폼 정보",
                     "pages": [
-                      {
-                        "group": "ARIA",
-                        "pages": [
-                          "ko/aria/overview",
-                          "ko/aria/chat",
-                          "ko/aria/autoresearch",
-                          "ko/aria/governance"
-                        ],
-                        "tag": "Preview"
-                      },
                       {
                         "group": "W&B 설정",
                         "pages": [
@@ -4718,7 +5486,7 @@
                         ]
                       },
                       {
-                        "group": "모니터링 및 사용량",
+                        "group": "모니터링 및 사용",
                         "pages": [
                           "ko/platform/hosting/monitoring-usage/audit-logging",
                           "ko/platform/hosting/monitoring-usage/slack-alerts",
@@ -4909,6 +5677,7 @@
                           "ko/models/registry/configure_registry",
                           "ko/models/registry/create_collection",
                           "ko/models/registry/link_version",
+                          "ko/models/registry/link_prompt",
                           "ko/models/registry/aliases",
                           "ko/models/registry/download_use_artifact",
                           "ko/models/registry/search_registry",
@@ -5084,7 +5853,8 @@
                     "group": "시작하기",
                     "pages": [
                       "ko/weave/agent-integration-quickstart",
-                      "ko/weave/custom-agents-quickstart"
+                      "ko/weave/guides/tracking/trace-agents-otel",
+                      "ko/weave/quickstart"
                     ]
                   },
                   {
@@ -5094,20 +5864,91 @@
                       {
                         "group": "에이전트를 트레이스하세요",
                         "pages": [
+                          {
+                            "group": "에이전트와 Weave 통합하기",
+                            "pages": [
+                              "ko/weave/guides/integrations/agents/google-adk",
+                              "ko/weave/guides/integrations/agents/openai-agents-sdk",
+                              "ko/weave/guides/integrations/agents/claude-agents-sdk",
+                              "ko/weave/guides/integrations/agents/claude-code-harness",
+                              "ko/weave/guides/integrations/agents/codex-harness",
+                              "ko/weave/guides/integrations/agents/openclaw-harness",
+                              "ko/weave/guides/integrations/agents/pi-dev-harness"
+                            ]
+                          },
                           "ko/weave/guides/tracking/trace-agents",
-                          "ko/weave/guides/tracking/trace-agent-integrations",
+                          "ko/weave/guides/tracking/trace-agents-otel",
                           "ko/weave/guides/tracking/view-agent-activity",
                           "ko/weave/guides/tracking/view-agent-signals",
                           "ko/weave/guides/tracking/trace-agents-attributes",
                           "ko/weave/guides/tracking/trace-agents-batch",
-                          "ko/weave/guides/tracking/trace-sub-agents"
+                          "ko/weave/guides/tracking/trace-sub-agents",
+                          "ko/weave/guides/tracking/agents-byob-references"
                         ]
                       },
                       {
-                        "group": "애플리케이션을 트레이스하세요",
+                        "group": "Ops와 Calls로 함수 트레이스하기",
                         "pages": [
                           {
-                            "group": "트레이싱 기본 개념",
+                            "group": "사용 중인 LLM 공급자 및 프레임워크와 통합하기",
+                            "pages": [
+                              "ko/weave/guides/integrations",
+                              "ko/weave/guides/integrations/autopatching",
+                              "ko/weave/guides/integrations/js",
+                              {
+                                "group": "LLM 공급자",
+                                "pages": [
+                                  "ko/weave/guides/integrations/inference",
+                                  "ko/weave/guides/integrations/bedrock",
+                                  "ko/weave/guides/integrations/anthropic",
+                                  "ko/weave/guides/integrations/cerebras",
+                                  "ko/weave/guides/integrations/cohere",
+                                  "ko/weave/guides/integrations/google",
+                                  "ko/weave/guides/integrations/groq",
+                                  "ko/weave/guides/integrations/huggingface",
+                                  "ko/weave/guides/integrations/litellm",
+                                  "ko/weave/guides/integrations/azure",
+                                  "ko/weave/guides/integrations/mistral",
+                                  "ko/weave/guides/integrations/nvidia_nim",
+                                  "ko/weave/guides/integrations/openai",
+                                  "ko/weave/guides/integrations/openrouter",
+                                  "ko/weave/guides/integrations/together_ai"
+                                ]
+                              },
+                              {
+                                "group": "프레임워크",
+                                "pages": [
+                                  "ko/weave/guides/integrations/openai-realtime-audio",
+                                  "ko/weave/guides/integrations/bedrock_agents",
+                                  "ko/weave/guides/integrations/langchain",
+                                  "ko/weave/guides/integrations/llamaindex",
+                                  "ko/weave/guides/integrations/dspy",
+                                  "ko/weave/guides/integrations/instructor",
+                                  "ko/weave/guides/integrations/crewai",
+                                  "ko/weave/guides/integrations/smolagents",
+                                  "ko/weave/guides/integrations/pydantic_ai",
+                                  "ko/weave/guides/integrations/vercel_ai_sdk",
+                                  "ko/weave/guides/integrations/haystack",
+                                  "ko/weave/guides/integrations/agno",
+                                  "ko/weave/guides/integrations/koog",
+                                  "ko/weave/guides/integrations/autogen",
+                                  "ko/weave/guides/integrations/verdict",
+                                  "ko/weave/guides/integrations/verifiers",
+                                  "ko/weave/guides/integrations/verl"
+                                ]
+                              },
+                              {
+                                "group": "프로토콜",
+                                "pages": [
+                                  "ko/weave/guides/integrations/mcp",
+                                  "ko/weave/guides/tracking/otel"
+                                ]
+                              },
+                              "ko/weave/guides/integrations/local_models"
+                            ]
+                          },
+                          {
+                            "group": "Tracing의 기본 개념",
                             "pages": [
                               "ko/weave/quickstart",
                               "ko/weave/guides/tracking/tracing",
@@ -5126,13 +5967,14 @@
                               "ko/weave/guides/tracking/ops",
                               "ko/weave/guides/tools/attributes",
                               "ko/weave/guides/core-types/media",
+                              "ko/weave/guides/tracking/byob-references",
                               "ko/weave/guides/tracking/view-call",
                               "ko/weave/guides/tracking/trace-disable",
                               "ko/weave/guides/tracking/write-ahead-log"
                             ]
                           },
                           {
-                            "group": "Call 사용하기",
+                            "group": "Calls 사용하기",
                             "pages": [
                               "ko/weave/guides/tracking/update-call",
                               "ko/weave/guides/tracking/call-schema-reference",
@@ -5148,7 +5990,7 @@
                         ]
                       },
                       {
-                        "group": "에이전트와 애플리케이션을 평가하세요",
+                        "group": "에이전트 및 함수 평가하기",
                         "pages": [
                           "ko/weave/guides/core-types/evaluations",
                           "ko/weave/tutorial-eval",
@@ -5159,6 +6001,7 @@
                           "ko/weave/guides/evaluation/weave_local_scorers",
                           "ko/weave/guides/evaluation/evaluation_logger",
                           "ko/weave/guides/evaluation/export_eval",
+                          "ko/weave/guides/evaluation/compare_evals",
                           "ko/weave/guides/core-types/leaderboards",
                           "ko/weave/guides/tools/column-mapping",
                           "ko/weave/guides/evaluation/dynamic_leaderboards"
@@ -5169,6 +6012,7 @@
                         "pages": [
                           "ko/weave/guides/tools/playground",
                           "ko/weave/guides/tools/evaluation_playground",
+                          "ko/weave/guides/tools/custom-runtimes",
                           "ko/weave/quickstart-inference"
                         ]
                       },
@@ -5197,79 +6041,11 @@
                           "ko/weave/guides/evaluation/monitors",
                           "ko/weave/guides/evaluation/custom-monitors",
                           "ko/weave/guides/evaluation/automations",
-                          "ko/weave/guides/evaluation/guardrails",
-                          "ko/weave/guides/tracking/otel"
+                          "ko/weave/guides/evaluation/guardrails"
                         ]
                       },
                       {
-                        "group": "LLM 공급자 및 프레임워크와 통합하세요",
-                        "pages": [
-                          "ko/weave/guides/integrations",
-                          "ko/weave/guides/integrations/autopatching",
-                          "ko/weave/guides/integrations/js",
-                          {
-                            "group": "트레이스 에이전트",
-                            "pages": [
-                              "ko/weave/guides/integrations/agents/google-adk",
-                              "ko/weave/guides/integrations/agents/openai-agents-sdk",
-                              "ko/weave/guides/integrations/agents/claude-agents-sdk",
-                              "ko/weave/guides/integrations/agents/claude-code-harness",
-                              "ko/weave/guides/integrations/agents/codex-harness",
-                              "ko/weave/guides/integrations/agents/openclaw-harness",
-                              "ko/weave/guides/integrations/agents/pi-dev-harness"
-                            ]
-                          },
-                          {
-                            "group": "LLM 공급자",
-                            "pages": [
-                              "ko/weave/guides/integrations/bedrock",
-                              "ko/weave/guides/integrations/anthropic",
-                              "ko/weave/guides/integrations/cerebras",
-                              "ko/weave/guides/integrations/cohere",
-                              "ko/weave/guides/integrations/google",
-                              "ko/weave/guides/integrations/groq",
-                              "ko/weave/guides/integrations/huggingface",
-                              "ko/weave/guides/integrations/litellm",
-                              "ko/weave/guides/integrations/azure",
-                              "ko/weave/guides/integrations/mistral",
-                              "ko/weave/guides/integrations/nvidia_nim",
-                              "ko/weave/guides/integrations/openai",
-                              "ko/weave/guides/integrations/openrouter",
-                              "ko/weave/guides/integrations/together_ai"
-                            ]
-                          },
-                          {
-                            "group": "프레임워크",
-                            "pages": [
-                              "ko/weave/guides/integrations/openai-realtime-audio",
-                              "ko/weave/guides/integrations/bedrock_agents",
-                              "ko/weave/guides/integrations/langchain",
-                              "ko/weave/guides/integrations/llamaindex",
-                              "ko/weave/guides/integrations/dspy",
-                              "ko/weave/guides/integrations/instructor",
-                              "ko/weave/guides/integrations/crewai",
-                              "ko/weave/guides/integrations/smolagents",
-                              "ko/weave/guides/integrations/pydantic_ai",
-                              "ko/weave/guides/integrations/vercel_ai_sdk",
-                              "ko/weave/guides/integrations/haystack",
-                              "ko/weave/guides/integrations/agno",
-                              "ko/weave/guides/integrations/koog",
-                              "ko/weave/guides/integrations/autogen",
-                              "ko/weave/guides/integrations/verdict",
-                              "ko/weave/guides/integrations/verifiers"
-                            ]
-                          },
-                          {
-                            "group": "프로토콜",
-                            "pages": [
-                              "ko/weave/guides/integrations/mcp"
-                            ]
-                          },
-                          "ko/weave/guides/integrations/local_models"
-                        ]
-                      },
-                      {
-                        "group": "배포하고 확장하세요",
+                        "group": "배포 및 확장",
                         "pages": [
                           "ko/weave/guides/platform",
                           "ko/weave/guides/platform/weave-self-managed",
@@ -5360,6 +6136,7 @@
                       "ko/inference/response-settings/json-mode",
                       "ko/inference/response-settings/reasoning",
                       "ko/inference/response-settings/streaming",
+                      "ko/inference/response-settings/prefix-caching",
                       "ko/inference/response-settings/structured-output",
                       "ko/inference/response-settings/tool-calling"
                     ]
@@ -5474,6 +6251,7 @@
                         "pages": [
                           "ko/models/ref/python/functions",
                           "ko/models/ref/python/functions/agent",
+                          "ko/models/ref/python/functions/box3d",
                           "ko/models/ref/python/functions/controller",
                           "ko/models/ref/python/functions/finish",
                           "ko/models/ref/python/functions/init",
@@ -5489,8 +6267,6 @@
                         "pages": [
                           "ko/models/ref/python/data-types",
                           "ko/models/ref/python/data-types/audio",
-                          "ko/models/ref/python/data-types/box3d",
-                          "ko/models/ref/python/data-types/evaltable",
                           "ko/models/ref/python/data-types/histogram",
                           "ko/models/ref/python/data-types/html",
                           "ko/models/ref/python/data-types/image",
@@ -5558,18 +6334,17 @@
                         "pages": [
                           "ko/models/ref/python/public-api",
                           "ko/models/ref/python/public-api/api",
-                          "ko/models/ref/python/public-api/agentruns",
                           "ko/models/ref/python/public-api/artifactcollection",
                           "ko/models/ref/python/public-api/artifactcollections",
                           "ko/models/ref/python/public-api/artifactfiles",
                           "ko/models/ref/python/public-api/artifacts",
                           "ko/models/ref/python/public-api/artifacttype",
                           "ko/models/ref/python/public-api/artifacttypes",
-                          "ko/models/ref/python/public-api/automations",
                           "ko/models/ref/python/public-api/betareport",
                           "ko/models/ref/python/public-api/file",
                           "ko/models/ref/python/public-api/files",
                           "ko/models/ref/python/public-api/member",
+                          "ko/models/ref/python/public-api/organization",
                           "ko/models/ref/python/public-api/project",
                           "ko/models/ref/python/public-api/projects",
                           "ko/models/ref/python/public-api/projectartifactcollections",
@@ -5740,6 +6515,7 @@
                     "group": "TypeScript SDK",
                     "pages": [
                       "ko/weave/reference/typescript-sdk",
+                      "ko/weave/reference/typescript-sdk/functions/init",
                       {
                         "group": "클래스",
                         "pages": [
@@ -5774,7 +6550,6 @@
                           "ko/weave/reference/typescript-sdk/functions/getcurrentllm",
                           "ko/weave/reference/typescript-sdk/functions/getcurrentsession",
                           "ko/weave/reference/typescript-sdk/functions/getcurrentturn",
-                          "ko/weave/reference/typescript-sdk/functions/init",
                           "ko/weave/reference/typescript-sdk/functions/instrumentopenaiagents",
                           "ko/weave/reference/typescript-sdk/functions/login",
                           "ko/weave/reference/typescript-sdk/functions/op",
@@ -5824,7 +6599,7 @@
                         ]
                       },
                       {
-                        "group": "유형 별칭",
+                        "group": "타입 별칭",
                         "pages": [
                           "ko/weave/reference/typescript-sdk/type-aliases/agent",
                           "ko/weave/reference/typescript-sdk/type-aliases/agentmessage",
@@ -5851,13 +6626,234 @@
                   },
                   {
                     "group": "서비스 API",
-                    "openapi": {
-                      "directory": "ko/weave/reference/service-api",
-                      "source": "ko/weave/reference/service-api/openapi.json"
-                    },
                     "pages": [
                       "ko/weave/cookbooks/weave_via_service_api",
-                      "ko/weave/reference/service-api"
+                      "ko/weave/reference/service-api",
+                      {
+                        "group": "Call",
+                        "pages": [
+                          "ko/weave/reference/service-api/calls/call-start",
+                          "ko/weave/reference/service-api/calls/call-end",
+                          "ko/weave/reference/service-api/calls/call-start-batch",
+                          "ko/weave/reference/service-api/calls/calls-delete",
+                          "ko/weave/reference/service-api/calls/call-update",
+                          "ko/weave/reference/service-api/calls/call-read",
+                          "ko/weave/reference/service-api/calls/calls-query-stats",
+                          "ko/weave/reference/service-api/calls/trace-usage",
+                          "ko/weave/reference/service-api/calls/calls-usage",
+                          "ko/weave/reference/service-api/calls/calls-query-stream",
+                          "ko/weave/reference/service-api/calls/call-stats",
+                          "ko/weave/reference/service-api/calls/calls-complete"
+                        ]
+                      },
+                      {
+                        "group": "비용",
+                        "pages": [
+                          "ko/weave/reference/service-api/costs/cost-create",
+                          "ko/weave/reference/service-api/costs/cost-query",
+                          "ko/weave/reference/service-api/costs/cost-purge"
+                        ]
+                      },
+                      {
+                        "group": "피드백",
+                        "pages": [
+                          "ko/weave/reference/service-api/feedback/feedback-create",
+                          "ko/weave/reference/service-api/feedback/feedback-create-batch",
+                          "ko/weave/reference/service-api/feedback/feedback-query",
+                          "ko/weave/reference/service-api/feedback/feedback-purge",
+                          "ko/weave/reference/service-api/feedback/feedback-replace",
+                          "ko/weave/reference/service-api/feedback/feedback-stats",
+                          "ko/weave/reference/service-api/feedback/feedback-aggregate",
+                          "ko/weave/reference/service-api/feedback/feedback-payload-schema"
+                        ]
+                      },
+                      {
+                        "group": "Files",
+                        "pages": [
+                          "ko/weave/reference/service-api/files/file-create",
+                          "ko/weave/reference/service-api/files/file-content",
+                          "ko/weave/reference/service-api/files/files-stats"
+                        ]
+                      },
+                      {
+                        "group": "객체",
+                        "pages": [
+                          "ko/weave/reference/service-api/objects/obj-create",
+                          "ko/weave/reference/service-api/objects/obj-read",
+                          "ko/weave/reference/service-api/objects/objs-query",
+                          "ko/weave/reference/service-api/objects/obj-delete",
+                          "ko/weave/reference/service-api/objects/obj-add-tags",
+                          "ko/weave/reference/service-api/objects/obj-remove-tags",
+                          "ko/weave/reference/service-api/objects/obj-set-aliases",
+                          "ko/weave/reference/service-api/objects/obj-remove-aliases",
+                          "ko/weave/reference/service-api/objects/tags-list",
+                          "ko/weave/reference/service-api/objects/aliases-list"
+                        ]
+                      },
+                      {
+                        "group": "OpenTelemetry",
+                        "pages": [
+                          "ko/weave/reference/service-api/opentelemetry/export-trace"
+                        ]
+                      },
+                      {
+                        "group": "참조",
+                        "pages": [
+                          "ko/weave/reference/service-api/refs/refs-read-batch"
+                        ]
+                      },
+                      {
+                        "group": "서비스",
+                        "pages": [
+                          "ko/weave/reference/service-api/service/read-root",
+                          "ko/weave/reference/service-api/service/read-version",
+                          "ko/weave/reference/service-api/service/get-caller-location",
+                          "ko/weave/reference/service-api/service/server-info",
+                          "ko/weave/reference/service-api/service/projects-info"
+                        ]
+                      },
+                      {
+                        "group": "Tables",
+                        "pages": [
+                          "ko/weave/reference/service-api/tables/table-create",
+                          "ko/weave/reference/service-api/tables/table-update",
+                          "ko/weave/reference/service-api/tables/table-create-from-digests",
+                          "ko/weave/reference/service-api/tables/table-query",
+                          "ko/weave/reference/service-api/tables/table-query-stats",
+                          "ko/weave/reference/service-api/tables/table-query-stats-batch"
+                        ]
+                      },
+                      {
+                        "group": "스레드",
+                        "pages": [
+                          "ko/weave/reference/service-api/threads/threads-query-stream"
+                        ]
+                      },
+                      {
+                        "group": "에이전트",
+                        "pages": [
+                          "ko/weave/reference/service-api/agents/export-genai-trace",
+                          "ko/weave/reference/service-api/agents/genai-spans-query",
+                          "ko/weave/reference/service-api/agents/genai-spans-stats",
+                          "ko/weave/reference/service-api/agents/genai-custom-attrs-schema",
+                          "ko/weave/reference/service-api/agents/genai-agents-query",
+                          "ko/weave/reference/service-api/agents/genai-agent-versions-query",
+                          "ko/weave/reference/service-api/agents/genai-search",
+                          "ko/weave/reference/service-api/agents/genai-traces-chat",
+                          "ko/weave/reference/service-api/agents/genai-conversation-chat",
+                          "ko/weave/reference/service-api/agents/genai-conversation-spans"
+                        ]
+                      },
+                      {
+                        "group": "주석 큐",
+                        "pages": [
+                          "ko/weave/reference/service-api/annotation-queues/annotation-queue-create",
+                          "ko/weave/reference/service-api/annotation-queues/annotation-queues-query-stream",
+                          "ko/weave/reference/service-api/annotation-queues/annotation-queue-read",
+                          "ko/weave/reference/service-api/annotation-queues/annotation-queue-update",
+                          "ko/weave/reference/service-api/annotation-queues/annotation-queue-delete",
+                          "ko/weave/reference/service-api/annotation-queues/annotation-queue-add-calls",
+                          "ko/weave/reference/service-api/annotation-queues/annotation-queue-items-query",
+                          "ko/weave/reference/service-api/annotation-queues/annotation-queues-stats",
+                          "ko/weave/reference/service-api/annotation-queues/annotation-queue-item-progress-update"
+                        ]
+                      },
+                      {
+                        "group": "평가",
+                        "pages": [
+                          "ko/weave/reference/service-api/evaluations/evaluate-model",
+                          "ko/weave/reference/service-api/evaluations/evaluation-status",
+                          "ko/weave/reference/service-api/evaluations/rescore-evaluation",
+                          "ko/weave/reference/service-api/evaluations/evaluation-list",
+                          "ko/weave/reference/service-api/evaluations/evaluation-create",
+                          "ko/weave/reference/service-api/evaluations/evaluation-read",
+                          "ko/weave/reference/service-api/evaluations/evaluation-delete"
+                        ]
+                      },
+                      {
+                        "group": "점수",
+                        "pages": [
+                          "ko/weave/reference/service-api/scores/calls-score",
+                          "ko/weave/reference/service-api/scores/score-list",
+                          "ko/weave/reference/service-api/scores/score-create",
+                          "ko/weave/reference/service-api/scores/score-delete",
+                          "ko/weave/reference/service-api/scores/score-read"
+                        ]
+                      },
+                      {
+                        "group": "이미지",
+                        "pages": [
+                          "ko/weave/reference/service-api/images/image-create"
+                        ]
+                      },
+                      {
+                        "group": "레지스트리",
+                        "pages": [
+                          "ko/weave/reference/service-api/registry/link-to-registry"
+                        ]
+                      },
+                      {
+                        "group": "Ops",
+                        "pages": [
+                          "ko/weave/reference/service-api/ops/op-list",
+                          "ko/weave/reference/service-api/ops/op-create",
+                          "ko/weave/reference/service-api/ops/op-read",
+                          "ko/weave/reference/service-api/ops/op-delete"
+                        ]
+                      },
+                      {
+                        "group": "Datasets",
+                        "pages": [
+                          "ko/weave/reference/service-api/datasets/dataset-list",
+                          "ko/weave/reference/service-api/datasets/dataset-create",
+                          "ko/weave/reference/service-api/datasets/dataset-read",
+                          "ko/weave/reference/service-api/datasets/dataset-delete"
+                        ]
+                      },
+                      {
+                        "group": "Scorer",
+                        "pages": [
+                          "ko/weave/reference/service-api/scorers/scorer-list",
+                          "ko/weave/reference/service-api/scorers/scorer-create",
+                          "ko/weave/reference/service-api/scorers/scorer-read",
+                          "ko/weave/reference/service-api/scorers/scorer-delete"
+                        ]
+                      },
+                      {
+                        "group": "Models",
+                        "pages": [
+                          "ko/weave/reference/service-api/models/model-list",
+                          "ko/weave/reference/service-api/models/model-create",
+                          "ko/weave/reference/service-api/models/model-read",
+                          "ko/weave/reference/service-api/models/model-delete"
+                        ]
+                      },
+                      {
+                        "group": "평가 run",
+                        "pages": [
+                          "ko/weave/reference/service-api/evaluation-runs/evaluation-run-list",
+                          "ko/weave/reference/service-api/evaluation-runs/evaluation-run-create",
+                          "ko/weave/reference/service-api/evaluation-runs/evaluation-run-delete",
+                          "ko/weave/reference/service-api/evaluation-runs/evaluation-run-read",
+                          "ko/weave/reference/service-api/evaluation-runs/evaluation-run-finish"
+                        ]
+                      },
+                      {
+                        "group": "예측",
+                        "pages": [
+                          "ko/weave/reference/service-api/predictions/prediction-list",
+                          "ko/weave/reference/service-api/predictions/prediction-create",
+                          "ko/weave/reference/service-api/predictions/prediction-delete",
+                          "ko/weave/reference/service-api/predictions/prediction-read",
+                          "ko/weave/reference/service-api/predictions/prediction-finish"
+                        ]
+                      },
+                      {
+                        "group": "평가 결과",
+                        "pages": [
+                          "ko/weave/reference/service-api/eval-results/eval-results-query"
+                        ]
+                      }
                     ]
                   }
                 ]
@@ -5872,12 +6868,40 @@
               },
               {
                 "group": "Serverless Training",
-                "openapi": {
-                  "directory": "ko/serverless-training/api-reference",
-                  "source": "ko/serverless-training/api-reference/openapi.json"
-                },
                 "pages": [
-                  "ko/serverless-training/api-reference"
+                  "ko/serverless-training/api-reference",
+                  {
+                    "group": "채팅-완성",
+                    "pages": [
+                      "ko/serverless-training/api-reference/chat-completions/create-chat-completion"
+                    ]
+                  },
+                  {
+                    "group": "모델",
+                    "pages": [
+                      "ko/serverless-training/api-reference/models/create-model",
+                      "ko/serverless-training/api-reference/models/list-model-checkpoints",
+                      "ko/serverless-training/api-reference/models/delete-model-checkpoints",
+                      "ko/serverless-training/api-reference/models/delete-model",
+                      "ko/serverless-training/api-reference/models/log"
+                    ]
+                  },
+                  {
+                    "group": "트레이닝-작업",
+                    "pages": [
+                      "ko/serverless-training/api-reference/training-jobs/create-rl-training-job",
+                      "ko/serverless-training/api-reference/training-jobs/create-sft-training-job",
+                      "ko/serverless-training/api-reference/training-jobs/get-training-job",
+                      "ko/serverless-training/api-reference/training-jobs/get-training-job-events"
+                    ]
+                  },
+                  {
+                    "group": "상태",
+                    "pages": [
+                      "ko/serverless-training/api-reference/health/health-check",
+                      "ko/serverless-training/api-reference/health/system-check"
+                    ]
+                  }
                 ]
               }
             ],
@@ -5886,6 +6910,8 @@
           {
             "pages": [
               "ko/release-notes",
+              "ko/release-notes/release-policies",
+              "ko/release-notes/new-articles",
               {
                 "group": "W&B Server",
                 "pages": [
@@ -5894,13 +6920,12 @@
                 ]
               },
               {
-                "group": "W&B SDKs",
+                "group": "W&B SDK",
                 "pages": [
                   "ko/release-notes/sdk-releases",
                   "ko/release-notes/weave-sdk-releases"
                 ]
-              },
-              "ko/release-notes/release-policies"
+              }
             ],
             "tab": "릴리스 노트"
           },
@@ -7326,6 +8351,14 @@
     {
       "destination": "/models/ref/python",
       "source": "/ref/python/sdk/*"
+    },
+    {
+      "destination" : "/models/ref/python/public-api",
+      "source" : "/models/ref/python/public-api/agentruns"
+    },
+    {
+      "destination": "/models/ref/python/automations",
+    "source": "/models/ref/python/public-api/automations"
     },
     {
       "destination": "/models/ref/wandb_workspaces/:slug*",

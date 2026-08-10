@@ -4,11 +4,11 @@ description: Weave SDK を使用してマルチターン エージェントを�
 keywords: ["OpenTelemetry", "OTel スパン", "マルチターン エージェント", "ツールコール", "トレース"]
 ---
 
-[Colab で試す](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/agents-quickstart.ipynb) · [GitHub ソース](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/agents-quickstart.ipynb)
+[Colab で試す](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/custom-agents-quickstart.ipynb) · [GitHub ソース](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/custom-agents-quickstart.ipynb)
 
 Weave SDK を使用すると、一般的な SDK やカスタム ハーネスで構築されたエージェントをトレースできます。このクイックスタートでは、OpenTelemetry のスパンを送出して取得するために、独自に構築したマルチターン エージェントに Weave を手動で統合する方法を紹介します。エージェント向け Weave の概念を理解するには、[エージェントをトレースする](/ja/weave/guides/tracking/trace-agents) を参照してください。
 
-Claude Agent SDK や Codex などの SDK やハーネスに Weave を統合したい場合は、[エージェント インテグレーションをトレースする](/ja/weave/guides/tracking/trace-agent-integrations) を参照してください。Weave は複数のエージェント構築用 SDK やエージェント ハーネスに自動でパッチを適用するため、すばやく統合できます。
+Claude Agent SDK や Codex などの SDK やハーネスに Weave を統合したい場合は、[エージェント インテグレーションを選択する](/ja/weave/agent-integration-quickstart) を参照してください。Weave は複数のエージェント構築用 SDK やエージェント ハーネスに自動でパッチを適用するため、すばやく統合できます。
 
 <div id="what-youll-learn">
   ## 学習内容
@@ -16,7 +16,7 @@ Claude Agent SDK や Codex などの SDK やハーネスに Weave を統合し�
 
 このクイックスタートを終える頃には、Weave 互換の OTel スパンを出力する、動作するマルチターンのエージェントを作成できます。また、Weave が会話、ターン、LLM Call、ツールコールをエージェントコードにどのように対応付けるのかを理解し、その同じパターンを独自のカスタム エージェントに適用できるようになります。
 
-このガイドのコードでは、Wikipedia で情報を調べられる小規模なリサーチ エージェントを構築します。このエージェントは 3 つの質問 (3 ターン) を行い、回答のためにいつ Wikipedia を検索するかを LLM が判断します。Weave はすべてのステップ (会話、各質問、各 AI の応答、各 Wikipedia ルックアップ) を記録するため、Weave の Agents ビューで何が起きたのかを確認できます。
+このガイドのコードでは、Wikipedia で情報を調べられる小規模なリサーチ エージェントを構築します。このエージェントは 3 つの質問 (3 ターン) を行い、回答のためにいつ Wikipedia を検索するかを LLM が判断します。Weave はすべてのステップ (会話、各質問、各 AI の応答、各 Wikipedia ルックアップ) を記録するため、Weave Agents ビューで何が起きたのかを確認できます。
 
 このガイドでは、次の方法を説明します。
 
@@ -24,6 +24,7 @@ Claude Agent SDK や Codex などの SDK やハーネスに Weave を統合し�
 * `start_conversation` / `startConversation` と `start_turn` / `startTurn` を使用して、会話とターンを開始する。
 * `start_llm` / `startLLM` で LLM Call をラップし、Usage を記録する。
 * `start_tool` / `startTool` でツール実行をラップし、結果を記録する。
+* 完全なトークン使用量と課金対象のモデルを記録して、トークン数とコストが表示されるようにする。
 * 生成された会話、ターン、ツールコールを Agents ビューで確認する。
 
 <div id="how-the-weave-sdk-works-with-agents">
@@ -183,7 +184,8 @@ tool と Weave の初期化が完了したら、次のステップではそれ�
 3. 2 つ目の `chat` スパン を開始し、最終的な回答を生成します。
 
 <CodeGroup>
-  ```python lines highlight="9,11,17,29,42,46,53" Python
+  ```python lines highlight="10,12,19,38,51,55,69" Python
+  import weave
   from openai import OpenAI
 
   openai_client = OpenAI()
@@ -193,20 +195,28 @@ tool と Weave の初期化が完了したら、次のステップではそれ�
       history.append({"role": "user", "content": user_message})
 
       with weave.start_turn(user_message=user_message, model=MODEL):
-          # LLM call 1: モデルがツールの使用を決定する場合があります。
+          # LLM Call 1: モデルがツールの使用を決定する場合があります。
           with weave.start_llm(model=MODEL, provider_name="openai") as llm:
               resp = openai_client.chat.completions.create(
                   model=MODEL, messages=history, tools=[wikipedia_tool_schema],
               )
               msg = resp.choices[0].message
               llm.output(msg.content or "")
-              llm.usage = weave.Usage(
-                  input_tokens=resp.usage.prompt_tokens,
-                  output_tokens=resp.usage.completion_tokens,
+              # record() は usage、課金対象モデル、レスポンス ID を1回の呼び出しでまとめて設定します。
+              llm.record(
+                  usage=weave.Usage(
+                      input_tokens=resp.usage.prompt_tokens,
+                      output_tokens=resp.usage.completion_tokens,
+                      cache_read_input_tokens=getattr(
+                          resp.usage.prompt_tokens_details, "cached_tokens", 0
+                      ),
+                  ),
+                  response_id=resp.id,
+                  response_model=resp.model,
               )
               history.append(msg.model_dump(exclude_none=True))
 
-          # ツールが要求されなかった場合、最初の LLM レスポンスが回答となります。
+          # ツールが要求されなかった場合、最初の LLM レスポンスがそのまま回答になります。
           if not msg.tool_calls:
               return msg.content
 
@@ -224,14 +234,21 @@ tool と Weave の初期化が完了したら、次のステップではそれ�
                       "content": tool.result,
                   })
 
-          # LLM call 2: 最終的な回答を生成します。
+          # LLM Call 2: 最終的な回答を合成します。
           with weave.start_llm(model=MODEL, provider_name="openai") as llm:
               resp = openai_client.chat.completions.create(model=MODEL, messages=history)
               msg = resp.choices[0].message
               llm.output(msg.content)
-              llm.usage = weave.Usage(
-                  input_tokens=resp.usage.prompt_tokens,
-                  output_tokens=resp.usage.completion_tokens,
+              llm.record(
+                  usage=weave.Usage(
+                      input_tokens=resp.usage.prompt_tokens,
+                      output_tokens=resp.usage.completion_tokens,
+                      cache_read_input_tokens=getattr(
+                          resp.usage.prompt_tokens_details, "cached_tokens", 0
+                      ),
+                  ),
+                  response_id=resp.id,
+                  response_model=resp.model,
               )
               history.append({"role": "assistant", "content": msg.content})
               return msg.content
@@ -247,8 +264,9 @@ tool と Weave の初期化が完了したら、次のステップではそれ�
           print(f"AGENT: {run_turn(history, question)}\n")
   ```
 
-  ```typescript lines highlight="10,13,40,55,77" TypeScript twoslash
+  ```typescript lines highlight="11,14,25,47,62,70,89"
   // @noErrors
+  import * as weave from 'weave';
   import OpenAI from 'openai';
 
   const openaiClient = new OpenAI();
@@ -271,16 +289,22 @@ tool と Weave の初期化が完了したら、次のステップではそれ�
         });
         msg = resp.choices[0].message;
         llm1.output(msg.content ?? '');
-        llm1.usage = {
-          inputTokens: resp.usage?.prompt_tokens,
-          outputTokens: resp.usage?.completion_tokens,
-        };
+        // record() は使用量、課金対象モデル、レスポンス ID を1回の呼び出しでまとめて設定します。
+        llm1.record({
+          usage: {
+            inputTokens: resp.usage?.prompt_tokens,
+            outputTokens: resp.usage?.completion_tokens,
+            cacheReadInputTokens: resp.usage?.prompt_tokens_details?.cached_tokens,
+          },
+          responseId: resp.id,
+          responseModel: resp.model,
+        });
         history.push(msg);
       } finally {
         llm1.end();
       }
 
-      // ツールが要求されなかった場合、最初の LLM レスポンスが回答になります。
+      // ツールが要求されなかった場合、最初の LLM レスポンスがそのまま回答になります。
       if (!msg.tool_calls?.length) {
         return msg.content ?? null;
       }
@@ -311,10 +335,15 @@ tool と Weave の初期化が完了したら、次のステップではそれ�
         });
         const msg2 = resp.choices[0].message;
         llm2.output(msg2.content ?? '');
-        llm2.usage = {
-          inputTokens: resp.usage?.prompt_tokens,
-          outputTokens: resp.usage?.completion_tokens,
-        };
+        llm2.record({
+          usage: {
+            inputTokens: resp.usage?.prompt_tokens,
+            outputTokens: resp.usage?.completion_tokens,
+            cacheReadInputTokens: resp.usage?.prompt_tokens_details?.cached_tokens,
+          },
+          responseId: resp.id,
+          responseModel: resp.model,
+        });
         history.push({ role: 'assistant', content: msg2.content });
         return msg2.content ?? null;
       } finally {
@@ -342,6 +371,58 @@ tool と Weave の初期化が完了したら、次のステップではそれ�
   ```
 </CodeGroup>
 
+<div id="record-token-usage-and-cost">
+  ## トークン使用量とコストを記録する
+</div>
+
+各 `chat` スパン には、トークン使用量とモデル ID が含まれます。Weave は usage からトークン数を表示し、usage とモデル ID からコストを算出します。そのため、値が不完全だったり価格を計算できなかったりすると、トレースの他の部分が正しく見えていても、`0 in / 0 out` tokens や `Cost -` と表示されます。`record(...)` を使うと、これらのフィールド (`output_messages`、`response_id`、`reasoning` などを含む) を 1 回の呼び出しで設定できます。適用されるのは、渡したフィールドだけです。
+
+コストを表示するには、次の 2 点が正しく設定されている必要があります。
+
+* **完全な usage。** `input_tokens` は、キャッシュされたトークンを含む*入力全体の合計*です。Weave ではキャッシュ読み取りとキャッシュ書き込みをそれぞれの料金で計算し、それらを入力合計から差し引きます。そのため、`cache_read_input_tokens` と `cache_creation_input_tokens` は、それらを含む合計 `input_tokens` とは*別に*報告する必要があります。prompt caching を持つ provider (たとえば Anthropic) では、キャッシュされたトークンが入力の大半を占めることが珍しくないため、これらを省略すると usage とコストがほぼゼロとして表示されます。
+* **価格計算可能なモデル ID。** コストはモデルに対するルックアップで決まります。Weave は `response_model` (provider が実際に返した正確なモデル) を優先し、なければ `start_llm` に渡した `model` を使用します。`opus` や `sonnet` のような alias では価格計算できず `Cost -` と表示されるため、レスポンスが返す具体的な ID (`resp.model`) を `response_model` として渡してください。
+
+OpenAI では、キャッシュされたトークンは `prompt_tokens` に含めてカウントされるため、上の例をそのまま使えます。一方、Anthropic ではキャッシュされたトークンが `input_tokens` とは*別に*報告されるため、Weave が料金計算に使う合計にそれらを足し戻してください。
+
+<CodeGroup>
+  ```python lines Python
+  with weave.start_llm(model=MODEL, provider_name="anthropic") as llm:
+      resp = anthropic_client.messages.create(
+          model=MODEL, max_tokens=1024, messages=history,
+      )
+      u = resp.usage
+      llm.output(resp.content[0].text)
+      llm.record(
+          usage=weave.Usage(
+              input_tokens=u.input_tokens
+              + u.cache_read_input_tokens
+              + u.cache_creation_input_tokens,
+              output_tokens=u.output_tokens,
+              cache_read_input_tokens=u.cache_read_input_tokens,
+              cache_creation_input_tokens=u.cache_creation_input_tokens,
+          ),
+          response_id=resp.id,
+          response_model=resp.model,
+      )
+  ```
+
+  ```typescript lines TypeScript twoslash
+  // @noErrors
+  const u = resp.usage;
+  llm.record({
+    usage: {
+      inputTokens:
+        u.input_tokens + u.cache_read_input_tokens + u.cache_creation_input_tokens,
+      outputTokens: u.output_tokens,
+      cacheReadInputTokens: u.cache_read_input_tokens,
+      cacheCreationInputTokens: u.cache_creation_input_tokens,
+    },
+    responseId: resp.id,
+    responseModel: resp.model,
+  });
+  ```
+</CodeGroup>
+
 <div id="see-your-agent-traces-in-the-agents-view">
   ## Agents ビューでエージェントのトレースを確認する
 </div>
@@ -355,9 +436,34 @@ tool と Weave の初期化が完了したら、次のステップではそれ�
 
 いずれかのターンをクリックすると、入力、出力、ツールの引数、ツールの結果を確認できます。
 
+<div id="link-to-a-conversation-from-your-app">
+  ## アプリから会話へのリンク
+</div>
+
+独自の UI から Weave Agents ビュー内の会話にディープリンクするには、entity、project、会話 id から URL を生成します。`weave.init()` は `entity` と `project` を保持するクライアントを返し、`start_conversation` は `conversation_id` を公開します。
+
+<CodeGroup>
+  ```python lines Python
+  from weave.trace.urls import agent_conversation_path
+
+  client = weave.init(f"{TEAM}/{PROJECT}")
+
+  with weave.start_conversation(agent_name="research-bot") as conversation:
+      # ... ターンを実行 ...
+      url = agent_conversation_path(
+          client.entity, client.project, conversation.conversation_id
+      )
+      print(f"View this conversation at {url}")
+  ```
+
+  ```plaintext TypeScript lines
+  この機能は TypeScript では利用できません。
+  ```
+</CodeGroup>
+
 <div id="next-steps">
   ## 次のステップ
 </div>
 
 * [Weave でエージェントをトレースする](/ja/weave/guides/tracking/trace-agents) 方法と、Weave SDK で利用できる機能やオプションについて学びます。
-* エージェントに Weave を統合する方法についてさらに多くのオプションを確認するには、[エージェント インテグレーションをトレースする](/ja/weave/guides/tracking/trace-agent-integrations) を参照してください。
+* エージェントに Weave を統合する方法についてさらに多くのオプションを確認するには、[エージェント インテグレーションを選択する](/ja/weave/agent-integration-quickstart) を参照してください。

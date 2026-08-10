@@ -26,11 +26,11 @@ Select your workload type and then use the following docs to guide you through t
   </Card>
 
   <Card
-    title="Set up custom agent observability"
+    title="Send OpenTelemetry spans to the Agents view"
     icon="code"
-    href="/weave/custom-agents-quickstart"
+    href="/weave/guides/tracking/trace-agents-otel"
   >
-    Trace a custom multi-turn agent with the Weave SDK to capture sessions, LLM calls, and tool calls as OpenTelemetry spans.
+    Quickly configure your OTel-instrumented agent to send traces to Weave's OTLP endpoint. No Weave SDK installation required.
   </Card>
 
   <Card
@@ -85,7 +85,7 @@ W&B Weave provides Python and TypeScript libraries. To install the Weave library
   </Tab>
   <Tab title="TypeScript">
     ```bash
-    pnpm install weave
+    npm install weave
     ```
   </Tab>
 </Tabs>

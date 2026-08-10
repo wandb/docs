@@ -1,35 +1,30 @@
 ---
 title: MetricZScoreFilter
-namespace: automations_namespace
-python_object_type: class
+kind: classe
+namespace: wandb.automations._run_metric_filters
 ---
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/_filters/run_metrics.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/_run_metric_filters.py#L202" />
 
+## <kbd>class</kbd> wandb.automations.MetricZScoreFilter
 
-## <kbd>class</kbd> `MetricZScoreFilter`
+```python
+*,
+name: str,
+window_size: Annotated[int, Gt(gt=0)] = 30,
+threshold: Union[Annotated[int, Gt(gt=0)], Annotated[float, Gt(gt=0)]] = 3.0,
+change_dir: wandb.automations._run_metric_filters.ChangeDir = ANY
+```
 
 Filtre qui compare le z-score d’une métrique à un seuil défini par l’utilisateur.
 
-### <kbd>méthode</kbd> `MetricZScoreFilter.__init__`
+<div id="args">
+  ## Arguments
+</div>
 
-```python
-__init__(
-    name: 'str',
-    window: 'int' = 30,
-    threshold: 'Annotated | Annotated' = 3.0,
-    change_dir: 'ChangeDir' = ANY
-) → None
-```
-
-**Arguments :**
-
-* `name` (str): Nom de la métrique observée.
-* `window` (int): Taille de la fenêtre sur laquelle calculer la moyenne et l’écart-type de la métrique.
-* `threshold` (Union[Annotated, Annotated]): Seuil du z-score.
-* `change_dir` (ChangeDir): Direction de variation du z-score à surveiller.
-
-**Retourne :**
-Un objet `MetricZScoreFilter`.
+* `name`: Nom de la métrique observée.
+* `window_size`: Taille de la fenêtre sur laquelle calculer la moyenne et l’écart-type de la métrique.
+* `threshold`: Seuil du z-score.
+* `change_dir`: Direction de variation du z-score à surveiller.

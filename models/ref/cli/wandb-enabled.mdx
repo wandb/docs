@@ -5,7 +5,7 @@ title: wandb enabled
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/cli.py#L3518" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L3611" />
 
 
 
@@ -19,22 +19,22 @@ enabled [OPTIONS]
 
 Re-enable W&B after it was deactivated with `wandb disabled`.
 
-    Set the mode to `online` to restore full W&B functionality,
-    including cloud syncing and artifact storage.
+Set the mode to `online` to restore full W&B functionality,
+including cloud syncing and artifact storage.
 
-    Does not upload data logged while W&B was set to `disabled`, but allows
-    new data to be logged and synced.
+Does not upload data logged while W&B was set to `disabled`, but allows
+new data to be logged and synced.
 
-    To switch between online and offline modes without fully deactivating W&B,
-    use `wandb online` or `wandb offline` instead.
+To switch between online and offline modes without fully deactivating W&B,
+use `wandb online` or `wandb offline` instead.
 
-    For example, to restore W&B functionality after deactivating it with `wandb disabled`:
+For example, to restore W&B functionality after deactivating it with `wandb disabled`:
 
 ```bash
 wandb enabled
 ```
 
-    To run a training script with W&B logging and syncing restored:
+To run a training script with W&B logging and syncing restored:
 
 ```bash
 python train.py # Log and sync data to W&B

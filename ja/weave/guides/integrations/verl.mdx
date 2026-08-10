@@ -1,0 +1,91 @@
+---
+title: VERL
+description: "Weave で VERL のロールアウトをトレースし、RL ファインチューニング中のマルチターン会話、ツール呼び出し、報酬スコアリングを確認します。"
+---
+
+[VERL](https://github.com/volcengine/verl) (Volcano Engine Reinforcement Learning) は、LLM 向けのオープンソース RL ポストトレーニングフレームワークです。VERL には Weave トレースバックエンドが組み込まれており、W&amp;B がすでに記録しているトレーニングメトリクスとともに、LLM の生成とツール呼び出しをトレースできます。
+
+VERL で Weave を使用すると、次のことができます。
+
+* プロンプト、モデルの応答、ツールの呼び出しを含む各ロールアウトの軌跡を、ステップごとに確認できます。
+* ステップ、サンプルインデックス、ロールアウト番号、実験名で軌跡をフィルターできます。
+* 複数の軌跡を並べて比較し、トレーニングステップ全体にわたるエージェントの動作をデバッグできます。
+
+<div id="prerequisites">
+  ## 前提条件
+</div>
+
+* W&amp;Bアカウントと[APIキー](/ja/platform/app/settings-page/user-settings#api-keys)。
+* ロールアウトのトレースをサポートする VERL のインストール。ロールアウトのトレースは [verl#2345](https://github.com/volcengine/verl/pull/2345) で追加されました。
+* 非同期ロールアウトの設定。トレースは非同期ロールアウトにのみ適用され、同期ロールアウトはトレースされません。
+
+<div id="enable-weave-tracing">
+  ## Weave トレースを有効にする
+</div>
+
+VERL が W&amp;B アカウントで認証できるよう、環境変数に W&amp;B APIキーを設定します。
+
+```bash
+export WANDB_API_KEY=[YOUR-WANDB-API-KEY]
+```
+
+次に、VERL のトレーニングコマンドに次のフラグを追加します。
+
+* `actor_rollout_ref.rollout.trace.backend=weave`: トレースバックエンドとして Weave を選択します。
+* `actor_rollout_ref.rollout.mode=async`: vLLM または SGLang で非同期ロールアウトを有効にします。トレースは同期ロールアウトには影響しません。
+* `trainer.project_name`: トレースとメトリクスのログ先となる project を設定します。
+* `trainer.experiment_name`: 実験の名前を設定します。
+* `trainer.logger=['console','wandb']`: Weave とともに wandb ロガーを有効にし、メトリクスとトレースを同じ project に表示します。
+
+生成されるコマンドは次のようになります。
+
+```bash
+python -m verl.trainer.main_ppo \
+  actor_rollout_ref.rollout.trace.backend=weave \
+  actor_rollout_ref.rollout.mode=async \
+  trainer.project_name=[YOUR-PROJECT-NAME] \
+  trainer.experiment_name=[YOUR-EXPERIMENT-NAME] \
+  trainer.logger=['console','wandb'] \
+  # ... その他のトレーニングフラグ
+```
+
+Weave は、W&amp;B のプロジェクトと実験名に基づいて自動的に初期化されます。`weave.init()` を呼び出す必要はありません。
+
+<div id="tune-trace-volume">
+  ## トレース量を調整する
+</div>
+
+デフォルトでは、VERL はすべてのロールアウトのすべてのサンプルをトレースするため、非常に大量のトレースデータが生成される可能性があります。トレース量を制限するには、`ppo_trainer.yaml` 設定ファイルで次のフィールドを設定します。
+
+* `max_samples_per_step_per_worker`: 各トレーニングステップでワーカーがトレースする一意のサンプル数。デフォルトは `null` で、すべてのサンプルをトレースします。
+* `token2text`: `True` に設定すると、デコードされた `prompt_text` と `response_text` が `ToolAgentLoop.run` の出力に追加されます。パフォーマンス上の理由から、デフォルトは `False` です。Weave UI でプロンプトと Completions を直接確認する場合は有効にします。
+
+生成されるフィールドは、file 内では次のようになります。
+
+```yaml
+actor_rollout_ref:
+  rollout:
+    trace:
+      backend: weave
+      token2text: False
+      max_samples_per_step_per_worker: 5
+```
+
+<div id="view-traces">
+  ## トレースを表示する
+</div>
+
+トレーニング中に出力されたトレースを表示するには、W&amp;B のプロジェクトページを開き、**トレース** を選択します。各トレースはロールアウトの軌跡に対応します。
+
+複数のトレースを選択し、Weave の比較ビューを使用して軌跡間の差分を確認できます。これにより、トレーニングステップや実験にまたがるエージェントの動作の変化をデバッグできます。
+
+<div id="trace-additional-functions">
+  ## 追加の関数をトレースする
+</div>
+
+VERL には、デフォルトのトレース対象範囲を拡張するためのヘルパーが 2 つあります。
+
+* `rollout_trace_op`: `weave.op` に対応するデコレータで、クラスインスタンスのメソッドをトレース対象としてマークします。デフォルトでデコレートされるメソッドは少数です。カスタムのエージェントループやツール実装のメソッドにこのデコレータを追加すると、より詳細な情報を取得できます。
+* `rollout_trace_attr`: 軌跡のエントリをマークし、軌跡のメタデータ (サンプルインデックス、ステップ、ロールアウト番号、実験名) を関連付けるコンテキストマネージャです。新しいエージェントタイプを導入する場合は、軌跡のエントリポイントを `rollout_trace_attr` でラップして、トレースを run に関連付けます。
+
+設定の詳細については、[VERL の rollout trace ドキュメント](https://verl.readthedocs.io/en/latest/advance/rollout_trace.html)を参照してください。

@@ -1,47 +1,55 @@
 ---
 title: Automation
-namespace: automations_namespace
-python_object_type: class
+kind: class
+namespace: wandb.automations.automations
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/automations.py" />
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/automations.py#L19" />
 
 
 
-## <kbd>class</kbd> `Automation`
+## <kbd>class</kbd> wandb.automations.Automation
+```python
+*,
+__typename: Literal['Trigger'] = 'Trigger',
+id: Annotated[str, Strict(strict=True)],
+createdAt: datetime.datetime,
+updatedAt: datetime.datetime | None = None,
+name: str,
+description: str | None,
+enabled: bool,
+scope: Annotated[Union[wandb.automations.scopes._ArtifactSequenceScope, wandb.automations.scopes._ArtifactPortfolioScope, wandb.automations.scopes.ProjectScope, Annotated[wandb.automations.scopes.TeamScope | wandb.automations.scopes.OrgScope, BeforeValidator(func=<function parse_scope>, json_schema_input_type=PydanticUndefined), Discriminator(discriminator='entity_type', custom_error_type=None, custom_error_message=None, custom_error_context=None)]], BeforeValidator(func=<function parse_scope>, json_schema_input_type=PydanticUndefined), Discriminator(discriminator='typename__', custom_error_type=None, custom_error_message=None, custom_error_context=None)],
+event: wandb.automations.events.SavedEvent,
+action: Annotated[wandb.automations.actions.SavedLaunchJobAction | wandb.automations.actions.SavedNotificationAction | wandb.automations.actions.SavedWebhookAction | wandb.automations.actions.SavedNoOpAction, BeforeValidator(func=<function parse_saved_action>, json_schema_input_type=PydanticUndefined)]
+```
+
+
+
 A local instance of a saved W&B automation that supports editing.
 
 
-### <kbd>method</kbd> `Automation.__init__`
 
-```python
-__init__(
-    typename__: 'Literal['Trigger']' = 'Trigger',
-    id: 'str',
-    created_at: 'datetime',
-    updated_at: 'datetime.datetime | None' = None,
-    name: 'str',
-    description: 'str | None',
-    enabled: 'bool',
-    scope: 'wandb.automations.scopes._ArtifactSequenceScope | wandb.automations.scopes._ArtifactPortfolioScope | wandb.automations.scopes.ProjectScope',
-    event: 'SavedEvent',
-    action: 'wandb.automations.actions.SavedLaunchJobAction | wandb.automations.actions.SavedNotificationAction | wandb.automations.actions.SavedWebhookAction | wandb.automations.actions.SavedNoOpAction'
-) → None
-```
+## Args
 
-**Args:**
- 
- - `typename__` (Literal['Trigger']): 
- - `id` (str): 
- - `created_at` (datetime): The date and time when this automation was created.
- - `updated_at` (datetime.datetime | None): The date and time when this automation was last updated, if applicable.
- - `name` (str): The name of this automation.
- - `description` (str | None): An optional description of this automation.
- - `enabled` (bool): Whether this automation is enabled.  Only enabled automations will trigger.
- - `scope` (wandb.automations.scopes._ArtifactSequenceScope | wandb.automations.scopes._ArtifactPortfolioScope | wandb.automations.scopes.ProjectScope): The scope in which the triggering event must occur.
- - `event` (SavedEvent): The event that will trigger this automation.
- - `action` (wandb.automations.actions.SavedLaunchJobAction | wandb.automations.actions.SavedNotificationAction | wandb.automations.actions.SavedWebhookAction | wandb.automations.actions.SavedNoOpAction): The action that will execute when this automation is triggered.
+- `id`: 
+- `createdAt`: The date and time when this automation was created.
+- `updatedAt`: The date and time when this automation was last updated, if applicable.
+- `name`: The name of this automation.
+- `description`: An optional description of this automation.
+- `enabled`: Whether this automation is enabled.  Only enabled automations will trigger.
+- `scope`: The scope in which the triggering event must occur.
+- `event`: The event that will trigger this automation.
+- `action`: The action that will execute when this automation is triggered.
 
-**Returns:**
- An `Automation` object.
+
+
+
+
+
+
+
+
+

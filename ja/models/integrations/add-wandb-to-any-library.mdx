@@ -246,10 +246,6 @@ W&amp;B では、設定パラメーターに基づいて run を比較したり�
 
 たとえば、次の画像では、バッチサイズ (`batch_size`) が設定パラメーターとして定義されており、Runs table に表示されています (最初の列を参照) 。これにより、ユーザーはバッチサイズに基づいて run をフィルターし、比較できます。
 
-<Frame>
-  <img src="/images/integrations/integrations_add_any_lib_runs_page.png" alt="W&B Runs table" />
-</Frame>
-
 一般的な設定パラメーターの値には、次のようなものがあります。
 
 * モデル名、バージョン、アーキテクチャーパラメーター、ハイパーパラメーター。
@@ -316,10 +312,6 @@ with wandb.init(...) as run:
     run.log(metrics)
 ```
 
-<Frame>
-  <img src="/images/integrations/integrations_add_any_lib_log.png" alt="W&B Workspace" />
-</Frame>
-
 詳しくは [`wandb.Run.log()`](/ja/models/ref/python/experiments/run#method-run-log) を参照してください。
 
 <div id="control-the-x-axis">
@@ -385,10 +377,6 @@ for step, (input, ground_truth) in enumerate(data):
 メトリクスに加えて、ユーザーが Runs を再現して比較できるように、ライブラリが生成または使用するモデルとデータセットを永続化できます。
 
 [W&amp;B Artifacts](/ja/models/artifacts/) を使用して、モデルとデータセットをトラッキングし、バージョン管理できます。アーティファクト は機械学習アセットのストレージとバージョン管理を提供し、データとモデルの関連性を示すリネージを自動的にトラッキングします。
-
-<Frame>
-  <img src="/images/integrations/integrations_add_any_lib_dag.png" alt="W&B に保存された Datasets とモデル チェックポイント" />
-</Frame>
 
 ライブラリに アーティファクト を統合する際は、次の点を考慮してください。
 

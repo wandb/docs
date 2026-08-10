@@ -82,7 +82,7 @@ import { generateText } from "ai";
 export async function POST(req: Request) {
   const { prompt } = await req.json();
 
-// Add experiment_telemetry field to function.
+// Add experimental_telemetry field to function.
   const result = await generateText({
     model: openai("gpt-4o-mini"),
     prompt,
@@ -129,7 +129,7 @@ const provider = new NodeTracerProvider({
 
 provider.register();
 
-// Add experiment_telemetry field to function.
+// Add experimental_telemetry field to function.
 async function main() {
   const result = await generateText({
     model: openai("gpt-4o-mini"),
