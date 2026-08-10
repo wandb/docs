@@ -362,6 +362,35 @@ Allow new users within your organization to discover teams within your organizat
 An organization admin must enable domain claiming. To enable domain capture, see the steps described in [Domain capture](#domain-capture).
 
 
+### View team member status
+
+<Note>
+The **Status** column is available on Dedicated Cloud and Self-Managed deployments only.
+</Note>
+
+The **Status** column in a team's member list shows whether each member can sign in. Use it to tell an active member apart from one who hasn't accepted their invitation yet or whose account an organization admin deactivated.
+
+To view the status of a team's members:
+
+1. Navigate to `https://wandb.ai/<team-name>`.
+2. Select **Team settings** in the left navigation bar.
+3. Select the **Users** tab.
+
+Each member's status is one of the following:
+
+| Status   |   Definition   |
+|-----------|---------------------------|
+| Active | The member accepted their invitation and can sign in. |
+| Invite pending | W&B sent an invitation, but the member hasn't accepted it yet. |
+| Deactivated | An organization admin deactivated the account. The member can't sign in to the organization or any of its teams. |
+
+Deactivated members remain in a team's member list, and any runs they logged to the team remain attributed to them. For a deactivated member, the **Team Role**, **Models Seat**, and **Weave Access** columns also read **Deactivated** instead of a role or seat, and you can't change their role or copy a team invite link.
+
+To filter the list by status, enter a status such as **Deactivated** in the search field.
+
+To review the status of every user in the organization rather than a single team, see [View organization activity](/platform/hosting/monitoring-usage/org_dashboard#view-user-status-and-activity). From here, an organization admin can deactivate or reactivate a user. 
+To deactivate or reactivate a user with SCIM instead, see [Deactivate user](/platform/hosting/iam/scim#deactivate-user) and [Reactivate user](/platform/hosting/iam/scim#reactivate-user).
+
 ### Assign or update a team member's role
 
 A team member's role determines what they can do within the team, such as managing other members, contributing content, or viewing data only. Update a team member's role when their responsibilities within the team change.

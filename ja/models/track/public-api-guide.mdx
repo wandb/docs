@@ -19,22 +19,6 @@ Public API を使用して、W&amp;B に保存したデータをエクスポー�
 
 利用可能な関数の詳細は、[Generated Reference Docs](/ja/models/ref/python/public-api/) を参照してください。
 
-<div id="create-an-api-key">
-  ### APIキーを作成する
-</div>
-
-APIキーは、マシンをW&amp;Bに認証するために使用します。
-
-<ApiKeyCreate />
-
-<ApiKeySecurity />
-
-<div id="find-the-run-path">
-  ### run パスを検索する
-</div>
-
-Public APIを使用するには、多くの場合、`<entity>/<project>/<run_id>` 形式の run パスが必要です。アプリのUIで Run のページを開き、[Overview タブ](/ja/models/track/public-api-guide/#overview-tab)をクリックすると、run パスを確認できます。
-
 <div id="export-run-data">
   ### run データをエクスポート
 </div>
@@ -57,56 +41,6 @@ run オブジェクトで最もよく使用される属性は次のとおりで�
 | `run.summary`   | run の結果を要約した情報を格納する辞書です。accuracy や損失のようなスカラー値の場合もあれば、大きなファイルの場合もあります。デフォルトでは、`run.log()` はログした時系列の最終値を summary に設定します。summary の内容は直接設定することもできます。summary は run の出力と考えてください。 |
 
 過去の run のデータを変更または更新することもできます。デフォルトでは、api object の単一インスタンスがすべてのネットワーク request をキャッシュします。実行中のスクリプトでリアルタイムの情報が必要な場合は、`api.flush()` を呼び出して更新された値を取得してください。
-
-<div id="understanding-different-run-attributes">
-  ### さまざまなrunの属性を理解する
-</div>
-
-次のコードスニペットは、runを作成し、いくつかのデータをログした後、runの属性にアクセスする方法を示しています。
-
-```python
-import wandb
-import random
-
-with wandb.init(project="public-api-example") as run:
-    n_epochs = 5
-    config = {"n_epochs": n_epochs}
-    run.config.update(config)
-    for n in range(run.config.get("n_epochs")):
-        run.log(
-            {"val": random.randint(0, 1000), "loss": (random.randint(0, 1000) / 1000.00)}
-        )
-```
-
-以下のセクションでは、上記のrunオブジェクトの属性ごとのさまざまな出力について説明します。
-
-<div id="runconfig">
-  #### `run.config`
-</div>
-
-```python
-{"n_epochs": 5}
-```
-
-<div id="runsummary">
-  #### `run.summary`
-</div>
-
-```python
-{
-    "_step": 4,
-    "_timestamp": 1644345412,
-    "_wandb": {"runtime": 3},
-    "loss": 0.041,
-    "val": 525,
-}
-```
-
-<div id="sampling">
-  ### サンプリング
-</div>
-
-デフォルトのhistory methodでは、メトリクスが固定数のサンプルにサンプリングされます (デフォルトは500で、`samples` 引数で変更できます) 。大規模なrunのすべてのデータをエクスポートする場合は、`run.scan_history()` methodを使用できます。詳細は、[API Reference](/ja/models/ref/python/public-api)を参照してください。
 
 <div id="querying-multiple-runs">
   ### 複数の Runs をクエリする
@@ -171,12 +105,6 @@ with wandb.init(project="public-api-example") as run:
 
 W&amp;B サーバーとの通信中にエラーが発生すると、`wandb.CommError` が送出されます。元の例外は `exc` 属性から確認できます。
 
-<div id="get-the-latest-git-commit-through-the-api">
-  ### API を使って最新の git コミットを取得する
-</div>
-
-UI で run をクリックし、続けて run ページの Overview タブをクリックすると、最新の git コミットを確認できます。これは `wandb-metadata.json` ファイルにも含まれています。Public API を使用すると、`run.commit` で git ハッシュを取得できます。
-
 <div id="get-a-runs-name-and-id-during-an-active-run">
   ### アクティブな run の実行中に run 名と ID を取得する
 </div>
@@ -197,12 +125,6 @@ run に役立つ識別子を設定する方法を検討している場合は、�
   ## Public APIの例
 </div>
 
-<div id="export-data-to-visualize-in-matplotlib-or-seaborn">
-  ### matplotlib または seaborn で可視化するためにデータをエクスポートする
-</div>
-
-一般的なエクスポート方法については、[API examples](/ja/models/ref/python/public-api/)を参照してください。カスタムプロットまたは展開したRuns tableのダウンロードボタンをクリックすると、ブラウザからCSVをダウンロードすることもできます。
-
 <div id="read-metrics-from-a-run">
   ### run のメトリクスを読み取る
 </div>
@@ -218,23 +140,6 @@ run = api.run("<entity>/<project>/<run_id>")
 if run.state == "finished":
     for i, row in run.history().iterrows():
         print(row["_timestamp"], row["accuracy"])
-```
-
-<div id="filter-runs">
-  ### Runs をフィルタリングする
-</div>
-
-MongoDB Query Language を使用してフィルタリングできます。
-
-<div id="date">
-  #### 日付
-</div>
-
-```python
-runs = api.runs(
-    "<entity>/<project>",
-    {"$and": [{"created_at": {"$lt": "YYYY-MM-DDT##", "$gt": "YYYY-MM-DDT##"}}]},
-)
 ```
 
 <div id="read-specific-metrics-from-a-run">
@@ -290,7 +195,7 @@ optimizer                             rmsprop                 adam
   ### 完了した run のメトリクスを更新する
 </div>
 
-この例では、以前の run の精度を `0.9` に設定します。また、以前の run の精度ヒストグラムを `numpy_array` のヒストグラムに置き換えます。
+この例では、以前の run のaccuracyを `0.9` に設定します。
 
 ```python
 import wandb
@@ -299,7 +204,6 @@ api = wandb.Api()
 
 run = api.run("<entity>/<project>/<run_id>")
 run.summary["accuracy"] = 0.9
-run.summary["accuracy_histogram"] = wandb.Histogram(numpy_array)
 run.summary.update()
 ```
 
@@ -339,6 +243,8 @@ run = api.run("<entity>/<project>/<run_id>")
 run.config["key"] = updated_value
 run.update()
 ```
+
+詳細については、[実験の設定](/ja/models/track/config#existing-run)を参照してください。
 
 <div id="export-system-resource-consumptions-to-a-csv-file">
   ### システムリソースの使用量をCSVファイルにエクスポートする
@@ -599,3 +505,7 @@ run = api.run("<entity>/<project>/<run_id>")
 meta = json.load(run.file("wandb-metadata.json").download())
 program = ["python"] + [meta["program"]] + meta["args"]
 ```
+
+{/* ### サンプリング
+
+  デフォルトの history メソッドでは、メトリクスを固定数のサンプルにサンプリングします（デフォルトは 500 で、`samples` 引数で変更できます）。大規模な run のすべてのデータをエクスポートする場合は、`run.scan_history()` メソッドを使用できます。詳細については、[API リファレンス](/models/ref/python/public-api) を参照してください。  */}
