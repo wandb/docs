@@ -336,6 +336,15 @@ def convert_to_mintlify_format(docs_dir):
         # drop them to keep bare symbol names in the nav.
         title_fixed = re.sub(r'\(\)$', '', title_fixed)
 
+        # When two exports share a name, TypeDoc disambiguates the *filename*
+        # with a -N suffix (Session.md / Session-1.md) but keeps the same
+        # in-page title, which would surface as identical entries in the
+        # nav. Carry the suffix into the title so the pages stay
+        # distinguishable.
+        collision = re.match(r'^(.*)-(\d+)$', md_file.stem)
+        if collision and title_fixed.lower() == collision.group(1).lower():
+            title_fixed = f"{title_fixed}-{collision.group(2)}"
+
         # Escape MDX-hostile characters in the body before the frontmatter is
         # prepended (the quoted YAML title must keep its bare < and >).
         content = _escape_mdx_hostile_chars(content)
@@ -439,6 +448,23 @@ description: "TypeScript SDK reference"
             # Just ensure .md extension is removed (already done above)
             pass
         
+        # Where a link's label matches the base name of a collision-suffixed
+        # target (e.g. [~~Session~~](.../session-1)), carry the suffix into
+        # the label — mirroring the frontmatter-title disambiguation — so
+        # index lists don't show identical labels for different pages.
+        def _dedupe_collision_link_label(m):
+            strike, label, target = m.group(1) or '', m.group(2), m.group(3)
+            stem_match = re.match(r'^(.*)-(\d+)$', target.split('/')[-1])
+            if stem_match and stem_match.group(1) == label.lower():
+                return f'[{strike}{label}-{stem_match.group(2)}{strike}]({target})'
+            return m.group(0)
+
+        content = re.sub(
+            r'\[(~~)?([A-Za-z_$][\w$]*)\1?\]\(([^)#\s]+)\)',
+            _dedupe_collision_link_label,
+            content,
+        )
+
         # Write as .mdx file with lowercase filename (avoid Git case sensitivity issues)
         lowercase_stem = md_file.stem.lower()
         mdx_file = md_file.parent / f"{lowercase_stem}.mdx"
