@@ -1302,7 +1302,6 @@
                           "weave/reference/typescript-sdk/type-aliases/response",
                           "weave/reference/typescript-sdk/type-aliases/role",
                           "weave/reference/typescript-sdk/type-aliases/session",
-                          "weave/reference/typescript-sdk/type-aliases/session-1",
                           "weave/reference/typescript-sdk/type-aliases/sessioninit",
                           "weave/reference/typescript-sdk/type-aliases/settings"
                         ]
