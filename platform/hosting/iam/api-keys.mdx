@@ -37,18 +37,24 @@ Organization admins, team admins, and members manage keys from the **API Keys** 
 <Tabs>
 <Tab title="Multi-tenant Cloud">
 1. Click your profile icon in the upper right, then select your organization.
-2. Go to your organization's account settings.
-3. Click the **API Keys** tab.
+2. Navigate to `https://wandb.ai/account-settings/[ORGANIZATION]/api-keys`. Replace `[ORGANIZATION]` with your organization name.
+
+   The **API Keys** tab lists the keys you have permission to see.
 </Tab>
 <Tab title="Dedicated Cloud and Self-Managed">
-- Go to `/org/api-keys` on your W&B host.
+1. Navigate to the **Organization Dashboard**:
+   - **Dedicated Cloud**: `https://[ORG-NAME].io/org/dashboard/`. Replace `[ORG-NAME]` with your organization name.
+   - **Self-Managed**: `https://[YOUR-W&B-SERVER-IP]/org/dashboard`. Replace `[YOUR-W&B-SERVER-IP]` with your deployment's IP address.
+2. Click the **API Keys** tab.
+
+   The tab lists the keys you have permission to see.
 </Tab>
 </Tabs>
 
 To find only your own personal API keys, click your profile icon, then click **User Settings** and scroll to **API Keys**. See [User settings](/platform/app/settings-page/user-settings#api-keys).
 
 <Note>
-Users whose only role is billing admin can't see the **API Keys** tab.
+In Multi-tenant Cloud, users whose organization role is billing admin can't see the **API Keys** tab. In Dedicated Cloud and Self-Managed, the tab isn't restricted by billing role.
 </Note>
 
 ### Key visibility by role
@@ -60,6 +66,7 @@ The keys listed in the **API Keys** tab depend on your role:
 | Member | Their own organization-scoped keys |
 | Team admin | Their own organization-scoped keys, and keys for service accounts in teams they administer |
 | Organization admin | All organization-scoped keys in the organization, including organization service account keys |
+| Billing admin | In Multi-tenant Cloud, nothing. The **API Keys** tab is hidden for this role. In Dedicated Cloud and Self-Managed, the same keys as a member |
 
 ### Read the API keys table
 
@@ -72,7 +79,7 @@ The table lists each key with the following columns:
 - **Created on**: When the key was created.
 
 <Note>
-For security, the table shows only the key ID. W&B displays the full secret key once, when you create it. If you no longer have the full secret for a key, create a new key instead.
+For security, the table shows only the key ID. W&B displays the full secret key once, when you create it. If you no longer have the full secret for a key, [rotate the key](#rotate-an-api-key).
 </Note>
 
 To narrow the list, type in the search field to match a key name, key ID, or owner, or click **Filters** to filter by attributes such as key type.
@@ -89,11 +96,19 @@ To narrow the list, type in the search field to match a key name, key ID, or own
 
 In Multi-tenant Cloud, keys you create from this tab are scoped to the organization you're viewing. Create a separate key for each organization you work in.
 
+### Rename an API key
+
+Rename a key to record what uses it, which makes an unfamiliar key easier to trace later. Renaming doesn't change the key's secret and doesn't interrupt anything that uses it.
+
+1. Find the key in the table.
+2. Click the actions menu at the end of the key's row, then click **Edit**.
+3. Enter a new name, then save.
+
 ### Delete API keys
 
 Delete a key when you no longer need it, or immediately if it may have been exposed.
 
-To delete a single key, find it in the table, open the actions menu at the end of its row, then select the delete action and confirm.
+To delete a single key, find it in the table, click the actions menu at the end of its row, then click **Delete** and confirm.
 
 To delete several keys at once:
 
@@ -103,6 +118,23 @@ To delete several keys at once:
 
 <Warning>
 Deleting a key immediately revokes access for any script or service that uses it. Update your systems to use a replacement key before you delete the old one.
+</Warning>
+
+### Rotate an API key
+
+Rotate a key on a schedule that matches your security policy, and immediately if a key may have been exposed. Rotate a key rather than delete it when the workloads that use it must keep running.
+
+W&B has no single rotate action. Because a key's full secret is shown only at creation, you rotate a key by replacing it:
+
+1. Create a new API key. Give it a name that distinguishes it from the key you're replacing.
+2. Update every script, job, and stored secret that uses the old key. For storage options, see [Store and handle API keys securely](#store-and-handle-api-keys-securely).
+3. Confirm that your workloads authenticate with the new key.
+4. Delete the old key.
+
+Until you complete the last step, both keys work. This overlap is what lets you rotate without downtime, so keep it short.
+
+<Warning>
+If a key was exposed publicly, delete it immediately rather than waiting to update your systems. An exposed key stays valid until you delete it.
 </Warning>
 
 ## Restrict how members use API keys
