@@ -1,32 +1,60 @@
 ---
 title: OpenAI Realtime API
 description: Use Weave to automatically trace your calls to the OpenAI Realtime API.
-keywords: ["speech-to-speech", "voice assistant", "WebSockets", "Agents SDK", "audio tracing"]
+keywords: ["speech-to-speech", "voice assistant", "WebSockets", "Agents SDK", "audio tracing", "TypeScript"]
 ---
 
 Weave's integration with [OpenAI's Realtime API](https://developers.openai.com/api/docs/guides/realtime/) lets you automatically trace your application's speech-to-speech interactions as they occur. You can use this to capture conversations between your agents and users to review and evaluate agent performance.
 
-This guide shows you how to enable Realtime API tracing in your application and walks through two end-to-end voice assistant examples that you can run locally.
+This guide shows you how to enable Realtime API tracing in your application and walks through end-to-end examples in Python and TypeScript that you can run locally.
 
 ## Integrate realtime traces
 
 This section shows the minimum code needed to enable Weave tracing for the OpenAI Realtime API in any application.
 
-Weave automatically patches into the OpenAI Realtime API and only requires a few additional lines of code to start capturing audio interactions from your application. The following code imports Weave and the Realtime API integration:
+<Tabs>
+  <Tab title="Python">
+  Weave automatically patches into the OpenAI Realtime API and only requires a few additional lines of code to start capturing audio interactions from your application. The following code imports Weave and the Realtime API integration:
 
-```python lines {2,5}
-import weave
-from weave.integrations import patch_openai_realtime
+  ```python lines {2,5}
+  import weave
+  from weave.integrations import patch_openai_realtime
 
-weave.init("your-team-name/your-project-name")
-patch_openai_realtime()
+  weave.init("your-team-name/your-project-name")
+  patch_openai_realtime()
 
-# Your application's logic
-```
+  # Your application's logic
+  ```
 
-Once imported into your code and executed, Weave automatically traces the interactions between the user and the OpenAI Realtime API.
+  Once imported into your code and executed, Weave automatically traces the interactions between the user and the OpenAI Realtime API.
+  </Tab>
+  <Tab title="TypeScript">
+  In TypeScript, Weave traces the Realtime API through the [OpenAI Agents SDK](https://openai.github.io/openai-agents-js/). Importing Weave automatically instruments every `RealtimeSession` from `@openai/agents-realtime`, so you don't need to call a patch function. Initializing your Weave project is the only required step:
 
-### Run a realtime voice assistant with the OpenAI Agents SDK
+  ```typescript twoslash
+  // @noErrors
+  import * as weave from 'weave';
+
+  await weave.init('your-team-name/your-project-name');
+
+  // Your application's logic
+  ```
+
+  If your setup bypasses the Node.js module loader hooks that Weave uses for automatic instrumentation, such as dynamic imports or certain bundlers, call [`patchRealtimeSession()`](/weave/reference/typescript-sdk/functions/patchrealtimesession) once at startup before your application constructs any sessions:
+
+  ```typescript twoslash
+  // @noErrors
+  import { patchRealtimeSession } from 'weave';
+
+  await patchRealtimeSession();
+  ```
+  </Tab>
+</Tabs>
+
+### Run a realtime agent with the OpenAI Agents SDK
+
+<Tabs>
+  <Tab title="Python">
 
 This example runs a realtime voice assistant that streams microphone audio to OpenAI's Realtime API and plays back the AI's spoken responses through your local machine's speaker. The application uses the OpenAI Agents SDK with `RealtimeAgent` and `RealtimeRunner`, and enables Weave tracing by patching with `patch_openai_realtime()`. Use this approach when you want the higher-level Agents SDK to manage the Realtime session for you.
 
@@ -34,18 +62,14 @@ To run the example, complete the following steps:
 
 1. Start your Python environment and install the following libraries:
 
-    <Tabs>
-      <Tab title="uv">
-      ```bash
-      uv add weave openai-agents websockets pyaudio numpy
-      ```
-      </Tab>
-      <Tab title="pip">
-      ```bash
-      pip install weave openai-agents websockets pyaudio numpy
-      ```
-      </Tab>
-    </Tabs>
+    <CodeGroup>
+    ```bash uv
+    uv add weave openai-agents websockets pyaudio numpy
+    ```
+    ```bash pip
+    pip install weave openai-agents websockets pyaudio numpy
+    ```
+    </CodeGroup>
 
 1. Create a file titled `weave_voice_assistant.py` and add the following code to it.
 
@@ -282,26 +306,133 @@ Once the assistant is running, press `T` on your keyboard to mute or unmute the 
 
 As you speak to the assistant, Weave captures traces that you can explore in the Weave UI, including the audio from the session.
 
+  </Tab>
+  <Tab title="TypeScript">
+
+This example creates a realtime agent with `RealtimeAgent` and `RealtimeSession`, gives it a weather tool, and sends it a text message. Weave instruments the session automatically when you import it, and captures the session, generations, tool calls, and audio output as traces.
+
+To run the example, complete the following steps:
+
+1. In a new directory, set up a Node.js project with TypeScript and install the following libraries:
+
+    ```bash
+    npm init -y
+    npm install weave @openai/agents zod
+    npm install --save-dev typescript @types/node
+    npx tsc --init
+    ```
+
+1. Create a file titled `weave_realtime_agent.ts` and add the following code to it.
+
+    The highlighted lines indicate Weave's integration in the application. The rest of the code creates the basic realtime agent.
+
+    <Accordion title="weave_realtime_agent.ts">
+    ```typescript lines {1,32,34-36}
+    import * as weave from 'weave';
+    import {RealtimeAgent, RealtimeSession, tool} from '@openai/agents/realtime';
+    import {z} from 'zod';
+
+    const WEAVE_PROJECT = '<your-team-name/your-project-name>';
+
+    // Simulated weather lookup tool for the agent to call.
+    const getWeatherTool = tool({
+      name: 'get_weather',
+      description: 'Get the current weather for a given city.',
+      parameters: z.object({
+        city: z.string().describe('The name of the city'),
+      }),
+      async execute({city}) {
+        const weather: Record<string, string> = {
+          'San Francisco': '65°F, foggy',
+          'New York': '72°F, sunny',
+          London: '55°F, cloudy',
+        };
+        return weather[city] ?? '70°F, clear';
+      },
+    });
+
+    const agent = new RealtimeAgent({
+      name: 'Assistant',
+      instructions:
+        'You are a helpful voice assistant. Keep responses concise because this is a voice conversation.',
+      tools: [getWeatherTool],
+    });
+
+    async function main() {
+      await weave.init(WEAVE_PROJECT);
+
+      // Weave instruments `@openai/agents-realtime` automatically when imported.
+      // If your setup bypasses module loader hooks, uncomment the following line:
+      // await weave.patchRealtimeSession();
+
+      const apiKey = process.env.OPENAI_API_KEY;
+      if (!apiKey) throw new Error('OPENAI_API_KEY is required');
+
+      const session = new RealtimeSession(agent);
+
+      // Print the assistant's text responses as the conversation history updates.
+      session.on('history_updated', history => {
+        const last = history[history.length - 1];
+        if (last?.type === 'message' && last.role === 'assistant') {
+          const text = (last.content ?? [])
+            .filter((c: any) => c.type === 'output_text')
+            .map((c: any) => c.text)
+            .join('');
+          if (text) console.log(`\nAssistant: ${text}`);
+        }
+      });
+
+      session.on('error', event => {
+        console.error('[error]', event.error);
+      });
+
+      console.log('Connecting...');
+      await session.connect({apiKey});
+      console.log('Connected.');
+
+      session.sendMessage('What is the weather like in San Francisco?');
+
+      // Wait for the response, then disconnect.
+      await new Promise<void>(resolve => setTimeout(resolve, 10_000));
+
+      session.close();
+      console.log('\nDone.');
+    }
+
+    main().catch(console.error);
+    ```
+    </Accordion>
+
+1. Update the `WEAVE_PROJECT` value with your team and project names.
+1. Set your `OPENAI_API_KEY` and `WANDB_API_KEY` environment variables.
+1. Compile and run the agent:
+
+    ```bash
+    npx tsc
+    node weave_realtime_agent.js
+    ```
+
+The agent connects to the Realtime API, asks about the weather in San Francisco, calls the weather tool, and prints the assistant's response before disconnecting. In the Weave UI, you can explore the resulting trace, including the session, the generation, the tool call, and the assistant's audio output.
+
+  </Tab>
+</Tabs>
+
 ### Run a realtime voice assistant with WebSockets
 
-The following example connects directly to the OpenAI Realtime API over WebSockets. It streams microphone audio to the API, plays back spoken responses, and supports tool calling (weather lookups, math evaluation, code execution, and file writing). Weave traces the session using `weave.init()` and `patch_openai_realtime()`. Use this approach when you want full control over the Realtime session without depending on the Agents SDK.
+The following Python example connects directly to the OpenAI Realtime API over WebSockets. It streams microphone audio to the API, plays back spoken responses, and supports tool calling (weather lookups, math evaluation, code execution, and file writing). Weave traces the session using `weave.init()` and `patch_openai_realtime()`. Use this approach when you want full control over the Realtime session without depending on the Agents SDK.
 
 To run the example, complete the following steps:
 
 1. Start your Python environment and install the following libraries:
 
-    <Tabs>
-      <Tab title="uv">
-      ```bash
-      uv add weave websockets pyaudio numpy
-      ```
-      </Tab>
-      <Tab title="pip">
-      ```bash
-      pip install weave websockets pyaudio numpy
-      ```
-      </Tab>
-    </Tabs>
+    <CodeGroup>
+    ```bash uv
+    uv add weave websockets pyaudio numpy
+    ```
+    ```bash pip
+    pip install weave websockets pyaudio numpy
+    ```
+    </CodeGroup>
 
 1. Create a file titled `tool_definitions.py` and add the following tool definitions to it. The main application imports from this module.
 
