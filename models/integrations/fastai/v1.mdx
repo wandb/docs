@@ -5,10 +5,10 @@ description: "Use the W&B callback with fastai v1 to log model topology, losses,
 
 <Note>
 This documentation is for fastai v1.
-If you use the current version of fastai, you should refer to [fastai page](../).
+If you use the current version of fastai, see the [fastai page](../).
 </Note>
 
-For scripts using fastai v1, we have a callback that can automatically log model topology, losses, metrics, weights, gradients, sample predictions and best trained model.
+For fastai v1 scripts, W&B provides a callback that automatically logs model topology, losses, metrics, weights, gradients, sample predictions, and the best trained model.
 
 ```python
 import wandb
@@ -20,7 +20,7 @@ learn = cnn_learner(data, model, callback_fns=WandbCallback)
 learn.fit(epochs)
 ```
 
-Requested logged data is configurable through the callback constructor.
+You can configure what data to log through the callback constructor.
 
 ```python
 from functools import partial
@@ -30,13 +30,13 @@ learn = cnn_learner(
 )
 ```
 
-It is also possible to use WandbCallback only when starting training. In this case it must be instantiated.
+You can also use `WandbCallback` only when starting training. In this case, you must instantiate it.
 
 ```python
 learn.fit(epochs, callbacks=WandbCallback(learn))
 ```
 
-Custom parameters can also be given at that stage.
+You can also pass custom parameters at that stage.
 
 ```python
 learn.fit(epochs, callbacks=WandbCallback(learn, input_type="images"))
@@ -44,25 +44,23 @@ learn.fit(epochs, callbacks=WandbCallback(learn, input_type="images"))
 
 ## Example code
 
-We've created a few examples for you to see how the integration works:
+The following examples show how the integration works:
 
-**Fastai v1**
-
-* [Classify Simpsons characters](https://github.com/borisdayma/simpsons-fastai)[: ](https://app.wandb.ai/jxmorris12/huggingface-demo/reports/A-Step-by-Step-Guide-to-Tracking-Hugging-Face-Model-Performance--VmlldzoxMDE2MTU)A simple demo to track and compare Fastai models
-* [Semantic Segmentation with Fastai](https://github.com/borisdayma/semantic-segmentation): Optimize neural networks on self-driving cars
+* [Classify Simpsons characters](https://github.com/borisdayma/simpsons-fastai): A demo to track and compare fastai models. See the [step-by-step guide](https://app.wandb.ai/jxmorris12/huggingface-demo/reports/A-Step-by-Step-Guide-to-Tracking-Hugging-Face-Model-Performance--VmlldzoxMDE2MTU).
+* [Semantic segmentation with fastai](https://github.com/borisdayma/semantic-segmentation): Optimize neural networks on self-driving cars.
 
 ## Options
 
-`WandbCallback()` class supports a number of options:
+The `WandbCallback()` class supports several options:
 
-| Keyword argument | Default   | Description                                                                                              |
-| ---------------- | --------- | -------------------------------------------------------------------------------------------------------- |
-| learn            | N/A       | the fast.ai learner to hook.                                                                             |
-| save_model       | True      | save the model if it's improved at each step. It will also load best model at the end of training.       |
-| mode             | auto      | `min`, `max`, or `auto`: How to compare the training metric specified in `monitor` between steps.        |
-| monitor          | None      | training metric used to measure performance for saving the best model. None defaults to validation loss. |
-| log              | gradients | `gradients`, `parameters`, `all`, or None. Losses & metrics are always logged.                           |
-| input_type       | None      | `images` or `None`. Used to display sample predictions.                                                    |
-| validation_data  | None      | data used for sample predictions if `input_type` is set.                                                   |
-| predictions      | 36        | number of predictions to make if `input_type` is set and `validation_data` is `None`.                          |
-| seed             | 12345     | initialize random generator for sample predictions if `input_type` is set and `validation_data` is `None`.     |
+| Keyword argument | Default     | Description                                                                                              |
+| ---------------- | ----------- | -------------------------------------------------------------------------------------------------------- |
+| `learn`          | N/A         | The fast.ai learner to hook.                                                                             |
+| `save_model`     | `True`      | Save the model if it's improved at each step. It also loads the best model at the end of training.       |
+| `mode`           | `auto`      | `min`, `max`, or `auto`. How to compare the training metric specified in `monitor` between steps.        |
+| `monitor`        | `None`      | Training metric used to measure performance for saving the best model. `None` defaults to validation loss. |
+| `log`            | `gradients` | `gradients`, `parameters`, `all`, or `None`. Losses and metrics are always logged.                       |
+| `input_type`     | `None`      | `images` or `None`. Used to display sample predictions.                                                  |
+| `validation_data` | `None`     | Data used for sample predictions if `input_type` is set.                                                 |
+| `predictions`    | `36`        | Number of predictions to make if `input_type` is set and `validation_data` is `None`.                    |
+| `seed`           | `12345`     | Initialize random generator for sample predictions if `input_type` is set and `validation_data` is `None`. |

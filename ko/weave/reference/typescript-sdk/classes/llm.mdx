@@ -1,9 +1,7 @@
 ---
-title: "클래스: LLM"
+title: "LLM"
 description: "TypeScript SDK 레퍼런스"
 ---
-
-[weave](../) / LLM
 
 LLM Call입니다. `gen_ai.*` 속성이 포함된 `chat` span을 생성합니다.
 
@@ -21,11 +19,30 @@ LLM Call입니다. `gen_ai.*` 속성이 포함된 `chat` span을 생성합니다
 ```ts twoslash
 // @noErrors
 const llm = weave.startLLM({model: 'gpt-4o-mini', providerName: 'openai'});
+
 try {
   llm.inputMessages = [{role: 'user', content: prompt}];
   const resp = await openai.chat.completions.create({...});
   llm.output(resp.choices[0].message.content ?? '');
   llm.record({usage: {inputTokens: resp.usage?.prompt_tokens}});
+} finally {
+  llm.end();
+}
+```
+
+`예시`
+
+```ts twoslash
+// @noErrors
+const llm = weave.startLLM({
+  model: 'gpt-4o-mini',
+  providerName: 'openai',
+  systemInstructions: ['You are a helpful weather bot.'],
+  startTime: new Date('2026-05-29T10:00:00.000Z'),
+});
+
+try {
+  // ... LLM을 호출하고, llm.outputMessages / usage를 채웁니다 ...
 } finally {
   llm.end();
 }
@@ -85,7 +102,7 @@ try {
   #### 정의된 위치
 </div>
 
-[src/genai/llm.ts:79](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/llm.ts#L79)
+[src/genai/llm.ts:93](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L93)
 
 ***
 
@@ -99,7 +116,7 @@ try {
   #### 정의된 위치
 </div>
 
-[src/genai/llm.ts:97](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/llm.ts#L97)
+[src/genai/llm.ts:117](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L117)
 
 ***
 
@@ -116,7 +133,7 @@ try {
   #### 정의된 위치
 </div>
 
-[src/genai/llm.ts:84](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/llm.ts#L84)
+[src/genai/llm.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L98)
 
 ***
 
@@ -130,7 +147,7 @@ try {
   #### 정의된 위치
 </div>
 
-[src/genai/llm.ts:98](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/llm.ts#L98)
+[src/genai/llm.ts:118](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L118)
 
 ***
 
@@ -147,7 +164,7 @@ ReasoningPart로 병합됩니다.
   #### 정의된 위치
 </div>
 
-[src/genai/llm.ts:91](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/llm.ts#L91)
+[src/genai/llm.ts:105](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L105)
 
 ***
 
@@ -163,13 +180,27 @@ ReasoningPart로 병합됩니다.
   #### 정의된 위치
 </div>
 
-[src/genai/llm.ts:86](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/llm.ts#L86)
+[src/genai/llm.ts:100](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L100)
 
 ## 메서드
 
 <div id="addevent">
   ### addEvent
 </div>
+
+<Warning>
+  **사용 중단.** 이 데이터는 대신 [setAttributes](./llm#setattributes)로 기록하세요.
+  OpenTelemetry는 Span Event API(`Span.addEvent`)를 단계적으로 사용 중단하고 있습니다. 이
+  방법은 여전히 작동하며 기존 span-event 데이터도 계속 유효합니다.
+  [https://opentelemetry.io/blog/2026/deprecating-span-events/](https://opentelemetry.io/blog/2026/deprecating-span-events/)를 참조하세요.
+
+  `예시`
+
+  ```ts twoslash
+  // @noErrors
+  span.addEvent('context_compacted', {removedMessages: 12});
+  ```
+</Warning>
 
 ▸ **addEvent**(`name`, `attributes?`, `startTime?`): `this`
 
@@ -193,13 +224,6 @@ span에 이름이 있는 event를 추가합니다. 컨텍스트 압축, 도구 �
 
 `this`
 
-`예시`
-
-```ts twoslash
-// @noErrors
-span.addEvent('context_compacted', {removedMessages: 12});
-```
-
 <div id="inherited-from">
   #### 상속됨
 </div>
@@ -210,7 +234,7 @@ SpanBase.addEvent
   #### 정의된 위치
 </div>
 
-[src/genai/spanBase.ts:77](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/spanBase.ts#L77)
+[src/genai/spanBase.ts:82](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L82)
 
 ***
 
@@ -220,8 +244,9 @@ SpanBase.addEvent
 
 ▸ **attachMedia**(`opts`): `this`
 
-마지막 입력 메시지에 미디어 파트를 첨부합니다. `content`(인라인 base64 바이트), `uri`(URI 레퍼런스), 또는 `fileId`
-(미리 업로드한 파일 ID) 중 정확히 하나를 선택하세요.
+LLM Call의 미디어 첨부를 준비합니다. `content`(인라인 base64 바이트), `uri`(URI 레퍼런스), 또는 `fileId`
+(미리 업로드한 파일 ID) 중 정확히 하나를 선택하세요. 첨부는 `end()` 시 `inputMessages`의 마지막 사용자
+메시지에 추가됩니다.
 
 <div id="parameters">
   #### 매개변수
@@ -241,7 +266,7 @@ SpanBase.addEvent
   #### 정의된 위치
 </div>
 
-[src/genai/llm.ts:170](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/llm.ts#L170)
+[src/genai/llm.ts:183](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L183)
 
 ***
 
@@ -273,7 +298,7 @@ SpanBase.addEvent
   #### 정의된 위치
 </div>
 
-[src/genai/llm.ts:188](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/llm.ts#L188)
+[src/genai/llm.ts:192](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L192)
 
 ***
 
@@ -303,7 +328,7 @@ SpanBase.addEvent
   #### 정의된 위치
 </div>
 
-[src/genai/llm.ts:245](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/llm.ts#L245)
+[src/genai/llm.ts:274](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L274)
 
 ***
 
@@ -333,7 +358,7 @@ SpanBase.addEvent
   #### 정의된 위치
 </div>
 
-[src/genai/llm.ts:143](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/llm.ts#L143)
+[src/genai/llm.ts:155](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L155)
 
 ***
 
@@ -350,9 +375,18 @@ SpanBase.addEvent
   #### 매개변수
 </div>
 
-| 이름     | 유형              |
-| :----- | :-------------- |
-| `opts` | `LLMRecordOpts` |
+| 이름                       | 유형                                     |
+| :----------------------- | :------------------------------------- |
+| `opts`                   | `Object`                               |
+| `opts.finishReasons?`    | `string`[]                             |
+| `opts.inputMessages?`    | [`Message`](../interfaces/message)[]   |
+| `opts.mediaAttachments?` | `AttachMediaOpts`[]                    |
+| `opts.outputMessages?`   | [`Message`](../interfaces/message)[]   |
+| `opts.outputType?`       | `string`                               |
+| `opts.reasoning?`        | [`Reasoning`](../interfaces/reasoning) |
+| `opts.responseId?`       | `string`                               |
+| `opts.responseModel?`    | `string`                               |
+| `opts.usage?`            | [`Usage`](../interfaces/usage)         |
 
 <div id="returns">
   #### 반환값
@@ -364,7 +398,7 @@ SpanBase.addEvent
   #### 정의된 위치
 </div>
 
-[src/genai/llm.ts:199](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/llm.ts#L199)
+[src/genai/llm.ts:203](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L203)
 
 ***
 
@@ -409,7 +443,7 @@ SpanBase.setAttributes
   #### 정의된 위치
 </div>
 
-[src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/spanBase.ts#L63)
+[src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L63)
 
 ***
 
@@ -439,7 +473,7 @@ SpanBase.setAttributes
   #### 정의된 위치
 </div>
 
-[src/genai/llm.ts:232](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/llm.ts#L232)
+[src/genai/llm.ts:261](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L261)
 
 ***
 
@@ -469,7 +503,7 @@ SpanBase.setAttributes
   #### 정의된 위치
 </div>
 
-[src/genai/llm.ts:223](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/llm.ts#L223)
+[src/genai/llm.ts:252](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L252)
 
 ***
 
@@ -502,7 +536,7 @@ on-the-wire 형식과 일치합니다.
   #### 정의된 위치
 </div>
 
-[src/genai/llm.ts:155](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/llm.ts#L155)
+[src/genai/llm.ts:167](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L167)
 
 ***
 
@@ -530,4 +564,4 @@ on-the-wire 형식과 일치합니다.
   #### 정의된 위치
 </div>
 
-[src/genai/llm.ts:103](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/llm.ts#L103)
+[src/genai/llm.ts:124](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L124)

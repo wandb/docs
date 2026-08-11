@@ -4,6 +4,8 @@ description: Créez des graphiques personnalisés dans des projets W&B avec des 
 keywords: ["Vega", "wandb.plot_table", "courbe précision-rappel", "courbe ROC", "requête GraphQL"]
 ---
 
+import { AriaChatBubbles } from '/snippets/AriaChatBubbles.jsx';
+
 Les graphiques personnalisés vous permettent de visualiser les données enregistrées exactement comme vous le souhaitez, au-delà des visualisations par défaut fournies par W&amp;B. Utilisez-les lorsque vous devez représenter des relations, des distributions ou des métriques d’évaluation de modèle que les panneaux intégrés ne couvrent pas, comme les courbes précision-rappel, des histogrammes personnalisés ou des superpositions de plusieurs expériences.
 
 Créez des graphiques personnalisés dans votre projet W&amp;B. Enregistrez des tableaux de données de tout type et visualisez-les exactement comme vous le souhaitez. Contrôlez les détails des polices, des couleurs et des info-bulles grâce à toute la puissance de [Vega](https://vega.github.io/vega/).
@@ -257,7 +259,11 @@ with wandb.init() as run:
   ## Personnaliser le graphique
 </div>
 
-Après avoir enregistré des données, créez un graphique dans la W&amp;B App en choisissant les valeurs enregistrées à inclure et la manière de les afficher. Pour commencer, ajoutez un nouveau graphique personnalisé, puis modifiez la requête pour sélectionner les données à partir de vos runs visibles. La requête utilise [GraphQL](https://graphql.org) pour récupérer des données à partir des champs configuration, synthèse et historique de vos runs.
+Après avoir journalisé des données, créez un graphique dans la W&amp;B App en choisissant les valeurs journalisées à inclure et la manière de les afficher. Pour commencer, ajoutez un nouveau graphique personnalisé, puis modifiez la requête pour sélectionner les données à partir de vos runs visibles. La requête utilise [GraphQL](https://graphql.org) pour récupérer des données à partir des champs configuration, synthèse et historique de vos runs.
+
+Vous pouvez également demander à ARIA de créer un graphique personnalisé à partir d’une description. Ouvrez ARIA depuis l’espace de travail de votre projet et décrivez le graphique souhaité :
+
+<AriaChatBubbles prompt="Créer un nuage de points de la précision de validation par rapport à la perte d’entraînement pour les runs visibles, avec des points colorés selon le taux d’apprentissage." response="Je vais ajouter un panneau de graphique personnalisé qui représente la précision de validation sur l’axe X et la perte d’entraînement sur l’axe Y, avec des points colorés selon le taux d’apprentissage de chaque run issu de la configuration." />
 
 <div id="build-the-graphql-query">
   ### Créer la requête GraphQL

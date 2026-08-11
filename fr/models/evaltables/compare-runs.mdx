@@ -1,0 +1,79 @@
+---
+title: Comparer des runs avec Eval Tables
+---
+
+Utilisez Eval Tables pour comparer les entrées, les sorties et les scores entre plusieurs runs. W&amp;B aligne les exemples correspondants et calcule des scores agrégés ainsi que les écarts de score pour les runs sélectionnés.
+
+<Note>
+  Pour comparer des runs à l’aide de métriques de synthèse au niveau du Workspace, de graphiques en courbes, de runs épinglés ou d’un run de référence, voir [Épingler et comparer des runs](/fr/models/runs/compare-runs). Eval Tables compare les exemples alignés et les scores propres à Eval Tables dans un tableau enregistré.
+</Note>
+
+Pour comparer des runs :
+
+1. Accédez à l’espace de travail de votre projet.
+2. Faites défiler jusqu’au panneau Eval Tables.
+3. Sélectionnez le bouton **+**.
+4. Sélectionnez le run que vous souhaitez ajouter.
+
+W&amp;B regroupe les colonnes qui ont le même rôle et le même nom dans les runs sélectionnés. Par exemple, si deux runs utilisent les mêmes `input_columns`, W&amp;B affiche ces colonnes ensemble dans la section **Inputs**. W&amp;B regroupe de la même manière les `output_columns` et `score_columns` partagés dans les sections **Outputs** et **Scores**.
+
+La capture d’écran suivante montre une Eval Table qui compare les runs `summer-butterfly-9` et `gentle-flower-8` :
+
+<Frame>
+  <img src="/images/evaltables/overview_basic_compare_two_runs.png" alt="Vue Eval Table" />
+</Frame>
+
+<div id="set-the-reference-run">
+  ## Définir le run de référence
+</div>
+
+Lorsque vous comparez plusieurs runs, W&amp;B utilise par défaut le run le plus à gauche comme run de référence. Le run de référence sert de base pour calculer les écarts de score.
+
+Pour choisir un autre run de référence, survolez le run, ouvrez son menu, puis sélectionnez **Set as reference**.
+
+<div id="view-aggregate-scores">
+  ## Afficher les scores agrégés
+</div>
+
+W&amp;B calcule une valeur agrégée pour chaque colonne de score de chaque run sélectionné. Le calcul dépend du type de données du score :
+
+| Type de score                               | Valeur agrégée                        |
+| ------------------------------------------- | ------------------------------------- |
+| Booléen                                     | Nombre et fraction des valeurs `true` |
+| Numérique                                   | Moyenne                               |
+| Chaîne de caractères ou valeur catégorielle | Aucun agrégat scalaire                |
+| Null                                        | Exclu du calcul                       |
+
+La capture d’écran suivante met en évidence les valeurs agrégées pour les scores correct et confidence :
+
+<Frame>
+  <img src="/images/evaltables/overview_basic_compare_two_runs_labled.png" alt="Vue de l’Eval Table" />
+</Frame>
+
+<div id="compare-score-deltas">
+  ## Comparer les écarts de score
+</div>
+
+Pour chaque colonne de score, W&amp;B calcule la différence entre l’exécution de référence et chaque autre exécution sélectionnée.
+
+W&amp;B calcule chaque écart comme suit :
+
+```text
+comparison run value - reference run value
+```
+
+Par exemple, supposons que `summer-butterfly-9` soit le run de référence et que `gentle-flower-8` soit le run de comparaison. W&amp;B calcule le delta de confiance comme suit :
+
+| `summer-butterfly-9` | `gentle-flower-8` | delta |
+| -------------------- | ----------------- | ----- |
+| 0.43                 | 0.62              | +0.19 |
+| 0.92                 | 0.86              | -0.06 |
+| 0.97                 | 0.85              | -0.12 |
+
+Un delta positif signifie que le run de comparaison a une valeur supérieure à celle du run de référence. Un delta négatif signifie qu&#39;il a une valeur inférieure.
+
+La capture d&#39;écran suivante met en évidence les deltas de score :
+
+<Frame>
+  <img src="/images/evaltables/overview_basic_compare_two_runs_delta_labled.png" alt="Vue de la Eval Table" />
+</Frame>

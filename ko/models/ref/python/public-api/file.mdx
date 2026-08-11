@@ -1,15 +1,14 @@
 ---
 title: File
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.files
 ---
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/files.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/files.py#L245" />
 
-
-## <kbd>class</kbd> `File`
+## <kbd>class</kbd> wandb.apis.public.File
 
 W&amp;B에 저장된 파일입니다.
 
@@ -27,66 +26,47 @@ W&amp;B에 저장된 단일 파일을 나타냅니다. 파일 메타데이터에
 * updated&#95;at (str): 마지막 업데이트의 타임스탬프
 * path&#95;uri (str): 버킷 내 파일 경로이며, 현재 S3 객체 및 레퍼런스 파일에만 사용할 수 있습니다.
 
-**매개변수:**
+<div id="properties">
+  ## 속성
+</div>
 
-* `service_api`:  W&amp;B를 쿼리하는 데 사용할 서비스 API 인스턴스
-* `attrs` (dict):  파일을 정의하는 속성 딕셔너리
-* `run`:  파일이 포함된 run 객체 
-
-### <kbd>속성</kbd> File.path_uri
+### <kbd>속성</kbd> path_uri
 
 저장소 버킷에 있는 파일의 URI 경로를 반환합니다.
 
-**반환값:**
-
-* `str`: 파일이 S3에 저장되어 있으면 S3 URI(예: &#39;s3://bucket/path/to/file&#39;), 레퍼런스 파일이면 직접 URL, 사용할 수 없으면 빈 문자열입니다.
-
-**반환값:**
-
-* `str`: path&#95;uri 속성 값입니다.
-
-***
-
-### <kbd>속성</kbd> File.size
+### <kbd>속성</kbd> size
 
 파일 크기를 바이트 단위로 반환합니다.
 
-**반환값:**
+<div id="methods">
+  ## 메서드
+</div>
 
-* `int`: 크기 속성의 값입니다.
-
-***
-
-### <kbd>방법</kbd> `File.delete`
+### <kbd>방법</kbd> File.delete()
 
 ```python
-delete() → None
+self
 ```
 
 W&amp;B 서버에서 파일을 삭제합니다.
 
-***
-
-
-### <kbd>방법</kbd> `File.download`
+### <kbd>방법</kbd> File.download()
 
 ```python
-download(
-    root: 'str' = '.',
-    replace: 'bool' = False,
-    exist_ok: 'bool' = False,
-    api: 'Api | None' = None
-) → io.TextIOWrapper
+self,
+root: 'str' = '.',
+replace: 'bool' = False,
+exist_ok: 'bool' = False,
+api: 'Api | None' = None
 ```
 
 wandb 서버에서 run이 이전에 저장한 파일을 다운로드합니다.
 
-**매개변수:**
+<div id="arguments">
+  ##### 인수
+</div>
 
-* `root`:  파일을 저장할 로컬 디렉터리입니다. 기본값은 현재 작업 디렉터리(&quot;.&quot;)입니다.
-* `replace`:  `True`이면 로컬 파일이 이미 존재할 경우 다운로드한 파일로 덮어씁니다. 기본값은 `False`입니다.
-* `exist_ok`:  `True`이면 파일이 이미 존재해도 ValueError를 발생시키지 않으며, `replace=True`가 아닌 한 다시 다운로드하지 않습니다. 기본값은 `False`입니다.
-* `api`:  지정한 경우, 파일을 다운로드하는 데 사용할 `Api` 인스턴스입니다.
-
-**예외:**
-파일이 이미 존재하고 `replace=False`이며 `exist_ok=False`이면 `ValueError`를 발생시킵니다.
+* `root`: 파일을 저장할 로컬 디렉터리입니다. 기본값은 현재 작업 디렉터리(&quot;.&quot;)입니다.
+* `replace`: `True`이면 로컬 파일이 이미 존재할 경우 다운로드한 파일로 덮어씁니다. 기본값은 `False`입니다.
+* `exist_ok`: `True`이면 파일이 이미 존재해도 ValueError를 발생시키지 않으며, `replace=True`가 아닌 한 다시 다운로드하지 않습니다. 기본값은 `False`입니다.
+* `api`: 지정한 경우, 파일을 다운로드하는 데 사용할 `Api` 인스턴스입니다.

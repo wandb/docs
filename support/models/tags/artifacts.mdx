@@ -1,6 +1,6 @@
 ---
 title: "Artifacts"
-tag: "15"
+tag: "16"
 generator: "knowledgebase-nav"
 template: "docengine-site/templates/support_tag.mdx.j2"
 ---
@@ -13,6 +13,9 @@ template: "docengine-site/templates/support_tag.mdx.j2"
 </Card>
 <Card title="How do I best log models from runs in a sweep?" href="/support/models/articles/how-do-i-best-log-models-from-runs-in-a-" arrow="true" horizontal>
   To log models in a sweep, create a model artifact for the sweep. Each version represents a different run from the sweep. ...
+</Card>
+<Card title="How do I delete many artifacts at once?" href="/support/models/articles/how-do-i-delete-many-artifacts-at-once" arrow="true" horizontal>
+  When you need to delete many artifact versions, such as to reduce storage usage, use the W&B Public API instead of the W ...
 </Card>
 <Card title="How do I disable W&B while testing my code?" href="/support/models/articles/how-do-i-disable-wandb-when-testing-my-code" arrow="true" horizontal>
   To configure W&B as a no-op for testing, use wandb.init(mode="disabled") or set WANDB_MODE=disabled. Even when you use w ...

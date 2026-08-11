@@ -4,9 +4,17 @@ description: "Importer des données de trace compatibles OpenTelemetry via un po
 keywords: ["OTLP", "OpenTelemetry Collector", "OpenInference", "OpenLLMetry", "threads"]
 ---
 
+<Warning>
+  Nous vous recommandons d’utiliser le [nouveau flux de travail natif OTel de Weave](/fr/weave/guides/tracking/trace-agents-otel) pour envoyer des spans OTel vers la nouvelle vue Agents de Weave. Utilisez ce guide uniquement si vous souhaitez ingérer des traces OTLP brutes dans la vue Traces standard de Weave.
+</Warning>
+
 Weave prend en charge l’importation de données de trace compatibles OpenTelemetry via un point de terminaison dédié. Ce point de terminaison vous permet d’envoyer directement vers votre projet Weave des données de trace au format OTLP (OpenTelemetry Protocol). Utilisez cette intégration si vous souhaitez instrumenter votre application selon le standard OpenTelemetry et faire apparaître ces traces aux côtés de vos autres données Weave, sans remplacer votre pipeline d’observabilité existant basé sur OTel.
 
-Cette page présente les détails du point de terminaison, l’authentification, des exemples complets en Python et TypeScript, comment transférer des traces via un OpenTelemetry Collector, comment organiser les traces en threads Weave, ainsi que les mappages d’attributs que Weave applique aux spans entrants.
+Cette page présente les détails du point de terminaison, l’authentification, des exemples complets en Python et TypeScript, comment transférer des traces via un OpenTelemetry Collector, comment organiser les traces en threads Weave, ainsi que la correspondance des attributs que Weave applique aux spans entrants.
+
+<Note>
+  Ce point de terminaison alimente les vues **Traces** et **Threads**. Pour envoyer des spans OTel d’un agent sur plusieurs tours de conversation vers la vue **Agents**, utilisez plutôt le point de terminaison des agents. Voir [Envoyer des spans OpenTelemetry vers la vue Agents](/fr/weave/guides/tracking/trace-agents-otel).
+</Note>
 
 <div id="endpoint-details">
   ## Détails du point de terminaison
@@ -26,12 +34,16 @@ Remplacez `<your-subdomain>` par le domaine W&amp;B unique de votre organisation
   ## Authentification et acheminement
 </div>
 
-Weave utilise l’en-tête `wandb-api-key` pour authentifier les requêtes, ainsi que les attributs de ressource de votre `TracerProvider`, afin d’acheminer les spans vers l’entité et le projet appropriés. Incluez votre clé API W&amp;B dans l’en-tête `wandb-api-key`, puis spécifiez les clés suivantes comme attributs de ressource OpenTelemetry dans votre classe `TracerProvider` :
+Weave utilise l’en-tête `wandb-api-key` pour authentifier les requêtes et les attributs de ressource définis dans votre `TracerProvider` pour acheminer les spans vers la bonne entité et le bon projet. Transmettez votre clé API W&amp;B dans l’en-tête `wandb-api-key`, puis spécifiez les clés suivantes comme attributs de ressource OpenTelemetry dans votre classe `TracerProvider` :
 
-* `wandb.entity` : Le nom de votre équipe W&amp;B ou de votre utilisateur.
-* `wandb.project` : Le nom du projet vers lequel envoyer les traces.
+* `wandb.entity` : le nom de votre équipe W&amp;B ou de votre utilisateur.
+* `wandb.project` : le nom du projet auquel envoyer les traces.
 
-L’exemple suivant montre comment configurer l’authentification et l’acheminement du projet :
+L’exemple suivant montre comment configurer l’authentification et l’acheminement vers le projet :
+
+<Warning>
+  `WEAVE_OTLP_ENDPOINT` ci-dessous est une variable locale, et non la variable d’environnement `OTEL_EXPORTER_OTLP_ENDPOINT` du SDK OTel. Elle est définie avec le chemin complet des traces (`.../otel/v1/traces`). Elle est transmise explicitement à `endpoint=`/`url:` sur l’exporter, de sorte que le SDK envoie les requêtes vers cette URL telle quelle. Si, à la place, vous `export` une valeur comme véritable variable `OTEL_EXPORTER_OTLP_ENDPOINT` et construisez l’exporter sans argument (par exemple, `OTLPSpanExporter()`), le SDK ajoute lui-même `/v1/traces`. Dans ce cas, cette variable doit donc contenir l’URL de base (`.../otel`) à la place, sinon vous obtenez un chemin dupliqué (`.../otel/v1/traces/v1/traces`), une `404` et des spans ignorés silencieusement. Il en va de même pour `OTEL_EXPORTER_OTLP_TRACES_ENDPOINT` : elle doit également contenir le chemin complet des traces, puisque le SDK ne lui ajoute pas non plus `/v1/traces`.
+</Warning>
 
 <CodeGroup>
   ```python Python lines {7,8}
@@ -44,13 +56,13 @@ L’exemple suivant montre comment configurer l’authentification et l’achemi
   ENTITY = "<your-team-name>"
   PROJECT = "<your-project-name>"
 
-  OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+  WEAVE_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
 
   # Créez une clé API sur https://wandb.ai/settings
   WANDB_API_KEY = os.environ["WANDB_API_KEY"]
 
   exporter = OTLPSpanExporter(
-      endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+      endpoint=WEAVE_OTLP_ENDPOINT,
       headers={"wandb-api-key": WANDB_API_KEY},
   )
 
@@ -69,13 +81,13 @@ L’exemple suivant montre comment configurer l’authentification et l’achemi
   const ENTITY = "<your-team-name>";
   const PROJECT = "<your-project-name>";
 
-  const OTEL_EXPORTER_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
+  const WEAVE_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
 
   // Créez une clé API sur https://wandb.ai/settings
   const WANDB_API_KEY = process.env.WANDB_API_KEY!;
 
   const exporter = new OTLPTraceExporter({
-    url: OTEL_EXPORTER_OTLP_ENDPOINT,
+    url: WEAVE_OTLP_ENDPOINT,
     headers: { "wandb-api-key": WANDB_API_KEY },
   });
 
@@ -145,13 +157,13 @@ Installez d’abord les dépendances requises :
     ENTITY = "<your-team-name>"
     PROJECT = "<your-project-name>"
 
-    OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+    WEAVE_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
 
     # Créez une clé API sur https://wandb.ai/settings
     WANDB_API_KEY = os.environ["WANDB_API_KEY"]
 
     exporter = OTLPSpanExporter(
-        endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+        endpoint=WEAVE_OTLP_ENDPOINT,
         headers={"wandb-api-key": WANDB_API_KEY},
     )
 
@@ -213,13 +225,13 @@ Installez d’abord les dépendances requises :
     const ENTITY = "<your-team-name>";
     const PROJECT = "<your-project-name>";
 
-    const OTEL_EXPORTER_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
+    const WEAVE_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
 
     // Créez une clé API sur https://wandb.ai/settings
     const WANDB_API_KEY = process.env.WANDB_API_KEY!;
 
     const exporter = new OTLPTraceExporter({
-      url: OTEL_EXPORTER_OTLP_ENDPOINT,
+      url: WEAVE_OTLP_ENDPOINT,
       headers: { "wandb-api-key": WANDB_API_KEY },
     });
 
@@ -318,13 +330,13 @@ Installez d’abord les dépendances requises :
     ENTITY = "<your-team-name>"
     PROJECT = "<your-project-name>"
 
-    OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+    WEAVE_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
 
     # Créez une clé API sur https://wandb.ai/settings
     WANDB_API_KEY = os.environ["WANDB_API_KEY"]
 
     exporter = OTLPSpanExporter(
-        endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+        endpoint=WEAVE_OTLP_ENDPOINT,
         headers={"wandb-api-key": WANDB_API_KEY},
     )
 
@@ -380,13 +392,13 @@ Installez d’abord les dépendances requises :
     const ENTITY = "<your-team-name>";
     const PROJECT = "<your-project-name>";
 
-    const OTEL_EXPORTER_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
+    const WEAVE_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
 
     // Créez une clé API sur https://wandb.ai/settings
     const WANDB_API_KEY = process.env.WANDB_API_KEY!;
 
     const exporter = new OTLPTraceExporter({
-      url: OTEL_EXPORTER_OTLP_ENDPOINT,
+      url: WEAVE_OTLP_ENDPOINT,
       headers: { "wandb-api-key": WANDB_API_KEY },
     });
 
@@ -491,14 +503,14 @@ Installez d’abord les dépendances requises :
     ENTITY = "<your-team-name>"
     PROJECT = "<your-project-name>"
 
-    OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+    WEAVE_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
 
     # Créez une clé API sur https://wandb.ai/settings
     WANDB_API_KEY = os.environ["WANDB_API_KEY"]
 
     # Configurer l'exportateur OTLP
     exporter = OTLPSpanExporter(
-        endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+        endpoint=WEAVE_OTLP_ENDPOINT,
         headers={"wandb-api-key": WANDB_API_KEY},
     )
 
@@ -563,13 +575,13 @@ Installez d’abord les dépendances requises :
     const ENTITY = "<your-team-name>";
     const PROJECT = "<your-project-name>";
 
-    const OTEL_EXPORTER_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
+    const WEAVE_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
 
     // Créez une clé API sur https://wandb.ai/settings
     const WANDB_API_KEY = process.env.WANDB_API_KEY!;
 
     const exporter = new OTLPTraceExporter({
-      url: OTEL_EXPORTER_OTLP_ENDPOINT,
+      url: WEAVE_OTLP_ENDPOINT,
       headers: { "wandb-api-key": WANDB_API_KEY },
     });
 
@@ -826,10 +838,10 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
       PROJECT = "<your-project-name>"
       WANDB_API_KEY = os.environ["WANDB_API_KEY"]
 
-      OTEL_EXPORTER_OTLP_ENDPOINT = "https://trace.wandb.ai/otel/v1/traces"
+      WEAVE_OTLP_ENDPOINT = "https://trace.wandb.ai/otel/v1/traces"
 
       exporter = OTLPSpanExporter(
-          endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+          endpoint=WEAVE_OTLP_ENDPOINT,
           headers={"wandb-api-key": WANDB_API_KEY},
       )
 
@@ -872,10 +884,10 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
       }
 
       // Configuration d’OTel
-      const OTEL_EXPORTER_OTLP_ENDPOINT = "https://trace.wandb.ai/otel/v1/traces";
+      const WEAVE_OTLP_ENDPOINT = "https://trace.wandb.ai/otel/v1/traces";
 
       const exporter = new OTLPTraceExporter({
-        url: OTEL_EXPORTER_OTLP_ENDPOINT,
+        url: WEAVE_OTLP_ENDPOINT,
         headers: { "wandb-api-key": WANDB_API_KEY },
       });
 
@@ -1306,6 +1318,7 @@ Weave prend en charge les conventions d&#39;attributs des frameworks d&#39;obser
 * **Traceloop**: instrumentation OpenLLMetry (`traceloop.entity.*`, `traceloop.span.kind`).
 * **Google Vertex AI**: attributs d&#39;agent de Vertex AI (`gcp.vertex.agent.*`).
 * **OpenLit**: attributs d&#39;observabilité d&#39;OpenLit (`gen_ai.content.completion`).
+* **Logfire / Pydantic AI**: instrumentation de Pydantic AI par Logfire (`gen_ai.input.messages`, `gen_ai.output.messages`, `pydantic_ai.all_messages`, `final_result`).
 * **Langfuse**: attributs de tracing de Langfuse (`langfuse.startTime`, `langfuse.endTime`).
 
 <div id="attribute-reference">
@@ -1318,6 +1331,8 @@ Weave prend en charge les conventions d&#39;attributs des frameworks d&#39;obser
 | `gen_ai.prompt`                   | `inputs`                      | Prompt du modèle d’IA ou liste de messages.               | Liste, dict, chaîne               | `[{"role":"user","content":"abc"}]`            |
 | `input.value`                     | `inputs`                      | Valeur d’entrée pour l’appel du modèle.                   | Chaîne, liste, dict               | `{"text":"Raconte une blague"}`                |
 | `mlflow.spanInputs`               | `inputs`                      | Données d’entrée du span.                                 | Chaîne, liste, dict               | `["texte d’invite"]`                           |
+| `gen_ai.input.messages`           | `inputs`                      | Messages d’entrée émis par Logfire.                       | Liste, dict, chaîne               | `[{"role":"user","parts":[...]}]`              |
+| `pydantic_ai.all_messages`        | `inputs`                      | Tous les messages d’un run d’agent Pydantic AI.           | Liste                             | `[{"role":"user","content":"abc"}]`            |
 | `traceloop.entity.input`          | `inputs`                      | Données d’entrée de l’entité.                             | Chaîne, liste, dict               | `"Traduisez ceci en français"`                 |
 | `gcp.vertex.agent.tool_call_args` | `inputs`                      | Arguments de l’appel à l’outil.                           | Dict                              | `{"args":{"query":"météo à SF"}}`              |
 | `gcp.vertex.agent.llm_request`    | `inputs`                      | Corps de la requête LLM.                                  | Dict                              | `{"contents":[{"role":"user","parts":[...]}]}` |
@@ -1326,7 +1341,9 @@ Weave prend en charge les conventions d&#39;attributs des frameworks d&#39;obser
 | `ai.response`                     | `outputs`                     | Texte ou données de réponse du modèle.                    | Chaîne, liste, dict               | `"Voici un haïku..."`                          |
 | `gen_ai.completion`               | `outputs`                     | Résultat de génération de l’IA.                           | Chaîne, liste, dict               | `"Texte de complétion"`                        |
 | `output.value`                    | `outputs`                     | Valeur de sortie du modèle.                               | Chaîne, liste, dict               | `{"text":"Texte de réponse"}`                  |
+| `gen_ai.output.messages`          | `outputs`                     | Messages de sortie émis par Logfire.                      | Liste, dict, chaîne               | `[{"role":"assistant","parts":[...]}]`         |
 | `mlflow.spanOutputs`              | `outputs`                     | Données de sortie du span.                                | String, liste, dict               | `["answer"]`                                   |
+| `final_result`                    | `outputs`                     | Sortie finale d’un run d’agent Pydantic AI.               | Chaîne, dict                      | `"Texte de réponse"`                           |
 | `gen_ai.content.completion`       | `outputs`                     | Résultat de complétion de contenu.                        | String                            | `"Texte de réponse"`                           |
 | `traceloop.entity.output`         | `outputs`                     | Données de sortie de l’entité.                            | String, liste, dict               | `"Texte de réponse"`                           |
 | `gcp.vertex.agent.tool_response`  | `outputs`                     | Réponse d’exécution de l’outil.                           | dict, chaîne                      | `{"toolResponse":"ok"}`                        |
@@ -1344,6 +1361,7 @@ Weave prend en charge les conventions d&#39;attributs des frameworks d&#39;obser
 | `llm.token_count.total`           | `usage.total_tokens`          | Nombre total de tokens.                                   | Entier                            | `70`                                           |
 | `gen_ai.system`                   | `attributes.system`           | Prompt système ou consignes.                              | Chaîne de caractères              | `"Vous êtes un assistant utile."`              |
 | `llm.system`                      | `attributes.system`           | Prompt système ou consignes.                              | Chaîne de caractères              | `"Vous êtes un assistant serviable."`          |
+| `gen_ai.system_instructions`      | `attributes.system`           | Prompt système ou consignes.                              | String                            | `"You are a helpful assistant."`               |
 | `weave.span.kind`                 | `attributes.kind`             | Type ou catégorie du span.                                | Chaîne de caractères              | `"llm"`                                        |
 | `traceloop.span.kind`             | `attributes.kind`             | Type ou catégorie du span.                                | String                            | `"llm"`                                        |
 | `openinference.span.kind`         | `attributes.kind`             | Type ou catégorie du span.                                | String                            | `"llm"`                                        |

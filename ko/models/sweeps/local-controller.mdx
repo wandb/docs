@@ -1,75 +1,83 @@
 ---
 description: W&B 클라우드 호스팅 서비스를 사용하는 대신 로컬에서 검색 및 중지 알고리즘을 실행합니다.
-title: 알고리즘 로컬 관리
+title: 로컬에서 알고리즘 관리하기
 ---
 
-하이퍼파라미터 컨트롤러는 기본적으로 클라우드 서비스 형태로 호스팅됩니다. W&amp;B 에이전트는 컨트롤러와 통신하여 트레이닝에 사용할 다음 파라미터 세트를 확인합니다. 또한 컨트롤러는 어떤 run을 중지할 수 있는지 판단하기 위해 조기 중지 알고리즘을 실행하는 역할도 합니다.
+이 페이지에서는 W&amp;B 클라우드 호스팅 컨트롤러를 사용하는 대신 스윕의 검색 및 중지 알고리즘을 로컬에서 실행하는 방법을 설명합니다. 로컬 컨트롤러를 사용하면 코드를 검사하고 계측하여 문제를 디버그하거나, 나중에 클라우드 호스팅 컨트롤러에 통합할 새 알고리즘을 개발할 수 있습니다.
 
-로컬 컨트롤러 기능을 사용하면 검색 및 중지 알고리즘을 로컬에서 실행할 수 있습니다. 로컬 컨트롤러를 사용하면 문제를 디버그하고, 클라우드 서비스에 통합할 수 있는 새로운 기능을 개발할 수 있도록 코드를 검사하고 계측할 수 있습니다.
+기본적으로 W&amp;B는 하이퍼파라미터 컨트롤러를 클라우드 서비스로 호스팅합니다. W&amp;B 에이전트는 컨트롤러와 통신하여 트레이닝에 사용할 다음 파라미터 집합을 확인합니다. 또한 컨트롤러는 조기 중지 알고리즘을 실행하여 어떤 Runs을 중지할지 확인합니다.
+
+로컬 컨트롤러 기능을 사용하면 검색 및 중지 알고리즘을 로컬에서 실행할 수 있습니다.
 
 <Warning>
-  이 기능은 Sweeps 도구의 새 알고리즘을 더 빠르게 개발하고 디버깅할 수 있도록 제공됩니다. 실제 하이퍼파라미터 최적화 워크로드용은 아닙니다.
+  이 기능은 Sweeps 도구용 새 알고리즘을 더 빠르게 개발하고 디버그할 수 있도록 지원합니다. 하이퍼파라미터 최적화 워크로드에는 적합하지 않습니다.
 </Warning>
 
-시작하기 전에 W&amp;B SDK(`wandb`)를 설치해야 합니다. 다음 코드 스니펫을 명령줄에 입력하세요:
-
-```
-pip install wandb sweeps 
-```
-
-다음 예에서는 Python 스크립트 또는 Jupyter Notebook에 이미 설정 파일과 트레이닝 루프가 정의되어 있다고 가정합니다. 설정 파일을 정의하는 방법에 대한 자세한 내용은 [sweep 설정 정의하기](/ko/models/sweeps/define-sweep-configuration/)를 참조하세요.
-
-<div id="run-the-local-controller-from-the-command-line">
-  ### 명령줄에서 로컬 컨트롤러 실행
+<div id="prerequisites">
+  ## 사전 요구 사항
 </div>
 
-일반적으로 W&amp;B가 클라우드 서비스로 호스팅하는 하이퍼파라미터 컨트롤러를 사용할 때와 비슷한 방식으로 sweep을 초기화합니다. W&amp;B sweep 작업에 로컬 컨트롤러를 사용하려는 경우, 이를 나타내는 컨트롤러 플래그(`controller`)를 지정하세요:
+로컬 컨트롤러 명령을 사용할 수 있게 W&amp;B SDK (`wandb`)를 설치하세요:
 
 ```bash
-wandb sweep --controller config.yaml
+pip install wandb sweeps
 ```
 
-또는 sweep 초기화와 로컬 컨트롤러를 사용하도록 지정하는 작업을 두 step으로 나눌 수 있습니다.
+다음 예에서는 Python 스크립트 또는 Jupyter Notebook에 이미 설정 파일과 트레이닝 루프가 정의되어 있다고 가정합니다. 자세한 내용은 [스윕 설정 정의하기](/ko/models/sweeps/define-sweep-configuration/)를 참조하세요.
 
-step을 나누려면 먼저 sweep의 YAML 설정 파일에 다음 키-값 쌍을 추가하세요:
+<div id="run-a-local-controller-from-the-command-line">
+  ## 명령줄에서 로컬 컨트롤러 실행
+</div>
+
+W&amp;B에서 클라우드 서비스로 제공하는 하이퍼파라미터 컨트롤러를 사용할 때와 같은 방식으로 스윕을 초기화하되, 로컬 컨트롤러를 사용하려면 `--controller` 플래그를 전달하세요:
+
+1. `--controller` 플래그를 사용해 스윕을 초기화합니다:
+
+   ```bash
+   wandb sweep --controller config.yaml
+   ```
+
+2. `wandb sweep`가 생성한 스윕 ID를 확인한 다음 컨트롤러를 시작합니다. `[SWEEP-ID]`를 스윕 ID로 바꾸세요. 짧은 스윕 ID만 전달할 수도 있고, entity와 프로젝트를 경로(`[ENTITY]/[PROJECT]/[SWEEP-ID]`)로 포함할 수도 있습니다:
+
+   ```bash
+   wandb controller [SWEEP-ID]
+   ```
+
+3. 하나 이상의 스윕 에이전트를 시작해 스윕을 실행합니다. `[SWEEP-ID]`를 스윕 ID로 바꾸세요:
+
+   ```bash
+   wandb agent [SWEEP-ID]
+   ```
+
+   자세한 내용은 [스윕 에이전트 시작](/ko/models/sweeps/start-sweep-agents)을 참조하세요.
+
+또는 설정 파일에 컨트롤러를 추가하면 스윕을 초기화할 때마다 `--controller`를 전달하지 않아도 됩니다:
 
 ```yaml
 controller:
   type: local
 ```
 
-다음으로, sweep을 초기화합니다:
+그런 다음 플래그 없이 스윕을 초기화한 후, 2번과 3번 step을 이어서 수행하세요:
 
 ```bash
 wandb sweep config.yaml
 ```
 
-`wandb sweep`는 sweep ID를 생성합니다. sweep를 초기화한 후 [`wandb controller`](/ko/models/ref/python/functions/controller)로 컨트롤러를 시작하세요:
-
-```bash
-wandb controller {user}/{entity}/{sweep_id}
-```
-
-로컬 컨트롤러를 사용하도록 지정한 후에는 sweep을 실행하기 위해 하나 이상의 Sweep agent를 시작하세요. 평소와 비슷한 방식으로 W&amp;B Sweep을 시작하세요. 자세한 내용은 [Sweep agent 시작](/ko/models/sweeps/start-sweep-agents/)을 참조하세요.
-
-```bash
-wandb sweep sweep_ID
-```
-
 <div id="run-a-local-controller-with-wb-python-sdk">
-  ### W&amp;B Python SDK로 로컬 컨트롤러 실행
+  ## W&amp;B Python SDK로 로컬 컨트롤러 실행하기
 </div>
 
-다음 코드 스니펫은 W&amp;B Python SDK에서 로컬 컨트롤러를 지정하고 사용하는 방법을 보여줍니다.
+다음 코드 스니펫은 W&amp;B Python SDK에서 로컬 컨트롤러를 지정하고 사용하는 방법을 보여줍니다. 각 예시는 점차 더 세밀한 제어를 제공하므로, 검색과 스케줄링을 얼마나 사용자 지정해야 하는지에 맞는 접근 방식을 선택할 수 있습니다.
 
-Python SDK에서 컨트롤러를 사용하는 가장 간단한 방법은 [`wandb.controller()`](/ko/models/ref/python/functions/controller)에 sweep ID를 전달하는 것입니다. 그런 다음 반환된 객체의 `run` 메서드를 사용해 sweep 작업을 시작합니다:
+Python SDK에서 컨트롤러를 사용하려면 [`wandb.controller()`](/ko/models/ref/python/functions/controller) 방법에 sweep ID를 전달한 다음, 반환된 객체의 `run` 방법을 호출해 스윕 작업을 시작하세요:
 
 ```python
 sweep = wandb.controller(sweep_id)
 sweep.run()
 ```
 
-컨트롤러 루프를 더 세밀하게 제어하고 싶다면:
+컨트롤러 루프를 더 세밀하게 제어하려면 직접 한 단계씩 진행하세요:
 
 ```python
 import wandb
@@ -81,7 +89,7 @@ while not sweep.done():
     time.sleep(5)
 ```
 
-또는 서빙할 파라미터를 더욱 세밀하게 제어할 수도 있습니다:
+서빙할 파라미터를 더욱 세밀하게 제어하려면 `search`와 `schedule`을 직접 호출하세요:
 
 ```python
 import wandb
@@ -93,7 +101,7 @@ while not sweep.done():
     sweep.print_status()
 ```
 
-sweep를 전부 코드로 지정하려면 다음과 같이 할 수 있습니다:
+YAML 설정 파일 대신 코드만으로 스윕을 완전히 정의하려면 Python에서 검색, 프로그램, 컨트롤러 및 파라미터를 설정하세요:
 
 ```python
 import wandb

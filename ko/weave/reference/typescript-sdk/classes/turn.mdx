@@ -1,33 +1,7 @@
 ---
-title: "클래스: Turn"
+title: "Turn"
 description: "TypeScript SDK 레퍼런스"
 ---
-
-[weave](../) / Turn
-
-에이전트 호출입니다. 일반적으로 단일 사용자 메시지에 응답하는
-작업을 감쌉니다. `invoke_agent` span을 내보내며 해당 turn의
-트레이스 루트 역할을 합니다. 즉, 항상 `ROOT_CONTEXT` 아래에서 시작되므로
-다른 OTel로 계측된 라이브러리의 부모를 실수로 상속하지 않습니다.
-
-`weave.startTurn()`(또는 `conversation.startTurn()`)으로 생성되며
-`end()`로 종료됩니다. 비동기 chain에서는 한 번에 하나의 Turn만 활성 상태일 수 있습니다.
-하위 항목(LLM, Tool, SubAgent)은 `startLLM`, `startTool`,
-`startSubagent` 방법을 통해 연결됩니다.
-
-`예시`
-
-```ts twoslash
-// @noErrors
-const turn = weave.startTurn({agentName: 'research-bot', model: MODEL});
-try {
-  const llm = turn.startLLM({model: MODEL, providerName: 'openai'});
-  // ...
-  llm.end();
-} finally {
-  turn.end();
-}
-```
 
 <div id="hierarchy">
   ## 계층 구조
@@ -41,8 +15,8 @@ try {
   ## 목차
 </div>
 
-<div id="properties">
-  ### 속성
+<div id="accessors">
+  ### 접근자
 </div>
 
 * [agentName](./turn#agentname)
@@ -54,6 +28,7 @@ try {
 
 * [addEvent](./turn#addevent)
 * [end](./turn#end)
+* [record](./turn#record)
 * [setAttribute](./turn#setattribute)
 * [setAttributes](./turn#setattributes)
 * [startLLM](./turn#startllm)
@@ -61,19 +36,25 @@ try {
 * [startTool](./turn#starttool)
 * [create](./turn#create)
 
-## 속성
+## 접근자
 
 <div id="agentname">
   ### agentName
 </div>
 
-• `Readonly` **agentName**: `string`
+• `get` **agentName**(): `string`
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`string`
 
 <div id="defined-in">
   #### 정의 위치
 </div>
 
-[src/genai/turn.ts:57](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/turn.ts#L57)
+[src/genai/turn.ts:103](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L103)
 
 ***
 
@@ -81,19 +62,39 @@ try {
   ### 모델
 </div>
 
-• `Readonly` **모델**: `string`
+• `get` **모델**(): `string`
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`string`
 
 <div id="defined-in">
   #### 정의 위치
 </div>
 
-[src/genai/turn.ts:58](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/turn.ts#L58)
+[src/genai/turn.ts:107](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L107)
 
 ## 메서드
 
 <div id="addevent">
   ### addEvent
 </div>
+
+<Warning>
+  **사용 중단.** 이 데이터는 대신 [setAttributes](./turn#setattributes)를 통해 기록하세요.
+  OpenTelemetry는 Span Event API(`Span.addEvent`)를 단계적으로 폐지하고 있습니다. 이
+  방법은 계속 작동하며 기존 span-event 데이터도 계속 유효합니다.
+  자세한 내용은 [https://opentelemetry.io/blog/2026/deprecating-span-events/](https://opentelemetry.io/blog/2026/deprecating-span-events/)를 참조하세요.
+
+  `예시`
+
+  ```ts twoslash
+  // @noErrors
+  span.addEvent('context_compacted', {removedMessages: 12});
+  ```
+</Warning>
 
 ▸ **addEvent**(`name`, `attributes?`, `startTime?`): `this`
 
@@ -117,13 +118,6 @@ span이 아닌 시점을 표시할 때 유용합니다.
 
 `this`
 
-`예시`
-
-```ts twoslash
-// @noErrors
-span.addEvent('context_compacted', {removedMessages: 12});
-```
-
 <div id="inherited-from">
   #### 상속됨
 </div>
@@ -134,7 +128,7 @@ SpanBase.addEvent
   #### 정의 위치
 </div>
 
-[src/genai/spanBase.ts:77](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/spanBase.ts#L77)
+[src/genai/spanBase.ts:82](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L82)
 
 ***
 
@@ -144,7 +138,8 @@ SpanBase.addEvent
 
 ▸ **end**(`opts?`): `void`
 
-Turn span을 종료합니다. 여러 번 호출해도 동일하게 동작합니다. 실패로 표시하려면 `error`를 전달하세요. 종료 시점을 과거로 지정하려면
+현재 필드 값을 조회하여(`record()`
+를 통해 `start` 이후 적용된 변경 사항을 반영) span을 종료합니다. 여러 번 호출해도 동일하게 동작합니다. 실패로 표시하려면 `error`를 전달하세요. 종료 시점을 과거로 지정하려면
 `endTime`을 전달하세요.
 
 <div id="parameters">
@@ -165,7 +160,45 @@ Turn span을 종료합니다. 여러 번 호출해도 동일하게 동작합니�
   #### 정의 위치
 </div>
 
-[src/genai/turn.ts:144](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/turn.ts#L144)
+[src/genai/turn.ts:241](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L241)
+
+***
+
+<div id="record">
+  ### record
+</div>
+
+▸ **record**(`opts`): `this`
+
+변경 가능한 필드 중 원하는 항목만 일괄 설정합니다. 병합하지 않고 덮어씁니다.
+공급자 호출의 반환값을 받은 후 한 번에 모두 부여할 때 유용합니다.
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름                         | 유형                                   |
+| :------------------------- | :----------------------------------- |
+| `opts`                     | `Object`                             |
+| `opts.agentDescription?`   | `string`                             |
+| `opts.agentId?`            | `string`                             |
+| `opts.agentName?`          | `string`                             |
+| `opts.agentVersion?`       | `string`                             |
+| `opts.messages?`           | [`Message`](../interfaces/message)[] |
+| `opts.model?`              | `string`                             |
+| `opts.systemInstructions?` | `string`[]                           |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`this`
+
+<div id="defined-in">
+  #### 정의 위치
+</div>
+
+[src/genai/turn.ts:201](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L201)
 
 ***
 
@@ -201,7 +234,7 @@ Turn span을 종료합니다. 여러 번 호출해도 동일하게 동작합니�
   #### 정의 위치
 </div>
 
-[src/genai/turn.ts:136](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/turn.ts#L136)
+[src/genai/turn.ts:193](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L193)
 
 ***
 
@@ -246,7 +279,7 @@ SpanBase.setAttributes
   #### 정의 위치
 </div>
 
-[src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/spanBase.ts#L63)
+[src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L63)
 
 ***
 
@@ -276,7 +309,7 @@ SpanBase.setAttributes
   #### 정의 위치
 </div>
 
-[src/genai/turn.ts:104](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/turn.ts#L104)
+[src/genai/turn.ts:161](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L161)
 
 ***
 
@@ -306,7 +339,7 @@ SpanBase.setAttributes
   #### 정의 위치
 </div>
 
-[src/genai/turn.ts:122](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/turn.ts#L122)
+[src/genai/turn.ts:179](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L179)
 
 ***
 
@@ -336,7 +369,7 @@ SpanBase.setAttributes
   #### 정의 위치
 </div>
 
-[src/genai/turn.ts:113](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/turn.ts#L113)
+[src/genai/turn.ts:170](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L170)
 
 ***
 
@@ -364,4 +397,4 @@ SpanBase.setAttributes
   #### 정의 위치
 </div>
 
-[src/genai/turn.ts:63](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/turn.ts#L63)
+[src/genai/turn.ts:124](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L124)

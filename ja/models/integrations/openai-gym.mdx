@@ -6,14 +6,16 @@ title: OpenAI Gym
 <Note>
   &quot;2021 年から Gym を保守してきたチームは、今後の開発をすべて [Gymnasium](https://github.com/Farama-Foundation/Gymnasium) に移行しました。Gymnasium は Gym のドロップイン置換 (import gymnasium as gym) であり、Gym が今後アップデートされることはありません。&quot; ([Source](https://github.com/openai/gym#the-team-that-has-been-maintaining-gym-since-2021-has-moved-all-future-development-to-gymnasium-a-drop-in-replacement-for-gym-import-gymnasium-as-gym-and-gym-will-not-be-receiving-any-future-updates-please-switch-over-to-gymnasium-as-soon-as-youre-able-to-do-so-if-youd-like-to-read-more-about-the-story-behind-this-switch-please-check-out-this-blog-post))
 
-  Gym はすでに活発に保守されているプロジェクトではないため、Gymnasium とのインテグレーションをお試しください。
+  Gym はすでに保守されているプロジェクトではないため、Gymnasium とのインテグレーションをお試しください。
 </Note>
+
+このページでは、W&amp;B を [OpenAI Gym](https://github.com/openai/gym) と組み合わせて使用し、強化学習環境の動画を自動的に取得する方法について説明します。取得した動画は、W&amp;B で experiment のメトリクスとあわせてエージェントの動作を確認できます。
 
 [OpenAI Gym](https://github.com/openai/gym) を使用している場合、W&amp;B は `gym.wrappers.Monitor` によって生成された環境の動画を自動的にログします。[`wandb.init()`](/ja/models/ref/python/functions/init) の `monitor_gym` キーワード引数を `True` に設定するか、`wandb.gym.monitor()` を呼び出してください。
 
 gym とのインテグレーションは非常に軽量です。`gym` からログされる[動画ファイル名を確認し](https://github.com/wandb/wandb/blob/master/wandb/integration/gym/__init__.py#L15)、それに基づいて名前を付けています。一致するものが見つからない場合は `"videos"` を使用します。より細かく制御したい場合は、いつでも手動で[動画をログする](/ja/models/track/log/media/)こともできます。
 
-[CleanRL](https://github.com/vwxyzjn/cleanrl) による [OpenRL Benchmark](https://wandb.me/openrl-benchmark-report) では、OpenAI Gym の例でこのインテグレーションを使用しています。gym の使い方を示すソースコード ([特定の runs で使用された具体的なコード](https://wandb.ai/cleanrl/cleanrl.benchmark/runs/2jrqfugg/code?workspace=user-costa-huang) を含む) は次で確認できます
+[CleanRL](https://github.com/vwxyzjn/cleanrl) による [OpenRL Benchmark](https://wandb.me/openrl-benchmark-report) では、OpenAI Gym の例でこのインテグレーションを使用しています。gym を W&amp;B と組み合わせて使用する方法を示すソースコード ([特定の runs で使用された具体的なコード](https://wandb.ai/cleanrl/cleanrl.benchmark/runs/2jrqfugg/code?workspace=user-costa-huang) を含む) は次で確認できます。
 
 <Frame>
   <img src="/images/integrations/open_ai_report_example.png" alt="OpenAI Gym ダッシュボード" />

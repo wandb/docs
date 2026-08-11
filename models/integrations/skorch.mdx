@@ -3,24 +3,26 @@ description: "Integrate W&B with Skorch to log scikit-learn compatible PyTorch m
 title: Skorch
 ---
 
-You can use W&B with Skorch to automatically log the model with the best performance, along with all model performance metrics, the model topology and compute resources after each epoch. Every file saved in `wandb_run.dir` is automatically logged to W&B.
+This page shows you how to use W&B with [Skorch](https://skorch.readthedocs.io/) so you can track Skorch model training without writing custom logging code. When you integrate the two, W&B automatically logs the model with the best performance, along with all model performance metrics, the model topology, and compute resources after each epoch. W&B automatically logs every file you save in `wandb_run.dir`.
 
-See [example run](https://app.wandb.ai/borisd13/skorch/runs/s20or4ct?workspace=user-borisd13).
+For more information, see this [example run](https://app.wandb.ai/borisd13/skorch/runs/s20or4ct?workspace=user-borisd13).
 
 ## Parameters
 
+The following table lists the parameters that the `WandbLogger` callback accepts.
+
 | Parameter | Type | Description |
 | :--- | :--- | :--- |
-| `wandb_run` | `wandb.wandb_run`. Run | wandb run used to log data. |
-|`save_model` | bool (default=True)| Whether to save a checkpoint of the best model and upload it to your Run on W&B.|
-|`keys_ignored`| str or list of str (default=None) | Key or list of keys that should not be logged to tensorboard. Note that in addition to the keys provided by the user, keys such as those starting with `event_` or ending on `_best` are ignored by default.|
+| `wandb_run` | `wandb.wandb_run`. Run | The W&B run used to log data. |
+|`save_model` | `bool` (default=`True`)| Whether to save a checkpoint of the best model and upload it to your run on W&B.|
+|`keys_ignored`| `str` or list of `str` (default=`None`) | Key or list of keys not to log to TensorBoard. In addition to the keys you provide, W&B ignores keys such as those starting with `event_` or ending with `_best` by default.|
 
 ## Example code
 
-We've created a few examples for you to see how the integration works:
+The following examples show end-to-end usage of `WandbLogger` with Skorch:
 
-* [Colab](https://colab.research.google.com/drive/1Bo8SqN1wNPMKv5Bn9NjwGecBxzFlaNZn?usp=sharing): A simple demo to try the integration
-* [A step by step guide](https://app.wandb.ai/cayush/uncategorized/reports/Automate-Kaggle-model-training-with-Skorch-and-W%26B--Vmlldzo4NTQ1NQ): to tracking your Skorch model performance
+* [Colab](https://colab.research.google.com/drive/1Bo8SqN1wNPMKv5Bn9NjwGecBxzFlaNZn?usp=sharing): A simple demo to try the integration.
+* [Step-by-step guide](https://app.wandb.ai/cayush/uncategorized/reports/Automate-Kaggle-model-training-with-Skorch-and-W%26B--Vmlldzo4NTQ1NQ): A walkthrough for tracking your Skorch model performance.
 
 ```bash
 pip install wandb
@@ -30,7 +32,7 @@ pip install wandb
 import wandb
 from skorch.callbacks import WandbLogger
 
-# Create a wandb Run
+# Create a wandb run
 wandb_run = wandb.init()
 
 # Log hyper-parameters (optional)
@@ -42,13 +44,15 @@ net.fit(X, y)
 
 ## Method reference
 
+The following table lists the callback methods that `WandbLogger` provides and when Skorch invokes each one.
+
 | Method | Description |
 | :--- | :--- |
 | `initialize`\(\) | \(Re-\)Set the initial state of the callback. |
 | `on_batch_begin`\(net\[, X, y, training\]\) | Called at the beginning of each batch. |
 | `on_batch_end`\(net\[, X, y, training\]\) | Called at the end of each batch. |
-| `on_epoch_begin`\(net\[, dataset_train, …\]\) | Called at the beginning of each epoch. |
-| `on_epoch_end`\(net, \*\*kwargs\) | Log values from the last history step and save best model |
-| `on_grad_computed`\(net, named_parameters\[, X, …\]\) | Called once per batch after gradients have been computed but before an update step was performed. |
-| `on_train_begin`\(net, \*\*kwargs\) | Log model topology and add a hook for gradients |
+| `on_epoch_begin`\(net\[, dataset_train, ...\]\) | Called at the beginning of each epoch. |
+| `on_epoch_end`\(net, \*\*kwargs\) | Log values from the last history step and save the best model. |
+| `on_grad_computed`\(net, named_parameters\[, X, ...\]\) | Called once per batch after gradients are computed but before an update step is performed. |
+| `on_train_begin`\(net, \*\*kwargs\) | Log model topology and add a hook for gradients. |
 | `on_train_end`\(net\[, X, y\]\) | Called at the end of training. |

@@ -1,7 +1,7 @@
 ---
 title: Découvrez Weave avec Serverless Inference
-description: "Découvrez les bases de Weave à l’aide de Serverless Inference pour tracer les appels au modèle, comparer les sorties et effectuer des évaluations."
-keywords: [traçage LLM, EvaluationLogger, comparaison de modèles, weave.op, Démarrage rapide]
+description: "Découvrez les bases de Weave à l’aide de Serverless Inference pour effectuer le tracing des appels au modèle, comparer les sorties et effectuer des évaluations."
+keywords: [tracing LLM, EvaluationLogger, comparaison de modèles, weave.op, Démarrage rapide]
 ---
 
 import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
@@ -9,12 +9,12 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 import WeaveQuickstartPrereqs from "/snippets/fr/_includes/weave-quickstart-prereqs.mdx";
 
 <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-  <ColabLink url="https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/learn-weave-with-inference.ipynb" />
+  <ColabLink url="https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/quickstart-inference.ipynb" />
 
-  <GitHubLink url="https://github.com/wandb/docs/blob/main/weave/cookbooks/source/learn-weave-with-inference.ipynb" />
+  <GitHubLink url="https://github.com/wandb/docs/blob/main/weave/cookbooks/source/quickstart-inference.ipynb" />
 </div>
 
-Ce guide vous montre comment utiliser W&amp;B Weave avec [Serverless Inference](/fr/inference) pour découvrir les bases de Weave. Utilisez Serverless Inference pour créer et tracer des applications LLM à l’aide de modèles open source accessibles en direct, sans avoir à mettre en place votre propre infrastructure ni à gérer des clés API provenant de plusieurs fournisseurs. Avec votre clé API W&amp;B, vous pouvez interagir avec [tous les modèles hébergés par Serverless Inference](/fr/inference/models). À la fin de ce guide, vous aurez tracé des appels LLM, comparé des modèles et exécuté une évaluation que vous pourrez consulter dans l’interface Weave.
+Ce guide vous montre comment utiliser W&amp;B Weave avec [Serverless Inference](/fr/inference) pour découvrir les bases de Weave. Utilisez Serverless Inference pour créer et effectuer le tracing d’applications LLM à l’aide de modèles open source accessibles en direct, sans avoir à mettre en place votre propre infrastructure ni à gérer des clés API provenant de plusieurs fournisseurs. Avec votre clé API W&amp;B, vous pouvez interagir avec [tous les modèles hébergés par Serverless Inference](/fr/inference/models). À la fin de ce guide, vous aurez effectué le tracing d’appels LLM, comparé des modèles et exécuté une évaluation que vous pourrez consulter dans l’interface Weave.
 
 <div id="what-youll-learn">
   ## Ce que vous allez apprendre
@@ -79,8 +79,7 @@ Lorsque vous exécutez ce code, Weave :
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript twoslash lines
-    // @noErrors
+    ```typescript lines
     import * as weave from 'weave';
     import OpenAI from 'openai';
 
@@ -187,8 +186,7 @@ Ensuite, exécutez ce code, une application simple de synthèse qui montre comme
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript twoslash lines
-    // @noErrors
+    ```typescript lines
     import * as weave from 'weave';
     import OpenAI from 'openai';
 
@@ -301,8 +299,7 @@ Un cas d&#39;utilisation courant de Weave consiste à comparer la manière dont 
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript twoslash lines
-    // @noErrors
+    ```typescript lines
     import * as weave from 'weave';
     import OpenAI from 'openai';
 

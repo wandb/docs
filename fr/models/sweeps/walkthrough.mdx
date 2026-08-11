@@ -1,17 +1,18 @@
 ---
-description: Le guide de démarrage rapide de Sweeps montre comment définir, initialiser et exécuter un balayage. Il y
-  a quatre étapes principales
+description: Définissez, initialisez et exécutez un balayage pour explorer un espace d’hyperparamètres et trouver la configuration qui produit le meilleur modèle.
 title: "Tutoriel : définir, initialiser et exécuter un balayage"
 ---
 
-Cette page explique comment définir, initialiser et exécuter un balayage. Il y a quatre étapes principales :
+Ce tutoriel explique comment définir, initialiser et exécuter un balayage afin d’automatiser la recherche d&#39;hyperparamètres et de trouver la configuration qui produit le meilleur modèle. Il s&#39;adresse aux utilisateurs qui savent déjà journaliser des runs dans W&amp;B et souhaitent commencer à ajuster les hyperparamètres à grande échelle.
+
+Le tutoriel comporte quatre étapes principales :
 
 1. [Configurer votre code d&#39;entraînement](#set-up-your-training-code)
 2. [Définir l&#39;espace de recherche à l&#39;aide d&#39;une configuration de balayage](#define-the-search-space-with-a-sweep-configuration)
 3. [Initialiser le balayage](#initialize-the-sweep)
 4. [Démarrer l&#39;agent de balayage](#start-the-sweep)
 
-Copiez-collez le code suivant dans un notebook Jupyter ou un script Python :
+Pour commencer, copiez-collez le code suivant dans un notebook Jupyter ou un script Python. Les sections suivantes détaillent chaque partie de cet exemple.
 
 ```python
 # Importer la bibliothèque Python W&B et se connecter à W&B
@@ -43,15 +44,15 @@ sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
 wandb.agent(sweep_id, function=main, count=10)
 ```
 
-Les sections suivantes détaillent et expliquent chaque étape de l’exemple de code.
-
 <div id="set-up-your-training-code">
   ## Configurez votre code d&#39;entraînement
 </div>
 
+L&#39;agent de balayage appelle votre fonction d&#39;entraînement avec chaque combinaison de valeurs d&#39;hyperparamètres à essayer ; la première étape consiste donc à écrire une fonction qui accepte ces valeurs et consigne une métrique dans W&amp;B.
+
 Définissez une fonction d&#39;entraînement qui récupère les valeurs des hyperparamètres depuis `wandb.Run.config`, les utilise pour entraîner un modèle, puis renvoie les métriques.
 
-Vous pouvez facultativement indiquer le nom du projet dans lequel vous souhaitez stocker la sortie du W&amp;B Run (paramètre `project` dans [`wandb.init()`](/fr/models/ref/python/functions/init)). Si aucun projet n&#39;est spécifié, le run est placé dans un projet &quot;Uncategorized&quot;.
+Vous pouvez facultativement indiquer le nom du projet dans lequel vous souhaitez stocker la sortie du run (paramètre `project` dans [`wandb.init()`](/fr/models/ref/python/functions/init)). Si aucun projet n&#39;est spécifié, le run est placé dans un projet &quot;Uncategorized&quot;.
 
 <Note>
   Le balayage et le run doivent tous deux se trouver dans le même projet. Par conséquent, le nom fourni lors de l&#39;initialisation de W&amp;B doit correspondre au nom du projet fourni lors de l&#39;initialisation d&#39;un balayage.
@@ -74,9 +75,11 @@ def main():
   ## Définissez l&#39;espace de recherche avec une configuration de balayage
 </div>
 
-Spécifiez les hyperparamètres à balayer dans un dictionnaire. Pour les options de configuration, voir [Définir la configuration d&#39;un balayage](/fr/models/sweeps/define-sweep-configuration/).
+Une fois la fonction d&#39;entraînement en place, l&#39;étape suivante consiste à indiquer à W&amp;B quels hyperparamètres faire varier et comment effectuer la recherche parmi eux.
 
-L&#39;exemple suivant présente une configuration de balayage qui utilise une recherche aléatoire (`'method':'random'`). Le balayage sélectionnera aléatoirement des valeurs parmi celles indiquées dans la configuration pour la taille de lot, l&#39;époque et le taux d&#39;apprentissage.
+Spécifiez les hyperparamètres à balayer dans un dictionnaire. Pour les options de configuration, voir [Définir la configuration d&#39;un balayage](/fr/models/sweeps/define-sweep-configuration).
+
+L&#39;exemple suivant présente une configuration de balayage qui utilise une recherche aléatoire (`'method':'random'`). Le balayage sélectionnera aléatoirement des valeurs parmi celles indiquées dans la configuration pour les paramètres `x` et `y`.
 
 W&amp;B minimise la métrique spécifiée dans la clé `metric` lorsque `"goal": "minimize"` y est associé. Dans ce cas, W&amp;B cherchera à minimiser la métrique `score` (`"name": "score"`).
 
@@ -96,55 +99,63 @@ sweep_configuration = {
   ## Initialiser le balayage
 </div>
 
-W&amp;B utilise un *contrôleur de balayage* pour gérer les Sweeps dans le cloud (standard) ou localement (local), sur une ou plusieurs machines. Pour plus d’informations sur les contrôleurs de balayage, voir [Algorithmes de recherche et d’arrêt en local](./local-controller).
+L’initialisation du balayage enregistre votre espace de recherche dans W&amp;B et renvoie un identifiant que l’agent utilise pour demander des combinaisons d’hyperparamètres.
 
-Un identifiant de balayage est renvoyé lorsque vous initialisez un balayage :
+W&amp;B utilise un *contrôleur de balayage* pour gérer les balayages dans le cloud (standard) ou localement (local), sur une ou plusieurs machines. Pour plus d’informations sur les contrôleurs de balayage, voir [Algorithmes de recherche et d’arrêt en local](/fr/models/sweeps/local-controller).
+
+L’initialisation d’un balayage renvoie un identifiant de balayage :
 
 ```python
 sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
 ```
 
-Pour en savoir plus sur l&#39;initialisation des Sweeps, voir [Initialiser les Sweeps](./initialize-sweeps).
+Pour plus d&#39;informations, voir [Initialiser les balayages](/fr/models/sweeps/initialize-sweeps).
 
 <div id="start-the-sweep">
   ## Démarrer le balayage
 </div>
 
-Utilisez l’appel à l’API [`wandb.agent()`](/fr/models/ref/python/functions/agent) pour démarrer un balayage.
+Une fois le balayage enregistré, démarrez un agent pour exécuter les runs et explorer l’espace de recherche.
+
+Pour démarrer un balayage, utilisez l’appel d’API [`wandb.agent()`](/fr/models/ref/python/functions/agent).
 
 ```python
 wandb.agent(sweep_id, function=main, count=10)
 ```
 
+Une fois l’agent démarré, il demande à W&amp;B des combinaisons d’hyperparamètres, appelle votre fonction d’entraînement pour chacune d’elles et journalise les métriques obtenues dans votre projet.
+
 <Warning>
   **Multiprocessing**
 
-  Vous devez entourer vos appels à `wandb.agent()` et `wandb.sweep()` avec `if __name__ == '__main__':` si vous utilisez `multiprocessing` de la bibliothèque standard Python ou le package `pytorch.multiprocessing` de PyTorch. Par exemple :
+  Si vous utilisez le package `multiprocessing` de la bibliothèque standard Python ou le package `pytorch.multiprocessing` de PyTorch, vous devez placer vos appels à `wandb.agent()` et `wandb.sweep()` dans un bloc `if __name__ == '__main__':`. Par exemple :
 
   ```python
   if __name__ == '__main__':
-      wandb.agent(sweep_id="<sweep_id>", function="<function>", count="<count>")
+      wandb.agent(sweep_id="[SWEEP-ID]", function="[FUNCTION]", count="[COUNT]")
   ```
 
-  Entourer votre code de cette condition garantit qu’il n’est exécuté que lorsque le script est lancé directement, et non lorsqu’il est importé comme module dans un processus worker.
+  Cette convention garantit que le code s’exécute uniquement lorsque le script est lancé directement, et non lorsqu’il est importé comme module dans un processus de travail.
 
-  Voir [Python standard library `multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#the-spawn-and-forkserver-start-methods) ou [PyTorch `multiprocessing`](https://docs.pytorch.org/docs/stable/notes/multiprocessing.html#asynchronous-multiprocess-training-e-g-hogwild) pour plus d’informations sur le multiprocessing. Voir [https://realpython.com/if-name-main-python/](https://realpython.com/if-name-main-python/) pour plus d’informations sur la convention `if __name__ == '__main__':`.
+  Pour plus d’informations sur le multiprocessing, voir [la bibliothèque standard Python `multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#the-spawn-and-forkserver-start-methods) ou [le `multiprocessing` de PyTorch](https://docs.pytorch.org/docs/stable/notes/multiprocessing.html#asynchronous-multiprocess-training-e-g-hogwild). Pour plus d’informations sur la convention `if __name__ == '__main__':`, voir [le guide de Real Python sur `__main__`](https://realpython.com/if-name-main-python/).
 </Warning>
 
-<div id="visualize-results-optional">
-  ## Visualiser les résultats (facultatif)
+<div id="optional-visualize-results">
+  ## Facultatif : visualiser les résultats
 </div>
 
-Ouvrez votre projet pour voir vos résultats en direct dans le tableau de bord de W&amp;B App. En quelques clics, créez des graphiques riches et interactifs, comme des [graphiques en coordonnées parallèles](/fr/models/app/features/panels/parallel-coordinates/), des [analyses de l’importance des paramètres](/fr/models/app/features/panels/parameter-importance/) et d’[autres types de graphiques](/fr/models/app/features/panels/).
+Une fois le balayage lancé, vous pouvez explorer l&#39;effet de différentes combinaisons d&#39;hyperparamètres sur votre métrique dans la W&amp;B App.
+
+Ouvrez votre projet pour voir vos résultats en direct dans le tableau de bord de la W&amp;B App. En quelques clics, créez des graphiques interactifs comme des [graphiques de coordonnées parallèles](/fr/models/app/features/panels/parallel-coordinates), des [analyses d&#39;importance des paramètres](/fr/models/app/features/panels/parameter-importance) et [d&#39;autres types de graphiques](/fr/models/app/features/panels).
 
 <Frame>
   <img src="/images/sweeps/quickstart_dashboard_example.png" alt="Exemple de tableau de bord Sweeps" />
 </Frame>
 
-Pour plus d’informations sur la visualisation des résultats, Voir [Visualiser les résultats d’un balayage](./visualize-sweep-results). Pour voir un exemple de tableau de bord, Voir cet exemple de [projet Sweeps](https://wandb.ai/anmolmann/pytorch-cnn-fashion/sweeps/pmqye6u3).
+Pour plus d&#39;informations, voir [Visualiser les résultats d&#39;un balayage](/fr/models/sweeps/visualize-sweep-results). Pour voir un exemple de tableau de bord, consultez ce [projet Sweeps](https://wandb.ai/anmolmann/pytorch-cnn-fashion/sweeps/pmqye6u3).
 
-<div id="stop-the-agent-optional">
-  ## Arrêter l’agent (facultatif)
+<div id="optional-stop-the-agent">
+  ## Facultatif : arrêter l’agent
 </div>
 
 Dans le terminal, appuyez sur `Ctrl+C` pour interrompre le run en cours. Appuyez de nouveau sur `Ctrl+C` pour arrêter l’agent.

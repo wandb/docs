@@ -1,104 +1,97 @@
 ---
 title: File
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.files
 ---
+
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/files.py" />
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/files.py#L245" />
+
+
+
+## <kbd>class</kbd> wandb.apis.public.File
 
 
 
 
-## <kbd>class</kbd> `File`
-File saved to W&B. 
+File saved to W&B.
 
-Represents a single file stored in W&B. Includes access to file metadata. Files are associated with a specific run and can include text files, model weights, datasets, visualizations, and other artifacts. You can download the file, delete the file, and access file properties. 
+Represents a single file stored in W&B. Includes access to file metadata.
+Files are associated with a specific run and
+can include text files, model weights, datasets, visualizations, and other
+artifacts. You can download the file, delete the file, and access file
+properties.
 
-Specify one or more attributes in a dictionary to fine a specific file logged to a specific run. You can search using the following keys: 
+Specify one or more attributes in a dictionary to fine a specific
+file logged to a specific run. You can search using the following keys:
 
-
-- id (str): The ID of the run that contains the file 
-- name (str): Name of the file 
-- url (str): path to file 
-- direct_url (str): path to file in the bucket 
-- sizeBytes (int): size of file in bytes 
-- md5 (str): md5 of file 
-- mimetype (str): mimetype of file 
-- updated_at (str): timestamp of last update 
-- path_uri (str): path to file in the bucket, currently only available for S3 objects and reference files 
-
-
-
-**Args:**
- 
- - `service_api`:  The service API instance to use for querying W&B. 
- - `attrs` (dict):  A dictionary of attributes that define the file 
- - `run`:  The run object that contains the file 
-
-
-### <kbd>property</kbd> File.path_uri
-
-Returns the URI path to the file in the storage bucket. 
-
-
-
-**Returns:**
- 
- - `str`:  The S3 URI (e.g., 's3://bucket/path/to/file') if the file is stored in S3,  the direct URL if it's a reference file, or an empty string if unavailable. 
-
-
-
-**Returns:**
- - `str`: The path_uri property value.
----
-
-### <kbd>property</kbd> File.size
-
-Returns the size of the file in bytes. 
+- id (str): The ID of the run that contains the file
+- name (str): Name of the file
+- url (str): path to file
+- direct_url (str): path to file in the bucket
+- sizeBytes (int): size of file in bytes
+- md5 (str): md5 of file
+- mimetype (str): mimetype of file
+- updated_at (str): timestamp of last update
+- path_uri (str): path to file in the bucket, currently only available for S3 objects and reference files
 
 
 
 
 
-**Returns:**
- - `int`: The size property value.
----
 
-### <kbd>method</kbd> `File.delete`
+
+
+
+## Properties
+
+### <kbd>property</kbd> path_uri
+
+Returns the URI path to the file in the storage bucket.
+
+### <kbd>property</kbd> size
+
+Returns the size of the file in bytes.
+
+
+
+## Methods
+
+### <kbd>method</kbd> File.delete()
 
 ```python
-delete() → None
+self
 ```
 
-Delete the file from the W&B server. 
+Delete the file from the W&B server.
 
----
 
-### <kbd>method</kbd> `File.download`
+
+
+
+### <kbd>method</kbd> File.download()
 
 ```python
-download(
-    root: 'str' = '.',
-    replace: 'bool' = False,
-    exist_ok: 'bool' = False,
-    api: 'Api | None' = None
-) → io.TextIOWrapper
+self,
+root: 'str' = '.',
+replace: 'bool' = False,
+exist_ok: 'bool' = False,
+api: 'Api | None' = None
 ```
 
-Downloads a file previously saved by a run from the wandb server. 
+Downloads a file previously saved by a run from the wandb server.
+
+##### Arguments
+
+- `root`: Local directory to save the file. Defaults to the current working directory (".").
+- `replace`: If `True`, download will overwrite a local file if it exists. Defaults to `False`.
+- `exist_ok`: If `True`, will not raise ValueError if file already exists and will not re-download unless replace=True. Defaults to `False`.
+- `api`: If specified, the `Api` instance used to download the file.
 
 
 
-**Args:**
- 
- - `root`:  Local directory to save the file. Defaults to the  current working directory ("."). 
- - `replace`:  If `True`, download will overwrite a local file  if it exists. Defaults to `False`. 
- - `exist_ok`:  If `True`, will not raise ValueError if file already  exists and will not re-download unless replace=True.  Defaults to `False`. 
- - `api`:  If specified, the `Api` instance used to download the file. 
 
 
-
-**Raises:**
- `ValueError` if file already exists, `replace=False` and `exist_ok=False`. 
 

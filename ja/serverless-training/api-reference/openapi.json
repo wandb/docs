@@ -52,6 +52,7 @@
         "type": "object"
       },
       "Audio": {
+        "additionalProperties": true,
         "description": "モデルからの過去のオーディオレスポンスに関するデータ。\n[詳細はこちら](https://platform.openai.com/docs/guides/audio)。",
         "properties": {
           "id": {
@@ -83,6 +84,7 @@
         "type": "object"
       },
       "ChatCompletionAssistantMessageParam": {
+        "additionalProperties": true,
         "description": "ユーザーメッセージへの応答としてモデルが送信したメッセージ。",
         "properties": {
           "audio": {
@@ -122,7 +124,7 @@
           "function_call": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/openai__types__chat__chat_completion_assistant_message_param__FunctionCall"
+                "$ref": "#/components/schemas/FunctionCall"
               },
               {
                 "type": "null"
@@ -201,6 +203,7 @@
         "type": "object"
       },
       "ChatCompletionContentPartImageParam": {
+        "additionalProperties": true,
         "description": "[画像入力](https://platform.openai.com/docs/guides/vision)について詳しくはこちら。",
         "properties": {
           "image_url": {
@@ -220,6 +223,7 @@
         "type": "object"
       },
       "ChatCompletionContentPartInputAudioParam": {
+        "additionalProperties": true,
         "description": "[オーディオ入力](https://platform.openai.com/docs/guides/audio)についてはこちらをご覧ください。",
         "properties": {
           "input_audio": {
@@ -239,6 +243,7 @@
         "type": "object"
       },
       "ChatCompletionContentPartRefusalParam": {
+        "additionalProperties": true,
         "properties": {
           "refusal": {
             "title": "Refusal",
@@ -278,6 +283,7 @@
         "type": "object"
       },
       "ChatCompletionDeveloperMessageParam": {
+        "additionalProperties": true,
         "description": "ユーザーが送信したメッセージにかかわらず、モデルが従うべき開発者指定の指示です。o1 モデル以降では、`developer` メッセージが従来の `system` メッセージに置き換わります。",
         "properties": {
           "content": {
@@ -312,6 +318,7 @@
         "type": "object"
       },
       "ChatCompletionFunctionMessageParam": {
+        "additionalProperties": true,
         "properties": {
           "content": {
             "anyOf": [
@@ -343,6 +350,7 @@
         "type": "object"
       },
       "ChatCompletionFunctionToolParam": {
+        "additionalProperties": true,
         "description": "応答の生成に使用できる function tool です。",
         "properties": {
           "function": {
@@ -480,10 +488,11 @@
         "type": "object"
       },
       "ChatCompletionMessageCustomToolCallParam": {
+        "additionalProperties": true,
         "description": "モデルによって作成されたカスタム tool への call です。",
         "properties": {
           "custom": {
-            "$ref": "#/components/schemas/openai__types__chat__chat_completion_message_custom_tool_call_param__Custom"
+            "$ref": "#/components/schemas/Custom"
           },
           "id": {
             "title": "Id",
@@ -529,10 +538,11 @@
         "type": "object"
       },
       "ChatCompletionMessageFunctionToolCallParam": {
+        "additionalProperties": true,
         "description": "モデルによって作成された function tool への call です。",
         "properties": {
           "function": {
-            "$ref": "#/components/schemas/openai__types__chat__chat_completion_message_function_tool_call_param__Function"
+            "$ref": "#/components/schemas/Function"
           },
           "id": {
             "title": "Id",
@@ -590,6 +600,7 @@
         "type": "object"
       },
       "ChatCompletionSystemMessageParam": {
+        "additionalProperties": true,
         "description": "ユーザーが送信する messages に関係なく、モデルが従うべき開発者指定の指示です。o1 models 以降では、この用途には代わりに `developer` messages を使用してください。",
         "properties": {
           "content": {
@@ -665,6 +676,7 @@
         "type": "object"
       },
       "ChatCompletionToolMessageParam": {
+        "additionalProperties": true,
         "properties": {
           "content": {
             "anyOf": [
@@ -699,6 +711,7 @@
         "type": "object"
       },
       "ChatCompletionUserMessageParam": {
+        "additionalProperties": true,
         "description": "プロンプトまたは追加のコンテキスト情報を含む、エンドユーザーが送信する messages。",
         "properties": {
           "content": {
@@ -1316,6 +1329,7 @@
         "type": "object"
       },
       "File": {
+        "additionalProperties": true,
         "description": "テキスト生成の [file inputs](https://platform.openai.com/docs/guides/text) について確認してください。",
         "properties": {
           "file": {
@@ -1335,6 +1349,7 @@
         "type": "object"
       },
       "FileFile": {
+        "additionalProperties": true,
         "properties": {
           "file_data": {
             "title": "File Data",
@@ -1393,6 +1408,7 @@
         "type": "object"
       },
       "FunctionDefinition": {
+        "additionalProperties": true,
         "properties": {
           "description": {
             "title": "Description",
@@ -1491,6 +1507,7 @@
         "type": "object"
       },
       "ImageURL": {
+        "additionalProperties": true,
         "properties": {
           "detail": {
             "enum": [
@@ -1513,6 +1530,7 @@
         "type": "object"
       },
       "InputAudio": {
+        "additionalProperties": true,
         "properties": {
           "data": {
             "title": "Data",
@@ -1741,9 +1759,41 @@
         "title": "PaginatedResponse[TrainingJobEventResponse]",
         "type": "object"
       },
+      "PydanticException": {
+        "properties": {
+          "message": {
+            "title": "Message",
+            "type": "string"
+          },
+          "traceback": {
+            "title": "Traceback",
+            "type": "string"
+          },
+          "type": {
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "message",
+          "traceback"
+        ],
+        "title": "PydanticException",
+        "type": "object"
+      },
       "SFTTrainingConfig": {
         "description": "SFT トレーニング設定のスキーマ。",
         "properties": {
+          "assistant_turns": {
+            "default": "all",
+            "enum": [
+              "all",
+              "last"
+            ],
+            "title": "Assistant Turns",
+            "type": "string"
+          },
           "batch_size": {
             "anyOf": [
               {
@@ -1877,14 +1927,20 @@
         "type": "object"
       },
       "Trajectory": {
+        "additionalProperties": true,
+        "description": "新しい ART プロデューサーによって追加された軌跡フィールドを保持します。",
         "properties": {
           "additional_histories": {
-            "default": [],
             "items": {
               "$ref": "#/components/schemas/History"
             },
             "title": "Additional Histories",
             "type": "array"
+          },
+          "exchanges": {
+            "additionalProperties": true,
+            "title": "Exchanges",
+            "type": "object"
           },
           "final_policy_version": {
             "anyOf": [
@@ -1909,7 +1965,6 @@
             "title": "Initial Policy Version"
           },
           "logs": {
-            "default": [],
             "items": {
               "type": "string"
             },
@@ -1917,7 +1972,6 @@
             "type": "array"
           },
           "messages_and_choices": {
-            "default": [],
             "items": {
               "anyOf": [
                 {
@@ -1947,26 +2001,7 @@
             "type": "array"
           },
           "metadata": {
-            "additionalProperties": {
-              "anyOf": [
-                {
-                  "type": "number"
-                },
-                {
-                  "type": "integer"
-                },
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "boolean"
-                },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "default": {},
+            "additionalProperties": true,
             "title": "Metadata",
             "type": "object"
           },
@@ -1984,7 +2019,6 @@
                 }
               ]
             },
-            "default": {},
             "title": "Metrics",
             "type": "object"
           },
@@ -2017,7 +2051,44 @@
         "type": "object"
       },
       "TrajectoryGroup": {
+        "description": "exchange とグループレベルの状態を含む ART 軌跡グループ。",
         "properties": {
+          "exceptions": {
+            "items": {
+              "$ref": "#/components/schemas/PydanticException"
+            },
+            "title": "Exceptions",
+            "type": "array"
+          },
+          "logs": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Logs",
+            "type": "array"
+          },
+          "metadata": {
+            "additionalProperties": true,
+            "title": "Metadata",
+            "type": "object"
+          },
+          "metrics": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "boolean"
+                }
+              ]
+            },
+            "title": "Metrics",
+            "type": "object"
+          },
           "trajectories": {
             "items": {
               "$ref": "#/components/schemas/Trajectory"
@@ -2026,9 +2097,6 @@
             "type": "array"
           }
         },
-        "required": [
-          "trajectories"
-        ],
         "title": "TrajectoryGroup",
         "type": "object"
       },
@@ -2064,63 +2132,6 @@
         ],
         "title": "ValidationError",
         "type": "object"
-      },
-      "openai__types__chat__chat_completion_assistant_message_param__FunctionCall": {
-        "description": "非推奨であり、`tool_calls` に置き換えられました。\n\nモデルによって生成された、呼び出す対象の関数の名前と引数です。",
-        "properties": {
-          "arguments": {
-            "title": "Arguments",
-            "type": "string"
-          },
-          "name": {
-            "title": "Name",
-            "type": "string"
-          }
-        },
-        "required": [
-          "arguments",
-          "name"
-        ],
-        "title": "FunctionCall",
-        "type": "object"
-      },
-      "openai__types__chat__chat_completion_message_custom_tool_call_param__Custom": {
-        "description": "モデルが呼び出したカスタムツールです。",
-        "properties": {
-          "input": {
-            "title": "Input",
-            "type": "string"
-          },
-          "name": {
-            "title": "Name",
-            "type": "string"
-          }
-        },
-        "required": [
-          "input",
-          "name"
-        ],
-        "title": "Custom",
-        "type": "object"
-      },
-      "openai__types__chat__chat_completion_message_function_tool_call_param__Function": {
-        "description": "モデルが呼び出した関数です。",
-        "properties": {
-          "arguments": {
-            "title": "Arguments",
-            "type": "string"
-          },
-          "name": {
-            "title": "Name",
-            "type": "string"
-          }
-        },
-        "required": [
-          "arguments",
-          "name"
-        ],
-        "title": "Function",
-        "type": "object"
       }
     },
     "securitySchemes": {
@@ -2140,53 +2151,6 @@
       "post": {
         "description": "新しいChat Completionを作成します。",
         "operationId": "create_chat_completion_v1_chat_completions_post",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ChatCompletionRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ChatCompletionResponse"
-                }
-              }
-            },
-            "description": "正常なレスポンス"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            },
-            "description": "検証エラー"
-          }
-        },
-        "security": [
-          {
-            "HTTPBearer": []
-          }
-        ],
-        "summary": "Chat Completionを作成",
-        "tags": [
-          "chat-completions"
-        ]
-      }
-    },
-    "/v1/chat/completions/": {
-      "post": {
-        "description": "新しいChat Completionを作成します。",
-        "operationId": "create_chat_completion_v1_chat_completions__post",
         "requestBody": {
           "content": {
             "application/json": {
@@ -2779,5 +2743,10 @@
         ]
       }
     }
-  }
+  },
+  "servers": [
+    {
+      "url": "https://api.training.wandb.ai"
+    }
+  ]
 }

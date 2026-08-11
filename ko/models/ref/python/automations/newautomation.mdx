@@ -1,45 +1,40 @@
 ---
 title: NewAutomation
-namespace: automations_namespace
-python_object_type: class
+kind: 클래스
+namespace: wandb.automations.automations
 ---
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/automations.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/automations.py#L51" />
 
-
-## <kbd>class</kbd> `NewAutomation`
-
-생성될 새 자동화입니다.
-
-### <kbd>방법</kbd> `NewAutomation.__init__`
+## <kbd>클래스</kbd> wandb.automations.NewAutomation
 
 ```python
-__init__(
-    name: 'str | None' = None,
-    description: 'str | None' = None,
-    enabled: 'bool | None' = None,
-    event: 'Annotated | None' = None,
-    action: 'Annotated | None' = None
-) → None
+*,
+name: str | None = None,
+description: str | None = None,
+enabled: bool | None = None,
+event: Optional[Annotated[wandb.automations.events.OnLinkArtifact | wandb.automations.events.OnAddArtifactAlias | wandb.automations.events.OnAddArtifactTag | wandb.automations.events.OnRemoveArtifactTag | wandb.automations.events.OnAddCollectionTag | wandb.automations.events.OnRemoveCollectionTag | wandb.automations.events.OnCreateArtifact | wandb.automations.events.OnUnlinkArtifact | wandb.automations.events.OnRunMetric | wandb.automations.events.OnRunState, FieldInfo(annotation=NoneType, required=True, discriminator='event_type')]] = None,
+action: Optional[Annotated[wandb.automations.actions.SendNotification | wandb.automations.actions.SendWebhook | wandb.automations.actions.DoNothing, BeforeValidator(func=<function parse_input_action>, json_schema_input_type=PydanticUndefined), FieldInfo(annotation=NoneType, required=True, discriminator='action_type')]] = None
 ```
 
-**매개변수:**
+새로 생성할 자동화입니다.
 
-* `name` (str | None): 이 자동화의 이름입니다.
-* `description` (str | None): 이 자동화에 대한 선택 사항인 설명입니다.
-* `enabled` (bool | None): 이 자동화의 활성화 여부입니다. 활성화된 자동화만 트리거됩니다.
-* `event` (Optional[Annotated]): 이 자동화를 트리거하는 이벤트입니다.
-* `action` (Optional[Annotated]): 이 자동화가 트리거될 때 실행되는 action입니다.
+<div id="args">
+  ## 매개변수
+</div>
 
-**반환값:**
-`NewAutomation` 객체입니다.
+* `name`: 이 자동화의 이름입니다.
+* `description`: 이 자동화에 대한 선택 사항인 설명입니다.
+* `enabled`: 이 자동화의 활성화 여부입니다. 활성화된 자동화만 트리거됩니다.
+* `event`: 이 자동화를 트리거하는 이벤트입니다.
+* `action`: 이 자동화가 트리거될 때 실행되는 action입니다.
 
-### <kbd>속성</kbd> `NewAutomation.scope`
+<div id="properties">
+  ## 속성
+</div>
+
+### <kbd>속성</kbd> 범위
 
 트리거 이벤트가 발생하는 범위입니다.
-
-**반환값:**
-
-* `AutomationScope | None`: 범위 속성 값입니다.

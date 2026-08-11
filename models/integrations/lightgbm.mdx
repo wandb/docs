@@ -6,7 +6,9 @@ import { ColabLink } from '/snippets/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Simple_LightGBM_Integration.ipynb" />
 
-The `wandb` library includes a special callback for [LightGBM](https://lightgbm.readthedocs.io/en/latest/). It's also easy to use the generic logging features of W&B to track large experiments, like hyperparameter sweeps.
+The W&B Python SDK (`wandb`) includes a special callback for [LightGBM](https://lightgbm.readthedocs.io/en/latest/) that automatically logs training metrics, feature importance, and model checkpoints to W&B. You can also use the generic logging features of W&B to track large experiments, such as hyperparameter sweeps.
+
+Use this integration to monitor gradient boosting model performance, compare runs, and analyze feature contributions without writing custom logging code.
 
 ```python
 from wandb.integration.lightgbm import wandb_callback, log_summary
@@ -20,14 +22,14 @@ log_summary(gbm, save_model_checkpoint=True)
 ```
 
 <Note>
-Looking for working code examples? Check out [our repository of examples on GitHub](https://github.com/wandb/examples/tree/master/examples/boosting-algorithms).
+For working code examples, see the [repository of examples on GitHub](https://github.com/wandb/examples/tree/master/examples/boosting-algorithms).
 </Note>
 
-## Tuning your hyperparameters with Sweeps
+## Tune your hyperparameters with Sweeps
 
-Attaining the maximum performance out of models requires tuning hyperparameters, like tree depth and learning rate. W&B [Sweeps](/models/sweeps/) is a powerful toolkit for configuring, orchestrating, and analyzing large hyperparameter testing experiments.
+To get the best performance from models, tune hyperparameters such as tree depth and learning rate. W&B [Sweeps](/models/sweeps/) is a toolkit that configures, orchestrates, and analyzes large hyperparameter testing experiments.
 
-To learn more about these tools and see an example of how to use Sweeps with XGBoost, check out this interactive Colab notebook.
+To learn more about these tools and see an example of how to use Sweeps with XGBoost, open the following interactive Colab notebook.
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W%26B_Sweeps_with_XGBoost.ipynb" />
 

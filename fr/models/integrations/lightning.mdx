@@ -10,11 +10,15 @@ import ApiKeyCreateStreamlined from "/snippets/fr/_includes/api-key-create-strea
 
 {/* <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch-lightning/Optimize_PyTorch_Lightning_models_with_Weights_%26_Biases.ipynb" /> */}
 
-PyTorch Lightning fournit un wrapper léger pour organiser votre code PyTorch et ajouter facilement des fonctionnalités avancées telles que l’entraînement distribué et la précision en 16 bits. W&amp;B fournit un wrapper léger pour consigner vos expériences de ML. Mais vous n’avez pas besoin de combiner les deux vous-même : W&amp;B est directement intégré à la bibliothèque PyTorch Lightning via le [`WandbLogger`](https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.loggers.wandb.html#module-lightning.pytorch.loggers.wandb).
+PyTorch Lightning fournit un wrapper léger pour organiser votre code PyTorch et ajouter des fonctionnalités avancées telles que l’entraînement distribué et la précision en 16 bits. W&amp;B fournit un wrapper léger pour consigner vos expériences de ML. Vous n’avez pas besoin de combiner les deux vous-même : la bibliothèque PyTorch Lightning inclut directement W&amp;B via le [`WandbLogger`](https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.loggers.wandb.html#module-lightning.pytorch.loggers.wandb).
+
+Cette page explique comment utiliser `WandbLogger` pour suivre les métriques, consigner les hyperparamètres, enregistrer des points de contrôle du modèle comme artifacts, consigner des médias et exécuter un entraînement multi-GPU avec PyTorch Lightning et W&amp;B.
 
 <div id="integrate-with-lightning">
   ## Intégrer Lightning
 </div>
+
+Les sections suivantes montrent comment vous authentifier auprès de W&amp;B, installer la bibliothèque `wandb` et joindre un `WandbLogger` à votre instance Lightning `Trainer` ou `Fabric`.
 
 <Tabs>
   <Tab title="Logger PyTorch">
@@ -24,11 +28,10 @@ PyTorch Lightning fournit un wrapper léger pour organiser votre code PyTorch et
 
     wandb_logger = WandbLogger(log_model="all")
     trainer = Trainer(logger=wandb_logger)
-
     ```
 
     <Note>
-      **Utilisation de wandb.log() :** Le `WandbLogger` envoie les journaux vers W&amp;B en utilisant le `global_step` du Trainer. Si vous effectuez des appels supplémentaires à `wandb.log()` directement dans votre code, **n&#39;utilisez pas** l&#39;argument `step` dans `wandb.log()`.
+      **Utilisation de `wandb.log()` :** Le `WandbLogger` envoie les journaux vers W&amp;B en utilisant le `global_step` du Trainer. Si vous effectuez des appels supplémentaires à `wandb.log()` directement dans votre code, n&#39;utilisez pas l&#39;argument `step` dans `wandb.log()`.
 
       À la place, journalisez le `global_step` du Trainer comme vos autres métriques :
 
@@ -47,7 +50,6 @@ PyTorch Lightning fournit un wrapper léger pour organiser votre code PyTorch et
     fabric = L.Fabric(loggers=[wandb_logger])
     fabric.launch()
     fabric.log_dict({"important_metric": important_metric})
-
     ```
   </Tab>
 </Tabs>
@@ -56,9 +58,6 @@ PyTorch Lightning fournit un wrapper léger pour organiser votre code PyTorch et
   <img src="/images/integrations/n6P7K4M.gif" alt="Tableaux de bord interactifs" />
 </Frame>
 
-```
-```
-
 <div id="sign-up-and-create-an-api-key">
   ### Inscrivez-vous et créez une clé API
 </div>
@@ -66,6 +65,8 @@ PyTorch Lightning fournit un wrapper léger pour organiser votre code PyTorch et
 Une clé API permet d’authentifier votre machine auprès de W&amp;B. Vous pouvez générer une clé API depuis votre profil.
 
 <ApiKeyCreateStreamlined />
+
+Pour générer une clé API depuis votre profil :
 
 1. Cliquez sur l’icône de votre profil en haut à droite.
 2. Sélectionnez **Paramètres utilisateur**, puis faites défiler jusqu’à la section **Clés API**.
@@ -78,7 +79,7 @@ Pour installer la bibliothèque `wandb` localement et vous connecter :
 
 <Tabs>
   <Tab title="Ligne de commande">
-    1. Définissez la [variable d&#39;environnement](/fr/models/track/environment-variables/) `WANDB_API_KEY` sur votre clé API.
+    1. Définissez la [variable d&#39;environnement](/fr/models/track/environment-variables/) `WANDB_API_KEY` sur votre clé API. Remplacez les valeurs entre `<>` par les vôtres :
 
        ```bash
        export WANDB_API_KEY=<your_api_key>
@@ -118,7 +119,7 @@ Pour installer la bibliothèque `wandb` localement et vous connecter :
   ## Utiliser le `WandbLogger` de PyTorch Lightning
 </div>
 
-PyTorch Lightning propose plusieurs classes `WandbLogger` pour consigner des métriques, ainsi que les poids du modèle, des médias, et bien plus encore.
+PyTorch Lightning propose plusieurs classes `WandbLogger` pour consigner des métriques, ainsi que les poids du modèle et des médias. Choisissez la classe qui correspond à votre configuration d’entraînement :
 
 * [`PyTorch`](https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.loggers.wandb.html#module-lightning.pytorch.loggers.wandb)
 * [`Fabric`](https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.loggers.wandb.html#module-lightning.pytorch.loggers.wandb)
@@ -147,21 +148,23 @@ Pour l’utiliser avec Lightning, instanciez `WandbLogger`, puis transmettez-le 
   ### Arguments courants du logger
 </div>
 
-Vous trouverez ci-dessous quelques-uns des paramètres les plus utilisés dans `WandbLogger`. Consultez la documentation de PyTorch Lightning pour en savoir plus sur tous les arguments du logger.
+Le tableau suivant répertorie les paramètres courants de `WandbLogger`. Consultez la documentation de PyTorch Lightning pour en savoir plus sur tous les arguments du logger.
 
 * [`PyTorch`](https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.loggers.wandb.html#module-lightning.pytorch.loggers.wandb)
 * [`Fabric`](https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.loggers.wandb.html#module-lightning.pytorch.loggers.wandb)
 
 | Paramètre   | Description                                                                                             |
 | ----------- | ------------------------------------------------------------------------------------------------------- |
-| `project`   | Définit dans quel projet wandb journaliser                                                              |
-| `name`      | Donne un nom à votre run wandb                                                                          |
+| `project`   | Définit dans quel projet W&amp;B journaliser                                                            |
+| `name`      | Donne un nom à votre run W&amp;B                                                                        |
 | `log_model` | Journalise tous les modèles si `log_model="all"`, ou à la fin de l&#39;entraînement si `log_model=True` |
 | `save_dir`  | Chemin où les données sont enregistrées                                                                 |
 
 <div id="log-your-hyperparameters">
   ## Journalisez vos hyperparamètres
 </div>
+
+La journalisation des hyperparamètres avec W&amp;B vous permet de comparer les runs et de reproduire les résultats. Utilisez la méthode correspondante à votre logger :
 
 <Tabs>
   <Tab title="Logger PyTorch">
@@ -188,6 +191,8 @@ Vous trouverez ci-dessous quelques-uns des paramètres les plus utilisés dans `
   ## Journaliser des paramètres de configuration supplémentaires
 </div>
 
+Pour capturer des valeurs de configuration supplémentaires en plus de vos hyperparamètres, mettez directement à jour la configuration du run :
+
 ```python
 # ajouter un paramètre
 wandb_logger.experiment.config["key"] = value
@@ -204,7 +209,7 @@ wandb.config.update()
   ## Journaliser les gradients, l’histogramme des paramètres et la topologie du modèle
 </div>
 
-Vous pouvez passer l’objet de votre modèle à `wandblogger.watch()` pour surveiller les gradients et les paramètres de votre modèle pendant l’entraînement. Voir la documentation de `WandbLogger` pour PyTorch Lightning
+Passez l’objet de votre modèle à `wandb_logger.watch()` pour surveiller les gradients et les paramètres de votre modèle pendant l’entraînement. Voir la documentation de `WandbLogger` pour PyTorch Lightning.
 
 <div id="log-metrics">
   ## Journaliser des métriques
@@ -212,9 +217,9 @@ Vous pouvez passer l’objet de votre modèle à `wandblogger.watch()` pour surv
 
 <Tabs>
   <Tab title="Logger PyTorch">
-    Vous pouvez journaliser vos métriques dans W&amp;B lorsque vous utilisez `WandbLogger` en appelant `self.log('my_metric_name', metric_vale)` dans votre `LightningModule`, par exemple dans les méthodes `training_step` ou `validation_step`.
+    Pour journaliser vos métriques dans W&amp;B lorsque vous utilisez `WandbLogger`, appelez `self.log('my_metric_name', metric_value)` dans votre `LightningModule`, par exemple dans les méthodes `training_step` ou `validation_step`.
 
-    L’extrait de code ci-dessous montre comment définir votre `LightningModule` pour journaliser vos métriques ainsi que les hyperparamètres de votre `LightningModule`. Cet exemple utilise la bibliothèque [`torchmetrics`](https://github.com/Lightning-AI/torchmetrics) pour calculer vos métriques.
+    L’extrait de code suivant montre comment définir votre `LightningModule` pour journaliser vos métriques ainsi que les hyperparamètres de votre `LightningModule`. Cet exemple utilise la bibliothèque [`torchmetrics`](https://github.com/Lightning-AI/torchmetrics) pour calculer vos métriques.
 
     ```python
     import torch
@@ -247,7 +252,7 @@ Vous pouvez passer l’objet de votre modèle à `wandblogger.watch()` pour surv
             batch_size, channels, width, height = x.size()
             x = x.view(batch_size, -1)
 
-            # effectuons 3 x (linear + relu)
+            # appliquer 3 x (linear + relu)
             x = F.relu(self.layer_1(x))
             x = F.relu(self.layer_2(x))
             x = self.layer_3(x)
@@ -302,32 +307,28 @@ Vous pouvez passer l’objet de votre modèle à `wandblogger.watch()` pour surv
     model, optimizer = fabric.setup(model, optimizer)
 
     train_dataloader = fabric.setup_dataloaders(
-    torch.utils.data.DataLoader(train_dataset, batch_size=batch_size)
+        torch.utils.data.DataLoader(train_dataset, batch_size=batch_size)
     )
 
     model.train()
     for epoch in range(num_epochs):
-    for batch in train_dataloader:
-    optimizer.zero_grad()
-    loss = model(batch)
-    loss.backward()
-    optimizer.step()
-    fabric.log_dict({"loss": loss})
-
+        for batch in train_dataloader:
+            optimizer.zero_grad()
+            loss = model(batch)
+            loss.backward()
+            optimizer.step()
+            fabric.log_dict({"loss": loss})
     ```
   </Tab>
 </Tabs>
-
-```
-```
 
 <div id="log-the-minmax-of-a-metric">
   ## Journaliser les valeurs min/max d’une métrique
 </div>
 
-Avec la fonction [`define_metric`](/fr/models/ref/python/experiments/run#define_metric) de wandb, vous pouvez définir si vous souhaitez que votre métrique de synthèse W&amp;B affiche la valeur minimale, maximale, moyenne ou la meilleure valeur pour cette métrique. Si `define`&#95;`metric` &#95; n’est pas utilisé, la dernière valeur journalisée apparaîtra dans vos métriques de synthèse. Voir la [documentation de référence de `define_metric` ici](/fr/models/ref/python/experiments/run#define_metric) et le [guide ici](/fr/models/track/log/customize-logging-axes/) pour en savoir plus.
+Avec la fonction [`define_metric`](/fr/models/ref/python/experiments/run#define_metric) de W&amp;B, vous pouvez définir si votre métrique de synthèse W&amp;B affiche la valeur minimale, maximale, moyenne ou la meilleure valeur pour cette métrique. Si `define_metric` n’est pas utilisé, la dernière valeur enregistrée apparaît dans vos métriques de synthèse. Pour plus d&#39;informations, voir le [guide de personnalisation des axes de journalisation](/fr/models/track/log/customize-logging-axes/).
 
-Pour indiquer à W&amp;B de suivre la précision de validation maximale dans la métrique de synthèse W&amp;B, appelez `wandb.define_metric()` une seule fois, au début de l’entraînement :
+Pour suivre la précision de validation maximale dans la métrique de synthèse W&amp;B, appelez `wandb.define_metric()` une seule fois, au début de l’entraînement :
 
 <Tabs>
   <Tab title="Logger PyTorch">
@@ -345,7 +346,6 @@ Pour indiquer à W&amp;B de suivre la précision de validation maximale dans la 
             self.log("val_loss", loss)
             self.log("val_accuracy", acc)
             return preds
-
     ```
   </Tab>
 
@@ -360,8 +360,10 @@ Pour indiquer à W&amp;B de suivre la précision de validation maximale dans la 
 </Tabs>
 
 <div id="checkpoint-a-model">
-  ## Créer un point de contrôle d’un modèle
+  ## Créer un point de contrôle du modèle
 </div>
+
+L’enregistrement de points de contrôle du modèle en tant qu’artifacts W&amp;B vous fournit des fichiers de modèle versionnés que vous pourrez récupérer ultérieurement par run, alias ou version.
 
 Pour enregistrer des points de contrôle du modèle en tant qu’Artifacts W&amp;B [Artifacts](/fr/models/artifacts/),
 utilisez le callback Lightning [`ModelCheckpoint`](https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.callbacks.ModelCheckpoint.html) et définissez l’argument `log_model` dans `WandbLogger`.
@@ -380,25 +382,25 @@ utilisez le callback Lightning [`ModelCheckpoint`](https://lightning.ai/docs/pyt
   </Tab>
 </Tabs>
 
-Les alias *latest* et *best* sont automatiquement définis pour vous permettre de récupérer facilement un point de contrôle du modèle depuis un [Artifact](/fr/models/artifacts/) W&amp;B :
+Les alias `latest` et `best` sont définis automatiquement pour vous permettre de récupérer facilement un point de contrôle du modèle depuis un artifact W&amp;B :
 
 ```python
 # la référence peut être récupérée dans le panneau des artifacts
-# "VERSION" peut être une version (ex : "v2") ou un alias ("latest" ou "best")
-checkpoint_reference = "USER/PROJECT/MODEL-RUN_ID:VERSION"
+# <version> peut être une version (par exemple, "v2") ou un alias ("latest" ou "best")
+checkpoint_reference = "<user>/<project>/<model-run_id>:<version>"
 ```
 
 <Tabs>
   <Tab title="Via Logger">
     ```python
-    # télécharger le point de contrôle en local (s'il n'est pas déjà en cache)
+    # télécharger le point de contrôle du modèle en local (s'il n'est pas déjà en cache)
     wandb_logger.download_artifact(checkpoint_reference, artifact_type="model")
     ```
   </Tab>
 
   <Tab title="Via wandb">
     ```python
-    # télécharger le point de contrôle en local (s'il n'est pas déjà en cache)
+    # télécharger le point de contrôle du modèle en local (s'il n'est pas déjà en cache)
     run = wandb.init(project="MNIST")
     artifact = run.use_artifact(checkpoint_reference, type="model")
     artifact_dir = artifact.download()
@@ -409,14 +411,14 @@ checkpoint_reference = "USER/PROJECT/MODEL-RUN_ID:VERSION"
 <Tabs>
   <Tab title="Logger PyTorch">
     ```python
-    # charger le point de contrôle
+    # charger le point de contrôle du modèle
     model = LitModule.load_from_checkpoint(Path(artifact_dir) / "model.ckpt")
     ```
   </Tab>
 
   <Tab title="Logger Fabric">
     ```python
-    # récupérer le point de contrôle brut
+    # récupérer le point de contrôle du modèle brut
     full_checkpoint = fabric.load(Path(artifact_dir) / "model.ckpt")
 
     model.load_state_dict(full_checkpoint["model"])
@@ -425,11 +427,11 @@ checkpoint_reference = "USER/PROJECT/MODEL-RUN_ID:VERSION"
   </Tab>
 </Tabs>
 
-Les points de contrôle de modèle que vous journalisez sont visibles dans l&#39;UI [W&amp;B Artifacts](/fr/models/artifacts/) et incluent la traçabilité complète du modèle (voir un exemple de point de contrôle de modèle dans l&#39;UI [ici](https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage?_gl=1*yyql5q*_ga*MTQxOTYyNzExOS4xNjg0NDYyNzk1*_ga_JH1SJHJQXJ*MTY5MjMwNzI2Mi4yNjkuMS4xNjkyMzA5NjM2LjM3LjAuMA..)).
+Les points de contrôle du modèle que vous journalisez sont visibles dans l&#39;UI [W&amp;B Artifacts](/fr/models/artifacts/) et incluent la traçabilité complète du modèle (voir un [exemple de point de contrôle du modèle dans l&#39;UI](https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage?_gl=1*yyql5q*_ga*MTQxOTYyNzExOS4xNjg0NDYyNzk1*_ga_JH1SJHJQXJ*MTY5MjMwNzI2Mi4yNjkuMS4xNjkyMzA5NjM2LjM3LjAuMA..)).
 
-Pour mettre vos meilleurs points de contrôle de modèle en favoris et les centraliser pour votre équipe, vous pouvez les lier au [registre de modèles W&amp;B](/fr/models).
+Pour mettre vos meilleurs points de contrôle du modèle en favoris et les centraliser pour votre équipe, liez-les au [registre de modèles W&amp;B](/fr/models).
 
-Vous pouvez y organiser vos meilleurs modèles par tâche, gérer le cycle de vie des modèles, faciliter leur suivi et leur audit tout au long du cycle de vie du ML, et [automatiser](/fr/models/automations/) les actions en aval avec des webhooks ou des jobs.
+Dans le registre, vous pouvez organiser vos meilleurs modèles par tâche, gérer le cycle de vie des modèles, faciliter leur suivi et leur audit tout au long du cycle de vie du ML, et [automatiser](/fr/models/automations/) les actions en aval avec des webhooks ou des jobs.
 
 <div id="log-images-text-and-more">
   ## Journaliser des images, du texte et plus encore
@@ -437,7 +439,7 @@ Vous pouvez y organiser vos meilleurs modèles par tâche, gérer le cycle de vi
 
 Le `WandbLogger` fournit les méthodes `log_image`, `log_text` et `log_table` pour la journalisation de médias.
 
-Vous pouvez aussi appeler directement `wandb.log()` ou `trainer.logger.experiment.log()` pour journaliser d&#39;autres types de médias, comme Audio, des molécules, des nuages de points, des objets 3D, et bien plus encore.
+Vous pouvez aussi appeler directement `wandb.log()` ou `trainer.logger.experiment.log()` pour journaliser d&#39;autres types de médias, comme Audio, des molécules, des nuages de points et des objets 3D.
 
 <Tabs>
   <Tab title="Journaliser des images">
@@ -446,20 +448,16 @@ Vous pouvez aussi appeler directement `wandb.log()` ou `trainer.logger.experimen
     wandb_logger.log_image(key="samples", images=[img1, img2])
 
     # ajouter des légendes
-
     wandb_logger.log_image(key="samples", images=[img1, img2], caption=["tree", "person"])
 
     # utiliser un chemin de fichier
-
     wandb_logger.log_image(key="samples", images=["img_1.jpg", "img_2.jpg"])
 
     # utiliser .log dans le trainer
-
     trainer.logger.experiment.log(
-    {"samples": [wandb.Image(img, caption=caption) for (img, caption) in my_images]},
-    step=current_trainer_global_step,
+        {"samples": [wandb.Image(img, caption=caption) for (img, caption) in my_images]},
+        step=current_trainer_global_step,
     )
-
     ```
   </Tab>
 
@@ -483,21 +481,18 @@ Vous pouvez aussi appeler directement `wandb.log()` ou `trainer.logger.experimen
     columns = ["caption", "image", "sound"]
 
     # les données doivent être une liste de listes
-
     my_data = [
-    ["cheese", wandb.Image(img_1), wandb.Audio(snd_1)],
-    ["wine", wandb.Image(img_2), wandb.Audio(snd_2)],
+        ["cheese", wandb.Image(img_1), wandb.Audio(snd_1)],
+        ["wine", wandb.Image(img_2), wandb.Audio(snd_2)],
     ]
 
     # journaliser le tableau
-
-    wandb_logger.log_table(key="my_samples", columns=columns, data=data)
-
+    wandb_logger.log_table(key="my_samples", columns=columns, data=my_data)
     ```
   </Tab>
 </Tabs>
 
-Vous pouvez utiliser le système de callbacks de Lightning pour contrôler quand vous journalisez vers W&amp;B via `WandbLogger` ; dans cet exemple, nous journalisons un échantillon de nos images de validation et de nos prédictions :
+Utilisez le système de callbacks de Lightning pour contrôler quand vous journalisez vers W&amp;B via le `WandbLogger`. L&#39;exemple suivant journalise un échantillon d&#39;images de validation et de prédictions :
 
 ```python
 import torch
@@ -505,7 +500,7 @@ import wandb
 import lightning.pytorch as pl
 from lightning.pytorch.loggers import WandbLogger
 
-# ou
+# or
 # from wandb.integration.lightning.fabric import WandbLogger
 
 
@@ -515,10 +510,10 @@ class LogPredictionSamplesCallback(Callback):
     ):
         """Called when the validation batch ends."""
 
-        # `outputs` provient de `LightningModule.validation_step`
-        # ce qui correspond aux prédictions de notre modèle dans ce cas
+        # `outputs` comes from `LightningModule.validation_step`
+        # which corresponds to our model predictions in this case
 
-        # Journalisons 20 exemples de prédictions d'images du premier batch
+        # Journaliser 20 exemples de prédictions d'images du premier batch
         if batch_idx == 0:
             n = 20
             x, y = batch
@@ -528,10 +523,10 @@ class LogPredictionSamplesCallback(Callback):
                 for y_i, y_pred in zip(y[:n], outputs[:n])
             ]
 
-            # Option 1 : journaliser les images avec `WandbLogger.log_image`
+            # Option 1: log images with `WandbLogger.log_image`
             wandb_logger.log_image(key="sample_images", images=images, caption=captions)
 
-            # Option 2 : journaliser les images et les prédictions sous forme de W&B Table
+            # Option 2: log images and predictions as a W&B Table
             columns = ["image", "ground truth", "prediction"]
             data = [
                 [wandb.Image(x_i), y_i, y_pred] or x_i,
@@ -548,9 +543,11 @@ trainer = pl.Trainer(callbacks=[LogPredictionSamplesCallback()])
   ## Utiliser plusieurs GPU avec Lightning et W&amp;B
 </div>
 
+Lorsque vous exécutez un entraînement distribué, la manière dont vous référencez `wandb.run` d’un rang à l’autre peut déterminer si l’entraînement se poursuit ou s’il entre en interblocage. Cette section explique les exigences et présente un modèle recommandé.
+
 PyTorch Lightning prend en charge le multi-GPU via son interface DDP. Cependant, la conception de PyTorch Lightning exige que vous fassiez attention à la façon dont vous instanciez vos GPU.
 
-Lightning part du principe que chaque GPU (ou rang) dans votre boucle d’entraînement doit être instancié exactement de la même manière, avec les mêmes conditions initiales. Cependant, seul le processus de rang 0 a accès à l’objet `wandb.run`, et pour les processus de rang non nul : `wandb.run = None`. Cela peut faire échouer vos processus non nuls. Une telle situation peut vous placer dans un **interblocage**, car le processus de rang 0 attendra que les processus de rang non nul le rejoignent, alors qu’ils ont déjà planté.
+Lightning exige que chaque GPU (ou rang) dans votre boucle d’entraînement soit instancié exactement de la même manière, avec les mêmes conditions initiales. Cependant, seul le processus de rang 0 a accès à l’objet `wandb.run`. Pour les processus de rang non nul, `wandb.run = None`. Cela peut faire échouer vos processus non nuls. Une telle situation peut vous placer dans un interblocage, car le processus de rang 0 attend que les processus de rang non nul le rejoignent, alors qu’ils ont déjà planté.
 
 Pour cette raison, faites attention à la façon dont vous configurez votre code d’entraînement. La méthode recommandée consiste à rendre votre code indépendant de l’objet `wandb.run`.
 
@@ -603,7 +600,7 @@ def main():
     val_loader = DataLoader(val_dataset, batch_size=64, shuffle=False, num_workers=4)
 
     model = MNISTClassifier()
-    wandb_logger = WandbLogger(project="<project_name>")
+    wandb_logger = WandbLogger(project="<project-name>")
     callbacks = [
         ModelCheckpoint(
             dirpath="checkpoints",
@@ -620,7 +617,7 @@ def main():
   ## Exemples
 </div>
 
-Vous pouvez suivre ce tutoriel dans une [vidéo avec un notebook Colab](https://wandb.me/lit-colab).
+Pour un guide pas à pas complet, vous pouvez suivre ce tutoriel dans une [vidéo avec un notebook Colab](https://wandb.me/lit-colab).
 
 <div id="frequently-asked-questions">
   ## Foire aux questions
@@ -630,13 +627,13 @@ Vous pouvez suivre ce tutoriel dans une [vidéo avec un notebook Colab](https://
   ### Comment W&amp;B s’intègre-t-il à Lightning ?
 </div>
 
-L’intégration principale s’appuie sur l’API [Lightning `loggers`](https://lightning.ai/docs/pytorch/stable/extensions/logging.html), qui vous permet d’écrire une grande partie de votre code de journalisation de manière indépendante du framework. Les `Logger` sont transmis au [Lightning `Trainer`](https://lightning.ai/docs/pytorch/stable/common/trainer.html) et sont déclenchés par le riche [système de hooks et de callbacks](https://lightning.ai/docs/pytorch/stable/extensions/callbacks.html) de cette API. Cela permet de bien séparer votre code de recherche du code d’ingénierie et de journalisation.
+L’intégration principale s’appuie sur l’API [Lightning `loggers`](https://lightning.ai/docs/pytorch/stable/extensions/logging.html), qui vous permet d’écrire une grande partie de votre code de journalisation de manière indépendante du framework. Les instances de `Logger` sont transmises au [Lightning `Trainer`](https://lightning.ai/docs/pytorch/stable/common/trainer.html) et sont déclenchées par le riche [système de hooks et de callbacks](https://lightning.ai/docs/pytorch/stable/extensions/callbacks.html) de cette API. Cela permet de bien séparer votre code de recherche du code d’ingénierie et de journalisation.
 
 <div id="what-does-the-integration-log-without-any-additional-code">
-  ### Que journalise l’intégration sans code supplémentaire ?
+  ### Que l’intégration enregistre-t-elle sans code supplémentaire ?
 </div>
 
-Nous enregistrerons les points de contrôle du modèle dans W&amp;B, où vous pourrez les consulter ou les télécharger pour les utiliser dans de futurs runs. Nous capturerons également les [métriques système](/fr/models/ref/python/experiments/system-metrics), comme l’utilisation du GPU et les entrées/sorties réseau, des informations sur l’environnement, comme les caractéristiques du matériel et du système d’exploitation, l’[état du code](/fr/models/app/features/panels/code/) (y compris le commit git et le patch diff, le contenu du notebook et l’historique de la session), ainsi que tout ce qui est affiché dans la sortie standard.
+W&amp;B enregistre vos points de contrôle du modèle, que vous pouvez consulter ou télécharger pour les utiliser dans de futures exécutions. W&amp;B capture également les [métriques système](/fr/models/ref/python/experiments/system-metrics), comme l’utilisation du GPU et les E/S réseau. Il capture des informations sur l’environnement, telles que les informations sur le matériel et le système d’exploitation. Il capture l’[état du code](/fr/models/app/features/panels/code/), y compris le commit Git et le patch de diff, le contenu du notebook et l’historique de session. Il capture également tout ce qui est affiché sur la sortie standard.
 
 <div id="what-if-i-need-to-use-wandbrun-in-my-training-setup">
   ### Que faire si j’ai besoin d’utiliser `wandb.run` dans ma configuration d’entraînement ?

@@ -43,6 +43,10 @@ Now you can [create an automation](#create-an-automation) that uses the webhook.
 
 After you [configure a webhook](#create-a-webhook), create an automation that defines which W&B event triggers the webhook and what payload to send. Select **Registry** or **Project** depending on the scope you want, then follow these steps to create an automation that triggers the webhook.
 
+<Note>
+To apply an automation more broadly, create it from the global **Automations** hub and select the **Team** or **Organization** scope. The steps are the same as those that follow. At these scopes, the W&B App supports artifact and collection events only. See [Automations hub](/models/automations#automations-hub).
+</Note>
+
 <Tabs>
 <Tab title="Registry">
 A Registry admin can create automations in that registry. Registry automations apply to all collections in the registry, including those added in the future.

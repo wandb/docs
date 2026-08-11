@@ -49,6 +49,10 @@ webhook オートメーション の作成手順は、大まかに次のとお�
 
 [webhook を設定](#create-a-webhook)したら、どの W&amp;B イベントが webhook をトリガーし、どの ペイロード を送信するかを定義する オートメーション を作成します。必要なスコープに応じて **Registry** または **Project** を選択し、webhook をトリガーする オートメーション を作成するには、次の step に従います。
 
+<Note>
+  より広い範囲に オートメーション を適用するには、グローバル **Automations** ハブから作成し、**Team** または **Organization** スコープを選択します。step は以下のものと同じです。これらのスコープでは、W&amp;B App は artifact および collection イベントのみをサポートします。[Automations ハブ](/ja/models/automations#automations-hub)を参照してください。
+</Note>
+
 <Tabs>
   <Tab title="Registry">
     Registry 管理者は、その Registry で オートメーション を作成できます。Registry オートメーション は、今後追加されるものも含め、Registry 内のすべての collection に適用されます。
@@ -69,7 +73,7 @@ webhook オートメーション の作成手順は、大まかに次のとお�
 
     6. **Action type** を **Webhooks** に設定し、使用する [webhook](#create-a-webhook) を選択します。
 
-    7. webhook に アクセストークン を設定した場合は、[ペイロード変数](#payload-variables) `${ACCESS_TOKEN}` でその token を参照できます。webhook に secret を設定した場合は、その名の先頭に `$` を付けることで ペイロード 内で参照できます。webhook の requirements は、webhook のサービスによって決まります。
+    7. webhook に アクセストークン を設定した場合は、[ペイロード変数](#payload-variables) `${ACCESS_TOKEN}` でその トークン を参照できます。webhook に secret を設定した場合は、その名の先頭に `$` を付けることで ペイロード 内で参照できます。webhook の requirements は、webhook のサービスによって決まります。
 
     8. **Next step** をクリックします。
 
@@ -100,7 +104,7 @@ webhook オートメーション の作成手順は、大まかに次のとお�
        2. **Next step** をクリックします。
     4. [webhook](#create-a-webhook)を所有するチームを選択します。
     5. **Action type** を **Webhooks** に設定し、使用する [webhook](#create-a-webhook) を選択します。
-    6. webhook に ペイロード が必要な場合は、それを作成して **Payload** フィールドに貼り付けます。webhook に アクセストークン を設定した場合は、[ペイロード変数](#payload-variables) `${ACCESS_TOKEN}` でその token を参照できます。webhook に secret を設定した場合は、その名の先頭に `$` を付けることで ペイロード 内で参照できます。webhook の requirements は、webhook のサービスによって決まります。
+    6. webhook に ペイロード が必要な場合は、それを作成して **Payload** フィールドに貼り付けます。webhook に アクセストークン を設定した場合は、[ペイロード変数](#payload-variables) `${ACCESS_TOKEN}` でその トークン を参照できます。webhook に secret を設定した場合は、その名の先頭に `$` を付けることで ペイロード 内で参照できます。webhook の requirements は、webhook のサービスによって決まります。
     7. **Next step** をクリックします。
     8. オートメーション の名を指定します。必要に応じて説明も指定します。**Create automation** をクリックします。
   </Tab>

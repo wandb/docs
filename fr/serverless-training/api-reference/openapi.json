@@ -52,6 +52,7 @@
         "type": "object"
       },
       "Audio": {
+        "additionalProperties": true,
         "description": "Données concernant une réponse audio précédente du modèle.\n[En savoir plus](https://platform.openai.com/docs/guides/audio).",
         "properties": {
           "id": {
@@ -83,6 +84,7 @@
         "type": "object"
       },
       "ChatCompletionAssistantMessageParam": {
+        "additionalProperties": true,
         "description": "Messages envoyés par le modèle en réponse aux messages de l'utilisateur.",
         "properties": {
           "audio": {
@@ -122,7 +124,7 @@
           "function_call": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/openai__types__chat__chat_completion_assistant_message_param__FunctionCall"
+                "$ref": "#/components/schemas/FunctionCall"
               },
               {
                 "type": "null"
@@ -201,6 +203,7 @@
         "type": "object"
       },
       "ChatCompletionContentPartImageParam": {
+        "additionalProperties": true,
         "description": "En savoir plus sur les [entrées d'image](https://platform.openai.com/docs/guides/vision).",
         "properties": {
           "image_url": {
@@ -220,6 +223,7 @@
         "type": "object"
       },
       "ChatCompletionContentPartInputAudioParam": {
+        "additionalProperties": true,
         "description": "En savoir plus sur les [entrées Audio](https://platform.openai.com/docs/guides/audio).",
         "properties": {
           "input_audio": {
@@ -239,6 +243,7 @@
         "type": "object"
       },
       "ChatCompletionContentPartRefusalParam": {
+        "additionalProperties": true,
         "properties": {
           "refusal": {
             "title": "Refusal",
@@ -278,6 +283,7 @@
         "type": "object"
       },
       "ChatCompletionDeveloperMessageParam": {
+        "additionalProperties": true,
         "description": "Instructions fournies par le développeur que le modèle doit suivre, quels que soient les messages envoyés par l’utilisateur. Avec les modèles o1 et versions ultérieures, les messages `developer` remplacent les anciens messages `system`.",
         "properties": {
           "content": {
@@ -312,6 +318,7 @@
         "type": "object"
       },
       "ChatCompletionFunctionMessageParam": {
+        "additionalProperties": true,
         "properties": {
           "content": {
             "anyOf": [
@@ -343,6 +350,7 @@
         "type": "object"
       },
       "ChatCompletionFunctionToolParam": {
+        "additionalProperties": true,
         "description": "Un outil de fonction pouvant être utilisé pour générer une réponse.",
         "properties": {
           "function": {
@@ -480,10 +488,11 @@
         "type": "object"
       },
       "ChatCompletionMessageCustomToolCallParam": {
+        "additionalProperties": true,
         "description": "Un appel à un outil personnalisé créé par le modèle.",
         "properties": {
           "custom": {
-            "$ref": "#/components/schemas/openai__types__chat__chat_completion_message_custom_tool_call_param__Custom"
+            "$ref": "#/components/schemas/Custom"
           },
           "id": {
             "title": "Id",
@@ -529,10 +538,11 @@
         "type": "object"
       },
       "ChatCompletionMessageFunctionToolCallParam": {
+        "additionalProperties": true,
         "description": "Un appel à un outil de fonction créé par le modèle.",
         "properties": {
           "function": {
-            "$ref": "#/components/schemas/openai__types__chat__chat_completion_message_function_tool_call_param__Function"
+            "$ref": "#/components/schemas/Function"
           },
           "id": {
             "title": "Id",
@@ -590,6 +600,7 @@
         "type": "object"
       },
       "ChatCompletionSystemMessageParam": {
+        "additionalProperties": true,
         "description": "Instructions fournies par le développeur que le modèle doit suivre, quels que soient les messages envoyés par l’utilisateur. Avec les modèles o1 et plus récents, utilisez plutôt des messages `developer` à cette fin.",
         "properties": {
           "content": {
@@ -665,6 +676,7 @@
         "type": "object"
       },
       "ChatCompletionToolMessageParam": {
+        "additionalProperties": true,
         "properties": {
           "content": {
             "anyOf": [
@@ -699,6 +711,7 @@
         "type": "object"
       },
       "ChatCompletionUserMessageParam": {
+        "additionalProperties": true,
         "description": "Messages envoyés par un utilisateur final, contenant des prompts ou des informations de contexte supplémentaires.",
         "properties": {
           "content": {
@@ -1316,6 +1329,7 @@
         "type": "object"
       },
       "File": {
+        "additionalProperties": true,
         "description": "En savoir plus sur les [entrées de fichier](https://platform.openai.com/docs/guides/text) pour la génération de texte.",
         "properties": {
           "file": {
@@ -1335,6 +1349,7 @@
         "type": "object"
       },
       "FileFile": {
+        "additionalProperties": true,
         "properties": {
           "file_data": {
             "title": "File Data",
@@ -1393,6 +1408,7 @@
         "type": "object"
       },
       "FunctionDefinition": {
+        "additionalProperties": true,
         "properties": {
           "description": {
             "title": "Description",
@@ -1491,6 +1507,7 @@
         "type": "object"
       },
       "ImageURL": {
+        "additionalProperties": true,
         "properties": {
           "detail": {
             "enum": [
@@ -1513,6 +1530,7 @@
         "type": "object"
       },
       "InputAudio": {
+        "additionalProperties": true,
         "properties": {
           "data": {
             "title": "Data",
@@ -1741,9 +1759,41 @@
         "title": "PaginatedResponse[TrainingJobEventResponse]",
         "type": "object"
       },
+      "PydanticException": {
+        "properties": {
+          "message": {
+            "title": "Message",
+            "type": "string"
+          },
+          "traceback": {
+            "title": "Traceback",
+            "type": "string"
+          },
+          "type": {
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "message",
+          "traceback"
+        ],
+        "title": "PydanticException",
+        "type": "object"
+      },
       "SFTTrainingConfig": {
         "description": "Schéma de la configuration d’entraînement SFT.",
         "properties": {
+          "assistant_turns": {
+            "default": "all",
+            "enum": [
+              "all",
+              "last"
+            ],
+            "title": "Assistant Turns",
+            "type": "string"
+          },
           "batch_size": {
             "anyOf": [
               {
@@ -1877,14 +1927,20 @@
         "type": "object"
       },
       "Trajectory": {
+        "additionalProperties": true,
+        "description": "Préserver les champs de trajectoire ajoutés par des producteurs ART plus récents.",
         "properties": {
           "additional_histories": {
-            "default": [],
             "items": {
               "$ref": "#/components/schemas/History"
             },
             "title": "Additional Histories",
             "type": "array"
+          },
+          "exchanges": {
+            "additionalProperties": true,
+            "title": "Exchanges",
+            "type": "object"
           },
           "final_policy_version": {
             "anyOf": [
@@ -1909,7 +1965,6 @@
             "title": "Initial Policy Version"
           },
           "logs": {
-            "default": [],
             "items": {
               "type": "string"
             },
@@ -1917,7 +1972,6 @@
             "type": "array"
           },
           "messages_and_choices": {
-            "default": [],
             "items": {
               "anyOf": [
                 {
@@ -1947,26 +2001,7 @@
             "type": "array"
           },
           "metadata": {
-            "additionalProperties": {
-              "anyOf": [
-                {
-                  "type": "number"
-                },
-                {
-                  "type": "integer"
-                },
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "boolean"
-                },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "default": {},
+            "additionalProperties": true,
             "title": "Metadata",
             "type": "object"
           },
@@ -1984,7 +2019,6 @@
                 }
               ]
             },
-            "default": {},
             "title": "Metrics",
             "type": "object"
           },
@@ -2017,7 +2051,44 @@
         "type": "object"
       },
       "TrajectoryGroup": {
+        "description": "Groupe de trajectoires ART, y compris l’échange et l’état du groupe.",
         "properties": {
+          "exceptions": {
+            "items": {
+              "$ref": "#/components/schemas/PydanticException"
+            },
+            "title": "Exceptions",
+            "type": "array"
+          },
+          "logs": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Logs",
+            "type": "array"
+          },
+          "metadata": {
+            "additionalProperties": true,
+            "title": "Metadata",
+            "type": "object"
+          },
+          "metrics": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "boolean"
+                }
+              ]
+            },
+            "title": "Metrics",
+            "type": "object"
+          },
           "trajectories": {
             "items": {
               "$ref": "#/components/schemas/Trajectory"
@@ -2026,9 +2097,6 @@
             "type": "array"
           }
         },
-        "required": [
-          "trajectories"
-        ],
         "title": "TrajectoryGroup",
         "type": "object"
       },
@@ -2064,63 +2132,6 @@
         ],
         "title": "ValidationError",
         "type": "object"
-      },
-      "openai__types__chat__chat_completion_assistant_message_param__FunctionCall": {
-        "description": "Obsolète et remplacé par `tool_calls`.\n\nLe nom et les arguments d’une fonction à appeler, tels qu’ils sont générés par le modèle.",
-        "properties": {
-          "arguments": {
-            "title": "Arguments",
-            "type": "string"
-          },
-          "name": {
-            "title": "Name",
-            "type": "string"
-          }
-        },
-        "required": [
-          "arguments",
-          "name"
-        ],
-        "title": "FunctionCall",
-        "type": "object"
-      },
-      "openai__types__chat__chat_completion_message_custom_tool_call_param__Custom": {
-        "description": "L’outil personnalisé appelé par le modèle.",
-        "properties": {
-          "input": {
-            "title": "Input",
-            "type": "string"
-          },
-          "name": {
-            "title": "Name",
-            "type": "string"
-          }
-        },
-        "required": [
-          "input",
-          "name"
-        ],
-        "title": "Custom",
-        "type": "object"
-      },
-      "openai__types__chat__chat_completion_message_function_tool_call_param__Function": {
-        "description": "La fonction appelée par le modèle.",
-        "properties": {
-          "arguments": {
-            "title": "Arguments",
-            "type": "string"
-          },
-          "name": {
-            "title": "Name",
-            "type": "string"
-          }
-        },
-        "required": [
-          "arguments",
-          "name"
-        ],
-        "title": "Function",
-        "type": "object"
       }
     },
     "securitySchemes": {
@@ -2140,53 +2151,6 @@
       "post": {
         "description": "Créer une nouvelle Chat Completion.",
         "operationId": "create_chat_completion_v1_chat_completions_post",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ChatCompletionRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ChatCompletionResponse"
-                }
-              }
-            },
-            "description": "Réponse réussie"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            },
-            "description": "Erreur de validation"
-          }
-        },
-        "security": [
-          {
-            "HTTPBearer": []
-          }
-        ],
-        "summary": "Créer une Chat Completion",
-        "tags": [
-          "chat-completions"
-        ]
-      }
-    },
-    "/v1/chat/completions/": {
-      "post": {
-        "description": "Créer une nouvelle Chat Completion.",
-        "operationId": "create_chat_completion_v1_chat_completions__post",
         "requestBody": {
           "content": {
             "application/json": {
@@ -2779,5 +2743,10 @@
         ]
       }
     }
-  }
+  },
+  "servers": [
+    {
+      "url": "https://api.training.wandb.ai"
+    }
+  ]
 }

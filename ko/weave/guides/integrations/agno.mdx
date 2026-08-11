@@ -72,14 +72,14 @@ from opentelemetry.sdk import trace as trace_sdk
 from opentelemetry.sdk.trace.export import SimpleSpanProcessor
 from opentelemetry import trace
 
-# 환경 변수에서 민감한 값 로드
+# Load sensitive values from environment variables
 WANDB_BASE_URL = "https://trace.wandb.ai"
-# W&B entity/프로젝트 이름 (예: "myteam/myproject")
+# Your W&B entity/project name e.g. "myteam/myproject"
 PROJECT_ID = os.environ.get("WANDB_PROJECT_ID")
-# https://wandb.ai/settings 에서 W&B API 키 생성
+# Create a W&B API key at https://wandb.ai/settings
 WANDB_API_KEY = os.environ.get("WANDB_API_KEY")
 
-OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+WEAVE_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
 AUTH = base64.b64encode(f"api:{WANDB_API_KEY}".encode()).decode()
 
 OTEL_EXPORTER_OTLP_HEADERS = {
@@ -87,17 +87,17 @@ OTEL_EXPORTER_OTLP_HEADERS = {
     "project_id": PROJECT_ID,
 }
 
-# 엔드포인트와 헤더로 OTLP span exporter 생성
+# Create the OTLP span exporter with endpoint and headers
 exporter = OTLPSpanExporter(
-    endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+    endpoint=WEAVE_OTLP_ENDPOINT,
     headers=OTEL_EXPORTER_OTLP_HEADERS,
 )
 
-# 트레이서 프로바이더 생성 및 exporter 추가
+# Create a tracer provider and add the exporter
 tracer_provider = trace_sdk.TracerProvider()
 tracer_provider.add_span_processor(SimpleSpanProcessor(exporter))
 
-# Agno를 임포트하거나 사용하기 전에 전역 트레이서 프로바이더 설정
+# Set the global tracer provider BEFORE importing/using Agno
 trace.set_tracer_provider(tracer_provider)
 ```
 

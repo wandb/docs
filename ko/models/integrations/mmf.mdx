@@ -3,13 +3,13 @@ description: "Meta AI의 MMF 프레임워크와 W&B를 통합하여 멀티모달
 title: MMF
 ---
 
-[Meta AI의 MMF](https://github.com/facebookresearch/mmf) 라이브러리의 `WandbLogger` 클래스는 W&amp;B가 트레이닝/검증 메트릭, 시스템(GPU 및 CPU) 메트릭, 모델 체크포인트, 그리고 설정 매개변수를 기록할 수 있게 해줍니다.
+이 페이지에서는 [Meta AI의 MMF](https://github.com/facebookresearch/mmf) 라이브러리의 `WandbLogger` 클래스를 사용하여 W&amp;B로 멀티모달 모델 트레이닝을 추적하는 방법을 설명합니다. `WandbLogger`를 활성화하면 W&amp;B가 트레이닝/검증 메트릭, 시스템(GPU 및 CPU) 메트릭, 모델 체크포인트, 그리고 설정 매개변수를 기록할 수 있게 해줍니다. 따라서 맞춤형 로깅 코드를 추가하지 않고도 실험을 모니터링하고 Runs를 비교할 수 있습니다.
 
-<div id="current-features">
-  ## 현재 지원되는 특성
+<div id="features">
+  ## 특성
 </div>
 
-MMF의 `WandbLogger`는 현재 다음 특성을 지원합니다:
+MMF의 `WandbLogger`는 다음 특성을 지원합니다:
 
 * 트레이닝 및 검증 메트릭
 * 시간에 따른 학습률
@@ -17,18 +17,18 @@ MMF의 `WandbLogger`는 현재 다음 특성을 지원합니다:
 * GPU 및 CPU 시스템 메트릭
 * 트레이닝 설정 매개변수
 
-<div id="config-parameters">
+<div id="configuration-parameters">
   ## 설정 매개변수
 </div>
 
-다음 옵션을 MMF 설정에서 wandb 로깅을 활성화하고 사용자 지정하는 데 사용할 수 있습니다:
+W&amp;B 로깅을 활성화하고 Runs 추적 방식을 사용자 지정하려면 MMF 설정에서 다음 옵션을 설정하세요:
 
-```
+```yaml
 training:
     wandb:
         enabled: true
         
-        # entity는 run을 전송할 사용자 이름 또는 팀 이름입니다.
+        # entity는 runs을 전송할 사용자 이름 또는 팀 이름입니다.
         # 기본적으로 사용자 계정에 run을 기록합니다.
         entity: null
         
@@ -40,15 +40,15 @@ training:
         # ${training.experiment_name}
         name: ${training.experiment_name}
         
-        # 모델 체크포인팅을 활성화하여 체크포인트를 W&B Artifacts에 저장
+        # 모델 체크포인팅을 활성화하여 W&B Artifacts에 체크포인트를 저장합니다.
         log_model_checkpoint: true
         
-        # wandb.init()에 전달할 추가 argument 값 예시:
+        # wandb.init()에 전달할 추가 인수 값 (예시):
         # job_type: 'train'
         # tags: ['tag1', 'tag2']
         
 env:
-    # wandb 메타데이터가 저장될 디렉터리 경로를 변경하려면
+    # wandb 메타데이터가 저장되는 디렉터리 경로를 변경하려면
     # (기본값: env.log_dir):
     wandb_logdir: ${env:MMF_WANDB_LOGDIR,}
 ```

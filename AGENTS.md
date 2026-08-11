@@ -85,6 +85,38 @@ To check or apply style, read the relevant pass file(s) and use them as guidance
 - **Python SDK functions**: Module-level functions in the Python SDK are listed in the [Global Functions overview](/models/ref/python/functions).
 - **`.editorconfig`**: An `.editorconfig` file in the repository root enforces indentation and whitespace automatically. Most editors apply it with no configuration. If yours doesn't support it natively, install the EditorConfig plugin (https://editorconfig.org/#download).
 - **Consistent language tab labels**: When an example offers multiple languages — in a `<CodeGroup>` or across `<Tab title="...">` blocks — label every tab with the same canonical name everywhere: `Python`, `TypeScript` (never `Typescript`), `Bash`. In a `<CodeGroup>`, give each fence a lowercase lexer **and** that canonical title (e.g. a `python` fence titled `Python`); never leave a language fence untitled. The reader's **Python/TypeScript** choice carries from page to page via `code-group-language-persist.js` (repo root), which matches those two labels case-insensitively — so inconsistent casing of them silently resets it. Other labels like `Bash` are only for in-page consistency and are intentionally not persisted across pages. Don't add a competing per-page persistence script.
+- **ARIA chat examples**: When a task can be delegated to ARIA end-to-end in the W&B app, add a compact chat example as a third content modality alongside code examples and UI click sequences. Use **ARIA** as the public-facing product name in prose and in fence titles.
+
+  Default format: a user prompt and a concise ARIA response. Don't include reasoning or thinking steps unless the page specifically needs them for clarity; longer walkthroughs belong on [ARIA overview](/aria/overview). Place chat examples in the first section where the ARIA-delegable task appears, not at the top of the page unless the whole page is about chatting with ARIA.
+
+  Import `/snippets/AriaChatBubbles.jsx` and render the component with `prompt` and `response` props:
+
+  ```mdx
+  import { AriaChatBubbles } from '/snippets/AriaChatBubbles.jsx';
+
+  <AriaChatBubbles
+    prompt="Your user prompt here"
+    response="A concise example ARIA response"
+  />
+  ```
+- **Live report embeds**: import `/snippets/WandbReport.jsx` and render it with `src` (report URL), `title` (accessible description), and optional `height` (500–800; default 640). The component renders its own "View Report" button, so no separate link is needed.
+
+  ```mdx
+  import { WandbReport } from '/snippets/WandbReport.jsx';
+
+  <WandbReport
+    src="https://wandb.ai/ENTITY/PROJECT/reports/Slug--VmlldzoXXXXXXX"
+    title="Accessible description of the report"
+    height={700}
+  />
+  ```
+
+  - **Regular reports only, not Fully Connected articles** — FC articles keep their full blog chrome in a frame and look broken.
+  - **Anonymous-viewable** — a public-project report or a [view-only link](/models/reports/cross-project-reports#view-only-report-links). The URL (with any `?accessToken=`) ships in public source and git history, so treat the report as public forever.
+  - **One or two per page**, skinny and purpose-built — each iframe boots the full W&B app at a fixed height, in its own light theme.
+  - **English sources only** — not `ja/`, `ko/`, `fr/`.
+
+  A weekly CI job (`scripts/report-embeds/check_embeds.py`) verifies each embedded report still renders and files an issue if one breaks. It does not gate PRs.
 
 ## Working with the repository
 

@@ -1,39 +1,34 @@
 ---
 title: MetricThresholdFilter
-namespace: automations_namespace
-python_object_type: class
+kind: 클래스
+namespace: wandb.automations._run_metric_filters
 ---
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/_filters/run_metrics.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/_run_metric_filters.py#L126" />
 
+## <kbd>클래스</kbd> wandb.automations.MetricThresholdFilter
 
-## <kbd>class</kbd> `MetricThresholdFilter`
+```python
+*,
+name: str,
+agg_op: wandb.automations._run_metric_filters.Agg | None = None,
+window_size: Annotated[int, Gt(gt=0)] = 1,
+cmp_op: Literal['$gte', '$gt', '$lt', '$lte'],
+threshold: Union[Annotated[int, Strict(strict=True)], Annotated[float, Strict(strict=True)]]
+```
 
-사용자가 정의한 임계값과 **절대값 기준** metric 값을 비교하는 필터입니다.
+사용자가 정의한 임계값과 **절대값 기준** 메트릭 값을 비교하는 필터입니다.
 
 이 값은 단일 값일 수도 있고, 여러 값에 대한 윈도우 구간에서 집계된 결과일 수도 있습니다.
 
-### <kbd>메서드</kbd> `MetricThresholdFilter.__init__`
+<div id="args">
+  ## 인수
+</div>
 
-```python
-__init__(
-    name: 'str',
-    agg: 'wandb.automations._filters.run_metrics.Agg | None' = None,
-    window: 'int' = 1,
-    cmp: 'Literal['$gte', '$gt', '$lt', '$lte']',
-    threshold: 'Annotated | Annotated'
-) → None
-```
-
-**인수:**
-
-* `name` (str):
-* `agg` (wandb.automations.&#95;filters.run&#95;metrics.Agg | None):
-* `window` (int):
-* `cmp` (Literal[&#39;$gte&#39;, &#39;$gt&#39;, &#39;$lt&#39;, &#39;$lte&#39;]): 메트릭 값(왼쪽)과 임계값(오른쪽)을 비교하는 연산자.
-* `threshold` (Union[Annotated, Annotated]):
-
-**반환값:**
-`MetricThresholdFilter` 객체를 반환합니다.
+* `name`:
+* `agg_op`:
+* `window_size`:
+* `cmp_op`: 메트릭 값(왼쪽)과 임계값(오른쪽)을 비교하는 연산자.
+* `threshold`: 
