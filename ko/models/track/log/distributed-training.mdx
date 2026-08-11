@@ -173,7 +173,7 @@ if __name__ == "__main__":
   * W&amp;B Server v0.68 이상
 </Note>
 
-이 방식에서는 기본 노드 하나와 하나 이상의 워커 노드를 사용합니다. 기본 노드에서 W&amp;B run을 초기화합니다. 각 워커 노드에서는 기본 노드가 사용한 run ID를 사용해 run을 초기화합니다. 트레이닝 중에는 각 워커 노드가 기본 노드와 동일한 run ID에 로깅합니다. W&amp;B는 모든 노드의 메트릭을 집계해 W&amp;B App UI에 표시합니다.
+이 방식에서는 기본 노드 하나와 하나 이상의 워커 노드를 사용합니다. 분산 작업을 시작하기 전에 고유한 run ID를 생성하고 모든 프로세스가 해당 run ID를 사용하도록 설정합니다. 트레이닝 중에는 각 워커 노드가 기본 노드와 동일한 run ID에 로깅합니다. W&amp;B는 모든 노드의 메트릭을 집계해 W&amp;B App UI에 표시합니다.
 
 기본 노드에서는 [`wandb.init()`](/ko/models/ref/python/functions/init)으로 W&amp;B run을 초기화합니다. `settings` 파라미터에 `wandb.Settings` 객체를 전달하고(`wandb.init(settings=wandb.Settings()`) 다음을 설정합니다.
 
@@ -182,7 +182,7 @@ if __name__ == "__main__":
 3. 이 노드가 기본 노드임을 나타내려면 [`x_primary`](https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L660) 파라미터를 `True`로 설정합니다.
 4. 선택적으로 GPU 인덱스 목록([0,1,2])을 `x_stats_gpu_device_ids`에 전달해 W&amp;B가 메트릭을 추적할 GPU를 지정할 수 있습니다. 목록을 제공하지 않으면 W&amp;B는 머신의 모든 GPU에 대한 메트릭을 추적합니다.
 
-기본 노드의 run ID를 기록해 두세요. 각 워커 노드에는 기본 노드의 run ID가 필요합니다.
+각 프로세스가 시작되기 전에 `WANDB_RUN_ID` 환경 변수를 생성된 run ID로 설정합니다. 프로세스가 `wandb.init()`를 호출하면 W&amp;B가 `WANDB_RUN_ID`를 자동으로 읽습니다.
 
 <Note>
   `x_primary=True`는 기본 노드와 워커 노드를 구분합니다. 기본 노드만 설정 파일, 텔레메트리 등 노드 간에 공유되는 파일을 업로드합니다. 워커 노드는 이러한 파일을 업로드하지 않습니다.
@@ -194,56 +194,64 @@ if __name__ == "__main__":
    * 공유 모드를 활성화하려면 `mode` 파라미터를 `"shared"`로 설정합니다.
    * `x_label`에 고유한 레이블을 지정합니다. `x_label`에 지정한 값은 W&amp;B App UI의 로깅과 시스템 메트릭에서 데이터가 어느 노드에서 왔는지 파악하는 데 사용됩니다. 지정하지 않으면 W&amp;B가 호스트 이름과 임의의 해시를 사용해 레이블을 생성합니다.
    * 이 노드가 워커 노드임을 나타내려면 `x_primary` 파라미터를 `False`로 설정합니다.
-2. 기본 노드가 사용한 run ID를 `id` 파라미터에 전달합니다.
+2. 워커 프로세스가 시작되기 전에 `WANDB_RUN_ID`를 기본 노드가 사용하는 것과 동일한 생성된 run ID로 설정합니다.
 3. 선택적으로 [`x_update_finish_state`](https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L772)를 `False`로 설정합니다. 이렇게 하면 기본 노드가 아닌 노드가 [run 상태](/ko/models/runs/run-states#run-states)를 너무 일찍 `finished`로 업데이트하는 것을 방지하여, run 상태가 일관되게 유지되고 기본 노드에서 관리되도록 할 수 있습니다.
 
-<Note>
+<Tip>
   * 모든 노드에서 동일한 entity와 프로젝트를 사용하세요. 이렇게 하면 올바른 run ID를 찾는 데 도움이 됩니다.
-  * 각 워커 노드에서 기본 노드의 run ID를 설정하는 환경 변수를 정의하는 것도 좋습니다.
-</Note>
+  * 분산 작업을 시작하기 전에 run ID를 생성하세요. 런처, 스케줄러 또는 오케스트레이션 프레임워크를 사용해 각 프로세스의 `WANDB_RUN_ID`를 설정하세요.
+  * 각 프로세스가 시작되기 전에 W&amp;B 환경 변수를 설정하세요. W&amp;B SDK가 변경을 감지하지 못할 수 있으므로 런타임에 `os.environ`을 변경하지 마세요.
+</Tip>
 
-다음 샘플 코드는 여러 프로세스를 단일 run에 추적하기 위한 상위 수준 요구 사항을 보여줍니다.
+run ID를 생성하고 배포하는 방식은 노드를 오케스트레이션하는 데 사용하는 프레임워크에 따라 다릅니다. 이 가이드에서는 일반적인 런처 예시를 제공하지 않습니다. 다음 스니펫은 오케스트레이션 계층에서 `WANDB_RUN_ID`를 설정한 후 각 프로세스 내에서 수행하는 W&amp;B 설정을 보여줍니다.
+
+다음 예시는 기본 노드에서 run을 초기화합니다:
 
 ```python
 import wandb
 
-entity = "<team_entity>"
-project = "<project_name>"
+entity = "your-entity"
+project = "your-project"
 
 # 기본 노드에서 run 초기화
-run = wandb.init(
+with wandb.init(
     entity=entity,
     project=project,
-	settings=wandb.Settings(
+    settings=wandb.Settings(
         x_label="rank_0",
         mode="shared",
         x_primary=True,
         x_stats_gpu_device_ids=[0, 1],  # (선택) GPU 0과 1의 메트릭만 추적
-        )
-)
-
-# 기본 노드의 run ID를 기록해 두세요.
-# 각 워커 노드에 이 run ID가 필요합니다.
-run_id = run.id
-
-# 기본 노드의 run ID를 사용하여 워커 노드에서 run 초기화
-run = wandb.init(
-    entity=entity, # 기본 노드와 동일한 entity 사용
-    project=project, # 기본 노드와 동일한 프로젝트 사용
-	settings=wandb.Settings(x_label="rank_1", mode="shared", x_primary=False),
-	id=run_id,
-)
-
-# 기본 노드의 run ID를 사용하여 워커 노드에서 run 초기화
-run = wandb.init(
-    entity=entity, # 기본 노드와 동일한 entity 사용
-    project=project, # 기본 노드와 동일한 프로젝트 사용
-	settings=wandb.Settings(x_label="rank_2", mode="shared", x_primary=False),
-	id=run_id,
-)
+    )
+) as run:
+    # 여기에 기본 노드 로직 작성
 ```
 
-실제 환경의 예에서는 각 워커 노드가 서로 다른 머신에 있을 수 있습니다.
+다음 예시는 워커 노드에 해당하는 설정을 보여줍니다. 사용 중인 오케스트레이션 프레임워크에 따라 rank를 워커의 고유 식별자로 설정하세요.
+
+```python
+import wandb
+
+entity = "your-entity"
+project = "your-project"
+rank = 1
+
+# 워커 노드에서 run 초기화
+# W&B는 워커 프로세스 환경에서 WANDB_RUN_ID를 자동으로 조회합니다.
+with wandb.init(
+    entity=entity,  # 기본 노드와 동일한 entity 사용
+    project=project,  # 기본 노드와 동일한 프로젝트 사용
+    settings=wandb.Settings(
+        x_label=f"rank_{rank}",
+        mode="shared",
+        x_primary=False,
+        x_update_finish_state=False,
+    ),
+) as run:
+    # 워커 노드 로직을 여기에 작성
+```
+
+분산 배포에서는 워커 노드가 서로 다른 머신에서 실행될 수 있습니다.
 
 <Note>
   GKE의 멀티노드 및 멀티 GPU Kubernetes 클러스터에서 모델을 트레이닝하는 방법에 대한 엔드 투 엔드 예시는 [Distributed Training with Shared Mode](https://wandb.ai/dimaduev/simple-cnn-ddp/reports/Distributed-Training-with-Shared-Mode--VmlldzoxMTI0NTE1NA) report를 참조하세요.
@@ -256,7 +264,7 @@ run이 로깅하는 프로젝트에서 멀티노드 프로세스의 콘솔 로�
 3. 보려는 run을 클릭합니다.
 4. 프로젝트 사이드바에서 **Logs** 탭을 클릭합니다.
 
-콘솔 로그 페이지 상단의 UI 검색 표시줄에서 `x_label`에 지정한 레이블을 기준으로 콘솔 로그를 필터링할 수 있습니다. 예를 들어, 다음 이미지는 `rank0`, `rank1`, `rank2`, `rank3`, `rank4`, `rank5`, `rank6` 값을 `x_label`에 제공한 경우 콘솔 로그를 필터링할 때 사용할 수 있는 옵션을 보여줍니다.
+콘솔 로그 페이지 상단의 UI 검색 표시줄에서 `x_label`에 지정한 레이블을 기준으로 콘솔 로그를 필터링할 수 있습니다. 예를 들어, 다음 이미지는 `rank0`, `rank1`, `rank2`, `rank3`, `rank4`, `rank5`, `rank6` 값을 `x_label`에 제공한 경우 콘솔 로그를 필터링할 때 사용할 수 있는 옵션을 보여줍니다.&#96;
 
 <Frame>
   <img src="/images/track/multi_node_console_logs.png" alt="멀티노드 콘솔 로그" />
@@ -264,7 +272,7 @@ run이 로깅하는 프로젝트에서 멀티노드 프로세스의 콘솔 로�
 
 자세한 내용은 [Console logs](/ko/models/app/console-logs/)를 참조하세요.
 
-W&amp;B는 모든 노드의 시스템 메트릭을 집계해 W&amp;B App UI에 표시합니다. 예를 들어, 다음 이미지는 여러 노드의 시스템 메트릭이 포함된 샘플 대시보드를 보여줍니다. 각 노드에는 `x_label` 매개변수로 지정한 고유한 레이블(`rank_0`, `rank_1`, `rank_2`)이 있습니다.
+W&amp;B는 모든 노드의 시스템 메트릭을 집계해 W&amp;B App UI에 표시합니다. 예를 들어, 다음 이미지는 여러 노드의 시스템 메트릭이 포함된 샘플 대시보드를 보여줍니다. 각 노드에는 `x_label` 파라미터로 지정한 고유한 레이블(`rank_0`, `rank_1`, `rank_2`)이 있습니다.
 
 <Frame>
   <img src="/images/track/multi_node_system_metrics.png" alt="멀티노드 시스템 메트릭" />

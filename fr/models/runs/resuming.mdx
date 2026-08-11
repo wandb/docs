@@ -121,7 +121,7 @@ Les instructions ci-dessous s’appliquent lorsque vous démarrez des agents de 
 
 Enregistrez un gestionnaire pour le signal que votre ordonnanceur ou votre plateforme utilise pour indiquer une préemption, tel que `SIGUSR1` ou `SIGTERM`. Dans le gestionnaire :
 
-1. Dans le gestionnaire, appelez [`mark_preempting()`](/fr/models/ref/python/experiments/run#mark_preempting) lorsqu’un run est actif
+1. Appelez [`mark_preempting()`](/fr/models/ref/python/experiments/run#mark_preempting) lorsqu’un run est actif.
 2. Effectuez tout nettoyage nécessaire, par exemple en enregistrant un checkpoint.
 3. Quittez avec un code d’état non nul. Une convention courante pour une terminaison par signal est `128 + signum`.
 

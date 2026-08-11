@@ -20,6 +20,30 @@ date: 2026-07-23
 
 {/* new-articles:start */}
 
+<div id="august-2026">
+  ## 2026년 8월
+</div>
+
+<div id="support">
+  ### 지원팀
+</div>
+
+<Card title="임시 환경에서 run 데이터를 보존하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-do-i-preserve-run-data-from-ephemeral-env/" arrow="true" horizontal>
+  임시 환경에서 로컬 run 데이터와 진단 로그를 보존하려면 WANDBDIR을 영구 저장소의 디렉터리로 설정하세요.
+</Card>
+
+<Card title="개인 계정이 팀 및 조직으로 전환되면 어떻게 되나요?" href="/ko/support/models/articles/what-happens-when-my-personal-account-becomes-a-team/" arrow="true" horizontal>
+  W&amp;B는 이전 개인 계정을 최신 계정에서 이미 사용 중인 팀 및 조직 구조로 이전하고 있습니다.
+</Card>
+
+<Card title="팀 또는 entity의 이름을 변경하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-do-i-rename-a-team-or-entity/" arrow="true" horizontal>
+  W&amp;B는 팀 또는 entity의 이름 변경을 지원하지 않습니다.
+</Card>
+
+<Card title="여러 아티팩트를 한 번에 삭제하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-do-i-delete-many-artifacts-at-once/" arrow="true" horizontal>
+  저장소 사용량을 줄이는 등 여러 아티팩트 버전을 삭제해야 할 때는 W&amp;B App 대신 W&amp;B Public API를 사용하세요.
+</Card>
+
 <div id="july-2026">
   ## 2026년 7월
 </div>
@@ -51,6 +75,10 @@ date: 2026-07-23
 <div id="weave">
   ### Weave
 </div>
+
+<Card title="맞춤형 런타임 추가" href="/ko/weave/guides/tools/custom-runtimes/" arrow="true" horizontal>
+  OpenAI 호환 추론 엔드포인트를 맞춤형 런타임으로 Weave 프로젝트에 연결하고 UI 또는 Python 및 TypeScript SDK에서 관리합니다.
+</Card>
 
 <Card title="평가 비교" href="/ko/weave/guides/evaluation/compare_evals/" arrow="true" horizontal>
   두 개 이상의 평가를 시각적으로 비교하여 run 전반의 회귀, 개선 사항 및 점수화 차이를 파악합니다
@@ -160,9 +188,7 @@ date: 2026-07-23
   AI 코딩 세션을 위한 공유 대시보드입니다. 리더보드, 팀 뷰, 효율성 인사이트를 통해 Claude Code, Cursor, Codex, Gemini CLI 등의 활동, 비용, 결과를 추적하세요.
 </Card>
 
-<div id="support">
-  ### 지원
-</div>
+### 지원
 
 <Card title="Weave 비용 또는 토큰 추정치가 공급자와 다른 이유는 무엇인가요?" href="/ko/support/weave/articles/why-does-my-weave-cost-or-token-estimate-differ-from-my-provider/" arrow="true" horizontal>
   Weave는 LLM Call에서 캡처한 데이터를 기반으로 비용 및 토큰 사용량 추정치를 표시합니다. Weave의 수치와 공급자 청구서 간 차이는 다음과 같은 문제로 발생할 수 있습니다.
@@ -360,9 +386,7 @@ date: 2026-07-23
   W&amp;B Serverless Sandboxes를 사용하면 Python에서 온디맨드 격리 컴퓨팅 환경을 생성하고, 사용하고, 폐기할 수 있습니다.
 </Card>
 
-<div id="support">
-  ### 지원
-</div>
+### 지원
 
 <Card title="`.call()`이 예외를 발생시키지 않는 이유는 무엇인가요?" href="/ko/support/weave/articles/weave-call-does-not-raise-exceptions/" arrow="true" horizontal>
   기본적으로 Weave의 .call() 메서드는 예외를 발생시키는 대신 캡처하여 call.exception에 저장합니다.
@@ -476,32 +500,4 @@ date: 2026-07-23
   >
 </Card>
 
-<div id="february-2026">
-  ## 2026년 2월
-</div>
-
-<div id="weave">
-  ### Weave
-</div>
-
-<Card title="Weave 프로젝트 관리" href="/ko/weave/guides/platform/weave-projects/" arrow="true" horizontal>
-  Weave 프로젝트를 사용하여 트레이스, 프롬프트, 평가, 모델, 대시보드 등 관련 에셋을 체계적으로 관리하세요.
-</Card>
-
-<div id="platform">
-  ### 플랫폼
-</div>
-
-<Card title="Use the W&B MCP server" href="/ko/platform/mcp-server/" arrow="true" horizontal>
-  IDE 또는 AI 에이전트를 W&amp;B Model Context Protocol(MCP) 서버에 연결하여 자연어로 W&amp;B 데이터와 문서를 쿼리하고 분석하세요.
-</Card>
-
-<div id="inference">
-  ### Inference
-</div>
-
-<Card title="모델 라이프사이클" href="/ko/inference/lifecycle/" arrow="true" horizontal>
-  >
-</Card>
-
-{/* 새 아티클:end */}
+{/* new-articles:end */}
