@@ -82,7 +82,7 @@ Context windows and prices are in the [Neon model catalog](https://neon.com/docs
 
 Two constraints affect which model you pick:
 
-- The Codex variants (`gpt-5-3-codex`, `gpt-5-2-codex`, `gpt-5-1-codex-max`, `gpt-5-1-codex-mini`) are served only on Neon's Responses API path, `{NEON_AI_GATEWAY_BASE_URL}/openai/v1`. They return a `400` on chat completions.
+- `gpt-5-3-codex` and `gpt-5-5-pro` are served only on Neon's Responses API path, `{NEON_AI_GATEWAY_BASE_URL}/openai/v1`. They return a `400` on chat completions. Every other model in the catalog works on the chat completions path.
 - For Gemini 3.x, `gpt-oss-120b`, and `qwen35-122b-a10b`, `message.content` comes back as an array of content blocks rather than a string.
 
 Neon does not return a cost field and reports `pricing` as `null` in `GET /v1/models`, so traces show token counts without cost. Inference is free during the beta.
