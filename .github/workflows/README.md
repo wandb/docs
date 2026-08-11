@@ -20,6 +20,12 @@ The workflows use `actions/create-github-app-token@v3` to create short-lived ins
 
 Workflows that push back to a same-repo PR branch with this token (instead of the default workflow `GITHUB_TOKEN`) include **Compress Images** (`calibreapp-image-actions.yml`), **Build CSS** (`build-css.yml`), and **Knowledgebase Nav** (`knowledgebase-nav.yml`). That way downstream `pull_request` checks (for example **Validate MDX**) still run on the automation commit.
 
+## Action pinning
+
+Every third-party `uses:` in workflows and composite actions pins a full commit SHA with a trailing version comment (`@3d3c42e5… # v7`), never a mutable tag or branch — a tag can be moved to different code after review; a SHA cannot. Do not add tag- or branch-pinned actions.
+
+Renovate keeps the SHAs and version comments current, configured by `.github/renovate.json5` via the org-wide [`wandb/renovate-config`](https://github.com/wandb/renovate-config) preset. That preset also enforces update policy: a 7-day minimum release age (defense against tag-repointing attacks) and Dependency Dashboard approval for major bumps. Do not add a `github-actions` entry to `.github/dependabot.yml` for this because Dependabot would duplicate Renovate's PRs and propose updates before the 7-day gate, bypassing that protection.
+
 ## Sync Code Examples
 
 **Workflow**: `sync-code-examples.yml`
