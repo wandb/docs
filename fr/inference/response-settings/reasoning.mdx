@@ -14,11 +14,11 @@ Les informations de raisonnement apparaissent dans le champ `reasoning` des rép
   ## Modèles pris en charge avec raisonnement
 </div>
 
-Le tableau suivant répertorie les modèles de Serverless Inference qui peuvent renvoyer un raisonnement en sortie, ainsi que le comportement de chacun :
+Le tableau suivant répertorie les modèles de Serverless Inference qui peuvent renvoyer un raisonnement, ainsi que le comportement de chacun :
 
-* **Always on :** Le modèle renvoie toujours un raisonnement en sortie. Vous ne pouvez pas le désactiver.
-* **Activé par défaut** / **Désactivé par défaut :** Vous pouvez activer ou désactiver le raisonnement en sortie. Le tableau indique la valeur par défaut lorsque vous ne spécifiez aucun paramètre.
-* **Adaptatif ; le modèle choisit par défaut :** Le modèle décide, pour chaque requête, s’il renvoie ou non un raisonnement en sortie. Vous pouvez redéfinir ce comportement.
+* **Always on :** Le modèle renvoie toujours un raisonnement. Vous ne pouvez pas le désactiver.
+* **Activé par défaut** / **Désactivé par défaut :** Vous pouvez activer ou désactiver le raisonnement. Le tableau indique la valeur par défaut lorsque vous ne spécifiez aucun paramètre.
+* **Adaptatif ; le modèle choisit par défaut :** Le modèle décide, pour chaque requête, s’il renvoie ou non un raisonnement. Vous pouvez redéfinir ce comportement.
 
 {/* takeru reasoning-models - Ce tableau est généré automatiquement, ne le modifiez pas manuellement. */}
 
@@ -32,6 +32,7 @@ Le tableau suivant répertorie les modèles de Serverless Inference qui peuvent 
 | `MiniMaxAI/MiniMax-M2.5`                       | Always on                                |
 | `moonshotai/Kimi-K2.7-Code`                    | Always on                                |
 | `moonshotai/Kimi-K2.6`                         | Always on                                |
+| `nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B` | Activé par défaut                        |
 | `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-FP8` | Activé par défaut                        |
 | `nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B`     | Activé par défaut                        |
 | `openai/gpt-oss-120b`                          | Always on                                |
