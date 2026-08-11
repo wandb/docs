@@ -3,36 +3,36 @@ title: "startSubagent"
 description: "Référence du SDK TypeScript"
 ---
 
-<div id="startsubagent">
-  # startSubagent
-</div>
+> **startSubagent**(`opts`) : [`SubAgent`](../interfaces/subagent)
 
-▸ **startSubagent**(`opts`): [`SubAgent`](../classes/subagent)
+Démarre un span SubAgent. Applique les mêmes règles de résolution du parent que `startTool`.
 
-Démarre un span de SubAgent. Les règles de résolution du parent sont les mêmes que pour `startTool`.
+Défini dans : [src/genai/api.ts:137](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L137)
 
 <div id="parameters">
-  #### Paramètres
+  ## Paramètres
 </div>
 
-| Nom    | Type                                         |
-| :----- | :------------------------------------------- |
-| `opts` | [`SubAgentInit`](../interfaces/subagentinit) |
+<div id="opts">
+  ### opts
+</div>
+
+[`SubAgentInit`](../interfaces/subagentinit)
 
 <div id="returns">
-  #### Renvoie
+  ## Renvoie
 </div>
 
-[`SubAgent`](../classes/subagent)
+[`SubAgent`](../interfaces/subagent)
 
-`Exemple`
+<div id="examples">
+  ## Exemples
+</div>
 
 ```ts twoslash
 // @noErrors
 weave.startSubagent({name: 'critic'});
 ```
-
-`Exemple`
 
 ```ts twoslash
 // @noErrors
@@ -43,11 +43,3 @@ weave.startSubagent({
   startTime: new Date('2026-05-29T10:00:00.000Z'),
 });
 ```
-
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[src/genai/api.ts:137](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L137)
-
-***

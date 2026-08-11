@@ -3,11 +3,7 @@ title: "startTool"
 description: "TypeScript SDK リファレンス"
 ---
 
-<div id="starttool">
-  # startTool
-</div>
-
-▸ **startTool**(`opts`): [`Tool`](../classes/tool)
+> **startTool**(`opts`): [`Tool`](../interfaces/tool)
 
 `Tool` の span を開始します。親の解決方法 (設計上の「デフォルトではフラット、ネストした場合は階層化」に対応) :
 
@@ -16,21 +12,27 @@ description: "TypeScript SDK リファレンス"
 
 Turn と LLM のどちらもアクティブでない場合は、例外をスローします。
 
+定義元: [src/genai/api.ts:110](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L110)
+
 <div id="parameters">
-  #### パラメーター
+  ## パラメーター
 </div>
 
-| 名      | タイプ                                  |
-| :----- | :----------------------------------- |
-| `opts` | [`ToolInit`](../interfaces/toolinit) |
+<div id="opts">
+  ### opts
+</div>
+
+[`ToolInit`](../interfaces/toolinit)
 
 <div id="returns">
-  #### 戻り値
+  ## 戻り値
 </div>
 
-[`Tool`](../classes/tool)
+[`Tool`](../interfaces/tool)
 
-`例`
+<div id="examples">
+  ## 例
+</div>
 
 ```ts twoslash
 // @noErrors
@@ -40,8 +42,6 @@ weave.startTool({
   toolCallId: 'call_t1',
 });
 ```
-
-`例`
 
 ```ts twoslash
 // @noErrors
@@ -52,11 +52,3 @@ weave.startTool({
   startTime: new Date('2026-05-29T10:00:00.800Z'),
 });
 ```
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[src/genai/api.ts:110](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L110)
-
-***

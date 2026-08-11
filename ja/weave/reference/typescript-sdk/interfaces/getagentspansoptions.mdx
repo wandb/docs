@@ -3,35 +3,21 @@ title: "GetAgentSpansOptions"
 description: "TypeScript SDK リファレンス"
 ---
 
-[WeaveClient.getAgentSpans](../classes/weaveclient#getagentspans) のオプションです。
+[WeaveClient.getAgentSpans](./weaveclient#getagentspans) のオプションです。
 
-<div id="table-of-contents">
-  ## 目次
-</div>
+定義元: [src/weaveClient.ts:160](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L160)
 
 <div id="properties">
-  ### プロパティ
+  ## プロパティ
 </div>
-
-* [agentName](./getagentspansoptions#agentname)
-* [limit](./getagentspansoptions#limit)
-* [offset](./getagentspansoptions#offset)
-* [query](./getagentspansoptions#query)
-* [sortBy](./getagentspansoptions#sortby)
-
-## プロパティ
 
 <div id="agentname">
   ### agentName
 </div>
 
-• `任意` **agentName**: `string`
+> `optional` **agentName**: `string`
 
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[src/weaveClient.ts:161](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L161)
+定義元: [src/weaveClient.ts:161](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L161)
 
 ***
 
@@ -39,28 +25,30 @@ description: "TypeScript SDK リファレンス"
   ### limit
 </div>
 
-• `任意` **limit**: `数値`
+> `optional` **limit**: `number`
 
-`最小値`
+定義元: [src/weaveClient.ts:171](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L171)
+
+<div id="min">
+  #### 最小値
+</div>
 
 0
 
-`最大値`
+<div id="max">
+  #### 最大値
+</div>
 
 10000
 
-`デフォルト`
+<div id="default">
+  #### デフォルト
+</div>
 
 ```ts twoslash
 // @noErrors
 100
 ```
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[src/weaveClient.ts:171](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L171)
 
 ***
 
@@ -68,24 +56,24 @@ description: "TypeScript SDK リファレンス"
   ### offset
 </div>
 
-• `任意` **offset**: `数値`
+> `optional` **offset**: `number`
 
-`最小値`
+定義元: [src/weaveClient.ts:176](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L176)
+
+<div id="min">
+  #### 最小値
+</div>
 
 0
 
-`デフォルト`
+<div id="default">
+  #### デフォルト
+</div>
 
 ```ts twoslash
 // @noErrors
 0
 ```
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[src/weaveClient.ts:176](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L176)
 
 ***
 
@@ -93,15 +81,11 @@ description: "TypeScript SDK リファレンス"
   ### query
 </div>
 
-• `任意` **query**: `null` | [`Query`](./query)
+> `optional` **query**: [`Query`](./query) | `null`
 
-スパンを絞り込むための MongoDB スタイルのフィルターです。
+スパンに対する Mongo 形式のフィルターです。
 
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[src/weaveClient.ts:165](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L165)
+定義元: [src/weaveClient.ts:165](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L165)
 
 ***
 
@@ -109,10 +93,6 @@ description: "TypeScript SDK リファレンス"
   ### sortBy
 </div>
 
-• `任意` **sortBy**: [`SortBy`](./sortby)[]
+> `optional` **sortBy**: [`SortBy`](./sortby)[]
 
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[src/weaveClient.ts:177](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L177)
+定義元: [src/weaveClient.ts:177](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L177)
