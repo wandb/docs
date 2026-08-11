@@ -1,0 +1,96 @@
+name: SDK release notes drift check
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Run weekly on Mondays at 3:00 PM UTC
+    - cron: '0 15 * * 1'
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check-drift:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      # Shallow clone - the script reads the newest <Update> label from the
+      # release-notes pages in the working tree and queries the GitHub API
+      # for the latest release tag in each SDK repo
+
+    - name: Set up Python
+      uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+      with:
+        python-version: '3.11'
+
+    - name: Check for release notes drift
+      id: drift
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        set +e
+        python scripts/check_sdk_release_notes_drift.py --json > drift.json
+        exit_code=$?
+        set -e
+        cat drift.json
+        echo "exit_code=${exit_code}" >> $GITHUB_OUTPUT
+        if [ "$exit_code" -eq 2 ]; then
+          echo "::error title=Drift check error::Could not fetch a release tag or parse a docs page. See drift.json output above."
+          exit 2
+        fi
+
+    - name: Open or update drift issue
+      if: steps.drift.outputs.exit_code == '1'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        BODY_FILE=$(mktemp)
+        {
+          echo "The scheduled drift check found SDK release notes pages that are behind the newest GitHub release."
+          echo ""
+          echo '| Repo | Docs page | Docs newest | GitHub newest |'
+          echo '| --- | --- | --- | --- |'
+          python3 -c "
+        import json
+        for r in json.load(open('drift.json')):
+            if r['drift']:
+                print(f\"| {r['repo']} | {r['docs_path']} | {r['latest_docs']} | {r['latest_github']} |\")
+        "
+          echo ""
+          echo "To resolve, add \`<Update>\` entries for the missing releases to the page(s) above."
+          echo ""
+          echo "_Last checked: $(date -u +'%Y-%m-%d %H:%M:%S UTC') by the [SDK release notes drift check](https://github.com/${GITHUB_REPOSITORY}/actions/workflows/sdk-release-notes-drift.yml)._"
+        } > "$BODY_FILE"
+
+        EXISTING=$(gh issue list --repo "$GITHUB_REPOSITORY" \
+          --label release-notes-drift --state open \
+          --json number --jq '.[0].number // empty')
+        if [ -n "$EXISTING" ]; then
+          echo "Updating existing issue #$EXISTING"
+          gh issue edit "$EXISTING" --repo "$GITHUB_REPOSITORY" --body-file "$BODY_FILE"
+        else
+          gh label create release-notes-drift \
+            --repo "$GITHUB_REPOSITORY" \
+            --description "SDK release notes are behind the newest GitHub release" \
+            --color D93F0B || true
+          gh issue create --repo "$GITHUB_REPOSITORY" \
+            --title "SDK release notes are behind the latest GitHub release" \
+            --label release-notes-drift \
+            --body-file "$BODY_FILE"
+        fi
+
+    - name: Close drift issue when resolved
+      if: steps.drift.outputs.exit_code == '0'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        EXISTING=$(gh issue list --repo "$GITHUB_REPOSITORY" \
+          --label release-notes-drift --state open \
+          --json number --jq '.[0].number // empty')
+        if [ -n "$EXISTING" ]; then
+          gh issue close "$EXISTING" --repo "$GITHUB_REPOSITORY" \
+            --comment "Release notes pages are up to date again. Closing automatically."
+        fi
