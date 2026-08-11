@@ -1,11 +1,9 @@
 ---
-title: "OpDecorator"
+title: "OpDecorator<T>"
 description: "TypeScript SDK reference"
 ---
 
-# OpDecorator
-
-Ƭ **OpDecorator**\<`T`\>: (`value`: `T`, `context`: `ClassMethodDecoratorContext`) => `T` \| `void` & (`target`: `object`, `propertyKey`: `string` \| `symbol`, `descriptor`: `TypedPropertyDescriptor`\<`T`\>) => `TypedPropertyDescriptor`\<`T`\> \| `void`
+> **OpDecorator**\<`T`\> = (`value`, `context`) => `T` \| `void` & (`target`, `propertyKey`, `descriptor`) => `TypedPropertyDescriptor`\<`T`\> \| `void`
 
 Helper type for decorators
 This represents a decorator function that can be used with both legacy and Stage 3 decorators.
@@ -19,14 +17,10 @@ For legacy decorators:
   propertyKey: The method name
   descriptor: The property descriptor containing the method
 
-#### Type parameters
+Defined in: [src/opType.ts:41](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/opType.ts#L41)
 
-| Name | Type |
-| :------ | :------ |
-| `T` | extends (...`args`: `any`[]) => `any` |
+## Type Parameters
 
-#### Defined in
+### T
 
-[src/opType.ts:41](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/opType.ts#L41)
-
-___
+`T` *extends* (...`args`) => `any`
