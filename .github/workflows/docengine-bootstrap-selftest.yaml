@@ -3,10 +3,8 @@
 # situations it is designed to handle.
 #
 # That action is what fetches CoreWeave's documentation tooling (DocEngine) for
-# every other docs workflow, so it needs to be verifiable on its own. Right now
-# nothing else calls it yet - the existing DocEngine workflows still do this
-# setup inline, and moving them over happens later - so without this test there
-# would be no way to tell whether it works.
+# the docs workflows, so it needs to be verifiable on its own - not only
+# through the workflows that call it.
 #
 # The two cases:
 #   1. Given a token, it fetches DocEngine and reports available=true.
