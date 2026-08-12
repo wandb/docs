@@ -106,6 +106,48 @@ class DocsLookup:
     def touches_immutable(self) -> bool:
         return any(o.immutable for o in self.occurrences)
 
+    @property
+    def match_confidence(self) -> str:
+        """How sure are we that these occurrences are references to the control?
+
+        Deliberately three coarse buckets, not a taxonomy. The docs corpus has
+        more context shapes than are worth classifying -- SDK output, MDX
+        component props, headings, CSV enum values -- and chasing each one buys
+        less than reporting the edge case at low confidence and letting a human
+        glance at it.
+
+        The rule this encodes: text a writer marked up as a control must match
+        the UI exactly, so a rename is real drift. Text in a run of prose is
+        governed by the style guide, not by the UI, so a rename usually means
+        nothing there.
+
+        NB: this grades MATCH QUALITY, not coverage. Absence of docs still
+        cannot lower anything -- see the module docstring.
+        """
+        if not self.occurrences:
+            return "low"
+        if not self.ui_occurrences:
+            return "low"  # prose only: probably style-governed, not a control
+        if all(o.context == CTX_CODE for o in self.ui_occurrences):
+            # A backticked string is as often an API value or identifier as a
+            # UI label -- `"Models Seat"` in org_dashboard.mdx is a CSV column
+            # value, not a button.
+            return "medium"
+        if self.all_occurrences_emphasized:
+            return "high"
+        return "medium"
+
+    @property
+    def replace_targets(self) -> list[DocsOccurrence]:
+        """The occurrences a fix may touch: marked-up, mutable ones only.
+
+        Prose is never a target. If the UI renames `MODELS SEAT` to
+        `Models Seat`, the bold reference must follow, but "anyone with a models
+        seat can write runs" should stay lowercase per the style guide. Leaving
+        the page mixed is correct, not inconsistent.
+        """
+        return [o for o in self.ui_occurrences if not o.immutable]
+
 
 @dataclass
 class DocsIndex:
@@ -207,6 +249,21 @@ def is_specific_enough(literal: str) -> tuple[bool, str]:
     return False, "single token and not all-caps: too generic to attribute"
 
 
+def _literal_regex(literal: str) -> re.Pattern[str]:
+    """Match the literal as a whole term, not as a substring.
+
+    `Add panel` occurs inside `Add panels`, and without boundaries that one
+    plural inflates the literal from 2 pages to 16 -- enough to trip the
+    too-generic cap and suppress a real finding -- while also misfiling every
+    bold `**Add panels**` as unemphasized prose, because the bold matcher then
+    fails on the trailing `s`.
+
+    Lookarounds rather than \\b so literals that begin or end with punctuation
+    (`+ Add panel`, `Save...`) still match.
+    """
+    return re.compile(r"(?<![A-Za-z0-9])" + re.escape(literal) + r"(?![A-Za-z0-9])")
+
+
 def _context_regexes(literal: str) -> list[tuple[str, re.Pattern[str]]]:
     """Build the UI-emphasis matchers for one literal.
 
@@ -218,7 +275,7 @@ def _context_regexes(literal: str) -> list[tuple[str, re.Pattern[str]]]:
 
     Surrounding words use a scoped (?i:...) so `The`/`the` both work.
     """
-    e = re.escape(literal)
+    e = r"(?<![A-Za-z0-9])" + re.escape(literal) + r"(?![A-Za-z0-9])"
     return [
         (CTX_BOLD, re.compile(r"\*\*\s*" + e + r"\s*\*\*")),
         (CTX_CODE, re.compile(r"`" + e + r"`")),
@@ -245,13 +302,14 @@ def find(index: DocsIndex, literal: str) -> DocsLookup:
         return DocsLookup(literal, False, reason)
 
     matchers = _context_regexes(literal)
+    term = _literal_regex(literal)
     occurrences: list[DocsOccurrence] = []
 
     for page_idx in _candidate_pages(index, literal):
-        if literal not in index.text[page_idx]:
+        if not term.search(index.text[page_idx]):
             continue
         for line_no, line in enumerate(index.lines[page_idx], start=1):
-            if literal not in line:
+            if not term.search(line):
                 continue
             context = CTX_PROSE
             for name, rx in matchers:
@@ -270,7 +328,7 @@ def find(index: DocsIndex, literal: str) -> DocsLookup:
 
     lookup = DocsLookup(literal, True, "", occurrences)
     lookup.translations_affected = {
-        loc: sum(1 for body in pages.values() if literal in body)
+        loc: sum(1 for body in pages.values() if term.search(body))
         for loc, pages in index.mirrors.items()
     }
     lookup.translations_affected = {

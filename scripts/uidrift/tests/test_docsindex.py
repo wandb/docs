@@ -240,3 +240,59 @@ class TestLiveCorpus(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestMatchConfidence(DocsIndexTestCase):
+    """Edge cases are reported at low confidence rather than classified."""
+
+    def test_uniformly_emphasized_is_high(self):
+        # Quoted, single occurrence, no bare prose anywhere.
+        self.assertEqual(
+            docsindex.find(self.index, "Weave Access").match_confidence, "high"
+        )
+
+    def test_code_context_only_is_medium(self):
+        # A backticked string is as often an API value or CSV enum as a control,
+        # so `Billing Admin` alone does not earn high confidence.
+        self.assertEqual(
+            docsindex.find(self.index, "Billing Admin").match_confidence, "medium"
+        )
+
+    def test_mixed_bold_and_prose_is_medium_not_blocked(self):
+        # MODELS SEAT is bold on one page, bare prose on another. That is the
+        # normal case, not a problem: the bold reference must track the UI, the
+        # prose one follows the style guide.
+        lookup = docsindex.find(self.index, "MODELS SEAT")
+        self.assertEqual(lookup.match_confidence, "medium")
+        self.assertTrue(lookup.replace_targets)
+
+    def test_prose_only_is_low(self):
+        lookup = docsindex.find(self.index, "models seat")
+        self.assertEqual(lookup.match_confidence, "low")
+        self.assertEqual(lookup.replace_targets, [])
+
+    def test_prose_is_never_a_replace_target(self):
+        for occ in docsindex.find(self.index, "MODELS SEAT").replace_targets:
+            self.assertNotEqual(occ.context, docsindex.CTX_PROSE)
+
+    def test_immutable_pages_are_never_replace_targets(self):
+        lookup = docsindex.find(self.index, "Hide sidebar")
+        self.assertTrue(lookup.ui_occurrences, "should still be reported")
+        self.assertEqual(lookup.replace_targets, [], "release notes are history")
+
+
+class TestWholeTermMatching(DocsIndexTestCase):
+
+    def test_plural_does_not_match_singular(self):
+        # `Add panel` inside `Add panels` inflated one literal from 2 pages to
+        # 16 and misfiled every bold occurrence as prose.
+        index = self.index
+        page = Path(self._tmp.name) / "platform/panels.mdx"
+        page.write_text(
+            "---\ntitle: Panels\n---\nClick **Add panels** in the control bar.\n",
+            encoding="utf-8",
+        )
+        cfg = dataclasses.replace(config.DOCS, local_path_default=str(self._tmp.name))
+        index = docsindex.build_index(cfg)
+        self.assertFalse(docsindex.find(index, "Add panel").occurrences)
+        self.assertTrue(docsindex.find(index, "Add panels").ui_occurrences)
