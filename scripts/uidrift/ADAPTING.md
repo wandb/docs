@@ -223,7 +223,31 @@ not. The chain is fully readable inside a single diff. The Statsig key itself
 usually is not; it lives in the ramp registry, so treat it as optional
 enrichment rather than a precondition.
 
-### 15. Freeze real diffs as fixtures, immediately
+### 15. A change to an undocumented label is not drift
+
+The first report rendered 22 rows for three commits, of which 2 were real. The
+rest were `new **Loading members**`, `new **Invited**`, `PROFILE removed` — every
+changed string that matched no doc page, each filed as a "coverage gap".
+
+Drift requires docs to drift *from*. Renaming a label that no page mentions makes
+nothing incorrect, so it is not a finding; it is at most a statistic. Count those
+and print the count. Enumerating them buries the rows that matter, which is the
+one failure this report cannot survive — a reviewer who skims past the real
+finding will not come back.
+
+This is not the suppression the one-directional rule forbids. Absence of docs
+must never *hide a finding that exists*; it just must not *manufacture findings
+that do not*.
+
+Two related shapes fell out of the same pass:
+
+- **Aggregate new copy per surface.** A new settings panel adds a heading, a
+  description, two field labels and a button. That is one docs task, not five.
+- **Key findings on the docs task, not the code surface.** Three member tables
+  render the same column, and the docs page names it once. Including the surface
+  in the finding id showed one edit as three rows.
+
+### 16. Freeze real diffs as fixtures, immediately
 
 Six frozen `git show` outputs in `tests/fixtures/` are the entire regression
 surface, and they caught three bugs that survived design review: the inline-JSX
