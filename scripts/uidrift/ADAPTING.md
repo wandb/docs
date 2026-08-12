@@ -188,7 +188,42 @@ Two corpus-selection mistakes with opposite signs:
   double-counts every occurrence and silently inflates page counts, which then
   trips the too-generic cap and suppresses real findings.
 
-### 13. Freeze real diffs as fixtures, immediately
+### 13. Pair renames by position before you consider similarity
+
+The obvious approach — match a removed string to the added string it most
+resembles — fails on the most important case. A label that was genuinely
+reworded shares almost no characters with its replacement:
+
+| Old | New | Similarity |
+|---|---|---|
+| `Hide manually hidden runs` | `List only visible runs` | 0.55 |
+| `Only show visualized` | `Hide manually hidden runs` | 0.22 |
+
+No threshold catches those and still refuses to pair two unrelated column
+headers. But git already answers the question: an in-place edit appears as a `-`
+line and the `+` line that replaced it at the same offset in one change block.
+Position is stronger evidence than string similarity, and it has no false-pair
+failure mode.
+
+Similarity is still worth a second pass, for renames that are *not* in-place —
+`header: 'WEAVE ACCESS'` became `name: 'Weave Access'` on a different line and a
+different field. Group by (path, kind), not (path, kind, key), or that one is
+invisible.
+
+### 14. Not every conditional is a feature gate
+
+Walking up from a changed line to the enclosing `if` finds plenty of blocks that
+have nothing to do with visibility. `if (hideManuallyHidden)` is UI state.
+Reporting it as a gate would mark half the app "not yet visible" and destroy
+trust in the one signal that should mean something.
+
+Require the conditional's variable to resolve to a gate hook —
+`const shouldShowX = useStatsigGateX(orgName)` — and report nothing when it does
+not. The chain is fully readable inside a single diff. The Statsig key itself
+usually is not; it lives in the ramp registry, so treat it as optional
+enrichment rather than a precondition.
+
+### 15. Freeze real diffs as fixtures, immediately
 
 Six frozen `git show` outputs in `tests/fixtures/` are the entire regression
 surface, and they caught three bugs that survived design review: the inline-JSX
