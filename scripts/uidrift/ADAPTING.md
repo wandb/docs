@@ -151,7 +151,44 @@ Also: naive substring matching is useless. `search` appears on 215 docs pages.
 Require UI-emphasis context (`**bold**`, backticks, quotes, or "the X button"),
 a ≥2-token-or-ALL-CAPS specificity gate, and a page-count cap.
 
-### 9. Freeze real diffs as fixtures, immediately
+### 9. Match the literal case-sensitively, or you report already-fixed drift
+
+Non-obvious and easy to get backwards. The lookup asks "does the OLD string
+still appear in docs?" If docs say `MODELS SEAT` and the code now says
+`Models Seat`, that is drift. If docs already say `Models Seat`, there is
+nothing to do. A case-insensitive match cannot tell those apart, so it reports
+the fixed page as broken — and the case-only rename is exactly the class where
+this matters most.
+
+Surrounding words (`the`, the noun) can be case-insensitive via a scoped
+`(?i:...)`. The literal itself must not be.
+
+### 10. Blank frontmatter; do not delete it
+
+Deleting YAML frontmatter shifts every line number after it, so a reported
+`page:line` stops resolving to what a reader sees — off by five, in our corpus.
+Replace it with an equal number of newlines instead. Cheap, and it keeps
+citations exact while still preventing frontmatter keys from matching as prose.
+
+### 11. Published release notes are immutable, and they are a big share of hits
+
+Roughly half the docs hits in a 60-day window land in `release-notes/**`. Those
+are a historical record of what shipped under the name it shipped under.
+Rewriting them would be falsifying a changelog. Report them for awareness, never
+propose an edit, and never count them toward agent eligibility.
+
+### 12. Include reusable fragments; exclude worktrees
+
+Two corpus-selection mistakes with opposite signs:
+
+- **`snippets/`** carries real UI prose (`go to the **Service Accounts** tab`)
+  and renders into many pages, so a label there has *wider* blast radius than
+  one in a single page. Excluding it creates blind spots.
+- **`.claude/`** contains git worktrees — full copies of the tree. Indexing it
+  double-counts every occurrence and silently inflates page counts, which then
+  trips the too-generic cap and suppresses real findings.
+
+### 13. Freeze real diffs as fixtures, immediately
 
 Six frozen `git show` outputs in `tests/fixtures/` are the entire regression
 surface, and they caught three bugs that survived design review: the inline-JSX
@@ -170,7 +207,12 @@ Calibrate before building. For `wandb/core` over 60 days:
 | Commits on `origin/master` | 2,990 |
 | Touching `frontends/app/src/**/*.tsx` | 592 |
 | **Stage-1 candidates** | **170** (~20/week) |
-| Reduction | 71% |
+| …with a published-docs occurrence | **12** (~1.5/week) |
+| Reduction | 71% at stage 1; 93% after the docs join |
+
+The docs join is the real filter, and it is deterministic. Do not reach for a
+model until after it: judging 170 commits costs an order of magnitude more than
+judging the 12 that actually touch published copy.
 
 Full scan runs in ~27 seconds with no network and no token, because
 `gitsource.commit_diff` takes a pathspec and never fetches diffs outside the UI

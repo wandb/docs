@@ -88,6 +88,9 @@ def scan(args) -> int:
         print(f"reduction  {pct:>5.1f}%  (stage 1, deterministic)")
     print()
 
+    if args.docs:
+        return _report_docs_hits(candidates)
+
     for c, added, removed, moved in candidates:
         subject = c["commit"]["message"].splitlines()[0]
         print(f"{c['sha'][:7]}  +{len(added):<3} -{len(removed):<3} ~{len(moved):<3}  {subject[:78]}")
@@ -102,6 +105,50 @@ def scan(args) -> int:
     return 0
 
 
+def _report_docs_hits(candidates) -> int:
+    """Join stage-1 candidates against the docs corpus.
+
+    A string that left the product AND still appears in published docs is drift.
+    Everything else here is either a coverage gap (no page mentions it) or noise
+    (too generic to attribute) -- both reported, neither suppressed.
+    """
+    from uidrift import docsindex
+
+    index = docsindex.build_index()
+    print(f"docs index {len(index)} primary-locale pages\n")
+
+    hits = 0
+    for c, _added, removed, _moved in candidates:
+        rows = []
+        for d in removed:
+            lookup = docsindex.find(index, d.norm)
+            if lookup.ui_occurrences:
+                rows.append((d, lookup))
+        if not rows:
+            continue
+
+        hits += 1
+        subject = c["commit"]["message"].splitlines()[0]
+        print(f"{c['sha'][:7]}  {subject[:74]}")
+        for d, lookup in rows:
+            mirrors = "".join(f" +{n}{loc}" for loc, n in sorted(lookup.translations_affected.items()))
+            marks = []
+            if lookup.all_occurrences_emphasized:
+                marks.append("all-emphasized")
+            if lookup.touches_immutable:
+                marks.append("IMMUTABLE")
+            if lookup.corpus_frequency > config.MAX_DOCS_PAGES:
+                marks.append(f"{lookup.corpus_frequency}pp-too-broad")
+            suffix = f"  [{', '.join(marks)}]" if marks else ""
+            print(f"    {d.norm!r}{mirrors}{suffix}")
+            for occ in lookup.ui_occurrences[:4]:
+                print(f"        {occ.page}:{occ.line}  ({occ.context})")
+        print()
+
+    print(f"{hits} of {len(candidates)} candidates have a published-docs occurrence")
+    return 0
+
+
 def main() -> int:
     p = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     p.add_argument("--dry-run", action="store_true",
@@ -109,6 +156,8 @@ def main() -> int:
     p.add_argument("--range", help="explicit BASE..HEAD")
     p.add_argument("--head", help=f"head ref (default {config.SOURCE.default_head})")
     p.add_argument("--since", help='window when --range is absent, e.g. "60 days ago"')
+    p.add_argument("--docs", action="store_true",
+                   help="join candidates against the docs corpus and show only drift")
     p.add_argument("-v", "--verbose", action="store_true", help="print every label delta")
     args = p.parse_args()
 

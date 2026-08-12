@@ -84,13 +84,22 @@ SOURCE = SourceRepo(
 
 DOCS = DocsRepo(
     local_path_env="DOCS_REPO",
-    local_path_default=".",  # native: the detector runs inside wandb/docs
+    # The docs corpus is native -- this package lives at <repo>/scripts/uidrift,
+    # so the repo root is two levels up. Resolved from the module's own location
+    # rather than the cwd, so the detector works the same from a test runner, a
+    # subdirectory, and a CI step.
+    local_path_default=str(Path(__file__).resolve().parents[2]),
     content_exts=(".mdx",),
     primary_locale="en",
     mirror_locales=("ja", "ko", "fr"),
+    # NB: snippets/ is deliberately NOT excluded. Reusable fragments carry real
+    # UI prose ("go to the **Service Accounts** tab") and render into many
+    # pages, so a label there has wider blast radius than one in a single page.
+    # .claude is excluded because it holds git worktrees -- indexing it would
+    # double-count every occurrence.
     exclude_dirs=(
-        ".git", "node_modules", ".claude", "docengine-site",
-        "scripts", "snippets", "images", "static",
+        ".git", "node_modules", ".claude", "docengine-site", "docengine",
+        "scripts", "images", "assets", "media", "css", "icons", "layouts",
     ),
     immutable_globs=("release-notes/*",),
     nav_manifest="docs.json",
