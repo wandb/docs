@@ -13,6 +13,16 @@ You can run multiple chats in parallel at a time. ARIA will notify you when it r
 
 Starting a new chat does not delete your previous conversations. To [view previous conversations](/aria/chat#view-chat-history), open the chat history by clicking the three horizontal lines in the upper left corner of the chat window.
 
+## Send a message
+
+Type a message and press **Enter** to send it.
+- Press **Shift+Enter** to add new lines. 
+- Click **+** to add images.
+- To add a run reference, type `@` and select a run from the list. Type to filter and fuzzy-search the list.
+- For more flexibility, compose a more complex message in a text editor and paste it. Plain text is supported, and pasted `@` characters are not resolved to run references.
+
+To cancel the current operation and _immediately_ send the next [queued message](#queue-messages), press the stop icon to the right of the text input.
+
 ## Queue messages
 
 The message queue holds the follow-ups you send while ARIA is still working. Instead of waiting for a response, send your next message and it joins a queue above the message box. ARIA runs each queued message in order, with the full conversation as context, as soon as it finishes the message before it.
