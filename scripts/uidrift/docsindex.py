@@ -96,9 +96,10 @@ class DocsLookup:
         """Every appearance is inside UI markup.
 
         The predicate that decides whether a find-and-replace is safe.
-        `**MODELS SEAT**` inside a numbered step is a token substitution with no
-        grammatical consequence. The same words in "users with a models seat
-        can..." is prose that a substitution would mangle.
+        `**Add panel**` inside a numbered step is a token substitution with no
+        grammatical consequence. "add a panel to your workspace" is a verb
+        phrase that happens to contain the same words, and a substitution would
+        mangle it.
         """
         return bool(self.occurrences) and all(o.is_ui_reference for o in self.occurrences)
 
@@ -119,7 +120,9 @@ class DocsLookup:
         The rule this encodes: text a writer marked up as a control must match
         the UI exactly, so a rename is real drift. Text in a run of prose is
         governed by the style guide, not by the UI, so a rename usually means
-        nothing there.
+        nothing there. Note this cuts both ways -- prose is not free-form
+        either, it just answers to a different authority. Product surfaces stay
+        capitalized in prose ("a Models seat") whatever the UI does.
 
         NB: this grades MATCH QUALITY, not coverage. Absence of docs still
         cannot lower anything -- see the module docstring.
@@ -141,9 +144,9 @@ class DocsLookup:
     def replace_targets(self) -> list[DocsOccurrence]:
         """The occurrences a fix may touch: marked-up, mutable ones only.
 
-        Prose is never a target. If the UI renames `MODELS SEAT` to
-        `Models Seat`, the bold reference must follow, but "anyone with a models
-        seat can write runs" should stay lowercase per the style guide. Leaving
+        Prose is never a target. If the UI renames the `Add panel` button, the
+        bold reference must follow, but "add a panel to your workspace" stays as
+        it is -- it is a verb phrase, not a reference to the control. Leaving
         the page mixed is correct, not inconsistent.
         """
         return [o for o in self.ui_occurrences if not o.immutable]

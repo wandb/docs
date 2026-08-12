@@ -26,7 +26,7 @@ CORPUS = {
         "4. Open the `Billing Admin` panel.\n"
         '5. Click the "Weave Access" control.\n'
         "6. Go to the Service Accounts tab to continue.\n"
-        "7. Anyone with a models seat can write runs.\n"
+        "7. You can add a panel to any section at any time.\n"
     ),
     "platform/other.mdx": (
         "---\ntitle: Other\n---\n"
@@ -99,8 +99,8 @@ class TestCaseSensitivity(DocsIndexTestCase):
         self.assertFalse(docsindex.find(self.index, "Models Seat").ui_occurrences)
 
     def test_prose_mention_is_not_a_ui_reference(self):
-        # "Anyone with a models seat can write runs" is prose, not a control.
-        lookup = docsindex.find(self.index, "models seat")
+        # "You can add a panel to any section" is a verb phrase, not a control.
+        lookup = docsindex.find(self.index, "add a panel")
         self.assertFalse(lookup.ui_occurrences)
 
 
@@ -267,7 +267,7 @@ class TestMatchConfidence(DocsIndexTestCase):
         self.assertTrue(lookup.replace_targets)
 
     def test_prose_only_is_low(self):
-        lookup = docsindex.find(self.index, "models seat")
+        lookup = docsindex.find(self.index, "add a panel")
         self.assertEqual(lookup.match_confidence, "low")
         self.assertEqual(lookup.replace_targets, [])
 
