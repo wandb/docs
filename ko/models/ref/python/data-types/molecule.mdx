@@ -1,33 +1,70 @@
 ---
 title: Molecule
-namespace: python_sdk_data_type
-python_object_type: class
+kind: 클래스
+namespace: wandb.sdk.data_types.molecule
 ---
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/molecule.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/molecule.py#L28" />
 
-
-## <kbd>클래스</kbd> `Molecule`
-
-3D 분자 데이터용 W&amp;B 클래스입니다. 
-
-### <kbd>메서드</kbd> `Molecule.__init__`
+## <kbd>클래스</kbd> wandb.Molecule
 
 ```python
-__init__(
-    data_or_path: 'str | pathlib.Path | TextIO',
-    caption: 'str | None' = None,
-    **kwargs: 'str'
-) → None
+data_or_path: 'str | pathlib.Path | TextIO',
+caption: 'str | None' = None, **kwargs: 'str'
 ```
 
-Molecule 객체를 초기화합니다.
+3D 분자 데이터를 위한 W&amp;B 클래스입니다.
 
-**매개변수:**
+<div id="args">
+  ## 인수
+</div>
 
-* `data_or_path`:  파일 이름 또는 io 객체를 사용해 Molecule을 초기화할 수 있습니다.
-* `caption`:  표시용으로 분자에 연결된 캡션입니다.
+* `data_or_path`: 파일 이름 또는 io 객체를 사용해 Molecule을 초기화할 수 있습니다.
+* `caption`: 표시용으로 분자에 연결된 캡션입니다.
+* `kwargs`: 
 
-***
+<div id="methods">
+  ## 메서드
+</div>
+
+### <kbd>방법</kbd> Molecule.from_rdkit()
+
+```python
+data_or_path: 'RDKitDataType',
+caption: 'str | None' = None,
+convert_to_3d_and_optimize: 'bool' = True,
+mmff_optimize_molecule_max_iterations: 'int' = 200
+```
+
+RDKit에서 지원되는 파일/객체 유형을 wandb.Molecule로 변환합니다.
+
+<div id="arguments">
+  ##### 인수
+</div>
+
+* `data_or_path`: (`string`, rdkit.Chem.rdchem.Mol) 파일 이름 또는 rdkit.Chem.rdchem.Mol 객체로부터 Molecule을 초기화할 수 있습니다.
+* `caption`: (`string`) 표시용으로 분자에 연결된 캡션입니다.
+* `convert_to_3d_and_optimize`: (bool) 3D 좌표가 있는 rdkit.Chem.rdchem.Mol로 변환합니다. 비용이 큰 오퍼레이션이므로 복잡한 분자의 경우 시간이 오래 걸릴 수 있습니다.
+
+### <kbd>방법</kbd> Molecule.from_smiles()
+
+```python
+data: 'str',
+caption: 'str | None' = None,
+sanitize: 'bool' = True,
+convert_to_3d_and_optimize: 'bool' = True,
+mmff_optimize_molecule_max_iterations: 'int' = 200
+```
+
+SMILES 문자열을 wandb.Molecule로 변환합니다.
+
+<div id="arguments">
+  ##### 인수
+</div>
+
+* `data`: SMILES 문자열입니다.
+* `caption`: 분자를 표시할 때 함께 사용할 캡션입니다.
+* `sanitize`: RDKit의 정의에 따라 분자가 화학적으로 타당한지 확인합니다.
+* `convert_to_3d_and_optimize`: 3D 좌표가 포함된 `rdkit.Chem.rdchem.Mol`로 변환합니다. 이는 계산 비용이 큰 오퍼레이션이므로 복잡한 분자의 경우 시간이 오래 걸릴 수 있습니다.

@@ -3,64 +3,41 @@ title: "HttpResponse<D, E>"
 description: "TypeScript SDK リファレンス"
 ---
 
-[weave](../) / HttpResponse
+定義元: [src/generated/traceServerApi.ts:5989](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L5989)
+
+<div id="extends">
+  ## 継承
+</div>
+
+* `Response`
 
 <div id="type-parameters">
   ## 型パラメーター
 </div>
 
-| 名   | タイプ                           |
-| :-- | :---------------------------- |
-| `D` | extends `unknown`             |
-| `E` | extends `unknown` = `unknown` |
-
-<div id="hierarchy">
-  ## 階層
+<div id="d">
+  ### D
 </div>
 
-* `Response`
+`D` *extends* `unknown`
 
-  ↳ `HttpResponse`
-
-<div id="table-of-contents">
-  ## 目次
+<div id="e">
+  ### E
 </div>
+
+`E` *extends* `unknown` = `unknown`
 
 <div id="properties">
-  ### プロパティ
+  ## プロパティ
 </div>
-
-* [body](./httpresponse#body)
-* [bodyUsed](./httpresponse#bodyused)
-* [data](./httpresponse#data)
-* [error](./httpresponse#error)
-* [headers](./httpresponse#headers)
-* [ok](./httpresponse#ok)
-* [redirected](./httpresponse#redirected)
-* [status](./httpresponse#status)
-* [statusText](./httpresponse#statustext)
-* [type](./httpresponse#type)
-* [url](./httpresponse#url)
-
-<div id="methods">
-  ### メソッド
-</div>
-
-* [arrayBuffer](./httpresponse#arraybuffer)
-* [blob](./httpresponse#blob)
-* [bytes](./httpresponse#bytes)
-* [clone](./httpresponse#clone)
-* [formData](./httpresponse#formdata)
-* [json](./httpresponse#json)
-* [text](./httpresponse#text)
-
-## プロパティ
 
 <div id="body">
   ### body
 </div>
 
-• `Readonly` **body**: `null` | `ReadableStream`&lt;`Uint8Array`&lt;`ArrayBuffer`&gt;&gt;
+> `readonly` **body**: `ReadableStream`&lt;`Uint8Array`&lt;`ArrayBuffer`&gt;&gt; | `null`
+
+定義元: node&#95;modules/typescript/lib/lib.dom.d.ts:4468
 
 [MDN リファレンス](https://developer.mozilla.org/docs/Web/API/Request/body)
 
@@ -68,13 +45,7 @@ description: "TypeScript SDK リファレンス"
   #### 継承元
 </div>
 
-Response.body
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-node&#95;modules/typescript/lib/lib.dom.d.ts:4468
+`Response.body`
 
 ***
 
@@ -82,7 +53,9 @@ node&#95;modules/typescript/lib/lib.dom.d.ts:4468
   ### bodyUsed
 </div>
 
-• `Readonly` **bodyUsed**: `boolean`
+> `readonly` **bodyUsed**: `boolean`
+
+定義元: node&#95;modules/typescript/lib/lib.dom.d.ts:4470
 
 [MDN リファレンス](https://developer.mozilla.org/docs/Web/API/Request/bodyUsed)
 
@@ -90,13 +63,7 @@ node&#95;modules/typescript/lib/lib.dom.d.ts:4468
   #### 継承元
 </div>
 
-Response.bodyUsed
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-node&#95;modules/typescript/lib/lib.dom.d.ts:4470
+`Response.bodyUsed`
 
 ***
 
@@ -104,13 +71,9 @@ node&#95;modules/typescript/lib/lib.dom.d.ts:4470
   ### data
 </div>
 
-• **data**: `D`
+> **data**: `D`
 
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[src/generated/traceServerApi.ts:5991](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L5991)
+定義元: [src/generated/traceServerApi.ts:5991](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L5991)
 
 ***
 
@@ -118,13 +81,9 @@ node&#95;modules/typescript/lib/lib.dom.d.ts:4470
   ### error
 </div>
 
-• **error**: `E`
+> **error**: `E`
 
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[src/generated/traceServerApi.ts:5992](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L5992)
+定義元: [src/generated/traceServerApi.ts:5992](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L5992)
 
 ***
 
@@ -132,9 +91,11 @@ node&#95;modules/typescript/lib/lib.dom.d.ts:4470
   ### headers
 </div>
 
-• `Readonly` **headers**: `Headers`
+> `readonly` **headers**: `Headers`
 
-`headers` は、response に関連付けられたヘッダーを表す読み取り専用プロパティです。
+定義元: node&#95;modules/typescript/lib/lib.dom.d.ts:26322
+
+`headers` は、レスポンス に関連付けられたヘッダーを表す読み取り専用プロパティです。
 
 [MDN リファレンス](https://developer.mozilla.org/docs/Web/API/Response/headers)
 
@@ -142,13 +103,7 @@ node&#95;modules/typescript/lib/lib.dom.d.ts:4470
   #### 継承元
 </div>
 
-Response.headers
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-node&#95;modules/typescript/lib/lib.dom.d.ts:26322
+`Response.headers`
 
 ***
 
@@ -156,7 +111,9 @@ node&#95;modules/typescript/lib/lib.dom.d.ts:26322
   ### ok
 </div>
 
-• `Readonly` **ok**: `boolean`
+> `readonly` **ok**: `boolean`
+
+定義元: node&#95;modules/typescript/lib/lib.dom.d.ts:26328
 
 Response インターフェースの `ok` 読み取り専用プロパティには、レスポンスが成功したかどうか (ステータスが 200～299 の範囲内にあるかどうか) を示す Boolean 値が含まれます。
 
@@ -166,13 +123,7 @@ Response インターフェースの `ok` 読み取り専用プロパティに�
   #### 継承元
 </div>
 
-Response.ok
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-node&#95;modules/typescript/lib/lib.dom.d.ts:26328
+`Response.ok`
 
 ***
 
@@ -180,7 +131,9 @@ node&#95;modules/typescript/lib/lib.dom.d.ts:26328
   ### redirected
 </div>
 
-• `Readonly` **redirected**: `boolean`
+> `readonly` **redirected**: `boolean`
+
+定義元: node&#95;modules/typescript/lib/lib.dom.d.ts:26334
 
 Response インターフェースの読み取り専用プロパティ `redirected` は、このレスポンスが、リダイレクトされたリクエストの結果であるかどうかを示します。
 
@@ -190,13 +143,7 @@ Response インターフェースの読み取り専用プロパティ `redirecte
   #### 継承元
 </div>
 
-Response.redirected
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-node&#95;modules/typescript/lib/lib.dom.d.ts:26334
+`Response.redirected`
 
 ***
 
@@ -204,7 +151,9 @@ node&#95;modules/typescript/lib/lib.dom.d.ts:26334
   ### ステータス
 </div>
 
-• `Readonly` **ステータス**: `number`
+> `readonly` **ステータス**: `number`
+
+定義元: node&#95;modules/typescript/lib/lib.dom.d.ts:26340
 
 `Response` インターフェースの読み取り専用プロパティ `status` には、レスポンスの HTTP ステータスコードが格納されます。
 
@@ -214,13 +163,7 @@ node&#95;modules/typescript/lib/lib.dom.d.ts:26334
   #### 継承元
 </div>
 
-Response.status
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-node&#95;modules/typescript/lib/lib.dom.d.ts:26340
+`Response.status`
 
 ***
 
@@ -228,7 +171,9 @@ node&#95;modules/typescript/lib/lib.dom.d.ts:26340
   ### statusText
 </div>
 
-• `Readonly` **statusText**: `string`
+> `readonly` **statusText**: `string`
+
+定義元: node&#95;modules/typescript/lib/lib.dom.d.ts:26346
 
 Response インターフェースの読み取り専用プロパティ `statusText` には、Response.status の HTTP ステータス コードに対応するステータス メッセージが含まれます。
 
@@ -238,13 +183,7 @@ Response インターフェースの読み取り専用プロパティ `statusTex
   #### 継承元
 </div>
 
-Response.statusText
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-node&#95;modules/typescript/lib/lib.dom.d.ts:26346
+`Response.statusText`
 
 ***
 
@@ -252,7 +191,9 @@ node&#95;modules/typescript/lib/lib.dom.d.ts:26346
   ### type
 </div>
 
-• `Readonly` **type**: `ResponseType`
+> `readonly` **type**: `ResponseType`
+
+定義元: node&#95;modules/typescript/lib/lib.dom.d.ts:26352
 
 Response インターフェースの `type` 読み取り専用プロパティには、レスポンスのタイプが格納されます。
 
@@ -262,13 +203,7 @@ Response インターフェースの `type` 読み取り専用プロパティに
   #### 継承元
 </div>
 
-Response.type
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-node&#95;modules/typescript/lib/lib.dom.d.ts:26352
+`Response.type`
 
 ***
 
@@ -276,7 +211,9 @@ node&#95;modules/typescript/lib/lib.dom.d.ts:26352
   ### url
 </div>
 
-• `Readonly` **url**: `string`
+> `readonly` **url**: `string`
+
+定義元: node&#95;modules/typescript/lib/lib.dom.d.ts:26358
 
 Response インターフェースの読み取り専用 `url` プロパティには、レスポンスの URL が含まれます。
 
@@ -286,21 +223,19 @@ Response インターフェースの読み取り専用 `url` プロパティに�
   #### 継承元
 </div>
 
-Response.url
+`Response.url`
 
-<div id="defined-in">
-  #### 定義元
+<div id="methods">
+  ## メソッド
 </div>
-
-node&#95;modules/typescript/lib/lib.dom.d.ts:26358
-
-## メソッド
 
 <div id="arraybuffer">
-  ### arrayBuffer
+  ### arrayBuffer()
 </div>
 
-▸ **arrayBuffer**(): `Promise`&lt;`ArrayBuffer`&gt;
+> **arrayBuffer**(): `Promise`&lt;`ArrayBuffer`&gt;
+
+定義元: node&#95;modules/typescript/lib/lib.dom.d.ts:4472
 
 [MDN リファレンス](https://developer.mozilla.org/docs/Web/API/Request/arrayBuffer)
 
@@ -314,21 +249,17 @@ node&#95;modules/typescript/lib/lib.dom.d.ts:26358
   #### 継承元
 </div>
 
-Response.arrayBuffer
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-node&#95;modules/typescript/lib/lib.dom.d.ts:4472
+`Response.arrayBuffer`
 
 ***
 
 <div id="blob">
-  ### blob
+  ### blob()
 </div>
 
-▸ **blob**(): `Promise`&lt;`Blob`&gt;
+> **blob**(): `Promise`&lt;`Blob`&gt;
+
+定義元: node&#95;modules/typescript/lib/lib.dom.d.ts:4474
 
 [MDN リファレンス](https://developer.mozilla.org/docs/Web/API/Request/blob)
 
@@ -342,21 +273,17 @@ node&#95;modules/typescript/lib/lib.dom.d.ts:4472
   #### 継承元
 </div>
 
-Response.blob
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-node&#95;modules/typescript/lib/lib.dom.d.ts:4474
+`Response.blob`
 
 ***
 
 <div id="bytes">
-  ### bytes
+  ### bytes()
 </div>
 
-▸ **bytes**(): `Promise`&lt;`Uint8Array`&lt;`ArrayBuffer`&gt;&gt;
+> **bytes**(): `Promise`&lt;`Uint8Array`&lt;`ArrayBuffer`&gt;&gt;
+
+定義元: node&#95;modules/typescript/lib/lib.dom.d.ts:4476
 
 [MDN リファレンス](https://developer.mozilla.org/docs/Web/API/Request/bytes)
 
@@ -370,21 +297,17 @@ node&#95;modules/typescript/lib/lib.dom.d.ts:4474
   #### 継承元
 </div>
 
-Response.bytes
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-node&#95;modules/typescript/lib/lib.dom.d.ts:4476
+`Response.bytes`
 
 ***
 
 <div id="clone">
-  ### clone
+  ### clone()
 </div>
 
-▸ **clone**(): `Response`
+> **clone**(): `Response`
+
+定義元: node&#95;modules/typescript/lib/lib.dom.d.ts:26364
 
 Response インターフェースの `clone()` メソッドは、あらゆる点で同一のレスポンスオブジェクトの複製を作成し、それを別の変数に格納します。
 
@@ -400,21 +323,17 @@ Response インターフェースの `clone()` メソッドは、あらゆる点
   #### 継承元
 </div>
 
-Response.clone
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-node&#95;modules/typescript/lib/lib.dom.d.ts:26364
+`Response.clone`
 
 ***
 
 <div id="formdata">
-  ### formData
+  ### formData()
 </div>
 
-▸ **formData**(): `Promise`&lt;`FormData`&gt;
+> **formData**(): `Promise`&lt;`FormData`&gt;
+
+定義元: node&#95;modules/typescript/lib/lib.dom.d.ts:4478
 
 [MDN リファレンス](https://developer.mozilla.org/docs/Web/API/Request/formData)
 
@@ -428,21 +347,17 @@ node&#95;modules/typescript/lib/lib.dom.d.ts:26364
   #### 継承元
 </div>
 
-Response.formData
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-node&#95;modules/typescript/lib/lib.dom.d.ts:4478
+`Response.formData`
 
 ***
 
 <div id="json">
-  ### json
+  ### json()
 </div>
 
-▸ **json**(): `Promise`&lt;`any`&gt;
+> **json**(): `Promise`&lt;`any`&gt;
+
+定義元: node&#95;modules/typescript/lib/lib.dom.d.ts:4480
 
 [MDN リファレンス](https://developer.mozilla.org/docs/Web/API/Request/json)
 
@@ -456,21 +371,17 @@ node&#95;modules/typescript/lib/lib.dom.d.ts:4478
   #### 継承元
 </div>
 
-Response.json
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-node&#95;modules/typescript/lib/lib.dom.d.ts:4480
+`Response.json`
 
 ***
 
 <div id="text">
-  ### text
+  ### text()
 </div>
 
-▸ **text**(): `Promise`&lt;`string`&gt;
+> **text**(): `Promise`&lt;`string`&gt;
+
+定義元: node&#95;modules/typescript/lib/lib.dom.d.ts:4482
 
 [MDN リファレンス](https://developer.mozilla.org/docs/Web/API/Request/text)
 
@@ -484,10 +395,4 @@ node&#95;modules/typescript/lib/lib.dom.d.ts:4480
   #### 継承元
 </div>
 
-Response.text
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-node&#95;modules/typescript/lib/lib.dom.d.ts:4482
+`Response.text`

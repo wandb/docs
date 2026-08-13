@@ -4,9 +4,17 @@ description: "Import OpenTelemetry compatible trace data through a dedicated end
 keywords: ["OTLP", "OpenTelemetry Collector", "OpenInference", "OpenLLMetry", "threads"]
 ---
 
+<Warning>
+We recommend using [Weave's new OTel-native workflow](/weave/guides/tracking/trace-agents-otel) to send OTel spans to Weave's new Agents view. Only use this guide if you want to send raw OTLP trace ingestion into Weave's standard Traces view.
+</Warning>
+
 Weave supports import of OpenTelemetry compatible trace data through a dedicated endpoint. This endpoint lets you send OTLP (OpenTelemetry Protocol) formatted trace data directly to your Weave project. Use this integration when you want to instrument your application with the OpenTelemetry standard and have those traces appear alongside your other Weave data, without replacing your existing OTel-based observability pipeline.
 
 This page covers the endpoint details, authentication, end-to-end examples in Python and TypeScript, how to forward traces through an OpenTelemetry Collector, how to organize traces into Weave threads, and the attribute mappings Weave applies to incoming spans.
+
+<Note>
+This endpoint feeds the **Traces** and **Threads** views. To send OTel spans from a multi-turn agent to the **Agents** view, use the agents endpoint instead. See [Send OpenTelemetry spans to the Agents view](/weave/guides/tracking/trace-agents-otel).
+</Note>
 
 ## Endpoint details
 

@@ -1,26 +1,24 @@
 name: DocEngine - build - push
 
-# Atomic output: a push to a source branch that touches the DocEngine source
-# (docengine-site/) or the engine pin (docengine submodule) builds the site and
-# commits the generated snippets/docengine/ output back to the SAME branch, so a
-# reviewer sees the source change and its rendered effect in one PR.
+# Thin shell for the published docengine-build action (atomic output): a
+# push touching the DocEngine source (docengine-site/) or the engine pin
+# rebuilds the site and commits the generated output back to the SAME
+# branch, so a reviewer sees the source change and its rendered effect in
+# one PR. The build/commit/comment logic lives in the submodule at
+# docengine/host-actions/docengine-build; this file owns triggers,
+# permissions, and credentials.
 #
-# Auth:
-#   - Commit-back push + PR comment: the wandb-docs-pr-writer GitHub App (installed
-#     on wandb/docs). The output commit is pushed with the App token (NOT
-#     GITHUB_TOKEN) so it triggers the host's validation workflows (e.g. Validate
-#     MDX). See .github/workflows/README.md.
-#   - Engine submodule checkout (PRIVATE coreweave/docengine): DOCENGINE_TOKEN via
-#     url.insteadOf. The App is installed on wandb/docs only and cannot read the
-#     coreweave-org submodule.
+# Auth: the wandb-docs-pr-writer App token pushes the output commit (NOT
+# GITHUB_TOKEN, so the host's validation workflows re-trigger); the
+# bootstrap fetches the private engine submodule with DOCENGINE_TOKEN and
+# owns the single git URL rewrite rule. See .github/workflows/README.md.
 #
-# Loop safety: the trigger is `on: push` (never pull_request) and the output-only
-# commit touches snippets/docengine/** alone — disjoint from the trigger paths — so
-# it cannot re-fire this build.
+# Loop safety: `on: push` only, and the output commit touches the generated
+# paths alone — disjoint from the trigger paths, so it cannot re-fire this
+# build.
 
 concurrency:
-  # A newer push to the same branch cancels an in-flight build before it commits
-  # stale output; different branches build in parallel.
+  # A newer push cancels an in-flight build before it commits stale output.
   group: docengine-build-${{ github.ref }}
   cancel-in-progress: true
 
@@ -32,18 +30,31 @@ on:
       - 'docengine-site/**'
       - 'docengine'
   workflow_dispatch:
+    inputs:
+      dry-run:
+        description: 'Build and stage, but print instead of committing, pushing, or commenting'
+        default: false
+        type: boolean
 
 permissions:
   contents: write
   pull-requests: write
+  # For the issue-report step below (Standard 2: build failures file a
+  # self-managing GitHub issue).
+  issues: write
 
 jobs:
   DocEngineBuildPush:
     runs-on: ubuntu-latest
+
+    env:
+      # Only a manual dispatch can be dry: `inputs` is empty on push events.
+      DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs['dry-run'] || false }}
+
     steps:
-      # Dependabot-triggered runs cannot mint the App token and may not have
-      # DOCENGINE_TOKEN in scope, so the token/commit/comment steps below are
-      # skipped; the bump PR gains atomic output on the first human push.
+      # Dependabot runs cannot mint the App token: the mint is skipped, the
+      # action skips its commit and comment steps, and the bump PR gains
+      # atomic output on the first human push.
       - name: Require app credentials
         if: github.actor != 'dependabot[bot]'
         run: |
@@ -62,105 +73,61 @@ jobs:
           owner: ${{ github.repository_owner }}
 
       - name: Checkout
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+        id: checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
-          # App token persists as the push credential for the commit-back below.
-          # Falls back to DOCENGINE_TOKEN for dependabot[bot] runs.
-          # NOTE: no `submodules:` here — `recursive` would also try to clone the
-          # unrelated `.claude` (docs-skills) submodule.
+          # App token persists as the action's push credential; read-only
+          # fallback for dependabot runs. No `submodules:` — the bootstrap
+          # inits docengine alone (recursive would hit the unreadable
+          # .claude submodule).
           token: ${{ steps.app_token.outputs.token || secrets.DOCENGINE_TOKEN }}
 
-      - name: Authenticate git for the private coreweave docengine submodule
-        env:
-          TOKEN: ${{ secrets.DOCENGINE_TOKEN }}
-        run: |
-          # DOCENGINE_TOKEN reads the private coreweave/docengine repo — the same
-          # token the gitsubmodule Dependabot registry uses.
-          git config --global url."https://x-access-token:${TOKEN}@github.com/".insteadOf "https://github.com/"
-
-      - name: Initialize the engine submodule (docengine only; skip .claude)
-        run: git submodule update --init --depth 1 docengine
-
-      - name: Set up Python
-        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+      # The engine and the published build action both ship in the
+      # submodule; the bootstrap puts them on disk.
+      - name: Fetch DocEngine (engine + published build action)
+        id: bootstrap
+        uses: ./.github/actions/docengine-bootstrap
         with:
-          python-version: '3.12'
+          read-token: ${{ secrets.DOCENGINE_TOKEN }}
 
-      - name: Install DocEngine from the submodule
-        run: pip install -e ./docengine
-
-      - name: Build
-        # No --site: the slim docengine-site/docengine.yaml descriptor selects the
-        # single site. Writes generated MDX in place (output_subpath: .), and the
-        # advisory orphan report to a file for the comment + job-summary steps.
-        run: docengine build --orphan-report-file "${RUNNER_TEMP}/orphan-report.md"
-
-      - name: Orphan report → job summary
-        # The engine writes the report file only when there is something to report
-        # (orphans, or escapes the host has not declared in allowed_escapes). A clean
-        # build leaves no file — say so rather than failing on a missing cat.
-        if: success()
+      # The build IS the submodule — fail loudly, not confusingly later.
+      - name: Require DocEngine
+        if: steps.bootstrap.outputs.available != 'true'
         run: |
-          f="${RUNNER_TEMP}/orphan-report.md"
-          if [ -s "$f" ]; then
-            cat "$f" >> "$GITHUB_STEP_SUMMARY"
-          else
-            echo "DocEngine: no orphans or escapes to report." >> "$GITHUB_STEP_SUMMARY"
-          fi
+          echo "::error::The site build runs the engine from the DocEngine submodule, which the bootstrap could not fetch. Check the DOCENGINE_TOKEN secret."
+          exit 1
 
-      - name: Commit generated output back to the branch
-        # Never commit back to main (e.g. a workflow_dispatch run targeting main);
-        # atomic output is only committed to feature branches.
-        if: ${{ success() && github.actor != 'dependabot[bot]' && github.ref_name != 'main' }}
-        run: |
-          git config user.name 'wandb-docs-pr-writer[bot]'
-          git config user.email 'wandb-docs-pr-writer[bot]@users.noreply.github.com'
-          git add snippets/docengine
-          if git diff --cached --quiet; then
-            echo "No snippets/docengine changes to commit."
-          else
-            git commit -m "docs: regenerate docengine snippets (atomic output)"
-            git push origin "HEAD:${{ github.ref_name }}"
-          fi
-
-      - name: Resolve open PR for this branch
-        id: findpr
-        if: ${{ success() && github.actor != 'dependabot[bot]' && github.ref_name != 'main' }}
-        env:
-          GH_TOKEN: ${{ steps.app_token.outputs.token }}
-        run: |
-          num=$(gh pr list --head "${{ github.ref_name }}" --state open --json number --jq '.[0].number // empty')
-          echo "number=${num}" >> "$GITHUB_OUTPUT"
-
-      - name: Detect orphan report
-        # File presence is the signal: written only when there is something to report.
-        id: orphanfile
-        if: success()
-        run: |
-          if [ -s "${RUNNER_TEMP}/orphan-report.md" ]; then
-            echo "present=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "present=false" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Upsert orphan-report PR comment
-        # Only when there is something to report; a clean build is silent.
-        if: ${{ success() && github.actor != 'dependabot[bot]' && github.ref_name != 'main' && steps.findpr.outputs.number != '' && steps.orphanfile.outputs.present == 'true' }}
-        uses: thollander/actions-comment-pull-request@24bffb9b452ba05a4f3f77933840a6a841d1b32b # v3
+      - name: Build and commit atomic output
+        uses: ./docengine/host-actions/docengine-build
         with:
-          pr-number: ${{ steps.findpr.outputs.number }}
-          comment-tag: docengine-orphans
-          file-path: ${{ runner.temp }}/orphan-report.md
-          github-token: ${{ steps.app_token.outputs.token }}
+          push-token: ${{ steps.app_token.outputs.token }}
+          git-user-name: 'wandb-docs-pr-writer[bot]'
+          git-user-email: 'wandb-docs-pr-writer[bot]@users.noreply.github.com'
+          # Generator subtree PLUS the engine's known escapes: this site's
+          # output root is the repo root, so the committed set is enumerated
+          # — never pass a root path (see the action's commit-paths
+          # description). A bare `snippets/docengine` would silently drop
+          # the changelog write.
+          commit-paths: |
+            snippets/docengine
+            changelog.mdx
+          commit-message: 'docs: regenerate docengine snippets (atomic output)'
+          dry-run: ${{ env.DRY_RUN }}
 
-      - name: Clear stale orphan-report PR comment
-        # A previous build may have posted orphans that are now resolved — delete that
-        # comment so the PR does not carry a stale warning. No-ops when none exists.
-        if: ${{ success() && github.actor != 'dependabot[bot]' && github.ref_name != 'main' && steps.findpr.outputs.number != '' && steps.orphanfile.outputs.present == 'false' }}
-        uses: thollander/actions-comment-pull-request@24bffb9b452ba05a4f3f77933840a6a841d1b32b # v3
+      # Standard 2: a failed build files ONE canonical self-managing GitHub
+      # issue, updated in place and closed by the next passing run. Not
+      # per-branch: a branch failure is already a red check on its own PR,
+      # and a per-branch item would orphan with an abandoned branch. The
+      # reporter ships in the submodule, so it can only run once the
+      # bootstrap succeeded; it uses the workflow's own token
+      # (issues: write above), so dependabot runs skip it.
+      - name: Report build result as a GitHub issue
+        if: ${{ !cancelled() && github.actor != 'dependabot[bot]' && steps.checkout.outcome == 'success' && steps.bootstrap.outputs.available == 'true' }}
+        uses: ./docengine/host-actions/issue-report
         with:
-          pr-number: ${{ steps.findpr.outputs.number }}
-          comment-tag: docengine-orphans
-          mode: delete
-          create-if-not-exists: false
-          github-token: ${{ steps.app_token.outputs.token }}
+          ok: ${{ job.status == 'success' }}
+          summary: DocEngine build failing
+          intro-text: Automated DocEngine site build for wandb/docs (atomic output on push).
+          detail-text: The build failed on branch ${{ github.ref_name }}. See the linked run for the log.
+          run-url: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          dry-run: ${{ env.DRY_RUN }}

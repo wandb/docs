@@ -1,0 +1,503 @@
+---
+title: 새 아티클
+description: "W&B 문서 사이트에 게시된 새 아티클 목록입니다."
+date: 2026-07-23
+---
+
+이 페이지에는 지난 6개월 동안 W&amp;B 문서 사이트에 게시된 아티클이 최신순으로 표시됩니다. 매주 자동으로 업데이트되며, 6개월이 지난 아티클은 삭제됩니다.
+
+각 월에서는 **Models**, **Weave**, **지원팀** 등 아티클이 속한 문서 영역별로 아티클을 그룹화합니다. 자동 생성된 레퍼런스 페이지와 현지화된 콘텐츠는 포함되지 않습니다.
+
+{/*
+  아래 마커 사이의 모든 내용은 매주 .github/workflows/new-articles.yml을 통해 실행되는
+  scripts/new-articles/update_new_articles.py에서 생성됩니다. 마커 내부의 수동 편집 내용은
+  동일한 구조를 유지하는 한 보존됩니다.
+    - 월별로 "## Month YYYY" 제목 하나(최신순)
+    - 해당 월에 새 아티클이 있는 각 제품별로 "### Product" 제목 하나
+    - 아티클별로 제목, href, arrow 및 horizontal 속성을 포함하는 <Card> 하나,
+      여기서 href는 아티클의 사이트 루트 경로이고 아티클 설명은 카드 본문입니다.
+  */}
+
+{/* new-articles:start */}
+
+<div id="august-2026">
+  ## 2026년 8월
+</div>
+
+<div id="support">
+  ### 지원팀
+</div>
+
+<Card title="임시 환경에서 run 데이터를 보존하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-do-i-preserve-run-data-from-ephemeral-env/" arrow="true" horizontal>
+  임시 환경에서 로컬 run 데이터와 진단 로그를 보존하려면 WANDBDIR을 영구 저장소의 디렉터리로 설정하세요.
+</Card>
+
+<Card title="개인 계정이 팀 및 조직으로 전환되면 어떻게 되나요?" href="/ko/support/models/articles/what-happens-when-my-personal-account-becomes-a-team/" arrow="true" horizontal>
+  W&amp;B는 이전 개인 계정을 최신 계정에서 이미 사용 중인 팀 및 조직 구조로 이전하고 있습니다.
+</Card>
+
+<Card title="팀 또는 entity의 이름을 변경하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-do-i-rename-a-team-or-entity/" arrow="true" horizontal>
+  W&amp;B는 팀 또는 entity의 이름 변경을 지원하지 않습니다.
+</Card>
+
+<Card title="여러 아티팩트를 한 번에 삭제하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-do-i-delete-many-artifacts-at-once/" arrow="true" horizontal>
+  저장소 사용량을 줄이는 등 여러 아티팩트 버전을 삭제해야 할 때는 W&amp;B App 대신 W&amp;B Public API를 사용하세요.
+</Card>
+
+<div id="july-2026">
+  ## 2026년 7월
+</div>
+
+<div id="models">
+  ### Models
+</div>
+
+<Card title="Weave 프롬프트를 컬렉션에 연결" href="/ko/models/registry/link_prompt/" arrow="true" horizontal>
+  Weave 프롬프트 객체를 컬렉션에 연결하여 W&amp;B 레지스트리에서 AI 프롬프트를 추적하고 버전을 관리하세요.
+</Card>
+
+<Card title="Eval Tables 보기" href="/ko/models/evaltables/visualize-evaluation-tables/" arrow="true" horizontal>
+  Eval Table을 만들 때 입력, 출력, 점수가 포함된 열을 지정하세요.
+</Card>
+
+<Card title="Eval Table 만들기" href="/ko/models/evaltables/create-an-evaluation-table/" arrow="true" horizontal>
+  W&amp;B에서 Eval Table을 만드는 방법을 알아보세요.
+</Card>
+
+<Card title="Eval Tables로 Runs 비교" href="/ko/models/evaltables/compare-runs/" arrow="true" horizontal>
+  Eval Tables를 사용하여 여러 Runs의 입력, 출력, 점수를 비교하세요.
+</Card>
+
+<Card title="개요" href="/ko/models/evaltables/" arrow="true" horizontal>
+  W&amp;B에서 Eval Tables를 만들고 비교하며 시각화하는 방법을 알아보세요.
+</Card>
+
+<div id="weave">
+  ### Weave
+</div>
+
+<Card title="맞춤형 런타임 추가" href="/ko/weave/guides/tools/custom-runtimes/" arrow="true" horizontal>
+  OpenAI 호환 추론 엔드포인트를 맞춤형 런타임으로 Weave 프로젝트에 연결하고 UI 또는 Python 및 TypeScript SDK에서 관리합니다.
+</Card>
+
+<Card title="평가 비교" href="/ko/weave/guides/evaluation/compare_evals/" arrow="true" horizontal>
+  두 개 이상의 평가를 시각적으로 비교하여 run 전반의 회귀, 개선 사항 및 점수화 차이를 파악합니다
+</Card>
+
+<Card title="Weave Op를 사용하여 자체 버킷(BYOB)의 미디어 참조" href="/ko/weave/guides/tracking/byob-references/" arrow="true" horizontal>
+  바이트를 Weave로 임포트하지 않고 URI를 로깅하여 자체 클라우드 버킷에 있는 이미지와 비디오를 Weave 트레이스에서 렌더링합니다.
+</Card>
+
+<Card title="에이전트 span을 사용하여 자체 버킷(BYOB)의 미디어 참조" href="/ko/weave/guides/tracking/agents-byob-references/" arrow="true" horizontal>
+  바이트를 Weave로 임포트하지 않고 에이전트 도구 span에서 URI를 반환하여 Weave Agents 뷰에서 자체 클라우드 버킷에 있는 이미지와 비디오를 렌더링합니다.
+</Card>
+
+<Card title="Weave Self-Managed용 ingest 샘플링 설정" href="/ko/weave/guides/platform/ingest-sampling/" arrow="true" horizontal>
+  Self-Managed Weave 인스턴스에서 저장소 및 LLM 점수화 비용을 제어하기 위해 수신 트레이스의 일부만 유지합니다
+</Card>
+
+<Card title="Bedrock Agents" href="/ko/weave/guides/integrations/bedrock_agents/" arrow="true" horizontal>
+  에이전트 입력, 파운데이션 모델 사용량 및 완료 출력이 캡처되도록 Weave로 Amazon Bedrock Agents 호출을 트레이스합니다.
+</Card>
+
+<div id="june-2026">
+  ## 2026년 6월
+</div>
+
+<div id="models">
+  ### Models
+</div>
+
+<Card title="LEET 터미널 UI" href="/ko/models/app/leet-tui/" arrow="true" horizontal>
+  LEET(Lightweight Experiment Exploration Tool) TUI를 사용해 터미널에서 로컬 W&amp;B run을 살펴보고 비교하세요.
+</Card>
+
+<div id="weave">
+  ### Weave
+</div>
+
+<Card title="에이전트 활동 보기" href="/ko/weave/guides/tracking/view-agent-activity/" arrow="true" horizontal>
+  W&amp;B Weave의 Agents 뷰를 사용하여 에이전트가 수행한 작업과 비용, 그리고 성공하거나 문제가 발생한 정확한 지점을 파악하세요.
+</Card>
+
+<Card title="하위 에이전트 트레이스" href="/ko/weave/guides/tracking/trace-sub-agents/" arrow="true" horizontal>
+  Weave의 하위 에이전트 span을 사용하여 하위 에이전트 위임을 트레이스하고 중첩된 에이전트 호출을 확인하세요.
+</Card>
+
+<Card title="에이전트 트레이스" href="/ko/weave/guides/tracking/trace-agents/" arrow="true" horizontal>
+  Weave SDK를 사용하여 멀티턴 에이전트형 애플리케이션을 계측하고 Agents 탭에서 확인하세요.
+</Card>
+
+<Card title="에이전트용 배치 로깅" href="/ko/weave/guides/tracking/trace-agents-batch/" arrow="true" horizontal>
+  LLM Call을 이미 완료해 기록이 필요한 프레임워크의 에이전트 트레이스를 수동으로 기록하세요.
+</Card>
+
+<Card title="Pi 확장" href="/ko/weave/guides/integrations/agents/pi-dev-harness/" arrow="true" horizontal>
+  Weave에서 Pi 에이전트형 세션, LLM Call 및 도구 실행을 트레이스하세요.
+</Card>
+
+<Card title="OpenClaw 플러그인" href="/ko/weave/guides/integrations/agents/openclaw-harness/" arrow="true" horizontal>
+  관측 및 디버깅을 위해 W&amp;B Weave에서 OpenClaw 에이전트 세션을 추적하세요.
+</Card>
+
+<Card title="OpenAI Agents SDK" href="/ko/weave/guides/integrations/agents/openai-agents-sdk/" arrow="true" horizontal>
+  Weave를 사용하여 OpenAI Agents SDK로 구축한 에이전트를 트레이스하세요.
+</Card>
+
+<Card title="Google ADK" href="/ko/weave/guides/integrations/agents/google-adk/" arrow="true" horizontal>
+  Weave를 사용하여 Google의 Agent Development Kit(ADK)로 구축한 에이전트를 트레이스하세요.
+</Card>
+
+<Card title="Codex 플러그인" href="/ko/weave/guides/integrations/agents/codex-harness/" arrow="true" horizontal>
+  W&amp;B Weave에서 Codex 에이전트형 세션, LLM Call 및 도구 실행을 트레이스하세요.
+</Card>
+
+<Card title="Claude Code 플러그인" href="/ko/weave/guides/integrations/agents/claude-code-harness/" arrow="true" horizontal>
+  관측 및 디버깅을 위해 W&amp;B Weave에서 Claude Code 세션을 추적하세요.
+</Card>
+
+<Card title="Claude Agent SDK" href="/ko/weave/guides/integrations/agents/claude-agents-sdk/" arrow="true" horizontal>
+  Weave를 사용하여 Claude Agent SDK로 구축한 에이전트를 트레이스하세요.
+</Card>
+
+<div id="aria">
+  ### ARIA
+</div>
+
+<Card title="개요" href="/ko/aria/overview/" arrow="true" horizontal>
+  ARIA는 W&amp;B의 AI Research and Iteration Agent로, 실험 분석 및 실행, 결과 설명, Runs 전반의 패턴 파악, 다음 step 추천, 시각화 및 Reports 구축 등 W&amp;B에서의 작업을 지원하는 맞춤형 연구 assistant입니다.
+</Card>
+
+<Card title="거버넌스 및 보안" href="/ko/aria/governance/" arrow="true" horizontal>
+  W&amp;B Admin이 ARIA와 같은 W&amp;B AI 특성에서 조직의 데이터를 사용하는 방식을 제어하는 방법을 알아보세요.
+</Card>
+
+<Card title="Chat with ARIA" href="/ko/aria/chat/" arrow="true" horizontal>
+  다음 페이지에서는 새 chat을 시작하고, chat history를 뷰하고, 이전 대화를 삭제하고, chat 창을 분리하고, 프롬프트에서 특정 run을 레퍼런스하고, 대화에 이미지를 추가하고, ARIA의 responses에 feedback을 제공하는 방법을 설명합니다.
+</Card>
+
+<Card title="autoresearch에 ARIA 사용" href="/ko/aria/autoresearch/" arrow="true" horizontal>
+  W&amp;B의 AI Research and Iteration Agent인 ARIA를 사용하여 결과를 분석하고 실험을 실행하는 방법을 알아보세요.
+</Card>
+
+<div id="hivemind">
+  ### HiveMind
+</div>
+
+<Card title="W&B HiveMind" href="/ko/hivemind/" arrow="true" horizontal>
+  AI 코딩 세션을 위한 공유 대시보드입니다. 리더보드, 팀 뷰, 효율성 인사이트를 통해 Claude Code, Cursor, Codex, Gemini CLI 등의 활동, 비용, 결과를 추적하세요.
+</Card>
+
+### 지원
+
+<Card title="Weave 비용 또는 토큰 추정치가 공급자와 다른 이유는 무엇인가요?" href="/ko/support/weave/articles/why-does-my-weave-cost-or-token-estimate-differ-from-my-provider/" arrow="true" horizontal>
+  Weave는 LLM Call에서 캡처한 데이터를 기반으로 비용 및 토큰 사용량 추정치를 표시합니다. Weave의 수치와 공급자 청구서 간 차이는 다음과 같은 문제로 발생할 수 있습니다.
+</Card>
+
+<Card title="W&B run 초기화 또는 업로드가 느린 이유는 무엇인가요?" href="/ko/support/models/articles/why-is-my-wandb-run-slow-to-initialize-or-upload/" arrow="true" horizontal>
+  wandb.init()이 느리거나 메트릭 업로드가 지연되는 경우는 일반적으로 네트워크 지연 시간, 대용량 미디어 페이로드, 높은 로깅 빈도 또는 W&amp;B 서비스 프로세스의 시작 지연 때문입니다.
+</Card>
+
+<Card title="스윕 에이전트가 새 Runs를 가져오지 않는 이유는 무엇인가요?" href="/ko/support/models/articles/why-is-my-sweep-agent-not-picking-up-new-runs/" arrow="true" horizontal>
+  스윕 에이전트가 시작되었지만 새 run 설정을 받지 못하거나, 하나의 run을 받은 후 유휴 상태가 되는 데에는 몇 가지 일반적인 원인이 있습니다.
+</Card>
+
+<Card title="run이 crashed로 표시되는 이유는 무엇인가요?" href="/ko/support/models/articles/why-is-my-run-showing-as-crashed/" arrow="true" horizontal>
+  W&amp;B는 wandb.init()를 호출한 프로세스가 wandb.finish()를 호출하지 않은 상태에서 해당 프로세스로부터 하트비트를 더 이상 받지 못하면 run을 Crashed로 표시합니다.
+</Card>
+
+<Card title="run의 콘솔 출력이 캡처되지 않는 이유는 무엇인가요?" href="/ko/support/models/articles/why-is-console-output-not-captured-for-my-run/" arrow="true" horizontal>
+  W&amp;B는 스크립트의 stdout 및 stderr를 캡처하여 run의 Files 탭에 output.log로 저장합니다.
+</Card>
+
+<Card title="'must be 40 characters long' 오류가 발생하며 API 키가 작동하지 않는 이유는 무엇인가요?" href="/ko/support/models/articles/why-does-my-api-key-fail-with-must-be-40-characters/" arrow="true" horizontal>
+  W&amp;B는 이제 더 긴 API 키(약 86자)를 발급합니다.
+</Card>
+
+<Card title="세션 간에 Workspace 설정이 유지되지 않는 이유는 무엇인가요?" href="/ko/support/models/articles/why-do-my-workspace-settings-not-persist/" arrow="true" horizontal>
+  Workspace 레이아웃(패널, 필터, 그룹화)은 뷰를 저장할 때만 유지됩니다.
+</Card>
+
+<Card title="wandb.log()로 로깅한 메트릭이 표시되지 않는 이유는 무엇인가요?" href="/ko/support/models/articles/why-are-my-metrics-missing-from-wandb-log/" arrow="true" horizontal>
+  wandb.log()로 로깅한 메트릭이 W&amp;B UI에 표시되지 않는 데에는 몇 가지 일반적인 원인이 있습니다.
+</Card>
+
+<Card title="팀을 삭제한 후 새 팀을 만들 수 없습니다. 어떻게 해야 하나요?" href="/ko/support/models/articles/i-deleted-my-team-and-now-i-cant-create-a-new-one/" arrow="true" horizontal>
+  W&amp;B에 가입하면 플랫폼이 사용자 이름과 동일한 이름의 개인 팀을 자동으로 생성합니다.
+</Card>
+
+<Card title="W&B를 JAX와 함께 사용하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-do-i-use-wandb-with-jax/" arrow="true" horizontal>
+  W&amp;B에는 JAX 전용 인테그레이션이 없습니다.
+</Card>
+
+<Card title="W&B에서 병렬 좌표 차트를 사용하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-do-i-use-the-parallel-coordinates-chart-in-wandb/" arrow="true" horizontal>
+  병렬 좌표 차트는 여러 run에서 하이퍼파라미터와 메트릭의 관계를 보여 줍니다.
+</Card>
+
+<Card title="W&B API를 통해 run 설정, 태그 및 메모를 업데이트하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-do-i-update-run-config-tags-and-notes-via-the-wandb-api/" arrow="true" horizontal>
+  run이 종료된 후 Public API 가이드를 사용하면 실험을 다시 실행하지 않고도 설정, 표시 이름, 태그 및 메모를 편집할 수 있습니다.
+</Card>
+
+<Card title="W&B Alerts 및 알림을 설정하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-do-i-set-up-wandb-alerts-and-notifications/" arrow="true" horizontal>
+  W&amp;B Settings 페이지에서 Alerts 및 알림을 설정할 수 있습니다.
+</Card>
+
+<Card title="W&B에서 대규모 API 결과를 페이지 단위로 처리하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-do-i-paginate-through-large-api-results-in-wandb/" arrow="true" horizontal>
+  표준 지연 이터레이터 패턴과 perpage 매개변수를 사용하여 API 결과를 페이지 단위로 처리할 수 있습니다.
+</Card>
+
+<Card title="W&B에서 NLP 메트릭과 텍스트 출력을 어떻게 기록하나요?" href="/ko/support/models/articles/how-do-i-log-nlp-metrics-and-text-outputs-in-wandb/" arrow="true" horizontal>
+  wandb.log()로 코퍼스 수준의 NLP 점수(BLEU, ROUGE, perplexity)를 기록하고 wandb.Table로 예시별 출력을 기록할 수 있습니다.
+</Card>
+
+<Card title="wandb.watch()로 그라디언트와 모델 가중치를 어떻게 기록하나요?" href="/ko/support/models/articles/how-do-i-log-gradients-and-model-weights-with-wandb-watch/" arrow="true" horizontal>
+  wandb.watch()는 PyTorch 모델의 파라미터와 그라디언트에 훅을 연결하고 일정한 간격으로 값의 히스토그램을 기록합니다.
+</Card>
+
+<Card title="W&B 팀에 사용자를 어떻게 초대하나요?" href="/ko/support/models/articles/how-do-i-invite-a-user-to-my-wb-team/" arrow="true" horizontal>
+  팀 관리자만 초대를 보낼 수 있습니다.
+</Card>
+
+<Card title="run에서 콘솔 로그 파일을 어떻게 다운로드하나요?" href="/ko/support/models/articles/how-do-i-download-the-console-log-file-from-a-run/" arrow="true" horizontal>
+  W&amp;B는 스크립트의 stdout 및 stderr를 output.log(또는 logs/ 아래의 멀티파트 청크)로 저장합니다.
+</Card>
+
+<Card title="W&B에서 새 팀을 어떻게 만드나요?" href="/ko/support/models/articles/how-do-i-create-a-new-team-in-wandb/" arrow="true" horizontal>
+  팀은 W&amp;B 협업의 기본 단위입니다.
+</Card>
+
+<Card title="W&B Self-Managed에 어떻게 연결하나요?" href="/ko/support/models/articles/how-do-i-connect-to-wandb-self-managed/" arrow="true" horizontal>
+  W&amp;B Self-Managed는 자체 인프라에서 실행되는 자체 호스팅 배포 환경입니다.
+</Card>
+
+<Card title="스윕 내에서 run을 재개할 수 있나요?" href="/ko/support/models/articles/can-i-resume-a-run-inside-a-sweep/" arrow="true" horizontal>
+  W&amp;B 스윕 내에서는 run 재개가 지원되지 않습니다.
+</Card>
+
+<Card title="API 오류 코드 422 - 잘못된 요청 파라미터" href="/ko/support/inference/articles/api-error-code-422-invalid-request-parameters/" arrow="true" horizontal>
+  Chat Completion 요청의 잘못된 파라미터는 검증이 수행되는 위치에 따라 HTTP 422(Unprocessable Entity) 또는 HTTP 400(Bad Request)으로 나타나는 경우가 많습니다.
+</Card>
+
+<Card title="API 오류 코드 404 - 모델을 찾을 수 없음" href="/ko/support/inference/articles/api-error-code-404-model-not-found/" arrow="true" horizontal>
+  W&amp;B Inference API에서 404 응답이 반환되면 서버가 요청한 모델 또는 리소스를 찾지 못했다는 의미입니다.
+</Card>
+
+<Card title="W&B Self-Managed에 어떻게 로그인하나요?" href="/ko/support/models/articles/how-do-i-log-in-to-wandb-self-managed/" arrow="true" horizontal>
+  W&amp;B Self-Managed 인스턴스에 인증하려면 로그인하기 전에 CLI와 SDK가 인스턴스 URL을 사용하도록 설정하세요:
+</Card>
+
+<Card title="에이전트를 트레이스하려면 어떤 Weave API를 사용해야 하나요?" href="/ko/support/weave/articles/which-weave-api-should-i-use-for-agents/" arrow="true" horizontal>
+  무엇을 구축하는지에 따라 다릅니다:
+</Card>
+
+<Card title="@weave.op와 weave.start_session의 차이점은 무엇인가요?" href="/ko/support/weave/articles/what-is-the-difference-between-weave-op-and-weave-sdk-for-agents/" arrow="true" horizontal>
+  @weave.op는 개별 Python 함수를 트레이스하고 트레이스 탭에 결과를 표시합니다.
+</Card>
+
+<div id="may-2026">
+  ## 2026년 5월
+</div>
+
+<div id="models">
+  ### Models
+</div>
+
+<Card title="자동화 튜토리얼 개요" href="/ko/models/automations/tutorial/" arrow="true" horizontal>
+  프로젝트 run 실패 알림 또는 레지스트리 별칭 자동화를 구축하는 방법을 알아보세요.
+</Card>
+
+<Card title="튜토리얼: 레지스트리 아티팩트 별칭 자동화" href="/ko/models/automations/registry-automation-tutorial/" arrow="true" horizontal>
+  레지스트리 아티팩트에 &quot;production&quot;과 같은 특정 별칭이 지정되면 웹훅을 실행하는 자동화를 구축하세요.
+</Card>
+
+<Card title="튜토리얼: 프로젝트 run 실패 알림 자동화" href="/ko/models/automations/project-automation-tutorial/" arrow="true" horizontal>
+  프로젝트의 run이 실패할 때 Slack 알림을 보내는 run 실패 알림을 구축하세요.
+</Card>
+
+<Card title="API로 자동화 관리" href="/ko/models/automations/api/" arrow="true" horizontal>
+  Python API를 사용하여 자동화를 프로그래밍 방식으로 관리합니다. 일부 클라이언트 버전에서는 생성 및 업데이트 기능이 영향을 받을 수 있습니다. SDK 수정 사항이 배포될 때까지 W&amp;B App을 사용하세요.
+</Card>
+
+<div id="april-2026">
+  ## 2026년 4월
+</div>
+
+<div id="weave">
+  ### Weave
+</div>
+
+<Card title="Haystack" href="/ko/weave/guides/integrations/haystack/" arrow="true" horizontal>
+  WeaveConnector 인테그레이션을 사용해 W&amp;B Weave로 Deepset Haystack 파이프라인을 트레이스하세요.
+</Card>
+
+<Card title="쓰기 전 로그" href="/ko/weave/guides/tracking/write-ahead-log/" arrow="true" horizontal>
+  쓰기 전 로그를 사용해 W&amp;B Weave 트레이스 데이터 캡처의 복원력을 향상하세요.
+</Card>
+
+<Card title="Vercel AI SDK" href="/ko/weave/guides/integrations/vercel_ai_sdk/" arrow="true" horizontal>
+  OpenTelemetry를 사용해 Weave에서 Vercel AI SDK Call을 트레이스하세요.
+</Card>
+
+<Card title="자동화 설정" href="/ko/weave/guides/evaluation/automations/" arrow="true" horizontal>
+  monitor 메트릭과 트레이스 활동을 기반으로 액션을 트리거하는 이벤트 기반 자동화를 만드세요.
+</Card>
+
+<div id="platform">
+  ### 플랫폼
+</div>
+
+<Card title="버킷 저장소 및 비용 관리" href="/ko/platform/hosting/managing-bucket-storage/" arrow="true" horizontal>
+  W&amp;B의 객체 저장소 사용 방식, 삭제와 버킷 바이트의 관계, 저장소 사용량 및 비용을 줄이는 방법을 알아보세요.
+</Card>
+
+<div id="sandboxes">
+  ### 샌드박스
+</div>
+
+<Card title="시크릿" href="/ko/sandboxes/secrets/" arrow="true" horizontal>
+  Serverless Sandboxes에서 시크릿을 관리하는 방법을 알아보세요.
+</Card>
+
+<Card title="샌드박스에서 명령 실행" href="/ko/sandboxes/run-commands/" arrow="true" horizontal>
+  샌드박스 환경에서 명령을 실행하고 출력과 종료 코드를 조회하는 방법을 알아보세요.
+</Card>
+
+<Card title="튜토리얼: PyTorch 모델 학습" href="/ko/sandboxes/mltrain-in-sandbox-tutorial/" arrow="true" horizontal>
+  단계별 튜토리얼을 통해 Serverless Sandbox 환경에서 PyTorch 모델을 학습하는 방법을 알아보세요.
+</Card>
+
+<Card title="샌드박스 라이프사이클" href="/ko/sandboxes/lifecycle/" arrow="true" horizontal>
+  상태, 상태 변경을 기다리는 방법, 샌드박스를 중지하는 방법을 포함한 Serverless Sandbox의 라이프사이클을 알아보세요.
+</Card>
+
+<Card title="튜토리얼: 샌드박스에서 에이전트 호출" href="/ko/sandboxes/invoke-agent-sandbox-tutorial/" arrow="true" horizontal>
+  Serverless Sandbox 환경에서 OpenAI 에이전트를 호출하는 방법을 알아보세요.
+</Card>
+
+<Card title="파일 오퍼레이션" href="/ko/sandboxes/file-access/" arrow="true" horizontal>
+  Serverless Sandboxes에서 파일을 읽고, 쓰고, 마운트하는 방법을 알아보세요.
+</Card>
+
+<Card title="샌드박스 생성" href="/ko/sandboxes/create-sandbox/" arrow="true" horizontal>
+  자체 파일 시스템, 네트워크, 프로세스 공간을 갖춘 격리된 컨테이너에서 코드를 실행하는 W&amp;B Serverless Sandboxes를 생성하세요.
+</Card>
+
+<Card title="Serverless Sandboxes" href="/ko/sandboxes/" arrow="true" horizontal>
+  W&amp;B Serverless Sandboxes를 사용하면 Python에서 온디맨드 격리 컴퓨팅 환경을 생성하고, 사용하고, 폐기할 수 있습니다.
+</Card>
+
+### 지원
+
+<Card title="`.call()`이 예외를 발생시키지 않는 이유는 무엇인가요?" href="/ko/support/weave/articles/weave-call-does-not-raise-exceptions/" arrow="true" horizontal>
+  기본적으로 Weave의 .call() 메서드는 예외를 발생시키는 대신 캡처하여 call.exception에 저장합니다.
+</Card>
+
+<Card title="내 Workspace가 느리게 로드되는 이유는 무엇인가요?" href="/ko/support/models/articles/workspace-loads-slowly-with-many-metric/" arrow="true" horizontal>
+  프로젝트에 메트릭, Runs 또는 패널이 많으면 Workspace가 느리게 로드될 수 있습니다.
+</Card>
+
+<Card title="분산 트레이닝을 사용하면 트레이닝이 멈추는 이유는 무엇인가요?" href="/ko/support/models/articles/training-hangs-with-distributed-trainin/" arrow="true" horizontal>
+  이 아티클은 W&amp;B를 분산 트레이닝 프레임워크와 함께 사용할 때 발생하는 트레이닝 중단 문제를 해결하여 Runs가 멈추지 않고 시작 및 종료할 수 있도록 도와줍니다.
+</Card>
+
+<Card title="`Unauthorized` 또는 run 누락과 같은 서비스 계정 오류는 어떻게 해결하나요?" href="/ko/support/models/articles/service-account-unauthorized-or-runs-no/" arrow="true" horizontal>
+  서비스 계정을 사용하여 W&amp;B 워크플로를 자동화할 때 권한 부여 오류가 발생하거나 Runs가 예상한 위치에 표시되지 않을 수 있습니다.
+</Card>
+
+<Card title="메트릭을 로깅할 때 발생하는 `Rate limit exceeded` 오류는 어떻게 해결하나요?" href="/ko/support/models/articles/rate-limit-exceeded-on-metric-logging/" arrow="true" horizontal>
+  wandb.log()를 호출할 때 HTTP 429 Rate limit exceeded 오류가 발생하면 프로젝트의 요청 속도 제한 할당량을 초과한 것입니다.
+</Card>
+
+<Card title="Hydra를 W&B와 함께 사용할 때 프로세스가 응답하지 않는 이유는 무엇인가요?" href="/ko/support/models/articles/process-hangs-when-using-hydra-with-wan/" arrow="true" horizontal>
+  이 페이지에서는 W&amp;B와 함께 Hydra로 프로세스를 시작할 때 발생하는 프로세스 응답 중지 문제를 해결하는 방법을 설명합니다.
+</Card>
+
+<Card title="내 엔터프라이즈 라이선스가 인식되지 않는 이유는 무엇인가요?" href="/ko/support/models/articles/enterprise-license-not-recognized/" arrow="true" horizontal>
+  이 페이지는 W&amp;B가 엔터프라이즈 라이선스를 인식하지 못하거나 라이선스를 설정한 후 해당 특성을 사용할 수 없을 때 W&amp;B 엔터프라이즈 배포 관리자가 일반적인 문제를 진단하도록 도와줍니다.
+</Card>
+
+<Card title="스윕 중 `Cuda out of memory`는 어떻게 해결하나요?" href="/ko/support/models/articles/cuda-out-of-memory-during-a-sweep/" arrow="true" horizontal>
+  스윕 중 Cuda out of memory가 표시되면 코드를 리팩터링하여 프로세스 기반 실행을 사용하세요.
+</Card>
+
+<Card title="스윕 중 `CommError, Run does not exist`는 어떻게 해결하나요?" href="/ko/support/models/articles/commerror-run-does-not-exist-during-swee/" arrow="true" horizontal>
+  스윕 중 CommError, Run does not exist와 ERROR Error uploading이 모두 표시되면 가장 가능성 높은 원인은 코드에서 Run ID를 수동으로 설정하는 것입니다:
+</Card>
+
+<Card title="내 아티팩트를 레지스트리에 연결할 수 없는 이유는 무엇인가요?" href="/ko/support/models/articles/cannot-link-artifact-to-registry-from-p/" arrow="true" horizontal>
+  아티팩트를 W&amp;B 레지스트리에 연결할 수 없는 가장 일반적인 원인은 아티팩트가 팀 entity가 아닌 개인 entity로 로깅되었기 때문입니다.
+</Card>
+
+<Card title="스윕 중 `anaconda 400 error`는 어떻게 해결하나요?" href="/ko/support/models/articles/anaconda-400-error-during-a-sweep/" arrow="true" horizontal>
+  스윕 중 anaconda 400 오류는 최적화하려는 메트릭을 로깅하지 않았음을 의미하는 경우가 많습니다.
+</Card>
+
+<div id="march-2026">
+  ## 2026년 3월
+</div>
+
+<div id="models">
+  ### Models
+</div>
+
+<Card title="시그널 처리 및 스윕 run" href="/ko/models/sweeps/signal-handling-sweep-runs/" arrow="true" horizontal>
+  W&amp;B Sweeps가 스윕 run에서 UNIX 시그널, 종료 코드, 선점을 처리하는 방법을 알아보세요.
+</Card>
+
+<div id="weave">
+  ### Weave
+</div>
+
+<Card title="OpenAI Realtime API" href="/ko/weave/guides/integrations/openai-realtime-audio/" arrow="true" horizontal>
+  Weave를 사용하여 OpenAI Realtime API Call을 자동으로 트레이스하세요.
+</Card>
+
+<Card title="프롬프트 버전 저장 및 추적" href="/ko/weave/guides/core-types/prompts-version/" arrow="true" horizontal>
+  LLM 애플리케이션의 프롬프트 버전을 가져와 관리하세요.
+</Card>
+
+<Card title="annotation queue의 항목 검토" href="/ko/weave/guides/tracking/annotation-review/" arrow="true" horizontal>
+  간소화된 검토 인터페이스를 사용하여 트레이스 항목을 평가하고 구조화된 피드백을 제출하세요.
+</Card>
+
+<Card title="annotation queue 설정" href="/ko/weave/guides/tracking/annotation-queues/" arrow="true" horizontal>
+  annotation queue를 생성하고, 트레이스를 도메인 전문가에게 라우팅하며, 구조화된 피드백을 내보내세요.
+</Card>
+
+<div id="platform">
+  ### 플랫폼
+</div>
+
+<Card title="W&B 모바일 앱(iOS)" href="/ko/platform/hosting/monitoring-usage/mobile-app/" arrow="true" horizontal>
+  iPhone 또는 iPad에서 트레이닝 Runs을 추적하고, 콘솔 로그를 검토하며, 선형 플롯과 시스템 메트릭을 확인하고, W&amp;B Models 프로젝트를 살펴보세요.
+</Card>
+
+<Card title="W&B Skills 사용" href="/ko/platform/wb-skills/" arrow="true" horizontal>
+  W&amp;B Skills를 설치하여 코딩 에이전트가 W&amp;B의 AI 개발 플랫폼을 사용해 모델을 트레이닝하고, 에이전트를 구축하며, 실험을 분석하는 방법을 익히도록 하세요.
+</Card>
+
+<Card title="요청 속도 제한" href="/ko/platform/hosting/self-managed/rate-limits/" arrow="true" horizontal>
+  안정성을 위한 Self-Managed 인스턴스의 선택적 요청 속도 제한
+</Card>
+
+<Card title="지원되는 Dedicated Cloud 리전" href="/ko/platform/hosting/hosting-options/dedicated-cloud/regions/" arrow="true" horizontal>
+  W&amp;B Dedicated Cloud 인스턴스에서 사용할 수 있는 모든 지원 AWS, Google Cloud, Azure 리전을 확인하세요.
+</Card>
+
+<Card title="요청 속도 제한" href="/ko/platform/hosting/hosting-options/dedicated-cloud/rate-limits/" arrow="true" horizontal>
+  Dedicated Cloud의 기본 요청 속도 제한 및 변경 요청 방법
+</Card>
+
+<Card title="Dedicated Cloud에서 데이터 내보내기" href="/ko/platform/hosting/hosting-options/dedicated-cloud/export-data/" arrow="true" horizontal>
+  Python SDK API를 사용하여 W&amp;B Dedicated Cloud 인스턴스에서 Runs, 메트릭, 아티팩트 및 Reports를 내보내세요.
+</Card>
+
+<div id="inference">
+  ### Inference
+</div>
+
+<Card title="Serverless Inference와 함께 Cline 사용하기" href="/ko/inference/tutorials/integration-cline/" arrow="true" horizontal>
+  >
+</Card>
+
+{/* new-articles:end */}

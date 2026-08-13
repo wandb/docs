@@ -111,11 +111,21 @@ Par exemple, supposons que vous exécutiez un script Python appelé `train.py` d
   ## Reprendre les runs Sweeps préemptibles
 </div>
 
-Lorsque vous gérez correctement la préemption, les runs de [sweep](/fr/models/sweeps/) interrompus peuvent être automatiquement remis en file d’attente afin qu’un autre agent puisse les récupérer. Ce mécanisme est particulièrement utile lorsque l’agent de sweep s’exécute dans un environnement préemptible, comme un job SLURM dans une file d’attente préemptible, une instance EC2 Spot ou une VM préemptible sur Google Cloud.
+Gérez les signaux de préemption afin que W&amp;B puisse automatiquement remettre en file d’attente les [runs de sweep](/fr/models/sweeps/) interrompues pour qu’un autre agent les exécute. Ce modèle est utile lorsque l’agent de sweep s’exécute sur des ressources de calcul préemptibles, telles qu’une file d’attente SLURM préemptible, une instance Spot Amazon EC2 ou une VM préemptible Google Cloud.
 
-Le comportement décrit ci-dessous s’applique lorsque vous exécutez des agents de sweep avec la CLI [`wandb agent`](/fr/models/ref/cli/wandb-agent), qui lance votre programme d’entraînement comme **sous-processus**. Il ne s’applique pas entièrement lorsque vous utilisez uniquement l’API Python [`wandb.agent()`](/fr/models/ref/python/functions/agent), car dans ce cas votre fonction d’entraînement s’exécute dans un thread plutôt que dans un processus distinct, et la réception ainsi que la propagation des signaux du système d’exploitation ne correspondent donc pas au modèle de l’agent CLI.
+Les instructions ci-dessous s’appliquent lorsque vous démarrez des agents de sweep avec la CLI [`wandb agent`](/fr/models/ref/cli/wandb-agent). La CLI démarre votre programme d’entraînement en tant que **sous-processus**. Ces instructions ne s’appliquent pas entièrement si vous utilisez uniquement l’API Python [`wandb.agent()`](/fr/models/ref/python/functions/agent). L’API Python exécute la fonction d’entraînement dans un thread. La transmission et le relais des signaux du système d’exploitation diffèrent donc du comportement de l’agent CLI.
 
-**Modèle recommandé :** enregistrez un gestionnaire de signal pour le signal de préemption utilisé par votre ordonnanceur ou votre plateforme (par exemple `SIGUSR1` ou `SIGTERM`). Dans ce gestionnaire, appelez [`mark_preempting()`](/fr/models/ref/python/experiments/run#mark_preempting) lorsqu’un run est actif, effectuez tout nettoyage nécessaire (par exemple enregistrer un checkpoint), puis quittez avec un code non nul (une convention courante consiste à utiliser `128 + signum` pour une terminaison par signal). N’appelez **pas** `mark_preempting()` systématiquement juste après `wandb.init()`. Sinon, chaque échec, y compris les bugs dans le code, peut être marqué comme une préemption et le run peut être remis en file d’attente de façon répétée.
+<div id="handle-a-preemption-signal">
+  ### Gérer un signal de préemption
+</div>
+
+Enregistrez un gestionnaire pour le signal que votre ordonnanceur ou votre plateforme utilise pour indiquer une préemption, tel que `SIGUSR1` ou `SIGTERM`. Dans le gestionnaire :
+
+1. Appelez [`mark_preempting()`](/fr/models/ref/python/experiments/run#mark_preempting) lorsqu’un run est actif.
+2. Effectuez tout nettoyage nécessaire, par exemple en enregistrant un checkpoint.
+3. Quittez avec un code d’état non nul. Une convention courante pour une terminaison par signal est `128 + signum`.
+
+N’appelez **pas** `mark_preempting()` systématiquement juste après `wandb.init()`. Sinon, chaque échec, y compris les bugs dans le code, peut être marqué comme une préemption et le run peut être remis en file d’attente de façon répétée.
 
 Pour des exemples exécutables, l’option `--forward-signals` de l’agent CLI, ainsi qu’un tableau de référence complet pour les différents usages de `mark_preempting()`, voir [Gestion des signaux et runs de sweep](/fr/models/sweeps/signal-handling-sweep-runs).
 
@@ -128,4 +138,8 @@ Lorsque vous suivez ce modèle, W&amp;B enregistre l’état du run à peu près
 | Le run reçoit un signal non géré (par exemple `SIGKILL`)                                                                                                                      | CRASHED après environ cinq minutes                                             |
 | Le run reçoit un signal de préemption géré (par exemple `SIGTERM` ou `SIGUSR1`), le gestionnaire appelle `mark_preempting()`, et le processus se termine avec un code non nul | PREEMPTED ; le run est mis en file d’attente pour la prochaine requête d’agent |
 
-Les agents de sweep vident la file d’attente des runs avant que le sweep ne génère de nouvelles combinaisons d’hyperparamètres à partir de l’algorithme de recherche. Une fois la file d’attente vide, le sweep reprend sa planification normale.
+<Info>
+  Lorsqu’un agent de sweep récupère un run préempté, le processus d’entraînement doit appeler `wandb.init()` dans les 60 minutes. Si l’initialisation n’a pas lieu, par exemple lorsque le processus échoue après avoir récupéré le run mais avant d’appeler `wandb.init()`, W&amp;B ne rend pas le run disponible pour un autre agent avant l’expiration du bail de 60 minutes.
+</Info>
+
+Les agents de sweep traitent les runs remis en file d’attente avant de demander de nouvelles combinaisons d’hyperparamètres à l’algorithme de recherche du sweep. Une fois la file d’attente vide, le sweep reprend sa planification normale.

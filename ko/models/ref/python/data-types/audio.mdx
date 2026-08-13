@@ -1,56 +1,59 @@
 ---
-title: Audio
-namespace: python_sdk_data_type
-python_object_type: class
+title: 오디오
+kind: 클래스
+namespace: wandb.sdk.data_types.audio
 ---
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/audio.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/audio.py#L19" />
 
-
-## <kbd>class</kbd> `Audio`
-
-오디오 클립을 위한 W&amp;B 클래스. 
-
-### <kbd>방법</kbd> `Audio.__init__`
+## <kbd>클래스</kbd> wandb.Audio
 
 ```python
-__init__(
-    data_or_path: 'str | pathlib.Path | list | np.ndarray',
-    sample_rate: 'int | None' = None,
-    caption: 'str | None' = None
-)
+(data_or_path: 'str | pathlib.Path | list | np.ndarray',
+sample_rate: 'int | None' = None,
+caption: 'str | None' = None)
 ```
 
-오디오 파일 경로 또는 오디오 데이터가 담긴 NumPy 배열을 받습니다.
+오디오 클립용 W&amp;B 클래스입니다.
 
-**매개변수:**
+<div id="args">
+  ## 매개변수
+</div>
 
 * `data_or_path`:  오디오 파일 경로 또는 오디오 데이터가 담긴 NumPy 배열입니다.
 * `sample_rate`:  샘플 레이트입니다. 원시 NumPy 오디오 데이터 배열을 전달할 때 필수입니다.
 * `caption`:  오디오와 함께 표시할 캡션입니다.
 
-***
+<div id="methods">
+  ## 메서드
+</div>
 
-
-### <kbd>클래스 메서드</kbd> `Audio.durations`
+### <kbd>메서드</kbd> Audio.durations()
 
 ```python
-durations(audio_list)
+(audio_list)
 ```
 
 오디오 파일의 길이를 계산합니다.
 
-***
+<div id="arguments">
+  ##### 인수
+</div>
 
+* `audio_list`: 
 
-### <kbd>클래스 메서드</kbd> `Audio.sample_rates`
+### <kbd>메서드</kbd> Audio.sample_rates()
 
 ```python
-sample_rates(audio_list)
+(audio_list)
 ```
 
 오디오 파일의 샘플 레이트를 조회합니다.
 
-***
+<div id="arguments">
+  ##### 인수
+</div>
+
+* `audio_list`: 
