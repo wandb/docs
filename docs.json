@@ -595,6 +595,7 @@
                                   "weave/guides/integrations/litellm",
                                   "weave/guides/integrations/azure",
                                   "weave/guides/integrations/mistral",
+                                  "weave/guides/integrations/neon",
                                   "weave/guides/integrations/nvidia_nim",
                                   "weave/guides/integrations/openai",
                                   "weave/guides/integrations/openrouter",
