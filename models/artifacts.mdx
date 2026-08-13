@@ -80,6 +80,14 @@ datadir = artifact.download()  # downloads the full `my_data` artifact to the de
 You can pass a custom path into the `root` [parameter](/models/ref/python/experiments/artifact) to download an artifact to a specific directory. For alternate ways to download artifacts and to see additional parameters, see the guide on [downloading and using artifacts](/models/artifacts/download-and-use-an-artifact).
 </Note>
 
+## Usage limits
+
+The following table lists limits for Artifacts features. For a combined list of Artifacts and W&B Registry limits, see [What are the W&B Registry and Artifacts usage limits?](/support/models/articles/what-are-artifact-registry-limits)
+
+| Dimension | Scope | Counting | Free | Pro | Enterprise |
+| --- | --- | --- | --- | --- | --- |
+| Artifacts | Organization | Committed artifact versions across the whole org | 100,000 | 5,000,000 | 100,000,000 |
+| Unique tags | Organization | Distinct tag definitions in the org | 1,000 | 2,500 | 1,500,000 |
 
 ## Next steps
 * Learn how to [version](/models/artifacts/create-a-new-artifact-version) and [update](/models/artifacts/update-an-artifact) artifacts.
