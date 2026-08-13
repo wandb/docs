@@ -79,7 +79,7 @@ with start_conversation(agent_name="support-agent", conversation_id=convo_id) as
                 tool.result = run_tool(call)                   # Dict is auto-encoded.
 ```
 
-The snippets in this tutorial focus on the Weave Calls and use placeholders for your own agent code:
+The snippets in this tutorial focus on the Weave calls and use placeholders for your own agent code:
 
 - `convo_id` and `new_id()`: a unique ID for each conversation, such as a UUID.
 - `user_message`: the user's input for the turn.
@@ -222,4 +222,4 @@ Add each as another `pred.log_score(...)` call in the same step. For the scorer 
 You traced an agent as a conversation, scored task completion for single-turn and multi-turn interactions, and compared versions, all linked back to the agent transcripts.
 
 - Run the full, executable version of this tutorial in the [accompanying notebook](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/agent_evals.ipynb).
-- Learn more about the imperative evaluation API in the [EvaluationLogger guide](/weave/guides/evaluation/evaluation_logger).
+- Learn other ways to link an agent's traces to its evaluation results, including for agents that run in a separate service or use their own OTel instrumentation, in [Link agent traces to evaluations](/weave/guides/evaluation/evaluation_logger#link-agent-traces-to-evaluations).
