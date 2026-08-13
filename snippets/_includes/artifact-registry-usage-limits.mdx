@@ -2,8 +2,11 @@
 | --- | --- | --- | --- | --- | --- |
 | Registries| Organization | Registry projects in the organization | 5 | 25 | 250|
 | Artifacts | Organization | Committed artifact versions across the whole organization | 100,000 | 5,000,000 | 100,000,000 |
-| Unique tags | Organization | Distinct tag definitions in the org | 1,000 | 2,500 | 1,500,000 |
-| Collections | Per Registry | Portfolios inside one registry | 50 | 250 | 150,000 |
-| Linked versions per Registry Collection | Per Registry Collection | Distinct linked artifact versions in one registry collection | 500 | 1,000 | 150,000 | 
+| Unique tags | Organization | Distinct tag definitions in the org | 1,000 | 1,000 | 10,000 |
+| Collections | Per Registry | Portfolios inside one registry | 50 | 250 | 5,000 |
+| Linked versions per Registry Collection | Per Registry Collection | Distinct linked artifact versions in one registry collection | 500 | 1,000 | 2,500 |
+| Versions per artifact sequence[^1] | Per artifact sequence | Committed versions in one branch (sequence) | 1,000 | 10,000 | 50,000 |
+
+[^1]: An artifact sequence is the set of versions for an artifact with the same name in a project. When you call `wandb.Run.log_artifact()` with an artifact that has the same name and new content, W&B creates a new version in that sequence.
 
 Contact [W&B Support](mailto:support@wandb.com) if you have questions about limits.
