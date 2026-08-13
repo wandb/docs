@@ -202,6 +202,7 @@ def render(
     candidates: int,
     docs_pages: int,
     gaps: int = 0,
+    candidate_deltas: int = 0,
     suppressed: Sequence[Finding] = (),
     reopened: Sequence[Finding] = (),
     unresolved: Sequence[Finding] = (),
@@ -214,9 +215,11 @@ def render(
     a("# UI label drift — wandb/core → docs")
     a("")
     a(f"Scanned `{scanned_range}` on {today.isoformat()}.")
+    detail = f" ({candidate_deltas} changed strings)" if candidate_deltas else ""
     funnel = (
-        f"{commits} commits → {ui_commits} touching UI → {candidates} stage-1 candidates "
-        f"→ **{len(findings)} findings**, against {docs_pages} indexed doc pages."
+        f"{commits} commits → {ui_commits} touching UI → {candidates} stage-1 "
+        f"candidates{detail} → **{len(findings)} findings**, against "
+        f"{docs_pages} indexed doc pages."
     )
     if suppressed:
         funnel += f" {len(suppressed)} previously decided finding(s) held back."

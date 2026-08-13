@@ -165,6 +165,13 @@ class DocsIndex:
     # find-and-replace targets; they are blast-radius reporting only.
     mirrors: dict[str, dict[str, str]]
 
+    # literal -> lookup, for the life of this index. The corpus does not change
+    # mid-run, so a repeated literal has a repeated answer. Two things make the
+    # repeats add up: `build_findings` probes a literal once to decide whether
+    # it is documented and again to attach the evidence, and the same label
+    # routinely changes in several commits across one scan window.
+    _memo: dict[str, "DocsLookup"] = field(default_factory=dict, repr=False)
+
     def __len__(self) -> int:
         return len(self.pages)
 
@@ -299,7 +306,19 @@ def _candidate_pages(index: DocsIndex, literal: str) -> set[int]:
 
 
 def find(index: DocsIndex, literal: str) -> DocsLookup:
-    """Locate every appearance of `literal` in the primary-locale corpus."""
+    """Locate every appearance of `literal` in the primary-locale corpus.
+
+    Memoized on the index. Callers treat the result as read-only; it is shared.
+    """
+    cached = index._memo.get(literal)
+    if cached is not None:
+        return cached
+    found = _find_uncached(index, literal)
+    index._memo[literal] = found
+    return found
+
+
+def _find_uncached(index: DocsIndex, literal: str) -> DocsLookup:
     eligible, reason = is_specific_enough(literal)
     if not eligible:
         return DocsLookup(literal, False, reason)

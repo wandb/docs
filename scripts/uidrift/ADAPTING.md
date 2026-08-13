@@ -269,6 +269,13 @@ identical across the whole scan.
 Cache it per run and *not* across runs. Team membership changes, and a stale
 owner cache is a wrong @-mention in a PR nobody can explain.
 
+The docs oracle wants the same treatment for the same reason. `docsindex.find`
+is memoized on the index, because the corpus does not change mid-run and the
+repeats are structural: `build_findings` probes a literal once to decide whether
+it is documented and again to attach the evidence, and one label routinely
+changes in several commits across a window. Over 60 days of `wandb/core` that
+is 1180 changed strings collapsing to far fewer distinct lookups.
+
 ### 18. Almost nothing needs to be stored between runs
 
 The obvious design for a re-scanning detector is a ledger that remembers every
@@ -311,6 +318,30 @@ Two consequences:
 - **Account for suppression in the report.** A count of what was held back is
   the only way a reader can tell "no drift" from "all drift already dismissed".
   A detector that quietly drops rows cannot be audited.
+
+## Running it
+
+```bash
+PYTHONPATH=scripts python3 -m uidrift.scan scan --since "60 days ago"
+PYTHONPATH=scripts python3 -m uidrift.scan scan --incremental
+PYTHONPATH=scripts python3 -m uidrift.scan decide <id> --status dismissed \
+    --by matt --agreement false_positive --note "why"
+```
+
+`--incremental` takes its base from the head SHA in the newest report filename
+under `uidrift/reports/`, which is lesson 18 applied to the watermark: the
+reports are the record, so there is no state file to disagree with them. It is
+the difference between 96 seconds and 1.3 seconds, and it is what makes a
+frequent cron affordable.
+
+The scan never writes the ledger; only `decide` does. `decide` re-derives the
+finding by scanning rather than reading a report, because the evidence
+fingerprint has to reflect the corpus as it is now — a decision stamped with
+stale evidence would never reopen.
+
+Exit codes: `0` clean, `1` operator error (bad range, missing checkout), `2` no
+subcommand, `3` at least one decision reopened. `3` is separate because a
+reopened decision is the one outcome that should be able to fail a CI step.
 
 ## Volume expectations
 
