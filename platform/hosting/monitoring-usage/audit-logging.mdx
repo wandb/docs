@@ -10,9 +10,9 @@ How you access audit logs depends on your W&B platform deployment type:
 
 | W&B Platform deployment type | Audit logs access mechanism |
 |----------------------------|--------------------------------|
-| [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) | <ul><li>[Instance-level BYOB](/platform/hosting/data-security/secure-storage-connector): Synced to instance-level bucket (BYOB) every 10 minutes. Also available with [the API](#fetch-audit-logs-using-api).</li><li>Default instance-level storage: Available only with [the API](#fetch-audit-logs-using-api).</li></ul> |
-| [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) | Available for Enterprise plans only. Available only with [the API](#fetch-audit-logs-using-api). |
-| [Self-Managed](/platform/hosting/hosting-options/self-managed) | Synced to instance-level bucket every 10 minutes. Also available with [the API](#fetch-audit-logs-using-api). |
+| [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) | <ul><li>[Instance-level BYOB](/platform/hosting/data-security/secure-storage-connector): Synced to instance-level bucket (BYOB) every 10 minutes. Also available with [the API](#fetch-audit-logs).</li><li>Default instance-level storage: Available only with [the API](#fetch-audit-logs).</li></ul> |
+| [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) | Available for Enterprise plans only. Available only with [the API](#fetch-audit-logs). |
+| [Self-Managed](/platform/hosting/hosting-options/self-managed) | Synced to instance-level bucket every 10 minutes. Also available with [the API](#fetch-audit-logs). |
 
 After you fetch audit logs, you can analyze them with tools like [Pandas](https://pandas.pydata.org/docs/index.html), [Amazon Redshift](https://aws.amazon.com/redshift/), [Google BigQuery](https://cloud.google.com/bigquery), or [Microsoft Fabric](https://www.microsoft.com/microsoft-fabric). Some audit log analysis tools don't support JSON. Refer to the documentation for your analysis tool for guidelines and requirements to transform the JSON-formatted audit logs before analysis.
 
@@ -75,41 +75,138 @@ Before you fetch audit logs, confirm that you meet the following prerequisites f
 
 ## Fetch audit logs
 
-To retrieve audit logs from the W&B Audit Logging API, follow these steps. After you complete this procedure, you have audit log data you can analyze using your preferred tooling.
+Use the W&B Audit Logging API to retrieve audit logs. The endpoint, query parameters, and response format depend on your deployment type.
 
-1. Determine the correct API endpoint for your instance:
+<Tabs>
+<Tab title="Dedicated Cloud and Self-Managed">
+Use this tab for [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) or [Self-Managed](/platform/hosting/hosting-options/self-managed) instances. The Audit Logging API endpoint uses your instance URL:
 
-    - [Self-Managed](/platform/hosting/hosting-options/self-managed): `[WANDB-PLATFORM-URL]/admin/audit_logs`
-    - [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud): `[INSTANCE-NAME].wandb.io/admin/audit_logs`
-    - [Multi-tenant Cloud (Enterprise required)](/platform/hosting/hosting-options/multi_tenant_cloud): `https://api.wandb.ai/audit_logs`
+- Dedicated Cloud: `https://[INSTANCE-NAME].wandb.io/admin/audit_logs`.
+- Self-Managed: `[WANDB-PLATFORM-URL]/admin/audit_logs`.
 
-    In the following steps, replace `[API-ENDPOINT]` with your API endpoint.
-1. Optional: Construct query parameters to append to the endpoint. In the following steps, replace `[PARAMETERS]` with the resulting string.
-    - `anonymize`: If the URL includes the parameter `anonymize=true`, W&B removes any PII. Otherwise, PII is included. Refer to [Exclude PII when fetching audit logs](#exclude-pii-when-fetching-audit-logs). Not supported for Multi-tenant Cloud, where all fields are included, including PII.
-    - Configure the date window of logs to fetch with a combination of `numDays` and `startDate`. Each parameter is optional, and they interact.
-      - If neither parameter is included, only today's UTC logs are fetched.
-      - If `startDate` is omitted and `numDays` is set, logs are fetched from `numDays` days before today through today, in UTC.
-      - `startDate`: Optional. Use `startDate=YYYY-MM-DD` to set the oldest calendar day in the range. Dates are interpreted in UTC.
-          - Supported in **Multi-tenant Cloud** only with an Enterprise license.
-          - Supported in **Dedicated Cloud** and **Self-Managed** v0.80.0 and above.
-      - `numDays`: An integer that indicates how many days after `startDate` to fetch logs. If you omit it or set it to `0`, logs are fetched for the `startDate` only. For example, `startDate=2026-01-01&numDays=2` fetches logs for January 1, January 2, and January 3, 2026. On **Multi-tenant Cloud**, `numDays` must be an integer from `0` through `7`.
-    - On **Multi-tenant Cloud**, use pagination parameters to fetch large result sets within the selected date range:
-      - `limit`: Optional. A positive integer up to `1,000,000` that controls the maximum number of audit log entries to return. The default is `1000000`.
-      - `cursor`: Optional. An opaque cursor from the previous response's `next_cursor` field. Reuse the cursor with the same resolved date range.
-1. Construct the fully qualified endpoint URL in the format `[API-ENDPOINT]?[PARAMETERS]`.
-1. Execute an HTTP `GET` request on the fully qualified API endpoint with a web browser or a tool like [Postman](https://www.postman.com/downloads/), [HTTPie](https://httpie.io/), or cURL.
+Replace `[INSTANCE-NAME]` with your Dedicated Cloud instance name. Replace `[WANDB-PLATFORM-URL]` with the URL of your Self-Managed instance.
 
-For **Self-Managed** and **Dedicated Cloud**, the API response contains newline-separated JSON objects. Objects include the fields described in the [schema](#audit-log-schema), just like when audit logs are synced to an instance-level bucket. In those cases, the audit logs are located in the `/wandb-audit-logs` directory in your bucket.
+In the following `curl` examples, replace `[API-ENDPOINT]` with the endpoint for your instance. Replace `[BASE64-USERNAME-API-KEY]` with the base64-encoded string in the format `[USERNAME]:[API-KEY]`. Replace `[NEXT-CURSOR]` with the `next_cursor` value from the previous response.
 
-For **Multi-tenant Cloud**, the API response is a JSON object with these fields:
+The following query parameters are supported:
 
-- `audit_logs`: An array of audit log entries. Each entry includes the fields described in the [schema](#audit-log-schema).
+- `anonymize`: If the URL includes `anonymize=true`, W&B does not add PII fields to the audit logs. Otherwise, PII is included. For more information, see [Exclude PII when fetching audit logs](#exclude-pii).
+- `startDate`: The inclusive start of the date range, in UTC. Supported formats are `YYYY-MM-DD`, `YYYY-MM-DDTHH`, `YYYY-MM-DDTHH:mm`, and `YYYY-MM-DDTHH:mm:ss`. Missing time parts default to zero. For example, `2026-08-03T01` means `2026-08-03T01:00:00Z`. If you omit `startDate`, the range starts at midnight UTC today, or `numDays` days before today if you set `numDays`.
+- `numDays`: A non-negative integer. W&B fetches logs from `startDate` through the next `numDays` days. If you omit `numDays` or set it to `0`, W&B fetches logs for the `startDate` day only. You can't use `numDays` with `endDate`.
+- `endDate`: The exclusive end of the date range, in UTC. The supported formats match `startDate`. Setting `endDate` returns a paginated JSON response, even if you don't set `limit`. You can't use `endDate` with `numDays`.
+- `limit`: The maximum number of audit log entries to return in a paginated response. Use a positive integer up to `20,000`. If you set `limit`, W&B returns a paginated JSON response. In paginated requests, the default is `20,000`.
+- `cursor`: An opaque cursor from the previous response's `next_cursor` field. Reuse the cursor with the same resolved date range and `anonymize` value. If you set `cursor`, you must also set `limit` or `endDate`.
+
+If you don't set `limit` or `endDate`, the API preserves the original streaming response format. The response contains newline-separated JSON objects. Each object includes the fields described in [Audit log schema](#audit-log-schema), the same as logs synced to an instance-level bucket.
+
+To fetch a streaming newline-separated JSON response for a three-day range and exclude PII, run:
+
+```bash
+curl -H "Authorization: Basic [BASE64-USERNAME-API-KEY]" \
+  "[API-ENDPOINT]?startDate=2026-08-01&numDays=2&anonymize=true"
+```
+
+If you set `limit` or `endDate`, the API returns a JSON object with the following fields:
+
+- `audit_logs`: An array of audit log entries. Each entry includes the fields described in [Audit log schema](#audit-log-schema).
 - `range_start_time`: The start of the resolved date range, in UTC.
 - `range_end_time`: The exclusive end of the resolved date range, in UTC.
 - `count`: The number of audit log entries returned in this response.
 - `next_cursor`: An opaque cursor for the next page of results. If this field is `null`, there are no more results for the selected date range.
 
-To paginate on **Multi-tenant Cloud**, repeat the request with the same date range, and set `cursor` to the `next_cursor` value from the previous response. Continue until `next_cursor` is `null`.
+To fetch a paginated response for a two-hour range, run:
+
+```bash
+curl -H "Authorization: Basic [BASE64-USERNAME-API-KEY]" \
+  "[API-ENDPOINT]?startDate=2026-08-01T13:00&endDate=2026-08-01T15:00&limit=1000"
+```
+
+The response resembles the following example:
+
+```json
+{
+  "audit_logs": [
+    {
+      "action": "project:read",
+      "actor_email": "admin@example.com",
+      ...
+      "timestamp": "2026-08-01T14:00:00Z",
+    }
+  ],
+  "range_start_time": "2026-08-01T13:00:00Z",
+  "range_end_time": "2026-08-01T15:00:00Z",
+  "count": 1,
+  "next_cursor": "eyJ2ZXJzaW9uIjox..."
+}
+```
+
+To fetch the next page, repeat the request with the same resolved date range and `anonymize` value. Set `cursor` to the `next_cursor` value from the previous response. Continue until `next_cursor` is `null`.
+
+```bash
+curl -H "Authorization: Basic [BASE64-USERNAME-API-KEY]" \
+  "[API-ENDPOINT]?startDate=2026-08-01T13:00&endDate=2026-08-01T15:00&limit=1000&cursor=[NEXT-CURSOR]"
+```
+</Tab>
+<Tab title="Multi-tenant Cloud">
+Use this tab for [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud). Multi-tenant audit logs are available only for Enterprise plans. The Audit Logging API endpoint is:
+
+```text
+https://api.wandb.ai/audit_logs
+```
+
+The following query parameters are supported:
+
+- `startDate`: The first UTC calendar day in the date range. Use `YYYY-MM-DD` format. If you omit `startDate`, the range starts at midnight UTC today, or `numDays` days before today if you set `numDays`.
+- `numDays`: An integer from `0` through `7`. W&B fetches logs from `startDate` through the next `numDays` days. If you omit `numDays` or set it to `0`, W&B fetches logs for one day.
+- `limit`: The maximum number of audit log entries to return. Use a positive integer up to `1,000,000`. The default is `1,000,000`.
+- `cursor`: An opaque cursor from the previous response's `next_cursor` field. Reuse the cursor with the same resolved date range.
+
+The Multi-tenant Cloud endpoint always returns relevant fields for audit logs, including PII. This isn't configurable.
+
+The response is a JSON object with the following fields:
+
+- `audit_logs`: An array of audit log entries. Each entry includes the fields described in [Audit log schema](#audit-log-schema).
+- `range_start_time`: The start of the resolved date range, in UTC.
+- `range_end_time`: The exclusive end of the resolved date range, in UTC.
+- `count`: The number of audit log entries returned in this response.
+- `next_cursor`: An opaque cursor for the next page of results. If this field is `null`, there are no more results for the selected date range.
+
+In the following `curl` examples, replace `[BASE64-USERNAME-API-KEY]` with the base64-encoded string in the format `[USERNAME]:[API-KEY]`. Replace `[NEXT-CURSOR]` with the `next_cursor` value from the previous response.
+
+To fetch audit logs for a range, run:
+
+```bash
+curl -H "Authorization: Basic [BASE64-USERNAME-API-KEY]" \
+  "https://api.wandb.ai/audit_logs?startDate=2026-08-01&numDays=2&limit=1000"
+```
+
+The response resembles the following example:
+
+```json
+{
+  "audit_logs": [
+    {
+      "action": "project:read",
+      "actor_email": "admin@example.com",
+      ...
+      "timestamp": "2026-08-01T13:12:14Z"
+    }
+  ],
+  "range_start_time": "2026-08-01T00:00:00Z",
+  "range_end_time": "2026-08-04T00:00:00Z",
+  "count": 1,
+  "next_cursor": "eyJyb3dfa2V5Ijoi..."
+}
+```
+
+To fetch the next page, repeat the request with the same resolved date range. Set `cursor` to the `next_cursor` value from the previous response. Continue until `next_cursor` is `null`.
+
+```bash
+curl -H "Authorization: Basic [BASE64-USERNAME-API-KEY]" \
+  "https://api.wandb.ai/audit_logs?startDate=2026-08-01&numDays=2&limit=1000&cursor=[NEXT-CURSOR]"
+```
+</Tab>
+</Tabs>
 
 ### Use basic authentication
 
@@ -135,6 +232,7 @@ Each audit log entry records one of the following actions. Use this reference to
 | `artifact:delete`             | Artifact is deleted.
 | `artifact:read`               | Artifact is read.
 | `project:delete`              | Project is deleted.
+| `organization:update_member`  | Member's organization role or seat is updated.
 | `project:read`                | Project is read.
 | `report:read`                 | Report is read. <sup><a href="#1">1</a></sup>
 | `run:delete_many`             | Batch of runs is deleted.
