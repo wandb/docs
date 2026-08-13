@@ -257,6 +257,18 @@ against real diffs.
 
 When someone reports a miss, add it as a fixture before fixing it.
 
+### 17. Ownership is per-run data, so pay for it once
+
+Reviewers and owning team look like per-finding lookups and are not. CODEOWNERS
+is one file that does not change mid-run, and authorship comes from one
+`git log --name-only` over the UI roots, parsed into a path → author index in
+memory. The naive version — `git show` for CODEOWNERS plus one or two `git log`
+calls per finding — is roughly three subprocesses per row for data that is
+identical across the whole scan.
+
+Cache it per run and *not* across runs. Team membership changes, and a stale
+owner cache is a wrong @-mention in a PR nobody can explain.
+
 ## Volume expectations
 
 Calibrate before building. For `wandb/core` over 60 days:

@@ -4,6 +4,11 @@ Two sources with different strengths. CODEOWNERS gives the accountable team but
 is coarse -- `/frontends/app/ @wandb/frontend-reviewers` covers most of the app.
 Git authorship names actual humans but says nothing about accountability. Report
 both; neither is a substitute for the other.
+
+Both answers are the same for every finding in a run, so both are computed once
+per run rather than once per finding. The naive version shelled out `git show`
+for CODEOWNERS and one-to-two `git log` invocations per path, which is ~3
+subprocesses per finding for data that never changes mid-run. See ADAPTING.md.
 """
 
 from __future__ import annotations
@@ -12,7 +17,7 @@ import re
 import subprocess
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional, Sequence
+from typing import Optional
 
 from . import config
 
@@ -23,6 +28,21 @@ MIN_RECENT_AUTHORS = 3
 
 _BOT = re.compile(r"\[bot\]$|\bbot\b|-agent$|^wandbot|devin-ai", re.I)
 
+# Author lines are prefixed so they cannot be confused with a path. \x01 cannot
+# appear in a git author name or a filename.
+_AUTHOR_MARK = "\x01"
+
+# (root, head, since) -> {path: {author: commits}}. Populated once per run.
+_AUTHOR_INDEX: dict[tuple[str, str, Optional[str]], dict[str, dict[str, int]]] = {}
+# (root, head) -> parsed CODEOWNERS rules, most general first.
+_CODEOWNERS: dict[tuple[str, str], list[tuple[re.Pattern[str], str]]] = {}
+
+
+def reset_caches() -> None:
+    """Drop the per-run caches. Tests call this; a cron process is short-lived."""
+    _AUTHOR_INDEX.clear()
+    _CODEOWNERS.clear()
+
 
 @dataclass(frozen=True)
 class Ownership:
@@ -31,25 +51,51 @@ class Ownership:
     source: str  # "recent" | "all-time" | "none"
 
 
-def _git_authors(core: Path, path: str, since: Optional[str]) -> list[str]:
-    cmd = ["git", "-C", str(core), "log", config.SOURCE.default_head, "--format=%an"]
+def _build_author_index(core: Path, since: Optional[str]) -> dict[str, dict[str, int]]:
+    """One `git log` over the UI roots, yielding every (path, author) pair.
+
+    Scoped to `ui_roots` by pathspec because that is the only place a finding's
+    path can come from, and unscoped history over wandb/core is far larger than
+    anything this needs.
+    """
+    cmd = [
+        "git", "-C", str(core), "log", config.SOURCE.default_head,
+        f"--format={_AUTHOR_MARK}%an", "--name-only",
+    ]
     if since:
         cmd.append(f"--since={since}")
-    cmd += ["--", path]
+    cmd += ["--", *config.SOURCE.ui_roots]
     try:
-        out = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
+        out = subprocess.run(cmd, capture_output=True, text=True, timeout=180)
     except (OSError, subprocess.SubprocessError):
-        return []
+        return {}
     if out.returncode != 0:
-        return []
+        return {}
 
-    counts: dict[str, int] = {}
-    for name in out.stdout.splitlines():
-        name = name.strip()
-        # Cherry-pick and codegen bots are not reviewers.
-        if not name or _BOT.search(name):
+    index: dict[str, dict[str, int]] = {}
+    author = ""
+    for line in out.stdout.splitlines():
+        if line.startswith(_AUTHOR_MARK):
+            author = line[len(_AUTHOR_MARK):].strip()
             continue
-        counts[name] = counts.get(name, 0) + 1
+        path = line.strip()
+        # Cherry-pick and codegen bots are not reviewers.
+        if not path or not author or _BOT.search(author):
+            continue
+        counts = index.setdefault(path, {})
+        counts[author] = counts.get(author, 0) + 1
+    return index
+
+
+def _author_index(core: Path, since: Optional[str]) -> dict[str, dict[str, int]]:
+    key = (str(core), config.SOURCE.default_head, since)
+    if key not in _AUTHOR_INDEX:
+        _AUTHOR_INDEX[key] = _build_author_index(core, since)
+    return _AUTHOR_INDEX[key]
+
+
+def _git_authors(core: Path, path: str, since: Optional[str]) -> list[str]:
+    counts = _author_index(core, since).get(path, {})
     return [n for n, _ in sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))]
 
 
@@ -104,19 +150,22 @@ def _codeowners_regex(pattern: str) -> re.Pattern[str]:
     return re.compile(prefix + body + suffix)
 
 
-def owning_team(path: str, *, core: Optional[Path] = None) -> Optional[str]:
-    """The CODEOWNERS entry for a path.
+def _codeowners_rules(core: Path) -> list[tuple[re.Pattern[str], str]]:
+    """Read and compile CODEOWNERS once per run.
 
-    LAST match wins, not first -- that is the GitHub rule, and wandb/core relies
-    on it: `/frontends/app/` is overridden by `/frontends/app/src/weave` and by
-    `/frontends/app/**/*ramp**` further down the file.
+    The file is identical for every finding in a scan, so this is read once and
+    the globs are compiled once. Rules stay in file order because matching
+    depends on it.
     """
-    root = core or config.SOURCE.path
+    key = (str(core), config.SOURCE.default_head)
+    if key in _CODEOWNERS:
+        return _CODEOWNERS[key]
+
     content = None
     for candidate in config.SOURCE.codeowners:
         try:
             out = subprocess.run(
-                ["git", "-C", str(root), "show",
+                ["git", "-C", str(core), "show",
                  f"{config.SOURCE.default_head}:{candidate}"],
                 capture_output=True, text=True, timeout=20,
             )
@@ -125,19 +174,32 @@ def owning_team(path: str, *, core: Optional[Path] = None) -> Optional[str]:
         if out.returncode == 0:
             content = out.stdout
             break
-    if content is None:
-        return None
 
-    winner = None
-    for line in content.splitlines():
+    rules: list[tuple[re.Pattern[str], str]] = []
+    for line in (content or "").splitlines():
         line = line.split("#", 1)[0].strip()
         if not line:
             continue
         parts = line.split()
         if len(parts) < 2:
             continue
-        if _codeowners_regex(parts[0]).match(path):
-            winner = " ".join(parts[1:])
+        rules.append((_codeowners_regex(parts[0]), " ".join(parts[1:])))
+    _CODEOWNERS[key] = rules
+    return rules
+
+
+def owning_team(path: str, *, core: Optional[Path] = None) -> Optional[str]:
+    """The CODEOWNERS entry for a path.
+
+    LAST match wins, not first -- that is the GitHub rule, and wandb/core relies
+    on it: `/frontends/app/` is overridden by `/frontends/app/src/weave` and by
+    `/frontends/app/**/*ramp**` further down the file.
+    """
+    root = core or config.SOURCE.path
+    winner = None
+    for pattern, owners in _codeowners_rules(root):
+        if pattern.match(path):
+            winner = owners
     return winner
 
 
