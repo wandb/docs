@@ -65,8 +65,31 @@ def _docs_cell(f: Finding) -> str:
     return "<br>".join(shown)
 
 
+def _decision_bits(f: Finding) -> list[str]:
+    """Whatever a human already said about this finding."""
+    bits: list[str] = []
+    if any(s.startswith("reopened:") for s in f.signals):
+        prior = next(s.split(":", 1)[1] for s in f.signals if s.startswith("reopened:"))
+        bits.append(f"**reopened** — was `{prior}`, docs evidence has grown since")
+    if "marked_fixed_still_detected" in f.signals:
+        bits.append("**marked fixed but still detected**")
+    elif f.status and not any(s.startswith("reopened:") for s in f.signals):
+        bits.append(f"status `{f.status}`")
+    where = []
+    if f.jira_key:
+        where.append(f.jira_key)
+    if f.docs_pr:
+        where.append(f"docs#{f.docs_pr}")
+    if where:
+        bits.append(" / ".join(where))
+    if f.assignee:
+        bits.append(f"assigned {_escape(f.assignee)}")
+    return bits
+
+
 def _notes_cell(f: Finding) -> str:
     bits = [_commit_links(f)]
+    bits.extend(_decision_bits(f))
     if f.gate:
         state = "not yet visible" if f.not_yet_visible else "gated (already ramped)"
         bits.append(f"gate `{f.gate['name']}` — {state}")
@@ -80,6 +103,8 @@ def _notes_cell(f: Finding) -> str:
         bits.append("**URL changed**")
     if not f.settled:
         bits.append(f"**unsettled** (<{config.SETTLED_DAYS}d)")
+    if len(f.commits) > 1:
+        bits.append(f"changed {len(f.commits)}× since {f.first_seen_date[:10]}")
     return "<br>".join(bits)
 
 
@@ -97,6 +122,76 @@ def _row(f: Finding) -> str:
     ]) + " |"
 
 
+def _ledger_sections(
+    suppressed: Sequence[Finding],
+    reopened: Sequence[Finding],
+    unresolved: Sequence[Finding],
+    orphans: Sequence[str],
+    reverted: Sequence[Finding],
+) -> list[str]:
+    """What the stored decisions did to this run.
+
+    Suppression is always accounted for in the report. A detector that quietly
+    drops rows is one nobody can audit, and the count is the only way a reader
+    can tell "no drift" from "all drift already dismissed".
+    """
+    out: list[str] = []
+    a = out.append
+
+    if reopened:
+        a(f"### Reopened decisions ({len(reopened)})")
+        a("")
+        a("These were decided once, but the docs evidence has grown since — a page")
+        a("now mentions the string, or a new editable occurrence appeared. The prior")
+        a("decision is shown in the table above rather than applied.")
+        a("")
+
+    if unresolved:
+        a(f"### Marked fixed, still detected ({len(unresolved)})")
+        a("")
+        a("A `fixed` finding normally disappears on its own: the next scan looks for")
+        a("the old string in docs and does not find it. These are still detected, so")
+        a("the fix did not land, did not cover every occurrence, or was reverted.")
+        a("")
+
+    if suppressed:
+        a(f"### Held back by earlier decisions ({len(suppressed)})")
+        a("")
+        a("| ID | Change | Decision | Who | When |")
+        a("|---|---|---|---|---|")
+        for f in sorted(suppressed, key=lambda x: x.decided_at):
+            a("| " + " | ".join([
+                f"`{f.id}`",
+                _change_cell(f),
+                f"`{f.status}`" + (f" ({f.detection_agreement})" if f.detection_agreement else ""),
+                _escape(f.decided_by or "—"),
+                f.decided_at or "—",
+            ]) + " |")
+        a("")
+
+    if reverted:
+        a(f"### Renamed and renamed back ({len(reverted)})")
+        a("")
+        a("These labels changed and then changed back within the window, so the docs")
+        a("were never wrong and there is nothing to edit. Counted rather than listed,")
+        a("for the same reason as undocumented surfaces.")
+        a("")
+
+    if orphans:
+        a(f"### Stored decisions that matched nothing ({len(orphans)})")
+        a("")
+        a("Either the drift is genuinely gone, or this scan's window does not reach")
+        a("back to the commit that caused it. Ambiguous, so nothing was deleted:")
+        a("")
+        a("```")
+        for did in orphans:
+            a(did)
+        a("```")
+        a("")
+
+    return out
+
+
 def render(
     findings: Sequence[Finding],
     *,
@@ -107,6 +202,11 @@ def render(
     candidates: int,
     docs_pages: int,
     gaps: int = 0,
+    suppressed: Sequence[Finding] = (),
+    reopened: Sequence[Finding] = (),
+    unresolved: Sequence[Finding] = (),
+    orphans: Sequence[str] = (),
+    reverted: Sequence[Finding] = (),
 ) -> str:
     lines: list[str] = []
     a = lines.append
@@ -114,16 +214,34 @@ def render(
     a("# UI label drift — wandb/core → docs")
     a("")
     a(f"Scanned `{scanned_range}` on {today.isoformat()}.")
-    a(f"{commits} commits → {ui_commits} touching UI → {candidates} stage-1 candidates "
-      f"→ **{len(findings)} findings**, against {docs_pages} indexed doc pages.")
+    funnel = (
+        f"{commits} commits → {ui_commits} touching UI → {candidates} stage-1 candidates "
+        f"→ **{len(findings)} findings**, against {docs_pages} indexed doc pages."
+    )
+    if suppressed:
+        funnel += f" {len(suppressed)} previously decided finding(s) held back."
+    a(funnel)
     a("")
 
-    if not findings:
-        a("No drift found in this window.")
+    if reopened:
+        a(f"> **{len(reopened)} decided finding(s) reopened.** The docs evidence behind "
+          f"the original call has grown, so the decision was surfaced instead of "
+          f"honored. See *Reopened decisions* below.")
         a("")
-        a("An empty table is a real result, not a broken run: it means every UI label")
-        a("change in the window is either already reflected in docs or touches no")
-        a("documented surface.")
+
+    if not findings:
+        a("No drift to act on in this window.")
+        a("")
+        a("An empty table is a real result, not a broken run: every UI label change in")
+        a("the window is already reflected in docs, touches no documented surface, or")
+        if suppressed:
+            # Saying "nothing found" when findings were held back would be a
+            # lie of omission, and the reader has no way to catch it.
+            a("was already decided on. See the sections below for what was held back.")
+        else:
+            a("was renamed back before anyone had to act on it.")
+        a("")
+        lines.extend(_ledger_sections(suppressed, reopened, unresolved, orphans, reverted))
         return "\n".join(lines) + "\n"
 
     by_lane: dict[str, list[Finding]] = {lane: [] for lane in _LANE_ORDER}
@@ -137,11 +255,16 @@ def render(
     a(f"| **human** | {len(by_lane[TRIAGE_HUMAN])} | prose has to be written |")
     a("")
 
-    for lane in _LANE_ORDER:
+    # Known lanes first, then anything unrecognized. A finding with an
+    # unexpected lane must still appear: the header has already counted it, and
+    # a row that is tallied but not shown is the one failure mode a reader
+    # cannot detect.
+    for lane in (*_LANE_ORDER, *(l for l in by_lane if l not in _LANE_ORDER)):
         rows = by_lane[lane]
         if not rows:
             continue
-        a(f"## {_LANE_TITLE[lane]} ({len(rows)})")
+        title = _LANE_TITLE.get(lane) or f"Unclassified ({lane or 'no lane'})"
+        a(f"## {title} ({len(rows)})")
         a("")
         a("| ID | Surface | Change | Why this lane | Docs | Reviewers / team | Evidence |")
         a("|---|---|---|---|---|---|---|")
@@ -167,4 +290,5 @@ def render(
         a("sustained rise in it is worth noticing, not because each one needs a row.")
         a("")
 
+    lines.extend(_ledger_sections(suppressed, reopened, unresolved, orphans, reverted))
     return "\n".join(lines) + "\n"

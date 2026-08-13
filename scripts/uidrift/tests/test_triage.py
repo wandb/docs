@@ -201,7 +201,7 @@ class TestReport(unittest.TestCase):
 
     def test_empty_report_says_so_explicitly(self):
         out = self._render([])
-        self.assertIn("No drift found", out)
+        self.assertIn("No drift to act on", out)
         self.assertIn("real result", out, "an empty table must not read as a broken run")
 
     def test_agent_rows_are_listed_first(self):

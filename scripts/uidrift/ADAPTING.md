@@ -269,6 +269,49 @@ identical across the whole scan.
 Cache it per run and *not* across runs. Team membership changes, and a stale
 owner cache is a wrong @-mention in a PR nobody can explain.
 
+### 18. Almost nothing needs to be stored between runs
+
+The obvious design for a re-scanning detector is a ledger that remembers every
+finding it has ever emitted. Resist it. Ask of each field: *can a fresh scan
+recompute this?* For finding identity, dedupe, settledness, triage, ownership and
+docs coverage, the answer is yes — every input is in the commit history or the
+docs tree. Storing them only creates a second copy that can disagree with the
+first, and the second copy is the one nobody notices is wrong.
+
+What genuinely cannot be recomputed is a human having said "I looked at this and
+it is fine." That is the whole contents of `ledger.json`.
+
+The best version of this trick needs no file at all. A sibling project mirrors
+upstream SDK release notes into a docs page and finds its watermark by reading
+the newest `<Update label="...">` out of the page it maintains — its state *is*
+the published artifact, so the two cannot drift apart. Look for that shape first.
+
+A corollary worth stating: derived-not-stored means a re-scan is the fix for a
+bad run. There is no cache to invalidate and no migration to write when a signal
+changes, which is what makes it safe to keep changing the signals.
+
+### 19. Suppression is one-directional too
+
+Lesson 8 governs the docs oracle. The same rule has to govern stored decisions,
+and the failure mode is subtler: a writer dismisses a finding as a false
+positive, and six weeks later a page starts documenting that very surface. The
+finding is now real, and the stored dismissal would silently hide it — a
+suppression that gets *more* wrong over time, and that nobody can detect from
+the report.
+
+So a decision records the docs evidence it was made against, and expanding
+evidence reopens it. Only expansion counts: a page that stops mentioning the
+string means somebody did the work, which is not a reason to reopen anything.
+
+Two consequences:
+
+- **Never auto-delete a decision.** An orphaned decision is ambiguous — the
+  drift may be resolved, or the scan window may simply not reach its commit.
+  List them and let a human choose.
+- **Account for suppression in the report.** A count of what was held back is
+  the only way a reader can tell "no drift" from "all drift already dismissed".
+  A detector that quietly drops rows cannot be audited.
+
 ## Volume expectations
 
 Calibrate before building. For `wandb/core` over 60 days:

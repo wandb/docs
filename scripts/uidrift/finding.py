@@ -157,6 +157,11 @@ def triage(f: "Finding") -> tuple[str, str]:
         return TRIAGE_PAIR, f"changed within {SETTLED_DAYS}d or changed twice; still moving"
     if "ambiguous_pairing" in f.signals:
         return TRIAGE_PAIR, "several equally good replacements; cannot tell which is which"
+    if "ambiguous_chain" in f.signals:
+        # The string was renamed again later, but to more than one thing, so the
+        # current target cannot be established. Substituting the intermediate
+        # would publish a label the product no longer uses.
+        return TRIAGE_PAIR, "renamed again in a later commit; cannot tell which target is current"
     if "url_changed" in f.signals:
         return TRIAGE_PAIR, "slug changed, so links and anchors moved too, not just words"
     if not targets:
