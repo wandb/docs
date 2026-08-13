@@ -1206,20 +1206,14 @@
                       {
                         "group": "Classes",
                         "pages": [
-                          "weave/reference/typescript-sdk/classes/conversation",
                           "weave/reference/typescript-sdk/classes/dataset",
                           "weave/reference/typescript-sdk/classes/evaluation",
                           "weave/reference/typescript-sdk/classes/evaluationlogger",
-                          "weave/reference/typescript-sdk/classes/llm",
                           "weave/reference/typescript-sdk/classes/messagesprompt",
                           "weave/reference/typescript-sdk/classes/objectref",
                           "weave/reference/typescript-sdk/classes/scorelogger",
                           "weave/reference/typescript-sdk/classes/stringprompt",
-                          "weave/reference/typescript-sdk/classes/subagent",
-                          "weave/reference/typescript-sdk/classes/tool",
-                          "weave/reference/typescript-sdk/classes/turn",
                           "weave/reference/typescript-sdk/classes/weaveadkplugin",
-                          "weave/reference/typescript-sdk/classes/weaveclient",
                           "weave/reference/typescript-sdk/classes/weaveobject"
                         ]
                       },
@@ -1230,12 +1224,10 @@
                           "weave/reference/typescript-sdk/functions/createotelextension",
                           "weave/reference/typescript-sdk/functions/endconversation",
                           "weave/reference/typescript-sdk/functions/endllm",
-                          "weave/reference/typescript-sdk/functions/endsession",
                           "weave/reference/typescript-sdk/functions/endturn",
                           "weave/reference/typescript-sdk/functions/flushotel",
                           "weave/reference/typescript-sdk/functions/getcurrentconversation",
                           "weave/reference/typescript-sdk/functions/getcurrentllm",
-                          "weave/reference/typescript-sdk/functions/getcurrentsession",
                           "weave/reference/typescript-sdk/functions/getcurrentturn",
                           "weave/reference/typescript-sdk/functions/instrumentopenaiagents",
                           "weave/reference/typescript-sdk/functions/login",
@@ -1246,7 +1238,6 @@
                           "weave/reference/typescript-sdk/functions/runisolated",
                           "weave/reference/typescript-sdk/functions/startconversation",
                           "weave/reference/typescript-sdk/functions/startllm",
-                          "weave/reference/typescript-sdk/functions/startsession",
                           "weave/reference/typescript-sdk/functions/startsubagent",
                           "weave/reference/typescript-sdk/functions/starttool",
                           "weave/reference/typescript-sdk/functions/startturn",
@@ -1263,6 +1254,7 @@
                         "pages": [
                           "weave/reference/typescript-sdk/interfaces/callschema",
                           "weave/reference/typescript-sdk/interfaces/callsfilter",
+                          "weave/reference/typescript-sdk/interfaces/conversation",
                           "weave/reference/typescript-sdk/interfaces/conversationinit",
                           "weave/reference/typescript-sdk/interfaces/getagentsoptions",
                           "weave/reference/typescript-sdk/interfaces/getagentspansoptions",
@@ -1272,16 +1264,21 @@
                           "weave/reference/typescript-sdk/interfaces/getcallsoptions",
                           "weave/reference/typescript-sdk/interfaces/httpresponse",
                           "weave/reference/typescript-sdk/interfaces/httpvalidationerror",
+                          "weave/reference/typescript-sdk/interfaces/llm",
                           "weave/reference/typescript-sdk/interfaces/llminit",
                           "weave/reference/typescript-sdk/interfaces/message",
                           "weave/reference/typescript-sdk/interfaces/query",
                           "weave/reference/typescript-sdk/interfaces/reasoning",
                           "weave/reference/typescript-sdk/interfaces/sortby",
+                          "weave/reference/typescript-sdk/interfaces/subagent",
                           "weave/reference/typescript-sdk/interfaces/subagentinit",
+                          "weave/reference/typescript-sdk/interfaces/tool",
                           "weave/reference/typescript-sdk/interfaces/toolinit",
+                          "weave/reference/typescript-sdk/interfaces/turn",
                           "weave/reference/typescript-sdk/interfaces/turninit",
                           "weave/reference/typescript-sdk/interfaces/usage",
                           "weave/reference/typescript-sdk/interfaces/weaveaudio",
+                          "weave/reference/typescript-sdk/interfaces/weaveclient",
                           "weave/reference/typescript-sdk/interfaces/weaveimage"
                         ]
                       },
@@ -1307,6 +1304,14 @@
                           "weave/reference/typescript-sdk/type-aliases/session",
                           "weave/reference/typescript-sdk/type-aliases/sessioninit",
                           "weave/reference/typescript-sdk/type-aliases/settings"
+                        ]
+                      },
+                      {
+                        "group": "Variables",
+                        "pages": [
+                          "weave/reference/typescript-sdk/variables/endsession",
+                          "weave/reference/typescript-sdk/variables/getcurrentsession",
+                          "weave/reference/typescript-sdk/variables/startsession"
                         ]
                       }
                     ]
@@ -2505,7 +2510,8 @@
                         "pages": [
                           "fr/weave/guides/platform",
                           "fr/weave/guides/platform/weave-self-managed",
-                          "fr/weave/guides/platform/ingest-sampling"
+                          "fr/weave/guides/platform/ingest-sampling",
+                          "fr/weave/guides/platform/server-caching"
                         ]
                       },
                       "fr/weave/guides/platform/weave-projects",
@@ -2621,12 +2627,12 @@
                 "pages": [
                   "fr/serverless-training",
                   "fr/serverless-training/prerequisites",
+                  "fr/serverless-training/available-models",
                   "fr/serverless-training/usage-limits",
                   {
                     "group": "Serverless RL",
                     "pages": [
                       "fr/serverless-training/usage",
-                      "fr/serverless-training/available-models",
                       "fr/serverless-training/use-trained-models"
                     ]
                   },
@@ -2975,20 +2981,14 @@
                       {
                         "group": "Classes",
                         "pages": [
-                          "fr/weave/reference/typescript-sdk/classes/conversation",
                           "fr/weave/reference/typescript-sdk/classes/dataset",
                           "fr/weave/reference/typescript-sdk/classes/evaluation",
                           "fr/weave/reference/typescript-sdk/classes/evaluationlogger",
-                          "fr/weave/reference/typescript-sdk/classes/llm",
                           "fr/weave/reference/typescript-sdk/classes/messagesprompt",
                           "fr/weave/reference/typescript-sdk/classes/objectref",
                           "fr/weave/reference/typescript-sdk/classes/scorelogger",
                           "fr/weave/reference/typescript-sdk/classes/stringprompt",
-                          "fr/weave/reference/typescript-sdk/classes/subagent",
-                          "fr/weave/reference/typescript-sdk/classes/tool",
-                          "fr/weave/reference/typescript-sdk/classes/turn",
                           "fr/weave/reference/typescript-sdk/classes/weaveadkplugin",
-                          "fr/weave/reference/typescript-sdk/classes/weaveclient",
                           "fr/weave/reference/typescript-sdk/classes/weaveobject"
                         ]
                       },
@@ -2999,12 +2999,10 @@
                           "fr/weave/reference/typescript-sdk/functions/createotelextension",
                           "fr/weave/reference/typescript-sdk/functions/endconversation",
                           "fr/weave/reference/typescript-sdk/functions/endllm",
-                          "fr/weave/reference/typescript-sdk/functions/endsession",
                           "fr/weave/reference/typescript-sdk/functions/endturn",
                           "fr/weave/reference/typescript-sdk/functions/flushotel",
                           "fr/weave/reference/typescript-sdk/functions/getcurrentconversation",
                           "fr/weave/reference/typescript-sdk/functions/getcurrentllm",
-                          "fr/weave/reference/typescript-sdk/functions/getcurrentsession",
                           "fr/weave/reference/typescript-sdk/functions/getcurrentturn",
                           "fr/weave/reference/typescript-sdk/functions/instrumentopenaiagents",
                           "fr/weave/reference/typescript-sdk/functions/login",
@@ -3015,7 +3013,6 @@
                           "fr/weave/reference/typescript-sdk/functions/runisolated",
                           "fr/weave/reference/typescript-sdk/functions/startconversation",
                           "fr/weave/reference/typescript-sdk/functions/startllm",
-                          "fr/weave/reference/typescript-sdk/functions/startsession",
                           "fr/weave/reference/typescript-sdk/functions/startsubagent",
                           "fr/weave/reference/typescript-sdk/functions/starttool",
                           "fr/weave/reference/typescript-sdk/functions/startturn",
@@ -3032,6 +3029,7 @@
                         "pages": [
                           "fr/weave/reference/typescript-sdk/interfaces/callschema",
                           "fr/weave/reference/typescript-sdk/interfaces/callsfilter",
+                          "fr/weave/reference/typescript-sdk/interfaces/conversation",
                           "fr/weave/reference/typescript-sdk/interfaces/conversationinit",
                           "fr/weave/reference/typescript-sdk/interfaces/getagentsoptions",
                           "fr/weave/reference/typescript-sdk/interfaces/getagentspansoptions",
@@ -3041,16 +3039,21 @@
                           "fr/weave/reference/typescript-sdk/interfaces/getcallsoptions",
                           "fr/weave/reference/typescript-sdk/interfaces/httpresponse",
                           "fr/weave/reference/typescript-sdk/interfaces/httpvalidationerror",
+                          "fr/weave/reference/typescript-sdk/interfaces/llm",
                           "fr/weave/reference/typescript-sdk/interfaces/llminit",
                           "fr/weave/reference/typescript-sdk/interfaces/message",
                           "fr/weave/reference/typescript-sdk/interfaces/query",
                           "fr/weave/reference/typescript-sdk/interfaces/reasoning",
                           "fr/weave/reference/typescript-sdk/interfaces/sortby",
+                          "fr/weave/reference/typescript-sdk/interfaces/subagent",
                           "fr/weave/reference/typescript-sdk/interfaces/subagentinit",
+                          "fr/weave/reference/typescript-sdk/interfaces/tool",
                           "fr/weave/reference/typescript-sdk/interfaces/toolinit",
+                          "fr/weave/reference/typescript-sdk/interfaces/turn",
                           "fr/weave/reference/typescript-sdk/interfaces/turninit",
                           "fr/weave/reference/typescript-sdk/interfaces/usage",
                           "fr/weave/reference/typescript-sdk/interfaces/weaveaudio",
+                          "fr/weave/reference/typescript-sdk/interfaces/weaveclient",
                           "fr/weave/reference/typescript-sdk/interfaces/weaveimage"
                         ]
                       },
@@ -3076,6 +3079,14 @@
                           "fr/weave/reference/typescript-sdk/type-aliases/session",
                           "fr/weave/reference/typescript-sdk/type-aliases/sessioninit",
                           "fr/weave/reference/typescript-sdk/type-aliases/settings"
+                        ]
+                      },
+                      {
+                        "group": "Variables",
+                        "pages": [
+                          "fr/weave/reference/typescript-sdk/variables/endsession",
+                          "fr/weave/reference/typescript-sdk/variables/getcurrentsession",
+                          "fr/weave/reference/typescript-sdk/variables/startsession"
                         ]
                       }
                     ]
@@ -4274,7 +4285,8 @@
                         "pages": [
                           "ja/weave/guides/platform",
                           "ja/weave/guides/platform/weave-self-managed",
-                          "ja/weave/guides/platform/ingest-sampling"
+                          "ja/weave/guides/platform/ingest-sampling",
+                          "ja/weave/guides/platform/server-caching"
                         ]
                       },
                       "ja/weave/guides/platform/weave-projects",
@@ -4390,12 +4402,12 @@
                 "pages": [
                   "ja/serverless-training",
                   "ja/serverless-training/prerequisites",
+                  "ja/serverless-training/available-models",
                   "ja/serverless-training/usage-limits",
                   {
                     "group": "Serverless RL",
                     "pages": [
                       "ja/serverless-training/usage",
-                      "ja/serverless-training/available-models",
                       "ja/serverless-training/use-trained-models"
                     ]
                   },
@@ -4744,20 +4756,14 @@
                       {
                         "group": "クラス",
                         "pages": [
-                          "ja/weave/reference/typescript-sdk/classes/conversation",
                           "ja/weave/reference/typescript-sdk/classes/dataset",
                           "ja/weave/reference/typescript-sdk/classes/evaluation",
                           "ja/weave/reference/typescript-sdk/classes/evaluationlogger",
-                          "ja/weave/reference/typescript-sdk/classes/llm",
                           "ja/weave/reference/typescript-sdk/classes/messagesprompt",
                           "ja/weave/reference/typescript-sdk/classes/objectref",
                           "ja/weave/reference/typescript-sdk/classes/scorelogger",
                           "ja/weave/reference/typescript-sdk/classes/stringprompt",
-                          "ja/weave/reference/typescript-sdk/classes/subagent",
-                          "ja/weave/reference/typescript-sdk/classes/tool",
-                          "ja/weave/reference/typescript-sdk/classes/turn",
                           "ja/weave/reference/typescript-sdk/classes/weaveadkplugin",
-                          "ja/weave/reference/typescript-sdk/classes/weaveclient",
                           "ja/weave/reference/typescript-sdk/classes/weaveobject"
                         ]
                       },
@@ -4768,12 +4774,10 @@
                           "ja/weave/reference/typescript-sdk/functions/createotelextension",
                           "ja/weave/reference/typescript-sdk/functions/endconversation",
                           "ja/weave/reference/typescript-sdk/functions/endllm",
-                          "ja/weave/reference/typescript-sdk/functions/endsession",
                           "ja/weave/reference/typescript-sdk/functions/endturn",
                           "ja/weave/reference/typescript-sdk/functions/flushotel",
                           "ja/weave/reference/typescript-sdk/functions/getcurrentconversation",
                           "ja/weave/reference/typescript-sdk/functions/getcurrentllm",
-                          "ja/weave/reference/typescript-sdk/functions/getcurrentsession",
                           "ja/weave/reference/typescript-sdk/functions/getcurrentturn",
                           "ja/weave/reference/typescript-sdk/functions/instrumentopenaiagents",
                           "ja/weave/reference/typescript-sdk/functions/login",
@@ -4784,7 +4788,6 @@
                           "ja/weave/reference/typescript-sdk/functions/runisolated",
                           "ja/weave/reference/typescript-sdk/functions/startconversation",
                           "ja/weave/reference/typescript-sdk/functions/startllm",
-                          "ja/weave/reference/typescript-sdk/functions/startsession",
                           "ja/weave/reference/typescript-sdk/functions/startsubagent",
                           "ja/weave/reference/typescript-sdk/functions/starttool",
                           "ja/weave/reference/typescript-sdk/functions/startturn",
@@ -4801,6 +4804,7 @@
                         "pages": [
                           "ja/weave/reference/typescript-sdk/interfaces/callschema",
                           "ja/weave/reference/typescript-sdk/interfaces/callsfilter",
+                          "ja/weave/reference/typescript-sdk/interfaces/conversation",
                           "ja/weave/reference/typescript-sdk/interfaces/conversationinit",
                           "ja/weave/reference/typescript-sdk/interfaces/getagentsoptions",
                           "ja/weave/reference/typescript-sdk/interfaces/getagentspansoptions",
@@ -4810,16 +4814,21 @@
                           "ja/weave/reference/typescript-sdk/interfaces/getcallsoptions",
                           "ja/weave/reference/typescript-sdk/interfaces/httpresponse",
                           "ja/weave/reference/typescript-sdk/interfaces/httpvalidationerror",
+                          "ja/weave/reference/typescript-sdk/interfaces/llm",
                           "ja/weave/reference/typescript-sdk/interfaces/llminit",
                           "ja/weave/reference/typescript-sdk/interfaces/message",
                           "ja/weave/reference/typescript-sdk/interfaces/query",
                           "ja/weave/reference/typescript-sdk/interfaces/reasoning",
                           "ja/weave/reference/typescript-sdk/interfaces/sortby",
+                          "ja/weave/reference/typescript-sdk/interfaces/subagent",
                           "ja/weave/reference/typescript-sdk/interfaces/subagentinit",
+                          "ja/weave/reference/typescript-sdk/interfaces/tool",
                           "ja/weave/reference/typescript-sdk/interfaces/toolinit",
+                          "ja/weave/reference/typescript-sdk/interfaces/turn",
                           "ja/weave/reference/typescript-sdk/interfaces/turninit",
                           "ja/weave/reference/typescript-sdk/interfaces/usage",
                           "ja/weave/reference/typescript-sdk/interfaces/weaveaudio",
+                          "ja/weave/reference/typescript-sdk/interfaces/weaveclient",
                           "ja/weave/reference/typescript-sdk/interfaces/weaveimage"
                         ]
                       },
@@ -4845,6 +4854,14 @@
                           "ja/weave/reference/typescript-sdk/type-aliases/session",
                           "ja/weave/reference/typescript-sdk/type-aliases/sessioninit",
                           "ja/weave/reference/typescript-sdk/type-aliases/settings"
+                        ]
+                      },
+                      {
+                        "group": "変数",
+                        "pages": [
+                          "ja/weave/reference/typescript-sdk/variables/endsession",
+                          "ja/weave/reference/typescript-sdk/variables/getcurrentsession",
+                          "ja/weave/reference/typescript-sdk/variables/startsession"
                         ]
                       }
                     ]
@@ -6043,7 +6060,8 @@
                         "pages": [
                           "ko/weave/guides/platform",
                           "ko/weave/guides/platform/weave-self-managed",
-                          "ko/weave/guides/platform/ingest-sampling"
+                          "ko/weave/guides/platform/ingest-sampling",
+                          "ko/weave/guides/platform/server-caching"
                         ]
                       },
                       "ko/weave/guides/platform/weave-projects",
@@ -6159,12 +6177,12 @@
                 "pages": [
                   "ko/serverless-training",
                   "ko/serverless-training/prerequisites",
+                  "ko/serverless-training/available-models",
                   "ko/serverless-training/usage-limits",
                   {
                     "group": "Serverless RL",
                     "pages": [
                       "ko/serverless-training/usage",
-                      "ko/serverless-training/available-models",
                       "ko/serverless-training/use-trained-models"
                     ]
                   },
@@ -6513,20 +6531,14 @@
                       {
                         "group": "클래스",
                         "pages": [
-                          "ko/weave/reference/typescript-sdk/classes/conversation",
                           "ko/weave/reference/typescript-sdk/classes/dataset",
                           "ko/weave/reference/typescript-sdk/classes/evaluation",
                           "ko/weave/reference/typescript-sdk/classes/evaluationlogger",
-                          "ko/weave/reference/typescript-sdk/classes/llm",
                           "ko/weave/reference/typescript-sdk/classes/messagesprompt",
                           "ko/weave/reference/typescript-sdk/classes/objectref",
                           "ko/weave/reference/typescript-sdk/classes/scorelogger",
                           "ko/weave/reference/typescript-sdk/classes/stringprompt",
-                          "ko/weave/reference/typescript-sdk/classes/subagent",
-                          "ko/weave/reference/typescript-sdk/classes/tool",
-                          "ko/weave/reference/typescript-sdk/classes/turn",
                           "ko/weave/reference/typescript-sdk/classes/weaveadkplugin",
-                          "ko/weave/reference/typescript-sdk/classes/weaveclient",
                           "ko/weave/reference/typescript-sdk/classes/weaveobject"
                         ]
                       },
@@ -6537,12 +6549,10 @@
                           "ko/weave/reference/typescript-sdk/functions/createotelextension",
                           "ko/weave/reference/typescript-sdk/functions/endconversation",
                           "ko/weave/reference/typescript-sdk/functions/endllm",
-                          "ko/weave/reference/typescript-sdk/functions/endsession",
                           "ko/weave/reference/typescript-sdk/functions/endturn",
                           "ko/weave/reference/typescript-sdk/functions/flushotel",
                           "ko/weave/reference/typescript-sdk/functions/getcurrentconversation",
                           "ko/weave/reference/typescript-sdk/functions/getcurrentllm",
-                          "ko/weave/reference/typescript-sdk/functions/getcurrentsession",
                           "ko/weave/reference/typescript-sdk/functions/getcurrentturn",
                           "ko/weave/reference/typescript-sdk/functions/instrumentopenaiagents",
                           "ko/weave/reference/typescript-sdk/functions/login",
@@ -6553,7 +6563,6 @@
                           "ko/weave/reference/typescript-sdk/functions/runisolated",
                           "ko/weave/reference/typescript-sdk/functions/startconversation",
                           "ko/weave/reference/typescript-sdk/functions/startllm",
-                          "ko/weave/reference/typescript-sdk/functions/startsession",
                           "ko/weave/reference/typescript-sdk/functions/startsubagent",
                           "ko/weave/reference/typescript-sdk/functions/starttool",
                           "ko/weave/reference/typescript-sdk/functions/startturn",
@@ -6570,6 +6579,7 @@
                         "pages": [
                           "ko/weave/reference/typescript-sdk/interfaces/callschema",
                           "ko/weave/reference/typescript-sdk/interfaces/callsfilter",
+                          "ko/weave/reference/typescript-sdk/interfaces/conversation",
                           "ko/weave/reference/typescript-sdk/interfaces/conversationinit",
                           "ko/weave/reference/typescript-sdk/interfaces/getagentsoptions",
                           "ko/weave/reference/typescript-sdk/interfaces/getagentspansoptions",
@@ -6579,16 +6589,21 @@
                           "ko/weave/reference/typescript-sdk/interfaces/getcallsoptions",
                           "ko/weave/reference/typescript-sdk/interfaces/httpresponse",
                           "ko/weave/reference/typescript-sdk/interfaces/httpvalidationerror",
+                          "ko/weave/reference/typescript-sdk/interfaces/llm",
                           "ko/weave/reference/typescript-sdk/interfaces/llminit",
                           "ko/weave/reference/typescript-sdk/interfaces/message",
                           "ko/weave/reference/typescript-sdk/interfaces/query",
                           "ko/weave/reference/typescript-sdk/interfaces/reasoning",
                           "ko/weave/reference/typescript-sdk/interfaces/sortby",
+                          "ko/weave/reference/typescript-sdk/interfaces/subagent",
                           "ko/weave/reference/typescript-sdk/interfaces/subagentinit",
+                          "ko/weave/reference/typescript-sdk/interfaces/tool",
                           "ko/weave/reference/typescript-sdk/interfaces/toolinit",
+                          "ko/weave/reference/typescript-sdk/interfaces/turn",
                           "ko/weave/reference/typescript-sdk/interfaces/turninit",
                           "ko/weave/reference/typescript-sdk/interfaces/usage",
                           "ko/weave/reference/typescript-sdk/interfaces/weaveaudio",
+                          "ko/weave/reference/typescript-sdk/interfaces/weaveclient",
                           "ko/weave/reference/typescript-sdk/interfaces/weaveimage"
                         ]
                       },
@@ -6614,6 +6629,14 @@
                           "ko/weave/reference/typescript-sdk/type-aliases/session",
                           "ko/weave/reference/typescript-sdk/type-aliases/sessioninit",
                           "ko/weave/reference/typescript-sdk/type-aliases/settings"
+                        ]
+                      },
+                      {
+                        "group": "변수",
+                        "pages": [
+                          "ko/weave/reference/typescript-sdk/variables/endsession",
+                          "ko/weave/reference/typescript-sdk/variables/getcurrentsession",
+                          "ko/weave/reference/typescript-sdk/variables/startsession"
                         ]
                       }
                     ]
@@ -8347,12 +8370,12 @@
       "source": "/ref/python/sdk/*"
     },
     {
-      "destination" : "/models/ref/python/public-api",
-      "source" : "/models/ref/python/public-api/agentruns"
+      "destination": "/models/ref/python/public-api",
+      "source": "/models/ref/python/public-api/agentruns"
     },
     {
       "destination": "/models/ref/python/automations",
-    "source": "/models/ref/python/public-api/automations"
+      "source": "/models/ref/python/public-api/automations"
     },
     {
       "destination": "/models/ref/wandb_workspaces/:slug*",
@@ -8617,6 +8640,42 @@
     {
       "destination": "/platform/hosting/self-managed/operator",
       "source": "/ko/platform/hosting/self-managed/azure-tf"
+    },
+    {
+      "destination": "/weave/reference/typescript-sdk/interfaces/conversation",
+      "source": "/weave/reference/typescript-sdk/classes/conversation"
+    },
+    {
+      "destination": "/weave/reference/typescript-sdk/interfaces/llm",
+      "source": "/weave/reference/typescript-sdk/classes/llm"
+    },
+    {
+      "destination": "/weave/reference/typescript-sdk/interfaces/subagent",
+      "source": "/weave/reference/typescript-sdk/classes/subagent"
+    },
+    {
+      "destination": "/weave/reference/typescript-sdk/interfaces/tool",
+      "source": "/weave/reference/typescript-sdk/classes/tool"
+    },
+    {
+      "destination": "/weave/reference/typescript-sdk/interfaces/turn",
+      "source": "/weave/reference/typescript-sdk/classes/turn"
+    },
+    {
+      "destination": "/weave/reference/typescript-sdk/interfaces/weaveclient",
+      "source": "/weave/reference/typescript-sdk/classes/weaveclient"
+    },
+    {
+      "destination": "/weave/reference/typescript-sdk/variables/endsession",
+      "source": "/weave/reference/typescript-sdk/functions/endsession"
+    },
+    {
+      "destination": "/weave/reference/typescript-sdk/variables/getcurrentsession",
+      "source": "/weave/reference/typescript-sdk/functions/getcurrentsession"
+    },
+    {
+      "destination": "/weave/reference/typescript-sdk/variables/startsession",
+      "source": "/weave/reference/typescript-sdk/functions/startsession"
     }
   ],
   "seo": {

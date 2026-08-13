@@ -22,6 +22,30 @@ Chaque mois, les articles sont regroupés selon la section de la documentation �
 
 {/* new-articles:start */}
 
+<div id="august-2026">
+  ## Août 2026
+</div>
+
+<div id="support">
+  ### Assistance
+</div>
+
+<Card title="Comment préserver les données de run provenant d'environnements éphémères ?" href="/fr/support/models/articles/how-do-i-preserve-run-data-from-ephemeral-env/" arrow="true" horizontal>
+  Définissez WANDBDIR sur un répertoire du stockage persistant afin de conserver les données de run locales et les journaux de diagnostic dans les environnements éphémères.
+</Card>
+
+<Card title="Que se passe-t-il lorsque mon compte personnel devient une équipe et une organisation ?" href="/fr/support/models/articles/what-happens-when-my-personal-account-becomes-a-team/" arrow="true" horizontal>
+  W&amp;B fait migrer les anciens comptes personnels vers la même structure d&#39;équipe et d&#39;organisation que celle déjà utilisée par les comptes plus récents.
+</Card>
+
+<Card title="Comment renommer une équipe ou une entité ?" href="/fr/support/models/articles/how-do-i-rename-a-team-or-entity/" arrow="true" horizontal>
+  W&amp;B ne permet pas de renommer une équipe ou une entité.
+</Card>
+
+<Card title="Comment supprimer plusieurs artefacts à la fois ?" href="/fr/support/models/articles/how-do-i-delete-many-artifacts-at-once/" arrow="true" horizontal>
+  Lorsque vous devez supprimer plusieurs versions d&#39;artefact, par exemple pour réduire l&#39;utilisation du stockage, utilisez l&#39;API publique de W&amp;B plutôt que W&amp;B App.
+</Card>
+
 <div id="july-2026">
   ## Juillet 2026
 </div>
@@ -53,6 +77,10 @@ Chaque mois, les articles sont regroupés selon la section de la documentation �
 <div id="weave">
   ### Weave
 </div>
+
+<Card title="Ajouter des runtimes personnalisés" href="/fr/weave/guides/tools/custom-runtimes/" arrow="true" horizontal>
+  Connectez des points de terminaison d&#39;inférence compatibles avec OpenAI à un projet Weave en tant que runtimes personnalisés, et gérez-les depuis l&#39;interface utilisateur ou les SDK Python et TypeScript.
+</Card>
 
 <Card title="Comparer les évaluations" href="/fr/weave/guides/evaluation/compare_evals/" arrow="true" horizontal>
   Comparez visuellement au moins deux évaluations pour identifier les régressions, les améliorations et les différences de scoring entre les runs
@@ -162,9 +190,7 @@ Chaque mois, les articles sont regroupés selon la section de la documentation �
   Un tableau de bord partagé pour les sessions de programmation avec l’IA. Suivez l’activité, les dépenses et les résultats dans Claude Code, Cursor, Codex, Gemini CLI et bien plus encore grâce aux leaderboards, aux vues d’équipe et aux informations sur l’efficacité.
 </Card>
 
-<div id="support">
-  ### assistance
-</div>
+### assistance
 
 <Card title="Pourquoi mon estimation du coût ou de l’utilisation des jetons dans Weave diffère-t-elle de celle de mon fournisseur ?" href="/fr/support/weave/articles/why-does-my-weave-cost-or-token-estimate-differ-from-my-provider/" arrow="true" horizontal>
   Weave affiche des estimations de coût et d’utilisation des jetons basées sur les données capturées lors de vos appels LLM. Les écarts entre les chiffres de Weave et la facture de votre fournisseur peuvent être dus aux problèmes suivants.
@@ -362,9 +388,7 @@ Chaque mois, les articles sont regroupés selon la section de la documentation �
   Des environnements de calcul isolés, à la demande, que vous pouvez créer, utiliser et supprimer depuis Python avec W&amp;B Serverless Sandboxes.
 </Card>
 
-<div id="support">
-  ### assistance
-</div>
+### assistance
 
 <Card title="Pourquoi `.call()` ne lève-t-elle pas d’exceptions ?" href="/fr/support/weave/articles/weave-call-does-not-raise-exceptions/" arrow="true" horizontal>
   Par défaut, la méthode .call() de Weave capture les exceptions et les stocke dans call.exception au lieu de les lever.
@@ -475,34 +499,6 @@ Chaque mois, les articles sont regroupés selon la section de la documentation �
 </div>
 
 <Card title="Cline avec Serverless Inference" href="/fr/inference/tutorials/integration-cline/" arrow="true" horizontal>
-  >
-</Card>
-
-<div id="february-2026">
-  ## Février 2026
-</div>
-
-<div id="weave">
-  ### Weave
-</div>
-
-<Card title="Gérer les projets Weave" href="/fr/weave/guides/platform/weave-projects/" arrow="true" horizontal>
-  Utilisez les projets Weave pour organiser des ressources connexes, telles que des traces, des prompts, des évaluations, des modèles et des tableaux de bord.
-</Card>
-
-<div id="platform">
-  ### Plateforme
-</div>
-
-<Card title="Utiliser le serveur MCP de W&B" href="/fr/platform/mcp-server/" arrow="true" horizontal>
-  Connectez votre IDE ou votre agent d’IA au serveur Model Context Protocol (MCP) de W&amp;B pour interroger et analyser en langage naturel vos données et votre documentation W&amp;B.
-</Card>
-
-<div id="inference">
-  ### Inférence
-</div>
-
-<Card title="Cycle de vie des modèles" href="/fr/inference/lifecycle/" arrow="true" horizontal>
   >
 </Card>
 

@@ -1914,17 +1914,101 @@
       "TrainingJobResponse": {
         "description": "Schéma de la réponse de TrainingJob.",
         "properties": {
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "error_message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Message"
+          },
           "id": {
             "format": "uuid",
             "title": "Id",
             "type": "string"
+          },
+          "model_id": {
+            "format": "uuid",
+            "title": "Model Id",
+            "type": "string"
+          },
+          "progress": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Progress"
+          },
+          "status": {
+            "$ref": "#/components/schemas/TrainingJobStatus"
+          },
+          "training_end": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Training End"
+          },
+          "training_start": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Training Start"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "title": "Updated At",
+            "type": "string"
           }
         },
         "required": [
-          "id"
+          "id",
+          "model_id",
+          "status",
+          "progress",
+          "error_message",
+          "training_start",
+          "training_end",
+          "created_at",
+          "updated_at"
         ],
         "title": "TrainingJobResponse",
         "type": "object"
+      },
+      "TrainingJobStatus": {
+        "description": "Énumération des statuts des tâches d'entraînement.",
+        "enum": [
+          "PENDING",
+          "RUNNING",
+          "COMPLETED",
+          "FAILED",
+          "CANCELLED"
+        ],
+        "title": "TrainingJobStatus",
+        "type": "string"
       },
       "Trajectory": {
         "additionalProperties": true,

@@ -15,6 +15,24 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
 
 <EolReminder />
 
+<Update label="v0.83.2" description="2026年8月6日">
+  ## セキュリティ
+
+  * Weave API endpointの悪用を可能にする可能性がある重大なセキュリティバグを修正しました。
+
+  ## パフォーマンス改善
+
+  * アーティファクト コレクションのサイドバーの更新効率を改善しました。
+
+  ## 修正
+
+  * チームの **Users** 表に **ステータス** 列が追加され、各チームメンバーがアクティブか、招待が保留中か、組織管理者によってアカウントが無効化されているかが表示されるようになりました。[Add and manage teams](/ja/platform/hosting/iam/access-management/manage-organization#add-and-manage-teams)を参照してください。
+  * run の最新の記録済み step より前の step で最初にログされたメトリクスが、run のメトリクスおよび以降の履歴 エクスポートから除外され、影響を受ける run のライブ履歴クリーンアップがブロックされる可能性があったバグを修正しました。既存のエクスポートは再処理されません。
+  * 複数の書き込みに分割されるほど大きい run ロギングリクエストで、データの一部が保存されなかったにもかかわらず成功と報告される可能性があったバグを修正しました。
+  * 単一の artifact 更新操作でタグの追加と削除の両方を試行した場合に、Registry のバージョンタグが検索インデックスで上書きされる可能性があったバグを修正しました。
+  * Registry のパージが同期的に実行される可能性があったバグを修正しました。
+</Update>
+
 <Update label="v0.83.1" description="2026年7月28日">
   ## 修正
 

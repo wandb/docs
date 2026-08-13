@@ -1,0 +1,235 @@
+---
+title: "SubAgent"
+description: "TypeScript SDK リファレンス"
+---
+
+定義元: [src/genai/subagent.ts:65](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L65)
+
+<div id="extends">
+  ## 継承元
+</div>
+
+* `SpanBase`
+
+<div id="accessors">
+  ## アクセサー
+</div>
+
+### モデル
+
+<div id="get-signature">
+  #### 取得シグネチャ
+</div>
+
+> **get** **model**(): `string`
+
+定義元: [src/genai/subagent.ts:78](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L78)
+
+<div id="returns">
+  ##### 戻り値
+</div>
+
+`string`
+
+***
+
+### 名
+
+<div id="get-signature">
+  #### 取得シグネチャ
+</div>
+
+> **get** **name**(): `string`
+
+定義元: [src/genai/subagent.ts:74](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L74)
+
+<div id="returns">
+  ##### 戻り値
+</div>
+
+`string`
+
+<div id="methods">
+  ## メソッド
+</div>
+
+<div id="addevent">
+  ### ~~addEvent()~~
+</div>
+
+<Warning>
+  **非推奨。** このデータは代わりに [setAttributes](#setattributes) で記録してください。
+  OpenTelemetry では Span Event API (`Span.addEvent`) の段階的な廃止が進められています。
+  このメソッドは引き続き動作し、既存のspanイベントデータも有効です。
+  [https://opentelemetry.io/blog/2026/deprecating-span-events/](https://opentelemetry.io/blog/2026/deprecating-span-events/) を参照してください。
+</Warning>
+
+> **addEvent**(`name`, `attributes?`, `startTime?`): `this`
+
+名前付きイベントをspanに追加します。コンテキストの圧縮、ツールループの検出、ガードレールのトリガーなど、span以外のタイミングを示す際に役立ちます。
+`end()` の呼び出し後は警告を出力し、何も実行しません。OTel の `Span.addEvent` と同様の動作をします。
+
+定義元: [src/genai/spanBase.ts:82](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L82)
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+##### 名
+
+`string`
+
+<div id="attributes">
+  ##### 属性?
+</div>
+
+`Attributes`
+
+<div id="starttime">
+  ##### startTime?
+</div>
+
+`TimeInput`
+
+#### 戻り値
+
+`this`
+
+<div id="example">
+  #### 例
+</div>
+
+```ts twoslash
+// @noErrors
+span.addEvent('context_compacted', {removedMessages: 12});
+```
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+`SpanBase.addEvent`
+
+***
+
+<div id="end">
+  ### end()
+</div>
+
+> **end**(`opts?`): `void`
+
+現在のフィールド値を読み取り (`start` 以降に `record()` で行われた変更を反映) 、span を閉じます。冪等です。`error` を渡すと失敗としてマークされ、`endTime` を渡すと終了時刻を過去に設定できます。
+
+定義元: [src/genai/subagent.ts:153](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L153)
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+<div id="opts">
+  ##### opts?
+</div>
+
+`SpanEndOptions`
+
+#### 戻り値
+
+`void`
+
+***
+
+<div id="record">
+  ### record()
+</div>
+
+> **record**(`opts`): `this`
+
+任意のフィールドを一括設定します。既存の値はマージではなく置換されます。
+
+定義元: [src/genai/subagent.ts:117](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L117)
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+##### opts
+
+<div id="agentdescription">
+  ###### agentDescription?
+</div>
+
+`string`
+
+<div id="agentid">
+  ###### agentId?
+</div>
+
+`string`
+
+<div id="agentversion">
+  ###### agentVersion?
+</div>
+
+`string`
+
+<div id="model">
+  ###### モデル?
+</div>
+
+`string`
+
+<div id="name">
+  ###### 名?
+</div>
+
+`string`
+
+<div id="systeminstructions">
+  ###### systemInstructions?
+</div>
+
+`string`[]
+
+#### 戻り値
+
+`this`
+
+***
+
+<div id="setattributes">
+  ### setAttributes()
+</div>
+
+> **setAttributes**(`attributes`): `this`
+
+span に複数の属性をまとめて設定します。`end()` の後に呼び出すと、警告が表示され何も実行されません。OTel の `Span.setAttributes` (および Python SDK の
+`set_attributes`) と同様です。
+
+定義元: [src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L63)
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+##### 属性
+
+`Attributes`
+
+#### 戻り値
+
+`this`
+
+<div id="example">
+  #### 例
+</div>
+
+```ts twoslash
+// @noErrors
+span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
+```
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+`SpanBase.setAttributes`

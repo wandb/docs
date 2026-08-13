@@ -3,37 +3,37 @@ title: "startTurn"
 description: "Référence du SDK TypeScript"
 ---
 
-<div id="startturn">
-  # startTurn
-</div>
-
-▸ **startTurn**(`opts?`): [`Turn`](../classes/turn)
+> **startTurn**(`opts?`): [`Turn`](../interfaces/turn)
 
 Démarre un nouveau tour de conversation. Si une Conversation est active, le tour hérite de son
 `conversationId` ; sinon, le tour n’a pas d’identifiant de conversation.
 
+Défini dans : [src/genai/api.ts:54](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L54)
+
 <div id="parameters">
-  #### Paramètres
+  ## Paramètres
 </div>
 
-| Nom    | Type                                 |
-| :----- | :----------------------------------- |
-| `opts` | [`TurnInit`](../interfaces/turninit) |
+<div id="opts">
+  ### opts ?
+</div>
+
+[`TurnInit`](../interfaces/turninit) = `{}`
 
 <div id="returns">
-  #### Renvoie
+  ## Renvoie
 </div>
 
-[`tour de conversation`](../classes/turn)
+[`tour de conversation`](../interfaces/turn)
 
-`Exemple`
+<div id="examples">
+  ## Exemples
+</div>
 
 ```ts twoslash
 // @noErrors
 weave.startTurn();
 ```
-
-`Exemple`
 
 ```ts twoslash
 // @noErrors
@@ -48,11 +48,3 @@ weave.startTurn({
   startTime: new Date('2026-05-29T10:00:00.000Z'),
 });
 ```
-
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[src/genai/api.ts:54](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L54)
-
-***

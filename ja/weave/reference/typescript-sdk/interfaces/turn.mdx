@@ -1,0 +1,353 @@
+---
+title: "ターン"
+description: "TypeScript SDK リファレンス"
+---
+
+定義元: [src/genai/turn.ts:92](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L92)
+
+<div id="extends">
+  ## 継承元
+</div>
+
+* `SpanBase`
+
+<div id="accessors">
+  ## アクセサー
+</div>
+
+### エージェント名
+
+<div id="get-signature">
+  #### Get Signature
+</div>
+
+> **get** **agentName**(): `string`
+
+定義元: [src/genai/turn.ts:103](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L103)
+
+<div id="returns">
+  ##### 戻り値
+</div>
+
+`string`
+
+***
+
+### モデル
+
+<div id="get-signature">
+  #### Get Signature
+</div>
+
+> **get** **model**(): `string`
+
+定義元: [src/genai/turn.ts:107](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L107)
+
+<div id="returns">
+  ##### 戻り値
+</div>
+
+`string`
+
+<div id="methods">
+  ## メソッド
+</div>
+
+<div id="addevent">
+  ### ~~addEvent()~~
+</div>
+
+<Warning>
+  **非推奨。** 代わりに [setAttributes](#setattributes) でこのデータを記録してください。
+  OpenTelemetry は Span Event API (`Span.addEvent`) を段階的に廃止しています。この
+  メソッドは引き続き動作し、既存の span event データも有効なままです。
+  [https://opentelemetry.io/blog/2026/deprecating-span-events/](https://opentelemetry.io/blog/2026/deprecating-span-events/) を参照してください。
+</Warning>
+
+> **addEvent**(`name`, `attributes?`, `startTime?`): `this`
+
+名前付きイベントを span に追加します。コンテキストの圧縮、ツールループの検出、guardrail のトリガーなど、
+span 以外の時点を記録する際に便利です。`end()` の後は警告を出し、
+何も行いません。OTel の `Span.addEvent` と同様の動作をします。
+
+定義元: [src/genai/spanBase.ts:82](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L82)
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+<div id="name">
+  ##### 名
+</div>
+
+`string`
+
+<div id="attributes">
+  ##### 属性?
+</div>
+
+`Attributes`
+
+<div id="starttime">
+  ##### startTime?
+</div>
+
+`TimeInput`
+
+#### 戻り値
+
+`this`
+
+<div id="example">
+  #### 例
+</div>
+
+```ts twoslash
+// @noErrors
+span.addEvent('context_compacted', {removedMessages: 12});
+```
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+`SpanBase.addEvent`
+
+***
+
+<div id="end">
+  ### end()
+</div>
+
+> **end**(`opts?`): `void`
+
+現在のフィールド値を読み取り (`start`以降に`record()`で行った変更を反映) 、span を終了します。冪等です。失敗としてマークするには`error`を渡します。終了時刻を過去に設定するには`endTime`を渡します。
+
+定義元: [src/genai/turn.ts:241](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L241)
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+<div id="opts">
+  ##### opts?
+</div>
+
+`SpanEndOptions`
+
+#### 戻り値
+
+`void`
+
+***
+
+<div id="record">
+  ### record()
+</div>
+
+> **record**(`opts`): `this`
+
+変更可能なフィールドの任意のサブセットを一括で設定します。マージではなく置換されます。
+provider 呼び出しの戻り値を受け取った後に、すべてを一度に割り当てる場合に便利です。
+
+定義元: [src/genai/turn.ts:201](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L201)
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+##### opts
+
+<div id="agentdescription">
+  ###### agentDescription?
+</div>
+
+`string`
+
+<div id="agentid">
+  ###### agentId?
+</div>
+
+`string`
+
+<div id="agentname">
+  ###### agentName?
+</div>
+
+`string`
+
+<div id="agentversion">
+  ###### agentVersion?
+</div>
+
+`string`
+
+<div id="messages">
+  ###### messages?
+</div>
+
+[`Message`](./message)[]
+
+<div id="model">
+  ###### モデル?
+</div>
+
+`string`
+
+<div id="systeminstructions">
+  ###### systemInstructions?
+</div>
+
+`string`[]
+
+#### 戻り値
+
+`this`
+
+***
+
+<div id="setattribute">
+  ### ~~setAttribute()~~
+</div>
+
+<Warning>
+  **非推奨。** 代わりに、Python
+  SDK の `set_attributes` および OTel の `Span.setAttributes` に対応する [setAttributes](#setattributes) を使用してください。既存の単一属性の呼び出し元が引き続き動作するよう、薄い
+  alias として残されています。これを備えているのは `ターン` のみで、ほかの emitter に単数形はありません。
+</Warning>
+
+> **setAttribute**(`key`, `value`): `this`
+
+定義元: [src/genai/turn.ts:193](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L193)
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+<div id="key">
+  ##### キー
+</div>
+
+`string`
+
+<div id="value">
+  ##### 値
+</div>
+
+`AttributeValue`
+
+#### 戻り値
+
+`this`
+
+***
+
+<div id="setattributes">
+  ### setAttributes()
+</div>
+
+> **setAttributes**(`attributes`): `this`
+
+span に複数の属性を一度に設定します。`end()` の後に呼び出すと警告が表示され、何も実行されません。OTel の `Span.setAttributes` (および Python SDK の
+`set_attributes`) と同様です。
+
+定義元: [src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L63)
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+##### 属性
+
+`Attributes`
+
+#### 戻り値
+
+`this`
+
+<div id="example">
+  #### 例
+</div>
+
+```ts twoslash
+// @noErrors
+span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
+```
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+`SpanBase.setAttributes`
+
+***
+
+<div id="startllm">
+  ### startLLM()
+</div>
+
+> **startLLM**(`opts`): [`LLM`](./llm)
+
+この ターン 内で子 LLM span を開始します。
+
+定義元: [src/genai/turn.ts:161](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L161)
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+##### opts
+
+[`LLMInit`](./llminit)
+
+#### 戻り値
+
+[`LLM`](./llm)
+
+***
+
+<div id="startsubagent">
+  ### startSubagent()
+</div>
+
+> **startSubagent**(`opts`): [`SubAgent`](./subagent)
+
+この ターン 内で子 SubAgent の span を開始します。
+
+定義元: [src/genai/turn.ts:179](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L179)
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+##### opts
+
+[`SubAgentInit`](./subagentinit)
+
+#### 戻り値
+
+[`SubAgent`](./subagent)
+
+***
+
+<div id="starttool">
+  ### startTool()
+</div>
+
+> **startTool**(`opts`): [`Tool`](./tool)
+
+この ターン 内で子 Tool span を開始します。
+
+定義元: [src/genai/turn.ts:170](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L170)
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+##### opts
+
+[`ToolInit`](./toolinit)
+
+#### 戻り値
+
+[`Tool`](./tool)

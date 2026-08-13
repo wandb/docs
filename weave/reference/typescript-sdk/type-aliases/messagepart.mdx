@@ -3,12 +3,6 @@ title: "MessagePart"
 description: "TypeScript SDK reference"
 ---
 
-# MessagePart
+> **MessagePart** = \{ `content`: `string`; `type`: `"text"`; \} \| \{ `content`: `string`; `type`: `"reasoning"`; \} \| \{ `arguments?`: `string`; `toolCallId`: `string`; `toolName`: `string`; `type`: `"tool_call"`; \} \| \{ `result?`: `string`; `toolCallId`: `string`; `type`: `"tool_result"`; \} \| \{ `fileId`: `string`; `mimeType?`: `string`; `modality`: [`Modality`](./modality); `type`: `"file"`; \} \| \{ `content`: `string`; `mimeType`: `string`; `modality`: [`Modality`](./modality); `type`: `"blob"`; \} \| \{ `modality`: [`Modality`](./modality); `type`: `"uri"`; `uri`: `string`; \}
 
-Ƭ **MessagePart**: \{ `content`: `string` ; `type`: ``"text"``  } \| \{ `content`: `string` ; `type`: ``"reasoning"``  } \| \{ `arguments?`: `string` ; `toolCallId`: `string` ; `toolName`: `string` ; `type`: ``"tool_call"``  } \| \{ `result?`: `string` ; `toolCallId`: `string` ; `type`: ``"tool_result"``  } \| \{ `fileId`: `string` ; `mimeType?`: `string` ; `modality`: [`Modality`](./modality) ; `type`: ``"file"``  } \| \{ `content`: `string` ; `mimeType`: `string` ; `modality`: [`Modality`](./modality) ; `type`: ``"blob"``  } \| \{ `modality`: [`Modality`](./modality) ; `type`: ``"uri"`` ; `uri`: `string`  }
-
-#### Defined in
-
-[src/genai/types.ts:23](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/types.ts#L23)
-
-___
+Defined in: [src/genai/types.ts:23](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/types.ts#L23)

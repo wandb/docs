@@ -406,6 +406,37 @@ Models 시트와 Weave 액세스는 조직 수준에서 정의되며 팀에 상�
 
 조직 관리자가 도메인 클레임을 활성화해야 합니다. 도메인 캡처를 활성화하려면 [Domain capture](#domain-capture)에 설명된 step을 참조하세요.
 
+<div id="view-team-member-status">
+  ### 팀 구성원 상태 보기
+</div>
+
+<Note>
+  **Status** 열은 Dedicated Cloud 및 Self-Managed 배포에서만 사용할 수 있습니다.
+</Note>
+
+팀 구성원 목록의 **Status** 열에는 각 구성원의 로그인 가능 여부가 표시됩니다. 이를 통해 활성 구성원과 아직 초대를 수락하지 않은 구성원, 또는 조직 관리자가 계정을 비활성화한 구성원을 구분할 수 있습니다.
+
+팀 구성원의 상태를 보려면 다음을 수행하세요.
+
+1. `https://wandb.ai/<team-name>`로 이동합니다.
+2. 왼쪽 내비게이션 바에서 **팀 settings**를 선택합니다.
+3. **Users** 탭을 선택합니다.
+
+각 구성원의 상태는 다음 중 하나입니다.
+
+| 상태      | 정의                                                         |
+| ------- | ---------------------------------------------------------- |
+| 활성      | 구성원이 초대를 수락했으며 로그인할 수 있습니다.                                |
+| 초대 대기 중 | W&amp;B에서 초대를 보냈지만 구성원이 아직 수락하지 않았습니다.                     |
+| 비활성화됨   | 조직 관리자가 계정을 비활성화했습니다. 구성원은 조직이나 해당 조직의 어떤 팀에도 로그인할 수 없습니다. |
+
+비활성화된 구성원은 팀 구성원 목록에 계속 남아 있으며, 해당 구성원이 팀에 로깅한 모든 run도 계속 해당 구성원에게 귀속됩니다. 비활성화된 구성원의 경우 **Team Role**, **Models Seat**, **Weave Access** 열에는 역할이나 시트 대신 **Deactivated**가 표시되며, 역할을 변경하거나 팀 초대 링크를 복사할 수 없습니다.
+
+상태별로 목록을 필터링하려면 검색 필드에 **Deactivated**와 같은 상태를 입력합니다.
+
+단일 팀이 아닌 조직의 모든 사용자 상태를 확인하려면 [조직 활동 보기](/ko/platform/hosting/monitoring-usage/org_dashboard#view-user-status-and-activity)를 참조하세요. 여기에서 조직 관리자는 사용자를 비활성화하거나 다시 활성화할 수 있습니다.
+대신 SCIM을 사용하여 사용자를 비활성화하거나 다시 활성화하려면 [사용자 비활성화](/ko/platform/hosting/iam/scim#deactivate-user) 및 [사용자 다시 활성화](/ko/platform/hosting/iam/scim#reactivate-user)를 참조하세요.
+
 <div id="assign-or-update-a-team-members-role">
   ### 팀 구성원 역할 할당 또는 업데이트
 </div>

@@ -121,7 +121,7 @@ with wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="a
 
 `SIGUSR1` 또는 `SIGTERM`과 같이 스케줄러나 플랫폼이 선점을 나타내기 위해 사용하는 시그널에 대한 핸들러를 등록하세요. 핸들러에서 다음을 수행합니다:
 
-1. 핸들러에서 활성 run이 있으면 [`mark_preempting()`](/ko/models/ref/python/experiments/run#mark_preempting)을 호출합니다.
+1. 활성 run이 있으면 [`mark_preempting()`](/ko/models/ref/python/experiments/run#mark_preempting)을 호출합니다.
 2. 체크포인트 저장과 같은 필요한 정리 작업을 수행합니다.
 3. 0이 아닌 상태 코드로 종료합니다. 시그널 종료에는 일반적으로 `128 + signum` 관례를 사용합니다.
 
@@ -136,10 +136,10 @@ with wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="a
 | run이 종료 코드 0으로 정상적으로 완료됨                                                                            | FINISHED                               |
 | run이 0이 아닌 종료 코드로 실패함                                                                               | FAILED                                 |
 | run이 처리되지 않은 시그널(예: `SIGKILL`)을 받음                                                                  | 약 5분 후 CRASHED                         |
-| run이 처리된 선점 시그널(예: `SIGTERM` 또는 `SIGUSR1`)을 받고, 핸들러가 `mark_preempting()`을 호출한 뒤 프로세스가 0이 아닌 코드로 종료됨 | PREEMPTED; 다음 agent 요청을 위해 run이 큐에 등록됨 |
+| run이 처리된 선점 시그널(예: `SIGTERM` 또는 `SIGUSR1`)을 받고, 핸들러가 `mark_preempting()`을 호출한 뒤 프로세스가 0이 아닌 코드로 종료됨 | PREEMPTED; 다음 에이전트 요청을 위해 run이 큐에 등록됨 |
 
 <Info>
-  스윕 agent가 선점된 run을 가져오면 트레이닝 프로세스는 60분 이내에 `wandb.init()`을 호출해야 합니다. run을 가져온 후 `wandb.init()`을 호출하기 전에 프로세스가 실패하는 경우처럼 초기화가 수행되지 않으면, 60분 리스가 만료될 때까지 W&amp;B는 해당 run을 다른 agent가 사용할 수 있도록 하지 않습니다.
+  스윕 에이전트가 선점된 run을 가져오면 트레이닝 프로세스는 60분 이내에 `wandb.init()`을 호출해야 합니다. run을 가져온 후 `wandb.init()`을 호출하기 전에 프로세스가 실패하는 경우처럼 초기화가 수행되지 않으면, 60분 리스가 만료될 때까지 W&amp;B는 해당 run을 다른 에이전트가 사용할 수 있도록 하지 않습니다.
 </Info>
 
-스윕 agent는 스윕 검색 알고리즘에서 새 하이퍼파라미터 조합을 요청하기 전에 다시 큐에 들어간 run을 처리합니다. 큐가 비면 스윕은 정상 스케줄링을 재개합니다.
+스윕 에이전트는 스윕 검색 알고리즘에서 새 하이퍼파라미터 조합을 요청하기 전에 다시 큐에 들어간 run을 처리합니다. 큐가 비면 스윕은 정상 스케줄링을 재개합니다.

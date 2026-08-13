@@ -1,0 +1,239 @@
+---
+title: "SubAgent"
+description: "Référence du SDK TypeScript"
+---
+
+Défini dans : [src/genai/subagent.ts:65](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L65)
+
+<div id="extends">
+  ## Hérite de
+</div>
+
+* `SpanBase`
+
+<div id="accessors">
+  ## Accesseurs
+</div>
+
+### model
+
+<div id="get-signature">
+  #### Signature d’obtention
+</div>
+
+> **get** **model**(): `string`
+
+Défini dans : [src/genai/subagent.ts:78](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L78)
+
+<div id="returns">
+  ##### Renvoie
+</div>
+
+`string`
+
+***
+
+### nom
+
+<div id="get-signature">
+  #### Signature d’obtention
+</div>
+
+> **get** **name**(): `string`
+
+Défini dans : [src/genai/subagent.ts:74](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L74)
+
+<div id="returns">
+  ##### Renvoie
+</div>
+
+`string`
+
+<div id="methods">
+  ## Méthodes
+</div>
+
+<div id="addevent">
+  ### ~~addEvent()~~
+</div>
+
+<Warning>
+  **Obsolète.** Enregistrez plutôt ces données avec [setAttributes](#setattributes).
+  OpenTelemetry abandonne progressivement l’API d’événements de span (`Span.addEvent`). Cette
+  méthode fonctionne toujours et les données d’événements de span existantes restent valides.
+  Voir [https://opentelemetry.io/blog/2026/deprecating-span-events/](https://opentelemetry.io/blog/2026/deprecating-span-events/)
+</Warning>
+
+> **addEvent**(`name`, `attributes?`, `startTime?`): `this`
+
+Ajoute un événement nommé au span. Utile pour signaler des moments ne correspondant pas à des spans, tels que
+la compaction du contexte, la détection de boucles d’outils ou le déclenchement de garde-fous. Émet un avertissement et
+ne fait rien après `end()`. Reproduit le comportement de `Span.addEvent` d’OTel.
+
+Défini dans : [src/genai/spanBase.ts:82](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L82)
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+##### nom
+
+`string`
+
+<div id="attributes">
+  ##### attributes ?
+</div>
+
+`Attributes`
+
+<div id="starttime">
+  ##### startTime?
+</div>
+
+`TimeInput`
+
+#### Renvoie
+
+`this`
+
+<div id="example">
+  #### Exemple
+</div>
+
+```ts twoslash
+// @noErrors
+span.addEvent('context_compacted', {removedMessages: 12});
+```
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+`SpanBase.addEvent`
+
+***
+
+<div id="end">
+  ### end()
+</div>
+
+> **end**(`opts?`): `void`
+
+Lit les valeurs actuelles des champs (afin de prendre en compte les modifications effectuées via `record()`
+depuis `start`) et clôt le span. Idempotente. Transmettez `error` pour le marquer
+comme ayant échoué ; transmettez `endTime` pour antidater sa clôture.
+
+Défini dans : [src/genai/subagent.ts:153](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L153)
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+<div id="opts">
+  ##### opts ?
+</div>
+
+`SpanEndOptions`
+
+#### Renvoie
+
+`void`
+
+***
+
+<div id="record">
+  ### record()
+</div>
+
+> **record**(`opts`) : `this`
+
+Définit plusieurs champs à la fois. Remplace les valeurs existantes (sans les fusionner).
+
+Défini dans : [src/genai/subagent.ts:117](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L117)
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+##### opts
+
+<div id="agentdescription">
+  ###### agentDescription?
+</div>
+
+`string`
+
+<div id="agentid">
+  ###### agentId?
+</div>
+
+`string`
+
+<div id="agentversion">
+  ###### agentVersion ?
+</div>
+
+`string`
+
+<div id="model">
+  ###### model?
+</div>
+
+`string`
+
+<div id="name">
+  ###### nom ?
+</div>
+
+`string`
+
+<div id="systeminstructions">
+  ###### systemInstructions?
+</div>
+
+`string`[]
+
+#### Renvoie
+
+`this`
+
+***
+
+<div id="setattributes">
+  ### setAttributes()
+</div>
+
+> **setAttributes**(`attributes`) : `this`
+
+Définit simultanément plusieurs attributs sur le span. Émet un avertissement et ne fait rien après
+`end()`. Reproduit `Span.setAttributes` d’OTel (ainsi que
+`set_attributes` du SDK Python).
+
+Défini dans : [src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L63)
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+##### attributs
+
+`Attributes`
+
+#### Renvoie
+
+`this`
+
+<div id="example">
+  #### Exemple
+</div>
+
+```ts twoslash
+// @noErrors
+span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
+```
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+`SpanBase.setAttributes`
