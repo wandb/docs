@@ -39,8 +39,8 @@ on:
 permissions:
   contents: write
   pull-requests: write
-  # For the issue-report step below (Standard 2: build failures file a
-  # self-managing GitHub issue).
+  # For the issue-report step below (build failures file a self-managing
+  # GitHub issue).
   issues: write
 
 jobs:
@@ -114,8 +114,8 @@ jobs:
           commit-message: 'docs: regenerate docengine snippets (atomic output)'
           dry-run: ${{ env.DRY_RUN }}
 
-      # Standard 2: a failed build files ONE canonical self-managing GitHub
-      # issue, updated in place and closed by the next passing run. Not
+      # A failed build files ONE canonical self-managing GitHub issue,
+      # updated in place and closed by the next passing run. Not
       # per-branch: a branch failure is already a red check on its own PR,
       # and a per-branch item would orphan with an abandoned branch. The
       # reporter ships in the submodule, so it can only run once the
