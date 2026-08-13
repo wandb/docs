@@ -14,7 +14,7 @@ import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 Unlike a single LLM call, an agent pursues a goal across multiple turns, calling tools and acting on their results. Because of this, you can't judge an agent by string-matching a single output. Instead, you evaluate its behavior across a trajectory.
 
-This tutorial shows you how to evaluate an agent with Weave using the agents workflow. Weave traces your agent as a conversation of turns and tool calls, and you score it with `weave.EvaluationLogger`. You build a small customer-support agent, score its runs with an LLM judge (single-turn and multi-turn), and compare two versions of the agent.
+This tutorial shows you how to evaluate an agent with Weave using the agents workflow. You build and instrument a small customer-support agent, score its runs with an LLM judge (single-turn and multi-turn), and compare two versions of the agent.
 
 ## What you'll learn
 
