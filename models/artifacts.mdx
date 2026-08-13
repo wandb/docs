@@ -4,6 +4,7 @@ title: Artifacts overview
 ---
 import { ColabLink } from '/snippets/_includes/colab-link.mdx';
 import { TryProductLink } from '/snippets/_includes/try-product-link.mdx';
+import ArtifactRegistryUsageLimits from "/snippets/_includes/artifact-registry-usage-limits.mdx";
 
 <CardGroup cols={4}>
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Pipeline_Versioning_with_W&B_Artifacts.ipynb" />
@@ -82,12 +83,9 @@ You can pass a custom path into the `root` [parameter](/models/ref/python/experi
 
 ## Usage limits
 
-The following table lists limits for Artifacts features. For a combined list of Artifacts and W&B Registry limits, see [What are the W&B Registry and Artifacts usage limits?](/support/models/articles/what-are-artifact-registry-limits)
+The following table lists usage limits for Artifacts and W&B Registry. These limits are shown together because Artifacts and Registry share related resources and workflows.
 
-| Dimension | Scope | Counting | Free | Pro | Enterprise |
-| --- | --- | --- | --- | --- | --- |
-| Artifacts | Organization | Committed artifact versions across the whole org | 100,000 | 5,000,000 | 100,000,000 |
-| Unique tags | Organization | Distinct tag definitions in the org | 1,000 | 2,500 | 1,500,000 |
+<ArtifactRegistryUsageLimits />
 
 ## Next steps
 * Learn how to [version](/models/artifacts/create-a-new-artifact-version) and [update](/models/artifacts/update-an-artifact) artifacts.

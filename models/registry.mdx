@@ -3,6 +3,7 @@ title: Registry overview
 description: Use W&B Registry to manage and share artifact versions across your organization
 ---
 import { ColabLink } from '/snippets/_includes/colab-link.mdx';
+import ArtifactRegistryUsageLimits from "/snippets/_includes/artifact-registry-usage-limits.mdx";
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb_registry/zoo_wandb.ipynb" />
 
@@ -108,13 +109,9 @@ Based on your deployment type, satisfy the following conditions to enable W&B Re
 
 ## Usage limits
 
-The following table lists limits for W&B Registry features. For a combined list of W&B Registry and Artifacts limits, see [What are the W&B Registry and Artifacts usage limits?](/support/models/articles/what-are-artifact-registry-limits)
+The following table lists usage limits for W&B Registry and Artifacts. These limits are shown together because Registry collections contain linked artifact versions and share related resources with Artifacts.
 
-| Dimension | Scope | Counting | Free | Pro | Enterprise |
-| --- | --- | --- | --- | --- | --- |
-| Registries| Organization | Registry projects in the organization | 5 | 25 | 250|
-| Collections | Per Registry | Portfolios inside one registry | 50 | 250 | 150,000 |
-| Linked versions per Registry Collection | Per Registry Collection | Distinct linked artifact versions in one registry collection | 500 | 1,000 | 150,000 | 
+<ArtifactRegistryUsageLimits />
 
 ## Resources to get started
 
