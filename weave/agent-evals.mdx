@@ -45,7 +45,7 @@ This tutorial requires the following:
 
 In this example, the agent answers refund requests using two tools, `lookup_order` and `issue_refund`, under a policy that allows refunds only within 30 days. The full agent, including the tool definitions, the model loop, and message conversion, is in the accompanying notebook. This section focuses on the Weave-specific part.
 
-First, initialize Weave with your W&B team and project. Replace `[YOUR-TEAM]` and `[YOUR-PROJECT]` with your own values, and set `implicitly_patch_integrations` to `false` to turn off Weave's autopatching:
+First, initialize Weave with your W&B team and project. Replace `[YOUR-TEAM]` and `[YOUR-PROJECT]` with your own values:
 
 ```python lines
 import weave
