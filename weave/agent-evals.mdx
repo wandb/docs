@@ -141,7 +141,7 @@ def judge_task_completion(task, transcript) -> dict:
     return json.loads(text)   # {"passed": bool, "reason": str}
 ```
 
-Drive the evaluation with `EvaluationLogger`. Run the agent inside `log_prediction(...)`, so the traced conversation links to the eval row:
+Run the evaluation loop and record it with `EvaluationLogger`. Run the agent inside `log_prediction(...)`, so the traced conversation links to the eval row:
 
 ```python lines highlight="1,4"
 ev = weave.EvaluationLogger(name="support-agent-eval", model="v1", dataset="support-refund-tasks")
