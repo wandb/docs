@@ -58,7 +58,7 @@ weave.init(
 )
 ```
 
-Turn off `implicitly_patch_integrations` when hand-instrumenting a bare provider SDK, or Weave logs each model call twice: once as your Conversation span and once as a traced Op. Leave it on if you use a framework integration.
+By default, Weave [autopatches supported SDKs and frameworks](/weave/agent-integration-quickstart), and automatically traces conversations emitted from agents built with them. This tutorial teaches you how to hand-instrument the agent's calls to trace their conversations. Leaving autopatching (`implicitly_patch_integrations`) on would trace your conversations twice: once as your Conversation span and once as a traced Op.
 
 Trace the agent using `weave.conversation`. A conversation contains turns, and each turn contains the model call and any tool calls:
 
