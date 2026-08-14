@@ -320,6 +320,7 @@ To run the example, complete the following steps:
     npm install weave @openai/agents zod
     npm install --save-dev typescript @types/node
     npx tsc --init
+    npm pkg set type=module
     ```
 
 1. Create a file titled `weave_realtime_agent.ts` and add the following code to it.
@@ -409,7 +410,7 @@ To run the example, complete the following steps:
 
     ```bash
     npx tsc
-    node weave_realtime_agent.js
+node --import=weave/instrument weave_realtime_agent.js
     ```
 
 The agent connects to the Realtime API, asks about the weather in San Francisco, calls the weather tool, and prints the assistant's response before disconnecting. In the Weave UI, you can explore the resulting trace, including the session, the generation, the tool call, and the assistant's audio output.
