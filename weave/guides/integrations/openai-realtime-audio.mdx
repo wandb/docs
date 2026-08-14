@@ -409,10 +409,12 @@ To run the example, complete the following steps:
 
     ```bash
     npx tsc
-    node weave_realtime_agent.js
+    node --import=weave/instrument --import=tsx  weave_realtime_agent.js
     ```
 
-The agent connects to the Realtime API, asks about the weather in San Francisco, calls the weather tool, and prints the assistant's response before disconnecting. In the Weave UI, you can explore the resulting trace, including the session, the generation, the tool call, and the assistant's audio output.
+The first `--import` flag preloads Weave's instrumentation, and the second `--import` flag preloads `tsx` so Node can execute TypeScript.
+
+The agent connects to the Realtime API, asks about the weather in San Francisco, and calls the weather tool, before disconnecting. In the Weave UI, you can explore the resulting trace, including the session, the generation, the tool call, and the assistant's audio output.
 
   </Tab>
 </Tabs>
