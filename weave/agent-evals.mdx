@@ -98,7 +98,7 @@ If you build your agent with a framework integration (Claude Agent SDK, OpenAI A
 
 ## Score the agent with an LLM judge
 
-The score in this example is *task completion*: did the agent achieve the goal? A judge model reads the transcript and decides against the task's success criteria, rewarding the correct outcome rather than a polite-sounding reply. It's one example score — you choose what to measure and what to name it.
+Using a judge model, the scorer evaluates how well the agent completed the task based on the task's success criteria, rewarding the correct outcome rather than a polite-sounding reply. It's one example score — you choose what to measure and what to name it.
 
 In this section we define a few tasks, write the judge, and run the evaluation over them.
 
