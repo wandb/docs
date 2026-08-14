@@ -125,7 +125,6 @@ jobs:
         with:
           api: ${{ matrix.api }}
           output-path: ${{ matrix.output_path }}
-          output-dir: ${{ github.workspace }}
           push-token: ${{ steps.app_token.outputs.token }}
           git-user-name: 'wandb-docs-pr-writer[bot]'
           git-user-email: 'wandb-docs-pr-writer[bot]@users.noreply.github.com'
