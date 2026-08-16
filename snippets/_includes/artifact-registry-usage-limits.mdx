@@ -5,8 +5,12 @@
 | Unique tags | Organization | Distinct tag definitions in the org | 1,000 | 1,000 | 10,000 |
 | Collections | Per Registry | Portfolios inside one registry | 50 | 250 | 5,000 |
 | Linked versions per Registry Collection | Per Registry Collection | Distinct linked artifact versions in one registry collection | 500 | 1,000 | 2,500 |
-| Versions per artifact sequence[^1] | Per artifact sequence | Committed versions in one branch (sequence) | 1,000 | 10,000 | 50,000 |
+| Versions per artifact sequence | Per artifact sequence | Committed versions in one branch (sequence) | 1,000 | 10,000 | 50,000 |
 
-[^1]: An artifact sequence is the set of versions for an artifact with the same name in a project. When you call `wandb.Run.log_artifact()` with an artifact that has the same name and new content, W&B creates a new version in that sequence.
+An artifact *sequence* is a collection of artifact versions in a project. The sequence has a name, and each version has its own version number and unique artifact ID. When you call `wandb.Run.log_artifact()` with an artifact that has the same name and new content, W&B creates a new version in that sequence. For example, logging `model` multiple times creates versions such as `model:v0`, `model:v1`, and `model:v2` in the same sequence.
+
+<Note>
+An artifact sequence is a collection of artifact versions in a project. This is different from a collection in W&B Registry, which groups linked artifact versions for sharing and lifecycle management across teams.
+</Note>
 
 Contact [W&B Support](mailto:support@wandb.com) if you have questions about limits.
