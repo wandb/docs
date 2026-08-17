@@ -295,3 +295,46 @@ class TestWholeTermMatching(DocsIndexTestCase):
         index = docsindex.build_index(cfg)
         self.assertFalse(docsindex.find(index, "Add panel").occurrences)
         self.assertTrue(docsindex.find(index, "Add panels").ui_occurrences)
+
+
+class TestPerOccurrenceEmphasis(DocsIndexTestCase):
+    """Each match on a line is classified by the emphasis enclosing it.
+
+    Occurrences used to be recorded once per line, taking the context of the
+    first matcher that hit anywhere on that line. In MDX a paragraph is normally
+    a single line, so one line routinely holds both an emphasized and a prose
+    mention of the same literal -- and the prose one vanished.
+    """
+
+    def _find(self, body, literal="Add panel"):
+        page = Path(self._tmp.name) / "platform/panels.mdx"
+        page.write_text(f"---\ntitle: Panels\n---\n{body}\n", encoding="utf-8")
+        cfg = dataclasses.replace(config.DOCS, local_path_default=str(self._tmp.name))
+        return docsindex.find(docsindex.build_index(cfg), literal)
+
+    def test_bold_and_prose_on_one_line_are_separate_occurrences(self):
+        lookup = self._find(
+            "Click **Add panel** to begin. Add panel opens the chart picker."
+        )
+        self.assertEqual(
+            ["bold", "prose"], [o.context for o in lookup.occurrences]
+        )
+        # The whole point: a prose mention makes this unsafe to rename
+        # unattended, and it was previously invisible.
+        self.assertFalse(lookup.all_occurrences_emphasized)
+
+    def test_a_deictic_second_mention_is_still_emphasis(self):
+        # "The Add panel button" is a UI reference, not loose prose, so this
+        # stays agent-eligible. Guards against over-correcting the fix above.
+        lookup = self._find(
+            "Click **Add panel** to begin. The Add panel button is in the sidebar."
+        )
+        self.assertEqual(
+            ["bold", "deictic"], [o.context for o in lookup.occurrences]
+        )
+        self.assertTrue(lookup.all_occurrences_emphasized)
+
+    def test_single_emphasized_occurrence_is_unchanged(self):
+        lookup = self._find("Click **Add panel** to begin.")
+        self.assertEqual(["bold"], [o.context for o in lookup.occurrences])
+        self.assertTrue(lookup.all_occurrences_emphasized)

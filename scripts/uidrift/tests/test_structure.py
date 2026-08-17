@@ -117,6 +117,72 @@ class TestGateScope(unittest.TestCase):
         self.assertFalse(any(structure.gate_scope(streams, d) for d in added))
 
 
+class TestGateBlockBoundaries(unittest.TestCase):
+    """A closed block is not an ancestor, whatever the indentation says.
+
+    The backward scan used to skip any line indented at least as deep as the
+    changed line, which meant it walked straight past the `)}` or `}` that ends
+    a sibling block and adopted that block's conditional. Prettier makes this
+    ordinary rather than exotic: a JSX attribute sits one level deeper than its
+    own element, so a changed label is routinely deeper than a sibling gate.
+    """
+
+    LABEL = 'label="New label"'
+    HOOK = "  const showBeta = useRampFlagBeta(orgName);"
+
+    def _scope(self, src):
+        lines = [
+            structure.DiffLine(
+                sign=("+" if self.LABEL in text else " "),
+                old_no=i, new_no=i, text=text,
+            )
+            for i, text in enumerate(src, start=1)
+        ]
+        idx = next(i for i, text in enumerate(src) if self.LABEL in text)
+        delta = extract.LabelDelta(
+            sign="+", path="a.tsx", kind="jsx_attr", key="label",
+            raw=self.LABEL, norm="New label", line_no=idx + 1, wrapped=False,
+        )
+        return structure.gate_scope({"a.tsx": lines}, delta)
+
+    def test_jsx_sibling_of_a_closed_gate_is_not_gated(self):
+        scope = self._scope([
+            self.HOOK, "  return (", "    <div>",
+            "      {showBeta && (", "        <Foo/>", "      )}",
+            "      <Bar", f"        {self.LABEL}", "      />",
+            "    </div>", "  );",
+        ])
+        self.assertIsNone(scope)
+
+    def test_jsx_child_of_an_open_gate_is_gated(self):
+        scope = self._scope([
+            self.HOOK, "  return (", "    <div>",
+            "      {showBeta && (", "        <Bar", f"          {self.LABEL}",
+            "        />", "      )}", "    </div>", "  );",
+        ])
+        self.assertIsNotNone(scope)
+        self.assertEqual("showBeta", scope.variable)
+
+    def test_brace_sibling_of_a_closed_block_is_not_gated(self):
+        scope = self._scope([
+            self.HOOK, "  if (showBeta) {", "    <Foo/>", "  }",
+            "  <Bar", f"    {self.LABEL}", "  />",
+        ])
+        self.assertIsNone(scope)
+
+    def test_an_outer_gate_still_encloses_past_a_nested_sibling(self):
+        # Guards the fix against over-correcting: crossing the inner `}` must
+        # not stop the scan from finding the outer conditional that really does
+        # enclose the change.
+        scope = self._scope([
+            self.HOOK, "  if (showBeta) {",
+            "    if (other) {", "      <X/>", "    }",
+            "    <Bar", f"      {self.LABEL}", "    />", "  }",
+        ])
+        self.assertIsNotNone(scope)
+        self.assertEqual("showBeta", scope.variable)
+
+
 class TestFlagLifecycle(unittest.TestCase):
 
     def test_flag_added_in_the_same_commit(self):

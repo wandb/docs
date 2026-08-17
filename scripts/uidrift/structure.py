@@ -291,12 +291,33 @@ def gate_scope(
     if anchor is None:
         return None
 
-    target_indent = lines[anchor].indent
+    # A ceiling, not a fixed indent. Every closing delimiter we pass on the way
+    # up ends a block that CANNOT contain the anchor, so nothing at that depth
+    # or deeper is an ancestor any more. Without this, a sibling of an
+    # already-closed gate inherits it: prettier puts a JSX attribute one level
+    # deeper than its own element, so
+    #
+    #     {showBeta && (
+    #       <Foo/>
+    #     )}
+    #     <Bar
+    #       label="New"     <-- the changed line, deeper than the `{showBeta &&`
+    #     />
+    #
+    # scanned past `)}` and reported the label as gated by showBeta.
+    ceiling = lines[anchor].indent
     for idx in range(anchor - 1, max(-1, anchor - GATE_LOOKBACK) - 1, -1):
         ln = lines[idx]
         if ln.sign == "-":
             continue
-        if ln.indent >= target_indent:
+        if ln.indent >= ceiling:
+            continue
+
+        stripped = ln.text.lstrip()
+        if stripped[:1] in (")", "}", "]"):
+            # Closes a sibling block. Anything from here up must be shallower
+            # still to count as enclosing.
+            ceiling = ln.indent
             continue
 
         m = _IF_COND.search(ln.text) or _JSX_COND.search(ln.text)

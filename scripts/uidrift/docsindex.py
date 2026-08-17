@@ -331,22 +331,33 @@ def _find_uncached(index: DocsIndex, literal: str) -> DocsLookup:
         if not term.search(index.text[page_idx]):
             continue
         for line_no, line in enumerate(index.lines[page_idx], start=1):
-            if not term.search(line):
+            hits = list(term.finditer(line))
+            if not hits:
                 continue
-            context = CTX_PROSE
-            for name, rx in matchers:
-                if rx.search(line):
-                    context = name
-                    break
-            occurrences.append(
-                DocsOccurrence(
-                    page=index.pages[page_idx],
-                    line=line_no,
-                    context=context,
-                    locale=index.primary_locale,
-                    immutable=index.immutable[page_idx],
+            # Classify each occurrence by the emphasis that ENCLOSES it, not by
+            # whether the line contains emphasis somewhere. In MDX a paragraph
+            # is usually one line, so "Click **Add panel** to begin. The Add
+            # panel button..." is a single line holding one emphasized and one
+            # prose occurrence. Marking the whole line from the first matcher
+            # collapsed those to one `bold` occurrence, which makes
+            # `all_occurrences_emphasized` true and can send a finding to the
+            # agent lane on the strength of prose it never saw.
+            spans = [(name, [m.span() for m in rx.finditer(line)]) for name, rx in matchers]
+            for hit in hits:
+                context = CTX_PROSE
+                for name, extents in spans:
+                    if any(s <= hit.start() and hit.end() <= e for s, e in extents):
+                        context = name
+                        break
+                occurrences.append(
+                    DocsOccurrence(
+                        page=index.pages[page_idx],
+                        line=line_no,
+                        context=context,
+                        locale=index.primary_locale,
+                        immutable=index.immutable[page_idx],
+                    )
                 )
-            )
 
     lookup = DocsLookup(literal, True, "", occurrences)
     lookup.translations_affected = {
