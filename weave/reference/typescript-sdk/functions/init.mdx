@@ -7,7 +7,7 @@ description: "TypeScript SDK reference"
 
 Initialize the Weave client, which is required for weave tracing to work.
 
-Defined in: [src/clientApi.ts:87](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/clientApi.ts#L87)
+Defined in: [src/clientApi.ts:86](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/clientApi.ts#L86)
 
 ## Parameters
 
@@ -22,7 +22,7 @@ The W&B project name (can be project or entity/project). If you don't
 
 ### settings?
 
-`Partial`\<[`Settings`](../type-aliases/settings)\>
+`Partial`\<\{ `attributes`: `Record`\<`string`, `any`\>; `genai`: \{ `batchOptions?`: `BufferConfig`; `spanProcessor?`: `"batch"` \| `"simple"` \| `SpanProcessor`; \}; `printCallLink`: `boolean`; `useCallsComplete`: `boolean`; `useOTelV2`: `boolean`; \}\>
 
 (Optional) Weave tracing settings
 

@@ -5,14 +5,681 @@ description: "TypeScript SDK reference"
 
 Query
 
-Defined in: [src/generated/traceServerApi.ts:5222](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L5222)
+Defined in: [src/generated/traceServerApi.ts:5516](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/generated/traceServerApi.ts#L5516)
 
 ## Properties
 
 ### $expr
 
-> **$expr**: `AndOperation` \| `OrOperation` \| `NotOperation` \| `EqOperation` \| `GtOperation` \| `LtOperation` \| `GteOperation` \| `LteOperation` \| `InOperation` \| `ContainsOperation`
+> **$expr**: \{ `$and`: (AndOperation \| \{ `$or`: (AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation)\[\]; \} \| \{ `$not`: `any`[]; \} \| \{ `$eq`: `any`[]; \} \| \{ `$gt`: `any`[]; \} \| \{ `$lt`: `any`[]; \} \| \{ `$gte`: `any`[]; \} \| \{ `$lte`: `any`[]; \} \| \{ `$in`: `any`[]; \} \| \{ `$contains`: \{ `case_insensitive?`: `boolean` \| `null`; `input`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation; `substr`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation; \}; \} \| \{ `$literal`: `string` \| `number` \| `boolean` \| `Record`\<`string`, LiteralOperation\> \| LiteralOperation[] \| `null`; \} \| \{ `$getField`: `string`; \} \| \{ `$convert`: \{ `input`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation; `to`: `"string"` \| `"double"` \| `"int"` \| `"bool"` \| `"exists"`; \}; \} \| \{ `$size`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation; \})[]; \} \| \{ `$or`: (\{ `$and`: (AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation)\[\]; \} \| OrOperation \| \{ `$not`: `any`[]; \} \| \{ `$eq`: `any`[]; \} \| \{ `$gt`: `any`[]; \} \| \{ `$lt`: `any`[]; \} \| \{ `$gte`: `any`[]; \} \| \{ `$lte`: `any`[]; \} \| \{ `$in`: `any`[]; \} \| \{ `$contains`: \{ `case_insensitive?`: `boolean` \| `null`; `input`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation; `substr`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation; \}; \} \| \{ `$literal`: `string` \| `number` \| `boolean` \| `Record`\<`string`, LiteralOperation\> \| LiteralOperation[] \| `null`; \} \| \{ `$getField`: `string`; \} \| \{ `$convert`: \{ `input`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation; `to`: `"string"` \| `"double"` \| `"int"` \| `"bool"` \| `"exists"`; \}; \} \| \{ `$size`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation; \})[]; \} \| \{ `$not`: `any`[]; \} \| \{ `$eq`: `any`[]; \} \| \{ `$gt`: `any`[]; \} \| \{ `$lt`: `any`[]; \} \| \{ `$gte`: `any`[]; \} \| \{ `$lte`: `any`[]; \} \| \{ `$in`: `any`[]; \} \| \{ `$contains`: \{ `case_insensitive?`: `boolean` \| `null`; `input`: \{ `$and`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation[]; \} \| \{ `$or`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation[]; \} \| \{ `$not`: `any`[]; \} \| \{ `$eq`: `any`[]; \} \| \{ `$gt`: `any`[]; \} \| \{ `$lt`: `any`[]; \} \| \{ `$gte`: `any`[]; \} \| \{ `$lte`: `any`[]; \} \| \{ `$in`: `any`[]; \} \| ContainsOperation \| \{ `$literal`: `string` \| `number` \| `boolean` \| `Record`\<`string`, LiteralOperation\> \| LiteralOperation[] \| `null`; \} \| \{ `$getField`: `string`; \} \| \{ `$convert`: \{ `input`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation; `to`: `"string"` \| `"double"` \| `"int"` \| `"bool"` \| `"exists"`; \}; \} \| \{ `$size`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation; \}; `substr`: \{ `$and`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation[]; \} \| \{ `$or`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation[]; \} \| \{ `$not`: `any`[]; \} \| \{ `$eq`: `any`[]; \} \| \{ `$gt`: `any`[]; \} \| \{ `$lt`: `any`[]; \} \| \{ `$gte`: `any`[]; \} \| \{ `$lte`: `any`[]; \} \| \{ `$in`: `any`[]; \} \| ContainsOperation \| \{ `$literal`: `string` \| `number` \| `boolean` \| `Record`\<`string`, LiteralOperation\> \| LiteralOperation[] \| `null`; \} \| \{ `$getField`: `string`; \} \| \{ `$convert`: \{ `input`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation; `to`: `"string"` \| `"double"` \| `"int"` \| `"bool"` \| `"exists"`; \}; \} \| \{ `$size`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation; \}; \}; \}
 
 $Expr
 
-Defined in: [src/generated/traceServerApi.ts:5224](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L5224)
+Defined in: [src/generated/traceServerApi.ts:5518](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/generated/traceServerApi.ts#L5518)
+
+#### Union Members
+
+##### Type Literal
+
+\{ `$and`: (AndOperation \| \{ `$or`: (AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation)\[\]; \} \| \{ `$not`: `any`[]; \} \| \{ `$eq`: `any`[]; \} \| \{ `$gt`: `any`[]; \} \| \{ `$lt`: `any`[]; \} \| \{ `$gte`: `any`[]; \} \| \{ `$lte`: `any`[]; \} \| \{ `$in`: `any`[]; \} \| \{ `$contains`: \{ `case_insensitive?`: `boolean` \| `null`; `input`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation; `substr`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation; \}; \} \| \{ `$literal`: `string` \| `number` \| `boolean` \| `Record`\<`string`, LiteralOperation\> \| LiteralOperation[] \| `null`; \} \| \{ `$getField`: `string`; \} \| \{ `$convert`: \{ `input`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation; `to`: `"string"` \| `"double"` \| `"int"` \| `"bool"` \| `"exists"`; \}; \} \| \{ `$size`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation; \})[]; \}
+
+##### $and
+
+> **$and**: (AndOperation \| \{ `$or`: (AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation)\[\]; \} \| \{ `$not`: `any`[]; \} \| \{ `$eq`: `any`[]; \} \| \{ `$gt`: `any`[]; \} \| \{ `$lt`: `any`[]; \} \| \{ `$gte`: `any`[]; \} \| \{ `$lte`: `any`[]; \} \| \{ `$in`: `any`[]; \} \| \{ `$contains`: \{ `case_insensitive?`: `boolean` \| `null`; `input`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation; `substr`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation; \}; \} \| \{ `$literal`: `string` \| `number` \| `boolean` \| `Record`\<`string`, LiteralOperation\> \| LiteralOperation[] \| `null`; \} \| \{ `$getField`: `string`; \} \| \{ `$convert`: \{ `input`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation; `to`: `"string"` \| `"double"` \| `"int"` \| `"bool"` \| `"exists"`; \}; \} \| \{ `$size`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation; \})[]
+
+$And
+
+***
+
+##### Type Literal
+
+\{ `$or`: (\{ `$and`: (AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation)\[\]; \} \| OrOperation \| \{ `$not`: `any`[]; \} \| \{ `$eq`: `any`[]; \} \| \{ `$gt`: `any`[]; \} \| \{ `$lt`: `any`[]; \} \| \{ `$gte`: `any`[]; \} \| \{ `$lte`: `any`[]; \} \| \{ `$in`: `any`[]; \} \| \{ `$contains`: \{ `case_insensitive?`: `boolean` \| `null`; `input`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation; `substr`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation; \}; \} \| \{ `$literal`: `string` \| `number` \| `boolean` \| `Record`\<`string`, LiteralOperation\> \| LiteralOperation[] \| `null`; \} \| \{ `$getField`: `string`; \} \| \{ `$convert`: \{ `input`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation; `to`: `"string"` \| `"double"` \| `"int"` \| `"bool"` \| `"exists"`; \}; \} \| \{ `$size`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation; \})[]; \}
+
+##### $or
+
+> **$or**: (\{ `$and`: (AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation)\[\]; \} \| OrOperation \| \{ `$not`: `any`[]; \} \| \{ `$eq`: `any`[]; \} \| \{ `$gt`: `any`[]; \} \| \{ `$lt`: `any`[]; \} \| \{ `$gte`: `any`[]; \} \| \{ `$lte`: `any`[]; \} \| \{ `$in`: `any`[]; \} \| \{ `$contains`: \{ `case_insensitive?`: `boolean` \| `null`; `input`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation; `substr`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation; \}; \} \| \{ `$literal`: `string` \| `number` \| `boolean` \| `Record`\<`string`, LiteralOperation\> \| LiteralOperation[] \| `null`; \} \| \{ `$getField`: `string`; \} \| \{ `$convert`: \{ `input`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation; `to`: `"string"` \| `"double"` \| `"int"` \| `"bool"` \| `"exists"`; \}; \} \| \{ `$size`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation; \})[]
+
+$Or
+
+***
+
+##### Type Literal
+
+\{ `$not`: `any`[]; \}
+
+##### $not
+
+> **$not**: `any`[]
+
+$Not
+
+###### Max Items
+
+1
+
+###### Min Items
+
+1
+
+***
+
+##### Type Literal
+
+\{ `$eq`: `any`[]; \}
+
+##### $eq
+
+> **$eq**: `any`[]
+
+$Eq
+
+###### Max Items
+
+2
+
+###### Min Items
+
+2
+
+***
+
+##### Type Literal
+
+\{ `$gt`: `any`[]; \}
+
+##### $gt
+
+> **$gt**: `any`[]
+
+$Gt
+
+###### Max Items
+
+2
+
+###### Min Items
+
+2
+
+***
+
+##### Type Literal
+
+\{ `$lt`: `any`[]; \}
+
+##### $lt
+
+> **$lt**: `any`[]
+
+$Lt
+
+###### Max Items
+
+2
+
+###### Min Items
+
+2
+
+***
+
+##### Type Literal
+
+\{ `$gte`: `any`[]; \}
+
+##### $gte
+
+> **$gte**: `any`[]
+
+$Gte
+
+###### Max Items
+
+2
+
+###### Min Items
+
+2
+
+***
+
+##### Type Literal
+
+\{ `$lte`: `any`[]; \}
+
+##### $lte
+
+> **$lte**: `any`[]
+
+$Lte
+
+###### Max Items
+
+2
+
+###### Min Items
+
+2
+
+***
+
+##### Type Literal
+
+\{ `$in`: `any`[]; \}
+
+##### $in
+
+> **$in**: `any`[]
+
+$In
+
+###### Max Items
+
+2
+
+###### Min Items
+
+2
+
+***
+
+##### Type Literal
+
+\{ `$contains`: \{ `case_insensitive?`: `boolean` \| `null`; `input`: \{ `$and`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation[]; \} \| \{ `$or`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation[]; \} \| \{ `$not`: `any`[]; \} \| \{ `$eq`: `any`[]; \} \| \{ `$gt`: `any`[]; \} \| \{ `$lt`: `any`[]; \} \| \{ `$gte`: `any`[]; \} \| \{ `$lte`: `any`[]; \} \| \{ `$in`: `any`[]; \} \| ContainsOperation \| \{ `$literal`: `string` \| `number` \| `boolean` \| `Record`\<`string`, LiteralOperation\> \| LiteralOperation[] \| `null`; \} \| \{ `$getField`: `string`; \} \| \{ `$convert`: \{ `input`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation; `to`: `"string"` \| `"double"` \| `"int"` \| `"bool"` \| `"exists"`; \}; \} \| \{ `$size`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation; \}; `substr`: \{ `$and`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation[]; \} \| \{ `$or`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation[]; \} \| \{ `$not`: `any`[]; \} \| \{ `$eq`: `any`[]; \} \| \{ `$gt`: `any`[]; \} \| \{ `$lt`: `any`[]; \} \| \{ `$gte`: `any`[]; \} \| \{ `$lte`: `any`[]; \} \| \{ `$in`: `any`[]; \} \| ContainsOperation \| \{ `$literal`: `string` \| `number` \| `boolean` \| `Record`\<`string`, LiteralOperation\> \| LiteralOperation[] \| `null`; \} \| \{ `$getField`: `string`; \} \| \{ `$convert`: \{ `input`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation; `to`: `"string"` \| `"double"` \| `"int"` \| `"bool"` \| `"exists"`; \}; \} \| \{ `$size`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation; \}; \}; \}
+
+##### $contains
+
+> **$contains**: `object`
+
+Specification for the `$contains` operation.
+
+- `input`: The string to search.
+- `substr`: The substring to search for.
+- `case_insensitive`: If true, match is case-insensitive.
+
+###### $contains.case\_insensitive
+
+> `optional` **case\_insensitive**: `boolean` \| `null`
+
+Case Insensitive
+
+###### Default
+
+```ts twoslash
+// @noErrors
+false
+```
+
+###### $contains.input
+
+> **input**: \{ `$and`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation[]; \} \| \{ `$or`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation[]; \} \| \{ `$not`: `any`[]; \} \| \{ `$eq`: `any`[]; \} \| \{ `$gt`: `any`[]; \} \| \{ `$lt`: `any`[]; \} \| \{ `$gte`: `any`[]; \} \| \{ `$lte`: `any`[]; \} \| \{ `$in`: `any`[]; \} \| ContainsOperation \| \{ `$literal`: `string` \| `number` \| `boolean` \| `Record`\<`string`, LiteralOperation\> \| LiteralOperation[] \| `null`; \} \| \{ `$getField`: `string`; \} \| \{ `$convert`: \{ `input`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation; `to`: `"string"` \| `"double"` \| `"int"` \| `"bool"` \| `"exists"`; \}; \} \| \{ `$size`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation; \}
+
+Input
+
+###### Union Members
+
+###### Type Literal
+
+\{ `$and`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation[]; \}
+
+###### $and
+
+> **$and**: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation[]
+
+$And
+
+***
+
+###### Type Literal
+
+\{ `$or`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation[]; \}
+
+###### $or
+
+> **$or**: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation[]
+
+$Or
+
+***
+
+###### Type Literal
+
+\{ `$not`: `any`[]; \}
+
+###### $not
+
+> **$not**: `any`[]
+
+$Not
+
+###### Max Items
+
+1
+
+###### Min Items
+
+1
+
+***
+
+###### Type Literal
+
+\{ `$eq`: `any`[]; \}
+
+###### $eq
+
+> **$eq**: `any`[]
+
+$Eq
+
+###### Max Items
+
+2
+
+###### Min Items
+
+2
+
+***
+
+###### Type Literal
+
+\{ `$gt`: `any`[]; \}
+
+###### $gt
+
+> **$gt**: `any`[]
+
+$Gt
+
+###### Max Items
+
+2
+
+###### Min Items
+
+2
+
+***
+
+###### Type Literal
+
+\{ `$lt`: `any`[]; \}
+
+###### $lt
+
+> **$lt**: `any`[]
+
+$Lt
+
+###### Max Items
+
+2
+
+###### Min Items
+
+2
+
+***
+
+###### Type Literal
+
+\{ `$gte`: `any`[]; \}
+
+###### $gte
+
+> **$gte**: `any`[]
+
+$Gte
+
+###### Max Items
+
+2
+
+###### Min Items
+
+2
+
+***
+
+###### Type Literal
+
+\{ `$lte`: `any`[]; \}
+
+###### $lte
+
+> **$lte**: `any`[]
+
+$Lte
+
+###### Max Items
+
+2
+
+###### Min Items
+
+2
+
+***
+
+###### Type Literal
+
+\{ `$in`: `any`[]; \}
+
+###### $in
+
+> **$in**: `any`[]
+
+$In
+
+###### Max Items
+
+2
+
+###### Min Items
+
+2
+
+***
+
+ContainsOperation
+
+***
+
+###### Type Literal
+
+\{ `$literal`: `string` \| `number` \| `boolean` \| `Record`\<`string`, LiteralOperation\> \| LiteralOperation[] \| `null`; \}
+
+###### $literal
+
+> **$literal**: `string` \| `number` \| `boolean` \| `Record`\<`string`, LiteralOperation\> \| LiteralOperation[] \| `null`
+
+$Literal
+
+***
+
+###### Type Literal
+
+\{ `$getField`: `string`; \}
+
+###### $getField
+
+> **$getField**: `string`
+
+$Getfield
+
+***
+
+###### Type Literal
+
+\{ `$convert`: \{ `input`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation; `to`: `"string"` \| `"double"` \| `"int"` \| `"bool"` \| `"exists"`; \}; \}
+
+###### $convert
+
+> **$convert**: `object`
+
+Specifies conversion details for `$convert`.
+
+- `input`: The operand to convert.
+- `to`: The type to convert to.
+
+###### $convert.input
+
+> **input**: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation
+
+Input
+
+###### $convert.to
+
+> **to**: `"string"` \| `"double"` \| `"int"` \| `"bool"` \| `"exists"`
+
+To
+
+***
+
+###### Type Literal
+
+\{ `$size`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation; \}
+
+###### $size
+
+> **$size**: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation
+
+$Size
+
+###### $contains.substr
+
+> **substr**: \{ `$and`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation[]; \} \| \{ `$or`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation[]; \} \| \{ `$not`: `any`[]; \} \| \{ `$eq`: `any`[]; \} \| \{ `$gt`: `any`[]; \} \| \{ `$lt`: `any`[]; \} \| \{ `$gte`: `any`[]; \} \| \{ `$lte`: `any`[]; \} \| \{ `$in`: `any`[]; \} \| ContainsOperation \| \{ `$literal`: `string` \| `number` \| `boolean` \| `Record`\<`string`, LiteralOperation\> \| LiteralOperation[] \| `null`; \} \| \{ `$getField`: `string`; \} \| \{ `$convert`: \{ `input`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation; `to`: `"string"` \| `"double"` \| `"int"` \| `"bool"` \| `"exists"`; \}; \} \| \{ `$size`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation; \}
+
+Substr
+
+###### Union Members
+
+###### Type Literal
+
+\{ `$and`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation[]; \}
+
+###### $and
+
+> **$and**: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation[]
+
+$And
+
+***
+
+###### Type Literal
+
+\{ `$or`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation[]; \}
+
+###### $or
+
+> **$or**: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation[]
+
+$Or
+
+***
+
+###### Type Literal
+
+\{ `$not`: `any`[]; \}
+
+###### $not
+
+> **$not**: `any`[]
+
+$Not
+
+###### Max Items
+
+1
+
+###### Min Items
+
+1
+
+***
+
+###### Type Literal
+
+\{ `$eq`: `any`[]; \}
+
+###### $eq
+
+> **$eq**: `any`[]
+
+$Eq
+
+###### Max Items
+
+2
+
+###### Min Items
+
+2
+
+***
+
+###### Type Literal
+
+\{ `$gt`: `any`[]; \}
+
+###### $gt
+
+> **$gt**: `any`[]
+
+$Gt
+
+###### Max Items
+
+2
+
+###### Min Items
+
+2
+
+***
+
+###### Type Literal
+
+\{ `$lt`: `any`[]; \}
+
+###### $lt
+
+> **$lt**: `any`[]
+
+$Lt
+
+###### Max Items
+
+2
+
+###### Min Items
+
+2
+
+***
+
+###### Type Literal
+
+\{ `$gte`: `any`[]; \}
+
+###### $gte
+
+> **$gte**: `any`[]
+
+$Gte
+
+###### Max Items
+
+2
+
+###### Min Items
+
+2
+
+***
+
+###### Type Literal
+
+\{ `$lte`: `any`[]; \}
+
+###### $lte
+
+> **$lte**: `any`[]
+
+$Lte
+
+###### Max Items
+
+2
+
+###### Min Items
+
+2
+
+***
+
+###### Type Literal
+
+\{ `$in`: `any`[]; \}
+
+###### $in
+
+> **$in**: `any`[]
+
+$In
+
+###### Max Items
+
+2
+
+###### Min Items
+
+2
+
+***
+
+ContainsOperation
+
+***
+
+###### Type Literal
+
+\{ `$literal`: `string` \| `number` \| `boolean` \| `Record`\<`string`, LiteralOperation\> \| LiteralOperation[] \| `null`; \}
+
+###### $literal
+
+> **$literal**: `string` \| `number` \| `boolean` \| `Record`\<`string`, LiteralOperation\> \| LiteralOperation[] \| `null`
+
+$Literal
+
+***
+
+###### Type Literal
+
+\{ `$getField`: `string`; \}
+
+###### $getField
+
+> **$getField**: `string`
+
+$Getfield
+
+***
+
+###### Type Literal
+
+\{ `$convert`: \{ `input`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation; `to`: `"string"` \| `"double"` \| `"int"` \| `"bool"` \| `"exists"`; \}; \}
+
+###### $convert
+
+> **$convert**: `object`
+
+Specifies conversion details for `$convert`.
+
+- `input`: The operand to convert.
+- `to`: The type to convert to.
+
+###### $convert.input
+
+> **input**: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation
+
+Input
+
+###### $convert.to
+
+> **to**: `"string"` \| `"double"` \| `"int"` \| `"bool"` \| `"exists"`
+
+To
+
+***
+
+###### Type Literal
+
+\{ `$size`: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation; \}
+
+###### $size
+
+> **$size**: AndOperation \| OrOperation \| NotOperation \| EqOperation \| GtOperation \| LtOperation \| GteOperation \| ... 6 more ... \| SizeOperation
+
+$Size
