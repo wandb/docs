@@ -20,7 +20,7 @@ column changes.
 | **1. Event detector** | commit iteration, diff splitting, set-equality dedupe | which paths are user-facing; which literal patterns are labels |
 | **2. Evidence** | structural signals, gate scope, ownership | gate registry location and mechanism; CODEOWNERS shape |
 | **3. Triage** | the agent/pair/human decision procedure | thresholds; which paths are immutable |
-| **4. Sink** | markdown table renderer, ledger, `[skip ci]` commit-back | report location; JIRA project and component |
+| **4. Sink** | markdown table renderer, ledger, rolling report PR | report location; JIRA project and component |
 
 Part 1 is where nearly all the adaptation cost lives. Parts 3 and 4 usually
 transfer unchanged.
@@ -342,6 +342,54 @@ stale evidence would never reopen.
 Exit codes: `0` clean, `1` operator error (bad range, missing checkout), `2` no
 subcommand, `3` at least one decision reopened. `3` is separate because a
 reopened decision is the one outcome that should be able to fail a CI step.
+
+`--summary-json PATH` writes the run's counts for a caller that has to decide
+something. A CI step choosing whether to open a PR should read that, not grep the
+rendered report: the prose exists to be read, and coupling a workflow to a
+sentence like "No drift to act on in this window" makes the wording load-bearing.
+
+## Running it in CI
+
+`.github/workflows/uidrift-scan.yml` is the sink. Three things in it are
+measurements rather than preferences, and are the parts to keep when adapting:
+
+**Clone the watched repo in full, single-branch, with `--no-checkout`.** Each
+half of that was tested against `wandb/core` (2.4 GB, 50k commits):
+
+| Clone | Cost | Verdict |
+|---|---|---|
+| Full, `--no-checkout` | 1.3 GB, ~3.5 min | **What we use** |
+| `--shallow-since=7 months` | 136 MB, ~10 s | Wrong reviewers |
+| `--shallow-since=18 months` | 348 MB, ~15 s | Still wrong reviewers |
+| `--filter=blob:none` | 96 MB, ~17 s | Unusable |
+
+Shallow is the tempting one and it is wrong for a specific reason: ownership
+falls back to all-time authorship when a file has fewer than
+`MIN_RECENT_AUTHORS` recent authors, which is exactly the history a truncated
+clone does not have. Both windows above named different reviewers than complete
+history did, and no window is safe — the fallback exists *for* old, quiet files.
+
+A blobless partial clone looks ideal (smallest, complete commit history, and
+ownership only needs trees) but `iter_commits` reads `--numstat`, which needs
+blob content. A one-day window spent 82 seconds lazy-fetching and then failed on
+the promisor remote. If you make that clone work, `iter_commits` never uses the
+add/delete counts it parses — only `cols[2]`, the path — so `--name-only` would
+be enough. That is a change to vendored code; make it deliberately.
+
+**No `[skip ci]` on the commit.** The anatomy table used to say otherwise. A
+skipped workflow reports no status at all, so required `pull_request` checks sit
+pending forever and the PR can never merge. Keep the report cheap for CI instead:
+`.mintignore` excludes `uidrift/`, and Validate MDX sees no `.mdx` or `.json` in
+the diff and short-circuits.
+
+**One rolling branch, and only commit when there is something to say.** Because
+the watermark is the newest report *on the default branch*, a run regenerates the
+delta since the last **merged** report — so a superseded report has nothing left
+to say, and a fresh branch per weekday would bury the current one. A run with no
+findings commits nothing and leaves the watermark where it was; the next run
+rescans the same range over a slightly wider window, which costs seconds. The
+alternative — committing a "nothing found" report daily to advance the
+watermark — buys a cheaper scan with a PR nobody wants to read.
 
 ## Volume expectations
 
