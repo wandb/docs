@@ -11,100 +11,88 @@ invoque chaque callback ; ils sont donc tous présents, même lorsqu&#39;un cal
 ADK considère toute valeur de retour autre que `undefined` comme un court-circuit ; chaque callback
 capture donc ses propres erreurs et renvoie `undefined`.
 
+Défini dans : [src/integrations/googleAdk.ts:589](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L589)
+
 <div id="implements">
   ## Implémente
 </div>
 
 * `BasePlugin`
 
-<div id="table-of-contents">
-  ## Table des matières
-</div>
-
 <div id="constructors">
-  ### Constructeurs
+  ## Constructeurs
 </div>
-
-* [constructeur](./weaveadkplugin#constructor)
-
-<div id="properties">
-  ### Propriétés
-</div>
-
-* [nom](./weaveadkplugin#name)
-
-<div id="methods">
-  ### Méthodes
-</div>
-
-* [afterAgentCallback](./weaveadkplugin#afteragentcallback)
-* [afterContextCompaction](./weaveadkplugin#aftercontextcompaction)
-* [afterModelCallback](./weaveadkplugin#aftermodelcallback)
-* [afterRunCallback](./weaveadkplugin#afterruncallback)
-* [afterToolCallback](./weaveadkplugin#aftertoolcallback)
-* [beforeAgentCallback](./weaveadkplugin#beforeagentcallback)
-* [beforeContextCompaction](./weaveadkplugin#beforecontextcompaction)
-* [beforeModelCallback](./weaveadkplugin#beforemodelcallback)
-* [beforeRunCallback](./weaveadkplugin#beforeruncallback)
-* [beforeToolCallback](./weaveadkplugin#beforetoolcallback)
-* [beforeToolSelection](./weaveadkplugin#beforetoolselection)
-* [finishInterruptedInvocation](./weaveadkplugin#finishinterruptedinvocation)
-* [onEventCallback](./weaveadkplugin#oneventcallback)
-* [onModelErrorCallback](./weaveadkplugin#onmodelerrorcallback)
-* [onToolErrorCallback](./weaveadkplugin#ontoolerrorcallback)
-* [onUserMessageCallback](./weaveadkplugin#onusermessagecallback)
-
-## Constructeurs
 
 <div id="constructor">
-  ### constructeur
+  ### Constructeur
 </div>
 
-• **new WeaveAdkPlugin**(): [`WeaveAdkPlugin`](./weaveadkplugin)
+> **new WeaveAdkPlugin**(): `WeaveAdkPlugin`
 
 <div id="returns">
   #### Renvoie
 </div>
 
-[`WeaveAdkPlugin`](./weaveadkplugin)
+`WeaveAdkPlugin`
 
-## Propriétés
+<div id="properties">
+  ## Propriétés
+</div>
 
 <div id="name">
   ### nom
 </div>
 
-• `Readonly` **nom**: `"weave"`
+> `readonly` **nom**: `"weave"` = `WEAVE_ADK_PLUGIN_NAME`
+
+Défini dans : [src/integrations/googleAdk.ts:590](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L590)
 
 <div id="implementation-of">
   #### Implémentation de
 </div>
 
-AdkBasePlugin.name
+`AdkBasePlugin.name`
 
-<div id="defined-in">
-  #### Défini dans
+<div id="methods">
+  ## Méthodes
 </div>
-
-[src/integrations/googleAdk.ts:590](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L590)
-
-## Méthodes
 
 <div id="afteragentcallback">
-  ### afterAgentCallback
+  ### afterAgentCallback()
 </div>
 
-▸ **afterAgentCallback**(`params`): `Promise`&lt;`undefined`&gt;
+> **afterAgentCallback**(`params`): `Promise`&lt;`undefined`&gt;
+
+Callback exécuté après l&#39;exécution de la logique principale d&#39;un agent.
+
+Ce callback peut être utilisé pour inspecter, journaliser ou modifier le
+résultat final de l&#39;agent avant qu&#39;il ne soit renvoyé.
+
+défini dans : [src/integrations/googleAdk.ts:779](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L779)
 
 <div id="parameters">
   #### Paramètres
 </div>
 
-| Nom                      | Type        |
-| :----------------------- | :---------- |
-| `params`                 | `Object`    |
-| `params.agent`           | `BaseAgent` |
-| `params.callbackContext` | `Context`   |
+<div id="params">
+  ##### params
+</div>
+
+<div id="agent">
+  ###### agent
+</div>
+
+`BaseAgent`
+
+L’agent qui vient de s’exécuter.
+
+<div id="callbackcontext">
+  ###### callbackContext
+</div>
+
+`Context`
+
+Le contexte de l’appel d’agent.
 
 <div id="returns">
   #### Renvoie
@@ -112,31 +100,40 @@ AdkBasePlugin.name
 
 `Promise`&lt;`undefined`&gt;
 
+Un objet `Content` facultatif. Si une valeur est renvoyée, elle
+remplace le résultat d&#39;origine de l&#39;agent. Renvoyer `undefined` conserve le
+résultat d&#39;origine, sans modification.
+
 <div id="implementation-of">
   #### Implémentation de
 </div>
 
-AdkBasePlugin.afterAgentCallback
-
-#### défini dans
-
-[src/integrations/googleAdk.ts:779](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L779)
+`AdkBasePlugin.afterAgentCallback`
 
 ***
 
 <div id="aftercontextcompaction">
-  ### afterContextCompaction
+  ### afterContextCompaction()
 </div>
 
-▸ **afterContextCompaction**(`_params`): `Promise`&lt;`undefined`&gt;
+> **afterContextCompaction**(`_params`) : `Promise`&lt;`undefined`&gt;
+
+Callback exécuté après le compactage du contexte.
+
+Ce callback permet d’inspecter le contexte
+après son compactage.
+
+Défini dans : [src/integrations/googleAdk.ts:997](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L997)
 
 <div id="parameters">
   #### Paramètres
 </div>
 
-| Nom       | Type      |
-| :-------- | :-------- |
-| `_params` | `unknown` |
+<div id="_params">
+  ##### _params
+</div>
+
+`unknown`
 
 <div id="returns">
   #### Renvoie
@@ -148,31 +145,46 @@ AdkBasePlugin.afterAgentCallback
   #### Implémentation de
 </div>
 
-AdkBasePlugin.afterContextCompaction
-
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[src/integrations/googleAdk.ts:997](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L997)
+`AdkBasePlugin.afterContextCompaction`
 
 ***
 
 <div id="aftermodelcallback">
-  ### afterModelCallback
+  ### afterModelCallback()
 </div>
 
-▸ **afterModelCallback**(`params`): `Promise`&lt;`undefined`&gt;
+> **afterModelCallback**(`params`): `Promise`&lt;`undefined`&gt;
+
+Callback exécuté après réception d’une réponse du modèle.
+
+C’est l’emplacement idéal pour journaliser les réponses du modèle, collecter des métriques sur l’utilisation des jetons
+ou effectuer un post-traitement sur le `LlmResponse` brut.
+
+Défini dans : [src/integrations/googleAdk.ts:841](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L841)
 
 <div id="parameters">
   #### Paramètres
 </div>
 
-| Nom                      | Type          |
-| :----------------------- | :------------ |
-| `params`                 | `Object`      |
-| `params.callbackContext` | `Context`     |
-| `params.llmResponse`     | `LlmResponse` |
+<div id="params">
+  ##### params
+</div>
+
+<div id="callbackcontext">
+  ###### callbackContext
+</div>
+
+`Context`
+
+Le contexte de l’appel de l’agent actuel.
+
+<div id="llmresponse">
+  ###### llmResponse
+</div>
+
+`LlmResponse`
+
+L’objet Réponse reçu du modèle.
 
 <div id="returns">
   #### Renvoie
@@ -180,34 +192,46 @@ AdkBasePlugin.afterContextCompaction
 
 `Promise`&lt;`undefined`&gt;
 
+Valeur facultative. Une valeur de retour autre que `undefined` peut être utilisée par le
+framework pour modifier ou remplacer la réponse. Renvoyer `undefined`
+permet d&#39;utiliser la réponse d&#39;origine.
+
 <div id="implementation-of">
   #### Implémentation de
 </div>
 
-AdkBasePlugin.afterModelCallback
-
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[src/integrations/googleAdk.ts:841](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L841)
+`AdkBasePlugin.afterModelCallback`
 
 ***
 
 <div id="afterruncallback">
-  ### afterRunCallback
+  ### afterRunCallback()
 </div>
 
-▸ **afterRunCallback**(`params`): `Promise`&lt;`undefined`&gt;
+> **afterRunCallback**(`params`) : `Promise`&lt;`undefined`&gt;
+
+Callback exécuté une fois qu’une exécution du runner ADK est terminée.
+
+Il s’agit du callback final du cycle de vie ADK, adapté au nettoyage,
+à la journalisation finale ou aux tâches de génération de rapports.
+
+Défini dans : [src/integrations/googleAdk.ts:713](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L713)
 
 <div id="parameters">
   #### Paramètres
 </div>
 
-| Nom                        | Type                |
-| :------------------------- | :------------------ |
-| `params`                   | `Object`            |
-| `params.invocationContext` | `InvocationContext` |
+<div id="params">
+  ##### params
+</div>
+
+<div id="invocationcontext">
+  ###### invocationContext
+</div>
+
+`InvocationContext`
+
+Le contexte de l’invocation dans son ensemble.
 
 <div id="returns">
   #### Renvoie
@@ -215,37 +239,68 @@ AdkBasePlugin.afterModelCallback
 
 `Promise`&lt;`undefined`&gt;
 
+indéfini
+
 <div id="implementation-of">
   #### Implémentation de
 </div>
 
-AdkBasePlugin.afterRunCallback
-
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[src/integrations/googleAdk.ts:713](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L713)
+`AdkBasePlugin.afterRunCallback`
 
 ***
 
 <div id="aftertoolcallback">
-  ### afterToolCallback
+  ### afterToolCallback()
 </div>
 
-▸ **afterToolCallback**(`params`): `Promise`&lt;`undefined`&gt;
+> **afterToolCallback**(`params`): `Promise`&lt;`undefined`&gt;
+
+Callback exécuté après l’appel d’un outil.
+
+Ce callback permet d’inspecter, de journaliser ou de modifier le résultat
+renvoyé par un outil.
+
+Défini dans : [src/integrations/googleAdk.ts:965](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L965)
 
 <div id="parameters">
   #### Paramètres
 </div>
 
-| Nom                  | Type                                         |
-| :------------------- | :------------------------------------------- |
-| `params`             | `Object`                                     |
-| `params.result`      | `null` | `Record`&lt;`string`, `unknown`&gt; |
-| `params.tool`        | `BaseTool`                                   |
-| `params.toolArgs`    | `Record`&lt;`string`, `unknown`&gt;          |
-| `params.toolContext` | `Context`                                    |
+<div id="params">
+  ##### params
+</div>
+
+<div id="result">
+  ###### result
+</div>
+
+`Record`&lt;`string`, `unknown`&gt; | `null`
+
+Le dictionnaire renvoyé par l’invocation de l’outil.
+
+<div id="tool">
+  ###### outil
+</div>
+
+`BaseTool`
+
+L’instance de l’outil qui vient d’être exécutée.
+
+<div id="toolargs">
+  ###### toolArgs
+</div>
+
+`Record`&lt;`string`, `unknown`&gt;
+
+Les arguments d’origine transmis à l’outil.
+
+<div id="toolcontext">
+  ###### toolContext
+</div>
+
+`Context`
+
+Contexte spécifique à l’exécution de l’outil.
 
 <div id="returns">
   #### Renvoie
@@ -253,35 +308,54 @@ AdkBasePlugin.afterRunCallback
 
 `Promise`&lt;`undefined`&gt;
 
+Un dictionnaire facultatif. Si un dictionnaire est renvoyé, il
+**remplace** le résultat original de l’outil. Cela permet de
+post-traiter ou de modifier les sorties de l’outil. Renvoyer `undefined` conserve
+le résultat original, non modifié.
+
 <div id="implementation-of">
   #### Implémentation de
 </div>
 
-AdkBasePlugin.afterToolCallback
-
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[src/integrations/googleAdk.ts:965](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L965)
+`AdkBasePlugin.afterToolCallback`
 
 ***
 
 <div id="beforeagentcallback">
-  ### beforeAgentCallback
+  ### beforeAgentCallback()
 </div>
 
-▸ **beforeAgentCallback**(`params`): `Promise`&lt;`undefined`&gt;
+> **beforeAgentCallback**(`params`): `Promise`&lt;`undefined`&gt;
+
+Callback exécuté avant la logique principale d’un agent.
+
+Ce callback peut être utilisé pour la journalisation, la configuration ou pour interrompre prématurément l’exécution de l’agent en renvoyant une valeur.
+
+Défini dans : [src/integrations/googleAdk.ts:765](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L765)
 
 <div id="parameters">
   #### Paramètres
 </div>
 
-| Nom                      | Type        |
-| :----------------------- | :---------- |
-| `params`                 | `Object`    |
-| `params.agent`           | `BaseAgent` |
-| `params.callbackContext` | `Context`   |
+<div id="params">
+  ##### params
+</div>
+
+<div id="agent">
+  ###### agent
+</div>
+
+`BaseAgent`
+
+L’agent sur le point de s’exécuter.
+
+<div id="callbackcontext">
+  ###### callbackContext
+</div>
+
+`Context`
+
+Le contexte de l’appel d’agent.
 
 <div id="returns">
   #### Renvoie
@@ -289,33 +363,40 @@ AdkBasePlugin.afterToolCallback
 
 `Promise`&lt;`undefined`&gt;
 
+Un objet `Content` facultatif. Si une valeur est renvoyée, elle
+contourne les callbacks de l’agent et son exécution, et est renvoyée directement.
+Renvoyer `undefined` permet à l’agent de poursuivre normalement.
+
 <div id="implementation-of">
   #### Implémentation de
 </div>
 
-AdkBasePlugin.beforeAgentCallback
-
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[src/integrations/googleAdk.ts:765](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L765)
+`AdkBasePlugin.beforeAgentCallback`
 
 ***
 
 <div id="beforecontextcompaction">
-  ### beforeContextCompaction
+  ### beforeContextCompaction()
 </div>
 
-▸ **beforeContextCompaction**(`_params`): `Promise`&lt;`undefined`&gt;
+> **beforeContextCompaction**(`_params`) : `Promise`&lt;`undefined`&gt;
+
+Callback exécuté avant le compactage du contexte.
+
+Ce callback permet d’inspecter ou de modifier le contexte
+avant qu’il ne soit compacté.
+
+Défini dans : [src/integrations/googleAdk.ts:993](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L993)
 
 <div id="parameters">
   #### Paramètres
 </div>
 
-| Nom       | Type      |
-| :-------- | :-------- |
-| `_params` | `unknown` |
+<div id="_params">
+  ##### _params
+</div>
+
+`unknown`
 
 <div id="returns">
   #### Renvoie
@@ -327,31 +408,47 @@ AdkBasePlugin.beforeAgentCallback
   #### Implémentation de
 </div>
 
-AdkBasePlugin.beforeContextCompaction
-
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[src/integrations/googleAdk.ts:993](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L993)
+`AdkBasePlugin.beforeContextCompaction`
 
 ***
 
 <div id="beforemodelcallback">
-  ### beforeModelCallback
+  ### beforeModelCallback()
 </div>
 
-▸ **beforeModelCallback**(`params`): `Promise`&lt;`undefined`&gt;
+> **beforeModelCallback**(`params`) : `Promise`&lt;`undefined`&gt;
+
+Callback exécuté avant l’envoi d’une requête au modèle.
+
+Permet d’inspecter, de journaliser ou de modifier l’objet `LlmRequest`.
+Peut également servir à implémenter la mise en cache en renvoyant une
+`LlmResponse` mise en cache, ce qui évite l’appel de modèle réel.
+
+Défini dans : [src/integrations/googleAdk.ts:804](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L804)
 
 <div id="parameters">
   #### Paramètres
 </div>
 
-| Nom                      | Type         |
-| :----------------------- | :----------- |
-| `params`                 | `Object`     |
-| `params.callbackContext` | `Context`    |
-| `params.llmRequest`      | `LlmRequest` |
+<div id="params">
+  ##### params
+</div>
+
+<div id="callbackcontext">
+  ###### callbackContext
+</div>
+
+`Context`
+
+Contexte de l’appel de l’agent actuel.
+
+<div id="llmrequest">
+  ###### llmRequest
+</div>
+
+`LlmRequest`
+
+L’objet de requête préparé à envoyer au modèle.
 
 <div id="returns">
   #### Renvoie
@@ -359,34 +456,47 @@ AdkBasePlugin.beforeContextCompaction
 
 `Promise`&lt;`undefined`&gt;
 
+Une valeur facultative. Une valeur différente de `undefined`
+déclenche une sortie anticipée et renvoie immédiatement la réponse. Renvoyer
+`undefined` permet à la requête LLM de se poursuivre normalement.
+
 <div id="implementation-of">
   #### Implémentation de
 </div>
 
-AdkBasePlugin.beforeModelCallback
-
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[src/integrations/googleAdk.ts:804](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L804)
+`AdkBasePlugin.beforeModelCallback`
 
 ***
 
 <div id="beforeruncallback">
-  ### beforeRunCallback
+  ### beforeRunCallback()
 </div>
 
-▸ **beforeRunCallback**(`params`): `Promise`&lt;`undefined`&gt;
+> **beforeRunCallback**(`params`): `Promise`&lt;`undefined`&gt;
+
+Callback exécuté avant l’exécution du runner ADK.
+
+Il s’agit du premier callback appelé dans le cycle de vie, idéal pour les tâches globales de
+configuration ou d’initialisation.
+
+Défini dans : [src/integrations/googleAdk.ts:621](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L621)
 
 <div id="parameters">
   #### Paramètres
 </div>
 
-| Nom                        | Type                |
-| :------------------------- | :------------------ |
-| `params`                   | `Object`            |
-| `params.invocationContext` | `InvocationContext` |
+<div id="params">
+  ##### params
+</div>
+
+<div id="invocationcontext">
+  ###### invocationContext
+</div>
+
+`InvocationContext`
+
+Le contexte de l’invocation entière, contenant
+les informations de session, l’agent racine, etc.
 
 <div id="returns">
   #### Renvoie
@@ -394,36 +504,63 @@ AdkBasePlugin.beforeModelCallback
 
 `Promise`&lt;`undefined`&gt;
 
+Un `Event` facultatif à renvoyer à l&#39;ADK. Renvoyez une valeur
+pour interrompre l&#39;exécution du runner et le terminer avec cet événement.
+Renvoyez `undefined` pour poursuivre normalement.
+
 <div id="implementation-of">
   #### Implémentation de
 </div>
 
-AdkBasePlugin.beforeRunCallback
-
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[src/integrations/googleAdk.ts:621](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L621)
+`AdkBasePlugin.beforeRunCallback`
 
 ***
 
 <div id="beforetoolcallback">
-  ### beforeToolCallback
+  ### beforeToolCallback()
 </div>
 
-▸ **beforeToolCallback**(`params`): `Promise`&lt;`undefined`&gt;
+> **beforeToolCallback**(`params`) : `Promise`&lt;`undefined`&gt;
+
+Callback exécuté avant l&#39;appel d&#39;un outil.
+
+Ce callback est utile pour journaliser l&#39;utilisation des outils, valider les entrées ou
+modifier les arguments avant qu&#39;ils ne soient transmis à l&#39;outil.
+
+Défini dans : [src/integrations/googleAdk.ts:918](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L918)
 
 <div id="parameters">
   #### Paramètres
 </div>
 
-| Nom                  | Type                                |
-| :------------------- | :---------------------------------- |
-| `params`             | `Object`                            |
-| `params.tool`        | `BaseTool`                          |
-| `params.toolArgs`    | `Record`&lt;`string`, `unknown`&gt; |
-| `params.toolContext` | `Context`                           |
+<div id="params">
+  ##### params
+</div>
+
+<div id="tool">
+  ###### outil
+</div>
+
+`BaseTool`
+
+Instance de l’outil sur le point d’être exécutée.
+
+<div id="toolargs">
+  ###### toolArgs
+</div>
+
+`Record`&lt;`string`, `unknown`&gt;
+
+Dictionnaire des arguments utilisés pour appeler l’
+outil.
+
+<div id="toolcontext">
+  ###### toolContext
+</div>
+
+`Context`
+
+Contexte spécifique à l’exécution de l’outil.
 
 <div id="returns">
   #### Renvoie
@@ -431,33 +568,38 @@ AdkBasePlugin.beforeRunCallback
 
 `Promise`&lt;`undefined`&gt;
 
+Un dictionnaire facultatif. Si un dictionnaire est renvoyé, l’exécution de l’outil est interrompue et cette réponse est renvoyée immédiatement. Renvoyer `undefined` utilise les arguments d’origine non modifiés.
+
 <div id="implementation-of">
   #### Implémentation de
 </div>
 
-AdkBasePlugin.beforeToolCallback
-
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[src/integrations/googleAdk.ts:918](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L918)
+`AdkBasePlugin.beforeToolCallback`
 
 ***
 
 <div id="beforetoolselection">
-  ### beforeToolSelection
+  ### beforeToolSelection()
 </div>
 
-▸ **beforeToolSelection**(`_params`): `Promise`&lt;`undefined`&gt;
+> **beforeToolSelection**(`_params`) : `Promise`&lt;`undefined`&gt;
+
+Callback exécuté avant la sélection d’un outil.
+
+Ce callback permet d’inspecter, de journaliser ou de modifier les
+outils disponibles avant leur sélection.
+
+Défini dans : [src/integrations/googleAdk.ts:914](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L914)
 
 <div id="parameters">
   #### Paramètres
 </div>
 
-| Nom       | Type      |
-| :-------- | :-------- |
-| `_params` | `unknown` |
+<div id="_params">
+  ##### _params
+</div>
+
+`unknown`
 
 <div id="returns">
   #### Renvoie
@@ -465,25 +607,23 @@ AdkBasePlugin.beforeToolCallback
 
 `Promise`&lt;`undefined`&gt;
 
+Valeur facultative. Le framework peut utiliser une valeur de retour autre que
+`undefined` pour modifier ou remplacer les outils disponibles. Renvoyer
+`undefined` permet d&#39;utiliser les outils d&#39;origine.
+
 <div id="implementation-of">
   #### Implémentation de
 </div>
 
-AdkBasePlugin.beforeToolSelection
-
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[src/integrations/googleAdk.ts:914](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L914)
+`AdkBasePlugin.beforeToolSelection`
 
 ***
 
 <div id="finishinterruptedinvocation">
-  ### finishInterruptedInvocation
+  ### finishInterruptedInvocation()
 </div>
 
-▸ **finishInterruptedInvocation**(`invocationId`): `void`
+> **finishInterruptedInvocation**(`invocationId`): `void`
 
 Finalise un run qui n’a jamais atteint `afterRunCallback`. ADK n’appelle
 `afterRunCallback` qu’une fois la boucle d’événements vidée normalement. Par conséquent, un consommateur qui
@@ -492,13 +632,17 @@ quitte `runAsync` prématurément — ou un run annulé — laisse l’invocatio
 bloc `finally` pour les fermer en tant qu’interrompus. Idempotent : aucune opération si le run
 est déjà terminé (le cas courant, lorsqu’il a été entièrement consommé).
 
+Défini dans : [src/integrations/googleAdk.ts:732](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L732)
+
 <div id="parameters">
   #### Paramètres
 </div>
 
-| Nom            | Type     |
-| :------------- | :------- |
-| `invocationId` | `string` |
+<div id="invocationid">
+  ##### invocationId
+</div>
+
+`string`
 
 <div id="returns">
   #### Renvoie
@@ -506,29 +650,44 @@ est déjà terminé (le cas courant, lorsqu’il a été entièrement consommé)
 
 `void`
 
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[src/integrations/googleAdk.ts:732](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L732)
-
 ***
 
 <div id="oneventcallback">
-  ### onEventCallback
+  ### onEventCallback()
 </div>
 
-▸ **onEventCallback**(`params`): `Promise`&lt;`undefined`&gt;
+> **onEventCallback**(`params`): `Promise`&lt;`undefined`&gt;
+
+Callback exécuté après qu’un événement a été émis par le runner.
+
+C’est l’emplacement idéal pour modifier l’événement avant qu’il ne soit
+géré par l’application d’agent sous-jacente.
+
+Défini dans : [src/integrations/googleAdk.ts:693](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L693)
 
 <div id="parameters">
   #### Paramètres
 </div>
 
-| Nom                        | Type                |
-| :------------------------- | :------------------ |
-| `params`                   | `Object`            |
-| `params.event`             | `Event`             |
-| `params.invocationContext` | `InvocationContext` |
+<div id="params">
+  ##### params
+</div>
+
+<div id="event">
+  ###### événement
+</div>
+
+`Event`
+
+L’événement émis par le runner.
+
+<div id="invocationcontext">
+  ###### invocationContext
+</div>
+
+`InvocationContext`
+
+Le contexte de l’ensemble de l’invocation.
 
 <div id="returns">
   #### Renvoie
@@ -536,36 +695,65 @@ est déjà terminé (le cas courant, lorsqu’il a été entièrement consommé)
 
 `Promise`&lt;`undefined`&gt;
 
+Une valeur facultative. Une valeur de retour autre que `undefined` peut être utilisée par le
+framework pour modifier ou remplacer la réponse. Copiez `params.event` lors de
+la création d’une valeur de remplacement afin de préserver les champs non
+modifiés, tels que les actions d’événement. Renvoyer `undefined` permet d’utiliser la
+réponse d’origine.
+
 <div id="implementation-of">
   #### Implémentation de
 </div>
 
-AdkBasePlugin.onEventCallback
-
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[src/integrations/googleAdk.ts:693](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L693)
+`AdkBasePlugin.onEventCallback`
 
 ***
 
 <div id="onmodelerrorcallback">
-  ### onModelErrorCallback
+  ### onModelErrorCallback()
 </div>
 
-▸ **onModelErrorCallback**(`params`): `Promise`&lt;`undefined`&gt;
+> **onModelErrorCallback**(`params`): `Promise`&lt;`undefined`&gt;
+
+Callback exécuté lorsqu’un appel de modèle rencontre une erreur.
+
+Ce callback permet de gérer les erreurs de modèle de manière appropriée,
+en fournissant éventuellement des réponses alternatives ou des mécanismes de récupération.
+
+Défini dans : [src/integrations/googleAdk.ts:884](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L884)
 
 <div id="parameters">
   #### Paramètres
 </div>
 
-| Nom                      | Type         |
-| :----------------------- | :----------- |
-| `params`                 | `Object`     |
-| `params.callbackContext` | `Context`    |
-| `params.error`           | `Error`      |
-| `params.llmRequest`      | `LlmRequest` |
+<div id="params">
+  ##### params
+</div>
+
+<div id="callbackcontext">
+  ###### callbackContext
+</div>
+
+`Context`
+
+Contexte de l’appel de l’agent actuel.
+
+<div id="error">
+  ###### error
+</div>
+
+`Error`
+
+Exception levée lors de l’exécution du modèle.
+
+<div id="llmrequest">
+  ###### llmRequest
+</div>
+
+`LlmRequest`
+
+La requête envoyée au modèle lorsque l’erreur
+s’est produite.
 
 <div id="returns">
   #### Renvoie
@@ -573,37 +761,80 @@ AdkBasePlugin.onEventCallback
 
 `Promise`&lt;`undefined`&gt;
 
+Une LlmResponse facultative. Si une LlmResponse est renvoyée, elle est
+utilisée au lieu de propager l’erreur. Renvoyer `undefined` permet
+de lever l’erreur d’origine.
+
 <div id="implementation-of">
   #### Implémentation de
 </div>
 
-AdkBasePlugin.onModelErrorCallback
-
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[src/integrations/googleAdk.ts:884](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L884)
+`AdkBasePlugin.onModelErrorCallback`
 
 ***
 
 <div id="ontoolerrorcallback">
-  ### onToolErrorCallback
+  ### onToolErrorCallback()
 </div>
 
-▸ **onToolErrorCallback**(`params`): `Promise`&lt;`undefined`&gt;
+> **onToolErrorCallback**(`params`) : `Promise`&lt;`undefined`&gt;
+
+Callback exécuté lorsqu’un appel d’outil rencontre une erreur.
+tool: BaseTool;
+toolArgs: Record&lt;string, unknown&gt;;
+toolContext: Context;
+result: Record&lt;string, unknown&gt;;
+&#125;): Promise&lt;Record&lt;string, unknown&gt; | undefined&gt; &#123;
+return;
+&#125;
+
+/**
+Callback exécuté lorsqu’un appel d’outil rencontre une erreur.
+
+Ce callback permet de gérer les erreurs d’outil avec élégance,
+en fournissant éventuellement des réponses alternatives ou des mécanismes de récupération.
+
+Défini dans : [src/integrations/googleAdk.ts:977](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L977)
 
 <div id="parameters">
   #### Paramètres
 </div>
 
-| Nom                  | Type                                |
-| :------------------- | :---------------------------------- |
-| `params`             | `Object`                            |
-| `params.error`       | `Error`                             |
-| `params.tool`        | `BaseTool`                          |
-| `params.toolArgs`    | `Record`&lt;`string`, `unknown`&gt; |
-| `params.toolContext` | `Context`                           |
+<div id="params">
+  ##### params
+</div>
+
+<div id="error">
+  ###### error
+</div>
+
+`Error`
+
+Exception levée lors de l’exécution de l’outil.
+
+<div id="tool">
+  ###### outil
+</div>
+
+`BaseTool`
+
+L’outil qui a rencontré une erreur.
+
+<div id="toolargs">
+  ###### toolArgs
+</div>
+
+`Record`&lt;`string`, `unknown`&gt;
+
+Les arguments transmis à l’outil.
+
+<div id="toolcontext">
+  ###### toolContext
+</div>
+
+`Context`
+
+Contexte propre à l’exécution de l’outil.
 
 <div id="returns">
   #### Renvoie
@@ -611,35 +842,49 @@ AdkBasePlugin.onModelErrorCallback
 
 `Promise`&lt;`undefined`&gt;
 
+Un dictionnaire facultatif. Si un dictionnaire est renvoyé, il est
+utilisé comme réponse de l’outil au lieu de propager l’erreur. Renvoyer
+`undefined` permet de lever l’erreur d’origine.
+
 <div id="implementation-of">
   #### Implémentation de
 </div>
 
-AdkBasePlugin.onToolErrorCallback
-
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[src/integrations/googleAdk.ts:977](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L977)
+`AdkBasePlugin.onToolErrorCallback`
 
 ***
 
 <div id="onusermessagecallback">
-  ### onUserMessageCallback
+  ### onUserMessageCallback()
 </div>
 
-▸ **onUserMessageCallback**(`_params`): `Promise`&lt;`undefined`&gt;
+> **onUserMessageCallback**(`_params`): `Promise`&lt;`undefined`&gt;
+
+Callback exécuté lorsqu’un message utilisateur est reçu avant le début d’une invocation.
+
+Ce callback permet de journaliser et de modifier le message utilisateur avant que le runner ne démarre l’invocation.
+
+Défini dans : [src/integrations/googleAdk.ts:614](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L614)
 
 <div id="parameters">
   #### Paramètres
 </div>
 
-| Nom                         | Type                |
-| :-------------------------- | :------------------ |
-| `_params`                   | `Object`            |
-| `_params.invocationContext` | `InvocationContext` |
-| `_params.userMessage`       | `Content`           |
+<div id="_params">
+  ##### _params
+</div>
+
+<div id="invocationcontext">
+  ###### invocationContext
+</div>
+
+`InvocationContext`
+
+<div id="usermessage">
+  ###### userMessage
+</div>
+
+`Content`
 
 <div id="returns">
   #### Renvoie
@@ -647,14 +892,12 @@ AdkBasePlugin.onToolErrorCallback
 
 `Promise`&lt;`undefined`&gt;
 
+Un `Content` facultatif à renvoyer à l’ADK. Renvoyez une
+valeur pour remplacer le message de l’utilisateur. Renvoyez `undefined` pour poursuivre
+normalement.
+
 <div id="implementation-of">
   #### Implémentation de
 </div>
 
-AdkBasePlugin.onUserMessageCallback
-
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[src/integrations/googleAdk.ts:614](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L614)
+`AdkBasePlugin.onUserMessageCallback`

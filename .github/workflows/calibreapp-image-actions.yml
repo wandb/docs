@@ -35,7 +35,7 @@ jobs:
           ref: ${{ github.head_ref }}
 
       - name: Compress Images
-        uses: calibreapp/image-actions@20a2d896d7e1103fc29631f4829539761123b8f5 # main
+        uses: calibreapp/image-actions@3aa3f82ae5b68ee3313b9c55b539b1b353265dae # main
         with:
           jpegQuality: '85'
           jpegProgressive: false

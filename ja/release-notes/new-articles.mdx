@@ -22,6 +22,30 @@ date: 2026-07-23
 
 {/* new-articles:start */}
 
+<div id="august-2026">
+  ## 2026年8月
+</div>
+
+<div id="support">
+  ### サポート
+</div>
+
+<Card title="一時的な環境でrunデータを保持するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-preserve-run-data-from-ephemeral-env/" arrow="true" horizontal>
+  一時的な環境でローカルのrunデータと診断ログを保持するには、WANDBDIR を永続ストレージ上のディレクトリに設定します。
+</Card>
+
+<Card title="個人アカウントがチームおよび組織に移行されるとどうなりますか？" href="/ja/support/models/articles/what-happens-when-my-personal-account-becomes-a-team/" arrow="true" horizontal>
+  W&amp;B は、従来の個人アカウントを、新しいアカウントですでに使用されているチームおよび組織の構造に移行しています。
+</Card>
+
+<Card title="チームまたはentityの名前を変更するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-rename-a-team-or-entity/" arrow="true" horizontal>
+  W&amp;B では、チームまたはentityの名前変更はサポートされていません。
+</Card>
+
+<Card title="多数のartifactを一度に削除するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-delete-many-artifacts-at-once/" arrow="true" horizontal>
+  ストレージ使用量の削減などで多数のartifactバージョンを削除する必要がある場合は、W&amp;B App ではなく W&amp;B Public API を使用してください。
+</Card>
+
 <div id="july-2026">
   ## 2026年7月
 </div>
@@ -54,16 +78,20 @@ date: 2026-07-23
   ### Weave
 </div>
 
+<Card title="カスタム runtime を追加する" href="/ja/weave/guides/tools/custom-runtimes/" arrow="true" horizontal>
+  OpenAI 互換の Inference Endpoint をカスタム runtime として Weave プロジェクトに接続し、UI または Python および TypeScript SDK から管理します。
+</Card>
+
 <Card title="Compare evaluations" href="/ja/weave/guides/evaluation/compare_evals/" arrow="true" horizontal>
   2 つ以上の評価を視覚的に比較し、run 間の回帰、改善、スコアリングの差異を特定します
 </Card>
 
-<Card title="Weave Op を使用して独自の bucket（BYOB）内のメディアを参照する" href="/ja/weave/guides/tracking/byob-references/" arrow="true" horizontal>
-  バイトデータを Weave にインポートせず、URI をログして独自のクラウド bucket 内の画像や動画を Weave トレースで表示します。
+<Card title="Weave Op を使用して独自のバケット（BYOB）内のメディアを参照する" href="/ja/weave/guides/tracking/byob-references/" arrow="true" horizontal>
+  バイトデータを Weave にインポートせず、URI をログして独自のクラウド バケット内の画像や動画を Weave トレースで表示します。
 </Card>
 
-<Card title="エージェント スパンを使用して独自の bucket（BYOB）内のメディアを参照する" href="/ja/weave/guides/tracking/agents-byob-references/" arrow="true" horizontal>
-  バイトデータを Weave にインポートせず、エージェントの tool スパンから URI を返して、独自のクラウド bucket 内の画像や動画を Weave Agents ビューで表示します。
+<Card title="エージェント スパンを使用して独自のバケット（BYOB）内のメディアを参照する" href="/ja/weave/guides/tracking/agents-byob-references/" arrow="true" horizontal>
+  バイトデータを Weave にインポートせず、エージェントの tool スパンから URI を返して、独自のクラウド バケット内の画像や動画を Weave Agents ビューで表示します。
 </Card>
 
 <Card title="Weave セルフマネージドの取り込みサンプリングを設定する" href="/ja/weave/guides/platform/ingest-sampling/" arrow="true" horizontal>
@@ -473,32 +501,6 @@ date: 2026-07-23
 </div>
 
 <Card title="Serverless Inference と Cline" href="/ja/inference/tutorials/integration-cline/" arrow="true" horizontal>
-  >
-</Card>
-
-<div id="february-2026">
-  ## 2026年2月
-</div>
-
-<div id="weave">
-  ### Weave
-</div>
-
-<Card title="Weave プロジェクトを管理する" href="/ja/weave/guides/platform/weave-projects/" arrow="true" horizontal>
-  Weave プロジェクトを使用して、トレース、プロンプト、評価、モデル、ダッシュボードなどの関連アセットを整理します。
-</Card>
-
-### プラットフォーム
-
-<Card title="W&B MCP Server を使用する" href="/ja/platform/mcp-server/" arrow="true" horizontal>
-  IDE や AI エージェントを W&amp;B Model Context Protocol (MCP) サーバーに接続し、自然言語で W&amp;B のデータやドキュメントをクエリ、分析できます。
-</Card>
-
-<div id="inference">
-  ### Inference
-</div>
-
-<Card title="モデルのライフサイクル" href="/ja/inference/lifecycle/" arrow="true" horizontal>
   >
 </Card>
 

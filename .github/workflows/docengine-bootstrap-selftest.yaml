@@ -3,10 +3,8 @@
 # situations it is designed to handle.
 #
 # That action is what fetches CoreWeave's documentation tooling (DocEngine) for
-# every other docs workflow, so it needs to be verifiable on its own. Right now
-# nothing else calls it yet - the existing DocEngine workflows still do this
-# setup inline, and moving them over happens later - so without this test there
-# would be no way to tell whether it works.
+# the docs workflows, so it needs to be verifiable on its own - not only
+# through the workflows that call it.
 #
 # The two cases:
 #   1. Given a token, it fetches DocEngine and reports available=true.
@@ -42,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Bootstrap
         id: boot
@@ -82,7 +80,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Bootstrap with no token
         id: boot

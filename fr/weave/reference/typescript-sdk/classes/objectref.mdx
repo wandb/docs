@@ -10,7 +10,9 @@ En général, les utilisateurs finaux n’auront pas besoin d’interagir direct
 Un ObjectRef contient l’ID du projet, l’ID de l’objet et le digest qui identifient de manière unique
 un objet enregistré dans le système de stockage de Weave.
 
-`Exemple`
+Défini dans : [src/weaveObject.ts:23](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L23)
+
+## Exemple
 
 ```ts twoslash
 // @noErrors
@@ -18,112 +20,83 @@ const ref = new ObjectRef('my-project', 'abc123', 'def456');
 const uri = ref.uri(); // weave:///my-project/object/abc123:def456
 ```
 
-<div id="table-of-contents">
-  ## Table des matières
-</div>
-
 <div id="constructors">
-  ### Constructeurs
+  ## Constructeurs
 </div>
-
-* [constructeur](./objectref#constructor)
-
-<div id="properties">
-  ### Propriétés
-</div>
-
-* [digest](./objectref#digest)
-* [objectId](./objectref#objectid)
-* [projectId](./objectref#projectid)
-
-<div id="methods">
-  ### Méthodes
-</div>
-
-* [get](./objectref#get)
-* [ui&#95;url](./objectref#ui_url)
-* [uri](./objectref#uri)
-* [fromUri](./objectref#fromuri)
-
-## Constructeurs
 
 <div id="constructor">
-  ### constructeur
+  ### Constructeur
 </div>
 
-• **new ObjectRef**(`projectId`, `objectId`, `digest`): [`ObjectRef`](./objectref)
+> **new ObjectRef**(`projectId`, `objectId`, `digest`) : `ObjectRef`
+
+Défini dans : [src/weaveObject.ts:24](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L24)
 
 <div id="parameters">
   #### Paramètres
 </div>
 
-| Nom         | Type     |
-| :---------- | :------- |
-| `projectId` | `string` |
-| `objectId`  | `string` |
-| `digest`    | `string` |
+<div id="projectid">
+  ##### projectId
+</div>
+
+`string`
+
+<div id="objectid">
+  ##### objectId
+</div>
+
+`string`
+
+<div id="digest">
+  ##### digest
+</div>
+
+`string`
 
 <div id="returns">
   #### Renvoie
 </div>
 
-[`ObjectRef`](./objectref)
+`ObjectRef`
 
-<div id="defined-in">
-  #### Défini dans
+<div id="properties">
+  ## Propriétés
 </div>
 
-[src/weaveObject.ts:24](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L24)
+### digest
 
-## Propriétés
+> **digest** : `string`
 
-<div id="digest">
-  ### digest
-</div>
-
-• **digest**: `string`
-
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[src/weaveObject.ts:27](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L27)
+Défini dans : [src/weaveObject.ts:27](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L27)
 
 ***
 
-<div id="objectid">
-  ### objectId
-</div>
+### objectId
 
-• **objectId**: `string`
+> **objectId** : `string`
 
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[src/weaveObject.ts:26](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L26)
+Défini dans : [src/weaveObject.ts:26](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L26)
 
 ***
 
-<div id="projectid">
-  ### projectId
+### projectId
+
+> **projectId** : `string`
+
+Défini dans : [src/weaveObject.ts:25](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L25)
+
+<div id="methods">
+  ## Méthodes
 </div>
-
-• **projectId**: `string`
-
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[src/weaveObject.ts:25](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L25)
-
-## Méthodes
 
 <div id="get">
-  ### get
+  ### get()
 </div>
 
-▸ **get**(): `Promise`&lt;`any`&gt;
+> **get**(): `Promise`&lt;`any`&gt;
+
+Défini dans : [src/weaveObject.ts:64](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L64)
 
 <div id="returns">
   #### Renvoie
@@ -131,39 +104,29 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
 
 `Promise`&lt;`any`&gt;
 
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[src/weaveObject.ts:64](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L64)
-
-***
-
 <div id="ui_url">
-  ### ui_url
+  ### ui_url()
 </div>
 
-▸ **ui&#95;url**(): `string`
+> **ui&#95;url**(): `string`
+
+Défini dans : [src/weaveObject.ts:59](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L59)
 
 <div id="returns">
   #### Renvoie
 </div>
 
 `string`
-
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[src/weaveObject.ts:59](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L59)
 
 ***
 
 <div id="uri">
-  ### uri
+  ### uri()
 </div>
 
-▸ **uri**(): `string`
+> **uri**(): `string`
+
+Défini dans : [src/weaveObject.ts:55](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L55)
 
 <div id="returns">
   #### Renvoie
@@ -171,51 +134,47 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
 
 `string`
 
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[src/weaveObject.ts:55](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L55)
-
 ***
 
 <div id="fromuri">
-  ### fromUri
+  ### fromUri()
 </div>
 
-▸ **fromUri**(`uri`): [`ObjectRef`](./objectref)
+> `static` **fromUri**(`uri`): `ObjectRef`
 
-Crée un ObjectRef à partir d’une chaîne URI Weave.
+Crée un ObjectRef à partir d&#39;une chaîne d&#39;URI Weave.
+
+Défini dans : [src/weaveObject.ts:42](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L42)
 
 <div id="parameters">
   #### Paramètres
 </div>
 
-| Nom   | Type     | Description                                                          |
-| :---- | :------- | :------------------------------------------------------------------- |
-| `uri` | `string` | Une URI Weave au format : weave:///entity/project/object/name:digest |
+##### uri
+
+`string`
+
+Une URI Weave au format : weave:///entity/project/object/name:digest
 
 <div id="returns">
   #### Renvoie
 </div>
 
-[`ObjectRef`](./objectref)
+`ObjectRef`
 
 Une nouvelle instance d&#39;ObjectRef
 
-`Lève`
+<div id="throws">
+  #### Lève
+</div>
 
 Une erreur si le format de l&#39;URI est invalide ou ne correspond pas à une réf. d&#39;objet
 
-`Exemple`
+<div id="example">
+  #### Exemple
+</div>
 
 ```ts twoslash
 // @noErrors
 const ref = ObjectRef.fromUri('weave:///my-entity/my-project/object/my-dataset:abc123');
 ```
-
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[src/weaveObject.ts:42](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L42)

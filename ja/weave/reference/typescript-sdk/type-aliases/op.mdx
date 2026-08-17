@@ -1,26 +1,64 @@
 ---
-title: "Op"
+title: "Op<T>"
 description: "TypeScript SDK リファレンス"
 ---
 
-<div id="op">
-  # Op
+> **Op**&lt;`T`&gt; = `object` &amp; `T` &amp; (...`args`) =&gt; `ReturnType`&lt;`T`&gt; *extends* `AsyncIterable`&lt;infer U&gt; ? `AsyncIterable`&lt;`Awaited`&lt;`U`&gt;&gt; : `Promise`&lt;`Awaited`&lt;`ReturnType`&lt;`T`&gt;&gt;&gt;
+
+定義元: [src/opType.ts:7](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/opType.ts#L7)
+
+<div id="type-declaration">
+  ## タイプ宣言
 </div>
 
-Ƭ **Op**&lt;`T`&gt;: &#123; `__boundThis?`: [`WeaveObject`](../classes/weaveobject) ; `__isOp`: `true` ; `__name`: `string` ; `__parameterNames?`: `ParameterNamesOption` ; `__savedRef?`: `OpRef` | `Promise`&lt;`OpRef`&gt; ; `__wrappedFunction`: `T` ; `invoke`: `CallMethod`&lt;`T`&gt;  &#125; &amp; `T` &amp; (...`args`: `Parameters`&lt;`T`&gt;) =&gt; `ReturnType`&lt;`T`&gt; extends `AsyncIterable`&lt;infer U&gt; ? `AsyncIterable`&lt;`Awaited`&lt;`U`&gt;&gt; : `Promise`&lt;`Awaited`&lt;`ReturnType`&lt;`T`&gt;&gt;&gt;
+<div id="__boundthis">
+  ### __boundThis
+</div>
+
+> `optional` **&#95;&#95;boundThis**: [`WeaveObject`](../classes/weaveobject)
+
+<div id="__isop">
+  ### __isOp
+</div>
+
+> **&#95;&#95;isOp**: `true`
+
+<div id="__name">
+  ### __name
+</div>
+
+> **&#95;&#95;name**: `string`
+
+<div id="__parameternames">
+  ### __parameterNames
+</div>
+
+> `optional` **&#95;&#95;parameterNames**: `ParameterNamesOption`
+
+<div id="__savedref">
+  ### __savedRef
+</div>
+
+> `optional` **&#95;&#95;savedRef**: `OpRef` | `Promise`&lt;`OpRef`&gt;
+
+<div id="__wrappedfunction">
+  ### __wrappedFunction
+</div>
+
+> **&#95;&#95;wrappedFunction**: `T`
+
+<div id="invoke">
+  ### invoke
+</div>
+
+> **invoke**: `CallMethod`&lt;`T`&gt;
 
 <div id="type-parameters">
-  #### 型パラメーター
+  ## タイプパラメーター
 </div>
 
-| 名   | タイプ                                      |
-| :-- | :--------------------------------------- |
-| `T` | extends (...`args`: `any`[]) =&gt; `any` |
-
-<div id="defined-in">
-  #### 定義元
+<div id="t">
+  ### T
 </div>
 
-[src/opType.ts:7](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/opType.ts#L7)
-
-***
+`T` *extends* (...`args`) =&gt; `any`

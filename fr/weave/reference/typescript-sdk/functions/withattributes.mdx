@@ -3,11 +3,7 @@ title: "withAttributes"
 description: "Référence du SDK TypeScript"
 ---
 
-<div id="withattributes">
-  # withAttributes
-</div>
-
-▸ **withAttributes**&lt;`T`&gt;(`attrs`, `fn`): `Promise`&lt;`T`&gt; | `T`
+> **withAttributes**&lt;`T`&gt;(`attrs`, `fn`): `T` | `Promise`&lt;`T`&gt;
 
 Associe des attributs au contexte d’exécution actuel afin que tous les appels créés
 dans `fn` en héritent automatiquement. Les attributs sont écrits dans l’enregistrement de l’appel
@@ -23,33 +19,36 @@ await withAttributes({requestId: 'abc'}, async () => {
 });
 ```
 
+Défini dans : [src/clientApi.ts:209](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/clientApi.ts#L209)
+
 <div id="type-parameters">
-  #### Paramètres de type
+  ## Paramètres de type
 </div>
 
-| Nom |
-| :-- |
-| `T` |
+<div id="t">
+  ### T
+</div>
+
+`T`
 
 <div id="parameters">
-  #### Paramètres
+  ## Paramètres
 </div>
 
-| Nom     | Type                                |
-| :------ | :---------------------------------- |
-| `attrs` | `Record`&lt;`string`, `any`&gt;     |
-| `fn`    | () =&gt; `T` | `Promise`&lt;`T`&gt; |
+<div id="attrs">
+  ### attrs
+</div>
+
+`Record`&lt;`string`, `any`&gt;
+
+<div id="fn">
+  ### fn
+</div>
+
+() =&gt; `T` | `Promise`&lt;`T`&gt;
 
 <div id="returns">
-  #### Renvoie
+  ## Renvoie
 </div>
 
-`Promise`&lt;`T`&gt; | `T`
-
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[src/clientApi.ts:209](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/clientApi.ts#L209)
-
-***
+`T` | `Promise`&lt;`T`&gt;

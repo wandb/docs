@@ -15,6 +15,24 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
 
 <EolReminder />
 
+<Update label="v0.83.2" description="6 août 2026">
+  ## Sécurité
+
+  * Correction d’un bug de sécurité critique susceptible de permettre une utilisation abusive des points de terminaison d’API Weave.
+
+  ## Améliorations des performances
+
+  * Amélioration de l’efficacité de l’actualisation de la barre latérale de la collection d’artifact.
+
+  ## Correctifs
+
+  * Le tableau **Users** de l’équipe comporte désormais une colonne **statut** qui indique si chaque membre de l’équipe est actif, a une invitation en attente ou possède un compte qu’un administrateur de l’organisation a désactivé. Voir [Ajouter et gérer des équipes](/fr/platform/hosting/iam/access-management/manage-organization#add-and-manage-teams).
+  * Correction d’un bug où une métrique enregistrée pour la première fois à une étape antérieure à la dernière étape enregistrée du run était omise des métriques du run et des exportations ultérieures de l’historique, ce qui pouvait bloquer le nettoyage de l’historique en direct pour les runs concernés. Les exportations existantes ne sont pas retraitées.
+  * Correction d’un bug où une requête de journalisation de run suffisamment volumineuse pour être répartie sur plusieurs écritures pouvait signaler une réussite alors qu’une partie des données n’était jamais stockée.
+  * Correction d’un bug où les tags de version du registre pouvaient être écrasés dans l’index de recherche lorsqu’une seule opération de mise à jour d’artefact tente à la fois d’ajouter et de supprimer des tags.
+  * Correction d’un bug susceptible de forcer les purges du registre à être synchrones.
+</Update>
+
 <Update label="v0.83.1" description="28 juillet 2026">
   ## Correctifs
 

@@ -3,11 +3,7 @@ title: "withAttributes"
 description: "TypeScript SDK 레퍼런스"
 ---
 
-<div id="withattributes">
-  # withAttributes
-</div>
-
-▸ **withAttributes**&lt;`T`&gt;(`attrs`, `fn`): `Promise`&lt;`T`&gt; | `T`
+> **withAttributes**&lt;`T`&gt;(`attrs`, `fn`): `T` | `Promise`&lt;`T`&gt;
 
 현재 실행 컨텍스트에 속성을 추가하여 `fn` 내부에서 생성된 모든 calls가
 자동으로 이를 상속하도록 합니다. 속성은 트레이스 서버의 call 기록에
@@ -23,33 +19,36 @@ await withAttributes({requestId: 'abc'}, async () => {
 });
 ```
 
+정의 위치: [src/clientApi.ts:209](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/clientApi.ts#L209)
+
 <div id="type-parameters">
-  #### 유형 매개변수
+  ## 유형 매개변수
 </div>
 
-| 이름  |
-| :-- |
-| `T` |
+<div id="t">
+  ### T
+</div>
+
+`T`
 
 <div id="parameters">
-  #### 매개변수
+  ## 매개변수
 </div>
 
-| 이름      | 유형                                  |
-| :------ | :---------------------------------- |
-| `attrs` | `Record`&lt;`string`, `any`&gt;     |
-| `fn`    | () =&gt; `T` | `Promise`&lt;`T`&gt; |
+<div id="attrs">
+  ### attrs
+</div>
+
+`Record`&lt;`string`, `any`&gt;
+
+<div id="fn">
+  ### fn
+</div>
+
+() =&gt; `T` | `Promise`&lt;`T`&gt;
 
 <div id="returns">
-  #### 반환값
+  ## 반환값
 </div>
 
-`Promise`&lt;`T`&gt; | `T`
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[src/clientApi.ts:209](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/clientApi.ts#L209)
-
-***
+`T` | `Promise`&lt;`T`&gt;

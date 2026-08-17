@@ -15,6 +15,24 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 
 <EolReminder />
 
+<Update label="v0.83.2" description="2026년 8월 6일">
+  ## 보안
+
+  * Weave API endpoints가 악용될 수 있는 심각한 보안 버그를 수정했습니다.
+
+  ## 성능 개선
+
+  * 아티팩트 컬렉션 사이드바 새로 고침의 효율성을 개선했습니다.
+
+  ## 수정 사항
+
+  * 이제 팀 **Users** 테이블에 각 팀 구성원이 활성 상태인지, 초대가 대기 중인지, 또는 조직 Admin이 비활성화한 계정을 보유하고 있는지를 보여주는 **상태** 열이 있습니다. [Add and manage teams](/ko/platform/hosting/iam/access-management/manage-organization#add-and-manage-teams)를 참조하세요.
+  * run의 최신 기록 step보다 이전 step에서 처음 로깅된 메트릭이 run의 메트릭 및 이후 이력 내보내기에서 누락되어 영향을 받는 Runs의 라이브 이력 정리를 차단할 수 있는 버그를 수정했습니다. 기존 내보내기는 재처리되지 않습니다.
+  * 여러 쓰기로 분할될 만큼 큰 run 로깅 요청에서 일부 데이터가 저장되지 않았음에도 성공으로 보고될 수 있는 버그를 수정했습니다.
+  * 단일 아티팩트 업데이트 오퍼레이션이 태그 추가와 삭제를 모두 시도할 때 레지스트리 버전 태그가 검색 인덱스에서 덮어써질 수 있는 버그를 수정했습니다.
+  * 레지스트리 제거를 동기식으로 강제할 수 있는 버그를 수정했습니다.
+</Update>
+
 <Update label="v0.83.1" description="2026년 7월 28일">
   ## 수정 사항
 

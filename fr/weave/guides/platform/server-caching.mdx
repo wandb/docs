@@ -1,0 +1,68 @@
+---
+title: "Mise en cache des réponses du serveur"
+description: "Améliorez les performances grâce à la mise en cache des réponses du serveur Weave pour les requêtes répétées et les connexions à bande passante limitée"
+---
+
+Weave propose la mise en cache des réponses du serveur afin d’améliorer les performances lors de requêtes répétées ou de connexions à bande passante réseau limitée. Bien qu’actuellement désactivée par défaut, cette fonctionnalité devrait devenir le comportement par défaut dans une prochaine version.
+
+<div id="when-to-use-caching">
+  ## Quand utiliser la mise en cache
+</div>
+
+La mise en cache des réponses du serveur est particulièrement avantageuse dans les cas suivants :
+
+* Vous exécutez fréquemment les mêmes requêtes.
+* Votre bande passante réseau est limitée.
+* Vous travaillez dans un environnement à forte latence.
+* Vous développez hors ligne et souhaitez mettre en cache les réponses pour les utiliser ultérieurement.
+
+Cette fonctionnalité est particulièrement utile lors d’évaluations répétées sur un jeu de données, car elle permet de mettre ce dernier en cache entre les exécutions.
+
+<div id="how-to-enable-caching">
+  ## Activer la mise en cache
+</div>
+
+Pour activer la mise en cache, définissez les variables d&#39;environnement suivantes :
+
+```bash
+# Activer la mise en cache des réponses du serveur
+export WEAVE_USE_SERVER_CACHE=true
+
+# Définir la limite de taille du cache (1 Go par défaut)
+export WEAVE_SERVER_CACHE_SIZE_LIMIT=1000000000
+
+# Définir le répertoire du cache (facultatif, répertoire temporaire par défaut)
+export WEAVE_SERVER_CACHE_DIR=/path/to/cache
+```
+
+<div id="caching-behavior">
+  ## Comportement de mise en cache
+</div>
+
+Cette fonctionnalité met en cache les requêtes idempotentes envoyées au serveur. Plus précisément, elle met en cache :
+
+* `obj_read`
+* `table_query`
+* `table_query_stats`
+* `refs_read_batch`
+* `file_content_read`
+
+<div id="cache-size-and-storage-details">
+  ## Taille du cache et détails du stockage
+</div>
+
+La taille du cache est contrôlée par `WEAVE_SERVER_CACHE_SIZE_LIMIT` (en octets). L’espace disque réellement utilisé se compose de trois éléments :
+
+1. Un fichier de somme de contrôle fixe de 32 Ko
+2. Un fichier de journal à écriture anticipée (WAL) pouvant atteindre ~4 Mo par client actif (supprimé automatiquement à la fermeture du programme)
+3. Le fichier de base de données principal, dont la taille est comprise entre 32 Ko et `WEAVE_SERVER_CACHE_SIZE_LIMIT`
+
+Espace disque total utilisé :
+
+* Pendant l’exécution : &gt;= 32 Ko + ~4 Mo + taille du cache
+* Après la fermeture : &gt;= 32 Ko + taille du cache
+
+Par exemple, avec une limite de cache de 5 Mo :
+
+* Pendant l’exécution : ~9 Mo maximum
+* Après la fermeture : ~5 Mo maximum

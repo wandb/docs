@@ -3,106 +3,74 @@ title: "WeaveObject"
 description: "Référence du SDK TypeScript"
 ---
 
-<div id="hierarchy">
-  ## Hiérarchie
+Défini dans : [src/weaveObject.ts:70](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L70)
+
+<div id="extended-by">
+  ## Étendu par
 </div>
 
-* `WeaveObject`
-
-  ↳ [`Jeu de données`](./dataset)
-
-  ↳ [`Évaluation`](./evaluation)
-
-<div id="table-of-contents">
-  ## Table des matières
-</div>
+* [`Jeu de données`](./dataset)
+* [`Évaluation`](./evaluation)
 
 <div id="constructors">
-  ### Constructeurs
+  ## Constructeurs
 </div>
-
-* [constructeur](./weaveobject#constructor)
-
-<div id="properties">
-  ### Propriétés
-</div>
-
-* [&#95;&#95;savedRef](./weaveobject#__savedref)
-
-<div id="accessors">
-  ### Accesseurs
-</div>
-
-* [description](./weaveobject#description)
-* [nom](./weaveobject#name)
-
-<div id="methods">
-  ### Méthodes
-</div>
-
-* [saveAttrs](./weaveobject#saveattrs)
-
-## Constructeurs
 
 <div id="constructor">
-  ### constructor
+  ### Constructeur
 </div>
 
-• **new WeaveObject**(`_baseParameters`) : [`WeaveObject`](./weaveobject)
+> **new WeaveObject**(`_baseParameters`) : `WeaveObject`
+
+Défini dans : [src/weaveObject.ts:73](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L73)
 
 <div id="parameters">
   #### Paramètres
 </div>
 
-| Nom               | Type                    |
-| :---------------- | :---------------------- |
-| `_baseParameters` | `WeaveObjectParameters` |
-
-<div id="returns">
-  #### Renvoie
+<div id="_baseparameters">
+  ##### _baseParameters
 </div>
 
-[`WeaveObject`](./weaveobject)
+`WeaveObjectParameters`
 
-<div id="defined-in">
-  #### Défini dans
+#### Renvoie
+
+`WeaveObject`
+
+<div id="properties">
+  ## Propriétés
 </div>
-
-[src/weaveObject.ts:73](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L73)
-
-## Propriétés
 
 <div id="__savedref">
   ### __savedRef
 </div>
 
-• `Facultatif` **&#95;&#95;savedRef**: [`ObjectRef`](./objectref) | `Promise`&lt;[`ObjectRef`](./objectref)&gt;
+> `facultatif` **&#95;&#95;savedRef**: [`ObjectRef`](./objectref) | `Promise`&lt;[`ObjectRef`](./objectref)&gt;
 
-<div id="defined-in">
-  #### Défini dans
+Défini dans : [src/weaveObject.ts:71](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L71)
+
+<div id="accessors">
+  ## Accesseurs
 </div>
-
-[src/weaveObject.ts:71](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L71)
-
-## Accesseurs
 
 <div id="description">
   ### description
 </div>
 
-• `get` **description**(): `undefined` | `string`
+<div id="get-signature">
+  #### Signature d’obtention
+</div>
+
+> **get** **description**(): `string` | `undefined`
+
+Défini dans : [src/weaveObject.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L98)
 
 <div id="returns">
-  #### Renvoie
+  ##### Renvoie
 </div>
 
-`undefined` | `string`
-
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[src/weaveObject.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L98)
+`string` | `undefined`
 
 ***
 
@@ -110,36 +78,32 @@ description: "Référence du SDK TypeScript"
   ### nom
 </div>
 
-• `get` **name**(): `string`
+<div id="get-signature">
+  #### Signature d’obtention
+</div>
+
+> **get** **nom**(): `string`
+
+Défini dans : [src/weaveObject.ts:94](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L94)
 
 <div id="returns">
-  #### Renvoie
+  ##### Renvoie
 </div>
 
 `string`
 
-<div id="defined-in">
-  #### Défini dans
+<div id="methods">
+  ## Méthodes
 </div>
-
-[src/weaveObject.ts:94](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L94)
-
-## Méthodes
 
 <div id="saveattrs">
-  ### saveAttrs
+  ### saveAttrs()
 </div>
 
-▸ **saveAttrs**(): `Objet`
+> **saveAttrs**() : `objet`
 
-<div id="returns">
-  #### Renvoie
-</div>
+Défini dans : [src/weaveObject.ts:75](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L75)
+
+#### Renvoie
 
 `objet`
-
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[src/weaveObject.ts:75](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L75)

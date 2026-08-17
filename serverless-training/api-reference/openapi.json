@@ -2525,14 +2525,98 @@
             "type": "string",
             "format": "uuid",
             "title": "Id"
+          },
+          "model_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Model Id"
+          },
+          "status": {
+            "$ref": "#/components/schemas/TrainingJobStatus"
+          },
+          "progress": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Progress"
+          },
+          "error_message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Message"
+          },
+          "training_start": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Training Start"
+          },
+          "training_end": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Training End"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
           }
         },
         "type": "object",
         "required": [
-          "id"
+          "id",
+          "model_id",
+          "status",
+          "progress",
+          "error_message",
+          "training_start",
+          "training_end",
+          "created_at",
+          "updated_at"
         ],
         "title": "TrainingJobResponse",
         "description": "Schema for TrainingJob response."
+      },
+      "TrainingJobStatus": {
+        "type": "string",
+        "enum": [
+          "PENDING",
+          "RUNNING",
+          "COMPLETED",
+          "FAILED",
+          "CANCELLED"
+        ],
+        "title": "TrainingJobStatus",
+        "description": "Training job status enumeration."
       },
       "Trajectory": {
         "properties": {
