@@ -97,9 +97,14 @@ DOCS = DocsRepo(
     # pages, so a label there has wider blast radius than one in a single page.
     # .claude is excluded because it holds git worktrees -- indexing it would
     # double-count every occurrence.
+    # uidrift is excluded to break a feedback loop: a report quotes the very
+    # labels it is reporting on, so indexing our own output would make every
+    # finding look documented. Reports are .md and only .mdx is indexed today,
+    # which makes this insurance rather than a fix.
     exclude_dirs=(
         ".git", "node_modules", ".claude", "docengine-site", "docengine",
         "scripts", "images", "assets", "media", "css", "icons", "layouts",
+        "uidrift",
     ),
     immutable_globs=("release-notes/*",),
     nav_manifest="docs.json",

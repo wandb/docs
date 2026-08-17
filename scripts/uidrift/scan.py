@@ -17,6 +17,7 @@ decisions is a scan that could lose them.
 from __future__ import annotations
 
 import argparse
+import json
 import re
 import subprocess
 import sys
@@ -196,16 +197,22 @@ def scan(
         orphans=applied.orphans,
         reverted=merged.reverted,
     )
+    lanes: dict[str, int] = {}
+    for f in applied.findings:
+        lanes[f.triage] = lanes.get(f.triage, 0) + 1
     stats = {
         "base": base_sha,
         "head": gitsource.resolve_sha(root, head) or head,
+        "scanned_range": scanned_range,
         "commits": len(commits),
         "ui_commits": len(ui_commits),
         "candidate_commits": candidate_commits,
         "candidate_deltas": candidate_deltas,
         "findings": len(applied.findings),
+        "lanes": lanes,
         "suppressed": len(applied.suppressed),
         "reopened": len(applied.reopened),
+        "unresolved": len(applied.unresolved),
         "reverted": len(merged.reverted),
         "gaps": len(gaps),
         "orphans": applied.orphans,
@@ -227,18 +234,29 @@ def _cmd_scan(args: argparse.Namespace) -> int:
         incremental=args.incremental,
         progress=progress,
     )
-    stats = result.stats
+    stats = dict(result.stats)
 
     if args.stdout:
         print(result.markdown)
-        return 0
+    else:
+        reports = config.DOCS.path / config.REPORT_DIR
+        reports.mkdir(parents=True, exist_ok=True)
+        # The head SHA in the name is what makes --incremental work.
+        out = reports / f"{date.today().isoformat()}-{stats['head'][:12]}.md"
+        out.write_text(result.markdown, encoding="utf-8")
+        # Relative to the docs repo root, which is where a CI step's cwd is and
+        # what a PR body has to name.
+        stats["report"] = str(out.relative_to(config.DOCS.path))
+        progress(f"wrote {out}")
 
-    reports = config.DOCS.path / config.REPORT_DIR
-    reports.mkdir(parents=True, exist_ok=True)
-    # The head SHA in the name is what makes --incremental work.
-    out = reports / f"{date.today().isoformat()}-{stats['head'][:12]}.md"
-    out.write_text(result.markdown, encoding="utf-8")
-    progress(f"wrote {out}")
+    if args.summary_json:
+        # A caller that has to decide whether to open a PR needs counts, not
+        # prose. Grepping the rendered report for "No drift to act on" would
+        # couple a workflow to wording that exists to be readable, not parsed.
+        Path(args.summary_json).write_text(
+            json.dumps(stats, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
+        progress(f"wrote {args.summary_json}")
 
     if stats["reopened"]:
         # Worth a distinct exit code: a reopened decision means a human's
@@ -307,6 +325,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                    help="skip reviewer/team resolution")
     s.add_argument("--stdout", action="store_true",
                    help="print the report instead of writing it")
+    s.add_argument("--summary-json", metavar="PATH",
+                   help="write the run's counts as JSON, for a CI step to read")
     s.add_argument("--quiet", action="store_true", help="no progress on stderr")
     s.set_defaults(func=_cmd_scan)
 

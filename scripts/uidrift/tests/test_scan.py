@@ -6,9 +6,11 @@ how a run picks its commit range and how `decide` guards the ledger.
 
 from __future__ import annotations
 
+import json
 import subprocess
 import tempfile
 import unittest
+import unittest.mock
 from datetime import date
 from pathlib import Path
 
@@ -165,6 +167,63 @@ class TestScanResultLookup(unittest.TestCase):
 
     def test_unknown_id_is_none(self):
         self.assertIsNone(self._result(findings=[_finding()]).by_id("deadbeef"))
+
+
+class TestSummaryJson(unittest.TestCase):
+    """The counts a CI step reads, so nothing has to parse the prose report."""
+
+    def setUp(self) -> None:
+        self._tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self._tmp.cleanup)
+        self.out = Path(self._tmp.name) / "summary.json"
+
+        self._stats = {"head": "b" * 40, "findings": 1, "reopened": 0,
+                       "lanes": {"agent": 1}}
+        result = scan.ScanResult(
+            markdown="# report\n", stats=self._stats,
+            applied=ledger.Applied(findings=[_finding()]),
+            merged=ledger.Merged(),
+        )
+        patcher = unittest.mock.patch.object(scan, "scan", return_value=result)
+        self.scan = patcher.start()
+        self.addCleanup(patcher.stop)
+
+    def _run(self, *extra: str) -> dict:
+        code = scan.main(["scan", "--stdout", "--quiet",
+                          "--summary-json", str(self.out), *extra])
+        self.assertEqual(code, 0)
+        return json.loads(self.out.read_text(encoding="utf-8"))
+
+    def test_counts_are_written(self):
+        self.assertEqual(self._run()["findings"], 1)
+
+    def test_lane_counts_survive_serialization(self):
+        # The PR body reports lanes; a dict of Finding objects would not encode.
+        self.assertEqual(self._run()["lanes"], {"agent": 1})
+
+    def test_stdout_mode_reports_no_report_path(self):
+        # Nothing was written, so claiming a path would send a caller looking
+        # for a file that does not exist.
+        self.assertNotIn("report", self._run())
+
+    def test_the_scan_stats_are_not_mutated(self):
+        # _cmd_scan adds "report" for the caller's benefit; doing that in place
+        # would leave a library caller holding a path it never asked for.
+        self._run()
+        self.assertNotIn("report", self._stats)
+
+    def test_reopened_still_sets_the_exit_code(self):
+        # The summary is written before the exit code is chosen, so a run that
+        # fails a CI step still leaves the counts explaining why.
+        self._stats["reopened"] = 2
+        code = scan.main(["scan", "--stdout", "--quiet",
+                          "--summary-json", str(self.out)])
+        self.assertEqual(code, 3)
+        self.assertEqual(json.loads(self.out.read_text())["reopened"], 2)
+
+    def test_no_summary_is_written_unless_asked(self):
+        self.assertEqual(scan.main(["scan", "--stdout", "--quiet"]), 0)
+        self.assertFalse(self.out.exists())
 
 
 class TestCli(unittest.TestCase):
