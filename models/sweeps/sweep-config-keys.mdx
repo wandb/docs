@@ -170,11 +170,44 @@ Hyperband checks which [runs](/models/ref/python/experiments/run) to end once ev
 
 {/* Agents created with [`wandb agent`](/models/ref/cli/wandb-agent) receive a command in the following format by default: */}
 
-Use the `command` top-level key to control how the sweep agent invokes your training script and passes arguments to it. Modify the format and contents with nested values within the `command` key. You can directly include fixed components such as filenames.
+Use the `command` top-level key to control how the sweep agent invokes your training script and passes arguments to it. Specify the invocation as a YAML list. Each list item is either a fixed string (such as a filename or literal flag) or a macro that the agent expands at run time.
+
+If you omit the `command` key, the sweep agent uses the following default invocation:
+
+```yaml
+command:
+  - ${env}
+  - ${interpreter}
+  - ${program}
+  - ${args}
+```
+
+The default invocation passes each hyperparameter as `--name=value`. Override `command` when you need a different argument format, want to inject fixed flags, or need to pass values as JSON or environment variables.
+
+The following example runs `train.py` with the Python interpreter, passes a fixed `--train` flag, and expands the swept `learning_rate` parameter as a custom `--lr=<value>` argument:
+
+```yaml title="sweep.yaml"
+program: train.py
+method: random
+parameters:
+  learning_rate:
+    min: 0.0001
+    max: 0.1
+command:
+  - ${env}
+  - ${interpreter}
+  - ${program}
+  - "--train"
+  - "--lr=${learning_rate}"
+```
+
+For a full walkthrough that includes the matching training script, see [Macro and custom command arguments example](/models/sweeps/define-sweep-configuration#macro-and-custom-command-arguments-example).
 
 <Note>
 On Unix systems, `/usr/bin/env` ensures that the OS chooses the correct Python interpreter based on the environment.
 </Note>
+
+### Command macros
 
 W&B supports the following macros for variable components of the command:
 
