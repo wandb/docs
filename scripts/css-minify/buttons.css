@@ -32,7 +32,6 @@
   background-color: color-mix(in srgb, var(--color-card-hover) 50%, transparent);
   text-decoration: none;
   line-height: 24px;
-  white-space: nowrap;
   cursor: pointer;
   transition: all 0.2s ease;
   margin-bottom: 1.5rem;
