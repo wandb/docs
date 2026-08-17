@@ -9,8 +9,4 @@
 
 An artifact *sequence* is a collection of artifact versions in a project. The sequence has a name, and each version has its own version number and unique artifact ID. When you call `wandb.Run.log_artifact()` with an artifact that has the same name and new content, W&B creates a new version in that sequence. For example, logging `model` multiple times creates versions such as `model:v0`, `model:v1`, and `model:v2` in the same sequence.
 
-<Note>
-An artifact sequence is a collection of artifact versions in a project. This is different from a collection in W&B Registry, which groups linked artifact versions for sharing and lifecycle management across teams.
-</Note>
-
 Contact [W&B Support](mailto:support@wandb.com) if you have questions about limits.
