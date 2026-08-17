@@ -4,11 +4,11 @@ description: Weave SDK를 사용해 멀티턴 에이전트를 트레이스하세
 keywords: ["OpenTelemetry", "OTel spans", "멀티턴 에이전트", "도구 Call", "트레이싱"]
 ---
 
-[Colab에서 사용해 보기](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/agents-quickstart.ipynb) · [GitHub 소스](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/agents-quickstart.ipynb)
+[Colab에서 사용해 보기](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/custom-agents-quickstart.ipynb) · [GitHub 소스](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/custom-agents-quickstart.ipynb)
 
 Weave SDK를 사용하면 널리 사용되는 SDK나 맞춤형 하니스로 구축한 에이전트를 트레이스할 수 있습니다. 이 퀵스타트에서는 OpenTelemetry span을 생성하고 캡처할 수 있도록 맞춤형으로 구축한 멀티턴 에이전트에 Weave를 수동으로 통합하는 방법을 보여드립니다. 에이전트용 Weave를 개념적으로 이해하려면 [에이전트 트레이싱](/ko/weave/guides/tracking/trace-agents)을 참조하세요.
 
-Claude Agent SDK 또는 Codex와 같은 SDK나 하니스와 Weave를 통합하려는 경우 [에이전트 인테그레이션 트레이싱](/ko/weave/guides/tracking/trace-agent-integrations)을 참조하세요. Weave는 빠르게 통합할 수 있도록 여러 에이전트 구축 SDK와 에이전트 하니스에 자동 패치됩니다.
+Claude Agent SDK 또는 Codex와 같은 SDK나 하니스와 Weave를 통합하려는 경우 [에이전트 인테그레이션 선택](/ko/weave/agent-integration-quickstart)을 참조하세요. Weave는 빠르게 통합할 수 있도록 여러 에이전트 구축 SDK와 에이전트 하니스에 자동 패치됩니다.
 
 <div id="what-youll-learn">
   ## 배울 내용
@@ -24,6 +24,7 @@ Claude Agent SDK 또는 Codex와 같은 SDK나 하니스와 Weave를 통합하�
 * `start_conversation` / `startConversation` 및 `start_turn` / `startTurn`으로 대화와 턴을 시작합니다.
 * `start_llm` / `startLLM`으로 LLM Call을 래핑하고 사용량을 기록합니다.
 * `start_tool` / `startTool`로 도구 실행을 래핑하고 결과를 기록합니다.
+* 토큰 수와 비용이 표시되도록 전체 토큰 사용량과 과금 가능한 모델을 기록합니다.
 * 결과로 생성된 대화, 턴, 도구 Call을 Agents 뷰에서 확인합니다.
 
 <div id="how-the-weave-sdk-works-with-agents">
@@ -183,7 +184,8 @@ Python에서는 네 함수 모두 컨텍스트 관리자(`with weave.start_*(...
 3. 두 번째 `chat` span을 열어 최종 답변을 생성합니다.
 
 <CodeGroup>
-  ```python lines highlight="9,11,17,29,42,46,53" Python
+  ```python lines highlight="10,12,19,38,51,55,69" Python
+  import weave
   from openai import OpenAI
 
   openai_client = OpenAI()
@@ -200,13 +202,21 @@ Python에서는 네 함수 모두 컨텍스트 관리자(`with weave.start_*(...
               )
               msg = resp.choices[0].message
               llm.output(msg.content or "")
-              llm.usage = weave.Usage(
-                  input_tokens=resp.usage.prompt_tokens,
-                  output_tokens=resp.usage.completion_tokens,
+              # record()는 사용량, 과금 모델, 응답 ID를 한 번의 호출로 설정합니다.
+              llm.record(
+                  usage=weave.Usage(
+                      input_tokens=resp.usage.prompt_tokens,
+                      output_tokens=resp.usage.completion_tokens,
+                      cache_read_input_tokens=getattr(
+                          resp.usage.prompt_tokens_details, "cached_tokens", 0
+                      ),
+                  ),
+                  response_id=resp.id,
+                  response_model=resp.model,
               )
               history.append(msg.model_dump(exclude_none=True))
 
-          # 도구가 요청되지 않은 경우, 첫 번째 LLM 응답이 최종 답변입니다.
+          # 도구 요청이 없으면 첫 번째 LLM 응답이 최종 답변입니다.
           if not msg.tool_calls:
               return msg.content
 
@@ -229,9 +239,16 @@ Python에서는 네 함수 모두 컨텍스트 관리자(`with weave.start_*(...
               resp = openai_client.chat.completions.create(model=MODEL, messages=history)
               msg = resp.choices[0].message
               llm.output(msg.content)
-              llm.usage = weave.Usage(
-                  input_tokens=resp.usage.prompt_tokens,
-                  output_tokens=resp.usage.completion_tokens,
+              llm.record(
+                  usage=weave.Usage(
+                      input_tokens=resp.usage.prompt_tokens,
+                      output_tokens=resp.usage.completion_tokens,
+                      cache_read_input_tokens=getattr(
+                          resp.usage.prompt_tokens_details, "cached_tokens", 0
+                      ),
+                  ),
+                  response_id=resp.id,
+                  response_model=resp.model,
               )
               history.append({"role": "assistant", "content": msg.content})
               return msg.content
@@ -247,20 +264,21 @@ Python에서는 네 함수 모두 컨텍스트 관리자(`with weave.start_*(...
           print(f"AGENT: {run_turn(history, question)}\n")
   ```
 
-  ```typescript lines highlight="10,13,40,55,77" TypeScript twoslash
+  ```typescript lines highlight="11,14,25,47,62,70,89"
   // @noErrors
+  import * as weave from 'weave';
   import OpenAI from 'openai';
 
   const openaiClient = new OpenAI();
   const MODEL = 'gpt-4o-mini';
 
-  // history는 OpenAI 채팅 메시지의 목록입니다. 간결성을 위해 유형을 느슨하게 지정했습니다.
+  // history는 OpenAI 채팅 메시지의 목록입니다. 간결성을 위해 타입을 느슨하게 지정했습니다.
   async function runTurn(history: any[], userMessage: string): Promise<string | null> {
     history.push({ role: 'user', content: userMessage });
 
     const turn = weave.startTurn({ model: MODEL });
     try {
-      // LLM Call 1: 모델이 도구 사용을 결정할 수 있습니다.
+      // LLM Call 1: 모델이 도구를 사용하기로 결정할 수 있습니다.
       const llm1 = weave.startLLM({ model: MODEL, providerName: 'openai' });
       let msg;
       try {
@@ -271,10 +289,16 @@ Python에서는 네 함수 모두 컨텍스트 관리자(`with weave.start_*(...
         });
         msg = resp.choices[0].message;
         llm1.output(msg.content ?? '');
-        llm1.usage = {
-          inputTokens: resp.usage?.prompt_tokens,
-          outputTokens: resp.usage?.completion_tokens,
-        };
+        // record()는 사용량, 과금 모델, 응답 ID를 한 번의 호출로 설정합니다.
+        llm1.record({
+          usage: {
+            inputTokens: resp.usage?.prompt_tokens,
+            outputTokens: resp.usage?.completion_tokens,
+            cacheReadInputTokens: resp.usage?.prompt_tokens_details?.cached_tokens,
+          },
+          responseId: resp.id,
+          responseModel: resp.model,
+        });
         history.push(msg);
       } finally {
         llm1.end();
@@ -311,10 +335,15 @@ Python에서는 네 함수 모두 컨텍스트 관리자(`with weave.start_*(...
         });
         const msg2 = resp.choices[0].message;
         llm2.output(msg2.content ?? '');
-        llm2.usage = {
-          inputTokens: resp.usage?.prompt_tokens,
-          outputTokens: resp.usage?.completion_tokens,
-        };
+        llm2.record({
+          usage: {
+            inputTokens: resp.usage?.prompt_tokens,
+            outputTokens: resp.usage?.completion_tokens,
+            cacheReadInputTokens: resp.usage?.prompt_tokens_details?.cached_tokens,
+          },
+          responseId: resp.id,
+          responseModel: resp.model,
+        });
         history.push({ role: 'assistant', content: msg2.content });
         return msg2.content ?? null;
       } finally {
@@ -342,6 +371,58 @@ Python에서는 네 함수 모두 컨텍스트 관리자(`with weave.start_*(...
   ```
 </CodeGroup>
 
+<div id="record-token-usage-and-cost">
+  ## 토큰 사용량 및 비용 기록
+</div>
+
+각 `chat` span에는 토큰 사용량과 모델 ID가 포함됩니다. Weave는 사용량을 바탕으로 토큰 수를 표시하고, 사용량과 모델 ID를 바탕으로 비용을 계산합니다. 따라서 값이 불완전하거나 가격을 계산할 수 없으면 나머지 트레이스가 올바르게 보여도 `0 in / 0 out` 토큰 또는 `Cost -`로 표시됩니다. `record(...)`를 사용하면 이러한 필드(`output_messages`, `response_id`, `reasoning` 등 포함)를 한 번에 설정할 수 있습니다. 전달한 필드만 적용됩니다.
+
+비용이 표시되려면 다음 두 가지가 모두 정확해야 합니다.
+
+* **완전한 사용량.** `input_tokens`는 캐시된 토큰을 포함한 *전체* 입력입니다. Weave는 캐시 읽기와 캐시 쓰기에 각각 별도의 요율을 적용하고 이를 입력 총계에서 차감하므로, `cache_read_input_tokens`와 `cache_creation_input_tokens`는 이를 포함한 전체 `input_tokens`와 *함께* 보고해야 합니다. 프롬프트 캐싱을 지원하는 공급자(예: Anthropic)의 경우 캐시된 토큰이 입력의 대부분을 차지하는 일이 흔하므로, 이를 누락하면 사용량과 비용이 거의 0으로 표시됩니다.
+* **가격 계산이 가능한 모델 ID.** 비용은 모델을 조회해 계산됩니다. Weave는 `response_model`(공급자가 실제로 서빙한 정확한 모델)을 우선 사용하고, 없으면 `start_llm`에 전달한 `model`을 사용합니다. `opus`나 `sonnet` 같은 별칭은 가격 계산이 불가능하므로 `Cost -`로 표시됩니다. 따라서 응답이 반환한 구체적인 ID(`resp.model`)를 `response_model`로 전달하세요.
+
+OpenAI는 캐시된 토큰을 `prompt_tokens`에 포함해 계산하므로 위 예시는 그대로 매핑됩니다. Anthropic은 캐시된 토큰을 `input_tokens`와 *별도로* 보고하므로, Weave가 가격을 계산하는 총계에 다시 더해야 합니다.
+
+<CodeGroup>
+  ```python lines Python
+  with weave.start_llm(model=MODEL, provider_name="anthropic") as llm:
+      resp = anthropic_client.messages.create(
+          model=MODEL, max_tokens=1024, messages=history,
+      )
+      u = resp.usage
+      llm.output(resp.content[0].text)
+      llm.record(
+          usage=weave.Usage(
+              input_tokens=u.input_tokens
+              + u.cache_read_input_tokens
+              + u.cache_creation_input_tokens,
+              output_tokens=u.output_tokens,
+              cache_read_input_tokens=u.cache_read_input_tokens,
+              cache_creation_input_tokens=u.cache_creation_input_tokens,
+          ),
+          response_id=resp.id,
+          response_model=resp.model,
+      )
+  ```
+
+  ```typescript lines TypeScript twoslash
+  // @noErrors
+  const u = resp.usage;
+  llm.record({
+    usage: {
+      inputTokens:
+        u.input_tokens + u.cache_read_input_tokens + u.cache_creation_input_tokens,
+      outputTokens: u.output_tokens,
+      cacheReadInputTokens: u.cache_read_input_tokens,
+      cacheCreationInputTokens: u.cache_creation_input_tokens,
+    },
+    responseId: resp.id,
+    responseModel: resp.model,
+  });
+  ```
+</CodeGroup>
+
 <div id="see-your-agent-traces-in-the-agents-view">
   ## Agents 뷰에서 에이전트 트레이스 확인하기
 </div>
@@ -355,9 +436,34 @@ Python에서는 네 함수 모두 컨텍스트 관리자(`with weave.start_*(...
 
 아무 턴이나 클릭하여 입력, 출력, 도구 인수, 도구 결과를 확인하세요.
 
+<div id="link-to-a-conversation-from-your-app">
+  ## 앱에서 대화로 연결하기
+</div>
+
+자체 UI에서 Weave Agents 뷰의 대화로 딥링크하려면 entity, 프로젝트, 대화 id를 사용해 URL을 구축하세요. `weave.init()`는 `entity`와 `project`를 포함하는 클라이언트를 반환하고, `start_conversation`은 `conversation_id`를 제공합니다.
+
+<CodeGroup>
+  ```python lines Python
+  from weave.trace.urls import agent_conversation_path
+
+  client = weave.init(f"{TEAM}/{PROJECT}")
+
+  with weave.start_conversation(agent_name="research-bot") as conversation:
+      # ... 턴 실행 ...
+      url = agent_conversation_path(
+          client.entity, client.project, conversation.conversation_id
+      )
+      print(f"View this conversation at {url}")
+  ```
+
+  ```plaintext TypeScript lines
+  이 기능은 TypeScript에서 사용할 수 없습니다.
+  ```
+</CodeGroup>
+
 <div id="next-steps">
   ## 다음 단계
 </div>
 
 * [Weave로 에이전트 트레이싱](/ko/weave/guides/tracking/trace-agents)하는 방법과 Weave SDK에서 사용할 수 있는 특성 및 옵션을 알아보세요.
-* 에이전트에 Weave를 통합하는 추가 옵션은 [에이전트 인테그레이션 트레이싱](/ko/weave/guides/tracking/trace-agent-integrations)을 참조하세요.
+* 에이전트에 Weave를 통합하는 추가 옵션은 [에이전트 인테그레이션 선택](/ko/weave/agent-integration-quickstart)을 참조하세요.

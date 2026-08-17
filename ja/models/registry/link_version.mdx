@@ -34,7 +34,7 @@ artifact を run 中に作成するか、run なしで作成するか、既存�
     | 明示的に run を開始せずに artifact を作成してリンクする | ドラフト artifact に対する `wandb.Artifact.link()`                            | まず artifact を保存します。アクティブな run がない場合は、自動 run を作成します |
     | 既存のコミット済み artifact をリンクする           | `wandb.Api().artifact()` から取得した artifact に対する `wandb.Artifact.link()` | 新しい run を作成せずに artifact をリンクします                    |
 
-    宛先コレクションのパスを `target_path` パラメーターに渡します。パスは、`wandb-registry-` 接頭辞、Registry 名、コレクション名で構成されます。
+    宛先コレクションのパスを `target_path` パラメーターに渡します。パスは、`wandb-registry-` 接頭辞、Registry 名、コレクション名で構成されます：
 
     ```text
     wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}
@@ -156,7 +156,7 @@ artifact を run 中に作成するか、run なしで作成するか、既存�
     2. プロジェクトのサイドバーで Artifacts アイコンを選択します。
     3. Registry にリンクするアーティファクト バージョンをクリックします。
     4. **Version overview** セクションで、**Link to registry** ボタンをクリックします。
-    5. 画面右側に表示されるモーダルで、**Select a register model** メニューのドロップダウンからアーティファクトを選択します。
+    5. 画面右側に表示されるモーダルで、**Select a registered model** メニューのドロップダウンからアーティファクトを選択します。
     6. **Next step** をクリックします。
     7. (任意) **Aliases** ドロップダウンからエイリアスを選択します。
     8. **Link to registry** をクリックします。
@@ -164,34 +164,88 @@ artifact を run 中に作成するか、run なしで作成するか、既存�
 </Tabs>
 
 {/* <Note>
-  **リンクされたアーティファクト バージョンとソース アーティファクト バージョン**
+    **リンクされたアーティファクト バージョンとソース アーティファクト バージョン**
 
-  * ソース バージョン: チームのプロジェクト内にあり、run にログされるアーティファクト バージョン。
-  * リンク バージョン: レジストリに公開されるアーティファクト バージョン。これはソース アーティファクトへのポインタであり、まったく同じアーティファクト バージョンをレジストリのスコープで利用できるようにしたものです。
-  </Note> */}
+    * ソース バージョン: チームのプロジェクト内にあり、run にログされるアーティファクト バージョン。
+    * リンク バージョン: レジストリに公開されるアーティファクト バージョン。これはソース アーティファクトへのポインタであり、まったく同じアーティファクト バージョンをレジストリのスコープで利用できるようにしたものです。
+    </Note> */}
 
-Registry App では、[リンクされたアーティファクトのメタデータ、バージョンデータ、使用状況、リネージ情報](/ja/models/registry/link_version#view-linked-artifacts-in-a-registry") などを確認できます。
+Registry App では、[リンクされたアーティファクトのメタデータ、バージョンデータ、使用状況、リネージ情報](/ja/models/registry/link_version#view-linked-artifacts-in-a-registry) などを確認できます。
 
-<div id="view-linked-artifacts-in-a-registry">
-  ## Registry 内のリンクされた artifact を表示する
+<div id="unlink-an-artifact-version-from-a-collection">
+  ## コレクションから アーティファクト バージョンのリンクを解除する
 </div>
 
-W&amp;B Registry で、メタデータ、リネージ、利用状況情報など、リンクされた artifact に関する情報を表示します。
+W&amp;B Python SDK または W&amp;B Registry を使用して、コレクションから アーティファクト バージョンのリンクを解除します。
+
+リンクを解除すると、アーティファクト バージョンはコレクションから削除されますが、ソース アーティファクト バージョンやそのファイルは削除されません。
+
+<Warning>
+  アーティファクト バージョンを Registry のコレクションにリンクすると、存続期間 (TTL) ポリシーが無効化され、TTL が `None` に設定されます。後でバージョンのリンクを解除しても、W&amp;B は以前の TTL を復元せず、元の期間も保持しません。バージョンに引き続き TTL が必要な場合は、リンク解除後に TTL を再設定してください。
+
+  TTL ポリシーの詳細については、[アーティファクト データ保持を管理する](/ja/models/artifacts/ttl)を参照してください。
+</Warning>
+
+<Tabs>
+  <Tab title="Python SDK">
+    W&amp;B Python SDK で アーティファクト バージョンのリンクを解除するには、次の手順に従います。
+
+    1. `wandb.Api()` を使用して Public API クライアントを作成します。
+    2. `wandb.Api.artifact()` を使用してリンク済みの アーティファクト バージョンを取得します。
+    3. [`wandb.Artifact.unlink()`](/ja/models/ref/python/experiments/artifact#method-artifactunlink) を呼び出して、コレクションから アーティファクト バージョンのリンクを解除します。
+
+    ```text
+    wandb-registry-<registry_name>/<collection_name>:<version_or_alias>
+    ```
+
+    プレースホルダーをご自身の値に置き換えます。
+
+    ```python
+    import wandb
+
+    registry_name = "your-registry-name"  # Registry の名前に置き換えます
+    collection_name = "your-collection-name"  # コレクションの名前に置き換えます
+    version = "version-or-alias"  # リンクを解除する アーティファクト のバージョンに置き換えます
+
+    target_path=f"wandb-registry-{registry_name}/{collection_name}:{version}"
+
+    api = wandb.Api()
+    linked_artifact = api.artifact(name=target_path)
+
+    # コレクションから アーティファクト バージョンのリンクを解除します
+    linked_artifact.unlink()
+    ```
+  </Tab>
+
+  <Tab title="W&B Registry">
+    1. W&amp;B Registry にアクセスします。
+    2. コレクションを含む Registry の名前を選択します。
+    3. コレクションを選択します。
+    4. リンクを解除する アーティファクト バージョンを選択します。
+    5. **Version** タブで、**Unlink version** を選択します。
+  </Tab>
+</Tabs>
+
+<div id="view-linked-artifacts-in-a-registry">
+  ## Registry 内のリンクされた アーティファクト を表示する
+</div>
+
+W&amp;B Registry で、メタデータ、リネージ、利用状況情報など、リンクされた アーティファクト に関する情報を表示します。
 
 1. W&amp;B Registry にアクセスします。
-2. artifact をリンクした registry の名を選択します。
+2. アーティファクト をリンクした registry の名を選択します。
 3. collection の名を選択します。
-4. collection の artifact がメトリクスをログしている場合は、**Show metrics** をクリックして、バージョン間でメトリクスを比較します。
-5. artifact バージョンの一覧から、アクセスしたいバージョンを選択します。バージョン番号は `v0` から始まり、リンクされた各 artifact バージョンに段階的に割り当てられます。
-6. artifact バージョンの詳細を表示するには、そのバージョンをクリックします。このページのタブから、そのバージョンのメタデータ (ログされたメトリクスを含む) 、リネージ、利用状況情報を表示できます。
+4. collection の アーティファクト がメトリクスをログしている場合は、**Show metrics** をクリックして、バージョン間でメトリクスを比較します。
+5. アーティファクト バージョンの一覧から、アクセスしたいバージョンを選択します。バージョン番号は `v0` から始まり、リンクされた各 アーティファクト バージョンに段階的に割り当てられます。
+6. アーティファクト バージョンの詳細を表示するには、そのバージョンをクリックします。このページのタブから、そのバージョンのメタデータ (ログされたメトリクスを含む) 、リネージ、利用状況情報を表示できます。
 
-**Version** タブ内の **Full Name** フィールドに注目してください。リンクされた artifact の完全名は、registry、collection 名、および artifact バージョンの alias またはインデックスで構成されます。
+**Version** タブ内の **Full Name** フィールドに注目してください。リンクされた アーティファクト の完全名は、registry、collection 名、および アーティファクト バージョンの alias またはインデックスで構成されます。
 
 ```text title="Full name of a linked artifact"
 wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{INTEGER}
 ```
 
-artifact のバージョンにプログラムからアクセスするには、リンクされた artifact のフルネームが必要です。
+アーティファクト のバージョンにプログラムからアクセスするには、リンクされた アーティファクト のフルネームが必要です。
 
 <div id="troubleshooting">
   ## トラブルシューティング

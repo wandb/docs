@@ -1,56 +1,59 @@
 ---
 title: オーディオ
-namespace: python_sdk_data_type
-python_object_type: class
+kind: クラス
+namespace: wandb.sdk.data_types.audio
 ---
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/audio.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/audio.py#L19" />
 
-
-## <kbd>クラス</kbd> `Audio`
-
-W&amp;Bのオーディオクリップ用クラス。 
-
-### <kbd>method</kbd> `Audio.__init__`
+## <kbd>クラス</kbd> wandb.Audio
 
 ```python
-__init__(
-    data_or_path: 'str | pathlib.Path | list | np.ndarray',
-    sample_rate: 'int | None' = None,
-    caption: 'str | None' = None
-)
+(data_or_path: 'str | pathlib.Path | list | np.ndarray',
+sample_rate: 'int | None' = None,
+caption: 'str | None' = None)
 ```
 
-オーディオファイルへのパス、またはオーディオデータを含む NumPy 配列を受け取ります。
+オーディオクリップを扱う W&amp;B クラスです。
 
-**引数:**
+<div id="args">
+  ## 引数
+</div>
 
-* `data_or_path`:  オーディオファイルへのパス、またはオーディオデータを含む NumPy 配列。
-* `sample_rate`:  サンプルレート。生の NumPy 配列のオーディオデータを渡す場合に必須です。
-* `caption`:  オーディオとともに表示するキャプション。
+* `data_or_path`: オーディオファイルへのパス、またはオーディオデータを含む NumPy 配列。
+* `sample_rate`: サンプルレート。生の NumPy 配列のオーディオデータを渡す場合に必須です。
+* `caption`: オーディオとともに表示するキャプション。
 
-***
+<div id="methods">
+  ## メソッド
+</div>
 
-
-### <kbd>クラスメソッド</kbd> `Audio.durations`
+### <kbd>メソッド</kbd> Audio.durations()
 
 ```python
-durations(audio_list)
+(audio_list)
 ```
 
 オーディオファイルの再生時間を計算します。
 
-***
+<div id="arguments">
+  ##### 引数
+</div>
 
+* `audio_list`: 
 
-### <kbd>クラスメソッド</kbd> `Audio.sample_rates`
+### <kbd>メソッド</kbd> Audio.sample_rates()
 
 ```python
-sample_rates(audio_list)
+(audio_list)
 ```
 
 オーディオファイルのサンプルレートを取得します。
 
-***
+<div id="arguments">
+  ##### 引数
+</div>
+
+* `audio_list`: 

@@ -1,13 +1,9 @@
 ---
 title: "withAttributes"
-description: "TypeScript SDK のリファレンス"
+description: "TypeScript SDK リファレンス"
 ---
 
-<div id="withattributes">
-  # withAttributes
-</div>
-
-▸ **withAttributes**&lt;`T`&gt;(`attrs`, `fn`): `Promise`&lt;`T`&gt; | `T`
+> **withAttributes**&lt;`T`&gt;(`attrs`, `fn`): `T` | `Promise`&lt;`T`&gt;
 
 現在の実行コンテキストに属性を追加すると、`fn` 内で作成されるすべての calls が
 自動的にその属性を継承します。属性は trace サーバー上の call レコードに書き込まれ、
@@ -23,33 +19,36 @@ await withAttributes({requestId: 'abc'}, async () => {
 });
 ```
 
+定義場所: [src/clientApi.ts:209](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/clientApi.ts#L209)
+
 <div id="type-parameters">
-  #### タイプパラメーター
+  ## タイプパラメーター
 </div>
 
-| 名   |
-| :-- |
-| `T` |
+<div id="t">
+  ### T
+</div>
+
+`T`
 
 <div id="parameters">
-  #### パラメーター
+  ## パラメーター
 </div>
 
-| 名       | タイプ                                 |
-| :------ | :---------------------------------- |
-| `attrs` | `Record`&lt;`string`, `any`&gt;     |
-| `fn`    | () =&gt; `T` | `Promise`&lt;`T`&gt; |
+<div id="attrs">
+  ### attrs
+</div>
+
+`Record`&lt;`string`, `any`&gt;
+
+<div id="fn">
+  ### fn
+</div>
+
+() =&gt; `T` | `Promise`&lt;`T`&gt;
 
 <div id="returns">
-  #### 戻り値
+  ## 戻り値
 </div>
 
-`Promise`&lt;`T`&gt; | `T`
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[src/clientApi.ts:209](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/clientApi.ts#L209)
-
-***
+`T` | `Promise`&lt;`T`&gt;

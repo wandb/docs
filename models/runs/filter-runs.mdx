@@ -36,6 +36,13 @@ The following image filters runs based on loss values less than or equal to `1`:
     <img src="/images/data_vis/filter.png" alt="Incorrect predictions filter"  />
 </Frame>
 
+The number of runs that match the filter expression appears above the runs table, below the filter button.
+
+For example, the following image shows `6 of 18 listed` which means 6 of the 18 listed runs match the filter expression and are currently displayed. The count is highlighted in the yellow box.
+
+<Frame>
+    <img src="/images/runs/filter_count.png" alt="Number of runs that match filter expression"  />
+</Frame>
 
 The following sections show some examples of how to filter runs in the Runs table.
 
@@ -46,13 +53,28 @@ Filter runs based on their tags:
 
 1. Click on the **Runs** tab from the project sidebar.
 2. Select the **Filter** button, which looks like a funnel, above the runs table.
-3. From left to right, select `"Tags"` from the dropdown menu select a logic operator.
+3. From left to right, select `"Tags"` from the dropdown menu, then select a logic operator.
 4. Select is, is not, in, or not in from the second dropdown menu.
 5. Enter the tag name you want to filter by from the third dropdown menu.
 
 <Frame>
     <img src="/images/app_ui/filter_runs.gif" alt="Filter runs by tags" />
 </Frame>
+
+### Example: Filter runs with a timestamp
+
+You can filter by using the MongoDB Query Language.
+
+The following example filters runs created between two timestamps using the W&B Public API:
+
+```python
+runs = api.runs(
+    "<entity>/<project>",
+    {"$and": [{"created_at": {"$lt": "YYYY-MM-DDT##", "$gt": "YYYY-MM-DDT##"}}]},
+)
+```
+
+See the [API guide](/models/ref/python/public-api/api#method-api-runs) for more examples of filtering runs with the API.
 
 ### Example: Combine filters with AND and OR conditions
 
@@ -69,6 +91,23 @@ The following image demonstrates how the resulting filter expression appears in 
 
 <Frame>
     <img src="/images/runs/run_expressions_and_or.png" alt="Combine filters with AND and OR conditions"  />
+</Frame>
+
+
+### Example: Filter run configuration values with `CONTAINS`
+
+Filter runs based on whether a run [configuration](/models/track/config) field contains a specific value:
+
+1. From the project sidebar, select **Runs**.
+1. Select **Filter** (<Icon icon="bars-filter" iconType="solid"/>) above the runs table.
+1. Select a run configuration field from the first menu.
+1. Select **CONTAINS** from the second menu.
+1. Enter the value to filter by in the third field.
+
+The following image shows a filter configured to display runs where the `epochs` configuration field contains the value `100`.
+
+<Frame>
+    <img src="/images/runs/contains_filter.png" alt="Filter runs by run config" />
 </Frame>
 
 

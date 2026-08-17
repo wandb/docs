@@ -4,7 +4,7 @@ title: wandb sync
 
 import { GitHubLink } from "/snippets/ko/_includes/github-source-link.mdx"
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/cli.py#L561" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L563" />
 
 <div id="usage">
   ## 사용
@@ -19,6 +19,10 @@ sync [OPTIONS] [PATH]...
 </div>
 
 기존 로컬 W&amp;B run 데이터를 클라우드에 업로드합니다.
+
+마이그레이션 참고: 이 명령어는 점진적으로
+`wandb beta sync`로 전환되고 있습니다. 일부 옵션은 레거시 모드에서만 사용할 수 있고, 다른 옵션은
+베타 모드에서만 사용할 수 있습니다. 자세한 내용은 옵션 설명을 참조하세요.
 
 로컬 `wandb` 디렉터리에 있는 오프라인 또는 미완료 Runs를
 W&amp;B 서버로 동기화합니다. PATH가 제공되면 해당 경로의 Runs를 동기화합니다. 경로가
@@ -90,24 +94,26 @@ wandb sync --clean --clean-old-hours 48 --clean-force
   ## 옵션
 </div>
 
-| Flag                 | Type      | 설명                                                                                         |
-| -------------------- | --------- | ------------------------------------------------------------------------------------------ |
-| `--id`               | STR       | 기존 run ID에 업로드합니다. **기본값**: None                                                           |
-| `--project, -p`      | STR       | run을 업로드할 프로젝트를 설정합니다. **기본값**: None                                                       |
-| `--entity, -e`       | STR       | 프로젝트에 적용할 entity를 설정합니다. **기본값**: None                                                     |
-| `--job_type`         | STR       | 관련된 Runs를 그룹화할 작업 유형을 설정합니다. **기본값**: None                                                 |
-| `--sync-tensorboard` | BOOL Flag | TensorBoard tfevent 파일을 동기화합니다. 특정 경로에서는 기본적으로 활성화되며, --sync-all에서는 비활성화됩니다. **기본값**: None |
-| `--include-globs`    | STR       | 이 glob 패턴과 일치하는 Runs만 포함합니다(쉼표로 구분). **기본값**: None                                          |
-| `--exclude-globs`    | STR       | 이 glob 패턴과 일치하는 Runs은 제외합니다(쉼표로 구분). **기본값**: None                                          |
-| `--include-online`   | BOOL Flag | 온라인 모드에서 생성된 Runs를 포함합니다. **기본값**: None                                                     |
-| `--include-offline`  | BOOL Flag | 오프라인 모드에서 생성된 Runs를 포함합니다. **기본값**: None                                                    |
-| `--include-synced`   | BOOL Flag | 이미 동기화된 Runs를 포함합니다. **기본값**: None                                                          |
-| `--mark-synced`      | BOOL Flag | 업로드 후 Runs를 동기화된 것으로 표시합니다. **기본값**: True                                                   |
-| `--sync-all`         | BOOL Flag | 로컬 wandb 디렉터리에서 동기화되지 않은 모든 Runs를 동기화합니다. **기본값**: False                                    |
-| `--clean`            | BOOL Flag | 이미 동기화된 Runs의 로컬 데이터를 삭제합니다. **기본값**: False                                                 |
-| `--clean-old-hours`  | INT       | 지정한 시간보다 오래된 동기화된 Runs만 삭제합니다(`--clean`과 함께 사용). **기본값**: 24                                |
-| `--clean-force`      | BOOL Flag | `--clean`이 지정된 경우 확인 프롬프트를 건너뜁니다. **기본값**: False                                           |
-| `--show`             | INT       | 요약에 표시할 Runs 수를 설정합니다. **기본값**: 5                                                           |
-| `--append`           | BOOL Flag | 새 run을 만들지 않고 기존 run에 데이터를 추가합니다. **기본값**: False                                           |
-| `--skip-console`     | BOOL Flag | 콘솔 로그 업로드를 건너뜁니다. **기본값**: False                                                           |
-| `--replace-tags`     | STR       | 동기화 중에 tags 이름을 변경합니다. 쉼표로 구분된 &#39;old=new&#39; 쌍을 사용합니다. **기본값**: None                   |
+| Flag                                 | Type      | 설명                                                                                                    |
+| ------------------------------------ | --------- | ----------------------------------------------------------------------------------------------------- |
+| `--yes`                              | BOOL Flag | (베타 전용) 확인을 요청하지 않습니다. **기본값**: False                                                                 |
+| `--id`                               | STR       | 기존 Run ID로 업로드합니다. **기본값**: None                                                                      |
+| `--project, -p`                      | STR       | run을 업로드할 프로젝트를 설정합니다. **기본값**: None                                                                  |
+| `--entity, -e`                       | STR       | 프로젝트의 범위를 지정할 엔터티를 설정합니다. **기본값**: None                                                               |
+| `--job_type`                         | STR       | 관련 Runs를 그룹화할 작업 유형을 설정합니다. **기본값**: None                                                             |
+| `--sync-tensorboard`                 | BOOL Flag | (레거시 전용) TensorBoard tfevent 파일을 동기화합니다. 특정 경로에서는 기본적으로 활성화되며, `--sync-all`에서는 비활성화됩니다. **기본값**: None |
+| `--include-globs`                    | STR       | (레거시 전용) 이 glob 패턴(쉼표로 구분)과 일치하는 Runs만 포함합니다. **기본값**: None                                           |
+| `--exclude-globs`                    | STR       | (레거시 전용) 이 glob 패턴(쉼표로 구분)과 일치하는 Runs를 제외합니다. **기본값**: None                                           |
+| `--include-online, --no-skip-online` | BOOL Flag | 온라인 모드에서 생성된 Runs를 포함합니다. **기본값**: None                                                               |
+| `--include-offline`                  | BOOL Flag | (레거시 전용) 오프라인 모드에서 생성된 Runs를 포함합니다. **기본값**: None                                                     |
+| `--include-synced, --no-skip-synced` | BOOL Flag | 이미 동기화된 Runs를 포함합니다. **기본값**: None                                                                    |
+| `--mark-synced`                      | BOOL Flag | (레거시 전용) 업로드 후 Runs를 동기화된 것으로 표시합니다. **기본값**: True                                                    |
+| `--sync-all`                         | BOOL Flag | (레거시 전용) 로컬 `wandb` 디렉터리에서 동기화되지 않은 모든 Runs를 동기화합니다. **기본값**: False                                   |
+| `--clean`                            | BOOL Flag | (레거시 전용) 이미 동기화된 Runs의 로컬 데이터를 삭제합니다. **기본값**: False                                                  |
+| `--clean-old-hours`                  | INT       | 지정한 시간보다 오래된 동기화된 Runs만 삭제합니다(`--clean`과 함께 사용). **기본값**: 24                                          |
+| `--clean-force`                      | BOOL Flag | `--clean`이 지정된 경우 확인 요청을 건너뜁니다. **기본값**: False                                                        |
+| `--show`                             | INT       | summary에 표시할 Runs 수를 설정합니다. **기본값**: 5                                                                |
+| `--append`                           | BOOL Flag | (레거시 전용) 새 run을 생성하는 대신 기존 run에 데이터를 추가합니다. **기본값**: False                                            |
+| `--skip-console`                     | BOOL Flag | (레거시 전용) 콘솔 로그 업로드를 건너뜁니다. **기본값**: False                                                             |
+| `--replace-tags`                     | STR       | 동기화 중 태그 이름을 변경합니다. 쉼표로 구분된 &#39;old=new&#39; 쌍을 사용하세요. **기본값**: None                                 |
+| `--legacy`                           | BOOL Flag | `wandb beta sync`로 전달하지 않고 레거시 동작을 강제합니다. **기본값**: False                                              |

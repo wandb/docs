@@ -1,0 +1,52 @@
+---
+title: "startSession"
+description: "TypeScript SDK リファレンス"
+---
+
+<Warning>
+  **非推奨。** 代わりに [startConversation](../functions/startconversation) を使用してください。
+</Warning>
+
+> `const` **startSession**: (`opts`) =&gt; [`Conversation`](../interfaces/conversation) = `startConversation`
+
+新しい Conversation を開始し、現在の会話として設定します。
+後続の `startTurn` 呼び出しでは、この会話が自動的に使用されます。
+
+`attributes` を渡すと、会話によって生成されるすべての
+span にカスタム (semconv 以外の) 属性を付与できます。
+
+定義元: [src/genai/api.ts:33](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L33)
+
+<div id="parameters">
+  ## パラメーター
+</div>
+
+<div id="opts">
+  ### opts?
+</div>
+
+[`ConversationInit`](../interfaces/conversationinit) = `{}`
+
+<div id="returns">
+  ## 戻り値
+</div>
+
+[`Conversation`](../interfaces/conversation)
+
+<div id="examples">
+  ## 例
+</div>
+
+```ts twoslash
+// @noErrors
+weave.startConversation({agentName: 'research-bot'});
+```
+
+```ts twoslash
+// @noErrors
+weave.startConversation({
+  agentName: 'research-bot',
+  conversationId: '019efa53-8a65-711c-b4c1-7c1cb72c0bb7',
+  attributes: {'myagent.version': '1.23'},
+});
+```

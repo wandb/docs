@@ -1,0 +1,190 @@
+---
+title: "Conversation"
+description: "Référence du SDK TypeScript"
+---
+
+Une conversation regroupe des tours de conversation sous un même `gen_ai.conversation.id`. Elle ne
+constitue pas elle-même un span OTel : les spans enfants y associent l’ID de conversation.
+
+Défini dans : [src/genai/conversation.ts:72](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L72)
+
+<div id="accessors">
+  ## Accesseurs
+</div>
+
+<div id="agentname">
+  ### agentName
+</div>
+
+<div id="get-signature">
+  #### Signature du getter
+</div>
+
+> **get** **agentName**(): `string`
+
+Défini dans : [src/genai/conversation.ts:94](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L94)
+
+<div id="returns">
+  ##### Renvoie
+</div>
+
+`string`
+
+***
+
+<div id="attributes">
+  ### attributs
+</div>
+
+<div id="get-signature">
+  #### Signature du getter
+</div>
+
+> **get** **attributes**(): `Attributes`
+
+Défini dans : [src/genai/conversation.ts:106](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L106)
+
+<div id="returns">
+  ##### Renvoie
+</div>
+
+`Attributes`
+
+***
+
+<div id="conversationid">
+  ### conversationId
+</div>
+
+<div id="get-signature">
+  #### Signature du getter
+</div>
+
+> **get** **conversationId**(): `string`
+
+Défini dans : [src/genai/conversation.ts:102](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L102)
+
+<div id="returns">
+  ##### Renvoie
+</div>
+
+`string`
+
+***
+
+<div id="model">
+  ### model
+</div>
+
+<div id="get-signature">
+  #### Signature du getter
+</div>
+
+> **get** **model**(): `string`
+
+Défini dans : [src/genai/conversation.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L98)
+
+<div id="returns">
+  ##### Renvoie
+</div>
+
+`string`
+
+***
+
+<div id="sessionid">
+  ### sessionId
+</div>
+
+<Warning>
+  **Obsolète.** Utilisez plutôt [Conversation.conversationId](#conversationid).
+</Warning>
+
+<div id="get-signature">
+  #### Signature du getter
+</div>
+
+> **get** **sessionId**(): `string`
+
+Défini dans : [src/genai/conversation.ts:111](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L111)
+
+<div id="returns">
+  ##### Renvoie
+</div>
+
+`string`
+
+<div id="methods">
+  ## Méthodes
+</div>
+
+<div id="end">
+  ### end()
+</div>
+
+> **end**(`opts?`): `void`
+
+Défini dans : [src/genai/conversation.ts:168](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L168)
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+<div id="opts">
+  ##### opts ?
+</div>
+
+`SpanEndOptions`
+
+#### Renvoie
+
+`void`
+
+***
+
+<div id="startturn">
+  ### startTurn()
+</div>
+
+> **startTurn**(`opts?`) : [`Turn`](./turn)
+
+Démarre un nouveau `Turn` dans cette `Conversation`. Le tour de conversation hérite du `conversationId` de la conversation ; `agentName`, `agentId`, `agentDescription`, `agentVersion` et `model` utilisent les valeurs de la conversation lorsqu’ils ne sont pas fournis dans `opts`.
+
+Défini dans : [src/genai/conversation.ts:156](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L156)
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+<div id="opts">
+  ##### opts ?
+</div>
+
+[`TurnInit`](./turninit) = `{}`
+
+#### Renvoie
+
+[`Turn`](./turn)
+
+<div id="examples">
+  #### Exemples
+</div>
+
+```ts twoslash
+// @noErrors
+const turn = conversation.startTurn();
+```
+
+```ts twoslash
+// @noErrors
+const turn = conversation.startTurn({
+  model: 'gpt-4o',
+  agentName: 'research-bot',
+  agentId: 'research-bot-prod',
+  agentDescription: 'Looks up facts on Wikipedia.',
+  agentVersion: '1.4.2',
+  userMessage: 'What is the weather in Tokyo?',
+  systemInstructions: ['You are a helpful weather bot.'],
+  startTime: new Date('2026-05-29T10:00:00.000Z'),
+});
+```

@@ -3,23 +3,23 @@ title: "createOpenAIAgentsTracingProcessor"
 description: "Référence du SDK TypeScript"
 ---
 
-<div id="createopenaiagentstracingprocessor">
-  # createOpenAIAgentsTracingProcessor
-</div>
+> **createOpenAIAgentsTracingProcessor**(): `TracingProcessor`
 
-▸ **createOpenAIAgentsTracingProcessor**(): `TracingProcessor`
+Crée un nouveau processeur de traçage Weave pour OpenAI Agents.
 
-Créer un processeur de Tracing Weave pour OpenAI Agents.
+Défini dans : [src/integrations/openai.agent.ts:102](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/openai.agent.ts#L102)
 
 <div id="returns">
-  #### Renvoie
+  ## Renvoie
 </div>
 
 `TracingProcessor`
 
 Une instance de `TracingProcessor` qui peut être enregistrée auprès d’OpenAI Agents
 
-`Exemple`
+<div id="example">
+  ## Exemple
+</div>
 
 ```typescript twoslash
 // @noErrors
@@ -29,11 +29,3 @@ import { createOpenAIAgentsTracingProcessor } from 'weave';
 const processor = createOpenAIAgentsTracingProcessor();
 addTraceProcessor(processor);
 ```
-
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[src/integrations/openai.agent.ts:102](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/openai.agent.ts#L102)
-
-***

@@ -1,0 +1,35 @@
+name: Report embeds
+
+# Weekly liveness check of the live W&B report embeds (<WandbReport>) in docs
+# pages, discovered by scanning the .mdx sources. Files an issue if a report has
+# gone dead. Deliberately does not run on PRs: wandb.ai rate-limits crawlers, so
+# network results are too flaky to gate merges on.
+
+on:
+  schedule:
+    - cron: "17 6 * * 1" # Weekly, Monday 06:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write # files an issue on failure
+
+jobs:
+  liveness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.12"
+      - name: Check embeds
+        id: check
+        continue-on-error: true
+        run: python3 scripts/report-embeds/check_embeds.py --output-md ./embed-report.md
+      - name: Create issue from file
+        if: steps.check.outcome == 'failure'
+        uses: peter-evans/create-issue-from-file@fca9117c27cdc29c6c4db3b86c48e4115a786710 # v6
+        with:
+          title: Fix broken report embeds in docs.wandb.ai
+          content-filepath: ./embed-report.md
+          labels: report, automated issue

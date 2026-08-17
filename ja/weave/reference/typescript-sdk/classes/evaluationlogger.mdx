@@ -3,14 +3,14 @@ title: "EvaluationLogger"
 description: "TypeScript SDK リファレンス"
 ---
 
-[weave](../) / EvaluationLogger
-
 EvaluationLogger を使うと、予測とスコアを段階的にログできます。
 
 事前にデータセットを用意してバッチ処理を行う必要がある従来の Evaluation クラスとは異なり、
 EvaluationLogger では、予測が発生したタイミングで、柔軟にスコアリングしながらログできます。
 
-`例`
+定義元: [src/evaluationLogger.ts:554](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L554)
+
+## 例
 
 ```ts twoslash
 // @noErrors
@@ -29,59 +29,43 @@ for (const example of streamingData) {
 await ev.logSummary();
 ```
 
-<div id="table-of-contents">
-  ## 目次
+<div id="constructors">
+  ## コンストラクター
 </div>
 
-<div id="constructors">
+<div id="constructor">
   ### コンストラクター
 </div>
 
-* [コンストラクター](./evaluationlogger#constructor)
+> **new EvaluationLogger**(`options`): `EvaluationLogger`
 
-<div id="methods">
-  ### メソッド
-</div>
-
-* [logPrediction](./evaluationlogger#logprediction)
-* [logPredictionAsync](./evaluationlogger#logpredictionasync)
-* [logSummary](./evaluationlogger#logsummary)
-
-## コンストラクター
-
-<div id="constructors">
-  ### コンストラクター
-</div>
-
-• **new EvaluationLogger**(`options`): [`EvaluationLogger`](./evaluationlogger)
+定義元: [src/evaluationLogger.ts:573](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L573)
 
 <div id="parameters">
   #### パラメーター
 </div>
 
-| 名         | タイプ                       |
-| :-------- | :------------------------ |
-| `options` | `EvaluationLoggerOptions` |
+<div id="options">
+  ##### options
+</div>
+
+`EvaluationLoggerOptions`
 
 <div id="returns">
   #### 戻り値
 </div>
 
-[`EvaluationLogger`](./evaluationlogger)
+`EvaluationLogger`
 
-<div id="defined-in">
-  #### 定義元
+<div id="methods">
+  ## メソッド
 </div>
-
-[src/evaluationLogger.ts:573](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L573)
-
-## メソッド
 
 <div id="logprediction">
-  ### logPrediction
+  ### logPrediction()
 </div>
 
-▸ **logPrediction**(`inputs`, `output`): [`ScoreLogger`](./scorelogger)
+> **logPrediction**(`inputs`, `output`): [`ScoreLogger`](./scorelogger)
 
 入力と出力を含む予測をログする (同期バージョン) 。
 predict&#95;and&#95;score call (子 predict call を含む) を作成します。
@@ -90,14 +74,23 @@ predict&#95;and&#95;score call (子 predict call を含む) を作成します�
 この method は ScoreLogger を同期的に返します。初期化が完了すると、
 ScoreLogger に対する操作 (`logScore`、`finish`) はキューに追加され、実行されます。
 
+定義元: [src/evaluationLogger.ts:660](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L660)
+
 <div id="parameters">
   #### パラメーター
 </div>
 
-| 名        | タイプ                             |
-| :------- | :------------------------------ |
-| `inputs` | `Record`&lt;`string`, `any`&gt; |
-| `output` | `any`                           |
+<div id="inputs">
+  ##### inputs
+</div>
+
+`Record`&lt;`string`, `any`&gt;
+
+<div id="output">
+  ##### 出力
+</div>
+
+`any`
 
 <div id="returns">
   #### 戻り値
@@ -105,7 +98,9 @@ ScoreLogger に対する操作 (`logScore`、`finish`) はキューに追加さ�
 
 [`ScoreLogger`](./scorelogger)
 
-`例`
+<div id="example">
+  #### 例
+</div>
 
 ```ts twoslash
 // @noErrors
@@ -116,19 +111,13 @@ scoreLogger.finish();
 await evalLogger.logSummary(); // すべての処理が完了するまで待機
 ```
 
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[src/evaluationLogger.ts:660](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L660)
-
 ***
 
 <div id="logpredictionasync">
-  ### logPredictionAsync
+  ### logPredictionAsync()
 </div>
 
-▸ **logPredictionAsync**(`inputs`, `output`): `Promise`&lt;[`ScoreLogger`](./scorelogger)&gt;
+> **logPredictionAsync**(`inputs`, `output`): `Promise`&lt;[`ScoreLogger`](./scorelogger)&gt;
 
 入力と出力とともに予測をログする (非同期版) 。
 logPrediction() と同様ですが、
@@ -136,14 +125,23 @@ logPrediction() と同様ですが、
 
 続行する前に初期化の完了を await する必要がある場合は、これを使用します。
 
+定義元: [src/evaluationLogger.ts:685](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L685)
+
 <div id="parameters">
   #### パラメーター
 </div>
 
-| 名        | タイプ                             |
-| :------- | :------------------------------ |
-| `inputs` | `Record`&lt;`string`, `any`&gt; |
-| `output` | `any`                           |
+<div id="inputs">
+  ##### inputs
+</div>
+
+`Record`&lt;`string`, `any`&gt;
+
+<div id="output">
+  ##### 出力
+</div>
+
+`any`
 
 <div id="returns">
   #### 戻り値
@@ -151,7 +149,9 @@ logPrediction() と同様ですが、
 
 `Promise`&lt;[`ScoreLogger`](./scorelogger)&gt;
 
-`例`
+<div id="example">
+  #### 例
+</div>
 
 ```ts twoslash
 // @noErrors
@@ -161,42 +161,34 @@ await scoreLogger.logScore('accuracy', 0.95);
 await scoreLogger.finish();
 ```
 
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[src/evaluationLogger.ts:685](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L685)
-
 ***
 
 <div id="logsummary">
-  ### logSummary
+  ### logSummary()
 </div>
 
-▸ **logSummary**(`summary?`): `Promise`&lt;`void`&gt;
+> **logSummary**(`summary?`): `Promise`&lt;`void`&gt;
 
 サマリーをログし、評価を完了します。
 summarize call を作成し、evaluate call を完了します。
 
-この method は await なしでも呼び出せます (fire-and-forget) が、内部的には
+この method は await なしでも呼び出せます (ファイア・アンド・フォーゲット) が、内部的には
 保留中のすべての operation が完了するまで待機します。
+
+定義元: [src/evaluationLogger.ts:786](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L786)
 
 <div id="parameters">
   #### パラメーター
 </div>
 
-| 名          | タイプ                             |
-| :--------- | :------------------------------ |
-| `summary?` | `Record`&lt;`string`, `any`&gt; |
+<div id="summary">
+  ##### summary?
+</div>
+
+`Record`&lt;`string`, `any`&gt;
 
 <div id="returns">
   #### 戻り値
 </div>
 
 `Promise`&lt;`void`&gt;
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[src/evaluationLogger.ts:786](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L786)

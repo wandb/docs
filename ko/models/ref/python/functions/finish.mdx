@@ -1,18 +1,18 @@
 ---
 title: finish()
-namespace: python_sdk_actions
-python_object_type: 함수
+kind: 함수
+namespace: wandb.sdk.wandb_run
 ---
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py#L4190" />
 
-
-### <kbd>함수</kbd> `finish`
+## <kbd>함수</kbd> wandb.finish
 
 ```python
-finish(exit_code: 'int | None' = None, quiet: 'bool | None' = None) → None
+exit_code: 'int | None' = None,
+quiet: 'bool | None' = None
 ```
 
 run을 종료하고 남아 있는 데이터를 모두 업로드합니다.
@@ -26,7 +26,15 @@ run 상태:
 * Finished: 모든 데이터가 동기화된 상태에서 성공적으로 완료된 run입니다 (`exit_code=0`).
 * Failed: 오류와 함께 완료된 run입니다 (`exit_code!=0`).
 
-**매개변수:**
+<div id="args">
+  ## 인수
+</div>
 
-* `exit_code`:  run의 종료 상태를 나타내는 정수입니다. 성공이면 0을 사용하고, 그 외의 값은 run을 실패로 표시합니다.
-* `quiet`:  사용 중단. `wandb.Settings(quiet=...)`를 사용해 기록 상세 수준을 설정하세요.
+* `exit_code`: run의 종료 상태를 나타내는 정수입니다. 성공이면 0을 사용하고, 그 외의 값은 run을 실패로 표시합니다.
+* `quiet`: 사용 중단. `wandb.Settings(quiet=...)`를 사용해 기록 상세 수준을 설정하세요.
+
+<div id="returns">
+  ## 반환값
+</div>
+
+None

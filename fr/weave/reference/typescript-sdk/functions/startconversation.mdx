@@ -3,11 +3,7 @@ title: "startConversation"
 description: "Référence du SDK TypeScript"
 ---
 
-<div id="startconversation">
-  # startConversation
-</div>
-
-▸ **startConversation**(`opts?`): [`Conversation`](../classes/conversation)
+> **startConversation**(`opts?`): [`Conversation`](../interfaces/conversation)
 
 Démarrez une nouvelle conversation et définissez-la comme conversation active.
 Les appels ultérieurs à `startTurn` l’utiliseront automatiquement.
@@ -15,28 +11,32 @@ Les appels ultérieurs à `startTurn` l’utiliseront automatiquement.
 Passez `attributes` pour appliquer des attributs personnalisés (non semconv) à chaque
 span émis par la conversation.
 
+Défini dans : [src/genai/api.ts:26](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L26)
+
 <div id="parameters">
-  #### Paramètres
+  ## Paramètres
 </div>
 
-| Nom    | Type                                                 |
-| :----- | :--------------------------------------------------- |
-| `opts` | [`ConversationInit`](../interfaces/conversationinit) |
+<div id="opts">
+  ### opts?
+</div>
+
+[`ConversationInit`](../interfaces/conversationinit) = `{}`
 
 <div id="returns">
-  #### Renvoie
+  ## Renvoie
 </div>
 
-[`Conversation`](../classes/conversation)
+[`Conversation`](../interfaces/conversation)
 
-`Exemple`
+<div id="examples">
+  ## Exemples
+</div>
 
 ```ts twoslash
 // @noErrors
 weave.startConversation({agentName: 'research-bot'});
 ```
-
-`Exemple`
 
 ```ts twoslash
 // @noErrors
@@ -46,11 +46,3 @@ weave.startConversation({
   attributes: {'myagent.version': '1.23'},
 });
 ```
-
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[src/genai/api.ts:26](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L26)
-
-***
