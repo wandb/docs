@@ -38,8 +38,9 @@
 # organization secret, Actions store only), and wandb/docs defines
 # DOCENGINE_TOKEN (a rolling token, held in BOTH its Actions and Dependabot
 # stores). That fallback is what lets this file stay byte-identical across
-# hosts. Whether a missing token fails the check depends on who triggered
-# the run:
+# hosts, modulo the pin version comments (each host's dependency updater
+# writes its own comment style). Whether a missing token fails the check
+# depends on who triggered the run:
 #
 #   - Dependabot's own runs read from the Dependabot secret store. Where that
 #     store holds the credential (wandb/docs), automated bumps are validated
