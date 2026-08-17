@@ -61,33 +61,33 @@ You can edit two main settings within **Line plots** settings: **Data** and **Di
 
 #### Data options
 
-The **Data** tab contains the following settings:
+The **Data** tab contains the following settings, see the following tables for additional x-axis and y-axis options:
 
 | Line plot setting | Description |
 | ----- | ----- |
-| **X axis** | The scale of the x-axis in line plots. The x-axis is set to **Step** by default. See the following tables for the list of x-axis and y-axis options. |
+| **X axis** | The scale of the x-axis in line plots. |
 | **Y axis** | The scale of the y-axis in line plots. |
 | **Smoothing** | Change the smoothing on the line plot. For more information about smoothing, see [Smooth line plots](/models/app/features/panels/line-plot/smoothing/). |
 | **Outliers** | Rescale to exclude outliers from the default plot min and max scale. |
 | **Point aggregation method** | Improve data visualization accuracy and performance. For more information, see [Point aggregation](/models/app/features/panels/line-plot/sampling/). |
 | **Max number of runs or groups** | Limit the number of runs or groups displayed on the line plot. |
 
-In addition to **Step**, W&B supports the following x-axis options:
+The following table lists x-axis options:
 
 | X axis option | Description |
 | ------------- | ----------- |
+| **Step** | Increments each time you call `wandb.Run.log()`.  The x-axis is set to **Step** by default. |
 | **Relative Time (Wall)** | Timestamp since the process starts. For example, suppose you start a run and resume that run the next day. If you then log something, the recorded point is 24 hours. |
 | **Relative Time (Process)** | Timestamp inside the running process. For example, suppose you start a run and let it continue for 10 seconds. The next day you resume that run. The point is recorded as 10 seconds. |
 | **Wall Time** | Minutes elapsed since the start of the first run on the graph. |
-| **Step** | Increments each time you call `wandb.Run.log()`. |
-| **Range** | Minimum and maximum settings to display for the x-axis. |
+| **Range** | Minimum and maximum limits to display for the x-axis. |
 
-W&B supports the following y-axis options:
+The following table lists y-axis options:
 
 | Y axis option | Description |
 | ------------- | ----------- |
-| **Range** | Minimum and maximum settings to display for the y-axis. |
 | **Log scale** | Logarithmic scale for the y-axis. |
+| **Range** | Minimum and maximum limits to display for the y-axis. |
 
 If you set a manual y-axis range, W&B applies it to all line plots in the workspace. For metrics with widely varying values, consider setting the range at the section level instead.
 
