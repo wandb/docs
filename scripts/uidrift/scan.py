@@ -129,7 +129,9 @@ def scan(
 
     base_sha, scanned_range = _resolve_base(root, since=since, base=base, head=head)
 
-    commits = gitsource.iter_commits(root, base_sha, head, limit=limit)
+    commits = gitsource.iter_commits(
+        root, base_sha, head, owner_repo=config.SOURCE.owner_repo, limit=limit
+    )
     progress(f"{len(commits)} commits in range")
 
     ui_commits = [

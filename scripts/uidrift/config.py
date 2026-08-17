@@ -125,5 +125,10 @@ SETTLED_DAYS = 7
 # Calibration: naive substring matching puts "search" on 215 pages.
 MAX_DOCS_PAGES = 15
 
-# Below this, a finding can never reach the agent lane.
-MIN_AGENT_CONFIDENCE = 0.6
+# There is deliberately no confidence threshold here. Agent eligibility is
+# decided by `triage()` from structural facts -- literal kind, docs coverage,
+# whether every occurrence is emphasized -- not by a score. A
+# MIN_AGENT_CONFIDENCE tunable used to sit here and was never read by anything,
+# which advertised a safety floor that did not exist. If the model pass later
+# produces a real confidence value, wire it into triage() in the same change
+# that introduces it.

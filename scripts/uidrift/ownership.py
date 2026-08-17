@@ -134,7 +134,15 @@ def _codeowners_regex(pattern: str) -> re.Pattern[str]:
     out: list[str] = []
     i = 0
     while i < len(p):
-        if p.startswith("**", i):
+        if p.startswith("**/", i):
+            # `**/` spans ZERO or more directories, so it has to consume the
+            # slash too. Emitting `.*` and then the literal `/` requires at
+            # least one directory, which makes `/src/**/*ramp*` miss
+            # `src/ramp.tsx` -- and a missed pattern is a missed last-match
+            # override, which names the wrong team rather than no team.
+            out.append("(?:.*/)?")
+            i += 3
+        elif p.startswith("**", i):
             out.append(".*")
             i += 2
         elif p[i] == "*":

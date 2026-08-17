@@ -26,7 +26,31 @@ _LANE_TITLE = {
     TRIAGE_PAIR: "Needs a writer's call first",
     TRIAGE_HUMAN: "Needs a human to write",
 }
-_REPO_URL = "https://github.com/wandb/core/commit/"
+# Derived, not hard-coded: config.SOURCE is the one place that names the watched
+# repo, and a report that links to a repo the scan did not read is worse than no
+# link at all.
+_REPO_URL = f"https://github.com/{config.SOURCE.owner_repo}/commit/"
+
+
+def _gaps_section(gaps: int) -> list[str]:
+    """The undocumented-surface count.
+
+    Shared by both paths on purpose. A run whose findings are all gaps used to
+    print "No drift to act on" and then omit the one number that explains why,
+    which reads as "nothing happened" when what happened is that every changed
+    label was undocumented.
+    """
+    if not gaps:
+        return []
+    return [
+        "### Undocumented surfaces",
+        "",
+        f"{gaps} changed label(s) match no documentation at all, so nothing in the",
+        "docs became wrong and they are not listed above. Most are incidental copy",
+        "— empty states, spinner labels, status pills. The count is here because a",
+        "sustained rise in it is worth noticing, not because each one needs a row.",
+        "",
+    ]
 
 
 def _escape(text: str) -> str:
@@ -212,7 +236,7 @@ def render(
     lines: list[str] = []
     a = lines.append
 
-    a("# UI label drift — wandb/core → docs")
+    a(f"# UI label drift — {config.SOURCE.owner_repo} → docs")
     a("")
     a(f"Scanned `{scanned_range}` on {today.isoformat()}.")
     detail = f" ({candidate_deltas} changed strings)" if candidate_deltas else ""
@@ -244,6 +268,7 @@ def render(
         else:
             a("was renamed back before anyone had to act on it.")
         a("")
+        lines.extend(_gaps_section(gaps))
         lines.extend(_ledger_sections(suppressed, reopened, unresolved, orphans, reverted))
         return "\n".join(lines) + "\n"
 
@@ -284,14 +309,7 @@ def render(
         a("is fresh and hold the PR — this is lead time, not noise.")
         a("")
 
-    if gaps:
-        a("### Undocumented surfaces")
-        a("")
-        a(f"{gaps} changed label(s) match no documentation at all, so nothing in the")
-        a("docs became wrong and they are not listed above. Most are incidental copy")
-        a("— empty states, spinner labels, status pills. The count is here because a")
-        a("sustained rise in it is worth noticing, not because each one needs a row.")
-        a("")
+    lines.extend(_gaps_section(gaps))
 
     lines.extend(_ledger_sections(suppressed, reopened, unresolved, orphans, reverted))
     return "\n".join(lines) + "\n"

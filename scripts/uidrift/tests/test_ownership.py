@@ -255,6 +255,21 @@ class TestCodeownersGlobs(unittest.TestCase):
     def test_catch_all(self):
         self.assertTrue(ownership._codeowners_regex("*").match("anything/at/all.ts"))
 
+    def test_double_star_slash_spans_zero_directories(self):
+        # `**/` is zero-or-more, not one-or-more. Translating it to `.*` plus a
+        # literal slash required at least one directory, so this pattern missed
+        # the file sitting directly in src/ -- and because CODEOWNERS is
+        # last-match-wins, a missed override names the wrong team, not no team.
+        pattern = ownership._codeowners_regex("/src/**/*ramp*")
+        self.assertTrue(pattern.match("src/ramp.tsx"))
+        self.assertTrue(pattern.match("src/a/b/ramp.tsx"))
+        self.assertFalse(pattern.match("other/ramp.tsx"))
+
+    def test_double_star_slash_still_spans_many_directories(self):
+        pattern = ownership._codeowners_regex("/a/**/b")
+        self.assertTrue(pattern.match("a/b"))
+        self.assertTrue(pattern.match("a/x/y/b"))
+
 
 if __name__ == "__main__":
     unittest.main()
