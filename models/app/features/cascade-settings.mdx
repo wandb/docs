@@ -57,19 +57,22 @@ Set global defaults and custom rules for line plots in a workspace by modifying 
     <img src="/images/app_ui/workspace_settings_line_plots.png" alt="Line plot settings"  />
 </Frame>
 
-You can edit two main settings within **Line plots** settings: **Data** and **Display preferences**. The **Data** tab contains the following settings:
+You can edit two main settings within **Line plots** settings: **Data** and **Display preferences**. 
 
+#### Data options
+
+The **Data** tab contains the following settings:
 
 | Line plot setting | Description |
 | ----- | ----- |
-| **X axis** | The scale of the x-axis in line plots. The x-axis is set to **Step** by default. See the following table for the list of x-axis options. |
-| **Range** | Minimum and maximum settings to display for the x-axis. |
+| **X axis** | The scale of the x-axis in line plots. The x-axis is set to **Step** by default. See the following tables for the list of x-axis and y-axis options. |
+| **Y axis** | The scale of the y-axis in line plots. |
 | **Smoothing** | Change the smoothing on the line plot. For more information about smoothing, see [Smooth line plots](/models/app/features/panels/line-plot/smoothing/). |
 | **Outliers** | Rescale to exclude outliers from the default plot min and max scale. |
 | **Point aggregation method** | Improve data visualization accuracy and performance. For more information, see [Point aggregation](/models/app/features/panels/line-plot/sampling/). |
 | **Max number of runs or groups** | Limit the number of runs or groups displayed on the line plot. |
 
-Besides **Step**, the x-axis supports the following options:
+In addition to the **Step** option, W&B supports the following x-axis options:
 
 | X axis option | Description |
 | ------------- | ----------- |
@@ -77,13 +80,22 @@ Besides **Step**, the x-axis supports the following options:
 | **Relative Time (Process)** | Timestamp inside the running process. For example, suppose you start a run and let it continue for 10 seconds. The next day you resume that run. The point is recorded as 10 seconds. |
 | **Wall Time** | Minutes elapsed since the start of the first run on the graph. |
 | **Step** | Increments each time you call `wandb.Run.log()`. |
+| **Range** | Minimum and maximum settings to display for the x-axis. |
 
+W&B supports the following y-axis:
 
+| Y axis option | Description |
+| ------------- | ----------- |
+| **Range** | Minimum and maximum settings to display for the y-axis. |
+| **Log scale** | Logarithmic scale for the y-axis. |
+
+W&B constrains all line plots in your workspace if you define a manual y-axis range. For highly variable metrics, consider setting the range at the section level.
 
 <Note>
 For information about how to edit an individual line plot, see [Edit line panel settings](/models/app/features/panels/line-plot/#edit-line-panel-settings) in Line plots.
 </Note>
 
+#### Display preferences
 
 Within the **Display preferences** tab, you can toggle the following settings:
 
