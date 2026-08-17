@@ -8,7 +8,7 @@ on, nothing has to be recomputed.
 from __future__ import annotations
 
 from datetime import date
-from typing import Iterable, Sequence
+from typing import Sequence
 
 from . import config
 from .finding import (

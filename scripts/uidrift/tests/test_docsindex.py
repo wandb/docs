@@ -286,7 +286,6 @@ class TestWholeTermMatching(DocsIndexTestCase):
     def test_plural_does_not_match_singular(self):
         # `Add panel` inside `Add panels` inflated one literal from 2 pages to
         # 16 and misfiled every bold occurrence as prose.
-        index = self.index
         page = Path(self._tmp.name) / "platform/panels.mdx"
         page.write_text(
             "---\ntitle: Panels\n---\nClick **Add panels** in the control bar.\n",

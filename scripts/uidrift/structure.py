@@ -40,8 +40,12 @@ _GATE_ASSIGN = re.compile(
     r"\b(?:const|let|var)\s+([A-Za-z_$][\w$]*)\s*=\s*"
     r"((?:use)[A-Za-z_$][\w$]*(?:Gate|RampFlag|Flag)[\w$]*)\s*\("
 )
-# A gate hook called inline, without an intermediate variable.
-_GATE_CALL = re.compile(r"\b(use[A-Za-z_$]*(?:Gate|RampFlag)[\w$]*)\s*\(")
+# Only the assigned form above is matched. A gate hook called inline -- no
+# intermediate variable -- is not detected: measured against core's UI tree,
+# _GATE_ASSIGN finds 261 call sites and an inline matcher would add ~110 more,
+# but ~19 of those are `useGatedValue`, an unrelated Weave utility that any
+# `use*Gate*` pattern also matches. Widening this needs a name filter and its
+# own tests, so it is a follow-up rather than a regex.
 
 # The hand-maintained union of frontend-reachable gate names in useRampFlag.ts.
 _RAMP_KEY_LINE = re.compile(r"^\s*\|\s*'([a-z0-9_.-]+)'\s*$")

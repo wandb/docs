@@ -10,8 +10,8 @@ from __future__ import annotations
 import subprocess
 import tempfile
 import unittest
+import unittest.mock as mock
 from pathlib import Path
-from unittest import mock
 
 from .. import config, ownership
 

@@ -2,13 +2,12 @@
 
 from __future__ import annotations
 
-import dataclasses
 import tempfile
 import unittest
 from datetime import date
 from pathlib import Path
 
-from .. import build, config, docsindex, extract, finding, report
+from .. import build, config, extract, finding, report
 from .test_docsindex import build_temp_index
 
 FIXTURES = Path(__file__).parent / "fixtures"
