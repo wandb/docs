@@ -310,6 +310,16 @@ So a decision records the docs evidence it was made against, and expanding
 evidence reopens it. Only expansion counts: a page that stops mentioning the
 string means somebody did the work, which is not a reason to reopen anything.
 
+Evidence is pages and *counts per page*, never line numbers. Line numbers churn
+on every unrelated docs edit, so reopening on them would be pure noise — but a
+bare set of page names is too coarse in the other direction. It cannot tell one
+editable occurrence on a page from three, so a dismissed finding that grew a
+second occurrence on a page already in the set stayed suppressed while the docs
+got further out of date. Counts sit between the two: immune to churn, sensitive
+to growth. If you change this shape again, make old evidence still compare equal
+to an unchanged corpus, or every stored decision reopens at once — which is the
+fastest way to teach a writer that the ledger cries wolf.
+
 Two consequences:
 
 - **Never auto-delete a decision.** An orphaned decision is ambiguous — the
@@ -333,6 +343,15 @@ under `uidrift/reports/`, which is lesson 18 applied to the watermark: the
 reports are the record, so there is no state file to disagree with them. It is
 the difference between 96 seconds and 1.3 seconds, and it is what makes a
 frequent cron affordable.
+
+Reports are named `YYYY-MM-DDTHHMMSS-<head sha>.md`, in UTC. The time is not
+decoration: "newest" was once decided by date alone, which left two reports
+merged on one day to be ordered by their head SHA — content-addressed, so
+effectively random. Half the time that picks the older one, and a watermark
+that moves backwards re-reports drift a writer already dismissed. Sort reports
+by name, never by SHA. Untimed names still parse and sort before timestamped
+ones from the same day, which is the safe direction: a range gets rescanned,
+never skipped.
 
 The scan never writes the ledger; only `decide` does. `decide` re-derives the
 finding by scanning rather than reading a report, because the evidence

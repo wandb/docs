@@ -231,3 +231,54 @@ class TestReport(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestLandingDate(unittest.TestCase):
+    """Settledness measures time on master, not time since authoring.
+
+    `_vendor/gitsource` reads the author date, which rebase and cherry-pick
+    preserve. A commit authored months ago and landed today would arrive
+    already older than SETTLED_DAYS and skip the churn protection entirely --
+    straight into the lane that says "safe to apply unattended".
+    """
+
+    def test_committer_date_is_preferred(self):
+        commit = {
+            "sha": "a" * 40,
+            "commit": {
+                "message": "x",
+                "author": {"name": "Ada", "date": "2026-03-01T00:00:00+00:00"},
+                "committer": {"date": "2026-08-16T00:00:00+00:00"},
+            },
+        }
+        self.assertEqual("2026-08-16T00:00:00+00:00", build._landed_date(commit))
+
+    def test_author_date_is_the_fallback(self):
+        # `scan` fills the committer date in from the clone; anything that skips
+        # that step still has to produce a date rather than raise.
+        commit = {
+            "sha": "a" * 40,
+            "commit": {
+                "message": "x",
+                "author": {"name": "Ada", "date": "2026-03-01T00:00:00+00:00"},
+            },
+        }
+        self.assertEqual("2026-03-01T00:00:00+00:00", build._landed_date(commit))
+
+    def test_a_freshly_landed_old_commit_is_not_settled(self):
+        # The bug this guards: authored in March, landed yesterday. Judged by
+        # the author date it is long settled; judged by when it reached master
+        # it is still moving.
+        commit = {
+            "sha": "a" * 40,
+            "commit": {
+                "message": "x",
+                "author": {"name": "Ada", "date": "2026-03-01T00:00:00+00:00"},
+                "committer": {"date": "2026-08-16T00:00:00+00:00"},
+            },
+        }
+        today = date(2026, 8, 17)
+        self.assertFalse(build._is_settled(build._landed_date(commit), today))
+        self.assertTrue(
+            build._is_settled(commit["commit"]["author"]["date"], today)
+        )

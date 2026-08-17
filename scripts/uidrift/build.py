@@ -75,13 +75,32 @@ def _docs_payload(lookup: docsindex.DocsLookup) -> dict:
     }
 
 
+def _landed_date(commit: dict) -> str:
+    """When the commit landed on the watched branch, not when it was written.
+
+    Settledness asks "has this stopped moving on master", and the author date
+    cannot answer that: rebase and cherry-pick both preserve it, so a commit
+    authored in March and landed today arrives already older than SETTLED_DAYS
+    and skips the churn protection entirely -- straight into the unattended
+    agent lane.
+
+    The committer date is the landing date. It is read from the GitHub API's
+    own shape (`commit.committer.date`), which `scan` fills in from the local
+    clone, so this keeps working unchanged if the vendored reader ever starts
+    supplying it. Falls back to the author date when it is absent, because a
+    slightly-too-settled finding is a better failure than a crash.
+    """
+    committer = (commit.get("commit") or {}).get("committer") or {}
+    return committer.get("date") or commit["commit"]["author"]["date"]
+
+
 def _commit_ref(commit: dict, delta: LabelDelta) -> CommitRef:
     message = commit["commit"]["message"]
     subject = message.splitlines()[0]
     m = _PR.search(subject)
     return CommitRef(
         sha=commit["sha"],
-        date=commit["commit"]["author"]["date"],
+        date=_landed_date(commit),
         subject=subject,
         author=commit["commit"]["author"].get("name", ""),
         file=delta.path,
@@ -114,7 +133,7 @@ def build_findings(
     lifecycle = structure.flag_lifecycle(diff)
     pairs, unpaired_add, unpaired_rem = structure.pair_renames(added, removed, streams)
 
-    commit_date = commit["commit"]["author"]["date"]
+    commit_date = _landed_date(commit)
     settled = _is_settled(commit_date, today)
     findings: dict[str, Finding] = {}
 

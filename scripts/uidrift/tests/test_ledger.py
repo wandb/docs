@@ -363,6 +363,45 @@ class TestReopenRule(unittest.TestCase):
         applied = ledger.apply_decisions([after], {after.id: decision})
         self.assertEqual([x.id for x in applied.reopened], [after.id])
 
+    def test_a_second_occurrence_on_a_known_page_reopens_a_dismissal(self):
+        # The page was already in the evidence, so a set of page names could not
+        # see this: the docs grew a second editable occurrence and the decision
+        # stayed suppressed. Counts per page catch it; line numbers still do not
+        # enter the fingerprint.
+        before = finding(pages=("manage-organization.mdx",))
+        decision = ledger.record(before, ledger.STATUS_DISMISSED, today=TODAY)
+
+        after = finding(pages=("manage-organization.mdx",))
+        after.docs["replace_targets"].append(
+            {"page": "manage-organization.mdx", "line": 42, "context": "prose"}
+        )
+        applied = ledger.apply_decisions([after], {after.id: decision})
+        self.assertEqual([x.id for x in applied.reopened], [after.id])
+
+    def test_fewer_occurrences_on_a_known_page_is_not_a_reopen(self):
+        before = finding(pages=("manage-organization.mdx",))
+        before.docs["replace_targets"].append(
+            {"page": "manage-organization.mdx", "line": 42, "context": "prose"}
+        )
+        decision = ledger.record(before, ledger.STATUS_DISMISSED, today=TODAY)
+
+        after = finding(pages=("manage-organization.mdx",))
+        applied = ledger.apply_decisions([after], {after.id: decision})
+        self.assertEqual(applied.reopened, [])
+
+    def test_a_decision_stored_in_the_older_shape_does_not_reopen_itself(self):
+        # Decisions written before targets carried counts stored a bare list of
+        # page names. Reading that as one-occurrence-per-page keeps an unchanged
+        # corpus comparing equal -- otherwise upgrading the shape would reopen
+        # every stored decision at once, which is the fastest way to make a
+        # writer stop trusting the ledger.
+        f = finding()
+        decision = ledger.record(f, ledger.STATUS_DISMISSED, today=TODAY)
+        decision.evidence["targets"] = ["manage-organization.mdx"]
+        applied = ledger.apply_decisions([finding()], {f.id: decision})
+        self.assertEqual(applied.reopened, [])
+        self.assertEqual(len(applied.suppressed), 1)
+
     def test_shrinking_evidence_is_not_a_reopen(self):
         # Someone did the work on one of two pages. That is progress, not a
         # reason to reopen a decision.

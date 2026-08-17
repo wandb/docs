@@ -119,6 +119,11 @@ REPORT_DIR = Path("uidrift/reports")
 # safe to act on. Observed re-churn interval in wandb/core is 7 days: a label
 # renamed on 2026-06-03 was renamed again on 2026-06-10. Filing docs work on
 # day 2 wastes a PR and teaches the group the detector generates churn.
+#
+# Counted from when the commit LANDED on the watched branch, not when it was
+# authored -- see build._landed_date. Rebase and cherry-pick preserve the author
+# date, so measuring from that would let a months-old commit arrive already
+# "settled" and skip this protection entirely.
 SETTLED_DAYS = 7
 
 # A literal appearing on more pages than this is too generic to be a UI label.

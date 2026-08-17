@@ -22,15 +22,27 @@ import re
 import subprocess
 import sys
 from dataclasses import dataclass
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 from pathlib import Path
 from typing import Optional, Sequence
 
 from . import build, config, docsindex, extract, ledger, ownership, report
 from ._vendor import gitsource
 
-# uidrift/reports/2026-08-13-71fa9d10412a.md
-_REPORT_NAME = re.compile(r"^(\d{4}-\d{2}-\d{2})-([0-9a-f]{7,40})\.md$")
+# uidrift/reports/2026-08-13T131502-71fa9d10412a.md
+#
+# The time is what makes the watermark deterministic. Reports used to be named
+# by date alone and picked with max() over (date, sha, path), so two reports
+# merged on one UTC date were ordered by SHA text -- effectively at random. The
+# loser could be the newer one, and a watermark that goes backwards re-reports
+# drift a writer has already dismissed.
+#
+# The time group stays optional so a hand-named or older report still parses.
+# Those sort before any timestamped report from the same day, which is the safe
+# direction: at worst the range is rescanned, never skipped.
+_REPORT_NAME = re.compile(
+    r"^(\d{4}-\d{2}-\d{2})(?:T(\d{6}))?-([0-9a-f]{7,40})\.md$"
+)
 
 
 class ScanError(Exception):
@@ -78,9 +90,45 @@ def _resolve_base(core: Path, *, since: Optional[str], base: Optional[str],
     return r.stdout.strip(), f"{since} .. {head}"
 
 
+def _add_landing_dates(
+    core: Path, base: str, head: str, commits: list[dict]
+) -> None:
+    """Annotate commits with their committer date, in place.
+
+    `_vendor/gitsource` reads `%aI`, the author date, which rebase and
+    cherry-pick preserve -- so it says when a change was written, not when it
+    reached master. Settledness needs the latter (see `build._landed_date`).
+
+    Done here rather than in the vendored reader on purpose: `_vendor/` is a
+    faithful copy of another repo's module, and carrying a local edit there
+    makes every future re-vendor a merge. The key written is the one the real
+    GitHub API already uses for this, so nothing downstream has to know where
+    it came from. One extra `git log` with no `--numstat` -- cheap next to the
+    walk that already happened.
+    """
+    r = subprocess.run(
+        ["git", "-C", str(core), "log", "--no-merges", "--format=%H %cI", f"{base}..{head}"],
+        capture_output=True, text=True,
+    )
+    if r.returncode != 0:
+        return  # Non-fatal: build() falls back to the author date.
+    landed = dict(
+        line.split(" ", 1) for line in r.stdout.splitlines() if " " in line
+    )
+    for commit in commits:
+        when = landed.get(commit.get("sha", ""))
+        if when:
+            commit.setdefault("commit", {}).setdefault("committer", {})["date"] = when
+
+
 def _last_report(report_dir: Path) -> Optional[tuple[date, str, Path]]:
-    """The newest report on disk, as (date, head_sha, path)."""
-    found: list[tuple[date, str, Path]] = []
+    """The newest report on disk, as (date, head_sha, path).
+
+    Ordered by (date, time), never by SHA: the head SHA is content-addressed
+    and carries no chronology, so letting it break a tie is a coin flip on
+    which way the watermark moves.
+    """
+    found: list[tuple[date, str, str, Path]] = []
     for path in report_dir.glob("*.md"):
         m = _REPORT_NAME.match(path.name)
         if not m:
@@ -89,8 +137,11 @@ def _last_report(report_dir: Path) -> Optional[tuple[date, str, Path]]:
             when = datetime.strptime(m.group(1), "%Y-%m-%d").date()
         except ValueError:
             continue
-        found.append((when, m.group(2), path))
-    return max(found) if found else None
+        found.append((when, m.group(2) or "", m.group(3), path))
+    if not found:
+        return None
+    when, _time, sha, path = max(found, key=lambda r: (r[0], r[1]))
+    return when, sha, path
 
 
 def scan(
@@ -132,6 +183,7 @@ def scan(
     commits = gitsource.iter_commits(
         root, base_sha, head, owner_repo=config.SOURCE.owner_repo, limit=limit
     )
+    _add_landing_dates(root, base_sha, head, commits)
     progress(f"{len(commits)} commits in range")
 
     ui_commits = [
@@ -244,7 +296,10 @@ def _cmd_scan(args: argparse.Namespace) -> int:
         reports = config.DOCS.path / config.REPORT_DIR
         reports.mkdir(parents=True, exist_ok=True)
         # The head SHA in the name is what makes --incremental work.
-        out = reports / f"{date.today().isoformat()}-{stats['head'][:12]}.md"
+        # UTC, so the ordering a scheduled run relies on cannot be reshuffled by
+        # a runner's local timezone.
+        stamp = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H%M%S")
+        out = reports / f"{stamp}-{stats['head'][:12]}.md"
         out.write_text(result.markdown, encoding="utf-8")
         # Relative to the docs repo root, which is where a CI step's cwd is and
         # what a PR body has to name.

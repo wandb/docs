@@ -291,8 +291,37 @@ def evidence_of(f: Finding) -> dict[str, Any]:
     return {
         "coverage": docs.get("coverage") or COVERAGE_NONE,
         "pages": sorted({p["page"] for p in (docs.get("pages") or [])}),
-        "targets": sorted({t["page"] for t in (docs.get("replace_targets") or [])}),
+        # Counts per page, not a set of page names. A set cannot tell "one
+        # editable occurrence on this page" from "three", so a dismissed
+        # finding that gained a second occurrence on a page already in the set
+        # stayed suppressed -- the docs grew and the decision did not notice.
+        # Still no line numbers: those churn on every unrelated docs edit, and
+        # reopening on that would be pure noise.
+        "targets": _page_counts(docs.get("replace_targets") or []),
     }
+
+
+def _page_counts(entries: Iterable[dict[str, Any]]) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    for entry in entries:
+        page = entry.get("page")
+        if page:
+            counts[page] = counts.get(page, 0) + 1
+    return dict(sorted(counts.items()))
+
+
+def _as_counts(value: Any) -> dict[str, int]:
+    """Read either evidence shape.
+
+    Decisions written before targets carried counts stored a list of page
+    names, and a hand-written decision may still do that. Treating each name as
+    a single occurrence makes an old decision compare equal to an unchanged
+    corpus, so upgrading the shape does not reopen every stored decision at
+    once.
+    """
+    if isinstance(value, dict):
+        return {str(k): int(v) for k, v in value.items()}
+    return {str(page): 1 for page in (value or [])}
 
 
 def evidence_expanded(stored: dict[str, Any], current: dict[str, Any]) -> bool:
@@ -309,10 +338,14 @@ def evidence_expanded(stored: dict[str, Any], current: dict[str, Any]) -> bool:
         return False
     if stored.get("coverage") == COVERAGE_NONE and current.get("coverage") == COVERAGE_COVERED:
         return True
-    for key in ("pages", "targets"):
-        if set(current.get(key) or []) - set(stored.get(key) or []):
-            return True
-    return False
+    if set(current.get("pages") or []) - set(stored.get("pages") or []):
+        return True
+    # Growth means a new page OR more editable occurrences on a page already
+    # known. Shrinkage still counts for nothing: fewer occurrences means
+    # somebody did the work.
+    now = _as_counts(current.get("targets"))
+    before = _as_counts(stored.get("targets"))
+    return any(count > before.get(page, 0) for page, count in now.items())
 
 
 def apply_decisions(

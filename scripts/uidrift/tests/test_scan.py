@@ -60,6 +60,28 @@ class TestReportWatermark(unittest.TestCase):
         self.assertEqual(when, date(2026, 8, 13))
         self.assertEqual(sha, "bbbbbbbbbbbb")
 
+    def test_same_day_reports_are_ordered_by_time_not_sha(self):
+        # The later report deliberately carries the alphabetically SMALLER sha.
+        # Ordering by (date, sha) picks the 09:00 one and the watermark moves
+        # backwards, re-reporting drift a writer already dismissed.
+        _touch_report(self.reports, "2026-08-13T090000-ffffffffffff.md")
+        _touch_report(self.reports, "2026-08-13T170000-000000000000.md")
+        when, sha, _ = scan._last_report(self.reports)
+        self.assertEqual((when, sha), (date(2026, 8, 13), "000000000000"))
+
+    def test_an_untimed_report_sorts_before_a_timed_one_the_same_day(self):
+        # Safe direction: at worst the range is rescanned, never skipped.
+        _touch_report(self.reports, "2026-08-13-ffffffffffff.md")
+        _touch_report(self.reports, "2026-08-13T090000-000000000000.md")
+        _when, sha, _path = scan._last_report(self.reports)
+        self.assertEqual(sha, "000000000000")
+
+    def test_untimed_names_still_parse(self):
+        # Hand-named reports and anything written before the timestamp existed.
+        _touch_report(self.reports, "2026-08-01-aaaaaaaaaaaa.md")
+        when, sha, _ = scan._last_report(self.reports)
+        self.assertEqual((when, sha), (date(2026, 8, 1), "aaaaaaaaaaaa"))
+
     def test_ignores_files_that_are_not_reports(self):
         _touch_report(self.reports, "2026-08-01-aaaaaaaaaaaa.md")
         _touch_report(self.reports, "README.md")
