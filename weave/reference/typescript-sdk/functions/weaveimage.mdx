@@ -7,17 +7,24 @@ description: "TypeScript SDK reference"
 
 Create a new WeaveImage object
 
-Defined in: [src/media.ts:28](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/media.ts#L28)
+Defined in: [src/media.ts:31](https://github.com/wandb/weave/blob/82a9f680ac73561de33bafb0c3504aff07e03006/sdks/node/src/media.ts#L31)
 
 ## Parameters
 
 ### options
 
-`WeaveImageInput`
-
 The options for this media type
    - data: The raw image data as a Buffer
-   - imageType: (Optional) The type of image file, currently only 'png' is supported
+   - imageType: (Optional) The image format: 'png' (default), 'jpeg' or 'webp'.
+     Publishing always names the stored file image.png
+
+#### data
+
+`Buffer`
+
+#### imageType?
+
+`"png"` \| `"jpeg"` \| `"webp"`
 
 ## Returns
 

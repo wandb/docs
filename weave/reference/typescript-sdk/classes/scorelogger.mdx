@@ -6,7 +6,7 @@ description: "TypeScript SDK reference"
 ScoreLogger manages scoring for a single prediction.
 Returned from EvaluationLogger.logPrediction().
 
-Defined in: [src/evaluationLogger.ts:330](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L330)
+Defined in: [src/evaluationLogger.ts:330](https://github.com/wandb/weave/blob/82a9f680ac73561de33bafb0c3504aff07e03006/sdks/node/src/evaluationLogger.ts#L330)
 
 ## Example
 
@@ -24,7 +24,7 @@ await pred.finish(); // Finalizes the prediction
 
 > **new ScoreLogger**(`evalLogger`): `ScoreLogger`
 
-Defined in: [src/evaluationLogger.ts:338](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L338)
+Defined in: [src/evaluationLogger.ts:338](https://github.com/wandb/weave/blob/82a9f680ac73561de33bafb0c3504aff07e03006/sdks/node/src/evaluationLogger.ts#L338)
 
 #### Parameters
 
@@ -47,7 +47,7 @@ Defined in: [src/evaluationLogger.ts:338](https://github.com/wandb/weave/blob/8c
 Check if finish() has been called.
 Used by EvaluationLogger to detect unfinished predictions.
 
-Defined in: [src/evaluationLogger.ts:368](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L368)
+Defined in: [src/evaluationLogger.ts:368](https://github.com/wandb/weave/blob/82a9f680ac73561de33bafb0c3504aff07e03006/sdks/node/src/evaluationLogger.ts#L368)
 
 ##### Returns
 
@@ -63,7 +63,7 @@ Finish the scoring process for the prediction.
 Finalizes the predict_and_score call with accumulated scores.
 Updates incremental aggregates and frees memory.
 
-Defined in: [src/evaluationLogger.ts:470](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L470)
+Defined in: [src/evaluationLogger.ts:470](https://github.com/wandb/weave/blob/82a9f680ac73561de33bafb0c3504aff07e03006/sdks/node/src/evaluationLogger.ts#L470)
 
 #### Returns
 
@@ -78,7 +78,7 @@ Defined in: [src/evaluationLogger.ts:470](https://github.com/wandb/weave/blob/8c
 Log a score for this prediction.
 Creates a scorer call as a child of predict_and_score.
 
-Defined in: [src/evaluationLogger.ts:379](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L379)
+Defined in: [src/evaluationLogger.ts:379](https://github.com/wandb/weave/blob/82a9f680ac73561de33bafb0c3504aff07e03006/sdks/node/src/evaluationLogger.ts#L379)
 
 #### Parameters
 

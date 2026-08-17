@@ -14,7 +14,7 @@ or via the helper functions (`output`, `think`, `attachMedia`, `record`).
 
 All recorded data is flushed to the span at `end()`.
 
-Defined in: [src/genai/llm.ts:86](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L86)
+Defined in: [src/genai/llm.ts:90](https://github.com/wandb/weave/blob/82a9f680ac73561de33bafb0c3504aff07e03006/sdks/node/src/genai/llm.ts#L90)
 
 ## Examples
 
@@ -61,7 +61,7 @@ try {
 Input messages sent to the model. Flushed to `gen_ai.input.messages` on
 `end()`.
 
-Defined in: [src/genai/llm.ts:93](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L93)
+Defined in: [src/genai/llm.ts:97](https://github.com/wandb/weave/blob/82a9f680ac73561de33bafb0c3504aff07e03006/sdks/node/src/genai/llm.ts#L97)
 
 ***
 
@@ -69,7 +69,7 @@ Defined in: [src/genai/llm.ts:93](https://github.com/wandb/weave/blob/8c5f077eb1
 
 > `readonly` **model**: `string`
 
-Defined in: [src/genai/llm.ts:117](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L117)
+Defined in: [src/genai/llm.ts:121](https://github.com/wandb/weave/blob/82a9f680ac73561de33bafb0c3504aff07e03006/sdks/node/src/genai/llm.ts#L121)
 
 ***
 
@@ -80,7 +80,7 @@ Defined in: [src/genai/llm.ts:117](https://github.com/wandb/weave/blob/8c5f077eb
 Assistant messages returned by the model. Flushed to
 `gen_ai.output.messages` on `end()`.
 
-Defined in: [src/genai/llm.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L98)
+Defined in: [src/genai/llm.ts:102](https://github.com/wandb/weave/blob/82a9f680ac73561de33bafb0c3504aff07e03006/sdks/node/src/genai/llm.ts#L102)
 
 ***
 
@@ -88,7 +88,7 @@ Defined in: [src/genai/llm.ts:98](https://github.com/wandb/weave/blob/8c5f077eb1
 
 > `readonly` **providerName**: `string`
 
-Defined in: [src/genai/llm.ts:118](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L118)
+Defined in: [src/genai/llm.ts:122](https://github.com/wandb/weave/blob/82a9f680ac73561de33bafb0c3504aff07e03006/sdks/node/src/genai/llm.ts#L122)
 
 ***
 
@@ -99,7 +99,7 @@ Defined in: [src/genai/llm.ts:118](https://github.com/wandb/weave/blob/8c5f077eb
 Chain-of-thought content. Folded into the last assistant message as a
 ReasoningPart at serialization time.
 
-Defined in: [src/genai/llm.ts:105](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L105)
+Defined in: [src/genai/llm.ts:109](https://github.com/wandb/weave/blob/82a9f680ac73561de33bafb0c3504aff07e03006/sdks/node/src/genai/llm.ts#L109)
 
 ***
 
@@ -109,7 +109,7 @@ Defined in: [src/genai/llm.ts:105](https://github.com/wandb/weave/blob/8c5f077eb
 
 Token counts and cache stats. Flushed to `gen_ai.usage.*` on `end()`.
 
-Defined in: [src/genai/llm.ts:100](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L100)
+Defined in: [src/genai/llm.ts:104](https://github.com/wandb/weave/blob/82a9f680ac73561de33bafb0c3504aff07e03006/sdks/node/src/genai/llm.ts#L104)
 
 ## Methods
 
@@ -128,7 +128,7 @@ Add a named event to the span. Useful for marking non-span moments such as
 context compaction, tool-loop detection, or guardrail trips. Warns and
 no-ops after `end()`. Mirrors OTel `Span.addEvent`.
 
-Defined in: [src/genai/spanBase.ts:82](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L82)
+Defined in: [src/genai/spanBase.ts:84](https://github.com/wandb/weave/blob/82a9f680ac73561de33bafb0c3504aff07e03006/sdks/node/src/genai/spanBase.ts#L84)
 
 #### Parameters
 
@@ -170,13 +170,13 @@ Stage a media attachment for the LLM call. Pick exactly one of
  (pre-uploaded file id). The attachment is glued onto the last user
  message in `inputMessages` on `end()`.
 
-Defined in: [src/genai/llm.ts:183](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L183)
+Defined in: [src/genai/llm.ts:189](https://github.com/wandb/weave/blob/82a9f680ac73561de33bafb0c3504aff07e03006/sdks/node/src/genai/llm.ts#L189)
 
 #### Parameters
 
 ##### opts
 
-`AttachMediaOpts`
+\{ `content`: `string`; `mimeType`: `string`; `modality`: [`Modality`](../type-aliases/modality); \} \| \{ `modality`: [`Modality`](../type-aliases/modality); `uri`: `string`; \} \| \{ `fileId`: `string`; `mimeType?`: `string`; `modality`: [`Modality`](../type-aliases/modality); \}
 
 #### Returns
 
@@ -190,7 +190,7 @@ Defined in: [src/genai/llm.ts:183](https://github.com/wandb/weave/blob/8c5f077eb
 
 Convenience for `attachMedia({uri, modality})`.
 
-Defined in: [src/genai/llm.ts:192](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L192)
+Defined in: [src/genai/llm.ts:198](https://github.com/wandb/weave/blob/82a9f680ac73561de33bafb0c3504aff07e03006/sdks/node/src/genai/llm.ts#L198)
 
 #### Parameters
 
@@ -216,13 +216,19 @@ Defined in: [src/genai/llm.ts:192](https://github.com/wandb/weave/blob/8c5f077eb
 
 Flush accumulated state and close the span. Idempotent. Pass `error` to mark failed; pass `endTime` to backdate the close.
 
-Defined in: [src/genai/llm.ts:274](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L274)
+Defined in: [src/genai/llm.ts:282](https://github.com/wandb/weave/blob/82a9f680ac73561de33bafb0c3504aff07e03006/sdks/node/src/genai/llm.ts#L282)
 
 #### Parameters
 
 ##### opts?
 
-`SpanEndOptions`
+###### endTime?
+
+`TimeInput`
+
+###### error?
+
+`Error`
 
 #### Returns
 
@@ -236,7 +242,7 @@ Defined in: [src/genai/llm.ts:274](https://github.com/wandb/weave/blob/8c5f077eb
 
 Append an assistant message to the response.
 
-Defined in: [src/genai/llm.ts:155](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L155)
+Defined in: [src/genai/llm.ts:161](https://github.com/wandb/weave/blob/82a9f680ac73561de33bafb0c3504aff07e03006/sdks/node/src/genai/llm.ts#L161)
 
 #### Parameters
 
@@ -257,7 +263,7 @@ Defined in: [src/genai/llm.ts:155](https://github.com/wandb/weave/blob/8c5f077eb
 Bulk-set any subset of the mutable fields. Replaces (does not merge).
 Useful for assigning everything at once after a provider call returns.
 
-Defined in: [src/genai/llm.ts:203](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L203)
+Defined in: [src/genai/llm.ts:209](https://github.com/wandb/weave/blob/82a9f680ac73561de33bafb0c3504aff07e03006/sdks/node/src/genai/llm.ts#L209)
 
 #### Parameters
 
@@ -273,7 +279,7 @@ Defined in: [src/genai/llm.ts:203](https://github.com/wandb/weave/blob/8c5f077eb
 
 ###### mediaAttachments?
 
-`AttachMediaOpts`[]
+(\{ `content`: `string`; `mimeType`: `string`; `modality`: [`Modality`](../type-aliases/modality); \} \| \{ `modality`: [`Modality`](../type-aliases/modality); `uri`: `string`; \} \| \{ `fileId`: `string`; `mimeType?`: `string`; `modality`: [`Modality`](../type-aliases/modality); \})[]
 
 ###### outputMessages?
 
@@ -313,7 +319,7 @@ Set multiple attributes on the span at once. Warns and no-ops after
 `end()`. Mirrors OTel `Span.setAttributes` (and the Python SDK's
 `set_attributes`).
 
-Defined in: [src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L63)
+Defined in: [src/genai/spanBase.ts:65](https://github.com/wandb/weave/blob/82a9f680ac73561de33bafb0c3504aff07e03006/sdks/node/src/genai/spanBase.ts#L65)
 
 #### Parameters
 
@@ -344,7 +350,7 @@ span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
 
 Start a child SubAgent span nested under this LLM.
 
-Defined in: [src/genai/llm.ts:261](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L261)
+Defined in: [src/genai/llm.ts:268](https://github.com/wandb/weave/blob/82a9f680ac73561de33bafb0c3504aff07e03006/sdks/node/src/genai/llm.ts#L268)
 
 #### Parameters
 
@@ -364,7 +370,7 @@ Defined in: [src/genai/llm.ts:261](https://github.com/wandb/weave/blob/8c5f077eb
 
 Start a child Tool span nested under this LLM.
 
-Defined in: [src/genai/llm.ts:252](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L252)
+Defined in: [src/genai/llm.ts:258](https://github.com/wandb/weave/blob/82a9f680ac73561de33bafb0c3504aff07e03006/sdks/node/src/genai/llm.ts#L258)
 
 #### Parameters
 
@@ -387,7 +393,7 @@ Set or extend the model's reasoning/chain-of-thought content. Accumulates
  a `ReasoningPart` at serialization time, matching the Python SDK's
  on-the-wire shape.
 
-Defined in: [src/genai/llm.ts:167](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L167)
+Defined in: [src/genai/llm.ts:173](https://github.com/wandb/weave/blob/82a9f680ac73561de33bafb0c3504aff07e03006/sdks/node/src/genai/llm.ts#L173)
 
 #### Parameters
 

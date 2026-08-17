@@ -934,7 +934,7 @@ def main():
     original_cwd = os.getcwd()
     
     # Download Weave source
-    weave_source = download_weave_source(weave_version)
+    weave_source = download_weave_source("drtangible/wip-test-inline-tag")
     
     try:
         # Set up TypeScript project

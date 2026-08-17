@@ -7,7 +7,7 @@ description: "TypeScript SDK reference"
 
 > **op**\<`T`\>(`fn`, `options?`): [`Op`](../type-aliases/op)\<`T`\>
 
-Defined in: [src/op.ts:380](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/op.ts#L380)
+Defined in: [src/op.ts:392](https://github.com/wandb/weave/blob/82a9f680ac73561de33bafb0c3504aff07e03006/sdks/node/src/op.ts#L392)
 
 ### Type Parameters
 
@@ -23,7 +23,73 @@ Defined in: [src/op.ts:380](https://github.com/wandb/weave/blob/8c5f077eb11c42b8
 
 #### options?
 
-`OpOptions`\<`T`\>
+##### attributes?
+
+`Record`\<`string`, `any`\>
+
+Default attributes applied to every call this op creates. Integrations set
+this to stamp `attributes.integration` provenance. Merged beneath `kind`/
+`color`, which take precedence on key collision.
+
+##### bindThis?
+
+[`WeaveObject`](../classes/weaveobject)
+
+##### callDisplayName?
+
+(...`args`) => `string`
+
+##### isDecorator?
+
+`boolean`
+
+##### name?
+
+`string`
+
+##### opColor?
+
+`string`
+
+Custom color for the operation in the UI
+
+##### opKind?
+
+`string`
+
+The kind of operation (e.g., 'llm', 'agent', 'tool', 'search') for UI categorization
+
+##### originalFunction?
+
+`T`
+
+##### parameterNames?
+
+`"useParam0Object"` \| `string`[]
+
+##### shouldAdoptThis?
+
+`boolean`
+
+##### streamReducer?
+
+\{ `finalizeFn`: (`state`) => `void`; `initialStateFn`: () => `any`; `reduceFn`: (`state`, `chunk`) => `any`; \}
+
+##### streamReducer.finalizeFn
+
+(`state`) => `void`
+
+##### streamReducer.initialStateFn
+
+() => `any`
+
+##### streamReducer.reduceFn
+
+(`state`, `chunk`) => `any`
+
+##### summarize?
+
+(`result`) => `Record`\<`string`, `any`\>
 
 ### Returns
 
@@ -33,7 +99,7 @@ Defined in: [src/op.ts:380](https://github.com/wandb/weave/blob/8c5f077eb11c42b8
 
 > **op**\<`T`\>(`thisArg`, `fn`, `options?`): [`Op`](../type-aliases/op)\<`T`\>
 
-Defined in: [src/op.ts:385](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/op.ts#L385)
+Defined in: [src/op.ts:397](https://github.com/wandb/weave/blob/82a9f680ac73561de33bafb0c3504aff07e03006/sdks/node/src/op.ts#L397)
 
 ### Type Parameters
 
@@ -53,7 +119,73 @@ Defined in: [src/op.ts:385](https://github.com/wandb/weave/blob/8c5f077eb11c42b8
 
 #### options?
 
-`OpOptions`\<`T`\>
+##### attributes?
+
+`Record`\<`string`, `any`\>
+
+Default attributes applied to every call this op creates. Integrations set
+this to stamp `attributes.integration` provenance. Merged beneath `kind`/
+`color`, which take precedence on key collision.
+
+##### bindThis?
+
+[`WeaveObject`](../classes/weaveobject)
+
+##### callDisplayName?
+
+(...`args`) => `string`
+
+##### isDecorator?
+
+`boolean`
+
+##### name?
+
+`string`
+
+##### opColor?
+
+`string`
+
+Custom color for the operation in the UI
+
+##### opKind?
+
+`string`
+
+The kind of operation (e.g., 'llm', 'agent', 'tool', 'search') for UI categorization
+
+##### originalFunction?
+
+`T`
+
+##### parameterNames?
+
+`"useParam0Object"` \| `string`[]
+
+##### shouldAdoptThis?
+
+`boolean`
+
+##### streamReducer?
+
+\{ `finalizeFn`: (`state`) => `void`; `initialStateFn`: () => `any`; `reduceFn`: (`state`, `chunk`) => `any`; \}
+
+##### streamReducer.finalizeFn
+
+(`state`) => `void`
+
+##### streamReducer.initialStateFn
+
+() => `any`
+
+##### streamReducer.reduceFn
+
+(`state`, `chunk`) => `any`
+
+##### summarize?
+
+(`result`) => `Record`\<`string`, `any`\>
 
 ### Returns
 
@@ -63,7 +195,7 @@ Defined in: [src/op.ts:385](https://github.com/wandb/weave/blob/8c5f077eb11c42b8
 
 > **op**(`target`, `propertyKey`, `descriptor`): `TypedPropertyDescriptor`\<`any`\>
 
-Defined in: [src/op.ts:391](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/op.ts#L391)
+Defined in: [src/op.ts:403](https://github.com/wandb/weave/blob/82a9f680ac73561de33bafb0c3504aff07e03006/sdks/node/src/op.ts#L403)
 
 ### Parameters
 
@@ -87,7 +219,7 @@ Defined in: [src/op.ts:391](https://github.com/wandb/weave/blob/8c5f077eb11c42b8
 
 > **op**\<`T`\>(`value`, `context`): [`Op`](../type-aliases/op)\<`T`\>
 
-Defined in: [src/op.ts:397](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/op.ts#L397)
+Defined in: [src/op.ts:409](https://github.com/wandb/weave/blob/82a9f680ac73561de33bafb0c3504aff07e03006/sdks/node/src/op.ts#L409)
 
 ### Type Parameters
 
@@ -103,7 +235,39 @@ Defined in: [src/op.ts:397](https://github.com/wandb/weave/blob/8c5f077eb11c42b8
 
 #### context
 
-`MethodDecoratorContext`
+##### access?
+
+\{ `get`: `Function`; `has`: `boolean`; \}
+
+##### access.get
+
+##### access.has
+
+##### class?
+
+`Function`
+
+##### kind
+
+`"method"`
+
+##### metadata?
+
+`any`
+
+##### name
+
+`string` \| `symbol`
+
+##### private?
+
+`boolean`
+
+##### static?
+
+`boolean`
+
+##### addInitializer?
 
 ### Returns
 
@@ -113,7 +277,7 @@ Defined in: [src/op.ts:397](https://github.com/wandb/weave/blob/8c5f077eb11c42b8
 
 > **op**(`options`): `MethodDecorator`
 
-Defined in: [src/op.ts:402](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/op.ts#L402)
+Defined in: [src/op.ts:414](https://github.com/wandb/weave/blob/82a9f680ac73561de33bafb0c3504aff07e03006/sdks/node/src/op.ts#L414)
 
 ### Parameters
 

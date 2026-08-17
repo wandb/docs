@@ -12,13 +12,19 @@ When `weave.init(...)` has been called, spans are automatically exported
 to the Weave trace server at `/agents/otel/v1/traces`. Otherwise, pass a
 custom `tracer` in `opts`.
 
-Defined in: [src/integrations/piCodingAgent.ts:654](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/piCodingAgent.ts#L654)
+Defined in: [src/integrations/piCodingAgent.ts:658](https://github.com/wandb/weave/blob/82a9f680ac73561de33bafb0c3504aff07e03006/sdks/node/src/integrations/piCodingAgent.ts#L658)
 
 ## Parameters
 
 ### opts?
 
-`OtelExtensionOptions` = `{}`
+#### captureContent?
+
+`boolean`
+
+#### tracer?
+
+`Tracer`
 
 ## Returns
 

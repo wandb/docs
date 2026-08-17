@@ -8,7 +8,7 @@ EvaluationLogger enables incremental logging of predictions and scores.
 Unlike the traditional Evaluation class which requires upfront dataset and batch processing,
 EvaluationLogger allows you to log predictions as they happen, with flexible scoring.
 
-Defined in: [src/evaluationLogger.ts:554](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L554)
+Defined in: [src/evaluationLogger.ts:556](https://github.com/wandb/weave/blob/82a9f680ac73561de33bafb0c3504aff07e03006/sdks/node/src/evaluationLogger.ts#L556)
 
 ## Example
 
@@ -35,13 +35,35 @@ await ev.logSummary();
 
 > **new EvaluationLogger**(`options`): `EvaluationLogger`
 
-Defined in: [src/evaluationLogger.ts:573](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L573)
+Defined in: [src/evaluationLogger.ts:575](https://github.com/wandb/weave/blob/82a9f680ac73561de33bafb0c3504aff07e03006/sdks/node/src/evaluationLogger.ts#L575)
 
 #### Parameters
 
 ##### options
 
-`EvaluationLoggerOptions`
+###### attributes?
+
+`Record`\<`string`, `any`\>
+
+###### dataset?
+
+`string` \| [`Dataset`](./dataset)\<`DatasetRow`\>
+
+###### description?
+
+`string`
+
+###### model?
+
+[`WeaveObject`](./weaveobject) \| \{ `name?`: `string`; \}
+
+###### name
+
+`string`
+
+###### scorers?
+
+`string`[]
 
 #### Returns
 
@@ -60,7 +82,7 @@ Returns a ScoreLogger immediately for adding scores.
 This method returns the ScoreLogger synchronously. Operations on the
 ScoreLogger (logScore, finish) will be queued and executed when initialization completes.
 
-Defined in: [src/evaluationLogger.ts:660](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L660)
+Defined in: [src/evaluationLogger.ts:663](https://github.com/wandb/weave/blob/82a9f680ac73561de33bafb0c3504aff07e03006/sdks/node/src/evaluationLogger.ts#L663)
 
 #### Parameters
 
@@ -99,7 +121,7 @@ the prediction call is fully initialized.
 
 Use this if you need to await the initialization before proceeding.
 
-Defined in: [src/evaluationLogger.ts:685](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L685)
+Defined in: [src/evaluationLogger.ts:688](https://github.com/wandb/weave/blob/82a9f680ac73561de33bafb0c3504aff07e03006/sdks/node/src/evaluationLogger.ts#L688)
 
 #### Parameters
 
@@ -137,7 +159,7 @@ Creates a summarize call and finishes the evaluate call.
 This method can be called without await (fire-and-forget), but internally
 it will wait for all pending operations to complete.
 
-Defined in: [src/evaluationLogger.ts:786](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L786)
+Defined in: [src/evaluationLogger.ts:789](https://github.com/wandb/weave/blob/82a9f680ac73561de33bafb0c3504aff07e03006/sdks/node/src/evaluationLogger.ts#L789)
 
 #### Parameters
 
