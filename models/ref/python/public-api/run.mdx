@@ -481,7 +481,7 @@ self
 Request that this run stop gracefully.
 
 This sets the run's stop flag on the W&B backend, the same signal
-sent by the "Stop run" button in the W&B App UI. The process running
+sent by the "Stop run" button in W&B. The process running
 the run picks the flag up through its regular heartbeat and shuts
 the run down gracefully, so this is safe for terminating remote runs
 (for example, runs on Kubernetes pods).

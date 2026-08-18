@@ -83,7 +83,7 @@ W&B recommends using a mix of built-in and external service accounts across your
 
 The value you enter for **Subject** must exactly match the `sub` (subject) claim in JWTs issued by your IdP for the service account. W&B applies the same comparison for every identity provider. The match is exact, case-sensitive, and whitespace-sensitive, so even a trailing space or a difference in capitalization causes authentication to fail.
 
-The W&B App accepts any non-empty **Subject** without validating its value, since the value is entirely dependent on the IdP. W&B can't detect an incorrect value when you create the service account. Instead, authentication fails later, when the service account presents its JWT.
+W&B accepts any non-empty **Subject** without validating its value, since the value is entirely dependent on the IdP. W&B can't detect an incorrect value when you create the service account. Instead, authentication fails later, when the service account presents its JWT.
 
 The most reliable way to determine the correct value is to read it from a real token. Obtain a sample JWT issued for the service account, base64url-decode its payload (the middle segment, between the two dots) locally, and copy the `sub` value verbatim into the **Subject** field. Don't paste JWTs into third-party online decoders, because a JWT is a credential.
 

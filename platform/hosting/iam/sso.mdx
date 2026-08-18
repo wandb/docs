@@ -231,7 +231,7 @@ To set up SSO, you must have administrator privileges and the following informat
 
 If your IdP requires an OIDC Client Secret, specify it by passing the [environment variables](/platform/hosting/env-vars) `GORILLA_OIDC_SECRET`:
 
-- In the W&B App, go to **System Console** > **Settings** > **Advanced** > **User Spec** and add `GORILLA_OIDC_SECRET` to the `extraENV` section as shown in the following example.
+- In W&B, go to **System Console** > **Settings** > **Advanced** > **User Spec** and add `GORILLA_OIDC_SECRET` to the `extraENV` section as shown in the following example.
 - In Helm, configure `values.global.extraEnv` as shown in the following example.
     ```yaml
     values:
@@ -269,10 +269,10 @@ For detailed instructions on configuring CoreWeave storage with your Customer Na
 </Tab>
 <Tab title="System settings">
 1. Sign in to your W&B instance.
-2. Navigate to the W&B App.
+2. Navigate to W&B.
 
     <Frame>
-    <img src="/images/hosting/system_settings.png" alt="W&B App navigation"  />
+    <img src="/images/hosting/system_settings.png" alt="W&B navigation"  />
     </Frame>
 
 3. From the dropdown, select **System Settings**:

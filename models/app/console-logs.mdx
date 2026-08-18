@@ -4,15 +4,15 @@ description: "View and debug console log messages including info, warnings, and 
 keywords: ["run logs", "wandb logging", "debug runs", "log filtering", "stdout capture"]
 ---
 
-When you run an experiment, you might notice messages printed to your console. W&B captures console logs and displays them in the W&B App. Use these messages to debug and monitor the behavior of your experiment.
+When you run an experiment, you might notice messages printed to your console. W&B captures console logs and displays them on the run's **Logs** page. Use these messages to debug and monitor the behavior of your experiment.
 
 The following sections describe how to view, configure, search, filter, download, and copy console logs for your runs.
 
 ## View console logs
 
-View a run’s console logs in the W&B App to inspect messages generated during the run.
+View a run’s console logs to inspect messages generated during the run.
 
-1. Navigate to your project in the W&B App.
+1. Navigate to your project in W&B.
 1. Select a run from the **Runs** table.
 1. Select the **Logs** tab on the run page.
 1. Optional: For an actively streaming run, select **Jump to bottom** to return to the latest logs after scrolling up.
@@ -146,9 +146,9 @@ with wandb.init(
 
 ## Download console logs
 
-To save logs locally for offline analysis or sharing, download console logs for a run in the W&B App:
+Download console logs for a run for offline analysis or sharing:
 
-1. Navigate to your project in the W&B App.
+1. Navigate to your project in W&B.
 2. Select a run within the **Runs** table.
 3. Click the **Logs** tab in the project sidebar.
 4. Click the download log file button (<Icon icon="arrow-down-to-bracket" iconType="solid"/>) on the console logs page.
@@ -158,9 +158,9 @@ You might be temporarily unable to download logs while a run is actively streami
 
 ## Copy console logs
 
-To paste logs into another tool or message, copy console logs for a run in the W&B App:
+Copy console logs for a run to paste them into a message or third-party tool:
 
-1. Navigate to your project in the W&B App.
+1. Navigate to your project in W&B.
 2. Select a run within the **Runs** table.
 3. Click the **Logs** tab in the project sidebar.
 4. Click the copy button on the console logs page.

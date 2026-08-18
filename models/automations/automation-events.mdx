@@ -17,7 +17,7 @@ The Team and Organization scopes are available on W&B Multi-tenant Cloud and on 
 
 ## Scope reference
 
-| Scope | What the automation watches | Events available in the W&B App |
+| Scope | What the automation watches | Events available in W&B |
 |-------|-----------------------------|---------------------------------|
 | [Organization](#organization) | Every Team, project, registry, and collection in the organization, including ones created in the future. | Artifact and collection events, such as when a new version is added or linked, or when an alias or tag is added. Run-based events aren't available. |
 | [Team](#team) | Every project, registry, and collection the Team owns, including ones created in the future. | The same artifact and collection events as the Organization scope. Run-based events aren't available. |
@@ -30,11 +30,11 @@ The following sections describe each scope in more detail.
 
 Use the Organization scope to define a policy once and apply it everywhere. For example, notify a compliance Slack channel whenever the `production` alias is added to any artifact in the organization.
 
-Run-based events (the [run status change](#run-status-change) and [run metric](#run-metrics-change) events) aren't available at the Organization scope in the W&B App.
+Run-based events (the [run status change](#run-status-change) and [run metric](#run-metrics-change) events) aren't available at the Organization scope in W&B.
 
 ## Team
 
-Use the Team scope to apply a policy to everything one Team owns. A Team-scoped automation watches for the same artifact and collection events as the Organization scope. Run-based events aren't available at the Team scope in the W&B App.
+Use the Team scope to apply a policy to everything one Team owns. A Team-scoped automation watches for the same artifact and collection events as the Organization scope. Run-based events aren't available at the Team scope in W&B.
 
 ## Registry
 
