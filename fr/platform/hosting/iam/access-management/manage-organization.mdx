@@ -406,6 +406,37 @@ Permettez aux nouveaux utilisateurs de votre organisation de découvrir les équ
 
 Un administrateur d’organisation doit activer la revendication de domaine. Pour activer la capture de domaine, voir les étapes décrites dans [Domain capture](#domain-capture).
 
+<div id="view-team-member-status">
+  ### Voir le statut des membres d’une équipe
+</div>
+
+<Note>
+  La colonne **Statut** est disponible uniquement pour les déploiements Cloud dédié et autogérés.
+</Note>
+
+La colonne **Statut** de la liste des membres d’une équipe indique si chaque membre peut se connecter. Utilisez-la pour distinguer un membre actif d’un membre qui n’a pas encore accepté son invitation ou dont le compte a été désactivé par un administrateur de l’organisation.
+
+Pour voir le statut des membres d’une équipe :
+
+1. Accédez à `https://wandb.ai/<team-name>`.
+2. Sélectionnez **Paramètres de l’équipe** dans la barre de navigation de gauche.
+3. Sélectionnez l’onglet **Users**.
+
+Le statut de chaque membre est l’un des suivants :
+
+| Statut                | Définition                                                                                                                                |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| Actif                 | Le membre a accepté son invitation et peut se connecter.                                                                                  |
+| Invitation en attente | W&amp;B a envoyé une invitation, mais le membre ne l’a pas encore acceptée.                                                               |
+| Désactivé             | Un administrateur de l’organisation a désactivé le compte. Le membre ne peut se connecter ni à l’organisation ni à aucune de ses équipes. |
+
+Les membres désactivés restent dans la liste des membres d’une équipe, et les runs qu’ils ont enregistrés dans l’équipe leur restent attribués. Pour un membre désactivé, les colonnes **Rôle de l’équipe**, **Licence Models** et **Accès Weave** affichent également **Désactivé** à la place d’un rôle ou d’une licence, et vous ne pouvez ni modifier son rôle ni copier un lien d’invitation à l’équipe.
+
+Pour filtrer la liste par statut, saisissez un statut tel que **Désactivé** dans le champ de recherche.
+
+Pour consulter le statut de chaque utilisateur de l’organisation plutôt que celui des membres d’une seule équipe, voir [Voir l’activité de l’organisation](/fr/platform/hosting/monitoring-usage/org_dashboard#view-user-status-and-activity). Depuis cette page, un administrateur de l’organisation peut désactiver ou réactiver un utilisateur.
+Pour désactiver ou réactiver un utilisateur avec SCIM, voir plutôt [Désactiver un utilisateur](/fr/platform/hosting/iam/scim#deactivate-user) et [Réactiver un utilisateur](/fr/platform/hosting/iam/scim#reactivate-user).
+
 <div id="assign-or-update-a-team-members-role">
   ### Attribuer ou mettre à jour le rôle d&#39;un membre de l&#39;équipe
 </div>

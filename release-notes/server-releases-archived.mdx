@@ -97,7 +97,7 @@ W&B Server v0.70 includes features, enhancements, and performance improvements t
     - Registry can be turned on today with the `ENABLE_REGISTRY_UI` environment variable or by contacting your W&B support team.
     - We’re migrating existing team-level Model Registry assets to W&B Registry in stages over the next several releases. **No action is needed on your end. W&B will automatically copy Model Registry assets for each team to a corresponding automatically-created team-level private registry.**  Existing references to model collections in your old team-level Model Registry will still work.
         1. In Server v0.71, Registry will be on by default for all organizations.
-        1. Server v0.73 (August) will contain an opt-out environment variable that will execute this migration automatically during the upgrade. Migration takes between 5 and 30 minutes for most organizations. During the migration, linking artifacts to either the old team’s Model Registry or the new Registry will fail with an error. ****Artifact logging and retrieval** **will not be affected**.
+        1. Server v0.73 (August) will contain an opt-out environment variable that will execute this migration automatically during the upgrade. Migration takes between 5 and 30 minutes for most organizations. During the migration, linking artifacts to either the old team’s Model Registry or the new Registry will fail with an error. **Artifact logging and retrieval will not be affected**.
         1. In Server v0.74 (September), we will remove this flag and migration will happen during the upgrade.
 
         We’re optimizing for a seamless, minimally-inconveniencing upgrade to a powerful new experience. Reach out to your W&B team or [support](mailto:support@wandb.ai) for any questions about the migration.
@@ -375,8 +375,8 @@ The release includes the following additional updates:
 ## Fixes
 
 * Fixed an issue where underlying database schema changes as part of release upgrades could timeout during platform startup time.
-* Added more performance improvements to the underlying parquet store service, to further improve the chart loading times for users. Parquet store service is only available on Dedicated Cloud, and Self-Managed instances based on [W&B kubernetes operator](https://docs.wandb.ai/platform/hosting/operator).
-* Addressed the high CPU utilization issue for the underlying parquet store service, to make the efficient chart loading more reliable for users. Parquet store service is only available on Dedicated Cloud, and Self-Managed instances based on [W&B kubernetes operator](https://docs.wandb.ai/platform/hosting/operator).
+* Added more performance improvements to the underlying parquet store service, to further improve the chart loading times for users. Parquet store service is only available on Dedicated Cloud, and Self-Managed instances based on [W&B kubernetes operator](/platform/hosting/self-managed/operator).
+* Addressed the high CPU utilization issue for the underlying parquet store service, to make the efficient chart loading more reliable for users. Parquet store service is only available on Dedicated Cloud, and Self-Managed instances based on [W&B kubernetes operator](/platform/hosting/self-managed/operator).
 </Update>
 
 <Update label="v0.60.0" description="September 26, 2024">
@@ -514,7 +514,7 @@ Due to a release versioning issue, 0.56.0 is the next major release after 0.54.0
 ## Features
 
 * You can now save multiple views of any workspace by clicking "Save as a new view" in the **action (<Icon icon="ellipsis" iconType="solid"/>)** menu of the workspace bar.
-  See [Saved workspace views](https://docs.wandb.ai/models/app/pages/workspaces#create-saved-workspace-views) to learn more.
+  See [Saved workspace views](/models/app/features/cascade-settings) to learn more.
 
   <Frame>
   ![Image showing saved views](https://github.com/wandb/server/assets/7208315/862a36ac-8ce4-49e7-8677-d87d54ab1e54)
@@ -527,7 +527,7 @@ Due to a release versioning issue, 0.56.0 is the next major release after 0.54.0
 * Cloning a run with Launch now pre-selects the overrides, queue, and template variable values used by the cloned run.
 * Instance admins will now see a `Teams` tab in the organization dashboard. It can be used to join a specific team when needed, whether it's to monitor the team activity as per organizational guidelines or to help the team when team admins are not available. 
 * SCIM User API now returns the `groups` attribute as part of the GET endpoint, which includes the id of the groups / teams a user is part of.
-* All Dedicated Cloud instances on Google Cloud are now managed using the new [W&B Kubernetes Operator](https://docs.wandb.ai/platform/hosting/operator/). With that, the new Parquet Store service is also available. 
+* All Dedicated Cloud instances on Google Cloud are now managed using the new [W&B Kubernetes Operator](/platform/hosting/self-managed/operator). With that, the new Parquet Store service is also available. 
   Parquet store allows performant & cost efficient storage of run history data in parquet format in the blob storage. Dedicated Cloud instances on AWS & Azure are already managed using the operator and include the parquet store.
 * Dedicated Cloud instances on AWS have been updated to use the latest version of the relational data storage, and the compute infrastructure has been upgraded to a newer generation with better performance.
 
@@ -604,7 +604,7 @@ Due to a release versioning issue, 0.56.0 is the next major release after 0.54.0
 <Update label="v0.47.2" description="December 1, 2023">
 
 ## Features
-* Use custom roles with specific permissions to customize access control within a team**
+* **Use custom roles with specific permissions to customize access control within a team**
   Available in preview to enterprise customers. Please reach out to your W&B account team or support for any questions.
 * Minor runs search improvements
 * Auto-resize runs search for long texts

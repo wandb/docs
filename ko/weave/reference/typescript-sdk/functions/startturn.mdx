@@ -3,37 +3,37 @@ title: "startTurn"
 description: "TypeScript SDK 레퍼런스"
 ---
 
-<div id="startturn">
-  # startTurn
-</div>
-
-▸ **startTurn**(`opts?`): [`Turn`](../classes/turn)
+> **startTurn**(`opts?`): [`Turn`](../interfaces/turn)
 
 새 Turn을 시작합니다. 활성 상태인 Conversation이 있으면 Turn이 해당
 `conversationId`를 상속받고, 그렇지 않으면 Turn에는 conversation ID가 없습니다.
 
+정의 위치: [src/genai/api.ts:54](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L54)
+
 <div id="parameters">
-  #### 매개변수
+  ## 매개변수
 </div>
 
-| 이름     | 유형                                   |
-| :----- | :----------------------------------- |
-| `opts` | [`TurnInit`](../interfaces/turninit) |
+<div id="opts">
+  ### opts?
+</div>
+
+[`TurnInit`](../interfaces/turninit) = `{}`
 
 <div id="returns">
-  #### 반환값
+  ## 반환값
 </div>
 
-[`Turn`](../classes/turn)
+[`Turn`](../interfaces/turn)
 
-`예시`
+<div id="examples">
+  ## 예시
+</div>
 
 ```ts twoslash
 // @noErrors
 weave.startTurn();
 ```
-
-`예시`
 
 ```ts twoslash
 // @noErrors
@@ -48,11 +48,3 @@ weave.startTurn({
   startTime: new Date('2026-05-29T10:00:00.000Z'),
 });
 ```
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[src/genai/api.ts:54](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L54)
-
-***

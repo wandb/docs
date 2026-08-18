@@ -13,6 +13,26 @@ This page includes release notes for supported releases of W&B Server.
 
 <EolReminder/>
 
+<Update label="v0.83.2" description="August 6, 2026">
+
+## Security
+
+- Fixed a critical security bug that could allow abuse of Weave API endpoints.
+
+## Performance improvements
+
+- Improved the efficiency of refreshing the artifact collection sidebar.
+
+## Fixes
+
+- The Team **Users** table now has a **Status** column that shows whether each team member is active, has an invitation pending, or has an account that an organization admin deactivated. See [Add and manage teams](/platform/hosting/iam/access-management/manage-organization#add-and-manage-teams).
+- Fixed a bug where a metric first logged on a step earlier than the run’s latest recorded step was omitted from the run’s metrics and subsequent history exports, which could block live-history cleanup for affected runs. Existing exports are not reprocessed.
+- Fixed a bug where a run-logging request large enough to be split across multiple writes could report success even though part of the data was never stored.
+- Fixed a bug where registry version tags could get clobbered in the search index when a single artifact update operation attempts to both add and delete tags.
+- Fixed a bug that could force registry purges to be synchronous.
+
+</Update>
+
 <Update label="v0.83.1" description="July 28, 2026">
 
 ## Fixes

@@ -61,7 +61,7 @@ This page includes release notes for the W&B Python SDK (`wandb` package) used w
 - When a `wandb.Image` is logged inside a `wandb.Table` with multiple box or mask layers with distinct `class_labels`, each layer's labels are now preserved in new `box_class_maps` or `mask_class_maps` fields in the `table.json`. Previously, a single `class_map` would be incorrectly overwritten by each set of class labels.
 - Artifact file operations now consistently require normalized relative paths.
 - To fix silent failures when `$TMPDIR` is missing or unwritable, logging an artifact using a `WandbLogger` or `run.log_artifact` now writes the manifest file to the artifact's staging directory instead of the OS temp dir.
-- Fixed a bug where logging artifacts in shared mode (`wandb.init(mode="shared")`)  with code-saving enabled would raise an error.
+- Fixed a bug where logging artifacts in shared mode (`wandb.init(mode="shared")`) with code-saving enabled would raise an error.
 - To create a `diff.patch` file, the `git_root` setting is now used by default, falling back to the `root_dir` setting.
 - Apple system metrics like GPU, CPU, power, and temperature are now collected on Apple M5 Macs.
 - File download progress is now shown when exporting history using `wandb.Api().run(...).download_history_exports`.

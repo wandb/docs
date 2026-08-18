@@ -15,8 +15,32 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
 
 <EolReminder />
 
+<Update label="v0.83.2" description="2026年8月6日">
+  ## セキュリティ
+
+  * Weave API endpointの悪用を可能にする可能性がある重大なセキュリティバグを修正しました。
+
+  ## パフォーマンス改善
+
+  * アーティファクト コレクションのサイドバーの更新効率を改善しました。
+
+  ## 修正
+
+  * チームの **Users** 表に **ステータス** 列が追加され、各チームメンバーがアクティブか、招待が保留中か、組織管理者によってアカウントが無効化されているかが表示されるようになりました。[Add and manage teams](/ja/platform/hosting/iam/access-management/manage-organization#add-and-manage-teams)を参照してください。
+  * run の最新の記録済み step より前の step で最初にログされたメトリクスが、run のメトリクスおよび以降の履歴 エクスポートから除外され、影響を受ける run のライブ履歴クリーンアップがブロックされる可能性があったバグを修正しました。既存のエクスポートは再処理されません。
+  * 複数の書き込みに分割されるほど大きい run ロギングリクエストで、データの一部が保存されなかったにもかかわらず成功と報告される可能性があったバグを修正しました。
+  * 単一の artifact 更新操作でタグの追加と削除の両方を試行した場合に、Registry のバージョンタグが検索インデックスで上書きされる可能性があったバグを修正しました。
+  * Registry のパージが同期的に実行される可能性があったバグを修正しました。
+</Update>
+
+<Update label="v0.83.1" description="2026年7月28日">
+  ## 修正
+
+  * run メトリクスを読み込む UI リクエストがキャンセルされた場合や失敗した場合のキャッシュ処理を改善しました。
+</Update>
+
 <Update label="v0.83.0" description="2026年7月22日">
-  W&amp;B Server 0.83.0 では、Registry をプラットフォーム横断で利用できるようになりました。専用クラウドでは、Weave ユーザーがシートなしで Registry を使用できるようになり、Weave のプロンプトを Registry に公開して組織全体でバージョン管理および再利用できます。また、組織レベルの Registry アクセスは、新しい SCIM エンタイトルメントで管理します。本リリースでは、チームの可視性、サービスアカウント、使用状況に対する管理者向けの制御も拡張されました。
+  W&amp;B Server 0.83.0 では、Registry をプラットフォーム横断で利用できるようになりました。専用クラウドでは、Weave ユーザーが Models のシートなしで Registry を使用できるようになり、Weave のプロンプトを Registry に公開して組織全体でバージョン管理および再利用できます。また、組織レベルの Registry アクセスは、新しい SCIM エンタイトルメントで管理します。本リリースでは、チームの可視性、サービスアカウント、使用状況に対する管理者向けの制御も拡張されました。
 
   ## サポートとサポート終了(EOL)
 
@@ -45,14 +69,14 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
 
   ### オートメーション
 
-  これらの機能は専用クラウドでのみ利用できます。
+  v0.83.x では、以下の Automations の機能は専用クラウドでのみ利用できます。
 
   * **Automation Hub**では、project とレジストリにまたがる[オートメーション](/ja/models/automations#automations-overview)を一元的に作成・管理できます。サイドバーの**Core**セクションにあります。
   * オートメーションの適用範囲を、組織、チーム、project、レジストリ、またはコレクションに設定できるようになりました。これにより、広範囲をカバーするためにオートメーションを複製する必要がなくなります。オートメーションを作成する際は、**Edit scopes** をクリックしてください。
 
   ### Registry
 
-  これらの機能は専用クラウドでのみ利用可能です。
+  v0.83.x では、以下の Registry 機能は専用クラウドでのみ利用可能です。
 
   * 組織内のすべての Models および Weave ユーザーに、デフォルトで Registry アクセスが付与されるようになりました。既存の Registry ごとの権限は変更されません。管理者は、SCIM を使用してユーザーの組織レベルの Registry アクセスを取り消すことができます。[Registry アクセスの更新](/ja/platform/hosting/iam/scim#update-registry-access)を参照してください。
   * Weave [プロンプト](/ja/weave/guides/core-types/prompts#create-prompt-objects) (`StringPrompt` および `MessagesPrompt`) を Registry に追加できるようになりました。これにより、モデルアーティファクトとともに、組織全体でプロンプトのバージョン管理、エイリアスの設定、再利用を行えます。
@@ -86,7 +110,7 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
   **SCIM とアクセス管理**
 
   * Registry アクセスは、Models シートとは独立したエンタイトルメントになりました。管理者は、ユーザーの Models シートや Weave ロールを変更せずに、組織レベルの Registry アクセスを付与または取り消すことができます。ユーザーに Weave ロールがない場合、`modelsSeat` を `none` に設定しても Registry アクセスは取り消されなくなりました。[Registry アクセスを更新する](/ja/platform/hosting/iam/scim#update-registry-access)を参照してください。
-  * 管理者は、環境変数 `GORILLA_DISABLE_TEAM_SERVICE_ACCOUNT_CREATION` を `true` に設定することで、チームのサービスアカウントの作成を無効にできるようになりました。
+  * 管理者は、環境変数 `GORILLA_DISABLE_TEAM_SERVICE_ACCOUNT_CREATION` を `true` に設定することで、チームのサービスアカウントの作成を無効にできるようになりました。[チームスコープのサービスアカウント](/ja/platform/hosting/iam/service-accounts#team-scoped-service-accounts)を参照してください。
 
   **チームと組織の可視性**
 

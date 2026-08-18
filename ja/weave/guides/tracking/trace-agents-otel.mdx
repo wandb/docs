@@ -4,7 +4,7 @@ description: "任意の OpenTelemetry パイプラインから OTLP トレース
 keywords: ["OTLP", "OpenTelemetry", "GenAI semantic conventions", "agents endpoint", "no SDK"]
 ---
 
-W&amp;B Weave のエージェント オブザーバビリティは、[OpenTelemetry (OTel)](https://opentelemetry.io/docs/concepts/) を基盤としています。Weave には、スパンを **Agents** ビューに取り込む専用の OTLP エンドポイントがあります。エージェントがすでに OTel スパンを出力している場合は、Weave SDK をインストールしなくても、既存の OTel パイプラインの送信先をこのエンドポイントに設定するだけで Weave に送信できます。
+W&amp;B Weave のエージェント オブザーバビリティは、[OpenTelemetry (OTel)](https://opentelemetry.io/docs/concepts/) を基盤としており、スパンを **Agents** ビューに取り込む専用の OTLP エンドポイントを提供します。つまり、OTel exporter の現在のエンドポイント設定を Weave のエンドポイント設定に置き換えるだけで、OTel でインストルメントされたアプリケーションのスパンをすばやく Weave にリダイレクトできます。これを行うために Weave SDK をインストールする必要はありません。
 
 このページでは、エンドポイントへの認証方法と、エンドポイントにスパンを送信する方法について説明します。
 

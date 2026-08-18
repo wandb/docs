@@ -15,6 +15,30 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 
 <EolReminder />
 
+<Update label="v0.83.2" description="2026년 8월 6일">
+  ## 보안
+
+  * Weave API endpoints가 악용될 수 있는 심각한 보안 버그를 수정했습니다.
+
+  ## 성능 개선
+
+  * 아티팩트 컬렉션 사이드바 새로 고침의 효율성을 개선했습니다.
+
+  ## 수정 사항
+
+  * 이제 팀 **Users** 테이블에 각 팀 구성원이 활성 상태인지, 초대가 대기 중인지, 또는 조직 Admin이 비활성화한 계정을 보유하고 있는지를 보여주는 **상태** 열이 있습니다. [Add and manage teams](/ko/platform/hosting/iam/access-management/manage-organization#add-and-manage-teams)를 참조하세요.
+  * run의 최신 기록 step보다 이전 step에서 처음 로깅된 메트릭이 run의 메트릭 및 이후 이력 내보내기에서 누락되어 영향을 받는 Runs의 라이브 이력 정리를 차단할 수 있는 버그를 수정했습니다. 기존 내보내기는 재처리되지 않습니다.
+  * 여러 쓰기로 분할될 만큼 큰 run 로깅 요청에서 일부 데이터가 저장되지 않았음에도 성공으로 보고될 수 있는 버그를 수정했습니다.
+  * 단일 아티팩트 업데이트 오퍼레이션이 태그 추가와 삭제를 모두 시도할 때 레지스트리 버전 태그가 검색 인덱스에서 덮어써질 수 있는 버그를 수정했습니다.
+  * 레지스트리 제거를 동기식으로 강제할 수 있는 버그를 수정했습니다.
+</Update>
+
+<Update label="v0.83.1" description="2026년 7월 28일">
+  ## 수정 사항
+
+  * run 메트릭 로드를 위한 UI 요청이 취소되거나 실패할 때 캐시 처리를 개선했습니다.
+</Update>
+
 <Update label="v0.83.0" description="2026년 7월 22일">
   W&amp;B Server 0.83.0부터 레지스트리를 플랫폼 전반에서 사용할 수 있습니다. Dedicated Cloud에서 Weave 사용자는 이제 Models seat 없이도 레지스트리를 사용할 수 있으며, Weave 프롬프트를 레지스트리에 게시해 조직 전체에서 버전 관리하고 재사용할 수 있습니다. 또한 조직 수준의 레지스트리 액세스는 새로운 SCIM 엔타이틀먼트를 통해 관리됩니다. 이번 릴리스에서는 팀 가시성, service account, 사용에 대한 관리 제어 기능도 확장되었습니다.
 
@@ -22,7 +46,7 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 
   * W&amp;B Server v0.71의 지원이 종료되었습니다.
 
-  ## 특성
+  ## 기능
 
   * 이제 Team admins는 초과 사용 배너와 검색 가능한 팀 선택 기능을 포함하여 팀 수준의 [사용량 및 청구](/ko/platform/app/settings-page/billing-settings#plan-usage) 차트를 확인하고 지출 한도를 설정할 수 있습니다.
   * 패널을 검색할 때 이제 이름이 정규식 패턴과 일치하는 패널을 검색 결과에서 제외할 수 있습니다. 필터는 제거할 때까지 활성 상태로 유지되므로, 이를 사용해 Workspace에 가장 중요한 패널만 표시할 수 있습니다.
@@ -45,14 +69,14 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 
   ### Automations
 
-  이러한 특성은 Dedicated Cloud에서만 사용 가능합니다.
+  v0.83.x에서 다음 Automations 특성은 Dedicated Cloud에서만 사용 가능합니다:
 
   * **Automation Hub**에서 프로젝트와 레지스트리 전반의 [자동화](/ko/models/automations#automations-overview)를 생성하고 관리할 수 있습니다. 사이드바의 **Core** 섹션에서 찾을 수 있습니다.
   * 이제 자동화의 적용 범위를 조직, 팀, 프로젝트, 레지스트리 또는 컬렉션으로 지정할 수 있습니다. 이를 통해 광범위한 적용을 위해 자동화를 복제할 필요가 없습니다. 자동화를 생성할 때 **Edit scopes**를 클릭하세요.
 
   ### 레지스트리
 
-  이 특성들은 Dedicated Cloud에서만 사용 가능합니다.
+  v0.83.x에서 다음 레지스트리 특성은 Dedicated Cloud에서만 사용 가능합니다:
 
   * 이제 조직의 모든 Models 및 Weave 사용자에게 기본적으로 레지스트리 액세스가 제공됩니다. 기존 레지스트리별 권한은 변경되지 않습니다. 관리자는 SCIM을 통해 사용자의 조직 수준 레지스트리 액세스를 취소할 수 있습니다. [레지스트리 액세스 업데이트](/ko/platform/hosting/iam/scim#update-registry-access)를 참조하세요.
   * 이제 Weave [프롬프트](/ko/weave/guides/core-types/prompts#create-prompt-objects) (`StringPrompt` 및 `MessagesPrompt`)를 레지스트리에 추가할 수 있으므로, 모델 아티팩트와 함께 조직 전체에서 프롬프트의 버전을 관리하고, 별칭을 지정하며, 재사용할 수 있습니다.
@@ -86,7 +110,7 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
   **SCIM 및 액세스 관리**
 
   * 레지스트리 액세스는 이제 Models 시트와 분리된 별도의 권한입니다. 관리자는 사용자의 Models 시트나 Weave 역할을 변경하지 않고 조직 수준의 레지스트리 액세스를 부여하거나 취소할 수 있습니다. 사용자에게 Weave 역할이 없더라도 `modelsSeat`를 `none`으로 설정해도 더 이상 레지스트리 액세스가 취소되지 않습니다. [레지스트리 액세스 업데이트](/ko/platform/hosting/iam/scim#update-registry-access)를 참조하세요.
-  * 관리자는 이제 환경 변수 `GORILLA_DISABLE_TEAM_SERVICE_ACCOUNT_CREATION`을 `true`로 설정하여 팀 서비스 계정 생성을 비활성화할 수 있습니다.
+  * 관리자는 이제 환경 변수 `GORILLA_DISABLE_TEAM_SERVICE_ACCOUNT_CREATION`을 `true`로 설정하여 팀 서비스 계정 생성을 방지할 수 있습니다. [팀 범위 서비스 계정](/ko/platform/hosting/iam/service-accounts#team-scoped-service-accounts)을 참조하세요.
 
   **팀 및 조직 공개 범위**
 
