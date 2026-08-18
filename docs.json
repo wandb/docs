@@ -421,7 +421,7 @@
                         ]
                       },
                       {
-                        "group": "W&B App UI",
+                        "group": "W&B UI",
                         "pages": [
                           "models/app/features/cascade-settings",
                           {
@@ -3975,7 +3975,7 @@
                         ]
                       },
                       {
-                        "group": "W&B App UI",
+                        "group": "W&B UI",
                         "pages": [
                           "ja/models/app/features/cascade-settings",
                           {
@@ -5752,7 +5752,7 @@
                         ]
                       },
                       {
-                        "group": "W&B App UI",
+                        "group": "W&B UI",
                         "pages": [
                           "ko/models/app/features/cascade-settings",
                           {

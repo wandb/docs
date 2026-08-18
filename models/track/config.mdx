@@ -11,7 +11,7 @@ Use the `config` property of a run to save your training configuration:
 - input settings such as the dataset name or model type
 - any other independent variables for your experiments. 
 
-The `wandb.Run.config` property makes it easy to analyze your experiments and reproduce your work in the future. You can group by configuration values in the W&B App, compare the configurations of different W&B runs, and evaluate how each training configuration affects the output. The `config` property is a dictionary-like object that can be composed from multiple dictionary-like objects.
+The `wandb.Run.config` property makes it easy to analyze your experiments and reproduce your work in the future. You can group by configuration values in W&B, compare the configurations of different W&B runs, and evaluate how each training configuration affects the output. The `config` property is a dictionary-like object that can be composed from multiple dictionary-like objects.
 
 <Note>
 To save output metrics or dependent variables like loss and accuracy, use `wandb.Run.log()` instead of `wandb.Run.config`.
@@ -190,14 +190,14 @@ Make sure you set `allow_val_change=True` if you want to update the value of an 
 ### Set the configuration after your run finishes
 Use the [W&B Public API](/models/ref/python/public-api/) to update a completed run's config. 
 
-You must provide the API with your entity, project name and the run's ID. You can find these details in the Run object or in the [W&B App](/models/track/workspaces/):
+You must provide the API with your entity, project name and the run's ID. You can find these details in the Run object or in the [W&B UI](/models/track/workspaces/):
 
 ```python
 with wandb.init() as run:
     ...
 
 # Find the following values from the Run object if it was initiated from the
-# current script or notebook, or you can copy them from the W&B App UI.
+# current script or notebook, or you can copy them from the W&B UI.
 username = run.entity
 project = run.project
 run_id = run.id
@@ -245,14 +245,14 @@ run.config.update(flags.FLAGS)  # adds absl flags to config
 
 ## View config values
 
-Access your config values in the W&B App, during a run, or from existing runs. You can also access config values from your local filesystem.
+Access your config values in W&B, during a run, or from existing runs. You can also access config values from your local filesystem.
 
 <Tabs>
-<Tab title="W&B App">
+<Tab title="W&B UI">
 
-View a run configuration in the W&B App:
+View a run configuration in W&B:
 
-1. Navigate to your project in the W&B App.
+1. Navigate to your project in W&B.
 2. Select the run you want to view.
 3. Select the **Overview** tab.
 4. Scroll to the **Config** section.

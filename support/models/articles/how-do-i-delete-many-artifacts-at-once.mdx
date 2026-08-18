@@ -3,7 +3,7 @@ title: "How do I delete many artifacts at once?"
 keywords: ["Artifacts", "Storage", "Python API"]
 ---
 
-When you need to delete many artifact versions, such as to reduce storage usage, use the [W&B Public API](/models/ref/python/public-api/api) instead of the W&B App. Bulk deletions in the App can time out with a `context deadline exceeded` error, and the artifact list is not designed for deleting hundreds of versions.
+When you need to delete many artifact versions, such as to reduce storage usage, use the [W&B Public API](/models/ref/python/public-api/api) instead of the W&B UI. Bulk deletions in the W&B UI can time out with a `context deadline exceeded` error, and the artifact list is not designed for deleting hundreds of versions.
 
 The following script deletes all artifact versions of a specified type in a project.
 

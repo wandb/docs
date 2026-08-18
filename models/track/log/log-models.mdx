@@ -24,7 +24,7 @@ For more information on W&B Artifacts and advanced versioning use cases, see the
 ## Log a model to a run
 Use the [`log_model`](/models/ref/python/experiments/run#log_model) to log a model artifact that contains content within a directory you specify. The [`log_model`](/models/ref/python/experiments/run#log_model) method also marks the resulting model artifact as an output of the W&B run. 
 
-You can track a model's dependencies and the model's associations if you mark the model as the input or output of a W&B run. View the lineage of the model within the W&B App UI. See the [Explore and traverse artifact graphs](/models/artifacts/explore-and-traverse-an-artifact-graph/) page within the [Artifacts](/models/artifacts/) chapter for more information.
+You can track a model's dependencies and the model's associations if you mark the model as the input or output of a W&B run. View the lineage of the model within W&B. See the [Explore and traverse artifact graphs](/models/artifacts/explore-and-traverse-an-artifact-graph/) page within the [Artifacts](/models/artifacts/) chapter for more information.
 
 Provide the path where your model files are saved to the `path` parameter. The path can be a local file, directory, or [reference URI](/models/artifacts/track-external-files/#amazon-s3--gcs--azure-blob-storage-references) to an external bucket such as `s3://bucket/path`. 
 

@@ -16,10 +16,10 @@ LEET is built for engineers who spend most of their time in a terminal, especial
 | Surface | Best for |
 | --- | --- |
 | **LEET** | Local run folders on the machine that logged them; fast keyboard navigation; live monitoring while a job is still writing logs; SSH and `tmux` workflows. |
-| **[W&B App](/models/runs/view-logged-runs)** | Full project workspaces, team collaboration, reports, sweeps, artifacts, and rich panel types across synced cloud runs. |
+| **[W&B UI](/models/runs/view-logged-runs)** | Full project workspaces, team collaboration, reports, sweeps, artifacts, and rich panel types across synced cloud runs. |
 | **[W&B mobile app](/platform/hosting/monitoring-usage/mobile-app)** | Lightweight monitoring and alerts for synced cloud projects on a phone (Multi-tenant Cloud only). |
 
-LEET and the W&B App show the same underlying run data when that data exists locally and has been synced. LEET does not replace a project workspace in the browser. It is a different interface over local run files and live updates from an active training process.
+LEET and the W&B UI show the same underlying run data when that data exists locally and has been synced. LEET does not replace a project workspace in the browser. It is a different interface over local run files and live updates from an active training process.
 
 ## Prerequisites
 
@@ -156,7 +156,7 @@ The media pane shows `wandb.Image` series as ANSI thumbnails. Toggle it with `3`
 
 Toggle console logs with `4`. LEET rebuilds readable log lines from raw terminal output, including ANSI escape codes and carriage-return progress lines.
 
-For console log behavior in the W&B App, see [Console logs](/models/app/console-logs).
+For console log behavior in the W&B UI, see [Console logs](/models/app/console-logs).
 
 ### Configuration
 
@@ -223,11 +223,11 @@ Across workspace and single-run views:
 
 For the full shortcut tables for workspace, single-run, SYMON, and mouse actions, see [Keyboard shortcuts](/models/app/keyboard-shortcuts) (LEET tab).
 
-## Limitations compared to the W&B App
+## Limitations compared to the W&B UI
 
-LEET complements the W&B App but does not replicate every workspace capability.
+LEET complements the W&B UI but does not replicate every workspace capability.
 
-| Capability | LEET | W&B App |
+| Capability | LEET | W&B UI |
 | --- | --- | --- |
 | Data source | Local `wandb/` directories and `.wandb` files on the current machine | Synced cloud projects and teams |
 | Run comparison | Multiple local runs in one directory | Full workspace tables, grouping, and saved views |
@@ -236,7 +236,7 @@ LEET complements the W&B App but does not replicate every workspace capability.
 | Artifacts and files | Not available | Artifacts, Files, and Code tabs per run |
 | Sweeps and registry | Not available | Sweep dashboards, registry, and automations |
 
-If you need artifacts, sweep analysis, or panel types that LEET does not provide, open the run in the [W&B App](/models/runs/view-logged-runs) after syncing.
+If you need artifacts, sweep analysis, or panel types that LEET does not provide, open the run in the [W&B UI](/models/runs/view-logged-runs) after syncing.
 
 ## Changelog
 
@@ -244,7 +244,7 @@ LEET was initially launched in beta in SDK v0.23.0, and graduated to GA in SDK v
 
 ## Related resources
 
-- [View a specific run](/models/runs/view-logged-runs) in the W&B App or LEET.
-- [Keyboard shortcuts](/models/app/keyboard-shortcuts) for the W&B App and LEET.
+- [View a specific run](/models/runs/view-logged-runs) in the W&B UI or LEET.
+- [Keyboard shortcuts](/models/app/keyboard-shortcuts) for the W&B UI and LEET.
 - [`wandb leet`](/models/ref/cli/wandb-leet) command reference.
 - [SDK release notes](/release-notes/sdk-releases), including LEET changes.
