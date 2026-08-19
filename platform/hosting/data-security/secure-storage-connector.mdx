@@ -384,7 +384,7 @@ For details, see [Create a blob storage container](https://learn.microsoft.com/e
 1. Choose an authentication method:
 
     - **Storage account key**: Generate a storage account access key and record the key and storage account name. For organizations on Dedicated Cloud, share these values with your W&B account team using a secure sharing mechanism.
-    - **Workload identity**: Don't generate or share a storage account key. Instead, the W&B System Console shows the principal ID of the deployment's managed identity. Grant that principal the **Reader** and **Storage Blob Data Contributor** roles on the storage account. W&B configures identity federation through one deployment-wide Kubernetes service account named `wandb-bucket-access`. <Note>For Self-Managed deployments, requires Operator Helm chart [v0.44.4+](https://github.com/wandb/helm-charts/releases/tag/operator-wandb-0.44.4).</Note>
+    - **Workload identity**: Don't generate or share a storage account key. Instead, the W&B System Console shows the principal ID of the deployment's managed identity. Grant that principal the **Reader** and **Storage Blob Data Contributor** roles on the storage account. W&B configures identity federation through one deployment-wide Kubernetes service account named `wandb-bucket-access`. <Note>For Self-Managed deployments, requires Operator Helm chart [v0.44.0+](https://github.com/wandb/helm-charts/releases/tag/operator-wandb-0.44.0).</Note>
 
     Workload identity is an opt-in migration. Existing instance-level BYOB configurations continue to use their storage account key until you change their authentication method.
 
@@ -488,7 +488,7 @@ For **Self-Managed**, you can configure instance level BYOB using the W&B App:
 1. Optional: Enter the **Path** to use in the new bucket.
 1. In **Authentication**, select one of the following options:
     - **Storage account key**: Enter the storage account access key. Use this option to retain an existing key-based BYOB configuration.
-    - **Workload identity (user-delegation SAS)**: Copy the displayed **Managed identity principal ID** and grant it the **Reader** and **Storage Blob Data Contributor** roles on the storage account. You don't need to enter a tenant ID or client ID. <Note>For Self-Managed deployments, requires Operator Helm chart [v0.44.4+](https://github.com/wandb/helm-charts/releases/tag/operator-wandb-0.44.4).</Note>
+    - **Workload identity (user-delegation SAS)**: Copy the displayed **Managed identity principal ID** and grant it the **Reader** and **Storage Blob Data Contributor** roles on the storage account. You don't need to enter a tenant ID or client ID. <Note>For Self-Managed deployments, requires Operator Helm chart [v0.44.0+](https://github.com/wandb/helm-charts/releases/tag/operator-wandb-0.44.0).</Note>
 1. Click **Save**.
 
 After you save, W&B uses the configured bucket as the default storage destination for new artifacts and run files at the instance level.
