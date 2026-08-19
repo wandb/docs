@@ -54,7 +54,7 @@ The following features are available in the mobile app.
     - **Chart tooltips**: On line charts, tooltips show metric values with up to four decimal places so you can read small changes accurately.
     - **Filter metrics**: Use the metric filter controls to narrow which metrics appear, so you can focus on the ones that matter.
     - **Stop runs**: When viewing an in-progress run, click the **action (<Icon icon="ellipsis" iconType="solid"/>)** menu, then click **Stop run**.
-    - **View console logs**: View [console logs](/models/runs/view-logged-runs#logs) for active or completed runs, or download logs for completed runs. Colors from ANSI escape codes in your script output render faithfully and adapt to light and dark mode. The app polls active runs for new log lines every 5 seconds. Even for runs with hundreds of thousands of log lines, the most recent output appears immediately, and older lines load in the background. Scrolling and log search stay responsive even for large outputs.
+    - **View console logs**: Read [console logs](/models/runs/view-logged-runs#logs) for active or completed runs, or download logs for completed runs. Colors from ANSI escape codes in your script output render faithfully and adapt to light and dark mode. The app polls active runs for new log lines every 5 seconds. Even for runs with hundreds of thousands of log lines, the most recent output appears immediately, and older lines load in the background. Scrolling and log search stay responsive even for large outputs.
 - **Switch teams**: Use the **team picker** to change teams.
 - **Stay informed**: Get updates on your experiments without opening your laptop using notifications. **Remove alerts** you no longer need from the **Notifications** tab by swiping them away.
 - **Chat with ARIA**: Use ARIA in the mobile app to ask questions, analyze runs, and take action without leaving your phone.
@@ -65,7 +65,12 @@ ARIA (AI Research & Iteration Agent) is your personalized research assistant tha
 
 To chat with ARIA, click <img className="inline dark:hidden" alt="ARIA icon" src="/images/agent/aria-logo.svg" style={{ height: "0.95em", width: "0.95em", verticalAlign: "-0.1em", margin: 0 }} /><img className="hidden dark:inline" alt="ARIA icon" src="/images/agent/aria-logo-dark.svg" style={{ height: "0.95em", width: "0.95em", verticalAlign: "-0.1em", margin: 0 }} /> in the bottom navigation.
 
-In the mobile app, ARIA keeps context across multi-turn chats and shows reasoning and action details while it works. ARIA automatically detects which project you're viewing in the app and uses it as context, so answers come with the right project already in mind. You can also reference projects and runs directly in your chat messages. Replies render with rich Markdown formatting, including tables, headings, lists, and inline code. When ARIA asks questions, they render as an interactive view directly in the conversation. Shell steps show when ARIA takes an action, such as creating a panel, filtering runs, creating and running Python scripts, and more. Long-press a chat in your chat history to preview, rename, or delete it. Chat history is kept in sync so you can move seamlessly between the web app and mobile app.
+In the mobile app, ARIA keeps context across multi-turn chats and shows reasoning and action details while it works.
+
+- **Project context**: ARIA automatically detects which project you're viewing in the app and uses it as context, so answers come with the right project already in mind. You can also reference projects and runs directly in your chat messages.
+- **Rich replies**: Replies render with rich Markdown formatting, including tables, headings, lists, and inline code. When ARIA asks questions, they render as an interactive view directly in the conversation.
+- **Visible actions**: Shell steps show when ARIA takes an action, such as creating a panel, filtering runs, creating and running Python scripts, and more.
+- **Chat history**: Long-press a chat in your chat history to preview, rename, or delete it. Chat history is kept in sync so you can move seamlessly between the web app and mobile app.
 
 <Frame>
   ![ARIA tab and chat interface in the W&B iOS app](/images/mobile-app/aria-chat.png)
