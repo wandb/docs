@@ -111,13 +111,21 @@ jobs:
                      filename === 'style.css';
             });
             
-            // Group files by status - include previous_filename for renamed files
-            const added = relevantFiles.filter(f => f.status === 'added').map(f => f.filename);
-            const modified = relevantFiles.filter(f => f.status === 'modified').map(f => f.filename);
-            const removed = relevantFiles.filter(f => f.status === 'removed').map(f => f.filename);
+            // Group files by status - include diff stats (additions/deletions) for each file,
+            // and previous_filename for renamed files.
+            const toEntry = f => ({
+              path: f.filename,
+              additions: f.additions || 0,
+              deletions: f.deletions || 0,
+            });
+            const added = relevantFiles.filter(f => f.status === 'added').map(toEntry);
+            const modified = relevantFiles.filter(f => f.status === 'modified').map(toEntry);
+            const removed = relevantFiles.filter(f => f.status === 'removed').map(toEntry);
             const renamed = relevantFiles.filter(f => f.status === 'renamed').map(f => ({
               old: f.previous_filename,
-              new: f.filename
+              new: f.filename,
+              additions: f.additions || 0,
+              deletions: f.deletions || 0,
             }));
             
             // Store all categorized files for the comment builder
@@ -226,32 +234,38 @@ jobs:
             const START = '<!-- wandb-preview-links:start -->';
             const END = '<!-- wandb-preview-links:end -->';
 
-            // Collect changed doc pages (added + modified + renamed) that qualify for a Mintlify preview.
-            const docPages = [];
-            const seenPages = new Set();
-            const addPage = p => { if (isDocPageWithPreview(p) && !seenPages.has(p)) { seenPages.add(p); docPages.push(p); } };
-            added.forEach(addPage);
-            modified.forEach(addPage);
-            renamed.forEach(r => addPage(r.new));
+            // Build the previewable doc-page rows for the main table, grouped and ordered
+            // Added -> Changed (modified) -> Renamed, alphabetical within each group.
+            const byPath = (a, b) => a.path.localeCompare(b.path);
+            const addedPages = added
+              .filter(f => isDocPageWithPreview(f.path))
+              .map(f => ({ path: f.path, action: 'Added', additions: f.additions, deletions: f.deletions }))
+              .sort(byPath);
+            const changedPages = modified
+              .filter(f => isDocPageWithPreview(f.path))
+              .map(f => ({ path: f.path, action: 'Changed', additions: f.additions, deletions: f.deletions }))
+              .sort(byPath);
+            const renamedPages = renamed
+              .filter(r => isDocPageWithPreview(r.new))
+              .map(r => ({ path: r.new, action: 'Renamed', additions: r.additions, deletions: r.deletions }))
+              .sort(byPath);
+            const pageRows = [...addedPages, ...changedPages, ...renamedPages];
 
-            // Collect changed images (added + modified + renamed) that are not doc pages.
-            const images = [];
-            const seenImages = new Set();
-            const addImage = p => { if (!isDocPageWithPreview(p) && isImageFile(p) && !seenImages.has(p)) { seenImages.add(p); images.push(p); } };
-            added.forEach(addImage);
-            modified.forEach(addImage);
-            renamed.forEach(r => addImage(r.new));
-
-            // Collect other non-page, non-image files.
-            const others = [];
-            const seenOther = new Set();
-            const addOther = p => { if (!isDocPageWithPreview(p) && !isImageFile(p) && !seenOther.has(p)) { seenOther.add(p); others.push(p); } };
-            added.forEach(addOther);
-            modified.forEach(addOther);
-            renamed.forEach(r => addOther(r.new));
-
-            // Deleted files (no preview).
-            const deleted = removed.slice();
+            // Everything that can never have a preview: deleted doc pages plus all non-page files
+            // (docs.json, images, icons, logo, static, style.css, other). Rendered as a collapsed table.
+            const noPreview = [];
+            const seenNoPreview = new Set();
+            const addNoPreview = (p, action, additions, deletions) => {
+              if (!p || seenNoPreview.has(p)) return;
+              seenNoPreview.add(p);
+              noPreview.push({ path: p, action, additions, deletions });
+            };
+            removed.filter(f => isDocPageWithPreview(f.path)).forEach(f => addNoPreview(f.path, 'Deleted', f.additions, f.deletions));
+            added.filter(f => !isDocPageWithPreview(f.path)).forEach(f => addNoPreview(f.path, 'Added', f.additions, f.deletions));
+            modified.filter(f => !isDocPageWithPreview(f.path)).forEach(f => addNoPreview(f.path, 'Changed', f.additions, f.deletions));
+            removed.filter(f => !isDocPageWithPreview(f.path)).forEach(f => addNoPreview(f.path, 'Deleted', f.additions, f.deletions));
+            renamed.filter(r => !isDocPageWithPreview(r.new)).forEach(r => addNoPreview(r.new, 'Renamed', r.additions, r.deletions));
+            noPreview.sort(byPath);
 
             // Deployment identity for the footer, stable per deployment so the no-op guard is meaningful.
             const shortSha = context.payload.deployment.sha.substring(0, 7);
@@ -265,31 +279,26 @@ jobs:
             let block = `${START}\n`;
             block += `**📄 [Preview this PR's docs](${previewUrl})** · \`${shortSha}\`\n`;
 
-            if (docPages.length > 0) {
-              block += `\n| Changed page | Preview |\n| --- | --- |\n`;
-              docPages.slice(0, MAX_ROWS).forEach(p => {
-                block += `| ${titleFromPath(p)} | [view](${urlFromPath(p)}) |\n`;
+            if (pageRows.length > 0) {
+              block += `\n| Page | Change |\n| --- | --- |\n`;
+              pageRows.slice(0, MAX_ROWS).forEach(row => {
+                block += `| ${titleFromPath(row.path)} | [${row.action}](${urlFromPath(row.path)}) · +${row.additions} −${row.deletions} |\n`;
               });
-              if (docPages.length > MAX_ROWS) {
-                block += `| … and ${docPages.length - MAX_ROWS} more | |\n`;
+              if (pageRows.length > MAX_ROWS) {
+                block += `| … and ${pageRows.length - MAX_ROWS} more | |\n`;
               }
             }
 
-            const otherCount = images.length + deleted.length + others.length;
-            if (otherCount > 0) {
-              block += `\n<details><summary>Other changes (${otherCount})</summary>\n\n`;
-              if (images.length > 0) {
-                const imgSummary = images.length <= 5
-                  ? images.map(i => `\`${i}\``).join(', ')
-                  : `${images.length} files`;
-                block += `- Images: ${imgSummary}\n`;
-              }
-              if (deleted.length > 0) {
-                block += `- Deleted: ${deleted.map(d => `\`${d}\``).join(', ')}\n`;
-              }
-              if (others.length > 0) {
-                block += `- Other: ${others.map(o => `\`${o}\``).join(', ')}\n`;
-              }
+            if (noPreview.length > 0) {
+              block += `\n<details><summary>No preview available (${noPreview.length})</summary>\n\n`;
+              block += `| File | Change |\n| --- | --- |\n`;
+              noPreview.forEach(row => {
+                let change;
+                if (row.action === 'Added') change = `Added · +${row.additions}`;
+                else if (row.action === 'Deleted') change = `Deleted · −${row.deletions}`;
+                else change = `${row.action} · +${row.additions} −${row.deletions}`;
+                block += `| \`${row.path}\` | ${change} |\n`;
+              });
               block += `\n</details>\n`;
             }
 
