@@ -19,6 +19,11 @@ Full fidelity mode for point aggregation has three main advantages:
 * Configure how minimum and maximum points render: use the W&B App to interactively decide whether you want to show extreme (min/max) values as a shaded area.
 * Explore your data without losing data fidelity: W&B recalculates x-axis bucket sizes when you zoom into specific data points. This helps ensure that you can explore your data without losing accuracy. W&B caches previously computed aggregations to help reduce loading times, which is useful when you navigate through large datasets.
 
+There are two ways to render full-fidelity line plots:
+
+* **Band** (default): Shows the minimum and maximum values within each bucket as a shaded band, while the line shows the overall trend.
+* **Line**: Connects points directly, making spikes and dips easier to identify. 
+
 ### Turn on full fidelity
 
 W&B uses full fidelity mode by default. To configure it manually, follow these steps:
@@ -29,17 +34,19 @@ W&B uses full fidelity mode by default. To configure it manually, follow these s
 2. Select the gear icon on the top right corner of the screen next to the left of the **Add panels** button.
 3. From the UI slider that appears, select **Line plots**.
 4. Choose **Full fidelity** from the **Point aggregation** section.
-5. Configure the **Smoothing** algorithm and settings.
-6. Set **Aggregation** to **Mean**, **Min**, or **Max**.
-7. Click **Apply**.
+5. From the **Full fidelity display** dropdown, select **Band** or **Line**.
+6. Configure the **Smoothing** algorithm and settings.
+7. Set **Aggregation** to **Mean**, **Min**, or **Max**.
+8. Click **Apply**.
 </Tab>
 <Tab title="Individual chart in a workspace">
 1. Navigate to your workspace.
 2. Select the **Workspace** icon on the left tab.
 3. Hover over the line plot panel you want to configure, then click the gear icon.
 4. Within the modal that appears, set **Point aggregation method** to **Full fidelity**.
-5. Configure the **Smoothing** algorithm and settings.
-6. Click **Apply**.
+5. From the **Full fidelity display** dropdown, select **Band** or **Line**.
+6. Configure the **Smoothing** algorithm and settings.
+7. Click **Apply**.
 </Tab>
 </Tabs>
 
