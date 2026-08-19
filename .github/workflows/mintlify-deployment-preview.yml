@@ -292,13 +292,16 @@ jobs:
             if (noPreview.length > 0) {
               block += `\n<details><summary>No preview available (${noPreview.length})</summary>\n\n`;
               block += `| File | Change |\n| --- | --- |\n`;
-              noPreview.forEach(row => {
+              noPreview.slice(0, MAX_ROWS).forEach(row => {
                 let change;
                 if (row.action === 'Added') change = `Added · +${row.additions}`;
                 else if (row.action === 'Deleted') change = `Deleted · −${row.deletions}`;
                 else change = `${row.action} · +${row.additions} −${row.deletions}`;
                 block += `| \`${row.path}\` | ${change} |\n`;
               });
+              if (noPreview.length > MAX_ROWS) {
+                block += `| … and ${noPreview.length - MAX_ROWS} more | |\n`;
+              }
               block += `\n</details>\n`;
             }
 
@@ -324,7 +327,32 @@ jobs:
             // Mintlify's own deploy comment (a Bot whose login matches /mintlify/i).
             const mintlifyComment = comments.find(c => c.user && c.user.type === 'Bot' && /mintlify/i.test(c.user.login));
             // Any legacy standalone comment previously posted by this workflow (github-actions[bot]).
-            const legacyComment = comments.find(c => c.body && (c.body.includes('<!-- wandb-preview-links:start -->') || c.body.includes('<!-- mintlify-preview-links -->')) && c.user && c.user.type === 'Bot' && /github-actions/i.test(c.user.login));
+            let legacyComment = comments.find(c => c.body && (c.body.includes('<!-- wandb-preview-links:start -->') || c.body.includes('<!-- mintlify-preview-links -->')) && c.user && c.user.type === 'Bot' && /github-actions/i.test(c.user.login));
+
+            // Delete a redundant legacy standalone comment. Only meaningful in the merge path,
+            // where the Mintlify comment is the single home for our block; clears the reference
+            // so the fallback below won't try to reuse a now-deleted comment.
+            const deleteLegacyComment = async () => {
+              if (!legacyComment || (mintlifyComment && legacyComment.id === mintlifyComment.id)) return;
+              try {
+                await github.rest.issues.deleteComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  comment_id: legacyComment.id,
+                });
+                core.info(`Deleted legacy standalone comment #${legacyComment.id}`);
+              } catch (e) {
+                core.warning(`Failed to delete legacy comment #${legacyComment.id}: ${e.message}`);
+              }
+              legacyComment = null;
+            };
+
+            // In the merge path (a Mintlify comment exists), any separate standalone comment of
+            // ours is redundant. Remove it BEFORE the no-op guard so cleanup happens even when the
+            // preview-links block is unchanged and the update is skipped below.
+            if (mintlifyComment) {
+              await deleteLegacyComment();
+            }
 
             // No-op guard: if the target comment already carries an identical block, skip the write.
             const targetComment = mintlifyComment || legacyComment;
@@ -351,20 +379,6 @@ jobs:
                 });
                 core.info(`Merged preview links into Mintlify comment #${mintlifyComment.id}`);
                 merged = true;
-
-                // Remove a now-redundant standalone comment of ours to keep the PR to a single comment.
-                if (legacyComment && legacyComment.id !== mintlifyComment.id) {
-                  try {
-                    await github.rest.issues.deleteComment({
-                      owner: context.repo.owner,
-                      repo: context.repo.repo,
-                      comment_id: legacyComment.id,
-                    });
-                    core.info(`Deleted legacy standalone comment #${legacyComment.id}`);
-                  } catch (e) {
-                    core.warning(`Failed to delete legacy comment #${legacyComment.id}: ${e.message}`);
-                  }
-                }
               } catch (e) {
                 core.warning(`Failed to merge into Mintlify comment: ${e.message}. Falling back to a standalone comment.`);
                 merged = false;
