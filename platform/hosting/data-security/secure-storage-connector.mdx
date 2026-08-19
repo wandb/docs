@@ -384,7 +384,7 @@ For details, see [Create a blob storage container](https://learn.microsoft.com/e
 1. Choose an authentication method:
 
     - **Storage account key**: Generate a storage account access key and record the key and storage account name. For organizations on Dedicated Cloud, share these values with your W&B account team using a secure sharing mechanism.
-    - **Workload identity**: Don't generate or share a storage account key. The W&B System Console shows the principal ID of the deployment's managed identity. Grant that principal the **Reader** and **Storage Blob Data Contributor** roles on the storage account. W&B configures identity federation through one deployment-wide `wandb-bucket-access` Kubernetes ServiceAccount.
+    - **Workload identity**: Don't generate or share a storage account key. Instead, the W&B System Console shows the principal ID of the deployment's managed identity. Grant that principal the **Reader** and **Storage Blob Data Contributor** roles on the storage account. W&B configures identity federation through one deployment-wide Kubernetes service account named `wandb-bucket-access`. <Note>For Self-Managed deployments, requires Operator Helm chart [v0.44.4+](https://github.com/wandb/helm-charts/releases/tag/operator-wandb-0.44.4).</Note>
 
     Workload identity is an opt-in migration. Existing instance-level BYOB configurations continue to use their storage account key until you change their authentication method.
 
