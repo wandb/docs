@@ -122,7 +122,7 @@ model_name = f"wandb-artifact:///{WB_TEAM}/{WB_PROJECT}/your_trained_lora:latest
   ## 지원되는 기본 모델
 </div>
 
-LoRA는 다음 기본 모델 중 하나를 기반으로 학습되어야 합니다. 추론 시 W&amp;B가 어댑터를 올바른 기본 모델과 연결할 수 있도록 `wandb.base_model`을 설정할 때는 정확한 모델 ID 문자열을 사용하세요.
+LoRA는 다음 기본 모델 중 하나를 기반으로 트레이닝되어야 합니다. 추론 시 W&amp;B가 어댑터를 올바른 기본 모델과 연결할 수 있도록 `wandb.base_model`을 설정할 때는 정확한 모델 ID 문자열을 사용하세요.
 
 {/* takeru lora-base-models - 이 표는 자동 생성되므로 수동으로 수정하지 마세요. */}
 
@@ -130,10 +130,8 @@ LoRA는 다음 기본 모델 중 하나를 기반으로 학습되어야 합니�
 | ----------------------------------- | ---------- |
 | `meta-llama/Llama-3.1-70B-Instruct` | 16         |
 | `meta-llama/Llama-3.1-8B-Instruct`  | 16         |
-| `openai/gpt-oss-120b`               | 64         |
 | `OpenPipe/Qwen3-14B-Instruct`       | 16         |
 | `Qwen/Qwen3.6-27B`                  | 16         |
-| `Qwen/Qwen3-30B-A3B-Instruct-2507`  | 16         |
 
 <div id="pricing">
   ## 가격

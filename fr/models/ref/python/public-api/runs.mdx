@@ -1,91 +1,98 @@
 ---
 title: Runs
-namespace: public_apis_namespace
-python_object_type: class
+kind: classe
+namespace: wandb.apis.public.runs
 ---
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py#L188" />
 
-
-## <kbd>class</kbd> `Runs`
-
-Un itérateur paresseux d’objets `Run` associés à un projet et à un filtre facultatif.
-
-Les Runs sont récupérés par pages depuis le serveur W&amp;B selon les besoins.
-
-Cette classe s’utilise généralement de manière indirecte via l’espace de noms `Api.runs`.
-
-### <kbd>méthode</kbd> `Runs.__init__`
+## <kbd>classe</kbd> wandb.apis.public.Runs
 
 ```python
-__init__(
-    service_api: 'ServiceApi',
-    entity: 'str',
-    project: 'str',
-    filters: 'dict[str, Any] | None' = None,
-    order: 'str' = '+created_at',
-    per_page: 'int' = 50,
-    include_sweeps: 'bool' = False,
-    lazy: 'bool' = True,
-    api_key: 'str | None' = None
-)
+(service_api: 'ServiceApi',
+entity: 'str',
+project: 'str',
+filters: 'dict[str, Any] | None' = None,
+order: 'str' = '+created_at',
+per_page: 'int' = 50,
+include_sweeps: 'bool' = False,
+lazy: 'bool' = True,
+api_key: 'str | None' = None)
 ```
 
-**Arguments :**
+Un itérateur paresseux d’objets `Run` associé à un projet et à un filtre facultatif.
 
-* `service_api`:  L’API de service à utiliser pour les requêtes.
-* `entity`:  L’entité (nom d’utilisateur ou équipe) propriétaire du projet.
-* `project`:  Le nom du projet depuis lequel récupérer les runs.
-* `filters`:  Filtres à appliquer à la requête de runs.
-* `order`:  L’ordre peut être `created_at`, `heartbeat_at`, `config.*.value` ou `summary_metrics.*`.  Si l’ordre est précédé de `+`, le tri est croissant (par défaut).  Si l’ordre est précédé de `-`, le tri est décroissant.  Par défaut, l’ordre est `run.created&#95;at`, du plus ancien au plus récent.
-* `per_page`:  Le nombre de runs à récupérer par requête (50 par défaut).
-* `include_sweeps`:  Indique s’il faut inclure les informations sur les Sweeps dans les runs. La valeur par défaut est `True`.
+Les runs sont récupérés par pages depuis le serveur W&amp;B selon les besoins.
 
-***
+Cet objet est généralement utilisé indirectement via l’espace de noms `Api.runs`.
 
-### <kbd>propriété</kbd> Runs.length
+<div id="args">
+  ## Arguments
+</div>
 
-***
+* `service_api`: L’API de service à utiliser pour les requêtes.
+* `entity`: L’entité (nom d’utilisateur ou équipe) propriétaire du projet.
+* `project`: Le nom du projet depuis lequel récupérer les runs.
+* `filters`: Filtres à appliquer à la requête de runs.
+* `order`: L’ordre peut être `created_at`, `heartbeat_at`, `config.*.value` ou `summary_metrics.*`. Si l’ordre est précédé de `+`, le tri est croissant (par défaut). Si l’ordre est précédé de `-`, le tri est décroissant. Par défaut, l’ordre est `run.created&#95;at`, du plus ancien au plus récent.
+* `per_page`: Le nombre de runs à récupérer par requête (50 par défaut).
+* `include_sweeps`: Indique s’il faut inclure les informations sur les Sweeps dans les runs. La valeur par défaut est `True`.
+* `lazy`: Indique s’il faut différer le chargement des champs volumineux (`config`, `summaryMetrics`, `systemMetrics`) jusqu’à ce qu’ils soient consultés. La valeur par défaut est `True`.
+* `api_key`: 
 
-### <kbd>méthode</kbd> `Runs.histories`
+<div id="methods">
+  ## Méthodes
+</div>
+
+### <kbd>méthode</kbd> Runs.histories()
 
 ```python
-histories(
-    samples: 'int' = 500,
-    keys: 'list[str] | None' = None,
-    x_axis: 'str' = '_step',
-    format: "Literal['default', 'pandas', 'polars']" = 'default',
-    stream: "Literal['default', 'system']" = 'default'
-) → list[dict[str, Any]] | pd.DataFrame | pl.DataFrame
+self,
+samples: 'int' = 500,
+keys: 'list[str] | None' = None,
+x_axis: 'str' = '_step',
+format: "Literal['default', 'pandas', 'polars']" = 'default',
+stream: "Literal['default', 'system']" = 'default'
 ```
 
 Renvoie des métriques d’historique échantillonnées pour tous les runs qui satisfont aux conditions des filtres.
 
-**Arguments :**
+<div id="arguments">
+  ##### Arguments
+</div>
 
-* `samples` :  Nombre d’échantillons à renvoyer par run
-* `keys` :  Renvoie uniquement les métriques pour des clés spécifiques
-* `x_axis` :  Utilisez cette métrique comme xAxis ; la valeur par défaut est &#95;step
-* `format` :  Format dans lequel renvoyer les données ; les options sont &quot;default&quot;, &quot;pandas&quot;,  &quot;polars&quot;
-* `stream` :  &quot;default&quot; pour les métriques, &quot;system&quot; pour les métriques système
+* `samples`: Nombre d’échantillons à renvoyer par run
+* `keys`: Renvoie uniquement les métriques pour des clés spécifiques
+* `x_axis`: Utilisez cette métrique comme xAxis ; la valeur par défaut est &#95;step
+* `format`: Format dans lequel renvoyer les données ; les options sont &quot;default&quot;, &quot;pandas&quot;, &quot;polars&quot;
+* `stream`: &quot;default&quot; pour les métriques, &quot;system&quot; pour les métriques système
 
-**Retourne :**
-
-* `pandas.DataFrame` :  Si `format="pandas"`, renvoie un `pandas.DataFrame`  de métriques d’historique.
-* `polars.DataFrame` :  Si `format="polars"`, renvoie un `polars.DataFrame`  de métriques d’historique.
-* `list of dicts` :  Si `format="default"`, renvoie une liste de dicts  contenant des métriques d’historique avec une clé `run_id`.
-
-***
-
-
-### <kbd>méthode</kbd> `Runs.upgrade_to_full`
+### <kbd>méthode</kbd> Paginator.**next**()
 
 ```python
-upgrade_to_full() → None
+self
+```
+
+Renvoyer l’élément suivant de l’itérateur. S’il n’y en a plus, lever StopIteration
+
+### <kbd>méthode</kbd> Paginator.update_variables()
+
+```python
+self
+```
+
+Mettez à jour les variables de la requête pour récupérer la page suivante.
+
+### <kbd>méthode</kbd> Runs.upgrade_to_full()
+
+```python
+self
 ```
 
 Met à niveau cette collection de Runs du mode paresseux au mode complet.
 
-Bascule vers la récupération des données complètes des runs et met à niveau tous les objets Run déjà chargés afin qu&#39;ils contiennent l&#39;ensemble des données. Utilise le chargement en parallèle pour de meilleures performances lors de la mise à niveau de plusieurs runs.
+Bascule vers la récupération des données complètes des runs et
+met à niveau tous les objets Run déjà chargés afin qu&#39;ils contiennent l&#39;ensemble des données.
+Utilise le chargement en parallèle pour de meilleures performances lors de la mise à niveau de plusieurs runs.

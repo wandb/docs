@@ -4,7 +4,7 @@ description: W&B Automations を作成・管理して、ML ワークフローを
 keywords: ["Automations", "Slack 通知", "webhooks", "Registry イベント", "W&B シークレット"]
 ---
 
-このページでは、W&amp;B の[オートメーション](/ja/models/automations)を作成および管理する方法を説明します。オートメーションを使用すると、project と Registry のイベントに応じて Slack 通知や webhook をトリガーできます。まずこの概要で前提条件と大まかなワークフローを把握し、その後、[Slack オートメーションを作成する](/ja/models/automations/create-automations/slack) または [webhook オートメーションを作成する](/ja/models/automations/create-automations/webhook) の詳細な手順に従ってください。
+このページでは、W&amp;B の[オートメーション](/ja/models/automations)を作成および管理する方法を説明します。オートメーションは、W&amp;B 内の特定のイベントに応じて開始されます。組織、チーム、project、Registry、またはコレクション内で特定のイベントが発生すると、オートメーションは Slack チャンネルに通知するか、webhook を実行します。まずこの概要で前提条件と大まかなワークフローを把握し、その後、[Slack オートメーションを作成する](/ja/models/automations/create-automations/slack) または [webhook オートメーションを作成する](/ja/models/automations/create-automations/webhook) の詳細な手順に従ってください。
 
 <Note>
   オートメーションの関連チュートリアルをお探しですか？
@@ -28,7 +28,7 @@ keywords: ["Automations", "Slack 通知", "webhooks", "Registry イベント", "
   ## オートメーションを作成する
 </div>
 
-project または Registry の **Automations** タブ、または Workspace のラインプロットパネルから直接オートメーションを作成できます。
+左側のナビゲーションにあるグローバル **Automations** ハブ、project または Registry の **Automations** タブ、または Workspace のラインプロットパネルから直接オートメーションを作成できます。ハブからオートメーションを作成する場合は、そのスコープ (組織、チーム、Registry、Registry コレクション、または project) を選択します。[Automations ハブ](/ja/models/automations#automations-hub)を参照してください。
 
 <div id="create-from-the-automations-tab">
   ### Automations タブから作成する

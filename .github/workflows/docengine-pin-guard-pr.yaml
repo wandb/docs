@@ -1,0 +1,178 @@
+---
+# Fails a pull request that points the DocEngine tooling at anything other than
+# a published release.
+#
+#
+# THE ONE-PARAGRAPH VERSION
+#
+# CoreWeave's documentation tooling, DocEngine, lives in its own repository and
+# is attached here as the `docengine` git submodule, which records one exact
+# commit of it. That recorded commit decides which version of the tooling this
+# repository runs in CI. This check makes sure it is always a published release
+# (v3.5.0 and so on) rather than an arbitrary commit from DocEngine's main
+# branch. The reasoning, including why the check exists at all when the
+# automated updater already picks releases on its own, is written up at the
+# top of .github/scripts/docengine-pin-guard.sh.
+#
+#
+# WHAT YOU SHOULD EXPECT TO SEE
+#
+#   - Most pull requests never run this at all. It only triggers when the
+#     `docengine` submodule itself changes. Its twin workflow answers for all
+#     the others; see THE REQUIRED-CHECK TWIN below.
+#   - Automated dependency-update pull requests pass without anyone doing
+#     anything. The updater picks the newest published release over newer
+#     untagged commits on its own, so those bumps land on a release by
+#     construction.
+#   - A draft pull request pinned to a prerelease (v3.6.0-rc.1) STAYS RED, and
+#     that is the intended behavior rather than a fault. Prereleases exist so a
+#     draft pull request can exercise unreleased tooling in real CI; this check
+#     is what stops one being merged by accident.
+#
+#
+# WHEN THE TOKEN IS MISSING
+#
+# Reading DocEngine's tags needs a read credential. The hosts name it
+# differently, so READ_TOKEN below accepts either name and resolves whichever
+# one the host defines: coreweave/docs defines ORG_REPO_READ_ONLY (an
+# organization secret, Actions store only), and wandb/docs defines
+# DOCENGINE_TOKEN (a rolling token, held in BOTH its Actions and Dependabot
+# stores). That fallback is what lets this file stay byte-identical across
+# hosts, modulo the pin version comments (each host's dependency updater
+# writes its own comment style). Whether a missing token fails the check
+# depends on who triggered the run:
+#
+#   - Dependabot's own runs read from the Dependabot secret store. Where that
+#     store holds the credential (wandb/docs), automated bumps are validated
+#     like any other pull request and nothing is skipped. Where it does not
+#     (coreweave/docs), the run SKIPS with a warning instead of failing,
+#     because failing would turn every automated bump red and stop the
+#     tooling ever being updated - and the skip is safe for exactly those
+#     runs, because the updater only ever proposes release tags to begin
+#     with.
+#   - Every other run FAILS CLOSED, and red is right for both ways that can
+#     happen. A pull request from a branch in this repository always receives
+#     the secret, so a missing token on one of those means the secret was
+#     removed, renamed, or scoped away - a misconfiguration that should be
+#     loud, not a quietly green check. A pull request from a fork receives no
+#     secrets at all (in a host that allows forking), and a fork pull request
+#     that moves the pin is supposed to stay red: fork contributions are
+#     merged by branch-import, never directly, so the maintainer's internal
+#     branch re-runs this check with the secret present.
+#
+# A present-but-expired token does not skip anything: the tag lookup itself
+# fails and the check goes red. With a rolling token, that is the failure
+# you want to hear about.
+#
+# To make even Dependabot fail closed where it currently skips, first copy
+# the credential into Settings > Secrets and variables > Dependabot, then
+# hard-code REQUIRE_TOKEN to 'true' below.
+#
+#
+# THE REQUIRED-CHECK TWIN
+#
+# This check is meant to be marked as required on main, and the paths filter
+# below keeps it from running on pull requests that leave the pin alone, which
+# is almost all of them. GitHub does not count a path-skipped workflow as
+# passed: a required check that never reports shows as "Expected - Waiting for
+# status to be reported" and blocks the merge forever. The cure is the twin
+# workflow, docengine-pin-guard-skip-pr.yaml, which triggers on the opposite
+# filter and reports success under the same job name, so every pull request
+# gets a PinGuard verdict one way or the other. If you change the paths list
+# or the job name here, make the identical change there, or every pull request
+# that does not touch the pin will stall.
+#
+# The logic is a separate script rather than inline steps so it can be run by
+# hand while debugging:
+#   PINNED_SHA=<sha> READ_TOKEN=<token> .github/scripts/docengine-pin-guard.sh
+
+name: DocEngine pin guard
+
+on:
+  pull_request:
+    paths:
+      - 'docengine'
+      # .gitmodules is here because a pull request can repoint the submodule at
+      # a different repository by editing that file alone, leaving the recorded
+      # commit untouched. Without this path, such a change would never run the
+      # guard at all.
+      - '.gitmodules'
+
+permissions:
+  contents: read
+
+jobs:
+  PinGuard:
+    runs-on: ubuntu-latest
+    env:
+      ENGINE_REPO: coreweave/docengine
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        # No submodules and no token here on purpose. Reading which commit is
+        # recorded needs nothing more than this repository's own files; only the
+        # tag lookup further down needs credentials.
+
+      - name: Find the pinned DocEngine commit
+        id: pin
+        run: |
+          set -euo pipefail
+
+          # Check WHERE the submodule points before checking WHAT it points at.
+          # The tag lookup later only ever consults ENGINE_REPO, so a pull
+          # request that repointed .gitmodules at some other repository while
+          # leaving the recorded commit alone would otherwise sail through with
+          # a green check. Adding .gitmodules to the trigger above is only half
+          # the fix; this is the half that actually inspects it.
+          url="$(git config -f .gitmodules --get submodule.docengine.url || true)"
+          expected="https://github.com/${ENGINE_REPO}.git"
+          if [ "${url}" != "${expected}" ]; then
+            echo "::error title=DocEngine pin guard::The docengine submodule points at '${url}' rather than '${expected}'. This check only validates commits belonging to ${ENGINE_REPO}."
+            exit 1
+          fi
+
+          # On a pull request, HEAD is the merge preview, so this reads the pin
+          # as it WOULD be after merging rather than as it is on the branch.
+          entry="$(git ls-tree HEAD docengine)"
+          if [ -z "${entry}" ]; then
+            # Fail here rather than one step later, so the message names the
+            # actual cause: the submodule entry is missing or has moved.
+            echo "::error title=DocEngine pin guard::There is nothing at the path 'docengine' in this pull request."
+            exit 1
+          fi
+
+          # git ls-tree prints "<mode> <type> <object-id><tab><path>".
+          #
+          # A submodule is mode 160000, type commit. An ordinary directory is
+          # mode 040000, type tree, and its object ID is a forty character hex
+          # string that looks exactly like a commit SHA at a glance. Without
+          # this check, a submodule that had been flattened into a real
+          # directory (a botched merge does this) would send a tree hash to the
+          # release lookup, which would report "not a published release" and
+          # send whoever reads it hunting for a versioning problem that does not
+          # exist. Name the real cause instead.
+          mode="$(printf '%s' "${entry}" | awk '{ print $1 }')"
+          objtype="$(printf '%s' "${entry}" | awk '{ print $2 }')"
+          sha="$(printf '%s' "${entry}" | awk '{ print $3 }')"
+
+          if [ "${mode}" != "160000" ] || [ "${objtype}" != "commit" ]; then
+            echo "::error title=DocEngine pin guard::The path 'docengine' is not a submodule in this pull request (found mode ${mode}, type ${objtype}). It should be a submodule entry recording a single DocEngine commit."
+            exit 1
+          fi
+
+          echo "sha=${sha}" >> "${GITHUB_OUTPUT}"
+          echo "Pinned DocEngine commit: ${sha}"
+
+      - name: Check that the pin is a published release
+        env:
+          # ENGINE_REPO is set once at the job level above, so both steps agree
+          # on which repository is being validated.
+          PINNED_SHA: ${{ steps.pin.outputs.sha }}
+          # Each host defines exactly one of these two secrets; the fallback
+          # is what keeps this file byte-identical across hosts. See WHEN THE
+          # TOKEN IS MISSING at the top of this file.
+          READ_TOKEN: ${{ secrets.ORG_REPO_READ_ONLY || secrets.DOCENGINE_TOKEN }}
+          # Fail closed on a missing token except on Dependabot's own runs;
+          # see WHEN THE TOKEN IS MISSING at the top of this file.
+          REQUIRE_TOKEN: ${{ github.actor != 'dependabot[bot]' }}
+        run: .github/scripts/docengine-pin-guard.sh

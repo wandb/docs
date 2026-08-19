@@ -1,0 +1,115 @@
+---
+title: Weave 프롬프트를 컬렉션에 연결
+---
+
+Weave 프롬프트 객체를 컬렉션에 연결하여 W&amp;B Registry에서 AI 프롬프트를 추적하고 버전을 관리할 수 있습니다. 프롬프트 객체를 [컬렉션](/ko/models/registry/create_collection)에 *연결*하면 프롬프트 버전이 [비공개 프로젝트 수준 범위에서 공유 조직 수준 범위로](/ko/models/registry/create_registry#visibility-types) 이동합니다.
+
+<Note>
+  시작하기 전에 다음 사항을 확인하세요:
+
+  * 컬렉션에서 허용하는 객체 유형. 컬렉션 유형에 대한 자세한 내용은 [컬렉션 만들기](./create_collection)의 &quot;Collection types&quot;를 참조하세요.
+  * 컬렉션이 속한 레지스트리가 이미 존재하는지 여부. 레지스트리가 존재하는지 확인하려면 [Registry App으로 이동하여](/ko/models/registry/search_registry) 레지스트리 이름을 검색하세요.
+</Note>
+
+AI 프롬프트를 추적하고 관리하려면 Weave Python SDK를 사용하세요. Weave Python SDK를 사용하면 프롬프트 객체를 생성하고 게시한 뒤, 레지스트리의 컬렉션에 연결할 수 있습니다.
+
+다음 단계에서는 레지스트리의 컬렉션에 프롬프트를 연결하는 방법을 설명합니다:
+
+1. `weave.init()`로 Weave 클라이언트를 초기화합니다.
+2. [`weave.StringPrompt()`](/ko/weave/reference/python-sdk#class-stringprompt)와 같은 기본 제공 프롬프트 클래스를 사용해 Weave 프롬프트 객체를 생성합니다.
+   <Tip>
+     `weave.StringPrompt`는 system 프롬프트, 사용자 프롬프트 또는 재사용 가능한 텍스트 템플릿과 같은 single-string 프롬프트용 기본 제공 프롬프트 클래스입니다. Weave에서 프롬프트 객체를 만드는 방법과 지원되는 프롬프트 유형에 대한 자세한 내용은 [프롬프트 객체 만들기](/ko/weave/guides/core-types/prompts)를 참조하세요.
+   </Tip>
+3. [`weave.publish()`](/ko/weave/reference/python-sdk#method-publish)를 사용해 프롬프트를 Weave에 게시합니다.
+4. [`weave_client.link_prompt_to_registry()`](/ko/weave/reference/python-sdk/trace/weave_client#method-link_prompt_to_registry)를 사용해 게시된 프롬프트 버전을 레지스트리의 컬렉션에 연결합니다. 대상 컬렉션 경로를 `target_path` 매개변수에 전달하세요. 경로는 `wandb-registry-` 접두사, 레지스트리 이름, 컬렉션 이름으로 구성됩니다:
+   ```text
+   wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}
+   ```
+
+다음 코드 스니펫을 Python 스크립트에 복사해 붙여넣고, `<>`로 둘러싸인 자리 표시자 값을 사용자 환경에 맞게 바꾸세요:
+
+```python
+import weave
+
+# Weave 클라이언트 초기화
+weave_client = weave.init(project="<project>")
+
+prompt = "<You are a helpful assistant...>"
+
+# Weave에 프롬프트 객체 게시
+weave_prompt_ref = weave.publish(
+    obj=weave.StringPrompt(prompt),
+    name="<prompt_name>",
+)
+
+# 프롬프트 버전을 연결할 컬렉션 및 레지스트리 지정
+REGISTRY_NAME = "<registry_name>"
+COLLECTION_NAME = "<collection_name>"
+registry_target = f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
+
+# 게시된 프롬프트 버전을 지정된 레지스트리의 컬렉션에 연결
+weave_client.link_prompt_to_registry(
+    prompt=weave_prompt_ref,
+    target_path=registry_target,
+)
+```
+
+<div id="view-linked-prompts-in-a-registry">
+  ## 레지스트리에서 연결된 프롬프트 보기
+</div>
+
+1. W&amp;B Registry로 이동합니다.
+2. 프롬프트를 연결한 레지스트리의 이름을 선택합니다.
+3. 컬렉션 이름을 선택합니다.
+4. 프롬프트 버전 목록에서 액세스하려는 버전을 선택합니다. 버전 번호는 연결된 각 프롬프트 버전에 `v0`부터 시작해 순차적으로 부여됩니다.
+5. 프롬프트 버전의 세부 정보를 보려면 해당 버전을 클릭합니다. 이 페이지의 탭에서 해당 버전의 Overview, prompt, use를 볼 수 있습니다.
+
+<div id="use-a-prompt-linked-to-a-registry">
+  ## 레지스트리에 연결된 프롬프트 사용
+</div>
+
+`weave.get()` 메서드를 사용해 레지스트리에 연결된 프롬프트 객체를 조회할 수 있습니다. 프롬프트는 별칭 또는 버전 숫자로 가져올 수 있습니다. 다음 코드 스니펫은 별칭과 버전 숫자를 사용해 프롬프트를 가져오는 방법을 보여줍니다.
+
+별칭으로 프롬프트 객체를 가져오려면 다음 URI 경로를 사용하세요:
+
+```text
+registry:///{ORG}/{REGISTRY_NAME}/{COLLECTION_NAME}:{VERSION-OR-ALIAS}
+```
+
+`<>`로 묶인 플레이스홀더 값을 사용자 환경에 맞는 값으로 바꾸세요:
+
+<Tabs>
+  <Tab title="별칭으로 가져오기">
+    ```python
+    # 별칭으로 가져오기
+    URI_path = f"registry:///{ORG}/{REGISTRY_NAME}/{COLLECTION_NAME}:{ALIAS}"
+
+    # 별칭으로 가져오기
+    prompt = weave.get(URI_path)
+
+    # 프롬프트 사용
+    print(prompt.content)
+    ```
+  </Tab>
+
+  <Tab title="버전으로 가져오기">
+    ```python
+    # 버전으로 가져오기
+    URI_path = f"registry:///{ORG}/{REGISTRY_NAME}/{COLLECTION_NAME}:{VERSION}"
+
+    # 버전으로 가져오기
+    prompt = weave.get(URI_path)
+
+    # 프롬프트 사용
+    print(prompt.content)
+    ```
+  </Tab>
+</Tabs>
+
+W&amp;B는 프롬프트 객체를 가져오는 URI 경로와 샘플 코드를 자동으로 생성합니다. 샘플 코드를 보려면 다음 단계를 따르세요.
+
+1. W&amp;B Registry로 이동합니다.
+2. 프롬프트를 연결한 레지스트리의 이름을 선택합니다.
+3. 컬렉션 이름을 선택합니다.
+4. 프롬프트 버전 목록에서 액세스하려는 버전을 선택합니다.
+5. **Use** 탭을 선택해 별칭 또는 버전 번호로 프롬프트를 가져오는 샘플 코드를 확인합니다.

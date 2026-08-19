@@ -4,7 +4,7 @@ description: "Send OTLP trace data from any OpenTelemetry pipeline to the Weave 
 keywords: ["OTLP", "OpenTelemetry", "GenAI semantic conventions", "agents endpoint", "no SDK"]
 ---
 
-W&B Weave agent observability is built on [OpenTelemetry (OTel)](https://opentelemetry.io/docs/concepts/). Weave provides a dedicated OTLP endpoint that ingests spans into the **Agents** view. If your agent already emits OTel spans, you can send them to Weave by pointing your existing OTel pipeline at the endpoint without installing the Weave SDK.
+W&B Weave agent observability is built on [OpenTelemetry (OTel)](https://opentelemetry.io/docs/concepts/) and provides a dedicated OTLP endpoint that ingests spans into the **Agents** view. This means that you can quickly redirect your OTel-instrumented application's spans to Weave by swapping your OTel exporter's current endpoint configuration with Weave's endpoint configuration. You do not need to install the Weave SDK to do this.
 
 This page covers how to authenticate with and send spans to the endpoint.
 

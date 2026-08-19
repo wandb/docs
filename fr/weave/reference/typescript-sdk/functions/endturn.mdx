@@ -3,53 +3,43 @@ title: "endTurn"
 description: "Référence du SDK TypeScript"
 ---
 
-<div id="endturn">
-  # endTurn
-</div>
+> **endTurn**(`opts?`): `void`
 
-▸ **endTurn**(`opts?`): `void`
+Termine le tour de conversation actuel. Ne fait rien si aucun tour de conversation n’est actif.
 
-Met fin au tour de conversation en cours. Sans effet si aucun tour de conversation n’est actif.
+Défini dans : [src/genai/api.ts:183](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L183)
 
 <div id="parameters">
-  #### Paramètres
+  ## Paramètres
 </div>
 
-| Nom     | Type             |
-| :------ | :--------------- |
-| `opts?` | `SpanEndOptions` |
+<div id="opts">
+  ### opts?
+</div>
+
+`SpanEndOptions`
 
 <div id="returns">
-  #### Renvoie
+  ## Renvoie
 </div>
 
 `void`
 
-`Exemple`
+<div id="examples">
+  ## Exemples
+</div>
 
 ```ts twoslash
 // @noErrors
 weave.endTurn();
 ```
 
-`Exemple`
-
 ```ts twoslash
 // @noErrors
 weave.endTurn({endTime: new Date('2026-05-29T10:00:01.700Z')});
 ```
 
-`Exemple`
-
 ```ts twoslash
 // @noErrors
 weave.endTurn({error: new Error('agent loop diverged')});
 ```
-
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[src/genai/api.ts:183](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L183)
-
-***

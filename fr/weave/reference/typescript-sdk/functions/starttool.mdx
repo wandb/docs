@@ -3,11 +3,7 @@ title: "startTool"
 description: "Référence du SDK TypeScript"
 ---
 
-<div id="starttool">
-  # startTool
-</div>
-
-▸ **startTool**(`opts`): [`Tool`](../classes/tool)
+> **startTool**(`opts`): [`Tool`](../interfaces/tool)
 
 Démarre un span d&#39;outil. Résolution du parent (correspond au principe de conception « plat par
 défaut, hiérarchique si vous imbriquez ») :
@@ -17,21 +13,27 @@ défaut, hiérarchique si vous imbriquez ») :
 
 Lève une exception si aucun tour de conversation ni aucun LLM n&#39;est actif.
 
+Défini dans : [src/genai/api.ts:110](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L110)
+
 <div id="parameters">
-  #### Paramètres
+  ## Paramètres
 </div>
 
-| Nom    | Type                                 |
-| :----- | :----------------------------------- |
-| `opts` | [`ToolInit`](../interfaces/toolinit) |
+<div id="opts">
+  ### opts
+</div>
+
+[`ToolInit`](../interfaces/toolinit)
 
 <div id="returns">
-  #### Renvoie
+  ## Renvoie
 </div>
 
-[`Tool`](../classes/tool)
+[`Tool`](../interfaces/tool)
 
-`Exemple`
+<div id="examples">
+  ## Exemples
+</div>
 
 ```ts twoslash
 // @noErrors
@@ -41,8 +43,6 @@ weave.startTool({
   toolCallId: 'call_t1',
 });
 ```
-
-`Exemple`
 
 ```ts twoslash
 // @noErrors
@@ -53,11 +53,3 @@ weave.startTool({
   startTime: new Date('2026-05-29T10:00:00.800Z'),
 });
 ```
-
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[src/genai/api.ts:110](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L110)
-
-***

@@ -4,7 +4,7 @@ title: wandb beta sync
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/beta.py#L51" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/beta.py#L51" />
 
 <div id="usage">
   ## Utilisation
@@ -20,9 +20,8 @@ sync [OPTIONS] [PATHS]...
 
 Téléversez les fichiers .wandb spécifiés par PATHS.
 
-Il s’agit d’une réimplémentation bêta de `wandb sync`.
-Elle n’est pas complète sur le plan fonctionnel, son fonctionnement n’est pas garanti et elle peut évoluer
-de manière non rétrocompatible dans n’importe quelle version de wandb.
+Il s’agit d’une amélioration de `wandb sync`, avec des fonctionnalités supplémentaires ainsi qu’une meilleure
+expérience utilisateur et de meilleures performances. Il sera finalement intégré à `wandb sync`.
 
 PATHS peut inclure des fichiers .wandb, des répertoires de run contenant des fichiers .wandb,
 ainsi que des répertoires &quot;wandb&quot; contenant des répertoires de run.
@@ -66,6 +65,8 @@ wandb beta sync ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
 | `--job-type`     | STR       | Redéfinition du type de job pour tous les runs en cours de synchronisation. **Par défaut** :                                                                                                                                                                                                                                                                                |
 | `--replace-tags` | STR       | Renommer les tags au format &#39;old1=new1,old2=new2&#39;. **Par défaut** :                                                                                                                                                                                                                                                                                                 |
 | `--skip-synced`  | BOOL Flag | Ignorer les runs déjà synchronisés avec cette commande. **Par défaut** : True                                                                                                                                                                                                                                                                                               |
+| `--skip-online`  | BOOL Flag | Ignorer les runs en ligne. **Par défaut** : True                                                                                                                                                                                                                                                                                                                            |
 | `--dry-run`      | BOOL Flag | Afficher ce qui se passerait sans rien téléverser. **Par défaut** : False                                                                                                                                                                                                                                                                                                   |
+| `--yes`          | BOOL Flag | Ignorer la confirmation. **Par défaut** : False                                                                                                                                                                                                                                                                                                                             |
 | `-v, --verbose`  | BOOL Flag | Afficher plus d&#39;informations. **Par défaut** : False                                                                                                                                                                                                                                                                                                                    |
 | `-n`             | INT       | Nombre maximal de runs à synchroniser simultanément. Lorsque vous synchronisez plusieurs fichiers faisant partie du même run, les fichiers sont synchronisés séquentiellement dans l&#39;ordre de leur heure de début, indépendamment de ce paramètre. Cela se produit pour les runs repris ou lors de l&#39;utilisation du paramètre --id. **Par défaut** : 5              |
