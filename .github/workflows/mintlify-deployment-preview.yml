@@ -9,6 +9,10 @@ permissions:
   issues: write
   deployments: read
 
+concurrency:
+  group: mintlify-preview-${{ github.event.deployment.ref }}
+  cancel-in-progress: true
+
 jobs:
   update-preview-links:
     # Only run when Mintlify deployment succeeds
@@ -218,283 +222,163 @@ jobs:
               return `${previewUrl}/${urlPath}`;
             }
             
-            // Helper function to create file table rows
-            function createFileTable(files, maxShow = 10, showPreview = true, isImage = false) {
-              let table = showPreview ? 
-                `| File | Preview |\n|------|----------|\n` :
-                `| File |\n|------|\n`;
-              
-              const toShow = files.slice(0, maxShow);
-              toShow.forEach(file => {
-                if (showPreview) {
-                  if (isDocPageWithPreview(file)) {
-                    const title = titleFromPath(file);
-                    const url = urlFromPath(file);
-                    table += `| \`${file}\` | [${title}](${url}) |\n`;
-                  } else if (isImage) {
-                    // Images can also be previewed directly
-                    const title = titleFromPath(file);
-                    const url = `${previewUrl}/${file}`;
-                    table += `| \`${file}\` | [View ${title}](${url}) |\n`;
-                  } else {
-                    table += `| \`${file}\` | - |\n`;
-                  }
-                } else {
-                  table += `| \`${file}\` |\n`;
-                }
+            // Delimited block markers so our content can live inside Mintlify's deploy comment.
+            const START = '<!-- wandb-preview-links:start -->';
+            const END = '<!-- wandb-preview-links:end -->';
+
+            // Collect changed doc pages (added + modified + renamed) that qualify for a Mintlify preview.
+            const docPages = [];
+            const seenPages = new Set();
+            const addPage = p => { if (isDocPageWithPreview(p) && !seenPages.has(p)) { seenPages.add(p); docPages.push(p); } };
+            added.forEach(addPage);
+            modified.forEach(addPage);
+            renamed.forEach(r => addPage(r.new));
+
+            // Collect changed images (added + modified + renamed) that are not doc pages.
+            const images = [];
+            const seenImages = new Set();
+            const addImage = p => { if (!isDocPageWithPreview(p) && isImageFile(p) && !seenImages.has(p)) { seenImages.add(p); images.push(p); } };
+            added.forEach(addImage);
+            modified.forEach(addImage);
+            renamed.forEach(r => addImage(r.new));
+
+            // Collect other non-page, non-image files.
+            const others = [];
+            const seenOther = new Set();
+            const addOther = p => { if (!isDocPageWithPreview(p) && !isImageFile(p) && !seenOther.has(p)) { seenOther.add(p); others.push(p); } };
+            added.forEach(addOther);
+            modified.forEach(addOther);
+            renamed.forEach(r => addOther(r.new));
+
+            // Deleted files (no preview).
+            const deleted = removed.slice();
+
+            // Deployment identity for the footer, stable per deployment so the no-op guard is meaningful.
+            const shortSha = context.payload.deployment.sha.substring(0, 7);
+            const deployTs = (context.payload.deployment_status && context.payload.deployment_status.created_at)
+              ? context.payload.deployment_status.created_at
+              : new Date().toISOString();
+            const timestamp = new Date(deployTs).toISOString().replace('T', ' ').split('.')[0] + ' UTC';
+
+            // Build the slim, delimited preview-links block.
+            const MAX_ROWS = 15;
+            let block = `${START}\n`;
+            block += `**📄 [Preview this PR's docs](${previewUrl})** · \`${shortSha}\`\n`;
+
+            if (docPages.length > 0) {
+              block += `\n| Changed page | Preview |\n| --- | --- |\n`;
+              docPages.slice(0, MAX_ROWS).forEach(p => {
+                block += `| ${titleFromPath(p)} | [view](${urlFromPath(p)}) |\n`;
               });
-              
-              if (files.length > maxShow) {
-                table += showPreview ? 
-                  `| *... and ${files.length - maxShow} more files* | |\n` :
-                  `| *... and ${files.length - maxShow} more files* |\n`;
-              }
-              
-              return table;
-            }
-            
-            // Build comment body
-            let body = `<!-- mintlify-preview-links -->\n`;
-            body += `## 📚 Mintlify Preview Links\n\n`;
-            body += `🔗 **[View Full Preview](${previewUrl})**\n\n`;
-            
-            const maxPerSubcategory = 10;
-            let hasChanges = false;
-            
-            // Renamed/Moved files
-            if (renamed.length > 0) {
-              hasChanges = true;
-              body += `### 🔄 Renamed/Moved (${renamed.length} total)\n\n`;
-              
-              const pagesRenamed = renamed.filter(r => isDocPageWithPreview(r.new));
-              const imagesRenamed = renamed.filter(r => !pagesRenamed.some(p => p.new === r.new) && isImageFile(r.new));
-              const otherRenamed = renamed.filter(r => !pagesRenamed.some(p => p.new === r.new) && !imagesRenamed.some(i => i.new === r.new));
-              
-              // Pages (with preview links)
-              if (pagesRenamed.length > 0) {
-                body += `#### 📄 Pages (${pagesRenamed.length})\n\n`;
-                body += `| Old Path → New Path | Preview |\n|---------------------|----------|\n`;
-                const toShow = pagesRenamed.slice(0, maxPerSubcategory);
-                toShow.forEach(({old: oldPath, new: newPath}) => {
-                  const title = titleFromPath(newPath);
-                  const url = urlFromPath(newPath);
-                  body += `| \`${oldPath}\`<br>→ \`${newPath}\` | [${title}](${url}) |\n`;
-                });
-                if (pagesRenamed.length > maxPerSubcategory) {
-                  body += `| *... and ${pagesRenamed.length - maxPerSubcategory} more pages* | |\n`;
-                }
-                body += `\n`;
-              }
-              
-              // Images (with preview links)
-              if (imagesRenamed.length > 0) {
-                if (imagesRenamed.length > 5) {
-                  body += `<details>\n<summary>🖼️ Images (${imagesRenamed.length})</summary>\n\n`;
-                } else {
-                  body += `#### 🖼️ Images (${imagesRenamed.length})\n\n`;
-                }
-                body += `| Old Path → New Path | Preview |\n|---------------------|----------|\n`;
-                const toShow = imagesRenamed.slice(0, maxPerSubcategory);
-                toShow.forEach(({old: oldPath, new: newPath}) => {
-                  const title = titleFromPath(newPath);
-                  const url = `${previewUrl}/${newPath}`;
-                  body += `| \`${oldPath}\`<br>→ \`${newPath}\` | [View ${title}](${url}) |\n`;
-                });
-                if (imagesRenamed.length > maxPerSubcategory) {
-                  body += `| *... and ${imagesRenamed.length - maxPerSubcategory} more images* | |\n`;
-                }
-                if (imagesRenamed.length > 5) {
-                  body += `\n</details>\n`;
-                }
-                body += `\n`;
-              }
-              
-              // Other files (no preview)
-              if (otherRenamed.length > 0) {
-                body += `<details>\n<summary>⚙️ Other (${otherRenamed.length})</summary>\n\n`;
-                body += `| Old Path → New Path |\n|---------------------|\n`;
-                const toShow = otherRenamed.slice(0, maxPerSubcategory);
-                toShow.forEach(({old: oldPath, new: newPath}) => {
-                  body += `| \`${oldPath}\`<br>→ \`${newPath}\` |\n`;
-                });
-                if (otherRenamed.length > maxPerSubcategory) {
-                  body += `| *... and ${otherRenamed.length - maxPerSubcategory} more files* |\n`;
-                }
-                body += `\n</details>\n\n`;
+              if (docPages.length > MAX_ROWS) {
+                block += `| … and ${docPages.length - MAX_ROWS} more | |\n`;
               }
             }
-            
-            // Added files
-            if (added.length > 0) {
-              hasChanges = true;
-              body += `### ✨ Added (${added.length} total)\n\n`;
-              
-              const pagesAdded = added.filter(f => isDocPageWithPreview(f));
-              const imagesAdded = added.filter(f => !pagesAdded.includes(f) && isImageFile(f));
-              const otherAdded = added.filter(f => !pagesAdded.includes(f) && !imagesAdded.includes(f));
-              
-              // Pages (with preview links)
-              if (pagesAdded.length > 0) {
-                body += `#### 📄 Pages (${pagesAdded.length})\n\n`;
-                body += createFileTable(pagesAdded, maxPerSubcategory, true, false);
-                body += `\n`;
+
+            const otherCount = images.length + deleted.length + others.length;
+            if (otherCount > 0) {
+              block += `\n<details><summary>Other changes (${otherCount})</summary>\n\n`;
+              if (images.length > 0) {
+                const imgSummary = images.length <= 5
+                  ? images.map(i => `\`${i}\``).join(', ')
+                  : `${images.length} files`;
+                block += `- Images: ${imgSummary}\n`;
               }
-              
-              // Images (with preview links)
-              if (imagesAdded.length > 0) {
-                if (imagesAdded.length > 5) {
-                  body += `<details>\n<summary>🖼️ Images (${imagesAdded.length})</summary>\n\n`;
-                } else {
-                  body += `#### 🖼️ Images (${imagesAdded.length})\n\n`;
-                }
-                body += createFileTable(imagesAdded, maxPerSubcategory, true, true);
-                if (imagesAdded.length > 5) {
-                  body += `</details>\n`;
-                }
-                body += `\n`;
+              if (deleted.length > 0) {
+                block += `- Deleted: ${deleted.map(d => `\`${d}\``).join(', ')}\n`;
               }
-              
-              // Other files (no preview)
-              if (otherAdded.length > 0) {
-                body += `<details>\n<summary>⚙️ Other (${otherAdded.length})</summary>\n\n`;
-                body += createFileTable(otherAdded, maxPerSubcategory, false);
-                body += `\n</details>\n\n`;
+              if (others.length > 0) {
+                block += `- Other: ${others.map(o => `\`${o}\``).join(', ')}\n`;
               }
+              block += `\n</details>\n`;
             }
-            
-            // Changed files (Modified)
-            if (modified.length > 0) {
-              hasChanges = true;
-              body += `### 📝 Changed (${modified.length} total)\n\n`;
-              
-              const pagesModified = modified.filter(f => isDocPageWithPreview(f));
-              const imagesModified = modified.filter(f => !pagesModified.includes(f) && isImageFile(f));
-              const otherModified = modified.filter(f => !pagesModified.includes(f) && !imagesModified.includes(f));
-              
-              // Pages (with preview links)
-              if (pagesModified.length > 0) {
-                body += `#### 📄 Pages (${pagesModified.length})\n\n`;
-                body += createFileTable(pagesModified, maxPerSubcategory, true, false);
-                body += `\n`;
-              }
-              
-              // Images (with preview links)
-              if (imagesModified.length > 0) {
-                if (imagesModified.length > 5) {
-                  body += `<details>\n<summary>🖼️ Images (${imagesModified.length})</summary>\n\n`;
-                } else {
-                  body += `#### 🖼️ Images (${imagesModified.length})\n\n`;
-                }
-                body += createFileTable(imagesModified, maxPerSubcategory, true, true);
-                if (imagesModified.length > 5) {
-                  body += `</details>\n`;
-                }
-                body += `\n`;
-              }
-              
-              // Other files (no preview)
-              if (otherModified.length > 0) {
-                body += `<details>\n<summary>⚙️ Other (${otherModified.length})</summary>\n\n`;
-                body += createFileTable(otherModified, maxPerSubcategory, false);
-                body += `\n</details>\n\n`;
-              }
-            }
-            
-            // Deleted files (no preview links)
-            if (removed.length > 0) {
-              hasChanges = true;
-              body += `### 🗑️ Deleted (${removed.length} total)\n\n`;
-              
-              const pagesRemoved = removed.filter(f => isDocPageWithPreview(f));
-              const imagesRemoved = removed.filter(f => !pagesRemoved.includes(f) && isImageFile(f));
-              const otherRemoved = removed.filter(f => !pagesRemoved.includes(f) && !imagesRemoved.includes(f));
-              
-              body += `<details>\n<summary>View deleted files</summary>\n\n`;
-              
-              // Pages (no preview)
-              if (pagesRemoved.length > 0) {
-                body += `**📄 Pages (${pagesRemoved.length})**\n\n`;
-                body += `| File |\n|------|\n`;
-                const toShow = pagesRemoved.slice(0, maxPerSubcategory);
-                toShow.forEach(file => {
-                  body += `| \`${file}\` |\n`;
-                });
-                if (pagesRemoved.length > maxPerSubcategory) {
-                  body += `| *... and ${pagesRemoved.length - maxPerSubcategory} more pages* |\n`;
-                }
-                body += `\n`;
-              }
-              
-              // Images (no preview)
-              if (imagesRemoved.length > 0) {
-                body += `**🖼️ Images (${imagesRemoved.length})**\n\n`;
-                body += `| File |\n|------|\n`;
-                const toShow = imagesRemoved.slice(0, maxPerSubcategory);
-                toShow.forEach(file => {
-                  body += `| \`${file}\` |\n`;
-                });
-                if (imagesRemoved.length > maxPerSubcategory) {
-                  body += `| *... and ${imagesRemoved.length - maxPerSubcategory} more images* |\n`;
-                }
-                body += `\n`;
-              }
-              
-              // Other files (no preview)
-              if (otherRemoved.length > 0) {
-                body += `**⚙️ Other (${otherRemoved.length})**\n\n`;
-                body += `| File |\n|------|\n`;
-                const toShow = otherRemoved.slice(0, maxPerSubcategory);
-                toShow.forEach(file => {
-                  body += `| \`${file}\` |\n`;
-                });
-                if (otherRemoved.length > maxPerSubcategory) {
-                  body += `| *... and ${otherRemoved.length - maxPerSubcategory} more files* |\n`;
-                }
-                body += `\n`;
-              }
-              
-              body += `</details>\n\n`;
-            }
-            
-            if (!hasChanges) {
-              body += `*No documentation changes detected in this PR.*\n\n`;
-            }
-            
-            // Add deployment info and timestamp
-            const deploymentSha = context.payload.deployment.sha.substring(0, 7);
-            const timestamp = new Date().toISOString().replace('T', ' ').split('.')[0] + ' UTC';
-            
-            body += `\n---\n`;
-            body += `🤖 *Generated automatically when Mintlify deployment succeeds*\n`;
-            body += `📍 *Deployment: \`${deploymentSha}\` at ${timestamp}*`;
-            
-            // Find existing comment
+
+            block += `\n<sub>Updated ${timestamp} for deployment.</sub>\n`;
+            block += END;
+
+            // Fetch all comments on the PR.
             const comments = await github.paginate(github.rest.issues.listComments, {
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: prNumber,
               per_page: 100,
             });
-            
-            let existingComment = comments.find(c => 
-              c.body && c.body.includes('<!-- mintlify-preview-links -->')
-            );
-            
-            // Create or update comment
-            if (existingComment) {
-              await github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: existingComment.id,
-                body
-              });
-              core.info(`Updated existing comment #${existingComment.id}`);
-            } else {
-              const newComment = await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: prNumber,
-                body
-              });
-              core.info(`Created new comment #${newComment.data.id}`);
+
+            // Extract the existing wandb block (between start/end markers) from a comment body.
+            const blockRe = /<!-- wandb-preview-links:start -->[\s\S]*?<!-- wandb-preview-links:end -->/;
+            const extractBlock = body => {
+              if (!body) return null;
+              const m = body.match(blockRe);
+              return m ? m[0] : null;
+            };
+
+            // Mintlify's own deploy comment (a Bot whose login matches /mintlify/i).
+            const mintlifyComment = comments.find(c => c.user && c.user.type === 'Bot' && /mintlify/i.test(c.user.login));
+            // Any legacy standalone comment previously posted by this workflow (github-actions[bot]).
+            const legacyComment = comments.find(c => c.body && (c.body.includes('<!-- wandb-preview-links:start -->') || c.body.includes('<!-- mintlify-preview-links -->')) && c.user && c.user.type === 'Bot' && /github-actions/i.test(c.user.login));
+
+            // No-op guard: if the target comment already carries an identical block, skip the write.
+            const targetComment = mintlifyComment || legacyComment;
+            const existingBlock = targetComment ? extractBlock(targetComment.body) : null;
+            if (existingBlock !== null && existingBlock === block) {
+              console.log('Preview-links block unchanged; skipping update.');
+              return;
+            }
+
+            let merged = false;
+            if (mintlifyComment) {
+              try {
+                // Strip any prior wandb block (with its leading separator) from Mintlify's comment, then append ours.
+                let newBody = mintlifyComment.body || '';
+                newBody = newBody.replace(/\n*\n---\n+<!-- wandb-preview-links:start -->[\s\S]*?<!-- wandb-preview-links:end -->/, '');
+                newBody = newBody.replace(/\n*<!-- wandb-preview-links:start -->[\s\S]*?<!-- wandb-preview-links:end -->/, '');
+                newBody = newBody.replace(/\s+$/, '');
+                newBody = `${newBody}\n\n---\n\n${block}`;
+                await github.rest.issues.updateComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  comment_id: mintlifyComment.id,
+                  body: newBody,
+                });
+                core.info(`Merged preview links into Mintlify comment #${mintlifyComment.id}`);
+                merged = true;
+
+                // Remove a now-redundant standalone comment of ours to keep the PR to a single comment.
+                if (legacyComment && legacyComment.id !== mintlifyComment.id) {
+                  try {
+                    await github.rest.issues.deleteComment({
+                      owner: context.repo.owner,
+                      repo: context.repo.repo,
+                      comment_id: legacyComment.id,
+                    });
+                    core.info(`Deleted legacy standalone comment #${legacyComment.id}`);
+                  } catch (e) {
+                    core.warning(`Failed to delete legacy comment #${legacyComment.id}: ${e.message}`);
+                  }
+                }
+              } catch (e) {
+                core.warning(`Failed to merge into Mintlify comment: ${e.message}. Falling back to a standalone comment.`);
+                merged = false;
+              }
+            }
+
+            if (!merged) {
+              // Fallback: upsert our own standalone comment, found by the start marker.
+              if (legacyComment) {
+                await github.rest.issues.updateComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  comment_id: legacyComment.id,
+                  body: block,
+                });
+                core.info(`Updated standalone preview-links comment #${legacyComment.id}`);
+              } else {
+                const newComment = await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: prNumber,
+                  body: block,
+                });
+                core.info(`Created standalone preview-links comment #${newComment.data.id}`);
+              }
             }
