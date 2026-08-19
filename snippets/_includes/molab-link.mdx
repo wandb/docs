@@ -1,0 +1,22 @@
+export const MolabLink = ({ url }) => (
+  <a
+    href={url}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="try-product-link"
+  >
+    <span
+      aria-hidden="true"
+      style={{
+        display: "inline-block",
+        width: "20px",
+        height: "20px",
+        flexShrink: 0,
+        backgroundColor: "currentColor",
+        WebkitMask: "url('/icons/molab-logo.svg') center / contain no-repeat",
+        mask: "url('/icons/molab-logo.svg') center / contain no-repeat",
+      }}
+    />
+    Open in molab
+  </a>
+);
