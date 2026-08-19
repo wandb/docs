@@ -66,11 +66,23 @@ Les équipes d’administration et de sécurité peuvent utiliser les journaux d
   ## Déterminer l’utilisateur ayant demandé une URL pré-signée
 </div>
 
-Pour corréler l’activité des URL pré-signées avec des utilisateurs W&amp;B spécifiques lors de l’examen des journaux d’audit, inspectez le paramètre de requête que W&amp;B ajoute à chaque URL. Lorsque W&amp;B renvoie une URL pré-signée, un paramètre de requête dans l’URL contient le nom d’utilisateur à l’origine de la requête :
+Pour corréler l’activité des URL pré-signées avec des utilisateurs W&amp;B spécifiques lors de l’examen des journaux d’audit, inspectez le paramètre de requête spécifique au fournisseur que W&amp;B ajoute à chaque URL :
 
-| Fournisseur de stockage     | Paramètre de requête de l’URL signée |
-| --------------------------- | ------------------------------------ |
-| CoreWeave AI Object Storage | `X-User`                             |
-| AWS S3                      | `X-User`                             |
-| Google Cloud Storage        | `X-User`                             |
-| Azure Blob Storage          | `scid`                               |
+| Fournisseur de stockage     | Paramètre de requête | Valeur                                                |
+| --------------------------- | -------------------- | ----------------------------------------------------- |
+| CoreWeave AI Object Storage | `X-User`             | nom d’utilisateur W&amp;B                             |
+| AWS S3                      | `X-User`             | nom d’utilisateur W&amp;B                             |
+| Google Cloud Storage        | `X-User`             | nom d’utilisateur W&amp;B                             |
+| Azure Blob Storage          | `scid`               | UUID déterministe dérivé du nom d’utilisateur W&amp;B |
+
+<div id="correlate-azure-blob-storage-activity-with-a-user">
+  ### Mettre en corrélation l’activité Azure Blob Storage avec un utilisateur
+</div>
+
+Azure exige que `scid` soit un GUID. W&amp;B dérive donc un UUID stable à partir du nom d’utilisateur, plutôt que d’inclure directement celui-ci. L’UUID ne contient pas le nom d’utilisateur et ne peut pas être décodé. Pour mettre en corrélation l’activité de stockage Azure avec un utilisateur, calculez ou conservez un mappage entre les noms d’utilisateur W&amp;B et les valeurs `scid` correspondantes.
+
+Azure inclut `scid` uniquement dans les URL SAS de délégation utilisateur, que W&amp;B génère lorsque le bucket de stockage est configuré avec une identité managée. Les URL SAS avec clé partagée n’incluent pas `scid`.
+
+<Note>
+  W&amp;B ajoute par défaut des paramètres d’attribution aux URL pré-signées. Pour désactiver l’attribution pour tous les fournisseurs de stockage, définissez la variable d’environnement `GORILLA_BUCKET_ATTRIBUTION_DISABLED` sur `true`. Lorsque l’attribution est désactivée, W&amp;B omet `scid` et `X-User`, et vous ne pouvez pas mettre en corrélation l’activité des URL pré-signées avec des utilisateurs individuels.
+</Note>
