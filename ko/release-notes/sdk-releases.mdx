@@ -1,10 +1,47 @@
 ---
 title: "W&B SDK 릴리스"
-description: "W&B Models와 함께 사용하는 W&B Python SDK의 버전별 새 기능, 버그 수정, 호환성이 깨지는 변경 사항이 포함된 릴리스 노트를 확인하세요."
+description: "새 기능, 버그 수정 및 버전별 주요 변경 사항을 포함한 W&B Python SDK 릴리스 노트를 확인합니다."
 rss: true
 ---
 
-이 페이지에는 W&amp;B Models와 함께 사용하는 W&amp;B Python SDK(`wandb` 패키지)의 릴리스 노트가 포함되어 있습니다. Weave Python SDK(`weave` 패키지)에 대해서는 [Weave SDK releases](/ko/release-notes/weave-sdk-releases)를 참조하세요. W&amp;B Server에 대해서는 [W&amp;B Server release notes](/ko/release-notes/server-releases)를 참조하세요.
+이 페이지에서는 W&amp;B Models와 함께 사용하는 W&amp;B Python SDK(`wandb` 패키지)의 릴리스 노트를 제공합니다. Weave Python SDK(`weave` 패키지)는 [Weave SDK 릴리스](/ko/release-notes/weave-sdk-releases)를 참조하세요. W&amp;B Server는 [W&amp;B Server 릴리스 노트](/ko/release-notes/server-releases)를 참조하세요.
+
+<Update label="0.28.1" description="2026년 7월 16일">
+  ## 주요 변경 사항
+
+  * 이 버전에는 protobuf v5+가 필요하며 protobuf v4 지원이 중단됩니다.
+  * 이 버전에서는 W&amp;B Server v0.69.x 이하와의 호환성이 중단됩니다.
+
+  ## 추가됨
+
+  * `Api().project().sweeps()`는 `Api().runs()`와 동일한 필터 형식을 사용하는 선택적 `filters` 인수를 허용합니다.
+  * 새 Public API 메서드 `Run.stop()`(`wandb.Api().run(...).stop()`)는 W&amp;B App의 **run 중지** 버튼과 마찬가지로 활성 run이 정상적으로 중지되도록 요청합니다.
+  * 새 메서드 `wandb.Api().organization()`은 이름으로 `Organization`을 반환합니다. 이름을 생략하면 현재 기본 조직을 반환합니다.
+
+  ## 변경됨
+
+  * 이제 `wandb sync`는 지원되는 매개변수 조합에 대해 `wandb beta sync`로 라우팅됩니다. 이전 구현을 사용하려면 `--legacy`를 전달하세요.
+  * 이제 `wandb beta sync`는 `wandb sync`와 동일하게 기본적으로 온라인 run을 건너뜁니다. 온라인 run을 포함하려면 `--no-skip-online`을 전달하세요.
+  * 이제 `wandb.sandbox`는 Serverless Sandboxes의 최대 수명을 기본적으로 12시간(`max_lifetime_seconds=43200`)으로 설정합니다. 기본값을 재정의하려면 개별 샌드박스에 `max_lifetime_seconds`를 전달하거나 `SandboxDefaults`에서 설정하세요.
+  * 이제 `wandb.Api().runs()` 및 `wandb.Api().run()`은 run 데이터 로드가 완료되기 전에 run이 삭제되는 경우처럼 run 데이터를 불러오지 못하면 `RunNotFoundError`를 발생시킵니다.
+  * `run.save()`는 새 `glob` 인수를 허용합니다. `glob=False`를 전달하면 glob 확장(`*`, `?`, `[...]`)을 비활성화하고 경로를 리터럴 경로로 처리합니다. 파일 이름에 glob 메타문자가 포함된 경우에 유용합니다.
+  * 이제 임시 Unix 소켓 파일과 디렉터리는 종료 시 제거됩니다.
+  * protobuf v4는 더 이상 지원되지 않습니다.
+
+  ## 제거됨
+
+  * v0.70.0 이전 W&amp;B Server 릴리스에서 아티팩트 파일을 다운로드하기 위한 레거시 폴백 구현을 제거했습니다. 이러한 서버에서는 `Artifact.files()` 및 `Artifact.download()`가 더 이상 어떤 아티팩트에도 작동하지 않으며, `Artifact.get_entry()` 및 `Artifact.get_path()`를 통한 파일 다운로드는 더 이상 비참조 아티팩트에 작동하지 않습니다. 이러한 오퍼레이션을 계속 사용하려면 W&amp;B Server를 v0.70.0 이상으로 업그레이드하세요.
+  * v0.70.0 이전 W&amp;B Server 릴리스에서 이름으로 아티팩트를 가져오기 위한 레거시 폴백 구현을 제거했습니다. 이러한 서버에서는 `wandb.Api().artifact()` 및 경로로 아티팩트를 가져오는 다른 메서드가 더 이상 작동하지 않습니다. 이러한 오퍼레이션을 계속 사용하려면 W&amp;B Server를 v0.70.0 이상으로 업그레이드하세요.
+  * `GitPython` 종속성을 제거했습니다. 이제 Git 메타데이터는 `git` 실행 파일을 직접 호출하여 수집됩니다. `GIT_PYTHON_GIT_EXECUTABLE` 환경 변수는 실행 파일의 위치를 찾는 데 계속 적용됩니다.
+
+  ## 수정됨
+
+  * 별칭을 추가하는 경우처럼 연결된 레지스트리 아티팩트를 저장할 때 소스 프로젝트에 대한 쓰기 액세스 권한이 없어도 더 이상 실패하지 않습니다.
+  * `Run.log()`로 로깅된 `np.float16` 및 `np.float32` `NaN` 값은 이제 자동으로 삭제되지 않고 `NaN`으로 기록되며, `np.float64` 및 기본 `float`의 동작과 일치합니다.
+  * 이제 `Run.upload_file()`(`wandb.Api().run(...)`을 통해)은 Self-Managed 배포에서 업로드한 파일을 run에 등록합니다. 이전에는 파일의 바이트가 업로드되었지만 커밋되지 않았으므로 객체 스토어 알림이 없는 배포에서는 파일이 run에 표시되지 않았습니다.
+  * 이제 스윕 에이전트는 스윕이 삭제되거나 `Api()`가 404 오류를 반환할 때 종료하기 전에 진행 중인 run이 완료되도록 합니다.
+  * SDK v0.25.1에서 도입된 교착 상태를 수정했습니다. 이러한 교착 상태는 기본적으로 `fork` `multiprocessing` 시작 방법을 사용하는 Python 3.14 이전 버전에서 PyTorch를 사용할 때 보고되었습니다. 일부 `wandb.Api` 기능을 사용할 때 가비지 수집 중에도 발생할 수 있었습니다.
+</Update>
 
 <Update label="0.28.0" description="2026년 6월 22일">
   ## 주요 변경 사항
@@ -17,7 +54,7 @@ rss: true
     * 미디어 패널이 Kitty 프로토콜을 지원하는 터미널에서 고해상도 이미지 렌더링을 지원하며, 지원되지 않는 경우 ANSI 폴백을 사용합니다.
     * 미디어 패널이 동기화 스크러빙을 지원합니다. `l`을 눌러 스크러빙을 연결한 다음 화살표 키, Home, End 키로 이동하면 통합된 step 타임라인 위에서 공유 커서가 움직이고 모든 이미지 타일이 이에 맞춰 따라갑니다.
     * `wandb leet [run-url]`을 통한 기본적인 원격 run 지원.
-  * 다음 페이지네이션된 아티팩트 및 레지스트리 API 메서드는 이제 선택적 `order` string을 키워드 인수로 받을 수 있습니다: `Api.artifacts()`, `Api.artifact_collections()`, `Api.registries()`, `Api.registries().collections()`, `Registry.collections()`.
+  * 다음 페이지 매김된 아티팩트 및 레지스트리 API 메서드는 이제 선택적 `order` string을 키워드 인수로 받을 수 있습니다: `Api.artifacts()`, `Api.artifact_collections()`, `Api.registries()`, `Api.registries().collections()`, `Registry.collections()`.
 
   ## Changed
 
@@ -35,7 +72,7 @@ rss: true
   * `$TMPDIR`이 없거나 쓰기 불가능할 때 조용히 실패하던 문제를 해결하기 위해, 이제 `WandbLogger` 또는 `run.log_artifact`를 사용해 아티팩트를 로깅하면 매니페스트 파일을 OS 임시 디렉터리가 아니라 아티팩트의 스테이징 디렉터리에 기록합니다.
   * 공유 모드(`wandb.init(mode="shared")`)에서 코드 저장이 활성화된 상태로 아티팩트를 로깅할 때 오류가 발생하던 버그를 수정했습니다.
   * 이제 `diff.patch` 파일을 만들 때 기본적으로 `git_root` 설정을 사용하며, 없으면 `root_dir` 설정을 대신 사용합니다.
-  * 이제 GPU, CPU, 전력, 온도와 같은 Apple system metrics가 Apple M5 Mac에서 수집됩니다.
+  * 이제 GPU, CPU, 전력, 온도와 같은 Apple 시스템 메트릭이 Apple M5 Mac에서 수집됩니다.
   * 이제 `wandb.Api().run(...).download_history_exports`를 사용해 이력을 내보낼 때 파일 다운로드 진행률이 표시됩니다.
   * 0.27.1에서 도입된 회귀 문제를 수정하여, 활성 run처럼 이력은 존재하지만 Parquet으로 내보내지지 않은 run에 대해 `Run.scan_history()`가 행을 반환하지 않던 문제를 해결했습니다.
 </Update>
@@ -47,25 +84,25 @@ rss: true
 </Update>
 
 <Update label="0.27.1" description="2026년 6월 4일">
-  ## 추가됨
+  ## Added
 
-  * 이제 Automations API는 아티팩트 태그, 컬렉션 태그, 아티팩트 연결 해제 이벤트를 지원합니다.
+  * 이제 Automations API가 아티팩트 태그, 컬렉션 태그 및 아티팩트 연결 해제 이벤트를 지원합니다.
 
-  ## 변경됨
+  ## Changed
 
   * 이제 `wandb.Api` GraphQL 오퍼레이션은 레거시 Python GraphQL 클라이언트 대신 `wandb-core`를 통해 라우팅됩니다.
-    * 이제 `wandb.Api` GraphQL 오퍼레이션 실패 시 `requests` HTTP 예외 대신 `WandbApiFailedError`가 발생합니다.
-  * `Run.scan_history()`는 이제 사용 가능한 경우 내보낸 parquet 이력에서 조회하므로, 이력이 큰 run의 처리량을 크게 개선할 수 있습니다. 이 기능은 SDK `v0.23.1`에서 `beta_scan_history`로 도입되었습니다.
+    * 이제 `wandb.Api` GraphQL 오퍼레이션의 실패는 `requests` HTTP 예외 대신 `WandbApiFailedError`를 발생시킵니다.
+  * 이제 `Run.scan_history()`는 사용 가능한 경우 내보낸 Parquet 이력에서 읽어오므로, 이력이 큰 run의 처리량을 크게 개선할 수 있습니다. 이 기능은 SDK `v0.23.1`에서 `beta_scan_history`로 도입되었습니다.
 
-  ## 제거됨
+  ## Removed
 
-  * 지원되지 않는 `wandb.apis.importers` API가 제거되었습니다.
-  * 레거시 autologging 및 Tracing API를 포함한 오래된 OpenAI, Cohere, LangChain LLM 인테그레이션이 제거되었습니다.
-  * 사용 중단된 Keras `WandbCallback`와 레거시 `wandb.integration.yolov8` 콜백 패키지가 제거되었습니다.
+  * 지원되지 않는 `wandb.apis.importers` API를 제거했습니다.
+  * 레거시 자동 로깅 및 Tracing API를 포함하여 오래된 OpenAI, Cohere 및 LangChain LLM 인테그레이션을 제거했습니다.
+  * 사용 중단된 Keras `WandbCallback` 및 레거시 `wandb.integration.yolov8` callback 패키지를 제거했습니다.
 
-  ## 수정됨
+  ## Fixed
 
-  * 이제 `wandb.sandbox`는 placement, GPU, egress에 대해 잘못된 인수 값을 거부합니다.
+  * 이제 `wandb.sandbox`는 placement, GPU 및 egress에 유효하지 않은 인수 값을 거부합니다.
 </Update>
 
 <Update label="0.27.0" description="2026년 5월 13일">

@@ -1,0 +1,65 @@
+---
+title: "Weave Op을 사용해 자체 버킷(BYOB)의 미디어 레퍼런스하기"
+sidebarTitle: "자체 버킷의 미디어 레퍼런스하기"
+description: "바이트를 Weave로 임포트하지 않고 URI만 로깅해, 자체 클라우드 버킷에 저장된 이미지와 비디오를 Weave 트레이스에서 렌더링합니다."
+keywords: ["BYOB", "레퍼런스 버킷", "S3", "사전 서명된 URL", "미디어", "외부 저장소"]
+---
+
+import ByobReferenceSetup from "/snippets/ko/_includes/byob-reference-setup.mdx";
+
+<ByobReferenceSetup />
+
+<div id="log-a-media-reference-using-weave-op-function-tracing">
+  ## Weave Op 함수 Tracing으로 미디어 레퍼런스 로깅하기
+</div>
+
+트레이스에 URI를 string 값으로 로깅하세요. 값이 버킷 URI인 모든 string 필드는 렌더링됩니다. 바이트는 버킷에 그대로 유지되므로 콘텐츠 annotation은 필요하지 않습니다. 다음 예시 Op는 이미 버킷에 있는 이미지에 캡션을 생성하고, 각 URI를 해당 캡션과 함께 로깅합니다. `[YOUR-TEAM]`, `[YOUR-PROJECT]`, `[YOUR-BUCKET]`를 사용자 환경에 맞는 값으로 바꾸세요.
+
+<Tip>
+  에이전트형 애플리케이션에 레퍼런스 미디어를 추가하는 경우에는 [agent spans의 레퍼런스 미디어](/ko/weave/guides/tracking/agents-byob-references)를 대신 참조하세요.
+</Tip>
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    import weave
+
+    weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
+
+    @weave.op
+    def caption_image(image_uri: str) -> dict:
+        caption = my_captioner(image_uri)  # 사용자 모델 또는 API call.
+        # image_uri는 값에 따라 인라인으로 렌더링되며, 필드 이름은 임의입니다.
+        # 또한 확장자(여기서는 .png)가 이미지인지 비디오인지 결정합니다.
+        return {"image": image_uri, "caption": caption}
+
+    caption_image("s3://[YOUR-BUCKET]/photos/cat.png")
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript lines
+    import * as weave from 'weave';
+
+    await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
+
+    const captionImage = weave.op(async function captionImage(imageUri: string) {
+      const caption = await myCaptioner(imageUri); // 사용자 모델 또는 API call.
+      // imageUri는 값에 따라 인라인으로 렌더링되며, 필드 이름은 임의입니다.
+      return {image: imageUri, caption};
+    });
+
+    await captionImage('s3://[YOUR-BUCKET]/photos/cat.png');
+    ```
+  </Tab>
+</Tabs>
+
+<div id="view-the-reference-in-weave-traces">
+  ## Weave Traces에서 레퍼런스 보기
+</div>
+
+`weave.init()`가 출력하는 링크에서 트레이스를 여세요. 레퍼런스된 이미지나 비디오는 **Traces** 뷰에 인라인으로 렌더링됩니다. 예를 들어 객체가 없거나 버킷이 등록되지 않아 Weave가 URI를 확인할 수 없으면 일반 URI string을 표시합니다.
+
+<Frame>
+  ![사용자 고유의 클라우드 버킷에 있는 객체를 가리키는 버킷 URI에서 확인되어 Weave Traces 뷰에 인라인으로 렌더링되는 레퍼런스 이미지입니다.](/weave/guides/tracking/imgs/traces-byob.png)
+</Frame>

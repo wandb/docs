@@ -4,9 +4,9 @@ description: W&B Serverless Sandboxes を使用すると、Python から必要�
 mode: wide
 ---
 
-<Warning>
-  Serverless Sandboxes はパブリックプレビューです。
-</Warning>
+import SandboxesPreview from '/snippets/ja/_includes/sandboxes-public-preview.mdx';
+
+<SandboxesPreview />
 
 Serverless Sandboxes では、Python を使用して、必要に応じて分離されたコンピュート環境を作成、使用し、不要になったら破棄できます。
 
@@ -69,3 +69,11 @@ Serverless Sandboxes は CoreWeave Sandbox ライブラリを使用して構築�
 
 * [Serverless Sandbox でエージェントを呼び出すチュートリアル](/ja/sandboxes/invoke-agent-sandbox-tutorial)
 * [Serverless Sandbox で PyTorch モデルをトレーニングするチュートリアル](/ja/sandboxes/mltrain-in-sandbox-tutorial)
+
+<div id="integrations">
+  ## インテグレーション
+</div>
+
+以下のサードパーティ製フレームワークは、サンドボックスプロバイダとして Serverless Sandboxes をサポートしています。
+
+* [Harbor](https://github.com/harbor-framework/harbor)

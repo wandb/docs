@@ -40,6 +40,14 @@ title: run 필터링
   <img src="/images/data_vis/filter.png" alt="잘못된 예측 필터" />
 </Frame>
 
+필터 표현식과 일치하는 run의 수는 필터 버튼 아래, Runs 테이블 위에 표시됩니다.
+
+예를 들어, 다음 이미지는 `6 of 18 listed`를 보여주며, 이는 목록에 표시된 18개의 run 중 6개가 필터 표현식과 일치해 현재 표시되고 있음을 의미합니다. 개수는 노란색 박스로 강조 표시됩니다.
+
+<Frame>
+  <img src="/images/runs/filter_count.png" alt="필터 표현식과 일치하는 run 수" />
+</Frame>
+
 다음 섹션에서는 Runs 테이블에서 run을 필터링하는 몇 가지 예를 보여줍니다.
 
 <div id="example-filter-runs-with-tags">
@@ -58,6 +66,23 @@ title: run 필터링
   <img src="/images/app_ui/filter_runs.gif" alt="태그로 run 필터링" />
 </Frame>
 
+<div id="example-filter-runs-with-a-timestamp">
+  ### 예시: 타임스탬프를 사용하여 Runs 필터링
+</div>
+
+MongoDB 쿼리 언어를 사용하여 필터링할 수 있습니다.
+
+다음 예시에서는 W&amp;B Public API를 사용하여 두 타임스탬프 사이에 생성된 Runs를 필터링합니다:
+
+```python
+runs = api.runs(
+    "<entity>/<project>",
+    {"$and": [{"created_at": {"$lt": "YYYY-MM-DDT##", "$gt": "YYYY-MM-DDT##"}}]},
+)
+```
+
+API로 Runs을 필터링하는 추가 예시는 [API 가이드](/ko/models/ref/python/public-api/api#method-api-runs)를 참조하세요.
+
 <div id="example-combine-filters-with-and-and-or-conditions">
   ### 예시: AND 및 OR 조건으로 필터 조합하기
 </div>
@@ -75,6 +100,24 @@ title: run 필터링
 
 <Frame>
   <img src="/images/runs/run_expressions_and_or.png" alt="AND 및 OR 조건으로 필터 조합하기" />
+</Frame>
+
+<div id="example-filter-run-configuration-values-with-contains">
+  ### 예시: `CONTAINS`로 run 설정 값 필터링
+</div>
+
+run [설정](/ko/models/track/config) 필드에 특정 값이 포함되어 있는지에 따라 run을 필터링합니다.
+
+1. 프로젝트 사이드바에서 **Runs**를 선택합니다.
+2. Runs 테이블 위에서 **Filter** (<Icon icon="bars-filter" iconType="solid" />)를 선택합니다.
+3. 첫 번째 메뉴에서 run 설정 필드를 선택합니다.
+4. 두 번째 메뉴에서 **CONTAINS**를 선택합니다.
+5. 세 번째 필드에 필터링할 값을 입력합니다.
+
+다음 이미지는 `epochs` 설정 필드에 값 `100`이 포함된 run을 표시하도록 구성된 필터를 보여 줍니다.
+
+<Frame>
+  <img src="/images/runs/contains_filter.png" alt="run 설정으로 run 필터링" />
 </Frame>
 
 <div id="default-filters">

@@ -322,9 +322,17 @@ jobs:
           format: markdown
           # GitHub token for API rate limiting
           token: ${{ secrets.GITHUB_TOKEN }}
-          # Check internal links against the repository tree. A single --base-url
-          # cannot preserve each changed page's directory when resolving relative links.
-          # Mintlify validation separately verifies the rendered route structure.
+          # This check covers external URLs. Internal links are owned by
+          # `mint broken-links` in validate-mdx, which resolves them against the real
+          # route table and so knows about docs.json navigation and redirects; lychee
+          # would resolve them against the repository tree, where a link through a
+          # redirect has no matching file and reports as broken. lychee.toml excludes
+          # ^file:// to leave internal linking to Mintlify. The resolution flags below
+          # stay so local paths still parse into file:// URIs and get excluded quietly
+          # rather than raising InvalidPathToUri warnings.
+          # Do not move the ^file:// pattern to a --exclude flag here: a CLI --exclude
+          # replaces the config's exclude list rather than adding to it, which would
+          # re-enable every excluded external domain.
           # Inputs come from lychee-pr-inputs.txt (see "Write lychee input file list") so
           # we do not pass every path on the shell argv (ARG_MAX on large PRs).
           args: >-

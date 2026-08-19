@@ -1,106 +1,111 @@
 ---
 title: BetaReport
-namespace: public_apis_namespace
-python_object_type: class
+kind: クラス
+namespace: wandb.apis.public.reports
 ---
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py#L170" />
 
+## <kbd>クラス</kbd> wandb.apis.public.BetaReport
 
-## <kbd>class</kbd> `BetaReport`
+```python
+(service_api: 'ServiceApi',
+attrs: 'dict',
+entity: 'str | None' = None,
+project: 'str | None' = None)
+```
 
 BetaReport は、W&amp;B で作成された Reports に関連付けられたクラスです。
 
 レポートの属性 (name、description、user、spec、timestamps) にアクセスし、関連する run やセクションを取得したり、レポートを HTML として表示したりするための method を提供します。
 
-**属性:**
+<div id="args">
+  ## 引数
+</div>
 
-* `id` (string):  レポートの一意の識別子。
-* `display_name` (string):  人が読める形式のレポートの表示名。
-* `name` (string):  レポートの名。よりわかりやすい名前には `display_name` を使用します。
-* `description` (string):  レポートの説明。
-* `user` (User):  レポートを作成したユーザーの情報 (ユーザー名、メールアドレス) を含む辞書。
-* `spec` (dict):  レポートの spec。
-* `url` (string):  レポートの URL。
-* `updated_at` (string):  最終更新の Timestamp。
-* `created_at` (string):  レポートが作成された Timestamp。 
+* `service_api`:
+* `attrs`:
+* `entity`:
+* `project`: 
 
-### <kbd>method</kbd> `BetaReport.__init__`
+<div id="attributes">
+  ## 属性
+</div>
 
-```python
-__init__(
-    service_api: 'ServiceApi',
-    attrs: 'dict',
-    entity: 'str | None' = None,
-    project: 'str | None' = None
-)
-```
+* `id` (`string`): report の一意の ID。
+* `display_name` (`string`): report の人が読める表示名。
+* `name` (`string`): report の名前です。よりユーザーフレンドリーな名前には `display_name` を使用します。
+* `description` (`string`): report の説明。
+* `user` (`User`): report を作成したユーザーの情報 (ユーザー名、メールアドレス) を含む辞書。
+* `spec` (`dict`): report の仕様。
+* `url` (`string`): report の URL。
+* `updated_at` (`string`): 最終更新のタイムスタンプ。
+* `created_at` (`string`): report が作成された日時のタイムスタンプ。
 
-***
+<div id="properties">
+  ## プロパティ
+</div>
 
-### <kbd>プロパティ</kbd> BetaReport.created_at
+### <kbd>プロパティ</kbd> created_at
 
-***
+### <kbd>プロパティ</kbd> description
 
-### <kbd>プロパティ</kbd> BetaReport.description
+### <kbd>プロパティ</kbd> display_name
 
-***
+### <kbd>プロパティ</kbd> id
 
-### <kbd>プロパティ</kbd> BetaReport.display_name
+### <kbd>プロパティ</kbd> 名
 
-***
+### <kbd>プロパティ</kbd> sections
 
-### <kbd>プロパティ</kbd> BetaReport.id
+reportからパネルのセクション (グループ) を取得します。
 
-***
+### <kbd>プロパティ</kbd> spec
 
-### <kbd>プロパティ</kbd> BetaReport.name
+### <kbd>プロパティ</kbd> updated_at
 
-***
+### <kbd>プロパティ</kbd> url
 
-### <kbd>プロパティ</kbd> BetaReport.sections
+### <kbd>プロパティ</kbd> ユーザー
 
-レポートからパネルのセクション (グループ) を取得します。
+<div id="methods">
+  ## メソッド
+</div>
 
-***
-
-### <kbd>プロパティ</kbd> BetaReport.spec
-
-***
-
-### <kbd>プロパティ</kbd> BetaReport.updated_at
-
-***
-
-### <kbd>プロパティ</kbd> BetaReport.url
-
-***
-
-### <kbd>プロパティ</kbd> BetaReport.user
-
-***
-
-### <kbd>method</kbd> `BetaReport.runs`
+### <kbd>method</kbd> BetaReport.runs()
 
 ```python
-runs(
-    section: 'dict[str, Any]',
-    per_page: 'int' = 50,
-    only_selected: 'bool' = True
-) → public.Runs
+self,
+section: 'dict[str, Any]',
+per_page: 'int' = 50,
+only_selected: 'bool' = True
 ```
 
-レポートのセクションに関連付けられたrunを取得します。
+reportのセクションに関連付けられたrunを取得します。
 
-***
+<div id="arguments">
+  ##### 引数
+</div>
 
+* `section`:
+* `per_page`:
+* `only_selected`: 
 
-### <kbd>method</kbd> `BetaReport.to_html`
+### <kbd>method</kbd> BetaReport.to_html()
 
 ```python
-to_html(height: 'int' = 1024, hidden: 'bool' = False) → str
+self,
+height: 'int' = 1024,
+hidden: 'bool' = False
 ```
 
-このレポートを表示するためのiframeを含むHTMLを生成します。
+このreportを表示するためのiframeを含むHTMLを生成します。
+
+<div id="arguments">
+  ##### 引数
+</div>
+
+* `height`:
+* `hidden`: 

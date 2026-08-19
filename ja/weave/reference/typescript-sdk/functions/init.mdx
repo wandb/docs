@@ -1,41 +1,45 @@
 ---
 title: "init"
-description: "TypeScript SDK のリファレンス"
+description: "TypeScript SDK リファレンス"
 ---
 
-<div id="init">
-  # init
-</div>
+> **init**(`project`, `settings?`): `Promise`&lt;[`WeaveClient`](../interfaces/weaveclient)&gt;
 
-▸ **init**(`project`, `settings?`): `Promise`&lt;[`WeaveClient`](../classes/weaveclient)&gt;
+Weave クライアントを初期化します。Weave トレースを機能させるには、このクライアントが必要です。
 
-Weave クライアントを初期化します。これは Weave トレースを動作させるために必須です。
+定義場所: [src/clientApi.ts:87](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/clientApi.ts#L87)
 
 <div id="parameters">
-  #### パラメーター
+  ## パラメーター
 </div>
 
-| 名           | タイプ                                                     | 説明                                                                                                                                                                                                                                                                                                                                    |
-| :---------- | :------------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `project`   | `string`                                                | W&amp;B プロジェクト名 (`project` または `entity/project` を指定できます) 。W&amp;B Teams (例: `team/project`) を指定しない場合は、既定の entity が使用されます。既定の entity を確認または更新するには、[https://docs.wandb.ai/platform/app/settings-page/user-settings#default-team](https://docs.wandb.ai/platform/app/settings-page/user-settings#default-team) の User Settings を参照してください |
-| `settings?` | `Partial`&lt;[`Settings`](../type-aliases/settings)&gt; | (任意) Weave トレース設定                                                                                                                                                                                                                                                                                                                     |
+<div id="project">
+  ### project
+</div>
+
+`string`
+
+W&amp;B プロジェクト名 (`project` または `entity/project` を指定できます) 。W&amp;B Teams (例: `team/project`) を指定しない場合は、既定の entity が使用されます。
+既定の defaul[https://docs.wandb.ai/platform/app/settings-page/user-settings#default-team](https://docs.wandb.ai/platform/app/settings-page/user-settings#default-team)/platform/app/settings-page/user-settings#default-team を検索または更新するには
+
+<div id="settings">
+  ### settings?
+</div>
+
+`Partial`&lt;[`Settings`](../type-aliases/settings)&gt;
+
+(任意) Weave トレース設定
 
 <div id="returns">
-  #### 戻り値
+  ## 戻り値
 </div>
 
-`Promise`&lt;[`WeaveClient`](../classes/weaveclient)&gt;
+`Promise`&lt;[`WeaveClient`](../interfaces/weaveclient)&gt;
 
 初期化された Weave クライアントを返す Promise。
 
-`Throws`
-
-初期化に失敗した場合
-
-<div id="defined-in">
-  #### 定義場所
+<div id="throws">
+  ## 例外
 </div>
 
-[src/clientApi.ts:87](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/clientApi.ts#L87)
-
-***
+初期化に失敗した場合

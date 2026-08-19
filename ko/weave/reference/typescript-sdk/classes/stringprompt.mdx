@@ -3,101 +3,61 @@ title: "StringPrompt"
 description: "TypeScript SDK 레퍼런스"
 ---
 
-[weave](../) / StringPrompt
+정의된 위치: [src/prompt.ts:18](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/prompt.ts#L18)
 
-<div id="hierarchy">
-  ## 계층 구조
+<div id="extends">
+  ## 확장
 </div>
 
 * `Prompt`
 
-  ↳ `StringPrompt`
-
-<div id="table-of-contents">
-  ## 목차
+<div id="constructors">
+  ## 생성자
 </div>
 
-<div id="constructors">
+<div id="constructor">
   ### 생성자
 </div>
 
-* [생성자](./stringprompt#constructor)
+> **new StringPrompt**(`parameters`): `StringPrompt`
 
-<div id="properties">
-  ### 속성
-</div>
+정의된 위치: [src/prompt.ts:21](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/prompt.ts#L21)
 
-* [&#95;&#95;savedRef](./stringprompt#__savedref)
-* [content](./stringprompt#content)
-
-<div id="accessors">
-  ### 접근자
-</div>
-
-* [설명](./stringprompt#description)
-* [name](./stringprompt#name)
-
-<div id="methods">
-  ### 방법
-</div>
-
-* [format](./stringprompt#format)
-* [saveAttrs](./stringprompt#saveattrs)
-* [get](./stringprompt#get)
-
-## 생성자
-
-<div id="constructors">
-  ### 생성자
-</div>
-
-• **new StringPrompt**(`parameters`): [`StringPrompt`](./stringprompt)
+#### 매개변수
 
 <div id="parameters">
-  #### 매개변수
+  ##### 매개변수
 </div>
 
-| 이름           | 유형                       |
-| :----------- | :----------------------- |
-| `parameters` | `StringPromptParameters` |
+`StringPromptParameters`
 
-<div id="returns">
-  #### 반환값
-</div>
+#### 반환값
 
-[`StringPrompt`](./stringprompt)
+`StringPrompt`
 
 <div id="overrides">
   #### 재정의
 </div>
 
-Prompt.constructor
+`Prompt.constructor`
 
-<div id="defined-in">
-  #### 정의된 위치
+<div id="properties">
+  ## 속성
 </div>
-
-[src/prompt.ts:21](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/prompt.ts#L21)
-
-## 속성
 
 <div id="__savedref">
   ### __savedRef
 </div>
 
-• `선택` **&#95;&#95;savedRef**: [`ObjectRef`](./objectref) | `Promise`&lt;[`ObjectRef`](./objectref)&gt;
+> `optional` **&#95;&#95;savedRef**: [`ObjectRef`](./objectref) | `Promise`&lt;[`ObjectRef`](./objectref)&gt;
+
+정의된 위치: [src/weaveObject.ts:71](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L71)
 
 <div id="inherited-from">
   #### 다음에서 상속됨
 </div>
 
-Prompt.&#95;&#95;savedRef
-
-<div id="defined-in">
-  #### 정의된 위치
-</div>
-
-[src/weaveObject.ts:71](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L71)
+`Prompt.__savedRef`
 
 ***
 
@@ -105,39 +65,37 @@ Prompt.&#95;&#95;savedRef
   ### content
 </div>
 
-• **content**: `string`
+> **content**: `string`
 
-<div id="defined-in">
-  #### 정의된 위치
+정의된 위치: [src/prompt.ts:19](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/prompt.ts#L19)
+
+<div id="accessors">
+  ## 접근자
 </div>
-
-[src/prompt.ts:19](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/prompt.ts#L19)
-
-## 접근자
 
 <div id="description">
   ### 설명
 </div>
 
-• `get` **설명**(): `undefined` | `string`
-
-<div id="returns">
-  #### 반환값
+<div id="get-signature">
+  #### 조회 시그니처
 </div>
 
-`undefined` | `string`
+> **get** **description**(): `string` | `undefined`
+
+정의된 위치: [src/weaveObject.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L98)
+
+<div id="returns">
+  ##### 반환값
+</div>
+
+`string` | `undefined`
 
 <div id="inherited-from">
   #### 다음에서 상속됨
 </div>
 
-Prompt.설명
-
-<div id="defined-in">
-  #### 정의된 위치
-</div>
-
-[src/weaveObject.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L98)
+`Prompt.설명`
 
 ***
 
@@ -145,10 +103,16 @@ Prompt.설명
   ### name
 </div>
 
-• `get` **name**(): `string`
+<div id="get-signature">
+  #### 조회 시그니처
+</div>
+
+> **get** **name**(): `string`
+
+정의된 위치: [src/weaveObject.ts:94](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L94)
 
 <div id="returns">
-  #### 반환값
+  ##### 반환값
 </div>
 
 `string`
@@ -157,93 +121,76 @@ Prompt.설명
   #### 다음에서 상속됨
 </div>
 
-Prompt.name
+`Prompt.name`
 
-<div id="defined-in">
-  #### 정의된 위치
+<div id="methods">
+  ## 방법
 </div>
-
-[src/weaveObject.ts:94](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L94)
-
-## 방법
 
 <div id="format">
-  ### format
+  ### format()
 </div>
 
-▸ **format**(`values?`): `string`
+> **format**(`values?`): `string`
 
-<div id="parameters">
-  #### 매개변수
+정의된 위치: [src/prompt.ts:26](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/prompt.ts#L26)
+
+#### 매개변수
+
+<div id="values">
+  ##### values?
 </div>
 
-| 이름       | 유형                              |
-| :------- | :------------------------------ |
-| `values` | `Record`&lt;`string`, `any`&gt; |
+`Record`&lt;`string`, `any`&gt; = `{}`
 
-<div id="returns">
-  #### 반환값
-</div>
+#### 반환값
 
 `string`
-
-<div id="defined-in">
-  #### 정의된 위치
-</div>
-
-[src/prompt.ts:26](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/prompt.ts#L26)
 
 ***
 
 <div id="saveattrs">
-  ### saveAttrs
+  ### saveAttrs()
 </div>
 
-▸ **saveAttrs**(): `객체`
+> **saveAttrs**(): `object`
 
-<div id="returns">
-  #### 반환값
-</div>
+정의된 위치: [src/weaveObject.ts:75](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L75)
 
-`객체`
+#### 반환값
+
+`object`
 
 <div id="inherited-from">
   #### 다음에서 상속됨
 </div>
 
-Prompt.saveAttrs
-
-<div id="defined-in">
-  #### 정의된 위치
-</div>
-
-[src/weaveObject.ts:75](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L75)
+`Prompt.saveAttrs`
 
 ***
 
 <div id="get">
-  ### get
+  ### get()
 </div>
 
-▸ **get**(`client`, `uri`): `Promise`&lt;[`StringPrompt`](./stringprompt)&gt;
+> `static` **get**(`client`, `uri`): `Promise`&lt;`StringPrompt`&gt;
 
-<div id="parameters">
-  #### 매개변수
+정의된 위치: [src/prompt.ts:30](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/prompt.ts#L30)
+
+#### 매개변수
+
+<div id="client">
+  ##### client
 </div>
 
-| 이름       | 유형                             |
-| :------- | :----------------------------- |
-| `client` | [`WeaveClient`](./weaveclient) |
-| `uri`    | `string`                       |
+[`WeaveClient`](../interfaces/weaveclient)
 
-<div id="returns">
-  #### 반환값
+<div id="uri">
+  ##### uri
 </div>
 
-`Promise`&lt;[`StringPrompt`](./stringprompt)&gt;
+`string`
 
-<div id="defined-in">
-  #### 정의된 위치
-</div>
+#### 반환값
 
-[src/prompt.ts:30](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/prompt.ts#L30)
+`Promise`&lt;`StringPrompt`&gt;

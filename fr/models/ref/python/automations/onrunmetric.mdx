@@ -1,19 +1,36 @@
 ---
 title: OnRunMetric
-namespace: automations_namespace
-python_object_type: class
+kind: classe
+namespace: wandb.automations.events
 ---
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py#L371" />
 
+## <kbd>classe</kbd> wandb.automations.OnRunMetric
 
-## <kbd>class</kbd> `OnRunMetric`
+```python
+*,
+event_type: Literal[RUN_METRIC_THRESHOLD, RUN_METRIC_CHANGE, RUN_METRIC_ZSCORE],
+scope: Annotated[Union[wandb.automations.scopes.ProjectScope, Annotated[wandb.automations.scopes.TeamScope | wandb.automations.scopes.OrgScope, BeforeValidator(func=<function parse_scope>, json_schema_input_type=PydanticUndefined), Discriminator(discriminator='entity_type', custom_error_type=None, custom_error_message=None, custom_error_context=None)]], BeforeValidator(func=<function parse_scope>, json_schema_input_type=PydanticUndefined), Discriminator(discriminator='typename__', custom_error_type=None, custom_error_message=None, custom_error_context=None)],
+filter: Annotated[wandb.automations.events.RunMetricFilter, Json, BeforeValidator(func=<function ensure_json>, json_schema_input_type=PydanticUndefined), PlainSerializer(func=<function to_json>, return_type=PydanticUndefined, when_used='always')]
+```
 
-Une métrique de run répond à une condition définie par l&#39;utilisateur.
+Une métrique de run répond à une condition définie par l’utilisateur.
 
-Exemples :
+<div id="args">
+  ## Arguments
+</div>
+
+* `event_type`:
+* `scope`: Le périmètre de l’événement : il doit s’agir d’un projet ou d’une entité d’équipe/d’organisation.
+* `filter`: Condition(s) sur le run et/ou la métrique à remplir pour que cet événement se déclenche.
+
+<div id="examples">
+  ## Exemples
+</div>
+
 Définissez un événement qui se déclenche pour n&#39;importe quel run du projet &quot;my-project&quot; lorsque
 la moyenne des 5 dernières valeurs de la métrique &quot;my-metric&quot; dépasse 123.45 :
 
@@ -29,23 +46,3 @@ event = OnRunMetric(
     filter=RunEvent.metric("my-metric").avg(5).gt(123.45),
 )
 ```
-
-
-### <kbd>méthode</kbd> `OnRunMetric.__init__`
-
-```python
-__init__(
-    event_type: 'Literal[RUN_METRIC_THRESHOLD, RUN_METRIC_CHANGE, RUN_METRIC_ZSCORE]',
-    scope: 'ProjectScope',
-    filter: 'RunMetricFilter'
-) → None
-```
-
-**Arguments :**
-
-* `event_type` (Literal[RUN&#95;METRIC&#95;THRESHOLD, RUN&#95;METRIC&#95;CHANGE, RUN&#95;METRIC&#95;ZSCORE]):
-* `scope` (ProjectScope): Le périmètre de l’événement : il doit s’agir d’un projet.
-* `filter` (RunMetricFilter): Condition(s) sur le run et/ou la métrique à remplir pour que cet événement se déclenche.
-
-**Retourne :**
-Un objet `OnRunMetric`.

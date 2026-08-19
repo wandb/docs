@@ -3,11 +3,7 @@ title: "startConversation"
 description: "TypeScript SDK リファレンス"
 ---
 
-<div id="startconversation">
-  # startConversation
-</div>
-
-▸ **startConversation**(`opts?`): [`Conversation`](../classes/conversation)
+> **startConversation**(`opts?`): [`Conversation`](../interfaces/conversation)
 
 新しい Conversation を開始し、現在の Conversation として設定します。
 以降 `startTurn` を呼び出すと、自動的にこの Conversation が使用されます。
@@ -15,28 +11,32 @@ description: "TypeScript SDK リファレンス"
 `attributes` を渡すと、Conversation が生成するすべての
 span にカスタム (semconv 以外の) 属性を付与できます。
 
+定義元: [src/genai/api.ts:26](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L26)
+
 <div id="parameters">
-  #### パラメーター
+  ## パラメーター
 </div>
 
-| 名      | タイプ                                                  |
-| :----- | :--------------------------------------------------- |
-| `opts` | [`ConversationInit`](../interfaces/conversationinit) |
+<div id="opts">
+  ### opts?
+</div>
+
+[`ConversationInit`](../interfaces/conversationinit) = `{}`
 
 <div id="returns">
-  #### 戻り値
+  ## 戻り値
 </div>
 
-[`Conversation`](../classes/conversation)
+[`Conversation`](../interfaces/conversation)
 
-`例`
+<div id="examples">
+  ## 例
+</div>
 
 ```ts twoslash
 // @noErrors
 weave.startConversation({agentName: 'research-bot'});
 ```
-
-`例`
 
 ```ts twoslash
 // @noErrors
@@ -46,11 +46,3 @@ weave.startConversation({
   attributes: {'myagent.version': '1.23'},
 });
 ```
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[src/genai/api.ts:26](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L26)
-
-***

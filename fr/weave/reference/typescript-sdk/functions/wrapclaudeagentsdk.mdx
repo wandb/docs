@@ -3,11 +3,7 @@ title: "wrapClaudeAgentSdk"
 description: "Référence du SDK TypeScript"
 ---
 
-<div id="wrapclaudeagentsdk">
-  # wrapClaudeAgentSdk
-</div>
-
-▸ **wrapClaudeAgentSdk**&lt;`T`&gt;(`sdk`): `T`
+> **wrapClaudeAgentSdk**&lt;`T`&gt;(`sdk`): `T`
 
 Instrumentez manuellement le module `@anthropic-ai/claude-agent-sdk`.
 
@@ -18,29 +14,37 @@ vue du module dont l&#39;export `query` est tracé ; utilisez l&#39;objet renvo
 plutôt que l&#39;import d&#39;origine (le `query` du SDK est un export avec accesseur en lecture seule,
 donc la liaison d&#39;origine ne peut pas être patchée sur place) :
 
+Défini dans : [src/integrations/claudeAgentSdk.ts:209](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/claudeAgentSdk.ts#L209)
+
 <div id="type-parameters">
-  #### Paramètres de type
+  ## Paramètres de type
 </div>
 
-| Nom |
-| :-- |
-| `T` |
-
-<div id="parameters">
-  #### Paramètres
-</div>
-
-| Nom   | Type |
-| :---- | :--- |
-| `sdk` | `T`  |
-
-<div id="returns">
-  #### Renvoie
+<div id="t">
+  ### T
 </div>
 
 `T`
 
-`Example`
+<div id="parameters">
+  ## Paramètres
+</div>
+
+<div id="sdk">
+  ### sdk
+</div>
+
+`T`
+
+<div id="returns">
+  ## Renvoie
+</div>
+
+`T`
+
+<div id="example">
+  ## Exemple
+</div>
 
 ```ts twoslash
 // @noErrors
@@ -52,11 +56,3 @@ for await (const message of query({ prompt: 'hi' })) {
   // ...tracé
 }
 ```
-
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[src/integrations/claudeAgentSdk.ts:209](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/claudeAgentSdk.ts#L209)
-
-***

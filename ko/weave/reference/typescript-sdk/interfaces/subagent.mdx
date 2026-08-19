@@ -1,0 +1,236 @@
+---
+title: "SubAgent"
+description: "TypeScript SDK 레퍼런스"
+---
+
+정의 위치: [src/genai/subagent.ts:65](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L65)
+
+<div id="extends">
+  ## 확장
+</div>
+
+* `SpanBase`
+
+<div id="accessors">
+  ## 접근자
+</div>
+
+### 모델
+
+<div id="get-signature">
+  #### 조회 시그니처
+</div>
+
+> **get** **model**(): `string`
+
+정의 위치: [src/genai/subagent.ts:78](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L78)
+
+<div id="returns">
+  ##### 반환값
+</div>
+
+`string`
+
+***
+
+### name
+
+<div id="get-signature">
+  #### 조회 시그니처
+</div>
+
+> **get** **name**(): `string`
+
+정의 위치: [src/genai/subagent.ts:74](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L74)
+
+<div id="returns">
+  ##### 반환값
+</div>
+
+`string`
+
+<div id="methods">
+  ## 메서드
+</div>
+
+<div id="addevent">
+  ### ~~addEvent()~~
+</div>
+
+<Warning>
+  **사용 중단.** 대신 [setAttributes](#setattributes)를 통해 이 데이터를 기록하세요.
+  OpenTelemetry는 Span Event API(`Span.addEvent`)를 단계적으로 폐지하고 있습니다. 이
+  방법은 계속 작동하며 기존 span 이벤트 데이터도 유효하게 유지됩니다.
+  [https://opentelemetry.io/blog/2026/deprecating-span-events/](https://opentelemetry.io/blog/2026/deprecating-span-events/)를 참조하세요.
+</Warning>
+
+> **addEvent**(`name`, `attributes?`, `startTime?`): `this`
+
+span에 이름이 지정된 이벤트를 추가합니다. 컨텍스트 압축, 도구 루프 감지 또는
+가드레일 트리거와 같은 span 외 시점을 표시하는 데 유용합니다. `end()` 이후에는 경고를 표시하고
+아무 작업도 수행하지 않습니다. OTel `Span.addEvent`와 동일하게 동작합니다.
+
+정의 위치: [src/genai/spanBase.ts:82](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L82)
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+##### 이름
+
+`string`
+
+<div id="attributes">
+  ##### 속성?
+</div>
+
+`Attributes`
+
+<div id="starttime">
+  ##### startTime?
+</div>
+
+`TimeInput`
+
+#### 반환값
+
+`this`
+
+<div id="example">
+  #### 예시
+</div>
+
+```ts twoslash
+// @noErrors
+span.addEvent('context_compacted', {removedMessages: 12});
+```
+
+<div id="inherited-from">
+  #### 상속됨
+</div>
+
+`SpanBase.addEvent`
+
+***
+
+<div id="end">
+  ### end()
+</div>
+
+> **end**(`opts?`): `void`
+
+현재 필드 값을 조회하여(`start` 이후 `record()`를 통해 변경된 사항 반영) span을 종료합니다. 멱등성을 보장합니다. 실패로 표시하려면 `error`를 전달하고, 종료 시간을 과거로 설정하려면 `endTime`을 전달하세요.
+
+정의 위치: [src/genai/subagent.ts:153](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L153)
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+<div id="opts">
+  ##### opts?
+</div>
+
+`SpanEndOptions`
+
+#### 반환값
+
+`void`
+
+***
+
+<div id="record">
+  ### record()
+</div>
+
+> **record**(`opts`): `this`
+
+모든 필드를 일괄 설정합니다. 병합하지 않고 기존 값을 대체합니다.
+
+정의 위치: [src/genai/subagent.ts:117](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L117)
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+##### opts
+
+<div id="agentdescription">
+  ###### agentDescription?
+</div>
+
+`string`
+
+<div id="agentid">
+  ###### agentId?
+</div>
+
+`string`
+
+<div id="agentversion">
+  ###### agentVersion?
+</div>
+
+`string`
+
+<div id="model">
+  ###### 모델?
+</div>
+
+`string`
+
+<div id="name">
+  ###### 이름?
+</div>
+
+`string`
+
+<div id="systeminstructions">
+  ###### systemInstructions?
+</div>
+
+`string`[]
+
+#### 반환값
+
+`this`
+
+***
+
+<div id="setattributes">
+  ### setAttributes()
+</div>
+
+> **setAttributes**(`attributes`): `this`
+
+span에 여러 속성을 한 번에 설정합니다. `end()` 호출 후에는 경고를 표시하며 아무 작업도 수행하지 않습니다.
+OTel `Span.setAttributes`(및 Python SDK의 `set_attributes`)와 동일하게 작동합니다.
+
+정의 위치: [src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L63)
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+##### 속성
+
+`Attributes`
+
+#### 반환값
+
+`this`
+
+<div id="example">
+  #### 예시
+</div>
+
+```ts twoslash
+// @noErrors
+span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
+```
+
+<div id="inherited-from">
+  #### 상속됨
+</div>
+
+`SpanBase.setAttributes`

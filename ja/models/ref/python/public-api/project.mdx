@@ -1,129 +1,104 @@
 ---
 title: Project
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.projects
 ---
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py#L142" />
 
-
-## <kbd>class</kbd> `Project`
-
-プロジェクトは、run の名前空間です。
-
-### <kbd>method</kbd> `Project.__init__`
+## <kbd>クラス</kbd> wandb.apis.public.Project
 
 ```python
-__init__(
-    service_api: 'ServiceApi',
-    entity: 'str',
-    project: 'str',
-    attrs: 'Mapping[str, Any]'
-) → Project
+service_api: 'ServiceApi',
+entity: 'str',
+project: 'str',
+attrs: 'Mapping[str, Any]'
 ```
 
-**引数:**
+project は run の名前空間です。
 
-* `service_api`:  この project に対して W&amp;B API Call を実行する wandb-core サービスへのインターフェース。
-* `name` (str):  project の名。
-* `entity` (str):  project を所有する entity の名。
+<div id="args">
+  ## 引数
+</div>
 
-entity に紐づく単一の project。
+* `service_api`: W&amp;B をクエリするために使用する service API。
+* `entity`: project を所有する entity。
+* `project`: クエリする project の名。
+* `attrs`: project の属性。
 
-**引数:**
+<div id="properties">
+  ## プロパティ
+</div>
 
-* `service_api`:  W&amp;B をクエリするために使用する service API。
-* `entity`:  project を所有する entity。
-* `project`:  クエリする project の名。
-* `attrs`:  project の属性。
+### <kbd>プロパティ</kbd> id
 
-***
+### <kbd>プロパティ</kbd> owner
 
-### <kbd>プロパティ</kbd> Project.id
+projectの所有者を User オブジェクトとして返します。
 
-***
+### <kbd>プロパティ</kbd> path
 
-### <kbd>プロパティ</kbd> Project.owner
+projectのパスを返します。パスは、entity とproject名を含むリストです。
 
-プロジェクトの所有者を User オブジェクトとして返します。
+### <kbd>プロパティ</kbd> url
 
-**例外:**
+projectのURLを返します。
 
-* `ValueError`: プロジェクトのユーザー情報が見つからない場合。
+<div id="methods">
+  ## メソッド
+</div>
 
-**戻り値:**
-
-* `public.User`: `owner` プロパティの値。
-
-***
-
-### <kbd>プロパティ</kbd> Project.path
-
-プロジェクトのパスを返します。パスは、entity とプロジェクト名を含むリストです。
-
-**戻り値:**
-
-* `list[str]`: パスのプロパティ値。
-
-***
-
-### <kbd>プロパティ</kbd> Project.url
-
-プロジェクトのURLを返します。
-
-**戻り値:**
-
-* `str`: URLプロパティの値。
-
-***
-
-### <kbd>method</kbd> `Project.artifacts_types`
+### <kbd>method</kbd> Project.artifacts_types()
 
 ```python
-artifacts_types(per_page: 'int' = 50) → public.ArtifactTypes
+self,
+per_page: 'int' = 50
 ```
 
-このプロジェクトに関連付けられているすべてのアーティファクトタイプを返します。
+このprojectに関連付けられているすべてのアーティファクトタイプを返します。
 
-***
+<div id="arguments">
+  ##### 引数
+</div>
 
+* `per_page`: 
 
-### <kbd>method</kbd> `Project.collections`
+### <kbd>method</kbd> Project.collections()
 
 ```python
-collections(
-    filters: 'Mapping[str, Any] | None' = None,
-    order: 'str | None' = None,
-    per_page: 'int' = 50
-) → public.ProjectArtifactCollections
+self,
+filters: 'Mapping[str, Any] | None' = None,
+order: 'str | None' = None,
+per_page: 'int' = 50
 ```
 
-このプロジェクトに関連付けられているすべてのアーティファクトコレクションを返します。
+このprojectに関連付けられているすべてのアーティファクトコレクションを返します。
 
-**引数:**
+<div id="arguments">
+  ##### 引数
+</div>
 
-* `filters`:  クエリに適用するフィルターのオプションのマッピング。
-* `order`:  結果の順序を指定するオプションの文字列です。先頭に `+` を付けると昇順 (デフォルト) 、`-` を付けると降順になります。
-* `per_page`:  1 ページあたりに取得するアーティファクトコレクションの数です。デフォルトは 50 です。
+* `filters`: クエリに適用するフィルターのオプションのマッピング。
+* `order`: 結果の順序を指定するオプションの文字列です。先頭に `+` を付けると昇順 (デフォルト) 、`-` を付けると降順になります。
+* `per_page`: 1 ページあたりに取得するアーティファクトコレクションの数です。デフォルトは 50 です。
 
-***
-
-
-### <kbd>method</kbd> `Project.sweeps`
+### <kbd>method</kbd> Project.sweeps()
 
 ```python
-sweeps(per_page: 'int' = 50) → Sweeps
+self,
+per_page: 'int' = 50,
+filters: 'dict[str, Any] | None' = None,
+order: 'str | None' = None
 ```
 
-このプロジェクト内の sweep を、ページ分割されたコレクションとして返します。
+このproject内の sweep を、ページ分割されたコレクションとして返します。
 
-**引数:**
+<div id="arguments">
+  ##### 引数
+</div>
 
-* `per_page`:  API リクエストごとに取得する sweep の数。
-
-**戻り値:**
-反復可能な `Sweep` オブジェクトのコレクションである `Sweeps` オブジェクト。
-
-***
+* `per_page`: API リクエストごとに取得する sweep の数。
+* `filters`: (dict) Runs のフィルターを使用して特定の sweep をクエリします。詳細は wandb/apis/public/api.py:runs を参照してください。
+* `order`: 

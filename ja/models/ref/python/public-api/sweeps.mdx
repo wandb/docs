@@ -1,19 +1,38 @@
 ---
 title: Sweeps
-namespace: public_apis_namespace
-python_object_type: class
+kind: クラス
+namespace: wandb.apis.public.sweeps
 ---
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py#L59" />
 
+## <kbd>クラス</kbd> wandb.apis.public.Sweeps
 
-## <kbd>class</kbd> `Sweeps`
+```python
+service_api: 'ServiceApi',
+entity: 'str',
+project: 'str',
+per_page: 'int' = 50,
+filters: 'dict[str, Any] | None' = None
+```
 
-`Sweep` オブジェクトのコレクションを遅延的に走査するイテレータです。
+`Sweep` オブジェクトのコレクションに対する遅延評価のイテレーターです。
 
-**例:**
+<div id="args">
+  ## 引数
+</div>
+
+* `service_api`: W&amp;B をクエリするために使用するサービス API。
+* `entity`: sweep を所有する entity。
+* `project`: sweep を含むプロジェクト。
+* `per_page`: API へのリクエストごとに取得する sweep の数。
+* `filters`: (dict) Runs フィルターを使用して特定の sweep をクエリします。詳細は wandb/apis/public/api.py:runs を参照してください。
+
+<div id="examples">
+  ## 例
+</div>
 
 ```python
 from wandb.apis.public import Api
@@ -22,34 +41,28 @@ sweeps = Api().project(name="project_name", entity="entity").sweeps()
 
 # sweep を反復処理して詳細を表示する
 for sweep in sweeps:
-     print(f"Sweep name: {sweep.name}")
-     print(f"Sweep ID: {sweep.id}")
-     print(f"Sweep URL: {sweep.url}")
-     print("----------")
-``` 
-
-### <kbd>method</kbd> `Sweeps.__init__`
-
-```python
-__init__(
-    service_api: 'ServiceApi',
-    entity: 'str',
-    project: 'str',
-    per_page: 'int' = 50
-) → Sweeps
+    print(f"Sweep name: {sweep.name}")
+    print(f"Sweep ID: {sweep.id}")
+    print(f"Sweep URL: {sweep.url}")
+    print("----------")
 ```
 
-`Sweep` オブジェクトの反復可能なコレクションです。
+<div id="methods">
+  ## メソッド
+</div>
 
-**引数:**
+### <kbd>メソッド</kbd> Paginator.**next**()
 
-* `service_api`:  W&amp;B をクエリするために使用するサービス API。
-* `entity`:  sweep を所有する entity。
-* `project`:  sweep を含むプロジェクト。
-* `per_page`:  API へのリクエストごとに取得する sweep の数。
+```python
+self
+```
 
-***
+イテレーターから次の項目を返します。要素がなくなった場合は、StopIteration を送出します
 
-### <kbd>プロパティ</kbd> Sweeps.length
+### <kbd>メソッド</kbd> Paginator.update_variables()
 
-***
+```python
+self
+```
+
+次のページを取得するためのクエリ変数を更新します。

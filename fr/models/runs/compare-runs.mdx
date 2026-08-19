@@ -182,83 +182,93 @@ Cette section décrit quelques scénarios dans lesquels les runs épinglés et l
   3. Utilisez les graphiques en courbes pour comparer visuellement les runs à la référence.
   4. Continuez à mettre à jour la référence à mesure que vous trouvez de meilleures configurations.
 
-<div id="example-workflow">
-  ## Exemple de flux de travail
+<div id="example-compare-runs-from-hyperparameter-tuning-experiments">
+  ## Exemple : comparer des runs issus d’expériences d’ajustement d’hyperparamètres
 </div>
 
 Cette section montre comment les runs épinglés et les runs de référence peuvent vous aider à comparer des runs.
 
-1. Exécutez cet exemple de code, qui simule un scénario d&#39;ajustement d&#39;hyperparamètres avec une série de runs. Remplacez les espaces réservés entourés de chevrons (`<>`) par vos propres valeurs.
+Par exemple, le code suivant simule un scénario d&#39;ajustement d&#39;hyperparamètres avec une série de runs.
 
-   ```python
-   import wandb
-   import random
-   import math
+```python expandable
+import wandb
+import random
+import math
 
-   def train_model(learning_rate, batch_size, run_name, tags=None):
-       """Simuler l'entraînement d'un modèle avec les hyperparamètres donnés."""
-       config = {
-           "learning_rate": learning_rate,
-           "batch_size": batch_size,
-           "optimizer": "adam",
-           "architecture": "resnet50"
-       }
-       
-       with wandb.init(
-         # Remplacez par votre équipe et le nom de votre projet
-           project="hyperparameter-tuning",
-           entity="<team>",
-           name=run_name,
-           config=config,
-           tags=tags or []
-       ) as run:
-           # Simuler la boucle d'entraînement
-           for epoch in range(50):
-               # Métriques simulées
-               accuracy = 0.6 + 0.3 * (1 - math.exp(-learning_rate * epoch / 10))
-               loss = 1.0 * math.exp(-learning_rate * epoch / 10)
-               
-               run.log({
-                   "epoch": epoch,
-                   "accuracy": accuracy,
-                   "loss": loss
-               })
+def train_model(learning_rate, batch_size, run_name, tags=None):
+    """Simuler l'entraînement d'un modèle avec les hyperparamètres donnés."""
+    config = {
+        "learning_rate": learning_rate,
+        "batch_size": batch_size,
+        "optimizer": "adam",
+        "architecture": "resnet50"
+    }
+    
+    with wandb.init(
+      # Remplacez par votre équipe et le nom de votre projet
+        project="hyperparameter-tuning",
+        entity="your-team-name", # Remplacez par le nom de votre équipe
+        name=run_name,
+        config=config,
+        tags=tags or []
+    ) as run:
+        # Simuler la boucle d'entraînement
+        for epoch in range(50):
+            # Métriques simulées
+            accuracy = 0.6 + 0.3 * (1 - math.exp(-learning_rate * epoch / 10))
+            loss = 1.0 * math.exp(-learning_rate * epoch / 10)
+            
+            run.log({
+                "epoch": epoch,
+                "accuracy": accuracy,
+                "loss": loss
+            })
 
-   # Créer le run de référence avec la configuration standard
-   train_model(
-       learning_rate=0.001,
-       batch_size=64,
-       run_name="baseline-config",
-       tags=["baseline", "production"]
-   )
+# Créer le run de référence avec la configuration standard
+train_model(
+    learning_rate=0.001,
+    batch_size=64,
+    run_name="baseline-config",
+    tags=["baseline", "production"]
+)
 
-   # Tester différentes valeurs de taux d'apprentissage
-   train_model(
-       learning_rate=0.003,
-       batch_size=64,
-       run_name="lr-experiment-0.003",
-       tags=["experiment"]
-   )
+# Tester différentes valeurs de taux d'apprentissage
+train_model(
+    learning_rate=0.003,
+    batch_size=64,
+    run_name="lr-experiment-0.003",
+    tags=["experiment"]
+)
 
-   train_model(
-       learning_rate=0.0001,
-       batch_size=64,
-       run_name="lr-experiment-0.0001",
-       tags=["experiment"]
-   )
-   ```
+train_model(
+    learning_rate=0.0001,
+    batch_size=64,
+    run_name="lr-experiment-0.0001",
+    tags=["experiment"]
+)
+```
 
-   Après avoir exécuté ce code, votre Workspace contient trois runs.
-2. Définissez `baseline-config` comme run de référence.
-3. Épinglez `baseline-config` pour le garder visible.
-4. Comparez les runs d&#39;expérience au run de référence.
+Une fois les runs terminés, accédez à l’application W&amp;B pour afficher les runs dans votre Workspace. Vous pouvez épingler les expériences prometteuses et définir le run de référence afin de comparer les performances des nouveaux runs à celui-ci :
 
-* Dans le tableau des runs, examinez les deltas des métriques de synthèse affichés à côté des valeurs de chaque run pour comparer ce run à la référence.
-  * Dans les graphiques en courbes, comparez les performances d&#39;un ou de plusieurs runs à la référence, qui reste toujours visible.
+1. Accédez à votre projet W&amp;B.
+2. Sélectionnez l’onglet **Runs**.
+3. [Filtrez](/fr/models/runs/filter-runs) le run portant le tag `baseline` et définissez-le comme run de [référence](#set-a-baseline-run).
+4. [Épinglez](#pin-runs) `baseline-config` pour rendre le run visible en haut du tableau des runs.
+5. Comparez les runs d’expérience à la référence.
 
-5. Épinglez les expériences prometteuses pour les examiner plus en détail. Dans cet exemple, après 50 époques, `lr-experiment-0.003` a l&#39;accuracy la plus élevée (`~0.64`) et la perte la plus faible (`~0.86`).
+   * Sélectionnez le menu à points de suspension verticaux à côté de la colonne `accuracy`, puis définissez **directionnalité de la métrique** sur **Higher values are best**. Le delta de l’accuracy de chaque run est désormais affiché dans le tableau des runs.
+   * Sélectionnez le menu à points de suspension verticaux à côté de la colonne `loss`, puis définissez **directionnalité de la métrique** sur **Lower values are best**. Le delta de la perte de chaque run est désormais affiché dans le tableau des runs.
 
-{/* TODO capture d'écran */}
+   <Frame>
+     <img src="/images/runs/compare_metric_deltas.png" />
+   </Frame>
+6. Utilisez les graphiques en courbes pour comparer visuellement les runs à la référence. Le run de référence apparaît sous la forme d’une ligne en pointillés épaisse, et vous pouvez survoler le graphique pour voir comment chaque run se compare à une époque donnée.
+
+   Par exemple, l’image suivante montre comment les runs `lr-experiment-0.003` et `lr-experiment-0.0001` se comparent au run de référence `baseline-config`.
+
+   <Frame>
+     <img src="/images/runs/example_compare_pinned_runs.png" />
+   </Frame>
 
 <div id="limitations">
   ## Limitations

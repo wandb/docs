@@ -1,0 +1,192 @@
+---
+title: "Conversation"
+description: "TypeScript SDK 레퍼런스"
+---
+
+Conversation은 단일 `gen_ai.conversation.id`로 여러 Turn을 묶습니다. Conversation 자체는
+OTel span이 아니며, 하위 span이 자체 span에 conversation id를 기록합니다.
+
+정의 위치: [src/genai/conversation.ts:72](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L72)
+
+<div id="accessors">
+  ## 접근자
+</div>
+
+<div id="agentname">
+  ### agentName
+</div>
+
+<div id="get-signature">
+  #### 조회 시그니처
+</div>
+
+> **get** **agentName**(): `string`
+
+정의 위치: [src/genai/conversation.ts:94](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L94)
+
+<div id="returns">
+  ##### 반환값
+</div>
+
+`string`
+
+***
+
+<div id="attributes">
+  ### 속성
+</div>
+
+<div id="get-signature">
+  #### 조회 시그니처
+</div>
+
+> **get** **attributes**(): `Attributes`
+
+정의 위치: [src/genai/conversation.ts:106](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L106)
+
+<div id="returns">
+  ##### 반환값
+</div>
+
+`Attributes`
+
+***
+
+<div id="conversationid">
+  ### conversationId
+</div>
+
+<div id="get-signature">
+  #### 조회 시그니처
+</div>
+
+> **get** **conversationId**(): `string`
+
+정의 위치: [src/genai/conversation.ts:102](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L102)
+
+<div id="returns">
+  ##### 반환값
+</div>
+
+`string`
+
+***
+
+<div id="model">
+  ### 모델
+</div>
+
+<div id="get-signature">
+  #### 조회 시그니처
+</div>
+
+> **get** **model**(): `string`
+
+정의 위치: [src/genai/conversation.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L98)
+
+<div id="returns">
+  ##### 반환값
+</div>
+
+`string`
+
+***
+
+<div id="sessionid">
+  ### sessionId
+</div>
+
+<Warning>
+  **사용 중단.** 대신 [Conversation.conversationId](#conversationid)를 사용하세요.
+</Warning>
+
+<div id="get-signature">
+  #### 조회 시그니처
+</div>
+
+> **get** **sessionId**(): `string`
+
+정의 위치: [src/genai/conversation.ts:111](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L111)
+
+<div id="returns">
+  ##### 반환값
+</div>
+
+`string`
+
+<div id="methods">
+  ## 메서드
+</div>
+
+<div id="end">
+  ### end()
+</div>
+
+> **end**(`opts?`): `void`
+
+정의 위치: [src/genai/conversation.ts:168](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L168)
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+<div id="opts">
+  ##### opts?
+</div>
+
+`SpanEndOptions`
+
+#### 반환값
+
+`void`
+
+***
+
+<div id="startturn">
+  ### startTurn()
+</div>
+
+> **startTurn**(`opts?`): [`Turn`](./turn)
+
+이 `Conversation`에서 새 `Turn`을 시작합니다. 이 turn은
+conversation의 `conversationId`를 상속합니다. `agentName`, `agentId`, `agentDescription`,
+`agentVersion`, `model`은 `opts`에 제공되지 않으면 conversation의 값을 사용합니다.
+
+정의 위치: [src/genai/conversation.ts:156](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L156)
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+<div id="opts">
+  ##### opts?
+</div>
+
+[`TurnInit`](./turninit) = `{}`
+
+#### 반환값
+
+[`Turn`](./turn)
+
+<div id="examples">
+  #### 예시
+</div>
+
+```ts twoslash
+// @noErrors
+const turn = conversation.startTurn();
+```
+
+```ts twoslash
+// @noErrors
+const turn = conversation.startTurn({
+  model: 'gpt-4o',
+  agentName: 'research-bot',
+  agentId: 'research-bot-prod',
+  agentDescription: 'Looks up facts on Wikipedia.',
+  agentVersion: '1.4.2',
+  userMessage: 'What is the weather in Tokyo?',
+  systemInstructions: ['You are a helpful weather bot.'],
+  startTime: new Date('2026-05-29T10:00:00.000Z'),
+});
+```
