@@ -488,7 +488,7 @@ For **Self-Managed**, you can configure instance level BYOB using the W&B App:
 1. Optional: Enter the **Path** to use in the new bucket.
 1. In **Authentication**, select one of the following options:
     - **Storage account key**: Enter the storage account access key. Use this option to retain an existing key-based BYOB configuration.
-    - **Workload identity (user-delegation SAS)**: Copy the displayed **Managed identity principal ID** and grant it the **Reader** and **Storage Blob Data Contributor** roles on the storage account. You don't need to enter a tenant ID or client ID. This option requires the `operator-wandb` chart version 0.44.0 or later and a configured `global.azureStorageIdentity`.
+    - **Workload identity (user-delegation SAS)**: Copy the displayed **Managed identity principal ID** and grant it the **Reader** and **Storage Blob Data Contributor** roles on the storage account. You don't need to enter a tenant ID or client ID. <Note>For Self-Managed deployments, requires Operator Helm chart [v0.44.4+](https://github.com/wandb/helm-charts/releases/tag/operator-wandb-0.44.4).</Note>
 1. Click **Save**.
 
 After you save, W&B uses the configured bucket as the default storage destination for new artifacts and run files at the instance level.
