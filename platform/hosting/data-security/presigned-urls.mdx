@@ -74,5 +74,5 @@ Azure requires `scid` to be a GUID, so W&B derives a stable UUID from the userna
 Azure includes `scid` only on user-delegation SAS URLs, which W&B generates when the storage bucket is configured with a managed identity. Shared-key SAS URLs don't include `scid`.
 
 <Note>
-W&B appends attribution parameters to pre-signed URLs by default. To turn off attribution for all storage providers, set the `GORILLA_BUCKET_ATTRIBUTION_DISABLED` environment variable to `true`. W&B Server deployments can set `DISABLE_BUCKET_ATTRIBUTION` to `true` instead. When attribution is off, W&B omits `scid` and `X-User`, and you can't correlate pre-signed URL activity with individual users.
+W&B appends attribution parameters to pre-signed URLs by default. To turn off attribution for all storage providers, set the `GORILLA_BUCKET_ATTRIBUTION_DISABLED` environment variable to `true`.  When attribution is off, W&B omits `scid` and `X-User`, and you can't correlate pre-signed URL activity with individual users.
 </Note>
