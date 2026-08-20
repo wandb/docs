@@ -53,13 +53,13 @@ Les sections suivantes expliquent comment créer un graphique en courbes pour un
 
        Pour ajouter un graphique en courbes directement à une section, cliquez plutôt sur le menu **action (<Icon icon="ellipsis" iconType="solid" />)** de la section, puis sur **+ Add panels**.
     3. Cliquez sur **Quick panel builder**, puis sur l’onglet **Multi-metric panels**.
-    4. Dans **Regex**, saisissez une expression au format [expression régulière JavaScript](https://www.w3schools.com/js/js_regexp.asp). Au fur et à mesure de la saisie, l’interface utilisateur se met à jour pour indiquer quelles métriques correspondent à l’expression. Par défaut, le nom du graphique affiche l’expression régulière utilisée. Le graphique inclut des courbes pour toutes les métriques qui correspondent à l’expression, y compris les métriques enregistrées ultérieurement.
+    4. Dans **Regex**, saisissez une expression au format [RE2 de Google](https://github.com/google/re2/wiki/Syntax). Au fur et à mesure de la saisie, l’interface utilisateur se met à jour pour indiquer quelles métriques correspondent à l’expression. Par défaut, le nom du graphique affiche l’expression régulière utilisée. Le graphique inclut des courbes pour toutes les métriques qui correspondent à l’expression, y compris les métriques enregistrées ultérieurement.
     5. Pour supprimer éventuellement les panneaux à métrique unique en double lors de la création du graphique multi-métrique, activez **Clean up auto-generated panels**. Un aperçu indique quels panneaux seront supprimés. <Note>Lorsque cette option est activée, W&amp;B ne crée pas de graphique à métrique unique pour une métrique nouvellement enregistrée qui correspond à l’expression. Elle apparaît uniquement dans ce graphique multi-métrique.</Note>
     6. Cliquez sur **Create [NUMBER] panels**.
 
     ### Expressions régulières multi-métriques
 
-    Les graphiques en courbes multi-métriques utilisent des [expressions régulières JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions) pour faire correspondre les noms de métriques. Les sections suivantes décrivent des cas d’usage courants et donnent plus de détails sur le fonctionnement des expressions régulières, notamment sur la manière dont les groupes de capture affectent les panneaux créés par W&amp;B.
+    Les graphiques en courbes multi-métriques utilisent la [syntaxe RE2 de Google](https://github.com/google/re2/wiki/Syntax) pour faire correspondre les noms de métriques. Les sections suivantes décrivent des cas d’usage courants et donnent plus de détails sur le fonctionnement des expressions régulières, notamment sur la manière dont les groupes de capture affectent les panneaux créés par W&amp;B.
 
     #### Cas d’usage courants
 
