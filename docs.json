@@ -539,6 +539,8 @@
                     "group": "Get Started",
                     "pages": [
                       "weave/agent-integration-quickstart",
+                      "weave/custom-agents-quickstart",
+                      "weave/agent-evals",
                       "weave/guides/tracking/trace-agents-otel",
                       "weave/quickstart"
                     ]
@@ -2314,6 +2316,8 @@
                     "group": "Premiers pas",
                     "pages": [
                       "fr/weave/agent-integration-quickstart",
+                      "fr/weave/custom-agents-quickstart",
+                      "fr/weave/agent-evals",
                       "fr/weave/guides/tracking/trace-agents-otel",
                       "fr/weave/quickstart"
                     ]
@@ -4089,6 +4093,8 @@
                     "group": "スタートガイド",
                     "pages": [
                       "ja/weave/agent-integration-quickstart",
+                      "ja/weave/custom-agents-quickstart",
+                      "ja/weave/agent-evals",
                       "ja/weave/guides/tracking/trace-agents-otel",
                       "ja/weave/quickstart"
                     ]
@@ -5864,6 +5870,8 @@
                     "group": "시작하기",
                     "pages": [
                       "ko/weave/agent-integration-quickstart",
+                      "ko/weave/custom-agents-quickstart",
+                      "ko/weave/agent-evals",
                       "ko/weave/guides/tracking/trace-agents-otel",
                       "ko/weave/quickstart"
                     ]
