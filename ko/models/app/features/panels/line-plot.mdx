@@ -53,13 +53,13 @@ import LinePlotCaptureGroups from "/snippets/ko/_includes/line-plot-capture-grou
 
        대신 선형 플롯을 특정 섹션에 직접 추가하려면 해당 섹션의 **action (<Icon icon="ellipsis" iconType="solid" />)** 메뉴를 클릭한 다음 **+ Add panels**를 클릭합니다.
     3. **Quick panel builder**를 클릭한 다음 **Multi-metric panels** 탭을 클릭합니다.
-    4. **Regex**에 [JavaScript regular expression](https://www.w3schools.com/js/js_regexp.asp) 형식의 표현식을 입력합니다. 입력하는 동안 UI가 업데이트되어 어떤 메트릭이 표현식과 일치하는지 보여줍니다. 기본적으로 플롯 이름에는 해당 플롯에서 사용하는 정규 표현식이 표시됩니다. 이 플롯에는 앞으로 로깅될 메트릭을 포함해, 표현식과 일치하는 모든 메트릭의 선이 포함됩니다.
+    4. **Regex**에 [Google&#39;s RE2](https://github.com/google/re2/wiki/Syntax) 형식의 표현식을 입력합니다. 입력하는 동안 UI가 업데이트되어 어떤 메트릭이 표현식과 일치하는지 보여줍니다. 기본적으로 플롯 이름에는 해당 플롯에서 사용하는 정규 표현식이 표시됩니다. 이 플롯에는 앞으로 로깅될 메트릭을 포함해, 표현식과 일치하는 모든 메트릭의 선이 포함됩니다.
     5. 다중 메트릭 플롯이 생성될 때 중복된 단일 메트릭 패널을 선택적으로 제거하려면 **Clean up auto-generated panels**를 켭니다. 어떤 패널이 정리되는지는 미리보기에서 확인할 수 있습니다. <Note>이 옵션을 켜면 W&amp;B는 표현식과 일치하는 새로 로깅된 메트릭에 대해 단일 메트릭 플롯을 생성하지 않습니다. 대신 해당 메트릭은 이 다중 메트릭 플롯에만 표시됩니다.</Note>
     6. **Create [NUMBER] panels**를 클릭합니다.
 
     ### 다중 메트릭 정규 표현식
 
-    다중 메트릭 선형 플롯은 메트릭 이름과 일치시키기 위해 [JavaScript regular expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions)를 사용합니다. 다음 섹션에서는 일반적인 사용 사례를 설명하고, 캡처 그룹이 W&amp;B가 생성하는 패널에 어떤 영향을 미치는지 등 정규 표현식이 작동하는 방식에 대한 자세한 내용을 제공합니다.
+    다중 메트릭 선형 플롯은 메트릭 이름과 일치시키기 위해 [Google&#39;s RE2](https://github.com/google/re2/wiki/Syntax) 구문을 사용합니다. 다음 섹션에서는 일반적인 사용 사례를 설명하고, 캡처 그룹이 W&amp;B가 생성하는 패널에 어떤 영향을 미치는지 등 정규 표현식이 작동하는 방식에 대한 자세한 내용을 제공합니다.
 
     #### 일반적인 사용 사례
 
