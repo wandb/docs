@@ -172,9 +172,12 @@ jobs:
             core.info(`Total changed files: ${totalFiles}`);
             core.info(`Added: ${added.length}, Modified: ${modified.length}, Renamed: ${renamed.length}, Removed: ${removed.length}`);
             
-            // Mintlify page previews only apply to published .mdx routes (not plain .md or scripts/).
+            // Mintlify page previews only apply to published .mdx routes (not plain .md, scripts/,
+            // or snippets/). Snippets are partials reused by other pages and have no standalone
+            // preview route, so they belong in the "No preview available" accordion.
             function isDocPageWithPreview(filepath) {
               if (filepath.startsWith('scripts/')) return false;
+              if (filepath.startsWith('snippets/')) return false;
               if (filepath.endsWith('.md')) return false;
               return filepath.endsWith('.mdx');
             }
@@ -277,12 +280,11 @@ jobs:
             // Build the slim, delimited preview-links block.
             const MAX_ROWS = 15;
             let block = `${START}\n`;
-            block += `**📄 [Preview this PR's docs](${previewUrl})** · \`${shortSha}\`\n`;
 
             if (pageRows.length > 0) {
               block += `\n| Page | Change |\n| --- | --- |\n`;
               pageRows.slice(0, MAX_ROWS).forEach(row => {
-                block += `| ${titleFromPath(row.path)} | [${row.action}](${urlFromPath(row.path)}) · +${row.additions} −${row.deletions} |\n`;
+                block += `| [${titleFromPath(row.path)}](${urlFromPath(row.path)}) | **${row.action}** · +${row.additions} −${row.deletions} |\n`;
               });
               if (pageRows.length > MAX_ROWS) {
                 block += `| … and ${pageRows.length - MAX_ROWS} more | |\n`;
@@ -294,9 +296,9 @@ jobs:
               block += `| File | Change |\n| --- | --- |\n`;
               noPreview.slice(0, MAX_ROWS).forEach(row => {
                 let change;
-                if (row.action === 'Added') change = `Added · +${row.additions}`;
-                else if (row.action === 'Deleted') change = `Deleted · −${row.deletions}`;
-                else change = `${row.action} · +${row.additions} −${row.deletions}`;
+                if (row.action === 'Added') change = `**Added** · +${row.additions}`;
+                else if (row.action === 'Deleted') change = `**Deleted** · −${row.deletions}`;
+                else change = `**${row.action}** · +${row.additions} −${row.deletions}`;
                 block += `| \`${row.path}\` | ${change} |\n`;
               });
               if (noPreview.length > MAX_ROWS) {
@@ -305,7 +307,7 @@ jobs:
               block += `\n</details>\n`;
             }
 
-            block += `\n<sub>Updated ${timestamp} for deployment.</sub>\n`;
+            block += `\n<sub>Updated ${timestamp} for deployment · ${shortSha}.</sub>\n`;
             block += END;
 
             // Fetch all comments on the PR.
