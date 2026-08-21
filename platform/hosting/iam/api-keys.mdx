@@ -1,7 +1,7 @@
 ---
 title: Manage API keys
 description: "Find, create, and delete W&B API keys, and restrict how members of your organization create and use them."
-keywords: ["organization-scoped API key", "revoke API key", "API Keys tab", "disable API key creation", "key rotation"]
+keywords: ["organization API key", "revoke API key", "API Keys tab", "disable API key creation", "key rotation"]
 ---
 
 import ApiKeySecurity from "/snippets/_includes/api-key-security.mdx";
@@ -15,20 +15,20 @@ To store keys safely once you have them, see [Store and handle API keys securely
 
 W&B issues API keys to both people and service accounts.
 
-| Key type | Belongs to | Scope |
+| Key type | Belongs to | Access |
 | --- | --- | --- |
 | Personal API key | A user | Every organization the user belongs to |
-| Organization-scoped API key | A user, within one organization | Only that organization's resources |
+| Organization API key | A user, within one organization | Only that organization's resources |
 | [Team service account](/platform/hosting/iam/service-accounts#team-scoped-service-accounts) key | A service account | One team |
 | [Organization service account](/platform/hosting/iam/service-accounts#organization-scoped-service-accounts) key | A service account | All teams in the organization |
 
 <Note>
-An **organization-scoped API key** and an **organization-scoped service account** are different things. An organization-scoped API key belongs to a person and authenticates that person, limited to a single organization. An organization-scoped service account is a non-human identity used for automation, and it has its own API keys. A user can hold an organization-scoped API key without any service account being involved.
+An **organization API key** and an **organization-scoped service account** are different things. An organization API key belongs to a person and authenticates that person, limited to a single organization. An organization-scoped service account is a non-human identity used for automation, and it has its own API keys. A user can hold an organization API key without any service account being involved.
 </Note>
 
-Organization-scoped API keys limit the damage a leaked key can do. A personal API key works in every organization its owner belongs to, so a key exposed in a public repository can reach resources in an unrelated organization. An organization-scoped key only works in the organization it was created for.
+Organization API keys limit the damage a leaked key can do. A personal API key works in every organization its owner belongs to, so a key exposed in a public repository can reach resources in an unrelated organization. An organization API key only works in the organization it was created for.
 
-Organization-scoped API keys are available in Multi-tenant Cloud for Enterprise organizations, and W&B enables them per organization. If you don't see the options described in the following sections, contact your W&B account team.
+Organization API keys are available in Multi-tenant Cloud for Enterprise organizations, and W&B enables them per organization. If you don't see the options described in the following sections, contact your W&B account team.
 
 ## Find and manage API keys
 
@@ -63,9 +63,9 @@ The keys listed in the **API Keys** tab depend on your role:
 
 | Role | Can see |
 | --- | --- |
-| Member | Their own organization-scoped keys |
-| Team admin | Their own organization-scoped keys, and keys for service accounts in teams they administer. |
-| Organization admin | All organization-scoped keys in the organization, including organization service account keys. |
+| Member | Their own organization API keys |
+| Team admin | Their own organization API keys, and keys for service accounts in teams they administer. |
+| Organization admin | All organization API keys in the organization, including organization service account keys. |
 | Billing admin | In Multi-tenant Cloud, nothing. The **API Keys** tab is hidden for this role. In Dedicated Cloud and Self-Managed, the same keys as a member. |
 
 ### Read the API keys table
@@ -94,7 +94,7 @@ To narrow the list, type in the search field to match a key name, key ID, or own
 
 <ApiKeyViewOnceWarning/>
 
-In Multi-tenant Cloud, keys you create from this tab are scoped to the organization you're viewing. Create a separate key for each organization you work in.
+In Multi-tenant Cloud, keys you create from this tab belong to the organization you're viewing. Create a separate key for each organization you work in.
 
 ### Rename an API key
 
@@ -141,11 +141,11 @@ If a key was exposed publicly, delete it immediately rather than waiting to upda
 
 Organization admins can restrict key creation and use. The available restrictions differ by deployment type, and each is set through the `updateOrganizationPrivacySettings` GraphQL mutation rather than through the W&B App.
 
-### Require organization-scoped API keys
+### Require organization API keys
 
 Available in **Multi-tenant Cloud** for Enterprise organizations.
 
-When enabled, only organization-scoped API keys can access the organization's resources. Personal API keys that a member uses across several organizations no longer work against this organization, which prevents a key leaked from elsewhere from reaching your data.
+When enabled, only organization API keys can access the organization's resources. Personal API keys that a member uses across several organizations no longer work against this organization, which prevents a key leaked from elsewhere from reaching your data.
 
 Replace `[ORGANIZATION-ID]` with the ID of your organization.
 
@@ -159,7 +159,7 @@ mutation RequireOrgScopedAPIKeys {
 }
 ```
 
-This setting requires that organization-scoped API keys are already enabled for your organization. Contact your W&B account team to confirm.
+This setting requires that organization API keys are already enabled for your organization. Contact your W&B account team to confirm.
 
 ### Disable API key creation
 
@@ -196,8 +196,8 @@ API key capabilities differ by deployment type and, in Multi-tenant Cloud, by su
 | Search and filter the API keys table | Yes | v0.84.0+ | v0.84.0+ |
 | Create a key from the **API Keys** tab | Enterprise organizations | v0.84.0+ | v0.84.0+ |
 | Delete several keys at once | Enterprise organizations | v0.84.0+ | v0.84.0+ |
-| Organization-scoped API keys | Enterprise organizations | Not available | Not available |
-| Require organization-scoped API keys | Enterprise organizations | Not available | Not available |
+| Organization API keys | Enterprise organizations | Not available | Not available |
+| Require organization API keys | Enterprise organizations | Not available | Not available |
 | Disable API key creation | Not available | v0.84.0+ | v0.84.0+ |
 
 <ApiKeySecurity/>
