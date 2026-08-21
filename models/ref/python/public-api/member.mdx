@@ -7,16 +7,11 @@ namespace: wandb.apis.public.teams
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py#L24" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py#L24" />
 
 
 
-## <kbd>class</kbd> wandb.apis.public.Member
-```python
-(service_api: 'ServiceApi',
-team: 'str',
-attrs: 'Mapping[str, Any]')
-```
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.Member
 
 
 
@@ -24,30 +19,25 @@ A member of a team.
 
 
 
-## Args
-
-- `service_api`: The service API instance to use for querying W&B.
-- `team`: The name of the team this member belongs to
-- `attrs`: The member attributes
-
-
-
-
-
-
-
-
-## Methods
-
-### <kbd>method</kbd> Member.delete()
-
 ```python
-(self)
+(service_api: 'ServiceApi',
+team: 'str',
+attrs: 'Mapping[str, Any]')
 ```
 
-Remove a member from a team.
+## Args
 
+<ResponseField name="service_api" type="ServiceApi">
+The service API instance to use for querying W&B.
+</ResponseField>
 
+<ResponseField name="team" type="str">
+The name of the team this member belongs to
+</ResponseField>
+
+<ResponseField name="attrs" type="Mapping[str, Any]">
+The member attributes
+</ResponseField>
 
 
 

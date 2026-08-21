@@ -1,0 +1,49 @@
+---
+title: File methods
+sidebarTitle: Methods
+page_kind: class-methods
+parent_slug: file
+kind: class
+namespace: wandb.apis.public.files
+---
+
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.File
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> File.delete()
+
+Delete the file from the W&B server.
+
+```python
+self
+```
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> File.download()
+
+Downloads a file previously saved by a run from the wandb server.
+
+```python
+self,
+root: 'str' = '.',
+replace: 'bool' = False,
+exist_ok: 'bool' = False,
+api: 'Api | None' = None
+```
+
+##### Arguments
+
+<ResponseField name="root" type="str">
+Local directory to save the file. Defaults to the current working directory (".").
+</ResponseField>
+
+<ResponseField name="replace" type="bool">
+If `True`, download will overwrite a local file if it exists. Defaults to `False`.
+</ResponseField>
+
+<ResponseField name="exist_ok" type="bool">
+If `True`, will not raise ValueError if file already exists and will not re-download unless replace=True. Defaults to `False`.
+</ResponseField>
+
+<ResponseField name="api" type="Api | None">
+If specified, the `Api` instance used to download the file.
+</ResponseField>
+

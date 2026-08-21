@@ -1,0 +1,56 @@
+---
+title: Sweep properties
+sidebarTitle: Properties
+page_kind: class-properties
+parent_slug: sweep
+kind: class
+namespace: wandb.apis.public.sweeps
+---
+
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.Sweep
+
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> config
+
+The sweep configuration used for the sweep.
+
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> entity
+
+The entity associated with the sweep.
+
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> expected_run_count
+
+Return the number of expected runs in the sweep or None for infinite runs.
+
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> name
+
+The name of the sweep.
+
+Returns the first name that exists in the following priority order:
+
+1. User-edited display name
+2. Name configured at creation time
+3. Sweep ID
+
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> order
+
+Return the order key for the sweep.
+
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> path
+
+Returns the path of the project.
+
+The path is a list containing the entity, project name, and sweep ID.
+
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> url
+
+The URL of the sweep.
+
+The sweep URL is generated from the entity, project, the term
+"sweeps", and the sweep ID.run_id. For
+SaaS users, it takes the form
+of `https://wandb.ai/entity/project/sweeps/sweeps_ID`.
+
+## <Badge color="gray" size="lg" shape="rounded">property</Badge> username
+
+Deprecated. Use `Sweep.entity` instead.
+

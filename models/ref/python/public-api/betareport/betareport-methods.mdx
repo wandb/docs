@@ -1,0 +1,56 @@
+---
+title: BetaReport methods
+sidebarTitle: Methods
+page_kind: class-methods
+parent_slug: betareport
+kind: class
+namespace: wandb.apis.public.reports
+---
+
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.BetaReport
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> BetaReport.runs()
+
+Get runs associated with a section of the report.
+
+```python
+self,
+section: 'dict[str, Any]',
+per_page: 'int' = 50,
+only_selected: 'bool' = True
+```
+
+##### Arguments
+
+<ResponseField name="section" type="dict[str, Any]">
+
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+
+</ResponseField>
+
+<ResponseField name="only_selected" type="bool">
+
+</ResponseField>
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> BetaReport.to_html()
+
+Generate HTML containing an iframe displaying this report.
+
+```python
+self,
+height: 'int' = 1024,
+hidden: 'bool' = False
+```
+
+##### Arguments
+
+<ResponseField name="height" type="int">
+
+</ResponseField>
+
+<ResponseField name="hidden" type="bool">
+
+</ResponseField>
+

@@ -1,0 +1,741 @@
+---
+title: Artifact methods
+sidebarTitle: Methods
+page_kind: class-methods
+parent_slug: artifact
+kind: class
+namespace: wandb.sdk.artifacts.artifact
+---
+
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.Artifact
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.add()
+
+Add wandb.WBValue `obj` to the artifact.
+
+```python
+self,
+obj: 'WBValue',
+name: 'StrPath',
+overwrite: 'bool' = False
+```
+
+##### Arguments
+
+<ResponseField name="obj" type="WBValue">
+The object to add. Currently support one of Bokeh, JoinedTable, PartitionedTable, Table, Classes, ImageMask, BoundingBoxes2D, Audio, Image, Video, Html, Object3D
+</ResponseField>
+
+<ResponseField name="name" type="StrPath">
+The path within the artifact to add the object.
+</ResponseField>
+
+<ResponseField name="overwrite" type="bool">
+If True, overwrite existing objects with the same file path if applicable.
+</ResponseField>
+
+##### Returns
+
+The added manifest entry
+
+##### Raises
+
+<ResponseField name="ArtifactFinalizedError">
+You cannot make changes to the current artifact version because it is finalized. Log a new artifact version instead.
+</ResponseField>
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.add_dir()
+
+Add a local directory to the artifact.
+
+```python
+self,
+local_path: 'str',
+name: 'str | None' = None,
+skip_cache: 'bool | None' = False,
+policy: "Literal['mutable', 'immutable'] | None" = 'mutable',
+merge: 'bool' = False
+```
+
+##### Arguments
+
+<ResponseField name="local_path" type="str">
+The path of the local directory.
+</ResponseField>
+
+<ResponseField name="name" type="str | None">
+The subdirectory name within an artifact. The name you specify appears in the W&B App UI nested by artifact's `type`. Defaults to the root of the artifact.
+</ResponseField>
+
+<ResponseField name="skip_cache" type="bool | None">
+If set to `True`, W&B will not copy/move files to the cache while uploading
+</ResponseField>
+
+<ResponseField name="policy" type="Literal['mutable', 'immutable'] | None">
+By default, "mutable".
+- mutable: Create a temporary copy of the file to prevent
+    corruption during upload.
+- immutable: Disable protection, rely on the user not to delete
+    or change the file.
+</ResponseField>
+
+<ResponseField name="merge" type="bool">
+If `False` (default), throws ValueError if a file was already added in a previous add_dir call and its content has changed. If `True`, overwrites existing files with changed content. Always adds new files and never removes files. To replace an entire directory, pass a name when adding the directory using `add_dir(local_path, name=my_prefix)` and call `remove(my_prefix)` to remove the directory, then add it again.
+</ResponseField>
+
+##### Raises
+
+<ResponseField name="ArtifactFinalizedError">
+You cannot make changes to the current artifact version because it is finalized. Log a new artifact version instead.
+</ResponseField>
+
+<ResponseField name="ValueError">
+Policy must be "mutable" or "immutable"
+</ResponseField>
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.add_file()
+
+Add a local file to the artifact.
+
+```python
+self,
+local_path: 'str',
+name: 'str | None' = None,
+is_tmp: 'bool | None' = False,
+skip_cache: 'bool | None' = False,
+policy: "Literal['mutable', 'immutable'] | None" = 'mutable',
+overwrite: 'bool' = False
+```
+
+##### Arguments
+
+<ResponseField name="local_path" type="str">
+The path to the file being added.
+</ResponseField>
+
+<ResponseField name="name" type="str | None">
+The path within the artifact to use for the file being added. Defaults to the basename of the file.
+</ResponseField>
+
+<ResponseField name="is_tmp" type="bool | None">
+If true, then the file is renamed deterministically to avoid collisions.
+</ResponseField>
+
+<ResponseField name="skip_cache" type="bool | None">
+If `True`, do not copy files to the cache after uploading.
+</ResponseField>
+
+<ResponseField name="policy" type="Literal['mutable', 'immutable'] | None">
+By default, set to "mutable". If set to "mutable", create a temporary copy of the file to prevent corruption during upload. If set to "immutable", disable protection and rely on the user not to delete or change the file.
+</ResponseField>
+
+<ResponseField name="overwrite" type="bool">
+If `True`, overwrite the file if it already exists.
+</ResponseField>
+
+##### Returns
+
+The added manifest entry.
+
+##### Raises
+
+<ResponseField name="ArtifactFinalizedError">
+You cannot make changes to the current artifact version because it is finalized. Log a new artifact version instead.
+</ResponseField>
+
+<ResponseField name="ValueError">
+Policy must be "mutable" or "immutable"
+</ResponseField>
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.add_reference()
+
+Add a reference denoted by a URI to the artifact.
+
+Unlike files or directories that you add to an artifact, references are not
+uploaded to W&B. For more information,
+see [Track external files](https://docs.wandb.ai/models/artifacts/track-external-files).
+
+By default, the following schemes are supported:
+
+- http(s): The size and digest of the file will be inferred by the
+  `Content-Length` and the `ETag` response headers returned by the server.
+- s3: The checksum and size are pulled from the object metadata.
+  If bucket versioning is enabled, then the version ID is also tracked.
+- gs: The checksum and size are pulled from the object metadata. If bucket
+  versioning is enabled, then the version ID is also tracked.
+- https, domain matching `*.blob.core.windows.net`
+- Azure: The checksum and size are be pulled from the blob metadata.
+  If storage account versioning is enabled, then the version ID is
+  also tracked.
+- file: The checksum and size are pulled from the file system. This scheme
+  is useful if you have an NFS share or other externally mounted volume
+  containing files you wish to track but not necessarily upload.
+
+For any other scheme, the digest is just a hash of the URI and the size is left
+blank.
+
+```python
+self,
+uri: 'ArtifactManifestEntry | str',
+name: 'StrPath | None' = None,
+checksum: 'bool' = True,
+max_objects: 'int | None' = None
+```
+
+##### Arguments
+
+<ResponseField name="uri" type="ArtifactManifestEntry | str">
+The URI path of the reference to add. The URI path can be an object returned from `Artifact.get_entry` to store a reference to another artifact's entry.
+</ResponseField>
+
+<ResponseField name="name" type="StrPath | None">
+The path within the artifact to place the contents of this reference.
+</ResponseField>
+
+<ResponseField name="checksum" type="bool">
+Whether or not to checksum the resource(s) located at the reference URI. Checksumming is strongly recommended as it enables automatic integrity validation. Disabling checksumming will speed up artifact creation but reference directories will not iterated through so the objects in the directory will not be saved to the artifact. We recommend setting `checksum=False` when adding reference objects, in which case a new version will only be created if the reference URI changes.
+</ResponseField>
+
+<ResponseField name="max_objects" type="int | None">
+The maximum number of objects to consider when adding a reference that points to directory or bucket store prefix. By default, the maximum number of objects allowed for Amazon S3, GCS, Azure, and local files is 10,000,000. Other URI schemas do not have a maximum.
+</ResponseField>
+
+##### Returns
+
+The added manifest entries.
+
+##### Raises
+
+<ResponseField name="ArtifactFinalizedError">
+You cannot make changes to the current artifact version because it is finalized. Log a new artifact version instead.
+</ResponseField>
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.checkout()
+
+Replace the specified root directory with the contents of the artifact.
+
+WARNING: This will delete all files in `root` that are not included in the
+artifact.
+
+```python
+self,
+root: 'str | None' = None
+```
+
+##### Arguments
+
+<ResponseField name="root" type="str | None">
+The directory to replace with this artifact's files.
+</ResponseField>
+
+##### Returns
+
+The path of the checked out contents.
+
+##### Raises
+
+<ResponseField name="ArtifactNotLoggedError">
+If the artifact is not logged.
+</ResponseField>
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.delete()
+
+Delete an artifact and its files.
+
+If called on a linked artifact, only the link is deleted, and the
+source artifact is unaffected.
+
+Use `Artifact.unlink()` instead of `Artifact.delete()` to remove a
+link between a source artifact and a collection.
+
+```python
+self,
+delete_aliases: 'bool' = False
+```
+
+##### Arguments
+
+<ResponseField name="delete_aliases" type="bool">
+If set to `True`, delete all aliases associated with the artifact. If `False`, raise an exception if the artifact has existing aliases. This parameter is ignored if the artifact is retrieved from a collection it is linked to.
+</ResponseField>
+
+##### Raises
+
+<ResponseField name="ArtifactNotLoggedError">
+If the artifact is not logged.
+</ResponseField>
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.download()
+
+Download the contents of the artifact to the specified root directory.
+
+Existing files located within `root` are not modified. Explicitly delete `root`
+before you call `download` if you want the contents of `root` to exactly match
+the artifact.
+
+```python
+self,
+root: 'StrPath | None' = None,
+allow_missing_references: 'bool' = False,
+skip_cache: 'bool | None' = None,
+path_prefix: 'StrPath | None' = None,
+multipart: 'bool | None' = None
+```
+
+##### Arguments
+
+<ResponseField name="root" type="StrPath | None">
+The directory W&B stores the artifact's files.
+</ResponseField>
+
+<ResponseField name="allow_missing_references" type="bool">
+If set to `True`, any invalid reference paths will be ignored while downloading referenced files.
+</ResponseField>
+
+<ResponseField name="skip_cache" type="bool | None">
+If set to `True`, the artifact cache will be skipped when downloading and W&B will download each file into the default root or specified download directory.
+</ResponseField>
+
+<ResponseField name="path_prefix" type="StrPath | None">
+If specified, only files with a path that starts with the given prefix will be downloaded. Uses unix format (forward slashes).
+</ResponseField>
+
+<ResponseField name="multipart" type="bool | None">
+If set to `None` (default), the artifact will be downloaded in parallel using multipart download if individual file size is greater than 2GB. If set to `True` or `False`, the artifact will be downloaded in parallel or serially regardless of the file size.
+</ResponseField>
+
+##### Returns
+
+The path to the downloaded contents.
+
+##### Raises
+
+<ResponseField name="ArtifactNotLoggedError">
+If the artifact is not logged.
+</ResponseField>
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.file()
+
+Download a single file artifact to the directory you specify with `root`.
+
+```python
+self,
+root: 'str | None' = None
+```
+
+##### Arguments
+
+<ResponseField name="root" type="str | None">
+The root directory to store the file. Defaults to `./artifacts/self.name/`.
+</ResponseField>
+
+##### Returns
+
+The full path of the downloaded file.
+
+##### Raises
+
+<ResponseField name="ArtifactNotLoggedError">
+If the artifact is not logged.
+</ResponseField>
+
+<ResponseField name="ValueError">
+If the artifact contains more than one file.
+</ResponseField>
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.files()
+
+Iterate over all files stored in this artifact.
+
+```python
+self,
+names: 'list[str] | None' = None,
+per_page: 'int' = 50,
+start: 'str | None' = None
+```
+
+##### Arguments
+
+<ResponseField name="names" type="list[str] | None">
+The filename paths relative to the root of the artifact you wish to list.
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+The number of files to return per request.
+</ResponseField>
+
+<ResponseField name="start" type="str | None">
+Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
+</ResponseField>
+
+##### Returns
+
+An iterator containing `File` objects.
+
+##### Raises
+
+<ResponseField name="ArtifactNotLoggedError">
+If the artifact is not logged.
+</ResponseField>
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.finalize()
+
+Finalize the artifact version.
+
+You cannot modify an artifact version once it is finalized because the artifact
+is logged as a specific artifact version. Create a new artifact version
+to log more data to an artifact. An artifact is automatically finalized
+when you log the artifact with `log_artifact`.
+
+```python
+self
+```
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.get()
+
+Get the WBValue object located at the artifact relative `name`.
+
+```python
+self,
+name: 'str'
+```
+
+##### Arguments
+
+<ResponseField name="name" type="str">
+The artifact relative name to retrieve.
+</ResponseField>
+
+##### Returns
+
+W&B object that can be logged with `run.log()` and visualized in the W&B UI.
+
+##### Raises
+
+<ResponseField name="ArtifactNotLoggedError">
+if the artifact isn't logged or the run is offline.
+</ResponseField>
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.get_added_local_path_name()
+
+Get the artifact relative name of a file added by a local filesystem path.
+
+```python
+self,
+local_path: 'str'
+```
+
+##### Arguments
+
+<ResponseField name="local_path" type="str">
+The local path to resolve into an artifact relative name.
+</ResponseField>
+
+##### Returns
+
+The artifact relative name.
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.get_entry()
+
+Get the entry with the given name.
+
+```python
+self,
+name: 'StrPath'
+```
+
+##### Arguments
+
+<ResponseField name="name" type="StrPath">
+The artifact relative name to get
+</ResponseField>
+
+##### Returns
+
+A `W&B` object.
+
+##### Raises
+
+<ResponseField name="ArtifactNotLoggedError">
+if the artifact isn't logged or the run is offline.
+</ResponseField>
+
+<ResponseField name="KeyError">
+if the artifact doesn't contain an entry with the given name.
+</ResponseField>
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.get_path()
+
+Deprecated. Use `get_entry(name)`.
+
+```python
+self,
+name: 'StrPath'
+```
+
+##### Arguments
+
+<ResponseField name="name" type="StrPath">
+
+</ResponseField>
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.is_draft()
+
+Check if artifact is not saved.
+
+```python
+self
+```
+
+##### Returns
+
+Boolean. `False` if artifact is saved. `True` if artifact is not saved.
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.json_encode()
+
+Returns the artifact encoded to the JSON format.
+
+```python
+self
+```
+
+##### Returns
+
+A `dict` with `string` keys representing attributes of the artifact.
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.link()
+
+Link this artifact to a collection.
+
+```python
+self,
+target_path: 'str',
+aliases: 'Iterable[str] | None' = None
+```
+
+##### Arguments
+
+<ResponseField name="target_path" type="str">
+The path of the collection. Path consists of the prefix "wandb-registry-" along with the registry name and the collection name `wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}`.
+</ResponseField>
+
+<ResponseField name="aliases" type="Iterable[str] | None">
+Add one or more aliases to the linked artifact. The "latest" alias is automatically applied to the most recent artifact you link.
+</ResponseField>
+
+##### Returns
+
+The linked artifact.
+
+##### Raises
+
+<ResponseField name="ArtifactNotLoggedError">
+If the artifact is not logged.
+</ResponseField>
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.logged_by()
+
+Get the W&B run that originally logged the artifact.
+
+```python
+self
+```
+
+##### Returns
+
+The name of the W&B run that originally logged the artifact.
+
+##### Raises
+
+<ResponseField name="ArtifactNotLoggedError">
+If the artifact is not logged.
+</ResponseField>
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.new_draft()
+
+Create a new draft artifact with the same content as this committed artifact.
+
+Modifying an existing artifact creates a new artifact version known
+as an "incremental artifact". The artifact returned can be extended or
+modified and logged as a new version.
+
+```python
+self
+```
+
+##### Returns
+
+An `Artifact` object.
+
+##### Raises
+
+<ResponseField name="ArtifactNotLoggedError">
+If the artifact is not logged.
+</ResponseField>
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.new_file()
+
+Open a new temporary file and add it to the artifact.
+
+```python
+self,
+name: 'str',
+mode: 'str' = 'x',
+encoding: 'str | None' = None
+```
+
+##### Arguments
+
+<ResponseField name="name" type="str">
+The name of the new file to add to the artifact.
+</ResponseField>
+
+<ResponseField name="mode" type="str">
+The file access mode to use to open the new file.
+</ResponseField>
+
+<ResponseField name="encoding" type="str | None">
+The encoding used to open the new file.
+</ResponseField>
+
+##### Returns
+
+A new file object that can be written to. Upon closing, the file is automatically added to the artifact.
+
+##### Raises
+
+<ResponseField name="ArtifactFinalizedError">
+You cannot make changes to the current artifact version because it is finalized. Log a new artifact version instead.
+</ResponseField>
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.remove()
+
+Remove an item from the artifact.
+
+```python
+self,
+item: 'StrPath | ArtifactManifestEntry'
+```
+
+##### Arguments
+
+<ResponseField name="item" type="StrPath | ArtifactManifestEntry">
+The item to remove. Can be a specific manifest entry or the name of an artifact-relative path. If the item matches a directory all items in that directory will be removed.
+</ResponseField>
+
+##### Raises
+
+<ResponseField name="ArtifactFinalizedError">
+You cannot make changes to the current artifact version because it is finalized. Log a new artifact version instead.
+</ResponseField>
+
+<ResponseField name="FileNotFoundError">
+If the item isn't found in the artifact.
+</ResponseField>
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.save()
+
+Persist any changes made to the artifact.
+
+If currently in a run, that run will log this artifact. If not currently in a
+run, a run of type "auto" is created to track this artifact.
+
+```python
+self,
+project: 'str | None' = None,
+settings: 'wandb.Settings | None' = None
+```
+
+##### Arguments
+
+<ResponseField name="project" type="str | None">
+A project to use for the artifact in the case that a run is not already in context.
+</ResponseField>
+
+<ResponseField name="settings" type="wandb.Settings | None">
+A settings object to use when initializing an automatic run. Most commonly used in testing harness.
+</ResponseField>
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.unlink()
+
+Unlink this artifact if it is a linked member of an artifact collection.
+
+```python
+self
+```
+
+##### Raises
+
+<ResponseField name="ArtifactNotLoggedError">
+If the artifact is not logged.
+</ResponseField>
+
+<ResponseField name="ValueError">
+If the artifact is not linked to any collection.
+</ResponseField>
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.used_by()
+
+Get a list of the runs that have used this artifact and its linked artifacts.
+
+```python
+self
+```
+
+##### Returns
+
+A list of `Run` objects.
+
+##### Raises
+
+<ResponseField name="ArtifactNotLoggedError">
+If the artifact is not logged.
+</ResponseField>
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.verify()
+
+Verify that the contents of an artifact match the manifest.
+
+All files in the directory are checksummed and the checksums are then
+cross-referenced against the artifact's manifest. References are not verified.
+
+```python
+self,
+root: 'str | None' = None
+```
+
+##### Arguments
+
+<ResponseField name="root" type="str | None">
+The directory to verify. If None artifact will be downloaded to './artifacts/self.name/'.
+</ResponseField>
+
+##### Raises
+
+<ResponseField name="ArtifactNotLoggedError">
+If the artifact is not logged.
+</ResponseField>
+
+<ResponseField name="ValueError">
+If the verification fails.
+</ResponseField>
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.wait()
+
+If needed, wait for this artifact to finish logging.
+
+```python
+self,
+timeout: 'int | None' = None
+```
+
+##### Arguments
+
+<ResponseField name="timeout" type="int | None">
+The time, in seconds, to wait.
+</ResponseField>
+
+##### Returns
+
+An `Artifact` object.
+

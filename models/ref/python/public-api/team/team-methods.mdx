@@ -1,0 +1,82 @@
+---
+title: Team methods
+sidebarTitle: Methods
+page_kind: class-methods
+parent_slug: team
+kind: class
+namespace: wandb.apis.public.teams
+---
+
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.Team
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Team.create()
+
+Create a new team.
+
+```python
+api: 'Api',
+team: 'str',
+admin_username: 'str | None' = None
+```
+
+##### Arguments
+
+<ResponseField name="api" type="Api">
+(`Api`) The api instance to use
+</ResponseField>
+
+<ResponseField name="team" type="str">
+(str) The name of the team
+</ResponseField>
+
+<ResponseField name="admin_username" type="str | None">
+(str) optional username of the admin user of the team, defaults to the current user.
+</ResponseField>
+
+##### Returns
+
+A `Team` object
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Team.create_service_account()
+
+Create a service account for the team.
+
+```python
+self,
+description: 'str'
+```
+
+##### Arguments
+
+<ResponseField name="description" type="str">
+(str) A description for this service account
+</ResponseField>
+
+##### Returns
+
+The service account `Member` object, or None on failure
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> Team.invite()
+
+Invite a user to a team.
+
+```python
+self,
+username_or_email: 'str',
+admin: 'bool' = False
+```
+
+##### Arguments
+
+<ResponseField name="username_or_email" type="str">
+(str) The username or email address of the user you want to invite.
+</ResponseField>
+
+<ResponseField name="admin" type="bool">
+(bool) Whether to make this user a team admin. Defaults to `False`.
+</ResponseField>
+
+##### Returns
+
+`True` on success, `False` if user was already invited or didn't exist.
+

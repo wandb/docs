@@ -1,0 +1,70 @@
+---
+title: ArtifactCollection methods
+sidebarTitle: Methods
+page_kind: class-methods
+parent_slug: artifactcollection
+kind: class
+namespace: wandb.apis.public.artifacts
+---
+
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.ArtifactCollection
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> ArtifactCollection.artifacts()
+
+Get all artifacts in the collection.
+
+```python
+self,
+per_page: 'int' = 50,
+start: 'str | None' = None
+```
+
+##### Arguments
+
+<ResponseField name="per_page" type="int">
+The number of artifacts to fetch per page.
+</ResponseField>
+
+<ResponseField name="start" type="str | None">
+Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
+</ResponseField>
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> ArtifactCollection.change_type()
+
+Deprecated, change type directly with `save` instead.
+
+```python
+self,
+new_type: 'str'
+```
+
+##### Arguments
+
+<ResponseField name="new_type" type="str">
+
+</ResponseField>
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> ArtifactCollection.delete()
+
+Delete the entire artifact collection.
+
+```python
+self
+```
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> ArtifactCollection.is_sequence()
+
+Return whether the artifact collection is a sequence.
+
+```python
+self
+```
+
+## <Badge color="blue" size="lg" shape="rounded">method</Badge> ArtifactCollection.save()
+
+Persist any changes made to the artifact collection.
+
+```python
+self
+```
+

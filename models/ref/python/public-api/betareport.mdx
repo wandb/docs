@@ -7,17 +7,11 @@ namespace: wandb.apis.public.reports
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py#L170" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py#L170" />
 
 
 
-## <kbd>class</kbd> wandb.apis.public.BetaReport
-```python
-(service_api: 'ServiceApi',
-attrs: 'dict',
-entity: 'str | None' = None,
-project: 'str | None' = None)
-```
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.BetaReport
 
 
 
@@ -29,13 +23,30 @@ sections, and for rendering the report as HTML.
 
 
 
+```python
+(service_api: 'ServiceApi',
+attrs: 'dict',
+entity: 'str | None' = None,
+project: 'str | None' = None)
+```
+
 ## Args
 
-- `service_api`: 
-- `attrs`: 
-- `entity`: 
-- `project`: 
+<ResponseField name="service_api" type="ServiceApi">
 
+</ResponseField>
+
+<ResponseField name="attrs" type="dict">
+
+</ResponseField>
+
+<ResponseField name="entity" type="str | None">
+
+</ResponseField>
+
+<ResponseField name="project" type="str | None">
+
+</ResponseField>
 
 ## Attributes
 
@@ -48,93 +59,6 @@ sections, and for rendering the report as HTML.
 - `url` (`string`): The URL of the report.
 - `updated_at` (`string`): Timestamp of last update.
 - `created_at` (`string`): Timestamp when the report was created.
-
-
-
-
-## Properties
-
-### <kbd>property</kbd> created_at
-
-
-
-### <kbd>property</kbd> description
-
-
-
-### <kbd>property</kbd> display_name
-
-
-
-### <kbd>property</kbd> id
-
-
-
-### <kbd>property</kbd> name
-
-
-
-### <kbd>property</kbd> sections
-
-Get the panel sections (groups) from the report.
-
-### <kbd>property</kbd> spec
-
-
-
-### <kbd>property</kbd> updated_at
-
-
-
-### <kbd>property</kbd> url
-
-
-
-### <kbd>property</kbd> user
-
-
-
-
-
-## Methods
-
-### <kbd>method</kbd> BetaReport.runs()
-
-```python
-self,
-section: 'dict[str, Any]',
-per_page: 'int' = 50,
-only_selected: 'bool' = True
-```
-
-Get runs associated with a section of the report.
-
-##### Arguments
-
-- `section`: 
-- `per_page`: 
-- `only_selected`: 
-
-
-
-
-### <kbd>method</kbd> BetaReport.to_html()
-
-```python
-self,
-height: 'int' = 1024,
-hidden: 'bool' = False
-```
-
-Generate HTML containing an iframe displaying this report.
-
-##### Arguments
-
-- `height`: 
-- `hidden`: 
-
-
-
 
 
 
