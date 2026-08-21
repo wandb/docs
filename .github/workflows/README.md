@@ -169,7 +169,7 @@ Only MDX validation can fail the job; the other two never fail a PR. All three r
 
 - **Pull request**: the default activity types (`opened`, `synchronize`, `reopened`), deliberately with **no `paths` filter** — a paths filter would leave the required check pending on PRs it skips. A scope-gate `git diff` inside the job fast-exits instead when a PR touches no Mintlify-relevant files (`.mdx`, `.json`, `.yaml`/`.yml`, images, or the validation script).
 - **Push**: to `main` (full validation)
-- **Manual**: `workflow_dispatch` (writes the report to the job summary instead of a comment)
+- **Manual**: `workflow_dispatch` (writes the report to the job summary instead of a comment). Dispatch runs the full MDX validation only: the link and readability checks diff against `main`, so on `main` itself the change list is empty and they skip. The old `linkcheck-pr.yml` dispatch fell back to a full-tree external-link sweep in that case; that behavior was **not** carried over — the closest substitute is `linkcheck-prod.yml`, which checks the live site's sitemap (monthly cron, also manually dispatchable).
 
 ### Configuration
 

@@ -34,7 +34,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           # App token rather than the default GITHUB_TOKEN so the rebuild
-          # commit triggers downstream workflows (for example Validate MDX).
+          # commit triggers downstream workflows (for example Doc quality).
           # Fork PRs are already excluded by the job-level `if` above.
           token: ${{ steps.app-token.outputs.token }}
           ref: ${{ github.head_ref }}

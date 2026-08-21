@@ -62,7 +62,11 @@ permissions:
   pull-requests: write
 
 concurrency:
-  group: doc-quality-${{ github.head_ref || github.ref }}
+  # Key on the PR number, not the branch name: head_ref is the bare branch
+  # name, which is not unique per PR (two forks both named patch-1 collide, as
+  # does one branch with PRs against two bases), and a collision plus
+  # cancel-in-progress would cancel another PR's required check.
+  group: doc-quality-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -79,6 +83,11 @@ jobs:
           # Full history to diff merge-base..head.
           fetch-depth: 0
           submodules: false
+          # Do not leave the (write-capable, on same-repo PRs) token in
+          # .git/config while unpinned mint/lychee code runs. Nothing here
+          # needs it: the diffs are local, the submodule step brings its own
+          # DOCENGINE_TOKEN, and the gh steps get the token via env.
+          persist-credentials: false
 
       # ------------------------------------------------------------
       # 1. Scope gate: one git diff decides what runs.
@@ -101,7 +110,10 @@ jobs:
           : > "$OUT"
 
           if [ "$EVENT_NAME" = "pull_request" ]; then
-            if [ "$PR_IS_FORK" = "true" ]; then
+            # head.repo.fork renders as empty when head.repo is null (the fork
+            # was deleted), so treat anything that is not exactly "false" as a
+            # fork rather than letting the mutating steps 403 later.
+            if [ "$PR_IS_FORK" != "false" ]; then
               echo "is_fork=true" >> "$GITHUB_OUTPUT"
             else
               echo "is_fork=false" >> "$GITHUB_OUTPUT"
@@ -116,6 +128,10 @@ jobs:
             # with grep instead. Includes .json for docs.json / mint.json / OpenAPI
             # specs that affect generated pages. Disable rename detection so
             # deleting or renaming a relevant file still triggers validation.
+            # Keep this regex byte-identical to MINTLIFY_RELEVANT_REGEX in
+            # scripts/mdx-validation/validate-mdx-mintlify.sh: if they diverge,
+            # this gate can run the job while the script validates nothing, or
+            # skip files the script considers relevant.
             changed_files=$(git diff --name-only --no-renames "$MERGE_BASE" "$HEAD_SHA")
             if grep -Eq '(\.(mdx|json|ya?ml|png|jpe?g|webp)$|^scripts/mdx-validation/validate-mdx-mintlify\.sh$)' <<< "$changed_files"; then
               echo "mintlify_relevant=true" >> "$GITHUB_OUTPUT"
@@ -139,12 +155,24 @@ jobs:
           echo "merge_base=$MERGE_BASE" >> "$GITHUB_OUTPUT"
           echo "head_sha=$HEAD_SHA" >> "$GITHUB_OUTPUT"
 
-          # Changed (non-deleted) .mdx files feed lychee and readability.
-          # Written to a file, not step outputs/argv, to dodge ARG_MAX on
-          # large PRs (same approach as the old linkcheck-pr.yml).
+          # One --name-status diff feeds both .mdx outputs:
+          #   - non-deleted .mdx files → lychee/readability input list, written
+          #     to a file (not step outputs/argv) to dodge ARG_MAX on large PRs
+          #     (same approach as the old linkcheck-pr.yml);
+          #   - all changed .mdx INCLUDING deletions → gates readability, which
+          #     renders deleted pages as "page removed" (a deletion changes the
+          #     docset's readability even though lychee has nothing to lint).
+          # --no-renames means every line is "<status>\t<path>" (no two-path
+          # rename lines), so filtering deletions is a ^D check.
+          MDX_STATUS=""
           if [ -n "$MERGE_BASE" ] && [ "$MERGE_BASE" != "$HEAD_SHA" ]; then
-            git diff --name-only --no-renames --diff-filter=d "$MERGE_BASE" "$HEAD_SHA" \
-              | { grep -E '\.mdx$' || true; } > "$OUT"
+            MDX_STATUS=$(git diff --name-status --no-renames "$MERGE_BASE" "$HEAD_SHA" \
+              | { grep -E '\.mdx$' || true; })
+          fi
+          MDX_ANY=0
+          if [ -n "$MDX_STATUS" ]; then
+            printf '%s\n' "$MDX_STATUS" | { grep -v '^D' || true; } | cut -f2- > "$OUT"
+            MDX_ANY=$(printf '%s\n' "$MDX_STATUS" | wc -l | tr -d ' ')
           fi
           MDX_COUNT=$(wc -l < "$OUT" | tr -d ' ')
           echo "mdx_count=$MDX_COUNT" >> "$GITHUB_OUTPUT"
@@ -155,14 +183,6 @@ jobs:
           fi
           echo "Changed .mdx files: $MDX_COUNT"
 
-          # Any changed .mdx INCLUDING deletions gates readability, which
-          # renders deleted pages as "page removed" (a deletion changes the
-          # docset's readability even though lychee has nothing to lint).
-          MDX_ANY=0
-          if [ -n "$MERGE_BASE" ] && [ "$MERGE_BASE" != "$HEAD_SHA" ]; then
-            MDX_ANY=$(git diff --name-only --no-renames "$MERGE_BASE" "$HEAD_SHA" \
-              | { grep -cE '\.mdx$' || true; })
-          fi
           if [ "$MDX_ANY" -gt 0 ]; then
             echo "mdx_changed_any=true" >> "$GITHUB_OUTPUT"
           else
@@ -292,7 +312,7 @@ jobs:
           # One-shot url rewrite so the token is never written to the runner's
           # global git config, where later steps (which don't get the secret in
           # their env) could recover it from ~/.gitconfig.
-          # shellcheck disable=SC2140 # intentional concatenation, verbatim from readability-delta.yml
+          # shellcheck disable=SC2140 # intentional concatenation, carried over from the deleted readability-delta.yml
           git -c url."https://x-access-token:${DOCENGINE_TOKEN}@github.com/".insteadOf="https://github.com/" \
             submodule update --init --recursive .claude
 
@@ -390,6 +410,8 @@ jobs:
           READABILITY_OUTCOME: ${{ steps.readability.outcome }}
           IS_FORK: ${{ steps.scope.outputs.is_fork }}
           MDX_COUNT: ${{ steps.scope.outputs.mdx_count }}
+          MDX_CHANGED: ${{ steps.scope.outputs.mdx_changed }}
+          MDX_CHANGED_ANY: ${{ steps.scope.outputs.mdx_changed_any }}
           HEAD_SHA: ${{ steps.scope.outputs.head_sha }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
@@ -428,6 +450,11 @@ jobs:
             LINKS_STATUS="⚠️ Issues found (informational — see details)"
           elif [ "$LYCHEE_OUTCOME" = "failure" ]; then
             LINKS_STATUS="⚠️ Link checker did not complete (informational — see the [workflow run]($RUN_URL))"
+          elif [ "$MDX_CHANGED" = "true" ]; then
+            # .mdx files DID change but lychee never ran: a blocking setup step
+            # failed and the implicit success() skipped it. Don't mislabel that
+            # as "no .mdx changes".
+            LINKS_STATUS="⚠️ Did not run (an earlier step failed — see the [workflow run]($RUN_URL))"
           else
             LINKS_STATUS="⏭️ Skipped (no .mdx changes)"
           fi
@@ -435,7 +462,12 @@ jobs:
           if [ "$IS_FORK" = "true" ]; then
             READ_STATUS="⏭️ Skipped (fork PRs cannot reach the scoring dependencies)"
           elif [ "$READABILITY_OUTCOME" = "skipped" ] || [ -z "$READABILITY_OUTCOME" ]; then
-            READ_STATUS="⏭️ Skipped (no .mdx changes)"
+            if [ "$MDX_CHANGED_ANY" = "true" ]; then
+              # Same distinction as the link check above.
+              READ_STATUS="⚠️ Did not run (an earlier step failed — see the [workflow run]($RUN_URL))"
+            else
+              READ_STATUS="⏭️ Skipped (no .mdx changes)"
+            fi
           elif [ -s readability-body.md ]; then
             READ_STATUS=$(grep -m1 -E '^(Word-weighted|No |The readability)' readability-body.md || echo "See details")
           else
@@ -457,13 +489,22 @@ jobs:
 
           # MDX validation details: error excerpt only on failure.
           if [ "$VALIDATE_OUTCOME" = "failure" ] && [ -s validate-output.log ]; then
+            cap_tail validate-output.log > validate-excerpt.txt
+            # mint output can quote .mdx source containing code fences, and
+            # tail -c cuts at an arbitrary byte, so a ``` can land at column 0
+            # inside the excerpt and close a three-backtick fence early. Size
+            # the fence one longer than the longest backtick run in the excerpt.
+            MAX_TICKS=$({ grep -o '`\{3,\}' validate-excerpt.txt || true; } \
+              | awk '{ if (length($0) > m) m = length($0) } END { print m + 0 }')
+            FENCE_LEN=$(( MAX_TICKS >= 3 ? MAX_TICKS + 1 : 3 ))
+            FENCE=$(printf '%*s' "$FENCE_LEN" '' | tr ' ' '`')
             {
               echo '<details>'
               echo '<summary>MDX validation errors</summary>'
               echo ''
-              echo '```text'
-              cap_tail validate-output.log
-              echo '```'
+              echo "${FENCE}text"
+              cat validate-excerpt.txt
+              echo "$FENCE"
               echo '</details>'
               echo ''
             } >> "$BODY"
@@ -508,13 +549,19 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
+          # pipefail so a transient listing failure fails the step (kept green
+          # by continue-on-error) instead of falling through with an empty
+          # COMMENT_ID and creating a permanent duplicate comment.
+          set -euo pipefail
           MARKER="<!-- doc-quality-report -->"
           # Match on author as well as marker so a contributor comment that
-          # quotes the marker can never be overwritten.
-          COMMENT_ID=$(gh api \
+          # quotes the marker can never be overwritten. Capture the listing
+          # before taking the first line: `... | head -n1` would close the
+          # pipe early and SIGPIPE `gh api --paginate` under pipefail.
+          MATCHES=$(gh api \
             "repos/${{ github.repository }}/issues/${PR_NUMBER}/comments" \
-            --paginate -q ".[] | select((.body | contains(\"${MARKER}\")) and .user.login == \"github-actions[bot]\") | .id" \
-          | head -n1)
+            --paginate -q ".[] | select((.body | contains(\"${MARKER}\")) and .user.login == \"github-actions[bot]\") | .id")
+          COMMENT_ID=$(printf '%s\n' "$MATCHES" | head -n1)
 
           if [ -n "${COMMENT_ID}" ]; then
             gh api \
@@ -546,11 +593,15 @@ jobs:
           PR_NUMBER: ${{ github.event.pull_request.number }}
           HEAD_SHA: ${{ steps.scope.outputs.head_sha }}
         run: |
+          # Same listing discipline as the upsert step above: fail (kept green
+          # by continue-on-error) on listing errors rather than misreading
+          # them as "no comment", and avoid piping --paginate into head.
+          set -euo pipefail
           MARKER="<!-- doc-quality-report -->"
-          COMMENT_ID=$(gh api \
+          MATCHES=$(gh api \
             "repos/${{ github.repository }}/issues/${PR_NUMBER}/comments" \
-            --paginate -q ".[] | select((.body | contains(\"${MARKER}\")) and .user.login == \"github-actions[bot]\") | .id" \
-          | head -n1)
+            --paginate -q ".[] | select((.body | contains(\"${MARKER}\")) and .user.login == \"github-actions[bot]\") | .id")
+          COMMENT_ID=$(printf '%s\n' "$MATCHES" | head -n1)
           if [ -z "${COMMENT_ID}" ]; then
             echo "No existing doc-quality comment; nothing to refresh."
             exit 0
@@ -581,7 +632,17 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_CREATED_AT: ${{ github.event.pull_request.created_at }}
         run: |
+          # Only PRs opened while the replaced workflows still existed can
+          # carry their comments. Skip the (paginated) listings for PRs opened
+          # after the consolidation landed, so this step self-retires as the
+          # pre-consolidation PRs drain. ISO-8601 UTC timestamps compare
+          # lexicographically.
+          if [[ "${PR_CREATED_AT}" > "2026-10-01T00:00:00Z" ]]; then
+            echo "PR opened ${PR_CREATED_AT}, after the doc-quality consolidation; no legacy comments possible."
+            exit 0
+          fi
           # Match on author as well as marker so a contributor comment that
           # quotes a legacy marker is never deleted.
           for MARKER in 'lychee-link-checker-comment' 'readability-delta-report'; do

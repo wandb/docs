@@ -1,7 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
-# Match .github/workflows/validate-mdx.yml: pages (.mdx), Mintlify config / OpenAPI (.json, .yaml),
+# Keep byte-identical to the scope-gate grep in .github/workflows/doc-quality.yml, which decides
+# whether this script runs at all: pages (.mdx), Mintlify config / OpenAPI (.json, .yaml),
 # common doc assets, and this validation script. OpenAPI and docs.json drive generated MDX at build time.
 MINTLIFY_RELEVANT_REGEX='(\.(mdx|json|ya?ml|png|jpe?g|webp)$|^scripts/mdx-validation/validate-mdx-mintlify\.sh$)'
 CHECK=${1:-all}

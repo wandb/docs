@@ -54,7 +54,10 @@ from typing import Dict, List, Optional
 # Constants
 # ---------------------------------------------------------------------------
 
-# GitHub issue comments are upserted by searching for this exact HTML comment.
+# Legacy marker from the retired readability-delta.yml workflow; emitted only
+# with --include-marker (manual use). CI now posts one combined comment keyed
+# by <!-- doc-quality-report -->, and its legacy-cleanup step deletes bot
+# comments that carry THIS marker.
 REPORT_MARKER = "<!-- readability-delta-report -->"
 
 # Visible heading in PR comments and job summaries (sentence case per docs style).
@@ -520,7 +523,11 @@ def main() -> None:
     parser.add_argument("--run-id", default=None, help="Actions run id for link text.")
     parser.add_argument(
         "--include-marker", action="store_true",
-        help="Prefix output with the HTML marker for PR comment upserts.",
+        help="Prefix output with the legacy readability-delta-report HTML "
+             "marker. Manual use only: no CI caller passes this flag, and the "
+             "doc-quality workflow's legacy-comment cleanup DELETES bot PR "
+             "comments carrying this marker, so a comment posted with it "
+             "would vanish on the next push.",
     )
     parser.add_argument(
         "--name-status", default=None,
