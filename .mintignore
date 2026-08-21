@@ -8,6 +8,11 @@ runbooks/
 node_modules/
 .github/
 
+# UI label drift reports and the decision ledger. Committed as a record for the
+# docs team, never published: only /*.md is ignored above, so a nested
+# uidrift/reports/*.md would otherwise become a page.
+uidrift/
+
 # Top-level config and assets (not doc pages)
 # Note: Do not exclude .js or .css. Mintlify loads
 # these automatically if present in the content root.
