@@ -1,8 +1,13 @@
 ---
 title: "Overview"
 ---
+import MultiTenantCloudOnly from "/snippets/_includes/multi-tenant-cloud-only.mdx";
 
 ARIA, W&B's AI Research and Iteration Agent, is your personalized research assistant that helps you analyze and run experiments, explain results, identify patterns across runs, recommend next steps, build visualizations and reports, and more in W&B.
+
+<Note>
+<MultiTenantCloudOnly /> ARIA works in team projects, not in your personal entity. Your organization admin must also enable **Smart features**. See [Governance and security](/aria/governance).
+</Note>
 
 <Frame>
     <img src="/images/agent/agent_empty_chat_window.png" alt="Blank ARIA chat window" />
@@ -25,7 +30,7 @@ To [chat with ARIA](/aria/chat):
 2. In the chat window, type your question or request. If you are unsure what to ask, select a suggested prompt.
 3. Click the **Send** button, the upward-pointing arrow in the lower-right corner of the chat window.
 
-Depending on the complexity of your question, ARIA might take a few moments to respond. You can close the chat window while ARIA works and return to check the response later. If ARIA needs more information, it asks you for clarification.
+ARIA streams its response as it works, so you can follow its progress step by step rather than waiting for a finished answer. Depending on the complexity of your question, ARIA might take a few moments to finish. You can close the chat window while ARIA works and return to check the response later, or [queue your next message](/aria/chat#queue-messages) without waiting. If ARIA needs more information, it asks you for clarification.
 
 While ARIA works, you might see **Thinking** and **shell** steps:
 
