@@ -3,26 +3,24 @@ title: "run 검색"
 description: "프로젝트의 Runs table 또는 Workspace에서 이름이나 ID로 특정 run을 검색하는 방법을 알아보세요."
 ---
 
-프로젝트의 Runs table 또는 Workspace의 검색 상자를 사용해 [이름이나 ID로 특정 run을 찾으세요](/ko/models/runs/run-identifiers).
+프로젝트의 Runs table 또는 Workspace의 검색 상자를 사용해 [이름이나 ID로 특정 run을 찾으세요](/ko/models/runs/run-identifiers). W&amp;B는 검색 쿼리를 [Google RE2 구문](https://github.com/google/re2/wiki/Syntax)을 사용하는 정규 표현식으로 해석합니다.
 
 설정 값, 메트릭 및 tags를 기준으로 run을 필터링하는 방법은 [run 필터링](/ko/models/runs/filter-runs)을 참조하세요.
 
-<Note>
-  기본적으로 검색 상자는 정규식(RegEx)을 사용해 쿼리를 run 이름이나 ID와 매칭합니다.
-</Note>
-
-<div id="search-for-runs-by-name-or-id">
+<div id="search-for-a-run-by-name-or-id">
   ## 이름 또는 ID로 run 검색하기
 </div>
 
-1. 프로젝트 사이드바에서 **Runs** 탭 또는 **Workspace**를 클릭합니다.
-2. Runs table 상단의 검색 상자를 클릭합니다.
-3. 검색할 run name 또는 run ID를 입력합니다.
+1. 프로젝트 사이드바에서 **Runs** 또는 **Workspace**를 선택합니다.
+2. Runs table 상단의 검색 상자를 선택합니다.
+3. run name, run ID 또는 RE2 구문을 사용하는 정규 표현식을 입력합니다.
 
 <div id="turn-off-regular-expressions-search">
-  ## 정규식 검색 끄기
+  ## 정규 표현식 검색 끄기
 </div>
 
-1. 프로젝트 사이드바에서 **Runs** 탭 또는 **Workspace**를 클릭합니다.
-2. Runs table 상단의 검색 상자를 클릭합니다.
-3. **RegEx** 표시/숨기기(.*)를 회색으로 비활성화합니다.
+정규 표현식 대신 정확한 텍스트 문자열을 검색하려면 다음을 수행하세요.
+
+1. 프로젝트 사이드바에서 **Runs** 또는 **Workspace**를 선택합니다.
+2. Runs 테이블 상단의 검색 상자를 선택합니다.
+3. RegEx 토글(`.*`)을 끕니다. 정규 표현식 검색이 비활성화되면 토글이 회색으로 표시됩니다.
