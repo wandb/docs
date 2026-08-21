@@ -4,6 +4,7 @@ title: Artifacts overview
 ---
 import { ColabLink } from '/snippets/_includes/colab-link.mdx';
 import { TryProductLink } from '/snippets/_includes/try-product-link.mdx';
+import ArtifactRegistryUsageLimits from "/snippets/_includes/artifact-registry-usage-limits.mdx";
 
 <CardGroup cols={4}>
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Pipeline_Versioning_with_W&B_Artifacts.ipynb" />
@@ -80,6 +81,11 @@ datadir = artifact.download()  # downloads the full `my_data` artifact to the de
 You can pass a custom path into the `root` [parameter](/models/ref/python/experiments/artifact) to download an artifact to a specific directory. For alternate ways to download artifacts and to see additional parameters, see the guide on [downloading and using artifacts](/models/artifacts/download-and-use-an-artifact).
 </Note>
 
+## Usage limits
+
+The following table lists usage limits for Artifacts and W&B Registry. These limits are shown together because Artifacts and Registry share related resources and workflows.
+
+<ArtifactRegistryUsageLimits />
 
 ## Next steps
 * Learn how to [version](/models/artifacts/create-a-new-artifact-version) and [update](/models/artifacts/update-an-artifact) artifacts.
