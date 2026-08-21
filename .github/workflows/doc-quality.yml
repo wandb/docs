@@ -69,7 +69,10 @@ jobs:
   # Keep this job id: it is the check name required by branch protection.
   validate-mdx:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    # Headroom over the sum of the per-step timeouts below (lychee 10 +
+    # readability 10) plus checkout/mint install/validation, so two slow
+    # advisory steps cannot cancel the required job after validation passed.
+    timeout-minutes: 35
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
@@ -151,6 +154,21 @@ jobs:
             echo "mdx_changed=false" >> "$GITHUB_OUTPUT"
           fi
           echo "Changed .mdx files: $MDX_COUNT"
+
+          # Any changed .mdx INCLUDING deletions gates readability, which
+          # renders deleted pages as "page removed" (a deletion changes the
+          # docset's readability even though lychee has nothing to lint).
+          MDX_ANY=0
+          if [ -n "$MERGE_BASE" ] && [ "$MERGE_BASE" != "$HEAD_SHA" ]; then
+            MDX_ANY=$(git diff --name-only --no-renames "$MERGE_BASE" "$HEAD_SHA" \
+              | { grep -cE '\.mdx$' || true; })
+          fi
+          if [ "$MDX_ANY" -gt 0 ]; then
+            echo "mdx_changed_any=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "mdx_changed_any=false" >> "$GITHUB_OUTPUT"
+          fi
+          echo "Changed .mdx files including deletions: $MDX_ANY"
 
       - name: No Mintlify-relevant changes — skipping all checks
         if: steps.scope.outputs.mintlify_relevant == 'false'
@@ -263,7 +281,7 @@ jobs:
         # The report step below detects the missing analyzer and renders the
         # informational fallback instead.
         continue-on-error: true
-        if: steps.scope.outputs.is_fork != 'true' && steps.scope.outputs.mdx_changed == 'true'
+        if: steps.scope.outputs.is_fork != 'true' && steps.scope.outputs.mdx_changed_any == 'true'
         env:
           DOCENGINE_TOKEN: ${{ secrets.DOCENGINE_TOKEN }}
         run: |
@@ -279,13 +297,19 @@ jobs:
             submodule update --init --recursive .claude
 
       - name: Set up Python 3.11
-        if: steps.scope.outputs.is_fork != 'true' && steps.scope.outputs.mdx_changed == 'true'
+        # Non-fatal: a setup outage in the informational readability path must
+        # not fail the required job. The report step below fails gracefully
+        # and renders its fallback note instead.
+        continue-on-error: true
+        if: steps.scope.outputs.is_fork != 'true' && steps.scope.outputs.mdx_changed_any == 'true'
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: "3.11"
 
       - name: Cache pip packages
-        if: steps.scope.outputs.is_fork != 'true' && steps.scope.outputs.mdx_changed == 'true'
+        # Non-fatal: same reasoning as the setup-python step above.
+        continue-on-error: true
+        if: steps.scope.outputs.is_fork != 'true' && steps.scope.outputs.mdx_changed_any == 'true'
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ~/.cache/pip
@@ -298,14 +322,14 @@ jobs:
         # Non-fatal: if deps fail to install, the report step still runs and
         # falls back to the informational notice rather than failing the PR.
         continue-on-error: true
-        if: steps.scope.outputs.is_fork != 'true' && steps.scope.outputs.mdx_changed == 'true'
+        if: steps.scope.outputs.is_fork != 'true' && steps.scope.outputs.mdx_changed_any == 'true'
         run: |
           pip install textstat==0.7.13
           pip install -r scripts/readability/requirements.txt || true
 
       - name: Build readability report
         id: readability
-        if: steps.scope.outputs.is_fork != 'true' && steps.scope.outputs.mdx_changed == 'true'
+        if: steps.scope.outputs.is_fork != 'true' && steps.scope.outputs.mdx_changed_any == 'true'
         timeout-minutes: 10
         # Non-fatal: a readability crash never blocks the PR.
         continue-on-error: true
@@ -485,9 +509,11 @@ jobs:
           PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
           MARKER="<!-- doc-quality-report -->"
+          # Match on author as well as marker so a contributor comment that
+          # quotes the marker can never be overwritten.
           COMMENT_ID=$(gh api \
             "repos/${{ github.repository }}/issues/${PR_NUMBER}/comments" \
-            --paginate -q ".[] | select(.body | contains(\"${MARKER}\")) | .id" \
+            --paginate -q ".[] | select((.body | contains(\"${MARKER}\")) and .user.login == \"github-actions[bot]\") | .id" \
           | head -n1)
 
           if [ -n "${COMMENT_ID}" ]; then
@@ -507,6 +533,43 @@ jobs:
         if: ${{ !cancelled() && steps.report.outcome == 'success' && (github.event_name != 'pull_request' || steps.scope.outputs.is_fork == 'true') }}
         run: cat comment-body.md >> "${GITHUB_STEP_SUMMARY}"
 
+      # If a later push removes every Mintlify-relevant change, the checks and
+      # the report steps above all skip — but an earlier push may have left a
+      # sticky comment, possibly still showing failures. Update it in place to
+      # an all-skipped state. Never CREATE a comment on this path: PRs that
+      # never touched relevant files stay comment-free.
+      - name: Refresh stale report when nothing relevant changed
+        continue-on-error: true
+        if: ${{ !cancelled() && steps.scope.outputs.mintlify_relevant == 'false' && github.event_name == 'pull_request' && steps.scope.outputs.is_fork != 'true' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ steps.scope.outputs.head_sha }}
+        run: |
+          MARKER="<!-- doc-quality-report -->"
+          COMMENT_ID=$(gh api \
+            "repos/${{ github.repository }}/issues/${PR_NUMBER}/comments" \
+            --paginate -q ".[] | select((.body | contains(\"${MARKER}\")) and .user.login == \"github-actions[bot]\") | .id" \
+          | head -n1)
+          if [ -z "${COMMENT_ID}" ]; then
+            echo "No existing doc-quality comment; nothing to refresh."
+            exit 0
+          fi
+          {
+            echo "${MARKER}"
+            echo ''
+            echo '## Doc quality'
+            echo ''
+            echo 'This push has no Mintlify-relevant changes, so all doc-quality checks were skipped.'
+            echo ''
+            printf '<sub>Updated %s for %s</sub>\n' \
+              "$(date -u +'%Y-%m-%dT%H:%M:%SZ')" "$HEAD_SHA"
+          } > comment-body.md
+          gh api \
+            "repos/${{ github.repository }}/issues/comments/${COMMENT_ID}" \
+            -X PATCH -F "body=@comment-body.md"
+          echo "Refreshed stale doc-quality report comment ${COMMENT_ID}"
+
       # One-time migration cleanup: the old linkcheck-pr.yml and
       # readability-delta.yml workflows left per-check comments on open PRs.
       # Delete them so the single doc-quality comment is the only report.
@@ -519,10 +582,12 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
+          # Match on author as well as marker so a contributor comment that
+          # quotes a legacy marker is never deleted.
           for MARKER in 'lychee-link-checker-comment' 'readability-delta-report'; do
             COMMENT_IDS=$(gh api \
               "repos/${{ github.repository }}/issues/${PR_NUMBER}/comments" \
-              --paginate -q ".[] | select(.body | contains(\"<!-- ${MARKER} -->\")) | .id" || true)
+              --paginate -q ".[] | select((.body | contains(\"<!-- ${MARKER} -->\")) and .user.login == \"github-actions[bot]\") | .id" || true)
             for ID in $COMMENT_IDS; do
               if gh api "repos/${{ github.repository }}/issues/comments/${ID}" -X DELETE; then
                 echo "Deleted legacy ${MARKER} comment ${ID}"

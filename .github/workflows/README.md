@@ -167,7 +167,7 @@ Only MDX validation can fail the job; the other two never fail a PR. All three r
 
 ### Triggers
 
-- **Pull request**: all types, deliberately with **no `paths` filter** — a paths filter would leave the required check pending on PRs it skips. A scope-gate `git diff` inside the job fast-exits instead when a PR touches no Mintlify-relevant files (`.mdx`, `.json`, `.yaml`/`.yml`, images, or the validation script).
+- **Pull request**: the default activity types (`opened`, `synchronize`, `reopened`), deliberately with **no `paths` filter** — a paths filter would leave the required check pending on PRs it skips. A scope-gate `git diff` inside the job fast-exits instead when a PR touches no Mintlify-relevant files (`.mdx`, `.json`, `.yaml`/`.yml`, images, or the validation script).
 - **Push**: to `main` (full validation)
 - **Manual**: `workflow_dispatch` (writes the report to the job summary instead of a comment)
 
