@@ -7,8 +7,373 @@ rss: true
 This page includes release notes for the [Weave Python SDK](https://pypi.org/project/weave/) (`weave` package). For the W&B Models Python SDK (`wandb` package), see [W&B SDK releases](/release-notes/sdk-releases). Release packages and per-commit history are on [GitHub Releases for `wandb/weave`](https://github.com/wandb/weave/releases).
 
 <Note>
-These entries summarize user-facing SDK and trace server changes, and omit details about  Internal-only test, CI, and refactor work. For every merged change, see the GitHub release entry for that tag.
+These entries summarize user-facing SDK and trace server changes, and omit details about internal-only test, CI, and refactor work. For every merged change, see the GitHub release entry for that tag.
 </Note>
+
+<Update label="0.53.4" description="July 31, 2026">
+## Security
+
+- The trace server strictly validates table-qualified field names in query ORM requests: qualifiers must be simple SQL identifiers, and the field portion must exactly match an allowed column. Malformed qualified field names that were previously accepted are now rejected. Operators of self-hosted trace servers should upgrade.
+
+## Added
+
+- Custom runtimes: register an OpenAI-compatible custom runtime endpoint with `PUT /v2/{entity}/{project}/runtimes/{runtime_name}`, or with the `register_custom_runtime()` client wrapper in the Python and TypeScript SDKs. Registration is idempotent and supports team-secret, header-only, and unauthenticated endpoints.
+- `Turn.record()` accepts `output_messages` in the Python SDK, so a turn captures both its input messages and the agent's final response.
+- The Claude Agent SDK integrations trace text and image prompts (base64 or URL), including streamed prompts, in both the Python and TypeScript SDKs.
+- Trace file storage on Azure supports workload identity: when neither a connection string nor an account key is configured, the server falls back to `DefaultAzureCredential`.
+
+## Changed
+
+- Claude Agent SDK tracing in the Python and TypeScript SDKs uses the shared Weave GenAI span shape: `invoke_agent`, `chat`, and `execute_tool` spans with agent, model, and tool identity in `gen_ai.*` attributes.
+- The trace server logs and ignores unexpected extra fields in API requests instead of rejecting them.
+- Updated cost tracking for Claude Opus 5.
+
+## Fixed
+
+- The trace server now redacts credential-shaped fields, such as API keys, tokens, and secrets, from call inputs, attributes, and OTel span payloads at ingest, so credentials accidentally included in trace payloads are not stored, regardless of SDK version.
+- Fixed the TypeScript SDK serializing whole class instances, such as provider client objects, into call inputs; class instances are recorded as a type marker instead.
+- Fixed missing traces for structured outputs on openai-node v5 and later in the TypeScript SDK.
+- Fixed the TypeScript SDK tracing Claude Agent SDK multi-turn queries as a single turn; each query session is one conversation and each user-to-result cycle is one turn.
+- Fixed cost queries not being scoped to the requested project.
+- Fixed model selectors misreading custom providers named `custom`.
+- Fixed raw media payloads appearing in agent chat text; blob, URI, and file parts are surfaced through content references instead.
+
+</Update>
+
+<Update label="0.53.3" description="July 31, 2026">
+## Added
+
+- The completions API supports `reasoning_effort`.
+- `Turn.record()` accepts `outputMessages` in the TypeScript SDK, keeping a turn's input messages separate from the agent's final response.
+- Agent spans stamped with evaluation metadata link to their evaluation results.
+- Feedback queries can return totals.
+- `AgentDashboard` is a persisted object type for saving, loading, and forking agent dashboard configurations.
+
+## Fixed
+
+- Fixed a bug where a boolean and integer query-parameter collision caused calls queries to return a 400 error.
+- Fixed `add_cost` not accepting cache-read and cache-creation token rates; `query_costs` returns the configured rates.
+- Fixed OpenAI `cached_tokens` not being mapped to cache-read usage on OTel ingest.
+- Fixed cached input token accounting for the Claude Agent SDK integration.
+- Fixed missing support for the `$size` operator in the query API.
+- Fixed W&B Inference traces not being labeled with the model that served them, in both the Python and TypeScript SDKs.
+- Fixed the user prompt being dropped from conversation previews.
+- Fixed annotation queues failing on calls without start times; such calls are skipped.
+- Fixed the explicit `wandb.is_turn` attribute being overridden by the OTel conversation ID when identifying turns.
+- Fixed ClickHouse `TOO_SLOW` errors being reported as generic failures instead of query-timeout errors.
+- Fixed object read errors dropping their original error context.
+
+</Update>
+
+<Update label="0.53.2" description="July 16, 2026">
+## Added
+
+- LLM, tool, and subagent spans can nest under turns and subagents in both the Python and TypeScript SDKs, and `SubAgent.start_subagent()` is available in Python.
+- Add feedback to agent spans and turns directly from the SDK.
+- Filter agent conversations and conversation stats by signals (tags and ratings).
+- Agent spans include evaluation metadata fields.
+- Base64 and data-URL content in OTel agent span exports is converted to content references server side, matching SDK traces.
+- Server-side ingest sampling covers the spans (agents and OTel) data model: `WEAVE_INGEST_SAMPLE_RATE` now governs both storage models, whole traces are kept or dropped together, and traces carrying `weave.eval.*` attributes are always kept. Deployments already running a sample rate below 1.0 begin sampling the spans model after upgrading.
+- Object delete responses report which versions were deleted.
+
+## Changed
+
+- The `Turn` and `SubAgent` factory methods `llm`, `tool`, and `subagent` are renamed to `start_llm`, `start_tool`, and `start_subagent`; the old names remain as deprecated aliases.
+- The TypeScript SDK writes each call as a single row through the `calls/complete` ingest path by default, matching the Python SDK; control this with `WEAVE_USE_CALLS_COMPLETE`. The SDK also no longer exits the host process when uploads fail repeatedly; it disables tracing and lets the process continue.
+- Deleting calls on the `calls_complete` table uses a lightweight update with asynchronous space reclamation.
+- Improved performance of heavy call reads on the `calls_complete` table with a two-pass filter and tuned skip indexes, and of custom-attribute schema and numeric-histogram queries.
+- Improved performance of agents list views, including cost reads.
+- Improved ingest performance for content-heavy payloads: content-object writes are batched, repeated base64 blobs are deduplicated, and file chunks and content objects are flushed concurrently.
+- Improved evaluation-results performance by pricing only predict calls instead of every trial child.
+- Updated built-in model costs, including `gpt-5.6`.
+
+## Fixed
+
+- Fixed direct OpenAI calls not being traced (no child span, token usage, or cost) under the default OTel tracing path; calling `patch_openai()` explicitly is no longer required.
+- Fixed W&B Inference models showing no cost because usage records and seeded prices used different model ID keys.
+- Fixed Bedrock cache token capture in streaming converse calls.
+- Fixed Anthropic prompt cache tokens being excluded from the `input_tokens` summary.
+- Fixed the Google ADK integration for google-adk 2.3.0 and later.
+- Fixed request-input validation failures returning a 500 error instead of a 400.
+- Fixed ClickHouse migration reliability for self-hosted deployments: migrations are idempotent, migration 029 is additive, partially applied migrations recover automatically, and duplicate migration numbers were resolved.
+- Fixed agent spans logging to the previous project after re-initializing the TypeScript SDK with `weave.init()`.
+- Fixed unstable client-side digests for objects containing dictionaries with non-string keys.
+- Fixed a recursion error when converting deeply nested payloads.
+- Fixed external refs embedded in JSON strings not being passed through on read.
+- Fixed conversation labels in the agents view to use the opening user turn.
+- Fixed chat rendering for Claude Code traces: mirrored assistant text is no longer duplicated, responses are ordered by transcript timestamps, and task notifications render as tool activity instead of chat messages.
+- Fixed conversation attributes not propagating across `runIsolated` frames in the TypeScript SDK.
+- Fixed `span_name` being rejected in agent-span group-by and filter clauses.
+
+</Update>
+
+<Update label="0.53.1" description="July 2, 2026">
+## Added
+
+- Evaluation result summaries include a predict-only cost total.
+- TypeScript SDK: `Conversation`, `Turn`, `SubAgent`, and `LLM` creation accepts `systemInstructions`; conversations and turns accept `agent_id`, `agent_description`, and `agent_version`; and turns accept `userMessage`.
+- TypeScript SDK: `Turn.record()` and `SubAgent.record()` are available, and `LLM.record()` accepts `mediaAttachments`, `responseId`, `responseModel`, `finishReasons`, and `outputType`.
+- Turns inherit agent identity defaults from their parent `Conversation`.
+
+## Changed
+
+- `add_event` (Python) and `addEvent` (TypeScript) are deprecated because OpenTelemetry is phasing out the span event API; use `set_attributes` and `setAttributes` instead. Both methods still work, and existing span-event data stays valid.
+- The trace server no longer depends on `ddtrace`.
+- Improved trace-server query performance by scoping storage rollups to matched traces and objects and by bounding evaluation-result scans to the evaluation root's start time.
+- Attachment uploads are parallelized on all write paths.
+- Added cost tracking for `claude-sonnet-5`.
+
+## Fixed
+
+- Fixed negative JSON path array indices in queries returning a 502 error; they now return a 422 validation error.
+- Fixed system instructions from chat spans not appearing in the agent chat view.
+- Fixed the conversation chat view including spans from other conversations.
+- Fixed agent traces logging to the previous project after re-initializing the client.
+- Fixed completion error payloads dropping the provider's HTTP status code.
+- Fixed ClickHouse migration 029 to skip TTL materialization.
+- Fixed ClickHouse migrations failing when replicated-DDL propagation outlasted the migrator client's timeout.
+
+</Update>
+<Update label="0.53.0" description="July 2, 2026">
+## Breaking changes
+
+- TypeScript SDK: `WeaveClient` is no longer exported as a value; it is exported only as a type. Get a client from `weave.init()` instead of constructing `WeaveClient` directly.
+- TypeScript SDK: client settings are consolidated into a single plain `Settings` object, and the `SettingsInit` type is exported from the public API. The `client.settings.shouldPrintCallLink` and `client.settings.globalAttributes` accessors are removed; use `printCallLink` and `attributes`.
+
+## Added
+
+- The TypeScript SDK traces the Claude Agent SDK (`@anthropic-ai/claude-agent-sdk`). `query()` calls are auto-instrumented and emit agent, chat, and tool spans with usage, cost, and error status; `wrapClaudeAgentSdk` is exported for manual instrumentation.
+- The TypeScript SDK adds a Google ADK integration with autoinstrumentation, tracing model, tool, and nested agent spans.
+- Agent observability read APIs on the client. The Python `WeaveClient` adds `get_agents`, `get_agent_versions`, `get_agent_spans`, `get_agent_turn`, `get_agent_turns`, `get_agent_span_stats`, `get_agent_custom_attributes`, and `search_agents`; the TypeScript `WeaveClient` adds the equivalent `getAgents`, `getAgentVersions`, `getAgentSpans` (with `query` filter support), `getAgentTurn`, `getAgentTurns`, `getAgentSpanStats`, `getAgentCustomAttributes`, and `searchAgents`.
+- Agent spans, span stats, chat views, and agents APIs can include token costs, computed at query time from the same pricing table used for calls. Unpriced models return null rather than zero.
+- Turn and subagent spans carry `system_instructions` (the agent system prompt), and `Turn.record()` and `SubAgent.record()` bulk setters set the full field set, including agent identity fields, on batch-logged turns.
+- Conversations accept an `attributes` mapping that is applied to every span the conversation emits, in both the Python and TypeScript SDKs.
+- TypeScript SDK: the conversation, turn, and LLM end functions accept an explicit `endTime`.
+- TypeScript SDK: `init()` accepts a `useOTelV2` setting, for parity with the Python `use_otel_v2` setting.
+- Spans from the `@openai/agents` integration in the TypeScript SDK carry `gen_ai.conversation.id` and `gen_ai.agent.name` attributes.
+- OTel auto-instrumentation supports an `agent_name_override` setting to configure the `gen_ai.agent.name` set on generated `invoke_agent` spans.
+- New `wandb.agent_user_feedback` feedback type for human-applied feedback on agents, distinct from scorer-applied `wandb.agent_monitor` feedback.
+- The OpenAI Realtime integration adds an OTel-native exporter, selected by default when `WEAVE_USE_OTEL_V2` is enabled.
+- Evaluation results queries support filtering on inputs and a match-any or match-all option when filtering across multiple evaluations, and evaluation summaries include a `predict_total_tokens` field that counts only the model's own predict tokens, excluding LLM judge tokens.
+- Agent span stats allow an unbounded time range for ungrouped, unfiltered queries, so an all-time rollup no longer hits the 31-day cap.
+- The trace server adds `spans_stats` and `dataset_sources` tables and query APIs. Self-hosted deployments receive new ClickHouse migrations.
+
+## Changed
+
+- The Session SDK is renamed to the Conversation SDK. In Python, the canonical surface is `weave.conversation` (`Conversation`, `start_conversation`, `conversation_id`, and so on); the old `weave.session` names still work and emit a `DeprecationWarning`. In TypeScript, `weave.startSession`, `weave.endSession`, `weave.getCurrentSession`, and the `Session` class become `weave.startConversation`, `weave.endConversation`, `weave.getCurrentConversation`, and `Conversation`; the old names are kept as deprecated aliases.
+- Monitor query fields are validated on save.
+- Calls produced by declarative evaluations (`Evaluation.evaluate`) are tagged with evaluation metadata, matching the behavior of `EvaluationLogger`, in both the Python and TypeScript SDKs.
+- Improved trace-server query performance: batched completion-call span writes, partition pruning on call deletes with a `started_at` filter, approximate unique counts for stats queries, an ngram index for evaluation-results filters, heavy JSON filters extracted before aggregation to avoid out-of-memory errors on `calls_merged`, deduplicated repeat file-bucket writes, and a `GLOBAL JOIN` for cost merging on distributed ClickHouse clusters. The threshold for killing too-slow queries is raised from 5 to 10 seconds.
+
+## Fixed
+
+- Fixed a bug where `dictify` could get stuck in a cycle.
+- Fixed the DSPy, GEPA, and LangChain integrations creating a new object version on every run because `repr()` memory addresses appeared in published content.
+- Fixed Bedrock inference profile ARNs not being parsed to model IDs for the invoke API.
+- Fixed `weave` not being installable alongside `google-adk`.
+- Fixed `LLMAsAJudgeScorer` including op methods in its published payload.
+- Fixed reasoning handling in the agent chat view: reasoning parts no longer leak into message body text, and reasoning interleaved between tool calls is displayed.
+- Fixed sorting of evaluation inputs and outputs when values mix numeric and string types.
+- Improved API error handling: bad query parameters and feedback with a malformed annotation spec return 400 instead of 500, feedback on a deleted annotation spec returns not-found, permission-denied projects return a clearer error, `InvalidFieldError` messages list the allowed fields, and agent signal filters are validated against the agent-spans schema.
+- Fixed silently dropped inserts on replicated ClickHouse deployments by opting out of insert deduplication for byte-identical re-inserts.
+- Fixed a race in migration status writes that could leave a finished ClickHouse migration recorded as partial.
+- Fixed agent read endpoints returning 500 forever when a stored external ref appears in span data.
+- Fixed slow file uploads to GCS caused by stalled sockets; dead sockets now fail fast and retry on a fresh connection.
+- Fixed the TypeScript SDK ignoring the `startTime` passed to `startTurn`.
+- Fixed the TypeScript SDK not printing a link to your Weave data on `init()` in Node, matching the Python SDK.
+
+</Update>
+<Update label="0.52.43" description="June 15, 2026">
+## Breaking changes
+
+- OpenTelemetry-capable integrations route through their OpenTelemetry variants by default (the `use_otel_v2` setting now defaults to true). Because the plain `openai` package has no OpenTelemetry variant, implicit patching no longer traces direct, non-agent `openai` calls — call `weave.integrations.patch_openai()` explicitly, or set `WEAVE_USE_OTEL_V2=false`, to trace them. (In 0.53.2, direct OpenAI calls are traced again without explicit patching.)
+- Removed the SQLite trace server. ClickHouse is the only supported trace server backend.
+
+## Added
+
+- The OpenAI Agents SDK integration in the TypeScript SDK emits OpenTelemetry spans when `WEAVE_USE_OTEL_V2` is set, covering `invoke_agent`, `execute_tool`, `chat` (including message data), `handoff`, `guardrail`, `transcription`, `speech`, `speech_group`, `mcp_list_tools`, and custom spans.
+- The `Tool`, `LLM`, `SubAgent`, and `Turn` span classes support `set_attributes` for stamping custom OpenTelemetry attributes and `add_event` for recording span events. The TypeScript SDK adds the equivalent `setAttributes` and `addEvent` methods.
+- TypeScript SDK: GenAI spans accept explicit `startTime` and `endTime` values, so spans reconstructed after the fact carry accurate start times and durations.
+- Monitors can be created using op names.
+- Calls produced by integrations carry standardized integration-tracking metadata in their attributes, covering patch-based, callback-based, and OpenTelemetry-based integrations in Python as well as the TypeScript SDK integrations.
+- The `claude-fable-5` model is available in the playground, with cost tracking.
+- The trace server has a new endpoint for aggregate feedback, and a ClickHouse migration adds agent columns to the feedback table.
+- Playground conversations are recorded in the agent spans table, so playground activity appears alongside other agent traces.
+
+## Changed
+
+- `import weave` is faster because the `jsonschema` import is deferred until needed.
+- Removed the unused `actions_execute_batch` endpoint and the `ActionSpec` object class. Existing `ActionSpec` objects remain readable as plain objects.
+- The trace server rejects object creation when the name collides with an existing object of a different type, returning a 400 error.
+- Improved performance of the grouped spans query by bounding conversation message previews.
+- Improved performance of `calls_query_stats` by extending the fast path to queries with a time window.
+- Improved performance of unfiltered storage stats queries.
+- Raised the trace server's default Kafka producer buffer to 100,000 messages.
+
+## Fixed
+
+- Fixed `WEAVE_INSECURE_DISABLE_SSL` having no effect when set after importing `weave`.
+- Fixed a bug where all `PaginatedIterator` instances shared a single page cache.
+- Fixed streaming call ends discarding caller-set `started_at` and `ended_at` timestamps.
+- Fixed a potential deadlock when integration patching ran concurrently.
+- Fixed a bug where calling `flush()` during an evaluation could make the next flush stall for the full flush timeout.
+- Fixed `auto_summarize` failing on scorer results that mix Pydantic models and dicts.
+- Fixed `RemoteScorer` serialization so ops are excluded and `auth_config` passes validation when read back.
+- Fixed WAV audio detection for in-memory buffers when `libmagic` reports a generic octet-stream type.
+- Fixed saved view filters on `started_at` failing with a query type error.
+- Fixed the Bedrock integration raising `KeyError` on tool-use and reasoning deltas in streaming responses, which dropped them from the trace.
+- Fixed duplicated traces when the TypeScript SDK runs inside an OpenAI Agents SDK context.
+- Fixed OpenTelemetry spans being rejected when the same attribute arrives both as a JSON string and as dotted subkeys.
+- Fixed OpenTelemetry spans with an all-zero parent span ID not being treated as root spans.
+- Fixed per-call storage size stats excluding OpenTelemetry payload bytes, which made them disagree with project-level storage totals.
+- Fixed intermittent 502 errors on the agent OpenTelemetry ingest endpoint by retrying transient empty-query errors.
+- Fixed media on an agent's LLM calls rendering on the wrong chat message; media is routed to the user or assistant message based on direction.
+- Fixed call query filters on `wb_run_ids` rejecting bare run IDs; bare IDs are qualified with the request's entity and project.
+- Fixed feedback queries failing with a type error when filtering `created_at` with ISO 8601 timestamps.
+- Fixed `table_query_stats` returning a 500 error for a missing or deleted table digest; it now returns a count of 0.
+- Fixed the trace server returning 5xx errors for unsupported or unselectable query fields; it now returns 4xx errors.
+- Fixed transient not-found errors when dereferencing nested refs by adding retries.
+- Fixed the trace server accepting code-bearing custom objects during server-side decoding; such objects are now refused.
+- Fixed unhelpful scoring errors when a judge model returns empty or non-JSON output; errors now describe the likely cause instead of surfacing a raw traceback.
+- Fixed a bug in the `calls_complete` ingestion path where a call end with a mismatched `started_at` silently left the call unfinished; ending an unknown call now returns a 404 error.
+- Fixed 5xx errors on call reads and queries for `calls_complete` projects on ClickHouse 25.11 and 25.12 by disabling lazy materialization.
+- Fixed the ClickHouse migration lock to prevent conflicts during rolling deploys.
+- Fixed reads and inserts failing in bursts when the ClickHouse client cached an empty settings map; query settings are now validated by the server instead of client-side.
+- Fixed several operations on distributed ClickHouse clusters: file reads during cross-shard replication lag, annotation queue mutations, annotation reads, object-ref subqueries, feedback and cost purges, and migration inserts. Call starts and ends, and file chunks, now co-locate on the same shard.
+
+</Update>
+<Update label="0.52.42" description="June 2, 2026">
+## Added
+
+- Token usage tracking includes cache-creation and cache-read input tokens, as well as reasoning output tokens.
+- New Claude Agent SDK integration built on OpenTelemetry.
+- New OpenAI Agents integration (v2) built on OpenTelemetry.
+- Preliminary Google ADK integration.
+- Annotation queue helpers on `WeaveClient`: create, read, list, update, and delete annotation queues, add calls to a queue, and query queue items and stats.
+- The trace server supports rescoring: re-run scorers against an existing evaluation run to produce a new evaluation run, linked to the original through `source_evaluation_run_id`.
+- Feedback supports typed scorer columns and query filters, including `scorer_*` fields for `wandb.runnable` scorers (ClickHouse migration 031 adds the columns).
+- Agent span queries support grouped distributions over custom attributes.
+- OpenTelemetry ingestion supports multiple aliases for a single semantic convention key, such as `gen_ai.usage.reasoning_tokens` and `gen_ai.usage.experimental.reasoning_tokens`.
+- TypeScript SDK: new GenAI tracing classes `Session`, `Turn`, `LLM`, `Tool`, and `SubAgent` with manual start and end, plus `Turn.setAttribute` and `Turn.addEvent`.
+- The TypeScript SDK automatically links spans to evaluation calls.
+- OAuth configuration options for remote scorers on the trace server.
+
+## Changed
+
+- Calls are written through the calls-complete path by default: the `use_calls_complete` setting now defaults to `True`.
+- The Session SDK respects the global settings `WEAVE_DISABLED`, `WEAVE_REDACT_PII`, `WEAVE_CAPTURE_CLIENT_INFO`, and `WEAVE_CAPTURE_SYSTEM_INFO`.
+- Updated built-in model costs, including Claude Opus 4.8, and added support for manual cost overrides.
+- Improved streaming calls-query performance: an empty `sort_by` is treated as an explicit no-sort so ClickHouse can stream aggregation in order.
+- Improved calls stats query performance, and stats responses include a `has_more` field.
+- Added a `trace_id` bloom filter index to the `calls_merged` table (ClickHouse migration 032) to speed up trace-scoped queries.
+- Improved client and trace server throughput with parallel bucket uploads and deferred display-name updates.
+
+## Fixed
+
+- Fixed LLM reasoning content leaking into output messages when content capture is disabled in the Session SDK.
+- Fixed `str()` on a ref to return the full URI so scorer leaderboard matching works correctly.
+- Fixed feedback `created_at` timestamps not being tagged as UTC when read.
+- Fixed a bug where failed object-create payloads were never released from memory.
+- Fixed agent span queries dropping fields and failing to convert external refs to internal refs during OpenTelemetry ingestion; a new `include_details` option returns full span payloads.
+- Fixed image completion handling to validate URLs before fetching.
+- Fixed Redis connections failing when the Redis URL contains query parameters.
+- Fixed project trace storage size not counting OpenTelemetry span bytes.
+- Fixed the Azure file storage backend overwriting existing blobs.
+- Fixed ClickHouse migrations in distributed mode to create only the `_local` materialized view variant.
+
+</Update>
+
+<Update label="0.52.41" description="May 28, 2026">
+## Added
+
+- Agent span queries support discovering the schema of typed custom attributes, with pagination, and support filtering, grouping, and sorting on discovered keys.
+- OpenTelemetry Gen AI spans emitted during `Evaluation.predict_and_score` are automatically linked to the evaluation call.
+- New environment variables configure the host allowlist and URL policy for remote scoring on the trace server.
+
+## Changed
+
+- Publishing an object always writes an explicit `latest` alias: re-publishing existing content promotes it to `latest`, and deleting the version that holds `latest` falls back to the most recent surviving version.
+- The OTLP exporter respects `WEAVE_INSECURE_DISABLE_SSL`.
+- Improved trace server call-ingestion performance.
+
+## Fixed
+
+- Fixed `import weave` failing when `wandb` was installed before `weave` by relaxing the `opentelemetry` dependency constraints.
+- Fixed long-running calls being dropped at process exit: unpaired call starts and ends are now sent eagerly on flush, and the flush timeout increased from 60 seconds to 5 minutes.
+- Fixed server errors when filtering feedback and other JSON payload fields by boolean values.
+- Fixed saved views not persisting `expand_columns`.
+- Fixed a bug where a failed file upload was cached and never retried.
+- Fixed distributed ClickHouse DDL statements failing migrations on transient errors by adding retries.
+
+</Update>
+<Update label="0.52.40" description="May 14, 2026">
+## Added
+
+- The trace server's agent observability APIs support turn, conversation, and span reference kinds, feedback lookup by agent target refs, and folding feedback into agent chat-view responses with `include_feedback`.
+
+## Changed
+
+- Call queries infer ClickHouse type casts for dynamic JSON fields (`inputs`, `output`, `attributes`, and `summary`) from typed comparison literals, so numeric and boolean comparisons no longer require `$convert`. This changes the results of existing queries that compare typed literals against raw dynamic fields.
+- `ClickHouseTraceServer.from_env` defaults `use_async_insert` to `True`. Pass `use_async_insert=False` to force synchronous inserts.
+- Reduced per-op tracing overhead for async operations.
+- Improved trace ingestion performance by reducing allocation churn in batch upserts.
+- Removed the version pin on the `openai` dependency.
+
+## Fixed
+
+- Fixed `NOT` over `$contains`, `$eq`, and `$in` filters on heavy fields dropping valid rows in call queries.
+- Fixed a potential memory leak in the streaming accumulator.
+- Fixed a bug where a malformed `WEAVE_REDIS_URL` caused OpenTelemetry ingest requests to fail with HTTP 400; the trace server now fails open.
+
+</Update>
+
+<Update label="0.52.39" description="May 11, 2026">
+## Added
+
+- Added the Session SDK for instrumenting agent applications: `Session`, `Turn`, `LLM`, `Tool`, and `SubAgent` classes, plus top-level `start_session`, `start_turn`, and `start_llm` helpers that emit OpenTelemetry GenAI spans. `Tool` arguments and results accept structured payloads, and conversion helpers reduce boilerplate for manually instrumented agents.
+- Added built-in cost tracking for Grok 4.3.
+- The trace server adds a GenAI observability schema, extraction, and query layer for agent traces; self-hosted deployments run new ClickHouse migrations on upgrade.
+
+## Changed
+
+- The TypeScript SDK ships a dual CommonJS and ESM build; ESM consumers that load `weave` or use `--import=weave/instrument` get native ESM output.
+- Improved `weave.init()` startup time by removing a duplicate server info request.
+
+## Fixed
+
+- Fixed a race where flushing pending calls could return before callback work chained with `then()` had completed.
+- Fixed the imperative `EvaluationLogger` creating its root call lazily; the evaluation call is now created eagerly.
+- Fixed missing spans when tracing newer OpenAI Agents SDK span types.
+- Fixed errors caused by invalid UTF-8 surrogates in logged data; they are now sanitized.
+- Fixed the `WANDB_ERROR_REPORTING` environment variable not being honored for Weave error telemetry.
+- Fixed ClickHouse migrations assuming the target database engine; the migrator now discovers it, improving compatibility for self-hosted deployments.
+
+</Update>
+
+<Update label="0.52.38" description="May 5, 2026">
+## Added
+
+- Added a GEPA integration that automatically logs optimization traces to Weave.
+- Added `client.link_prompt_to_registry`, which links a published prompt or object version into a W&B Registry collection, with optional aliases.
+- Added built-in cost tracking for GPT-5.5 models.
+- Added a TypeScript SDK integration for the pi.dev coding agent that traces agent sessions, chat, and tool calls, and can send OpenTelemetry spans to Weave automatically.
+- The trace server's `/eval_results` endpoint supports server-side sorting, filtering, and pagination, and resolves dataset-backed evaluation inputs.
+
+## Changed
+
+- The `wandb` package is an optional dependency of `weave` again.
+- Improved ClickHouse migration handling for replicated self-hosted deployments: migrations use Atomic databases with `ReplicatedMergeTree` tables `ON CLUSTER`, take a migration lock, and the migration splitter handles SQL comments. New migrations add agent observability tables.
+
+## Fixed
+
+- Fixed transient not-found errors when reading recently written data on replicated ClickHouse deployments; the trace server now retries reads affected by replica lag.
+- Fixed Redis writes bypassing Sentinel routing in the trace server.
+- Fixed OpenAI Agents SDK `responses.create` calls not being linked to agent traces.
+- TypeScript SDK: fixed the wrapped OpenAI client returning a plain promise instead of the SDK's `APIPromise`, which broke `.withResponse()` and similar helpers and could leave streaming traces pending.
+- Fixed an error when unwrapping OpenAI raw API responses in streaming contexts, so tracing records the parsed completion instead of the raw response object.
+- Fixed spurious temp-directory cleanup warnings on Windows.
+
+</Update>
 
 <Update label="0.52.37" description="April 17, 2026">
 ## Added

@@ -12,6 +12,7 @@ Usage:
 from __future__ import annotations
 
 import json
+import os
 import re
 import sys
 import urllib.request
@@ -41,13 +42,14 @@ class DriftResult:
 
 def _fetch_latest_tag(owner: str, repo: str) -> str | None:
     url = f"https://api.github.com/repos/{owner}/{repo}/releases/latest"
-    req = urllib.request.Request(
-        url,
-        headers={
-            "Accept": "application/vnd.github+json",
-            "User-Agent": "wandb-docs-check-sdk-release-notes-drift",
-        },
-    )
+    headers = {
+        "Accept": "application/vnd.github+json",
+        "User-Agent": "wandb-docs-check-sdk-release-notes-drift",
+    }
+    token = os.environ.get("GITHUB_TOKEN")
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
+    req = urllib.request.Request(url, headers=headers)
     try:
         with urllib.request.urlopen(req, timeout=30) as resp:
             data = json.loads(resp.read().decode())
