@@ -30,9 +30,120 @@ To add a media panel manually so that you can configure it during creation:
 
 ## Configure a media panel
 
-Panels for all media types have the same options, so the following steps apply regardless of which media type you're working with.
+When you add a media panel manually, its configuration page opens after you select the media type.
 
-When you add a media panel manually, its configuration page opens after you select the type of media. To update the configuration for an existing panel, hover over the panel, then click the gear icon that appears at the top right. The following sections describe the settings available in each tab.
+To configure an existing panel, hover over the panel and select the gear icon (<Icon icon="gear" iconType="solid"/>) in the upper-right corner. The following sections describe the settings available on each tab.
+
+### Display
+
+Configure the panel's appearance and behavior.
+
+#### Viewer Settings
+
+- **Panel title**: Specify the panel title.
+- **Panel mode**: Specify the layout of the media panel. Choose from the following modes:
+    - **Gallery** (default): Specify the number of columns and whether the grid displays one item per run, step, or index. By default, the grid displays one item per run.
+    - **Grid**: Specify the number of columns, the x-axis, and the y-axis. By default, the x-axis is **Log Step** and the y-axis is **Run**.
+    - **Compare**: Compare up to four media items side by side. Optionally, fan out items by step or index. For more information, see [Compare mode](#compare-mode).
+- **Media key(s)**: Logged W&B fields that contain the images, videos, or other media the panel should display.
+- **Slider key**: Specify the key to use for the panel's step slider. The default is **Step**.
+
+#### Appearance
+
+Configure how the panel displays media:
+
+- **Smooth image**: Smooth images to improve their appearance.
+
+#### Navigation & Playback
+
+Control how you navigate through media logged at different points in a run:
+
+- **Snap to step**: Toggle on or off. If on, the stepper advances to the next existing step after *Stride length*. Otherwise, **Snap to step** advances by **Stride length** even if it doesn't align with an existing step.
+- **Stride length**: Specify the number of steps to advance each time you use the left and right (minus and plus buttons) during video playback. This setting is available only for video media panels.
+- **Video seek step**: Specify how far to skip forward or backward when you use the left and right (minus and plus buttons) during video playback. This setting is available only for video media panels.
+{/* - **3d objects**: Configure the background color and point color. */}
+
+### Sync
+
+Configure whether the step sliders for videos in the section move in sync. This setting is available only for video media panels.
+
+#### Sync Video Playback
+
+Synchronize video playback across media panels in the section.
+
+- **Autoplay videos**: Start playing videos automatically when you open the workspace or panel.
+- **Loop videos**: Restart videos automatically after playback ends.
+
+### Layout
+
+Configure how the panel arranges and displays individual media items.
+
+#### Grid & Organization
+
+- **Number of columns**: Specify the number of columns to display in the panel.
+- **Column content**: Specify which dimension varies across columns:
+      - **Run**: Each column represents a different run.
+      - **Log Step**: Each column represents a different logging step from a run.
+      - **Example Index**: Each column represents a different index of the logged media. For example, if you log [`img0`, `img1`, `img2`], the columns represent indices 0, 1, and 2.
+- **Max runs to include**: Specify the maximum number of runs to display in the panel.
+- **Media display limit**: Specify how many media items to display for each run:
+      - **Show all**: Display all media items logged for each run.
+      - **Limit media**: Limit the number of media items displayed for each run. Specify the maximum number of items to display.
+
+#### Fit & Alignment
+
+Configure how W&B loads and scales media items. 
+
+
+<Tabs>
+<Tab title="Images">
+
+Choose how you would like to display images in the panel within **Image fit and resolution** settings. Available options depend on your deployment type.
+
+<Note>
+These settings have no effect in [**Compare** mode](#compare-mode). 
+</Note>
+
+For W&B Multi-tenant Cloud:
+
+- **Thumbnails** (default): Load smaller previews for faster loading. W&B scales thumbnails to fit the panel.
+- **Original image**: Load the full-resolution image file. W&B scales the image to fit the panel.
+
+For W&B Dedicated Cloud and W&B Self-Managed:
+
+- **Default** (default): Use the default image dimensions for the panel mode.
+
+For all deployment types:
+
+- **Fit to available space**: Load the full-resolution image file and scale it to fill the panel. Scroll to view parts of the image that extend beyond the visible area.
+- **Original size**: Load the full-resolution image file at its logged pixel dimensions. Scroll to view parts of the image that extend beyond the visible area.
+
+<Note>
+On Multi-tenant Cloud, W&B always loads full-resolution images in full-screen view, regardless of the media loading option selected for the panel.
+</Note>
+
+</Tab>
+<Tab title="Videos">
+
+Choose how videos appear in the panel:
+
+<Note>
+These settings have no effect in [**Compare** mode](#compare-mode). 
+</Note>
+
+- **Use original size**: Display videos at their original dimensions in **Gallery** mode. If this option is off, W&B scales videos to use as much panel space as possible while preserving the video's aspect ratio. In **Grid** mode, each video fills the grid width.
+- **Disable video streaming**: Turn off streaming playback for videos.
+
+</Tab>
+<Tab title="3D Objects">
+
+Choose how 3D objects appear in the panel:
+
+- **Right-handed system**: Plot point clouds with a right-handed coordinate system instead of the default left-handed coordinate system.
+
+</Tab>
+</Tabs>
+
 
 ### Overlays
 
@@ -41,57 +152,7 @@ This tab appears for images and point clouds logged with segmentation masks or b
 - Search and filter overlays by name.
 - Customize overlay colors.
 
-### Sync
-
-This tab appears in the workspace and section settings, and provides the following settings:
-
-- **Sync slider by key**: Configure whether the step sliders for videos in the section move in sync.
-- **Autoplay videos**: Configure whether videos start playing when the page loads.
-- **Loop videos**: Configure whether videos in the section restart automatically and play continuously until stopped. Not customizable at the section level. Appears only if the workspace has video media panels.
-
-### Display
-
-Customize the panel's overall appearance and behavior:
-
-- Configure the panel's title.
-- Select the media keys to visualize.
-- Customize the panel's slider and playback behavior.
-  - Configure the slider key, which defaults to **Step**.
-  - Set **Stride length** to the number of steps to advance for each click of the slider.
-  - Turn on or off **Snap to existing step**. If it's turned on, the stepper advances to the next existing step after **Stride length**. Otherwise, it advances by **Stride length** even if that doesn't align with an existing step.
-- **Images**: Turn on or off smoothing.
-- **Videos**: Configure the video seek step interval, which controls how far forward or backward to skip when using the left and right arrow keys.
-- **3d objects**: Configure the background color and point color.
-
-### Layout
-
-Customize the display of the panel's individual items:
-
-- Optionally limit the **Max runs to include** in the panel.
-- Optionally specify a **Media display limit** to limit the number of media items to include per run.
-- Set **Panel mode**:
-    - **Gallery** (default): Specify the number of columns and whether the grid shows a single item per run (default), step, or index.
-    - **Grid**: Specify the number of columns, the x axis (defaults to **Log Step**), and the y axis (defaults to **Run**).
-    - **Compare**: Compare up to four media items side by side, optionally fanning out by step or index. See [Compare mode](#compare-mode) for details.
-- Configure how W&B fits and scales media items. These settings have no effect in [**Compare** mode](#compare-mode).
-    - **Images**: Set **Image fit and resolution** to control how W&B displays images. The available options depend on your deployment type.
-
-        On W&B Multi-tenant Cloud, the following options are available:
-        - **Thumbnails** (default): Use thumbnails to optimize loading speed.
-        - **Original image**: Load full-resolution images for detailed inspection.
-        - **Fit to available space**: Resize full-resolution images to fit within the panel.
-        - **Original size**: Load full-resolution images in their original dimensions.
-
-        On W&B Dedicated Cloud or W&B Self-Managed, the following options are available:
-        - **Default** (default): Use the default image dimensions for the panel mode.
-        - **Fit to available space**: Resize full-resolution images to fit within the panel.
-        - **Original size**: Load full-resolution images in their original dimensions.
-
-        On Multi-tenant Cloud, W&B always loads full-resolution images in the full-screen view, regardless of this setting.
-    - **Videos**: In **Gallery** mode, turn on **Use original size** to display videos at their original dimensions. If off (default), W&B scales videos to fill as much panel space as possible while maintaining the image's aspect ratio. In **Grid** mode, each video fills the grid width.
-- **Right-handed system**: If on, point clouds use the right-handed system for plotting points, rather than the default left-handed system.
-
-### All media panels in a section
+## Configure all media panels in a section
 
 Configure section-level defaults when you want every media panel in a section to share the same settings, overriding any workspace-level defaults.
 
@@ -108,7 +169,7 @@ When **Step slider syncing** is turned on, the section's media panels with the s
 1. Click the **Sync** tab.
 1. Turn on **Sync slider by key (Step)**.
 
-### All media panels in a workspace
+## Configure all media panels in a workspace
 
 Configure workspace-level defaults when you want a consistent baseline for media panels across every section in the workspace.
 
