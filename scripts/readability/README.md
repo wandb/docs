@@ -29,7 +29,8 @@ This directory holds the wandb/docs plumbing:
   file, aggregates a word-weighted delta, and builds the Markdown report.
 - `tests/` covers the parsing and Markdown-building logic (no network needed).
 
-The workflow is `.github/workflows/readability-delta.yml`.
+The workflow is `.github/workflows/doc-quality.yml`, which runs this check as
+its informational readability step.
 
 ## Behavior
 

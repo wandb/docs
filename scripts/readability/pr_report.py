@@ -36,7 +36,7 @@ See also
 --------
 - ``.claude/scripts/_readability.py`` for the analyzer.
 - ``.claude/scripts/_docs_eval_lib.py`` for the comprehension judge rubric.
-- ``.github/workflows/readability-delta.yml`` for when this runs.
+- ``.github/workflows/doc-quality.yml`` for when this runs.
 """
 
 from __future__ import annotations
