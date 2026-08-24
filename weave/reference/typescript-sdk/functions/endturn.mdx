@@ -3,23 +3,23 @@ title: "endTurn"
 description: "TypeScript SDK reference"
 ---
 
-> **endTurn**(`opts?`): `void`
+```ts
+endTurn(opts?: object): void
+```
 
 End the current Turn. No-op if no Turn is active.
 
-Defined in: [src/genai/api.ts:183](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/api.ts#L183)
+<sub>Source: [src/genai/api.ts:183](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/api.ts#L183)</sub>
 
 ## Parameters
 
-### opts?
+<ParamField path="opts" type="object">
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="endTime" type="TimeInput" />
 
-#### endTime?
-
-`TimeInput`
-
-#### error?
-
-`Error`
+    <ParamField path="error" type="Error" />
+  </Expandable>
+</ParamField>
 
 ## Returns
 

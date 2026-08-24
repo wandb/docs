@@ -3,18 +3,20 @@ title: "startLLM"
 description: "TypeScript SDK reference"
 ---
 
-> **startLLM**(`opts`): [`LLM`](../interfaces/llm)
+```ts
+startLLM(opts: LLMInit): LLM
+```
 
 Start an LLM span as a child of the current Turn. Throws if no Turn is
 active.
 
-Defined in: [src/genai/api.ts:77](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/api.ts#L77)
+<sub>Source: [src/genai/api.ts:77](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/api.ts#L77)</sub>
 
 ## Parameters
 
-### opts
-
-[`LLMInit`](../interfaces/llminit)
+<ParamField path="opts" type="LLMInit" required>
+  See [`LLMInit`](../interfaces/llminit).
+</ParamField>
 
 ## Returns
 

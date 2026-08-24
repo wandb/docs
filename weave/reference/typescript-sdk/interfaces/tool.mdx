@@ -11,7 +11,7 @@ Created by `weave.startTool()` (or `turn.startTool()`, or
 `llm.startTool()`) and terminated with `end()`, which accepts the result and
 optional error metadata.
 
-Defined in: [src/genai/tool.ts:65](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/tool.ts#L65)
+<sub>Source: [src/genai/tool.ts:65](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/tool.ts#L65)</sub>
 
 ## Example
 
@@ -37,7 +37,7 @@ try {
 
 > `readonly` **args**: `string`
 
-Defined in: [src/genai/tool.ts:76](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/tool.ts#L76)
+<sub>Source: [src/genai/tool.ts:76](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/tool.ts#L76)</sub>
 
 ***
 
@@ -45,7 +45,7 @@ Defined in: [src/genai/tool.ts:76](https://github.com/wandb/weave/blob/7c9efdc9f
 
 > `readonly` **name**: `string`
 
-Defined in: [src/genai/tool.ts:75](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/tool.ts#L75)
+<sub>Source: [src/genai/tool.ts:75](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/tool.ts#L75)</sub>
 
 ***
 
@@ -59,7 +59,7 @@ Defined in: [src/genai/tool.ts:75](https://github.com/wandb/weave/blob/7c9efdc9f
 
 Tool output as a string. Prefer passing `result` to `end()`.
 
-Defined in: [src/genai/tool.ts:71](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/tool.ts#L71)
+<sub>Source: [src/genai/tool.ts:71](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/tool.ts#L71)</sub>
 
 ***
 
@@ -67,7 +67,7 @@ Defined in: [src/genai/tool.ts:71](https://github.com/wandb/weave/blob/7c9efdc9f
 
 > `readonly` **toolCallId**: `string`
 
-Defined in: [src/genai/tool.ts:77](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/tool.ts#L77)
+<sub>Source: [src/genai/tool.ts:77](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/tool.ts#L77)</sub>
 
 ## Methods
 
@@ -86,21 +86,15 @@ Add a named event to the span. Useful for marking non-span moments such as
 context compaction, tool-loop detection, or guardrail trips. Warns and
 no-ops after `end()`. Mirrors OTel `Span.addEvent`.
 
-Defined in: [src/genai/spanBase.ts:84](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/spanBase.ts#L84)
+<sub>Source: [src/genai/spanBase.ts:84](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/spanBase.ts#L84)</sub>
 
 #### Parameters
 
-##### name
+<ParamField path="name" type="string" required />
 
-`string`
+<ParamField path="attributes" type="Attributes" />
 
-##### attributes?
-
-`Attributes`
-
-##### startTime?
-
-`TimeInput`
+<ParamField path="startTime" type="TimeInput" />
 
 #### Returns
 
@@ -126,13 +120,13 @@ span.addEvent('context_compacted', {removedMessages: 12});
 Record an optional result and error type, then close the span. Idempotent.
 Pass `error` to mark the span as failed and `endTime` to backdate the close.
 
-Defined in: [src/genai/tool.ts:111](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/tool.ts#L111)
+<sub>Source: [src/genai/tool.ts:111](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/tool.ts#L111)</sub>
 
 #### Parameters
 
-##### opts?
-
-[`ToolEndOptions`](./toolendoptions)
+<ParamField path="opts" type="ToolEndOptions">
+  See [`ToolEndOptions`](./toolendoptions).
+</ParamField>
 
 #### Returns
 
@@ -148,13 +142,11 @@ Set multiple attributes on the span at once. Warns and no-ops after
 `end()`. Mirrors OTel `Span.setAttributes` (and the Python SDK's
 `set_attributes`).
 
-Defined in: [src/genai/spanBase.ts:65](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/spanBase.ts#L65)
+<sub>Source: [src/genai/spanBase.ts:65](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/spanBase.ts#L65)</sub>
 
 #### Parameters
 
-##### attributes
-
-`Attributes`
+<ParamField path="attributes" type="Attributes" required />
 
 #### Returns
 

@@ -3,7 +3,9 @@ title: "withAttributes"
 description: "TypeScript SDK reference"
 ---
 
-> **withAttributes**\<`T`\>(`attrs`, `fn`): `T` \| `Promise`\<`T`\>
+```ts
+withAttributes<T>(attrs: Record<string, any>, fn: () => T | Promise<T>): T | Promise<T>
+```
 
 Attach attributes to the current execution context so that any calls created
 inside `fn` automatically inherit them. Attributes are written to the call
@@ -18,7 +20,7 @@ await withAttributes({requestId: 'abc'}, async () => {
 });
 ```
 
-Defined in: [src/clientApi.ts:238](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/clientApi.ts#L238)
+<sub>Source: [src/clientApi.ts:238](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/clientApi.ts#L238)</sub>
 
 ## Type Parameters
 
@@ -28,13 +30,9 @@ Defined in: [src/clientApi.ts:238](https://github.com/wandb/weave/blob/7c9efdc9f
 
 ## Parameters
 
-### attrs
+<ParamField path="attrs" type="Record<string, any>" required />
 
-`Record`\<`string`, `any`\>
-
-### fn
-
-() => `T` \| `Promise`\<`T`\>
+<ParamField path="fn" type="() => T | Promise<T>" required />
 
 ## Returns
 

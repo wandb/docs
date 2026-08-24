@@ -6,7 +6,7 @@ description: "TypeScript SDK reference"
 A Conversation groups Turns under a single `gen_ai.conversation.id`. It is
 not itself an OTel span — children stamp the conversation id onto theirs.
 
-Defined in: [src/genai/conversation.ts:72](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L72)
+<sub>Source: [src/genai/conversation.ts:72](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L72)</sub>
 
 ## Accessors
 
@@ -16,7 +16,7 @@ Defined in: [src/genai/conversation.ts:72](https://github.com/wandb/weave/blob/7
 
 > **get** **agentName**(): `string`
 
-Defined in: [src/genai/conversation.ts:94](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L94)
+<sub>Source: [src/genai/conversation.ts:94](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L94)</sub>
 
 ##### Returns
 
@@ -30,7 +30,7 @@ Defined in: [src/genai/conversation.ts:94](https://github.com/wandb/weave/blob/7
 
 > **get** **attributes**(): `Attributes`
 
-Defined in: [src/genai/conversation.ts:106](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L106)
+<sub>Source: [src/genai/conversation.ts:106](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L106)</sub>
 
 ##### Returns
 
@@ -44,7 +44,7 @@ Defined in: [src/genai/conversation.ts:106](https://github.com/wandb/weave/blob/
 
 > **get** **conversationId**(): `string`
 
-Defined in: [src/genai/conversation.ts:102](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L102)
+<sub>Source: [src/genai/conversation.ts:102](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L102)</sub>
 
 ##### Returns
 
@@ -58,7 +58,7 @@ Defined in: [src/genai/conversation.ts:102](https://github.com/wandb/weave/blob/
 
 > **get** **model**(): `string`
 
-Defined in: [src/genai/conversation.ts:98](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L98)
+<sub>Source: [src/genai/conversation.ts:98](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L98)</sub>
 
 ##### Returns
 
@@ -76,7 +76,7 @@ Defined in: [src/genai/conversation.ts:98](https://github.com/wandb/weave/blob/7
 
 > **get** **sessionId**(): `string`
 
-Defined in: [src/genai/conversation.ts:111](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L111)
+<sub>Source: [src/genai/conversation.ts:111](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L111)</sub>
 
 ##### Returns
 
@@ -88,19 +88,17 @@ Defined in: [src/genai/conversation.ts:111](https://github.com/wandb/weave/blob/
 
 > **end**(`opts?`): `void`
 
-Defined in: [src/genai/conversation.ts:172](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L172)
+<sub>Source: [src/genai/conversation.ts:172](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L172)</sub>
 
 #### Parameters
 
-##### opts?
+<ParamField path="opts" type="object">
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="endTime" type="TimeInput" />
 
-###### endTime?
-
-`TimeInput`
-
-###### error?
-
-`Error`
+    <ParamField path="error" type="Error" />
+  </Expandable>
+</ParamField>
 
 #### Returns
 
@@ -117,13 +115,13 @@ conversation's `conversationId`; `agentName`, `agentId`, `agentDescription`,
 `agentVersion` and `model` fall back to the conversation's values when not
 provided on `opts`.
 
-Defined in: [src/genai/conversation.ts:156](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L156)
+<sub>Source: [src/genai/conversation.ts:156](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L156)</sub>
 
 #### Parameters
 
-##### opts?
-
-[`TurnInit`](./turninit) = `{}`
+<ParamField path="opts" type="TurnInit = {}">
+  See [`TurnInit`](./turninit).
+</ParamField>
 
 #### Returns
 
