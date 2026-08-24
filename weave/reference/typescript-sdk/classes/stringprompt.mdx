@@ -3,7 +3,7 @@ title: "StringPrompt"
 description: "TypeScript SDK reference"
 ---
 
-Defined in: [src/prompt.ts:19](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/prompt.ts#L19)
+<sub>Source: [src/prompt.ts:19](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/prompt.ts#L19)</sub>
 
 ## Extends
 
@@ -15,23 +15,19 @@ Defined in: [src/prompt.ts:19](https://github.com/wandb/weave/blob/7c9efdc9fe05f
 
 > **new StringPrompt**(`parameters`): `StringPrompt`
 
-Defined in: [src/prompt.ts:22](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/prompt.ts#L22)
+<sub>Source: [src/prompt.ts:22](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/prompt.ts#L22)</sub>
 
 #### Parameters
 
-##### parameters
+<ParamField path="parameters" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="content" type="string" required />
 
-###### content
+    <ParamField path="description" type="string" />
 
-`string`
-
-###### description?
-
-`string`
-
-###### name?
-
-`string`
+    <ParamField path="name" type="string" />
+  </Expandable>
+</ParamField>
 
 #### Returns
 
@@ -47,7 +43,7 @@ Defined in: [src/prompt.ts:22](https://github.com/wandb/weave/blob/7c9efdc9fe05f
 
 > `optional` **\_\_savedRef**: [`ObjectRef`](./objectref) \| `Promise`\<[`ObjectRef`](./objectref)\>
 
-Defined in: [src/weaveObject.ts:72](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L72)
+<sub>Source: [src/weaveObject.ts:72](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L72)</sub>
 
 #### Inherited from
 
@@ -59,7 +55,7 @@ Defined in: [src/weaveObject.ts:72](https://github.com/wandb/weave/blob/7c9efdc9
 
 > **content**: `string`
 
-Defined in: [src/prompt.ts:20](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/prompt.ts#L20)
+<sub>Source: [src/prompt.ts:20](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/prompt.ts#L20)</sub>
 
 ## Accessors
 
@@ -69,7 +65,7 @@ Defined in: [src/prompt.ts:20](https://github.com/wandb/weave/blob/7c9efdc9fe05f
 
 > **get** **description**(): `string` \| `undefined`
 
-Defined in: [src/weaveObject.ts:99](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L99)
+<sub>Source: [src/weaveObject.ts:99](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L99)</sub>
 
 ##### Returns
 
@@ -87,7 +83,7 @@ Defined in: [src/weaveObject.ts:99](https://github.com/wandb/weave/blob/7c9efdc9
 
 > **get** **name**(): `string`
 
-Defined in: [src/weaveObject.ts:95](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L95)
+<sub>Source: [src/weaveObject.ts:95](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L95)</sub>
 
 ##### Returns
 
@@ -103,13 +99,11 @@ Defined in: [src/weaveObject.ts:95](https://github.com/wandb/weave/blob/7c9efdc9
 
 > **format**(`values?`): `string`
 
-Defined in: [src/prompt.ts:27](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/prompt.ts#L27)
+<sub>Source: [src/prompt.ts:27](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/prompt.ts#L27)</sub>
 
 #### Parameters
 
-##### values?
-
-`Record`\<`string`, `any`\> = `{}`
+<ParamField path="values" type="Record<string, any> = {}" />
 
 #### Returns
 
@@ -121,7 +115,7 @@ Defined in: [src/prompt.ts:27](https://github.com/wandb/weave/blob/7c9efdc9fe05f
 
 > **saveAttrs**(): `object`
 
-Defined in: [src/weaveObject.ts:76](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L76)
+<sub>Source: [src/weaveObject.ts:76](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L76)</sub>
 
 #### Returns
 
@@ -137,17 +131,15 @@ Defined in: [src/weaveObject.ts:76](https://github.com/wandb/weave/blob/7c9efdc9
 
 > `static` **get**(`client`, `uri`): `Promise`\<`StringPrompt`\>
 
-Defined in: [src/prompt.ts:31](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/prompt.ts#L31)
+<sub>Source: [src/prompt.ts:31](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/prompt.ts#L31)</sub>
 
 #### Parameters
 
-##### client
+<ParamField path="client" type="WeaveClient" required>
+  See [`WeaveClient`](../interfaces/weaveclient).
+</ParamField>
 
-[`WeaveClient`](../interfaces/weaveclient)
-
-##### uri
-
-`string`
+<ParamField path="uri" type="string" required />
 
 #### Returns
 

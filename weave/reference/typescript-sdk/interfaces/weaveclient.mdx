@@ -3,7 +3,7 @@ title: "WeaveClient"
 description: "TypeScript SDK reference"
 ---
 
-Defined in: [src/weaveClient.ts:519](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L519)
+<sub>Source: [src/weaveClient.ts:519](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L519)</sub>
 
 ## Properties
 
@@ -11,7 +11,7 @@ Defined in: [src/weaveClient.ts:519](https://github.com/wandb/weave/blob/7c9efdc
 
 > **projectId**: `string`
 
-Defined in: [src/weaveClient.ts:538](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L538)
+<sub>Source: [src/weaveClient.ts:538](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L538)</sub>
 
 ***
 
@@ -19,7 +19,7 @@ Defined in: [src/weaveClient.ts:538](https://github.com/wandb/weave/blob/7c9efdc
 
 > **settings**: `object`
 
-Defined in: [src/weaveClient.ts:539](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L539)
+<sub>Source: [src/weaveClient.ts:539](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L539)</sub>
 
 #### attributes
 
@@ -89,7 +89,7 @@ Routes OTel-capable integrations through their OTel variant.
 
 > **traceServerApi**: `Api`\<`any`\>
 
-Defined in: [src/weaveClient.ts:537](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L537)
+<sub>Source: [src/weaveClient.ts:537](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L537)</sub>
 
 ## Methods
 
@@ -100,33 +100,25 @@ Defined in: [src/weaveClient.ts:537](https://github.com/wandb/weave/blob/7c9efdc
 Add a scorer result (e.g., scorer output) to a call.
 Used in imperative evaluation to attach scorer results to predict calls.
 
-Defined in: [src/weaveClient.ts:2165](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L2165)
+<sub>Source: [src/weaveClient.ts:2165](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L2165)</sub>
 
 #### Parameters
 
-##### predictCallId
+<ParamField path="predictCallId" type="string" required>
+  ID of the predict call to attach feedback to
+</ParamField>
 
-`string`
+<ParamField path="scorerCallId" type="string" required>
+  ID of the scorer call that generated the feedback
+</ParamField>
 
-ID of the predict call to attach feedback to
+<ParamField path="runnableRefUri" type="string" required>
+  URI of the scorer (Op or Object ref)
+</ParamField>
 
-##### scorerCallId
-
-`string`
-
-ID of the scorer call that generated the feedback
-
-##### runnableRefUri
-
-`string`
-
-URI of the scorer (Op or Object ref)
-
-##### scorerOutput
-
-`any`
-
-Output of the scorer
+<ParamField path="scorerOutput" type="any" required>
+  Output of the scorer
+</ParamField>
 
 #### Returns
 
@@ -138,71 +130,45 @@ Output of the scorer
 
 > **createCall**(`internalCall`, `opRef`, `params`, `parameterNames`, `thisArg`, `currentCall`, `parentCall`, `startTime`, `displayName?`, `attributes?`, `eagerCallStart?`): `Promise`\<`void`\>
 
-Defined in: [src/weaveClient.ts:1994](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1994)
+<sub>Source: [src/weaveClient.ts:1994](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1994)</sub>
 
 #### Parameters
 
-##### internalCall
+<ParamField path="internalCall" type="InternalCall" required />
 
-`InternalCall`
+<ParamField path="opRef" type="any" required />
 
-##### opRef
+<ParamField path="params" type="any[]" required />
 
-`any`
+<ParamField path="parameterNames" type='undefined | "useParam0Object" | string[]' required />
 
-##### params
+<ParamField path="thisArg" type="any" required />
 
-`any`[]
+<ParamField path="currentCall" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="callId" type="string" required />
 
-##### parameterNames
+    <ParamField path="childSummary" type="Record<string, any>" required />
 
-`undefined` \| `"useParam0Object"` \| `string`[]
+    <ParamField path="displayName" type="string" />
 
-##### thisArg
+    <ParamField path="opName" type="string" />
 
-`any`
+    <ParamField path="traceId" type="string" required />
+  </Expandable>
+</ParamField>
 
-##### currentCall
+<ParamField path="parentCall" type="{…} | undefined" required>
+  Full type: `{ callId: string; childSummary: Record<string, any>; displayName?: string; opName?: string; traceId: string; } | undefined`
+</ParamField>
 
-###### callId
+<ParamField path="startTime" type="Date" required />
 
-`string`
+<ParamField path="displayName" type="string" />
 
-###### childSummary
+<ParamField path="attributes" type="Record<string, any>" />
 
-`Record`\<`string`, `any`\>
-
-###### displayName?
-
-`string`
-
-###### opName?
-
-`string`
-
-###### traceId
-
-`string`
-
-##### parentCall
-
-\{ `callId`: `string`; `childSummary`: `Record`\<`string`, `any`\>; `displayName?`: `string`; `opName?`: `string`; `traceId`: `string`; \} \| `undefined`
-
-##### startTime
-
-`Date`
-
-##### displayName?
-
-`string`
-
-##### attributes?
-
-`Record`\<`string`, `any`\>
-
-##### eagerCallStart?
-
-`boolean` = `false`
+<ParamField path="eagerCallStart" type="boolean = false" />
 
 #### Returns
 
@@ -214,55 +180,37 @@ Defined in: [src/weaveClient.ts:1994](https://github.com/wandb/weave/blob/7c9efd
 
 > **finishCall**(`call`, `result`, `currentCall`, `parentCall`, `summarize`, `endTime`, `startCallPromise`): `Promise`\<`void`\>
 
-Defined in: [src/weaveClient.ts:2068](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L2068)
+<sub>Source: [src/weaveClient.ts:2068](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L2068)</sub>
 
 #### Parameters
 
-##### call
+<ParamField path="call" type="InternalCall" required />
 
-`InternalCall`
+<ParamField path="result" type="any" required />
 
-##### result
+<ParamField path="currentCall" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="callId" type="string" required />
 
-`any`
+    <ParamField path="childSummary" type="Record<string, any>" required />
 
-##### currentCall
+    <ParamField path="displayName" type="string" />
 
-###### callId
+    <ParamField path="opName" type="string" />
 
-`string`
+    <ParamField path="traceId" type="string" required />
+  </Expandable>
+</ParamField>
 
-###### childSummary
+<ParamField path="parentCall" type="{…} | undefined" required>
+  Full type: `{ callId: string; childSummary: Record<string, any>; displayName?: string; opName?: string; traceId: string; } | undefined`
+</ParamField>
 
-`Record`\<`string`, `any`\>
+<ParamField path="summarize" type="((result) => Record<string, any>) | undefined" required />
 
-###### displayName?
+<ParamField path="endTime" type="Date" required />
 
-`string`
-
-###### opName?
-
-`string`
-
-###### traceId
-
-`string`
-
-##### parentCall
-
-\{ `callId`: `string`; `childSummary`: `Record`\<`string`, `any`\>; `displayName?`: `string`; `opName?`: `string`; `traceId`: `string`; \} \| `undefined`
-
-##### summarize
-
-((`result`) => `Record`\<`string`, `any`\>) \| `undefined`
-
-##### endTime
-
-`Date`
-
-##### startCallPromise
-
-`Promise`\<`void`\>
+<ParamField path="startCallPromise" type="Promise<void>" required />
 
 #### Returns
 
@@ -274,51 +222,35 @@ Defined in: [src/weaveClient.ts:2068](https://github.com/wandb/weave/blob/7c9efd
 
 > **finishCallWithException**(`call`, `error`, `currentCall`, `parentCall`, `endTime`, `startCallPromise`): `Promise`\<`void`\>
 
-Defined in: [src/weaveClient.ts:2110](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L2110)
+<sub>Source: [src/weaveClient.ts:2110](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L2110)</sub>
 
 #### Parameters
 
-##### call
+<ParamField path="call" type="InternalCall" required />
 
-`InternalCall`
+<ParamField path="error" type="any" required />
 
-##### error
+<ParamField path="currentCall" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="callId" type="string" required />
 
-`any`
+    <ParamField path="childSummary" type="Record<string, any>" required />
 
-##### currentCall
+    <ParamField path="displayName" type="string" />
 
-###### callId
+    <ParamField path="opName" type="string" />
 
-`string`
+    <ParamField path="traceId" type="string" required />
+  </Expandable>
+</ParamField>
 
-###### childSummary
+<ParamField path="parentCall" type="{…} | undefined" required>
+  Full type: `{ callId: string; childSummary: Record<string, any>; displayName?: string; opName?: string; traceId: string; } | undefined`
+</ParamField>
 
-`Record`\<`string`, `any`\>
+<ParamField path="endTime" type="Date" required />
 
-###### displayName?
-
-`string`
-
-###### opName?
-
-`string`
-
-###### traceId
-
-`string`
-
-##### parentCall
-
-\{ `callId`: `string`; `childSummary`: `Record`\<`string`, `any`\>; `displayName?`: `string`; `opName?`: `string`; `traceId`: `string`; \} \| `undefined`
-
-##### endTime
-
-`Date`
-
-##### startCallPromise
-
-`Promise`\<`void`\>
+<ParamField path="startCallPromise" type="Promise<void>" required />
 
 #### Returns
 
@@ -332,7 +264,7 @@ Defined in: [src/weaveClient.ts:2110](https://github.com/wandb/weave/blob/7c9efd
 
 Deliver all buffered calls to the server. Await before `process.exit()`.
 
-Defined in: [src/weaveClient.ts:919](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L919)
+<sub>Source: [src/weaveClient.ts:919](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L919)</sub>
 
 #### Returns
 
@@ -344,13 +276,13 @@ Defined in: [src/weaveClient.ts:919](https://github.com/wandb/weave/blob/7c9efdc
 
 > **get**(`ref`): `Promise`\<`any`\>
 
-Defined in: [src/weaveClient.ts:1351](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1351)
+<sub>Source: [src/weaveClient.ts:1351](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1351)</sub>
 
 #### Parameters
 
-##### ref
-
-[`ObjectRef`](../classes/objectref)
+<ParamField path="ref" type="ObjectRef" required>
+  See [`ObjectRef`](../classes/objectref).
+</ParamField>
 
 #### Returns
 
@@ -371,57 +303,51 @@ Filter the spans considered by passing `query` (a structured span
 filter), `startedAfter` / `startedBefore` (ISO-8601), or both. Use
 `limit` / `offset` to page through the discovered keys.
 
-Defined in: [src/weaveClient.ts:877](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L877)
+<sub>Source: [src/weaveClient.ts:877](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L877)</sub>
 
 #### Parameters
 
-##### options
+<ParamField path="options" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="limit" type="number">
+      **Min**
 
-###### limit?
+      1
 
-`number`
+      **Max**
 
-**Min**
+      2000
 
-1
+      **Default**
 
-**Max**
+      ```ts twoslash
+      // @noErrors
+      200
+      ```
+    </ParamField>
 
-2000
+    <ParamField path="offset" type="number">
+      **Min**
 
-**Default**
+      0
 
-```ts twoslash
-// @noErrors
-200
-```
+      **Default**
 
-###### offset?
+      ```ts twoslash
+      // @noErrors
+      0
+      ```
+    </ParamField>
 
-`number`
+    <ParamField path="query" type="Query | null">
+      See [`Query`](./query).
+    </ParamField>
 
-**Min**
+    <ParamField path="startedAfter" type="string | null" />
 
-0
-
-**Default**
-
-```ts twoslash
-// @noErrors
-0
-```
-
-###### query?
-
-[`Query`](./query) \| `null`
-
-###### startedAfter?
-
-`string` \| `null`
-
-###### startedBefore?
-
-`string` \| `null`
+    <ParamField path="startedBefore" type="string | null" />
+  </Expandable>
+</ParamField>
 
 #### Returns
 
@@ -455,13 +381,13 @@ for (const attr of resp.data.attributes ?? []) {
 
 List agents with aggregated stats.
 
-Defined in: [src/weaveClient.ts:593](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L593)
+<sub>Source: [src/weaveClient.ts:593](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L593)</sub>
 
 #### Parameters
 
-##### options?
-
-[`GetAgentsOptions`](./getagentsoptions) = `{}`
+<ParamField path="options" type="GetAgentsOptions = {}">
+  See [`GetAgentsOptions`](./getagentsoptions).
+</ParamField>
 
 #### Returns
 
@@ -490,13 +416,13 @@ console.log(`total count: ${resp.data.total_count}`)
 Query agent spans, optionally filtered by agent name and/or a mongo-style
 query expression.
 
-Defined in: [src/weaveClient.ts:671](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L671)
+<sub>Source: [src/weaveClient.ts:671](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L671)</sub>
 
 #### Parameters
 
-##### options
-
-[`GetAgentSpansOptions`](./getagentspansoptions)
+<ParamField path="options" type="GetAgentSpansOptions" required>
+  See [`GetAgentSpansOptions`](./getagentspansoptions).
+</ParamField>
 
 #### Returns
 
@@ -546,46 +472,36 @@ bucket rows by time, or `groupBy` to break results out per agent /
 provider / model / etc. `query` filters the underlying spans before
 aggregation.
 
-Defined in: [src/weaveClient.ts:726](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L726)
+<sub>Source: [src/weaveClient.ts:726](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L726)</sub>
 
 #### Parameters
 
-##### options
+<ParamField path="options" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="end" type="string | null" />
 
-###### end?
+    <ParamField path="granularity" type="number | null" />
 
-`string` \| `null`
+    <ParamField path="groupBy" type="object[]" />
 
-###### granularity?
+    <ParamField path="metrics" type="object[]" required />
 
-`number` \| `null`
+    <ParamField path="query" type="Query | null">
+      See [`Query`](./query).
+    </ParamField>
 
-###### groupBy?
+    <ParamField path="start" type="string" required />
 
-`object`[]
+    <ParamField path="timezone" type="string">
+      **Default**
 
-###### metrics
-
-`object`[]
-
-###### query?
-
-[`Query`](./query) \| `null`
-
-###### start
-
-`string`
-
-###### timezone?
-
-`string`
-
-**Default**
-
-```ts twoslash
-// @noErrors
-"UTC"
-```
+      ```ts twoslash
+      // @noErrors
+      "UTC"
+      ```
+    </ParamField>
+  </Expandable>
+</ParamField>
 
 #### Returns
 
@@ -624,13 +540,13 @@ for (const row of resp.data.rows ?? []) {
 
 Get data (including messages) for a single turn (by traceId).
 
-Defined in: [src/weaveClient.ts:760](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L760)
+<sub>Source: [src/weaveClient.ts:760](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L760)</sub>
 
 #### Parameters
 
-##### options
-
-[`GetAgentTurnOptions`](./getagentturnoptions)
+<ParamField path="options" type="GetAgentTurnOptions" required>
+  See [`GetAgentTurnOptions`](./getagentturnoptions).
+</ParamField>
 
 #### Returns
 
@@ -662,13 +578,13 @@ for (const message of resp.data.messages ?? []) {
 
 Get data (including messages) for many turns (by conversationId).
 
-Defined in: [src/weaveClient.ts:793](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L793)
+<sub>Source: [src/weaveClient.ts:793](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L793)</sub>
 
 #### Parameters
 
-##### options
-
-[`GetAgentTurnsOptions`](./getagentturnsoptions)
+<ParamField path="options" type="GetAgentTurnsOptions" required>
+  See [`GetAgentTurnsOptions`](./getagentturnsoptions).
+</ParamField>
 
 #### Returns
 
@@ -704,13 +620,13 @@ console.log(`total turns: ${resp.data.total_turns}, has more: ${resp.data.has_mo
 
 List versions for a given agent.
 
-Defined in: [src/weaveClient.ts:627](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L627)
+<sub>Source: [src/weaveClient.ts:627](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L627)</sub>
 
 #### Parameters
 
-##### options
-
-[`GetAgentVersionsOptions`](./getagentversionsoptions)
+<ParamField path="options" type="GetAgentVersionsOptions" required>
+  See [`GetAgentVersionsOptions`](./getagentversionsoptions).
+</ParamField>
 
 #### Returns
 
@@ -736,17 +652,13 @@ console.log(`total count: ${resp.data.total_count}`)
 
 > **getCall**(`callId`, `includeCosts?`): `Promise`\<\{ `attributes`: `Record`\<`string`, `any`\>; `deleted_at?`: `string` \| `null`; `display_name?`: `string` \| `null`; `ended_at?`: `string` \| `null`; `exception?`: `string` \| `null`; `expire_at?`: `string` \| `null`; `id`: `string`; `inputs`: `Record`\<`string`, `any`\>; `op_name`: `string`; `output?`: `null`; `parent_id?`: `string` \| `null`; `project_id`: `string`; `started_at`: `string`; `storage_size_bytes?`: `number` \| `null`; `summary?`: `Record`\<`string`, `any`\>; `thread_id?`: `string` \| `null`; `total_storage_size_bytes?`: `number` \| `null`; `trace_id`: `string`; `turn_id?`: `string` \| `null`; `wb_run_id?`: `string` \| `null`; `wb_run_step?`: `number` \| `null`; `wb_run_step_end?`: `number` \| `null`; `wb_user_id?`: `string` \| `null`; `wb_username?`: `string` \| `null`; `setDisplayName`: `Promise`\<`void`\>; \}\>
 
-Defined in: [src/weaveClient.ts:1228](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1228)
+<sub>Source: [src/weaveClient.ts:1228](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1228)</sub>
 
 #### Parameters
 
-##### callId
+<ParamField path="callId" type="string" required />
 
-`string`
-
-##### includeCosts?
-
-`boolean` = `false`
+<ParamField path="includeCosts" type="boolean = false" />
 
 #### Returns
 
@@ -760,13 +672,13 @@ Defined in: [src/weaveClient.ts:1228](https://github.com/wandb/weave/blob/7c9efd
 
 > **getCalls**(`options?`): `Promise`\<`object`[]\>
 
-Defined in: [src/weaveClient.ts:1261](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1261)
+<sub>Source: [src/weaveClient.ts:1261](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1261)</sub>
 
 ##### Parameters
 
-###### options?
-
-[`GetCallsOptions`](./getcallsoptions)
+<ParamField path="options" type="GetCallsOptions">
+  See [`GetCallsOptions`](./getcallsoptions).
+</ParamField>
 
 ##### Returns
 
@@ -776,21 +688,17 @@ Defined in: [src/weaveClient.ts:1261](https://github.com/wandb/weave/blob/7c9efd
 
 > **getCalls**(`options?`, `includeCosts?`, `limit?`): `Promise`\<`object`[]\>
 
-Defined in: [src/weaveClient.ts:1262](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1262)
+<sub>Source: [src/weaveClient.ts:1262](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1262)</sub>
 
 ##### Parameters
 
-###### options?
+<ParamField path="options" type="CallsFilter">
+  See [`CallsFilter`](./callsfilter).
+</ParamField>
 
-[`CallsFilter`](./callsfilter)
+<ParamField path="includeCosts" type="boolean" />
 
-###### includeCosts?
-
-`boolean`
-
-###### limit?
-
-`number`
+<ParamField path="limit" type="number" />
 
 ##### Returns
 
@@ -804,21 +712,17 @@ Defined in: [src/weaveClient.ts:1262](https://github.com/wandb/weave/blob/7c9efd
 
 > **getCallsIterator**(`options?`, `includeCosts?`, `limit?`): `AsyncIterableIterator`\<[`CallSchema`](./callschema)\>
 
-Defined in: [src/weaveClient.ts:1283](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1283)
+<sub>Source: [src/weaveClient.ts:1283](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1283)</sub>
 
 ##### Parameters
 
-###### options?
+<ParamField path="options" type="CallsFilter">
+  See [`CallsFilter`](./callsfilter).
+</ParamField>
 
-[`CallsFilter`](./callsfilter)
+<ParamField path="includeCosts" type="boolean" />
 
-###### includeCosts?
-
-`boolean`
-
-###### limit?
-
-`number`
+<ParamField path="limit" type="number" />
 
 ##### Returns
 
@@ -828,13 +732,13 @@ Defined in: [src/weaveClient.ts:1283](https://github.com/wandb/weave/blob/7c9efd
 
 > **getCallsIterator**(`options?`): `AsyncIterableIterator`\<[`CallSchema`](./callschema)\>
 
-Defined in: [src/weaveClient.ts:1288](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1288)
+<sub>Source: [src/weaveClient.ts:1288](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1288)</sub>
 
 ##### Parameters
 
-###### options?
-
-[`GetCallsOptions`](./getcallsoptions)
+<ParamField path="options" type="GetCallsOptions">
+  See [`GetCallsOptions`](./getcallsoptions).
+</ParamField>
 
 ##### Returns
 
@@ -846,7 +750,7 @@ Defined in: [src/weaveClient.ts:1288](https://github.com/wandb/weave/blob/7c9efd
 
 > **getCallStack**(): `CallStack`
 
-Defined in: [src/weaveClient.ts:1901](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1901)
+<sub>Source: [src/weaveClient.ts:1901](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1901)</sub>
 
 #### Returns
 
@@ -858,7 +762,7 @@ Defined in: [src/weaveClient.ts:1901](https://github.com/wandb/weave/blob/7c9efd
 
 > **getCurrentAttributes**(): `Record`\<`string`, `any`\>
 
-Defined in: [src/weaveClient.ts:1905](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1905)
+<sub>Source: [src/weaveClient.ts:1905](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1905)</sub>
 
 #### Returns
 
@@ -872,23 +776,21 @@ Defined in: [src/weaveClient.ts:1905](https://github.com/wandb/weave/blob/7c9efd
 
 Link a published prompt version into a registry portfolio.
 
-Defined in: [src/weaveClient.ts:1510](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1510)
+<sub>Source: [src/weaveClient.ts:1510](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1510)</sub>
 
 #### Parameters
 
-##### prompt
+<ParamField path="prompt" type="string | ObjectRef | Prompt" required>
+  See [`ObjectRef`](../classes/objectref).
+</ParamField>
 
-`string` \| [`ObjectRef`](../classes/objectref) \| `Prompt`
+<ParamField path="options" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="aliases" type="string[]" />
 
-##### options
-
-###### aliases?
-
-`string`[]
-
-###### targetPath
-
-`string`
+    <ParamField path="targetPath" type="string" required />
+  </Expandable>
+</ParamField>
 
 #### Returns
 
@@ -902,7 +804,7 @@ Defined in: [src/weaveClient.ts:1510](https://github.com/wandb/weave/blob/7c9efd
 
 Calls buffered client-side but not yet delivered to the server.
 
-Defined in: [src/weaveClient.ts:924](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L924)
+<sub>Source: [src/weaveClient.ts:924](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L924)</sub>
 
 #### Returns
 
@@ -914,17 +816,13 @@ Defined in: [src/weaveClient.ts:924](https://github.com/wandb/weave/blob/7c9efdc
 
 > **publish**(`obj`, `objId?`): `Promise`\<[`ObjectRef`](../classes/objectref)\>
 
-Defined in: [src/weaveClient.ts:1216](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1216)
+<sub>Source: [src/weaveClient.ts:1216](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1216)</sub>
 
 #### Parameters
 
-##### obj
+<ParamField path="obj" type="any" required />
 
-`any`
-
-##### objId?
-
-`string`
+<ParamField path="objId" type="string" />
 
 #### Returns
 
@@ -936,7 +834,7 @@ Defined in: [src/weaveClient.ts:1216](https://github.com/wandb/weave/blob/7c9efd
 
 > **pushNewCall**(): `object`
 
-Defined in: [src/weaveClient.ts:1909](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1909)
+<sub>Source: [src/weaveClient.ts:1909](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1909)</sub>
 
 #### Returns
 
@@ -1002,13 +900,13 @@ Defined in: [src/weaveClient.ts:1909](https://github.com/wandb/weave/blob/7c9efd
 
 Register a custom runtime, replacing its complete configuration if it exists.
 
-Defined in: [src/weaveClient.ts:557](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L557)
+<sub>Source: [src/weaveClient.ts:557](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L557)</sub>
 
 #### Parameters
 
-##### options
-
-[`RegisterCustomRuntimeOptions`](./registercustomruntimeoptions)
+<ParamField path="options" type="RegisterCustomRuntimeOptions" required>
+  See [`RegisterCustomRuntimeOptions`](./registercustomruntimeoptions).
+</ParamField>
 
 #### Returns
 
@@ -1020,7 +918,7 @@ Defined in: [src/weaveClient.ts:557](https://github.com/wandb/weave/blob/7c9efdc
 
 > **runWithAttributes**\<`T`\>(`attributes`, `fn`): `T`
 
-Defined in: [src/weaveClient.ts:1917](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1917)
+<sub>Source: [src/weaveClient.ts:1917](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1917)</sub>
 
 #### Type Parameters
 
@@ -1030,13 +928,9 @@ Defined in: [src/weaveClient.ts:1917](https://github.com/wandb/weave/blob/7c9efd
 
 #### Parameters
 
-##### attributes
+<ParamField path="attributes" type="Record<string, any>" required />
 
-`Record`\<`string`, `any`\>
-
-##### fn
-
-() => `T`
+<ParamField path="fn" type="() => T" required />
 
 #### Returns
 
@@ -1048,7 +942,7 @@ Defined in: [src/weaveClient.ts:1917](https://github.com/wandb/weave/blob/7c9efd
 
 > **runWithCallStack**\<`T`\>(`callStack`, `fn`): `T`
 
-Defined in: [src/weaveClient.ts:1913](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1913)
+<sub>Source: [src/weaveClient.ts:1913](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1913)</sub>
 
 #### Type Parameters
 
@@ -1058,13 +952,9 @@ Defined in: [src/weaveClient.ts:1913](https://github.com/wandb/weave/blob/7c9efd
 
 #### Parameters
 
-##### callStack
+<ParamField path="callStack" type="CallStack" required />
 
-`CallStack`
-
-##### fn
-
-() => `T`
+<ParamField path="fn" type="() => T" required />
 
 #### Returns
 
@@ -1076,13 +966,11 @@ Defined in: [src/weaveClient.ts:1913](https://github.com/wandb/weave/blob/7c9efd
 
 > **saveCallEnd**(`callEnd`): `void`
 
-Defined in: [src/weaveClient.ts:1863](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1863)
+<sub>Source: [src/weaveClient.ts:1863](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1863)</sub>
 
 #### Parameters
 
-##### callEnd
-
-`object` & `object`
+<ParamField path="callEnd" type="object & object" required />
 
 #### Returns
 
@@ -1094,112 +982,84 @@ Defined in: [src/weaveClient.ts:1863](https://github.com/wandb/weave/blob/7c9efd
 
 > **saveCallStart**(`callStart`, `opts?`): `void`
 
-Defined in: [src/weaveClient.ts:1828](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1828)
+<sub>Source: [src/weaveClient.ts:1828](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1828)</sub>
 
 #### Parameters
 
-##### callStart
+<ParamField path="callStart" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="attributes" type="Record<string, any>" required>
+      Attributes
+    </ParamField>
 
-###### attributes
+    <ParamField path="display_name" type="string | null">
+      Display Name
+    </ParamField>
 
-`Record`\<`string`, `any`\>
+    <ParamField path="id" type="string | null">
+      Id
+    </ParamField>
 
-Attributes
+    <ParamField path="inputs" type="Record<string, any>" required>
+      Inputs
+    </ParamField>
 
-###### display_name?
+    <ParamField path="op_name" type="string" required>
+      Op Name
+    </ParamField>
 
-`string` \| `null`
+    <ParamField path="otel_dump" type="Record<string, any> | null">
+      Otel Dump
+    </ParamField>
 
-Display Name
+    <ParamField path="parent_id" type="string | null">
+      Parent Id
+    </ParamField>
 
-###### id?
+    <ParamField path="project_id" type="string" required>
+      Project Id
+    </ParamField>
 
-`string` \| `null`
+    <ParamField path="started_at" type="string" required>
+      Started At
 
-Id
+      **Format**
 
-###### inputs
+      date-time
+    </ParamField>
 
-`Record`\<`string`, `any`\>
+    <ParamField path="thread_id" type="string | null">
+      Thread Id
+    </ParamField>
 
-Inputs
+    <ParamField path="trace_id" type="string | null">
+      Trace Id
+    </ParamField>
 
-###### op_name
+    <ParamField path="turn_id" type="string | null">
+      Turn Id
+    </ParamField>
 
-`string`
+    <ParamField path="wb_run_id" type="string | null">
+      Wb Run Id
+    </ParamField>
 
-Op Name
+    <ParamField path="wb_run_step" type="number | null">
+      Wb Run Step
+    </ParamField>
 
-###### otel_dump?
+    <ParamField path="wb_user_id" type="string | null">
+      Wb User Id
+      Do not set directly. Server will automatically populate this field.
+    </ParamField>
+  </Expandable>
+</ParamField>
 
-`Record`\<`string`, `any`\> \| `null`
-
-Otel Dump
-
-###### parent_id?
-
-`string` \| `null`
-
-Parent Id
-
-###### project_id
-
-`string`
-
-Project Id
-
-###### started_at
-
-`string`
-
-Started At
-
-**Format**
-
-date-time
-
-###### thread_id?
-
-`string` \| `null`
-
-Thread Id
-
-###### trace_id?
-
-`string` \| `null`
-
-Trace Id
-
-###### turn_id?
-
-`string` \| `null`
-
-Turn Id
-
-###### wb_run_id?
-
-`string` \| `null`
-
-Wb Run Id
-
-###### wb_run_step?
-
-`number` \| `null`
-
-Wb Run Step
-
-###### wb_user_id?
-
-`string` \| `null`
-
-Wb User Id
-Do not set directly. Server will automatically populate this field.
-
-##### opts?
-
-###### eager?
-
-`boolean`
+<ParamField path="opts" type="object">
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="eager" type="boolean" />
+  </Expandable>
+</ParamField>
 
 #### Returns
 
@@ -1211,17 +1071,15 @@ Do not set directly. Server will automatically populate this field.
 
 > **saveOp**(`op`, `objId?`): `Promise`\<`OpRef`\>
 
-Defined in: [src/weaveClient.ts:1961](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1961)
+<sub>Source: [src/weaveClient.ts:1961](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1961)</sub>
 
 #### Parameters
 
-##### op
+<ParamField path="op" type="Op<(...args) => any>" required>
+  See [`Op`](../type-aliases/op).
+</ParamField>
 
-[`Op`](../type-aliases/op)\<(...`args`) => `any`\>
-
-##### objId?
-
-`string`
+<ParamField path="objId" type="string" />
 
 #### Returns
 
@@ -1241,65 +1099,55 @@ all messages matching the structured filters (`agentName`,
 `conversationId`, `traceId`) without text matching. Use `limit` /
 `offset` to page through results.
 
-Defined in: [src/weaveClient.ts:835](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L835)
+<sub>Source: [src/weaveClient.ts:835](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L835)</sub>
 
 #### Parameters
 
-##### options
+<ParamField path="options" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="agentName" type="string | null" />
 
-###### agentName?
+    <ParamField path="conversationId" type="string | null" />
 
-`string` \| `null`
+    <ParamField path="limit" type="number">
+      Limit
 
-###### conversationId?
+      **Min**
 
-`string` \| `null`
+      0
 
-###### limit?
+      **Max**
 
-`number`
+      1000
 
-Limit
+      **Default**
 
-**Min**
+      ```ts twoslash
+      // @noErrors
+      20
+      ```
+    </ParamField>
 
-0
+    <ParamField path="offset" type="number">
+      Offset
 
-**Max**
+      **Min**
 
-1000
+      0
 
-**Default**
+      **Default**
 
-```ts twoslash
-// @noErrors
-20
-```
+      ```ts twoslash
+      // @noErrors
+      0
+      ```
+    </ParamField>
 
-###### offset?
+    <ParamField path="query" type="string" required />
 
-`number`
-
-Offset
-
-**Min**
-
-0
-
-**Default**
-
-```ts twoslash
-// @noErrors
-0
-```
-
-###### query
-
-`string`
-
-###### traceId?
-
-`string` \| `null`
+    <ParamField path="traceId" type="string | null" />
+  </Expandable>
+</ParamField>
 
 #### Returns
 
@@ -1338,21 +1186,17 @@ Upload raw audio bytes to the Weave content store and return the
 Use this when building call outputs manually (e.g. via `saveCallEnd`)
 where the automatic serialization pipeline from `finishCall` is not used.
 
-Defined in: [src/weaveClient.ts:1765](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1765)
+<sub>Source: [src/weaveClient.ts:1765](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1765)</sub>
 
 #### Parameters
 
-##### data
+<ParamField path="data" type="Buffer" required>
+  Raw audio bytes (WAV for best browser compatibility)
+</ParamField>
 
-`Buffer`
-
-Raw audio bytes (WAV for best browser compatibility)
-
-##### audioType?
-
-`"wav"` = `DEFAULT_AUDIO_TYPE`
-
-File format — currently only 'wav' is supported
+<ParamField path="audioType" type='"wav" = DEFAULT_AUDIO_TYPE'>
+  File format — currently only 'wav' is supported
+</ParamField>
 
 #### Returns
 
@@ -1364,17 +1208,13 @@ File format — currently only 'wav' is supported
 
 > **updateCall**(`callId`, `displayName`): `Promise`\<`void`\>
 
-Defined in: [src/weaveClient.ts:2148](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L2148)
+<sub>Source: [src/weaveClient.ts:2148](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L2148)</sub>
 
 #### Parameters
 
-##### callId
+<ParamField path="callId" type="string" required />
 
-`string`
-
-##### displayName
-
-`string`
+<ParamField path="displayName" type="string" required />
 
 #### Returns
 
@@ -1386,7 +1226,7 @@ Defined in: [src/weaveClient.ts:2148](https://github.com/wandb/weave/blob/7c9efd
 
 > **waitForBatchProcessing**(): `Promise`\<`void`\>
 
-Defined in: [src/weaveClient.ts:907](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L907)
+<sub>Source: [src/weaveClient.ts:907](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L907)</sub>
 
 #### Returns
 

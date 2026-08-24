@@ -10,7 +10,7 @@ the names of the columns of the dataset to the argument names in model.predict.
 
 Then it will call all of the scorers and save the results in weave.
 
-Defined in: [src/evaluation.ts:145](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluation.ts#L145)
+<sub>Source: [src/evaluation.ts:145](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluation.ts#L145)</sub>
 
 ## Example
 
@@ -70,39 +70,35 @@ const results = await evaluation.evaluate({ model });
 
 > **new Evaluation**\<`R`, `E`, `M`\>(`parameters`): `Evaluation`\<`R`, `E`, `M`\>
 
-Defined in: [src/evaluation.ts:156](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluation.ts#L156)
+<sub>Source: [src/evaluation.ts:156](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluation.ts#L156)</sub>
 
 #### Parameters
 
-##### parameters
+<ParamField path="parameters" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="columnMapping" type="{[key: string]: keyof R; __savedRef?: keyof R; }">
+      <Expandable title="properties" defaultOpen>
+        <ParamField path="__savedRef" type="keyof R" />
+      </Expandable>
+    </ParamField>
 
-###### columnMapping?
+    <ParamField path="dataset" type="Dataset<R>" required>
+      See [`Dataset`](./dataset).
+    </ParamField>
 
-\{\[`key`: `string`\]: keyof `R`; `__savedRef?`: keyof `R`; \}
+    <ParamField path="description" type="string" />
 
-###### columnMapping.__savedRef?
+    <ParamField path="maxConcurrency" type="number" />
 
-keyof `R`
+    <ParamField path="name" type="string" />
 
-###### dataset
+    <ParamField path="scorers" type="(Op<(...args) => any> | {…})[]" required>
+      See [`Op`](../type-aliases/op).
 
-[`Dataset`](./dataset)\<`R`\>
-
-###### description?
-
-`string`
-
-###### maxConcurrency?
-
-`number`
-
-###### name?
-
-`string`
-
-###### scorers
-
-([`Op`](../type-aliases/op)\<(...`args`) => `any`\> \| \{ `id`: `string`; `invoke`: (...`args`) => `any`; \})[]
+      Full type: `(Op<(...args) => any> | { id: string; invoke: (...args) => any; })[]`
+    </ParamField>
+  </Expandable>
+</ParamField>
 
 #### Returns
 
@@ -118,7 +114,7 @@ keyof `R`
 
 > `optional` **\_\_savedRef**: [`ObjectRef`](./objectref) \| `Promise`\<[`ObjectRef`](./objectref)\>
 
-Defined in: [src/weaveObject.ts:72](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L72)
+<sub>Source: [src/weaveObject.ts:72](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L72)</sub>
 
 #### Inherited from
 
@@ -132,7 +128,7 @@ Defined in: [src/weaveObject.ts:72](https://github.com/wandb/weave/blob/7c9efdc9
 
 > **get** **description**(): `string` \| `undefined`
 
-Defined in: [src/weaveObject.ts:99](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L99)
+<sub>Source: [src/weaveObject.ts:99](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L99)</sub>
 
 ##### Returns
 
@@ -150,7 +146,7 @@ Defined in: [src/weaveObject.ts:99](https://github.com/wandb/weave/blob/7c9efdc9
 
 > **get** **name**(): `string`
 
-Defined in: [src/weaveObject.ts:95](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L95)
+<sub>Source: [src/weaveObject.ts:95](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L95)</sub>
 
 ##### Returns
 
@@ -166,23 +162,23 @@ Defined in: [src/weaveObject.ts:95](https://github.com/wandb/weave/blob/7c9efdc9
 
 > **evaluate**(`__namedParameters`): `Promise`\<`Record`\<`string`, `any`\>\>
 
-Defined in: [src/evaluation.ts:174](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluation.ts#L174)
+<sub>Source: [src/evaluation.ts:174](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluation.ts#L174)</sub>
 
 #### Parameters
 
-##### \_\_namedParameters
+<ParamField path="__namedParameters" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="maxConcurrency" type="number = 5" />
 
-###### maxConcurrency?
+    <ParamField path="model" type="Op<(...args) => Promise<M>> | {…}" required>
+      See [`Op`](../type-aliases/op).
 
-`number` = `5`
+      Full type: `Op<(...args) => Promise<M>> | { id: string; invoke: (...args) => Promise<M>; }`
+    </ParamField>
 
-###### model
-
-[`Op`](../type-aliases/op)\<(...`args`) => `Promise`\<`M`\>\> \| \{ `id`: `string`; `invoke`: (...`args`) => `Promise`\<`M`\>; \}
-
-###### nTrials?
-
-`number` = `1`
+    <ParamField path="nTrials" type="number = 1" />
+  </Expandable>
+</ParamField>
 
 #### Returns
 
@@ -194,27 +190,27 @@ Defined in: [src/evaluation.ts:174](https://github.com/wandb/weave/blob/7c9efdc9
 
 > **predictAndScore**(`__namedParameters`): `Promise`\<\{ `model_latency`: `number`; `model_output`: `any`; `model_success`: `boolean`; `scores`: \{\[`key`: `string`\]: `any`; \}; \}\>
 
-Defined in: [src/evaluation.ts:253](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluation.ts#L253)
+<sub>Source: [src/evaluation.ts:253](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluation.ts#L253)</sub>
 
 #### Parameters
 
-##### \_\_namedParameters
+<ParamField path="__namedParameters" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="columnMapping" type="{[key: string]: keyof R; __savedRef?: keyof R; }">
+      <Expandable title="properties" defaultOpen>
+        <ParamField path="__savedRef" type="keyof R" />
+      </Expandable>
+    </ParamField>
 
-###### columnMapping?
+    <ParamField path="example" type="R" required />
 
-\{\[`key`: `string`\]: keyof `R`; `__savedRef?`: keyof `R`; \}
+    <ParamField path="model" type="Op<(...args) => Promise<M>> | {…}" required>
+      See [`Op`](../type-aliases/op).
 
-###### columnMapping.__savedRef?
-
-keyof `R`
-
-###### example
-
-`R`
-
-###### model
-
-[`Op`](../type-aliases/op)\<(...`args`) => `Promise`\<`M`\>\> \| \{ `id`: `string`; `invoke`: (...`args`) => `Promise`\<`M`\>; \}
+      Full type: `Op<(...args) => Promise<M>> | { id: string; invoke: (...args) => Promise<M>; }`
+    </ParamField>
+  </Expandable>
+</ParamField>
 
 #### Returns
 
@@ -226,7 +222,7 @@ keyof `R`
 
 > **saveAttrs**(): `object`
 
-Defined in: [src/weaveObject.ts:76](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L76)
+<sub>Source: [src/weaveObject.ts:76](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L76)</sub>
 
 #### Returns
 

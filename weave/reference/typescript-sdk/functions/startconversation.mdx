@@ -3,7 +3,9 @@ title: "startConversation"
 description: "TypeScript SDK reference"
 ---
 
-> **startConversation**(`opts?`): [`Conversation`](../interfaces/conversation)
+```ts
+startConversation(opts?: ConversationInit = {}): Conversation
+```
 
 Start a new Conversation and install it as the current conversation.
 Subsequent calls to `startTurn` will pick it up automatically.
@@ -11,13 +13,13 @@ Subsequent calls to `startTurn` will pick it up automatically.
 Pass `attributes` to propagate custom (non-semconv) attributes to every
 span the conversation emits.
 
-Defined in: [src/genai/api.ts:26](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/api.ts#L26)
+<sub>Source: [src/genai/api.ts:26](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/api.ts#L26)</sub>
 
 ## Parameters
 
-### opts?
-
-[`ConversationInit`](../interfaces/conversationinit) = `{}`
+<ParamField path="opts" type="ConversationInit = {}">
+  See [`ConversationInit`](../interfaces/conversationinit).
+</ParamField>
 
 ## Returns
 

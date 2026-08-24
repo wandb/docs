@@ -3,27 +3,25 @@ title: "login"
 description: "TypeScript SDK reference"
 ---
 
-> **login**(`apiKey`, `host?`): `Promise`\<`void`\>
+```ts
+login(apiKey: string, host?: string): Promise<void>
+```
 
 Log in to Weights & Biases (W&B) using the provided API key.
 This function attempts to save the credentials to your netrc file for future use,
 but will continue even if it cannot write to the file system.
 
-Defined in: [src/clientApi.ts:26](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/clientApi.ts#L26)
+<sub>Source: [src/clientApi.ts:26](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/clientApi.ts#L26)</sub>
 
 ## Parameters
 
-### apiKey
+<ParamField path="apiKey" type="string" required>
+  Your W&B API key.
+</ParamField>
 
-`string`
-
-Your W&B API key.
-
-### host?
-
-`string`
-
-(Optional) The host name (usually only needed if you're using a custom W&B server).
+<ParamField path="host" type="string">
+  (Optional) The host name (usually only needed if you're using a custom W&B server).
+</ParamField>
 
 ## Returns
 

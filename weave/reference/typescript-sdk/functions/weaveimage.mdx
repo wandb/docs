@@ -3,28 +3,28 @@ title: "weaveImage"
 description: "TypeScript SDK reference"
 ---
 
-> **weaveImage**(`options`): [`WeaveImage`](../interfaces/weaveimage)
+```ts
+weaveImage(options: object): WeaveImage
+```
 
 Create a new WeaveImage object
 
-Defined in: [src/media.ts:31](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/media.ts#L31)
+<sub>Source: [src/media.ts:31](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/media.ts#L31)</sub>
 
 ## Parameters
 
-### options
+<ParamField path="options" type="object" required>
+  The options for this media type
+  - data: The raw image data as a Buffer
+  - imageType: (Optional) The image format: 'png' (default), 'jpeg' or 'webp'.
+  Publishing always names the stored file image.png
 
-The options for this media type
-   - data: The raw image data as a Buffer
-   - imageType: (Optional) The image format: 'png' (default), 'jpeg' or 'webp'.
-     Publishing always names the stored file image.png
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="data" type="Buffer" required />
 
-#### data
-
-`Buffer`
-
-#### imageType?
-
-`"png"` \| `"jpeg"` \| `"webp"`
+    <ParamField path="imageType" type='"png" | "jpeg" | "webp"' />
+  </Expandable>
+</ParamField>
 
 ## Returns
 

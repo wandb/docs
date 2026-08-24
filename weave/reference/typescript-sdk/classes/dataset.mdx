@@ -5,7 +5,7 @@ description: "TypeScript SDK reference"
 
 Dataset object with easy saving and automatic versioning
 
-Defined in: [src/dataset.ts:53](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/dataset.ts#L53)
+<sub>Source: [src/dataset.ts:53](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/dataset.ts#L53)</sub>
 
 ## Example
 
@@ -44,23 +44,19 @@ const ref = await dataset.save()
 
 > **new Dataset**\<`R`\>(`parameters`): `Dataset`\<`R`\>
 
-Defined in: [src/dataset.ts:56](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/dataset.ts#L56)
+<sub>Source: [src/dataset.ts:56](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/dataset.ts#L56)</sub>
 
 #### Parameters
 
-##### parameters
+<ParamField path="parameters" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="description" type="string" />
 
-###### description?
+    <ParamField path="name" type="string" />
 
-`string`
-
-###### name?
-
-`string`
-
-###### rows
-
-`R`[]
+    <ParamField path="rows" type="R[]" required />
+  </Expandable>
+</ParamField>
 
 #### Returns
 
@@ -76,7 +72,7 @@ Defined in: [src/dataset.ts:56](https://github.com/wandb/weave/blob/7c9efdc9fe05
 
 > `optional` **\_\_savedRef**: [`ObjectRef`](./objectref) \| `Promise`\<[`ObjectRef`](./objectref)\>
 
-Defined in: [src/weaveObject.ts:72](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L72)
+<sub>Source: [src/weaveObject.ts:72](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L72)</sub>
 
 #### Inherited from
 
@@ -88,7 +84,7 @@ Defined in: [src/weaveObject.ts:72](https://github.com/wandb/weave/blob/7c9efdc9
 
 > **rows**: `Table`\<`R`\>
 
-Defined in: [src/dataset.ts:54](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/dataset.ts#L54)
+<sub>Source: [src/dataset.ts:54](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/dataset.ts#L54)</sub>
 
 ## Accessors
 
@@ -98,7 +94,7 @@ Defined in: [src/dataset.ts:54](https://github.com/wandb/weave/blob/7c9efdc9fe05
 
 > **get** **description**(): `string` \| `undefined`
 
-Defined in: [src/weaveObject.ts:99](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L99)
+<sub>Source: [src/weaveObject.ts:99](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L99)</sub>
 
 ##### Returns
 
@@ -116,7 +112,7 @@ Defined in: [src/weaveObject.ts:99](https://github.com/wandb/weave/blob/7c9efdc9
 
 > **get** **length**(): `number`
 
-Defined in: [src/dataset.ts:69](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/dataset.ts#L69)
+<sub>Source: [src/dataset.ts:69](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/dataset.ts#L69)</sub>
 
 ##### Returns
 
@@ -130,7 +126,7 @@ Defined in: [src/dataset.ts:69](https://github.com/wandb/weave/blob/7c9efdc9fe05
 
 > **get** **name**(): `string`
 
-Defined in: [src/weaveObject.ts:95](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L95)
+<sub>Source: [src/weaveObject.ts:95](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L95)</sub>
 
 ##### Returns
 
@@ -146,7 +142,7 @@ Defined in: [src/weaveObject.ts:95](https://github.com/wandb/weave/blob/7c9efdc9
 
 > **\[asyncIterator\]**(): `AsyncIterator`\<`any`\>
 
-Defined in: [src/dataset.ts:73](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/dataset.ts#L73)
+<sub>Source: [src/dataset.ts:73](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/dataset.ts#L73)</sub>
 
 #### Returns
 
@@ -158,13 +154,11 @@ Defined in: [src/dataset.ts:73](https://github.com/wandb/weave/blob/7c9efdc9fe05
 
 > **getRow**(`index`): `R`
 
-Defined in: [src/dataset.ts:79](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/dataset.ts#L79)
+<sub>Source: [src/dataset.ts:79](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/dataset.ts#L79)</sub>
 
 #### Parameters
 
-##### index
-
-`number`
+<ParamField path="index" type="number" required />
 
 #### Returns
 
@@ -176,7 +170,7 @@ Defined in: [src/dataset.ts:79](https://github.com/wandb/weave/blob/7c9efdc9fe05
 
 > **save**(): `Promise`\<[`ObjectRef`](./objectref)\>
 
-Defined in: [src/dataset.ts:65](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/dataset.ts#L65)
+<sub>Source: [src/dataset.ts:65](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/dataset.ts#L65)</sub>
 
 #### Returns
 
@@ -188,7 +182,7 @@ Defined in: [src/dataset.ts:65](https://github.com/wandb/weave/blob/7c9efdc9fe05
 
 > **saveAttrs**(): `object`
 
-Defined in: [src/weaveObject.ts:76](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L76)
+<sub>Source: [src/weaveObject.ts:76](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L76)</sub>
 
 #### Returns
 

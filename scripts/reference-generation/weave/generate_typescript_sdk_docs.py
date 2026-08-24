@@ -289,6 +289,326 @@ def _move_source_links_after_description(content):
     return '\n'.join(out)
 
 
+def _delink_and_unescape_type(text):
+    """Reduce a TypeDoc type expression to plain TypeScript text.
+
+    TypeDoc renders types as a mix of code spans, markdown links, and
+    escaped punctuation (`` `Promise`\\<[`WeaveClient`](../interfaces/weaveclient)\\> ``).
+    JSX attributes and code fences need the plain form
+    (`Promise<WeaveClient>`).
+    """
+    text = re.sub(r'\[([^\]]+)\]\([^)]*\)', r'\1', text)
+    text = text.replace('`', '')
+    text = re.sub(r'\\([<>{}|_\[\]])', r'\1', text)
+    return ' '.join(text.split())
+
+
+def _compact_type(plain, limit=60):
+    """Collapse brace bodies of an over-long type to `{…}` for display.
+
+    Long inline object types (`Partial<{ attributes: Record<string, any>;
+    ... }>`) would otherwise wrap across several lines inside a ParamField
+    type chip or a signature line. A type that collapses to nothing but
+    `{…}` is reported as `object`.
+    """
+    # Innermost-out: collapsed bodies use a brace-free placeholder so the
+    # next pass can match the enclosing brace pair.
+    placeholder = '\x00'
+    while len(plain) > limit:
+        collapsed = re.sub(r'\{[^{}]*\}', placeholder, plain)
+        if collapsed == plain:
+            break
+        plain = collapsed
+    plain = plain.replace(placeholder, '{…}')
+    if plain in ('{…}', '{}'):
+        return 'object'
+    return plain
+
+
+def _jsx_attr(value):
+    """Quote a string as a JSX attribute value."""
+    if '"' in value:
+        if "'" in value:
+            value = value.replace('"', '’')
+            return f'"{value}"'
+        return f"'{value}'"
+    return f'"{value}"'
+
+
+# A line is a type expression (rather than description prose) when it opens
+# with a code span, a linked code span, an escaped inline-object brace, or a
+# paren that starts type syntax: a quoted parameter, rest args, an empty
+# list, or a parenthesized object/linked union. Prose like "(Optional) The
+# host name..." opens its paren with a bare word and fails every branch.
+_TYPE_LINE_RE = re.compile(
+    r'^(?:`|\[`|\\\{|\((?:`|\)|\\\{|\[|\(|\.\.\.)|(?:keyof|typeof|readonly|new) )'
+)
+
+_PARAMS_HEADING_RE = re.compile(r'^(#{2,5}) Parameters$')
+
+# One-line call-signature blockquote on a function page:
+#   > **init**(`project`, `settings?`): `Promise`\<[`WeaveClient`](...)\>
+# Property blockquotes (`> **callId**: `string``) have no paren list and
+# don't match.
+_CALL_SIG_RE = re.compile(
+    r'^> \*\*(?P<name>[A-Za-z_$][\w$]*)\*\*(?P<gen>\\<.*?\\>)?'
+    r'\((?P<params>[^)]*)\): (?P<ret>.+)$'
+)
+
+
+def _fence_mask(lines):
+    """Per-line flags: True while inside a fenced code block."""
+    mask = []
+    in_fence = False
+    for line in lines:
+        if line.lstrip().startswith('```'):
+            in_fence = not in_fence
+            mask.append(True)  # fence delimiters count as inside
+        else:
+            mask.append(in_fence)
+    return mask
+
+
+def _parse_param_entries(lines, mask, start, end, level):
+    """Parse one Parameters section body into param-entry dicts.
+
+    Each entry heading sits at `level`; nested members (inline-expanded or
+    destructured object properties) sit one level deeper, where TypeDoc
+    also flattens deeper nesting into dotted names (`streamReducer.reduceFn`).
+    Returns a list of dicts with name/optional/type_line/description/members.
+    """
+    head_re = re.compile(r'^#{%d} (.+)$' % level)
+    marks = [i for i in range(start, end)
+             if not mask[i] and head_re.match(lines[i])]
+    entries = []
+    for n, i in enumerate(marks):
+        body_start = i + 1
+        body_end = marks[n + 1] if n + 1 < len(marks) else end
+        raw_name = head_re.match(lines[i]).group(1).strip()
+        name = raw_name.replace('\\_', '_').replace('`', '')
+        optional = name.endswith('?')
+        name = name.rstrip('?')
+
+        member_head_re = re.compile(r'^#{%d} .+$' % (level + 1))
+        member_marks = [j for j in range(body_start, body_end)
+                        if not mask[j] and member_head_re.match(lines[j])]
+        own_end = member_marks[0] if member_marks else body_end
+
+        type_line = None
+        desc_lines = []
+        for j in range(body_start, own_end):
+            line = lines[j]
+            if type_line is None and not desc_lines:
+                if line == '':
+                    continue
+                if not mask[j] and _TYPE_LINE_RE.match(line):
+                    type_line = line
+                    continue
+            desc_lines.append(line if mask[j] else line.lstrip())
+        while desc_lines and desc_lines[0] == '':
+            desc_lines.pop(0)
+        while desc_lines and desc_lines[-1] == '':
+            desc_lines.pop()
+
+        members = (_parse_param_entries(lines, mask, member_marks[0],
+                                        body_end, level + 1)
+                   if member_marks else [])
+
+        entries.append({
+            'name': name,
+            'optional': optional,
+            'type_line': type_line,
+            'description': desc_lines,
+            'members': members,
+        })
+    return entries
+
+
+def _nest_dotted_members(members):
+    """Attach `parent.child` members beneath their `parent` entry.
+
+    TypeDoc flattens second-level object nesting into dotted headings at
+    the same depth as the parent; ParamField/Expandable can express the
+    real hierarchy, so rebuild it.
+    """
+    by_name = {}
+    nested = []
+    for m in members:
+        if '.' in m['name']:
+            prefix, rest = m['name'].split('.', 1)
+            parent = by_name.get(prefix)
+            if parent is not None:
+                m = dict(m, name=rest)
+                parent['members'] = parent['members'] + [m]
+                continue
+        by_name[m['name']] = m
+        nested.append(m)
+    return nested
+
+
+def _render_param_field(entry):
+    """Render one param entry (and nested members) as ParamField MDX lines."""
+    type_line = entry['type_line']
+    members = _nest_dotted_members(entry['members'])
+
+    plain = _delink_and_unescape_type(type_line) if type_line else None
+    if plain is None and members:
+        plain = 'object'
+    compact = _compact_type(plain) if plain else None
+
+    attrs = f' path={_jsx_attr(entry["name"])}'
+    if compact:
+        attrs += f' type={_jsx_attr(compact)}'
+    if not entry['optional']:
+        attrs += ' required'
+
+    body = []
+    if entry['description']:
+        body.extend(entry['description'])
+
+    # Keep navigability the type chip can't express: cross-reference links
+    # from the original type expression, and the full text of a type that
+    # was abbreviated for display.
+    if type_line:
+        links = re.findall(r'\[`?([^`\]]+)`?\]\(([^)]+)\)', type_line)
+        if links:
+            refs = ', '.join(f'[`{label}`]({href})' for label, href in links)
+            body.extend(['', f'See {refs}.'] if body else [f'See {refs}.'])
+        if compact and plain != compact:
+            note = f'Full type: `{plain}`'
+            body.extend(['', note] if body else [note])
+
+    if members:
+        exp = ['<Expandable title="properties" defaultOpen>']
+        for i, m in enumerate(members):
+            if i:
+                exp.append('')
+            exp.extend(f'  {l}' if l else '' for l in _render_param_field(m))
+        exp.append('</Expandable>')
+        body.extend([''] + exp if body else exp)
+
+    if not body:
+        return [f'<ParamField{attrs} />']
+    lines = [f'<ParamField{attrs}>']
+    lines.extend(f'  {b}' if b else '' for b in body)
+    lines.append('</ParamField>')
+    return lines
+
+
+def _convert_parameters_sections_to_paramfields(content):
+    """Rewrite every `Parameters` section from floating headings to
+    Mintlify <ParamField> markup.
+
+    TypeDoc renders each parameter as a bare heading with an orphaned type
+    line below it, which reads as disconnected fragments and pollutes the
+    on-page TOC with per-parameter anchors. ParamField renders the
+    name/type/required row these sections actually are; inline-expanded or
+    destructured members nest inside an <Expandable>. Optionality is shown
+    by the absence of the `required` badge (plus the `?` in the signature
+    code block), matching OpenAPI-reference convention.
+    """
+    lines = content.split('\n')
+    mask = _fence_mask(lines)
+    out = []
+    i = 0
+    while i < len(lines):
+        m = None if mask[i] else _PARAMS_HEADING_RE.match(lines[i])
+        if not m:
+            out.append(lines[i])
+            i += 1
+            continue
+        level = len(m.group(1))
+        end_re = re.compile(r'^#{1,%d} ' % level)
+        end = len(lines)
+        for j in range(i + 1, len(lines)):
+            if not mask[j] and (end_re.match(lines[j]) or lines[j] == '***'):
+                end = j
+                break
+        entries = _parse_param_entries(lines, mask, i + 1, end, level + 1)
+        if not entries:
+            out.append(lines[i])
+            i += 1
+            continue
+        out.append(lines[i])
+        out.append('')
+        for n, entry in enumerate(entries):
+            if n:
+                out.append('')
+            out.extend(_render_param_field(entry))
+        out.append('')
+        i = end
+    return '\n'.join(out)
+
+
+def _convert_function_signatures_to_code_blocks(content):
+    """Replace call-signature blockquotes with syntax-highlighted fences.
+
+    The signature is the most important element on a function page, but
+    TypeDoc renders it as a blockquote of mixed bold text and code chips.
+    Emit a ```ts fence instead, enriching each parameter with its
+    (display-compacted) type from the Parameters section that follows the
+    signature — the blockquote itself only carries parameter names.
+    Twoslash is deliberately not enabled: a bare signature is not a valid
+    standalone statement.
+    """
+    lines = content.split('\n')
+    mask = _fence_mask(lines)
+
+    sig_indices = [i for i, line in enumerate(lines)
+                   if not mask[i] and _CALL_SIG_RE.match(line)]
+    if not sig_indices:
+        return content
+
+    # Map each signature to the Parameters section that documents it: the
+    # first one after the signature and before the next signature (an
+    # overloaded function page repeats signature/Parameters pairs).
+    types_for_sig = {}
+    for n, i in enumerate(sig_indices):
+        limit = sig_indices[n + 1] if n + 1 < len(sig_indices) else len(lines)
+        for j in range(i + 1, limit):
+            m = None if mask[j] else _PARAMS_HEADING_RE.match(lines[j])
+            if not m:
+                continue
+            level = len(m.group(1))
+            end_re = re.compile(r'^#{1,%d} ' % level)
+            end = limit
+            for k in range(j + 1, limit):
+                if not mask[k] and (end_re.match(lines[k]) or lines[k] == '***'):
+                    end = k
+                    break
+            entries = _parse_param_entries(lines, mask, j + 1, end, level + 1)
+            types_for_sig[i] = {e['name']: e for e in entries}
+            break
+
+    for i in sig_indices:
+        m = _CALL_SIG_RE.match(lines[i])
+        gen = _delink_and_unescape_type(m.group('gen')) if m.group('gen') else ''
+        ret = _compact_type(_delink_and_unescape_type(m.group('ret')), limit=80)
+        entry_by_name = types_for_sig.get(i, {})
+
+        rendered_params = []
+        for raw in re.findall(r'`([^`]+)`', m.group('params')):
+            pname = raw.rstrip('?').replace('\\_', '_')
+            suffix = '?' if raw.endswith('?') else ''
+            entry = entry_by_name.get(pname)
+            ptype = None
+            if entry:
+                if entry['type_line']:
+                    ptype = _compact_type(
+                        _delink_and_unescape_type(entry['type_line']))
+                elif entry['members']:
+                    ptype = 'object'
+            rendered = f'{pname}{suffix}'
+            if ptype:
+                rendered += f': {ptype}'
+            rendered_params.append(rendered)
+
+        signature = f"{m.group('name')}{gen}({', '.join(rendered_params)}): {ret}"
+        lines[i] = f'```ts\n{signature}\n```'
+
+    return '\n'.join(lines)
+
+
 def convert_to_mintlify_format(docs_dir):
     """Convert TypeDoc markdown to Mintlify MDX format."""
     print(f"\nConverting to Mintlify format...")
@@ -463,6 +783,23 @@ description: "TypeScript SDK reference"
             r'\[(~~)?([A-Za-z_$][\w$]*)\1?\]\(([^)#\s]+)\)',
             _dedupe_collision_link_label,
             content,
+        )
+
+        # Visual restructuring passes. These run last so the markup they
+        # emit (JSX components, plain-TS code fences) is exempt from the
+        # escaping/twoslash/link rewrites above, while the prose they carry
+        # along has already been through them.
+        if title.startswith("Function:"):
+            content = _convert_function_signatures_to_code_blocks(content)
+        content = _convert_parameters_sections_to_paramfields(content)
+
+        # De-emphasize the source-link metadata line relative to the
+        # description it follows.
+        content = re.sub(
+            r'^Defined in: (.+)$',
+            r'<sub>Source: \1</sub>',
+            content,
+            flags=re.MULTILINE,
         )
 
         # Write as .mdx file with lowercase filename (avoid Git case sensitivity issues)

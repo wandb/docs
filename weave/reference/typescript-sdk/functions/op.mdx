@@ -5,101 +5,11 @@ description: "TypeScript SDK reference"
 
 ## Call Signature
 
-> **op**\<`T`\>(`fn`, `options?`): [`Op`](../type-aliases/op)\<`T`\>
+```ts
+op<T>(fn: T, options?: object): Op<T>
+```
 
-Defined in: [src/op.ts:392](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/op.ts#L392)
-
-### Type Parameters
-
-#### T
-
-`T` *extends* (...`args`) => `any`
-
-### Parameters
-
-#### fn
-
-`T`
-
-#### options?
-
-##### attributes?
-
-`Record`\<`string`, `any`\>
-
-Default attributes applied to every call this op creates. Integrations set
-this to stamp `attributes.integration` provenance. Merged beneath `kind`/
-`color`, which take precedence on key collision.
-
-##### bindThis?
-
-[`WeaveObject`](../classes/weaveobject)
-
-##### callDisplayName?
-
-(...`args`) => `string`
-
-##### isDecorator?
-
-`boolean`
-
-##### name?
-
-`string`
-
-##### opColor?
-
-`string`
-
-Custom color for the operation in the UI
-
-##### opKind?
-
-`string`
-
-The kind of operation (e.g., 'llm', 'agent', 'tool', 'search') for UI categorization
-
-##### originalFunction?
-
-`T`
-
-##### parameterNames?
-
-`"useParam0Object"` \| `string`[]
-
-##### shouldAdoptThis?
-
-`boolean`
-
-##### streamReducer?
-
-\{ `finalizeFn`: (`state`) => `void`; `initialStateFn`: () => `any`; `reduceFn`: (`state`, `chunk`) => `any`; \}
-
-##### streamReducer.finalizeFn
-
-(`state`) => `void`
-
-##### streamReducer.initialStateFn
-
-() => `any`
-
-##### streamReducer.reduceFn
-
-(`state`, `chunk`) => `any`
-
-##### summarize?
-
-(`result`) => `Record`\<`string`, `any`\>
-
-### Returns
-
-[`Op`](../type-aliases/op)\<`T`\>
-
-## Call Signature
-
-> **op**\<`T`\>(`thisArg`, `fn`, `options?`): [`Op`](../type-aliases/op)\<`T`\>
-
-Defined in: [src/op.ts:397](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/op.ts#L397)
+<sub>Source: [src/op.ts:392](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/op.ts#L392)</sub>
 
 ### Type Parameters
 
@@ -109,83 +19,55 @@ Defined in: [src/op.ts:397](https://github.com/wandb/weave/blob/7c9efdc9fe05ffca
 
 ### Parameters
 
-#### thisArg
+<ParamField path="fn" type="T" required />
 
-`any`
+<ParamField path="options" type="object">
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="attributes" type="Record<string, any>">
+      Default attributes applied to every call this op creates. Integrations set
+      this to stamp `attributes.integration` provenance. Merged beneath `kind`/
+      `color`, which take precedence on key collision.
+    </ParamField>
 
-#### fn
+    <ParamField path="bindThis" type="WeaveObject">
+      See [`WeaveObject`](../classes/weaveobject).
+    </ParamField>
 
-`T`
+    <ParamField path="callDisplayName" type="(...args) => string" />
 
-#### options?
+    <ParamField path="isDecorator" type="boolean" />
 
-##### attributes?
+    <ParamField path="name" type="string" />
 
-`Record`\<`string`, `any`\>
+    <ParamField path="opColor" type="string">
+      Custom color for the operation in the UI
+    </ParamField>
 
-Default attributes applied to every call this op creates. Integrations set
-this to stamp `attributes.integration` provenance. Merged beneath `kind`/
-`color`, which take precedence on key collision.
+    <ParamField path="opKind" type="string">
+      The kind of operation (e.g., 'llm', 'agent', 'tool', 'search') for UI categorization
+    </ParamField>
 
-##### bindThis?
+    <ParamField path="originalFunction" type="T" />
 
-[`WeaveObject`](../classes/weaveobject)
+    <ParamField path="parameterNames" type='"useParam0Object" | string[]' />
 
-##### callDisplayName?
+    <ParamField path="shouldAdoptThis" type="boolean" />
 
-(...`args`) => `string`
+    <ParamField path="streamReducer" type="object">
+      Full type: `{ finalizeFn: (state) => void; initialStateFn: () => any; reduceFn: (state, chunk) => any; }`
 
-##### isDecorator?
+      <Expandable title="properties" defaultOpen>
+        <ParamField path="finalizeFn" type="(state) => void" required />
 
-`boolean`
+        <ParamField path="initialStateFn" type="() => any" required />
 
-##### name?
+        <ParamField path="reduceFn" type="(state, chunk) => any" required />
+      </Expandable>
+    </ParamField>
 
-`string`
-
-##### opColor?
-
-`string`
-
-Custom color for the operation in the UI
-
-##### opKind?
-
-`string`
-
-The kind of operation (e.g., 'llm', 'agent', 'tool', 'search') for UI categorization
-
-##### originalFunction?
-
-`T`
-
-##### parameterNames?
-
-`"useParam0Object"` \| `string`[]
-
-##### shouldAdoptThis?
-
-`boolean`
-
-##### streamReducer?
-
-\{ `finalizeFn`: (`state`) => `void`; `initialStateFn`: () => `any`; `reduceFn`: (`state`, `chunk`) => `any`; \}
-
-##### streamReducer.finalizeFn
-
-(`state`) => `void`
-
-##### streamReducer.initialStateFn
-
-() => `any`
-
-##### streamReducer.reduceFn
-
-(`state`, `chunk`) => `any`
-
-##### summarize?
-
-(`result`) => `Record`\<`string`, `any`\>
+    <ParamField path="summarize" type="(result) => Record<string, any>" />
+  </Expandable>
+</ParamField>
 
 ### Returns
 
@@ -193,23 +75,91 @@ The kind of operation (e.g., 'llm', 'agent', 'tool', 'search') for UI categoriza
 
 ## Call Signature
 
-> **op**(`target`, `propertyKey`, `descriptor`): `TypedPropertyDescriptor`\<`any`\>
+```ts
+op<T>(thisArg: any, fn: T, options?: object): Op<T>
+```
 
-Defined in: [src/op.ts:403](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/op.ts#L403)
+<sub>Source: [src/op.ts:397](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/op.ts#L397)</sub>
+
+### Type Parameters
+
+#### T
+
+`T` *extends* (...`args`) => `any`
 
 ### Parameters
 
-#### target
+<ParamField path="thisArg" type="any" required />
 
-`object`
+<ParamField path="fn" type="T" required />
 
-#### propertyKey
+<ParamField path="options" type="object">
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="attributes" type="Record<string, any>">
+      Default attributes applied to every call this op creates. Integrations set
+      this to stamp `attributes.integration` provenance. Merged beneath `kind`/
+      `color`, which take precedence on key collision.
+    </ParamField>
 
-`string` \| `symbol`
+    <ParamField path="bindThis" type="WeaveObject">
+      See [`WeaveObject`](../classes/weaveobject).
+    </ParamField>
 
-#### descriptor
+    <ParamField path="callDisplayName" type="(...args) => string" />
 
-`TypedPropertyDescriptor`\<`any`\>
+    <ParamField path="isDecorator" type="boolean" />
+
+    <ParamField path="name" type="string" />
+
+    <ParamField path="opColor" type="string">
+      Custom color for the operation in the UI
+    </ParamField>
+
+    <ParamField path="opKind" type="string">
+      The kind of operation (e.g., 'llm', 'agent', 'tool', 'search') for UI categorization
+    </ParamField>
+
+    <ParamField path="originalFunction" type="T" />
+
+    <ParamField path="parameterNames" type='"useParam0Object" | string[]' />
+
+    <ParamField path="shouldAdoptThis" type="boolean" />
+
+    <ParamField path="streamReducer" type="object">
+      Full type: `{ finalizeFn: (state) => void; initialStateFn: () => any; reduceFn: (state, chunk) => any; }`
+
+      <Expandable title="properties" defaultOpen>
+        <ParamField path="finalizeFn" type="(state) => void" required />
+
+        <ParamField path="initialStateFn" type="() => any" required />
+
+        <ParamField path="reduceFn" type="(state, chunk) => any" required />
+      </Expandable>
+    </ParamField>
+
+    <ParamField path="summarize" type="(result) => Record<string, any>" />
+  </Expandable>
+</ParamField>
+
+### Returns
+
+[`Op`](../type-aliases/op)\<`T`\>
+
+## Call Signature
+
+```ts
+op(target: object, propertyKey: string | symbol, descriptor: TypedPropertyDescriptor<any>): TypedPropertyDescriptor<any>
+```
+
+<sub>Source: [src/op.ts:403](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/op.ts#L403)</sub>
+
+### Parameters
+
+<ParamField path="target" type="object" required />
+
+<ParamField path="propertyKey" type="string | symbol" required />
+
+<ParamField path="descriptor" type="TypedPropertyDescriptor<any>" required />
 
 ### Returns
 
@@ -217,9 +167,11 @@ Defined in: [src/op.ts:403](https://github.com/wandb/weave/blob/7c9efdc9fe05ffca
 
 ## Call Signature
 
-> **op**\<`T`\>(`value`, `context`): [`Op`](../type-aliases/op)\<`T`\>
+```ts
+op<T>(value: T, context: object): Op<T>
+```
 
-Defined in: [src/op.ts:409](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/op.ts#L409)
+<sub>Source: [src/op.ts:409](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/op.ts#L409)</sub>
 
 ### Type Parameters
 
@@ -229,45 +181,33 @@ Defined in: [src/op.ts:409](https://github.com/wandb/weave/blob/7c9efdc9fe05ffca
 
 ### Parameters
 
-#### value
+<ParamField path="value" type="T" required />
 
-`T`
+<ParamField path="context" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="access" type="{ get: Function; has: boolean; }">
+      <Expandable title="properties" defaultOpen>
+        <ParamField path="get" required />
 
-#### context
+        <ParamField path="has" required />
+      </Expandable>
+    </ParamField>
 
-##### access?
+    <ParamField path="class" type="Function" />
 
-\{ `get`: `Function`; `has`: `boolean`; \}
+    <ParamField path="kind" type='"method"' required />
 
-##### access.get
+    <ParamField path="metadata" type="any" />
 
-##### access.has
+    <ParamField path="name" type="string | symbol" required />
 
-##### class?
+    <ParamField path="private" type="boolean" />
 
-`Function`
+    <ParamField path="static" type="boolean" />
 
-##### kind
-
-`"method"`
-
-##### metadata?
-
-`any`
-
-##### name
-
-`string` \| `symbol`
-
-##### private?
-
-`boolean`
-
-##### static?
-
-`boolean`
-
-##### addInitializer?
+    <ParamField path="addInitializer" />
+  </Expandable>
+</ParamField>
 
 ### Returns
 
@@ -275,15 +215,15 @@ Defined in: [src/op.ts:409](https://github.com/wandb/weave/blob/7c9efdc9fe05ffca
 
 ## Call Signature
 
-> **op**(`options`): `MethodDecorator`
+```ts
+op(options: Partial<OpOptions<any>>): MethodDecorator
+```
 
-Defined in: [src/op.ts:414](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/op.ts#L414)
+<sub>Source: [src/op.ts:414](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/op.ts#L414)</sub>
 
 ### Parameters
 
-#### options
-
-`Partial`\<`OpOptions`\<`any`\>\>
+<ParamField path="options" type="Partial<OpOptions<any>>" required />
 
 ### Returns
 
