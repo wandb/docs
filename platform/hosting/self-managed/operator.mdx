@@ -1252,6 +1252,10 @@ If your W&B Self-Managed deployment uses neither Weave nor Models OLAP features,
 
 W&B Server 0.81.0+ introduces schema migrations that require ClickHouse 26.2+. These migrations run when any of the following Models OLAP features are enabled in your Helm values:
 
+<Note>
+Registry Search in preview for Self-Managed deployments. To migrate ClickHouse automatically, install Operator Helm chart [v0.43.3+](https://github.com/wandb/helm-charts/releases/tag/operator-wandb-0.43.3). Afterward, W&B runs the migration job automatically. For more information or questions, contact [support](mailto:support@wandb.com).
+</Note>
+
 ```yaml
 global:
   olap:
