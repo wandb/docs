@@ -2062,7 +2062,53 @@
         "type": "object",
         "title": "HTTPValidationError"
       },
-      "History": {
+      "ImageURL": {
+        "properties": {
+          "url": {
+            "type": "string",
+            "title": "Url"
+          },
+          "detail": {
+            "type": "string",
+            "enum": [
+              "auto",
+              "low",
+              "high"
+            ],
+            "title": "Detail"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "url"
+        ],
+        "title": "ImageURL"
+      },
+      "InputAudio": {
+        "properties": {
+          "data": {
+            "type": "string",
+            "title": "Data"
+          },
+          "format": {
+            "type": "string",
+            "enum": [
+              "wav",
+              "mp3"
+            ],
+            "title": "Format"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "data",
+          "format"
+        ],
+        "title": "InputAudio"
+      },
+      "LegacyHistory": {
         "properties": {
           "messages_and_choices": {
             "items": {
@@ -2112,53 +2158,7 @@
         "required": [
           "messages_and_choices"
         ],
-        "title": "History"
-      },
-      "ImageURL": {
-        "properties": {
-          "url": {
-            "type": "string",
-            "title": "Url"
-          },
-          "detail": {
-            "type": "string",
-            "enum": [
-              "auto",
-              "low",
-              "high"
-            ],
-            "title": "Detail"
-          }
-        },
-        "additionalProperties": true,
-        "type": "object",
-        "required": [
-          "url"
-        ],
-        "title": "ImageURL"
-      },
-      "InputAudio": {
-        "properties": {
-          "data": {
-            "type": "string",
-            "title": "Data"
-          },
-          "format": {
-            "type": "string",
-            "enum": [
-              "wav",
-              "mp3"
-            ],
-            "title": "Format"
-          }
-        },
-        "additionalProperties": true,
-        "type": "object",
-        "required": [
-          "data",
-          "format"
-        ],
-        "title": "InputAudio"
+        "title": "LegacyHistory"
       },
       "LogRequest": {
         "properties": {
@@ -2670,7 +2670,7 @@
           },
           "additional_histories": {
             "items": {
-              "$ref": "#/components/schemas/History"
+              "$ref": "#/components/schemas/LegacyHistory"
             },
             "type": "array",
             "title": "Additional Histories"
