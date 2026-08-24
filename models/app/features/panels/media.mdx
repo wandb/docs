@@ -36,16 +36,18 @@ To configure an existing panel, hover over the panel and select the gear icon (<
 
 ### Display
 
-Configure the panel's appearance and behavior.
+Configure the panel's appearance and behavior with the **Display** tab. The available settings depend on the media type.
 
 #### Viewer Settings
 
+Configure how you view and interact with media panels:
+
 - **Panel title**: Specify the panel title.
 - **Panel mode**: Specify the layout of the media panel. Choose from the following modes:
-    - **Gallery** (default): Specify the number of columns and whether the grid displays one item per run, step, or index. By default, the grid displays one item per run.
-    - **Grid**: Specify the number of columns, the x-axis, and the y-axis. By default, the x-axis is **Log Step** and the y-axis is **Run**.
+    - **Gallery** (default): Specify the number of columns and whether the grid displays one item per run, step, or index. It displays one item per run unless you choose another option.
+    - **Grid**: Specify the number of columns, the x-axis, and the y-axis. The default x-axis is **Log Step**, and the default y-axis is **Run**.
     - **Compare**: Compare up to four media items side by side. Optionally, fan out items by step or index. For more information, see [Compare mode](#compare-mode).
-- **Media key(s)**: Logged W&B fields that contain the images, videos, or other media the panel should display.
+- **Media key(s)**: Specify the logged W&B fields that contain the images, videos, or other media to display.
 - **Slider key**: Specify the key to use for the panel's step slider. The default is **Step**.
 
 #### Appearance
@@ -56,7 +58,7 @@ Configure how the panel displays media:
 
 #### Navigation & Playback
 
-Control how you navigate through media logged at different points in a run:
+Configure how you navigate through media that is logged at different points in a run:
 
 - **Snap to step**: Toggle on or off. If on, the stepper advances to the next existing step after *Stride length*. Otherwise, **Snap to step** advances by **Stride length** even if it doesn't align with an existing step.
 - **Stride length**: Specify the number of steps to advance each time you use the left and right (minus and plus buttons) during video playback. This setting is available only for video media panels.
@@ -80,6 +82,8 @@ Configure how the panel arranges and displays individual media items.
 
 #### Grid & Organization
 
+Configure which media items appear and how they are arranged in the panel:
+
 - **Number of columns**: Specify the number of columns to display in the panel.
 - **Column content**: Specify which dimension varies across columns:
       - **Run**: Each column represents a different run.
@@ -94,7 +98,6 @@ Configure how the panel arranges and displays individual media items.
 
 Configure how W&B loads and scales media items. 
 
-
 <Tabs>
 <Tab title="Images">
 
@@ -107,11 +110,11 @@ These settings have no effect in [**Compare** mode](#compare-mode).
 For W&B Multi-tenant Cloud:
 
 - **Thumbnails** (default): Load smaller previews for faster loading. W&B scales thumbnails to fit the panel.
-- **Original image**: Load the full-resolution image file. W&B scales the image to fit the panel.
+- **Original image**: Load the full-resolution image and scale it to fit the panel.
 
 For W&B Dedicated Cloud and W&B Self-Managed:
 
-- **Default** (default): Use the default image dimensions for the panel mode.
+- **Default** (default): Use the default image dimensions for the selected panel mode.
 
 For all deployment types:
 
