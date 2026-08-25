@@ -18,10 +18,11 @@ W&B issues API keys to both people and service accounts.
 | Key type | Belongs to | Access |
 | --- | --- | --- |
 | Personal API key | A user | Every organization the user belongs to |
-| Organization API key | A user, within one organization | Only that organization's resources |
 | [Team service account](/platform/hosting/iam/service-accounts#team-scoped-service-accounts) key | A service account | One team |
 | [Organization service account](/platform/hosting/iam/service-accounts#organization-scoped-service-accounts) key | A service account | All teams in the organization |
+{/* | Organization API key | A user, within one organization | Only that organization's resources | */}
 
+{/* 
 <Note>
 An **organization API key** and an **organization-scoped service account** are different things. An organization API key belongs to a person and authenticates that person, limited to a single organization. An organization-scoped service account is a non-human identity used for automation, and it has its own API keys. A user can hold an organization API key without any service account being involved.
 </Note>
@@ -29,6 +30,7 @@ An **organization API key** and an **organization-scoped service account** are d
 Organization API keys limit the damage a leaked key can do. A personal API key works in every organization its owner belongs to, so a key exposed in a public repository can reach resources in an unrelated organization. An organization API key only works in the organization it was created for.
 
 Organization API keys are available in Multi-tenant Cloud for Enterprise organizations, and W&B enables them per organization. If you don't see the options described in the following sections, contact your W&B account team.
+*/}
 
 ## Find and manage API keys
 
@@ -161,6 +163,7 @@ mutation RequireOrgScopedAPIKeys {
 
 This setting requires that organization API keys are already enabled for your organization. Contact your W&B account team to confirm.
 
+{/*
 ### Disable API key creation
 
 Available in **Dedicated Cloud** and **Self-Managed** v0.84.0 and above.
@@ -186,6 +189,7 @@ API key creation has been disabled by your organization administrator
 ```
 
 To restrict service account creation as well, see [`GORILLA_DISABLE_TEAM_SERVICE_ACCOUNT_CREATION`](/platform/hosting/iam/advanced_env_vars), which prevents the creation of new team-scoped service accounts in Dedicated Cloud and Self-Managed v0.83.0 and above.
+*/}
 
 ## Availability
 
@@ -196,8 +200,10 @@ API key capabilities differ by deployment type and, in Multi-tenant Cloud, by su
 | Search and filter the API keys table | Yes | v0.84.0+ | v0.84.0+ |
 | Create a key from the **API Keys** tab | Enterprise organizations | v0.84.0+ | v0.84.0+ |
 | Delete several keys at once | Enterprise organizations | v0.84.0+ | v0.84.0+ |
+| Disable API key creation | Not available | v0.84.0+ | v0.84.0+ |
+{/*
 | Organization API keys | Enterprise organizations | Not available | Not available |
 | Require organization API keys | Enterprise organizations | Not available | Not available |
-| Disable API key creation | Not available | v0.84.0+ | v0.84.0+ |
+*/}
 
 <ApiKeySecurity/>
