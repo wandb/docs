@@ -141,6 +141,7 @@
                                   "platform/hosting/iam/ldap",
                                   "platform/hosting/iam/sso",
                                   "platform/hosting/iam/identity_federation",
+                                  "platform/hosting/iam/api-keys",
                                   "platform/hosting/iam/service-accounts"
                                 ]
                               },
