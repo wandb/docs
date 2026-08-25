@@ -2,7 +2,15 @@
 title: "Aperçu"
 ---
 
+import MultiTenantCloudOnly from "/snippets/fr/_includes/multi-tenant-cloud-only.mdx";
+
 ARIA, l’agent d’IA de W&amp;B dédié à la recherche et à l’itération, est un assistant de recherche personnalisé qui vous aide à analyser et à exécuter des expériences, à expliquer les résultats, à identifier des tendances entre les runs, à recommander les prochaines étapes, à créer des visualisations et des Reports, et bien plus encore dans W&amp;B.
+
+<Note>
+  <MultiTenantCloudOnly />
+
+  ARIA fonctionne dans les projets d’équipe, et non dans votre entité personnelle. Votre administrateur de l’organisation doit également activer les **Smart features**. Voir [Gouvernance et sécurité](/fr/aria/governance).
+</Note>
 
 <Frame>
   <img src="/images/agent/agent_empty_chat_window.png" alt="Fenêtre de chat ARIA vide" />
@@ -16,16 +24,24 @@ ARIA peut vous aider à :
 * Créer des graphiques et des panels pour visualiser vos données.
 * Créer des vues enregistrées et des Reports pour partager ces enseignements avec votre équipe.
 
-Pour [discuter avec ARIA](/fr/aria/chat) :
+<div id="quick-start">
+  ## Démarrage rapide
+</div>
 
-1. Depuis n’importe quel projet, cliquez sur le cercle bleu dans le coin supérieur droit de la page.
+Pour [chat avec ARIA](/fr/aria/chat) :
+
+1. Depuis n’importe quel projet, cliquez sur **Ask ARIA** dans le coin supérieur droit de la page.
    <Frame>
      <img src="/images/agent/agent_location.png" alt="Emplacement d’ARIA dans l’interface utilisateur" />
    </Frame>
 2. Dans la fenêtre de chat, saisissez votre question ou votre requête. Si vous ne savez pas quoi demander, sélectionnez un prompt suggéré.
 3. Cliquez sur le bouton **Send**, la flèche pointant vers le haut dans l’angle inférieur droit de la fenêtre de chat.
 
-Selon la complexité de votre question, ARIA peut mettre quelques instants à répondre. Vous pouvez fermer la fenêtre de chat pendant qu’ARIA travaille et revenir consulter la réponse plus tard. Si ARIA a besoin de plus d’informations, ARIA vous demande des précisions.
+<div id="follow-arias-progress">
+  ## Suivre la progression d’ARIA
+</div>
+
+Pendant qu’ARIA travaille, elle transmet ses réponses en continu afin que vous puissiez suivre sa progression étape par étape, au lieu d’attendre une réponse complète. Selon la complexité de votre question, ARIA peut mettre quelques instants à terminer. Vous pouvez fermer la fenêtre de chat pendant qu’ARIA travaille et revenir consulter la réponse plus tard, ou [mettre votre prochain message en file d’attente](/fr/aria/chat#queue-messages) sans attendre. Si ARIA a besoin de plus d’informations, ARIA vous demande des précisions.
 
 Pendant qu’ARIA travaille, vous pouvez voir des étapes **Thinking** et **shell** :
 
@@ -35,6 +51,25 @@ Pendant qu’ARIA travaille, vous pouvez voir des étapes **Thinking** et **shel
 Cliquez sur une étape **Thinking** ou **shell** pour afficher plus de détails sur le raisonnement d’ARIA ou sur l’action effectuée.
 
 Pour des exemples concrets, voir [Exemples de conversations](/fr/aria/overview#example-chats). Pour plus d’informations sur la gestion des chats, voir [Chat with ARIA](/fr/aria/chat).
+
+<div id="view-and-manage-project-memories">
+  ## Afficher et gérer les mémoires du projet
+</div>
+
+ARIA se souvient de ce qu’elle apprend. Au fil de votre travail, ARIA enregistre des *mémoires* associées à votre projet afin de ne pas avoir à redécouvrir votre configuration, vos conclusions ou vos préférences à chaque nouvelle session. Dites-lui une seule fois que votre équipe préfère les graphiques à échelle logarithmique, et elle s’en souviendra.
+
+Chaque mémoire comporte un nom et une description afin qu’ARIA sache quand la rappeler, ainsi que le texte de la mémoire.
+
+Toute personne ayant accès au projet peut afficher, modifier ou supprimer des mémoires :
+
+1. Dans la fenêtre de chat ARIA, cliquez sur **<Icon icon="bars" iconType="solid" />**.
+2. Dans la section **Customization**, cliquez sur **Project memory**. Toutes les mémoires qu’ARIA possède sur le projet s’affichent.
+3. Pour modifier une mémoire, cliquez sur **<Icon icon="pencil" iconType="solid" />**. Mettez à jour le **Name**, la **Description** ou la **Memory**, puis cliquez sur **Save**.
+4. Pour supprimer une mémoire, cliquez sur **<Icon icon="trash" iconType="solid" />**.
+
+Sans attendre qu’ARIA apprenne de nouvelles mémoires, vous pouvez créer une mémoire de projet de manière interactive. Par exemple :
+
+<AriaChatBubbles prompt="Souviens-toi que nous préférons une coloration sémantique pour les graphiques." response="Je vais d’abord vérifier les mémoires de projet existantes afin que cette préférence soit enregistrée sous le bon thème plutôt que dupliquée ... Nouvelle mémoire de projet enregistrée : chart-coloring. Elle indique que les graphiques doivent utiliser des couleurs sémantiques cohérentes, basées sur la signification ou le statut des séries/catégories plutôt que sur un ordre arbitraire de la palette. " />
 
 <div id="example-chats">
   ## Exemples de conversations
