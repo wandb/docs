@@ -1919,6 +1919,7 @@
                                   "fr/platform/hosting/iam/ldap",
                                   "fr/platform/hosting/iam/sso",
                                   "fr/platform/hosting/iam/identity_federation",
+                                  "fr/platform/hosting/iam/api-keys",
                                   "fr/platform/hosting/iam/service-accounts"
                                 ]
                               },
@@ -3696,6 +3697,7 @@
                                   "ja/platform/hosting/iam/ldap",
                                   "ja/platform/hosting/iam/sso",
                                   "ja/platform/hosting/iam/identity_federation",
+                                  "ja/platform/hosting/iam/api-keys",
                                   "ja/platform/hosting/iam/service-accounts"
                                 ]
                               },
@@ -5473,6 +5475,7 @@
                                   "ko/platform/hosting/iam/ldap",
                                   "ko/platform/hosting/iam/sso",
                                   "ko/platform/hosting/iam/identity_federation",
+                                  "ko/platform/hosting/iam/api-keys",
                                   "ko/platform/hosting/iam/service-accounts"
                                 ]
                               },
