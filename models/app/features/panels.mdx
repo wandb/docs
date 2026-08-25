@@ -83,61 +83,84 @@ See [Keyboard shortcuts](/models/app/keyboard-shortcuts) for other full-screen a
 
 ## Add panels
 
-The following sections describe ways to add panels to your workspace.
+The following sections describe ways to add panels to your workspace. You can add panels one at a time or automatically for each key you select. You can also ask ARIA to add panels for you.
 
 ### Add a panel manually
 
 Add panels to your workspace one at a time, either globally at the workspace or at the section level.
 
-#### Add a panel at the workspace level
+#### Add panels to a workspace
 
 1. Navigate to your project workspace.
 1. Click **Add panels** located to the right of the panel search field.
 1. From the modal that appears, select the type of panel to add such as a chart, media, or query panel.
 
-#### Add a panel at the section level
+#### Add panels to a section
 
 1. Navigate to your project workspace.
 1. Optional: Create a new section. Scroll to the bottom of the workspace and click **Add section**.
 1. Click the section's **action (<Icon icon="ellipsis" iconType="solid"/>)** menu, then click **+ Add panels**.
 1. From the modal that appears, select the type of panel to add such as a chart, media, or query panel.
 
-{/* 1. To add a panel globally, click **Add panels** in the control bar near the panel search field.
-1. To add a panel directly to a section instead, click the section's **action (<Icon icon="ellipsis" iconType="solid"/>)** menu, then click **+ Add panels**.
-1. Select the type of panel to add, such as a chart. The panel's configuration details appear, with defaults selected.
-1. Optional: Customize the panel and its display preferences. Configuration options depend on the type of panel you select. To learn more about the options for each type of panel, refer to the relevant section, such as [Line plots](/models/app/features/panels/line-plot/) or [Bar plots](/models/app/features/panels/bar-plot/).
-1. Click **Apply**. */}
+
+{/* 1. Select the type of panel to add, such as a chart. The panel's configuration details appear, with defaults selected.
+1. Optional: Customize the panel and its display preferences. Configuration options depend on the type of panel you select. To learn more about the options for each type of panel, refer to the relevant section, such as [Line plots](/models/app/features/panels/line-plot/) or [Bar plots](/models/app/features/panels/bar-plot/). */}
 
 <Frame>
     <img src="/images/app_ui/add_single_panel.gif" alt="Demo of adding a panel"  />
 </Frame> 
 
-### Quick add panels
+### Quick panel builder
 
-Use **Quick add** to add a panel automatically for each key you select, either globally or at the section level.
+Use **Quick panel builder** to automatically create panels for selected metric keys at the workspace or section level.
 
+<Note>
+In an automatic workspace, **Quick panel builder** is hidden if panels already exist for all logged keys. If you delete a panel, use **Quick panel builder** to add it again.
+</Note>
+
+There are two ways to create panels with **Quick panel builder**:
+
+| Option                  | Description|
+| ----------------------- | ---------- |
+| **Single-key panels**   | Select specific keys. W&B creates a separate panel for each metric key and compares that metric across visible runs. |
+| **Multi-metric panels** | Enter an RE2 regular expression. W&B creates one panel containing all metric keys that match the expression, including matching keys logged in the future. |
+
+For example, suppose your workspace includes `train/loss` and `val/loss` metric keys. You can use **Quick panel builder** to create panels in either of the following ways:
+
+- **Single-key panels**: Creates two panels, one for `train/loss` and one for `val/loss`.
+- **Multi-metric panels**: Using the regular expression `.*\/loss` creates one panel containing both metrics.
+
+#### Add panels to the workspace
+
+1. Navigate to your project workspace.
+1. Select **Add panels** next to the panel search field, then select **Quick panel builder**.
+1. Select **Single-key panels** or **Multi-metric panels**.
+1. Specify the metric keys or regular expression in the search field.
+1. Complete the following step based on the creation mode:
+    - **Single-key panels**: Hover over a metric key, then select **Add**. Repeat for each metric key you want to add.
+    - **Multi-metric panels**: Add the regular expression to create a panel containing the matching metric keys.
+
+#### Add panels to a section
+
+1. Navigate to your project workspace.
+1. Optional: To create a section, scroll to the bottom of the workspace and select **Add section**.
+1. In the section, select **Add panel**, then select **Quick panel builder**.
+1. Select **Single-key panels** or **Multi-metric panels**.
+1. Specify the metric keys or regular expression in the search field.
+1. Complete the following step based on the creation mode:
+    - **Single-key panels**: Hover over a metric key, then select **Add**. Repeat for each metric key you want to add.
+    - **Multi-metric panels**: Add the regular expression to create a panel containing the matching metric keys.
+
+<Tip>
 You can also ask ARIA to add panels for you:
 
 <AriaChatBubbles
   prompt="Add line plot panels for every metric under the train/ prefix."
   response="I'll add line plot panels for each train/ metric logged in the visible runs and organize them in your workspace."
 />
+</Tip>
 
-<Note>
-For an automated workspace with no deleted panels, the **Quick add** option isn't visible because the workspace already includes panels for all logged keys. You can use **Quick add** to re-add a panel that you deleted.
-</Note>
-
-To open **Quick add**, do one of the following:
-
-- To use **Quick add** to add a panel globally, click **Add panels** in the control bar near the panel search field, then click **Quick add**.
-- To use **Quick add** to add a panel directly to a section, click the section's **action (<Icon icon="ellipsis" iconType="solid"/>)** menu, click **Add panels**, then click **Quick add**.
-
-A list of panels appears. Each panel with a checkmark is already included in the workspace. To add panels from the list:
-
-- To add all available panels, click the **Add `[N]` panels** button at the top of the list. The **Quick Add** list closes and the new panels display in the workspace.
-- To add an individual panel from the list, hover over the panel's row, then click **Add**. Repeat this step for each panel you want to add, then click the **X** at the top right to close the **Quick Add** list. The new panels display in the workspace.
-
-Optional: Customize the panel's settings.
+<br></br>
 
 ## Share a panel
 
