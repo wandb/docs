@@ -1,0 +1,236 @@
+{
+ "root": "/Users/aguspan/Docs/docs/images/registry",
+ "images": [
+  {
+   "path": "/Users/aguspan/Docs/docs/images/registry/artifact_types_model_card.png",
+   "width": 3416,
+   "height": 1622,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    744,
+    146
+   ],
+   "reasons": [
+    "wide left-nav variant, 742px (22% of width) - vision must confirm real nav (not content sidebar / annotated)",
+    "vision pass: confirmed real wide nav (Home/My projects/Applications/Teams), no annotations crossing"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/images/registry/artifact_types_model_card_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/registry/compare_linked_artifact_versions.png",
+   "category": "processed",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "already cropped (backup exists)"
+   ],
+   "has_backup": true
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/registry/core_registry_example.png",
+   "width": 3000,
+   "height": 1720,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    648,
+    123
+   ],
+   "reasons": [
+    "wide left-nav variant, 646px (22% of width) - vision must confirm real nav (not content sidebar / annotated)",
+    "vision pass: confirmed real wide nav (Home/My projects/Applications/Teams), no annotations crossing"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/images/registry/core_registry_example_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/registry/custom_registry_example.png",
+   "width": 3218,
+   "height": 2144,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    748,
+    146
+   ],
+   "reasons": [
+    "wide left-nav variant, 746px (23% of width) - vision must confirm real nav (not content sidebar / annotated)",
+    "vision pass: confirmed real wide nav (Home/My projects/Applications/Teams), no annotations crossing"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/images/registry/custom_registry_example_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/registry/homepage_registry.png",
+   "width": 1022,
+   "height": 525,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/registry/lineage_expanded_artifact_node.png",
+   "category": "processed",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "already cropped (backup exists)"
+   ],
+   "has_backup": true
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/registry/lineage_expanded_node.png",
+   "category": "processed",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "already cropped (backup exists)"
+   ],
+   "has_backup": true
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/registry/mode_reg_eol.png",
+   "category": "processed",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "already cropped (backup exists)"
+   ],
+   "has_backup": true
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/registry/navigate_to_registry_app.png",
+   "width": 2970,
+   "height": 1920,
+   "category": "misfit",
+   "confidence": "low",
+   "crop_box": [
+    742,
+    142
+   ],
+   "reasons": [
+    "wide left-nav variant, 740px (25% of width) - vision must confirm real nav (not content sidebar / annotated)",
+    "vision pass: wide nav is real BUT a yellow annotation arrow crosses from content into the nav - cropping would chop it; human review"
+   ],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/registry/registry_access_control.png",
+   "width": 2079,
+   "height": 913,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    301,
+    61
+   ],
+   "reasons": [
+    "rail width 301 vs bar height 61 breaks the width~height invariant",
+    "vision pass: confirmed real wide nav (Home/My projects/Applications/Teams), no annotations crossing"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/images/registry/registry_access_control_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/registry/registry_landing_page.png",
+   "category": "processed",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "already cropped (backup exists)"
+   ],
+   "has_backup": true
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/registry/registry_lineage.png",
+   "category": "processed",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "already cropped (backup exists)"
+   ],
+   "has_backup": true
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/registry/role_conflict.png",
+   "width": 2286,
+   "height": 598,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/registry/tag_artifact_version.png",
+   "category": "processed",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "already cropped (backup exists)"
+   ],
+   "has_backup": true
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/registry/tag_collection.png",
+   "category": "processed",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "already cropped (backup exists)"
+   ],
+   "has_backup": true
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/registry/tag_collection_selected.png",
+   "category": "processed",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "already cropped (backup exists)"
+   ],
+   "has_backup": true
+  }
+ ]
+}
