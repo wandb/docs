@@ -1,0 +1,784 @@
+{
+ "root": "/Users/aguspan/Docs/docs/media",
+ "images": [
+  {
+   "path": "/Users/aguspan/Docs/docs/media/pii/encrypt.png",
+   "width": 3024,
+   "height": 1890,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    114,
+    120
+   ],
+   "reasons": [
+    "dark-mode rail at x=112 (tonal-step boundary) - vision must verify",
+    "vision pass: dark/orange-bar crop confirmed (family previews verified)"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/media/pii/encrypt_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/pii/redact.png",
+   "width": 3024,
+   "height": 1890,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    114,
+    120
+   ],
+   "reasons": [
+    "dark-mode rail at x=112 (tonal-step boundary) - vision must verify",
+    "vision pass: dark/orange-bar crop confirmed (family previews verified)"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/media/pii/redact_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/pii/replace.png",
+   "width": 3024,
+   "height": 1900,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    114,
+    130
+   ],
+   "reasons": [
+    "dark-mode rail at x=112 (tonal-step boundary) - vision must verify",
+    "vision pass: dark/orange-bar crop confirmed (family previews verified)"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/media/pii/replace_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/intro/1.png",
+   "width": 3024,
+   "height": 1890,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    131,
+    126
+   ],
+   "reasons": [
+    "bar/content boundary contrast <8 (dark mode) - verify",
+    "dark-mode rail at x=129 (tonal-step boundary) - vision must verify",
+    "vision pass: dark/orange-bar crop confirmed (family previews verified)",
+    "vision correction per user: previous crop cut the page pane (header or left edge); restored and re-cropped at (131,126)"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/media/intro/1_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/intro/10.png",
+   "width": 3024,
+   "height": 1690,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    131,
+    126
+   ],
+   "reasons": [
+    "bar/content boundary contrast <8 (dark mode) - verify",
+    "dark-mode rail at x=129 (tonal-step boundary) - vision must verify",
+    "vision pass: dark/orange-bar crop confirmed (family previews verified)",
+    "vision correction per user: previous crop cut the page pane (header or left edge); restored and re-cropped at (131,126)"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/media/intro/10_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/intro/2.png",
+   "width": 3024,
+   "height": 1898,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    131,
+    126
+   ],
+   "reasons": [
+    "bar/content boundary contrast <8 (dark mode) - verify",
+    "dark-mode rail at x=129 (tonal-step boundary) - vision must verify",
+    "vision pass: dark/orange-bar crop confirmed (family previews verified)",
+    "vision correction per user: previous crop cut the page pane (header or left edge); restored and re-cropped at (131,126)"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/media/intro/2_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/intro/3.png",
+   "width": 3018,
+   "height": 1896,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    131,
+    126
+   ],
+   "reasons": [
+    "bar/content boundary contrast <8 (dark mode) - verify",
+    "dark-mode rail at x=129 (tonal-step boundary) - vision must verify",
+    "vision pass: dark/orange-bar crop confirmed (family previews verified)",
+    "vision correction per user: previous crop cut the page pane (header or left edge); restored and re-cropped at (131,126)"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/media/intro/3_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/intro/4.png",
+   "width": 3010,
+   "height": 1896,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    131,
+    126
+   ],
+   "reasons": [
+    "bar/content boundary contrast <8 (dark mode) - verify",
+    "dark-mode rail at x=129 (tonal-step boundary) - vision must verify",
+    "vision pass: dark/orange-bar crop confirmed (family previews verified)",
+    "vision correction per user: previous crop cut the page pane (header or left edge); restored and re-cropped at (131,126)"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/media/intro/4_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/intro/5.png",
+   "width": 3024,
+   "height": 1240,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    131,
+    126
+   ],
+   "reasons": [
+    "bar/content boundary contrast <8 (dark mode) - verify",
+    "dark-mode rail at x=129 (tonal-step boundary) - vision must verify",
+    "vision fix: bar bottom measured past the breadcrumb block / hairline; rail kept at family x=131; preview verified"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/media/intro/5_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/intro/6.png",
+   "width": 3024,
+   "height": 1894,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    131,
+    126
+   ],
+   "reasons": [
+    "bar/content boundary contrast <8 (dark mode) - verify",
+    "dark-mode rail at x=129 (tonal-step boundary) - vision must verify",
+    "vision pass: dark/orange-bar crop confirmed (family previews verified)",
+    "vision correction per user: previous crop cut the page pane (header or left edge); restored and re-cropped at (131,126)"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/media/intro/6_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/intro/7.png",
+   "width": 3024,
+   "height": 1262,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    131,
+    126
+   ],
+   "reasons": [
+    "bar/content boundary contrast <8 (dark mode) - verify",
+    "dark-mode rail at x=129 (tonal-step boundary) - vision must verify",
+    "vision fix: bar bottom measured past the breadcrumb block / hairline; rail kept at family x=131; preview verified"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/media/intro/7_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/intro/8.png",
+   "width": 3024,
+   "height": 1694,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    131,
+    126
+   ],
+   "reasons": [
+    "bar/content boundary contrast <8 (dark mode) - verify",
+    "dark-mode rail at x=129 (tonal-step boundary) - vision must verify",
+    "vision fix: bar bottom measured past the breadcrumb block / hairline; rail kept at family x=131; preview verified"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/media/intro/8_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/intro/9.png",
+   "width": 3024,
+   "height": 1262,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    131,
+    126
+   ],
+   "reasons": [
+    "bar/content boundary contrast <8 (dark mode) - verify",
+    "dark-mode rail at x=129 (tonal-step boundary) - vision must verify",
+    "vision pass: dark/orange-bar crop confirmed (family previews verified)",
+    "vision correction per user: previous crop cut the page pane (header or left edge); restored and re-cropped at (131,126)"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/media/intro/9_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/summarization/dataset.png",
+   "width": 3024,
+   "height": 1898,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    131,
+    126
+   ],
+   "reasons": [
+    "bar/content boundary contrast <8 (dark mode) - verify",
+    "dark-mode rail at x=129 (tonal-step boundary) - vision must verify",
+    "vision fix: bar bottom measured past the breadcrumb block / hairline; rail kept at family x=131; preview verified"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/media/summarization/dataset_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/summarization/eval_dash.png",
+   "width": 3024,
+   "height": 1896,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    131,
+    126
+   ],
+   "reasons": [
+    "bar/content boundary contrast <8 (dark mode) - verify",
+    "dark-mode rail at x=168 (tonal-step boundary) - vision must verify",
+    "vision fix: bar bottom measured past the breadcrumb block / hairline; rail kept at family x=131; preview verified",
+    "vision correction per user: previous crop cut the page pane (header or left edge); restored and re-cropped at (131,126)"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/media/summarization/eval_dash_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/summarization/model.png",
+   "width": 3024,
+   "height": 1898,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    131,
+    126
+   ],
+   "reasons": [
+    "bar/content boundary contrast <8 (dark mode) - verify",
+    "dark-mode rail at x=129 (tonal-step boundary) - vision must verify",
+    "vision fix: bar bottom measured past the breadcrumb block / hairline; rail kept at family x=131; preview verified"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/media/summarization/model_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/summarization/summarization_trace.png",
+   "width": 1266,
+   "height": 1348,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "dark region does not terminate (terminal/dark image)",
+    "dark-rail candidate at x=86 rejected: region ink 0.006 outside rail range (empty gutter or dense content)"
+   ],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/weave-self-managed/weave-org-dashboard.png",
+   "width": 2864,
+   "height": 806,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/codegen/codegen_trace.png",
+   "width": 3024,
+   "height": 1896,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    86,
+    96
+   ],
+   "reasons": [
+    "dark-mode rail at x=140 (tonal-step boundary) - vision must verify",
+    "vision pass: dark/orange-bar crop confirmed (family previews verified)",
+    "vision correction per user: previous crop cut the page pane (header or left edge); restored and re-cropped at (86,96)"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/media/codegen/codegen_trace_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/codegen/eval_dash.png",
+   "width": 3024,
+   "height": 1896,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    86,
+    96
+   ],
+   "reasons": [
+    "dark-mode rail at x=110 (tonal-step boundary) - vision must verify",
+    "vision pass: dark/orange-bar crop confirmed (family previews verified)",
+    "vision correction per user: previous crop cut the page pane (header or left edge); restored and re-cropped at (86,96)"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/media/codegen/eval_dash_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/codegen/eval_trace.png",
+   "width": 3024,
+   "height": 1894,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    86,
+    94
+   ],
+   "reasons": [
+    "dark-mode rail at x=84 (tonal-step boundary) - vision must verify",
+    "vision pass: dark/orange-bar crop confirmed (family previews verified)"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/media/codegen/eval_trace_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/import-from-csv/image.png",
+   "width": 2994,
+   "height": 1270,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    85,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/media/import-from-csv/image_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/import-from-csv/imagepng_1.png",
+   "width": 2998,
+   "height": 1170,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    87,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/media/import-from-csv/imagepng_1_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/import-from-csv/imagepng_1_2.png",
+   "width": 4100,
+   "height": 2160,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    125,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/media/import-from-csv/imagepng_1_2_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/import-from-csv/imagepng_1_2_3.png",
+   "width": 2904,
+   "height": 1210,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/import-from-csv/imagepng_1_2_3_4.png",
+   "width": 2994,
+   "height": 1270,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    85,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/media/import-from-csv/imagepng_1_2_3_4_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/import-from-csv/imagepng_1_2_3_4_5.png",
+   "width": 2998,
+   "height": 1170,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    87,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/media/import-from-csv/imagepng_1_2_3_4_5_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/import-from-csv/imagepng_1_2_3_4_5_6.png",
+   "width": 4100,
+   "height": 2160,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    125,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/media/import-from-csv/imagepng_1_2_3_4_5_6_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/import-from-csv/imagepng_1_2_3_4_5_6_7.png",
+   "width": 2904,
+   "height": 1210,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/multi-agent-structured-output/0.png",
+   "width": 1498,
+   "height": 570,
+   "category": "top",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    49
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/media/multi-agent-structured-output/0_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/multi-agent-structured-output/1-1.png",
+   "width": 2330,
+   "height": 1222,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    80,
+    82
+   ],
+   "reasons": [
+    "vision spot-fix per user: white screenshot padding above the muted-orange bar defeated the top-anchor rule; bar rows 9-81 + rail (faint divider x=78) cropped; preview verified"
+   ],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/multi-agent-structured-output/1.png",
+   "width": 2330,
+   "height": 1222,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    80,
+    82
+   ],
+   "reasons": [
+    "vision spot-fix per user: white screenshot padding above the muted-orange bar defeated the top-anchor rule; bar rows 9-81 + rail (faint divider x=78) cropped; preview verified"
+   ],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/multi-agent-structured-output/2.png",
+   "width": 1498,
+   "height": 797,
+   "category": "top",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    44
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/media/multi-agent-structured-output/2_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/multi-agent-structured-output/3.png",
+   "width": 2988,
+   "height": 1690,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    89,
+    94
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/media/multi-agent-structured-output/3_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/dspy_optimization/1.png",
+   "width": 3024,
+   "height": 1188,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    131,
+    147
+   ],
+   "reasons": [
+    "bar/content boundary contrast <8 (dark mode) - verify",
+    "dark-mode rail at x=129 (tonal-step boundary) - vision must verify",
+    "vision fix: bar bottom measured past the breadcrumb block / hairline; rail kept at family x=131; preview verified"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/media/dspy_optimization/1_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/dspy_optimization/2.png",
+   "width": 3018,
+   "height": 1894,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    131,
+    145
+   ],
+   "reasons": [
+    "bar/content boundary contrast <8 (dark mode) - verify",
+    "dark-mode rail at x=214 (tonal-step boundary) - vision must verify",
+    "vision fix: bar bottom measured past the breadcrumb block / hairline; rail kept at family x=131; preview verified"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/media/dspy_optimization/2_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/dspy_optimization/3.png",
+   "width": 3024,
+   "height": 1892,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    131,
+    140
+   ],
+   "reasons": [
+    "dark-mode rail at x=129 (tonal-step boundary) - vision must verify",
+    "vision pass: dark/orange-bar crop confirmed (family previews verified)"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/media/dspy_optimization/3_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/dspy_optimization/4.png",
+   "width": 3024,
+   "height": 1896,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    131,
+    144
+   ],
+   "reasons": [
+    "dark-mode rail at x=129 (tonal-step boundary) - vision must verify",
+    "vision pass: dark/orange-bar crop confirmed (family previews verified)"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/media/dspy_optimization/4_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/dspy_optimization/5.png",
+   "width": 3024,
+   "height": 1892,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    131,
+    140
+   ],
+   "reasons": [
+    "dark-mode rail at x=129 (tonal-step boundary) - vision must verify",
+    "vision pass: dark/orange-bar crop confirmed (family previews verified)"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/media/dspy_optimization/5_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/ocr-pipeline/screenshot-2025-05-02-at-120300-pm.png",
+   "width": 2389,
+   "height": 1145,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "bar/content boundary contrast <8 (dark mode) - verify",
+    "vision pass: dark/orange-bar crop confirmed (family previews verified)",
+    "vision correction per user: the dark strip is the page-pane title, not a nav bar; fully reverted"
+   ],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/ocr-pipeline/screenshot-2025-05-02-at-120300-pmpng_1.png",
+   "width": 2389,
+   "height": 1145,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "bar/content boundary contrast <8 (dark mode) - verify",
+    "vision pass: dark/orange-bar crop confirmed (family previews verified)",
+    "vision correction per user: the dark strip is the page-pane title, not a nav bar; fully reverted"
+   ],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/ocr-pipeline/screenshot-2025-05-02-at-120300-pmpng_1_2.png",
+   "width": 2389,
+   "height": 1145,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "bar/content boundary contrast <8 (dark mode) - verify",
+    "vision pass: dark/orange-bar crop confirmed (family previews verified)",
+    "vision correction per user: the dark strip is the page-pane title, not a nav bar; fully reverted"
+   ],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/ocr-pipeline/screenshot-2025-05-02-at-122615-pm.png",
+   "width": 2383,
+   "height": 851,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "bar/content boundary contrast <8 (dark mode) - verify",
+    "vision pass: dark/orange-bar crop confirmed (family previews verified)",
+    "vision correction per user: the dark strip is the page-pane title, not a nav bar; fully reverted"
+   ],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/ocr-pipeline/screenshot-2025-05-02-at-122615-pmpng_1.png",
+   "width": 2383,
+   "height": 851,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "bar/content boundary contrast <8 (dark mode) - verify",
+    "vision pass: dark/orange-bar crop confirmed (family previews verified)",
+    "vision correction per user: the dark strip is the page-pane title, not a nav bar; fully reverted"
+   ],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/media/ocr-pipeline/screenshot-2025-05-02-at-122615-pmpng_1_2.png",
+   "width": 2383,
+   "height": 851,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "bar/content boundary contrast <8 (dark mode) - verify",
+    "vision pass: dark/orange-bar crop confirmed (family previews verified)",
+    "vision correction per user: the dark strip is the page-pane title, not a nav bar; fully reverted"
+   ],
+   "has_backup": false
+  }
+ ]
+}
