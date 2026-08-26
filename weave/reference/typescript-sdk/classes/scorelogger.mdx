@@ -3,10 +3,12 @@ title: "ScoreLogger"
 description: "TypeScript SDK reference"
 ---
 
+import { SourceLink } from '/snippets/_includes/source-link.mdx';
+
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluationLogger.ts#L330" />
+
 ScoreLogger manages scoring for a single prediction.
 Returned from EvaluationLogger.logPrediction().
-
-<sub>Source: [src/evaluationLogger.ts:330](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluationLogger.ts#L330)</sub>
 
 ## Example
 
@@ -24,7 +26,7 @@ await pred.finish(); // Finalizes the prediction
 
 > **new ScoreLogger**(`evalLogger`): `ScoreLogger`
 
-<sub>Source: [src/evaluationLogger.ts:338](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluationLogger.ts#L338)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluationLogger.ts#L338" />
 
 #### Parameters
 
@@ -44,10 +46,10 @@ await pred.finish(); // Finalizes the prediction
 
 > **get** **isFinishCalled**(): `boolean`
 
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluationLogger.ts#L368" />
+
 Check if finish() has been called.
 Used by EvaluationLogger to detect unfinished predictions.
-
-<sub>Source: [src/evaluationLogger.ts:368](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluationLogger.ts#L368)</sub>
 
 ##### Returns
 
@@ -59,11 +61,11 @@ Used by EvaluationLogger to detect unfinished predictions.
 
 > **finish**(): `Promise`\<`void`\>
 
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluationLogger.ts#L470" />
+
 Finish the scoring process for the prediction.
 Finalizes the predict_and_score call with accumulated scores.
 Updates incremental aggregates and frees memory.
-
-<sub>Source: [src/evaluationLogger.ts:470](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluationLogger.ts#L470)</sub>
 
 #### Returns
 
@@ -75,10 +77,10 @@ Updates incremental aggregates and frees memory.
 
 > **logScore**(`scorerName`, `score`): `Promise`\<`void`\>
 
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluationLogger.ts#L379" />
+
 Log a score for this prediction.
 Creates a scorer call as a child of predict_and_score.
-
-<sub>Source: [src/evaluationLogger.ts:379](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluationLogger.ts#L379)</sub>
 
 #### Parameters
 

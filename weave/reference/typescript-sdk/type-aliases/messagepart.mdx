@@ -3,6 +3,8 @@ title: "MessagePart"
 description: "TypeScript SDK reference"
 ---
 
+import { SourceLink } from '/snippets/_includes/source-link.mdx';
+
 > **MessagePart** = \{ `content`: `string`; `type`: `"text"`; \} \| \{ `content`: `string`; `type`: `"reasoning"`; \} \| \{ `arguments?`: `string`; `toolCallId`: `string`; `toolName`: `string`; `type`: `"tool_call"`; \} \| \{ `result?`: `string`; `toolCallId`: `string`; `type`: `"tool_result"`; \} \| \{ `fileId`: `string`; `mimeType?`: `string`; `modality`: [`Modality`](./modality); `type`: `"file"`; \} \| \{ `content`: `string`; `mimeType`: `string`; `modality`: [`Modality`](./modality); `type`: `"blob"`; \} \| \{ `modality`: [`Modality`](./modality); `type`: `"uri"`; `uri`: `string`; \}
 
-<sub>Source: [src/genai/types.ts:35](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/types.ts#L35)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/types.ts#L35" />

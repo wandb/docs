@@ -3,9 +3,13 @@ title: "runIsolated"
 description: "TypeScript SDK reference"
 ---
 
+import { SourceLink } from '/snippets/_includes/source-link.mdx';
+
 ```ts
 runIsolated<T>(fn: () => T): T
 ```
+
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/context.ts#L54" />
 
 Run `fn` in a fresh, isolated GenAI state frame. Any Conversation / Turn / LLM
 started inside `fn` lives in this frame only — it does not clash with
@@ -23,8 +27,6 @@ Use this to safely run parallel GenAI work:
 
 Sequential single-flight usage doesn't require this wrapper — the
 process-wide default state handles it.
-
-<sub>Source: [src/genai/context.ts:54](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/context.ts#L54)</sub>
 
 ## Type Parameters
 

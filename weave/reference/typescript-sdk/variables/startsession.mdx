@@ -8,15 +8,17 @@ description: "TypeScript SDK reference"
   **Deprecated.** Use [startConversation](../functions/startconversation) instead.
 </Warning>
 
+import { SourceLink } from '/snippets/_includes/source-link.mdx';
+
 > `const` **startSession**: (`opts`) => [`Conversation`](../interfaces/conversation) = `startConversation`
+
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/api.ts#L33" />
 
 Start a new Conversation and install it as the current conversation.
 Subsequent calls to `startTurn` will pick it up automatically.
 
 Pass `attributes` to propagate custom (non-semconv) attributes to every
 span the conversation emits.
-
-<sub>Source: [src/genai/api.ts:33](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/api.ts#L33)</sub>
 
 ## Parameters
 

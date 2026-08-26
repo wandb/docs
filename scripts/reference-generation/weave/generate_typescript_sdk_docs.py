@@ -245,50 +245,6 @@ def _strip_redundant_optional_markers(content):
     return content
 
 
-def _move_source_links_after_description(content):
-    """Move `Defined in: [...]` lines below the member's description.
-
-    v4 places the source link between the signature and the description
-    text, so the description — the thing readers actually want — gets
-    pushed below the metadata. Relocate each source link to the end of its
-    block (just before the next heading, `***` separator, or end of file),
-    restoring the v3-era reading order: signature, description, source.
-    """
-    lines = content.split('\n')
-    out = []
-    pending = None
-    skip_blank = False
-    in_fence = False
-
-    def flush():
-        nonlocal pending
-        if pending is not None:
-            if out and out[-1] != '':
-                out.append('')
-            out.append(pending)
-            out.append('')
-            pending = None
-
-    for line in lines:
-        if line.lstrip().startswith('```'):
-            in_fence = not in_fence
-        if not in_fence:
-            if skip_blank and line == '':
-                skip_blank = False
-                continue
-            skip_blank = False
-            if line.startswith('Defined in: ['):
-                flush()  # consecutive source links (overloads): keep order
-                pending = line
-                skip_blank = True
-                continue
-            if pending is not None and (line.startswith('#') or line == '***'):
-                flush()
-        out.append(line)
-    flush()
-    return '\n'.join(out)
-
-
 def _delink_and_unescape_type(text):
     """Reduce a TypeDoc type expression to plain TypeScript text.
 
@@ -669,10 +625,12 @@ def convert_to_mintlify_format(docs_dir):
         # prepended (the quoted YAML title must keep its bare < and >).
         content = _escape_mdx_hostile_chars(content)
 
-        # De-duplicate v4's optional markers and restore the
-        # signature → description → source-link reading order.
+        # De-duplicate v4's optional markers. (Source links used to be
+        # relocated below descriptions here for reading order; now that
+        # they render as right-floated SourceLink buttons they stay where
+        # TypeDoc puts them — directly after the signature — and float to
+        # the top right of the section without interrupting text flow.)
         content = _strip_redundant_optional_markers(content)
-        content = _move_source_links_after_description(content)
         
         # Add Mintlify frontmatter
         frontmatter = f"""---
@@ -793,8 +751,28 @@ description: "TypeScript SDK reference"
             content = _convert_function_signatures_to_code_blocks(content)
         content = _convert_parameters_sections_to_paramfields(content)
 
-        # De-emphasize the source-link metadata line relative to the
-        # description it follows.
+        # Render source-link metadata with the site's shared SourceLink
+        # button (a compact right-floated pill, styled by `.source-link` in
+        # css/styles.css) instead of an inline text line. The import is only
+        # added when a link was actually converted.
+        content, n_source_links = re.subn(
+            r'^Defined in: \[[^\]]+\]\(([^)\s]+)\)$',
+            r'<SourceLink url="\1" />',
+            content,
+            flags=re.MULTILINE,
+        )
+        if n_source_links:
+            content = re.sub(
+                r'\A(---\n.*?\n---\n)',
+                r"\1\nimport { SourceLink } from '/snippets/_includes/source-link.mdx';\n",
+                content,
+                count=1,
+                flags=re.DOTALL,
+            )
+
+        # Linkless source lines (members inherited from TypeScript's own
+        # lib .d.ts files carry no GitHub URL) can't become buttons; keep
+        # them but at metadata weight.
         content = re.sub(
             r'^Defined in: (.+)$',
             r'<sub>Source: \1</sub>',
