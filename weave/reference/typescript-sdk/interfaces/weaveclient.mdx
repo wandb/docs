@@ -842,57 +842,51 @@ Calls buffered client-side but not yet delivered to the server.
 
 `object`
 
-##### currentCall
+<ResponseField name="currentCall" type="object" required>
+  ###### currentCall.callId
 
-> **currentCall**: `object`
+  > **callId**: `string`
 
-###### currentCall.callId
+  ###### currentCall.childSummary
 
-> **callId**: `string`
+  > **childSummary**: `Record`\<`string`, `any`\>
 
-###### currentCall.childSummary
+  ###### currentCall.displayName
 
-> **childSummary**: `Record`\<`string`, `any`\>
+  > `optional` **displayName**: `string`
 
-###### currentCall.displayName
+  ###### currentCall.opName
 
-> `optional` **displayName**: `string`
+  > `optional` **opName**: `string`
 
-###### currentCall.opName
+  ###### currentCall.traceId
 
-> `optional` **opName**: `string`
+  > **traceId**: `string`
+</ResponseField>
 
-###### currentCall.traceId
+<ResponseField name="newStack" type="CallStack" required />
 
-> **traceId**: `string`
+<ResponseField name="parentCall" type="object">
+  ###### parentCall.callId
 
-##### newStack
+  > **callId**: `string`
 
-> **newStack**: `CallStack`
+  ###### parentCall.childSummary
 
-##### parentCall
+  > **childSummary**: `Record`\<`string`, `any`\>
 
-> `optional` **parentCall**: `object`
+  ###### parentCall.displayName
 
-###### parentCall.callId
+  > `optional` **displayName**: `string`
 
-> **callId**: `string`
+  ###### parentCall.opName
 
-###### parentCall.childSummary
+  > `optional` **opName**: `string`
 
-> **childSummary**: `Record`\<`string`, `any`\>
+  ###### parentCall.traceId
 
-###### parentCall.displayName
-
-> `optional` **displayName**: `string`
-
-###### parentCall.opName
-
-> `optional` **opName**: `string`
-
-###### parentCall.traceId
-
-> **traceId**: `string`
+  > **traceId**: `string`
+</ResponseField>
 
 ***
 
@@ -924,9 +918,7 @@ Register a custom runtime, replacing its complete configuration if it exists.
 
 #### Type Parameters
 
-##### T
-
-`T`
+<ParamField path="T" />
 
 #### Parameters
 
@@ -948,9 +940,7 @@ Register a custom runtime, replacing its complete configuration if it exists.
 
 #### Type Parameters
 
-##### T
-
-`T`
+<ParamField path="T" />
 
 #### Parameters
 
