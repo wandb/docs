@@ -3,9 +3,11 @@ title: "Dataset<R>"
 description: "TypeScript SDK reference"
 ---
 
-Dataset object with easy saving and automatic versioning
+import { SourceLink } from '/snippets/_includes/source-link.mdx';
 
-<sub>Source: [src/dataset.ts:53](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/dataset.ts#L53)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/dataset.ts#L53" />
+
+Dataset object with easy saving and automatic versioning
 
 ## Example
 
@@ -44,7 +46,7 @@ const ref = await dataset.save()
 
 > **new Dataset**\<`R`\>(`parameters`): `Dataset`\<`R`\>
 
-<sub>Source: [src/dataset.ts:56](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/dataset.ts#L56)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/dataset.ts#L56" />
 
 #### Parameters
 
@@ -72,7 +74,7 @@ const ref = await dataset.save()
 
 > `optional` **\_\_savedRef**: [`ObjectRef`](./objectref) \| `Promise`\<[`ObjectRef`](./objectref)\>
 
-<sub>Source: [src/weaveObject.ts:72](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L72)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L72" />
 
 #### Inherited from
 
@@ -84,7 +86,7 @@ const ref = await dataset.save()
 
 > **rows**: `Table`\<`R`\>
 
-<sub>Source: [src/dataset.ts:54](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/dataset.ts#L54)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/dataset.ts#L54" />
 
 ## Accessors
 
@@ -94,7 +96,7 @@ const ref = await dataset.save()
 
 > **get** **description**(): `string` \| `undefined`
 
-<sub>Source: [src/weaveObject.ts:99](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L99)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L99" />
 
 ##### Returns
 
@@ -112,7 +114,7 @@ const ref = await dataset.save()
 
 > **get** **length**(): `number`
 
-<sub>Source: [src/dataset.ts:69](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/dataset.ts#L69)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/dataset.ts#L69" />
 
 ##### Returns
 
@@ -126,7 +128,7 @@ const ref = await dataset.save()
 
 > **get** **name**(): `string`
 
-<sub>Source: [src/weaveObject.ts:95](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L95)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L95" />
 
 ##### Returns
 
@@ -142,7 +144,7 @@ const ref = await dataset.save()
 
 > **\[asyncIterator\]**(): `AsyncIterator`\<`any`\>
 
-<sub>Source: [src/dataset.ts:73](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/dataset.ts#L73)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/dataset.ts#L73" />
 
 #### Returns
 
@@ -154,7 +156,7 @@ const ref = await dataset.save()
 
 > **getRow**(`index`): `R`
 
-<sub>Source: [src/dataset.ts:79](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/dataset.ts#L79)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/dataset.ts#L79" />
 
 #### Parameters
 
@@ -170,7 +172,7 @@ const ref = await dataset.save()
 
 > **save**(): `Promise`\<[`ObjectRef`](./objectref)\>
 
-<sub>Source: [src/dataset.ts:65](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/dataset.ts#L65)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/dataset.ts#L65" />
 
 #### Returns
 
@@ -182,7 +184,7 @@ const ref = await dataset.save()
 
 > **saveAttrs**(): `object`
 
-<sub>Source: [src/weaveObject.ts:76](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L76)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L76" />
 
 #### Returns
 

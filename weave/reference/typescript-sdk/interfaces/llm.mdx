@@ -3,6 +3,10 @@ title: "LLM"
 description: "TypeScript SDK reference"
 ---
 
+import { SourceLink } from '/snippets/_includes/source-link.mdx';
+
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L90" />
+
 An LLM call. Emits a `chat` span with `gen_ai.*` attributes.
 
 Created by `weave.startLLM()` (or `turn.startLLM()`) and terminated with
@@ -13,8 +17,6 @@ Populate `inputMessages` / `outputMessages` / `usage` / `reasoning` directly,
 or via the helper functions (`output`, `think`, `attachMedia`, `record`).
 
 All recorded data is flushed to the span at `end()`.
-
-<sub>Source: [src/genai/llm.ts:90](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L90)</sub>
 
 ## Examples
 
@@ -58,10 +60,10 @@ try {
 
 > **inputMessages**: [`Message`](./message)[] = `[]`
 
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L97" />
+
 Input messages sent to the model. Flushed to `gen_ai.input.messages` on
 `end()`.
-
-<sub>Source: [src/genai/llm.ts:97](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L97)</sub>
 
 ***
 
@@ -69,7 +71,7 @@ Input messages sent to the model. Flushed to `gen_ai.input.messages` on
 
 > `readonly` **model**: `string`
 
-<sub>Source: [src/genai/llm.ts:121](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L121)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L121" />
 
 ***
 
@@ -77,10 +79,10 @@ Input messages sent to the model. Flushed to `gen_ai.input.messages` on
 
 > **outputMessages**: [`Message`](./message)[] = `[]`
 
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L102" />
+
 Assistant messages returned by the model. Flushed to
 `gen_ai.output.messages` on `end()`.
-
-<sub>Source: [src/genai/llm.ts:102](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L102)</sub>
 
 ***
 
@@ -88,7 +90,7 @@ Assistant messages returned by the model. Flushed to
 
 > `readonly` **providerName**: `string`
 
-<sub>Source: [src/genai/llm.ts:122](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L122)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L122" />
 
 ***
 
@@ -96,10 +98,10 @@ Assistant messages returned by the model. Flushed to
 
 > `optional` **reasoning**: [`Reasoning`](./reasoning)
 
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L109" />
+
 Chain-of-thought content. Folded into the last assistant message as a
 ReasoningPart at serialization time.
-
-<sub>Source: [src/genai/llm.ts:109](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L109)</sub>
 
 ***
 
@@ -107,9 +109,9 @@ ReasoningPart at serialization time.
 
 > **usage**: [`Usage`](./usage) = `{}`
 
-Token counts and cache stats. Flushed to `gen_ai.usage.*` on `end()`.
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L104" />
 
-<sub>Source: [src/genai/llm.ts:104](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L104)</sub>
+Token counts and cache stats. Flushed to `gen_ai.usage.*` on `end()`.
 
 ## Methods
 
@@ -124,11 +126,11 @@ See https://opentelemetry.io/blog/2026/deprecating-span-events/
 
 > **addEvent**(`name`, `attributes?`, `startTime?`): `this`
 
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/spanBase.ts#L84" />
+
 Add a named event to the span. Useful for marking non-span moments such as
 context compaction, tool-loop detection, or guardrail trips. Warns and
 no-ops after `end()`. Mirrors OTel `Span.addEvent`.
-
-<sub>Source: [src/genai/spanBase.ts:84](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/spanBase.ts#L84)</sub>
 
 #### Parameters
 
@@ -159,12 +161,12 @@ span.addEvent('context_compacted', {removedMessages: 12});
 
 > **attachMedia**(`opts`): `this`
 
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L189" />
+
 Stage a media attachment for the LLM call. Pick exactly one of
  `content` (inline base64 bytes), `uri` (URI reference), or `fileId`
  (pre-uploaded file id). The attachment is glued onto the last user
  message in `inputMessages` on `end()`.
-
-<sub>Source: [src/genai/llm.ts:189](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L189)</sub>
 
 #### Parameters
 
@@ -184,9 +186,9 @@ Stage a media attachment for the LLM call. Pick exactly one of
 
 > **attachMediaUrl**(`url`, `opts`): `this`
 
-Convenience for `attachMedia({uri, modality})`.
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L198" />
 
-<sub>Source: [src/genai/llm.ts:198](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L198)</sub>
+Convenience for `attachMedia({uri, modality})`.
 
 #### Parameters
 
@@ -210,9 +212,9 @@ Convenience for `attachMedia({uri, modality})`.
 
 > **end**(`opts?`): `void`
 
-Flush accumulated state and close the span. Idempotent. Pass `error` to mark failed; pass `endTime` to backdate the close.
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L282" />
 
-<sub>Source: [src/genai/llm.ts:282](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L282)</sub>
+Flush accumulated state and close the span. Idempotent. Pass `error` to mark failed; pass `endTime` to backdate the close.
 
 #### Parameters
 
@@ -234,9 +236,9 @@ Flush accumulated state and close the span. Idempotent. Pass `error` to mark fai
 
 > **output**(`content`): `this`
 
-Append an assistant message to the response.
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L161" />
 
-<sub>Source: [src/genai/llm.ts:161](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L161)</sub>
+Append an assistant message to the response.
 
 #### Parameters
 
@@ -252,10 +254,10 @@ Append an assistant message to the response.
 
 > **record**(`opts`): `this`
 
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L209" />
+
 Bulk-set any subset of the mutable fields. Replaces (does not merge).
 Useful for assigning everything at once after a provider call returns.
-
-<sub>Source: [src/genai/llm.ts:209](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L209)</sub>
 
 #### Parameters
 
@@ -303,11 +305,11 @@ Useful for assigning everything at once after a provider call returns.
 
 > **setAttributes**(`attributes`): `this`
 
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/spanBase.ts#L65" />
+
 Set multiple attributes on the span at once. Warns and no-ops after
 `end()`. Mirrors OTel `Span.setAttributes` (and the Python SDK's
 `set_attributes`).
-
-<sub>Source: [src/genai/spanBase.ts:65](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/spanBase.ts#L65)</sub>
 
 #### Parameters
 
@@ -334,9 +336,9 @@ span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
 
 > **startSubagent**(`opts`): [`SubAgent`](./subagent)
 
-Start a child SubAgent span nested under this LLM.
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L268" />
 
-<sub>Source: [src/genai/llm.ts:268](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L268)</sub>
+Start a child SubAgent span nested under this LLM.
 
 #### Parameters
 
@@ -354,9 +356,9 @@ Start a child SubAgent span nested under this LLM.
 
 > **startTool**(`opts`): [`Tool`](./tool)
 
-Start a child Tool span nested under this LLM.
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L258" />
 
-<sub>Source: [src/genai/llm.ts:258](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L258)</sub>
+Start a child Tool span nested under this LLM.
 
 #### Parameters
 
@@ -374,12 +376,12 @@ Start a child Tool span nested under this LLM.
 
 > **think**(`content`): `this`
 
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L173" />
+
 Set or extend the model's reasoning/chain-of-thought content. Accumulates
  into `this.reasoning.content`. Folded into the last assistant message as
  a `ReasoningPart` at serialization time, matching the Python SDK's
  on-the-wire shape.
-
-<sub>Source: [src/genai/llm.ts:173](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L173)</sub>
 
 #### Parameters
 

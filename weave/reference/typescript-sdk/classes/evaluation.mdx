@@ -3,14 +3,16 @@ title: "Evaluation<R, E, M>"
 description: "TypeScript SDK reference"
 ---
 
+import { SourceLink } from '/snippets/_includes/source-link.mdx';
+
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluation.ts#L145" />
+
 Sets up an evaluation which includes a set of scorers and a dataset.
 
 Calling evaluation.evaluate(model) will pass in rows form a dataset into a model matching
 the names of the columns of the dataset to the argument names in model.predict.
 
 Then it will call all of the scorers and save the results in weave.
-
-<sub>Source: [src/evaluation.ts:145](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluation.ts#L145)</sub>
 
 ## Example
 
@@ -70,7 +72,7 @@ const results = await evaluation.evaluate({ model });
 
 > **new Evaluation**\<`R`, `E`, `M`\>(`parameters`): `Evaluation`\<`R`, `E`, `M`\>
 
-<sub>Source: [src/evaluation.ts:156](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluation.ts#L156)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluation.ts#L156" />
 
 #### Parameters
 
@@ -114,7 +116,7 @@ const results = await evaluation.evaluate({ model });
 
 > `optional` **\_\_savedRef**: [`ObjectRef`](./objectref) \| `Promise`\<[`ObjectRef`](./objectref)\>
 
-<sub>Source: [src/weaveObject.ts:72](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L72)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L72" />
 
 #### Inherited from
 
@@ -128,7 +130,7 @@ const results = await evaluation.evaluate({ model });
 
 > **get** **description**(): `string` \| `undefined`
 
-<sub>Source: [src/weaveObject.ts:99](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L99)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L99" />
 
 ##### Returns
 
@@ -146,7 +148,7 @@ const results = await evaluation.evaluate({ model });
 
 > **get** **name**(): `string`
 
-<sub>Source: [src/weaveObject.ts:95](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L95)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L95" />
 
 ##### Returns
 
@@ -162,7 +164,7 @@ const results = await evaluation.evaluate({ model });
 
 > **evaluate**(`__namedParameters`): `Promise`\<`Record`\<`string`, `any`\>\>
 
-<sub>Source: [src/evaluation.ts:174](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluation.ts#L174)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluation.ts#L174" />
 
 #### Parameters
 
@@ -190,7 +192,7 @@ const results = await evaluation.evaluate({ model });
 
 > **predictAndScore**(`__namedParameters`): `Promise`\<\{ `model_latency`: `number`; `model_output`: `any`; `model_success`: `boolean`; `scores`: \{\[`key`: `string`\]: `any`; \}; \}\>
 
-<sub>Source: [src/evaluation.ts:253](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluation.ts#L253)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluation.ts#L253" />
 
 #### Parameters
 
@@ -222,7 +224,7 @@ const results = await evaluation.evaluate({ model });
 
 > **saveAttrs**(): `object`
 
-<sub>Source: [src/weaveObject.ts:76](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L76)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L76" />
 
 #### Returns
 

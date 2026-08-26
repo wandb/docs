@@ -3,9 +3,13 @@ title: "withAttributes"
 description: "TypeScript SDK reference"
 ---
 
+import { SourceLink } from '/snippets/_includes/source-link.mdx';
+
 ```ts
 withAttributes<T>(attrs: Record<string, any>, fn: () => T | Promise<T>): T | Promise<T>
 ```
+
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/clientApi.ts#L238" />
 
 Attach attributes to the current execution context so that any calls created
 inside `fn` automatically inherit them. Attributes are written to the call
@@ -19,8 +23,6 @@ await withAttributes({requestId: 'abc'}, async () => {
   await myOp();
 });
 ```
-
-<sub>Source: [src/clientApi.ts:238](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/clientApi.ts#L238)</sub>
 
 ## Type Parameters
 

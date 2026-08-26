@@ -3,9 +3,13 @@ title: "flushOTel"
 description: "TypeScript SDK reference"
 ---
 
+import { SourceLink } from '/snippets/_includes/source-link.mdx';
+
 ```ts
 flushOTel(): Promise<void>
 ```
+
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/flush.ts#L15" />
 
 Force-flush any GenAI spans buffered by the active span processor.
 
@@ -17,8 +21,6 @@ round-trip.
 Call before process exit when using `'simple'` or any other processor that
 may have in-flight work, or in tests that need to observe exported spans
 synchronously.
-
-<sub>Source: [src/genai/flush.ts:15](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/flush.ts#L15)</sub>
 
 ## Returns
 

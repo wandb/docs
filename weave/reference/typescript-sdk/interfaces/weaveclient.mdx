@@ -3,7 +3,9 @@ title: "WeaveClient"
 description: "TypeScript SDK reference"
 ---
 
-<sub>Source: [src/weaveClient.ts:519](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L519)</sub>
+import { SourceLink } from '/snippets/_includes/source-link.mdx';
+
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L519" />
 
 ## Properties
 
@@ -11,7 +13,7 @@ description: "TypeScript SDK reference"
 
 > **projectId**: `string`
 
-<sub>Source: [src/weaveClient.ts:538](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L538)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L538" />
 
 ***
 
@@ -19,7 +21,7 @@ description: "TypeScript SDK reference"
 
 > **settings**: `object`
 
-<sub>Source: [src/weaveClient.ts:539](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L539)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L539" />
 
 #### attributes
 
@@ -89,7 +91,7 @@ Routes OTel-capable integrations through their OTel variant.
 
 > **traceServerApi**: `Api`\<`any`\>
 
-<sub>Source: [src/weaveClient.ts:537](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L537)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L537" />
 
 ## Methods
 
@@ -97,10 +99,10 @@ Routes OTel-capable integrations through their OTel variant.
 
 > **addScore**(`predictCallId`, `scorerCallId`, `runnableRefUri`, `scorerOutput`): `Promise`\<`string`\>
 
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L2165" />
+
 Add a scorer result (e.g., scorer output) to a call.
 Used in imperative evaluation to attach scorer results to predict calls.
-
-<sub>Source: [src/weaveClient.ts:2165](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L2165)</sub>
 
 #### Parameters
 
@@ -130,7 +132,7 @@ Used in imperative evaluation to attach scorer results to predict calls.
 
 > **createCall**(`internalCall`, `opRef`, `params`, `parameterNames`, `thisArg`, `currentCall`, `parentCall`, `startTime`, `displayName?`, `attributes?`, `eagerCallStart?`): `Promise`\<`void`\>
 
-<sub>Source: [src/weaveClient.ts:1994](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1994)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1994" />
 
 #### Parameters
 
@@ -180,7 +182,7 @@ Used in imperative evaluation to attach scorer results to predict calls.
 
 > **finishCall**(`call`, `result`, `currentCall`, `parentCall`, `summarize`, `endTime`, `startCallPromise`): `Promise`\<`void`\>
 
-<sub>Source: [src/weaveClient.ts:2068](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L2068)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L2068" />
 
 #### Parameters
 
@@ -222,7 +224,7 @@ Used in imperative evaluation to attach scorer results to predict calls.
 
 > **finishCallWithException**(`call`, `error`, `currentCall`, `parentCall`, `endTime`, `startCallPromise`): `Promise`\<`void`\>
 
-<sub>Source: [src/weaveClient.ts:2110](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L2110)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L2110" />
 
 #### Parameters
 
@@ -262,9 +264,9 @@ Used in imperative evaluation to attach scorer results to predict calls.
 
 > **flush**(): `Promise`\<`void`\>
 
-Deliver all buffered calls to the server. Await before `process.exit()`.
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L919" />
 
-<sub>Source: [src/weaveClient.ts:919](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L919)</sub>
+Deliver all buffered calls to the server. Await before `process.exit()`.
 
 #### Returns
 
@@ -276,7 +278,7 @@ Deliver all buffered calls to the server. Await before `process.exit()`.
 
 > **get**(`ref`): `Promise`\<`any`\>
 
-<sub>Source: [src/weaveClient.ts:1351](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1351)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1351" />
 
 #### Parameters
 
@@ -294,6 +296,8 @@ Deliver all buffered calls to the server. Await before `process.exit()`.
 
 > **getAgentCustomAttributes**(`options`): `Promise`\<[`Response`](../type-aliases/response)\<\{ `attributes?`: `object`[]; `has_more?`: `boolean`; `limit?`: `number`; `offset?`: `number`; \}\>\>
 
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L877" />
+
 Discover typed custom-attribute keys observed on agent spans in the
 project. Each result row is one `(source, key, value_type)` triple plus
 a count of how many spans carry it, which is what the spans
@@ -302,8 +306,6 @@ query/group/stats APIs use to reference custom attrs.
 Filter the spans considered by passing `query` (a structured span
 filter), `startedAfter` / `startedBefore` (ISO-8601), or both. Use
 `limit` / `offset` to page through the discovered keys.
-
-<sub>Source: [src/weaveClient.ts:877](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L877)</sub>
 
 #### Parameters
 
@@ -379,9 +381,9 @@ for (const attr of resp.data.attributes ?? []) {
 
 > **getAgents**(`options?`): `Promise`\<[`Response`](../type-aliases/response)\<[`GetAgentsResult`](../type-aliases/getagentsresult)\>\>
 
-List agents with aggregated stats.
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L593" />
 
-<sub>Source: [src/weaveClient.ts:593](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L593)</sub>
+List agents with aggregated stats.
 
 #### Parameters
 
@@ -413,10 +415,10 @@ console.log(`total count: ${resp.data.total_count}`)
 
 > **getAgentSpans**(`options`): `Promise`\<[`Response`](../type-aliases/response)\<[`GetAgentSpansResult`](../type-aliases/getagentspansresult)\>\>
 
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L671" />
+
 Query agent spans, optionally filtered by agent name and/or a mongo-style
 query expression.
-
-<sub>Source: [src/weaveClient.ts:671](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L671)</sub>
 
 #### Parameters
 
@@ -462,6 +464,8 @@ for (const span of resp.data.spans) {
 
 > **getAgentSpanStats**(`options`): `Promise`\<[`Response`](../type-aliases/response)\<\{ `bucket_type?`: `"number"` \| `"time"`; `columns?`: `object`[]; `end`: `string`; `granularity?`: `number` \| `null`; `rows?`: `Record`\<`string`, `string` \| `number` \| `boolean` \| `null`\>[]; `start`: `string`; `timezone`: `string`; \}\>\>
 
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L726" />
+
 Agregations over agent spans in the project, returned as rows + column
 metadata suitable for time-series / bucketed visualizations.
 
@@ -471,8 +475,6 @@ metadata suitable for time-series / bucketed visualizations.
 bucket rows by time, or `groupBy` to break results out per agent /
 provider / model / etc. `query` filters the underlying spans before
 aggregation.
-
-<sub>Source: [src/weaveClient.ts:726](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L726)</sub>
 
 #### Parameters
 
@@ -538,9 +540,9 @@ for (const row of resp.data.rows ?? []) {
 
 > **getAgentTurn**(`options`): `Promise`\<[`Response`](../type-aliases/response)\<\{ `agent_name?`: `string` \| `null`; `agent_version?`: `string` \| `null`; `feedback?`: `Record`\<`string`, `any`\>[] \| `null`; `messages?`: `object`[]; `provider?`: `string` \| `null`; `root_span_name?`: `string` \| `null`; `status_code?`: `"UNSET"` \| `"OK"` \| `"ERROR"` \| `null`; `total_cost_usd?`: `number` \| `null`; `total_duration_ms?`: `number` \| `null`; `trace_id`: `string`; \}\>\>
 
-Get data (including messages) for a single turn (by traceId).
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L760" />
 
-<sub>Source: [src/weaveClient.ts:760](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L760)</sub>
+Get data (including messages) for a single turn (by traceId).
 
 #### Parameters
 
@@ -576,9 +578,9 @@ for (const message of resp.data.messages ?? []) {
 
 > **getAgentTurns**(`options`): `Promise`\<[`Response`](../type-aliases/response)\<[`GetAgentTurnsResult`](../type-aliases/getagentturnsresult)\>\>
 
-Get data (including messages) for many turns (by conversationId).
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L793" />
 
-<sub>Source: [src/weaveClient.ts:793](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L793)</sub>
+Get data (including messages) for many turns (by conversationId).
 
 #### Parameters
 
@@ -618,9 +620,9 @@ console.log(`total turns: ${resp.data.total_turns}, has more: ${resp.data.has_mo
 
 > **getAgentVersions**(`options`): `Promise`\<[`Response`](../type-aliases/response)\<[`GetAgentVersionsResult`](../type-aliases/getagentversionsresult)\>\>
 
-List versions for a given agent.
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L627" />
 
-<sub>Source: [src/weaveClient.ts:627](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L627)</sub>
+List versions for a given agent.
 
 #### Parameters
 
@@ -652,7 +654,7 @@ console.log(`total count: ${resp.data.total_count}`)
 
 > **getCall**(`callId`, `includeCosts?`): `Promise`\<\{ `attributes`: `Record`\<`string`, `any`\>; `deleted_at?`: `string` \| `null`; `display_name?`: `string` \| `null`; `ended_at?`: `string` \| `null`; `exception?`: `string` \| `null`; `expire_at?`: `string` \| `null`; `id`: `string`; `inputs`: `Record`\<`string`, `any`\>; `op_name`: `string`; `output?`: `null`; `parent_id?`: `string` \| `null`; `project_id`: `string`; `started_at`: `string`; `storage_size_bytes?`: `number` \| `null`; `summary?`: `Record`\<`string`, `any`\>; `thread_id?`: `string` \| `null`; `total_storage_size_bytes?`: `number` \| `null`; `trace_id`: `string`; `turn_id?`: `string` \| `null`; `wb_run_id?`: `string` \| `null`; `wb_run_step?`: `number` \| `null`; `wb_run_step_end?`: `number` \| `null`; `wb_user_id?`: `string` \| `null`; `wb_username?`: `string` \| `null`; `setDisplayName`: `Promise`\<`void`\>; \}\>
 
-<sub>Source: [src/weaveClient.ts:1228](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1228)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1228" />
 
 #### Parameters
 
@@ -672,7 +674,7 @@ console.log(`total count: ${resp.data.total_count}`)
 
 > **getCalls**(`options?`): `Promise`\<`object`[]\>
 
-<sub>Source: [src/weaveClient.ts:1261](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1261)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1261" />
 
 ##### Parameters
 
@@ -688,7 +690,7 @@ console.log(`total count: ${resp.data.total_count}`)
 
 > **getCalls**(`options?`, `includeCosts?`, `limit?`): `Promise`\<`object`[]\>
 
-<sub>Source: [src/weaveClient.ts:1262](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1262)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1262" />
 
 ##### Parameters
 
@@ -712,7 +714,7 @@ console.log(`total count: ${resp.data.total_count}`)
 
 > **getCallsIterator**(`options?`, `includeCosts?`, `limit?`): `AsyncIterableIterator`\<[`CallSchema`](./callschema)\>
 
-<sub>Source: [src/weaveClient.ts:1283](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1283)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1283" />
 
 ##### Parameters
 
@@ -732,7 +734,7 @@ console.log(`total count: ${resp.data.total_count}`)
 
 > **getCallsIterator**(`options?`): `AsyncIterableIterator`\<[`CallSchema`](./callschema)\>
 
-<sub>Source: [src/weaveClient.ts:1288](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1288)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1288" />
 
 ##### Parameters
 
@@ -750,7 +752,7 @@ console.log(`total count: ${resp.data.total_count}`)
 
 > **getCallStack**(): `CallStack`
 
-<sub>Source: [src/weaveClient.ts:1901](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1901)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1901" />
 
 #### Returns
 
@@ -762,7 +764,7 @@ console.log(`total count: ${resp.data.total_count}`)
 
 > **getCurrentAttributes**(): `Record`\<`string`, `any`\>
 
-<sub>Source: [src/weaveClient.ts:1905](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1905)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1905" />
 
 #### Returns
 
@@ -774,9 +776,9 @@ console.log(`total count: ${resp.data.total_count}`)
 
 > **linkPromptToRegistry**(`prompt`, `options`): `Promise`\<\{ `version_index`: `number` \| `null`; \}\>
 
-Link a published prompt version into a registry portfolio.
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1510" />
 
-<sub>Source: [src/weaveClient.ts:1510](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1510)</sub>
+Link a published prompt version into a registry portfolio.
 
 #### Parameters
 
@@ -802,9 +804,9 @@ Link a published prompt version into a registry portfolio.
 
 > **pendingCallCount**(): `number`
 
-Calls buffered client-side but not yet delivered to the server.
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L924" />
 
-<sub>Source: [src/weaveClient.ts:924](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L924)</sub>
+Calls buffered client-side but not yet delivered to the server.
 
 #### Returns
 
@@ -816,7 +818,7 @@ Calls buffered client-side but not yet delivered to the server.
 
 > **publish**(`obj`, `objId?`): `Promise`\<[`ObjectRef`](../classes/objectref)\>
 
-<sub>Source: [src/weaveClient.ts:1216](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1216)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1216" />
 
 #### Parameters
 
@@ -834,7 +836,7 @@ Calls buffered client-side but not yet delivered to the server.
 
 > **pushNewCall**(): `object`
 
-<sub>Source: [src/weaveClient.ts:1909](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1909)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1909" />
 
 #### Returns
 
@@ -898,9 +900,9 @@ Calls buffered client-side but not yet delivered to the server.
 
 > **registerCustomRuntime**(`options`): `Promise`\<[`Response`](../type-aliases/response)\<\{ `api_key_secret`: `string` \| `null`; `base_url`: `string`; `headers`: `Record`\<`string`, `string`\>; `name`: `string`; `runtime_ids`: `object`[]; \}\>\>
 
-Register a custom runtime, replacing its complete configuration if it exists.
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L557" />
 
-<sub>Source: [src/weaveClient.ts:557](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L557)</sub>
+Register a custom runtime, replacing its complete configuration if it exists.
 
 #### Parameters
 
@@ -918,7 +920,7 @@ Register a custom runtime, replacing its complete configuration if it exists.
 
 > **runWithAttributes**\<`T`\>(`attributes`, `fn`): `T`
 
-<sub>Source: [src/weaveClient.ts:1917](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1917)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1917" />
 
 #### Type Parameters
 
@@ -942,7 +944,7 @@ Register a custom runtime, replacing its complete configuration if it exists.
 
 > **runWithCallStack**\<`T`\>(`callStack`, `fn`): `T`
 
-<sub>Source: [src/weaveClient.ts:1913](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1913)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1913" />
 
 #### Type Parameters
 
@@ -966,7 +968,7 @@ Register a custom runtime, replacing its complete configuration if it exists.
 
 > **saveCallEnd**(`callEnd`): `void`
 
-<sub>Source: [src/weaveClient.ts:1863](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1863)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1863" />
 
 #### Parameters
 
@@ -982,7 +984,7 @@ Register a custom runtime, replacing its complete configuration if it exists.
 
 > **saveCallStart**(`callStart`, `opts?`): `void`
 
-<sub>Source: [src/weaveClient.ts:1828](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1828)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1828" />
 
 #### Parameters
 
@@ -1071,7 +1073,7 @@ Register a custom runtime, replacing its complete configuration if it exists.
 
 > **saveOp**(`op`, `objId?`): `Promise`\<`OpRef`\>
 
-<sub>Source: [src/weaveClient.ts:1961](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1961)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1961" />
 
 #### Parameters
 
@@ -1091,6 +1093,8 @@ Register a custom runtime, replacing its complete configuration if it exists.
 
 > **searchAgents**(`options`): `Promise`\<[`Response`](../type-aliases/response)\<\{ `results`: `object`[]; `total_conversations?`: `number`; \}\>\>
 
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L835" />
+
 Full-text search across agent messages in the project. Returns hits
 grouped by conversation, with a preview of each matched message.
 
@@ -1098,8 +1102,6 @@ grouped by conversation, with a preview of each matched message.
 all messages matching the structured filters (`agentName`,
 `conversationId`, `traceId`) without text matching. Use `limit` /
 `offset` to page through results.
-
-<sub>Source: [src/weaveClient.ts:835](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L835)</sub>
 
 #### Parameters
 
@@ -1180,13 +1182,13 @@ console.log(`total conversations: ${resp.data.total_conversations}`);
 
 > **serializeAudio**(`data`, `audioType?`): `Promise`\<\{ `_type`: `"CustomWeaveType"`; `files`: `Record`\<`string`, `string`\>; `load_op`: `string`; `weave_type`: \{ `type`: `string`; \}; \}\>
 
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1765" />
+
 Upload raw audio bytes to the Weave content store and return the
 `CustomWeaveType` placeholder that can be embedded in a call output.
 
 Use this when building call outputs manually (e.g. via `saveCallEnd`)
 where the automatic serialization pipeline from `finishCall` is not used.
-
-<sub>Source: [src/weaveClient.ts:1765](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L1765)</sub>
 
 #### Parameters
 
@@ -1208,7 +1210,7 @@ where the automatic serialization pipeline from `finishCall` is not used.
 
 > **updateCall**(`callId`, `displayName`): `Promise`\<`void`\>
 
-<sub>Source: [src/weaveClient.ts:2148](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L2148)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L2148" />
 
 #### Parameters
 
@@ -1226,7 +1228,7 @@ where the automatic serialization pipeline from `finishCall` is not used.
 
 > **waitForBatchProcessing**(): `Promise`\<`void`\>
 
-<sub>Source: [src/weaveClient.ts:907](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L907)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L907" />
 
 #### Returns
 

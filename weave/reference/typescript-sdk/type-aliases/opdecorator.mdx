@@ -3,7 +3,11 @@ title: "OpDecorator<T>"
 description: "TypeScript SDK reference"
 ---
 
+import { SourceLink } from '/snippets/_includes/source-link.mdx';
+
 > **OpDecorator**\<`T`\> = (`value`, `context`) => `T` \| `void` & (`target`, `propertyKey`, `descriptor`) => `TypedPropertyDescriptor`\<`T`\> \| `void`
+
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/opType.ts#L43" />
 
 Helper type for decorators
 This represents a decorator function that can be used with both legacy and Stage 3 decorators.
@@ -16,8 +20,6 @@ For legacy decorators:
   target: The prototype (instance methods) or constructor (static methods)
   propertyKey: The method name
   descriptor: The property descriptor containing the method
-
-<sub>Source: [src/opType.ts:43](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/opType.ts#L43)</sub>
 
 ## Type Parameters
 

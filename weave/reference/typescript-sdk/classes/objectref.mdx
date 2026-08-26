@@ -3,14 +3,16 @@ title: "ObjectRef"
 description: "TypeScript SDK reference"
 ---
 
+import { SourceLink } from '/snippets/_includes/source-link.mdx';
+
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L24" />
+
 Represents a reference to a saved Weave object.
 
 Generally, end users will not need to interact with this class directly.
 
 An ObjectRef contains the project ID, object ID, and digest that uniquely identify
 a saved object in Weave's storage system.
-
-<sub>Source: [src/weaveObject.ts:24](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L24)</sub>
 
 ## Example
 
@@ -26,7 +28,7 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
 
 > **new ObjectRef**(`projectId`, `objectId`, `digest`): `ObjectRef`
 
-<sub>Source: [src/weaveObject.ts:25](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L25)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L25" />
 
 #### Parameters
 
@@ -46,7 +48,7 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
 
 > **digest**: `string`
 
-<sub>Source: [src/weaveObject.ts:28](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L28)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L28" />
 
 ***
 
@@ -54,7 +56,7 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
 
 > **objectId**: `string`
 
-<sub>Source: [src/weaveObject.ts:27](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L27)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L27" />
 
 ***
 
@@ -62,7 +64,7 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
 
 > **projectId**: `string`
 
-<sub>Source: [src/weaveObject.ts:26](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L26)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L26" />
 
 ## Methods
 
@@ -70,7 +72,7 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
 
 > **get**(): `Promise`\<`any`\>
 
-<sub>Source: [src/weaveObject.ts:65](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L65)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L65" />
 
 #### Returns
 
@@ -82,7 +84,7 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
 
 > **ui\_url**(): `string`
 
-<sub>Source: [src/weaveObject.ts:60](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L60)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L60" />
 
 #### Returns
 
@@ -94,7 +96,7 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
 
 > **uri**(): `string`
 
-<sub>Source: [src/weaveObject.ts:56](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L56)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L56" />
 
 #### Returns
 
@@ -106,9 +108,9 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
 
 > `static` **fromUri**(`uri`): `ObjectRef`
 
-Creates an ObjectRef from a Weave URI string.
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L43" />
 
-<sub>Source: [src/weaveObject.ts:43](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L43)</sub>
+Creates an ObjectRef from a Weave URI string.
 
 #### Parameters
 

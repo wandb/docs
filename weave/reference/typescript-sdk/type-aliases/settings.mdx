@@ -3,9 +3,11 @@ title: "Settings"
 description: "TypeScript SDK reference"
 ---
 
+import { SourceLink } from '/snippets/_includes/source-link.mdx';
+
 > **Settings** = `object`
 
-<sub>Source: [src/settings.ts:6](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/settings.ts#L6)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/settings.ts#L6" />
 
 ## Properties
 
@@ -13,9 +15,9 @@ description: "TypeScript SDK reference"
 
 > `readonly` **attributes**: `Record`\<`string`, `any`\>
 
-A map of attributes applied to every trace produced by this client.
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/settings.ts#L17" />
 
-<sub>Source: [src/settings.ts:17](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/settings.ts#L17)</sub>
+A map of attributes applied to every trace produced by this client.
 
 ***
 
@@ -23,7 +25,7 @@ A map of attributes applied to every trace produced by this client.
 
 > `readonly` **genai**: `object`
 
-<sub>Source: [src/settings.ts:34](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/settings.ts#L34)</sub>
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/settings.ts#L34" />
 
 #### batchOptions
 
@@ -52,9 +54,9 @@ How GenAI spans are exported.
 
 > `readonly` **printCallLink**: `boolean`
 
-Prints links in terminal to Weave UI for ops.
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/settings.ts#L12" />
 
-<sub>Source: [src/settings.ts:12](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/settings.ts#L12)</sub>
+Prints links in terminal to Weave UI for ops.
 
 #### Default
 
@@ -66,10 +68,10 @@ Prints links in terminal to Weave UI for ops.
 
 > **useCallsComplete**: `boolean`
 
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/settings.ts#L32" />
+
 Sends finished calls to the `calls/complete` endpoint (start+end paired
 client-side) instead of the legacy `call/upsert_batch` path.
-
-<sub>Source: [src/settings.ts:32](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/settings.ts#L32)</sub>
 
 #### Default
 
@@ -81,9 +83,9 @@ client-side) instead of the legacy `call/upsert_batch` path.
 
 > **useOTelV2**: `boolean`
 
-Routes OTel-capable integrations through their OTel variant.
+<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/settings.ts#L24" />
 
-<sub>Source: [src/settings.ts:24](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/settings.ts#L24)</sub>
+Routes OTel-capable integrations through their OTel variant.
 
 #### Default
 
