@@ -496,6 +496,170 @@ def _convert_parameters_sections_to_paramfields(content):
     return '\n'.join(out)
 
 
+_TYPE_PARAMS_HEADING_RE = re.compile(r'^(#{2,5}) Type Parameters$')
+
+
+def _section_end(lines, mask, start, level):
+    """Index of the line that ends a section opened by a heading at `level`:
+    the next heading at the same or shallower level, a `***` member
+    separator, or end of file."""
+    end_re = re.compile(r'^#{1,%d} ' % level)
+    for j in range(start, len(lines)):
+        if not mask[j] and (end_re.match(lines[j]) or lines[j] == '***'):
+            return j
+    return len(lines)
+
+
+def _convert_type_parameters_sections(content):
+    """Rewrite `Type Parameters` sections into <ParamField> rows.
+
+    TypeDoc emits one heading per type parameter with its constraint below
+    as chip fragments — and for an unconstrained parameter the "constraint"
+    is just the name again (`### T` followed by a lone `T` chip). Render a
+    single row instead: the name, with `extends ...` as the type text when
+    a constraint exists and nothing when there isn't one. No required
+    badge — optionality doesn't apply to generics.
+    """
+    lines = content.split('\n')
+    mask = _fence_mask(lines)
+    out = []
+    i = 0
+    while i < len(lines):
+        m = None if mask[i] else _TYPE_PARAMS_HEADING_RE.match(lines[i])
+        if not m:
+            out.append(lines[i])
+            i += 1
+            continue
+        level = len(m.group(1))
+        end = _section_end(lines, mask, i + 1, level)
+        entries = _parse_param_entries(lines, mask, i + 1, end, level + 1)
+        if not entries:
+            out.append(lines[i])
+            i += 1
+            continue
+        out.append(lines[i])
+        out.append('')
+        for n, entry in enumerate(entries):
+            if n:
+                out.append('')
+            type_attr = None
+            if entry['type_line']:
+                plain = _delink_and_unescape_type(
+                    entry['type_line'].replace('*extends*', 'extends'))
+                if plain != entry['name']:
+                    prefix = entry['name'] + ' '
+                    if plain.startswith(prefix):
+                        plain = plain[len(prefix):]
+                    type_attr = _compact_type(plain)
+            attrs = f' path={_jsx_attr(entry["name"])}'
+            if type_attr:
+                attrs += f' type={_jsx_attr(type_attr)}'
+            desc = entry['description']
+            if not desc:
+                out.append(f'<ParamField{attrs} />')
+            else:
+                out.append(f'<ParamField{attrs}>')
+                out.extend(f'  {d}' if d else '' for d in desc)
+                out.append('</ParamField>')
+        out.append('')
+        i = end
+    return '\n'.join(out)
+
+
+_RETURNS_HEADING_RE = re.compile(r'^(#{2,5}) Returns$')
+
+# Property signature blockquote: `> `optional` **displayName**: `string``.
+# The leading tags (`optional`, `readonly`, ...) are TypeDoc modifier chips.
+_PROP_SIG_RE = re.compile(r'^> ((?:`[a-z]+` )*)\*\*([^*~]+)\*\*: (.+)$')
+
+
+def _convert_returns_members_to_responsefields(content):
+    """Rewrite documented members of an object return type into
+    <ResponseField> rows.
+
+    A function returning an anonymous object gets one heading per member
+    under `Returns`, each holding a property-signature blockquote —
+    Mintlify renders those as quote bars, which reads as a misplaced
+    callout. ResponseField is the ParamField sibling purpose-built for
+    return payloads; the same badge policy applies (always-present members
+    get `required`, optional ones are unbadged). Sections where any member
+    doesn't parse cleanly (e.g. deprecated strikethrough names) are left
+    untouched rather than half-converted.
+    """
+    lines = content.split('\n')
+    mask = _fence_mask(lines)
+    out = []
+    i = 0
+    while i < len(lines):
+        m = None if mask[i] else _RETURNS_HEADING_RE.match(lines[i])
+        if not m:
+            out.append(lines[i])
+            i += 1
+            continue
+        level = len(m.group(1))
+        end = _section_end(lines, mask, i + 1, level)
+        head_re = re.compile(r'^#{%d} (.+)$' % (level + 1))
+        marks = [j for j in range(i + 1, end)
+                 if not mask[j] and head_re.match(lines[j])]
+        if not marks:
+            out.append(lines[i])
+            i += 1
+            continue
+
+        fields = []
+        parsed_all = True
+        for n, j in enumerate(marks):
+            body_end = marks[n + 1] if n + 1 < len(marks) else end
+            name = head_re.match(lines[j]).group(1).strip()
+            name = name.replace('\\_', '_').rstrip('?')
+            sig = None
+            desc = []
+            for k in range(j + 1, body_end):
+                pm = None if mask[k] else _PROP_SIG_RE.match(lines[k])
+                if sig is None and pm:
+                    sig = pm
+                    continue
+                desc.append(lines[k] if mask[k] else lines[k].lstrip())
+            if sig is None or '~~' in name:
+                parsed_all = False
+                break
+            while desc and desc[0] == '':
+                desc.pop(0)
+            while desc and desc[-1] == '':
+                desc.pop()
+            optional = '`optional`' in sig.group(1)
+            type_attr = _compact_type(_delink_and_unescape_type(sig.group(3)))
+            attrs = f' name={_jsx_attr(name)} type={_jsx_attr(type_attr)}'
+            if not optional:
+                attrs += ' required'
+            if desc:
+                field = [f'<ResponseField{attrs}>']
+                field.extend(f'  {d}' if d else '' for d in desc)
+                field.append('</ResponseField>')
+            else:
+                field = [f'<ResponseField{attrs} />']
+            fields.append(field)
+
+        if not parsed_all:
+            out.append(lines[i])
+            i += 1
+            continue
+
+        # Keep the section prefix (the `object` type chip and any
+        # description) as-is, then emit the converted member rows.
+        out.append(lines[i])
+        out.extend(lines[i + 1:marks[0]])
+        if out and out[-1] != '':
+            out.append('')
+        for n, field in enumerate(fields):
+            if n:
+                out.append('')
+            out.extend(field)
+        out.append('')
+        i = end
+    return '\n'.join(out)
+
+
 def _convert_function_signatures_to_code_blocks(content):
     """Replace call-signature blockquotes with syntax-highlighted fences.
 
@@ -750,6 +914,8 @@ description: "TypeScript SDK reference"
         if title.startswith("Function:"):
             content = _convert_function_signatures_to_code_blocks(content)
         content = _convert_parameters_sections_to_paramfields(content)
+        content = _convert_type_parameters_sections(content)
+        content = _convert_returns_members_to_responsefields(content)
 
         # Render source-link metadata with the site's shared SourceLink
         # button (a compact right-floated pill, styled by `.source-link` in

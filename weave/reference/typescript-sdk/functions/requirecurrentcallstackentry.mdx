@@ -15,22 +15,12 @@ requireCurrentCallStackEntry(): object
 
 `object`
 
-### callId
+<ResponseField name="callId" type="string" required />
 
-> **callId**: `string`
+<ResponseField name="childSummary" type="Record<string, any>" required />
 
-### childSummary
+<ResponseField name="displayName" type="string" />
 
-> **childSummary**: `Record`\<`string`, `any`\>
+<ResponseField name="opName" type="string" />
 
-### displayName
-
-> `optional` **displayName**: `string`
-
-### opName
-
-> `optional` **opName**: `string`
-
-### traceId
-
-> **traceId**: `string`
+<ResponseField name="traceId" type="string" required />
