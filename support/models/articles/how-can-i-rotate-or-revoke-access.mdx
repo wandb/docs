@@ -29,7 +29,7 @@ curl -sS -X POST \
 
 Include this output in your support request. An exposed key isn't always owned by someone in your organization: it can belong to a personal account or to a different W&B instance, which changes who can revoke it.
 
-To audit which users created or deleted API keys on Dedicated Cloud or Self-Managed, use the `user:create_api_key` and `user:delete_api_key` actions in [audit logs](/platform/hosting/monitoring-usage/audit-logging).
+To confirm that a key was rotated, look for the `user:create_api_key` and `user:delete_api_key` actions in [audit logs](/platform/hosting/monitoring-usage/audit-logging), which lists the deployments where audit logs are available.
 
 ---
 
