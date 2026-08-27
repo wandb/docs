@@ -1,12 +1,42 @@
 ---
 title: "How can I rotate or revoke access?"
-keywords: ["Administrator", "Security"]
+keywords: ["Administrator", "Security", "API Keys"]
 ---
 
-You can rotate or revoke personal and service account keys. Create a new API key or service account user, then reconfigure your scripts to use the new key. After your scripts use the new key, remove the old API key from your profile or team.
+You can rotate or revoke personal and service account keys yourself, as long as you can sign in to the account that owns the key. Create a new API key or service account user, reconfigure your scripts to use the new key, then delete the old key. For the steps, see [API keys](/platform/app/settings-page/user-settings#api-keys).
+
+## Revoke a key when you can't sign in to the account
+
+Self-service revocation only covers accounts you can sign in to. If the key belongs to someone who has left your organization, to an account you have lost access to, or to a user you can't identify, contact W&B Support. Include the following in your request:
+
+- Your own full name and email address. W&B locates the key from the requester's identity and can't act on a request that omits either.
+- The email address of the account that owns the key, if you know it.
+- The last few characters of the key, if you have the key string.
+
+W&B requires approval from an admin or owner in your organization before deleting another user's API key. Name your approver in the request to avoid a delay.
+
+## Identify who owns an exposed key
+
+If you found an exposed key but don't know whose it is, call the `viewer` GraphQL query with it. The response names the account the key belongs to:
+
+```bash
+curl -sS -X POST \
+  -u "api:${WANDB_API_KEY}" \
+  "https://api.wandb.ai/graphql" \
+  -H "Content-Type: application/json" \
+  --data-raw '{"query":"query Viewer { viewer { id username email admin } }"}'
+```
+
+```json
+{"data":{"viewer":{"id":"VXNlcjoxMjM0NTY3","username":"example-user","email":"user@example.com","admin":false}}}
+```
+
+Include this output in your support request. An exposed key isn't always owned by someone in your organization: it can belong to a personal account or to a different W&B instance, which changes who can revoke it.
+
+To audit which users created or deleted API keys on Dedicated Cloud or Self-Managed, use the `user:create_api_key` and `user:delete_api_key` actions in [audit logs](/platform/hosting/monitoring-usage/audit-logging).
 
 ---
 
 {/* AUTO-GENERATED: tab badges */}
-<Badge stroke shape="pill" color="orange" size="md">[Administrator](/support/models/tags/administrator)</Badge><Badge stroke shape="pill" color="orange" size="md">[Security](/support/models/tags/security)</Badge>
+<Badge stroke shape="pill" color="orange" size="md">[Administrator](/support/models/tags/administrator)</Badge><Badge stroke shape="pill" color="orange" size="md">[Security](/support/models/tags/security)</Badge><Badge stroke shape="pill" color="orange" size="md">[API Keys](/support/models/tags/api-keys)</Badge>
 {/* END AUTO-GENERATED: tab badges */}
