@@ -63,7 +63,7 @@ You can create, modify, and save views through the UI or directly in the Weave P
     3. At the bottom of the menu, click **Traces** or **Evals**. The default view displays.
   </Tab>
   <Tab title="Python">
-    The `SavedView` class in Weave lets you save, filter, sort, and customize views of trace and evals data. The following sections walk through how to initialize a view, configure its columns and filters, and persist it so you can retrieve matching calls later.
+    The `SavedView` class in Weave lets you save, filter, sort, and customize views of trace and evals data. The following sections walk through how to initialize a view, configure its columns and filters, and persist it so you can retrieve matching Calls later.
 
     ### Initialize a `SavedView`
 
@@ -119,7 +119,7 @@ You can create, modify, and save views through the UI or directly in the Weave P
     ### Filter by operation name
 
     In Weave, every trace or eval is associated with an operation name.
-    Use `.filter_op()` to filter the `SavedView` to only include calls where that specific operation ran.
+    Use `.filter_op()` to filter the `SavedView` to only include Calls where that specific operation ran.
 
     ```python lines
     view.filter_op("Evaluation.predict_and_score")
