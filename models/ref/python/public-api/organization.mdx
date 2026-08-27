@@ -7,16 +7,16 @@ namespace: wandb.apis.public.organizations
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/organizations.py#LNone" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/organizations.py#L27" />
 
 
 
 ## <kbd>class</kbd> wandb.apis.public.Organization
 ```python
-service_api: 'InitVar[ServiceApi]', *,
+serviceApi: 'InitVar[ServiceApi]', *,
 id: 'GQLId',
 name: 'str',
-org_entity: '_OrgEntity'
+orgEntity: '_OrgEntity'
 ```
 
 
@@ -30,10 +30,10 @@ Users should never need to instantiate this class directly. Use
 
 ## Args
 
-- `service_api`: 
+- `serviceApi`: 
 - `id`: 
 - `name`: 
-- `org_entity`: 
+- `orgEntity`: 
 
 
 

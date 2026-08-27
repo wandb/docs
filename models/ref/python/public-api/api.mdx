@@ -7,7 +7,7 @@ namespace: wandb.apis.public.api
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/api.py#L105" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/api.py#L101" />
 
 
 
@@ -900,7 +900,10 @@ start: 'str | None' = None
 Returns a lazy iterator of `Registry` objects.
 
 Use the iterator to search and filter registries, collections,
-or artifact versions across your organization's registry.
+or artifact versions across your organization's registry. Results are
+fetched lazily as you iterate, so you can stop after any number of
+items—for example, with :func:`itertools.islice`—without requesting
+the rest.
 
 ##### Arguments
 
@@ -1032,7 +1035,8 @@ wandb.Api.reports("entity/project")
 ### <kbd>method</kbd> Api.run()
 
 ```python
-(self, path='')
+self,
+path: 'str' = ''
 ```
 
 Return a single run by parsing path in the form `entity/project/run_id`.
