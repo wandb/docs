@@ -1,0 +1,45 @@
+---
+title: wandb leet inspect
+---
+
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
+
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.29.0/wandb/cli/leet.py#L113" />
+
+
+
+## Usage
+
+```bash
+inspect [OPTIONS] [PATH]
+```
+
+## Description
+
+Browse the raw records in a run's .wandb transaction log.
+
+Opens a browsable list of the records stored in the log next to a
+text view of the selected record. When stdout is not a terminal,
+prints the records as text instead, e.g.:
+
+    wandb leet inspect run.wandb | less
+
+PATH can be a .wandb file, a run directory containing one, or a
+wandb directory. If PATH is not provided, the latest run is used.
+
+
+
+## Arguments
+
+| Name | Default | Type |
+|------|---------|------|
+| `path` | STR | False |
+
+
+## Options
+
+| Flag | Type | Description |
+|------|------|-------------|
+| `-h, --help` | BOOL Flag | Show this message and exit. **Default**: False |
+

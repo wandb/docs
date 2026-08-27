@@ -7,7 +7,7 @@ namespace: wandb.sdk.wandb_run
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py#L407" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py#L406" />
 
 
 
@@ -73,7 +73,11 @@ Static config object associated with this run.
 
 ### <kbd>property</kbd> dir
 
-The directory where files associated with the run are saved.
+The directory where a run's files are saved.
+
+This refers to files saved with `run.save()`, including automatically
+created files for certain data types passed to `run.log()`. For the
+directory containing all of a run's data, see `run.sync_dir`.
 
 ### <kbd>property</kbd> disabled
 
@@ -177,6 +181,12 @@ URL of the sweep associated with the run, if there is one.
 
 Offline runs do not have a sweep URL.
 
+### <kbd>property</kbd> sync_dir
+
+The directory containing all of a run's data.
+
+This can be passed to `wandb sync` to upload or re-upload the run.
+
 ### <kbd>property</kbd> tags
 
 Tags associated with the run, if there are any.
@@ -222,7 +232,6 @@ step_metric: 'str | wandb_metric.Metric | None' = None,
 step_sync: 'bool | None' = None,
 hidden: 'bool | None' = None,
 summary: 'str | None' = None,
-goal: 'str | None' = None,
 overwrite: 'bool | None' = None
 ```
 
@@ -234,8 +243,7 @@ Customize metrics logged with `wandb.Run.log()`.
 - `step_metric`: The name of another metric to serve as the X-axis for this metric in automatically generated charts.
 - `step_sync`: Automatically insert the last value of step_metric into `wandb.Run.log()` if it is not provided explicitly. Defaults to True if step_metric is specified.
 - `hidden`: Hide this metric from automatic plots.
-- `summary`: Specify aggregate metrics added to summary. Supported aggregations include "min", "max", "mean", "last", "first", "best", "copy" and "none". "none" prevents a summary from being generated. "best" is used together with the goal parameter, "best" is deprecated and should not be used, use "min" or "max" instead. "copy" is deprecated and should not be used.
-- `goal`: Specify how to interpret the "best" summary type. Supported options are "minimize" and "maximize". "goal" is deprecated and should not be used, use "min" or "max" instead.
+- `summary`: Specify aggregate metrics added to summary. Supported aggregations include "min", "max", "mean", "last", "first", "copy" and "none". "none" prevents a summary from being generated. "copy" is deprecated and should not be used.
 - `overwrite`: If false, then this call is merged with previous `define_metric` calls for the same metric by using their values for any unspecified parameters. If true, then unspecified parameters overwrite values specified by previous calls.
 
 
@@ -263,8 +271,7 @@ Display this run in Jupyter.
 
 ```python
 self,
-exit_code: 'int | None' = None,
-quiet: 'bool | None' = None
+exit_code: 'int | None' = None
 ```
 
 Finish a run and upload any remaining data.
@@ -282,7 +289,6 @@ Run States:
 ##### Arguments
 
 - `exit_code`: Integer indicating the run's exit status. Use 0 for success, any other value marks the run as failed.
-- `quiet`: Deprecated. Configure logging verbosity using `wandb.Settings(quiet=...)`.
 
 
 
@@ -350,6 +356,33 @@ View linked artifacts in the Registry UI for the specified collection.
 
 
 
+
+##### Examples
+
+```python
+import wandb
+
+entity = "team_entity"
+project = "project_name"
+
+artifact_name = "artifact_name"
+artifact_type = "artifact_type"
+local_path = "path/to/local/file"
+
+registry_name = "registry_name"
+collection_name = "collection_name"
+target_path = f"wandb-registry-{registry_name}/{collection_name}"
+
+with wandb.init(entity=entity, project=project) as run:
+    # Create an artifact object
+    artifact = wandb.Artifact(name=artifact_name, type=artifact_type)
+
+    # Add the file to the artifact object.
+    artifact.add_file(local_path=local_path)
+
+    # Link the artifact to the collection
+    run.link_artifact(artifact=artifact, target_path=target_path)
+```
 
 ### <kbd>method</kbd> Run.link_model()
 
@@ -595,7 +628,7 @@ with wandb.init() as run:
         size=(10, 3, 100, 100),
         dtype=np.uint8,
     )
-    run.log({"video": wandb.Video(frames, fps=4)})
+    run.log({"video": wandb.Video(frames, format="mp4", fps=4)})
 ```
 
 Matplotlib plot

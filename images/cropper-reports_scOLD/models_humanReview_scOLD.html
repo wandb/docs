@@ -1,0 +1,44 @@
+<!doctype html><html><head><meta charset='utf-8'><title>Human review needed: models</title><style>
+body { font-family: -apple-system, Helvetica, sans-serif; margin: 0; background: #f4f4f6; }
+header { position: sticky; top: 0; background: #1a1c1f; color: #fff; padding: 10px 16px;
+         z-index: 2; font-size: 14px; }
+header b { color: #ffcc33; }
+.row { background: #fff; margin: 14px; padding: 12px; border-radius: 8px;
+       box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+.meta { font-size: 13px; color: #333; margin-bottom: 8px; word-break: break-all; }
+.meta a { color: #0b6ec5; }
+.reason { color: #a04b00; font-size: 13px; }
+.pair { display: flex; gap: 12px; }
+.pair figure { flex: 1; margin: 0; min-width: 0; }
+.pair figcaption { font-size: 12px; color: #666; margin-bottom: 4px; }
+img { max-width: 100%; height: auto; border: 1px solid #ddd; background:
+      repeating-conic-gradient(#eee 0% 25%, #fff 0% 50%) 0 0/16px 16px; }
+button.copy { font-size: 12px; padding: 3px 10px; margin: 4px 8px 4px 0; cursor: pointer;
+              border: 1px solid #bbb; border-radius: 5px; background: #f7f7f7; }
+button.copy:active { background: #d9efe3; }
+code.cmd { font-size: 12px; background: #f0f0f2; padding: 2px 6px; border-radius: 4px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 14px; margin: 14px; }
+.grid .row { margin: 0; }
+</style></head><body>
+<script>
+function copyCmd(btn, cmd) {
+  function done() { btn.textContent = 'copied!'; setTimeout(() => btn.textContent = btn.dataset.label, 1200); }
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(cmd).then(done);
+  } else {  // file:// pages are not a secure context in every browser
+    const ta = document.createElement('textarea');
+    ta.value = cmd; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta); done();
+  }
+}
+</script>
+<header><b>Human review needed: models</b> &mdash; 1 images need a human decision &mdash; nothing was modified &mdash; open ALL in Preview: <code class='cmd'>/Users/aguspan/Docs/docs/images/cropper-reports_scOLD/models_openMisfits_scOLD.sh</code><button class="copy" data-label="copy script path" onclick="copyCmd(this, '/Users/aguspan/Docs/docs/images/cropper-reports_scOLD/models_openMisfits_scOLD.sh')">copy script path</button></header>
+<div class="row">
+ <div class="meta"><a href="../models/create_registered_model_1.png">/Users/aguspan/Docs/docs/images/models/create_registered_model_1.png</a><br>
+  <button class="copy" data-label="copy open-to-edit command" onclick="copyCmd(this, 'open -a \&#x27;Preview\&#x27; \&#x27;/Users/aguspan/Docs/docs/images/models/create_registered_model_1.png\&#x27;')">copy open-to-edit command</button>
+  <code class="cmd">open -a &#x27;Preview&#x27; &#x27;/Users/aguspan/Docs/docs/images/models/create_registered_model_1.png&#x27;</code><br>
+  <span class="reason">misfit/low &mdash;
+  merged layered bar segments down to y=105; wide left-nav variant, 533px (25% of width) - vision must confirm real nav (not content sidebar / annotated); vision pass: annotation box drawn on a sidebar item - cropping would chop it (few-shot labeled)</span></div>
+ <a href="../models/create_registered_model_1.png"><img loading="lazy" src="../models/create_registered_model_1.png"></a>
+</div></body></html>
