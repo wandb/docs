@@ -141,6 +141,27 @@ Return the best run sorted by the metric defined in config or the order passed i
 
 
 
+### <kbd>method</kbd> Sweep.enqueue_run()
+
+```python
+self,
+config: 'dict',
+display_name: 'str | None' = None
+```
+
+Enqueue a run for the sweep.
+
+##### Arguments
+
+- `config`: The config for the run.
+- `display_name`: The optional display name for the run.
+
+
+##### Raises
+
+- `UnsupportedError`: If the server doesn't support enqueuing sweep runs.
+
+
 ### <kbd>method</kbd> Sweep.get()
 
 ```python

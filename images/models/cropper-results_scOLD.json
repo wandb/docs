@@ -1,0 +1,533 @@
+{
+ "root": "/Users/aguspan/Docs/docs/images/models",
+ "images": [
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/compare-mode-fan-out-by-index.png",
+   "width": 1132,
+   "height": 718,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/compare-mode-fan-out-by-step.png",
+   "width": 1132,
+   "height": 718,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/compare-mode-fan-out-none.png",
+   "width": 1132,
+   "height": 718,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "small content fragment at rows 0-4 hugging the top edge, then blank rows (possible sloppy partial crop)",
+    "vision pass: media compare view already cropped to content; top-edge fragment is a cursor artifact"
+   ],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/conect_to_slack_fmnist.png",
+   "width": 3440,
+   "height": 1228,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/connect_to_slack.png",
+   "width": 3426,
+   "height": 1528,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/create_registered_model_1.png",
+   "width": 2150,
+   "height": 1282,
+   "category": "misfit",
+   "confidence": "low",
+   "crop_box": [
+    534,
+    106
+   ],
+   "reasons": [
+    "merged layered bar segments down to y=105",
+    "wide left-nav variant, 533px (25% of width) - vision must confirm real nav (not content sidebar / annotated)",
+    "vision pass: annotation box drawn on a sidebar item - cropping would chop it (few-shot labeled)"
+   ],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/create_registered_model_3.png",
+   "width": 2126,
+   "height": 1932,
+   "category": "top",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    128
+   ],
+   "reasons": [
+    "merged layered bar segments down to y=127"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/images/models/create_registered_model_3_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/create_registered_model_model_reg_app.png",
+   "width": 3444,
+   "height": 1968,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    744,
+    142
+   ],
+   "reasons": [
+    "wide left-nav variant, 742px (22% of width) - vision must confirm real nav (not content sidebar / annotated)",
+    "vision pass: expanded nav confirmed (few-shot labeled); preview verified"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/images/models/create_registered_model_model_reg_app_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/model-tags-modelregview.png",
+   "width": 2110,
+   "height": 824,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/model_card_credit_example.png",
+   "width": 3424,
+   "height": 1766,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "divider at x=221 but region ink 0.004 outside rail range (empty gutter or dense content)",
+    "divider at x=222 but region ink 0.004 outside rail range (empty gutter or dense content)",
+    "divider at x=223 but region ink 0.004 outside rail range (empty gutter or dense content)"
+   ],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/model_card_example.png",
+   "width": 3422,
+   "height": 1764,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/model_lineage_example.png",
+   "width": 3134,
+   "height": 1164,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/model_reg_landing_page.png",
+   "width": 1072,
+   "height": 456,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/models_landing_page.png",
+   "width": 2778,
+   "height": 1554,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/mr1c.png",
+   "width": 960,
+   "height": 411,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/organize-models-model-reg-landing.png",
+   "width": 2810,
+   "height": 1994,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    658,
+    132
+   ],
+   "reasons": [
+    "wide left-nav variant, 656px (23% of width) - vision must confirm real nav (not content sidebar / annotated)",
+    "vision pass: expanded nav confirmed (few-shot labeled); preview verified"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/images/models/organize-models-model-reg-landing_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/organize-models-seleticon.png",
+   "width": 2804,
+   "height": 1636,
+   "category": "top",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    124
+   ],
+   "reasons": [
+    "merged layered bar segments down to y=123",
+    "divider at x=158 but region ink 0.002 outside rail range (empty gutter or dense content)",
+    "divider at x=159 but region ink 0.002 outside rail range (empty gutter or dense content)"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/images/models/organize-models-seleticon_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/view_linked_model_artifacts_browser.png",
+   "width": 3562,
+   "height": 1396,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    140,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/images/models/view_linked_model_artifacts_browser_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/view_linked_model_registry.png",
+   "width": 2852,
+   "height": 1192,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/webhook_name_automation.png",
+   "width": 2152,
+   "height": 1208,
+   "category": "top",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    106
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/images/models/webhook_name_automation_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/webhook_new_version_reg_model.png",
+   "width": 2158,
+   "height": 980,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/webhook_select_event.png",
+   "width": 2142,
+   "height": 916,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/webhook_ui.png",
+   "width": 2610,
+   "height": 1764,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/webhooks_select_from_dropdown.png",
+   "width": 2146,
+   "height": 982,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/llm-evaluation-jobs/evaluate-hosted-model-example.png",
+   "width": 408,
+   "height": 839,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/llm-evaluation-jobs/evaluate-model-checkpoint-example.png",
+   "width": 410,
+   "height": 706,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/llm-evaluation-jobs/hosted-model-job-example.png",
+   "width": 748,
+   "height": 1840,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    2
+   ],
+   "reasons": [
+    "trimmed 2px residual dark sliver at top",
+    "divider at x=40 but region ink 0.000 outside rail range (empty gutter or dense content)"
+   ],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/llm-evaluation-jobs/hosted-model-leaderboard-example.png",
+   "width": 3452,
+   "height": 1818,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    101,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/images/models/llm-evaluation-jobs/hosted-model-leaderboard-example_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/llm-evaluation-jobs/model-checkpoint-job-example.png",
+   "width": 375,
+   "height": 919,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/llm-evaluation-jobs/model-checkpoint-leaderboard-example.png",
+   "width": 3354,
+   "height": 1552,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "vision correction per user: leaderboard table content - the detected divider was a table column border; crop clipped the title text; fully reverted"
+   ],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/pinned-and-baseline-runs/baseline-run-visual-distinction.png",
+   "width": 836,
+   "height": 424,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "small content fragment at rows 0-12 hugging the top edge, then blank rows (possible sloppy partial crop)",
+    "vision pass: chart panel snippet, no chrome"
+   ],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/pinned-and-baseline-runs/baseline_run_deltas.png",
+   "width": 2196,
+   "height": 693,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    112,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/images/models/pinned-and-baseline-runs/baseline_run_deltas_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/pinned-and-baseline-runs/line-plot-baseline-comparison.png",
+   "width": 465,
+   "height": 324,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/pinned-and-baseline-runs/line-plot-baseline-run-foreground.png",
+   "width": 465,
+   "height": 324,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/pinned-and-baseline-runs/line-plot-point-details.png",
+   "width": 465,
+   "height": 324,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/pinned-and-baseline-runs/runs-table-with-pinned-and-baseline-runs.png",
+   "width": 274,
+   "height": 448,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/pinned-and-baseline-runs/runs-table-with-pinned-runs.png",
+   "width": 274,
+   "height": 448,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  }
+ ]
+}

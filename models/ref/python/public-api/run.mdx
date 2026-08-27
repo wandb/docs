@@ -180,6 +180,49 @@ use_cache: 'bool' = True
 
 
 
+### <kbd>method</kbd> Run.console_logs()
+
+```python
+self, *,
+per_page: 'int' = 1000,
+last: 'int | None' = None
+```
+
+Return the run's captured console output.
+
+While a run is running, W&B captures what its process writes to
+stdout and stderr and records it as the run's console log — the
+same log shown in the "Logs" tab of the run page in the W&B App.
+This reads that log back, for finished and still-running runs
+alike.
+
+##### Arguments
+
+- `per_page`: Number of lines to fetch per request when reading the log from the beginning. Ignored when `last` is given.
+- `last`: If set, fetch only the last N lines of the log in a single request — useful for checking on a live run or diagnosing a crash. The backend caps how many lines one request returns, so a larger tail comes back truncated to the newest lines.
+
+
+##### Raises
+
+- `CommError`: When iterating, if a request fails. Reading the log from the beginning requires W&B server 0.77 or newer; on older servers, read the last N lines instead.
+
+
+##### Examples
+
+```python
+import wandb
+
+run = wandb.Api().run("entity/project/run_id")
+
+# Read the whole log, oldest line first.
+for line in run.console_logs():
+    print(line.content)
+
+# Read only the last 100 lines.
+for line in run.console_logs(last=100):
+    print(line.timestamp, line.content)
+```
+
 ### <kbd>method</kbd> Run.create()
 
 ```python
@@ -463,7 +506,7 @@ Returns an iterable collection of all history records for a run.
 
 ##### Arguments
 
-- `keys`: list of metrics to read from the run's history. if no keys are provided then all metrics will be returned.
+- `keys`: List of metrics to read from the run's history. The scan only returns rows that contain all of the requested keys. If the keys were logged at different steps, use separate calls for each key or omit this argument. If no keys are provided, all metrics are returned.
 - `page_size`: the number of history records to read at a time.
 - `min_step`: The minimum step to start reading history from (inclusive).
 - `max_step`: The maximum step to read history up to (exclusive).

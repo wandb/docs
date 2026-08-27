@@ -7,7 +7,7 @@ namespace: wandb.apis.public.registries.registry
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/registries/registry.py#L38" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/registries/registry.py#L36" />
 
 
 
@@ -79,6 +79,13 @@ Full name of the registry including the `wandb-registry-` prefix.
 ### <kbd>property</kbd> id
 
 The unique ID for this registry.
+
+### <kbd>property</kbd> internal_id
+
+The GraphQL `internalId` for this registry's backing project, if fetched.
+
+This is a base64-encoded global ID. When decoded, it looks like
+`Project:123` or `ProjectInternalId:123`.
 
 ### <kbd>property</kbd> name
 
@@ -348,6 +355,7 @@ Returns the current member users of this registry.
 ```python
 self,
 filter: 'dict[str, Any] | None' = None,
+order: '_VersionOrder | None' = None,
 per_page: 'PositiveInt' = 100,
 start: 'str | None' = None
 ```
@@ -357,6 +365,7 @@ Returns the artifact versions belonging to this registry.
 ##### Arguments
 
 - `filter`: Optional mapping of filters to apply to the artifact versions query.
+- `order`: Optional string to specify the order of the results. Order can be `created_at`, `artifact_size`, or `linked_at`. If prefixed with '+', sorts ascending (default). If prefixed with '-', sorts descending.
 - `per_page`: The number of results to fetch per page. Usually there is no reason to change this.
 - `start`: Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
 

@@ -1,0 +1,148 @@
+<!doctype html><html><head><meta charset='utf-8'><title>No action needed: models</title><style>
+body { font-family: -apple-system, Helvetica, sans-serif; margin: 0; background: #f4f4f6; }
+header { position: sticky; top: 0; background: #1a1c1f; color: #fff; padding: 10px 16px;
+         z-index: 2; font-size: 14px; }
+header b { color: #ffcc33; }
+.row { background: #fff; margin: 14px; padding: 12px; border-radius: 8px;
+       box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+.meta { font-size: 13px; color: #333; margin-bottom: 8px; word-break: break-all; }
+.meta a { color: #0b6ec5; }
+.reason { color: #a04b00; font-size: 13px; }
+.pair { display: flex; gap: 12px; }
+.pair figure { flex: 1; margin: 0; min-width: 0; }
+.pair figcaption { font-size: 12px; color: #666; margin-bottom: 4px; }
+img { max-width: 100%; height: auto; border: 1px solid #ddd; background:
+      repeating-conic-gradient(#eee 0% 25%, #fff 0% 50%) 0 0/16px 16px; }
+button.copy { font-size: 12px; padding: 3px 10px; margin: 4px 8px 4px 0; cursor: pointer;
+              border: 1px solid #bbb; border-radius: 5px; background: #f7f7f7; }
+button.copy:active { background: #d9efe3; }
+code.cmd { font-size: 12px; background: #f0f0f2; padding: 2px 6px; border-radius: 4px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 14px; margin: 14px; }
+.grid .row { margin: 0; }
+</style></head><body>
+<script>
+function copyCmd(btn, cmd) {
+  function done() { btn.textContent = 'copied!'; setTimeout(() => btn.textContent = btn.dataset.label, 1200); }
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(cmd).then(done);
+  } else {  // file:// pages are not a secure context in every browser
+    const ta = document.createElement('textarea');
+    ta.value = cmd; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta); done();
+  }
+}
+</script>
+<header><b>No action needed: models</b> &mdash; 28 images confidently already-cropped / chrome-free</header><div class='grid'>
+<div class="row">
+ <div class="meta"><a href="../models/compare-mode-fan-out-by-index.png">compare-mode-fan-out-by-index.png</a></div>
+ <a href="../models/compare-mode-fan-out-by-index.png"><img loading="lazy" src="../models/compare-mode-fan-out-by-index.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../models/compare-mode-fan-out-by-step.png">compare-mode-fan-out-by-step.png</a></div>
+ <a href="../models/compare-mode-fan-out-by-step.png"><img loading="lazy" src="../models/compare-mode-fan-out-by-step.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../models/compare-mode-fan-out-none.png">compare-mode-fan-out-none.png</a></div>
+ <a href="../models/compare-mode-fan-out-none.png"><img loading="lazy" src="../models/compare-mode-fan-out-none.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../models/conect_to_slack_fmnist.png">conect_to_slack_fmnist.png</a></div>
+ <a href="../models/conect_to_slack_fmnist.png"><img loading="lazy" src="../models/conect_to_slack_fmnist.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../models/connect_to_slack.png">connect_to_slack.png</a></div>
+ <a href="../models/connect_to_slack.png"><img loading="lazy" src="../models/connect_to_slack.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../models/model-tags-modelregview.png">model-tags-modelregview.png</a></div>
+ <a href="../models/model-tags-modelregview.png"><img loading="lazy" src="../models/model-tags-modelregview.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../models/model_card_credit_example.png">model_card_credit_example.png</a></div>
+ <a href="../models/model_card_credit_example.png"><img loading="lazy" src="../models/model_card_credit_example.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../models/model_card_example.png">model_card_example.png</a></div>
+ <a href="../models/model_card_example.png"><img loading="lazy" src="../models/model_card_example.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../models/model_lineage_example.png">model_lineage_example.png</a></div>
+ <a href="../models/model_lineage_example.png"><img loading="lazy" src="../models/model_lineage_example.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../models/model_reg_landing_page.png">model_reg_landing_page.png</a></div>
+ <a href="../models/model_reg_landing_page.png"><img loading="lazy" src="../models/model_reg_landing_page.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../models/models_landing_page.png">models_landing_page.png</a></div>
+ <a href="../models/models_landing_page.png"><img loading="lazy" src="../models/models_landing_page.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../models/mr1c.png">mr1c.png</a></div>
+ <a href="../models/mr1c.png"><img loading="lazy" src="../models/mr1c.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../models/view_linked_model_registry.png">view_linked_model_registry.png</a></div>
+ <a href="../models/view_linked_model_registry.png"><img loading="lazy" src="../models/view_linked_model_registry.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../models/webhook_new_version_reg_model.png">webhook_new_version_reg_model.png</a></div>
+ <a href="../models/webhook_new_version_reg_model.png"><img loading="lazy" src="../models/webhook_new_version_reg_model.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../models/webhook_select_event.png">webhook_select_event.png</a></div>
+ <a href="../models/webhook_select_event.png"><img loading="lazy" src="../models/webhook_select_event.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../models/webhook_ui.png">webhook_ui.png</a></div>
+ <a href="../models/webhook_ui.png"><img loading="lazy" src="../models/webhook_ui.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../models/webhooks_select_from_dropdown.png">webhooks_select_from_dropdown.png</a></div>
+ <a href="../models/webhooks_select_from_dropdown.png"><img loading="lazy" src="../models/webhooks_select_from_dropdown.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../models/llm-evaluation-jobs/evaluate-hosted-model-example.png">evaluate-hosted-model-example.png</a></div>
+ <a href="../models/llm-evaluation-jobs/evaluate-hosted-model-example.png"><img loading="lazy" src="../models/llm-evaluation-jobs/evaluate-hosted-model-example.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../models/llm-evaluation-jobs/evaluate-model-checkpoint-example.png">evaluate-model-checkpoint-example.png</a></div>
+ <a href="../models/llm-evaluation-jobs/evaluate-model-checkpoint-example.png"><img loading="lazy" src="../models/llm-evaluation-jobs/evaluate-model-checkpoint-example.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../models/llm-evaluation-jobs/hosted-model-job-example.png">hosted-model-job-example.png</a></div>
+ <a href="../models/llm-evaluation-jobs/hosted-model-job-example.png"><img loading="lazy" src="../models/llm-evaluation-jobs/hosted-model-job-example.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../models/llm-evaluation-jobs/model-checkpoint-job-example.png">model-checkpoint-job-example.png</a></div>
+ <a href="../models/llm-evaluation-jobs/model-checkpoint-job-example.png"><img loading="lazy" src="../models/llm-evaluation-jobs/model-checkpoint-job-example.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../models/llm-evaluation-jobs/model-checkpoint-leaderboard-example.png">model-checkpoint-leaderboard-example.png</a></div>
+ <a href="../models/llm-evaluation-jobs/model-checkpoint-leaderboard-example.png"><img loading="lazy" src="../models/llm-evaluation-jobs/model-checkpoint-leaderboard-example.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../models/pinned-and-baseline-runs/baseline-run-visual-distinction.png">baseline-run-visual-distinction.png</a></div>
+ <a href="../models/pinned-and-baseline-runs/baseline-run-visual-distinction.png"><img loading="lazy" src="../models/pinned-and-baseline-runs/baseline-run-visual-distinction.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../models/pinned-and-baseline-runs/line-plot-baseline-comparison.png">line-plot-baseline-comparison.png</a></div>
+ <a href="../models/pinned-and-baseline-runs/line-plot-baseline-comparison.png"><img loading="lazy" src="../models/pinned-and-baseline-runs/line-plot-baseline-comparison.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../models/pinned-and-baseline-runs/line-plot-baseline-run-foreground.png">line-plot-baseline-run-foreground.png</a></div>
+ <a href="../models/pinned-and-baseline-runs/line-plot-baseline-run-foreground.png"><img loading="lazy" src="../models/pinned-and-baseline-runs/line-plot-baseline-run-foreground.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../models/pinned-and-baseline-runs/line-plot-point-details.png">line-plot-point-details.png</a></div>
+ <a href="../models/pinned-and-baseline-runs/line-plot-point-details.png"><img loading="lazy" src="../models/pinned-and-baseline-runs/line-plot-point-details.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../models/pinned-and-baseline-runs/runs-table-with-pinned-and-baseline-runs.png">runs-table-with-pinned-and-baseline-runs.png</a></div>
+ <a href="../models/pinned-and-baseline-runs/runs-table-with-pinned-and-baseline-runs.png"><img loading="lazy" src="../models/pinned-and-baseline-runs/runs-table-with-pinned-and-baseline-runs.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../models/pinned-and-baseline-runs/runs-table-with-pinned-runs.png">runs-table-with-pinned-runs.png</a></div>
+ <a href="../models/pinned-and-baseline-runs/runs-table-with-pinned-runs.png"><img loading="lazy" src="../models/pinned-and-baseline-runs/runs-table-with-pinned-runs.png"></a>
+</div></div></body></html>
