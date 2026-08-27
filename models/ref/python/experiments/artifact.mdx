@@ -7,7 +7,7 @@ namespace: wandb.sdk.artifacts.artifact
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/artifacts/artifact.py#L112" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/artifacts/artifact.py#L128" />
 
 
 
@@ -19,7 +19,8 @@ description: 'str | None' = None,
 metadata: 'dict[str, Any] | None' = None,
 incremental: 'bool' = False,
 use_as: 'str | None' = None,
-storage_region: 'str | None' = None
+storage_region: 'str | None' = None,
+digest_algorithm: "Literal['MD5', 'XXH128']" = 'MD5'
 ```
 
 
@@ -41,6 +42,7 @@ begin with `add`. Once the artifact has all the desired files, you can call
 - `incremental`: Use `Artifact.new_draft()` method instead to modify an existing artifact.
 - `use_as`: Deprecated.
 - `storage_region`: 
+- `digest_algorithm`: The digest algorithm to use for the artifact. Defaults to MD5. If set to XXH128, the artifact will be hashed using the XXH128 algorithm unless it is part of a collection that is already using MD5. Calls to `artifact.verify()` on SDK versions before 0.29.0 will always fail on XXH128 artifacts.
 
 
 
@@ -91,6 +93,10 @@ The logical digest of the artifact.
 The digest is the checksum of the artifact's contents. If an artifact has the
 same digest as the current `latest` version, then `log_artifact` is a no-op.
 
+### <kbd>property</kbd> digest_algorithm
+
+The digest algorithm used to compute the artifact's digest.
+
 ### <kbd>property</kbd> entity
 
 The name of the entity that the artifact collection belongs to.
@@ -124,6 +130,12 @@ If this artifact is a link artifact (`artifact.is_link == True`),
 it will return an empty list.
 
 Limited to 500 results.
+
+### <kbd>property</kbd> linked_at
+
+The time when this artifact was linked to its current collection.
+
+Only valid for linked artifacts, returns `None` otherwise.
 
 ### <kbd>property</kbd> manifest
 
@@ -676,7 +688,8 @@ modified and logged as a new version.
 self,
 name: 'str',
 mode: 'str' = 'x',
-encoding: 'str | None' = None
+encoding: 'str | None' = None,
+policy: "Literal['mutable', 'immutable']" = 'mutable'
 ```
 
 Open a new temporary file and add it to the artifact.
@@ -686,6 +699,7 @@ Open a new temporary file and add it to the artifact.
 - `name`: The name of the new file to add to the artifact.
 - `mode`: The file access mode to use to open the new file.
 - `encoding`: The encoding used to open the new file.
+- `policy`: By default, set to "mutable". If set to "mutable", create a temporary copy of the file to prevent corruption during upload. If set to "immutable", disable protection and rely on the user not to delete or change the file.
 
 
 ##### Raises
