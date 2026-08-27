@@ -1,0 +1,180 @@
+<!doctype html><html><head><meta charset='utf-8'><title>No action needed: hosting</title><style>
+body { font-family: -apple-system, Helvetica, sans-serif; margin: 0; background: #f4f4f6; }
+header { position: sticky; top: 0; background: #1a1c1f; color: #fff; padding: 10px 16px;
+         z-index: 2; font-size: 14px; }
+header b { color: #ffcc33; }
+.row { background: #fff; margin: 14px; padding: 12px; border-radius: 8px;
+       box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+.meta { font-size: 13px; color: #333; margin-bottom: 8px; word-break: break-all; }
+.meta a { color: #0b6ec5; }
+.reason { color: #a04b00; font-size: 13px; }
+.pair { display: flex; gap: 12px; }
+.pair figure { flex: 1; margin: 0; min-width: 0; }
+.pair figcaption { font-size: 12px; color: #666; margin-bottom: 4px; }
+img { max-width: 100%; height: auto; border: 1px solid #ddd; background:
+      repeating-conic-gradient(#eee 0% 25%, #fff 0% 50%) 0 0/16px 16px; }
+button.copy { font-size: 12px; padding: 3px 10px; margin: 4px 8px 4px 0; cursor: pointer;
+              border: 1px solid #bbb; border-radius: 5px; background: #f7f7f7; }
+button.copy:active { background: #d9efe3; }
+code.cmd { font-size: 12px; background: #f0f0f2; padding: 2px 6px; border-radius: 4px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 14px; margin: 14px; }
+.grid .row { margin: 0; }
+</style></head><body>
+<script>
+function copyCmd(btn, cmd) {
+  function done() { btn.textContent = 'copied!'; setTimeout(() => btn.textContent = btn.dataset.label, 1200); }
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(cmd).then(done);
+  } else {  // file:// pages are not a secure context in every browser
+    const ta = document.createElement('textarea');
+    ta.value = cmd; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta); done();
+  }
+}
+</script>
+<header><b>No action needed: hosting</b> &mdash; 36 images confidently already-cropped / chrome-free</header><div class='grid'>
+<div class="row">
+ <div class="meta"><a href="../hosting/access_system_console_directly.png">access_system_console_directly.png</a></div>
+ <a href="../hosting/access_system_console_directly.png"><img loading="lazy" src="../hosting/access_system_console_directly.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../hosting/access_system_console_via_main_app.png">access_system_console_via_main_app.png</a></div>
+ <a href="../hosting/access_system_console_via_main_app.png"><img loading="lazy" src="../hosting/access_system_console_via_main_app.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../hosting/active_spec.png">active_spec.png</a></div>
+ <a href="../hosting/active_spec.png"><img loading="lazy" src="../hosting/active_spec.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../hosting/add_an_oath.png">add_an_oath.png</a></div>
+ <a href="../hosting/add_an_oath.png"><img loading="lazy" src="../hosting/add_an_oath.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../hosting/configure_file_store.png">configure_file_store.png</a></div>
+ <a href="../hosting/configure_file_store.png"><img loading="lazy" src="../hosting/configure_file_store.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../hosting/configure_file_store_gcp.png">configure_file_store_gcp.png</a></div>
+ <a href="../hosting/configure_file_store_gcp.png"><img loading="lazy" src="../hosting/configure_file_store_gcp.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../hosting/configure_redis.png">configure_redis.png</a></div>
+ <a href="../hosting/configure_redis.png"><img loading="lazy" src="../hosting/configure_redis.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../hosting/create_an_app.png">create_an_app.png</a></div>
+ <a href="../hosting/create_an_app.png"><img loading="lazy" src="../hosting/create_an_app.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../hosting/dedicated_cloud_arch.png">dedicated_cloud_arch.png</a></div>
+ <a href="../hosting/dedicated_cloud_arch.png"><img loading="lazy" src="../hosting/dedicated_cloud_arch.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../hosting/disable_automatic_updates_saved_and_enabled.png">disable_automatic_updates_saved_and_enabled.png</a></div>
+ <a href="../hosting/disable_automatic_updates_saved_and_enabled.png"><img loading="lazy" src="../hosting/disable_automatic_updates_saved_and_enabled.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../hosting/entra_app_overview_make_note.png">entra_app_overview_make_note.png</a></div>
+ <a href="../hosting/entra_app_overview_make_note.png"><img loading="lazy" src="../hosting/entra_app_overview_make_note.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../hosting/entra_make_note_of_secret_value.png">entra_make_note_of_secret_value.png</a></div>
+ <a href="../hosting/entra_make_note_of_secret_value.png"><img loading="lazy" src="../hosting/entra_make_note_of_secret_value.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../hosting/multi_tenant_cloud_arch.png">multi_tenant_cloud_arch.png</a></div>
+ <a href="../hosting/multi_tenant_cloud_arch.png"><img loading="lazy" src="../hosting/multi_tenant_cloud_arch.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../hosting/name_app_workspace.png">name_app_workspace.png</a></div>
+ <a href="../hosting/name_app_workspace.png"><img loading="lazy" src="../hosting/name_app_workspace.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../hosting/okta_create_a_new_app_integration.png">okta_create_a_new_app_integration.png</a></div>
+ <a href="../hosting/okta_create_a_new_app_integration.png"><img loading="lazy" src="../hosting/okta_create_a_new_app_integration.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../hosting/okta_create_new_app_integration.png">okta_create_new_app_integration.png</a></div>
+ <a href="../hosting/okta_create_new_app_integration.png"><img loading="lazy" src="../hosting/okta_create_new_app_integration.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../hosting/okta_identify_oidc_issuer_url.png">okta_identify_oidc_issuer_url.png</a></div>
+ <a href="../hosting/okta_identify_oidc_issuer_url.png"><img loading="lazy" src="../hosting/okta_identify_oidc_issuer_url.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../hosting/okta_make_note_of_client_id.png">okta_make_note_of_client_id.png</a></div>
+ <a href="../hosting/okta_make_note_of_client_id.png"><img loading="lazy" src="../hosting/okta_make_note_of_client_id.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../hosting/okta_new_single_page_app_integration.png">okta_new_single_page_app_integration.png</a></div>
+ <a href="../hosting/okta_new_single_page_app_integration.png"><img loading="lazy" src="../hosting/okta_new_single_page_app_integration.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../hosting/okta_select_applications.png">okta_select_applications.png</a></div>
+ <a href="../hosting/okta_select_applications.png"><img loading="lazy" src="../hosting/okta_select_applications.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../hosting/operator.png">operator.png</a></div>
+ <a href="../hosting/operator.png"><img loading="lazy" src="../hosting/operator.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../hosting/post-operator-apply.png">post-operator-apply.png</a></div>
+ <a href="../hosting/post-operator-apply.png"><img loading="lazy" src="../hosting/post-operator-apply.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../hosting/prod_setup_secure_storage.png">prod_setup_secure_storage.png</a></div>
+ <a href="../hosting/prod_setup_secure_storage.png"><img loading="lazy" src="../hosting/prod_setup_secure_storage.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../hosting/redirect_urls.png">redirect_urls.png</a></div>
+ <a href="../hosting/redirect_urls.png"><img loading="lazy" src="../hosting/redirect_urls.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../hosting/reference_architecture.png">reference_architecture.png</a></div>
+ <a href="../hosting/reference_architecture.png"><img loading="lazy" src="../hosting/reference_architecture.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../hosting/register_slack_app.png">register_slack_app.png</a></div>
+ <a href="../hosting/register_slack_app.png"><img loading="lazy" src="../hosting/register_slack_app.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../hosting/restricted_project_2.png">restricted_project_2.png</a></div>
+ <a href="../hosting/restricted_project_2.png"><img loading="lazy" src="../hosting/restricted_project_2.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../hosting/s3-notification.png">s3-notification.png</a></div>
+ <a href="../hosting/s3-notification.png"><img loading="lazy" src="../hosting/s3-notification.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../hosting/save_urls.png">save_urls.png</a></div>
+ <a href="../hosting/save_urls.png"><img loading="lazy" src="../hosting/save_urls.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../hosting/setup_aws_cognito.png">setup_aws_cognito.png</a></div>
+ <a href="../hosting/setup_aws_cognito.png"><img loading="lazy" src="../hosting/setup_aws_cognito.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../hosting/setup_aws_cognito_issuer_url.png">setup_aws_cognito_issuer_url.png</a></div>
+ <a href="../hosting/setup_aws_cognito_issuer_url.png"><img loading="lazy" src="../hosting/setup_aws_cognito_issuer_url.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../hosting/setup_aws_cognito_ui_settings.png">setup_aws_cognito_ui_settings.png</a></div>
+ <a href="../hosting/setup_aws_cognito_ui_settings.png"><img loading="lazy" src="../hosting/setup_aws_cognito_ui_settings.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../hosting/setup_aws_required_fields.png">setup_aws_required_fields.png</a></div>
+ <a href="../hosting/setup_aws_required_fields.png"><img loading="lazy" src="../hosting/setup_aws_required_fields.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../hosting/signup_localhost.png">signup_localhost.png</a></div>
+ <a href="../hosting/signup_localhost.png"><img loading="lazy" src="../hosting/signup_localhost.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../hosting/system_settings_select_update.png">system_settings_select_update.png</a></div>
+ <a href="../hosting/system_settings_select_update.png"><img loading="lazy" src="../hosting/system_settings_select_update.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../hosting/user_spec.png">user_spec.png</a></div>
+ <a href="../hosting/user_spec.png"><img loading="lazy" src="../hosting/user_spec.png"></a>
+</div></div></body></html>
