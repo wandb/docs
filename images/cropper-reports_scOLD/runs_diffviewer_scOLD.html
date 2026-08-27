@@ -1,0 +1,201 @@
+<!doctype html><html><head><meta charset='utf-8'><title>Diff viewer: runs</title><style>
+body { font-family: -apple-system, Helvetica, sans-serif; margin: 0; background: #f4f4f6; }
+header { position: sticky; top: 0; background: #1a1c1f; color: #fff; padding: 10px 16px;
+         z-index: 2; font-size: 14px; }
+header b { color: #ffcc33; }
+.row { background: #fff; margin: 14px; padding: 12px; border-radius: 8px;
+       box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+.meta { font-size: 13px; color: #333; margin-bottom: 8px; word-break: break-all; }
+.meta a { color: #0b6ec5; }
+.reason { color: #a04b00; font-size: 13px; }
+.pair { display: flex; gap: 12px; }
+.pair figure { flex: 1; margin: 0; min-width: 0; }
+.pair figcaption { font-size: 12px; color: #666; margin-bottom: 4px; }
+img { max-width: 100%; height: auto; border: 1px solid #ddd; background:
+      repeating-conic-gradient(#eee 0% 25%, #fff 0% 50%) 0 0/16px 16px; }
+button.copy { font-size: 12px; padding: 3px 10px; margin: 4px 8px 4px 0; cursor: pointer;
+              border: 1px solid #bbb; border-radius: 5px; background: #f7f7f7; }
+button.copy:active { background: #d9efe3; }
+code.cmd { font-size: 12px; background: #f0f0f2; padding: 2px 6px; border-radius: 4px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 14px; margin: 14px; }
+.grid .row { margin: 0; }
+</style></head><body>
+<script>
+function copyCmd(btn, cmd) {
+  function done() { btn.textContent = 'copied!'; setTimeout(() => btn.textContent = btn.dataset.label, 1200); }
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(cmd).then(done);
+  } else {  // file:// pages are not a secure context in every browser
+    const ta = document.createElement('textarea');
+    ta.value = cmd; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta); done();
+  }
+}
+</script>
+<header><b>Diff viewer: runs</b> &mdash; 15 images cropped &mdash; left = original backup, right = cropped result</header>
+<div class="row">
+ <div class="meta"><a href="../runs/compare_metric_deltas.png">/Users/aguspan/Docs/docs/images/runs/compare_metric_deltas.png</a><br>
+  category <b>top_left</b> &middot; cropped x=162 y=178
+  &middot; original: <a href="../runs/compare_metric_deltas_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../runs/compare_metric_deltas_scOLD.png"><img loading="lazy" src="../runs/compare_metric_deltas_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../runs/compare_metric_deltas.png"><img loading="lazy" src="../runs/compare_metric_deltas.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../runs/compare_runs_ui_element.png">/Users/aguspan/Docs/docs/images/runs/compare_runs_ui_element.png</a><br>
+  category <b>top_left</b> &middot; cropped x=123 y=132
+  &middot; original: <a href="../runs/compare_runs_ui_element_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../runs/compare_runs_ui_element_scOLD.png"><img loading="lazy" src="../runs/compare_runs_ui_element_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../runs/compare_runs_ui_element.png"><img loading="lazy" src="../runs/compare_runs_ui_element.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../runs/contains_filter.png">/Users/aguspan/Docs/docs/images/runs/contains_filter.png</a><br>
+  category <b>top_left</b> &middot; cropped x=123 y=130
+  &middot; original: <a href="../runs/contains_filter_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../runs/contains_filter_scOLD.png"><img loading="lazy" src="../runs/contains_filter_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../runs/contains_filter.png"><img loading="lazy" src="../runs/contains_filter.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../runs/example_compare_pinned_runs.png">/Users/aguspan/Docs/docs/images/runs/example_compare_pinned_runs.png</a><br>
+  category <b>top_left</b> &middot; cropped x=164 y=174
+  &middot; original: <a href="../runs/example_compare_pinned_runs_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../runs/example_compare_pinned_runs_scOLD.png"><img loading="lazy" src="../runs/example_compare_pinned_runs_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../runs/example_compare_pinned_runs.png"><img loading="lazy" src="../runs/example_compare_pinned_runs.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../runs/filter_count.png">/Users/aguspan/Docs/docs/images/runs/filter_count.png</a><br>
+  category <b>top_left</b> &middot; cropped x=132 y=146
+  &middot; original: <a href="../runs/filter_count_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../runs/filter_count_scOLD.png"><img loading="lazy" src="../runs/filter_count_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../runs/filter_count.png"><img loading="lazy" src="../runs/filter_count.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../runs/group_job_type.png">/Users/aguspan/Docs/docs/images/runs/group_job_type.png</a><br>
+  category <b>top_left</b> &middot; cropped x=138 y=144
+  &middot; original: <a href="../runs/group_job_type_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../runs/group_job_type_scOLD.png"><img loading="lazy" src="../runs/group_job_type_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../runs/group_job_type.png"><img loading="lazy" src="../runs/group_job_type.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../runs/run-table-example.png">/Users/aguspan/Docs/docs/images/runs/run-table-example.png</a><br>
+  category <b>top_left</b> &middot; cropped x=93 y=101
+  &middot; original: <a href="../runs/run-table-example_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../runs/run-table-example_scOLD.png"><img loading="lazy" src="../runs/run-table-example_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../runs/run-table-example.png"><img loading="lazy" src="../runs/run-table-example.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../runs/run_expressions_and_or.png">/Users/aguspan/Docs/docs/images/runs/run_expressions_and_or.png</a><br>
+  category <b>top_left</b> &middot; cropped x=138 y=146
+  &middot; original: <a href="../runs/run_expressions_and_or_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../runs/run_expressions_and_or_scOLD.png"><img loading="lazy" src="../runs/run_expressions_and_or_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../runs/run_expressions_and_or.png"><img loading="lazy" src="../runs/run_expressions_and_or.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../runs/run_log_example_2.png">/Users/aguspan/Docs/docs/images/runs/run_log_example_2.png</a><br>
+  category <b>top_left</b> &middot; cropped x=125 y=132
+  &middot; original: <a href="../runs/run_log_example_2_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../runs/run_log_example_2_scOLD.png"><img loading="lazy" src="../runs/run_log_example_2_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../runs/run_log_example_2.png"><img loading="lazy" src="../runs/run_log_example_2.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../runs/run_logs_info.png">/Users/aguspan/Docs/docs/images/runs/run_logs_info.png</a><br>
+  category <b>top_left</b> &middot; cropped x=123 y=132
+  &middot; original: <a href="../runs/run_logs_info_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../runs/run_logs_info_scOLD.png"><img loading="lazy" src="../runs/run_logs_info_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../runs/run_logs_info.png"><img loading="lazy" src="../runs/run_logs_info.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../runs/run_table_all.png">/Users/aguspan/Docs/docs/images/runs/run_table_all.png</a><br>
+  category <b>top_left</b> &middot; cropped x=123 y=126
+  &middot; original: <a href="../runs/run_table_all_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../runs/run_table_all_scOLD.png"><img loading="lazy" src="../runs/run_table_all_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../runs/run_table_all.png"><img loading="lazy" src="../runs/run_table_all.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../runs/runs_artifacts_info.png">/Users/aguspan/Docs/docs/images/runs/runs_artifacts_info.png</a><br>
+  category <b>top_left</b> &middot; cropped x=123 y=128
+  &middot; original: <a href="../runs/runs_artifacts_info_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../runs/runs_artifacts_info_scOLD.png"><img loading="lazy" src="../runs/runs_artifacts_info_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../runs/runs_artifacts_info.png"><img loading="lazy" src="../runs/runs_artifacts_info.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../runs/runs_files_info.png">/Users/aguspan/Docs/docs/images/runs/runs_files_info.png</a><br>
+  category <b>top_left</b> &middot; cropped x=123 y=132
+  &middot; original: <a href="../runs/runs_files_info_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../runs/runs_files_info_scOLD.png"><img loading="lazy" src="../runs/runs_files_info_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../runs/runs_files_info.png"><img loading="lazy" src="../runs/runs_files_info.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../runs/single-run-call.png">/Users/aguspan/Docs/docs/images/runs/single-run-call.png</a><br>
+  category <b>top_left</b> &middot; cropped x=108 y=116
+  &middot; original: <a href="../runs/single-run-call_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../runs/single-run-call_scOLD.png"><img loading="lazy" src="../runs/single-run-call_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../runs/single-run-call.png"><img loading="lazy" src="../runs/single-run-call.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../runs/unique-run-id.png">/Users/aguspan/Docs/docs/images/runs/unique-run-id.png</a><br>
+  category <b>top_left</b> &middot; cropped x=123 y=130
+  &middot; original: <a href="../runs/unique-run-id_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../runs/unique-run-id_scOLD.png"><img loading="lazy" src="../runs/unique-run-id_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../runs/unique-run-id.png"><img loading="lazy" src="../runs/unique-run-id.png"></a></figure>
+ </div>
+</div></body></html>
